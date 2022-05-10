@@ -1,0 +1,139 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zorglub", "src\Zorglub\Zorglub.csproj", "{ACEDCF4D-E764-42BA-8A58-534D092D057C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{082AED17-C2CD-4205-9FC2-0C289D01A4B2}"
+	ProjectSection(SolutionItems) = preProject
+		src\AssemblyInfo.Common.cs = src\AssemblyInfo.Common.cs
+		src\Directory.Build.targets = src\Directory.Build.targets
+		src\Usings.cs = src\Usings.cs
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{9168CBAA-E37D-45A6-8514-B01FD174E257}"
+	ProjectSection(SolutionItems) = preProject
+		test\Directory.Build.props = test\Directory.Build.props
+		test\Directory.Build.targets = test\Directory.Build.targets
+		test\xunit.runner.json = test\xunit.runner.json
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "eng", "eng", "{304001B6-7B46-4FCD-9FAF-10F0AD0EE89A}"
+	ProjectSection(SolutionItems) = preProject
+		eng\asm.ps1 = eng\asm.ps1
+		eng\bench.cmd = eng\bench.cmd
+		eng\common.ps1 = eng\common.ps1
+		eng\cover.ps1 = eng\cover.ps1
+		eng\pack.ps1 = eng\pack.ps1
+		eng\reset.ps1 = eng\reset.ps1
+		eng\smoke.cmd = eng\smoke.cmd
+		eng\test.ps1 = eng\test.ps1
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{9B6E030F-8805-4B2C-BAAD-8833105CD635}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		Directory.Build.props = Directory.Build.props
+		Directory.Build.rsp = Directory.Build.rsp
+		Directory.Build.targets = Directory.Build.targets
+		fsharplint.json = fsharplint.json
+		global.json = global.json
+		NuGet.Config = NuGet.Config
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zorglub.Tests.CSharp", "test\Zorglub.Tests.CSharp\Zorglub.Tests.CSharp.csproj", "{C400E1A1-1349-4038-B544-F312206385C9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".config", ".config", "{BE7D6F45-A68E-416C-9FD2-F1A149B9148A}"
+	ProjectSection(SolutionItems) = preProject
+		.config\dotnet-tools.json = .config\dotnet-tools.json
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{C1F32F2D-16AF-4B45-AECC-D162FB87766C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{FD091D60-75FC-427B-A602-A54D76EE83BA}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\tests.yml = .github\workflows\tests.yml
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zorglub.Sketches", "src\Zorglub.Sketches\Zorglub.Sketches.csproj", "{9E3B4401-9371-497C-917E-7B1686838032}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tools", "tools", "{DBAA8C7A-C8FF-4A6C-959F-7D3D7CC007B1}"
+	ProjectSection(SolutionItems) = preProject
+		tools\AssemblyInfo.Common.cs = tools\AssemblyInfo.Common.cs
+		tools\Directory.Build.props = tools\Directory.Build.props
+		tools\Directory.Build.targets = tools\Directory.Build.targets
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Play", "tools\Play\Play.csproj", "{7E76212B-9416-4078-BC74-D71908B3C47E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Benchmarks", "tools\Benchmarks\Benchmarks.csproj", "{6F19E316-722D-4174-A721-A555189D1A83}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Samples", "src\Samples\Samples.shproj", "{D34AD494-7EC0-401D-99F2-DD635B322E3C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zorglub.Testing", "test\Zorglub.Testing\Zorglub.Testing.csproj", "{4272EDB5-465E-4CFE-8E0F-4AC13E2A3AD6}"
+EndProject
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "Zorglub.Tests", "test\Zorglub.Tests\Zorglub.Tests.fsproj", "{C5C64E4B-7CEB-4B7A-963B-81027C8568A3}"
+EndProject
+Global
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		src\Samples\Samples.projitems*{6f19e316-722d-4174-a721-a555189d1a83}*SharedItemsImports = 5
+		src\Samples\Samples.projitems*{7e76212b-9416-4078-bc74-d71908b3c47e}*SharedItemsImports = 5
+		src\Samples\Samples.projitems*{c400e1a1-1349-4038-b544-f312206385c9}*SharedItemsImports = 5
+		src\Samples\Samples.projitems*{d34ad494-7ec0-401d-99f2-dd635b322e3c}*SharedItemsImports = 13
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{ACEDCF4D-E764-42BA-8A58-534D092D057C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ACEDCF4D-E764-42BA-8A58-534D092D057C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ACEDCF4D-E764-42BA-8A58-534D092D057C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ACEDCF4D-E764-42BA-8A58-534D092D057C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C400E1A1-1349-4038-B544-F312206385C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C400E1A1-1349-4038-B544-F312206385C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C400E1A1-1349-4038-B544-F312206385C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C400E1A1-1349-4038-B544-F312206385C9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9E3B4401-9371-497C-917E-7B1686838032}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9E3B4401-9371-497C-917E-7B1686838032}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9E3B4401-9371-497C-917E-7B1686838032}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9E3B4401-9371-497C-917E-7B1686838032}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7E76212B-9416-4078-BC74-D71908B3C47E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7E76212B-9416-4078-BC74-D71908B3C47E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7E76212B-9416-4078-BC74-D71908B3C47E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7E76212B-9416-4078-BC74-D71908B3C47E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6F19E316-722D-4174-A721-A555189D1A83}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6F19E316-722D-4174-A721-A555189D1A83}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6F19E316-722D-4174-A721-A555189D1A83}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6F19E316-722D-4174-A721-A555189D1A83}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4272EDB5-465E-4CFE-8E0F-4AC13E2A3AD6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4272EDB5-465E-4CFE-8E0F-4AC13E2A3AD6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4272EDB5-465E-4CFE-8E0F-4AC13E2A3AD6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4272EDB5-465E-4CFE-8E0F-4AC13E2A3AD6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C5C64E4B-7CEB-4B7A-963B-81027C8568A3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C5C64E4B-7CEB-4B7A-963B-81027C8568A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C5C64E4B-7CEB-4B7A-963B-81027C8568A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C5C64E4B-7CEB-4B7A-963B-81027C8568A3}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{ACEDCF4D-E764-42BA-8A58-534D092D057C} = {082AED17-C2CD-4205-9FC2-0C289D01A4B2}
+		{304001B6-7B46-4FCD-9FAF-10F0AD0EE89A} = {9B6E030F-8805-4B2C-BAAD-8833105CD635}
+		{C400E1A1-1349-4038-B544-F312206385C9} = {9168CBAA-E37D-45A6-8514-B01FD174E257}
+		{BE7D6F45-A68E-416C-9FD2-F1A149B9148A} = {9B6E030F-8805-4B2C-BAAD-8833105CD635}
+		{C1F32F2D-16AF-4B45-AECC-D162FB87766C} = {9B6E030F-8805-4B2C-BAAD-8833105CD635}
+		{FD091D60-75FC-427B-A602-A54D76EE83BA} = {C1F32F2D-16AF-4B45-AECC-D162FB87766C}
+		{9E3B4401-9371-497C-917E-7B1686838032} = {082AED17-C2CD-4205-9FC2-0C289D01A4B2}
+		{7E76212B-9416-4078-BC74-D71908B3C47E} = {DBAA8C7A-C8FF-4A6C-959F-7D3D7CC007B1}
+		{6F19E316-722D-4174-A721-A555189D1A83} = {DBAA8C7A-C8FF-4A6C-959F-7D3D7CC007B1}
+		{D34AD494-7EC0-401D-99F2-DD635B322E3C} = {082AED17-C2CD-4205-9FC2-0C289D01A4B2}
+		{4272EDB5-465E-4CFE-8E0F-4AC13E2A3AD6} = {9168CBAA-E37D-45A6-8514-B01FD174E257}
+		{C5C64E4B-7CEB-4B7A-963B-81027C8568A3} = {9168CBAA-E37D-45A6-8514-B01FD174E257}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {AC43B678-8DBB-48E8-B6AF-D835A56B858B}
+	EndGlobalSection
+EndGlobal

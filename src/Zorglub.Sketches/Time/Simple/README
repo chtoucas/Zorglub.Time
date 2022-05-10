@@ -1,0 +1,149 @@
+﻿ TODO: binary serialization for user-defined calendars.
+ Deux choses à faire (décider) avant cela :
+ - réduire le champs des années ? on aurait un format plus compact
+   (int plutôt que long). Les valeurs actuelles sont de toute façon
+   irréalistes. On pourrait p.ex. ne garder que 15 bits pour les
+   années (c'est ce que fait NodaTime). Resteraient 6 bits pour l'ID
+   du calendrier.
+   Ce qu'il faut changer (non exhaustif)
+   - ICalendricalScope.GetDefault()
+     Ne plus utiliser ShortScope.
+     Introduire un MaximalScope pour les schémas réguliers.
+     Peut-être introduire une méthode séparée juste pour profiter
+     quand même des capacités de ShortScope.
+ - définir un UserCalendar permettant de choisir l'ID d'un calendrier ?
+   Pour se faire on pourrait réserver une plage d'ID juste à cet effet,
+   par ex les valeurs allant de 64 à 127.
+   Hum, vu le point précédent, il faudrait plutôt opter pour :
+   - IDs système : 0 à 31
+   - IDs fixes libres : 32 à 63
+   - IDs temporaires : 64 à 255 (pas de sérialisation possible)
+ - avec un format plus compact on pourrait envisager plus tard de
+   stocker dans un long un objet date + HH:mm:ss.fff
+   Pour la partie temps, on aurait besoin de 27 bits (86.400.000 ms).
+   Si on s'arrête à la seconde, 17 bits suffisent.
+
+   Format long :
+     21 bits pour les années
+        -1_048_576 <= y <= 1_048_575
+      5 bits pour les mois
+      6 bits pour les jours
+      6 à 7 bits pour les calendriers
+        6 si 64 sys -ou- 32 sys + 32 user
+        7 si 64 sys + 64 user
+        Formellement Cuid utilise 8 bits, mais on ignore les 128 IDs
+        temporaires.
+    Il reste 26 à 25 bits.
+    Si on ajoute 17 bits pour la partie temps, il nous reste de 9 à 8 bits
+    de quoi stocker en plus le décalage horaire p.ex.:
+    TZ = 128 max (7 bits) et DST = bool (1 bit)
+
+   Format court :
+     15 bits pour les années
+        -16_384 <= y <= 16_383
+      5 bits pour les mois
+      6 bits pour les jours
+      6 bits pour les calendriers (64 = 32 sys + 32 user)
+     Il reste 32 bits (-27 bits pour la partie temps -> 5 bits).
+
+ Pour le moment, on ne modifie pas les "scopes".
+
+ Binary serialization.
+ https://stackoverflow.com/questions/839903/c-sharp-structlayout-fieldoffset-and-indexing-in-arrays
+
+ Stockage.
+ - années :
+   -1_048_576 <= y <= 1_048_575   21 bits (signed)
+      -32_768 <= y <= 32_767      16 bits (signed) = 2 bytes
+      -16_384 <= y <= 16_383      15 bits (signed)
+       -8_192 <= y <= 8_191       14 bits (signed)
+ - jours dans une année :
+      1 <= d <= 2048  11 bits
+      1 <= d <= 1024  10 bits
+      1 <= d <= 512    9 bits
+   CalendarDay: on doit combiner le nombre de jours depuis l'epoch ainsi
+   que l'ID du calendrier.
+   MinDaysSinceEpoch = MinYear * MaxDayOfYear
+   MinDaysSinceEpoch = MaxYear * MaxDayOfYear
+ - mois: 1 à 13, exceptionnellement on peut tomber sur des calendriers
+   comportement 20 mois ou plus (calendriers maya, chinois).
+      1 <= m <= 32    5 bits
+      1 <= m <= 16    4 bits
+ - jours dans un mois : habituellement 1 à 31, mais on trouve aussi 36.
+      1 <= d <= 64    6 bits
+      1 <= d <= 32    5 bits
+ - ID du calendrier :
+      0 <= i <= 255   8 bits = 1 byte
+      0 <= i <= 127   7 bits
+      0 <= i <= 63    6 bits
+ - On doit faire attention au stockage (long) et aux manips maths (diff
+   entre deux instants).
+   Int64:     [-9_223_372_036_854_775_808, 9_223_372_036_854_775_807] = [-2^63, 2^63 - 1]
+   TimeOfDay:                          [0,        86_399_999_999_999] nanosecondes
+
+ Objets de type temps génériques.
+  int (date) + int  (TimeOfDay)   =  8 bytes (milliseconde)
+  int (date) + long (TimeOfDay64) = 12 bytes (nanoseconde)
+  byte (Cuid) + long (ticksSinceEpoch) = 9 bytes (tick)
+ Objet de type temps lié à un seul type de calendrier.
+  long (ticksSinceEpoch) = 8 bytes (tick)
+ Objet de type temps (fractionnaire).
+  double
+
+ xxxSinceEpoch où xxx = micro/nanosecondes ou ticks?
+  2^63 = 9 223 372 036 854 775 807
+  nanosecondes:
+      2^63 / 86 399 999 999 999 = 106 751 jours
+      106 751 / 366 = 291 années
+  ticks:
+      2^63 / 863 999 999 999 = 10 675 199 jours
+      10 675 199 / 366  = 29 167 années
+      10 675 199 / 512  = 20 849 années
+      10 675 199 / 1024 = 10 424 années
+  Dans un Int64, on peut donc stocker le nombre de ticks pour n'importe
+  quelle date dans l'intervalle d'années +/-20K, ce qui suffit largement.
+
+ Objets date.
+  MinDaysSinceEpoch = MinYear * MaxDayOfYear
+  Avec Year(15) et DayOfYear(10) = 25 bits.
+  En théorie, minval = -2^24 = -16 777 216, mais comme on se restreint aux
+  années dans l'intervalle [-9998, 9999].
+    minval = -9998 * 1024 = -10 237 952
+    maxval =  9999 * 1024 =  10 238 976
+  En réalité on est bien en dessous (dayOfYear <= 366).
+  CalendarDay: DaysSinceEpoch(25) + Cuid(7)
+    MinDaysSinceEpoch = -2^24     = -16 777 216
+    MaxDaysSinceEpoch =  2^24 - 1 =  16 777 215
+  Time:
+                          -2^63 = -9 223 372 036 854 775 807
+       minval * 863 999 999 999 = -8 845 590 527 989 762 048 (ticks)
+  -2^14 * 512 * 863 999 999 999 = -7 247 757 311 991 611 392 (ticks)
+       maxval * 863 999 999 999 =  8 846 475 263 989 761 024 (ticks)
+   2^14 * 512 * 863 999 999 999 =  7 247 757 311 991 611 392 (ticks)
+                       2^63 - 1 =  9 223 372 036 854 775 806
+
+ J'aurais bien aimé pouvoir pousser Year à 16 bits (short) mais ça ne
+ passe pas à moins d'utiliser des microsecondes. Avoir un short aurait pû
+ être pratique: plus de validation p.ex dans les ops maths.
+
+ Conclusion ?
+   15 bits pour Year
+    9 bits pour DayOfYear
+    4 bits pour Month
+    5 bits pour Day
+    8 bits pour Cuid
+ ou
+   15 bits pour Year          [-16 384, 16 383] -> [-9998, 9999] scope
+   10 bits pour DayOfYear     [1, 1024]         -> [1, 512]
+    4 bits pour Month         [1, 16]
+    6 bits pour Day           [1, 64]
+    7 bits pour Cuid          [1, 128]
+
+ We choose the values for MinYear & MaxYear such that 512 * MinYear
+ and 512 * MaxYear do not overflow, 512 being the maximum number of
+ days in a year that the system expects.
+
+ (No longer true, new code overflows faster the capacity of Int32)
+ We also arrange the min/max such that their **signed ordinal** values
+ are opposite: 1 - (1 << 22) and (1 << 22), that is -4_194_304 and
+ 4_194_304.

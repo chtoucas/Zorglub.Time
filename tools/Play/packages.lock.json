@@ -1,0 +1,32 @@
+{
+  "version": 1,
+  "dependencies": {
+    "net6.0": {
+      "Microsoft.CodeAnalysis.NetAnalyzers": {
+        "type": "Direct",
+        "requested": "[6.0.0, )",
+        "resolved": "6.0.0",
+        "contentHash": "cjG06LMeOADNUeCUaklOfVgrnVkLy80H5PVll4QHDUXv+C+6G9rHczrNdWjfb3xKv3Ts9s4UsP6J2ZWe52Gz4Q=="
+      },
+      "System.Runtime.Experimental": {
+        "type": "Direct",
+        "requested": "[6.0.2, )",
+        "resolved": "6.0.2",
+        "contentHash": "YFw4XOgVaF9T8vT3V148ypGTm8PnEchW1eyq+7ssIh7fmr+6JY3oNFx5KivLSDC4ugNsAm7HqYPnQEpC0C/BXA=="
+      },
+      "zorglub.sketches": {
+        "type": "Project",
+        "dependencies": {
+          "System.Runtime.Experimental": "6.0.2",
+          "Zorglub.Time": "0.0.0-DUMMY"
+        }
+      },
+      "Zorglub.Time": {
+        "type": "Project",
+        "dependencies": {
+          "System.Runtime.Experimental": "6.0.2"
+        }
+      }
+    }
+  }
+}

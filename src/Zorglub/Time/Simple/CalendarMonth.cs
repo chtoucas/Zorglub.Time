@@ -1,0 +1,547 @@
+﻿// SPDX-License-Identifier: BSD-3-Clause
+// Copyright (c) 2020 Narvalo.Org. All rights reserved.
+
+namespace Zorglub.Time.Simple
+{
+    using Zorglub.Time.Core;
+    using Zorglub.Time.Core.Schemas;
+    using Zorglub.Time.Hemerology;
+    using Zorglub.Time.Hemerology.Scopes;
+
+    /// <summary>
+    /// Represents a calendar month.
+    /// <para><see cref="CalendarMonth"/> is an immutable struct.</para>
+    /// </summary>
+    public readonly partial struct CalendarMonth :
+        ISerializable<CalendarMonth, int>,
+        // Arithmetic
+        IAdditionOperators<CalendarMonth, int, CalendarMonth>,
+        ISubtractionOperators<CalendarMonth, int, CalendarMonth>,
+        ISubtractionOperators<CalendarMonth, CalendarMonth, int>,
+        IIncrementOperators<CalendarMonth>,
+        IDecrementOperators<CalendarMonth>,
+        // Comparison
+        IComparisonOperators<CalendarMonth, CalendarMonth>
+    {
+        /// <summary>
+        /// Represents the internal binary representation.
+        /// <para>This field is read-only.</para>
+        /// </summary>
+        private readonly Yemox _bin; // 4 bytes
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CalendarMonth"/> struct to the specified
+        /// components in the Gregorian calendar.
+        /// <para>To create an instance for another calendar, see
+        /// <see cref="Calendar.GetCalendarMonth(int, int)"/>.</para>
+        /// </summary>
+        /// <exception cref="AoorException">The specified components do not form a valid month or
+        /// <paramref name="year"/> is outside the range of years supported by the Gregorian
+        /// calendar.</exception>
+        public CalendarMonth(int year, int month)
+        {
+            GregorianProlepticShortScope.ValidateYearMonthImpl(year, month);
+
+            _bin = new Yemox(year, month, (int)Cuid.Gregorian);
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CalendarMonth"/> struct.
+        /// <para>This constructor does NOT validate its parameters.</para>
+        /// </summary>
+        internal CalendarMonth(int y, int m, Cuid cuid)
+        {
+            _bin = new Yemox(y, m, (int)cuid);
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CalendarMonth"/> struct.
+        /// <para>This constructor does NOT validate its parameters.</para>
+        /// </summary>
+        internal CalendarMonth(Yemo ym, Cuid cuid)
+        {
+            _bin = new Yemox(ym, (int)cuid);
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CalendarMonth"/> struct.
+        /// <para>This constructor does NOT validate its parameters.</para>
+        /// </summary>
+        internal CalendarMonth(Yemox bin)
+        {
+            _bin = bin;
+        }
+
+        /// <summary>
+        /// Gets the century of the era.
+        /// </summary>
+        public Ord CenturyOfEra => Ord.FromInt32(Century);
+
+        /// <summary>
+        /// Gets the century number.
+        /// </summary>
+        public int Century => YearNumbering.GetCentury(Year);
+
+        /// <summary>
+        /// Gets the year of the era.
+        /// </summary>
+        public Ord YearOfEra => Ord.FromInt32(Year);
+
+        /// <summary>
+        /// Gets the year of the century.
+        /// <para>The result is in the range from 1 to 100.</para>
+        /// </summary>
+        public int YearOfCentury => YearNumbering.GetYearOfCentury(Year);
+
+        /// <summary>
+        /// Gets the (algebraic) year number.
+        /// </summary>
+        public int Year => _bin.Year;
+
+        /// <summary>
+        /// Gets the month of the year.
+        /// </summary>
+        public int MonthOfYear => _bin.Month;
+
+        /// <summary>
+        /// Returns true if the current instance is an intercalary month; otherwise returns false.
+        /// </summary>
+        public bool IsIntercalary
+        {
+            get
+            {
+                _bin.Unpack(out int y, out int m);
+                ref readonly var chr = ref CalendarRef;
+                return chr.Schema.IsIntercalaryMonth(y, m);
+            }
+        }
+
+        /// <summary>
+        /// Gets the calendar to which belongs the current instance.
+        /// </summary>
+        /// <remarks>
+        /// <para>Performance: cache this property locally if necessary.</para>
+        /// </remarks>
+        public Calendar Calendar => CalendarCatalog.GetCalendarUnchecked(_bin.Extra);
+
+        /// <summary>
+        /// Gets the calendar year.
+        /// </summary>
+        public CalendarYear CalendarYear => new(Year, Cuid);
+
+        /// <summary>
+        /// Gets the month parts of current instance.
+        /// </summary>
+        internal Yemo Parts => _bin.Yemo;
+
+        /// <summary>
+        /// Gets the ID of the calendar to which belongs the current instance.
+        /// </summary>
+        internal Cuid Cuid => (Cuid)_bin.Extra;
+
+        /// <summary>
+        /// Gets a read-only reference to the calendar to which belongs the current instance.
+        /// </summary>
+        internal ref readonly Calendar CalendarRef
+        {
+            // CIL code size = 17 bytes <= 32 bytes.
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => ref CalendarCatalog.GetCalendarUnsafe(_bin.Extra);
+        }
+
+        /// <summary>
+        /// Returns a culture-independent string representation of the current instance.
+        /// </summary>
+        [Pure]
+        public override string ToString()
+        {
+            _bin.Unpack(out int y, out int m);
+            ref readonly var chr = ref CalendarRef;
+            return FormattableString.Invariant($"{m:D2}/{y:D4} ({chr})");
+        }
+
+        /// <summary>
+        /// Deconstructs the current instance into its components.
+        /// </summary>
+        public void Deconstruct(out int year, out int month) => _bin.Unpack(out year, out month);
+    }
+
+    public partial struct CalendarMonth // Factories, infos, adjustments
+    {
+        #region Binary serialization
+
+        /// <summary>
+        /// Deserializes a 32-bit binary value and recreates an original serialized
+        /// <see cref="CalendarMonth"/> object.
+        /// </summary>
+        /// <exception cref="AoorException">The matching calendar is not a system calendar.
+        /// </exception>
+        [Pure]
+        public static CalendarMonth FromBinary(int data)
+        {
+            var bin = new Yemox(data);
+            bin.Unpack(out int y, out int m);
+            var id = (CalendarId)bin.Extra;
+            return CalendarCatalog.GetSystemCalendar(id).GetCalendarMonth(y, m);
+        }
+
+        /// <summary>
+        /// Serializes the current <see cref="CalendarMonth"/> object to a 32-bit binary value that
+        /// subsequently can be used to recreate the <see cref="CalendarMonth"/> object.
+        /// </summary>
+        /// <exception cref="NotSupportedException">Binary serialization is only supported for dates
+        /// belonging to a system calendar.</exception>
+        [Pure]
+        public int ToBinary() => Cuid.IsFixed() ? _bin.ToBinary() : Throw.NotSupported<int>();
+
+        #endregion
+        #region Factories
+
+        /// <summary>
+        /// Obtains the current month in the Gregorian calendar on this machine.
+        /// <para>To obtain the current year in another calendar, see
+        /// <see cref="Calendar.GetCurrentMonth()"/>.</para>
+        /// </summary>
+        [Pure]
+        public static CalendarMonth GetCurrentMonth()
+        {
+            var ymd = GregorianFormulae.GetDateParts(DayNumber.Today() - DayZero.NewStyle);
+            return new CalendarMonth(ymd.Yemo, Cuid.Gregorian);
+        }
+
+        /// <summary>
+        /// Obtains a new <see cref="CalendarMonth"/> in the Gregorian calendar from the specified
+        /// day number.
+        /// <para>To create an instance in another calendar, see
+        /// <see cref="Calendar.GetCalendarMonthOn(DayNumber)"/>.</para>
+        /// </summary>
+        /// <exception cref="AoorException"><paramref name="dayNumber"/> is outside the range of
+        /// values supported by the Gregorian calendar.</exception>
+        [Pure]
+        public static CalendarMonth FromDayNumber(DayNumber dayNumber)
+        {
+            GregorianProlepticShortScope.DefaultDomain.Validate(dayNumber);
+            var ymd = GregorianFormulae.GetDateParts(dayNumber - DayZero.NewStyle);
+            return new CalendarMonth(ymd.Yemo, Cuid.Gregorian);
+        }
+
+        #endregion
+        #region Counting
+
+        /// <summary>
+        /// Obtains the number of whole days in the year elapsed since the start of the year and
+        /// before this month instance.
+        /// </summary>
+        [Pure]
+        public int CountElapsedDaysInYear()
+        {
+            _bin.Unpack(out int y, out int m);
+            ref readonly var chr = ref CalendarRef;
+            return chr.Schema.CountDaysInYearBeforeMonth(y, m);
+        }
+
+        /// <summary>
+        /// Obtains the number of whole days remaining after this month instance and until the end
+        /// of the year.
+        /// </summary>
+        [Pure]
+        public int CountRemainingDaysInYear()
+        {
+            _bin.Unpack(out int y, out int m);
+            ref readonly var chr = ref CalendarRef;
+            return chr.Schema.CountDaysInYearAfterMonth(y, m);
+        }
+
+        /// <summary>
+        /// Obtains the number of days in this month instance.
+        /// </summary>
+        [Pure]
+        public int CountDaysInMonth()
+        {
+            _bin.Unpack(out int y, out int m);
+            ref readonly var chr = ref CalendarRef;
+            return chr.Schema.CountDaysInMonth(y, m);
+        }
+
+        #endregion
+
+        // No methods GetStartOfMonth(), GetDayOfMonth(), GetEndOfMonth();
+        // see CalendarDate, CalendarDay and OrdinalDate.
+
+        #region Adjustments
+
+        /// <summary>
+        /// Adjusts the date fields to the specified values, yielding a new month.
+        /// </summary>
+        /// <exception cref="ArgumentNullException"><paramref name="adjuster"/> is null.</exception>
+        /// <exception cref="AoorException">The resulting date would be invalid.</exception>
+        [Pure]
+        public CalendarMonth Adjust(Func<MonthParts, MonthParts> adjuster!!)
+        {
+            ref readonly var chr = ref CalendarRef;
+            var ym = adjuster.Invoke(new MonthParts(Parts)).ToYemo(chr.Scope);
+            return new CalendarMonth(ym, Cuid);
+        }
+
+        /// <summary>
+        /// Adjusts the year field to the specified value, yielding a new month.
+        /// </summary>
+        /// <exception cref="AoorException">The specified month cannot be converted into the new
+        /// calendar, the resulting year would be outside its range of years.</exception>
+        [Pure]
+        public CalendarMonth WithYear(int newYear)
+        {
+            int m = MonthOfYear;
+            ref readonly var chr = ref CalendarRef;
+            // Even when "newYear" is valid, we must re-check "m".
+            chr.Scope.ValidateYearMonth(newYear, m, nameof(newYear));
+            return new CalendarMonth(newYear, m, Cuid);
+        }
+
+        /// <summary>
+        /// Adjusts the month field to the specified value, yielding a new month.
+        /// </summary>
+        /// <exception cref="AoorException">The resulting month would be invalid.</exception>
+        [Pure]
+        public CalendarMonth WithMonthOfYear(int newMonth)
+        {
+            int y = Year;
+            ref readonly var chr = ref CalendarRef;
+            // We already know that "y" is valid, we only need to check "newMonth".
+            chr.PreValidator.ValidateMonth(y, newMonth, nameof(newMonth));
+            return new CalendarMonth(y, newMonth, Cuid);
+        }
+
+        #endregion
+    }
+
+    public partial struct CalendarMonth // IEquatable
+    {
+        /// <summary>
+        /// Determines whether two specified instances of <see cref="CalendarMonth"/> are equal.
+        /// </summary>
+        public static bool operator ==(CalendarMonth left, CalendarMonth right) =>
+            left._bin == right._bin;
+
+        /// <summary>
+        /// Determines whether two specified instances of <see cref="CalendarMonth"/> are not equal.
+        /// </summary>
+        public static bool operator !=(CalendarMonth left, CalendarMonth right) =>
+            left._bin != right._bin;
+
+        /// <summary>
+        /// Determines whether this instance is equal to the value of the specified
+        /// <see cref="CalendarMonth"/>.
+        /// </summary>
+        [Pure]
+        public bool Equals(CalendarMonth other) => _bin == other._bin;
+
+        /// <inheritdoc />
+        [Pure]
+        public override bool Equals([NotNullWhen(true)] object? obj) =>
+            obj is CalendarMonth month && Equals(month);
+
+        /// <inheritdoc />
+        [Pure]
+        public override int GetHashCode() => _bin.GetHashCode();
+    }
+
+    public partial struct CalendarMonth // IComparable
+    {
+        /// <summary>
+        /// Compares the two specified instances to see if the left one is strictly earlier than the
+        /// right one.
+        /// </summary>
+        /// <exception cref="ArgumentException"><paramref name="right"/> belongs to a different
+        /// calendar than <paramref name="right"/>.</exception>
+        public static bool operator <(CalendarMonth left, CalendarMonth right) =>
+            left.CompareTo(right) < 0;
+
+        /// <summary>
+        /// Compares the two specified instances to see if the left one is earlier than or equal to
+        /// the right one.
+        /// </summary>
+        /// <exception cref="ArgumentException"><paramref name="right"/> belongs to a different
+        /// calendar than <paramref name="right"/>.</exception>
+        public static bool operator <=(CalendarMonth left, CalendarMonth right) =>
+            left.CompareTo(right) <= 0;
+
+        /// <summary>
+        /// Compares the two specified instances to see if the left one is strictly later than the
+        /// right one.
+        /// </summary>
+        /// <exception cref="ArgumentException"><paramref name="right"/> belongs to a different
+        /// calendar than <paramref name="right"/>.</exception>
+        public static bool operator >(CalendarMonth left, CalendarMonth right) =>
+            left.CompareTo(right) > 0;
+
+        /// <summary>
+        /// Compares the two specified instances to see if the left one is later than or equal to
+        /// the right one.
+        /// </summary>
+        /// <exception cref="ArgumentException"><paramref name="right"/> belongs to a different
+        /// calendar than <paramref name="right"/>.</exception>
+        public static bool operator >=(CalendarMonth left, CalendarMonth right) =>
+            left.CompareTo(right) >= 0;
+
+        /// <summary>
+        /// Obtains the earlier month of two specified months.
+        /// </summary>
+        /// <exception cref="ArgumentException"><paramref name="right"/> belongs to a different
+        /// calendar than <paramref name="right"/>.</exception>
+        [Pure]
+        public static CalendarMonth Min(CalendarMonth left, CalendarMonth right) =>
+            left.CompareTo(right) < 0 ? left : right;
+
+        /// <summary>
+        /// Obtains the later month of two specified months.
+        /// </summary>
+        /// <exception cref="ArgumentException"><paramref name="right"/> belongs to a different
+        /// calendar than <paramref name="right"/>.</exception>
+        [Pure]
+        public static CalendarMonth Max(CalendarMonth left, CalendarMonth right) =>
+            left.CompareTo(right) > 0 ? left : right;
+
+        /// <summary>
+        /// Indicates whether this instance is earlier, later or the same as the specified one.
+        /// </summary>
+        /// <exception cref="ArgumentException"><paramref name="other"/> does not to the calendar of
+        /// the current instance.</exception>
+        [Pure]
+        public int CompareTo(CalendarMonth other)
+        {
+            if (other.Cuid != Cuid) Throw.BadCuid(nameof(other), Cuid, other.Cuid);
+
+            return Parts.CompareTo(other.Parts);
+        }
+
+        /// <inheritdoc />
+        [Pure]
+        public int CompareTo(object? obj) =>
+            obj is null ? 1
+            : obj is CalendarMonth month ? CompareTo(month)
+            : Throw.NonComparable(typeof(CalendarMonth), obj);
+    }
+
+    public partial struct CalendarMonth // Math ops
+    {
+#pragma warning disable CA2225 // Operator overloads have named alternates (Usage)
+        // Friendly alternates do exist but use domain-specific names.
+
+        /// <summary>
+        /// Subtracts the two specified months and returns the number of months between them.
+        /// </summary>
+        /// <exception cref="ArgumentException"><paramref name="right"/> belongs to a different
+        /// calendar than <paramref name="right"/>.</exception>
+        public static int operator -(CalendarMonth left, CalendarMonth right) =>
+            left.CountMonthsSince(right);
+
+        /// <summary>
+        /// Adds a number of months to the specified month, yielding a new month.
+        /// </summary>
+        /// <exception cref="OverflowException">The operation would overflow the range of supported
+        /// months.</exception>
+        public static CalendarMonth operator +(CalendarMonth value, int months) =>
+            value.PlusMonths(months);
+
+        /// <summary>
+        /// Subtracts a number of months to the specified month, yielding a new month.
+        /// </summary>
+        /// <exception cref="OverflowException">The operation would overflow the range of supported
+        /// months.</exception>
+        public static CalendarMonth operator -(CalendarMonth value, int months) =>
+            value.PlusMonths(-months);
+
+        /// <summary>
+        /// Adds one month to the specified month, yielding a new month.
+        /// </summary>
+        /// <exception cref="OverflowException">The operation would overflow the range of supported
+        /// months.</exception>
+        public static CalendarMonth operator ++(CalendarMonth value) => value.NextMonth();
+
+        /// <summary>
+        /// Subtracts one month to the specified month, yielding a new month.
+        /// </summary>
+        /// <exception cref="OverflowException">The operation would overflow the range of supported
+        /// months.</exception>
+        public static CalendarMonth operator --(CalendarMonth value) => value.PreviousMonth();
+
+#pragma warning restore CA2225
+
+        /// <summary>
+        /// Counts the number of months elapsed since the specified month.
+        /// </summary>
+        /// <exception cref="ArgumentException"><paramref name="other"/> does not belong to the
+        /// calendar of the current instance.</exception>
+        [Pure]
+        public int CountMonthsSince(CalendarMonth other)
+        {
+            if (other.Cuid != Cuid) Throw.BadCuid(nameof(other), Cuid, other.Cuid);
+
+            ref readonly var chr = ref CalendarRef;
+            return chr.Math.CountMonthsBetweenCore(other, this);
+        }
+
+        /// <summary>
+        /// Adds a number of months to this month instance, yielding a new month.
+        /// </summary>
+        /// <exception cref="OverflowException">The operation would overflow the range of supported
+        /// months.</exception>
+        [Pure]
+        public CalendarMonth PlusMonths(int months)
+        {
+            ref readonly var chr = ref CalendarRef;
+            return chr.Math.AddMonthsCore(this, months);
+        }
+
+        /// <summary>
+        /// Obtains the month after this month instance, yielding a new month.
+        /// </summary>
+        /// <exception cref="OverflowException">The operation would overflow the range of supported
+        /// months.</exception>
+        [Pure]
+        public CalendarMonth NextMonth()
+        {
+            ref readonly var chr = ref CalendarRef;
+            return chr.Math.AddMonthsCore(this, 1);
+        }
+
+        /// <summary>
+        /// Obtains the month before this month instance, yielding a new month.
+        /// </summary>
+        /// <exception cref="OverflowException">The operation would overflow the range of supported
+        /// months.</exception>
+        [Pure]
+        public CalendarMonth PreviousMonth()
+        {
+            ref readonly var chr = ref CalendarRef;
+            return chr.Math.AddMonthsCore(this, -1);
+        }
+
+        /// <summary>
+        /// Counts the number of years elapsed since the specified month.
+        /// </summary>
+        /// <exception cref="ArgumentException"><paramref name="other"/> does not belong to the
+        /// calendar of the current instance.</exception>
+        [Pure]
+        public int CountYearsSince(CalendarMonth other)
+        {
+            if (other.Cuid != Cuid) Throw.BadCuid(nameof(other), Cuid, other.Cuid);
+
+            ref readonly var chr = ref CalendarRef;
+            return chr.Math.CountYearsBetweenCore(other, this);
+        }
+
+        /// <summary>
+        /// Adds a number of years to the year field of this month instance, yielding a new month.
+        /// </summary>
+        /// <exception cref="OverflowException">The operation would overflow the range of supported
+        /// months.</exception>
+        [Pure]
+        public CalendarMonth PlusYears(int years)
+        {
+            ref readonly var chr = ref CalendarRef;
+            return chr.Math.AddYearsCore(this, years);
+        }
+    }
+}

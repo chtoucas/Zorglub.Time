@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>$(MyLibraryFrameworks)</TargetFrameworks>
+
+    <WarningsAsErrors>$(WarningsAsErrors);IDE0004</WarningsAsErrors>
+
+    <!--
+      CS1591  Missing XML comment for publicly visible type or member 'Type_or_Member'
+    -->
+    <NoWarn>$(NoWarn);CS1591</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Zorglub\Zorglub.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,6 @@
+# Set default behavior to automatically normalize line endings.
+* text=auto encoding=UTF-8
+
+# Markdown files have LF as line endings.
+*.md eol=lf
+

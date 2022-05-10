@@ -1,0 +1,105 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>$(MyDefaultFramework)</TargetFramework>
+
+    <WarningLevel>5</WarningLevel>
+    <!--
+      FS0052  Implicit copies of structs (warning level 5)
+      FS1182  Unused variables
+      See https://docs.microsoft.com/en-us/dotnet/fsharp/language-reference/compiler-options
+    -->
+    <!--<WarnOn>3390;$(WarnOn)</WarnOn>-->
+    <WarnOn>$(WarnOn);FS1182</WarnOn>
+    <NoWarn>$(NoWarn);FS0052</NoWarn>
+
+    <!-- Silent a warning from Microsoft.NET.Test.Sdk -->
+    <GenerateProgramFile>false</GenerateProgramFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="README.md" />
+    <None Include="LISEZMOI.md" />
+    <None Include="Zorglub.Tests.ini">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <Compile Include="Bulgroz\FSharp.fs" />
+    <Compile Include="Bulgroz\Misc.fs" />
+    <Compile Include="Bulgroz\Samples.fs" />
+    <Compile Include="Bulgroz\Demo.fs" />
+    <Compile Include="Testing\XunitModule.fs" />
+    <Compile Include="Testing\FsCheckModule.fs" />
+    <Compile Include="Testing\TestHelpers.fs" />
+    <Compile Include="Tests\Testing\FsCheckTests.fs" />
+    <Compile Include="Tests\Testing\EnumDataSetTests.fs" />
+    <Compile Include="Tests\Bulgroz\MiscTests.fs" />
+    <Compile Include="Tests\Bulgroz\BitTwiddlingTests.fs" />
+    <Compile Include="Tests\Extensions\DayOfWeek%24Tests.fs" />
+    <Compile Include="Tests\Extensions\UnboxingTests.fs" />
+    <Compile Include="Tests\Core\Utilities\ThrowHelpersTests.fs" />
+    <Compile Include="Tests\Core\Utilities\RequiresTests.fs" />
+    <Compile Include="Tests\Core\Utilities\MathNTests.fs" />
+    <Compile Include="Tests\Core\Utilities\MathUTests.fs" />
+    <Compile Include="Tests\Core\Utilities\MathZTests.fs" />
+    <Compile Include="Tests\Core\Utilities\MathTTests.fs" />
+    <Compile Include="Tests\Core\Utilities\OrderedPairTests.fs" />
+    <Compile Include="Tests\Core\Utilities\BoxTests.fs" />
+    <Compile Include="Tests\Core\Utilities\ReadOnlySetTests.fs" />
+    <Compile Include="Tests\Core\Intervals\RangeTests.fs" />
+    <Compile Include="Tests\Core\Intervals\RangeSetTests.fs" />
+    <Compile Include="Tests\Core\Intervals\LowerRayTests.fs" />
+    <Compile Include="Tests\Core\Intervals\UpperRayTests.fs" />
+    <Compile Include="Tests\Core\Intervals\IntervalTests.fs" />
+    <Compile Include="Tests\Core\Schemas\GregorianFormulaeTests.fs" />
+    <Compile Include="Tests\Core\Schemas\JulianFormulaeTests.fs" />
+    <Compile Include="Tests\Core\Schemas\CalendricalSchemaTests.fs" />
+    <Compile Include="Tests\Core\Schemas\PreValidatorTests.fs" />
+    <Compile Include="Tests\Core\Schemas\FastArithmeticTests.fs" />
+    <Compile Include="Tests\Core\Schemas\ArchetypalSchemaTestSuite.fs" />
+    <Compile Include="Tests\Core\Schemas\PrototypalSchemaTestSuite.fs" />
+    <Compile Include="Tests\Core\Schemas\SystemSchemaTestSuite.fs" />
+    <Compile Include="Tests\Core\Schemas\PreValidatorTestSuite.fs" />
+    <Compile Include="Tests\Core\Schemas\FeaturetteTestSuite.fs" />
+    <Compile Include="Tests\Core\Schemas\DaysInMonthDistributionTestSuite.fs" />
+    <Compile Include="Tests\Core\PartsTests.fs" />
+    <Compile Include="Tests\Hemerology\Scopes\CalendarScopeTests.fs" />
+    <Compile Include="Tests\Hemerology\Scopes\ShortScopeTests.fs" />
+    <Compile Include="Tests\Hemerology\Scopes\StandardShortScopeTests.fs" />
+    <Compile Include="Tests\Hemerology\Scopes\ProlepticShortScopeTests.fs" />
+    <Compile Include="Tests\Hemerology\Scopes\StandardShortScopeTestSuite.fs" />
+    <Compile Include="Tests\Hemerology\Scopes\ProlepticShortScopeTestSuite.fs" />
+    <Compile Include="Tests\Hemerology\CalendarEpochTests.fs" />
+    <Compile Include="Tests\Hemerology\CivilDateTests.fs" />
+    <Compile Include="Tests\Hemerology\AdjustableDateTestSuite.fs" />
+    <Compile Include="Tests\Simple\CalendarTestSuite.fs" />
+    <Compile Include="Tests\Simple\FeaturetteTestSuite.fs" />
+    <Compile Include="Tests\Simple\CalendarDateTestSuite.fs" />
+    <Compile Include="Tests\Simple\CalendarDayTestSuite.fs" />
+    <Compile Include="Tests\Simple\OrdinalDateTestSuite.fs" />
+    <Compile Include="Tests\Simple\AdjustableDateTestSuite.fs" />
+    <Compile Include="Tests\ValueTypeTests.fs" />
+    <Compile Include="Tests\PartsTests.fs" />
+    <Compile Include="Tests\CalendarIdTests.fs" />
+    <Compile Include="Tests\OrdTests.fs" />
+    <Compile Include="Tests\DayNumberTests.fs" />
+    <Compile Include="Tests\DayNumber64Tests.fs" />
+    <Compile Include="Program.fs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FsCheck.Xunit" Version="2.16.4" />
+    <PackageReference Include="Unquote" Version="6.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Zorglub.Sketches\Zorglub.Sketches.csproj" />
+    <ProjectReference Include="..\..\src\Zorglub\Zorglub.csproj" />
+    <ProjectReference Include="..\Zorglub.Testing\Zorglub.Testing.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Update="FSharp.Core" Version="6.0.3" />
+  </ItemGroup>
+
+</Project>

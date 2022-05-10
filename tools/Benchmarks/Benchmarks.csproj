@@ -1,0 +1,55 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>$(MyDefaultFramework)</TargetFramework>
+    <RootNamespace>Benchmarks</RootNamespace>
+
+    <!--<BenchmarkHarness Condition=" '$(BenchmarkHarness)' != 'true' ">false</BenchmarkHarness>-->
+    <DefineConstants Condition=" '$(BenchmarkHarness)' == 'true' ">$(DefineConstants);BENCHMARK_HARNESS</DefineConstants>
+
+    <ServerGarbageCollection>true</ServerGarbageCollection>
+    <ConcurrentGarbageCollection>true</ConcurrentGarbageCollection>
+
+    <!-- Recommended settings
+      See also BenchmarkDotNet.Diagnostics.Windows
+      https://github.com/dotnet/performance/blob/main/docs/profiling-workflow-dotnet-runtime.md
+      https://benchmarkdotnet.org/articles/features/etwprofiler.html
+    -->
+    <DebugType>pdbonly</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+    <TieredCompilation>false</TieredCompilation>
+
+    <!--
+      CA1822    Mark members as static (Performance)
+    -->
+    <NoWarn>$(NoWarn);CA1822</NoWarn>
+  </PropertyGroup>
+
+  <!-- Using's -->
+  <PropertyGroup>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+  <ItemGroup>
+    <Using Include="BenchmarkDotNet.Attributes" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Benchmarks.ini">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="BenchmarkDotNet" Version="0.13.1" />
+    <PackageReference Include="NodaTime" Version="3.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Zorglub.Sketches\Zorglub.Sketches.csproj" />
+    <ProjectReference Include="..\..\src\Zorglub\Zorglub.csproj" />
+  </ItemGroup>
+
+  <Import Project="..\..\src\Samples\Samples.projitems" Label="Shared" />
+
+</Project>

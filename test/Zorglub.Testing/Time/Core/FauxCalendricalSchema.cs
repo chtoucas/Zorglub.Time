@@ -1,0 +1,116 @@
+﻿// SPDX-License-Identifier: BSD-3-Clause
+// Copyright (c) 2020 Narvalo.Org. All rights reserved.
+
+namespace Zorglub.Time.Core;
+
+// GetStartOfYear() must be implemented for calendars, arithmetic & scope to work.
+// We must also implement IsRegular(), otherwise CalendricalSchema.Profile will fail.
+
+using Zorglub.Time.Core.Intervals;
+
+using static Zorglub.Time.Core.CalendricalConstants;
+
+public partial class FauxCalendricalSchema : CalendricalSchema
+{
+    protected const int DefaultMinDaysInYear = 365;
+    protected const int DefaultMinDaysInMonth = 28;
+
+    // Base constructor.
+
+    protected FauxCalendricalSchema(Range<int> supportedYears, int minDaysInYear, int minDaysInMonth)
+        : base(supportedYears, minDaysInYear, minDaysInMonth) { }
+
+    // Constructors in order to test the base constructors.
+
+    public FauxCalendricalSchema(Range<int> supportedYears)
+        : base(supportedYears, DefaultMinDaysInYear, DefaultMinDaysInMonth) { }
+
+    private FauxCalendricalSchema(int minDaysInYear, int minDaysInMonth)
+        : base(Yemoda.SupportedYears, minDaysInYear, minDaysInMonth) { }
+
+    public static FauxCalendricalSchema Default { get; } = new(DefaultMinDaysInYear, DefaultMinDaysInMonth);
+
+    [Pure]
+    public static FauxCalendricalSchema WithMinDaysInYear(int minDaysInYear) =>
+        new(minDaysInYear, DefaultMinDaysInMonth);
+
+    [Pure]
+    public static FauxCalendricalSchema WithMinDaysInMonth(int minDaysInMonth) =>
+        new(DefaultMinDaysInYear, minDaysInMonth);
+
+    public sealed override CalendricalFamily Family => throw new NotSupportedException();
+    public sealed override CalendricalAdjustments PeriodicAdjustments => throw new NotSupportedException();
+
+    [Pure]
+    public override bool IsRegular(out int monthsInYear)
+    {
+        if (this is IRegularSchema sch)
+        {
+            monthsInYear = sch.MonthsInYear;
+            return true;
+        }
+        else
+        {
+            monthsInYear = 0;
+            return false;
+        }
+    }
+
+    [Pure] public sealed override bool IsLeapYear(int y) => throw new NotSupportedException();
+    [Pure] public sealed override bool IsIntercalaryMonth(int y, int m) => throw new NotSupportedException();
+    [Pure] public sealed override bool IsIntercalaryDay(int y, int m, int d) => throw new NotSupportedException();
+    [Pure] public sealed override bool IsSupplementaryDay(int y, int m, int d) => throw new NotSupportedException();
+
+    [Pure] public override int CountMonthsInYear(int y) => throw new NotSupportedException();
+    [Pure] public sealed override int CountDaysInYear(int y) => MinDaysInYear;
+    [Pure] public sealed override int CountDaysInYearBeforeMonth(int y, int m) => throw new NotSupportedException();
+    [Pure] public sealed override int CountDaysInMonth(int y, int m) => MinDaysInMonth;
+
+    [Pure] public sealed override int GetMonth(int y, int doy, out int d) => throw new NotSupportedException();
+    [Pure] public sealed override int GetYear(int daysSinceEpoch, out int doy) => throw new NotSupportedException();
+
+    [Pure] public sealed override int GetStartOfYear(int y) => 0;
+}
+
+public partial class FauxCalendricalSchema // Profiles
+{
+    public static readonly TheoryData<FauxCalendricalSchema> NotLunar = new()
+    {
+        new FauxRegularSchema(Lunar.MonthsInYear + 1, Lunar.MinDaysInYear, Lunar.MinDaysInMonth),
+        new FauxRegularSchema(Lunar.MonthsInYear, Lunar.MinDaysInYear - 1, Lunar.MinDaysInMonth),
+        new FauxRegularSchema(Lunar.MonthsInYear, Lunar.MinDaysInYear, Lunar.MinDaysInMonth - 1),
+    };
+
+    public static readonly TheoryData<FauxCalendricalSchema> NotLunisolar = new()
+    {
+        new FauxCalendricalSchema(Lunisolar.MinDaysInYear - 1, Lunisolar.MinDaysInMonth),
+        new FauxCalendricalSchema(Lunisolar.MinDaysInYear, Lunisolar.MinDaysInMonth - 1),
+    };
+
+    public static readonly TheoryData<FauxCalendricalSchema> NotSolar12 = new()
+    {
+        new FauxRegularSchema(Solar12.MonthsInYear + 1, Solar.MinDaysInYear, Solar.MinDaysInMonth),
+        new FauxRegularSchema(Solar12.MonthsInYear, Solar.MinDaysInYear - 1, Solar.MinDaysInMonth),
+        new FauxRegularSchema(Solar12.MonthsInYear, Solar.MinDaysInYear, Solar.MinDaysInMonth - 1),
+    };
+
+    public static readonly TheoryData<FauxCalendricalSchema> NotSolar13 = new()
+    {
+        new FauxRegularSchema(Solar13.MonthsInYear + 1, Solar.MinDaysInYear, Solar.MinDaysInMonth),
+        new FauxRegularSchema(Solar13.MonthsInYear, Solar.MinDaysInYear - 1, Solar.MinDaysInMonth),
+        new FauxRegularSchema(Solar13.MonthsInYear, Solar.MinDaysInYear, Solar.MinDaysInMonth - 1),
+    };
+
+    private sealed class FauxRegularSchema : FauxCalendricalSchema, IRegularSchema
+    {
+        public FauxRegularSchema(int monthsInYear, int minDaysInYear, int minDaysInMonth)
+            : base(minDaysInYear, minDaysInMonth)
+        {
+            MonthsInYear = monthsInYear;
+        }
+
+        public int MonthsInYear { get; }
+
+        [Pure] public sealed override int CountMonthsInYear(int y) => MonthsInYear;
+    }
+}

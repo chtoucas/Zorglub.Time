@@ -1,0 +1,4 @@
+
+NOTES:
+- Underneath, all month forms defined here use the algebraic numbering system.
+- Unless specified otherwise, a form satisfies ValueAt(0) = 0.

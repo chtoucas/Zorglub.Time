@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>$(MyDefaultFramework)</TargetFramework>
+    <RootNamespace>Play</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Update="Play.ini">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Zorglub.Sketches\Zorglub.Sketches.csproj" />
+    <ProjectReference Include="..\..\src\Zorglub\Zorglub.csproj" />
+  </ItemGroup>
+
+  <Import Project="..\..\src\Samples\Samples.projitems" Label="Shared" />
+
+</Project>

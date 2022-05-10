@@ -1,0 +1,94 @@
+<Project>
+
+  <!-- Global context -->
+  <PropertyGroup>
+    <ContinuousIntegrationBuild Condition=" '$(ContinuousIntegrationBuild)' == '' ">false</ContinuousIntegrationBuild>
+    <ContinuousIntegrationBuild Condition=" '$(GITHUB_ACTIONS)' == 'true' ">true</ContinuousIntegrationBuild>
+    <ContinuousIntegrationBuild Condition=" '$(TF_BUILD)' == 'true' ">true</ContinuousIntegrationBuild>
+  </PropertyGroup>
+
+  <!-- Target frameworks -->
+  <PropertyGroup>
+    <!-- WARNING: keep "MyDefaultFramework" in sync with "global.json" -->
+    <MyDefaultFramework>net6.0</MyDefaultFramework>
+
+    <MyLibraryFrameworks>$(MyDefaultFramework)</MyLibraryFrameworks>
+    <MyTestFrameworks>$(MyDefaultFramework)</MyTestFrameworks>
+  </PropertyGroup>
+
+  <!-- Common properties -->
+  <PropertyGroup>
+    <RootNamespace>Zorglub</RootNamespace>
+
+    <!--<LangVersion>latest</LangVersion>-->
+    <LangVersion>preview</LangVersion>
+    <Nullable>enable</Nullable>
+
+    <AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)Narvalo.snk</AssemblyOriginatorKeyFile>
+
+    <Authors>chtoucas</Authors>
+    <Company>Narvalo.Org</Company>
+    <Product>Zorglub</Product>
+    <Copyright>Copyright (c) 2020 Narvalo.Org.</Copyright>
+
+    <!-- Fake version -->
+    <VersionPrefix>0.0.0</VersionPrefix>
+    <VersionSuffix>DUMMY</VersionSuffix>
+
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/chtoucas/Zorglub.Time/</RepositoryUrl>
+
+    <IsPackable>false</IsPackable>
+    <PackageProjectUrl>$(RepositoryUrl)</PackageProjectUrl>
+    <PackageLicenseExpression>BSD-3-Clause</PackageLicenseExpression>
+    <PackageReleaseNotes>See CHANGELOG in project root.</PackageReleaseNotes>
+
+    <!-- Code/Style Analysis -->
+    <EnableNETAnalyzers>true</EnableNETAnalyzers>
+    <AnalysisLevel>latest</AnalysisLevel>
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+
+    <!-- Reproducible build -->
+    <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
+    <!-- For CI builds, do not update the lock file -->
+    <RestoreLockedMode Condition=" '$(ContinuousIntegrationBuild)' == 'true' ">true</RestoreLockedMode>
+    <!-- Fix error NU1403, and not just for CI builds... It seems that dotnet
+         tweaks the packages before putting them in the fallback folder.
+         > dotnet nuget locals all -c -->
+    <DisableImplicitNuGetFallbackFolder>true</DisableImplicitNuGetFallbackFolder>
+  </PropertyGroup>
+
+  <!-- Release configuration versus the other ones (Debug) -->
+  <Choose>
+    <When Condition=" '$(Configuration)' == 'Release' ">
+      <PropertyGroup>
+        <SignAssembly>true</SignAssembly>
+        <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+
+        <AnalysisMode>AllEnabledByDefault</AnalysisMode>
+
+        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+        <!-- CS1591 Missing XML comment for publicly visible type or member 'Type_or_Member' -->
+        <WarningsNotAsErrors>CS1591</WarningsNotAsErrors>
+        <NoWarn />
+      </PropertyGroup>
+    </When>
+
+    <Otherwise>
+      <PropertyGroup>
+        <SignAssembly>false</SignAssembly>
+        <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+        <GenerateDocumentationFile>false</GenerateDocumentationFile>
+
+        <AnalysisMode>Default</AnalysisMode>
+
+        <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+        <TreatSpecificWarningsAsErrors />
+        <!-- IDE0079  Remove unnecessary suppression (Style) -->
+        <NoWarn>IDE0079</NoWarn>
+      </PropertyGroup>
+    </Otherwise>
+  </Choose>
+
+</Project>

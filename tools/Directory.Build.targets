@@ -1,0 +1,19 @@
+<Project>
+
+  <Import Project="$(MSBuildThisFileDirectory)..\Directory.Build.targets" />
+
+  <PropertyGroup>
+    <!--
+      CA1303    Do not pass literals as localized parameters (Globalization)
+      CA1707    Identifiers should not contain underscores (Naming)
+    -->
+    <NoWarn>$(NoWarn);CA1303;CA1707</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)AssemblyInfo.Common.cs">
+      <Visible>false</Visible>
+    </Compile>
+  </ItemGroup>
+
+</Project>

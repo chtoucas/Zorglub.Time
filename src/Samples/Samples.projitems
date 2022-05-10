@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects Condition="'$(MSBuildVersion)' == '' Or '$(MSBuildVersion)' &lt; '16.0'">$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>d34ad494-7ec0-401d-99f2-dd635b322e3c</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>Samples</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)CalendarZoo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DateTemplate.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DayTemplate.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Folklore.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GregorianRecord.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GregorianTriple.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MyCalendar.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MyDate.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MyNakedCalendar.cs" />
+  </ItemGroup>
+</Project>
