@@ -40,7 +40,8 @@ public abstract partial class CalendarDateFacts<TDataSet> : IDateFacts<CalendarD
     protected sealed override CalendarDate MinDate { get; }
     protected sealed override CalendarDate MaxDate { get; }
 
-    protected sealed override CalendarDate CreateDate(int y, int m, int d) => CalendarUT.GetCalendarDate(y, m, d);
+    protected sealed override CalendarDate CreateDate(int y, int m, int d) =>
+        CalendarUT.GetCalendarDate(y, m, d);
 
     public static TheoryData<Yemoda, Yemoda, int> AddYearsData => DataSet.AddYearsData;
     public static TheoryData<Yemoda, Yemoda, int> AddMonthsData => DataSet.AddMonthsData;
@@ -65,32 +66,15 @@ public partial class CalendarDateFacts<TDataSet>
 
 public partial class CalendarDateFacts<TDataSet> // Properties
 {
+    // We also test the internal prop Cuid.
     [Theory, MemberData(nameof(DateInfoData))]
-    public void IsSupplementary_Prop(DateInfo info)
+    public void Calendar_Prop(DateInfo info)
     {
         var (y, m, d) = info.Yemoda;
-        // Act
-        var date = CreateDate(y, m, d);
-        // Assert
-        Assert.Equal(info.IsSupplementary, date.IsSupplementary);
-    }
-
-    [Fact]
-    public void Calendar_Prop()
-    {
         // Arrange
-        var date = CalendarUT.GetCalendarDate(3, 4, 5);
+        var date = CalendarUT.GetCalendarDate(y, m, d);
         // Act & Assert
         Assert.Equal(CalendarUT, date.Calendar);
-    }
-
-    [Theory, MemberData(nameof(DateInfoData))]
-    public void Cuid_Prop(DateInfo info)
-    {
-        var (y, m, d) = info.Yemoda;
-        // Act
-        var date = CalendarUT.GetCalendarDate(y, m, d);
-        // Assert
         Assert.Equal(CalendarUT.Id, date.Cuid);
     }
 }
@@ -101,10 +85,10 @@ public partial class CalendarDateFacts<TDataSet> // Conversions
     public void ToCalendarDay(DayNumberInfo info)
     {
         var (dayNumber, y, m, d) = info;
-        // Act
+        // Arrange
         var date = CalendarUT.GetCalendarDate(y, m, d);
         var day = CalendarUT.GetCalendarDay(dayNumber);
-        // Assert
+        // Act & Assert
         Assert.Equal(day, date.ToCalendarDay());
     }
 
@@ -112,9 +96,9 @@ public partial class CalendarDateFacts<TDataSet> // Conversions
     public void ToCalendarDate(DateInfo info)
     {
         var (y, m, d) = info.Yemoda;
-        // Act
+        // Arrange
         var date = CalendarUT.GetCalendarDate(y, m, d);
-        // Assert
+        // Act & Assert
         Assert.Equal(date, ((ISimpleDate)date).ToCalendarDate());
     }
 
@@ -124,9 +108,9 @@ public partial class CalendarDateFacts<TDataSet> // Conversions
         var (y, m, d, doy) = info;
         // Arrange
         var date = CalendarUT.GetCalendarDate(y, m, d);
-        var ordate = CalendarUT.GetOrdinalDate(y, doy);
+        var odate = CalendarUT.GetOrdinalDate(y, doy);
         // Act & Assert
-        Assert.Equal(ordate, date.ToOrdinalDate());
+        Assert.Equal(odate, date.ToOrdinalDate());
     }
 
     [Fact]
@@ -233,7 +217,7 @@ public partial class CalendarDateFacts<TDataSet> // IEquatable
 public partial class CalendarDateFacts<TDataSet> // IComparable
 {
     [Fact]
-    public void CompareTo_InvalidCalendar()
+    public void CompareTo_OtherCalendar()
     {
         // Arrange
         var date = CalendarUT.GetCalendarDate(3, 4, 5);

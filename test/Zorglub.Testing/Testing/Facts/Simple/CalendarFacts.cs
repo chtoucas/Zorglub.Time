@@ -12,8 +12,7 @@ using Zorglub.Time.Simple;
 /// Provides facts about <see cref="Calendar"/>.
 /// </summary>
 [TestExcludeFrom(TestExcludeFrom.Smoke)]
-public abstract partial class CalendarFacts<TCalendar, TDataSet> :
-    ICalendarFacts<TCalendar, TDataSet>
+public abstract partial class CalendarFacts<TCalendar, TDataSet> : ICalendarFacts<TCalendar, TDataSet>
     where TCalendar : Calendar
     where TDataSet : ICalendarDataSet, ISingleton<TDataSet>
 {
@@ -218,9 +217,8 @@ public partial class CalendarFacts<TCalendar, TDataSet> // Conversions
     [Theory, MemberData(nameof(DayNumberInfoData))]
     public void GetCalendarYearOn(DayNumberInfo info)
     {
-        int y = info.Year;
         // Arrange
-        var exp = CalendarUT.GetCalendarYear(y);
+        var exp = CalendarUT.GetCalendarYear(info.Year);
         // Act
         var cyear = CalendarUT.GetCalendarYearOn(info.DayNumber);
         // Assert

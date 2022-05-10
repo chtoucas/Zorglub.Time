@@ -14,8 +14,7 @@ using Zorglub.Time.Hemerology;
 /// <summary>
 /// Provides facts about <see cref="IDate{TSelf}"/>.
 /// </summary>
-public abstract partial class IDateFacts<TDate, TDataSet> :
-    CalendarTesting<TDataSet>
+public abstract partial class IDateFacts<TDate, TDataSet> : CalendarTesting<TDataSet>
     where TDate : struct, IDate<TDate>
     where TDataSet :
         ICalendarDataSet,
@@ -156,6 +155,16 @@ public partial class IDateFacts<TDate, TDataSet> // Properties
         var date = CreateDate(y, m, d);
         // Assert
         Assert.Equal(info.IsIntercalary, date.IsIntercalary);
+    }
+
+    [Theory, MemberData(nameof(DateInfoData))]
+    public void IsSupplementary_Prop(DateInfo info)
+    {
+        var (y, m, d) = info.Yemoda;
+        // Act
+        var date = CreateDate(y, m, d);
+        // Assert
+        Assert.Equal(info.IsSupplementary, date.IsSupplementary);
     }
 
     [Theory, MemberData(nameof(DayOfWeekData))]

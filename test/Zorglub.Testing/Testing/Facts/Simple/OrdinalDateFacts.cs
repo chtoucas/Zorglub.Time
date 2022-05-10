@@ -6,14 +6,14 @@ namespace Zorglub.Testing.Facts.Simple;
 using Zorglub.Testing.Data;
 using Zorglub.Time.Simple;
 
-// Tests indirects : OrdinalDate utilise la repr (y, doy) mais ici on en
-// passe systématiquement par NewDate(y, m, d).
+// Tests indirects : OrdinalDate utilise la repr Yedoy mais ici on en
+// passe systématiquement par CreateDate(y, m, d).
 
 /// <summary>
 /// Provides facts about <see cref="OrdinalDate"/>.
 /// </summary>
 [TestExcludeFrom(TestExcludeFrom.Smoke)] // Indirect tests
-public abstract class OrdinalDateFacts<TDataSet> : IDateFacts<OrdinalDate, TDataSet>
+public abstract partial class OrdinalDateFacts<TDataSet> : IDateFacts<OrdinalDate, TDataSet>
     where TDataSet :
         ICalendarDataSet,
         IDaysAfterDataSet,
@@ -39,52 +39,62 @@ public abstract class OrdinalDateFacts<TDataSet> : IDateFacts<OrdinalDate, TData
         CalendarUT.GetCalendarDate(y, m, d).ToOrdinalDate();
 }
 
-///// <summary>
-///// Provides data-driven tests for <see cref="OrdinalDate"/> and provides a
-///// base for derived classes.
-///// </summary>
-//internal abstract partial class AbstractOrdinalDateTests<TDataSet>
-//    : AbstractIsaFixedDateTests<OrdinalDate, TDataSet>
-//    where TDataSet : CalendricalData, IMostCalendricalData, ISingleton<TDataSet>
-//{
-//    protected AbstractOrdinalDateTests(Calendar calendar)
-//        : this(calendar, NewCtorArgs(calendar)) { }
+public partial class OrdinalDateFacts<TDataSet>
+{
+    [Theory, MemberData(nameof(DateInfoData))]
+    public void Deconstructor(DateInfo info)
+    {
+        var (y, m, d, doy) = info;
+        // Arrange
+        var date = CalendarUT.GetOrdinalDate(y, doy);
+        // Act
+        var (year, month, day) = date;
+        // Assert
+        Assert.Equal(y, year);
+        Assert.Equal(m, month);
+        Assert.Equal(d, day);
+    }
+}
 
-//    protected AbstractOrdinalDateTests(Calendar calendar, CtorArgs args) : base(args)
-//    {
-//        CalendarUT = calendar;
+public partial class OrdinalDateFacts<TDataSet> // Properties
+{
+    // We also test the internal prop Cuid.
+    [Theory, MemberData(nameof(DateInfoData))]
+    public void Calendar_Prop(DateInfo info)
+    {
+        var (y, doy) = info.Yedoy;
+        // Arrange
+        var date = CalendarUT.GetOrdinalDate(y, doy);
+        // Act & Assert
+        Assert.Equal(CalendarUT, date.Calendar);
+        Assert.Equal(CalendarUT.Id, date.Cuid);
+    }
+}
 
-//        var minYear = calendar.NewCalendarYear(calendar.MinSupportedYear);
-//        var maxYear = calendar.NewCalendarYear(calendar.MaxSupportedYear);
+public partial class OrdinalDateFacts<TDataSet> // Conversions
+{
+    //public void ToCalendarDay(DayNumberInfo info)
 
-//        MinDate = OrdinalDate.AtStartOfYear(minYear);
-//        MaxDate = OrdinalDate.AtEndOfYear(maxYear);
-//    }
+    [Theory, MemberData(nameof(DateInfoData))]
+    public void ToCalendarDate(DateInfo info)
+    {
+        var (y, m, d, doy) = info;
+        // Arrange
+        var odate = CalendarUT.GetOrdinalDate(y, doy);
+        var date = CalendarUT.GetCalendarDate(y, m, d);
+        // Act & Assert
+        Assert.Equal(date, odate.ToCalendarDate());
+    }
 
-//    protected Calendar CalendarUT { get; }
+    [Theory, MemberData(nameof(DateInfoData))]
+    public void ToOrdinalDate(DateInfo info)
+    {
+        var (y, doy) = info.Yedoy;
+        // Arrange
+        var odate = CalendarUT.GetOrdinalDate(y, doy);
+        // Act & Assert
+        Assert.Equal(odate, ((ISimpleDate)odate).ToOrdinalDate());
+    }
 
-//    protected sealed override OrdinalDate MinDate { get; }
-//    protected sealed override OrdinalDate MaxDate { get; }
-
-//    protected sealed override OrdinalDate NewDate(int y, int m, int d) =>
-//        CalendarUT.NewCalendarDate(y, m, d).ToOrdinalDate();
-
-//    protected sealed override FixedDateProxy<OrdinalDate> NewDateProxy(int y, int m, int d) =>
-//        FixedDateProxy.Of(CalendarUT.NewCalendarDate(y, m, d).ToOrdinalDate());
-
-//    protected sealed override OrdinalDate Op_Addition(OrdinalDate date, int days) => date + days;
-//    protected sealed override OrdinalDate Op_Subtraction(OrdinalDate date, int days) => date - days;
-//    protected sealed override int Op_Subtraction(OrdinalDate date, OrdinalDate other) => date - other;
-
-//    protected sealed override OrdinalDate Op_Increment(OrdinalDate date)
-//    {
-//        date++;
-//        return date;
-//    }
-
-//    protected sealed override OrdinalDate Op_Decrement(OrdinalDate date)
-//    {
-//        date--;
-//        return date;
-//    }
-//}
+    //public void WithCalendar_NullCalendar()
+}

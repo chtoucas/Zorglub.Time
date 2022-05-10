@@ -3,13 +3,7 @@
 
 namespace Zorglub.Time.Simple;
 
-using Zorglub.Testing.Data.Bounded;
 using Zorglub.Time.Core;
-
-public sealed class OrdinalDateIndirectTests : OrdinalDateFacts<ProlepticGregorianDataSet>
-{
-    public OrdinalDateIndirectTests() : base(GregorianCalendar.Instance) { }
-}
 
 public sealed partial class OrdinalDateTests : GregorianOnlyTesting
 {
@@ -22,18 +16,18 @@ public sealed partial class OrdinalDateTests : GregorianOnlyTesting
 
 public partial class OrdinalDateTests
 {
-    [Theory, MemberData(nameof(DateInfoData))]
-    public void Deconstructor(DateInfo info)
-    {
-        var (y, doy) = info.Yedoy;
-        // Arrange
-        var ordate = CalendarUT.GetOrdinalDate(y, doy);
-        // Act
-        var (year, dayOfYear) = ordate;
-        // Assert
-        Assert.Equal(y, year);
-        Assert.Equal(doy, dayOfYear);
-    }
+    //[Theory, MemberData(nameof(DateInfoData))]
+    //public void Deconstructor(DateInfo info)
+    //{
+    //    var (y, doy) = info.Yedoy;
+    //    // Arrange
+    //    var ordate = CalendarUT.GetOrdinalDate(y, doy);
+    //    // Act
+    //    var (year, dayOfYear) = ordate;
+    //    // Assert
+    //    Assert.Equal(y, year);
+    //    Assert.Equal(doy, dayOfYear);
+    //}
 
     [Theory]
     [InlineData(-1, 1, "001/-0001 (Gregorian)")]
@@ -55,47 +49,47 @@ public partial class OrdinalDateTests
 
 public partial class OrdinalDateTests // Properties
 {
-    [Theory, MemberData(nameof(YearNumberingDataSet.CenturyInfoData), MemberType = typeof(YearNumberingDataSet))]
-    public void CenturyOfEra_Prop(CenturyInfo info)
-    {
-        var (y, century, _) = info;
-        // Arrange
-        var ordate = CalendarUT.GetOrdinalDate(y, 1);
-        var centuryOfEra = Ord.Zeroth + century;
-        // Act & Assert
-        Assert.Equal(centuryOfEra, ordate.CenturyOfEra);
-    }
+    //[Theory, MemberData(nameof(YearNumberingDataSet.CenturyInfoData), MemberType = typeof(YearNumberingDataSet))]
+    //public void CenturyOfEra_Prop(CenturyInfo info)
+    //{
+    //    var (y, century, _) = info;
+    //    // Arrange
+    //    var ordate = CalendarUT.GetOrdinalDate(y, 1);
+    //    var centuryOfEra = Ord.Zeroth + century;
+    //    // Act & Assert
+    //    Assert.Equal(centuryOfEra, ordate.CenturyOfEra);
+    //}
 
-    [Theory, MemberData(nameof(YearNumberingDataSet.CenturyInfoData), MemberType = typeof(YearNumberingDataSet))]
-    public void Century_Prop(CenturyInfo info)
-    {
-        var (y, century, _) = info;
-        // Arrange
-        var ordate = CalendarUT.GetOrdinalDate(y, 1);
-        // Act & Assert
-        Assert.Equal(century, ordate.Century);
-    }
+    //[Theory, MemberData(nameof(YearNumberingDataSet.CenturyInfoData), MemberType = typeof(YearNumberingDataSet))]
+    //public void Century_Prop(CenturyInfo info)
+    //{
+    //    var (y, century, _) = info;
+    //    // Arrange
+    //    var ordate = CalendarUT.GetOrdinalDate(y, 1);
+    //    // Act & Assert
+    //    Assert.Equal(century, ordate.Century);
+    //}
 
-    [Theory, MemberData(nameof(YearNumberingDataSet.CenturyInfoData), MemberType = typeof(YearNumberingDataSet))]
-    public void YearOfEra_Prop(CenturyInfo info)
-    {
-        int y = info.Year;
-        // Arrange
-        var ordate = CalendarUT.GetOrdinalDate(y, 1);
-        var yearOfEra = Ord.Zeroth + y;
-        // Act & Assert
-        Assert.Equal(yearOfEra, ordate.YearOfEra);
-    }
+    //[Theory, MemberData(nameof(YearNumberingDataSet.CenturyInfoData), MemberType = typeof(YearNumberingDataSet))]
+    //public void YearOfEra_Prop(CenturyInfo info)
+    //{
+    //    int y = info.Year;
+    //    // Arrange
+    //    var ordate = CalendarUT.GetOrdinalDate(y, 1);
+    //    var yearOfEra = Ord.Zeroth + y;
+    //    // Act & Assert
+    //    Assert.Equal(yearOfEra, ordate.YearOfEra);
+    //}
 
-    [Theory, MemberData(nameof(YearNumberingDataSet.CenturyInfoData), MemberType = typeof(YearNumberingDataSet))]
-    public void YearOfCentury_Prop(CenturyInfo info)
-    {
-        var (y, _, yearOfCentury) = info;
-        // Arrange
-        var ordate = CalendarUT.GetOrdinalDate(y, 1);
-        // Act & Assert
-        Assert.Equal(yearOfCentury, ordate.YearOfCentury);
-    }
+    //[Theory, MemberData(nameof(YearNumberingDataSet.CenturyInfoData), MemberType = typeof(YearNumberingDataSet))]
+    //public void YearOfCentury_Prop(CenturyInfo info)
+    //{
+    //    var (y, _, yearOfCentury) = info;
+    //    // Arrange
+    //    var ordate = CalendarUT.GetOrdinalDate(y, 1);
+    //    // Act & Assert
+    //    Assert.Equal(yearOfCentury, ordate.YearOfCentury);
+    //}
 }
 
 public partial class OrdinalDateTests // Conversions
@@ -137,17 +131,6 @@ public partial class OrdinalDateTests // Conversions
     [Theory, MemberData(nameof(InvalidDayOfYearFieldData))]
     public void ToCalendarDate_InvalidDayOfYear(int y, int dayOfYear) =>
         Assert.ThrowsAoorexn("dayOfYear", () => CalendarUT.GetOrdinalDate(y, dayOfYear));
-
-    [Theory, MemberData(nameof(DateInfoData))]
-    public void ToCalendarDate(DateInfo info)
-    {
-        var (y, m, d, doy) = info;
-        // Arrange
-        var ordate = CalendarUT.GetOrdinalDate(y, doy);
-        var date = CalendarUT.GetCalendarDate(y, m, d);
-        // Act & Assert
-        Assert.Equal(date, ordate.ToCalendarDate());
-    }
 
     #endregion
     #region WithCalendar()
