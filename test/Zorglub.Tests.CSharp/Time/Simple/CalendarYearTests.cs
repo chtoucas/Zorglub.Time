@@ -29,7 +29,6 @@ public partial class CalendarYearTests
     //[Theory, MemberData(nameof(SampleMonths))]
     //public void Constructor_WithMonth(int y, int m, int _3, int _4, bool _5)
     //{
-    //    // Arrange
     //    var cmonth = CalendarUT.NewCalendarMonth(y, m);
     //    var cyear = CalendarUT.NewCalendarYear(y);
     //    // Act
@@ -41,7 +40,6 @@ public partial class CalendarYearTests
     //[Theory, MemberData(nameof(SampleDates))]
     //public void Constructor_WithDay(int y, int m, int d, int _4, bool _5, bool _6)
     //{
-    //    // Arrange
     //    var date = CalendarUT.NewCalendarDate(y, m, d);
     //    var cyear = CalendarUT.NewCalendarYear(y);
     //    // Act
@@ -53,7 +51,6 @@ public partial class CalendarYearTests
     //[Theory, MemberData(nameof(SampleDates))]
     //public void Constructor_WithOrdinal(int y, int _2, int _3, int doy, bool _5, bool _6)
     //{
-    //    // Arrange
     //    var ordate = CalendarUT.NewOrdinalDate(y, doy);
     //    var cyear = CalendarUT.NewCalendarYear(y);
     //    // Act
@@ -70,7 +67,6 @@ public partial class CalendarYearTests
     public void CenturyOfEra(CenturyInfo info)
     {
         var (y, century, _) = info;
-        // Arrange
         var cyear = CalendarUT.GetCalendarYear(y);
         var centuryOfEra = Ord.Zeroth + century;
         // Act & Assert
@@ -81,7 +77,6 @@ public partial class CalendarYearTests
     public void Century(CenturyInfo info)
     {
         var (y, century, _) = info;
-        // Arrange
         var cyear = CalendarUT.GetCalendarYear(y);
         // Act & Assert
         Assert.Equal(century, cyear.Century);
@@ -91,7 +86,6 @@ public partial class CalendarYearTests
     public void YearOfEra(CenturyInfo info)
     {
         int y = info.Year;
-        // Arrange
         var cyear = CalendarUT.GetCalendarYear(y);
         var yearOfEra = Ord.Zeroth + y;
         // Act & Assert
@@ -102,7 +96,6 @@ public partial class CalendarYearTests
     public void YearOfCentury(CenturyInfo info)
     {
         var (y, _, yearOfCentury) = info;
-        // Arrange
         var cyear = CalendarUT.GetCalendarYear(y);
         // Act & Assert
         Assert.Equal(yearOfCentury, cyear.YearOfCentury);
@@ -112,7 +105,6 @@ public partial class CalendarYearTests
     public void Year(CenturyInfo info)
     {
         int y = info.Year;
-        // Arrange
         var cyear = CalendarUT.GetCalendarYear(y);
         // Act & Assert
         Assert.Equal(y, cyear.Year);
@@ -136,7 +128,6 @@ public partial class CalendarYearTests
     [Fact]
     public void WithCalendar_InvalidCalendar()
     {
-        // Arrange
         var cyear = CalendarUT.GetCalendarYear(3);
         // Act & Assert
         Assert.ThrowsAnexn("newCalendar", () => DateRange.FromYear(cyear).WithCalendar(null!));
@@ -145,7 +136,6 @@ public partial class CalendarYearTests
     [Fact]
     public void WithCalendar()
     {
-        // Arrange
         var cyear = CalendarUT.GetCalendarYear(1970);
         var date = s_Julian.GetCalendarDate(1969, 12, 19);
         var range = DateRange.Create(date, 365);
@@ -160,7 +150,6 @@ public partial class CalendarYearTests
     {
         int y = info.Year;
 
-        // Arrange
         var cyear = CalendarUT.GetCalendarYear(y);
         // Act & Assert
         Assert.Equal(info.MonthsInYear, cyear.CountMonthsInYear());
@@ -171,7 +160,6 @@ public partial class CalendarYearTests
     {
         int y = info.Year;
 
-        // Arrange
         var cyear = CalendarUT.GetCalendarYear(y);
         // Act & Assert
         Assert.Equal(info.DaysInYear, cyear.CountDaysInYear());
@@ -182,7 +170,6 @@ public partial class CalendarYearTests
     {
         int y = info.Year;
 
-        // Arrange
         var cyear = CalendarUT.GetCalendarYear(y);
         var startOfYear = CalendarUT.GetCalendarDate(y, 1, 1);
         // Act & Assert
@@ -193,7 +180,6 @@ public partial class CalendarYearTests
     public void GetDayOfYear(DateInfo info)
     {
         var (y, m, d, doy) = info;
-        // Arrange
         var cyear = CalendarUT.GetCalendarYear(y);
         var exp = CalendarUT.GetCalendarDate(y, m, d);
         // Act
@@ -205,7 +191,6 @@ public partial class CalendarYearTests
     //[Theory, MemberData(nameof(SampleDates))]
     //public void GetOrdinalDate(int y, int _2, int _3, int doy, bool _5, bool _6)
     //{
-    //    // Arrange
     //    var cyear = CalendarUT.NewCalendarYear(y);
     //    var ordate = CalendarUT.NewOrdinalDate(y, doy);
     //    // Act
@@ -219,7 +204,6 @@ public partial class CalendarYearTests
     {
         int y = info.Year;
 
-        // Arrange
         var cyear = CalendarUT.GetCalendarYear(y);
         var endOfYear = CalendarUT.GetOrdinalDate(y, info.DaysInYear).ToCalendarDate();
         // Act & Assert
@@ -230,7 +214,6 @@ public partial class CalendarYearTests
     public void GetMonthOfYear(MonthInfo info)
     {
         var (y, m) = info.Yemo;
-        // Arrange
         var cyear = CalendarUT.GetCalendarYear(y);
         var cmonth = CalendarUT.GetCalendarMonth(y, m);
         // Act & Assert
@@ -240,7 +223,6 @@ public partial class CalendarYearTests
     [Fact]
     public void GetMonthsInYear()
     {
-        // Arrange
         var cyear = CalendarUT.GetCalendarYear(3);
         var list = from i in Enumerable.Range(1, 12)
                    select CalendarUT.GetCalendarMonth(3, i);
@@ -259,7 +241,6 @@ public partial class CalendarYearTests
     {
         int y = info.Year;
 
-        // Arrange
         var cyear = CalendarUT.GetCalendarYear(y);
         var start = CalendarUT.GetCalendarDate(y, 1, 1);
         var end = CalendarUT.GetCalendarDate(y, 12, 31);
@@ -275,7 +256,6 @@ public partial class CalendarYearTests
     {
         int y = info.Year;
 
-        // Arrange
         var cyear = CalendarUT.GetCalendarYear(y);
         // Act
         var range = DateRange.FromYear(cyear);
@@ -293,7 +273,6 @@ public partial class CalendarYearTests
     [InlineData(4, 1, 1, false)]
     public void Contains_Date(int y, int m, int d, bool inRange)
     {
-        // Arrange
         var range = DateRange.FromYear(CalendarUT.GetCalendarYear(3));
         var date = CalendarUT.GetCalendarDate(y, m, d);
         // Act & Assert
@@ -317,7 +296,6 @@ public partial class CalendarYearTests
     [InlineData(4, 1, false)]
     public void Contains_Month(int y, int m, bool inRange)
     {
-        // Arrange
         var range = DateRange.FromYear(CalendarUT.GetCalendarYear(3));
         var month = CalendarUT.GetCalendarMonth(y, m);
         // Act & Assert
@@ -341,7 +319,6 @@ public partial class CalendarYearTests
     [InlineData(4, 1, false)]
     public void IsSupersetOf_MonthRange(int y, int m, bool inRange)
     {
-        // Arrange
         var range = DateRange.FromYear(CalendarUT.GetCalendarYear(3));
         var other = DateRange.FromMonth(CalendarUT.GetCalendarMonth(y, m));
         // Act & Assert
@@ -354,7 +331,6 @@ public partial class CalendarYearTests
     [InlineData(4, false)]
     public void Contains_Year(int y, bool inRange)
     {
-        // Arrange
         var range = DateRange.FromYear(CalendarUT.GetCalendarYear(3));
         var year1 = CalendarUT.GetCalendarYear(y);
         // Act & Assert
@@ -367,7 +343,6 @@ public partial class CalendarYearTests
     [InlineData(4, false)]
     public void IsSupersetOf_YearRange(int y, bool inRange)
     {
-        // Arrange
         var range = DateRange.FromYear(CalendarUT.GetCalendarYear(3));
         var other = DateRange.FromYear(CalendarUT.GetCalendarYear(y));
         // Act & Assert
@@ -396,7 +371,6 @@ public partial class CalendarYearTests
     [Fact]
     public void Enumerate()
     {
-        // Arrange
         IEnumerable<CalendarDate> listE
             = from i in Enumerable.Range(1, 365)
               select CalendarUT.GetOrdinalDate(3, i).ToCalendarDate();
@@ -415,7 +389,6 @@ public partial class CalendarYearTests
     [Fact]
     public void PlusYears_OverflowOrUnderflow()
     {
-        // Arrange
         var cyear = CalendarUT.GetCalendarYear(3);
         // Act & Assert
         Assert.Overflows(() => cyear.PlusYears(Int32.MinValue));
@@ -425,7 +398,6 @@ public partial class CalendarYearTests
     [Fact]
     public void PlusYears_WithLimitValues_AtMinValue()
     {
-        // Arrange
         var scope = CalendarUT.Scope;
         var min = CalendarUT.GetCalendarYear(scope.SupportedYears.Min);
         int years = scope.SupportedYears.Max - scope.SupportedYears.Min;
@@ -440,7 +412,6 @@ public partial class CalendarYearTests
     [Fact]
     public void PlusYears_WithLimitValues_AtMaxValue()
     {
-        // Arrange
         var scope = CalendarUT.Scope;
         var max = CalendarUT.GetCalendarYear(scope.SupportedYears.Max);
         int years = scope.SupportedYears.Max - scope.SupportedYears.Min;
@@ -455,7 +426,6 @@ public partial class CalendarYearTests
     [Fact]
     public void PlusYears_WithLimitValues()
     {
-        // Arrange
         var scope = CalendarUT.Scope;
         var cyear = CalendarUT.GetCalendarYear(3);
         int minYears = scope.SupportedYears.Min - cyear.Year;
@@ -472,7 +442,6 @@ public partial class CalendarYearTests
     [Fact]
     public void CountYearsSince_DoesNotOverflow()
     {
-        // Arrange
         var scope = CalendarUT.Scope;
         var min = CalendarUT.GetCalendarYear(scope.SupportedYears.Min);
         var max = CalendarUT.GetCalendarYear(scope.SupportedYears.Max);
@@ -485,7 +454,6 @@ public partial class CalendarYearTests
     [Fact]
     public void CountYearsSince_InvalidYear()
     {
-        // Arrange
         var left = CalendarUT.GetCalendarYear(3);
         var right = s_Julian.GetCalendarYear(3);
         // Act & Assert
@@ -498,7 +466,6 @@ public partial class CalendarYearTests
     //[Theory, MemberData(nameof(GregorianData.Diff), MemberType = typeof(GregorianData))]
     //public void CountYearsSince(Yemoda xstart, Yemoda xend, int years, int months, int days)
     //{
-    //    // Arrange
     //    var start = new CalendarYear(xstart.ToCalendarDate(CalendarUT));
     //    var end = new CalendarYear(xend.ToCalendarDate(CalendarUT));
     //    // Act & Assert
@@ -509,7 +476,6 @@ public partial class CalendarYearTests
     [Theory, MemberData(nameof(AddYearsData))]
     public void PlusYears(Yemoda xstart, Yemoda xend, int years)
     {
-        // Arrange
         var start = new CalendarDate(xstart, CalendarUT.Id).CalendarYear;
         var end = new CalendarDate(xend, CalendarUT.Id).CalendarYear;
         // Act & Assert
@@ -544,7 +510,6 @@ public partial class CalendarYearTests
     [Fact]
     public void CompareTo_WithNull()
     {
-        // Arrange
         var date = CalendarUT.GetCalendarYear(3);
         var comparable = (IComparable)date;
         // Act & Assert
@@ -554,7 +519,6 @@ public partial class CalendarYearTests
     [Fact]
     public void CompareTo_WithInvalidObject()
     {
-        // Arrange
         var date = CalendarUT.GetCalendarYear(3);
         var comparable = (IComparable)date;
         object other = new();
@@ -565,7 +529,6 @@ public partial class CalendarYearTests
     [Fact]
     public void CompareTo_WithOtherCalendar()
     {
-        // Arrange
         var date = CalendarUT.GetCalendarYear(3);
         var other = s_Julian.GetCalendarYear(3);
         // Act & Assert
@@ -576,7 +539,6 @@ public partial class CalendarYearTests
     public void CompareTo(
         int start, int end, bool leftIsMax, bool areEqual)
     {
-        // Arrange
         var left = CalendarUT.GetCalendarYear(start);
         var right = CalendarUT.GetCalendarYear(end);
         var comparable = (IComparable)left;
@@ -606,7 +568,6 @@ public partial class CalendarYearTests
     public void ComparisonOperators(
         int start, int end, bool leftIsMax, bool areEqual)
     {
-        // Arrange
         var left = CalendarUT.GetCalendarYear(start);
         var right = CalendarUT.GetCalendarYear(end);
 
@@ -652,7 +613,6 @@ public partial class CalendarYearTests
     [Theory, MemberData(nameof(MinMaxYears))]
     public void Min(int start, int end, bool leftIsMax, bool _4)
     {
-        // Arrange
         var left = CalendarUT.GetCalendarYear(start);
         var right = CalendarUT.GetCalendarYear(end);
         var min = leftIsMax ? right : left;
@@ -665,7 +625,6 @@ public partial class CalendarYearTests
     [Theory, MemberData(nameof(MinMaxYears))]
     public void Max(int start, int end, bool leftIsMax, bool _4)
     {
-        // Arrange
         var left = CalendarUT.GetCalendarYear(start);
         var right = CalendarUT.GetCalendarYear(end);
         var max = leftIsMax ? left : right;
@@ -684,7 +643,6 @@ public partial class CalendarYearTests
     {
         int y = info.Year;
 
-        // Arrange
         var cyear = CalendarUT.GetCalendarYear(y);
         var same = CalendarUT.GetCalendarYear(y);
         var notSame = CalendarUT.GetCalendarYear(y + 1);
@@ -717,7 +675,6 @@ public partial class CalendarYearTests
     {
         int y = info.Year;
 
-        // Arrange
         var cyear = CalendarUT.GetCalendarYear(y);
         var same = CalendarUT.GetCalendarYear(y);
         var notSame = CalendarUT.GetCalendarYear(y + 1);
@@ -741,7 +698,6 @@ public partial class CalendarYearTests
     [InlineData(9999, "9999 (Gregorian)")]
     public void ToString_InvariantCulture(int y, string asString)
     {
-        // Arrange
         var cyear = CalendarUT.GetCalendarYear(y);
         // Act & Assert
         Assert.Equal(asString, cyear.ToString());

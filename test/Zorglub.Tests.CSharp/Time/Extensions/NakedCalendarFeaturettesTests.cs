@@ -26,7 +26,6 @@ namespace Zorglub.Time.Extensions
         [Fact]
         public static void IsBlankDay_InvalidCalendar()
         {
-            // Arrange
             MinMaxYearCalendar<PositivistSchema> calendar = null!;
             // Act
             Assert.ThrowsAnexn("calendar", () => calendar.IsBlankDay(1, 1, 1));
@@ -35,7 +34,6 @@ namespace Zorglub.Time.Extensions
         [Fact]
         public static void IsBlankDay_IsValidating()
         {
-            // Arrange
             var schema = new PositivistSchema();
             var scope = FauxCalendricalScope.Create(schema, CalendricalEpochs.Positivist);
             var chr = FakeNakedCalendar.Create(scope);
@@ -68,7 +66,6 @@ namespace Zorglub.Time.Extensions
         [Fact]
         public static void IsEpagomenalDay_InvalidCalendar()
         {
-            // Arrange
             MinMaxYearCalendar<Coptic12Schema> calendar = null!;
             // Act
             Assert.ThrowsAnexn("calendar", () => calendar.IsEpagomenalDay(1, 1, 1, out _));
@@ -77,7 +74,6 @@ namespace Zorglub.Time.Extensions
         [Fact]
         public static void IsEpagomenalDay_IsValidating()
         {
-            // Arrange
             var schema = new Coptic12Schema();
             var scope = FauxCalendricalScope.Create(schema, CalendricalEpochs.Coptic);
             var chr = FakeNakedCalendar.Create(scope);

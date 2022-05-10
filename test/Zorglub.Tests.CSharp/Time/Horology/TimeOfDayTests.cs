@@ -182,7 +182,6 @@ public partial class TimeOfDayTests
     [Theory, MemberData(nameof(RationalData))]
     public static void SecondOfDay(int h, int m, int s, int secondOfDay, decimal _5)
     {
-        // Arrange
         var time = new TimeOfDay(h, m, s);
         // Assert
         Assert.Equal(secondOfDay, time.SecondOfDay);
@@ -191,7 +190,6 @@ public partial class TimeOfDayTests
     [Theory, MemberData(nameof(RationalData))]
     public static void SecondOfDay64(int h, int m, int s, int secondOfDay, decimal _5)
     {
-        // Arrange
         var time = new TimeOfDay64(h, m, s);
         // Assert
         Assert.Equal(secondOfDay, time.SecondOfDay);
@@ -200,7 +198,6 @@ public partial class TimeOfDayTests
     [Theory, MemberData(nameof(RationalData))]
     public static void ToDecimal(int h, int m, int s, int _4, decimal fractionOfDay)
     {
-        // Arrange
         var time = new TimeOfDay(h, m, s);
         // Assert
         Assert.Equal(fractionOfDay, time.ToDecimal());
@@ -209,7 +206,6 @@ public partial class TimeOfDayTests
     [Theory, MemberData(nameof(RationalData))]
     public static void ToDecimal64(int h, int m, int s, int _4, decimal fractionOfDay)
     {
-        // Arrange
         var time = new TimeOfDay64(h, m, s);
         // Assert
         Assert.Equal(fractionOfDay, time.ToDecimal());
@@ -222,7 +218,6 @@ public partial class TimeOfDayTests
     [Theory, MemberData(nameof(RationalData))]
     public static void Equality(int h, int m, int s, int _4, decimal _5)
     {
-        // Arrange
         var time = new TimeOfDay(h, m, s);
         var same = new TimeOfDay(h, m, s);
         var notSame = new TimeOfDay(h, m, s == 1 ? 2 : 1);
@@ -244,7 +239,6 @@ public partial class TimeOfDayTests
     [Theory, MemberData(nameof(RationalData))]
     public static void GetHashCode_Repeated(int h, int m, int s, int _4, decimal _5)
     {
-        // Arrange
         var hms = new TimeOfDay(h, m, s);
         // Act & Assert
         Assert.Equal(hms.GetHashCode(), hms.GetHashCode());

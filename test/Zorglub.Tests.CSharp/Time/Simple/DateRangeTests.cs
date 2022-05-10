@@ -13,7 +13,6 @@ public sealed class GregorianDateRangeTests : DateRangeFacts<ProlepticGregorianD
     [Fact]
     public void WithCalendar()
     {
-        // Arrange
         var date = CalendarUT.GetCalendarDate(1970, 1, 1);
         var range = DateRange.Create(date, 2);
         // Act
@@ -33,7 +32,6 @@ public sealed class JulianDateRangeTests : DateRangeFacts<ProlepticJulianDataSet
     [Fact]
     public void WithCalendar()
     {
-        // Arrange
         var date = CalendarUT.GetCalendarDate(1969, 12, 19);
         var range = DateRange.Create(date, 2);
         // Act

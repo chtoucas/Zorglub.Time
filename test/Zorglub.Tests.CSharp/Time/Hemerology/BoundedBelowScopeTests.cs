@@ -47,7 +47,6 @@ public sealed partial class BoundedBelowScopeTests : CalendricalDataConsumer<Gre
     [Theory, MemberData(nameof(DateInfoData))]
     public void Create(DateInfo info)
     {
-        // Arrange
         var (y, m, d, doy) = info;
         // Act
         var scope = new BoundedBelowScope(s_Schema, DayZero.NewStyle, y, m, d, 9999);
@@ -65,7 +64,6 @@ public sealed partial class BoundedBelowScopeTests : CalendricalDataConsumer<Gre
     [Fact]
     public static void ValidateYearMonth()
     {
-        // Arrange
         var scope = new BoundedBelowScope(
             s_Schema, DayZero.NewStyle, FirstYear, FirstMonth, FirstDay, 9999);
         // Act
@@ -76,7 +74,6 @@ public sealed partial class BoundedBelowScopeTests : CalendricalDataConsumer<Gre
     [Fact]
     public static void ValidateYearMonthDay()
     {
-        // Arrange
         var scope = new BoundedBelowScope(
             s_Schema, DayZero.NewStyle, FirstYear, FirstMonth, FirstDay, 9999);
         // Act
@@ -90,7 +87,6 @@ public sealed partial class BoundedBelowScopeTests : CalendricalDataConsumer<Gre
     [Fact]
     public static void ValidateOrdinal()
     {
-        // Arrange
         int firstDayOfYear = s_Schema.CountDaysInYearBeforeMonth(FirstYear, FirstMonth) + FirstDay;
         var scope = new BoundedBelowScope(
             s_Schema, DayZero.NewStyle, FirstYear, FirstMonth, FirstDay, 9999);

@@ -18,7 +18,6 @@ public static class CalendricalFormTests
     [Fact]
     public static void Deconstructor()
     {
-        // Arrange
         var form = new CalendricalForm(3, 4, 5);
         // Act
         var (a, b, r) = form;

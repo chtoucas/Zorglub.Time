@@ -25,11 +25,9 @@ public abstract class AnalyzerFacts : AnalyzerBasicFacts
     [Fact]
     public void Analysis_Prop()
     {
-        // Arrange
         var analyzer = new TroeschAnalyzer(CodeArray);
         analyzer.Analyze();
         var analysis = analyzer.Analysis;
-
         // Act & Assert
         Assert.Equal(CodeArrayList, analysis.Codes);
         Assert.Equal(TroeschMapList, analysis.Transformations);
@@ -38,7 +36,6 @@ public abstract class AnalyzerFacts : AnalyzerBasicFacts
     [Fact]
     public void ReverseAnalysis()
     {
-        // Arrange
         var analyzer = new TroeschAnalyzer(CodeArray);
         analyzer.Analyze();
         // Act
@@ -50,7 +47,6 @@ public abstract class AnalyzerFacts : AnalyzerBasicFacts
     [Fact]
     public void Transformer_Prop_TransformWalkthru()
     {
-        // Arrange
         var analyzer = new TroeschAnalyzer(CodeArray);
         analyzer.Analyze();
         // Act
@@ -62,7 +58,6 @@ public abstract class AnalyzerFacts : AnalyzerBasicFacts
     [Fact]
     public void Transformer_Prop_TransformBackWalkthru()
     {
-        // Arrange
         var analyzer = new TroeschAnalyzer(CodeArray);
         analyzer.Analyze();
         // Act

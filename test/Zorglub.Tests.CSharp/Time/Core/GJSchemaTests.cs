@@ -8,7 +8,6 @@ namespace Zorglub.Time.Core;
 //    [Theory, MemberData(nameof(DayOfWeekByDate))]
 //    public static void GetDayOfWeek(Yemoda xdate, DayOfWeek dayOfWeek)
 //    {
-//        // Arrange
 //        var ymd = xdate.ToYemoda();
 //        var (y, m, d) = ymd;
 //        int doy = s_Schema.GetDayOfYear(y, m, d);
@@ -31,7 +30,6 @@ namespace Zorglub.Time.Core;
 //    [Theory, MemberData(nameof(JulianDayOfWeekByDate))]
 //    public static void GetDayOfWeek(Yemoda xdate, DayOfWeek dayOfWeek)
 //    {
-//        // Arrange
 //        ICalendar chr = GregorianCalendar.Instance;
 //        var dayNumber = chr.GetDayNumber(xdate.Year, xdate.Month, xdate.Day);
 //        var date = JulianCalendar.Instance.GetCalendarDate(dayNumber);

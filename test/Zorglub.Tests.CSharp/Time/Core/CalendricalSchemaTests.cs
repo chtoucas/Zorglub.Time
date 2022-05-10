@@ -82,7 +82,6 @@ public static class CalendricalSchemaTests
                 continue;
             }
 
-            // Arrange
             var sch = (IRegularSchema)emptyCtor.Invoke(null);
             // Act & Assert
             Assert.True(sch.MonthsInYear > 0);

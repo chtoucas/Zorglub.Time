@@ -20,7 +20,6 @@ public partial class OrdinalDateTests
     //public void Deconstructor(DateInfo info)
     //{
     //    var (y, doy) = info.Yedoy;
-    //    // Arrange
     //    var ordate = CalendarUT.GetOrdinalDate(y, doy);
     //    // Act
     //    var (year, dayOfYear) = ordate;
@@ -40,7 +39,6 @@ public partial class OrdinalDateTests
     [InlineData(9999, 365, "365/9999 (Gregorian)")]
     public void ToString_InvariantCulture(int y, int doy, string asString)
     {
-        // Arrange
         var ordate = CalendarUT.GetOrdinalDate(y, doy);
         // Act & Assert
         Assert.Equal(asString, ordate.ToString());
@@ -53,7 +51,6 @@ public partial class OrdinalDateTests // Properties
     //public void CenturyOfEra_Prop(CenturyInfo info)
     //{
     //    var (y, century, _) = info;
-    //    // Arrange
     //    var ordate = CalendarUT.GetOrdinalDate(y, 1);
     //    var centuryOfEra = Ord.Zeroth + century;
     //    // Act & Assert
@@ -64,7 +61,6 @@ public partial class OrdinalDateTests // Properties
     //public void Century_Prop(CenturyInfo info)
     //{
     //    var (y, century, _) = info;
-    //    // Arrange
     //    var ordate = CalendarUT.GetOrdinalDate(y, 1);
     //    // Act & Assert
     //    Assert.Equal(century, ordate.Century);
@@ -74,7 +70,6 @@ public partial class OrdinalDateTests // Properties
     //public void YearOfEra_Prop(CenturyInfo info)
     //{
     //    int y = info.Year;
-    //    // Arrange
     //    var ordate = CalendarUT.GetOrdinalDate(y, 1);
     //    var yearOfEra = Ord.Zeroth + y;
     //    // Act & Assert
@@ -85,7 +80,6 @@ public partial class OrdinalDateTests // Properties
     //public void YearOfCentury_Prop(CenturyInfo info)
     //{
     //    var (y, _, yearOfCentury) = info;
-    //    // Arrange
     //    var ordate = CalendarUT.GetOrdinalDate(y, 1);
     //    // Act & Assert
     //    Assert.Equal(yearOfCentury, ordate.YearOfCentury);
@@ -101,7 +95,6 @@ public partial class OrdinalDateTests // Conversions
     public void ToDayNumber_ViaDates(DateInfo info)
     {
         var (y, m, d, doy) = info;
-        // Arrange
         var dayNumber = CalendarUT.GetCalendarDate(y, m, d).ToDayNumber();
         var ordate = CalendarUT.GetOrdinalDate(y, doy);
         // Act & Assert
@@ -114,7 +107,6 @@ public partial class OrdinalDateTests // Conversions
     {
         var (dayNumber, y, m, d) = info;
 
-        // Arrange
         var date = CalendarUT.GetCalendarDate(y, m, d);
         var ordate = CalendarUT.GetOrdinalDate(y, date.DayOfYear);
         // Act & Assert
@@ -138,7 +130,6 @@ public partial class OrdinalDateTests // Conversions
     [Fact]
     public void WithCalendar_InvalidCalendar()
     {
-        // Arrange
         var ordate = CalendarUT.GetOrdinalDate(3, 45);
         // Act & Assert
         Assert.ThrowsAnexn("newCalendar", () => ordate.WithCalendar(null!));
@@ -147,7 +138,6 @@ public partial class OrdinalDateTests // Conversions
     [Fact]
     public void WithCalendar_NotSupported()
     {
-        // Arrange
         // Julian MinDayNumber is not in the Gregorian range.
         var minDayNumber = s_Julian.Domain.Min;
         var ordate = s_Julian.GetCalendarDateOn(minDayNumber).ToOrdinalDate();
@@ -158,7 +148,6 @@ public partial class OrdinalDateTests // Conversions
     [Theory, MemberData(nameof(CalCalDataSet.GregorianJulianData), MemberType = typeof(CalCalDataSet))]
     public void WithCalendar_GregorianToJulian(Yemoda gregorian, Yemoda julian)
     {
-        // Arrange
         var source = CalendarUT.GetCalendarDate(gregorian.Year, gregorian.Month, gregorian.Day).ToOrdinalDate();
         var result = s_Julian.GetCalendarDate(julian.Year, julian.Month, julian.Day).ToOrdinalDate();
         // Act & Assert
@@ -168,7 +157,6 @@ public partial class OrdinalDateTests // Conversions
     [Theory, MemberData(nameof(CalCalDataSet.GregorianJulianData), MemberType = typeof(CalCalDataSet))]
     public void WithCalendar_JulianToGregorian(Yemoda gregorian, Yemoda julian)
     {
-        // Arrange
         var source = s_Julian.GetCalendarDate(julian.Year, julian.Month, julian.Day).ToOrdinalDate();
         var result = CalendarUT.GetCalendarDate(gregorian.Year, gregorian.Month, gregorian.Day).ToOrdinalDate();
         // Act & Assert
@@ -183,7 +171,6 @@ public partial class OrdinalDateTests
     [Fact]
     public void CompareTo_WithOtherCalendar()
     {
-        // Arrange
         var date = CalendarUT.GetOrdinalDate(3, 45);
         var other = s_Julian.GetOrdinalDate(3, 45);
         // Act & Assert
@@ -198,7 +185,6 @@ public partial class OrdinalDateTests // IEquatable
     [Theory, MemberData(nameof(DateInfoData))]
     public void Equality(int y, int _2, int _3, int doy, bool _5, bool _6)
     {
-        // Arrange
         var ordate = CalendarUT.GetOrdinalDate(y, doy);
         var same = CalendarUT.GetOrdinalDate(y, doy);
         var notSame = CalendarUT.GetOrdinalDate(y, doy == 1 ? 2 : 1);
@@ -229,7 +215,6 @@ public partial class OrdinalDateTests // IEquatable
     [Theory, MemberData(nameof(DateInfoData))]
     public void GetHashCode_SanityChecks(int y, int _2, int _3, int doy, bool _5, bool _6)
     {
-        // Arrange
         var ordate = CalendarUT.GetOrdinalDate(y, doy);
         var same = CalendarUT.GetOrdinalDate(y, doy);
         var notSame = CalendarUT.GetOrdinalDate(y, doy == 1 ? 2 : 1);
@@ -245,7 +230,6 @@ public partial class OrdinalDateTests // IComparable
     [Fact]
     public void CompareTo_WithNull()
     {
-        // Arrange
         var date = CalendarUT.GetOrdinalDate(3, 45);
         var comparable = (IComparable)date;
         // Act & Assert
@@ -255,7 +239,6 @@ public partial class OrdinalDateTests // IComparable
     [Fact]
     public void CompareTo_WithInvalidObject()
     {
-        // Arrange
         var date = CalendarUT.GetOrdinalDate(3, 45);
         var comparable = (IComparable)date;
         object other = new();
@@ -266,7 +249,6 @@ public partial class OrdinalDateTests // IComparable
     [Fact]
     public void CompareTo_WithOtherCalendar()
     {
-        // Arrange
         var date = CalendarUT.GetOrdinalDate(3, 45);
         var other = s_Julian.GetOrdinalDate(3, 45);
         // Act & Assert
@@ -277,7 +259,6 @@ public partial class OrdinalDateTests // IComparable
     public void CompareTo(
         Yemoda xleft, Yemoda xright, bool leftIsMax, bool areEqual)
     {
-        // Arrange
         var left = xleft.ToOrdinalDate(CalendarUT);
         var right = xright.ToOrdinalDate(CalendarUT);
         var comparable = (IComparable)left;
@@ -307,7 +288,6 @@ public partial class OrdinalDateTests // IComparable
     public void ComparisonOperators(
         Yemoda xleft, Yemoda xright, bool leftIsMax, bool areEqual)
     {
-        // Arrange
         var left = xleft.ToOrdinalDate(CalendarUT);
         var right = xright.ToOrdinalDate(CalendarUT);
 
@@ -353,7 +333,6 @@ public partial class OrdinalDateTests // IComparable
     [Theory, MemberData(nameof(MinMax))]
     public void Min(Yemoda xleft, Yemoda xright, bool leftIsMax, bool _4)
     {
-        // Arrange
         var left = xleft.ToOrdinalDate(CalendarUT);
         var right = xright.ToOrdinalDate(CalendarUT);
         var min = leftIsMax ? right : left;
@@ -366,7 +345,6 @@ public partial class OrdinalDateTests // IComparable
     [Theory, MemberData(nameof(MinMax))]
     public void Max(Yemoda xleft, Yemoda xright, bool leftIsMax, bool _4)
     {
-        // Arrange
         var left = xleft.ToOrdinalDate(CalendarUT);
         var right = xright.ToOrdinalDate(CalendarUT);
         var max = leftIsMax ? left : right;

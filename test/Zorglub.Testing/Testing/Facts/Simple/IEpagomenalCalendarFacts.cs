@@ -23,7 +23,6 @@ public abstract class IEpagomenalCalendarFacts<TCalendar, TDataSet> : CalendarDa
     [Theory, MemberData(nameof(DateInfoData))]
     public void IsEpagomenalDay(DateInfo info)
     {
-        // Arrange
         var (y, m, d) = info.Yemoda;
         var date = _calendar.GetCalendarDate(y, m, d);
         // Act
@@ -43,7 +42,6 @@ public abstract class IEpagomenalCalendarFacts<TCalendar, TDataSet> : CalendarDa
     [Theory, MemberData(nameof(EpagomenalDayInfoData))]
     public void IsEpagomenalDay_EpagomenalNumber(EpagomenalDayInfo info)
     {
-        // Arrange
         var (y, m, d, epanum) = info;
         var date = _calendar.GetCalendarDate(y, m, d);
         // Act

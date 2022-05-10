@@ -18,7 +18,6 @@ public static class QuasiAffineFormTests
     [Fact]
     public static void Deconstructor()
     {
-        // Arrange
         var form = new QuasiAffineForm(3, 4, 5);
         // Act
         var (a, b, r) = form;

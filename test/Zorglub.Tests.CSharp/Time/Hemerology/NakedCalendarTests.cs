@@ -22,7 +22,6 @@ public static class NakedCalendarTests
     [Fact]
     public static void Constructor()
     {
-        // Arrange
         string name = "name";
         var epoch = DayZero.NewStyle + 123456789;
         var scope = new FauxGregorianScope(s_Schema, epoch, 1, 2);

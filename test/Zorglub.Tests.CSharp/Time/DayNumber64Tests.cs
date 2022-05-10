@@ -133,7 +133,6 @@ public partial class DayNumber64Tests
     [Theory, MemberData(nameof(DaysSinceZero))]
     public static void ToString_CurrentCulture(long daysSinceZero)
     {
-        // Arrange
         var dayNumber = DayNumber64.Zero + daysSinceZero;
         string str = daysSinceZero.ToString(CultureInfo.CurrentCulture);
         // Act
@@ -196,7 +195,6 @@ public partial class DayNumber64Tests
     [Fact]
     public static void Today()
     {
-        // Arrange
         var today = CivilDate.Today();
         // Assert
         Assert.Equal(today.DaysSinceEpoch, DayNumber64.Today().DaysSinceZero);
@@ -255,7 +253,6 @@ public partial class DayNumber64Tests
     [Fact]
     public static void Plus_IntegerUnderflow()
     {
-        // Arrange
         var pos = DayNumber64.Zero;
         var neg = DayNumber64.Zero - 1;
 
@@ -270,7 +267,6 @@ public partial class DayNumber64Tests
     [Fact]
     public static void Plus_AtMinValue()
     {
-        // Arrange
         var min = DayNumber64.MinValue;
 
         // Act & Assert
@@ -289,7 +285,6 @@ public partial class DayNumber64Tests
     [Fact]
     public static void Plus_AtMaxValue()
     {
-        // Arrange
         var max = DayNumber64.MaxValue;
 
         // Act & Assert
@@ -330,7 +325,6 @@ public partial class DayNumber64Tests
     [Fact]
     public static void Plus()
     {
-        // Arrange
         var dayNumber = DayNumber64.Zero + 345;
         var exp = DayNumber64.Zero + 351;
         // Act & Assert
@@ -341,7 +335,6 @@ public partial class DayNumber64Tests
     [Fact]
     public static void Subtract()
     {
-        // Arrange
         var left = DayNumber64.Zero - 3;
         var right = DayNumber64.Zero + 15;
         // Act & Assert
@@ -352,7 +345,6 @@ public partial class DayNumber64Tests
     [Fact]
     public static void Minus_Days()
     {
-        // Arrange
         var dayNumber = DayNumber64.Zero + 4;
         var exp = DayNumber64.Zero - 3;
         // Act & Assert
@@ -363,7 +355,6 @@ public partial class DayNumber64Tests
     [Fact]
     public static void Next()
     {
-        // Arrange
         var dayNumber = DayNumber64.Zero + 345;
         var dayNumberAfter = DayNumber64.Zero + 346;
 
@@ -378,7 +369,6 @@ public partial class DayNumber64Tests
     [Fact]
     public static void Previous()
     {
-        // Arrange
         var dayNumber = DayNumber64.Zero + 345;
         var dayNumberBefore = DayNumber64.Zero + 344;
 
@@ -397,7 +387,6 @@ public partial class DayNumber64Tests
     [Theory, MemberData(nameof(DaysSinceZero))]
     public static void Equality(long daysSinceZero)
     {
-        // Arrange
         var dayNumber = DayNumber64.Zero + daysSinceZero;
         var same = DayNumber64.Zero + daysSinceZero;
         var notSame = dayNumber == DayNumber64.MaxValue ? dayNumber - 1 : dayNumber + 1;
@@ -428,7 +417,6 @@ public partial class DayNumber64Tests
     [Theory, MemberData(nameof(DaysSinceZero))]
     public static void GetHashCode_SanityChecks(long daysSinceZero)
     {
-        // Arrange
         var dayNumber = DayNumber64.Zero + daysSinceZero;
         var same = DayNumber64.Zero + daysSinceZero;
         var notSame = dayNumber == DayNumber64.MaxValue ? dayNumber - 1 : dayNumber + 2;
@@ -448,7 +436,6 @@ public partial class DayNumber64Tests
     [Fact]
     public static void CompareTo_Null()
     {
-        // Arrange
         var dayNumber = DayNumber64.Zero + 123456789;
         var comparable = (IComparable)dayNumber;
         // Act & Assert
@@ -458,7 +445,6 @@ public partial class DayNumber64Tests
     [Fact]
     public static void CompareTo_InvalidObject()
     {
-        // Arrange
         var dayNumber = DayNumber64.Zero + 123456789;
         var comparable = (IComparable)dayNumber;
         object other = new();
@@ -470,7 +456,6 @@ public partial class DayNumber64Tests
     public static void CompareTo(
         int xleft, int xright, bool leftIsMax, bool areEqual)
     {
-        // Arrange
         var left = DayNumber64.Zero + xleft;
         var right = DayNumber64.Zero + xright;
         var comparable = (IComparable)left;
@@ -500,7 +485,6 @@ public partial class DayNumber64Tests
     public static void ComparisonOperators(
         int xleft, int xright, bool leftIsMax, bool areEqual)
     {
-        // Arrange
         var left = DayNumber64.Zero + xleft;
         var right = DayNumber64.Zero + xright;
 
@@ -546,7 +530,6 @@ public partial class DayNumber64Tests
     [Theory, MemberData(nameof(MinMaxDayNumbers))]
     public static void Min(int xleft, int xright, bool leftIsMax, bool _4)
     {
-        // Arrange
         var left = DayNumber64.Zero + xleft;
         var right = DayNumber64.Zero + xright;
         var min = leftIsMax ? right : left;
@@ -559,7 +542,6 @@ public partial class DayNumber64Tests
     [Theory, MemberData(nameof(MinMaxDayNumbers))]
     public static void Max(int xleft, int xright, bool leftIsMax, bool _4)
     {
-        // Arrange
         var left = DayNumber64.Zero + xleft;
         var right = DayNumber64.Zero + xright;
         var max = leftIsMax ? left : right;

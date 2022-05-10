@@ -31,7 +31,6 @@ public partial class CalendarTests // Properties
     [Theory, MemberData(nameof(EnumDataSet.CalendarIdData), MemberType = typeof(EnumDataSet))]
     public static void Key_Sys(CalendarId id)
     {
-        // Arrange
         var chr = new FauxSystemCalendar(id);
         // Act & Assert
         Assert.Equal(id.ToCalendarKey(), chr.Key);
@@ -40,7 +39,6 @@ public partial class CalendarTests // Properties
     [Fact]
     public static void Key_Usr()
     {
-        // Arrange
         var chr = new FauxUserCalendar(CustomKey);
         // Act & Assert
         Assert.Equal(CustomKey, chr.Key);
@@ -49,7 +47,6 @@ public partial class CalendarTests // Properties
     [Fact]
     public static void IsUserDefined()
     {
-        // Arrange
         var sys = new FauxSystemCalendar();
         var usr = new FauxUserCalendar();
         // Act & Assert
@@ -60,7 +57,6 @@ public partial class CalendarTests // Properties
     [Theory, MemberData(nameof(EnumDataSet.CalendarIdData), MemberType = typeof(EnumDataSet))]
     public static void PermanentId_Sys(CalendarId id)
     {
-        // Arrange
         var chr = new FauxSystemCalendar(id);
         // Act & Assert
         Assert.Equal(id, chr.PermanentId);
@@ -69,7 +65,6 @@ public partial class CalendarTests // Properties
     [Fact]
     public static void PermanentId_Usr()
     {
-        // Arrange
         var chr = new FauxUserCalendar();
         // Act & Assert
         Assert.Throws<NotSupportedException>(() => chr.PermanentId);
@@ -78,7 +73,6 @@ public partial class CalendarTests // Properties
     [Fact]
     public static void Epoch()
     {
-        // Arrange
         var sys = new FauxSystemCalendar(CustomEpoch);
         var usr = new FauxUserCalendar(CustomEpoch);
         // Act & Assert
@@ -98,7 +92,6 @@ public partial class CalendarTests // Properties
     //[Theory, MemberData(nameof(EnumDataSet.CalendricalAlgorithmData), MemberType = typeof(EnumDataSet))]
     //public static void Algorithm(CalendricalAlgorithm algorithm)
     //{
-    //    // Arrange
     //    var sys = new FauxSysCalendar_(FauxSchema.WithAlgorithm(algorithm));
     //    var usr = new FauxUsrCalendar_(FauxSchema.WithAlgorithm(algorithm));
     //    // Act & Assert
@@ -109,7 +102,6 @@ public partial class CalendarTests // Properties
     [Theory, MemberData(nameof(EnumDataSet.CalendricalFamilyData), MemberType = typeof(EnumDataSet))]
     public static void Family(CalendricalFamily family)
     {
-        // Arrange
         var sys = new FauxSystemCalendar(new FauxSystemSchema(family));
         var usr = new FauxUserCalendar(new FauxSystemSchema(family));
         // Act & Assert
@@ -120,7 +112,6 @@ public partial class CalendarTests // Properties
     [Theory, MemberData(nameof(EnumDataSet.CalendricalAdjustmentsData), MemberType = typeof(EnumDataSet))]
     public static void PeriodicAdjustments_Sys(CalendricalAdjustments adjustments)
     {
-        // Arrange
         var sys = new FauxSystemCalendar(new FauxSystemSchema(adjustments));
         var usr = new FauxUserCalendar(new FauxSystemSchema(adjustments));
         // Act & Assert
@@ -145,7 +136,6 @@ public partial class CalendarTests // Properties
     [Fact]
     public static void Math()
     {
-        // Arrange
         var chr = ArmenianCalendar.Instance;
         var ops = new FauxCalendarMath(chr);
 
@@ -162,7 +152,6 @@ public partial class CalendarTests // Properties
     [Theory, MemberData(nameof(EnumDataSet.CalendarIdData), MemberType = typeof(EnumDataSet))]
     public static void Id_Sys(CalendarId id)
     {
-        // Arrange
         var chr = new FauxSystemCalendar(id);
         // Act & Assert
         Assert.Equal((Cuid)id, chr.Id);
@@ -171,7 +160,6 @@ public partial class CalendarTests // Properties
     [Fact]
     public static void Id_Usr()
     {
-        // Arrange
         var chr = new FauxUserCalendar(Cuid.MinUser);
         // Act & Assert
         Assert.Equal(Cuid.MinUser, chr.Id);
@@ -183,7 +171,6 @@ public partial class CalendarTests // Methods
     [Fact]
     public static void ToString_ReturnsKey()
     {
-        // Arrange
         var sys = new FauxSystemCalendar();
         var usr = new FauxUserCalendar(CustomKey);
         // Act & Assert
@@ -194,7 +181,6 @@ public partial class CalendarTests // Methods
     [Fact]
     public static void ValidateCuid_Sys()
     {
-        // Arrange
         var chr = new FauxSystemCalendar();
         string paramName = "cuidParam";
         // Act & Assert
@@ -209,7 +195,6 @@ public partial class CalendarTests // Methods
     [Fact]
     public static void ValidateCuid_Usr()
     {
-        // Arrange
         var chr = new FauxUserCalendar();
         string paramName = "cuidParam";
         // Act & Assert

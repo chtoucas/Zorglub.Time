@@ -65,7 +65,6 @@ public partial class WideDateFacts<TDataSet> // Properties
     [Fact]
     public void Calendar_Prop()
     {
-        // Arrange
         var date = CalendarUT.GetWideDate(3, 4, 5);
         // Act & Assert
         Assert.Equal(CalendarUT, date.Calendar);
@@ -87,7 +86,6 @@ public partial class WideDateFacts<TDataSet> // Conversions
     [Fact]
     public void WithCalendar_NullCalendar()
     {
-        // Arrange
         var date = CalendarUT.GetWideDate(3, 4, 5);
         // Act & Assert
         Assert.ThrowsAnexn("newCalendar", () => date.WithCalendar(null!));
@@ -99,7 +97,6 @@ public partial class WideDateFacts<TDataSet> // Math ops
     [Fact]
     public void CountDaysSince_InvalidDate()
     {
-        // Arrange
         var date = CalendarUT.GetWideDate(3, 4, 5);
         var other = OtherCalendar.GetWideDate(3, 4, 5);
         // Act & Assert
@@ -113,7 +110,6 @@ public partial class WideDateFacts<TDataSet> // IEquatable
     [Fact]
     public void Equals_OtherCalendar()
     {
-        // Arrange
         var date = CalendarUT.GetWideDate(3, 4, 5);
         var other = OtherCalendar.GetWideDate(3, 4, 5);
         // Act & Assert
@@ -130,7 +126,6 @@ public partial class WideDateFacts<TDataSet> // IComparable
     [Fact]
     public void CompareTo_InvalidCalendar()
     {
-        // Arrange
         var date = CalendarUT.GetWideDate(3, 4, 5);
         var other = OtherCalendar.GetWideDate(3, 4, 5);
         // Act & Assert

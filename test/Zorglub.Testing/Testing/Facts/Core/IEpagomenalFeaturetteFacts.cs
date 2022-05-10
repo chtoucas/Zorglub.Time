@@ -19,7 +19,6 @@ public abstract class IEpagomenalFeaturetteFacts<T, TDataSet> : CalendricalDataC
     [Theory, MemberData(nameof(DateInfoData))]
     public void IsEpagomenalDay(DateInfo info)
     {
-        // Arrange
         var (y, m, d) = info.Yemoda;
         // Act
         bool isEpagomenal = T.IsEpagomenalDay(y, m, d, out int epanum);
@@ -38,7 +37,6 @@ public abstract class IEpagomenalFeaturetteFacts<T, TDataSet> : CalendricalDataC
     [Theory, MemberData(nameof(EpagomenalDayInfoData))]
     public void IsEpagomenalDay_EpagomenalNumber(EpagomenalDayInfo info)
     {
-        // Arrange
         var (y, m, d, epanum) = info;
         // Act
         bool isEpagomenal = T.IsEpagomenalDay(y, m, d, out int epanumA);

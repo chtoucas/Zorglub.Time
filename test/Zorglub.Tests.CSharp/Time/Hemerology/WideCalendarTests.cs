@@ -64,7 +64,6 @@ public partial class WideCalendarTests // Properties
     [Fact]
     public void Today()
     {
-        // Arrange
         var exp = DateTime.Now;
         // Act
         var today = CalendarUT.Today();

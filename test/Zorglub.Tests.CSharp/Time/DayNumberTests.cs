@@ -17,7 +17,6 @@ public static partial class DayNumberTests
     [Fact]
     public static void Op_Increment()
     {
-        // Arrange
         var dayNumber = DayNumber.Zero + 345;
         var dayNumberAfter = DayNumber.Zero + 346;
         // Act & Assert
@@ -36,7 +35,6 @@ public static partial class DayNumberTests
     [Fact]
     public static void Op_Decrement()
     {
-        // Arrange
         var dayNumber = DayNumber.Zero + 345;
         var dayNumberBefore = DayNumber.Zero + 344;
         // Act & Assert
@@ -56,8 +54,6 @@ public partial class DayNumberTests // Adjust the day of the week
     [Fact]
     public static void Nearest_NearMinValue()
     {
-        // Arrange
-
         //  thu0 (overflow)
         //  fri0 (overflow)
         //  sat0 (overflow)
@@ -156,8 +152,6 @@ public partial class DayNumberTests // Adjust the day of the week
     [Fact]
     public static void Nearest_NearMaxValue()
     {
-        // Arrange
-
         var sat0 = DayNumber.MaxValue - 9;
         var sun0 = DayNumber.MaxValue - 8;
         var mon0 = DayNumber.MaxValue - 7;

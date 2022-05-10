@@ -40,7 +40,6 @@ namespace Zorglub.Time.Extensions
         [Fact]
         public static void GetDayNumber_InvalidCalendar()
         {
-            // Arrange
             MinMaxYearCalendar<PaxSchema> calendar = null!;
             // Act
             Assert.ThrowsAnexn("this", () => calendar.GetDayNumber(1, 1, DayOfWeek.Sunday));
@@ -77,7 +76,6 @@ namespace Zorglub.Time.Extensions
         [Fact]
         public static void IsIntercalaryWeek_InvalidCalendar()
         {
-            // Arrange
             MinMaxYearCalendar<PaxSchema> calendar = null!;
             // Act
             Assert.ThrowsAnexn("this", () => calendar.IsIntercalaryWeek(1, 1));
@@ -109,7 +107,6 @@ namespace Zorglub.Time.Extensions
         [Fact]
         public static void CountWeeksInYear_InvalidCalendar()
         {
-            // Arrange
             MinMaxYearCalendar<PaxSchema> calendar = null!;
             // Act
             Assert.ThrowsAnexn("this", () => calendar.CountWeeksInYear(1));
@@ -143,7 +140,6 @@ namespace Zorglub.Time.Extensions
         [Fact]
         public static void CountDaysInWorldMonth_InvalidCalendar()
         {
-            // Arrange
             MinMaxYearCalendar<WorldSchema> calendar = null!;
             // Act
             Assert.ThrowsAnexn("this", () => calendar.CountDaysInWorldMonth(1, 1));

@@ -133,7 +133,6 @@ public static class RomanKalendarTests
     [Theory, MemberData(nameof(EpiphanyData))]
     public static void EpiphanySunday_Prop(int y, int d)
     {
-        // Arrange
         var epiphanySunday = new CalendarDate(y, 1, d);
         // Act
         var actual = new RomanKalendar(y).EpiphanySunday;
@@ -145,7 +144,6 @@ public static class RomanKalendarTests
     [Theory, MemberData(nameof(EasterData))]
     public static void Easter_Prop(int y, int m, int d)
     {
-        // Arrange
         var easter = new CalendarDate(y, m, d);
         // Act
         var actual = new RomanKalendar(y).Easter;
@@ -157,7 +155,6 @@ public static class RomanKalendarTests
     [Theory(Skip = "D&R data does not match our definition of the Paschal Moon?"), MemberData(nameof(PaschalMoonData))]
     public static void PaschalMoon_Prop(int y, int m, int d)
     {
-        // Arrange
         var moon = new CalendarDate(y, m, d);
         // Act
         var actual = new RomanKalendar(y).PaschalMoon;

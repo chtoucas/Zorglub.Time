@@ -26,7 +26,6 @@ public partial class CalendarMathTests
     [Fact]
     public static void Constructor_WithCalendar()
     {
-        // Arrange
         var chr = GregorianCalendar.Instance;
         // Act
         var arithmetic = new FauxCalendarMath(GregorianCalendar.Instance);

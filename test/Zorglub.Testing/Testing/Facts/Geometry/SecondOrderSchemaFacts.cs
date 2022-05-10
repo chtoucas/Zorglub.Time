@@ -45,7 +45,6 @@ public abstract class SecondOrderSchemaFacts<TDataSet> :
     public void GetYear(DateInfo info)
     {
         var (y, m, d, doy) = info;
-        // Arrange
         int daysSinceEpoch = SchemaUT.CountDaysSinceEpoch(y, m, d);
         // Act
         int yA = SecondOrderSchemaUT.GetYear(daysSinceEpoch, out int doyA);

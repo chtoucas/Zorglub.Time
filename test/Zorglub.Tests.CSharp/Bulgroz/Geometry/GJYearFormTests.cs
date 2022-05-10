@@ -105,7 +105,6 @@ public partial class GJYearFormTests
     {
         var (dayNumber, y, m, d) = info;
 
-        // Arrange
         int daysSinceEpoch = dayNumber - DayZero.OldStyle;
         int d0yE = s_JulianSchema.GetDayOfYear(y, m, d) - 1;
         // Act
@@ -156,7 +155,6 @@ public partial class GJYearFormTests
         // See further below for the reason why we have to exclude these years.
         if (y < -99 || 100 < y) { return; }
 
-        // Arrange
         int daysSinceEpoch = dayNumber - DayZero.NewStyle;
         int d0yE = s_GregorianSchema.GetDayOfYear(y, m, d) - 1;
         // Act
@@ -191,7 +189,6 @@ public partial class GJYearFormTests
     [InlineData(7, 365)]
     public static void QuasiAffineForm2_IsNotYearForm(int y, int value)
     {
-        // Arrange
         var form = new QuasiAffineForm(1096, 3, 0);
         // Act & Assert
         Assert.Equal(value, form.CodeAt(y));
@@ -200,7 +197,6 @@ public partial class GJYearFormTests
     [Fact]
     public static void YearForm2_TryConvertCodeToForm()
     {
-        // Arrange
         var codes = new int[8] { 365, 365, 366, 365, /* Second cycle */ 365, 365, 366, 365 };
         var code = new CodeArray(codes);
         // Act & Assert
@@ -226,7 +222,6 @@ public partial class GJYearFormTests
     [InlineData(7, 366)] // Should be 365.
     public static void QuasiAffineForm3_IsNotYearForm(int y, int value)
     {
-        // Arrange
         var form = new QuasiAffineForm(1096, 3, 1);
         // Act & Assert
         Assert.Equal(value, form.CodeAt(y));
@@ -235,7 +230,6 @@ public partial class GJYearFormTests
     [Fact]
     public static void YearForm3_TryConvertCodeToForm()
     {
-        // Arrange
         var codes = new int[8] { 365, 366, 365, 365, /* Second cycle */ 365, 366, 365, 365 };
         var code = new CodeArray(codes);
         // Act & Assert
@@ -361,7 +355,6 @@ public partial class GJYearFormTests
     [Fact]
     public static void Gregorian_YearForm0123_GetStartOfYear_Fails_AtMinus100()
     {
-        // Arrange
         // See GregorianData.StartofYear.
         int startOfYear = -GregorianSchema.DaysPer100YearSubcycle - 1 - 365;
 
@@ -388,7 +381,6 @@ public partial class GJYearFormTests
     {
         for (int y = -99; y <= 100; y++)
         {
-            // Arrange
             // See GregorianData.StartofYear.
             int startOfYear = s_GregorianSchema.GetStartOfYear(y);
 
@@ -411,7 +403,6 @@ public partial class GJYearFormTests
     [Fact]
     public static void Gregorian_YearForm0123_GetStartOfYear_Fails_At101()
     {
-        // Arrange
         // See GregorianData.StartofYear.
         int startOfYear = GregorianSchema.DaysPer100YearSubcycle;
 
@@ -442,7 +433,6 @@ public partial class GJYearFormTests
     {
         var (dayNumber, y, m, d) = info;
 
-        // Arrange
         int daysSinceEpoch = dayNumber - DayZero.OldStyle;
         int d0yE = s_JulianSchema.GetDayOfYear(y, m, d) - 1;
 
@@ -472,7 +462,6 @@ public partial class GJYearFormTests
     [Fact]
     public static void Gregorian_YearForm0123_GetYear_Fails_AtEndOfMinus100()
     {
-        // Arrange
         // See GregorianData.StartofYear.
         int endOfYear = -GregorianSchema.DaysPer100YearSubcycle - 1 - 1;
 
@@ -508,7 +497,6 @@ public partial class GJYearFormTests
     [Fact]
     public static void Gregorian_YearForm0123_GetYear_Succeeds_FromStartOfMinus99ToEndOf100()
     {
-        // Arrange
         // See GregorianData.StartofYear.
         int startOfYearMinus99 = -GregorianSchema.DaysPer100YearSubcycle - 1;
         int endOfYear100 = GregorianSchema.DaysPer100YearSubcycle - 1;
@@ -548,7 +536,6 @@ public partial class GJYearFormTests
     [Fact]
     public static void Gregorian_YearForm0123_GetYear_Fails_AtStartOf101()
     {
-        // Arrange
         // See GregorianData.StartofYear.
         int startOfYear = GregorianSchema.DaysPer100YearSubcycle;
 

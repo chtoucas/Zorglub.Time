@@ -22,7 +22,6 @@ public static class UnitTests
     [Fact]
     public static void Equals_WhenSame()
     {
-        // Arrange
         var unit = new Unit();
         var same = new Unit();
 
@@ -36,7 +35,6 @@ public static class UnitTests
     [Fact]
     public static void Equals_ValueTuple()
     {
-        // Arrange
         var unit = new Unit();
         var tupl = new ValueTuple();
         // Act & Assert
@@ -51,7 +49,6 @@ public static class UnitTests
     [Fact]
     public static void Equals_NullOrOtherType()
     {
-        // Arrange
         var unit = new Unit();
         // Act & Assert
         Assert.False(unit.Equals(1));

@@ -10,7 +10,6 @@ public static class ArrayHelpersTests
     [Fact]
     public static void ConvertToCumulativeArray()
     {
-        // Arrange
         var array = new[] { 365, 365, 365, 366 };
         var exp = new[] { 0, 365, 2 * 365, 3 * 365, 4 * 365 + 1 };
         // Act

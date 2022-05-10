@@ -77,7 +77,6 @@ public sealed partial class HebrewLeapYearFormTests : AnalyzerFacts
     [Fact]
     public void TryConvertCodeToForm_SingleCycle()
     {
-        // Arrange
         var code = new CodeArray(new[] { 3, 3, 2, 3, 3, 3, 2 });
         // Act & Assert
         Assert.True(TroeschAnalyzer.TryConvertCodeToForm(code, out var formA));
@@ -234,7 +233,6 @@ public static class HebrewMonthFormTests
         [Fact]
         public void MonthLengths_IsNotSegment()
         {
-            // Arrange
             var code = new CodeArray(s_MonthLengths);
             // Act & Assert
             Assert.True(code.StrictlyReducible);
@@ -260,7 +258,6 @@ public static class HebrewMonthFormTests
         [Fact]
         public void Form_FailsForLastMonth()
         {
-            // Arrange
             int last = s_MonthLengths.Length - 1;
             // Act & Assert
             Assert.NotEqual(s_MonthLengths[^1], Form.CodeAt(last));

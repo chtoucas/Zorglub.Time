@@ -18,7 +18,6 @@ public partial class CalendarMonthAdjustersTests // Adjustments
     [InlineData(3, 4, ShortScope.MaxYear + 1)]
     public void WithYear_InvalidYear(int y, int m, int newYear)
     {
-        // Arrange
         var cmonth = CalendarUT.GetCalendarMonth(y, m);
         // Act & Assert
         Assert.ThrowsAoorexn("newYear", () => cmonth.WithYear(newYear));
@@ -41,7 +40,6 @@ public partial class CalendarMonthAdjustersTests // Adjustments
     [InlineData(12, 12, 12)]
     public void WithYear(int y, int m, int newYear)
     {
-        // Arrange
         var cmonth = CalendarUT.GetCalendarMonth(y, m);
         var newCmonth = CalendarUT.GetCalendarMonth(newYear, m);
         // Act & Assert
@@ -53,7 +51,6 @@ public partial class CalendarMonthAdjustersTests // Adjustments
     [InlineData(1, 1, 13)]
     public void WithMonthOfYear_InvalidMonth(int y, int m, int newMonth)
     {
-        // Arrange
         var cmonth = CalendarUT.GetCalendarMonth(y, m);
         // Act & Assert
         Assert.ThrowsAoorexn("newMonth", () => cmonth.WithMonthOfYear(newMonth));
@@ -76,7 +73,6 @@ public partial class CalendarMonthAdjustersTests // Adjustments
     [InlineData(1, 12, 12)]
     public void WithMonthOfYear(int y, int m, int newMonth)
     {
-        // Arrange
         var cmonth = CalendarUT.GetCalendarMonth(y, m);
         var newCmonth = CalendarUT.GetCalendarMonth(y, newMonth);
         // Act & Assert

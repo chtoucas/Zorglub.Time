@@ -35,7 +35,6 @@ public static partial class IntervalDoubleTests
     [Fact]
     public static void Maximal_Prop()
     {
-        // Arrange
         var boundary = IntervalBoundary.Create(Double.MinValue, Double.MaxValue);
         double width = Double.MaxValue - Double.MinValue + 1;
         // Act
@@ -111,7 +110,6 @@ public partial class IntervalDoubleTests // Factories
     [Fact]
     public static void Closed()
     {
-        // Arrange
         var boundary = IntervalBoundary.Create(1d, 5d);
         // Act
         var inter = IntervalDouble.Closed(1d, 5d);
@@ -138,7 +136,6 @@ public partial class IntervalDoubleTests // Factories
     [Fact]
     public static void Open()
     {
-        // Arrange
         var boundary = IntervalBoundary.Create(1d, 5d);
         // Act
         var inter = IntervalDouble.Open(1d, 5d);
@@ -165,7 +162,6 @@ public partial class IntervalDoubleTests // Factories
     [Fact]
     public static void LeftOpen()
     {
-        // Arrange
         var boundary = IntervalBoundary.Create(1d, 5d);
         // Act
         var inter = IntervalDouble.LeftOpen(1d, 5d);
@@ -192,7 +188,6 @@ public partial class IntervalDoubleTests // Factories
     [Fact]
     public static void RightOpen()
     {
-        // Arrange
         var boundary = IntervalBoundary.Create(1d, 5d);
         // Act
         var inter = IntervalDouble.RightOpen(1d, 5d);
@@ -219,7 +214,6 @@ public partial class IntervalDoubleTests // Factories
     [Fact]
     public static void Singleton()
     {
-        // Arrange
         var boundary = IntervalBoundary.Create(3d, 3d);
         // Act
         var inter = IntervalDouble.Singleton(3d);

@@ -47,7 +47,6 @@ public static class Tropicalia3130MonthFormTests
         [Fact]
         public void MonthLengths_IsNotReducible()
         {
-            // Arrange
             var code = new CodeArray(s_MonthLengths);
             // Act & Assert
             Assert.False(code.Reducible);
@@ -56,7 +55,6 @@ public static class Tropicalia3130MonthFormTests
         [Fact]
         public void MonthLengths_IsAlmostReducible()
         {
-            // Arrange
             var code = new CodeArray(s_MonthLengths);
             var exp = new CodeArray(s_MonthLengths[0..^1]);
             // Act
@@ -70,7 +68,6 @@ public static class Tropicalia3130MonthFormTests
         [Fact]
         public void Form_FailsForLastMonth()
         {
-            // Arrange
             int last = s_MonthLengths.Length - 1;
             // Act & Assert
             Assert.NotEqual(s_MonthLengths[^1], Form.CodeAt(last));
@@ -115,7 +112,6 @@ public static class Tropicalia3130MonthFormTests
         [Fact]
         public void MonthForm_Values()
         {
-            // Arrange
             var form = TropicalistaGeometry.MonthForm3130;
 
             // Act & Assert

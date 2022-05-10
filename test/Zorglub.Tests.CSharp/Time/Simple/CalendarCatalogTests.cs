@@ -47,7 +47,6 @@ public static class CalendarCatalogTests
     [Fact]
     public static void SystemCalendars_IsExhaustive()
     {
-        // Arrange
         var count = Enum.GetValues(typeof(CalendarId)).Length;
         var calendars = CalendarCatalog.SystemCalendars;
         // Act & Assert
@@ -57,7 +56,6 @@ public static class CalendarCatalogTests
     [Theory, MemberData(nameof(EnumDataSet.CalendarIdData), MemberType = typeof(EnumDataSet))]
     public static void SystemCalendars(CalendarId id)
     {
-        // Arrange
         var calendars = CalendarCatalog.SystemCalendars;
         // Act
         var chr = CalendarCatalog.GetSystemCalendar(id);
@@ -86,7 +84,6 @@ public static class CalendarCatalogTests
     [Theory, MemberData(nameof(EnumDataSet.CalendarIdData), MemberType = typeof(EnumDataSet))]
     public static void GetCalendar_Repeated(CalendarId id)
     {
-        // Arrange
         var key = id.ToCalendarKey();
         // Act & Assert
         Assert.Same(CalendarCatalog.GetCalendar(key), CalendarCatalog.GetCalendar(key));
@@ -102,7 +99,6 @@ public static class CalendarCatalogTests
     [Theory, MemberData(nameof(EnumDataSet.CalendarIdData), MemberType = typeof(EnumDataSet))]
     public static void TryGetCalendar_SystemKey(CalendarId id)
     {
-        // Arrange
         var key = id.ToCalendarKey();
         // Act & Assert
         Assert.True(CalendarCatalog.TryGetCalendar(key, out var chr));
@@ -122,7 +118,6 @@ public static class CalendarCatalogTests
     [Theory, MemberData(nameof(EnumDataSet.CalendarIdData), MemberType = typeof(EnumDataSet))]
     public static void TryGetCalendar_Repeated(CalendarId id)
     {
-        // Arrange
         var key = id.ToCalendarKey();
         // Act
         _ = CalendarCatalog.TryGetCalendar(key, out var chr1);
@@ -201,7 +196,6 @@ public static class CalendarCatalogTests
     [Fact]
     public static void GetOrAdd_InvalidSchema()
     {
-        // Arrange
         string key = "key";
         // Act & Assert
         Assert.ThrowsAnexn("schema", () => CalendarCatalog.GetOrAdd(key, null!, default, false));
@@ -211,7 +205,6 @@ public static class CalendarCatalogTests
     [Fact]
     public static void GetOrAdd()
     {
-        // Arrange
         string key = "GetOrAdd";
         var epoch = DayZero.NewStyle;
         // Act
@@ -236,7 +229,6 @@ public static class CalendarCatalogTests
     [Fact]
     public static void Add_InvalidSchema()
     {
-        // Arrange
         string key = "key";
         // Act & Assert
         Assert.ThrowsAnexn("schema",
@@ -247,7 +239,6 @@ public static class CalendarCatalogTests
     [Fact]
     public static void Add()
     {
-        // Arrange
         string key = "Add";
         var epoch = DayZero.NewStyle;
         // Act
@@ -259,7 +250,6 @@ public static class CalendarCatalogTests
     [Fact]
     public static void Add_Box()
     {
-        // Arrange
         string key = "Add_Box";
         var epoch = DayZero.NewStyle;
         // Act
@@ -296,7 +286,6 @@ public static class CalendarCatalogTests
     [Fact]
     public static void TryAdd_InvalidSchema()
     {
-        // Arrange
         string key = "key";
         // Act & Assert
         Assert.ThrowsAnexn("schema",
@@ -307,7 +296,6 @@ public static class CalendarCatalogTests
     [Fact]
     public static void TryAdd()
     {
-        // Arrange
         string key = "TryAdd";
         var epoch = DayZero.NewStyle;
         // Act
@@ -321,7 +309,6 @@ public static class CalendarCatalogTests
     [Fact]
     public static void TryAdd_EmptyKey()
     {
-        // Arrange
         string key = String.Empty;
         var epoch = DayZero.NewStyle;
         // Act
@@ -335,7 +322,6 @@ public static class CalendarCatalogTests
     [Fact]
     public static void TryAdd_Box()
     {
-        // Arrange
         string key = "TryAdd_Box";
         var epoch = DayZero.NewStyle;
         // Act

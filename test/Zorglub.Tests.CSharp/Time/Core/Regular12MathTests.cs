@@ -15,7 +15,6 @@ public static class Regular12MathTests
     [Fact]
     public static void AddAdjustment_Prop()
     {
-        // Arrange
         var calculator = new Regular12Math(new GregorianSchema());
         // Act & Assert
         Assert.Equal(AddAdjustment.EndOfMonth, calculator.AddAdjustment);

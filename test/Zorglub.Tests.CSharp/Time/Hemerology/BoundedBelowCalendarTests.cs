@@ -84,7 +84,6 @@ public sealed class GregorianBoundedBelowCalendarTests
     [Fact]
     public void MinDateParts_Prop()
     {
-        // Arrange
         var parts = new DateParts(FirstYear, FirstMonth, FirstDay);
         // Act
         Assert.Equal(parts, CalendarUT.MinDateParts);
@@ -94,7 +93,6 @@ public sealed class GregorianBoundedBelowCalendarTests
     [Fact]
     public void GetDaysInYear_FirstYear()
     {
-        // Arrange
         DayNumber startOfYear = CalendarUT.MinDayNumber;
         DayNumber endOfYear = DayCalendarUT.GetEndOfYear(FirstYear);
         int daysInFirstYear = CalendarUT.CountDaysInFirstYear();
@@ -113,7 +111,6 @@ public sealed class GregorianBoundedBelowCalendarTests
     [Fact]
     public void GetDaysInMonth_FirstMonth()
     {
-        // Arrange
         DayNumber startofMonth = CalendarUT.MinDayNumber;
         DayNumber endOfMonth = DayCalendarUT.GetEndOfMonth(FirstYear, FirstMonth);
         int daysInFirstMonth = CalendarUT.CountDaysInFirstMonth();

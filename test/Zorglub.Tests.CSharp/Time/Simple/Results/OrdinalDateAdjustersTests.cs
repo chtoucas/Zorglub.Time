@@ -15,7 +15,6 @@ public partial class OrdinalDateAdjustersTests // Adjustments
     [Fact]
     public void WithYear_InvalidYear()
     {
-        // Arrange
         var ordate = CalendarUT.GetOrdinalDate(3, 45);
         // Act & Assert
         SupportedYearsTester.TestInvalidYear(y => ordate.WithYear(y), "newYear");
@@ -24,7 +23,6 @@ public partial class OrdinalDateAdjustersTests // Adjustments
     [Fact]
     public void WithYear_InvalidResult()
     {
-        // Arrange
         var ordate = CalendarUT.GetOrdinalDate(4, 366);
         // Act & Assert
         Assert.ThrowsAoorexn("newYear", () => ordate.WithYear(3));
@@ -33,7 +31,6 @@ public partial class OrdinalDateAdjustersTests // Adjustments
     [Fact]
     public void WithYear()
     {
-        // Arrange
         var ordate = CalendarUT.GetOrdinalDate(3, 45);
         var dateE = CalendarUT.GetOrdinalDate(4, 45);
         // Act & Assert
@@ -46,7 +43,6 @@ public partial class OrdinalDateAdjustersTests // Adjustments
     [Theory, MemberData(nameof(InvalidDayOfYearFieldData))]
     public void WithDayOfYear_InvalidDayOfYear(int y, int doy)
     {
-        // Arrange
         var ordate = CalendarUT.GetOrdinalDate(y, 1);
         // Act & Assert
         Assert.ThrowsAoorexn("newDayOfYear", () => ordate.WithDayOfYear(doy));
@@ -55,7 +51,6 @@ public partial class OrdinalDateAdjustersTests // Adjustments
     [Fact]
     public void WithDayOfYear()
     {
-        // Arrange
         var ordate = CalendarUT.GetOrdinalDate(3, 45);
         var dateE = CalendarUT.GetOrdinalDate(3, 54);
         // Act & Assert

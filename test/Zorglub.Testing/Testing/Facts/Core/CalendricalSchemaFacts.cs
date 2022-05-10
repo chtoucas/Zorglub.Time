@@ -23,7 +23,6 @@ public abstract class CalendricalSchemaFacts<TSchema, TDataSet> :
     [Fact]
     public void Domain_Prop()
     {
-        // Arrange
         int startOfYear = SchemaUT.GetStartOfYear(MinYear);
         int endOfYear = SchemaUT.GetEndOfYear(MaxYear);
         var domain = new Range<int>(OrderedPair.Create(startOfYear, endOfYear));

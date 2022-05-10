@@ -19,7 +19,6 @@ public sealed class JulianCalendarTests
     public void GetDayOfWeek_UsingDates(YemodaAnd<DayOfWeek> info)
     {
         var (y, m, d, dayOfWeek) = info;
-        // Arrange
         ICalendar chr = GregorianCalendar.Instance;
         var dayNumber = chr.GetDayNumberOn(y, m, d);
         var date = CalendarUT.GetCalendarDateOn(dayNumber);

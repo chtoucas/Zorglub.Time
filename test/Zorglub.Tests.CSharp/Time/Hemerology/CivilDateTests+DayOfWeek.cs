@@ -12,7 +12,6 @@ public partial class CivilDateTests
     [Theory, MemberData(nameof(EnumDataSet.InvalidDayOfWeekData), MemberType = typeof(EnumDataSet))]
     public static void NearestSafe_InvalidDayOfWeek(DayOfWeek dayOfWeek)
     {
-        // Arrange
         var date = new CivilDate(3, 4, 5);
         // Act & Assert
         Assert.ThrowsAoorexn("dayOfWeek", () => date.NearestSafe(dayOfWeek));
@@ -21,8 +20,6 @@ public partial class CivilDateTests
     [Fact]
     public static void Nearest_NearMinValue()
     {
-        // Arrange
-
         // fri0 (overflow)
         // sat0 (overflow)
         // sun0 (overflow)
@@ -121,7 +118,6 @@ public partial class CivilDateTests
     [Fact]
     public static void NearestSafe_NearMinValue()
     {
-        // Arrange
         var mon = CivilDate.MinValue;
         var tue = CivilDate.MinValue + 1;
         var wed = CivilDate.MinValue + 2;
@@ -203,7 +199,6 @@ public partial class CivilDateTests
     [Fact]
     public static void Nearest_NearMaxValue()
     {
-        // Arrange
         var wed0 = CivilDate.MaxValue - 9;
         var thu0 = CivilDate.MaxValue - 8;
         var fri0 = CivilDate.MaxValue - 7;
@@ -302,7 +297,6 @@ public partial class CivilDateTests
     [Fact]
     public static void NearestSafe_NearMaxValue()
     {
-        // Arrange
         var wed0 = CivilDate.MaxValue - 9;
         var thu0 = CivilDate.MaxValue - 8;
         var fri0 = CivilDate.MaxValue - 7;
@@ -384,7 +378,6 @@ public partial class CivilDateTests
     [Theory, MemberData(nameof(DayOfWeek_Nearest_Data))]
     public static void NearestSafe(Yemoda xdate, Yemoda xexp, DayOfWeek dayOfWeek)
     {
-        // Arrange
         var date = CreateCivilDate(xdate);
         var exp = CreateCivilDate(xexp);
         // Act

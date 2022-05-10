@@ -24,7 +24,6 @@ public static partial class CodeArrayTests
     [InlineData(999)]
     public static void Singleton(int n)
     {
-        // Arrange
         var code = new CodeArray(n);
         var barr = new BoolArray(false);
         // Act & Assert
@@ -45,7 +44,6 @@ public static partial class CodeArrayTests
     [InlineData(999, 345)]
     public static void Pair_NotSegment(int m, int n)
     {
-        // Arrange
         var code = new CodeArray(new[] { m, n });
         // Act & Assert
         Assert.False(code.Constant);
@@ -66,7 +64,6 @@ public static partial class CodeArrayTests
     [InlineData(98, 99)]
     public static void Pair_ConsecutiveElements(int m, int n)
     {
-        // Arrange
         var code = new CodeArray(new[] { m, n });
         var barr = m > n ? new BoolArray(new[] { true, false })
             : new BoolArray(new[] { false, true });
@@ -89,7 +86,6 @@ public static partial class CodeArrayTests
     [InlineData(999, 999)]
     public static void Pair_SameElements(int m, int n)
     {
-        // Arrange
         var code = new CodeArray(new[] { m, n });
         var barr = new BoolArray(new[] { false, false });
         // Act & Assert
@@ -111,7 +107,6 @@ public static partial class CodeArrayTests
     [InlineData(100)]
     public static void Constant(int count)
     {
-        // Arrange
         var code = new CodeArray(2, count);
         var barr = new BoolArray(false, count);
         // Act & Assert
@@ -131,7 +126,6 @@ public partial class CodeArrayTests
     [Fact]
     public static void IsAlmostReducible_NonReduciblePair()
     {
-        // Arrange
         var code = new CodeArray(new[] { 5, 1 });
         var exp = new CodeArray(new[] { 5 });
         // Act
@@ -147,7 +141,6 @@ public partial class CodeArrayTests
     [Fact]
     public static void IsAlmostReducible_MaxAtStart()
     {
-        // Arrange
         var code = new CodeArray(new[] { 6, 2, 3, 3, 2 });
         var exp = new CodeArray(new[] { 2, 3, 3, 2 });
         // Act
@@ -164,7 +157,6 @@ public partial class CodeArrayTests
     [Fact]
     public static void IsAlmostReducible_MaxInTheMiddle()
     {
-        // Arrange
         var code = new CodeArray(new[] { 2, 3, 6, 3, 2 });
         var exp = new CodeArray(new[] { 3, 2, 2, 3 });
         // Act
@@ -181,7 +173,6 @@ public partial class CodeArrayTests
     [Fact]
     public static void IsAlmostReducible_MaxAtEnd()
     {
-        // Arrange
         var code = new CodeArray(new[] { 2, 3, 3, 2, 6 });
         var exp = new CodeArray(new[] { 2, 3, 3, 2 });
         // Act
@@ -197,7 +188,6 @@ public partial class CodeArrayTests
     [Fact]
     public static void IsAlmostReducible_MinAtStart()
     {
-        // Arrange
         var code = new CodeArray(new[] { 1, 2, 3, 3, 2 });
         var exp = new CodeArray(new[] { 2, 3, 3, 2 });
         // Act
@@ -214,7 +204,6 @@ public partial class CodeArrayTests
     [Fact]
     public static void IsAlmostReducible_MinInTheMiddle()
     {
-        // Arrange
         var code = new CodeArray(new[] { 2, 3, 1, 3, 2 });
         var exp = new CodeArray(new[] { 3, 2, 2, 3 });
         // Act
@@ -231,7 +220,6 @@ public partial class CodeArrayTests
     [Fact]
     public static void IsAlmostReducible_MinAtEnd()
     {
-        // Arrange
         var code = new CodeArray(new[] { 2, 3, 3, 2, 1 });
         var exp = new CodeArray(new[] { 2, 3, 3, 2 });
         // Act
@@ -247,7 +235,6 @@ public partial class CodeArrayTests
     [Fact]
     public static void IsAlmostReducible_AlmostConstant_AtStart()
     {
-        // Arrange
         var code = new CodeArray(new[] { 7, 2, 2, 2, 2, 2 });
         var exp = new CodeArray(new[] { 2, 2, 2, 2, 2 });
         // Act
@@ -264,7 +251,6 @@ public partial class CodeArrayTests
     [Fact]
     public static void IsAlmostReducible_AlmostConstant()
     {
-        // Arrange
         var code = new CodeArray(new[] { 2, 2, 2, 2, 7, 2 });
         var exp = new CodeArray(new[] { 2, 2, 2, 2, 2 });
         // Act
@@ -281,7 +267,6 @@ public partial class CodeArrayTests
     [Fact]
     public static void IsAlmostReducible_AlmostConstant_AtEnd()
     {
-        // Arrange
         var code = new CodeArray(new[] { 3, 3, 3, 3, 3, 1 });
         var exp = new CodeArray(new[] { 3, 3, 3, 3, 3 });
         // Act
@@ -311,7 +296,6 @@ public partial class CodeArrayTests
 
         static void Test(int[] arr)
         {
-            // Arrange
             var code = new CodeArray(arr);
             // Act
             var isAlmostReducible = code.IsAlmostReducible(out var newCode, out int start);

@@ -123,7 +123,6 @@ public partial class ICalendarTFacts<TDate, TCalendar, TDataSet> // IDayProvider
     public void GetDaysInYear(YearInfo info)
     {
         int y = info.Year;
-        // Arrange
         TDate startOfYear = CalendarUT.GetStartOfYear(y);
         TDate endOfYear = CalendarUT.GetEndOfYear(y);
         IEnumerable<TDate> exp =
@@ -153,7 +152,6 @@ public partial class ICalendarTFacts<TDate, TCalendar, TDataSet> // IDayProvider
     public void GetDaysInMonth(MonthInfo info)
     {
         var (y, m) = info.Yemo;
-        // Arrange
         TDate startofMonth = CalendarUT.GetStartOfMonth(y, m);
         TDate endOfMonth = CalendarUT.GetEndOfMonth(y, m);
         IEnumerable<TDate> exp =
@@ -180,7 +178,6 @@ public partial class ICalendarTFacts<TDate, TCalendar, TDataSet> // IDayProvider
     public void GetStartOfYear(YearInfo info)
     {
         int y = info.Year;
-        // Arrange
         TDate startOfYear = CreateDate(y, 1, 1);
         // Act & Assert
         Assert.Equal(startOfYear, CalendarUT.GetStartOfYear(y));
@@ -197,7 +194,6 @@ public partial class ICalendarTFacts<TDate, TCalendar, TDataSet> // IDayProvider
     public void GetEndOfYear(YearInfo info)
     {
         int y = info.Year;
-        // Arrange
         TDate endOfYear = CreateDate(y, info.DaysInYear);
         // Act & Assert
         Assert.Equal(endOfYear, CalendarUT.GetEndOfYear(y));
@@ -218,7 +214,6 @@ public partial class ICalendarTFacts<TDate, TCalendar, TDataSet> // IDayProvider
     public void GetStartOfMonth(MonthInfo info)
     {
         var (y, m) = info.Yemo;
-        // Arrange
         TDate startOfMonth = CreateDate(y, m, 1);
         // Act & Assert
         Assert.Equal(startOfMonth, CalendarUT.GetStartOfMonth(y, m));
@@ -239,7 +234,6 @@ public partial class ICalendarTFacts<TDate, TCalendar, TDataSet> // IDayProvider
     public void GetEndOfMonth(MonthInfo info)
     {
         var (y, m) = info.Yemo;
-        // Arrange
         TDate endOfMonth = CreateDate(y, m, info.DaysInMonth);
         // Act & Assert
         Assert.Equal(endOfMonth, CalendarUT.GetEndOfMonth(y, m));

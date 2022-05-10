@@ -72,7 +72,6 @@ public partial class CalendarFacts<TCalendar, TDataSet> // Properties
     [Fact]
     public sealed override void SupportedYears_Prop()
     {
-        // Arrange
         int minYear = CalendarUT.IsProleptic ? ProlepticShortScope.MinYear : StandardShortScope.MinYear;
         // Act
         var supportedYears = CalendarUT.SupportedYears;
@@ -195,7 +194,6 @@ public partial class CalendarFacts<TCalendar, TDataSet> // Factories
     [Theory, MemberData(nameof(DayNumberInfoData))]
     public void GetCalendarDay(DayNumberInfo info)
     {
-        // Arrange
         var dayNumber = info.DayNumber;
         // Act
         var day = CalendarUT.GetCalendarDay(info.DayNumber);
@@ -217,7 +215,6 @@ public partial class CalendarFacts<TCalendar, TDataSet> // Conversions
     [Theory, MemberData(nameof(DayNumberInfoData))]
     public void GetCalendarYearOn(DayNumberInfo info)
     {
-        // Arrange
         var exp = CalendarUT.GetCalendarYear(info.Year);
         // Act
         var cyear = CalendarUT.GetCalendarYearOn(info.DayNumber);
@@ -236,7 +233,6 @@ public partial class CalendarFacts<TCalendar, TDataSet> // Conversions
     public void GetCalendarMonthOn(DayNumberInfo info)
     {
         int y = info.Year;
-        // Arrange
         var exp = CalendarUT.GetCalendarMonth(y, info.Month);
         // Act
         var cmonth = CalendarUT.GetCalendarMonthOn(info.DayNumber);
@@ -255,7 +251,6 @@ public partial class CalendarFacts<TCalendar, TDataSet> // Conversions
     public void GetCalendarDateOn(DateInfo info)
     {
         var (y, m, d) = info.Yemoda;
-        // Arrange
         var dayNumber = ((ICalendar)CalendarUT).GetDayNumberOn(y, m, d);
         var exp = CalendarUT.GetCalendarDate(y, m, d);
         // Act
@@ -275,7 +270,6 @@ public partial class CalendarFacts<TCalendar, TDataSet> // Conversions
     public void GetOrdinalDateOn(DateInfo info)
     {
         var (y, m, d, doy) = info;
-        // Arrange
         var dayNumber = ((ICalendar)CalendarUT).GetDayNumberOn(y, m, d);
         var exp = CalendarUT.GetOrdinalDate(y, doy);
         // Act
@@ -331,7 +325,6 @@ public partial class CalendarFacts<TCalendar, TDataSet> // Internal helpers
     {
         if (Domain.Contains(dayNumber) == false) { return; }
 
-        // Arrange
         var date = CalendarUT.GetCalendarDateOn(dayNumber);
         // Act & Assert
         Assert.Equal(dayOfWeek, CalendarUT.GetDayOfWeek(date));
@@ -342,7 +335,6 @@ public partial class CalendarFacts<TCalendar, TDataSet> // Internal helpers
     {
         if (Domain.Contains(dayNumber) == false) { return; }
 
-        // Arrange
         var odate = CalendarUT.GetOrdinalDateOn(dayNumber);
         // Act & Assert
         Assert.Equal(dayOfWeek, CalendarUT.GetDayOfWeek(odate));

@@ -22,7 +22,6 @@ public sealed class WideDateTests : WideDateFacts<GregorianCalendarDataSet>
     [InlineData(10_000, 12, 31, "31/12/10000 (Gregorian)")]
     public void ToString_InvariantCulture(int y, int m, int d, string str)
     {
-        // Arrange
         var date = CalendarUT.GetWideDate(y, m, d);
         // Act & Assert
         Assert.Equal(str, date.ToString());
@@ -31,7 +30,6 @@ public sealed class WideDateTests : WideDateFacts<GregorianCalendarDataSet>
     [Fact]
     public void WithCalendar_NotSupported()
     {
-        // Arrange
         // Julian MinDayNumber is not within the Gregorian range.
         var minDayNumber = OtherCalendar.Domain.Min;
         var date = OtherCalendar.GetWideDateOn(minDayNumber);
@@ -42,7 +40,6 @@ public sealed class WideDateTests : WideDateFacts<GregorianCalendarDataSet>
     [Theory, MemberData(nameof(CalCalDataSet.GregorianJulianData), MemberType = typeof(CalCalDataSet))]
     public void WithCalendar_GregorianToJulian(Yemoda gregorian, Yemoda julian)
     {
-        // Arrange
         var source = CalendarUT.GetWideDate(gregorian.Year, gregorian.Month, gregorian.Day);
         var result = OtherCalendar.GetWideDate(julian.Year, julian.Month, julian.Day);
         // Act & Assert
@@ -52,7 +49,6 @@ public sealed class WideDateTests : WideDateFacts<GregorianCalendarDataSet>
     [Theory, MemberData(nameof(CalCalDataSet.GregorianJulianData), MemberType = typeof(CalCalDataSet))]
     public void WithCalendar_JulianToGregorian(Yemoda gregorian, Yemoda julian)
     {
-        // Arrange
         var source = OtherCalendar.GetWideDate(julian.Year, julian.Month, julian.Day);
         var result = CalendarUT.GetWideDate(gregorian.Year, gregorian.Month, gregorian.Day);
         // Act & Assert

@@ -10,7 +10,6 @@ public static class DayFormTests
     [Fact]
     public static void Reverse()
     {
-        // Arrange
         var form = new DayForm();
         // Act
         Assert.Equal(new CalendricalForm(1, 1, 1), form.Reverse());
@@ -19,7 +18,6 @@ public static class DayFormTests
     [Fact]
     public static void OtherMethods()
     {
-        // Arrange
         var form = new DayForm();
         // Act & Assert
         for (int d = 1; d < 100; d++)

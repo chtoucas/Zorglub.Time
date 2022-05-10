@@ -14,7 +14,6 @@ public static class MonthFormExtensionsTests
     [Fact]
     public static void WithAlgebraicNumbering()
     {
-        // Arrange
         var form = new MonthForm(153, 5, 2);
         var ordForm = new MonthForm(153, 5, -151, MonthFormNumbering.Ordinal);
         var troeschForm = new TroeschMonthForm(153, 5, -457, ExceptionalMonth);
@@ -28,7 +27,6 @@ public static class MonthFormExtensionsTests
     [Fact]
     public static void WithOrdinalNumbering()
     {
-        // Arrange
         var form = new MonthForm(153, 5, 2);
         var ordForm = new MonthForm(153, 5, -151, MonthFormNumbering.Ordinal);
         var troeschForm = new TroeschMonthForm(153, 5, -457, ExceptionalMonth);
@@ -42,7 +40,6 @@ public static class MonthFormExtensionsTests
     [Fact]
     public static void WithTroeschNumbering()
     {
-        // Arrange
         var form = new MonthForm(153, 5, 2);
         var ordForm = new MonthForm(153, 5, -151, MonthFormNumbering.Ordinal);
         var troeschForm = new TroeschMonthForm(153, 5, -457, ExceptionalMonth);

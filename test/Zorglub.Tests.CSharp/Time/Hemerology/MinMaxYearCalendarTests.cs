@@ -15,7 +15,6 @@ public static class MinMaxYearCalendarTests
     [Fact]
     public static void Constructor()
     {
-        // Arrange
         string name = "name";
         var epoch = DayZero.NewStyle + 123456789;
         int minYear = 3;
@@ -40,7 +39,6 @@ public static class MinMaxYearCalendarTests
     [Fact]
     public static void WithMinYear()
     {
-        // Arrange
         string name = "name";
         var epoch = DayZero.NewStyle + 123456789;
         int minYear = 3;
@@ -64,7 +62,6 @@ public static class MinMaxYearCalendarTests
     [Fact]
     public static void WithMaxYear()
     {
-        // Arrange
         string name = "name";
         var epoch = DayZero.NewStyle + 123456789;
         int maxYear = 5;

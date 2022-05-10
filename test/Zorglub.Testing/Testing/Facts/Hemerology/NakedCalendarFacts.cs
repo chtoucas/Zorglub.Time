@@ -75,7 +75,6 @@ public partial class NakedCalendarFacts<TCalendar, TDataSet>
     public void GetDateParts_WithSampleDates(DateInfo info)
     {
         var (y, m, d) = info.Yemoda;
-        // Arrange
         var dayNumber = CalendarUT.GetDayNumberOn(y, m, d);
         var partsE = new DateParts(y, m, d);
         // Act
@@ -96,7 +95,6 @@ public partial class NakedCalendarFacts<TCalendar, TDataSet>
     public void GetDateParts_WithDayNumber2(DateInfo info)
     {
         var (y, m, d) = info.Yemoda;
-        // Arrange
         var dayNumber = CalendarUT.GetDayNumberOn(y, m, d);
         var partsE = new DateParts(y, m, d);
         // Act
@@ -110,7 +108,6 @@ public partial class NakedCalendarFacts<TCalendar, TDataSet>
     {
         var (dayNumber, y, m, d) = info;
         if (Domain.Contains(dayNumber) == false) { return; }
-        // Arrange
         var partsE = new DateParts(y, m, d);
         // Act
         var partsA = CalendarUT.GetDateParts(dayNumber);
@@ -139,7 +136,6 @@ public partial class NakedCalendarFacts<TCalendar, TDataSet>
     //[Theory, MemberData(nameof(SampleDates))]
     //public void GetDateParts(int y, int m, int d, int doy, bool _5, bool _6)
     //{
-    //    // Arrange
     //    var partsE = new Yemoda(y, m, d);
     //    // Act
     //    var partsA = CalendarUT.GetDateParts(y, doy);
@@ -169,7 +165,6 @@ public partial class NakedCalendarFacts<TCalendar, TDataSet>
     //[Theory, MemberData(nameof(SampleDates))]
     //public void GetOrdinalParts(int y, int m, int d, int doy, bool _5, bool _6)
     //{
-    //    // Arrange
     //    var partsE = new Yedoy(y, doy);
     //    // Act
     //    var partsA = CalendarUT.GetOrdinalParts(y, m, d);
@@ -198,7 +193,6 @@ public partial class NakedCalendarFacts<TCalendar, TDataSet>
     {
         int y = info.Year;
 
-        // Arrange
         DayNumber startOfYear = DayCalendarUT.GetStartOfYear(y);
         DayNumber endOfYear = DayCalendarUT.GetEndOfYear(y);
         IEnumerable<DayNumber> exp =
@@ -223,7 +217,6 @@ public partial class NakedCalendarFacts<TCalendar, TDataSet>
     [Theory, MemberData(nameof(MonthInfoData))]
     public void GetDaysInMonth_DayNumber(int y, int m, int daysInMonth, int _4, bool _5)
     {
-        // Arrange
         DayNumber startofMonth = DayCalendarUT.GetStartOfMonth(y, m);
         DayNumber endOfMonth = DayCalendarUT.GetEndOfMonth(y, m);
         IEnumerable<DayNumber> exp =
@@ -265,7 +258,6 @@ public partial class NakedCalendarFacts<TCalendar, TDataSet>
     public void GetEndOfYear_DayNumber(Yemoda xdate)
     {
         var (y, m, d) = xdate;
-        // Arrange
         var endOfYear = DayCalendarUT.GetDayNumberOn(y, m, d);
         // Act
         var actual = DayCalendarUT.GetEndOfYear(y);
@@ -287,7 +279,6 @@ public partial class NakedCalendarFacts<TCalendar, TDataSet>
     [Theory, MemberData(nameof(MonthInfoData))]
     public void GetStartOfMonth_DayNumber(int y, int m, int _3, int _4, bool _5)
     {
-        // Arrange
         var startOfMonth = DayCalendarUT.GetDayNumberOn(y, m, 1);
         // Act & Assert
         Assert.Equal(startOfMonth, DayCalendarUT.GetStartOfMonth(y, m));
@@ -307,7 +298,6 @@ public partial class NakedCalendarFacts<TCalendar, TDataSet>
     [Theory, MemberData(nameof(MonthInfoData))]
     public void GetEndOfMonth_DayNumber(int y, int m, int daysInMonth, int _4, bool _5)
     {
-        // Arrange
         var endOfMonth = DayCalendarUT.GetDayNumberOn(y, m, daysInMonth);
         // Act & Assert
         Assert.Equal(endOfMonth, DayCalendarUT.GetEndOfMonth(y, m));
@@ -330,7 +320,6 @@ public partial class NakedCalendarFacts<TCalendar, TDataSet>
     public void GetStartOfYear(YearInfo info)
     {
         int y = info.Year;
-        // Arrange
         var startOfYear = new DateParts(y, 1, 1);
         // Act & Assert
         Assert.Equal(startOfYear, CalendarUT.GetStartOfYear(y));
@@ -347,7 +336,6 @@ public partial class NakedCalendarFacts<TCalendar, TDataSet>
     public void GetEndOfYear(YearInfo info)
     {
         int y = info.Year;
-        // Arrange
         var daysInMonth = CalendarUT.CountDaysInMonth(y, info.MonthsInYear);
         var endOfYear = new DateParts(y, info.MonthsInYear, daysInMonth);
         // Act & Assert
@@ -369,7 +357,6 @@ public partial class NakedCalendarFacts<TCalendar, TDataSet>
     public void GetStartOfMonth(MonthInfo info)
     {
         var (y, m) = info.Yemo;
-        // Arrange
         var startOfMonth = new DateParts(y, m, 1);
         // Act & Assert
         Assert.Equal(startOfMonth, CalendarUT.GetStartOfMonth(y, m));
@@ -390,7 +377,6 @@ public partial class NakedCalendarFacts<TCalendar, TDataSet>
     public void GetEndOfMonth(MonthInfo info)
     {
         var (y, m) = info.Yemo;
-        // Arrange
         var endOfMonth = new DateParts(y, m, info.DaysInMonth);
         // Act & Assert
         Assert.Equal(endOfMonth, CalendarUT.GetEndOfMonth(y, m));
@@ -415,7 +401,6 @@ public partial class NakedCalendarFacts<TCalendar, TDataSet>
     [Fact]
     public void AddDays_MaxDays_ToMinValue()
     {
-        // Arrange
         var (min, max) = CalendarUT.Domain.Endpoints;
         int days = max - min;
 
@@ -433,7 +418,6 @@ public partial class NakedCalendarFacts<TCalendar, TDataSet>
     [Fact]
     public void AddDays_MaxDays_ToMaxValue()
     {
-        // Arrange
         var (min, max) = CalendarUT.Domain.Endpoints;
         int days = max - min;
 
@@ -451,7 +435,6 @@ public partial class NakedCalendarFacts<TCalendar, TDataSet>
     [Fact]
     public void AddDays_MaxDays()
     {
-        // Arrange
         var dayNumber = DayZero.NewStyle + 345;
         var (min, max) = CalendarUT.Domain.Endpoints;
         int minDays = min - dayNumber;
@@ -471,7 +454,6 @@ public partial class NakedCalendarFacts<TCalendar, TDataSet>
     [Fact]
     public void AddDays()
     {
-        // Arrange
         var dayNumber = DayZero.NewStyle + 345;
         var result = DayZero.NewStyle + 435;
         // Act & Assert

@@ -78,7 +78,6 @@ public static class Tropicalia3031MonthFormTests
         [Fact]
         public void MonthForm_Values()
         {
-            // Arrange
             var form = TropicalistaGeometry.MonthForm3031ForCommonYear;
 
             // Act & Assert
@@ -155,7 +154,6 @@ public static class Tropicalia3031MonthFormTests
         [Fact]
         public void MonthForm_Values()
         {
-            // Arrange
             var form = TropicalistaGeometry.MonthForm3031ForLeapYear;
 
             // Act & Assert

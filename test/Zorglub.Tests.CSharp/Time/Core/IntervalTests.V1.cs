@@ -140,7 +140,6 @@ namespace Zorglub.Time.Core.Intervals
     [Fact]
     public static void Except_Disjoint()
     {
-        // Arrange
         var inter = Interval0.Create(-1, 1);
         // Assert
         // [-1, 1] \ {2}
@@ -240,7 +239,6 @@ public static partial class IntervalTests
     [InlineData(1, 4)]
     public static void SetOperations_Equal(int min, int max)
     {
-        // Arrange
         var inter = new Interval(min, max);
 
         // Act & Assert
@@ -277,7 +275,6 @@ public static partial class IntervalTests
     [InlineData(6, 9)]
     public static void SetOperations_Distant(int min, int max)
     {
-        // Arrange
         var inter = new Interval(1, 4);
         var other = new Interval(min, max);
 
@@ -331,7 +328,6 @@ public static partial class IntervalTests
     [InlineData(5, 9)]
     public static void SetOperations_NearbyFromRight(int min, int max)
     {
-        // Arrange
         var inter = new Interval(1, 4);
         var other = new Interval(min, max);
 
@@ -385,7 +381,6 @@ public static partial class IntervalTests
     [InlineData(4, 9)]
     public static void SetOperations_AdjacentFromRight(int min, int max)
     {
-        // Arrange
         var inter = new Interval(1, 4);
         var other = new Interval(min, max);
         var intersection = Interval.Of(4);

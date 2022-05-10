@@ -32,7 +32,6 @@ public partial class GregorianCalendarTests
     [Fact]
     public void Today()
     {
-        // Arrange
         var exp = DateTime.Now;
         // Act
         var today = CalendarUT.GetCurrentDate();
@@ -46,7 +45,6 @@ public partial class GregorianCalendarTests
     public void GetDayOfWeek_UsingDates(YemodaAnd<DayOfWeek> info)
     {
         var (y, m, d, dayOfWeek) = info;
-        // Arrange
         var date = CalendarUT.GetCalendarDate(y, m, d);
         // Act & Assert
         Assert.Equal(dayOfWeek, date.DayOfWeek);

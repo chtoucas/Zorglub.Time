@@ -14,7 +14,6 @@ public static class TroeschAnalyzerTests
     [Fact]
     public static void Input()
     {
-        // Arrange
         var input = new CodeArray(987654321);
         var analyzer = new TroeschAnalyzer(input);
         // Act & Assert
@@ -24,7 +23,6 @@ public static class TroeschAnalyzerTests
     [Fact]
     public static void Analysis_BeforeAnalyze()
     {
-        // Arrange
         var analyzer = new TroeschAnalyzer(new CodeArray(987654321));
         // Act & Assert
         Assert.Throws<InvalidOperationException>(() => analyzer.Analysis);
@@ -33,7 +31,6 @@ public static class TroeschAnalyzerTests
     [Fact]
     public static void MakeForm_BeforeAnalyze()
     {
-        // Arrange
         var analyzer = new TroeschAnalyzer(new CodeArray(987654321));
         // Act & Assert
         Assert.Throws<InvalidOperationException>(() => analyzer.MakeForm());
@@ -42,7 +39,6 @@ public static class TroeschAnalyzerTests
     [Fact]
     public static void ReverseAnalysis_BeforeAnalyze()
     {
-        // Arrange
         var analyzer = new TroeschAnalyzer(new CodeArray(987654321));
         // Act & Assert
         Assert.Throws<InvalidOperationException>(() => analyzer.ReverseAnalysis());
@@ -51,7 +47,6 @@ public static class TroeschAnalyzerTests
     [Fact]
     public static void Transformer_BeforeAnalyze()
     {
-        // Arrange
         var analyzer = new TroeschAnalyzer(new CodeArray(987654321));
         // Act & Assert
         Assert.Throws<InvalidOperationException>(() => analyzer.Transformer);
@@ -60,7 +55,6 @@ public static class TroeschAnalyzerTests
     [Fact]
     public static void Analyze_ConstantIrreducibleCode()
     {
-        // Arrange
         var input = new CodeArray(987654321, 123);
         var analyzer = new TroeschAnalyzer(input);
 
@@ -90,7 +84,6 @@ public static class TroeschAnalyzerTests
     [Fact]
     public static void Analyze_IrreducibleCode()
     {
-        // Arrange
         var input = new CodeArray(new int[] { 1, 3 });
         var analyzer = new TroeschAnalyzer(input);
 

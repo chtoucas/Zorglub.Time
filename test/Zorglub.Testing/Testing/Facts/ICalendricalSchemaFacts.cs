@@ -93,7 +93,6 @@ public partial class ICalendricalSchemaFacts<TSchema, TDataSet> // Methods
     public void CountDaysSinceEpoch﹍OrdinalParts(DateInfo info)
     {
         var (y, m, d, doy) = info;
-        // Arrange
         int daysSinceEpoch = SchemaUT.CountDaysSinceEpoch(y, m, d);
         // Act
         int actual = SchemaUT.CountDaysSinceEpoch(y, doy);
@@ -123,7 +122,6 @@ public partial class ICalendricalSchemaFacts<TSchema, TDataSet> // Methods
     public void GetYear(DateInfo info)
     {
         var (y, m, d, doy) = info;
-        // Arrange
         int daysSinceEpoch = SchemaUT.CountDaysSinceEpoch(y, m, d);
         // Act
         int yA = SchemaUT.GetYear(daysSinceEpoch, out int doyA);
@@ -209,7 +207,6 @@ public partial class ICalendricalSchemaFacts<TSchema, TDataSet> // Methods
     public void GetEndOfYear_CountDaysSinceEpoch(Yemoda ymd)
     {
         var (y, m, d) = ymd;
-        // Arrange
         int endOfYear = SchemaUT.CountDaysSinceEpoch(y, m, d);
         // Act
         int actual = SchemaUT.GetEndOfYear(y);
@@ -222,7 +219,6 @@ public partial class ICalendricalSchemaFacts<TSchema, TDataSet> // Methods
     {
         int y = info.Year;
         if (y >= MaxYear) { return; }
-        // Arrange
         int startOfNextYearMinusOne = SchemaUT.GetStartOfYear(y + 1) - 1;
         // Act
         int endOfYear = SchemaUT.GetEndOfYear(y);
@@ -237,7 +233,6 @@ public partial class ICalendricalSchemaFacts<TSchema, TDataSet> // Methods
     public void GetStartOfMonth(MonthInfo info)
     {
         var (y, m) = info.Yemo;
-        // Arrange
         int startOfMonth = SchemaUT.GetStartOfYear(y) + info.DaysInYearBeforeMonth;
         // Act
         int actual = SchemaUT.GetStartOfMonth(y, m);
@@ -261,7 +256,6 @@ public partial class ICalendricalSchemaFacts<TSchema, TDataSet> // Methods
     public void GetEndOfMonth(MonthInfo info)
     {
         var (y, m) = info.Yemo;
-        // Arrange
         int endOfMonth = SchemaUT.GetStartOfYear(y) + info.DaysInYearBeforeMonth + info.DaysInMonth - 1;
         // Act
         int actual = SchemaUT.GetEndOfMonth(y, m);
@@ -276,7 +270,6 @@ public partial class ICalendricalSchemaFacts<TSchema, TDataSet> // Methods
         int monthsInYear = SchemaUT.CountMonthsInYear(y);
         for (int m = 1; m < monthsInYear; m++)
         {
-            // Arrange
             int startOfNextMonthMinusOne = SchemaUT.CountDaysSinceEpoch(y, m + 1, 1) - 1;
             // Act
             int endOfMonth = SchemaUT.GetEndOfMonth(y, m);

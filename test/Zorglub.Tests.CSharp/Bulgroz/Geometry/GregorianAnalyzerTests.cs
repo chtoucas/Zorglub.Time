@@ -85,7 +85,6 @@ public partial class GregorianCenturyFormTests
     [Fact]
     public void CenturyForm_Values()
     {
-        // Arrange
         var form = GregorianGeometry.CenturyForm;
         var altForm = GregorianGeometry.AltCenturyForm;
 
@@ -126,7 +125,6 @@ public partial class GregorianCenturyFormTests
     [Fact]
     public void CenturyForm2()
     {
-        // Arrange
         var codes = new int[8] { 36_524, 36_524, 36_525, 36_524, /* Second cycle */ 36_524, 36_524, 36_525, 36_524 };
         var code = new CodeArray(codes);
         // Act & Assert
@@ -139,7 +137,6 @@ public partial class GregorianCenturyFormTests
     [Fact]
     public void CenturyForm3()
     {
-        // Arrange
         var codes = new int[8] { 36_524, 36_525, 36_524, 36_524, /* Second cycle */ 36_524, 36_525, 36_524, 36_524 };
         var code = new CodeArray(codes);
         // Act & Assert

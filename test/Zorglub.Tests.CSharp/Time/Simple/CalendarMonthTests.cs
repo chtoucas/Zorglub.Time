@@ -40,7 +40,6 @@ public partial class CalendarMonthTests
     //[Theory, MemberData(nameof(SampleDates))]
     //public void Constructor_WithDay(int y, int m, int d, int _4, bool _5, bool _6)
     //{
-    //    // Arrange
     //    var date = CalendarUT.NewCalendarDate(y, m, d);
     //    var cmonth = CalendarUT.NewCalendarMonth(y, m);
     //    // Act
@@ -53,7 +52,6 @@ public partial class CalendarMonthTests
     public void Deconstructor(MonthInfo info)
     {
         var (y, m) = info.Yemo;
-        // Arrange
         var cmonth = CalendarUT.GetCalendarMonth(y, m);
         // Act
         var (year, month) = cmonth;
@@ -70,7 +68,6 @@ public partial class CalendarMonthTests
     public void CenturyOfEra(CenturyInfo info)
     {
         var (y, century, _) = info;
-        // Arrange
         var cmonth = CalendarUT.GetCalendarMonth(y, 1);
         var centuryOfEra = Ord.Zeroth + century;
         // Act & Assert
@@ -81,7 +78,6 @@ public partial class CalendarMonthTests
     public void Century(CenturyInfo info)
     {
         var (y, century, _) = info;
-        // Arrange
         var cmonth = CalendarUT.GetCalendarMonth(y, 1);
         // Act & Assert
         Assert.Equal(century, cmonth.Century);
@@ -91,7 +87,6 @@ public partial class CalendarMonthTests
     public void YearOfEra(CenturyInfo info)
     {
         int y = info.Year;
-        // Arrange
         var cmonth = CalendarUT.GetCalendarMonth(y, 1);
         var yearOfEra = Ord.Zeroth + y;
         // Act & Assert
@@ -102,7 +97,6 @@ public partial class CalendarMonthTests
     public void YearOfCentury(CenturyInfo info)
     {
         var (y, _, yearOfCentury) = info;
-        // Arrange
         var cmonth = CalendarUT.GetCalendarMonth(y, 1);
         // Act & Assert
         Assert.Equal(yearOfCentury, cmonth.YearOfCentury);
@@ -125,7 +119,6 @@ public partial class CalendarMonthTests
     [Fact]
     public void WithCalendar_InvalidCalendar()
     {
-        // Arrange
         var cmonth = CalendarUT.GetCalendarMonth(3, 4);
         // Act & Assert
         Assert.ThrowsAnexn("newCalendar", () => DateRange.FromMonth(cmonth).WithCalendar(null!));
@@ -134,7 +127,6 @@ public partial class CalendarMonthTests
     [Fact]
     public void WithCalendar()
     {
-        // Arrange
         var cmonth = CalendarUT.GetCalendarMonth(1970, 1);
         var date = s_Julian.GetCalendarDate(1969, 12, 19);
         var range = DateRange.Create(date, 31);
@@ -148,7 +140,6 @@ public partial class CalendarMonthTests
     public void CountElapsedDaysInYear(MonthInfo info)
     {
         var (y, m) = info.Yemo;
-        // Arrange
         var cmonth = CalendarUT.GetCalendarMonth(y, m);
         // Act
         int actual = cmonth.CountElapsedDaysInYear();
@@ -160,7 +151,6 @@ public partial class CalendarMonthTests
     public void CountRemainingDaysInYear(YemoAnd<int> info)
     {
         var (y, m, days) = info;
-        // Arrange
         var cmonth = CalendarUT.GetCalendarMonth(y, m);
         // Act
         int actual = cmonth.CountRemainingDaysInYear();
@@ -172,7 +162,6 @@ public partial class CalendarMonthTests
     public void CountDaysInMonth(MonthInfo info)
     {
         var (y, m) = info.Yemo;
-        // Arrange
         var cmonth = CalendarUT.GetCalendarMonth(y, m);
         // Act
         int actual = cmonth.CountDaysInMonth();
@@ -184,7 +173,6 @@ public partial class CalendarMonthTests
     public void GetStartOfYear(MonthInfo info)
     {
         var (y, m) = info.Yemo;
-        // Arrange
         var cmonth = CalendarUT.GetCalendarMonth(y, m);
         var startOfYear = CalendarUT.GetCalendarDate(y, 1, 1);
         // Act
@@ -197,7 +185,6 @@ public partial class CalendarMonthTests
     public void GetEndOfYear(MonthInfo info)
     {
         var (y, m) = info.Yemo;
-        // Arrange
         var cmonth = CalendarUT.GetCalendarMonth(y, m);
         int daysInYear = ((ICalendar)CalendarUT).CountDaysInYear(y);
         var endOfYear = CalendarUT.GetOrdinalDate(y, daysInYear).ToCalendarDate();
@@ -211,7 +198,6 @@ public partial class CalendarMonthTests
     public void GetStartOfMonth(MonthInfo info)
     {
         var (y, m) = info.Yemo;
-        // Arrange
         var cmonth = CalendarUT.GetCalendarMonth(y, m);
         var startOfMonth = CalendarUT.GetCalendarDate(y, m, 1);
         // Act
@@ -224,7 +210,6 @@ public partial class CalendarMonthTests
     public void GetDayOfMonth(DateInfo info)
     {
         var (y, m, d) = info.Yemoda;
-        // Arrange
         var cmonth = CalendarUT.GetCalendarMonth(y, m);
         var date = CalendarUT.GetCalendarDate(y, m, d);
         // Act
@@ -237,7 +222,6 @@ public partial class CalendarMonthTests
     public void GetEndOfMonth(MonthInfo info)
     {
         var (y, m) = info.Yemo;
-        // Arrange
         var cmonth = CalendarUT.GetCalendarMonth(y, m);
         int daysInMonth = ((ICalendar)CalendarUT).CountDaysInMonth(y, m);
         var endOfMonth = CalendarUT.GetCalendarDate(y, m, daysInMonth);
@@ -255,7 +239,6 @@ public partial class CalendarMonthTests
     public void ToDateRange(MonthInfo info)
     {
         var (y, m) = info.Yemo;
-        // Arrange
         var month = CalendarUT.GetCalendarMonth(y, m);
         var start = CalendarUT.GetCalendarDate(y, m, 1);
         var end = CalendarUT.GetCalendarDate(y, m, info.DaysInMonth);
@@ -270,7 +253,6 @@ public partial class CalendarMonthTests
     public void Length(MonthInfo info)
     {
         var (y, m) = info.Yemo;
-        // Arrange
         var month = CalendarUT.GetCalendarMonth(y, m);
         // Act
         var range = DateRange.FromMonth(month);
@@ -283,7 +265,6 @@ public partial class CalendarMonthTests
     [Fact]
     public void IsSupersetOf_RangeA()
     {
-        // Arrange
         var range1 = DateRange.FromMonth(CalendarUT.GetCalendarMonth(3, 4));
         var range2 = DateRange.FromMonth(CalendarUT.GetCalendarMonth(3, 5));
         // Act & Assert
@@ -293,7 +274,6 @@ public partial class CalendarMonthTests
     [Fact]
     public void IsSupersetOf_RangeB()
     {
-        // Arrange
         var range1 = DateRange.FromMonth(CalendarUT.GetCalendarMonth(3, 4));
         var range2 = DateRange.FromMonth(CalendarUT.GetCalendarMonth(4, 4));
         // Act & Assert
@@ -303,7 +283,6 @@ public partial class CalendarMonthTests
     [Fact]
     public void IsSupersetOf_RangeC()
     {
-        // Arrange
         var range1 = DateRange.FromMonth(CalendarUT.GetCalendarMonth(3, 4));
         var range2 = DateRange.Create(CalendarUT.GetCalendarDate(3, 4, 2), 2);
         // Act & Assert
@@ -322,7 +301,6 @@ public partial class CalendarMonthTests
     [InlineData(4, 1, 1, false)]
     public void Contains_Date(int y, int m, int d, bool inRange)
     {
-        // Arrange
         var month = CalendarUT.GetCalendarMonth(3, 3);
         var range = DateRange.FromMonth(month);
         var date = CalendarUT.GetCalendarDate(y, m, d);
@@ -338,7 +316,6 @@ public partial class CalendarMonthTests
     [InlineData(4, 1, false)]
     public void Contains_Month(int y, int m, bool inRange)
     {
-        // Arrange
         var month = CalendarUT.GetCalendarMonth(3, 3);
         var range = DateRange.FromMonth(month);
         var other = CalendarUT.GetCalendarMonth(y, m);
@@ -352,7 +329,6 @@ public partial class CalendarMonthTests
     [InlineData(4)]
     public void Contains_Year(int y)
     {
-        // Arrange
         var month = CalendarUT.GetCalendarMonth(3, 3);
         var range = DateRange.FromMonth(month);
         var year = CalendarUT.GetCalendarYear(y);
@@ -367,7 +343,6 @@ public partial class CalendarMonthTests
     [Fact]
     public void Enumerate()
     {
-        // Arrange
         IEnumerable<CalendarDate> listE =
             from i in Enumerable.Range(1, 30)
             select CalendarUT.GetCalendarDate(3, 4, i);
@@ -387,7 +362,6 @@ public partial class CalendarMonthTests
     [Fact]
     public void CountMonthsSince_InvalidMonth()
     {
-        // Arrange
         var left = CalendarUT.GetCalendarMonth(3, 4);
         var right = s_Julian.GetCalendarMonth(3, 4);
         // Act & Assert
@@ -397,7 +371,6 @@ public partial class CalendarMonthTests
     [Theory, MemberData(nameof(AddMonthsData))]
     public void PlusMonths(Yemoda xstart, Yemoda xend, int months)
     {
-        // Arrange
         var start = new CalendarDate(xstart, CalendarUT.Id).CalendarMonth;
         var end = new CalendarDate(xend, CalendarUT.Id).CalendarMonth;
         // Act & Assert
@@ -412,7 +385,6 @@ public partial class CalendarMonthTests
     [Theory, MemberData(nameof(AddYearsData))]
     public void PlusYears(Yemoda xstart, Yemoda xend, int years)
     {
-        // Arrange
         var start = new CalendarDate(xstart, CalendarUT.Id).CalendarMonth;
         var end = new CalendarDate(xend, CalendarUT.Id).CalendarMonth;
         // Act & Assert
@@ -428,7 +400,6 @@ public partial class CalendarMonthTests
     public void Equality(MonthInfo info)
     {
         var (y, m) = info.Yemo;
-        // Arrange
         var cmonth = CalendarUT.GetCalendarMonth(y, m);
         var same = CalendarUT.GetCalendarMonth(y, m);
         var notSame = CalendarUT.GetCalendarMonth(y, m == 12 ? 2 : 12);
@@ -460,7 +431,6 @@ public partial class CalendarMonthTests
     public void GetHashCode_SanityChecks(MonthInfo info)
     {
         var (y, m) = info.Yemo;
-        // Arrange
         var cmonth = CalendarUT.GetCalendarMonth(y, m);
         var same = CalendarUT.GetCalendarMonth(y, m);
         var notSame = CalendarUT.GetCalendarMonth(y, m == 12 ? 2 : 12);
@@ -477,7 +447,6 @@ public partial class CalendarMonthTests
     [Fact]
     public void CompareTo_WithNull()
     {
-        // Arrange
         var date = CalendarUT.GetCalendarMonth(3, 4);
         var comparable = (IComparable)date;
         // Act & Assert
@@ -487,7 +456,6 @@ public partial class CalendarMonthTests
     [Fact]
     public void CompareTo_WithInvalidObject()
     {
-        // Arrange
         var date = CalendarUT.GetCalendarMonth(3, 4);
         var comparable = (IComparable)date;
         object other = new();
@@ -498,7 +466,6 @@ public partial class CalendarMonthTests
     [Fact]
     public void CompareTo_WithOtherCalendar()
     {
-        // Arrange
         var date = CalendarUT.GetCalendarMonth(3, 4);
         var other = s_Julian.GetCalendarMonth(3, 4);
         // Act & Assert
@@ -508,7 +475,6 @@ public partial class CalendarMonthTests
     [Theory, MemberData(nameof(MinMaxMonths))]
     public void CompareTo(Yemoda xleft, Yemoda xright, bool leftIsMax, bool areEqual)
     {
-        // Arrange
         var left = CalendarUT.GetCalendarMonth(xleft.Year, xleft.Month);
         var right = CalendarUT.GetCalendarMonth(xright.Year, xright.Month);
         var comparable = (IComparable)left;
@@ -538,7 +504,6 @@ public partial class CalendarMonthTests
     public void ComparisonOperators(
         Yemoda xleft, Yemoda xright, bool leftIsMax, bool areEqual)
     {
-        // Arrange
         var left = CalendarUT.GetCalendarMonth(xleft.Year, xleft.Month);
         var right = CalendarUT.GetCalendarMonth(xright.Year, xright.Month);
 
@@ -584,7 +549,6 @@ public partial class CalendarMonthTests
     [Theory, MemberData(nameof(MinMaxMonths))]
     public void Min(Yemoda xleft, Yemoda xright, bool leftIsMax, bool _4)
     {
-        // Arrange
         var left = CalendarUT.GetCalendarMonth(xleft.Year, xleft.Month);
         var right = CalendarUT.GetCalendarMonth(xright.Year, xright.Month);
         var min = leftIsMax ? right : left;
@@ -597,7 +561,6 @@ public partial class CalendarMonthTests
     [Theory, MemberData(nameof(MinMaxMonths))]
     public void Max(Yemoda xleft, Yemoda xright, bool leftIsMax, bool _4)
     {
-        // Arrange
         var left = CalendarUT.GetCalendarMonth(xleft.Year, xleft.Month);
         var right = CalendarUT.GetCalendarMonth(xright.Year, xright.Month);
         var max = leftIsMax ? left : right;
@@ -622,7 +585,6 @@ public partial class CalendarMonthTests
     [InlineData(9999, 12, "12/9999 (Gregorian)")]
     public void ToString_InvariantCulture(int y, int m, string asString)
     {
-        // Arrange
         var cmonth = CalendarUT.GetCalendarMonth(y, m);
         // Act & Assert
         Assert.Equal(asString, cmonth.ToString());

@@ -18,7 +18,6 @@ public partial class CalendarYearAdjustersTests // Adjustments
     [InlineData(3, ShortScope.MaxYear + 1)]
     public void WithYear_InvalidYear(int y, int newYear)
     {
-        // Arrange
         var year = CalendarUT.GetCalendarYear(y);
         // Act & Assert
         Assert.ThrowsAoorexn("newYear", () => year.WithYear(newYear));
@@ -41,7 +40,6 @@ public partial class CalendarYearAdjustersTests // Adjustments
     [InlineData(12, 12)]
     public void WithYear(int y, int newYear)
     {
-        // Arrange
         var cyear = CalendarUT.GetCalendarYear(y);
         var newCyear = CalendarUT.GetCalendarYear(newYear);
         // Act & Assert

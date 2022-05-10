@@ -24,7 +24,6 @@ public partial class ICalendricalSchemaPlusFacts<TSchema, TDataSet> // Methods
     public void CountDaysInYearAfterMonth(MonthInfo info)
     {
         var (y, m) = info.Yemo;
-        // Arrange
         int daysInYearAfterMonth = SchemaUT.CountDaysInYear(y) - info.DaysInMonth - info.DaysInYearBeforeMonth;
         // Act
         int actual = SchemaUT.CountDaysInYearAfterMonth(y, m);
@@ -40,7 +39,6 @@ public partial class ICalendricalSchemaPlusFacts<TSchema, TDataSet> // Methods
     public void CountDaysInYearBefore﹍DateParts(DateInfo info)
     {
         var (y, m, d, doy) = info;
-        // Arrange
         int daysInYearBefore = doy - 1;
         // Act
         int actual = SchemaUT.CountDaysInYearBefore(y, m, d);
@@ -73,7 +71,6 @@ public partial class ICalendricalSchemaPlusFacts<TSchema, TDataSet> // Methods
     public void CountDaysInYearBefore﹍OrdinalParts(DateInfo info)
     {
         var (y, doy) = info.Yedoy;
-        // Arrange
         int daysInYearBefore = doy - 1;
         // Act
         int actual = SchemaUT.CountDaysInYearBefore(y, doy);
@@ -85,7 +82,6 @@ public partial class ICalendricalSchemaPlusFacts<TSchema, TDataSet> // Methods
     public void CountDaysInYearBefore﹍DaysSinceEpoch(DaysSinceEpochInfo info)
     {
         var (daysSinceEpoch, y, m, d) = info;
-        // Arrange
         int daysInYearBefore = SchemaUT.GetDayOfYear(y, m, d) - 1;
         // Act
         int actual = SchemaUT.CountDaysInYearBefore(daysSinceEpoch);
@@ -100,7 +96,6 @@ public partial class ICalendricalSchemaPlusFacts<TSchema, TDataSet> // Methods
     public void CountDaysInYearAfter﹍DateParts(DateInfo info)
     {
         var (y, m, d, doy) = info;
-        // Arrange
         int daysInYearAfter = SchemaUT.CountDaysInYear(y) - doy;
         // Act
         int actual = SchemaUT.CountDaysInYearAfter(y, m, d);
@@ -112,7 +107,6 @@ public partial class ICalendricalSchemaPlusFacts<TSchema, TDataSet> // Methods
     public void CountDaysInYearAfter﹍OrdinalParts(DateInfo info)
     {
         var (y, doy) = info.Yedoy;
-        // Arrange
         int daysInYearAfter = SchemaUT.CountDaysInYear(y) - doy;
         // Act
         int actual = SchemaUT.CountDaysInYearAfter(y, doy);
@@ -124,7 +118,6 @@ public partial class ICalendricalSchemaPlusFacts<TSchema, TDataSet> // Methods
     public void CountDaysInYearAfter﹍DaysSinceEpoch(DaysSinceEpochInfo info)
     {
         var (daysSinceEpoch, y, m, d) = info;
-        // Arrange
         int daysInYearAfter = SchemaUT.CountDaysInYear(y) - SchemaUT.GetDayOfYear(y, m, d);
         // Act
         int actual = SchemaUT.CountDaysInYearAfter(daysSinceEpoch);
@@ -139,7 +132,6 @@ public partial class ICalendricalSchemaPlusFacts<TSchema, TDataSet> // Methods
     public void CountDaysInMonthBefore﹍DateParts(DateInfo info)
     {
         var (y, m, d) = info.Yemoda;
-        // Arrange
         int daysInMonthBefore = d - 1;
         // Act
         int actual = SchemaUT.CountDaysInMonthBefore(y, m, d);
@@ -151,7 +143,6 @@ public partial class ICalendricalSchemaPlusFacts<TSchema, TDataSet> // Methods
     public void CountDaysInMonthBefore﹍OrdinalParts(DateInfo info)
     {
         var (y, _, d, doy) = info;
-        // Arrange
         int daysInMonthBefore = d - 1;
         // Act
         int actual = SchemaUT.CountDaysInMonthBefore(y, doy);
@@ -163,7 +154,6 @@ public partial class ICalendricalSchemaPlusFacts<TSchema, TDataSet> // Methods
     public void CountDaysInMonthBefore﹍DaysSinceEpoch(DaysSinceEpochInfo info)
     {
         var (daysSinceEpoch, _, _, d) = info;
-        // Arrange
         int daysInMonthBefore = d - 1;
         // Act
         int actual = SchemaUT.CountDaysInMonthBefore(daysSinceEpoch);
@@ -178,7 +168,6 @@ public partial class ICalendricalSchemaPlusFacts<TSchema, TDataSet> // Methods
     public void CountDaysInMonthAfter﹍DateParts(DateInfo info)
     {
         var (y, m, d) = info.Yemoda;
-        // Arrange
         int daysInMonthAfter = SchemaUT.CountDaysInMonth(y, m) - d;
         // Act
         int actual = SchemaUT.CountDaysInMonthAfter(y, m, d);
@@ -211,7 +200,6 @@ public partial class ICalendricalSchemaPlusFacts<TSchema, TDataSet> // Methods
     public void CountDaysInMonthAfter﹍OrdinalParts(DateInfo info)
     {
         var (y, m, d, doy) = info;
-        // Arrange
         int daysInMonthAfter = SchemaUT.CountDaysInMonth(y, m) - d;
         // Act
         int actual = SchemaUT.CountDaysInMonthAfter(y, doy);
@@ -223,7 +211,6 @@ public partial class ICalendricalSchemaPlusFacts<TSchema, TDataSet> // Methods
     public void CountDaysInMonthAfter﹍DaysSinceEpoch(DaysSinceEpochInfo info)
     {
         var (daysSinceEpoch, y, m, d) = info;
-        // Arrange
         int daysInMonthAfter = SchemaUT.CountDaysInMonth(y, m) - d;
         // Act
         int actual = SchemaUT.CountDaysInMonthAfter(daysSinceEpoch);

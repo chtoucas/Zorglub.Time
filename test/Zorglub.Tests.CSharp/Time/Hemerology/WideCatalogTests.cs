@@ -105,7 +105,6 @@ public static class WideCatalogTests
     [Fact]
     public static void GetSystemCalendar_Pristine()
     {
-        // Arrange
         var chr = ArmenianCalendar;
         // Assert
         Assert.Same(chr, s_GetCalendarFirstCall);
@@ -115,7 +114,6 @@ public static class WideCatalogTests
     [Fact]
     public static void GetCalendarUnchecked_Pristine()
     {
-        // Arrange
         var chr = CopticCalendar;
         // Assert
         Assert.Same(chr, s_GetCalendarUncheckedFirstCall);
@@ -151,7 +149,6 @@ public static class WideCatalogTests
     [Fact]
     public static void Add_InvalidSchema()
     {
-        // Arrange
         string key = "key";
         // Act & Assert
         Assert.ThrowsAnexn("schema",
@@ -162,7 +159,6 @@ public static class WideCatalogTests
     [Fact]
     public static void Add()
     {
-        // Arrange
         string key = "Add";
         var epoch = DayZero.NewStyle;
         // Act
@@ -174,7 +170,6 @@ public static class WideCatalogTests
     [Fact]
     public static void Add_Box()
     {
-        // Arrange
         string key = "Add_Box";
         var epoch = DayZero.NewStyle;
         // Act
@@ -214,7 +209,6 @@ public static class WideCatalogTests
     [Fact]
     public static void TryAdd_InvalidSchema()
     {
-        // Arrange
         string key = "key";
         // Act & Assert
         Assert.ThrowsAnexn("schema",
@@ -225,7 +219,6 @@ public static class WideCatalogTests
     [Fact]
     public static void TryAdd()
     {
-        // Arrange
         string key = "TryAdd";
         var epoch = DayZero.NewStyle;
         // Act
@@ -239,7 +232,6 @@ public static class WideCatalogTests
     [Fact]
     public static void TryAdd_EmptyKey()
     {
-        // Arrange
         string key = String.Empty;
         var epoch = DayZero.NewStyle;
         // Act
@@ -253,7 +245,6 @@ public static class WideCatalogTests
     [Fact]
     public static void TryAdd_Box()
     {
-        // Arrange
         string key = "TryAdd_Box";
         var epoch = DayZero.NewStyle;
         bool created = false;

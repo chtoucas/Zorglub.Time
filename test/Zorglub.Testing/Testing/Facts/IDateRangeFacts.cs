@@ -39,7 +39,6 @@ public partial class IDateRangeFacts<TDate, TRange, TDataSet> // Construction
     [Fact]
     public void Create_InvalidEnd()
     {
-        // Arrange
         var start = CreateDate(3, 4, 6);
         var end = CreateDate(3, 4, 5);
         // Act & Assert
@@ -53,7 +52,6 @@ public partial class IDateRangeFacts<TDate, TRange, TDataSet> // Construction
     [InlineData(0)]
     public void Create_InvalidLength(int length)
     {
-        // Arrange
         var start = CreateDate(3, 4, 5);
         // Act & Assert
         Assert.ThrowsAoorexn("length", () => CreateRange(start, length));
@@ -62,7 +60,6 @@ public partial class IDateRangeFacts<TDate, TRange, TDataSet> // Construction
     [Fact]
     public void Create_Singleton()
     {
-        // Arrange
         var start = CreateDate(3, 4, 5);
         // Act
         var range = CreateRange(start, start);
@@ -76,7 +73,6 @@ public partial class IDateRangeFacts<TDate, TRange, TDataSet> // Construction
     [Fact]
     public void Create_Length_Singleton()
     {
-        // Arrange
         var start = CreateDate(3, 4, 5);
         // Act
         var range = CreateRange(start, 1);
@@ -90,7 +86,6 @@ public partial class IDateRangeFacts<TDate, TRange, TDataSet> // Construction
     [Fact]
     public void Create()
     {
-        // Arrange
         var start = CreateDate(3, 4, 5);
         var end = CreateDate(3, 4, 15);
         // Act
@@ -105,7 +100,6 @@ public partial class IDateRangeFacts<TDate, TRange, TDataSet> // Construction
     [Fact]
     public void Create_Length()
     {
-        // Arrange
         var start = CreateDate(3, 4, 5);
         TDate end = PlusDays(start, 9);
         // Act
@@ -125,7 +119,6 @@ public partial class IDateRangeFacts<TDate, TRange, TDataSet> // Methods
     [Fact]
     public void IsSupersetOf_NullRange()
     {
-        // Arrange
         var start = CreateDate(3, 4, 5);
         var end = CreateDate(3, 4, 30);
         var range = CreateRange(start, end);
@@ -149,7 +142,6 @@ public partial class IDateRangeFacts<TDate, TRange, TDataSet> // Methods
     [InlineData(3, 4, 13, false)]
     public void Contains_Date(int y, int m, int d, bool inRange)
     {
-        // Arrange
         var start = CreateDate(3, 4, 5);
         var end = CreateDate(3, 4, 10);
         var range = CreateRange(start, end);
@@ -161,7 +153,6 @@ public partial class IDateRangeFacts<TDate, TRange, TDataSet> // Methods
     [Fact]
     public void IsSupersetOf_Range()
     {
-        // Arrange
         var start = CreateDate(3, 4, 5);
         var range1 = CreateRange(start, 1);
         var range2 = CreateRange(start, 2);
@@ -173,7 +164,6 @@ public partial class IDateRangeFacts<TDate, TRange, TDataSet> // Methods
     [Fact]
     public void IsSupersetOf_Range_Overlapping()
     {
-        // Arrange
         var start1 = CreateDate(3, 4, 4);
         var range1 = CreateRange(start1, 2);
         var start2 = CreateDate(3, 4, 5);
@@ -186,7 +176,6 @@ public partial class IDateRangeFacts<TDate, TRange, TDataSet> // Methods
     [Fact]
     public void IsSupersetOf_Range_Disjoint()
     {
-        // Arrange
         var start1 = CreateDate(3, 4, 4);
         var range1 = CreateRange(start1, 2);
         var start2 = CreateDate(4, 4, 5);
@@ -203,7 +192,6 @@ public partial class IDateRangeFacts<TDate, TRange, TDataSet> // Methods
     [Fact]
     public void Intersect_InvalidRange()
     {
-        // Arrange
         var date = CreateDate(3, 4, 5);
         var range = CreateRange(date, 6);
         // Act & Assert
@@ -213,7 +201,6 @@ public partial class IDateRangeFacts<TDate, TRange, TDataSet> // Methods
     [Fact]
     public void Intersect_Subrange()
     {
-        // Arrange
         var start = CreateDate(3, 4, 5);
         // range2 contient range1
         var range1 = CreateRange(start, 1);
@@ -226,7 +213,6 @@ public partial class IDateRangeFacts<TDate, TRange, TDataSet> // Methods
     [Fact]
     public void Intersect_Overlapping()
     {
-        // Arrange
         // range2 contient range1.End
         // range1 contient range2.Start
         var range1 = CreateRange(CreateDate(3, 4, 1), 4);
@@ -240,7 +226,6 @@ public partial class IDateRangeFacts<TDate, TRange, TDataSet> // Methods
     [Fact]
     public void Intersect_Disjoint()
     {
-        // Arrange
         var date1 = CreateDate(3, 4, 5);
         var range1 = CreateRange(date1, 2);
         var date2 = CreateDate(4, 4, 5);
@@ -256,7 +241,6 @@ public partial class IDateRangeFacts<TDate, TRange, TDataSet> // Methods
     [Fact]
     public void Union_InvalidRange()
     {
-        // Arrange
         var date = CreateDate(3, 4, 5);
         var range = CreateRange(date, 6);
         // Act & Assert
@@ -266,7 +250,6 @@ public partial class IDateRangeFacts<TDate, TRange, TDataSet> // Methods
     [Fact]
     public void Union_Disjoint()
     {
-        // Arrange
         var date1 = CreateDate(3, 4, 5);
         var range1 = CreateRange(date1, 2);
         var date2 = CreateDate(4, 4, 5);
@@ -278,7 +261,6 @@ public partial class IDateRangeFacts<TDate, TRange, TDataSet> // Methods
     [Fact]
     public void Union()
     {
-        // Arrange
         var range1 = CreateRange(CreateDate(3, 4, 4), 3);
         var range2 = CreateRange(CreateDate(3, 4, 5), 3);
         var rangeE = CreateRange(CreateDate(3, 4, 4), 4);
@@ -294,7 +276,6 @@ public partial class IDateRangeFacts<TDate, TRange, TDataSet> // IEnumerable
     [Fact]
     public void Enumerate_IEnumerable()
     {
-        // Arrange
         var list =
             from i in Enumerable.Range(1, 33)
             where i >= 30
@@ -315,7 +296,6 @@ public partial class IDateRangeFacts<TDate, TRange, TDataSet> // IEnumerable
     [Fact]
     public void Enumerate_Default()
     {
-        // Arrange
         // On choisit un intervalle à cheval sur deux années.
         var start = CreateDate(3, 12, 31);
         var list = new List<TDate> { start }
@@ -328,7 +308,6 @@ public partial class IDateRangeFacts<TDate, TRange, TDataSet> // IEnumerable
     [Fact]
     public void Enumerate_InYear()
     {
-        // Arrange
         var list = from i in Enumerable.Range(1, 32)
                    where i >= 2
                    select CreateDate(3, i);
@@ -340,7 +319,6 @@ public partial class IDateRangeFacts<TDate, TRange, TDataSet> // IEnumerable
     [Fact]
     public void Enumerate_InMonth()
     {
-        // Arrange
         var list = from i in Enumerable.Range(1, 11)
                    where i >= 2
                    select CreateDate(3, 4, i);
@@ -360,7 +338,6 @@ public partial class IDateRangeFacts<TDate, TRange, TDataSet> // IEquatable
         // FIXME(fact): ShortScope est lié à DateRange, pas à IDateRange.
         if (y >= ShortScope.MaxYear) { return; }
 
-        // Arrange
         var start = CreateDate(y, m, d);
         var range = CreateRange(start, 29);
         // Act & Assert
@@ -374,7 +351,6 @@ public partial class IDateRangeFacts<TDate, TRange, TDataSet> // IEquatable
         // Autrement, on ne pourrait pas créer range1/2.
         if (y >= ShortScope.MaxYear) { return; }
 
-        // Arrange
         var start = CreateDate(y, m, d);
         // Act
         var range = CreateRange(start, 29);
@@ -389,7 +365,6 @@ public partial class IDateRangeFacts<TDate, TRange, TDataSet> // IEquatable
         // Autrement, on ne pourrait pas créer range1/2.
         if (y >= ShortScope.MaxYear) { return; }
 
-        // Arrange
         var start = CreateDate(y, m, d);
         // Act
         var range1 = CreateRange(start, 29);
@@ -405,7 +380,6 @@ public partial class IDateRangeFacts<TDate, TRange, TDataSet> // IEquatable
         // Autrement, on ne pourrait pas créer range1/2.
         if (y >= ShortScope.MaxYear) { return; }
 
-        // Arrange
         var start = CreateDate(y, m, d);
         // Act
         var range1 = CreateRange(start, 1);
@@ -421,7 +395,6 @@ public partial class IDateRangeFacts<TDate, TRange, TDataSet> // IEquatable
         // Autrement, on ne pourrait pas créer range1/2.
         if (y >= ShortScope.MaxYear) { return; }
 
-        // Arrange
         var start = CreateDate(y, m, d);
         TDate other = PlusDays(start, -1);
         // Act
@@ -434,7 +407,6 @@ public partial class IDateRangeFacts<TDate, TRange, TDataSet> // IEquatable
     [Fact]
     public void Equals_Null()
     {
-        // Arrange
         var start = CreateDate(3, 4, 5);
         var range = CreateRange(start, 29);
         // Act & Assert

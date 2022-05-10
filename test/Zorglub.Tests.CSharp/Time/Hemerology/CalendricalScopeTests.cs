@@ -37,7 +37,6 @@ public static partial class CalendricalScopeTests
     [Fact]
     public static void Constructor_InvalidMinYear()
     {
-        // Arrange
         var (minYear, maxYear) = s_Schema.SupportedYears.Endpoints;
         // Act
         Assert.ThrowsAoorexn("year",
@@ -47,7 +46,6 @@ public static partial class CalendricalScopeTests
     [Fact]
     public static void Constructor_InvalidMaxYear()
     {
-        // Arrange
         var (minYear, maxYear) = s_Schema.SupportedYears.Endpoints;
         // Act
         Assert.ThrowsAoorexn("year",
@@ -84,7 +82,6 @@ public static partial class CalendricalScopeTests
     [Theory, MemberData(nameof(InvalidGregorianYear))]
     public static void ValidateYear_InvalidYear(int y)
     {
-        // Arrange
         ICalendricalScope scope = new FauxCalendarScope(Schema, null, null);
         // Act
         Assert.ThrowsAoorexn("year", () => scope.ValidateYear(y));
@@ -94,7 +91,6 @@ public static partial class CalendricalScopeTests
     [Theory, MemberData(nameof(ValidGregorianYear))]
     public static void ValidateYear(int y)
     {
-        // Arrange
         ICalendricalScope scope = new FauxCalendarScope(Schema, null, null);
         // Act
         scope.ValidateYear(y);
@@ -112,7 +108,6 @@ public static partial class CalendricalScopeTests
     [InlineData(Int32.MaxValue, true)]
     public static void CheckYearOverflowOrUnderflow(int y, bool overflow)
     {
-        // Arrange
         ICalendricalScope scope = new FauxCalendarScope(Schema, null, null);
         // Act
         if (overflow)

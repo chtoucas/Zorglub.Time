@@ -33,7 +33,6 @@ public partial class SegmentTests // Factories
     [Fact]
     public static void Closed()
     {
-        // Arrange
         var endpoints = OrderedPair.Create(1d, 5d);
         // Act
         var inter = Segment.Closed(1d, 5d);
@@ -56,7 +55,6 @@ public partial class SegmentTests // Factories
     [Fact]
     public static void Open()
     {
-        // Arrange
         var endpoints = OrderedPair.Create(1d, 5d);
         // Act
         var inter = Segment.Open(1d, 5d);
@@ -79,7 +77,6 @@ public partial class SegmentTests // Factories
     [Fact]
     public static void LeftOpen()
     {
-        // Arrange
         var endpoints = OrderedPair.Create(1d, 5d);
         // Act
         var inter = Segment.LeftOpen(1d, 5d);
@@ -102,7 +99,6 @@ public partial class SegmentTests // Factories
     [Fact]
     public static void RightOpen()
     {
-        // Arrange
         var endpoints = OrderedPair.Create(1d, 5d);
         // Act
         var inter = Segment.RightOpen(1d, 5d);
@@ -125,7 +121,6 @@ public partial class SegmentTests // Factories
     [Fact]
     public static void Singleton()
     {
-        // Arrange
         var endpoints = OrderedPair.Create(3d, 3d);
         // Act
         var inter = Segment.Singleton(3d);

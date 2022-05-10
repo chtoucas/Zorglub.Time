@@ -14,7 +14,6 @@ public partial class IntervalTests // Union, Coalesce, Span, etc.
     [InlineData(1, 4, 2, 6)]
     public static void Range_Range_Overlapping(int min1, int max1, int min2, int max2)
     {
-        // Arrange
         var inter1 = Range.Create(min1, max1);
         var inter2 = Range.Create(min2, max2);
         var hull = Range.Create(min1, max2);
@@ -39,7 +38,6 @@ public partial class IntervalTests // Union, Coalesce, Span, etc.
     [InlineData(1, 4, 2)]
     public static void Range_LowerRay_Overlapping(int min1, int max1, int max2)
     {
-        // Arrange
         var inter1 = Range.Create(min1, max1);
         var inter2 = LowerRay.EndingAt(max2);
         var hull = LowerRay.EndingAt(max1);
@@ -64,7 +62,6 @@ public partial class IntervalTests // Union, Coalesce, Span, etc.
     [InlineData(1, 4, 2)]
     public static void Range_UpperRay_Overlapping(int min1, int max1, int min2)
     {
-        // Arrange
         var inter1 = Range.Create(min1, max1);
         var inter2 = UpperRay.StartingAt(min2);
         var hull = UpperRay.StartingAt(min1);
@@ -89,7 +86,6 @@ public partial class IntervalTests // Union, Coalesce, Span, etc.
     [InlineData(1, 4, 5, 6)]
     public static void Range_Range_Adjacent(int min1, int max1, int min2, int max2)
     {
-        // Arrange
         var inter1 = Range.Create(min1, max1);
         var inter2 = Range.Create(min2, max2);
         var hull = Range.Create(min1, max2);
@@ -114,7 +110,6 @@ public partial class IntervalTests // Union, Coalesce, Span, etc.
     [InlineData(1, 4, 5)]
     public static void Range_UpperRay_Adjacent(int min1, int max1, int min2)
     {
-        // Arrange
         var inter1 = Range.Create(min1, max1);
         var inter2 = UpperRay.StartingAt(min2);
         var hull = UpperRay.StartingAt(min1);
@@ -140,7 +135,6 @@ public partial class IntervalTests // Union, Coalesce, Span, etc.
     public static void Range_Range_Disjoint_NotAdjacent(
         int min1, int max1, int min2, int max2, int gmin, int gmax)
     {
-        // Arrange
         var inter1 = Range.Create(min1, max1);
         var inter2 = Range.Create(min2, max2);
         var hull = Range.Create(min1, max2);
@@ -167,7 +161,6 @@ public partial class IntervalTests // Union, Coalesce, Span, etc.
     public static void Range_UpperRay_Disjoint_NotAdjacent(
         int min1, int max1, int min2, int gmin, int gmax)
     {
-        // Arrange
         var inter1 = Range.Create(min1, max1);
         var inter2 = UpperRay.StartingAt(min2);
         var hull = UpperRay.StartingAt(min1);

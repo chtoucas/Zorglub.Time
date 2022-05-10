@@ -25,7 +25,6 @@ namespace Zorglub.Time.Extensions
         [Fact]
         public static void GetWeekdateParts_InvalidCalendar()
         {
-            // Arrange
             MinMaxYearCalendar<PaxSchema> calendar = null!;
             // Act
             Assert.ThrowsAnexn("this",
@@ -35,7 +34,6 @@ namespace Zorglub.Time.Extensions
         [Fact]
         public static void GetWeekdateParts_InvalidDayNumber()
         {
-            // Arrange
             var minDayNumber = Pax.MinDayNumber;
             var maxDayNumber = Pax.MaxDayNumber;
             // Act & Assert
@@ -64,7 +62,6 @@ namespace Zorglub.Time.Extensions
         [Fact]
         public static void IsPaxMonth_InvalidCalendar()
         {
-            // Arrange
             MinMaxYearCalendar<PaxSchema> calendar = null!;
             // Act
             Assert.ThrowsAnexn("this", () => calendar.IsPaxMonth(1, 1));
@@ -73,7 +70,6 @@ namespace Zorglub.Time.Extensions
         [Fact]
         public static void IsPaxMonth_IsValidating()
         {
-            // Arrange
             var schema = new PaxSchema();
             var scope = FauxCalendricalScope.Create(schema, CalendricalEpochs.SundayBeforeGregorian);
             var chr = FakeNakedCalendar.Create(scope);
@@ -99,7 +95,6 @@ namespace Zorglub.Time.Extensions
         [Fact]
         public static void IsLastMonthOfYear_InvalidCalendar()
         {
-            // Arrange
             MinMaxYearCalendar<PaxSchema> calendar = null!;
             // Act
             Assert.ThrowsAnexn("this", () => calendar.IsLastMonthOfYear(1, 1));
@@ -108,7 +103,6 @@ namespace Zorglub.Time.Extensions
         [Fact]
         public static void IsLastMonthOfYear_IsValidating()
         {
-            // Arrange
             var schema = new PaxSchema();
             var scope = FauxCalendricalScope.Create(schema, CalendricalEpochs.SundayBeforeGregorian);
             var chr = FakeNakedCalendar.Create(scope);

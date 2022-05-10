@@ -12,7 +12,6 @@ public partial class CivilDateTests
     public void CountDaysSince_Epoch(DayNumberInfo info)
     {
         var (dayNumber, y, m, d) = info;
-        // Arrange
         var date = new CivilDate(y, m, d);
         // Act
         // NB: CivilDate.MinValue.DayNumber = GregorianCalendar.Epoch.
@@ -28,7 +27,6 @@ public partial class CivilDateTests
     [Fact]
     public static void PlusYears_OverflowOrUnderflow()
     {
-        // Arrange
         var date = new CivilDate(3, 4, 5);
         // Act & Assert
         Assert.Overflows(() => date.PlusYears(Int32.MinValue));
@@ -38,7 +36,6 @@ public partial class CivilDateTests
     [Fact]
     public static void PlusYears_WithLimitValues_AtMinValue()
     {
-        // Arrange
         var min = CivilDate.MinValue;
         int years = CivilDate.MaxYear - CivilDate.MinYear;
         var exp = new CivilDate(CivilDate.MaxYear, 1, 1);
@@ -52,7 +49,6 @@ public partial class CivilDateTests
     [Fact]
     public static void PlusYears_WithLimitValues_AtMaxValue()
     {
-        // Arrange
         var max = CivilDate.MaxValue;
         int years = CivilDate.MaxYear - CivilDate.MinYear;
         var exp = new CivilDate(CivilDate.MinYear, 12, 31);
@@ -66,7 +62,6 @@ public partial class CivilDateTests
     [Fact]
     public static void PlusYears_WithLimitValues()
     {
-        // Arrange
         var date = new CivilDate(3, 4, 5);
         int minYears = CivilDate.MinYear - date.Year;
         int maxYears = CivilDate.MaxYear - date.Year;
@@ -82,7 +77,6 @@ public partial class CivilDateTests
     [Fact]
     public static void CountYearsSince_DoesNotOverflow()
     {
-        // Arrange
         var min = CivilDate.MinValue;
         var max = CivilDate.MaxValue;
         int years = CivilDate.MaxYear - CivilDate.MinYear;
@@ -94,7 +88,6 @@ public partial class CivilDateTests
     [Theory, MemberData(nameof(AddYearsData))]
     public static void PlusYears(Yemoda xdate, Yemoda xother, int years)
     {
-        // Arrange
         var date = CreateCivilDate(xdate);
         var other = CreateCivilDate(xother);
 
@@ -117,7 +110,6 @@ public partial class CivilDateTests
     [Theory, MemberData(nameof(AddYearsCutOffData))]
     public static void PlusYears_CutOff(Yemoda xdate, Yemoda xother, int years)
     {
-        // Arrange
         var date = CreateCivilDate(xdate);
         var other = CreateCivilDate(xother);
         var dateBefore = date - 1;
@@ -143,7 +135,6 @@ public partial class CivilDateTests
     public static void PlusYears_ZeroIsNeutral(DateInfo info)
     {
         var (y, m, d) = info.Yemoda;
-        // Arrange
         var date = new CivilDate(y, m, d);
         // Act & Assert
         Assert.Equal(date, date.PlusYears(0));
@@ -153,7 +144,6 @@ public partial class CivilDateTests
     [Theory, MemberData(nameof(DiffData))]
     public static void CountYearsSince(Yemoda xstart, Yemoda xend, int years, int _5, int _6)
     {
-        // Arrange
         var start = CreateCivilDate(xstart);
         var end = CreateCivilDate(xend);
 
@@ -179,7 +169,6 @@ public partial class CivilDateTests
     [Fact]
     public static void AddYears_IntegerOverflow()
     {
-        // Arrange
         var date = new CivilDate(3, 4, 5);
         // Act & Assert
         // There is no integer underflow, only integer overflow.
@@ -189,7 +178,6 @@ public partial class CivilDateTests
     [Fact]
     public static void AddYears_WithLimitValues_AtMinValue()
     {
-        // Arrange
         var min = CivilDate.MinValue;
         int years = CivilDate.MaxYear - CivilDate.MinYear;
         var exp = new CivilDate(CivilDate.MaxYear, 1, 1);
@@ -203,7 +191,6 @@ public partial class CivilDateTests
     [Fact]
     public static void AddYears_WithLimitValues_AtMaxValue()
     {
-        // Arrange
         var max = CivilDate.MaxValue;
         int years = CivilDate.MaxYear - CivilDate.MinYear;
         var exp = new CivilDate(CivilDate.MinYear, 12, 31);
@@ -217,7 +204,6 @@ public partial class CivilDateTests
     [Theory, MemberData(nameof(AddYearsData))]
     public static void AddYears(Yemoda xdate, Yemoda xother, int years)
     {
-        // Arrange
         var date = CreateCivilDate(xdate);
         var other = CreateCivilDate(xother);
 
@@ -234,7 +220,6 @@ public partial class CivilDateTests
     [Theory, MemberData(nameof(AddYearsCutOffData))]
     public static void AddYears_CutOff(Yemoda xdate, Yemoda xother, int years)
     {
-        // Arrange
         var date = CreateCivilDate(xdate);
         var other = CreateCivilDate(xother);
         var dateBefore = date - 1;
@@ -256,7 +241,6 @@ public partial class CivilDateTests
     [Fact]
     public static void PlusMonths_OverflowOrUnderflow()
     {
-        // Arrange
         var date = new CivilDate(3, 4, 5);
         // Act & Assert
         Assert.Overflows(() => date.PlusMonths(Int32.MinValue));
@@ -266,7 +250,6 @@ public partial class CivilDateTests
     [Fact]
     public static void PlusMonths_WithLimitValues_AtMinValue()
     {
-        // Arrange
         var min = CivilDate.MinValue;
         int months = 11 + 12 * (CivilDate.MaxYear - CivilDate.MinYear);
         var exp = new CivilDate(CivilDate.MaxYear, 12, 1);
@@ -280,7 +263,6 @@ public partial class CivilDateTests
     [Fact]
     public static void PlusMonths_WithLimitValues_AtMaxValue()
     {
-        // Arrange
         var max = CivilDate.MaxValue;
         int months = 11 + 12 * (CivilDate.MaxYear - CivilDate.MinYear);
         var exp = new CivilDate(CivilDate.MinYear, 1, 31);
@@ -294,7 +276,6 @@ public partial class CivilDateTests
     [Fact]
     public static void PlusMonths_WithLimitValues()
     {
-        // Arrange
         var date = new CivilDate(3, 4, 5);
         int minMonths = CivilDate.MinValue.CountMonthsSince((CivilDate)date);
         int maxMonths = CivilDate.MaxValue.CountMonthsSince((CivilDate)date);
@@ -310,7 +291,6 @@ public partial class CivilDateTests
     [Fact]
     public static void CountMonthsSince_DoesNotOverflow()
     {
-        // Arrange
         var min = CivilDate.MinValue;
         var max = CivilDate.MaxValue;
         int months = 11 + 12 * (CivilDate.MaxYear - CivilDate.MinYear);
@@ -322,7 +302,6 @@ public partial class CivilDateTests
     [Theory, MemberData(nameof(AddMonthsData))]
     public static void PlusMonths(Yemoda xdate, Yemoda xother, int months)
     {
-        // Arrange
         var date = CreateCivilDate(xdate);
         var other = CreateCivilDate(xother);
 
@@ -343,7 +322,6 @@ public partial class CivilDateTests
     [Theory, MemberData(nameof(AddMonthsCutOffData))]
     public static void PlusMonths_CutOff(Yemoda xdate, Yemoda xother, int months)
     {
-        // Arrange
         var date = CreateCivilDate(xdate);
         var other = CreateCivilDate(xother);
         var rev = date.WithDay(other.Day);
@@ -366,7 +344,6 @@ public partial class CivilDateTests
     public static void PlusMonths_ZeroIsNeutral(DateInfo info)
     {
         var (y, m, d) = info.Yemoda;
-        // Arrange
         var date = new CivilDate(y, m, d);
         // Act & Assert
         Assert.Equal(date, date.PlusMonths(0));
@@ -376,7 +353,6 @@ public partial class CivilDateTests
     [Theory, MemberData(nameof(DiffData))]
     public static void CountMonthsSince(Yemoda xstart, Yemoda xend, int years, int months, int _6)
     {
-        // Arrange
         var start = CreateCivilDate(xstart);
         var end = CreateCivilDate(xend);
         months += 12 * years;
@@ -403,7 +379,6 @@ public partial class CivilDateTests
     [Fact]
     public static void AddMonths_IntegerOverflow()
     {
-        // Arrange
         var date = new CivilDate(3, 4, 5);
         // Act & Assert
         // There is no integer underflow, only integer overflow.
@@ -413,7 +388,6 @@ public partial class CivilDateTests
     [Fact]
     public static void AddMonths_WithLimitValues_AtMinValue()
     {
-        // Arrange
         var min = CivilDate.MinValue;
         int months = 11 + 12 * (CivilDate.MaxYear - CivilDate.MinYear);
         var exp = new CivilDate(CivilDate.MaxYear, 12, 1);
@@ -427,7 +401,6 @@ public partial class CivilDateTests
     [Fact]
     public static void AddMonths_WithLimitValues_AtMaxValue()
     {
-        // Arrange
         var max = CivilDate.MaxValue;
         int months = 11 + 12 * (CivilDate.MaxYear - CivilDate.MinYear);
         var exp = new CivilDate(CivilDate.MinYear, 1, 31);
@@ -441,7 +414,6 @@ public partial class CivilDateTests
     [Theory, MemberData(nameof(AddMonthsData))]
     public static void AddMonths(Yemoda xdate, Yemoda xother, int months)
     {
-        // Arrange
         var date = CreateCivilDate(xdate);
         var other = CreateCivilDate(xother);
 
@@ -458,7 +430,6 @@ public partial class CivilDateTests
     [Theory, MemberData(nameof(AddMonthsCutOffData))]
     public static void AddMonths_CutOff(Yemoda xdate, Yemoda xother, int months)
     {
-        // Arrange
         var date = CreateCivilDate(xdate);
         var other = CreateCivilDate(xother);
         var cutoffDate = date.WithDay(other.Day);
@@ -481,7 +452,6 @@ public partial class CivilDateTests
     [Theory, MemberData(nameof(DiffData))]
     public static void Subtract(Yemoda xstart, Yemoda xend, int years, int months, int days)
     {
-        // Arrange
         var start = CreateCivilDate(xstart);
         var end = CreateCivilDate(xend);
 
@@ -498,7 +468,6 @@ public partial class CivilDateTests
     [Theory, MemberData(nameof(DiffCutOffData))]
     public static void Subtract_CutOff(Yemoda xstart, Yemoda xend, int years, int months, int days)
     {
-        // Arrange
         var start = CreateCivilDate(xstart);
         var end = CreateCivilDate(xend);
 
@@ -516,7 +485,6 @@ public partial class CivilDateTests
     public static void Subtract_WithIdenticalDates(DateInfo info)
     {
         var (y, m, d) = info.Yemoda;
-        // Arrange
         var date = new CivilDate(y, m, d);
         // Act
         var (y0, m0, d0) = CivilDate.Subtract((CivilDate)date, (CivilDate)date);

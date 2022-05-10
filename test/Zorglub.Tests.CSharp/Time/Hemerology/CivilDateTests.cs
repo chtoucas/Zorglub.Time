@@ -107,7 +107,6 @@ public partial class CivilDateTests
     [InlineData(9999, 12, 31, "9999-12-31")]
     public static void ToString_InvariantCulture(int y, int m, int d, string asString)
     {
-        // Arrange
         var date = new CivilDate(y, m, d);
         // Act & Assert
         Assert.Equal(asString, date.ToString());
@@ -130,7 +129,6 @@ public partial class CivilDateTests // Properties
     [Fact]
     public static void Today()
     {
-        // Arrange
         var exp = DateTime.Now;
         // Act
         var today = CivilDate.Today();
@@ -144,7 +142,6 @@ public partial class CivilDateTests // Properties
     public void IsoDayOfWeek(YemodaAnd<DayOfWeek> info)
     {
         var (y, m, d, dayOfWeek) = info;
-        // Arrange
         var date = CreateDate(y, m, d);
         var dow = dayOfWeek.ToIsoDayOfWeek();
         // Act & Assert
@@ -157,7 +154,6 @@ public partial class CivilDateTests // Properties
         // We filter out ordinals before the epoch.
         if (dayNumber < DayZero.NewStyle) { return; }
 
-        // Arrange
         var date = CivilDate.FromDayNumber(dayNumber);
         var dow = dayOfWeek.ToIsoDayOfWeek();
         // Act & Assert
@@ -225,7 +221,6 @@ public partial class CivilDateTests // Properties
     [InlineData(2012, 12, 31, 54)]
     public static void WeekOfYear(int y, int m, int d, int weekOfYear)
     {
-        // Arrange
         var date = new CivilDate(y, m, d);
         // Act & Assert
         Assert.Equal(weekOfYear, date.WeekOfYear);
@@ -289,7 +284,6 @@ public partial class CivilDateTests // Properties
     [InlineData(2012, 12, 31, 53)] // 👈 wrong
     public static void GetIsoWeekOfYear(int y, int m, int d, int weekOfYear)
     {
-        // Arrange
         var date = new CivilDate(y, m, d);
         // Act & Assert
         Assert.Equal(weekOfYear, date.GetIsoWeekOfYear());
@@ -302,7 +296,6 @@ public partial class CivilDateTests // Binary data
     public static void FromBinary_InvalidData(DateInfo info)
     {
         var (y, m, d) = info.Yemoda;
-        // Arrange
         int bin = new CivilDate(y, m, d).ToBinary();
         // Act & Assert
         Assert.Throws<ArgumentException>("data", () => CivilDate.FromBinary(-1 | bin));
@@ -334,7 +327,6 @@ public partial class CivilDateTests // Binary data
     [Theory, MemberData(nameof(InvalidMonthFieldData))]
     public static void FromBinary_InvalidMonthOfYear(int y, int m)
     {
-        // Arrange
         int bin = ((y - 1) << 9) | ((m - 1) << 5) | (15 - 1);
         // Act & Assert
         Assert.Throws<ArgumentException>("data", () => CivilDate.FromBinary(bin));
@@ -343,7 +335,6 @@ public partial class CivilDateTests // Binary data
     [Theory, MemberData(nameof(InvalidDayFieldData))]
     public static void FromBinary_InvalidDayOfMonth(int y, int m, int d)
     {
-        // Arrange
         int bin = ((y - 1) << 9) | ((m - 1) << 5) | (d - 1);
         // Act & Assert
         Assert.Throws<ArgumentException>("data", () => CivilDate.FromBinary(bin));
@@ -353,7 +344,6 @@ public partial class CivilDateTests // Binary data
     public static void FromBinary_AfterToBinary(DateInfo info)
     {
         var (y, m, d) = info.Yemoda;
-        // Arrange
         var date = new CivilDate(y, m, d);
         // Act
         var actual = CivilDate.FromBinary((int)date.ToBinary());
@@ -412,7 +402,6 @@ public partial class CivilDateTests // Conversions
     public static void FromDateTime(DateInfo info)
     {
         var (y, m, d) = info.Yemoda;
-        // Arrange
         var time = new DateTime(y, m, d);
         var date = new CivilDate(y, m, d);
         // Act
@@ -425,7 +414,6 @@ public partial class CivilDateTests // Conversions
     public static void ToDateTime(DateInfo info)
     {
         var (y, m, d) = info.Yemoda;
-        // Arrange
         var time = new DateTime(y, m, d);
         var date = new CivilDate(y, m, d);
         // Act
@@ -445,7 +433,6 @@ public partial class CivilDateTests // Enumerate days
     public void GetDaysInYear(YearInfo info)
     {
         int y = info.Year;
-        // Arrange
         IEnumerable<CivilDate> list
             = from i in Enumerable.Range(1, info.DaysInYear)
               select CivilDate.FromOrdinalDate(y, i);
@@ -467,7 +454,6 @@ public partial class CivilDateTests // Enumerate days
     public static void GetDaysInMonth(MonthInfo info)
     {
         var (y, m) = info.Yemo;
-        // Arrange
         IEnumerable<CivilDate> list =
             from i in Enumerable.Range(1, info.DaysInMonth)
             select new CivilDate(y, m, i);

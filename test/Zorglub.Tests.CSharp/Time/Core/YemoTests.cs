@@ -36,7 +36,6 @@ public static class YemoTests
         Debug.Assert(MinYearMonth <= ym);
         Debug.Assert(ym <= MaxYearMonth);
 
-        // Arrange
         int bin = (ym << Yemoda.MonthShift) | d;
         // Act & Assert
         Assert.Throws<ArgumentException>(() => Yemo.FromBinary(bin));
@@ -68,7 +67,6 @@ public static class YemoTests
     [InlineData(Int32.MaxValue, 23)]
     public static void FromBinary_InvalidBin_WhenDayBitsAreNotZero_ViaYemoda(int b, int d)
     {
-        // Arrange
         int bin = new Yemoda(b).Yemo.ToBinary() | d;
         // Act & Assert
         Assert.Throws<ArgumentException>(() => Yemo.FromBinary(bin));
@@ -99,7 +97,6 @@ public static class YemoTests
         Debug.Assert(MinYearMonth <= ym);
         Debug.Assert(ym <= MaxYearMonth);
 
-        // Arrange
         int bin = ym << Yemoda.MonthShift;
         // Act
         int binA = Yemo.FromBinary(bin).ToBinary();
@@ -137,7 +134,6 @@ public static class YemoxTests
         Debug.Assert(MinYearMonth <= ym);
         Debug.Assert(ym <= MaxYearMonth);
 
-        // Arrange
         int bin1 = (ym << Yemodax.MonthShift) | (i << Yemodax.DayShift) | j;
         int bin2 = (ym << Yemodax.MonthShift) | (j << Yemodax.DayShift) | i;
         // Act & Assert
@@ -171,7 +167,6 @@ public static class YemoxTests
     [InlineData(Int32.MaxValue, 23, 1)]
     public static void FromBinary_InvalidBin_WhenDayBitsAreNotZero_ViaYemoda(int b, int i, int j)
     {
-        // Arrange
         int bin1 = new Yemoda(b).Yemo.ToBinary() | (i << Yemodax.DayShift) | j;
         int bin2 = new Yemoda(b).Yemo.ToBinary() | (j << Yemodax.DayShift) | i;
         // Act & Assert
@@ -200,7 +195,6 @@ public static class YemoxTests
         Debug.Assert(MinYearMonth <= ym);
         Debug.Assert(ym <= MaxYearMonth);
 
-        // Arrange
         int bin = (ym << Yemodax.MonthShift) | x;
         // Act
         int binA = Yemox.FromBinary(bin).ToBinary();

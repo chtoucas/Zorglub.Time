@@ -253,7 +253,6 @@ public partial class ICalendarFacts<TCalendar, TDataSet> // ICalendar
     public void GetDayNumberOn﹍OrdinalParts(DateInfo info)
     {
         var (y, m, d, doy) = info;
-        // Arrange
         var dayNumber = CalendarUT.GetDayNumberOn(y, m, d);
         // Act
         var actual = CalendarUT.GetDayNumberOn(y, doy);

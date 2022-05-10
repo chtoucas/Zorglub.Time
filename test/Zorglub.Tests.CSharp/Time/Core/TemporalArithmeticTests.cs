@@ -28,7 +28,6 @@ public partial class TemporalArithmeticTests // TicksPerDay
     [Fact]
     public static void DivideByTicksPerDay_Fuzzy()
     {
-        // Arrange
         int mul = GetFuzzyMulForTicksPerDay();
         // Act & Assert
         Assert.Equal(mul, TemporalArithmetic.DivideByTicksPerDay(mul * TicksPerDay));
@@ -41,7 +40,6 @@ public partial class TemporalArithmeticTests // TicksPerDay
     [Fact]
     public static void MultiplyByTicksPerDay_Fuzzy()
     {
-        // Arrange
         int mul = GetFuzzyMulForTicksPerDay();
         // Act & Assert
         Assert.Equal(mul * TicksPerDay, TemporalArithmetic.MultiplyByTicksPerDay(mul));
@@ -76,7 +74,6 @@ public partial class TemporalArithmeticTests // NanosecondsPerMinute
     [Fact]
     public static void DivideByNanosecondsPerMinute_Fuzzy()
     {
-        // Arrange
         // In Debug mode, we check that the input is < NanosecondsPerDay,
         // which means that "mul" must be < MinutesPerDay.
         int mul = RandomNumberGenerator.GetInt32(RandomFrom, MinutesPerDay);
@@ -91,7 +88,6 @@ public partial class TemporalArithmeticTests // NanosecondsPerMinute
     [Fact]
     public static void MultiplyByNanosecondsPerMinute_Fuzzy()
     {
-        // Arrange
         int mul = RandomNumberGenerator.GetInt32(RandomFrom, MinutesPerDay);
         // Act & Assert
         Assert.Equal(mul * NanosecondsPerMinute, TemporalArithmetic.MultiplyByNanosecondsPerMinute(mul));

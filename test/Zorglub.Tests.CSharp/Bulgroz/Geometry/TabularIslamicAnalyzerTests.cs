@@ -91,7 +91,6 @@ public sealed class TabularIslamicLeapYearFormTests : AnalyzerFacts
     [Fact]
     public void TryConvertCodeToForm_SingleCycle()
     {
-        // Arrange
         var code = new CodeArray(new[] { 3, 2, 3, 3, 3, 2, 3, 3, 2, 3, 3 });
         // Act & Assert
         Assert.True(TroeschAnalyzer.TryConvertCodeToForm(code, out var formA));
@@ -247,7 +246,6 @@ public sealed class TabularIslamicYearFormTests : AnalyzerFacts
     [Fact]
     public void TryConvertCodeToForm_SingleCycle()
     {
-        // Arrange
         // Years = 0 to 29.
         var codes = new int[30] {
             354, 354, 355,
@@ -271,7 +269,6 @@ public sealed class TabularIslamicYearFormTests : AnalyzerFacts
     [Fact]
     public void YearForm_Values()
     {
-        // Arrange
         var form0 = TabularIslamicGeometry.YearForm0;
         var form = TabularIslamicGeometry.YearForm;
         // The sequence starting at year 1 (epoch) is s_YearLengths.Rotate(1)
@@ -426,7 +423,6 @@ public static class TabularIslamicMonthFormTests
         [Fact]
         public void MonthForm_Values()
         {
-            // Arrange
             var form = TabularIslamicGeometry.MonthFormForLeapYear;
 
             // Act & Assert

@@ -15,7 +15,6 @@ public static class OrdTests
     [Fact]
     public static void Increment()
     {
-        // Arrange
         var ord = Ord.FromRank(345);
         var ordAfter = Ord.FromRank(346);
         // Act & Assert
@@ -34,7 +33,6 @@ public static class OrdTests
     [Fact]
     public static void Decrement()
     {
-        // Arrange
         var ord = Ord.FromRank(345);
         var ordBefore = Ord.FromRank(344);
         // Act & Assert

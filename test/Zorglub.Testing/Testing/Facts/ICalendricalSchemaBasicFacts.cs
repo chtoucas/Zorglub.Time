@@ -54,7 +54,6 @@ public abstract class ICalendricalSchemaBasicFacts<TSchema, TDataSet> :
         if (!TestGetYearAnyway) { return; }
 
         var (y, m, d, doy) = info;
-        // Arrange
         int daysSinceEpoch = SchemaUT.CountDaysSinceEpoch(y, m, d);
         // Act
         int yA = SchemaUT.GetYear(daysSinceEpoch, out int doyA);

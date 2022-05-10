@@ -29,7 +29,6 @@ public abstract partial class AnalyzerBasicFacts
 
     protected void Form_Equals<TForm>(TForm form) where TForm : CalendricalForm
     {
-        // Arrange
         var (a, b, r) = form;
         // Assert
         Assert.Equal(new QuasiAffineForm(a, b, r), Form);
@@ -71,7 +70,6 @@ public abstract partial class AnalyzerBasicFacts
         Debug.Assert(i > 0);
         Debug.Assert(i < code.Count);
 
-        // Arrange
         var newCode = code.Rotate(i);
         // Act
         var result = TroeschAnalyzer.TryConvertCodeToForm(newCode, out var formA);
@@ -149,7 +147,6 @@ public partial class AnalyzerBasicFacts
     [Fact]
     public void Analyze()
     {
-        // Arrange
         var analyzer = new TroeschAnalyzer(CodeArray);
 
         // Act & Assert
@@ -173,7 +170,6 @@ public partial class AnalyzerBasicFacts
     [Fact]
     public void MakeForm()
     {
-        // Arrange
         var analyzer = new TroeschAnalyzer(CodeArray);
         analyzer.Analyze();
         // Act & Assert
@@ -183,7 +179,6 @@ public partial class AnalyzerBasicFacts
     [Fact]
     public void Transformer()
     {
-        // Arrange
         var analyzer = new TroeschAnalyzer(CodeArray);
         analyzer.Analyze();
         var transformer = analyzer.Transformer;

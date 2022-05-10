@@ -91,7 +91,6 @@ public partial class GJYearFormTests
     [Fact]
     public void YearForm_Values()
     {
-        // Arrange
         var form = GJGeometry.YearForm;
         var altForm = GJGeometry.AltYearForm;
 
@@ -235,7 +234,6 @@ public sealed partial class GJMonthFormTests : AnalyzerFacts
     [Fact]
     public void MonthLengths_CommonYear_IsNotReducible()
     {
-        // Arrange
         var code = new CodeArray(s_MonthLengths_CommonYear);
         // Act & Assert
         Assert.False(code.Reducible);
@@ -244,7 +242,6 @@ public sealed partial class GJMonthFormTests : AnalyzerFacts
     [Fact]
     public void MonthLengths_CommonYear_IsAlmostReducible()
     {
-        // Arrange
         var arr = SchemaHelpers.GetDaysInMonthArray<GJSchema>(false);
         var code = new CodeArray(arr);
         var exp = new CodeArray(s_MonthLengths);
@@ -259,7 +256,6 @@ public sealed partial class GJMonthFormTests : AnalyzerFacts
     [Fact]
     public void MonthLengths_LeapYear_IsNotReducible()
     {
-        // Arrange
         var code = new CodeArray(s_MonthLengths_LeapYear);
         // Act & Assert
         Assert.False(code.Reducible);
@@ -268,7 +264,6 @@ public sealed partial class GJMonthFormTests : AnalyzerFacts
     [Fact]
     public void MonthLengths_LeapYear_IsAlmostReducible()
     {
-        // Arrange
         var arr = SchemaHelpers.GetDaysInMonthArray<GJSchema>(true);
         var code = new CodeArray(arr);
         var exp = new CodeArray(s_MonthLengths);
@@ -283,7 +278,6 @@ public sealed partial class GJMonthFormTests : AnalyzerFacts
     [Fact]
     public void Form_FailsForLastMonth()
     {
-        // Arrange
         int last = s_MonthLengths.Length - 1;
         // Act & Assert
         Assert.NotEqual(s_MonthLengths_CommonYear[^1], Form.CodeAt(last));
@@ -296,7 +290,6 @@ public partial class GJMonthFormTests
     [Fact]
     public void MonthForm_Values()
     {
-        // Arrange
         var form = GJGeometry.MonthForm;
 
         // Act & Assert
@@ -325,7 +318,6 @@ public partial class GJMonthFormTests
     [Theory, MemberData(nameof(MonthLengths))]
     public void OrdinalMonthForm_CountDaysInMonth(int m, int daysInMonth)
     {
-        // Arrange
         var form = GJGeometry.MonthForm.WithOrdinalNumbering();
         // Act
         int actual = form.CountDaysInMonth(m + 1); // m = 1, 2, 3, etc.
@@ -337,7 +329,6 @@ public partial class GJMonthFormTests
     [Theory, MemberData(nameof(MonthLengths))]
     public void TroeschMonthForm_CountDaysInMonth(int m, int daysInMonth)
     {
-        // Arrange
         var form = GJGeometry.MonthForm.WithTroeschNumbering(ExceptionalMonth);
         // Act
         int actual = form.CountDaysInMonth(m + 3); // m = 3, 4, 5, etc.

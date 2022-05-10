@@ -14,7 +14,6 @@ public sealed class GregorianArchetypeTests : ArchetypalSchemaFacts<GregorianDat
     [Fact]
     public void CountDaysInMonths_CommonYear()
     {
-        // Arrange
         var expected = new byte[] { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
         // Act
         var actual = GregorianArchetype.CountDaysInMonths(leapYear: false).ToArray();
@@ -25,7 +24,6 @@ public sealed class GregorianArchetypeTests : ArchetypalSchemaFacts<GregorianDat
     [Fact]
     public void CountDaysInMonths_LeapYear()
     {
-        // Arrange
         var expected = new byte[] { 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
         // Act
         var actual = GregorianArchetype.CountDaysInMonths(leapYear: true).ToArray();

@@ -47,7 +47,6 @@ public partial class SystemSchemaFacts<TDataSet> // Properties
     [Fact]
     public void MinMaxDateParts_Prop()
     {
-        // Arrange
         var startOfYear = SchemaUT.GetStartOfYearParts(MinYear);
         var endOfYear = SchemaUT.GetEndOfYearParts(MaxYear);
         var minmax = OrderedPair.Create(startOfYear, endOfYear);
@@ -60,7 +59,6 @@ public partial class SystemSchemaFacts<TDataSet> // Properties
     [Fact]
     public void MinMaxOrdinalParts_Prop()
     {
-        // Arrange
         var startOfYear = SchemaUT.GetStartOfYearOrdinalParts(MinYear);
         var endOfYear = SchemaUT.GetEndOfYearOrdinalParts(MaxYear);
         var minmax = OrderedPair.Create(startOfYear, endOfYear);
@@ -79,7 +77,6 @@ public partial class SystemSchemaFacts<TDataSet> // Methods
     public void GetYear﹍Plain(DateInfo info)
     {
         var (y, m, d) = info.Yemoda;
-        // Arrange
         int daysSinceEpoch = SchemaUT.CountDaysSinceEpoch(y, m, d);
         // Act
         int yA = SchemaUT.GetYear(daysSinceEpoch);
@@ -130,7 +127,6 @@ public partial class SystemSchemaFacts<TDataSet> // Methods
     public void GetOrdinalParts﹍DaysSinceEpoch(DaysSinceEpochInfo info)
     {
         var (daysSinceEpoch, y, m, d) = info;
-        // Arrange
         int doy = SchemaUT.GetDayOfYear(y, m, d);
         var parts = new Yedoy(y, doy);
         // Act
@@ -143,7 +139,6 @@ public partial class SystemSchemaFacts<TDataSet> // Methods
     public void GetOrdinalParts﹍DaysSinceEpoch_DateParts(DateInfo info)
     {
         var (y, m, d) = info.Yemoda;
-        // Arrange
         int daysSinceEpoch = SchemaUT.CountDaysSinceEpoch(y, m, d);
         // Act
         var actual = SchemaUT.GetOrdinalParts(daysSinceEpoch);
@@ -171,7 +166,6 @@ public partial class SystemSchemaFacts<TDataSet> // Methods
     [Fact]
     public void GetStartOfYearParts_AtYear1()
     {
-        // Arrange
         var ymd = new Yemoda(1, 1, 1);
         // Act
         var actual = SchemaUT.GetStartOfYearParts(1);
@@ -194,7 +188,6 @@ public partial class SystemSchemaFacts<TDataSet> // Methods
     [Fact]
     public void GetStartOfYearOrdinalParts_AtYear1()
     {
-        // Arrange
         var ydoy = new Yedoy(1, 1);
         // Act
         var actual = SchemaUT.GetStartOfYearOrdinalParts(1);
@@ -206,7 +199,6 @@ public partial class SystemSchemaFacts<TDataSet> // Methods
     public void GetStartOfYearOrdinalParts(YearDaysSinceEpoch info)
     {
         int y = info.Year;
-        // Arrange
         var ydoy = new Yedoy(y, 1);
         // Act
         var actual = SchemaUT.GetStartOfYearOrdinalParts(y);
@@ -234,7 +226,6 @@ public partial class SystemSchemaFacts<TDataSet> // Methods
     public void GetEndOfYearOrdinalParts(YearInfo info)
     {
         int y = info.Year;
-        // Arrange
         var ydoy = new Yedoy(y, info.DaysInYear);
         // Act
         var actual = SchemaUT.GetEndOfYearOrdinalParts(y);
@@ -249,7 +240,6 @@ public partial class SystemSchemaFacts<TDataSet> // Methods
     [Fact]
     public void GetStartOfMonthParts_AtFirstMonthOfYear1()
     {
-        // Arrange
         var ymd = new Yemoda(1, 1, 1);
         // Act
         var actual = SchemaUT.GetStartOfMonthParts(1, 1);
@@ -261,7 +251,6 @@ public partial class SystemSchemaFacts<TDataSet> // Methods
     public void GetStartOfMonthParts(MonthInfo info)
     {
         var (y, m) = info.Yemo;
-        // Arrange
         var ymd = new Yemoda(y, m, 1);
         // Act
         var actual = SchemaUT.GetStartOfMonthParts(y, m);
@@ -275,7 +264,6 @@ public partial class SystemSchemaFacts<TDataSet> // Methods
     [Fact]
     public void GetStartOfMonthOrdinalParts_AtFirstMonthOfYear1()
     {
-        // Arrange
         var ydoy = new Yedoy(1, 1);
         // Act
         var actual = SchemaUT.GetStartOfMonthOrdinalParts(1, 1);
@@ -287,7 +275,6 @@ public partial class SystemSchemaFacts<TDataSet> // Methods
     public void GetStartOfMonthOrdinalParts(MonthInfo info)
     {
         var (y, m) = info.Yemo;
-        // Arrange
         var ydoy = new Yedoy(y, info.DaysInYearBeforeMonth + 1);
         // Act
         var actual = SchemaUT.GetStartOfMonthOrdinalParts(y, m);
@@ -303,7 +290,6 @@ public partial class SystemSchemaFacts<TDataSet> // Methods
     public void GetEndOfMonthParts(MonthInfo info)
     {
         var (y, m) = info.Yemo;
-        // Arrange
         var ymd = new Yemoda(y, m, info.DaysInMonth);
         // Act
         var actual = SchemaUT.GetEndOfMonthParts(y, m);
@@ -318,7 +304,6 @@ public partial class SystemSchemaFacts<TDataSet> // Methods
     public void GetEndOfMonthOrdinalParts(MonthInfo info)
     {
         var (y, m) = info.Yemo;
-        // Arrange
         var ydoy = new Yedoy(y, info.DaysInYearBeforeMonth + info.DaysInMonth);
         // Act
         var actual = SchemaUT.GetEndOfMonthOrdinalParts(y, m);

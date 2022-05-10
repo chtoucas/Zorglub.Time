@@ -79,7 +79,6 @@ public partial class BoxTests
     [Fact]
     public static void SelectAllowsUnboxing()
     {
-        // Arrange
         var obj = new object();
         object? result = null;
         // Act

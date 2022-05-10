@@ -12,7 +12,6 @@ public static class GregorianReformTests
     [Fact]
     public static void Official_FromLastJulianDate()
     {
-        // Arrange
         var reform = GregorianReform.FromLastJulianDate(1582, 10, 4);
         // Assert
         Assert.Equal(reform, GregorianReform.Official);
@@ -21,7 +20,6 @@ public static class GregorianReformTests
     [Fact(Skip = "???")]
     public static void Official_FromFirstGregorianDate()
     {
-        // Arrange
         var reform = GregorianReform.FromFirstGregorianDate(1582, 10, 15);
         // Assert
         Assert.Equal(reform, GregorianReform.Official);
