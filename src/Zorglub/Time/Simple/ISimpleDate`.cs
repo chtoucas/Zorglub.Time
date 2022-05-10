@@ -6,6 +6,8 @@ namespace Zorglub.Time.Simple
     using Zorglub.Time.Core;
     using Zorglub.Time.Hemerology;
 
+    #region Developer Notes
+
     // API differences between the three date types:
     // - Constructor/deconstructor.
     // - ToString().
@@ -18,6 +20,8 @@ namespace Zorglub.Time.Simple
     // are meaningless but notice that, the interface had been public, they
     // wouldn't have even been parts of it.
     // Anyway, we would need a good reason to make it public.
+
+    #endregion
 
     /// <summary>
     /// Defines a "simple" date.
