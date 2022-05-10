@@ -145,8 +145,6 @@ if ($Help) { Print-Help ; exit }
 try {
     pushd $ROOT_DIR
 
-    say "Code Coverage..." -ForegroundColor Yellow
-
     Invoke-Coverlet `
         -ProjectName  'Zorglub' `
         -AssemblyName 'Zorglub.Time' `
