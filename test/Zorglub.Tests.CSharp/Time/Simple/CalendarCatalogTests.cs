@@ -35,7 +35,7 @@ public static class CalendarCatalogTests
     public static void Keys_SystemKey(CalendarId id) =>
         Assert.Contains(id.ToCalendarKey(), CalendarCatalog.Keys);
 
-    [Theory]
+    [Theory(Skip = "???")]
     [InlineData(MyGregorianKey)]
     [InlineData(MyJulianKey)]
     public static void Keys_UserKey(string key) =>

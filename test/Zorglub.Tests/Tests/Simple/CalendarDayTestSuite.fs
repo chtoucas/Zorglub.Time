@@ -8,4 +8,4 @@ open Zorglub.Testing.Facts.Simple
 open Zorglub.Time.Simple
 
 type [<Sealed>] GregorianTests() =
-    inherit CalendarDayFacts<ProlepticGregorianDataSet>(GregorianCalendar.Instance)
+    inherit CalendarDayFacts<ProlepticGregorianDataSet>(GregorianCalendar.Instance, JulianCalendar.Instance)

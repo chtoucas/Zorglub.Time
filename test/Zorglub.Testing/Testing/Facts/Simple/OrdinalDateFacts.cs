@@ -6,36 +6,28 @@ namespace Zorglub.Testing.Facts.Simple;
 using Zorglub.Testing.Data;
 using Zorglub.Time.Simple;
 
-// Tests indirects : OrdinalDate utilise la repr Yedoy mais ici on en
-// passe systématiquement par CreateDate(y, m, d).
-
 /// <summary>
 /// Provides facts about <see cref="OrdinalDate"/>.
 /// </summary>
-[TestExcludeFrom(TestExcludeFrom.Smoke)] // Indirect tests
-public abstract partial class OrdinalDateFacts<TDataSet> : IDateFacts<OrdinalDate, TDataSet>
+public abstract partial class OrdinalDateFacts<TDataSet> : SimpleDateFacts<OrdinalDate, TDataSet>
     where TDataSet :
         ICalendarDataSet,
         IDaysAfterDataSet,
-        IMathDataSet,
+        IAdvancedMathDataSet,
         IDayOfWeekDataSet,
         ISingleton<TDataSet>
 {
-    protected OrdinalDateFacts(Calendar calendar) : this(calendar, CreateCtorArgs(calendar)) { }
-
-    private OrdinalDateFacts(Calendar calendar, CtorArgs args) : base(args)
+    protected OrdinalDateFacts(Calendar calendar, Calendar otherCalendar!!)
+        : base(calendar, otherCalendar)
     {
-        CalendarUT = calendar;
-
         (MinDate, MaxDate) = calendar.MinMaxOrdinal;
     }
-
-    protected Calendar CalendarUT { get; }
 
     protected sealed override OrdinalDate MinDate { get; }
     protected sealed override OrdinalDate MaxDate { get; }
 
     protected sealed override OrdinalDate CreateDate(int y, int m, int d) =>
+        // Base tests are indirect.
         CalendarUT.GetCalendarDate(y, m, d).ToOrdinalDate();
 }
 
@@ -45,7 +37,6 @@ public partial class OrdinalDateFacts<TDataSet>
     public void Deconstructor(DateInfo info)
     {
         var (y, m, d, doy) = info;
-        // Arrange
         var date = CalendarUT.GetOrdinalDate(y, doy);
         // Act
         var (year, month, day) = date;
@@ -53,6 +44,18 @@ public partial class OrdinalDateFacts<TDataSet>
         Assert.Equal(y, year);
         Assert.Equal(m, month);
         Assert.Equal(d, day);
+    }
+
+    [Theory, MemberData(nameof(DateInfoData))]
+    public void Deconstructor﹍Ordinal(DateInfo info)
+    {
+        var (y, doy) = info.Yedoy;
+        var date = CalendarUT.GetOrdinalDate(y, doy);
+        // Act
+        var (year, dayOfYear) = date;
+        // Assert
+        Assert.Equal(y, year);
+        Assert.Equal(doy, dayOfYear);
     }
 }
 
@@ -63,7 +66,6 @@ public partial class OrdinalDateFacts<TDataSet> // Properties
     public void Calendar_Prop(DateInfo info)
     {
         var (y, doy) = info.Yedoy;
-        // Arrange
         var date = CalendarUT.GetOrdinalDate(y, doy);
         // Act & Assert
         Assert.Equal(CalendarUT, date.Calendar);
@@ -73,27 +75,33 @@ public partial class OrdinalDateFacts<TDataSet> // Properties
 
 public partial class OrdinalDateFacts<TDataSet> // Conversions
 {
-    //public void ToCalendarDay(DayNumberInfo info)
+    [Theory, MemberData(nameof(DayNumberInfoData))]
+    public void ToCalendarDay(DayNumberInfo info)
+    {
+        var (dayNumber, y, m, d) = info;
+        var date = CalendarUT.GetCalendarDate(y, m, d).ToOrdinalDate();
+        var exp = CalendarUT.GetCalendarDay(dayNumber);
+        // Act & Assert
+        Assert.Equal(exp, date.ToCalendarDay());
+    }
 
     [Theory, MemberData(nameof(DateInfoData))]
     public void ToCalendarDate(DateInfo info)
     {
         var (y, m, d, doy) = info;
-        // Arrange
-        var odate = CalendarUT.GetOrdinalDate(y, doy);
-        var date = CalendarUT.GetCalendarDate(y, m, d);
+        var date = CalendarUT.GetOrdinalDate(y, doy);
+        var exp = CalendarUT.GetCalendarDate(y, m, d);
         // Act & Assert
-        Assert.Equal(date, odate.ToCalendarDate());
+        Assert.Equal(exp, date.ToCalendarDate());
     }
 
     [Theory, MemberData(nameof(DateInfoData))]
     public void ToOrdinalDate(DateInfo info)
     {
         var (y, doy) = info.Yedoy;
-        // Arrange
-        var odate = CalendarUT.GetOrdinalDate(y, doy);
+        var date = CalendarUT.GetOrdinalDate(y, doy);
         // Act & Assert
-        Assert.Equal(odate, ((ISimpleDate)odate).ToOrdinalDate());
+        Assert.Equal(date, ((ISimpleDate)date).ToOrdinalDate());
     }
 
     //public void WithCalendar_NullCalendar()

@@ -9,7 +9,7 @@ using Zorglub.Time.Simple;
 /// <summary>
 /// Provides facts about <see cref="CalendarDate"/>.
 /// </summary>
-public abstract partial class CalendarDateFacts<TDataSet> : IDateFacts<CalendarDate, TDataSet>
+public abstract partial class CalendarDateFacts<TDataSet> : SimpleDateFacts<CalendarDate, TDataSet>
     where TDataSet :
         ICalendarDataSet,
         IDaysAfterDataSet,
@@ -17,34 +17,17 @@ public abstract partial class CalendarDateFacts<TDataSet> : IDateFacts<CalendarD
         IDayOfWeekDataSet,
         ISingleton<TDataSet>
 {
-    protected CalendarDateFacts(Calendar calendar, Calendar otherCalendar)
-        : this(calendar, otherCalendar, CreateCtorArgs(calendar)) { }
-
-    private CalendarDateFacts(Calendar calendar, Calendar otherCalendar!!, CtorArgs args) : base(args)
+    protected CalendarDateFacts(Calendar calendar, Calendar otherCalendar!!)
+        : base(calendar, otherCalendar)
     {
-        if (otherCalendar == calendar)
-        {
-            throw new ArgumentException(
-                "\"otherCalendar\" should not be equal to \"calendar\"", nameof(otherCalendar));
-        }
-
-        CalendarUT = calendar;
-        OtherCalendar = otherCalendar;
-
         (MinDate, MaxDate) = calendar.MinMaxDate;
     }
-
-    protected Calendar CalendarUT { get; }
-    protected Calendar OtherCalendar { get; }
 
     protected sealed override CalendarDate MinDate { get; }
     protected sealed override CalendarDate MaxDate { get; }
 
     protected sealed override CalendarDate CreateDate(int y, int m, int d) =>
         CalendarUT.GetCalendarDate(y, m, d);
-
-    public static TheoryData<Yemoda, Yemoda, int> AddYearsData => DataSet.AddYearsData;
-    public static TheoryData<Yemoda, Yemoda, int> AddMonthsData => DataSet.AddMonthsData;
 }
 
 public partial class CalendarDateFacts<TDataSet>
@@ -53,7 +36,6 @@ public partial class CalendarDateFacts<TDataSet>
     public void Deconstructor(DateInfo info)
     {
         var (y, m, d) = info.Yemoda;
-        // Arrange
         var date = CalendarUT.GetCalendarDate(y, m, d);
         // Act
         var (year, month, day) = date;
@@ -71,7 +53,6 @@ public partial class CalendarDateFacts<TDataSet> // Properties
     public void Calendar_Prop(DateInfo info)
     {
         var (y, m, d) = info.Yemoda;
-        // Arrange
         var date = CalendarUT.GetCalendarDate(y, m, d);
         // Act & Assert
         Assert.Equal(CalendarUT, date.Calendar);
@@ -85,18 +66,16 @@ public partial class CalendarDateFacts<TDataSet> // Conversions
     public void ToCalendarDay(DayNumberInfo info)
     {
         var (dayNumber, y, m, d) = info;
-        // Arrange
         var date = CalendarUT.GetCalendarDate(y, m, d);
-        var day = CalendarUT.GetCalendarDay(dayNumber);
+        var exp = CalendarUT.GetCalendarDay(dayNumber);
         // Act & Assert
-        Assert.Equal(day, date.ToCalendarDay());
+        Assert.Equal(exp, date.ToCalendarDay());
     }
 
     [Theory, MemberData(nameof(DateInfoData))]
     public void ToCalendarDate(DateInfo info)
     {
         var (y, m, d) = info.Yemoda;
-        // Arrange
         var date = CalendarUT.GetCalendarDate(y, m, d);
         // Act & Assert
         Assert.Equal(date, ((ISimpleDate)date).ToCalendarDate());
@@ -106,17 +85,15 @@ public partial class CalendarDateFacts<TDataSet> // Conversions
     public void ToOrdinalDate(DateInfo info)
     {
         var (y, m, d, doy) = info;
-        // Arrange
         var date = CalendarUT.GetCalendarDate(y, m, d);
-        var odate = CalendarUT.GetOrdinalDate(y, doy);
+        var exp = CalendarUT.GetOrdinalDate(y, doy);
         // Act & Assert
-        Assert.Equal(odate, date.ToOrdinalDate());
+        Assert.Equal(exp, date.ToOrdinalDate());
     }
 
     [Fact]
     public void WithCalendar_NullCalendar()
     {
-        // Arrange
         var date = CalendarUT.GetCalendarDate(3, 4, 5);
         // Act & Assert
         Assert.ThrowsAnexn("newCalendar", () => date.WithCalendar(null!));
@@ -128,7 +105,6 @@ public partial class CalendarDateFacts<TDataSet> // Math ops
     [Fact]
     public void CountDaysSince_InvalidDate()
     {
-        // Arrange
         var date = CalendarUT.GetCalendarDate(3, 4, 5);
         var other = OtherCalendar.GetCalendarDate(3, 4, 5);
         // Act & Assert
@@ -139,7 +115,6 @@ public partial class CalendarDateFacts<TDataSet> // Math ops
     [Theory, MemberData(nameof(AddMonthsData))]
     public void PlusMonths(Yemoda xstart, Yemoda xend, int months)
     {
-        // Arrange
         var start = new CalendarDate(xstart, CalendarUT.Id);
         var end = new CalendarDate(xend, CalendarUT.Id);
         // Act & Assert
@@ -149,7 +124,6 @@ public partial class CalendarDateFacts<TDataSet> // Math ops
     [Fact]
     public void CountMonthsSince_InvalidDate()
     {
-        // Arrange
         var date = CalendarUT.GetCalendarDate(3, 4, 5);
         var other = OtherCalendar.GetCalendarDate(3, 4, 5);
         // Act & Assert
@@ -159,7 +133,6 @@ public partial class CalendarDateFacts<TDataSet> // Math ops
     [Theory, MemberData(nameof(AddMonthsData))]
     public void CountMonthsSince(Yemoda xstart, Yemoda xend, int months)
     {
-        // Arrange
         var start = new CalendarDate(xstart, CalendarUT.Id);
         var end = new CalendarDate(xend, CalendarUT.Id);
         // Act & Assert
@@ -169,7 +142,6 @@ public partial class CalendarDateFacts<TDataSet> // Math ops
     [Theory, MemberData(nameof(AddYearsData))]
     public void PlusYears(Yemoda xstart, Yemoda xend, int years)
     {
-        // Arrange
         var start = new CalendarDate(xstart, CalendarUT.Id);
         var end = new CalendarDate(xend, CalendarUT.Id);
         // Act & Assert
@@ -179,7 +151,6 @@ public partial class CalendarDateFacts<TDataSet> // Math ops
     [Fact]
     public void CountYearsSince_InvalidDate()
     {
-        // Arrange
         var date = CalendarUT.GetCalendarDate(3, 4, 5);
         var other = OtherCalendar.GetCalendarDate(3, 4, 5);
         // Act & Assert
@@ -189,7 +160,6 @@ public partial class CalendarDateFacts<TDataSet> // Math ops
     [Theory, MemberData(nameof(AddYearsData))]
     public void CountYearsSince(Yemoda xstart, Yemoda xend, int years)
     {
-        // Arrange
         var start = new CalendarDate(xstart, CalendarUT.Id);
         var end = new CalendarDate(xend, CalendarUT.Id);
         // Act & Assert
@@ -202,7 +172,6 @@ public partial class CalendarDateFacts<TDataSet> // IEquatable
     [Fact]
     public void Equals_OtherCalendar()
     {
-        // Arrange
         var date = CalendarUT.GetCalendarDate(3, 4, 5);
         var other = OtherCalendar.GetCalendarDate(3, 4, 5);
         // Act & Assert
@@ -219,7 +188,6 @@ public partial class CalendarDateFacts<TDataSet> // IComparable
     [Fact]
     public void CompareTo_OtherCalendar()
     {
-        // Arrange
         var date = CalendarUT.GetCalendarDate(3, 4, 5);
         var other = OtherCalendar.GetCalendarDate(3, 4, 5);
         // Act & Assert

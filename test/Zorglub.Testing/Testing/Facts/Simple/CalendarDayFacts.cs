@@ -6,36 +6,28 @@ namespace Zorglub.Testing.Facts.Simple;
 using Zorglub.Testing.Data;
 using Zorglub.Time.Simple;
 
-// Tests indirects : OrdinalDate utilise la repr DayNumber mais ici on en
-// passe systématiquement par CreateDate(y, m, d).
-
 /// <summary>
 /// Provides facts about <see cref="CalendarDay"/>.
 /// </summary>
-[TestExcludeFrom(TestExcludeFrom.Smoke)] // Indirect tests
-public abstract partial class CalendarDayFacts<TDataSet> : IDateFacts<CalendarDay, TDataSet>
+public abstract partial class CalendarDayFacts<TDataSet> : SimpleDateFacts<CalendarDay, TDataSet>
     where TDataSet :
         ICalendarDataSet,
         IDaysAfterDataSet,
-        IMathDataSet,
+        IAdvancedMathDataSet,
         IDayOfWeekDataSet,
         ISingleton<TDataSet>
 {
-    protected CalendarDayFacts(Calendar calendar) : this(calendar, CreateCtorArgs(calendar)) { }
-
-    private CalendarDayFacts(Calendar calendar, CtorArgs args) : base(args)
+    protected CalendarDayFacts(Calendar calendar, Calendar otherCalendar!!)
+        : base(calendar, otherCalendar)
     {
-        CalendarUT = calendar;
-
         (MinDate, MaxDate) = calendar.MinMaxDay;
     }
-
-    protected Calendar CalendarUT { get; }
 
     protected sealed override CalendarDay MinDate { get; }
     protected sealed override CalendarDay MaxDate { get; }
 
     protected sealed override CalendarDay CreateDate(int y, int m, int d) =>
+        // Base tests are indirect.
         CalendarUT.GetCalendarDate(y, m, d).ToCalendarDay();
 }
 
@@ -45,7 +37,6 @@ public partial class CalendarDayFacts<TDataSet>
     public void Deconstructor(DayNumberInfo info)
     {
         var (y, m, d) = info.Yemoda;
-        // Arrange
         var date = CalendarUT.GetCalendarDay(info.DayNumber);
         // Act
         var (year, month, day) = date;
@@ -62,7 +53,6 @@ public partial class CalendarDayFacts<TDataSet> // Properties
     [Theory, MemberData(nameof(DayNumberInfoData))]
     public void Calendar_Prop(DayNumberInfo info)
     {
-        // Arrange
         var date = CalendarUT.GetCalendarDay(info.DayNumber);
         // Act & Assert
         Assert.Equal(CalendarUT, date.Calendar);
@@ -75,7 +65,6 @@ public partial class CalendarDayFacts<TDataSet> // Conversions
     [Theory, MemberData(nameof(DayNumberInfoData))]
     public void ToCalendarDay(DayNumberInfo info)
     {
-        // Arrange
         var day = CalendarUT.GetCalendarDay(info.DayNumber);
         // Act & Assert
         Assert.Equal(day, ((ISimpleDate)day).ToCalendarDay());
@@ -85,14 +74,21 @@ public partial class CalendarDayFacts<TDataSet> // Conversions
     public void ToCalendarDate(DayNumberInfo info)
     {
         var (dayNumber, y, m, d) = info;
-        // Arrange
         var day = CalendarUT.GetCalendarDay(dayNumber);
-        var date = CalendarUT.GetCalendarDate(y, m, d);
+        var exp = CalendarUT.GetCalendarDate(y, m, d);
         // Act & Assert
-        Assert.Equal(date, day.ToCalendarDate());
+        Assert.Equal(exp, day.ToCalendarDate());
     }
 
-    //public void ToOrdinalDate(DateInfo info)
+    [Theory, MemberData(nameof(DayNumberInfoData))]
+    public void ToOrdinalDate(DayNumberInfo info)
+    {
+        var (dayNumber, y, m, d) = info;
+        var day = CalendarUT.GetCalendarDay(dayNumber);
+        var exp = CalendarUT.GetCalendarDate(y, m, d).ToOrdinalDate();
+        // Act & Assert
+        Assert.Equal(exp, day.ToOrdinalDate());
+    }
 
     //public void WithCalendar_NullCalendar()
 }

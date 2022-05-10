@@ -99,7 +99,6 @@ public partial class IDateFacts<TDate, TDataSet> // Properties
     public void CenturyOfEra_Prop(CenturyInfo info)
     {
         var (y, century, _) = info;
-        // Arrange
         var date = CreateDate(y, 1, 1);
         var centuryOfEra = Ord.Zeroth + century;
         // Act & Assert
@@ -110,7 +109,6 @@ public partial class IDateFacts<TDate, TDataSet> // Properties
     public void Century_Prop(CenturyInfo info)
     {
         var (y, century, _) = info;
-        // Arrange
         var date = CreateDate(y, 1, 1);
         // Act & Assert
         Assert.Equal(century, date.Century);
@@ -120,7 +118,6 @@ public partial class IDateFacts<TDate, TDataSet> // Properties
     public void YearOfEra_Prop(CenturyInfo info)
     {
         int y = info.Year;
-        // Arrange
         var date = CreateDate(y, 1, 1);
         var yearOfEra = Ord.Zeroth + y;
         // Act & Assert
@@ -131,7 +128,6 @@ public partial class IDateFacts<TDate, TDataSet> // Properties
     public void YearOfCentury_Prop(CenturyInfo info)
     {
         var (y, _, yearOfCentury) = info;
-        // Arrange
         var date = CreateDate(y, 1, 1);
         // Act & Assert
         Assert.Equal(yearOfCentury, date.YearOfCentury);
@@ -141,9 +137,8 @@ public partial class IDateFacts<TDate, TDataSet> // Properties
     public void DayOfYear_Prop(DateInfo info)
     {
         var (y, m, d, doy) = info;
-        // Act
         var date = CreateDate(y, m, d);
-        // Assert
+        // Act & Assert
         Assert.Equal(doy, date.DayOfYear);
     }
 
@@ -151,9 +146,8 @@ public partial class IDateFacts<TDate, TDataSet> // Properties
     public void IsIntercalary_Prop(DateInfo info)
     {
         var (y, m, d) = info.Yemoda;
-        // Act
         var date = CreateDate(y, m, d);
-        // Assert
+        // Act & Assert
         Assert.Equal(info.IsIntercalary, date.IsIntercalary);
     }
 
@@ -161,9 +155,8 @@ public partial class IDateFacts<TDate, TDataSet> // Properties
     public void IsSupplementary_Prop(DateInfo info)
     {
         var (y, m, d) = info.Yemoda;
-        // Act
         var date = CreateDate(y, m, d);
-        // Assert
+        // Act & Assert
         Assert.Equal(info.IsSupplementary, date.IsSupplementary);
     }
 
@@ -171,7 +164,6 @@ public partial class IDateFacts<TDate, TDataSet> // Properties
     public void DayOfWeek_Prop(YemodaAnd<DayOfWeek> info)
     {
         var (y, m, d, dayOfWeek) = info;
-        // Arrange
         var date = CreateDate(y, m, d);
         // Act & Assert
         Assert.Equal(dayOfWeek, date.DayOfWeek);
@@ -181,7 +173,6 @@ public partial class IDateFacts<TDate, TDataSet> // Properties
     public void DayOfWeek_Prop_ViaDayNumber(DayNumber dayNumber, DayOfWeek dayOfWeek)
     {
         if (Domain.Contains(dayNumber) == false) { return; }
-        // Arrange
         var date = TDate.FromDayNumber(dayNumber);
         // Act & Assert
         Assert.Equal(dayOfWeek, date.DayOfWeek);
@@ -210,9 +201,8 @@ public partial class IDateFacts<TDate, TDataSet> // Conversions
     public void ToDayNumber(DayNumberInfo info)
     {
         var (dayNumber, y, m, d) = info;
-        // Arrange
         var date = CreateDate(y, m, d);
-        // Assert
+        // Act & Assert
         Assert.Equal(dayNumber, date.ToDayNumber());
     }
 }
@@ -243,7 +233,6 @@ public partial class IDateFacts<TDate, TDataSet> // Counting
     public void CountRemainingDaysInYear(YemodaAnd<int> info)
     {
         var (y, m, d, days) = info;
-        // Arrange
         var date = CreateDate(y, m, d);
         // Act & Assert
         Assert.Equal(days, date.CountRemainingDaysInYear());
@@ -253,7 +242,6 @@ public partial class IDateFacts<TDate, TDataSet> // Counting
     public void CountElapsedDaysInMonth(DateInfo info)
     {
         var (y, m, d) = info.Yemoda;
-        // Arrange
         var date = CreateDate(y, m, d);
         // Act & Assert
         Assert.Equal(d - 1, date.CountElapsedDaysInMonth());
@@ -263,7 +251,6 @@ public partial class IDateFacts<TDate, TDataSet> // Counting
     public void CountRemainingDaysInMonth(YemodaAnd<int> info)
     {
         var (y, m, d, days) = info;
-        // Arrange
         var date = CreateDate(y, m, d);
         // Act & Assert
         Assert.Equal(days, date.CountRemainingDaysInMonth());
@@ -276,7 +263,6 @@ public partial class IDateFacts<TDate, TDataSet> // Year and month boundaries
     public void GetStartOfYear(YearInfo info)
     {
         int y = info.Year;
-        // Arrange
         var date = CreateDate(y, 4, 5);
         var startOfYear = CreateDate(y, 1, 1);
         // Act & Assert
@@ -287,7 +273,6 @@ public partial class IDateFacts<TDate, TDataSet> // Year and month boundaries
     public void GetEndOfYear(YearInfo info)
     {
         int y = info.Year;
-        // Arrange
         var date = CreateDate(y, 4, 5);
         // Act
         var actual = TDate.GetEndOfYear(date);
@@ -300,7 +285,6 @@ public partial class IDateFacts<TDate, TDataSet> // Year and month boundaries
     public void GetStartOfMonth(MonthInfo info)
     {
         var (y, m) = info.Yemo;
-        // Arrange
         var date = CreateDate(y, m, 5);
         var startOfMonth = CreateDate(y, m, 1);
         // Act & Assert
@@ -311,16 +295,11 @@ public partial class IDateFacts<TDate, TDataSet> // Year and month boundaries
     public void GetEndOfMonth(MonthInfo info)
     {
         var (y, m) = info.Yemo;
-        // Arrange
         var date = CreateDate(y, m, 5);
         var endOfMonth = CreateDate(y, m, info.DaysInMonth);
         // Act & Assert
         Assert.Equal(endOfMonth, TDate.GetEndOfMonth(date));
     }
-}
-
-public partial class IDateFacts<TDate, TDataSet> // Adjust the core indivual parts
-{
 }
 
 public partial class IDateFacts<TDate, TDataSet> // Adjust the day of the week
@@ -330,7 +309,6 @@ public partial class IDateFacts<TDate, TDataSet> // Adjust the day of the week
     [Theory, MemberData(nameof(EnumDataSet.InvalidDayOfWeekData), MemberType = typeof(EnumDataSet))]
     public void Previous_InvalidDayOfWeek(DayOfWeek dayOfWeek)
     {
-        // Arrange
         var date = CreateDate(3, 4, 5);
         // Act & Assert
         Assert.ThrowsAoorexn("dayOfWeek", () => date.Previous(dayOfWeek));
@@ -339,7 +317,6 @@ public partial class IDateFacts<TDate, TDataSet> // Adjust the day of the week
     [Theory, MemberData(nameof(EnumDataSet.InvalidDayOfWeekData), MemberType = typeof(EnumDataSet))]
     public void PreviousOrSame_InvalidDayOfWeek(DayOfWeek dayOfWeek)
     {
-        // Arrange
         var date = CreateDate(3, 4, 5);
         // Act & Assert
         Assert.ThrowsAoorexn("dayOfWeek", () => date.PreviousOrSame(dayOfWeek));
@@ -348,7 +325,6 @@ public partial class IDateFacts<TDate, TDataSet> // Adjust the day of the week
     [Theory, MemberData(nameof(EnumDataSet.InvalidDayOfWeekData), MemberType = typeof(EnumDataSet))]
     public void Nearest_InvalidDayOfWeek(DayOfWeek dayOfWeek)
     {
-        // Arrange
         var date = CreateDate(3, 4, 5);
         // Act & Assert
         Assert.ThrowsAoorexn("dayOfWeek", () => date.Nearest(dayOfWeek));
@@ -357,7 +333,6 @@ public partial class IDateFacts<TDate, TDataSet> // Adjust the day of the week
     [Theory, MemberData(nameof(EnumDataSet.InvalidDayOfWeekData), MemberType = typeof(EnumDataSet))]
     public void NextOrSame_InvalidDayOfWeek(DayOfWeek dayOfWeek)
     {
-        // Arrange
         var date = CreateDate(3, 4, 5);
         // Act & Assert
         Assert.ThrowsAoorexn("dayOfWeek", () => date.NextOrSame(dayOfWeek));
@@ -366,7 +341,6 @@ public partial class IDateFacts<TDate, TDataSet> // Adjust the day of the week
     [Theory, MemberData(nameof(EnumDataSet.InvalidDayOfWeekData), MemberType = typeof(EnumDataSet))]
     public void Next_InvalidDayOfWeek(DayOfWeek dayOfWeek)
     {
-        // Arrange
         var date = CreateDate(3, 4, 5);
         // Act & Assert
         Assert.ThrowsAoorexn("dayOfWeek", () => date.Next(dayOfWeek));
@@ -393,7 +367,6 @@ public partial class IDateFacts<TDate, TDataSet> // Adjust the day of the week
     [Theory, MemberData(nameof(DayOfWeek_Before_Data))]
     public void Previous(Yemoda xdate, Yemoda xexp, DayOfWeek dayOfWeek)
     {
-        // Arrange
         var date = CreateDate(xdate);
         var exp = CreateDate(xexp);
         // Act
@@ -405,7 +378,6 @@ public partial class IDateFacts<TDate, TDataSet> // Adjust the day of the week
     [Theory, MemberData(nameof(DayOfWeek_OnOrBefore_Data))]
     public void PreviousOrSame(Yemoda xdate, Yemoda xexp, DayOfWeek dayOfWeek)
     {
-        // Arrange
         var date = CreateDate(xdate);
         var exp = CreateDate(xexp);
         // Act
@@ -417,7 +389,6 @@ public partial class IDateFacts<TDate, TDataSet> // Adjust the day of the week
     [Theory, MemberData(nameof(DayOfWeek_Nearest_Data))]
     public void Nearest(Yemoda xdate, Yemoda xexp, DayOfWeek dayOfWeek)
     {
-        // Arrange
         var date = CreateDate(xdate);
         var exp = CreateDate(xexp);
         // Act
@@ -429,7 +400,6 @@ public partial class IDateFacts<TDate, TDataSet> // Adjust the day of the week
     [Theory, MemberData(nameof(DayOfWeek_OnOrAfter_Data))]
     public void NextOrSame(Yemoda xdate, Yemoda xexp, DayOfWeek dayOfWeek)
     {
-        // Arrange
         var date = CreateDate(xdate);
         var exp = CreateDate(xexp);
         // Act
@@ -441,7 +411,6 @@ public partial class IDateFacts<TDate, TDataSet> // Adjust the day of the week
     [Theory, MemberData(nameof(DayOfWeek_After_Data))]
     public void Next(Yemoda xdate, Yemoda xexp, DayOfWeek dayOfWeek)
     {
-        // Arrange
         var date = CreateDate(xdate);
         var exp = CreateDate(xexp);
         // Act
@@ -457,7 +426,6 @@ public partial class IDateFacts<TDate, TDataSet> // Addition / Subtraction
     public void PlusDays_WithLimitValues()
     {
         var (minDayNumber, maxDayNumber) = Domain.Endpoints;
-        // Arrange
         var date = CreateDate(3, 4, 5);
         var dayNumber = date.ToDayNumber();
         int minDays = minDayNumber - dayNumber;
@@ -479,7 +447,6 @@ public partial class IDateFacts<TDate, TDataSet> // Addition / Subtraction
     [Fact]
     public void CountDaysSince_DoesNotOverflow()
     {
-        // Arrange
         int days = Domain.Count() - 1;
         // Act & Assert
         Assert.Equal(days, MaxDate - MinDate);
@@ -492,10 +459,8 @@ public partial class IDateFacts<TDate, TDataSet> // Addition / Subtraction
     [Theory, MemberData(nameof(AddDaysData))]
     public void CountDaysSince(Yemoda xdate, Yemoda xother, int days)
     {
-        // Arrange
         var date = CreateDate(xdate);
         var other = CreateDate(xother);
-
         // Act & Assert
         // 3) other - date -> days.
         Assert.Equal(days, other - date);
@@ -509,10 +474,8 @@ public partial class IDateFacts<TDate, TDataSet> // Addition / Subtraction
     [Theory, MemberData(nameof(ConsecutiveDaysData))]
     public void CountDaysSince_ViaConsecutiveDays(Yemoda xdate, Yemoda xdateAfter)
     {
-        // Arrange
         var date = CreateDate(xdate);
         var dateAfter = CreateDate(xdateAfter);
-
         // Act & Assert
         // 3) dateAfter - date -> 1.
         Assert.Equal(1, dateAfter - date);
@@ -527,8 +490,6 @@ public partial class IDateFacts<TDate, TDataSet> // Addition / Subtraction
     public void CountDaysSince_Same_IsZero(DateInfo info)
     {
         var (y, m, d) = info.Yemoda;
-
-        // Arrange
         var date = CreateDate(y, m, d);
         // Act & Assert
         Assert.Equal(0, date - date);
@@ -558,7 +519,6 @@ public partial class IDateFacts<TDate, TDataSet> // Increment / decrement
     [Theory, MemberData(nameof(ConsecutiveDaysData))]
     public void Increment(Yemoda xdate, Yemoda xdateAfter)
     {
-        // Arrange
         var date = CreateDate(xdate);
         var dateAfter = CreateDate(xdateAfter);
         // Act & Assert
@@ -568,7 +528,6 @@ public partial class IDateFacts<TDate, TDataSet> // Increment / decrement
     [Theory, MemberData(nameof(ConsecutiveDaysData))]
     public void Decrement(Yemoda xdate, Yemoda xdateAfter)
     {
-        // Arrange
         var date = CreateDate(xdate);
         var dateAfter = CreateDate(xdateAfter);
         // Act & Assert
@@ -578,7 +537,6 @@ public partial class IDateFacts<TDate, TDataSet> // Increment / decrement
     [Theory, MemberData(nameof(ConsecutiveDaysData))]
     public void NextDay(Yemoda xdate, Yemoda xdateAfter)
     {
-        // Arrange
         var date = CreateDate(xdate);
         var dateAfter = CreateDate(xdateAfter);
         // Act & Assert
@@ -588,7 +546,6 @@ public partial class IDateFacts<TDate, TDataSet> // Increment / decrement
     [Theory, MemberData(nameof(ConsecutiveDaysData))]
     public void PreviousDay(Yemoda xdate, Yemoda xdateAfter)
     {
-        // Arrange
         var date = CreateDate(xdate);
         var dateAfter = CreateDate(xdateAfter);
         // Act & Assert
@@ -613,7 +570,6 @@ public partial class IDateFacts<TDate, TDataSet> // Addition
     [Fact]
     public void PlusDays_OverflowOrUnderflow()
     {
-        // Arrange
         var date = CreateDate(3, 4, 5);
         // Act & Assert
         Assert.Overflows(() => date.PlusDays(Int32.MinValue));
@@ -626,7 +582,6 @@ public partial class IDateFacts<TDate, TDataSet> // Addition
     [Fact]
     public void PlusDays_WithLimitValues_AtMinValue()
     {
-        // Arrange
         int days = Domain.Count() - 1;
         // Act & Assert
         Assert.Overflows(() => Op_Subtraction(MinDate, 1));
@@ -646,9 +601,7 @@ public partial class IDateFacts<TDate, TDataSet> // Addition
     [Fact]
     public void PlusDays_WithLimitValues_AtMaxValue()
     {
-        // Arrange
         int days = Domain.Count() - 1;
-
         // Act & Assert
         Assert.Overflows(() => Op_Subtraction(MaxDate, days + 1));
         Assert.Overflows(() => MaxDate.PlusDays(-days - 1));
@@ -667,10 +620,8 @@ public partial class IDateFacts<TDate, TDataSet> // Addition
     [Theory, MemberData(nameof(AddDaysData))]
     public void PlusDays(Yemoda xdate, Yemoda xother, int days)
     {
-        // Arrange
         var date = CreateDate(xdate);
         var other = CreateDate(xother);
-
         // Act & Assert
         // 1) date + days -> other.
         Assert.Equal(other, date + days);
@@ -684,10 +635,8 @@ public partial class IDateFacts<TDate, TDataSet> // Addition
     [Theory, MemberData(nameof(ConsecutiveDaysData))]
     public void PlusDays_ViaConsecutiveDays(Yemoda xdate, Yemoda xdateAfter)
     {
-        // Arrange
         var date = CreateDate(xdate);
         var dateAfter = CreateDate(xdateAfter);
-
         // Act & Assert
         // 1) date + 1 -> dateAfter.
         Assert.Equal(dateAfter, date + 1);
@@ -702,10 +651,7 @@ public partial class IDateFacts<TDate, TDataSet> // Addition
     public void PlusDays_Zero_IsNeutral(DateInfo info)
     {
         var (y, m, d) = info.Yemoda;
-
-        // Arrange
         var date = CreateDate(y, m, d);
-
         // Act & Assert
         Assert.Equal(date, date + 0);
         Assert.Equal(date, Op_Subtraction(date, 0));
@@ -723,7 +669,6 @@ public partial class IDateFacts<TDate, TDataSet> // IEquatable
     public void Equals_WhenSame(DateInfo info)
     {
         var (y, m, d) = info.Yemoda;
-        // Arrange
         var date = CreateDate(y, m, d);
         var same = CreateDate(y, m, d);
         // Act & Assert
@@ -740,7 +685,6 @@ public partial class IDateFacts<TDate, TDataSet> // IEquatable
     [InlineData(1, 1, 2)]
     public void Equals_WhenNotSame(int y, int m, int d)
     {
-        // Arrange
         var date = CreateDate(1, 1, 1);
         var notSame = CreateDate(y, m, d);
         // Act & Assert
@@ -755,7 +699,6 @@ public partial class IDateFacts<TDate, TDataSet> // IEquatable
     public void Equals_NullOrOtherType(DateInfo info)
     {
         var (y, m, d) = info.Yemoda;
-        // Arrange
         var date = CreateDate(y, m, d);
         // Act & Assert
         Assert.False(date.Equals(1));
@@ -767,7 +710,6 @@ public partial class IDateFacts<TDate, TDataSet> // IEquatable
     public void GetHashCode_Repeated(DateInfo info)
     {
         var (y, m, d) = info.Yemoda;
-        // Arrange
         var date = CreateDate(y, m, d);
         var obj = (object)date;
         // Act & Assert
@@ -785,7 +727,6 @@ public partial class IDateFacts<TDate, TDataSet> // IComparable
     [Fact]
     public void CompareTo_Null()
     {
-        // Arrange
         var date = CreateDate(3, 4, 5);
         var comparable = (IComparable)date;
         // Act & Assert
@@ -795,7 +736,6 @@ public partial class IDateFacts<TDate, TDataSet> // IComparable
     [Fact]
     public void CompareTo_InvalidObject()
     {
-        // Arrange
         var date = CreateDate(3, 4, 5);
         var comparable = (IComparable)date;
         object other = new();
@@ -807,7 +747,6 @@ public partial class IDateFacts<TDate, TDataSet> // IComparable
     public void CompareTo_WhenEqual(DateInfo info)
     {
         var (y, m, d) = info.Yemoda;
-        // Arrange
         var left = CreateDate(y, m, d);
         var right = CreateDate(y, m, d);
         // Act & Assert
@@ -826,7 +765,6 @@ public partial class IDateFacts<TDate, TDataSet> // IComparable
     [InlineData(1, 1, 2)]
     public void CompareTo_WhenNotEqual(int y, int m, int d)
     {
-        // Arrange
         var left = CreateDate(1, 1, 1);
         var right = CreateDate(y, m, d);
         // Act & Assert
@@ -845,7 +783,6 @@ public partial class IDateFacts<TDate, TDataSet> // IComparable
     [InlineData(1, 1, 2)]
     public void Min(int y, int m, int d)
     {
-        // Arrange
         var min = CreateDate(1, 1, 1);
         var max = CreateDate(y, m, d);
         // Act & Assert
@@ -859,7 +796,6 @@ public partial class IDateFacts<TDate, TDataSet> // IComparable
     [InlineData(1, 1, 2)]
     public void Max(int y, int m, int d)
     {
-        // Arrange
         var min = CreateDate(1, 1, 1);
         var max = CreateDate(y, m, d);
         // Act & Assert
