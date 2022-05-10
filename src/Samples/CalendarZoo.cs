@@ -14,6 +14,8 @@ using Zorglub.Time.Simple;
 
 using static Zorglub.Time.Extensions.Unboxing;
 
+// FIXME(code): volatile does not work here.
+
 // On en profite pour explorer les différentes manières d'initialiser un
 // champs statique en différé.
 // - internal class (voir p.ex. WideCatalog)
