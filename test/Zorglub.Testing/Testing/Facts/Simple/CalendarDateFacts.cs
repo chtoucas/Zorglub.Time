@@ -49,11 +49,10 @@ public partial class CalendarDateFacts<TDataSet> // Prelude
     // Properties
     //
 
-    [Theory, MemberData(nameof(DateInfoData))]
-    public void Calendar_Prop(DateInfo info)
+    [Fact]
+    public void Calendar_Prop()
     {
-        var (y, m, d) = info.Yemoda;
-        var date = CalendarUT.GetCalendarDate(y, m, d);
+        var date = CalendarUT.GetCalendarDate(1, 1, 1);
         // Act & Assert
         Assert.Equal(CalendarUT, date.Calendar);
         // We also test the internal prop Cuid.
@@ -112,11 +111,10 @@ public partial class CalendarDateFacts<TDataSet> // Conversions
         Assert.Equal(exp, date.ToOrdinalDate());
     }
 
-    [Theory, MemberData(nameof(DateInfoData))]
-    public void WithCalendar_NullCalendar(DateInfo info)
+    [Fact]
+    public void WithCalendar_NullCalendar()
     {
-        var (y, m, d) = info.Yemoda;
-        var date = CalendarUT.GetCalendarDate(y, m, d);
+        var date = CalendarUT.GetCalendarDate(1, 1, 1);
         // Act & Assert
         Assert.ThrowsAnexn("newCalendar", () => date.WithCalendar(null!));
     }

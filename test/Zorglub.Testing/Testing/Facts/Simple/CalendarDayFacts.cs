@@ -50,10 +50,10 @@ public partial class CalendarDayFacts<TDataSet> // Prelude
     // Properties
     //
 
-    [Theory, MemberData(nameof(DayNumberInfoData))]
-    public void Calendar_Prop(DayNumberInfo info)
+    [Fact]
+    public void Calendar_Prop()
     {
-        var date = CalendarUT.GetCalendarDay(info.DayNumber);
+        var date = CalendarUT.GetCalendarDay(CalendarUT.Epoch);
         // Act & Assert
         Assert.Equal(CalendarUT, date.Calendar);
         // We also test the internal prop Cuid.
@@ -110,10 +110,10 @@ public partial class CalendarDayFacts<TDataSet> // Conversions
         Assert.Equal(exp, date.ToOrdinalDate());
     }
 
-    [Theory, MemberData(nameof(DayNumberInfoData))]
-    public void WithCalendar_NullCalendar(DayNumberInfo info)
+    [Fact]
+    public void WithCalendar_NullCalendar()
     {
-        var date = CalendarUT.GetCalendarDay(info.DayNumber);
+        var date = CalendarUT.GetCalendarDay(CalendarUT.Epoch);
         // Act & Assert
         Assert.ThrowsAnexn("newCalendar", () => date.WithCalendar(null!));
     }

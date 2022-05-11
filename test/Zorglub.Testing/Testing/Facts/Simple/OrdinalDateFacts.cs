@@ -62,11 +62,10 @@ public partial class OrdinalDateFacts<TDataSet> // Prelude
     // Properties
     //
 
-    [Theory, MemberData(nameof(DateInfoData))]
-    public void Calendar_Prop(DateInfo info)
+    [Fact]
+    public void Calendar_Prop()
     {
-        var (y, doy) = info.Yedoy;
-        var date = CalendarUT.GetOrdinalDate(y, doy);
+        var date = CalendarUT.GetOrdinalDate(1, 1);
         // Act & Assert
         Assert.Equal(CalendarUT, date.Calendar);
         // We also test the internal prop Cuid.
@@ -125,12 +124,43 @@ public partial class OrdinalDateFacts<TDataSet> // Conversions
         Assert.Equal(date, ((ISimpleDate)date).ToOrdinalDate());
     }
 
+    [Fact]
+    public void WithCalendar_NullCalendar()
+    {
+        var date = CalendarUT.GetOrdinalDate(1, 1);
+        // Act & Assert
+        Assert.ThrowsAnexn("newCalendar", () => date.WithCalendar(null!));
+    }
+}
+
+public partial class OrdinalDateFacts<TDataSet> // Adjustments
+{
+    [Fact]
+    public void WithYear_InvalidYears()
+    {
+        var date = CalendarUT.GetOrdinalDate(1, 1);
+        // Act & Assert
+        SupportedYearsTester.TestInvalidYear(y => date.WithYear(y), "newYear");
+    }
+
     [Theory, MemberData(nameof(DateInfoData))]
-    public void WithCalendar_NullCalendar(DateInfo info)
+    public void WithYear_Invariant(DateInfo info)
     {
         var (y, doy) = info.Yedoy;
         var date = CalendarUT.GetOrdinalDate(y, doy);
         // Act & Assert
-        Assert.ThrowsAnexn("newCalendar", () => date.WithCalendar(null!));
+        Assert.Equal(date, date.WithYear(y));
+    }
+
+    [Fact]
+    public void WithYear_ValidYears()
+    {
+        foreach (int y in SupportedYearsTester.ValidYears)
+        {
+            var date = CalendarUT.GetOrdinalDate(1, 1);
+            var exp = CalendarUT.GetOrdinalDate(y, 1);
+            // Act & Assert
+            Assert.Equal(exp, date.WithYear(y));
+        }
     }
 }

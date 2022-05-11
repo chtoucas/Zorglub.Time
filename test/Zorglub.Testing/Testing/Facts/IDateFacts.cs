@@ -4,8 +4,8 @@
 namespace Zorglub.Testing.Facts;
 
 // Hypothesis:
-// - TDate is a value type
-// - first years are complete and valid
+// - TDate is a value type.
+// - First year is valid and complete.
 
 using Zorglub.Testing.Data;
 using Zorglub.Time.Core.Intervals;
@@ -68,33 +68,38 @@ public abstract partial class IDateFacts<TDate, TDataSet> : CalendarTesting<TDat
 
 public partial class IDateFacts<TDate, TDataSet> // Prelude
 {
-    [Fact]
-    public void Constructor_InvalidYear() =>
-        SupportedYearsTester.TestInvalidYear(y => CreateDate(y, 1, 1));
+    // TODO(fact): for simple date objects the constructor is tested in
+    // CalendarFacts (Factories). For the others, copy this code: CivilDate
+    // and WideDate.
 
-    [Theory, MemberData(nameof(InvalidMonthFieldData))]
-    public void Constructor_InvalidMonth(int y, int m) =>
-        Assert.ThrowsAoorexn("month", () => CreateDate(y, m, 1));
+    //[Fact]
+    //public void Constructor_InvalidYear() =>
+    //    SupportedYearsTester.TestInvalidYear(y => CreateDate(y, 1, 1));
 
-    [Theory, MemberData(nameof(InvalidDayFieldData))]
-    public void Constructor_InvalidDay(int y, int m, int d) =>
-        Assert.ThrowsAoorexn("day", () => CreateDate(y, m, d));
+    //[Theory, MemberData(nameof(InvalidMonthFieldData))]
+    //public void Constructor_InvalidMonth(int y, int m) =>
+    //    Assert.ThrowsAoorexn("month", () => CreateDate(y, m, 1));
 
-    [Theory, MemberData(nameof(DateInfoData))]
-    public void Constructor(DateInfo info)
-    {
-        var (y, m, d) = info.Yemoda;
-        // Act
-        var date = CreateDate(y, m, d);
-        // Assert
-        Assert.Equal(y, date.Year);
-        Assert.Equal(m, date.Month);
-        Assert.Equal(d, date.Day);
-    }
-}
+    //[Theory, MemberData(nameof(InvalidDayFieldData))]
+    //public void Constructor_InvalidDay(int y, int m, int d) =>
+    //    Assert.ThrowsAoorexn("day", () => CreateDate(y, m, d));
 
-public partial class IDateFacts<TDate, TDataSet> // Properties
-{
+    //[Theory, MemberData(nameof(DateInfoData))]
+    //public void Constructor(DateInfo info)
+    //{
+    //    var (y, m, d) = info.Yemoda;
+    //    // Act
+    //    var date = CreateDate(y, m, d);
+    //    // Assert
+    //    Assert.Equal(y, date.Year);
+    //    Assert.Equal(m, date.Month);
+    //    Assert.Equal(d, date.Day);
+    //}
+
+    //
+    // Properties
+    //
+
     [Theory, MemberData(nameof(CenturyInfoData))]
     public void CenturyOfEra_Prop(CenturyInfo info)
     {
@@ -309,7 +314,7 @@ public partial class IDateFacts<TDate, TDataSet> // Adjust the day of the week
     [Theory, MemberData(nameof(EnumDataSet.InvalidDayOfWeekData), MemberType = typeof(EnumDataSet))]
     public void Previous_InvalidDayOfWeek(DayOfWeek dayOfWeek)
     {
-        var date = CreateDate(3, 4, 5);
+        var date = CreateDate(1, 1, 1);
         // Act & Assert
         Assert.ThrowsAoorexn("dayOfWeek", () => date.Previous(dayOfWeek));
     }
@@ -317,7 +322,7 @@ public partial class IDateFacts<TDate, TDataSet> // Adjust the day of the week
     [Theory, MemberData(nameof(EnumDataSet.InvalidDayOfWeekData), MemberType = typeof(EnumDataSet))]
     public void PreviousOrSame_InvalidDayOfWeek(DayOfWeek dayOfWeek)
     {
-        var date = CreateDate(3, 4, 5);
+        var date = CreateDate(1, 1, 1);
         // Act & Assert
         Assert.ThrowsAoorexn("dayOfWeek", () => date.PreviousOrSame(dayOfWeek));
     }
@@ -325,7 +330,7 @@ public partial class IDateFacts<TDate, TDataSet> // Adjust the day of the week
     [Theory, MemberData(nameof(EnumDataSet.InvalidDayOfWeekData), MemberType = typeof(EnumDataSet))]
     public void Nearest_InvalidDayOfWeek(DayOfWeek dayOfWeek)
     {
-        var date = CreateDate(3, 4, 5);
+        var date = CreateDate(1, 1, 1);
         // Act & Assert
         Assert.ThrowsAoorexn("dayOfWeek", () => date.Nearest(dayOfWeek));
     }
@@ -333,7 +338,7 @@ public partial class IDateFacts<TDate, TDataSet> // Adjust the day of the week
     [Theory, MemberData(nameof(EnumDataSet.InvalidDayOfWeekData), MemberType = typeof(EnumDataSet))]
     public void NextOrSame_InvalidDayOfWeek(DayOfWeek dayOfWeek)
     {
-        var date = CreateDate(3, 4, 5);
+        var date = CreateDate(1, 1, 1);
         // Act & Assert
         Assert.ThrowsAoorexn("dayOfWeek", () => date.NextOrSame(dayOfWeek));
     }
@@ -341,7 +346,7 @@ public partial class IDateFacts<TDate, TDataSet> // Adjust the day of the week
     [Theory, MemberData(nameof(EnumDataSet.InvalidDayOfWeekData), MemberType = typeof(EnumDataSet))]
     public void Next_InvalidDayOfWeek(DayOfWeek dayOfWeek)
     {
-        var date = CreateDate(3, 4, 5);
+        var date = CreateDate(1, 1, 1);
         // Act & Assert
         Assert.ThrowsAoorexn("dayOfWeek", () => date.Next(dayOfWeek));
     }
@@ -426,7 +431,7 @@ public partial class IDateFacts<TDate, TDataSet> // Addition / Subtraction
     public void PlusDays_WithLimitValues()
     {
         var (minDayNumber, maxDayNumber) = Domain.Endpoints;
-        var date = CreateDate(3, 4, 5);
+        var date = CreateDate(1, 1, 1);
         var dayNumber = date.ToDayNumber();
         int minDays = minDayNumber - dayNumber;
         int maxDays = maxDayNumber - dayNumber;
@@ -570,7 +575,7 @@ public partial class IDateFacts<TDate, TDataSet> // Addition
     [Fact]
     public void PlusDays_OverflowOrUnderflow()
     {
-        var date = CreateDate(3, 4, 5);
+        var date = CreateDate(1, 1, 1);
         // Act & Assert
         Assert.Overflows(() => date.PlusDays(Int32.MinValue));
         Assert.Overflows(() => date + Int32.MinValue);
@@ -727,7 +732,7 @@ public partial class IDateFacts<TDate, TDataSet> // IComparable
     [Fact]
     public void CompareTo_Null()
     {
-        var date = CreateDate(3, 4, 5);
+        var date = CreateDate(1, 1, 1);
         var comparable = (IComparable)date;
         // Act & Assert
         Assert.Equal(1, comparable.CompareTo(null));
@@ -736,7 +741,7 @@ public partial class IDateFacts<TDate, TDataSet> // IComparable
     [Fact]
     public void CompareTo_InvalidObject()
     {
-        var date = CreateDate(3, 4, 5);
+        var date = CreateDate(1, 1, 1);
         var comparable = (IComparable)date;
         object other = new();
         // Act & Assert

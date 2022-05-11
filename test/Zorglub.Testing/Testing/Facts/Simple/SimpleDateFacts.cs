@@ -8,6 +8,8 @@ using Zorglub.Time.Hemerology;
 using Zorglub.Time.Simple;
 
 // REVIEW(fact): ISimpleDate is internal, create and use a SimpleDateProxy?
+// TODO(fact): in derived classes, use (1, 1, 1) or (1, 1) instead of theories
+// since we know that the first years are always complete.
 
 /// <summary>
 /// Provides facts about <see cref="CalendarDate"/>.
