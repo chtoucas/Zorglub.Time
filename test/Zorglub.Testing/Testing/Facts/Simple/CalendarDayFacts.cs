@@ -27,11 +27,11 @@ public abstract partial class CalendarDayFacts<TDataSet> : SimpleDateFacts<Calen
     protected sealed override CalendarDay MaxDate { get; }
 
     protected sealed override CalendarDay CreateDate(int y, int m, int d) =>
-        // Base tests are indirect.
+        // Notice that to create a date we must first pass thru CalendarDate.
         CalendarUT.GetCalendarDate(y, m, d).ToCalendarDay();
 }
 
-public partial class CalendarDayFacts<TDataSet>
+public partial class CalendarDayFacts<TDataSet> // Prelude
 {
     [Theory, MemberData(nameof(DayNumberInfoData))]
     public void Deconstructor(DayNumberInfo info)
@@ -45,18 +45,38 @@ public partial class CalendarDayFacts<TDataSet>
         Assert.Equal(m, month);
         Assert.Equal(d, day);
     }
-}
 
-public partial class CalendarDayFacts<TDataSet> // Properties
-{
-    // We also test the internal prop Cuid.
+    //
+    // Properties
+    //
+
     [Theory, MemberData(nameof(DayNumberInfoData))]
     public void Calendar_Prop(DayNumberInfo info)
     {
         var date = CalendarUT.GetCalendarDay(info.DayNumber);
         // Act & Assert
         Assert.Equal(CalendarUT, date.Calendar);
+        // We also test the internal prop Cuid.
         Assert.Equal(CalendarUT.Id, date.Cuid);
+    }
+
+    [Theory, MemberData(nameof(DayNumberInfoData))]
+    public void CalendarYear_Prop(DayNumberInfo info)
+    {
+        var date = CalendarUT.GetCalendarDay(info.DayNumber);
+        var exp = CalendarUT.GetCalendarYear(info.Year);
+        // Act & Assert
+        Assert.Equal(exp, date.CalendarYear);
+    }
+
+    [Theory, MemberData(nameof(DayNumberInfoData))]
+    public void CalendarMonth_Prop(DayNumberInfo info)
+    {
+        var (dayNumber, y, m, _) = info;
+        var date = CalendarUT.GetCalendarDay(dayNumber);
+        var exp = CalendarUT.GetCalendarMonth(y, m);
+        // Act & Assert
+        Assert.Equal(exp, date.CalendarMonth);
     }
 }
 
@@ -65,30 +85,36 @@ public partial class CalendarDayFacts<TDataSet> // Conversions
     [Theory, MemberData(nameof(DayNumberInfoData))]
     public void ToCalendarDay(DayNumberInfo info)
     {
-        var day = CalendarUT.GetCalendarDay(info.DayNumber);
+        var date = CalendarUT.GetCalendarDay(info.DayNumber);
         // Act & Assert
-        Assert.Equal(day, ((ISimpleDate)day).ToCalendarDay());
+        Assert.Equal(date, ((ISimpleDate)date).ToCalendarDay());
     }
 
     [Theory, MemberData(nameof(DayNumberInfoData))]
     public void ToCalendarDate(DayNumberInfo info)
     {
         var (dayNumber, y, m, d) = info;
-        var day = CalendarUT.GetCalendarDay(dayNumber);
+        var date = CalendarUT.GetCalendarDay(dayNumber);
         var exp = CalendarUT.GetCalendarDate(y, m, d);
         // Act & Assert
-        Assert.Equal(exp, day.ToCalendarDate());
+        Assert.Equal(exp, date.ToCalendarDate());
     }
 
     [Theory, MemberData(nameof(DayNumberInfoData))]
     public void ToOrdinalDate(DayNumberInfo info)
     {
         var (dayNumber, y, m, d) = info;
-        var day = CalendarUT.GetCalendarDay(dayNumber);
+        var date = CalendarUT.GetCalendarDay(dayNumber);
         var exp = CalendarUT.GetCalendarDate(y, m, d).ToOrdinalDate();
         // Act & Assert
-        Assert.Equal(exp, day.ToOrdinalDate());
+        Assert.Equal(exp, date.ToOrdinalDate());
     }
 
-    //public void WithCalendar_NullCalendar()
+    [Theory, MemberData(nameof(DayNumberInfoData))]
+    public void WithCalendar_NullCalendar(DayNumberInfo info)
+    {
+        var date = CalendarUT.GetCalendarDay(info.DayNumber);
+        // Act & Assert
+        Assert.ThrowsAnexn("newCalendar", () => date.WithCalendar(null!));
+    }
 }

@@ -30,7 +30,7 @@ public abstract partial class CalendarDateFacts<TDataSet> : SimpleDateFacts<Cale
         CalendarUT.GetCalendarDate(y, m, d);
 }
 
-public partial class CalendarDateFacts<TDataSet>
+public partial class CalendarDateFacts<TDataSet> // Prelude
 {
     [Theory, MemberData(nameof(DateInfoData))]
     public void Deconstructor(DateInfo info)
@@ -44,11 +44,11 @@ public partial class CalendarDateFacts<TDataSet>
         Assert.Equal(m, month);
         Assert.Equal(d, day);
     }
-}
 
-public partial class CalendarDateFacts<TDataSet> // Properties
-{
-    // We also test the internal prop Cuid.
+    //
+    // Properties
+    //
+
     [Theory, MemberData(nameof(DateInfoData))]
     public void Calendar_Prop(DateInfo info)
     {
@@ -56,7 +56,28 @@ public partial class CalendarDateFacts<TDataSet> // Properties
         var date = CalendarUT.GetCalendarDate(y, m, d);
         // Act & Assert
         Assert.Equal(CalendarUT, date.Calendar);
+        // We also test the internal prop Cuid.
         Assert.Equal(CalendarUT.Id, date.Cuid);
+    }
+
+    [Theory, MemberData(nameof(DateInfoData))]
+    public void CalendarYear_Prop(DateInfo info)
+    {
+        var (y, m, d) = info.Yemoda;
+        var date = CalendarUT.GetCalendarDate(y, m, d);
+        var exp = CalendarUT.GetCalendarYear(y);
+        // Act & Assert
+        Assert.Equal(exp, date.CalendarYear);
+    }
+
+    [Theory, MemberData(nameof(DateInfoData))]
+    public void CalendarMonth_Prop(DateInfo info)
+    {
+        var (y, m, d) = info.Yemoda;
+        var date = CalendarUT.GetCalendarDate(y, m, d);
+        var exp = CalendarUT.GetCalendarMonth(y, m);
+        // Act & Assert
+        Assert.Equal(exp, date.CalendarMonth);
     }
 }
 
@@ -91,10 +112,11 @@ public partial class CalendarDateFacts<TDataSet> // Conversions
         Assert.Equal(exp, date.ToOrdinalDate());
     }
 
-    [Fact]
-    public void WithCalendar_NullCalendar()
+    [Theory, MemberData(nameof(DateInfoData))]
+    public void WithCalendar_NullCalendar(DateInfo info)
     {
-        var date = CalendarUT.GetCalendarDate(3, 4, 5);
+        var (y, m, d) = info.Yemoda;
+        var date = CalendarUT.GetCalendarDate(y, m, d);
         // Act & Assert
         Assert.ThrowsAnexn("newCalendar", () => date.WithCalendar(null!));
     }

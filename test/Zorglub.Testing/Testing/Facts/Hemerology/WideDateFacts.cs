@@ -49,8 +49,8 @@ public partial class WideDateFacts<TDataSet>
     public void Deconstruct(DateInfo info)
     {
         var (y, m, d) = info.Yemoda;
-        // Act
         var date = CalendarUT.GetWideDate(y, m, d);
+        // Act
         var (year, month, day) = date;
         // Assert
         Assert.Equal(y, year);
@@ -61,22 +61,14 @@ public partial class WideDateFacts<TDataSet>
 
 public partial class WideDateFacts<TDataSet> // Properties
 {
-    // WideCalendar.ForId().
-    [Fact]
-    public void Calendar_Prop()
-    {
-        var date = CalendarUT.GetWideDate(3, 4, 5);
-        // Act & Assert
-        Assert.Equal(CalendarUT, date.Calendar);
-    }
-
     [Theory, MemberData(nameof(DateInfoData))]
-    public void Cuid_Prop(DateInfo info)
+    public void Calendar_Prop(DateInfo info)
     {
         var (y, m, d) = info.Yemoda;
-        // Act
         var date = CalendarUT.GetWideDate(y, m, d);
-        // Assert
+        // Act & Assert
+        Assert.Equal(CalendarUT, date.Calendar);
+        // We also test the internal prop Cuid.
         Assert.Equal(CalendarUT.Id, date.Cuid);
     }
 }

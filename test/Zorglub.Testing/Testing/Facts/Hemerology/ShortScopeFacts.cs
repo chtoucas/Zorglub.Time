@@ -25,13 +25,13 @@ internal abstract class ShortScopeFacts<TScope, TDataSet> : CalendricalDataConsu
 
     #region ValidateYear()
 
-    public abstract void ValidateYear_InvalidYear(int y);
-    public abstract void ValidateYear(int y);
+    [Theory] public abstract void ValidateYear_InvalidYear(int y);
+    [Theory] public abstract void ValidateYear(int y);
 
     #endregion
     #region ValidateYearMonth()
 
-    public abstract void ValidateYearMonth_InvalidYear(int y);
+    [Theory] public abstract void ValidateYearMonth_InvalidYear(int y);
 
     [Theory, MemberData(nameof(InvalidMonthFieldData))]
     public void ValidateYearMonth_InvalidMonth(int y, int m)
@@ -50,7 +50,7 @@ internal abstract class ShortScopeFacts<TScope, TDataSet> : CalendricalDataConsu
     #endregion
     #region ValidateYearMonthDay()
 
-    public abstract void ValidateYearMonthDay_InvalidYear(int y);
+    [Theory] public abstract void ValidateYearMonthDay_InvalidYear(int y);
 
     [Theory, MemberData(nameof(InvalidMonthFieldData))]
     public void ValidateYearMonthDay_InvalidMonth(int y, int m)
@@ -76,7 +76,7 @@ internal abstract class ShortScopeFacts<TScope, TDataSet> : CalendricalDataConsu
     #endregion
     #region ValidateOrdinal()
 
-    public abstract void ValidateOrdinal_InvalidYear(int y);
+    [Theory] public abstract void ValidateOrdinal_InvalidYear(int y);
 
     [Theory, MemberData(nameof(InvalidDayOfYearFieldData))]
     public void ValidateOrdinal_InvalidDayOfYear(int y, int doy)

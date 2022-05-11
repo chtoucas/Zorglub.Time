@@ -66,7 +66,7 @@ public abstract partial class IDateFacts<TDate, TDataSet> : CalendarTesting<TDat
     #endregion
 }
 
-public partial class IDateFacts<TDate, TDataSet> // Construction
+public partial class IDateFacts<TDate, TDataSet> // Prelude
 {
     [Fact]
     public void Constructor_InvalidYear() =>

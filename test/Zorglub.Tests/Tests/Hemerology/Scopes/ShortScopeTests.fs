@@ -52,8 +52,8 @@ module Prelude =
         let minYear = 0
         let sch = new GregorianSchema()
         let scope = new FauxShortScope(sch, epoch, minYear)
-        let minDayNumber = epoch + sch.GetStartOfYear(minYear);
-        let maxDayNumber = epoch + sch.GetEndOfYear(ShortScope.MaxYear);
+        let minDayNumber = epoch + sch.GetStartOfYear(minYear)
+        let maxDayNumber = epoch + sch.GetEndOfYear(ShortScope.MaxYear)
         let range = Range.Create(minDayNumber, maxDayNumber)
 
         scope.Domain === range

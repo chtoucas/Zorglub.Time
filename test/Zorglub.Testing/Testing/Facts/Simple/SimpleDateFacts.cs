@@ -7,6 +7,8 @@ using Zorglub.Testing.Data;
 using Zorglub.Time.Hemerology;
 using Zorglub.Time.Simple;
 
+// REVIEW(fact): ISimpleDate is internal, create and use a SimpleDateProxy?
+
 /// <summary>
 /// Provides facts about <see cref="CalendarDate"/>.
 /// </summary>

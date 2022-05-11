@@ -57,8 +57,8 @@ module Prelude =
         let epoch = DayZero.NewStyle + 123_456_789
         let sch = new GregorianSchema()
         let scope = new FauxStandardShortScope(sch, epoch)
-        let minDayNumber = epoch + sch.GetStartOfYear(StandardShortScope.MinYear);
-        let maxDayNumber = epoch + sch.GetEndOfYear(StandardShortScope.MaxYear);
+        let minDayNumber = epoch + sch.GetStartOfYear(StandardShortScope.MinYear)
+        let maxDayNumber = epoch + sch.GetEndOfYear(StandardShortScope.MaxYear)
         let range = Range.Create(minDayNumber, maxDayNumber)
 
         scope.Domain === range
@@ -162,8 +162,8 @@ module Gregorian =
     let ``Static property DefaultDomain`` () =
         let epoch = DayZero.NewStyle
         let sch = new GregorianSchema()
-        let minDayNumber = epoch + sch.GetStartOfYear(StandardShortScope.MinYear);
-        let maxDayNumber = epoch + sch.GetEndOfYear(StandardShortScope.MaxYear);
+        let minDayNumber = epoch + sch.GetStartOfYear(StandardShortScope.MinYear)
+        let maxDayNumber = epoch + sch.GetEndOfYear(StandardShortScope.MaxYear)
         let range = Range.Create(minDayNumber, maxDayNumber)
 
         GregorianStandardShortScope.DefaultDomain === range

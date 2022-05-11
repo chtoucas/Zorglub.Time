@@ -5,28 +5,63 @@ namespace Zorglub.Time.Simple;
 
 using Zorglub.Time.Core;
 
-public sealed partial class OrdinalDateTests : GregorianOnlyTesting
+public sealed class CalendarDateTests
+{
+    public static readonly GregorianCalendar CalendarUT = GregorianCalendar.Instance;
+    public static readonly JulianCalendar OtherCalendar = JulianCalendar.Instance;
+
+    [Theory]
+    [InlineData(-1, 1, 1, "01/01/-0001 (Gregorian)")]
+    [InlineData(0, 1, 1, "01/01/0000 (Gregorian)")]
+    [InlineData(1, 1, 1, "01/01/0001 (Gregorian)")]
+    [InlineData(1, 2, 3, "03/02/0001 (Gregorian)")]
+    [InlineData(11, 12, 13, "13/12/0011 (Gregorian)")]
+    [InlineData(111, 3, 6, "06/03/0111 (Gregorian)")]
+    [InlineData(2019, 1, 3, "03/01/2019 (Gregorian)")]
+    [InlineData(9999, 12, 31, "31/12/9999 (Gregorian)")]
+    public void ToString_InvariantCulture(int y, int m, int d, string asString)
+    {
+        var date = CalendarUT.GetCalendarDate(y, m, d);
+        // Act & Assert
+        Assert.Equal(asString, date.ToString());
+    }
+
+    [Fact]
+    public void WithCalendar_NotSupported()
+    {
+        // Julian MinDayNumber is not in the Gregorian range.
+        var minDayNumber = OtherCalendar.Domain.Min;
+        var date = OtherCalendar.GetCalendarDateOn(minDayNumber);
+        // Act & Assert
+        Assert.ThrowsAoorexn("dayNumber", () => date.WithCalendar(CalendarUT));
+    }
+
+    [Theory, MemberData(nameof(CalCalDataSet.GregorianJulianData), MemberType = typeof(CalCalDataSet))]
+    public void WithCalendar_GregorianToJulian(Yemoda gregorian, Yemoda julian)
+    {
+        var source = CalendarUT.GetCalendarDate(gregorian.Year, gregorian.Month, gregorian.Day);
+        var result = OtherCalendar.GetCalendarDate(julian.Year, julian.Month, julian.Day);
+        // Act & Assert
+        Assert.Equal(result, source.WithCalendar(OtherCalendar));
+    }
+
+    [Theory, MemberData(nameof(CalCalDataSet.GregorianJulianData), MemberType = typeof(CalCalDataSet))]
+    public void WithCalendar_JulianToGregorian(Yemoda gregorian, Yemoda julian)
+    {
+        var source = OtherCalendar.GetCalendarDate(julian.Year, julian.Month, julian.Day);
+        var result = CalendarUT.GetCalendarDate(gregorian.Year, gregorian.Month, gregorian.Day);
+        // Act & Assert
+        Assert.Equal(result, source.WithCalendar(CalendarUT));
+    }
+}
+
+public sealed class OrdinalDateTests : GregorianOnlyTesting
 {
     private static readonly JulianCalendar s_Julian = JulianCalendar.Instance;
 
     public OrdinalDateTests() : base(GregorianCalendar.Instance) { }
 
     //public static TheoryData<Yemoda, Yemoda, bool, bool> MinMax => GregorianData.MinMax;
-}
-
-public partial class OrdinalDateTests
-{
-    //[Theory, MemberData(nameof(DateInfoData))]
-    //public void Deconstructor(DateInfo info)
-    //{
-    //    var (y, doy) = info.Yedoy;
-    //    var ordate = CalendarUT.GetOrdinalDate(y, doy);
-    //    // Act
-    //    var (year, dayOfYear) = ordate;
-    //    // Assert
-    //    Assert.Equal(y, year);
-    //    Assert.Equal(doy, dayOfYear);
-    //}
 
     [Theory]
     [InlineData(-1, 1, "001/-0001 (Gregorian)")]
@@ -43,78 +78,6 @@ public partial class OrdinalDateTests
         // Act & Assert
         Assert.Equal(asString, ordate.ToString());
     }
-}
-
-public partial class OrdinalDateTests // Properties
-{
-    //[Theory, MemberData(nameof(YearNumberingDataSet.CenturyInfoData), MemberType = typeof(YearNumberingDataSet))]
-    //public void CenturyOfEra_Prop(CenturyInfo info)
-    //{
-    //    var (y, century, _) = info;
-    //    var ordate = CalendarUT.GetOrdinalDate(y, 1);
-    //    var centuryOfEra = Ord.Zeroth + century;
-    //    // Act & Assert
-    //    Assert.Equal(centuryOfEra, ordate.CenturyOfEra);
-    //}
-
-    //[Theory, MemberData(nameof(YearNumberingDataSet.CenturyInfoData), MemberType = typeof(YearNumberingDataSet))]
-    //public void Century_Prop(CenturyInfo info)
-    //{
-    //    var (y, century, _) = info;
-    //    var ordate = CalendarUT.GetOrdinalDate(y, 1);
-    //    // Act & Assert
-    //    Assert.Equal(century, ordate.Century);
-    //}
-
-    //[Theory, MemberData(nameof(YearNumberingDataSet.CenturyInfoData), MemberType = typeof(YearNumberingDataSet))]
-    //public void YearOfEra_Prop(CenturyInfo info)
-    //{
-    //    int y = info.Year;
-    //    var ordate = CalendarUT.GetOrdinalDate(y, 1);
-    //    var yearOfEra = Ord.Zeroth + y;
-    //    // Act & Assert
-    //    Assert.Equal(yearOfEra, ordate.YearOfEra);
-    //}
-
-    //[Theory, MemberData(nameof(YearNumberingDataSet.CenturyInfoData), MemberType = typeof(YearNumberingDataSet))]
-    //public void YearOfCentury_Prop(CenturyInfo info)
-    //{
-    //    var (y, _, yearOfCentury) = info;
-    //    var ordate = CalendarUT.GetOrdinalDate(y, 1);
-    //    // Act & Assert
-    //    Assert.Equal(yearOfCentury, ordate.YearOfCentury);
-    //}
-}
-
-public partial class OrdinalDateTests // Conversions
-{
-    #region ToDayNumber()
-
-    // Calendar.GetDayNumber().
-    [Theory, MemberData(nameof(DateInfoData))]
-    public void ToDayNumber_ViaDates(DateInfo info)
-    {
-        var (y, m, d, doy) = info;
-        var dayNumber = CalendarUT.GetCalendarDate(y, m, d).ToDayNumber();
-        var ordate = CalendarUT.GetOrdinalDate(y, doy);
-        // Act & Assert
-        Assert.Equal(dayNumber, ordate.ToDayNumber());
-    }
-
-    // Calendar.GetDayNumber().
-    [Theory, MemberData(nameof(DayNumberInfoData))]
-    public void ToDayNumber_ViaDayNumbers(DayNumberInfo info)
-    {
-        var (dayNumber, y, m, d) = info;
-
-        var date = CalendarUT.GetCalendarDate(y, m, d);
-        var ordate = CalendarUT.GetOrdinalDate(y, date.DayOfYear);
-        // Act & Assert
-        Assert.Equal(dayNumber, ordate.ToDayNumber());
-    }
-
-    #endregion
-    #region ToCalendarDate()
 
     [Fact]
     public void ToCalendarDate_InvalidYear() =>
@@ -124,16 +87,7 @@ public partial class OrdinalDateTests // Conversions
     public void ToCalendarDate_InvalidDayOfYear(int y, int dayOfYear) =>
         Assert.ThrowsAoorexn("dayOfYear", () => CalendarUT.GetOrdinalDate(y, dayOfYear));
 
-    #endregion
     #region WithCalendar()
-
-    [Fact]
-    public void WithCalendar_InvalidCalendar()
-    {
-        var ordate = CalendarUT.GetOrdinalDate(3, 45);
-        // Act & Assert
-        Assert.ThrowsAnexn("newCalendar", () => ordate.WithCalendar(null!));
-    }
 
     [Fact]
     public void WithCalendar_NotSupported()
@@ -164,10 +118,7 @@ public partial class OrdinalDateTests // Conversions
     }
 
     #endregion
-}
 
-public partial class OrdinalDateTests
-{
     [Fact]
     public void CompareTo_WithOtherCalendar()
     {
