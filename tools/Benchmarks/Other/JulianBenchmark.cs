@@ -3,11 +3,11 @@
 
 namespace Benchmarks.Other;
 
+using NodaTime;
+
 using Zorglub.Time;
 using Zorglub.Time.Hemerology;
 using Zorglub.Time.Simple;
-
-using NodaTime;
 
 /*
 BenchmarkDotNet=v0.13.1, OS=Windows 10.0.19044.1586 (21H2)

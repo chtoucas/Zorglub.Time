@@ -3,11 +3,11 @@
 
 namespace Benchmarks.Other;
 
+using NodaTime;
+
 using Zorglub.Time;
 using Zorglub.Time.Hemerology;
 using Zorglub.Time.Simple;
-
-using NodaTime;
 
 // REVIEW: CalendarDay should be faster than CalendarDate, no?
 

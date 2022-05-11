@@ -3,12 +3,12 @@
 
 namespace Play.Demo;
 
+using Samples;
+
 using Zorglub.Time;
 using Zorglub.Time.Core.Schemas;
 using Zorglub.Time.Hemerology;
 using Zorglub.Time.Simple;
-
-using Samples;
 
 using static System.Console;
 

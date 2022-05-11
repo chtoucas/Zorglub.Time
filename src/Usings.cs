@@ -12,5 +12,5 @@ global using System.Runtime.CompilerServices;
 
 global using Zorglub.Time.Core.Utilities;
 
-global using Throw = Zorglub.Time.Core.Utilities.ThrowHelpers;
 global using AoorException = System.ArgumentOutOfRangeException;
+global using Throw = Zorglub.Time.Core.Utilities.ThrowHelpers;

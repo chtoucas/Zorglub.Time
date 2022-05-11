@@ -3,12 +3,12 @@
 
 namespace Benchmarks.Other;
 
+using NodaTime;
+using NodaTime.Extensions;
+
 using Zorglub.Time;
 using Zorglub.Time.Hemerology;
 using Zorglub.Time.Simple;
-
-using NodaTime;
-using NodaTime.Extensions;
 
 // REVIEW: what makes LocalDate faster? why is DateTime slower?
 
