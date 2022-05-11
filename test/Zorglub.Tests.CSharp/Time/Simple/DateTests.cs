@@ -55,8 +55,6 @@ public sealed class OrdinalDateTests : GregorianOnlyTesting
     public void ToCalendarDate_InvalidDayOfYear(int y, int dayOfYear) =>
         Assert.ThrowsAoorexn("dayOfYear", () => CalendarUT.GetOrdinalDate(y, dayOfYear));
 
-    #region WithCalendar()
-
     [Fact]
     public void WithCalendar_NotSupported()
     {
@@ -84,8 +82,6 @@ public sealed class OrdinalDateTests : GregorianOnlyTesting
         // Act & Assert
         Assert.Equal(result, source.WithCalendar(CalendarUT));
     }
-
-    #endregion
 
     [Fact]
     public void CompareTo_WithOtherCalendar()
@@ -142,10 +138,7 @@ public partial class OrdinalDateTests // IEquatable
         Assert.Equal(ordate.GetHashCode(), same.GetHashCode());
         Assert.NotEqual(ordate.GetHashCode(), notSame.GetHashCode());
     }
-}
 
-public partial class OrdinalDateTests // IComparable
-{
     [Fact]
     public void CompareTo_WithNull()
     {

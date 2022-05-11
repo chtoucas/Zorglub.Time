@@ -12,7 +12,7 @@ using Zorglub.Time.Hemerology;
 // - Epoch
 // - Domain
 // - Scope
-// This class no longer derived from CalendarTesting, but is it the right move?
+// This class no longer derives from CalendarTesting, but is it the right move?
 
 // We do not use ICalendricalKernelFacts which is tailored to work with schemas
 // (unbounded calendars).

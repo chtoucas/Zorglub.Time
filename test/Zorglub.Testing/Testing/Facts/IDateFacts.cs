@@ -41,29 +41,21 @@ public abstract partial class IDateFacts<TDate, TDataSet> : CalendarTesting<TDat
     protected TDate Op_Increment(TDate date) { date++; return date; }
     protected TDate Op_Decrement(TDate date) { date--; return date; }
 
-    #region Static access to IDaysAfterDataSet
-
+    // IDaysAfterDataSet
     public static TheoryData<YemodaAnd<int>> DaysInYearAfterDateData => DataSet.DaysInYearAfterDateData;
     public static TheoryData<YemodaAnd<int>> DaysInMonthAfterDateData => DataSet.DaysInMonthAfterDateData;
 
-    #endregion
-    #region Static access to IMathDataSet
-
+    // IMathDataSet
     public static TheoryData<Yemoda, Yemoda, int> AddDaysData => DataSet.AddDaysData;
     public static TheoryData<Yemoda, Yemoda> ConsecutiveDaysData => DataSet.ConsecutiveDaysData;
 
-    #endregion
-    #region Static access to IDayOfWeekDataSet
-
+    // IDayOfWeekDataSet
     public static TheoryData<YemodaAnd<DayOfWeek>> DayOfWeekData => DataSet.DayOfWeekData;
-
     public static TheoryData<Yemoda, Yemoda, DayOfWeek> DayOfWeek_Before_Data => DataSet.DayOfWeek_Before_Data;
     public static TheoryData<Yemoda, Yemoda, DayOfWeek> DayOfWeek_OnOrBefore_Data => DataSet.DayOfWeek_OnOrBefore_Data;
     public static TheoryData<Yemoda, Yemoda, DayOfWeek> DayOfWeek_Nearest_Data => DataSet.DayOfWeek_Nearest_Data;
     public static TheoryData<Yemoda, Yemoda, DayOfWeek> DayOfWeek_OnOrAfter_Data => DataSet.DayOfWeek_OnOrAfter_Data;
     public static TheoryData<Yemoda, Yemoda, DayOfWeek> DayOfWeek_After_Data => DataSet.DayOfWeek_After_Data;
-
-    #endregion
 }
 
 public partial class IDateFacts<TDate, TDataSet> // Prelude

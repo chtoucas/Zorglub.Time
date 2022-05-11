@@ -87,42 +87,26 @@ public sealed class StandardGregorianDataSet :
 
     public static StandardGregorianDataSet Instance { get; } = new();
 
-    //
     // IDaysAfterDataSet
-    //
-
     public TheoryData<YemoAnd<int>> DaysInYearAfterMonthData => Inner.DaysInYearAfterMonthData;
     public TheoryData<YemodaAnd<int>> DaysInYearAfterDateData => Inner.DaysInYearAfterDateData;
     public TheoryData<YemodaAnd<int>> DaysInMonthAfterDateData => Inner.DaysInMonthAfterDateData;
 
-    //
     // IYearAdjustmentDataSet
-    //
-
     public TheoryData<YemodaAnd<int>> InvalidYearAdjustementData { get; }
     public TheoryData<YemodaAnd<int>> YearAdjustementData { get; }
 
-    //
     // IMathDataSet
-    //
-
     public TheoryData<Yemoda, Yemoda, int> AddDaysData => Inner.AddDaysData;
     public TheoryData<Yemoda, Yemoda> ConsecutiveDaysData => Inner.ConsecutiveDaysData;
 
-    //
     // IAdvancedMathDataSet
-    //
-
     public TheoryData<Yemoda, Yemoda, int> AddYearsData => Inner.AddYearsData;
     public TheoryData<Yemoda, Yemoda, int> AddMonthsData => Inner.AddMonthsData;
     public TheoryData<Yemoda, Yemoda, int, int, int> DiffData => Inner.DiffData;
 
-    //
     // IDayOfWeekDataSet
-    //
-
     public TheoryData<YemodaAnd<DayOfWeek>> DayOfWeekData { get; }
-
     public TheoryData<Yemoda, Yemoda, DayOfWeek> DayOfWeek_Before_Data => Inner.DayOfWeek_Before_Data;
     public TheoryData<Yemoda, Yemoda, DayOfWeek> DayOfWeek_OnOrBefore_Data => Inner.DayOfWeek_OnOrBefore_Data;
     public TheoryData<Yemoda, Yemoda, DayOfWeek> DayOfWeek_Nearest_Data => Inner.DayOfWeek_Nearest_Data;
