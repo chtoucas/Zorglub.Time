@@ -6,16 +6,9 @@ module Zorglub.Tests.Simple.AdjustableDateTestSuite
 open Zorglub.Testing.Data.Bounded
 open Zorglub.Testing.Facts.Hemerology
 
-open Zorglub.Time.Core.Intervals
-open Zorglub.Time.Hemerology
+open Zorglub.Time.Simple
 
-type [<Sealed>] CivilDateTests() =
-    inherit IAdjustableDateFacts<CivilDate, StandardGregorianDataSet>(
-        Range.Create(CivilDate.MinYear, CivilDate.MaxYear))
+type [<Sealed>] GregorianTests() =
+    inherit IAdjustableDateFacts<CalendarDate, ProlepticGregorianDataSet>(GregorianCalendar.Instance.SupportedYears)
 
-    override __.CreateDate(y, m, d) = new CivilDate(y, m, d)
-
-type [<Sealed>] GregorianWideDateTests() =
-    inherit IAdjustableDateFacts<WideDate, ProlepticGregorianDataSet>(WideCalendar.Gregorian.SupportedYears)
-
-    override __.CreateDate(y, m, d) = WideCalendar.Gregorian.GetWideDate(y, m, d)
+    override __.CreateDate(y, m, d) = GregorianCalendar.Instance.GetCalendarDate(y, m, d)
