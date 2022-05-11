@@ -62,31 +62,7 @@ public partial class IDateFacts<TDate, TDataSet> // Prelude
 {
     // TODO(fact): for simple date objects the constructor is tested in
     // CalendarFacts (Factories). For the others, copy this code: CivilDate
-    // and WideDate.
-
-    //[Fact]
-    //public void Constructor_InvalidYear() =>
-    //    SupportedYearsTester.TestInvalidYear(y => CreateDate(y, 1, 1));
-
-    //[Theory, MemberData(nameof(InvalidMonthFieldData))]
-    //public void Constructor_InvalidMonth(int y, int m) =>
-    //    Assert.ThrowsAoorexn("month", () => CreateDate(y, m, 1));
-
-    //[Theory, MemberData(nameof(InvalidDayFieldData))]
-    //public void Constructor_InvalidDay(int y, int m, int d) =>
-    //    Assert.ThrowsAoorexn("day", () => CreateDate(y, m, d));
-
-    //[Theory, MemberData(nameof(DateInfoData))]
-    //public void Constructor(DateInfo info)
-    //{
-    //    var (y, m, d) = info.Yemoda;
-    //    // Act
-    //    var date = CreateDate(y, m, d);
-    //    // Assert
-    //    Assert.Equal(y, date.Year);
-    //    Assert.Equal(m, date.Month);
-    //    Assert.Equal(d, date.Day);
-    //}
+    // and WideDate. See also CalendarDateTests.
 
     //
     // Properties
@@ -362,10 +338,10 @@ public partial class IDateFacts<TDate, TDataSet> // Adjust the day of the week
         DayOfWeekAdjusterTester.NearMaxValue(MaxDate).TestNext();
 
     [Theory, MemberData(nameof(DayOfWeek_Before_Data))]
-    public void Previous(Yemoda xdate, Yemoda xexp, DayOfWeek dayOfWeek)
+    public void Previous(Yemoda ymd, Yemoda ymdExp, DayOfWeek dayOfWeek)
     {
-        var date = CreateDate(xdate);
-        var exp = CreateDate(xexp);
+        var date = CreateDate(ymd);
+        var exp = CreateDate(ymdExp);
         // Act
         var actual = date.Previous(dayOfWeek);
         // Assert
@@ -373,10 +349,10 @@ public partial class IDateFacts<TDate, TDataSet> // Adjust the day of the week
     }
 
     [Theory, MemberData(nameof(DayOfWeek_OnOrBefore_Data))]
-    public void PreviousOrSame(Yemoda xdate, Yemoda xexp, DayOfWeek dayOfWeek)
+    public void PreviousOrSame(Yemoda ymd, Yemoda ymdExp, DayOfWeek dayOfWeek)
     {
-        var date = CreateDate(xdate);
-        var exp = CreateDate(xexp);
+        var date = CreateDate(ymd);
+        var exp = CreateDate(ymdExp);
         // Act
         var actual = date.PreviousOrSame(dayOfWeek);
         // Assert
@@ -384,10 +360,10 @@ public partial class IDateFacts<TDate, TDataSet> // Adjust the day of the week
     }
 
     [Theory, MemberData(nameof(DayOfWeek_Nearest_Data))]
-    public void Nearest(Yemoda xdate, Yemoda xexp, DayOfWeek dayOfWeek)
+    public void Nearest(Yemoda ymd, Yemoda ymdExp, DayOfWeek dayOfWeek)
     {
-        var date = CreateDate(xdate);
-        var exp = CreateDate(xexp);
+        var date = CreateDate(ymd);
+        var exp = CreateDate(ymdExp);
         // Act
         var actual = date.Nearest(dayOfWeek);
         // Assert
@@ -395,10 +371,10 @@ public partial class IDateFacts<TDate, TDataSet> // Adjust the day of the week
     }
 
     [Theory, MemberData(nameof(DayOfWeek_OnOrAfter_Data))]
-    public void NextOrSame(Yemoda xdate, Yemoda xexp, DayOfWeek dayOfWeek)
+    public void NextOrSame(Yemoda ymd, Yemoda ymdExp, DayOfWeek dayOfWeek)
     {
-        var date = CreateDate(xdate);
-        var exp = CreateDate(xexp);
+        var date = CreateDate(ymd);
+        var exp = CreateDate(ymdExp);
         // Act
         var actual = date.NextOrSame(dayOfWeek);
         // Assert
@@ -406,10 +382,10 @@ public partial class IDateFacts<TDate, TDataSet> // Adjust the day of the week
     }
 
     [Theory, MemberData(nameof(DayOfWeek_After_Data))]
-    public void Next(Yemoda xdate, Yemoda xexp, DayOfWeek dayOfWeek)
+    public void Next(Yemoda ymd, Yemoda ymdExp, DayOfWeek dayOfWeek)
     {
-        var date = CreateDate(xdate);
-        var exp = CreateDate(xexp);
+        var date = CreateDate(ymd);
+        var exp = CreateDate(ymdExp);
         // Act
         var actual = date.Next(dayOfWeek);
         // Assert
@@ -454,10 +430,10 @@ public partial class IDateFacts<TDate, TDataSet> // Addition / Subtraction
     }
 
     [Theory, MemberData(nameof(AddDaysData))]
-    public void CountDaysSince(Yemoda xdate, Yemoda xother, int days)
+    public void CountDaysSince(Yemoda ymd, Yemoda ymdOther, int days)
     {
-        var date = CreateDate(xdate);
-        var other = CreateDate(xother);
+        var date = CreateDate(ymd);
+        var other = CreateDate(ymdOther);
         // Act & Assert
         // 3) other - date -> days.
         Assert.Equal(days, other - date);
@@ -469,10 +445,10 @@ public partial class IDateFacts<TDate, TDataSet> // Addition / Subtraction
     }
 
     [Theory, MemberData(nameof(ConsecutiveDaysData))]
-    public void CountDaysSince_ViaConsecutiveDays(Yemoda xdate, Yemoda xdateAfter)
+    public void CountDaysSince_ViaConsecutiveDays(Yemoda ymd, Yemoda ymdAfter)
     {
-        var date = CreateDate(xdate);
-        var dateAfter = CreateDate(xdateAfter);
+        var date = CreateDate(ymd);
+        var dateAfter = CreateDate(ymdAfter);
         // Act & Assert
         // 3) dateAfter - date -> 1.
         Assert.Equal(1, dateAfter - date);
@@ -514,37 +490,37 @@ public partial class IDateFacts<TDate, TDataSet> // Increment / decrement
         Assert.Overflows(() => MinDate.PreviousDay());
 
     [Theory, MemberData(nameof(ConsecutiveDaysData))]
-    public void Increment(Yemoda xdate, Yemoda xdateAfter)
+    public void Increment(Yemoda ymd, Yemoda ymdAfter)
     {
-        var date = CreateDate(xdate);
-        var dateAfter = CreateDate(xdateAfter);
+        var date = CreateDate(ymd);
+        var dateAfter = CreateDate(ymdAfter);
         // Act & Assert
         Assert.Equal(dateAfter, Op_Increment(date));
     }
 
     [Theory, MemberData(nameof(ConsecutiveDaysData))]
-    public void Decrement(Yemoda xdate, Yemoda xdateAfter)
+    public void Decrement(Yemoda ymd, Yemoda ymdAfter)
     {
-        var date = CreateDate(xdate);
-        var dateAfter = CreateDate(xdateAfter);
+        var date = CreateDate(ymd);
+        var dateAfter = CreateDate(ymdAfter);
         // Act & Assert
         Assert.Equal(date, Op_Decrement(dateAfter));
     }
 
     [Theory, MemberData(nameof(ConsecutiveDaysData))]
-    public void NextDay(Yemoda xdate, Yemoda xdateAfter)
+    public void NextDay(Yemoda ymd, Yemoda ymdAfter)
     {
-        var date = CreateDate(xdate);
-        var dateAfter = CreateDate(xdateAfter);
+        var date = CreateDate(ymd);
+        var dateAfter = CreateDate(ymdAfter);
         // Act & Assert
         Assert.Equal(dateAfter, date.NextDay());
     }
 
     [Theory, MemberData(nameof(ConsecutiveDaysData))]
-    public void PreviousDay(Yemoda xdate, Yemoda xdateAfter)
+    public void PreviousDay(Yemoda ymd, Yemoda ymdAfter)
     {
-        var date = CreateDate(xdate);
-        var dateAfter = CreateDate(xdateAfter);
+        var date = CreateDate(ymd);
+        var dateAfter = CreateDate(ymdAfter);
         // Act & Assert
         Assert.Equal(date, dateAfter.PreviousDay());
     }
@@ -615,10 +591,10 @@ public partial class IDateFacts<TDate, TDataSet> // Addition
     }
 
     [Theory, MemberData(nameof(AddDaysData))]
-    public void PlusDays(Yemoda xdate, Yemoda xother, int days)
+    public void PlusDays(Yemoda ymd, Yemoda ymdOther, int days)
     {
-        var date = CreateDate(xdate);
-        var other = CreateDate(xother);
+        var date = CreateDate(ymd);
+        var other = CreateDate(ymdOther);
         // Act & Assert
         // 1) date + days -> other.
         Assert.Equal(other, date + days);
@@ -630,10 +606,10 @@ public partial class IDateFacts<TDate, TDataSet> // Addition
     }
 
     [Theory, MemberData(nameof(ConsecutiveDaysData))]
-    public void PlusDays_ViaConsecutiveDays(Yemoda xdate, Yemoda xdateAfter)
+    public void PlusDays_ViaConsecutiveDays(Yemoda ymd, Yemoda ymdAfter)
     {
-        var date = CreateDate(xdate);
-        var dateAfter = CreateDate(xdateAfter);
+        var date = CreateDate(ymd);
+        var dateAfter = CreateDate(ymdAfter);
         // Act & Assert
         // 1) date + 1 -> dateAfter.
         Assert.Equal(dateAfter, date + 1);

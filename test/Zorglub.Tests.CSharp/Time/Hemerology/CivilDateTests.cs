@@ -34,7 +34,7 @@ public sealed partial class CivilDateTests : IDateFacts<CivilDate, StandardGrego
     protected override CivilDate CreateDate(int y, int m, int d) => new(y, m, d);
 
     [Pure]
-    private static CivilDate CreateCivilDate(Yemoda ymd)
+    private static CivilDate CreateDateCore(Yemoda ymd)
     {
         var (y, m, d) = ymd;
         return new(y, m, d);
@@ -51,6 +51,30 @@ public sealed partial class CivilDateTests : IDateFacts<CivilDate, StandardGrego
 
 public partial class CivilDateTests
 {
+    [Fact]
+    public void Constructor_InvalidYear() =>
+        SupportedYearsTester.TestInvalidYear(y => new CivilDate(y, 1, 1));
+
+    [Theory, MemberData(nameof(InvalidMonthFieldData))]
+    public void Constructor_InvalidMonth(int y, int m) =>
+        Assert.ThrowsAoorexn("month", () => new CivilDate(y, m, 1));
+
+    [Theory, MemberData(nameof(InvalidDayFieldData))]
+    public void Constructor_InvalidDay(int y, int m, int d) =>
+        Assert.ThrowsAoorexn("day", () => new CivilDate(y, m, d));
+
+    [Theory, MemberData(nameof(DateInfoData))]
+    public void Constructor(DateInfo info)
+    {
+        var (y, m, d) = info.Yemoda;
+        // Act
+        var date = new CivilDate(y, m, d);
+        // Assert
+        Assert.Equal(y, date.Year);
+        Assert.Equal(m, date.Month);
+        Assert.Equal(d, date.Day);
+    }
+
     [Theory, MemberData(nameof(DateInfoData))]
     public static void Constructor_More(DateInfo info)
     {
@@ -142,7 +166,7 @@ public partial class CivilDateTests // Properties
     public void IsoDayOfWeek(YemodaAnd<DayOfWeek> info)
     {
         var (y, m, d, dayOfWeek) = info;
-        var date = CreateDate(y, m, d);
+        var date = new CivilDate(y, m, d);
         var dow = dayOfWeek.ToIsoDayOfWeek();
         // Act & Assert
         Assert.Equal(dow, date.IsoDayOfWeek);

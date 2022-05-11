@@ -17,9 +17,11 @@ public abstract partial class CalendarDateFacts<TDataSet> : SimpleDateFacts<Cale
         IDayOfWeekDataSet,
         ISingleton<TDataSet>
 {
-    protected CalendarDateFacts(Calendar calendar, Calendar otherCalendar!!)
+    protected CalendarDateFacts(Calendar calendar, Calendar otherCalendar)
         : base(calendar, otherCalendar)
     {
+        Debug.Assert(calendar != null);
+
         (MinDate, MaxDate) = calendar.MinMaxDate;
     }
 

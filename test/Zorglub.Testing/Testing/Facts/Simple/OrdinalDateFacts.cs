@@ -17,9 +17,11 @@ public abstract partial class OrdinalDateFacts<TDataSet> : SimpleDateFacts<Ordin
         IDayOfWeekDataSet,
         ISingleton<TDataSet>
 {
-    protected OrdinalDateFacts(Calendar calendar, Calendar otherCalendar!!)
+    protected OrdinalDateFacts(Calendar calendar, Calendar otherCalendar)
         : base(calendar, otherCalendar)
     {
+        Debug.Assert(calendar != null);
+
         (MinDate, MaxDate) = calendar.MinMaxOrdinal;
     }
 
