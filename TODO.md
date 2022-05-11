@@ -47,7 +47,6 @@ TODO
 - Clean up DIM.
   Beware of DIM and structs.
   https://mattwarren.org/2020/02/19/Under-the-hood-of-Default-Interface-Methods/
-- Final name: Narvalo.Time, CalZone?
 - XML doc/comments: currently largely outdated or badly written.
 - ISO calendar.
 

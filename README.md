@@ -22,7 +22,7 @@ thirteen month to hold them, we don't, but see below if you don't agree.
 ### Extensibility
 
 One can create new calendars from a schema and an epoch
-(see `Narvalo.Calendars.Specialized`).
+(see `Zorglub.Calendars.Specialized`).
 
 Below, 12+1 means 12 months plus a virtual thirteenth month.
 
@@ -51,7 +51,7 @@ have at least one schema in each category.
   * International Fixed (*)
   * Positivist aka Georgian (*)
   * World aka Universal (*)
-- Perennial leap-week schemas (see also Reform.md in `Narvalo.Sketches`):
+- Perennial leap-week schemas (see also Reform.md in `Zorglub.Sketches`):
   * Pax (*)
   * ISO
 - Astronomical schemas:
@@ -68,4 +68,4 @@ have at least one schema in each category.
     of March and it uses the Anno Lucis.
 - etc.
 
-(*) A prototype can be found in `Narvalo.Sketches`.
+(*) A prototype can be found in `Zorglub.Sketches`.
