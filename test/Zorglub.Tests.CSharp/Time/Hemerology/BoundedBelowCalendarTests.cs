@@ -7,10 +7,10 @@ namespace Zorglub.Time.Hemerology;
 using System.Linq;
 #endif
 
+using global::Samples;
+
 using Zorglub.Testing.Data.Unbounded;
 using Zorglub.Time.Core.Schemas;
-
-using global::Samples;
 
 // Cf. aussi GregorianBoundedBelowCalendarTests.
 public static class BoundedBelowCalendarTests

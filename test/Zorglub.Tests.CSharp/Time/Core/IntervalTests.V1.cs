@@ -7,7 +7,7 @@ namespace Zorglub.Time.Core.Intervals
 {
     public static partial class IntervalTests { }
 
-    #region Overlaps()
+#region Overlaps()
 
     [Fact]
     public static void Overlaps_Disjoint()
@@ -55,10 +55,10 @@ namespace Zorglub.Time.Core.Intervals
         Assert.True(new Interval(2, 3).Overlaps(new Interval(1, 3)));
     }
 
-    #endregion
+#endregion
 
 #if false
-    #region Hull()
+#region Hull()
 
     [Fact]
     public static void Hull()
@@ -85,8 +85,8 @@ namespace Zorglub.Time.Core.Intervals
         Assert.Equal(Interval0.Create(1, 6), Interval0.Create(1, 5).Hull(Interval0.Create(2, 6)));
     }
 
-    #endregion
-    #region Intersect()
+#endregion
+#region Intersect()
 
     [Fact]
     public static void Intersect_Disjoint()
@@ -134,8 +134,8 @@ namespace Zorglub.Time.Core.Intervals
         Assert.Equal(Interval0.Create(2, 3), Interval0.Create(2, 3).Intersect(Interval0.Create(1, 3)));
     }
 
-    #endregion
-    #region Except()
+#endregion
+#region Except()
 
     [Fact]
     public static void Except_Disjoint()
@@ -227,7 +227,7 @@ namespace Zorglub.Time.Core.Intervals
         Assert.Null(Interval0.Create(1, 10).Except(Interval0.Create(-10, 11)));
     }
 
-    #endregion
+#endregion
 #endif
 }
 

@@ -20,7 +20,7 @@ namespace Zorglub.Time.Extensions
     // Abstract class LeapWeekSchema.
     public partial class NakedCalendarExtensionsTests
     {
-        #region GetWeekdateParts()
+#region GetWeekdateParts()
 
         [Fact]
         public static void GetWeekdateParts_InvalidCalendar()
@@ -48,7 +48,7 @@ namespace Zorglub.Time.Extensions
             Assert.Throws<NotImplementedException>(
                 () => Pax.GetWeekdateParts(dayNumber, out _, out _, out _));
 
-        #endregion
+#endregion
     }
 
     // Abstract class PaxSchema.
@@ -57,7 +57,7 @@ namespace Zorglub.Time.Extensions
         public static TheoryData<int, int, int, int, bool> SamplePaxMonths =>
             new PaxData().MonthInfoData;
 
-        #region IsPaxMonth()
+#region IsPaxMonth()
 
         [Fact]
         public static void IsPaxMonth_InvalidCalendar()
@@ -88,9 +88,9 @@ namespace Zorglub.Time.Extensions
             Assert.Equal(isPaxMonth, actual);
         }
 
-        #endregion
+#endregion
 
-        #region IsLastMonthOfYear()
+#region IsLastMonthOfYear()
 
         [Fact]
         public static void IsLastMonthOfYear_InvalidCalendar()
@@ -121,7 +121,7 @@ namespace Zorglub.Time.Extensions
             Assert.Equal(isLastMonthOfYear, actual);
         }
 
-        #endregion
+#endregion
     }
 }
 
