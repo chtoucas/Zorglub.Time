@@ -669,7 +669,7 @@ public partial class IDateFacts<TDate, TDataSet> // IEquatable
     }
 
     [Theory, MemberData(nameof(DateInfoData))]
-    public void Equals_NullOrOtherType(DateInfo info)
+    public void Equals_NullOrPlainObject(DateInfo info)
     {
         var (y, m, d) = info.Yemoda;
         var date = CreateDate(y, m, d);

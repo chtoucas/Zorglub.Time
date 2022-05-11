@@ -120,3 +120,50 @@ public partial class CalendarDayFacts<TDataSet> // Conversions
         Assert.ThrowsAnexn("newCalendar", () => date.WithCalendar(null!));
     }
 }
+
+public partial class CalendarDayFacts<TDataSet> // Math ops
+{
+    [Fact]
+    public void CountDaysSince_InvalidDate()
+    {
+        var date = CalendarUT.GetCalendarDay(CalendarUT.Epoch);
+        var other = OtherCalendar.GetCalendarDay(CalendarUT.Epoch);
+        // Act & Assert
+        Assert.Throws<ArgumentException>("other", () => date.CountDaysSince(other));
+        Assert.Throws<ArgumentException>("other", () => date - other);
+    }
+}
+
+public partial class CalendarDayFacts<TDataSet> // IEquatable
+{
+    [Fact]
+    public void Equality_OtherCalendar()
+    {
+        var date = CalendarUT.GetCalendarDay(CalendarUT.Epoch);
+        var other = OtherCalendar.GetCalendarDay(CalendarUT.Epoch);
+        // Act & Assert
+        Assert.False(date == other);
+        Assert.True(date != other);
+
+        Assert.False(date.Equals(other));
+        Assert.False(date.Equals((object)other));
+    }
+}
+
+public partial class CalendarDayFacts<TDataSet> // IComparable
+{
+    [Fact]
+    public void Comparison_OtherCalendar()
+    {
+        var date = CalendarUT.GetCalendarDay(CalendarUT.Epoch);
+        var other = OtherCalendar.GetCalendarDay(CalendarUT.Epoch);
+        // Act & Assert
+        Assert.Throws<ArgumentException>("other", () => date > other);
+        Assert.Throws<ArgumentException>("other", () => date >= other);
+        Assert.Throws<ArgumentException>("other", () => date < other);
+        Assert.Throws<ArgumentException>("other", () => date <= other);
+
+        Assert.Throws<ArgumentException>("other", () => date.CompareTo(other));
+    }
+}
+

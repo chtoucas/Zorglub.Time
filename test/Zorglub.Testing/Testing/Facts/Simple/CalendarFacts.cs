@@ -324,7 +324,6 @@ public partial class CalendarFacts<TCalendar, TDataSet> // Internal helpers
     public void GetDayOfWeek(DayNumber dayNumber, DayOfWeek dayOfWeek)
     {
         if (Domain.Contains(dayNumber) == false) { return; }
-
         var date = CalendarUT.GetCalendarDateOn(dayNumber);
         // Act & Assert
         Assert.Equal(dayOfWeek, CalendarUT.GetDayOfWeek(date));
@@ -334,10 +333,9 @@ public partial class CalendarFacts<TCalendar, TDataSet> // Internal helpers
     public void GetDayOfWeek﹍Ordinal(DayNumber dayNumber, DayOfWeek dayOfWeek)
     {
         if (Domain.Contains(dayNumber) == false) { return; }
-
-        var odate = CalendarUT.GetOrdinalDateOn(dayNumber);
+        var date = CalendarUT.GetOrdinalDateOn(dayNumber);
         // Act & Assert
-        Assert.Equal(dayOfWeek, CalendarUT.GetDayOfWeek(odate));
+        Assert.Equal(dayOfWeek, CalendarUT.GetDayOfWeek(date));
     }
 
     #endregion

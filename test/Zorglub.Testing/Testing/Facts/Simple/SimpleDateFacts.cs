@@ -16,7 +16,8 @@ using Zorglub.Time.Simple;
 /// </summary>
 [TestExcludeFrom(TestExcludeFrom.Smoke)]
 public abstract class SimpleDateFacts<TDate, TDataSet> : IDateFacts<TDate, TDataSet>
-    where TDate : struct, IDate<TDate>
+    // ISimpleDate is internal.
+    where TDate : struct, IDate<TDate>, ISerializable<TDate, int>
     where TDataSet :
         ICalendarDataSet,
         IDaysAfterDataSet,
