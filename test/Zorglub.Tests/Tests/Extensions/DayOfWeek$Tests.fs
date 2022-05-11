@@ -6,6 +6,7 @@ module Zorglub.Tests.Extensions.DayOfWeekExtensionsTests
 open System
 
 open Zorglub.Testing
+
 open Zorglub.Time.Extensions
 
 open Xunit

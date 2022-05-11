@@ -5,6 +5,7 @@ module Zorglub.Tests.Simple.FeaturetteTestSuite
 
 open Zorglub.Testing.Data.Bounded
 open Zorglub.Testing.Facts.Simple
+
 open Zorglub.Time.Simple
 
 module EpagomenalDay =

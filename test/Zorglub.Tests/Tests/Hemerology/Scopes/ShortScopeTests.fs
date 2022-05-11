@@ -4,6 +4,7 @@
 module Zorglub.Tests.Hemerology.Scopes.ShortScopeTests
 
 open Zorglub.Testing
+
 open Zorglub.Time
 open Zorglub.Time.Core
 open Zorglub.Time.Core.Intervals

@@ -3,9 +3,8 @@
 
 module Zorglub.Tests.DayNumber64Tests
 
-open System
-
 open Zorglub.Testing
+
 open Zorglub.Time
 open Zorglub.Time.Hemerology
 

@@ -5,6 +5,7 @@ module Zorglub.Tests.Hemerology.AdjustableDateTestSuite
 
 open Zorglub.Testing.Data.Bounded
 open Zorglub.Testing.Facts.Hemerology
+
 open Zorglub.Time.Simple
 
 type [<Sealed>] GregorianTests() =

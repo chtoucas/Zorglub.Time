@@ -6,6 +6,7 @@ module Zorglub.Tests.Core.Intervals.LowerRayTests
 open System
 
 open Zorglub.Testing
+
 open Zorglub.Time
 open Zorglub.Time.Core.Intervals
 

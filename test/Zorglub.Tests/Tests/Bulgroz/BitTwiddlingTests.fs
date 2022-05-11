@@ -7,8 +7,9 @@ open Checked
 
 open System
 
-open Zorglub.Bulgroz
 open Zorglub.Testing
+
+open Zorglub.Bulgroz
 
 open Xunit
 

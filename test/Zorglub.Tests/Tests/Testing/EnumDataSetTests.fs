@@ -8,6 +8,7 @@ open System.Linq
 
 open Zorglub.Testing
 open Zorglub.Testing.Data
+
 open Zorglub.Time
 
 open Xunit

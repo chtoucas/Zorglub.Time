@@ -8,6 +8,7 @@ open System.Collections.Generic
 open System.Linq
 
 open Zorglub.Testing
+
 open Zorglub.Time.Core.Utilities
 
 open Xunit

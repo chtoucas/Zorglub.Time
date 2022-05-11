@@ -4,6 +4,7 @@
 module Zorglub.Tests.Core.Intervals.IntervalTests
 
 open Zorglub.Testing
+
 open Zorglub.Time.Core.Intervals
 
 open Xunit

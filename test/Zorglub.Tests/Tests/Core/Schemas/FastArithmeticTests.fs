@@ -4,6 +4,7 @@
 module Zorglub.Tests.Core.Schemas.FastArithmeticTests
 
 open Zorglub.Testing
+
 open Zorglub.Time.Core.Arithmetic
 open Zorglub.Time.Core.Schemas
 
