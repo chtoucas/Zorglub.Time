@@ -18,9 +18,10 @@ public sealed partial class TabularIslamicDataSet : CalendricalDataSet, ISinglet
     public static TabularIslamicDataSet Instance { get; } = new();
 
     public override TheoryData<YemodaAnd<int>> DaysInYearAfterDateData =>
-        GetDaysInYearAfterDateData(new TabularIslamicSchema());
+        GetDaysInYearAfterDateData(DateInfoData, new TabularIslamicSchema());
+
     public override TheoryData<YemodaAnd<int>> DaysInMonthAfterDateData =>
-        GetDaysInMonthAfterDateData(new TabularIslamicSchema());
+        GetDaysInMonthAfterDateData(DateInfoData, new TabularIslamicSchema());
 }
 
 public partial class TabularIslamicDataSet // Infos

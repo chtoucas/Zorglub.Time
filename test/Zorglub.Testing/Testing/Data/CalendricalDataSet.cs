@@ -26,9 +26,12 @@ public abstract class CalendricalDataSet : ICalendricalDataSet
     // Override this property if the schema does not support all years in the default list.
     public virtual TheoryData<CenturyInfo> CenturyInfoData => YearNumberingDataSet.CenturyInfoData;
 
+    public abstract TheoryData<YemodaAnd<int>> DaysInYearAfterDateData { get; }
+    public abstract TheoryData<YemodaAnd<int>> DaysInMonthAfterDateData { get; }
+
     private TheoryData<Yemoda>? _startOfYearPartsData;
     public TheoryData<Yemoda> StartOfYearPartsData =>
-        _startOfYearPartsData ??= GetEndOfYearFromStartOfYear(EndOfYearPartsData);
+        _startOfYearPartsData ??= GetStartOfYearFromEndOfYear(EndOfYearPartsData);
 
     public abstract TheoryData<Yemoda> EndOfYearPartsData { get; }
 
@@ -42,36 +45,7 @@ public abstract class CalendricalDataSet : ICalendricalDataSet
     public abstract TheoryData<int, int, int> InvalidDayFieldData { get; }
     public abstract TheoryData<int, int> InvalidDayOfYearFieldData { get; }
 
-    public abstract TheoryData<YemodaAnd<int>> DaysInYearAfterDateData { get; }
-    public abstract TheoryData<YemodaAnd<int>> DaysInMonthAfterDateData { get; }
-
-    protected TheoryData<YemodaAnd<int>> GetDaysInYearAfterDateData(ICalendricalSchema schema!!)
-    {
-        var data = new TheoryData<YemodaAnd<int>>();
-        foreach (var info in DateInfoData)
-        {
-            var (y, m, d, doy) = (DateInfo)info[0];
-            int daysInYear = schema.CountDaysInYear(y);
-            // CountDaysInYear(y) - doy
-            data.Add(new(y, m, d, daysInYear - doy));
-        }
-        return data;
-    }
-
-    protected TheoryData<YemodaAnd<int>> GetDaysInMonthAfterDateData(ICalendricalSchema schema!!)
-    {
-        var data = new TheoryData<YemodaAnd<int>>();
-        foreach (var info in DateInfoData)
-        {
-            var (y, m, d) = ((DateInfo)info[0]).Yemoda;
-            int daysInMonth = schema.CountDaysInMonth(y, m);
-            // CountDaysInMonth(y, m) - d
-            data.Add(new(y, m, d, daysInMonth - d));
-        }
-        return data;
-    }
-
-    #region ConvertToDaysSinceEpochInfoData()
+    #region Helpers
 
     /// <summary>
     /// Converts a collection of (DaysSinceEpoch, Year, Month, Day) to a set of data of type
@@ -106,11 +80,44 @@ public abstract class CalendricalDataSet : ICalendricalDataSet
         return data;
     }
 
-    #endregion
-    #region GetEndOfYearFromStartOfYear()
+    // REVIEW(data): at some point, we should no longer use the methods
+    // - GetDaysInYearAfterDateData()
+    // - GetDaysInMonthAfterDateData()
+    // to initialize the props.
+    // Other option: always initialize the props here, for this to work, we need
+    // the schema in the constructor.
+    [Pure]
+    protected static TheoryData<YemodaAnd<int>> GetDaysInYearAfterDateData(
+        TheoryData<DateInfo> source!!, ICalendricalSchema schema!!)
+    {
+        var data = new TheoryData<YemodaAnd<int>>();
+        foreach (var info in source)
+        {
+            var (y, m, d, doy) = (DateInfo)info[0];
+            int daysInYear = schema.CountDaysInYear(y);
+            // CountDaysInYear(y) - doy
+            data.Add(new(y, m, d, daysInYear - doy));
+        }
+        return data;
+    }
 
     [Pure]
-    private static TheoryData<Yemoda> GetEndOfYearFromStartOfYear(TheoryData<Yemoda> source!!)
+    protected static TheoryData<YemodaAnd<int>> GetDaysInMonthAfterDateData(
+        TheoryData<DateInfo> source!!, ICalendricalSchema schema!!)
+    {
+        var data = new TheoryData<YemodaAnd<int>>();
+        foreach (var info in source)
+        {
+            var (y, m, d) = ((DateInfo)info[0]).Yemoda;
+            int daysInMonth = schema.CountDaysInMonth(y, m);
+            // CountDaysInMonth(y, m) - d
+            data.Add(new(y, m, d, daysInMonth - d));
+        }
+        return data;
+    }
+
+    [Pure]
+    private static TheoryData<Yemoda> GetStartOfYearFromEndOfYear(TheoryData<Yemoda> source!!)
     {
         var data = new TheoryData<Yemoda>();
         foreach (var item in source)

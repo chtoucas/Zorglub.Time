@@ -3,9 +3,7 @@
 
 namespace Zorglub.Testing.Facts;
 
-// Hypothesis:
-// - First year is valid and complete.
-// - There are at least 5 days in a month.
+// Hypothesis: first year is valid and complete.
 
 using Zorglub.Testing.Data;
 using Zorglub.Time.Hemerology;
@@ -15,9 +13,7 @@ using Zorglub.Time.Hemerology;
 /// </summary>
 public abstract partial class IDateableFacts<TDate, TDataSet> : CalendricalDataConsumer<TDataSet>
     where TDate : struct, IDateable<TDate>
-    where TDataSet :
-        ICalendricalDataSet,
-        ISingleton<TDataSet>
+    where TDataSet : ICalendricalDataSet, ISingleton<TDataSet>
 {
     protected IDateableFacts() { }
 
@@ -94,26 +90,15 @@ public partial class IDateableFacts<TDate, TDataSet> // Prelude
 
 public partial class IDateableFacts<TDate, TDataSet> // Counting
 {
-    // TODO(fact): enable or remove.
-    //[Theory, MemberData(nameof(MonthInfoData))]
-    //public void CountElapsedDaysInYear(MonthInfo info)
-    //{
-    //    var (y, m) = info.Yemo;
-    //    int daysInYearBeforeMonth = info.DaysInYearBeforeMonth;
-    //    // Act
-    //    var date1 = GetDate(y, m, 1);
-    //    var date2 = GetDate(y, m, 2);
-    //    var date3 = GetDate(y, m, 3);
-    //    var date4 = GetDate(y, m, 4);
-    //    var date5 = GetDate(y, m, 5);
-    //    // We can't go further because of the schemas w/ a virtual thirteen month.
-    //    // Assert
-    //    Assert.Equal(daysInYearBeforeMonth, date1.CountElapsedDaysInYear());
-    //    Assert.Equal(daysInYearBeforeMonth + 1, date2.CountElapsedDaysInYear());
-    //    Assert.Equal(daysInYearBeforeMonth + 2, date3.CountElapsedDaysInYear());
-    //    Assert.Equal(daysInYearBeforeMonth + 3, date4.CountElapsedDaysInYear());
-    //    Assert.Equal(daysInYearBeforeMonth + 4, date5.CountElapsedDaysInYear());
-    //}
+    [Theory, MemberData(nameof(MonthInfoData))]
+    public void CountElapsedDaysInYear_AtStartOfMonth(MonthInfo info)
+    {
+        var (y, m) = info.Yemo;
+        // Act
+        var date = GetDate(y, m, 1);
+        // Assert
+        Assert.Equal(info.DaysInYearBeforeMonth, date.CountElapsedDaysInYear());
+    }
 
     [Theory, MemberData(nameof(DateInfoData))]
     public void CountElapsedDaysInYear(DateInfo info)
@@ -122,6 +107,15 @@ public partial class IDateableFacts<TDate, TDataSet> // Counting
         var date = GetDate(y, m, d);
         // Act & Assert
         Assert.Equal(doy - 1, date.CountElapsedDaysInYear());
+    }
+
+    [Theory, MemberData(nameof(YearInfoData))]
+    public void CountRemainingDaysInYear_AtStartOfYear(YearInfo info)
+    {
+        // Act
+        var date = GetDate(info.Year, 1, 1);
+        // Assert
+        Assert.Equal(info.DaysInYear - 1, date.CountRemainingDaysInYear());
     }
 
     [Theory, MemberData(nameof(DaysInYearAfterDateData))]

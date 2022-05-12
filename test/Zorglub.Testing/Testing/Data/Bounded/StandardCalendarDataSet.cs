@@ -71,7 +71,6 @@ public sealed class StandardEthiopic12DataSet :
 /// </summary>
 public sealed class StandardGregorianDataSet :
     StandardCalendarDataSet<GregorianCalendarDataSet>,
-    IDaysAfterDataSet,
     IYearAdjustmentDataSet,
     IAdvancedMathDataSet,
     IDayOfWeekDataSet,
@@ -79,6 +78,8 @@ public sealed class StandardGregorianDataSet :
 {
     private StandardGregorianDataSet() : base(GregorianCalendarDataSet.Instance)
     {
+        DaysInYearAfterMonthData = Filter(Inner.DaysInYearAfterMonthData, Filter);
+
         InvalidYearAdjustementData = Filter(Inner.InvalidYearAdjustementData, Filter);
         YearAdjustementData = Filter(Inner.YearAdjustementData, Filter);
 
@@ -87,8 +88,7 @@ public sealed class StandardGregorianDataSet :
 
     public static StandardGregorianDataSet Instance { get; } = new();
 
-    // IDaysAfterDataSet
-    public TheoryData<YemoAnd<int>> DaysInYearAfterMonthData => Inner.DaysInYearAfterMonthData;
+    public TheoryData<YemoAnd<int>> DaysInYearAfterMonthData { get; }
 
     // IYearAdjustmentDataSet
     public TheoryData<YemodaAnd<int>> InvalidYearAdjustementData { get; }

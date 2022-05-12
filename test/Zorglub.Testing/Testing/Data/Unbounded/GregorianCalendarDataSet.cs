@@ -11,7 +11,6 @@ using Zorglub.Time.Core;
 /// </summary>
 public sealed partial class GregorianCalendarDataSet :
     CalendarDataSet<GregorianDataSet>,
-    IDaysAfterDataSet,
     IYearAdjustmentDataSet,
     IAdvancedMathDataSet,
     IDayOfWeekDataSet,
@@ -25,7 +24,6 @@ public sealed partial class GregorianCalendarDataSet :
     public override TheoryData<DayNumberInfo> DayNumberInfoData =>
         _dayNumberInfoData ??= CalCal.ConvertRataDieToDayNumberInfo(GregorianDataSet.RataDieInfos);
 
-    // IDaysAfterDataSet
     public TheoryData<YemoAnd<int>> DaysInYearAfterMonthData => DataSet.DaysInYearAfterMonthData;
 
     // IYearAdjustmentDataSet

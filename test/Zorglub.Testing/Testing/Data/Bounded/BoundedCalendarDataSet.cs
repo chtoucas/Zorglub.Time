@@ -75,6 +75,11 @@ public class BoundedCalendarDataSet<TDataSet> : ICalendarDataSet
     public TheoryData<CenturyInfo> CenturyInfoData =>
         _CenturyInfoData ?? throw BadProperty(nameof(_CenturyInfoData));
 
+    public TheoryData<YemodaAnd<int>> DaysInYearAfterDateData =>
+        _DaysInYearAfterDateData ?? throw BadProperty(nameof(_DaysInYearAfterDateData));
+    public TheoryData<YemodaAnd<int>> DaysInMonthAfterDateData =>
+        _DaysInMonthAfterDateData ?? throw BadProperty(nameof(_DaysInMonthAfterDateData));
+
     public TheoryData<Yemoda> StartOfYearPartsData =>
         _StartOfYearPartsData ?? throw BadProperty(nameof(_StartOfYearPartsData));
     public TheoryData<Yemoda> EndOfYearPartsData =>
@@ -90,15 +95,13 @@ public class BoundedCalendarDataSet<TDataSet> : ICalendarDataSet
     public TheoryData<int, int, int> InvalidDayFieldData => Inner.InvalidDayFieldData;
     public TheoryData<int, int> InvalidDayOfYearFieldData => Inner.InvalidDayOfYearFieldData;
 
-    // TODO(code): filter
-    public TheoryData<YemodaAnd<int>> DaysInYearAfterDateData => Inner.DaysInYearAfterDateData;
-    public TheoryData<YemodaAnd<int>> DaysInMonthAfterDateData => Inner.DaysInMonthAfterDateData;
-
     protected TheoryData<DaysSinceEpochInfo>? _DaysSinceEpochInfoData { get; init; }
     protected TheoryData<DateInfo>? _DateInfoData { get; init; }
     protected TheoryData<MonthInfo>? _MonthInfoData { get; init; }
     protected TheoryData<YearInfo>? _YearInfoData { get; init; }
     protected TheoryData<CenturyInfo>? _CenturyInfoData { get; init; }
+    protected TheoryData<YemodaAnd<int>>? _DaysInYearAfterDateData { get; init; }
+    protected TheoryData<YemodaAnd<int>>? _DaysInMonthAfterDateData { get; init; }
     protected TheoryData<Yemoda>? _StartOfYearPartsData { get; init; }
     protected TheoryData<Yemoda>? _EndOfYearPartsData { get; init; }
     protected TheoryData<YearDaysSinceEpoch>? _StartOfYearDaysSinceEpochData { get; init; }

@@ -16,9 +16,10 @@ public sealed partial class LunisolarDataSet : CalendricalDataSet, ISingleton<Lu
     public static LunisolarDataSet Instance { get; } = new();
 
     public override TheoryData<YemodaAnd<int>> DaysInYearAfterDateData =>
-        GetDaysInYearAfterDateData(new LunisolarSchema());
+        GetDaysInYearAfterDateData(DateInfoData, new LunisolarSchema());
+
     public override TheoryData<YemodaAnd<int>> DaysInMonthAfterDateData =>
-        GetDaysInMonthAfterDateData(new LunisolarSchema());
+        GetDaysInMonthAfterDateData(DateInfoData, new LunisolarSchema());
 }
 
 public partial class LunisolarDataSet // Infos

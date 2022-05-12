@@ -22,7 +22,6 @@ public class ProlepticCalendarDataSet<TDataSet> : MinMaxYearCalendarDataSet<TDat
 /// </summary>
 public sealed class ProlepticGregorianDataSet :
     ProlepticCalendarDataSet<GregorianCalendarDataSet>,
-    IDaysAfterDataSet,
     IYearAdjustmentDataSet,
     IAdvancedMathDataSet,
     IDayOfWeekDataSet,
@@ -30,6 +29,8 @@ public sealed class ProlepticGregorianDataSet :
 {
     private ProlepticGregorianDataSet() : base(GregorianCalendarDataSet.Instance)
     {
+        DaysInYearAfterMonthData = Filter(Inner.DaysInYearAfterMonthData, Filter);
+
         InvalidYearAdjustementData = Filter(Inner.InvalidYearAdjustementData, Filter);
         YearAdjustementData = Filter(Inner.YearAdjustementData, Filter);
 
@@ -38,8 +39,7 @@ public sealed class ProlepticGregorianDataSet :
 
     public static ProlepticGregorianDataSet Instance { get; } = new();
 
-    // IDaysAfterDataSet
-    public TheoryData<YemoAnd<int>> DaysInYearAfterMonthData => Inner.DaysInYearAfterMonthData;
+    public TheoryData<YemoAnd<int>> DaysInYearAfterMonthData { get; }
 
     // IYearAdjustmentDataSet
     public TheoryData<YemodaAnd<int>> InvalidYearAdjustementData { get; }

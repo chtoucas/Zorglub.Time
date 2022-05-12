@@ -18,9 +18,10 @@ public sealed partial class PositivistDataSet : CalendricalDataSet, ISingleton<P
     public static PositivistDataSet Instance { get; } = new();
 
     public override TheoryData<YemodaAnd<int>> DaysInYearAfterDateData =>
-        GetDaysInYearAfterDateData(new PositivistSchema());
+        GetDaysInYearAfterDateData(DateInfoData, new PositivistSchema());
+
     public override TheoryData<YemodaAnd<int>> DaysInMonthAfterDateData =>
-        GetDaysInMonthAfterDateData(new PositivistSchema());
+        GetDaysInMonthAfterDateData(DateInfoData, new PositivistSchema());
 }
 
 public partial class PositivistDataSet // Infos

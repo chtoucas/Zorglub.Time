@@ -3,13 +3,6 @@
 
 namespace Zorglub.Testing.Data;
 
-// TODO(data): Move DaysInYearAfterMonthData to MonthInfoData.
-public interface IDaysAfterDataSet
-{
-    // CountDaysInYear(y) - CountDaysInMonth(y, m) - CountDaysInYearBeforeMonth(y, m);
-    TheoryData<YemoAnd<int>> DaysInYearAfterMonthData { get; }
-}
-
 public interface IYearAdjustmentDataSet
 {
     TheoryData<YemodaAnd<int>> InvalidYearAdjustementData { get; }

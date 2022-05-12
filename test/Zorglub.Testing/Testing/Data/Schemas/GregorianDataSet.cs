@@ -10,7 +10,6 @@ using Zorglub.Time.Hemerology;
 /// </summary>
 public sealed partial class GregorianDataSet :
     CalendricalDataSet,
-    IDaysAfterDataSet,
     IYearAdjustmentDataSet,
     IAdvancedMathDataSet,
     ISingleton<GregorianDataSet>
@@ -472,5 +471,56 @@ public partial class GregorianDataSet // Invalid date parts
         { LeapYear, 11, 31 },
         { LeapYear, 12, 0 },
         { LeapYear, 12, 32 },
+    };
+}
+
+public partial class GregorianDataSet //
+{
+    // TODO(data): Move DaysInYearAfterMonthData to MonthInfoData.
+    // When done, remove DaysInYearAfterMonthData from the various Gregorian datasets.
+    // CountDaysInYear(y) - CountDaysInMonth(y, m) - CountDaysInYearBeforeMonth(y, m);
+    public TheoryData<YemoAnd<int>> DaysInYearAfterMonthData { get; } = new()
+    {
+        // Common year.
+        new(CommonYear, 1, 334),
+        new(CommonYear, 2, 306),
+        new(CommonYear, 3, 275),
+        new(CommonYear, 4, 245),
+        new(CommonYear, 5, 214),
+        new(CommonYear, 6, 184),
+        new(CommonYear, 7, 153),
+        new(CommonYear, 8, 122),
+        new(CommonYear, 9, 92),
+        new(CommonYear, 10, 61),
+        new(CommonYear, 11, 31),
+        new(CommonYear, 12, 0),
+        // Leap year.
+        new(LeapYear, 1, 335),
+        new(LeapYear, 2, 306),
+        new(LeapYear, 3, 275),
+        new(LeapYear, 4, 245),
+        new(LeapYear, 5, 214),
+        new(LeapYear, 6, 184),
+        new(LeapYear, 7, 153),
+        new(LeapYear, 8, 122),
+        new(LeapYear, 9, 92),
+        new(LeapYear, 10, 61),
+        new(LeapYear, 11, 31),
+        new(LeapYear, 12, 0),
+    };
+}
+
+public partial class GregorianDataSet // IYearAdjustmentDataSet
+{
+    public TheoryData<YemodaAnd<int>> InvalidYearAdjustementData { get; } = new()
+    {
+        // Intercalary day mapped to a common year.
+        new(LeapYear, 2, 29, CommonYear)
+    };
+
+    public TheoryData<YemodaAnd<int>> YearAdjustementData { get; } = new()
+    {
+        // Intercalary day mapped to another leap year.
+        new(4, 2, 29, 8),
     };
 }

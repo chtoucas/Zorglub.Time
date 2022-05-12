@@ -32,6 +32,9 @@ public class MinMaxYearCalendarDataSet<TDataSet> : BoundedCalendarDataSet<TDataS
         _YearInfoData = Filter(Inner.YearInfoData, Filter);
         _CenturyInfoData = Filter(Inner.CenturyInfoData, Filter);
 
+        _DaysInYearAfterDateData = Filter(Inner.DaysInYearAfterDateData, Filter);
+        _DaysInMonthAfterDateData = Filter(Inner.DaysInMonthAfterDateData, Filter);
+
         _StartOfYearPartsData = Filter(Inner.StartOfYearPartsData, Filter);
         _EndOfYearPartsData = Filter(Inner.EndOfYearPartsData, Filter);
 

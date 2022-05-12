@@ -19,9 +19,10 @@ public sealed partial class Coptic13DataSet :
     public static Coptic13DataSet Instance { get; } = new();
 
     public override TheoryData<YemodaAnd<int>> DaysInYearAfterDateData =>
-        GetDaysInYearAfterDateData(new Coptic13Schema());
+        GetDaysInYearAfterDateData(DateInfoData, new Coptic13Schema());
+
     public override TheoryData<YemodaAnd<int>> DaysInMonthAfterDateData =>
-        GetDaysInMonthAfterDateData(new Coptic13Schema());
+        GetDaysInMonthAfterDateData(DateInfoData, new Coptic13Schema());
 }
 
 public partial class Coptic13DataSet // Infos

@@ -18,9 +18,10 @@ public sealed partial class Egyptian12DataSet :
     public static Egyptian12DataSet Instance { get; } = new();
 
     public override TheoryData<YemodaAnd<int>> DaysInYearAfterDateData =>
-        GetDaysInYearAfterDateData(new Egyptian12Schema());
+        GetDaysInYearAfterDateData(DateInfoData, new Egyptian12Schema());
+
     public override TheoryData<YemodaAnd<int>> DaysInMonthAfterDateData =>
-        GetDaysInMonthAfterDateData(new Egyptian12Schema());
+        GetDaysInMonthAfterDateData(DateInfoData, new Egyptian12Schema());
 }
 
 public partial class Egyptian12DataSet // Infos

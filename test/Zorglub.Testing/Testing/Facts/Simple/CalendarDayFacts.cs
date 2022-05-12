@@ -12,7 +12,7 @@ using Zorglub.Time.Simple;
 public abstract partial class CalendarDayFacts<TDataSet> : SimpleDateFacts<CalendarDay, TDataSet>
     where TDataSet :
         ICalendarDataSet,
-        IAdvancedMathDataSet,
+        IMathDataSet,
         IDayOfWeekDataSet,
         ISingleton<TDataSet>
 {

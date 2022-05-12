@@ -16,9 +16,10 @@ public sealed partial class InternationalFixedDataSet : CalendricalDataSet, ISin
     public static InternationalFixedDataSet Instance { get; } = new();
 
     public override TheoryData<YemodaAnd<int>> DaysInYearAfterDateData =>
-        GetDaysInYearAfterDateData(new InternationalFixedSchema());
+        GetDaysInYearAfterDateData(DateInfoData, new InternationalFixedSchema());
+
     public override TheoryData<YemodaAnd<int>> DaysInMonthAfterDateData =>
-        GetDaysInMonthAfterDateData(new InternationalFixedSchema());
+        GetDaysInMonthAfterDateData(DateInfoData, new InternationalFixedSchema());
 }
 
 public partial class InternationalFixedDataSet // Infos
