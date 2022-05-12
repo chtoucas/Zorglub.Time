@@ -10,6 +10,8 @@ using System.Linq;
 using Zorglub.Testing.Data;
 using Zorglub.Time.Hemerology;
 
+// TODO(fact): Should derived from ICalendarTFacts
+
 // Ça passe parce qu'on triche, voir GregorianBoundedBelowCalendarTests et
 // GregorianBoundedBelowCalendarTests. En toute rigueur, il faudrait créer
 // (et utiliser) des méthodes SkipMonth() et SkipDate().
@@ -62,121 +64,110 @@ public partial class NakedCalendarFacts<TCalendar, TDataSet> // Properties
         Assert.Equal(CalendarUT.Name, CalendarUT.ToString());
 }
 
-// Conversions.
-public partial class NakedCalendarFacts<TCalendar, TDataSet>
+public partial class NakedCalendarFacts<TCalendar, TDataSet> // Conversions
 {
-    #region GetDateParts()
+    #region GetDateParts(DayNumber)
 
     [Fact]
-    public void GetDateParts_InvalidDayNumber() =>
+    public void GetDateParts﹍DayNumber_InvalidDayNumber() =>
         DomainTester.TestInvalidDayNumber(x => CalendarUT.GetDateParts(x));
-
-    [Theory, MemberData(nameof(DateInfoData))]
-    public void GetDateParts_WithSampleDates(DateInfo info)
-    {
-        var (y, m, d) = info.Yemoda;
-        var dayNumber = CalendarUT.GetDayNumberOn(y, m, d);
-        var partsE = new DateParts(y, m, d);
-        // Act
-        var partsA = CalendarUT.GetDateParts(dayNumber);
-        // Assert
-        Assert.Equal(partsE, partsA);
-    }
-
-    #endregion
-
-    #region GetDateParts()
-
-    [Fact]
-    public void GetDateParts_WithInvalidDayNumber() =>
-        DomainTester.TestInvalidDayNumber(x => CalendarUT.GetDateParts(x));
-
-    [Theory, MemberData(nameof(DateInfoData))]
-    public void GetDateParts_WithDayNumber2(DateInfo info)
-    {
-        var (y, m, d) = info.Yemoda;
-        var dayNumber = CalendarUT.GetDayNumberOn(y, m, d);
-        var partsE = new DateParts(y, m, d);
-        // Act
-        var partsA = CalendarUT.GetDateParts(dayNumber);
-        // Assert
-        Assert.Equal(partsE, partsA);
-    }
 
     [Theory, MemberData(nameof(DayNumberInfoData))]
-    public void GetDateParts_WithSampleDayNumbers(DayNumberInfo info)
+    public void GetDateParts﹍DayNumber(DayNumberInfo info)
     {
         var (dayNumber, y, m, d) = info;
         if (Domain.Contains(dayNumber) == false) { return; }
-        var partsE = new DateParts(y, m, d);
+        var exp = new DateParts(y, m, d);
         // Act
-        var partsA = CalendarUT.GetDateParts(dayNumber);
+        var actual = CalendarUT.GetDateParts(dayNumber);
         // Assert
-        Assert.Equal(partsE, partsA);
+        Assert.Equal(exp, actual);
+    }
+
+    [Theory, MemberData(nameof(DateInfoData))]
+    public void GetDateParts﹍DayNumber_ViaDateInfo(DateInfo info)
+    {
+        var (y, m, d) = info.Yemoda;
+        var dayNumber = CalendarUT.GetDayNumberOn(y, m, d);
+        var exp = new DateParts(y, m, d);
+        // Act
+        var actual = CalendarUT.GetDateParts(dayNumber);
+        // Assert
+        Assert.Equal(exp, actual);
+    }
+
+    #endregion
+    #region GetDateParts(y, doy)
+
+    [Fact]
+    public void GetDateParts_InvalidYear() =>
+        SupportedYearsTester.TestInvalidYear(y => CalendarUT.GetDateParts(y, 1));
+
+    [Theory, MemberData(nameof(InvalidDayOfYearFieldData))]
+    public void GetDateParts_InvalidDayOfYear(int y, int doy) =>
+        Assert.ThrowsAoorexn("dayOfYear", () => CalendarUT.GetDateParts(y, doy));
+
+    [Theory, MemberData(nameof(DateInfoData))]
+    public void GetDateParts(DateInfo info)
+    {
+        var (y, m, d, doy) = info;
+        var exp = new DateParts(y, m, d);
+        // Act
+        var actual = CalendarUT.GetDateParts(y, doy);
+        // Assert
+        Assert.Equal(exp, actual);
+    }
+
+    #endregion
+    #region GetOrdinalParts(DayNumber)
+
+    [Fact]
+    public void GetOrdinalParts﹍DayNumber_InvalidDayNumber() =>
+        DomainTester.TestInvalidDayNumber(x => CalendarUT.GetOrdinalParts(x));
+
+    [Theory, MemberData(nameof(DateInfoData))]
+    public void GetOrdinalParts﹍DayNumber_ViaDateInfo(DateInfo info)
+    {
+        var (y, m, d, doy) = info;
+        var dayNumber = CalendarUT.GetDayNumberOn(y, m, d);
+        var exp = new OrdinalParts(y, doy);
+        // Act
+        var actual = CalendarUT.GetOrdinalParts(dayNumber);
+        // Assert
+        Assert.Equal(exp, actual);
+    }
+
+    #endregion
+    #region GetOrdinalParts(y, m, d)
+
+    [Fact]
+    public void GetOrdinalParts_InvalidYear() =>
+        SupportedYearsTester.TestInvalidYear(y => CalendarUT.GetOrdinalParts(y, 1, 1));
+
+    [Theory, MemberData(nameof(InvalidMonthFieldData))]
+    public void GetOrdinalParts_InvalidMonth(int y, int m) =>
+        Assert.ThrowsAoorexn("month", () => CalendarUT.GetOrdinalParts(y, m, 1));
+
+    [Theory, MemberData(nameof(InvalidDayFieldData))]
+    public void GetOrdinalParts_InvalidDay(int y, int m, int d) =>
+        Assert.ThrowsAoorexn("day", () => CalendarUT.GetOrdinalParts(y, m, d));
+
+    [Theory, MemberData(nameof(DateInfoData))]
+    public void GetOrdinalParts(DateInfo info)
+    {
+        var (y, m, d, doy) = info;
+        var exp = new OrdinalParts(y, doy);
+        // Act
+        var actual = CalendarUT.GetOrdinalParts(y, m, d);
+        // Assert
+        Assert.Equal(exp, actual);
     }
 
     #endregion
 }
 
-// Year, month, day infos.
-public partial class NakedCalendarFacts<TCalendar, TDataSet>
-{
-    //#region GetDateParts()
-
-    //[Fact]
-    //public void GetDateParts_WithInvalidYear() =>
-    //    TestInvalidYear(y => CalendarUT.GetDateParts(y, 1));
-
-    //[Theory, MemberData(nameof(InvalidDayOfYear))]
-    //public void GetDateParts_WithInvalidDayOfYear(int y, int doy)
-    //{
-    //    Assert.ThrowsAoorexn("dayOfYear", () => CalendarUT.GetDateParts(y, doy));
-    //}
-
-    //[Theory, MemberData(nameof(SampleDates))]
-    //public void GetDateParts(int y, int m, int d, int doy, bool _5, bool _6)
-    //{
-    //    var partsE = new Yemoda(y, m, d);
-    //    // Act
-    //    var partsA = CalendarUT.GetDateParts(y, doy);
-    //    // Assert
-    //    Assert.Equal(partsE, partsA);
-    //}
-
-    //#endregion
-    //#region GetOrdinalParts()
-
-    //[Fact]
-    //public void GetOrdinalParts_WithInvalidYear() =>
-    //    TestInvalidYear(y => CalendarUT.GetOrdinalParts(y, 1, 1));
-
-    //[Theory, MemberData(nameof(InvalidMonthOfYear))]
-    //public void GetOrdinalParts_WithInvalidMonth(int y, int m)
-    //{
-    //    Assert.ThrowsAoorexn("month", () => CalendarUT.GetOrdinalParts(y, m, 1));
-    //}
-
-    //[Theory, MemberData(nameof(InvalidDayOfMonth))]
-    //public void GetOrdinalParts_WithInvalidDay(int y, int m, int d)
-    //{
-    //    Assert.ThrowsAoorexn("day", () => CalendarUT.GetOrdinalParts(y, m, d));
-    //}
-
-    //[Theory, MemberData(nameof(SampleDates))]
-    //public void GetOrdinalParts(int y, int m, int d, int doy, bool _5, bool _6)
-    //{
-    //    var partsE = new Yedoy(y, doy);
-    //    // Act
-    //    var partsA = CalendarUT.GetOrdinalParts(y, m, d);
-    //    // Assert
-    //    Assert.Equal(partsE, partsA);
-    //}
-
-    //#endregion
-}
-
 // Dates in a given year or month.
-public partial class NakedCalendarFacts<TCalendar, TDataSet>
+public partial class NakedCalendarFacts<TCalendar, TDataSet> // IDayProvider
 {
     //
     // ICalendar<DayNumber>.
