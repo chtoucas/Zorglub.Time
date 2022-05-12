@@ -150,9 +150,6 @@ module Prelude =
         DayZero.RataDie.Ordinal === Ord.First - 1
 
 module Factories =
-    // Les tests suivants peuvent échouer si entre les deux appels à Today() ou
-    // UtcToday(), on a changé de jour...
-
     [<Fact>]
     let ``Today()`` () =
         let today = CivilDate.Today()

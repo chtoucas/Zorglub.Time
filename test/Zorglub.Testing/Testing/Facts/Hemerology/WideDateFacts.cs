@@ -72,7 +72,7 @@ public partial class WideDateFacts<TDataSet> // Prelude
     }
 }
 
-public partial class WideDateFacts<TDataSet> // Math ops
+public partial class WideDateFacts<TDataSet> // Calendar mismatch
 {
     [Fact]
     public void Equality_OtherCalendar()

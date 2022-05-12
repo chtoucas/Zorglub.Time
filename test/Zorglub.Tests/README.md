@@ -8,6 +8,8 @@ TODO
 
 - How should we test inequality: random or custom data? <- custom data.
 - DataSet and FQ. Sometimes, I use ClassData to avoid this problem.
+- Today, les tests peuvent échouer si entre les deux appels à Today() ou 
+  UtcToday(), on a changé de jour...
 
 ### F\#
 
