@@ -27,6 +27,9 @@ public abstract class CalendricalDataConsumer<TDataSet>
     public static TheoryData<YearInfo> YearInfoData => DataSet.YearInfoData;
     public static TheoryData<CenturyInfo> CenturyInfoData => DataSet.CenturyInfoData;
 
+    public static TheoryData<YemodaAnd<int>> DaysInYearAfterDateData => DataSet.DaysInYearAfterDateData;
+    public static TheoryData<YemodaAnd<int>> DaysInMonthAfterDateData => DataSet.DaysInMonthAfterDateData;
+
     public static TheoryData<Yemoda> StartOfYearPartsData => DataSet.StartOfYearPartsData;
     public static TheoryData<Yemoda> EndOfYearPartsData => DataSet.EndOfYearPartsData;
 

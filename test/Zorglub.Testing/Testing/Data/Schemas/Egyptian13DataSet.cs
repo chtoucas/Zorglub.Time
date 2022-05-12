@@ -16,6 +16,11 @@ public sealed partial class Egyptian13DataSet :
     private Egyptian13DataSet() : base(SampleYear, SampleYear) { }
 
     public static Egyptian13DataSet Instance { get; } = new();
+
+    public override TheoryData<YemodaAnd<int>> DaysInYearAfterDateData =>
+        GetDaysInYearAfterDateData(new Egyptian13Schema());
+    public override TheoryData<YemodaAnd<int>> DaysInMonthAfterDateData =>
+        GetDaysInMonthAfterDateData(new Egyptian13Schema());
 }
 
 public partial class Egyptian13DataSet // Infos

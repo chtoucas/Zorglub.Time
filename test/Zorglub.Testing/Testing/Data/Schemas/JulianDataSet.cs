@@ -14,6 +14,11 @@ public sealed partial class JulianDataSet : CalendricalDataSet, ISingleton<Julia
     private JulianDataSet() : base(CommonYear, LeapYear) { }
 
     public static JulianDataSet Instance { get; } = new();
+
+    public override TheoryData<YemodaAnd<int>> DaysInYearAfterDateData =>
+        GetDaysInYearAfterDateData(new JulianSchema());
+    public override TheoryData<YemodaAnd<int>> DaysInMonthAfterDateData =>
+        GetDaysInMonthAfterDateData(new JulianSchema());
 }
 
 public partial class JulianDataSet // Infos

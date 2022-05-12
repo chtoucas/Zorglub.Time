@@ -19,6 +19,11 @@ public sealed partial class FrenchRepublican12DataSet :
     private FrenchRepublican12DataSet() : base(CommonYear, LeapYear) { }
 
     public static FrenchRepublican12DataSet Instance { get; } = new();
+
+    public override TheoryData<YemodaAnd<int>> DaysInYearAfterDateData =>
+        GetDaysInYearAfterDateData(new FrenchRepublican12Schema());
+    public override TheoryData<YemodaAnd<int>> DaysInMonthAfterDateData =>
+        GetDaysInMonthAfterDateData(new FrenchRepublican12Schema());
 }
 
 public partial class FrenchRepublican12DataSet // Infos

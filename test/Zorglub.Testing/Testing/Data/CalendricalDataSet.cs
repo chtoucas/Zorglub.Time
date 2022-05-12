@@ -42,6 +42,35 @@ public abstract class CalendricalDataSet : ICalendricalDataSet
     public abstract TheoryData<int, int, int> InvalidDayFieldData { get; }
     public abstract TheoryData<int, int> InvalidDayOfYearFieldData { get; }
 
+    public abstract TheoryData<YemodaAnd<int>> DaysInYearAfterDateData { get; }
+    public abstract TheoryData<YemodaAnd<int>> DaysInMonthAfterDateData { get; }
+
+    protected TheoryData<YemodaAnd<int>> GetDaysInYearAfterDateData(ICalendricalSchema schema!!)
+    {
+        var data = new TheoryData<YemodaAnd<int>>();
+        foreach (var info in DateInfoData)
+        {
+            var (y, m, d, doy) = (DateInfo)info[0];
+            int daysInYear = schema.CountDaysInYear(y);
+            // CountDaysInYear(y) - doy
+            data.Add(new(y, m, d, daysInYear - doy));
+        }
+        return data;
+    }
+
+    protected TheoryData<YemodaAnd<int>> GetDaysInMonthAfterDateData(ICalendricalSchema schema!!)
+    {
+        var data = new TheoryData<YemodaAnd<int>>();
+        foreach (var info in DateInfoData)
+        {
+            var (y, m, d) = ((DateInfo)info[0]).Yemoda;
+            int daysInMonth = schema.CountDaysInMonth(y, m);
+            // CountDaysInMonth(y, m) - d
+            data.Add(new(y, m, d, daysInMonth - d));
+        }
+        return data;
+    }
+
     #region ConvertToDaysSinceEpochInfoData()
 
     /// <summary>

@@ -90,6 +90,10 @@ public class BoundedCalendarDataSet<TDataSet> : ICalendarDataSet
     public TheoryData<int, int, int> InvalidDayFieldData => Inner.InvalidDayFieldData;
     public TheoryData<int, int> InvalidDayOfYearFieldData => Inner.InvalidDayOfYearFieldData;
 
+    // TODO(code): filter
+    public TheoryData<YemodaAnd<int>> DaysInYearAfterDateData => Inner.DaysInYearAfterDateData;
+    public TheoryData<YemodaAnd<int>> DaysInMonthAfterDateData => Inner.DaysInMonthAfterDateData;
+
     protected TheoryData<DaysSinceEpochInfo>? _DaysSinceEpochInfoData { get; init; }
     protected TheoryData<DateInfo>? _DateInfoData { get; init; }
     protected TheoryData<MonthInfo>? _MonthInfoData { get; init; }

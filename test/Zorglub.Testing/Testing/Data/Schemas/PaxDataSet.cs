@@ -16,6 +16,11 @@ public sealed partial class PaxDataSet : CalendricalDataSet, ISingleton<PaxDataS
     private PaxDataSet() : base(CommonYear, LeapYear) { }
 
     public static PaxDataSet Instance { get; } = new();
+
+    public override TheoryData<YemodaAnd<int>> DaysInYearAfterDateData =>
+        GetDaysInYearAfterDateData(new PaxSchema());
+    public override TheoryData<YemodaAnd<int>> DaysInMonthAfterDateData =>
+        GetDaysInMonthAfterDateData(new PaxSchema());
 }
 
 public partial class PaxDataSet // Infos

@@ -11,6 +11,11 @@ public sealed partial class TropicaliaDataSet : TropicalistaDataSet, ISingleton<
     private TropicaliaDataSet() { }
 
     public static TropicaliaDataSet Instance { get; } = new();
+
+    public override TheoryData<YemodaAnd<int>> DaysInYearAfterDateData =>
+        GetDaysInYearAfterDateData(new TropicaliaSchema());
+    public override TheoryData<YemodaAnd<int>> DaysInMonthAfterDateData =>
+        GetDaysInMonthAfterDateData(new TropicaliaSchema());
 }
 
 public partial class TropicaliaDataSet // Infos

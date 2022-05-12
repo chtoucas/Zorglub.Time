@@ -26,6 +26,9 @@ public interface ICalendricalDataSet
     TheoryData<YearInfo> YearInfoData { get; }
     TheoryData<CenturyInfo> CenturyInfoData { get; }
 
+    TheoryData<YemodaAnd<int>> DaysInYearAfterDateData { get; }
+    TheoryData<YemodaAnd<int>> DaysInMonthAfterDateData { get; }
+
     TheoryData<Yemoda> StartOfYearPartsData { get; }
     TheoryData<Yemoda> EndOfYearPartsData { get; }
 

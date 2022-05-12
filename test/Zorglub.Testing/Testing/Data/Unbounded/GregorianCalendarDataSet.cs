@@ -25,32 +25,18 @@ public sealed partial class GregorianCalendarDataSet :
     public override TheoryData<DayNumberInfo> DayNumberInfoData =>
         _dayNumberInfoData ??= CalCal.ConvertRataDieToDayNumberInfo(GregorianDataSet.RataDieInfos);
 
-    //
     // IDaysAfterDataSet
-    //
-
     public TheoryData<YemoAnd<int>> DaysInYearAfterMonthData => DataSet.DaysInYearAfterMonthData;
-    public TheoryData<YemodaAnd<int>> DaysInYearAfterDateData => DataSet.DaysInYearAfterDateData;
-    public TheoryData<YemodaAnd<int>> DaysInMonthAfterDateData => DataSet.DaysInMonthAfterDateData;
 
-    //
     // IYearAdjustmentDataSet
-    //
-
     public TheoryData<YemodaAnd<int>> InvalidYearAdjustementData => DataSet.InvalidYearAdjustementData;
     public TheoryData<YemodaAnd<int>> YearAdjustementData => DataSet.YearAdjustementData;
 
-    //
     // IMathDataSet
-    //
-
     public TheoryData<Yemoda, Yemoda, int> AddDaysData => DataSet.AddDaysData;
     public TheoryData<Yemoda, Yemoda> ConsecutiveDaysData => DataSet.ConsecutiveDaysData;
 
-    //
     // IAdvancedMathDataSet
-    //
-
     public TheoryData<Yemoda, Yemoda, int> AddYearsData => DataSet.AddYearsData;
     public TheoryData<Yemoda, Yemoda, int> AddMonthsData => DataSet.AddMonthsData;
     public TheoryData<Yemoda, Yemoda, int, int, int> DiffData => DataSet.DiffData;

@@ -34,67 +34,6 @@ public partial class GregorianDataSet // IDaysAfterDataSet
         new(LeapYear, 11, 31),
         new(LeapYear, 12, 0),
     };
-
-    public TheoryData<YemodaAnd<int>> DaysInYearAfterDateData { get; } = new()
-    {
-        // Common year.
-        new(CommonYear, 1, 31, 334),
-        new(CommonYear, 2, 28, 306),
-        new(CommonYear, 3, 31, 275),
-        new(CommonYear, 4, 30, 245),
-        new(CommonYear, 5, 31, 214),
-        new(CommonYear, 6, 30, 184),
-        new(CommonYear, 7, 31, 153),
-        new(CommonYear, 8, 31, 122),
-        new(CommonYear, 9, 30, 92),
-        new(CommonYear, 10, 31, 61),
-        new(CommonYear, 11, 30, 31),
-        new(CommonYear, 12, 31, 0),
-        // Leap year.
-        new(LeapYear, 1, 31, 335),
-        new(LeapYear, 2, 29, 306),
-        new(LeapYear, 3, 31, 275),
-        new(LeapYear, 4, 30, 245),
-        new(LeapYear, 5, 31, 214),
-        new(LeapYear, 6, 30, 184),
-        new(LeapYear, 7, 31, 153),
-        new(LeapYear, 8, 31, 122),
-        new(LeapYear, 9, 30, 92),
-        new(LeapYear, 10, 31, 61),
-        new(LeapYear, 11, 30, 31),
-        new(LeapYear, 12, 31, 0),
-    };
-
-    public TheoryData<YemodaAnd<int>> DaysInMonthAfterDateData { get; } = new()
-    {
-        new(CommonYear, 1, 1, 30),
-        new(CommonYear, 1, 31, 0),
-        new(CommonYear, 2, 1, 27),
-        new(CommonYear, 2, 28, 0),
-        new(LeapYear, 2, 1, 28),
-        new(LeapYear, 2, 28, 1),
-        new(LeapYear, 2, 29, 0),
-        new(CommonYear, 3, 1, 30),
-        new(CommonYear, 3, 31, 0),
-        new(CommonYear, 4, 1, 29),
-        new(CommonYear, 4, 30, 0),
-        new(CommonYear, 5, 1, 30),
-        new(CommonYear, 5, 31, 0),
-        new(CommonYear, 6, 1, 29),
-        new(CommonYear, 6, 30, 0),
-        new(CommonYear, 7, 1, 30),
-        new(CommonYear, 7, 31, 0),
-        new(CommonYear, 8, 1, 30),
-        new(CommonYear, 8, 31, 0),
-        new(CommonYear, 9, 1, 29),
-        new(CommonYear, 9, 30, 0),
-        new(CommonYear, 10, 1, 30),
-        new(CommonYear, 10, 31, 0),
-        new(CommonYear, 11, 1, 29),
-        new(CommonYear, 11, 30, 0),
-        new(CommonYear, 12, 1, 30),
-        new(CommonYear, 12, 31, 0),
-    };
 }
 
 //// Min/Max.

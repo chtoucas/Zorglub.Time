@@ -54,6 +54,9 @@ public abstract class CalendarDataSet<TDataSet> : ICalendarDataSet
     public TheoryData<int, int, int> InvalidDayFieldData => DataSet.InvalidDayFieldData;
     public TheoryData<int, int> InvalidDayOfYearFieldData => DataSet.InvalidDayOfYearFieldData;
 
+    public TheoryData<YemodaAnd<int>> DaysInYearAfterDateData => DataSet.DaysInYearAfterDateData;
+    public TheoryData<YemodaAnd<int>> DaysInMonthAfterDateData => DataSet.DaysInMonthAfterDateData;
+
     #endregion
     #region Helpers
 

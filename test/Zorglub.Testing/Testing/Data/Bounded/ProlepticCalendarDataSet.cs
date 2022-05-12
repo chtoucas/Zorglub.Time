@@ -40,8 +40,6 @@ public sealed class ProlepticGregorianDataSet :
 
     // IDaysAfterDataSet
     public TheoryData<YemoAnd<int>> DaysInYearAfterMonthData => Inner.DaysInYearAfterMonthData;
-    public TheoryData<YemodaAnd<int>> DaysInYearAfterDateData => Inner.DaysInYearAfterDateData;
-    public TheoryData<YemodaAnd<int>> DaysInMonthAfterDateData => Inner.DaysInMonthAfterDateData;
 
     // IYearAdjustmentDataSet
     public TheoryData<YemodaAnd<int>> InvalidYearAdjustementData { get; }
