@@ -13,7 +13,7 @@ using Zorglub.Time.Core.Intervals;
 using static Zorglub.Time.Extensions.CivilDateExtensions;
 using static Zorglub.Time.Extensions.DayOfWeekExtensions2;
 
-// NB: We use StandardGregorianDataSet<> which has the same limits as CivilDate.
+// NB: We use StandardGregorianDataSet which has the same limits as CivilDate.
 
 public sealed partial class CivilDateTests : IDateFacts<CivilDate, StandardGregorianDataSet>
 {
@@ -31,10 +31,10 @@ public sealed partial class CivilDateTests : IDateFacts<CivilDate, StandardGrego
     protected override CivilDate MaxDate { get; }
 
     [Pure]
-    protected override CivilDate CreateDate(int y, int m, int d) => new(y, m, d);
+    protected override CivilDate GetDate(int y, int m, int d) => new(y, m, d);
 
     [Pure]
-    private static CivilDate CreateDateCore(Yemoda ymd)
+    private static CivilDate CreateDate(Yemoda ymd)
     {
         var (y, m, d) = ymd;
         return new(y, m, d);

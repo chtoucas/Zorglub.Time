@@ -19,9 +19,9 @@ public abstract partial class ICalendarTFacts<TDate, TCalendar, TDataSet> :
 {
     protected ICalendarTFacts(TCalendar calendar) : base(calendar) { }
 
-    protected abstract TDate CreateDate(int y, int m, int d);
-    protected abstract TDate CreateDate(int y, int doy);
-    protected abstract TDate CreateDate(DayNumber dayNumber);
+    protected abstract TDate GetDate(int y, int m, int d);
+    protected abstract TDate GetDate(int y, int doy);
+    protected abstract TDate GetDate(DayNumber dayNumber);
 }
 
 public partial class ICalendarTFacts<TDate, TCalendar, TDataSet> // Factories
@@ -30,22 +30,22 @@ public partial class ICalendarTFacts<TDate, TCalendar, TDataSet> // Factories
 
     [Fact]
     public void Factory_InvalidYear() =>
-        SupportedYearsTester.TestInvalidYear(y => CreateDate(y, 1, 1));
+        SupportedYearsTester.TestInvalidYear(y => GetDate(y, 1, 1));
 
     [Theory, MemberData(nameof(InvalidMonthFieldData))]
     public void Factory_InvalidMonth(int y, int m) =>
-        Assert.ThrowsAoorexn("month", () => CreateDate(y, m, 1));
+        Assert.ThrowsAoorexn("month", () => GetDate(y, m, 1));
 
     [Theory, MemberData(nameof(InvalidDayFieldData))]
     public void Factory_InvalidDay(int y, int m, int d) =>
-        Assert.ThrowsAoorexn("day", () => CreateDate(y, m, d));
+        Assert.ThrowsAoorexn("day", () => GetDate(y, m, d));
 
     [Theory, MemberData(nameof(DateInfoData))]
     public void Factory(DateInfo info)
     {
         var (y, m, d) = info.Yemoda;
         // Act
-        TDate date = CreateDate(y, m, d);
+        TDate date = GetDate(y, m, d);
         // Assert
         Assert.Equal(y, date.Year);
         Assert.Equal(m, date.Month);
@@ -57,7 +57,7 @@ public partial class ICalendarTFacts<TDate, TCalendar, TDataSet> // Factories
     {
         var (y, m, d) = info.Yemoda;
         // Act
-        TDate date = CreateDate(y, m, d);
+        TDate date = GetDate(y, m, d);
         // Assert
         Assert.Equal(y, date.Year);
         Assert.Equal(m, date.Month);
@@ -69,18 +69,18 @@ public partial class ICalendarTFacts<TDate, TCalendar, TDataSet> // Factories
 
     [Fact]
     public void Factory﹍Ordinal_InvalidYear() =>
-        SupportedYearsTester.TestInvalidYear(y => CreateDate(y, 1));
+        SupportedYearsTester.TestInvalidYear(y => GetDate(y, 1));
 
     [Theory, MemberData(nameof(InvalidDayOfYearFieldData))]
     public void Factory﹍Ordinal_InvalidDayOfYear(int y, int dayOfYear) =>
-        Assert.ThrowsAoorexn("dayOfYear", () => CreateDate(y, dayOfYear));
+        Assert.ThrowsAoorexn("dayOfYear", () => GetDate(y, dayOfYear));
 
     [Theory, MemberData(nameof(DateInfoData))]
     public void Factory﹍Ordinal(DateInfo info)
     {
         var (y, m, d, doy) = info;
         // Act
-        TDate date = CreateDate(y, doy);
+        TDate date = GetDate(y, doy);
         // Assert
         Assert.Equal(y, date.Year);
         Assert.Equal(m, date.Month);
@@ -93,14 +93,14 @@ public partial class ICalendarTFacts<TDate, TCalendar, TDataSet> // Factories
 
     [Fact]
     public void Factory﹍DayNumber_InvalidDayNumber() =>
-        DomainTester.TestInvalidDayNumber(CreateDate);
+        DomainTester.TestInvalidDayNumber(GetDate);
 
     [Theory, MemberData(nameof(DayNumberInfoData))]
     public void Factory﹍DayNumber(DayNumberInfo info)
     {
         var (dayNumber, y, m, d) = info;
         // Act
-        TDate date = CreateDate(dayNumber);
+        TDate date = GetDate(dayNumber);
         // Assert
         Assert.Equal(y, date.Year);
         Assert.Equal(m, date.Month);
@@ -126,7 +126,7 @@ public partial class ICalendarTFacts<TDate, TCalendar, TDataSet> // IDayProvider
         TDate endOfYear = CalendarUT.GetEndOfYear(y);
         IEnumerable<TDate> exp =
             from i in Enumerable.Range(1, info.DaysInYear)
-            select CreateDate(y, i);
+            select GetDate(y, i);
         // Act
         IEnumerable<TDate> actual = CalendarUT.GetDaysInYear(y);
         // Assert
@@ -155,7 +155,7 @@ public partial class ICalendarTFacts<TDate, TCalendar, TDataSet> // IDayProvider
         TDate endOfMonth = CalendarUT.GetEndOfMonth(y, m);
         IEnumerable<TDate> exp =
             from i in Enumerable.Range(1, info.DaysInMonth)
-            select CreateDate(y, m, i);
+            select GetDate(y, m, i);
         // Act
         IEnumerable<TDate> actual = CalendarUT.GetDaysInMonth(y, m);
         // Assert
@@ -177,7 +177,7 @@ public partial class ICalendarTFacts<TDate, TCalendar, TDataSet> // IDayProvider
     public void GetStartOfYear(YearInfo info)
     {
         int y = info.Year;
-        TDate startOfYear = CreateDate(y, 1, 1);
+        TDate startOfYear = GetDate(y, 1, 1);
         // Act & Assert
         Assert.Equal(startOfYear, CalendarUT.GetStartOfYear(y));
     }
@@ -193,7 +193,7 @@ public partial class ICalendarTFacts<TDate, TCalendar, TDataSet> // IDayProvider
     public void GetEndOfYear(YearInfo info)
     {
         int y = info.Year;
-        TDate endOfYear = CreateDate(y, info.DaysInYear);
+        TDate endOfYear = GetDate(y, info.DaysInYear);
         // Act & Assert
         Assert.Equal(endOfYear, CalendarUT.GetEndOfYear(y));
     }
@@ -213,7 +213,7 @@ public partial class ICalendarTFacts<TDate, TCalendar, TDataSet> // IDayProvider
     public void GetStartOfMonth(MonthInfo info)
     {
         var (y, m) = info.Yemo;
-        TDate startOfMonth = CreateDate(y, m, 1);
+        TDate startOfMonth = GetDate(y, m, 1);
         // Act & Assert
         Assert.Equal(startOfMonth, CalendarUT.GetStartOfMonth(y, m));
     }
@@ -233,7 +233,7 @@ public partial class ICalendarTFacts<TDate, TCalendar, TDataSet> // IDayProvider
     public void GetEndOfMonth(MonthInfo info)
     {
         var (y, m) = info.Yemo;
-        TDate endOfMonth = CreateDate(y, m, info.DaysInMonth);
+        TDate endOfMonth = GetDate(y, m, info.DaysInMonth);
         // Act & Assert
         Assert.Equal(endOfMonth, CalendarUT.GetEndOfMonth(y, m));
     }

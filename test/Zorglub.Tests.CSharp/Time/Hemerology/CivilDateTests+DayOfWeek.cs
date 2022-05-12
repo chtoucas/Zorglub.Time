@@ -378,8 +378,8 @@ public partial class CivilDateTests
     [Theory, MemberData(nameof(DayOfWeek_Nearest_Data))]
     public static void NearestSafe(Yemoda xdate, Yemoda xexp, DayOfWeek dayOfWeek)
     {
-        var date = CreateDateCore(xdate);
-        var exp = CreateDateCore(xexp);
+        var date = CreateDate(xdate);
+        var exp = CreateDate(xexp);
         // Act
         var actual = date.NearestSafe(dayOfWeek);
         // Assert

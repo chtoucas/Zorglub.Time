@@ -28,7 +28,7 @@ public abstract partial class CalendarDayFacts<TDataSet> : SimpleDateFacts<Calen
     protected sealed override CalendarDay MinDate { get; }
     protected sealed override CalendarDay MaxDate { get; }
 
-    protected sealed override CalendarDay CreateDate(int y, int m, int d) =>
+    protected sealed override CalendarDay GetDate(int y, int m, int d) =>
         // Notice that to create a date we must first pass thru CalendarDate.
         CalendarUT.GetCalendarDate(y, m, d).ToCalendarDay();
 }

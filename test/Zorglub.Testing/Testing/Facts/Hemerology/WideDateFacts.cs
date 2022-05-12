@@ -40,7 +40,7 @@ public abstract partial class WideDateFacts<TDataSet> : IDateFacts<WideDate, TDa
     protected sealed override WideDate MinDate { get; }
     protected sealed override WideDate MaxDate { get; }
 
-    protected sealed override WideDate CreateDate(int y, int m, int d) => CalendarUT.GetWideDate(y, m, d);
+    protected sealed override WideDate GetDate(int y, int m, int d) => CalendarUT.GetWideDate(y, m, d);
 }
 
 public partial class WideDateFacts<TDataSet>

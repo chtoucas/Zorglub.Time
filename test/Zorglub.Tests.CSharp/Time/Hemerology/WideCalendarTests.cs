@@ -8,28 +8,13 @@ using Zorglub.Testing.Data.Unbounded;
 public sealed partial class WideCalendarTests :
     ICalendarTFacts<WideDate, WideCalendar, GregorianCalendarDataSet>
 {
-    public static readonly TheoryData<int> InvalidYear = new()
-    {
-        Int32.MinValue,
-        WideCatalogTests.Gregorian.Scope.SupportedYears.Min - 1,
-        WideCatalogTests.Gregorian.Scope.SupportedYears.Max + 1,
-        Int32.MaxValue,
-    };
-    public static readonly TheoryData<DayNumber> InvalidDayNumber = new()
-    {
-        DayNumber.MinValue,
-        WideCatalogTests.Gregorian.Domain.Min - 1,
-        WideCatalogTests.Gregorian.Domain.Max + 1,
-        DayNumber.MaxValue,
-    };
-
     public WideCalendarTests() : this(WideCatalogTests.Gregorian) { }
 
     private WideCalendarTests(WideCalendar calendar) : base(calendar) { }
 
-    protected override WideDate CreateDate(int y, int m, int d) => CalendarUT.GetWideDate(y, m, d);
-    protected override WideDate CreateDate(int y, int doy) => CalendarUT.GetWideDateOn(y, doy);
-    protected override WideDate CreateDate(DayNumber dayNumber) => CalendarUT.GetWideDateOn(dayNumber);
+    protected override WideDate GetDate(int y, int m, int d) => CalendarUT.GetWideDate(y, m, d);
+    protected override WideDate GetDate(int y, int doy) => CalendarUT.GetWideDateOn(y, doy);
+    protected override WideDate GetDate(DayNumber dayNumber) => CalendarUT.GetWideDateOn(dayNumber);
 }
 
 public partial class WideCalendarTests // Properties

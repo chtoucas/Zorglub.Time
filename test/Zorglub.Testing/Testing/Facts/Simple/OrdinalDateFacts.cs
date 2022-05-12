@@ -28,7 +28,7 @@ public abstract partial class OrdinalDateFacts<TDataSet> : SimpleDateFacts<Ordin
     protected sealed override OrdinalDate MinDate { get; }
     protected sealed override OrdinalDate MaxDate { get; }
 
-    protected sealed override OrdinalDate CreateDate(int y, int m, int d) =>
+    protected sealed override OrdinalDate GetDate(int y, int m, int d) =>
         // Notice that to create a date we must first pass thru CalendarDate.
         CalendarUT.GetCalendarDate(y, m, d).ToOrdinalDate();
 }
