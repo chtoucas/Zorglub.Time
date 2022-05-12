@@ -56,13 +56,6 @@ module GregorianCase =
 
         date.ToString() === str
 
-    [<Theory; MemberData(nameof(dateInfoData))>]
-    let ``Roundtrip serialization`` (info: DateInfo) =
-        let y, doy = info.Yedoy.Deconstruct()
-        let date = new OrdinalDate(y, doy)
-
-        OrdinalDate.FromBinary(date.ToBinary()) === date
-
     [<Fact>]
     let ``Today()`` () =
         let now = DateTime.Now

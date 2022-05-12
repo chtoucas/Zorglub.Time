@@ -50,12 +50,6 @@ module GregorianCase =
 
         date.ToString() === str
 
-    [<Theory; MemberData(nameof(dayNumberInfoData))>]
-    let ``Roundtrip serialization`` (info: DayNumberInfo) =
-        let date = new CalendarDay(info.DayNumber)
-
-        CalendarDay.FromBinary(date.ToBinary()) === date
-
     [<Fact>]
     let ``Today()`` () =
         let now = DateTime.Now

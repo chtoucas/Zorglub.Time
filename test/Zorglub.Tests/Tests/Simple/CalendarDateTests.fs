@@ -61,13 +61,6 @@ module GregorianCase =
 
         date.ToString() === str
 
-    [<Theory; MemberData(nameof(dateInfoData))>]
-    let ``Roundtrip serialization`` (info: DateInfo) =
-        let y, m, d = info.Yemoda.Deconstruct()
-        let date = new CalendarDate(y, m, d)
-
-        CalendarDate.FromBinary(date.ToBinary()) === date
-
     [<Fact>]
     let ``Today()`` () =
         let now = DateTime.Now
@@ -82,6 +75,7 @@ module JulianCase =
 
     let dateInfoData = dataSet.DateInfoData
 
+    // Added because, currently, the test suite only works with the Gregorian calendar.
     [<Theory; MemberData(nameof(dateInfoData))>]
     let ``Roundtrip serialization`` (info: DateInfo) =
         let y, m, d = info.Yemoda.Deconstruct()

@@ -39,3 +39,25 @@ public abstract partial class SimpleDateFacts<TDate, TDataSet> : IDateFacts<TDat
     protected Calendar CalendarUT { get; }
     protected Calendar OtherCalendar { get; }
 }
+
+public partial class SimpleDateFacts<TDate, TDataSet> // Serialization
+{
+    // FIXME(code): skip if CalendarUT is not a system calendar.
+
+    [Theory, MemberData(nameof(DateInfoData))]
+    public void Serialization_Roundtrip1(DateInfo info)
+    {
+        var (y, m, d) = info.Yemoda;
+        var date = GetDate(y, m, d);
+        // Act & Assert
+        Assert.Equal(date, TDate.FromBinary(date.ToBinary()));
+    }
+
+    [Theory, MemberData(nameof(DayNumberInfoData))]
+    public void Serialization_Roundtrip2(DayNumberInfo info)
+    {
+        var date = TDate.FromDayNumber(info.DayNumber);
+        // Act & Assert
+        Assert.Equal(date, TDate.FromBinary(date.ToBinary()));
+    }
+}
