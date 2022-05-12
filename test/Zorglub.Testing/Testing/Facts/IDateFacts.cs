@@ -27,8 +27,6 @@ public abstract partial class IDateFacts<TDate, TDataSet> : IDateableFacts<TDate
         IDayOfWeekDataSet,
         ISingleton<TDataSet>
 {
-    protected IDateFacts(CtorArgs args!!) : this(args.SupportedYears, args.Domain) { }
-
     protected IDateFacts(Range<int> supportedYears, Range<DayNumber> domain)
     {
         Domain = domain;
@@ -65,12 +63,6 @@ public abstract partial class IDateFacts<TDate, TDataSet> : IDateableFacts<TDate
     public static TheoryData<Yemoda, Yemoda, DayOfWeek> DayOfWeek_Nearest_Data => DataSet.DayOfWeek_Nearest_Data;
     public static TheoryData<Yemoda, Yemoda, DayOfWeek> DayOfWeek_OnOrAfter_Data => DataSet.DayOfWeek_OnOrAfter_Data;
     public static TheoryData<Yemoda, Yemoda, DayOfWeek> DayOfWeek_After_Data => DataSet.DayOfWeek_After_Data;
-
-    [Pure]
-    protected static CtorArgs CreateCtorArgs(ICalendar calendar!!) =>
-        new(calendar.SupportedYears, calendar.Domain);
-
-    protected sealed record CtorArgs(Range<int> SupportedYears, Range<DayNumber> Domain);
 }
 
 public partial class IDateFacts<TDate, TDataSet> // Prelude

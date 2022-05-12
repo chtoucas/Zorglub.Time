@@ -15,7 +15,7 @@ using Zorglub.Time.Simple;
 /// Provides facts about <see cref="CalendarDate"/>.
 /// </summary>
 [TestExcludeFrom(TestExcludeFrom.Smoke)]
-public abstract class SimpleDateFacts<TDate, TDataSet> : IDateFacts<TDate, TDataSet>
+public abstract class SimpleDateFacts<TDate, TDataSet> : MultiDateFacts<TDate, Calendar, TDataSet>
     // ISimpleDate is internal.
     where TDate : struct, IDate<TDate>, ISerializable<TDate, int>
     where TDataSet :
@@ -26,20 +26,5 @@ public abstract class SimpleDateFacts<TDate, TDataSet> : IDateFacts<TDate, TData
         ISingleton<TDataSet>
 {
     protected SimpleDateFacts(Calendar calendar!!, Calendar otherCalendar!!)
-        : this(calendar, otherCalendar, CreateCtorArgs(calendar)) { }
-
-    private SimpleDateFacts(Calendar calendar, Calendar otherCalendar, CtorArgs args) : base(args)
-    {
-        if (otherCalendar == calendar)
-        {
-            throw new ArgumentException(
-                "\"otherCalendar\" should not be equal to \"calendar\"", nameof(otherCalendar));
-        }
-
-        CalendarUT = calendar;
-        OtherCalendar = otherCalendar;
-    }
-
-    protected Calendar CalendarUT { get; }
-    protected Calendar OtherCalendar { get; }
+        : base(calendar, otherCalendar) { }
 }
