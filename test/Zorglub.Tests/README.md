@@ -36,7 +36,7 @@ Skippable facts.
 In the end, I prefer to pre-filter the data rather than dynamically skipping tests.
 Requirements:
 - ability to skip a test dynamically
-- do not display a message
+- do not display a message (optional)
 - compatible with Xunit v3
   - Assert.Skip(string reason)
   - Assert.SkipUnless(bool condition, string reason)
