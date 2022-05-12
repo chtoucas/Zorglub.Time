@@ -8,14 +8,12 @@ using Zorglub.Time.Hemerology;
 using Zorglub.Time.Simple;
 
 // REVIEW(fact): ISimpleDate is internal, create and use a SimpleDateProxy?
-// In derived classes, use (1, 1, 1) or (1, 1) instead of theories since we know
-// that the first years are always complete.
 
 /// <summary>
-/// Provides facts about <see cref="CalendarDate"/>.
+/// Provides facts about <see cref="ISimpleDate{TSelf}"/>.
 /// </summary>
 [TestExcludeFrom(TestExcludeFrom.Smoke)]
-public abstract class SimpleDateFacts<TDate, TDataSet> : MultiDateFacts<TDate, Calendar, TDataSet>
+public abstract class SimpleDateFacts<TDate, TDataSet> : IDateFacts<TDate, TDataSet>
     // ISimpleDate is internal.
     where TDate : struct, IDate<TDate>, ISerializable<TDate, int>
     where TDataSet :
@@ -26,5 +24,18 @@ public abstract class SimpleDateFacts<TDate, TDataSet> : MultiDateFacts<TDate, C
         ISingleton<TDataSet>
 {
     protected SimpleDateFacts(Calendar calendar!!, Calendar otherCalendar!!)
-        : base(calendar, otherCalendar) { }
+        : base(calendar.SupportedYears, calendar.Domain)
+    {
+        if (otherCalendar == calendar)
+        {
+            throw new ArgumentException(
+                "\"otherCalendar\" MUST NOT be equal to \"calendar\"", nameof(otherCalendar));
+        }
+
+        CalendarUT = calendar;
+        OtherCalendar = otherCalendar;
+    }
+
+    protected Calendar CalendarUT { get; }
+    protected Calendar OtherCalendar { get; }
 }

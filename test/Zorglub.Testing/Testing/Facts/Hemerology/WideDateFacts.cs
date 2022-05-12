@@ -9,7 +9,7 @@ using Zorglub.Time.Hemerology;
 /// <summary>
 /// Provides facts about <see cref="WideDate"/>.
 /// </summary>
-public abstract partial class WideDateFacts<TDataSet> : MultiDateFacts<WideDate, WideCalendar, TDataSet>
+public abstract partial class WideDateFacts<TDataSet> : IDateFacts<WideDate, TDataSet>
     where TDataSet :
         ICalendarDataSet,
         IDaysAfterDataSet,
@@ -17,11 +17,23 @@ public abstract partial class WideDateFacts<TDataSet> : MultiDateFacts<WideDate,
         IDayOfWeekDataSet,
         ISingleton<TDataSet>
 {
-    protected WideDateFacts(WideCalendar calendar, WideCalendar otherCalendar)
-        : base(calendar, otherCalendar)
+    protected WideDateFacts(WideCalendar calendar!!, WideCalendar otherCalendar!!)
+        : base(calendar.SupportedYears, calendar.Domain)
     {
+        if (otherCalendar == calendar)
+        {
+            throw new ArgumentException(
+                "\"otherCalendar\" MUST NOT be equal to \"calendar\"", nameof(otherCalendar));
+        }
+
+        CalendarUT = calendar;
+        OtherCalendar = otherCalendar;
+
         (MinDate, MaxDate) = calendar.MinMaxDate;
     }
+
+    protected WideCalendar CalendarUT { get; }
+    protected WideCalendar OtherCalendar { get; }
 
     protected sealed override WideDate MinDate { get; }
     protected sealed override WideDate MaxDate { get; }
