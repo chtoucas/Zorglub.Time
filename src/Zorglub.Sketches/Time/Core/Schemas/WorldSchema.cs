@@ -65,13 +65,7 @@ namespace Zorglub.Time.Core.Schemas
         /// <summary>
         /// Initializes a new instance of the <see cref="WorldSchema"/> class.
         /// </summary>
-        private WorldSchema() : base(DaysInCommonYear, 30) { }
-
-        /// <summary>
-        /// Gets a singleton instance of the <see cref="WorldSchema"/> class.
-        /// <para>This static property is thread-safe.</para>
-        /// </summary>
-        internal static WorldSchema Instance { get; } = new();
+        internal WorldSchema() : base(DaysInCommonYear, 30) { }
 
         /// <inheritdoc />
         public sealed override CalendricalFamily Family => CalendricalFamily.Solar;

@@ -18,13 +18,7 @@ namespace Zorglub.Time.Core.Schemas
         /// Initializes a new instance of the <see cref="Tropicalia3130Schema"/>
         /// class.
         /// </summary>
-        private Tropicalia3130Schema() : base(29) { }
-
-        /// <summary>
-        /// Gets a singleton instance of the <see cref="Tropicalia3130Schema"/> class.
-        /// <para>This static property is thread-safe.</para>
-        /// </summary>
-        internal static Tropicalia3130Schema Instance { get; } = new();
+        internal Tropicalia3130Schema() : base(29) { }
 
         /// <summary>
         /// Creates a new (boxed) instance of the <see cref="Tropicalia3130Schema"/>

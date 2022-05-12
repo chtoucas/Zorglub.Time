@@ -14,13 +14,7 @@ namespace Zorglub.Time.Core.Schemas
         /// <summary>
         /// Initializes a new instance of the <see cref="HebrewSchema"/> class.
         /// </summary>
-        private HebrewSchema() : base(353, 29) { }
-
-        /// <summary>
-        /// Gets a singleton instance of the <see cref="HebrewSchema"/> class.
-        /// <para>This static property is thread-safe.</para>
-        /// </summary>
-        internal static HebrewSchema Instance { get; } = new();
+        internal HebrewSchema() : base(353, 29) { }
 
         /// <inheritdoc />
         public sealed override CalendricalFamily Family => CalendricalFamily.Lunisolar;

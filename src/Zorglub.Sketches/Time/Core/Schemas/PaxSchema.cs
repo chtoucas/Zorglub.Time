@@ -41,13 +41,7 @@ namespace Zorglub.Time.Core.Schemas
         /// <summary>
         /// Initializes a new instance of the <see cref="PaxSchema"/> class.
         /// </summary>
-        private PaxSchema() : base(DefaultSupportedYears.WithMin(1), 364, 7) { }
-
-        /// <summary>
-        /// Gets a singleton instance of the <see cref="PaxSchema"/> class.
-        /// <para>This static property is thread-safe.</para>
-        /// </summary>
-        internal static PaxSchema Instance { get; } = new();
+        internal PaxSchema() : base(DefaultSupportedYears.WithMin(1), 364, 7) { }
 
         /// <inheritdoc />
         public sealed override CalendricalFamily Family => CalendricalFamily.Other;

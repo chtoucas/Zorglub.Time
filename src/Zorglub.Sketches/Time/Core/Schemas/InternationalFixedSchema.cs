@@ -71,13 +71,7 @@ namespace Zorglub.Time.Core.Schemas
         /// Initializes a new instance of the <see cref="InternationalFixedSchema"/>
         /// class.
         /// </summary>
-        private InternationalFixedSchema() : base(DaysInCommonYear, 28) { }
-
-        /// <summary>
-        /// Gets a singleton instance of the <see cref="InternationalFixedSchema"/> class.
-        /// <para>This static property is thread-safe.</para>
-        /// </summary>
-        internal static InternationalFixedSchema Instance { get; } = new();
+        internal InternationalFixedSchema() : base(DaysInCommonYear, 28) { }
 
         /// <inheritdoc />
         public sealed override CalendricalFamily Family => CalendricalFamily.Solar;
