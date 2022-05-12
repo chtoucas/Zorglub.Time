@@ -56,15 +56,6 @@ namespace Zorglub.Time.Simple
             _bin = new Yedoyx(ydoy, (int)cuid);
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="OrdinalDate"/> struct.
-        /// <para>This constructor does NOT validate its parameters.</para>
-        /// </summary>
-        internal OrdinalDate(Yedoyx bin)
-        {
-            _bin = bin;
-        }
-
         /// <inheritdoc />
         public Ord CenturyOfEra => Ord.FromInt32(Century);
 

@@ -76,15 +76,6 @@ namespace Zorglub.Time.Simple
             _bin = new Yemodax(ymd, (int)cuid);
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="CalendarDate"/> struct.
-        /// <para>This constructor does NOT validate its parameters.</para>
-        /// </summary>
-        internal CalendarDate(Yemodax bin)
-        {
-            _bin = bin;
-        }
-
         /// <inheritdoc />
         public Ord CenturyOfEra => Ord.FromInt32(Century);
 

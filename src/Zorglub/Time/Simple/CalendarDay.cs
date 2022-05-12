@@ -77,15 +77,6 @@ namespace Zorglub.Time.Simple
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="CalendarDay"/> struct.
-        /// <para>This method does NOT validate its parameter.</para>
-        /// </summary>
-        internal CalendarDay(int bin)
-        {
-            _bin = bin;
-        }
-
-        /// <summary>
         /// Gets the day number.
         /// </summary>
         public DayNumber DayNumber
