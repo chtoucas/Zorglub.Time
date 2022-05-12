@@ -11,6 +11,9 @@ https://stackoverflow.com/questions/57772719/generating-custom-data-in-fscheck
 https://github.com/OmanF/gilded_rose/blob/master/GildedRoseTests/Tests.fs
 https://stackoverflow.com/questions/36355460/calling-default-fscheck-generator-from-a-custom-generator-of-the-same-type
 
+New code coverage? https://github.com/FortuneN/FineCodeCoverage
+
+
 FIXME
 -----
 
