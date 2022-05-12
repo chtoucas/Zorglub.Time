@@ -12,7 +12,6 @@ using Zorglub.Time.Simple;
 public abstract partial class OrdinalDateFacts<TDataSet> : SimpleDateFacts<OrdinalDate, TDataSet>
     where TDataSet :
         ICalendarDataSet,
-        IDaysAfterDataSet,
         IAdvancedMathDataSet,
         IDayOfWeekDataSet,
         ISingleton<TDataSet>

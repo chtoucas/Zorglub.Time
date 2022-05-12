@@ -22,7 +22,6 @@ public abstract partial class IDateFacts<TDate, TDataSet> : IDateableFacts<TDate
     where TDate : struct, IDate<TDate>
     where TDataSet :
         ICalendarDataSet,
-        IDaysAfterDataSet,
         IMathDataSet,
         IDayOfWeekDataSet,
         ISingleton<TDataSet>

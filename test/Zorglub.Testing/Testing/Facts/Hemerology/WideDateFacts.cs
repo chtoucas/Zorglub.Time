@@ -12,7 +12,6 @@ using Zorglub.Time.Hemerology;
 public abstract partial class WideDateFacts<TDataSet> : IDateFacts<WideDate, TDataSet>
     where TDataSet :
         ICalendarDataSet,
-        IDaysAfterDataSet,
         IMathDataSet,
         IDayOfWeekDataSet,
         ISingleton<TDataSet>

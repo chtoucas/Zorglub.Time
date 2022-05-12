@@ -17,16 +17,11 @@ public abstract partial class IDateableFacts<TDate, TDataSet> : CalendricalDataC
     where TDate : struct, IDateable<TDate>
     where TDataSet :
         ICalendricalDataSet,
-        IDaysAfterDataSet,
         ISingleton<TDataSet>
 {
     protected IDateableFacts() { }
 
     protected abstract TDate GetDate(int y, int m, int d);
-
-    // IDaysAfterDataSet
-    public static TheoryData<YemodaAnd<int>> DaysInYearAfterDateData => DataSet.DaysInYearAfterDateData;
-    public static TheoryData<YemodaAnd<int>> DaysInMonthAfterDateData => DataSet.DaysInMonthAfterDateData;
 }
 
 public partial class IDateableFacts<TDate, TDataSet> // Prelude

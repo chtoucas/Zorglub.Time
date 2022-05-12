@@ -17,7 +17,6 @@ public abstract partial class SimpleDateFacts<TDate, TDataSet> : IDateFacts<TDat
     where TDate : struct, IDate<TDate>, ISerializable<TDate, int>
     where TDataSet :
         ICalendarDataSet,
-        IDaysAfterDataSet,
         IMathDataSet,
         IDayOfWeekDataSet,
         ISingleton<TDataSet>
