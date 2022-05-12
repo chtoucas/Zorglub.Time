@@ -5,7 +5,11 @@ namespace Zorglub.Testing.Facts;
 
 // Hypothesis:
 // - TDate is a value type.
-// - First year is valid and complete.
+// - See also IDateableFacts.
+
+// TODO(fact): for simple date objects the constructor is tested in
+// CalendarFacts (Factories). For the others, copy this code: CivilDate
+// and WideDate. See also CalendarDateTests.
 
 using Zorglub.Testing.Data;
 using Zorglub.Time.Core.Intervals;
@@ -14,7 +18,7 @@ using Zorglub.Time.Hemerology;
 /// <summary>
 /// Provides facts about <see cref="IDate{TSelf}"/>.
 /// </summary>
-public abstract partial class IDateFacts<TDate, TDataSet> : CalendarTesting<TDataSet>
+public abstract partial class IDateFacts<TDate, TDataSet> : IDateableFacts<TDate, TDataSet>
     where TDate : struct, IDate<TDate>
     where TDataSet :
         ICalendarDataSet,
@@ -28,22 +32,11 @@ public abstract partial class IDateFacts<TDate, TDataSet> : CalendarTesting<TDat
     protected abstract TDate MinDate { get; }
     protected abstract TDate MaxDate { get; }
 
-    protected abstract TDate GetDate(int y, int m, int d);
-
     protected TDate GetDate(Yemoda ymd)
     {
         var (y, m, d) = ymd;
         return GetDate(y, m, d);
     }
-
-    // REVIEW(fact): do we still need these indirect methods.
-    protected TDate Op_Subtraction(TDate date, int days) => date + (-days);
-    protected TDate Op_Increment(TDate date) { date++; return date; }
-    protected TDate Op_Decrement(TDate date) { date--; return date; }
-
-    // IDaysAfterDataSet
-    public static TheoryData<YemodaAnd<int>> DaysInYearAfterDateData => DataSet.DaysInYearAfterDateData;
-    public static TheoryData<YemodaAnd<int>> DaysInMonthAfterDateData => DataSet.DaysInMonthAfterDateData;
 
     // IMathDataSet
     public static TheoryData<Yemoda, Yemoda, int> AddDaysData => DataSet.AddDaysData;
@@ -60,79 +53,6 @@ public abstract partial class IDateFacts<TDate, TDataSet> : CalendarTesting<TDat
 
 public partial class IDateFacts<TDate, TDataSet> // Prelude
 {
-    // TODO(fact): for simple date objects the constructor is tested in
-    // CalendarFacts (Factories). For the others, copy this code: CivilDate
-    // and WideDate. See also CalendarDateTests.
-
-    //
-    // Properties
-    //
-
-    [Theory, MemberData(nameof(CenturyInfoData))]
-    public void CenturyOfEra_Prop(CenturyInfo info)
-    {
-        var (y, century, _) = info;
-        var date = GetDate(y, 1, 1);
-        var centuryOfEra = Ord.Zeroth + century;
-        // Act & Assert
-        Assert.Equal(centuryOfEra, date.CenturyOfEra);
-    }
-
-    [Theory, MemberData(nameof(CenturyInfoData))]
-    public void Century_Prop(CenturyInfo info)
-    {
-        var (y, century, _) = info;
-        var date = GetDate(y, 1, 1);
-        // Act & Assert
-        Assert.Equal(century, date.Century);
-    }
-
-    [Theory, MemberData(nameof(CenturyInfoData))]
-    public void YearOfEra_Prop(CenturyInfo info)
-    {
-        int y = info.Year;
-        var date = GetDate(y, 1, 1);
-        var yearOfEra = Ord.Zeroth + y;
-        // Act & Assert
-        Assert.Equal(yearOfEra, date.YearOfEra);
-    }
-
-    [Theory, MemberData(nameof(CenturyInfoData))]
-    public void YearOfCentury_Prop(CenturyInfo info)
-    {
-        var (y, _, yearOfCentury) = info;
-        var date = GetDate(y, 1, 1);
-        // Act & Assert
-        Assert.Equal(yearOfCentury, date.YearOfCentury);
-    }
-
-    [Theory, MemberData(nameof(DateInfoData))]
-    public void DayOfYear_Prop(DateInfo info)
-    {
-        var (y, m, d, doy) = info;
-        var date = GetDate(y, m, d);
-        // Act & Assert
-        Assert.Equal(doy, date.DayOfYear);
-    }
-
-    [Theory, MemberData(nameof(DateInfoData))]
-    public void IsIntercalary_Prop(DateInfo info)
-    {
-        var (y, m, d) = info.Yemoda;
-        var date = GetDate(y, m, d);
-        // Act & Assert
-        Assert.Equal(info.IsIntercalary, date.IsIntercalary);
-    }
-
-    [Theory, MemberData(nameof(DateInfoData))]
-    public void IsSupplementary_Prop(DateInfo info)
-    {
-        var (y, m, d) = info.Yemoda;
-        var date = GetDate(y, m, d);
-        // Act & Assert
-        Assert.Equal(info.IsSupplementary, date.IsSupplementary);
-    }
-
     [Theory, MemberData(nameof(DayOfWeekData))]
     public void DayOfWeek_Prop(YemodaAnd<DayOfWeek> info)
     {
@@ -177,101 +97,6 @@ public partial class IDateFacts<TDate, TDataSet> // Conversions
         var date = GetDate(y, m, d);
         // Act & Assert
         Assert.Equal(dayNumber, date.ToDayNumber());
-    }
-}
-
-public partial class IDateFacts<TDate, TDataSet> // Counting
-{
-    [Theory, MemberData(nameof(MonthInfoData))]
-    public void CountElapsedDaysInYear_ViaDaysInYearBeforeMonth(MonthInfo info)
-    {
-        var (y, m) = info.Yemo;
-        int daysInYearBeforeMonth = info.DaysInYearBeforeMonth;
-        // Act
-        var date1 = GetDate(y, m, 1);
-        var date2 = GetDate(y, m, 2);
-        var date3 = GetDate(y, m, 3);
-        var date4 = GetDate(y, m, 4);
-        var date5 = GetDate(y, m, 5);
-        // We can't go further because of the schemas w/ a virtual thirteen month.
-        // Assert
-        Assert.Equal(daysInYearBeforeMonth, date1.CountElapsedDaysInYear());
-        Assert.Equal(daysInYearBeforeMonth + 1, date2.CountElapsedDaysInYear());
-        Assert.Equal(daysInYearBeforeMonth + 2, date3.CountElapsedDaysInYear());
-        Assert.Equal(daysInYearBeforeMonth + 3, date4.CountElapsedDaysInYear());
-        Assert.Equal(daysInYearBeforeMonth + 4, date5.CountElapsedDaysInYear());
-    }
-
-    [Theory, MemberData(nameof(DaysInYearAfterDateData))]
-    public void CountRemainingDaysInYear(YemodaAnd<int> info)
-    {
-        var (y, m, d, days) = info;
-        var date = GetDate(y, m, d);
-        // Act & Assert
-        Assert.Equal(days, date.CountRemainingDaysInYear());
-    }
-
-    [Theory, MemberData(nameof(DateInfoData))]
-    public void CountElapsedDaysInMonth(DateInfo info)
-    {
-        var (y, m, d) = info.Yemoda;
-        var date = GetDate(y, m, d);
-        // Act & Assert
-        Assert.Equal(d - 1, date.CountElapsedDaysInMonth());
-    }
-
-    [Theory, MemberData(nameof(DaysInMonthAfterDateData))]
-    public void CountRemainingDaysInMonth(YemodaAnd<int> info)
-    {
-        var (y, m, d, days) = info;
-        var date = GetDate(y, m, d);
-        // Act & Assert
-        Assert.Equal(days, date.CountRemainingDaysInMonth());
-    }
-}
-
-public partial class IDateFacts<TDate, TDataSet> // Year and month boundaries
-{
-    [Theory, MemberData(nameof(YearInfoData))]
-    public void GetStartOfYear(YearInfo info)
-    {
-        int y = info.Year;
-        var date = GetDate(y, 4, 5);
-        var startOfYear = GetDate(y, 1, 1);
-        // Act & Assert
-        Assert.Equal(startOfYear, TDate.GetStartOfYear(date));
-    }
-
-    [Theory, MemberData(nameof(YearInfoData))]
-    public void GetEndOfYear(YearInfo info)
-    {
-        int y = info.Year;
-        var date = GetDate(y, 4, 5);
-        // Act
-        var actual = TDate.GetEndOfYear(date);
-        // Assert
-        Assert.Equal(y, actual.Year);
-        Assert.Equal(info.DaysInYear, actual.DayOfYear);
-    }
-
-    [Theory, MemberData(nameof(MonthInfoData))]
-    public void GetStartOfMonth(MonthInfo info)
-    {
-        var (y, m) = info.Yemo;
-        var date = GetDate(y, m, 5);
-        var startOfMonth = GetDate(y, m, 1);
-        // Act & Assert
-        Assert.Equal(startOfMonth, TDate.GetStartOfMonth(date));
-    }
-
-    [Theory, MemberData(nameof(MonthInfoData))]
-    public void GetEndOfMonth(MonthInfo info)
-    {
-        var (y, m) = info.Yemo;
-        var date = GetDate(y, m, 5);
-        var endOfMonth = GetDate(y, m, info.DaysInMonth);
-        // Act & Assert
-        Assert.Equal(endOfMonth, TDate.GetEndOfMonth(date));
     }
 }
 
@@ -393,8 +218,95 @@ public partial class IDateFacts<TDate, TDataSet> // Adjust the day of the week
     }
 }
 
-public partial class IDateFacts<TDate, TDataSet> // Addition / Subtraction
+public partial class IDateFacts<TDate, TDataSet> // Increment / decrement
 {
+    [Fact]
+    public void Increment_Overflows_AtMaxValue()
+    {
+        // Act
+        var copy = MaxDate;
+        // Assert
+        Assert.Overflows(() => ++copy);
+    }
+
+    [Fact]
+    public void Decrement_Overflows_AtMinValue()
+    {
+        // Act
+        var copy = MinDate;
+        // Assert
+        Assert.Overflows(() => --copy);
+    }
+
+    [Fact]
+    public void NextDay_Overflows_AtMaxValue() =>
+        Assert.Overflows(() => MaxDate.NextDay());
+
+    [Fact]
+    public void PreviousDay_Overflows_AtMinValue() =>
+        Assert.Overflows(() => MinDate.PreviousDay());
+
+    [Theory, MemberData(nameof(ConsecutiveDaysData))]
+    public void Increment(Yemoda ymd, Yemoda ymdAfter)
+    {
+        var date = GetDate(ymd);
+        var dateAfter = GetDate(ymdAfter);
+        // Act & Assert
+        Assert.Equal(dateAfter, ++date);
+    }
+
+    [Theory, MemberData(nameof(ConsecutiveDaysData))]
+    public void Decrement(Yemoda ymd, Yemoda ymdAfter)
+    {
+        var date = GetDate(ymd);
+        var dateAfter = GetDate(ymdAfter);
+        // Act & Assert
+        Assert.Equal(date, --dateAfter);
+    }
+
+    [Theory, MemberData(nameof(ConsecutiveDaysData))]
+    public void NextDay(Yemoda ymd, Yemoda ymdAfter)
+    {
+        var date = GetDate(ymd);
+        var dateAfter = GetDate(ymdAfter);
+        // Act & Assert
+        Assert.Equal(dateAfter, date.NextDay());
+    }
+
+    [Theory, MemberData(nameof(ConsecutiveDaysData))]
+    public void PreviousDay(Yemoda ymd, Yemoda ymdAfter)
+    {
+        var date = GetDate(ymd);
+        var dateAfter = GetDate(ymdAfter);
+        // Act & Assert
+        Assert.Equal(date, dateAfter.PreviousDay());
+    }
+}
+
+// Expected algebraic properties.
+// The following properties should be equivalent:
+//   1) d + days = d'
+//   2) d' - days = d
+//   3) d' - d = days
+//   4) d - d' = -days
+// Other properties: 0 is neutral.
+//   5) d + 0 = d
+//   6) d - 0 = d
+//   7) d - d = 0
+public partial class IDateFacts<TDate, TDataSet> // Addition
+{
+    [Fact]
+    public void PlusDays_OverflowOrUnderflow()
+    {
+        var date = GetDate(1, 1, 1);
+        // Act & Assert
+        Assert.Overflows(() => date.PlusDays(Int32.MinValue));
+        Assert.Overflows(() => date + Int32.MinValue);
+
+        Assert.Overflows(() => date.PlusDays(Int32.MaxValue));
+        Assert.Overflows(() => date + Int32.MaxValue);
+    }
+
     [Fact]
     public void PlusDays_WithLimitValues()
     {
@@ -415,6 +327,85 @@ public partial class IDateFacts<TDate, TDataSet> // Addition / Subtraction
 
         Assert.Overflows(() => date + (maxDays + 1));
         Assert.Overflows(() => date.PlusDays(maxDays + 1));
+    }
+
+    [Fact]
+    public void PlusDays_WithLimitValues_AtMinValue()
+    {
+        int days = Domain.Count() - 1;
+        // Act & Assert
+        Assert.Overflows(() => MinDate - 1);
+        Assert.Overflows(() => MinDate.PlusDays(-1));
+
+        Assert.Equal(MinDate, MinDate - 0);
+        Assert.Equal(MinDate, MinDate + 0);
+        Assert.Equal(MinDate, MinDate.PlusDays(0));
+
+        Assert.Equal(MaxDate, MinDate + days);
+        Assert.Equal(MaxDate, MinDate.PlusDays(days));
+
+        Assert.Overflows(() => MinDate + (days + 1));
+        Assert.Overflows(() => MinDate.PlusDays(days + 1));
+    }
+
+    [Fact]
+    public void PlusDays_WithLimitValues_AtMaxValue()
+    {
+        int days = Domain.Count() - 1;
+        // Act & Assert
+        Assert.Overflows(() => MaxDate - (days + 1));
+        Assert.Overflows(() => MaxDate.PlusDays(-days - 1));
+
+        Assert.Equal(MinDate, MaxDate - days);
+        Assert.Equal(MinDate, MaxDate.PlusDays(-days));
+
+        Assert.Equal(MaxDate, MaxDate - 0);
+        Assert.Equal(MaxDate, MaxDate + 0);
+        Assert.Equal(MaxDate, MaxDate.PlusDays(0));
+
+        Assert.Overflows(() => MaxDate + 1);
+        Assert.Overflows(() => MaxDate.PlusDays(1));
+    }
+
+    [Theory, MemberData(nameof(AddDaysData))]
+    public void PlusDays(Yemoda ymd, Yemoda ymdOther, int days)
+    {
+        var date = GetDate(ymd);
+        var other = GetDate(ymdOther);
+        // Act & Assert
+        // 1) date + days -> other.
+        Assert.Equal(other, date + days);
+        Assert.Equal(other, date.PlusDays(days));
+
+        // 2) other - days -> date.
+        Assert.Equal(date, other - days);
+        Assert.Equal(date, other.PlusDays(-days));
+    }
+
+    [Theory, MemberData(nameof(ConsecutiveDaysData))]
+    public void PlusDays_ViaConsecutiveDays(Yemoda ymd, Yemoda ymdAfter)
+    {
+        var date = GetDate(ymd);
+        var dateAfter = GetDate(ymdAfter);
+        // Act & Assert
+        // 1) date + 1 -> dateAfter.
+        Assert.Equal(dateAfter, date + 1);
+        Assert.Equal(dateAfter, date.PlusDays(1));
+
+        // 2) dateAfter - 1 -> date.
+        Assert.Equal(date, dateAfter - 1);
+        Assert.Equal(date, dateAfter.PlusDays(-1));
+    }
+
+    [Theory, MemberData(nameof(DateInfoData))]
+    public void PlusDays_Zero_IsNeutral(DateInfo info)
+    {
+        var (y, m, d) = info.Yemoda;
+        var date = GetDate(y, m, d);
+        // Act & Assert
+        Assert.Equal(date, date + 0);
+        Assert.Equal(date, date - 0);
+        Assert.Equal(date, date.PlusDays(0));
     }
 
     [Fact]
@@ -467,168 +458,6 @@ public partial class IDateFacts<TDate, TDataSet> // Addition / Subtraction
         // Act & Assert
         Assert.Equal(0, date - date);
         Assert.Equal(0, date.CountDaysSince(date));
-    }
-}
-
-// NextDay(), PreviousDay(), op_Increment, op_Decrement.
-public partial class IDateFacts<TDate, TDataSet> // Increment / decrement
-{
-    [Fact]
-    public void Increment_Overflows_AtMaxValue() =>
-        Assert.Overflows(() => Op_Increment(MaxDate));
-
-    [Fact]
-    public void Decrement_Underflows_AtMinValue() =>
-        Assert.Overflows(() => Op_Decrement(MinDate));
-
-    [Fact]
-    public void NextDay_Overflows_AtMaxValue() =>
-        Assert.Overflows(() => MaxDate.NextDay());
-
-    [Fact]
-    public void PreviousDay_Underflows_AtMinValue() =>
-        Assert.Overflows(() => MinDate.PreviousDay());
-
-    [Theory, MemberData(nameof(ConsecutiveDaysData))]
-    public void Increment(Yemoda ymd, Yemoda ymdAfter)
-    {
-        var date = GetDate(ymd);
-        var dateAfter = GetDate(ymdAfter);
-        // Act & Assert
-        Assert.Equal(dateAfter, Op_Increment(date));
-    }
-
-    [Theory, MemberData(nameof(ConsecutiveDaysData))]
-    public void Decrement(Yemoda ymd, Yemoda ymdAfter)
-    {
-        var date = GetDate(ymd);
-        var dateAfter = GetDate(ymdAfter);
-        // Act & Assert
-        Assert.Equal(date, Op_Decrement(dateAfter));
-    }
-
-    [Theory, MemberData(nameof(ConsecutiveDaysData))]
-    public void NextDay(Yemoda ymd, Yemoda ymdAfter)
-    {
-        var date = GetDate(ymd);
-        var dateAfter = GetDate(ymdAfter);
-        // Act & Assert
-        Assert.Equal(dateAfter, date.NextDay());
-    }
-
-    [Theory, MemberData(nameof(ConsecutiveDaysData))]
-    public void PreviousDay(Yemoda ymd, Yemoda ymdAfter)
-    {
-        var date = GetDate(ymd);
-        var dateAfter = GetDate(ymdAfter);
-        // Act & Assert
-        Assert.Equal(date, dateAfter.PreviousDay());
-    }
-}
-
-// PlusDays(), CountDaysSince(), op_Addition, op_Subtraction.
-//
-// Expected algebraic properties.
-// The following properties should be equivalent:
-//   1) d + days = d'
-//   2) d' - days = d
-//   3) d' - d = days
-//   4) d - d' = -days
-// Other properties: 0 is neutral.
-//   5) d + 0 = d
-//   6) d - 0 = d
-//   7) d - d = 0
-public partial class IDateFacts<TDate, TDataSet> // Addition
-{
-    [Fact]
-    public void PlusDays_OverflowOrUnderflow()
-    {
-        var date = GetDate(1, 1, 1);
-        // Act & Assert
-        Assert.Overflows(() => date.PlusDays(Int32.MinValue));
-        Assert.Overflows(() => date + Int32.MinValue);
-
-        Assert.Overflows(() => date.PlusDays(Int32.MaxValue));
-        Assert.Overflows(() => date + Int32.MaxValue);
-    }
-
-    [Fact]
-    public void PlusDays_WithLimitValues_AtMinValue()
-    {
-        int days = Domain.Count() - 1;
-        // Act & Assert
-        Assert.Overflows(() => Op_Subtraction(MinDate, 1));
-        Assert.Overflows(() => MinDate.PlusDays(-1));
-
-        Assert.Equal(MinDate, Op_Subtraction(MinDate, 0));
-        Assert.Equal(MinDate, MinDate + 0);
-        Assert.Equal(MinDate, MinDate.PlusDays(0));
-
-        Assert.Equal(MaxDate, MinDate + days);
-        Assert.Equal(MaxDate, MinDate.PlusDays(days));
-
-        Assert.Overflows(() => MinDate + (days + 1));
-        Assert.Overflows(() => MinDate.PlusDays(days + 1));
-    }
-
-    [Fact]
-    public void PlusDays_WithLimitValues_AtMaxValue()
-    {
-        int days = Domain.Count() - 1;
-        // Act & Assert
-        Assert.Overflows(() => Op_Subtraction(MaxDate, days + 1));
-        Assert.Overflows(() => MaxDate.PlusDays(-days - 1));
-
-        Assert.Equal(MinDate, Op_Subtraction(MaxDate, days));
-        Assert.Equal(MinDate, MaxDate.PlusDays(-days));
-
-        Assert.Equal(MaxDate, Op_Subtraction(MaxDate, 0));
-        Assert.Equal(MaxDate, MaxDate + 0);
-        Assert.Equal(MaxDate, MaxDate.PlusDays(0));
-
-        Assert.Overflows(() => MaxDate + 1);
-        Assert.Overflows(() => MaxDate.PlusDays(1));
-    }
-
-    [Theory, MemberData(nameof(AddDaysData))]
-    public void PlusDays(Yemoda ymd, Yemoda ymdOther, int days)
-    {
-        var date = GetDate(ymd);
-        var other = GetDate(ymdOther);
-        // Act & Assert
-        // 1) date + days -> other.
-        Assert.Equal(other, date + days);
-        Assert.Equal(other, date.PlusDays(days));
-
-        // 2) other - days -> date.
-        Assert.Equal(date, Op_Subtraction(other, days));
-        Assert.Equal(date, other.PlusDays(-days));
-    }
-
-    [Theory, MemberData(nameof(ConsecutiveDaysData))]
-    public void PlusDays_ViaConsecutiveDays(Yemoda ymd, Yemoda ymdAfter)
-    {
-        var date = GetDate(ymd);
-        var dateAfter = GetDate(ymdAfter);
-        // Act & Assert
-        // 1) date + 1 -> dateAfter.
-        Assert.Equal(dateAfter, date + 1);
-        Assert.Equal(dateAfter, date.PlusDays(1));
-
-        // 2) dateAfter - 1 -> date.
-        Assert.Equal(date, Op_Subtraction(dateAfter, 1));
-        Assert.Equal(date, dateAfter.PlusDays(-1));
-    }
-
-    [Theory, MemberData(nameof(DateInfoData))]
-    public void PlusDays_Zero_IsNeutral(DateInfo info)
-    {
-        var (y, m, d) = info.Yemoda;
-        var date = GetDate(y, m, d);
-        // Act & Assert
-        Assert.Equal(date, date + 0);
-        Assert.Equal(date, Op_Subtraction(date, 0));
-        Assert.Equal(date, date.PlusDays(0));
     }
 }
 
@@ -707,7 +536,7 @@ public partial class IDateFacts<TDate, TDataSet> // IComparable
     }
 
     [Fact]
-    public void CompareTo_InvalidObject()
+    public void CompareTo_PlainObject()
     {
         var date = GetDate(1, 1, 1);
         var comparable = (IComparable)date;
