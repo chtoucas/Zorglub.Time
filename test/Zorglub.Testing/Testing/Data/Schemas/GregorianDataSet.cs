@@ -17,7 +17,7 @@ public sealed partial class GregorianDataSet :
     public const int CommonYear = 3;
     public const int LeapYear = 4;
 
-    private GregorianDataSet() : base(CommonYear, LeapYear) { }
+    private GregorianDataSet() : base(new GregorianSchema(), CommonYear, LeapYear) { }
 
     public static GregorianDataSet Instance { get; } = new();
 }

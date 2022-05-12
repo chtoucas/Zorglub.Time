@@ -8,15 +8,9 @@ namespace Zorglub.Testing.Data.Schemas;
 /// </summary>
 public sealed partial class TropicaliaDataSet : TropicalistaDataSet, ISingleton<TropicaliaDataSet>
 {
-    private TropicaliaDataSet() { }
+    private TropicaliaDataSet() : base(new TropicaliaSchema()) { }
 
     public static TropicaliaDataSet Instance { get; } = new();
-
-    public override TheoryData<YemodaAnd<int>> DaysInYearAfterDateData =>
-        GetDaysInYearAfterDateData(DateInfoData, new TropicaliaSchema());
-
-    public override TheoryData<YemodaAnd<int>> DaysInMonthAfterDateData =>
-        GetDaysInMonthAfterDateData(DateInfoData, new TropicaliaSchema());
 }
 
 public partial class TropicaliaDataSet // Infos

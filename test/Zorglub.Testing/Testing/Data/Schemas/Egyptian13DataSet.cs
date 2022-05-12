@@ -13,15 +13,9 @@ public sealed partial class Egyptian13DataSet :
 {
     public const int SampleYear = 3;
 
-    private Egyptian13DataSet() : base(SampleYear, SampleYear) { }
+    private Egyptian13DataSet() : base(new Egyptian13Schema(), SampleYear, SampleYear) { }
 
     public static Egyptian13DataSet Instance { get; } = new();
-
-    public override TheoryData<YemodaAnd<int>> DaysInYearAfterDateData =>
-        GetDaysInYearAfterDateData(DateInfoData, new Egyptian13Schema());
-
-    public override TheoryData<YemodaAnd<int>> DaysInMonthAfterDateData =>
-        GetDaysInMonthAfterDateData(DateInfoData, new Egyptian13Schema());
 }
 
 public partial class Egyptian13DataSet // Infos

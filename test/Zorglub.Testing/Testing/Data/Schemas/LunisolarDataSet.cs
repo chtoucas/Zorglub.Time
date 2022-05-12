@@ -11,15 +11,9 @@ public sealed partial class LunisolarDataSet : CalendricalDataSet, ISingleton<Lu
     public const int CommonYear = 1;
     public const int LeapYear = 4;
 
-    private LunisolarDataSet() : base(CommonYear, LeapYear) { }
+    private LunisolarDataSet() : base(new LunisolarSchema(), CommonYear, LeapYear) { }
 
     public static LunisolarDataSet Instance { get; } = new();
-
-    public override TheoryData<YemodaAnd<int>> DaysInYearAfterDateData =>
-        GetDaysInYearAfterDateData(DateInfoData, new LunisolarSchema());
-
-    public override TheoryData<YemodaAnd<int>> DaysInMonthAfterDateData =>
-        GetDaysInMonthAfterDateData(DateInfoData, new LunisolarSchema());
 }
 
 public partial class LunisolarDataSet // Infos

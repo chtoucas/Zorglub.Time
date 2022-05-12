@@ -9,11 +9,15 @@ namespace Zorglub.Testing.Data;
 
 public abstract class CalendricalDataSet : ICalendricalDataSet
 {
-    protected CalendricalDataSet(int commonYear, int leapYear)
+    protected CalendricalDataSet(ICalendricalSchema schema!!, int commonYear, int leapYear)
     {
+        Schema = schema;
+
         SampleCommonYear = commonYear;
         SampleLeapYear = leapYear;
     }
+
+    public ICalendricalSchema Schema { get; }
 
     public int SampleCommonYear { get; }
     public int SampleLeapYear { get; }
@@ -26,11 +30,16 @@ public abstract class CalendricalDataSet : ICalendricalDataSet
     // Override this property if the schema does not support all years in the default list.
     public virtual TheoryData<CenturyInfo> CenturyInfoData => YearNumberingDataSet.CenturyInfoData;
 
-    public abstract TheoryData<YemodaAnd<int>> DaysInYearAfterDateData { get; }
-    public abstract TheoryData<YemodaAnd<int>> DaysInMonthAfterDateData { get; }
+    private TheoryData<YemodaAnd<int>>? _daysInYearAfterDateData;
+    public virtual TheoryData<YemodaAnd<int>> DaysInYearAfterDateData =>
+        _daysInYearAfterDateData ??= GetDaysInYearAfterDateData(DateInfoData, Schema);
+
+    private TheoryData<YemodaAnd<int>>? _daysInMonthAfterDateData;
+    public virtual TheoryData<YemodaAnd<int>> DaysInMonthAfterDateData =>
+        _daysInMonthAfterDateData ??= GetDaysInMonthAfterDateData(DateInfoData, Schema);
 
     private TheoryData<Yemoda>? _startOfYearPartsData;
-    public TheoryData<Yemoda> StartOfYearPartsData =>
+    public virtual TheoryData<Yemoda> StartOfYearPartsData =>
         _startOfYearPartsData ??= GetStartOfYearFromEndOfYear(EndOfYearPartsData);
 
     public abstract TheoryData<Yemoda> EndOfYearPartsData { get; }
@@ -38,7 +47,7 @@ public abstract class CalendricalDataSet : ICalendricalDataSet
     public abstract TheoryData<YearDaysSinceEpoch> StartOfYearDaysSinceEpochData { get; }
 
     private TheoryData<YearDaysSinceEpoch>? _endOfYearDaysSinceEpochData;
-    public TheoryData<YearDaysSinceEpoch> EndOfYearDaysSinceEpochData =>
+    public virtual TheoryData<YearDaysSinceEpoch> EndOfYearDaysSinceEpochData =>
         _endOfYearDaysSinceEpochData ??= GetEndOfYearFromStartOfYear(StartOfYearDaysSinceEpochData);
 
     public abstract TheoryData<int, int> InvalidMonthFieldData { get; }
@@ -80,14 +89,8 @@ public abstract class CalendricalDataSet : ICalendricalDataSet
         return data;
     }
 
-    // REVIEW(data): at some point, we should no longer use the methods
-    // - GetDaysInYearAfterDateData()
-    // - GetDaysInMonthAfterDateData()
-    // to initialize the props.
-    // Other option: always initialize the props here, for this to work, we need
-    // the schema in the constructor.
     [Pure]
-    protected static TheoryData<YemodaAnd<int>> GetDaysInYearAfterDateData(
+    private static TheoryData<YemodaAnd<int>> GetDaysInYearAfterDateData(
         TheoryData<DateInfo> source!!, ICalendricalSchema schema!!)
     {
         var data = new TheoryData<YemodaAnd<int>>();
@@ -102,7 +105,7 @@ public abstract class CalendricalDataSet : ICalendricalDataSet
     }
 
     [Pure]
-    protected static TheoryData<YemodaAnd<int>> GetDaysInMonthAfterDateData(
+    private static TheoryData<YemodaAnd<int>> GetDaysInMonthAfterDateData(
         TheoryData<DateInfo> source!!, ICalendricalSchema schema!!)
     {
         var data = new TheoryData<YemodaAnd<int>>();

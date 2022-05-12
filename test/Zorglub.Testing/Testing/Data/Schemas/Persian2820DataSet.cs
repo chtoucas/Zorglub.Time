@@ -13,15 +13,9 @@ public sealed partial class Persian2820DataSet : CalendricalDataSet, ISingleton<
     public const int CommonYear = 1;
     public const int LeapYear = 4;
 
-    private Persian2820DataSet() : base(CommonYear, LeapYear) { }
+    private Persian2820DataSet() : base(new Persian2820Schema(), CommonYear, LeapYear) { }
 
     public static Persian2820DataSet Instance { get; } = new();
-
-    public override TheoryData<YemodaAnd<int>> DaysInYearAfterDateData =>
-        GetDaysInYearAfterDateData(DateInfoData, new Persian2820Schema());
-
-    public override TheoryData<YemodaAnd<int>> DaysInMonthAfterDateData =>
-        GetDaysInMonthAfterDateData(DateInfoData, new Persian2820Schema());
 }
 
 public partial class Persian2820DataSet // Infos

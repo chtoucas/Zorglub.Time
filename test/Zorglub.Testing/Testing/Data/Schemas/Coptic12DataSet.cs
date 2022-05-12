@@ -14,15 +14,9 @@ public sealed partial class Coptic12DataSet :
     public const int CommonYear = 1;
     public const int LeapYear = 3;
 
-    private Coptic12DataSet() : base(CommonYear, LeapYear) { }
+    private Coptic12DataSet() : base(new Coptic12Schema(), CommonYear, LeapYear) { }
 
     public static Coptic12DataSet Instance { get; } = new();
-
-    public override TheoryData<YemodaAnd<int>> DaysInYearAfterDateData =>
-        GetDaysInYearAfterDateData(DateInfoData, new Coptic12Schema());
-
-    public override TheoryData<YemodaAnd<int>> DaysInMonthAfterDateData =>
-        GetDaysInMonthAfterDateData(DateInfoData, new Coptic12Schema());
 }
 
 public partial class Coptic12DataSet // Infos

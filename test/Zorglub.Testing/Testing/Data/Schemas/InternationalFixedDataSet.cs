@@ -11,15 +11,9 @@ public sealed partial class InternationalFixedDataSet : CalendricalDataSet, ISin
     public const int CommonYear = 3;
     public const int LeapYear = 4;
 
-    private InternationalFixedDataSet() : base(CommonYear, LeapYear) { }
+    private InternationalFixedDataSet() : base(new InternationalFixedSchema(), CommonYear, LeapYear) { }
 
     public static InternationalFixedDataSet Instance { get; } = new();
-
-    public override TheoryData<YemodaAnd<int>> DaysInYearAfterDateData =>
-        GetDaysInYearAfterDateData(DateInfoData, new InternationalFixedSchema());
-
-    public override TheoryData<YemodaAnd<int>> DaysInMonthAfterDateData =>
-        GetDaysInMonthAfterDateData(DateInfoData, new InternationalFixedSchema());
 }
 
 public partial class InternationalFixedDataSet // Infos

@@ -13,15 +13,9 @@ public sealed partial class PositivistDataSet : CalendricalDataSet, ISingleton<P
     public const int CommonYear = 3;
     public const int LeapYear = 4;
 
-    private PositivistDataSet() : base(CommonYear, LeapYear) { }
+    private PositivistDataSet() : base(new PositivistSchema(), CommonYear, LeapYear) { }
 
     public static PositivistDataSet Instance { get; } = new();
-
-    public override TheoryData<YemodaAnd<int>> DaysInYearAfterDateData =>
-        GetDaysInYearAfterDateData(DateInfoData, new PositivistSchema());
-
-    public override TheoryData<YemodaAnd<int>> DaysInMonthAfterDateData =>
-        GetDaysInMonthAfterDateData(DateInfoData, new PositivistSchema());
 }
 
 public partial class PositivistDataSet // Infos

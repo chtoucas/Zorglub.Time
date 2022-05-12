@@ -8,7 +8,7 @@ public abstract class TropicalistaDataSet : CalendricalDataSet
     public const int CommonYear = 3;
     public const int LeapYear = 4;
 
-    protected TropicalistaDataSet() : base(CommonYear, LeapYear) { }
+    protected TropicalistaDataSet(TropicalistaSchema schema) : base(schema, CommonYear, LeapYear) { }
 
     public sealed override TheoryData<YearInfo> YearInfoData => new()
     {

@@ -16,15 +16,9 @@ public sealed partial class FrenchRepublican13DataSet :
     public const int CommonCentury = 4000;
     public const int LeapCentury = 400;
 
-    private FrenchRepublican13DataSet() : base(CommonYear, LeapYear) { }
+    private FrenchRepublican13DataSet() : base(new FrenchRepublican13Schema(), CommonYear, LeapYear) { }
 
     public static FrenchRepublican13DataSet Instance { get; } = new();
-
-    public override TheoryData<YemodaAnd<int>> DaysInYearAfterDateData =>
-        GetDaysInYearAfterDateData(DateInfoData, new FrenchRepublican13Schema());
-
-    public override TheoryData<YemodaAnd<int>> DaysInMonthAfterDateData =>
-        GetDaysInMonthAfterDateData(DateInfoData, new FrenchRepublican13Schema());
 }
 
 public partial class FrenchRepublican13DataSet // Infos

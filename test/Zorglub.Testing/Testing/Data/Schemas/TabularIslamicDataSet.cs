@@ -13,15 +13,9 @@ public sealed partial class TabularIslamicDataSet : CalendricalDataSet, ISinglet
     public const int CommonYear = 1;
     public const int LeapYear = 2;
 
-    private TabularIslamicDataSet() : base(CommonYear, LeapYear) { }
+    private TabularIslamicDataSet() : base(new TabularIslamicSchema(), CommonYear, LeapYear) { }
 
     public static TabularIslamicDataSet Instance { get; } = new();
-
-    public override TheoryData<YemodaAnd<int>> DaysInYearAfterDateData =>
-        GetDaysInYearAfterDateData(DateInfoData, new TabularIslamicSchema());
-
-    public override TheoryData<YemodaAnd<int>> DaysInMonthAfterDateData =>
-        GetDaysInMonthAfterDateData(DateInfoData, new TabularIslamicSchema());
 }
 
 public partial class TabularIslamicDataSet // Infos

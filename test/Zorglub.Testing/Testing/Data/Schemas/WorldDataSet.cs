@@ -11,15 +11,9 @@ public sealed partial class WorldDataSet : CalendricalDataSet, ISingleton<WorldD
     public const int CommonYear = 3;
     public const int LeapYear = 4;
 
-    private WorldDataSet() : base(CommonYear, LeapYear) { }
+    private WorldDataSet() : base(new WorldSchema(), CommonYear, LeapYear) { }
 
     public static WorldDataSet Instance { get; } = new();
-
-    public override TheoryData<YemodaAnd<int>> DaysInYearAfterDateData =>
-        GetDaysInYearAfterDateData(DateInfoData, new WorldSchema());
-
-    public override TheoryData<YemodaAnd<int>> DaysInMonthAfterDateData =>
-        GetDaysInMonthAfterDateData(DateInfoData, new WorldSchema());
 }
 
 public partial class WorldDataSet // Infos
