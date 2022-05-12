@@ -8,7 +8,6 @@ using Zorglub.Testing.Data;
 /// <summary>
 /// Provides facts about <see cref="ICalendricalPreValidator"/>.
 /// </summary>
-[TestExcludeFrom(TestExcludeFrom.Smoke)]
 public abstract partial class ICalendricalPreValidatorFacts<TDataSet> :
     CalendricalDataConsumer<TDataSet>
     where TDataSet : ICalendricalDataSet, ISingleton<TDataSet>

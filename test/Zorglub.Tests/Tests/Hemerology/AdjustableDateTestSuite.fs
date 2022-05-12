@@ -9,13 +9,15 @@ open Zorglub.Testing.Facts.Hemerology
 open Zorglub.Time.Core.Intervals
 open Zorglub.Time.Hemerology
 
-type [<Sealed>] CivilDateTests() =
+[<Sealed>]
+type CivilDateTests() =
     inherit IAdjustableDateFacts<CivilDate, StandardGregorianDataSet>(
         Range.Create(CivilDate.MinYear, CivilDate.MaxYear))
 
     override __.CreateDate(y, m, d) = new CivilDate(y, m, d)
 
-type [<Sealed>] GregorianWideDateTests() =
+[<Sealed>]
+type GregorianWideDateTests() =
     inherit IAdjustableDateFacts<WideDate, ProlepticGregorianDataSet>(WideCalendar.Gregorian.SupportedYears)
 
     override __.CreateDate(y, m, d) = WideCalendar.Gregorian.GetWideDate(y, m, d)

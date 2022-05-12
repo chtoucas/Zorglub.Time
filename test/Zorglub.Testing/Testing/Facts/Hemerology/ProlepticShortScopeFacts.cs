@@ -31,7 +31,6 @@ public static class ProlepticShortScopeFacts
 /// <summary>
 /// Provides data-driven tests for <see cref="ProlepticShortScope"/>.
 /// </summary>
-[TestExcludeFrom(TestExcludeFrom.Smoke)]
 internal abstract class ProlepticShortScopeFacts<TDataSet> :
     ShortScopeFacts<ProlepticShortScope, TDataSet>
     where TDataSet : ICalendricalDataSet, ISingleton<TDataSet>

@@ -12,7 +12,6 @@ using Zorglub.Time.Simple;
 /// <summary>
 /// Provides facts about <see cref="ISimpleDate{TSelf}"/>.
 /// </summary>
-[TestExcludeFrom(TestExcludeFrom.Smoke)]
 public abstract partial class SimpleDateFacts<TDate, TDataSet> : IDateFacts<TDate, TDataSet>
     // ISimpleDate being internal, we cannot use in a type constraint.
     where TDate : struct, IDate<TDate>, ISerializable<TDate, int>

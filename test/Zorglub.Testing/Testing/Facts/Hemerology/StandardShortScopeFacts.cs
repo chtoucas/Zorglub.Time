@@ -30,7 +30,6 @@ public static class StandardShortScopeFacts
 /// <summary>
 /// Provides data-driven tests for <see cref="StandardShortScope"/>.
 /// </summary>
-[TestExcludeFrom(TestExcludeFrom.Smoke)]
 internal abstract class StandardShortScopeFacts<TDataSet> :
     ShortScopeFacts<StandardShortScope, TDataSet>
     where TDataSet : ICalendricalDataSet, ISingleton<TDataSet>
