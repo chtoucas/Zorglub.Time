@@ -21,8 +21,7 @@ public abstract class SimpleDateFacts<TDate, TDataSet> : IDateFacts<TDate, TData
     where TDataSet :
         ICalendarDataSet,
         IDaysAfterDataSet,
-        // TODO(code): only requires IMathDataSet.
-        IAdvancedMathDataSet,
+        IMathDataSet,
         IDayOfWeekDataSet,
         ISingleton<TDataSet>
 {
@@ -43,7 +42,4 @@ public abstract class SimpleDateFacts<TDate, TDataSet> : IDateFacts<TDate, TData
 
     protected Calendar CalendarUT { get; }
     protected Calendar OtherCalendar { get; }
-
-    public static TheoryData<Yemoda, Yemoda, int> AddYearsData => DataSet.AddYearsData;
-    public static TheoryData<Yemoda, Yemoda, int> AddMonthsData => DataSet.AddMonthsData;
 }

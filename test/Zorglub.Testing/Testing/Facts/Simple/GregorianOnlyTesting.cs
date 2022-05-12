@@ -1,8 +1,9 @@
 ﻿// SPDX-License-Identifier: BSD-3-Clause
 // Copyright (c) 2020 Narvalo.Org. All rights reserved.
 
-namespace Zorglub.Testing;
+namespace Zorglub.Testing.Facts.Simple;
 
+using Zorglub.Testing.Data;
 using Zorglub.Testing.Data.Bounded;
 using Zorglub.Time.Simple;
 
@@ -11,15 +12,19 @@ using Zorglub.Time.Simple;
 /// <summary>
 /// Provides a base for Gregorian-only tests.
 /// </summary>
-public abstract class GregorianOnlyTesting : CalendarTesting<ProlepticGregorianDataSet>
+public abstract class GregorianOnlyTesting : CalendarDataConsumer<ProlepticGregorianDataSet>
 {
-    protected GregorianOnlyTesting(GregorianCalendar calendar) : base(CreateCtorArgs(calendar))
+    protected GregorianOnlyTesting(GregorianCalendar calendar)
     {
         CalendarUT = calendar;
+
+        SupportedYearsTester = new SupportedYearsTester(calendar.SupportedYears);
     }
 
     /// <summary>
     /// Gets the calendar under test.
     /// </summary>
     protected GregorianCalendar CalendarUT { get; }
+
+    protected SupportedYearsTester SupportedYearsTester { get; }
 }

@@ -13,14 +13,14 @@ using Zorglub.Time.Hemerology;
 /// <summary>
 /// Provides facts about <see cref="IDateable{TSelf}"/>.
 /// </summary>
-public abstract partial class IDateableFacts<TDate, TDataSet> : CalendarTesting<TDataSet>
+public abstract partial class IDateableFacts<TDate, TDataSet> : CalendricalDataConsumer<TDataSet>
     where TDate : struct, IDateable<TDate>
     where TDataSet :
-        ICalendarDataSet,
+        ICalendricalDataSet,
         IDaysAfterDataSet,
         ISingleton<TDataSet>
 {
-    protected IDateableFacts(CtorArgs args) : base(args) { }
+    protected IDateableFacts() { }
 
     protected abstract TDate GetDate(int y, int m, int d);
 

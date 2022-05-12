@@ -18,10 +18,7 @@ using static Zorglub.Time.Extensions.DayOfWeekExtensions2;
 public sealed partial class CivilDateTests : IDateFacts<CivilDate, StandardGregorianDataSet>
 {
     public CivilDateTests()
-        : base(
-              new CtorArgs(
-                  Range.Create(CivilDate.MinYear, CivilDate.MaxYear),
-                  CivilDate.Domain))
+        : base(Range.Create(CivilDate.MinYear, CivilDate.MaxYear), CivilDate.Domain)
     {
         MinDate = CivilDate.MinValue;
         MaxDate = CivilDate.MaxValue;

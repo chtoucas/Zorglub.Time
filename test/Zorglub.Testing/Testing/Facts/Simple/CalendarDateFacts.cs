@@ -30,6 +30,10 @@ public abstract partial class CalendarDateFacts<TDataSet> : SimpleDateFacts<Cale
 
     protected sealed override CalendarDate GetDate(int y, int m, int d) =>
         CalendarUT.GetCalendarDate(y, m, d);
+
+    // IAdvancedMathDataSet
+    public static TheoryData<Yemoda, Yemoda, int> AddYearsData => DataSet.AddYearsData;
+    public static TheoryData<Yemoda, Yemoda, int> AddMonthsData => DataSet.AddMonthsData;
 }
 
 public partial class CalendarDateFacts<TDataSet> // Prelude

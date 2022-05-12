@@ -27,7 +27,20 @@ public abstract partial class IDateFacts<TDate, TDataSet> : IDateableFacts<TDate
         IDayOfWeekDataSet,
         ISingleton<TDataSet>
 {
-    protected IDateFacts(CtorArgs args) : base(args) { }
+    protected IDateFacts(CtorArgs args!!) : this(args.SupportedYears, args.Domain) { }
+
+    protected IDateFacts(Range<int> supportedYears, Range<DayNumber> domain)
+    {
+        Domain = domain;
+
+        SupportedYearsTester = new SupportedYearsTester(supportedYears);
+        DomainTester = new DomainTester(domain);
+    }
+
+    protected Range<DayNumber> Domain { get; }
+
+    protected SupportedYearsTester SupportedYearsTester { get; }
+    protected DomainTester DomainTester { get; }
 
     protected abstract TDate MinDate { get; }
     protected abstract TDate MaxDate { get; }
@@ -37,6 +50,9 @@ public abstract partial class IDateFacts<TDate, TDataSet> : IDateableFacts<TDate
         var (y, m, d) = ymd;
         return GetDate(y, m, d);
     }
+
+    // ICalendarDataSet
+    public static TheoryData<DayNumberInfo> DayNumberInfoData => DataSet.DayNumberInfoData;
 
     // IMathDataSet
     public static TheoryData<Yemoda, Yemoda, int> AddDaysData => DataSet.AddDaysData;
@@ -49,6 +65,12 @@ public abstract partial class IDateFacts<TDate, TDataSet> : IDateableFacts<TDate
     public static TheoryData<Yemoda, Yemoda, DayOfWeek> DayOfWeek_Nearest_Data => DataSet.DayOfWeek_Nearest_Data;
     public static TheoryData<Yemoda, Yemoda, DayOfWeek> DayOfWeek_OnOrAfter_Data => DataSet.DayOfWeek_OnOrAfter_Data;
     public static TheoryData<Yemoda, Yemoda, DayOfWeek> DayOfWeek_After_Data => DataSet.DayOfWeek_After_Data;
+
+    [Pure]
+    protected static CtorArgs CreateCtorArgs(ICalendar calendar!!) =>
+        new(calendar.SupportedYears, calendar.Domain);
+
+    protected sealed record CtorArgs(Range<int> SupportedYears, Range<DayNumber> Domain);
 }
 
 public partial class IDateFacts<TDate, TDataSet> // Prelude
@@ -285,10 +307,10 @@ public partial class IDateFacts<TDate, TDataSet> // Increment / decrement
 
 // Expected algebraic properties.
 // The following properties should be equivalent:
-//   1) d + days = d'
-//   2) d' - days = d
-//   3) d' - d = days
-//   4) d - d' = -days
+//   1) d  + i  = d'
+//   2) d' - i  = d
+//   3) d' - d  = i
+//   4) d  - d' = -i
 // Other properties: 0 is neutral.
 //   5) d + 0 = d
 //   6) d - 0 = d
