@@ -147,7 +147,7 @@ module YearOverflowChecker =
         checker.CheckUpperBound(StandardShortScope.MinYear)
         checker.CheckUpperBound(StandardShortScope.MaxYear)
 
-module Gregorian =
+module GregorianCase =
     let private dataSet = GregorianDataSet.Instance
 
     let validYearData = StandardShortScopeFacts.ValidYearData

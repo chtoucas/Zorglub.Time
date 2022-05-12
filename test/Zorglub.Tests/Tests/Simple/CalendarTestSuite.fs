@@ -16,8 +16,7 @@ type ArmenianTests() =
 
     override __.GetSingleton() = ArmenianCalendar.Instance
     override x.Id() = x.CalendarUT.Id === Cuid.Armenian
-    // We don't test this property here but in CalendarTests.Arithmetic...
-    override __.Math() = ()
+    override x.Math() = x.CalendarUT.Math |> is<Regular12Math>
     override x.Scope() = x.CalendarUT.Scope |> is<Solar12StandardShortScope>
 
 [<Sealed; TestExcludeFrom(TestExcludeFrom.Smoke)>]

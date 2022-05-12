@@ -6,10 +6,7 @@ module Zorglub.Tests.Core.Schemas.SystemSchemaTestSuite
 open System
 
 open Zorglub.Testing
-open Zorglub.Testing.Data
 open Zorglub.Testing.Data.Schemas
-// FIXME(code): we should not use datasets of type ICalendarDataSet (see Pax below).
-open Zorglub.Testing.Data.Unbounded
 open Zorglub.Testing.Facts
 open Zorglub.Testing.Facts.Core
 
@@ -222,57 +219,32 @@ type GregorianTests() =
         let daysInCycle = sch.CountDaysSinceEpoch((c + 1) * 400, 1, 1) - sch.CountDaysSinceEpoch(c * 400, 1, 1)
         GregorianSchema.DaysPer400YearCycle === daysInCycle
 
-module GregorianTests2 =
-    let private dataSet = GregorianDataSet.Instance
-    let private schema = new GregorianSchema()
-
-    let daysInYearAfterMonthData = dataSet.DaysInYearAfterMonthData
-    let daysInYearAfterDateData = dataSet.DaysInYearAfterDateData
-    let daysInMonthAfterDateData = dataSet.DaysInMonthAfterDateData
-
-    // ICalendricalSchemaPlus
-
-    [<Theory; MemberData(nameof(daysInYearAfterMonthData))>]
-    let CountDaysInYearAfterMonth (info: YemoAnd<int>) =
-        let y, m, days = info.Deconstruct()
-        schema.CountDaysInYearAfterMonth(y, m) === days
-
-    [<Theory; MemberData(nameof(daysInYearAfterDateData))>]
-    let CountDaysInYearAfter (info: YemodaAnd<int>) =
-        let y, m, d, days = info.Deconstruct()
-        schema.CountDaysInYearAfter(y, m, d) === days
-
-    [<Theory; MemberData(nameof(daysInMonthAfterDateData))>]
-    let CountDaysInMonthAfter (info: YemodaAnd<int>) =
-        let y, m, d, days = info.Deconstruct()
-        schema.CountDaysInMonthAfter(y, m, d) === days
-
-module HebrewSchemaTests =
-    let private schema = instanceOf<HebrewSchema>()
+module HebrewTests =
+    let private sch = instanceOf<HebrewSchema>()
 
     [<Fact>]
-    let ``Property Algorithm`` () = schema.Algorithm === CalendricalAlgorithm.Arithmetical
+    let ``Property Algorithm`` () = sch.Algorithm === CalendricalAlgorithm.Arithmetical
 
     [<Fact>]
-    let ``Property Family`` () = schema.Family === CalendricalFamily.Lunisolar
+    let ``Property Family`` () = sch.Family === CalendricalFamily.Lunisolar
 
     [<Fact>]
-    let ``Property PeriodicAdjustments`` () = schema.PeriodicAdjustments === CalendricalAdjustments.DaysAndMonths
+    let ``Property PeriodicAdjustments`` () = sch.PeriodicAdjustments === CalendricalAdjustments.DaysAndMonths
 
     [<Fact>]
-    let ``Property Profile`` () = schema.Profile === CalendricalProfile.Lunisolar
+    let ``Property Profile`` () = sch.Profile === CalendricalProfile.Lunisolar
 
     [<Fact>]
-    let ``Property PreValidator`` () = verifyThatPreValidatorIs<LunisolarPreValidator>(schema)
+    let ``Property PreValidator`` () = verifyThatPreValidatorIs<LunisolarPreValidator>(sch)
 
     [<Fact>]
-    let ``Property Arithmetic`` () = verifyThatArithmeticIs<LunisolarArithmetic>(schema)
+    let ``Property Arithmetic`` () = verifyThatArithmeticIs<LunisolarArithmetic>(sch)
 
     [<Fact>]
-    let ``IsRegular()`` () = schema.IsRegular() === (false, 0)
+    let ``IsRegular()`` () = sch.IsRegular() === (false, 0)
 
     [<Fact>]
-    let ``TryGetCustomArithmetic()`` () = verifyThatTryGetCustomArithmeticSucceeds<LunisolarArithmetic>(schema)
+    let ``TryGetCustomArithmetic()`` () = verifyThatTryGetCustomArithmeticSucceeds<LunisolarArithmetic>(sch)
 
 [<Sealed>]
 type InternationalFixedTests() =
@@ -336,43 +308,6 @@ type PaxTests() as self =
 
     [<Fact>]
     member x.FirstDayOfWeek_Prop() = x.SchemaUT.FirstDayOfWeek === DayOfWeek.Sunday
-
-module PaxTests2 =
-    let private calendarDataSet = PaxCalendarDataSet.Instance
-    let private epoch = calendarDataSet.Epoch
-
-    let private schema = schemaOf<PaxSchema>()
-
-    let moreDayNumberInfoData = PaxCalendarDataSet.MoreDayNumberInfoData
-    let moreYearData = PaxDataSet.MoreYearInfoData
-    let moreMonthData = PaxDataSet.MoreMonthInfoData
-    let weekInfoData = PaxDataSet.WeekInfoData
-
-    [<Theory; MemberData(nameof(moreMonthData))>]
-    let IsPaxMonth y m isPaxMonth _ =
-        schema.IsPaxMonth(y, m) === isPaxMonth
-
-    [<Theory; MemberData(nameof(moreMonthData))>]
-    let IsLastMonthOfYear y m _ isLastMonthOfYear =
-        schema.IsLastMonthOfYear(y, m) === isLastMonthOfYear
-
-    [<Theory; MemberData(nameof(weekInfoData))>]
-    let IsIntercalaryWeek y woy isIntercalary =
-        schema.IsIntercalaryWeek(y, woy) === isIntercalary
-
-    [<Theory; MemberData(nameof(moreYearData))>]
-    let CountWeeksInYear y weeksInYear =
-        schema.CountWeeksInYear(y) === weeksInYear
-
-    [<Theory; MemberData(nameof(moreDayNumberInfoData))>]
-    let CountDaysSinceEpoch﹍WeekdateParts dayNumber y woy (dow: DayOfWeek) =
-        let daysSinceEpoch = dayNumber - epoch
-        schema.CountDaysSinceEpoch(y, woy, dow) === daysSinceEpoch
-
-    [<Theory; MemberData(nameof(moreDayNumberInfoData))>]
-    let GetWeekdateParts dayNumber _ _ _ =
-        let daysSinceEpoch = dayNumber - epoch
-        throws<NotImplementedException> (fun () -> schema.GetWeekdateParts(daysSinceEpoch))
 
 [<Sealed>]
 type Persian2820Tests() =
@@ -490,19 +425,6 @@ type Tropicalia3130Tests() =
     override x.Arithmetic_Prop() = x.VerifyThatArithmeticIs<Solar12Arithmetic>()
     override x.IsRegular() = x.SchemaUT.IsRegular() === (true, 12)
     override x.TryGetCustomArithmetic() = x.VerifyThatTryGetCustomArithmeticSucceeds<Solar12Arithmetic>()
-
-module TropicalistaTests =
-    let private dataSet = TropicaliaDataSet.Instance
-
-    let yearInfoData = dataSet.YearInfoData
-
-    [<Theory; MemberData(nameof(yearInfoData))>]
-    let IsLeapYearImpl (x: YearInfo) =
-        TropicalistaSchema.IsLeapYearImpl(x.Year) === x.IsLeap
-
-    let ``IsLeapYearImpl() does not overflow`` () =
-        TropicalistaSchema.IsLeapYearImpl(Int32.MinValue) |> ignore
-        TropicalistaSchema.IsLeapYearImpl(Int32.MaxValue) |> ignore
 
 [<Sealed>]
 type WorldTests() =

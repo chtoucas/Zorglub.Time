@@ -132,7 +132,7 @@ module YearOverflowChecker =
         checker.CheckUpperBound(ProlepticShortScope.MinYear)
         checker.CheckUpperBound(ProlepticShortScope.MaxYear)
 
-module Gregorian =
+module GregorianCase =
     let private dataSet = GregorianDataSet.Instance
 
     let validYearData = ProlepticShortScopeFacts.ValidYearData
