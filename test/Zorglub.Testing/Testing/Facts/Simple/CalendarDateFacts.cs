@@ -82,6 +82,64 @@ public partial class CalendarDateFacts<TDataSet> // Prelude
     }
 }
 
+public partial class CalendarDateFacts<TDataSet> // Calendar mismatch
+{
+    [Fact]
+    public void Equality_OtherCalendar()
+    {
+        var date = CalendarUT.GetCalendarDate(1, 1, 1);
+        var other = OtherCalendar.GetCalendarDate(1, 1, 1);
+        // Act & Assert
+        Assert.False(date == other);
+        Assert.True(date != other);
+
+        Assert.False(date.Equals(other));
+        Assert.False(date.Equals((object)other));
+    }
+
+    [Fact]
+    public void Comparison_OtherCalendar()
+    {
+        var date = CalendarUT.GetCalendarDate(1, 1, 1);
+        var other = OtherCalendar.GetCalendarDate(1, 1, 1);
+        // Act & Assert
+        Assert.Throws<ArgumentException>("other", () => date > other);
+        Assert.Throws<ArgumentException>("other", () => date >= other);
+        Assert.Throws<ArgumentException>("other", () => date < other);
+        Assert.Throws<ArgumentException>("other", () => date <= other);
+
+        Assert.Throws<ArgumentException>("other", () => date.CompareTo(other));
+    }
+
+    [Fact]
+    public void CountDaysSince_OtherCalendar()
+    {
+        var date = CalendarUT.GetCalendarDate(1, 1, 1);
+        var other = OtherCalendar.GetCalendarDate(1, 1, 1);
+        // Act & Assert
+        Assert.Throws<ArgumentException>("other", () => date.CountDaysSince(other));
+        Assert.Throws<ArgumentException>("other", () => date - other);
+    }
+
+    [Fact]
+    public void CountMonthsSince_OtherCalendar()
+    {
+        var date = CalendarUT.GetCalendarDate(1, 1, 1);
+        var other = OtherCalendar.GetCalendarDate(1, 1, 1);
+        // Act & Assert
+        Assert.Throws<ArgumentException>("other", () => date.CountMonthsSince(other));
+    }
+
+    [Fact]
+    public void CountYearsSince_OtherCalendar()
+    {
+        var date = CalendarUT.GetCalendarDate(1, 1, 1);
+        var other = OtherCalendar.GetCalendarDate(1, 1, 1);
+        // Act & Assert
+        Assert.Throws<ArgumentException>("other", () => date.CountYearsSince(other));
+    }
+}
+
 public partial class CalendarDateFacts<TDataSet> // Conversions
 {
     [Theory, MemberData(nameof(DayNumberInfoData))]
@@ -124,16 +182,6 @@ public partial class CalendarDateFacts<TDataSet> // Conversions
 
 public partial class CalendarDateFacts<TDataSet> // Math ops
 {
-    [Fact]
-    public void CountDaysSince_InvalidDate()
-    {
-        var date = CalendarUT.GetCalendarDate(1, 1, 1);
-        var other = OtherCalendar.GetCalendarDate(1, 1, 1);
-        // Act & Assert
-        Assert.Throws<ArgumentException>("other", () => date.CountDaysSince(other));
-        Assert.Throws<ArgumentException>("other", () => date - other);
-    }
-
     [Theory, MemberData(nameof(AddMonthsData))]
     public void PlusMonths(Yemoda xstart, Yemoda xend, int months)
     {
@@ -141,15 +189,6 @@ public partial class CalendarDateFacts<TDataSet> // Math ops
         var end = new CalendarDate(xend, CalendarUT.Id);
         // Act & Assert
         Assert.Equal(end, start.PlusMonths(months));
-    }
-
-    [Fact]
-    public void CountMonthsSince_InvalidDate()
-    {
-        var date = CalendarUT.GetCalendarDate(1, 1, 1);
-        var other = OtherCalendar.GetCalendarDate(1, 1, 1);
-        // Act & Assert
-        Assert.Throws<ArgumentException>("other", () => date.CountMonthsSince(other));
     }
 
     [Theory, MemberData(nameof(AddMonthsData))]
@@ -170,15 +209,6 @@ public partial class CalendarDateFacts<TDataSet> // Math ops
         Assert.Equal(end, start.PlusYears(years));
     }
 
-    [Fact]
-    public void CountYearsSince_InvalidDate()
-    {
-        var date = CalendarUT.GetCalendarDate(1, 1, 1);
-        var other = OtherCalendar.GetCalendarDate(1, 1, 1);
-        // Act & Assert
-        Assert.Throws<ArgumentException>("other", () => date.CountYearsSince(other));
-    }
-
     [Theory, MemberData(nameof(AddYearsData))]
     public void CountYearsSince(Yemoda xstart, Yemoda xend, int years)
     {
@@ -186,38 +216,5 @@ public partial class CalendarDateFacts<TDataSet> // Math ops
         var end = new CalendarDate(xend, CalendarUT.Id);
         // Act & Assert
         Assert.Equal(years, end.CountYearsSince(start));
-    }
-}
-
-public partial class CalendarDateFacts<TDataSet> // IEquatable
-{
-    [Fact]
-    public void Equality_OtherCalendar()
-    {
-        var date = CalendarUT.GetCalendarDate(1, 1, 1);
-        var other = OtherCalendar.GetCalendarDate(1, 1, 1);
-        // Act & Assert
-        Assert.False(date == other);
-        Assert.True(date != other);
-
-        Assert.False(date.Equals(other));
-        Assert.False(date.Equals((object)other));
-    }
-}
-
-public partial class CalendarDateFacts<TDataSet> // IComparable
-{
-    [Fact]
-    public void Comparison_OtherCalendar()
-    {
-        var date = CalendarUT.GetCalendarDate(1, 1, 1);
-        var other = OtherCalendar.GetCalendarDate(1, 1, 1);
-        // Act & Assert
-        Assert.Throws<ArgumentException>("other", () => date > other);
-        Assert.Throws<ArgumentException>("other", () => date >= other);
-        Assert.Throws<ArgumentException>("other", () => date < other);
-        Assert.Throws<ArgumentException>("other", () => date <= other);
-
-        Assert.Throws<ArgumentException>("other", () => date.CompareTo(other));
     }
 }

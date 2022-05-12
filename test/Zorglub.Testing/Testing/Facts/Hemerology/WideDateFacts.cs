@@ -43,7 +43,7 @@ public abstract partial class WideDateFacts<TDataSet> : IDateFacts<WideDate, TDa
     protected sealed override WideDate GetDate(int y, int m, int d) => CalendarUT.GetWideDate(y, m, d);
 }
 
-public partial class WideDateFacts<TDataSet>
+public partial class WideDateFacts<TDataSet> // Prelude
 {
     [Theory, MemberData(nameof(DateInfoData))]
     public void Deconstruct(DateInfo info)
@@ -57,10 +57,11 @@ public partial class WideDateFacts<TDataSet>
         Assert.Equal(m, month);
         Assert.Equal(d, day);
     }
-}
 
-public partial class WideDateFacts<TDataSet> // Properties
-{
+    //
+    // Properties
+    //
+
     [Theory, MemberData(nameof(DateInfoData))]
     public void Calendar_Prop(DateInfo info)
     {
@@ -73,34 +74,10 @@ public partial class WideDateFacts<TDataSet> // Properties
     }
 }
 
-public partial class WideDateFacts<TDataSet> // Conversions
-{
-    [Fact]
-    public void WithCalendar_NullCalendar()
-    {
-        var date = CalendarUT.GetWideDate(3, 4, 5);
-        // Act & Assert
-        Assert.ThrowsAnexn("newCalendar", () => date.WithCalendar(null!));
-    }
-}
-
 public partial class WideDateFacts<TDataSet> // Math ops
 {
     [Fact]
-    public void CountDaysSince_InvalidDate()
-    {
-        var date = CalendarUT.GetWideDate(3, 4, 5);
-        var other = OtherCalendar.GetWideDate(3, 4, 5);
-        // Act & Assert
-        Assert.Throws<ArgumentException>("other", () => date.CountDaysSince(other));
-        Assert.Throws<ArgumentException>("other", () => date - other);
-    }
-}
-
-public partial class WideDateFacts<TDataSet> // IEquatable
-{
-    [Fact]
-    public void Equals_OtherCalendar()
+    public void Equality_OtherCalendar()
     {
         var date = CalendarUT.GetWideDate(3, 4, 5);
         var other = OtherCalendar.GetWideDate(3, 4, 5);
@@ -111,12 +88,9 @@ public partial class WideDateFacts<TDataSet> // IEquatable
         Assert.False(date.Equals(other));
         Assert.False(date.Equals((object)other));
     }
-}
 
-public partial class WideDateFacts<TDataSet> // IComparable
-{
     [Fact]
-    public void CompareTo_InvalidCalendar()
+    public void Comparison_OtherCalendar()
     {
         var date = CalendarUT.GetWideDate(3, 4, 5);
         var other = OtherCalendar.GetWideDate(3, 4, 5);
@@ -127,5 +101,26 @@ public partial class WideDateFacts<TDataSet> // IComparable
         Assert.Throws<ArgumentException>("other", () => date <= other);
 
         Assert.Throws<ArgumentException>("other", () => date.CompareTo(other));
+    }
+
+    [Fact]
+    public void CountDaysSince_OtherCalendar()
+    {
+        var date = CalendarUT.GetWideDate(3, 4, 5);
+        var other = OtherCalendar.GetWideDate(3, 4, 5);
+        // Act & Assert
+        Assert.Throws<ArgumentException>("other", () => date.CountDaysSince(other));
+        Assert.Throws<ArgumentException>("other", () => date - other);
+    }
+}
+
+public partial class WideDateFacts<TDataSet> // Conversions
+{
+    [Fact]
+    public void WithCalendar_NullCalendar()
+    {
+        var date = CalendarUT.GetWideDate(3, 4, 5);
+        // Act & Assert
+        Assert.ThrowsAnexn("newCalendar", () => date.WithCalendar(null!));
     }
 }

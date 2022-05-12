@@ -95,6 +95,55 @@ public partial class OrdinalDateFacts<TDataSet> // Prelude
     }
 }
 
+public partial class OrdinalDateFacts<TDataSet> // Calendar mismatch
+{
+    [Fact]
+    public void Equality_OtherCalendar()
+    {
+        var date = CalendarUT.GetOrdinalDate(1, 1);
+        var other = OtherCalendar.GetOrdinalDate(1, 1);
+        // Act & Assert
+        Assert.False(date == other);
+        Assert.True(date != other);
+
+        Assert.False(date.Equals(other));
+        Assert.False(date.Equals((object)other));
+    }
+
+    [Fact]
+    public void Comparison_OtherCalendar()
+    {
+        var date = CalendarUT.GetOrdinalDate(1, 1);
+        var other = OtherCalendar.GetOrdinalDate(1, 1);
+        // Act & Assert
+        Assert.Throws<ArgumentException>("other", () => date > other);
+        Assert.Throws<ArgumentException>("other", () => date >= other);
+        Assert.Throws<ArgumentException>("other", () => date < other);
+        Assert.Throws<ArgumentException>("other", () => date <= other);
+
+        Assert.Throws<ArgumentException>("other", () => date.CompareTo(other));
+    }
+
+    [Fact]
+    public void CountDaysSince_OtherCalendar()
+    {
+        var date = CalendarUT.GetOrdinalDate(1, 1);
+        var other = OtherCalendar.GetOrdinalDate(1, 1);
+        // Act & Assert
+        Assert.Throws<ArgumentException>("other", () => date.CountDaysSince(other));
+        Assert.Throws<ArgumentException>("other", () => date - other);
+    }
+
+    [Fact]
+    public void CountYearsSince_OtherCalendar()
+    {
+        var date = CalendarUT.GetOrdinalDate(1, 1);
+        var other = OtherCalendar.GetOrdinalDate(1, 1);
+        // Act & Assert
+        Assert.Throws<ArgumentException>("other", () => date.CountYearsSince(other));
+    }
+}
+
 public partial class OrdinalDateFacts<TDataSet> // Conversions
 {
     [Theory, MemberData(nameof(DayNumberInfoData))]
@@ -164,60 +213,5 @@ public partial class OrdinalDateFacts<TDataSet> // Adjustments
             // Act & Assert
             Assert.Equal(exp, date.WithYear(y));
         }
-    }
-}
-
-public partial class OrdinalDateFacts<TDataSet> // Math ops
-{
-    [Fact]
-    public void CountDaysSince_InvalidDate()
-    {
-        var date = CalendarUT.GetOrdinalDate(1, 1);
-        var other = OtherCalendar.GetOrdinalDate(1, 1);
-        // Act & Assert
-        Assert.Throws<ArgumentException>("other", () => date.CountDaysSince(other));
-        Assert.Throws<ArgumentException>("other", () => date - other);
-    }
-
-    [Fact]
-    public void CountYearsSince_InvalidDate()
-    {
-        var date = CalendarUT.GetOrdinalDate(1, 1);
-        var other = OtherCalendar.GetOrdinalDate(1, 1);
-        // Act & Assert
-        Assert.Throws<ArgumentException>("other", () => date.CountYearsSince(other));
-    }
-}
-
-public partial class OrdinalDateFacts<TDataSet> // IEquatable
-{
-    [Fact]
-    public void Equality_OtherCalendar()
-    {
-        var date = CalendarUT.GetOrdinalDate(1, 1);
-        var other = OtherCalendar.GetOrdinalDate(1, 1);
-        // Act & Assert
-        Assert.False(date == other);
-        Assert.True(date != other);
-
-        Assert.False(date.Equals(other));
-        Assert.False(date.Equals((object)other));
-    }
-}
-
-public partial class OrdinalDateFacts<TDataSet> // IComparable
-{
-    [Fact]
-    public void Comparison_OtherCalendar()
-    {
-        var date = CalendarUT.GetOrdinalDate(1, 1);
-        var other = OtherCalendar.GetOrdinalDate(1, 1);
-        // Act & Assert
-        Assert.Throws<ArgumentException>("other", () => date > other);
-        Assert.Throws<ArgumentException>("other", () => date >= other);
-        Assert.Throws<ArgumentException>("other", () => date < other);
-        Assert.Throws<ArgumentException>("other", () => date <= other);
-
-        Assert.Throws<ArgumentException>("other", () => date.CompareTo(other));
     }
 }

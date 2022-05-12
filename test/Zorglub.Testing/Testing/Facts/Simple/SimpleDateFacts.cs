@@ -21,6 +21,7 @@ public abstract class SimpleDateFacts<TDate, TDataSet> : IDateFacts<TDate, TData
     where TDataSet :
         ICalendarDataSet,
         IDaysAfterDataSet,
+        // TODO(code): only requires IMathDataSet.
         IAdvancedMathDataSet,
         IDayOfWeekDataSet,
         ISingleton<TDataSet>
