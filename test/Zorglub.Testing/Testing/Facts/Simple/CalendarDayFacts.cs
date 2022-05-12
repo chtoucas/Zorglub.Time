@@ -173,7 +173,7 @@ public partial class CalendarDayFacts<TDataSet> // Conversions
     public void WithCalendar(DayNumberInfo info)
     {
         var dayNumber = info.DayNumber;
-        if (!OtherCalendar.Domain.Contains(dayNumber)) { return; }
+        if (OtherCalendar.Domain.Contains(dayNumber) == false) { return; }
         var date = CalendarUT.GetCalendarDay(dayNumber);
         var other = OtherCalendar.GetCalendarDay(dayNumber);
         // Act & Assert

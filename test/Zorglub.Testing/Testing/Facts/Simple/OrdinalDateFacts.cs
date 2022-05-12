@@ -196,7 +196,7 @@ public partial class OrdinalDateFacts<TDataSet> // Conversions
     public void WithCalendar(DayNumberInfo info)
     {
         var dayNumber = info.DayNumber;
-        if (!OtherCalendar.Domain.Contains(dayNumber)) { return; }
+        if (OtherCalendar.Domain.Contains(dayNumber) == false) { return; }
         var date = CalendarUT.GetOrdinalDateOn(dayNumber);
         var other = OtherCalendar.GetOrdinalDateOn(dayNumber);
         // Act & Assert
