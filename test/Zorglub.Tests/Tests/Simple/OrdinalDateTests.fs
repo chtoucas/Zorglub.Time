@@ -15,9 +15,6 @@ open Zorglub.Time.Simple
 open Xunit
 
 module GregorianCase =
-    let private gchr = GregorianCalendar.Instance
-    let private supportedYearsTester = new SupportedYearsTester(gchr.SupportedYears)
-
     let private dataSet = ProlepticGregorianDataSet.Instance
 
     let dateInfoData = dataSet.DateInfoData
@@ -25,6 +22,9 @@ module GregorianCase =
 
     [<Fact>]
     let ``Constructor throws when "year" is out of range`` () =
+        let chr = GregorianCalendar.Instance
+        let supportedYearsTester = new SupportedYearsTester(chr.SupportedYears)
+
         supportedYearsTester.TestInvalidYear(fun y -> new OrdinalDate(y, 1))
 
     [<Theory; MemberData(nameof(invalidDayOfYearFieldData))>]
@@ -40,7 +40,7 @@ module GregorianCase =
         date.Month     === m
         date.DayOfYear === doy
         date.Day       === d
-        date.Calendar  ==& gchr
+        date.Calendar  ==& GregorianCalendar.Instance
 
     [<Theory>]
     [<InlineData(-1, 1, "001/-0001 (Gregorian)")>]
@@ -52,7 +52,7 @@ module GregorianCase =
     [<InlineData(2019, 3, "003/2019 (Gregorian)")>]
     [<InlineData(9999, 365, "365/9999 (Gregorian)")>]
     let ``ToString()`` y doy str =
-        let date = gchr.GetOrdinalDate(y, doy)
+        let date = GregorianCalendar.Instance.GetOrdinalDate(y, doy)
 
         date.ToString() === str
 
@@ -73,8 +73,6 @@ module GregorianCase =
         today.Day   === now.Day
 
 module JulianCase =
-    let private jchr = JulianCalendar.Instance
-
     let private dataSet = ProlepticJulianDataSet.Instance
 
     let dateInfoData = dataSet.DateInfoData
@@ -82,27 +80,24 @@ module JulianCase =
     [<Theory; MemberData(nameof(dateInfoData))>]
     let ``Roundtrip serialization`` (info: DateInfo) =
         let y, doy = info.Yedoy.Deconstruct()
-        let date = jchr.GetOrdinalDate(y, doy)
+        let date = JulianCalendar.Instance.GetOrdinalDate(y, doy)
 
         OrdinalDate.FromBinary(date.ToBinary()) === date
 
 module Conversions =
-    let private gchr = GregorianCalendar.Instance
-    let private jchr = JulianCalendar.Instance
-
     let data = CalCalDataSet.GregorianJulianData
 
-    let ``WithCalendar() throws when the date is out of range`` () =
+    let ``WithCalendar() throws when the result is out of range`` () =
+        let chr = JulianCalendar.Instance
         // Julian.MinDayNumber < Gregorian.MinDayNumber.
-        let minDayNumber = jchr.Domain.Min
-        let date = jchr.GetCalendarDateOn(minDayNumber).ToOrdinalDate()
+        let date = chr.GetOrdinalDateOn(chr.Domain.Min)
 
-        outOfRangeExn "dayNumber" (fun () -> date.WithCalendar(gchr))
+        outOfRangeExn "dayNumber" (fun () -> date.WithCalendar(GregorianCalendar.Instance))
 
     [<Theory; MemberData(nameof(data))>]
     let ``WithCalendar() Gregorian <-> Julian`` (g: Yemoda) (j: Yemoda) =
-        let gdate = gchr.GetCalendarDate(g.Year, g.Month, g.Day).ToOrdinalDate()
-        let jdate = jchr.GetCalendarDate(j.Year, j.Month, j.Day).ToOrdinalDate()
+        let gdate = GregorianCalendar.Instance.GetCalendarDate(g.Year, g.Month, g.Day).ToOrdinalDate()
+        let jdate = JulianCalendar.Instance.GetCalendarDate(j.Year, j.Month, j.Day).ToOrdinalDate()
 
-        gdate.WithCalendar(jchr) === jdate
-        jdate.WithCalendar(gchr) === gdate
+        gdate.WithCalendar(JulianCalendar.Instance)    === jdate
+        jdate.WithCalendar(GregorianCalendar.Instance) === gdate

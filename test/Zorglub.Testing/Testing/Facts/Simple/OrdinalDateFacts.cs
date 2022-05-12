@@ -182,6 +182,27 @@ public partial class OrdinalDateFacts<TDataSet> // Conversions
         // Act & Assert
         Assert.ThrowsAnexn("newCalendar", () => date.WithCalendar(null!));
     }
+
+    [Theory, MemberData(nameof(DayNumberInfoData))]
+    public void WithCalendar_Invariant(DayNumberInfo info)
+    {
+        var dayNumber = info.DayNumber;
+        var date = CalendarUT.GetOrdinalDateOn(dayNumber);
+        // Act & Assert
+        Assert.Equal(date, date.WithCalendar(CalendarUT));
+    }
+
+    [Theory, MemberData(nameof(DayNumberInfoData))]
+    public void WithCalendar(DayNumberInfo info)
+    {
+        var dayNumber = info.DayNumber;
+        if (!OtherCalendar.Domain.Contains(dayNumber)) { return; }
+        var date = CalendarUT.GetOrdinalDateOn(dayNumber);
+        var other = OtherCalendar.GetOrdinalDateOn(dayNumber);
+        // Act & Assert
+        Assert.Equal(other, date.WithCalendar(OtherCalendar));
+        Assert.Equal(date, other.WithCalendar(CalendarUT));
+    }
 }
 
 public partial class OrdinalDateFacts<TDataSet> // Adjustments
