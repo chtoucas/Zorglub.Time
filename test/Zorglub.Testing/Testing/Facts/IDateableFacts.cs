@@ -99,24 +99,34 @@ public partial class IDateableFacts<TDate, TDataSet> // Prelude
 
 public partial class IDateableFacts<TDate, TDataSet> // Counting
 {
-    [Theory, MemberData(nameof(MonthInfoData))]
-    public void CountElapsedDaysInYear(MonthInfo info)
+    // TODO(fact): enable or remove.
+    //[Theory, MemberData(nameof(MonthInfoData))]
+    //public void CountElapsedDaysInYear(MonthInfo info)
+    //{
+    //    var (y, m) = info.Yemo;
+    //    int daysInYearBeforeMonth = info.DaysInYearBeforeMonth;
+    //    // Act
+    //    var date1 = GetDate(y, m, 1);
+    //    var date2 = GetDate(y, m, 2);
+    //    var date3 = GetDate(y, m, 3);
+    //    var date4 = GetDate(y, m, 4);
+    //    var date5 = GetDate(y, m, 5);
+    //    // We can't go further because of the schemas w/ a virtual thirteen month.
+    //    // Assert
+    //    Assert.Equal(daysInYearBeforeMonth, date1.CountElapsedDaysInYear());
+    //    Assert.Equal(daysInYearBeforeMonth + 1, date2.CountElapsedDaysInYear());
+    //    Assert.Equal(daysInYearBeforeMonth + 2, date3.CountElapsedDaysInYear());
+    //    Assert.Equal(daysInYearBeforeMonth + 3, date4.CountElapsedDaysInYear());
+    //    Assert.Equal(daysInYearBeforeMonth + 4, date5.CountElapsedDaysInYear());
+    //}
+
+    [Theory, MemberData(nameof(DateInfoData))]
+    public void CountElapsedDaysInYear(DateInfo info)
     {
-        var (y, m) = info.Yemo;
-        int daysInYearBeforeMonth = info.DaysInYearBeforeMonth;
-        // Act
-        var date1 = GetDate(y, m, 1);
-        var date2 = GetDate(y, m, 2);
-        var date3 = GetDate(y, m, 3);
-        var date4 = GetDate(y, m, 4);
-        var date5 = GetDate(y, m, 5);
-        // We can't go further because of the schemas w/ a virtual thirteen month.
-        // Assert
-        Assert.Equal(daysInYearBeforeMonth, date1.CountElapsedDaysInYear());
-        Assert.Equal(daysInYearBeforeMonth + 1, date2.CountElapsedDaysInYear());
-        Assert.Equal(daysInYearBeforeMonth + 2, date3.CountElapsedDaysInYear());
-        Assert.Equal(daysInYearBeforeMonth + 3, date4.CountElapsedDaysInYear());
-        Assert.Equal(daysInYearBeforeMonth + 4, date5.CountElapsedDaysInYear());
+        var (y, m, d, doy) = info;
+        var date = GetDate(y, m, d);
+        // Act & Assert
+        Assert.Equal(doy - 1, date.CountElapsedDaysInYear());
     }
 
     [Theory, MemberData(nameof(DaysInYearAfterDateData))]
