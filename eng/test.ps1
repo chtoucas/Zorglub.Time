@@ -72,7 +72,7 @@ try {
     $args = @("-c:$configuration")
 
     if ($NoBuild)  { $args += "--no-build" }
-    if (-not $All) { $args += "--filter:Performance!~Slow" }
+    if (-not $All) { $args += "--filter:Performance!=Slow" }
 
     & dotnet test $project $args `
         || die 'Failed to test the project.'
