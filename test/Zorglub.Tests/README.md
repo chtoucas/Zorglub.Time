@@ -228,6 +228,9 @@ unnatural and kind of obscure.
 No protected member.
 https://stackoverflow.com/questions/2390515/why-isnt-there-a-protected-access-modifier-in-f
 
+Init-only properties
+https://github.com/fsharp/fslang-suggestions/issues/904
+
 ### Structural Equality
 `NonStructuralComparison`
 Caveats: it's supports primitive types, it does not work for enums like e.g.
