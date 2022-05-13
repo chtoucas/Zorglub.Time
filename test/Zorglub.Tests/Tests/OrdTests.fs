@@ -482,5 +482,3 @@ module Math =
         let neg = Ord.FromRank(x.Value)
 
         ord.Negate() = neg
-
-

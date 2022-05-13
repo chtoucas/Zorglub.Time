@@ -27,14 +27,16 @@ internal static class XunitTrait
 // the name contains the string "Slow" to filter out the slow tests.
 public enum TestPerformance
 {
+    // Usually applied to a single test, or to a test class, that is a set of
+    // tests that run together are quite slow.
     Slow,
+    // Usually applied to single tests that take more than 1s to run.
     VerySlow
 }
 
 public enum TestExcludeFrom
 {
-    // We mostly use the trait "Smoke" to exclude all members of a test suite
-    // but the first one.
+    // We mostly use this trait to exclude all members of a test suite but the first one.
     Smoke,
     CodeCoverage
 }
@@ -58,6 +60,8 @@ public sealed class TestExcludeFromAttribute : Attribute, ITraitAttribute
 }
 
 #region Discovers
+
+// FIXME(code): the trait discoverers do not inspect the base classes.
 
 public class PerformanceTraitDiscoverer : ITraitDiscoverer
 {
