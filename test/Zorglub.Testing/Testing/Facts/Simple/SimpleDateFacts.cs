@@ -8,6 +8,7 @@ using Zorglub.Time.Hemerology;
 using Zorglub.Time.Simple;
 
 // REVIEW(fact): ISimpleDate is internal, create and use a SimpleDateProxy?
+// FIXME(fact): skip erialization if CalendarUT is not a system calendar.
 
 /// <summary>
 /// Provides facts about <see cref="ISimpleDate{TSelf}"/>.
@@ -20,7 +21,8 @@ public abstract partial class SimpleDateFacts<TDate, TDataSet> : IDateQuickFacts
     protected SimpleDateFacts(Calendar calendar!!, Calendar otherCalendar!!)
         : base(calendar.SupportedYears, calendar.Domain)
     {
-        if (otherCalendar == calendar)
+        // NB: calendars of type Calendar are singletons.
+        if (ReferenceEquals(otherCalendar, calendar))
         {
             throw new ArgumentException(
                 "\"otherCalendar\" MUST NOT be equal to \"calendar\"", nameof(otherCalendar));
@@ -36,8 +38,6 @@ public abstract partial class SimpleDateFacts<TDate, TDataSet> : IDateQuickFacts
 
 public partial class SimpleDateFacts<TDate, TDataSet> // Serialization
 {
-    // FIXME(code): skip if CalendarUT is not a system calendar.
-
     [Theory, MemberData(nameof(DateInfoData))]
     public void Serialization_Roundtrip1(DateInfo info)
     {

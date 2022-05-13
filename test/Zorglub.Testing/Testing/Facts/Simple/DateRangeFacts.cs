@@ -15,7 +15,8 @@ public abstract partial class DateRangeFacts<TDataSet> : IDateRangeFacts<Calenda
 {
     protected DateRangeFacts(Calendar calendar!!, Calendar otherCalendar!!)
     {
-        if (otherCalendar == calendar)
+        // NB: calendars of type Calendar are singletons.
+        if (ReferenceEquals(otherCalendar, calendar))
         {
             throw new ArgumentException(
                 "\"otherCalendar\" must not be equal to \"calendar\"", nameof(otherCalendar));

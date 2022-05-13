@@ -15,7 +15,8 @@ public abstract partial class WideDateFacts<TDataSet> : IDateQuickFacts<WideDate
     protected WideDateFacts(WideCalendar calendar!!, WideCalendar otherCalendar!!)
         : base(calendar.SupportedYears, calendar.Domain)
     {
-        if (otherCalendar == calendar)
+        // NB: calendars of type WideCalendar are singletons.
+        if (ReferenceEquals(otherCalendar, calendar))
         {
             throw new ArgumentException(
                 "\"otherCalendar\" MUST NOT be equal to \"calendar\"", nameof(otherCalendar));
