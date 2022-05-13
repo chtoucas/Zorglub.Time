@@ -110,17 +110,22 @@ Profiles:
     ExcludeFrom!=Smoke&Performance!~Slow
     We exclude:
     - Postludes (very slow)
-    - ArchetypalSchemaFacts test suite (slow AND no smoke)
+    - ArchetypalSchemaTestSuite (slow AND no smoke)
+    - PrototypalSchemaTestSuite (slow AND no smoke)
     - Test suites, we only keep one test class (no smoke)
 - Test
-    Performance!=Slow
+    Performance!=Slow&Redundant!=true
     We exclude:
-    - ArchetypalSchemaFacts (slow)
+    - ArchetypalSchemaTestSuite (slow)
+    - PrototypalSchemaTestSuite (slow)
+    - Redundant tests
 - Code Coverage
-    ExcludeFrom!=CodeCoverage
+    ExcludeFrom!=CodeCoverage&Redundant!=true
     We exclude:
-    - ArchetypalSchemaFacts (no code coverage)
+    - ArchetypalSchemaTestSuite (no code coverage)
+    - PrototypalSchemaTestSuite (no code coverage)
     - Postludes (no code coverage)
+    - Redundant tests
 
 ### Typical Layout of a Test Module
 

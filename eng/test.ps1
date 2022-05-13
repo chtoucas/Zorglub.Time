@@ -65,14 +65,13 @@ if ($Help) { Print-Help ; exit }
 try {
     pushd $ROOT_DIR
 
-    say "Testing..." -ForegroundColor Yellow
-
     $project = $Solution ? "" : $TEST_PROJECT
 
     $args = @("-c:$configuration")
 
-    if ($NoBuild)  { $args += "--no-build" }
-    if (-not $All) { $args += "--filter:Performance!=Slow" }
+    $args += "--no-build"
+    #if ($NoBuild)  { $args += "--no-build" }
+    if (-not $All) { $args += "--filter:Performance!=Slow&Redundant!=true" }
 
     & dotnet test $project $args `
         || die 'Failed to test the project.'

@@ -121,7 +121,7 @@ function Invoke-Coverlet {
     Write-Host "`nTesting ""$projectName""..." -ForegroundColor Yellow
     & dotnet test $project $args $test_args `
         --no-build `
-        --filter "ExcludeFrom!=CodeCoverage" `
+        --filter "ExcludeFrom!=CodeCoverage&Redundant!=true" `
         /p:CollectCoverage=true `
         /p:CoverletOutputFormat=$format `
         /p:CoverletOutput=$output `
