@@ -10,7 +10,7 @@ using Zorglub.Time.Core.Intervals;
 /// Provides facts about <see cref="ArchetypalSchema"/>.
 /// </summary>
 [TestPerformance(TestPerformance.Slow)]
-// REVIEW(fact): temporary trait, slow and ArchetypalSchema is not part of the main assembly.
+// REVIEW(fact): temporary trait, too slow and ArchetypalSchema is not part of the main assembly.
 [TestExcludeFrom(TestExcludeFrom.CodeCoverage)]
 public abstract class ArchetypalSchemaFacts<TDataSet> :
     ICalendricalSchemaPlusFacts<ArchetypalSchema, TDataSet>
