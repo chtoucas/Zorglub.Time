@@ -9,6 +9,8 @@ using Zorglub.Time.Core.Intervals;
 /// <summary>
 /// Provides facts about <see cref="ArchetypalSchema"/>.
 /// </summary>
+// NB: the trait do not really work right now. We have to copy them to the
+// derived classes otherwise they are ignored. It's a problem with the discoverers.
 [TestPerformance(TestPerformance.Slow)]
 // REVIEW(fact): temporary trait, too slow and ArchetypalSchema is not part of the main assembly.
 [TestExcludeFrom(TestExcludeFrom.CodeCoverage)]
