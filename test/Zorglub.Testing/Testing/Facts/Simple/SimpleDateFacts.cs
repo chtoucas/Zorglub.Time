@@ -7,13 +7,13 @@ using Zorglub.Testing.Data;
 using Zorglub.Time.Hemerology;
 using Zorglub.Time.Simple;
 
-// REVIEW(fact): ISimpleDate is internal, create and use a SimpleDateProxy?
-// FIXME(fact): skip erialization if CalendarUT is not a system calendar.
+// TODO(fact): skip serialization if CalendarUT is not a system calendar.
+// ISimpleDate is internal, create and use a SimpleDateProxy?
 
 /// <summary>
 /// Provides facts about <see cref="ISimpleDate{TSelf}"/>.
 /// </summary>
-public abstract partial class SimpleDateFacts<TDate, TDataSet> : IDateQuickFacts<TDate, TDataSet>
+public abstract partial class SimpleDateFacts<TDate, TDataSet> : IDateFacts<TDate, TDataSet>
     // ISimpleDate being internal, we cannot use in a type constraint.
     where TDate : struct, IDate<TDate>, ISerializable<TDate, int>
     where TDataSet : ICalendarDataSet, ISingleton<TDataSet>

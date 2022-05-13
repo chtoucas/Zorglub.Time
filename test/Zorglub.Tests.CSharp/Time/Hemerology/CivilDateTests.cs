@@ -15,7 +15,7 @@ using static Zorglub.Time.Extensions.DayOfWeekExtensions2;
 
 // NB: We use StandardGregorianDataSet which has the same limits as CivilDate.
 
-public sealed partial class CivilDateTests : IDateFacts<CivilDate, StandardGregorianDataSet>
+public sealed partial class CivilDateTests : IDateMoreFacts<CivilDate, StandardGregorianDataSet>
 {
     public CivilDateTests()
         : base(Range.Create(CivilDate.MinYear, CivilDate.MaxYear), CivilDate.Domain)
