@@ -52,10 +52,6 @@ public partial class WideDateFacts<TDataSet> // Prelude
         Assert.Equal(d, day);
     }
 
-    //
-    // Properties
-    //
-
     [Theory, MemberData(nameof(DateInfoData))]
     public void Calendar_Prop(DateInfo info)
     {

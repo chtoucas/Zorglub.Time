@@ -15,7 +15,7 @@ using static Zorglub.Time.Extensions.DayOfWeekExtensions2;
 
 // NB: We use StandardGregorianDataSet which has the same limits as CivilDate.
 
-public sealed partial class CivilDateTests : IDateMoreFacts<CivilDate, StandardGregorianDataSet>
+public sealed partial class CivilDateTests : IDateFacts<CivilDate, StandardGregorianDataSet>
 {
     public CivilDateTests()
         : base(Range.Create(CivilDate.MinYear, CivilDate.MaxYear), CivilDate.Domain)
@@ -44,6 +44,14 @@ public sealed partial class CivilDateTests : IDateMoreFacts<CivilDate, StandardG
     public static TheoryData<Yemoda, Yemoda, int> AddYearsCutOffData => GregorianDataSet.AddYearsCutOffData;
     public static TheoryData<Yemoda, Yemoda, int> AddMonthsCutOffData => GregorianDataSet.AddMonthsCutOffData;
     public static TheoryData<Yemoda, Yemoda, int, int, int> DiffCutOffData => GregorianDataSet.DiffCutOffData;
+
+    // IDayOfWeekDataSet
+    public static TheoryData<YemodaAnd<DayOfWeek>> DayOfWeekData => DataSet.DayOfWeekData;
+    public static TheoryData<Yemoda, Yemoda, DayOfWeek> DayOfWeek_Before_Data => DataSet.DayOfWeek_Before_Data;
+    public static TheoryData<Yemoda, Yemoda, DayOfWeek> DayOfWeek_OnOrBefore_Data => DataSet.DayOfWeek_OnOrBefore_Data;
+    public static TheoryData<Yemoda, Yemoda, DayOfWeek> DayOfWeek_Nearest_Data => DataSet.DayOfWeek_Nearest_Data;
+    public static TheoryData<Yemoda, Yemoda, DayOfWeek> DayOfWeek_OnOrAfter_Data => DataSet.DayOfWeek_OnOrAfter_Data;
+    public static TheoryData<Yemoda, Yemoda, DayOfWeek> DayOfWeek_After_Data => DataSet.DayOfWeek_After_Data;
 }
 
 public partial class CivilDateTests

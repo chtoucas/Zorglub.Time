@@ -80,7 +80,7 @@
     <Compile Include="Tests\Simple\CalendarDateTestSuite.fs" />
     <Compile Include="Tests\Simple\CalendarDayTestSuite.fs" />
     <Compile Include="Tests\Simple\OrdinalDateTestSuite.fs" />
-    <Compile Include="Tests\Simple\AdjustableDateTestSuite.fs" />
+    <Compile Include="Tests\Simple\GregorianDateTestSuite.fs" />
     <Compile Include="Tests\ValueTypeTests.fs" />
     <Compile Include="Tests\PartsTests.fs" />
     <Compile Include="Tests\CalendarIdTests.fs" />

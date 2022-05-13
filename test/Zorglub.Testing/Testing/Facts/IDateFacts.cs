@@ -17,7 +17,8 @@ using Zorglub.Time.Hemerology;
 
 /// <summary>
 /// Provides facts about <see cref="IDate{TSelf}"/>.
-/// <para>See also <see cref="IDateMoreFacts{TDate, TDataSet}"/>.</para>
+/// <para>See also <seealso cref="IDateDayOfWeekFacts{TDate, TDataSet}"/> and
+/// <seealso cref="IDateMathFacts{TDate, TDataSet}"/>.</para>
 /// </summary>
 public abstract partial class IDateFacts<TDate, TDataSet> : IDateableFacts<TDate, TDataSet>
     where TDate : struct, IDate<TDate>
@@ -28,13 +29,11 @@ public abstract partial class IDateFacts<TDate, TDataSet> : IDateableFacts<TDate
         Domain = domain;
 
         SupportedYearsTester = new SupportedYearsTester(supportedYears);
-        DomainTester = new DomainTester(domain);
     }
 
     protected Range<DayNumber> Domain { get; }
 
     protected SupportedYearsTester SupportedYearsTester { get; }
-    protected DomainTester DomainTester { get; }
 
     protected abstract TDate MinDate { get; }
     protected abstract TDate MaxDate { get; }
@@ -63,21 +62,22 @@ public partial class IDateFacts<TDate, TDataSet> // Prelude
 
 public partial class IDateFacts<TDate, TDataSet> // Conversions
 {
-    [Fact]
-    public void FromDayNumber_InvalidDayNumber() =>
-        DomainTester.TestInvalidDayNumber(TDate.FromDayNumber);
+    // TODO(fact): static method -> move this to F# test project.
+    //[Fact]
+    //public void FromDayNumber_InvalidDayNumber() =>
+    //    DomainTester.TestInvalidDayNumber(TDate.FromDayNumber);
 
-    [Theory, MemberData(nameof(DayNumberInfoData))]
-    public void FromDayNumber(DayNumberInfo info)
-    {
-        var (dayNumber, y, m, d) = info;
-        // Act
-        var date = TDate.FromDayNumber(dayNumber);
-        // Assert
-        Assert.Equal(y, date.Year);
-        Assert.Equal(m, date.Month);
-        Assert.Equal(d, date.Day);
-    }
+    //[Theory, MemberData(nameof(DayNumberInfoData))]
+    //public void FromDayNumber(DayNumberInfo info)
+    //{
+    //    var (dayNumber, y, m, d) = info;
+    //    // Act
+    //    var date = TDate.FromDayNumber(dayNumber);
+    //    // Assert
+    //    Assert.Equal(y, date.Year);
+    //    Assert.Equal(m, date.Month);
+    //    Assert.Equal(d, date.Day);
+    //}
 
     [Theory, MemberData(nameof(DayNumberInfoData))]
     public void ToDayNumber(DayNumberInfo info)

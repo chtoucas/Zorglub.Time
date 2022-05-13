@@ -6,6 +6,16 @@ namespace Zorglub.Time.Hemerology;
 using Zorglub.Testing.Data.Unbounded;
 using Zorglub.Time.Core;
 
+public sealed class WideDateDayOfWeekTests : IDateDayOfWeekFacts<WideDate, GregorianCalendarDataSet>
+{
+    protected sealed override WideDate GetDate(int y, int m, int d) => WideCalendar.Gregorian.GetWideDate(y, m, d);
+}
+
+public sealed class WideDateMathTests : IDateMathFacts<WideDate, GregorianCalendarDataSet>
+{
+    protected sealed override WideDate GetDate(int y, int m, int d) => WideCalendar.Gregorian.GetWideDate(y, m, d);
+}
+
 public sealed class WideDateTests : WideDateFacts<GregorianCalendarDataSet>
 {
     public WideDateTests() : base(WideCalendar.Gregorian, WideCalendar.Julian) { }
