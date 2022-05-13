@@ -10,11 +10,7 @@ using Zorglub.Time.Simple;
 /// Provides facts about <see cref="OrdinalDate"/>.
 /// </summary>
 public abstract partial class OrdinalDateFacts<TDataSet> : SimpleDateFacts<OrdinalDate, TDataSet>
-    where TDataSet :
-        ICalendarDataSet,
-        IMathDataSet,
-        IDayOfWeekDataSet,
-        ISingleton<TDataSet>
+    where TDataSet : ICalendarDataSet, ISingleton<TDataSet>
 {
     protected OrdinalDateFacts(Calendar calendar, Calendar otherCalendar)
         : base(calendar, otherCalendar)

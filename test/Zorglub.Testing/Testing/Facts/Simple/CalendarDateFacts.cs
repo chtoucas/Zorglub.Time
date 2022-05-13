@@ -12,8 +12,8 @@ using Zorglub.Time.Simple;
 public abstract partial class CalendarDateFacts<TDataSet> : SimpleDateFacts<CalendarDate, TDataSet>
     where TDataSet :
         ICalendarDataSet,
+        // TODO(fact): remove the constraint IAdvancedMathDataSet.
         IAdvancedMathDataSet,
-        IDayOfWeekDataSet,
         ISingleton<TDataSet>
 {
     protected CalendarDateFacts(Calendar calendar, Calendar otherCalendar)

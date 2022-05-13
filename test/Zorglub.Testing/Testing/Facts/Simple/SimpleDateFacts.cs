@@ -12,14 +12,10 @@ using Zorglub.Time.Simple;
 /// <summary>
 /// Provides facts about <see cref="ISimpleDate{TSelf}"/>.
 /// </summary>
-public abstract partial class SimpleDateFacts<TDate, TDataSet> : IDateFacts<TDate, TDataSet>
+public abstract partial class SimpleDateFacts<TDate, TDataSet> : IDateQuickFacts<TDate, TDataSet>
     // ISimpleDate being internal, we cannot use in a type constraint.
     where TDate : struct, IDate<TDate>, ISerializable<TDate, int>
-    where TDataSet :
-        ICalendarDataSet,
-        IMathDataSet,
-        IDayOfWeekDataSet,
-        ISingleton<TDataSet>
+    where TDataSet : ICalendarDataSet, ISingleton<TDataSet>
 {
     protected SimpleDateFacts(Calendar calendar!!, Calendar otherCalendar!!)
         : base(calendar.SupportedYears, calendar.Domain)
