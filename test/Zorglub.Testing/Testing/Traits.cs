@@ -33,8 +33,8 @@ public enum TestPerformance
 
 public enum TestExcludeFrom
 {
-    // We mostly use the trait "Smoke" to exclude members of a test suite or
-    // redundant tests.
+    // We mostly use the trait "Smoke" to exclude all members of a test suite
+    // but the first one.
     Smoke,
     CodeCoverage
 }
