@@ -44,6 +44,15 @@ public partial class ICalendricalSchemaFacts<TSchema, TDataSet> // Methods
 {
     #region CountDaysInYearBeforeMonth()
 
+    [Theory, MemberData(nameof(YearInfoData))]
+    public void CountDaysInYearBeforeMonth_AtStartOfYear(YearInfo info)
+    {
+        // Act
+        int actual = SchemaUT.CountDaysInYearBeforeMonth(info.Year, 1);
+        // Assert
+        Assert.Equal(0, actual);
+    }
+
     [Theory, MemberData(nameof(MonthInfoData))]
     public void CountDaysInYearBeforeMonth(MonthInfo info)
     {
@@ -155,6 +164,15 @@ public partial class ICalendricalSchemaFacts<TSchema, TDataSet> // Methods
 
     #endregion
     #region GetDayOfYear()
+
+    [Theory, MemberData(nameof(YearInfoData))]
+    public void GetDayOfYear_AtStartOfYear(YearInfo info)
+    {
+        // Act
+        int actual = SchemaUT.GetDayOfYear(info.Year, 1, 1);
+        // Assert
+        Assert.Equal(1, actual);
+    }
 
     [Theory, MemberData(nameof(DateInfoData))]
     public void GetDayOfYear(DateInfo info)
