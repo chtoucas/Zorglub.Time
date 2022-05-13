@@ -13,7 +13,7 @@ using Zorglub.Time.Hemerology;
 /// </summary>
 public abstract partial class ICalendarTFacts<TDate, TCalendar, TDataSet> :
     ICalendarFacts<TCalendar, TDataSet>
-    where TDate : struct, IDateable
+    where TDate : IDateable
     where TCalendar : ICalendar<TDate>
     where TDataSet : ICalendarDataSet, ISingleton<TDataSet>
 {

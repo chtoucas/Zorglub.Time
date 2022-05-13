@@ -10,7 +10,7 @@ using Zorglub.Time.Hemerology;
 // Hypothesis: years and months are complete.
 
 public abstract partial class IAdjustableDateFacts<TDate, TDataSet> : CalendricalDataConsumer<TDataSet>
-    where TDate : struct, IAdjustableDate<TDate>
+    where TDate : IAdjustableDate<TDate>
     where TDataSet : ICalendricalDataSet, IYearAdjustmentDataSet, ISingleton<TDataSet>
 {
     protected IAdjustableDateFacts(Range<int> supportedYears)
