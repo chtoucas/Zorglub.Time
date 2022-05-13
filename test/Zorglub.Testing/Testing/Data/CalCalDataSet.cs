@@ -7,6 +7,8 @@ using System.Linq;
 
 using Zorglub.Testing.Data.Schemas;
 
+// TODO(data): filter CalCalDataSet, IDateFacts, CalendarFacts, etc.
+
 public static partial class CalCalDataSet { }
 
 public partial class CalCalDataSet // Interconversion
