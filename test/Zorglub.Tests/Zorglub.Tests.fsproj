@@ -33,6 +33,7 @@
     <Compile Include="Testing\TestHelpers.fs" />
     <Compile Include="Tests\Testing\FsCheckTests.fs" />
     <Compile Include="Tests\Testing\EnumDataSetTests.fs" />
+    <Compile Include="Tests\Testing\TraitsTests.fs" />
     <Compile Include="Tests\Bulgroz\MiscTests.fs" />
     <Compile Include="Tests\Bulgroz\BitTwiddlingTests.fs" />
     <Compile Include="Tests\Extensions\DayOfWeek%24Tests.fs" />
