@@ -286,7 +286,8 @@ type LunisolarTests() =
 [<Sealed; TestExcludeFrom(TestExcludeFrom.Smoke)>]
 type PaxTests() as self =
     inherit ICalendricalSchemaBasicFacts<PaxSchema, PaxDataSet>(instanceOf<PaxSchema>())
-        do self.TestGetMonthAnyway <- true
+    do
+        self.TestGetMonthAnyway <- true
 
     override x.Algorithm_Prop() = x.SchemaUT.Algorithm === CalendricalAlgorithm.Arithmetical
     override x.Family_Prop() = x.SchemaUT.Family === CalendricalFamily.Other

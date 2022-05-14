@@ -1,4 +1,5 @@
-:: Quickly run the tests.
+:: Smoke tests.
+:: TODO(code): pass additional args, e.g. -c Release
 
 @echo off
 @setlocal
