@@ -48,21 +48,22 @@ public abstract partial class IDateFacts<TDate, TDataSet> : IDateableFacts<TDate
     public static TheoryData<DayNumberInfo> DayNumberInfoData => DataSet.DayNumberInfoData;
 }
 
+// TODO(fact): static methods (gregorian-specific) -> move this to F# test project.
+
 public partial class IDateFacts<TDate, TDataSet> // Prelude
 {
-    [Theory, MemberData(nameof(CalCalDataSet.DayOfWeekData), MemberType = typeof(CalCalDataSet))]
-    public void DayOfWeek_Prop_ViaDayNumber(DayNumber dayNumber, DayOfWeek dayOfWeek)
-    {
-        if (Domain.Contains(dayNumber) == false) { return; }
-        var date = TDate.FromDayNumber(dayNumber);
-        // Act & Assert
-        Assert.Equal(dayOfWeek, date.DayOfWeek);
-    }
+    //[Theory, MemberData(nameof(CalCalDataSet.DayOfWeekData), MemberType = typeof(CalCalDataSet))]
+    //public void DayOfWeek_Prop_ViaDayNumber(DayNumber dayNumber, DayOfWeek dayOfWeek)
+    //{
+    //    if (Domain.Contains(dayNumber) == false) { return; }
+    //    var date = TDate.FromDayNumber(dayNumber);
+    //    // Act & Assert
+    //    Assert.Equal(dayOfWeek, date.DayOfWeek);
+    //}
 }
 
 public partial class IDateFacts<TDate, TDataSet> // Conversions
 {
-    // TODO(fact): static method -> move this to F# test project.
     //[Fact]
     //public void FromDayNumber_InvalidDayNumber() =>
     //    DomainTester.TestInvalidDayNumber(TDate.FromDayNumber);
