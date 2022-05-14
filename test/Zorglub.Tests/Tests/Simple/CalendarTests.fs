@@ -19,9 +19,11 @@ open Xunit
 
 module GregorianCase =
     let private chr = GregorianCalendar.Instance
+    let private domain = chr.Domain
     let private calendarDataSet = ProlepticGregorianDataSet.Instance
 
     let dayOfWeekData = calendarDataSet.DayOfWeekData
+    // TODO(code): pre-filter data. Idem in JulianCase.
     let dayOfWeekData2 = CalCalDataSet.DayOfWeekData
 
     [<Theory; MemberData(nameof(dayOfWeekData))>]
@@ -41,30 +43,35 @@ module GregorianCase =
     [<RedundantTesting>]
     [<Theory; MemberData(nameof(dayOfWeekData2))>]
     let ``GetDayOfWeek(CalendarDate) via DayNumber`` (dayNumber: DayNumber) (dayOfWeek: DayOfWeek) =
-        let date = chr.GetCalendarDateOn(dayNumber)
+        if domain.Contains(dayNumber) then
+            let date = chr.GetCalendarDateOn(dayNumber)
 
-        chr.GetDayOfWeek(date) === dayOfWeek
+            chr.GetDayOfWeek(date) === dayOfWeek
 
     [<RedundantTesting>]
     [<Theory; MemberData(nameof(dayOfWeekData2))>]
     let ``GetDayOfWeek(OrdinalDate) via DayNumber`` (dayNumber: DayNumber) (dayOfWeek: DayOfWeek) =
-        let date = chr.GetOrdinalDateOn(dayNumber)
+        if domain.Contains(dayNumber) then
+            let date = chr.GetOrdinalDateOn(dayNumber)
 
-        chr.GetDayOfWeek(date) === dayOfWeek
+            chr.GetDayOfWeek(date) === dayOfWeek
 
 module JulianCase =
     let private chr = JulianCalendar.Instance
+    let private domain = chr.Domain
 
-    let dayOfWeekData = CalCalDataSet.DayOfWeekData
+    let dayOfWeekData2 = CalCalDataSet.DayOfWeekData
 
-    [<Theory; MemberData(nameof(dayOfWeekData))>]
-    let ``GetDayOfWeek(CalendarDate)`` (dayNumber: DayNumber) (dayOfWeek: DayOfWeek) =
-        let date = chr.GetCalendarDateOn(dayNumber)
+    [<Theory; MemberData(nameof(dayOfWeekData2))>]
+    let ``GetDayOfWeek(CalendarDate) via DayNumber`` (dayNumber: DayNumber) (dayOfWeek: DayOfWeek) =
+        if domain.Contains(dayNumber) then
+            let date = chr.GetCalendarDateOn(dayNumber)
 
-        chr.GetDayOfWeek(date) === dayOfWeek
+            chr.GetDayOfWeek(date) === dayOfWeek
 
-    [<Theory; MemberData(nameof(dayOfWeekData))>]
-    let ``GetDayOfWeek(OrdinalDate)`` (dayNumber: DayNumber) (dayOfWeek: DayOfWeek) =
-        let date = chr.GetOrdinalDateOn(dayNumber)
+    [<Theory; MemberData(nameof(dayOfWeekData2))>]
+    let ``GetDayOfWeek(OrdinalDate) via DayNumber`` (dayNumber: DayNumber) (dayOfWeek: DayOfWeek) =
+        if domain.Contains(dayNumber) then
+            let date = chr.GetOrdinalDateOn(dayNumber)
 
-        chr.GetDayOfWeek(date) === dayOfWeek
+            chr.GetDayOfWeek(date) === dayOfWeek
