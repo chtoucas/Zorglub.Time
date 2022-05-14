@@ -73,6 +73,7 @@
     <Compile Include="Tests\Hemerology\CalendarEpochTests.fs" />
     <Compile Include="Tests\Hemerology\CivilDateTests.fs" />
     <Compile Include="Tests\Hemerology\AdjustableDateTestSuite.fs" />
+    <Compile Include="Tests\Simple\CalendarTests.fs" />
     <Compile Include="Tests\Simple\CalendarDateTests.fs" />
     <Compile Include="Tests\Simple\OrdinalDateTests.fs" />
     <Compile Include="Tests\Simple\CalendarDayTests.fs" />
