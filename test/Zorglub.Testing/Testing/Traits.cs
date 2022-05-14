@@ -13,32 +13,7 @@ using Xunit.Sdk;
 // - TestPerfomance
 // - TestExcludeFrom
 //
-// Profiles
-// --------
-// Smoke and GitHub action
-//   "ExcludeFrom!=Smoke&Performance!~Slow&Redundant!=true"
-//   Excluded:
-//   - A bunch of tests in Postludes (slow unit)
-//   - ArchetypalSchemaTestSuite (slow group)
-//   - PrototypalSchemaTestSuite (slow group)
-//   - Redundant tests
-//   We only keep one test class per test suite (no smoke)
-//
-// Test
-//   "Performance!=SlowGroup&Redundant!=true"
-//   Excluded:
-//   - ArchetypalSchemaTestSuite (slow group)
-//   - PrototypalSchemaTestSuite (slow group)
-//   - Redundant tests
-//
-// Code Coverage
-//   "ExcludeFrom!=CodeCoverage&Redundant!=true"
-//   Excluded:
-//   - A bunch of tests in Postludes (no code coverage)
-//   - ArchetypalSchemaTestSuite (no code coverage OR redundant)
-//   - PrototypalSchemaTestSuite (no code coverage OR redundant)
-//   - Redundant tests
-//
+// See eng\test.ps1, eng\cover.ps1 and eng\smoke.cmd.
 // See https://github.com/xunit/samples.xunit/blob/main/TraitExtensibility/
 
 #endregion

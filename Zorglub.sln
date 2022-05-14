@@ -27,7 +27,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "eng", "eng", "{304001B6-7B4
 		eng\cover.ps1 = eng\cover.ps1
 		eng\pack.ps1 = eng\pack.ps1
 		eng\reset.ps1 = eng\reset.ps1
-		eng\smoke.cmd = eng\smoke.cmd
 		eng\test.ps1 = eng\test.ps1
 	EndProjectSection
 EndProject
