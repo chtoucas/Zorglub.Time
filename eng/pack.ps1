@@ -2,66 +2,23 @@
 
 #Requires -Version 7
 
-################################################################################
-#region Preamble.
-
-<#
-.SYNOPSIS
-Packaging script.
-
-.DESCRIPTION
-Packaging script.
-
-.PARAMETER Help
-Print help text then exit?
-#>
 [CmdletBinding()]
-param(
-    [Alias("h")] [switch] $Help
-)
+param()
 
 . (Join-Path $PSScriptRoot 'zorglub.ps1')
 
-#endregion
-################################################################################
-#region Helpers.
-
-function Print-Help {
-    say @"
-
-Packaging script.
-
-Usage: make.ps1 [arguments]
-  -h|-Help           print this help then exit
-
-Examples.
-> pack.ps1
-
-Looking for more help?
-> Get-Help -Detailed pack.ps1
-
-"@
-}
-
-#endregion
-################################################################################
-
-if ($Help) { Print-Help ; exit }
-
 try {
-    pushd $ROOT_DIR
+    pushd $RootDir
 
-    say "Packing..." -ForegroundColor Yellow
-
-    $packageDir = Join-Path $ARTIFACTS_DIR 'packages'
-    $project = Join-Path $SRC_DIR "Zorglub"
+    $project = Join-Path $SrcDir 'Zorglub' -Resolve
+    $packageDir = Join-Path $ArtifactsDir 'packages'
 
     & dotnet pack $project `
         -c Release `
         -o $packageDir `
-        "/p:ContinuousIntegrationBuild=true" `
-        "/p:HideInternals=true" `
-        "/p:PrintSettings=true"
+        /p:ContinuousIntegrationBuild=true `
+        /p:HideInternals=true `
+        /p:PrintSettings=true
         || die 'Failed to pack the project.'
 }
 catch {

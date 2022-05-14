@@ -5,6 +5,8 @@
 [CmdletBinding()]
 param()
 
+. (Join-Path $PSScriptRoot 'zorglub.ps1')
+
 function Remove-BinAndObj {
     [CmdletBinding()]
     param(
@@ -13,7 +15,7 @@ function Remove-BinAndObj {
         [string] $path
     )
 
-    Write-Host "Deleting ""bin"" and ""obj"" directories within ""$path""."
+    say "Deleting ""bin"" and ""obj"" directories within ""$path""."
 
     if (-not (Test-Path $path)) {
         return Write-Verbose "Skipping ""$path""; the file does NOT exist."
@@ -27,17 +29,16 @@ function Remove-BinAndObj {
 }
 
 try {
-    $rootdir = (Get-Item $PSScriptRoot).Parent.FullName
-    pushd $rootdir
+    pushd $RootDir
 
-    Remove-BinAndObj (Join-Path $rootdir "src" -Resolve)
-    Remove-BinAndObj (Join-Path $rootdir "test" -Resolve)
-    Remove-BinAndObj (Join-Path $rootdir "tools" -Resolve)
+    Remove-BinAndObj (Join-Path $rootdir 'src' -Resolve)
+    Remove-BinAndObj (Join-Path $rootdir 'test' -Resolve)
+    Remove-BinAndObj (Join-Path $rootdir 'tools' -Resolve)
 }
 catch {
-    Write-Host $_ -Foreground Red
-    Write-Host $_.Exception
-    Write-Host $_.ScriptStackTrace
+    say $_ -Foreground Red
+    say $_.Exception
+    say $_.ScriptStackTrace
     exit 1
 }
 finally {

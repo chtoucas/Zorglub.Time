@@ -2,11 +2,14 @@
 
 #Requires -Version 7
 
-New-Variable ROOT_DIR (Get-Item $PSScriptRoot).Parent.FullName -Scope Script -Option Constant
-New-Variable SRC_DIR       (Join-Path $ROOT_DIR 'src')  -Scope Script -Option Constant
-New-Variable TEST_DIR      (Join-Path $ROOT_DIR 'test') -Scope Script -Option Constant
-New-Variable ARTIFACTS_DIR (Join-Path $ROOT_DIR '__')   -Scope Script -Option Constant
-New-Variable TEST_PROJECT  (Join-Path $TEST_DIR "Zorglub.Tests") -Scope Script -Option Constant
+New-Variable RootDir (Get-Item $PSScriptRoot).Parent.FullName -Scope Script -Option Constant
+New-Variable SrcDir       (Join-Path $RootDir 'src')  -Scope Script -Option Constant
+New-Variable TestDir      (Join-Path $RootDir 'test') -Scope Script -Option Constant
+New-Variable ArtifactsDir (Join-Path $RootDir '__')   -Scope Script -Option Constant
+
+New-Variable TestProject (Join-Path $TestDir "Zorglub.Tests") -Scope Script -Option Constant
+New-Variable SmokeTestsFilters 'ExcludeFrom!=Smoke&Performance!~Slow&Redundant!=true' -Scope Script -Option Constant
+New-Variable RegularTestsFilters 'ExcludeFrom!=CodeCoverage&Redundant!=true' -Scope Script -Option Constant
 
 New-Alias "say" Write-Host
 

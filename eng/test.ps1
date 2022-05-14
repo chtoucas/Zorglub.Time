@@ -2,29 +2,6 @@
 
 #Requires -Version 7
 
-################################################################################
-#region Preamble.
-
-<#
-.SYNOPSIS
-Test script.
-
-.DESCRIPTION
-Run the test suite.
-
-.PARAMETER Plan
-Specify the test plan. Default = "smoke".
-
-.PARAMETER Configuration
-The configuration to test the solution for. Default = "Debug".
-
-.PARAMETER Build
-Build the test project.
-The default behaviour is not to build the project.
-
-.PARAMETER Help
-Print help text then exit?
-#>
 [CmdletBinding()]
 param(
     [Parameter(Mandatory = $false, Position = 0)]
@@ -37,25 +14,25 @@ param(
 
                  [switch] $Build,
 
-    [Alias("h")] [switch] $Help
+    [Alias('h')] [switch] $Help
 )
 
 . (Join-Path $PSScriptRoot 'zorglub.ps1')
 
-#endregion
-################################################################################
-#region Helpers.
+#-------------------------------------------------------------------------------
 
 function Print-Help {
     say @"
 
-Test script.
+Run the test suite.
 
 Usage: test.ps1 [arguments]
-    |-Plan
+    |-Plan           specify the test plan. Default = "smoke".
   -c|-Configuration  the configuration to test the solution for. Default = "Debug"
     |-Build          build the project before running the test suite
   -h|-Help           print this help then exit
+
+The default behaviour is to NOT build the project.
 
 Examples.
 > test.ps1                      # Smoke testing
@@ -68,22 +45,18 @@ Examples.
 
 Of course, just use dotnet to run the whole test suite.
 
-Looking for more help?
-> Get-Help -Detailed test.ps1
-
 "@
 }
 
-#endregion
-################################################################################
+#-------------------------------------------------------------------------------
 
 if ($Help) { Print-Help ; exit }
 
 try {
-    pushd $ROOT_DIR
+    pushd $RootDir
 
     $args = @("-c:$configuration")
-    if (-not $Build) { $args += "--no-build" }
+    if (-not $Build) { $args += '--no-build' }
 
     switch ($Plan) {
         'smoke' {
@@ -94,7 +67,8 @@ try {
             # - PrototypalSchemaTestSuite (slow group)
             # - Redundant tests
             # We only keep one test class per test suite (no smoke)
-            $args += "--filter:ExcludeFrom!=Smoke&Performance!~Slow&Redundant!=true"
+            # Filters = ExcludeFrom!=Smoke&Performance!~Slow&Redundant!=true
+            $args += "--filter:$SmokeTestsFilters"
         }
         'regular' {
             # Regular test suite. It mimics the test plan used by the code coverage tool.
@@ -103,21 +77,22 @@ try {
             # - ArchetypalSchemaTestSuite (no code coverage OR redundant)
             # - PrototypalSchemaTestSuite (no code coverage OR redundant)
             # - Redundant tests
-            $args += "--filter:ExcludeFrom!=CodeCoverage&Redundant!=true"
+            # Filters = ExcludeFrom!=CodeCoverage&Redundant!=true
+            $args += "--filter:$RegularTestsFilters"
         }
         'more' {
             # Excluded:
             # - ArchetypalSchemaTestSuite (slow group)
             # - PrototypalSchemaTestSuite (slow group)
             # - Redundant tests
-            $args += "--filter:Performance!=SlowGroup&Redundant!=true"
+            $args += '--filter:Performance!=SlowGroup&Redundant!=true'
         }
         'extra' {
-            $args += "--filter:Redundant=true|Performance=SlowGroup"
+            $args += '--filter:Redundant=true|Performance=SlowGroup'
         }
     }
 
-    & dotnet test $TEST_PROJECT $args `
+    & dotnet test $TestProject $args
         || die 'Failed to run the test suite.'
 }
 catch {
