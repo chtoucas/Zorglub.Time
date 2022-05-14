@@ -19,9 +19,10 @@ open Xunit
 
 module GregorianCase =
     let private chr = GregorianCalendar.Instance
-    let private chrDataSet = ProlepticGregorianDataSet.Instance
+    let private calendarDataSet = ProlepticGregorianDataSet.Instance
 
-    let dayOfWeekData = chrDataSet.DayOfWeekData
+    let dayOfWeekData = calendarDataSet.DayOfWeekData
+    let dayOfWeekData2 = CalCalDataSet.DayOfWeekData
 
     [<Theory; MemberData(nameof(dayOfWeekData))>]
     let ``GetDayOfWeek(CalendarDate)`` (info: YemodaAnd<DayOfWeek>) =
@@ -34,6 +35,20 @@ module GregorianCase =
     let ``GetDayOfWeek(OrdinalDate)`` (info: YemodaAnd<DayOfWeek>) =
         let (y, m, d, dayOfWeek) = info.Deconstruct()
         let date = chr.GetCalendarDate(y, m, d).ToOrdinalDate()
+
+        chr.GetDayOfWeek(date) === dayOfWeek
+
+    [<RedundantTesting>]
+    [<Theory; MemberData(nameof(dayOfWeekData2))>]
+    let ``GetDayOfWeek(CalendarDate) via DayNumber`` (dayNumber: DayNumber) (dayOfWeek: DayOfWeek) =
+        let date = chr.GetCalendarDateOn(dayNumber)
+
+        chr.GetDayOfWeek(date) === dayOfWeek
+
+    [<RedundantTesting>]
+    [<Theory; MemberData(nameof(dayOfWeekData2))>]
+    let ``GetDayOfWeek(OrdinalDate) via DayNumber`` (dayNumber: DayNumber) (dayOfWeek: DayOfWeek) =
+        let date = chr.GetOrdinalDateOn(dayNumber)
 
         chr.GetDayOfWeek(date) === dayOfWeek
 
