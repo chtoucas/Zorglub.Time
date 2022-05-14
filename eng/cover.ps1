@@ -39,7 +39,7 @@ param(
     [Alias("h")] [switch] $Help
 )
 
-. (Join-Path $PSScriptRoot 'common.ps1')
+. (Join-Path $PSScriptRoot 'zorglub.ps1')
 
 #endregion
 ################################################################################
