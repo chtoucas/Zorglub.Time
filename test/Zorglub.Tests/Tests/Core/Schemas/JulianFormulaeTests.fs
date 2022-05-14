@@ -20,8 +20,8 @@ let [<Literal>] private MaxDay = Yemoda.MaxDay
 let [<Literal>] private MinMonth = Yemoda.MinMonth
 let [<Literal>] private MaxMonth = Yemoda.MaxMonth
 
-let private schema = new JulianSchema()
-let private minYear, maxYear = schema.SupportedYears.Endpoints.Deconstruct()
+let private sch = new JulianSchema()
+let private minYear, maxYear = sch.SupportedYears.Endpoints.Deconstruct()
 
 let private dataSet = JulianDataSet.Instance
 

@@ -34,10 +34,10 @@ let [<Literal>] private MaxDay = Yemoda.MaxDay
 let [<Literal>] private MinMonth = Yemoda.MinMonth
 let [<Literal>] private MaxMonth = Yemoda.MaxMonth
 
-let private schema = new GregorianSchema()
-let private minYear, maxYear = schema.SupportedYears.Endpoints.Deconstruct()
-let private minDaysSinceEpoch = schema.GetStartOfYear(minYear)
-let private maxDaysSinceEpoch = schema.GetEndOfYear(maxYear)
+let private sch = new GregorianSchema()
+let private minYear, maxYear = sch.SupportedYears.Endpoints.Deconstruct()
+let private minDaysSinceEpoch = sch.GetStartOfYear(minYear)
+let private maxDaysSinceEpoch = sch.GetEndOfYear(maxYear)
 
 let private dataSet = GregorianDataSet.Instance
 

@@ -51,13 +51,13 @@ module PlainOrDefault =
     // We use the Copic13 schema because it may overflow when calling
     // CountDaysInYear() or CountDaysInMonth(). Both rely on IsLeapYear() which
     // overflows at Int32.MaxYear.
-    let private schema = schemaOf<Coptic13Schema>()
-    let private supportedYears = schema.SupportedYears
+    let private sch = schemaOf<Coptic13Schema>()
+    let private supportedYears = sch.SupportedYears
 
     [<Sealed>]
     type CalendricalPreValidatorTests() =
         inherit ICalendricalPreValidatorFacts<Coptic13DataSet>(
-            new CalendricalPreValidator(schema),
+            new CalendricalPreValidator(sch),
             supportedYears.Min,
             supportedYears.Max)
 
@@ -72,7 +72,7 @@ module PlainOrDefault =
     [<Sealed>]
     type DefaultPreValidatorTests() =
         inherit ICalendricalPreValidatorFacts<Coptic13DataSet>(
-            new DefaultPreValidator(schema),
+            new DefaultPreValidator(sch),
             supportedYears.Min,
             supportedYears.Max)
 
