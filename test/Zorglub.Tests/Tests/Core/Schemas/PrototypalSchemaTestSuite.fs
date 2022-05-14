@@ -18,35 +18,6 @@ let private prototypeOf<'a when 'a : not struct and 'a :> ICalendricalSchema and
     let sch = SchemaActivator.CreateInstance<'a>()
     new PrototypalSchema(sch, sch.MinDaysInYear, sch.MinDaysInMonth)
 
-// =====================================================================================================================
-
-//[<Sealed>]
-//type NoCachePrototypalSchema(kernel: ICalendricalKernel, minDaysInYear, minDaysInMonth) as self =
-//    inherit PrototypalSchema(kernel, minDaysInYear, minDaysInMonth)
-//        do self.DisableStartOfYearCache <- true
-
-//let private noCachePrototypeOf<'a when 'a : not struct and 'a :> ICalendricalSchema and 'a :> IBoxable<'a>> () =
-//    let sch = SchemaActivator.CreateInstance<'a>()
-//    new NoCachePrototypalSchema(sch, sch.MinDaysInYear, sch.MinDaysInMonth)
-
-let private prototypeOf2<'a when 'a : not struct and 'a :> ICalendricalSchema and 'a :> IBoxable<'a>> () =
-    let sch = SchemaActivator.CreateInstance<'a>()
-    new PrototypalSchema2(sch, sch.MinDaysInYear, sch.MinDaysInMonth)
-
-[<Sealed>]
-[<TestPerformance(TestPerformance.SlowGroup)>]
-[<TestExcludeFrom(TestExcludeFrom.CodeCoverage)>]
-[<TestExcludeFrom(TestExcludeFrom.Smoke)>]
-type Coptic12BasicTests() as self =
-    inherit ICalendricalSchemaBasicFacts<PrototypalSchema2, Coptic12DataSet>(prototypeOf2<Coptic12Schema>())
-    do
-        self.TestGetYearAnyway  <- true
-        self.TestGetMonthAnyway <- true
-
-    override __.KernelDoesNotOverflow() = ()
-
-// =====================================================================================================================
-
 [<Sealed>]
 [<TestPerformance(TestPerformance.SlowGroup)>]
 // TODO(code): temporary trait.

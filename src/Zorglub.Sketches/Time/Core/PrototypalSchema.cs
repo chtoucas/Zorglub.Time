@@ -20,56 +20,6 @@ namespace Zorglub.Time.Core
     // GeometricArchetype, based on quasi-affine forms?
     // Minimal schema interface: is it doable with only forms?
 
-    // FIXME(code): still not OK for some neg years w/
-    // - Coptic12/3Schema
-    // - FrenchRepublican12/3Schema
-    // - LunisolarSchema
-    // - Persian2820Schema
-    // - TabularIslamicSchema
-    // Once fixed, enable commented tests in PrototypalSchemaTestSuite.fs.
-    //
-    // Other failures: Gregorian
-    // - CountDaysInYearBefore﹍DaysSinceEpoch_AtStartOfYear() -> returns daysInYear or (daysInYear + 1) instead of 0
-    // - CountDaysInYearAfter﹍DaysSinceEpoch_AtStartOfYear()  -> returns -1 instead of (daysInYear - 1)
-    public class PrototypalSchema2 : PrototypalSchema
-    {
-        public PrototypalSchema2(
-            ICalendricalKernel kernel,
-            int minDaysInYear,
-            int minDaysInMonth)
-            : base(kernel, minDaysInYear, minDaysInMonth) { }
-
-        /// <inheritdoc />
-        [Pure]
-        public sealed override int GetYear(int daysSinceEpoch, out int doy)
-        {
-            int y = 1 + MathZ.Divide(daysSinceEpoch, MinDaysInYear);
-            int startOfYear = GetStartOfYear(y);
-
-            if (daysSinceEpoch >= 0)
-            {
-                while (daysSinceEpoch < startOfYear)
-                {
-                    startOfYear -= CountDaysInYear(--y);
-                }
-            }
-            else
-            {
-                while (daysSinceEpoch >= startOfYear)
-                {
-                    int startOfNextYear = startOfYear + CountDaysInYear(y);
-                    if (daysSinceEpoch < startOfNextYear) { break; }
-                    y++;
-                    startOfYear = startOfNextYear;
-                }
-                Debug.Assert(daysSinceEpoch >= startOfYear);
-            }
-
-            doy = 1 + daysSinceEpoch - startOfYear;
-            return y;
-        }
-    }
-
     /// <summary>
     /// Represents an prototypal implementation of the <see cref="ICalendricalSchemaPlus"/> interface.
     /// </summary>
@@ -118,18 +68,17 @@ namespace Zorglub.Time.Core
         /// is disabled or not.
         /// <para>The default value is false.</para>
         /// </summary>
-        protected bool DisableStartOfYearCache { get; init; }
+        public bool DisableStartOfYearCache { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether the overriden version of
         /// <see cref="ArchetypalSchema.GetMonth(int, int, out int)"/> is disabled or not.
         /// <para>The default value is false.</para>
         /// </summary>
-        protected bool DisableCustomGetMonth { get; init; }
+        public bool DisableCustomGetMonth { get; set; }
 
         protected int ApproxMonthsInYear { get; }
 
-#if false
         /// <inheritdoc />
         [Pure]
         public sealed override int GetYear(int daysSinceEpoch, out int doy)
@@ -144,18 +93,33 @@ namespace Zorglub.Time.Core
             int y = 1 + MathZ.Divide(daysSinceEpoch, MinDaysInYear);
             int startOfYear = GetStartOfYear(y);
 
-            // Notice that the first approximation for the value of the year is
-            // greater than or equal to the actual value.
-            while (daysSinceEpoch < startOfYear)
+            // TODO(code): explain the algorithm, idem with ArchetypalSchema.
+
+            if (daysSinceEpoch >= 0)
             {
-                startOfYear -= CountDaysInYear(--y);
+                // Notice that the first approximation for the value of the year is
+                // greater than or equal to the actual value.
+                while (daysSinceEpoch < startOfYear)
+                {
+                    startOfYear -= CountDaysInYear(--y);
+                }
+            }
+            else
+            {
+                while (daysSinceEpoch >= startOfYear)
+                {
+                    int startOfNextYear = startOfYear + CountDaysInYear(y);
+                    if (daysSinceEpoch < startOfNextYear) { break; }
+                    y++;
+                    startOfYear = startOfNextYear;
+                }
+                Debug.Assert(daysSinceEpoch >= startOfYear);
             }
 
             // Notice that, as expected, doy >= 1.
             doy = 1 + daysSinceEpoch - startOfYear;
             return y;
         }
-#endif
 
         /// <inheritdoc />
         [Pure]
