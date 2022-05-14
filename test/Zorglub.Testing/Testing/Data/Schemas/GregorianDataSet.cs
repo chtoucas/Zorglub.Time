@@ -479,6 +479,7 @@ public partial class GregorianDataSet //
     // TODO(data): Move DaysInYearAfterMonthData to MonthInfoData.
     // When done, remove DaysInYearAfterMonthData from the various Gregorian datasets.
     // CountDaysInYear(y) - CountDaysInMonth(y, m) - CountDaysInYearBeforeMonth(y, m);
+    // MÀJ ICalendricalSchemaPlusFacts.CountDaysInYearAfterMonth()
     public TheoryData<YemoAnd<int>> DaysInYearAfterMonthData { get; } = new()
     {
         // Common year.

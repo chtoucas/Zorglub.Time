@@ -35,6 +35,103 @@ public partial class ICalendricalSchemaPlusFacts<TSchema, TDataSet> // Methods
 
     #region CountDaysInYearBefore()
 
+    [Theory, MemberData(nameof(YearInfoData))]
+    public void CountDaysInYearBefore﹍DateParts_AtStartOfYear(YearInfo info)
+    {
+        // Act
+        int actual = SchemaUT.CountDaysInYearBefore(info.Year, 1, 1);
+        // Assert
+        Assert.Equal(0, actual);
+    }
+
+    [Theory, MemberData(nameof(YearInfoData))]
+    public void CountDaysInYearBefore﹍OrdinalParts_AtStartOfYear(YearInfo info)
+    {
+        // Act
+        int actual = SchemaUT.CountDaysInYearBefore(info.Year, 1);
+        // Assert
+        Assert.Equal(0, actual);
+    }
+
+    [Theory, MemberData(nameof(YearInfoData))]
+    public void CountDaysInYearBefore﹍DaysSinceEpoch_AtStartOfYear(YearInfo info)
+    {
+        int daysSinceEpoch = SchemaUT.GetStartOfYear(info.Year);
+        // Act
+        int actual = SchemaUT.CountDaysInYearBefore(daysSinceEpoch);
+        // Assert
+        Assert.Equal(0, actual);
+    }
+
+    [Theory, MemberData(nameof(YearInfoData))]
+    public void CountDaysInYearBefore﹍OrdinalParts_AtEndOfYear(YearInfo info)
+    {
+        int doy = info.DaysInYear;
+        int daysInYearBefore = doy - 1;
+        // Act
+        int actual = SchemaUT.CountDaysInYearBefore(info.Year, doy);
+        // Assert
+        Assert.Equal(daysInYearBefore, actual);
+    }
+
+    [Theory, MemberData(nameof(YearInfoData))]
+    public void CountDaysInYearBefore﹍DaysSinceEpoch_AtEndOfYear(YearInfo info)
+    {
+        int daysSinceEpoch = SchemaUT.GetEndOfYear(info.Year);
+        int daysInYearBefore = info.DaysInYear - 1;
+        // Act
+        int actual = SchemaUT.CountDaysInYearBefore(daysSinceEpoch);
+        // Assert
+        Assert.Equal(daysInYearBefore, actual);
+    }
+
+    [Theory, MemberData(nameof(MonthInfoData))]
+    public void CountDaysInYearBefore﹍DateParts_AtStartOfMonth(MonthInfo info)
+    {
+        var (y, m) = info.Yemo;
+        int daysInYearBefore = info.DaysInYearBeforeMonth;
+        // Act
+        int actual = SchemaUT.CountDaysInYearBefore(y, m, 1);
+        // Assert
+        Assert.Equal(daysInYearBefore, actual);
+    }
+
+    [Theory, MemberData(nameof(MonthInfoData))]
+    public void CountDaysInYearBefore﹍DaysSinceEpoch_AtStartOfMonth(MonthInfo info)
+    {
+        var (y, m) = info.Yemo;
+        int daysSinceEpoch = SchemaUT.GetStartOfMonth(y, m);
+        int daysInYearBefore = info.DaysInYearBeforeMonth;
+        // Act
+        int actual = SchemaUT.CountDaysInYearBefore(daysSinceEpoch);
+        // Assert
+        Assert.Equal(daysInYearBefore, actual);
+    }
+
+    [Theory, MemberData(nameof(MonthInfoData))]
+    public void CountDaysInYearBefore﹍DateParts_AtEndOfMonth(MonthInfo info)
+    {
+        var (y, m) = info.Yemo;
+        int d = info.DaysInMonth;
+        int daysInYearBefore = info.DaysInYearBeforeMonth + d - 1;
+        // Act
+        int actual = SchemaUT.CountDaysInYearBefore(y, m, d);
+        // Assert
+        Assert.Equal(daysInYearBefore, actual);
+    }
+
+    [Theory, MemberData(nameof(MonthInfoData))]
+    public void CountDaysInYearBefore﹍DaysSinceEpoch_AtEndOfMonth(MonthInfo info)
+    {
+        var (y, m) = info.Yemo;
+        int daysSinceEpoch = SchemaUT.GetEndOfMonth(y, m);
+        int daysInYearBefore = info.DaysInYearBeforeMonth + info.DaysInMonth - 1;
+        // Act
+        int actual = SchemaUT.CountDaysInYearBefore(daysSinceEpoch);
+        // Assert
+        Assert.Equal(daysInYearBefore, actual);
+    }
+
     [Theory, MemberData(nameof(DateInfoData))]
     public void CountDaysInYearBefore﹍DateParts(DateInfo info)
     {
@@ -44,27 +141,6 @@ public partial class ICalendricalSchemaPlusFacts<TSchema, TDataSet> // Methods
         int actual = SchemaUT.CountDaysInYearBefore(y, m, d);
         // Assert
         Assert.Equal(daysInYearBefore, actual);
-    }
-
-    [Theory, MemberData(nameof(MonthInfoData))]
-    public void CountDaysInYearBefore﹍DateParts_DaysInYearBeforeMonth(MonthInfo info)
-    {
-        var (y, m) = info.Yemo;
-
-        int daysInYearBeforeMonth = info.DaysInYearBeforeMonth;
-        // Act
-        int actual1 = SchemaUT.CountDaysInYearBefore(y, m, 1);
-        int actual2 = SchemaUT.CountDaysInYearBefore(y, m, 2);
-        int actual3 = SchemaUT.CountDaysInYearBefore(y, m, 3);
-        int actual4 = SchemaUT.CountDaysInYearBefore(y, m, 4);
-        int actual5 = SchemaUT.CountDaysInYearBefore(y, m, 5);
-        // We can't go further because of the schemas w/ a virtual thirteen month.
-        // Assert
-        Assert.Equal(daysInYearBeforeMonth, actual1);
-        Assert.Equal(daysInYearBeforeMonth + 1, actual2);
-        Assert.Equal(daysInYearBeforeMonth + 2, actual3);
-        Assert.Equal(daysInYearBeforeMonth + 3, actual4);
-        Assert.Equal(daysInYearBeforeMonth + 4, actual5);
     }
 
     [Theory, MemberData(nameof(DateInfoData))]
@@ -92,33 +168,82 @@ public partial class ICalendricalSchemaPlusFacts<TSchema, TDataSet> // Methods
     #endregion
     #region CountDaysInYearAfter()
 
-    [Theory, MemberData(nameof(DateInfoData))]
-    public void CountDaysInYearAfter﹍DateParts(DateInfo info)
+    [Theory, MemberData(nameof(YearInfoData))]
+    public void CountDaysInYearAfter﹍DateParts_AtStartOfYear(YearInfo info)
     {
-        var (y, m, d, doy) = info;
-        int daysInYearAfter = SchemaUT.CountDaysInYear(y) - doy;
+        int daysInYearAfter = info.DaysInYear - 1;
+        // Act
+        int actual = SchemaUT.CountDaysInYearAfter(info.Year, 1, 1);
+        // Assert
+        Assert.Equal(daysInYearAfter, actual);
+    }
+
+    [Theory, MemberData(nameof(YearInfoData))]
+    public void CountDaysInYearAfter﹍OrdinalParts_AtStartOfYear(YearInfo info)
+    {
+        int daysInYearAfter = info.DaysInYear - 1;
+        // Act
+        int actual = SchemaUT.CountDaysInYearAfter(info.Year, 1);
+        // Assert
+        Assert.Equal(daysInYearAfter, actual);
+    }
+
+    [Theory, MemberData(nameof(YearInfoData))]
+    public void CountDaysInYearAfter﹍DaysSinceEpoch_AtStartOfYear(YearInfo info)
+    {
+        int daysInYearAfter = info.DaysInYear - 1;
+        int daysSinceEpoch = SchemaUT.GetStartOfYear(info.Year);
+        // Act
+        int actual = SchemaUT.CountDaysInYearAfter(daysSinceEpoch);
+        // Assert
+        Assert.Equal(daysInYearAfter, actual);
+    }
+
+    [Theory, MemberData(nameof(YearInfoData))]
+    public void CountDaysInYearAfter﹍OrdinalParts_AtEndOfYear(YearInfo info)
+    {
+        // Act
+        int actual = SchemaUT.CountDaysInYearAfter(info.Year, info.DaysInYear);
+        // Assert
+        Assert.Equal(0, actual);
+    }
+
+    [Theory, MemberData(nameof(YearInfoData))]
+    public void CountDaysInYearAfter﹍DaysSinceEpoch_AtEndOfYear(YearInfo info)
+    {
+        int daysSinceEpoch = SchemaUT.GetEndOfYear(info.Year);
+        // Act
+        int actual = SchemaUT.CountDaysInYearAfter(daysSinceEpoch);
+        // Assert
+        Assert.Equal(0, actual);
+    }
+
+    [Theory, MemberData(nameof(DaysInYearAfterDateData))]
+    public void CountDaysInYearAfter﹍DateParts(YemodaAnd<int> info)
+    {
+        var (y, m, d, daysInYearAfter) = info;
         // Act
         int actual = SchemaUT.CountDaysInYearAfter(y, m, d);
         // Assert
         Assert.Equal(daysInYearAfter, actual);
     }
 
-    [Theory, MemberData(nameof(DateInfoData))]
-    public void CountDaysInYearAfter﹍OrdinalParts(DateInfo info)
+    [Theory, MemberData(nameof(DaysInYearAfterDateData))]
+    public void CountDaysInYearAfter﹍OrdinalParts(YemodaAnd<int> info)
     {
-        var (y, doy) = info.Yedoy;
-        int daysInYearAfter = SchemaUT.CountDaysInYear(y) - doy;
+        var (y, m, d, daysInYearAfter) = info;
+        int doy = SchemaUT.GetDayOfYear(y, m, d);
         // Act
         int actual = SchemaUT.CountDaysInYearAfter(y, doy);
         // Assert
         Assert.Equal(daysInYearAfter, actual);
     }
 
-    [Theory, MemberData(nameof(DaysSinceEpochInfoData))]
-    public void CountDaysInYearAfter﹍DaysSinceEpoch(DaysSinceEpochInfo info)
+    [Theory, MemberData(nameof(DaysInYearAfterDateData))]
+    public void CountDaysInYearAfter﹍DaysSinceEpoch(YemodaAnd<int> info)
     {
-        var (daysSinceEpoch, y, m, d) = info;
-        int daysInYearAfter = SchemaUT.CountDaysInYear(y) - SchemaUT.GetDayOfYear(y, m, d);
+        var (y, m, d, daysInYearAfter) = info;
+        int daysSinceEpoch = SchemaUT.CountDaysSinceEpoch(y, m, d);
         // Act
         int actual = SchemaUT.CountDaysInYearAfter(daysSinceEpoch);
         // Assert
@@ -127,6 +252,51 @@ public partial class ICalendricalSchemaPlusFacts<TSchema, TDataSet> // Methods
 
     #endregion
     #region CountDaysInMonthBefore()
+
+    [Theory, MemberData(nameof(MonthInfoData))]
+    public void CountDaysInMonthBefore﹍DateParts_AtStartOfMonth(MonthInfo info)
+    {
+        var (y, m) = info.Yemo;
+        // Act
+        int actual = SchemaUT.CountDaysInMonthBefore(y, m, 1);
+        // Assert
+        Assert.Equal(0, actual);
+    }
+
+    [Theory, MemberData(nameof(MonthInfoData))]
+    public void CountDaysInMonthBefore﹍DaysSinceEpoch_AtStartOfMonth(MonthInfo info)
+    {
+        var (y, m) = info.Yemo;
+        int daysSinceEpoch = SchemaUT.GetStartOfMonth(y, m);
+        // Act
+        int actual = SchemaUT.CountDaysInMonthBefore(daysSinceEpoch);
+        // Assert
+        Assert.Equal(0, actual);
+    }
+
+    [Theory, MemberData(nameof(MonthInfoData))]
+    public void CountDaysInMonthBefore﹍DateParts_AtEndOfMonth(MonthInfo info)
+    {
+        var (y, m) = info.Yemo;
+        int d = info.DaysInMonth;
+        int daysInMonthBefore = d - 1;
+        // Act
+        int actual = SchemaUT.CountDaysInMonthBefore(y, m, d);
+        // Assert
+        Assert.Equal(daysInMonthBefore, actual);
+    }
+
+    [Theory, MemberData(nameof(MonthInfoData))]
+    public void CountDaysInMonthBefore﹍DaysSinceEpoch_AtEndOfMonth(MonthInfo info)
+    {
+        var (y, m) = info.Yemo;
+        int daysSinceEpoch = SchemaUT.GetEndOfMonth(y, m);
+        int daysInMonthBefore = info.DaysInMonth - 1;
+        // Act
+        int actual = SchemaUT.CountDaysInMonthBefore(daysSinceEpoch);
+        // Assert
+        Assert.Equal(daysInMonthBefore, actual);
+    }
 
     [Theory, MemberData(nameof(DateInfoData))]
     public void CountDaysInMonthBefore﹍DateParts(DateInfo info)
@@ -164,54 +334,77 @@ public partial class ICalendricalSchemaPlusFacts<TSchema, TDataSet> // Methods
     #endregion
     #region CountDaysInMonthAfter()
 
-    [Theory, MemberData(nameof(DateInfoData))]
-    public void CountDaysInMonthAfter﹍DateParts(DateInfo info)
+    [Theory, MemberData(nameof(MonthInfoData))]
+    public void CountDaysInMonthAfter﹍DateParts_AtStartOfMonth(MonthInfo info)
     {
-        var (y, m, d) = info.Yemoda;
-        int daysInMonthAfter = SchemaUT.CountDaysInMonth(y, m) - d;
+        var (y, m) = info.Yemo;
+        int daysInMonthAfter = info.DaysInMonth - 1;
+        // Act
+        int actual = SchemaUT.CountDaysInMonthAfter(y, m, 1);
+        // Assert
+        Assert.Equal(daysInMonthAfter, actual);
+    }
+
+    [Theory, MemberData(nameof(MonthInfoData))]
+    public void CountDaysInMonthAfter﹍DaysSinceEpoch_AtStartOfMonth(MonthInfo info)
+    {
+        var (y, m) = info.Yemo;
+        int daysSinceEpoch = SchemaUT.GetStartOfMonth(y, m);
+        int daysInMonthAfter = info.DaysInMonth - 1;
+        // Act
+        int actual = SchemaUT.CountDaysInMonthAfter(daysSinceEpoch);
+        // Assert
+        Assert.Equal(daysInMonthAfter, actual);
+    }
+
+    [Theory, MemberData(nameof(MonthInfoData))]
+    public void CountDaysInMonthAfter﹍DateParts_AtEndOfMonth(MonthInfo info)
+    {
+        var (y, m) = info.Yemo;
+        int d = info.DaysInMonth;
+        // Act
+        int actual = SchemaUT.CountDaysInMonthAfter(y, m, d);
+        // Assert
+        Assert.Equal(0, actual);
+    }
+
+    [Theory, MemberData(nameof(MonthInfoData))]
+    public void CountDaysInMonthAfter﹍DaysSinceEpoch_AtEndOfMonth(MonthInfo info)
+    {
+        var (y, m) = info.Yemo;
+        int daysSinceEpoch = SchemaUT.GetEndOfMonth(y, m);
+        // Act
+        int actual = SchemaUT.CountDaysInMonthAfter(daysSinceEpoch);
+        // Assert
+        Assert.Equal(0, actual);
+    }
+
+    [Theory, MemberData(nameof(DaysInMonthAfterDateData))]
+    public void CountDaysInMonthAfter﹍DateParts(YemodaAnd<int> info)
+    {
+        var (y, m, d, daysInMonthAfter) = info;
         // Act
         int actual = SchemaUT.CountDaysInMonthAfter(y, m, d);
         // Assert
         Assert.Equal(daysInMonthAfter, actual);
     }
 
-    [Theory, MemberData(nameof(MonthInfoData))]
-    public void CountDaysInMonthAfter﹍DateParts_DaysInMonth(MonthInfo info)
+    [Theory, MemberData(nameof(DaysInMonthAfterDateData))]
+    public void CountDaysInMonthAfter﹍OrdinalParts(YemodaAnd<int> info)
     {
-        var (y, m) = info.Yemo;
-
-        int daysInMonth = info.DaysInMonth;
-        // Act
-        int actual1 = SchemaUT.CountDaysInMonthAfter(y, m, 1);
-        int actual2 = SchemaUT.CountDaysInMonthAfter(y, m, 2);
-        int actual3 = SchemaUT.CountDaysInMonthAfter(y, m, 3);
-        int actual4 = SchemaUT.CountDaysInMonthAfter(y, m, 4);
-        int actual5 = SchemaUT.CountDaysInMonthAfter(y, m, 5);
-        // We can't go further because of the schemas w/ a virtual thirteen month.
-        // Assert
-        Assert.Equal(daysInMonth - 1, actual1);
-        Assert.Equal(daysInMonth - 2, actual2);
-        Assert.Equal(daysInMonth - 3, actual3);
-        Assert.Equal(daysInMonth - 4, actual4);
-        Assert.Equal(daysInMonth - 5, actual5);
-    }
-
-    [Theory, MemberData(nameof(DateInfoData))]
-    public void CountDaysInMonthAfter﹍OrdinalParts(DateInfo info)
-    {
-        var (y, m, d, doy) = info;
-        int daysInMonthAfter = SchemaUT.CountDaysInMonth(y, m) - d;
+        var (y, m, d, daysInMonthAfter) = info;
+        int doy = SchemaUT.GetDayOfYear(y, m, d);
         // Act
         int actual = SchemaUT.CountDaysInMonthAfter(y, doy);
         // Assert
         Assert.Equal(daysInMonthAfter, actual);
     }
 
-    [Theory, MemberData(nameof(DaysSinceEpochInfoData))]
-    public void CountDaysInMonthAfter﹍DaysSinceEpoch(DaysSinceEpochInfo info)
+    [Theory, MemberData(nameof(DaysInMonthAfterDateData))]
+    public void CountDaysInMonthAfter﹍DaysSinceEpoch(YemodaAnd<int> info)
     {
-        var (daysSinceEpoch, y, m, d) = info;
-        int daysInMonthAfter = SchemaUT.CountDaysInMonth(y, m) - d;
+        var (y, m, d, daysInMonthAfter) = info;
+        int daysSinceEpoch = SchemaUT.CountDaysSinceEpoch(y, m, d);
         // Act
         int actual = SchemaUT.CountDaysInMonthAfter(daysSinceEpoch);
         // Assert

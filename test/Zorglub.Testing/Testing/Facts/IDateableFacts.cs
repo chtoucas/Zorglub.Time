@@ -90,59 +90,42 @@ public partial class IDateableFacts<TDate, TDataSet> // Prelude
 
 public partial class IDateableFacts<TDate, TDataSet> // Counting
 {
-    [Theory, MemberData(nameof(MonthInfoData))]
-    public void CountElapsedDaysInYear_AtStartOfMonth(MonthInfo info)
-    {
-        var (y, m) = info.Yemo;
-        // Act
-        var date = GetDate(y, m, 1);
-        // Assert
-        Assert.Equal(info.DaysInYearBeforeMonth, date.CountElapsedDaysInYear());
-    }
-
     [Theory, MemberData(nameof(DateInfoData))]
     public void CountElapsedDaysInYear(DateInfo info)
     {
         var (y, m, d, doy) = info;
+        int daysInYearBefore = doy - 1;
         var date = GetDate(y, m, d);
         // Act & Assert
-        Assert.Equal(doy - 1, date.CountElapsedDaysInYear());
-    }
-
-    [Theory, MemberData(nameof(YearInfoData))]
-    public void CountRemainingDaysInYear_AtStartOfYear(YearInfo info)
-    {
-        // Act
-        var date = GetDate(info.Year, 1, 1);
-        // Assert
-        Assert.Equal(info.DaysInYear - 1, date.CountRemainingDaysInYear());
+        Assert.Equal(daysInYearBefore, date.CountElapsedDaysInYear());
     }
 
     [Theory, MemberData(nameof(DaysInYearAfterDateData))]
     public void CountRemainingDaysInYear(YemodaAnd<int> info)
     {
-        var (y, m, d, days) = info;
+        var (y, m, d, daysInYearAfter) = info;
         var date = GetDate(y, m, d);
         // Act & Assert
-        Assert.Equal(days, date.CountRemainingDaysInYear());
+        Assert.Equal(daysInYearAfter, date.CountRemainingDaysInYear());
     }
 
     [Theory, MemberData(nameof(DateInfoData))]
     public void CountElapsedDaysInMonth(DateInfo info)
     {
         var (y, m, d) = info.Yemoda;
+        int daysInMonthBefore = d - 1;
         var date = GetDate(y, m, d);
         // Act & Assert
-        Assert.Equal(d - 1, date.CountElapsedDaysInMonth());
+        Assert.Equal(daysInMonthBefore, date.CountElapsedDaysInMonth());
     }
 
     [Theory, MemberData(nameof(DaysInMonthAfterDateData))]
     public void CountRemainingDaysInMonth(YemodaAnd<int> info)
     {
-        var (y, m, d, days) = info;
+        var (y, m, d, daysInMonthAfter) = info;
         var date = GetDate(y, m, d);
         // Act & Assert
-        Assert.Equal(days, date.CountRemainingDaysInMonth());
+        Assert.Equal(daysInMonthAfter, date.CountRemainingDaysInMonth());
     }
 }
 

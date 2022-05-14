@@ -79,12 +79,18 @@ namespace Zorglub.Time.Core
 
         protected int ApproxMonthsInYear { get; }
 
+#if false
         // FIXME(code): still not OK for some neg years w/
         // - Coptic12/3Schema
         // - FrenchRepublican12/3Schema
+        // - LunisolarSchema
         // - Persian2820Schema
         // - TabularIslamicSchema
-        // Once fixed, enable commented tests in PrototypalSchemaTests.fs.
+        // Once fixed, enable commented tests in PrototypalSchemaTestSuite.fs.
+        //
+        // Other failures: Gregorian
+        // - CountDaysInYearBefore﹍DaysSinceEpoch_AtStartOfYear() -> returns daysInYear or (daysInYear + 1) instead of 0
+        // - CountDaysInYearAfter﹍DaysSinceEpoch_AtStartOfYear()  -> returns -1 instead of (daysInYear - 1)
 
         /// <inheritdoc />
         [Pure]
@@ -111,6 +117,7 @@ namespace Zorglub.Time.Core
             doy = 1 + daysSinceEpoch - startOfYear;
             return y;
         }
+#endif
 
         /// <inheritdoc />
         [Pure]

@@ -19,6 +19,7 @@ internal static class XunitTrait
 {
     // All traits have a single property: we use the same string for both name
     // and value of a trait.
+    public const string Redundant = "Redundant";
     public const string Performance = "Performance";
     public const string ExcludeFrom = "ExcludeFrom";
 }
@@ -27,16 +28,25 @@ internal static class XunitTrait
 // the name contains the string "Slow" to filter out the slow tests.
 public enum TestPerformance
 {
+    // Usually applied to a single test, or to a test class, that is a set of
+    // tests that run together are quite slow.
     Slow,
+    // Usually applied to single tests that take more than 1s to run.
     VerySlow
 }
 
 public enum TestExcludeFrom
 {
-    // We mostly use the trait "Smoke" to exclude members of a test suite or
-    // redundant tests.
+    // We mostly use this trait to exclude all members of a test suite but the first one.
     Smoke,
     CodeCoverage
+}
+
+[TraitDiscoverer(XunitTraitAssembly.TypePrefix + nameof(RedundantTraitDiscoverer), XunitTraitAssembly.Name)]
+[AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = false)]
+public sealed class TestRedundantAttribute : Attribute, ITraitAttribute
+{
+    public TestRedundantAttribute() { }
 }
 
 [TraitDiscoverer(XunitTraitAssembly.TypePrefix + nameof(PerformanceTraitDiscoverer), XunitTraitAssembly.Name)]
@@ -58,6 +68,16 @@ public sealed class TestExcludeFromAttribute : Attribute, ITraitAttribute
 }
 
 #region Discovers
+
+// FIXME(code): the trait discoverers do not inspect the base classes.
+
+public class RedundantTraitDiscoverer : ITraitDiscoverer
+{
+    public IEnumerable<KeyValuePair<string, string>> GetTraits(IAttributeInfo traitAttribute!!)
+    {
+        yield return new KeyValuePair<string, string>(XunitTrait.Redundant, "true");
+    }
+}
 
 public class PerformanceTraitDiscoverer : ITraitDiscoverer
 {
