@@ -16,11 +16,12 @@ using Xunit.Sdk;
 // Profiles
 // --------
 // Smoke and GitHub action
-//   "ExcludeFrom!=Smoke&Performance!~Slow"
+//   "ExcludeFrom!=Smoke&Performance!~Slow&Redundant!=true"
 //   Excluded:
 //   - A bunch of tests in Postludes (slow unit)
 //   - ArchetypalSchemaTestSuite (slow group)
 //   - PrototypalSchemaTestSuite (slow group)
+//   - Redundant tests
 //   We only keep one test class per test suite (no smoke)
 //
 // Test
