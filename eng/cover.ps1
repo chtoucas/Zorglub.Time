@@ -94,8 +94,8 @@ function Invoke-Coverlet {
         Remove-Item $rgOutput -Force -Recurse
     }
 
-    #$project = ""
     $project = Join-Path $TEST_DIR "$projectName.Tests"
+    #$project = ""
 
     # Common args.
     $args = @("-c:$Configuration")

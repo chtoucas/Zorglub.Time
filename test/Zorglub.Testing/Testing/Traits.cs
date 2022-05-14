@@ -76,16 +76,23 @@ public enum TestPerformance
 
 public enum TestExcludeFrom
 {
-    // We use this to exclude all classes in a test suite but the first one.
+    /// <summary>
+    /// Exclude from smoke testing.
+    /// <para>We use this to exclude all classes in a test suite but the first one.</para>
+    /// </summary>
     Smoke,
 
-    // For instance, we exclude deeply recursive functions.
+    /// <summary>
+    /// Exclude from code coverage.
+    /// <para>For instance, we exclude deeply recursive functions.</para>
+    /// </summary>
     CodeCoverage
 }
 
 // We use this trait to exclude redundant tests, mostly apply to classes in a
-// test suite. This is very similar to TestExcludeFrom.Smoke, except that we
-// keep more than one test class.
+// test suite.
+// For test suites, this is very similar to TestExcludeFrom.Smoke, except that
+// we keep all test classes necessary for full code coverage.
 [TraitDiscoverer(XunitTraitAssembly.TypePrefix + nameof(RedundantTraitDiscoverer), XunitTraitAssembly.Name)]
 [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = false)]
 public sealed class RedundantTestingAttribute : Attribute, ITraitAttribute
