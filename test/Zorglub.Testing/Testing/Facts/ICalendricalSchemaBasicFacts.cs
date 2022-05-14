@@ -18,8 +18,15 @@ public abstract class ICalendricalSchemaBasicFacts<TSchema, TDataSet> :
     protected bool TestGetYearAnyway { get; init; }
     protected bool TestGetMonthAnyway { get; init; }
 
-    [Fact] public abstract void PreValidator_Prop();
-    [Fact] public abstract void Arithmetic_Prop();
+    public override void Algorithm_Prop() { }
+    public override void Family_Prop() { }
+    public override void PeriodicAdjustments_Prop() { }
+    public override void SupportedYears_Prop() { }
+
+    public override void IsRegular() { }
+
+    [Fact] public virtual void PreValidator_Prop() { }
+    [Fact] public virtual void Arithmetic_Prop() { }
 
     // We only test the core virtual methods.
 

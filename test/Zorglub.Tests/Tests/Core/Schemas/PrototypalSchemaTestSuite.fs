@@ -5,6 +5,7 @@ module Zorglub.Tests.Core.Schemas.PrototypalSchemaTestSuite
 
 open Zorglub.Testing
 open Zorglub.Testing.Data.Schemas
+open Zorglub.Testing.Facts
 open Zorglub.Testing.Facts.Core
 
 open Zorglub.Time.Core
@@ -36,8 +37,13 @@ let private prototypeOf2<'a when 'a : not struct and 'a :> ICalendricalSchema an
 [<TestPerformance(TestPerformance.SlowGroup)>]
 [<TestExcludeFrom(TestExcludeFrom.CodeCoverage)>]
 [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
-type Coptic12BasicTests() =
-    inherit ArchetypalSchemaBasicFacts<Coptic12DataSet>(prototypeOf2<Coptic12Schema>())
+type Coptic12BasicTests() as self =
+    inherit ICalendricalSchemaBasicFacts<PrototypalSchema2, Coptic12DataSet>(prototypeOf2<Coptic12Schema>())
+    do
+        self.TestGetYearAnyway  <- true
+        self.TestGetMonthAnyway <- true
+
+    override __.KernelDoesNotOverflow() = ()
 
 // =====================================================================================================================
 
