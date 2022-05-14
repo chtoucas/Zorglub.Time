@@ -12,9 +12,7 @@ using Zorglub.Time.Hemerology;
 /// </summary>
 public abstract partial class IDateMathFacts<TDate, TDataSet>
     where TDate : IDate<TDate>
-    where TDataSet :
-        IMathDataSet,
-        ISingleton<TDataSet>
+    where TDataSet : IMathDataSet, ISingleton<TDataSet>
 {
     protected IDateMathFacts() { }
 

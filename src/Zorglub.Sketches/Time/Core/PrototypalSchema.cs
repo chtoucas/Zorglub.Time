@@ -62,7 +62,7 @@ namespace Zorglub.Time.Core
                     y++;
                     startOfYear = startOfNextYear;
                 }
-                //Debug.Assert(daysSinceEpoch >= startOfYear);
+                Debug.Assert(daysSinceEpoch >= startOfYear);
             }
 
             doy = 1 + daysSinceEpoch - startOfYear;
