@@ -19,8 +19,8 @@ using Xunit.Sdk;
 //   "ExcludeFrom!=Smoke&Performance!~Slow"
 //   Excluded:
 //   - A bunch of tests in Postludes (slow unit)
-//   - ArchetypalSchemaTestSuite (slow group AND no smoke)
-//   - PrototypalSchemaTestSuite (slow group AND no smoke)
+//   - ArchetypalSchemaTestSuite (slow group)
+//   - PrototypalSchemaTestSuite (slow group)
 //   We only keep one test class per test suite (no smoke)
 //
 // Test
@@ -33,9 +33,9 @@ using Xunit.Sdk;
 // Code Coverage
 //   "ExcludeFrom!=CodeCoverage&Redundant!=true"
 //   Excluded:
-//   - ArchetypalSchemaTestSuite (no code coverage)
-//   - PrototypalSchemaTestSuite (no code coverage)
-//   - Postludes (no code coverage)
+//   - A bunch of tests in Postludes (no code coverage)
+//   - ArchetypalSchemaTestSuite (no code coverage OR redundant)
+//   - PrototypalSchemaTestSuite (no code coverage OR redundant)
 //   - Redundant tests
 //
 // See https://github.com/xunit/samples.xunit/blob/main/TraitExtensibility/
@@ -75,13 +75,16 @@ public enum TestPerformance
 
 public enum TestExcludeFrom
 {
-    // We use this to exclude all members of a test suite but the first one.
+    // We use this to exclude all classes in a test suite but the first one.
     Smoke,
 
     // For instance, we exclude deeply recursive functions.
     CodeCoverage
 }
 
+// We use this trait to exclude redundant tests, mostly apply to classes in a
+// test suite. This is very similar to TestExcludeFrom.Smoke, except that we
+// keep more than one test class.
 [TraitDiscoverer(XunitTraitAssembly.TypePrefix + nameof(RedundantTraitDiscoverer), XunitTraitAssembly.Name)]
 [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = false)]
 public sealed class RedundantTestingAttribute : Attribute, ITraitAttribute
