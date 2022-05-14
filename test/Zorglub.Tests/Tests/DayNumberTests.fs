@@ -839,7 +839,7 @@ module Postlude =
             (false, sprintf "First failure: %O." dayNumber)
 
     [<Fact>]
-    [<TestPerformance(TestPerformance.VerySlow)>]
+    [<TestPerformance(TestPerformance.SlowUnit)>]
     [<TestExcludeFrom(TestExcludeFrom.CodeCoverage)>]
     let ``Deep comparison between DayNumber and CivilDate`` () =
         // NB: both start on Monday January 1, 1 (CE).

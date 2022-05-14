@@ -105,28 +105,6 @@ lorsqu'on souhaite débugger un test.
 
 Traits: see file "Zorglub.Testing.Traits.cs".
 
-Profiles:
-- Smoke and GitHub action            
-    ExcludeFrom!=Smoke&Performance!~Slow
-    We exclude:
-    - Postludes (very slow)
-    - ArchetypalSchemaTestSuite (slow AND no smoke)
-    - PrototypalSchemaTestSuite (slow AND no smoke)
-    - Test suites, we only keep one test class (no smoke)
-- Test
-    Performance!=Slow&Redundant!=true
-    We exclude:
-    - ArchetypalSchemaTestSuite (slow)
-    - PrototypalSchemaTestSuite (slow)
-    - Redundant tests
-- Code Coverage
-    ExcludeFrom!=CodeCoverage&Redundant!=true
-    We exclude:
-    - ArchetypalSchemaTestSuite (no code coverage)
-    - PrototypalSchemaTestSuite (no code coverage)
-    - Postludes (no code coverage)
-    - Redundant tests
-
 ### Typical Layout of a Test Module
 
 #### Value Types

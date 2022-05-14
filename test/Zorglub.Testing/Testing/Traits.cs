@@ -6,7 +6,41 @@ namespace Zorglub.Testing;
 using Xunit.Abstractions;
 using Xunit.Sdk;
 
+#region Developer Notes
+
+// Traits:
+// - RedundantTest
+// - TestPerfomance
+// - TestExcludeFrom
+//
+// Profiles
+// --------
+// Smoke and GitHub action
+//   "ExcludeFrom!=Smoke&Performance!~Slow"
+//   Excluded:
+//   - A bunch of tests in Postludes (slow unit)
+//   - ArchetypalSchemaTestSuite (slow group AND no smoke)
+//   - PrototypalSchemaTestSuite (slow group AND no smoke)
+//   We only keep one test class per test suite (no smoke)
+//
+// Test
+//   "Performance!=SlowGroup&Redundant!=true"
+//   Excluded:
+//   - ArchetypalSchemaTestSuite (slow group)
+//   - PrototypalSchemaTestSuite (slow group)
+//   - Redundant tests
+//
+// Code Coverage
+//   "ExcludeFrom!=CodeCoverage&Redundant!=true"
+//   Excluded:
+//   - ArchetypalSchemaTestSuite (no code coverage)
+//   - PrototypalSchemaTestSuite (no code coverage)
+//   - Postludes (no code coverage)
+//   - Redundant tests
+//
 // See https://github.com/xunit/samples.xunit/blob/main/TraitExtensibility/
+
+#endregion
 
 internal static class XunitTraitAssembly
 {
@@ -28,25 +62,31 @@ internal static class XunitTrait
 // the name contains the string "Slow" to filter out the slow tests.
 public enum TestPerformance
 {
-    // Usually applied to a single test, or to a test class, that is a set of
-    // tests that run together are quite slow.
-    Slow,
-    // Usually applied to single tests that take more than 1s to run.
-    VerySlow
+    /// <summary>
+    /// A single slow test.
+    /// </summary>
+    SlowUnit,
+
+    /// <summary>
+    /// A group of slow tests, typically a test class.
+    /// </summary>
+    SlowGroup
 }
 
 public enum TestExcludeFrom
 {
-    // We mostly use this trait to exclude all members of a test suite but the first one.
+    // We use this to exclude all members of a test suite but the first one.
     Smoke,
+
+    // For instance, we exclude deeply recursive functions.
     CodeCoverage
 }
 
 [TraitDiscoverer(XunitTraitAssembly.TypePrefix + nameof(RedundantTraitDiscoverer), XunitTraitAssembly.Name)]
 [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = false)]
-public sealed class TestRedundantAttribute : Attribute, ITraitAttribute
+public sealed class RedundantTestingAttribute : Attribute, ITraitAttribute
 {
-    public TestRedundantAttribute() { }
+    public RedundantTestingAttribute() { }
 }
 
 [TraitDiscoverer(XunitTraitAssembly.TypePrefix + nameof(PerformanceTraitDiscoverer), XunitTraitAssembly.Name)]

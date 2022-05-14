@@ -71,7 +71,7 @@ try {
 
     $args += "--no-build"
     #if ($NoBuild)  { $args += "--no-build" }
-    if (-not $All) { $args += "--filter:Performance!=Slow&Redundant!=true" }
+    if (-not $All) { $args += "--filter:Performance!=SlowGroup&Redundant!=true" }
 
     & dotnet test $project $args `
         || die 'Failed to test the project.'

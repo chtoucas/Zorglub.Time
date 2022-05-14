@@ -15,7 +15,7 @@ open Xunit
 //   "TraitsTests&ExcludeFrom!=Smoke"
 //   "TraitsTests&ExcludeFrom!=CodeCoverage"
 // Plan: 3 tests
-//   "TraitsTests&ExcludeFrom!=Smoke&Performance!=Slow"
+//   "TraitsTests&ExcludeFrom!=Smoke&Performance!=SlowGroup"
 // Plan: 2 tests
 //   "TraitsTests&ExcludeFrom!=Smoke&ExcludeFrom!=CodeCoverage"
 // Plan: 1 test
@@ -35,49 +35,49 @@ let ``ExcludeFrom = CodeCoverage`` () = ()
 let ``ExcludeFrom = CodeCoverage and Smoke`` () = ()
 
 //
-// Slow
+// SlowUnit
 //
 
 [<Fact>]
-[<TestPerformance(TestPerformance.Slow)>]
-let ``Performance = Slow`` () = ()
+[<TestPerformance(TestPerformance.SlowUnit)>]
+let ``Performance = SlowUnit`` () = ()
 
 [<Fact>]
-[<TestPerformance(TestPerformance.Slow)>]
+[<TestPerformance(TestPerformance.SlowUnit)>]
 [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
-let ``Performance = Slow AND ExcludeFrom = Smoke`` () = ()
+let ``Performance = SlowUnit AND ExcludeFrom = Smoke`` () = ()
 
 [<Fact>]
-[<TestPerformance(TestPerformance.Slow)>]
+[<TestPerformance(TestPerformance.SlowUnit)>]
 [<TestExcludeFrom(TestExcludeFrom.CodeCoverage)>]
-let ``Performance = Slow AND ExcludeFrom = CodeCoverage`` () = ()
+let ``Performance = SlowUnit AND ExcludeFrom = CodeCoverage`` () = ()
 
 [<Fact>]
-[<TestPerformance(TestPerformance.Slow)>]
+[<TestPerformance(TestPerformance.SlowUnit)>]
 [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
 [<TestExcludeFrom(TestExcludeFrom.CodeCoverage)>]
-let ``Performance = Slow AND ExcludeFrom = Smoke and CodeCoverage`` () = ()
+let ``Performance = SlowUnit AND ExcludeFrom = Smoke and CodeCoverage`` () = ()
 
 //
-// VerySlow
+// SlowGroup
 //
 
 [<Fact>]
-[<TestPerformance(TestPerformance.VerySlow)>]
-let ``Performance = VerySlow`` () = ()
+[<TestPerformance(TestPerformance.SlowGroup)>]
+let ``Performance = SlowGroup`` () = ()
 
 [<Fact>]
-[<TestPerformance(TestPerformance.VerySlow)>]
+[<TestPerformance(TestPerformance.SlowGroup)>]
 [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
-let ``Performance = VerySlow AND ExcludeFrom = Smoke`` () = ()
+let ``Performance = SlowGroup AND ExcludeFrom = Smoke`` () = ()
 
 [<Fact>]
-[<TestPerformance(TestPerformance.VerySlow)>]
+[<TestPerformance(TestPerformance.SlowGroup)>]
 [<TestExcludeFrom(TestExcludeFrom.CodeCoverage)>]
-let ``Performance = VerySlow AND ExcludeFrom = CodeCoverage`` () = ()
+let ``Performance = SlowGroup AND ExcludeFrom = CodeCoverage`` () = ()
 
 [<Fact>]
-[<TestPerformance(TestPerformance.VerySlow)>]
+[<TestPerformance(TestPerformance.SlowGroup)>]
 [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
 [<TestExcludeFrom(TestExcludeFrom.CodeCoverage)>]
-let ``Performance = VerySlow AND ExcludeFrom = Smoke and CodeCoverage`` () = ()
+let ``Performance = SlowGroup AND ExcludeFrom = Smoke and CodeCoverage`` () = ()

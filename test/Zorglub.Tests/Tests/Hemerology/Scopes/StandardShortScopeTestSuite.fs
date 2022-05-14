@@ -30,22 +30,22 @@ type Coptic12Tests() =
 type Coptic13Tests() =
     inherit StandardShortScopeFacts<Coptic13DataSet>(scopeOf<Coptic13Schema>())
 
-[<TestRedundant>]
+[<RedundantTesting>]
 [<Sealed; TestExcludeFrom(TestExcludeFrom.Smoke)>]
 type Egyptian12Tests() =
     inherit StandardShortScopeFacts<Egyptian12DataSet>(scopeOf<Egyptian12Schema>())
 
-[<TestRedundant>]
+[<RedundantTesting>]
 [<Sealed; TestExcludeFrom(TestExcludeFrom.Smoke)>]
 type Egyptian13Tests() =
     inherit StandardShortScopeFacts<Egyptian13DataSet>(scopeOf<Egyptian13Schema>())
 
-[<TestRedundant>]
+[<RedundantTesting>]
 [<Sealed; TestExcludeFrom(TestExcludeFrom.Smoke)>]
 type FrenchRepublican12Tests() =
     inherit StandardShortScopeFacts<FrenchRepublican12DataSet>(scopeOf<FrenchRepublican12Schema>())
 
-[<TestRedundant>]
+[<RedundantTesting>]
 [<Sealed; TestExcludeFrom(TestExcludeFrom.Smoke)>]
 type FrenchRepublican13Tests() =
     inherit StandardShortScopeFacts<FrenchRepublican13DataSet>(scopeOf<FrenchRepublican13Schema>())
@@ -60,7 +60,7 @@ type GregorianTests() =
 type InternationalFixedTests() =
     inherit StandardShortScopeFacts<InternationalFixedDataSet>(scopeOf<InternationalFixedSchema>())
 
-[<TestRedundant>]
+[<RedundantTesting>]
 [<Sealed; TestExcludeFrom(TestExcludeFrom.Smoke)>]
 type JulianTests() =
     inherit StandardShortScopeFacts<JulianDataSet>(scopeOf<JulianSchema>())
@@ -70,17 +70,17 @@ type JulianTests() =
 type LunisolarTests() =
     inherit StandardShortScopeFacts<LunisolarDataSet>(scopeOf<LunisolarSchema>())
 
-[<TestRedundant>]
+[<RedundantTesting>]
 [<Sealed; TestExcludeFrom(TestExcludeFrom.Smoke)>]
 type PaxTests() =
     inherit StandardShortScopeFacts<PaxDataSet>(scopeOf<PaxSchema>())
 
-[<TestRedundant>]
+[<RedundantTesting>]
 [<Sealed; TestExcludeFrom(TestExcludeFrom.Smoke)>]
 type Persian2820Tests() =
     inherit StandardShortScopeFacts<Persian2820DataSet>(scopeOf<Persian2820Schema>())
 
-[<TestRedundant>]
+[<RedundantTesting>]
 [<Sealed; TestExcludeFrom(TestExcludeFrom.Smoke)>]
 type PositivistTests() =
     inherit StandardShortScopeFacts<PositivistDataSet>(scopeOf<PositivistSchema>())
@@ -90,22 +90,22 @@ type PositivistTests() =
 type TabularIslamicTests() =
     inherit StandardShortScopeFacts<TabularIslamicDataSet>(scopeOf<TabularIslamicSchema>())
 
-[<TestRedundant>]
+[<RedundantTesting>]
 [<Sealed; TestExcludeFrom(TestExcludeFrom.Smoke)>]
 type TropicaliaTests() =
     inherit StandardShortScopeFacts<TropicaliaDataSet>(scopeOf<TropicaliaSchema>())
 
-[<TestRedundant>]
+[<RedundantTesting>]
 [<Sealed; TestExcludeFrom(TestExcludeFrom.Smoke)>]
 type Tropicalia3031Tests() =
     inherit StandardShortScopeFacts<Tropicalia3031DataSet>(scopeOf<Tropicalia3031Schema>())
 
-[<TestRedundant>]
+[<RedundantTesting>]
 [<Sealed; TestExcludeFrom(TestExcludeFrom.Smoke)>]
 type Tropicalia3130Tests() =
     inherit StandardShortScopeFacts<Tropicalia3130DataSet>(scopeOf<Tropicalia3130Schema>())
 
-[<TestRedundant>]
+[<RedundantTesting>]
 [<Sealed; TestExcludeFrom(TestExcludeFrom.Smoke)>]
 type WorldTests() =
     inherit StandardShortScopeFacts<WorldDataSet>(scopeOf<WorldSchema>())
