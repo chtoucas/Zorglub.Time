@@ -41,26 +41,30 @@ namespace Zorglub.Time.Core
 
         /// <inheritdoc />
         [Pure]
-        public override int GetYear(int daysSinceEpoch, out int doy)
+        public sealed override int GetYear(int daysSinceEpoch, out int doy)
         {
-            // It's very similar to what we do in ArchetypalSchema, but when we
-            // start the loop we are much closer to the actual value of the year.
-
-            // To get our first approximation of the value of the year, we pretend
-            // that the years have a constant length equal to MinDaysInYear.
-            // > y = 1 + MathZ.Divide(daysSinceEpoch, MinDaysInYear, out int d0y);
-            // Notice that the division gives us a zero-based year.
             int y = 1 + MathZ.Divide(daysSinceEpoch, MinDaysInYear);
             int startOfYear = GetStartOfYear(y);
 
-            // Notice that the first approximation for the value of the year is
-            // greater than or equal to the actual value.
-            while (daysSinceEpoch < startOfYear)
+            if (daysSinceEpoch >= 0)
             {
-                startOfYear -= CountDaysInYear(--y);
+                while (daysSinceEpoch < startOfYear)
+                {
+                    startOfYear -= CountDaysInYear(--y);
+                }
+            }
+            else
+            {
+                while (daysSinceEpoch >= startOfYear)
+                {
+                    int startOfNextYear = startOfYear + CountDaysInYear(y);
+                    if (daysSinceEpoch < startOfNextYear) { break; }
+                    y++;
+                    startOfYear = startOfNextYear;
+                }
+                //Debug.Assert(daysSinceEpoch >= startOfYear);
             }
 
-            // Notice that, as expected, doy >= 1.
             doy = 1 + daysSinceEpoch - startOfYear;
             return y;
         }
@@ -128,7 +132,7 @@ namespace Zorglub.Time.Core
 #if false
         /// <inheritdoc />
         [Pure]
-        public override int GetYear(int daysSinceEpoch, out int doy)
+        public sealed override int GetYear(int daysSinceEpoch, out int doy)
         {
             // It's very similar to what we do in ArchetypalSchema, but when we
             // start the loop we are much closer to the actual value of the year.
@@ -155,7 +159,7 @@ namespace Zorglub.Time.Core
 
         /// <inheritdoc />
         [Pure]
-        public override int GetMonth(int y, int doy, out int d)
+        public sealed override int GetMonth(int y, int doy, out int d)
         {
             if (DisableCustomGetMonth) { return base.GetMonth(y, doy, out d); }
 

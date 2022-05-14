@@ -190,7 +190,7 @@ namespace Zorglub.Time.Core
         {
             // Faster alternatives:
             // - Use a purely computational formula.
-            // - Start with an approximation of the result, see ArchetypalSchema.
+            // - Start with an approximation of the result, see PrototypalSchema.
 
             // Find the year for which (daysSinceEpoch - startOfYear) = d0y
             // has the smallest value >= 0.
@@ -234,7 +234,7 @@ namespace Zorglub.Time.Core
         {
             // Faster alternatives:
             // - Use a purely computational formula.
-            // - Start with an approximation of the result, see ArchetypalSchema.
+            // - Start with an approximation of the result, see PrototypalSchema.
 
             int m = 1;
             int daysInYearBeforeMonth = 0;
@@ -260,7 +260,7 @@ namespace Zorglub.Time.Core
         {
             // Faster alternatives:
             // - Use a purely computational formula.
-            // - Cache the result, see ArchetypalSchema.
+            // - Cache the result, see PrototypalSchema.
 
             int daysSinceEpoch = 0;
 

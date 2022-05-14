@@ -36,7 +36,7 @@ let private prototypeOf2<'a when 'a : not struct and 'a :> ICalendricalSchema an
 [<TestPerformance(TestPerformance.SlowGroup)>]
 [<TestExcludeFrom(TestExcludeFrom.CodeCoverage)>]
 [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
-type Coptic12ArchetypalBasicTests() =
+type Coptic12BasicTests() =
     inherit ArchetypalSchemaBasicFacts<Coptic12DataSet>(prototypeOf2<Coptic12Schema>())
 
 // =====================================================================================================================
