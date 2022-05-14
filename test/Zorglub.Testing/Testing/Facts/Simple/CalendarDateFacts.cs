@@ -10,11 +10,7 @@ using Zorglub.Time.Simple;
 /// Provides facts about <see cref="CalendarDate"/>.
 /// </summary>
 public abstract partial class CalendarDateFacts<TDataSet> : SimpleDateFacts<CalendarDate, TDataSet>
-    where TDataSet :
-        ICalendarDataSet,
-        // TODO(fact): remove the constraint IAdvancedMathDataSet.
-        IAdvancedMathDataSet,
-        ISingleton<TDataSet>
+    where TDataSet : ICalendarDataSet, ISingleton<TDataSet>
 {
     protected CalendarDateFacts(Calendar calendar, Calendar otherCalendar)
         : base(calendar, otherCalendar)
@@ -29,10 +25,6 @@ public abstract partial class CalendarDateFacts<TDataSet> : SimpleDateFacts<Cale
 
     protected sealed override CalendarDate GetDate(int y, int m, int d) =>
         CalendarUT.GetCalendarDate(y, m, d);
-
-    // IAdvancedMathDataSet
-    public static TheoryData<Yemoda, Yemoda, int> AddYearsData => DataSet.AddYearsData;
-    public static TheoryData<Yemoda, Yemoda, int> AddMonthsData => DataSet.AddMonthsData;
 }
 
 public partial class CalendarDateFacts<TDataSet> // Prelude
@@ -201,44 +193,5 @@ public partial class CalendarDateFacts<TDataSet> // Conversions
         // Act & Assert
         Assert.Equal(other, date.WithCalendar(OtherCalendar));
         Assert.Equal(date, other.WithCalendar(CalendarUT));
-    }
-}
-
-public partial class CalendarDateFacts<TDataSet> // Math ops
-{
-    [Theory, MemberData(nameof(AddMonthsData))]
-    public void PlusMonths(Yemoda xstart, Yemoda xend, int months)
-    {
-        var start = new CalendarDate(xstart, CalendarUT.Id);
-        var end = new CalendarDate(xend, CalendarUT.Id);
-        // Act & Assert
-        Assert.Equal(end, start.PlusMonths(months));
-    }
-
-    [Theory, MemberData(nameof(AddMonthsData))]
-    public void CountMonthsSince(Yemoda xstart, Yemoda xend, int months)
-    {
-        var start = new CalendarDate(xstart, CalendarUT.Id);
-        var end = new CalendarDate(xend, CalendarUT.Id);
-        // Act & Assert
-        Assert.Equal(months, end.CountMonthsSince(start));
-    }
-
-    [Theory, MemberData(nameof(AddYearsData))]
-    public void PlusYears(Yemoda xstart, Yemoda xend, int years)
-    {
-        var start = new CalendarDate(xstart, CalendarUT.Id);
-        var end = new CalendarDate(xend, CalendarUT.Id);
-        // Act & Assert
-        Assert.Equal(end, start.PlusYears(years));
-    }
-
-    [Theory, MemberData(nameof(AddYearsData))]
-    public void CountYearsSince(Yemoda xstart, Yemoda xend, int years)
-    {
-        var start = new CalendarDate(xstart, CalendarUT.Id);
-        var end = new CalendarDate(xend, CalendarUT.Id);
-        // Act & Assert
-        Assert.Equal(years, end.CountYearsSince(start));
     }
 }

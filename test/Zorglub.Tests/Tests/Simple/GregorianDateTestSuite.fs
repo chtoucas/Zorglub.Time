@@ -6,6 +6,7 @@ module Zorglub.Tests.Simple.GregorianDateTestSuite
 open Zorglub.Testing.Data.Bounded
 open Zorglub.Testing.Facts
 open Zorglub.Testing.Facts.Hemerology
+open Zorglub.Testing.Facts.Simple
 
 open Zorglub.Time.Simple
 
@@ -16,6 +17,10 @@ type GregorianTests() =
     override __.CreateDate(y, m, d) = GregorianCalendar.Instance.GetCalendarDate(y, m, d)
 
 module CalendarDateCase =
+    [<Sealed>]
+    type AdvancedMathTests() =
+        inherit CalendarDateMathFacts<ProlepticGregorianDataSet>(GregorianCalendar.Instance)
+
     [<Sealed>]
     type DayOfWeekTests() =
         inherit IDateDayOfWeekFacts<CalendarDate, ProlepticGregorianDataSet>()
