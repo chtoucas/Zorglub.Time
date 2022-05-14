@@ -12,20 +12,34 @@ open Zorglub.Time.Core.Schemas
 
 // TODO(code): Hebrew (unfinished, no data) and lunisolar (fake) schema.
 
+/// Creates a new instance of the schema prototype of type 'a.
+let private prototypeOf<'a when 'a : not struct and 'a :> ICalendricalSchema and 'a :> IBoxable<'a>> () =
+    let sch = SchemaActivator.CreateInstance<'a>()
+    new PrototypalSchema(sch, sch.MinDaysInYear, sch.MinDaysInMonth)
+
+// =====================================================================================================================
+
 //[<Sealed>]
 //type NoCachePrototypalSchema(kernel: ICalendricalKernel, minDaysInYear, minDaysInMonth) as self =
 //    inherit PrototypalSchema(kernel, minDaysInYear, minDaysInMonth)
-//        do
-//            self.DisableStartOfYearCache <- true
+//        do self.DisableStartOfYearCache <- true
 
 //let private noCachePrototypeOf<'a when 'a : not struct and 'a :> ICalendricalSchema and 'a :> IBoxable<'a>> () =
 //    let sch = SchemaActivator.CreateInstance<'a>()
 //    new NoCachePrototypalSchema(sch, sch.MinDaysInYear, sch.MinDaysInMonth)
 
-/// Creates a new instance of the schema prototype of type 'a.
-let private prototypeOf<'a when 'a : not struct and 'a :> ICalendricalSchema and 'a :> IBoxable<'a>> () =
+let private prototypeOf2<'a when 'a : not struct and 'a :> ICalendricalSchema and 'a :> IBoxable<'a>> () =
     let sch = SchemaActivator.CreateInstance<'a>()
-    new PrototypalSchema(sch, sch.MinDaysInYear, sch.MinDaysInMonth)
+    new PrototypalSchema2(sch, sch.MinDaysInYear, sch.MinDaysInMonth)
+
+[<Sealed>]
+[<TestPerformance(TestPerformance.SlowGroup)>]
+[<TestExcludeFrom(TestExcludeFrom.CodeCoverage)>]
+[<TestExcludeFrom(TestExcludeFrom.Smoke)>]
+type Coptic12ArchetypalBasicTests() =
+    inherit ArchetypalSchemaBasicFacts<Coptic12DataSet>(prototypeOf2<Coptic12Schema>())
+
+// =====================================================================================================================
 
 [<Sealed>]
 [<TestPerformance(TestPerformance.SlowGroup)>]

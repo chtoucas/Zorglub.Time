@@ -20,6 +20,52 @@ namespace Zorglub.Time.Core
     // GeometricArchetype, based on quasi-affine forms?
     // Minimal schema interface: is it doable with only forms?
 
+    // FIXME(code): still not OK for some neg years w/
+    // - Coptic12/3Schema
+    // - FrenchRepublican12/3Schema
+    // - LunisolarSchema
+    // - Persian2820Schema
+    // - TabularIslamicSchema
+    // Once fixed, enable commented tests in PrototypalSchemaTestSuite.fs.
+    //
+    // Other failures: Gregorian
+    // - CountDaysInYearBefore﹍DaysSinceEpoch_AtStartOfYear() -> returns daysInYear or (daysInYear + 1) instead of 0
+    // - CountDaysInYearAfter﹍DaysSinceEpoch_AtStartOfYear()  -> returns -1 instead of (daysInYear - 1)
+    public class PrototypalSchema2 : PrototypalSchema
+    {
+        public PrototypalSchema2(
+            ICalendricalKernel kernel,
+            int minDaysInYear,
+            int minDaysInMonth)
+            : base(kernel, minDaysInYear, minDaysInMonth) { }
+
+        /// <inheritdoc />
+        [Pure]
+        public override int GetYear(int daysSinceEpoch, out int doy)
+        {
+            // It's very similar to what we do in ArchetypalSchema, but when we
+            // start the loop we are much closer to the actual value of the year.
+
+            // To get our first approximation of the value of the year, we pretend
+            // that the years have a constant length equal to MinDaysInYear.
+            // > y = 1 + MathZ.Divide(daysSinceEpoch, MinDaysInYear, out int d0y);
+            // Notice that the division gives us a zero-based year.
+            int y = 1 + MathZ.Divide(daysSinceEpoch, MinDaysInYear);
+            int startOfYear = GetStartOfYear(y);
+
+            // Notice that the first approximation for the value of the year is
+            // greater than or equal to the actual value.
+            while (daysSinceEpoch < startOfYear)
+            {
+                startOfYear -= CountDaysInYear(--y);
+            }
+
+            // Notice that, as expected, doy >= 1.
+            doy = 1 + daysSinceEpoch - startOfYear;
+            return y;
+        }
+    }
+
     /// <summary>
     /// Represents an prototypal implementation of the <see cref="ICalendricalSchemaPlus"/> interface.
     /// </summary>
@@ -80,23 +126,11 @@ namespace Zorglub.Time.Core
         protected int ApproxMonthsInYear { get; }
 
 #if false
-        // FIXME(code): still not OK for some neg years w/
-        // - Coptic12/3Schema
-        // - FrenchRepublican12/3Schema
-        // - LunisolarSchema
-        // - Persian2820Schema
-        // - TabularIslamicSchema
-        // Once fixed, enable commented tests in PrototypalSchemaTestSuite.fs.
-        //
-        // Other failures: Gregorian
-        // - CountDaysInYearBefore﹍DaysSinceEpoch_AtStartOfYear() -> returns daysInYear or (daysInYear + 1) instead of 0
-        // - CountDaysInYearAfter﹍DaysSinceEpoch_AtStartOfYear()  -> returns -1 instead of (daysInYear - 1)
-
         /// <inheritdoc />
         [Pure]
         public override int GetYear(int daysSinceEpoch, out int doy)
         {
-            // It's very close to what we do in ArchetypalSchema, but when we
+            // It's very similar to what we do in ArchetypalSchema, but when we
             // start the loop we are much closer to the actual value of the year.
 
             // To get our first approximation of the value of the year, we pretend
