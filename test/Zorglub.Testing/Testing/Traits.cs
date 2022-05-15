@@ -69,7 +69,7 @@ public enum TestExcludeFrom
 // we keep all test classes necessary for full code coverage.
 // IMPORTANT: We automatically exclude the group from smoke testing.
 [TraitDiscoverer(XunitTraitAssembly.TypePrefix + nameof(RedundantGroupTraitDiscoverer), XunitTraitAssembly.Name)]
-[AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
+[AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = false)]
 public sealed class RedundantTestGroupAttribute : Attribute, ITraitAttribute
 {
     public RedundantTestGroupAttribute() { }
@@ -109,7 +109,7 @@ public class RedundantGroupTraitDiscoverer : ITraitDiscoverer
 {
     public IEnumerable<KeyValuePair<string, string>> GetTraits(IAttributeInfo traitAttribute)
     {
-        if (traitAttribute is null) { throw new ArgumentNullException(nameof(traitAttribute)); }
+        Requires.NotNull(traitAttribute);
 
         yield return new KeyValuePair<string, string>(XunitTrait.Redundant, "true");
         // We automatically exclude the group from smoke testing.
@@ -121,7 +121,7 @@ public class RedundantUnitTraitDiscoverer : ITraitDiscoverer
 {
     public IEnumerable<KeyValuePair<string, string>> GetTraits(IAttributeInfo traitAttribute)
     {
-        if (traitAttribute is null) { throw new ArgumentNullException(nameof(traitAttribute)); }
+        Requires.NotNull(traitAttribute);
 
         yield return new KeyValuePair<string, string>(XunitTrait.Redundant, "true");
     }
@@ -131,7 +131,7 @@ public class PerformanceTraitDiscoverer : ITraitDiscoverer
 {
     public IEnumerable<KeyValuePair<string, string>> GetTraits(IAttributeInfo traitAttribute)
     {
-        if (traitAttribute is null) { throw new ArgumentNullException(nameof(traitAttribute)); }
+        Requires.NotNull(traitAttribute);
 
         var value = traitAttribute.GetNamedArgument<TestPerformance>(XunitTrait.Performance);
         yield return new KeyValuePair<string, string>(XunitTrait.Performance, value.ToString());
@@ -142,7 +142,7 @@ public class ExcludeFromTraitDiscoverer : ITraitDiscoverer
 {
     public IEnumerable<KeyValuePair<string, string>> GetTraits(IAttributeInfo traitAttribute)
     {
-        if (traitAttribute is null) { throw new ArgumentNullException(nameof(traitAttribute)); }
+        Requires.NotNull(traitAttribute);
 
         var value = traitAttribute.GetNamedArgument<TestExcludeFrom>(XunitTrait.ExcludeFrom);
         yield return new KeyValuePair<string, string>(XunitTrait.ExcludeFrom, value.ToString());
