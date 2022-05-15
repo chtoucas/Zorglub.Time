@@ -33,10 +33,10 @@ public partial class CalCalDataSet // Interconversion
     [Pure]
     private static TheoryData<Yemoda, Yemoda> GetGregorianToJulianData()
     {
-        var lookup = GregorianDataSet.RataDieInfos.ToLookup(x => x.RataDie);
+        var lookup = GregorianDataSet.DaysSinceRataDieInfos.ToLookup(x => x.DaysSinceRataDie);
 
         var data = new TheoryData<Yemoda, Yemoda>();
-        foreach (var (jrd, jy, jm, jd) in JulianDataSet.RataDieInfos)
+        foreach (var (jrd, jy, jm, jd) in JulianDataSet.DaysSinceRataDieInfos)
         {
             var gs = lookup[jrd].ToList();
             if (gs.Count == 1)
@@ -82,29 +82,29 @@ public partial class CalCalDataSet // Day of the week
 
     [Pure]
     private static TheoryData<DayNumber, DayOfWeek> MapToDayNumberToDayOfWeekData(
-        IEnumerable<(int RataDie, DayOfWeek DayOfWeek)> source)
+        IEnumerable<(int DaysSinceRataDie, DayOfWeek DayOfWeek)> source)
     {
         var data = new TheoryData<DayNumber, DayOfWeek>();
-        foreach (var (rd, dayOfWeek) in source)
+        foreach (var (daysSinceRataDie, dayOfWeek) in source)
         {
-            data.Add(DayZero.RataDie + rd, dayOfWeek);
+            data.Add(DayZero.RataDie + daysSinceRataDie, dayOfWeek);
         }
         return data;
     }
 
     [Pure]
     private static TheoryData<DayNumber64, DayOfWeek> MapToDayNumber64ToDayOfWeekData(
-        IEnumerable<(int RataDie, DayOfWeek DayOfWeek)> source)
+        IEnumerable<(int DaysSinceRataDie, DayOfWeek DayOfWeek)> source)
     {
         var data = new TheoryData<DayNumber64, DayOfWeek>();
-        foreach (var (rd, dayOfWeek) in source)
+        foreach (var (daysSinceRataDie, dayOfWeek) in source)
         {
-            data.Add(DayZero64.RataDie + rd, dayOfWeek);
+            data.Add(DayZero64.RataDie + daysSinceRataDie, dayOfWeek);
         }
         return data;
     }
 
-    private static readonly List<(int RataDie, DayOfWeek)> s_DayNumberToDayOfWeek = new()
+    private static readonly List<(int DaysSinceRataDie, DayOfWeek)> s_DayNumberToDayOfWeek = new()
     {
         (1, DayOfWeek.Monday),
 

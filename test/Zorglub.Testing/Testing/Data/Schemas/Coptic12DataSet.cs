@@ -24,7 +24,7 @@ public partial class Coptic12DataSet // Infos
     private TheoryData<DaysSinceEpochInfo>? _daysSinceEpochInfoData;
     public override TheoryData<DaysSinceEpochInfo> DaysSinceEpochInfoData =>
         _daysSinceEpochInfoData ??=
-            CalCal.ConvertRataDieToDaysSinceEpochInfo(RataDieInfos, CalendarEpoch.Coptic);
+            CalCal.MapToDaysSinceEpochInfo(DaysSinceRataDieInfos, CalendarEpoch.Coptic);
 
     public override TheoryData<DateInfo> DateInfoData => new()
     {
@@ -122,45 +122,45 @@ public partial class Coptic12DataSet // Infos
         new(9, 12, 365, false),
     };
 
-    internal static List<(int RataDie, int Year, int Month, int Day)> RataDieInfos { get; } = new()
+    internal static List<DaysSinceRataDieInfo> DaysSinceRataDieInfos { get; } = new()
     {
         // Epoch.
-        (103_605, 1, 1, 1),
+        new(103_605, 1, 1, 1),
 
         // D.&R. Appendix C.
-        (-214_193, -870, 12, 6),
-        (-61_387, -451, 4, 12),
-        (25_469, -213, 1, 29),
-        (49_217, -148, 2, 5),
-        (171_307, 186, 5, 12),
-        (210_155, 292, 9, 23),
-        (253_427, 411, 3, 11),
-        (369_740, 729, 8, 24),
-        (400_085, 812, 9, 23),
-        (434_355, 906, 7, 20),
-        (452_605, 956, 7, 7),
-        (470_160, 1004, 7, 30),
-        (473_837, 1014, 8, 25),
-        (507_850, 1107, 10, 10),
-        (524_156, 1152, 5, 29),
-        (544_676, 1208, 8, 5),
-        (567_118, 1270, 1, 12),
-        (569_477, 1276, 6, 29),
-        (601_716, 1364, 10, 6),
-        (613_424, 1396, 10, 26),
-        (626_596, 1432, 11, 19),
-        (645_554, 1484, 10, 14),
-        (664_224, 1535, 11, 27),
-        (671_401, 1555, 7, 19),
-        (694_799, 1619, 8, 11),
-        (704_424, 1645, 12, 19),
-        (708_842, 1658, 1, 19),
-        (709_409, 1659, 8, 11),
-        (709_580, 1660, 1, 26),
-        (727_274, 1708, 7, 8),
-        (728_714, 1712, 6, 17),
-        (744_313, 1755, 3, 1),
-        (764_652, 1810, 11, 11),
+        new(-214_193, -870, 12, 6),
+        new(-61_387, -451, 4, 12),
+        new(25_469, -213, 1, 29),
+        new(49_217, -148, 2, 5),
+        new(171_307, 186, 5, 12),
+        new(210_155, 292, 9, 23),
+        new(253_427, 411, 3, 11),
+        new(369_740, 729, 8, 24),
+        new(400_085, 812, 9, 23),
+        new(434_355, 906, 7, 20),
+        new(452_605, 956, 7, 7),
+        new(470_160, 1004, 7, 30),
+        new(473_837, 1014, 8, 25),
+        new(507_850, 1107, 10, 10),
+        new(524_156, 1152, 5, 29),
+        new(544_676, 1208, 8, 5),
+        new(567_118, 1270, 1, 12),
+        new(569_477, 1276, 6, 29),
+        new(601_716, 1364, 10, 6),
+        new(613_424, 1396, 10, 26),
+        new(626_596, 1432, 11, 19),
+        new(645_554, 1484, 10, 14),
+        new(664_224, 1535, 11, 27),
+        new(671_401, 1555, 7, 19),
+        new(694_799, 1619, 8, 11),
+        new(704_424, 1645, 12, 19),
+        new(708_842, 1658, 1, 19),
+        new(709_409, 1659, 8, 11),
+        new(709_580, 1660, 1, 26),
+        new(727_274, 1708, 7, 8),
+        new(728_714, 1712, 6, 17),
+        new(744_313, 1755, 3, 1),
+        new(764_652, 1810, 11, 11),
     };
 }
 

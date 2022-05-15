@@ -23,7 +23,7 @@ public partial class TabularIslamicDataSet // Infos
     private TheoryData<DaysSinceEpochInfo>? _daysSinceEpochInfoData;
     public override TheoryData<DaysSinceEpochInfo> DaysSinceEpochInfoData =>
         _daysSinceEpochInfoData ??=
-            CalCal.ConvertRataDieToDaysSinceEpochInfo(RataDieInfos, CalendarEpoch.TabularIslamic);
+            CalCal.MapToDaysSinceEpochInfo(DaysSinceRataDieInfos, CalendarEpoch.TabularIslamic);
 
     public override TheoryData<DateInfo> DateInfoData => new()
     {
@@ -155,45 +155,45 @@ public partial class TabularIslamicDataSet // Infos
         new(30, 12, 354, false),
     };
 
-    internal static List<(int RataDie, int Year, int Month, int Day)> RataDieInfos { get; } = new()
+    internal static List<DaysSinceRataDieInfo> DaysSinceRataDieInfos { get; } = new()
     {
         // Epoch.
-        (227_015, 1, 1, 1),
+        new(227_015, 1, 1, 1),
 
         // D.&R. Appendix C.
-        (-214_193, -1245, 12, 9),
-        (-61_387, -813, 2, 23),
-        (25_469, -568, 4, 1),
-        (49_217, -501, 4, 6),
-        (171_307, -157, 10, 17),
-        (210_155, -47, 6, 3),
-        (253_427, 75, 7, 13),
-        (369_740, 403, 10, 5),
-        (400_085, 489, 5, 22),
-        (434_355, 586, 2, 7),
-        (452_605, 637, 8, 7),
-        (470_160, 687, 2, 20),
-        (473_837, 697, 7, 7),
-        (507_850, 793, 7, 1),
-        (524_156, 839, 7, 6),
-        (544_676, 897, 6, 1),
-        (567_118, 960, 9, 30),
-        (569_477, 967, 5, 27),
-        (601_716, 1058, 5, 18),
-        (613_424, 1091, 6, 2),
-        (626_596, 1128, 8, 4),
-        (645_554, 1182, 2, 3),
-        (664_224, 1234, 10, 10),
-        (671_401, 1255, 1, 11),
-        (694_799, 1321, 1, 21),
-        (704_424, 1348, 3, 19),
-        (708_842, 1360, 9, 8),
-        (709_409, 1362, 4, 13),
-        (709_580, 1362, 10, 7),
-        (727_274, 1412, 9, 13),
-        (728_714, 1416, 10, 5),
-        (744_313, 1460, 10, 12),
-        (764_652, 1518, 3, 5),
+        new(-214_193, -1245, 12, 9),
+        new(-61_387, -813, 2, 23),
+        new(25_469, -568, 4, 1),
+        new(49_217, -501, 4, 6),
+        new(171_307, -157, 10, 17),
+        new(210_155, -47, 6, 3),
+        new(253_427, 75, 7, 13),
+        new(369_740, 403, 10, 5),
+        new(400_085, 489, 5, 22),
+        new(434_355, 586, 2, 7),
+        new(452_605, 637, 8, 7),
+        new(470_160, 687, 2, 20),
+        new(473_837, 697, 7, 7),
+        new(507_850, 793, 7, 1),
+        new(524_156, 839, 7, 6),
+        new(544_676, 897, 6, 1),
+        new(567_118, 960, 9, 30),
+        new(569_477, 967, 5, 27),
+        new(601_716, 1058, 5, 18),
+        new(613_424, 1091, 6, 2),
+        new(626_596, 1128, 8, 4),
+        new(645_554, 1182, 2, 3),
+        new(664_224, 1234, 10, 10),
+        new(671_401, 1255, 1, 11),
+        new(694_799, 1321, 1, 21),
+        new(704_424, 1348, 3, 19),
+        new(708_842, 1360, 9, 8),
+        new(709_409, 1362, 4, 13),
+        new(709_580, 1362, 10, 7),
+        new(727_274, 1412, 9, 13),
+        new(728_714, 1416, 10, 5),
+        new(744_313, 1460, 10, 12),
+        new(764_652, 1518, 3, 5),
     };
 }
 

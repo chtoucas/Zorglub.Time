@@ -19,7 +19,7 @@ public sealed class FrenchRepublican13CalendarDataSet :
 
     private TheoryData<DayNumberInfo>? _dayNumberInfoData;
     public override TheoryData<DayNumberInfo> DayNumberInfoData =>
-        _dayNumberInfoData ??= CalCal.ConvertRataDieToDayNumberInfo(FrenchRepublican13DataSet.RataDieInfos);
+        _dayNumberInfoData ??= CalCal.MapToDayNumberInfo(FrenchRepublican13DataSet.DaysSinceRataDieInfos);
 
     public TheoryData<EpagomenalDayInfo> EpagomenalDayInfoData => DataSet.EpagomenalDayInfoData;
 }
@@ -37,7 +37,7 @@ public sealed class FrenchRepublican12CalendarDataSet :
 
     private TheoryData<DayNumberInfo>? _dayNumberInfoData;
     public override TheoryData<DayNumberInfo> DayNumberInfoData =>
-        _dayNumberInfoData ??= CalCal.ConvertRataDieToDayNumberInfo(FrenchRepublican12DataSet.RataDieInfos);
+        _dayNumberInfoData ??= CalCal.MapToDayNumberInfo(FrenchRepublican12DataSet.DaysSinceRataDieInfos);
 
     public TheoryData<EpagomenalDayInfo> EpagomenalDayInfoData => DataSet.EpagomenalDayInfoData;
 }

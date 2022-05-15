@@ -20,7 +20,7 @@ public partial class LunisolarDataSet // Infos
 {
     private TheoryData<DaysSinceEpochInfo>? _daysSinceEpochInfoData;
     public override TheoryData<DaysSinceEpochInfo> DaysSinceEpochInfoData =>
-        _daysSinceEpochInfoData ??= CalCal.ConvertRataDieToDaysSinceEpochInfo(RataDieInfos, DayZero.NewStyle);
+        _daysSinceEpochInfoData ??= CalCal.MapToDaysSinceEpochInfo(DaysSinceRataDieInfos, DayZero.NewStyle);
 
     public override TheoryData<DateInfo> DateInfoData => new()
     {
@@ -92,75 +92,75 @@ public partial class LunisolarDataSet // Infos
         new(LeapYear, 13, 384, true),
     };
 
-    internal static List<(int RataDie, int Year, int Month, int Day)> RataDieInfos { get; } = new()
+    internal static List<DaysSinceRataDieInfo> DaysSinceRataDieInfos { get; } = new()
     {
-        // Year -4 (leap).
-        (-1829, -4, 1, 1),
-        (-1476, -4, 12, 29),
-        (-1475, -4, 13, 1),
-        (-1446, -4, 13, 30),
+        // Year -4 new(leap).
+        new(-1829, -4, 1, 1),
+        new(-1476, -4, 12, 29),
+        new(-1475, -4, 13, 1),
+        new(-1446, -4, 13, 30),
 
         // Year -3.
-        (-1445, -3, 1, 1),
-        (-1092, -3, 12, 29),
+        new(-1445, -3, 1, 1),
+        new(-1092, -3, 12, 29),
 
         // Year -2.
-        (-1091, -2, 1, 1),
-        (-738, -2, 12, 29),
+        new(-1091, -2, 1, 1),
+        new(-738, -2, 12, 29),
 
         // Year -1.
-        (-737, -1, 1, 1),
-        (-384, -1, 12, 29),
+        new(-737, -1, 1, 1),
+        new(-384, -1, 12, 29),
 
-        // Year 0 (leap).
-        (-383, 0, 1, 1),
-        (-30, 0, 12, 29),
-        (-29, 0, 13, 1),
-        (0, 0, 13, 30),
+        // Year 0 new(leap).
+        new(-383, 0, 1, 1),
+        new(-30, 0, 12, 29),
+        new(-29, 0, 13, 1),
+        new(0, 0, 13, 30),
 
         // Year 1.
-        (1, 1, 1, 1),
-        (30, 1, 1, 30),
-        (31, 1, 2, 1),
-        (59, 1, 2, 29),
-        (60, 1, 3, 1),
-        (89, 1, 3, 30),
-        (90, 1, 4, 1),
-        (118, 1, 4, 29),
-        (119, 1, 5, 1),
-        (148, 1, 5, 30),
-        (149, 1, 6, 1),
-        (177, 1, 6, 29),
-        (178, 1, 7, 1),
-        (207, 1, 7, 30),
-        (208, 1, 8, 1),
-        (236, 1, 8, 29),
-        (237, 1, 9, 1),
-        (266, 1, 9, 30),
-        (267, 1, 10, 1),
-        (295, 1, 10, 29),
-        (296, 1, 11, 1),
-        (325, 1, 11, 30),
-        (326, 1, 12, 1),
-        (354, 1, 12, 29),
+        new(1, 1, 1, 1),
+        new(30, 1, 1, 30),
+        new(31, 1, 2, 1),
+        new(59, 1, 2, 29),
+        new(60, 1, 3, 1),
+        new(89, 1, 3, 30),
+        new(90, 1, 4, 1),
+        new(118, 1, 4, 29),
+        new(119, 1, 5, 1),
+        new(148, 1, 5, 30),
+        new(149, 1, 6, 1),
+        new(177, 1, 6, 29),
+        new(178, 1, 7, 1),
+        new(207, 1, 7, 30),
+        new(208, 1, 8, 1),
+        new(236, 1, 8, 29),
+        new(237, 1, 9, 1),
+        new(266, 1, 9, 30),
+        new(267, 1, 10, 1),
+        new(295, 1, 10, 29),
+        new(296, 1, 11, 1),
+        new(325, 1, 11, 30),
+        new(326, 1, 12, 1),
+        new(354, 1, 12, 29),
 
         // Year 2.
-        (355, 2, 1, 1),
-        (708, 2, 12, 29),
+        new(355, 2, 1, 1),
+        new(708, 2, 12, 29),
 
         // Year 3.
-        (709, 3, 1, 1),
-        (1062, 3, 12, 29),
+        new(709, 3, 1, 1),
+        new(1062, 3, 12, 29),
 
-        // Year 4 (leap).
-        (1063, 4, 1, 1),
-        (1416, 4, 12, 29),
-        (1417, 4, 13, 1),
-        (1446, 4, 13, 30),
+        // Year 4 new(leap).
+        new(1063, 4, 1, 1),
+        new(1416, 4, 12, 29),
+        new(1417, 4, 13, 1),
+        new(1446, 4, 13, 30),
 
         // Year 5.
-        (1447, 5, 1, 1),
-        (1800, 5, 12, 29),
+        new(1447, 5, 1, 1),
+        new(1800, 5, 12, 29),
     };
 }
 

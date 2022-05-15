@@ -41,6 +41,8 @@ public readonly record struct DaysSinceEpochInfo(int DaysSinceEpoch, int Year, i
 
 public readonly record struct DaysSinceOriginInfo(int DaysSinceOrigin, int Year, int Month, int Day);
 
+public readonly record struct DaysSinceRataDieInfo(int DaysSinceRataDie, int Year, int Month, int Day);
+
 public readonly record struct DayNumberInfo(DayNumber DayNumber, int Year, int Month, int Day)
 {
     public Yemoda Yemoda => new(Year, Month, Day);

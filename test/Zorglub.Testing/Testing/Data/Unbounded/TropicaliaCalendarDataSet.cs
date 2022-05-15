@@ -17,7 +17,7 @@ public sealed class TropicaliaCalendarDataSet :
 
     private TheoryData<DayNumberInfo>? _dayNumberInfoData;
     public override TheoryData<DayNumberInfo> DayNumberInfoData =>
-        _dayNumberInfoData ??= CalCal.ConvertRataDieToDayNumberInfo(TropicaliaDataSet.RataDieInfos);
+        _dayNumberInfoData ??= CalCal.MapToDayNumberInfo(TropicaliaDataSet.DaysSinceRataDieInfos);
 }
 
 /// <summary>
