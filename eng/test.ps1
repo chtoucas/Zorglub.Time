@@ -78,7 +78,7 @@ try {
             # - Exclude PrototypalSchemaTestSuite (slow group)
             # - Exclude redundant tests
             # Filters = ExcludeFrom!=Smoke&Performance!~Slow&Redundant!=true
-            $filter += "ExcludeFrom!=Smoke&$DefaultTestFilter"
+            $filter += "ExcludeFrom!=Smoke&$RegularTestFilter"
         }
         'regular' {
             # Regular test suite.
@@ -87,7 +87,7 @@ try {
             # - Exclude PrototypalSchemaTestSuite (slow group)
             # - Exclude redundant tests
             # Filters = Performance!~Slow&Redundant!=true
-            $filter += $DefaultTestFilter
+            $filter += $RegularTestFilter
         }
         'more' {
             # Extended test suite.

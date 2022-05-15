@@ -8,12 +8,12 @@ New-Variable TestDir      (Join-Path $RootDir 'test') -Scope Script -Option Cons
 New-Variable ArtifactsDir (Join-Path $RootDir '__')   -Scope Script -Option Constant
 
 New-Variable TestProject (Join-Path $TestDir "Zorglub.Tests") -Scope Script -Option Constant
-# If you change DefaultTestFilter, don't forget to update the plans "more" and
+# If you change RegularTestFilter, don't forget to update the plans "more" and
 # "extra" in test.ps1, but also the github action.
 # WARNING: think twice before using the conditional operator | in the filter.
 # It's possible, but it's much simpler not to because then we don't have to use
 # parenthesis when combining the default filter with other conditionals.
-New-Variable DefaultTestFilter 'Performance!~Slow&Redundant!=true' -Scope Script -Option Constant
+New-Variable RegularTestFilter 'Performance!~Slow&Redundant!=true' -Scope Script -Option Constant
 
 New-Alias "say" Write-Host
 

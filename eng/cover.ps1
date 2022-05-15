@@ -73,7 +73,7 @@ try {
     }
 
     if (-not $NoTest) {
-        $filter = $DefaultTestFilter
+        $filter = $RegularTestFilter
         if ($Smoke) { $filter = "ExcludeFrom!=Smoke&$filter" }
         $filter = "ExcludeFrom!=CodeCoverage&$filter"
         $args += "--filter:$filter"
