@@ -57,24 +57,6 @@ public abstract class CalendricalDataSet : ICalendricalDataSet
     #region Helpers
 
     /// <summary>
-    /// Converts a collection of (DaysSinceEpoch, Year, Month, Day) to a set of data of type
-    /// <see cref="DaysSinceEpochInfo"/>.
-    /// </summary>
-    [Pure]
-    protected static TheoryData<DaysSinceEpochInfo> MapToDaysSinceEpochInfoData(
-        IEnumerable<(int DaysSinceEpoch, int Year, int Month, int Day)> source)
-    {
-        Requires.NotNull(source);
-
-        var data = new TheoryData<DaysSinceEpochInfo>();
-        foreach (var (daysSinceEpoch, y, m, d) in source)
-        {
-            data.Add(new DaysSinceEpochInfo(daysSinceEpoch, y, m, d));
-        }
-        return data;
-    }
-
-    /// <summary>
     /// Converts a collection of (DaysSinceOrigin, Year, Month, Day) to a set of data of type
     /// <see cref="DaysSinceEpochInfo"/>.
     /// </summary>

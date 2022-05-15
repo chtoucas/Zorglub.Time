@@ -3,6 +3,8 @@
 
 namespace Zorglub.Testing.Data.Schemas;
 
+using static Zorglub.Testing.Data.Extensions.TheoryDataHelpers;
+
 /// <summary>
 /// Provides test data for <see cref="Tropicalia3031Schema"/>.
 /// </summary>
@@ -17,7 +19,7 @@ public partial class Tropicalia3031DataSet // Infos
 {
     private TheoryData<DaysSinceEpochInfo>? _daysSinceEpochInfoData;
     public override TheoryData<DaysSinceEpochInfo> DaysSinceEpochInfoData =>
-        _daysSinceEpochInfoData ??= MapToDaysSinceEpochInfoData(DaysSinceEpochInfos);
+        _daysSinceEpochInfoData ??= DaysSinceEpochInfos.ToTheoryData();
 
     public override TheoryData<DateInfo> DateInfoData => new()
     {
@@ -82,26 +84,26 @@ public partial class Tropicalia3031DataSet // Infos
         new(LeapYear, 12, 31, 335, false),
     };
 
-    internal static List<(int DaysSinceEpoch, int Year, int Month, int Day)> DaysSinceEpochInfos { get; } = new()
+    internal static List<DaysSinceEpochInfo> DaysSinceEpochInfos { get; } = new()
     {
-        (-2, 0, 12, 29),
-        (-1, 0, 12, 30),
-        (0, 1, 1, 1), // Epoch
-        (1, 1, 1, 2),
-        (364, 1, 12, 30),
-        (365, 2, 1, 1),
+        new(-2, 0, 12, 29),
+        new(-1, 0, 12, 30),
+        new(0, 1, 1, 1), // Epoch
+        new(1, 1, 1, 2),
+        new(364, 1, 12, 30),
+        new(365, 2, 1, 1),
 
         // 128-year cycle.
-        (46_750, 128, 12, 30),
-        (93_501, 256, 12, 30),
-        (140_252, 384, 12, 30),
-        (187_003, 512, 12, 30),
-        (233_754, 640, 12, 30),
-        (280_505, 768, 12, 30),
-        (327_256, 896, 12, 30),
-        (374_007, 1024, 12, 30),
-        (420_758, 1152, 12, 30),
-        (467_509, 1280, 12, 30),
+        new(46_750, 128, 12, 30),
+        new(93_501, 256, 12, 30),
+        new(140_252, 384, 12, 30),
+        new(187_003, 512, 12, 30),
+        new(233_754, 640, 12, 30),
+        new(280_505, 768, 12, 30),
+        new(327_256, 896, 12, 30),
+        new(374_007, 1024, 12, 30),
+        new(420_758, 1152, 12, 30),
+        new(467_509, 1280, 12, 30),
     };
 }
 

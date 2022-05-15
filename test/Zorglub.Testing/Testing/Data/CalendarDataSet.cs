@@ -3,6 +3,8 @@
 
 namespace Zorglub.Testing.Data;
 
+using static Zorglub.Testing.Data.Extensions.TheoryDataHelpers;
+
 /// <summary>
 /// Provides test data for an <i>unbounded</i> calendar and related date types.
 /// </summary>
@@ -59,6 +61,24 @@ public abstract class CalendarDataSet<TDataSet> : ICalendarDataSet
 
     #endregion
     #region Helpers
+
+    /// <summary>
+    /// Converts a collection of <see cref="DaysSinceEpochInfo"/> to a set of data of type
+    /// <see cref="DayNumberInfo"/>.
+    /// </summary>
+    [Pure]
+    protected static TheoryData<DayNumberInfo> MapToDayNumberInfoData(
+        IEnumerable<DaysSinceEpochInfo> source, DayNumber epoch)
+    {
+        Requires.NotNull(source);
+
+        var data = new TheoryData<DayNumberInfo>();
+        foreach (var (daysSinceEpoch, y, m, d) in source)
+        {
+            data.Add(new DayNumberInfo(epoch + daysSinceEpoch, y, m, d));
+        }
+        return data;
+    }
 
     /// <summary>
     /// Converts a collection of (DaysSinceOrigin, Year, Month, Day) to a set of data of type

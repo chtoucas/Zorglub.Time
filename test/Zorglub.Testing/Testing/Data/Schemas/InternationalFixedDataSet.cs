@@ -3,6 +3,8 @@
 
 namespace Zorglub.Testing.Data.Schemas;
 
+using static Zorglub.Testing.Data.Extensions.TheoryDataHelpers;
+
 /// <summary>
 /// Provides test data for <see cref="InternationalFixedSchema"/>.
 /// </summary>
@@ -20,7 +22,7 @@ public partial class InternationalFixedDataSet // Infos
 {
     private TheoryData<DaysSinceEpochInfo>? _daysSinceEpochInfoData;
     public override TheoryData<DaysSinceEpochInfo> DaysSinceEpochInfoData =>
-        _daysSinceEpochInfoData ??= MapToDaysSinceEpochInfoData(DaysSinceEpochInfos);
+        _daysSinceEpochInfoData ??= DaysSinceEpochInfos.ToTheoryData();
 
     public override TheoryData<DateInfo> DateInfoData => new()
     {
@@ -102,14 +104,14 @@ public partial class InternationalFixedDataSet // Infos
         new(100, 13, 365, false),
     };
 
-    internal static List<(int DaysSinceEpoch, int Year, int Month, int Day)> DaysSinceEpochInfos { get; } = new()
+    internal static List<DaysSinceEpochInfo> DaysSinceEpochInfos { get; } = new()
     {
-        (-2, 0, 13, 28),
-        (-1, 0, 13, 29),
-        (0, 1, 1, 1), // Epoch
-        (1, 1, 1, 2),
-        (364, 1, 13, 29),
-        (365, 2, 1, 1),
+        new(-2, 0, 13, 28),
+        new(-1, 0, 13, 29),
+        new(0, 1, 1, 1), // Epoch
+        new(1, 1, 1, 2),
+        new(364, 1, 13, 29),
+        new(365, 2, 1, 1),
     };
 }
 
