@@ -182,20 +182,10 @@ public partial class IDateFacts<TDate, TDataSet> // Increment / decrement
         Assert.Overflows(() => MinDate.PreviousDay());
 }
 
-// Expected algebraic properties.
-// The following properties should be equivalent:
-//   1) d  + i  = d'
-//   2) d' - i  = d
-//   3) d' - d  = i
-//   4) d  - d' = -i
-// Other properties: 0 is neutral.
-//   5) d + 0 = d
-//   6) d - 0 = d
-//   7) d - d = 0
 public partial class IDateFacts<TDate, TDataSet> // Addition
 {
     [Fact]
-    public void PlusDays_OverflowOrUnderflow()
+    public void PlusDays_Overflows()
     {
         var date = GetDate(1, 1, 1);
         // Act & Assert
@@ -290,7 +280,7 @@ public partial class IDateFacts<TDate, TDataSet> // Addition
     }
 
     [Theory, MemberData(nameof(DateInfoData))]
-    public void CountDaysSince_Same_IsZero(DateInfo info)
+    public void CountDaysSince_WhenSame_IsZero(DateInfo info)
     {
         var (y, m, d) = info.Yemoda;
         var date = GetDate(y, m, d);
@@ -300,10 +290,6 @@ public partial class IDateFacts<TDate, TDataSet> // Addition
     }
 }
 
-// Expected algebraic properties.
-//   1) Reflexivity
-//   2) Symmetry
-//   3) Transitivity
 public partial class IDateFacts<TDate, TDataSet> // IEquatable
 {
     [Theory, MemberData(nameof(DateInfoData))]

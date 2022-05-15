@@ -30,7 +30,7 @@ public abstract partial class IDateMathFacts<TDate, TDataSet>
     public static TheoryData<Yemoda, Yemoda> ConsecutiveDaysData => DataSet.ConsecutiveDaysData;
 }
 
-public partial class IDateMathFacts<TDate, TDataSet> // Increment / decrement
+public partial class IDateMathFacts<TDate, TDataSet> // Increment or decrement
 {
     [Theory, MemberData(nameof(ConsecutiveDaysData))]
     public void Increment(Yemoda ymd, Yemoda ymdAfter)
@@ -80,7 +80,6 @@ public partial class IDateMathFacts<TDate, TDataSet> // Addition
         // 1) date + days -> other.
         Assert.Equal(other, date + days);
         Assert.Equal(other, date.PlusDays(days));
-
         // 2) other - days -> date.
         Assert.Equal(date, other - days);
         Assert.Equal(date, other.PlusDays(-days));
@@ -95,7 +94,6 @@ public partial class IDateMathFacts<TDate, TDataSet> // Addition
         // 1) date + 1 -> dateAfter.
         Assert.Equal(dateAfter, date + 1);
         Assert.Equal(dateAfter, date.PlusDays(1));
-
         // 2) dateAfter - 1 -> date.
         Assert.Equal(date, dateAfter - 1);
         Assert.Equal(date, dateAfter.PlusDays(-1));
@@ -107,11 +105,10 @@ public partial class IDateMathFacts<TDate, TDataSet> // Addition
         var date = GetDate(ymd);
         var other = GetDate(ymdOther);
         // Act & Assert
-        // 3) other - date -> days.
+        // 1) other - date -> days.
         Assert.Equal(days, other - date);
         Assert.Equal(days, other.CountDaysSince(date));
-
-        // 4) date - other -> -days.
+        // 2) date - other -> -days.
         Assert.Equal(-days, date - other);
         Assert.Equal(-days, date.CountDaysSince(other));
     }
@@ -122,11 +119,10 @@ public partial class IDateMathFacts<TDate, TDataSet> // Addition
         var date = GetDate(ymd);
         var dateAfter = GetDate(ymdAfter);
         // Act & Assert
-        // 3) dateAfter - date -> 1.
+        // 2) dateAfter - date -> 1.
         Assert.Equal(1, dateAfter - date);
         Assert.Equal(1, dateAfter.CountDaysSince(date));
-
-        // 4) date - dateAfter -> -1.
+        // 2) date - dateAfter -> -1.
         Assert.Equal(-1, date - dateAfter);
         Assert.Equal(-1, date.CountDaysSince(dateAfter));
     }
