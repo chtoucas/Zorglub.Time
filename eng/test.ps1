@@ -12,7 +12,7 @@ param(
     [ValidateSet('Debug', 'Release')]
     [Alias('c')] [string] $Configuration = 'Debug',
 
-                 [switch] $Build,
+                 [switch] $NoBuild,
 
     [Alias('h')] [switch] $Help
 )
@@ -29,32 +29,32 @@ Run the test suite.
 Usage: test.ps1 [arguments]
     |-Plan           specify the test plan. Default = "smoke"
   -c|-Configuration  the configuration to test the solution for. Default = "Debug"
-    |-Build          build the project before running the test suite
+    |-NoBuild        do NOT build the test suite?
   -h|-Help           print this help then exit
 
-The default behaviour is to not build the project, and to run only the smoke
-tests using the configuration Debug.
+The default behaviour is to run the smoke tests using the configuration Debug.
 
 With the "regular" test plan, we exclude:
-- Slow-running individual tests OR groups of tests
+- Slow-running whether it's an individual test or a group of tests
 - Redundant tests
 The three other test plans are:
-- "smoke" = "regular" AND keep only one test class per test suite
+- "smoke" = "regular" AND keep only one test group per test suite
 - "more"  = "regular" AND do not exclude slow-running individual tests
-- "extra" = complement of "more" (VERY SLOW)
+- "extra" = complement of "more" (SLOW)
 
 Examples.
 > test.ps1                      # Smoke testing
 > test.ps1 smoke                # Idem
 > test.ps1 regular              # Execute the regular test suite
 > test.ps1 more                 # Execute the regular test suite + a few more tests
-> test.ps1 extra                # (VERY SLOW) Execute the tests excluded from the test plan "more"
+> test.ps1 extra                # (SLOW) Execute the tests excluded from the test plan "more"
 
 Typical test plan executions:
-> test.ps1                              # Smoke testing, no build, Debug
-> test.ps1 regular -Build -c Release    # Regular test suite, build, Release
+> test.ps1 -NoBuild             # Smoke testing, no build, Debug
+> test.ps1 regular -c Release   # Regular test suite, build, Release
 
-Of course, just use dotnet to run the whole test suite or apply custom filters.
+Of course, one can use the dotnet command-line to run the whole test suite or to
+apply custom filters.
 
 "@
 }
@@ -67,12 +67,12 @@ try {
     pushd $RootDir
 
     $args = @("-c:$configuration")
-    if (-not $Build) { $args += '--no-build' }
+    if ($NoBuild) { $args += '--no-build' }
 
     switch ($Plan) {
         'smoke' {
             # Smoke testing.
-            # - Only keep one test class per test suite (smoke)
+            # - Only keep one test group per test suite (smoke)
             # - Exclude a bunch of tests in Postludes (slow unit)
             # - Exclude ArchetypalSchemaTestSuite (slow group)
             # - Exclude PrototypalSchemaTestSuite (slow group)
