@@ -402,8 +402,12 @@ namespace Zorglub.Time.Simple
 
         /// <inheritdoc />
         [Pure]
-        public OrdinalDate WithCalendar(Calendar newCalendar!!) =>
-            newCalendar.GetOrdinalDateOn(ToDayNumber());
+        public OrdinalDate WithCalendar(Calendar newCalendar)
+        {
+            Requires.NotNull(newCalendar);
+
+            return newCalendar.GetOrdinalDateOn(ToDayNumber());
+        }
 
         #endregion
         #region Counting
@@ -489,8 +493,10 @@ namespace Zorglub.Time.Simple
         /// <exception cref="ArgumentNullException"><paramref name="adjuster"/> is null.</exception>
         /// <exception cref="AoorException">The resulting date would be invalid.</exception>
         [Pure]
-        public OrdinalDate Adjust(Func<OrdinalParts, OrdinalParts> adjuster!!)
+        public OrdinalDate Adjust(Func<OrdinalParts, OrdinalParts> adjuster)
         {
+            Requires.NotNull(adjuster);
+
             ref readonly var chr = ref CalendarRef;
             var ydoy = adjuster.Invoke(new OrdinalParts(Parts)).ToYedoy(chr.Scope);
             return new OrdinalDate(ydoy, Cuid);

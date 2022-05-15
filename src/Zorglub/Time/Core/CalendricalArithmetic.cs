@@ -45,9 +45,9 @@ namespace Zorglub.Time.Core
         /// Initializes a new instance of the <see cref="CalendricalArithmetic"/> class.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
-        public CalendricalArithmetic(ICalendricalSchema schema!!)
+        public CalendricalArithmetic(ICalendricalSchema schema)
         {
-            _schema = schema;
+            _schema = schema ?? throw new ArgumentNullException(nameof(schema));
             _partsFactory = ICalendricalPartsFactory.Create(schema, @checked: true);
 
             (_minDaysSinceEpoch, _maxDaysSinceEpoch) =

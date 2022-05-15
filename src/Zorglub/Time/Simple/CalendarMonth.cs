@@ -276,8 +276,10 @@ namespace Zorglub.Time.Simple
         /// <exception cref="ArgumentNullException"><paramref name="adjuster"/> is null.</exception>
         /// <exception cref="AoorException">The resulting date would be invalid.</exception>
         [Pure]
-        public CalendarMonth Adjust(Func<MonthParts, MonthParts> adjuster!!)
+        public CalendarMonth Adjust(Func<MonthParts, MonthParts> adjuster)
         {
+            Requires.NotNull(adjuster);
+
             ref readonly var chr = ref CalendarRef;
             var ym = adjuster.Invoke(new MonthParts(Parts)).ToYemo(chr.Scope);
             return new CalendarMonth(ym, Cuid);

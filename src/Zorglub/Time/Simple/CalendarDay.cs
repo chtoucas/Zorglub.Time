@@ -457,8 +457,12 @@ namespace Zorglub.Time.Simple
 
         /// <inheritdoc />
         [Pure]
-        public CalendarDay WithCalendar(Calendar newCalendar!!) =>
-            newCalendar.GetCalendarDay(DayNumber);
+        public CalendarDay WithCalendar(Calendar newCalendar)
+        {
+            Requires.NotNull(newCalendar);
+
+            return newCalendar.GetCalendarDay(DayNumber);
+        }
 
         #endregion
         #region Counting

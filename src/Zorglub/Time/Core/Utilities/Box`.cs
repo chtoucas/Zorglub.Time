@@ -83,8 +83,10 @@ namespace Zorglub.Time.Core.Utilities
         /// Removes one level of boxes, projecting the content into the outer box.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="this"/> is null.</exception>
-        public static Box<T> Flatten<T>(this Box<Box<T>> @this!!) where T : class
+        public static Box<T> Flatten<T>(this Box<Box<T>> @this) where T : class
         {
+            Requires.NotNull(@this);
+
             return @this.IsEmpty ? Box<T>.Empty : @this.Content;
         }
     }
@@ -146,8 +148,10 @@ namespace Zorglub.Time.Core.Utilities
         /// </remarks>
         /// <exception cref="ArgumentNullException"><paramref name="selector"/> is null.</exception>
         [Pure]
-        public Box<TResult> Select<TResult>(Func<T, TResult?> selector!!) where TResult : class
+        public Box<TResult> Select<TResult>(Func<T, TResult?> selector) where TResult : class
         {
+            Requires.NotNull(selector);
+
             return IsEmpty ? Box<TResult>.Empty : Box.Create(selector(Content));
         }
     }

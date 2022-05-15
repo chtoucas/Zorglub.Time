@@ -30,9 +30,11 @@ namespace Zorglub.Time.Simple
         /// </exception>
         [Pure]
         public static Calendar GetOrCreateCalendar<TSchema>(
-            this Box<TSchema> @this!!, string key, DayNumber epoch, bool proleptic = false)
+            this Box<TSchema> @this, string key, DayNumber epoch, bool proleptic = false)
             where TSchema : SystemSchema
         {
+            Requires.NotNull(@this);
+
             var q = from schema in @this
                     select CalendarCatalog.GetOrAdd(key, schema, epoch, proleptic);
             return q.TryUnbox(out var chr) ? chr : Throw.BadBox<Calendar>(nameof(@this));
@@ -50,9 +52,11 @@ namespace Zorglub.Time.Simple
         /// </exception>
         [Pure]
         public static Calendar CreateCalendar<TSchema>(
-            this Box<TSchema> @this!!, string key, DayNumber epoch, bool proleptic = false)
+            this Box<TSchema> @this, string key, DayNumber epoch, bool proleptic = false)
             where TSchema : SystemSchema
         {
+            Requires.NotNull(@this);
+
             var q = from schema in @this
                     select CalendarCatalog.Add(key, schema, epoch, proleptic);
             return q.TryUnbox(out var chr) ? chr : Throw.BadBox<Calendar>(nameof(@this));
@@ -65,13 +69,15 @@ namespace Zorglub.Time.Simple
         /// <exception cref="ArgumentNullException">One of the parameters is null.</exception>
         [Pure]
         public static bool TryCreateCalendar<TSchema>(
-            this Box<TSchema> @this!!,
+            this Box<TSchema> @this,
             string key,
             DayNumber epoch,
             [NotNullWhen(true)] out Calendar? calendar,
             bool proleptic = false)
             where TSchema : SystemSchema
         {
+            Requires.NotNull(@this);
+
             if (@this.TryUnbox(out var sch))
             {
                 return CalendarCatalog.TryAdd(key, sch, epoch, proleptic, out calendar);

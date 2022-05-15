@@ -22,7 +22,11 @@ namespace Zorglub.Time.Core
         public static bool operator >=(CalendricalEndpoint? left, CalendricalEndpoint? right) =>
             left is not null && right is not null && left.CompareTo(right) >= 0;
 
-        public int CompareTo(CalendricalEndpoint other!!) =>
-            DaysSinceEpoch.CompareTo(other.DaysSinceEpoch);
+        public int CompareTo(CalendricalEndpoint other)
+        {
+            Requires.NotNull(other);
+
+            return DaysSinceEpoch.CompareTo(other.DaysSinceEpoch);
+        }
     }
 }

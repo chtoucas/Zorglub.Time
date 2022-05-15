@@ -21,11 +21,12 @@ namespace Zorglub.Time.Hemerology
         /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
         /// <exception cref="ArgumentNullException"><paramref name="segment"/> is null.</exception>
         protected CalendarScope(
-            ICalendricalSchema schema!!,
+            ICalendricalSchema schema,
             DayNumber epoch,
-            CalendricalSegment segment!!)
+            CalendricalSegment segment)
         {
-            Schema = schema;
+            Schema = schema ?? throw new ArgumentNullException(nameof(schema));
+            Requires.NotNull(segment);
 
             if (ReferenceEquals(segment.Schema, schema) == false)
             {

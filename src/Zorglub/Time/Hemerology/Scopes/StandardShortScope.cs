@@ -40,8 +40,11 @@ namespace Zorglub.Time.Hemerology.Scopes
         /// <exception cref="ArgumentException">The range of supported years by
         /// <paramref name="schema"/> does not contain the interval [1, 9999].</exception>
         [Pure]
-        public static StandardShortScope Create(CalendricalSchema schema!!, DayNumber epoch) =>
-            schema.Profile switch
+        public static StandardShortScope Create(CalendricalSchema schema, DayNumber epoch)
+        {
+            Requires.NotNull(schema);
+
+            return schema.Profile switch
             {
                 CalendricalProfile.Solar12 =>
                     schema is GregorianSchema gr
@@ -53,6 +56,7 @@ namespace Zorglub.Time.Hemerology.Scopes
 
                 _ => new DefaultStandardShortScope(schema, epoch)
             };
+        }
 
         /// <inheritdoc />
         public sealed override void ValidateYear(int year, string? paramName = null)

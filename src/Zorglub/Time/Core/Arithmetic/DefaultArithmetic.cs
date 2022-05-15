@@ -61,9 +61,9 @@ namespace Zorglub.Time.Core.Arithmetic
         /// <exception cref="ArgumentException">The range of supported years by
         /// <paramref name="schema"/> and <see cref="Yemoda.SupportedYears"/> are disjoint.
         /// </exception>
-        public DefaultArithmetic(ICalendricalSchema schema!!)
+        public DefaultArithmetic(ICalendricalSchema schema)
         {
-            _schema = schema;
+            _schema = schema ?? throw new ArgumentNullException(nameof(schema));
 
             var set = Interval.Intersect(schema.SupportedYears, Yemoda.SupportedYears);
             if (set.IsEmpty) Throw.Argument(nameof(schema));

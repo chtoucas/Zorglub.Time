@@ -22,9 +22,9 @@ namespace Zorglub.Time.Core.Validation
         /// Initializes a new instance of the <see cref="LunarPreValidator"/> class.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
-        public LunarPreValidator(CalendricalSchema schema!!)
+        public LunarPreValidator(CalendricalSchema schema)
         {
-            _schema = schema;
+            _schema = schema ?? throw new ArgumentNullException(nameof(schema));
 
             Requires.Profile(schema, CalendricalProfile.Lunar);
         }

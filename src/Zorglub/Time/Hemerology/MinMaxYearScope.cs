@@ -64,7 +64,7 @@ namespace Zorglub.Time.Hemerology
         /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
         [Pure]
         internal static MinMaxYearScope WithMaximalRange(
-            ICalendricalSchema schema!!, DayNumber epoch, bool widest)
+            ICalendricalSchema schema, DayNumber epoch, bool widest)
         {
             // NB: widest = true does not necessary mean "proleptic".
             // int minYear = widest || schema.MinYear > 1

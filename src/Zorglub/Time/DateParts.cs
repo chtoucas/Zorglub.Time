@@ -132,8 +132,10 @@ namespace Zorglub.Time
         /// <exception cref="AoorException">The current instance is not valid according to the
         /// specified scope.</exception>
         [Pure]
-        public Yemoda ToYemoda(ICalendarScope scope!!)
+        public Yemoda ToYemoda(ICalendarScope scope)
         {
+            Requires.NotNull(scope);
+
             scope.ValidateYearMonthDay(Year, Month, Day);
             return new Yemoda(Year, Month, Day);
         }

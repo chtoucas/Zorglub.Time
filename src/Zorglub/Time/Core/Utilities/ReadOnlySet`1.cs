@@ -19,7 +19,10 @@ namespace Zorglub.Time.Core.Utilities
         /// Initializes a new instance of the <see cref="ReadOnlySet{T}"/> class.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="set"/> is null.</exception>
-        public ReadOnlySet(HashSet<T> set!!) { _set = set; }
+        public ReadOnlySet(HashSet<T> set)
+        {
+            _set = set ?? throw new ArgumentNullException(nameof(set));
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ReadOnlySet{T}"/> class.
@@ -41,9 +44,9 @@ namespace Zorglub.Time.Core.Utilities
         {
             private readonly ReadOnlySet<T> _obj;
 
-            public DebugView(ReadOnlySet<T> obj!!)
+            public DebugView(ReadOnlySet<T> obj)
             {
-                _obj = obj;
+                _obj = obj ?? throw new ArgumentNullException(nameof(obj));
             }
 
             [DebuggerBrowsable(DebuggerBrowsableState.RootHidden)]

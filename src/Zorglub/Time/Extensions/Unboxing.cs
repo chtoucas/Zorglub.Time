@@ -25,9 +25,11 @@ namespace Zorglub.Time.Extensions
         /// <exception cref="ArgumentNullException"><paramref name="this"/> is null.</exception>
         /// <exception cref="InvalidOperationException">This box is empty.</exception>
         [Pure]
-        public static T Unbox<T>(this Box<T> @this!!)
+        public static T Unbox<T>(this Box<T> @this)
             where T : class
         {
+            Requires.NotNull(@this);
+
             return @this.IsEmpty ? Throw.EmptyBox<T>() : @this.Content;
         }
 
@@ -36,9 +38,11 @@ namespace Zorglub.Time.Extensions
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="this"/> is null.</exception>
         [Pure]
-        public static bool TryUnbox<T>(this Box<T> @this!!, [NotNullWhen(true)] out T? obj)
+        public static bool TryUnbox<T>(this Box<T> @this, [NotNullWhen(true)] out T? obj)
             where T : class
         {
+            Requires.NotNull(@this);
+
             if (@this.IsEmpty)
             {
                 obj = null;

@@ -31,9 +31,9 @@ namespace Zorglub.Time.Core
         /// Initializes a new instance of the <see cref="CalendricalPreValidator"/> class.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
-        public CalendricalPreValidator(ICalendricalKernel schema!!)
+        public CalendricalPreValidator(ICalendricalKernel schema)
         {
-            _schema = schema;
+            _schema = schema ?? throw new ArgumentNullException(nameof(schema));
         }
 
         /// <inheritdoc />

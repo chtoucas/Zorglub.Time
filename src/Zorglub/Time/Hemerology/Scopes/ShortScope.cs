@@ -32,14 +32,15 @@ namespace Zorglub.Time.Hemerology.Scopes
         /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
         /// <exception cref="ArgumentException">[minYear..9999] is not a subrange of the range of
         /// years supported by <paramref name="schema"/>.</exception>
-        protected ShortScope(ICalendricalSchema schema!!, DayNumber epoch, int minYear)
+        protected ShortScope(ICalendricalSchema schema, DayNumber epoch, int minYear)
         {
+            Requires.NotNull(schema);
+
             // NB: don't write
             // > if (minYear < schema.SupportedYears.Min) Throw.ArgumentOutOfRange(nameof(minYear));
             // > if (schema.SupportedYears.Max < MaxYear) Throw.Argument(nameof(schema));
             // This class is internal and the derived classes have a fixed min year,
             // which means that the culprit will be the schema not the specified minYear.
-
             var range = Range.Create(minYear, MaxYear);
             if (range.IsSubsetOf(schema.SupportedYears) == false) Throw.Argument(nameof(schema));
 

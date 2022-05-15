@@ -134,9 +134,11 @@ namespace Zorglub.Time.Core.Utilities
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="selector"/> is null.</exception>
         [Pure]
-        public OrderedPair<TResult> Select<TResult>(Func<T, TResult> selector!!)
+        public OrderedPair<TResult> Select<TResult>(Func<T, TResult> selector)
             where TResult : struct, IEquatable<TResult>, IComparable<TResult>
         {
+            Requires.NotNull(selector);
+
             return new OrderedPair<TResult>(selector(LowerValue), selector(UpperValue));
         }
 
@@ -152,9 +154,12 @@ namespace Zorglub.Time.Core.Utilities
         /// <exception cref="ArgumentNullException"><paramref name="upperValueSelector"/> is null.</exception>
         [Pure]
         public OrderedPair<TResult> Select<TResult>(
-            Func<T, TResult> lowerValueSelector!!, Func<T, TResult> upperValueSelector!!)
+            Func<T, TResult> lowerValueSelector, Func<T, TResult> upperValueSelector)
             where TResult : struct, IEquatable<TResult>, IComparable<TResult>
         {
+            Requires.NotNull(lowerValueSelector);
+            Requires.NotNull(upperValueSelector);
+
             return new OrderedPair<TResult>(lowerValueSelector(LowerValue), upperValueSelector(UpperValue));
         }
     }

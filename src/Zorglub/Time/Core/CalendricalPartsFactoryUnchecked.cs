@@ -18,9 +18,9 @@ namespace Zorglub.Time.Core
         /// Initializes a new instance of the <see cref="CalendricalPartsFactoryUnchecked"/> class.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
-        public CalendricalPartsFactoryUnchecked(ICalendricalSchema schema!!)
+        public CalendricalPartsFactoryUnchecked(ICalendricalSchema schema)
         {
-            _schema = schema;
+            _schema = schema ?? throw new ArgumentNullException(nameof(schema));
         }
     }
 

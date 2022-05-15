@@ -28,8 +28,9 @@ namespace Zorglub.Time.Core
         /// <exception cref="ArgumentException">The range of supported years by
         /// <paramref name="validator"/> is not a subinterval of <see cref="Yemoda.SupportedYears"/>.
         /// </exception>
-        public PartsFactory(ICalendricalValidator validator!!)
+        public PartsFactory(ICalendricalValidator validator)
         {
+            Requires.NotNull(validator);
             // Necessary condition to be able to use the Yemoda/Yedoy constructors.
             if (validator.SupportedYears.IsSubsetOf(Yemoda.SupportedYears) == false)
             {
@@ -44,8 +45,12 @@ namespace Zorglub.Time.Core
         /// allows all years within the range of supported years by <paramref name="schema"/>.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
-        public static PartsFactory Create(ICalendricalSchema schema!!) =>
-            new(new CalendricalValidator(schema, schema.SupportedYears));
+        public static PartsFactory Create(ICalendricalSchema schema)
+        {
+            Requires.NotNull(schema);
+
+            return new(new CalendricalValidator(schema, schema.SupportedYears));
+        }
 
         /// <summary>
         /// Validates the specified year, month and day then creates a new instance of

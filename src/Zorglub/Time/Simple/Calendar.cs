@@ -126,14 +126,14 @@ namespace Zorglub.Time.Simple
         /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
         private Calendar(
             Cuid id,
-            string key!!,
-            SystemSchema schema!!,
+            string key,
+            SystemSchema schema,
             DayNumber epoch,
             bool proleptic,
             bool userDefined)
         {
-            Key = key;
-            Schema = schema;
+            Key = key ?? throw new ArgumentNullException(nameof(key));
+            Schema = schema ?? throw new ArgumentNullException(nameof(schema));
 
             Id = id;
             Epoch = epoch;

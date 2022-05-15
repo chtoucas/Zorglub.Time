@@ -38,8 +38,9 @@ namespace Zorglub.Time.Core
         /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
         /// <exception cref="AoorException"><paramref name="supportedYears"/> is NOT a subinterval
         /// of the range of supported years by <paramref name="schema"/>.</exception>
-        public CalendricalValidator(ICalendricalSchema schema!!, Range<int> supportedYears)
+        public CalendricalValidator(ICalendricalSchema schema, Range<int> supportedYears)
         {
+            Requires.NotNull(schema);
             if (supportedYears.IsSubsetOf(schema.SupportedYears) == false)
             {
                 Throw.ArgumentOutOfRange(nameof(supportedYears));

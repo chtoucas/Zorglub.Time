@@ -372,8 +372,12 @@ namespace Zorglub.Time.Simple
 
         /// <inheritdoc />
         [Pure]
-        public CalendarDate WithCalendar(Calendar newCalendar!!) =>
-            newCalendar.GetCalendarDateOn(ToDayNumber());
+        public CalendarDate WithCalendar(Calendar newCalendar)
+        {
+            Requires.NotNull(newCalendar);
+
+            return newCalendar.GetCalendarDateOn(ToDayNumber());
+        }
 
         #endregion
         #region Counting
@@ -449,8 +453,10 @@ namespace Zorglub.Time.Simple
         /// </summary>
         /// <exception cref="AoorException">The resulting date would be invalid.</exception>
         [Pure]
-        public CalendarDate Adjust(Func<DateParts, DateParts> adjuster!!)
+        public CalendarDate Adjust(Func<DateParts, DateParts> adjuster)
         {
+            Requires.NotNull(adjuster);
+
             ref readonly var chr = ref CalendarRef;
             var ymd = adjuster.Invoke(new DateParts(Parts)).ToYemoda(chr.Scope);
             return new CalendarDate(ymd, Cuid);

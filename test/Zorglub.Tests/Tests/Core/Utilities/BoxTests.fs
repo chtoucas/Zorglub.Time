@@ -60,6 +60,8 @@ module MonadOps =
         let ``Select() returns an empty box when "selector" returns something`` () =
             Box<Uri>.Empty.Select(returnAbsoluteUri) |> isempty
 
+        // TODO(code): test Flatten when @this is null. Idem with Unbox().
+
         [<Fact>]
         let ``Flatten() returns an empty box when the box is empty`` () =
             Box<Box<Uri>>.Empty.Flatten() |> isempty

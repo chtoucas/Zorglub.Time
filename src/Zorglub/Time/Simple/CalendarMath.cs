@@ -22,8 +22,10 @@ namespace Zorglub.Time.Simple
         /// class.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="calendar"/> is null.</exception>
-        protected CalendarMath(Calendar calendar!!)
+        protected CalendarMath(Calendar calendar)
         {
+            Requires.NotNull(calendar);
+
             Cuid = calendar.Id;
             Schema = calendar.Schema;
             // Internally we use YearOverflowChecker. Externally, one can use
@@ -64,8 +66,10 @@ namespace Zorglub.Time.Simple
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="calendar"/> is null.</exception>
         [Pure]
-        internal static CalendarMath Create(Calendar calendar!!)
+        internal static CalendarMath Create(Calendar calendar)
         {
+            Requires.NotNull(calendar);
+
             // This method could be public, but it would feel odd, indeed this
             // class has a single public method/prop: AddAdjustment.
 

@@ -36,8 +36,9 @@ namespace Zorglub.Time.Core.Arithmetic
         /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
         /// <exception cref="ArgumentException"><paramref name="schema"/> contains at least one month
         /// whose length is strictly less than <see cref="MinMinDaysInMonth"/>.</exception>
-        protected FastArithmetic(SystemSchema schema!!)
+        protected FastArithmetic(SystemSchema schema)
         {
+            Requires.NotNull(schema);
             if (schema.MinDaysInMonth < MinMinDaysInMonth) Throw.Argument(nameof(schema));
 
             Schema = schema;
@@ -92,8 +93,10 @@ namespace Zorglub.Time.Core.Arithmetic
         /// <exception cref="ArgumentException"><paramref name="schema"/> contains at least one
         /// month whose length is strictly less than <see cref="MinMinDaysInMonth"/>.</exception>
         [Pure]
-        public static FastArithmetic Create(SystemSchema schema!!)
+        public static FastArithmetic Create(SystemSchema schema)
         {
+            Requires.NotNull(schema);
+
             // NB: there is no real gain to expect in trying to improve the perf
             // for regular schemas. Not convinced? Check the code, we only
             // call CountMonthsInYear() in two corner cases.

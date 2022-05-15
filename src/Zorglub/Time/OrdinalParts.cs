@@ -112,8 +112,10 @@ namespace Zorglub.Time
         /// <exception cref="AoorException">The current instance is not valid according to the
         /// specified scope.</exception>
         [Pure]
-        public Yedoy ToYedoy(ICalendarScope scope!!)
+        public Yedoy ToYedoy(ICalendarScope scope)
         {
+            Requires.NotNull(scope);
+
             scope.ValidateOrdinal(Year, DayOfYear);
             return new Yedoy(Year, DayOfYear);
         }

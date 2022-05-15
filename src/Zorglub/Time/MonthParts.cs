@@ -110,8 +110,10 @@ namespace Zorglub.Time
         /// <exception cref="AoorException">The current instance is not valid according to the
         /// specified scope.</exception>
         [Pure]
-        public Yemo ToYemo(ICalendarScope scope!!)
+        public Yemo ToYemo(ICalendarScope scope)
         {
+            Requires.NotNull(scope);
+
             scope.ValidateYearMonth(Year, Month);
             return new Yemo(Year, Month);
         }

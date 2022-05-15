@@ -54,9 +54,9 @@ namespace Zorglub.Time.Core
         /// <exception cref="ArgumentException">The range of supported years by
         /// <paramref name="schema"/> and <see cref="Yemoda.SupportedYears"/> are disjoint.
         /// </exception>
-        public CalendricalSegmentBuilder(ICalendricalSchema schema!!)
+        public CalendricalSegmentBuilder(ICalendricalSchema schema)
         {
-            _schema = schema;
+            _schema = schema ?? throw new ArgumentNullException(nameof(schema));
             _partsFactory = ICalendricalPartsFactory.Create(schema, @checked: true);
 
             // Normalement, un ICalendricalSchemaPlus satisfait la condition
