@@ -1,8 +1,6 @@
 ﻿// SPDX-License-Identifier: BSD-3-Clause
 // Copyright (c) 2020 Narvalo.Org. All rights reserved.
 
-#pragma warning disable IDE1006 // Naming Styles (Style)
-
 namespace Zorglub.Testing.Data.Bounded;
 
 using System.Linq;
@@ -46,16 +44,16 @@ public class BoundedCalendarDataSet<TDataSet> : ICalendarDataSet
     public DayNumber Epoch { get; }
 
     public TheoryData<DayNumberInfo> DayNumberInfoData =>
-        _DayNumberInfoData ?? throw BadProperty(nameof(_DayNumberInfoData));
+        DayNumberInfoDataInit ?? throw BadProperty(nameof(DayNumberInfoDataInit));
 
     public TheoryData<YearDayNumber> StartOfYearDayNumberData =>
-        _StartOfYearDayNumberData ?? throw BadProperty(nameof(StartOfYearDayNumberData));
+        StartOfYearDayNumberDataInit ?? throw BadProperty(nameof(StartOfYearDayNumberData));
     public TheoryData<YearDayNumber> EndOfYearDayNumberData =>
-        _EndOfYearDayNumberData ?? throw BadProperty(nameof(_EndOfYearDayNumberData));
+        EndOfYearDayNumberDataInit ?? throw BadProperty(nameof(EndOfYearDayNumberDataInit));
 
-    protected TheoryData<DayNumberInfo>? _DayNumberInfoData { get; init; }
-    protected TheoryData<YearDayNumber>? _StartOfYearDayNumberData { get; init; }
-    protected TheoryData<YearDayNumber>? _EndOfYearDayNumberData { get; init; }
+    protected TheoryData<DayNumberInfo>? DayNumberInfoDataInit { get; init; }
+    protected TheoryData<YearDayNumber>? StartOfYearDayNumberDataInit { get; init; }
+    protected TheoryData<YearDayNumber>? EndOfYearDayNumberDataInit { get; init; }
 
     #endregion
     #region ICalendricalDataSet
@@ -64,48 +62,48 @@ public class BoundedCalendarDataSet<TDataSet> : ICalendarDataSet
     public int SampleLeapYear { get; }
 
     public TheoryData<DaysSinceEpochInfo> DaysSinceEpochInfoData =>
-        _DaysSinceEpochInfoData ?? throw BadProperty(nameof(_DaysSinceEpochInfoData));
+        DaysSinceEpochInfoDataInit ?? throw BadProperty(nameof(DaysSinceEpochInfoDataInit));
 
     public TheoryData<DateInfo> DateInfoData =>
-        _DateInfoData ?? throw BadProperty(nameof(_DateInfoData));
+        DateInfoDataInit ?? throw BadProperty(nameof(DateInfoDataInit));
     public TheoryData<MonthInfo> MonthInfoData =>
-        _MonthInfoData ?? throw BadProperty(nameof(_MonthInfoData));
+        MonthInfoDataInit ?? throw BadProperty(nameof(MonthInfoDataInit));
     public TheoryData<YearInfo> YearInfoData =>
-        _YearInfoData ?? throw BadProperty(nameof(_YearInfoData));
+        YearInfoDataInit ?? throw BadProperty(nameof(YearInfoDataInit));
     public TheoryData<CenturyInfo> CenturyInfoData =>
-        _CenturyInfoData ?? throw BadProperty(nameof(_CenturyInfoData));
+        CenturyInfoDataInit ?? throw BadProperty(nameof(CenturyInfoDataInit));
 
     public TheoryData<YemodaAnd<int>> DaysInYearAfterDateData =>
-        _DaysInYearAfterDateData ?? throw BadProperty(nameof(_DaysInYearAfterDateData));
+        DaysInYearAfterDateDataInit ?? throw BadProperty(nameof(DaysInYearAfterDateDataInit));
     public TheoryData<YemodaAnd<int>> DaysInMonthAfterDateData =>
-        _DaysInMonthAfterDateData ?? throw BadProperty(nameof(_DaysInMonthAfterDateData));
+        DaysInMonthAfterDateDataInit ?? throw BadProperty(nameof(DaysInMonthAfterDateDataInit));
 
     public TheoryData<Yemoda> StartOfYearPartsData =>
-        _StartOfYearPartsData ?? throw BadProperty(nameof(_StartOfYearPartsData));
+        StartOfYearPartsDataInit ?? throw BadProperty(nameof(StartOfYearPartsDataInit));
     public TheoryData<Yemoda> EndOfYearPartsData =>
-        _EndOfYearPartsData ?? throw BadProperty(nameof(_EndOfYearPartsData));
+        EndOfYearPartsDataInit ?? throw BadProperty(nameof(EndOfYearPartsDataInit));
 
     public TheoryData<YearDaysSinceEpoch> StartOfYearDaysSinceEpochData =>
-        _StartOfYearDaysSinceEpochData ?? throw BadProperty(nameof(_StartOfYearDaysSinceEpochData));
+        StartOfYearDaysSinceEpochDataInit ?? throw BadProperty(nameof(StartOfYearDaysSinceEpochDataInit));
     public TheoryData<YearDaysSinceEpoch> EndOfYearDaysSinceEpochData =>
-        _EndOfYearDaysSinceEpochData ?? throw BadProperty(nameof(_EndOfYearDaysSinceEpochData));
+        EndOfYearDaysSinceEpochDataInit ?? throw BadProperty(nameof(EndOfYearDaysSinceEpochDataInit));
 
     // Normally, we don't have to filter the three following properties.
     public TheoryData<int, int> InvalidMonthFieldData => Inner.InvalidMonthFieldData;
     public TheoryData<int, int, int> InvalidDayFieldData => Inner.InvalidDayFieldData;
     public TheoryData<int, int> InvalidDayOfYearFieldData => Inner.InvalidDayOfYearFieldData;
 
-    protected TheoryData<DaysSinceEpochInfo>? _DaysSinceEpochInfoData { get; init; }
-    protected TheoryData<DateInfo>? _DateInfoData { get; init; }
-    protected TheoryData<MonthInfo>? _MonthInfoData { get; init; }
-    protected TheoryData<YearInfo>? _YearInfoData { get; init; }
-    protected TheoryData<CenturyInfo>? _CenturyInfoData { get; init; }
-    protected TheoryData<YemodaAnd<int>>? _DaysInYearAfterDateData { get; init; }
-    protected TheoryData<YemodaAnd<int>>? _DaysInMonthAfterDateData { get; init; }
-    protected TheoryData<Yemoda>? _StartOfYearPartsData { get; init; }
-    protected TheoryData<Yemoda>? _EndOfYearPartsData { get; init; }
-    protected TheoryData<YearDaysSinceEpoch>? _StartOfYearDaysSinceEpochData { get; init; }
-    protected TheoryData<YearDaysSinceEpoch>? _EndOfYearDaysSinceEpochData { get; init; }
+    protected TheoryData<DaysSinceEpochInfo>? DaysSinceEpochInfoDataInit { get; init; }
+    protected TheoryData<DateInfo>? DateInfoDataInit { get; init; }
+    protected TheoryData<MonthInfo>? MonthInfoDataInit { get; init; }
+    protected TheoryData<YearInfo>? YearInfoDataInit { get; init; }
+    protected TheoryData<CenturyInfo>? CenturyInfoDataInit { get; init; }
+    protected TheoryData<YemodaAnd<int>>? DaysInYearAfterDateDataInit { get; init; }
+    protected TheoryData<YemodaAnd<int>>? DaysInMonthAfterDateDataInit { get; init; }
+    protected TheoryData<Yemoda>? StartOfYearPartsDataInit { get; init; }
+    protected TheoryData<Yemoda>? EndOfYearPartsDataInit { get; init; }
+    protected TheoryData<YearDaysSinceEpoch>? StartOfYearDaysSinceEpochDataInit { get; init; }
+    protected TheoryData<YearDaysSinceEpoch>? EndOfYearDaysSinceEpochDataInit { get; init; }
 
     #endregion
 }

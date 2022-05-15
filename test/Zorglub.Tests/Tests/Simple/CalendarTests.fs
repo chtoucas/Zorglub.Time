@@ -24,7 +24,7 @@ module GregorianCase =
 
     let dayOfWeekData = calendarDataSet.DayOfWeekData
     // TODO(code): pre-filter data. Idem in JulianCase.
-    let dayOfWeekData2 = CalCalDataSet.DayOfWeekData
+    let dayNumberToDayOfWeekData = CalCalDataSet.DayNumberToDayOfWeekData
 
     [<Theory; MemberData(nameof(dayOfWeekData))>]
     let ``GetDayOfWeek(CalendarDate)`` (info: YemodaAnd<DayOfWeek>) =
@@ -41,7 +41,7 @@ module GregorianCase =
         chr.GetDayOfWeek(date) === dayOfWeek
 
     [<RedundantTestUnit>]
-    [<Theory; MemberData(nameof(dayOfWeekData2))>]
+    [<Theory; MemberData(nameof(dayNumberToDayOfWeekData))>]
     let ``GetDayOfWeek(CalendarDate) via DayNumber`` (dayNumber: DayNumber) (dayOfWeek: DayOfWeek) =
         if domain.Contains(dayNumber) then
             let date = chr.GetCalendarDateOn(dayNumber)
@@ -49,7 +49,7 @@ module GregorianCase =
             chr.GetDayOfWeek(date) === dayOfWeek
 
     [<RedundantTestUnit>]
-    [<Theory; MemberData(nameof(dayOfWeekData2))>]
+    [<Theory; MemberData(nameof(dayNumberToDayOfWeekData))>]
     let ``GetDayOfWeek(OrdinalDate) via DayNumber`` (dayNumber: DayNumber) (dayOfWeek: DayOfWeek) =
         if domain.Contains(dayNumber) then
             let date = chr.GetOrdinalDateOn(dayNumber)
@@ -60,16 +60,16 @@ module JulianCase =
     let private chr = JulianCalendar.Instance
     let private domain = chr.Domain
 
-    let dayOfWeekData2 = CalCalDataSet.DayOfWeekData
+    let dayNumberToDayOfWeekData = CalCalDataSet.DayNumberToDayOfWeekData
 
-    [<Theory; MemberData(nameof(dayOfWeekData2))>]
+    [<Theory; MemberData(nameof(dayNumberToDayOfWeekData))>]
     let ``GetDayOfWeek(CalendarDate) via DayNumber`` (dayNumber: DayNumber) (dayOfWeek: DayOfWeek) =
         if domain.Contains(dayNumber) then
             let date = chr.GetCalendarDateOn(dayNumber)
 
             chr.GetDayOfWeek(date) === dayOfWeek
 
-    [<Theory; MemberData(nameof(dayOfWeekData2))>]
+    [<Theory; MemberData(nameof(dayNumberToDayOfWeekData))>]
     let ``GetDayOfWeek(OrdinalDate) via DayNumber`` (dayNumber: DayNumber) (dayOfWeek: DayOfWeek) =
         if domain.Contains(dayNumber) then
             let date = chr.GetOrdinalDateOn(dayNumber)

@@ -32,7 +32,7 @@ public sealed class Tropicalia3031CalendarDataSet :
 
     private TheoryData<DayNumberInfo>? _dayNumberInfoData;
     public override TheoryData<DayNumberInfo> DayNumberInfoData =>
-        _dayNumberInfoData ??= ConvertToDayNumberInfoData(Tropicalia3031DataSet.DaysSinceEpochInfos, Epoch);
+        _dayNumberInfoData ??= MapToDayNumberInfoData(Tropicalia3031DataSet.DaysSinceEpochInfos, Epoch);
 }
 
 /// <summary>
@@ -47,6 +47,6 @@ public sealed class Tropicalia3130CalendarDataSet :
 
     private TheoryData<DayNumberInfo>? _dayNumberInfoData;
     public override TheoryData<DayNumberInfo> DayNumberInfoData =>
-        _dayNumberInfoData ??= ConvertToDayNumberInfoData(Tropicalia3130DataSet.DaysSinceEpochInfos, Epoch);
+        _dayNumberInfoData ??= MapToDayNumberInfoData(Tropicalia3130DataSet.DaysSinceEpochInfos, Epoch);
 
 }

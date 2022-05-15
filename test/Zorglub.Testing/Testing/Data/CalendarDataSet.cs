@@ -24,9 +24,9 @@ public abstract class CalendarDataSet<TDataSet> : ICalendarDataSet
 
     public abstract TheoryData<DayNumberInfo> DayNumberInfoData { get; }
 
-    private TheoryData<YearDayNumber>? s_StartOfYearDayNumberData;
+    private TheoryData<YearDayNumber>? _startOfYearDayNumberData;
     public TheoryData<YearDayNumber> StartOfYearDayNumberData =>
-        s_StartOfYearDayNumberData ??= ConvertToYearDayNumberData(DataSet.StartOfYearDaysSinceEpochData, Epoch);
+        _startOfYearDayNumberData ??= MapToYearDayNumberData(DataSet.StartOfYearDaysSinceEpochData, Epoch);
 
     private TheoryData<YearDayNumber>? _endOfYearDayNumberData;
     public TheoryData<YearDayNumber> EndOfYearDayNumberData =>
@@ -65,7 +65,7 @@ public abstract class CalendarDataSet<TDataSet> : ICalendarDataSet
     /// <see cref="DayNumberInfo"/>.
     /// </summary>
     [Pure]
-    protected static TheoryData<DayNumberInfo> ConvertToDayNumberInfoData(
+    protected static TheoryData<DayNumberInfo> MapToDayNumberInfoData(
         IEnumerable<(int DaysSinceOrigin, int Year, int Month, int Day)> source, DayNumber origin)
     {
         Requires.NotNull(source);
@@ -83,7 +83,7 @@ public abstract class CalendarDataSet<TDataSet> : ICalendarDataSet
     /// <see cref="YearDayNumber"/>.
     /// </summary>
     [Pure]
-    private static TheoryData<YearDayNumber> ConvertToYearDayNumberData(
+    private static TheoryData<YearDayNumber> MapToYearDayNumberData(
         TheoryData<YearDaysSinceEpoch> source, DayNumber epoch)
     {
         Requires.NotNull(source);

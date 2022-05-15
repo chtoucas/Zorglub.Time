@@ -64,7 +64,7 @@ module TestCommon =
 module Prelude =
     open TestCommon
 
-    let dayOfWeekData = CalCalDataSet.DayOfWeekData
+    let dayNumberToDayOfWeekData = CalCalDataSet.DayNumberToDayOfWeekData
 
     [<Fact>]
     let ``Default value`` () =
@@ -114,7 +114,7 @@ module Prelude =
 
         dayNumber.Ordinal = Ord.First + i.Value
 
-    [<Theory; MemberData(nameof(dayOfWeekData))>]
+    [<Theory; MemberData(nameof(dayNumberToDayOfWeekData))>]
     let ``Property DayOfWeek`` (dayNumber: DayNumber) dayOfWeek =
         dayNumber.DayOfWeek === dayOfWeek
 

@@ -61,7 +61,7 @@ public abstract class CalendricalDataSet : ICalendricalDataSet
     /// <see cref="DaysSinceEpochInfo"/>.
     /// </summary>
     [Pure]
-    protected static TheoryData<DaysSinceEpochInfo> ConvertToDaysSinceEpochInfoData(
+    protected static TheoryData<DaysSinceEpochInfo> MapToDaysSinceEpochInfoData(
         IEnumerable<(int DaysSinceEpoch, int Year, int Month, int Day)> source)
     {
         Requires.NotNull(source);
@@ -79,7 +79,7 @@ public abstract class CalendricalDataSet : ICalendricalDataSet
     /// <see cref="DaysSinceEpochInfo"/>.
     /// </summary>
     [Pure]
-    protected static TheoryData<DaysSinceEpochInfo> ConvertToDaysSinceEpochInfoData(
+    protected static TheoryData<DaysSinceEpochInfo> MapToDaysSinceEpochInfoData(
         IEnumerable<(int DaysSinceOrigin, int Year, int Month, int Day)> source, DayNumber origin, DayNumber epoch)
     {
         Requires.NotNull(source);

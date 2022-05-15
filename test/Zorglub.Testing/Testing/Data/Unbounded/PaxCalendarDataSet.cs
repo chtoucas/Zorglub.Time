@@ -17,13 +17,13 @@ public sealed class PaxCalendarDataSet : CalendarDataSet<PaxDataSet>, ISingleton
 
     private TheoryData<DayNumberInfo>? _dayNumberInfoData;
     public override TheoryData<DayNumberInfo> DayNumberInfoData =>
-        _dayNumberInfoData ??= ConvertToDayNumberInfoData(PaxDataSet.DaysSinceZeroInfos, DayNumber.Zero);
+        _dayNumberInfoData ??= MapToDayNumberInfoData(PaxDataSet.DaysSinceZeroInfos, DayNumber.Zero);
 
     // Day number, year, week of the year, day of the week.
     public static TheoryData<DayNumber, int, int, DayOfWeek> MoreDayNumberInfoData =>
-        ConvertToTheoryData(s_MoreDayNumberInfoData);
+        MapToMoreDayNumberInfoData(s_MoreDayNumberInfoData);
 
-    private static readonly List<(int ord, int, int, DayOfWeek)> s_MoreDayNumberInfoData = new()
+    private static readonly List<(int Ord, int Year, int WeekOfYear, DayOfWeek DayOfWeek)> s_MoreDayNumberInfoData = new()
     {
         // First week.
         (0, 1, 1, DayOfWeek.Sunday),
@@ -44,13 +44,13 @@ public sealed class PaxCalendarDataSet : CalendarDataSet<PaxDataSet>, ISingleton
         (370, 2, 1, DayOfWeek.Saturday),
     };
 
-    private static TheoryData<DayNumber, int, int, DayOfWeek> ConvertToTheoryData(
-        IEnumerable<(int, int, int, DayOfWeek)> source)
+    private static TheoryData<DayNumber, int, int, DayOfWeek> MapToMoreDayNumberInfoData(
+        IEnumerable<(int Ord, int Year, int WeekOfYear, DayOfWeek DayOfWeek)> source)
     {
         var data = new TheoryData<DayNumber, int, int, DayOfWeek>();
-        foreach (var (ord, x, y, z) in source)
+        foreach (var (ord, y, woy, dayOfWeek) in source)
         {
-            data.Add(DayZero.NewStyle + (ord - 1), x, y, z);
+            data.Add(DayZero.NewStyle + (ord - 1), y, woy, dayOfWeek);
         }
         return data;
     }

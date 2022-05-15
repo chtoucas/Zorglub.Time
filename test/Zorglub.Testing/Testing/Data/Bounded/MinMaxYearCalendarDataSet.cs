@@ -24,25 +24,25 @@ public class MinMaxYearCalendarDataSet<TDataSet> : BoundedCalendarDataSet<TDataS
             throw new ArgumentException("SampleLeapYear is out of range", nameof(inner));
         }
 
-        _DaysSinceEpochInfoData = Filter(Inner.DaysSinceEpochInfoData, Filter);
-        _DayNumberInfoData = Filter(Inner.DayNumberInfoData, Filter);
+        DaysSinceEpochInfoDataInit = Filter(Inner.DaysSinceEpochInfoData, Filter);
+        DayNumberInfoDataInit = Filter(Inner.DayNumberInfoData, Filter);
 
-        _DateInfoData = Filter(Inner.DateInfoData, Filter);
-        _MonthInfoData = Filter(Inner.MonthInfoData, Filter);
-        _YearInfoData = Filter(Inner.YearInfoData, Filter);
-        _CenturyInfoData = Filter(Inner.CenturyInfoData, Filter);
+        DateInfoDataInit = Filter(Inner.DateInfoData, Filter);
+        MonthInfoDataInit = Filter(Inner.MonthInfoData, Filter);
+        YearInfoDataInit = Filter(Inner.YearInfoData, Filter);
+        CenturyInfoDataInit = Filter(Inner.CenturyInfoData, Filter);
 
-        _DaysInYearAfterDateData = Filter(Inner.DaysInYearAfterDateData, Filter);
-        _DaysInMonthAfterDateData = Filter(Inner.DaysInMonthAfterDateData, Filter);
+        DaysInYearAfterDateDataInit = Filter(Inner.DaysInYearAfterDateData, Filter);
+        DaysInMonthAfterDateDataInit = Filter(Inner.DaysInMonthAfterDateData, Filter);
 
-        _StartOfYearPartsData = Filter(Inner.StartOfYearPartsData, Filter);
-        _EndOfYearPartsData = Filter(Inner.EndOfYearPartsData, Filter);
+        StartOfYearPartsDataInit = Filter(Inner.StartOfYearPartsData, Filter);
+        EndOfYearPartsDataInit = Filter(Inner.EndOfYearPartsData, Filter);
 
-        _StartOfYearDaysSinceEpochData = Filter(Inner.StartOfYearDaysSinceEpochData, Filter);
-        _EndOfYearDaysSinceEpochData = Filter(Inner.EndOfYearDaysSinceEpochData, Filter);
+        StartOfYearDaysSinceEpochDataInit = Filter(Inner.StartOfYearDaysSinceEpochData, Filter);
+        EndOfYearDaysSinceEpochDataInit = Filter(Inner.EndOfYearDaysSinceEpochData, Filter);
 
-        _StartOfYearDayNumberData = Filter(Inner.StartOfYearDayNumberData, Filter);
-        _EndOfYearDayNumberData = Filter(Inner.EndOfYearDayNumberData, Filter);
+        StartOfYearDayNumberDataInit = Filter(Inner.StartOfYearDayNumberData, Filter);
+        EndOfYearDayNumberDataInit = Filter(Inner.EndOfYearDayNumberData, Filter);
     }
 
     public Range<int> SupportedYears { get; }

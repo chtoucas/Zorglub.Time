@@ -319,7 +319,7 @@ public partial class CalendarFacts<TCalendar, TDataSet> // Internal helpers
     #endregion
     #region GetDayOfWeek
 
-    [Theory, MemberData(nameof(CalCalDataSet.DayOfWeekData), MemberType = typeof(CalCalDataSet))]
+    [Theory, MemberData(nameof(CalCalDataSet.DayNumberToDayOfWeekData), MemberType = typeof(CalCalDataSet))]
     public void GetDayOfWeek(DayNumber dayNumber, DayOfWeek dayOfWeek)
     {
         if (Domain.Contains(dayNumber) == false) { return; }
@@ -328,7 +328,7 @@ public partial class CalendarFacts<TCalendar, TDataSet> // Internal helpers
         Assert.Equal(dayOfWeek, CalendarUT.GetDayOfWeek(date));
     }
 
-    [Theory, MemberData(nameof(CalCalDataSet.DayOfWeekData), MemberType = typeof(CalCalDataSet))]
+    [Theory, MemberData(nameof(CalCalDataSet.DayNumberToDayOfWeekData), MemberType = typeof(CalCalDataSet))]
     public void GetDayOfWeek﹍Ordinal(DayNumber dayNumber, DayOfWeek dayOfWeek)
     {
         if (Domain.Contains(dayNumber) == false) { return; }

@@ -200,7 +200,7 @@ public partial class DayNumber64Tests
         Assert.Equal(today.DaysSinceEpoch, DayNumber64.Today().DaysSinceZero);
     }
 
-    [Theory, MemberData(nameof(CalCalDataSet.DayOfWeekData64), MemberType = typeof(CalCalDataSet))]
+    [Theory, MemberData(nameof(CalCalDataSet.DayNumber64ToDayOfWeekData), MemberType = typeof(CalCalDataSet))]
     public static void DayOfWeek_Prop(DayNumber64 dayNumber, DayOfWeek dayOfWeek) =>
         Assert.Equal(dayOfWeek, dayNumber.DayOfWeek);
 

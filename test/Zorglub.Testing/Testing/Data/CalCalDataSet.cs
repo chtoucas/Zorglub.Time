@@ -47,36 +47,36 @@ public partial class CalCalDataSet // Interconversion
 // To be moved to CalendarDataSet.
 public partial class CalCalDataSet // Day of the week
 {
-    private static volatile TheoryData<DayNumber, DayOfWeek>? s_DayOfWeekData;
+    private static volatile TheoryData<DayNumber, DayOfWeek>? s_DayNumberToDayOfWeekData;
     /// <summary>Day number, day of the week.</summary>
-    public static TheoryData<DayNumber, DayOfWeek> DayOfWeekData =>
-        s_DayOfWeekData ??= ConvertToDayOfWeekData(s_DayNumberToDayOfWeek);
+    public static TheoryData<DayNumber, DayOfWeek> DayNumberToDayOfWeekData =>
+        s_DayNumberToDayOfWeekData ??= MapToDayNumberToDayOfWeekData(s_DayNumberToDayOfWeek);
 
-    private static volatile TheoryData<DayNumber64, DayOfWeek>? s_DayOfWeekData64;
+    private static volatile TheoryData<DayNumber64, DayOfWeek>? s_DayNumber64ToDayOfWeekData;
     /// <summary>Day number 64-bit, day of the week.</summary>
-    public static TheoryData<DayNumber64, DayOfWeek> DayOfWeekData64 =>
-        s_DayOfWeekData64 ??= ConvertToDayOfWeekData64(s_DayNumberToDayOfWeek);
+    public static TheoryData<DayNumber64, DayOfWeek> DayNumber64ToDayOfWeekData =>
+        s_DayNumber64ToDayOfWeekData ??= MapToDayNumber64ToDayOfWeekData(s_DayNumberToDayOfWeek);
 
     [Pure]
-    private static TheoryData<DayNumber, DayOfWeek> ConvertToDayOfWeekData(
+    private static TheoryData<DayNumber, DayOfWeek> MapToDayNumberToDayOfWeekData(
         IEnumerable<(int RataDie, DayOfWeek DayOfWeek)> source)
     {
         var data = new TheoryData<DayNumber, DayOfWeek>();
-        foreach (var item in source)
+        foreach (var (rd, dayOfWeek) in source)
         {
-            data.Add(DayZero.RataDie + item.RataDie, item.DayOfWeek);
+            data.Add(DayZero.RataDie + rd, dayOfWeek);
         }
         return data;
     }
 
     [Pure]
-    private static TheoryData<DayNumber64, DayOfWeek> ConvertToDayOfWeekData64(
+    private static TheoryData<DayNumber64, DayOfWeek> MapToDayNumber64ToDayOfWeekData(
         IEnumerable<(int RataDie, DayOfWeek DayOfWeek)> source)
     {
         var data = new TheoryData<DayNumber64, DayOfWeek>();
-        foreach (var item in source)
+        foreach (var (rd, dayOfWeek) in source)
         {
-            data.Add(DayZero64.RataDie + item.RataDie, item.DayOfWeek);
+            data.Add(DayZero64.RataDie + rd, dayOfWeek);
         }
         return data;
     }
