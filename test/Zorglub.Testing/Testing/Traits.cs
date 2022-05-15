@@ -69,7 +69,7 @@ public enum TestExcludeFrom
 // we keep all test classes necessary for full code coverage.
 // IMPORTANT: We automatically exclude the group from smoke testing.
 [TraitDiscoverer(XunitTraitAssembly.TypePrefix + nameof(RedundantGroupTraitDiscoverer), XunitTraitAssembly.Name)]
-[AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = false)]
+[AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
 public sealed class RedundantTestGroupAttribute : Attribute, ITraitAttribute
 {
     public RedundantTestGroupAttribute() { }
