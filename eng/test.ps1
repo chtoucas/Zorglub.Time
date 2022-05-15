@@ -5,7 +5,7 @@
 [CmdletBinding()]
 param(
     [Parameter(Mandatory = $false, Position = 0)]
-    [ValidateSet('smoke', 'regular', 'more', 'extra')]
+    [ValidateSet('smoke', 'regular', 'more', 'extra', 'most')]
                  [string] $Plan = 'smoke',
 
     [Parameter(Mandatory = $false)]
@@ -36,13 +36,14 @@ The default behaviour is to run the smoke tests using the configuration Debug.
 
 With the "regular" test plan, we exclude slow-running and redundant tests.
 
-The three other test plans are:
+The four other test plans are:
 - "smoke" = "regular" AND keep only one test group per test suite
 - "more"  = "regular" AND do not exclude slow-running individual tests
 - "extra" = complement of "more" (SLOW)
+- "most"  = the whole test suite (SLOW)
 
-Of course, one can use the dotnet command-line to run the whole test suite or to
-apply custom filters.
+Of course, one can use "dotnet test" to run the whole test suite or to apply
+custom filters.
 
 Examples.
 > test.ps1                      # Smoke testing
@@ -50,6 +51,7 @@ Examples.
 > test.ps1 regular              # Execute the regular test suite
 > test.ps1 more                 # Execute the regular test suite + a few more tests
 > test.ps1 extra                # (SLOW) Execute the tests excluded from the test plan "more"
+> test.ps1 most                 # (SLOW) Execute the whole test suite
 
 Typical test plan executions.
 > test.ps1 -NoBuild             # Smoke testing, no build, Debug
@@ -77,7 +79,7 @@ try {
             # - Exclude PrototypalSchemaTestSuite (slow group)
             # - Exclude redundant tests
             # Filters = ExcludeFrom!=Smoke&Performance!~Slow&Redundant!=true
-            $filter += "ExcludeFrom!=Smoke&$RegularTestFilter"
+            $filter = "ExcludeFrom!=Smoke&$RegularTestFilter"
         }
         'regular' {
             # Regular test suite.
@@ -86,20 +88,24 @@ try {
             # - Exclude PrototypalSchemaTestSuite (slow group)
             # - Exclude redundant tests
             # Filters = Performance!~Slow&Redundant!=true
-            $filter += $RegularTestFilter
+            $filter = $RegularTestFilter
         }
         'more' {
             # Extended test suite.
             # - Exclude ArchetypalSchemaTestSuite (slow group)
             # - Exclude PrototypalSchemaTestSuite (slow group)
             # - Exclude redundant tests
-            $filter += 'Performance!=SlowGroup&Redundant!=true'
+            $filter = 'Performance!=SlowGroup&Redundant!=true'
         }
         'extra' {
-            $filter += 'Performance=SlowGroup|Redundant=true'
+            $filter = 'Performance=SlowGroup|Redundant=true'
+        }
+        'most' {
+            $filter = ''
         }
     }
-    $args += "--filter:$filter"
+
+    if ($filter) { $args += "--filter:$filter" }
 
     & dotnet test $TestProject $args
         || die 'Failed to run the test suite.'
