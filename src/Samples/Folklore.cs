@@ -46,8 +46,10 @@ public static class Folklore // Friday the 13th (Gregorian calendar)
     }
 
     [Pure]
-    public static IEnumerable<CalendarDate> FindUnluckyFridays(DateRange interval!!)
+    public static IEnumerable<CalendarDate> FindUnluckyFridays(DateRange interval)
     {
+        if (interval is null) { throw new ArgumentNullException(nameof(interval)); }
+
         var chr = interval.Calendar;
         if (!chr.IsUserDefined || chr.PermanentId != CalendarId.Gregorian)
         {
