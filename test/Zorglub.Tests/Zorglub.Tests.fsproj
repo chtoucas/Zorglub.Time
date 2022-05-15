@@ -93,6 +93,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <!--<PackageReference Update="FSharp.Core" Version="6.0.4" />-->
     <PackageReference Include="FsCheck.Xunit" Version="2.16.4" />
     <PackageReference Include="Unquote" Version="6.1.0" />
   </ItemGroup>
@@ -101,10 +102,6 @@
     <ProjectReference Include="..\..\src\Zorglub.Sketches\Zorglub.Sketches.csproj" />
     <ProjectReference Include="..\..\src\Zorglub\Zorglub.csproj" />
     <ProjectReference Include="..\Zorglub.Testing\Zorglub.Testing.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Update="FSharp.Core" Version="6.0.4" />
   </ItemGroup>
 
 </Project>
