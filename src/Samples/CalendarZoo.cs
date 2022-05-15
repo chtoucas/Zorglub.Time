@@ -253,7 +253,7 @@ public partial class CalendarZoo
                  widest: false)
              ).Unbox();
         Interlocked.CompareExchange(ref s_Holocene, chr, null);
-        return s_Holocene!;
+        return s_Holocene;
     }
 
     /// <summary>
@@ -279,7 +279,7 @@ public partial class CalendarZoo
                 widest: false)
              ).Unbox();
         Interlocked.CompareExchange(ref s_Minguo, chr, null);
-        return s_Minguo!;
+        return s_Minguo;
     }
 
     /// <summary>
@@ -305,7 +305,7 @@ public partial class CalendarZoo
                 widest: false)
              ).Unbox();
         Interlocked.CompareExchange(ref s_ThaiSolar, chr, null);
-        return s_ThaiSolar!;
+        return s_ThaiSolar;
     }
 }
 

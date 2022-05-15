@@ -87,7 +87,7 @@ namespace Zorglub.Time.Hemerology
         {
             Debug.Assert(cuid > WideCatalog.MaxId);
 
-            return s_TransientCalendars[cuid]!;
+            return s_TransientCalendars[cuid];
 
             //if (s_TransientCalendars.TryGetValue(cuid, out VolatileCalendar? chr))
             //{

@@ -33,7 +33,7 @@ public static class WideCatalogTests
     {
         var chr = WideCatalog.Add(GregorianKey, s_GregorianSchema, DayZero.NewStyle, widest: true);
         Interlocked.CompareExchange(ref s_Gregorian, chr, null);
-        return s_Gregorian!;
+        return s_Gregorian;
     }
 
     [Pure]
@@ -41,7 +41,7 @@ public static class WideCatalogTests
     {
         var chr = WideCatalog.Add(JulianKey, s_JulianSchema, DayZero.OldStyle, widest: true);
         Interlocked.CompareExchange(ref s_Julian, chr, null);
-        return s_Julian!;
+        return s_Julian;
     }
 
 #if false
