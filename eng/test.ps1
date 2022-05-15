@@ -27,23 +27,34 @@ function Print-Help {
 Run the test suite.
 
 Usage: test.ps1 [arguments]
-    |-Plan           specify the test plan. Default = "smoke".
+    |-Plan           specify the test plan. Default = "smoke"
   -c|-Configuration  the configuration to test the solution for. Default = "Debug"
     |-Build          build the project before running the test suite
   -h|-Help           print this help then exit
 
-The default behaviour is to NOT build the project.
+The default behaviour is to not build the project, and to run only the smoke
+tests using the configuration Debug.
+
+With the "regular" test plan, we exclude:
+- Slow-running individual tests OR groups of tests
+- Redundant tests
+The three other test plans are:
+- "smoke" = "regular" AND keep only one test class per test suite
+- "more"  = "regular" AND do not exclude slow-running individual tests
+- "extra" = complement of "more" (VERY SLOW)
 
 Examples.
 > test.ps1                      # Smoke testing
 > test.ps1 smoke                # Idem
-> test.ps1 smoke -Build         # Idem but build the project before
-> test.ps1 smoke -c Release     # Idem but use the Release configuration
-> test.ps1 regular              # Run the regular test suite; test plan used by the code coverage tool
-> test.ps1 more                 # Run the regular test suite + a few more tests
-> test.ps1 extra                # (Very Slow) The complement of 'more', redundant or very slow tests
+> test.ps1 regular              # Execute the regular test suite
+> test.ps1 more                 # Execute the regular test suite + a few more tests
+> test.ps1 extra                # (VERY SLOW) Execute the tests excluded from the test plan "more"
 
-Of course, just use dotnet to run the whole test suite.
+Typical test plan executions:
+> test.ps1                              # Smoke testing, no build, Debug
+> test.ps1 regular -Build -c Release    # Regular test suite, build, Release
+
+Of course, just use dotnet to run the whole test suite or apply custom filters.
 
 "@
 }
@@ -60,37 +71,36 @@ try {
 
     switch ($Plan) {
         'smoke' {
-            # This is also the test plan used by the GitHub CI action.
-            # Excluded:
-            # - A bunch of tests in Postludes (slow unit)
-            # - ArchetypalSchemaTestSuite (slow group)
-            # - PrototypalSchemaTestSuite (slow group)
-            # - Redundant tests
-            # We only keep one test class per test suite (no smoke)
+            # Smoke testing.
+            # - Only keep one test class per test suite (smoke)
+            # - Exclude a bunch of tests in Postludes (slow unit)
+            # - Exclude ArchetypalSchemaTestSuite (slow group)
+            # - Exclude PrototypalSchemaTestSuite (slow group)
+            # - Exclude redundant tests
             # Filters = ExcludeFrom!=Smoke&Performance!~Slow&Redundant!=true
-            $args += "--filter:$SmokeTestsFilters"
+            $filter += "ExcludeFrom!=Smoke&$DefaultTestFilter"
         }
         'regular' {
-            # Regular test suite. It mimics the test plan used by the code coverage tool.
-            # Excluded:
-            # - A bunch of tests in Postludes (no code coverage)
-            # - ArchetypalSchemaTestSuite (no code coverage OR redundant)
-            # - PrototypalSchemaTestSuite (no code coverage OR redundant)
-            # - Redundant tests
-            # Filters = ExcludeFrom!=CodeCoverage&Redundant!=true
-            $args += "--filter:$RegularTestsFilters"
+            # Regular test suite.
+            # - Exclude a bunch of tests in Postludes (slow unit)
+            # - Exclude ArchetypalSchemaTestSuite (slow group)
+            # - Exclude PrototypalSchemaTestSuite (slow group)
+            # - Exclude redundant tests
+            # Filters = Performance!~Slow&Redundant!=true
+            $filter += $DefaultTestFilter
         }
         'more' {
-            # Excluded:
-            # - ArchetypalSchemaTestSuite (slow group)
-            # - PrototypalSchemaTestSuite (slow group)
-            # - Redundant tests
-            $args += '--filter:Performance!=SlowGroup&Redundant!=true'
+            # Extended test suite.
+            # - Exclude ArchetypalSchemaTestSuite (slow group)
+            # - Exclude PrototypalSchemaTestSuite (slow group)
+            # - Exclude redundant tests
+            $filter += 'Performance!=SlowGroup&Redundant!=true'
         }
         'extra' {
-            $args += '--filter:Redundant=true|Performance=SlowGroup'
+            $filter += 'Performance=SlowGroup|Redundant=true'
         }
     }
+    $args += "--filter:$filter"
 
     & dotnet test $TestProject $args
         || die 'Failed to run the test suite.'

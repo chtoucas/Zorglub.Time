@@ -28,7 +28,7 @@ Code coverage script.
 
 Usage: cover.ps1 [arguments]
   -c|-Configuration  the configuration to test the solution for. Default = "Debug".
-     -Smoke
+     -Smoke          use the test plan "smoke"
      -NoBuild        do NOT build the test suite?
      -NoTest         do NOT execute the test suite? Implies -NoBuild
      -NoReport       do NOT run ReportGenerator?
@@ -73,7 +73,10 @@ try {
     }
 
     if (-not $NoTest) {
-        $args += $Smoke ? "--filter:$SmokeTestsFilters" : "--filter:$RegularTestsFilters"
+        $filter = $DefaultTestFilter
+        if ($Smoke) { $filter = "ExcludeFrom!=Smoke&$filter" }
+        $filter = "ExcludeFrom!=CodeCoverage&$filter"
+        $args += "--filter:$filter"
 
         & dotnet test $TestProject $args `
             /p:ExcludeByAttribute=DebuggerNonUserCode `
