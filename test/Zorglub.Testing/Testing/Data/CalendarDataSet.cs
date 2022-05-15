@@ -81,12 +81,12 @@ public abstract class CalendarDataSet<TDataSet> : ICalendarDataSet
     }
 
     /// <summary>
-    /// Converts a collection of (DaysSinceOrigin, Year, Month, Day) to a set of data of type
+    /// Converts a collection of <see cref="DaysSinceOriginInfo"/> to a set of data of type
     /// <see cref="DayNumberInfo"/>.
     /// </summary>
     [Pure]
     protected static TheoryData<DayNumberInfo> MapToDayNumberInfoData(
-        IEnumerable<(int DaysSinceOrigin, int Year, int Month, int Day)> source, DayNumber origin)
+        IEnumerable<DaysSinceOriginInfo> source, DayNumber origin)
     {
         Requires.NotNull(source);
 

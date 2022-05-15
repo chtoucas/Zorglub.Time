@@ -105,14 +105,14 @@ public partial class PositivistDataSet // Infos
         new(100, 13, 365, false),
     };
 
-    internal static List<(int DaysSinceZero, int Year, int Month, int Day)> DaysSinceZeroInfos { get; } = new()
+    internal static List<DaysSinceOriginInfo> DaysSinceZeroInfos { get; } = new()
     {
-        (653_052, 0, 13, 29),
-        (653_053, 0, 13, 30),
-        (653_054, 1, 1, 1),
-        (653_055, 1, 1, 2),
-        (653_418, 1, 13, 29),
-        (653_419, 2, 1, 1),
+        new(653_052, 0, 13, 29),
+        new(653_053, 0, 13, 30),
+        new(653_054, 1, 1, 1),
+        new(653_055, 1, 1, 2),
+        new(653_418, 1, 13, 29),
+        new(653_419, 2, 1, 1),
     };
 }
 

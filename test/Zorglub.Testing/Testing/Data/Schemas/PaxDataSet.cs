@@ -126,12 +126,12 @@ public partial class PaxDataSet // Infos
         new(2300, 14, 371, true),
     };
 
-    internal static List<(int DaysSinceZero, int Year, int Month, int Day)> DaysSinceZeroInfos { get; } = new()
+    internal static List<DaysSinceOriginInfo> DaysSinceZeroInfos { get; } = new()
     {
-        (-1, 1, 1, 1),
-        (0, 1, 1, 2),
-        (362, 1, 13, 28),
-        (363, 2, 1, 1),
+        new(-1, 1, 1, 1),
+        new(0, 1, 1, 2),
+        new(362, 1, 13, 28),
+        new(363, 2, 1, 1),
     };
 }
 
