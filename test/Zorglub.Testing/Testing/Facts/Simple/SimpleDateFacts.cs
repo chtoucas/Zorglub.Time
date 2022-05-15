@@ -4,6 +4,7 @@
 namespace Zorglub.Testing.Facts.Simple;
 
 using Zorglub.Testing.Data;
+using Zorglub.Time.Core.Intervals;
 using Zorglub.Time.Hemerology;
 using Zorglub.Time.Simple;
 
@@ -18,9 +19,14 @@ public abstract partial class SimpleDateFacts<TDate, TDataSet> : IDateFacts<TDat
     where TDate : struct, IDate<TDate>, ISerializable<TDate, int>
     where TDataSet : ICalendarDataSet, ISingleton<TDataSet>
 {
-    protected SimpleDateFacts(Calendar calendar!!, Calendar otherCalendar!!)
-        : base(calendar.SupportedYears, calendar.Domain)
+    protected SimpleDateFacts(Calendar calendar, Calendar otherCalendar)
+        : this(calendar, otherCalendar, CtorArgs.Create(calendar)) { }
+
+    private SimpleDateFacts(Calendar calendar, Calendar otherCalendar, CtorArgs args)
+        : base(args.SupportedYears, args.Domain)
     {
+        Debug.Assert(calendar != null);
+        Requires.NotNull(otherCalendar);
         // NB: calendars of type Calendar are singletons.
         if (ReferenceEquals(otherCalendar, calendar))
         {
@@ -34,6 +40,15 @@ public abstract partial class SimpleDateFacts<TDate, TDataSet> : IDateFacts<TDat
 
     protected Calendar CalendarUT { get; }
     protected Calendar OtherCalendar { get; }
+
+    private sealed record CtorArgs(Range<int> SupportedYears, Range<DayNumber> Domain)
+    {
+        public static CtorArgs Create(Calendar calendar)
+        {
+            Requires.NotNull(calendar);
+            return new CtorArgs(calendar.SupportedYears, calendar.Domain);
+        }
+    }
 }
 
 public partial class SimpleDateFacts<TDate, TDataSet> // Serialization

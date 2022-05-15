@@ -13,8 +13,10 @@ namespace Zorglub.Time.Core
         /// Initializes a new instance of the <see cref="CalendricalSchemaValidated"/> class.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
-        protected CalendricalSchemaValidated(ICalendricalSchema schema!!)
+        protected CalendricalSchemaValidated(ICalendricalSchema schema)
         {
+            Requires.NotNull(schema);
+
             Schema = schema is CalendricalSchemaValidated sch ? sch.Schema : schema;
         }
 

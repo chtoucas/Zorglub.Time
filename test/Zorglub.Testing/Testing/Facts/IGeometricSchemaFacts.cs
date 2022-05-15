@@ -13,9 +13,9 @@ public abstract class IGeometricSchemaFacts<TDataSet> :
     CalendricalDataConsumer<TDataSet>
     where TDataSet : ICalendricalDataSet, ISingleton<TDataSet>
 {
-    protected IGeometricSchemaFacts(IGeometricSchema schema!!)
+    protected IGeometricSchemaFacts(IGeometricSchema schema)
     {
-        SchemaUT = schema;
+        SchemaUT = schema ?? throw new ArgumentNullException(nameof(schema));
     }
 
     /// <summary>

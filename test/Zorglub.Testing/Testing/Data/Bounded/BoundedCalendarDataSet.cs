@@ -12,9 +12,9 @@ using static Zorglub.Testing.Data.Extensions.TheoryDataHelpers;
 public class BoundedCalendarDataSet<TDataSet> : ICalendarDataSet
     where TDataSet : ICalendarDataSet
 {
-    public BoundedCalendarDataSet(TDataSet inner!!)
+    public BoundedCalendarDataSet(TDataSet inner)
     {
-        Inner = inner;
+        Inner = inner ?? throw new ArgumentNullException(nameof(inner));
 
         Epoch = Inner.Epoch;
         SampleCommonYear = Inner.SampleCommonYear;

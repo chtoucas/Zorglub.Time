@@ -28,8 +28,10 @@ namespace Zorglub.Time.Geometry.Discrete
             _arr = ArrayHelpers.Repeat(b, count);
         }
 
-        public BoolArray(bool[] arr!!)
+        public BoolArray(bool[] arr)
         {
+            Requires.NotNull(arr);
+
             if (arr.Length == 0) Throw.Argument(nameof(arr));
 
             _arr = arr;

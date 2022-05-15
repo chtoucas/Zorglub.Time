@@ -11,10 +11,10 @@ namespace Zorglub.Time.Simple.Specialized
 
         public Gregorianizer() : this("Papal States", GregorianReform.Official) { }
 
-        public Gregorianizer(string? regionName, GregorianReform reform!!)
+        public Gregorianizer(string? regionName, GregorianReform reform)
         {
             RegionName = regionName ?? "Unspecified region";
-            Reform = reform;
+            Reform = reform ?? throw new ArgumentNullException(nameof(reform));
 
             _lastJulianOrdinal = reform.LastJulianDate.ToOrdinalDate();
             _firstGregorianOrdinal = reform.FirstGregorianDate.ToOrdinalDate();

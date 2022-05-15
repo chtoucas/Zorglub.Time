@@ -11,8 +11,10 @@ public static class CalCal
     /// </summary>
     [Pure]
     public static TheoryData<DaysSinceEpochInfo> ConvertRataDieToDaysSinceEpochInfo(
-        IEnumerable<(int RataDie, int Year, int Month, int Day)> rdSource!!, DayNumber epoch)
+        IEnumerable<(int RataDie, int Year, int Month, int Day)> rdSource, DayNumber epoch)
     {
+        Requires.NotNull(rdSource);
+
         int shift = DayZero.RataDie - epoch;
         var data = new TheoryData<DaysSinceEpochInfo>();
         foreach (var (rd, y, m, d) in rdSource)
@@ -28,8 +30,10 @@ public static class CalCal
     /// </summary>
     [Pure]
     public static TheoryData<DayNumberInfo> ConvertRataDieToDayNumberInfo(
-        IEnumerable<(int RataDie, int Year, int Month, int Day)> rdSource!!)
+        IEnumerable<(int RataDie, int Year, int Month, int Day)> rdSource)
     {
+        Requires.NotNull(rdSource);
+
         DayNumber rdEpoch = DayZero.RataDie; // cache prop locally
         var data = new TheoryData<DayNumberInfo>();
         foreach (var (rd, y, m, d) in rdSource)
@@ -45,8 +49,10 @@ public static class CalCal
     /// </summary>
     [Pure]
     public static TheoryData<DayNumberInfo> ConvertRataDieToDayNumberInfo(
-        IEnumerable<(int RataDie, int Year, int Month, int Day)> rdSource!!, DayNumber epoch, DayNumber newEpoch)
+        IEnumerable<(int RataDie, int Year, int Month, int Day)> rdSource, DayNumber epoch, DayNumber newEpoch)
     {
+        Requires.NotNull(rdSource);
+
         DayNumber zero = DayZero.RataDie + (newEpoch - epoch);
         var data = new TheoryData<DayNumberInfo>();
         foreach (var (rd, y, m, d) in rdSource)

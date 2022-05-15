@@ -34,8 +34,9 @@ public abstract partial class AnalyzerBasicFacts
         Assert.Equal(new QuasiAffineForm(a, b, r), Form);
     }
 
-    protected void TryConvertCodeToForm_AllVersions(QuasiAffineForm[] forms!!)
+    protected void TryConvertCodeToForm_AllVersions(QuasiAffineForm[] forms)
     {
+        Requires.NotNull(forms);
         if (forms.Length != CodeArray.Count) { throw new ArgumentException(null, nameof(forms)); }
 
         // For i = 0, see TryConvertCodeToForm() below.
@@ -47,8 +48,9 @@ public abstract partial class AnalyzerBasicFacts
         }
     }
 
-    protected void TryConvertCodeToForm_SomeVersions((bool Success, QuasiAffineForm? FormE)[] results!!)
+    protected void TryConvertCodeToForm_SomeVersions((bool Success, QuasiAffineForm? FormE)[] results)
     {
+        Requires.NotNull(results);
         if (results.Length != CodeArray.Count) { throw new ArgumentException(null, nameof(results)); }
 
         // For i = 0, see TryConvertCodeToForm() below.

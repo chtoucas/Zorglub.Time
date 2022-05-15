@@ -28,9 +28,9 @@ public sealed partial class DateRangeProxy<TRange, TDate> : IDateRange<TRange, T
 {
     private readonly IDateRange<TRange, TDate> _subject;
 
-    private DateRangeProxy(TRange range!!, IDateRange<TRange, TDate> subject)
+    private DateRangeProxy(TRange range, IDateRange<TRange, TDate> subject)
     {
-        Range = range;
+        Range = range ?? throw new ArgumentNullException(nameof(range));
         _subject = subject;
     }
 

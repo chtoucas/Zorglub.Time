@@ -13,7 +13,7 @@ public abstract class ICalendricalSchemaBasicFacts<TSchema, TDataSet> :
     where TSchema : ICalendricalSchema
     where TDataSet : ICalendricalDataSet, ISingleton<TDataSet>
 {
-    protected ICalendricalSchemaBasicFacts(TSchema schema!!) : base(schema) { }
+    protected ICalendricalSchemaBasicFacts(TSchema schema) : base(schema) { }
 
     protected bool TestGetYearAnyway { get; init; }
     protected bool TestGetMonthAnyway { get; init; }

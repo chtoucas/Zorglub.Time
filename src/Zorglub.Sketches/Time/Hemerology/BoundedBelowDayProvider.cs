@@ -25,9 +25,9 @@ namespace Zorglub.Time.Hemerology
         /// Initializes a new instance of the <see cref="BoundedBelowDayProvider"/> class.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="scope"/> is null.</exception>
-        public BoundedBelowDayProvider(BoundedBelowScope scope!!)
+        public BoundedBelowDayProvider(BoundedBelowScope scope)
         {
-            Scope = scope;
+            Scope = scope ?? throw new ArgumentNullException(nameof(scope));
 
             _schema = scope.Schema;
             _epoch = scope.Epoch;

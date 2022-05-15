@@ -151,8 +151,9 @@ namespace Zorglub.Time.Hemerology
 
     public partial class WideCatalog // WideCalendar <-> Calendar
     {
-        public static Calendar ToCalendar(this WideCalendar @this!!)
+        public static Calendar ToCalendar(this WideCalendar @this)
         {
+            Requires.NotNull(@this);
             if (@this.Id > CalendarCatalog.MaxId)
             {
                 Throw.Argument(nameof(@this));
@@ -164,8 +165,10 @@ namespace Zorglub.Time.Hemerology
         }
 
         // Converts a Calendar to a WideCalendar.
-        public static WideCalendar ToWideCalendar(this Calendar @this!!)
+        public static WideCalendar ToWideCalendar(this Calendar @this)
         {
+            Requires.NotNull(@this);
+
             return @this.IsUserDefined ? getOrAddUserCalendar(@this)
                 : GetSystemCalendar(@this.PermanentId);
 

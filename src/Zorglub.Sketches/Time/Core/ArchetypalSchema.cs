@@ -83,9 +83,9 @@ namespace Zorglub.Time.Core
         /// <see cref="ArchetypalSchema"/> class.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="kernel"/> is null.</exception>
-        protected ArchetypalSchema(ICalendricalKernel kernel!!)
+        protected ArchetypalSchema(ICalendricalKernel kernel)
         {
-            _kernel = kernel;
+            _kernel = kernel ?? throw new ArgumentNullException(nameof(kernel));
             _proxy = new SchemaProxy(this);
         }
 

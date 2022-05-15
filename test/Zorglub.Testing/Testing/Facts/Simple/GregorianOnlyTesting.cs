@@ -14,9 +14,9 @@ using Zorglub.Time.Simple;
 /// </summary>
 public abstract class GregorianOnlyTesting : CalendarDataConsumer<ProlepticGregorianDataSet>
 {
-    protected GregorianOnlyTesting(GregorianCalendar calendar!!)
+    protected GregorianOnlyTesting(GregorianCalendar calendar)
     {
-        CalendarUT = calendar;
+        CalendarUT = calendar ?? throw new ArgumentNullException(nameof(calendar));
 
         SupportedYearsTester = new SupportedYearsTester(calendar.SupportedYears);
     }

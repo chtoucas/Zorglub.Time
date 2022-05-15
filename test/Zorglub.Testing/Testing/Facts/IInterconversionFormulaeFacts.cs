@@ -14,9 +14,9 @@ public abstract class IInterconversionFormulaeFacts<TFormulae, TDataSet> :
     where TFormulae : IInterconversionFormulae
     where TDataSet : ICalendricalDataSet, ISingleton<TDataSet>
 {
-    protected IInterconversionFormulaeFacts(TFormulae formulae!!)
+    protected IInterconversionFormulaeFacts(TFormulae formulae)
     {
-        FormulaeUT = formulae;
+        FormulaeUT = formulae ?? throw new ArgumentNullException(nameof(formulae));
     }
 
     /// <summary>

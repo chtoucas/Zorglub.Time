@@ -13,8 +13,10 @@ using Zorglub.Time.Simple;
 public abstract partial class DateRangeFacts<TDataSet> : IDateRangeFacts<CalendarDate, DateRange, TDataSet>
     where TDataSet : ICalendarDataSet, ISingleton<TDataSet>
 {
-    protected DateRangeFacts(Calendar calendar!!, Calendar otherCalendar!!)
+    protected DateRangeFacts(Calendar calendar, Calendar otherCalendar)
     {
+        Requires.NotNull(calendar);
+        Requires.NotNull(otherCalendar);
         // NB: calendars of type Calendar are singletons.
         if (ReferenceEquals(otherCalendar, calendar))
         {
@@ -43,8 +45,12 @@ public abstract partial class DateRangeFacts<TDataSet> : IDateRangeFacts<Calenda
     protected sealed override DateRange CreateRange(CalendarDate start, int length) =>
         DateRange.Create(start, length);
 
-    protected sealed override bool CheckCalendar(DateRange range!!) =>
-        range.Calendar.Id == CalendarUT.Id;
+    protected sealed override bool CheckCalendar(DateRange range)
+    {
+        Requires.NotNull(range);
+
+        return range.Calendar.Id == CalendarUT.Id;
+    }
 
     protected sealed override CalendarDate PlusDays(CalendarDate date, int days) =>
         date.PlusDays(days);

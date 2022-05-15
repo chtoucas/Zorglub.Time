@@ -65,8 +65,10 @@ namespace Zorglub.Time.Geometry.Discrete
         /// Initializes a new instance of the <see cref="SliceArray"/> class.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="slices"/> is null.</exception>
-        public SliceArray(int[] slices!!, bool complete)
+        public SliceArray(int[] slices, bool complete)
         {
+            Requires.NotNull(slices);
+
             if (slices.Length == 0
                 // No empty slice: all elements must be > 0.
                 || !Array.TrueForAll(slices, n => n > 0))

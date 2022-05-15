@@ -37,8 +37,10 @@ namespace Zorglub.Time.Simple
         /// class.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="calendar"/> is null.</exception>
-        public StandardMath(Calendar calendar!!)
+        public StandardMath(Calendar calendar)
         {
+            Requires.NotNull(calendar);
+
             _cuid = calendar.Id;
             // Ne doit pas pouvoir être changée à moins que cette modification
             // se propage automatiquement au niveau de Calendar (question de

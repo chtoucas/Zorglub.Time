@@ -6,9 +6,10 @@ namespace Zorglub.Time.Hemerology
     public static class DayOfWeekAdjusters
     {
         [Pure]
-        public static T Previous<T>(T self!!, DayOfWeek dayOfWeek)
+        public static T Previous<T>(T self, DayOfWeek dayOfWeek)
             where T : IFixedDay<T>
         {
+            Requires.NotNull(self);
             Requires.Defined(dayOfWeek);
 
             int δ = dayOfWeek - self.DayOfWeek;
@@ -16,9 +17,10 @@ namespace Zorglub.Time.Hemerology
         }
 
         [Pure]
-        public static T PreviousOrSame<T>(T self!!, DayOfWeek dayOfWeek)
+        public static T PreviousOrSame<T>(T self, DayOfWeek dayOfWeek)
             where T : IFixedDay<T>
         {
+            Requires.NotNull(self);
             Requires.Defined(dayOfWeek);
 
             int δ = dayOfWeek - self.DayOfWeek;
@@ -26,9 +28,10 @@ namespace Zorglub.Time.Hemerology
         }
 
         [Pure]
-        public static T Nearest<T>(T self!!, DayOfWeek dayOfWeek)
+        public static T Nearest<T>(T self, DayOfWeek dayOfWeek)
             where T : IFixedDay<T>
         {
+            Requires.NotNull(self);
             Requires.Defined(dayOfWeek);
 
             DayNumber nearest = self.ToDayNumber().Nearest(dayOfWeek);
@@ -36,9 +39,10 @@ namespace Zorglub.Time.Hemerology
         }
 
         [Pure]
-        public static T NextOrSame<T>(T self!!, DayOfWeek dayOfWeek)
+        public static T NextOrSame<T>(T self, DayOfWeek dayOfWeek)
             where T : IFixedDay<T>
         {
+            Requires.NotNull(self);
             Requires.Defined(dayOfWeek);
 
             int δ = dayOfWeek - self.DayOfWeek;
@@ -46,9 +50,10 @@ namespace Zorglub.Time.Hemerology
         }
 
         [Pure]
-        public static T Next<T>(T self!!, DayOfWeek dayOfWeek)
+        public static T Next<T>(T self, DayOfWeek dayOfWeek)
             where T : IFixedDay<T>
         {
+            Requires.NotNull(self);
             Requires.Defined(dayOfWeek);
 
             int δ = dayOfWeek - self.DayOfWeek;

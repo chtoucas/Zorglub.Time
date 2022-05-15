@@ -10,7 +10,7 @@ using Zorglub.Testing.Data;
 
 internal static class DaysInMonthDistributionFacts
 {
-    public static void Test<TSchema>(TSchema schema!!, int commonYear, int leapYear)
+    public static void Test<TSchema>(TSchema schema, int commonYear, int leapYear)
         where TSchema : IDaysInMonthDistribution, ICalendricalKernel
     {
         if (leapYear != commonYear)
@@ -24,9 +24,11 @@ internal static class DaysInMonthDistributionFacts
         }
     }
 
-    public static void TestCore<TSchema>(TSchema schema!!, int y, bool leap)
+    public static void TestCore<TSchema>(TSchema schema, int y, bool leap)
         where TSchema : IDaysInMonthDistribution, ICalendricalKernel
     {
+        Requires.NotNull(schema);
+
         // Sanity check.
         Assert.Equal(leap, schema.IsLeapYear(y));
 
@@ -45,9 +47,9 @@ internal abstract class DaysInMonthDistributionFacts<TSchema, TDataSet>
     where TSchema : IDaysInMonthDistribution, ICalendricalKernel
     where TDataSet : ICalendricalDataSet, ISingleton<TDataSet>
 {
-    protected DaysInMonthDistributionFacts(TSchema schema!!)
+    protected DaysInMonthDistributionFacts(TSchema schema)
     {
-        SchemaUT = schema;
+        SchemaUT = schema ?? throw new ArgumentNullException(nameof(schema));
     }
 
     protected TSchema SchemaUT { get; }

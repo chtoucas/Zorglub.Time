@@ -20,8 +20,10 @@ namespace Zorglub.Time.Extensions
         /// <exception cref="AoorException">The result is not representable by the system.</exception>
         [Pure]
         public static CalendricalSegmentBuilder WithMinDaysSinceEpoch(
-            this CalendricalSegmentBuilder @this!!, int daysSinceEpoch)
+            this CalendricalSegmentBuilder @this, int daysSinceEpoch)
         {
+            Requires.NotNull(@this);
+
             @this.SetMinDaysSinceEpoch(daysSinceEpoch);
             return @this;
         }
@@ -33,8 +35,10 @@ namespace Zorglub.Time.Extensions
         /// <exception cref="AoorException">The result is not representable by the system.</exception>
         [Pure]
         public static CalendricalSegmentBuilder WithMaxDaysSinceEpoch(
-            this CalendricalSegmentBuilder @this!!, int daysSinceEpoch)
+            this CalendricalSegmentBuilder @this, int daysSinceEpoch)
         {
+            Requires.NotNull(@this);
+
             @this.SetMaxDaysSinceEpoch(daysSinceEpoch);
             return @this;
         }
@@ -46,8 +50,10 @@ namespace Zorglub.Time.Extensions
         /// <exception cref="AoorException">The result is not representable by the system.</exception>
         [Pure]
         public static CalendricalSegmentBuilder WithMinDate(
-            this CalendricalSegmentBuilder @this!!, Yemoda ymd)
+            this CalendricalSegmentBuilder @this, Yemoda ymd)
         {
+            Requires.NotNull(@this);
+
             @this.SetMinDate(ymd);
             return @this;
         }
@@ -59,8 +65,10 @@ namespace Zorglub.Time.Extensions
         /// <exception cref="AoorException">The result is not representable by the system.</exception>
         [Pure]
         public static CalendricalSegmentBuilder WithMaxDate(
-            this CalendricalSegmentBuilder @this!!, Yemoda ymd)
+            this CalendricalSegmentBuilder @this, Yemoda ymd)
         {
+            Requires.NotNull(@this);
+
             @this.SetMaxDate(ymd);
             return @this;
         }
@@ -72,8 +80,10 @@ namespace Zorglub.Time.Extensions
         /// <exception cref="AoorException">The result is not representable by the system.</exception>
         [Pure]
         public static CalendricalSegmentBuilder WithMinOrdinal(
-            this CalendricalSegmentBuilder @this!!, Yedoy ydoy)
+            this CalendricalSegmentBuilder @this, Yedoy ydoy)
         {
+            Requires.NotNull(@this);
+
             @this.SetMinOrdinal(ydoy);
             return @this;
         }
@@ -85,8 +95,10 @@ namespace Zorglub.Time.Extensions
         /// <exception cref="AoorException">The result is not representable by the system.</exception>
         [Pure]
         public static CalendricalSegmentBuilder WithMaxOrdinal(
-            this CalendricalSegmentBuilder @this!!, Yedoy ydoy)
+            this CalendricalSegmentBuilder @this, Yedoy ydoy)
         {
+            Requires.NotNull(@this);
+
             @this.SetMaxOrdinal(ydoy);
             return @this;
         }
@@ -100,8 +112,10 @@ namespace Zorglub.Time.Extensions
         /// <exception cref="AoorException">The result is not representable by the system.</exception>
         [Pure]
         public static CalendricalSegmentBuilder WithMinYear(
-            this CalendricalSegmentBuilder @this!!, int year)
+            this CalendricalSegmentBuilder @this, int year)
         {
+            Requires.NotNull(@this);
+
             @this.SetMinYear(year);
             return @this;
         }
@@ -115,8 +129,10 @@ namespace Zorglub.Time.Extensions
         /// <exception cref="AoorException">The result is not representable by the system.</exception>
         [Pure]
         public static CalendricalSegmentBuilder WithMaxYear(
-            this CalendricalSegmentBuilder @this!!, int year)
+            this CalendricalSegmentBuilder @this, int year)
         {
+            Requires.NotNull(@this);
+
             @this.SetMaxYear(year);
             return @this;
         }
@@ -128,8 +144,10 @@ namespace Zorglub.Time.Extensions
         /// <exception cref="AoorException">The result is not representable by the system.</exception>
         [Pure]
         public static CalendricalSegmentBuilder WithMinSupportedYear(
-            this CalendricalSegmentBuilder @this!!, bool onOrAfterEpoch)
+            this CalendricalSegmentBuilder @this, bool onOrAfterEpoch)
         {
+            Requires.NotNull(@this);
+
             @this.SetMinSupportedYear(onOrAfterEpoch);
             return @this;
         }
@@ -141,8 +159,10 @@ namespace Zorglub.Time.Extensions
         /// <exception cref="AoorException">The result is not representable by the system.</exception>
         [Pure]
         public static CalendricalSegmentBuilder WithMaxSupportedYear(
-            this CalendricalSegmentBuilder @this!!)
+            this CalendricalSegmentBuilder @this)
         {
+            Requires.NotNull(@this);
+
             @this.SetMaxSupportedYear();
             return @this;
         }

@@ -12,18 +12,20 @@ public abstract partial class ICalendricalPreValidatorFacts<TDataSet> :
     CalendricalDataConsumer<TDataSet>
     where TDataSet : ICalendricalDataSet, ISingleton<TDataSet>
 {
-    protected ICalendricalPreValidatorFacts(ICalendricalSchema schema!!)
+    protected ICalendricalPreValidatorFacts(ICalendricalSchema schema)
     {
+        Requires.NotNull(schema);
+
         ValidatorUT = schema.PreValidator;
         (MinYear, MaxYear) = schema.SupportedYears.Endpoints;
     }
 
     protected ICalendricalPreValidatorFacts(
-        ICalendricalPreValidator validator!!,
+        ICalendricalPreValidator validator,
         int minYear,
         int maxYear)
     {
-        ValidatorUT = validator;
+        ValidatorUT = validator ?? throw new ArgumentNullException(nameof(validator));
         MinYear = minYear;
         MaxYear = maxYear;
     }

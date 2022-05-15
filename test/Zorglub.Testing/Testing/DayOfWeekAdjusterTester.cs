@@ -41,8 +41,10 @@ public sealed partial class DayOfWeekAdjusterTester<T> where T : IFixedDay<T>
     private readonly DayOfWeek dow5;
     private readonly DayOfWeek dow6;
 
-    public DayOfWeekAdjusterTester(T day, bool testNext, Func<T, int, T> add!!)
+    public DayOfWeekAdjusterTester(T day, bool testNext, Func<T, int, T> add)
     {
+        Requires.NotNull(add);
+
         this.day = day;
         dow = day.DayOfWeek;
         _testNext = testNext;

@@ -33,8 +33,9 @@ namespace Zorglub.Time.Hemerology.Scopes
         /// Initializes a new instance of the <see cref="GregorianMaximalScope"/> class.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
-        public GregorianMaximalScope(GregorianSchema schema!!, DayNumber epoch, bool widest)
+        public GregorianMaximalScope(GregorianSchema schema, DayNumber epoch, bool widest)
         {
+            Requires.NotNull(schema);
             Debug.Assert(schema.Profile == CalendricalProfile.Solar12);
 
             Epoch = epoch;

@@ -54,8 +54,10 @@ namespace Zorglub.Time.Hemerology
         /// <see cref="Yemoda"/>.</exception>
         [Pure]
         public static MinMaxYearCalendar WithMinYear(
-            string name, ICalendricalSchema schema!!, DayNumber epoch, int minYear)
+            string name, ICalendricalSchema schema, DayNumber epoch, int minYear)
         {
+            Requires.NotNull(schema);
+
             return new MinMaxYearCalendar(name, schema, epoch, minYear, schema.SupportedYears.Max);
         }
 
@@ -69,8 +71,10 @@ namespace Zorglub.Time.Hemerology
         /// supported years by <paramref name="schema"/> or <see cref="Yemoda"/>.</exception>
         [Pure]
         public static MinMaxYearCalendar WithMaxYear(
-            string name, ICalendricalSchema schema!!, DayNumber epoch, int maxYear)
+            string name, ICalendricalSchema schema, DayNumber epoch, int maxYear)
         {
+            Requires.NotNull(schema);
+
             return new MinMaxYearCalendar(name, schema, epoch, schema.SupportedYears.Min, maxYear);
         }
     }

@@ -168,8 +168,9 @@ namespace Zorglub.Time.Simple
 
         /// <inheritdoc />
         [Pure]
-        public bool IsSupersetOf(DateRange range!!)
+        public bool IsSupersetOf(DateRange range)
         {
+            Requires.NotNull(range);
             ValidateCuid(range.Cuid, nameof(range));
 
             return IsSupersetOfCore(range);
@@ -218,8 +219,9 @@ namespace Zorglub.Time.Simple
     {
         /// <inheritdoc />
         [Pure]
-        public DateRange? Intersect(DateRange range!!)
+        public DateRange? Intersect(DateRange range)
         {
+            Requires.NotNull(range);
             ValidateCuid(range.Cuid, nameof(range));
 
             return IsSupersetOfCore(range) ? range
@@ -231,8 +233,10 @@ namespace Zorglub.Time.Simple
 
         /// <inheritdoc />
         [Pure]
-        public DateRange? Union(DateRange range!!)
+        public DateRange? Union(DateRange range)
         {
+            Requires.NotNull(range);
+
             // NB: no need to check the Cuid's, CalendarDate.Min/Max will do the
             // job for us.
 
@@ -255,8 +259,10 @@ namespace Zorglub.Time.Simple
         /// <exception cref="ArgumentNullException"><paramref name="newCalendar"/> is null.
         /// </exception>
         [Pure]
-        public DateRange WithCalendar(Calendar newCalendar!!)
+        public DateRange WithCalendar(Calendar newCalendar)
         {
+            Requires.NotNull(newCalendar);
+
             var start = Calendar.GetDayNumber(Start);
             var end = Calendar.GetDayNumber(End);
 

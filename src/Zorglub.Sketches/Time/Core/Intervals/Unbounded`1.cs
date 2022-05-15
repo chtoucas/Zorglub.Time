@@ -104,9 +104,11 @@ namespace Zorglub.Time.Core.Intervals
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="other"/> is null.</exception>
         /// <typeparam name="TInterval">The type of object to test for set equality.</typeparam>
-        public bool SetEquals<TInterval>(TInterval other!!)
+        public bool SetEquals<TInterval>(TInterval other)
             where TInterval : IInterval<T>
         {
+            Requires.NotNull(other);
+
             if (ReferenceEquals(this, other)) { return true; }
             return !other.IsLeftBounded && !other.IsRightBounded;
         }

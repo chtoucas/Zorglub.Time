@@ -10,9 +10,9 @@ namespace Zorglub.Time.Geometry.Schemas
     {
         private readonly SecondOrderSchema _schema;
 
-        public SecondOrderSchemaExt(SecondOrderSchema schema!!)
+        public SecondOrderSchemaExt(SecondOrderSchema schema)
         {
-            _schema = schema;
+            _schema = schema ?? throw new ArgumentNullException(nameof(schema));
 
             MonthForm0 = schema.MonthForm.WithAlgebraicNumbering();
         }

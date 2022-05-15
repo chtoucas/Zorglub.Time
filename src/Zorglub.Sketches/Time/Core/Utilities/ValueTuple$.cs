@@ -15,8 +15,10 @@ namespace Zorglub.Time.Core.Utilities
         [Pure]
         public static ValueTuple<TResult, TResult> Select<T, TResult>(
             this ValueTuple<T, T> @this,
-            Func<T, TResult> selector!!)
+            Func<T, TResult> selector)
         {
+            Requires.NotNull(selector);
+
             return (selector(@this.Item1), selector(@this.Item2));
         }
 
@@ -32,9 +34,12 @@ namespace Zorglub.Time.Core.Utilities
         [Pure]
         public static ValueTuple<TResult1, TResult2> Select<T1, T2, TResult1, TResult2>(
             this ValueTuple<T1, T2> @this,
-            Func<T1, TResult1> firstSelector!!,
-            Func<T2, TResult2> secondSelector!!)
+            Func<T1, TResult1> firstSelector,
+            Func<T2, TResult2> secondSelector)
         {
+            Requires.NotNull(firstSelector);
+            Requires.NotNull(secondSelector);
+
             return (firstSelector(@this.Item1), secondSelector(@this.Item2));
         }
     }

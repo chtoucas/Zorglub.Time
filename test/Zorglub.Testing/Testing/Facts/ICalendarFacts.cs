@@ -25,9 +25,9 @@ public abstract partial class ICalendarFacts<TCalendar, TDataSet> :
     where TCalendar : ICalendar
     where TDataSet : ICalendarDataSet, ISingleton<TDataSet>
 {
-    protected ICalendarFacts(TCalendar calendar!!)
+    protected ICalendarFacts(TCalendar calendar)
     {
-        CalendarUT = calendar;
+        CalendarUT = calendar ?? throw new ArgumentNullException(nameof(calendar));
 
         Domain = calendar.Domain;
 

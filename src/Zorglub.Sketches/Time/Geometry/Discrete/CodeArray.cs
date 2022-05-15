@@ -40,8 +40,10 @@ namespace Zorglub.Time.Geometry.Discrete
         /// Initializes a new instance of the <see cref="CodeArray"/> class.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="codes"/> is null.</exception>
-        public CodeArray(int[] codes!!)
+        public CodeArray(int[] codes)
         {
+            Requires.NotNull(codes);
+
             if (codes.Length == 0 || !Array.TrueForAll(codes, n => n >= 0))
             {
                 Throw.Argument(nameof(codes));

@@ -233,8 +233,12 @@ namespace Zorglub.Time.Hemerology
         /// <exception cref="AoorException">The specified date cannot be converted into the new
         /// calendar, the resulting date would be outside its range of years.</exception>
         [Pure]
-        public WideDate WithCalendar(WideCalendar newCalendar!!) =>
-            newCalendar.GetWideDateOn(ToDayNumber());
+        public WideDate WithCalendar(WideCalendar newCalendar)
+        {
+            Requires.NotNull(newCalendar);
+
+            return newCalendar.GetWideDateOn(ToDayNumber());
+        }
 
         #endregion
         #region Counting

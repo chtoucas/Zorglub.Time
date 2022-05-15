@@ -14,8 +14,10 @@ namespace Zorglub.Time.Geometry.Discrete
     public partial record TroeschMap
     {
         [Pure]
-        public QuasiAffineForm Apply(QuasiAffineForm form!!)
+        public QuasiAffineForm Apply(QuasiAffineForm form)
         {
+            Requires.NotNull(form);
+
             var (a, b, r) = form;
 
             if (Complement)
@@ -100,8 +102,10 @@ namespace Zorglub.Time.Geometry.Discrete
     public partial record TroeschMap
     {
         [Pure]
-        public QuasiAffineForm ApplyBack(QuasiAffineForm form!!)
+        public QuasiAffineForm ApplyBack(QuasiAffineForm form)
         {
+            Requires.NotNull(form);
+
             var (a, b, r) = form;
 
             var rem = MathZ.Modulo(b - 1 - r - Translate * b, a);

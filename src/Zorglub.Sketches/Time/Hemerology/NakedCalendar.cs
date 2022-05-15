@@ -47,12 +47,12 @@ namespace Zorglub.Time.Hemerology
         /// <exception cref="ArgumentNullException"><paramref name="name"/> is null.</exception>
         /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
         /// <exception cref="ArgumentNullException"><paramref name="scope"/> is null.</exception>
-        protected NakedCalendar(string name!!, ICalendricalSchema schema, CalendarScope scope)
+        protected NakedCalendar(string name, ICalendricalSchema schema, CalendarScope scope)
             : base(schema, scope)
         {
             Debug.Assert(scope != null);
 
-            Name = name;
+            Name = name ?? throw new ArgumentNullException(nameof(name));
 
             // DateParts is not comparable, therefore we can't use OrderedPair<>.
             var (min, max) = scope.MinMaxDateParts;

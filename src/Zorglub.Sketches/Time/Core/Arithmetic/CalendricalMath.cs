@@ -35,12 +35,12 @@ namespace Zorglub.Time.Core.Arithmetic
         /// <see cref="CalendricalMath"/> class.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
-        protected CalendricalMath(ICalendricalSchema schema!!)
+        protected CalendricalMath(ICalendricalSchema schema)
         {
             // FIXME(code): on doit respecter les props schema.Min/MaxYear
             // mais aussi gérer le cas où MinYear < Yemoda.MinYear ou
             // MaxYear > Yemoda.MaxYear. Voir DefaultArithmetic.
-            Schema = schema;
+            Schema = schema ?? throw new ArgumentNullException(nameof(schema));
         }
 
         /// <summary>

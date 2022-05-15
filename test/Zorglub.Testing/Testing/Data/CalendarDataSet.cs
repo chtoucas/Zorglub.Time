@@ -9,9 +9,9 @@ namespace Zorglub.Testing.Data;
 public abstract class CalendarDataSet<TDataSet> : ICalendarDataSet
     where TDataSet : ICalendricalDataSet
 {
-    protected CalendarDataSet(TDataSet dataSet!!, DayNumber epoch)
+    protected CalendarDataSet(TDataSet dataSet, DayNumber epoch)
     {
-        DataSet = dataSet;
+        DataSet = dataSet ?? throw new ArgumentNullException(nameof(dataSet));
         Epoch = epoch;
     }
 
@@ -66,8 +66,10 @@ public abstract class CalendarDataSet<TDataSet> : ICalendarDataSet
     /// </summary>
     [Pure]
     protected static TheoryData<DayNumberInfo> ConvertToDayNumberInfoData(
-        IEnumerable<(int DaysSinceOrigin, int Year, int Month, int Day)> source!!, DayNumber origin)
+        IEnumerable<(int DaysSinceOrigin, int Year, int Month, int Day)> source, DayNumber origin)
     {
+        Requires.NotNull(source);
+
         var data = new TheoryData<DayNumberInfo>();
         foreach (var (daysSinceOrigin, y, m, d) in source)
         {
@@ -82,8 +84,10 @@ public abstract class CalendarDataSet<TDataSet> : ICalendarDataSet
     /// </summary>
     [Pure]
     private static TheoryData<YearDayNumber> ConvertToYearDayNumberData(
-        TheoryData<YearDaysSinceEpoch> source!!, DayNumber epoch)
+        TheoryData<YearDaysSinceEpoch> source, DayNumber epoch)
     {
+        Requires.NotNull(source);
+
         var data = new TheoryData<YearDayNumber>();
         foreach (var item in source)
         {
@@ -94,8 +98,10 @@ public abstract class CalendarDataSet<TDataSet> : ICalendarDataSet
     }
 
     [Pure]
-    private static TheoryData<YearDayNumber> GetEndOfYearFromStartOfYear(TheoryData<YearDayNumber> source!!)
+    private static TheoryData<YearDayNumber> GetEndOfYearFromStartOfYear(TheoryData<YearDayNumber> source)
     {
+        Requires.NotNull(source);
+
         var data = new TheoryData<YearDayNumber>();
         foreach (var item in source)
         {

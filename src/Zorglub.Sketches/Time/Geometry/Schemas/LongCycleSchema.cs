@@ -13,11 +13,11 @@ namespace Zorglub.Time.Geometry.Schemas
     public sealed partial class LongCycleSchema : IGeometricSchema
     {
         public LongCycleSchema(
-            IGeometricSchema shortCycleShema!!,
+            IGeometricSchema shortCycleShema,
             int daysPerLongCycle,
             int yearsPerLongCycle)
         {
-            ShortCycleShema = shortCycleShema;
+            ShortCycleShema = shortCycleShema ?? throw new ArgumentNullException(nameof(shortCycleShema));
             DaysPerLongCycle = daysPerLongCycle;
             YearsPerLongCycle = yearsPerLongCycle;
         }

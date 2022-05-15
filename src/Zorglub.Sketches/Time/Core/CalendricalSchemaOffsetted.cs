@@ -23,9 +23,9 @@ namespace Zorglub.Time.Core
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
         // REVIEW(api): Internal ctor?
-        public CalendricalSchemaOffsetted(ICalendricalSchema schema!!, int offset)
+        public CalendricalSchemaOffsetted(ICalendricalSchema schema, int offset)
         {
-            _schema = schema;
+            _schema = schema ?? throw new ArgumentNullException(nameof(schema));
 
             Offset = offset;
         }

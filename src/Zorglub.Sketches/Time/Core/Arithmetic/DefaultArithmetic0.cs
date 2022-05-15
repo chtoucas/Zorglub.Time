@@ -18,9 +18,9 @@ namespace Zorglub.Time.Core.Arithmetic
 #endif
         private readonly SystemSchema _schema;
 
-        internal DefaultArithmetic0(SystemSchema schema!!)
+        internal DefaultArithmetic0(SystemSchema schema)
         {
-            _schema = schema;
+            _schema = schema ?? throw new ArgumentNullException(nameof(schema));
 
             (_minYear, _maxYear) = schema.SupportedYears.Endpoints;
             (_minDaysSinceEpoch, _maxDaysSinceEpoch) = schema.Domain.Endpoints;

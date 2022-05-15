@@ -9,8 +9,10 @@ namespace Zorglub.Time.Geometry.Forms
     public static class MonthFormExtensions
     {
         [Pure]
-        public static MonthForm WithAlgebraicNumbering(this MonthForm @this!!)
+        public static MonthForm WithAlgebraicNumbering(this MonthForm @this)
         {
+            Requires.NotNull(@this);
+
             return @this switch
             {
                 MonthForm { Numbering: MonthFormNumbering.Algebraic } => @this,
@@ -26,8 +28,10 @@ namespace Zorglub.Time.Geometry.Forms
         }
 
         [Pure]
-        public static MonthForm WithOrdinalNumbering(this MonthForm @this!!)
+        public static MonthForm WithOrdinalNumbering(this MonthForm @this)
         {
+            Requires.NotNull(@this);
+
             return @this switch
             {
                 MonthForm { Numbering: MonthFormNumbering.Algebraic } =>
@@ -44,8 +48,10 @@ namespace Zorglub.Time.Geometry.Forms
 
         [Pure]
         public static TroeschMonthForm WithTroeschNumbering(
-            this MonthForm @this!!, int exceptionalMonth)
+            this MonthForm @this, int exceptionalMonth)
         {
+            Requires.NotNull(@this);
+
             return @this switch
             {
                 MonthForm { Numbering: MonthFormNumbering.Algebraic } =>

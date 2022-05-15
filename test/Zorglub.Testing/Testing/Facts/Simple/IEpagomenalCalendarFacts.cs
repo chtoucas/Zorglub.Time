@@ -13,9 +13,9 @@ public abstract class IEpagomenalCalendarFacts<TCalendar, TDataSet> : CalendarDa
 {
     private readonly TCalendar _calendar;
 
-    protected IEpagomenalCalendarFacts(TCalendar calendar!!)
+    protected IEpagomenalCalendarFacts(TCalendar calendar)
     {
-        _calendar = calendar;
+        _calendar = calendar ?? throw new ArgumentNullException(nameof(calendar));
     }
 
     public static TheoryData<EpagomenalDayInfo> EpagomenalDayInfoData => DataSet.EpagomenalDayInfoData;

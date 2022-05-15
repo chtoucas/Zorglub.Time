@@ -12,9 +12,9 @@ using Zorglub.Time.Simple;
 public abstract partial class CalendarDateMathFacts<TDataSet>
     where TDataSet : IAdvancedMathDataSet, ISingleton<TDataSet>
 {
-    protected CalendarDateMathFacts(Calendar calendar!!)
+    protected CalendarDateMathFacts(Calendar calendar)
     {
-        CalendarUT = calendar;
+        CalendarUT = calendar ?? throw new ArgumentNullException(nameof(calendar));
     }
 
     protected static TDataSet DataSet { get; } = TDataSet.Instance;

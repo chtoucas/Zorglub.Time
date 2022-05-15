@@ -35,9 +35,9 @@ namespace Zorglub.Time.Hemerology
         /// Initializes a new instance of the <see cref="MinMaxYearDayProvider"/> class.
         /// <exception cref="ArgumentNullException"><paramref name="scope"/> is null.</exception>
         /// </summary>
-        public MinMaxYearDayProvider(MinMaxYearScope scope!!)
+        public MinMaxYearDayProvider(MinMaxYearScope scope)
         {
-            Scope = scope;
+            Scope = scope ?? throw new ArgumentNullException(nameof(scope));
 
             _schema = scope.Schema;
             _epoch = scope.Epoch;

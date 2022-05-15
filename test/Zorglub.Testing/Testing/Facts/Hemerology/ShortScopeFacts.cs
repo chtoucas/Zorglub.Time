@@ -13,9 +13,9 @@ internal abstract class ShortScopeFacts<TScope, TDataSet> : CalendricalDataConsu
     where TScope : ShortScope
     where TDataSet : ICalendricalDataSet, ISingleton<TDataSet>
 {
-    protected ShortScopeFacts(TScope scope!!)
+    protected ShortScopeFacts(TScope scope)
     {
-        ScopeUT = scope;
+        ScopeUT = scope ?? throw new ArgumentNullException(nameof(scope));
     }
 
     /// <summary>

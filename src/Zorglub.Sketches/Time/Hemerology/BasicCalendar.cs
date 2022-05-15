@@ -25,10 +25,10 @@ namespace Zorglub.Time.Hemerology
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
         /// <exception cref="ArgumentNullException"><paramref name="scope"/> is null.</exception>
-        protected BasicCalendar(ICalendricalSchema schema!!, CalendarScope scope!!)
+        protected BasicCalendar(ICalendricalSchema schema, CalendarScope scope)
         {
-            Schema = schema;
-            Scope = scope;
+            Schema = schema ?? throw new ArgumentNullException(nameof(schema));
+            Scope = scope ?? throw new ArgumentNullException(nameof(scope));
 
             if (ReferenceEquals(scope.Schema, schema) == false)
             {

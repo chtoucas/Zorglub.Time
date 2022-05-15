@@ -10,10 +10,10 @@ namespace Zorglub.Time.Geometry.Schemas
         private readonly IGeometricSchema _schema;
         private readonly IMonthRegularizer _regularizer;
 
-        public TransposedSchema(IGeometricSchema schema!!, IMonthRegularizer regularizer!!)
+        public TransposedSchema(IGeometricSchema schema, IMonthRegularizer regularizer)
         {
-            _schema = schema;
-            _regularizer = regularizer;
+            _schema = schema ?? throw new ArgumentNullException(nameof(schema));
+            _regularizer = regularizer ?? throw new ArgumentNullException(nameof(regularizer));
         }
 
         /// <inheritdoc />

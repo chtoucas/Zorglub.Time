@@ -17,10 +17,10 @@ public abstract partial class CalendricalMathFacts<TSchema, TDataSet>
         IAdvancedMathDataSet,
         ISingleton<TDataSet>
 {
-    protected CalendricalMathFacts(/*Calendar calendar!!,*/ CalendricalMath math!!)
+    protected CalendricalMathFacts(/*Calendar calendar,*/ CalendricalMath math)
     {
-        //CalendarUT = calendar ?? Throw.ArgumentNull<Calendar>(nameof(calendar));
-        MathUT = math;
+        //CalendarUT = calendar ?? throw new ArgumentNullException(nameof(calendar));
+        MathUT = math ?? throw new ArgumentNullException(nameof(math));
     }
 
     ///// <summary>

@@ -16,9 +16,9 @@ namespace Zorglub.Time.Geometry.Discrete
         /// class with the specified code.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="input"/> is null.</exception>
-        public TroeschAnalyzer(CodeArray input!!)
+        public TroeschAnalyzer(CodeArray input)
         {
-            Input = input;
+            Input = input ?? throw new ArgumentNullException(nameof(input));
         }
 
         public CodeArray Input { get; }

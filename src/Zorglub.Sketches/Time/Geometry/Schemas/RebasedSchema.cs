@@ -13,9 +13,9 @@ namespace Zorglub.Time.Geometry.Schemas
         private readonly IGeometricSchema _schema;
         private readonly int _daysToTargetEpoch;
 
-        public RebasedSchema(IGeometricSchema schema!!, int daysToTargetEpoch)
+        public RebasedSchema(IGeometricSchema schema, int daysToTargetEpoch)
         {
-            _schema = schema;
+            _schema = schema ?? throw new ArgumentNullException(nameof(schema));
             _daysToTargetEpoch = daysToTargetEpoch;
         }
 

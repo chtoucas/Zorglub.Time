@@ -9,13 +9,13 @@ namespace Zorglub.Time.Geometry.Discrete
     public class QuasiAffineBasis2
     {
         protected QuasiAffineBasis2(
-            QuasiAffineForm form2!!,
-            QuasiAffineForm form1!!,
-            QuasiAffineForm form0!!)
+            QuasiAffineForm form2,
+            QuasiAffineForm form1,
+            QuasiAffineForm form0)
         {
-            Form2 = form2;
-            Form1 = form1;
-            Form0 = form0;
+            Form2 = form2 ?? throw new ArgumentNullException(nameof(form2));
+            Form1 = form1 ?? throw new ArgumentNullException(nameof(form1));
+            Form0 = form0 ?? throw new ArgumentNullException(nameof(form0));
         }
 
         public QuasiAffineForm Form2 { get; }

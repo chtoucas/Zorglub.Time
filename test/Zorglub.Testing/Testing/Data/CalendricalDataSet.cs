@@ -9,9 +9,9 @@ namespace Zorglub.Testing.Data;
 
 public abstract class CalendricalDataSet : ICalendricalDataSet
 {
-    protected CalendricalDataSet(ICalendricalSchema schema!!, int commonYear, int leapYear)
+    protected CalendricalDataSet(ICalendricalSchema schema, int commonYear, int leapYear)
     {
-        Schema = schema;
+        Schema = schema ?? throw new ArgumentNullException(nameof(schema));
 
         SampleCommonYear = commonYear;
         SampleLeapYear = leapYear;
@@ -62,8 +62,10 @@ public abstract class CalendricalDataSet : ICalendricalDataSet
     /// </summary>
     [Pure]
     protected static TheoryData<DaysSinceEpochInfo> ConvertToDaysSinceEpochInfoData(
-        IEnumerable<(int DaysSinceEpoch, int Year, int Month, int Day)> source!!)
+        IEnumerable<(int DaysSinceEpoch, int Year, int Month, int Day)> source)
     {
+        Requires.NotNull(source);
+
         var data = new TheoryData<DaysSinceEpochInfo>();
         foreach (var (daysSinceEpoch, y, m, d) in source)
         {
@@ -78,8 +80,10 @@ public abstract class CalendricalDataSet : ICalendricalDataSet
     /// </summary>
     [Pure]
     protected static TheoryData<DaysSinceEpochInfo> ConvertToDaysSinceEpochInfoData(
-        IEnumerable<(int DaysSinceOrigin, int Year, int Month, int Day)> source!!, DayNumber origin, DayNumber epoch)
+        IEnumerable<(int DaysSinceOrigin, int Year, int Month, int Day)> source, DayNumber origin, DayNumber epoch)
     {
+        Requires.NotNull(source);
+
         int shift = origin - epoch;
         var data = new TheoryData<DaysSinceEpochInfo>();
         foreach (var (daysSinceOrigin, y, m, d) in source)
@@ -91,8 +95,11 @@ public abstract class CalendricalDataSet : ICalendricalDataSet
 
     [Pure]
     private static TheoryData<YemodaAnd<int>> GetDaysInYearAfterDateData(
-        TheoryData<DateInfo> source!!, ICalendricalSchema schema!!)
+        TheoryData<DateInfo> source, ICalendricalSchema schema)
     {
+        Requires.NotNull(source);
+        Requires.NotNull(schema);
+
         var data = new TheoryData<YemodaAnd<int>>();
         foreach (var info in source)
         {
@@ -106,8 +113,11 @@ public abstract class CalendricalDataSet : ICalendricalDataSet
 
     [Pure]
     private static TheoryData<YemodaAnd<int>> GetDaysInMonthAfterDateData(
-        TheoryData<DateInfo> source!!, ICalendricalSchema schema!!)
+        TheoryData<DateInfo> source, ICalendricalSchema schema)
     {
+        Requires.NotNull(source);
+        Requires.NotNull(schema);
+
         var data = new TheoryData<YemodaAnd<int>>();
         foreach (var info in source)
         {
@@ -120,8 +130,10 @@ public abstract class CalendricalDataSet : ICalendricalDataSet
     }
 
     [Pure]
-    private static TheoryData<Yemoda> GetStartOfYearFromEndOfYear(TheoryData<Yemoda> source!!)
+    private static TheoryData<Yemoda> GetStartOfYearFromEndOfYear(TheoryData<Yemoda> source)
     {
+        Requires.NotNull(source);
+
         var data = new TheoryData<Yemoda>();
         foreach (var item in source)
         {
@@ -132,8 +144,10 @@ public abstract class CalendricalDataSet : ICalendricalDataSet
     }
 
     [Pure]
-    private static TheoryData<YearDaysSinceEpoch> GetEndOfYearFromStartOfYear(TheoryData<YearDaysSinceEpoch> source!!)
+    private static TheoryData<YearDaysSinceEpoch> GetEndOfYearFromStartOfYear(TheoryData<YearDaysSinceEpoch> source)
     {
+        Requires.NotNull(source);
+
         var data = new TheoryData<YearDaysSinceEpoch>();
         foreach (var item in source)
         {

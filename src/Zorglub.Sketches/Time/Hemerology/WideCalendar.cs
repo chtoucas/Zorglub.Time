@@ -64,7 +64,7 @@ namespace Zorglub.Time.Hemerology
 
         private WideCalendar(
             int id,
-            string name!!,
+            string name,
             ICalendricalSchema schema,
             MinMaxYearScope scope,
             bool userDefined)
@@ -72,7 +72,7 @@ namespace Zorglub.Time.Hemerology
         {
             Debug.Assert(schema != null);
 
-            Name = name;
+            Name = name ?? throw new ArgumentNullException(nameof(name));
 
             Id = id;
             IsUserDefined = userDefined;

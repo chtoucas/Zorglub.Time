@@ -19,12 +19,12 @@ namespace Zorglub.Time.Geometry.Schemas
     public sealed partial class ThirdOrderSchema : GeometricSchema
     {
         public ThirdOrderSchema(
-            CenturyForm centuryForm!!,
+            CenturyForm centuryForm,
             YearForm yearForm,
             MonthForm monthForm)
             : base(yearForm, monthForm)
         {
-            CenturyForm = centuryForm;
+            CenturyForm = centuryForm ?? throw new ArgumentNullException(nameof(centuryForm));
 
             Debug.Assert(monthForm != null);
             if (centuryForm.Origin != monthForm.Origin)

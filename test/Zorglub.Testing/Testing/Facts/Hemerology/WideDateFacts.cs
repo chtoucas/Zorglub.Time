@@ -4,6 +4,7 @@
 namespace Zorglub.Testing.Facts.Hemerology;
 
 using Zorglub.Testing.Data;
+using Zorglub.Time.Core.Intervals;
 using Zorglub.Time.Hemerology;
 
 /// <summary>
@@ -12,9 +13,14 @@ using Zorglub.Time.Hemerology;
 public abstract partial class WideDateFacts<TDataSet> : IDateFacts<WideDate, TDataSet>
     where TDataSet : ICalendarDataSet, ISingleton<TDataSet>
 {
-    protected WideDateFacts(WideCalendar calendar!!, WideCalendar otherCalendar!!)
-        : base(calendar.SupportedYears, calendar.Domain)
+    protected WideDateFacts(WideCalendar calendar, WideCalendar otherCalendar)
+        : this(calendar, otherCalendar, CtorArgs.Create(calendar)) { }
+
+    private WideDateFacts(WideCalendar calendar, WideCalendar otherCalendar, CtorArgs args)
+        : base(args.SupportedYears, args.Domain)
     {
+        Debug.Assert(calendar != null);
+        Requires.NotNull(otherCalendar);
         // NB: calendars of type WideCalendar are singletons.
         if (ReferenceEquals(otherCalendar, calendar))
         {
@@ -35,6 +41,15 @@ public abstract partial class WideDateFacts<TDataSet> : IDateFacts<WideDate, TDa
     protected sealed override WideDate MaxDate { get; }
 
     protected sealed override WideDate GetDate(int y, int m, int d) => CalendarUT.GetWideDate(y, m, d);
+
+    private sealed record CtorArgs(Range<int> SupportedYears, Range<DayNumber> Domain)
+    {
+        public static CtorArgs Create(WideCalendar calendar)
+        {
+            Requires.NotNull(calendar);
+            return new CtorArgs(calendar.SupportedYears, calendar.Domain);
+        }
+    }
 }
 
 public partial class WideDateFacts<TDataSet> // Prelude

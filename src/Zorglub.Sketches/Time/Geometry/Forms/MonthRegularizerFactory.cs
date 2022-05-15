@@ -7,10 +7,12 @@ namespace Zorglub.Time.Geometry.Forms
     {
         [Pure]
         public static MonthRegularizer CreateRegularizer(
-            MonthForm monthForm!!,
+            MonthForm monthForm,
             int monthsInYear,
             int exceptionalMonth)
         {
+            Requires.NotNull(monthForm);
+
             return monthForm switch
             {
                 MonthForm { Numbering: MonthFormNumbering.Algebraic } =>

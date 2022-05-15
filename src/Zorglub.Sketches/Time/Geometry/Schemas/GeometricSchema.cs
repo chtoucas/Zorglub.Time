@@ -10,10 +10,10 @@ namespace Zorglub.Time.Geometry.Schemas
 
     public abstract partial class GeometricSchema : IGeometricSchema
     {
-        protected GeometricSchema(YearForm yearForm!!, MonthForm monthForm!!)
+        protected GeometricSchema(YearForm yearForm, MonthForm monthForm)
         {
-            YearForm = yearForm;
-            MonthForm = monthForm;
+            YearForm = yearForm ?? throw new ArgumentNullException(nameof(yearForm));
+            MonthForm = monthForm ?? throw new ArgumentNullException(nameof(monthForm));
 
             if (yearForm.Origin != monthForm.Origin)
             {

@@ -42,9 +42,9 @@ public abstract partial class ICalendricalKernelFacts<TSchema, TDataSet> :
     where TSchema : ICalendricalKernel
     where TDataSet : ICalendricalDataSet, ISingleton<TDataSet>
 {
-    protected ICalendricalKernelFacts(TSchema schema!!)
+    protected ICalendricalKernelFacts(TSchema schema)
     {
-        SchemaUT = schema;
+        SchemaUT = schema ?? throw new ArgumentNullException(nameof(schema));
         (MinYear, MaxYear) = schema.SupportedYears.Endpoints;
     }
 

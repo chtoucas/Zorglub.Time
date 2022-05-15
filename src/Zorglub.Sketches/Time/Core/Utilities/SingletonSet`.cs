@@ -32,9 +32,9 @@ namespace Zorglub.Time.Core.Utilities
         /// Initializes a new instance of the <see cref="SingletonSet{T}"/> class.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="element"/> is null.</exception>
-        public SingletonSet([DisallowNull] T element!!)
+        public SingletonSet([DisallowNull] T element)
         {
-            _element = element;
+            _element = element ?? throw new ArgumentNullException(nameof(element));
         }
 
         #region IList<T>
@@ -76,7 +76,12 @@ namespace Zorglub.Time.Core.Utilities
         public bool Contains(T item) => EqualityComparer<T>.Default.Equals(item, _element);
 
         /// <inheritdoc />
-        public void CopyTo(T[] array!!, int arrayIndex) => array[arrayIndex] = _element;
+        public void CopyTo(T[] array, int arrayIndex)
+        {
+            Requires.NotNull(array);
+
+            array[arrayIndex] = _element;
+        }
 
         /// <inheritdoc />
         public bool Remove(T item) => Throw.ReadOnlyCollection<bool>();
@@ -125,7 +130,12 @@ namespace Zorglub.Time.Core.Utilities
         public void Remove(object? value) => Throw.ReadOnlyCollection();
 
         /// <inheritdoc />
-        public void CopyTo(Array array!!, int index) => array.SetValue(_element, index);
+        public void CopyTo(Array array, int index)
+        {
+            Requires.NotNull(array);
+
+            array.SetValue(_element, index);
+        }
 
         #endregion
 

@@ -10,8 +10,10 @@ namespace Zorglub.Testing.Data.Extensions;
 public static class ArrayExtensions
 {
     [Pure]
-    public static TheoryData<int, int> ToArrayData(this int[] array!!)
+    public static TheoryData<int, int> ToArrayData(this int[] array)
     {
+        Requires.NotNull(array);
+
         var data = new TheoryData<int, int>();
         for (int i = 0; i < array.Length; i++) { data.Add(i, array[i]); }
         return data;

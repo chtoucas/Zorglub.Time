@@ -314,8 +314,11 @@ namespace Zorglub.Time.Core.Intervals
         /// <exception cref="ArgumentNullException"><paramref name="x"/> is null.</exception>
         /// <exception cref="ArgumentNullException"><paramref name="y"/> is null.</exception>
         [Pure]
-        public static double Distance(IntervalDouble x!!, IntervalDouble y!!)
+        public static double Distance(IntervalDouble x, IntervalDouble y)
         {
+            Requires.NotNull(x);
+            Requires.NotNull(y);
+
             if (x.IsEmpty || y.IsEmpty) { return 0d; }
 
             // We don't write
@@ -334,8 +337,10 @@ namespace Zorglub.Time.Core.Intervals
         /// <returns>The empty interval if the two intervals are disjoint.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="other"/> is null.</exception>
         [Pure]
-        public IntervalDouble Intersect(IntervalDouble other!!)
+        public IntervalDouble Intersect(IntervalDouble other)
         {
+            Requires.NotNull(other);
+
             if (IsEmpty || other.IsEmpty) { return Empty; }
 
             double inf = Math.Max(Inf, other.Inf);
@@ -354,8 +359,10 @@ namespace Zorglub.Time.Core.Intervals
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="other"/> is null.</exception>
         [Pure]
-        public IntervalDouble Span(IntervalDouble other!!)
+        public IntervalDouble Span(IntervalDouble other)
         {
+            Requires.NotNull(other);
+
             if (IsEmpty) { return other; }
             if (other.IsEmpty) { return this; }
 
@@ -408,11 +415,15 @@ namespace Zorglub.Time.Core.Intervals
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="other"/> is null.</exception>
         [Pure]
-        public bool Overlaps(IntervalDouble other!!) =>
-            !IsEmpty
-            && !other.IsEmpty
-            && Sup >= other.Inf
-            && other.Sup >= Inf;
+        public bool Overlaps(IntervalDouble other)
+        {
+            Requires.NotNull(other);
+
+            return !IsEmpty
+                && !other.IsEmpty
+                && Sup >= other.Inf
+                && other.Sup >= Inf;
+        }
 
         /// <summary>
         /// Determines whether this interval and <paramref name="other"/> are connected.
@@ -430,11 +441,15 @@ namespace Zorglub.Time.Core.Intervals
 #if false
         // Name: Abuts()?
         [Pure]
-        public bool IsAdjacent(IntervalDouble other!!) =>
-            IsEmpty
-            || other.IsEmpty
-            // FIXME(code): (a, b[ is not adjacent with ]b, c).
-            || (Sup == other.Inf ^ other.Sup == Inf);
+        public bool IsAdjacent(IntervalDouble other)
+        {
+            Requires.NotNull(other);
+
+            return IsEmpty
+                || other.IsEmpty
+                // FIXME(code): (a, b[ is not adjacent with ]b, c).
+                || (Sup == other.Inf ^ other.Sup == Inf);
+        }
 
         /// <summary>
         /// Obtains the width of the specified interval.
@@ -474,7 +489,12 @@ namespace Zorglub.Time.Core.Intervals
 
         /// <inheritdoc />
         [Pure]
-        public bool SetEquals(IntervalDouble other!!) => _inf.Equals(other._inf) && _sup.Equals(other._sup);
+        public bool SetEquals(IntervalDouble other)
+        {
+            Requires.NotNull(other);
+
+            return _inf.Equals(other._inf) && _sup.Equals(other._sup);
+        }
 
         #endregion
     }
