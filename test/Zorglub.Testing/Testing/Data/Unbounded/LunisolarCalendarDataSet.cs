@@ -18,5 +18,5 @@ public sealed class LunisolarCalendarDataSet :
 
     private TheoryData<DayNumberInfo>? _dayNumberInfoData;
     public override TheoryData<DayNumberInfo> DayNumberInfoData =>
-        _dayNumberInfoData ??= CalCal.MapToDayNumberInfo(LunisolarDataSet.DaysSinceRataDieInfos);
+        _dayNumberInfoData ??= MapToDayNumberInfoData(LunisolarDataSet.DaysSinceRataDieInfos);
 }

@@ -25,8 +25,7 @@ public partial class FrenchRepublican12DataSet // Infos
 {
     private TheoryData<DaysSinceEpochInfo>? _daysSinceEpochInfoData;
     public override TheoryData<DaysSinceEpochInfo> DaysSinceEpochInfoData =>
-        _daysSinceEpochInfoData ??=
-            CalCal.MapToDaysSinceEpochInfo(DaysSinceRataDieInfos, CalendarEpoch.FrenchRepublican);
+        _daysSinceEpochInfoData ??= MapToDaysSinceEpochInfoData(DaysSinceRataDieInfos, CalendarEpoch.FrenchRepublican);
 
     public override TheoryData<DateInfo> DateInfoData => new()
     {

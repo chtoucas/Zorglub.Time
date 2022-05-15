@@ -18,6 +18,6 @@ public sealed class Persian2820CalendarDataSet :
 
     private TheoryData<DayNumberInfo>? _dayNumberInfoData;
     public override TheoryData<DayNumberInfo> DayNumberInfoData =>
-        _dayNumberInfoData ??= CalCal.MapToDayNumberInfo(Persian2820DataSet.DaysSinceRataDieInfos);
+        _dayNumberInfoData ??= MapToDayNumberInfoData(Persian2820DataSet.DaysSinceRataDieInfos);
 }
 

@@ -22,8 +22,7 @@ public partial class Egyptian12DataSet // Infos
 {
     private TheoryData<DaysSinceEpochInfo>? _daysSinceEpochInfoData;
     public override TheoryData<DaysSinceEpochInfo> DaysSinceEpochInfoData =>
-        _daysSinceEpochInfoData ??=
-            CalCal.MapToDaysSinceEpochInfo(DaysSinceRataDieInfos, CalendarEpoch.Egyptian);
+        _daysSinceEpochInfoData ??= MapToDaysSinceEpochInfoData(DaysSinceRataDieInfos, CalendarEpoch.Egyptian);
 
     public override TheoryData<DateInfo> DateInfoData => new()
     {

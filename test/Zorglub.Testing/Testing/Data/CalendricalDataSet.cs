@@ -75,6 +75,25 @@ public abstract class CalendricalDataSet : ICalendricalDataSet
         return data;
     }
 
+    /// <summary>
+    /// Converts a sequence of <see cref="DaysSinceRataDieInfo"/> to a set of data of type
+    /// <see cref="DaysSinceEpochInfo"/>.
+    /// </summary>
+    [Pure]
+    public static TheoryData<DaysSinceEpochInfo> MapToDaysSinceEpochInfoData(
+        IEnumerable<DaysSinceRataDieInfo> source, DayNumber epoch)
+    {
+        Requires.NotNull(source);
+
+        int shift = DayZero.RataDie - epoch;
+        var data = new TheoryData<DaysSinceEpochInfo>();
+        foreach (var (daysSinceRataDie, y, m, d) in source)
+        {
+            data.Add(new DaysSinceEpochInfo(daysSinceRataDie + shift, y, m, d));
+        }
+        return data;
+    }
+
     [Pure]
     private static TheoryData<YemodaAnd<int>> GetDaysInYearAfterDateData(
         TheoryData<DateInfo> source, ICalendricalSchema schema)

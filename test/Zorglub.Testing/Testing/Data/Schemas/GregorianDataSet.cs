@@ -26,7 +26,7 @@ public partial class GregorianDataSet // Infos
 {
     private TheoryData<DaysSinceEpochInfo>? _daysSinceEpochInfoData;
     public override TheoryData<DaysSinceEpochInfo> DaysSinceEpochInfoData =>
-        _daysSinceEpochInfoData ??= CalCal.MapToDaysSinceEpochInfo(DaysSinceRataDieInfos, DayZero.NewStyle);
+        _daysSinceEpochInfoData ??= MapToDaysSinceEpochInfoData(DaysSinceRataDieInfos, DayZero.NewStyle);
 
     public override TheoryData<DateInfo> DateInfoData => new()
     {

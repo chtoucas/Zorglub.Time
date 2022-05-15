@@ -99,6 +99,44 @@ public abstract class CalendarDataSet<TDataSet> : ICalendarDataSet
     }
 
     /// <summary>
+    /// Converts a sequence of <see cref="DaysSinceRataDieInfo"/> to a set of data of type
+    /// <see cref="DayNumberInfo"/>.
+    /// </summary>
+    [Pure]
+    public static TheoryData<DayNumberInfo> MapToDayNumberInfoData(
+        IEnumerable<DaysSinceRataDieInfo> source)
+    {
+        Requires.NotNull(source);
+
+        DayNumber rd = DayZero.RataDie; // cache prop locally
+        var data = new TheoryData<DayNumberInfo>();
+        foreach (var (daysSinceRataDie, y, m, d) in source)
+        {
+            data.Add(new DayNumberInfo(rd + daysSinceRataDie, y, m, d));
+        }
+        return data;
+    }
+
+    /// <summary>
+    /// Converts a sequence of <see cref="DaysSinceRataDieInfo"/> to a set of data of type
+    /// <see cref="DayNumberInfo"/>.
+    /// </summary>
+    [Pure]
+    public static TheoryData<DayNumberInfo> MapToDayNumberInfoData(
+        IEnumerable<DaysSinceRataDieInfo> source, DayNumber epoch, DayNumber newEpoch)
+    {
+        Requires.NotNull(source);
+
+        DayNumber zero = DayZero.RataDie + (newEpoch - epoch);
+        var data = new TheoryData<DayNumberInfo>();
+        foreach (var (daysSinceRataDie, y, m, d) in source)
+        {
+            data.Add(new DayNumberInfo(zero + daysSinceRataDie, y, m, d));
+        }
+        return data;
+    }
+
+    /// <summary>
     /// Converts a sequence of (Year, DaysSinceEpoch) to a set of data of type
     /// <see cref="YearDayNumber"/>.
     /// </summary>
