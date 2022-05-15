@@ -20,8 +20,8 @@
   <PropertyGroup>
     <RootNamespace>Zorglub</RootNamespace>
 
-    <!--<LangVersion>latest</LangVersion>-->
-    <LangVersion>preview</LangVersion>
+    <!-- LangVersion = latest or preview -->
+    <LangVersion>latest</LangVersion>
     <Nullable>enable</Nullable>
 
     <AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)Narvalo.snk</AssemblyOriginatorKeyFile>
