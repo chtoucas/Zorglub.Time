@@ -34,13 +34,15 @@ Usage: test.ps1 [arguments]
 
 The default behaviour is to run the smoke tests using the configuration Debug.
 
-With the "regular" test plan, we exclude:
-- Slow-running whether it's an individual test or a group of tests
-- Redundant tests
+With the "regular" test plan, we exclude slow-running and redundant tests.
+
 The three other test plans are:
 - "smoke" = "regular" AND keep only one test group per test suite
 - "more"  = "regular" AND do not exclude slow-running individual tests
 - "extra" = complement of "more" (SLOW)
+
+Of course, one can use the dotnet command-line to run the whole test suite or to
+apply custom filters.
 
 Examples.
 > test.ps1                      # Smoke testing
@@ -49,12 +51,9 @@ Examples.
 > test.ps1 more                 # Execute the regular test suite + a few more tests
 > test.ps1 extra                # (SLOW) Execute the tests excluded from the test plan "more"
 
-Typical test plan executions:
+Typical test plan executions.
 > test.ps1 -NoBuild             # Smoke testing, no build, Debug
-> test.ps1 regular -c Release   # Regular test suite, build, Release
-
-Of course, one can use the dotnet command-line to run the whole test suite or to
-apply custom filters.
+> test.ps1 regular -c Release   # Regular test suite, Release
 
 "@
 }

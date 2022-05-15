@@ -9,13 +9,10 @@ param(
     [string] $Path
 )
 
-New-Variable ROOT_DIR (Get-Item $PSScriptRoot).Parent.FullName `
-    -Scope Script -Option Constant
-
-# ------------------------------------------------------------------------------
+. (Join-Path $PSScriptRoot 'zorglub.ps1')
 
 try {
-    pushd $ROOT_DIR
+    pushd $RootDir
 
     if (-not (Test-Path $Path)) {
         Write-Error "The file does NOT exist."
@@ -28,21 +25,21 @@ try {
     # System.Diagnostics.FileVersionInfo
     $fileInfo = Get-Item $Path | % VersionInfo
 
-    Write-Host "`nAssembly's Full Name."
-    Write-Host $asm.FullName
+    say "`nAssembly's Full Name."
+    say $asm.FullName
 
-    Write-Host "`nAssembly's Version Attributes."
-    Write-Host ("AssemblyVersion      = {0}" -f $asm.Version)
-    Write-Host ("FileVersion          = {0}" -f $fileInfo.FileVersion)
-    Write-Host ("InformationalVersion = {0}" -f $fileInfo.ProductVersion)
+    say "`nAssembly's Version Attributes."
+    say ("AssemblyVersion      = {0}" -f $asm.Version)
+    say ("FileVersion          = {0}" -f $fileInfo.FileVersion)
+    say ("InformationalVersion = {0}" -f $fileInfo.ProductVersion)
 
-    Write-Host "`nFile Informations."
-    Write-Host $fileInfo
+    say "`nFile Informations."
+    say $fileInfo
 }
 catch {
-    Write-Host $_ -Foreground Red
-    Write-Host $_.Exception
-    Write-Host $_.ScriptStackTrace
+    say $_ -Foreground Red
+    say $_.Exception
+    say $_.ScriptStackTrace
     exit 1
 }
 finally {
