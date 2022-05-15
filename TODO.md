@@ -36,9 +36,7 @@ FIXME
 TODO
 ----
 
-- Rewrite the test scripts: one for tesing and code coverage, one for packing.
 - When .NET 7 is out:
-  D.B.props: set LangVersion to latest.
   D.B.targets: disable preview features.
   Clean up unnecessary "#pragma warning disable".
   Generic math: using System.Numerics.
