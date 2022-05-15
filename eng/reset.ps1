@@ -31,9 +31,9 @@ function Remove-BinAndObj {
 try {
     pushd $RootDir
 
-    Remove-BinAndObj (Join-Path $rootdir 'src' -Resolve)
-    Remove-BinAndObj (Join-Path $rootdir 'test' -Resolve)
-    Remove-BinAndObj (Join-Path $rootdir 'tools' -Resolve)
+    Remove-BinAndObj (Join-Path $RootDir 'src' -Resolve)
+    Remove-BinAndObj (Join-Path $RootDir 'test' -Resolve)
+    Remove-BinAndObj (Join-Path $RootDir 'tools' -Resolve)
 }
 catch {
     say $_ -Foreground Red
