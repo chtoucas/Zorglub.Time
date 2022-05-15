@@ -78,7 +78,7 @@ module JulianCase =
         OrdinalDate.FromBinary(date.ToBinary()) === date
 
 module Conversions =
-    let data = CalCalDataSet.GregorianJulianData
+    let data = CalCalDataSet.GregorianToJulianData
 
     let ``WithCalendar() throws when the result is out of range`` () =
         let chr = JulianCalendar.Instance

@@ -85,7 +85,7 @@ module JulianCase =
 
 module Conversions =
     // TODO(code): filter data. Idem with OrdinalDateTests and CalendarDayTests.
-    let data = CalCalDataSet.GregorianJulianData
+    let data = CalCalDataSet.GregorianToJulianData
 
     let ``WithCalendar() throws when the result is out of range`` () =
         let chr = JulianCalendar.Instance

@@ -47,7 +47,7 @@ public sealed class WideDateTests : WideDateFacts<GregorianCalendarDataSet>
         Assert.ThrowsAoorexn("dayNumber", () => date.WithCalendar(CalendarUT));
     }
 
-    [Theory, MemberData(nameof(CalCalDataSet.GregorianJulianData), MemberType = typeof(CalCalDataSet))]
+    [Theory, MemberData(nameof(CalCalDataSet.GregorianToJulianData), MemberType = typeof(CalCalDataSet))]
     public void WithCalendar_GregorianToJulian(Yemoda gregorian, Yemoda julian)
     {
         var source = CalendarUT.GetWideDate(gregorian.Year, gregorian.Month, gregorian.Day);
@@ -56,7 +56,7 @@ public sealed class WideDateTests : WideDateFacts<GregorianCalendarDataSet>
         Assert.Equal(result, source.WithCalendar(OtherCalendar));
     }
 
-    [Theory, MemberData(nameof(CalCalDataSet.GregorianJulianData), MemberType = typeof(CalCalDataSet))]
+    [Theory, MemberData(nameof(CalCalDataSet.GregorianToJulianData), MemberType = typeof(CalCalDataSet))]
     public void WithCalendar_JulianToGregorian(Yemoda gregorian, Yemoda julian)
     {
         var source = OtherCalendar.GetWideDate(julian.Year, julian.Month, julian.Day);

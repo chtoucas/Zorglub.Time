@@ -4,6 +4,7 @@
 namespace Zorglub.Testing.Data;
 
 using System.Linq;
+using System.Threading;
 
 using Zorglub.Testing.Data.Schemas;
 
@@ -16,13 +17,21 @@ public partial class CalCalDataSet // Interconversion
     // Lazy initialized mainly to be sure that there isn't a circular
     // dependency problem (CalCalDataSet and Gregorian(Julian)Data)
     // during the initialization of static props.
-    private static volatile TheoryData<Yemoda, Yemoda>? s_GregorianJulianData;
+    private static TheoryData<Yemoda, Yemoda>? s_GregorianToJulianData;
     /// <summary>Gregorian date, Julian date.</summary>
-    public static TheoryData<Yemoda, Yemoda> GregorianJulianData =>
-        s_GregorianJulianData ??= InitGregorianJulianData();
+    public static TheoryData<Yemoda, Yemoda> GregorianToJulianData =>
+        s_GregorianToJulianData ??= InitGregorianToJulianData();
 
     [Pure]
-    private static TheoryData<Yemoda, Yemoda> InitGregorianJulianData()
+    private static TheoryData<Yemoda, Yemoda> InitGregorianToJulianData()
+    {
+        var data = GetGregorianToJulianData();
+        Interlocked.CompareExchange(ref s_GregorianToJulianData, data, null);
+        return s_GregorianToJulianData;
+    }
+
+    [Pure]
+    private static TheoryData<Yemoda, Yemoda> GetGregorianToJulianData()
     {
         var lookup = GregorianDataSet.RataDieInfos.ToLookup(x => x.RataDie);
 
@@ -47,15 +56,29 @@ public partial class CalCalDataSet // Interconversion
 // To be moved to CalendarDataSet.
 public partial class CalCalDataSet // Day of the week
 {
-    private static volatile TheoryData<DayNumber, DayOfWeek>? s_DayNumberToDayOfWeekData;
-    /// <summary>Day number, day of the week.</summary>
+    private static TheoryData<DayNumber, DayOfWeek>? s_DayNumberToDayOfWeekData;
     public static TheoryData<DayNumber, DayOfWeek> DayNumberToDayOfWeekData =>
-        s_DayNumberToDayOfWeekData ??= MapToDayNumberToDayOfWeekData(s_DayNumberToDayOfWeek);
+        s_DayNumberToDayOfWeekData ??= InitDayNumberToDayOfWeekData();
 
-    private static volatile TheoryData<DayNumber64, DayOfWeek>? s_DayNumber64ToDayOfWeekData;
-    /// <summary>Day number 64-bit, day of the week.</summary>
+    private static TheoryData<DayNumber64, DayOfWeek>? s_DayNumber64ToDayOfWeekData;
     public static TheoryData<DayNumber64, DayOfWeek> DayNumber64ToDayOfWeekData =>
-        s_DayNumber64ToDayOfWeekData ??= MapToDayNumber64ToDayOfWeekData(s_DayNumberToDayOfWeek);
+        s_DayNumber64ToDayOfWeekData ??= InitDayNumber64ToDayOfWeekData();
+
+    [Pure]
+    private static TheoryData<DayNumber, DayOfWeek> InitDayNumberToDayOfWeekData()
+    {
+        var data = MapToDayNumberToDayOfWeekData(s_DayNumberToDayOfWeek);
+        Interlocked.CompareExchange(ref s_DayNumberToDayOfWeekData, data, null);
+        return s_DayNumberToDayOfWeekData;
+    }
+
+    [Pure]
+    private static TheoryData<DayNumber64, DayOfWeek> InitDayNumber64ToDayOfWeekData()
+    {
+        var data = MapToDayNumber64ToDayOfWeekData(s_DayNumberToDayOfWeek);
+        Interlocked.CompareExchange(ref s_DayNumber64ToDayOfWeekData, data, null);
+        return s_DayNumber64ToDayOfWeekData;
+    }
 
     [Pure]
     private static TheoryData<DayNumber, DayOfWeek> MapToDayNumberToDayOfWeekData(
