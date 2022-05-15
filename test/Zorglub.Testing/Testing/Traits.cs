@@ -101,7 +101,7 @@ public sealed class TestExcludeFromAttribute : Attribute, ITraitAttribute
     public TestExcludeFrom ExcludeFrom { get; }
 }
 
-#region Discovers
+#region Discoverers
 
 // FIXME(code): the trait discoverers do not inspect the base classes.
 
