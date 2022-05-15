@@ -21,21 +21,19 @@ public partial class CalCalDataSet // Interconversion
     public static TheoryData<Yemoda, Yemoda> GregorianJulianData =>
         s_GregorianJulianData ??= InitGregorianJulianData();
 
-#pragma warning disable IDE0042 // Deconstruct variable declaration 👈 Tests
-
     [Pure]
     private static TheoryData<Yemoda, Yemoda> InitGregorianJulianData()
     {
         var lookup = GregorianDataSet.RataDieInfos.ToLookup(x => x.RataDie);
 
         var data = new TheoryData<Yemoda, Yemoda>();
-        foreach (var j in JulianDataSet.RataDieInfos)
+        foreach (var (jrd, jy, jm, jd) in JulianDataSet.RataDieInfos)
         {
-            var gs = lookup[j.RataDie].ToList();
+            var gs = lookup[jrd].ToList();
             if (gs.Count == 1)
             {
-                var g = gs.Single();
-                data.Add(new Yemoda(g.Year, g.Month, g.Day), new Yemoda(j.Year, j.Month, j.Day));
+                var (_, gy, gm, gd) = gs.Single();
+                data.Add(new Yemoda(gy, gm, gd), new Yemoda(jy, jm, jd));
             }
         }
 
@@ -44,8 +42,6 @@ public partial class CalCalDataSet // Interconversion
 
         return data;
     }
-
-#pragma warning restore IDE0042
 }
 
 // To be moved to CalendarDataSet.

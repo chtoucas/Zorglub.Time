@@ -85,8 +85,14 @@
 
         <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
         <TreatSpecificWarningsAsErrors />
-        <!-- IDE0079  Remove unnecessary suppression (Style) -->
-        <NoWarn>IDE0079</NoWarn>
+        <!--
+          IDE0079  Remove unnecessary suppression (Style)
+                   I don't think that we need to suppress it anymore.
+          IDE0190	 Null check can be simplified (Style)
+                   Temporary suppression: related to the cancellation of the
+                   parameter null-checking feature.
+        -->
+        <NoWarn>IDE0190</NoWarn>
       </PropertyGroup>
     </Otherwise>
   </Choose>

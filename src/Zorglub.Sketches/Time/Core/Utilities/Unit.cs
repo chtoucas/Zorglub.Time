@@ -28,7 +28,7 @@ namespace Zorglub.Time.Core.Utilities
         [Pure]
         public override string ToString() => "()";
 
-#pragma warning disable IDE0060 // Remove unused parameter
+#pragma warning disable IDE0060 // Remove unused parameter (Style)
 
         /// <summary>
         /// Always returns true.

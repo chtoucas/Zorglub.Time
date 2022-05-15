@@ -1,8 +1,6 @@
 ﻿// SPDX-License-Identifier: BSD-3-Clause
 // Copyright (c) 2020 Narvalo.Org. All rights reserved.
 
-#pragma warning disable IDE0060 // Remove unused parameter
-
 namespace Zorglub.Time.Core.Intervals
 {
     /// <summary>
