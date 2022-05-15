@@ -71,7 +71,12 @@
         <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
         <!-- CS1591 Missing XML comment for publicly visible type or member 'Type_or_Member' -->
         <WarningsNotAsErrors>CS1591</WarningsNotAsErrors>
-        <NoWarn />
+        <!--
+          IDE0190	 Null check can be simplified (Style)
+                   Temporary suppression: related to the cancellation of the
+                   parameter null-checking feature.
+        -->
+        <NoWarn>IDE0190</NoWarn>
       </PropertyGroup>
     </When>
 
