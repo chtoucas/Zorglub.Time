@@ -63,7 +63,7 @@ public abstract class CalendarDataSet<TDataSet> : ICalendarDataSet
     #region Helpers
 
     /// <summary>
-    /// Converts a collection of <see cref="DaysSinceEpochInfo"/> to a set of data of type
+    /// Converts a sequence of <see cref="DaysSinceEpochInfo"/> to a set of data of type
     /// <see cref="DayNumberInfo"/>.
     /// </summary>
     [Pure]
@@ -81,7 +81,7 @@ public abstract class CalendarDataSet<TDataSet> : ICalendarDataSet
     }
 
     /// <summary>
-    /// Converts a collection of <see cref="DaysSinceOriginInfo"/> to a set of data of type
+    /// Converts a sequence of <see cref="DaysSinceOriginInfo"/> to a set of data of type
     /// <see cref="DayNumberInfo"/>.
     /// </summary>
     [Pure]
@@ -99,7 +99,7 @@ public abstract class CalendarDataSet<TDataSet> : ICalendarDataSet
     }
 
     /// <summary>
-    /// Converts a collection of (Year, DaysSinceEpoch) to a set of data of type
+    /// Converts a sequence of (Year, DaysSinceEpoch) to a set of data of type
     /// <see cref="YearDayNumber"/>.
     /// </summary>
     [Pure]

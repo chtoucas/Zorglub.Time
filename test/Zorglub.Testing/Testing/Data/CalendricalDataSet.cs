@@ -48,7 +48,7 @@ public abstract class CalendricalDataSet : ICalendricalDataSet
 
     private TheoryData<YearDaysSinceEpoch>? _endOfYearDaysSinceEpochData;
     public virtual TheoryData<YearDaysSinceEpoch> EndOfYearDaysSinceEpochData =>
-        _endOfYearDaysSinceEpochData ??= GetEndOfYearFromStartOfYear(StartOfYearDaysSinceEpochData);
+        _endOfYearDaysSinceEpochData ??= GetEndOfYearFromStartOfNextYear(StartOfYearDaysSinceEpochData);
 
     public abstract TheoryData<int, int> InvalidMonthFieldData { get; }
     public abstract TheoryData<int, int, int> InvalidDayFieldData { get; }
@@ -57,7 +57,7 @@ public abstract class CalendricalDataSet : ICalendricalDataSet
     #region Helpers
 
     /// <summary>
-    /// Converts a collection of <see cref="DaysSinceOriginInfo"/> to a set of data of type
+    /// Converts a sequence of <see cref="DaysSinceOriginInfo"/> to a set of data of type
     /// <see cref="DaysSinceEpochInfo"/>.
     /// </summary>
     [Pure]
@@ -126,7 +126,7 @@ public abstract class CalendricalDataSet : ICalendricalDataSet
     }
 
     [Pure]
-    private static TheoryData<YearDaysSinceEpoch> GetEndOfYearFromStartOfYear(TheoryData<YearDaysSinceEpoch> source)
+    private static TheoryData<YearDaysSinceEpoch> GetEndOfYearFromStartOfNextYear(TheoryData<YearDaysSinceEpoch> source)
     {
         Requires.NotNull(source);
 
