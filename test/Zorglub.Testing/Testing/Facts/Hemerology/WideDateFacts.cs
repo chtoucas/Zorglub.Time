@@ -14,9 +14,9 @@ public abstract partial class WideDateFacts<TDataSet> : IDateFacts<WideDate, TDa
     where TDataSet : ICalendarDataSet, ISingleton<TDataSet>
 {
     protected WideDateFacts(WideCalendar calendar, WideCalendar otherCalendar)
-        : this(calendar, otherCalendar, CtorArgs.Create(calendar)) { }
+        : this(calendar, otherCalendar, BaseCtorArgs.Create(calendar)) { }
 
-    private WideDateFacts(WideCalendar calendar, WideCalendar otherCalendar, CtorArgs args)
+    private WideDateFacts(WideCalendar calendar, WideCalendar otherCalendar, BaseCtorArgs args)
         : base(args.SupportedYears, args.Domain)
     {
         Debug.Assert(calendar != null);
@@ -42,12 +42,12 @@ public abstract partial class WideDateFacts<TDataSet> : IDateFacts<WideDate, TDa
 
     protected sealed override WideDate GetDate(int y, int m, int d) => CalendarUT.GetWideDate(y, m, d);
 
-    private sealed record CtorArgs(Range<int> SupportedYears, Range<DayNumber> Domain)
+    private sealed record BaseCtorArgs(Range<int> SupportedYears, Range<DayNumber> Domain)
     {
-        public static CtorArgs Create(WideCalendar calendar)
+        public static BaseCtorArgs Create(WideCalendar calendar)
         {
             Requires.NotNull(calendar);
-            return new CtorArgs(calendar.SupportedYears, calendar.Domain);
+            return new BaseCtorArgs(calendar.SupportedYears, calendar.Domain);
         }
     }
 }
