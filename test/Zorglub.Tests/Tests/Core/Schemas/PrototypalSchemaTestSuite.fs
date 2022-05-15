@@ -5,7 +5,6 @@ module Zorglub.Tests.Core.Schemas.PrototypalSchemaTestSuite
 
 open Zorglub.Testing
 open Zorglub.Testing.Data.Schemas
-open Zorglub.Testing.Facts
 open Zorglub.Testing.Facts.Core
 
 open Zorglub.Time.Core
@@ -20,125 +19,123 @@ let private prototypeOf<'a when 'a : not struct and 'a :> ICalendricalSchema and
 
 [<Sealed>]
 [<TestPerformance(TestPerformance.SlowGroup)>]
-// TODO(code): temporary trait.
-[<TestExcludeFrom(TestExcludeFrom.CodeCoverage)>]
 type Coptic12Tests() =
     inherit ArchetypalSchemaFacts<Coptic12DataSet>(prototypeOf<Coptic12Schema>())
 
 [<Sealed>]
-[<RedundantTesting>]
+[<RedundantTestGroup>]
 [<TestPerformance(TestPerformance.SlowGroup)>]
 [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
 type Coptic13Tests() =
     inherit ArchetypalSchemaFacts<Coptic13DataSet>(prototypeOf<Coptic13Schema>())
 
 [<Sealed>]
-[<RedundantTesting>]
+[<RedundantTestGroup>]
 [<TestPerformance(TestPerformance.SlowGroup)>]
 [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
 type Egyptian12Tests() =
     inherit ArchetypalSchemaFacts<Egyptian12DataSet>(prototypeOf<Egyptian12Schema>())
 
 [<Sealed>]
-[<RedundantTesting>]
+[<RedundantTestGroup>]
 [<TestPerformance(TestPerformance.SlowGroup)>]
 [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
 type Egyptian13Tests() =
     inherit ArchetypalSchemaFacts<Egyptian13DataSet>(prototypeOf<Egyptian13Schema>())
 
 [<Sealed>]
-[<RedundantTesting>]
+[<RedundantTestGroup>]
 [<TestPerformance(TestPerformance.SlowGroup)>]
 [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
 type FrenchRepublican12Tests() =
     inherit ArchetypalSchemaFacts<FrenchRepublican12DataSet>(prototypeOf<FrenchRepublican12Schema>())
 
 [<Sealed>]
-[<RedundantTesting>]
+[<RedundantTestGroup>]
 [<TestPerformance(TestPerformance.SlowGroup)>]
 [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
 type FrenchRepublican13Tests() =
     inherit ArchetypalSchemaFacts<FrenchRepublican13DataSet>(prototypeOf<FrenchRepublican13Schema>())
 
 [<Sealed>]
-[<RedundantTesting>]
+[<RedundantTestGroup>]
 [<TestPerformance(TestPerformance.SlowGroup)>]
 [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
 type GregorianTests() =
     inherit ArchetypalSchemaFacts<GregorianDataSet>(prototypeOf<GregorianSchema>())
 
 [<Sealed>]
-[<RedundantTesting>]
+[<RedundantTestGroup>]
 [<TestPerformance(TestPerformance.SlowGroup)>]
 [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
 type InternationalFixedTests() =
     inherit ArchetypalSchemaFacts<InternationalFixedDataSet>(prototypeOf<InternationalFixedSchema>())
 
 [<Sealed>]
-[<RedundantTesting>]
+[<RedundantTestGroup>]
 [<TestPerformance(TestPerformance.SlowGroup)>]
 [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
 type JulianTests() =
     inherit ArchetypalSchemaFacts<JulianDataSet>(prototypeOf<JulianSchema>())
 
 [<Sealed>]
-[<RedundantTesting>]
+[<RedundantTestGroup>]
 [<TestPerformance(TestPerformance.SlowGroup)>]
 [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
 type LunisolarTests() =
     inherit ArchetypalSchemaFacts<LunisolarDataSet>(prototypeOf<LunisolarSchema>())
 
 [<Sealed>]
-[<RedundantTesting>]
+[<RedundantTestGroup>]
 [<TestPerformance(TestPerformance.SlowGroup)>]
 [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
 type PaxTests() =
     inherit ArchetypalSchemaFacts<PaxDataSet>(prototypeOf<PaxSchema>())
 
 [<Sealed>]
-[<RedundantTesting>]
+[<RedundantTestGroup>]
 [<TestPerformance(TestPerformance.SlowGroup)>]
 [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
 type Persian2820Tests() =
     inherit ArchetypalSchemaFacts<Persian2820DataSet>(prototypeOf<Persian2820Schema>())
 
 [<Sealed>]
-[<RedundantTesting>]
+[<RedundantTestGroup>]
 [<TestPerformance(TestPerformance.SlowGroup)>]
 [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
 type PositivistTests() =
     inherit ArchetypalSchemaFacts<PositivistDataSet>(prototypeOf<PositivistSchema>())
 
 [<Sealed>]
-[<RedundantTesting>]
+[<RedundantTestGroup>]
 [<TestPerformance(TestPerformance.SlowGroup)>]
 [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
 type TabularIslamicTests() =
     inherit ArchetypalSchemaFacts<TabularIslamicDataSet>(prototypeOf<TabularIslamicSchema>())
 
 [<Sealed>]
-[<RedundantTesting>]
+[<RedundantTestGroup>]
 [<TestPerformance(TestPerformance.SlowGroup)>]
 [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
 type TropicaliaTests() =
     inherit ArchetypalSchemaFacts<TropicaliaDataSet>(prototypeOf<TropicaliaSchema>())
 
 [<Sealed>]
-[<RedundantTesting>]
+[<RedundantTestGroup>]
 [<TestPerformance(TestPerformance.SlowGroup)>]
 [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
 type Tropicalia3031Tests() =
     inherit ArchetypalSchemaFacts<Tropicalia3031DataSet>(prototypeOf<Tropicalia3031Schema>())
 
 [<Sealed>]
-[<RedundantTesting>]
+[<RedundantTestGroup>]
 [<TestPerformance(TestPerformance.SlowGroup)>]
 [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
 type Tropicalia3130Tests() =
     inherit ArchetypalSchemaFacts<Tropicalia3130DataSet>(prototypeOf<Tropicalia3130Schema>())
 
 [<Sealed>]
-[<RedundantTesting>]
+[<RedundantTestGroup>]
 [<TestPerformance(TestPerformance.SlowGroup)>]
 [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
 type WorldTests() =

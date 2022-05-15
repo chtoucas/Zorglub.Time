@@ -19,8 +19,9 @@ type ArmenianTests() =
     override x.Math() = x.CalendarUT.Math |> is<Regular12Math>
     override x.Scope() = x.CalendarUT.Scope |> is<Solar12StandardShortScope>
 
-[<RedundantTesting>]
-[<Sealed; TestExcludeFrom(TestExcludeFrom.Smoke)>]
+[<Sealed>]
+[<RedundantTestGroup>]
+[<TestExcludeFrom(TestExcludeFrom.Smoke)>]
 type CopticTests() =
     inherit CalendarFacts<CopticCalendar, StandardCoptic12DataSet>(CopticCalendar.Instance)
 
@@ -29,8 +30,9 @@ type CopticTests() =
     override x.Math() = x.CalendarUT.Math |> is<Regular12Math>
     override x.Scope() = x.CalendarUT.Scope |> is<Solar12StandardShortScope>
 
-[<RedundantTesting>]
-[<Sealed; TestExcludeFrom(TestExcludeFrom.Smoke)>]
+[<Sealed>]
+[<RedundantTestGroup>]
+[<TestExcludeFrom(TestExcludeFrom.Smoke)>]
 type EthiopicTests() =
     inherit CalendarFacts<EthiopicCalendar, StandardEthiopic12DataSet>(EthiopicCalendar.Instance)
 
@@ -39,8 +41,9 @@ type EthiopicTests() =
     override x.Math() = x.CalendarUT.Math |> is<Regular12Math>
     override x.Scope() = x.CalendarUT.Scope |> is<Solar12StandardShortScope>
 
-[<RedundantTesting>]
-[<Sealed; TestExcludeFrom(TestExcludeFrom.Smoke)>]
+[<Sealed>]
+[<RedundantTestGroup>]
+[<TestExcludeFrom(TestExcludeFrom.Smoke)>]
 type GregorianTests() =
     inherit CalendarFacts<GregorianCalendar, ProlepticGregorianDataSet>(GregorianCalendar.Instance)
 
@@ -49,8 +52,9 @@ type GregorianTests() =
     override x.Math() = x.CalendarUT.Math |> is<Regular12Math>
     override x.Scope() = x.CalendarUT.Scope |> is<GregorianProlepticShortScope>
 
-[<RedundantTesting>]
-[<Sealed; TestExcludeFrom(TestExcludeFrom.Smoke)>]
+[<Sealed>]
+[<RedundantTestGroup>]
+[<TestExcludeFrom(TestExcludeFrom.Smoke)>]
 type JulianTests() =
     inherit CalendarFacts<JulianCalendar, ProlepticJulianDataSet>(JulianCalendar.Instance)
 
@@ -59,8 +63,9 @@ type JulianTests() =
     override x.Math() = x.CalendarUT.Math |> is<Regular12Math>
     override x.Scope() = x.CalendarUT.Scope |> is<Solar12ProlepticShortScope>
 
-[<RedundantTesting>]
-[<Sealed; TestExcludeFrom(TestExcludeFrom.Smoke)>]
+[<Sealed>]
+[<RedundantTestGroup>]
+[<TestExcludeFrom(TestExcludeFrom.Smoke)>]
 type TabularIslamicTests() =
     inherit CalendarFacts<TabularIslamicCalendar, StandardTabularIslamicDataSet>(TabularIslamicCalendar.Instance)
 
@@ -69,8 +74,9 @@ type TabularIslamicTests() =
     override x.Math() = x.CalendarUT.Math |> is<Regular12Math>
     override x.Scope() = x.CalendarUT.Scope |> is<LunarStandardShortScope>
 
-[<RedundantTesting>]
-[<Sealed; TestExcludeFrom(TestExcludeFrom.Smoke)>]
+[<Sealed>]
+[<RedundantTestGroup>]
+[<TestExcludeFrom(TestExcludeFrom.Smoke)>]
 type ZoroastrianTests() =
     inherit CalendarFacts<ZoroastrianCalendar, StandardZoroastrian12DataSet>(ZoroastrianCalendar.Instance)
 

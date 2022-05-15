@@ -64,15 +64,22 @@ public enum TestExcludeFrom
     CodeCoverage
 }
 
-// We use this trait to exclude redundant tests, mostly apply to classes in a
-// test suite.
-// For test suites, this is very similar to TestExcludeFrom.Smoke, except that
+// We use this trait to exclude redundant groups of tests, apply to classes in a
+// test suite. This is very similar to TestExcludeFrom.Smoke, except that
 // we keep all test classes necessary for full code coverage.
 [TraitDiscoverer(XunitTraitAssembly.TypePrefix + nameof(RedundantTraitDiscoverer), XunitTraitAssembly.Name)]
-[AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = false)]
-public sealed class RedundantTestingAttribute : Attribute, ITraitAttribute
+[AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
+public sealed class RedundantTestGroupAttribute : Attribute, ITraitAttribute
 {
-    public RedundantTestingAttribute() { }
+    public RedundantTestGroupAttribute() { }
+}
+
+// We use this trait to exclude redundant individual tests.
+[TraitDiscoverer(XunitTraitAssembly.TypePrefix + nameof(RedundantTraitDiscoverer), XunitTraitAssembly.Name)]
+[AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
+public sealed class RedundantTestUnitAttribute : Attribute, ITraitAttribute
+{
+    public RedundantTestUnitAttribute() { }
 }
 
 [TraitDiscoverer(XunitTraitAssembly.TypePrefix + nameof(PerformanceTraitDiscoverer), XunitTraitAssembly.Name)]

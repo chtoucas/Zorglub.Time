@@ -25,86 +25,103 @@ type Coptic12Tests() =
     inherit ProlepticShortScopeFacts<Coptic12DataSet>(scopeOf<Coptic12Schema>())
 
 // DefaultProlepticShortScope
-[<Sealed; TestExcludeFrom(TestExcludeFrom.Smoke)>]
+[<Sealed>]
+[<TestExcludeFrom(TestExcludeFrom.Smoke)>]
 type Coptic13Tests() =
     inherit ProlepticShortScopeFacts<Coptic13DataSet>(scopeOf<Coptic13Schema>())
 
-[<RedundantTesting>]
-[<Sealed; TestExcludeFrom(TestExcludeFrom.Smoke)>]
+[<Sealed>]
+[<RedundantTestGroup>]
+[<TestExcludeFrom(TestExcludeFrom.Smoke)>]
 type Egyptian12Tests() =
     inherit ProlepticShortScopeFacts<Egyptian12DataSet>(scopeOf<Egyptian12Schema>())
 
-[<RedundantTesting>]
-[<Sealed; TestExcludeFrom(TestExcludeFrom.Smoke)>]
+[<Sealed>]
+[<RedundantTestGroup>]
+[<TestExcludeFrom(TestExcludeFrom.Smoke)>]
 type Egyptian13Tests() =
     inherit ProlepticShortScopeFacts<Egyptian13DataSet>(scopeOf<Egyptian13Schema>())
 
-[<RedundantTesting>]
-[<Sealed; TestExcludeFrom(TestExcludeFrom.Smoke)>]
+[<Sealed>]
+[<RedundantTestGroup>]
+[<TestExcludeFrom(TestExcludeFrom.Smoke)>]
 type FrenchRepublican12Tests() =
     inherit ProlepticShortScopeFacts<FrenchRepublican12DataSet>(scopeOf<FrenchRepublican12Schema>())
 
-[<RedundantTesting>]
-[<Sealed; TestExcludeFrom(TestExcludeFrom.Smoke)>]
+[<Sealed>]
+[<RedundantTestGroup>]
+[<TestExcludeFrom(TestExcludeFrom.Smoke)>]
 type FrenchRepublican13Tests() =
     inherit ProlepticShortScopeFacts<FrenchRepublican13DataSet>(scopeOf<FrenchRepublican13Schema>())
 
 // GregorianProlepticShortScope
-[<Sealed; TestExcludeFrom(TestExcludeFrom.Smoke)>]
+[<Sealed>]
+[<TestExcludeFrom(TestExcludeFrom.Smoke)>]
 type GregorianTests() =
     inherit ProlepticShortScopeFacts<GregorianDataSet>(scopeOf<GregorianSchema>())
 
-[<RedundantTesting>]
-[<Sealed; TestExcludeFrom(TestExcludeFrom.Smoke)>]
+[<Sealed>]
+[<RedundantTestGroup>]
+[<TestExcludeFrom(TestExcludeFrom.Smoke)>]
 type InternationalFixedTests() =
     inherit ProlepticShortScopeFacts<InternationalFixedDataSet>(scopeOf<InternationalFixedSchema>())
 
-[<RedundantTesting>]
-[<Sealed; TestExcludeFrom(TestExcludeFrom.Smoke)>]
+[<Sealed>]
+[<RedundantTestGroup>]
+[<TestExcludeFrom(TestExcludeFrom.Smoke)>]
 type JulianTests() =
     inherit ProlepticShortScopeFacts<JulianDataSet>(scopeOf<JulianSchema>())
 
-[<RedundantTesting>]
-[<Sealed; TestExcludeFrom(TestExcludeFrom.Smoke)>]
+[<Sealed>]
+[<RedundantTestGroup>]
+[<TestExcludeFrom(TestExcludeFrom.Smoke)>]
 type LunisolarTests() =
     inherit ProlepticShortScopeFacts<LunisolarDataSet>(scopeOf<LunisolarSchema>())
 
-//[<RedundantTesting>]
-//[<Sealed; TestExcludeFrom(TestExcludeFrom.Smoke)>]
+//[<Sealed>]
+//[<RedundantTestGroup>]
+//[<TestExcludeFrom(TestExcludeFrom.Smoke)>]
 //type PaxTests() =
 //    inherit ProlepticShortScopeFacts<PaxDataSet>(scopeOf<PaxSchema>())
 
-[<RedundantTesting>]
-[<Sealed; TestExcludeFrom(TestExcludeFrom.Smoke)>]
+[<Sealed>]
+[<RedundantTestGroup>]
+[<TestExcludeFrom(TestExcludeFrom.Smoke)>]
 type Persian2820Tests() =
     inherit ProlepticShortScopeFacts<Persian2820DataSet>(scopeOf<Persian2820Schema>())
 
-[<RedundantTesting>]
-[<Sealed; TestExcludeFrom(TestExcludeFrom.Smoke)>]
+[<Sealed>]
+[<RedundantTestGroup>]
+[<TestExcludeFrom(TestExcludeFrom.Smoke)>]
 type PositivistTests() =
     inherit ProlepticShortScopeFacts<PositivistDataSet>(scopeOf<PositivistSchema>())
 
-[<RedundantTesting>]
-[<Sealed; TestExcludeFrom(TestExcludeFrom.Smoke)>]
+[<Sealed>]
+[<RedundantTestGroup>]
+[<TestExcludeFrom(TestExcludeFrom.Smoke)>]
 type TabularIslamicTests() =
     inherit ProlepticShortScopeFacts<TabularIslamicDataSet>(scopeOf<TabularIslamicSchema>())
 
-[<RedundantTesting>]
-[<Sealed; TestExcludeFrom(TestExcludeFrom.Smoke)>]
+[<Sealed>]
+[<RedundantTestGroup>]
+[<TestExcludeFrom(TestExcludeFrom.Smoke)>]
 type TropicaliaTests() =
     inherit ProlepticShortScopeFacts<TropicaliaDataSet>(scopeOf<TropicaliaSchema>())
 
-[<RedundantTesting>]
-[<Sealed; TestExcludeFrom(TestExcludeFrom.Smoke)>]
+[<Sealed>]
+[<RedundantTestGroup>]
+[<TestExcludeFrom(TestExcludeFrom.Smoke)>]
 type Tropicalia3031Tests() =
     inherit ProlepticShortScopeFacts<Tropicalia3031DataSet>(scopeOf<Tropicalia3031Schema>())
 
-[<RedundantTesting>]
-[<Sealed; TestExcludeFrom(TestExcludeFrom.Smoke)>]
+[<Sealed>]
+[<RedundantTestGroup>]
+[<TestExcludeFrom(TestExcludeFrom.Smoke)>]
 type Tropicalia3130Tests() =
     inherit ProlepticShortScopeFacts<Tropicalia3130DataSet>(scopeOf<Tropicalia3130Schema>())
 
-[<RedundantTesting>]
-[<Sealed; TestExcludeFrom(TestExcludeFrom.Smoke)>]
+[<Sealed>]
+[<RedundantTestGroup>]
+[<TestExcludeFrom(TestExcludeFrom.Smoke)>]
 type WorldTests() =
     inherit ProlepticShortScopeFacts<WorldDataSet>(scopeOf<WorldSchema>())

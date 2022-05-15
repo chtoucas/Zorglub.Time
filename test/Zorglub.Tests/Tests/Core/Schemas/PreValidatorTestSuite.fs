@@ -29,23 +29,27 @@ type Coptic13Tests() =
         // month and Coptic13Schema.CountDaysInMonth() overflows.
         (fun () -> validator.ValidateMonthDay(Int32.MaxValue, 1, 1)) |> overflows
 
-[<RedundantTesting>]
-[<Sealed; TestExcludeFrom(TestExcludeFrom.Smoke)>]
+[<Sealed>]
+[<RedundantTestGroup>]
+[<TestExcludeFrom(TestExcludeFrom.Smoke)>]
 type Egyptian12Tests() =
     inherit ICalendricalPreValidatorFacts<Egyptian12DataSet>(schemaOf<Egyptian12Schema>())
 
-[<RedundantTesting>]
-[<Sealed; TestExcludeFrom(TestExcludeFrom.Smoke)>]
+[<Sealed>]
+[<RedundantTestGroup>]
+[<TestExcludeFrom(TestExcludeFrom.Smoke)>]
 type Egyptian13Tests() =
     inherit ICalendricalPreValidatorFacts<Egyptian13DataSet>(schemaOf<Egyptian13Schema>())
 
-[<RedundantTesting>]
-[<Sealed; TestExcludeFrom(TestExcludeFrom.Smoke)>]
+[<Sealed>]
+[<RedundantTestGroup>]
+[<TestExcludeFrom(TestExcludeFrom.Smoke)>]
 type FrenchRepublican12Tests() =
     inherit ICalendricalPreValidatorFacts<FrenchRepublican12DataSet>(schemaOf<FrenchRepublican12Schema>())
 
-[<RedundantTesting>]
-[<Sealed; TestExcludeFrom(TestExcludeFrom.Smoke)>]
+[<Sealed>]
+[<RedundantTestGroup>]
+[<TestExcludeFrom(TestExcludeFrom.Smoke)>]
 type FrenchRepublican13Tests() =
     inherit ICalendricalPreValidatorFacts<FrenchRepublican13DataSet>(schemaOf<FrenchRepublican13Schema>())
 
@@ -69,18 +73,21 @@ type JulianTests() =
 type LunisolarTests() =
     inherit ICalendricalPreValidatorFacts<LunisolarDataSet>(schemaOf<LunisolarSchema>())
 
-[<RedundantTesting>]
-[<Sealed; TestExcludeFrom(TestExcludeFrom.Smoke)>]
+[<Sealed>]
+[<RedundantTestGroup>]
+[<TestExcludeFrom(TestExcludeFrom.Smoke)>]
 type PaxTests() =
     inherit ICalendricalPreValidatorFacts<PaxDataSet>(schemaOf<PaxSchema>())
 
-[<RedundantTesting>]
-[<Sealed; TestExcludeFrom(TestExcludeFrom.Smoke)>]
+[<Sealed>]
+[<RedundantTestGroup>]
+[<TestExcludeFrom(TestExcludeFrom.Smoke)>]
 type Persian2820Tests() =
     inherit ICalendricalPreValidatorFacts<Persian2820DataSet>(schemaOf<Persian2820Schema>())
 
-[<RedundantTesting>]
-[<Sealed; TestExcludeFrom(TestExcludeFrom.Smoke)>]
+[<Sealed>]
+[<RedundantTestGroup>]
+[<TestExcludeFrom(TestExcludeFrom.Smoke)>]
 type PositivistTests() =
     inherit ICalendricalPreValidatorFacts<PositivistDataSet>(schemaOf<PositivistSchema>())
 
@@ -89,22 +96,26 @@ type PositivistTests() =
 type TabularIslamicTests() =
     inherit ICalendricalPreValidatorFacts<TabularIslamicDataSet>(schemaOf<TabularIslamicSchema>())
 
-[<RedundantTesting>]
-[<Sealed; TestExcludeFrom(TestExcludeFrom.Smoke)>]
+[<Sealed>]
+[<RedundantTestGroup>]
+[<TestExcludeFrom(TestExcludeFrom.Smoke)>]
 type TropicaliaTests() =
     inherit ICalendricalPreValidatorFacts<TropicaliaDataSet>(schemaOf<TropicaliaSchema>())
 
-[<RedundantTesting>]
-[<Sealed; TestExcludeFrom(TestExcludeFrom.Smoke)>]
+[<Sealed>]
+[<RedundantTestGroup>]
+[<TestExcludeFrom(TestExcludeFrom.Smoke)>]
 type Tropicalia3031Tests() =
     inherit ICalendricalPreValidatorFacts<Tropicalia3031DataSet>(schemaOf<Tropicalia3031Schema>())
 
-[<RedundantTesting>]
-[<Sealed; TestExcludeFrom(TestExcludeFrom.Smoke)>]
+[<Sealed>]
+[<RedundantTestGroup>]
+[<TestExcludeFrom(TestExcludeFrom.Smoke)>]
 type Tropicalia3130Tests() =
     inherit ICalendricalPreValidatorFacts<Tropicalia3130DataSet>(schemaOf<Tropicalia3130Schema>())
 
-[<RedundantTesting>]
-[<Sealed; TestExcludeFrom(TestExcludeFrom.Smoke)>]
+[<Sealed>]
+[<RedundantTestGroup>]
+[<TestExcludeFrom(TestExcludeFrom.Smoke)>]
 type WorldTests() =
     inherit ICalendricalPreValidatorFacts<WorldDataSet>(schemaOf<WorldSchema>())

@@ -14,14 +14,17 @@ module EpagomenalDay =
     type ArmenianTests() =
         inherit IEpagomenalCalendarFacts<ArmenianCalendar, StandardArmenian12DataSet>(ArmenianCalendar.Instance)
 
-    [<Sealed; TestExcludeFrom(TestExcludeFrom.Smoke)>]
+    [<Sealed>]
+    [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
     type CopticTests() =
         inherit IEpagomenalCalendarFacts<CopticCalendar, StandardCoptic12DataSet>(CopticCalendar.Instance)
 
-    [<Sealed; TestExcludeFrom(TestExcludeFrom.Smoke)>]
+    [<Sealed>]
+    [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
     type EthiopicTests() =
         inherit IEpagomenalCalendarFacts<EthiopicCalendar, StandardEthiopic12DataSet>(EthiopicCalendar.Instance)
 
-    [<Sealed; TestExcludeFrom(TestExcludeFrom.Smoke)>]
+    [<Sealed>]
+    [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
     type ZoroastrianTests() =
         inherit IEpagomenalCalendarFacts<ZoroastrianCalendar, StandardZoroastrian12DataSet>(ZoroastrianCalendar.Instance)

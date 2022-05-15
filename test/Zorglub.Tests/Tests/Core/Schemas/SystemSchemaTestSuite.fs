@@ -64,7 +64,8 @@ type Coptic12Tests() =
         for m in 1 .. x.MaxMonth do
             (fun () -> sch.CountDaysInMonth(Int32.MaxValue, m)) |> overflows
 
-[<Sealed; TestExcludeFrom(TestExcludeFrom.Smoke)>]
+[<Sealed>]
+[<TestExcludeFrom(TestExcludeFrom.Smoke)>]
 type Coptic13Tests() =
     inherit SystemSchemaFacts<Coptic13DataSet>(instanceOf<Coptic13Schema>())
 
@@ -88,7 +89,8 @@ type Coptic13Tests() =
         for m in 1 .. x.MaxMonth do
             (fun () -> sch.CountDaysInMonth(Int32.MaxValue, m)) |> overflows
 
-[<Sealed; TestExcludeFrom(TestExcludeFrom.Smoke)>]
+[<Sealed>]
+[<TestExcludeFrom(TestExcludeFrom.Smoke)>]
 type Egyptian12Tests() =
     inherit SystemSchemaFacts<Egyptian12DataSet>(instanceOf<Egyptian12Schema>())
 
@@ -100,7 +102,8 @@ type Egyptian12Tests() =
     override x.IsRegular() = x.SchemaUT.IsRegular() === (true, 12)
     override x.TryGetCustomArithmetic() = x.VerifyThatTryGetCustomArithmeticSucceeds<Solar12Arithmetic>()
 
-[<Sealed; TestExcludeFrom(TestExcludeFrom.Smoke)>]
+[<Sealed>]
+[<TestExcludeFrom(TestExcludeFrom.Smoke)>]
 type Egyptian13Tests() =
     inherit SystemSchemaFacts<Egyptian13DataSet>(instanceOf<Egyptian13Schema>())
 
@@ -115,7 +118,8 @@ type Egyptian13Tests() =
     [<Fact>]
     static member VirtualMonth_Prop() = Egyptian13Schema.VirtualMonth === 13
 
-[<Sealed; TestExcludeFrom(TestExcludeFrom.Smoke)>]
+[<Sealed>]
+[<TestExcludeFrom(TestExcludeFrom.Smoke)>]
 type FrenchRepublican12Tests() =
     inherit SystemSchemaFacts<FrenchRepublican12DataSet>(instanceOf<FrenchRepublican12Schema>())
 
@@ -127,7 +131,8 @@ type FrenchRepublican12Tests() =
     override x.IsRegular() = x.SchemaUT.IsRegular() === (true, 12)
     override x.TryGetCustomArithmetic() = x.VerifyThatTryGetCustomArithmeticSucceeds<Solar12Arithmetic>()
 
-[<Sealed; TestExcludeFrom(TestExcludeFrom.Smoke)>]
+[<Sealed>]
+[<TestExcludeFrom(TestExcludeFrom.Smoke)>]
 type FrenchRepublican13Tests() =
     inherit SystemSchemaFacts<FrenchRepublican13DataSet>(instanceOf<FrenchRepublican13Schema>())
 
@@ -142,7 +147,8 @@ type FrenchRepublican13Tests() =
     [<Fact>]
     static member VirtualMonth_Prop() = FrenchRepublican13Schema.VirtualMonth === 13
 
-[<Sealed; TestExcludeFrom(TestExcludeFrom.Smoke)>]
+[<Sealed>]
+[<TestExcludeFrom(TestExcludeFrom.Smoke)>]
 type GregorianTests() =
     inherit SystemSchemaFacts<GregorianDataSet>(instanceOf<GregorianSchema>())
 
@@ -247,7 +253,8 @@ module HebrewTests =
     [<Fact>]
     let ``TryGetCustomArithmetic()`` () = verifyThatTryGetCustomArithmeticSucceeds<LunisolarArithmetic>(sch)
 
-[<Sealed; TestExcludeFrom(TestExcludeFrom.Smoke)>]
+[<Sealed>]
+[<TestExcludeFrom(TestExcludeFrom.Smoke)>]
 type InternationalFixedTests() =
     inherit SystemSchemaFacts<InternationalFixedDataSet>(instanceOf<InternationalFixedSchema>())
 
@@ -259,7 +266,8 @@ type InternationalFixedTests() =
     override x.IsRegular() = x.SchemaUT.IsRegular() === (true, 13)
     override x.TryGetCustomArithmetic() = x.VerifyThatTryGetCustomArithmeticSucceeds<Solar13Arithmetic>()
 
-[<Sealed; TestExcludeFrom(TestExcludeFrom.Smoke)>]
+[<Sealed>]
+[<TestExcludeFrom(TestExcludeFrom.Smoke)>]
 type JulianTests() =
     inherit SystemSchemaFacts<JulianDataSet>(instanceOf<JulianSchema>())
 
@@ -271,7 +279,8 @@ type JulianTests() =
     override x.IsRegular() = x.SchemaUT.IsRegular() === (true, 12)
     override x.TryGetCustomArithmetic() = x.VerifyThatTryGetCustomArithmeticSucceeds<Solar12Arithmetic>()
 
-[<Sealed; TestExcludeFrom(TestExcludeFrom.Smoke)>]
+[<Sealed>]
+[<TestExcludeFrom(TestExcludeFrom.Smoke)>]
 type LunisolarTests() =
     inherit SystemSchemaFacts<LunisolarDataSet>(instanceOf<LunisolarSchema>())
 
@@ -283,7 +292,8 @@ type LunisolarTests() =
     override x.IsRegular() = x.SchemaUT.IsRegular() === (false, 0)
     override x.TryGetCustomArithmetic() = x.VerifyThatTryGetCustomArithmeticSucceeds<LunisolarArithmetic>()
 
-[<Sealed; TestExcludeFrom(TestExcludeFrom.Smoke)>]
+[<Sealed>]
+[<TestExcludeFrom(TestExcludeFrom.Smoke)>]
 type PaxTests() as self =
     inherit ICalendricalSchemaBasicFacts<PaxSchema, PaxDataSet>(instanceOf<PaxSchema>())
     do
@@ -310,7 +320,8 @@ type PaxTests() as self =
     [<Fact>]
     member x.FirstDayOfWeek_Prop() = x.SchemaUT.FirstDayOfWeek === DayOfWeek.Sunday
 
-[<Sealed; TestExcludeFrom(TestExcludeFrom.Smoke)>]
+[<Sealed>]
+[<TestExcludeFrom(TestExcludeFrom.Smoke)>]
 type Persian2820Tests() =
     inherit SystemSchemaFacts<Persian2820DataSet>(instanceOf<Persian2820Schema>())
 
@@ -339,7 +350,8 @@ type Persian2820Tests() =
             for m in 12 .. x.MaxMonth do
                 (fun () -> sch.CountDaysInMonth(Int32.MinValue + y0, m)) |> overflows
 
-[<Sealed; TestExcludeFrom(TestExcludeFrom.Smoke)>]
+[<Sealed>]
+[<TestExcludeFrom(TestExcludeFrom.Smoke)>]
 type PositivistTests() =
     inherit SystemSchemaFacts<PositivistDataSet>(instanceOf<PositivistSchema>())
 
@@ -351,7 +363,8 @@ type PositivistTests() =
     override x.IsRegular() = x.SchemaUT.IsRegular() === (true, 13)
     override x.TryGetCustomArithmetic() = x.VerifyThatTryGetCustomArithmeticSucceeds<Solar13Arithmetic>()
 
-[<Sealed; TestExcludeFrom(TestExcludeFrom.Smoke)>]
+[<Sealed>]
+[<TestExcludeFrom(TestExcludeFrom.Smoke)>]
 type TabularIslamicTests() =
     inherit SystemSchemaFacts<TabularIslamicDataSet>(instanceOf<TabularIslamicSchema>()) with
 
@@ -391,7 +404,8 @@ type TabularIslamicTests() =
         // No overflow if m != 12.
         [1 .. maxMonth] |> List.filter isnot12 |> List.map countDaysInMonth
 
-[<Sealed; TestExcludeFrom(TestExcludeFrom.Smoke)>]
+[<Sealed>]
+[<TestExcludeFrom(TestExcludeFrom.Smoke)>]
 type TropicaliaTests() =
     inherit SystemSchemaFacts<TropicaliaDataSet>(instanceOf<TropicaliaSchema>())
 
@@ -403,7 +417,8 @@ type TropicaliaTests() =
     override x.IsRegular() = x.SchemaUT.IsRegular() === (true, 12)
     override x.TryGetCustomArithmetic() = x.VerifyThatTryGetCustomArithmeticSucceeds<Solar12Arithmetic>()
 
-[<Sealed; TestExcludeFrom(TestExcludeFrom.Smoke)>]
+[<Sealed>]
+[<TestExcludeFrom(TestExcludeFrom.Smoke)>]
 type Tropicalia3031Tests() =
     inherit SystemSchemaFacts<Tropicalia3031DataSet>(instanceOf<Tropicalia3031Schema>())
 
@@ -415,7 +430,8 @@ type Tropicalia3031Tests() =
     override x.IsRegular() = x.SchemaUT.IsRegular() === (true, 12)
     override x.TryGetCustomArithmetic() = x.VerifyThatTryGetCustomArithmeticSucceeds<Solar12Arithmetic>()
 
-[<Sealed; TestExcludeFrom(TestExcludeFrom.Smoke)>]
+[<Sealed>]
+[<TestExcludeFrom(TestExcludeFrom.Smoke)>]
 type Tropicalia3130Tests() =
     inherit SystemSchemaFacts<Tropicalia3130DataSet>(instanceOf<Tropicalia3130Schema>())
 
@@ -427,7 +443,8 @@ type Tropicalia3130Tests() =
     override x.IsRegular() = x.SchemaUT.IsRegular() === (true, 12)
     override x.TryGetCustomArithmetic() = x.VerifyThatTryGetCustomArithmeticSucceeds<Solar12Arithmetic>()
 
-[<Sealed; TestExcludeFrom(TestExcludeFrom.Smoke)>]
+[<Sealed>]
+[<TestExcludeFrom(TestExcludeFrom.Smoke)>]
 type WorldTests() =
     inherit SystemSchemaFacts<WorldDataSet>(instanceOf<WorldSchema>())
 

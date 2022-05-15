@@ -13,32 +13,38 @@ open Zorglub.Time.Simple
 type ArmenianTests() =
     inherit CalendarDayFacts<StandardArmenian12DataSet>(ArmenianCalendar.Instance, GregorianCalendar.Instance)
 
-[<RedundantTesting>]
-[<Sealed; TestExcludeFrom(TestExcludeFrom.Smoke)>]
+[<Sealed>]
+[<RedundantTestGroup>]
+[<TestExcludeFrom(TestExcludeFrom.Smoke)>]
 type CopticTests() =
     inherit CalendarDayFacts<StandardCoptic12DataSet>(CopticCalendar.Instance, GregorianCalendar.Instance)
 
-[<RedundantTesting>]
-[<Sealed; TestExcludeFrom(TestExcludeFrom.Smoke)>]
+[<Sealed>]
+[<RedundantTestGroup>]
+[<TestExcludeFrom(TestExcludeFrom.Smoke)>]
 type EthiopicTests() =
     inherit CalendarDayFacts<StandardEthiopic12DataSet>(EthiopicCalendar.Instance, GregorianCalendar.Instance)
 
-[<RedundantTesting>]
-[<Sealed; TestExcludeFrom(TestExcludeFrom.Smoke)>]
+[<Sealed>]
+[<RedundantTestGroup>]
+[<TestExcludeFrom(TestExcludeFrom.Smoke)>]
 type GregorianTests() =
     inherit CalendarDayFacts<ProlepticGregorianDataSet>(GregorianCalendar.Instance, JulianCalendar.Instance)
 
-[<RedundantTesting>]
-[<Sealed; TestExcludeFrom(TestExcludeFrom.Smoke)>]
+[<Sealed>]
+[<RedundantTestGroup>]
+[<TestExcludeFrom(TestExcludeFrom.Smoke)>]
 type JulianTests() =
     inherit CalendarDayFacts<ProlepticJulianDataSet>(JulianCalendar.Instance, GregorianCalendar.Instance)
 
-[<RedundantTesting>]
-[<Sealed; TestExcludeFrom(TestExcludeFrom.Smoke)>]
+[<Sealed>]
+[<RedundantTestGroup>]
+[<TestExcludeFrom(TestExcludeFrom.Smoke)>]
 type TabularIslamicTests() =
     inherit CalendarDayFacts<StandardTabularIslamicDataSet>(TabularIslamicCalendar.Instance, GregorianCalendar.Instance)
 
-[<RedundantTesting>]
-[<Sealed; TestExcludeFrom(TestExcludeFrom.Smoke)>]
+[<Sealed>]
+[<RedundantTestGroup>]
+[<TestExcludeFrom(TestExcludeFrom.Smoke)>]
 type ZoroastrianTests() =
     inherit CalendarDayFacts<StandardZoroastrian12DataSet>(ZoroastrianCalendar.Instance, GregorianCalendar.Instance)

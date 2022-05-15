@@ -40,7 +40,7 @@ module GregorianCase =
 
         chr.GetDayOfWeek(date) === dayOfWeek
 
-    [<RedundantTesting>]
+    [<RedundantTestUnit>]
     [<Theory; MemberData(nameof(dayOfWeekData2))>]
     let ``GetDayOfWeek(CalendarDate) via DayNumber`` (dayNumber: DayNumber) (dayOfWeek: DayOfWeek) =
         if domain.Contains(dayNumber) then
@@ -48,7 +48,7 @@ module GregorianCase =
 
             chr.GetDayOfWeek(date) === dayOfWeek
 
-    [<RedundantTesting>]
+    [<RedundantTestUnit>]
     [<Theory; MemberData(nameof(dayOfWeekData2))>]
     let ``GetDayOfWeek(OrdinalDate) via DayNumber`` (dayNumber: DayNumber) (dayOfWeek: DayOfWeek) =
         if domain.Contains(dayNumber) then
