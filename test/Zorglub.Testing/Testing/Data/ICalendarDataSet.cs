@@ -22,4 +22,6 @@ public interface ICalendarDataSet : ICalendricalDataSet
 
     TheoryData<YearDayNumber> StartOfYearDayNumberData { get; }
     TheoryData<YearDayNumber> EndOfYearDayNumberData { get; }
+
+    // TODO(data): add DayNumberToDayOfWeekData.
 }

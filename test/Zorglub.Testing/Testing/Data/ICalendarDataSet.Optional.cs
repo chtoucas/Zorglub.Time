@@ -5,7 +5,6 @@ namespace Zorglub.Testing.Data;
 
 public interface IDayOfWeekDataSet
 {
-    // TODO(data): move DayOfWeekData to the main interface ICalendarDataSet.
     TheoryData<YemodaAnd<DayOfWeek>> DayOfWeekData { get; }
 
     TheoryData<Yemoda, Yemoda, DayOfWeek> DayOfWeek_Before_Data { get; }
