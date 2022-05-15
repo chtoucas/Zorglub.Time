@@ -21,7 +21,6 @@ type ArmenianTests() =
 
 [<Sealed>]
 [<RedundantTestGroup>]
-[<TestExcludeFrom(TestExcludeFrom.Smoke)>]
 type CopticTests() =
     inherit CalendarFacts<CopticCalendar, StandardCoptic12DataSet>(CopticCalendar.Instance)
 
@@ -32,7 +31,6 @@ type CopticTests() =
 
 [<Sealed>]
 [<RedundantTestGroup>]
-[<TestExcludeFrom(TestExcludeFrom.Smoke)>]
 type EthiopicTests() =
     inherit CalendarFacts<EthiopicCalendar, StandardEthiopic12DataSet>(EthiopicCalendar.Instance)
 
@@ -43,7 +41,6 @@ type EthiopicTests() =
 
 [<Sealed>]
 [<RedundantTestGroup>]
-[<TestExcludeFrom(TestExcludeFrom.Smoke)>]
 type GregorianTests() =
     inherit CalendarFacts<GregorianCalendar, ProlepticGregorianDataSet>(GregorianCalendar.Instance)
 
@@ -54,7 +51,6 @@ type GregorianTests() =
 
 [<Sealed>]
 [<RedundantTestGroup>]
-[<TestExcludeFrom(TestExcludeFrom.Smoke)>]
 type JulianTests() =
     inherit CalendarFacts<JulianCalendar, ProlepticJulianDataSet>(JulianCalendar.Instance)
 
@@ -65,7 +61,6 @@ type JulianTests() =
 
 [<Sealed>]
 [<RedundantTestGroup>]
-[<TestExcludeFrom(TestExcludeFrom.Smoke)>]
 type TabularIslamicTests() =
     inherit CalendarFacts<TabularIslamicCalendar, StandardTabularIslamicDataSet>(TabularIslamicCalendar.Instance)
 
@@ -76,7 +71,6 @@ type TabularIslamicTests() =
 
 [<Sealed>]
 [<RedundantTestGroup>]
-[<TestExcludeFrom(TestExcludeFrom.Smoke)>]
 type ZoroastrianTests() =
     inherit CalendarFacts<ZoroastrianCalendar, StandardZoroastrian12DataSet>(ZoroastrianCalendar.Instance)
 

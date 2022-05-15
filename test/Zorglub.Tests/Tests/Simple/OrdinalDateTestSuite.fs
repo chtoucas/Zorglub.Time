@@ -15,36 +15,30 @@ type ArmenianTests() =
 
 [<Sealed>]
 [<RedundantTestGroup>]
-[<TestExcludeFrom(TestExcludeFrom.Smoke)>]
 type CopticTests() =
     inherit OrdinalDateFacts<StandardCoptic12DataSet>(CopticCalendar.Instance, GregorianCalendar.Instance)
 
 [<Sealed>]
 [<RedundantTestGroup>]
-[<TestExcludeFrom(TestExcludeFrom.Smoke)>]
 type EthiopicTests() =
     inherit OrdinalDateFacts<StandardEthiopic12DataSet>(EthiopicCalendar.Instance, GregorianCalendar.Instance)
 
 [<Sealed>]
 [<RedundantTestGroup>]
-[<TestExcludeFrom(TestExcludeFrom.Smoke)>]
 type GregorianTests() =
     inherit OrdinalDateFacts<ProlepticGregorianDataSet>(GregorianCalendar.Instance, JulianCalendar.Instance)
 
 [<Sealed>]
 [<RedundantTestGroup>]
-[<TestExcludeFrom(TestExcludeFrom.Smoke)>]
 type JulianTests() =
     inherit OrdinalDateFacts<ProlepticJulianDataSet>(JulianCalendar.Instance, GregorianCalendar.Instance)
 
 [<Sealed>]
 [<RedundantTestGroup>]
-[<TestExcludeFrom(TestExcludeFrom.Smoke)>]
 type TabularIslamicTests() =
     inherit OrdinalDateFacts<StandardTabularIslamicDataSet>(TabularIslamicCalendar.Instance, GregorianCalendar.Instance)
 
 [<Sealed>]
 [<RedundantTestGroup>]
-[<TestExcludeFrom(TestExcludeFrom.Smoke)>]
 type ZoroastrianTests() =
     inherit OrdinalDateFacts<StandardZoroastrian12DataSet>(ZoroastrianCalendar.Instance, GregorianCalendar.Instance)

@@ -67,7 +67,8 @@ public enum TestExcludeFrom
 // We use this trait to exclude redundant groups of tests, apply to classes in a
 // test suite. This is very similar to TestExcludeFrom.Smoke, except that
 // we keep all test classes necessary for full code coverage.
-[TraitDiscoverer(XunitTraitAssembly.TypePrefix + nameof(RedundantTraitDiscoverer), XunitTraitAssembly.Name)]
+// IMPORTANT: We automatically exclude the group from smoke testing.
+[TraitDiscoverer(XunitTraitAssembly.TypePrefix + nameof(RedundantGroupTraitDiscoverer), XunitTraitAssembly.Name)]
 [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
 public sealed class RedundantTestGroupAttribute : Attribute, ITraitAttribute
 {
@@ -75,7 +76,7 @@ public sealed class RedundantTestGroupAttribute : Attribute, ITraitAttribute
 }
 
 // We use this trait to exclude redundant individual tests.
-[TraitDiscoverer(XunitTraitAssembly.TypePrefix + nameof(RedundantTraitDiscoverer), XunitTraitAssembly.Name)]
+[TraitDiscoverer(XunitTraitAssembly.TypePrefix + nameof(RedundantUnitTraitDiscoverer), XunitTraitAssembly.Name)]
 [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
 public sealed class RedundantTestUnitAttribute : Attribute, ITraitAttribute
 {
@@ -104,7 +105,17 @@ public sealed class TestExcludeFromAttribute : Attribute, ITraitAttribute
 
 // FIXME(code): the trait discoverers do not inspect the base classes.
 
-public class RedundantTraitDiscoverer : ITraitDiscoverer
+public class RedundantGroupTraitDiscoverer : ITraitDiscoverer
+{
+    public IEnumerable<KeyValuePair<string, string>> GetTraits(IAttributeInfo traitAttribute!!)
+    {
+        yield return new KeyValuePair<string, string>(XunitTrait.Redundant, "true");
+        // We automatically exclude the group from smoke testing.
+        yield return new KeyValuePair<string, string>(XunitTrait.ExcludeFrom, TestExcludeFrom.Smoke.ToString());
+    }
+}
+
+public class RedundantUnitTraitDiscoverer : ITraitDiscoverer
 {
     public IEnumerable<KeyValuePair<string, string>> GetTraits(IAttributeInfo traitAttribute!!)
     {

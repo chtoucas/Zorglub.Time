@@ -33,25 +33,21 @@ type Coptic13Tests() =
 
 [<Sealed>]
 [<RedundantTestGroup>]
-[<TestExcludeFrom(TestExcludeFrom.Smoke)>]
 type Egyptian12Tests() =
     inherit StandardShortScopeFacts<Egyptian12DataSet>(scopeOf<Egyptian12Schema>())
 
 [<Sealed>]
 [<RedundantTestGroup>]
-[<TestExcludeFrom(TestExcludeFrom.Smoke)>]
 type Egyptian13Tests() =
     inherit StandardShortScopeFacts<Egyptian13DataSet>(scopeOf<Egyptian13Schema>())
 
 [<Sealed>]
 [<RedundantTestGroup>]
-[<TestExcludeFrom(TestExcludeFrom.Smoke)>]
 type FrenchRepublican12Tests() =
     inherit StandardShortScopeFacts<FrenchRepublican12DataSet>(scopeOf<FrenchRepublican12Schema>())
 
 [<Sealed>]
 [<RedundantTestGroup>]
-[<TestExcludeFrom(TestExcludeFrom.Smoke)>]
 type FrenchRepublican13Tests() =
     inherit StandardShortScopeFacts<FrenchRepublican13DataSet>(scopeOf<FrenchRepublican13Schema>())
 
@@ -69,7 +65,6 @@ type InternationalFixedTests() =
 
 [<Sealed>]
 [<RedundantTestGroup>]
-[<TestExcludeFrom(TestExcludeFrom.Smoke)>]
 type JulianTests() =
     inherit StandardShortScopeFacts<JulianDataSet>(scopeOf<JulianSchema>())
 
@@ -81,19 +76,16 @@ type LunisolarTests() =
 
 [<Sealed>]
 [<RedundantTestGroup>]
-[<TestExcludeFrom(TestExcludeFrom.Smoke)>]
 type PaxTests() =
     inherit StandardShortScopeFacts<PaxDataSet>(scopeOf<PaxSchema>())
 
 [<Sealed>]
 [<RedundantTestGroup>]
-[<TestExcludeFrom(TestExcludeFrom.Smoke)>]
 type Persian2820Tests() =
     inherit StandardShortScopeFacts<Persian2820DataSet>(scopeOf<Persian2820Schema>())
 
 [<Sealed>]
 [<RedundantTestGroup>]
-[<TestExcludeFrom(TestExcludeFrom.Smoke)>]
 type PositivistTests() =
     inherit StandardShortScopeFacts<PositivistDataSet>(scopeOf<PositivistSchema>())
 
@@ -105,24 +97,20 @@ type TabularIslamicTests() =
 
 [<Sealed>]
 [<RedundantTestGroup>]
-[<TestExcludeFrom(TestExcludeFrom.Smoke)>]
 type TropicaliaTests() =
     inherit StandardShortScopeFacts<TropicaliaDataSet>(scopeOf<TropicaliaSchema>())
 
 [<Sealed>]
 [<RedundantTestGroup>]
-[<TestExcludeFrom(TestExcludeFrom.Smoke)>]
 type Tropicalia3031Tests() =
     inherit StandardShortScopeFacts<Tropicalia3031DataSet>(scopeOf<Tropicalia3031Schema>())
 
 [<Sealed>]
 [<RedundantTestGroup>]
-[<TestExcludeFrom(TestExcludeFrom.Smoke)>]
 type Tropicalia3130Tests() =
     inherit StandardShortScopeFacts<Tropicalia3130DataSet>(scopeOf<Tropicalia3130Schema>())
 
 [<Sealed>]
 [<RedundantTestGroup>]
-[<TestExcludeFrom(TestExcludeFrom.Smoke)>]
 type WorldTests() =
     inherit StandardShortScopeFacts<WorldDataSet>(scopeOf<WorldSchema>())
