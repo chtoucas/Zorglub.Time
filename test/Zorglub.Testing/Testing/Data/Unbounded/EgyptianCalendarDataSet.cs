@@ -16,8 +16,8 @@ public sealed class Egyptian12CalendarDataSet :
 
     public static Egyptian12CalendarDataSet Instance { get; } = new();
 
-    private TheoryData<DayNumberInfo>? _dayNumberInfoData;
-    public override TheoryData<DayNumberInfo> DayNumberInfoData =>
+    private DataGroup<DayNumberInfo>? _dayNumberInfoData;
+    public override DataGroup<DayNumberInfo> DayNumberInfoData =>
         _dayNumberInfoData ??= DataGroup.CreateDayNumberInfoData(Egyptian12DataSet.DaysSinceRataDieInfos);
 
     public TheoryData<EpagomenalDayInfo> EpagomenalDayInfoData => DataSet.EpagomenalDayInfoData;
@@ -33,8 +33,8 @@ public sealed class Egyptian13CalendarDataSet :
 
     public static Egyptian13CalendarDataSet Instance { get; } = new();
 
-    private TheoryData<DayNumberInfo>? _dayNumberInfoData;
-    public override TheoryData<DayNumberInfo> DayNumberInfoData =>
+    private DataGroup<DayNumberInfo>? _dayNumberInfoData;
+    public override DataGroup<DayNumberInfo> DayNumberInfoData =>
         _dayNumberInfoData ??= DataGroup.CreateDayNumberInfoData(Egyptian13DataSet.DaysSinceRataDieInfos);
 
     public TheoryData<EpagomenalDayInfo> EpagomenalDayInfoData => DataSet.EpagomenalDayInfoData;

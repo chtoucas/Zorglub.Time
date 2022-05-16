@@ -16,8 +16,8 @@ public sealed class Persian2820CalendarDataSet :
 
     public static Persian2820CalendarDataSet Instance { get; } = new();
 
-    private TheoryData<DayNumberInfo>? _dayNumberInfoData;
-    public override TheoryData<DayNumberInfo> DayNumberInfoData =>
+    private DataGroup<DayNumberInfo>? _dayNumberInfoData;
+    public override DataGroup<DayNumberInfo> DayNumberInfoData =>
         _dayNumberInfoData ??= DataGroup.CreateDayNumberInfoData(Persian2820DataSet.DaysSinceRataDieInfos);
 }
 

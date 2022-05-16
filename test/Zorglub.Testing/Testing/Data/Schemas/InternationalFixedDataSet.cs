@@ -18,8 +18,8 @@ public sealed partial class InternationalFixedDataSet : CalendricalDataSet, ISin
 
 public partial class InternationalFixedDataSet // Infos
 {
-    private TheoryData<DaysSinceEpochInfo>? _daysSinceEpochInfoData;
-    public override TheoryData<DaysSinceEpochInfo> DaysSinceEpochInfoData =>
+    private DataGroup<DaysSinceEpochInfo>? _daysSinceEpochInfoData;
+    public override DataGroup<DaysSinceEpochInfo> DaysSinceEpochInfoData =>
         _daysSinceEpochInfoData ??= DataGroup.Create(DaysSinceEpochInfos);
 
     public override TheoryData<DateInfo> DateInfoData => new()

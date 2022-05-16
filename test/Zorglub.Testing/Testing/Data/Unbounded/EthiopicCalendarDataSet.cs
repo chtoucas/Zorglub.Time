@@ -16,8 +16,8 @@ public sealed class Ethiopic13CalendarDataSet :
 
     public static Ethiopic13CalendarDataSet Instance { get; } = new();
 
-    private TheoryData<DayNumberInfo>? _dayNumberInfoData;
-    public override TheoryData<DayNumberInfo> DayNumberInfoData =>
+    private DataGroup<DayNumberInfo>? _dayNumberInfoData;
+    public override DataGroup<DayNumberInfo> DayNumberInfoData =>
         _dayNumberInfoData ??=
             DataGroup.CreateDayNumberInfoData(
                 Coptic13DataSet.DaysSinceRataDieInfos, CalendarEpoch.Coptic, Epoch);
@@ -35,8 +35,8 @@ public sealed class Ethiopic12CalendarDataSet :
 
     public static Ethiopic12CalendarDataSet Instance { get; } = new();
 
-    private TheoryData<DayNumberInfo>? _dayNumberInfoData;
-    public override TheoryData<DayNumberInfo> DayNumberInfoData =>
+    private DataGroup<DayNumberInfo>? _dayNumberInfoData;
+    public override DataGroup<DayNumberInfo> DayNumberInfoData =>
         _dayNumberInfoData ??=
             DataGroup.CreateDayNumberInfoData(
                 Coptic12DataSet.DaysSinceRataDieInfos, CalendarEpoch.Coptic, Epoch);

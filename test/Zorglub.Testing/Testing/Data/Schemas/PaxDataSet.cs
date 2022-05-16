@@ -20,8 +20,8 @@ public sealed partial class PaxDataSet : CalendricalDataSet, ISingleton<PaxDataS
 
 public partial class PaxDataSet // Infos
 {
-    private TheoryData<DaysSinceEpochInfo>? _daysSinceEpochInfoData;
-    public override TheoryData<DaysSinceEpochInfo> DaysSinceEpochInfoData =>
+    private DataGroup<DaysSinceEpochInfo>? _daysSinceEpochInfoData;
+    public override DataGroup<DaysSinceEpochInfo> DaysSinceEpochInfoData =>
         _daysSinceEpochInfoData ??=
             DataGroup.CreateDaysSinceEpochInfoData(DaysSinceZeroInfos, CalendarEpoch.SundayBeforeGregorian);
 
