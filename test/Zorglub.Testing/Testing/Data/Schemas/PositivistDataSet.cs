@@ -23,7 +23,7 @@ public partial class PositivistDataSet // Infos
     private TheoryData<DaysSinceEpochInfo>? _daysSinceEpochInfoData;
     public override TheoryData<DaysSinceEpochInfo> DaysSinceEpochInfoData =>
         _daysSinceEpochInfoData ??=
-            DaysSinceEpochInfoDataGroup.Create(DaysSinceZeroInfos, DayNumber.Zero, CalendarEpoch.Positivist);
+            DaysSinceEpochInfoDataGroup.Create(DaysSinceZeroInfos, CalendarEpoch.Positivist);
 
     public override TheoryData<DateInfo> DateInfoData => new()
     {
@@ -105,7 +105,7 @@ public partial class PositivistDataSet // Infos
         new(100, 13, 365, false),
     };
 
-    internal static IEnumerable<DaysSinceOriginInfo> DaysSinceZeroInfos
+    internal static IEnumerable<DaysSinceZeroInfo> DaysSinceZeroInfos
     {
         get
         {

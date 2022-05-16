@@ -24,6 +24,11 @@ namespace Zorglub.Testing.Data;
 
 #endregion
 
+public interface IConvertibleToDayNumberInfo
+{
+    [Pure] DayNumberInfo ToDayNumberInfo();
+}
+
 public readonly record struct YearDaysSinceEpoch(int Year, int DaysSinceEpoch)
 {
     [Pure]
@@ -48,14 +53,16 @@ public readonly record struct DaysSinceEpochInfo(int DaysSinceEpoch, int Year, i
         new(epoch + DaysSinceEpoch, Year, Month, Day);
 }
 
-public readonly record struct DaysSinceOriginInfo(int DaysSinceOrigin, int Year, int Month, int Day)
+public readonly record struct DaysSinceZeroInfo(int DaysSinceZero, int Year, int Month, int Day) :
+    IConvertibleToDayNumberInfo
 {
     [Pure]
-    public DayNumberInfo ToDayNumberInfo(DayNumber origin) =>
-        new(origin + DaysSinceOrigin, Year, Month, Day);
+    public DayNumberInfo ToDayNumberInfo() =>
+        new(DayNumber.Zero + DaysSinceZero, Year, Month, Day);
 }
 
-public readonly record struct DaysSinceRataDieInfo(int DaysSinceRataDie, int Year, int Month, int Day)
+public readonly record struct DaysSinceRataDieInfo(int DaysSinceRataDie, int Year, int Month, int Day) :
+    IConvertibleToDayNumberInfo
 {
     [Pure]
     public DayNumberInfo ToDayNumberInfo() =>
@@ -73,12 +80,12 @@ public readonly record struct DayNumberInfo(DayNumber DayNumber, int Year, int M
     }
 
     [SuppressMessage("Usage", "CA2225:Operator overloads have named alternates", Justification = "<Pending>")]
-    public static DayNumberInfo operator +(DayNumberInfo value, int shift) =>
-        new(value.DayNumber + shift, value.Year, value.Month, value.Day);
+    public static DayNumberInfo operator +(DayNumberInfo x, int value) =>
+        new(x.DayNumber + value, x.Year, x.Month, x.Day);
 
     [SuppressMessage("Usage", "CA2225:Operator overloads have named alternates", Justification = "<Pending>")]
-    public static DaysSinceEpochInfo operator -(DayNumberInfo value, DayNumber epoch) =>
-        new(value.DayNumber - epoch, value.Year, value.Month, value.Day);
+    public static DaysSinceEpochInfo operator -(DayNumberInfo x, DayNumber epoch) =>
+        new(x.DayNumber - epoch, x.Year, x.Month, x.Day);
 }
 
 // We use Yemoda, otherwise the struct is too big (24 bytes).

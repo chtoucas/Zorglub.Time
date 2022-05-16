@@ -28,16 +28,8 @@ public static class DataGroup
 public static class DaysSinceEpochInfoDataGroup
 {
     [Pure]
-    public static DataGroup<DaysSinceEpochInfo> Create(
-        IEnumerable<DaysSinceOriginInfo> source, DayNumber sourceOrigin, DayNumber resultEpoch)
-    {
-        var q = from x in source select x.ToDayNumberInfo(sourceOrigin) - resultEpoch;
-        return new DataGroup<DaysSinceEpochInfo>(q);
-    }
-
-    [Pure]
-    public static DataGroup<DaysSinceEpochInfo> Create(
-        IEnumerable<DaysSinceRataDieInfo> source, DayNumber epoch)
+    public static DataGroup<DaysSinceEpochInfo> Create<T>(IEnumerable<T> source, DayNumber epoch)
+        where T : IConvertibleToDayNumberInfo
     {
         var q = from x in source select x.ToDayNumberInfo() - epoch;
         return new DataGroup<DaysSinceEpochInfo>(q);
@@ -47,35 +39,27 @@ public static class DaysSinceEpochInfoDataGroup
 public static class DayNumberInfoDataGroup
 {
     [Pure]
-    public static DataGroup<DayNumberInfo> Create(
-        IEnumerable<DaysSinceEpochInfo> source, DayNumber epoch)
-    {
-        var q = from x in source select x.ToDayNumberInfo(epoch);
-        return new DataGroup<DayNumberInfo>(q);
-    }
-
-    [Pure]
-    public static DataGroup<DayNumberInfo> Create(
-        IEnumerable<DaysSinceOriginInfo> source, DayNumber origin)
-    {
-        var q = from x in source select x.ToDayNumberInfo(origin);
-        return new DataGroup<DayNumberInfo>(q);
-    }
-
-    [Pure]
-    public static DataGroup<DayNumberInfo> Create(
-        IEnumerable<DaysSinceRataDieInfo> source)
+    public static DataGroup<DayNumberInfo> Create<T>(IEnumerable<T> source)
+        where T : IConvertibleToDayNumberInfo
     {
         var q = from x in source select x.ToDayNumberInfo();
         return new DataGroup<DayNumberInfo>(q);
     }
 
     [Pure]
-    public static DataGroup<DayNumberInfo> Create(
-        IEnumerable<DaysSinceRataDieInfo> source, DayNumber sourceEpoch, DayNumber resultEpoch)
+    public static DataGroup<DayNumberInfo> Create<T>(
+        IEnumerable<T> source, DayNumber sourceEpoch, DayNumber resultEpoch)
+        where T : IConvertibleToDayNumberInfo
     {
         int shift = resultEpoch - sourceEpoch;
         var q = from x in source select x.ToDayNumberInfo() + shift;
+        return new DataGroup<DayNumberInfo>(q);
+    }
+
+    [Pure]
+    public static DataGroup<DayNumberInfo> Create(IEnumerable<DaysSinceEpochInfo> source, DayNumber epoch)
+    {
+        var q = from x in source select x.ToDayNumberInfo(epoch);
         return new DataGroup<DayNumberInfo>(q);
     }
 }
