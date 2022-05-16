@@ -23,94 +23,61 @@ public static class DataGroup
         var q = source.Select(selector);
         return new DataGroup<TResult>(q);
     }
+}
 
-#pragma warning disable CA1034 // Nested types should not be visible (Design)
-
-    public static class OfDaysSinceEpochInfo
+public static class DaysSinceEpochInfoDataGroup
+{
+    [Pure]
+    public static DataGroup<DaysSinceEpochInfo> Create(
+        IEnumerable<DaysSinceOriginInfo> source, DayNumber sourceOrigin, DayNumber resultEpoch)
     {
-        [Pure]
-        public static DataGroup<DaysSinceEpochInfo> Create(
-            IEnumerable<DaysSinceOriginInfo> source, DayNumber origin, DayNumber epoch)
-        {
-            int shift = origin - epoch;
-            var q = from x in source select Map(x, shift);
-            return new DataGroup<DaysSinceEpochInfo>(q);
-
-            static DaysSinceEpochInfo Map(DaysSinceOriginInfo x, int shift)
-            {
-                var (daysSinceOrigin, y, m, d) = x;
-                return new DaysSinceEpochInfo(daysSinceOrigin + shift, y, m, d);
-            }
-        }
-
-        [Pure]
-        public static DataGroup<DaysSinceEpochInfo> Create(
-            IEnumerable<DaysSinceRataDieInfo> source, DayNumber epoch)
-        {
-            int shift = DayZero.RataDie - epoch;
-            var q = from x in source select Map(x, shift);
-            return new DataGroup<DaysSinceEpochInfo>(q);
-
-            static DaysSinceEpochInfo Map(DaysSinceRataDieInfo x, int shift)
-            {
-                var (daysSinceRataDie, y, m, d) = x;
-                return new DaysSinceEpochInfo(daysSinceRataDie + shift, y, m, d);
-            }
-        }
-
-        [Pure]
-        public static DataGroup<DaysSinceEpochInfo> FromDaysSinceZeroInfos(
-            IEnumerable<DaysSinceOriginInfo> source, DayNumber epoch)
-        {
-            int shift = DayNumber.Zero - epoch;
-            var q = from x in source select Map(x, shift);
-            return new DataGroup<DaysSinceEpochInfo>(q);
-
-            static DaysSinceEpochInfo Map(DaysSinceOriginInfo x, int shift)
-            {
-                var (daysSinceOrigin, y, m, d) = x;
-                return new DaysSinceEpochInfo(daysSinceOrigin + shift, y, m, d);
-            }
-        }
+        var q = from x in source select x.ToDayNumberInfo(sourceOrigin) - resultEpoch;
+        return new DataGroup<DaysSinceEpochInfo>(q);
     }
 
-    public static class OfDayNumberInfo
+    [Pure]
+    public static DataGroup<DaysSinceEpochInfo> Create(
+        IEnumerable<DaysSinceRataDieInfo> source, DayNumber epoch)
     {
-        [Pure]
-        public static DataGroup<DayNumberInfo> Create(
-            IEnumerable<DaysSinceEpochInfo> source, DayNumber epoch)
-        {
-            var q = from x in source select x.ToDayNumberInfo(epoch);
-            return new DataGroup<DayNumberInfo>(q);
-        }
+        var q = from x in source select x.ToDayNumberInfo() - epoch;
+        return new DataGroup<DaysSinceEpochInfo>(q);
+    }
+}
 
-        [Pure]
-        public static DataGroup<DayNumberInfo> Create(
-            IEnumerable<DaysSinceRataDieInfo> source)
-        {
-            var q = from x in source select x.ToDayNumberInfo();
-            return new DataGroup<DayNumberInfo>(q);
-        }
-
-        [Pure]
-        public static DataGroup<DayNumberInfo> Create(
-            IEnumerable<DaysSinceRataDieInfo> source, DayNumber epoch, DayNumber newEpoch)
-        {
-            DayNumber zero = DayZero.RataDie + (newEpoch - epoch);
-            var q = from x in source select x.ToDayNumberInfo(zero);
-            return new DataGroup<DayNumberInfo>(q);
-        }
-
-        [Pure]
-        public static DataGroup<DayNumberInfo> FromDaysSinceZeroInfos(
-            IEnumerable<DaysSinceOriginInfo> source)
-        {
-            var q = from x in source select x.ToDayNumberInfo(DayNumber.Zero);
-            return new DataGroup<DayNumberInfo>(q);
-        }
+public static class DayNumberInfoDataGroup
+{
+    [Pure]
+    public static DataGroup<DayNumberInfo> Create(
+        IEnumerable<DaysSinceEpochInfo> source, DayNumber epoch)
+    {
+        var q = from x in source select x.ToDayNumberInfo(epoch);
+        return new DataGroup<DayNumberInfo>(q);
     }
 
-#pragma warning restore CA1034
+    [Pure]
+    public static DataGroup<DayNumberInfo> Create(
+        IEnumerable<DaysSinceOriginInfo> source, DayNumber origin)
+    {
+        var q = from x in source select x.ToDayNumberInfo(origin);
+        return new DataGroup<DayNumberInfo>(q);
+    }
+
+    [Pure]
+    public static DataGroup<DayNumberInfo> Create(
+        IEnumerable<DaysSinceRataDieInfo> source)
+    {
+        var q = from x in source select x.ToDayNumberInfo();
+        return new DataGroup<DayNumberInfo>(q);
+    }
+
+    [Pure]
+    public static DataGroup<DayNumberInfo> Create(
+        IEnumerable<DaysSinceRataDieInfo> source, DayNumber sourceEpoch, DayNumber resultEpoch)
+    {
+        int shift = resultEpoch - sourceEpoch;
+        var q = from x in source select x.ToDayNumberInfo() + shift;
+        return new DataGroup<DayNumberInfo>(q);
+    }
 }
 
 public sealed class DataGroup<T> : TheoryData<T>, IEnumerable<T>

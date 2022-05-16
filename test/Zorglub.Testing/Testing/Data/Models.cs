@@ -60,10 +60,6 @@ public readonly record struct DaysSinceRataDieInfo(int DaysSinceRataDie, int Yea
     [Pure]
     public DayNumberInfo ToDayNumberInfo() =>
         new(DayZero.RataDie + DaysSinceRataDie, Year, Month, Day);
-
-    [Pure]
-    public DayNumberInfo ToDayNumberInfo(DayNumber zero) =>
-        new(zero + DaysSinceRataDie, Year, Month, Day);
 }
 
 public readonly record struct DayNumberInfo(DayNumber DayNumber, int Year, int Month, int Day)
@@ -75,6 +71,14 @@ public readonly record struct DayNumberInfo(DayNumber DayNumber, int Year, int M
         dayNumber = DayNumber;
         ymd = Yemoda;
     }
+
+    [SuppressMessage("Usage", "CA2225:Operator overloads have named alternates", Justification = "<Pending>")]
+    public static DayNumberInfo operator +(DayNumberInfo value, int shift) =>
+        new(value.DayNumber + shift, value.Year, value.Month, value.Day);
+
+    [SuppressMessage("Usage", "CA2225:Operator overloads have named alternates", Justification = "<Pending>")]
+    public static DaysSinceEpochInfo operator -(DayNumberInfo value, DayNumber epoch) =>
+        new(value.DayNumber - epoch, value.Year, value.Month, value.Day);
 }
 
 // We use Yemoda, otherwise the struct is too big (24 bytes).
