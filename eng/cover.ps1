@@ -65,9 +65,7 @@ try {
 
     if ($NoTest) { $NoBuild = $true }
 
-    if ($NoBuild) {
-        $args += '--no-build'
-    } else {
+    if (-not $NoBuild) {
         & dotnet build $TestProject $args
             || die 'Failed to build the project'
     }
@@ -79,6 +77,7 @@ try {
         $args += "--filter:$filter"
 
         & dotnet test $TestProject $args `
+            --no-build `
             /p:ExcludeByAttribute=DebuggerNonUserCode `
             /p:DoesNotReturnAttribute=DoesNotReturnAttribute `
             /p:CollectCoverage=true `
