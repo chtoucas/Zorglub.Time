@@ -62,8 +62,8 @@ public readonly record struct DaysSinceRataDieInfo(int DaysSinceRataDie, int Yea
         new(DayZero.RataDie + DaysSinceRataDie, Year, Month, Day);
 
     [Pure]
-    public DayNumberInfo ToDayNumberInfo(int shift) =>
-        new(DayZero.RataDie + (shift + DaysSinceRataDie), Year, Month, Day);
+    public DayNumberInfo ToDayNumberInfo(DayNumber zero) =>
+        new(zero + DaysSinceRataDie, Year, Month, Day);
 }
 
 public readonly record struct DayNumberInfo(DayNumber DayNumber, int Year, int Month, int Day)

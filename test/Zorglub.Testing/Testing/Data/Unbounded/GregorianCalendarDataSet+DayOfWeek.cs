@@ -3,7 +3,7 @@
 
 namespace Zorglub.Testing.Data.Unbounded;
 
-using static Zorglub.Testing.Data.Extensions.TheoryDataHelpers;
+using static Zorglub.Testing.Data.Extensions.TheoryDataExtensions;
 
 public partial class GregorianCalendarDataSet // IDayOfWeekDataSet
 {

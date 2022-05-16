@@ -3,7 +3,7 @@
 
 namespace Zorglub.Testing.Data.Schemas;
 
-using static Zorglub.Testing.Data.Extensions.TheoryDataHelpers;
+using static Zorglub.Testing.Data.Extensions.TheoryDataExtensions;
 
 public partial class GregorianDataSet // Addition (days)
 {

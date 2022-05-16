@@ -6,7 +6,7 @@ namespace Zorglub.Testing.Data.Unbounded;
 using Zorglub.Testing.Data.Schemas;
 using Zorglub.Time.Hemerology;
 
-using static Zorglub.Testing.Data.Extensions.TheoryDataHelpers;
+using static Zorglub.Testing.Data.Extensions.TheoryDataExtensions;
 
 /// <summary>
 /// Provides test data for the (unbounded) Positivist calendar and related date types.

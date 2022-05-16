@@ -6,8 +6,6 @@ namespace Zorglub.Testing.Data.Unbounded;
 using Zorglub.Testing.Data.Schemas;
 using Zorglub.Time.Hemerology;
 
-using static Zorglub.Testing.Data.Extensions.TheoryDataHelpers;
-
 /// <summary>
 /// Provides test data for the (unbounded) French Republican calendar and related date types.
 /// </summary>
@@ -22,7 +20,7 @@ public sealed class FrenchRepublican12CalendarDataSet :
     private TheoryData<DayNumberInfo>? _dayNumberInfoData;
     public override TheoryData<DayNumberInfo> DayNumberInfoData =>
         _dayNumberInfoData ??=
-            FrenchRepublican12DataSet.DaysSinceRataDieInfos.MapToTheoryData(DayNumberInfo.FromDaysSinceRataDieInfo);
+            TheoryDataFactories.Create(FrenchRepublican12DataSet.DaysSinceRataDieInfos, DayNumberInfo.FromDaysSinceRataDieInfo);
 
     public TheoryData<EpagomenalDayInfo> EpagomenalDayInfoData => DataSet.EpagomenalDayInfoData;
 }
@@ -41,7 +39,7 @@ public sealed class FrenchRepublican13CalendarDataSet :
     private TheoryData<DayNumberInfo>? _dayNumberInfoData;
     public override TheoryData<DayNumberInfo> DayNumberInfoData =>
         _dayNumberInfoData ??=
-            FrenchRepublican13DataSet.DaysSinceRataDieInfos.MapToTheoryData(DayNumberInfo.FromDaysSinceRataDieInfo);
+            TheoryDataFactories.Create(FrenchRepublican13DataSet.DaysSinceRataDieInfos, DayNumberInfo.FromDaysSinceRataDieInfo);
 
     public TheoryData<EpagomenalDayInfo> EpagomenalDayInfoData => DataSet.EpagomenalDayInfoData;
 }

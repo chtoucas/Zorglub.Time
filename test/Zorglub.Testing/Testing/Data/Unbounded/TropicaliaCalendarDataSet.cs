@@ -5,7 +5,7 @@ namespace Zorglub.Testing.Data.Unbounded;
 
 using Zorglub.Testing.Data.Schemas;
 
-using static Zorglub.Testing.Data.Extensions.TheoryDataHelpers;
+using static Zorglub.Testing.Data.Extensions.TheoryDataExtensions;
 
 /// <summary>
 /// Provides test data for the (unbounded) "Tropicália" calendar and related date types.
@@ -20,7 +20,7 @@ public sealed class TropicaliaCalendarDataSet :
     private TheoryData<DayNumberInfo>? _dayNumberInfoData;
     public override TheoryData<DayNumberInfo> DayNumberInfoData =>
         _dayNumberInfoData ??=
-            TropicaliaDataSet.DaysSinceRataDieInfos.MapToTheoryData(DayNumberInfo.FromDaysSinceRataDieInfo);
+            TheoryDataFactories.Create(TropicaliaDataSet.DaysSinceRataDieInfos, DayNumberInfo.FromDaysSinceRataDieInfo);
 }
 
 /// <summary>

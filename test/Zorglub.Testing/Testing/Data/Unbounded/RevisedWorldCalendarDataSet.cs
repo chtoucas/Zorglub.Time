@@ -5,7 +5,7 @@ namespace Zorglub.Testing.Data.Unbounded;
 
 using Zorglub.Testing.Data.Schemas;
 
-using static Zorglub.Testing.Data.Extensions.TheoryDataHelpers;
+using static Zorglub.Testing.Data.Extensions.TheoryDataExtensions;
 
 /// <summary>
 /// Provides test data for the (unbounded) Revised World calendar and related date types.

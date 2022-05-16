@@ -6,8 +6,6 @@ namespace Zorglub.Testing.Data.Unbounded;
 using Zorglub.Testing.Data.Schemas;
 using Zorglub.Time.Hemerology;
 
-using static Zorglub.Testing.Data.Extensions.TheoryDataHelpers;
-
 /// <summary>
 /// Provides test data for the (unbounded) faux Lunisolar calendar and related date types.
 /// </summary>
@@ -21,5 +19,5 @@ public sealed class LunisolarCalendarDataSet :
     private TheoryData<DayNumberInfo>? _dayNumberInfoData;
     public override TheoryData<DayNumberInfo> DayNumberInfoData =>
         _dayNumberInfoData ??=
-            LunisolarDataSet.DaysSinceRataDieInfos.MapToTheoryData(DayNumberInfo.FromDaysSinceRataDieInfo);
+            TheoryDataFactories.Create(LunisolarDataSet.DaysSinceRataDieInfos, DayNumberInfo.FromDaysSinceRataDieInfo);
 }

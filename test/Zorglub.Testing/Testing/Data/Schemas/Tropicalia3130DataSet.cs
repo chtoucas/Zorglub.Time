@@ -3,8 +3,6 @@
 
 namespace Zorglub.Testing.Data.Schemas;
 
-using static Zorglub.Testing.Data.Extensions.TheoryDataHelpers;
-
 /// <summary>
 /// Provides test data for <see cref="Tropicalia3130Schema"/>.
 /// </summary>
@@ -19,7 +17,7 @@ public partial class Tropicalia3130DataSet // Infos
 {
     private TheoryData<DaysSinceEpochInfo>? _daysSinceEpochInfoData;
     public override TheoryData<DaysSinceEpochInfo> DaysSinceEpochInfoData =>
-        _daysSinceEpochInfoData ??= DaysSinceEpochInfos.MapToTheoryData();
+        _daysSinceEpochInfoData ??= TheoryDataFactories.Create(DaysSinceEpochInfos);
 
     public override TheoryData<DateInfo> DateInfoData => new()
     {

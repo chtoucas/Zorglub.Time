@@ -5,7 +5,7 @@ namespace Zorglub.Testing.Data.Bounded;
 
 using System.Linq;
 
-using static Zorglub.Testing.Data.Extensions.TheoryDataHelpers;
+//using static Zorglub.Testing.Data.Extensions.TheoryDataHelpers;
 
 public class BoundedCalendarDataSet<TDataSet> : ICalendarDataSet
     where TDataSet : ICalendarDataSet
@@ -33,7 +33,7 @@ public class BoundedCalendarDataSet<TDataSet> : ICalendarDataSet
 
         Debug.Assert(q.Any());
 
-        return q.MapToTheoryData();
+        return TheoryDataFactories.Create(q);
     }
 
     private static InvalidOperationException BadProperty(string propertyName) =>

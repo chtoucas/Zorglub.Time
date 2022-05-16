@@ -3,26 +3,14 @@
 
 namespace Zorglub.Testing.Data.Extensions;
 
+using System.Linq;
+
 /// <summary>
 /// Provides extension methods for <see cref="IEnumerable{T}"/>.
 /// <para>This class cannot be inherited.</para>
 /// </summary>
-internal static class TheoryDataHelpers
+internal static class TheoryDataExtensions
 {
-    /// <summary>
-    /// Converts a sequence of <typeparamref name="T"/> to a set of data of type
-    /// <typeparamref name="T"/>.
-    /// </summary>
-    [Pure]
-    public static TheoryData<T> MapToTheoryData<T>(this IEnumerable<T> @this)
-    {
-        Requires.NotNull(@this);
-
-        var data = new TheoryData<T>();
-        foreach (T a in @this) { data.Add(a); }
-        return data;
-    }
-
     /// <summary>
     /// Converts a sequence of <typeparamref name="TSource"/> to a set of data of type
     /// <typeparamref name="TResult"/>.

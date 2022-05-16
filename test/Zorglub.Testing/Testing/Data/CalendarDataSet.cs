@@ -3,7 +3,7 @@
 
 namespace Zorglub.Testing.Data;
 
-using static Zorglub.Testing.Data.Extensions.TheoryDataHelpers;
+using static Zorglub.Testing.Data.Extensions.TheoryDataExtensions;
 
 /// <summary>
 /// Provides test data for an <i>unbounded</i> calendar and related date types.
@@ -70,14 +70,14 @@ public abstract class CalendarDataSet<TDataSet> : ICalendarDataSet
     public static TheoryData<DayNumberInfo> MapToDayNumberInfoData(
         IEnumerable<DaysSinceRataDieInfo> source, DayNumber epoch, DayNumber newEpoch)
     {
-        int shift = newEpoch - epoch;
+        DayNumber zero = DayZero.RataDie + (newEpoch - epoch);
         return source.MapToTheoryData(Map);
 
-        DayNumberInfo Map(DaysSinceRataDieInfo x) => x.ToDayNumberInfo(shift);
+        DayNumberInfo Map(DaysSinceRataDieInfo x) => x.ToDayNumberInfo(zero);
     }
 
     /// <summary>
-    /// Converts a sequence of <see cref="YearDaysSinceEpoch"/> to a set of data of type
+    /// Converts a set of data of type <see cref="YearDaysSinceEpoch"/>to a set of data of type
     /// <see cref="YearDayNumber"/>.
     /// </summary>
     [Pure]

@@ -6,8 +6,6 @@ namespace Zorglub.Testing.Data.Unbounded;
 using Zorglub.Testing.Data.Schemas;
 using Zorglub.Time.Core;
 
-using static Zorglub.Testing.Data.Extensions.TheoryDataHelpers;
-
 /// <summary>
 /// Provides test data for the (unbounded) Gregorian calendar and related date types.
 /// </summary>
@@ -25,7 +23,7 @@ public sealed partial class GregorianCalendarDataSet :
     private TheoryData<DayNumberInfo>? _dayNumberInfoData;
     public override TheoryData<DayNumberInfo> DayNumberInfoData =>
         _dayNumberInfoData ??=
-            GregorianDataSet.DaysSinceRataDieInfos.MapToTheoryData(DayNumberInfo.FromDaysSinceRataDieInfo);
+            TheoryDataFactories.Create(GregorianDataSet.DaysSinceRataDieInfos, DayNumberInfo.FromDaysSinceRataDieInfo);
 
     public TheoryData<YemoAnd<int>> DaysInYearAfterMonthData => DataSet.DaysInYearAfterMonthData;
 

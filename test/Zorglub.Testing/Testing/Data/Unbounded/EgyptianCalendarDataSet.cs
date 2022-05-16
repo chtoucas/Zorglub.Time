@@ -6,8 +6,6 @@ namespace Zorglub.Testing.Data.Unbounded;
 using Zorglub.Testing.Data.Schemas;
 using Zorglub.Time.Hemerology;
 
-using static Zorglub.Testing.Data.Extensions.TheoryDataHelpers;
-
 /// <summary>
 /// Provides test data for the (unbounded) Egyptian calendar and related date types.
 /// </summary>
@@ -21,7 +19,7 @@ public sealed class Egyptian12CalendarDataSet :
     private TheoryData<DayNumberInfo>? _dayNumberInfoData;
     public override TheoryData<DayNumberInfo> DayNumberInfoData =>
         _dayNumberInfoData ??=
-            Egyptian12DataSet.DaysSinceRataDieInfos.MapToTheoryData(DayNumberInfo.FromDaysSinceRataDieInfo);
+            TheoryDataFactories.Create(Egyptian12DataSet.DaysSinceRataDieInfos, DayNumberInfo.FromDaysSinceRataDieInfo);
 
     public TheoryData<EpagomenalDayInfo> EpagomenalDayInfoData => DataSet.EpagomenalDayInfoData;
 }
@@ -39,7 +37,7 @@ public sealed class Egyptian13CalendarDataSet :
     private TheoryData<DayNumberInfo>? _dayNumberInfoData;
     public override TheoryData<DayNumberInfo> DayNumberInfoData =>
         _dayNumberInfoData ??=
-            Egyptian13DataSet.DaysSinceRataDieInfos.MapToTheoryData(DayNumberInfo.FromDaysSinceRataDieInfo);
+            TheoryDataFactories.Create(Egyptian13DataSet.DaysSinceRataDieInfos, DayNumberInfo.FromDaysSinceRataDieInfo);
 
     public TheoryData<EpagomenalDayInfo> EpagomenalDayInfoData => DataSet.EpagomenalDayInfoData;
 }
