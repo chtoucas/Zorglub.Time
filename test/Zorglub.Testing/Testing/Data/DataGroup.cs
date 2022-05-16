@@ -17,29 +17,25 @@ public static class DataGroup
     }
 
     [Pure]
-    public static DataGroup<TResult> Create<TSource, TResult>(
-        IEnumerable<TSource> source, Func<TSource, TResult> selector)
-    {
-        var q = source.Select(selector);
-        return new DataGroup<TResult>(q);
-    }
-}
-
-public static class DaysSinceEpochInfoDataGroup
-{
-    [Pure]
-    public static DataGroup<DaysSinceEpochInfo> Create<T>(IEnumerable<T> source, DayNumber epoch)
+    public static DataGroup<DaysSinceEpochInfo> CreateDaysSinceEpochInfoData<T>(
+        IEnumerable<T> source, DayNumber epoch)
         where T : IConvertibleToDayNumberInfo
     {
         var q = from x in source select x.ToDayNumberInfo() - epoch;
         return new DataGroup<DaysSinceEpochInfo>(q);
     }
-}
 
-public static class DayNumberInfoDataGroup
-{
     [Pure]
-    public static DataGroup<DayNumberInfo> Create<T>(IEnumerable<T> source)
+    public static DataGroup<DayNumberInfo> CreateDayNumberInfoData(
+        IEnumerable<DaysSinceEpochInfo> source, DayNumber epoch)
+    {
+        var q = from x in source select x.ToDayNumberInfo(epoch);
+        return new DataGroup<DayNumberInfo>(q);
+    }
+
+    [Pure]
+    public static DataGroup<DayNumberInfo> CreateDayNumberInfoData<T>(
+        IEnumerable<T> source)
         where T : IConvertibleToDayNumberInfo
     {
         var q = from x in source select x.ToDayNumberInfo();
@@ -47,19 +43,12 @@ public static class DayNumberInfoDataGroup
     }
 
     [Pure]
-    public static DataGroup<DayNumberInfo> Create<T>(
+    public static DataGroup<DayNumberInfo> CreateDayNumberInfoData<T>(
         IEnumerable<T> source, DayNumber sourceEpoch, DayNumber resultEpoch)
         where T : IConvertibleToDayNumberInfo
     {
         int shift = resultEpoch - sourceEpoch;
         var q = from x in source select x.ToDayNumberInfo() + shift;
-        return new DataGroup<DayNumberInfo>(q);
-    }
-
-    [Pure]
-    public static DataGroup<DayNumberInfo> Create(IEnumerable<DaysSinceEpochInfo> source, DayNumber epoch)
-    {
-        var q = from x in source select x.ToDayNumberInfo(epoch);
         return new DataGroup<DayNumberInfo>(q);
     }
 }

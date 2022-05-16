@@ -21,7 +21,7 @@ public partial class JulianDataSet // Infos
     private TheoryData<DaysSinceEpochInfo>? _daysSinceEpochInfoData;
     public override TheoryData<DaysSinceEpochInfo> DaysSinceEpochInfoData =>
         _daysSinceEpochInfoData ??=
-            DaysSinceEpochInfoDataGroup.Create(DaysSinceRataDieInfos, DayZero.OldStyle);
+            DataGroup.CreateDaysSinceEpochInfoData(DaysSinceRataDieInfos, DayZero.OldStyle);
 
     public override TheoryData<DateInfo> DateInfoData { get; } = new()
     {

@@ -18,5 +18,5 @@ public sealed class PositivistCalendarDataSet :
 
     private TheoryData<DayNumberInfo>? _dayNumberInfoData;
     public override TheoryData<DayNumberInfo> DayNumberInfoData =>
-        _dayNumberInfoData ??= DayNumberInfoDataGroup.Create(PositivistDataSet.DaysSinceZeroInfos);
+        _dayNumberInfoData ??= DataGroup.CreateDayNumberInfoData(PositivistDataSet.DaysSinceZeroInfos);
 }

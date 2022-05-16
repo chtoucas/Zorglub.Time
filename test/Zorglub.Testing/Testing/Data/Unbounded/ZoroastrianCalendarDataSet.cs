@@ -19,7 +19,7 @@ public sealed class Zoroastrian13CalendarDataSet :
     private TheoryData<DayNumberInfo>? _dayNumberInfoData;
     public sealed override TheoryData<DayNumberInfo> DayNumberInfoData =>
         _dayNumberInfoData ??=
-            DayNumberInfoDataGroup.Create(
+            DataGroup.CreateDayNumberInfoData(
                 Egyptian13DataSet.DaysSinceRataDieInfos, CalendarEpoch.Egyptian, Epoch);
 
     public TheoryData<EpagomenalDayInfo> EpagomenalDayInfoData => DataSet.EpagomenalDayInfoData;
@@ -38,7 +38,7 @@ public sealed class Zoroastrian12CalendarDataSet :
     private TheoryData<DayNumberInfo>? _dayNumberInfoData;
     public sealed override TheoryData<DayNumberInfo> DayNumberInfoData =>
         _dayNumberInfoData ??=
-            DayNumberInfoDataGroup.Create(
+            DataGroup.CreateDayNumberInfoData(
                 Egyptian12DataSet.DaysSinceRataDieInfos, CalendarEpoch.Egyptian, Epoch);
 
     public TheoryData<EpagomenalDayInfo> EpagomenalDayInfoData => DataSet.EpagomenalDayInfoData;
