@@ -63,24 +63,6 @@ public abstract class CalendarDataSet<TDataSet> : ICalendarDataSet
     #region Helpers
 
     /// <summary>
-    /// Converts a sequence of <see cref="DaysSinceEpochInfo"/> to a set of data of type
-    /// <see cref="DayNumberInfo"/>.
-    /// </summary>
-    [Pure]
-    protected static TheoryData<DayNumberInfo> MapToDayNumberInfoData(
-        IEnumerable<DaysSinceEpochInfo> source, DayNumber epoch)
-    {
-        Requires.NotNull(source);
-
-        var data = new TheoryData<DayNumberInfo>();
-        foreach (var (daysSinceEpoch, y, m, d) in source)
-        {
-            data.Add(new DayNumberInfo(epoch + daysSinceEpoch, y, m, d));
-        }
-        return data;
-    }
-
-    /// <summary>
     /// Converts a sequence of <see cref="DaysSinceOriginInfo"/> to a set of data of type
     /// <see cref="DayNumberInfo"/>.
     /// </summary>
@@ -91,10 +73,7 @@ public abstract class CalendarDataSet<TDataSet> : ICalendarDataSet
         Requires.NotNull(source);
 
         var data = new TheoryData<DayNumberInfo>();
-        foreach (var (daysSinceOrigin, y, m, d) in source)
-        {
-            data.Add(new DayNumberInfo(origin + daysSinceOrigin, y, m, d));
-        }
+        foreach (var item in source) { data.Add(item.ToDayNumberInfo(origin)); }
         return data;
     }
 
@@ -108,12 +87,8 @@ public abstract class CalendarDataSet<TDataSet> : ICalendarDataSet
     {
         Requires.NotNull(source);
 
-        DayNumber rd = DayZero.RataDie; // cache prop locally
         var data = new TheoryData<DayNumberInfo>();
-        foreach (var (daysSinceRataDie, y, m, d) in source)
-        {
-            data.Add(new DayNumberInfo(rd + daysSinceRataDie, y, m, d));
-        }
+        foreach (var item in source) { data.Add(item.ToDayNumberInfo()); }
         return data;
     }
 
