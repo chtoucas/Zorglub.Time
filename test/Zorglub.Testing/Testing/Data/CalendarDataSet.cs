@@ -61,20 +61,6 @@ public abstract class CalendarDataSet<TDataSet> : ICalendarDataSet
     #region Helpers
 
     /// <summary>
-    /// Converts a sequence of <see cref="DaysSinceRataDieInfo"/> to a set of data of type
-    /// <see cref="DayNumberInfo"/>.
-    /// </summary>
-    [Pure]
-    public static TheoryData<DayNumberInfo> MapToDayNumberInfoData(
-        IEnumerable<DaysSinceRataDieInfo> source, DayNumber epoch, DayNumber newEpoch)
-    {
-        DayNumber zero = DayZero.RataDie + (newEpoch - epoch);
-        return TheoryDataFactories.Create(source, Map);
-
-        DayNumberInfo Map(DaysSinceRataDieInfo x) => x.ToDayNumberInfo(zero);
-    }
-
-    /// <summary>
     /// Converts a set of data of type <see cref="YearDaysSinceEpoch"/>to a set of data of type
     /// <see cref="YearDayNumber"/>.
     /// </summary>

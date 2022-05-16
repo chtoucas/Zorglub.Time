@@ -17,8 +17,7 @@ public sealed class TropicaliaCalendarDataSet :
 
     private TheoryData<DayNumberInfo>? _dayNumberInfoData;
     public override TheoryData<DayNumberInfo> DayNumberInfoData =>
-        _dayNumberInfoData ??=
-            TheoryDataFactories.Create(TropicaliaDataSet.DaysSinceRataDieInfos, DayNumberInfo.FromDaysSinceRataDieInfo);
+        _dayNumberInfoData ??= TheoryDataDNInfo.FromDaysSinceRataDieInfos(TropicaliaDataSet.DaysSinceRataDieInfos);
 }
 
 /// <summary>
@@ -32,15 +31,8 @@ public sealed class Tropicalia3031CalendarDataSet :
     public static Tropicalia3031CalendarDataSet Instance { get; } = new();
 
     private TheoryData<DayNumberInfo>? _dayNumberInfoData;
-    public override TheoryData<DayNumberInfo> DayNumberInfoData
-    {
-        get
-        {
-            return _dayNumberInfoData ??= TheoryDataFactories.Create(Tropicalia3031DataSet.DaysSinceEpochInfos, Map);
-
-            DayNumberInfo Map(DaysSinceEpochInfo x) => x.ToDayNumberInfo(Epoch);
-        }
-    }
+    public override TheoryData<DayNumberInfo> DayNumberInfoData =>
+        _dayNumberInfoData ??= TheoryDataDNInfo.FromDaysSinceEpochInfos(Tropicalia3031DataSet.DaysSinceEpochInfos, Epoch);
 }
 
 /// <summary>
@@ -54,14 +46,6 @@ public sealed class Tropicalia3130CalendarDataSet :
     public static Tropicalia3130CalendarDataSet Instance { get; } = new();
 
     private TheoryData<DayNumberInfo>? _dayNumberInfoData;
-    public override TheoryData<DayNumberInfo> DayNumberInfoData
-    {
-        get
-        {
-            return _dayNumberInfoData ??= TheoryDataFactories.Create(Tropicalia3130DataSet.DaysSinceEpochInfos, Map);
-
-            DayNumberInfo Map(DaysSinceEpochInfo x) => x.ToDayNumberInfo(Epoch);
-        }
-    }
-
+    public override TheoryData<DayNumberInfo> DayNumberInfoData =>
+        _dayNumberInfoData ??= TheoryDataDNInfo.FromDaysSinceEpochInfos(Tropicalia3130DataSet.DaysSinceEpochInfos, Epoch);
 }

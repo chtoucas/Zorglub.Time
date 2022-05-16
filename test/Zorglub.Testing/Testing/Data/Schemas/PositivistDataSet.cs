@@ -23,7 +23,7 @@ public partial class PositivistDataSet // Infos
     private TheoryData<DaysSinceEpochInfo>? _daysSinceEpochInfoData;
     public override TheoryData<DaysSinceEpochInfo> DaysSinceEpochInfoData =>
         _daysSinceEpochInfoData ??=
-            MapToDaysSinceEpochInfoData(DaysSinceZeroInfos, DayNumber.Zero, CalendarEpoch.Positivist);
+            TheoryDataDseInfo.FromDaysSinceOriginInfos(DaysSinceZeroInfos, DayNumber.Zero, CalendarEpoch.Positivist);
 
     public override TheoryData<DateInfo> DateInfoData => new()
     {

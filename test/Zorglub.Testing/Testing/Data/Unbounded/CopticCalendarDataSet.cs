@@ -18,8 +18,7 @@ public sealed class Coptic12CalendarDataSet :
 
     private TheoryData<DayNumberInfo>? _dayNumberInfoData;
     public override TheoryData<DayNumberInfo> DayNumberInfoData =>
-        _dayNumberInfoData ??=
-            TheoryDataFactories.Create(Coptic12DataSet.DaysSinceRataDieInfos, DayNumberInfo.FromDaysSinceRataDieInfo);
+        _dayNumberInfoData ??= TheoryDataDNInfo.FromDaysSinceRataDieInfos(Coptic12DataSet.DaysSinceRataDieInfos);
 
     public TheoryData<EpagomenalDayInfo> EpagomenalDayInfoData => DataSet.EpagomenalDayInfoData;
 }
@@ -36,8 +35,7 @@ public sealed class Coptic13CalendarDataSet :
 
     private TheoryData<DayNumberInfo>? _dayNumberInfoData;
     public override TheoryData<DayNumberInfo> DayNumberInfoData =>
-        _dayNumberInfoData ??=
-            TheoryDataFactories.Create(Coptic13DataSet.DaysSinceRataDieInfos, DayNumberInfo.FromDaysSinceRataDieInfo);
+        _dayNumberInfoData ??= TheoryDataDNInfo.FromDaysSinceRataDieInfos(Coptic13DataSet.DaysSinceRataDieInfos);
 
     public TheoryData<EpagomenalDayInfo> EpagomenalDayInfoData => DataSet.EpagomenalDayInfoData;
 }

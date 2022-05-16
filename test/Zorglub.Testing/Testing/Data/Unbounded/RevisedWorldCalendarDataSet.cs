@@ -17,13 +17,6 @@ public sealed class RevisedWorldCalendarDataSet :
     public static RevisedWorldCalendarDataSet Instance { get; } = new();
 
     private TheoryData<DayNumberInfo>? _dayNumberInfoData;
-    public override TheoryData<DayNumberInfo> DayNumberInfoData
-    {
-        get
-        {
-            return _dayNumberInfoData ??= TheoryDataFactories.Create(WorldDataSet.DaysSinceEpochInfos, Map);
-
-            DayNumberInfo Map(DaysSinceEpochInfo x) => x.ToDayNumberInfo(Epoch);
-        }
-    }
+    public override TheoryData<DayNumberInfo> DayNumberInfoData =>
+        _dayNumberInfoData ??= TheoryDataDNInfo.FromDaysSinceEpochInfos(WorldDataSet.DaysSinceEpochInfos, Epoch);
 }

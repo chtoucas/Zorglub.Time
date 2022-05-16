@@ -17,13 +17,6 @@ public sealed class PositivistCalendarDataSet :
     public static PositivistCalendarDataSet Instance { get; } = new();
 
     private TheoryData<DayNumberInfo>? _dayNumberInfoData;
-    public override TheoryData<DayNumberInfo> DayNumberInfoData
-    {
-        get
-        {
-            return _dayNumberInfoData ??= TheoryDataFactories.Create(PositivistDataSet.DaysSinceZeroInfos, Map);
-
-            static DayNumberInfo Map(DaysSinceOriginInfo x) => x.ToDayNumberInfo(DayNumber.Zero);
-        }
-    }
+    public override TheoryData<DayNumberInfo> DayNumberInfoData =>
+        _dayNumberInfoData ??= TheoryDataDNInfo.FromDaysSinceZeroInfos(PositivistDataSet.DaysSinceZeroInfos);
 }

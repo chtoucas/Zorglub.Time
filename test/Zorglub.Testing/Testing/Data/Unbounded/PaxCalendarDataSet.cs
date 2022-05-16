@@ -16,15 +16,8 @@ public sealed class PaxCalendarDataSet : CalendarDataSet<PaxDataSet>, ISingleton
     public static PaxCalendarDataSet Instance { get; } = new();
 
     private TheoryData<DayNumberInfo>? _dayNumberInfoData;
-    public override TheoryData<DayNumberInfo> DayNumberInfoData
-    {
-        get
-        {
-            return _dayNumberInfoData ??= TheoryDataFactories.Create(PaxDataSet.DaysSinceZeroInfos, Map);
-
-            static DayNumberInfo Map(DaysSinceOriginInfo x) => x.ToDayNumberInfo(DayNumber.Zero);
-        }
-    }
+    public override TheoryData<DayNumberInfo> DayNumberInfoData =>
+        _dayNumberInfoData ??= TheoryDataDNInfo.FromDaysSinceZeroInfos(PaxDataSet.DaysSinceZeroInfos);
 
     // Day number, year, week of the year, day of the week.
     public static TheoryData<DayNumber, int, int, DayOfWeek> MoreDayNumberInfoData =>

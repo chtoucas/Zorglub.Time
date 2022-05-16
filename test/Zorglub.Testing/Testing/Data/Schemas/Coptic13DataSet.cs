@@ -23,7 +23,8 @@ public partial class Coptic13DataSet // Infos
 {
     private TheoryData<DaysSinceEpochInfo>? _daysSinceEpochInfoData;
     public override TheoryData<DaysSinceEpochInfo> DaysSinceEpochInfoData =>
-        _daysSinceEpochInfoData ??= MapToDaysSinceEpochInfoData(DaysSinceRataDieInfos, CalendarEpoch.Coptic);
+        _daysSinceEpochInfoData ??=
+            TheoryDataDseInfo.FromDaysSinceRataDieInfos(DaysSinceRataDieInfos, CalendarEpoch.Coptic);
 
     public override TheoryData<DateInfo> DateInfoData => new()
     {

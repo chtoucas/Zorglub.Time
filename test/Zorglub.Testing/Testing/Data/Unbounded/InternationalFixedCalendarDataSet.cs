@@ -16,13 +16,6 @@ public sealed class InternationalFixedCalendarDataSet :
     public static InternationalFixedCalendarDataSet Instance { get; } = new();
 
     private TheoryData<DayNumberInfo>? _dayNumberInfoData;
-    public override TheoryData<DayNumberInfo> DayNumberInfoData
-    {
-        get
-        {
-            return _dayNumberInfoData ??= TheoryDataFactories.Create(InternationalFixedDataSet.DaysSinceEpochInfos, Map);
-
-            DayNumberInfo Map(DaysSinceEpochInfo x) => x.ToDayNumberInfo(Epoch);
-        }
-    }
+    public override TheoryData<DayNumberInfo> DayNumberInfoData =>
+        _dayNumberInfoData ??= TheoryDataDNInfo.FromDaysSinceEpochInfos(InternationalFixedDataSet.DaysSinceEpochInfos, Epoch);
 }
