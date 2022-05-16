@@ -6,6 +6,8 @@ namespace Zorglub.Testing.Data.Unbounded;
 using Zorglub.Testing.Data.Schemas;
 using Zorglub.Time.Hemerology;
 
+using static Zorglub.Testing.Data.Extensions.TheoryDataHelpers;
+
 /// <summary>
 /// Provides test data for the (unbounded) Coptic calendar and related date types.
 /// </summary>
@@ -17,8 +19,15 @@ public sealed class Coptic12CalendarDataSet :
     public static Coptic12CalendarDataSet Instance { get; } = new();
 
     private TheoryData<DayNumberInfo>? _dayNumberInfoData;
-    public override TheoryData<DayNumberInfo> DayNumberInfoData =>
-        _dayNumberInfoData ??= MapToDayNumberInfoData(Coptic12DataSet.DaysSinceRataDieInfos);
+    public override TheoryData<DayNumberInfo> DayNumberInfoData
+    {
+        get
+        {
+            return _dayNumberInfoData ??= Coptic12DataSet.DaysSinceRataDieInfos.MapToTheoryData(Map);
+
+            static DayNumberInfo Map(DaysSinceRataDieInfo x) => x.ToDayNumberInfo();
+        }
+    }
 
     public TheoryData<EpagomenalDayInfo> EpagomenalDayInfoData => DataSet.EpagomenalDayInfoData;
 }
@@ -34,8 +43,15 @@ public sealed class Coptic13CalendarDataSet :
     public static Coptic13CalendarDataSet Instance { get; } = new();
 
     private TheoryData<DayNumberInfo>? _dayNumberInfoData;
-    public override TheoryData<DayNumberInfo> DayNumberInfoData =>
-        _dayNumberInfoData ??= MapToDayNumberInfoData(Coptic13DataSet.DaysSinceRataDieInfos);
+    public override TheoryData<DayNumberInfo> DayNumberInfoData
+    {
+        get
+        {
+            return _dayNumberInfoData ??= Coptic13DataSet.DaysSinceRataDieInfos.MapToTheoryData(Map);
+
+            static DayNumberInfo Map(DaysSinceRataDieInfo x) => x.ToDayNumberInfo();
+        }
+    }
 
     public TheoryData<EpagomenalDayInfo> EpagomenalDayInfoData => DataSet.EpagomenalDayInfoData;
 }

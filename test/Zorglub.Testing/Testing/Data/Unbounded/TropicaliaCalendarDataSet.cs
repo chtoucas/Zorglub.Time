@@ -18,8 +18,15 @@ public sealed class TropicaliaCalendarDataSet :
     public static TropicaliaCalendarDataSet Instance { get; } = new();
 
     private TheoryData<DayNumberInfo>? _dayNumberInfoData;
-    public override TheoryData<DayNumberInfo> DayNumberInfoData =>
-        _dayNumberInfoData ??= MapToDayNumberInfoData(TropicaliaDataSet.DaysSinceRataDieInfos);
+    public override TheoryData<DayNumberInfo> DayNumberInfoData
+    {
+        get
+        {
+            return _dayNumberInfoData ??= TropicaliaDataSet.DaysSinceRataDieInfos.MapToTheoryData(Map);
+
+            static DayNumberInfo Map(DaysSinceRataDieInfo x) => x.ToDayNumberInfo();
+        }
+    }
 }
 
 /// <summary>

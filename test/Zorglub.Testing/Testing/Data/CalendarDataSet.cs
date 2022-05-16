@@ -63,36 +63,6 @@ public abstract class CalendarDataSet<TDataSet> : ICalendarDataSet
     #region Helpers
 
     /// <summary>
-    /// Converts a sequence of <see cref="DaysSinceOriginInfo"/> to a set of data of type
-    /// <see cref="DayNumberInfo"/>.
-    /// </summary>
-    [Pure]
-    protected static TheoryData<DayNumberInfo> MapToDayNumberInfoData(
-        IEnumerable<DaysSinceOriginInfo> source, DayNumber origin)
-    {
-        Requires.NotNull(source);
-
-        var data = new TheoryData<DayNumberInfo>();
-        foreach (var item in source) { data.Add(item.ToDayNumberInfo(origin)); }
-        return data;
-    }
-
-    /// <summary>
-    /// Converts a sequence of <see cref="DaysSinceRataDieInfo"/> to a set of data of type
-    /// <see cref="DayNumberInfo"/>.
-    /// </summary>
-    [Pure]
-    public static TheoryData<DayNumberInfo> MapToDayNumberInfoData(
-        IEnumerable<DaysSinceRataDieInfo> source)
-    {
-        Requires.NotNull(source);
-
-        var data = new TheoryData<DayNumberInfo>();
-        foreach (var item in source) { data.Add(item.ToDayNumberInfo()); }
-        return data;
-    }
-
-    /// <summary>
     /// Converts a sequence of <see cref="DaysSinceRataDieInfo"/> to a set of data of type
     /// <see cref="DayNumberInfo"/>.
     /// </summary>

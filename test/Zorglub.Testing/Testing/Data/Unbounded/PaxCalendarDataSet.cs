@@ -6,6 +6,8 @@ namespace Zorglub.Testing.Data.Unbounded;
 using Zorglub.Testing.Data.Schemas;
 using Zorglub.Time.Hemerology;
 
+using static Zorglub.Testing.Data.Extensions.TheoryDataHelpers;
+
 /// <summary>
 /// Provides test data for the (unbounded) Pax calendar and related date types.
 /// </summary>
@@ -16,8 +18,15 @@ public sealed class PaxCalendarDataSet : CalendarDataSet<PaxDataSet>, ISingleton
     public static PaxCalendarDataSet Instance { get; } = new();
 
     private TheoryData<DayNumberInfo>? _dayNumberInfoData;
-    public override TheoryData<DayNumberInfo> DayNumberInfoData =>
-        _dayNumberInfoData ??= MapToDayNumberInfoData(PaxDataSet.DaysSinceZeroInfos, DayNumber.Zero);
+    public override TheoryData<DayNumberInfo> DayNumberInfoData
+    {
+        get
+        {
+            return _dayNumberInfoData ??= PaxDataSet.DaysSinceZeroInfos.MapToTheoryData(Map);
+
+            static DayNumberInfo Map(DaysSinceOriginInfo x) => x.ToDayNumberInfo(DayNumber.Zero);
+        }
+    }
 
     // Day number, year, week of the year, day of the week.
     public static TheoryData<DayNumber, int, int, DayOfWeek> MoreDayNumberInfoData =>

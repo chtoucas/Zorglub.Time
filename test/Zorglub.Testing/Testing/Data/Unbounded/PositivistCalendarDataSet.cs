@@ -6,6 +6,8 @@ namespace Zorglub.Testing.Data.Unbounded;
 using Zorglub.Testing.Data.Schemas;
 using Zorglub.Time.Hemerology;
 
+using static Zorglub.Testing.Data.Extensions.TheoryDataHelpers;
+
 /// <summary>
 /// Provides test data for the (unbounded) Positivist calendar and related date types.
 /// </summary>
@@ -17,6 +19,13 @@ public sealed class PositivistCalendarDataSet :
     public static PositivistCalendarDataSet Instance { get; } = new();
 
     private TheoryData<DayNumberInfo>? _dayNumberInfoData;
-    public override TheoryData<DayNumberInfo> DayNumberInfoData =>
-        _dayNumberInfoData ??= MapToDayNumberInfoData(PositivistDataSet.DaysSinceZeroInfos, DayNumber.Zero);
+    public override TheoryData<DayNumberInfo> DayNumberInfoData
+    {
+        get
+        {
+            return _dayNumberInfoData ??= PositivistDataSet.DaysSinceZeroInfos.MapToTheoryData(Map);
+
+            static DayNumberInfo Map(DaysSinceOriginInfo x) => x.ToDayNumberInfo(DayNumber.Zero);
+        }
+    }
 }

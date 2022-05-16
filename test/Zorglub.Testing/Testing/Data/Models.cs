@@ -26,6 +26,7 @@ namespace Zorglub.Testing.Data;
 
 public readonly record struct YearDaysSinceEpoch(int Year, int DaysSinceEpoch)
 {
+    [Pure]
     public YearDayNumber ToYearDayNumber(DayNumber epoch) =>
         new(Year, epoch + DaysSinceEpoch);
 }
@@ -42,21 +43,25 @@ public readonly record struct DaysSinceEpochInfo(int DaysSinceEpoch, int Year, i
         ymd = Yemoda;
     }
 
+    [Pure]
     public DayNumberInfo ToDayNumberInfo(DayNumber epoch) =>
         new(epoch + DaysSinceEpoch, Year, Month, Day);
 }
 
 public readonly record struct DaysSinceOriginInfo(int DaysSinceOrigin, int Year, int Month, int Day)
 {
+    [Pure]
     public DayNumberInfo ToDayNumberInfo(DayNumber origin) =>
         new(origin + DaysSinceOrigin, Year, Month, Day);
 }
 
 public readonly record struct DaysSinceRataDieInfo(int DaysSinceRataDie, int Year, int Month, int Day)
 {
+    [Pure]
     public DayNumberInfo ToDayNumberInfo() =>
         new(DayZero.RataDie + DaysSinceRataDie, Year, Month, Day);
 
+    //[Pure]
     //public DayNumberInfo ToDayNumberInfo(DayNumber epoch, DayNumber newEpoch) =>
     //    new(DayZero.RataDie + (newEpoch - epoch) + DaysSinceRataDie, Year, Month, Day);
 }
