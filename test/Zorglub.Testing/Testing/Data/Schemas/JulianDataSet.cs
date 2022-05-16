@@ -113,48 +113,51 @@ public partial class JulianDataSet // Infos
         new(9, 12, 365, false),
     };
 
-    internal static List<DaysSinceRataDieInfo> DaysSinceRataDieInfos { get; } = new()
+    internal static IEnumerable<DaysSinceRataDieInfo> DaysSinceRataDieInfos
     {
-        // Epoch.
-        new(-1, 1, 1, 1),
-        new(0, 1, 1, 2),
-        new(1, 1, 1, 3),
+        get
+        {
+            // Epoch.
+            yield return new(-1, 1, 1, 1);
+            yield return new(0, 1, 1, 2);
+            yield return new(1, 1, 1, 3);
 
-        // D.&R. Appendix C.
-        new(-214_193, -586, 7, 30),
-        new(-61_387, -168, 12, 8),
-        new(25_469, 70, 9, 26),
-        new(49_217, 135, 10, 3),
-        new(171_307, 470, 1, 7),
-        new(210_155, 576, 5, 18),
-        new(253_427, 694, 11, 7),
-        new(369_740, 1013, 4, 19),
-        new(400_085, 1096, 5, 18),
-        new(434_355, 1190, 3, 16),
-        new(452_605, 1240, 3, 3),
-        new(470_160, 1288, 3, 26),
-        new(473_837, 1298, 4, 20),
-        new(507_850, 1391, 6, 4),
-        new(524_156, 1436, 1, 25),
-        new(544_676, 1492, 3, 31),
-        new(567_118, 1553, 9, 9),
-        new(569_477, 1560, 2, 24),
-        new(601_716, 1648, 5, 31),
-        new(613_424, 1680, 6, 20),
-        new(626_596, 1716, 7, 13),
-        new(645_554, 1768, 6, 8),
-        new(664_224, 1819, 7, 21),
-        new(671_401, 1839, 3, 15),
-        new(694_799, 1903, 4, 6),
-        new(704_424, 1929, 8, 12),
-        new(708_842, 1941, 9, 16),
-        new(709_409, 1943, 4, 6),
-        new(709_580, 1943, 9, 24),
-        new(727_274, 1992, 3, 4),
-        new(728_714, 1996, 2, 12),
-        new(744_313, 2038, 10, 28),
-        new(764_652, 2094, 7, 5),
-    };
+            // D.&R. Appendix C.
+            yield return new(-214_193, -586, 7, 30);
+            yield return new(-61_387, -168, 12, 8);
+            yield return new(25_469, 70, 9, 26);
+            yield return new(49_217, 135, 10, 3);
+            yield return new(171_307, 470, 1, 7);
+            yield return new(210_155, 576, 5, 18);
+            yield return new(253_427, 694, 11, 7);
+            yield return new(369_740, 1013, 4, 19);
+            yield return new(400_085, 1096, 5, 18);
+            yield return new(434_355, 1190, 3, 16);
+            yield return new(452_605, 1240, 3, 3);
+            yield return new(470_160, 1288, 3, 26);
+            yield return new(473_837, 1298, 4, 20);
+            yield return new(507_850, 1391, 6, 4);
+            yield return new(524_156, 1436, 1, 25);
+            yield return new(544_676, 1492, 3, 31);
+            yield return new(567_118, 1553, 9, 9);
+            yield return new(569_477, 1560, 2, 24);
+            yield return new(601_716, 1648, 5, 31);
+            yield return new(613_424, 1680, 6, 20);
+            yield return new(626_596, 1716, 7, 13);
+            yield return new(645_554, 1768, 6, 8);
+            yield return new(664_224, 1819, 7, 21);
+            yield return new(671_401, 1839, 3, 15);
+            yield return new(694_799, 1903, 4, 6);
+            yield return new(704_424, 1929, 8, 12);
+            yield return new(708_842, 1941, 9, 16);
+            yield return new(709_409, 1943, 4, 6);
+            yield return new(709_580, 1943, 9, 24);
+            yield return new(727_274, 1992, 3, 4);
+            yield return new(728_714, 1996, 2, 12);
+            yield return new(744_313, 2038, 10, 28);
+            yield return new(764_652, 2094, 7, 5);
+        }
+    }
 }
 
 public partial class JulianDataSet // Start and end of year

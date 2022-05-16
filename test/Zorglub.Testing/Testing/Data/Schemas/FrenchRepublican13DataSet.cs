@@ -217,46 +217,49 @@ public partial class FrenchRepublican13DataSet // Infos
         new(8000, 13, 365, false),
     };
 
-    internal static List<DaysSinceRataDieInfo> DaysSinceRataDieInfos { get; } = new()
+    internal static IEnumerable<DaysSinceRataDieInfo> DaysSinceRataDieInfos
     {
-        // Epoch.
-        new(654_415, 1, 1, 1),
+        get
+        {
+            // Epoch.
+            yield return new(654_415, 1, 1, 1);
 
-        // D.&R. Appendix C.
-        new(-214_193, -2378, 11, 4),
-        new(-61_387, -1959, 3, 13),
-        new(25_469, -1721, 1, 2),
-        new(49_217, -1656, 1, 10),
-        new(171_307, -1322, 4, 18),
-        new(210_155, -1216, 9, 1),
-        new(253_427, -1097, 2, 19),
-        new(369_740, -779, 8, 4),
-        new(400_085, -696, 9, 5),
-        new(434_355, -602, 7, 1),
-        new(452_605, -552, 6, 20),
-        new(470_160, -504, 7, 13),
-        new(473_837, -494, 8, 8),
-        new(507_850, -401, 9, 23),
-        new(524_156, -356, 5, 13),
-        new(544_676, -300, 7, 19),
-        new(567_118, -239, 13, 1),
-        new(569_477, -232, 6, 14),
-        new(601_716, -144, 9, 22),
-        new(613_424, -112, 10, 12),
-        new(626_596, -76, 11, 6),
-        new(645_554, -24, 10, 1),
-        new(664_224, 27, 11, 14),
-        new(671_401, 47, 7, 6),
-        new(694_799, 111, 7, 29),
-        new(704_424, 137, 12, 7),
-        new(708_842, 150, 1, 7),
-        new(709_409, 151, 7, 29),
-        new(709_580, 152, 1, 15),
-        new(727_274, 200, 6, 27),
-        new(728_714, 204, 6, 7),
-        new(744_313, 247, 2, 20),
-        new(764_652, 302, 11, 1),
-    };
+            // D.&R. Appendix C.
+            yield return new(-214_193, -2378, 11, 4);
+            yield return new(-61_387, -1959, 3, 13);
+            yield return new(25_469, -1721, 1, 2);
+            yield return new(49_217, -1656, 1, 10);
+            yield return new(171_307, -1322, 4, 18);
+            yield return new(210_155, -1216, 9, 1);
+            yield return new(253_427, -1097, 2, 19);
+            yield return new(369_740, -779, 8, 4);
+            yield return new(400_085, -696, 9, 5);
+            yield return new(434_355, -602, 7, 1);
+            yield return new(452_605, -552, 6, 20);
+            yield return new(470_160, -504, 7, 13);
+            yield return new(473_837, -494, 8, 8);
+            yield return new(507_850, -401, 9, 23);
+            yield return new(524_156, -356, 5, 13);
+            yield return new(544_676, -300, 7, 19);
+            yield return new(567_118, -239, 13, 1);
+            yield return new(569_477, -232, 6, 14);
+            yield return new(601_716, -144, 9, 22);
+            yield return new(613_424, -112, 10, 12);
+            yield return new(626_596, -76, 11, 6);
+            yield return new(645_554, -24, 10, 1);
+            yield return new(664_224, 27, 11, 14);
+            yield return new(671_401, 47, 7, 6);
+            yield return new(694_799, 111, 7, 29);
+            yield return new(704_424, 137, 12, 7);
+            yield return new(708_842, 150, 1, 7);
+            yield return new(709_409, 151, 7, 29);
+            yield return new(709_580, 152, 1, 15);
+            yield return new(727_274, 200, 6, 27);
+            yield return new(728_714, 204, 6, 7);
+            yield return new(744_313, 247, 2, 20);
+            yield return new(764_652, 302, 11, 1);
+        }
+    }
 }
 
 public partial class FrenchRepublican13DataSet // Start and end of year

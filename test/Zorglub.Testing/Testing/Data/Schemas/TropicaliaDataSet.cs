@@ -128,66 +128,69 @@ public partial class TropicaliaDataSet // Infos
         new(LeapYear, 12, 31, 335, false),
     };
 
-    internal static List<DaysSinceRataDieInfo> DaysSinceRataDieInfos { get; } = new()
+    internal static IEnumerable<DaysSinceRataDieInfo> DaysSinceRataDieInfos
     {
-        new(-1, 0, 12, 30),
-        new(0, 0, 12, 31),
-        new(1, 1, 1, 1),
-        new(2, 1, 1, 2),
-        new(365, 1, 12, 31),
-        new(366, 2, 1, 1),
-        new(731, 3, 1, 1),
-        new(1096, 4, 1, 1),
-        new(1462, 5, 1, 1),
+        get
+        {
+            yield return new(-1, 0, 12, 30);
+            yield return new(0, 0, 12, 31);
+            yield return new(1, 1, 1, 1);
+            yield return new(2, 1, 1, 2);
+            yield return new(365, 1, 12, 31);
+            yield return new(366, 2, 1, 1);
+            yield return new(731, 3, 1, 1);
+            yield return new(1096, 4, 1, 1);
+            yield return new(1462, 5, 1, 1);
 
-        // 128-year cycle.
-        new(46_751, 128, 12, 31),
-        new(93_502, 256, 12, 31),
-        new(140_253, 384, 12, 31),
-        new(187_004, 512, 12, 31),
-        new(233_755, 640, 12, 31),
-        new(280_506, 768, 12, 31),
-        new(327_257, 896, 12, 31),
-        new(374_008, 1024, 12, 31),
-        new(420_759, 1152, 12, 31),
-        new(467_510, 1280, 12, 31),
+            // 128-year cycle.
+            yield return new(46_751, 128, 12, 31);
+            yield return new(93_502, 256, 12, 31);
+            yield return new(140_253, 384, 12, 31);
+            yield return new(187_004, 512, 12, 31);
+            yield return new(233_755, 640, 12, 31);
+            yield return new(280_506, 768, 12, 31);
+            yield return new(327_257, 896, 12, 31);
+            yield return new(374_008, 1024, 12, 31);
+            yield return new(420_759, 1152, 12, 31);
+            yield return new(467_510, 1280, 12, 31);
 
-        // REVIEWnew(data): taken from the Gregorian calendar.
-        // D.&R. p. 49.
-        new(710_347, 1945, 11, 12),
-        // D.&R. Appendix C.
-        new(25_469, 70, 9, 24),
-        new(49_217, 135, 10, 2),
-        new(171_307, 470, 1, 8),
-        new(210_155, 576, 5, 20),
-        new(253_427, 694, 11, 10),
-        new(369_740, 1013, 4, 24), // -1 day
-        new(400_085, 1096, 5, 24),
-        new(434_355, 1190, 3, 23),
-        new(452_605, 1240, 3, 10),
-        new(470_160, 1288, 4, 3), // +1 day
-        new(473_837, 1298, 4, 28), // +1 day
-        new(507_850, 1391, 6, 12),
-        new(524_156, 1436, 2, 3),
-        new(544_676, 1492, 4, 9),
-        new(567_118, 1553, 9, 19),
-        new(569_477, 1560, 3, 5),
-        new(601_716, 1648, 6, 10),
-        new(613_424, 1680, 7, 1), // +1 day
-        new(626_596, 1716, 7, 24),
-        new(645_554, 1768, 6, 19),
-        new(664_224, 1819, 8, 2),
-        new(671_401, 1839, 3, 27),
-        new(694_799, 1903, 4, 18), // -1 day
-        new(704_424, 1929, 8, 25),
-        new(708_842, 1941, 9, 29),
-        new(709_409, 1943, 4, 19),
-        new(709_580, 1943, 10, 7),
-        new(727_274, 1992, 3, 17),
-        new(728_714, 1996, 2, 25),
-        new(744_313, 2038, 11, 10),
-        new(764_652, 2094, 7, 19), // +1 day
-    };
+            // REVIEWyield return new(data): taken from the Gregorian calendar.
+            // D.&R. p. 49.
+            yield return new(710_347, 1945, 11, 12);
+            // D.&R. Appendix C.
+            yield return new(25_469, 70, 9, 24);
+            yield return new(49_217, 135, 10, 2);
+            yield return new(171_307, 470, 1, 8);
+            yield return new(210_155, 576, 5, 20);
+            yield return new(253_427, 694, 11, 10);
+            yield return new(369_740, 1013, 4, 24); // -1 day
+            yield return new(400_085, 1096, 5, 24);
+            yield return new(434_355, 1190, 3, 23);
+            yield return new(452_605, 1240, 3, 10);
+            yield return new(470_160, 1288, 4, 3); // +1 day
+            yield return new(473_837, 1298, 4, 28); // +1 day
+            yield return new(507_850, 1391, 6, 12);
+            yield return new(524_156, 1436, 2, 3);
+            yield return new(544_676, 1492, 4, 9);
+            yield return new(567_118, 1553, 9, 19);
+            yield return new(569_477, 1560, 3, 5);
+            yield return new(601_716, 1648, 6, 10);
+            yield return new(613_424, 1680, 7, 1); // +1 day
+            yield return new(626_596, 1716, 7, 24);
+            yield return new(645_554, 1768, 6, 19);
+            yield return new(664_224, 1819, 8, 2);
+            yield return new(671_401, 1839, 3, 27);
+            yield return new(694_799, 1903, 4, 18); // -1 day
+            yield return new(704_424, 1929, 8, 25);
+            yield return new(708_842, 1941, 9, 29);
+            yield return new(709_409, 1943, 4, 19);
+            yield return new(709_580, 1943, 10, 7);
+            yield return new(727_274, 1992, 3, 17);
+            yield return new(728_714, 1996, 2, 25);
+            yield return new(744_313, 2038, 11, 10);
+            yield return new(764_652, 2094, 7, 19); // +1 day
+        }
+    }
 }
 
 public partial class TropicaliaDataSet // Start and end of year

@@ -92,76 +92,79 @@ public partial class LunisolarDataSet // Infos
         new(LeapYear, 13, 384, true),
     };
 
-    internal static List<DaysSinceRataDieInfo> DaysSinceRataDieInfos { get; } = new()
+    internal static IEnumerable<DaysSinceRataDieInfo> DaysSinceRataDieInfos
     {
-        // Year -4 new(leap).
-        new(-1829, -4, 1, 1),
-        new(-1476, -4, 12, 29),
-        new(-1475, -4, 13, 1),
-        new(-1446, -4, 13, 30),
+        get
+        {
+            // Year -4 yield return new(leap).
+            yield return new(-1829, -4, 1, 1);
+            yield return new(-1476, -4, 12, 29);
+            yield return new(-1475, -4, 13, 1);
+            yield return new(-1446, -4, 13, 30);
 
-        // Year -3.
-        new(-1445, -3, 1, 1),
-        new(-1092, -3, 12, 29),
+            // Year -3.
+            yield return new(-1445, -3, 1, 1);
+            yield return new(-1092, -3, 12, 29);
 
-        // Year -2.
-        new(-1091, -2, 1, 1),
-        new(-738, -2, 12, 29),
+            // Year -2.
+            yield return new(-1091, -2, 1, 1);
+            yield return new(-738, -2, 12, 29);
 
-        // Year -1.
-        new(-737, -1, 1, 1),
-        new(-384, -1, 12, 29),
+            // Year -1.
+            yield return new(-737, -1, 1, 1);
+            yield return new(-384, -1, 12, 29);
 
-        // Year 0 new(leap).
-        new(-383, 0, 1, 1),
-        new(-30, 0, 12, 29),
-        new(-29, 0, 13, 1),
-        new(0, 0, 13, 30),
+            // Year 0 yield return new(leap).
+            yield return new(-383, 0, 1, 1);
+            yield return new(-30, 0, 12, 29);
+            yield return new(-29, 0, 13, 1);
+            yield return new(0, 0, 13, 30);
 
-        // Year 1.
-        new(1, 1, 1, 1),
-        new(30, 1, 1, 30),
-        new(31, 1, 2, 1),
-        new(59, 1, 2, 29),
-        new(60, 1, 3, 1),
-        new(89, 1, 3, 30),
-        new(90, 1, 4, 1),
-        new(118, 1, 4, 29),
-        new(119, 1, 5, 1),
-        new(148, 1, 5, 30),
-        new(149, 1, 6, 1),
-        new(177, 1, 6, 29),
-        new(178, 1, 7, 1),
-        new(207, 1, 7, 30),
-        new(208, 1, 8, 1),
-        new(236, 1, 8, 29),
-        new(237, 1, 9, 1),
-        new(266, 1, 9, 30),
-        new(267, 1, 10, 1),
-        new(295, 1, 10, 29),
-        new(296, 1, 11, 1),
-        new(325, 1, 11, 30),
-        new(326, 1, 12, 1),
-        new(354, 1, 12, 29),
+            // Year 1.
+            yield return new(1, 1, 1, 1);
+            yield return new(30, 1, 1, 30);
+            yield return new(31, 1, 2, 1);
+            yield return new(59, 1, 2, 29);
+            yield return new(60, 1, 3, 1);
+            yield return new(89, 1, 3, 30);
+            yield return new(90, 1, 4, 1);
+            yield return new(118, 1, 4, 29);
+            yield return new(119, 1, 5, 1);
+            yield return new(148, 1, 5, 30);
+            yield return new(149, 1, 6, 1);
+            yield return new(177, 1, 6, 29);
+            yield return new(178, 1, 7, 1);
+            yield return new(207, 1, 7, 30);
+            yield return new(208, 1, 8, 1);
+            yield return new(236, 1, 8, 29);
+            yield return new(237, 1, 9, 1);
+            yield return new(266, 1, 9, 30);
+            yield return new(267, 1, 10, 1);
+            yield return new(295, 1, 10, 29);
+            yield return new(296, 1, 11, 1);
+            yield return new(325, 1, 11, 30);
+            yield return new(326, 1, 12, 1);
+            yield return new(354, 1, 12, 29);
 
-        // Year 2.
-        new(355, 2, 1, 1),
-        new(708, 2, 12, 29),
+            // Year 2.
+            yield return new(355, 2, 1, 1);
+            yield return new(708, 2, 12, 29);
 
-        // Year 3.
-        new(709, 3, 1, 1),
-        new(1062, 3, 12, 29),
+            // Year 3.
+            yield return new(709, 3, 1, 1);
+            yield return new(1062, 3, 12, 29);
 
-        // Year 4 new(leap).
-        new(1063, 4, 1, 1),
-        new(1416, 4, 12, 29),
-        new(1417, 4, 13, 1),
-        new(1446, 4, 13, 30),
+            // Year 4 yield return new(leap).
+            yield return new(1063, 4, 1, 1);
+            yield return new(1416, 4, 12, 29);
+            yield return new(1417, 4, 13, 1);
+            yield return new(1446, 4, 13, 30);
 
-        // Year 5.
-        new(1447, 5, 1, 1),
-        new(1800, 5, 12, 29),
-    };
+            // Year 5.
+            yield return new(1447, 5, 1, 1);
+            yield return new(1800, 5, 12, 29);
+        }
+    }
 }
 
 public partial class LunisolarDataSet // Start and end of year

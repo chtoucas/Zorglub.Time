@@ -79,53 +79,56 @@ public partial class Egyptian12DataSet // Infos
         new(SampleYear, 12, 365, false),
     };
 
-    internal static List<DaysSinceRataDieInfo> DaysSinceRataDieInfos { get; } = new()
+    internal static IEnumerable<DaysSinceRataDieInfo> DaysSinceRataDieInfos
     {
-        // Epoch.
-        new(-272_787, 1, 1, 1),
+        get
+        {
+            // Epoch.
+            yield return new(-272_787, 1, 1, 1);
 
-        // Epagomenal days.
-        new(613_428, 2428, 12, 31),
-        new(613_429, 2428, 12, 32),
-        new(613_430, 2428, 12, 33),
-        new(613_431, 2428, 12, 34),
-        new(613_432, 2428, 12, 35),
+            // Epagomenal days.
+            yield return new(613_428, 2428, 12, 31);
+            yield return new(613_429, 2428, 12, 32);
+            yield return new(613_430, 2428, 12, 33);
+            yield return new(613_431, 2428, 12, 34);
+            yield return new(613_432, 2428, 12, 35);
 
-        // D.&R. Appendix C.
-        new(-214_193, 161, 7, 15),
-        new(-61_387, 580, 3, 6),
-        new(25_469, 818, 2, 22),
-        new(49_217, 883, 3, 15),
-        new(171_307, 1217, 9, 15),
-        new(210_155, 1324, 2, 18),
-        new(253_427, 1442, 9, 10),
-        new(369_740, 1761, 5, 8),
-        new(400_085, 1844, 6, 28),
-        new(434_355, 1938, 5, 18),
-        new(452_605, 1988, 5, 18),
-        new(470_160, 2036, 6, 23),
-        new(473_837, 2046, 7, 20),
-        new(507_850, 2139, 9, 28),
-        new(524_156, 2184, 5, 29),
-        new(544_676, 2240, 8, 19),
-        new(567_118, 2302, 2, 11),
-        new(569_477, 2308, 7, 30),
-        new(601_716, 2396, 11, 29),
-        new(613_424, 2428, 12, 27),
-        new(626_596, 2465, 1, 24),
-        new(645_554, 2517, 1, 2),
-        new(664_224, 2568, 2, 27),
-        new(671_401, 2587, 10, 29),
-        new(694_799, 2651, 12, 7),
-        new(704_424, 2678, 4, 17),
-        new(708_842, 2690, 5, 25),
-        new(709_409, 2691, 12, 17),
-        new(709_580, 2692, 6, 3),
-        new(727_274, 2740, 11, 27),
-        new(728_714, 2744, 11, 7),
-        new(744_313, 2787, 8, 1),
-        new(764_652, 2843, 4, 20),
-    };
+            // D.&R. Appendix C.
+            yield return new(-214_193, 161, 7, 15);
+            yield return new(-61_387, 580, 3, 6);
+            yield return new(25_469, 818, 2, 22);
+            yield return new(49_217, 883, 3, 15);
+            yield return new(171_307, 1217, 9, 15);
+            yield return new(210_155, 1324, 2, 18);
+            yield return new(253_427, 1442, 9, 10);
+            yield return new(369_740, 1761, 5, 8);
+            yield return new(400_085, 1844, 6, 28);
+            yield return new(434_355, 1938, 5, 18);
+            yield return new(452_605, 1988, 5, 18);
+            yield return new(470_160, 2036, 6, 23);
+            yield return new(473_837, 2046, 7, 20);
+            yield return new(507_850, 2139, 9, 28);
+            yield return new(524_156, 2184, 5, 29);
+            yield return new(544_676, 2240, 8, 19);
+            yield return new(567_118, 2302, 2, 11);
+            yield return new(569_477, 2308, 7, 30);
+            yield return new(601_716, 2396, 11, 29);
+            yield return new(613_424, 2428, 12, 27);
+            yield return new(626_596, 2465, 1, 24);
+            yield return new(645_554, 2517, 1, 2);
+            yield return new(664_224, 2568, 2, 27);
+            yield return new(671_401, 2587, 10, 29);
+            yield return new(694_799, 2651, 12, 7);
+            yield return new(704_424, 2678, 4, 17);
+            yield return new(708_842, 2690, 5, 25);
+            yield return new(709_409, 2691, 12, 17);
+            yield return new(709_580, 2692, 6, 3);
+            yield return new(727_274, 2740, 11, 27);
+            yield return new(728_714, 2744, 11, 7);
+            yield return new(744_313, 2787, 8, 1);
+            yield return new(764_652, 2843, 4, 20);
+        }
+    }
 }
 
 public partial class Egyptian12DataSet // Start and end of year

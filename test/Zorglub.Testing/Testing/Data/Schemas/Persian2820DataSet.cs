@@ -122,63 +122,66 @@ public partial class Persian2820DataSet // Infos
         new(3294, 12, 366, true), // leap
     };
 
-    internal static List<DaysSinceRataDieInfo> DaysSinceRataDieInfos { get; } = new()
+    internal static IEnumerable<DaysSinceRataDieInfo> DaysSinceRataDieInfos
     {
-        // Epoch.
-        new(226_529, -1, 12, 29),
-        new(226_530, 0, 1, 1),
-        new(226_895, 0, 12, 30),
-        new(226_896, 1, 1, 1),
-        new(226_897, 1, 1, 2),
-        new(227_260, 1, 12, 29),
-        new(227_261, 2, 1, 1),
+        get
+        {
+            // Epoch.
+            yield return new(226_529, -1, 12, 29);
+            yield return new(226_530, 0, 1, 1);
+            yield return new(226_895, 0, 12, 30);
+            yield return new(226_896, 1, 1, 1);
+            yield return new(226_897, 1, 1, 2);
+            yield return new(227_260, 1, 12, 29);
+            yield return new(227_261, 2, 1, 1);
 
-        // Special data to test the limits of a 2820-year cycle.
-        // See PersianData.GetYearnew().
-        // First 2820-year cycle: years 1-474.
-        new(400_020, 474, 12, 30),
-        // Second cycle.
-        new(400_021, 475, 1, 1),
-        new(1_430_003, 3294, 12, 30),
-        // Third cycle.
-        new(1_430_004, 3295, 1, 1),
-        new(2_459_986, 6114, 12, 30),
+            // Special data to test the limits of a 2820-year cycle.
+            // See PersianData.GetYearyield return new().
+            // First 2820-year cycle: years 1-474.
+            yield return new(400_020, 474, 12, 30);
+            // Second cycle.
+            yield return new(400_021, 475, 1, 1);
+            yield return new(1_430_003, 3294, 12, 30);
+            // Third cycle.
+            yield return new(1_430_004, 3295, 1, 1);
+            yield return new(2_459_986, 6114, 12, 30);
 
-        // D.&R. Appendix C.
-        new(-214_193, -1207, 5, 1),
-        new(-61_387, -789, 9, 14),
-        new(25_469, -551, 7, 2),
-        new(49_217, -486, 7, 9),
-        new(171_307, -152, 10, 18),
-        new(210_155, -45, 2, 30),
-        new(253_427, 73, 8, 19),
-        new(369_740, 392, 2, 5),
-        new(400_085, 475, 3, 3),
-        new(434_355, 569, 1, 3),
-        new(452_605, 618, 12, 20),
-        new(470_160, 667, 1, 14),
-        new(473_837, 677, 2, 8),
-        new(507_850, 770, 3, 22),
-        new(524_156, 814, 11, 13),
-        new(544_676, 871, 1, 21),
-        new(567_118, 932, 6, 28),
-        new(569_477, 938, 12, 14),
-        new(601_716, 1027, 3, 21),
-        new(613_424, 1059, 4, 10),
-        new(626_596, 1095, 5, 2),
-        new(645_554, 1147, 3, 30),
-        new(664_224, 1198, 5, 10),
-        new(671_401, 1218, 1, 7),
-        new(694_799, 1282, 1, 29),
-        new(704_424, 1308, 6, 3),
-        new(708_842, 1320, 7, 7),
-        new(709_409, 1322, 1, 29),
-        new(709_580, 1322, 7, 14),
-        new(727_274, 1370, 12, 27),
-        new(728_714, 1374, 12, 6),
-        new(744_313, 1417, 8, 19),
-        new(764_652, 1473, 4, 28),
-    };
+            // D.&R. Appendix C.
+            yield return new(-214_193, -1207, 5, 1);
+            yield return new(-61_387, -789, 9, 14);
+            yield return new(25_469, -551, 7, 2);
+            yield return new(49_217, -486, 7, 9);
+            yield return new(171_307, -152, 10, 18);
+            yield return new(210_155, -45, 2, 30);
+            yield return new(253_427, 73, 8, 19);
+            yield return new(369_740, 392, 2, 5);
+            yield return new(400_085, 475, 3, 3);
+            yield return new(434_355, 569, 1, 3);
+            yield return new(452_605, 618, 12, 20);
+            yield return new(470_160, 667, 1, 14);
+            yield return new(473_837, 677, 2, 8);
+            yield return new(507_850, 770, 3, 22);
+            yield return new(524_156, 814, 11, 13);
+            yield return new(544_676, 871, 1, 21);
+            yield return new(567_118, 932, 6, 28);
+            yield return new(569_477, 938, 12, 14);
+            yield return new(601_716, 1027, 3, 21);
+            yield return new(613_424, 1059, 4, 10);
+            yield return new(626_596, 1095, 5, 2);
+            yield return new(645_554, 1147, 3, 30);
+            yield return new(664_224, 1198, 5, 10);
+            yield return new(671_401, 1218, 1, 7);
+            yield return new(694_799, 1282, 1, 29);
+            yield return new(704_424, 1308, 6, 3);
+            yield return new(708_842, 1320, 7, 7);
+            yield return new(709_409, 1322, 1, 29);
+            yield return new(709_580, 1322, 7, 14);
+            yield return new(727_274, 1370, 12, 27);
+            yield return new(728_714, 1374, 12, 6);
+            yield return new(744_313, 1417, 8, 19);
+            yield return new(764_652, 1473, 4, 28);
+        }
+    }
 }
 
 public partial class Persian2820DataSet // Start and end of year

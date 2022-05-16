@@ -266,65 +266,68 @@ public partial class GregorianDataSet // Infos
         new(CommonYear, 12, 31, 0),
     };
 
-    internal static List<DaysSinceRataDieInfo> DaysSinceRataDieInfos { get; } = new()
+    internal static IEnumerable<DaysSinceRataDieInfo> DaysSinceRataDieInfos
     {
-        // See also JulianData.DayNumbers.
-        new(-1, 0, 12, 30),
-        new(0, 0, 12, 31),
+        get
+        {
+            // See also JulianData.DayNumbers.
+            yield return new(-1, 0, 12, 30);
+            yield return new(0, 0, 12, 31);
 
-        // Epoch.
-        new(1, 1, 1, 1),
-        new(31, 1, 1, 31),
-        new(365, 1, 12, 31),
+            // Epoch.
+            yield return new(1, 1, 1, 1);
+            yield return new(31, 1, 1, 31);
+            yield return new(365, 1, 12, 31);
 
-        // 400-year cycle.
-        new(146_097, 400, 12, 31),
-        new(292_194, 800, 12, 31),
-        new(438_291, 1200, 12, 31),
-        new(584_388, 1600, 12, 31),
-        new(730_485, 2000, 12, 31),
-        new(876_582, 2400, 12, 31),
-        new(1460970, 4000, 12, 31),
-        new(2921940, 8000, 12, 31),
+            // 400-year cycle.
+            yield return new(146_097, 400, 12, 31);
+            yield return new(292_194, 800, 12, 31);
+            yield return new(438_291, 1200, 12, 31);
+            yield return new(584_388, 1600, 12, 31);
+            yield return new(730_485, 2000, 12, 31);
+            yield return new(876_582, 2400, 12, 31);
+            yield return new(1460970, 4000, 12, 31);
+            yield return new(2921940, 8000, 12, 31);
 
-        // D.&R. p. 49.
-        new(710_347, 1945, 11, 12),
+            // D.&R. p. 49.
+            yield return new(710_347, 1945, 11, 12);
 
-        // D.&R. Appendix C.
-        new(-214_193, -586, 7, 24),
-        new(-61_387, -168, 12, 5),
-        new(25_469, 70, 9, 24),
-        new(49_217, 135, 10, 2),
-        new(171_307, 470, 1, 8),
-        new(210_155, 576, 5, 20),
-        new(253_427, 694, 11, 10),
-        new(369_740, 1013, 4, 25),
-        new(400_085, 1096, 5, 24),
-        new(434_355, 1190, 3, 23),
-        new(452_605, 1240, 3, 10),
-        new(470_160, 1288, 4, 2),
-        new(473_837, 1298, 4, 27),
-        new(507_850, 1391, 6, 12),
-        new(524_156, 1436, 2, 3),
-        new(544_676, 1492, 4, 9),
-        new(567_118, 1553, 9, 19),
-        new(569_477, 1560, 3, 5),
-        new(601_716, 1648, 6, 10),
-        new(613_424, 1680, 6, 30),
-        new(626_596, 1716, 7, 24),
-        new(645_554, 1768, 6, 19),
-        new(664_224, 1819, 8, 2),
-        new(671_401, 1839, 3, 27),
-        new(694_799, 1903, 4, 19),
-        new(704_424, 1929, 8, 25),
-        new(708_842, 1941, 9, 29),
-        new(709_409, 1943, 4, 19),
-        new(709_580, 1943, 10, 7),
-        new(727_274, 1992, 3, 17),
-        new(728_714, 1996, 2, 25),
-        new(744_313, 2038, 11, 10),
-        new(764_652, 2094, 7, 18),
-    };
+            // D.&R. Appendix C.
+            yield return new(-214_193, -586, 7, 24);
+            yield return new(-61_387, -168, 12, 5);
+            yield return new(25_469, 70, 9, 24);
+            yield return new(49_217, 135, 10, 2);
+            yield return new(171_307, 470, 1, 8);
+            yield return new(210_155, 576, 5, 20);
+            yield return new(253_427, 694, 11, 10);
+            yield return new(369_740, 1013, 4, 25);
+            yield return new(400_085, 1096, 5, 24);
+            yield return new(434_355, 1190, 3, 23);
+            yield return new(452_605, 1240, 3, 10);
+            yield return new(470_160, 1288, 4, 2);
+            yield return new(473_837, 1298, 4, 27);
+            yield return new(507_850, 1391, 6, 12);
+            yield return new(524_156, 1436, 2, 3);
+            yield return new(544_676, 1492, 4, 9);
+            yield return new(567_118, 1553, 9, 19);
+            yield return new(569_477, 1560, 3, 5);
+            yield return new(601_716, 1648, 6, 10);
+            yield return new(613_424, 1680, 6, 30);
+            yield return new(626_596, 1716, 7, 24);
+            yield return new(645_554, 1768, 6, 19);
+            yield return new(664_224, 1819, 8, 2);
+            yield return new(671_401, 1839, 3, 27);
+            yield return new(694_799, 1903, 4, 19);
+            yield return new(704_424, 1929, 8, 25);
+            yield return new(708_842, 1941, 9, 29);
+            yield return new(709_409, 1943, 4, 19);
+            yield return new(709_580, 1943, 10, 7);
+            yield return new(727_274, 1992, 3, 17);
+            yield return new(728_714, 1996, 2, 25);
+            yield return new(744_313, 2038, 11, 10);
+            yield return new(764_652, 2094, 7, 18);
+        }
+    }
 }
 
 public partial class GregorianDataSet // Start and end of year

@@ -154,46 +154,49 @@ public partial class TabularIslamicDataSet // Infos
         new(30, 12, 354, false),
     };
 
-    internal static List<DaysSinceRataDieInfo> DaysSinceRataDieInfos { get; } = new()
+    internal static IEnumerable<DaysSinceRataDieInfo> DaysSinceRataDieInfos
     {
-        // Epoch.
-        new(227_015, 1, 1, 1),
+        get
+        {
+            // Epoch.
+            yield return new(227_015, 1, 1, 1);
 
-        // D.&R. Appendix C.
-        new(-214_193, -1245, 12, 9),
-        new(-61_387, -813, 2, 23),
-        new(25_469, -568, 4, 1),
-        new(49_217, -501, 4, 6),
-        new(171_307, -157, 10, 17),
-        new(210_155, -47, 6, 3),
-        new(253_427, 75, 7, 13),
-        new(369_740, 403, 10, 5),
-        new(400_085, 489, 5, 22),
-        new(434_355, 586, 2, 7),
-        new(452_605, 637, 8, 7),
-        new(470_160, 687, 2, 20),
-        new(473_837, 697, 7, 7),
-        new(507_850, 793, 7, 1),
-        new(524_156, 839, 7, 6),
-        new(544_676, 897, 6, 1),
-        new(567_118, 960, 9, 30),
-        new(569_477, 967, 5, 27),
-        new(601_716, 1058, 5, 18),
-        new(613_424, 1091, 6, 2),
-        new(626_596, 1128, 8, 4),
-        new(645_554, 1182, 2, 3),
-        new(664_224, 1234, 10, 10),
-        new(671_401, 1255, 1, 11),
-        new(694_799, 1321, 1, 21),
-        new(704_424, 1348, 3, 19),
-        new(708_842, 1360, 9, 8),
-        new(709_409, 1362, 4, 13),
-        new(709_580, 1362, 10, 7),
-        new(727_274, 1412, 9, 13),
-        new(728_714, 1416, 10, 5),
-        new(744_313, 1460, 10, 12),
-        new(764_652, 1518, 3, 5),
-    };
+            // D.&R. Appendix C.
+            yield return new(-214_193, -1245, 12, 9);
+            yield return new(-61_387, -813, 2, 23);
+            yield return new(25_469, -568, 4, 1);
+            yield return new(49_217, -501, 4, 6);
+            yield return new(171_307, -157, 10, 17);
+            yield return new(210_155, -47, 6, 3);
+            yield return new(253_427, 75, 7, 13);
+            yield return new(369_740, 403, 10, 5);
+            yield return new(400_085, 489, 5, 22);
+            yield return new(434_355, 586, 2, 7);
+            yield return new(452_605, 637, 8, 7);
+            yield return new(470_160, 687, 2, 20);
+            yield return new(473_837, 697, 7, 7);
+            yield return new(507_850, 793, 7, 1);
+            yield return new(524_156, 839, 7, 6);
+            yield return new(544_676, 897, 6, 1);
+            yield return new(567_118, 960, 9, 30);
+            yield return new(569_477, 967, 5, 27);
+            yield return new(601_716, 1058, 5, 18);
+            yield return new(613_424, 1091, 6, 2);
+            yield return new(626_596, 1128, 8, 4);
+            yield return new(645_554, 1182, 2, 3);
+            yield return new(664_224, 1234, 10, 10);
+            yield return new(671_401, 1255, 1, 11);
+            yield return new(694_799, 1321, 1, 21);
+            yield return new(704_424, 1348, 3, 19);
+            yield return new(708_842, 1360, 9, 8);
+            yield return new(709_409, 1362, 4, 13);
+            yield return new(709_580, 1362, 10, 7);
+            yield return new(727_274, 1412, 9, 13);
+            yield return new(728_714, 1416, 10, 5);
+            yield return new(744_313, 1460, 10, 12);
+            yield return new(764_652, 1518, 3, 5);
+        }
+    }
 }
 
 public partial class TabularIslamicDataSet // Start and end of year
