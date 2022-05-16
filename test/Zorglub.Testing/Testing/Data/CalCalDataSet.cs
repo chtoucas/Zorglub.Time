@@ -8,7 +8,7 @@ using System.Threading;
 
 using Zorglub.Testing.Data.Schemas;
 
-// TODO(data): filter CalCalDataSet, IDateFacts, CalendarFacts, etc.
+// TODO(data): filter CalCalDataSet, IDateFacts, CalendarFacts, etc. Rename class.
 
 public static partial class CalCalDataSet { }
 
@@ -67,7 +67,7 @@ public partial class CalCalDataSet // Day of the week
     [Pure]
     private static TheoryData<DayNumber, DayOfWeek> InitDayNumberToDayOfWeekData()
     {
-        var data = MapToDayNumberToDayOfWeekData(s_DayNumberToDayOfWeek);
+        var data = MapToDayNumberToDayOfWeekData(DaysSinceRataDieToDayOfWeek);
         Interlocked.CompareExchange(ref s_DayNumberToDayOfWeekData, data, null);
         return s_DayNumberToDayOfWeekData;
     }
@@ -75,7 +75,7 @@ public partial class CalCalDataSet // Day of the week
     [Pure]
     private static TheoryData<DayNumber64, DayOfWeek> InitDayNumber64ToDayOfWeekData()
     {
-        var data = MapToDayNumber64ToDayOfWeekData(s_DayNumberToDayOfWeek);
+        var data = MapToDayNumber64ToDayOfWeekData(DaysSinceRataDieToDayOfWeek);
         Interlocked.CompareExchange(ref s_DayNumber64ToDayOfWeekData, data, null);
         return s_DayNumber64ToDayOfWeekData;
     }
@@ -104,43 +104,46 @@ public partial class CalCalDataSet // Day of the week
         return data;
     }
 
-    private static readonly List<(int DaysSinceRataDie, DayOfWeek)> s_DayNumberToDayOfWeek = new()
+    private static IEnumerable<(int DaysSinceRataDie, DayOfWeek)> DaysSinceRataDieToDayOfWeek
     {
-        (1, DayOfWeek.Monday),
+        get
+        {
+            yield return (1, DayOfWeek.Monday);
 
-        // D.&R. Annexe C.
-        (-214_193, DayOfWeek.Sunday),
-        (-61_387, DayOfWeek.Wednesday),
-        (25_469, DayOfWeek.Wednesday),
-        (49_217, DayOfWeek.Sunday),
-        (171_307, DayOfWeek.Wednesday),
-        (210_155, DayOfWeek.Monday),
-        (253_427, DayOfWeek.Saturday),
-        (369_740, DayOfWeek.Sunday),
-        (400_085, DayOfWeek.Sunday),
-        (434_355, DayOfWeek.Friday),
-        (452_605, DayOfWeek.Saturday),
-        (470_160, DayOfWeek.Friday),
-        (473_837, DayOfWeek.Sunday),
-        (507_850, DayOfWeek.Sunday),
-        (524_156, DayOfWeek.Wednesday),
-        (544_676, DayOfWeek.Saturday),
-        (567_118, DayOfWeek.Saturday),
-        (569_477, DayOfWeek.Saturday),
-        (601_716, DayOfWeek.Wednesday),
-        (613_424, DayOfWeek.Sunday),
-        (626_596, DayOfWeek.Friday),
-        (645_554, DayOfWeek.Sunday),
-        (664_224, DayOfWeek.Monday),
-        (671_401, DayOfWeek.Wednesday),
-        (694_799, DayOfWeek.Sunday),
-        (704_424, DayOfWeek.Sunday),
-        (708_842, DayOfWeek.Monday),
-        (709_409, DayOfWeek.Monday),
-        (709_580, DayOfWeek.Thursday),
-        (727_274, DayOfWeek.Tuesday),
-        (728_714, DayOfWeek.Sunday),
-        (744_313, DayOfWeek.Wednesday),
-        (764_652, DayOfWeek.Sunday),
-    };
+            // D.&R. Annexe C.
+            yield return (-214_193, DayOfWeek.Sunday);
+            yield return (-61_387, DayOfWeek.Wednesday);
+            yield return (25_469, DayOfWeek.Wednesday);
+            yield return (49_217, DayOfWeek.Sunday);
+            yield return (171_307, DayOfWeek.Wednesday);
+            yield return (210_155, DayOfWeek.Monday);
+            yield return (253_427, DayOfWeek.Saturday);
+            yield return (369_740, DayOfWeek.Sunday);
+            yield return (400_085, DayOfWeek.Sunday);
+            yield return (434_355, DayOfWeek.Friday);
+            yield return (452_605, DayOfWeek.Saturday);
+            yield return (470_160, DayOfWeek.Friday);
+            yield return (473_837, DayOfWeek.Sunday);
+            yield return (507_850, DayOfWeek.Sunday);
+            yield return (524_156, DayOfWeek.Wednesday);
+            yield return (544_676, DayOfWeek.Saturday);
+            yield return (567_118, DayOfWeek.Saturday);
+            yield return (569_477, DayOfWeek.Saturday);
+            yield return (601_716, DayOfWeek.Wednesday);
+            yield return (613_424, DayOfWeek.Sunday);
+            yield return (626_596, DayOfWeek.Friday);
+            yield return (645_554, DayOfWeek.Sunday);
+            yield return (664_224, DayOfWeek.Monday);
+            yield return (671_401, DayOfWeek.Wednesday);
+            yield return (694_799, DayOfWeek.Sunday);
+            yield return (704_424, DayOfWeek.Sunday);
+            yield return (708_842, DayOfWeek.Monday);
+            yield return (709_409, DayOfWeek.Monday);
+            yield return (709_580, DayOfWeek.Thursday);
+            yield return (727_274, DayOfWeek.Tuesday);
+            yield return (728_714, DayOfWeek.Sunday);
+            yield return (744_313, DayOfWeek.Wednesday);
+            yield return (764_652, DayOfWeek.Sunday);
+        }
+    }
 }
