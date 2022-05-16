@@ -18,5 +18,5 @@ public sealed class TabularIslamicCalendarDataSet :
 
     private TheoryData<DayNumberInfo>? _dayNumberInfoData;
     public override TheoryData<DayNumberInfo> DayNumberInfoData =>
-        _dayNumberInfoData ??= TheoryDataDNInfo.FromDaysSinceRataDieInfos(TabularIslamicDataSet.DaysSinceRataDieInfos);
+        _dayNumberInfoData ??= TheoryDataOfDayNumberInfo.FromDaysSinceRataDieInfos(TabularIslamicDataSet.DaysSinceRataDieInfos);
 }

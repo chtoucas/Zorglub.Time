@@ -18,5 +18,5 @@ public sealed class RevisedWorldCalendarDataSet :
 
     private TheoryData<DayNumberInfo>? _dayNumberInfoData;
     public override TheoryData<DayNumberInfo> DayNumberInfoData =>
-        _dayNumberInfoData ??= TheoryDataDNInfo.FromDaysSinceEpochInfos(WorldDataSet.DaysSinceEpochInfos, Epoch);
+        _dayNumberInfoData ??= TheoryDataOfDayNumberInfo.FromDaysSinceEpochInfos(WorldDataSet.DaysSinceEpochInfos, Epoch);
 }

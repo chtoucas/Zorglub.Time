@@ -23,7 +23,7 @@ public partial class Persian2820DataSet // Infos
     private TheoryData<DaysSinceEpochInfo>? _daysSinceEpochInfoData;
     public override TheoryData<DaysSinceEpochInfo> DaysSinceEpochInfoData =>
         _daysSinceEpochInfoData ??=
-            TheoryDataDseInfo.FromDaysSinceRataDieInfos(DaysSinceRataDieInfos, CalendarEpoch.Persian);
+            TheoryDataOfDaysSinceEpochInfo.FromDaysSinceRataDieInfos(DaysSinceRataDieInfos, CalendarEpoch.Persian);
 
     public override TheoryData<DateInfo> DateInfoData => new()
     {

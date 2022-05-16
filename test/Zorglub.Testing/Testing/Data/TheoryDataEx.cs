@@ -5,6 +5,9 @@ namespace Zorglub.Testing.Data;
 
 using System.Linq;
 
+/// <summary>
+/// Provides factory methods for <see cref="TheoryDataEx{T}"/>.
+/// </summary>
 public static class TheoryDataEx
 {
     [Pure]
@@ -23,9 +26,10 @@ public static class TheoryDataEx
 }
 
 /// <summary>
-/// Provides factory methods for TheoryDataEx&lt;DaysSinceEpochInfo&gt;
+/// Provides factory methods for <see cref="TheoryDataEx{T}"/> where <c>T</c> is
+/// <see cref="DaysSinceEpochInfo"/>.
 /// </summary>
-public static class TheoryDataDseInfo
+public static class TheoryDataOfDaysSinceEpochInfo
 {
     /// <summary>
     /// Converts a sequence of <see cref="DaysSinceOriginInfo"/> to a set of data of type
@@ -53,7 +57,7 @@ public static class TheoryDataDseInfo
     /// <see cref="DaysSinceEpochInfo"/>.
     /// </summary>
     [Pure]
-    public static TheoryData<DaysSinceEpochInfo> FromDaysSinceRataDieInfos(
+    public static TheoryDataEx<DaysSinceEpochInfo> FromDaysSinceRataDieInfos(
         IEnumerable<DaysSinceRataDieInfo> source, DayNumber epoch)
     {
         Requires.NotNull(source);
@@ -71,9 +75,10 @@ public static class TheoryDataDseInfo
 }
 
 /// <summary>
-/// Provides factory methods for TheoryDataEx&lt;DayNumberInfo&gt;
+/// Provides factory methods for <see cref="TheoryDataEx{T}"/> where <c>T</c> is
+/// <see cref="DayNumberInfo"/>.
 /// </summary>
-public static class TheoryDataDNInfo
+public static class TheoryDataOfDayNumberInfo
 {
     /// <summary>
     /// Converts a sequence of <see cref="DaysSinceEpochInfo"/> to a set of data of type
@@ -125,12 +130,17 @@ public static class TheoryDataDNInfo
     }
 }
 
-public sealed class TheoryDataEx<T> : TheoryData<T>
+public sealed class TheoryDataEx<T> : TheoryData<T>, IEnumerable<T>
 {
+    private readonly IEnumerable<T> _seq;
+
     public TheoryDataEx(IEnumerable<T> seq)
     {
-        Requires.NotNull(seq);
+        _seq = seq ?? throw new ArgumentNullException(nameof(seq));
 
         foreach (T item in seq) { AddRow(item); }
     }
+
+    [Pure]
+    IEnumerator<T> IEnumerable<T>.GetEnumerator() => _seq.GetEnumerator();
 }

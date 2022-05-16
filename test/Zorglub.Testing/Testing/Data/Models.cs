@@ -75,9 +75,6 @@ public readonly record struct DayNumberInfo(DayNumber DayNumber, int Year, int M
         dayNumber = DayNumber;
         ymd = Yemoda;
     }
-
-    [Pure]
-    public static DayNumberInfo FromDaysSinceRataDieInfo(DaysSinceRataDieInfo x) => x.ToDayNumberInfo();
 }
 
 // We use Yemoda, otherwise the struct is too big (24 bytes).

@@ -23,7 +23,7 @@ public partial class TabularIslamicDataSet // Infos
     private TheoryData<DaysSinceEpochInfo>? _daysSinceEpochInfoData;
     public override TheoryData<DaysSinceEpochInfo> DaysSinceEpochInfoData =>
         _daysSinceEpochInfoData ??=
-            TheoryDataDseInfo.FromDaysSinceRataDieInfos(DaysSinceRataDieInfos, CalendarEpoch.TabularIslamic);
+            TheoryDataOfDaysSinceEpochInfo.FromDaysSinceRataDieInfos(DaysSinceRataDieInfos, CalendarEpoch.TabularIslamic);
 
     public override TheoryData<DateInfo> DateInfoData => new()
     {
