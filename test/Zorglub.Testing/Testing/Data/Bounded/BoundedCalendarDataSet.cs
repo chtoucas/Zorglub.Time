@@ -24,7 +24,7 @@ public class BoundedCalendarDataSet<TDataSet> : ICalendarDataSet
     /// </summary>
     public TDataSet Inner { get; }
 
-    protected static TheoryData<T> Filter<T>(TheoryData<T> data, Func<T, bool> filter)
+    protected static DataGroup<T> Filter<T>(TheoryData<T> data, Func<T, bool> filter)
     {
         var q = from item in data
                 let value = (T)item[0]
