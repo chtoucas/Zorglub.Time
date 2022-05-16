@@ -16,6 +16,10 @@ public static class DataGroup
         return new DataGroup<T>(source);
     }
 
+    //
+    // CreateDaysSinceEpochInfoData()
+    //
+
     [Pure]
     public static DataGroup<DaysSinceEpochInfo> CreateDaysSinceEpochInfoData<T>(
         IEnumerable<T> source, DayNumber epoch)
@@ -24,6 +28,10 @@ public static class DataGroup
         var q = from x in source select x.ToDayNumberInfo() - epoch;
         return new DataGroup<DaysSinceEpochInfo>(q);
     }
+
+    //
+    // CreateDayNumberInfoData()
+    //
 
     [Pure]
     public static DataGroup<DayNumberInfo> CreateDayNumberInfoData(
@@ -53,6 +61,9 @@ public static class DataGroup
     }
 }
 
+/// <summary>
+/// Represents a set of data for a theory.
+/// </summary>
 public sealed class DataGroup<T> : TheoryData<T>, IEnumerable<T>
 {
     private readonly IEnumerable<T> _seq;

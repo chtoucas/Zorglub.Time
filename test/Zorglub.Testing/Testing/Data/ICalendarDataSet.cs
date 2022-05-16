@@ -4,11 +4,9 @@
 namespace Zorglub.Testing.Data;
 
 // TODO(data): Filter supplementary data: see XXXGregorianDataSet.
-// When done, remove SkipDayNumber() but is it even possible? See DayOfWeekData.
 // GregorianMinMaxYearCalendarTests à améliorer
 // Do we still need Start/EndOfYearDayNumberData?
 // Move from List<> to IEnumerable<> for intermediate data.
-// Use TheoryDataHelpers instead of custom MapTo...
 
 // What's in ICalendarDataSet? Everything related to DayNumber, including the
 // Epoch and DayOfWeek.
@@ -24,6 +22,4 @@ public interface ICalendarDataSet : ICalendricalDataSet
 
     TheoryData<YearDayNumber> StartOfYearDayNumberData { get; }
     TheoryData<YearDayNumber> EndOfYearDayNumberData { get; }
-
-    // TODO(data): add DayNumberToDayOfWeekData.
 }

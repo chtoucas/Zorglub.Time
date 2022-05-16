@@ -181,6 +181,7 @@ public partial class CivilDateTests // Properties
     public static void IsoDayOfWeek_ViaDayNumbers(DayNumber dayNumber, DayOfWeek dayOfWeek)
     {
         // We filter out ordinals before the epoch.
+        // TODO(code): we should be stricter and use the domain.
         if (dayNumber < DayZero.NewStyle) { return; }
 
         var date = CivilDate.FromDayNumber(dayNumber);
