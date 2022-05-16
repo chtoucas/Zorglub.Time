@@ -126,13 +126,16 @@ public partial class PaxDataSet // Infos
         new(2300, 14, 371, true),
     };
 
-    internal static List<DaysSinceOriginInfo> DaysSinceZeroInfos { get; } = new()
+    internal static IEnumerable<DaysSinceOriginInfo> DaysSinceZeroInfos
     {
-        new(-1, 1, 1, 1),
-        new(0, 1, 1, 2),
-        new(362, 1, 13, 28),
-        new(363, 2, 1, 1),
-    };
+        get
+        {
+            yield return new(-1, 1, 1, 1);
+            yield return new(0, 1, 1, 2);
+            yield return new(362, 1, 13, 28);
+            yield return new(363, 2, 1, 1);
+        }
+    }
 }
 
 public partial class PaxDataSet // Start and end of year

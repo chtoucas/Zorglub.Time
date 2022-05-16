@@ -104,15 +104,18 @@ public partial class InternationalFixedDataSet // Infos
         new(100, 13, 365, false),
     };
 
-    internal static List<DaysSinceEpochInfo> DaysSinceEpochInfos { get; } = new()
+    internal static IEnumerable<DaysSinceEpochInfo> DaysSinceEpochInfos
     {
-        new(-2, 0, 13, 28),
-        new(-1, 0, 13, 29),
-        new(0, 1, 1, 1), // Epoch
-        new(1, 1, 1, 2),
-        new(364, 1, 13, 29),
-        new(365, 2, 1, 1),
-    };
+        get
+        {
+            yield return new(-2, 0, 13, 28);
+            yield return new(-1, 0, 13, 29);
+            yield return new(0, 1, 1, 1); // Epoch
+            yield return new(1, 1, 1, 2);
+            yield return new(364, 1, 13, 29);
+            yield return new(365, 2, 1, 1);
+        }
+    }
 }
 
 public partial class InternationalFixedDataSet // Start and end of year

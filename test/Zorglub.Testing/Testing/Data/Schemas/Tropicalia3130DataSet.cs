@@ -84,27 +84,30 @@ public partial class Tropicalia3130DataSet // Infos
         new(LeapYear, 12, 30, 336, false),
     };
 
-    internal static List<DaysSinceEpochInfo> DaysSinceEpochInfos { get; } = new()
+    internal static IEnumerable<DaysSinceEpochInfo> DaysSinceEpochInfos
     {
-        new(-2, 0, 12, 28),
-        new(-1, 0, 12, 29),
-        new(0, 1, 1, 1), // Epoch
-        new(1, 1, 1, 2),
-        new(364, 1, 12, 29),
-        new(365, 2, 1, 1),
+        get
+        {
+            yield return new(-2, 0, 12, 28);
+            yield return new(-1, 0, 12, 29);
+            yield return new(0, 1, 1, 1); // Epoch
+            yield return new(1, 1, 1, 2);
+            yield return new(364, 1, 12, 29);
+            yield return new(365, 2, 1, 1);
 
-        // 128-year cycle.
-        new(46_750, 128, 12, 29),
-        new(93_501, 256, 12, 29),
-        new(140_252, 384, 12, 29),
-        new(187_003, 512, 12, 29),
-        new(233_754, 640, 12, 29),
-        new(280_505, 768, 12, 29),
-        new(327_256, 896, 12, 29),
-        new(374_007, 1024, 12, 29),
-        new(420_758, 1152, 12, 29),
-        new(467_509, 1280, 12, 29),
-    };
+            // 128-year cycle.
+            yield return new(46_750, 128, 12, 29);
+            yield return new(93_501, 256, 12, 29);
+            yield return new(140_252, 384, 12, 29);
+            yield return new(187_003, 512, 12, 29);
+            yield return new(233_754, 640, 12, 29);
+            yield return new(280_505, 768, 12, 29);
+            yield return new(327_256, 896, 12, 29);
+            yield return new(374_007, 1024, 12, 29);
+            yield return new(420_758, 1152, 12, 29);
+            yield return new(467_509, 1280, 12, 29);
+        }
+    }
 }
 
 public partial class Tropicalia3130DataSet // Start and end of year

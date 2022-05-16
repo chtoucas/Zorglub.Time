@@ -105,15 +105,18 @@ public partial class PositivistDataSet // Infos
         new(100, 13, 365, false),
     };
 
-    internal static List<DaysSinceOriginInfo> DaysSinceZeroInfos { get; } = new()
+    internal static IEnumerable<DaysSinceOriginInfo> DaysSinceZeroInfos
     {
-        new(653_052, 0, 13, 29),
-        new(653_053, 0, 13, 30),
-        new(653_054, 1, 1, 1),
-        new(653_055, 1, 1, 2),
-        new(653_418, 1, 13, 29),
-        new(653_419, 2, 1, 1),
-    };
+        get
+        {
+            yield return new(653_052, 0, 13, 29);
+            yield return new(653_053, 0, 13, 30);
+            yield return new(653_054, 1, 1, 1);
+            yield return new(653_055, 1, 1, 2);
+            yield return new(653_418, 1, 13, 29);
+            yield return new(653_419, 2, 1, 1);
+        }
+    }
 }
 
 public partial class PositivistDataSet // Start and end of year
