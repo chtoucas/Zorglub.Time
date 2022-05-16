@@ -5,8 +5,6 @@ namespace Zorglub.Testing.Data.Unbounded;
 
 using Zorglub.Testing.Data.Schemas;
 
-using static Zorglub.Testing.Data.Extensions.TheoryDataExtensions;
-
 /// <summary>
 /// Provides test data for the (unbounded) International Fixed calendar and related date types.
 /// </summary>
@@ -22,7 +20,7 @@ public sealed class InternationalFixedCalendarDataSet :
     {
         get
         {
-            return _dayNumberInfoData ??= InternationalFixedDataSet.DaysSinceEpochInfos.MapToTheoryData(Map);
+            return _dayNumberInfoData ??= TheoryDataFactories.Create(InternationalFixedDataSet.DaysSinceEpochInfos, Map);
 
             DayNumberInfo Map(DaysSinceEpochInfo x) => x.ToDayNumberInfo(Epoch);
         }

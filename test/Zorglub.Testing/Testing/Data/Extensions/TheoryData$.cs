@@ -11,21 +11,6 @@ using System.Linq;
 /// </summary>
 internal static class TheoryDataExtensions
 {
-    /// <summary>
-    /// Converts a sequence of <typeparamref name="TSource"/> to a set of data of type
-    /// <typeparamref name="TResult"/>.
-    /// </summary>
-    [Pure]
-    public static TheoryData<TResult> MapToTheoryData<TSource, TResult>(
-        this IEnumerable<TSource> @this, Func<TSource, TResult> selector)
-    {
-        Requires.NotNull(@this);
-
-        var data = new TheoryData<TResult>();
-        foreach (var item in @this) { data.Add(selector(item)); }
-        return data;
-    }
-
     // Two Yemoda's.
     [Pure]
     public static TheoryData<Yemoda, Yemoda> MapToTheoryDataOfTwoYemodas(

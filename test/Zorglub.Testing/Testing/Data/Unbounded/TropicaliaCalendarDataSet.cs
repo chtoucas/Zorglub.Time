@@ -5,8 +5,6 @@ namespace Zorglub.Testing.Data.Unbounded;
 
 using Zorglub.Testing.Data.Schemas;
 
-using static Zorglub.Testing.Data.Extensions.TheoryDataExtensions;
-
 /// <summary>
 /// Provides test data for the (unbounded) "Tropicália" calendar and related date types.
 /// </summary>
@@ -38,7 +36,7 @@ public sealed class Tropicalia3031CalendarDataSet :
     {
         get
         {
-            return _dayNumberInfoData ??= Tropicalia3031DataSet.DaysSinceEpochInfos.MapToTheoryData(Map);
+            return _dayNumberInfoData ??= TheoryDataFactories.Create(Tropicalia3031DataSet.DaysSinceEpochInfos, Map);
 
             DayNumberInfo Map(DaysSinceEpochInfo x) => x.ToDayNumberInfo(Epoch);
         }
@@ -60,7 +58,7 @@ public sealed class Tropicalia3130CalendarDataSet :
     {
         get
         {
-            return _dayNumberInfoData ??= Tropicalia3130DataSet.DaysSinceEpochInfos.MapToTheoryData(Map);
+            return _dayNumberInfoData ??= TheoryDataFactories.Create(Tropicalia3130DataSet.DaysSinceEpochInfos, Map);
 
             DayNumberInfo Map(DaysSinceEpochInfo x) => x.ToDayNumberInfo(Epoch);
         }
