@@ -23,7 +23,7 @@ public partial class PaxDataSet // Infos
     private TheoryData<DaysSinceEpochInfo>? _daysSinceEpochInfoData;
     public override TheoryData<DaysSinceEpochInfo> DaysSinceEpochInfoData =>
         _daysSinceEpochInfoData ??=
-            DataGroup.OfDaysSinceEpochInfo.FromDaysSinceZeroInfos(
+            DaysSinceEpochInfoDataGroup.FromDaysSinceZeroInfos(
                 DaysSinceZeroInfos, CalendarEpoch.SundayBeforeGregorian);
 
     public override TheoryData<DateInfo> DateInfoData => new()

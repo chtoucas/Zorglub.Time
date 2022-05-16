@@ -22,7 +22,7 @@ public sealed partial class GregorianCalendarDataSet :
 
     private TheoryData<DayNumberInfo>? _dayNumberInfoData;
     public override TheoryData<DayNumberInfo> DayNumberInfoData =>
-        _dayNumberInfoData ??= DataGroup.OfDayNumberInfo.Create(GregorianDataSet.DaysSinceRataDieInfos);
+        _dayNumberInfoData ??= DayNumberInfoDataGroup.Create(GregorianDataSet.DaysSinceRataDieInfos);
 
     public TheoryData<YemoAnd<int>> DaysInYearAfterMonthData => DataSet.DaysInYearAfterMonthData;
 

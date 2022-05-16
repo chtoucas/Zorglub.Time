@@ -18,7 +18,7 @@ public partial class TropicaliaDataSet // Infos
     private TheoryData<DaysSinceEpochInfo>? _daysSinceEpochInfoData;
     public override TheoryData<DaysSinceEpochInfo> DaysSinceEpochInfoData =>
         _daysSinceEpochInfoData ??=
-            DataGroup.OfDaysSinceEpochInfo.Create(DaysSinceRataDieInfos, DayZero.NewStyle);
+            DaysSinceEpochInfoDataGroup.Create(DaysSinceRataDieInfos, DayZero.NewStyle);
 
     public override TheoryData<DateInfo> DateInfoData => new()
     {

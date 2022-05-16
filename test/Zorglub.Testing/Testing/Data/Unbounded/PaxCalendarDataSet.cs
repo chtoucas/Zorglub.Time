@@ -17,7 +17,7 @@ public sealed class PaxCalendarDataSet : CalendarDataSet<PaxDataSet>, ISingleton
 
     private TheoryData<DayNumberInfo>? _dayNumberInfoData;
     public override TheoryData<DayNumberInfo> DayNumberInfoData =>
-        _dayNumberInfoData ??= DataGroup.OfDayNumberInfo.FromDaysSinceZeroInfos(PaxDataSet.DaysSinceZeroInfos);
+        _dayNumberInfoData ??= DayNumberInfoDataGroup.FromDaysSinceZeroInfos(PaxDataSet.DaysSinceZeroInfos);
 
     // Day number, year, week of the year, day of the week.
     public static TheoryData<DayNumber, int, int, DayOfWeek> MoreDayNumberInfoData =>

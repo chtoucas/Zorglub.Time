@@ -23,7 +23,7 @@ public partial class Egyptian13DataSet // Infos
     private TheoryData<DaysSinceEpochInfo>? _daysSinceEpochInfoData;
     public override TheoryData<DaysSinceEpochInfo> DaysSinceEpochInfoData =>
         _daysSinceEpochInfoData ??=
-            DataGroup.OfDaysSinceEpochInfo.Create(DaysSinceRataDieInfos, CalendarEpoch.Egyptian);
+            DaysSinceEpochInfoDataGroup.Create(DaysSinceRataDieInfos, CalendarEpoch.Egyptian);
 
     public override TheoryData<DateInfo> DateInfoData => new()
     {

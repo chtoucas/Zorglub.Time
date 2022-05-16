@@ -17,5 +17,5 @@ public sealed class JulianCalendarDataSet :
 
     private TheoryData<DayNumberInfo>? _dayNumberInfoData;
     public override TheoryData<DayNumberInfo> DayNumberInfoData =>
-        _dayNumberInfoData ??= DataGroup.OfDayNumberInfo.Create(JulianDataSet.DaysSinceRataDieInfos);
+        _dayNumberInfoData ??= DayNumberInfoDataGroup.Create(JulianDataSet.DaysSinceRataDieInfos);
 }

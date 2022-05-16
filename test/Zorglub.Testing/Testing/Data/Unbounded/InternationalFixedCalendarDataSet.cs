@@ -18,5 +18,5 @@ public sealed class InternationalFixedCalendarDataSet :
     private TheoryData<DayNumberInfo>? _dayNumberInfoData;
     public override TheoryData<DayNumberInfo> DayNumberInfoData =>
         _dayNumberInfoData ??=
-            DataGroup.OfDayNumberInfo.Create(InternationalFixedDataSet.DaysSinceEpochInfos, Epoch);
+            DayNumberInfoDataGroup.Create(InternationalFixedDataSet.DaysSinceEpochInfos, Epoch);
 }
