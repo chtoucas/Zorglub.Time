@@ -14,8 +14,12 @@ open Zorglub.Time.Simple
 
 open Xunit
 
-// NB: here, we test calendar-specific methods.
+// Here, we test calendar-specific methods.
 // For methods related to IEpagomenalCalendar, this is done in FeaturetteTestSuite.
+// We also test Gregorian/JulianCalendar.GetDayOfWeek() with
+// CalCalDataSet.DayNumberToDayOfWeekData in CalendarTestSuite via CalendarFacts,
+// but Gregorian and Julian are not part of the "regular" test plan, the one
+// used for code coverage, because they are marked as redundant test groups.
 
 module GregorianCase =
     let private chr = GregorianCalendar.Instance
@@ -23,8 +27,7 @@ module GregorianCase =
     let private calendarDataSet = ProlepticGregorianDataSet.Instance
 
     let dayOfWeekData = calendarDataSet.DayOfWeekData
-    // TODO(code): pre-filter data. Idem in JulianCase.
-    let dayNumberToDayOfWeekData = CalCalDataSet.DayNumberToDayOfWeekData
+    let dayNumberToDayOfWeekData = CalCalDataSet.GetDayNumberToDayOfWeekData(domain)
 
     [<Theory; MemberData(nameof(dayOfWeekData))>]
     let ``GetDayOfWeek(CalendarDate)`` (info: YemodaAnd<DayOfWeek>) =
@@ -43,35 +46,31 @@ module GregorianCase =
     [<RedundantTestUnit>]
     [<Theory; MemberData(nameof(dayNumberToDayOfWeekData))>]
     let ``GetDayOfWeek(CalendarDate) via DayNumber`` (dayNumber: DayNumber) (dayOfWeek: DayOfWeek) =
-        if domain.Contains(dayNumber) then
-            let date = chr.GetCalendarDateOn(dayNumber)
+        let date = chr.GetCalendarDateOn(dayNumber)
 
-            chr.GetDayOfWeek(date) === dayOfWeek
+        chr.GetDayOfWeek(date) === dayOfWeek
 
     [<RedundantTestUnit>]
     [<Theory; MemberData(nameof(dayNumberToDayOfWeekData))>]
     let ``GetDayOfWeek(OrdinalDate) via DayNumber`` (dayNumber: DayNumber) (dayOfWeek: DayOfWeek) =
-        if domain.Contains(dayNumber) then
-            let date = chr.GetOrdinalDateOn(dayNumber)
+        let date = chr.GetOrdinalDateOn(dayNumber)
 
-            chr.GetDayOfWeek(date) === dayOfWeek
+        chr.GetDayOfWeek(date) === dayOfWeek
 
 module JulianCase =
     let private chr = JulianCalendar.Instance
     let private domain = chr.Domain
 
-    let dayNumberToDayOfWeekData = CalCalDataSet.DayNumberToDayOfWeekData
+    let dayNumberToDayOfWeekData = CalCalDataSet.GetDayNumberToDayOfWeekData(domain)
 
     [<Theory; MemberData(nameof(dayNumberToDayOfWeekData))>]
     let ``GetDayOfWeek(CalendarDate) via DayNumber`` (dayNumber: DayNumber) (dayOfWeek: DayOfWeek) =
-        if domain.Contains(dayNumber) then
-            let date = chr.GetCalendarDateOn(dayNumber)
+        let date = chr.GetCalendarDateOn(dayNumber)
 
-            chr.GetDayOfWeek(date) === dayOfWeek
+        chr.GetDayOfWeek(date) === dayOfWeek
 
     [<Theory; MemberData(nameof(dayNumberToDayOfWeekData))>]
     let ``GetDayOfWeek(OrdinalDate) via DayNumber`` (dayNumber: DayNumber) (dayOfWeek: DayOfWeek) =
-        if domain.Contains(dayNumber) then
-            let date = chr.GetOrdinalDateOn(dayNumber)
+        let date = chr.GetOrdinalDateOn(dayNumber)
 
-            chr.GetDayOfWeek(date) === dayOfWeek
+        chr.GetDayOfWeek(date) === dayOfWeek

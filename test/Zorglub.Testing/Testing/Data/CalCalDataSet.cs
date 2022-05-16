@@ -7,8 +7,7 @@ using System.Linq;
 using System.Threading;
 
 using Zorglub.Testing.Data.Schemas;
-
-// TODO(data): filter CalCalDataSet, IDateFacts, CalendarFacts, etc. Rename class.
+using Zorglub.Time.Core.Intervals;
 
 public static partial class CalCalDataSet { }
 
@@ -53,7 +52,6 @@ public partial class CalCalDataSet // Interconversion
     }
 }
 
-// To be moved to CalendarDataSet.
 public partial class CalCalDataSet // Day of the week
 {
     private static TheoryData<DayNumber, DayOfWeek>? s_DayNumberToDayOfWeekData;
@@ -63,6 +61,19 @@ public partial class CalCalDataSet // Day of the week
     private static TheoryData<DayNumber64, DayOfWeek>? s_DayNumber64ToDayOfWeekData;
     public static TheoryData<DayNumber64, DayOfWeek> DayNumber64ToDayOfWeekData =>
         s_DayNumber64ToDayOfWeekData ??= InitDayNumber64ToDayOfWeekData();
+
+    [Pure]
+    public static TheoryData<DayNumber, DayOfWeek> GetDayNumberToDayOfWeekData(Range<DayNumber> domain)
+    {
+        var data = new TheoryData<DayNumber, DayOfWeek>();
+        foreach (var (daysSinceRataDie, dayOfWeek) in DaysSinceRataDieToDayOfWeek)
+        {
+            var dayNumber = DayZero.RataDie + daysSinceRataDie;
+            if (domain.Contains(dayNumber) == false) { continue; }
+            data.Add(dayNumber, dayOfWeek);
+        }
+        return data;
+    }
 
     [Pure]
     private static TheoryData<DayNumber, DayOfWeek> InitDayNumberToDayOfWeekData()
@@ -104,7 +115,7 @@ public partial class CalCalDataSet // Day of the week
         return data;
     }
 
-    private static IEnumerable<(int DaysSinceRataDie, DayOfWeek)> DaysSinceRataDieToDayOfWeek
+    private static IEnumerable<(int DaysSinceRataDie, DayOfWeek DayOfWeek)> DaysSinceRataDieToDayOfWeek
     {
         get
         {
