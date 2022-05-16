@@ -70,19 +70,14 @@ public abstract class CalendarDataSet<TDataSet> : ICalendarDataSet
     public static TheoryData<DayNumberInfo> MapToDayNumberInfoData(
         IEnumerable<DaysSinceRataDieInfo> source, DayNumber epoch, DayNumber newEpoch)
     {
-        Requires.NotNull(source);
+        int shift = newEpoch - epoch;
+        return source.MapToTheoryData(Map);
 
-        DayNumber zero = DayZero.RataDie + (newEpoch - epoch);
-        var data = new TheoryData<DayNumberInfo>();
-        foreach (var (daysSinceRataDie, y, m, d) in source)
-        {
-            data.Add(new DayNumberInfo(zero + daysSinceRataDie, y, m, d));
-        }
-        return data;
+        DayNumberInfo Map(DaysSinceRataDieInfo x) => x.ToDayNumberInfo(shift);
     }
 
     /// <summary>
-    /// Converts a sequence of (Year, DaysSinceEpoch) to a set of data of type
+    /// Converts a sequence of <see cref="YearDaysSinceEpoch"/> to a set of data of type
     /// <see cref="YearDayNumber"/>.
     /// </summary>
     [Pure]
