@@ -23,15 +23,9 @@ public sealed partial class GregorianCalendarDataSet :
     public static GregorianCalendarDataSet Instance { get; } = new();
 
     private TheoryData<DayNumberInfo>? _dayNumberInfoData;
-    public override TheoryData<DayNumberInfo> DayNumberInfoData
-    {
-        get
-        {
-            return _dayNumberInfoData ??= GregorianDataSet.DaysSinceRataDieInfos.MapToTheoryData(Map);
-
-            static DayNumberInfo Map(DaysSinceRataDieInfo x) => x.ToDayNumberInfo();
-        }
-    }
+    public override TheoryData<DayNumberInfo> DayNumberInfoData =>
+        _dayNumberInfoData ??=
+            GregorianDataSet.DaysSinceRataDieInfos.MapToTheoryData(DayNumberInfo.FromDaysSinceRataDieInfo);
 
     public TheoryData<YemoAnd<int>> DaysInYearAfterMonthData => DataSet.DaysInYearAfterMonthData;
 

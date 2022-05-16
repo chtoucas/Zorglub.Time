@@ -9,10 +9,10 @@ public partial class GregorianDataSet // Addition (days)
 {
     // Date, expected result, days to be added.
     public TheoryData<Yemoda, Yemoda, int> AddDaysData =>
-        s_AddDays.ToTheoryDataOfTwoYemodas();
+        s_AddDays.MapToTheoryDataOfTwoYemodas();
 
     public TheoryData<Yemoda, Yemoda> ConsecutiveDaysData =>
-        s_ConsecutiveDays.ToTheoryDataOfTwoYemodas();
+        s_ConsecutiveDays.MapToTheoryDataOfTwoYemodas();
 
     private static readonly List<(int date, int, int, int exp, int, int, int days)> s_AddDays = new()
     {
@@ -131,11 +131,11 @@ public partial class GregorianDataSet // Addition (months)
 {
     // Date, expected result, months to be added.
     public TheoryData<Yemoda, Yemoda, int> AddMonthsData =>
-        s_AddMonths.ToTheoryDataOfTwoYemodas();
+        s_AddMonths.MapToTheoryDataOfTwoYemodas();
 
     // Date, expected result, months to be added.
     public static TheoryData<Yemoda, Yemoda, int> AddMonthsCutOffData =>
-        s_AddMonthsCutOff.ToTheoryDataOfTwoYemodas();
+        s_AddMonthsCutOff.MapToTheoryDataOfTwoYemodas();
 
     // Date, expected result, months to be added.
     private static readonly List<(int date, int, int, int exp, int, int, int months)> s_AddMonths = new()
@@ -240,7 +240,7 @@ public partial class GregorianDataSet // Addition (years)
 {
     // Date, expected result, years to be added.
     public TheoryData<Yemoda, Yemoda, int> AddYearsData =>
-        s_AddYears.ToTheoryDataOfTwoYemodas();
+        s_AddYears.MapToTheoryDataOfTwoYemodas();
 
     // Intercalary day, expected result in a common year, years to be added.
     public static TheoryData<Yemoda, Yemoda, int> AddYearsCutOffData =>
@@ -336,11 +336,11 @@ public partial class GregorianDataSet // Subtraction
 {
     // Start date, end date, exact diff between.
     public TheoryData<Yemoda, Yemoda, int, int, int> DiffData =>
-        s_Diff.ToTheoryDataOfTwoYemodas();
+        s_Diff.MapToTheoryDataOfTwoYemodas();
 
     // Start date, end date, exact diff between.
     public static TheoryData<Yemoda, Yemoda, int, int, int> DiffCutOffData =>
-        s_DiffCutOff.ToTheoryDataOfTwoYemodas();
+        s_DiffCutOff.MapToTheoryDataOfTwoYemodas();
 
     // Start date, end date, exact diff between.
     private static readonly List<(int start, int, int, int end, int, int, int diff, int, int)> s_Diff = new()

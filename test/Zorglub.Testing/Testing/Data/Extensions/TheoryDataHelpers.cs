@@ -40,7 +40,7 @@ internal static class TheoryDataHelpers
 
     // Two Yemoda's.
     [Pure]
-    public static TheoryData<Yemoda, Yemoda> ToTheoryDataOfTwoYemodas(
+    public static TheoryData<Yemoda, Yemoda> MapToTheoryDataOfTwoYemodas(
         this IEnumerable<(int, int, int, int, int, int)> @this)
     {
         Requires.NotNull(@this);
@@ -55,7 +55,7 @@ internal static class TheoryDataHelpers
 
     // Two Yemoda's, one unit.
     [Pure]
-    public static TheoryData<Yemoda, Yemoda, T> ToTheoryDataOfTwoYemodas<T>(
+    public static TheoryData<Yemoda, Yemoda, T> MapToTheoryDataOfTwoYemodas<T>(
         this IEnumerable<(int, int, int, int, int, int, T)> @this)
     {
         Requires.NotNull(@this);
@@ -70,7 +70,7 @@ internal static class TheoryDataHelpers
 
     // Two Yemoda's, three units.
     [Pure]
-    public static TheoryData<Yemoda, Yemoda, T1, T2, T3> ToTheoryDataOfTwoYemodas<T1, T2, T3>(
+    public static TheoryData<Yemoda, Yemoda, T1, T2, T3> MapToTheoryDataOfTwoYemodas<T1, T2, T3>(
         this IEnumerable<(int, int, int, int, int, int, T1, T2, T3)> @this)
     {
         Requires.NotNull(@this);

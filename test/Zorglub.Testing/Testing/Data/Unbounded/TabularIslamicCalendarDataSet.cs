@@ -19,13 +19,7 @@ public sealed class TabularIslamicCalendarDataSet :
     public static TabularIslamicCalendarDataSet Instance { get; } = new();
 
     private TheoryData<DayNumberInfo>? _dayNumberInfoData;
-    public override TheoryData<DayNumberInfo> DayNumberInfoData
-    {
-        get
-        {
-            return _dayNumberInfoData ??= TabularIslamicDataSet.DaysSinceRataDieInfos.MapToTheoryData(Map);
-
-            static DayNumberInfo Map(DaysSinceRataDieInfo x) => x.ToDayNumberInfo();
-        }
-    }
+    public override TheoryData<DayNumberInfo> DayNumberInfoData =>
+        _dayNumberInfoData ??=
+            TabularIslamicDataSet.DaysSinceRataDieInfos.MapToTheoryData(DayNumberInfo.FromDaysSinceRataDieInfo);
 }

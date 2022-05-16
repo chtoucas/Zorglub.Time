@@ -19,14 +19,8 @@ public sealed class Persian2820CalendarDataSet :
     public static Persian2820CalendarDataSet Instance { get; } = new();
 
     private TheoryData<DayNumberInfo>? _dayNumberInfoData;
-    public override TheoryData<DayNumberInfo> DayNumberInfoData
-    {
-        get
-        {
-            return _dayNumberInfoData ??= Persian2820DataSet.DaysSinceRataDieInfos.MapToTheoryData(Map);
-
-            static DayNumberInfo Map(DaysSinceRataDieInfo x) => x.ToDayNumberInfo();
-        }
-    }
+    public override TheoryData<DayNumberInfo> DayNumberInfoData =>
+        _dayNumberInfoData ??=
+            Persian2820DataSet.DaysSinceRataDieInfos.MapToTheoryData(DayNumberInfo.FromDaysSinceRataDieInfo);
 }
 
