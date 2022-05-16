@@ -33,7 +33,7 @@ public class BoundedCalendarDataSet<TDataSet> : ICalendarDataSet
 
         Debug.Assert(q.Any());
 
-        return TheoryDataEx.Create(q);
+        return DataGroup.Create(q);
     }
 
     private static InvalidOperationException BadProperty(string propertyName) =>

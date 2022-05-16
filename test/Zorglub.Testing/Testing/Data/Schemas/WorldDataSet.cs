@@ -20,7 +20,7 @@ public partial class WorldDataSet // Infos
 {
     private TheoryData<DaysSinceEpochInfo>? _daysSinceEpochInfoData;
     public override TheoryData<DaysSinceEpochInfo> DaysSinceEpochInfoData =>
-        _daysSinceEpochInfoData ??= TheoryDataEx.Create(DaysSinceEpochInfos);
+        _daysSinceEpochInfoData ??= DataGroup.Create(DaysSinceEpochInfos);
 
     public override TheoryData<DateInfo> DateInfoData => new()
     {

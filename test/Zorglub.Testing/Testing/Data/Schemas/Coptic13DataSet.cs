@@ -24,7 +24,7 @@ public partial class Coptic13DataSet // Infos
     private TheoryData<DaysSinceEpochInfo>? _daysSinceEpochInfoData;
     public override TheoryData<DaysSinceEpochInfo> DaysSinceEpochInfoData =>
         _daysSinceEpochInfoData ??=
-            TheoryDataOfDaysSinceEpochInfo.FromDaysSinceRataDieInfos(DaysSinceRataDieInfos, CalendarEpoch.Coptic);
+            DataGroup.OfDaysSinceEpochInfo.Create(DaysSinceRataDieInfos, CalendarEpoch.Coptic);
 
     public override TheoryData<DateInfo> DateInfoData => new()
     {

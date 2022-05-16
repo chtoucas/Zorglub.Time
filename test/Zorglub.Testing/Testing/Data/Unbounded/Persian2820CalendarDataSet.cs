@@ -18,6 +18,6 @@ public sealed class Persian2820CalendarDataSet :
 
     private TheoryData<DayNumberInfo>? _dayNumberInfoData;
     public override TheoryData<DayNumberInfo> DayNumberInfoData =>
-        _dayNumberInfoData ??= TheoryDataOfDayNumberInfo.FromDaysSinceRataDieInfos(Persian2820DataSet.DaysSinceRataDieInfos);
+        _dayNumberInfoData ??= DataGroup.OfDayNumberInfo.Create(Persian2820DataSet.DaysSinceRataDieInfos);
 }
 

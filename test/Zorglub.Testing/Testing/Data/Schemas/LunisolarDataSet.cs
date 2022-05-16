@@ -21,7 +21,7 @@ public partial class LunisolarDataSet // Infos
     private TheoryData<DaysSinceEpochInfo>? _daysSinceEpochInfoData;
     public override TheoryData<DaysSinceEpochInfo> DaysSinceEpochInfoData =>
         _daysSinceEpochInfoData ??=
-            TheoryDataOfDaysSinceEpochInfo.FromDaysSinceRataDieInfos(DaysSinceRataDieInfos, DayZero.NewStyle);
+            DataGroup.OfDaysSinceEpochInfo.Create(DaysSinceRataDieInfos, DayZero.NewStyle);
 
     public override TheoryData<DateInfo> DateInfoData => new()
     {
