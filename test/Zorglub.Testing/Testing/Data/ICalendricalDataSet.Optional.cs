@@ -11,7 +11,7 @@ public interface IYearAdjustmentDataSet
 
 public interface IMathDataSet
 {
-    TheoryData<Yemoda, Yemoda, int> AddDaysData { get; }
+    DataGroup<YemodaPairAnd<int>> AddDaysData { get; }
     DataGroup<YemodaPair> ConsecutiveDaysData { get; }
 }
 

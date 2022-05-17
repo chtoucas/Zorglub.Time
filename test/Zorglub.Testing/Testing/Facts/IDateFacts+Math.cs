@@ -26,7 +26,7 @@ public abstract partial class IDateMathFacts<TDate, TDataSet>
         return GetDate(y, m, d);
     }
 
-    public static TheoryData<Yemoda, Yemoda, int> AddDaysData => DataSet.AddDaysData;
+    public static DataGroup<YemodaPairAnd<int>> AddDaysData => DataSet.AddDaysData;
     public static DataGroup<YemodaPair> ConsecutiveDaysData => DataSet.ConsecutiveDaysData;
 }
 
@@ -72,10 +72,11 @@ public partial class IDateMathFacts<TDate, TDataSet> // Increment or decrement
 public partial class IDateMathFacts<TDate, TDataSet> // Addition
 {
     [Theory, MemberData(nameof(AddDaysData))]
-    public void PlusDays(Yemoda ymd, Yemoda ymdOther, int days)
+    public void PlusDays(YemodaPairAnd<int> pair)
     {
-        var date = GetDate(ymd);
-        var other = GetDate(ymdOther);
+        var date = GetDate(pair.First);
+        var other = GetDate(pair.Second);
+        int days = pair.Value;
         // Act & Assert
         // 1) date + days = other.
         Assert.Equal(other, date + days);
@@ -100,10 +101,11 @@ public partial class IDateMathFacts<TDate, TDataSet> // Addition
     }
 
     [Theory, MemberData(nameof(AddDaysData))]
-    public void CountDaysSince(Yemoda ymd, Yemoda ymdOther, int days)
+    public void CountDaysSince(YemodaPairAnd<int> pair)
     {
-        var date = GetDate(ymd);
-        var other = GetDate(ymdOther);
+        var date = GetDate(pair.First);
+        var other = GetDate(pair.Second);
+        int days = pair.Value;
         // Act & Assert
         // 1) other - date = days.
         Assert.Equal(days, other - date);

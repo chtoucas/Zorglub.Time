@@ -45,7 +45,9 @@ public sealed class ProlepticGregorianDataSet :
         _yearAdjustementData ??= FilterData(Inner.YearAdjustementData, DataFilter.Filter);
 
     // IMathDataSet
-    public TheoryData<Yemoda, Yemoda, int> AddDaysData => Inner.AddDaysData;
+    private DataGroup<YemodaPairAnd<int>>? _addDaysData;
+    public DataGroup<YemodaPairAnd<int>> AddDaysData =>
+        _addDaysData ??= FilterData(Inner.AddDaysData, DataFilter.Filter);
 
     private DataGroup<YemodaPair>? _consecutiveDaysData;
     public DataGroup<YemodaPair> ConsecutiveDaysData =>

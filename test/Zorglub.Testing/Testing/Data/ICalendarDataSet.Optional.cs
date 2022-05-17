@@ -7,6 +7,7 @@ public interface IDayOfWeekDataSet
 {
     TheoryData<YemodaAnd<DayOfWeek>> DayOfWeekData { get; }
 
+    // TODO(data): use YemodaPairAnd<> + filter (+ DataGroup?).
     TheoryData<Yemoda, Yemoda, DayOfWeek> DayOfWeek_Before_Data { get; }
     TheoryData<Yemoda, Yemoda, DayOfWeek> DayOfWeek_OnOrBefore_Data { get; }
     TheoryData<Yemoda, Yemoda, DayOfWeek> DayOfWeek_Nearest_Data { get; }

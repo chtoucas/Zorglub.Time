@@ -3,81 +3,84 @@
 
 namespace Zorglub.Testing.Data.Schemas;
 
-// TODO(data): Filter supplementary data: see XXXGregorianDataSet in Bounded.
-// Use IEnumerable<> instead of List<>.
-// Replace <Yemoda, Yemoda...> by YemodaPair
+// TODO(data): Use IEnumerable<> instead of List<> and replace <Yemoda, Yemoda...>
+// by YemodaPair. Filter data: see XXXGregorianDataSet in Bounded.
 // GregorianMinMaxYearCalendarTests à améliorer.
 
 using static Zorglub.Testing.Data.Extensions.TheoryDataExtensions;
 
-public partial class GregorianDataSet // Addition (days)
+public partial class GregorianDataSet // IMathDataSet
 {
     // Date, expected result, days to be added.
-    public TheoryData<Yemoda, Yemoda, int> AddDaysData =>
-        s_AddDays.MapToTheoryDataOfTwoYemodas();
+    private DataGroup<YemodaPairAnd<int>>? _addDaysData;
+    public DataGroup<YemodaPairAnd<int>> AddDaysData =>
+        _addDaysData ??= DataGroup.Create(AddDays);
 
     private DataGroup<YemodaPair>? _consecutiveDaysData;
     public DataGroup<YemodaPair> ConsecutiveDaysData =>
         _consecutiveDaysData ??= DataGroup.Create(ConsecutiveDays);
 
-    private static readonly List<(int date, int, int, int exp, int, int, int days)> s_AddDays = new()
+    private static IEnumerable<YemodaPairAnd<int>> AddDays
     {
-        // A full month.
-        (date: 3, 4, 5, exp: 3, 4, 30, days: 25),
-        (date: 3, 4, 5, exp: 3, 4, 29, days: 24),
-        (date: 3, 4, 5, exp: 3, 4, 28, days: 23),
-        (date: 3, 4, 5, exp: 3, 4, 27, days: 22),
-        (date: 3, 4, 5, exp: 3, 4, 26, days: 21),
-        (date: 3, 4, 5, exp: 3, 4, 25, days: 20),
-        (date: 3, 4, 5, exp: 3, 4, 24, days: 19),
-        (date: 3, 4, 5, exp: 3, 4, 23, days: 18),
-        (date: 3, 4, 5, exp: 3, 4, 22, days: 17),
-        (date: 3, 4, 5, exp: 3, 4, 21, days: 16),
-        (date: 3, 4, 5, exp: 3, 4, 20, days: 15),
-        (date: 3, 4, 5, exp: 3, 4, 19, days: 14),
-        (date: 3, 4, 5, exp: 3, 4, 18, days: 13),
-        (date: 3, 4, 5, exp: 3, 4, 17, days: 12),
-        (date: 3, 4, 5, exp: 3, 4, 16, days: 11),
-        (date: 3, 4, 5, exp: 3, 4, 15, days: 10),
-        (date: 3, 4, 5, exp: 3, 4, 14, days: 9),
-        (date: 3, 4, 5, exp: 3, 4, 13, days: 8),
-        (date: 3, 4, 5, exp: 3, 4, 12, days: 7),
-        (date: 3, 4, 5, exp: 3, 4, 11, days: 6),
-        (date: 3, 4, 5, exp: 3, 4, 10, days: 5),
-        (date: 3, 4, 5, exp: 3, 4, 9, days: 4),
-        (date: 3, 4, 5, exp: 3, 4, 8, days: 3),
-        (date: 3, 4, 5, exp: 3, 4, 7, days: 2),
-        (date: 3, 4, 5, exp: 3, 4, 6, days: 1),
-        (date: 3, 4, 5, exp: 3, 4, 5, days: 0),
-        (date: 3, 4, 5, exp: 3, 4, 4, days: -1),
-        (date: 3, 4, 5, exp: 3, 4, 3, days: -2),
-        (date: 3, 4, 5, exp: 3, 4, 2, days: -3),
-        (date: 3, 4, 5, exp: 3, 4, 1, days: -4),
+        get
+        {
+            // A full month.
+            yield return new(new(3, 4, 5), new(3, 4, 30), 25);
+            yield return new(new(3, 4, 5), new(3, 4, 29), 24);
+            yield return new(new(3, 4, 5), new(3, 4, 28), 23);
+            yield return new(new(3, 4, 5), new(3, 4, 27), 22);
+            yield return new(new(3, 4, 5), new(3, 4, 26), 21);
+            yield return new(new(3, 4, 5), new(3, 4, 25), 20);
+            yield return new(new(3, 4, 5), new(3, 4, 24), 19);
+            yield return new(new(3, 4, 5), new(3, 4, 23), 18);
+            yield return new(new(3, 4, 5), new(3, 4, 22), 17);
+            yield return new(new(3, 4, 5), new(3, 4, 21), 16);
+            yield return new(new(3, 4, 5), new(3, 4, 20), 15);
+            yield return new(new(3, 4, 5), new(3, 4, 19), 14);
+            yield return new(new(3, 4, 5), new(3, 4, 18), 13);
+            yield return new(new(3, 4, 5), new(3, 4, 17), 12);
+            yield return new(new(3, 4, 5), new(3, 4, 16), 11);
+            yield return new(new(3, 4, 5), new(3, 4, 15), 10);
+            yield return new(new(3, 4, 5), new(3, 4, 14), 9);
+            yield return new(new(3, 4, 5), new(3, 4, 13), 8);
+            yield return new(new(3, 4, 5), new(3, 4, 12), 7);
+            yield return new(new(3, 4, 5), new(3, 4, 11), 6);
+            yield return new(new(3, 4, 5), new(3, 4, 10), 5);
+            yield return new(new(3, 4, 5), new(3, 4, 9), 4);
+            yield return new(new(3, 4, 5), new(3, 4, 8), 3);
+            yield return new(new(3, 4, 5), new(3, 4, 7), 2);
+            yield return new(new(3, 4, 5), new(3, 4, 6), 1);
+            yield return new(new(3, 4, 5), new(3, 4, 5), 0);
+            yield return new(new(3, 4, 5), new(3, 4, 4), -1);
+            yield return new(new(3, 4, 5), new(3, 4, 3), -2);
+            yield return new(new(3, 4, 5), new(3, 4, 2), -3);
+            yield return new(new(3, 4, 5), new(3, 4, 1), -4);
 
-        // Change of year.
-        (date: 3, 11, 30, exp: 4, 1, 1, days: 32),
-        (date: 3, 2, 1, exp: 2, 12, 31, days: -32),
+            // Change of year.
+            yield return new(new(3, 11, 30), new(4, 1, 1), 32);
+            yield return new(new(3, 2, 1), new(2, 12, 31), -32);
 
-        // Change of month.
-        (date: 3, 4, 5, exp: 3, 5, 1, days: 26),
-        (date: 3, 4, 5, exp: 3, 3, 31, days: -5),
-        // February, common year.
-        (date: 3, 2, 28, exp: 3, 3, 1, days: 1),
-        (date: 3, 3, 1, exp: 3, 2, 28, days: -1),
-        // February, leap year.
-        (date: 4, 2, 28, exp: 4, 2, 29, days: 1),
-        (date: 4, 2, 28, exp: 4, 3, 1, days: 2),
-        (date: 4, 2, 29, exp: 4, 3, 1, days: 1),
-        (date: 4, 3, 1, exp: 4, 2, 29, days: -1),
+            // Change of month.
+            yield return new(new(3, 4, 5), new(3, 5, 1), 26);
+            yield return new(new(3, 4, 5), new(3, 3, 31), -5);
+            // February, common year.
+            yield return new(new(3, 2, 28), new(3, 3, 1), 1);
+            yield return new(new(3, 3, 1), new(3, 2, 28), -1);
+            // February, leap year.
+            yield return new(new(4, 2, 28), new(4, 2, 29), 1);
+            yield return new(new(4, 2, 28), new(4, 3, 1), 2);
+            yield return new(new(4, 2, 29), new(4, 3, 1), 1);
+            yield return new(new(4, 3, 1), new(4, 2, 29), -1);
 
-        // years < -365, no leap year in the middle.
-        (date: 3, 4, 5, exp: 2, 4, 5, days: -365),
-        (date: 3, 4, 5, exp: 1, 4, 5, days: -2 * 365),
+            // years < -365, no leap year in the middle.
+            yield return new(new(3, 4, 5), new(2, 4, 5), -365);
+            yield return new(new(3, 4, 5), new(1, 4, 5), -2 * 365);
 
-        // years > 365, one leap year in the middle.
-        (date: 3, 4, 5, exp: 4, 4, 4, days: 365),
-        (date: 3, 4, 5, exp: 5, 4, 4, days: 2 * 365),
-    };
+            // years > 365, one leap year in the middle.
+            yield return new(new(3, 4, 5), new(4, 4, 4), 365);
+            yield return new(new(3, 4, 5), new(5, 4, 4), 2 * 365);
+        }
+    }
 
     // Used to test Next() AND Previous().
     private static IEnumerable<YemodaPair> ConsecutiveDays
