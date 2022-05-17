@@ -125,6 +125,8 @@ module RuntimeSizes =
         Marshal.SizeOf(typedefof<YearDaysSinceEpoch>) === 8
         Marshal.SizeOf(typedefof<YearDayNumber>) === 8
         Marshal.SizeOf(typedefof<DaysSinceEpochInfo>) === 16
+        Marshal.SizeOf(typedefof<DaysSinceZeroInfo>) === 16
+        Marshal.SizeOf(typedefof<DaysSinceRataDieInfo>) === 16
         Marshal.SizeOf(typedefof<DayNumberInfo>) === 16
         Marshal.SizeOf(typedefof<DateInfo>) === 16
         Marshal.SizeOf(typedefof<MonthInfo>) === 16
@@ -134,6 +136,8 @@ module RuntimeSizes =
         Marshal.SizeOf(typedefof<CenturyInfo>) === 12
         Marshal.SizeOf(typedefof<MillenniumInfo>) === 12
         Marshal.SizeOf(typedefof<EpagomenalDayInfo>) === 16
+        sizeof<YemodaAnd<int>>() === 8
+        sizeof<YemoAnd<int>>() === 8
 
 module DefaultValues =
     // Date types built upon DayNumber: 01/01/0001 (year 1)
