@@ -26,7 +26,7 @@ public partial class Coptic13DataSet // Infos
         _daysSinceEpochInfoData ??=
             DataGroup.CreateDaysSinceEpochInfoData(DaysSinceRataDieInfos, CalendarEpoch.Coptic);
 
-    public override TheoryData<DateInfo> DateInfoData => new()
+    public override TheoryData<DateInfo> DateInfoData { get; } = new()
     {
         // Common year.
         new(CommonYear, 1, 1, 1, false, false),
@@ -69,7 +69,7 @@ public partial class Coptic13DataSet // Infos
         new(LeapYear, 13, 6, 366, true, true),
     };
 
-    public override TheoryData<MonthInfo> MonthInfoData => new()
+    public override TheoryData<MonthInfo> MonthInfoData { get; } = new()
     {
         // Common year.
         new(CommonYear, 1, 30, 0, false),
@@ -101,7 +101,7 @@ public partial class Coptic13DataSet // Infos
         new(LeapYear, 13, 6, 360, false),
     };
 
-    public override TheoryData<YearInfo> YearInfoData => new()
+    public override TheoryData<YearInfo> YearInfoData { get; } = new()
     {
         new(-9, 13, 366, true),
         new(-8, 13, 365, false),
@@ -171,7 +171,7 @@ public partial class Coptic13DataSet // Infos
 
 public partial class Coptic13DataSet // Start and end of year
 {
-    public override TheoryData<Yemoda> EndOfYearPartsData => new()
+    public override TheoryData<Yemoda> EndOfYearPartsData { get; } = new()
     {
         new(CommonYear, 13, 5),
         new(LeapYear, 13, 6),
@@ -205,7 +205,7 @@ public partial class Coptic13DataSet // Start and end of year
 
 public partial class Coptic13DataSet // Invalid date parts
 {
-    public override TheoryData<int, int> InvalidMonthFieldData => new()
+    public override TheoryData<int, int> InvalidMonthFieldData { get; } = new()
     {
         { CommonYear, 0 },
         { CommonYear, 14 },
@@ -213,7 +213,7 @@ public partial class Coptic13DataSet // Invalid date parts
         { LeapYear, 14 },
     };
 
-    public override TheoryData<int, int> InvalidDayOfYearFieldData => new()
+    public override TheoryData<int, int> InvalidDayOfYearFieldData { get; } = new()
     {
         { CommonYear, 0 },
         { CommonYear, 366 },
@@ -221,7 +221,7 @@ public partial class Coptic13DataSet // Invalid date parts
         { LeapYear, 367 },
     };
 
-    public override TheoryData<int, int, int> InvalidDayFieldData => new()
+    public override TheoryData<int, int, int> InvalidDayFieldData { get; } = new()
     {
         // Common year.
         { CommonYear, 1, 0 },

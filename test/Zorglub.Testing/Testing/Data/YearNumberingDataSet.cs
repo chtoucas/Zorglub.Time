@@ -5,7 +5,7 @@ namespace Zorglub.Testing.Data;
 
 public static class YearNumberingDataSet
 {
-    public static readonly TheoryData<DecadeOfCenturyInfo> DecadeOfCenturyInfoData = new()
+    public static TheoryData<DecadeOfCenturyInfo> DecadeOfCenturyInfoData { get; } = new()
     {
         new(-109, -1, 10, 1),
         new(-100, -1, 10, 10),
@@ -33,7 +33,7 @@ public static class YearNumberingDataSet
         new(110, 2, 1, 10),
     };
 
-    public static readonly TheoryData<DecadeOfCenturyInfo> IsoDecadeOfCenturyInfoData = new()
+    public static TheoryData<DecadeOfCenturyInfo> IsoDecadeOfCenturyInfoData { get; } = new()
     {
         new(-110, -1, 10, 1),
         new(-101, -1, 10, 10),
@@ -62,7 +62,7 @@ public static class YearNumberingDataSet
         new(109, 2, 1, 10),
     };
 
-    public static readonly TheoryData<DecadeInfo> DecadeInfoData = new()
+    public static TheoryData<DecadeInfo> DecadeInfoData { get; } = new()
     {
         new(-109, -10, 1),
         new(-100, -10, 10),
@@ -84,7 +84,7 @@ public static class YearNumberingDataSet
         new(110, 11, 10),
     };
 
-    public static readonly TheoryData<DecadeInfo> IsoDecadeInfoData = new()
+    public static TheoryData<DecadeInfo> IsoDecadeInfoData { get; } = new()
     {
         new(-110, -10, 1),
         new(-101, -10, 10),
@@ -107,7 +107,7 @@ public static class YearNumberingDataSet
         new(109, 11, 10),
     };
 
-    public static readonly TheoryData<CenturyInfo> CenturyInfoData = new()
+    public static TheoryData<CenturyInfo> CenturyInfoData { get; } = new()
     {
         new(-1099, -10, 1),
         new(-1000, -10, 100),
@@ -141,7 +141,7 @@ public static class YearNumberingDataSet
         new(2100, 21, 100),
     };
 
-    public static readonly TheoryData<CenturyInfo> IsoCenturyInfoData = new()
+    public static TheoryData<CenturyInfo> IsoCenturyInfoData { get; } = new()
     {
         new(-1100, -10, 1),
         new(-1001, -10, 100),
@@ -176,7 +176,7 @@ public static class YearNumberingDataSet
         new(2099, 21, 100),
     };
 
-    public static readonly TheoryData<MillenniumInfo> MillenniumInfoData = new()
+    public static TheoryData<MillenniumInfo> MillenniumInfoData { get; } = new()
     {
         new(-2999, -2, 1),
         new(-2000, -2, 1000),
@@ -198,7 +198,7 @@ public static class YearNumberingDataSet
         new(3000, 3, 1000),
     };
 
-    public static readonly TheoryData<MillenniumInfo> IsoMillenniumInfoData = new()
+    public static TheoryData<MillenniumInfo> IsoMillenniumInfoData { get; } = new()
     {
         new(-3000, -2, 1),
         new(-2001, -2, 1000),

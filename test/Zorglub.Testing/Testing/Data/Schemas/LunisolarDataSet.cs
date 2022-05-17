@@ -23,7 +23,7 @@ public partial class LunisolarDataSet // Infos
         _daysSinceEpochInfoData ??=
             DataGroup.CreateDaysSinceEpochInfoData(DaysSinceRataDieInfos, DayZero.NewStyle);
 
-    public override TheoryData<DateInfo> DateInfoData => new()
+    public override TheoryData<DateInfo> DateInfoData { get; } = new()
     {
         // Common year.
         new(CommonYear, 1, 1, 1, false, false),
@@ -56,7 +56,7 @@ public partial class LunisolarDataSet // Infos
         new(LeapYear, 13, 30, 384, false, false),
     };
 
-    public override TheoryData<MonthInfo> MonthInfoData => new()
+    public override TheoryData<MonthInfo> MonthInfoData { get; } = new()
     {
         // Common year.
         new(CommonYear, 1, 30, 0, false),
@@ -87,7 +87,7 @@ public partial class LunisolarDataSet // Infos
         new(LeapYear, 13, 30, 354, true),
     };
 
-    public override TheoryData<YearInfo> YearInfoData => new()
+    public override TheoryData<YearInfo> YearInfoData { get; } = new()
     {
         new(CommonYear, 12, 354, false),
         new(LeapYear, 13, 384, true),
@@ -170,7 +170,7 @@ public partial class LunisolarDataSet // Infos
 
 public partial class LunisolarDataSet // Start and end of year
 {
-    public override TheoryData<Yemoda> EndOfYearPartsData => new()
+    public override TheoryData<Yemoda> EndOfYearPartsData { get; } = new()
     {
         new(CommonYear, 12, 29),
         new(LeapYear, 13, 30),
@@ -202,7 +202,7 @@ public partial class LunisolarDataSet // Start and end of year
 
 public partial class LunisolarDataSet // Invalid date parts
 {
-    public override TheoryData<int, int> InvalidMonthFieldData => new()
+    public override TheoryData<int, int> InvalidMonthFieldData { get; } = new()
     {
         { CommonYear, 0 },
         { CommonYear, 13 },
@@ -210,7 +210,7 @@ public partial class LunisolarDataSet // Invalid date parts
         { LeapYear, 14 },
     };
 
-    public override TheoryData<int, int> InvalidDayOfYearFieldData => new()
+    public override TheoryData<int, int> InvalidDayOfYearFieldData { get; } = new()
     {
         { CommonYear, 0 },
         { CommonYear, 355 },
@@ -218,7 +218,7 @@ public partial class LunisolarDataSet // Invalid date parts
         { LeapYear, 385 },
     };
 
-    public override TheoryData<int, int, int> InvalidDayFieldData => new()
+    public override TheoryData<int, int, int> InvalidDayFieldData { get; } = new()
     {
         // Common year.
         { CommonYear, 1, 0 },

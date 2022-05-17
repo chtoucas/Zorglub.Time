@@ -25,7 +25,7 @@ public partial class Persian2820DataSet // Infos
         _daysSinceEpochInfoData ??=
             DataGroup.CreateDaysSinceEpochInfoData(DaysSinceRataDieInfos, CalendarEpoch.Persian);
 
-    public override TheoryData<DateInfo> DateInfoData => new()
+    public override TheoryData<DateInfo> DateInfoData { get; } = new()
     {
         // Common year.
         new(CommonYear, 1, 1, 1, false, false),
@@ -58,7 +58,7 @@ public partial class Persian2820DataSet // Infos
         new(LeapYear, 12, 30, 366, true, false),
     };
 
-    public override TheoryData<MonthInfo> MonthInfoData => new()
+    public override TheoryData<MonthInfo> MonthInfoData { get; } = new()
     {
         // Common year.
         new(CommonYear, 1, 31, 0, false),
@@ -88,7 +88,7 @@ public partial class Persian2820DataSet // Infos
         new(LeapYear, 12, 30, 336, false),
     };
 
-    public override TheoryData<YearInfo> YearInfoData => new()
+    public override TheoryData<YearInfo> YearInfoData { get; } = new()
     {
         new(0, 12, 366, true),
         new(CommonYear, 12, 365, false),
@@ -187,7 +187,7 @@ public partial class Persian2820DataSet // Infos
 
 public partial class Persian2820DataSet // Start and end of year
 {
-    public override TheoryData<Yemoda> EndOfYearPartsData => new()
+    public override TheoryData<Yemoda> EndOfYearPartsData { get; } = new()
     {
         new(CommonYear, 12, 29),
         new(LeapYear, 12, 30),
@@ -213,7 +213,7 @@ public partial class Persian2820DataSet // Start and end of year
 
 public partial class Persian2820DataSet // Invalid date parts
 {
-    public override TheoryData<int, int> InvalidMonthFieldData => new()
+    public override TheoryData<int, int> InvalidMonthFieldData { get; } = new()
     {
         { CommonYear, 0 },
         { CommonYear, 13 },
@@ -221,7 +221,7 @@ public partial class Persian2820DataSet // Invalid date parts
         { LeapYear, 13 },
     };
 
-    public override TheoryData<int, int> InvalidDayOfYearFieldData => new()
+    public override TheoryData<int, int> InvalidDayOfYearFieldData { get; } = new()
     {
         { CommonYear, 0 },
         { CommonYear, 366 },
@@ -229,7 +229,7 @@ public partial class Persian2820DataSet // Invalid date parts
         { LeapYear, 367 },
     };
 
-    public override TheoryData<int, int, int> InvalidDayFieldData => new()
+    public override TheoryData<int, int, int> InvalidDayFieldData { get; } = new()
     {
         // Common year.
         { CommonYear, 1, 0 },

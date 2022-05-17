@@ -20,7 +20,7 @@ public partial class TropicaliaDataSet // Infos
         _daysSinceEpochInfoData ??=
             DataGroup.CreateDaysSinceEpochInfoData(DaysSinceRataDieInfos, DayZero.NewStyle);
 
-    public override TheoryData<DateInfo> DateInfoData => new()
+    public override TheoryData<DateInfo> DateInfoData { get; } = new()
     {
         // Common year.
         new(CommonYear, 1, 1, 1, false, false),
@@ -99,7 +99,7 @@ public partial class TropicaliaDataSet // Infos
         new(LeapYear, 12, 31, 366, false, false),
     };
 
-    public override TheoryData<MonthInfo> MonthInfoData => new()
+    public override TheoryData<MonthInfo> MonthInfoData { get; } = new()
     {
         // Common year.
         new(CommonYear, 1, 31, 0, false),
@@ -196,7 +196,7 @@ public partial class TropicaliaDataSet // Infos
 
 public partial class TropicaliaDataSet // Start and end of year
 {
-    public override TheoryData<Yemoda> EndOfYearPartsData => new()
+    public override TheoryData<Yemoda> EndOfYearPartsData { get; } = new()
     {
         new(CommonYear, 12, 31),
         new(LeapYear, 12, 31),
@@ -205,7 +205,7 @@ public partial class TropicaliaDataSet // Start and end of year
 
 public partial class TropicaliaDataSet // Invalid date parts
 {
-    public override TheoryData<int, int, int> InvalidDayFieldData => new()
+    public override TheoryData<int, int, int> InvalidDayFieldData { get; } = new()
     {
         // Common year.
         { CommonYear, 1, 0 },

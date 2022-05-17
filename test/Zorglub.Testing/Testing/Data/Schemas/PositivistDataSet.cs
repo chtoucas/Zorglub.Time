@@ -25,7 +25,7 @@ public partial class PositivistDataSet // Infos
         _daysSinceEpochInfoData ??=
             DataGroup.CreateDaysSinceEpochInfoData(DaysSinceZeroInfos, CalendarEpoch.Positivist);
 
-    public override TheoryData<DateInfo> DateInfoData => new()
+    public override TheoryData<DateInfo> DateInfoData { get; } = new()
     {
         // Common year.
         new(CommonYear, 1, 1, 1, false, false),
@@ -60,7 +60,7 @@ public partial class PositivistDataSet // Infos
         new(LeapYear, 13, 30, 366, true, true),
     };
 
-    public override TheoryData<MonthInfo> MonthInfoData => new()
+    public override TheoryData<MonthInfo> MonthInfoData { get; } = new()
     {
         // Common year.
         new(CommonYear, 1, 28, 0, false),
@@ -92,7 +92,7 @@ public partial class PositivistDataSet // Infos
         new(LeapYear, 13, 30, 336, false),
     };
 
-    public override TheoryData<YearInfo> YearInfoData => new()
+    public override TheoryData<YearInfo> YearInfoData { get; } = new()
     {
         // Leap years.
         new(LeapYear, 13, 366, true),
@@ -121,7 +121,7 @@ public partial class PositivistDataSet // Infos
 
 public partial class PositivistDataSet // Start and end of year
 {
-    public override TheoryData<Yemoda> EndOfYearPartsData => new()
+    public override TheoryData<Yemoda> EndOfYearPartsData { get; } = new()
     {
         new(CommonYear, 13, 29),
         new(LeapYear, 13, 30),
@@ -146,7 +146,7 @@ public partial class PositivistDataSet // Start and end of year
 
 public partial class PositivistDataSet // Invalid date parts
 {
-    public override TheoryData<int, int> InvalidMonthFieldData => new()
+    public override TheoryData<int, int> InvalidMonthFieldData { get; } = new()
     {
         { CommonYear, 0 },
         { CommonYear, 14 },
@@ -154,7 +154,7 @@ public partial class PositivistDataSet // Invalid date parts
         { LeapYear, 14 },
     };
 
-    public override TheoryData<int, int> InvalidDayOfYearFieldData => new()
+    public override TheoryData<int, int> InvalidDayOfYearFieldData { get; } = new()
     {
         { CommonYear, 0 },
         { CommonYear, 366 },
@@ -162,7 +162,7 @@ public partial class PositivistDataSet // Invalid date parts
         { LeapYear, 367 },
     };
 
-    public override TheoryData<int, int, int> InvalidDayFieldData => new()
+    public override TheoryData<int, int, int> InvalidDayFieldData { get; } = new()
     {
         // Common year.
         { CommonYear, 1, 0 },

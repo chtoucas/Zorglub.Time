@@ -25,7 +25,7 @@ public partial class Egyptian12DataSet // Infos
         _daysSinceEpochInfoData ??=
             DataGroup.CreateDaysSinceEpochInfoData(DaysSinceRataDieInfos, CalendarEpoch.Egyptian);
 
-    public override TheoryData<DateInfo> DateInfoData => new()
+    public override TheoryData<DateInfo> DateInfoData { get; } = new()
     {
         new(SampleYear, 1, 1, 1, false, false),
         new(SampleYear, 1, 30, 30, false, false),
@@ -59,7 +59,7 @@ public partial class Egyptian12DataSet // Infos
         new(SampleYear, 12, 35, 365, false, true),
     };
 
-    public override TheoryData<MonthInfo> MonthInfoData => new()
+    public override TheoryData<MonthInfo> MonthInfoData { get; } = new()
     {
         new(SampleYear, 1, 30, 0, false),
         new(SampleYear, 2, 30, 30, false),
@@ -75,7 +75,7 @@ public partial class Egyptian12DataSet // Infos
         new(SampleYear, 12, 35, 330, false),
     };
 
-    public override TheoryData<YearInfo> YearInfoData => new()
+    public override TheoryData<YearInfo> YearInfoData { get; } = new()
     {
         new(SampleYear, 12, 365, false),
     };
@@ -134,7 +134,7 @@ public partial class Egyptian12DataSet // Infos
 
 public partial class Egyptian12DataSet // Start and end of year
 {
-    public override TheoryData<Yemoda> EndOfYearPartsData => new()
+    public override TheoryData<Yemoda> EndOfYearPartsData { get; } = new()
     {
         new(SampleYear, 12, 35),
     };
@@ -167,19 +167,19 @@ public partial class Egyptian12DataSet // Start and end of year
 
 public partial class Egyptian12DataSet // Invalid date parts
 {
-    public override TheoryData<int, int> InvalidMonthFieldData => new()
+    public override TheoryData<int, int> InvalidMonthFieldData { get; } = new()
     {
         { SampleYear, 0 },
         { SampleYear, 13 },
     };
 
-    public override TheoryData<int, int> InvalidDayOfYearFieldData => new()
+    public override TheoryData<int, int> InvalidDayOfYearFieldData { get; } = new()
     {
         { SampleYear, 0 },
         { SampleYear, 366 },
     };
 
-    public override TheoryData<int, int, int> InvalidDayFieldData => new()
+    public override TheoryData<int, int, int> InvalidDayFieldData { get; } = new()
     {
         { SampleYear, 1, 0 },
         { SampleYear, 1, 31 },

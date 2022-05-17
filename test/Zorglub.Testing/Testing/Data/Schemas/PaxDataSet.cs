@@ -25,7 +25,7 @@ public partial class PaxDataSet // Infos
         _daysSinceEpochInfoData ??=
             DataGroup.CreateDaysSinceEpochInfoData(DaysSinceZeroInfos, CalendarEpoch.SundayBeforeGregorian);
 
-    public override TheoryData<DateInfo> DateInfoData => new()
+    public override TheoryData<DateInfo> DateInfoData { get; } = new()
     {
         // Common year.
         new(CommonYear, 1, 1, 1, false, false),
@@ -66,7 +66,7 @@ public partial class PaxDataSet // Infos
         new(LeapYear, 14, 28, 371, false, false),
     };
 
-    public override TheoryData<MonthInfo> MonthInfoData => new()
+    public override TheoryData<MonthInfo> MonthInfoData { get; } = new()
     {
         // Common year.
         new(CommonYear, 1, 28, 0, false),
@@ -99,7 +99,7 @@ public partial class PaxDataSet // Infos
         new(LeapYear, 14, 28, 343, false),
     };
 
-    public override TheoryData<YearInfo> YearInfoData => new()
+    public override TheoryData<YearInfo> YearInfoData { get; } = new()
     {
         new(1930, 14, 371, true),
         new(1936, 14, 371, true),
@@ -140,7 +140,7 @@ public partial class PaxDataSet // Infos
 
 public partial class PaxDataSet // Start and end of year
 {
-    public override TheoryData<Yemoda> EndOfYearPartsData => new()
+    public override TheoryData<Yemoda> EndOfYearPartsData { get; } = new()
     {
         new(CommonYear, 13, 28),
         new(LeapYear, 14, 28),
@@ -188,7 +188,7 @@ public partial class PaxDataSet // Start and end of year
 
 public partial class PaxDataSet // Invalid date parts
 {
-    public override TheoryData<int, int> InvalidMonthFieldData => new()
+    public override TheoryData<int, int> InvalidMonthFieldData { get; } = new()
     {
         { CommonYear, 0 },
         { CommonYear, 14 },
@@ -196,7 +196,7 @@ public partial class PaxDataSet // Invalid date parts
         { LeapYear, 15 },
     };
 
-    public override TheoryData<int, int> InvalidDayOfYearFieldData => new()
+    public override TheoryData<int, int> InvalidDayOfYearFieldData { get; } = new()
     {
         { CommonYear, 0 },
         { CommonYear, 365 },
@@ -204,7 +204,7 @@ public partial class PaxDataSet // Invalid date parts
         { LeapYear, 372 },
     };
 
-    public override TheoryData<int, int, int> InvalidDayFieldData => new()
+    public override TheoryData<int, int, int> InvalidDayFieldData { get; } = new()
     {
         // Common year.
         { CommonYear, 1, 0 },
@@ -268,7 +268,7 @@ public partial class PaxDataSet // Invalid date parts
 public partial class PaxDataSet // Supplementary data
 {
     // Year, invalid week of the year.
-    public static TheoryData<int, int> InvalidWeekOfYearData => new()
+    public static TheoryData<int, int> InvalidWeekOfYearData { get; } = new()
     {
         { CommonYear, 0 },
         { CommonYear, 53 },
@@ -277,14 +277,14 @@ public partial class PaxDataSet // Supplementary data
     };
 
     // Year, weeks in year.
-    public static readonly TheoryData<int, int> MoreYearInfoData = new()
+    public static TheoryData<int, int> MoreYearInfoData { get; } = new()
     {
         { CommonYear, 52 },
         { LeapYear, 53 },
     };
 
     // Year, month of the year, isPaxMonth, isLastMonthOfYear.
-    public static readonly TheoryData<int, int, bool, bool> MoreMonthInfoData = new()
+    public static TheoryData<int, int, bool, bool> MoreMonthInfoData { get; } = new()
     {
         // Common year.
         { CommonYear, 1, false, false },
@@ -318,7 +318,7 @@ public partial class PaxDataSet // Supplementary data
     };
 
     // Year, week of the year, isIntercalary.
-    public static readonly TheoryData<int, int, bool> WeekInfoData = new()
+    public static TheoryData<int, int, bool> WeekInfoData { get; } = new()
     {
         // Common year.
         { CommonYear, 1, false },

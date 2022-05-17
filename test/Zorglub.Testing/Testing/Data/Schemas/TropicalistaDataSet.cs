@@ -10,7 +10,7 @@ public abstract class TropicalistaDataSet : CalendricalDataSet
 
     protected TropicalistaDataSet(TropicalistaSchema schema) : base(schema, CommonYear, LeapYear) { }
 
-    public sealed override TheoryData<YearInfo> YearInfoData => new()
+    public sealed override TheoryData<YearInfo> YearInfoData { get; } = new()
     {
         // Leap years.
         new(-8, 12, 366, true),
@@ -105,7 +105,7 @@ public abstract class TropicalistaDataSet : CalendricalDataSet
         new(129, TropicaliaSchema.DaysPer128YearCycle),
     };
 
-    public sealed override TheoryData<int, int> InvalidMonthFieldData => new()
+    public sealed override TheoryData<int, int> InvalidMonthFieldData { get; } = new()
     {
         { CommonYear, 0 },
         { CommonYear, 13 },
@@ -113,7 +113,7 @@ public abstract class TropicalistaDataSet : CalendricalDataSet
         { LeapYear, 13 },
     };
 
-    public sealed override TheoryData<int, int> InvalidDayOfYearFieldData => new()
+    public sealed override TheoryData<int, int> InvalidDayOfYearFieldData { get; } = new()
     {
         { CommonYear, 0 },
         { CommonYear, 366 },

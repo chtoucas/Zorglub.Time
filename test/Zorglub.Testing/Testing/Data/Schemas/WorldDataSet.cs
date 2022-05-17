@@ -22,7 +22,7 @@ public partial class WorldDataSet // Infos
     public override DataGroup<DaysSinceEpochInfo> DaysSinceEpochInfoData =>
         _daysSinceEpochInfoData ??= DataGroup.Create(DaysSinceEpochInfos);
 
-    public override TheoryData<DateInfo> DateInfoData => new()
+    public override TheoryData<DateInfo> DateInfoData { get; } = new()
     {
         // Common year.
         new(CommonYear, 1, 1, 1, false, false),
@@ -57,7 +57,7 @@ public partial class WorldDataSet // Infos
         new(LeapYear, 12, 31, 366, false, true),
     };
 
-    public override TheoryData<MonthInfo> MonthInfoData => new()
+    public override TheoryData<MonthInfo> MonthInfoData { get; } = new()
     {
         // Common year.
         new(CommonYear, 1, 31, 0, false),
@@ -87,7 +87,7 @@ public partial class WorldDataSet // Infos
         new(LeapYear, 12, 31, 335, false),
     };
 
-    public override TheoryData<YearInfo> YearInfoData => new()
+    public override TheoryData<YearInfo> YearInfoData { get; } = new()
     {
         // Leap years.
         new(LeapYear, 12, 366, true),
@@ -116,7 +116,7 @@ public partial class WorldDataSet // Infos
 
 public partial class WorldDataSet // Start and end of year
 {
-    public override TheoryData<Yemoda> EndOfYearPartsData => new()
+    public override TheoryData<Yemoda> EndOfYearPartsData { get; } = new()
     {
         new(CommonYear, 12, 31),
         new(LeapYear, 12, 31),
@@ -141,7 +141,7 @@ public partial class WorldDataSet // Start and end of year
 
 public partial class WorldDataSet // Invalid date parts
 {
-    public override TheoryData<int, int> InvalidMonthFieldData => new()
+    public override TheoryData<int, int> InvalidMonthFieldData { get; } = new()
     {
         { CommonYear, 0 },
         { CommonYear, 13 },
@@ -149,7 +149,7 @@ public partial class WorldDataSet // Invalid date parts
         { LeapYear, 13 },
     };
 
-    public override TheoryData<int, int> InvalidDayOfYearFieldData => new()
+    public override TheoryData<int, int> InvalidDayOfYearFieldData { get; } = new()
     {
         { CommonYear, 0 },
         { CommonYear, 366 },
@@ -157,7 +157,7 @@ public partial class WorldDataSet // Invalid date parts
         { LeapYear, 367 },
     };
 
-    public override TheoryData<int, int, int> InvalidDayFieldData => new()
+    public override TheoryData<int, int, int> InvalidDayFieldData { get; } = new()
     {
         // Common year.
         { CommonYear, 1, 0 },
@@ -215,7 +215,7 @@ public partial class WorldDataSet // Invalid date parts
 public partial class WorldDataSet // Supplementary data
 {
     // Year, month of the year, genuine daysInMonth.
-    public static readonly TheoryData<int, int, int> MoreMonthInfoData = new()
+    public static TheoryData<int, int, int> MoreMonthInfoData { get; } = new()
     {
         // Common year.
         { CommonYear, 1, 31 },

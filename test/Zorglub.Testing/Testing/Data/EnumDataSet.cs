@@ -7,13 +7,13 @@ using Zorglub.Time.Simple;
 
 public static class EnumDataSet
 {
-    public static readonly TheoryData<DayOfWeek> InvalidDayOfWeekData =
+    public static TheoryData<DayOfWeek> InvalidDayOfWeekData { get; } =
         new() { (DayOfWeek)(-1), (DayOfWeek)7 };
 
-    public static readonly TheoryData<CalendarId> InvalidCalendarIdData =
+    public static TheoryData<CalendarId> InvalidCalendarIdData { get; } =
         new() { (CalendarId)(-1), (CalendarId)(int)(1 + Cuid.MaxSystem) };
 
-    public static readonly TheoryData<CalendarId> CalendarIdData = new()
+    public static TheoryData<CalendarId> CalendarIdData { get; } = new()
     {
         CalendarId.Armenian,
         CalendarId.Coptic,
@@ -24,7 +24,7 @@ public static class EnumDataSet
         CalendarId.Zoroastrian,
     };
 
-    public static readonly TheoryData<CalendricalAlgorithm> CalendricalAlgorithmData = new()
+    public static TheoryData<CalendricalAlgorithm> CalendricalAlgorithmData { get; } = new()
     {
         CalendricalAlgorithm.Arithmetical,
         CalendricalAlgorithm.Astronomical,
@@ -32,7 +32,7 @@ public static class EnumDataSet
         CalendricalAlgorithm.Unknown,
     };
 
-    public static readonly TheoryData<CalendricalFamily> CalendricalFamilyData = new()
+    public static TheoryData<CalendricalFamily> CalendricalFamilyData { get; } = new()
     {
         CalendricalFamily.AnnusVagus,
         CalendricalFamily.Lunar,
@@ -43,7 +43,7 @@ public static class EnumDataSet
 
     // All pre-defined values.
     // Being a flag enum, other combinations are legitimate.
-    public static readonly TheoryData<CalendricalAdjustments> CalendricalAdjustmentsData = new()
+    public static TheoryData<CalendricalAdjustments> CalendricalAdjustmentsData { get; } = new()
     {
         CalendricalAdjustments.Days,
         CalendricalAdjustments.DaysAndMonths,
