@@ -23,31 +23,31 @@ public partial class CalCalDataSet // Interconversion
     [Pure]
     private static TheoryData<Yemoda, Yemoda> InitGregorianToJulianData()
     {
-        var data = GetGregorianToJulianData();
+        var data = InitCore();
         Interlocked.CompareExchange(ref s_GregorianToJulianData, data, null);
         return s_GregorianToJulianData;
-    }
 
-    [Pure]
-    private static TheoryData<Yemoda, Yemoda> GetGregorianToJulianData()
-    {
-        var lookup = GregorianDataSet.DaysSinceRataDieInfos.ToLookup(x => x.DaysSinceRataDie);
-
-        var data = new TheoryData<Yemoda, Yemoda>();
-        foreach (var (jrd, jy, jm, jd) in JulianDataSet.DaysSinceRataDieInfos)
+        [Pure]
+        static TheoryData<Yemoda, Yemoda> InitCore()
         {
-            var gs = lookup[jrd].ToList();
-            if (gs.Count == 1)
+            var lookup = GregorianDataSet.DaysSinceRataDieInfos.ToLookup(x => x.DaysSinceRataDie);
+
+            var data = new TheoryData<Yemoda, Yemoda>();
+            foreach (var (jrd, jy, jm, jd) in JulianDataSet.DaysSinceRataDieInfos)
             {
-                var (_, gy, gm, gd) = gs.Single();
-                data.Add(new Yemoda(gy, gm, gd), new Yemoda(jy, jm, jd));
+                var gs = lookup[jrd].ToList();
+                if (gs.Count == 1)
+                {
+                    var (_, gy, gm, gd) = gs.Single();
+                    data.Add(new Yemoda(gy, gm, gd), new Yemoda(jy, jm, jd));
+                }
             }
+
+            data.Add(new Yemoda(-9998, 1, 1), new Yemoda(-9998, 3, 19));
+            data.Add(new Yemoda(1970, 1, 1), new Yemoda(1969, 12, 19));
+
+            return data;
         }
-
-        data.Add(new Yemoda(-9998, 1, 1), new Yemoda(-9998, 3, 19));
-        data.Add(new Yemoda(1970, 1, 1), new Yemoda(1969, 12, 19));
-
-        return data;
     }
 }
 
@@ -64,8 +64,9 @@ public partial class CalCalDataSet // Day of the week
     [Pure]
     public static TheoryData<DayNumber, DayOfWeek> GetDayNumberToDayOfWeekData(Range<DayNumber> domain)
     {
+        var source = DaysSinceRataDieToDayOfWeek;
         var data = new TheoryData<DayNumber, DayOfWeek>();
-        foreach (var (daysSinceRataDie, dayOfWeek) in DaysSinceRataDieToDayOfWeek)
+        foreach (var (daysSinceRataDie, dayOfWeek) in source)
         {
             var dayNumber = DayZero.RataDie + daysSinceRataDie;
             if (domain.Contains(dayNumber) == false) { continue; }
@@ -77,41 +78,41 @@ public partial class CalCalDataSet // Day of the week
     [Pure]
     private static TheoryData<DayNumber, DayOfWeek> InitDayNumberToDayOfWeekData()
     {
-        var data = MapToDayNumberToDayOfWeekData(DaysSinceRataDieToDayOfWeek);
+        var data = InitCore();
         Interlocked.CompareExchange(ref s_DayNumberToDayOfWeekData, data, null);
         return s_DayNumberToDayOfWeekData;
+
+        [Pure]
+        static TheoryData<DayNumber, DayOfWeek> InitCore()
+        {
+            var source = DaysSinceRataDieToDayOfWeek;
+            var data = new TheoryData<DayNumber, DayOfWeek>();
+            foreach (var (daysSinceRataDie, dayOfWeek) in source)
+            {
+                data.Add(DayZero.RataDie + daysSinceRataDie, dayOfWeek);
+            }
+            return data;
+        }
     }
 
     [Pure]
     private static TheoryData<DayNumber64, DayOfWeek> InitDayNumber64ToDayOfWeekData()
     {
-        var data = MapToDayNumber64ToDayOfWeekData(DaysSinceRataDieToDayOfWeek);
+        var data = InitCore();
         Interlocked.CompareExchange(ref s_DayNumber64ToDayOfWeekData, data, null);
         return s_DayNumber64ToDayOfWeekData;
-    }
 
-    [Pure]
-    private static TheoryData<DayNumber, DayOfWeek> MapToDayNumberToDayOfWeekData(
-        IEnumerable<(int DaysSinceRataDie, DayOfWeek DayOfWeek)> source)
-    {
-        var data = new TheoryData<DayNumber, DayOfWeek>();
-        foreach (var (daysSinceRataDie, dayOfWeek) in source)
+        [Pure]
+        static TheoryData<DayNumber64, DayOfWeek> InitCore()
         {
-            data.Add(DayZero.RataDie + daysSinceRataDie, dayOfWeek);
+            var source = DaysSinceRataDieToDayOfWeek;
+            var data = new TheoryData<DayNumber64, DayOfWeek>();
+            foreach (var (daysSinceRataDie, dayOfWeek) in source)
+            {
+                data.Add(DayZero64.RataDie + daysSinceRataDie, dayOfWeek);
+            }
+            return data;
         }
-        return data;
-    }
-
-    [Pure]
-    private static TheoryData<DayNumber64, DayOfWeek> MapToDayNumber64ToDayOfWeekData(
-        IEnumerable<(int DaysSinceRataDie, DayOfWeek DayOfWeek)> source)
-    {
-        var data = new TheoryData<DayNumber64, DayOfWeek>();
-        foreach (var (daysSinceRataDie, dayOfWeek) in source)
-        {
-            data.Add(DayZero64.RataDie + daysSinceRataDie, dayOfWeek);
-        }
-        return data;
     }
 
     private static IEnumerable<(int DaysSinceRataDie, DayOfWeek DayOfWeek)> DaysSinceRataDieToDayOfWeek
