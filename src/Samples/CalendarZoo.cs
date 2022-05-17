@@ -14,7 +14,9 @@ using Zorglub.Time.Simple;
 
 using static Zorglub.Time.Extensions.Unboxing;
 
-// FIXME(code): volatile does not work here.
+// FIXME(code): volatile does not work here. Initialization must happen only
+// once (exception throw when the key is already in use). Maybe we should use
+// TryCreateCalendar().
 
 // On en profite pour explorer les différentes manières d'initialiser un
 // champs statique en différé.

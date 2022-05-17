@@ -4,9 +4,9 @@
 namespace Zorglub.Testing.Data;
 
 // TODO(data): Filter supplementary data: see XXXGregorianDataSet.
-// GregorianMinMaxYearCalendarTests à améliorer
-// Do we still need Start/EndOfYearDayNumberData?
 // Move from List<> to IEnumerable<> for intermediate data.
+// GregorianMinMaxYearCalendarTests à améliorer.
+// Do we still need Start/EndOfYearDayNumberData?
 
 // What's in ICalendarDataSet? Everything related to DayNumber, including the
 // Epoch and DayOfWeek.

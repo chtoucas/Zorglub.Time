@@ -62,7 +62,7 @@ public static class DataGroup
 }
 
 /// <summary>
-/// Represents a set of data for a theory.
+/// Represents a group of data for a theory.
 /// </summary>
 public sealed class DataGroup<T> : TheoryData<T>, IEnumerable<T>
 {
