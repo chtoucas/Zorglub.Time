@@ -31,22 +31,25 @@ public sealed class ProlepticGregorianDataSet :
 
     public static ProlepticGregorianDataSet Instance { get; } = new();
 
-    public TheoryData<YemoAnd<int>>? _daysInYearAfterMonthData;
-    public TheoryData<YemoAnd<int>> DaysInYearAfterMonthData =>
+    private DataGroup<YemoAnd<int>>? _daysInYearAfterMonthData;
+    public DataGroup<YemoAnd<int>> DaysInYearAfterMonthData =>
         _daysInYearAfterMonthData ??= FilterData(Inner.DaysInYearAfterMonthData, DataFilter.Filter);
 
     // IYearAdjustmentDataSet
-    public TheoryData<YemodaAnd<int>>? _invalidYearAdjustementData;
+    private DataGroup<YemodaAnd<int>>? _invalidYearAdjustementData;
     public TheoryData<YemodaAnd<int>> InvalidYearAdjustementData =>
         _invalidYearAdjustementData ??= FilterData(Inner.InvalidYearAdjustementData, DataFilter.Filter);
 
-    public TheoryData<YemodaAnd<int>>? _yearAdjustementData;
+    private DataGroup<YemodaAnd<int>>? _yearAdjustementData;
     public TheoryData<YemodaAnd<int>> YearAdjustementData =>
         _yearAdjustementData ??= FilterData(Inner.YearAdjustementData, DataFilter.Filter);
 
     // IMathDataSet
     public TheoryData<Yemoda, Yemoda, int> AddDaysData => Inner.AddDaysData;
-    public TheoryData<YemodaPair> ConsecutiveDaysData => Inner.ConsecutiveDaysData;
+
+    private DataGroup<YemodaPair>? _consecutiveDaysData;
+    public TheoryData<YemodaPair> ConsecutiveDaysData =>
+        _consecutiveDaysData ??= FilterData(Inner.ConsecutiveDaysData, DataFilter.Filter);
 
     // IAdvancedMathDataSet
     public TheoryData<Yemoda, Yemoda, int> AddYearsData => Inner.AddYearsData;
@@ -54,7 +57,7 @@ public sealed class ProlepticGregorianDataSet :
     public TheoryData<Yemoda, Yemoda, int, int, int> DiffData => Inner.DiffData;
 
     // IDayOfWeekDataSet
-    public TheoryData<YemodaAnd<DayOfWeek>>? _dayOfWeekData;
+    private DataGroup<YemodaAnd<DayOfWeek>>? _dayOfWeekData;
     public TheoryData<YemodaAnd<DayOfWeek>> DayOfWeekData =>
         _dayOfWeekData ??= FilterData(Inner.DayOfWeekData, DataFilter.Filter);
 

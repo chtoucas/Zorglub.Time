@@ -22,4 +22,7 @@ public interface IDataFilter
 
     bool Filter<T>(YemodaAnd<T> x) where T : struct;
     bool Filter<T>(YemoAnd<T> x) where T : struct;
+
+    bool Filter(YemodaPair x);
+    bool Filter<T>(YemodaPairAnd<T> x) where T : struct;
 }

@@ -5,6 +5,9 @@ namespace Zorglub.Testing.Data;
 
 using System.Linq;
 
+// REVIEW(data): I'm pretty sure we can improve the perf using DataGroup as a
+// return value in various places. See BoundedCalendarDataSet.FilterData().
+
 /// <summary>
 /// Provides factory methods for <see cref="DataGroup{T}"/>.
 /// </summary>
