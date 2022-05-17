@@ -40,6 +40,8 @@ public class BoundedCalendarDataSet<TDataSet> : ICalendarDataSet
     // This version is faster, no boxing!
     protected static DataGroup<T> FilterData<T>(DataGroup<T> data, Func<T, bool> filter)
     {
+        Requires.NotNull(data);
+
         var q = data.AsEnumerable().Where(filter);
 
         Debug.Assert(q.Any());
