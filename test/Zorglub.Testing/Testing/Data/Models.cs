@@ -144,36 +144,36 @@ public readonly record struct EpagomenalDayInfo(int Year, int Month, int Day, in
 
 public readonly record struct YemodaAnd<T> where T : struct
 {
-    public YemodaAnd(int y, int m, int d, T extra)
+    public YemodaAnd(int y, int m, int d, T other)
     {
         Yemoda = new Yemoda(y, m, d);
-        Extra = extra;
+        Other = other;
     }
 
     public Yemoda Yemoda { get; }
-    public T Extra { get; }
+    public T Other { get; }
 
-    public void Deconstruct(out int year, out int month, out int day, out T extra)
+    public void Deconstruct(out int year, out int month, out int day, out T other)
     {
         (year, month, day) = Yemoda;
-        extra = Extra;
+        other = Other;
     }
 }
 
 public readonly record struct YemoAnd<T> where T : struct
 {
-    public YemoAnd(int y, int m, T extra)
+    public YemoAnd(int y, int m, T other)
     {
         Yemo = new Yemo(y, m);
-        Extra = extra;
+        Other = other;
     }
 
     public Yemo Yemo { get; }
-    public T Extra { get; }
+    public T Other { get; }
 
-    public void Deconstruct(out int year, out int month, out T extra)
+    public void Deconstruct(out int year, out int month, out T other)
     {
         (year, month) = Yemo;
-        extra = Extra;
+        other = Other;
     }
 }

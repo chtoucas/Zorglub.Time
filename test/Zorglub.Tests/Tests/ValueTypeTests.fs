@@ -3,6 +3,7 @@
 
 module Zorglub.Tests.ValueTypeTests
 
+open System
 open System.Runtime.InteropServices
 
 open Zorglub.Testing
@@ -137,6 +138,8 @@ module RuntimeSizes =
         Marshal.SizeOf(typedefof<MillenniumInfo>) === 12
         Marshal.SizeOf(typedefof<EpagomenalDayInfo>) === 16
         sizeof<YemodaAnd<int>>() === 8
+        sizeof<YemodaAnd<DayOfWeek>>() === 8
+        sizeof<YemodaAnd<Yemoda>>() === 8
         sizeof<YemoAnd<int>>() === 8
 
 module DefaultValues =
