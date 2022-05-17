@@ -3,6 +3,10 @@
 
 namespace Zorglub.Testing.Data.Schemas;
 
+// TODO(data): Filter supplementary data: see XXXGregorianDataSet in Bounded.
+// Use IEnumerable<> instead of List<>.
+// GregorianMinMaxYearCalendarTests à améliorer.
+
 using static Zorglub.Testing.Data.Extensions.TheoryDataExtensions;
 
 public partial class GregorianDataSet // Addition (days)
