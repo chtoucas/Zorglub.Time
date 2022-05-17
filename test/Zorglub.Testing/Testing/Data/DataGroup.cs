@@ -3,6 +3,7 @@
 
 namespace Zorglub.Testing.Data;
 
+using System.Collections;
 using System.Linq;
 
 using Zorglub.Testing.Data.Bounded;
@@ -12,6 +13,7 @@ using Zorglub.Testing.Data.Bounded;
 // See e.g. GregorianDataSet.ConsecutiveDaysData.
 // Can we initialize lazily a DataGroup? DataGroup<T> should not derived from
 // TheoryData<T>, and should implement IEnumerable<object[]>.
+// See https://github.com/xunit/xunit/blob/main/src/xunit.v3.core/TheoryData.cs
 
 /// <summary>
 /// Provides factory methods for <see cref="DataGroup{T}"/>.
@@ -76,16 +78,28 @@ public static class DataGroup
 /// see
 /// <see cref="BoundedCalendarDataSet{TDataSet}.FilterData{T}(DataGroup{T}, Func{T, bool})"/>.</para>
 /// </summary>
-public sealed class DataGroup<T> : TheoryData<T>
+// TODO(data): do no derive from TheoryData<T>.
+public sealed class DataGroup<T> :
+    TheoryData<T>,
+    IReadOnlyCollection<object?[]>
 {
-    private readonly IEnumerable<T> _seq;
+    private readonly IEnumerable<T> _values;
 
-    public DataGroup(IEnumerable<T> seq)
+    public DataGroup(IEnumerable<T> values)
     {
-        _seq = seq ?? throw new ArgumentNullException(nameof(seq));
+        _values = values ?? throw new ArgumentNullException(nameof(values));
 
-        foreach (T item in seq) { AddRow(item); }
+#if false
+        foreach (T item in values) { AddRow(item); }
+#endif
     }
 
-    public IEnumerable<T> AsEnumerable() => _seq;
+    public int Count => _values.Count();
+
+    public IEnumerable<T> AsEnumerable() => _values;
+
+    public new IEnumerator<object?[]> GetEnumerator() =>
+        _values.Select(v => new object?[] { v }).GetEnumerator();
+
+    IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 }
