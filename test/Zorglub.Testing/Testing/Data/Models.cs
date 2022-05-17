@@ -53,6 +53,14 @@ public readonly record struct DaysSinceEpochInfo(int DaysSinceEpoch, int Year, i
 public readonly record struct DaysSinceZeroInfo(int DaysSinceZero, int Year, int Month, int Day) :
     IConvertibleToDayNumberInfo
 {
+    public Yemoda Yemoda => new(Year, Month, Day);
+
+    public void Deconstruct(out int daysSinceZero, out Yemoda ymd)
+    {
+        daysSinceZero = DaysSinceZero;
+        ymd = Yemoda;
+    }
+
     [Pure]
     public DayNumberInfo ToDayNumberInfo() =>
         new(DayNumber.Zero + DaysSinceZero, Year, Month, Day);
@@ -61,6 +69,14 @@ public readonly record struct DaysSinceZeroInfo(int DaysSinceZero, int Year, int
 public readonly record struct DaysSinceRataDieInfo(int DaysSinceRataDie, int Year, int Month, int Day) :
     IConvertibleToDayNumberInfo
 {
+    public Yemoda Yemoda => new(Year, Month, Day);
+
+    public void Deconstruct(out int daysSinceRataDie, out Yemoda ymd)
+    {
+        daysSinceRataDie = DaysSinceRataDie;
+        ymd = Yemoda;
+    }
+
     [Pure]
     public DayNumberInfo ToDayNumberInfo() =>
         new(DayZero.RataDie + DaysSinceRataDie, Year, Month, Day);

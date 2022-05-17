@@ -33,13 +33,13 @@ public partial class CalCalDataSet // Interconversion
             var lookup = GregorianDataSet.DaysSinceRataDieInfos.ToLookup(x => x.DaysSinceRataDie);
 
             var data = new TheoryData<YemodaPair>();
-            foreach (var (rd, jy, jm, jd) in JulianDataSet.DaysSinceRataDieInfos)
+            foreach (var (rd, julian) in JulianDataSet.DaysSinceRataDieInfos)
             {
                 var gs = lookup[rd].ToList();
                 if (gs.Count != 1) { continue; }
 
-                var (_, gy, gm, gd) = gs.Single();
-                data.Add(new(new Yemoda(gy, gm, gd), new Yemoda(jy, jm, jd)));
+                var (_, gregorian) = gs.Single();
+                data.Add(new(gregorian, julian));
             }
 
             return data;
