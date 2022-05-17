@@ -16,30 +16,30 @@ public partial class CalCalDataSet // Interconversion
     // Lazy initialized mainly to ensure that there isn't a circular dependency
     // problem (CalCalDataSet and Gregorian(Julian)Data) during the init of
     // static props. I guess that this is is no longer necessary.
-    private static TheoryData<YemodaAnd<Yemoda>>? s_GregorianToJulianData;
-    public static TheoryData<YemodaAnd<Yemoda>> GregorianToJulianData =>
+    private static TheoryData<YemodaPair>? s_GregorianToJulianData;
+    public static TheoryData<YemodaPair> GregorianToJulianData =>
         s_GregorianToJulianData ??= InitGregorianToJulianData();
 
     [Pure]
-    private static TheoryData<YemodaAnd<Yemoda>> InitGregorianToJulianData()
+    private static TheoryData<YemodaPair> InitGregorianToJulianData()
     {
         var data = InitCore();
         Interlocked.CompareExchange(ref s_GregorianToJulianData, data, null);
         return s_GregorianToJulianData;
 
         [Pure]
-        static TheoryData<YemodaAnd<Yemoda>> InitCore()
+        static TheoryData<YemodaPair> InitCore()
         {
             var lookup = GregorianDataSet.DaysSinceRataDieInfos.ToLookup(x => x.DaysSinceRataDie);
 
-            var data = new TheoryData<YemodaAnd<Yemoda>>();
+            var data = new TheoryData<YemodaPair>();
             foreach (var (rd, jy, jm, jd) in JulianDataSet.DaysSinceRataDieInfos)
             {
                 var gs = lookup[rd].ToList();
                 if (gs.Count != 1) { continue; }
 
                 var (_, gy, gm, gd) = gs.Single();
-                data.Add(new(gy, gm, gd, new Yemoda(jy, jm, jd)));
+                data.Add(new(new Yemoda(gy, gm, gd), new Yemoda(jy, jm, jd)));
             }
 
             return data;

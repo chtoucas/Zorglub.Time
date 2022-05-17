@@ -95,10 +95,10 @@ module Conversions =
         outOfRangeExn "dayNumber" (fun () -> date.WithCalendar(GregorianCalendar.Instance))
 
     [<Theory; MemberData(nameof(data))>]
-    let ``WithCalendar() Gregorian <-> Julian`` (data: YemodaAnd<Yemoda>) =
-        let (y, m, d, julian) = data.Deconstruct()
-        let gdate = GregorianCalendar.Instance.GetCalendarDate(y, m, d)
-        let jdate = JulianCalendar.Instance.GetCalendarDate(julian.Year, julian.Month, julian.Day)
+    let ``WithCalendar() Gregorian <-> Julian`` (pair: YemodaPair) =
+        let (g, j) = pair.Deconstruct()
+        let gdate = GregorianCalendar.Instance.GetCalendarDate(g.Year, g.Month, g.Day)
+        let jdate = JulianCalendar.Instance.GetCalendarDate(j.Year, j.Month, j.Day)
 
         gdate.WithCalendar(JulianCalendar.Instance)    === jdate
         jdate.WithCalendar(GregorianCalendar.Instance) === gdate

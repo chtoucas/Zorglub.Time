@@ -139,8 +139,9 @@ module RuntimeSizes =
         Marshal.SizeOf(typedefof<EpagomenalDayInfo>) === 16
         sizeof<YemodaAnd<int>>() === 8
         sizeof<YemodaAnd<DayOfWeek>>() === 8
-        sizeof<YemodaAnd<Yemoda>>() === 8
         sizeof<YemoAnd<int>>() === 8
+        sizeof<YemodaPair>() === 8
+        sizeof<YemodaPairAnd<int>>() === 12
 
 module DefaultValues =
     // Date types built upon DayNumber: 01/01/0001 (year 1)
