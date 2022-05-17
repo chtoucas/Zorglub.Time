@@ -18,11 +18,11 @@ public class MinMaxYearCalendarDataSet<TDataSet> : BoundedCalendarDataSet<TDataS
 
         if (supportedYears.Contains(inner.SampleCommonYear) == false)
         {
-            throw new ArgumentException("SampleCommonYear is out of range", nameof(inner));
+            throw new ArgumentException("inner.SampleCommonYear is out of range", nameof(inner));
         }
         if (supportedYears.Contains(inner.SampleLeapYear) == false)
         {
-            throw new ArgumentException("SampleLeapYear is out of range", nameof(inner));
+            throw new ArgumentException("inner.SampleLeapYear is out of range", nameof(inner));
         }
     }
 

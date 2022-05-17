@@ -24,14 +24,13 @@ public class StandardCalendarDataSet<TDataSet> : MinMaxYearCalendarDataSet<TData
 public sealed class StandardArmenian12DataSet :
     StandardCalendarDataSet<Armenian12CalendarDataSet>, IEpagomenalDataSet, ISingleton<StandardArmenian12DataSet>
 {
-    private StandardArmenian12DataSet() : base(Armenian12CalendarDataSet.Instance)
-    {
-        EpagomenalDayInfoData = FilterData(Inner.EpagomenalDayInfoData, DataFilter.Filter);
-    }
+    private StandardArmenian12DataSet() : base(Armenian12CalendarDataSet.Instance) { }
 
     public static StandardArmenian12DataSet Instance { get; } = new();
 
-    public TheoryData<EpagomenalDayInfo> EpagomenalDayInfoData { get; }
+    public TheoryData<EpagomenalDayInfo>? _epagomenalDayInfoData;
+    public TheoryData<EpagomenalDayInfo> EpagomenalDayInfoData =>
+        _epagomenalDayInfoData ??= FilterData(Inner.EpagomenalDayInfoData, DataFilter.Filter);
 }
 
 /// <summary>
@@ -40,14 +39,13 @@ public sealed class StandardArmenian12DataSet :
 public sealed class StandardCoptic12DataSet :
     StandardCalendarDataSet<Coptic12CalendarDataSet>, IEpagomenalDataSet, ISingleton<StandardCoptic12DataSet>
 {
-    private StandardCoptic12DataSet() : base(Coptic12CalendarDataSet.Instance)
-    {
-        EpagomenalDayInfoData = FilterData(Inner.EpagomenalDayInfoData, DataFilter.Filter);
-    }
+    private StandardCoptic12DataSet() : base(Coptic12CalendarDataSet.Instance) { }
 
     public static StandardCoptic12DataSet Instance { get; } = new();
 
-    public TheoryData<EpagomenalDayInfo> EpagomenalDayInfoData { get; }
+    public TheoryData<EpagomenalDayInfo>? _epagomenalDayInfoData;
+    public TheoryData<EpagomenalDayInfo> EpagomenalDayInfoData =>
+        _epagomenalDayInfoData ??= FilterData(Inner.EpagomenalDayInfoData, DataFilter.Filter);
 }
 
 /// <summary>
@@ -56,14 +54,13 @@ public sealed class StandardCoptic12DataSet :
 public sealed class StandardEthiopic12DataSet :
     StandardCalendarDataSet<Ethiopic12CalendarDataSet>, IEpagomenalDataSet, ISingleton<StandardEthiopic12DataSet>
 {
-    private StandardEthiopic12DataSet() : base(Ethiopic12CalendarDataSet.Instance)
-    {
-        EpagomenalDayInfoData = FilterData(Inner.EpagomenalDayInfoData, DataFilter.Filter);
-    }
+    private StandardEthiopic12DataSet() : base(Ethiopic12CalendarDataSet.Instance) { }
 
     public static StandardEthiopic12DataSet Instance { get; } = new();
 
-    public TheoryData<EpagomenalDayInfo> EpagomenalDayInfoData { get; }
+    public TheoryData<EpagomenalDayInfo>? _epagomenalDayInfoData;
+    public TheoryData<EpagomenalDayInfo> EpagomenalDayInfoData =>
+        _epagomenalDayInfoData ??= FilterData(Inner.EpagomenalDayInfoData, DataFilter.Filter);
 }
 
 /// <summary>
@@ -76,23 +73,22 @@ public sealed class StandardGregorianDataSet :
     IDayOfWeekDataSet,
     ISingleton<StandardGregorianDataSet>
 {
-    private StandardGregorianDataSet() : base(GregorianCalendarDataSet.Instance)
-    {
-        DaysInYearAfterMonthData = FilterData(Inner.DaysInYearAfterMonthData, DataFilter.Filter);
-
-        InvalidYearAdjustementData = FilterData(Inner.InvalidYearAdjustementData, DataFilter.Filter);
-        YearAdjustementData = FilterData(Inner.YearAdjustementData, DataFilter.Filter);
-
-        DayOfWeekData = FilterData(Inner.DayOfWeekData, DataFilter.Filter);
-    }
+    private StandardGregorianDataSet() : base(GregorianCalendarDataSet.Instance) { }
 
     public static StandardGregorianDataSet Instance { get; } = new();
 
-    public TheoryData<YemoAnd<int>> DaysInYearAfterMonthData { get; }
+    public TheoryData<YemoAnd<int>>? _daysInYearAfterMonthData;
+    public TheoryData<YemoAnd<int>> DaysInYearAfterMonthData =>
+        _daysInYearAfterMonthData ??= FilterData(Inner.DaysInYearAfterMonthData, DataFilter.Filter);
 
     // IYearAdjustmentDataSet
-    public TheoryData<YemodaAnd<int>> InvalidYearAdjustementData { get; }
-    public TheoryData<YemodaAnd<int>> YearAdjustementData { get; }
+    public TheoryData<YemodaAnd<int>>? _invalidYearAdjustementData;
+    public TheoryData<YemodaAnd<int>> InvalidYearAdjustementData =>
+        _invalidYearAdjustementData ??= FilterData(Inner.InvalidYearAdjustementData, DataFilter.Filter);
+
+    public TheoryData<YemodaAnd<int>>? _yearAdjustementData;
+    public TheoryData<YemodaAnd<int>> YearAdjustementData =>
+        _yearAdjustementData ??= FilterData(Inner.YearAdjustementData, DataFilter.Filter);
 
     // IMathDataSet
     public TheoryData<Yemoda, Yemoda, int> AddDaysData => Inner.AddDaysData;
@@ -104,7 +100,10 @@ public sealed class StandardGregorianDataSet :
     public TheoryData<Yemoda, Yemoda, int, int, int> DiffData => Inner.DiffData;
 
     // IDayOfWeekDataSet
-    public TheoryData<YemodaAnd<DayOfWeek>> DayOfWeekData { get; }
+    public TheoryData<YemodaAnd<DayOfWeek>>? _dayOfWeekData;
+    public TheoryData<YemodaAnd<DayOfWeek>> DayOfWeekData =>
+        _dayOfWeekData ??= FilterData(Inner.DayOfWeekData, DataFilter.Filter);
+
     public TheoryData<Yemoda, Yemoda, DayOfWeek> DayOfWeek_Before_Data => Inner.DayOfWeek_Before_Data;
     public TheoryData<Yemoda, Yemoda, DayOfWeek> DayOfWeek_OnOrBefore_Data => Inner.DayOfWeek_OnOrBefore_Data;
     public TheoryData<Yemoda, Yemoda, DayOfWeek> DayOfWeek_Nearest_Data => Inner.DayOfWeek_Nearest_Data;
@@ -129,12 +128,11 @@ public sealed class StandardTabularIslamicDataSet :
 public sealed class StandardZoroastrian12DataSet :
     StandardCalendarDataSet<Zoroastrian12CalendarDataSet>, IEpagomenalDataSet, ISingleton<StandardZoroastrian12DataSet>
 {
-    private StandardZoroastrian12DataSet() : base(Zoroastrian12CalendarDataSet.Instance)
-    {
-        EpagomenalDayInfoData = FilterData(Inner.EpagomenalDayInfoData, DataFilter.Filter);
-    }
+    private StandardZoroastrian12DataSet() : base(Zoroastrian12CalendarDataSet.Instance) { }
 
     public static StandardZoroastrian12DataSet Instance { get; } = new();
 
-    public TheoryData<EpagomenalDayInfo> EpagomenalDayInfoData { get; }
+    public TheoryData<EpagomenalDayInfo>? _epagomenalDayInfoData;
+    public TheoryData<EpagomenalDayInfo> EpagomenalDayInfoData =>
+        _epagomenalDayInfoData ??= FilterData(Inner.EpagomenalDayInfoData, DataFilter.Filter);
 }

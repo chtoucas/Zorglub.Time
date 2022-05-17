@@ -27,23 +27,22 @@ public sealed class ProlepticGregorianDataSet :
     IDayOfWeekDataSet,
     ISingleton<ProlepticGregorianDataSet>
 {
-    private ProlepticGregorianDataSet() : base(GregorianCalendarDataSet.Instance)
-    {
-        DaysInYearAfterMonthData = FilterData(Inner.DaysInYearAfterMonthData, DataFilter.Filter);
-
-        InvalidYearAdjustementData = FilterData(Inner.InvalidYearAdjustementData, DataFilter.Filter);
-        YearAdjustementData = FilterData(Inner.YearAdjustementData, DataFilter.Filter);
-
-        DayOfWeekData = FilterData(Inner.DayOfWeekData, DataFilter.Filter);
-    }
+    private ProlepticGregorianDataSet() : base(GregorianCalendarDataSet.Instance) { }
 
     public static ProlepticGregorianDataSet Instance { get; } = new();
 
-    public TheoryData<YemoAnd<int>> DaysInYearAfterMonthData { get; }
+    public TheoryData<YemoAnd<int>>? _daysInYearAfterMonthData;
+    public TheoryData<YemoAnd<int>> DaysInYearAfterMonthData =>
+        _daysInYearAfterMonthData ??= FilterData(Inner.DaysInYearAfterMonthData, DataFilter.Filter);
 
     // IYearAdjustmentDataSet
-    public TheoryData<YemodaAnd<int>> InvalidYearAdjustementData { get; }
-    public TheoryData<YemodaAnd<int>> YearAdjustementData { get; }
+    public TheoryData<YemodaAnd<int>>? _invalidYearAdjustementData;
+    public TheoryData<YemodaAnd<int>> InvalidYearAdjustementData =>
+        _invalidYearAdjustementData ??= FilterData(Inner.InvalidYearAdjustementData, DataFilter.Filter);
+
+    public TheoryData<YemodaAnd<int>>? _yearAdjustementData;
+    public TheoryData<YemodaAnd<int>> YearAdjustementData =>
+        _yearAdjustementData ??= FilterData(Inner.YearAdjustementData, DataFilter.Filter);
 
     // IMathDataSet
     public TheoryData<Yemoda, Yemoda, int> AddDaysData => Inner.AddDaysData;
@@ -55,7 +54,10 @@ public sealed class ProlepticGregorianDataSet :
     public TheoryData<Yemoda, Yemoda, int, int, int> DiffData => Inner.DiffData;
 
     // IDayOfWeekDataSet
-    public TheoryData<YemodaAnd<DayOfWeek>> DayOfWeekData { get; }
+    public TheoryData<YemodaAnd<DayOfWeek>>? _dayOfWeekData;
+    public TheoryData<YemodaAnd<DayOfWeek>> DayOfWeekData =>
+        _dayOfWeekData ??= FilterData(Inner.DayOfWeekData, DataFilter.Filter);
+
     public TheoryData<Yemoda, Yemoda, DayOfWeek> DayOfWeek_Before_Data => Inner.DayOfWeek_Before_Data;
     public TheoryData<Yemoda, Yemoda, DayOfWeek> DayOfWeek_OnOrBefore_Data => Inner.DayOfWeek_OnOrBefore_Data;
     public TheoryData<Yemoda, Yemoda, DayOfWeek> DayOfWeek_Nearest_Data => Inner.DayOfWeek_Nearest_Data;
