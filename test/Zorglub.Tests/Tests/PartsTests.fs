@@ -161,7 +161,7 @@ module DateParts =
             let y, _, yearOfCentury = info.Deconstruct()
             let parts = new DateParts(y, 1, 1)
 
-            parts.YearOfCentury === yearOfCentury
+            parts.YearOfCentury === int(yearOfCentury)
 
     module Conversions =
         let private dataSet = GregorianDataSet.Instance
@@ -347,7 +347,7 @@ module MonthParts =
             let y, _, yearOfCentury = info.Deconstruct()
             let parts = new MonthParts(y, 1)
 
-            parts.YearOfCentury === yearOfCentury
+            parts.YearOfCentury === int(yearOfCentury)
 
     module Conversions =
         let private dataSet = GregorianDataSet.Instance
@@ -519,7 +519,7 @@ module OrdinalParts =
             let y, _, yearOfCentury = info.Deconstruct()
             let parts = new OrdinalParts(y, 1)
 
-            parts.YearOfCentury === yearOfCentury
+            parts.YearOfCentury === int(yearOfCentury)
 
     module Conversions =
         let private dataSet = GregorianDataSet.Instance

@@ -130,9 +130,9 @@ module RuntimeSizes =
         Marshal.SizeOf(typedefof<DaysSinceRataDieInfo>) === 8
         Marshal.SizeOf(typedefof<DayNumberInfo>) === 8
         Marshal.SizeOf(typedefof<DateInfo>) === 16
-        Marshal.SizeOf(typedefof<MonthInfo>) === 16
-        Marshal.SizeOf(typedefof<YearInfo>) === 16
-        Marshal.SizeOf(typedefof<DecadeOfCenturyInfo>) === 16
+        Marshal.SizeOf(typedefof<MonthInfo>) === 12
+        Marshal.SizeOf(typedefof<YearInfo>) === 12
+        Marshal.SizeOf(typedefof<DecadeOfCenturyInfo>) === 12
         Marshal.SizeOf(typedefof<DecadeInfo>) === 12
         Marshal.SizeOf(typedefof<CenturyInfo>) === 12
         Marshal.SizeOf(typedefof<MillenniumInfo>) === 12

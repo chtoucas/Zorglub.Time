@@ -59,11 +59,11 @@ let ``IsLeapYear(int64) does not overflow`` () =
 
 [<Theory; MemberData(nameof(yearInfoData))>]
 let ``CountDaysInYear(int32)`` (x: YearInfo) =
-    JulianFormulae.CountDaysInYear(x.Year) === x.DaysInYear
+    JulianFormulae.CountDaysInYear(x.Year) === int(x.DaysInYear)
 
 [<Theory; MemberData(nameof(yearInfoData))>]
 let ``CountDaysInYear(int64)`` (x: YearInfo) =
-    JulianFormulae.CountDaysInYear(int64(x.Year)) === x.DaysInYear
+    JulianFormulae.CountDaysInYear(int64(x.Year)) === int(x.DaysInYear)
 
 [<Fact>]
 let ``CountDaysInYear(int32) does not overflow`` () =
@@ -82,12 +82,12 @@ let ``CountDaysInYear(int64) does not overflow`` () =
 [<Theory; MemberData(nameof(monthInfoData))>]
 let ``CountDaysInMonth(int32)`` (x: MonthInfo) =
     let y, m = x.Yemo.Deconstruct()
-    JulianFormulae.CountDaysInMonth(y, m) === x.DaysInMonth
+    JulianFormulae.CountDaysInMonth(y, m) === int(x.DaysInMonth)
 
 [<Theory; MemberData(nameof(monthInfoData))>]
 let ``CountDaysInMonth(int64)`` (x: MonthInfo) =
     let y, m = x.Yemo.Deconstruct()
-    JulianFormulae.CountDaysInMonth(int64(y), m) === x.DaysInMonth
+    JulianFormulae.CountDaysInMonth(int64(y), m) === int(x.DaysInMonth)
 
 [<Fact>]
 let ``CountDaysInMonth(int32) does not overflow`` () =

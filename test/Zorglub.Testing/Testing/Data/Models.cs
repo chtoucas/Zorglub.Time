@@ -11,6 +11,12 @@ namespace Zorglub.Testing.Data;
 //
 // We assume that the data is valid, e.g. MonthInfo.DaysInMonth must be > 0.
 //
+// The use of unsigned shorts and bytes is not necessary, but it helps to reduce
+// the size of the structs. Instead, we could have use shorts everywhere but it
+// doesn't change the final sizes and more specialized integral types help to
+// catch obviously wrong data. For instance, unsigned shorts and bytes are >= 0
+// which is a characteristic of all the properties for which we use them.
+//
 // Structs in TheoryData are boxed. Use reference types rather than value types
 // to model data? Why bother, it's already the case with all primitive types.
 // It might even be beneficial, we only box one single value instead of all of
@@ -129,21 +135,21 @@ public readonly record struct DateInfo
 }
 
 // We use Yemo, otherwise the struct is too big (20 bytes).
-public readonly record struct MonthInfo(Yemo Yemo, int DaysInMonth, int DaysInYearBeforeMonth, bool IsIntercalary)
+public readonly record struct MonthInfo(Yemo Yemo, byte DaysInMonth, ushort DaysInYearBeforeMonth, bool IsIntercalary)
 {
-    public MonthInfo(int y, int m, int daysInMonth, int daysInYearBeforeMonth, bool isIntercalary)
+    public MonthInfo(int y, int m, byte daysInMonth, ushort daysInYearBeforeMonth, bool isIntercalary)
         : this(new Yemo(y, m), daysInMonth, daysInYearBeforeMonth, isIntercalary) { }
 }
 
-public readonly record struct YearInfo(int Year, int MonthsInYear, int DaysInYear, bool IsLeap);
+public readonly record struct YearInfo(int Year, byte MonthsInYear, ushort DaysInYear, bool IsLeap);
 
-public readonly record struct DecadeOfCenturyInfo(int Year, int Century, int DecadeOfCentury, int YearOfDecade);
+public readonly record struct DecadeOfCenturyInfo(int Year, int Century, byte DecadeOfCentury, byte YearOfDecade);
 
-public readonly record struct DecadeInfo(int Year, int Decade, int YearOfDecade);
+public readonly record struct DecadeInfo(int Year, int Decade, byte YearOfDecade);
 
-public readonly record struct CenturyInfo(int Year, int Century, int YearOfCentury);
+public readonly record struct CenturyInfo(int Year, int Century, byte YearOfCentury);
 
-public readonly record struct MillenniumInfo(int Year, int Millennium, int YearOfMillennium);
+public readonly record struct MillenniumInfo(int Year, int Millennium, short YearOfMillennium);
 
 public readonly record struct YemodaAnd<T>(Yemoda Yemoda, T Value) where T : struct
 {

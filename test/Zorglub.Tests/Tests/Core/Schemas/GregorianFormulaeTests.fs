@@ -81,11 +81,11 @@ let ``IsLeapYear(int64) does not overflow`` () =
 
 [<Theory; MemberData(nameof(yearInfoData))>]
 let ``CountDaysInYear(int32)`` (x: YearInfo) =
-    GregorianFormulae.CountDaysInYear(x.Year) === x.DaysInYear
+    GregorianFormulae.CountDaysInYear(x.Year) === int(x.DaysInYear)
 
 [<Theory; MemberData(nameof(yearInfoData))>]
 let ``CountDaysInYear(int64)`` (x: YearInfo) =
-    GregorianFormulae.CountDaysInYear(int64(x.Year)) === x.DaysInYear
+    GregorianFormulae.CountDaysInYear(int64(x.Year)) === int(x.DaysInYear)
 
 [<Fact>]
 let ``CountDaysInYear(int32) does not overflow`` () =
@@ -104,12 +104,12 @@ let ``CountDaysInYear(int64) does not overflow`` () =
 [<Theory; MemberData(nameof(monthInfoData))>]
 let ``CountDaysInYearBeforeMonth(int32)`` (x: MonthInfo) =
     let y, m = x.Yemo.Deconstruct()
-    GregorianFormulae.CountDaysInYearBeforeMonth(y, m) === x.DaysInYearBeforeMonth
+    GregorianFormulae.CountDaysInYearBeforeMonth(y, m) === int(x.DaysInYearBeforeMonth)
 
 [<Theory; MemberData(nameof(monthInfoData))>]
 let ``CountDaysInYearBeforeMonth(int64)`` (x: MonthInfo) =
     let y, m = x.Yemo.Deconstruct()
-    GregorianFormulae.CountDaysInYearBeforeMonth(int64(y), m) === x.DaysInYearBeforeMonth
+    GregorianFormulae.CountDaysInYearBeforeMonth(int64(y), m) === int(x.DaysInYearBeforeMonth)
 
 [<Fact>]
 let ``CountDaysInYearBeforeMonth(int32) does not overflow`` () =
@@ -128,12 +128,12 @@ let ``CountDaysInYearBeforeMonth(int64) does not overflow`` () =
 [<Theory; MemberData(nameof(monthInfoData))>]
 let ``CountDaysInMonth(int32)`` (x: MonthInfo) =
     let y, m = x.Yemo.Deconstruct()
-    GregorianFormulae.CountDaysInMonth(y, m) === x.DaysInMonth
+    GregorianFormulae.CountDaysInMonth(y, m) === int(x.DaysInMonth)
 
 [<Theory; MemberData(nameof(monthInfoData))>]
 let ``CountDaysInMonth(int64)`` (x: MonthInfo) =
     let y, m = x.Yemo.Deconstruct()
-    GregorianFormulae.CountDaysInMonth(int64(y), m) === x.DaysInMonth
+    GregorianFormulae.CountDaysInMonth(int64(y), m) === int(x.DaysInMonth)
 
 [<Fact>]
 let ``CountDaysInMonth(int32) does not overflow`` () =
