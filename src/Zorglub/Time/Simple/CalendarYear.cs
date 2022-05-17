@@ -4,6 +4,8 @@
 // Explicit layout or not? Beware, both options are not binary compatible.
 // Answer: yes. Less error-prone (no bit manip), the binary format is very
 // easy to understand (we don't even need to explain it).
+// REVIEW(code): pack size.
+// https://docs.microsoft.com/en-us/dotnet/api/system.runtime.interopservices.structlayoutattribute.pack?view=net-6.0
 #define CALENDARYEAR_EXPLICIT_LAYOUT
 
 namespace Zorglub.Time.Simple
