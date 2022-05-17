@@ -16,35 +16,31 @@ public partial class CalCalDataSet // Interconversion
     // Lazy initialized mainly to ensure that there isn't a circular dependency
     // problem (CalCalDataSet and Gregorian(Julian)Data) during the init of
     // static props. I guess that this is is no longer necessary.
-    private static TheoryData<Yemoda, Yemoda>? s_GregorianToJulianData;
-    public static TheoryData<Yemoda, Yemoda> GregorianToJulianData =>
+    private static TheoryData<YemodaAnd<Yemoda>>? s_GregorianToJulianData;
+    public static TheoryData<YemodaAnd<Yemoda>> GregorianToJulianData =>
         s_GregorianToJulianData ??= InitGregorianToJulianData();
 
     [Pure]
-    private static TheoryData<Yemoda, Yemoda> InitGregorianToJulianData()
+    private static TheoryData<YemodaAnd<Yemoda>> InitGregorianToJulianData()
     {
         var data = InitCore();
         Interlocked.CompareExchange(ref s_GregorianToJulianData, data, null);
         return s_GregorianToJulianData;
 
         [Pure]
-        static TheoryData<Yemoda, Yemoda> InitCore()
+        static TheoryData<YemodaAnd<Yemoda>> InitCore()
         {
             var lookup = GregorianDataSet.DaysSinceRataDieInfos.ToLookup(x => x.DaysSinceRataDie);
 
-            var data = new TheoryData<Yemoda, Yemoda>();
-            foreach (var (jrd, jy, jm, jd) in JulianDataSet.DaysSinceRataDieInfos)
+            var data = new TheoryData<YemodaAnd<Yemoda>>();
+            foreach (var (rd, jy, jm, jd) in JulianDataSet.DaysSinceRataDieInfos)
             {
-                var gs = lookup[jrd].ToList();
-                if (gs.Count == 1)
-                {
-                    var (_, gy, gm, gd) = gs.Single();
-                    data.Add(new Yemoda(gy, gm, gd), new Yemoda(jy, jm, jd));
-                }
-            }
+                var gs = lookup[rd].ToList();
+                if (gs.Count != 1) { continue; }
 
-            data.Add(new Yemoda(-9998, 1, 1), new Yemoda(-9998, 3, 19));
-            data.Add(new Yemoda(1970, 1, 1), new Yemoda(1969, 12, 19));
+                var (_, gy, gm, gd) = gs.Single();
+                data.Add(new(gy, gm, gd, new Yemoda(jy, jm, jd)));
+            }
 
             return data;
         }
