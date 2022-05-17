@@ -282,7 +282,7 @@ public partial class Coptic13DataSet // Invalid date parts
 
 public partial class Coptic13DataSet // Supplementary data
 {
-    public TheoryData<EpagomenalDayInfo> EpagomenalDayInfoData { get; } = new()
+    public TheoryData<YemodaAnd<int>> EpagomenalDayInfoData { get; } = new()
     {
         // Common year.
         new(CommonYear, 13, 1, 1),

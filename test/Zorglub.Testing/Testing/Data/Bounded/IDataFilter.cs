@@ -18,8 +18,6 @@ public interface IDataFilter
     bool Filter(YearInfo x);
     bool Filter(CenturyInfo x);
 
-    bool Filter(EpagomenalDayInfo x);
-
     bool Filter<T>(YemodaAnd<T> x) where T : struct;
     bool Filter<T>(YemoAnd<T> x) where T : struct;
 

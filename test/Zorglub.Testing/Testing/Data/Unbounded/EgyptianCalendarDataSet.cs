@@ -20,7 +20,7 @@ public sealed class Egyptian12CalendarDataSet :
     public override DataGroup<DayNumberInfo> DayNumberInfoData =>
         _dayNumberInfoData ??= DataGroup.CreateDayNumberInfoData(Egyptian12DataSet.DaysSinceRataDieInfos);
 
-    public TheoryData<EpagomenalDayInfo> EpagomenalDayInfoData => DataSet.EpagomenalDayInfoData;
+    public TheoryData<YemodaAnd<int>> EpagomenalDayInfoData => DataSet.EpagomenalDayInfoData;
 }
 
 /// <summary>
@@ -37,5 +37,5 @@ public sealed class Egyptian13CalendarDataSet :
     public override DataGroup<DayNumberInfo> DayNumberInfoData =>
         _dayNumberInfoData ??= DataGroup.CreateDayNumberInfoData(Egyptian13DataSet.DaysSinceRataDieInfos);
 
-    public TheoryData<EpagomenalDayInfo> EpagomenalDayInfoData => DataSet.EpagomenalDayInfoData;
+    public TheoryData<YemodaAnd<int>> EpagomenalDayInfoData => DataSet.EpagomenalDayInfoData;
 }

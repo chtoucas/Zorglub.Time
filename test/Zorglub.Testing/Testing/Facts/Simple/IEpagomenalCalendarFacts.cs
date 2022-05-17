@@ -18,7 +18,7 @@ public abstract class IEpagomenalCalendarFacts<TCalendar, TDataSet> : CalendarDa
         _calendar = calendar ?? throw new ArgumentNullException(nameof(calendar));
     }
 
-    public static TheoryData<EpagomenalDayInfo> EpagomenalDayInfoData => DataSet.EpagomenalDayInfoData;
+    public static TheoryData<YemodaAnd<int>> EpagomenalDayInfoData => DataSet.EpagomenalDayInfoData;
 
     [Theory, MemberData(nameof(DateInfoData))]
     public void IsEpagomenalDay(DateInfo info)
@@ -40,7 +40,7 @@ public abstract class IEpagomenalCalendarFacts<TCalendar, TDataSet> : CalendarDa
     }
 
     [Theory, MemberData(nameof(EpagomenalDayInfoData))]
-    public void IsEpagomenalDay_EpagomenalNumber(EpagomenalDayInfo info)
+    public void IsEpagomenalDay_EpagomenalNumber(YemodaAnd<int> info)
     {
         var (y, m, d, epanum) = info;
         var date = _calendar.GetCalendarDate(y, m, d);

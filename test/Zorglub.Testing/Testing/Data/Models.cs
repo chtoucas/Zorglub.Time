@@ -145,8 +145,6 @@ public readonly record struct CenturyInfo(int Year, int Century, int YearOfCentu
 
 public readonly record struct MillenniumInfo(int Year, int Millennium, int YearOfMillennium);
 
-public readonly record struct EpagomenalDayInfo(int Year, int Month, int Day, int EpagomenalNumber);
-
 public readonly record struct YemodaAnd<T>(Yemoda Yemoda, T Value) where T : struct
 {
     public YemodaAnd(int y, int m, int d, T value)

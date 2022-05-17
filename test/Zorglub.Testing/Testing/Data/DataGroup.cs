@@ -10,7 +10,8 @@ using Zorglub.Testing.Data.Bounded;
 // REVIEW(data): I'm pretty sure we can improve the perf using DataGroup as a
 // return value in various places. We might even use DataGroup everywhere?
 // See e.g. GregorianDataSet.ConsecutiveDaysData.
-// Can we initialize lazily a DataGroup?
+// Can we initialize lazily a DataGroup? DataGroup<T> should not derived from
+// TheoryData<T>, and should implement IEnumerable<object[]>.
 
 /// <summary>
 /// Provides factory methods for <see cref="DataGroup{T}"/>.

@@ -24,5 +24,5 @@ public interface IAdvancedMathDataSet : IMathDataSet
 
 public interface IEpagomenalDataSet
 {
-    TheoryData<EpagomenalDayInfo> EpagomenalDayInfoData { get; }
+    TheoryData<YemodaAnd<int>> EpagomenalDayInfoData { get; }
 }

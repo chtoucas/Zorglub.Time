@@ -28,8 +28,8 @@ public sealed class StandardArmenian12DataSet :
 
     public static StandardArmenian12DataSet Instance { get; } = new();
 
-    private DataGroup<EpagomenalDayInfo>? _epagomenalDayInfoData;
-    public TheoryData<EpagomenalDayInfo> EpagomenalDayInfoData =>
+    private DataGroup<YemodaAnd<int>>? _epagomenalDayInfoData;
+    public TheoryData<YemodaAnd<int>> EpagomenalDayInfoData =>
         _epagomenalDayInfoData ??= FilterData(Inner.EpagomenalDayInfoData, DataFilter.Filter);
 }
 
@@ -43,8 +43,8 @@ public sealed class StandardCoptic12DataSet :
 
     public static StandardCoptic12DataSet Instance { get; } = new();
 
-    private DataGroup<EpagomenalDayInfo>? _epagomenalDayInfoData;
-    public TheoryData<EpagomenalDayInfo> EpagomenalDayInfoData =>
+    private DataGroup<YemodaAnd<int>>? _epagomenalDayInfoData;
+    public TheoryData<YemodaAnd<int>> EpagomenalDayInfoData =>
         _epagomenalDayInfoData ??= FilterData(Inner.EpagomenalDayInfoData, DataFilter.Filter);
 }
 
@@ -58,8 +58,8 @@ public sealed class StandardEthiopic12DataSet :
 
     public static StandardEthiopic12DataSet Instance { get; } = new();
 
-    private DataGroup<EpagomenalDayInfo>? _epagomenalDayInfoData;
-    public TheoryData<EpagomenalDayInfo> EpagomenalDayInfoData =>
+    private DataGroup<YemodaAnd<int>>? _epagomenalDayInfoData;
+    public TheoryData<YemodaAnd<int>> EpagomenalDayInfoData =>
         _epagomenalDayInfoData ??= FilterData(Inner.EpagomenalDayInfoData, DataFilter.Filter);
 }
 
@@ -137,7 +137,7 @@ public sealed class StandardZoroastrian12DataSet :
 
     public static StandardZoroastrian12DataSet Instance { get; } = new();
 
-    private DataGroup<EpagomenalDayInfo>? _epagomenalDayInfoData;
-    public TheoryData<EpagomenalDayInfo> EpagomenalDayInfoData =>
+    private DataGroup<YemodaAnd<int>>? _epagomenalDayInfoData;
+    public TheoryData<YemodaAnd<int>> EpagomenalDayInfoData =>
         _epagomenalDayInfoData ??= FilterData(Inner.EpagomenalDayInfoData, DataFilter.Filter);
 }

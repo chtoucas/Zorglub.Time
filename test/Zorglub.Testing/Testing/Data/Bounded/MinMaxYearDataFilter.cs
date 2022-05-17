@@ -27,8 +27,6 @@ public sealed class MinMaxYearDataFilter : IDataFilter
     public bool Filter(YearInfo x) => SupportedYears.Contains(x.Year);
     public bool Filter(CenturyInfo x) => SupportedYears.Contains(x.Year);
 
-    public bool Filter(EpagomenalDayInfo x) => SupportedYears.Contains(x.Year);
-
     public bool Filter<T>(YemodaAnd<T> x) where T : struct => SupportedYears.Contains(x.Yemoda.Year);
     public bool Filter<T>(YemoAnd<T> x) where T : struct => SupportedYears.Contains(x.Yemo.Year);
 

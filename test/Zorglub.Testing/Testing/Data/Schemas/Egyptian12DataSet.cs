@@ -210,7 +210,7 @@ public partial class Egyptian12DataSet // Invalid date parts
 
 public partial class Egyptian12DataSet // Supplementary data
 {
-    public TheoryData<EpagomenalDayInfo> EpagomenalDayInfoData { get; } = new()
+    public TheoryData<YemodaAnd<int>> EpagomenalDayInfoData { get; } = new()
     {
         new(SampleYear, 12, 31, 1),
         new(SampleYear, 12, 32, 2),
