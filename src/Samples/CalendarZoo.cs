@@ -14,9 +14,10 @@ using Zorglub.Time.Simple;
 
 using static Zorglub.Time.Extensions.Unboxing;
 
-// FIXME(code): volatile does not work here. Initialization must happen only
-// once (exception throw when the key is already in use). Maybe we should use
-// TryCreateCalendar().
+// FIXME(code): volatile does not work here. Furthermore, I should verify that
+// the other initializations are correct, they must happen only once (exception
+// throw when the key is already in use). Maybe we should use TryCreateCalendar().
+// https://stackoverflow.com/questions/72275/when-should-the-volatile-keyword-be-used-in-c
 
 // On en profite pour explorer les différentes manières d'initialiser un
 // champs statique en différé.

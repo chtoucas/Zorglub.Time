@@ -13,11 +13,10 @@ public static partial class CalCalDataSet { }
 
 public partial class CalCalDataSet // Interconversion
 {
-    // Lazy initialized mainly to be sure that there isn't a circular
-    // dependency problem (CalCalDataSet and Gregorian(Julian)Data)
-    // during the initialization of static props.
+    // Lazy initialized mainly to ensure that there isn't a circular dependency
+    // problem (CalCalDataSet and Gregorian(Julian)Data) during the init of
+    // static props. I guess that this is is no longer necessary.
     private static TheoryData<Yemoda, Yemoda>? s_GregorianToJulianData;
-    /// <summary>Gregorian date, Julian date.</summary>
     public static TheoryData<Yemoda, Yemoda> GregorianToJulianData =>
         s_GregorianToJulianData ??= InitGregorianToJulianData();
 
