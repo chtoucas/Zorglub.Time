@@ -16,11 +16,9 @@ public partial class GregorianDataSet // Addition (days)
     public TheoryData<Yemoda, Yemoda, int> AddDaysData =>
         s_AddDays.MapToTheoryDataOfTwoYemodas();
 
-    private DataGroup<YemodaPair>? _consecutiveDaysDataGroup;
-    public DataGroup<YemodaPair> ConsecutiveDaysDataGroup =>
-        _consecutiveDaysDataGroup ??= DataGroup.Create(ConsecutiveDays);
-
-    public TheoryData<YemodaPair> ConsecutiveDaysData => ConsecutiveDaysDataGroup;
+    private DataGroup<YemodaPair>? _consecutiveDaysData;
+    public DataGroup<YemodaPair> ConsecutiveDaysData =>
+        _consecutiveDaysData ??= DataGroup.Create(ConsecutiveDays);
 
     private static readonly List<(int date, int, int, int exp, int, int, int days)> s_AddDays = new()
     {

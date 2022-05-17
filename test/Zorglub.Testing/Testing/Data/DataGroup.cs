@@ -5,8 +5,12 @@ namespace Zorglub.Testing.Data;
 
 using System.Linq;
 
+using Zorglub.Testing.Data.Bounded;
+
 // REVIEW(data): I'm pretty sure we can improve the perf using DataGroup as a
-// return value in various places. See e.g. GregorianDataSet.ConsecutiveDaysDataGroup.
+// return value in various places. We might even use DataGroup everywhere?
+// See e.g. GregorianDataSet.ConsecutiveDaysData.
+// Can we initialize lazily a DataGroup?
 
 /// <summary>
 /// Provides factory methods for <see cref="DataGroup{T}"/>.
@@ -66,6 +70,10 @@ public static class DataGroup
 
 /// <summary>
 /// Represents a group of data for a theory.
+/// <para>The advantage over <see cref="TheoryData{T}"/> is that we can enumerate a group of data
+/// without any boxing. It was created to improve the performance of <i>bounded</i> calendar datasets;
+/// see
+/// <see cref="BoundedCalendarDataSet{TDataSet}.FilterData{T}(DataGroup{T}, Func{T, bool})"/>.</para>
 /// </summary>
 public sealed class DataGroup<T> : TheoryData<T>
 {

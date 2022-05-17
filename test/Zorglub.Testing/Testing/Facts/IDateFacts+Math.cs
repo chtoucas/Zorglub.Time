@@ -27,7 +27,7 @@ public abstract partial class IDateMathFacts<TDate, TDataSet>
     }
 
     public static TheoryData<Yemoda, Yemoda, int> AddDaysData => DataSet.AddDaysData;
-    public static TheoryData<YemodaPair> ConsecutiveDaysData => DataSet.ConsecutiveDaysData;
+    public static DataGroup<YemodaPair> ConsecutiveDaysData => DataSet.ConsecutiveDaysData;
 }
 
 public partial class IDateMathFacts<TDate, TDataSet> // Increment or decrement
