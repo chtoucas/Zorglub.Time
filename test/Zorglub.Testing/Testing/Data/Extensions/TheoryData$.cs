@@ -5,6 +5,8 @@ namespace Zorglub.Testing.Data.Extensions;
 
 using System.Linq;
 
+// TODO(data): to be removed.
+
 /// <summary>
 /// Provides extension methods for <see cref="IEnumerable{T}"/>.
 /// <para>This class cannot be inherited.</para>

@@ -90,7 +90,7 @@ public partial class SystemSchemaFacts<TDataSet> // Methods
         // Act
         int yA = SchemaUT.GetYear(info.DaysSinceEpoch);
         // Assert
-        Assert.Equal(info.Year, yA);
+        Assert.Equal(info.Yemoda.Year, yA);
     }
 
     #endregion

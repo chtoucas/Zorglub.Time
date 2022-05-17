@@ -34,6 +34,6 @@ public sealed partial class GregorianCalCalFormulaeTests : CalendricalDataConsum
         // Act
         int actual = s_Formulae.GetYear(info.DaysSinceEpoch);
         // Assert
-        Assert.Equal(info.Year, actual);
+        Assert.Equal(info.Yemoda.Year, actual);
     }
 }

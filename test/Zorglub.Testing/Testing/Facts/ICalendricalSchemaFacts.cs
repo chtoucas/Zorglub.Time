@@ -145,7 +145,7 @@ public partial class ICalendricalSchemaFacts<TSchema, TDataSet> // Methods
         // Act
         int yA = SchemaUT.GetYear(info.DaysSinceEpoch, out _);
         // Assert
-        Assert.Equal(info.Year, yA);
+        Assert.Equal(info.Yemoda.Year, yA);
     }
 
     #endregion

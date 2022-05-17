@@ -214,7 +214,7 @@ public partial class CalendarFacts<TCalendar, TDataSet> // Conversions
     [Theory, MemberData(nameof(DayNumberInfoData))]
     public void GetCalendarYearOn(DayNumberInfo info)
     {
-        var exp = CalendarUT.GetCalendarYear(info.Year);
+        var exp = CalendarUT.GetCalendarYear(info.Yemoda.Year);
         // Act
         var cyear = CalendarUT.GetCalendarYearOn(info.DayNumber);
         // Assert
@@ -231,10 +231,10 @@ public partial class CalendarFacts<TCalendar, TDataSet> // Conversions
     [Theory, MemberData(nameof(DayNumberInfoData))]
     public void GetCalendarMonthOn(DayNumberInfo info)
     {
-        int y = info.Year;
-        var exp = CalendarUT.GetCalendarMonth(y, info.Month);
+        var (dayNumber, y, m, _) = info;
+        var exp = CalendarUT.GetCalendarMonth(y, m);
         // Act
-        var cmonth = CalendarUT.GetCalendarMonthOn(info.DayNumber);
+        var cmonth = CalendarUT.GetCalendarMonthOn(dayNumber);
         // Assert
         Assert.Equal(exp, cmonth);
     }

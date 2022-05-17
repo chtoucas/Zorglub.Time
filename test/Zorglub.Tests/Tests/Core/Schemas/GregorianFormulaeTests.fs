@@ -274,11 +274,11 @@ let ``GetOrdinalParts(int32) does not overflow at Int32.Min/MaxValue (unchecked)
 
 [<Theory; MemberData(nameof(daysSinceEpochInfoData))>]
 let ``GetYear(int32)`` (x: DaysSinceEpochInfo) =
-    GregorianFormulae.GetYear(x.DaysSinceEpoch) === x.Year
+    GregorianFormulae.GetYear(x.DaysSinceEpoch) === x.Yemoda.Year
 
 [<Theory; MemberData(nameof(daysSinceEpochInfoData))>]
 let ``GetYear(int64)`` (x: DaysSinceEpochInfo) =
-    GregorianFormulae.GetYear(int64(x.DaysSinceEpoch)) === x.Year
+    GregorianFormulae.GetYear(int64(x.DaysSinceEpoch)) === x.Yemoda.Year
 
 [<Fact>]
 let ``GetYear(int32) does not overflow at Min/MaxDaysSinceEpoch`` () =

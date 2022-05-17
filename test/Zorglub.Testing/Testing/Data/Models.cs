@@ -26,87 +26,88 @@ namespace Zorglub.Testing.Data;
 
 #endregion
 
-public interface IConvertibleToDayNumberInfo
-{
-    [Pure] DayNumberInfo ToDayNumberInfo();
-}
-
 public readonly record struct YearDaysSinceEpoch(int Year, int DaysSinceEpoch);
 
 public readonly record struct YearDayNumber(int Year, DayNumber DayNumber);
 
-public readonly record struct DaysSinceEpochInfo(int DaysSinceEpoch, int Year, int Month, int Day)
+public readonly record struct DaysSinceEpochInfo(int DaysSinceEpoch, Yemoda Yemoda)
 {
-    public Yemoda Yemoda => new(Year, Month, Day);
+    public DaysSinceEpochInfo(int daysSinceEpoch, int y, int m, int d)
+        : this(daysSinceEpoch, new Yemoda(y, m, d)) { }
 
-    public void Deconstruct(out int daysSinceEpoch, out Yemoda ymd)
+    public void Deconstruct(out int daysSinceEpoch, out int y, out int m, out int d)
     {
         daysSinceEpoch = DaysSinceEpoch;
-        ymd = Yemoda;
+        (y, m, d) = Yemoda;
     }
 
     [Pure]
-    public DayNumberInfo ToDayNumberInfo(DayNumber epoch) =>
-        new(epoch + DaysSinceEpoch, Year, Month, Day);
+    public DayNumberInfo ToDayNumberInfo(DayNumber epoch) => new(epoch + DaysSinceEpoch, Yemoda);
 }
 
-public readonly record struct DaysSinceZeroInfo(int DaysSinceZero, int Year, int Month, int Day) :
+public readonly record struct DaysSinceZeroInfo(int DaysSinceZero, Yemoda Yemoda) :
     IConvertibleToDayNumberInfo
 {
-    public Yemoda Yemoda => new(Year, Month, Day);
+    public DaysSinceZeroInfo(int daysSinceZero, int y, int m, int d)
+        : this(daysSinceZero, new Yemoda(y, m, d)) { }
 
-    public void Deconstruct(out int daysSinceZero, out Yemoda ymd)
+    public void Deconstruct(out int daysSinceZero, out int y, out int m, out int d)
     {
         daysSinceZero = DaysSinceZero;
-        ymd = Yemoda;
+        (y, m, d) = Yemoda;
     }
 
     [Pure]
-    public DayNumberInfo ToDayNumberInfo() =>
-        new(DayNumber.Zero + DaysSinceZero, Year, Month, Day);
+    public DayNumberInfo ToDayNumberInfo() => new(DayNumber.Zero + DaysSinceZero, Yemoda);
 }
 
-public readonly record struct DaysSinceRataDieInfo(int DaysSinceRataDie, int Year, int Month, int Day) :
+public readonly record struct DaysSinceRataDieInfo(int DaysSinceRataDie, Yemoda Yemoda) :
     IConvertibleToDayNumberInfo
 {
-    public Yemoda Yemoda => new(Year, Month, Day);
+    public DaysSinceRataDieInfo(int daysSinceRataDie, int y, int m, int d)
+        : this(daysSinceRataDie, new Yemoda(y, m, d)) { }
 
-    public void Deconstruct(out int daysSinceRataDie, out Yemoda ymd)
+    public void Deconstruct(out int daysSinceRataDie, out int y, out int m, out int d)
     {
         daysSinceRataDie = DaysSinceRataDie;
-        ymd = Yemoda;
+        (y, m, d) = Yemoda;
     }
 
     [Pure]
-    public DayNumberInfo ToDayNumberInfo() =>
-        new(DayZero.RataDie + DaysSinceRataDie, Year, Month, Day);
+    public DayNumberInfo ToDayNumberInfo() => new(DayZero.RataDie + DaysSinceRataDie, Yemoda);
 }
 
-public readonly record struct DayNumberInfo(DayNumber DayNumber, int Year, int Month, int Day)
+public readonly record struct DayNumberInfo(DayNumber DayNumber, Yemoda Yemoda)
 {
-    public Yemoda Yemoda => new(Year, Month, Day);
+    public DayNumberInfo(DayNumber dayNumber, int y, int m, int d)
+        : this(dayNumber, new Yemoda(y, m, d)) { }
 
-    public void Deconstruct(out DayNumber dayNumber, out Yemoda ymd)
+    public void Deconstruct(out DayNumber dayNumber, out int y, out int m, out int d)
     {
         dayNumber = DayNumber;
-        ymd = Yemoda;
+        (y, m, d) = Yemoda;
     }
 
     [SuppressMessage("Usage", "CA2225:Operator overloads have named alternates", Justification = "<Pending>")]
     public static DayNumberInfo operator +(DayNumberInfo x, int value) =>
-        new(x.DayNumber + value, x.Year, x.Month, x.Day);
+        new(x.DayNumber + value, x.Yemoda);
 
     [SuppressMessage("Usage", "CA2225:Operator overloads have named alternates", Justification = "<Pending>")]
     public static DaysSinceEpochInfo operator -(DayNumberInfo x, DayNumber epoch) =>
-        new(x.DayNumber - epoch, x.Year, x.Month, x.Day);
+        new(x.DayNumber - epoch, x.Yemoda);
 }
 
 // We use Yemoda, otherwise the struct is too big (24 bytes).
 public readonly record struct DateInfo
 {
     public DateInfo(int y, int m, int d, int doy, bool isIntercalary, bool isSupplementary)
+        : this(new Yemoda(y, m, d), doy, isIntercalary, isSupplementary) { }
+
+    // Do NOT make it a primary constructor, otherwise it will automatically create a deconstructor
+    // which the same number of parameters as the one defined below, which can be problematic with F#.
+    public DateInfo(Yemoda ymd, int doy, bool isIntercalary, bool isSupplementary)
     {
-        Yemoda = new Yemoda(y, m, d);
+        Yemoda = ymd;
         DayOfYear = doy;
         IsIntercalary = isIntercalary;
         IsSupplementary = isSupplementary;
@@ -120,30 +121,18 @@ public readonly record struct DateInfo
     public bool IsIntercalary { get; }
     public bool IsSupplementary { get; }
 
-    public void Deconstruct(out int year, out int month, out int day, out int dayOfYear)
+    public void Deconstruct(out int y, out int m, out int d, out int doy)
     {
-        (year, month, day) = Yemoda;
-        dayOfYear = DayOfYear;
+        (y, m, d) = Yemoda;
+        doy = DayOfYear;
     }
 }
 
 // We use Yemo, otherwise the struct is too big (20 bytes).
-public readonly record struct MonthInfo
+public readonly record struct MonthInfo(Yemo Yemo, int DaysInMonth, int DaysInYearBeforeMonth, bool IsIntercalary)
 {
     public MonthInfo(int y, int m, int daysInMonth, int daysInYearBeforeMonth, bool isIntercalary)
-    {
-        Yemo = new Yemo(y, m);
-        DaysInMonth = daysInMonth;
-        DaysInYearBeforeMonth = daysInYearBeforeMonth;
-        IsIntercalary = isIntercalary;
-    }
-
-    public Yemo Yemo { get; }
-
-    public int DaysInMonth { get; }
-    public int DaysInYearBeforeMonth { get; }
-
-    public bool IsIntercalary { get; }
+        : this(new Yemo(y, m), daysInMonth, daysInYearBeforeMonth, isIntercalary) { }
 }
 
 public readonly record struct YearInfo(int Year, int MonthsInYear, int DaysInYear, bool IsLeap);
@@ -158,38 +147,26 @@ public readonly record struct MillenniumInfo(int Year, int Millennium, int YearO
 
 public readonly record struct EpagomenalDayInfo(int Year, int Month, int Day, int EpagomenalNumber);
 
-public readonly record struct YemodaAnd<T> where T : struct
+public readonly record struct YemodaAnd<T>(Yemoda Yemoda, T Value) where T : struct
 {
     public YemodaAnd(int y, int m, int d, T value)
-    {
-        Yemoda = new Yemoda(y, m, d);
-        Value = value;
-    }
+        : this(new Yemoda(y, m, d), value) { }
 
-    public Yemoda Yemoda { get; }
-    public T Value { get; }
-
-    public void Deconstruct(out int year, out int month, out int day, out T value)
+    public void Deconstruct(out int y, out int m, out int d, out T value)
     {
-        (year, month, day) = Yemoda;
+        (y, m, d) = Yemoda;
         value = Value;
     }
 }
 
-public readonly record struct YemoAnd<T> where T : struct
+public readonly record struct YemoAnd<T>(Yemo Yemo, T Value) where T : struct
 {
     public YemoAnd(int y, int m, T value)
-    {
-        Yemo = new Yemo(y, m);
-        Value = value;
-    }
+        : this(new Yemo(y, m), value) { }
 
-    public Yemo Yemo { get; }
-    public T Value { get; }
-
-    public void Deconstruct(out int year, out int month, out T value)
+    public void Deconstruct(out int y, out int m, out T value)
     {
-        (year, month) = Yemo;
+        (y, m) = Yemo;
         value = Value;
     }
 }

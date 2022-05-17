@@ -61,7 +61,7 @@ public partial class CalendarDayFacts<TDataSet> // Prelude
     public void CalendarYear_Prop(DayNumberInfo info)
     {
         var date = CalendarUT.GetCalendarDay(info.DayNumber);
-        var exp = CalendarUT.GetCalendarYear(info.Year);
+        var exp = CalendarUT.GetCalendarYear(info.Yemoda.Year);
         // Act & Assert
         Assert.Equal(exp, date.CalendarYear);
     }

@@ -35,7 +35,7 @@ public sealed class Tropicalia3130TroeschFormulaeTests
         // Act
         int actual = Tropicalia3130TroeschFormulae.GetYear(info.DaysSinceEpoch);
         // Assert
-        Assert.Equal(info.Year, actual);
+        Assert.Equal(info.Yemoda.Year, actual);
     }
 
     [Theory, MemberData(nameof(StartOfYearDaysSinceEpochData))]

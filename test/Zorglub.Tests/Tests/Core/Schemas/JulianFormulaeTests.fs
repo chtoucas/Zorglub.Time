@@ -157,7 +157,7 @@ let ``GetDateParts(int64) does not overflowsat Int64.Min/MaxValue (unchecked)`` 
 
 [<Theory; MemberData(nameof(daysSinceEpochInfoData))>]
 let ``GetYear(int64)`` (x: DaysSinceEpochInfo) =
-    JulianFormulae.GetYear(int64(x.DaysSinceEpoch)) === x.Year
+    JulianFormulae.GetYear(int64(x.DaysSinceEpoch)) === x.Yemoda.Year
 
 [<Fact>]
 let ``GetYear(int64) does not overflow`` () =

@@ -52,7 +52,7 @@ public abstract class ICalendricalSchemaBasicFacts<TSchema, TDataSet> :
         // Act
         int actual = SchemaUT.GetYear(info.DaysSinceEpoch, out _);
         // Assert
-        Assert.Equal(info.Year, actual);
+        Assert.Equal(info.Yemoda.Year, actual);
     }
 
     [Theory, MemberData(nameof(DateInfoData))]

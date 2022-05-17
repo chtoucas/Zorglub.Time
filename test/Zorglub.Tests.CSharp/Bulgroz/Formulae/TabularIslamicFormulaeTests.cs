@@ -33,7 +33,7 @@ public sealed class TabularIslamicFormulaeTests
         // Act
         int actual = TabularIslamicFormulae.GetYear(info.DaysSinceEpoch);
         // Assert
-        Assert.Equal(info.Year, actual);
+        Assert.Equal(info.Yemoda.Year, actual);
     }
 
     [Theory, MemberData(nameof(DateInfoData))]
