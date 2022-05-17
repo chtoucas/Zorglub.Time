@@ -20,18 +20,21 @@ public abstract class CalendarDataSet<TDataSet> : ICalendarDataSet
     /// </summary>
     public TDataSet DataSet { get; }
 
+    #region ICalendarDataSet
+
     public DayNumber Epoch { get; }
 
     public abstract TheoryData<DayNumberInfo> DayNumberInfoData { get; }
 
     private TheoryData<YearDayNumber>? _startOfYearDayNumberData;
     public TheoryData<YearDayNumber> StartOfYearDayNumberData =>
-        _startOfYearDayNumberData ??= MapToYearDayNumberData(DataSet.StartOfYearDaysSinceEpochData, Epoch);
+        _startOfYearDayNumberData ??= InitDayNumberData(DataSet.StartOfYearDaysSinceEpochData);
 
     private TheoryData<YearDayNumber>? _endOfYearDayNumberData;
     public TheoryData<YearDayNumber> EndOfYearDayNumberData =>
-        _endOfYearDayNumberData ??= GetEndOfYearFromStartOfYear(StartOfYearDayNumberData);
+        _endOfYearDayNumberData ??= InitDayNumberData(DataSet.EndOfYearDaysSinceEpochData);
 
+    #endregion
     #region ICalendricalDataSet
 
     public int SampleCommonYear => DataSet.SampleCommonYear;
@@ -60,35 +63,17 @@ public abstract class CalendarDataSet<TDataSet> : ICalendarDataSet
     #endregion
     #region Helpers
 
-    /// <summary>
-    /// Converts a set of data of type <see cref="YearDaysSinceEpoch"/>to a set of data of type
-    /// <see cref="YearDayNumber"/>.
-    /// </summary>
     [Pure]
-    private static TheoryData<YearDayNumber> MapToYearDayNumberData(
-        TheoryData<YearDaysSinceEpoch> source, DayNumber epoch)
+    private TheoryData<YearDayNumber> InitDayNumberData(TheoryData<YearDaysSinceEpoch> source)
     {
         Requires.NotNull(source);
 
+        var epoch = Epoch;
         var data = new TheoryData<YearDayNumber>();
         foreach (var item in source)
         {
             var (y, daysSinceEpoch) = (YearDaysSinceEpoch)item[0];
             data.Add(new YearDayNumber(y, epoch + daysSinceEpoch));
-        }
-        return data;
-    }
-
-    [Pure]
-    private static TheoryData<YearDayNumber> GetEndOfYearFromStartOfYear(TheoryData<YearDayNumber> source)
-    {
-        Requires.NotNull(source);
-
-        var data = new TheoryData<YearDayNumber>();
-        foreach (var item in source)
-        {
-            var (y, dayNumber) = (YearDayNumber)item[0];
-            data.Add(new YearDayNumber(y - 1, dayNumber - 1));
         }
         return data;
     }

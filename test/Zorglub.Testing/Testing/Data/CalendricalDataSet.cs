@@ -3,7 +3,7 @@
 
 namespace Zorglub.Testing.Data;
 
-// TODO(data): there is a "one-to-one" correspondance between schemas and
+// REVIEW(data): there is a "one-to-one" correspondance between schemas and
 // datasets, therefore one should be able to verify that a dataset is used in
 // the right context.
 
@@ -19,6 +19,8 @@ public abstract class CalendricalDataSet : ICalendricalDataSet
 
     public ICalendricalSchema Schema { get; }
 
+    #region ICalendricalDataSet
+
     public int SampleCommonYear { get; }
     public int SampleLeapYear { get; }
 
@@ -27,20 +29,22 @@ public abstract class CalendricalDataSet : ICalendricalDataSet
     public abstract TheoryData<DateInfo> DateInfoData { get; }
     public abstract TheoryData<MonthInfo> MonthInfoData { get; }
     public abstract TheoryData<YearInfo> YearInfoData { get; }
-    // Override this property if the schema does not support all years in the default list.
+    /// <remarks>
+    /// Override this property if the schema does not support all years in the default list.
+    /// </remarks>
     public virtual TheoryData<CenturyInfo> CenturyInfoData => YearNumberingDataSet.CenturyInfoData;
 
     private TheoryData<YemodaAnd<int>>? _daysInYearAfterDateData;
     public virtual TheoryData<YemodaAnd<int>> DaysInYearAfterDateData =>
-        _daysInYearAfterDateData ??= GetDaysInYearAfterDateData(DateInfoData, Schema);
+        _daysInYearAfterDateData ??= InitDaysInYearAfterDateData(DateInfoData);
 
     private TheoryData<YemodaAnd<int>>? _daysInMonthAfterDateData;
     public virtual TheoryData<YemodaAnd<int>> DaysInMonthAfterDateData =>
-        _daysInMonthAfterDateData ??= GetDaysInMonthAfterDateData(DateInfoData, Schema);
+        _daysInMonthAfterDateData ??= InitDaysInMonthAfterDateData(DateInfoData);
 
     private TheoryData<Yemoda>? _startOfYearPartsData;
     public virtual TheoryData<Yemoda> StartOfYearPartsData =>
-        _startOfYearPartsData ??= GetStartOfYearFromEndOfYear(EndOfYearPartsData);
+        _startOfYearPartsData ??= InitStartOfYearParts(EndOfYearPartsData);
 
     public abstract TheoryData<Yemoda> EndOfYearPartsData { get; }
 
@@ -48,52 +52,22 @@ public abstract class CalendricalDataSet : ICalendricalDataSet
 
     private TheoryData<YearDaysSinceEpoch>? _endOfYearDaysSinceEpochData;
     public virtual TheoryData<YearDaysSinceEpoch> EndOfYearDaysSinceEpochData =>
-        _endOfYearDaysSinceEpochData ??= GetEndOfYearFromStartOfNextYear(StartOfYearDaysSinceEpochData);
+        _endOfYearDaysSinceEpochData ??= InitEndOfYearDaysSinceEpochData(StartOfYearDaysSinceEpochData);
 
     public abstract TheoryData<int, int> InvalidMonthFieldData { get; }
     public abstract TheoryData<int, int, int> InvalidDayFieldData { get; }
     public abstract TheoryData<int, int> InvalidDayOfYearFieldData { get; }
 
+    #endregion
     #region Helpers
+    // We could have removed the parameter "source" from InitStartOfYearParts
+    // and use the property EndOfYearPartsData instead, but this is not such a
+    // good idea. Indeed, I prefer to make it clear that, for the method to
+    // work properly, "source" must not be null.
+    // This remark applies to the other helpers.
 
     [Pure]
-    private static TheoryData<YemodaAnd<int>> GetDaysInYearAfterDateData(
-        TheoryData<DateInfo> source, ICalendricalSchema schema)
-    {
-        Requires.NotNull(source);
-        Requires.NotNull(schema);
-
-        var data = new TheoryData<YemodaAnd<int>>();
-        foreach (var info in source)
-        {
-            var (y, m, d, doy) = (DateInfo)info[0];
-            int daysInYear = schema.CountDaysInYear(y);
-            // CountDaysInYear(y) - doy
-            data.Add(new(y, m, d, daysInYear - doy));
-        }
-        return data;
-    }
-
-    [Pure]
-    private static TheoryData<YemodaAnd<int>> GetDaysInMonthAfterDateData(
-        TheoryData<DateInfo> source, ICalendricalSchema schema)
-    {
-        Requires.NotNull(source);
-        Requires.NotNull(schema);
-
-        var data = new TheoryData<YemodaAnd<int>>();
-        foreach (var info in source)
-        {
-            var (y, m, d) = ((DateInfo)info[0]).Yemoda;
-            int daysInMonth = schema.CountDaysInMonth(y, m);
-            // CountDaysInMonth(y, m) - d
-            data.Add(new(y, m, d, daysInMonth - d));
-        }
-        return data;
-    }
-
-    [Pure]
-    private static TheoryData<Yemoda> GetStartOfYearFromEndOfYear(TheoryData<Yemoda> source)
+    private static TheoryData<Yemoda> InitStartOfYearParts(TheoryData<Yemoda> source)
     {
         Requires.NotNull(source);
 
@@ -107,7 +81,7 @@ public abstract class CalendricalDataSet : ICalendricalDataSet
     }
 
     [Pure]
-    private static TheoryData<YearDaysSinceEpoch> GetEndOfYearFromStartOfNextYear(TheoryData<YearDaysSinceEpoch> source)
+    private static TheoryData<YearDaysSinceEpoch> InitEndOfYearDaysSinceEpochData(TheoryData<YearDaysSinceEpoch> source)
     {
         Requires.NotNull(source);
 
@@ -115,7 +89,40 @@ public abstract class CalendricalDataSet : ICalendricalDataSet
         foreach (var item in source)
         {
             var (y, daysSinceEpoch) = (YearDaysSinceEpoch)item[0];
+            // endOfYear = startOfNextYear - 1.
             data.Add(new YearDaysSinceEpoch(y - 1, daysSinceEpoch - 1));
+        }
+        return data;
+    }
+
+    [Pure]
+    private TheoryData<YemodaAnd<int>> InitDaysInYearAfterDateData(TheoryData<DateInfo> source)
+    {
+        Requires.NotNull(source);
+
+        var sch = Schema;
+        var data = new TheoryData<YemodaAnd<int>>();
+        foreach (var info in source)
+        {
+            var (y, m, d, doy) = (DateInfo)info[0];
+            int daysInYearAfter = sch.CountDaysInYear(y) - doy;
+            data.Add(new(y, m, d, daysInYearAfter));
+        }
+        return data;
+    }
+
+    [Pure]
+    private TheoryData<YemodaAnd<int>> InitDaysInMonthAfterDateData(TheoryData<DateInfo> source)
+    {
+        Requires.NotNull(source);
+
+        var sch = Schema;
+        var data = new TheoryData<YemodaAnd<int>>();
+        foreach (var info in source)
+        {
+            var (y, m, d) = ((DateInfo)info[0]).Yemoda;
+            int daysInMonthAfter = sch.CountDaysInMonth(y, m) - d;
+            data.Add(new(y, m, d, daysInMonthAfter));
         }
         return data;
     }
