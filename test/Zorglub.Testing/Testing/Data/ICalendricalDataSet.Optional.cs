@@ -12,7 +12,7 @@ public interface IYearAdjustmentDataSet
 public interface IMathDataSet
 {
     TheoryData<Yemoda, Yemoda, int> AddDaysData { get; }
-    TheoryData<Yemoda, Yemoda> ConsecutiveDaysData { get; }
+    TheoryData<YemodaPair> ConsecutiveDaysData { get; }
 }
 
 public interface IAdvancedMathDataSet : IMathDataSet

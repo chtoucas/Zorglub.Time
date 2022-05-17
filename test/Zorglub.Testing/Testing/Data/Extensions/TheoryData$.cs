@@ -11,21 +11,6 @@ using System.Linq;
 /// </summary>
 internal static class TheoryDataExtensions
 {
-    // Two Yemoda's.
-    [Pure]
-    public static TheoryData<Yemoda, Yemoda> MapToTheoryDataOfTwoYemodas(
-        this IEnumerable<(int, int, int, int, int, int)> @this)
-    {
-        Requires.NotNull(@this);
-
-        var data = new TheoryData<Yemoda, Yemoda>();
-        foreach (var (y1, m1, d1, y2, m2, d2) in @this)
-        {
-            data.Add(new Yemoda(y1, m1, d1), new Yemoda(y2, m2, d2));
-        }
-        return data;
-    }
-
     // Two Yemoda's, one unit.
     [Pure]
     public static TheoryData<Yemoda, Yemoda, T> MapToTheoryDataOfTwoYemodas<T>(

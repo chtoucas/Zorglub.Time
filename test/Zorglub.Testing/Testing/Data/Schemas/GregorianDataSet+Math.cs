@@ -16,8 +16,9 @@ public partial class GregorianDataSet // Addition (days)
     public TheoryData<Yemoda, Yemoda, int> AddDaysData =>
         s_AddDays.MapToTheoryDataOfTwoYemodas();
 
-    public TheoryData<Yemoda, Yemoda> ConsecutiveDaysData =>
-        s_ConsecutiveDays.MapToTheoryDataOfTwoYemodas();
+    private DataGroup<YemodaPair>? _consecutiveDaysData;
+    public TheoryData<YemodaPair> ConsecutiveDaysData =>
+        _consecutiveDaysData ??= DataGroup.Create(ConsecutiveDays);
 
     private static readonly List<(int date, int, int, int exp, int, int, int days)> s_AddDays = new()
     {
@@ -79,57 +80,60 @@ public partial class GregorianDataSet // Addition (days)
     };
 
     // Used to test Next() AND Previous().
-    private static readonly List<(int date, int, int, int next, int, int)> s_ConsecutiveDays = new()
+    private static IEnumerable<YemodaPair> ConsecutiveDays
     {
-        (date: CommonYear, 4, 1, next: CommonYear, 4, 2),
-        (date: CommonYear, 4, 2, next: CommonYear, 4, 3),
-        (date: CommonYear, 4, 3, next: CommonYear, 4, 4),
-        (date: CommonYear, 4, 4, next: CommonYear, 4, 5),
-        (date: CommonYear, 4, 5, next: CommonYear, 4, 6),
-        (date: CommonYear, 4, 6, next: CommonYear, 4, 7),
-        (date: CommonYear, 4, 7, next: CommonYear, 4, 8),
-        (date: CommonYear, 4, 8, next: CommonYear, 4, 9),
-        (date: CommonYear, 4, 9, next: CommonYear, 4, 10),
-        (date: CommonYear, 4, 10, next: CommonYear, 4, 11),
-        (date: CommonYear, 4, 11, next: CommonYear, 4, 12),
-        (date: CommonYear, 4, 12, next: CommonYear, 4, 13),
-        (date: CommonYear, 4, 13, next: CommonYear, 4, 14),
-        (date: CommonYear, 4, 14, next: CommonYear, 4, 15),
-        (date: CommonYear, 4, 15, next: CommonYear, 4, 16),
-        (date: CommonYear, 4, 16, next: CommonYear, 4, 17),
-        (date: CommonYear, 4, 17, next: CommonYear, 4, 18),
-        (date: CommonYear, 4, 18, next: CommonYear, 4, 19),
-        (date: CommonYear, 4, 19, next: CommonYear, 4, 20),
-        (date: CommonYear, 4, 20, next: CommonYear, 4, 21),
-        (date: CommonYear, 4, 21, next: CommonYear, 4, 22),
-        (date: CommonYear, 4, 22, next: CommonYear, 4, 23),
-        (date: CommonYear, 4, 23, next: CommonYear, 4, 24),
-        (date: CommonYear, 4, 24, next: CommonYear, 4, 25),
-        (date: CommonYear, 4, 25, next: CommonYear, 4, 26),
-        (date: CommonYear, 4, 26, next: CommonYear, 4, 27),
-        (date: CommonYear, 4, 27, next: CommonYear, 4, 28),
-        (date: CommonYear, 4, 28, next: CommonYear, 4, 29),
-        (date: CommonYear, 4, 29, next: CommonYear, 4, 30),
-        (date: CommonYear, 4, 30, next: CommonYear, 5, 1),
-        (date: CommonYear, 5, 1, next: CommonYear, 5, 2),
+        get
+        {
+            yield return new(new(CommonYear, 4, 1), new(CommonYear, 4, 2));
+            yield return new(new(CommonYear, 4, 2), new(CommonYear, 4, 3));
+            yield return new(new(CommonYear, 4, 3), new(CommonYear, 4, 4));
+            yield return new(new(CommonYear, 4, 4), new(CommonYear, 4, 5));
+            yield return new(new(CommonYear, 4, 5), new(CommonYear, 4, 6));
+            yield return new(new(CommonYear, 4, 6), new(CommonYear, 4, 7));
+            yield return new(new(CommonYear, 4, 7), new(CommonYear, 4, 8));
+            yield return new(new(CommonYear, 4, 8), new(CommonYear, 4, 9));
+            yield return new(new(CommonYear, 4, 9), new(CommonYear, 4, 10));
+            yield return new(new(CommonYear, 4, 10), new(CommonYear, 4, 11));
+            yield return new(new(CommonYear, 4, 11), new(CommonYear, 4, 12));
+            yield return new(new(CommonYear, 4, 12), new(CommonYear, 4, 13));
+            yield return new(new(CommonYear, 4, 13), new(CommonYear, 4, 14));
+            yield return new(new(CommonYear, 4, 14), new(CommonYear, 4, 15));
+            yield return new(new(CommonYear, 4, 15), new(CommonYear, 4, 16));
+            yield return new(new(CommonYear, 4, 16), new(CommonYear, 4, 17));
+            yield return new(new(CommonYear, 4, 17), new(CommonYear, 4, 18));
+            yield return new(new(CommonYear, 4, 18), new(CommonYear, 4, 19));
+            yield return new(new(CommonYear, 4, 19), new(CommonYear, 4, 20));
+            yield return new(new(CommonYear, 4, 20), new(CommonYear, 4, 21));
+            yield return new(new(CommonYear, 4, 21), new(CommonYear, 4, 22));
+            yield return new(new(CommonYear, 4, 22), new(CommonYear, 4, 23));
+            yield return new(new(CommonYear, 4, 23), new(CommonYear, 4, 24));
+            yield return new(new(CommonYear, 4, 24), new(CommonYear, 4, 25));
+            yield return new(new(CommonYear, 4, 25), new(CommonYear, 4, 26));
+            yield return new(new(CommonYear, 4, 26), new(CommonYear, 4, 27));
+            yield return new(new(CommonYear, 4, 27), new(CommonYear, 4, 28));
+            yield return new(new(CommonYear, 4, 28), new(CommonYear, 4, 29));
+            yield return new(new(CommonYear, 4, 29), new(CommonYear, 4, 30));
+            yield return new(new(CommonYear, 4, 30), new(CommonYear, 5, 1));
+            yield return new(new(CommonYear, 5, 1), new(CommonYear, 5, 2));
 
-        // End of february.
-        (date: CommonYear, 2, 28, next: CommonYear, 3, 1),
-        (date: LeapYear, 2, 28, next: LeapYear, 2, 29),
-        (date: LeapYear, 2, 29, next: LeapYear, 3, 1),
+            // End of february.
+            yield return new(new(CommonYear, 2, 28), new(CommonYear, 3, 1));
+            yield return new(new(LeapYear, 2, 28), new(LeapYear, 2, 29));
+            yield return new(new(LeapYear, 2, 29), new(LeapYear, 3, 1));
 
-        // End of month.
-        (date: CommonYear, 1, 31, next: CommonYear, 2, 1),
-        (date: CommonYear, 3, 31, next: CommonYear, 4, 1),
-        (date: CommonYear, 5, 31, next: CommonYear, 6, 1),
-        (date: CommonYear, 6, 30, next: CommonYear, 7, 1),
-        (date: CommonYear, 7, 31, next: CommonYear, 8, 1),
-        (date: CommonYear, 8, 31, next: CommonYear, 9, 1),
-        (date: CommonYear, 9, 30, next: CommonYear, 10, 1),
-        (date: CommonYear, 10, 31, next: CommonYear, 11, 1),
-        (date: CommonYear, 11, 30, next: CommonYear, 12, 1),
-        (date: 3, 12, 31, next: 4, 1, 1),
-    };
+            // End of month.
+            yield return new(new(CommonYear, 1, 31), new(CommonYear, 2, 1));
+            yield return new(new(CommonYear, 3, 31), new(CommonYear, 4, 1));
+            yield return new(new(CommonYear, 5, 31), new(CommonYear, 6, 1));
+            yield return new(new(CommonYear, 6, 30), new(CommonYear, 7, 1));
+            yield return new(new(CommonYear, 7, 31), new(CommonYear, 8, 1));
+            yield return new(new(CommonYear, 8, 31), new(CommonYear, 9, 1));
+            yield return new(new(CommonYear, 9, 30), new(CommonYear, 10, 1));
+            yield return new(new(CommonYear, 10, 31), new(CommonYear, 11, 1));
+            yield return new(new(CommonYear, 11, 30), new(CommonYear, 12, 1));
+            yield return new(new(3, 12, 31), new(4, 1, 1));
+        }
+    }
 }
 
 public partial class GregorianDataSet // Addition (months)

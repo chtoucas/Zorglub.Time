@@ -92,7 +92,7 @@ public sealed class StandardGregorianDataSet :
 
     // IMathDataSet
     public TheoryData<Yemoda, Yemoda, int> AddDaysData => Inner.AddDaysData;
-    public TheoryData<Yemoda, Yemoda> ConsecutiveDaysData => Inner.ConsecutiveDaysData;
+    public TheoryData<YemodaPair> ConsecutiveDaysData => Inner.ConsecutiveDaysData;
 
     // IAdvancedMathDataSet
     public TheoryData<Yemoda, Yemoda, int> AddYearsData => Inner.AddYearsData;
