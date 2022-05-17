@@ -32,7 +32,8 @@ public sealed partial class GregorianCalendarDataSet :
 
     // IMathDataSet
     public TheoryData<Yemoda, Yemoda, int> AddDaysData => DataSet.AddDaysData;
-    public TheoryData<YemodaPair> ConsecutiveDaysData => DataSet.ConsecutiveDaysData;
+    public TheoryData<YemodaPair> ConsecutiveDaysData => DataSet.ConsecutiveDaysDataGroup;
+    internal DataGroup<YemodaPair> ConsecutiveDaysDataGroup => DataSet.ConsecutiveDaysDataGroup;
 
     // IAdvancedMathDataSet
     public TheoryData<Yemoda, Yemoda, int> AddYearsData => DataSet.AddYearsData;

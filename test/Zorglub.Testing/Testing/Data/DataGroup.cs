@@ -6,7 +6,7 @@ namespace Zorglub.Testing.Data;
 using System.Linq;
 
 // REVIEW(data): I'm pretty sure we can improve the perf using DataGroup as a
-// return value in various places. See BoundedCalendarDataSet.FilterData().
+// return value in various places. See e.g. GregorianDataSet.ConsecutiveDaysDataGroup.
 
 /// <summary>
 /// Provides factory methods for <see cref="DataGroup{T}"/>.
@@ -67,7 +67,7 @@ public static class DataGroup
 /// <summary>
 /// Represents a group of data for a theory.
 /// </summary>
-public sealed class DataGroup<T> : TheoryData<T>, IEnumerable<T>
+public sealed class DataGroup<T> : TheoryData<T>
 {
     private readonly IEnumerable<T> _seq;
 
@@ -78,6 +78,5 @@ public sealed class DataGroup<T> : TheoryData<T>, IEnumerable<T>
         foreach (T item in seq) { AddRow(item); }
     }
 
-    [Pure]
-    IEnumerator<T> IEnumerable<T>.GetEnumerator() => _seq.GetEnumerator();
+    public IEnumerable<T> AsEnumerable() => _seq;
 }

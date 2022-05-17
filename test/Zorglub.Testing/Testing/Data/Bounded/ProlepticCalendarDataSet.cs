@@ -49,7 +49,7 @@ public sealed class ProlepticGregorianDataSet :
 
     private DataGroup<YemodaPair>? _consecutiveDaysData;
     public TheoryData<YemodaPair> ConsecutiveDaysData =>
-        _consecutiveDaysData ??= FilterData(Inner.ConsecutiveDaysData, DataFilter.Filter);
+        _consecutiveDaysData ??= FilterData(Inner.ConsecutiveDaysDataGroup, DataFilter.Filter);
 
     // IAdvancedMathDataSet
     public TheoryData<Yemoda, Yemoda, int> AddYearsData => Inner.AddYearsData;

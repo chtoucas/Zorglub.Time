@@ -37,6 +37,16 @@ public class BoundedCalendarDataSet<TDataSet> : ICalendarDataSet
         return DataGroup.Create(q);
     }
 
+    // This version is faster, no boxing!
+    protected static DataGroup<T> FilterData<T>(DataGroup<T> data, Func<T, bool> filter)
+    {
+        var q = data.AsEnumerable().Where(filter);
+
+        Debug.Assert(q.Any());
+
+        return DataGroup.Create(q);
+    }
+
     #region ICalendarDataSet
 
     public DayNumber Epoch { get; }
