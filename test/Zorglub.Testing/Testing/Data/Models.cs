@@ -9,6 +9,8 @@ namespace Zorglub.Testing.Data;
 // cannot use (and test) parts (year, month, day, dayOfYear) outside the ranges
 // supported by these types.
 //
+// We assume that the data is valid, e.g. MonthInfo.DaysInMonth must be > 0.
+//
 // Structs in TheoryData are boxed. Use reference types rather than value types
 // to model data? Why bother, it's already the case with all primitive types.
 // It might even be beneficial, we only box one single value instead of all of
