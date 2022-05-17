@@ -12,10 +12,13 @@ namespace Zorglub.Testing.Data;
 // We assume that the data is valid, e.g. MonthInfo.DaysInMonth must be > 0.
 //
 // The use of unsigned shorts and bytes is not necessary, but it helps to reduce
-// the size of the structs. Instead, we could have use shorts everywhere but it
+// the size of the structs. Instead, we could have used shorts everywhere but it
 // doesn't change the final sizes and more specialized integral types help to
 // catch obviously wrong data. For instance, unsigned shorts and bytes are >= 0
 // which is a characteristic of all the properties for which we use them.
+// On the downside, sometimes we have to cast the property to int.
+// To further reduce the size of structs, we could use explicit layouts but it
+// doesn't seem to be worth it.
 //
 // Structs in TheoryData are boxed. Use reference types rather than value types
 // to model data? Why bother, it's already the case with all primitive types.
@@ -106,12 +109,12 @@ public readonly record struct DayNumberInfo(DayNumber DayNumber, Yemoda Yemoda)
 // We use Yemoda, otherwise the struct is too big (24 bytes).
 public readonly record struct DateInfo
 {
-    public DateInfo(int y, int m, int d, int doy, bool isIntercalary, bool isSupplementary)
+    public DateInfo(int y, int m, int d, ushort doy, bool isIntercalary, bool isSupplementary)
         : this(new Yemoda(y, m, d), doy, isIntercalary, isSupplementary) { }
 
     // Do NOT make it a primary constructor, otherwise it will automatically create a deconstructor
     // which the same number of parameters as the one defined below, which can be problematic with F#.
-    public DateInfo(Yemoda ymd, int doy, bool isIntercalary, bool isSupplementary)
+    public DateInfo(Yemoda ymd, ushort doy, bool isIntercalary, bool isSupplementary)
     {
         Yemoda = ymd;
         DayOfYear = doy;
@@ -122,7 +125,7 @@ public readonly record struct DateInfo
     public Yemoda Yemoda { get; }
     public Yedoy Yedoy => new(Yemoda.Year, DayOfYear);
 
-    public int DayOfYear { get; }
+    public ushort DayOfYear { get; }
 
     public bool IsIntercalary { get; }
     public bool IsSupplementary { get; }
@@ -149,7 +152,7 @@ public readonly record struct DecadeInfo(int Year, int Decade, byte YearOfDecade
 
 public readonly record struct CenturyInfo(int Year, int Century, byte YearOfCentury);
 
-public readonly record struct MillenniumInfo(int Year, int Millennium, short YearOfMillennium);
+public readonly record struct MillenniumInfo(int Year, int Millennium, ushort YearOfMillennium);
 
 public readonly record struct YemodaAnd<T>(Yemoda Yemoda, T Value) where T : struct
 {
