@@ -29,12 +29,12 @@ public sealed class ProlepticGregorianDataSet :
 {
     private ProlepticGregorianDataSet() : base(GregorianCalendarDataSet.Instance)
     {
-        DaysInYearAfterMonthData = Filter(Inner.DaysInYearAfterMonthData, Filter);
+        DaysInYearAfterMonthData = FilterData(Inner.DaysInYearAfterMonthData, DataFilter.Filter);
 
-        InvalidYearAdjustementData = Filter(Inner.InvalidYearAdjustementData, Filter);
-        YearAdjustementData = Filter(Inner.YearAdjustementData, Filter);
+        InvalidYearAdjustementData = FilterData(Inner.InvalidYearAdjustementData, DataFilter.Filter);
+        YearAdjustementData = FilterData(Inner.YearAdjustementData, DataFilter.Filter);
 
-        DayOfWeekData = Filter(Inner.DayOfWeekData, Filter);
+        DayOfWeekData = FilterData(Inner.DayOfWeekData, DataFilter.Filter);
     }
 
     public static ProlepticGregorianDataSet Instance { get; } = new();

@@ -26,7 +26,7 @@ public sealed class StandardArmenian12DataSet :
 {
     private StandardArmenian12DataSet() : base(Armenian12CalendarDataSet.Instance)
     {
-        EpagomenalDayInfoData = Filter(Inner.EpagomenalDayInfoData, Filter);
+        EpagomenalDayInfoData = FilterData(Inner.EpagomenalDayInfoData, DataFilter.Filter);
     }
 
     public static StandardArmenian12DataSet Instance { get; } = new();
@@ -42,7 +42,7 @@ public sealed class StandardCoptic12DataSet :
 {
     private StandardCoptic12DataSet() : base(Coptic12CalendarDataSet.Instance)
     {
-        EpagomenalDayInfoData = Filter(Inner.EpagomenalDayInfoData, Filter);
+        EpagomenalDayInfoData = FilterData(Inner.EpagomenalDayInfoData, DataFilter.Filter);
     }
 
     public static StandardCoptic12DataSet Instance { get; } = new();
@@ -58,7 +58,7 @@ public sealed class StandardEthiopic12DataSet :
 {
     private StandardEthiopic12DataSet() : base(Ethiopic12CalendarDataSet.Instance)
     {
-        EpagomenalDayInfoData = Filter(Inner.EpagomenalDayInfoData, Filter);
+        EpagomenalDayInfoData = FilterData(Inner.EpagomenalDayInfoData, DataFilter.Filter);
     }
 
     public static StandardEthiopic12DataSet Instance { get; } = new();
@@ -78,12 +78,12 @@ public sealed class StandardGregorianDataSet :
 {
     private StandardGregorianDataSet() : base(GregorianCalendarDataSet.Instance)
     {
-        DaysInYearAfterMonthData = Filter(Inner.DaysInYearAfterMonthData, Filter);
+        DaysInYearAfterMonthData = FilterData(Inner.DaysInYearAfterMonthData, DataFilter.Filter);
 
-        InvalidYearAdjustementData = Filter(Inner.InvalidYearAdjustementData, Filter);
-        YearAdjustementData = Filter(Inner.YearAdjustementData, Filter);
+        InvalidYearAdjustementData = FilterData(Inner.InvalidYearAdjustementData, DataFilter.Filter);
+        YearAdjustementData = FilterData(Inner.YearAdjustementData, DataFilter.Filter);
 
-        DayOfWeekData = Filter(Inner.DayOfWeekData, Filter);
+        DayOfWeekData = FilterData(Inner.DayOfWeekData, DataFilter.Filter);
     }
 
     public static StandardGregorianDataSet Instance { get; } = new();
@@ -131,7 +131,7 @@ public sealed class StandardZoroastrian12DataSet :
 {
     private StandardZoroastrian12DataSet() : base(Zoroastrian12CalendarDataSet.Instance)
     {
-        EpagomenalDayInfoData = Filter(Inner.EpagomenalDayInfoData, Filter);
+        EpagomenalDayInfoData = FilterData(Inner.EpagomenalDayInfoData, DataFilter.Filter);
     }
 
     public static StandardZoroastrian12DataSet Instance { get; } = new();

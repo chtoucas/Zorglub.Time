@@ -5,18 +5,17 @@ namespace Zorglub.Testing.Data.Bounded;
 
 using System.Linq;
 
-//using static Zorglub.Testing.Data.Extensions.TheoryDataHelpers;
-
 public class BoundedCalendarDataSet<TDataSet> : ICalendarDataSet
     where TDataSet : ICalendarDataSet
 {
-    public BoundedCalendarDataSet(TDataSet inner)
+    public BoundedCalendarDataSet(TDataSet inner, IDataFilter dataFilter)
     {
         Inner = inner ?? throw new ArgumentNullException(nameof(inner));
+        DataFilter = dataFilter ?? throw new ArgumentNullException(nameof(dataFilter));
 
-        Epoch = Inner.Epoch;
-        SampleCommonYear = Inner.SampleCommonYear;
-        SampleLeapYear = Inner.SampleLeapYear;
+        Epoch = inner.Epoch;
+        SampleCommonYear = inner.SampleCommonYear;
+        SampleLeapYear = inner.SampleLeapYear;
     }
 
     /// <summary>
@@ -24,7 +23,9 @@ public class BoundedCalendarDataSet<TDataSet> : ICalendarDataSet
     /// </summary>
     public TDataSet Inner { get; }
 
-    protected static DataGroup<T> Filter<T>(TheoryData<T> data, Func<T, bool> filter)
+    public IDataFilter DataFilter { get; }
+
+    protected static DataGroup<T> FilterData<T>(TheoryData<T> data, Func<T, bool> filter)
     {
         var q = from item in data
                 let value = (T)item[0]
@@ -36,24 +37,21 @@ public class BoundedCalendarDataSet<TDataSet> : ICalendarDataSet
         return DataGroup.Create(q);
     }
 
-    private static InvalidOperationException BadProperty(string propertyName) =>
-        new($"The feature can not be tested: the property \"{propertyName}\" has not been initialized.");
-
     #region ICalendarDataSet
 
     public DayNumber Epoch { get; }
 
+    private TheoryData<DayNumberInfo>? _dayNumberInfoData;
     public TheoryData<DayNumberInfo> DayNumberInfoData =>
-        DayNumberInfoDataInit ?? throw BadProperty(nameof(DayNumberInfoDataInit));
+        _dayNumberInfoData ??= FilterData(Inner.DayNumberInfoData, DataFilter.Filter);
 
+    private TheoryData<YearDayNumber>? _startOfYearDayNumberData;
     public TheoryData<YearDayNumber> StartOfYearDayNumberData =>
-        StartOfYearDayNumberDataInit ?? throw BadProperty(nameof(StartOfYearDayNumberData));
-    public TheoryData<YearDayNumber> EndOfYearDayNumberData =>
-        EndOfYearDayNumberDataInit ?? throw BadProperty(nameof(EndOfYearDayNumberDataInit));
+        _startOfYearDayNumberData ??= FilterData(Inner.StartOfYearDayNumberData, DataFilter.Filter);
 
-    protected TheoryData<DayNumberInfo>? DayNumberInfoDataInit { get; init; }
-    protected TheoryData<YearDayNumber>? StartOfYearDayNumberDataInit { get; init; }
-    protected TheoryData<YearDayNumber>? EndOfYearDayNumberDataInit { get; init; }
+    private TheoryData<YearDayNumber>? _endOfYearDayNumberData;
+    public TheoryData<YearDayNumber> EndOfYearDayNumberData =>
+        _endOfYearDayNumberData ??= FilterData(Inner.EndOfYearDayNumberData, DataFilter.Filter);
 
     #endregion
     #region ICalendricalDataSet
@@ -61,49 +59,54 @@ public class BoundedCalendarDataSet<TDataSet> : ICalendarDataSet
     public int SampleCommonYear { get; }
     public int SampleLeapYear { get; }
 
+    private TheoryData<DaysSinceEpochInfo>? _daysSinceEpochInfoData;
     public TheoryData<DaysSinceEpochInfo> DaysSinceEpochInfoData =>
-        DaysSinceEpochInfoDataInit ?? throw BadProperty(nameof(DaysSinceEpochInfoDataInit));
+        _daysSinceEpochInfoData ??= FilterData(Inner.DaysSinceEpochInfoData, DataFilter.Filter);
 
+    private TheoryData<DateInfo>? _dateInfoData;
     public TheoryData<DateInfo> DateInfoData =>
-        DateInfoDataInit ?? throw BadProperty(nameof(DateInfoDataInit));
+        _dateInfoData ??= FilterData(Inner.DateInfoData, DataFilter.Filter);
+
+    private TheoryData<MonthInfo>? _monthInfoData;
     public TheoryData<MonthInfo> MonthInfoData =>
-        MonthInfoDataInit ?? throw BadProperty(nameof(MonthInfoDataInit));
+        _monthInfoData ??= FilterData(Inner.MonthInfoData, DataFilter.Filter);
+
+    private TheoryData<YearInfo>? _yearInfoData;
     public TheoryData<YearInfo> YearInfoData =>
-        YearInfoDataInit ?? throw BadProperty(nameof(YearInfoDataInit));
+        _yearInfoData ??= FilterData(Inner.YearInfoData, DataFilter.Filter);
+
+    private TheoryData<CenturyInfo>? _centuryInfoData;
     public TheoryData<CenturyInfo> CenturyInfoData =>
-        CenturyInfoDataInit ?? throw BadProperty(nameof(CenturyInfoDataInit));
+        _centuryInfoData ??= FilterData(Inner.CenturyInfoData, DataFilter.Filter);
 
+    private TheoryData<YemodaAnd<int>>? _daysInYearAfterDateDataInit;
     public TheoryData<YemodaAnd<int>> DaysInYearAfterDateData =>
-        DaysInYearAfterDateDataInit ?? throw BadProperty(nameof(DaysInYearAfterDateDataInit));
+        _daysInYearAfterDateDataInit ??= FilterData(Inner.DaysInYearAfterDateData, DataFilter.Filter);
+
+    private TheoryData<YemodaAnd<int>>? _daysInMonthAfterDateData;
     public TheoryData<YemodaAnd<int>> DaysInMonthAfterDateData =>
-        DaysInMonthAfterDateDataInit ?? throw BadProperty(nameof(DaysInMonthAfterDateDataInit));
+        _daysInMonthAfterDateData ??= FilterData(Inner.DaysInMonthAfterDateData, DataFilter.Filter);
 
+    private TheoryData<Yemoda>? _startOfYearPartsData;
     public TheoryData<Yemoda> StartOfYearPartsData =>
-        StartOfYearPartsDataInit ?? throw BadProperty(nameof(StartOfYearPartsDataInit));
-    public TheoryData<Yemoda> EndOfYearPartsData =>
-        EndOfYearPartsDataInit ?? throw BadProperty(nameof(EndOfYearPartsDataInit));
+        _startOfYearPartsData ??= FilterData(Inner.StartOfYearPartsData, DataFilter.Filter);
 
+    private TheoryData<Yemoda>? _endOfYearPartsData;
+    public TheoryData<Yemoda> EndOfYearPartsData =>
+        _endOfYearPartsData ??= FilterData(Inner.EndOfYearPartsData, DataFilter.Filter);
+
+    private TheoryData<YearDaysSinceEpoch>? _startOfYearDaysSinceEpochData;
     public TheoryData<YearDaysSinceEpoch> StartOfYearDaysSinceEpochData =>
-        StartOfYearDaysSinceEpochDataInit ?? throw BadProperty(nameof(StartOfYearDaysSinceEpochDataInit));
+        _startOfYearDaysSinceEpochData ??= FilterData(Inner.StartOfYearDaysSinceEpochData, DataFilter.Filter);
+
+    private TheoryData<YearDaysSinceEpoch>? _endOfYearDaysSinceEpochData;
     public TheoryData<YearDaysSinceEpoch> EndOfYearDaysSinceEpochData =>
-        EndOfYearDaysSinceEpochDataInit ?? throw BadProperty(nameof(EndOfYearDaysSinceEpochDataInit));
+        _endOfYearDaysSinceEpochData ??= FilterData(Inner.EndOfYearDaysSinceEpochData, DataFilter.Filter);
 
     // Normally, we don't have to filter the three following properties.
     public TheoryData<int, int> InvalidMonthFieldData => Inner.InvalidMonthFieldData;
     public TheoryData<int, int, int> InvalidDayFieldData => Inner.InvalidDayFieldData;
     public TheoryData<int, int> InvalidDayOfYearFieldData => Inner.InvalidDayOfYearFieldData;
-
-    protected TheoryData<DaysSinceEpochInfo>? DaysSinceEpochInfoDataInit { get; init; }
-    protected TheoryData<DateInfo>? DateInfoDataInit { get; init; }
-    protected TheoryData<MonthInfo>? MonthInfoDataInit { get; init; }
-    protected TheoryData<YearInfo>? YearInfoDataInit { get; init; }
-    protected TheoryData<CenturyInfo>? CenturyInfoDataInit { get; init; }
-    protected TheoryData<YemodaAnd<int>>? DaysInYearAfterDateDataInit { get; init; }
-    protected TheoryData<YemodaAnd<int>>? DaysInMonthAfterDateDataInit { get; init; }
-    protected TheoryData<Yemoda>? StartOfYearPartsDataInit { get; init; }
-    protected TheoryData<Yemoda>? EndOfYearPartsDataInit { get; init; }
-    protected TheoryData<YearDaysSinceEpoch>? StartOfYearDaysSinceEpochDataInit { get; init; }
-    protected TheoryData<YearDaysSinceEpoch>? EndOfYearDaysSinceEpochDataInit { get; init; }
 
     #endregion
 }
