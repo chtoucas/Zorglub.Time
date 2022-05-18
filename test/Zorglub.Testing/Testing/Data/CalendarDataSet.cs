@@ -57,7 +57,9 @@ public abstract class CalendarDataSet<TDataSet> : ICalendarDataSet
     public TheoryData<int, int, int> InvalidDayFieldData => DataSet.InvalidDayFieldData;
     public TheoryData<int, int> InvalidDayOfYearFieldData => DataSet.InvalidDayOfYearFieldData;
 
-    #region Helpers
+    //
+    // Helpers
+    //
 
     [Pure]
     private DataGroup<YearDayNumber> ConvertToDayNumberData(DataGroup<YearDaysSinceEpoch> source)
@@ -69,6 +71,4 @@ public abstract class CalendarDataSet<TDataSet> : ICalendarDataSet
 
         YearDayNumber Selector(YearDaysSinceEpoch x) => x.ToYearDayNumber(epoch);
     }
-
-    #endregion
 }
