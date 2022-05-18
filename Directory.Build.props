@@ -44,8 +44,13 @@
     <PackageReleaseNotes>See CHANGELOG in project root.</PackageReleaseNotes>
 
     <!-- Code/Style Analysis -->
+    <!--
+      https://docs.microsoft.com/en-us/dotnet/fundamentals/code-analysis/overview
+      https://docs.microsoft.com/en-us/dotnet/core/project-sdk/msbuild-props#analysismode
+    -->
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
     <AnalysisLevel>latest</AnalysisLevel>
+    <AnalysisMode>All</AnalysisMode>
     <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
 
     <!-- Reproducible build -->
@@ -66,8 +71,6 @@
         <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
 
-        <AnalysisMode>AllEnabledByDefault</AnalysisMode>
-
         <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
         <!-- CS1591 Missing XML comment for publicly visible type or member 'Type_or_Member' -->
         <WarningsNotAsErrors>CS1591</WarningsNotAsErrors>
@@ -85,8 +88,6 @@
         <SignAssembly>false</SignAssembly>
         <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
         <GenerateDocumentationFile>false</GenerateDocumentationFile>
-
-        <AnalysisMode>Default</AnalysisMode>
 
         <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
         <TreatSpecificWarningsAsErrors />
