@@ -27,19 +27,4 @@ internal static class TheoryDataExtensions
         }
         return data;
     }
-
-    // Two Yemoda's, three units.
-    [Pure]
-    public static TheoryData<Yemoda, Yemoda, T1, T2, T3> MapToTheoryDataOfTwoYemodas<T1, T2, T3>(
-        this IEnumerable<(int, int, int, int, int, int, T1, T2, T3)> @this)
-    {
-        Requires.NotNull(@this);
-
-        var data = new TheoryData<Yemoda, Yemoda, T1, T2, T3>();
-        foreach (var (y1, m1, d1, y2, m2, d2, t1, t2, t3) in @this)
-        {
-            data.Add(new Yemoda(y1, m1, d1), new Yemoda(y2, m2, d2), t1, t2, t3);
-        }
-        return data;
-    }
 }

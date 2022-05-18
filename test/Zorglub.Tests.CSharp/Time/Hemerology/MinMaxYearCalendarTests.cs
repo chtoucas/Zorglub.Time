@@ -90,6 +90,7 @@ public class GregorianMinMaxYearCalendarDataSet :
     public static GregorianMinMaxYearCalendarDataSet Instance { get; } = new();
 }
 
+// TODO(code): à améliorer.
 public sealed class GregorianMinMaxYearCalendarTests :
     NakedCalendarFacts<MinMaxYearCalendar, GregorianMinMaxYearCalendarDataSet>
 {

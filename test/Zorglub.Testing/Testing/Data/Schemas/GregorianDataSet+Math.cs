@@ -4,21 +4,15 @@
 namespace Zorglub.Testing.Data.Schemas;
 
 // TODO(data): Use IEnumerable<> instead of List<> and replace <Yemoda, Yemoda...>
-// by YemodaPair. Filter data: see XXXGregorianDataSet in Bounded.
-// GregorianMinMaxYearCalendarTests à améliorer.
+// by YemodaPair. Filter matching data in Bounded.
 
 using static Zorglub.Testing.Data.Extensions.TheoryDataExtensions;
 
-public partial class GregorianDataSet // IMathDataSet
+public partial class GregorianDataSet // IMathDataSet (days)
 {
-    // Date, expected result, days to be added.
-    private DataGroup<YemodaPairAnd<int>>? _addDaysData;
-    public DataGroup<YemodaPairAnd<int>> AddDaysData =>
-        _addDaysData ??= DataGroup.Create(AddDays);
+    public DataGroup<YemodaPairAnd<int>> AddDaysData { get; } = DataGroup.Create(AddDays);
 
-    private DataGroup<YemodaPair>? _consecutiveDaysData;
-    public DataGroup<YemodaPair> ConsecutiveDaysData =>
-        _consecutiveDaysData ??= DataGroup.Create(ConsecutiveDays);
+    public DataGroup<YemodaPair> ConsecutiveDaysData { get; } = DataGroup.Create(ConsecutiveDays);
 
     private static IEnumerable<YemodaPairAnd<int>> AddDays
     {
@@ -82,7 +76,7 @@ public partial class GregorianDataSet // IMathDataSet
         }
     }
 
-    // Used to test Next() AND Previous().
+    // Also useful for testing Next() and Previous().
     private static IEnumerable<YemodaPair> ConsecutiveDays
     {
         get
@@ -348,11 +342,23 @@ public partial class GregorianDataSet // Subtraction
 {
     // Start date, end date, exact diff between.
     public TheoryData<Yemoda, Yemoda, int, int, int> DiffData =>
-        s_Diff.MapToTheoryDataOfTwoYemodas();
+        MapToTheoryDataOfTwoYemodas(s_Diff);
 
     // Start date, end date, exact diff between.
     public static TheoryData<Yemoda, Yemoda, int, int, int> DiffCutOffData =>
-        s_DiffCutOff.MapToTheoryDataOfTwoYemodas();
+        MapToTheoryDataOfTwoYemodas(s_DiffCutOff);
+
+    [Pure]
+    private static TheoryData<Yemoda, Yemoda, T1, T2, T3> MapToTheoryDataOfTwoYemodas<T1, T2, T3>(
+        IEnumerable<(int, int, int, int, int, int, T1, T2, T3)> source)
+    {
+        var data = new TheoryData<Yemoda, Yemoda, T1, T2, T3>();
+        foreach (var (y1, m1, d1, y2, m2, d2, t1, t2, t3) in source)
+        {
+            data.Add(new Yemoda(y1, m1, d1), new Yemoda(y2, m2, d2), t1, t2, t3);
+        }
+        return data;
+    }
 
     // Start date, end date, exact diff between.
     private static readonly List<(int start, int, int, int end, int, int, int diff, int, int)> s_Diff = new()

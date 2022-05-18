@@ -97,19 +97,23 @@ public readonly record struct DayNumberInfo(DayNumber DayNumber, Yemoda Yemoda)
         (y, m, d) = Yemoda;
     }
 
+#pragma warning disable CA2225 // Operator overloads have named alternates (Usage)
+
     public static DayNumberInfo operator +(DayNumberInfo x, int value) => new(x.DayNumber + value, x.Yemoda);
 
     public static DaysSinceEpochInfo operator -(DayNumberInfo x, DayNumber epoch) => new(x.DayNumber - epoch, x.Yemoda);
+
+#pragma warning restore CA2225
 }
 
-// We use Yemoda, otherwise the struct is too big (24 bytes).
 public readonly record struct DateInfo
 {
     public DateInfo(int y, int m, int d, ushort doy, bool isIntercalary, bool isSupplementary)
         : this(new Yemoda(y, m, d), doy, isIntercalary, isSupplementary) { }
 
-    // Do NOT make it a primary constructor, otherwise it will automatically create a deconstructor
-    // which the same number of parameters as the one defined below, which can be problematic with F#.
+    // Do NOT make it a primary constructor, otherwise it will automatically
+    // create a deconstructor which the same number of parameters as the one
+    // defined below, which can be problematic with F#.
     public DateInfo(Yemoda ymd, ushort doy, bool isIntercalary, bool isSupplementary)
     {
         Yemoda = ymd;
@@ -133,7 +137,6 @@ public readonly record struct DateInfo
     }
 }
 
-// We use Yemo, otherwise the struct is too big (20 bytes).
 public readonly record struct MonthInfo(Yemo Yemo, byte DaysInMonth, ushort DaysInYearBeforeMonth, bool IsIntercalary)
 {
     public MonthInfo(int y, int m, byte daysInMonth, ushort daysInYearBeforeMonth, bool isIntercalary)
