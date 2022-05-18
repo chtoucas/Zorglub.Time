@@ -11,10 +11,12 @@ using Zorglub.Testing.Data.Schemas;
 public sealed class InternationalFixedCalendarDataSet :
     CalendarDataSet<InternationalFixedDataSet>, ISingleton<InternationalFixedCalendarDataSet>
 {
-    private InternationalFixedCalendarDataSet() : base(InternationalFixedDataSet.Instance, DayZero.NewStyle) { }
+    private static readonly DayNumber s_Epoch = DayZero.NewStyle;
+
+    private InternationalFixedCalendarDataSet() : base(InternationalFixedDataSet.Instance, s_Epoch) { }
 
     public static InternationalFixedCalendarDataSet Instance { get; } = new();
 
-    public override DataGroup<DayNumberInfo> DayNumberInfoData =>
-        DataGroup.CreateDayNumberInfoData(InternationalFixedDataSet.DaysSinceEpochInfos, Epoch);
+    public override DataGroup<DayNumberInfo> DayNumberInfoData { get; } =
+        DataGroup.CreateDayNumberInfoData(InternationalFixedDataSet.DaysSinceEpochInfos, s_Epoch);
 }

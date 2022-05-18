@@ -12,10 +12,12 @@ using Zorglub.Testing.Data.Schemas;
 public sealed class RevisedWorldCalendarDataSet :
     CalendarDataSet<WorldDataSet>, ISingleton<RevisedWorldCalendarDataSet>
 {
-    private RevisedWorldCalendarDataSet() : base(WorldDataSet.Instance, DayZero.NewStyle) { }
+    private static readonly DayNumber s_Epoch = DayZero.NewStyle;
+
+    private RevisedWorldCalendarDataSet() : base(WorldDataSet.Instance, s_Epoch) { }
 
     public static RevisedWorldCalendarDataSet Instance { get; } = new();
 
-    public override DataGroup<DayNumberInfo> DayNumberInfoData =>
-        DataGroup.CreateDayNumberInfoData(WorldDataSet.DaysSinceEpochInfos, Epoch);
+    public override DataGroup<DayNumberInfo> DayNumberInfoData { get; } =
+        DataGroup.CreateDayNumberInfoData(WorldDataSet.DaysSinceEpochInfos, s_Epoch);
 }

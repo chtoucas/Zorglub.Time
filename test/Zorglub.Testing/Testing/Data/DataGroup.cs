@@ -30,6 +30,9 @@ using System.Linq;
 /// </summary>
 public static class DataGroup
 {
+    /// <summary>
+    /// Creates a <i>read-only</i> instance of the <see cref="DataGroup{T}"/> class.
+    /// </summary>
     [Pure]
     public static DataGroup<T> Create<T>(IEnumerable<T> source) => new(source);
 
@@ -85,22 +88,23 @@ public sealed class DataGroup<T> : IReadOnlyCollection<object?[]>
 {
     private readonly IContainer _container;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="DataGroup{T}"/> class.
+    /// </summary>
     public DataGroup()
     {
         _container = IContainer.Create();
     }
 
+    /// <summary>
+    /// Initializes a new <i>read-only</i> instance of the <see cref="DataGroup{T}"/> class.
+    /// </summary>
     public DataGroup(IEnumerable<T> values)
     {
-        _container = IContainer.Create(values, deferred: true);
+        _container = IContainer.Create(values, readOnly: true);
     }
 
-    public DataGroup(IEnumerable<T> values, bool deferred)
-    {
-        _container = IContainer.Create(values, deferred);
-    }
-
-    public bool IsDeferred => _container.IsDeferred;
+    public bool IsReadOnly => _container.IsReadOnly;
 
     // Collection initializer.
     public void Add(T v) => _container.Add(v);
@@ -144,7 +148,7 @@ public sealed class DataGroup<T> : IReadOnlyCollection<object?[]>
 
     private interface IContainer
     {
-        bool IsDeferred { get; }
+        bool IsReadOnly { get; }
 
         IEnumerable<T> Values { get; }
 
@@ -156,8 +160,8 @@ public sealed class DataGroup<T> : IReadOnlyCollection<object?[]>
 
         public static IContainer Create() => new Container();
 
-        public static IContainer Create(IEnumerable<T> values, bool deferred) =>
-            deferred ? new DeferredContainer(values) : new Container(values);
+        public static IContainer Create(IEnumerable<T> values, bool readOnly) =>
+            readOnly ? new ReadOnlyContainer(values) : new Container(values);
     }
 
     private sealed class Container : IContainer
@@ -174,7 +178,7 @@ public sealed class DataGroup<T> : IReadOnlyCollection<object?[]>
             _values = new List<T>(values);
         }
 
-        public bool IsDeferred => false;
+        public bool IsReadOnly => false;
 
         public IEnumerable<T> Values => _values;
 
@@ -183,14 +187,14 @@ public sealed class DataGroup<T> : IReadOnlyCollection<object?[]>
         public void Add(T v) => _values.Add(v);
     }
 
-    private sealed class DeferredContainer : IContainer
+    private sealed class ReadOnlyContainer : IContainer
     {
-        public DeferredContainer(IEnumerable<T> values)
+        public ReadOnlyContainer(IEnumerable<T> values)
         {
             Values = values ?? throw new ArgumentNullException(nameof(values));
         }
 
-        public bool IsDeferred => true;
+        public bool IsReadOnly => true;
 
         public IEnumerable<T> Values { get; }
 

@@ -25,10 +25,10 @@ public abstract class CalendarDataSet<TDataSet> : ICalendarDataSet
     public abstract DataGroup<DayNumberInfo> DayNumberInfoData { get; }
 
     public DataGroup<YearDayNumber> StartOfYearDayNumberData =>
-        ConvertToDayNumberData(DataSet.StartOfYearDaysSinceEpochData);
+        MapToDayNumberData(DataSet.StartOfYearDaysSinceEpochData);
 
     public DataGroup<YearDayNumber> EndOfYearDayNumberData =>
-        ConvertToDayNumberData(DataSet.EndOfYearDaysSinceEpochData);
+        MapToDayNumberData(DataSet.EndOfYearDaysSinceEpochData);
 
     //
     // Affine data
@@ -62,7 +62,7 @@ public abstract class CalendarDataSet<TDataSet> : ICalendarDataSet
     //
 
     [Pure]
-    private DataGroup<YearDayNumber> ConvertToDayNumberData(DataGroup<YearDaysSinceEpoch> source)
+    private DataGroup<YearDayNumber> MapToDayNumberData(DataGroup<YearDaysSinceEpoch> source)
     {
         Debug.Assert(source != null);
 

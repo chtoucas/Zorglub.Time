@@ -31,27 +31,15 @@ public sealed class ProlepticGregorianDataSet :
 
     public static ProlepticGregorianDataSet Instance { get; } = new();
 
-    private DataGroup<YemoAnd<int>>? _daysInYearAfterMonthData;
-    public DataGroup<YemoAnd<int>> DaysInYearAfterMonthData =>
-        _daysInYearAfterMonthData ??= Inner.DaysInYearAfterMonthData.WhereT(DataFilter.Filter);
+    public DataGroup<YemoAnd<int>> DaysInYearAfterMonthData => Inner.DaysInYearAfterMonthData.WhereT(DataFilter.Filter);
 
     // IYearAdjustmentDataSet
-    private DataGroup<YemodaAnd<int>>? _invalidYearAdjustementData;
-    public DataGroup<YemodaAnd<int>> InvalidYearAdjustementData =>
-        _invalidYearAdjustementData ??= Inner.InvalidYearAdjustementData.WhereT(DataFilter.Filter);
-
-    private DataGroup<YemodaAnd<int>>? _yearAdjustementData;
-    public DataGroup<YemodaAnd<int>> YearAdjustementData =>
-        _yearAdjustementData ??= Inner.YearAdjustementData.WhereT(DataFilter.Filter);
+    public DataGroup<YemodaAnd<int>> InvalidYearAdjustementData => Inner.InvalidYearAdjustementData.WhereT(DataFilter.Filter);
+    public DataGroup<YemodaAnd<int>> YearAdjustementData => Inner.YearAdjustementData.WhereT(DataFilter.Filter);
 
     // IMathDataSet
-    private DataGroup<YemodaPairAnd<int>>? _addDaysData;
-    public DataGroup<YemodaPairAnd<int>> AddDaysData =>
-        _addDaysData ??= Inner.AddDaysData.WhereT(DataFilter.Filter);
-
-    private DataGroup<YemodaPair>? _consecutiveDaysData;
-    public DataGroup<YemodaPair> ConsecutiveDaysData =>
-        _consecutiveDaysData ??= Inner.ConsecutiveDaysData.WhereT(DataFilter.Filter);
+    public DataGroup<YemodaPairAnd<int>> AddDaysData => Inner.AddDaysData.WhereT(DataFilter.Filter);
+    public DataGroup<YemodaPair> ConsecutiveDaysData => Inner.ConsecutiveDaysData.WhereT(DataFilter.Filter);
 
     // IAdvancedMathDataSet
     public TheoryData<Yemoda, Yemoda, int> AddYearsData => Inner.AddYearsData;
@@ -59,10 +47,7 @@ public sealed class ProlepticGregorianDataSet :
     public TheoryData<Yemoda, Yemoda, int, int, int> DiffData => Inner.DiffData;
 
     // IDayOfWeekDataSet
-    private DataGroup<YemodaAnd<DayOfWeek>>? _dayOfWeekData;
-    public DataGroup<YemodaAnd<DayOfWeek>> DayOfWeekData =>
-        _dayOfWeekData ??= Inner.DayOfWeekData.WhereT(DataFilter.Filter);
-
+    public DataGroup<YemodaAnd<DayOfWeek>> DayOfWeekData => Inner.DayOfWeekData.WhereT(DataFilter.Filter);
     public TheoryData<Yemoda, Yemoda, DayOfWeek> DayOfWeek_Before_Data => Inner.DayOfWeek_Before_Data;
     public TheoryData<Yemoda, Yemoda, DayOfWeek> DayOfWeek_OnOrBefore_Data => Inner.DayOfWeek_OnOrBefore_Data;
     public TheoryData<Yemoda, Yemoda, DayOfWeek> DayOfWeek_Nearest_Data => Inner.DayOfWeek_Nearest_Data;

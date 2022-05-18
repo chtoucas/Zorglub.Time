@@ -17,7 +17,7 @@ public sealed class FrenchRepublican12CalendarDataSet :
 
     public static FrenchRepublican12CalendarDataSet Instance { get; } = new();
 
-    public override DataGroup<DayNumberInfo> DayNumberInfoData =>
+    public override DataGroup<DayNumberInfo> DayNumberInfoData { get; } =
         DataGroup.CreateDayNumberInfoData(FrenchRepublican12DataSet.DaysSinceRataDieInfos);
 
     public DataGroup<YemodaAnd<int>> EpagomenalDayInfoData => DataSet.EpagomenalDayInfoData;
@@ -34,7 +34,7 @@ public sealed class FrenchRepublican13CalendarDataSet :
 
     public static FrenchRepublican13CalendarDataSet Instance { get; } = new();
 
-    public override DataGroup<DayNumberInfo> DayNumberInfoData =>
+    public override DataGroup<DayNumberInfo> DayNumberInfoData { get; } =
         DataGroup.CreateDayNumberInfoData(FrenchRepublican13DataSet.DaysSinceRataDieInfos);
 
     public DataGroup<YemodaAnd<int>> EpagomenalDayInfoData => DataSet.EpagomenalDayInfoData;

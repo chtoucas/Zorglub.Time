@@ -12,13 +12,14 @@ using Zorglub.Time.Hemerology;
 public sealed class Zoroastrian13CalendarDataSet :
     CalendarDataSet<Egyptian13DataSet>, IEpagomenalDataSet, ISingleton<Zoroastrian13CalendarDataSet>
 {
-    private Zoroastrian13CalendarDataSet() : base(Egyptian13DataSet.Instance, CalendarEpoch.Zoroastrian) { }
+    private static readonly DayNumber s_Epoch = CalendarEpoch.Zoroastrian;
+
+    private Zoroastrian13CalendarDataSet() : base(Egyptian13DataSet.Instance, s_Epoch) { }
 
     public static Zoroastrian13CalendarDataSet Instance { get; } = new();
 
     public sealed override DataGroup<DayNumberInfo> DayNumberInfoData =>
-        DataGroup.CreateDayNumberInfoData(
-            Egyptian13DataSet.DaysSinceRataDieInfos, CalendarEpoch.Egyptian, Epoch);
+        DataGroup.CreateDayNumberInfoData(Egyptian13DataSet.DaysSinceRataDieInfos, CalendarEpoch.Egyptian, s_Epoch);
 
     public DataGroup<YemodaAnd<int>> EpagomenalDayInfoData => DataSet.EpagomenalDayInfoData;
 }
@@ -29,13 +30,14 @@ public sealed class Zoroastrian13CalendarDataSet :
 public sealed class Zoroastrian12CalendarDataSet :
     CalendarDataSet<Egyptian12DataSet>, IEpagomenalDataSet, ISingleton<Zoroastrian12CalendarDataSet>
 {
-    private Zoroastrian12CalendarDataSet() : base(Egyptian12DataSet.Instance, CalendarEpoch.Zoroastrian) { }
+    private static readonly DayNumber s_Epoch = CalendarEpoch.Zoroastrian;
+
+    private Zoroastrian12CalendarDataSet() : base(Egyptian12DataSet.Instance, s_Epoch) { }
 
     public static Zoroastrian12CalendarDataSet Instance { get; } = new();
 
     public sealed override DataGroup<DayNumberInfo> DayNumberInfoData =>
-        DataGroup.CreateDayNumberInfoData(
-            Egyptian12DataSet.DaysSinceRataDieInfos, CalendarEpoch.Egyptian, Epoch);
+        DataGroup.CreateDayNumberInfoData(Egyptian12DataSet.DaysSinceRataDieInfos, CalendarEpoch.Egyptian, s_Epoch);
 
     public DataGroup<YemodaAnd<int>> EpagomenalDayInfoData => DataSet.EpagomenalDayInfoData;
 }

@@ -19,8 +19,6 @@ public abstract class CalendricalDataSet : ICalendricalDataSet
 
     public ICalendricalSchema Schema { get; }
 
-    #region ICalendricalDataSet
-
     public int SampleCommonYear { get; }
     public int SampleLeapYear { get; }
 
@@ -34,31 +32,23 @@ public abstract class CalendricalDataSet : ICalendricalDataSet
     /// </remarks>
     public virtual DataGroup<CenturyInfo> CenturyInfoData => YearNumberingDataSet.CenturyInfoData;
 
-    private DataGroup<YemodaAnd<int>>? _daysInYearAfterDateData;
     public virtual DataGroup<YemodaAnd<int>> DaysInYearAfterDateData =>
-        _daysInYearAfterDateData ??= InitDaysInYearAfterDateData(DateInfoData);
-
-    private DataGroup<YemodaAnd<int>>? _daysInMonthAfterDateData;
+        MapToDaysInYearAfterDateData(DateInfoData);
     public virtual DataGroup<YemodaAnd<int>> DaysInMonthAfterDateData =>
-        _daysInMonthAfterDateData ??= InitDaysInMonthAfterDateData(DateInfoData);
+        MapToDaysInMonthAfterDateData(DateInfoData);
 
-    private DataGroup<Yemoda>? _startOfYearPartsData;
     public virtual DataGroup<Yemoda> StartOfYearPartsData =>
-        _startOfYearPartsData ??= InitStartOfYearParts(EndOfYearPartsData);
-
+        MapToStartOfYearParts(EndOfYearPartsData);
     public abstract DataGroup<Yemoda> EndOfYearPartsData { get; }
 
     public abstract DataGroup<YearDaysSinceEpoch> StartOfYearDaysSinceEpochData { get; }
-
-    private DataGroup<YearDaysSinceEpoch>? _endOfYearDaysSinceEpochData;
     public virtual DataGroup<YearDaysSinceEpoch> EndOfYearDaysSinceEpochData =>
-        _endOfYearDaysSinceEpochData ??= InitEndOfYearDaysSinceEpochData(StartOfYearDaysSinceEpochData);
+        MapToEndOfYearDaysSinceEpochData(StartOfYearDaysSinceEpochData);
 
     public abstract TheoryData<int, int> InvalidMonthFieldData { get; }
     public abstract TheoryData<int, int, int> InvalidDayFieldData { get; }
     public abstract TheoryData<int, int> InvalidDayOfYearFieldData { get; }
 
-    #endregion
     #region Helpers
     // We could have removed the parameter "source" from InitStartOfYearParts
     // and use the property EndOfYearPartsData instead, but this is not such a
@@ -67,7 +57,7 @@ public abstract class CalendricalDataSet : ICalendricalDataSet
     // This remark applies to the other helpers.
 
     [Pure]
-    private static DataGroup<Yemoda> InitStartOfYearParts(DataGroup<Yemoda> source)
+    private static DataGroup<Yemoda> MapToStartOfYearParts(DataGroup<Yemoda> source)
     {
         Debug.Assert(source != null);
 
@@ -77,7 +67,7 @@ public abstract class CalendricalDataSet : ICalendricalDataSet
     }
 
     [Pure]
-    private static DataGroup<YearDaysSinceEpoch> InitEndOfYearDaysSinceEpochData(DataGroup<YearDaysSinceEpoch> source)
+    private static DataGroup<YearDaysSinceEpoch> MapToEndOfYearDaysSinceEpochData(DataGroup<YearDaysSinceEpoch> source)
     {
         Debug.Assert(source != null);
 
@@ -91,7 +81,7 @@ public abstract class CalendricalDataSet : ICalendricalDataSet
     }
 
     [Pure]
-    private DataGroup<YemodaAnd<int>> InitDaysInYearAfterDateData(DataGroup<DateInfo> source)
+    private DataGroup<YemodaAnd<int>> MapToDaysInYearAfterDateData(DataGroup<DateInfo> source)
     {
         Debug.Assert(source != null);
 
@@ -107,7 +97,7 @@ public abstract class CalendricalDataSet : ICalendricalDataSet
     }
 
     [Pure]
-    private DataGroup<YemodaAnd<int>> InitDaysInMonthAfterDateData(DataGroup<DateInfo> source)
+    private DataGroup<YemodaAnd<int>> MapToDaysInMonthAfterDateData(DataGroup<DateInfo> source)
     {
         Debug.Assert(source != null);
 

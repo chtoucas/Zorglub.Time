@@ -16,6 +16,6 @@ public sealed class PositivistCalendarDataSet :
 
     public static PositivistCalendarDataSet Instance { get; } = new();
 
-    public override DataGroup<DayNumberInfo> DayNumberInfoData =>
+    public override DataGroup<DayNumberInfo> DayNumberInfoData { get; } =
         DataGroup.CreateDayNumberInfoData(PositivistDataSet.DaysSinceZeroInfos);
 }

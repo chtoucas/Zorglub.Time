@@ -17,7 +17,7 @@ public sealed class PaxCalendarDataSet : CalendarDataSet<PaxDataSet>, ISingleton
 
     public static PaxCalendarDataSet Instance { get; } = new();
 
-    public override DataGroup<DayNumberInfo> DayNumberInfoData =>
+    public override DataGroup<DayNumberInfo> DayNumberInfoData { get; } =
         DataGroup.CreateDayNumberInfoData(PaxDataSet.DaysSinceZeroInfos);
 
     // Day number, year, week of the year, day of the week.

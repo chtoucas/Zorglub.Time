@@ -15,6 +15,6 @@ public sealed class JulianCalendarDataSet :
 
     public static JulianCalendarDataSet Instance { get; } = new();
 
-    public override DataGroup<DayNumberInfo> DayNumberInfoData =>
+    public override DataGroup<DayNumberInfo> DayNumberInfoData { get; } =
         DataGroup.CreateDayNumberInfoData(JulianDataSet.DaysSinceRataDieInfos);
 }
