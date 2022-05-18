@@ -22,7 +22,7 @@ public sealed class Zoroastrian13CalendarDataSet :
             DataGroup.CreateDayNumberInfoData(
                 Egyptian13DataSet.DaysSinceRataDieInfos, CalendarEpoch.Egyptian, Epoch);
 
-    public TheoryData<YemodaAnd<int>> EpagomenalDayInfoData => DataSet.EpagomenalDayInfoData;
+    public DataGroup<YemodaAnd<int>> EpagomenalDayInfoData => DataSet.EpagomenalDayInfoData;
 }
 
 /// <summary>
@@ -41,5 +41,5 @@ public sealed class Zoroastrian12CalendarDataSet :
             DataGroup.CreateDayNumberInfoData(
                 Egyptian12DataSet.DaysSinceRataDieInfos, CalendarEpoch.Egyptian, Epoch);
 
-    public TheoryData<YemodaAnd<int>> EpagomenalDayInfoData => DataSet.EpagomenalDayInfoData;
+    public DataGroup<YemodaAnd<int>> EpagomenalDayInfoData => DataSet.EpagomenalDayInfoData;
 }

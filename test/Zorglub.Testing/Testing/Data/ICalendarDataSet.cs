@@ -15,8 +15,8 @@ public interface ICalendarDataSet : ICalendricalDataSet
     /// </summary>
     DayNumber Epoch { get; }
 
-    TheoryData<DayNumberInfo> DayNumberInfoData { get; }
+    DataGroup<DayNumberInfo> DayNumberInfoData { get; }
 
-    TheoryData<YearDayNumber> StartOfYearDayNumberData { get; }
-    TheoryData<YearDayNumber> EndOfYearDayNumberData { get; }
+    DataGroup<YearDayNumber> StartOfYearDayNumberData { get; }
+    DataGroup<YearDayNumber> EndOfYearDayNumberData { get; }
 }

@@ -22,7 +22,7 @@ public partial class WorldDataSet // Infos
     public override DataGroup<DaysSinceEpochInfo> DaysSinceEpochInfoData =>
         _daysSinceEpochInfoData ??= DataGroup.Create(DaysSinceEpochInfos);
 
-    public override TheoryData<DateInfo> DateInfoData { get; } = new()
+    public override DataGroup<DateInfo> DateInfoData { get; } = new()
     {
         // Common year.
         new(CommonYear, 1, 1, 1, false, false),
@@ -57,7 +57,7 @@ public partial class WorldDataSet // Infos
         new(LeapYear, 12, 31, 366, false, true),
     };
 
-    public override TheoryData<MonthInfo> MonthInfoData { get; } = new()
+    public override DataGroup<MonthInfo> MonthInfoData { get; } = new()
     {
         // Common year.
         new(CommonYear, 1, 31, 0, false),
@@ -87,7 +87,7 @@ public partial class WorldDataSet // Infos
         new(LeapYear, 12, 31, 335, false),
     };
 
-    public override TheoryData<YearInfo> YearInfoData { get; } = new()
+    public override DataGroup<YearInfo> YearInfoData { get; } = new()
     {
         // Leap years.
         new(LeapYear, 12, 366, true),
@@ -116,13 +116,13 @@ public partial class WorldDataSet // Infos
 
 public partial class WorldDataSet // Start and end of year
 {
-    public override TheoryData<Yemoda> EndOfYearPartsData { get; } = new()
+    public override DataGroup<Yemoda> EndOfYearPartsData { get; } = new()
     {
         new(CommonYear, 12, 31),
         new(LeapYear, 12, 31),
     };
 
-    public override TheoryData<YearDaysSinceEpoch> StartOfYearDaysSinceEpochData { get; } = new()
+    public override DataGroup<YearDaysSinceEpoch> StartOfYearDaysSinceEpochData { get; } = new()
     {
         new(-399, -WorldSchema.DaysPer400YearCycle),
         new(1, 0),

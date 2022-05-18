@@ -29,7 +29,7 @@ public partial class GregorianDataSet // Infos
         _daysSinceEpochInfoData ??=
             DataGroup.CreateDaysSinceEpochInfoData(DaysSinceRataDieInfos, DayZero.NewStyle);
 
-    public override TheoryData<DateInfo> DateInfoData { get; } = new()
+    public override DataGroup<DateInfo> DateInfoData { get; } = new()
     {
         // First & last dates.
         new(CivilDate.MinYear, 1, 1, 1, false, false),
@@ -111,7 +111,7 @@ public partial class GregorianDataSet // Infos
         new(LeapYear, 12, 31, 366, false, false),
     };
 
-    public override TheoryData<MonthInfo> MonthInfoData { get; } = new()
+    public override DataGroup<MonthInfo> MonthInfoData { get; } = new()
     {
         // Common year.
         new(CommonYear, 1, 31, 0, false),
@@ -141,7 +141,7 @@ public partial class GregorianDataSet // Infos
         new(LeapYear, 12, 31, 335, false),
     };
 
-    public override TheoryData<YearInfo> YearInfoData { get; } = new()
+    public override DataGroup<YearInfo> YearInfoData { get; } = new()
     {
         // Leap years.
         new(-8, 12, 366, true),
@@ -206,7 +206,7 @@ public partial class GregorianDataSet // Infos
         new(1900, 12, 365, false),
     };
 
-    public override TheoryData<YemodaAnd<int>> DaysInYearAfterDateData { get; } = new()
+    public override DataGroup<YemodaAnd<int>> DaysInYearAfterDateData { get; } = new()
     {
         // Common year.
         new(CommonYear, 1, 31, 334),
@@ -236,7 +236,7 @@ public partial class GregorianDataSet // Infos
         new(LeapYear, 12, 31, 0),
     };
 
-    public override TheoryData<YemodaAnd<int>> DaysInMonthAfterDateData { get; } = new()
+    public override DataGroup<YemodaAnd<int>> DaysInMonthAfterDateData { get; } = new()
     {
         new(CommonYear, 1, 1, 30),
         new(CommonYear, 1, 31, 0),
@@ -333,13 +333,13 @@ public partial class GregorianDataSet // Infos
 
 public partial class GregorianDataSet // Start and end of year
 {
-    public override TheoryData<Yemoda> EndOfYearPartsData { get; } = new()
+    public override DataGroup<Yemoda> EndOfYearPartsData { get; } = new()
     {
         new(CommonYear, 12, 31),
         new(LeapYear, 12, 31),
     };
 
-    public override TheoryData<YearDaysSinceEpoch> StartOfYearDaysSinceEpochData { get; } = new()
+    public override DataGroup<YearDaysSinceEpoch> StartOfYearDaysSinceEpochData { get; } = new()
     {
         new(-401, -GregorianSchema.DaysPer400YearCycle - 366 - 365),
         new(-400, -GregorianSchema.DaysPer400YearCycle - 366), // leap year
@@ -484,7 +484,7 @@ public partial class GregorianDataSet //
     // When done, remove DaysInYearAfterMonthData from the various Gregorian datasets.
     // CountDaysInYear(y) - CountDaysInMonth(y, m) - CountDaysInYearBeforeMonth(y, m);
     // MÀJ ICalendricalSchemaPlusFacts.CountDaysInYearAfterMonth()
-    public TheoryData<YemoAnd<int>> DaysInYearAfterMonthData { get; } = new()
+    public DataGroup<YemoAnd<int>> DaysInYearAfterMonthData { get; } = new()
     {
         // Common year.
         new(CommonYear, 1, 334),
@@ -517,13 +517,13 @@ public partial class GregorianDataSet //
 
 public partial class GregorianDataSet // IYearAdjustmentDataSet
 {
-    public TheoryData<YemodaAnd<int>> InvalidYearAdjustementData { get; } = new()
+    public DataGroup<YemodaAnd<int>> InvalidYearAdjustementData { get; } = new()
     {
         // Intercalary day mapped to a common year.
         new(LeapYear, 2, 29, CommonYear)
     };
 
-    public TheoryData<YemodaAnd<int>> YearAdjustementData { get; } = new()
+    public DataGroup<YemodaAnd<int>> YearAdjustementData { get; } = new()
     {
         // Intercalary day mapped to another leap year.
         new(4, 2, 29, 8),

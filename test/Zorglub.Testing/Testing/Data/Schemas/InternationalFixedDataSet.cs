@@ -22,7 +22,7 @@ public partial class InternationalFixedDataSet // Infos
     public override DataGroup<DaysSinceEpochInfo> DaysSinceEpochInfoData =>
         _daysSinceEpochInfoData ??= DataGroup.Create(DaysSinceEpochInfos);
 
-    public override TheoryData<DateInfo> DateInfoData { get; } = new()
+    public override DataGroup<DateInfo> DateInfoData { get; } = new()
     {
         // Common year.
         new(CommonYear, 1, 1, 1, false, false),
@@ -57,7 +57,7 @@ public partial class InternationalFixedDataSet // Infos
         new(LeapYear, 13, 29, 366, false, true),
     };
 
-    public override TheoryData<MonthInfo> MonthInfoData { get; } = new()
+    public override DataGroup<MonthInfo> MonthInfoData { get; } = new()
     {
         // Common year.
         new(CommonYear, 1, 28, 0, false),
@@ -89,7 +89,7 @@ public partial class InternationalFixedDataSet // Infos
         new(LeapYear, 13, 29, 337, false),
     };
 
-    public override TheoryData<YearInfo> YearInfoData { get; } = new()
+    public override DataGroup<YearInfo> YearInfoData { get; } = new()
     {
         // Leap years.
         new(LeapYear, 13, 366, true),
@@ -118,13 +118,13 @@ public partial class InternationalFixedDataSet // Infos
 
 public partial class InternationalFixedDataSet // Start and end of year
 {
-    public override TheoryData<Yemoda> EndOfYearPartsData { get; } = new()
+    public override DataGroup<Yemoda> EndOfYearPartsData { get; } = new()
     {
         new(CommonYear, 13, 29),
         new(LeapYear, 13, 29),
     };
 
-    public override TheoryData<YearDaysSinceEpoch> StartOfYearDaysSinceEpochData { get; } = new()
+    public override DataGroup<YearDaysSinceEpoch> StartOfYearDaysSinceEpochData { get; } = new()
     {
         new(-399, -InternationalFixedSchema.DaysPer400YearCycle),
         new(1, 0),

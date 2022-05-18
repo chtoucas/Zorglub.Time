@@ -25,7 +25,7 @@ public partial class Persian2820DataSet // Infos
         _daysSinceEpochInfoData ??=
             DataGroup.CreateDaysSinceEpochInfoData(DaysSinceRataDieInfos, CalendarEpoch.Persian);
 
-    public override TheoryData<DateInfo> DateInfoData { get; } = new()
+    public override DataGroup<DateInfo> DateInfoData { get; } = new()
     {
         // Common year.
         new(CommonYear, 1, 1, 1, false, false),
@@ -58,7 +58,7 @@ public partial class Persian2820DataSet // Infos
         new(LeapYear, 12, 30, 366, true, false),
     };
 
-    public override TheoryData<MonthInfo> MonthInfoData { get; } = new()
+    public override DataGroup<MonthInfo> MonthInfoData { get; } = new()
     {
         // Common year.
         new(CommonYear, 1, 31, 0, false),
@@ -88,7 +88,7 @@ public partial class Persian2820DataSet // Infos
         new(LeapYear, 12, 30, 336, false),
     };
 
-    public override TheoryData<YearInfo> YearInfoData { get; } = new()
+    public override DataGroup<YearInfo> YearInfoData { get; } = new()
     {
         new(0, 12, 366, true),
         new(CommonYear, 12, 365, false),
@@ -187,13 +187,13 @@ public partial class Persian2820DataSet // Infos
 
 public partial class Persian2820DataSet // Start and end of year
 {
-    public override TheoryData<Yemoda> EndOfYearPartsData { get; } = new()
+    public override DataGroup<Yemoda> EndOfYearPartsData { get; } = new()
     {
         new(CommonYear, 12, 29),
         new(LeapYear, 12, 30),
     };
 
-    public override TheoryData<YearDaysSinceEpoch> StartOfYearDaysSinceEpochData { get; } = new()
+    public override DataGroup<YearDaysSinceEpoch> StartOfYearDaysSinceEpochData { get; } = new()
     {
         new(-2819, -Persian2820Schema.DaysPer2820YearCycle),
         new(-5, -2192),

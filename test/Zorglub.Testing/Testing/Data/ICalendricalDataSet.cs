@@ -19,21 +19,21 @@ public interface ICalendricalDataSet
     /// </summary>
     int SampleLeapYear { get; }
 
-    TheoryData<DaysSinceEpochInfo> DaysSinceEpochInfoData { get; }
+    DataGroup<DaysSinceEpochInfo> DaysSinceEpochInfoData { get; }
 
-    TheoryData<DateInfo> DateInfoData { get; }
-    TheoryData<MonthInfo> MonthInfoData { get; }
-    TheoryData<YearInfo> YearInfoData { get; }
-    TheoryData<CenturyInfo> CenturyInfoData { get; }
+    DataGroup<DateInfo> DateInfoData { get; }
+    DataGroup<MonthInfo> MonthInfoData { get; }
+    DataGroup<YearInfo> YearInfoData { get; }
+    DataGroup<CenturyInfo> CenturyInfoData { get; }
 
-    TheoryData<YemodaAnd<int>> DaysInYearAfterDateData { get; }
-    TheoryData<YemodaAnd<int>> DaysInMonthAfterDateData { get; }
+    DataGroup<YemodaAnd<int>> DaysInYearAfterDateData { get; }
+    DataGroup<YemodaAnd<int>> DaysInMonthAfterDateData { get; }
 
-    TheoryData<Yemoda> StartOfYearPartsData { get; }
-    TheoryData<Yemoda> EndOfYearPartsData { get; }
+    DataGroup<Yemoda> StartOfYearPartsData { get; }
+    DataGroup<Yemoda> EndOfYearPartsData { get; }
 
-    TheoryData<YearDaysSinceEpoch> StartOfYearDaysSinceEpochData { get; }
-    TheoryData<YearDaysSinceEpoch> EndOfYearDaysSinceEpochData { get; }
+    DataGroup<YearDaysSinceEpoch> StartOfYearDaysSinceEpochData { get; }
+    DataGroup<YearDaysSinceEpoch> EndOfYearDaysSinceEpochData { get; }
 
     // NB: for the next three properties, don't use Yemoda, Yemo or Yedoy;
     // any integer value may be used.

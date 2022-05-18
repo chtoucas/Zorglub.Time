@@ -22,7 +22,7 @@ public sealed class Ethiopic13CalendarDataSet :
             DataGroup.CreateDayNumberInfoData(
                 Coptic13DataSet.DaysSinceRataDieInfos, CalendarEpoch.Coptic, Epoch);
 
-    public TheoryData<YemodaAnd<int>> EpagomenalDayInfoData => DataSet.EpagomenalDayInfoData;
+    public DataGroup<YemodaAnd<int>> EpagomenalDayInfoData => DataSet.EpagomenalDayInfoData;
 }
 
 /// <summary>
@@ -41,5 +41,5 @@ public sealed class Ethiopic12CalendarDataSet :
             DataGroup.CreateDayNumberInfoData(
                 Coptic12DataSet.DaysSinceRataDieInfos, CalendarEpoch.Coptic, Epoch);
 
-    public TheoryData<YemodaAnd<int>> EpagomenalDayInfoData => DataSet.EpagomenalDayInfoData;
+    public DataGroup<YemodaAnd<int>> EpagomenalDayInfoData => DataSet.EpagomenalDayInfoData;
 }

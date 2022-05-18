@@ -24,14 +24,14 @@ public abstract class CalendarDataSet<TDataSet> : ICalendarDataSet
 
     public DayNumber Epoch { get; }
 
-    public abstract TheoryData<DayNumberInfo> DayNumberInfoData { get; }
+    public abstract DataGroup<DayNumberInfo> DayNumberInfoData { get; }
 
-    private TheoryData<YearDayNumber>? _startOfYearDayNumberData;
-    public TheoryData<YearDayNumber> StartOfYearDayNumberData =>
+    private DataGroup<YearDayNumber>? _startOfYearDayNumberData;
+    public DataGroup<YearDayNumber> StartOfYearDayNumberData =>
         _startOfYearDayNumberData ??= InitDayNumberData(DataSet.StartOfYearDaysSinceEpochData);
 
-    private TheoryData<YearDayNumber>? _endOfYearDayNumberData;
-    public TheoryData<YearDayNumber> EndOfYearDayNumberData =>
+    private DataGroup<YearDayNumber>? _endOfYearDayNumberData;
+    public DataGroup<YearDayNumber> EndOfYearDayNumberData =>
         _endOfYearDayNumberData ??= InitDayNumberData(DataSet.EndOfYearDaysSinceEpochData);
 
     #endregion
@@ -40,39 +40,38 @@ public abstract class CalendarDataSet<TDataSet> : ICalendarDataSet
     public int SampleCommonYear => DataSet.SampleCommonYear;
     public int SampleLeapYear => DataSet.SampleLeapYear;
 
-    public TheoryData<DaysSinceEpochInfo> DaysSinceEpochInfoData => DataSet.DaysSinceEpochInfoData;
+    public DataGroup<DaysSinceEpochInfo> DaysSinceEpochInfoData => DataSet.DaysSinceEpochInfoData;
 
-    public TheoryData<DateInfo> DateInfoData => DataSet.DateInfoData;
-    public TheoryData<MonthInfo> MonthInfoData => DataSet.MonthInfoData;
-    public TheoryData<YearInfo> YearInfoData => DataSet.YearInfoData;
-    public TheoryData<CenturyInfo> CenturyInfoData => DataSet.CenturyInfoData;
+    public DataGroup<DateInfo> DateInfoData => DataSet.DateInfoData;
+    public DataGroup<MonthInfo> MonthInfoData => DataSet.MonthInfoData;
+    public DataGroup<YearInfo> YearInfoData => DataSet.YearInfoData;
+    public DataGroup<CenturyInfo> CenturyInfoData => DataSet.CenturyInfoData;
 
-    public TheoryData<Yemoda> StartOfYearPartsData => DataSet.StartOfYearPartsData;
-    public TheoryData<Yemoda> EndOfYearPartsData => DataSet.EndOfYearPartsData;
+    public DataGroup<YemodaAnd<int>> DaysInYearAfterDateData => DataSet.DaysInYearAfterDateData;
+    public DataGroup<YemodaAnd<int>> DaysInMonthAfterDateData => DataSet.DaysInMonthAfterDateData;
 
-    public TheoryData<YearDaysSinceEpoch> StartOfYearDaysSinceEpochData => DataSet.StartOfYearDaysSinceEpochData;
-    public TheoryData<YearDaysSinceEpoch> EndOfYearDaysSinceEpochData => DataSet.EndOfYearDaysSinceEpochData;
+    public DataGroup<Yemoda> StartOfYearPartsData => DataSet.StartOfYearPartsData;
+    public DataGroup<Yemoda> EndOfYearPartsData => DataSet.EndOfYearPartsData;
+
+    public DataGroup<YearDaysSinceEpoch> StartOfYearDaysSinceEpochData => DataSet.StartOfYearDaysSinceEpochData;
+    public DataGroup<YearDaysSinceEpoch> EndOfYearDaysSinceEpochData => DataSet.EndOfYearDaysSinceEpochData;
 
     public TheoryData<int, int> InvalidMonthFieldData => DataSet.InvalidMonthFieldData;
     public TheoryData<int, int, int> InvalidDayFieldData => DataSet.InvalidDayFieldData;
     public TheoryData<int, int> InvalidDayOfYearFieldData => DataSet.InvalidDayOfYearFieldData;
 
-    public TheoryData<YemodaAnd<int>> DaysInYearAfterDateData => DataSet.DaysInYearAfterDateData;
-    public TheoryData<YemodaAnd<int>> DaysInMonthAfterDateData => DataSet.DaysInMonthAfterDateData;
-
     #endregion
     #region Helpers
 
     [Pure]
-    private TheoryData<YearDayNumber> InitDayNumberData(TheoryData<YearDaysSinceEpoch> source)
+    private DataGroup<YearDayNumber> InitDayNumberData(DataGroup<YearDaysSinceEpoch> source)
     {
         Requires.NotNull(source);
 
         var epoch = Epoch;
-        var data = new TheoryData<YearDayNumber>();
-        foreach (var item in source)
+        var data = new DataGroup<YearDayNumber>();
+        foreach (var (y, daysSinceEpoch) in source.AsEnumerableT())
         {
-            var (y, daysSinceEpoch) = (YearDaysSinceEpoch)item[0];
             data.Add(new YearDayNumber(y, epoch + daysSinceEpoch));
         }
         return data;

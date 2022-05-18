@@ -37,11 +37,11 @@ public sealed class ProlepticGregorianDataSet :
 
     // IYearAdjustmentDataSet
     private DataGroup<YemodaAnd<int>>? _invalidYearAdjustementData;
-    public TheoryData<YemodaAnd<int>> InvalidYearAdjustementData =>
+    public DataGroup<YemodaAnd<int>> InvalidYearAdjustementData =>
         _invalidYearAdjustementData ??= FilterData(Inner.InvalidYearAdjustementData, DataFilter.Filter);
 
     private DataGroup<YemodaAnd<int>>? _yearAdjustementData;
-    public TheoryData<YemodaAnd<int>> YearAdjustementData =>
+    public DataGroup<YemodaAnd<int>> YearAdjustementData =>
         _yearAdjustementData ??= FilterData(Inner.YearAdjustementData, DataFilter.Filter);
 
     // IMathDataSet
@@ -60,7 +60,7 @@ public sealed class ProlepticGregorianDataSet :
 
     // IDayOfWeekDataSet
     private DataGroup<YemodaAnd<DayOfWeek>>? _dayOfWeekData;
-    public TheoryData<YemodaAnd<DayOfWeek>> DayOfWeekData =>
+    public DataGroup<YemodaAnd<DayOfWeek>> DayOfWeekData =>
         _dayOfWeekData ??= FilterData(Inner.DayOfWeekData, DataFilter.Filter);
 
     public TheoryData<Yemoda, Yemoda, DayOfWeek> DayOfWeek_Before_Data => Inner.DayOfWeek_Before_Data;

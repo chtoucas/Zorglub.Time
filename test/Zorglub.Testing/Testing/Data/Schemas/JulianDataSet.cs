@@ -23,7 +23,7 @@ public partial class JulianDataSet // Infos
         _daysSinceEpochInfoData ??=
             DataGroup.CreateDaysSinceEpochInfoData(DaysSinceRataDieInfos, DayZero.OldStyle);
 
-    public override TheoryData<DateInfo> DateInfoData { get; } = new()
+    public override DataGroup<DateInfo> DateInfoData { get; } = new()
     {
         // Common year.
         new(CommonYear, 1, 1, 1, false, false),
@@ -61,7 +61,7 @@ public partial class JulianDataSet // Infos
         new(LeapYear, 12, 31, 366, false, false),
     };
 
-    public override TheoryData<MonthInfo> MonthInfoData { get; } = new()
+    public override DataGroup<MonthInfo> MonthInfoData { get; } = new()
     {
         // Common year.
         new(CommonYear, 1, 31, 0, false),
@@ -91,7 +91,7 @@ public partial class JulianDataSet // Infos
         new(LeapYear, 12, 31, 335, false),
     };
 
-    public override TheoryData<YearInfo> YearInfoData { get; } = new()
+    public override DataGroup<YearInfo> YearInfoData { get; } = new()
     {
         new(-9, 12, 365, false),
         new(-8, 12, 366, true),
@@ -163,13 +163,13 @@ public partial class JulianDataSet // Infos
 
 public partial class JulianDataSet // Start and end of year
 {
-    public override TheoryData<Yemoda> EndOfYearPartsData { get; } = new()
+    public override DataGroup<Yemoda> EndOfYearPartsData { get; } = new()
     {
         new(CommonYear, 12, 31),
         new(LeapYear, 12, 31),
     };
 
-    public override TheoryData<YearDaysSinceEpoch> StartOfYearDaysSinceEpochData { get; } = new()
+    public override DataGroup<YearDaysSinceEpoch> StartOfYearDaysSinceEpochData { get; } = new()
     {
         new(-10, -4018),
         new(-9, -3653),

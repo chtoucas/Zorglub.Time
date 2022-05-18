@@ -25,7 +25,7 @@ public partial class PositivistDataSet // Infos
         _daysSinceEpochInfoData ??=
             DataGroup.CreateDaysSinceEpochInfoData(DaysSinceZeroInfos, CalendarEpoch.Positivist);
 
-    public override TheoryData<DateInfo> DateInfoData { get; } = new()
+    public override DataGroup<DateInfo> DateInfoData { get; } = new()
     {
         // Common year.
         new(CommonYear, 1, 1, 1, false, false),
@@ -60,7 +60,7 @@ public partial class PositivistDataSet // Infos
         new(LeapYear, 13, 30, 366, true, true),
     };
 
-    public override TheoryData<MonthInfo> MonthInfoData { get; } = new()
+    public override DataGroup<MonthInfo> MonthInfoData { get; } = new()
     {
         // Common year.
         new(CommonYear, 1, 28, 0, false),
@@ -92,7 +92,7 @@ public partial class PositivistDataSet // Infos
         new(LeapYear, 13, 30, 336, false),
     };
 
-    public override TheoryData<YearInfo> YearInfoData { get; } = new()
+    public override DataGroup<YearInfo> YearInfoData { get; } = new()
     {
         // Leap years.
         new(LeapYear, 13, 366, true),
@@ -121,13 +121,13 @@ public partial class PositivistDataSet // Infos
 
 public partial class PositivistDataSet // Start and end of year
 {
-    public override TheoryData<Yemoda> EndOfYearPartsData { get; } = new()
+    public override DataGroup<Yemoda> EndOfYearPartsData { get; } = new()
     {
         new(CommonYear, 13, 29),
         new(LeapYear, 13, 30),
     };
 
-    public override TheoryData<YearDaysSinceEpoch> StartOfYearDaysSinceEpochData { get; } = new()
+    public override DataGroup<YearDaysSinceEpoch> StartOfYearDaysSinceEpochData { get; } = new()
     {
         new(-399, -PositivistSchema.DaysPer400YearCycle),
         new(1, 0),

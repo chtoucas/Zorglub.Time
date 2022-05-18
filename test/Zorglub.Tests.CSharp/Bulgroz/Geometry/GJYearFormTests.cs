@@ -54,13 +54,13 @@ public partial class GJYearFormTests
     private static GregorianCalendarDataSet GregorianDataSet => GregorianCalendarDataSet.Instance;
     private static JulianCalendarDataSet JulianDataSet => JulianCalendarDataSet.Instance;
 
-    public static TheoryData<YearInfo> JulianYearInfoData => JulianDataSet.YearInfoData;
-    public static TheoryData<YearDayNumber> JulianStartOfYearDayNumberData => JulianDataSet.StartOfYearDayNumberData;
-    public static TheoryData<DayNumberInfo> JulianDayNumberInfoData => JulianDataSet.DayNumberInfoData;
+    public static DataGroup<YearInfo> JulianYearInfoData => JulianDataSet.YearInfoData;
+    public static DataGroup<YearDayNumber> JulianStartOfYearDayNumberData => JulianDataSet.StartOfYearDayNumberData;
+    public static DataGroup<DayNumberInfo> JulianDayNumberInfoData => JulianDataSet.DayNumberInfoData;
 
-    public static TheoryData<YearInfo> GregorianYearInfoData => GregorianDataSet.YearInfoData;
-    public static TheoryData<YearDayNumber> GregorianStartOfYearDayNumberData => GregorianDataSet.StartOfYearDayNumberData;
-    public static TheoryData<DayNumberInfo> GregorianDayNumberInfoData => GregorianDataSet.DayNumberInfoData;
+    public static DataGroup<YearInfo> GregorianYearInfoData => GregorianDataSet.YearInfoData;
+    public static DataGroup<YearDayNumber> GregorianStartOfYearDayNumberData => GregorianDataSet.StartOfYearDayNumberData;
+    public static DataGroup<DayNumberInfo> GregorianDayNumberInfoData => GregorianDataSet.DayNumberInfoData;
 
     [Fact]
     public static void Check_DaysInYear2() =>

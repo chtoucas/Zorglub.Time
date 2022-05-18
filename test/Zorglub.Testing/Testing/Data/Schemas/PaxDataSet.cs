@@ -25,7 +25,7 @@ public partial class PaxDataSet // Infos
         _daysSinceEpochInfoData ??=
             DataGroup.CreateDaysSinceEpochInfoData(DaysSinceZeroInfos, CalendarEpoch.SundayBeforeGregorian);
 
-    public override TheoryData<DateInfo> DateInfoData { get; } = new()
+    public override DataGroup<DateInfo> DateInfoData { get; } = new()
     {
         // Common year.
         new(CommonYear, 1, 1, 1, false, false),
@@ -66,7 +66,7 @@ public partial class PaxDataSet // Infos
         new(LeapYear, 14, 28, 371, false, false),
     };
 
-    public override TheoryData<MonthInfo> MonthInfoData { get; } = new()
+    public override DataGroup<MonthInfo> MonthInfoData { get; } = new()
     {
         // Common year.
         new(CommonYear, 1, 28, 0, false),
@@ -99,7 +99,7 @@ public partial class PaxDataSet // Infos
         new(LeapYear, 14, 28, 343, false),
     };
 
-    public override TheoryData<YearInfo> YearInfoData { get; } = new()
+    public override DataGroup<YearInfo> YearInfoData { get; } = new()
     {
         new(1930, 14, 371, true),
         new(1936, 14, 371, true),
@@ -140,13 +140,13 @@ public partial class PaxDataSet // Infos
 
 public partial class PaxDataSet // Start and end of year
 {
-    public override TheoryData<Yemoda> EndOfYearPartsData { get; } = new()
+    public override DataGroup<Yemoda> EndOfYearPartsData { get; } = new()
     {
         new(CommonYear, 13, 28),
         new(LeapYear, 14, 28),
     };
 
-    public override TheoryData<YearDaysSinceEpoch> StartOfYearDaysSinceEpochData { get; } = new()
+    public override DataGroup<YearDaysSinceEpoch> StartOfYearDaysSinceEpochData { get; } = new()
     {
         new(1, 0),
         new(2, 364),

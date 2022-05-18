@@ -5,8 +5,8 @@ namespace Zorglub.Testing.Data;
 
 public interface IYearAdjustmentDataSet
 {
-    TheoryData<YemodaAnd<int>> InvalidYearAdjustementData { get; }
-    TheoryData<YemodaAnd<int>> YearAdjustementData { get; }
+    DataGroup<YemodaAnd<int>> InvalidYearAdjustementData { get; }
+    DataGroup<YemodaAnd<int>> YearAdjustementData { get; }
 }
 
 public interface IMathDataSet
@@ -24,5 +24,5 @@ public interface IAdvancedMathDataSet : IMathDataSet
 
 public interface IEpagomenalDataSet
 {
-    TheoryData<YemodaAnd<int>> EpagomenalDayInfoData { get; }
+    DataGroup<YemodaAnd<int>> EpagomenalDayInfoData { get; }
 }

@@ -8,22 +8,11 @@ using System.Linq;
 
 using Zorglub.Testing.Data.Bounded;
 
-// TODO(data): I'm pretty sure we can improve the perf using DataGroup as a
-// return value in various places. We might even use DataGroup everywhere?
-// See e.g. GregorianDataSet.ConsecutiveDaysData.
-// Can we initialize lazily a DataGroup? DataGroup<T> should not derived from
-// TheoryData<T>, and should implement IEnumerable<object[]>.
+// TODO(data): Can we initialize lazily a DataGroup? -> DataSeq
 // See https://github.com/xunit/xunit/blob/main/src/xunit.v3.core/TheoryData.cs
-// DataGroup<T>:
-// - implement IEnumerable<object[]>
-// - do no derive from TheoryData<T>
-// - two versions:
-//   - one with a collection initializer, very much like TheoryData<T>
-//   - one initialized with an enumerable
-//   - both must provide AsEnumerableT() for filtering
 //
-// The advantage over <see cref="TheoryData{T}"/> is that we can enumerate a group of data
-// without any boxing.
+// The advantage of a DataGroup<T> over a TheoryData<T> is that we can enumerate
+// a group of data without any boxing.
 // It was created to improve the performance of <i>bounded</i> calendar datasets.
 
 /// <summary>
@@ -83,43 +72,19 @@ public static class DataGroup
 }
 
 /// <summary>
-/// Defines a group of data for a theory.
+/// Represents a group of data for a theory.
 /// </summary>
-public interface IDataGroup<T> : IReadOnlyCollection<object?[]>
-{
-    IEnumerable<T> AsEnumerableT();
-}
-
-public sealed class DataSeq<T> : IDataGroup<T>
-{
-    private readonly IEnumerable<T> _values;
-
-    public DataSeq(IEnumerable<T> values)
-    {
-        _values = values ?? throw new ArgumentNullException(nameof(values));
-    }
-
-    public int Count => _values.Count();
-
-    public IEnumerable<T> AsEnumerableT() => _values;
-
-    public IEnumerator<object?[]> GetEnumerator() =>
-        _values.Select(v => new object?[] { v }).GetEnumerator();
-
-    IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
-}
-
-public sealed class DataColl<T> : IDataGroup<T>
+public sealed class DataGroup<T> : IReadOnlyCollection<object?[]>
 {
     private readonly List<T> _values = new();
 
-    public DataColl() { }
+    public DataGroup() { }
 
-    public DataColl(IEnumerable<T> values)
+    public DataGroup(IEnumerable<T> values)
     {
         Requires.NotNull(values);
 
-        foreach (T v in values) { _values.Add(v); }
+        _values.AddRange(values);
     }
 
     public IEnumerable<T> AsEnumerableT() => _values;
@@ -133,22 +98,4 @@ public sealed class DataColl<T> : IDataGroup<T>
         _values.Select(v => new object?[] { v }).GetEnumerator();
 
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
-}
-
-public sealed class DataGroup<T> : TheoryData<T>, IDataGroup<T>
-{
-    private readonly IEnumerable<T> _values;
-
-    public DataGroup(IEnumerable<T> values)
-    {
-        _values = values ?? throw new ArgumentNullException(nameof(values));
-
-        foreach (T item in values) { AddRow(item); }
-    }
-
-    public int Count => _values.Count();
-
-    public new void Add(T value) => throw new NotSupportedException();
-
-    public IEnumerable<T> AsEnumerableT() => _values;
 }

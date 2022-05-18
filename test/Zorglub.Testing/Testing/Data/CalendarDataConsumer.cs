@@ -13,8 +13,8 @@ public abstract class CalendarDataConsumer<TDataSet> : CalendricalDataConsumer<T
 
     protected static DayNumber Epoch { get; } = DataSet.Epoch;
 
-    public static TheoryData<DayNumberInfo> DayNumberInfoData => DataSet.DayNumberInfoData;
+    public static DataGroup<DayNumberInfo> DayNumberInfoData => DataSet.DayNumberInfoData;
 
-    public static TheoryData<YearDayNumber> StartOfYearDayNumberData => DataSet.StartOfYearDayNumberData;
-    public static TheoryData<YearDayNumber> EndOfYearDayNumberData => DataSet.EndOfYearDayNumberData;
+    public static DataGroup<YearDayNumber> StartOfYearDayNumberData => DataSet.StartOfYearDayNumberData;
+    public static DataGroup<YearDayNumber> EndOfYearDayNumberData => DataSet.EndOfYearDayNumberData;
 }

@@ -28,7 +28,7 @@ public partial class FrenchRepublican13DataSet // Infos
         _daysSinceEpochInfoData ??=
             DataGroup.CreateDaysSinceEpochInfoData(DaysSinceRataDieInfos, CalendarEpoch.FrenchRepublican);
 
-    public override TheoryData<DateInfo> DateInfoData { get; } = new()
+    public override DataGroup<DateInfo> DateInfoData { get; } = new()
     {
         // Common year.
         new(CommonYear, 1, 1, 1, false, false),
@@ -110,7 +110,7 @@ public partial class FrenchRepublican13DataSet // Infos
         new(LeapCentury, 13, 6, 366, true, true),
     };
 
-    public override TheoryData<MonthInfo> MonthInfoData { get; } = new()
+    public override DataGroup<MonthInfo> MonthInfoData { get; } = new()
     {
         // Année commune.
         new(CommonYear, 1, 30, 0, false),
@@ -170,7 +170,7 @@ public partial class FrenchRepublican13DataSet // Infos
         new(LeapCentury, 13, 6, 360, false),
     };
 
-    public override TheoryData<YearInfo> YearInfoData { get; } = new()
+    public override DataGroup<YearInfo> YearInfoData { get; } = new()
     {
         new(-9, 13, 365, false),
         new(-8, 13, 366, true),
@@ -265,7 +265,7 @@ public partial class FrenchRepublican13DataSet // Infos
 
 public partial class FrenchRepublican13DataSet // Start and end of year
 {
-    public override TheoryData<Yemoda> EndOfYearPartsData { get; } = new()
+    public override DataGroup<Yemoda> EndOfYearPartsData { get; } = new()
     {
         new(CommonYear, 13, 5),
         new(LeapYear, 13, 6),
@@ -273,7 +273,7 @@ public partial class FrenchRepublican13DataSet // Start and end of year
         new(LeapCentury, 13, 6),
     };
 
-    public override TheoryData<YearDaysSinceEpoch> StartOfYearDaysSinceEpochData { get; } = new()
+    public override DataGroup<YearDaysSinceEpoch> StartOfYearDaysSinceEpochData { get; } = new()
     {
         new(-3999, -(int)FrenchRepublican13Schema.DaysPer4000YearCycle),
         new(-10, -4017),
@@ -442,7 +442,7 @@ public partial class FrenchRepublican13DataSet // Invalid date parts
 
 public partial class FrenchRepublican13DataSet // Supplementary data
 {
-    public TheoryData<YemodaAnd<int>> EpagomenalDayInfoData { get; } = new()
+    public DataGroup<YemodaAnd<int>> EpagomenalDayInfoData { get; } = new()
     {
         // Common year.
         new(CommonYear, 13, 1, 1),

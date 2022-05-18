@@ -24,34 +24,34 @@ public abstract class CalendricalDataSet : ICalendricalDataSet
     public int SampleCommonYear { get; }
     public int SampleLeapYear { get; }
 
-    public abstract TheoryData<DaysSinceEpochInfo> DaysSinceEpochInfoData { get; }
+    public abstract DataGroup<DaysSinceEpochInfo> DaysSinceEpochInfoData { get; }
 
-    public abstract TheoryData<DateInfo> DateInfoData { get; }
-    public abstract TheoryData<MonthInfo> MonthInfoData { get; }
-    public abstract TheoryData<YearInfo> YearInfoData { get; }
+    public abstract DataGroup<DateInfo> DateInfoData { get; }
+    public abstract DataGroup<MonthInfo> MonthInfoData { get; }
+    public abstract DataGroup<YearInfo> YearInfoData { get; }
     /// <remarks>
     /// Override this property if the schema does not support all years in the default list.
     /// </remarks>
-    public virtual TheoryData<CenturyInfo> CenturyInfoData => YearNumberingDataSet.CenturyInfoData;
+    public virtual DataGroup<CenturyInfo> CenturyInfoData => YearNumberingDataSet.CenturyInfoData;
 
-    private TheoryData<YemodaAnd<int>>? _daysInYearAfterDateData;
-    public virtual TheoryData<YemodaAnd<int>> DaysInYearAfterDateData =>
+    private DataGroup<YemodaAnd<int>>? _daysInYearAfterDateData;
+    public virtual DataGroup<YemodaAnd<int>> DaysInYearAfterDateData =>
         _daysInYearAfterDateData ??= InitDaysInYearAfterDateData(DateInfoData);
 
-    private TheoryData<YemodaAnd<int>>? _daysInMonthAfterDateData;
-    public virtual TheoryData<YemodaAnd<int>> DaysInMonthAfterDateData =>
+    private DataGroup<YemodaAnd<int>>? _daysInMonthAfterDateData;
+    public virtual DataGroup<YemodaAnd<int>> DaysInMonthAfterDateData =>
         _daysInMonthAfterDateData ??= InitDaysInMonthAfterDateData(DateInfoData);
 
-    private TheoryData<Yemoda>? _startOfYearPartsData;
-    public virtual TheoryData<Yemoda> StartOfYearPartsData =>
+    private DataGroup<Yemoda>? _startOfYearPartsData;
+    public virtual DataGroup<Yemoda> StartOfYearPartsData =>
         _startOfYearPartsData ??= InitStartOfYearParts(EndOfYearPartsData);
 
-    public abstract TheoryData<Yemoda> EndOfYearPartsData { get; }
+    public abstract DataGroup<Yemoda> EndOfYearPartsData { get; }
 
-    public abstract TheoryData<YearDaysSinceEpoch> StartOfYearDaysSinceEpochData { get; }
+    public abstract DataGroup<YearDaysSinceEpoch> StartOfYearDaysSinceEpochData { get; }
 
-    private TheoryData<YearDaysSinceEpoch>? _endOfYearDaysSinceEpochData;
-    public virtual TheoryData<YearDaysSinceEpoch> EndOfYearDaysSinceEpochData =>
+    private DataGroup<YearDaysSinceEpoch>? _endOfYearDaysSinceEpochData;
+    public virtual DataGroup<YearDaysSinceEpoch> EndOfYearDaysSinceEpochData =>
         _endOfYearDaysSinceEpochData ??= InitEndOfYearDaysSinceEpochData(StartOfYearDaysSinceEpochData);
 
     public abstract TheoryData<int, int> InvalidMonthFieldData { get; }
@@ -67,28 +67,26 @@ public abstract class CalendricalDataSet : ICalendricalDataSet
     // This remark applies to the other helpers.
 
     [Pure]
-    private static TheoryData<Yemoda> InitStartOfYearParts(TheoryData<Yemoda> source)
+    private static DataGroup<Yemoda> InitStartOfYearParts(DataGroup<Yemoda> source)
     {
         Requires.NotNull(source);
 
-        var data = new TheoryData<Yemoda>();
-        foreach (var item in source)
+        var data = new DataGroup<Yemoda>();
+        foreach (var item in source.AsEnumerableT())
         {
-            var y = ((Yemoda)item[0]).Year;
-            data.Add(new Yemoda(y, 1, 1));
+            data.Add(new Yemoda(item.Year, 1, 1));
         }
         return data;
     }
 
     [Pure]
-    private static TheoryData<YearDaysSinceEpoch> InitEndOfYearDaysSinceEpochData(TheoryData<YearDaysSinceEpoch> source)
+    private static DataGroup<YearDaysSinceEpoch> InitEndOfYearDaysSinceEpochData(DataGroup<YearDaysSinceEpoch> source)
     {
         Requires.NotNull(source);
 
-        var data = new TheoryData<YearDaysSinceEpoch>();
-        foreach (var item in source)
+        var data = new DataGroup<YearDaysSinceEpoch>();
+        foreach (var (y, daysSinceEpoch) in source.AsEnumerableT())
         {
-            var (y, daysSinceEpoch) = (YearDaysSinceEpoch)item[0];
             // endOfYear = startOfNextYear - 1.
             data.Add(new YearDaysSinceEpoch(y - 1, daysSinceEpoch - 1));
         }
@@ -96,15 +94,14 @@ public abstract class CalendricalDataSet : ICalendricalDataSet
     }
 
     [Pure]
-    private TheoryData<YemodaAnd<int>> InitDaysInYearAfterDateData(TheoryData<DateInfo> source)
+    private DataGroup<YemodaAnd<int>> InitDaysInYearAfterDateData(DataGroup<DateInfo> source)
     {
         Requires.NotNull(source);
 
         var sch = Schema;
-        var data = new TheoryData<YemodaAnd<int>>();
-        foreach (var info in source)
+        var data = new DataGroup<YemodaAnd<int>>();
+        foreach (var (y, m, d, doy) in source.AsEnumerableT())
         {
-            var (y, m, d, doy) = (DateInfo)info[0];
             int daysInYearAfter = sch.CountDaysInYear(y) - doy;
             data.Add(new(y, m, d, daysInYearAfter));
         }
@@ -112,15 +109,15 @@ public abstract class CalendricalDataSet : ICalendricalDataSet
     }
 
     [Pure]
-    private TheoryData<YemodaAnd<int>> InitDaysInMonthAfterDateData(TheoryData<DateInfo> source)
+    private DataGroup<YemodaAnd<int>> InitDaysInMonthAfterDateData(DataGroup<DateInfo> source)
     {
         Requires.NotNull(source);
 
         var sch = Schema;
-        var data = new TheoryData<YemodaAnd<int>>();
-        foreach (var info in source)
+        var data = new DataGroup<YemodaAnd<int>>();
+        foreach (var item in source.AsEnumerableT())
         {
-            var (y, m, d) = ((DateInfo)info[0]).Yemoda;
+            var (y, m, d) = item.Yemoda;
             int daysInMonthAfter = sch.CountDaysInMonth(y, m) - d;
             data.Add(new(y, m, d, daysInMonthAfter));
         }

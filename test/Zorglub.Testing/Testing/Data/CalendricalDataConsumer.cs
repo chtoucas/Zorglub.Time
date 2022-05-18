@@ -20,21 +20,21 @@ public abstract class CalendricalDataConsumer<TDataSet>
     protected static int SampleCommonYear { get; } = DataSet.SampleCommonYear;
     protected static int SampleLeapYear { get; } = DataSet.SampleLeapYear;
 
-    public static TheoryData<DaysSinceEpochInfo> DaysSinceEpochInfoData => DataSet.DaysSinceEpochInfoData;
+    public static DataGroup<DaysSinceEpochInfo> DaysSinceEpochInfoData => DataSet.DaysSinceEpochInfoData;
 
-    public static TheoryData<DateInfo> DateInfoData => DataSet.DateInfoData;
-    public static TheoryData<MonthInfo> MonthInfoData => DataSet.MonthInfoData;
-    public static TheoryData<YearInfo> YearInfoData => DataSet.YearInfoData;
-    public static TheoryData<CenturyInfo> CenturyInfoData => DataSet.CenturyInfoData;
+    public static DataGroup<DateInfo> DateInfoData => DataSet.DateInfoData;
+    public static DataGroup<MonthInfo> MonthInfoData => DataSet.MonthInfoData;
+    public static DataGroup<YearInfo> YearInfoData => DataSet.YearInfoData;
+    public static DataGroup<CenturyInfo> CenturyInfoData => DataSet.CenturyInfoData;
 
-    public static TheoryData<YemodaAnd<int>> DaysInYearAfterDateData => DataSet.DaysInYearAfterDateData;
-    public static TheoryData<YemodaAnd<int>> DaysInMonthAfterDateData => DataSet.DaysInMonthAfterDateData;
+    public static DataGroup<YemodaAnd<int>> DaysInYearAfterDateData => DataSet.DaysInYearAfterDateData;
+    public static DataGroup<YemodaAnd<int>> DaysInMonthAfterDateData => DataSet.DaysInMonthAfterDateData;
 
-    public static TheoryData<Yemoda> StartOfYearPartsData => DataSet.StartOfYearPartsData;
-    public static TheoryData<Yemoda> EndOfYearPartsData => DataSet.EndOfYearPartsData;
+    public static DataGroup<Yemoda> StartOfYearPartsData => DataSet.StartOfYearPartsData;
+    public static DataGroup<Yemoda> EndOfYearPartsData => DataSet.EndOfYearPartsData;
 
-    public static TheoryData<YearDaysSinceEpoch> StartOfYearDaysSinceEpochData => DataSet.StartOfYearDaysSinceEpochData;
-    public static TheoryData<YearDaysSinceEpoch> EndOfYearDaysSinceEpochData => DataSet.EndOfYearDaysSinceEpochData;
+    public static DataGroup<YearDaysSinceEpoch> StartOfYearDaysSinceEpochData => DataSet.StartOfYearDaysSinceEpochData;
+    public static DataGroup<YearDaysSinceEpoch> EndOfYearDaysSinceEpochData => DataSet.EndOfYearDaysSinceEpochData;
 
     public static TheoryData<int, int> InvalidMonthFieldData => DataSet.InvalidMonthFieldData;
     public static TheoryData<int, int, int> InvalidDayFieldData => DataSet.InvalidDayFieldData;

@@ -24,11 +24,11 @@ public sealed partial class GregorianCalendarDataSet :
     public override DataGroup<DayNumberInfo> DayNumberInfoData =>
         _dayNumberInfoData ??= DataGroup.CreateDayNumberInfoData(GregorianDataSet.DaysSinceRataDieInfos);
 
-    public TheoryData<YemoAnd<int>> DaysInYearAfterMonthData => DataSet.DaysInYearAfterMonthData;
+    public DataGroup<YemoAnd<int>> DaysInYearAfterMonthData => DataSet.DaysInYearAfterMonthData;
 
     // IYearAdjustmentDataSet
-    public TheoryData<YemodaAnd<int>> InvalidYearAdjustementData => DataSet.InvalidYearAdjustementData;
-    public TheoryData<YemodaAnd<int>> YearAdjustementData => DataSet.YearAdjustementData;
+    public DataGroup<YemodaAnd<int>> InvalidYearAdjustementData => DataSet.InvalidYearAdjustementData;
+    public DataGroup<YemodaAnd<int>> YearAdjustementData => DataSet.YearAdjustementData;
 
     // IMathDataSet
     public DataGroup<YemodaPairAnd<int>> AddDaysData => DataSet.AddDaysData;

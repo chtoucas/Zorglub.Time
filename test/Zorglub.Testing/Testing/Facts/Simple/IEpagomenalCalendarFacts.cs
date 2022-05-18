@@ -18,7 +18,7 @@ public abstract class IEpagomenalCalendarFacts<TCalendar, TDataSet> : CalendarDa
         _calendar = calendar ?? throw new ArgumentNullException(nameof(calendar));
     }
 
-    public static TheoryData<YemodaAnd<int>> EpagomenalDayInfoData => DataSet.EpagomenalDayInfoData;
+    public static DataGroup<YemodaAnd<int>> EpagomenalDayInfoData => DataSet.EpagomenalDayInfoData;
 
     [Theory, MemberData(nameof(DateInfoData))]
     public void IsEpagomenalDay(DateInfo info)

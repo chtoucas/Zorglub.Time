@@ -14,7 +14,7 @@ public abstract class IEpagomenalFeaturetteFacts<T, TDataSet> : CalendricalDataC
 {
     protected IEpagomenalFeaturetteFacts() { }
 
-    public static TheoryData<YemodaAnd<int>> EpagomenalDayInfoData => DataSet.EpagomenalDayInfoData;
+    public static DataGroup<YemodaAnd<int>> EpagomenalDayInfoData => DataSet.EpagomenalDayInfoData;
 
     [Theory, MemberData(nameof(DateInfoData))]
     public void IsEpagomenalDay(DateInfo info)

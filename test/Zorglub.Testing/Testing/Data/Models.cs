@@ -112,8 +112,8 @@ public readonly record struct DateInfo
         : this(new Yemoda(y, m, d), doy, isIntercalary, isSupplementary) { }
 
     // Do NOT make it a primary constructor, otherwise it will automatically
-    // create a deconstructor which the same number of parameters as the one
-    // defined below, which can be problematic with F#.
+    // create a deconstructor with the same number of parameters as the one
+    // defined below, which can be problematic from F#.
     public DateInfo(Yemoda ymd, ushort doy, bool isIntercalary, bool isSupplementary)
     {
         Yemoda = ymd;

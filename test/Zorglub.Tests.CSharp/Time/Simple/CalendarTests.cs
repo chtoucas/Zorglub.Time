@@ -208,7 +208,7 @@ public sealed class JulianCalendarTests
 
     // Pour effectuer les tests, on ré-utilise les données collectées pour
     // le calendrier grégorien.
-    public static TheoryData<YemodaAnd<DayOfWeek>> GregorianDayOfWeekData =>
+    public static DataGroup<YemodaAnd<DayOfWeek>> GregorianDayOfWeekData =>
         ProlepticGregorianDataSet.Instance.DayOfWeekData;
 
     [Theory, MemberData(nameof(GregorianDayOfWeekData))]
@@ -228,7 +228,7 @@ public sealed class GregorianCalendarTests :
 {
     public GregorianCalendarTests() : base(GregorianCalendar.Instance) { }
 
-    public static TheoryData<YemodaAnd<DayOfWeek>> DayOfWeekData => DataSet.DayOfWeekData;
+    public static DataGroup<YemodaAnd<DayOfWeek>> DayOfWeekData => DataSet.DayOfWeekData;
 
     protected override GregorianCalendar GetSingleton() => GregorianCalendar.Instance;
 

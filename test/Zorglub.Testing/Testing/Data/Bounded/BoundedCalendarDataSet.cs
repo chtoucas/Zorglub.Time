@@ -25,6 +25,7 @@ public class BoundedCalendarDataSet<TDataSet> : ICalendarDataSet
 
     public IDataFilter DataFilter { get; }
 
+    [Obsolete("Use a DataGroup<T>.")]
     protected static DataGroup<T> FilterData<T>(TheoryData<T> data, Func<T, bool> filter)
     {
         var q = from item in data
@@ -54,15 +55,15 @@ public class BoundedCalendarDataSet<TDataSet> : ICalendarDataSet
     public DayNumber Epoch { get; }
 
     private DataGroup<DayNumberInfo>? _dayNumberInfoData;
-    public TheoryData<DayNumberInfo> DayNumberInfoData =>
+    public DataGroup<DayNumberInfo> DayNumberInfoData =>
         _dayNumberInfoData ??= FilterData(Inner.DayNumberInfoData, DataFilter.Filter);
 
     private DataGroup<YearDayNumber>? _startOfYearDayNumberData;
-    public TheoryData<YearDayNumber> StartOfYearDayNumberData =>
+    public DataGroup<YearDayNumber> StartOfYearDayNumberData =>
         _startOfYearDayNumberData ??= FilterData(Inner.StartOfYearDayNumberData, DataFilter.Filter);
 
     private DataGroup<YearDayNumber>? _endOfYearDayNumberData;
-    public TheoryData<YearDayNumber> EndOfYearDayNumberData =>
+    public DataGroup<YearDayNumber> EndOfYearDayNumberData =>
         _endOfYearDayNumberData ??= FilterData(Inner.EndOfYearDayNumberData, DataFilter.Filter);
 
     #endregion
@@ -72,47 +73,47 @@ public class BoundedCalendarDataSet<TDataSet> : ICalendarDataSet
     public int SampleLeapYear { get; }
 
     private DataGroup<DaysSinceEpochInfo>? _daysSinceEpochInfoData;
-    public TheoryData<DaysSinceEpochInfo> DaysSinceEpochInfoData =>
+    public DataGroup<DaysSinceEpochInfo> DaysSinceEpochInfoData =>
         _daysSinceEpochInfoData ??= FilterData(Inner.DaysSinceEpochInfoData, DataFilter.Filter);
 
     private DataGroup<DateInfo>? _dateInfoData;
-    public TheoryData<DateInfo> DateInfoData =>
+    public DataGroup<DateInfo> DateInfoData =>
         _dateInfoData ??= FilterData(Inner.DateInfoData, DataFilter.Filter);
 
     private DataGroup<MonthInfo>? _monthInfoData;
-    public TheoryData<MonthInfo> MonthInfoData =>
+    public DataGroup<MonthInfo> MonthInfoData =>
         _monthInfoData ??= FilterData(Inner.MonthInfoData, DataFilter.Filter);
 
     private DataGroup<YearInfo>? _yearInfoData;
-    public TheoryData<YearInfo> YearInfoData =>
+    public DataGroup<YearInfo> YearInfoData =>
         _yearInfoData ??= FilterData(Inner.YearInfoData, DataFilter.Filter);
 
     private DataGroup<CenturyInfo>? _centuryInfoData;
-    public TheoryData<CenturyInfo> CenturyInfoData =>
+    public DataGroup<CenturyInfo> CenturyInfoData =>
         _centuryInfoData ??= FilterData(Inner.CenturyInfoData, DataFilter.Filter);
 
     private DataGroup<YemodaAnd<int>>? _daysInYearAfterDateDataInit;
-    public TheoryData<YemodaAnd<int>> DaysInYearAfterDateData =>
+    public DataGroup<YemodaAnd<int>> DaysInYearAfterDateData =>
         _daysInYearAfterDateDataInit ??= FilterData(Inner.DaysInYearAfterDateData, DataFilter.Filter);
 
     private DataGroup<YemodaAnd<int>>? _daysInMonthAfterDateData;
-    public TheoryData<YemodaAnd<int>> DaysInMonthAfterDateData =>
+    public DataGroup<YemodaAnd<int>> DaysInMonthAfterDateData =>
         _daysInMonthAfterDateData ??= FilterData(Inner.DaysInMonthAfterDateData, DataFilter.Filter);
 
     private DataGroup<Yemoda>? _startOfYearPartsData;
-    public TheoryData<Yemoda> StartOfYearPartsData =>
+    public DataGroup<Yemoda> StartOfYearPartsData =>
         _startOfYearPartsData ??= FilterData(Inner.StartOfYearPartsData, DataFilter.Filter);
 
     private DataGroup<Yemoda>? _endOfYearPartsData;
-    public TheoryData<Yemoda> EndOfYearPartsData =>
+    public DataGroup<Yemoda> EndOfYearPartsData =>
         _endOfYearPartsData ??= FilterData(Inner.EndOfYearPartsData, DataFilter.Filter);
 
     private DataGroup<YearDaysSinceEpoch>? _startOfYearDaysSinceEpochData;
-    public TheoryData<YearDaysSinceEpoch> StartOfYearDaysSinceEpochData =>
+    public DataGroup<YearDaysSinceEpoch> StartOfYearDaysSinceEpochData =>
         _startOfYearDaysSinceEpochData ??= FilterData(Inner.StartOfYearDaysSinceEpochData, DataFilter.Filter);
 
     private DataGroup<YearDaysSinceEpoch>? _endOfYearDaysSinceEpochData;
-    public TheoryData<YearDaysSinceEpoch> EndOfYearDaysSinceEpochData =>
+    public DataGroup<YearDaysSinceEpoch> EndOfYearDaysSinceEpochData =>
         _endOfYearDaysSinceEpochData ??= FilterData(Inner.EndOfYearDaysSinceEpochData, DataFilter.Filter);
 
     // Normally, we don't have to filter the three following properties.

@@ -26,7 +26,7 @@ public partial class Coptic12DataSet // Infos
         _daysSinceEpochInfoData ??=
             DataGroup.CreateDaysSinceEpochInfoData(DaysSinceRataDieInfos, CalendarEpoch.Coptic);
 
-    public override TheoryData<DateInfo> DateInfoData { get; } = new()
+    public override DataGroup<DateInfo> DateInfoData { get; } = new()
     {
         // Common year.
         new(CommonYear, 1, 1, 1, false, false),
@@ -69,7 +69,7 @@ public partial class Coptic12DataSet // Infos
         new(LeapYear, 12, 36, 366, true, true),
     };
 
-    public override TheoryData<MonthInfo> MonthInfoData { get; } = new()
+    public override DataGroup<MonthInfo> MonthInfoData { get; } = new()
     {
         // Common year.
         new(CommonYear, 1, 30, 0, false),
@@ -99,7 +99,7 @@ public partial class Coptic12DataSet // Infos
         new(LeapYear, 12, 36, 330, false),
     };
 
-    public override TheoryData<YearInfo> YearInfoData { get; } = new()
+    public override DataGroup<YearInfo> YearInfoData { get; } = new()
     {
         new(-9, 12, 366, true),
         new(-8, 12, 365, false),
@@ -169,13 +169,13 @@ public partial class Coptic12DataSet // Infos
 
 public partial class Coptic12DataSet // Start and end of year
 {
-    public override TheoryData<Yemoda> EndOfYearPartsData { get; } = new()
+    public override DataGroup<Yemoda> EndOfYearPartsData { get; } = new()
     {
         new(CommonYear, 12, 35),
         new(LeapYear, 12, 36),
     };
 
-    public override TheoryData<YearDaysSinceEpoch> StartOfYearDaysSinceEpochData { get; } = new()
+    public override DataGroup<YearDaysSinceEpoch> StartOfYearDaysSinceEpochData { get; } = new()
     {
         new(-10, -4018),
         new(-9, -3653), // leap year
@@ -276,7 +276,7 @@ public partial class Coptic12DataSet // Invalid date parts
 
 public partial class Coptic12DataSet // Supplementary data
 {
-    public TheoryData<YemodaAnd<int>> EpagomenalDayInfoData { get; } = new()
+    public DataGroup<YemodaAnd<int>> EpagomenalDayInfoData { get; } = new()
     {
         // Common year.
         new(CommonYear, 12, 31, 1),

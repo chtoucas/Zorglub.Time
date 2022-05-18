@@ -25,7 +25,7 @@ public partial class Egyptian12DataSet // Infos
         _daysSinceEpochInfoData ??=
             DataGroup.CreateDaysSinceEpochInfoData(DaysSinceRataDieInfos, CalendarEpoch.Egyptian);
 
-    public override TheoryData<DateInfo> DateInfoData { get; } = new()
+    public override DataGroup<DateInfo> DateInfoData { get; } = new()
     {
         new(SampleYear, 1, 1, 1, false, false),
         new(SampleYear, 1, 30, 30, false, false),
@@ -59,7 +59,7 @@ public partial class Egyptian12DataSet // Infos
         new(SampleYear, 12, 35, 365, false, true),
     };
 
-    public override TheoryData<MonthInfo> MonthInfoData { get; } = new()
+    public override DataGroup<MonthInfo> MonthInfoData { get; } = new()
     {
         new(SampleYear, 1, 30, 0, false),
         new(SampleYear, 2, 30, 30, false),
@@ -75,7 +75,7 @@ public partial class Egyptian12DataSet // Infos
         new(SampleYear, 12, 35, 330, false),
     };
 
-    public override TheoryData<YearInfo> YearInfoData { get; } = new()
+    public override DataGroup<YearInfo> YearInfoData { get; } = new()
     {
         new(SampleYear, 12, 365, false),
     };
@@ -134,12 +134,12 @@ public partial class Egyptian12DataSet // Infos
 
 public partial class Egyptian12DataSet // Start and end of year
 {
-    public override TheoryData<Yemoda> EndOfYearPartsData { get; } = new()
+    public override DataGroup<Yemoda> EndOfYearPartsData { get; } = new()
     {
         new(SampleYear, 12, 35),
     };
 
-    public override TheoryData<YearDaysSinceEpoch> StartOfYearDaysSinceEpochData { get; } = new()
+    public override DataGroup<YearDaysSinceEpoch> StartOfYearDaysSinceEpochData { get; } = new()
     {
         new(-10, -4015),
         new(-9, -3650),
@@ -210,7 +210,7 @@ public partial class Egyptian12DataSet // Invalid date parts
 
 public partial class Egyptian12DataSet // Supplementary data
 {
-    public TheoryData<YemodaAnd<int>> EpagomenalDayInfoData { get; } = new()
+    public DataGroup<YemodaAnd<int>> EpagomenalDayInfoData { get; } = new()
     {
         new(SampleYear, 12, 31, 1),
         new(SampleYear, 12, 32, 2),

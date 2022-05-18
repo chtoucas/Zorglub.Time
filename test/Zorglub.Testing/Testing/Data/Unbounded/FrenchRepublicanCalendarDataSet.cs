@@ -22,7 +22,7 @@ public sealed class FrenchRepublican12CalendarDataSet :
         _dayNumberInfoData ??=
             DataGroup.CreateDayNumberInfoData(FrenchRepublican12DataSet.DaysSinceRataDieInfos);
 
-    public TheoryData<YemodaAnd<int>> EpagomenalDayInfoData => DataSet.EpagomenalDayInfoData;
+    public DataGroup<YemodaAnd<int>> EpagomenalDayInfoData => DataSet.EpagomenalDayInfoData;
 }
 
 /// <summary>
@@ -40,5 +40,5 @@ public sealed class FrenchRepublican13CalendarDataSet :
     public override DataGroup<DayNumberInfo> DayNumberInfoData =>
         _dayNumberInfoData ??= DataGroup.CreateDayNumberInfoData(FrenchRepublican13DataSet.DaysSinceRataDieInfos);
 
-    public TheoryData<YemodaAnd<int>> EpagomenalDayInfoData => DataSet.EpagomenalDayInfoData;
+    public DataGroup<YemodaAnd<int>> EpagomenalDayInfoData => DataSet.EpagomenalDayInfoData;
 }

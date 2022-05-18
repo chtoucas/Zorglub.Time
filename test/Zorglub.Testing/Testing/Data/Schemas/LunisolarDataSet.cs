@@ -23,7 +23,7 @@ public partial class LunisolarDataSet // Infos
         _daysSinceEpochInfoData ??=
             DataGroup.CreateDaysSinceEpochInfoData(DaysSinceRataDieInfos, DayZero.NewStyle);
 
-    public override TheoryData<DateInfo> DateInfoData { get; } = new()
+    public override DataGroup<DateInfo> DateInfoData { get; } = new()
     {
         // Common year.
         new(CommonYear, 1, 1, 1, false, false),
@@ -56,7 +56,7 @@ public partial class LunisolarDataSet // Infos
         new(LeapYear, 13, 30, 384, false, false),
     };
 
-    public override TheoryData<MonthInfo> MonthInfoData { get; } = new()
+    public override DataGroup<MonthInfo> MonthInfoData { get; } = new()
     {
         // Common year.
         new(CommonYear, 1, 30, 0, false),
@@ -87,7 +87,7 @@ public partial class LunisolarDataSet // Infos
         new(LeapYear, 13, 30, 354, true),
     };
 
-    public override TheoryData<YearInfo> YearInfoData { get; } = new()
+    public override DataGroup<YearInfo> YearInfoData { get; } = new()
     {
         new(CommonYear, 12, 354, false),
         new(LeapYear, 13, 384, true),
@@ -170,13 +170,13 @@ public partial class LunisolarDataSet // Infos
 
 public partial class LunisolarDataSet // Start and end of year
 {
-    public override TheoryData<Yemoda> EndOfYearPartsData { get; } = new()
+    public override DataGroup<Yemoda> EndOfYearPartsData { get; } = new()
     {
         new(CommonYear, 12, 29),
         new(LeapYear, 13, 30),
     };
 
-    public override TheoryData<YearDaysSinceEpoch> StartOfYearDaysSinceEpochData { get; } = new()
+    public override DataGroup<YearDaysSinceEpoch> StartOfYearDaysSinceEpochData { get; } = new()
     {
         new(-9, -3630),
         new(-8, -3276), // leap year
