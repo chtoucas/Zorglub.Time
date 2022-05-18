@@ -42,7 +42,7 @@ public class BoundedCalendarDataSet<TDataSet> : ICalendarDataSet
     {
         Requires.NotNull(data);
 
-        var q = data.AsEnumerable().Where(filter);
+        var q = data.AsEnumerableT().Where(filter);
 
         Debug.Assert(q.Any());
 
