@@ -97,13 +97,9 @@ public readonly record struct DayNumberInfo(DayNumber DayNumber, Yemoda Yemoda)
         (y, m, d) = Yemoda;
     }
 
-    [SuppressMessage("Usage", "CA2225:Operator overloads have named alternates", Justification = "<Pending>")]
-    public static DayNumberInfo operator +(DayNumberInfo x, int value) =>
-        new(x.DayNumber + value, x.Yemoda);
+    public static DayNumberInfo operator +(DayNumberInfo x, int value) => new(x.DayNumber + value, x.Yemoda);
 
-    [SuppressMessage("Usage", "CA2225:Operator overloads have named alternates", Justification = "<Pending>")]
-    public static DaysSinceEpochInfo operator -(DayNumberInfo x, DayNumber epoch) =>
-        new(x.DayNumber - epoch, x.Yemoda);
+    public static DaysSinceEpochInfo operator -(DayNumberInfo x, DayNumber epoch) => new(x.DayNumber - epoch, x.Yemoda);
 }
 
 // We use Yemoda, otherwise the struct is too big (24 bytes).
@@ -156,8 +152,7 @@ public readonly record struct MillenniumInfo(int Year, int Millennium, ushort Ye
 
 public readonly record struct YemodaAnd<T>(Yemoda Yemoda, T Value) where T : struct
 {
-    public YemodaAnd(int y, int m, int d, T value)
-        : this(new Yemoda(y, m, d), value) { }
+    public YemodaAnd(int y, int m, int d, T value) : this(new Yemoda(y, m, d), value) { }
 
     public void Deconstruct(out int y, out int m, out int d, out T value)
     {
@@ -168,8 +163,7 @@ public readonly record struct YemodaAnd<T>(Yemoda Yemoda, T Value) where T : str
 
 public readonly record struct YemoAnd<T>(Yemo Yemo, T Value) where T : struct
 {
-    public YemoAnd(int y, int m, T value)
-        : this(new Yemo(y, m), value) { }
+    public YemoAnd(int y, int m, T value) : this(new Yemo(y, m), value) { }
 
     public void Deconstruct(out int y, out int m, out T value)
     {
