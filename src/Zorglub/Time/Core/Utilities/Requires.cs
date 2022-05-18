@@ -24,7 +24,7 @@ namespace Zorglub.Time.Core.Utilities
         public static void NotNull<T>(
             [NotNull] T? obj,
             [CallerArgumentExpression("obj")] string paramName = "")
-            // TODO(code): where T : class
+            where T : notnull
         {
             // NB: there is also ArgumentNullException.ThrowIfNull().
             if (obj is not null) return;
