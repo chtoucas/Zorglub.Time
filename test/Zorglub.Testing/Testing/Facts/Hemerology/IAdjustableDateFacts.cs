@@ -22,14 +22,8 @@ public abstract partial class IAdjustableDateFacts<TDate, TDataSet> : Calendrica
 
     protected abstract TDate CreateDate(int y, int m, int d);
 
-    #region Static access to IYearAdjustmentDataSet
-
-    public static DataGroup<YemodaAnd<int>> InvalidYearAdjustementData =>
-        XunitDataSet.DataSet.InvalidYearAdjustementData;
-    public static DataGroup<YemodaAnd<int>> YearAdjustementData =>
-        XunitDataSet.DataSet.YearAdjustementData;
-
-    #endregion
+    public static DataGroup<YemodaAnd<int>> InvalidYearAdjustementData => XunitDataSet.DataSet.InvalidYearAdjustementData;
+    public static DataGroup<YemodaAnd<int>> YearAdjustementData => XunitDataSet.DataSet.YearAdjustementData;
 }
 
 public partial class IAdjustableDateFacts<TDate, TDataSet> // WithYear()

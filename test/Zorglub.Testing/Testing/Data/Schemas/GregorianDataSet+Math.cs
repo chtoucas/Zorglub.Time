@@ -3,8 +3,6 @@
 
 namespace Zorglub.Testing.Data.Schemas;
 
-// TODO(data): use DataGroup. Filter matching data in Bounded.
-
 using static Zorglub.Testing.Data.Extensions.TheoryDataExtensions;
 
 public partial class GregorianDataSet // IMathDataSet (days)

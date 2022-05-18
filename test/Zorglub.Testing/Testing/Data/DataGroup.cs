@@ -6,6 +6,8 @@ namespace Zorglub.Testing.Data;
 using System.Collections;
 using System.Linq;
 
+// TODO(data): use DataGroup (math, dayOfWeek, etc). Filter matching data in Bounded.
+
 // The advantage of a DataGroup<T> over a TheoryData<T> is that we can enumerate
 // and manipulate a group of data using the actual underlying data type directly.
 // This is particularly useful when dealing with <i>bounded</i> calendar datasets.
@@ -118,7 +120,6 @@ public sealed class DataGroup<T> : IReadOnlyCollection<object?[]>
     public DataGroup<T> WhereT(Func<T, bool> predicate)
     {
         var q = _container.Values.Where(predicate);
-
         Debug.Assert(q.Any());
 
         return DataGroup.Create(q);
@@ -127,7 +128,7 @@ public sealed class DataGroup<T> : IReadOnlyCollection<object?[]>
     public XunitData<T> ToXunitData()
     {
         var q = _container.ToEnumerable();
-        return new(q);
+        return new XunitData<T>(q);
     }
 
     //
