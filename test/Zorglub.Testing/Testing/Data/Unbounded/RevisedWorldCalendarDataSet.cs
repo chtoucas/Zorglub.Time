@@ -16,7 +16,6 @@ public sealed class RevisedWorldCalendarDataSet :
 
     public static RevisedWorldCalendarDataSet Instance { get; } = new();
 
-    private DataGroup<DayNumberInfo>? _dayNumberInfoData;
     public override DataGroup<DayNumberInfo> DayNumberInfoData =>
-        _dayNumberInfoData ??= DataGroup.CreateDayNumberInfoData(WorldDataSet.DaysSinceEpochInfos, Epoch);
+        DataGroup.CreateDayNumberInfoData(WorldDataSet.DaysSinceEpochInfos, Epoch);
 }

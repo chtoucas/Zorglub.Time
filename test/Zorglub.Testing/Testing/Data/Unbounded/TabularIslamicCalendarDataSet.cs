@@ -16,7 +16,6 @@ public sealed class TabularIslamicCalendarDataSet :
 
     public static TabularIslamicCalendarDataSet Instance { get; } = new();
 
-    private DataGroup<DayNumberInfo>? _dayNumberInfoData;
     public override DataGroup<DayNumberInfo> DayNumberInfoData =>
-        _dayNumberInfoData ??= DataGroup.CreateDayNumberInfoData(TabularIslamicDataSet.DaysSinceRataDieInfos);
+        DataGroup.CreateDayNumberInfoData(TabularIslamicDataSet.DaysSinceRataDieInfos);
 }

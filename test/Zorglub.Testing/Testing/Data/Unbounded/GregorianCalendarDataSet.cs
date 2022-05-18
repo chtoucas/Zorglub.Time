@@ -20,9 +20,8 @@ public sealed partial class GregorianCalendarDataSet :
 
     public static GregorianCalendarDataSet Instance { get; } = new();
 
-    private DataGroup<DayNumberInfo>? _dayNumberInfoData;
     public override DataGroup<DayNumberInfo> DayNumberInfoData =>
-        _dayNumberInfoData ??= DataGroup.CreateDayNumberInfoData(GregorianDataSet.DaysSinceRataDieInfos);
+        DataGroup.CreateDayNumberInfoData(GregorianDataSet.DaysSinceRataDieInfos);
 
     public DataGroup<YemoAnd<int>> DaysInYearAfterMonthData => DataSet.DaysInYearAfterMonthData;
 

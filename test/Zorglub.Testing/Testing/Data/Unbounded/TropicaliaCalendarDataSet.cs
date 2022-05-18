@@ -15,9 +15,8 @@ public sealed class TropicaliaCalendarDataSet :
 
     public static TropicaliaCalendarDataSet Instance { get; } = new();
 
-    private DataGroup<DayNumberInfo>? _dayNumberInfoData;
     public override DataGroup<DayNumberInfo> DayNumberInfoData =>
-        _dayNumberInfoData ??= DataGroup.CreateDayNumberInfoData(TropicaliaDataSet.DaysSinceRataDieInfos);
+        DataGroup.CreateDayNumberInfoData(TropicaliaDataSet.DaysSinceRataDieInfos);
 }
 
 /// <summary>
@@ -30,9 +29,8 @@ public sealed class Tropicalia3031CalendarDataSet :
 
     public static Tropicalia3031CalendarDataSet Instance { get; } = new();
 
-    private DataGroup<DayNumberInfo>? _dayNumberInfoData;
     public override DataGroup<DayNumberInfo> DayNumberInfoData =>
-        _dayNumberInfoData ??= DataGroup.CreateDayNumberInfoData(Tropicalia3031DataSet.DaysSinceEpochInfos, Epoch);
+         DataGroup.CreateDayNumberInfoData(Tropicalia3031DataSet.DaysSinceEpochInfos, Epoch);
 }
 
 /// <summary>
@@ -45,7 +43,6 @@ public sealed class Tropicalia3130CalendarDataSet :
 
     public static Tropicalia3130CalendarDataSet Instance { get; } = new();
 
-    private DataGroup<DayNumberInfo>? _dayNumberInfoData;
     public override DataGroup<DayNumberInfo> DayNumberInfoData =>
-        _dayNumberInfoData ??= DataGroup.CreateDayNumberInfoData(Tropicalia3130DataSet.DaysSinceEpochInfos, Epoch);
+         DataGroup.CreateDayNumberInfoData(Tropicalia3130DataSet.DaysSinceEpochInfos, Epoch);
 }

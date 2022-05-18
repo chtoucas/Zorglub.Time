@@ -16,7 +16,6 @@ public sealed class LunisolarCalendarDataSet :
 
     public static LunisolarCalendarDataSet Instance { get; } = new();
 
-    private DataGroup<DayNumberInfo>? _dayNumberInfoData;
     public override DataGroup<DayNumberInfo> DayNumberInfoData =>
-        _dayNumberInfoData ??= DataGroup.CreateDayNumberInfoData(LunisolarDataSet.DaysSinceRataDieInfos);
+        DataGroup.CreateDayNumberInfoData(LunisolarDataSet.DaysSinceRataDieInfos);
 }

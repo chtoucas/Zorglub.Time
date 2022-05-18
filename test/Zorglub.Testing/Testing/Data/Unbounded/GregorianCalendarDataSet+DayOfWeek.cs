@@ -7,7 +7,7 @@ using static Zorglub.Testing.Data.Extensions.TheoryDataExtensions;
 
 public partial class GregorianCalendarDataSet // IDayOfWeekDataSet
 {
-    public DataGroup<YemodaAnd<DayOfWeek>> DayOfWeekData => new()
+    public DataGroup<YemodaAnd<DayOfWeek>> DayOfWeekData { get; } = new()
     {
         // Epoch.
         new(1, 1, 1, DayOfWeek.Monday),

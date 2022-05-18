@@ -16,11 +16,9 @@ public sealed class Zoroastrian13CalendarDataSet :
 
     public static Zoroastrian13CalendarDataSet Instance { get; } = new();
 
-    private DataGroup<DayNumberInfo>? _dayNumberInfoData;
     public sealed override DataGroup<DayNumberInfo> DayNumberInfoData =>
-        _dayNumberInfoData ??=
-            DataGroup.CreateDayNumberInfoData(
-                Egyptian13DataSet.DaysSinceRataDieInfos, CalendarEpoch.Egyptian, Epoch);
+        DataGroup.CreateDayNumberInfoData(
+            Egyptian13DataSet.DaysSinceRataDieInfos, CalendarEpoch.Egyptian, Epoch);
 
     public DataGroup<YemodaAnd<int>> EpagomenalDayInfoData => DataSet.EpagomenalDayInfoData;
 }
@@ -35,11 +33,9 @@ public sealed class Zoroastrian12CalendarDataSet :
 
     public static Zoroastrian12CalendarDataSet Instance { get; } = new();
 
-    private DataGroup<DayNumberInfo>? _dayNumberInfoData;
     public sealed override DataGroup<DayNumberInfo> DayNumberInfoData =>
-        _dayNumberInfoData ??=
-            DataGroup.CreateDayNumberInfoData(
-                Egyptian12DataSet.DaysSinceRataDieInfos, CalendarEpoch.Egyptian, Epoch);
+        DataGroup.CreateDayNumberInfoData(
+            Egyptian12DataSet.DaysSinceRataDieInfos, CalendarEpoch.Egyptian, Epoch);
 
     public DataGroup<YemodaAnd<int>> EpagomenalDayInfoData => DataSet.EpagomenalDayInfoData;
 }

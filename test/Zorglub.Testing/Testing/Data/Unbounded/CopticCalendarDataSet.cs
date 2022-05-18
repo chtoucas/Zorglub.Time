@@ -16,9 +16,8 @@ public sealed class Coptic12CalendarDataSet :
 
     public static Coptic12CalendarDataSet Instance { get; } = new();
 
-    private DataGroup<DayNumberInfo>? _dayNumberInfoData;
     public override DataGroup<DayNumberInfo> DayNumberInfoData =>
-        _dayNumberInfoData ??= DataGroup.CreateDayNumberInfoData(Coptic12DataSet.DaysSinceRataDieInfos);
+        DataGroup.CreateDayNumberInfoData(Coptic12DataSet.DaysSinceRataDieInfos);
 
     public DataGroup<YemodaAnd<int>> EpagomenalDayInfoData => DataSet.EpagomenalDayInfoData;
 }
@@ -33,9 +32,8 @@ public sealed class Coptic13CalendarDataSet :
 
     public static Coptic13CalendarDataSet Instance { get; } = new();
 
-    private DataGroup<DayNumberInfo>? _dayNumberInfoData;
     public override DataGroup<DayNumberInfo> DayNumberInfoData =>
-        _dayNumberInfoData ??= DataGroup.CreateDayNumberInfoData(Coptic13DataSet.DaysSinceRataDieInfos);
+        DataGroup.CreateDayNumberInfoData(Coptic13DataSet.DaysSinceRataDieInfos);
 
     public DataGroup<YemodaAnd<int>> EpagomenalDayInfoData => DataSet.EpagomenalDayInfoData;
 }
