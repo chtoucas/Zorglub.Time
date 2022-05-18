@@ -14,10 +14,10 @@ public sealed partial class CalendarMonthTests : GregorianOnlyTesting
 
     public CalendarMonthTests() : base(GregorianCalendar.Instance) { }
 
-    public static DataGroup<YemoAnd<int>> DaysInYearAfterMonthData => XunitDataSet.DataSet.DaysInYearAfterMonthData;
+    public static DataGroup<YemoAnd<int>> DaysInYearAfterMonthData => DataSet.DaysInYearAfterMonthData;
 
-    public static TheoryData<Yemoda, Yemoda, int> AddYearsData => XunitDataSet.DataSet.AddYearsData;
-    public static TheoryData<Yemoda, Yemoda, int> AddMonthsData => XunitDataSet.DataSet.AddMonthsData;
+    public static TheoryData<Yemoda, Yemoda, int> AddYearsData => DataSet.AddYearsData;
+    public static TheoryData<Yemoda, Yemoda, int> AddMonthsData => DataSet.AddMonthsData;
 
     // Pour simplifier on utilise un SYearMonthDay, mais le champs "day" doit
     // être complètement ignoré (toujours égal à 1).

@@ -228,7 +228,7 @@ public sealed class GregorianCalendarTests :
 {
     public GregorianCalendarTests() : base(GregorianCalendar.Instance) { }
 
-    public static DataGroup<YemodaAnd<DayOfWeek>> DayOfWeekData => XunitDataSet.DataSet.DayOfWeekData;
+    public static DataGroup<YemodaAnd<DayOfWeek>> DayOfWeekData => DataSet.DayOfWeekData;
 
     protected override GregorianCalendar GetSingleton() => GregorianCalendar.Instance;
 
