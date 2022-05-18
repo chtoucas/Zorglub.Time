@@ -69,59 +69,57 @@ public abstract class CalendricalDataSet : ICalendricalDataSet
     [Pure]
     private static DataGroup<Yemoda> InitStartOfYearParts(DataGroup<Yemoda> source)
     {
-        Requires.NotNull(source);
+        Debug.Assert(source != null);
 
-        var data = new DataGroup<Yemoda>();
-        foreach (var item in source.AsEnumerableT())
-        {
-            data.Add(new Yemoda(item.Year, 1, 1));
-        }
-        return data;
+        return source.SelectT(Selector);
+
+        static Yemoda Selector(Yemoda x) => new(x.Year, 1, 1);
     }
 
     [Pure]
     private static DataGroup<YearDaysSinceEpoch> InitEndOfYearDaysSinceEpochData(DataGroup<YearDaysSinceEpoch> source)
     {
-        Requires.NotNull(source);
+        Debug.Assert(source != null);
 
-        var data = new DataGroup<YearDaysSinceEpoch>();
-        foreach (var (y, daysSinceEpoch) in source.AsEnumerableT())
+        return source.SelectT(Selector);
+
+        static YearDaysSinceEpoch Selector(YearDaysSinceEpoch x)
         {
-            // endOfYear = startOfNextYear - 1.
-            data.Add(new YearDaysSinceEpoch(y - 1, daysSinceEpoch - 1));
+            var (y, daysSinceEpoch) = x;
+            return new YearDaysSinceEpoch(y - 1, daysSinceEpoch - 1);
         }
-        return data;
     }
 
     [Pure]
     private DataGroup<YemodaAnd<int>> InitDaysInYearAfterDateData(DataGroup<DateInfo> source)
     {
-        Requires.NotNull(source);
+        Debug.Assert(source != null);
 
         var sch = Schema;
-        var data = new DataGroup<YemodaAnd<int>>();
-        foreach (var (y, m, d, doy) in source.AsEnumerableT())
+        return source.SelectT(Selector);
+
+        YemodaAnd<int> Selector(DateInfo x)
         {
+            var (y, m, d, doy) = x;
             int daysInYearAfter = sch.CountDaysInYear(y) - doy;
-            data.Add(new(y, m, d, daysInYearAfter));
+            return new YemodaAnd<int>(y, m, d, daysInYearAfter);
         }
-        return data;
     }
 
     [Pure]
     private DataGroup<YemodaAnd<int>> InitDaysInMonthAfterDateData(DataGroup<DateInfo> source)
     {
-        Requires.NotNull(source);
+        Debug.Assert(source != null);
 
         var sch = Schema;
-        var data = new DataGroup<YemodaAnd<int>>();
-        foreach (var item in source.AsEnumerableT())
+        return source.SelectT(Selector);
+
+        YemodaAnd<int> Selector(DateInfo x)
         {
-            var (y, m, d) = item.Yemoda;
+            var (y, m, d) = x.Yemoda;
             int daysInMonthAfter = sch.CountDaysInMonth(y, m) - d;
-            data.Add(new(y, m, d, daysInMonthAfter));
+            return new YemodaAnd<int>(y, m, d, daysInMonthAfter);
         }
-        return data;
     }
 
     #endregion

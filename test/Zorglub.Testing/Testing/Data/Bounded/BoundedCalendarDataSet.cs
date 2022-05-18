@@ -3,8 +3,6 @@
 
 namespace Zorglub.Testing.Data.Bounded;
 
-using System.Linq;
-
 public class BoundedCalendarDataSet<TDataSet> : ICalendarDataSet
     where TDataSet : ICalendarDataSet
 {
@@ -25,46 +23,21 @@ public class BoundedCalendarDataSet<TDataSet> : ICalendarDataSet
 
     public IDataFilter DataFilter { get; }
 
-    [Obsolete("Use a DataGroup<T>.")]
-    protected static DataGroup<T> FilterData<T>(TheoryData<T> data, Func<T, bool> filter)
-    {
-        var q = from item in data
-                let value = (T)item[0]
-                where filter(value)
-                select value;
-
-        Debug.Assert(q.Any());
-
-        return DataGroup.Create(q);
-    }
-
-    // This version is faster, no boxing!
-    protected static DataGroup<T> FilterData<T>(DataGroup<T> data, Func<T, bool> filter)
-    {
-        Requires.NotNull(data);
-
-        var q = data.AsEnumerableT().Where(filter);
-
-        Debug.Assert(q.Any());
-
-        return DataGroup.Create(q);
-    }
-
     #region ICalendarDataSet
 
     public DayNumber Epoch { get; }
 
     private DataGroup<DayNumberInfo>? _dayNumberInfoData;
     public DataGroup<DayNumberInfo> DayNumberInfoData =>
-        _dayNumberInfoData ??= FilterData(Inner.DayNumberInfoData, DataFilter.Filter);
+        _dayNumberInfoData ??= Inner.DayNumberInfoData.WhereT(DataFilter.Filter);
 
     private DataGroup<YearDayNumber>? _startOfYearDayNumberData;
     public DataGroup<YearDayNumber> StartOfYearDayNumberData =>
-        _startOfYearDayNumberData ??= FilterData(Inner.StartOfYearDayNumberData, DataFilter.Filter);
+        _startOfYearDayNumberData ??= Inner.StartOfYearDayNumberData.WhereT(DataFilter.Filter);
 
     private DataGroup<YearDayNumber>? _endOfYearDayNumberData;
     public DataGroup<YearDayNumber> EndOfYearDayNumberData =>
-        _endOfYearDayNumberData ??= FilterData(Inner.EndOfYearDayNumberData, DataFilter.Filter);
+        _endOfYearDayNumberData ??= Inner.EndOfYearDayNumberData.WhereT(DataFilter.Filter);
 
     #endregion
     #region ICalendricalDataSet
@@ -74,47 +47,47 @@ public class BoundedCalendarDataSet<TDataSet> : ICalendarDataSet
 
     private DataGroup<DaysSinceEpochInfo>? _daysSinceEpochInfoData;
     public DataGroup<DaysSinceEpochInfo> DaysSinceEpochInfoData =>
-        _daysSinceEpochInfoData ??= FilterData(Inner.DaysSinceEpochInfoData, DataFilter.Filter);
+        _daysSinceEpochInfoData ??= Inner.DaysSinceEpochInfoData.WhereT(DataFilter.Filter);
 
     private DataGroup<DateInfo>? _dateInfoData;
     public DataGroup<DateInfo> DateInfoData =>
-        _dateInfoData ??= FilterData(Inner.DateInfoData, DataFilter.Filter);
+        _dateInfoData ??= Inner.DateInfoData.WhereT(DataFilter.Filter);
 
     private DataGroup<MonthInfo>? _monthInfoData;
     public DataGroup<MonthInfo> MonthInfoData =>
-        _monthInfoData ??= FilterData(Inner.MonthInfoData, DataFilter.Filter);
+        _monthInfoData ??= Inner.MonthInfoData.WhereT(DataFilter.Filter);
 
     private DataGroup<YearInfo>? _yearInfoData;
     public DataGroup<YearInfo> YearInfoData =>
-        _yearInfoData ??= FilterData(Inner.YearInfoData, DataFilter.Filter);
+        _yearInfoData ??= Inner.YearInfoData.WhereT(DataFilter.Filter);
 
     private DataGroup<CenturyInfo>? _centuryInfoData;
     public DataGroup<CenturyInfo> CenturyInfoData =>
-        _centuryInfoData ??= FilterData(Inner.CenturyInfoData, DataFilter.Filter);
+        _centuryInfoData ??= Inner.CenturyInfoData.WhereT(DataFilter.Filter);
 
     private DataGroup<YemodaAnd<int>>? _daysInYearAfterDateDataInit;
     public DataGroup<YemodaAnd<int>> DaysInYearAfterDateData =>
-        _daysInYearAfterDateDataInit ??= FilterData(Inner.DaysInYearAfterDateData, DataFilter.Filter);
+        _daysInYearAfterDateDataInit ??= Inner.DaysInYearAfterDateData.WhereT(DataFilter.Filter);
 
     private DataGroup<YemodaAnd<int>>? _daysInMonthAfterDateData;
     public DataGroup<YemodaAnd<int>> DaysInMonthAfterDateData =>
-        _daysInMonthAfterDateData ??= FilterData(Inner.DaysInMonthAfterDateData, DataFilter.Filter);
+        _daysInMonthAfterDateData ??= Inner.DaysInMonthAfterDateData.WhereT(DataFilter.Filter);
 
     private DataGroup<Yemoda>? _startOfYearPartsData;
     public DataGroup<Yemoda> StartOfYearPartsData =>
-        _startOfYearPartsData ??= FilterData(Inner.StartOfYearPartsData, DataFilter.Filter);
+        _startOfYearPartsData ??= Inner.StartOfYearPartsData.WhereT(DataFilter.Filter);
 
     private DataGroup<Yemoda>? _endOfYearPartsData;
     public DataGroup<Yemoda> EndOfYearPartsData =>
-        _endOfYearPartsData ??= FilterData(Inner.EndOfYearPartsData, DataFilter.Filter);
+        _endOfYearPartsData ??= Inner.EndOfYearPartsData.WhereT(DataFilter.Filter);
 
     private DataGroup<YearDaysSinceEpoch>? _startOfYearDaysSinceEpochData;
     public DataGroup<YearDaysSinceEpoch> StartOfYearDaysSinceEpochData =>
-        _startOfYearDaysSinceEpochData ??= FilterData(Inner.StartOfYearDaysSinceEpochData, DataFilter.Filter);
+        _startOfYearDaysSinceEpochData ??= Inner.StartOfYearDaysSinceEpochData.WhereT(DataFilter.Filter);
 
     private DataGroup<YearDaysSinceEpoch>? _endOfYearDaysSinceEpochData;
     public DataGroup<YearDaysSinceEpoch> EndOfYearDaysSinceEpochData =>
-        _endOfYearDaysSinceEpochData ??= FilterData(Inner.EndOfYearDaysSinceEpochData, DataFilter.Filter);
+        _endOfYearDaysSinceEpochData ??= Inner.EndOfYearDaysSinceEpochData.WhereT(DataFilter.Filter);
 
     // Normally, we don't have to filter the three following properties.
     public TheoryData<int, int> InvalidMonthFieldData => Inner.InvalidMonthFieldData;

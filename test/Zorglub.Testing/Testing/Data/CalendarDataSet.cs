@@ -66,15 +66,12 @@ public abstract class CalendarDataSet<TDataSet> : ICalendarDataSet
     [Pure]
     private DataGroup<YearDayNumber> InitDayNumberData(DataGroup<YearDaysSinceEpoch> source)
     {
-        Requires.NotNull(source);
+        Debug.Assert(source != null);
 
         var epoch = Epoch;
-        var data = new DataGroup<YearDayNumber>();
-        foreach (var (y, daysSinceEpoch) in source.AsEnumerableT())
-        {
-            data.Add(new YearDayNumber(y, epoch + daysSinceEpoch));
-        }
-        return data;
+        return source.SelectT(Selector);
+
+        YearDayNumber Selector(YearDaysSinceEpoch x) => x.ToYearDayNumber(epoch);
     }
 
     #endregion

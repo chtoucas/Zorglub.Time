@@ -9,11 +9,12 @@ using System.Linq;
 using Zorglub.Testing.Data.Bounded;
 
 // TODO(data): Can we initialize lazily a DataGroup? -> DataSeq
-// See https://github.com/xunit/xunit/blob/main/src/xunit.v3.core/TheoryData.cs
 //
 // The advantage of a DataGroup<T> over a TheoryData<T> is that we can enumerate
-// a group of data without any boxing.
-// It was created to improve the performance of <i>bounded</i> calendar datasets.
+// and manipulate a group of data using the actual underlying data type directly.
+// This is particularly useful when dealing with <i>bounded</i> calendar datasets.
+//
+// See https://github.com/xunit/xunit/blob/main/src/xunit.v3.core/TheoryData.cs
 
 /// <summary>
 /// Provides factory methods for <see cref="DataGroup{T}"/>.
@@ -87,12 +88,34 @@ public sealed class DataGroup<T> : IReadOnlyCollection<object?[]>
         _values.AddRange(values);
     }
 
-    public IEnumerable<T> AsEnumerableT() => _values;
-
     // Collection initializer.
     public void Add(T v) => _values.Add(v);
 
     public int Count => _values.Count;
+
+    // The same with TheoryData<T> would be rather contrive:
+    // > public DataGroup<T> WhereT(Func<T, bool> predicate)
+    // > {
+    // >     var q = from item in this
+    // >             let value = (T)item[0]
+    // >             where predicate(value)
+    // >             select value;
+    // >     Debug.Assert(q.Any());
+    // >     return DataGroup.Create(q);
+    // > }
+
+    public IEnumerable<T> AsEnumerableT() => _values;
+
+    public DataGroup<TResult> SelectT<TResult>(Func<T, TResult> selector) => new(_values.Select(selector));
+
+    public DataGroup<T> WhereT(Func<T, bool> predicate)
+    {
+        var q = _values.Where(predicate);
+
+        Debug.Assert(q.Any());
+
+        return new DataGroup<T>(q);
+    }
 
     public IEnumerator<object?[]> GetEnumerator() =>
         _values.Select(v => new object?[] { v }).GetEnumerator();

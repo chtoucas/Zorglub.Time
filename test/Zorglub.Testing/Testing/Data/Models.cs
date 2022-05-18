@@ -35,7 +35,11 @@ namespace Zorglub.Testing.Data;
 
 #endregion
 
-public readonly record struct YearDaysSinceEpoch(int Year, int DaysSinceEpoch);
+public readonly record struct YearDaysSinceEpoch(int Year, int DaysSinceEpoch)
+{
+    [Pure]
+    public YearDayNumber ToYearDayNumber(DayNumber epoch) => new(Year, epoch + DaysSinceEpoch);
+}
 
 public readonly record struct YearDayNumber(int Year, DayNumber DayNumber);
 

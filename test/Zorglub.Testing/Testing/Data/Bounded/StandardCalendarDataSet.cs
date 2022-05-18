@@ -30,7 +30,7 @@ public sealed class StandardArmenian12DataSet :
 
     private DataGroup<YemodaAnd<int>>? _epagomenalDayInfoData;
     public DataGroup<YemodaAnd<int>> EpagomenalDayInfoData =>
-        _epagomenalDayInfoData ??= FilterData(Inner.EpagomenalDayInfoData, DataFilter.Filter);
+        _epagomenalDayInfoData ??= Inner.EpagomenalDayInfoData.WhereT(DataFilter.Filter);
 }
 
 /// <summary>
@@ -45,7 +45,7 @@ public sealed class StandardCoptic12DataSet :
 
     private DataGroup<YemodaAnd<int>>? _epagomenalDayInfoData;
     public DataGroup<YemodaAnd<int>> EpagomenalDayInfoData =>
-        _epagomenalDayInfoData ??= FilterData(Inner.EpagomenalDayInfoData, DataFilter.Filter);
+        _epagomenalDayInfoData ??= Inner.EpagomenalDayInfoData.WhereT(DataFilter.Filter);
 }
 
 /// <summary>
@@ -60,7 +60,7 @@ public sealed class StandardEthiopic12DataSet :
 
     private DataGroup<YemodaAnd<int>>? _epagomenalDayInfoData;
     public DataGroup<YemodaAnd<int>> EpagomenalDayInfoData =>
-        _epagomenalDayInfoData ??= FilterData(Inner.EpagomenalDayInfoData, DataFilter.Filter);
+        _epagomenalDayInfoData ??= Inner.EpagomenalDayInfoData.WhereT(DataFilter.Filter);
 }
 
 /// <summary>
@@ -79,25 +79,25 @@ public sealed class StandardGregorianDataSet :
 
     private DataGroup<YemoAnd<int>>? _daysInYearAfterMonthData;
     public DataGroup<YemoAnd<int>> DaysInYearAfterMonthData =>
-        _daysInYearAfterMonthData ??= FilterData(Inner.DaysInYearAfterMonthData, DataFilter.Filter);
+        _daysInYearAfterMonthData ??= Inner.DaysInYearAfterMonthData.WhereT(DataFilter.Filter);
 
     // IYearAdjustmentDataSet
     private DataGroup<YemodaAnd<int>>? _invalidYearAdjustementData;
     public DataGroup<YemodaAnd<int>> InvalidYearAdjustementData =>
-        _invalidYearAdjustementData ??= FilterData(Inner.InvalidYearAdjustementData, DataFilter.Filter);
+        _invalidYearAdjustementData ??= Inner.InvalidYearAdjustementData.WhereT(DataFilter.Filter);
 
     private DataGroup<YemodaAnd<int>>? _yearAdjustementData;
     public DataGroup<YemodaAnd<int>> YearAdjustementData =>
-        _yearAdjustementData ??= FilterData(Inner.YearAdjustementData, DataFilter.Filter);
+        _yearAdjustementData ??= Inner.YearAdjustementData.WhereT(DataFilter.Filter);
 
     // IMathDataSet
     private DataGroup<YemodaPairAnd<int>>? _addDaysData;
     public DataGroup<YemodaPairAnd<int>> AddDaysData =>
-        _addDaysData ??= FilterData(Inner.AddDaysData, DataFilter.Filter);
+        _addDaysData ??= Inner.AddDaysData.WhereT(DataFilter.Filter);
 
     private DataGroup<YemodaPair>? _consecutiveDaysData;
     public DataGroup<YemodaPair> ConsecutiveDaysData =>
-        _consecutiveDaysData ??= FilterData(Inner.ConsecutiveDaysData, DataFilter.Filter);
+        _consecutiveDaysData ??= Inner.ConsecutiveDaysData.WhereT(DataFilter.Filter);
 
     // IAdvancedMathDataSet
     public TheoryData<Yemoda, Yemoda, int> AddYearsData => Inner.AddYearsData;
@@ -107,7 +107,7 @@ public sealed class StandardGregorianDataSet :
     // IDayOfWeekDataSet
     private DataGroup<YemodaAnd<DayOfWeek>>? _dayOfWeekData;
     public DataGroup<YemodaAnd<DayOfWeek>> DayOfWeekData =>
-        _dayOfWeekData ??= FilterData(Inner.DayOfWeekData, DataFilter.Filter);
+        _dayOfWeekData ??= Inner.DayOfWeekData.WhereT(DataFilter.Filter);
 
     public TheoryData<Yemoda, Yemoda, DayOfWeek> DayOfWeek_Before_Data => Inner.DayOfWeek_Before_Data;
     public TheoryData<Yemoda, Yemoda, DayOfWeek> DayOfWeek_OnOrBefore_Data => Inner.DayOfWeek_OnOrBefore_Data;
@@ -139,5 +139,5 @@ public sealed class StandardZoroastrian12DataSet :
 
     private DataGroup<YemodaAnd<int>>? _epagomenalDayInfoData;
     public DataGroup<YemodaAnd<int>> EpagomenalDayInfoData =>
-        _epagomenalDayInfoData ??= FilterData(Inner.EpagomenalDayInfoData, DataFilter.Filter);
+        _epagomenalDayInfoData ??= Inner.EpagomenalDayInfoData.WhereT(DataFilter.Filter);
 }
