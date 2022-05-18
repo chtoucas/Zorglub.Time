@@ -20,10 +20,8 @@ public sealed partial class TabularIslamicDataSet : CalendricalDataSet, ISinglet
 
 public partial class TabularIslamicDataSet // Infos
 {
-    private DataGroup<DaysSinceEpochInfo>? _daysSinceEpochInfoData;
     public override DataGroup<DaysSinceEpochInfo> DaysSinceEpochInfoData =>
-        _daysSinceEpochInfoData ??=
-            DataGroup.CreateDaysSinceEpochInfoData(DaysSinceRataDieInfos, CalendarEpoch.TabularIslamic);
+        DataGroup.CreateDaysSinceEpochInfoData(DaysSinceRataDieInfos, CalendarEpoch.TabularIslamic);
 
     public override DataGroup<DateInfo> DateInfoData { get; } = new()
     {

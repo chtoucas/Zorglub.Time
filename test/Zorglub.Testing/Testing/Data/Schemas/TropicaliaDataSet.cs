@@ -15,10 +15,8 @@ public sealed partial class TropicaliaDataSet : TropicalistaDataSet, ISingleton<
 
 public partial class TropicaliaDataSet // Infos
 {
-    private DataGroup<DaysSinceEpochInfo>? _daysSinceEpochInfoData;
     public override DataGroup<DaysSinceEpochInfo> DaysSinceEpochInfoData =>
-        _daysSinceEpochInfoData ??=
-            DataGroup.CreateDaysSinceEpochInfoData(DaysSinceRataDieInfos, DayZero.NewStyle);
+        DataGroup.CreateDaysSinceEpochInfoData(DaysSinceRataDieInfos, DayZero.NewStyle);
 
     public override DataGroup<DateInfo> DateInfoData { get; } = new()
     {

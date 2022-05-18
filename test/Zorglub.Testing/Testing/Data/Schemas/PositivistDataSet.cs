@@ -20,10 +20,8 @@ public sealed partial class PositivistDataSet : CalendricalDataSet, ISingleton<P
 
 public partial class PositivistDataSet // Infos
 {
-    private DataGroup<DaysSinceEpochInfo>? _daysSinceEpochInfoData;
     public override DataGroup<DaysSinceEpochInfo> DaysSinceEpochInfoData =>
-        _daysSinceEpochInfoData ??=
-            DataGroup.CreateDaysSinceEpochInfoData(DaysSinceZeroInfos, CalendarEpoch.Positivist);
+        DataGroup.CreateDaysSinceEpochInfoData(DaysSinceZeroInfos, CalendarEpoch.Positivist);
 
     public override DataGroup<DateInfo> DateInfoData { get; } = new()
     {
