@@ -20,8 +20,6 @@ public abstract class CalendarDataSet<TDataSet> : ICalendarDataSet
     /// </summary>
     public TDataSet DataSet { get; }
 
-    #region ICalendarDataSet
-
     public DayNumber Epoch { get; }
 
     public abstract DataGroup<DayNumberInfo> DayNumberInfoData { get; }
@@ -34,8 +32,9 @@ public abstract class CalendarDataSet<TDataSet> : ICalendarDataSet
     public DataGroup<YearDayNumber> EndOfYearDayNumberData =>
         _endOfYearDayNumberData ??= InitDayNumberData(DataSet.EndOfYearDaysSinceEpochData);
 
-    #endregion
-    #region ICalendricalDataSet
+    //
+    // Affine data
+    //
 
     public int SampleCommonYear => DataSet.SampleCommonYear;
     public int SampleLeapYear => DataSet.SampleLeapYear;
@@ -60,7 +59,6 @@ public abstract class CalendarDataSet<TDataSet> : ICalendarDataSet
     public TheoryData<int, int, int> InvalidDayFieldData => DataSet.InvalidDayFieldData;
     public TheoryData<int, int> InvalidDayOfYearFieldData => DataSet.InvalidDayOfYearFieldData;
 
-    #endregion
     #region Helpers
 
     [Pure]
