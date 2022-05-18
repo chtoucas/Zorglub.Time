@@ -24,13 +24,11 @@ public abstract class CalendarDataSet<TDataSet> : ICalendarDataSet
 
     public abstract DataGroup<DayNumberInfo> DayNumberInfoData { get; }
 
-    private DataGroup<YearDayNumber>? _startOfYearDayNumberData;
     public DataGroup<YearDayNumber> StartOfYearDayNumberData =>
-        _startOfYearDayNumberData ??= InitDayNumberData(DataSet.StartOfYearDaysSinceEpochData);
+        ConvertToDayNumberData(DataSet.StartOfYearDaysSinceEpochData);
 
-    private DataGroup<YearDayNumber>? _endOfYearDayNumberData;
     public DataGroup<YearDayNumber> EndOfYearDayNumberData =>
-        _endOfYearDayNumberData ??= InitDayNumberData(DataSet.EndOfYearDaysSinceEpochData);
+        ConvertToDayNumberData(DataSet.EndOfYearDaysSinceEpochData);
 
     //
     // Affine data
@@ -62,7 +60,7 @@ public abstract class CalendarDataSet<TDataSet> : ICalendarDataSet
     #region Helpers
 
     [Pure]
-    private DataGroup<YearDayNumber> InitDayNumberData(DataGroup<YearDaysSinceEpoch> source)
+    private DataGroup<YearDayNumber> ConvertToDayNumberData(DataGroup<YearDaysSinceEpoch> source)
     {
         Debug.Assert(source != null);
 
