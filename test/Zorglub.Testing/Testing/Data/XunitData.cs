@@ -4,19 +4,18 @@
 namespace Zorglub.Testing.Data;
 
 using System.Collections;
+using System.Linq;
 
 public sealed class XunitData<T> : IReadOnlyCollection<object?[]>
 {
-    private readonly List<object?[]> _values;
+    private readonly IEnumerable<object?[]> _values;
 
-    internal XunitData(List<object?[]> values)
+    public XunitData(IEnumerable<object?[]> values)
     {
-        Requires.NotNull(values);
-
-        _values = values;
+        _values = values ?? throw new ArgumentNullException(nameof(values));
     }
 
-    public int Count => _values.Count;
+    public int Count => _values.Count();
 
     public IEnumerator<object?[]> GetEnumerator() => _values.GetEnumerator();
 
