@@ -17,7 +17,7 @@ public partial class Tropicalia3031DataSet // Infos
 {
     private DataGroup<DaysSinceEpochInfo>? _daysSinceEpochInfoData;
     public override DataGroup<DaysSinceEpochInfo> DaysSinceEpochInfoData =>
-        _daysSinceEpochInfoData ??= DataGroup.Create(DaysSinceEpochInfos);
+        _daysSinceEpochInfoData ??= DataGroup.Create(DaysSinceEpochInfos, deferred: false);
 
     public override DataGroup<DateInfo> DateInfoData { get; } = new()
     {
