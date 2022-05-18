@@ -126,11 +126,11 @@ public partial class GregorianDataSet // Addition (months)
 {
     // Date, expected result, months to be added.
     public TheoryData<Yemoda, Yemoda, int> AddMonthsData =>
-        s_AddMonths.MapToTheoryDataOfTwoYemodas();
+        s_AddMonths.ToTheoryData();
 
     // Date, expected result, months to be added.
     public static TheoryData<Yemoda, Yemoda, int> AddMonthsCutOffData =>
-        s_AddMonthsCutOff.MapToTheoryDataOfTwoYemodas();
+        s_AddMonthsCutOff.ToTheoryData();
 
     // Date, expected result, months to be added.
     private static readonly List<(int date, int, int, int exp, int, int, int months)> s_AddMonths = new()
@@ -235,7 +235,7 @@ public partial class GregorianDataSet // Addition (years)
 {
     // Date, expected result, years to be added.
     public TheoryData<Yemoda, Yemoda, int> AddYearsData =>
-        s_AddYears.MapToTheoryDataOfTwoYemodas();
+        s_AddYears.ToTheoryData();
 
     // Intercalary day, expected result in a common year, years to be added.
     public static TheoryData<Yemoda, Yemoda, int> AddYearsCutOffData =>

@@ -158,7 +158,7 @@ public partial class GregorianCalendarDataSet // IDayOfWeekDataSet
             // February, leap year.
             ( date: 2016,  3,  1, exp: 2016,  2, 29, target: DayOfWeek.Monday ),
         }
-        .MapToTheoryDataOfTwoYemodas();
+        .ToTheoryData();
 
     public TheoryData<Yemoda, Yemoda, DayOfWeek> DayOfWeek_OnOrBefore_Data =>
         new List<(int date, int, int, int exp, int, int, DayOfWeek target)>
@@ -183,7 +183,7 @@ public partial class GregorianCalendarDataSet // IDayOfWeekDataSet
             // February, leap year.
             ( date: 2016,  3,  1, exp: 2016,  2, 29, target: DayOfWeek.Monday ),
         }
-        .MapToTheoryDataOfTwoYemodas();
+        .ToTheoryData();
 
     public TheoryData<Yemoda, Yemoda, DayOfWeek> DayOfWeek_Nearest_Data =>
         new List<(int date, int, int, int exp, int, int, DayOfWeek target)>
@@ -209,7 +209,7 @@ public partial class GregorianCalendarDataSet // IDayOfWeekDataSet
             // February, leap year.
             ( date: 2016,  2, 29, exp: 2016,  3,  1, target: DayOfWeek.Tuesday ),
         }
-        .MapToTheoryDataOfTwoYemodas();
+        .ToTheoryData();
 
     public TheoryData<Yemoda, Yemoda, DayOfWeek> DayOfWeek_OnOrAfter_Data =>
         new List<(int date, int, int, int exp, int, int, DayOfWeek target)>
@@ -234,7 +234,7 @@ public partial class GregorianCalendarDataSet // IDayOfWeekDataSet
             // February, leap year.
             ( date: 2016,  2, 29, exp: 2016,  3,  1, target: DayOfWeek.Tuesday ),
         }
-        .MapToTheoryDataOfTwoYemodas();
+        .ToTheoryData();
 
     public TheoryData<Yemoda, Yemoda, DayOfWeek> DayOfWeek_After_Data =>
         new List<(int date, int, int, int exp, int, int, DayOfWeek target)>
@@ -259,5 +259,5 @@ public partial class GregorianCalendarDataSet // IDayOfWeekDataSet
             // February, leap year.
             ( date: 2016,  2, 29, exp: 2016,  3,  1, target: DayOfWeek.Tuesday ),
         }
-        .MapToTheoryDataOfTwoYemodas();
+        .ToTheoryData();
 }

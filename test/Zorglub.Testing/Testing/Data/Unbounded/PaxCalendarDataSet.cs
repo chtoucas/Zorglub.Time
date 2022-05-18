@@ -6,6 +6,8 @@ namespace Zorglub.Testing.Data.Unbounded;
 using Zorglub.Testing.Data.Schemas;
 using Zorglub.Time.Hemerology;
 
+using static Zorglub.Testing.Data.Extensions.TheoryDataExtensions;
+
 /// <summary>
 /// Provides test data for the (unbounded) Pax calendar and related date types.
 /// </summary>
@@ -15,13 +17,12 @@ public sealed class PaxCalendarDataSet : CalendarDataSet<PaxDataSet>, ISingleton
 
     public static PaxCalendarDataSet Instance { get; } = new();
 
-    private DataGroup<DayNumberInfo>? _dayNumberInfoData;
     public override DataGroup<DayNumberInfo> DayNumberInfoData =>
-        _dayNumberInfoData ??= DataGroup.CreateDayNumberInfoData(PaxDataSet.DaysSinceZeroInfos);
+        DataGroup.CreateDayNumberInfoData(PaxDataSet.DaysSinceZeroInfos);
 
     // Day number, year, week of the year, day of the week.
     public static TheoryData<DayNumber, int, int, DayOfWeek> MoreDayNumberInfoData =>
-        MapToMoreDayNumberInfoData(s_MoreDayNumberInfoData);
+        s_MoreDayNumberInfoData.ToTheoryData();
 
     private static readonly List<(int Ord, int Year, int WeekOfYear, DayOfWeek DayOfWeek)> s_MoreDayNumberInfoData = new()
     {
@@ -43,15 +44,4 @@ public sealed class PaxCalendarDataSet : CalendarDataSet<PaxDataSet>, ISingleton
         (364, 2, 1, DayOfWeek.Sunday),
         (370, 2, 1, DayOfWeek.Saturday),
     };
-
-    private static TheoryData<DayNumber, int, int, DayOfWeek> MapToMoreDayNumberInfoData(
-        IEnumerable<(int Ord, int Year, int WeekOfYear, DayOfWeek DayOfWeek)> source)
-    {
-        var data = new TheoryData<DayNumber, int, int, DayOfWeek>();
-        foreach (var (ord, y, woy, dayOfWeek) in source)
-        {
-            data.Add(DayZero.NewStyle + (ord - 1), y, woy, dayOfWeek);
-        }
-        return data;
-    }
 }
