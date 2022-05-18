@@ -18,9 +18,8 @@ public sealed partial class WorldDataSet : CalendricalDataSet, ISingleton<WorldD
 
 public partial class WorldDataSet // Infos
 {
-    private DataGroup<DaysSinceEpochInfo>? _daysSinceEpochInfoData;
-    public override DataGroup<DaysSinceEpochInfo> DaysSinceEpochInfoData =>
-        _daysSinceEpochInfoData ??= DataGroup.Create(DaysSinceEpochInfos);
+    public override DataGroup<DaysSinceEpochInfo> DaysSinceEpochInfoData { get; } =
+        DataGroup.Create(DaysSinceEpochInfos);
 
     public override DataGroup<DateInfo> DateInfoData { get; } = new()
     {

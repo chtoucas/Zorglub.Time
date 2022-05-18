@@ -18,7 +18,7 @@ public sealed partial class LunisolarDataSet : CalendricalDataSet, ISingleton<Lu
 
 public partial class LunisolarDataSet // Infos
 {
-    public override DataGroup<DaysSinceEpochInfo> DaysSinceEpochInfoData =>
+    public override DataGroup<DaysSinceEpochInfo> DaysSinceEpochInfoData { get; } =
         DataGroup.CreateDaysSinceEpochInfoData(DaysSinceRataDieInfos, DayZero.NewStyle);
 
     public override DataGroup<DateInfo> DateInfoData { get; } = new()

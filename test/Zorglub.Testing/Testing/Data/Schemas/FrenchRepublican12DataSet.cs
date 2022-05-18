@@ -23,7 +23,7 @@ public sealed partial class FrenchRepublican12DataSet :
 
 public partial class FrenchRepublican12DataSet // Infos
 {
-    public override DataGroup<DaysSinceEpochInfo> DaysSinceEpochInfoData =>
+    public override DataGroup<DaysSinceEpochInfo> DaysSinceEpochInfoData { get; } =
         DataGroup.CreateDaysSinceEpochInfoData(DaysSinceRataDieInfos, CalendarEpoch.FrenchRepublican);
 
     public override DataGroup<DateInfo> DateInfoData { get; } = new()

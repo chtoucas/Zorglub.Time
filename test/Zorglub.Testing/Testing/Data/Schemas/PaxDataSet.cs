@@ -20,7 +20,7 @@ public sealed partial class PaxDataSet : CalendricalDataSet, ISingleton<PaxDataS
 
 public partial class PaxDataSet // Infos
 {
-    public override DataGroup<DaysSinceEpochInfo> DaysSinceEpochInfoData =>
+    public override DataGroup<DaysSinceEpochInfo> DaysSinceEpochInfoData { get; } =
         DataGroup.CreateDaysSinceEpochInfoData(DaysSinceZeroInfos, CalendarEpoch.SundayBeforeGregorian);
 
     public override DataGroup<DateInfo> DateInfoData { get; } = new()

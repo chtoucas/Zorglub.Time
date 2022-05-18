@@ -20,7 +20,7 @@ public sealed partial class Persian2820DataSet : CalendricalDataSet, ISingleton<
 
 public partial class Persian2820DataSet // Infos
 {
-    public override DataGroup<DaysSinceEpochInfo> DaysSinceEpochInfoData =>
+    public override DataGroup<DaysSinceEpochInfo> DaysSinceEpochInfoData { get; } =
         DataGroup.CreateDaysSinceEpochInfoData(DaysSinceRataDieInfos, CalendarEpoch.Persian);
 
     public override DataGroup<DateInfo> DateInfoData { get; } = new()

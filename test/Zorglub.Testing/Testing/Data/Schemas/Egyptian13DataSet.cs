@@ -20,7 +20,7 @@ public sealed partial class Egyptian13DataSet :
 
 public partial class Egyptian13DataSet // Infos
 {
-    public override DataGroup<DaysSinceEpochInfo> DaysSinceEpochInfoData =>
+    public override DataGroup<DaysSinceEpochInfo> DaysSinceEpochInfoData { get; } =
         DataGroup.CreateDaysSinceEpochInfoData(DaysSinceRataDieInfos, CalendarEpoch.Egyptian);
 
     public override DataGroup<DateInfo> DateInfoData { get; } = new()

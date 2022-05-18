@@ -24,7 +24,7 @@ public sealed partial class GregorianDataSet :
 
 public partial class GregorianDataSet // Infos
 {
-    public override DataGroup<DaysSinceEpochInfo> DaysSinceEpochInfoData =>
+    public override DataGroup<DaysSinceEpochInfo> DaysSinceEpochInfoData { get; } =
         DataGroup.CreateDaysSinceEpochInfoData(DaysSinceRataDieInfos, DayZero.NewStyle);
 
     public override DataGroup<DateInfo> DateInfoData { get; } = new()

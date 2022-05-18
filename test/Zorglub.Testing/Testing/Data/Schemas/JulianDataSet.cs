@@ -18,7 +18,7 @@ public sealed partial class JulianDataSet : CalendricalDataSet, ISingleton<Julia
 
 public partial class JulianDataSet // Infos
 {
-    public override DataGroup<DaysSinceEpochInfo> DaysSinceEpochInfoData =>
+    public override DataGroup<DaysSinceEpochInfo> DaysSinceEpochInfoData { get; } =
         DataGroup.CreateDaysSinceEpochInfoData(DaysSinceRataDieInfos, DayZero.OldStyle);
 
     public override DataGroup<DateInfo> DateInfoData { get; } = new()

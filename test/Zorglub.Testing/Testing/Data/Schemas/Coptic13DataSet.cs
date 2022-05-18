@@ -21,7 +21,7 @@ public sealed partial class Coptic13DataSet :
 
 public partial class Coptic13DataSet // Infos
 {
-    public override DataGroup<DaysSinceEpochInfo> DaysSinceEpochInfoData =>
+    public override DataGroup<DaysSinceEpochInfo> DaysSinceEpochInfoData { get; } =
         DataGroup.CreateDaysSinceEpochInfoData(DaysSinceRataDieInfos, CalendarEpoch.Coptic);
 
     public override DataGroup<DateInfo> DateInfoData { get; } = new()
