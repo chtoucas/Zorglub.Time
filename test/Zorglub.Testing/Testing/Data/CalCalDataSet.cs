@@ -16,23 +16,23 @@ public partial class CalCalDataSet // Interconversion
     // Lazy initialized mainly to ensure that there isn't a circular dependency
     // problem (CalCalDataSet and Gregorian(Julian)Data) during the init of
     // static props. I guess that this is is no longer necessary.
-    private static TheoryData<YemodaPair>? s_GregorianToJulianData;
-    public static TheoryData<YemodaPair> GregorianToJulianData =>
+    private static DataGroup<YemodaPair>? s_GregorianToJulianData;
+    public static DataGroup<YemodaPair> GregorianToJulianData =>
         s_GregorianToJulianData ??= InitGregorianToJulianData();
 
     [Pure]
-    private static TheoryData<YemodaPair> InitGregorianToJulianData()
+    private static DataGroup<YemodaPair> InitGregorianToJulianData()
     {
         var data = InitCore();
         Interlocked.CompareExchange(ref s_GregorianToJulianData, data, null);
         return s_GregorianToJulianData;
 
         [Pure]
-        static TheoryData<YemodaPair> InitCore()
+        static DataGroup<YemodaPair> InitCore()
         {
             var lookup = GregorianDataSet.DaysSinceRataDieInfos.ToLookup(x => x.DaysSinceRataDie);
 
-            var data = new TheoryData<YemodaPair>();
+            var data = new DataGroup<YemodaPair>();
             foreach (var (rd, julian) in JulianDataSet.DaysSinceRataDieInfos)
             {
                 var gs = lookup[rd].ToList();

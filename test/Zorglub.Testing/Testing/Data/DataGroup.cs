@@ -13,6 +13,8 @@ using Zorglub.Testing.Data.Bounded;
 // The advantage of a DataGroup<T> over a TheoryData<T> is that we can enumerate
 // and manipulate a group of data using the actual underlying data type directly.
 // This is particularly useful when dealing with <i>bounded</i> calendar datasets.
+// If one does not need to transform the data, there is no reason to use a
+// DataGroup<T>; one should stick to TheoryData<T>.
 //
 // See https://github.com/xunit/xunit/blob/main/src/xunit.v3.core/TheoryData.cs
 
@@ -93,7 +95,7 @@ public sealed class DataGroup<T> : IReadOnlyCollection<object?[]>
 
     public int Count => _values.Count;
 
-    // The same with TheoryData<T> would be rather contrive:
+    // The same with TheoryData<T> would require an array access and boxing:
     // > public DataGroup<T> WhereT(Func<T, bool> predicate)
     // > {
     // >     var q = from item in this
