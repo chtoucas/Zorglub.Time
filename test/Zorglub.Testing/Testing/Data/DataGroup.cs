@@ -31,7 +31,7 @@ using System.Linq;
 public static class DataGroup
 {
     [Pure]
-    public static DataGroup<T> Create<T>(IEnumerable<T> source, bool deferred) => new(source, deferred);
+    public static DataGroup<T> Create<T>(IEnumerable<T> source) => new(source);
 
     //
     // CreateDaysSinceEpochInfoData()
@@ -43,7 +43,7 @@ public static class DataGroup
         where T : IConvertibleToDayNumberInfo
     {
         var q = from x in source select x.ToDayNumberInfo() - epoch;
-        return Create(q, deferred: false);
+        return Create(q);
     }
 
     //
@@ -55,7 +55,7 @@ public static class DataGroup
         IEnumerable<DaysSinceEpochInfo> source, DayNumber epoch)
     {
         var q = from x in source select x.ToDayNumberInfo(epoch);
-        return Create(q, deferred: true);
+        return Create(q);
     }
 
     [Pure]
@@ -64,7 +64,7 @@ public static class DataGroup
         where T : IConvertibleToDayNumberInfo
     {
         var q = from x in source select x.ToDayNumberInfo();
-        return Create(q, deferred: true);
+        return Create(q);
     }
 
     [Pure]
@@ -74,7 +74,7 @@ public static class DataGroup
     {
         int shift = resultEpoch - sourceEpoch;
         var q = from x in source select x.ToDayNumberInfo() + shift;
-        return Create(q, deferred: true);
+        return Create(q);
     }
 }
 
@@ -90,6 +90,11 @@ public sealed class DataGroup<T> : IReadOnlyCollection<object?[]>
         _container = IContainer.Create();
     }
 
+    public DataGroup(IEnumerable<T> values)
+    {
+        _container = IContainer.Create(values, deferred: true);
+    }
+
     public DataGroup(IEnumerable<T> values, bool deferred)
     {
         _container = IContainer.Create(values, deferred);
@@ -103,7 +108,7 @@ public sealed class DataGroup<T> : IReadOnlyCollection<object?[]>
     public DataGroup<TResult> SelectT<TResult>(Func<T, TResult> selector)
     {
         var q = _container.Values.Select(selector);
-        return DataGroup.Create(q, deferred: true);
+        return DataGroup.Create(q);
     }
 
     public DataGroup<T> WhereT(Func<T, bool> predicate)
@@ -112,7 +117,7 @@ public sealed class DataGroup<T> : IReadOnlyCollection<object?[]>
 
         Debug.Assert(q.Any());
 
-        return DataGroup.Create(q, deferred: true);
+        return DataGroup.Create(q);
     }
 
     public XunitData<T> ToXunitData()
@@ -135,7 +140,7 @@ public sealed class DataGroup<T> : IReadOnlyCollection<object?[]>
 
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
-    #region Store
+    #region Container
 
     private interface IContainer
     {
