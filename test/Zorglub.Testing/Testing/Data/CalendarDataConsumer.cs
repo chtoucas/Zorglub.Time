@@ -13,11 +13,8 @@ public abstract class CalendarDataConsumer<TDataSet> : CalendricalDataConsumer<T
 
     protected static DayNumber Epoch { get; } = DataSet.Epoch;
 
-    public static XunitData<DayNumberInfo> DayNumberInfoData { get; } =
-        DataSet.DayNumberInfoData.ToXunitData();
+    public static DataGroup<DayNumberInfo> DayNumberInfoData => DataSet.DayNumberInfoData;
 
-    public static XunitData<YearDayNumber> StartOfYearDayNumberData { get; } =
-        DataSet.StartOfYearDayNumberData.ToXunitData();
-    public static XunitData<YearDayNumber> EndOfYearDayNumberData { get; } =
-        DataSet.EndOfYearDayNumberData.ToXunitData();
+    public static DataGroup<YearDayNumber> StartOfYearDayNumberData => DataSet.StartOfYearDayNumberData;
+    public static DataGroup<YearDayNumber> EndOfYearDayNumberData => DataSet.EndOfYearDayNumberData;
 }
