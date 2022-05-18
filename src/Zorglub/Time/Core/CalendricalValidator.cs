@@ -84,6 +84,10 @@ namespace Zorglub.Time.Core
             _preValidator.ValidateDayOfYear(year, dayOfYear, paramName);
         }
 
+        /// <summary>
+        /// Validates the specified number of consecutive days from the epoch.
+        /// </summary>
+        /// <exception cref="AoorException">The validation failed.</exception>
         public void ValidateDaysSinceEpoch(int daysSinceEpoch)
         {
             if (daysSinceEpoch < _minDaysSinceEpoch || daysSinceEpoch > _maxDaysSinceEpoch)
