@@ -9,6 +9,7 @@ using System.Linq;
 using Zorglub.Testing.Data.Bounded;
 
 // TODO(data): Can we initialize lazily a DataGroup? -> DataSeq
+// Does XunitData help to improve perf?
 //
 // The advantage of a DataGroup<T> over a TheoryData<T> is that we can enumerate
 // and manipulate a group of data using the actual underlying data type directly.
@@ -119,8 +120,33 @@ public sealed class DataGroup<T> : IReadOnlyCollection<object?[]>
         return new DataGroup<T>(q);
     }
 
+    public XunitData<T> ToXunitData()
+    {
+        var values = new List<object?[]>(_values.Select(v => new object?[] { v }));
+
+        return new(values);
+    }
+
     public IEnumerator<object?[]> GetEnumerator() =>
         _values.Select(v => new object?[] { v }).GetEnumerator();
+
+    IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+}
+
+public sealed class XunitData<T> : IReadOnlyCollection<object?[]>
+{
+    private readonly List<object?[]> _values;
+
+    internal XunitData(List<object?[]> values)
+    {
+        Requires.NotNull(values);
+
+        _values = values;
+    }
+
+    public int Count => _values.Count;
+
+    public IEnumerator<object?[]> GetEnumerator() => _values.GetEnumerator();
 
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 }
