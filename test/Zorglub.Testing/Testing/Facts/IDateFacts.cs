@@ -45,7 +45,7 @@ public abstract partial class IDateFacts<TDate, TDataSet> : IDateableFacts<TDate
     }
 
     // ICalendarDataSet
-    public static DataGroup<DayNumberInfo> DayNumberInfoData => DataSet.DayNumberInfoData;
+    public static DataGroup<DayNumberInfo> DayNumberInfoData => XunitDataSet.DataSet.DayNumberInfoData;
 }
 
 // TODO(fact): static methods (gregorian-specific) -> move this to F# test project.

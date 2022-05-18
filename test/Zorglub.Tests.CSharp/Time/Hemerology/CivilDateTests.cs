@@ -37,21 +37,21 @@ public sealed partial class CivilDateTests : IDateFacts<CivilDate, StandardGrego
         return new(y, m, d);
     }
 
-    public static TheoryData<Yemoda, Yemoda, int> AddYearsData => DataSet.AddYearsData;
-    public static TheoryData<Yemoda, Yemoda, int> AddMonthsData => DataSet.AddMonthsData;
-    public static TheoryData<Yemoda, Yemoda, int, int, int> DiffData => DataSet.DiffData;
+    public static TheoryData<Yemoda, Yemoda, int> AddYearsData => XunitDataSet.DataSet.AddYearsData;
+    public static TheoryData<Yemoda, Yemoda, int> AddMonthsData => XunitDataSet.DataSet.AddMonthsData;
+    public static TheoryData<Yemoda, Yemoda, int, int, int> DiffData => XunitDataSet.DataSet.DiffData;
 
     public static TheoryData<Yemoda, Yemoda, int> AddYearsCutOffData => GregorianDataSet.AddYearsCutOffData;
     public static TheoryData<Yemoda, Yemoda, int> AddMonthsCutOffData => GregorianDataSet.AddMonthsCutOffData;
     public static TheoryData<Yemoda, Yemoda, int, int, int> DiffCutOffData => GregorianDataSet.DiffCutOffData;
 
     // IDayOfWeekDataSet
-    public static DataGroup<YemodaAnd<DayOfWeek>> DayOfWeekData => DataSet.DayOfWeekData;
-    public static TheoryData<Yemoda, Yemoda, DayOfWeek> DayOfWeek_Before_Data => DataSet.DayOfWeek_Before_Data;
-    public static TheoryData<Yemoda, Yemoda, DayOfWeek> DayOfWeek_OnOrBefore_Data => DataSet.DayOfWeek_OnOrBefore_Data;
-    public static TheoryData<Yemoda, Yemoda, DayOfWeek> DayOfWeek_Nearest_Data => DataSet.DayOfWeek_Nearest_Data;
-    public static TheoryData<Yemoda, Yemoda, DayOfWeek> DayOfWeek_OnOrAfter_Data => DataSet.DayOfWeek_OnOrAfter_Data;
-    public static TheoryData<Yemoda, Yemoda, DayOfWeek> DayOfWeek_After_Data => DataSet.DayOfWeek_After_Data;
+    public static DataGroup<YemodaAnd<DayOfWeek>> DayOfWeekData => XunitDataSet.DataSet.DayOfWeekData;
+    public static TheoryData<Yemoda, Yemoda, DayOfWeek> DayOfWeek_Before_Data => XunitDataSet.DataSet.DayOfWeek_Before_Data;
+    public static TheoryData<Yemoda, Yemoda, DayOfWeek> DayOfWeek_OnOrBefore_Data => XunitDataSet.DataSet.DayOfWeek_OnOrBefore_Data;
+    public static TheoryData<Yemoda, Yemoda, DayOfWeek> DayOfWeek_Nearest_Data => XunitDataSet.DataSet.DayOfWeek_Nearest_Data;
+    public static TheoryData<Yemoda, Yemoda, DayOfWeek> DayOfWeek_OnOrAfter_Data => XunitDataSet.DataSet.DayOfWeek_OnOrAfter_Data;
+    public static TheoryData<Yemoda, Yemoda, DayOfWeek> DayOfWeek_After_Data => XunitDataSet.DataSet.DayOfWeek_After_Data;
 }
 
 public partial class CivilDateTests

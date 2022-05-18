@@ -3,10 +3,6 @@
 
 namespace Zorglub.Testing.Data;
 
-// All datasets are read-only and initialize lazily a bunch of properties.
-// To improve things (performance, memory), it might help a bit to constraint
-// the datasets to be singleton.
-
 /// <summary>
 /// Provides static access to calendrical data.
 /// </summary>
@@ -15,28 +11,28 @@ public abstract class CalendricalDataConsumer<TDataSet>
 {
     protected CalendricalDataConsumer() { }
 
-    protected static TDataSet DataSet { get; } = TDataSet.Instance;
+    protected static XunitCalendricalDataSet<TDataSet> XunitDataSet { get; } = new(TDataSet.Instance);
 
-    protected static int SampleCommonYear { get; } = DataSet.SampleCommonYear;
-    protected static int SampleLeapYear { get; } = DataSet.SampleLeapYear;
+    protected static int SampleCommonYear { get; } = XunitDataSet.SampleCommonYear;
+    protected static int SampleLeapYear { get; } = XunitDataSet.SampleLeapYear;
 
-    public static DataGroup<DaysSinceEpochInfo> DaysSinceEpochInfoData => DataSet.DaysSinceEpochInfoData;
+    public static XunitData<DaysSinceEpochInfo> DaysSinceEpochInfoData => XunitDataSet.DaysSinceEpochInfoData;
 
-    public static DataGroup<DateInfo> DateInfoData => DataSet.DateInfoData;
-    public static DataGroup<MonthInfo> MonthInfoData => DataSet.MonthInfoData;
-    public static DataGroup<YearInfo> YearInfoData => DataSet.YearInfoData;
-    public static DataGroup<CenturyInfo> CenturyInfoData => DataSet.CenturyInfoData;
+    public static XunitData<DateInfo> DateInfoData => XunitDataSet.DateInfoData;
+    public static XunitData<MonthInfo> MonthInfoData => XunitDataSet.MonthInfoData;
+    public static XunitData<YearInfo> YearInfoData => XunitDataSet.YearInfoData;
+    public static XunitData<CenturyInfo> CenturyInfoData => XunitDataSet.CenturyInfoData;
 
-    public static DataGroup<YemodaAnd<int>> DaysInYearAfterDateData => DataSet.DaysInYearAfterDateData;
-    public static DataGroup<YemodaAnd<int>> DaysInMonthAfterDateData => DataSet.DaysInMonthAfterDateData;
+    public static XunitData<YemodaAnd<int>> DaysInYearAfterDateData => XunitDataSet.DaysInYearAfterDateData;
+    public static XunitData<YemodaAnd<int>> DaysInMonthAfterDateData => XunitDataSet.DaysInMonthAfterDateData;
 
-    public static DataGroup<Yemoda> StartOfYearPartsData => DataSet.StartOfYearPartsData;
-    public static DataGroup<Yemoda> EndOfYearPartsData => DataSet.EndOfYearPartsData;
+    public static XunitData<Yemoda> StartOfYearPartsData => XunitDataSet.StartOfYearPartsData;
+    public static XunitData<Yemoda> EndOfYearPartsData => XunitDataSet.EndOfYearPartsData;
 
-    public static DataGroup<YearDaysSinceEpoch> StartOfYearDaysSinceEpochData => DataSet.StartOfYearDaysSinceEpochData;
-    public static DataGroup<YearDaysSinceEpoch> EndOfYearDaysSinceEpochData => DataSet.EndOfYearDaysSinceEpochData;
+    public static XunitData<YearDaysSinceEpoch> StartOfYearDaysSinceEpochData => XunitDataSet.StartOfYearDaysSinceEpochData;
+    public static XunitData<YearDaysSinceEpoch> EndOfYearDaysSinceEpochData => XunitDataSet.EndOfYearDaysSinceEpochData;
 
-    public static TheoryData<int, int> InvalidMonthFieldData => DataSet.InvalidMonthFieldData;
-    public static TheoryData<int, int, int> InvalidDayFieldData => DataSet.InvalidDayFieldData;
-    public static TheoryData<int, int> InvalidDayOfYearFieldData => DataSet.InvalidDayOfYearFieldData;
+    public static TheoryData<int, int> InvalidMonthFieldData => XunitDataSet.InvalidMonthFieldData;
+    public static TheoryData<int, int, int> InvalidDayFieldData => XunitDataSet.InvalidDayFieldData;
+    public static TheoryData<int, int> InvalidDayOfYearFieldData => XunitDataSet.InvalidDayOfYearFieldData;
 }
