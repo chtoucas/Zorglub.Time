@@ -37,8 +37,8 @@ The default behaviour is to run the smoke tests using the configuration Debug.
 With the "regular" test plan, we exclude slow-running and redundant tests.
 
 The four other test plans are:
-- "smoke" = "regular" AND keep only one test group per test suite
-- "more"  = "regular" AND do not exclude slow-running individual tests
+- "smoke" = "regular" BUT keep only one test group per test suite
+- "more"  = "regular" BUT do not exclude slow-running -individual- tests
 - "extra" = complement of "more" (SLOW)
 - "most"  = the whole test suite (SLOW)
 
