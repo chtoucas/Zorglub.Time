@@ -5,6 +5,10 @@ namespace Zorglub.Time.Core
 {
     using Zorglub.Time.Core.Intervals;
 
+    // REVIEW(perf): improve perf using hardware intrinsics. Does it even make
+    // sense?
+    // https://devblogs.microsoft.com/dotnet/hardware-intrinsics-in-net-core/
+
     #region Developer Notes
 
     // The code is NOT meant to be very efficient.
