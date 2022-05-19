@@ -9,16 +9,16 @@ namespace Zorglub.Testing.Data;
 public abstract class CalendarDataConsumer<TDataSet> : CalendricalDataConsumer<TDataSet>
     where TDataSet : ICalendarDataSet, ISingleton<TDataSet>
 {
-    protected CalendarDataConsumer() { }
+    private static readonly DataSetAdapter s_Adapter = new(DataSet);
 
-    private static DataSetAdapter Adapter { get; } = new(DataSet);
+    protected CalendarDataConsumer() { }
 
     protected static DayNumber Epoch { get; } = DataSet.Epoch;
 
-    public static XunitData<DayNumberInfo> DayNumberInfoData => Adapter.DayNumberInfoData;
+    public static XunitData<DayNumberInfo> DayNumberInfoData => s_Adapter.DayNumberInfoData;
 
-    public static XunitData<YearDayNumber> StartOfYearDayNumberData => Adapter.StartOfYearDayNumberData;
-    public static XunitData<YearDayNumber> EndOfYearDayNumberData => Adapter.EndOfYearDayNumberData;
+    public static XunitData<YearDayNumber> StartOfYearDayNumberData => s_Adapter.StartOfYearDayNumberData;
+    public static XunitData<YearDayNumber> EndOfYearDayNumberData => s_Adapter.EndOfYearDayNumberData;
 
     private sealed class DataSetAdapter
     {

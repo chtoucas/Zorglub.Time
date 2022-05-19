@@ -9,33 +9,36 @@ namespace Zorglub.Testing.Data;
 public abstract class CalendricalDataConsumer<TDataSet>
     where TDataSet : ICalendricalDataSet, ISingleton<TDataSet>
 {
+    // NB: the order of fields is important.
+    private static readonly TDataSet s_DataSet = TDataSet.Instance;
+    private static readonly DataSetAdapter s_Adapter = new(s_DataSet);
+
     protected CalendricalDataConsumer() { }
 
-    protected static TDataSet DataSet { get; } = TDataSet.Instance;
-    private static DataSetAdapter Adapter { get; } = new(DataSet);
+    protected static TDataSet DataSet => s_DataSet;
 
-    protected static int SampleCommonYear { get; } = DataSet.SampleCommonYear;
-    protected static int SampleLeapYear { get; } = DataSet.SampleLeapYear;
+    protected static int SampleCommonYear { get; } = s_DataSet.SampleCommonYear;
+    protected static int SampleLeapYear { get; } = s_DataSet.SampleLeapYear;
 
-    public static XunitData<DaysSinceEpochInfo> DaysSinceEpochInfoData => Adapter.DaysSinceEpochInfoData;
+    public static XunitData<DaysSinceEpochInfo> DaysSinceEpochInfoData => s_Adapter.DaysSinceEpochInfoData;
 
-    public static XunitData<DateInfo> DateInfoData => Adapter.DateInfoData;
-    public static XunitData<MonthInfo> MonthInfoData => Adapter.MonthInfoData;
-    public static XunitData<YearInfo> YearInfoData => Adapter.YearInfoData;
-    public static XunitData<CenturyInfo> CenturyInfoData => Adapter.CenturyInfoData;
+    public static XunitData<DateInfo> DateInfoData => s_Adapter.DateInfoData;
+    public static XunitData<MonthInfo> MonthInfoData => s_Adapter.MonthInfoData;
+    public static XunitData<YearInfo> YearInfoData => s_Adapter.YearInfoData;
+    public static XunitData<CenturyInfo> CenturyInfoData => s_Adapter.CenturyInfoData;
 
-    public static XunitData<YemodaAnd<int>> DaysInYearAfterDateData => Adapter.DaysInYearAfterDateData;
-    public static XunitData<YemodaAnd<int>> DaysInMonthAfterDateData => Adapter.DaysInMonthAfterDateData;
+    public static XunitData<YemodaAnd<int>> DaysInYearAfterDateData => s_Adapter.DaysInYearAfterDateData;
+    public static XunitData<YemodaAnd<int>> DaysInMonthAfterDateData => s_Adapter.DaysInMonthAfterDateData;
 
-    public static XunitData<Yemoda> StartOfYearPartsData => Adapter.StartOfYearPartsData;
-    public static XunitData<Yemoda> EndOfYearPartsData => Adapter.EndOfYearPartsData;
+    public static XunitData<Yemoda> StartOfYearPartsData => s_Adapter.StartOfYearPartsData;
+    public static XunitData<Yemoda> EndOfYearPartsData => s_Adapter.EndOfYearPartsData;
 
-    public static XunitData<YearDaysSinceEpoch> StartOfYearDaysSinceEpochData => Adapter.StartOfYearDaysSinceEpochData;
-    public static XunitData<YearDaysSinceEpoch> EndOfYearDaysSinceEpochData => Adapter.EndOfYearDaysSinceEpochData;
+    public static XunitData<YearDaysSinceEpoch> StartOfYearDaysSinceEpochData => s_Adapter.StartOfYearDaysSinceEpochData;
+    public static XunitData<YearDaysSinceEpoch> EndOfYearDaysSinceEpochData => s_Adapter.EndOfYearDaysSinceEpochData;
 
-    public static TheoryData<int, int> InvalidMonthFieldData => DataSet.InvalidMonthFieldData;
-    public static TheoryData<int, int, int> InvalidDayFieldData => DataSet.InvalidDayFieldData;
-    public static TheoryData<int, int> InvalidDayOfYearFieldData => DataSet.InvalidDayOfYearFieldData;
+    public static TheoryData<int, int> InvalidMonthFieldData => s_DataSet.InvalidMonthFieldData;
+    public static TheoryData<int, int, int> InvalidDayFieldData => s_DataSet.InvalidDayFieldData;
+    public static TheoryData<int, int> InvalidDayOfYearFieldData => s_DataSet.InvalidDayOfYearFieldData;
 
     private sealed class DataSetAdapter
     {
