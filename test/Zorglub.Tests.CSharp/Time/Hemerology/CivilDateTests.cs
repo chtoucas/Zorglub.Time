@@ -42,8 +42,8 @@ public sealed partial class CivilDateTests : IDateFacts<CivilDate, StandardGrego
     public static TheoryData<Yemoda, Yemoda, int, int, int> DiffData => DataSet.DiffData;
 
     // TODO(code): filter the data.
-    public static TheoryData<Yemoda, Yemoda, int> AddYearsCutOffData => GregorianCutOffMathDataSet.AddYearsData;
-    public static TheoryData<Yemoda, Yemoda, int> AddMonthsCutOffData => GregorianCutOffMathDataSet.AddMonthsData;
+    public static DataGroup<YemodaPairAnd<int>> AddYearsCutOffData => GregorianCutOffMathDataSet.AddYearsData;
+    public static DataGroup<YemodaPairAnd<int>> AddMonthsCutOffData => GregorianCutOffMathDataSet.AddMonthsData;
     public static TheoryData<Yemoda, Yemoda, int, int, int> DiffCutOffData => GregorianCutOffMathDataSet.DiffData;
 
     // IDayOfWeekDataSet

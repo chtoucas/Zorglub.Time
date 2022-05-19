@@ -109,8 +109,9 @@ public partial class CivilDateTests
     }
 
     [Theory, MemberData(nameof(AddYearsCutOffData))]
-    public static void PlusYears_CutOff(Yemoda xdate, Yemoda xother, int years)
+    public static void PlusYears_CutOff(YemodaPairAnd<int> info)
     {
+        var (xdate, xother, years) = info;
         var date = CreateDate(xdate);
         var other = CreateDate(xother);
         var dateBefore = date - 1;
@@ -219,8 +220,9 @@ public partial class CivilDateTests
     }
 
     [Theory, MemberData(nameof(AddYearsCutOffData))]
-    public static void AddYears_CutOff(Yemoda xdate, Yemoda xother, int years)
+    public static void AddYears_CutOff(YemodaPairAnd<int> info)
     {
+        var (xdate, xother, years) = info;
         var date = CreateDate(xdate);
         var other = CreateDate(xother);
         var dateBefore = date - 1;
@@ -321,8 +323,9 @@ public partial class CivilDateTests
     }
 
     [Theory, MemberData(nameof(AddMonthsCutOffData))]
-    public static void PlusMonths_CutOff(Yemoda xdate, Yemoda xother, int months)
+    public static void PlusMonths_CutOff(YemodaPairAnd<int> info)
     {
+        var (xdate, xother, months) = info;
         var date = CreateDate(xdate);
         var other = CreateDate(xother);
         var rev = date.WithDay(other.Day);
@@ -429,8 +432,9 @@ public partial class CivilDateTests
     }
 
     [Theory, MemberData(nameof(AddMonthsCutOffData))]
-    public static void AddMonths_CutOff(Yemoda xdate, Yemoda xother, int months)
+    public static void AddMonths_CutOff(YemodaPairAnd<int> info)
     {
+        var (xdate, xother, months) = info;
         var date = CreateDate(xdate);
         var other = CreateDate(xother);
         var cutoffDate = date.WithDay(other.Day);

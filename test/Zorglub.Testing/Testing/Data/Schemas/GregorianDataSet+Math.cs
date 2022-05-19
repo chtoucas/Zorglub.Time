@@ -10,85 +10,76 @@ public static partial class GregorianCutOffMathDataSet { }
 public partial class GregorianCutOffMathDataSet // Years
 {
     // Intercalary day, expected result in a common year, years to be added.
-    public static TheoryData<Yemoda, Yemoda, int> AddYearsData => s_AddYears.ToTheoryData();
-
-    // Intercalary day, expected result in a common year, years to be added.
-    public static TheoryData<Yemoda, Yemoda, int> AddYearsLongData => s_AddYearsLong.ToTheoryData();
-
-    // Intercalary day, expected result in a common year, years to be added.
-    private static readonly List<(int year, int exp, int, int, int years)> s_AddYears = new()
+    public static DataGroup<YemodaPairAnd<int>> AddYearsData { get; } = new()
     {
-        (year: 4, exp: 11, 2, 28, years: 7),
-        (year: 4, exp: 10, 2, 28, years: 6),
-        (year: 4, exp: 9, 2, 28, years: 5),
-        (year: 4, exp: 7, 2, 28, years: 3),
-        (year: 4, exp: 6, 2, 28, years: 2),
-        (year: 4, exp: 5, 2, 28, years: 1),
+        new(new(4, 2, 29), new(11, 2, 28), 7),
+        new(new(4, 2, 29), new(10, 2, 28), 6),
+        new(new(4, 2, 29), new(9, 2, 28), 5),
+        new(new(4, 2, 29), new(7, 2, 28), 3),
+        new(new(4, 2, 29), new(6, 2, 28), 2),
+        new(new(4, 2, 29), new(5, 2, 28), 1),
 
-        (year: 8, exp: 7, 2, 28, years: -1),
-        (year: 8, exp: 6, 2, 28, years: -2),
-        (year: 8, exp: 5, 2, 28, years: -3),
-        (year: 8, exp: 3, 2, 28, years: -5),
-        (year: 8, exp: 2, 2, 28, years: -6),
-        (year: 8, exp: 1, 2, 28, years: -7),
+        new(new(8, 2, 29), new(7, 2, 28), -1),
+        new(new(8, 2, 29), new(6, 2, 28), -2),
+        new(new(8, 2, 29), new(5, 2, 28), -3),
+        new(new(8, 2, 29), new(3, 2, 28), -5),
+        new(new(8, 2, 29), new(2, 2, 28), -6),
+        new(new(8, 2, 29), new(1, 2, 28), -7),
     };
 
     // Intercalary day, expected result in a common year, years to be added.
-    private static readonly List<(int year, int exp, int, int, int years)> s_AddYearsLong = new()
+    public static DataGroup<YemodaPairAnd<int>> AddYearsLongData { get; } = new()
     {
-        (year: 4, exp: 11, 3, 1, years: 7),
-        (year: 4, exp: 10, 3, 1, years: 6),
-        (year: 4, exp: 9, 3, 1, years: 5),
-        (year: 4, exp: 7, 3, 1, years: 3),
-        (year: 4, exp: 6, 3, 1, years: 2),
-        (year: 4, exp: 5, 3, 1, years: 1),
+        new(new(4, 2, 29), new(11, 3, 1), 7),
+        new(new(4, 2, 29), new(10, 3, 1), 6),
+        new(new(4, 2, 29), new(9, 3, 1), 5),
+        new(new(4, 2, 29), new(7, 3, 1), 3),
+        new(new(4, 2, 29), new(6, 3, 1), 2),
+        new(new(4, 2, 29), new(5, 3, 1), 1),
 
-        (year: 8, exp: 7, 3, 1, years: -1),
-        (year: 8, exp: 6, 3, 1, years: -2),
-        (year: 8, exp: 5, 3, 1, years: -3),
-        (year: 8, exp: 3, 3, 1, years: -5),
-        (year: 8, exp: 2, 3, 1, years: -6),
-        (year: 8, exp: 1, 3, 1, years: -7),
+        new(new(8, 2, 29), new(7, 3, 1), -1),
+        new(new(8, 2, 29), new(6, 3, 1), -2),
+        new(new(8, 2, 29), new(5, 3, 1), -3),
+        new(new(8, 2, 29), new(3, 3, 1), -5),
+        new(new(8, 2, 29), new(2, 3, 1), -6),
+        new(new(8, 2, 29), new(1, 3, 1), -7),
     };
 }
 
 public partial class GregorianCutOffMathDataSet // Months
 {
     // Date, expected result, months to be added.
-    public static TheoryData<Yemoda, Yemoda, int> AddMonthsData => s_AddMonths.ToTheoryData();
-
-    // Date, expected result, months to be added.
-    private static readonly List<(int date, int, int, int exp, int, int, int months)> s_AddMonths = new()
+    public static DataGroup<YemodaPairAnd<int>> AddMonthsData { get; } = new()
     {
         // 31 days long month -> 30 days long month.
-        (date: 1, 3, 31, exp: 1, 6, 30, months: 3),
-        (date: 1, 5, 31, exp: 1, 4, 30, months: -1),
+        new(new(1, 3, 31), new(1, 6, 30), 3),
+        new(new(1, 5, 31), new(1, 4, 30), -1),
 
         // Target February (common year).
-        (date: 1, 1, 29, exp: 1, 2, 28, months: 1),
-        (date: 1, 1, 30, exp: 1, 2, 28, months: 1),
-        (date: 1, 1, 31, exp: 1, 2, 28, months: 1),
+        new(new(1, 1, 29), new(1, 2, 28), 1),
+        new(new(1, 1, 30), new(1, 2, 28), 1),
+        new(new(1, 1, 31), new(1, 2, 28), 1),
         // Backward.
-        (date: 1, 3, 29, exp: 1, 2, 28, months: -1),
-        (date: 1, 3, 30, exp: 1, 2, 28, months: -1),
-        (date: 1, 3, 31, exp: 1, 2, 28, months: -1),
+        new(new(1, 3, 29), new(1, 2, 28), -1),
+        new(new(1, 3, 30), new(1, 2, 28), -1),
+        new(new(1, 3, 31), new(1, 2, 28), -1),
 
         // Target February (leap year).
-        (date: 4, 1, 30, exp: 4, 2, 29, months: 1),
-        (date: 4, 1, 31, exp: 4, 2, 29, months: 1),
+        new(new(4, 1, 30), new(4, 2, 29), 1),
+        new(new(4, 1, 31), new(4, 2, 29), 1),
         // Backward.
-        (date: 4, 3, 30, exp: 4, 2, 29, months: -1),
-        (date: 4, 3, 31, exp: 4, 2, 29, months: -1),
+        new(new(4, 3, 30), new(4, 2, 29), -1),
+        new(new(4, 3, 31), new(4, 2, 29), -1),
 
         // Change of year.
         // Target shorter month.
-        (date: 3, 1, 31, exp: 4, 4, 30, months: 15),
-        (date: 4, 1, 31, exp: 3, 11, 30, months: -2),
+        new(new(3, 1, 31), new(4, 4, 30), 15),
+        new(new(4, 1, 31), new(3, 11, 30), -2),
         // Target end of February.
-        (date: 3, 1, 31, exp: 4, 2, 29, months: 13),
-        (date: 3, 4, 30, exp: 4, 2, 29, months: 10),
-        (date: 4, 1, 31, exp: 3, 2, 28, months: -11),
-        (date: 4, 4, 30, exp: 3, 2, 28, months: -14),
+        new(new(3, 1, 31), new(4, 2, 29), 13),
+        new(new(3, 4, 30), new(4, 2, 29), 10),
+        new(new(4, 1, 31), new(3, 2, 28), -11),
+        new(new(4, 4, 30), new(3, 2, 28), -14),
     };
 }
 
