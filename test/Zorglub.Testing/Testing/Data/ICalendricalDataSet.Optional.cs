@@ -28,6 +28,7 @@ public interface IAdvancedMathDataSet
     /// <summary>Date, expected result, months to be added.</summary>
     DataGroup<YemodaPairAnd<int>> AddMonthsData { get; }
 
+    /// <summary>Start date, end date, exact diff between.</summary>
     TheoryData<Yemoda, Yemoda, int, int, int> DiffData { get; }
 }
 

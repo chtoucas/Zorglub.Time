@@ -27,6 +27,7 @@ public abstract class CalendricalDataSet : ICalendricalDataSet
     public abstract DataGroup<DateInfo> DateInfoData { get; }
     public abstract DataGroup<MonthInfo> MonthInfoData { get; }
     public abstract DataGroup<YearInfo> YearInfoData { get; }
+    /// <inheritdoc/>
     /// <remarks>
     /// Override this property if the schema does not support all years in the default list.
     /// </remarks>
