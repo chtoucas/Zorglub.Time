@@ -10,7 +10,6 @@ using Zorglub.Time.Geometry.Discrete;
 using Zorglub.Time.Geometry.Forms;
 
 using static Zorglub.Bulgroz.GJConstants;
-using static Zorglub.Testing.Data.Extensions.ArrayExtensions;
 
 // CenturyForm's.
 public sealed partial class GregorianCenturyFormTests : AnalyzerFacts
@@ -28,8 +27,8 @@ public sealed partial class GregorianCenturyFormTests : AnalyzerFacts
         int[] lens = ReadOnlySpanHelpers.Rotate(GregorianSchema.DaysIn4CenturyCycle, 1);
         s_CenturyLengths = lens;
 
-        CenturyLengths = lens.ToArrayData();
-        StartOfCenturyList = ArrayHelpers.ConvertToCumulativeArray(lens).ToArrayData();
+        CenturyLengths = TheoryDataHelpers.ConvertToArrayData(lens);
+        StartOfCenturyList = TheoryDataHelpers.ConvertToArrayData(ArrayHelpers.ConvertToCumulativeArray(lens));
     }
 
 #pragma warning restore CA1810

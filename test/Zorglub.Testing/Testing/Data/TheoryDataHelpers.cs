@@ -1,16 +1,12 @@
 ﻿// SPDX-License-Identifier: BSD-3-Clause
 // Copyright (c) 2020 Narvalo.Org. All rights reserved.
 
-namespace Zorglub.Testing.Data.Extensions;
+namespace Zorglub.Testing.Data;
 
-/// <summary>
-/// Provides extension methods for arrays.
-/// <para>This class cannot be inherited.</para>
-/// </summary>
-public static class ArrayExtensions
+public static class TheoryDataHelpers
 {
     [Pure]
-    public static TheoryData<int, int> ToArrayData(this int[] array)
+    public static TheoryData<int, int> ConvertToArrayData(int[] array)
     {
         Requires.NotNull(array);
 

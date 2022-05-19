@@ -10,7 +10,6 @@ using Zorglub.Time.Geometry.Discrete;
 using Zorglub.Time.Geometry.Forms;
 
 using static Zorglub.Bulgroz.GJConstants;
-using static Zorglub.Testing.Data.Extensions.ArrayExtensions;
 
 // See also Zorglub.Time.Geometry.Forms.GJYearFormTests.
 
@@ -30,8 +29,8 @@ public sealed partial class GJYearFormTests : AnalyzerFacts
         int[] lens = ReadOnlySpanHelpers.Rotate(GJSchema.DaysIn4YearCycle, 1);
         s_YearLengths = lens;
 
-        YearLengths = lens.ToArrayData();
-        StartOfYearList = ArrayHelpers.ConvertToCumulativeArray(lens).ToArrayData();
+        YearLengths = TheoryDataHelpers.ConvertToArrayData(lens);
+        StartOfYearList = TheoryDataHelpers.ConvertToArrayData(ArrayHelpers.ConvertToCumulativeArray(lens));
     }
 
 #pragma warning restore CA1810
@@ -166,7 +165,7 @@ public sealed partial class GJMonthFormTests : AnalyzerFacts
         int[] lens = s_MonthLengths_LeapYear[0..^1];
         s_MonthLengths = lens;
 
-        MonthLengths = lens.ToArrayData();
+        MonthLengths = TheoryDataHelpers.ConvertToArrayData(lens);
     }
 
 #pragma warning restore CA1810
