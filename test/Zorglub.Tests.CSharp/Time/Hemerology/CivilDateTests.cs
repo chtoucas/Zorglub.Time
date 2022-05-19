@@ -47,11 +47,11 @@ public sealed partial class CivilDateTests : IDateFacts<CivilDate, StandardGrego
 
     // IDayOfWeekDataSet
     public static DataGroup<YemodaAnd<DayOfWeek>> DayOfWeekData => DataSet.DayOfWeekData;
-    public static TheoryData<Yemoda, Yemoda, DayOfWeek> DayOfWeek_Before_Data => DataSet.DayOfWeek_Before_Data;
-    public static TheoryData<Yemoda, Yemoda, DayOfWeek> DayOfWeek_OnOrBefore_Data => DataSet.DayOfWeek_OnOrBefore_Data;
-    public static TheoryData<Yemoda, Yemoda, DayOfWeek> DayOfWeek_Nearest_Data => DataSet.DayOfWeek_Nearest_Data;
-    public static TheoryData<Yemoda, Yemoda, DayOfWeek> DayOfWeek_OnOrAfter_Data => DataSet.DayOfWeek_OnOrAfter_Data;
-    public static TheoryData<Yemoda, Yemoda, DayOfWeek> DayOfWeek_After_Data => DataSet.DayOfWeek_After_Data;
+    public static DataGroup<YemodaPairAnd<DayOfWeek>> DayOfWeek_Before_Data => DataSet.DayOfWeek_Before_Data;
+    public static DataGroup<YemodaPairAnd<DayOfWeek>> DayOfWeek_OnOrBefore_Data => DataSet.DayOfWeek_OnOrBefore_Data;
+    public static DataGroup<YemodaPairAnd<DayOfWeek>> DayOfWeek_Nearest_Data => DataSet.DayOfWeek_Nearest_Data;
+    public static DataGroup<YemodaPairAnd<DayOfWeek>> DayOfWeek_OnOrAfter_Data => DataSet.DayOfWeek_OnOrAfter_Data;
+    public static DataGroup<YemodaPairAnd<DayOfWeek>> DayOfWeek_After_Data => DataSet.DayOfWeek_After_Data;
 }
 
 public partial class CivilDateTests

@@ -19,7 +19,10 @@ using System.Linq;
 //   MÀJ ICalendricalSchemaPlusFacts.CountDaysInYearAfterMonth()
 // - s_AddYearsLongCutOff. See GregorianMathTests.
 // - s_Diff (XXX). Should we modify Subtract()?
+//
+// Review what (optional) data should be lazy.
 
+#region Developer Notes
 
 // The advantage of a DataGroup<T> over a TheoryData<T> is that we can enumerate
 // and manipulate a group of data using the actual underlying data type directly.
@@ -41,6 +44,8 @@ using System.Linq;
 // > }
 //
 // See https://github.com/xunit/xunit/blob/main/src/xunit.v3.core/TheoryData.cs
+
+#endregion
 
 /// <summary>
 /// Provides factory methods for <see cref="DataGroup{T}"/>.

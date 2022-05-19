@@ -376,8 +376,9 @@ public partial class CivilDateTests
     }
 
     [Theory, MemberData(nameof(DayOfWeek_Nearest_Data))]
-    public static void NearestSafe(Yemoda xdate, Yemoda xexp, DayOfWeek dayOfWeek)
+    public static void NearestSafe(YemodaPairAnd<DayOfWeek> info)
     {
+        var (xdate, xexp, dayOfWeek) = info;
         var date = CreateDate(xdate);
         var exp = CreateDate(xexp);
         // Act

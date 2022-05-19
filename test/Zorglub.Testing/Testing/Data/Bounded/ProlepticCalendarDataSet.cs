@@ -52,17 +52,17 @@ public sealed class ProlepticGregorianDataSet :
     public DataGroup<YemodaPair> ConsecutiveDaysData => Inner.ConsecutiveDaysData.WhereT(DataFilter.Filter);
 
     // IAdvancedMathDataSet
-    public DataGroup<YemodaPairAnd<int>> AddYearsData => Inner.AddYearsData;
-    public DataGroup<YemodaPairAnd<int>> AddMonthsData => Inner.AddMonthsData;
+    public DataGroup<YemodaPairAnd<int>> AddYearsData => Inner.AddYearsData.WhereT(DataFilter.Filter);
+    public DataGroup<YemodaPairAnd<int>> AddMonthsData => Inner.AddMonthsData.WhereT(DataFilter.Filter);
     public TheoryData<Yemoda, Yemoda, int, int, int> DiffData => Inner.DiffData;
 
     // IDayOfWeekDataSet
     public DataGroup<YemodaAnd<DayOfWeek>> DayOfWeekData => Inner.DayOfWeekData.WhereT(DataFilter.Filter);
-    public TheoryData<Yemoda, Yemoda, DayOfWeek> DayOfWeek_Before_Data => Inner.DayOfWeek_Before_Data;
-    public TheoryData<Yemoda, Yemoda, DayOfWeek> DayOfWeek_OnOrBefore_Data => Inner.DayOfWeek_OnOrBefore_Data;
-    public TheoryData<Yemoda, Yemoda, DayOfWeek> DayOfWeek_Nearest_Data => Inner.DayOfWeek_Nearest_Data;
-    public TheoryData<Yemoda, Yemoda, DayOfWeek> DayOfWeek_OnOrAfter_Data => Inner.DayOfWeek_OnOrAfter_Data;
-    public TheoryData<Yemoda, Yemoda, DayOfWeek> DayOfWeek_After_Data => Inner.DayOfWeek_After_Data;
+    public DataGroup<YemodaPairAnd<DayOfWeek>> DayOfWeek_Before_Data => Inner.DayOfWeek_Before_Data.WhereT(DataFilter.Filter);
+    public DataGroup<YemodaPairAnd<DayOfWeek>> DayOfWeek_OnOrBefore_Data => Inner.DayOfWeek_OnOrBefore_Data.WhereT(DataFilter.Filter);
+    public DataGroup<YemodaPairAnd<DayOfWeek>> DayOfWeek_Nearest_Data => Inner.DayOfWeek_Nearest_Data.WhereT(DataFilter.Filter);
+    public DataGroup<YemodaPairAnd<DayOfWeek>> DayOfWeek_OnOrAfter_Data => Inner.DayOfWeek_OnOrAfter_Data.WhereT(DataFilter.Filter);
+    public DataGroup<YemodaPairAnd<DayOfWeek>> DayOfWeek_After_Data => Inner.DayOfWeek_After_Data.WhereT(DataFilter.Filter);
 }
 
 /// <summary>

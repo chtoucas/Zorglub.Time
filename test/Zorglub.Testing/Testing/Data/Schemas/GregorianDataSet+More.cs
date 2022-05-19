@@ -305,7 +305,7 @@ public partial class GregorianDataSet // IAdvancedMathDataSet (years)
 
     // Intercalary day, expected result in a common year, years to be added.
     public static TheoryData<Yemoda, Yemoda, int> AddYearsCutOffData =>
-            ToTheoryData(s_AddYearsCutOff);
+        ToTheoryData(s_AddYearsCutOff);
 
     // Intercalary day, expected result in a common year, years to be added.
     public static TheoryData<Yemoda, Yemoda, int> AddYearsLongCutOffData =>

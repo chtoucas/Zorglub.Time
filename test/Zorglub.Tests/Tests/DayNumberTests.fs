@@ -476,31 +476,36 @@ module DayOfWeekAdjustment =
     //
 
     [<Theory; MemberData(nameof(beforeData))>]
-    let ``Previous()`` x y dayOfWeek =
+    let ``Previous()`` (info: YemodaPairAnd<DayOfWeek>) =
+        let x, y, dayOfWeek = info.Deconstruct()
         let v, w = toDayNumber2 x y
 
         v.Previous(dayOfWeek) === w
 
     [<Theory; MemberData(nameof(onOrBeforeData))>]
-    let ``PreviousOrSame()`` x y dayOfWeek =
+    let ``PreviousOrSame()`` (info: YemodaPairAnd<DayOfWeek>) =
+        let x, y, dayOfWeek = info.Deconstruct()
         let v, w = toDayNumber2 x y
 
         v.PreviousOrSame(dayOfWeek) === w
 
     [<Theory; MemberData(nameof(nearestData))>]
-    let ``Nearest()`` x y dayOfWeek =
+    let ``Nearest()`` (info: YemodaPairAnd<DayOfWeek>) =
+        let x, y, dayOfWeek = info.Deconstruct()
         let v, w = toDayNumber2 x y
 
         v.Nearest(dayOfWeek) === w
 
     [<Theory; MemberData(nameof(onOrAfterData))>]
-    let ``NextOrSame()`` x y dayOfWeek =
+    let ``NextOrSame()`` (info: YemodaPairAnd<DayOfWeek>) =
+        let x, y, dayOfWeek = info.Deconstruct()
         let v, w = toDayNumber2 x y
 
         v.NextOrSame(dayOfWeek) === w
 
     [<Theory; MemberData(nameof(afterData))>]
-    let ``Next()`` x y dayOfWeek =
+    let ``Next()`` (info: YemodaPairAnd<DayOfWeek>) =
+        let x, y, dayOfWeek = info.Deconstruct()
         let v, w = toDayNumber2 x y
 
         v.Next(dayOfWeek) === w
@@ -543,25 +548,29 @@ module DayOfWeekAdjustment2 =
     //
 
     [<Theory; MemberData(nameof(beforeData))>]
-    let ``Before()`` x y dayOfWeek =
+    let ``Before()`` (info: YemodaPairAnd<DayOfWeek>) =
+        let x, y, dayOfWeek = info.Deconstruct()
         let v, w = toDayNumber2 x y
 
         v.Before(dayOfWeek) === w
 
     [<Theory; MemberData(nameof(onOrBeforeData))>]
-    let ``OnOrBefore()`` x y dayOfWeek =
+    let ``OnOrBefore()`` (info: YemodaPairAnd<DayOfWeek>) =
+        let x, y, dayOfWeek = info.Deconstruct()
         let v, w = toDayNumber2 x y
 
         v.OnOrBefore(dayOfWeek) === w
 
     [<Theory; MemberData(nameof(onOrAfterData))>]
-    let ``OnOrAfter()`` x y dayOfWeek =
+    let ``OnOrAfter()`` (info: YemodaPairAnd<DayOfWeek>) =
+        let x, y, dayOfWeek = info.Deconstruct()
         let v, w = toDayNumber2 x y
 
         v.OnOrAfter(dayOfWeek) === w
 
     [<Theory; MemberData(nameof(afterData))>]
-    let ``After()`` x y dayOfWeek =
+    let ``After()`` (info: YemodaPairAnd<DayOfWeek>) =
+        let x, y, dayOfWeek = info.Deconstruct()
         let v, w = toDayNumber2 x y
 
         v.After(dayOfWeek) === w

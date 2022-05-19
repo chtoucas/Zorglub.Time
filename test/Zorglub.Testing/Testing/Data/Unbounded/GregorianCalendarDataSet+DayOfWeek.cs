@@ -135,129 +135,119 @@ public partial class GregorianCalendarDataSet // IDayOfWeekDataSet
         (9999, 12, 31, DayOfWeek.Friday),
     };
 
-    public TheoryData<Yemoda, Yemoda, DayOfWeek> DayOfWeek_Before_Data =>
-        new List<(int date, int, int, int exp, int, int, DayOfWeek target)>
-        {
-            // Same day a week before.
-            ( date: 2018, 12, 13, exp: 2018, 12,  6, target: DayOfWeek.Thursday ),
-            // Preceding days.
-            ( date: 2018, 12, 13, exp: 2018, 12,  7, target: DayOfWeek.Friday ),
-            ( date: 2018, 12, 13, exp: 2018, 12,  8, target: DayOfWeek.Saturday ),
-            ( date: 2018, 12, 13, exp: 2018, 12,  9, target: DayOfWeek.Sunday ),
-            ( date: 2018, 12, 13, exp: 2018, 12, 10, target: DayOfWeek.Monday ),
-            ( date: 2018, 12, 13, exp: 2018, 12, 11, target: DayOfWeek.Tuesday ),
-            ( date: 2018, 12, 13, exp: 2018, 12, 12, target: DayOfWeek.Wednesday ),
+    public DataGroup<YemodaPairAnd<DayOfWeek>> DayOfWeek_Before_Data { get; } = new()
+    {
+        // Same day a week before.
+        new(new(2018, 12, 13), new(2018, 12,  6),  DayOfWeek.Thursday ),
+        // Preceding days.
+        new(new(2018, 12, 13), new(2018, 12,  7),  DayOfWeek.Friday ),
+        new(new(2018, 12, 13), new(2018, 12,  8),  DayOfWeek.Saturday ),
+        new(new(2018, 12, 13), new(2018, 12,  9),  DayOfWeek.Sunday ),
+        new(new(2018, 12, 13), new(2018, 12, 10),  DayOfWeek.Monday ),
+        new(new(2018, 12, 13), new(2018, 12, 11),  DayOfWeek.Tuesday ),
+        new(new(2018, 12, 13), new(2018, 12, 12),  DayOfWeek.Wednesday ),
 
-            // Change of year.
-            ( date: 2018,  1,  1, exp: 2017, 12, 31, target: DayOfWeek.Sunday ),
+        // Change of year.
+        new(new(2018,  1,  1), new(2017, 12, 31),  DayOfWeek.Sunday ),
 
-            // Change of month.
-            ( date: 2018, 12,  1, exp: 2018, 11, 28, target: DayOfWeek.Wednesday ),
-            // February, common year.
-            ( date: 2018,  3,  1, exp: 2018,  2, 28, target: DayOfWeek.Wednesday ),
-            // February, leap year.
-            ( date: 2016,  3,  1, exp: 2016,  2, 29, target: DayOfWeek.Monday ),
-        }
-        .ToTheoryData();
+        // Change of month.
+        new(new(2018, 12,  1), new(2018, 11, 28),  DayOfWeek.Wednesday ),
+        // February, common year.
+        new(new(2018,  3,  1), new(2018,  2, 28),  DayOfWeek.Wednesday ),
+        // February, leap year.
+        new(new(2016,  3,  1), new(2016,  2, 29),  DayOfWeek.Monday ),
+    };
 
-    public TheoryData<Yemoda, Yemoda, DayOfWeek> DayOfWeek_OnOrBefore_Data =>
-        new List<(int date, int, int, int exp, int, int, DayOfWeek target)>
-        {
-            // Preceding days.
-            ( date: 2018, 12, 13, exp: 2018, 12,  7, target: DayOfWeek.Friday ),
-            ( date: 2018, 12, 13, exp: 2018, 12,  8, target: DayOfWeek.Saturday ),
-            ( date: 2018, 12, 13, exp: 2018, 12,  9, target: DayOfWeek.Sunday ),
-            ( date: 2018, 12, 13, exp: 2018, 12, 10, target: DayOfWeek.Monday ),
-            ( date: 2018, 12, 13, exp: 2018, 12, 11, target: DayOfWeek.Tuesday ),
-            ( date: 2018, 12, 13, exp: 2018, 12, 12, target: DayOfWeek.Wednesday ),
-            // Same day.
-            ( date: 2018, 12, 13, exp: 2018, 12, 13, target: DayOfWeek.Thursday ),
+    public DataGroup<YemodaPairAnd<DayOfWeek>> DayOfWeek_OnOrBefore_Data { get; } = new()
+    {
+        // Preceding days.
+        new(new(2018, 12, 13), new(2018, 12,  7),  DayOfWeek.Friday ),
+        new(new(2018, 12, 13), new(2018, 12,  8),  DayOfWeek.Saturday ),
+        new(new(2018, 12, 13), new(2018, 12,  9),  DayOfWeek.Sunday ),
+        new(new(2018, 12, 13), new(2018, 12, 10),  DayOfWeek.Monday ),
+        new(new(2018, 12, 13), new(2018, 12, 11),  DayOfWeek.Tuesday ),
+        new(new(2018, 12, 13), new(2018, 12, 12),  DayOfWeek.Wednesday ),
+        // Same day.
+        new(new(2018, 12, 13), new(2018, 12, 13),  DayOfWeek.Thursday ),
 
-            // Change of year.
-            ( date: 2018,  1,  1, exp: 2017, 12, 31, target: DayOfWeek.Sunday ),
+        // Change of year.
+        new(new(2018,  1,  1), new(2017, 12, 31),  DayOfWeek.Sunday ),
 
-            // Change of month.
-            ( date: 2018, 12,  1, exp: 2018, 11, 28, target: DayOfWeek.Wednesday ),
-            // February, common year.
-            ( date: 2018,  3,  1, exp: 2018,  2, 28, target: DayOfWeek.Wednesday ),
-            // February, leap year.
-            ( date: 2016,  3,  1, exp: 2016,  2, 29, target: DayOfWeek.Monday ),
-        }
-        .ToTheoryData();
+        // Change of month.
+        new(new(2018, 12,  1), new(2018, 11, 28),  DayOfWeek.Wednesday ),
+        // February, common year.
+        new(new(2018,  3,  1), new(2018,  2, 28),  DayOfWeek.Wednesday ),
+        // February, leap year.
+        new(new(2016,  3,  1), new(2016,  2, 29),  DayOfWeek.Monday ),
+    };
 
-    public TheoryData<Yemoda, Yemoda, DayOfWeek> DayOfWeek_Nearest_Data =>
-        new List<(int date, int, int, int exp, int, int, DayOfWeek target)>
-        {
-            // Preceding days.
-            ( date: 2018, 12,  6, exp: 2018, 12,  3, target: DayOfWeek.Monday ),
-            ( date: 2018, 12,  6, exp: 2018, 12,  4, target: DayOfWeek.Tuesday ),
-            ( date: 2018, 12,  6, exp: 2018, 12,  5, target: DayOfWeek.Wednesday ),
-            // Same day.
-            ( date: 2018, 12,  6, exp: 2018, 12,  6, target: DayOfWeek.Thursday ),
-            // Following days.
-            ( date: 2018, 12,  6, exp: 2018, 12,  7, target: DayOfWeek.Friday ),
-            ( date: 2018, 12,  6, exp: 2018, 12,  8, target: DayOfWeek.Saturday ),
-            ( date: 2018, 12,  6, exp: 2018, 12,  9, target: DayOfWeek.Sunday ),
+    public DataGroup<YemodaPairAnd<DayOfWeek>> DayOfWeek_Nearest_Data { get; } = new()
+    {
+        // Preceding days.
+        new(new(2018, 12,  6), new(2018, 12,  3),  DayOfWeek.Monday ),
+        new(new(2018, 12,  6), new(2018, 12,  4),  DayOfWeek.Tuesday ),
+        new(new(2018, 12,  6), new(2018, 12,  5),  DayOfWeek.Wednesday ),
+        // Same day.
+        new(new(2018, 12,  6), new(2018, 12,  6),  DayOfWeek.Thursday ),
+        // Following days.
+        new(new(2018, 12,  6), new(2018, 12,  7),  DayOfWeek.Friday ),
+        new(new(2018, 12,  6), new(2018, 12,  8),  DayOfWeek.Saturday ),
+        new(new(2018, 12,  6), new(2018, 12,  9),  DayOfWeek.Sunday ),
 
-            // Change of year.
-            ( date: 2018, 12, 31, exp: 2019,  1,  1, target: DayOfWeek.Tuesday ),
+        // Change of year.
+        new(new(2018, 12, 31), new(2019,  1,  1),  DayOfWeek.Tuesday ),
 
-            // Change of month.
-            ( date: 2018, 11, 30, exp: 2018, 12,  1, target: DayOfWeek.Saturday ),
-            // February, common year.
-            ( date: 2018,  2, 28, exp: 2018,  3,  1, target: DayOfWeek.Thursday ),
-            // February, leap year.
-            ( date: 2016,  2, 29, exp: 2016,  3,  1, target: DayOfWeek.Tuesday ),
-        }
-        .ToTheoryData();
+        // Change of month.
+        new(new(2018, 11, 30), new(2018, 12,  1),  DayOfWeek.Saturday ),
+        // February, common year.
+        new(new(2018,  2, 28), new(2018,  3,  1),  DayOfWeek.Thursday ),
+        // February, leap year.
+        new(new(2016,  2, 29), new(2016,  3,  1),  DayOfWeek.Tuesday ),
+    };
 
-    public TheoryData<Yemoda, Yemoda, DayOfWeek> DayOfWeek_OnOrAfter_Data =>
-        new List<(int date, int, int, int exp, int, int, DayOfWeek target)>
-        {
-            // Same day.
-            ( date: 2018, 12,  6, exp: 2018, 12,  6, target: DayOfWeek.Thursday ),
-            // Following days.
-            ( date: 2018, 12,  6, exp: 2018, 12,  7, target: DayOfWeek.Friday ),
-            ( date: 2018, 12,  6, exp: 2018, 12,  8, target: DayOfWeek.Saturday ),
-            ( date: 2018, 12,  6, exp: 2018, 12,  9, target: DayOfWeek.Sunday ),
-            ( date: 2018, 12,  6, exp: 2018, 12, 10, target: DayOfWeek.Monday ),
-            ( date: 2018, 12,  6, exp: 2018, 12, 11, target: DayOfWeek.Tuesday ),
-            ( date: 2018, 12,  6, exp: 2018, 12, 12, target: DayOfWeek.Wednesday ),
+    public DataGroup<YemodaPairAnd<DayOfWeek>> DayOfWeek_OnOrAfter_Data { get; } = new()
+    {
+        // Same day.
+        new(new(2018, 12,  6), new(2018, 12,  6),  DayOfWeek.Thursday ),
+        // Following days.
+        new(new(2018, 12,  6), new(2018, 12,  7),  DayOfWeek.Friday ),
+        new(new(2018, 12,  6), new(2018, 12,  8),  DayOfWeek.Saturday ),
+        new(new(2018, 12,  6), new(2018, 12,  9),  DayOfWeek.Sunday ),
+        new(new(2018, 12,  6), new(2018, 12, 10),  DayOfWeek.Monday ),
+        new(new(2018, 12,  6), new(2018, 12, 11),  DayOfWeek.Tuesday ),
+        new(new(2018, 12,  6), new(2018, 12, 12),  DayOfWeek.Wednesday ),
 
-            // Change of year.
-            ( date: 2018, 12, 31, exp: 2019,  1,  1, target: DayOfWeek.Tuesday ),
+        // Change of year.
+        new(new(2018, 12, 31), new(2019,  1,  1),  DayOfWeek.Tuesday ),
 
-            // Change of month.
-            ( date: 2018, 11, 30, exp: 2018, 12,  1, target: DayOfWeek.Saturday ),
-            // February, common year.
-            ( date: 2018,  2, 28, exp: 2018,  3,  1, target: DayOfWeek.Thursday ),
-            // February, leap year.
-            ( date: 2016,  2, 29, exp: 2016,  3,  1, target: DayOfWeek.Tuesday ),
-        }
-        .ToTheoryData();
+        // Change of month.
+        new(new(2018, 11, 30), new(2018, 12,  1),  DayOfWeek.Saturday ),
+        // February, common year.
+        new(new(2018,  2, 28), new(2018,  3,  1),  DayOfWeek.Thursday ),
+        // February, leap year.
+        new(new(2016,  2, 29), new(2016,  3,  1),  DayOfWeek.Tuesday ),
+    };
 
-    public TheoryData<Yemoda, Yemoda, DayOfWeek> DayOfWeek_After_Data =>
-        new List<(int date, int, int, int exp, int, int, DayOfWeek target)>
-        {
-            // Following days.
-            ( date: 2018, 12,  6, exp: 2018, 12,  7, target: DayOfWeek.Friday ),
-            ( date: 2018, 12,  6, exp: 2018, 12,  8, target: DayOfWeek.Saturday ),
-            ( date: 2018, 12,  6, exp: 2018, 12,  9, target: DayOfWeek.Sunday ),
-            ( date: 2018, 12,  6, exp: 2018, 12, 10, target: DayOfWeek.Monday ),
-            ( date: 2018, 12,  6, exp: 2018, 12, 11, target: DayOfWeek.Tuesday ),
-            ( date: 2018, 12,  6, exp: 2018, 12, 12, target: DayOfWeek.Wednesday ),
-            // Same day a week after.
-            ( date: 2018, 12,  6, exp: 2018, 12, 13, target: DayOfWeek.Thursday ),
+    public DataGroup<YemodaPairAnd<DayOfWeek>> DayOfWeek_After_Data { get; } = new()
+    {
+        // Following days.
+        new(new(2018, 12,  6), new(2018, 12,  7),  DayOfWeek.Friday ),
+        new(new(2018, 12,  6), new(2018, 12,  8),  DayOfWeek.Saturday ),
+        new(new(2018, 12,  6), new(2018, 12,  9),  DayOfWeek.Sunday ),
+        new(new(2018, 12,  6), new(2018, 12, 10),  DayOfWeek.Monday ),
+        new(new(2018, 12,  6), new(2018, 12, 11),  DayOfWeek.Tuesday ),
+        new(new(2018, 12,  6), new(2018, 12, 12),  DayOfWeek.Wednesday ),
+        // Same day a week after.
+        new(new(2018, 12,  6), new(2018, 12, 13),  DayOfWeek.Thursday ),
 
-            // Change of year.
-            ( date: 2018, 12, 31, exp: 2019,  1,  1, target: DayOfWeek.Tuesday ),
+        // Change of year.
+        new(new(2018, 12, 31), new(2019,  1,  1),  DayOfWeek.Tuesday ),
 
-            // Change of month.
-            ( date: 2018, 11, 30, exp: 2018, 12,  1, target: DayOfWeek.Saturday ),
-            // February, common year.
-            ( date: 2018,  2, 28, exp: 2018,  3,  1, target: DayOfWeek.Thursday ),
-            // February, leap year.
-            ( date: 2016,  2, 29, exp: 2016,  3,  1, target: DayOfWeek.Tuesday ),
-        }
-        .ToTheoryData();
+        // Change of month.
+        new(new(2018, 11, 30), new(2018, 12,  1),  DayOfWeek.Saturday ),
+        // February, common year.
+        new(new(2018,  2, 28), new(2018,  3,  1),  DayOfWeek.Thursday ),
+        // February, leap year.
+        new(new(2016,  2, 29), new(2016,  3,  1),  DayOfWeek.Tuesday ),
+    };
 }

@@ -29,11 +29,11 @@ public abstract partial class IDateDayOfWeekFacts<TDate, TDataSet>
     }
 
     public static DataGroup<YemodaAnd<DayOfWeek>> DayOfWeekData => DataSet.DayOfWeekData;
-    public static TheoryData<Yemoda, Yemoda, DayOfWeek> DayOfWeek_Before_Data => DataSet.DayOfWeek_Before_Data;
-    public static TheoryData<Yemoda, Yemoda, DayOfWeek> DayOfWeek_OnOrBefore_Data => DataSet.DayOfWeek_OnOrBefore_Data;
-    public static TheoryData<Yemoda, Yemoda, DayOfWeek> DayOfWeek_Nearest_Data => DataSet.DayOfWeek_Nearest_Data;
-    public static TheoryData<Yemoda, Yemoda, DayOfWeek> DayOfWeek_OnOrAfter_Data => DataSet.DayOfWeek_OnOrAfter_Data;
-    public static TheoryData<Yemoda, Yemoda, DayOfWeek> DayOfWeek_After_Data => DataSet.DayOfWeek_After_Data;
+    public static DataGroup<YemodaPairAnd<DayOfWeek>> DayOfWeek_Before_Data => DataSet.DayOfWeek_Before_Data;
+    public static DataGroup<YemodaPairAnd<DayOfWeek>> DayOfWeek_OnOrBefore_Data => DataSet.DayOfWeek_OnOrBefore_Data;
+    public static DataGroup<YemodaPairAnd<DayOfWeek>> DayOfWeek_Nearest_Data => DataSet.DayOfWeek_Nearest_Data;
+    public static DataGroup<YemodaPairAnd<DayOfWeek>> DayOfWeek_OnOrAfter_Data => DataSet.DayOfWeek_OnOrAfter_Data;
+    public static DataGroup<YemodaPairAnd<DayOfWeek>> DayOfWeek_After_Data => DataSet.DayOfWeek_After_Data;
 }
 
 public partial class IDateDayOfWeekFacts<TDate, TDataSet> // Prelude
@@ -51,8 +51,9 @@ public partial class IDateDayOfWeekFacts<TDate, TDataSet> // Prelude
 public partial class IDateDayOfWeekFacts<TDate, TDataSet> // Adjust the day of the week
 {
     [Theory, MemberData(nameof(DayOfWeek_Before_Data))]
-    public void Previous(Yemoda ymd, Yemoda ymdExp, DayOfWeek dayOfWeek)
+    public void Previous(YemodaPairAnd<DayOfWeek> info)
     {
+        var (ymd, ymdExp, dayOfWeek) = info;
         var date = GetDate(ymd);
         var exp = GetDate(ymdExp);
         // Act
@@ -62,8 +63,9 @@ public partial class IDateDayOfWeekFacts<TDate, TDataSet> // Adjust the day of t
     }
 
     [Theory, MemberData(nameof(DayOfWeek_OnOrBefore_Data))]
-    public void PreviousOrSame(Yemoda ymd, Yemoda ymdExp, DayOfWeek dayOfWeek)
+    public void PreviousOrSame(YemodaPairAnd<DayOfWeek> info)
     {
+        var (ymd, ymdExp, dayOfWeek) = info;
         var date = GetDate(ymd);
         var exp = GetDate(ymdExp);
         // Act
@@ -73,8 +75,9 @@ public partial class IDateDayOfWeekFacts<TDate, TDataSet> // Adjust the day of t
     }
 
     [Theory, MemberData(nameof(DayOfWeek_Nearest_Data))]
-    public void Nearest(Yemoda ymd, Yemoda ymdExp, DayOfWeek dayOfWeek)
+    public void Nearest(YemodaPairAnd<DayOfWeek> info)
     {
+        var (ymd, ymdExp, dayOfWeek) = info;
         var date = GetDate(ymd);
         var exp = GetDate(ymdExp);
         // Act
@@ -84,8 +87,9 @@ public partial class IDateDayOfWeekFacts<TDate, TDataSet> // Adjust the day of t
     }
 
     [Theory, MemberData(nameof(DayOfWeek_OnOrAfter_Data))]
-    public void NextOrSame(Yemoda ymd, Yemoda ymdExp, DayOfWeek dayOfWeek)
+    public void NextOrSame(YemodaPairAnd<DayOfWeek> info)
     {
+        var (ymd, ymdExp, dayOfWeek) = info;
         var date = GetDate(ymd);
         var exp = GetDate(ymdExp);
         // Act
@@ -95,8 +99,9 @@ public partial class IDateDayOfWeekFacts<TDate, TDataSet> // Adjust the day of t
     }
 
     [Theory, MemberData(nameof(DayOfWeek_After_Data))]
-    public void Next(Yemoda ymd, Yemoda ymdExp, DayOfWeek dayOfWeek)
+    public void Next(YemodaPairAnd<DayOfWeek> info)
     {
+        var (ymd, ymdExp, dayOfWeek) = info;
         var date = GetDate(ymd);
         var exp = GetDate(ymdExp);
         // Act
