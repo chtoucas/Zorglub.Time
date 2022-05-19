@@ -11,6 +11,7 @@ using Zorglub.Time.Hemerology;
 public sealed partial class GregorianDataSet :
     CalendricalDataSet,
     IYearAdjustmentDataSet,
+    IMathDataSet,
     IAdvancedMathDataSet,
     ISingleton<GregorianDataSet>
 {

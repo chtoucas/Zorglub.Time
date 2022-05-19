@@ -14,6 +14,7 @@ public abstract partial class CalendricalMathFacts<TSchema, TDataSet>
     where TSchema : SystemSchema
     where TDataSet :
         ICalendricalDataSet,
+        IMathDataSet,
         IAdvancedMathDataSet,
         ISingleton<TDataSet>
 {

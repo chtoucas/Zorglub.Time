@@ -26,6 +26,7 @@ public class ProlepticCalendarDataSet<TDataSet> : MinMaxYearCalendarDataSet<TDat
 public sealed class ProlepticGregorianDataSet :
     ProlepticCalendarDataSet<GregorianCalendarDataSet>,
     IYearAdjustmentDataSet,
+    IMathDataSet,
     IAdvancedMathDataSet,
     IDayOfWeekDataSet,
     ISingleton<ProlepticGregorianDataSet>

@@ -84,6 +84,7 @@ public sealed class StandardEthiopic12DataSet :
 public sealed class StandardGregorianDataSet :
     StandardCalendarDataSet<GregorianCalendarDataSet>,
     IYearAdjustmentDataSet,
+    IMathDataSet,
     IAdvancedMathDataSet,
     IDayOfWeekDataSet,
     ISingleton<StandardGregorianDataSet>

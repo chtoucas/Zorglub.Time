@@ -13,6 +13,7 @@ using Zorglub.Time.Core;
 public sealed partial class GregorianCalendarDataSet :
     UnboundedCalendarDataSet<GregorianDataSet>,
     IYearAdjustmentDataSet,
+    IMathDataSet,
     IAdvancedMathDataSet,
     IDayOfWeekDataSet,
     ISingleton<GregorianCalendarDataSet>
