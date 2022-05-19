@@ -3,6 +3,7 @@
 
 namespace Zorglub.Testing.Data.Bounded;
 
+using Zorglub.Testing.Data.Schemas;
 using Zorglub.Testing.Data.Unbounded;
 using Zorglub.Time.Hemerology;
 using Zorglub.Time.Hemerology.Scopes;
@@ -97,7 +98,8 @@ public sealed class StandardGregorianDataSet :
         static Singleton() { }
     }
 
-    public DataGroup<YemoAnd<int>> DaysInYearAfterMonthData => Inner.DaysInYearAfterMonthData.WhereT(DataFilter.Filter);
+    public DataGroup<YemoAnd<int>> DaysInYearAfterMonthData =>
+        GregorianDataSet.DaysInYearAfterMonthData.WhereT(DataFilter.Filter);
 
     // IYearAdjustmentDataSet
     public DataGroup<YemodaAnd<int>> InvalidYearAdjustementData => Inner.InvalidYearAdjustementData.WhereT(DataFilter.Filter);

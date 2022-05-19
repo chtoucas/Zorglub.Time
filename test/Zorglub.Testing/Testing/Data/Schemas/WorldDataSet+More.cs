@@ -5,34 +5,34 @@ namespace Zorglub.Testing.Data.Schemas;
 
 public partial class WorldDataSet // Supplementary data
 {
-    // Year, month of the year, genuine daysInMonth.
-    public static TheoryData<int, int, int> MoreMonthInfoData { get; } = new()
+    /// <summary>Year, month of the year, genuine daysInMonth.</summary>
+    public static DataGroup<YemoAnd<int>> MoreMonthInfoData { get; } = new()
     {
         // Common year.
-        { CommonYear, 1, 31 },
-        { CommonYear, 2, 30 },
-        { CommonYear, 3, 30 },
-        { CommonYear, 4, 31 },
-        { CommonYear, 5, 30 },
-        { CommonYear, 6, 30 },
-        { CommonYear, 7, 31 },
-        { CommonYear, 8, 30 },
-        { CommonYear, 9, 30 },
-        { CommonYear, 10, 31 },
-        { CommonYear, 11, 30 },
-        { CommonYear, 12, 30 },
+        new(CommonYear, 1, 31),
+        new(CommonYear, 2, 30),
+        new(CommonYear, 3, 30),
+        new(CommonYear, 4, 31),
+        new(CommonYear, 5, 30),
+        new(CommonYear, 6, 30),
+        new(CommonYear, 7, 31),
+        new(CommonYear, 8, 30),
+        new(CommonYear, 9, 30),
+        new(CommonYear, 10, 31),
+        new(CommonYear, 11, 30),
+        new(CommonYear, 12, 30),
         // Leap year.
-        { LeapYear, 1, 31 },
-        { LeapYear, 2, 30 },
-        { LeapYear, 3, 30 },
-        { LeapYear, 4, 31 },
-        { LeapYear, 5, 30 },
-        { LeapYear, 6, 30 },
-        { LeapYear, 7, 31 },
-        { LeapYear, 8, 30 },
-        { LeapYear, 9, 30 },
-        { LeapYear, 10, 31 },
-        { LeapYear, 11, 30 },
-        { LeapYear, 12, 30 },
+        new(LeapYear, 1, 31),
+        new(LeapYear, 2, 30),
+        new(LeapYear, 3, 30),
+        new(LeapYear, 4, 31),
+        new(LeapYear, 5, 30),
+        new(LeapYear, 6, 30),
+        new(LeapYear, 7, 31),
+        new(LeapYear, 8, 30),
+        new(LeapYear, 9, 30),
+        new(LeapYear, 10, 31),
+        new(LeapYear, 11, 30),
+        new(LeapYear, 12, 30),
     };
 }

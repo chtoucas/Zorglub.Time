@@ -11,7 +11,6 @@ using System.Linq;
 // - GregorianCalendarDataSet, dayOfWeek
 // - PaxDataSet
 // - PaxCalendarDataSet
-// - WorldDataSet
 //
 // GregorianDataSet:
 // - Move DaysInYearAfterMonthData to MonthInfoData.

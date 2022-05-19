@@ -30,8 +30,6 @@ public sealed partial class GregorianCalendarDataSet :
     public override DataGroup<DayNumberInfo> DayNumberInfoData { get; } =
         DataGroup.CreateDayNumberInfoData(GregorianDataSet.DaysSinceRataDieInfos);
 
-    public DataGroup<YemoAnd<int>> DaysInYearAfterMonthData => CalendricalDataSet.DaysInYearAfterMonthData;
-
     // IYearAdjustmentDataSet
     public DataGroup<YemodaAnd<int>> InvalidYearAdjustementData => CalendricalDataSet.InvalidYearAdjustementData;
     public DataGroup<YemodaAnd<int>> YearAdjustementData => CalendricalDataSet.YearAdjustementData;

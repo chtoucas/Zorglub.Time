@@ -6,6 +6,7 @@ module Zorglub.Tests.Core.Schemas.SystemSchemaTestSuite
 open System
 
 open Zorglub.Testing
+open Zorglub.Testing.Data
 open Zorglub.Testing.Data.Schemas
 open Zorglub.Testing.Facts
 open Zorglub.Testing.Facts.Core
@@ -459,5 +460,7 @@ type WorldTests() =
     override x.TryGetCustomArithmetic() = x.VerifyThatTryGetCustomArithmeticSucceeds<Solar12Arithmetic>()
 
     [<Theory; MemberData(nameof(WorldTests.MoreMonthInfoData))>]
-    static member CountDaysInWorldMonth _ m daysInMonth =
+    static member CountDaysInWorldMonth (info: YemoAnd<int>) =
+        let (_, m, daysInMonth) = info.Deconstruct()
+
         WorldSchema.CountDaysInWorldMonth(m) === daysInMonth

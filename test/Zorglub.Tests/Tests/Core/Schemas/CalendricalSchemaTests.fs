@@ -123,7 +123,7 @@ module GregorianCase =
     let private dataSet = GregorianDataSet.Instance
     let private sch = new GregorianSchema()
 
-    let daysInYearAfterMonthData = dataSet.DaysInYearAfterMonthData
+    let daysInYearAfterMonthData = GregorianDataSet.DaysInYearAfterMonthData
     let daysInYearAfterDateData = dataSet.DaysInYearAfterDateData
     let daysInMonthAfterDateData = dataSet.DaysInMonthAfterDateData
 
@@ -151,15 +151,15 @@ module PaxCase =
     let private sch = schemaOf<PaxSchema>()
 
     let moreDayNumberInfoData = PaxCalendarDataSet.MoreDayNumberInfoData
-    let moreYearData = PaxDataSet.MoreYearInfoData
-    let moreMonthData = PaxDataSet.MoreMonthInfoData
+    let moreYearInfoData = PaxDataSet.MoreYearInfoData
+    let moreMonthInfoData = PaxDataSet.MoreMonthInfoData
     let weekInfoData = PaxDataSet.WeekInfoData
 
-    [<Theory; MemberData(nameof(moreMonthData))>]
+    [<Theory; MemberData(nameof(moreMonthInfoData))>]
     let IsPaxMonth y m isPaxMonth _ =
         sch.IsPaxMonth(y, m) === isPaxMonth
 
-    [<Theory; MemberData(nameof(moreMonthData))>]
+    [<Theory; MemberData(nameof(moreMonthInfoData))>]
     let IsLastMonthOfYear y m _ isLastMonthOfYear =
         sch.IsLastMonthOfYear(y, m) === isLastMonthOfYear
 
@@ -167,7 +167,7 @@ module PaxCase =
     let IsIntercalaryWeek y woy isIntercalary =
         sch.IsIntercalaryWeek(y, woy) === isIntercalary
 
-    [<Theory; MemberData(nameof(moreYearData))>]
+    [<Theory; MemberData(nameof(moreYearInfoData))>]
     let CountWeeksInYear y weeksInYear =
         sch.CountWeeksInYear(y) === weeksInYear
 

@@ -27,7 +27,7 @@ public sealed class PaxCalendarDataSet : UnboundedCalendarDataSet<PaxDataSet>, I
     public override DataGroup<DayNumberInfo> DayNumberInfoData { get; } =
         DataGroup.CreateDayNumberInfoData(PaxDataSet.DaysSinceZeroInfos);
 
-    // Day number, year, week of the year, day of the week.
+    /// <summary>Day number, year, week of the year, day of the week.</summary>
     public static TheoryData<DayNumber, int, int, DayOfWeek> MoreDayNumberInfoData =>
         s_MoreDayNumberInfoData.ToTheoryData();
 

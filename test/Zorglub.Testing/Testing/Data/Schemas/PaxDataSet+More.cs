@@ -5,7 +5,7 @@ namespace Zorglub.Testing.Data.Schemas;
 
 public partial class PaxDataSet // Supplementary data
 {
-    // Year, invalid week of the year.
+    /// <summary>Year, invalid week of the year.</summary>
     public static TheoryData<int, int> InvalidWeekOfYearData { get; } = new()
     {
         { CommonYear, 0 },
@@ -14,14 +14,14 @@ public partial class PaxDataSet // Supplementary data
         { LeapYear, 54 },
     };
 
-    // Year, weeks in year.
+    /// <summary>Year, weeks in year.</summary>
     public static TheoryData<int, int> MoreYearInfoData { get; } = new()
     {
         { CommonYear, 52 },
         { LeapYear, 53 },
     };
 
-    // Year, month of the year, isPaxMonth, isLastMonthOfYear.
+    /// <summary>Year, month of the year, isPaxMonth, isLastMonthOfYear.</summary>
     public static TheoryData<int, int, bool, bool> MoreMonthInfoData { get; } = new()
     {
         // Common year.
@@ -55,7 +55,7 @@ public partial class PaxDataSet // Supplementary data
         { LeapYear, 14, false, true },
     };
 
-    // Year, week of the year, isIntercalary.
+    /// <summary>Year, week of the year, isIntercalary.</summary>
     public static TheoryData<int, int, bool> WeekInfoData { get; } = new()
     {
         // Common year.

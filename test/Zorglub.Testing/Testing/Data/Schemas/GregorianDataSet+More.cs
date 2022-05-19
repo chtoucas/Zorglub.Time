@@ -7,7 +7,7 @@ using static Zorglub.Testing.Data.Extensions.TheoryDataExtensions;
 
 public partial class GregorianDataSet // Supplementary data
 {
-    public DataGroup<YemoAnd<int>> DaysInYearAfterMonthData { get; } = new()
+    public static DataGroup<YemoAnd<int>> DaysInYearAfterMonthData { get; } = new()
     {
         // Common year.
         new(CommonYear, 1, 334),
