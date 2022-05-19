@@ -77,12 +77,12 @@ public static class MinMaxYearCalendarTests
 }
 
 public class GregorianMinMaxYearCalendarDataSet :
-    MinMaxYearCalendarDataSet<GregorianCalendarDataSet>,
+    MinMaxYearCalendarDataSet<UnboundedGregorianDataSet>,
     ISingleton<GregorianMinMaxYearCalendarDataSet>
 {
     public GregorianMinMaxYearCalendarDataSet()
         : base(
-            GregorianCalendarDataSet.Instance,
+            UnboundedGregorianDataSet.Instance,
             GregorianMinMaxYearCalendarTests.FirstYear,
             GregorianMinMaxYearCalendarTests.LastYear)
     { }

@@ -6,7 +6,7 @@ namespace Zorglub.Time.Hemerology;
 using Zorglub.Testing.Data.Unbounded;
 
 public sealed partial class WideCalendarTests :
-    ICalendarTFacts<WideDate, WideCalendar, GregorianCalendarDataSet>
+    ICalendarTFacts<WideDate, WideCalendar, UnboundedGregorianDataSet>
 {
     public WideCalendarTests() : this(WideCatalogTests.Gregorian) { }
 

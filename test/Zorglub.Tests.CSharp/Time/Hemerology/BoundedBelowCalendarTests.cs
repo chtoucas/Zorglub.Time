@@ -55,7 +55,7 @@ public static class BoundedBelowCalendarTests
 }
 
 public sealed class GregorianBoundedBelowCalendarTests
-    : NakedCalendarFacts<BoundedBelowCalendar, GregorianCalendarDataSet>
+    : NakedCalendarFacts<BoundedBelowCalendar, UnboundedGregorianDataSet>
 {
     private const int FirstYear = -123_456;
     private const int FirstMonth = 4;

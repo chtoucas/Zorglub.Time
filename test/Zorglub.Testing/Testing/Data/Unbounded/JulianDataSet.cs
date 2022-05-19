@@ -9,16 +9,16 @@ using Zorglub.Testing.Data.Schemas;
 /// <summary>
 /// Provides test data for the (unbounded) Julian calendar.
 /// </summary>
-public sealed class JulianCalendarDataSet :
-    UnboundedCalendarDataSet<JulianDataSet>, ISingleton<JulianCalendarDataSet>
+public sealed class UnboundedJulianDataSet :
+    UnboundedCalendarDataSet<JulianDataSet>, ISingleton<UnboundedJulianDataSet>
 {
-    private JulianCalendarDataSet() : base(JulianDataSet.Instance, DayZero.OldStyle) { }
+    private UnboundedJulianDataSet() : base(JulianDataSet.Instance, DayZero.OldStyle) { }
 
-    public static JulianCalendarDataSet Instance => Singleton.Instance;
+    public static UnboundedJulianDataSet Instance => Singleton.Instance;
 
     private static class Singleton
     {
-        internal static readonly JulianCalendarDataSet Instance = new();
+        internal static readonly UnboundedJulianDataSet Instance = new();
         static Singleton() { }
     }
 

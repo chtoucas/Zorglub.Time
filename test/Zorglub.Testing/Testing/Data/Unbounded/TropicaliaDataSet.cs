@@ -9,16 +9,16 @@ using Zorglub.Testing.Data.Schemas;
 /// <summary>
 /// Provides test data for the (unbounded) "Tropicália" calendar.
 /// </summary>
-public sealed class TropicaliaCalendarDataSet :
-    UnboundedCalendarDataSet<TropicalistaDataSet>, ISingleton<TropicaliaCalendarDataSet>
+public sealed class UnboundedTropicaliaDataSet :
+    UnboundedCalendarDataSet<TropicalistaDataSet>, ISingleton<UnboundedTropicaliaDataSet>
 {
-    private TropicaliaCalendarDataSet() : base(TropicaliaDataSet.Instance, DayZero.NewStyle) { }
+    private UnboundedTropicaliaDataSet() : base(TropicaliaDataSet.Instance, DayZero.NewStyle) { }
 
-    public static TropicaliaCalendarDataSet Instance => Singleton.Instance;
+    public static UnboundedTropicaliaDataSet Instance => Singleton.Instance;
 
     private static class Singleton
     {
-        internal static readonly TropicaliaCalendarDataSet Instance = new();
+        internal static readonly UnboundedTropicaliaDataSet Instance = new();
         static Singleton() { }
     }
 
@@ -29,18 +29,18 @@ public sealed class TropicaliaCalendarDataSet :
 /// <summary>
 /// Provides test data for the (unbounded) "Tropicália" calendar (30-31).
 /// </summary>
-public sealed class Tropicalia3031CalendarDataSet :
-    UnboundedCalendarDataSet<Tropicalia3031DataSet>, ISingleton<Tropicalia3031CalendarDataSet>
+public sealed class UnboundedTropicalia3031DataSet :
+    UnboundedCalendarDataSet<Tropicalia3031DataSet>, ISingleton<UnboundedTropicalia3031DataSet>
 {
     private static readonly DayNumber s_Epoch = DayZero.NewStyle;
 
-    private Tropicalia3031CalendarDataSet() : base(Tropicalia3031DataSet.Instance, s_Epoch) { }
+    private UnboundedTropicalia3031DataSet() : base(Tropicalia3031DataSet.Instance, s_Epoch) { }
 
-    public static Tropicalia3031CalendarDataSet Instance => Singleton.Instance;
+    public static UnboundedTropicalia3031DataSet Instance => Singleton.Instance;
 
     private static class Singleton
     {
-        internal static readonly Tropicalia3031CalendarDataSet Instance = new();
+        internal static readonly UnboundedTropicalia3031DataSet Instance = new();
         static Singleton() { }
     }
 
@@ -51,18 +51,18 @@ public sealed class Tropicalia3031CalendarDataSet :
 /// <summary>
 /// Provides test data for the (unbounded) "Tropicália" calendar (31-30).
 /// </summary>
-public sealed class Tropicalia3130CalendarDataSet :
-    UnboundedCalendarDataSet<Tropicalia3130DataSet>, ISingleton<Tropicalia3130CalendarDataSet>
+public sealed class UnboundedTropicalia3130DataSet :
+    UnboundedCalendarDataSet<Tropicalia3130DataSet>, ISingleton<UnboundedTropicalia3130DataSet>
 {
     private static readonly DayNumber s_Epoch = DayZero.NewStyle;
 
-    private Tropicalia3130CalendarDataSet() : base(Tropicalia3130DataSet.Instance, s_Epoch) { }
+    private UnboundedTropicalia3130DataSet() : base(Tropicalia3130DataSet.Instance, s_Epoch) { }
 
-    public static Tropicalia3130CalendarDataSet Instance => Singleton.Instance;
+    public static UnboundedTropicalia3130DataSet Instance => Singleton.Instance;
 
     private static class Singleton
     {
-        internal static readonly Tropicalia3130CalendarDataSet Instance = new();
+        internal static readonly UnboundedTropicalia3130DataSet Instance = new();
         static Singleton() { }
     }
 

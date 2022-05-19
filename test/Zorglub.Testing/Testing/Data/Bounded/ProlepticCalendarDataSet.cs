@@ -24,14 +24,14 @@ public class ProlepticCalendarDataSet<TDataSet> : MinMaxYearCalendarDataSet<TDat
 /// Provides test data for Gregorian calendar with years within the range [-9998..9999].
 /// </summary>
 public sealed class ProlepticGregorianDataSet :
-    ProlepticCalendarDataSet<GregorianCalendarDataSet>,
+    ProlepticCalendarDataSet<UnboundedGregorianDataSet>,
     IYearAdjustmentDataSet,
     IMathDataSet,
     IAdvancedMathDataSet,
     IDayOfWeekDataSet,
     ISingleton<ProlepticGregorianDataSet>
 {
-    private ProlepticGregorianDataSet() : base(GregorianCalendarDataSet.Instance) { }
+    private ProlepticGregorianDataSet() : base(UnboundedGregorianDataSet.Instance) { }
 
     public static ProlepticGregorianDataSet Instance => Singleton.Instance;
 
@@ -70,9 +70,9 @@ public sealed class ProlepticGregorianDataSet :
 /// Provides test data for the Julian calendar with years within the range [-9998..9999].
 /// </summary>
 public sealed class ProlepticJulianDataSet :
-    ProlepticCalendarDataSet<JulianCalendarDataSet>, ISingleton<ProlepticJulianDataSet>
+    ProlepticCalendarDataSet<UnboundedJulianDataSet>, ISingleton<ProlepticJulianDataSet>
 {
-    private ProlepticJulianDataSet() : base(JulianCalendarDataSet.Instance) { }
+    private ProlepticJulianDataSet() : base(UnboundedJulianDataSet.Instance) { }
 
     public static ProlepticJulianDataSet Instance => Singleton.Instance;
 

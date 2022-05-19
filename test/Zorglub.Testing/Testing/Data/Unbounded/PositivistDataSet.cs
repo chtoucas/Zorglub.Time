@@ -10,16 +10,16 @@ using Zorglub.Time.Hemerology;
 /// <summary>
 /// Provides test data for the (unbounded) Positivist calendar.
 /// </summary>
-public sealed class PositivistCalendarDataSet :
-    UnboundedCalendarDataSet<PositivistDataSet>, ISingleton<PositivistCalendarDataSet>
+public sealed class UnboundedPositivistDataSet :
+    UnboundedCalendarDataSet<PositivistDataSet>, ISingleton<UnboundedPositivistDataSet>
 {
-    private PositivistCalendarDataSet() : base(PositivistDataSet.Instance, CalendarEpoch.Positivist) { }
+    private UnboundedPositivistDataSet() : base(PositivistDataSet.Instance, CalendarEpoch.Positivist) { }
 
-    public static PositivistCalendarDataSet Instance => Singleton.Instance;
+    public static UnboundedPositivistDataSet Instance => Singleton.Instance;
 
     private static class Singleton
     {
-        internal static readonly PositivistCalendarDataSet Instance = new();
+        internal static readonly UnboundedPositivistDataSet Instance = new();
         static Singleton() { }
     }
 

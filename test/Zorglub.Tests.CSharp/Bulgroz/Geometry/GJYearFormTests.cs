@@ -51,8 +51,8 @@ public partial class GJYearFormTests
     private static readonly JulianSchema s_JulianSchema = new();
     private static readonly GregorianSchema s_GregorianSchema = new();
 
-    private static GregorianCalendarDataSet GregorianDataSet => GregorianCalendarDataSet.Instance;
-    private static JulianCalendarDataSet JulianDataSet => JulianCalendarDataSet.Instance;
+    private static UnboundedGregorianDataSet GregorianDataSet => UnboundedGregorianDataSet.Instance;
+    private static UnboundedJulianDataSet JulianDataSet => UnboundedJulianDataSet.Instance;
 
     public static DataGroup<YearInfo> JulianYearInfoData => JulianDataSet.YearInfoData;
     public static DataGroup<YearDayNumber> JulianStartOfYearDayNumberData => JulianDataSet.StartOfYearDayNumberData;

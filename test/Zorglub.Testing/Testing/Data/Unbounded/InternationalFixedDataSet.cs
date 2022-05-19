@@ -9,18 +9,18 @@ using Zorglub.Testing.Data.Schemas;
 /// <summary>
 /// Provides test data for the (unbounded) International Fixed calendar.
 /// </summary>
-public sealed class InternationalFixedCalendarDataSet :
-    UnboundedCalendarDataSet<InternationalFixedDataSet>, ISingleton<InternationalFixedCalendarDataSet>
+public sealed class UnboundedInternationalFixedDataSet :
+    UnboundedCalendarDataSet<InternationalFixedDataSet>, ISingleton<UnboundedInternationalFixedDataSet>
 {
     private static readonly DayNumber s_Epoch = DayZero.NewStyle;
 
-    private InternationalFixedCalendarDataSet() : base(InternationalFixedDataSet.Instance, s_Epoch) { }
+    private UnboundedInternationalFixedDataSet() : base(InternationalFixedDataSet.Instance, s_Epoch) { }
 
-    public static InternationalFixedCalendarDataSet Instance => Singleton.Instance;
+    public static UnboundedInternationalFixedDataSet Instance => Singleton.Instance;
 
     private static class Singleton
     {
-        internal static readonly InternationalFixedCalendarDataSet Instance = new();
+        internal static readonly UnboundedInternationalFixedDataSet Instance = new();
         static Singleton() { }
     }
 

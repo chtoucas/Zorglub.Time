@@ -169,7 +169,7 @@ module Conversions =
 
 module GregorianConversion =
     let private dataSet = GregorianDataSet.Instance
-    let private calendarDataSet = GregorianCalendarDataSet.Instance
+    let private calendarDataSet = UnboundedGregorianDataSet.Instance
 
     let dayNumberInfoData = calendarDataSet.DayNumberInfoData
     let dateInfoData = dataSet.DateInfoData
@@ -293,7 +293,7 @@ module GregorianConversion =
 
 module JulianConversion =
     let private dataSet = JulianDataSet.Instance
-    let private calendarDataSet = JulianCalendarDataSet.Instance
+    let private calendarDataSet = UnboundedJulianDataSet.Instance
 
     let dayNumberInfoData = calendarDataSet.DayNumberInfoData
     let dateInfoData = dataSet.DateInfoData
@@ -417,7 +417,7 @@ module JulianConversion =
         dayNumber.GetJulianOrdinalParts() === parts
 
 module DayOfWeekAdjustment =
-    let private dataSet = GregorianCalendarDataSet.Instance
+    let private dataSet = UnboundedGregorianDataSet.Instance
 
     let invalidDayOfWeekData = EnumDataSet.InvalidDayOfWeekData
 
@@ -513,7 +513,7 @@ module DayOfWeekAdjustment =
 module DayOfWeekAdjustment2 =
     // Here we test the extension methods from DayNumberExtensions.
 
-    let private dataSet = GregorianCalendarDataSet.Instance
+    let private dataSet = UnboundedGregorianDataSet.Instance
 
     let invalidDayOfWeekData = EnumDataSet.InvalidDayOfWeekData
 

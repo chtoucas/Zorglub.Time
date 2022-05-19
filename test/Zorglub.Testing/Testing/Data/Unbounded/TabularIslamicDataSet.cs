@@ -10,16 +10,16 @@ using Zorglub.Time.Hemerology;
 /// <summary>
 /// Provides test data for the (unbounded) Tabular Islamic calendar.
 /// </summary>
-public sealed class TabularIslamicCalendarDataSet :
-    UnboundedCalendarDataSet<TabularIslamicDataSet>, ISingleton<TabularIslamicCalendarDataSet>
+public sealed class UnboundedTabularIslamicDataSet :
+    UnboundedCalendarDataSet<TabularIslamicDataSet>, ISingleton<UnboundedTabularIslamicDataSet>
 {
-    private TabularIslamicCalendarDataSet() : base(TabularIslamicDataSet.Instance, CalendarEpoch.TabularIslamic) { }
+    private UnboundedTabularIslamicDataSet() : base(TabularIslamicDataSet.Instance, CalendarEpoch.TabularIslamic) { }
 
-    public static TabularIslamicCalendarDataSet Instance => Singleton.Instance;
+    public static UnboundedTabularIslamicDataSet Instance => Singleton.Instance;
 
     private static class Singleton
     {
-        internal static readonly TabularIslamicCalendarDataSet Instance = new();
+        internal static readonly UnboundedTabularIslamicDataSet Instance = new();
         static Singleton() { }
     }
 

@@ -10,21 +10,21 @@ using Zorglub.Time.Core;
 /// <summary>
 /// Provides test data for the (unbounded) Gregorian calendar.
 /// </summary>
-public sealed partial class GregorianCalendarDataSet :
+public sealed partial class UnboundedGregorianDataSet :
     UnboundedCalendarDataSet<GregorianDataSet>,
     IYearAdjustmentDataSet,
     IMathDataSet,
     IAdvancedMathDataSet,
     IDayOfWeekDataSet,
-    ISingleton<GregorianCalendarDataSet>
+    ISingleton<UnboundedGregorianDataSet>
 {
-    private GregorianCalendarDataSet() : base(GregorianDataSet.Instance, DayZero.NewStyle) { }
+    private UnboundedGregorianDataSet() : base(GregorianDataSet.Instance, DayZero.NewStyle) { }
 
-    public static GregorianCalendarDataSet Instance => Singleton.Instance;
+    public static UnboundedGregorianDataSet Instance => Singleton.Instance;
 
     private static class Singleton
     {
-        internal static readonly GregorianCalendarDataSet Instance = new();
+        internal static readonly UnboundedGregorianDataSet Instance = new();
         static Singleton() { }
     }
 

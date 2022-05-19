@@ -10,17 +10,17 @@ using Zorglub.Time.Hemerology;
 /// <summary>
 /// Provides test data for the (unbounded) French Republican calendar.
 /// </summary>
-public sealed class FrenchRepublican12CalendarDataSet :
-    UnboundedCalendarDataSet<FrenchRepublican12DataSet>, IEpagomenalDataSet, ISingleton<FrenchRepublican12CalendarDataSet>
+public sealed class UnboundedFrenchRepublican12DataSet :
+    UnboundedCalendarDataSet<FrenchRepublican12DataSet>, IEpagomenalDataSet, ISingleton<UnboundedFrenchRepublican12DataSet>
 {
-    private FrenchRepublican12CalendarDataSet()
+    private UnboundedFrenchRepublican12DataSet()
         : base(FrenchRepublican12DataSet.Instance, CalendarEpoch.FrenchRepublican) { }
 
-    public static FrenchRepublican12CalendarDataSet Instance => Singleton.Instance;
+    public static UnboundedFrenchRepublican12DataSet Instance => Singleton.Instance;
 
     private static class Singleton
     {
-        internal static readonly FrenchRepublican12CalendarDataSet Instance = new();
+        internal static readonly UnboundedFrenchRepublican12DataSet Instance = new();
         static Singleton() { }
     }
 
@@ -33,17 +33,17 @@ public sealed class FrenchRepublican12CalendarDataSet :
 /// <summary>
 /// Provides test data for the (unbounded) French Republican calendar (alternative form).
 /// </summary>
-public sealed class FrenchRepublican13CalendarDataSet :
-    UnboundedCalendarDataSet<FrenchRepublican13DataSet>, IEpagomenalDataSet, ISingleton<FrenchRepublican13CalendarDataSet>
+public sealed class UnboundedFrenchRepublican13DataSet :
+    UnboundedCalendarDataSet<FrenchRepublican13DataSet>, IEpagomenalDataSet, ISingleton<UnboundedFrenchRepublican13DataSet>
 {
-    private FrenchRepublican13CalendarDataSet()
+    private UnboundedFrenchRepublican13DataSet()
         : base(FrenchRepublican13DataSet.Instance, CalendarEpoch.FrenchRepublican) { }
 
-    public static FrenchRepublican13CalendarDataSet Instance => Singleton.Instance;
+    public static UnboundedFrenchRepublican13DataSet Instance => Singleton.Instance;
 
     private static class Singleton
     {
-        internal static readonly FrenchRepublican13CalendarDataSet Instance = new();
+        internal static readonly UnboundedFrenchRepublican13DataSet Instance = new();
         static Singleton() { }
     }
 

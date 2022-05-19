@@ -10,16 +10,16 @@ using Zorglub.Time.Hemerology;
 /// <summary>
 /// Provides test data for the (unbounded) faux Lunisolar calendar.
 /// </summary>
-public sealed class LunisolarCalendarDataSet :
-    UnboundedCalendarDataSet<LunisolarDataSet>, ISingleton<LunisolarCalendarDataSet>
+public sealed class UnboundedLunisolarDataSet :
+    UnboundedCalendarDataSet<LunisolarDataSet>, ISingleton<UnboundedLunisolarDataSet>
 {
-    private LunisolarCalendarDataSet() : base(LunisolarDataSet.Instance, CalendarEpoch.Positivist) { }
+    private UnboundedLunisolarDataSet() : base(LunisolarDataSet.Instance, CalendarEpoch.Positivist) { }
 
-    public static LunisolarCalendarDataSet Instance => Singleton.Instance;
+    public static UnboundedLunisolarDataSet Instance => Singleton.Instance;
 
     private static class Singleton
     {
-        internal static readonly LunisolarCalendarDataSet Instance = new();
+        internal static readonly UnboundedLunisolarDataSet Instance = new();
         static Singleton() { }
     }
 

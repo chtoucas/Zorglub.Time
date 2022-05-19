@@ -10,18 +10,18 @@ using Zorglub.Time.Hemerology;
 /// <summary>
 /// Provides test data for the (unbounded) Ethiopic calendar (alternative form).
 /// </summary>
-public sealed class Ethiopic13CalendarDataSet :
-    UnboundedCalendarDataSet<Coptic13DataSet>, IEpagomenalDataSet, ISingleton<Ethiopic13CalendarDataSet>
+public sealed class UnboundedEthiopic13DataSet :
+    UnboundedCalendarDataSet<Coptic13DataSet>, IEpagomenalDataSet, ISingleton<UnboundedEthiopic13DataSet>
 {
     private static readonly DayNumber s_Epoch = CalendarEpoch.Ethiopic;
 
-    private Ethiopic13CalendarDataSet() : base(Coptic13DataSet.Instance, s_Epoch) { }
+    private UnboundedEthiopic13DataSet() : base(Coptic13DataSet.Instance, s_Epoch) { }
 
-    public static Ethiopic13CalendarDataSet Instance => Singleton.Instance;
+    public static UnboundedEthiopic13DataSet Instance => Singleton.Instance;
 
     private static class Singleton
     {
-        internal static readonly Ethiopic13CalendarDataSet Instance = new();
+        internal static readonly UnboundedEthiopic13DataSet Instance = new();
         static Singleton() { }
     }
 
@@ -34,18 +34,18 @@ public sealed class Ethiopic13CalendarDataSet :
 /// <summary>
 /// Provides test data for the (unbounded) Ethiopic calendar.
 /// </summary>
-public sealed class Ethiopic12CalendarDataSet :
-    UnboundedCalendarDataSet<Coptic12DataSet>, IEpagomenalDataSet, ISingleton<Ethiopic12CalendarDataSet>
+public sealed class UnboundedEthiopic12DataSet :
+    UnboundedCalendarDataSet<Coptic12DataSet>, IEpagomenalDataSet, ISingleton<UnboundedEthiopic12DataSet>
 {
     private static readonly DayNumber s_Epoch = CalendarEpoch.Ethiopic;
 
-    private Ethiopic12CalendarDataSet() : base(Coptic12DataSet.Instance, s_Epoch) { }
+    private UnboundedEthiopic12DataSet() : base(Coptic12DataSet.Instance, s_Epoch) { }
 
-    public static Ethiopic12CalendarDataSet Instance => Singleton.Instance;
+    public static UnboundedEthiopic12DataSet Instance => Singleton.Instance;
 
     private static class Singleton
     {
-        internal static readonly Ethiopic12CalendarDataSet Instance = new();
+        internal static readonly UnboundedEthiopic12DataSet Instance = new();
         static Singleton() { }
     }
 

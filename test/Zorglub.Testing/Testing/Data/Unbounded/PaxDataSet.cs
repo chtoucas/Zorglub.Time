@@ -12,15 +12,15 @@ using static Zorglub.Testing.Data.Extensions.TheoryDataExtensions;
 /// <summary>
 /// Provides test data for the (unbounded) Pax calendar.
 /// </summary>
-public sealed class PaxCalendarDataSet : UnboundedCalendarDataSet<PaxDataSet>, ISingleton<PaxCalendarDataSet>
+public sealed class UnboundedPaxDataSet : UnboundedCalendarDataSet<PaxDataSet>, ISingleton<UnboundedPaxDataSet>
 {
-    private PaxCalendarDataSet() : base(PaxDataSet.Instance, CalendarEpoch.SundayBeforeGregorian) { }
+    private UnboundedPaxDataSet() : base(PaxDataSet.Instance, CalendarEpoch.SundayBeforeGregorian) { }
 
-    public static PaxCalendarDataSet Instance => Singleton.Instance;
+    public static UnboundedPaxDataSet Instance => Singleton.Instance;
 
     private static class Singleton
     {
-        internal static readonly PaxCalendarDataSet Instance = new();
+        internal static readonly UnboundedPaxDataSet Instance = new();
         static Singleton() { }
     }
 

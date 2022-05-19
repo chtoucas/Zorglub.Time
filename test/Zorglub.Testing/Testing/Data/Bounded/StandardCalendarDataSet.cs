@@ -25,9 +25,9 @@ public class StandardCalendarDataSet<TDataSet> : MinMaxYearCalendarDataSet<TData
 /// Provides test data for the Armenian calendar with years within the range [1..9999].
 /// </summary>
 public sealed class StandardArmenian12DataSet :
-    StandardCalendarDataSet<Armenian12CalendarDataSet>, IEpagomenalDataSet, ISingleton<StandardArmenian12DataSet>
+    StandardCalendarDataSet<UnboundedArmenian12DataSet>, IEpagomenalDataSet, ISingleton<StandardArmenian12DataSet>
 {
-    private StandardArmenian12DataSet() : base(Armenian12CalendarDataSet.Instance) { }
+    private StandardArmenian12DataSet() : base(UnboundedArmenian12DataSet.Instance) { }
 
     public static StandardArmenian12DataSet Instance => Singleton.Instance;
 
@@ -44,9 +44,9 @@ public sealed class StandardArmenian12DataSet :
 /// Provides test data for the Coptic calendar with years within the range [1..9999].
 /// </summary>
 public sealed class StandardCoptic12DataSet :
-    StandardCalendarDataSet<Coptic12CalendarDataSet>, IEpagomenalDataSet, ISingleton<StandardCoptic12DataSet>
+    StandardCalendarDataSet<UnboundedCoptic12DataSet>, IEpagomenalDataSet, ISingleton<StandardCoptic12DataSet>
 {
-    private StandardCoptic12DataSet() : base(Coptic12CalendarDataSet.Instance) { }
+    private StandardCoptic12DataSet() : base(UnboundedCoptic12DataSet.Instance) { }
 
     public static StandardCoptic12DataSet Instance => Singleton.Instance;
 
@@ -63,9 +63,9 @@ public sealed class StandardCoptic12DataSet :
 /// Provides test data for the Ethiopic calendar with years within the range [1..9999].
 /// </summary>
 public sealed class StandardEthiopic12DataSet :
-    StandardCalendarDataSet<Ethiopic12CalendarDataSet>, IEpagomenalDataSet, ISingleton<StandardEthiopic12DataSet>
+    StandardCalendarDataSet<UnboundedEthiopic12DataSet>, IEpagomenalDataSet, ISingleton<StandardEthiopic12DataSet>
 {
-    private StandardEthiopic12DataSet() : base(Ethiopic12CalendarDataSet.Instance) { }
+    private StandardEthiopic12DataSet() : base(UnboundedEthiopic12DataSet.Instance) { }
 
     public static StandardEthiopic12DataSet Instance => Singleton.Instance;
 
@@ -82,14 +82,14 @@ public sealed class StandardEthiopic12DataSet :
 /// Provides test data for the Gregorian calendar with years within the range [1..9999].
 /// </summary>
 public sealed class StandardGregorianDataSet :
-    StandardCalendarDataSet<GregorianCalendarDataSet>,
+    StandardCalendarDataSet<UnboundedGregorianDataSet>,
     IYearAdjustmentDataSet,
     IMathDataSet,
     IAdvancedMathDataSet,
     IDayOfWeekDataSet,
     ISingleton<StandardGregorianDataSet>
 {
-    private StandardGregorianDataSet() : base(GregorianCalendarDataSet.Instance) { }
+    private StandardGregorianDataSet() : base(UnboundedGregorianDataSet.Instance) { }
 
     public static StandardGregorianDataSet Instance => Singleton.Instance;
 
@@ -128,9 +128,9 @@ public sealed class StandardGregorianDataSet :
 /// Provides test data for the Tabular Islamic calendar with years within the range [1..9999].
 /// </summary>
 public sealed class StandardTabularIslamicDataSet :
-    StandardCalendarDataSet<TabularIslamicCalendarDataSet>, ISingleton<StandardTabularIslamicDataSet>
+    StandardCalendarDataSet<UnboundedTabularIslamicDataSet>, ISingleton<StandardTabularIslamicDataSet>
 {
-    private StandardTabularIslamicDataSet() : base(TabularIslamicCalendarDataSet.Instance) { }
+    private StandardTabularIslamicDataSet() : base(UnboundedTabularIslamicDataSet.Instance) { }
 
     public static StandardTabularIslamicDataSet Instance => Singleton.Instance;
 
@@ -145,9 +145,9 @@ public sealed class StandardTabularIslamicDataSet :
 /// Provides test data for the Zoroastrian calendar with years within the range [1..9999].
 /// </summary>
 public sealed class StandardZoroastrian12DataSet :
-    StandardCalendarDataSet<Zoroastrian12CalendarDataSet>, IEpagomenalDataSet, ISingleton<StandardZoroastrian12DataSet>
+    StandardCalendarDataSet<UnboundedZoroastrian12DataSet>, IEpagomenalDataSet, ISingleton<StandardZoroastrian12DataSet>
 {
-    private StandardZoroastrian12DataSet() : base(Zoroastrian12CalendarDataSet.Instance) { }
+    private StandardZoroastrian12DataSet() : base(UnboundedZoroastrian12DataSet.Instance) { }
 
     public static StandardZoroastrian12DataSet Instance => Singleton.Instance;
 

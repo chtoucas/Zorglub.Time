@@ -10,18 +10,18 @@ using Zorglub.Time.Hemerology;
 /// <summary>
 /// Provides test data for the (unbounded) Zoroastrian calendar (alternative form).
 /// </summary>
-public sealed class Zoroastrian13CalendarDataSet :
-    UnboundedCalendarDataSet<Egyptian13DataSet>, IEpagomenalDataSet, ISingleton<Zoroastrian13CalendarDataSet>
+public sealed class UnboundedZoroastrian13DataSet :
+    UnboundedCalendarDataSet<Egyptian13DataSet>, IEpagomenalDataSet, ISingleton<UnboundedZoroastrian13DataSet>
 {
     private static readonly DayNumber s_Epoch = CalendarEpoch.Zoroastrian;
 
-    private Zoroastrian13CalendarDataSet() : base(Egyptian13DataSet.Instance, s_Epoch) { }
+    private UnboundedZoroastrian13DataSet() : base(Egyptian13DataSet.Instance, s_Epoch) { }
 
-    public static Zoroastrian13CalendarDataSet Instance => Singleton.Instance;
+    public static UnboundedZoroastrian13DataSet Instance => Singleton.Instance;
 
     private static class Singleton
     {
-        internal static readonly Zoroastrian13CalendarDataSet Instance = new();
+        internal static readonly UnboundedZoroastrian13DataSet Instance = new();
         static Singleton() { }
     }
 
@@ -34,18 +34,18 @@ public sealed class Zoroastrian13CalendarDataSet :
 /// <summary>
 /// Provides test data for the (unbounded) Zoroastrian calendar.
 /// </summary>
-public sealed class Zoroastrian12CalendarDataSet :
-    UnboundedCalendarDataSet<Egyptian12DataSet>, IEpagomenalDataSet, ISingleton<Zoroastrian12CalendarDataSet>
+public sealed class UnboundedZoroastrian12DataSet :
+    UnboundedCalendarDataSet<Egyptian12DataSet>, IEpagomenalDataSet, ISingleton<UnboundedZoroastrian12DataSet>
 {
     private static readonly DayNumber s_Epoch = CalendarEpoch.Zoroastrian;
 
-    private Zoroastrian12CalendarDataSet() : base(Egyptian12DataSet.Instance, s_Epoch) { }
+    private UnboundedZoroastrian12DataSet() : base(Egyptian12DataSet.Instance, s_Epoch) { }
 
-    public static Zoroastrian12CalendarDataSet Instance => Singleton.Instance;
+    public static UnboundedZoroastrian12DataSet Instance => Singleton.Instance;
 
     private static class Singleton
     {
-        internal static readonly Zoroastrian12CalendarDataSet Instance = new();
+        internal static readonly UnboundedZoroastrian12DataSet Instance = new();
         static Singleton() { }
     }
 

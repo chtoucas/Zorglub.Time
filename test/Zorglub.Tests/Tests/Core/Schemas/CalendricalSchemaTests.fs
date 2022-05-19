@@ -145,12 +145,12 @@ module GregorianCase =
         sch.CountDaysInMonthAfter(y, m, d) === days
 
 module PaxCase =
-    let private calendarDataSet = PaxCalendarDataSet.Instance
+    let private calendarDataSet = UnboundedPaxDataSet.Instance
     let private epoch = calendarDataSet.Epoch
 
     let private sch = schemaOf<PaxSchema>()
 
-    let moreDayNumberInfoData = PaxCalendarDataSet.MoreDayNumberInfoData
+    let moreDayNumberInfoData = UnboundedPaxDataSet.MoreDayNumberInfoData
     let moreYearInfoData = PaxDataSet.MoreYearInfoData
     let moreMonthInfoData = PaxDataSet.MoreMonthInfoData
     let weekInfoData = PaxDataSet.WeekInfoData

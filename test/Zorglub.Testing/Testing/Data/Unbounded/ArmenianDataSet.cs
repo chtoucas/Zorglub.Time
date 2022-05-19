@@ -10,18 +10,18 @@ using Zorglub.Time.Hemerology;
 /// <summary>
 /// Provides test data for the (unbounded) Amenian calendar.
 /// </summary>
-public sealed class Armenian12CalendarDataSet :
-    UnboundedCalendarDataSet<Egyptian12DataSet>, IEpagomenalDataSet, ISingleton<Armenian12CalendarDataSet>
+public sealed class UnboundedArmenian12DataSet :
+    UnboundedCalendarDataSet<Egyptian12DataSet>, IEpagomenalDataSet, ISingleton<UnboundedArmenian12DataSet>
 {
     private static readonly DayNumber s_Epoch = CalendarEpoch.Armenian;
 
-    private Armenian12CalendarDataSet() : base(Egyptian12DataSet.Instance, s_Epoch) { }
+    private UnboundedArmenian12DataSet() : base(Egyptian12DataSet.Instance, s_Epoch) { }
 
-    public static Armenian12CalendarDataSet Instance => Singleton.Instance;
+    public static UnboundedArmenian12DataSet Instance => Singleton.Instance;
 
     private static class Singleton
     {
-        internal static readonly Armenian12CalendarDataSet Instance = new();
+        internal static readonly UnboundedArmenian12DataSet Instance = new();
         static Singleton() { }
     }
 
@@ -34,18 +34,18 @@ public sealed class Armenian12CalendarDataSet :
 /// <summary>
 /// Provides test data for the (unbounded) Amenian calendar (alternative form).
 /// </summary>
-public sealed class Armenian13CalendarDataSet :
-    UnboundedCalendarDataSet<Egyptian13DataSet>, IEpagomenalDataSet, ISingleton<Armenian13CalendarDataSet>
+public sealed class UnboundedArmenian13DataSet :
+    UnboundedCalendarDataSet<Egyptian13DataSet>, IEpagomenalDataSet, ISingleton<UnboundedArmenian13DataSet>
 {
     private static readonly DayNumber s_Epoch = CalendarEpoch.Armenian;
 
-    private Armenian13CalendarDataSet() : base(Egyptian13DataSet.Instance, s_Epoch) { }
+    private UnboundedArmenian13DataSet() : base(Egyptian13DataSet.Instance, s_Epoch) { }
 
-    public static Armenian13CalendarDataSet Instance => Singleton.Instance;
+    public static UnboundedArmenian13DataSet Instance => Singleton.Instance;
 
     private static class Singleton
     {
-        internal static readonly Armenian13CalendarDataSet Instance = new();
+        internal static readonly UnboundedArmenian13DataSet Instance = new();
         static Singleton() { }
     }
 

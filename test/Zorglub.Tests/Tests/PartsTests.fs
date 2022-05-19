@@ -165,7 +165,7 @@ module DateParts =
 
     module Conversions =
         let private dataSet = GregorianDataSet.Instance
-        let private calendarDataSet = GregorianCalendarDataSet.Instance
+        let private calendarDataSet = UnboundedGregorianDataSet.Instance
 
         let dateInfoData = dataSet.DateInfoData
         let invalidMonthFieldData = dataSet.InvalidMonthFieldData
@@ -351,7 +351,7 @@ module MonthParts =
 
     module Conversions =
         let private dataSet = GregorianDataSet.Instance
-        let private calendarDataSet = GregorianCalendarDataSet.Instance
+        let private calendarDataSet = UnboundedGregorianDataSet.Instance
 
         let monthInfoData = dataSet.MonthInfoData
         let invalidMonthFieldData = dataSet.InvalidMonthFieldData
@@ -523,7 +523,7 @@ module OrdinalParts =
 
     module Conversions =
         let private dataSet = GregorianDataSet.Instance
-        let private calendarDataSet = GregorianCalendarDataSet.Instance
+        let private calendarDataSet = UnboundedGregorianDataSet.Instance
 
         let dateInfoData = dataSet.DateInfoData
         let invalidDayOfYearFieldData = dataSet.InvalidDayOfYearFieldData

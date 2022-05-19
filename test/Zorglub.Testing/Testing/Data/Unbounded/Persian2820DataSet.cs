@@ -10,16 +10,16 @@ using Zorglub.Time.Hemerology;
 /// <summary>
 /// Provides test data for the (unbounded) Persian calendar (proposed arithmetical form).
 /// </summary>
-public sealed class Persian2820CalendarDataSet :
-    UnboundedCalendarDataSet<Persian2820DataSet>, ISingleton<Persian2820CalendarDataSet>
+public sealed class UnboundedPersian2820DataSet :
+    UnboundedCalendarDataSet<Persian2820DataSet>, ISingleton<UnboundedPersian2820DataSet>
 {
-    private Persian2820CalendarDataSet() : base(Persian2820DataSet.Instance, CalendarEpoch.Persian) { }
+    private UnboundedPersian2820DataSet() : base(Persian2820DataSet.Instance, CalendarEpoch.Persian) { }
 
-    public static Persian2820CalendarDataSet Instance => Singleton.Instance;
+    public static UnboundedPersian2820DataSet Instance => Singleton.Instance;
 
     private static class Singleton
     {
-        internal static readonly Persian2820CalendarDataSet Instance = new();
+        internal static readonly UnboundedPersian2820DataSet Instance = new();
         static Singleton() { }
     }
 
