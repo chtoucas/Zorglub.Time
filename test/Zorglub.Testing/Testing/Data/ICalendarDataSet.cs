@@ -10,13 +10,14 @@ namespace Zorglub.Testing.Data;
 
 public interface ICalendarDataSet : ICalendricalDataSet
 {
-    /// <summary>
-    /// Gets the epoch.
-    /// </summary>
+    /// <summary>Gets the epoch.</summary>
     DayNumber Epoch { get; }
 
+    /// <summary>Day number of a date.</summary>
     DataGroup<DayNumberInfo> DayNumberInfoData { get; }
 
+    /// <summary>Year, day number at the start of the year.</summary>
     DataGroup<YearDayNumber> StartOfYearDayNumberData { get; }
+    /// <summary>Year, day number at the end of the year.</summary>
     DataGroup<YearDayNumber> EndOfYearDayNumberData { get; }
 }

@@ -8,7 +8,6 @@ using System.Linq;
 
 // TODO(data): use DataGroup. Filter matching data in Bounded.
 // - GregorianDataSet, math
-// - GregorianCalendarDataSet, dayOfWeek
 // - PaxDataSet
 // - PaxCalendarDataSet
 //
@@ -20,7 +19,7 @@ using System.Linq;
 // - s_AddYearsLongCutOff. See GregorianMathTests.
 // - s_Diff (XXX). Should we modify Subtract()?
 //
-// Review what (optional) data should be lazy.
+// See which optional/supplementary data should be lazy.
 
 #region Developer Notes
 
