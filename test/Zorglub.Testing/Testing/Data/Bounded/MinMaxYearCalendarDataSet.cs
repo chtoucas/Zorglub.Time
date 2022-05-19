@@ -3,6 +3,7 @@
 
 namespace Zorglub.Testing.Data.Bounded;
 
+using Zorglub.Testing.Data;
 using Zorglub.Time.Core.Intervals;
 
 public class MinMaxYearCalendarDataSet<TDataSet> : BoundedCalendarDataSet<TDataSet>

@@ -15,6 +15,8 @@ public sealed class MinMaxYearDataFilter : IDataFilter
     public Range<int> SupportedYears { get; }
 
     public bool Filter(Yemoda x) => SupportedYears.Contains(x.Year);
+    public bool Filter(Yemo x) => SupportedYears.Contains(x.Year);
+    public bool Filter(Yedoy x) => SupportedYears.Contains(x.Year);
 
     public bool Filter(YearDaysSinceEpoch x) => SupportedYears.Contains(x.Year);
     public bool Filter(YearDayNumber x) => SupportedYears.Contains(x.Year);

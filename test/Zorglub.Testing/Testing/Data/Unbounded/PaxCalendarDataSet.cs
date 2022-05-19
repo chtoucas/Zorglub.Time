@@ -3,15 +3,16 @@
 
 namespace Zorglub.Testing.Data.Unbounded;
 
+using Zorglub.Testing.Data;
 using Zorglub.Testing.Data.Schemas;
 using Zorglub.Time.Hemerology;
 
 using static Zorglub.Testing.Data.Extensions.TheoryDataExtensions;
 
 /// <summary>
-/// Provides test data for the (unbounded) Pax calendar and related date types.
+/// Provides test data for the (unbounded) Pax calendar.
 /// </summary>
-public sealed class PaxCalendarDataSet : CalendarDataSet<PaxDataSet>, ISingleton<PaxCalendarDataSet>
+public sealed class PaxCalendarDataSet : UnboundedCalendarDataSet<PaxDataSet>, ISingleton<PaxCalendarDataSet>
 {
     private PaxCalendarDataSet() : base(PaxDataSet.Instance, CalendarEpoch.SundayBeforeGregorian) { }
 

@@ -8,8 +8,10 @@ using Zorglub.Time.Hemerology.Scopes;
 using Zorglub.Time.Simple;
 
 /// <summary>
-/// -9998 &lt;= year &lt;= 9999
+/// Defines test data for a calendar with years within the range [-9998..9999] and provides a base
+/// for derived classes.
 /// </summary>
+/// <typeparam name="TDataSet">The type that represents the original calendar dataset.</typeparam>
 public class ProlepticCalendarDataSet<TDataSet> : MinMaxYearCalendarDataSet<TDataSet>
     where TDataSet : ICalendarDataSet
 {
@@ -18,7 +20,7 @@ public class ProlepticCalendarDataSet<TDataSet> : MinMaxYearCalendarDataSet<TDat
 }
 
 /// <summary>
-/// Provides test data for <see cref="GregorianCalendar"/> and related date types.
+/// Provides test data for Gregorian calendar with years within the range [-9998..9999].
 /// </summary>
 public sealed class ProlepticGregorianDataSet :
     ProlepticCalendarDataSet<GregorianCalendarDataSet>,
@@ -56,7 +58,7 @@ public sealed class ProlepticGregorianDataSet :
 }
 
 /// <summary>
-/// Provides test data for <see cref="JulianCalendar"/> and related date types.
+/// Provides test data for the Julian calendar with years within the range [-9998..9999].
 /// </summary>
 public sealed class ProlepticJulianDataSet :
     ProlepticCalendarDataSet<JulianCalendarDataSet>, ISingleton<ProlepticJulianDataSet>

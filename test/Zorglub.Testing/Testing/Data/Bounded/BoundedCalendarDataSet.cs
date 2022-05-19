@@ -3,6 +3,10 @@
 
 namespace Zorglub.Testing.Data.Bounded;
 
+/// <summary>
+/// Defines test data for a <i>bounded</i> calendar and provides a base for derived classes.
+/// </summary>
+/// <typeparam name="TDataSet">The type that represents the original calendar dataset.</typeparam>
 public class BoundedCalendarDataSet<TDataSet> : ICalendarDataSet
     where TDataSet : ICalendarDataSet
 {

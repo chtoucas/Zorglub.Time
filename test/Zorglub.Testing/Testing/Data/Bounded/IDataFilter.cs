@@ -3,9 +3,14 @@
 
 namespace Zorglub.Testing.Data.Bounded;
 
+/// <summary>
+/// Defines a data filter.
+/// </summary>
 public interface IDataFilter
 {
     bool Filter(Yemoda x);
+    bool Filter(Yemo x);
+    bool Filter(Yedoy x);
 
     bool Filter(YearDaysSinceEpoch x);
     bool Filter(YearDayNumber x);

@@ -3,14 +3,15 @@
 
 namespace Zorglub.Testing.Data.Unbounded;
 
+using Zorglub.Testing.Data;
 using Zorglub.Testing.Data.Schemas;
 using Zorglub.Time.Hemerology;
 
 /// <summary>
-/// Provides test data for the (unbounded) Positivist calendar and related date types.
+/// Provides test data for the (unbounded) Positivist calendar.
 /// </summary>
 public sealed class PositivistCalendarDataSet :
-    CalendarDataSet<PositivistDataSet>, ISingleton<PositivistCalendarDataSet>
+    UnboundedCalendarDataSet<PositivistDataSet>, ISingleton<PositivistCalendarDataSet>
 {
     private PositivistCalendarDataSet() : base(PositivistDataSet.Instance, CalendarEpoch.Positivist) { }
 

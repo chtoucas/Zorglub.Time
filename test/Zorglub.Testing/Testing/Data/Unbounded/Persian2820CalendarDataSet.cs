@@ -3,14 +3,15 @@
 
 namespace Zorglub.Testing.Data.Unbounded;
 
+using Zorglub.Testing.Data;
 using Zorglub.Testing.Data.Schemas;
 using Zorglub.Time.Hemerology;
 
 /// <summary>
-/// Provides test data for the (unbounded) Persian calendar (proposed arithmetical form) and related date types.
+/// Provides test data for the (unbounded) Persian calendar (proposed arithmetical form).
 /// </summary>
 public sealed class Persian2820CalendarDataSet :
-    CalendarDataSet<Persian2820DataSet>, ISingleton<Persian2820CalendarDataSet>
+    UnboundedCalendarDataSet<Persian2820DataSet>, ISingleton<Persian2820CalendarDataSet>
 {
     private Persian2820CalendarDataSet() : base(Persian2820DataSet.Instance, CalendarEpoch.Persian) { }
 

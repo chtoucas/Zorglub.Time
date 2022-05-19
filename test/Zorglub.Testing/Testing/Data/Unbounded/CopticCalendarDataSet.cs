@@ -3,14 +3,15 @@
 
 namespace Zorglub.Testing.Data.Unbounded;
 
+using Zorglub.Testing.Data;
 using Zorglub.Testing.Data.Schemas;
 using Zorglub.Time.Hemerology;
 
 /// <summary>
-/// Provides test data for the (unbounded) Coptic calendar and related date types.
+/// Provides test data for the (unbounded) Coptic calendar.
 /// </summary>
 public sealed class Coptic12CalendarDataSet :
-    CalendarDataSet<Coptic12DataSet>, IEpagomenalDataSet, ISingleton<Coptic12CalendarDataSet>
+    UnboundedCalendarDataSet<Coptic12DataSet>, IEpagomenalDataSet, ISingleton<Coptic12CalendarDataSet>
 {
     private Coptic12CalendarDataSet() : base(Coptic12DataSet.Instance, CalendarEpoch.Coptic) { }
 
@@ -19,14 +20,14 @@ public sealed class Coptic12CalendarDataSet :
     public override DataGroup<DayNumberInfo> DayNumberInfoData { get; } =
         DataGroup.CreateDayNumberInfoData(Coptic12DataSet.DaysSinceRataDieInfos);
 
-    public DataGroup<YemodaAnd<int>> EpagomenalDayInfoData => DataSet.EpagomenalDayInfoData;
+    public DataGroup<YemodaAnd<int>> EpagomenalDayInfoData => CalendricalDataSet.EpagomenalDayInfoData;
 }
 
 /// <summary>
-/// Provides test data for the (unbounded) Coptic calendar (alternative form) and related date types.
+/// Provides test data for the (unbounded) Coptic calendar (alternative form).
 /// </summary>
 public sealed class Coptic13CalendarDataSet :
-    CalendarDataSet<Coptic13DataSet>, IEpagomenalDataSet, ISingleton<Coptic13CalendarDataSet>
+    UnboundedCalendarDataSet<Coptic13DataSet>, IEpagomenalDataSet, ISingleton<Coptic13CalendarDataSet>
 {
     private Coptic13CalendarDataSet() : base(Coptic13DataSet.Instance, CalendarEpoch.Coptic) { }
 
@@ -35,5 +36,5 @@ public sealed class Coptic13CalendarDataSet :
     public override DataGroup<DayNumberInfo> DayNumberInfoData { get; } =
         DataGroup.CreateDayNumberInfoData(Coptic13DataSet.DaysSinceRataDieInfos);
 
-    public DataGroup<YemodaAnd<int>> EpagomenalDayInfoData => DataSet.EpagomenalDayInfoData;
+    public DataGroup<YemodaAnd<int>> EpagomenalDayInfoData => CalendricalDataSet.EpagomenalDayInfoData;
 }

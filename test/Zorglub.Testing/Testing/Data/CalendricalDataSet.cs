@@ -59,7 +59,7 @@ public abstract class CalendricalDataSet : ICalendricalDataSet
     [Pure]
     private static DataGroup<Yemoda> MapToStartOfYearParts(DataGroup<Yemoda> source)
     {
-        Debug.Assert(source != null);
+        Requires.NotNull(source);
 
         return source.SelectT(Selector);
 
@@ -69,7 +69,7 @@ public abstract class CalendricalDataSet : ICalendricalDataSet
     [Pure]
     private static DataGroup<YearDaysSinceEpoch> MapToEndOfYearDaysSinceEpochData(DataGroup<YearDaysSinceEpoch> source)
     {
-        Debug.Assert(source != null);
+        Requires.NotNull(source);
 
         return source.SelectT(Selector);
 
@@ -83,7 +83,7 @@ public abstract class CalendricalDataSet : ICalendricalDataSet
     [Pure]
     private DataGroup<YemodaAnd<int>> MapToDaysInYearAfterDateData(DataGroup<DateInfo> source)
     {
-        Debug.Assert(source != null);
+        Requires.NotNull(source);
 
         var sch = Schema;
         return source.SelectT(Selector);
@@ -99,7 +99,7 @@ public abstract class CalendricalDataSet : ICalendricalDataSet
     [Pure]
     private DataGroup<YemodaAnd<int>> MapToDaysInMonthAfterDateData(DataGroup<DateInfo> source)
     {
-        Debug.Assert(source != null);
+        Requires.NotNull(source);
 
         var sch = Schema;
         return source.SelectT(Selector);

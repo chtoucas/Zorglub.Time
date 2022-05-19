@@ -3,14 +3,15 @@
 
 namespace Zorglub.Testing.Data.Unbounded;
 
+using Zorglub.Testing.Data;
 using Zorglub.Testing.Data.Schemas;
 using Zorglub.Time.Core;
 
 /// <summary>
-/// Provides test data for the (unbounded) Gregorian calendar and related date types.
+/// Provides test data for the (unbounded) Gregorian calendar.
 /// </summary>
 public sealed partial class GregorianCalendarDataSet :
-    CalendarDataSet<GregorianDataSet>,
+    UnboundedCalendarDataSet<GregorianDataSet>,
     IYearAdjustmentDataSet,
     IAdvancedMathDataSet,
     IDayOfWeekDataSet,
@@ -23,18 +24,18 @@ public sealed partial class GregorianCalendarDataSet :
     public override DataGroup<DayNumberInfo> DayNumberInfoData { get; } =
         DataGroup.CreateDayNumberInfoData(GregorianDataSet.DaysSinceRataDieInfos);
 
-    public DataGroup<YemoAnd<int>> DaysInYearAfterMonthData => DataSet.DaysInYearAfterMonthData;
+    public DataGroup<YemoAnd<int>> DaysInYearAfterMonthData => CalendricalDataSet.DaysInYearAfterMonthData;
 
     // IYearAdjustmentDataSet
-    public DataGroup<YemodaAnd<int>> InvalidYearAdjustementData => DataSet.InvalidYearAdjustementData;
-    public DataGroup<YemodaAnd<int>> YearAdjustementData => DataSet.YearAdjustementData;
+    public DataGroup<YemodaAnd<int>> InvalidYearAdjustementData => CalendricalDataSet.InvalidYearAdjustementData;
+    public DataGroup<YemodaAnd<int>> YearAdjustementData => CalendricalDataSet.YearAdjustementData;
 
     // IMathDataSet
-    public DataGroup<YemodaPairAnd<int>> AddDaysData => DataSet.AddDaysData;
-    public DataGroup<YemodaPair> ConsecutiveDaysData => DataSet.ConsecutiveDaysData;
+    public DataGroup<YemodaPairAnd<int>> AddDaysData => CalendricalDataSet.AddDaysData;
+    public DataGroup<YemodaPair> ConsecutiveDaysData => CalendricalDataSet.ConsecutiveDaysData;
 
     // IAdvancedMathDataSet
-    public TheoryData<Yemoda, Yemoda, int> AddYearsData => DataSet.AddYearsData;
-    public TheoryData<Yemoda, Yemoda, int> AddMonthsData => DataSet.AddMonthsData;
-    public TheoryData<Yemoda, Yemoda, int, int, int> DiffData => DataSet.DiffData;
+    public TheoryData<Yemoda, Yemoda, int> AddYearsData => CalendricalDataSet.AddYearsData;
+    public TheoryData<Yemoda, Yemoda, int> AddMonthsData => CalendricalDataSet.AddMonthsData;
+    public TheoryData<Yemoda, Yemoda, int, int, int> DiffData => CalendricalDataSet.DiffData;
 }

@@ -3,14 +3,15 @@
 
 namespace Zorglub.Testing.Data.Unbounded;
 
+using Zorglub.Testing.Data;
 using Zorglub.Testing.Data.Schemas;
 
 /// <summary>
-/// Provides test data for the (unbounded) Revised World calendar and related date types.
+/// Provides test data for the (unbounded) Revised World calendar.
 /// <para>We use the revised version to simplify the creation of <see cref="DayNumberInfoData"/>.</para>
 /// </summary>
 public sealed class RevisedWorldCalendarDataSet :
-    CalendarDataSet<WorldDataSet>, ISingleton<RevisedWorldCalendarDataSet>
+    UnboundedCalendarDataSet<WorldDataSet>, ISingleton<RevisedWorldCalendarDataSet>
 {
     private static readonly DayNumber s_Epoch = DayZero.NewStyle;
 

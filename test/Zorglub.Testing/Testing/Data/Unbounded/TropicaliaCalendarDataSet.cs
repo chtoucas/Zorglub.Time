@@ -3,13 +3,14 @@
 
 namespace Zorglub.Testing.Data.Unbounded;
 
+using Zorglub.Testing.Data;
 using Zorglub.Testing.Data.Schemas;
 
 /// <summary>
-/// Provides test data for the (unbounded) "Tropicália" calendar and related date types.
+/// Provides test data for the (unbounded) "Tropicália" calendar.
 /// </summary>
 public sealed class TropicaliaCalendarDataSet :
-    CalendarDataSet<TropicalistaDataSet>, ISingleton<TropicaliaCalendarDataSet>
+    UnboundedCalendarDataSet<TropicalistaDataSet>, ISingleton<TropicaliaCalendarDataSet>
 {
     private TropicaliaCalendarDataSet() : base(TropicaliaDataSet.Instance, DayZero.NewStyle) { }
 
@@ -20,10 +21,10 @@ public sealed class TropicaliaCalendarDataSet :
 }
 
 /// <summary>
-/// Provides test data for the (unbounded) "Tropicália" calendar (30-31) and related date types.
+/// Provides test data for the (unbounded) "Tropicália" calendar (30-31).
 /// </summary>
 public sealed class Tropicalia3031CalendarDataSet :
-    CalendarDataSet<Tropicalia3031DataSet>, ISingleton<Tropicalia3031CalendarDataSet>
+    UnboundedCalendarDataSet<Tropicalia3031DataSet>, ISingleton<Tropicalia3031CalendarDataSet>
 {
     private static readonly DayNumber s_Epoch = DayZero.NewStyle;
 
@@ -36,10 +37,10 @@ public sealed class Tropicalia3031CalendarDataSet :
 }
 
 /// <summary>
-/// Provides test data for the (unbounded) "Tropicália" calendar (31-30) and related date types.
+/// Provides test data for the (unbounded) "Tropicália" calendar (31-30).
 /// </summary>
 public sealed class Tropicalia3130CalendarDataSet :
-    CalendarDataSet<Tropicalia3130DataSet>, ISingleton<Tropicalia3130CalendarDataSet>
+    UnboundedCalendarDataSet<Tropicalia3130DataSet>, ISingleton<Tropicalia3130CalendarDataSet>
 {
     private static readonly DayNumber s_Epoch = DayZero.NewStyle;
 

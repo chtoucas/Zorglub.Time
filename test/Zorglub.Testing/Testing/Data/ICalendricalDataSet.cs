@@ -37,6 +37,8 @@ public interface ICalendricalDataSet
 
     // NB: for the next three properties, don't use Yemoda, Yemo or Yedoy;
     // any integer value may be used.
+    // We use TheoryData, not DataGroup, ebcause we shouldn't have to filter
+    // these properties.
 
     /// <summary>Year, month; ONLY the latter is invalid.</summary>
     TheoryData<int, int> InvalidMonthFieldData { get; }

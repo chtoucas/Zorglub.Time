@@ -3,14 +3,15 @@
 
 namespace Zorglub.Testing.Data.Unbounded;
 
+using Zorglub.Testing.Data;
 using Zorglub.Testing.Data.Schemas;
 using Zorglub.Time.Hemerology;
 
 /// <summary>
-/// Provides test data for the (unbounded) Egyptian calendar and related date types.
+/// Provides test data for the (unbounded) Egyptian calendar.
 /// </summary>
 public sealed class Egyptian12CalendarDataSet :
-    CalendarDataSet<Egyptian12DataSet>, IEpagomenalDataSet, ISingleton<Egyptian12CalendarDataSet>
+    UnboundedCalendarDataSet<Egyptian12DataSet>, IEpagomenalDataSet, ISingleton<Egyptian12CalendarDataSet>
 {
     private Egyptian12CalendarDataSet() : base(Egyptian12DataSet.Instance, CalendarEpoch.Egyptian) { }
 
@@ -19,14 +20,14 @@ public sealed class Egyptian12CalendarDataSet :
     public override DataGroup<DayNumberInfo> DayNumberInfoData { get; } =
         DataGroup.CreateDayNumberInfoData(Egyptian12DataSet.DaysSinceRataDieInfos);
 
-    public DataGroup<YemodaAnd<int>> EpagomenalDayInfoData => DataSet.EpagomenalDayInfoData;
+    public DataGroup<YemodaAnd<int>> EpagomenalDayInfoData => CalendricalDataSet.EpagomenalDayInfoData;
 }
 
 /// <summary>
-/// Provides test data for the (unbounded) Egyptian calendar (alternative form) and related date types.
+/// Provides test data for the (unbounded) Egyptian calendar (alternative form).
 /// </summary>
 public sealed class Egyptian13CalendarDataSet :
-    CalendarDataSet<Egyptian13DataSet>, IEpagomenalDataSet, ISingleton<Egyptian13CalendarDataSet>
+    UnboundedCalendarDataSet<Egyptian13DataSet>, IEpagomenalDataSet, ISingleton<Egyptian13CalendarDataSet>
 {
     private Egyptian13CalendarDataSet() : base(Egyptian13DataSet.Instance, CalendarEpoch.Egyptian) { }
 
@@ -35,5 +36,5 @@ public sealed class Egyptian13CalendarDataSet :
     public override DataGroup<DayNumberInfo> DayNumberInfoData { get; } =
         DataGroup.CreateDayNumberInfoData(Egyptian13DataSet.DaysSinceRataDieInfos);
 
-    public DataGroup<YemodaAnd<int>> EpagomenalDayInfoData => DataSet.EpagomenalDayInfoData;
+    public DataGroup<YemodaAnd<int>> EpagomenalDayInfoData => CalendricalDataSet.EpagomenalDayInfoData;
 }

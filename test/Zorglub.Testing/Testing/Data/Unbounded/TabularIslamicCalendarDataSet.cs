@@ -3,14 +3,15 @@
 
 namespace Zorglub.Testing.Data.Unbounded;
 
+using Zorglub.Testing.Data;
 using Zorglub.Testing.Data.Schemas;
 using Zorglub.Time.Hemerology;
 
 /// <summary>
-/// Provides test data for the (unbounded) Tabular Islamic calendar and related date types.
+/// Provides test data for the (unbounded) Tabular Islamic calendar.
 /// </summary>
 public sealed class TabularIslamicCalendarDataSet :
-    CalendarDataSet<TabularIslamicDataSet>, ISingleton<TabularIslamicCalendarDataSet>
+    UnboundedCalendarDataSet<TabularIslamicDataSet>, ISingleton<TabularIslamicCalendarDataSet>
 {
     private TabularIslamicCalendarDataSet() : base(TabularIslamicDataSet.Instance, CalendarEpoch.TabularIslamic) { }
 

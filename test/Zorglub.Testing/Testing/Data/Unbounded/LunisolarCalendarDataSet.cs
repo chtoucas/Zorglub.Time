@@ -3,14 +3,15 @@
 
 namespace Zorglub.Testing.Data.Unbounded;
 
+using Zorglub.Testing.Data;
 using Zorglub.Testing.Data.Schemas;
 using Zorglub.Time.Hemerology;
 
 /// <summary>
-/// Provides test data for the (unbounded) faux Lunisolar calendar and related date types.
+/// Provides test data for the (unbounded) faux Lunisolar calendar.
 /// </summary>
 public sealed class LunisolarCalendarDataSet :
-    CalendarDataSet<LunisolarDataSet>, ISingleton<LunisolarCalendarDataSet>
+    UnboundedCalendarDataSet<LunisolarDataSet>, ISingleton<LunisolarCalendarDataSet>
 {
     private LunisolarCalendarDataSet() : base(LunisolarDataSet.Instance, CalendarEpoch.Positivist) { }
 

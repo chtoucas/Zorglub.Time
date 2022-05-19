@@ -9,8 +9,10 @@ using Zorglub.Time.Hemerology.Scopes;
 using Zorglub.Time.Simple;
 
 /// <summary>
-/// 1 &lt;= year &lt;= 9999
+/// Defines test data for a calendar with years within the range [1..9999] and provides a base for
+/// derived classes.
 /// </summary>
+/// <typeparam name="TDataSet">The type that represents the original calendar dataset.</typeparam>
 public class StandardCalendarDataSet<TDataSet> : MinMaxYearCalendarDataSet<TDataSet>
     where TDataSet : ICalendarDataSet
 {
@@ -19,7 +21,7 @@ public class StandardCalendarDataSet<TDataSet> : MinMaxYearCalendarDataSet<TData
 }
 
 /// <summary>
-/// Provides test data for <see cref="ArmenianCalendar"/> and related date types.
+/// Provides test data for the Armenian calendar with years within the range [1..9999].
 /// </summary>
 public sealed class StandardArmenian12DataSet :
     StandardCalendarDataSet<Armenian12CalendarDataSet>, IEpagomenalDataSet, ISingleton<StandardArmenian12DataSet>
@@ -32,7 +34,7 @@ public sealed class StandardArmenian12DataSet :
 }
 
 /// <summary>
-/// Provides test data for <see cref="CopticCalendar"/> and related date types.
+/// Provides test data for the Coptic calendar with years within the range [1..9999].
 /// </summary>
 public sealed class StandardCoptic12DataSet :
     StandardCalendarDataSet<Coptic12CalendarDataSet>, IEpagomenalDataSet, ISingleton<StandardCoptic12DataSet>
@@ -45,7 +47,7 @@ public sealed class StandardCoptic12DataSet :
 }
 
 /// <summary>
-/// Provides test data for <see cref="EthiopicCalendar"/> and related date types.
+/// Provides test data for the Ethiopic calendar with years within the range [1..9999].
 /// </summary>
 public sealed class StandardEthiopic12DataSet :
     StandardCalendarDataSet<Ethiopic12CalendarDataSet>, IEpagomenalDataSet, ISingleton<StandardEthiopic12DataSet>
@@ -58,7 +60,7 @@ public sealed class StandardEthiopic12DataSet :
 }
 
 /// <summary>
-/// Provides test data for <see cref="GregorianCalendar"/> and <see cref="CivilDate"/>.
+/// Provides test data for the Gregorian calendar with years within the range [1..9999].
 /// </summary>
 public sealed class StandardGregorianDataSet :
     StandardCalendarDataSet<GregorianCalendarDataSet>,
@@ -96,7 +98,7 @@ public sealed class StandardGregorianDataSet :
 }
 
 /// <summary>
-/// Provides test data for <see cref="TabularIslamicCalendar"/> and related date types.
+/// Provides test data for the Tabular Islamic calendar with years within the range [1..9999].
 /// </summary>
 public sealed class StandardTabularIslamicDataSet :
     StandardCalendarDataSet<TabularIslamicCalendarDataSet>, ISingleton<StandardTabularIslamicDataSet>
@@ -107,7 +109,7 @@ public sealed class StandardTabularIslamicDataSet :
 }
 
 /// <summary>
-/// Provides test data for <see cref="ZoroastrianCalendar"/> and related date types.
+/// Provides test data for the Zoroastrian calendar with years within the range [1..9999].
 /// </summary>
 public sealed class StandardZoroastrian12DataSet :
     StandardCalendarDataSet<Zoroastrian12CalendarDataSet>, IEpagomenalDataSet, ISingleton<StandardZoroastrian12DataSet>

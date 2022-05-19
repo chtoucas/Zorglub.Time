@@ -49,14 +49,12 @@ public partial class CalCalDataSet // Interconversion
 
 public partial class CalCalDataSet // Day of the week
 {
-    private static TheoryData<DayNumber, DayOfWeek>? s_DayNumberToDayOfWeekData;
     [SuppressMessage("Naming", "CA1721:Property names should not match get methods", Justification = "<Pending>")]
-    public static TheoryData<DayNumber, DayOfWeek> DayNumberToDayOfWeekData =>
-        s_DayNumberToDayOfWeekData ??= InitDayNumberToDayOfWeekData();
+    public static TheoryData<DayNumber, DayOfWeek> DayNumberToDayOfWeekData { get; } =
+        InitDayNumberToDayOfWeekData();
 
-    private static TheoryData<DayNumber64, DayOfWeek>? s_DayNumber64ToDayOfWeekData;
-    public static TheoryData<DayNumber64, DayOfWeek> DayNumber64ToDayOfWeekData =>
-        s_DayNumber64ToDayOfWeekData ??= InitDayNumber64ToDayOfWeekData();
+    public static TheoryData<DayNumber64, DayOfWeek> DayNumber64ToDayOfWeekData { get; } =
+        InitDayNumber64ToDayOfWeekData();
 
     [Pure]
     public static TheoryData<DayNumber, DayOfWeek> GetDayNumberToDayOfWeekData(Range<DayNumber> domain)
@@ -75,41 +73,25 @@ public partial class CalCalDataSet // Day of the week
     [Pure]
     private static TheoryData<DayNumber, DayOfWeek> InitDayNumberToDayOfWeekData()
     {
-        var data = InitCore();
-        Interlocked.CompareExchange(ref s_DayNumberToDayOfWeekData, data, null);
-        return s_DayNumberToDayOfWeekData;
-
-        [Pure]
-        static TheoryData<DayNumber, DayOfWeek> InitCore()
+        var source = DaysSinceRataDieToDayOfWeek;
+        var data = new TheoryData<DayNumber, DayOfWeek>();
+        foreach (var (daysSinceRataDie, dayOfWeek) in source)
         {
-            var source = DaysSinceRataDieToDayOfWeek;
-            var data = new TheoryData<DayNumber, DayOfWeek>();
-            foreach (var (daysSinceRataDie, dayOfWeek) in source)
-            {
-                data.Add(DayZero.RataDie + daysSinceRataDie, dayOfWeek);
-            }
-            return data;
+            data.Add(DayZero.RataDie + daysSinceRataDie, dayOfWeek);
         }
+        return data;
     }
 
     [Pure]
     private static TheoryData<DayNumber64, DayOfWeek> InitDayNumber64ToDayOfWeekData()
     {
-        var data = InitCore();
-        Interlocked.CompareExchange(ref s_DayNumber64ToDayOfWeekData, data, null);
-        return s_DayNumber64ToDayOfWeekData;
-
-        [Pure]
-        static TheoryData<DayNumber64, DayOfWeek> InitCore()
+        var source = DaysSinceRataDieToDayOfWeek;
+        var data = new TheoryData<DayNumber64, DayOfWeek>();
+        foreach (var (daysSinceRataDie, dayOfWeek) in source)
         {
-            var source = DaysSinceRataDieToDayOfWeek;
-            var data = new TheoryData<DayNumber64, DayOfWeek>();
-            foreach (var (daysSinceRataDie, dayOfWeek) in source)
-            {
-                data.Add(DayZero64.RataDie + daysSinceRataDie, dayOfWeek);
-            }
-            return data;
+            data.Add(DayZero64.RataDie + daysSinceRataDie, dayOfWeek);
         }
+        return data;
     }
 
     private static IEnumerable<(int DaysSinceRataDie, DayOfWeek DayOfWeek)> DaysSinceRataDieToDayOfWeek

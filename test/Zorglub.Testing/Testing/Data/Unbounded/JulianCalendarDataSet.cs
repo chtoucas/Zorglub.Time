@@ -3,13 +3,14 @@
 
 namespace Zorglub.Testing.Data.Unbounded;
 
+using Zorglub.Testing.Data;
 using Zorglub.Testing.Data.Schemas;
 
 /// <summary>
-/// Provides test data for the (unbounded) Julian calendar and related date types.
+/// Provides test data for the (unbounded) Julian calendar.
 /// </summary>
 public sealed class JulianCalendarDataSet :
-    CalendarDataSet<JulianDataSet>, ISingleton<JulianCalendarDataSet>
+    UnboundedCalendarDataSet<JulianDataSet>, ISingleton<JulianCalendarDataSet>
 {
     private JulianCalendarDataSet() : base(JulianDataSet.Instance, DayZero.OldStyle) { }
 

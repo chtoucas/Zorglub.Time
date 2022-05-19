@@ -3,13 +3,14 @@
 
 namespace Zorglub.Testing.Data.Unbounded;
 
+using Zorglub.Testing.Data;
 using Zorglub.Testing.Data.Schemas;
 
 /// <summary>
-/// Provides test data for the (unbounded) International Fixed calendar and related date types.
+/// Provides test data for the (unbounded) International Fixed calendar.
 /// </summary>
 public sealed class InternationalFixedCalendarDataSet :
-    CalendarDataSet<InternationalFixedDataSet>, ISingleton<InternationalFixedCalendarDataSet>
+    UnboundedCalendarDataSet<InternationalFixedDataSet>, ISingleton<InternationalFixedCalendarDataSet>
 {
     private static readonly DayNumber s_Epoch = DayZero.NewStyle;
 
