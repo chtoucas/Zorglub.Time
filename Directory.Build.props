@@ -45,6 +45,8 @@
 
     <!-- Code/Style Analysis -->
     <!--
+      NB: if we need a more recent version of Microsoft.CodeAnalysis.NetAnalyzers,
+      add a package reference in D.B.targets.
       https://docs.microsoft.com/en-us/dotnet/fundamentals/code-analysis/overview
       https://docs.microsoft.com/en-us/dotnet/core/project-sdk/msbuild-props#analysismode
     -->

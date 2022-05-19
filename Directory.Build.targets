@@ -71,12 +71,4 @@
     <Message Text="+ $(AssemblyName) for $(TargetFramework)%0A$(MyMessage)" Importance="high" />
   </Target>
 
-  <ItemGroup>
-    <!-- We use the NuGet package to remove the CA1801 warning with top-level statements. -->
-    <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="6.0.0">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-  </ItemGroup>
-
 </Project>

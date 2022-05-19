@@ -8,12 +8,6 @@
         "resolved": "3.1.2",
         "contentHash": "QhM0fnDtmIMImY7oxyQ/kh1VYtRxPyRVeLwRUGuUvI6Xp83pSYG9gerK8WgJj4TzUl7ISziADUGtIWKhtlbkbQ=="
       },
-      "Microsoft.CodeAnalysis.NetAnalyzers": {
-        "type": "Direct",
-        "requested": "[6.0.0, )",
-        "resolved": "6.0.0",
-        "contentHash": "cjG06LMeOADNUeCUaklOfVgrnVkLy80H5PVll4QHDUXv+C+6G9rHczrNdWjfb3xKv3Ts9s4UsP6J2ZWe52Gz4Q=="
-      },
       "Microsoft.NET.Test.Sdk": {
         "type": "Direct",
         "requested": "[17.2.0, )",

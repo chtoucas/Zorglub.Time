@@ -2,12 +2,6 @@
   "version": 1,
   "dependencies": {
     "net6.0": {
-      "Microsoft.CodeAnalysis.NetAnalyzers": {
-        "type": "Direct",
-        "requested": "[6.0.0, )",
-        "resolved": "6.0.0",
-        "contentHash": "cjG06LMeOADNUeCUaklOfVgrnVkLy80H5PVll4QHDUXv+C+6G9rHczrNdWjfb3xKv3Ts9s4UsP6J2ZWe52Gz4Q=="
-      },
       "System.Runtime.Experimental": {
         "type": "Direct",
         "requested": "[6.0.2, )",
