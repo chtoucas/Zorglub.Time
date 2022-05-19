@@ -3,6 +3,9 @@
 
 namespace Zorglub.Testing.Data;
 
+// For unbounded datasets, do not copy the static props from the calendrical
+// dataset, it's unnecessary as one can always call them directly.
+
 /// <summary>
 /// Defines test data for a <i>unbounded</i> calendar and provides a base for derived classes.
 /// </summary>
