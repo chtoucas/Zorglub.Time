@@ -431,23 +431,3 @@ public partial class FrenchRepublican12DataSet // Invalid date parts
         { LeapCentury, 12, 37 },
     };
 }
-
-public partial class FrenchRepublican12DataSet // Supplementary data
-{
-    public DataGroup<YemodaAnd<int>> EpagomenalDayInfoData { get; } = new()
-    {
-        // Common year.
-        new(CommonYear, 12, 31, 1),
-        new(CommonYear, 12, 32, 2),
-        new(CommonYear, 12, 33, 3),
-        new(CommonYear, 12, 34, 4),
-        new(CommonYear, 12, 35, 5),
-        // Leap year.
-        new(LeapYear, 12, 31, 1),
-        new(LeapYear, 12, 32, 2),
-        new(LeapYear, 12, 33, 3),
-        new(LeapYear, 12, 34, 4),
-        new(LeapYear, 12, 35, 5),
-        new(LeapYear, 12, 36, 6),
-    };
-}

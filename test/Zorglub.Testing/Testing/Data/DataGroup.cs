@@ -6,13 +6,29 @@ namespace Zorglub.Testing.Data;
 using System.Collections;
 using System.Linq;
 
-// TODO(data): use DataGroup (math, dayOfWeek, etc). Filter matching data in Bounded.
+// TODO(data): use DataGroup. Filter matching data in Bounded.
+// - GregorianDataSet, math
+// - GregorianCalendarDataSet, dayOfWeek
+// - PaxDataSet
+// - PaxCalendarDataSet
+// - WorldDataSet
+//
+// GregorianDataSet:
+// - Move DaysInYearAfterMonthData to MonthInfoData.
+//   When done, remove DaysInYearAfterMonthData from the various Gregorian datasets.
+//   CountDaysInYear(y) - CountDaysInMonth(y, m) - CountDaysInYearBeforeMonth(y, m);
+//   MÀJ ICalendricalSchemaPlusFacts.CountDaysInYearAfterMonth()
+// - s_AddYearsLongCutOff. See GregorianMathTests.
+// - s_Diff (XXX). Should we modify Subtract()?
+
 
 // The advantage of a DataGroup<T> over a TheoryData<T> is that we can enumerate
 // and manipulate a group of data using the actual underlying data type directly.
 // This is particularly useful when dealing with <i>bounded</i> calendar datasets.
-// If one does not need to transform the data, there is no reason to use a
-// DataGroup<T>; one should stick to TheoryData<T>.
+// Notice that if one does not need to transform the data, there is no reason to
+// use a DataGroup<T>; one should stick to TheoryData<T>.
+// Another advantage is that a DataGroup<T> initialized with a sequence does not
+// enumerate the sequence until explicitely requested.
 //
 // The same with TheoryData<T> would require an array access and boxing:
 // > public TheoryData<T> WhereT(Func<T, bool> predicate)

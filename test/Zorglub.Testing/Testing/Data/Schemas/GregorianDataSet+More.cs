@@ -5,7 +5,55 @@ namespace Zorglub.Testing.Data.Schemas;
 
 using static Zorglub.Testing.Data.Extensions.TheoryDataExtensions;
 
-public partial class GregorianDataSet // IMathDataSet (days)
+public partial class GregorianDataSet // Supplementary data
+{
+    public DataGroup<YemoAnd<int>> DaysInYearAfterMonthData { get; } = new()
+    {
+        // Common year.
+        new(CommonYear, 1, 334),
+        new(CommonYear, 2, 306),
+        new(CommonYear, 3, 275),
+        new(CommonYear, 4, 245),
+        new(CommonYear, 5, 214),
+        new(CommonYear, 6, 184),
+        new(CommonYear, 7, 153),
+        new(CommonYear, 8, 122),
+        new(CommonYear, 9, 92),
+        new(CommonYear, 10, 61),
+        new(CommonYear, 11, 31),
+        new(CommonYear, 12, 0),
+        // Leap year.
+        new(LeapYear, 1, 335),
+        new(LeapYear, 2, 306),
+        new(LeapYear, 3, 275),
+        new(LeapYear, 4, 245),
+        new(LeapYear, 5, 214),
+        new(LeapYear, 6, 184),
+        new(LeapYear, 7, 153),
+        new(LeapYear, 8, 122),
+        new(LeapYear, 9, 92),
+        new(LeapYear, 10, 61),
+        new(LeapYear, 11, 31),
+        new(LeapYear, 12, 0),
+    };
+}
+
+public partial class GregorianDataSet // IYearAdjustmentDataSet
+{
+    public DataGroup<YemodaAnd<int>> InvalidYearAdjustementData { get; } = new()
+    {
+        // Intercalary day mapped to a common year.
+        new(LeapYear, 2, 29, CommonYear)
+    };
+
+    public DataGroup<YemodaAnd<int>> YearAdjustementData { get; } = new()
+    {
+        // Intercalary day mapped to another leap year.
+        new(4, 2, 29, 8),
+    };
+}
+
+public partial class GregorianDataSet // IMathDataSet
 {
     public DataGroup<YemodaPairAnd<int>> AddDaysData { get; } = new()
     {
@@ -120,7 +168,7 @@ public partial class GregorianDataSet // IMathDataSet (days)
     };
 }
 
-public partial class GregorianDataSet // Addition (months)
+public partial class GregorianDataSet // IAdvancedMathDataSet (months)
 {
     // Date, expected result, months to be added.
     public TheoryData<Yemoda, Yemoda, int> AddMonthsData =>
@@ -229,7 +277,7 @@ public partial class GregorianDataSet // Addition (months)
     };
 }
 
-public partial class GregorianDataSet // Addition (years)
+public partial class GregorianDataSet // IAdvancedMathDataSet (years)
 {
     // Date, expected result, years to be added.
     public TheoryData<Yemoda, Yemoda, int> AddYearsData =>
@@ -290,7 +338,6 @@ public partial class GregorianDataSet // Addition (years)
         (year: 8, exp: 1, 2, 28, years: -7),
     };
 
-    // TODO(data): s_AddYearsLongCutOff. See GregorianMathTests.
     // Intercalary day, expected result in a common year, years to be added.
     private static readonly List<(int year, int exp, int, int, int years)> s_AddYearsLongCutOff = new()
     {
@@ -325,7 +372,7 @@ public partial class GregorianDataSet // Addition (years)
     }
 }
 
-public partial class GregorianDataSet // Subtraction
+public partial class GregorianDataSet // IAdvancedMathDataSet (diff)
 {
     // Start date, end date, exact diff between.
     public TheoryData<Yemoda, Yemoda, int, int, int> DiffData =>
@@ -502,7 +549,6 @@ public partial class GregorianDataSet // Subtraction
         (start: 3, 4, 30, end: 2, 4, 29, diff: -1, 0, -1),
         (start: 3, 4, 30, end: 2, 4, 2, diff: -1, 0, -28),
         (start: 3, 4, 30, end: 2, 4, 1, diff: -1, 0, -29),
-        // REVIEW(data): test case. Should we modify Subtract()?
         // XXX ( start: 3, 4, 30, end: 2,  3, 31, diff: -1,  -1,   1 ),
         // XXX ( start: 2, 3, 31, end: 3,  4, 30, diff:  1,   1,   0 ),
 

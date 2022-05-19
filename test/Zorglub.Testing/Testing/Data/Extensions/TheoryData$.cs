@@ -30,10 +30,12 @@ internal static class TheoryDataExtensions
 
     [Pure]
     public static TheoryData<DayNumber, int, int, DayOfWeek> ToTheoryData(
-        this IEnumerable<(int Ord, int Year, int WeekOfYear, DayOfWeek DayOfWeek)> source)
+        this IEnumerable<(int Ord, int Year, int WeekOfYear, DayOfWeek DayOfWeek)> @this)
     {
+        Requires.NotNull(@this);
+
         var data = new TheoryData<DayNumber, int, int, DayOfWeek>();
-        foreach (var (ord, y, woy, dayOfWeek) in source)
+        foreach (var (ord, y, woy, dayOfWeek) in @this)
         {
             data.Add(DayZero.NewStyle + (ord - 1), y, woy, dayOfWeek);
         }
