@@ -52,8 +52,8 @@ public sealed class ProlepticGregorianDataSet :
     public DataGroup<YemodaPair> ConsecutiveDaysData => Inner.ConsecutiveDaysData.WhereT(DataFilter.Filter);
 
     // IAdvancedMathDataSet
-    public TheoryData<Yemoda, Yemoda, int> AddYearsData => Inner.AddYearsData;
-    public TheoryData<Yemoda, Yemoda, int> AddMonthsData => Inner.AddMonthsData;
+    public DataGroup<YemodaPairAnd<int>> AddYearsData => Inner.AddYearsData;
+    public DataGroup<YemodaPairAnd<int>> AddMonthsData => Inner.AddMonthsData;
     public TheoryData<Yemoda, Yemoda, int, int, int> DiffData => Inner.DiffData;
 
     // IDayOfWeekDataSet

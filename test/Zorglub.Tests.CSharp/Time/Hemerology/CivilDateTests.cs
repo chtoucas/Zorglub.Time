@@ -37,8 +37,8 @@ public sealed partial class CivilDateTests : IDateFacts<CivilDate, StandardGrego
         return new(y, m, d);
     }
 
-    public static TheoryData<Yemoda, Yemoda, int> AddYearsData => DataSet.AddYearsData;
-    public static TheoryData<Yemoda, Yemoda, int> AddMonthsData => DataSet.AddMonthsData;
+    public static DataGroup<YemodaPairAnd<int>> AddYearsData => DataSet.AddYearsData;
+    public static DataGroup<YemodaPairAnd<int>> AddMonthsData => DataSet.AddMonthsData;
     public static TheoryData<Yemoda, Yemoda, int, int, int> DiffData => DataSet.DiffData;
 
     public static TheoryData<Yemoda, Yemoda, int> AddYearsCutOffData => GregorianDataSet.AddYearsCutOffData;

@@ -13,7 +13,7 @@ public sealed partial class CalendarYearTests : GregorianOnlyTesting
 
     public CalendarYearTests() : base(GregorianCalendar.Instance) { }
 
-    public static TheoryData<Yemoda, Yemoda, int> AddYearsData => DataSet.AddYearsData;
+    public static DataGroup<YemodaPairAnd<int>> AddYearsData => DataSet.AddYearsData;
 
     public static TheoryData<int, int, bool, bool> MinMaxYears { get; } = new()
     {
@@ -474,8 +474,9 @@ public partial class CalendarYearTests
     //}
 
     [Theory, MemberData(nameof(AddYearsData))]
-    public void PlusYears(Yemoda xstart, Yemoda xend, int years)
+    public void PlusYears(YemodaPairAnd<int> info)
     {
+        var (xstart, xend, years) = info;
         var start = new CalendarDate(xstart, CalendarUT.Id).CalendarYear;
         var end = new CalendarDate(xend, CalendarUT.Id).CalendarYear;
         // Act & Assert

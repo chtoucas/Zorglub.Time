@@ -35,15 +35,16 @@ public abstract partial class CalendricalMathFacts<TSchema, TDataSet>
 
     protected static TDataSet DataSet { get; } = TDataSet.Instance;
 
-    public static TheoryData<Yemoda, Yemoda, int> AddYearsData => DataSet.AddYearsData;
-    public static TheoryData<Yemoda, Yemoda, int> AddMonthsData => DataSet.AddMonthsData;
+    public static DataGroup<YemodaPairAnd<int>> AddYearsData => DataSet.AddYearsData;
+    public static DataGroup<YemodaPairAnd<int>> AddMonthsData => DataSet.AddMonthsData;
 }
 
 public partial class CalendricalMathFacts<TSchema, TDataSet>
 {
     [Theory, MemberData(nameof(AddMonthsData))]
-    public void AddMonths(Yemoda start, Yemoda end, int months)
+    public void AddMonths(YemodaPairAnd<int> info)
     {
+        var (start, end, months) = info;
         // Act
         var actual = MathUT.AddMonths(start, months, out _);
         // Assert
@@ -51,8 +52,9 @@ public partial class CalendricalMathFacts<TSchema, TDataSet>
     }
 
     [Theory, MemberData(nameof(AddMonthsData))]
-    public void CountMonthsBetween(Yemoda start, Yemoda end, int months)
+    public void CountMonthsBetween(YemodaPairAnd<int> info)
     {
+        var (start, end, months) = info;
         // Act
         int actual = MathUT.CountMonthsBetween(start, end, out _);
         // Assert
@@ -60,8 +62,9 @@ public partial class CalendricalMathFacts<TSchema, TDataSet>
     }
 
     [Theory, MemberData(nameof(AddYearsData))]
-    public void AddYears(Yemoda start, Yemoda end, int years)
+    public void AddYears(YemodaPairAnd<int> info)
     {
+        var (start, end, years) = info;
         // Act
         var actual = MathUT.AddMonths(start, years, out _);
         // Act & Assert
@@ -70,8 +73,9 @@ public partial class CalendricalMathFacts<TSchema, TDataSet>
     }
 
     [Theory, MemberData(nameof(AddYearsData))]
-    public void CountYearsBetween(Yemoda start, Yemoda end, int years)
+    public void CountYearsBetween(YemodaPairAnd<int> info)
     {
+        var (start, end, years) = info;
         // Act
         int actual = MathUT.CountYearsBetween(start, end, out _);
         // Act & Assert

@@ -16,8 +16,8 @@ public sealed partial class CalendarMonthTests : GregorianOnlyTesting
 
     public static DataGroup<YemoAnd<int>> DaysInYearAfterMonthData => DataSet.DaysInYearAfterMonthData;
 
-    public static TheoryData<Yemoda, Yemoda, int> AddYearsData => DataSet.AddYearsData;
-    public static TheoryData<Yemoda, Yemoda, int> AddMonthsData => DataSet.AddMonthsData;
+    public static DataGroup<YemodaPairAnd<int>> AddYearsData => DataSet.AddYearsData;
+    public static DataGroup<YemodaPairAnd<int>> AddMonthsData => DataSet.AddMonthsData;
 
     // Pour simplifier on utilise un SYearMonthDay, mais le champs "day" doit
     // être complètement ignoré (toujours égal à 1).
@@ -369,8 +369,9 @@ public partial class CalendarMonthTests
     }
 
     [Theory, MemberData(nameof(AddMonthsData))]
-    public void PlusMonths(Yemoda xstart, Yemoda xend, int months)
+    public void PlusMonths(YemodaPairAnd<int> info)
     {
+        var (xstart, xend, months) = info;
         var start = new CalendarDate(xstart, CalendarUT.Id).CalendarMonth;
         var end = new CalendarDate(xend, CalendarUT.Id).CalendarMonth;
         // Act & Assert
@@ -383,8 +384,9 @@ public partial class CalendarMonthTests
     }
 
     [Theory, MemberData(nameof(AddYearsData))]
-    public void PlusYears(Yemoda xstart, Yemoda xend, int years)
+    public void PlusYears(YemodaPairAnd<int> info)
     {
+        var (xstart, xend, years) = info;
         var start = new CalendarDate(xstart, CalendarUT.Id).CalendarMonth;
         var end = new CalendarDate(xend, CalendarUT.Id).CalendarMonth;
         // Act & Assert

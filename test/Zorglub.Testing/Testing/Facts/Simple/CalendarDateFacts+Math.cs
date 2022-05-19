@@ -27,44 +27,48 @@ public abstract partial class CalendarDateMathFacts<TDataSet>
         return CalendarUT.GetCalendarDate(y, m, d);
     }
 
-    public static TheoryData<Yemoda, Yemoda, int> AddYearsData => DataSet.AddYearsData;
-    public static TheoryData<Yemoda, Yemoda, int> AddMonthsData => DataSet.AddMonthsData;
+    public static DataGroup<YemodaPairAnd<int>> AddYearsData => DataSet.AddYearsData;
+    public static DataGroup<YemodaPairAnd<int>> AddMonthsData => DataSet.AddMonthsData;
 }
 
 public partial class CalendarDateMathFacts<TDataSet>
 {
     [Theory, MemberData(nameof(AddMonthsData))]
-    public void PlusMonths(Yemoda ymd, Yemoda result, int months)
+    public void PlusMonths(YemodaPairAnd<int> info)
     {
-        var date = GetCalendarDate(ymd);
-        var exp = GetCalendarDate(result);
+        var (start, end, months) = info;
+        var date = GetCalendarDate(start);
+        var exp = GetCalendarDate(end);
         // Act & Assert
         Assert.Equal(exp, date.PlusMonths(months));
     }
 
     [Theory, MemberData(nameof(AddMonthsData))]
-    public void CountMonthsSince(Yemoda ymd, Yemoda result, int months)
+    public void CountMonthsSince(YemodaPairAnd<int> info)
     {
-        var date = GetCalendarDate(ymd);
-        var exp = GetCalendarDate(result);
+        var (start, end, months) = info;
+        var date = GetCalendarDate(start);
+        var exp = GetCalendarDate(end);
         // Act & Assert
         Assert.Equal(months, exp.CountMonthsSince(date));
     }
 
     [Theory, MemberData(nameof(AddYearsData))]
-    public void PlusYears(Yemoda ymd, Yemoda result, int years)
+    public void PlusYears(YemodaPairAnd<int> info)
     {
-        var date = GetCalendarDate(ymd);
-        var exp = GetCalendarDate(result);
+        var (start, end, years) = info;
+        var date = GetCalendarDate(start);
+        var exp = GetCalendarDate(end);
         // Act & Assert
         Assert.Equal(exp, date.PlusYears(years));
     }
 
     [Theory, MemberData(nameof(AddYearsData))]
-    public void CountYearsSince(Yemoda ymd, Yemoda result, int years)
+    public void CountYearsSince(YemodaPairAnd<int> info)
     {
-        var date = GetCalendarDate(ymd);
-        var exp = GetCalendarDate(result);
+        var (start, end, years) = info;
+        var date = GetCalendarDate(start);
+        var exp = GetCalendarDate(end);
         // Act & Assert
         Assert.Equal(years, exp.CountYearsSince(date));
     }

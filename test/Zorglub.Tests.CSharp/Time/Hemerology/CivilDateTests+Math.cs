@@ -86,8 +86,9 @@ public partial class CivilDateTests
     }
 
     [Theory, MemberData(nameof(AddYearsData))]
-    public static void PlusYears(Yemoda xdate, Yemoda xother, int years)
+    public static void PlusYears(YemodaPairAnd<int> info)
     {
+        var (xdate, xother, years) = info;
         var date = CreateDate(xdate);
         var other = CreateDate(xother);
 
@@ -202,11 +203,11 @@ public partial class CivilDateTests
     }
 
     [Theory, MemberData(nameof(AddYearsData))]
-    public static void AddYears(Yemoda xdate, Yemoda xother, int years)
+    public static void AddYears(YemodaPairAnd<int> info)
     {
+        var (xdate, xother, years) = info;
         var date = CreateDate(xdate);
         var other = CreateDate(xother);
-
         // Act & Assert
         // 1) date + years -> other.
         Assert.Equal(other, CivilDate.AddYears(date, years, out int cutoff));
@@ -300,11 +301,11 @@ public partial class CivilDateTests
     }
 
     [Theory, MemberData(nameof(AddMonthsData))]
-    public static void PlusMonths(Yemoda xdate, Yemoda xother, int months)
+    public static void PlusMonths(YemodaPairAnd<int> info)
     {
+        var (xdate, xother, months) = info;
         var date = CreateDate(xdate);
         var other = CreateDate(xother);
-
         // Act & Assert
         // 1) date + months -> other.
         Assert.Equal(other, date.PlusMonths(months));
@@ -412,11 +413,11 @@ public partial class CivilDateTests
     }
 
     [Theory, MemberData(nameof(AddMonthsData))]
-    public static void AddMonths(Yemoda xdate, Yemoda xother, int months)
+    public static void AddMonths(YemodaPairAnd<int> info)
     {
+        var (xdate, xother, months) = info;
         var date = CreateDate(xdate);
         var other = CreateDate(xother);
-
         // Act & Assert
         // 1) date + months -> other.
         Assert.Equal(other, CivilDate.AddMonths(date, months, out int cutoff));

@@ -11,14 +11,26 @@ public interface IYearAdjustmentDataSet
 
 public interface IMathDataSet
 {
+    /// <summary>
+    /// Date, expected result, days to be added.
+    /// </summary>
     DataGroup<YemodaPairAnd<int>> AddDaysData { get; }
+
     DataGroup<YemodaPair> ConsecutiveDaysData { get; }
 }
 
 public interface IAdvancedMathDataSet : IMathDataSet
 {
-    TheoryData<Yemoda, Yemoda, int> AddYearsData { get; }
-    TheoryData<Yemoda, Yemoda, int> AddMonthsData { get; }
+    /// <summary>
+    /// Date, expected result, years to be added.
+    /// </summary>
+    DataGroup<YemodaPairAnd<int>> AddYearsData { get; }
+
+    /// <summary>
+    /// Date, expected result, months to be added.
+    /// </summary>
+    DataGroup<YemodaPairAnd<int>> AddMonthsData { get; }
+
     TheoryData<Yemoda, Yemoda, int, int, int> DiffData { get; }
 }
 
