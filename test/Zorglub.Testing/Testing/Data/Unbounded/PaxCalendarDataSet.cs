@@ -16,7 +16,13 @@ public sealed class PaxCalendarDataSet : UnboundedCalendarDataSet<PaxDataSet>, I
 {
     private PaxCalendarDataSet() : base(PaxDataSet.Instance, CalendarEpoch.SundayBeforeGregorian) { }
 
-    public static PaxCalendarDataSet Instance { get; } = new();
+    public static PaxCalendarDataSet Instance => Singleton.Instance;
+
+    private static class Singleton
+    {
+        internal static readonly PaxCalendarDataSet Instance = new();
+        static Singleton() { }
+    }
 
     public override DataGroup<DayNumberInfo> DayNumberInfoData { get; } =
         DataGroup.CreateDayNumberInfoData(PaxDataSet.DaysSinceZeroInfos);

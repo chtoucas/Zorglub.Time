@@ -15,7 +15,13 @@ public sealed class Persian2820CalendarDataSet :
 {
     private Persian2820CalendarDataSet() : base(Persian2820DataSet.Instance, CalendarEpoch.Persian) { }
 
-    public static Persian2820CalendarDataSet Instance { get; } = new();
+    public static Persian2820CalendarDataSet Instance => Singleton.Instance;
+
+    private static class Singleton
+    {
+        internal static readonly Persian2820CalendarDataSet Instance = new();
+        static Singleton() { }
+    }
 
     public override DataGroup<DayNumberInfo> DayNumberInfoData { get; } =
         DataGroup.CreateDayNumberInfoData(Persian2820DataSet.DaysSinceRataDieInfos);

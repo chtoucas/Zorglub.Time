@@ -17,7 +17,13 @@ public sealed class Armenian12CalendarDataSet :
 
     private Armenian12CalendarDataSet() : base(Egyptian12DataSet.Instance, s_Epoch) { }
 
-    public static Armenian12CalendarDataSet Instance { get; } = new();
+    public static Armenian12CalendarDataSet Instance => Singleton.Instance;
+
+    private static class Singleton
+    {
+        internal static readonly Armenian12CalendarDataSet Instance = new();
+        static Singleton() { }
+    }
 
     public override DataGroup<DayNumberInfo> DayNumberInfoData { get; } =
         DataGroup.CreateDayNumberInfoData(Egyptian12DataSet.DaysSinceRataDieInfos, CalendarEpoch.Egyptian, s_Epoch);
@@ -35,7 +41,13 @@ public sealed class Armenian13CalendarDataSet :
 
     private Armenian13CalendarDataSet() : base(Egyptian13DataSet.Instance, s_Epoch) { }
 
-    public static Armenian13CalendarDataSet Instance { get; } = new();
+    public static Armenian13CalendarDataSet Instance => Singleton.Instance;
+
+    private static class Singleton
+    {
+        internal static readonly Armenian13CalendarDataSet Instance = new();
+        static Singleton() { }
+    }
 
     public override DataGroup<DayNumberInfo> DayNumberInfoData { get; } =
         DataGroup.CreateDayNumberInfoData(Egyptian13DataSet.DaysSinceRataDieInfos, CalendarEpoch.Egyptian, s_Epoch);

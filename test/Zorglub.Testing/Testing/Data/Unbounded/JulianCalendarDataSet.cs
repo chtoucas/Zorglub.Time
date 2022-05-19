@@ -14,7 +14,13 @@ public sealed class JulianCalendarDataSet :
 {
     private JulianCalendarDataSet() : base(JulianDataSet.Instance, DayZero.OldStyle) { }
 
-    public static JulianCalendarDataSet Instance { get; } = new();
+    public static JulianCalendarDataSet Instance => Singleton.Instance;
+
+    private static class Singleton
+    {
+        internal static readonly JulianCalendarDataSet Instance = new();
+        static Singleton() { }
+    }
 
     public override DataGroup<DayNumberInfo> DayNumberInfoData { get; } =
         DataGroup.CreateDayNumberInfoData(JulianDataSet.DaysSinceRataDieInfos);

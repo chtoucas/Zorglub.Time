@@ -15,7 +15,13 @@ public sealed partial class Persian2820DataSet : CalendricalDataSet, ISingleton<
 
     private Persian2820DataSet() : base(new Persian2820Schema(), CommonYear, LeapYear) { }
 
-    public static Persian2820DataSet Instance { get; } = new();
+    public static Persian2820DataSet Instance => Singleton.Instance;
+
+    private static class Singleton
+    {
+        internal static readonly Persian2820DataSet Instance = new();
+        static Singleton() { }
+    }
 }
 
 public partial class Persian2820DataSet // Infos

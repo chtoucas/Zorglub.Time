@@ -15,7 +15,13 @@ public sealed partial class PositivistDataSet : CalendricalDataSet, ISingleton<P
 
     private PositivistDataSet() : base(new PositivistSchema(), CommonYear, LeapYear) { }
 
-    public static PositivistDataSet Instance { get; } = new();
+    public static PositivistDataSet Instance => Singleton.Instance;
+
+    private static class Singleton
+    {
+        internal static readonly PositivistDataSet Instance = new();
+        static Singleton() { }
+    }
 }
 
 public partial class PositivistDataSet // Infos

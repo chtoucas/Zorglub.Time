@@ -31,7 +31,13 @@ public sealed class ProlepticGregorianDataSet :
 {
     private ProlepticGregorianDataSet() : base(GregorianCalendarDataSet.Instance) { }
 
-    public static ProlepticGregorianDataSet Instance { get; } = new();
+    public static ProlepticGregorianDataSet Instance => Singleton.Instance;
+
+    private static class Singleton
+    {
+        internal static readonly ProlepticGregorianDataSet Instance = new();
+        static Singleton() { }
+    }
 
     public DataGroup<YemoAnd<int>> DaysInYearAfterMonthData => Inner.DaysInYearAfterMonthData.WhereT(DataFilter.Filter);
 
@@ -65,5 +71,11 @@ public sealed class ProlepticJulianDataSet :
 {
     private ProlepticJulianDataSet() : base(JulianCalendarDataSet.Instance) { }
 
-    public static ProlepticJulianDataSet Instance { get; } = new();
+    public static ProlepticJulianDataSet Instance => Singleton.Instance;
+
+    private static class Singleton
+    {
+        internal static readonly ProlepticJulianDataSet Instance = new();
+        static Singleton() { }
+    }
 }

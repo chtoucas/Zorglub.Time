@@ -15,7 +15,13 @@ public sealed class PositivistCalendarDataSet :
 {
     private PositivistCalendarDataSet() : base(PositivistDataSet.Instance, CalendarEpoch.Positivist) { }
 
-    public static PositivistCalendarDataSet Instance { get; } = new();
+    public static PositivistCalendarDataSet Instance => Singleton.Instance;
+
+    private static class Singleton
+    {
+        internal static readonly PositivistCalendarDataSet Instance = new();
+        static Singleton() { }
+    }
 
     public override DataGroup<DayNumberInfo> DayNumberInfoData { get; } =
         DataGroup.CreateDayNumberInfoData(PositivistDataSet.DaysSinceZeroInfos);

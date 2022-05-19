@@ -18,7 +18,13 @@ public sealed partial class FrenchRepublican13DataSet :
 
     private FrenchRepublican13DataSet() : base(new FrenchRepublican13Schema(), CommonYear, LeapYear) { }
 
-    public static FrenchRepublican13DataSet Instance { get; } = new();
+    public static FrenchRepublican13DataSet Instance => Singleton.Instance;
+
+    private static class Singleton
+    {
+        internal static readonly FrenchRepublican13DataSet Instance = new();
+        static Singleton() { }
+    }
 }
 
 public partial class FrenchRepublican13DataSet // Infos

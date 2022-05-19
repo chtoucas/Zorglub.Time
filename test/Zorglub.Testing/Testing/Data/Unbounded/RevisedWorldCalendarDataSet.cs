@@ -17,7 +17,13 @@ public sealed class RevisedWorldCalendarDataSet :
 
     private RevisedWorldCalendarDataSet() : base(WorldDataSet.Instance, s_Epoch) { }
 
-    public static RevisedWorldCalendarDataSet Instance { get; } = new();
+    public static RevisedWorldCalendarDataSet Instance => Singleton.Instance;
+
+    private static class Singleton
+    {
+        internal static readonly RevisedWorldCalendarDataSet Instance = new();
+        static Singleton() { }
+    }
 
     public override DataGroup<DayNumberInfo> DayNumberInfoData { get; } =
         DataGroup.CreateDayNumberInfoData(WorldDataSet.DaysSinceEpochInfos, s_Epoch);

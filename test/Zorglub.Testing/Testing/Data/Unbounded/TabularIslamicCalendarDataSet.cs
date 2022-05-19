@@ -15,7 +15,13 @@ public sealed class TabularIslamicCalendarDataSet :
 {
     private TabularIslamicCalendarDataSet() : base(TabularIslamicDataSet.Instance, CalendarEpoch.TabularIslamic) { }
 
-    public static TabularIslamicCalendarDataSet Instance { get; } = new();
+    public static TabularIslamicCalendarDataSet Instance => Singleton.Instance;
+
+    private static class Singleton
+    {
+        internal static readonly TabularIslamicCalendarDataSet Instance = new();
+        static Singleton() { }
+    }
 
     public override DataGroup<DayNumberInfo> DayNumberInfoData { get; } =
         DataGroup.CreateDayNumberInfoData(TabularIslamicDataSet.DaysSinceRataDieInfos);

@@ -17,7 +17,13 @@ public sealed class Ethiopic13CalendarDataSet :
 
     private Ethiopic13CalendarDataSet() : base(Coptic13DataSet.Instance, s_Epoch) { }
 
-    public static Ethiopic13CalendarDataSet Instance { get; } = new();
+    public static Ethiopic13CalendarDataSet Instance => Singleton.Instance;
+
+    private static class Singleton
+    {
+        internal static readonly Ethiopic13CalendarDataSet Instance = new();
+        static Singleton() { }
+    }
 
     public override DataGroup<DayNumberInfo> DayNumberInfoData { get; } =
         DataGroup.CreateDayNumberInfoData(Coptic13DataSet.DaysSinceRataDieInfos, CalendarEpoch.Coptic, s_Epoch);
@@ -35,7 +41,13 @@ public sealed class Ethiopic12CalendarDataSet :
 
     private Ethiopic12CalendarDataSet() : base(Coptic12DataSet.Instance, s_Epoch) { }
 
-    public static Ethiopic12CalendarDataSet Instance { get; } = new();
+    public static Ethiopic12CalendarDataSet Instance => Singleton.Instance;
+
+    private static class Singleton
+    {
+        internal static readonly Ethiopic12CalendarDataSet Instance = new();
+        static Singleton() { }
+    }
 
     public override DataGroup<DayNumberInfo> DayNumberInfoData { get; } =
         DataGroup.CreateDayNumberInfoData(Coptic12DataSet.DaysSinceRataDieInfos, CalendarEpoch.Coptic, s_Epoch);

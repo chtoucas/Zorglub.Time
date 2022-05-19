@@ -19,7 +19,13 @@ public sealed partial class GregorianDataSet :
 
     private GregorianDataSet() : base(new GregorianSchema(), CommonYear, LeapYear) { }
 
-    public static GregorianDataSet Instance { get; } = new();
+    public static GregorianDataSet Instance => Singleton.Instance;
+
+    private static class Singleton
+    {
+        internal static readonly GregorianDataSet Instance = new();
+        static Singleton() { }
+    }
 }
 
 public partial class GregorianDataSet // Infos

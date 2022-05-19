@@ -16,7 +16,13 @@ public sealed class InternationalFixedCalendarDataSet :
 
     private InternationalFixedCalendarDataSet() : base(InternationalFixedDataSet.Instance, s_Epoch) { }
 
-    public static InternationalFixedCalendarDataSet Instance { get; } = new();
+    public static InternationalFixedCalendarDataSet Instance => Singleton.Instance;
+
+    private static class Singleton
+    {
+        internal static readonly InternationalFixedCalendarDataSet Instance = new();
+        static Singleton() { }
+    }
 
     public override DataGroup<DayNumberInfo> DayNumberInfoData { get; } =
         DataGroup.CreateDayNumberInfoData(InternationalFixedDataSet.DaysSinceEpochInfos, s_Epoch);

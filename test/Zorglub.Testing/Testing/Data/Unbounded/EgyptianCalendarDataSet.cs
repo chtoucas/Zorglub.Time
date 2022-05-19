@@ -15,7 +15,13 @@ public sealed class Egyptian12CalendarDataSet :
 {
     private Egyptian12CalendarDataSet() : base(Egyptian12DataSet.Instance, CalendarEpoch.Egyptian) { }
 
-    public static Egyptian12CalendarDataSet Instance { get; } = new();
+    public static Egyptian12CalendarDataSet Instance => Singleton.Instance;
+
+    private static class Singleton
+    {
+        internal static readonly Egyptian12CalendarDataSet Instance = new();
+        static Singleton() { }
+    }
 
     public override DataGroup<DayNumberInfo> DayNumberInfoData { get; } =
         DataGroup.CreateDayNumberInfoData(Egyptian12DataSet.DaysSinceRataDieInfos);
@@ -31,7 +37,13 @@ public sealed class Egyptian13CalendarDataSet :
 {
     private Egyptian13CalendarDataSet() : base(Egyptian13DataSet.Instance, CalendarEpoch.Egyptian) { }
 
-    public static Egyptian13CalendarDataSet Instance { get; } = new();
+    public static Egyptian13CalendarDataSet Instance => Singleton.Instance;
+
+    private static class Singleton
+    {
+        internal static readonly Egyptian13CalendarDataSet Instance = new();
+        static Singleton() { }
+    }
 
     public override DataGroup<DayNumberInfo> DayNumberInfoData { get; } =
         DataGroup.CreateDayNumberInfoData(Egyptian13DataSet.DaysSinceRataDieInfos);

@@ -28,7 +28,13 @@ public sealed class StandardArmenian12DataSet :
 {
     private StandardArmenian12DataSet() : base(Armenian12CalendarDataSet.Instance) { }
 
-    public static StandardArmenian12DataSet Instance { get; } = new();
+    public static StandardArmenian12DataSet Instance => Singleton.Instance;
+
+    private static class Singleton
+    {
+        internal static readonly StandardArmenian12DataSet Instance = new();
+        static Singleton() { }
+    }
 
     public DataGroup<YemodaAnd<int>> EpagomenalDayInfoData => Inner.EpagomenalDayInfoData.WhereT(DataFilter.Filter);
 }
@@ -41,7 +47,13 @@ public sealed class StandardCoptic12DataSet :
 {
     private StandardCoptic12DataSet() : base(Coptic12CalendarDataSet.Instance) { }
 
-    public static StandardCoptic12DataSet Instance { get; } = new();
+    public static StandardCoptic12DataSet Instance => Singleton.Instance;
+
+    private static class Singleton
+    {
+        internal static readonly StandardCoptic12DataSet Instance = new();
+        static Singleton() { }
+    }
 
     public DataGroup<YemodaAnd<int>> EpagomenalDayInfoData => Inner.EpagomenalDayInfoData.WhereT(DataFilter.Filter);
 }
@@ -54,7 +66,13 @@ public sealed class StandardEthiopic12DataSet :
 {
     private StandardEthiopic12DataSet() : base(Ethiopic12CalendarDataSet.Instance) { }
 
-    public static StandardEthiopic12DataSet Instance { get; } = new();
+    public static StandardEthiopic12DataSet Instance => Singleton.Instance;
+
+    private static class Singleton
+    {
+        internal static readonly StandardEthiopic12DataSet Instance = new();
+        static Singleton() { }
+    }
 
     public DataGroup<YemodaAnd<int>> EpagomenalDayInfoData => Inner.EpagomenalDayInfoData.WhereT(DataFilter.Filter);
 }
@@ -71,7 +89,13 @@ public sealed class StandardGregorianDataSet :
 {
     private StandardGregorianDataSet() : base(GregorianCalendarDataSet.Instance) { }
 
-    public static StandardGregorianDataSet Instance { get; } = new();
+    public static StandardGregorianDataSet Instance => Singleton.Instance;
+
+    private static class Singleton
+    {
+        internal static readonly StandardGregorianDataSet Instance = new();
+        static Singleton() { }
+    }
 
     public DataGroup<YemoAnd<int>> DaysInYearAfterMonthData => Inner.DaysInYearAfterMonthData.WhereT(DataFilter.Filter);
 
@@ -105,7 +129,13 @@ public sealed class StandardTabularIslamicDataSet :
 {
     private StandardTabularIslamicDataSet() : base(TabularIslamicCalendarDataSet.Instance) { }
 
-    public static StandardTabularIslamicDataSet Instance { get; } = new();
+    public static StandardTabularIslamicDataSet Instance => Singleton.Instance;
+
+    private static class Singleton
+    {
+        internal static readonly StandardTabularIslamicDataSet Instance = new();
+        static Singleton() { }
+    }
 }
 
 /// <summary>
@@ -116,7 +146,13 @@ public sealed class StandardZoroastrian12DataSet :
 {
     private StandardZoroastrian12DataSet() : base(Zoroastrian12CalendarDataSet.Instance) { }
 
-    public static StandardZoroastrian12DataSet Instance { get; } = new();
+    public static StandardZoroastrian12DataSet Instance => Singleton.Instance;
+
+    private static class Singleton
+    {
+        internal static readonly StandardZoroastrian12DataSet Instance = new();
+        static Singleton() { }
+    }
 
     public DataGroup<YemodaAnd<int>> EpagomenalDayInfoData => Inner.EpagomenalDayInfoData.WhereT(DataFilter.Filter);
 }

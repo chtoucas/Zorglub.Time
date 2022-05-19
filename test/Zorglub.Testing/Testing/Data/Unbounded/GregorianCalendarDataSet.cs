@@ -19,7 +19,13 @@ public sealed partial class GregorianCalendarDataSet :
 {
     private GregorianCalendarDataSet() : base(GregorianDataSet.Instance, DayZero.NewStyle) { }
 
-    public static GregorianCalendarDataSet Instance { get; } = new();
+    public static GregorianCalendarDataSet Instance => Singleton.Instance;
+
+    private static class Singleton
+    {
+        internal static readonly GregorianCalendarDataSet Instance = new();
+        static Singleton() { }
+    }
 
     public override DataGroup<DayNumberInfo> DayNumberInfoData { get; } =
         DataGroup.CreateDayNumberInfoData(GregorianDataSet.DaysSinceRataDieInfos);

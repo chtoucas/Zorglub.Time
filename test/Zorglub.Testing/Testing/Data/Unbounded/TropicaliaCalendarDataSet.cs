@@ -14,7 +14,13 @@ public sealed class TropicaliaCalendarDataSet :
 {
     private TropicaliaCalendarDataSet() : base(TropicaliaDataSet.Instance, DayZero.NewStyle) { }
 
-    public static TropicaliaCalendarDataSet Instance { get; } = new();
+    public static TropicaliaCalendarDataSet Instance => Singleton.Instance;
+
+    private static class Singleton
+    {
+        internal static readonly TropicaliaCalendarDataSet Instance = new();
+        static Singleton() { }
+    }
 
     public override DataGroup<DayNumberInfo> DayNumberInfoData { get; } =
         DataGroup.CreateDayNumberInfoData(TropicaliaDataSet.DaysSinceRataDieInfos);
@@ -30,7 +36,13 @@ public sealed class Tropicalia3031CalendarDataSet :
 
     private Tropicalia3031CalendarDataSet() : base(Tropicalia3031DataSet.Instance, s_Epoch) { }
 
-    public static Tropicalia3031CalendarDataSet Instance { get; } = new();
+    public static Tropicalia3031CalendarDataSet Instance => Singleton.Instance;
+
+    private static class Singleton
+    {
+        internal static readonly Tropicalia3031CalendarDataSet Instance = new();
+        static Singleton() { }
+    }
 
     public override DataGroup<DayNumberInfo> DayNumberInfoData { get; } =
         DataGroup.CreateDayNumberInfoData(Tropicalia3031DataSet.DaysSinceEpochInfos, s_Epoch);
@@ -46,7 +58,13 @@ public sealed class Tropicalia3130CalendarDataSet :
 
     private Tropicalia3130CalendarDataSet() : base(Tropicalia3130DataSet.Instance, s_Epoch) { }
 
-    public static Tropicalia3130CalendarDataSet Instance { get; } = new();
+    public static Tropicalia3130CalendarDataSet Instance => Singleton.Instance;
+
+    private static class Singleton
+    {
+        internal static readonly Tropicalia3130CalendarDataSet Instance = new();
+        static Singleton() { }
+    }
 
     public override DataGroup<DayNumberInfo> DayNumberInfoData { get; } =
         DataGroup.CreateDayNumberInfoData(Tropicalia3130DataSet.DaysSinceEpochInfos, s_Epoch);

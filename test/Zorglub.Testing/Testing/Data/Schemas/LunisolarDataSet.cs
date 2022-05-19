@@ -13,7 +13,13 @@ public sealed partial class LunisolarDataSet : CalendricalDataSet, ISingleton<Lu
 
     private LunisolarDataSet() : base(new LunisolarSchema(), CommonYear, LeapYear) { }
 
-    public static LunisolarDataSet Instance { get; } = new();
+    public static LunisolarDataSet Instance => Singleton.Instance;
+
+    private static class Singleton
+    {
+        internal static readonly LunisolarDataSet Instance = new();
+        static Singleton() { }
+    }
 }
 
 public partial class LunisolarDataSet // Infos

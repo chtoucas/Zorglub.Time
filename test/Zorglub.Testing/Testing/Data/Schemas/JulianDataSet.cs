@@ -13,7 +13,13 @@ public sealed partial class JulianDataSet : CalendricalDataSet, ISingleton<Julia
 
     private JulianDataSet() : base(new JulianSchema(), CommonYear, LeapYear) { }
 
-    public static JulianDataSet Instance { get; } = new();
+    public static JulianDataSet Instance => Singleton.Instance;
+
+    private static class Singleton
+    {
+        internal static readonly JulianDataSet Instance = new();
+        static Singleton() { }
+    }
 }
 
 public partial class JulianDataSet // Infos

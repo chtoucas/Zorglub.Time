@@ -16,7 +16,13 @@ public sealed partial class Coptic12DataSet :
 
     private Coptic12DataSet() : base(new Coptic12Schema(), CommonYear, LeapYear) { }
 
-    public static Coptic12DataSet Instance { get; } = new();
+    public static Coptic12DataSet Instance => Singleton.Instance;
+
+    private static class Singleton
+    {
+        internal static readonly Coptic12DataSet Instance = new();
+        static Singleton() { }
+    }
 }
 
 public partial class Coptic12DataSet // Infos

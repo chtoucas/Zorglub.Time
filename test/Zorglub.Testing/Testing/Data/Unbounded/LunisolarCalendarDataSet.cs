@@ -15,7 +15,13 @@ public sealed class LunisolarCalendarDataSet :
 {
     private LunisolarCalendarDataSet() : base(LunisolarDataSet.Instance, CalendarEpoch.Positivist) { }
 
-    public static LunisolarCalendarDataSet Instance { get; } = new();
+    public static LunisolarCalendarDataSet Instance => Singleton.Instance;
+
+    private static class Singleton
+    {
+        internal static readonly LunisolarCalendarDataSet Instance = new();
+        static Singleton() { }
+    }
 
     public override DataGroup<DayNumberInfo> DayNumberInfoData { get; } =
         DataGroup.CreateDayNumberInfoData(LunisolarDataSet.DaysSinceRataDieInfos);

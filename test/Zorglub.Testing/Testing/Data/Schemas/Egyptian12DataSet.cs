@@ -15,7 +15,13 @@ public sealed partial class Egyptian12DataSet :
 
     private Egyptian12DataSet() : base(new Egyptian12Schema(), SampleYear, SampleYear) { }
 
-    public static Egyptian12DataSet Instance { get; } = new();
+    public static Egyptian12DataSet Instance => Singleton.Instance;
+
+    private static class Singleton
+    {
+        internal static readonly Egyptian12DataSet Instance = new();
+        static Singleton() { }
+    }
 }
 
 public partial class Egyptian12DataSet // Infos

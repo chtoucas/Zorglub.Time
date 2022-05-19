@@ -10,7 +10,13 @@ public sealed partial class Tropicalia3130DataSet : TropicalistaDataSet, ISingle
 {
     private Tropicalia3130DataSet() : base(new Tropicalia3130Schema()) { }
 
-    public static Tropicalia3130DataSet Instance { get; } = new();
+    public static Tropicalia3130DataSet Instance => Singleton.Instance;
+
+    private static class Singleton
+    {
+        internal static readonly Tropicalia3130DataSet Instance = new();
+        static Singleton() { }
+    }
 }
 
 public partial class Tropicalia3130DataSet // Infos

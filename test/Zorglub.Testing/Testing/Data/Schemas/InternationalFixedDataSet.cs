@@ -13,7 +13,13 @@ public sealed partial class InternationalFixedDataSet : CalendricalDataSet, ISin
 
     private InternationalFixedDataSet() : base(new InternationalFixedSchema(), CommonYear, LeapYear) { }
 
-    public static InternationalFixedDataSet Instance { get; } = new();
+    public static InternationalFixedDataSet Instance => Singleton.Instance;
+
+    private static class Singleton
+    {
+        internal static readonly InternationalFixedDataSet Instance = new();
+        static Singleton() { }
+    }
 }
 
 public partial class InternationalFixedDataSet // Infos

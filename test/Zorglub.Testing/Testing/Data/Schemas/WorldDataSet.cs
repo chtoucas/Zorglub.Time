@@ -13,7 +13,13 @@ public sealed partial class WorldDataSet : CalendricalDataSet, ISingleton<WorldD
 
     private WorldDataSet() : base(new WorldSchema(), CommonYear, LeapYear) { }
 
-    public static WorldDataSet Instance { get; } = new();
+    public static WorldDataSet Instance => Singleton.Instance;
+
+    private static class Singleton
+    {
+        internal static readonly WorldDataSet Instance = new();
+        static Singleton() { }
+    }
 }
 
 public partial class WorldDataSet // Infos

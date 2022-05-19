@@ -87,7 +87,13 @@ public class GregorianMinMaxYearCalendarDataSet :
             GregorianMinMaxYearCalendarTests.LastYear)
     { }
 
-    public static GregorianMinMaxYearCalendarDataSet Instance { get; } = new();
+    public static GregorianMinMaxYearCalendarDataSet Instance => Singleton.Instance;
+
+    private static class Singleton
+    {
+        internal static readonly GregorianMinMaxYearCalendarDataSet Instance = new();
+        static Singleton() { }
+    }
 }
 
 // TODO(code): à améliorer.

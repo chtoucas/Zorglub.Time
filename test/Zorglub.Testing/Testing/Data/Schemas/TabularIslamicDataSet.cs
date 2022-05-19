@@ -15,7 +15,13 @@ public sealed partial class TabularIslamicDataSet : CalendricalDataSet, ISinglet
 
     private TabularIslamicDataSet() : base(new TabularIslamicSchema(), CommonYear, LeapYear) { }
 
-    public static TabularIslamicDataSet Instance { get; } = new();
+    public static TabularIslamicDataSet Instance => Singleton.Instance;
+
+    private static class Singleton
+    {
+        internal static readonly TabularIslamicDataSet Instance = new();
+        static Singleton() { }
+    }
 }
 
 public partial class TabularIslamicDataSet // Infos

@@ -15,7 +15,13 @@ public sealed partial class PaxDataSet : CalendricalDataSet, ISingleton<PaxDataS
 
     private PaxDataSet() : base(new PaxSchema(), CommonYear, LeapYear) { }
 
-    public static PaxDataSet Instance { get; } = new();
+    public static PaxDataSet Instance => Singleton.Instance;
+
+    private static class Singleton
+    {
+        internal static readonly PaxDataSet Instance = new();
+        static Singleton() { }
+    }
 }
 
 public partial class PaxDataSet // Infos

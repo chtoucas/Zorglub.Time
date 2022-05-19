@@ -16,7 +16,13 @@ public sealed class FrenchRepublican12CalendarDataSet :
     private FrenchRepublican12CalendarDataSet()
         : base(FrenchRepublican12DataSet.Instance, CalendarEpoch.FrenchRepublican) { }
 
-    public static FrenchRepublican12CalendarDataSet Instance { get; } = new();
+    public static FrenchRepublican12CalendarDataSet Instance => Singleton.Instance;
+
+    private static class Singleton
+    {
+        internal static readonly FrenchRepublican12CalendarDataSet Instance = new();
+        static Singleton() { }
+    }
 
     public override DataGroup<DayNumberInfo> DayNumberInfoData { get; } =
         DataGroup.CreateDayNumberInfoData(FrenchRepublican12DataSet.DaysSinceRataDieInfos);
@@ -33,7 +39,13 @@ public sealed class FrenchRepublican13CalendarDataSet :
     private FrenchRepublican13CalendarDataSet()
         : base(FrenchRepublican13DataSet.Instance, CalendarEpoch.FrenchRepublican) { }
 
-    public static FrenchRepublican13CalendarDataSet Instance { get; } = new();
+    public static FrenchRepublican13CalendarDataSet Instance => Singleton.Instance;
+
+    private static class Singleton
+    {
+        internal static readonly FrenchRepublican13CalendarDataSet Instance = new();
+        static Singleton() { }
+    }
 
     public override DataGroup<DayNumberInfo> DayNumberInfoData { get; } =
         DataGroup.CreateDayNumberInfoData(FrenchRepublican13DataSet.DaysSinceRataDieInfos);
