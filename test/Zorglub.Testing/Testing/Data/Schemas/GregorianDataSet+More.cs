@@ -3,8 +3,6 @@
 
 namespace Zorglub.Testing.Data.Schemas;
 
-using static Zorglub.Testing.Data.Extensions.TheoryDataExtensions;
-
 public partial class GregorianDataSet // Supplementary data
 {
     public static DataGroup<YemoAnd<int>> DaysInYearAfterMonthData { get; } = new()
@@ -261,214 +259,211 @@ public partial class GregorianDataSet // IAdvancedMathDataSet
         new(new(4, 3, 29), new(4, 2, 29), -1),
     };
 
-    public TheoryData<Yemoda, Yemoda, int, int, int> DiffData => s_Diff.ToTheoryData();
-
-    // Start date, end date, exact diff between.
-    private static readonly List<(int start, int, int, int end, int, int, int diff, int, int)> s_Diff = new()
+    public TheoryData<Yemoda, Yemoda, int, int, int> DiffData { get; } = new()
     {
-        #region After >= 1 year.
+        #region After >= 1 year
 
         // At least 2 years.
-        (start: 3, 4, 5, end: 9, 4, 6, diff: 6, 0, 1),
-        (start: 3, 4, 5, end: 9, 4, 5, diff: 6, 0, 0),
-        (start: 3, 4, 5, end: 9, 4, 4, diff: 5, 11, 30),
+        { new(3, 4, 5), new(9, 4, 6), 6, 0, 1 },
+        { new(3, 4, 5), new(9, 4, 5), 6, 0, 0 },
+        { new(3, 4, 5), new(9, 4, 4), 5, 11, 30 },
 
-        (start: 3, 4, 5, end: 8, 4, 6, diff: 5, 0, 1),
-        (start: 3, 4, 5, end: 8, 4, 5, diff: 5, 0, 0),
-        (start: 3, 4, 5, end: 8, 4, 4, diff: 4, 11, 30),
+        { new(3, 4, 5), new(8, 4, 6), 5, 0, 1 },
+        { new(3, 4, 5), new(8, 4, 5), 5, 0, 0 },
+        { new(3, 4, 5), new(8, 4, 4), 4, 11, 30 },
 
-        (start: 3, 4, 5, end: 7, 4, 6, diff: 4, 0, 1),
-        (start: 3, 4, 5, end: 7, 4, 5, diff: 4, 0, 0),
-        (start: 3, 4, 5, end: 7, 4, 4, diff: 3, 11, 30),
+        { new(3, 4, 5), new(7, 4, 6), 4, 0, 1 },
+        { new(3, 4, 5), new(7, 4, 5), 4, 0, 0 },
+        { new(3, 4, 5), new(7, 4, 4), 3, 11, 30 },
 
-        (start: 3, 4, 5, end: 6, 4, 6, diff: 3, 0, 1),
-        (start: 3, 4, 5, end: 6, 4, 5, diff: 3, 0, 0),
-        (start: 3, 4, 5, end: 6, 4, 4, diff: 2, 11, 30),
+        { new(3, 4, 5), new(6, 4, 6), 3, 0, 1 },
+        { new(3, 4, 5), new(6, 4, 5), 3, 0, 0 },
+        { new(3, 4, 5), new(6, 4, 4), 2, 11, 30 },
 
-        (start: 3, 4, 5, end: 5, 4, 6, diff: 2, 0, 1),
-        (start: 3, 4, 5, end: 5, 4, 5, diff: 2, 0, 0),
-        (start: 3, 4, 5, end: 5, 4, 4, diff: 1, 11, 30),
+        { new(3, 4, 5), new(5, 4, 6), 2, 0, 1 },
+        { new(3, 4, 5), new(5, 4, 5), 2, 0, 0 },
+        { new(3, 4, 5), new(5, 4, 4), 1, 11, 30 },
 
         // 1 year and 2 months.
-        (start: 3, 4, 5, end: 4, 6, 29, diff: 1, 2, 24),
-        (start: 3, 4, 5, end: 4, 6, 6, diff: 1, 2, 1),
-        (start: 3, 4, 5, end: 4, 6, 5, diff: 1, 2, 0),
+        { new(3, 4, 5), new(4, 6, 29), 1, 2, 24 },
+        { new(3, 4, 5), new(4, 6, 6), 1, 2, 1 },
+        { new(3, 4, 5), new(4, 6, 5), 1, 2, 0 },
         // 1 year and 1 month.
-        (start: 3, 4, 5, end: 4, 5, 29, diff: 1, 1, 24),
-        (start: 3, 4, 5, end: 4, 5, 6, diff: 1, 1, 1),
-        (start: 3, 4, 5, end: 4, 5, 5, diff: 1, 1, 0),
+        { new(3, 4, 5), new(4, 5, 29), 1, 1, 24 },
+        { new(3, 4, 5), new(4, 5, 6), 1, 1, 1 },
+        { new(3, 4, 5), new(4, 5, 5), 1, 1, 0 },
 
         // 1 year.
-        (start: 3, 4, 5, end: 4, 4, 30, diff: 1, 0, 25),
-        (start: 3, 4, 5, end: 4, 4, 6, diff: 1, 0, 1),
-        (start: 3, 4, 5, end: 4, 4, 5, diff: 1, 0, 0),
+        { new(3, 4, 5), new(4, 4, 30), 1, 0, 25 },
+        { new(3, 4, 5), new(4, 4, 6), 1, 0, 1 },
+        { new(3, 4, 5), new(4, 4, 5), 1, 0, 0 },
 
         #endregion
 
-        #region After < 1 year.
+        #region After < 1 year
 
-        (start: 3, 4, 5, end: 4, 4, 4, diff: 0, 11, 30),
-        (start: 3, 4, 5, end: 4, 4, 1, diff: 0, 11, 27),
-        (start: 3, 4, 5, end: 4, 3, 31, diff: 0, 11, 26),
-        (start: 3, 4, 5, end: 4, 3, 5, diff: 0, 11, 0),
-        (start: 3, 4, 5, end: 4, 2, 5, diff: 0, 10, 0),
-        (start: 3, 4, 5, end: 4, 1, 5, diff: 0, 9, 0),
+        { new(3, 4, 5), new(4, 4, 4), 0, 11, 30 },
+        { new(3, 4, 5), new(4, 4, 1), 0, 11, 27 },
+        { new(3, 4, 5), new(4, 3, 31), 0, 11, 26 },
+        { new(3, 4, 5), new(4, 3, 5), 0, 11, 0 },
+        { new(3, 4, 5), new(4, 2, 5), 0, 10, 0 },
+        { new(3, 4, 5), new(4, 1, 5), 0, 9, 0 },
 
-        (start: 3, 4, 5, end: 3, 12, 5, diff: 0, 8, 0),
-        (start: 3, 4, 5, end: 3, 11, 5, diff: 0, 7, 0),
-        (start: 3, 4, 5, end: 3, 10, 5, diff: 0, 6, 0),
-        (start: 3, 4, 5, end: 3, 9, 5, diff: 0, 5, 0),
-        (start: 3, 4, 5, end: 3, 8, 5, diff: 0, 4, 0),
-        (start: 3, 4, 5, end: 3, 7, 5, diff: 0, 3, 0),
+        { new(3, 4, 5), new(3, 12, 5), 0, 8, 0 },
+        { new(3, 4, 5), new(3, 11, 5), 0, 7, 0 },
+        { new(3, 4, 5), new(3, 10, 5), 0, 6, 0 },
+        { new(3, 4, 5), new(3, 9, 5), 0, 5, 0 },
+        { new(3, 4, 5), new(3, 8, 5), 0, 4, 0 },
+        { new(3, 4, 5), new(3, 7, 5), 0, 3, 0 },
 
         // 2 months.
-        (start: 3, 4, 5, end: 3, 7, 4, diff: 0, 2, 29),
-        (start: 3, 4, 5, end: 3, 7, 1, diff: 0, 2, 26),
-        (start: 3, 4, 5, end: 3, 6, 30, diff: 0, 2, 25),
-        (start: 3, 4, 5, end: 3, 6, 5, diff: 0, 2, 0),
+        { new(3, 4, 5), new(3, 7, 4), 0, 2, 29 },
+        { new(3, 4, 5), new(3, 7, 1), 0, 2, 26 },
+        { new(3, 4, 5), new(3, 6, 30), 0, 2, 25 },
+        { new(3, 4, 5), new(3, 6, 5), 0, 2, 0 },
         // 1 month.
-        (start: 3, 4, 5, end: 3, 6, 4, diff: 0, 1, 30),
-        (start: 3, 4, 5, end: 3, 6, 1, diff: 0, 1, 27),
-        (start: 3, 4, 5, end: 3, 5, 31, diff: 0, 1, 26),
-        (start: 3, 4, 5, end: 3, 5, 5, diff: 0, 1, 0),
+        { new(3, 4, 5), new(3, 6, 4), 0, 1, 30 },
+        { new(3, 4, 5), new(3, 6, 1), 0, 1, 27 },
+        { new(3, 4, 5), new(3, 5, 31), 0, 1, 26 },
+        { new(3, 4, 5), new(3, 5, 5), 0, 1, 0 },
         // < 1 month.
-        (start: 3, 4, 5, end: 3, 5, 4, diff: 0, 0, 29),
-        (start: 3, 4, 5, end: 3, 5, 1, diff: 0, 0, 26),
-        (start: 3, 4, 5, end: 3, 4, 30, diff: 0, 0, 25),
-        (start: 3, 4, 5, end: 3, 4, 6, diff: 0, 0, 1),
+        { new(3, 4, 5), new(3, 5, 4), 0, 0, 29 },
+        { new(3, 4, 5), new(3, 5, 1), 0, 0, 26 },
+        { new(3, 4, 5), new(3, 4, 30), 0, 0, 25 },
+        { new(3, 4, 5), new(3, 4, 6), 0, 0, 1 },
 
         #endregion
 
         // Identical dates.
-        (start: 3, 4, 5, end: 3, 4, 5, diff: 0, 0, 0),
+        { new(3, 4, 5), new(3, 4, 5), 0, 0, 0 },
 
-        #region Before < 1 year.
+        #region Before < 1 year
 
         // < 1 month.
-        (start: 3, 4, 5, end: 3, 4, 4, diff: 0, 0, -1),
-        (start: 3, 4, 5, end: 3, 4, 1, diff: 0, 0, -4),
-        (start: 3, 4, 5, end: 3, 3, 31, diff: 0, 0, -5),
-        (start: 3, 4, 5, end: 3, 3, 6, diff: 0, 0, -30),
+        { new(3, 4, 5), new(3, 4, 4), 0, 0, -1 },
+        { new(3, 4, 5), new(3, 4, 1), 0, 0, -4 },
+        { new(3, 4, 5), new(3, 3, 31), 0, 0, -5 },
+        { new(3, 4, 5), new(3, 3, 6), 0, 0, -30 },
         // 1 month.
-        (start: 3, 4, 5, end: 3, 3, 5, diff: 0, -1, 0),
-        (start: 3, 4, 5, end: 3, 3, 1, diff: 0, -1, -4),
-        (start: 3, 4, 5, end: 3, 2, 28, diff: 0, -1, -5),
-        (start: 3, 4, 5, end: 3, 2, 6, diff: 0, -1, -27),
+        { new(3, 4, 5), new(3, 3, 5), 0, -1, 0 },
+        { new(3, 4, 5), new(3, 3, 1), 0, -1, -4 },
+        { new(3, 4, 5), new(3, 2, 28), 0, -1, -5 },
+        { new(3, 4, 5), new(3, 2, 6), 0, -1, -27 },
         // 2 months.
-        (start: 3, 4, 5, end: 3, 2, 5, diff: 0, -2, 0),
-        (start: 3, 4, 5, end: 3, 2, 1, diff: 0, -2, -4),
-        (start: 3, 4, 5, end: 3, 1, 31, diff: 0, -2, -5),
-        (start: 3, 4, 5, end: 3, 1, 6, diff: 0, -2, -30),
+        { new(3, 4, 5), new(3, 2, 5), 0, -2, 0 },
+        { new(3, 4, 5), new(3, 2, 1), 0, -2, -4 },
+        { new(3, 4, 5), new(3, 1, 31), 0, -2, -5 },
+        { new(3, 4, 5), new(3, 1, 6), 0, -2, -30 },
         // 3 months.
-        (start: 3, 4, 5, end: 3, 1, 5, diff: 0, -3, 0),
-        (start: 3, 4, 5, end: 3, 1, 1, diff: 0, -3, -4),
+        { new(3, 4, 5), new(3, 1, 5), 0, -3, 0 },
+        { new(3, 4, 5), new(3, 1, 1), 0, -3, -4 },
 
-        (start: 3, 4, 5, end: 2, 4, 6, diff: 0, -11, -29),
+        { new(3, 4, 5), new(2, 4, 6), 0, -11, -29 },
 
         #endregion
 
-        #region Before >= 1 year.
+        #region Before >= 1 year
 
-        (start: 3, 4, 5, end: 2, 4, 5, diff: -1, 0, 0),
-        (start: 3, 4, 5, end: 2, 4, 1, diff: -1, 0, -4),
-        (start: 3, 4, 5, end: 2, 3, 31, diff: -1, 0, -5),
-        (start: 3, 4, 5, end: 2, 3, 6, diff: -1, 0, -30),
+        { new(3, 4, 5), new(2, 4, 5), -1, 0, 0 },
+        { new(3, 4, 5), new(2, 4, 1), -1, 0, -4 },
+        { new(3, 4, 5), new(2, 3, 31), -1, 0, -5 },
+        { new(3, 4, 5), new(2, 3, 6), -1, 0, -30 },
         // 1 year and 1 month.
-        (start: 3, 4, 5, end: 2, 3, 5, diff: -1, -1, 0),
-        (start: 3, 4, 5, end: 2, 3, 4, diff: -1, -1, -1),
-        (start: 3, 4, 5, end: 2, 3, 1, diff: -1, -1, -4),
-        (start: 3, 4, 5, end: 2, 2, 28, diff: -1, -1, -5),
-        (start: 3, 4, 5, end: 2, 2, 6, diff: -1, -1, -27),
+        { new(3, 4, 5), new(2, 3, 5), -1, -1, 0 },
+        { new(3, 4, 5), new(2, 3, 4), -1, -1, -1 },
+        { new(3, 4, 5), new(2, 3, 1), -1, -1, -4 },
+        { new(3, 4, 5), new(2, 2, 28), -1, -1, -5 },
+        { new(3, 4, 5), new(2, 2, 6), -1, -1, -27 },
         // 1 year and 2 months.
-        (start: 3, 4, 5, end: 2, 2, 5, diff: -1, -2, 0),
-        (start: 3, 4, 5, end: 2, 2, 4, diff: -1, -2, -1),
-        (start: 3, 4, 5, end: 2, 2, 1, diff: -1, -2, -4),
+        { new(3, 4, 5), new(2, 2, 5), -1, -2, 0 },
+        { new(3, 4, 5), new(2, 2, 4), -1, -2, -1 },
+        { new(3, 4, 5), new(2, 2, 1), -1, -2, -4 },
 
-        (start: 3, 4, 5, end: 1, 4, 6, diff: -1, -11, -29),
+        { new(3, 4, 5), new(1, 4, 6), -1, -11, -29 },
 
         // At least 2 years.
-        (start: 3, 4, 5, end: 1, 4, 5, diff: -2, 0, 0),
-        (start: 3, 4, 5, end: 1, 4, 4, diff: -2, 0, -1),
-        (start: 3, 4, 5, end: 1, 1, 1, diff: -2, -3, -4),
+        { new(3, 4, 5), new(1, 4, 5), -2, 0, 0 },
+        { new(3, 4, 5), new(1, 4, 4), -2, 0, -1 },
+        { new(3, 4, 5), new(1, 1, 1), -2, -3, -4 },
 
         #endregion
 
-        #region END/m/y.
+        #region END/m/y
 
-        (start: 3, 4, 30, end: 4, 5, 1, diff: 1, 0, 1),
-        (start: 3, 4, 30, end: 4, 4, 30, diff: 1, 0, 0),
+        { new(3, 4, 30), new(4, 5, 1), 1, 0, 1 },
+        { new(3, 4, 30), new(4, 4, 30), 1, 0, 0 },
 
-        (start: 3, 4, 30, end: 4, 4, 29, diff: 0, 11, 30),
-        (start: 3, 4, 30, end: 4, 4, 2, diff: 0, 11, 3),
-        (start: 3, 4, 30, end: 4, 4, 1, diff: 0, 11, 2),
-        (start: 3, 4, 30, end: 4, 3, 31, diff: 0, 11, 1),
-        (start: 3, 4, 30, end: 4, 3, 30, diff: 0, 11, 0),
+        { new(3, 4, 30), new(4, 4, 29), 0, 11, 30 },
+        { new(3, 4, 30), new(4, 4, 2), 0, 11, 3 },
+        { new(3, 4, 30), new(4, 4, 1), 0, 11, 2 },
+        { new(3, 4, 30), new(4, 3, 31), 0, 11, 1 },
+        { new(3, 4, 30), new(4, 3, 30), 0, 11, 0 },
 
-        (start: 3, 4, 30, end: 4, 3, 29, diff: 0, 10, 29),
-        (start: 3, 4, 30, end: 4, 3, 1, diff: 0, 10, 1),
-        // XXX ( start: 3, 4, 30, end: 4,  2, 29, diff:  0,  10,   0 ),
+        { new(3, 4, 30), new(4, 3, 29), 0, 10, 29 },
+        { new(3, 4, 30), new(4, 3, 1), 0, 10, 1 },
+        // XXX { new(3, 4, 30), new(4,  2, 29),  0,  10,   0 },
 
-        (start: 3, 4, 30, end: 4, 2, 28, diff: 0, 9, 29),
-        (start: 3, 4, 30, end: 4, 2, 1, diff: 0, 9, 2),
-        (start: 3, 4, 30, end: 4, 1, 31, diff: 0, 9, 1),
-        (start: 3, 4, 30, end: 4, 1, 30, diff: 0, 9, 0),
+        { new(3, 4, 30), new(4, 2, 28), 0, 9, 29 },
+        { new(3, 4, 30), new(4, 2, 1), 0, 9, 2 },
+        { new(3, 4, 30), new(4, 1, 31), 0, 9, 1 },
+        { new(3, 4, 30), new(4, 1, 30), 0, 9, 0 },
 
-        (start: 3, 4, 30, end: 2, 5, 1, diff: 0, -11, -29),
-        (start: 3, 4, 30, end: 2, 4, 30, diff: -1, 0, 0),
-        (start: 3, 4, 30, end: 2, 4, 29, diff: -1, 0, -1),
-        (start: 3, 4, 30, end: 2, 4, 2, diff: -1, 0, -28),
-        (start: 3, 4, 30, end: 2, 4, 1, diff: -1, 0, -29),
-        // XXX ( start: 3, 4, 30, end: 2,  3, 31, diff: -1,  -1,   1 ),
-        // XXX ( start: 2, 3, 31, end: 3,  4, 30, diff:  1,   1,   0 ),
+        { new(3, 4, 30), new(2, 5, 1), 0, -11, -29 },
+        { new(3, 4, 30), new(2, 4, 30), -1, 0, 0 },
+        { new(3, 4, 30), new(2, 4, 29), -1, 0, -1 },
+        { new(3, 4, 30), new(2, 4, 2), -1, 0, -28 },
+        { new(3, 4, 30), new(2, 4, 1), -1, 0, -29 },
+        // XXX { new(3, 4, 30), new(2,  3, 31), -1,  -1,   1 },
+        // XXX { new(2, 3, 31), new(3,  4, 30),  1,   1,   0 },
 
-        (start: 3, 4, 30, end: 2, 3, 30, diff: -1, -1, 0),
+        { new(3, 4, 30), new(2, 3, 30), -1, -1, 0 },
 
         #endregion
 
-        #region Intercalary day.
+        #region Intercalary day
 
         // end is in a leap year and after start.
         // 29/02/0008 -> 29/02/0012 -> 01/03/0012.
-        (start: 8, 2, 29, end: 12, 3, 1, diff: 4, 0, 1),
+        { new(8, 2, 29), new(12, 3, 1), 4, 0, 1 },
         // 29/02/0008 -> 29/02/0012.
-        (start: 8, 2, 29, end: 12, 2, 29, diff: 4, 0, 0),
+        { new(8, 2, 29), new(12, 2, 29), 4, 0, 0 },
         // 29/02/0008 -> 28/02/0011 -> 28/02/0012.
         // NB: newStart for CountMonthsBetween() is 29/01/0012, not 28/02/0011.
-        (start: 8, 2, 29, end: 12, 2, 28, diff: 3, 11, 30),
+        { new(8, 2, 29), new(12, 2, 28), 3, 11, 30 },
         // 29/02/0008 -> 28/02/0011 -> 27/02/0012.
         // NB: newStart for CountMonthsBetween() is 29/01/0012, not 28/02/0011.
-        (start: 8, 2, 29, end: 12, 2, 27, diff: 3, 11, 29),
+        { new(8, 2, 29), new(12, 2, 27), 3, 11, 29 },
 
         // end is in a common year and after start.
         // 29/02/0008 -> 28/02/0011 -> 01/03/0011.
-        (start: 8, 2, 29, end: 11, 3, 1, diff: 3, 0, 1),
+        { new(8, 2, 29), new(11, 3, 1), 3, 0, 1 },
         // 29/02/0008 -> 28/02/0011.
-        // XXXX ( start: 8, 2, 29, end: 11,  2, 28, diff:  3,   0,   0 ),
+        // XXX { new(8, 2, 29), new(11,  2, 28),  3,   0,   0 },
         // 29/02/0008 -> 28/02/0010 -> 27/02/0011.
         // NB: newStart for CountMonthsBetween() is 29/01/0011, not 28/02/0010.
-        (start: 8, 2, 29, end: 11, 2, 27, diff: 2, 11, 29),
+        { new(8, 2, 29), new(11, 2, 27), 2, 11, 29 },
 
         // 29/02/0008 -> 28/02/0009 -> 01/03/0009.
-        (start: 8, 2, 29, end: 9, 3, 1, diff: 1, 0, 1),
+        { new(8, 2, 29), new(9, 3, 1), 1, 0, 1 },
         // 29/02/0008 -> 28/02/0009.
-        // XXX ( start: 8, 2, 29, end:  9,  2, 28, diff:  1,   0,   0 ),
+        // XXX { new(8, 2, 29), new( 9,  2, 28),  1,   0,   0 },
         // 29/02/0008 -> 29/02/0008 -> 27/02/0009.
-        (start: 8, 2, 29, end: 9, 2, 27, diff: 0, 11, 29),
+        { new(8, 2, 29), new(9, 2, 27), 0, 11, 29 },
 
         // end same year.
-        (start: 8, 2, 29, end: 8, 3, 1, diff: 0, 0, 1),
-        (start: 8, 2, 29, end: 8, 2, 28, diff: 0, 0, -1),
-        (start: 8, 2, 29, end: 8, 2, 27, diff: 0, 0, -2),
+        { new(8, 2, 29), new(8, 3, 1), 0, 0, 1 },
+        { new(8, 2, 29), new(8, 2, 28), 0, 0, -1 },
+        { new(8, 2, 29), new(8, 2, 27), 0, 0, -2 },
 
         // end is in a common year and before start.
-        (start: 8, 2, 29, end: 7, 3, 1, diff: 0, -11, -28),
-        (start: 8, 2, 29, end: 7, 2, 28, diff: -1, 0, 0),
-        (start: 8, 2, 29, end: 7, 2, 27, diff: -1, 0, -1),
+        { new(8, 2, 29), new(7, 3, 1), 0, -11, -28 },
+        { new(8, 2, 29), new(7, 2, 28), -1, 0, 0 },
+        { new(8, 2, 29), new(7, 2, 27), -1, 0, -1 },
 
         // end is in a leap year and before start.
-        (start: 8, 2, 29, end: 4, 3, 1, diff: -3, -11, -28),
-        (start: 8, 2, 29, end: 4, 2, 29, diff: -4, 0, 0),
-        (start: 8, 2, 29, end: 4, 2, 28, diff: -4, 0, -1),
+        { new(8, 2, 29), new(4, 3, 1), -3, -11, -28 },
+        { new(8, 2, 29), new(4, 2, 29), -4, 0, 0 },
+        { new(8, 2, 29), new(4, 2, 28), -4, 0, -1 },
 
         #endregion
     };

@@ -7,8 +7,6 @@ using Zorglub.Testing.Data;
 using Zorglub.Testing.Data.Schemas;
 using Zorglub.Time.Hemerology;
 
-using static Zorglub.Testing.Data.Extensions.TheoryDataExtensions;
-
 /// <summary>
 /// Provides test data for the (unbounded) Pax calendar.
 /// </summary>
@@ -29,7 +27,19 @@ public sealed class UnboundedPaxDataSet : UnboundedCalendarDataSet<PaxDataSet>, 
 
     /// <summary>Day number, year, week of the year, day of the week.</summary>
     public static TheoryData<DayNumber, int, int, DayOfWeek> MoreDayNumberInfoData =>
-        s_MoreDayNumberInfoData.ToTheoryData();
+        MapToTheoryData(s_MoreDayNumberInfoData);
+
+    [Pure]
+    private static TheoryData<DayNumber, int, int, DayOfWeek> MapToTheoryData(
+        IEnumerable<(int Ord, int Year, int WeekOfYear, DayOfWeek DayOfWeek)> source)
+    {
+        var data = new TheoryData<DayNumber, int, int, DayOfWeek>();
+        foreach (var (ord, y, woy, dayOfWeek) in source)
+        {
+            data.Add(DayZero.NewStyle + (ord - 1), y, woy, dayOfWeek);
+        }
+        return data;
+    }
 
     private static readonly List<(int Ord, int Year, int WeekOfYear, DayOfWeek DayOfWeek)> s_MoreDayNumberInfoData = new()
     {

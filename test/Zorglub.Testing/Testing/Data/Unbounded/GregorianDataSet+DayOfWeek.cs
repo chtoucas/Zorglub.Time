@@ -3,8 +3,6 @@
 
 namespace Zorglub.Testing.Data.Unbounded;
 
-using static Zorglub.Testing.Data.Extensions.TheoryDataExtensions;
-
 public partial class UnboundedGregorianDataSet // IDayOfWeekDataSet
 {
     public DataGroup<YemodaAnd<DayOfWeek>> DayOfWeekData { get; } = new()

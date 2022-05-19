@@ -3,8 +3,6 @@
 
 namespace Zorglub.Testing.Data.Schemas;
 
-using static Zorglub.Testing.Data.Extensions.TheoryDataExtensions;
-
 public static partial class GregorianCutOffMathDataSet { }
 
 public partial class GregorianCutOffMathDataSet // Years
@@ -86,16 +84,13 @@ public partial class GregorianCutOffMathDataSet // Months
 public partial class GregorianCutOffMathDataSet // Diff
 {
     // Start date, end date, exact diff between.
-    public static TheoryData<Yemoda, Yemoda, int, int, int> DiffData => s_Diff.ToTheoryData();
-
-    // Start date, end date, exact diff between.
-    private static readonly List<(int start, int, int, int end, int, int, int diff, int, int)> s_Diff = new()
+    public static TheoryData<Yemoda, Yemoda, int, int, int> DiffData { get; } = new()
     {
-        (start: 3, 4, 30, end: 4, 2, 29, diff: 0, 9, 30),
-        (start: 3, 4, 30, end: 2, 3, 31, diff: -1, 0, -30),
-        (start: 3, 4, 30, end: 3, 3, 31, diff: 0, 0, -30),
+        { new(3, 4, 30), new(4, 2, 29), 0, 9, 30 },
+        { new(3, 4, 30), new(2, 3, 31), -1, 0, -30 },
+        { new(3, 4, 30), new(3, 3, 31), 0, 0, -30 },
 
-        (start: 8, 2, 29, end: 11, 2, 28, diff: 2, 11, 30),
-        (start: 8, 2, 29, end: 9, 2, 28, diff: 0, 11, 30),
+        { new(8, 2, 29), new(11, 2, 28), 2, 11, 30 },
+        { new(8, 2, 29), new(9, 2, 28), 0, 11, 30 },
     };
 }
