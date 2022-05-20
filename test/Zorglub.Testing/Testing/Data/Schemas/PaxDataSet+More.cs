@@ -6,7 +6,7 @@ namespace Zorglub.Testing.Data.Schemas;
 public partial class PaxDataSet // Supplementary data
 {
     /// <summary>DaysSinceEpoch, year, week of the year, day of the week.</summary>
-    public static TheoryData<int, int, int, DayOfWeek> MoreDaySinceEpochInfoData =>
+    public static TheoryData<int, int, int, DayOfWeek> MoreDaySinceEpochInfoData { get; } =
         MapToTheoryData(MoreDaySinceEpochInfos);
 
     /// <summary>Year, weeks in year.</summary>
@@ -79,18 +79,6 @@ public partial class PaxDataSet // Supplementary data
         { LeapYear, 54 },
     };
 
-    [Pure]
-    private static TheoryData<int, int, int, DayOfWeek> MapToTheoryData(
-        IEnumerable<(int DaysSinceEpoch, int Year, int WeekOfYear, DayOfWeek DayOfWeek)> source)
-    {
-        var data = new TheoryData<int, int, int, DayOfWeek>();
-        foreach (var (daysSinceEpoch, y, woy, dayOfWeek) in source)
-        {
-            data.Add(daysSinceEpoch, y, woy, dayOfWeek);
-        }
-        return data;
-    }
-
     /// <summary>Day number, year, week of the year, day of the week.</summary>
     internal static IEnumerable<(int DaysSinceEpoch, int Year, int WeekOfYear, DayOfWeek DayOfWeek)> MoreDaySinceEpochInfos
     {
@@ -114,5 +102,17 @@ public partial class PaxDataSet // Supplementary data
             yield return (364, 2, 1, DayOfWeek.Sunday);
             yield return (370, 2, 1, DayOfWeek.Saturday);
         }
+    }
+
+    [Pure]
+    private static TheoryData<int, int, int, DayOfWeek> MapToTheoryData(
+        IEnumerable<(int DaysSinceEpoch, int Year, int WeekOfYear, DayOfWeek DayOfWeek)> source)
+    {
+        var data = new TheoryData<int, int, int, DayOfWeek>();
+        foreach (var (daysSinceEpoch, y, woy, dayOfWeek) in source)
+        {
+            data.Add(daysSinceEpoch, y, woy, dayOfWeek);
+        }
+        return data;
     }
 }

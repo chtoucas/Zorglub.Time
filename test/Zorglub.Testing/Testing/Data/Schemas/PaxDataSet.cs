@@ -27,7 +27,7 @@ public sealed partial class PaxDataSet : SchemaDataSet, ISingleton<PaxDataSet>
 public partial class PaxDataSet // Infos
 {
     public override DataGroup<DaysSinceEpochInfo> DaysSinceEpochInfoData { get; } =
-        DataGroup.CreateDaysSinceEpochInfoData(DaysSinceZeroInfos, CalendarEpoch.SundayBeforeGregorian);
+        DataGroup.Create(DaysSinceEpochInfos);
 
     public override DataGroup<DateInfo> DateInfoData { get; } = new()
     {
@@ -130,15 +130,14 @@ public partial class PaxDataSet // Infos
         new(2300, 14, 371, true),
     };
 
-    // TODO(data): use DaysSinceEpochInfos.
-    internal static IEnumerable<DaysSinceZeroInfo> DaysSinceZeroInfos
+    internal static IEnumerable<DaysSinceEpochInfo> DaysSinceEpochInfos
     {
         get
         {
-            yield return new(-1, 1, 1, 1);
-            yield return new(0, 1, 1, 2);
-            yield return new(362, 1, 13, 28);
-            yield return new(363, 2, 1, 1);
+            yield return new(0, 1, 1, 1);
+            yield return new(1, 1, 1, 2);
+            yield return new(363, 1, 13, 28);
+            yield return new(364, 2, 1, 1);
         }
     }
 }
