@@ -14,7 +14,7 @@ using Zorglub.Time.Simple;
 /// </summary>
 /// <typeparam name="TDataSet">The type that represents the original calendar dataset.</typeparam>
 public class ProlepticCalendarDataSet<TDataSet> : MinMaxYearCalendarDataSet<TDataSet>
-    where TDataSet : ICalendarDataSet
+    where TDataSet : UnboundedCalendarDataSet
 {
     public ProlepticCalendarDataSet(TDataSet inner)
         : base(inner, ProlepticShortScope.MinYear, ProlepticShortScope.MaxYear) { }

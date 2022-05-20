@@ -7,7 +7,7 @@ using Zorglub.Testing.Data;
 using Zorglub.Time.Core.Intervals;
 
 public class MinMaxYearCalendarDataSet<TDataSet> : BoundedCalendarDataSet<TDataSet>
-    where TDataSet : ICalendarDataSet
+    where TDataSet : UnboundedCalendarDataSet
 {
     public MinMaxYearCalendarDataSet(TDataSet inner, int minYear, int maxYear)
         : this(inner, Range.Create(minYear, maxYear)) { }

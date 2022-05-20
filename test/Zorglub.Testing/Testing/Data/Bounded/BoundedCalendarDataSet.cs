@@ -8,7 +8,7 @@ namespace Zorglub.Testing.Data.Bounded;
 /// </summary>
 /// <typeparam name="TDataSet">The type that represents the original calendar dataset.</typeparam>
 public class BoundedCalendarDataSet<TDataSet> : ICalendarDataSet
-    where TDataSet : ICalendarDataSet
+    where TDataSet : UnboundedCalendarDataSet
 {
     public BoundedCalendarDataSet(TDataSet inner, IDataFilter dataFilter)
     {

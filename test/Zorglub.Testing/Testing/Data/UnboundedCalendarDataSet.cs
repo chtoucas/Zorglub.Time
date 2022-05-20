@@ -10,56 +10,76 @@ namespace Zorglub.Testing.Data;
 /// Defines test data for a <i>unbounded</i> calendar and provides a base for derived classes.
 /// </summary>
 /// <typeparam name="TCalendricalDataSet">The type that represents the calendrical dataset.</typeparam>
-public abstract class UnboundedCalendarDataSet<TCalendricalDataSet> : ICalendarDataSet
+public abstract class UnboundedCalendarDataSet<TCalendricalDataSet> : UnboundedCalendarDataSet
     where TCalendricalDataSet : ICalendricalDataSet
 {
     protected UnboundedCalendarDataSet(TCalendricalDataSet dataSet, DayNumber epoch)
+        : base(dataSet, epoch)
     {
-        CalendricalDataSet = dataSet ?? throw new ArgumentNullException(nameof(dataSet));
-        Epoch = epoch;
+        Debug.Assert(dataSet != null);
+
+        CalendricalDataSet = dataSet;
     }
 
     /// <summary>
     /// Gets the calendrical dataset.
     /// </summary>
     public TCalendricalDataSet CalendricalDataSet { get; }
+}
+
+/// <summary>
+/// Defines test data for a <i>unbounded</i> calendar and provides a base for derived classes.
+/// </summary>
+public abstract class UnboundedCalendarDataSet : ICalendarDataSet
+{
+    /// <summary>
+    /// Represents the calendrical dataset.
+    /// <para>This field is read-only.</para>
+    /// </summary>
+    private readonly ICalendricalDataSet _dataSet;
+
+    protected UnboundedCalendarDataSet(ICalendricalDataSet dataSet, DayNumber epoch)
+    {
+        _dataSet = dataSet ?? throw new ArgumentNullException(nameof(dataSet));
+        Epoch = epoch;
+    }
 
     public DayNumber Epoch { get; }
 
     public abstract DataGroup<DayNumberInfo> DayNumberInfoData { get; }
 
     public DataGroup<YearDayNumber> StartOfYearDayNumberData =>
-        MapToDayNumberData(CalendricalDataSet.StartOfYearDaysSinceEpochData);
+        MapToDayNumberData(_dataSet.StartOfYearDaysSinceEpochData);
 
     public DataGroup<YearDayNumber> EndOfYearDayNumberData =>
-        MapToDayNumberData(CalendricalDataSet.EndOfYearDaysSinceEpochData);
+        MapToDayNumberData(_dataSet.EndOfYearDaysSinceEpochData);
 
     //
     // Affine data
     //
 
-    public int SampleCommonYear => CalendricalDataSet.SampleCommonYear;
-    public int SampleLeapYear => CalendricalDataSet.SampleLeapYear;
+    public int SampleCommonYear => _dataSet.SampleCommonYear;
+    public int SampleLeapYear => _dataSet.SampleLeapYear;
 
-    public DataGroup<DaysSinceEpochInfo> DaysSinceEpochInfoData => CalendricalDataSet.DaysSinceEpochInfoData;
+    public DataGroup<DaysSinceEpochInfo> DaysSinceEpochInfoData => _dataSet.DaysSinceEpochInfoData;
 
-    public DataGroup<DateInfo> DateInfoData => CalendricalDataSet.DateInfoData;
-    public DataGroup<MonthInfo> MonthInfoData => CalendricalDataSet.MonthInfoData;
-    public DataGroup<YearInfo> YearInfoData => CalendricalDataSet.YearInfoData;
-    public DataGroup<CenturyInfo> CenturyInfoData => CalendricalDataSet.CenturyInfoData;
+    public DataGroup<DateInfo> DateInfoData => _dataSet.DateInfoData;
+    public DataGroup<MonthInfo> MonthInfoData => _dataSet.MonthInfoData;
+    public DataGroup<YearInfo> YearInfoData => _dataSet.YearInfoData;
+    public DataGroup<CenturyInfo> CenturyInfoData => _dataSet.CenturyInfoData;
 
-    public DataGroup<YemodaAnd<int>> DaysInYearAfterDateData => CalendricalDataSet.DaysInYearAfterDateData;
-    public DataGroup<YemodaAnd<int>> DaysInMonthAfterDateData => CalendricalDataSet.DaysInMonthAfterDateData;
+    public DataGroup<YemodaAnd<int>> DaysInYearAfterDateData => _dataSet.DaysInYearAfterDateData;
+    public DataGroup<YemodaAnd<int>> DaysInMonthAfterDateData => _dataSet.DaysInMonthAfterDateData;
 
-    public DataGroup<Yemoda> StartOfYearPartsData => CalendricalDataSet.StartOfYearPartsData;
-    public DataGroup<Yemoda> EndOfYearPartsData => CalendricalDataSet.EndOfYearPartsData;
+    public DataGroup<Yemoda> StartOfYearPartsData => _dataSet.StartOfYearPartsData;
+    public DataGroup<Yemoda> EndOfYearPartsData => _dataSet.EndOfYearPartsData;
 
-    public DataGroup<YearDaysSinceEpoch> StartOfYearDaysSinceEpochData => CalendricalDataSet.StartOfYearDaysSinceEpochData;
-    public DataGroup<YearDaysSinceEpoch> EndOfYearDaysSinceEpochData => CalendricalDataSet.EndOfYearDaysSinceEpochData;
+    public DataGroup<YearDaysSinceEpoch> StartOfYearDaysSinceEpochData => _dataSet.StartOfYearDaysSinceEpochData;
+    public DataGroup<YearDaysSinceEpoch> EndOfYearDaysSinceEpochData => _dataSet.EndOfYearDaysSinceEpochData;
 
-    public TheoryData<int, int> InvalidMonthFieldData => CalendricalDataSet.InvalidMonthFieldData;
-    public TheoryData<int, int, int> InvalidDayFieldData => CalendricalDataSet.InvalidDayFieldData;
-    public TheoryData<int, int> InvalidDayOfYearFieldData => CalendricalDataSet.InvalidDayOfYearFieldData;
+    public TheoryData<int, int> InvalidMonthFieldData => _dataSet.InvalidMonthFieldData;
+    public TheoryData<int, int, int> InvalidDayFieldData => _dataSet.InvalidDayFieldData;
+    public TheoryData<int, int> InvalidDayOfYearFieldData => _dataSet.InvalidDayOfYearFieldData;
 
     //
     // Helpers

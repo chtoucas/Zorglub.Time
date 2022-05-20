@@ -15,7 +15,7 @@ using Zorglub.Time.Simple;
 /// </summary>
 /// <typeparam name="TDataSet">The type that represents the original calendar dataset.</typeparam>
 public class StandardCalendarDataSet<TDataSet> : MinMaxYearCalendarDataSet<TDataSet>
-    where TDataSet : ICalendarDataSet
+    where TDataSet : UnboundedCalendarDataSet
 {
     public StandardCalendarDataSet(TDataSet inner)
         : base(inner, StandardShortScope.MinYear, StandardShortScope.MaxYear) { }
