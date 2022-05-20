@@ -83,12 +83,12 @@
     <Compile Include="Tests\Simple\CalendarDayTestSuite.fs" />
     <Compile Include="Tests\Simple\OrdinalDateTestSuite.fs" />
     <Compile Include="Tests\Simple\GregorianDateTestSuite.fs" />
-    <Compile Include="Tests\ValueTypeTests.fs" />
     <Compile Include="Tests\PartsTests.fs" />
     <Compile Include="Tests\CalendarIdTests.fs" />
     <Compile Include="Tests\OrdTests.fs" />
     <Compile Include="Tests\DayNumberTests.fs" />
     <Compile Include="Tests\DayNumber64Tests.fs" />
+    <Compile Include="Tests\ValueTypeTests.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
 
