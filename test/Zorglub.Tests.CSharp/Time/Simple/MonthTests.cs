@@ -145,15 +145,15 @@ public partial class CalendarMonthTests
         Assert.Equal(info.DaysInYearBeforeMonth, actual);
     }
 
-    [Theory, MemberData(nameof(DaysInYearAfterMonthData))]
-    public void CountRemainingDaysInYear(YemoAnd<int> info)
+    [Theory, MemberData(nameof(MonthInfoData))]
+    public void CountRemainingDaysInYear(MonthInfo info)
     {
-        var (y, m, days) = info;
+        var (y, m) = info.Yemo;
         var cmonth = CalendarUT.GetCalendarMonth(y, m);
         // Act
         int actual = cmonth.CountRemainingDaysInYear();
         //
-        Assert.Equal(days, actual);
+        Assert.Equal(info.DaysInYearAfterMonth, actual);
     }
 
     [Theory, MemberData(nameof(MonthInfoData))]

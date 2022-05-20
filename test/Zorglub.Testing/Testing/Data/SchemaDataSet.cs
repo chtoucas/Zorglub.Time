@@ -35,8 +35,6 @@ public abstract class SchemaDataSet : ICalendricalDataSet
     /// </remarks>
     public virtual DataGroup<CenturyInfo> CenturyInfoData => YearNumberingDataSet.CenturyInfoData;
 
-    public virtual DataGroup<YemoAnd<int>> DaysInYearAfterMonthData =>
-        MapToDaysInYearAfterMonthData(MonthInfoData);
     public virtual DataGroup<YemodaAnd<int>> DaysInYearAfterDateData =>
         MapToDaysInYearAfterDateData(DateInfoData);
     public virtual DataGroup<YemodaAnd<int>> DaysInMonthAfterDateData =>
@@ -82,23 +80,6 @@ public abstract class SchemaDataSet : ICalendricalDataSet
         {
             var (y, daysSinceEpoch) = x;
             return new YearDaysSinceEpoch(y - 1, daysSinceEpoch - 1);
-        }
-    }
-
-    [Pure]
-    private DataGroup<YemoAnd<int>> MapToDaysInYearAfterMonthData(DataGroup<MonthInfo> source)
-    {
-        Requires.NotNull(source);
-
-        var sch = _schema;
-        return source.SelectT(Selector);
-
-        YemoAnd<int> Selector(MonthInfo x)
-        {
-            var (ym, daysInMonth, daysInYearBeforeMonth, _) = x;
-            // Assumption: CountDaysInYear() is correct.
-            int daysInYearAfterMonth = sch.CountDaysInYear(ym.Year) - daysInMonth - daysInYearBeforeMonth;
-            return new YemoAnd<int>(ym, daysInYearAfterMonth);
         }
     }
 

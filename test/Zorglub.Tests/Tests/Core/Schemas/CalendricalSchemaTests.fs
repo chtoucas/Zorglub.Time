@@ -123,26 +123,26 @@ module GregorianCase =
     let private dataSet = GregorianDataSet.Instance
     let private sch = new GregorianSchema()
 
-    let daysInYearAfterMonthData = dataSet.DaysInYearAfterMonthData
+    let monthInfoData = dataSet.MonthInfoData
     let daysInYearAfterDateData = dataSet.DaysInYearAfterDateData
     let daysInMonthAfterDateData = dataSet.DaysInMonthAfterDateData
 
     // ICalendricalSchemaPlus
 
-    [<Theory; MemberData(nameof(daysInYearAfterMonthData))>]
-    let CountDaysInYearAfterMonth (info: YemoAnd<int>) =
-        let y, m, days = info.Deconstruct()
-        sch.CountDaysInYearAfterMonth(y, m) === days
+    [<Theory; MemberData(nameof(monthInfoData))>]
+    let CountDaysInYearAfterMonth (info: MonthInfo) =
+        let y, m = info.Yemo.Deconstruct()
+        sch.CountDaysInYearAfterMonth(y, m) === int(info.DaysInYearAfterMonth)
 
     [<Theory; MemberData(nameof(daysInYearAfterDateData))>]
     let CountDaysInYearAfter (info: YemodaAnd<int>) =
-        let y, m, d, days = info.Deconstruct()
-        sch.CountDaysInYearAfter(y, m, d) === days
+        let y, m, d, daysInYearAfter = info.Deconstruct()
+        sch.CountDaysInYearAfter(y, m, d) === daysInYearAfter
 
     [<Theory; MemberData(nameof(daysInMonthAfterDateData))>]
     let CountDaysInMonthAfter (info: YemodaAnd<int>) =
-        let y, m, d, days = info.Deconstruct()
-        sch.CountDaysInMonthAfter(y, m, d) === days
+        let y, m, d, daysInMonthAfter = info.Deconstruct()
+        sch.CountDaysInMonthAfter(y, m, d) === daysInMonthAfter
 
 module PaxCase =
     let private calendarDataSet = UnboundedPaxDataSet.Instance

@@ -27,7 +27,6 @@ public abstract class CalendricalDataConsumer<TDataSet>
     public static XunitData<YearInfo> YearInfoData => s_Adapter.YearInfoData;
     public static XunitData<CenturyInfo> CenturyInfoData => s_Adapter.CenturyInfoData;
 
-    public static XunitData<YemoAnd<int>> DaysInYearAfterMonthData => s_Adapter.DaysInYearAfterMonthData;
     public static XunitData<YemodaAnd<int>> DaysInYearAfterDateData => s_Adapter.DaysInYearAfterDateData;
     public static XunitData<YemodaAnd<int>> DaysInMonthAfterDateData => s_Adapter.DaysInMonthAfterDateData;
 
@@ -69,10 +68,6 @@ public abstract class CalendricalDataConsumer<TDataSet>
         private XunitData<CenturyInfo>? _centuryInfoData;
         public XunitData<CenturyInfo> CenturyInfoData =>
             _centuryInfoData ??= _dataSet.CenturyInfoData.ToXunitData();
-
-        private XunitData<YemoAnd<int>>? _daysInYearAfterMonthData;
-        public XunitData<YemoAnd<int>> DaysInYearAfterMonthData =>
-            _daysInYearAfterMonthData ??= _dataSet.DaysInYearAfterMonthData.ToXunitData();
 
         private XunitData<YemodaAnd<int>>? _daysInYearAfterDateData;
         public XunitData<YemodaAnd<int>> DaysInYearAfterDateData =>
