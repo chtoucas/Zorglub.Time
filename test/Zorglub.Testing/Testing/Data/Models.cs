@@ -118,6 +118,8 @@ public readonly record struct DayNumberInfo(DayNumber DayNumber, Yemoda Yemoda)
 #endregion
 #region DateInfo, MonthInfo, etc.
 
+// It would have been nice to include DaysInYearAfterDate and DaysInMonthAfterDate
+// but then the type would have made too big to be a struct.
 public readonly record struct DateInfo
 {
     public DateInfo(int y, int m, int d, ushort doy, bool isIntercalary, bool isSupplementary)
