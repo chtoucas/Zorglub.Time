@@ -32,18 +32,18 @@ public sealed partial class UnboundedGregorianDataSet :
         DataGroup.CreateDayNumberInfoData(GregorianDataSet.DaysSinceRataDieInfos);
 
     // IYearAdjustmentDataSet
-    public DataGroup<YemodaAnd<int>> InvalidYearAdjustementData => CalendricalDataSet.InvalidYearAdjustementData;
-    public DataGroup<YemodaAnd<int>> YearAdjustementData => CalendricalDataSet.YearAdjustementData;
+    public DataGroup<YemodaAnd<int>> InvalidYearAdjustementData => SchemaDataSet.InvalidYearAdjustementData;
+    public DataGroup<YemodaAnd<int>> YearAdjustementData => SchemaDataSet.YearAdjustementData;
 
     // IMathDataSet
-    public DataGroup<YemodaPairAnd<int>> AddDaysData => CalendricalDataSet.AddDaysData;
-    public DataGroup<YemodaPair> ConsecutiveDaysData => CalendricalDataSet.ConsecutiveDaysData;
+    public DataGroup<YemodaPairAnd<int>> AddDaysData => SchemaDataSet.AddDaysData;
+    public DataGroup<YemodaPair> ConsecutiveDaysData => SchemaDataSet.ConsecutiveDaysData;
 
     // IAdvancedMathDataSet
-    public AddAdjustment AddAdjustment => CalendricalDataSet.AddAdjustment;
-    public DataGroup<YemodaPairAnd<int>> AddYearsData => CalendricalDataSet.AddYearsData;
-    public DataGroup<YemodaPairAnd<int>> AddMonthsData => CalendricalDataSet.AddMonthsData;
-    public DataGroup<DateDiff> DateDiffData => CalendricalDataSet.DateDiffData;
+    public AddAdjustment AddAdjustment => SchemaDataSet.AddAdjustment;
+    public DataGroup<YemodaPairAnd<int>> AddYearsData => SchemaDataSet.AddYearsData;
+    public DataGroup<YemodaPairAnd<int>> AddMonthsData => SchemaDataSet.AddMonthsData;
+    public DataGroup<DateDiff> DateDiffData => SchemaDataSet.DateDiffData;
 }
 
 public partial class UnboundedGregorianDataSet // IDayOfWeekDataSet

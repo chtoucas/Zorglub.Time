@@ -9,7 +9,7 @@ using Zorglub.Time.Hemerology;
 /// Provides test data for <see cref="FrenchRepublican13Schema"/>.
 /// </summary>
 public sealed partial class FrenchRepublican13DataSet :
-    CalendricalDataSet, IEpagomenalDataSet, ISingleton<FrenchRepublican13DataSet>
+    SchemaDataSet, IEpagomenalDataSet, ISingleton<FrenchRepublican13DataSet>
 {
     public const int CommonYear = 1;
     public const int LeapYear = 4;

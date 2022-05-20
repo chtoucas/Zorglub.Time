@@ -28,7 +28,7 @@ public sealed class UnboundedEthiopic13DataSet :
     public override DataGroup<DayNumberInfo> DayNumberInfoData { get; } =
         DataGroup.CreateDayNumberInfoData(Coptic13DataSet.DaysSinceRataDieInfos, CalendarEpoch.Coptic, s_Epoch);
 
-    public DataGroup<YemodaAnd<int>> EpagomenalDayInfoData => CalendricalDataSet.EpagomenalDayInfoData;
+    public DataGroup<YemodaAnd<int>> EpagomenalDayInfoData => SchemaDataSet.EpagomenalDayInfoData;
 }
 
 /// <summary>
@@ -52,5 +52,5 @@ public sealed class UnboundedEthiopic12DataSet :
     public override DataGroup<DayNumberInfo> DayNumberInfoData { get; } =
         DataGroup.CreateDayNumberInfoData(Coptic12DataSet.DaysSinceRataDieInfos, CalendarEpoch.Coptic, s_Epoch);
 
-    public DataGroup<YemodaAnd<int>> EpagomenalDayInfoData => CalendricalDataSet.EpagomenalDayInfoData;
+    public DataGroup<YemodaAnd<int>> EpagomenalDayInfoData => SchemaDataSet.EpagomenalDayInfoData;
 }

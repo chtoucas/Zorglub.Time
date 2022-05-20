@@ -26,7 +26,7 @@ public sealed class UnboundedEgyptian12DataSet :
     public override DataGroup<DayNumberInfo> DayNumberInfoData { get; } =
         DataGroup.CreateDayNumberInfoData(Egyptian12DataSet.DaysSinceRataDieInfos);
 
-    public DataGroup<YemodaAnd<int>> EpagomenalDayInfoData => CalendricalDataSet.EpagomenalDayInfoData;
+    public DataGroup<YemodaAnd<int>> EpagomenalDayInfoData => SchemaDataSet.EpagomenalDayInfoData;
 }
 
 /// <summary>
@@ -48,5 +48,5 @@ public sealed class UnboundedEgyptian13DataSet :
     public override DataGroup<DayNumberInfo> DayNumberInfoData { get; } =
         DataGroup.CreateDayNumberInfoData(Egyptian13DataSet.DaysSinceRataDieInfos);
 
-    public DataGroup<YemodaAnd<int>> EpagomenalDayInfoData => CalendricalDataSet.EpagomenalDayInfoData;
+    public DataGroup<YemodaAnd<int>> EpagomenalDayInfoData => SchemaDataSet.EpagomenalDayInfoData;
 }

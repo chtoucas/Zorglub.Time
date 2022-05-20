@@ -8,7 +8,7 @@ using Zorglub.Time.Hemerology;
 /// <summary>
 /// Provides test data for <see cref="Persian2820Schema"/>.
 /// </summary>
-public sealed partial class Persian2820DataSet : CalendricalDataSet, ISingleton<Persian2820DataSet>
+public sealed partial class Persian2820DataSet : SchemaDataSet, ISingleton<Persian2820DataSet>
 {
     public const int CommonYear = 1;
     public const int LeapYear = 4;

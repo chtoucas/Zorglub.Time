@@ -6,7 +6,7 @@ namespace Zorglub.Testing.Data.Schemas;
 /// <summary>
 /// Provides test data for <see cref="InternationalFixedSchema"/>.
 /// </summary>
-public sealed partial class InternationalFixedDataSet : CalendricalDataSet, ISingleton<InternationalFixedDataSet>
+public sealed partial class InternationalFixedDataSet : SchemaDataSet, ISingleton<InternationalFixedDataSet>
 {
     public const int CommonYear = 3;
     public const int LeapYear = 4;

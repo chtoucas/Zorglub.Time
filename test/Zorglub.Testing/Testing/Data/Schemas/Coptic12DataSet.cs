@@ -9,7 +9,7 @@ using Zorglub.Time.Hemerology;
 /// Provides test data for <see cref="Coptic12Schema"/>.
 /// </summary>
 public sealed partial class Coptic12DataSet :
-    CalendricalDataSet, IEpagomenalDataSet, ISingleton<Coptic12DataSet>
+    SchemaDataSet, IEpagomenalDataSet, ISingleton<Coptic12DataSet>
 {
     public const int CommonYear = 1;
     public const int LeapYear = 3;

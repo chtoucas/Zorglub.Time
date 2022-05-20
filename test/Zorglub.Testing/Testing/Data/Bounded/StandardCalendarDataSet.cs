@@ -37,7 +37,7 @@ public sealed class StandardArmenian12DataSet :
         static Singleton() { }
     }
 
-    public DataGroup<YemodaAnd<int>> EpagomenalDayInfoData => Inner.EpagomenalDayInfoData.WhereT(DataFilter.Filter);
+    public DataGroup<YemodaAnd<int>> EpagomenalDayInfoData => Unbounded.EpagomenalDayInfoData.WhereT(DataFilter.Filter);
 }
 
 /// <summary>
@@ -56,7 +56,7 @@ public sealed class StandardCoptic12DataSet :
         static Singleton() { }
     }
 
-    public DataGroup<YemodaAnd<int>> EpagomenalDayInfoData => Inner.EpagomenalDayInfoData.WhereT(DataFilter.Filter);
+    public DataGroup<YemodaAnd<int>> EpagomenalDayInfoData => Unbounded.EpagomenalDayInfoData.WhereT(DataFilter.Filter);
 }
 
 /// <summary>
@@ -75,7 +75,7 @@ public sealed class StandardEthiopic12DataSet :
         static Singleton() { }
     }
 
-    public DataGroup<YemodaAnd<int>> EpagomenalDayInfoData => Inner.EpagomenalDayInfoData.WhereT(DataFilter.Filter);
+    public DataGroup<YemodaAnd<int>> EpagomenalDayInfoData => Unbounded.EpagomenalDayInfoData.WhereT(DataFilter.Filter);
 }
 
 /// <summary>
@@ -100,26 +100,26 @@ public sealed class StandardGregorianDataSet :
     }
 
     // IYearAdjustmentDataSet
-    public DataGroup<YemodaAnd<int>> InvalidYearAdjustementData => Inner.InvalidYearAdjustementData.WhereT(DataFilter.Filter);
-    public DataGroup<YemodaAnd<int>> YearAdjustementData => Inner.YearAdjustementData.WhereT(DataFilter.Filter);
+    public DataGroup<YemodaAnd<int>> InvalidYearAdjustementData => Unbounded.InvalidYearAdjustementData.WhereT(DataFilter.Filter);
+    public DataGroup<YemodaAnd<int>> YearAdjustementData => Unbounded.YearAdjustementData.WhereT(DataFilter.Filter);
 
     // IMathDataSet
-    public DataGroup<YemodaPairAnd<int>> AddDaysData => Inner.AddDaysData.WhereT(DataFilter.Filter);
-    public DataGroup<YemodaPair> ConsecutiveDaysData => Inner.ConsecutiveDaysData.WhereT(DataFilter.Filter);
+    public DataGroup<YemodaPairAnd<int>> AddDaysData => Unbounded.AddDaysData.WhereT(DataFilter.Filter);
+    public DataGroup<YemodaPair> ConsecutiveDaysData => Unbounded.ConsecutiveDaysData.WhereT(DataFilter.Filter);
 
     // IAdvancedMathDataSet
-    public AddAdjustment AddAdjustment => Inner.AddAdjustment;
-    public DataGroup<YemodaPairAnd<int>> AddYearsData => Inner.AddYearsData.WhereT(DataFilter.Filter);
-    public DataGroup<YemodaPairAnd<int>> AddMonthsData => Inner.AddMonthsData.WhereT(DataFilter.Filter);
-    public DataGroup<DateDiff> DateDiffData => Inner.DateDiffData.WhereT(DataFilter.Filter);
+    public AddAdjustment AddAdjustment => Unbounded.AddAdjustment;
+    public DataGroup<YemodaPairAnd<int>> AddYearsData => Unbounded.AddYearsData.WhereT(DataFilter.Filter);
+    public DataGroup<YemodaPairAnd<int>> AddMonthsData => Unbounded.AddMonthsData.WhereT(DataFilter.Filter);
+    public DataGroup<DateDiff> DateDiffData => Unbounded.DateDiffData.WhereT(DataFilter.Filter);
 
     // IDayOfWeekDataSet
-    public DataGroup<YemodaAnd<DayOfWeek>> DayOfWeekData => Inner.DayOfWeekData.WhereT(DataFilter.Filter);
-    public DataGroup<YemodaPairAnd<DayOfWeek>> DayOfWeek_Before_Data => Inner.DayOfWeek_Before_Data.WhereT(DataFilter.Filter);
-    public DataGroup<YemodaPairAnd<DayOfWeek>> DayOfWeek_OnOrBefore_Data => Inner.DayOfWeek_OnOrBefore_Data.WhereT(DataFilter.Filter);
-    public DataGroup<YemodaPairAnd<DayOfWeek>> DayOfWeek_Nearest_Data => Inner.DayOfWeek_Nearest_Data.WhereT(DataFilter.Filter);
-    public DataGroup<YemodaPairAnd<DayOfWeek>> DayOfWeek_OnOrAfter_Data => Inner.DayOfWeek_OnOrAfter_Data.WhereT(DataFilter.Filter);
-    public DataGroup<YemodaPairAnd<DayOfWeek>> DayOfWeek_After_Data => Inner.DayOfWeek_After_Data.WhereT(DataFilter.Filter);
+    public DataGroup<YemodaAnd<DayOfWeek>> DayOfWeekData => Unbounded.DayOfWeekData.WhereT(DataFilter.Filter);
+    public DataGroup<YemodaPairAnd<DayOfWeek>> DayOfWeek_Before_Data => Unbounded.DayOfWeek_Before_Data.WhereT(DataFilter.Filter);
+    public DataGroup<YemodaPairAnd<DayOfWeek>> DayOfWeek_OnOrBefore_Data => Unbounded.DayOfWeek_OnOrBefore_Data.WhereT(DataFilter.Filter);
+    public DataGroup<YemodaPairAnd<DayOfWeek>> DayOfWeek_Nearest_Data => Unbounded.DayOfWeek_Nearest_Data.WhereT(DataFilter.Filter);
+    public DataGroup<YemodaPairAnd<DayOfWeek>> DayOfWeek_OnOrAfter_Data => Unbounded.DayOfWeek_OnOrAfter_Data.WhereT(DataFilter.Filter);
+    public DataGroup<YemodaPairAnd<DayOfWeek>> DayOfWeek_After_Data => Unbounded.DayOfWeek_After_Data.WhereT(DataFilter.Filter);
 }
 
 /// <summary>
@@ -155,5 +155,5 @@ public sealed class StandardZoroastrian12DataSet :
         static Singleton() { }
     }
 
-    public DataGroup<YemodaAnd<int>> EpagomenalDayInfoData => Inner.EpagomenalDayInfoData.WhereT(DataFilter.Filter);
+    public DataGroup<YemodaAnd<int>> EpagomenalDayInfoData => Unbounded.EpagomenalDayInfoData.WhereT(DataFilter.Filter);
 }

@@ -8,7 +8,7 @@ using Zorglub.Time.Hemerology;
 /// <summary>
 /// Provides test data for <see cref="PaxSchema"/>.
 /// </summary>
-public sealed partial class PaxDataSet : CalendricalDataSet, ISingleton<PaxDataSet>
+public sealed partial class PaxDataSet : SchemaDataSet, ISingleton<PaxDataSet>
 {
     private const int CommonYear = 3;
     private const int LeapYear = 6;

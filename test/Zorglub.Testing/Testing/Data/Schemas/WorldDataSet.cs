@@ -6,7 +6,7 @@ namespace Zorglub.Testing.Data.Schemas;
 /// <summary>
 /// Provides test data for <see cref="WorldSchema"/>.
 /// </summary>
-public sealed partial class WorldDataSet : CalendricalDataSet, ISingleton<WorldDataSet>
+public sealed partial class WorldDataSet : SchemaDataSet, ISingleton<WorldDataSet>
 {
     public const int CommonYear = 3;
     public const int LeapYear = 4;

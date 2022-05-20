@@ -3,21 +3,23 @@
 
 namespace Zorglub.Testing.Data;
 
-// REVIEW(data): there is a "one-to-one" correspondance between schemas and
-// datasets, therefore one should be able to verify that a dataset is used in
-// the right context.
-
-public abstract class CalendricalDataSet : ICalendricalDataSet
+/// <summary>
+/// Defines test data for a schema and provides a base for derived classes.
+/// </summary>
+public abstract class SchemaDataSet : ICalendricalDataSet
 {
-    protected CalendricalDataSet(ICalendricalSchema schema, int commonYear, int leapYear)
+    // ICalendricalKernel, not ICalendricalSchema, to prevent us from using any
+    // fancy method. We keep ICalendricalSchema in the ctor to ensure that we
+    // construct an CalendricalDataSet from a schema not a calendar.
+    private readonly ICalendricalKernel _schema;
+
+    protected SchemaDataSet(ICalendricalSchema schema, int commonYear, int leapYear)
     {
-        Schema = schema ?? throw new ArgumentNullException(nameof(schema));
+        _schema = schema ?? throw new ArgumentNullException(nameof(schema));
 
         SampleCommonYear = commonYear;
         SampleLeapYear = leapYear;
     }
-
-    public ICalendricalSchema Schema { get; }
 
     public int SampleCommonYear { get; }
     public int SampleLeapYear { get; }
@@ -88,7 +90,7 @@ public abstract class CalendricalDataSet : ICalendricalDataSet
     {
         Requires.NotNull(source);
 
-        var sch = Schema;
+        var sch = _schema;
         return source.SelectT(Selector);
 
         YemoAnd<int> Selector(MonthInfo x)
@@ -105,7 +107,7 @@ public abstract class CalendricalDataSet : ICalendricalDataSet
     {
         Requires.NotNull(source);
 
-        var sch = Schema;
+        var sch = _schema;
         return source.SelectT(Selector);
 
         YemodaAnd<int> Selector(DateInfo x)
@@ -122,7 +124,7 @@ public abstract class CalendricalDataSet : ICalendricalDataSet
     {
         Requires.NotNull(source);
 
-        var sch = Schema;
+        var sch = _schema;
         return source.SelectT(Selector);
 
         YemodaAnd<int> Selector(DateInfo x)

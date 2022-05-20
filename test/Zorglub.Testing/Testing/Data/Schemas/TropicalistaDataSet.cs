@@ -3,7 +3,7 @@
 
 namespace Zorglub.Testing.Data.Schemas;
 
-public abstract class TropicalistaDataSet : CalendricalDataSet
+public abstract class TropicalistaDataSet : SchemaDataSet
 {
     public const int CommonYear = 3;
     public const int LeapYear = 4;

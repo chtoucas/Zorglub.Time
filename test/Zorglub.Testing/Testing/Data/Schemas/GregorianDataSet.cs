@@ -9,7 +9,7 @@ using Zorglub.Time.Hemerology;
 /// Provides test data for <see cref="GregorianSchema"/>.
 /// </summary>
 public sealed partial class GregorianDataSet :
-    CalendricalDataSet,
+    SchemaDataSet,
     IYearAdjustmentDataSet,
     IMathDataSet,
     IAdvancedMathDataSet,

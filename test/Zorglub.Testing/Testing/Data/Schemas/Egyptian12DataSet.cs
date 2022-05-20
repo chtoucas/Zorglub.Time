@@ -9,7 +9,7 @@ using Zorglub.Time.Hemerology;
 /// Provides test data for <see cref="Egyptian12Schema"/>.
 /// </summary>
 public sealed partial class Egyptian12DataSet :
-    CalendricalDataSet, IEpagomenalDataSet, ISingleton<Egyptian12DataSet>
+    SchemaDataSet, IEpagomenalDataSet, ISingleton<Egyptian12DataSet>
 {
     public const int SampleYear = 3;
 

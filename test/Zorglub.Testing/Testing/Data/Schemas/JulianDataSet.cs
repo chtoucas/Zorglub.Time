@@ -6,7 +6,7 @@ namespace Zorglub.Testing.Data.Schemas;
 /// <summary>
 /// Provides test data for <see cref="JulianSchema"/>.
 /// </summary>
-public sealed partial class JulianDataSet : CalendricalDataSet, ISingleton<JulianDataSet>
+public sealed partial class JulianDataSet : SchemaDataSet, ISingleton<JulianDataSet>
 {
     public const int CommonYear = 1;
     public const int LeapYear = 4;
