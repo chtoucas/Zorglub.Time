@@ -10,13 +10,12 @@ using Zorglub.Time.Hemerology;
 /// Provides more facts about <see cref="IDate{TSelf}"/>.
 /// <para>See also <seealso cref="IDateFacts{TDate, TDataSet}"/>.</para>
 /// </summary>
-public abstract partial class IDateMathFacts<TDate, TDataSet>
+public abstract partial class IDateMathFacts<TDate, TDataSet> :
+    CalendarDataConsumer<TDataSet>
     where TDate : IDate<TDate>
-    where TDataSet : IMathDataSet, ISingleton<TDataSet>
+    where TDataSet : ICalendarDataSet, IMathDataSet, ISingleton<TDataSet>
 {
     protected IDateMathFacts() { }
-
-    protected static TDataSet DataSet { get; } = TDataSet.Instance;
 
     protected abstract TDate GetDate(int y, int m, int d);
 

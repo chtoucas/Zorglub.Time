@@ -10,7 +10,8 @@ using Zorglub.Time.Hemerology;
 /// <summary>
 /// Provides facts about <see cref="WideDate"/>.
 /// </summary>
-public abstract partial class WideDateFacts<TDataSet> : IDateFacts<WideDate, TDataSet>
+public abstract partial class WideDateFacts<TDataSet> :
+    IDateFacts<WideDate, TDataSet>
     where TDataSet : ICalendarDataSet, ISingleton<TDataSet>
 {
     protected WideDateFacts(WideCalendar calendar, WideCalendar otherCalendar)

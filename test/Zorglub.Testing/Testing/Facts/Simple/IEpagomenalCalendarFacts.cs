@@ -7,7 +7,8 @@ using Zorglub.Testing.Data;
 using Zorglub.Time.Hemerology;
 using Zorglub.Time.Simple;
 
-public abstract class IEpagomenalCalendarFacts<TCalendar, TDataSet> : CalendarDataConsumer<TDataSet>
+public abstract class IEpagomenalCalendarFacts<TCalendar, TDataSet> :
+    CalendarDataConsumer<TDataSet>
     where TCalendar : Calendar, IEpagomenalCalendar<CalendarDate>
     where TDataSet : ICalendarDataSet, IEpagomenalDataSet, ISingleton<TDataSet>
 {

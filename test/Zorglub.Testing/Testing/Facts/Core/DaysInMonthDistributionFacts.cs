@@ -43,7 +43,8 @@ internal static class DaysInMonthDistributionFacts
     }
 }
 
-internal abstract class DaysInMonthDistributionFacts<TSchema, TDataSet>
+internal abstract class DaysInMonthDistributionFacts<TSchema, TDataSet> :
+    CalendricalDataConsumer<TDataSet>
     where TSchema : IDaysInMonthDistribution, ICalendricalKernel
     where TDataSet : ICalendricalDataSet, ISingleton<TDataSet>
 {
@@ -53,11 +54,6 @@ internal abstract class DaysInMonthDistributionFacts<TSchema, TDataSet>
     }
 
     protected TSchema SchemaUT { get; }
-
-    protected static TDataSet DataSet { get; } = TDataSet.Instance;
-
-    protected static int SampleCommonYear { get; } = DataSet.SampleCommonYear;
-    protected static int SampleLeapYear { get; } = DataSet.SampleLeapYear;
 
     [Fact]
     public void GetDaysInMonthDistribution()

@@ -9,7 +9,8 @@ using Zorglub.Time.Hemerology.Scopes;
 /// <summary>
 /// Provides data-driven tests for <see cref="ShortScope"/>.
 /// </summary>
-internal abstract class ShortScopeFacts<TScope, TDataSet> : CalendricalDataConsumer<TDataSet>
+internal abstract class ShortScopeFacts<TScope, TDataSet> :
+    CalendricalDataConsumer<TDataSet>
     where TScope : ShortScope
     where TDataSet : ICalendricalDataSet, ISingleton<TDataSet>
 {

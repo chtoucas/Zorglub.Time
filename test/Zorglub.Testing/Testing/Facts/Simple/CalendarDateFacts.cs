@@ -9,7 +9,8 @@ using Zorglub.Time.Simple;
 /// <summary>
 /// Provides facts about <see cref="CalendarDate"/>.
 /// </summary>
-public abstract partial class CalendarDateFacts<TDataSet> : SimpleDateFacts<CalendarDate, TDataSet>
+public abstract partial class CalendarDateFacts<TDataSet> :
+    SimpleDateFacts<CalendarDate, TDataSet>
     where TDataSet : ICalendarDataSet, ISingleton<TDataSet>
 {
     protected CalendarDateFacts(Calendar calendar, Calendar otherCalendar)

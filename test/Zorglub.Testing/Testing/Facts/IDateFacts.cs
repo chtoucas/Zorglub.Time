@@ -20,7 +20,8 @@ using Zorglub.Time.Hemerology;
 /// <para>See also <seealso cref="IDateDayOfWeekFacts{TDate, TDataSet}"/> and
 /// <seealso cref="IDateMathFacts{TDate, TDataSet}"/>.</para>
 /// </summary>
-public abstract partial class IDateFacts<TDate, TDataSet> : IDateableFacts<TDate, TDataSet>
+public abstract partial class IDateFacts<TDate, TDataSet> :
+    IDateableFacts<TDate, TDataSet>
     where TDate : struct, IDate<TDate>
     where TDataSet : ICalendarDataSet, ISingleton<TDataSet>
 {

@@ -10,7 +10,8 @@ using Zorglub.Time.Simple;
 /// <summary>
 /// Provides facts about <see cref="DateRange"/>.
 /// </summary>
-public abstract partial class DateRangeFacts<TDataSet> : IDateRangeFacts<CalendarDate, DateRange, TDataSet>
+public abstract partial class DateRangeFacts<TDataSet> :
+    IDateRangeFacts<CalendarDate, DateRange, TDataSet>
     where TDataSet : ICalendarDataSet, ISingleton<TDataSet>
 {
     protected DateRangeFacts(Calendar calendar, Calendar otherCalendar)

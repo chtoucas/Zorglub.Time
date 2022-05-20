@@ -8,7 +8,8 @@ using Zorglub.Testing.Data;
 // WARNING: formally the test methods could be static, but then the tests won't
 // be run by Xunit.
 
-public abstract class IBlankDayFeaturetteFacts<T, TDataSet> : CalendricalDataConsumer<TDataSet>
+public abstract class IBlankDayFeaturetteFacts<T, TDataSet> :
+    CalendricalDataConsumer<TDataSet>
     where T : IBlankDayFeaturette
     where TDataSet : ICalendricalDataSet, ISingleton<TDataSet>
 {

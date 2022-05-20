@@ -11,7 +11,8 @@ using Zorglub.Time.Hemerology;
 /// <summary>
 /// Provides facts about <see cref="IDateable{TSelf}"/>.
 /// </summary>
-public abstract partial class IDateableFacts<TDate, TDataSet> : CalendricalDataConsumer<TDataSet>
+public abstract partial class IDateableFacts<TDate, TDataSet> :
+    CalendricalDataConsumer<TDataSet>
     where TDate : IDateable<TDate>
     where TDataSet : ICalendricalDataSet, ISingleton<TDataSet>
 {

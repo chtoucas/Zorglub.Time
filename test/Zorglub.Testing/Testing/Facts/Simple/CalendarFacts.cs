@@ -11,7 +11,8 @@ using Zorglub.Time.Simple;
 /// <summary>
 /// Provides facts about <see cref="Calendar"/>.
 /// </summary>
-public abstract partial class CalendarFacts<TCalendar, TDataSet> : ICalendarFacts<TCalendar, TDataSet>
+public abstract partial class CalendarFacts<TCalendar, TDataSet> :
+    ICalendarFacts<TCalendar, TDataSet>
     where TCalendar : Calendar
     where TDataSet : ICalendarDataSet, ISingleton<TDataSet>
 {

@@ -9,15 +9,14 @@ using Zorglub.Time.Simple;
 /// <summary>
 /// Provides math facts about <see cref="CalendarDate"/>.
 /// </summary>
-public abstract partial class CalendarDateMathFacts<TDataSet>
-    where TDataSet : IAdvancedMathDataSet, ISingleton<TDataSet>
+public abstract partial class CalendarDateMathFacts<TDataSet> :
+    CalendarDataConsumer<TDataSet>
+    where TDataSet : ICalendarDataSet, IAdvancedMathDataSet, ISingleton<TDataSet>
 {
     protected CalendarDateMathFacts(Calendar calendar)
     {
         CalendarUT = calendar ?? throw new ArgumentNullException(nameof(calendar));
     }
-
-    protected static TDataSet DataSet { get; } = TDataSet.Instance;
 
     protected Calendar CalendarUT { get; }
 

@@ -5,36 +5,24 @@ namespace Zorglub.Testing.Facts.Core;
 
 using Zorglub.Testing.Data;
 using Zorglub.Time.Core.Arithmetic;
-//using Zorglub.Time.Simple;
 
 /// <summary>
 /// Provides facts about <see cref="CalendricalMath"/>.
 /// </summary>
-public abstract partial class CalendricalMathFacts<TSchema, TDataSet>
+public abstract partial class CalendricalMathFacts<TSchema, TDataSet> :
+    CalendricalDataConsumer<TDataSet>
     where TSchema : SystemSchema
-    where TDataSet :
-        ICalendricalDataSet,
-        IMathDataSet,
-        IAdvancedMathDataSet,
-        ISingleton<TDataSet>
+    where TDataSet : ICalendricalDataSet, IAdvancedMathDataSet, ISingleton<TDataSet>
 {
-    protected CalendricalMathFacts(/*Calendar calendar,*/ CalendricalMath math)
+    protected CalendricalMathFacts(CalendricalMath math)
     {
-        //CalendarUT = calendar ?? throw new ArgumentNullException(nameof(calendar));
         MathUT = math ?? throw new ArgumentNullException(nameof(math));
     }
-
-    ///// <summary>
-    ///// Gets the calendar under test.
-    ///// </summary>
-    //protected Calendar CalendarUT { get; }
 
     /// <summary>
     /// Gets the calculator under test.
     /// </summary>
     private protected CalendricalMath MathUT { get; }
-
-    protected static TDataSet DataSet { get; } = TDataSet.Instance;
 
     public static DataGroup<YemodaPairAnd<int>> AddYearsData => DataSet.AddYearsData;
     public static DataGroup<YemodaPairAnd<int>> AddMonthsData => DataSet.AddMonthsData;

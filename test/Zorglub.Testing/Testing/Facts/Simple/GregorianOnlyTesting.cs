@@ -12,7 +12,8 @@ using Zorglub.Time.Simple;
 /// <summary>
 /// Provides a base for Gregorian-only tests.
 /// </summary>
-public abstract class GregorianOnlyTesting : CalendarDataConsumer<ProlepticGregorianDataSet>
+public abstract class GregorianOnlyTesting :
+    CalendarDataConsumer<ProlepticGregorianDataSet>
 {
     protected GregorianOnlyTesting(GregorianCalendar calendar)
     {
