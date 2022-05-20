@@ -8,7 +8,7 @@ open System
 open Zorglub.Testing
 open Zorglub.Testing.Data
 open Zorglub.Testing.Data.Schemas
-// FIXME(code): we should not use datasets of type ICalendarDataSet (see Pax below).
+// TODO(code): we should not use datasets of type ICalendarDataSet (see Pax below).
 open Zorglub.Testing.Data.Unbounded
 
 open Zorglub.Time.Core

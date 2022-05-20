@@ -9,7 +9,6 @@ open Zorglub.Testing
 open Zorglub.Testing.Data
 open Zorglub.Testing.Data.Bounded
 
-open Zorglub.Time.Core
 open Zorglub.Time.Simple
 
 open Xunit

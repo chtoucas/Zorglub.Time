@@ -3,6 +3,10 @@
 
 namespace Zorglub.Testing.Data.Bounded;
 
+// NB: while it would have been perfectly reasonnable to use the simpler
+// constraint where TDataSet is only an ICalendarDataSet, I prefer to restrict
+// a bit the scope of this class.
+
 /// <summary>
 /// Defines test data for a <i>bounded</i> calendar and provides a base for derived classes.
 /// </summary>
