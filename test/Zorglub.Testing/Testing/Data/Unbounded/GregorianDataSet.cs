@@ -40,6 +40,7 @@ public sealed partial class UnboundedGregorianDataSet :
     public DataGroup<YemodaPair> ConsecutiveDaysData => CalendricalDataSet.ConsecutiveDaysData;
 
     // IAdvancedMathDataSet
+    public AddAdjustment AddAdjustment => CalendricalDataSet.AddAdjustment;
     public DataGroup<YemodaPairAnd<int>> AddYearsData => CalendricalDataSet.AddYearsData;
     public DataGroup<YemodaPairAnd<int>> AddMonthsData => CalendricalDataSet.AddMonthsData;
     public DataGroup<DateDiff> DateDiffData => CalendricalDataSet.DateDiffData;

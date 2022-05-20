@@ -37,15 +37,14 @@ public sealed partial class CivilDateTests : IDateFacts<CivilDate, StandardGrego
         return new(y, m, d);
     }
 
-    // TODO(code): filter the data from GregorianCutOffMathDataSet.
-
     public static DataGroup<YemodaPairAnd<int>> AddYearsData => DataSet.AddYearsData;
     public static DataGroup<YemodaPairAnd<int>> AddMonthsData => DataSet.AddMonthsData;
     public static DataGroup<DateDiff> DateDiffData => DataSet.DateDiffData;
 
-    public static DataGroup<YemodaPairAnd<int>> AddYearsCutOffData => GregorianCutOffMathDataSet.AddYearsData;
-    public static DataGroup<YemodaPairAnd<int>> AddMonthsCutOffData => GregorianCutOffMathDataSet.AddMonthsData;
-    public static DataGroup<DateDiff> DateDiffCutOffData => GregorianCutOffMathDataSet.DateDiffData;
+    // TODO(code): filter the data from GregorianMathDataSet.
+    public static DataGroup<YemodaPairAnd<int>> AddYearsCutOffData => GregorianMathDataSet.Instance.AddYearsData;
+    public static DataGroup<YemodaPairAnd<int>> AddMonthsCutOffData => GregorianMathDataSet.Instance.AddMonthsData;
+    public static DataGroup<DateDiff> DateDiffCutOffData => GregorianMathDataSet.Instance.DateDiffData;
 
     // IDayOfWeekDataSet
     public static DataGroup<YemodaAnd<DayOfWeek>> DayOfWeekData => DataSet.DayOfWeekData;

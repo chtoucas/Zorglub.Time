@@ -50,6 +50,7 @@ public sealed class ProlepticGregorianDataSet :
     public DataGroup<YemodaPair> ConsecutiveDaysData => Inner.ConsecutiveDaysData.WhereT(DataFilter.Filter);
 
     // IAdvancedMathDataSet
+    public AddAdjustment AddAdjustment => Inner.AddAdjustment;
     public DataGroup<YemodaPairAnd<int>> AddYearsData => Inner.AddYearsData.WhereT(DataFilter.Filter);
     public DataGroup<YemodaPairAnd<int>> AddMonthsData => Inner.AddMonthsData.WhereT(DataFilter.Filter);
     public DataGroup<DateDiff> DateDiffData => Inner.DateDiffData.WhereT(DataFilter.Filter);

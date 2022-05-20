@@ -7,14 +7,9 @@ using System.Collections;
 using System.Linq;
 
 // TODO(data): use DataGroup. Filter matching data in Bounded.
-// - GregorianDataSet, math
 // - PaxDataSet
 // - PaxCalendarDataSet
-//
-// GregorianDataSet:
-// - s_AddYearsLongCutOff. See GregorianMathTests.
-// - s_Diff (XXX). Should we modify Subtract()?
-//
+// - WorldDataSet
 // See which optional/supplementary data should be lazy.
 
 #region Developer Notes

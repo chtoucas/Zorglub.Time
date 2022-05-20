@@ -118,8 +118,11 @@ public partial class GregorianDataSet // IMathDataSet
     };
 }
 
+// NB: we do not include data for which the result is ambiguous, see GregorianMathDataSet for that.
 public partial class GregorianDataSet // IAdvancedMathDataSet
 {
+    public AddAdjustment AddAdjustment { get; } = AddAdjustment.EndOfMonth;
+
     public DataGroup<YemodaPairAnd<int>> AddYearsData { get; } = new()
     {
         new(new(3, 4, 5), new(9, 4, 5), 6),
@@ -213,6 +216,7 @@ public partial class GregorianDataSet // IAdvancedMathDataSet
 
     public DataGroup<DateDiff> DateDiffData { get; } = DataGroup.Create(DateDiffs);
 
+    // TODO(data): see XXX below. Something is wrong with the data or with Subtract().
     private static IEnumerable<DateDiff> DateDiffs
     {
         get

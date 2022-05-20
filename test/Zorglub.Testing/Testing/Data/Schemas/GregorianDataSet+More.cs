@@ -3,10 +3,30 @@
 
 namespace Zorglub.Testing.Data.Schemas;
 
-public static class GregorianCutOffMathDataSet
+// Custom data for math operations when the result is ambiguous.
+
+/// <summary>
+/// Provides test data for math operations for <see cref="GregorianSchema"/>.
+/// <para>Strategy: when the result of a math operation is not a valid day of the month, return the last day of the
+/// month.</para>
+/// </summary>
+public class GregorianMathDataSet : IAdvancedMathDataSet, ISingleton<GregorianMathDataSet>
 {
-    // Intercalary day, expected result in a common year, years to be added.
-    public static DataGroup<YemodaPairAnd<int>> AddYearsData { get; } = new()
+    private GregorianMathDataSet() { }
+
+    public static GregorianMathDataSet Instance => Singleton.Instance;
+
+    private static class Singleton
+    {
+        internal static readonly GregorianMathDataSet Instance = new();
+        static Singleton() { }
+    }
+
+    public AddAdjustment AddAdjustment { get; } = AddAdjustment.EndOfMonth;
+
+    /// <inheritdoc/>
+    /// <remarks>Intercalary day, expected result in a common year, years to be added.</remarks>
+    public DataGroup<YemodaPairAnd<int>> AddYearsData { get; } = new()
     {
         new(new(4, 2, 29), new(11, 2, 28), 7),
         new(new(4, 2, 29), new(10, 2, 28), 6),
@@ -23,26 +43,7 @@ public static class GregorianCutOffMathDataSet
         new(new(8, 2, 29), new(1, 2, 28), -7),
     };
 
-    // Intercalary day, expected result in a common year, years to be added.
-    public static DataGroup<YemodaPairAnd<int>> AddYearsLongData { get; } = new()
-    {
-        new(new(4, 2, 29), new(11, 3, 1), 7),
-        new(new(4, 2, 29), new(10, 3, 1), 6),
-        new(new(4, 2, 29), new(9, 3, 1), 5),
-        new(new(4, 2, 29), new(7, 3, 1), 3),
-        new(new(4, 2, 29), new(6, 3, 1), 2),
-        new(new(4, 2, 29), new(5, 3, 1), 1),
-
-        new(new(8, 2, 29), new(7, 3, 1), -1),
-        new(new(8, 2, 29), new(6, 3, 1), -2),
-        new(new(8, 2, 29), new(5, 3, 1), -3),
-        new(new(8, 2, 29), new(3, 3, 1), -5),
-        new(new(8, 2, 29), new(2, 3, 1), -6),
-        new(new(8, 2, 29), new(1, 3, 1), -7),
-    };
-
-    // Date, expected result, months to be added.
-    public static DataGroup<YemodaPairAnd<int>> AddMonthsData { get; } = new()
+    public DataGroup<YemodaPairAnd<int>> AddMonthsData { get; } = new()
     {
         // 31 days long month -> 30 days long month.
         new(new(1, 3, 31), new(1, 6, 30), 3),
@@ -75,8 +76,7 @@ public static class GregorianCutOffMathDataSet
         new(new(4, 4, 30), new(3, 2, 28), -14),
     };
 
-    // Start date, end date, exact diff between.
-    public static DataGroup<DateDiff> DateDiffData { get; } = DataGroup.Create(DateDiffs);
+    public DataGroup<DateDiff> DateDiffData { get; } = DataGroup.Create(DateDiffs);
 
     private static IEnumerable<DateDiff> DateDiffs
     {
@@ -90,4 +90,51 @@ public static class GregorianCutOffMathDataSet
             yield return new(new(8, 2, 29), new(9, 2, 28), 0, 11, 30);
         }
     }
+}
+
+/// <summary>
+/// Provides test data for math operations for <see cref="GregorianSchema"/>.
+/// <para>Strategy: when the result of a math operation is not a valid day of the month, return the first day of the
+/// next month.</para>
+/// </summary>
+public class GregorianMathDataSetStartOfNextMonth : IAdvancedMathDataSet, ISingleton<GregorianMathDataSetStartOfNextMonth>
+{
+    private GregorianMathDataSetStartOfNextMonth() { }
+
+    public static GregorianMathDataSetStartOfNextMonth Instance => Singleton.Instance;
+
+    private static class Singleton
+    {
+        internal static readonly GregorianMathDataSetStartOfNextMonth Instance = new();
+        static Singleton() { }
+    }
+
+    public AddAdjustment AddAdjustment { get; } = AddAdjustment.StartOfNextMonth;
+
+    /// <inheritdoc/>
+    /// <remarks>Intercalary day, expected result in a common year, years to be added.</remarks>
+    public DataGroup<YemodaPairAnd<int>> AddYearsData { get; } = new()
+    {
+        new(new(4, 2, 29), new(11, 3, 1), 7),
+        new(new(4, 2, 29), new(10, 3, 1), 6),
+        new(new(4, 2, 29), new(9, 3, 1), 5),
+        new(new(4, 2, 29), new(7, 3, 1), 3),
+        new(new(4, 2, 29), new(6, 3, 1), 2),
+        new(new(4, 2, 29), new(5, 3, 1), 1),
+
+        new(new(8, 2, 29), new(7, 3, 1), -1),
+        new(new(8, 2, 29), new(6, 3, 1), -2),
+        new(new(8, 2, 29), new(5, 3, 1), -3),
+        new(new(8, 2, 29), new(3, 3, 1), -5),
+        new(new(8, 2, 29), new(2, 3, 1), -6),
+        new(new(8, 2, 29), new(1, 3, 1), -7),
+    };
+
+#pragma warning disable CA1065 // Do not raise exceptions in unexpected locations (Design)
+
+    public DataGroup<YemodaPairAnd<int>> AddMonthsData => throw new NotImplementedException();
+
+    public DataGroup<DateDiff> DateDiffData => throw new NotImplementedException();
+
+#pragma warning restore CA1065
 }
