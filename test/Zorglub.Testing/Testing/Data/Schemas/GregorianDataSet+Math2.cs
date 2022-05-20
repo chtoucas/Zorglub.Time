@@ -3,22 +3,24 @@
 
 namespace Zorglub.Testing.Data.Schemas;
 
-// Custom data for math operations when the result is ambiguous.
-
 /// <summary>
-/// Provides test data for math operations for <see cref="GregorianSchema"/>.
-/// <para>Strategy: when the result of a math operation is not a valid day of the month, return the last day of the
-/// month.</para>
+/// Provides test data for <see cref="GregorianSchema"/> for math operations when the result is
+/// ambiguous.
+/// <para>Strategy: when the result of a math operation is not a valid day of the month, return the
+/// last day of the month.</para>
+/// <para>See also <see cref="GregorianDataSet"/> for test data for math operations when the result
+/// is unambiguous.</para>
 /// </summary>
-public class GregorianMathDataSet : IAdvancedMathDataSet, ISingleton<GregorianMathDataSet>
+public class GregorianMathDataSetEndOfMonthAdjustment :
+    IAdvancedMathDataSet, ISingleton<GregorianMathDataSetEndOfMonthAdjustment>
 {
-    private GregorianMathDataSet() { }
+    private GregorianMathDataSetEndOfMonthAdjustment() { }
 
-    public static GregorianMathDataSet Instance => Singleton.Instance;
+    public static GregorianMathDataSetEndOfMonthAdjustment Instance => Singleton.Instance;
 
     private static class Singleton
     {
-        internal static readonly GregorianMathDataSet Instance = new();
+        internal static readonly GregorianMathDataSetEndOfMonthAdjustment Instance = new();
         static Singleton() { }
     }
 
@@ -93,19 +95,23 @@ public class GregorianMathDataSet : IAdvancedMathDataSet, ISingleton<GregorianMa
 }
 
 /// <summary>
-/// Provides test data for math operations for <see cref="GregorianSchema"/>.
-/// <para>Strategy: when the result of a math operation is not a valid day of the month, return the first day of the
-/// next month.</para>
+/// Provides test data for <see cref="GregorianSchema"/> for math operations when the result is
+/// ambiguous.
+/// <para>Strategy: when the result of a math operation is not a valid day of the month, return the
+/// first day of the next month.</para>
+/// <para>See also <see cref="GregorianDataSet"/> for test data for math operations when the result
+/// is unambiguous.</para>
 /// </summary>
-public class GregorianMathDataSetStartOfNextMonth : IAdvancedMathDataSet, ISingleton<GregorianMathDataSetStartOfNextMonth>
+public class GregorianMathDataSetStartOfNextMonthAdjustment :
+    IAdvancedMathDataSet, ISingleton<GregorianMathDataSetStartOfNextMonthAdjustment>
 {
-    private GregorianMathDataSetStartOfNextMonth() { }
+    private GregorianMathDataSetStartOfNextMonthAdjustment() { }
 
-    public static GregorianMathDataSetStartOfNextMonth Instance => Singleton.Instance;
+    public static GregorianMathDataSetStartOfNextMonthAdjustment Instance => Singleton.Instance;
 
     private static class Singleton
     {
-        internal static readonly GregorianMathDataSetStartOfNextMonth Instance = new();
+        internal static readonly GregorianMathDataSetStartOfNextMonthAdjustment Instance = new();
         static Singleton() { }
     }
 
