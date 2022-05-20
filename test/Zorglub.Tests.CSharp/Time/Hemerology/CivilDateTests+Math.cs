@@ -143,12 +143,12 @@ public partial class CivilDateTests
         Assert.Equal(0, date.CountYearsSince(date));
     }
 
-    [Theory, MemberData(nameof(DiffData))]
-    public static void CountYearsSince(Yemoda xstart, Yemoda xend, int years, int _5, int _6)
+    [Theory, MemberData(nameof(DateDiffData))]
+    public static void CountYearsSince(DateDiff info)
     {
+        var (xstart, xend, years, _, _) = info;
         var start = CreateDate(xstart);
         var end = CreateDate(xend);
-
         // Act & Assert
         // 1) end - start -> years.
         Assert.Equal(years, end.CountYearsSince(start));
@@ -354,13 +354,13 @@ public partial class CivilDateTests
         Assert.Equal(0, date.CountMonthsSince(date));
     }
 
-    [Theory, MemberData(nameof(DiffData))]
-    public static void CountMonthsSince(Yemoda xstart, Yemoda xend, int years, int months, int _6)
+    [Theory, MemberData(nameof(DateDiffData))]
+    public static void CountMonthsSince(DateDiff info)
     {
+        var (xstart, xend, years, months, _) = info;
         var start = CreateDate(xstart);
         var end = CreateDate(xend);
         months += 12 * years;
-
         // Act & Assert
         // 1) end - start -> months.
         Assert.Equal(months, end.CountMonthsSince(start));
@@ -454,12 +454,12 @@ public partial class CivilDateTests
 // Subtract()
 public partial class CivilDateTests
 {
-    [Theory, MemberData(nameof(DiffData))]
-    public static void Subtract(Yemoda xstart, Yemoda xend, int years, int months, int days)
+    [Theory, MemberData(nameof(DateDiffData))]
+    public static void Subtract(DateDiff info)
     {
+        var (xstart, xend, years, months, days) = info;
         var start = CreateDate(xstart);
         var end = CreateDate(xend);
-
         // Act & Assert
         var (ys, ms, ds) = CivilDate.Subtract(end, start);
         Assert.Equal(years, ys);
@@ -470,12 +470,12 @@ public partial class CivilDateTests
         Assert.Equal(end, target);
     }
 
-    [Theory, MemberData(nameof(DiffCutOffData))]
-    public static void Subtract_CutOff(Yemoda xstart, Yemoda xend, int years, int months, int days)
+    [Theory, MemberData(nameof(DateDiffCutOffData))]
+    public static void Subtract_CutOff(DateDiff info)
     {
+        var (xstart, xend, years, months, days) = info;
         var start = CreateDate(xstart);
         var end = CreateDate(xend);
-
         // Act & Assert
         var (ys, ms, ds) = CivilDate.Subtract(end, start);
         Assert.Equal(years, ys);

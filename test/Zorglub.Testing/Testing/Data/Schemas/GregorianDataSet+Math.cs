@@ -3,9 +3,7 @@
 
 namespace Zorglub.Testing.Data.Schemas;
 
-public static partial class GregorianCutOffMathDataSet { }
-
-public partial class GregorianCutOffMathDataSet // Years
+public static class GregorianCutOffMathDataSet
 {
     // Intercalary day, expected result in a common year, years to be added.
     public static DataGroup<YemodaPairAnd<int>> AddYearsData { get; } = new()
@@ -42,10 +40,7 @@ public partial class GregorianCutOffMathDataSet // Years
         new(new(8, 2, 29), new(2, 3, 1), -6),
         new(new(8, 2, 29), new(1, 3, 1), -7),
     };
-}
 
-public partial class GregorianCutOffMathDataSet // Months
-{
     // Date, expected result, months to be added.
     public static DataGroup<YemodaPairAnd<int>> AddMonthsData { get; } = new()
     {
@@ -79,18 +74,20 @@ public partial class GregorianCutOffMathDataSet // Months
         new(new(4, 1, 31), new(3, 2, 28), -11),
         new(new(4, 4, 30), new(3, 2, 28), -14),
     };
-}
 
-public partial class GregorianCutOffMathDataSet // Diff
-{
     // Start date, end date, exact diff between.
-    public static TheoryData<Yemoda, Yemoda, int, int, int> DiffData { get; } = new()
-    {
-        { new(3, 4, 30), new(4, 2, 29), 0, 9, 30 },
-        { new(3, 4, 30), new(2, 3, 31), -1, 0, -30 },
-        { new(3, 4, 30), new(3, 3, 31), 0, 0, -30 },
+    public static DataGroup<DateDiff> DateDiffData { get; } = DataGroup.Create(DateDiffs);
 
-        { new(8, 2, 29), new(11, 2, 28), 2, 11, 30 },
-        { new(8, 2, 29), new(9, 2, 28), 0, 11, 30 },
-    };
+    private static IEnumerable<DateDiff> DateDiffs
+    {
+        get
+        {
+            yield return new(new(3, 4, 30), new(4, 2, 29), 0, 9, 30);
+            yield return new(new(3, 4, 30), new(2, 3, 31), -1, 0, -30);
+            yield return new(new(3, 4, 30), new(3, 3, 31), 0, 0, -30);
+
+            yield return new(new(8, 2, 29), new(11, 2, 28), 2, 11, 30);
+            yield return new(new(8, 2, 29), new(9, 2, 28), 0, 11, 30);
+        }
+    }
 }

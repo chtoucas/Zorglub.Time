@@ -29,7 +29,7 @@ public interface IAdvancedMathDataSet
     DataGroup<YemodaPairAnd<int>> AddMonthsData { get; }
 
     /// <summary>Start date, end date, exact diff between.</summary>
-    TheoryData<Yemoda, Yemoda, int, int, int> DiffData { get; }
+    DataGroup<DateDiff> DateDiffData { get; }
 }
 
 public interface IEpagomenalDataSet

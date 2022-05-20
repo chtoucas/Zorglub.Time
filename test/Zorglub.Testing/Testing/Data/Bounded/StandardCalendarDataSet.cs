@@ -113,7 +113,7 @@ public sealed class StandardGregorianDataSet :
     // IAdvancedMathDataSet
     public DataGroup<YemodaPairAnd<int>> AddYearsData => Inner.AddYearsData.WhereT(DataFilter.Filter);
     public DataGroup<YemodaPairAnd<int>> AddMonthsData => Inner.AddMonthsData.WhereT(DataFilter.Filter);
-    public TheoryData<Yemoda, Yemoda, int, int, int> DiffData => Inner.DiffData;
+    public DataGroup<DateDiff> DateDiffData => Inner.DateDiffData.WhereT(DataFilter.Filter);
 
     // IDayOfWeekDataSet
     public DataGroup<YemodaAnd<DayOfWeek>> DayOfWeekData => Inner.DayOfWeekData.WhereT(DataFilter.Filter);

@@ -41,11 +41,11 @@ public sealed partial class CivilDateTests : IDateFacts<CivilDate, StandardGrego
 
     public static DataGroup<YemodaPairAnd<int>> AddYearsData => DataSet.AddYearsData;
     public static DataGroup<YemodaPairAnd<int>> AddMonthsData => DataSet.AddMonthsData;
-    public static TheoryData<Yemoda, Yemoda, int, int, int> DiffData => DataSet.DiffData;
+    public static DataGroup<DateDiff> DateDiffData => DataSet.DateDiffData;
 
     public static DataGroup<YemodaPairAnd<int>> AddYearsCutOffData => GregorianCutOffMathDataSet.AddYearsData;
     public static DataGroup<YemodaPairAnd<int>> AddMonthsCutOffData => GregorianCutOffMathDataSet.AddMonthsData;
-    public static TheoryData<Yemoda, Yemoda, int, int, int> DiffCutOffData => GregorianCutOffMathDataSet.DiffData;
+    public static DataGroup<DateDiff> DateDiffCutOffData => GregorianCutOffMathDataSet.DateDiffData;
 
     // IDayOfWeekDataSet
     public static DataGroup<YemodaAnd<DayOfWeek>> DayOfWeekData => DataSet.DayOfWeekData;

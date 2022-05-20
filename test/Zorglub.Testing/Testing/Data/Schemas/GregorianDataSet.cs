@@ -482,3 +482,18 @@ public partial class GregorianDataSet // Invalid date parts
         { LeapYear, 12, 32 },
     };
 }
+
+public partial class GregorianDataSet // IYearAdjustmentDataSet
+{
+    public DataGroup<YemodaAnd<int>> InvalidYearAdjustementData { get; } = new()
+    {
+        // Intercalary day mapped to a common year.
+        new(LeapYear, 2, 29, CommonYear)
+    };
+
+    public DataGroup<YemodaAnd<int>> YearAdjustementData { get; } = new()
+    {
+        // Intercalary day mapped to another leap year.
+        new(4, 2, 29, 8),
+    };
+}
