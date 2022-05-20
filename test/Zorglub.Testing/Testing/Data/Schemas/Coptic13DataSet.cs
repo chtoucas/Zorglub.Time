@@ -283,3 +283,23 @@ public partial class Coptic13DataSet // Invalid date parts
         { LeapYear, 13, 7 },
     };
 }
+
+public partial class Coptic13DataSet // IEpagomenalDataSet
+{
+    public DataGroup<YemodaAnd<int>> EpagomenalDayInfoData { get; } = new()
+    {
+        // Common year.
+        new(CommonYear, 13, 1, 1),
+        new(CommonYear, 13, 2, 2),
+        new(CommonYear, 13, 3, 3),
+        new(CommonYear, 13, 4, 4),
+        new(CommonYear, 13, 5, 5),
+        // Leap year.
+        new(LeapYear, 13, 1, 1),
+        new(LeapYear, 13, 2, 2),
+        new(LeapYear, 13, 3, 3),
+        new(LeapYear, 13, 4, 4),
+        new(LeapYear, 13, 5, 5),
+        new(LeapYear, 13, 6, 6),
+    };
+}
