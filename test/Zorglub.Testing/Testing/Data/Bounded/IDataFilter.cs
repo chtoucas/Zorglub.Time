@@ -28,4 +28,6 @@ public interface IDataFilter
 
     bool Filter(YemodaPair x);
     bool Filter<T>(YemodaPairAnd<T> x) where T : struct;
+
+    bool Filter(DateDiff x);
 }

@@ -36,4 +36,7 @@ public sealed class MinMaxYearDataFilter : IDataFilter
         SupportedYears.Contains(x.First.Year) && SupportedYears.Contains(x.Second.Year);
     public bool Filter<T>(YemodaPairAnd<T> x) where T : struct =>
         SupportedYears.Contains(x.First.Year) && SupportedYears.Contains(x.Second.Year);
+
+    public bool Filter(DateDiff x) =>
+        x is not null && SupportedYears.Contains(x.Start.Year) && SupportedYears.Contains(x.End.Year);
 }

@@ -43,6 +43,8 @@ public readonly record struct YearDaysSinceEpoch(int Year, int DaysSinceEpoch)
 
 public readonly record struct YearDayNumber(int Year, DayNumber DayNumber);
 
+#region
+
 public readonly record struct DaysSinceEpochInfo(int DaysSinceEpoch, Yemoda Yemoda)
 {
     public DaysSinceEpochInfo(int daysSinceEpoch, int y, int m, int d)
@@ -110,6 +112,9 @@ public readonly record struct DayNumberInfo(DayNumber DayNumber, Yemoda Yemoda)
 #pragma warning restore CA2225
 }
 
+#endregion
+#region
+
 public readonly record struct DateInfo
 {
     public DateInfo(int y, int m, int d, ushort doy, bool isIntercalary, bool isSupplementary)
@@ -149,13 +154,16 @@ public readonly record struct MonthInfo(Yemo Yemo, byte DaysInMonth, ushort Days
 
 public readonly record struct YearInfo(int Year, byte MonthsInYear, ushort DaysInYear, bool IsLeap);
 
-public readonly record struct DecadeOfCenturyInfo(int Year, int Century, byte DecadeOfCentury, byte YearOfDecade);
-
 public readonly record struct DecadeInfo(int Year, int Decade, byte YearOfDecade);
 
 public readonly record struct CenturyInfo(int Year, int Century, byte YearOfCentury);
 
 public readonly record struct MillenniumInfo(int Year, int Millennium, ushort YearOfMillennium);
+
+public readonly record struct DecadeOfCenturyInfo(int Year, int Century, byte DecadeOfCentury, byte YearOfDecade);
+
+#endregion
+#region
 
 public readonly record struct YemodaAnd<T>(Yemoda Yemoda, T Value) where T : struct
 {
@@ -182,3 +190,11 @@ public readonly record struct YemoAnd<T>(Yemo Yemo, T Value) where T : struct
 public readonly record struct YemodaPair(Yemoda First, Yemoda Second);
 
 public readonly record struct YemodaPairAnd<T>(Yemoda First, Yemoda Second, T Value) where T : struct;
+
+#endregion
+#region
+
+// Too big to be a struct (20 bytes).
+public sealed record DateDiff(Yemoda Start, Yemoda End, int Years, int Months, int Days);
+
+#endregion
