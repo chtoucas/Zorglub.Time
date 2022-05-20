@@ -41,9 +41,6 @@ public sealed class ProlepticGregorianDataSet :
         static Singleton() { }
     }
 
-    public DataGroup<YemoAnd<int>> DaysInYearAfterMonthData =>
-        GregorianDataSet.DaysInYearAfterMonthData.WhereT(DataFilter.Filter);
-
     // IYearAdjustmentDataSet
     public DataGroup<YemodaAnd<int>> InvalidYearAdjustementData => Inner.InvalidYearAdjustementData.WhereT(DataFilter.Filter);
     public DataGroup<YemodaAnd<int>> YearAdjustementData => Inner.YearAdjustementData.WhereT(DataFilter.Filter);

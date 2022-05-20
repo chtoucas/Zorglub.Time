@@ -123,7 +123,7 @@ module GregorianCase =
     let private dataSet = GregorianDataSet.Instance
     let private sch = new GregorianSchema()
 
-    let daysInYearAfterMonthData = GregorianDataSet.DaysInYearAfterMonthData
+    let daysInYearAfterMonthData = dataSet.DaysInYearAfterMonthData
     let daysInYearAfterDateData = dataSet.DaysInYearAfterDateData
     let daysInMonthAfterDateData = dataSet.DaysInMonthAfterDateData
 

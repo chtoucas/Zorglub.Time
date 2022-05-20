@@ -33,6 +33,8 @@ public abstract class CalendricalDataSet : ICalendricalDataSet
     /// </remarks>
     public virtual DataGroup<CenturyInfo> CenturyInfoData => YearNumberingDataSet.CenturyInfoData;
 
+    public virtual DataGroup<YemoAnd<int>> DaysInYearAfterMonthData =>
+        MapToDaysInYearAfterMonthData(MonthInfoData);
     public virtual DataGroup<YemodaAnd<int>> DaysInYearAfterDateData =>
         MapToDaysInYearAfterDateData(DateInfoData);
     public virtual DataGroup<YemodaAnd<int>> DaysInMonthAfterDateData =>
@@ -51,7 +53,7 @@ public abstract class CalendricalDataSet : ICalendricalDataSet
     public abstract TheoryData<int, int> InvalidDayOfYearFieldData { get; }
 
     #region Helpers
-    // We could have removed the parameter "source" from InitStartOfYearParts
+    // We could have removed the parameter "source" from MapToStartOfYearParts()
     // and use the property EndOfYearPartsData instead, but this is not such a
     // good idea. Indeed, I prefer to make it clear that, for the method to
     // work properly, "source" must not be null.
@@ -82,6 +84,23 @@ public abstract class CalendricalDataSet : ICalendricalDataSet
     }
 
     [Pure]
+    private DataGroup<YemoAnd<int>> MapToDaysInYearAfterMonthData(DataGroup<MonthInfo> source)
+    {
+        Requires.NotNull(source);
+
+        var sch = Schema;
+        return source.SelectT(Selector);
+
+        YemoAnd<int> Selector(MonthInfo x)
+        {
+            var (ym, daysInMonth, daysInYearBeforeMonth, _) = x;
+            // Assumption: CountDaysInYear() is correct.
+            int daysInYearAfterMonth = sch.CountDaysInYear(ym.Year) - daysInMonth - daysInYearBeforeMonth;
+            return new YemoAnd<int>(ym, daysInYearAfterMonth);
+        }
+    }
+
+    [Pure]
     private DataGroup<YemodaAnd<int>> MapToDaysInYearAfterDateData(DataGroup<DateInfo> source)
     {
         Requires.NotNull(source);
@@ -92,6 +111,7 @@ public abstract class CalendricalDataSet : ICalendricalDataSet
         YemodaAnd<int> Selector(DateInfo x)
         {
             var (y, m, d, doy) = x;
+            // Assumption: CountDaysInYear() is correct.
             int daysInYearAfter = sch.CountDaysInYear(y) - doy;
             return new YemodaAnd<int>(y, m, d, daysInYearAfter);
         }
@@ -108,6 +128,7 @@ public abstract class CalendricalDataSet : ICalendricalDataSet
         YemodaAnd<int> Selector(DateInfo x)
         {
             var (y, m, d) = x.Yemoda;
+            // Assumption: CountDaysInMonth() is correct.
             int daysInMonthAfter = sch.CountDaysInMonth(y, m) - d;
             return new YemodaAnd<int>(y, m, d, daysInMonthAfter);
         }

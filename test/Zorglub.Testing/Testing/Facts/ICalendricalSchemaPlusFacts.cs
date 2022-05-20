@@ -20,11 +20,11 @@ public partial class ICalendricalSchemaPlusFacts<TSchema, TDataSet> // Methods
 {
     #region CountDaysInYearAfterMonth()
 
-    [Theory, MemberData(nameof(MonthInfoData))]
-    public void CountDaysInYearAfterMonth(MonthInfo info)
+    [Theory, MemberData(nameof(DaysInYearAfterMonthData))]
+    public void CountDaysInYearAfterMonth(YemoAnd<int> info)
     {
         var (y, m) = info.Yemo;
-        int daysInYearAfterMonth = SchemaUT.CountDaysInYear(y) - info.DaysInMonth - info.DaysInYearBeforeMonth;
+        int daysInYearAfterMonth = info.Value;
         // Act
         int actual = SchemaUT.CountDaysInYearAfterMonth(y, m);
         // Assert

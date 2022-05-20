@@ -68,6 +68,7 @@ public abstract class UnboundedCalendarDataSet : ICalendarDataSet
     public DataGroup<YearInfo> YearInfoData => _dataSet.YearInfoData;
     public DataGroup<CenturyInfo> CenturyInfoData => _dataSet.CenturyInfoData;
 
+    public DataGroup<YemoAnd<int>> DaysInYearAfterMonthData => _dataSet.DaysInYearAfterMonthData;
     public DataGroup<YemodaAnd<int>> DaysInYearAfterDateData => _dataSet.DaysInYearAfterDateData;
     public DataGroup<YemodaAnd<int>> DaysInMonthAfterDateData => _dataSet.DaysInMonthAfterDateData;
 

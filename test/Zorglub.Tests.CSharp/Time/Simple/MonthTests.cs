@@ -14,8 +14,6 @@ public sealed partial class CalendarMonthTests : GregorianOnlyTesting
 
     public CalendarMonthTests() : base(GregorianCalendar.Instance) { }
 
-    public static DataGroup<YemoAnd<int>> DaysInYearAfterMonthData => DataSet.DaysInYearAfterMonthData;
-
     public static DataGroup<YemodaPairAnd<int>> AddYearsData => DataSet.AddYearsData;
     public static DataGroup<YemodaPairAnd<int>> AddMonthsData => DataSet.AddMonthsData;
 

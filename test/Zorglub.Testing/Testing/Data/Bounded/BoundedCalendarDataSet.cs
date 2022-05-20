@@ -52,6 +52,7 @@ public class BoundedCalendarDataSet<TDataSet> : ICalendarDataSet
     public DataGroup<YearInfo> YearInfoData => Inner.YearInfoData.WhereT(DataFilter.Filter);
     public DataGroup<CenturyInfo> CenturyInfoData => Inner.CenturyInfoData.WhereT(DataFilter.Filter);
 
+    public DataGroup<YemoAnd<int>> DaysInYearAfterMonthData => Inner.DaysInYearAfterMonthData.WhereT(DataFilter.Filter);
     public DataGroup<YemodaAnd<int>> DaysInYearAfterDateData => Inner.DaysInYearAfterDateData.WhereT(DataFilter.Filter);
     public DataGroup<YemodaAnd<int>> DaysInMonthAfterDateData => Inner.DaysInMonthAfterDateData.WhereT(DataFilter.Filter);
 

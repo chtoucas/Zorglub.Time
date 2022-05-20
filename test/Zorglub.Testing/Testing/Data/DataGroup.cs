@@ -12,10 +12,6 @@ using System.Linq;
 // - PaxCalendarDataSet
 //
 // GregorianDataSet:
-// - Move DaysInYearAfterMonthData to MonthInfoData.
-//   When done, remove DaysInYearAfterMonthData from the various Gregorian datasets.
-//   CountDaysInYear(y) - CountDaysInMonth(y, m) - CountDaysInYearBeforeMonth(y, m);
-//   MÀJ ICalendricalSchemaPlusFacts.CountDaysInYearAfterMonth()
 // - s_AddYearsLongCutOff. See GregorianMathTests.
 // - s_Diff (XXX). Should we modify Subtract()?
 //

@@ -27,6 +27,9 @@ public interface ICalendricalDataSet
     /// <summary>Century informations.</summary>
     DataGroup<CenturyInfo> CenturyInfoData { get; }
 
+    // No DaysInYearBeforeMonthData, the information is given by MonthInfo.
+    /// <summary>Month, daysInYearAfterMonth.</summary>
+    DataGroup<YemoAnd<int>> DaysInYearAfterMonthData { get; }
     /// <summary>Date, daysInYearAfter.</summary>
     DataGroup<YemodaAnd<int>> DaysInYearAfterDateData { get; }
     /// <summary>Date, daysInMonthAfter.</summary>
