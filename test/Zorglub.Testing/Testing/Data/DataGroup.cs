@@ -11,6 +11,8 @@ using System.Linq;
 // - PaxCalendarDataSet
 // - WorldDataSet
 // See which optional/supplementary data should be lazy and explain why.
+// Explain when to use ToXunitData(): never... except within the "DataConsumer"
+// base classes.
 
 #region Developer Notes
 

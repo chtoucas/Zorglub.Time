@@ -11,6 +11,9 @@ namespace Zorglub.Testing.Data;
 //
 // We assume that the data is valid, e.g. MonthInfo.DaysInMonth must be > 0.
 //
+// Value type or reference type? We use a simple rule here: use a value type if
+// it has a size <= 16 bytes, otherwise use a reference type.
+//
 // The use of unsigned shorts and bytes is not necessary, but it helps to reduce
 // the size of the structs. Instead, we could have used shorts everywhere but it
 // doesn't change the final sizes and more specialized integral types help to
