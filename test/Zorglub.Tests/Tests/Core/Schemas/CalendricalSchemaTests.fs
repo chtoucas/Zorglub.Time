@@ -8,8 +8,6 @@ open System
 open Zorglub.Testing
 open Zorglub.Testing.Data
 open Zorglub.Testing.Data.Schemas
-// TODO(code): we should not use datasets of type ICalendarDataSet (see Pax below).
-open Zorglub.Testing.Data.Unbounded
 
 open Zorglub.Time.Core
 open Zorglub.Time.Core.Arithmetic
@@ -145,12 +143,9 @@ module GregorianCase =
         sch.CountDaysInMonthAfter(y, m, d) === daysInMonthAfter
 
 module PaxCase =
-    let private calendarDataSet = UnboundedPaxDataSet.Instance
-    let private epoch = calendarDataSet.Epoch
-
     let private sch = schemaOf<PaxSchema>()
 
-    let moreDayNumberInfoData = UnboundedPaxDataSet.MoreDayNumberInfoData
+    let moreDaySinceEpochInfoData = PaxDataSet.MoreDaySinceEpochInfoData
     let moreYearInfoData = PaxDataSet.MoreYearInfoData
     let moreMonthInfoData = PaxDataSet.MoreMonthInfoData
     let weekInfoData = PaxDataSet.WeekInfoData
@@ -171,14 +166,12 @@ module PaxCase =
     let CountWeeksInYear y weeksInYear =
         sch.CountWeeksInYear(y) === weeksInYear
 
-    [<Theory; MemberData(nameof(moreDayNumberInfoData))>]
-    let CountDaysSinceEpoch﹍WeekdateParts dayNumber y woy (dow: DayOfWeek) =
-        let daysSinceEpoch = dayNumber - epoch
+    [<Theory; MemberData(nameof(moreDaySinceEpochInfoData))>]
+    let CountDaysSinceEpoch﹍WeekdateParts daysSinceEpoch y woy (dow: DayOfWeek) =
         sch.CountDaysSinceEpoch(y, woy, dow) === daysSinceEpoch
 
-    [<Theory; MemberData(nameof(moreDayNumberInfoData))>]
-    let GetWeekdateParts dayNumber _ _ _ =
-        let daysSinceEpoch = dayNumber - epoch
+    [<Theory; MemberData(nameof(moreDaySinceEpochInfoData))>]
+    let GetWeekdateParts daysSinceEpoch _ _ _ =
         throws<NotImplementedException> (fun () -> sch.GetWeekdateParts(daysSinceEpoch))
 
 module TropicalistaCase =

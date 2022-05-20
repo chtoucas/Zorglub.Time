@@ -12,7 +12,9 @@ using Zorglub.Time.Hemerology;
 /// </summary>
 public sealed class UnboundedPaxDataSet : UnboundedCalendarDataSet<PaxDataSet>, ISingleton<UnboundedPaxDataSet>
 {
-    private UnboundedPaxDataSet() : base(PaxDataSet.Instance, CalendarEpoch.SundayBeforeGregorian) { }
+    private static readonly DayNumber s_Epoch = CalendarEpoch.SundayBeforeGregorian;
+
+    private UnboundedPaxDataSet() : base(PaxDataSet.Instance, s_Epoch) { }
 
     public static UnboundedPaxDataSet Instance => Singleton.Instance;
 
@@ -31,12 +33,13 @@ public sealed class UnboundedPaxDataSet : UnboundedCalendarDataSet<PaxDataSet>, 
 
     [Pure]
     private static TheoryData<DayNumber, int, int, DayOfWeek> MapToTheoryData(
-        IEnumerable<(int Ord, int Year, int WeekOfYear, DayOfWeek DayOfWeek)> source)
+        IEnumerable<(int DaysSinceEpoch, int Year, int WeekOfYear, DayOfWeek DayOfWeek)> source)
     {
+        var epoch = s_Epoch;
         var data = new TheoryData<DayNumber, int, int, DayOfWeek>();
-        foreach (var (ord, y, woy, dayOfWeek) in source)
+        foreach (var (daysSinceEpoch, y, woy, dayOfWeek) in source)
         {
-            data.Add(DayZero.NewStyle + (ord - 1), y, woy, dayOfWeek);
+            data.Add(epoch + daysSinceEpoch, y, woy, dayOfWeek);
         }
         return data;
     }

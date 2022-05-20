@@ -130,6 +130,7 @@ public partial class PaxDataSet // Infos
         new(2300, 14, 371, true),
     };
 
+    // TODO(data): use DaysSinceEpochInfos.
     internal static IEnumerable<DaysSinceZeroInfo> DaysSinceZeroInfos
     {
         get

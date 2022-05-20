@@ -5,6 +5,10 @@ namespace Zorglub.Testing.Data.Schemas;
 
 public partial class PaxDataSet // Supplementary data
 {
+    /// <summary>DaysSinceEpoch, year, week of the year, day of the week.</summary>
+    public static TheoryData<int, int, int, DayOfWeek> MoreDaySinceEpochInfoData =>
+        MapToTheoryData(MoreDaySinceEpochInfos);
+
     /// <summary>Year, weeks in year.</summary>
     public static TheoryData<int, int> MoreYearInfoData { get; } = new()
     {
@@ -75,7 +79,20 @@ public partial class PaxDataSet // Supplementary data
         { LeapYear, 54 },
     };
 
-    internal static IEnumerable<(int Ord, int Year, int WeekOfYear, DayOfWeek DayOfWeek)> MoreDaySinceEpochInfos
+    [Pure]
+    private static TheoryData<int, int, int, DayOfWeek> MapToTheoryData(
+        IEnumerable<(int DaysSinceEpoch, int Year, int WeekOfYear, DayOfWeek DayOfWeek)> source)
+    {
+        var data = new TheoryData<int, int, int, DayOfWeek>();
+        foreach (var (daysSinceEpoch, y, woy, dayOfWeek) in source)
+        {
+            data.Add(daysSinceEpoch, y, woy, dayOfWeek);
+        }
+        return data;
+    }
+
+    /// <summary>Day number, year, week of the year, day of the week.</summary>
+    internal static IEnumerable<(int DaysSinceEpoch, int Year, int WeekOfYear, DayOfWeek DayOfWeek)> MoreDaySinceEpochInfos
     {
         get
         {
