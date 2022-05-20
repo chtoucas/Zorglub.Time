@@ -8,7 +8,6 @@ using System.Linq;
 
 // TODO(data): use DataGroup. Filter matching data in Bounded.
 // - GregorianDataSet, math
-// - Proleptic/StandardGregorianDataSet, filter DiffData
 // - PaxDataSet
 // - PaxCalendarDataSet
 //

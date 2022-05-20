@@ -21,7 +21,7 @@ public partial class PaxDataSet // Supplementary data
         { LeapYear, 53 },
     };
 
-    /// <summary>Year, month of the year, isPaxMonth, isLastMonthOfYear.</summary>
+    /// <summary>Year, month of the year (Yemo), isPaxMonth, isLastMonthOfYear.</summary>
     public static TheoryData<int, int, bool, bool> MoreMonthInfoData { get; } = new()
     {
         // Common year.
@@ -55,7 +55,7 @@ public partial class PaxDataSet // Supplementary data
         { LeapYear, 14, false, true },
     };
 
-    /// <summary>Year, week of the year, isIntercalary.</summary>
+    /// <summary>Year, week of the year (Yewe), isIntercalary.</summary>
     public static TheoryData<int, int, bool> WeekInfoData { get; } = new()
     {
         // Common year.
