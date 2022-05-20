@@ -149,10 +149,14 @@ public readonly record struct DateInfo
     }
 }
 
-public readonly record struct MonthInfo(Yemo Yemo, byte DaysInMonth, ushort DaysInYearBeforeMonth, bool IsIntercalary)
+public readonly record struct MonthInfo(
+    Yemo Yemo, byte DaysInMonth, ushort DaysInYearBeforeMonth, ushort DaysInYearAfterMonth, bool IsIntercalary)
 {
-    public MonthInfo(int y, int m, byte daysInMonth, ushort daysInYearBeforeMonth, bool isIntercalary)
-        : this(new Yemo(y, m), daysInMonth, daysInYearBeforeMonth, isIntercalary) { }
+    public MonthInfo(
+        int y, int m,
+        byte daysInMonth, ushort daysInYearBeforeMonth, ushort daysInYearAfterMonth,
+        bool isIntercalary)
+        : this(new Yemo(y, m), daysInMonth, daysInYearBeforeMonth, daysInYearAfterMonth, isIntercalary) { }
 }
 
 public readonly record struct YearInfo(int Year, byte MonthsInYear, ushort DaysInYear, bool IsLeap);

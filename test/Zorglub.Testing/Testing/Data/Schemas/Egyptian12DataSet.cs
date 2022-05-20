@@ -65,18 +65,18 @@ public partial class Egyptian12DataSet // Infos
 
     public override DataGroup<MonthInfo> MonthInfoData { get; } = new()
     {
-        new(SampleYear, 1, 30, 0, false),
-        new(SampleYear, 2, 30, 30, false),
-        new(SampleYear, 3, 30, 60, false),
-        new(SampleYear, 4, 30, 90, false),
-        new(SampleYear, 5, 30, 120, false),
-        new(SampleYear, 6, 30, 150, false),
-        new(SampleYear, 7, 30, 180, false),
-        new(SampleYear, 8, 30, 210, false),
-        new(SampleYear, 9, 30, 240, false),
-        new(SampleYear, 10, 30, 270, false),
-        new(SampleYear, 11, 30, 300, false),
-        new(SampleYear, 12, 35, 330, false),
+        new(SampleYear, 1, 30, 0, 335, false),
+        new(SampleYear, 2, 30, 30, 305, false),
+        new(SampleYear, 3, 30, 60, 275, false),
+        new(SampleYear, 4, 30, 90, 245, false),
+        new(SampleYear, 5, 30, 120, 215, false),
+        new(SampleYear, 6, 30, 150, 185, false),
+        new(SampleYear, 7, 30, 180, 155, false),
+        new(SampleYear, 8, 30, 210, 125, false),
+        new(SampleYear, 9, 30, 240, 95, false),
+        new(SampleYear, 10, 30, 270, 65, false),
+        new(SampleYear, 11, 30, 300, 35, false),
+        new(SampleYear, 12, 35, 330, 0, false),
     };
 
     public override DataGroup<YearInfo> YearInfoData { get; } = new()
