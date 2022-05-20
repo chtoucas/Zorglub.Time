@@ -3,10 +3,6 @@
 
 namespace Zorglub.Testing.Data;
 
-// We rely on Yemoda/Yedoy/Yemo to define our test data, which means that we
-// cannot use (and test) parts (year, month, day, dayOfYear) outside the ranges
-// supported by these types.
-
 public interface ICalendricalDataSet
 {
     /// <summary>Gets a sample common year.</summary>
@@ -28,6 +24,9 @@ public interface ICalendricalDataSet
     DataGroup<CenturyInfo> CenturyInfoData { get; }
 
     // No DaysInYearBeforeMonthData, the information is given by MonthInfo.
+    // REVIEW(data): it would seem more logical to add DaysInYearAfterMonth to
+    // MonthInfo, rather than use a seprate property.
+
     /// <summary>Month, daysInYearAfterMonth.</summary>
     DataGroup<YemoAnd<int>> DaysInYearAfterMonthData { get; }
     /// <summary>Date, daysInYearAfter.</summary>

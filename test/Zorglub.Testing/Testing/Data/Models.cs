@@ -43,7 +43,7 @@ public readonly record struct YearDaysSinceEpoch(int Year, int DaysSinceEpoch)
 
 public readonly record struct YearDayNumber(int Year, DayNumber DayNumber);
 
-#region
+#region DaySinceXXXInfo and DayNumberInfo
 
 public readonly record struct DaysSinceEpochInfo(int DaysSinceEpoch, Yemoda Yemoda)
 {
@@ -113,7 +113,7 @@ public readonly record struct DayNumberInfo(DayNumber DayNumber, Yemoda Yemoda)
 }
 
 #endregion
-#region
+#region DateInfo, MonthInfo, etc.
 
 public readonly record struct DateInfo
 {
@@ -163,7 +163,7 @@ public readonly record struct MillenniumInfo(int Year, int Millennium, ushort Ye
 public readonly record struct DecadeOfCenturyInfo(int Year, int Century, byte DecadeOfCentury, byte YearOfDecade);
 
 #endregion
-#region
+#region YemodaAnd<T>, YemoAnd<T>, YemodaPair, YemodaPairAnd<T>
 
 public readonly record struct YemodaAnd<T>(Yemoda Yemoda, T Value) where T : struct
 {
@@ -192,7 +192,7 @@ public readonly record struct YemodaPair(Yemoda First, Yemoda Second);
 public readonly record struct YemodaPairAnd<T>(Yemoda First, Yemoda Second, T Value) where T : struct;
 
 #endregion
-#region
+#region Misc models
 
 // Too big to be a struct (20 bytes).
 public sealed record DateDiff(Yemoda Start, Yemoda End, int Years, int Months, int Days);

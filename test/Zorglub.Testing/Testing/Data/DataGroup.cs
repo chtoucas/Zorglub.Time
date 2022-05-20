@@ -10,7 +10,7 @@ using System.Linq;
 // - PaxDataSet
 // - PaxCalendarDataSet
 // - WorldDataSet
-// See which optional/supplementary data should be lazy.
+// See which optional/supplementary data should be lazy and explain why.
 
 #region Developer Notes
 
