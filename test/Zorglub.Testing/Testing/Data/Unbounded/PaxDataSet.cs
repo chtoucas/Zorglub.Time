@@ -27,7 +27,7 @@ public sealed class UnboundedPaxDataSet : UnboundedCalendarDataSet<PaxDataSet>, 
 
     /// <summary>Day number, year, week of the year, day of the week.</summary>
     public static TheoryData<DayNumber, int, int, DayOfWeek> MoreDayNumberInfoData =>
-        MapToTheoryData(s_MoreDayNumberInfoData);
+        MapToTheoryData(PaxDataSet.MoreDaySinceEpochInfos);
 
     [Pure]
     private static TheoryData<DayNumber, int, int, DayOfWeek> MapToTheoryData(
@@ -40,25 +40,4 @@ public sealed class UnboundedPaxDataSet : UnboundedCalendarDataSet<PaxDataSet>, 
         }
         return data;
     }
-
-    private static readonly List<(int Ord, int Year, int WeekOfYear, DayOfWeek DayOfWeek)> s_MoreDayNumberInfoData = new()
-    {
-        // First week.
-        (0, 1, 1, DayOfWeek.Sunday),
-        (1, 1, 1, DayOfWeek.Monday),
-        (2, 1, 1, DayOfWeek.Tuesday),
-        (3, 1, 1, DayOfWeek.Wednesday),
-        (4, 1, 1, DayOfWeek.Thursday),
-        (5, 1, 1, DayOfWeek.Friday),
-        (6, 1, 1, DayOfWeek.Saturday),
-        // Second week.
-        (7, 1, 2, DayOfWeek.Sunday),
-        (13, 1, 2, DayOfWeek.Saturday),
-        // Last week of first year.
-        (357, 1, 52, DayOfWeek.Sunday),
-        (363, 1, 52, DayOfWeek.Saturday),
-        // First week of second year.
-        (364, 2, 1, DayOfWeek.Sunday),
-        (370, 2, 1, DayOfWeek.Saturday),
-    };
 }

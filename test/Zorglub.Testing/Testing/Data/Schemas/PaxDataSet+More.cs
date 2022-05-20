@@ -5,15 +5,6 @@ namespace Zorglub.Testing.Data.Schemas;
 
 public partial class PaxDataSet // Supplementary data
 {
-    /// <summary>Year, invalid week of the year.</summary>
-    public static TheoryData<int, int> InvalidWeekOfYearData { get; } = new()
-    {
-        { CommonYear, 0 },
-        { CommonYear, 53 },
-        { LeapYear, 0 },
-        { LeapYear, 54 },
-    };
-
     /// <summary>Year, weeks in year.</summary>
     public static TheoryData<int, int> MoreYearInfoData { get; } = new()
     {
@@ -74,4 +65,37 @@ public partial class PaxDataSet // Supplementary data
         { LeapYear, 52, false },
         { LeapYear, 53, false },
     };
+
+    /// <summary>Year, invalid week of the year.</summary>
+    public static TheoryData<int, int> InvalidWeekOfYearData { get; } = new()
+    {
+        { CommonYear, 0 },
+        { CommonYear, 53 },
+        { LeapYear, 0 },
+        { LeapYear, 54 },
+    };
+
+    internal static IEnumerable<(int Ord, int Year, int WeekOfYear, DayOfWeek DayOfWeek)> MoreDaySinceEpochInfos
+    {
+        get
+        {
+            // First week.
+            yield return (0, 1, 1, DayOfWeek.Sunday);
+            yield return (1, 1, 1, DayOfWeek.Monday);
+            yield return (2, 1, 1, DayOfWeek.Tuesday);
+            yield return (3, 1, 1, DayOfWeek.Wednesday);
+            yield return (4, 1, 1, DayOfWeek.Thursday);
+            yield return (5, 1, 1, DayOfWeek.Friday);
+            yield return (6, 1, 1, DayOfWeek.Saturday);
+            // Second week.
+            yield return (7, 1, 2, DayOfWeek.Sunday);
+            yield return (13, 1, 2, DayOfWeek.Saturday);
+            // Last week of first year.
+            yield return (357, 1, 52, DayOfWeek.Sunday);
+            yield return (363, 1, 52, DayOfWeek.Saturday);
+            // First week of second year.
+            yield return (364, 2, 1, DayOfWeek.Sunday);
+            yield return (370, 2, 1, DayOfWeek.Saturday);
+        }
+    }
 }
