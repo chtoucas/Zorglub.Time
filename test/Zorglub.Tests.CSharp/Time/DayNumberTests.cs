@@ -12,6 +12,7 @@ public static partial class DayNumberTests
     {
         var copy = DayNumber.MaxValue;
         Assert.Overflows(() => copy++);
+        Assert.Overflows(() => ++copy);
     }
 
     [Fact]
@@ -23,6 +24,7 @@ public static partial class DayNumberTests
         var copy = dayNumber;
         copy++;
         Assert.Equal(dayNumberAfter, copy);
+        Assert.Equal(dayNumberAfter, ++dayNumber);
     }
 
     [Fact]
@@ -30,6 +32,7 @@ public static partial class DayNumberTests
     {
         var copy = DayNumber.MinValue;
         Assert.Overflows(() => copy--);
+        Assert.Overflows(() => --copy);
     }
 
     [Fact]
@@ -41,6 +44,7 @@ public static partial class DayNumberTests
         var copy = dayNumber;
         copy--;
         Assert.Equal(dayNumberBefore, copy);
+        Assert.Equal(dayNumberBefore, --dayNumber);
     }
 }
 

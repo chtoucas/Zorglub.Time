@@ -8,8 +8,9 @@ public static class OrdTests
     [Fact]
     public static void Increment_Overflows_AtMaxValue()
     {
-        var copy = Ord.MaxValue;
-        Assert.Overflows(() => copy++);
+        var max = Ord.MaxValue;
+        Assert.Overflows(() => max++);
+        Assert.Overflows(() => ++max);
     }
 
     [Fact]
@@ -21,13 +22,15 @@ public static class OrdTests
         var copy = ord;
         copy++;
         Assert.Equal(ordAfter, copy);
+        Assert.Equal(ordAfter, ++ord);
     }
 
     [Fact]
     public static void Decrement_Overflows_AtMinValue()
     {
-        var copy = Ord.MinValue;
-        Assert.Overflows(() => copy--);
+        var min = Ord.MinValue;
+        Assert.Overflows(() => min--);
+        Assert.Overflows(() => --min);
     }
 
     [Fact]
@@ -39,5 +42,6 @@ public static class OrdTests
         var copy = ord;
         copy--;
         Assert.Equal(ordBefore, copy);
+        Assert.Equal(ordBefore, --ord);
     }
 }
