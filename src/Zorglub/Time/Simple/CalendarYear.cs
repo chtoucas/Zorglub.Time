@@ -8,8 +8,6 @@
 // https://docs.microsoft.com/en-us/dotnet/api/system.runtime.interopservices.structlayoutattribute.pack?view=net-6.0
 #define CALENDARYEAR_EXPLICIT_LAYOUT
 
-// TODO(api): WithCalendar(). Idem with CalendarMonth. <- see DateRange
-
 namespace Zorglub.Time.Simple
 {
 #if CALENDARYEAR_EXPLICIT_LAYOUT
