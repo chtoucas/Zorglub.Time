@@ -177,9 +177,9 @@ public partial class OrdinalDateFacts<TDataSet> // Factories
     {
         var (y, m) = info.Yemo;
         var month = CalendarUT.GetCalendarMonth(y, m);
-        var startOfMonth = CalendarUT.GetCalendarDate(y, m, 1).ToCalendarDay();
+        var startOfMonth = CalendarUT.GetCalendarDate(y, m, 1).ToOrdinalDate();
         // Act & Assert
-        Assert.Equal(startOfMonth, CalendarDay.AtStartOfMonth(month));
+        Assert.Equal(startOfMonth, OrdinalDate.AtStartOfMonth(month));
     }
 
     [Theory, MemberData(nameof(DateInfoData))]
@@ -272,7 +272,7 @@ public partial class OrdinalDateFacts<TDataSet> // Adjustments
     {
         var date = CalendarUT.GetOrdinalDate(1, 1);
         // Act & Assert
-        SupportedYearsTester.TestInvalidYear(y => date.WithYear(y), "newYear");
+        SupportedYearsTester.TestInvalidYear(date.WithYear, "newYear");
     }
 
     [Theory, MemberData(nameof(DateInfoData))]
