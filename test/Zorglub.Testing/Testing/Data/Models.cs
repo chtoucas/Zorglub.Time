@@ -196,12 +196,37 @@ public readonly record struct YemoAnd<T>(Yemo Yemo, T Value) where T : struct
     }
 }
 
+public readonly record struct YemoAnd<T1, T2>(Yemo Yemo, T1 Value1, T2 Value2)
+    where T1 : struct
+    where T2 : struct
+{
+    public YemoAnd(int y, int m, T1 value1, T2 value2) : this(new Yemo(y, m), value1, value2) { }
+
+    public void Deconstruct(out int y, out int m, out T1 value1, out T2 value2)
+    {
+        (y, m) = Yemo;
+        value1 = Value1;
+        value2 = Value2;
+    }
+}
+
+public readonly record struct YeweAnd<T>(Yewe Yemo, T Value) where T : struct
+{
+    public YeweAnd(int y, int woy, T value) : this(new Yewe(y, woy), value) { }
+
+    public void Deconstruct(out int y, out int woy, out T value)
+    {
+        (y, woy) = Yemo;
+        value = Value;
+    }
+}
+
 public readonly record struct YemodaPair(Yemoda First, Yemoda Second);
 
 public readonly record struct YemodaPairAnd<T>(Yemoda First, Yemoda Second, T Value) where T : struct;
 
 #endregion
-#region Misc models
+#region Math models
 
 // Too big to be a struct (20 bytes).
 public sealed record DateDiff(Yemoda Start, Yemoda End, int Years, int Months, int Days);
