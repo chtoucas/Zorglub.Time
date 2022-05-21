@@ -9,19 +9,21 @@ open Zorglub.Testing.Facts.Simple
 
 open Zorglub.Time.Simple
 
+let other = GregorianCalendar.Instance
+
 [<Sealed>]
 type ArmenianTests() =
-    inherit OrdinalDateFacts<StandardArmenian12DataSet>(ArmenianCalendar.Instance, GregorianCalendar.Instance)
+    inherit OrdinalDateFacts<StandardArmenian12DataSet>(ArmenianCalendar.Instance, other)
 
 [<Sealed>]
 [<RedundantTestGroup>]
 type CopticTests() =
-    inherit OrdinalDateFacts<StandardCoptic12DataSet>(CopticCalendar.Instance, GregorianCalendar.Instance)
+    inherit OrdinalDateFacts<StandardCoptic12DataSet>(CopticCalendar.Instance, other)
 
 [<Sealed>]
 [<RedundantTestGroup>]
 type EthiopicTests() =
-    inherit OrdinalDateFacts<StandardEthiopic12DataSet>(EthiopicCalendar.Instance, GregorianCalendar.Instance)
+    inherit OrdinalDateFacts<StandardEthiopic12DataSet>(EthiopicCalendar.Instance, other)
 
 [<Sealed>]
 [<RedundantTestGroup>]
@@ -31,14 +33,14 @@ type GregorianTests() =
 [<Sealed>]
 [<RedundantTestGroup>]
 type JulianTests() =
-    inherit OrdinalDateFacts<ProlepticJulianDataSet>(JulianCalendar.Instance, GregorianCalendar.Instance)
+    inherit OrdinalDateFacts<ProlepticJulianDataSet>(JulianCalendar.Instance, other)
 
 [<Sealed>]
 [<RedundantTestGroup>]
 type TabularIslamicTests() =
-    inherit OrdinalDateFacts<StandardTabularIslamicDataSet>(TabularIslamicCalendar.Instance, GregorianCalendar.Instance)
+    inherit OrdinalDateFacts<StandardTabularIslamicDataSet>(TabularIslamicCalendar.Instance, other)
 
 [<Sealed>]
 [<RedundantTestGroup>]
 type ZoroastrianTests() =
-    inherit OrdinalDateFacts<StandardZoroastrian12DataSet>(ZoroastrianCalendar.Instance, GregorianCalendar.Instance)
+    inherit OrdinalDateFacts<StandardZoroastrian12DataSet>(ZoroastrianCalendar.Instance, other)
