@@ -3,7 +3,9 @@ Facts:
 - A facts class MUST be abstract.
 - Its methods MUST have distinct names (parameters do not count).
 - Its methods MUST NOT be static.
-- We SHOULD NOT test static methods.
+- Be careful when testing static methods: for instance TDate.FromDayNumber()
+  only works with the _default_ calendar, which means that we cannot test it
+  when the data depends of the calendar.
 - A facts class providing DDT SHOULD derive from either CalendricalDataConsumer 
   or CalendarDataConsumer, even when it's not necessary. This is mostly important
   when testing calendars and related date types which have a bounded scopes.

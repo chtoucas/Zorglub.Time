@@ -62,6 +62,33 @@ public partial class IDateableFacts<TDate, TDataSet> // Prelude
     }
 
     [Theory, MemberData(nameof(DateInfoData))]
+    public void Year_Prop(DateInfo info)
+    {
+        var (y, m, d) = info.Yemoda;
+        var date = GetDate(y, m, d);
+        // Act & Assert
+        Assert.Equal(y, date.Year);
+    }
+
+    [Theory, MemberData(nameof(DateInfoData))]
+    public void Month_Prop(DateInfo info)
+    {
+        var (y, m, d) = info.Yemoda;
+        var date = GetDate(y, m, d);
+        // Act & Assert
+        Assert.Equal(m, date.Month);
+    }
+
+    [Theory, MemberData(nameof(DateInfoData))]
+    public void Day_Prop(DateInfo info)
+    {
+        var (y, m, d) = info.Yemoda;
+        var date = GetDate(y, m, d);
+        // Act & Assert
+        Assert.Equal(d, date.Day);
+    }
+
+    [Theory, MemberData(nameof(DateInfoData))]
     public void DayOfYear_Prop(DateInfo info)
     {
         var (y, m, d, doy) = info;

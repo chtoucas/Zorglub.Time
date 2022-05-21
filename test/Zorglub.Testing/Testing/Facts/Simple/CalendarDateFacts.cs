@@ -136,6 +136,78 @@ public partial class CalendarDateFacts<TDataSet> // Calendar mismatch
     }
 }
 
+public partial class CalendarDateFacts<TDataSet> // Factories
+{
+    [Theory, MemberData(nameof(YearInfoData))]
+    public void AtStartOfYear(YearInfo info)
+    {
+        int y = info.Year;
+        var year = CalendarUT.GetCalendarYear(y);
+        var startOfYear = CalendarUT.GetCalendarDate(y, 1, 1);
+        // Act & Assert
+        Assert.Equal(startOfYear, CalendarDate.AtStartOfYear(year));
+    }
+
+    [Theory, MemberData(nameof(DateInfoData))]
+    public void AtDayOfYear(DateInfo info)
+    {
+        var (y, m, d, doy) = info;
+        var year = CalendarUT.GetCalendarYear(y);
+        var exp = CalendarUT.GetCalendarDate(y, m, d);
+        // Act
+        var actual = CalendarDate.AtDayOfYear(year, doy);
+        // Assert
+        Assert.Equal(exp, actual);
+    }
+
+    [Theory, MemberData(nameof(YearInfoData))]
+    public void AtEndOfYear(YearInfo info)
+    {
+        int y = info.Year;
+        var year = CalendarUT.GetCalendarYear(y);
+        var endOfYear = CalendarUT.GetOrdinalDate(y, info.DaysInYear).ToCalendarDate();
+        // Act & Assert
+        Assert.Equal(endOfYear, CalendarDate.AtEndOfYear(year));
+    }
+
+    [Theory, MemberData(nameof(MonthInfoData))]
+    public void AtStartOfMonth(MonthInfo info)
+    {
+        var (y, m) = info.Yemo;
+        var month = CalendarUT.GetCalendarMonth(y, m);
+        var startOfMonth = CalendarUT.GetCalendarDate(y, m, 1);
+        // Act
+        var actual = CalendarDate.AtStartOfMonth(month);
+        // Assert
+        Assert.Equal(startOfMonth, actual);
+    }
+
+    [Theory, MemberData(nameof(DateInfoData))]
+    public void AtDayOfMonth(DateInfo info)
+    {
+        var (y, m, d) = info.Yemoda;
+        var month = CalendarUT.GetCalendarMonth(y, m);
+        var date = CalendarUT.GetCalendarDate(y, m, d);
+        // Act
+        var actual = CalendarDate.AtDayOfMonth(month, d);
+        // Assert
+        Assert.Equal(date, actual);
+    }
+
+    [Theory, MemberData(nameof(MonthInfoData))]
+    public void AtEndOfMonth(MonthInfo info)
+    {
+        var (y, m) = info.Yemo;
+        var daysInMonth = info.DaysInMonth;
+        var month = CalendarUT.GetCalendarMonth(y, m);
+        var endOfMonth = CalendarUT.GetCalendarDate(y, m, daysInMonth);
+        // Act
+        var actual = CalendarDate.AtEndOfMonth(month);
+        // AssertB
+        Assert.Equal(endOfMonth, actual);
+    }
+}
+
 public partial class CalendarDateFacts<TDataSet> // Conversions
 {
     [Theory, MemberData(nameof(DayNumberInfoData))]
