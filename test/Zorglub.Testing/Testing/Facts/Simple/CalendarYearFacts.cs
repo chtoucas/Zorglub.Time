@@ -25,6 +25,8 @@ public abstract partial class CalendarYearFacts<TDataSet> :
 
         CalendarUT = calendar;
         OtherCalendar = otherCalendar;
+
+        SupportedYearsTester = new SupportedYearsTester(calendar.SupportedYears);
     }
 
     /// <summary>
@@ -33,6 +35,8 @@ public abstract partial class CalendarYearFacts<TDataSet> :
     protected Calendar CalendarUT { get; }
 
     protected Calendar OtherCalendar { get; }
+
+    protected SupportedYearsTester SupportedYearsTester { get; }
 }
 
 public partial class CalendarYearFacts<TDataSet> // Prelude
@@ -40,16 +44,6 @@ public partial class CalendarYearFacts<TDataSet> // Prelude
     //
     // Properties
     //
-
-    [Fact]
-    public void Calendar_Prop()
-    {
-        var date = CalendarUT.GetCalendarYear(1);
-        // Act & Assert
-        Assert.Equal(CalendarUT, date.Calendar);
-        // We also test the internal prop Cuid.
-        Assert.Equal(CalendarUT.Id, date.Cuid);
-    }
 
     [Theory, MemberData(nameof(CenturyInfoData))]
     public void CenturyOfEra_Prop(CenturyInfo info)
@@ -106,6 +100,16 @@ public partial class CalendarYearFacts<TDataSet> // Prelude
         // Assert
         Assert.Equal(info.IsLeap, year.IsLeap);
     }
+
+    [Fact]
+    public void Calendar_Prop()
+    {
+        var year = CalendarUT.GetCalendarYear(1);
+        // Act & Assert
+        Assert.Equal(CalendarUT, year.Calendar);
+        // We also test the internal prop Cuid.
+        Assert.Equal(CalendarUT.Id, year.Cuid);
+    }
 }
 
 public partial class CalendarYearFacts<TDataSet> // Calendar mismatch
@@ -145,6 +149,17 @@ public partial class CalendarYearFacts<TDataSet> // Calendar mismatch
         // Act & Assert
         Assert.Throws<ArgumentException>("other", () => year.CountYearsSince(other));
         Assert.Throws<ArgumentException>("other", () => year - other);
+    }
+}
+
+public partial class CalendarYearFacts<TDataSet> // Serialization
+{
+    [Theory, MemberData(nameof(YearInfoData))]
+    public void Serialization_Roundtrip(YearInfo info)
+    {
+        var year = CalendarUT.GetCalendarYear(info.Year);
+        // Act & Assert
+        Assert.Equal(year, CalendarYear.FromBinary(year.ToBinary()));
     }
 }
 
@@ -221,6 +236,40 @@ public partial class CalendarYearFacts<TDataSet> // Months
         var actual = year.GetMonthsInYear();
         // Assert
         Assert.Equal(list, actual);
+    }
+}
+
+public partial class CalendarYearFacts<TDataSet> // Adjustments
+{
+    [Theory, MemberData(nameof(YearInfoData))]
+    public void WithYear_InvalidYears(YearInfo info)
+    {
+        var year = CalendarUT.GetCalendarYear(info.Year);
+        // Act & Assert
+        SupportedYearsTester.TestInvalidYear(year.WithYear, "newYear");
+    }
+
+    // TODO(fact): InvalidYearAdjustementData, YearAdjustementData, idem with CalendarMonth.
+
+    [Theory, MemberData(nameof(YearInfoData))]
+    public void WithYear_Invariant(YearInfo info)
+    {
+        int y = info.Year;
+        var year = CalendarUT.GetCalendarYear(y);
+        // Act & Assert
+        Assert.Equal(year, year.WithYear(y));
+    }
+
+    [Fact]
+    public void WithYear_ValidYears()
+    {
+        foreach (int y in SupportedYearsTester.ValidYears)
+        {
+            var year = CalendarUT.GetCalendarYear(1);
+            var exp = CalendarUT.GetCalendarYear(y);
+            // Act & Assert
+            Assert.Equal(exp, year.WithYear(y));
+        }
     }
 }
 

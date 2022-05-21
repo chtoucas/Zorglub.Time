@@ -23,6 +23,8 @@ public abstract partial class CalendarMonthFacts<TDataSet> :
 
         CalendarUT = calendar;
         OtherCalendar = otherCalendar;
+
+        SupportedYearsTester = new SupportedYearsTester(calendar.SupportedYears);
     }
 
     /// <summary>
@@ -31,6 +33,8 @@ public abstract partial class CalendarMonthFacts<TDataSet> :
     protected Calendar CalendarUT { get; }
 
     protected Calendar OtherCalendar { get; }
+
+    protected SupportedYearsTester SupportedYearsTester { get; }
 }
 
 public partial class CalendarMonthFacts<TDataSet> // Prelude
@@ -50,16 +54,6 @@ public partial class CalendarMonthFacts<TDataSet> // Prelude
     //
     // Properties
     //
-
-    [Fact]
-    public void Calendar_Prop()
-    {
-        var date = CalendarUT.GetCalendarMonth(1, 1);
-        // Act & Assert
-        Assert.Equal(CalendarUT, date.Calendar);
-        // We also test the internal prop Cuid.
-        Assert.Equal(CalendarUT.Id, date.Cuid);
-    }
 
     [Theory, MemberData(nameof(CenturyInfoData))]
     public void CenturyOfEra_Prop(CenturyInfo info)
@@ -107,6 +101,26 @@ public partial class CalendarMonthFacts<TDataSet> // Prelude
         var month = CalendarUT.GetCalendarMonth(y, m);
         // Assert
         Assert.Equal(info.IsIntercalary, month.IsIntercalary);
+    }
+
+    [Fact]
+    public void Calendar_Prop()
+    {
+        var month = CalendarUT.GetCalendarMonth(1, 1);
+        // Act & Assert
+        Assert.Equal(CalendarUT, month.Calendar);
+        // We also test the internal prop Cuid.
+        Assert.Equal(CalendarUT.Id, month.Cuid);
+    }
+
+    [Theory, MemberData(nameof(MonthInfoData))]
+    public void CalendarYear_Prop(MonthInfo info)
+    {
+        var (y, m) = info.Yemo;
+        var month = CalendarUT.GetCalendarMonth(y, m);
+        var exp = CalendarUT.GetCalendarYear(y);
+        // Act & Assert
+        Assert.Equal(exp, month.CalendarYear);
     }
 }
 
@@ -159,6 +173,18 @@ public partial class CalendarMonthFacts<TDataSet> // Calendar mismatch
     }
 }
 
+public partial class CalendarMonthFacts<TDataSet> // Serialization
+{
+    [Theory, MemberData(nameof(MonthInfoData))]
+    public void Serialization_Roundtrip(MonthInfo info)
+    {
+        var (y, m) = info.Yemo;
+        var month = CalendarUT.GetCalendarMonth(y, m);
+        // Act & Assert
+        Assert.Equal(month, CalendarMonth.FromBinary(month.ToBinary()));
+    }
+}
+
 public partial class CalendarMonthFacts<TDataSet> // Conversions
 {
     //[Fact]
@@ -204,6 +230,64 @@ public partial class CalendarMonthFacts<TDataSet> // Counting
         // Assert
         Assert.Equal(info.DaysInMonth, actual);
     }
+}
+
+public partial class CalendarMonthFacts<TDataSet> // Adjustments
+{
+    #region Year adjustment
+
+    [Theory, MemberData(nameof(MonthInfoData))]
+    public void WithYear_InvalidYears(MonthInfo info)
+    {
+        var (y, m) = info.Yemo;
+        var month = CalendarUT.GetCalendarMonth(y, m);
+        // Act & Assert
+        SupportedYearsTester.TestInvalidYear(month.WithYear, "newYear");
+    }
+
+    [Theory, MemberData(nameof(MonthInfoData))]
+    public void WithYear_Invariant(MonthInfo info)
+    {
+        var (y, m) = info.Yemo;
+        var month = CalendarUT.GetCalendarMonth(y, m);
+        // Act & Assert
+        Assert.Equal(month, month.WithYear(y));
+    }
+
+    [Fact]
+    public void WithYear_ValidYears()
+    {
+        foreach (int y in SupportedYearsTester.ValidYears)
+        {
+            var month = CalendarUT.GetCalendarMonth(1, 1);
+            var exp = CalendarUT.GetCalendarMonth(y, 1);
+            // Act & Assert
+            Assert.Equal(exp, month.WithYear(y));
+        }
+    }
+
+    #endregion
+    #region Month adjustment
+
+    [Theory, MemberData(nameof(InvalidMonthFieldData))]
+    public void WithMonthOfYear_InvalidMonth(int y, int newMonth)
+    {
+        var month = CalendarUT.GetCalendarMonth(y, 1);
+        // Act & Assert
+        Assert.ThrowsAoorexn("newMonth", () => month.WithMonthOfYear(newMonth));
+    }
+
+    [Theory, MemberData(nameof(MonthInfoData))]
+    public void WithMonthOfYear(MonthInfo info)
+    {
+        var (y, m) = info.Yemo;
+        var month = CalendarUT.GetCalendarMonth(y, 1);
+        var exp = CalendarUT.GetCalendarMonth(y, m);
+        // Act & Assert
+        Assert.Equal(exp, month.WithMonthOfYear(m));
+    }
+
+    #endregion
 }
 
 public partial class CalendarMonthFacts<TDataSet> // IEquatable
