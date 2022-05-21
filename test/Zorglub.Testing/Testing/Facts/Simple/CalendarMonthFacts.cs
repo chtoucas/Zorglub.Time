@@ -146,6 +146,7 @@ public partial class CalendarMonthFacts<TDataSet> // Calendar mismatch
         var other = OtherCalendar.GetCalendarMonth(1, 1);
         // Act & Assert
         Assert.Throws<ArgumentException>("other", () => month.CountMonthsSince(other));
+        Assert.Throws<ArgumentException>("other", () => month - other);
     }
 
     [Fact]

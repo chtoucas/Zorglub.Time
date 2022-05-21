@@ -18,10 +18,6 @@ type GregorianTests() =
 
 module CalendarDateCase =
     [<Sealed>]
-    type AdvancedMathTests() =
-        inherit CalendarDateMathFacts<ProlepticGregorianDataSet>(GregorianCalendar.Instance)
-
-    [<Sealed>]
     type DayOfWeekTests() =
         inherit IDateDayOfWeekFacts<CalendarDate, ProlepticGregorianDataSet>()
 
@@ -32,6 +28,10 @@ module CalendarDateCase =
         inherit IDateMathFacts<CalendarDate, ProlepticGregorianDataSet>()
 
         override __.GetDate(y, m, d) = GregorianCalendar.Instance.GetCalendarDate(y, m, d)
+
+    [<Sealed>]
+    type AdvancedMathTests() =
+        inherit CalendarDateMathFacts<ProlepticGregorianDataSet>(GregorianCalendar.Instance)
 
 module OrdinalDateCase =
     [<Sealed>]

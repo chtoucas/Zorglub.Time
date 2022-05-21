@@ -16,11 +16,7 @@ public sealed partial class CalendarMonthTests : GregorianOnlyTesting
 
     public static DataGroup<YemodaPairAnd<int>> AddYearsData => DataSet.AddYearsData;
     public static DataGroup<YemodaPairAnd<int>> AddMonthsData => DataSet.AddMonthsData;
-}
 
-// Construction/deconstruction.
-public partial class CalendarMonthTests
-{
     //[Theory, MemberData(nameof(SampleDates))]
     //public void Constructor_WithDay(int y, int m, int d, int _4, bool _5, bool _6)
     //{
@@ -33,8 +29,7 @@ public partial class CalendarMonthTests
     //}
 }
 
-// Methods.
-public partial class CalendarMonthTests
+public partial class CalendarMonthTests // Range stuff
 {
     [Fact]
     public void WithCalendar_InvalidCalendar()
@@ -55,11 +50,7 @@ public partial class CalendarMonthTests
         // Assert
         Assert.Equal(range, actual);
     }
-}
 
-// Range stuff.
-public partial class CalendarMonthTests
-{
     [Theory, MemberData(nameof(MonthInfoData))]
     public void ToDateRange(MonthInfo info)
     {
@@ -181,18 +172,8 @@ public partial class CalendarMonthTests
     #endregion
 }
 
-// Math ops.
-public partial class CalendarMonthTests
+public partial class CalendarMonthTests // Math ops
 {
-    [Fact]
-    public void CountMonthsSince_InvalidMonth()
-    {
-        var left = CalendarUT.GetCalendarMonth(3, 4);
-        var right = s_Julian.GetCalendarMonth(3, 4);
-        // Act & Assert
-        Assert.Throws<ArgumentException>("other", () => left - right);
-    }
-
     [Theory, MemberData(nameof(AddMonthsData))]
     public void PlusMonths(YemodaPairAnd<int> info)
     {
@@ -217,25 +198,5 @@ public partial class CalendarMonthTests
         // Act & Assert
         Assert.Equal(end, start.PlusYears(years));
         Assert.Equal(years, end.CountYearsSince(start));
-    }
-}
-
-// Formatting.
-public partial class CalendarMonthTests
-{
-    [Theory]
-    [InlineData(-1, 1, "01/-0001 (Gregorian)")]
-    [InlineData(0, 1, "01/0000 (Gregorian)")]
-    [InlineData(1, 1, "01/0001 (Gregorian)")]
-    [InlineData(1, 2, "02/0001 (Gregorian)")]
-    [InlineData(11, 12, "12/0011 (Gregorian)")]
-    [InlineData(111, 3, "03/0111 (Gregorian)")]
-    [InlineData(2019, 1, "01/2019 (Gregorian)")]
-    [InlineData(9999, 12, "12/9999 (Gregorian)")]
-    public void ToString_InvariantCulture(int y, int m, string asString)
-    {
-        var cmonth = CalendarUT.GetCalendarMonth(y, m);
-        // Act & Assert
-        Assert.Equal(asString, cmonth.ToString());
     }
 }

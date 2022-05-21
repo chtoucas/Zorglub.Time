@@ -14,11 +14,7 @@ public sealed partial class CalendarYearTests : GregorianOnlyTesting
     public CalendarYearTests() : base(GregorianCalendar.Instance) { }
 
     public static DataGroup<YemodaPairAnd<int>> AddYearsData => DataSet.AddYearsData;
-}
 
-// Construction.
-public partial class CalendarYearTests
-{
     //[Theory, MemberData(nameof(SampleMonths))]
     //public void Constructor_WithMonth(int y, int m, int _3, int _4, bool _5)
     //{
@@ -51,10 +47,20 @@ public partial class CalendarYearTests
     //    // Assert
     //    Assert.Equal(cyear, actual);
     //}
+
+    //[Theory, MemberData(nameof(SampleDates))]
+    //public void GetOrdinalDate(int y, int _2, int _3, int doy, bool _5, bool _6)
+    //{
+    //    var cyear = CalendarUT.NewCalendarYear(y);
+    //    var ordate = CalendarUT.NewOrdinalDate(y, doy);
+    //    // Act
+    //    var actual = cyear.GetOrdinalDate(doy);
+    //    // Assert
+    //    Assert.Equal(ordate, actual);
+    //}
 }
 
-// Methods.
-public partial class CalendarYearTests
+public partial class CalendarYearTests // Range stuff
 {
     [Fact]
     public void WithCalendar_InvalidCalendar()
@@ -76,21 +82,6 @@ public partial class CalendarYearTests
         Assert.Equal(range, actual);
     }
 
-    //[Theory, MemberData(nameof(SampleDates))]
-    //public void GetOrdinalDate(int y, int _2, int _3, int doy, bool _5, bool _6)
-    //{
-    //    var cyear = CalendarUT.NewCalendarYear(y);
-    //    var ordate = CalendarUT.NewOrdinalDate(y, doy);
-    //    // Act
-    //    var actual = cyear.GetOrdinalDate(doy);
-    //    // Assert
-    //    Assert.Equal(ordate, actual);
-    //}
-}
-
-// Range stuff.
-public partial class CalendarYearTests
-{
     [Theory, MemberData(nameof(YearInfoData))]
     public void ToDateRange(YearInfo info)
     {
@@ -238,8 +229,7 @@ public partial class CalendarYearTests
     #endregion
 }
 
-// Math ops: PlusYears(), CountYearsSince(), NextYear(), PreviousYear().
-public partial class CalendarYearTests
+public partial class CalendarYearTests // Math ops
 {
     [Fact]
     public void PlusYears_OverflowOrUnderflow()
@@ -306,15 +296,6 @@ public partial class CalendarYearTests
         Assert.Equal(-years, min.CountYearsSince(max));
     }
 
-    [Fact]
-    public void CountYearsSince_InvalidYear()
-    {
-        var left = CalendarUT.GetCalendarYear(3);
-        var right = s_Julian.GetCalendarYear(3);
-        // Act & Assert
-        Assert.Throws<ArgumentException>("other", () => left - right);
-    }
-
     // TODO: (MATH) CountYearsSince(), itou avec CalendarMonthTests().
     // Utiliser aussi les données DiffCutoff (idem avec PlusYears).
     // Revoir tous les tests des "math ops" pour les objets calendaires.
@@ -357,24 +338,5 @@ public partial class CalendarYearTests
         var min = CalendarUT.GetCalendarYear(CalendarUT.Scope.SupportedYears.Min);
         Assert.Overflows(() => min.PreviousYear());
         Assert.Overflows(() => min--);
-    }
-}
-
-// Formatting.
-public partial class CalendarYearTests
-{
-    [Theory]
-    [InlineData(-1, "-0001 (Gregorian)")]
-    [InlineData(0, "0000 (Gregorian)")]
-    [InlineData(1, "0001 (Gregorian)")]
-    [InlineData(11, "0011 (Gregorian)")]
-    [InlineData(111, "0111 (Gregorian)")]
-    [InlineData(2019, "2019 (Gregorian)")]
-    [InlineData(9999, "9999 (Gregorian)")]
-    public void ToString_InvariantCulture(int y, string asString)
-    {
-        var cyear = CalendarUT.GetCalendarYear(y);
-        // Act & Assert
-        Assert.Equal(asString, cyear.ToString());
     }
 }

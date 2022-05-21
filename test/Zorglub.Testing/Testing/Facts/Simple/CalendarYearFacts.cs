@@ -144,6 +144,7 @@ public partial class CalendarYearFacts<TDataSet> // Calendar mismatch
         var other = OtherCalendar.GetCalendarYear(1);
         // Act & Assert
         Assert.Throws<ArgumentException>("other", () => year.CountYearsSince(other));
+        Assert.Throws<ArgumentException>("other", () => year - other);
     }
 }
 
