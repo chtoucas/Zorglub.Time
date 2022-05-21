@@ -34,7 +34,7 @@ public partial class IAdjustableDateFacts<TDate, TDataSet> // WithYear()
     {
         var date = CreateDate(1, 1, 1);
         // Act & Assert
-        SupportedYearsTester.TestInvalidYear(y => date.WithYear(y), "newYear");
+        SupportedYearsTester.TestInvalidYear(date.WithYear, "newYear");
     }
 
     [Theory, MemberData(nameof(InvalidYearAdjustementData))]

@@ -228,7 +228,7 @@ module PaxCase =
     let weekInfoData = PaxDataSet.WeekInfoData
 
     [<Fact>]
-    let FirstDayOfWeek_Prop() =
+    let ``Property FirstDayOfWeek`` () =
         sch.FirstDayOfWeek === DayOfWeek.Sunday
 
     [<Theory; MemberData(nameof(moreYearInfoData))>]
