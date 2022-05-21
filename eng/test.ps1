@@ -110,12 +110,6 @@ try {
     & dotnet test $TestProject $args
         || die 'Failed to run the test suite.'
 }
-catch {
-    say $_ -Foreground Red
-    say $_.Exception
-    say $_.ScriptStackTrace
-    exit 1
-}
 finally {
     popd
 }

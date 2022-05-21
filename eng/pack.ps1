@@ -21,12 +21,6 @@ try {
         /p:PrintSettings=true
         || die 'Failed to pack the project.'
 }
-catch {
-    say $_ -Foreground Red
-    say $_.Exception
-    say $_.ScriptStackTrace
-    exit 1
-}
 finally {
     popd
 }
