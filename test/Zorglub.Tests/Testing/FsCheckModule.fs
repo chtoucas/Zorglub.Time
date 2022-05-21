@@ -95,6 +95,16 @@ module DomainArbitraries =
         // but it's useless since Ord.MaxAlgebraicValue is equal to Int32.MaxValue.
         |> Arb.filter (fun i -> i >= Ord.MinAlgebraicValue)
 
+    /// Arbitrary for the "daysSinceZero" of a DayNumber64.
+    let daysSinceZero64 =
+        Arb.Default.Int64()
+        |> Arb.filter (fun i -> DayNumber64.MinDaysSinceZero <= i && i <= DayNumber64.MaxDaysSinceZero)
+
+    /// Arbitrary for the algebraic value of an Ord.
+    let algebraicOrd64 =
+        Arb.Default.Int64()
+        |> Arb.filter (fun i -> i >= Ord64.MinAlgebraicValue)
+
 /// Global arbitraries.
 [<Sealed>]
 type GlobalArbitraries =
@@ -117,10 +127,20 @@ type GlobalArbitraries =
         DomainArbitraries.daysSinceZero
         |> Arb.convert (fun i -> DayNumber.Zero + i) (fun x -> x - DayNumber.Zero)
 
+    /// Gets an arbitrary for DayNumber64.
+    static member GetDayNumber64Arbitrary() =
+        DomainArbitraries.daysSinceZero64
+        |> Arb.convert (fun i -> DayNumber64.Zero + i) (fun x -> x - DayNumber64.Zero)
+
     /// Gets an arbitrary for Ord.
     static member GetOrdArbitrary() =
         DomainArbitraries.algebraicOrd
         |> Arb.convert Ord.FromInt32 int
+
+    /// Gets an arbitrary for Ord64.
+    static member GetOrd64Arbitrary() =
+        DomainArbitraries.algebraicOrd64
+        |> Arb.convert Ord64.FromInt64 int64
 
     /// Gets an arbitrary for DateParts.
     static member GetDatePartsArbitrary() =
