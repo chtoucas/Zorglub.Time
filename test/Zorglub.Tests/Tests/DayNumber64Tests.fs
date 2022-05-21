@@ -16,8 +16,9 @@ open Xunit
 open FsCheck
 open FsCheck.Xunit
 
-// SYNC WITH DayNumberTests.
-// See DayNumberTests for explanations.
+// SYNC WITH DayNumberTests; see there for explanations.
+// We use the exact same code but adapted to DayNumber64.
+// When a test is too different from the one in DayNumberTests, we push it to Postlude.
 
 module TestCommon =
     let xynArbitrary =
@@ -33,12 +34,13 @@ module TestCommon =
         override x.ToString() = x.Value.ToString()
         static member op_Explicit (x: DaysSinceZero64) = x.Value
 
-    //[<Sealed>]
-    //type Arbitraries =
-    //    static member GetDaysSinceZeroArbitrary() =
-    //        DomainArbitraries.daysSinceZero64
-    //        |> Arb.convert (fun i -> { DaysSinceZero64.Value = i }) int64
+    [<Sealed>]
+    type Arbitraries =
+        static member GetDaysSinceZero64Arbitrary() =
+            DomainArbitraries.daysSinceZero64
+            |> Arb.convert (fun i -> { DaysSinceZero64.Value = i }) int64
 
+[<Properties(Arbitrary = [| typeof<TestCommon.Arbitraries> |] )>]
 module Prelude =
     open TestCommon
 
@@ -47,8 +49,6 @@ module Prelude =
     [<Fact>]
     let ``Default value`` () =
         Unchecked.defaultof<DayNumber64> === DayNumber64.Zero
-
-    // NB: the constructor is private.
 
     [<Property>]
     let ``ToString() returns the string representation of DaysSinceZero using the current culture`` (i: DaysSinceZero64) =
@@ -96,27 +96,7 @@ module Prelude =
     //
     // Properties of DayZero64
     //
-
-    [<Fact>]
-    let ``Static property DayZero64.NewStyle`` () =
-        DayZero64.NewStyle === DayNumber64.Zero
-        DayZero64.NewStyle.Ordinal === Ord64.First
-
-        DayZero64.NewStyle === DayNumber64.FromDayNumber DayZero.NewStyle
-
-    [<Fact>]
-    let ``Static property DayZero64.OldStyle`` () =
-        DayZero64.OldStyle === DayNumber64.Zero - 2L
-        DayZero64.OldStyle.Ordinal === Ord64.First - 2L
-
-        DayZero64.OldStyle === DayNumber64.FromDayNumber DayZero.OldStyle
-
-    [<Fact>]
-    let ``Static property DayZero64.RataDie`` () =
-        DayZero64.RataDie === DayNumber64.Zero - 1L
-        DayZero64.RataDie.Ordinal === Ord64.First - 1L
-
-        DayZero64.RataDie === DayNumber64.FromDayNumber DayZero.RataDie
+    // See Postlude.
 
 // TODO(code): tests from DayNumber.
 // module Factories
@@ -126,6 +106,7 @@ module Prelude =
 // module DayOfWeekAdjustment
 // module DayOfWeekAdjustment2
 
+[<Properties(Arbitrary = [| typeof<TestCommon.Arbitraries> |] )>]
 module Equality =
     open NonStructuralComparison
     open TestCommon
@@ -250,7 +231,6 @@ module Math =
     // DayNumber64.Zero
     //
 
-    // NB: DayNumber64.MaxDaysSinceZero = Int64.MaxValue - 1
     [<Fact>]
     let ``DayNumber64.Zero + Int64.MaxValue overflows`` () =
         (fun () -> DayNumber64.Zero + Int64.MaxValue)         |> overflows
@@ -379,6 +359,33 @@ module Math =
         .&. (x.CountDaysSince(y) = -n)
 
 module Postlude =
+    //
+    // Custom version of tests found in DayNumberTests
+    //
+
+    [<Fact>]
+    let ``Static property DayZero64.NewStyle`` () =
+        DayZero64.NewStyle === DayNumber64.Zero
+        DayZero64.NewStyle.Ordinal === Ord64.First
+
+        DayZero64.NewStyle === DayNumber64.FromDayNumber DayZero.NewStyle
+
+    [<Fact>]
+    let ``Static property DayZero64.OldStyle`` () =
+        DayZero64.OldStyle === DayNumber64.Zero - 2L
+        DayZero64.OldStyle.Ordinal === Ord64.First - 2L
+
+        DayZero64.OldStyle === DayNumber64.FromDayNumber DayZero.OldStyle
+
+    [<Fact>]
+    let ``Static property DayZero64.RataDie`` () =
+        DayZero64.RataDie === DayNumber64.Zero - 1L
+        DayZero64.RataDie.Ordinal === Ord64.First - 1L
+
+    //
+    // Tests not found in DayNumberTests
+    //
+
     [<Fact>]
     let ``Age of the universe`` () =
         // ~14 billion Julian years.
@@ -386,6 +393,12 @@ module Postlude =
         let dayNumber = DayNumber64.FromJulianParts(aof, 1, 1)
 
         dayNumber.DaysSinceZero === -5_113_500_000_002L
+
+        DayZero64.RataDie === DayNumber64.FromDayNumber DayZero.RataDie
+
+    //
+    // Postlude for real
+    //
 
     /// Compare the core properties.
     let rec private compareTypes (dayNumber: DayNumber64) (date: CivilDate) =

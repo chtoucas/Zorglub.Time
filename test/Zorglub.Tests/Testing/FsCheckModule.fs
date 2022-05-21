@@ -88,6 +88,11 @@ module DomainArbitraries =
         Arb.Default.Int32()
         |> Arb.filter (fun i -> DayNumber.MinDaysSinceZero <= i && i <= DayNumber.MaxDaysSinceZero)
 
+    /// Arbitrary for the "daysSinceZero" of a DayNumber64.
+    let daysSinceZero64 =
+        Arb.Default.Int64()
+        |> Arb.filter (fun i -> DayNumber64.MinDaysSinceZero <= i && i <= DayNumber64.MaxDaysSinceZero)
+
     /// Arbitrary for the algebraic value of an Ord.
     let algebraicOrd =
         Arb.Default.Int32()
@@ -95,12 +100,7 @@ module DomainArbitraries =
         // but it's useless since Ord.MaxAlgebraicValue is equal to Int32.MaxValue.
         |> Arb.filter (fun i -> i >= Ord.MinAlgebraicValue)
 
-    /// Arbitrary for the "daysSinceZero" of a DayNumber64.
-    let daysSinceZero64 =
-        Arb.Default.Int64()
-        |> Arb.filter (fun i -> DayNumber64.MinDaysSinceZero <= i && i <= DayNumber64.MaxDaysSinceZero)
-
-    /// Arbitrary for the algebraic value of an Ord.
+    /// Arbitrary for the algebraic value of an Ord64.
     let algebraicOrd64 =
         Arb.Default.Int64()
         |> Arb.filter (fun i -> i >= Ord64.MinAlgebraicValue)

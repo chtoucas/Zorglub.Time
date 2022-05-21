@@ -44,7 +44,7 @@ module TestCommon =
             |> Arb.convert (fun i -> { Position.Value = i }) int
 
         /// Gets an arbitrary for the algebraic value of an Ord.
-        static member GetAlgebraicValueArbitrary2() =
+        static member GetAlgebraicValueArbitrary() =
             DomainArbitraries.algebraicOrd
             |> Arb.convert (fun i -> { AlgebraicValue.Value = i }) int
 
