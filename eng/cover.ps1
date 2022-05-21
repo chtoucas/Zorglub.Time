@@ -51,15 +51,17 @@ try {
     $assemblyName = 'Zorglub.Time'
     $format   = 'opencover'
 
-    $outDir   = Join-Path $ArtifactsDir "tests-Zorglub-$configuration\".ToLowerInvariant()
+    $outName  = "tests-Zorglub-$configuration"
+    if ($Smoke) { $outName += "-smoke" }
+    $outDir   = Join-Path $ArtifactsDir $outName.ToLowerInvariant()
     $output   = Join-Path $outDir "$format.xml"
     $rgInput  = Join-Path $outDir "$format.*xml"
     $rgOutput = Join-Path $outDir 'html'
     # Filters: https://github.com/Microsoft/vstest-docs/blob/main/docs/filter.md
     $includes = @("[$assemblyName]*")
     $excludes = @("[$assemblyName]System.*")
-    $include = '"' + ($includes -join '%2c') + '"'
-    $exclude = '"' + ($excludes -join '%2c') + '"'
+    $include  = '"' + ($includes -join '%2c') + '"'
+    $exclude  = '"' + ($excludes -join '%2c') + '"'
 
     $args = @("-c:$Configuration")
 
