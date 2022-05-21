@@ -45,6 +45,8 @@ public static class WideCatalogTests
     }
 
 #if false
+
+#if false
     // Si on doit revenir en arrière, ne pas oublier de remplacer dans le projet
     // tous les appels à ArmenianCalendar.Instance par CalendarCatalogTests.Armenian.
     // Idem avec CopticCalendar.
@@ -406,4 +408,6 @@ public static class WideCatalogTests
                 return chr;
             };
     }
+
+#endif
 }
