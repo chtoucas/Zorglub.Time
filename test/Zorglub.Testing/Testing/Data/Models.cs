@@ -38,6 +38,8 @@ namespace Zorglub.Testing.Data;
 
 #endregion
 
+#region YearDayXXX
+
 public readonly record struct YearDaysSinceEpoch(int Year, int DaysSinceEpoch)
 {
     [Pure]
@@ -46,6 +48,7 @@ public readonly record struct YearDaysSinceEpoch(int Year, int DaysSinceEpoch)
 
 public readonly record struct YearDayNumber(int Year, DayNumber DayNumber);
 
+#endregion
 #region DaySinceXXXInfo and DayNumberInfo
 
 public readonly record struct DaysSinceEpochInfo(int DaysSinceEpoch, Yemoda Yemoda)
@@ -250,6 +253,15 @@ public readonly record struct YemoAnd<T1, T2>(Yemo Yemo, T1 Value1, T2 Value2)
 public readonly record struct YemodaPair(Yemoda First, Yemoda Second);
 
 public readonly record struct YemodaPairAnd<T>(Yemoda First, Yemoda Second, T Value) where T : struct;
+
+public readonly record struct YearAnd<T>(int Year, T Value) where T : struct
+{
+    public void Deconstruct(out int y, out T value)
+    {
+        y = Year;
+        value = Value;
+    }
+}
 
 #endregion
 #region Math models

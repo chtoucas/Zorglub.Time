@@ -232,7 +232,9 @@ module PaxCase =
         sch.FirstDayOfWeek === DayOfWeek.Sunday
 
     [<Theory; MemberData(nameof(moreYearInfoData))>]
-    let CountWeeksInYear y weeksInYear =
+    let CountWeeksInYear (info: YearAnd<int>) =
+        let y, weeksInYear = info.Deconstruct()
+
         sch.CountWeeksInYear(y) === weeksInYear
 
     [<Theory; MemberData(nameof(moreMonthInfoData))>]

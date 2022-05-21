@@ -7,9 +7,6 @@ using System.Collections;
 using System.Linq;
 
 // TODO(data): use DataGroup. Filter matching data in Bounded.
-// - PaxDataSet
-// - PaxCalendarDataSet
-// - WorldDataSet
 // See which optional/supplementary data should be lazy and explain why.
 // Explain when to use ToXunitData(): never... except within the "DataConsumer"
 // base classes.

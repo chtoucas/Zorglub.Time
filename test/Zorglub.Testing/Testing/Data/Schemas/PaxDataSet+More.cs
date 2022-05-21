@@ -9,10 +9,10 @@ public partial class PaxDataSet // Supplementary data
         DataGroup.Create(DaysSinceEpochYewedeInfos);
 
     /// <summary>Year, weeks in year.</summary>
-    public static TheoryData<int, int> MoreYearInfoData { get; } = new()
+    public static DataGroup<YearAnd<int>> MoreYearInfoData { get; } = new()
     {
-        { CommonYear, 52 },
-        { LeapYear, 53 },
+        new(CommonYear, 52),
+        new(LeapYear, 53),
     };
 
     /// <summary>Year, month of the year (Yemo), isPaxMonth, isLastMonthOfYear.</summary>
