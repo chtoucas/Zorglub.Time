@@ -27,6 +27,6 @@ public sealed class UnboundedPaxDataSet : UnboundedCalendarDataSet<PaxDataSet>, 
     public override DataGroup<DayNumberInfo> DayNumberInfoData { get; } =
         DataGroup.CreateDayNumberInfoData(PaxDataSet.DaysSinceEpochInfos, s_Epoch);
 
-    public static DataGroup<DayNumberYewedeInfo> DayNumberYewedeInfoData { get; } =
-        DataGroup.CreateDayNumberYewedeInfo(PaxDataSet.DaysSinceEpochYewedeInfos, s_Epoch);
+    public static DataGroup<DayNumberYewedaInfo> DayNumberYewedaInfoData { get; } =
+        DataGroup.CreateDayNumberYewedaInfo(PaxDataSet.DaysSinceEpochYewedaInfos, s_Epoch);
 }

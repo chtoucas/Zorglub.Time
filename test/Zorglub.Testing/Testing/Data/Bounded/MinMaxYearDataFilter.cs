@@ -24,8 +24,8 @@ public sealed class MinMaxYearDataFilter : IDataFilter
     public bool Filter(DaysSinceEpochInfo x) => SupportedYears.Contains(x.Yemoda.Year);
     public bool Filter(DayNumberInfo x) => SupportedYears.Contains(x.Yemoda.Year);
 
-    public bool Filter(DaysSinceEpochYewedeInfo x) => SupportedYears.Contains(x.Yewe.Year);
-    public bool Filter(DayNumberYewedeInfo x) => SupportedYears.Contains(x.Yewe.Year);
+    public bool Filter(DaysSinceEpochYewedaInfo x) => SupportedYears.Contains(x.Yewe.Year);
+    public bool Filter(DayNumberYewedaInfo x) => SupportedYears.Contains(x.Yewe.Year);
 
     public bool Filter(DateInfo x) => SupportedYears.Contains(x.Yemoda.Year);
     public bool Filter(MonthInfo x) => SupportedYears.Contains(x.Yemo.Year);

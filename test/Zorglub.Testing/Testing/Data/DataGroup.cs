@@ -92,14 +92,14 @@ public static class DataGroup
     }
 
     //
-    // CreateDayNumberYewedeInfo()
+    // CreateDayNumberYewedaInfo()
     //
 
     [Pure]
-    public static DataGroup<DayNumberYewedeInfo> CreateDayNumberYewedeInfo(
-        IEnumerable<DaysSinceEpochYewedeInfo> source, DayNumber epoch)
+    public static DataGroup<DayNumberYewedaInfo> CreateDayNumberYewedaInfo(
+        IEnumerable<DaysSinceEpochYewedaInfo> source, DayNumber epoch)
     {
-        var q = from x in source select x.ToDayNumberYewedeInfo(epoch);
+        var q = from x in source select x.ToDayNumberYewedaInfo(epoch);
         return Create(q);
     }
 

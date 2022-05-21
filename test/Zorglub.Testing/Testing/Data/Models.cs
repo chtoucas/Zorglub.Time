@@ -118,10 +118,10 @@ public readonly record struct DayNumberInfo(DayNumber DayNumber, Yemoda Yemoda)
 #pragma warning restore CA2225
 }
 
-// TODO(data): use Yeweda, does not exist yet... idem with DayNumberYewedeInfo
-public readonly record struct DaysSinceEpochYewedeInfo(int DaysSinceEpoch, Yewe Yewe, DayOfWeek DayOfWeek)
+// TODO(data): use Yeweda, does not exist yet... idem with DayNumberYewedaInfo
+public readonly record struct DaysSinceEpochYewedaInfo(int DaysSinceEpoch, Yewe Yewe, DayOfWeek DayOfWeek)
 {
-    public DaysSinceEpochYewedeInfo(int daysSinceEpoch, int y, int woy, DayOfWeek dow)
+    public DaysSinceEpochYewedaInfo(int daysSinceEpoch, int y, int woy, DayOfWeek dow)
         : this(daysSinceEpoch, new Yewe(y, woy), dow) { }
 
     public void Deconstruct(out int daysSinceEpoch, out int y, out int woy, out DayOfWeek dow)
@@ -132,13 +132,13 @@ public readonly record struct DaysSinceEpochYewedeInfo(int DaysSinceEpoch, Yewe 
     }
 
     [Pure]
-    public DayNumberYewedeInfo ToDayNumberYewedeInfo(DayNumber epoch) =>
+    public DayNumberYewedaInfo ToDayNumberYewedaInfo(DayNumber epoch) =>
         new(epoch + DaysSinceEpoch, Yewe, DayOfWeek);
 }
 
-public readonly record struct DayNumberYewedeInfo(DayNumber DayNumber, Yewe Yewe, DayOfWeek DayOfWeek)
+public readonly record struct DayNumberYewedaInfo(DayNumber DayNumber, Yewe Yewe, DayOfWeek DayOfWeek)
 {
-    public DayNumberYewedeInfo(DayNumber dayNumber, int y, int woy, DayOfWeek dow)
+    public DayNumberYewedaInfo(DayNumber dayNumber, int y, int woy, DayOfWeek dow)
         : this(dayNumber, new Yewe(y, woy), dow) { }
 
     public void Deconstruct(out DayNumber dayNumber, out int y, out int woy, out DayOfWeek dow)

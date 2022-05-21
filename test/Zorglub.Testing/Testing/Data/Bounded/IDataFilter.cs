@@ -18,8 +18,8 @@ public interface IDataFilter
     bool Filter(DaysSinceEpochInfo x);
     bool Filter(DayNumberInfo x);
 
-    bool Filter(DaysSinceEpochYewedeInfo x);
-    bool Filter(DayNumberYewedeInfo x);
+    bool Filter(DaysSinceEpochYewedaInfo x);
+    bool Filter(DayNumberYewedaInfo x);
 
     bool Filter(DateInfo x);
     bool Filter(MonthInfo x);

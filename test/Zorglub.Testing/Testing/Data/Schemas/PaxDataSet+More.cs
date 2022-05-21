@@ -5,8 +5,8 @@ namespace Zorglub.Testing.Data.Schemas;
 
 public partial class PaxDataSet // Supplementary data
 {
-    public static DataGroup<DaysSinceEpochYewedeInfo> DaysSinceEpochYewedeInfoData { get; } =
-        DataGroup.Create(DaysSinceEpochYewedeInfos);
+    public static DataGroup<DaysSinceEpochYewedaInfo> DaysSinceEpochYewedaInfoData { get; } =
+        DataGroup.Create(DaysSinceEpochYewedaInfos);
 
     /// <summary>Year, weeks in year.</summary>
     public static DataGroup<YearAnd<int>> MoreYearInfoData { get; } = new()
@@ -77,7 +77,7 @@ public partial class PaxDataSet // Supplementary data
         { LeapYear, 54 },
     };
 
-    internal static IEnumerable<DaysSinceEpochYewedeInfo> DaysSinceEpochYewedeInfos
+    internal static IEnumerable<DaysSinceEpochYewedaInfo> DaysSinceEpochYewedaInfos
     {
         get
         {

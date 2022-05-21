@@ -222,7 +222,7 @@ module GregorianCase =
 module PaxCase =
     let private sch = schemaOf<PaxSchema>()
 
-    let daysSinceEpochYewedeInfoData = PaxDataSet.DaysSinceEpochYewedeInfoData
+    let daysSinceEpochYewedaInfoData = PaxDataSet.DaysSinceEpochYewedaInfoData
     let moreYearInfoData = PaxDataSet.MoreYearInfoData
     let moreMonthInfoData = PaxDataSet.MoreMonthInfoData
     let weekInfoData = PaxDataSet.WeekInfoData
@@ -255,14 +255,14 @@ module PaxCase =
 
         sch.IsIntercalaryWeek(y, woy) === info.IsIntercalary
 
-    [<Theory; MemberData(nameof(daysSinceEpochYewedeInfoData))>]
-    let CountDaysSinceEpoch﹍WeekdateParts (info: DaysSinceEpochYewedeInfo) =
+    [<Theory; MemberData(nameof(daysSinceEpochYewedaInfoData))>]
+    let CountDaysSinceEpoch﹍WeekdateParts (info: DaysSinceEpochYewedaInfo) =
         let daysSinceEpoch, y, woy, dow = info.Deconstruct()
 
         sch.CountDaysSinceEpoch(y, woy, dow) === daysSinceEpoch
 
-    [<Theory; MemberData(nameof(daysSinceEpochYewedeInfoData))>]
-    let GetWeekdateParts (info: DaysSinceEpochYewedeInfo) =
+    [<Theory; MemberData(nameof(daysSinceEpochYewedaInfoData))>]
+    let GetWeekdateParts (info: DaysSinceEpochYewedaInfo) =
         throws<NotImplementedException> (fun () -> sch.GetWeekdateParts(info.DaysSinceEpoch))
 
 module TropicalistaCase =
