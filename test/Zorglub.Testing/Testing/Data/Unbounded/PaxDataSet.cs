@@ -27,19 +27,6 @@ public sealed class UnboundedPaxDataSet : UnboundedCalendarDataSet<PaxDataSet>, 
     public override DataGroup<DayNumberInfo> DayNumberInfoData { get; } =
         DataGroup.CreateDayNumberInfoData(PaxDataSet.DaysSinceEpochInfos, s_Epoch);
 
-    /// <summary>Day number, year, week of the year, day of the week.</summary>
-    public static TheoryData<DayNumber, int, int, DayOfWeek> MoreDayNumberInfoData { get; } =
-        MapToTheoryData(PaxDataSet.MoreDaySinceEpochInfos, s_Epoch);
-
-    [Pure]
-    private static TheoryData<DayNumber, int, int, DayOfWeek> MapToTheoryData(
-        IEnumerable<(int DaysSinceEpoch, int Year, int WeekOfYear, DayOfWeek DayOfWeek)> source, DayNumber epoch)
-    {
-        var data = new TheoryData<DayNumber, int, int, DayOfWeek>();
-        foreach (var (daysSinceEpoch, y, woy, dayOfWeek) in source)
-        {
-            data.Add(epoch + daysSinceEpoch, y, woy, dayOfWeek);
-        }
-        return data;
-    }
+    public static DataGroup<DayNumberYewedeInfo> DayNumberYewedeInfoData { get; } =
+        DataGroup.CreateDayNumberYewedeInfo(PaxDataSet.DaysSinceEpochYewedeInfos, s_Epoch);
 }

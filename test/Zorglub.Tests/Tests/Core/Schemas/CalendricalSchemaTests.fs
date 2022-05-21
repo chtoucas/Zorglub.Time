@@ -222,7 +222,7 @@ module GregorianCase =
 module PaxCase =
     let private sch = schemaOf<PaxSchema>()
 
-    let moreDaySinceEpochInfoData = PaxDataSet.MoreDaySinceEpochInfoData
+    let daysSinceEpochYewedeInfoData = PaxDataSet.DaysSinceEpochYewedeInfoData
     let moreYearInfoData = PaxDataSet.MoreYearInfoData
     let moreMonthInfoData = PaxDataSet.MoreMonthInfoData
     let weekInfoData = PaxDataSet.WeekInfoData
@@ -230,6 +230,10 @@ module PaxCase =
     [<Fact>]
     let FirstDayOfWeek_Prop() =
         sch.FirstDayOfWeek === DayOfWeek.Sunday
+
+    [<Theory; MemberData(nameof(moreYearInfoData))>]
+    let CountWeeksInYear y weeksInYear =
+        sch.CountWeeksInYear(y) === weeksInYear
 
     [<Theory; MemberData(nameof(moreMonthInfoData))>]
     let IsPaxMonth (info: YemoAnd<bool, bool>) =
@@ -244,22 +248,20 @@ module PaxCase =
         sch.IsLastMonthOfYear(y, m) === isLastMonthOfYear
 
     [<Theory; MemberData(nameof(weekInfoData))>]
-    let IsIntercalaryWeek (info: YeweAnd<bool>) =
-        let y, woy, isIntercalary = info.Deconstruct()
+    let IsIntercalaryWeek (info: WeekInfo) =
+        let y, woy = info.Yewe.Deconstruct()
 
-        sch.IsIntercalaryWeek(y, woy) === isIntercalary
+        sch.IsIntercalaryWeek(y, woy) === info.IsIntercalary
 
-    [<Theory; MemberData(nameof(moreYearInfoData))>]
-    let CountWeeksInYear y weeksInYear =
-        sch.CountWeeksInYear(y) === weeksInYear
+    [<Theory; MemberData(nameof(daysSinceEpochYewedeInfoData))>]
+    let CountDaysSinceEpoch﹍WeekdateParts (info: DaysSinceEpochYewedeInfo) =
+        let daysSinceEpoch, y, woy, dow = info.Deconstruct()
 
-    [<Theory; MemberData(nameof(moreDaySinceEpochInfoData))>]
-    let CountDaysSinceEpoch﹍WeekdateParts daysSinceEpoch y woy (dow: DayOfWeek) =
         sch.CountDaysSinceEpoch(y, woy, dow) === daysSinceEpoch
 
-    [<Theory; MemberData(nameof(moreDaySinceEpochInfoData))>]
-    let GetWeekdateParts daysSinceEpoch _ _ _ =
-        throws<NotImplementedException> (fun () -> sch.GetWeekdateParts(daysSinceEpoch))
+    [<Theory; MemberData(nameof(daysSinceEpochYewedeInfoData))>]
+    let GetWeekdateParts (info: DaysSinceEpochYewedeInfo) =
+        throws<NotImplementedException> (fun () -> sch.GetWeekdateParts(info.DaysSinceEpoch))
 
 module TropicalistaCase =
     let private dataSet = TropicaliaDataSet.Instance

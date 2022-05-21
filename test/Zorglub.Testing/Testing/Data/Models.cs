@@ -115,8 +115,39 @@ public readonly record struct DayNumberInfo(DayNumber DayNumber, Yemoda Yemoda)
 #pragma warning restore CA2225
 }
 
+// TODO(data): use Yeweda, does not exist yet... idem with DayNumberYewedeInfo
+public readonly record struct DaysSinceEpochYewedeInfo(int DaysSinceEpoch, Yewe Yewe, DayOfWeek DayOfWeek)
+{
+    public DaysSinceEpochYewedeInfo(int daysSinceEpoch, int y, int woy, DayOfWeek dow)
+        : this(daysSinceEpoch, new Yewe(y, woy), dow) { }
+
+    public void Deconstruct(out int daysSinceEpoch, out int y, out int woy, out DayOfWeek dow)
+    {
+        daysSinceEpoch = DaysSinceEpoch;
+        (y, woy) = Yewe;
+        dow = DayOfWeek;
+    }
+
+    [Pure]
+    public DayNumberYewedeInfo ToDayNumberYewedeInfo(DayNumber epoch) =>
+        new(epoch + DaysSinceEpoch, Yewe, DayOfWeek);
+}
+
+public readonly record struct DayNumberYewedeInfo(DayNumber DayNumber, Yewe Yewe, DayOfWeek DayOfWeek)
+{
+    public DayNumberYewedeInfo(DayNumber dayNumber, int y, int woy, DayOfWeek dow)
+        : this(dayNumber, new Yewe(y, woy), dow) { }
+
+    public void Deconstruct(out DayNumber dayNumber, out int y, out int woy, out DayOfWeek dow)
+    {
+        dayNumber = DayNumber;
+        (y, woy) = Yewe;
+        dow = DayOfWeek;
+    }
+}
+
 #endregion
-#region DateInfo, MonthInfo, etc.
+#region DateInfo, MonthInfo, etc
 
 // It would have been nice to include DaysInYearAfterDate and DaysInMonthAfterDate
 // but then the type would have been too big to be a struct.
@@ -151,6 +182,12 @@ public readonly record struct DateInfo
     }
 }
 
+public readonly record struct WeekInfo(Yewe Yewe, bool IsIntercalary)
+{
+    public WeekInfo(int y, int woy, bool isIntercalary)
+        : this(new Yewe(y, woy), isIntercalary) { }
+}
+
 public readonly record struct MonthInfo(
     Yemo Yemo, byte DaysInMonth, ushort DaysInYearBeforeMonth, ushort DaysInYearAfterMonth, bool IsIntercalary)
 {
@@ -172,7 +209,7 @@ public readonly record struct MillenniumInfo(int Year, int Millennium, ushort Ye
 public readonly record struct DecadeOfCenturyInfo(int Year, int Century, byte DecadeOfCentury, byte YearOfDecade);
 
 #endregion
-#region YemodaAnd<T>, YemoAnd<T>, YemodaPair, YemodaPairAnd<T>
+#region YemodaAnd<T>, YemoAnd<T>, etc
 
 public readonly record struct YemodaAnd<T>(Yemoda Yemoda, T Value) where T : struct
 {
@@ -207,17 +244,6 @@ public readonly record struct YemoAnd<T1, T2>(Yemo Yemo, T1 Value1, T2 Value2)
         (y, m) = Yemo;
         value1 = Value1;
         value2 = Value2;
-    }
-}
-
-public readonly record struct YeweAnd<T>(Yewe Yemo, T Value) where T : struct
-{
-    public YeweAnd(int y, int woy, T value) : this(new Yewe(y, woy), value) { }
-
-    public void Deconstruct(out int y, out int woy, out T value)
-    {
-        (y, woy) = Yemo;
-        value = Value;
     }
 }
 

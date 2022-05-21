@@ -5,9 +5,8 @@ namespace Zorglub.Testing.Data.Schemas;
 
 public partial class PaxDataSet // Supplementary data
 {
-    /// <summary>DaysSinceEpoch, year, week of the year, day of the week.</summary>
-    public static TheoryData<int, int, int, DayOfWeek> MoreDaySinceEpochInfoData { get; } =
-        MapToTheoryData(MoreDaySinceEpochInfos);
+    public static DataGroup<DaysSinceEpochYewedeInfo> DaysSinceEpochYewedeInfoData { get; } =
+        DataGroup.Create(DaysSinceEpochYewedeInfos);
 
     /// <summary>Year, weeks in year.</summary>
     public static TheoryData<int, int> MoreYearInfoData { get; } = new()
@@ -50,8 +49,7 @@ public partial class PaxDataSet // Supplementary data
         new(LeapYear, 14, false, true),
     };
 
-    /// <summary>Year, week of the year (Yewe), isIntercalary.</summary>
-    public static DataGroup<YeweAnd<bool>> WeekInfoData { get; } = new()
+    public static DataGroup<WeekInfo> WeekInfoData { get; } = new()
     {
         // Common year.
         new(CommonYear, 1, false),
@@ -79,40 +77,27 @@ public partial class PaxDataSet // Supplementary data
         { LeapYear, 54 },
     };
 
-    /// <summary>Day number, year, week of the year, day of the week.</summary>
-    internal static IEnumerable<(int DaysSinceEpoch, int Year, int WeekOfYear, DayOfWeek DayOfWeek)> MoreDaySinceEpochInfos
+    internal static IEnumerable<DaysSinceEpochYewedeInfo> DaysSinceEpochYewedeInfos
     {
         get
         {
             // First week.
-            yield return (0, 1, 1, DayOfWeek.Sunday);
-            yield return (1, 1, 1, DayOfWeek.Monday);
-            yield return (2, 1, 1, DayOfWeek.Tuesday);
-            yield return (3, 1, 1, DayOfWeek.Wednesday);
-            yield return (4, 1, 1, DayOfWeek.Thursday);
-            yield return (5, 1, 1, DayOfWeek.Friday);
-            yield return (6, 1, 1, DayOfWeek.Saturday);
+            yield return new(0, 1, 1, DayOfWeek.Sunday);
+            yield return new(1, 1, 1, DayOfWeek.Monday);
+            yield return new(2, 1, 1, DayOfWeek.Tuesday);
+            yield return new(3, 1, 1, DayOfWeek.Wednesday);
+            yield return new(4, 1, 1, DayOfWeek.Thursday);
+            yield return new(5, 1, 1, DayOfWeek.Friday);
+            yield return new(6, 1, 1, DayOfWeek.Saturday);
             // Second week.
-            yield return (7, 1, 2, DayOfWeek.Sunday);
-            yield return (13, 1, 2, DayOfWeek.Saturday);
+            yield return new(7, 1, 2, DayOfWeek.Sunday);
+            yield return new(13, 1, 2, DayOfWeek.Saturday);
             // Last week of first year.
-            yield return (357, 1, 52, DayOfWeek.Sunday);
-            yield return (363, 1, 52, DayOfWeek.Saturday);
+            yield return new(357, 1, 52, DayOfWeek.Sunday);
+            yield return new(363, 1, 52, DayOfWeek.Saturday);
             // First week of second year.
-            yield return (364, 2, 1, DayOfWeek.Sunday);
-            yield return (370, 2, 1, DayOfWeek.Saturday);
+            yield return new(364, 2, 1, DayOfWeek.Sunday);
+            yield return new(370, 2, 1, DayOfWeek.Saturday);
         }
-    }
-
-    [Pure]
-    private static TheoryData<int, int, int, DayOfWeek> MapToTheoryData(
-        IEnumerable<(int DaysSinceEpoch, int Year, int WeekOfYear, DayOfWeek DayOfWeek)> source)
-    {
-        var data = new TheoryData<int, int, int, DayOfWeek>();
-        foreach (var (daysSinceEpoch, y, woy, dayOfWeek) in source)
-        {
-            data.Add(daysSinceEpoch, y, woy, dayOfWeek);
-        }
-        return data;
     }
 }

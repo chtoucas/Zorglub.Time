@@ -93,6 +93,19 @@ public static class DataGroup
         var q = from x in source select x.ToDayNumberInfo() + shift;
         return Create(q);
     }
+
+    //
+    // CreateDayNumberYewedeInfo()
+    //
+
+    [Pure]
+    public static DataGroup<DayNumberYewedeInfo> CreateDayNumberYewedeInfo(
+        IEnumerable<DaysSinceEpochYewedeInfo> source, DayNumber epoch)
+    {
+        var q = from x in source select x.ToDayNumberYewedeInfo(epoch);
+        return Create(q);
+    }
+
 }
 
 /// <summary>

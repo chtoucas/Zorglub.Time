@@ -129,6 +129,8 @@ module RuntimeSizes =
         Marshal.SizeOf(typedefof<DaysSinceZeroInfo>) === 8
         Marshal.SizeOf(typedefof<DaysSinceRataDieInfo>) === 8
         Marshal.SizeOf(typedefof<DayNumberInfo>) === 8
+        Marshal.SizeOf(typedefof<DaysSinceEpochYewedeInfo>) === 12
+        Marshal.SizeOf(typedefof<DayNumberYewedeInfo>) === 12
         Marshal.SizeOf(typedefof<DateInfo>) === 16
         Marshal.SizeOf(typedefof<MonthInfo>) === 16
         Marshal.SizeOf(typedefof<YearInfo>) === 12
@@ -140,7 +142,6 @@ module RuntimeSizes =
         sizeof<YemodaAnd<DayOfWeek>>() === 8
         sizeof<YemoAnd<int>>() === 8
         sizeof<YemoAnd<bool, bool>>() === 12
-        sizeof<YeweAnd<bool>>() === 8
         Marshal.SizeOf(typedefof<YemodaPair>) === 8
         sizeof<YemodaPairAnd<int>>() === 12
 
