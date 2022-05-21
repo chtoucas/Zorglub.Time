@@ -110,14 +110,18 @@ public static class DataGroup
 /// </summary>
 public sealed class DataGroup<T> : IReadOnlyCollection<object?[]>
 {
+    /// <summary>
+    /// Represents the container.
+    /// <para>This field is read-only.</para>
+    /// </summary>
     private readonly IContainer _container;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="DataGroup{T}"/> class.
+    /// Initializes a new <i>read-write</i> instance of the <see cref="DataGroup{T}"/> class.
     /// </summary>
     public DataGroup()
     {
-        _container = IContainer.Create();
+        _container = new Container();
     }
 
     /// <summary>
@@ -125,7 +129,15 @@ public sealed class DataGroup<T> : IReadOnlyCollection<object?[]>
     /// </summary>
     public DataGroup(IEnumerable<T> values)
     {
-        _container = IContainer.Create(values, readOnly: true);
+        _container = new ReadOnlyContainer(values);
+    }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="DataGroup{T}"/> class.
+    /// </summary>
+    private DataGroup(IContainer container)
+    {
+        _container = container;
     }
 
     public bool IsReadOnly => _container.IsReadOnly;
@@ -146,6 +158,10 @@ public sealed class DataGroup<T> : IReadOnlyCollection<object?[]>
 
         return DataGroup.Create(q);
     }
+
+    public DataGroup<T> AsReadOnly() => IsReadOnly ? this : new(new ReadOnlyContainer(_container.Values));
+
+    public DataGroup<T> AsReadWrite() => IsReadOnly ? new(new Container(_container.Values)) : this;
 
     public XunitData<T> ToXunitData()
     {
@@ -180,13 +196,11 @@ public sealed class DataGroup<T> : IReadOnlyCollection<object?[]>
         int Count();
 
         public IEnumerable<object?[]> ToEnumerable() => Values.Select(v => new object?[] { v });
-
-        public static IContainer Create() => new Container();
-
-        public static IContainer Create(IEnumerable<T> values, bool readOnly) =>
-            readOnly ? new ReadOnlyContainer(values) : new Container(values);
     }
 
+    /// <summary>
+    /// Represents a <i>read-write</i> container.
+    /// </summary>
     private sealed class Container : IContainer
     {
         private readonly List<T> _values;
@@ -198,7 +212,7 @@ public sealed class DataGroup<T> : IReadOnlyCollection<object?[]>
 
         public Container(IEnumerable<T> values)
         {
-            _values = new List<T>(values);
+            _values = values is List<T> l ? l : new List<T>(values);
         }
 
         public bool IsReadOnly => false;
@@ -210,6 +224,9 @@ public sealed class DataGroup<T> : IReadOnlyCollection<object?[]>
         public void Add(T v) => _values.Add(v);
     }
 
+    /// <summary>
+    /// Represents a <i>read-only</i> container.
+    /// </summary>
     private sealed class ReadOnlyContainer : IContainer
     {
         public ReadOnlyContainer(IEnumerable<T> values)
