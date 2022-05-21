@@ -17,57 +17,57 @@ public partial class PaxDataSet // Supplementary data
     };
 
     /// <summary>Year, month of the year (Yemo), isPaxMonth, isLastMonthOfYear.</summary>
-    public static TheoryData<int, int, bool, bool> MoreMonthInfoData { get; } = new()
+    public static DataGroup<YemoAnd<bool, bool>> MoreMonthInfoData { get; } = new()
     {
         // Common year.
-        { CommonYear, 1, false, false },
-        { CommonYear, 2, false, false },
-        { CommonYear, 3, false, false },
-        { CommonYear, 4, false, false },
-        { CommonYear, 5, false, false },
-        { CommonYear, 6, false, false },
-        { CommonYear, 7, false, false },
-        { CommonYear, 8, false, false },
-        { CommonYear, 9, false, false },
-        { CommonYear, 10, false, false },
-        { CommonYear, 11, false, false },
-        { CommonYear, 12, false, false },
-        { CommonYear, 13, false, true },
+        new(CommonYear, 1, false, false),
+        new(CommonYear, 2, false, false),
+        new(CommonYear, 3, false, false),
+        new(CommonYear, 4, false, false),
+        new(CommonYear, 5, false, false),
+        new(CommonYear, 6, false, false),
+        new(CommonYear, 7, false, false),
+        new(CommonYear, 8, false, false),
+        new(CommonYear, 9, false, false),
+        new(CommonYear, 10, false, false),
+        new(CommonYear, 11, false, false),
+        new(CommonYear, 12, false, false),
+        new(CommonYear, 13, false, true),
         // Leap year.
-        { LeapYear, 1, false, false },
-        { LeapYear, 2, false, false },
-        { LeapYear, 3, false, false },
-        { LeapYear, 4, false, false },
-        { LeapYear, 5, false, false },
-        { LeapYear, 6, false, false },
-        { LeapYear, 7, false, false },
-        { LeapYear, 8, false, false },
-        { LeapYear, 9, false, false },
-        { LeapYear, 10, false, false },
-        { LeapYear, 11, false, false },
-        { LeapYear, 12, false, false },
-        { LeapYear, 13, true, false },
-        { LeapYear, 14, false, true },
+        new(LeapYear, 1, false, false),
+        new(LeapYear, 2, false, false),
+        new(LeapYear, 3, false, false),
+        new(LeapYear, 4, false, false),
+        new(LeapYear, 5, false, false),
+        new(LeapYear, 6, false, false),
+        new(LeapYear, 7, false, false),
+        new(LeapYear, 8, false, false),
+        new(LeapYear, 9, false, false),
+        new(LeapYear, 10, false, false),
+        new(LeapYear, 11, false, false),
+        new(LeapYear, 12, false, false),
+        new(LeapYear, 13, true, false),
+        new(LeapYear, 14, false, true),
     };
 
     /// <summary>Year, week of the year (Yewe), isIntercalary.</summary>
-    public static TheoryData<int, int, bool> WeekInfoData { get; } = new()
+    public static DataGroup<YeweAnd<bool>> WeekInfoData { get; } = new()
     {
         // Common year.
-        { CommonYear, 1, false },
-        { CommonYear, 48, false },
-        { CommonYear, 49, false },
-        { CommonYear, 50, false },
-        { CommonYear, 51, false },
-        { CommonYear, 52, false },
+        new(CommonYear, 1, false),
+        new(CommonYear, 48, false),
+        new(CommonYear, 49, false),
+        new(CommonYear, 50, false),
+        new(CommonYear, 51, false),
+        new(CommonYear, 52, false),
         // Leap year.
-        { LeapYear, 1, false },
-        { LeapYear, 48, false },
-        { LeapYear, 49, true },
-        { LeapYear, 50, false },
-        { LeapYear, 51, false },
-        { LeapYear, 52, false },
-        { LeapYear, 53, false },
+        new(LeapYear, 1, false),
+        new(LeapYear, 48, false),
+        new(LeapYear, 49, true),
+        new(LeapYear, 50, false),
+        new(LeapYear, 51, false),
+        new(LeapYear, 52, false),
+        new(LeapYear, 53, false),
     };
 
     /// <summary>Year, invalid week of the year.</summary>

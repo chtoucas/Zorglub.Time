@@ -139,7 +139,9 @@ module RuntimeSizes =
         sizeof<YemodaAnd<int>>() === 8
         sizeof<YemodaAnd<DayOfWeek>>() === 8
         sizeof<YemoAnd<int>>() === 8
-        sizeof<YemodaPair>() === 8
+        sizeof<YemoAnd<bool, bool>>() === 12
+        sizeof<YeweAnd<bool>>() === 8
+        Marshal.SizeOf(typedefof<YemodaPair>) === 8
         sizeof<YemodaPairAnd<int>>() === 12
 
 module DefaultValues =

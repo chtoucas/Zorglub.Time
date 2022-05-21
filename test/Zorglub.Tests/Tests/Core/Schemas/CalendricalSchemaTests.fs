@@ -232,15 +232,21 @@ module PaxCase =
         sch.FirstDayOfWeek === DayOfWeek.Sunday
 
     [<Theory; MemberData(nameof(moreMonthInfoData))>]
-    let IsPaxMonth y m isPaxMonth _ =
+    let IsPaxMonth (info: YemoAnd<bool, bool>) =
+        let y, m, isPaxMonth, _ = info.Deconstruct()
+
         sch.IsPaxMonth(y, m) === isPaxMonth
 
     [<Theory; MemberData(nameof(moreMonthInfoData))>]
-    let IsLastMonthOfYear y m _ isLastMonthOfYear =
+    let IsLastMonthOfYear (info: YemoAnd<bool, bool>) =
+        let y, m, _, isLastMonthOfYear = info.Deconstruct()
+
         sch.IsLastMonthOfYear(y, m) === isLastMonthOfYear
 
     [<Theory; MemberData(nameof(weekInfoData))>]
-    let IsIntercalaryWeek y woy isIntercalary =
+    let IsIntercalaryWeek (info: YeweAnd<bool>) =
+        let y, woy, isIntercalary = info.Deconstruct()
+
         sch.IsIntercalaryWeek(y, woy) === isIntercalary
 
     [<Theory; MemberData(nameof(moreYearInfoData))>]
