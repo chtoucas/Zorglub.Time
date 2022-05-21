@@ -94,14 +94,14 @@ namespace Zorglub.Time.Core
         /// week of year.
         /// <para>This constructor does NOT validate its parameters.</para>
         /// </summary>
-        internal Yewe(int y, int w)
+        internal Yewe(int y, int woy)
         {
             Debug.Assert(MinYear <= y);
             Debug.Assert(y <= MaxYear);
-            Debug.Assert(MinWeekOfYear <= w);
-            Debug.Assert(w <= MaxWeekOfYear);
+            Debug.Assert(MinWeekOfYear <= woy);
+            Debug.Assert(woy <= MaxWeekOfYear);
 
-            _bin = Pack(y, w);
+            _bin = Pack(y, woy);
         }
 
         /// <summary>
@@ -210,11 +210,11 @@ namespace Zorglub.Time.Core
         [Pure]
         // CIL code size = 9 bytes <= 32 bytes.
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static int Pack(int y, int w)
+        private static int Pack(int y, int woy)
         {
             unchecked
             {
-                return (y << YearShift) | (w - 1);
+                return (y << YearShift) | (woy - 1);
             }
         }
 
@@ -223,7 +223,7 @@ namespace Zorglub.Time.Core
         /// </summary>
         // CIL code size = 25 bytes <= 32 bytes.
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal void Unpack(out int y, out int w)
+        internal void Unpack(out int y, out int woy)
         {
             // Perf: local copy of the field _bin.
             int bin = _bin;
@@ -231,7 +231,7 @@ namespace Zorglub.Time.Core
             unchecked
             {
                 y = bin >> YearShift;
-                w = 1 + (bin & WeekOfYearMask);
+                woy = 1 + (bin & WeekOfYearMask);
             }
         }
     }
