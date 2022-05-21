@@ -140,6 +140,70 @@ public partial class OrdinalDateFacts<TDataSet> // Calendar mismatch
     }
 }
 
+public partial class OrdinalDateFacts<TDataSet> // Factories
+{
+    [Theory, MemberData(nameof(YearInfoData))]
+    public void AtStartOfYear(YearInfo info)
+    {
+        int y = info.Year;
+        var year = CalendarUT.GetCalendarYear(y);
+        var startOfYear = CalendarUT.GetOrdinalDate(y, 1);
+        // Act & Assert
+        Assert.Equal(startOfYear, OrdinalDate.AtStartOfYear(year));
+    }
+
+    [Theory, MemberData(nameof(DateInfoData))]
+    public void AtDayOfYear(DateInfo info)
+    {
+        var (y, doy) = info.Yedoy;
+        var year = CalendarUT.GetCalendarYear(y);
+        var exp = CalendarUT.GetOrdinalDate(y, doy);
+        // Act & Assert
+        Assert.Equal(exp, OrdinalDate.AtDayOfYear(year, doy));
+    }
+
+    [Theory, MemberData(nameof(YearInfoData))]
+    public void AtEndOfYear(YearInfo info)
+    {
+        int y = info.Year;
+        var year = CalendarUT.GetCalendarYear(y);
+        var endOfYear = CalendarUT.GetOrdinalDate(y, info.DaysInYear);
+        // Act & Assert
+        Assert.Equal(endOfYear, OrdinalDate.AtEndOfYear(year));
+    }
+
+    [Theory, MemberData(nameof(MonthInfoData))]
+    public void AtStartOfMonth(MonthInfo info)
+    {
+        var (y, m) = info.Yemo;
+        var month = CalendarUT.GetCalendarMonth(y, m);
+        var startOfMonth = CalendarUT.GetCalendarDate(y, m, 1).ToCalendarDay();
+        // Act & Assert
+        Assert.Equal(startOfMonth, CalendarDay.AtStartOfMonth(month));
+    }
+
+    [Theory, MemberData(nameof(DateInfoData))]
+    public void AtDayOfMonth(DateInfo info)
+    {
+        var (y, m, d, doy) = info;
+        var month = CalendarUT.GetCalendarMonth(y, m);
+        var date = CalendarUT.GetOrdinalDate(y, doy);
+        // Act & Assert
+        Assert.Equal(date, OrdinalDate.AtDayOfMonth(month, d));
+    }
+
+    [Theory, MemberData(nameof(MonthInfoData))]
+    public void AtEndOfMonth(MonthInfo info)
+    {
+        var (y, m) = info.Yemo;
+        var daysInMonth = info.DaysInMonth;
+        var month = CalendarUT.GetCalendarMonth(y, m);
+        var endOfMonth = CalendarUT.GetCalendarDate(y, m, daysInMonth).ToOrdinalDate();
+        // Act & Assert
+        Assert.Equal(endOfMonth, OrdinalDate.AtEndOfMonth(month));
+    }
+}
+
 public partial class OrdinalDateFacts<TDataSet> // Conversions
 {
     [Theory, MemberData(nameof(DayNumberInfoData))]

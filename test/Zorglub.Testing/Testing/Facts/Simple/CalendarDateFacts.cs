@@ -154,10 +154,8 @@ public partial class CalendarDateFacts<TDataSet> // Factories
         var (y, m, d, doy) = info;
         var year = CalendarUT.GetCalendarYear(y);
         var exp = CalendarUT.GetCalendarDate(y, m, d);
-        // Act
-        var actual = CalendarDate.AtDayOfYear(year, doy);
-        // Assert
-        Assert.Equal(exp, actual);
+        // Act & Assert
+        Assert.Equal(exp, CalendarDate.AtDayOfYear(year, doy));
     }
 
     [Theory, MemberData(nameof(YearInfoData))]
@@ -176,10 +174,8 @@ public partial class CalendarDateFacts<TDataSet> // Factories
         var (y, m) = info.Yemo;
         var month = CalendarUT.GetCalendarMonth(y, m);
         var startOfMonth = CalendarUT.GetCalendarDate(y, m, 1);
-        // Act
-        var actual = CalendarDate.AtStartOfMonth(month);
-        // Assert
-        Assert.Equal(startOfMonth, actual);
+        // Act & Assert
+        Assert.Equal(startOfMonth, CalendarDate.AtStartOfMonth(month));
     }
 
     [Theory, MemberData(nameof(DateInfoData))]
@@ -188,10 +184,8 @@ public partial class CalendarDateFacts<TDataSet> // Factories
         var (y, m, d) = info.Yemoda;
         var month = CalendarUT.GetCalendarMonth(y, m);
         var date = CalendarUT.GetCalendarDate(y, m, d);
-        // Act
-        var actual = CalendarDate.AtDayOfMonth(month, d);
-        // Assert
-        Assert.Equal(date, actual);
+        // Act & Assert
+        Assert.Equal(date, CalendarDate.AtDayOfMonth(month, d));
     }
 
     [Theory, MemberData(nameof(MonthInfoData))]
@@ -201,10 +195,8 @@ public partial class CalendarDateFacts<TDataSet> // Factories
         var daysInMonth = info.DaysInMonth;
         var month = CalendarUT.GetCalendarMonth(y, m);
         var endOfMonth = CalendarUT.GetCalendarDate(y, m, daysInMonth);
-        // Act
-        var actual = CalendarDate.AtEndOfMonth(month);
-        // AssertB
-        Assert.Equal(endOfMonth, actual);
+        // Act & Assert
+        Assert.Equal(endOfMonth, CalendarDate.AtEndOfMonth(month));
     }
 }
 
