@@ -117,13 +117,90 @@ module SystemSchemaPrelude =
     let ``Default value for SupportedYears is DefaultSupportedYears`` () =
         FauxSystemSchema.Default.SupportedYears === SystemSchema.DefaultSupportedYears
 
+module Coptic13Case =
+    [<Fact>]
+    let ``Property VirtualMonth`` () =
+        Coptic13Schema.VirtualMonth === 13
+
+module Egyptian13Case =
+    [<Fact>]
+    let ``Property VirtualMonth`` () =
+        Egyptian13Schema.VirtualMonth === 13
+
+module FrenchRepublican13Case =
+    [<Fact>]
+    let ``Property VirtualMonth`` () =
+        FrenchRepublican13Schema.VirtualMonth === 13
+
 module GregorianCase =
     let private dataSet = GregorianDataSet.Instance
-    let private sch = new GregorianSchema()
+    let private sch = schemaOf<GregorianSchema>()
 
     let monthInfoData = dataSet.MonthInfoData
     let daysInYearAfterDateData = dataSet.DaysInYearAfterDateData
     let daysInMonthAfterDateData = dataSet.DaysInMonthAfterDateData
+
+    [<Fact>]
+    let ``Constant MinYear`` () =
+        GregorianSchema.MinYear === sch.SupportedYears.Min
+
+    [<Fact>]
+    let ``Constant MaxYear`` () =
+        GregorianSchema.MaxYear === sch.SupportedYears.Max
+
+    [<Theory>]
+    [<InlineData -10>] [<InlineData -9>] [<InlineData -8>] [<InlineData -7>] [<InlineData -6>] [<InlineData -5>]
+    [<InlineData -4>] [<InlineData -3>] [<InlineData -2>] [<InlineData -1>] [<InlineData 0>] [<InlineData 1>]
+    [<InlineData 2>] [<InlineData 3>] [<InlineData 4>] [<InlineData 5>] [<InlineData 6>] [<InlineData 7>]
+    [<InlineData 8>] [<InlineData 9>] [<InlineData 10>]
+    let ``Constant DaysPer400YearCycle`` c =
+        let daysInCycle = sch.CountDaysSinceEpoch((c + 1) * 400, 1, 1) - sch.CountDaysSinceEpoch(c * 400, 1, 1)
+        GregorianSchema.DaysPer400YearCycle === daysInCycle
+
+    [<Fact>]
+    let ``Property DaysIn4YearCycle`` () =
+        // We also check DaysInCommonYear, DaysInLeapYear and DaysPer4YearSubcycle.
+
+        let daysInYear0 = sch.CountDaysSinceEpoch(1, 1, 1) - sch.CountDaysSinceEpoch(0, 1, 1)
+        let daysInYear1 = sch.CountDaysSinceEpoch(2, 1, 1) - sch.CountDaysSinceEpoch(1, 1, 1)
+        let daysInYear2 = sch.CountDaysSinceEpoch(3, 1, 1) - sch.CountDaysSinceEpoch(2, 1, 1)
+        let daysInYear3 = sch.CountDaysSinceEpoch(4, 1, 1) - sch.CountDaysSinceEpoch(3, 1, 1)
+
+        let daysIn4YearCycle = GJSchema.DaysIn4YearCycle
+        daysIn4YearCycle.Length === 4
+        int(daysIn4YearCycle.[0]) === daysInYear0
+        int(daysIn4YearCycle.[1]) === daysInYear1
+        int(daysIn4YearCycle.[2]) === daysInYear2
+        int(daysIn4YearCycle.[3]) === daysInYear3
+
+        daysInYear0 === GJSchema.DaysInLeapYear // Year 0 is leap
+        daysInYear1 === GJSchema.DaysInCommonYear
+        daysInYear2 === GJSchema.DaysInCommonYear
+        daysInYear3 === GJSchema.DaysInCommonYear
+
+        let sum = Array.sum <| daysIn4YearCycle.ToArray()
+        int(sum) === GregorianSchema.DaysPer4YearSubcycle
+
+    [<Fact>]
+    let ``Property DaysIn4CenturyCycle`` () =
+        // We also check DaysPer100YearSubcycle.
+
+        let daysInCentury0 = sch.CountDaysSinceEpoch(1, 1, 1) - sch.CountDaysSinceEpoch(-99, 1, 1)
+        let daysInCentury1 = sch.CountDaysSinceEpoch(101, 1, 1) - sch.CountDaysSinceEpoch(1, 1, 1)
+        let daysInCentury2 = sch.CountDaysSinceEpoch(201, 1, 1) - sch.CountDaysSinceEpoch(101, 1, 1)
+        let daysInCentury3 = sch.CountDaysSinceEpoch(301, 1, 1) - sch.CountDaysSinceEpoch(201, 1, 1)
+
+        let daysIn4CenturyCycle = GregorianSchema.DaysIn4CenturyCycle
+        daysIn4CenturyCycle.Length === 4
+        int(daysIn4CenturyCycle.[0]) === daysInCentury0
+        int(daysIn4CenturyCycle.[1]) === daysInCentury1
+        int(daysIn4CenturyCycle.[2]) === daysInCentury2
+        int(daysIn4CenturyCycle.[3]) === daysInCentury3
+
+        daysInCentury0 === GregorianSchema.DaysPer100YearSubcycle + 1 // Long century
+        daysInCentury1 === GregorianSchema.DaysPer100YearSubcycle
+        daysInCentury2 === GregorianSchema.DaysPer100YearSubcycle
+        daysInCentury3 === GregorianSchema.DaysPer100YearSubcycle
 
     // ICalendricalSchemaPlus
 
@@ -149,6 +226,10 @@ module PaxCase =
     let moreYearInfoData = PaxDataSet.MoreYearInfoData
     let moreMonthInfoData = PaxDataSet.MoreMonthInfoData
     let weekInfoData = PaxDataSet.WeekInfoData
+
+    [<Fact>]
+    let FirstDayOfWeek_Prop() =
+        sch.FirstDayOfWeek === DayOfWeek.Sunday
 
     [<Theory; MemberData(nameof(moreMonthInfoData))>]
     let IsPaxMonth y m isPaxMonth _ =
@@ -186,3 +267,12 @@ module TropicalistaCase =
     let ``IsLeapYearImpl() does not overflow`` () =
         TropicalistaSchema.IsLeapYearImpl(Int32.MinValue) |> ignore
         TropicalistaSchema.IsLeapYearImpl(Int32.MaxValue) |> ignore
+
+module WorldCase =
+    let moreMonthInfoData = WorldDataSet.MoreMonthInfoData
+
+    [<Theory; MemberData(nameof(moreMonthInfoData))>]
+    let CountDaysInWorldMonth (info: YemoAnd<int>) =
+        let (_, m, daysInMonth) = info.Deconstruct()
+
+        WorldSchema.CountDaysInWorldMonth(m) === daysInMonth

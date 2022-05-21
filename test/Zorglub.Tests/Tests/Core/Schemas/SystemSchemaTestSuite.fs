@@ -6,7 +6,6 @@ module Zorglub.Tests.Core.Schemas.SystemSchemaTestSuite
 open System
 
 open Zorglub.Testing
-open Zorglub.Testing.Data
 open Zorglub.Testing.Data.Schemas
 open Zorglub.Testing.Facts
 open Zorglub.Testing.Facts.Core
@@ -82,9 +81,6 @@ type Coptic13Tests() =
         x.SchemaUT.SupportedYearsCore === Range.EndingAt(Int32.MaxValue - 1)
 
     [<Fact>]
-    static member VirtualMonth_Prop() = Coptic13Schema.VirtualMonth === 13
-
-    [<Fact>]
     member x.``CountDaysInMonth() overflows when y = Int32.MaxValue``() =
         let sch = x.SchemaUT
         for m in 1 .. x.MaxMonth do
@@ -116,9 +112,6 @@ type Egyptian13Tests() =
     override x.IsRegular() = x.SchemaUT.IsRegular() === (true, 13)
     override x.TryGetCustomArithmetic() = x.VerifyThatTryGetCustomArithmeticFails()
 
-    [<Fact>]
-    static member VirtualMonth_Prop() = Egyptian13Schema.VirtualMonth === 13
-
 [<Sealed>]
 [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
 type FrenchRepublican12Tests() =
@@ -145,9 +138,6 @@ type FrenchRepublican13Tests() =
     override x.IsRegular() = x.SchemaUT.IsRegular() === (true, 13)
     override x.TryGetCustomArithmetic() = x.VerifyThatTryGetCustomArithmeticFails()
 
-    [<Fact>]
-    static member VirtualMonth_Prop() = FrenchRepublican13Schema.VirtualMonth === 13
-
 [<Sealed>]
 [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
 type GregorianTests() =
@@ -160,71 +150,6 @@ type GregorianTests() =
     override x.Arithmetic_Prop() = x.VerifyThatArithmeticIs<GregorianArithmetic>()
     override x.IsRegular() = x.SchemaUT.IsRegular() === (true, 12)
     override x.TryGetCustomArithmetic() = x.VerifyThatTryGetCustomArithmeticSucceeds<GregorianArithmetic>()
-
-    // Misc
-
-    [<Fact>]
-    member x.MinYear_Const() = GregorianSchema.MinYear === x.SchemaUT.SupportedYears.Min
-
-    [<Fact>]
-    member x.MaxYear_Const() = GregorianSchema.MaxYear === x.SchemaUT.SupportedYears.Max
-
-    [<Fact>]
-    member x.DaysIn4YearCycle_Prop() =
-        // We also check DaysInCommonYear, DaysInLeapYear and DaysPer4YearSubcycle.
-
-        let sch = x.SchemaUT
-        let daysInYear0 = sch.CountDaysSinceEpoch(1, 1, 1) - sch.CountDaysSinceEpoch(0, 1, 1)
-        let daysInYear1 = sch.CountDaysSinceEpoch(2, 1, 1) - sch.CountDaysSinceEpoch(1, 1, 1)
-        let daysInYear2 = sch.CountDaysSinceEpoch(3, 1, 1) - sch.CountDaysSinceEpoch(2, 1, 1)
-        let daysInYear3 = sch.CountDaysSinceEpoch(4, 1, 1) - sch.CountDaysSinceEpoch(3, 1, 1)
-
-        let daysIn4YearCycle = GJSchema.DaysIn4YearCycle
-        daysIn4YearCycle.Length === 4
-        int(daysIn4YearCycle.[0]) === daysInYear0
-        int(daysIn4YearCycle.[1]) === daysInYear1
-        int(daysIn4YearCycle.[2]) === daysInYear2
-        int(daysIn4YearCycle.[3]) === daysInYear3
-
-        daysInYear0 === GJSchema.DaysInLeapYear // Year 0 is leap
-        daysInYear1 === GJSchema.DaysInCommonYear
-        daysInYear2 === GJSchema.DaysInCommonYear
-        daysInYear3 === GJSchema.DaysInCommonYear
-
-        let sum = Array.sum <| daysIn4YearCycle.ToArray()
-        int(sum) === GregorianSchema.DaysPer4YearSubcycle
-
-    [<Fact>]
-    member x.DaysIn4CenturyCycle_Prop() =
-        // We also check DaysPer100YearSubcycle.
-
-        let sch = x.SchemaUT
-        let daysInCentury0 = sch.CountDaysSinceEpoch(1, 1, 1) - sch.CountDaysSinceEpoch(-99, 1, 1)
-        let daysInCentury1 = sch.CountDaysSinceEpoch(101, 1, 1) - sch.CountDaysSinceEpoch(1, 1, 1)
-        let daysInCentury2 = sch.CountDaysSinceEpoch(201, 1, 1) - sch.CountDaysSinceEpoch(101, 1, 1)
-        let daysInCentury3 = sch.CountDaysSinceEpoch(301, 1, 1) - sch.CountDaysSinceEpoch(201, 1, 1)
-
-        let daysIn4CenturyCycle = GregorianSchema.DaysIn4CenturyCycle
-        daysIn4CenturyCycle.Length === 4
-        int(daysIn4CenturyCycle.[0]) === daysInCentury0
-        int(daysIn4CenturyCycle.[1]) === daysInCentury1
-        int(daysIn4CenturyCycle.[2]) === daysInCentury2
-        int(daysIn4CenturyCycle.[3]) === daysInCentury3
-
-        daysInCentury0 === GregorianSchema.DaysPer100YearSubcycle + 1 // Long century
-        daysInCentury1 === GregorianSchema.DaysPer100YearSubcycle
-        daysInCentury2 === GregorianSchema.DaysPer100YearSubcycle
-        daysInCentury3 === GregorianSchema.DaysPer100YearSubcycle
-
-    [<Theory>]
-    [<InlineData -10>] [<InlineData -9>] [<InlineData -8>] [<InlineData -7>] [<InlineData -6>] [<InlineData -5>]
-    [<InlineData -4>] [<InlineData -3>] [<InlineData -2>] [<InlineData -1>] [<InlineData 0>] [<InlineData 1>]
-    [<InlineData 2>] [<InlineData 3>] [<InlineData 4>] [<InlineData 5>] [<InlineData 6>] [<InlineData 7>]
-    [<InlineData 8>] [<InlineData 9>] [<InlineData 10>]
-    member x.DaysPer400YearCycle_Const c =
-        let sch = x.SchemaUT
-        let daysInCycle = sch.CountDaysSinceEpoch((c + 1) * 400, 1, 1) - sch.CountDaysSinceEpoch(c * 400, 1, 1)
-        GregorianSchema.DaysPer400YearCycle === daysInCycle
 
 [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
 module HebrewTests =
@@ -317,9 +242,6 @@ type PaxTests() as self =
     [<Fact>]
     member x.TryGetCustomArithmetic() =
         verifyThatTryGetCustomArithmeticSucceeds<DefaultFastArithmetic>(x.SchemaUT)
-
-    [<Fact>]
-    member x.FirstDayOfWeek_Prop() = x.SchemaUT.FirstDayOfWeek === DayOfWeek.Sunday
 
 [<Sealed>]
 [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
@@ -449,8 +371,6 @@ type Tropicalia3130Tests() =
 type WorldTests() =
     inherit SystemSchemaFacts<WorldDataSet>(instanceOf<WorldSchema>())
 
-    static member MoreMonthInfoData = WorldDataSet.MoreMonthInfoData
-
     override x.Family_Prop() = x.SchemaUT.Family === CalendricalFamily.Solar
     override x.PeriodicAdjustments_Prop() = x.SchemaUT.PeriodicAdjustments === CalendricalAdjustments.Days
     override x.Profile_Prop() = x.SchemaUT.Profile === CalendricalProfile.Solar12
@@ -458,9 +378,3 @@ type WorldTests() =
     override x.Arithmetic_Prop() = x.VerifyThatArithmeticIs<Solar12Arithmetic>()
     override x.IsRegular() = x.SchemaUT.IsRegular() === (true, 12)
     override x.TryGetCustomArithmetic() = x.VerifyThatTryGetCustomArithmeticSucceeds<Solar12Arithmetic>()
-
-    [<Theory; MemberData(nameof(WorldTests.MoreMonthInfoData))>]
-    static member CountDaysInWorldMonth (info: YemoAnd<int>) =
-        let (_, m, daysInMonth) = info.Deconstruct()
-
-        WorldSchema.CountDaysInWorldMonth(m) === daysInMonth
