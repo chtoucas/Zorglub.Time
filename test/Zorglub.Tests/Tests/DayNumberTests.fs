@@ -23,6 +23,11 @@ open FsCheck.Xunit
 
 open type Zorglub.Time.Extensions.DayNumberExtensions
 
+// SYNC WITH DayNumber64Tests.
+
+// TODO(code): we use both CivilDate and CalendarDate, we should should between the two!
+// Register GetDaysSinceZeroArbitrary.
+
 /// Convert one (Gregorian) Yemoda to a DayNumber.
 /// This function does NOT verify that x represents a valid Gregorian triple.
 let private toDayNumber (x: Yemoda) =
@@ -54,12 +59,12 @@ module TestCommon =
         override x.ToString() = x.Value.ToString()
         static member op_Explicit (x: DaysSinceZero) = x.Value
 
-    [<Sealed>]
-    type Arbitraries =
-        /// Gets an arbitrary for the absolute value of the Rank of an Ord, its position.
-        static member GetDaysSinceZeroArbitrary() =
-            DomainArbitraries.daysSinceZero
-            |> Arb.convert (fun i -> { DaysSinceZero.Value = i }) int
+    //[<Sealed>]
+    //type Arbitraries =
+    //    /// Gets an arbitrary for the absolute value of the Rank of an Ord, its position.
+    //    static member GetDaysSinceZeroArbitrary() =
+    //        DomainArbitraries.daysSinceZero
+    //        |> Arb.convert (fun i -> { DaysSinceZero.Value = i }) int
 
 module Prelude =
     open TestCommon
@@ -74,9 +79,9 @@ module Prelude =
 
     [<Property>]
     let ``ToString() returns the string representation of DaysSinceZero using the current culture`` (i: DaysSinceZero) =
-            let dayNumber = DayNumber.Zero + i.Value
+        let dayNumber = DayNumber.Zero + i.Value
 
-            dayNumber.ToString() = i.Value.ToString(System.Globalization.CultureInfo.CurrentCulture)
+        dayNumber.ToString() = i.Value.ToString(System.Globalization.CultureInfo.CurrentCulture)
 
     //
     // Properties
