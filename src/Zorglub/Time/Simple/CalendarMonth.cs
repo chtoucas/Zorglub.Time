@@ -64,15 +64,6 @@ namespace Zorglub.Time.Simple
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="CalendarMonth"/> struct.
-        /// <para>This constructor does NOT validate its parameters.</para>
-        /// </summary>
-        internal CalendarMonth(Yemox bin)
-        {
-            _bin = bin;
-        }
-
-        /// <summary>
         /// Gets the century of the era.
         /// </summary>
         public Ord CenturyOfEra => Ord.FromInt32(Century);

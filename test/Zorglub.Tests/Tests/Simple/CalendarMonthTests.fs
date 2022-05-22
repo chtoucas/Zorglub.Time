@@ -3,6 +3,8 @@
 
 module Zorglub.Tests.Simple.CalendarMonthTests
 
+open System
+
 open Zorglub.Testing
 open Zorglub.Testing.Data
 open Zorglub.Testing.Data.Bounded
@@ -50,3 +52,11 @@ module GregorianCase =
         let month = GregorianCalendar.Instance.GetCalendarMonth(y, m)
 
         month.ToString() === str
+
+    [<Fact>]
+    let ``GetCurrentMonth()`` () =
+        let now = DateTime.Now
+        let month = CalendarMonth.GetCurrentMonth()
+
+        month.Year        === now.Year
+        month.MonthOfYear === now.Month

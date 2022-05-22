@@ -3,6 +3,8 @@
 
 module Zorglub.Tests.Simple.CalendarYearTests
 
+open System
+
 open Zorglub.Testing
 open Zorglub.Testing.Data
 open Zorglub.Testing.Data.Bounded
@@ -43,3 +45,10 @@ module GregorianCase =
         let year = GregorianCalendar.Instance.GetCalendarYear(y)
 
         year.ToString() === str
+
+    [<Fact>]
+    let ``GetCurrentYear()`` () =
+        let now = DateTime.Now
+        let year = CalendarYear.GetCurrentYear()
+
+        year.Year  === now.Year

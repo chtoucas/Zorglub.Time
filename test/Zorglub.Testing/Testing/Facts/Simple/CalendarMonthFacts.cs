@@ -42,7 +42,8 @@ public abstract partial class CalendarMonthFacts<TDataSet> :
 
     /// <summary>
     /// We only use this sample year when its value matters (mathops); otherwise
-    /// just use the first month of the year 1.
+    /// just use the first month of the year 1. It is initialized to ensure that
+    /// the math operations we are going to perform will work.
     /// </summary>
     protected CalendarMonth GetSampleValue() => CalendarUT.GetCalendarMonth(1234, 2);
 }
@@ -443,6 +444,24 @@ public partial class CalendarMonthFacts<TDataSet> // Increment / Decrement
     }
 
     [Fact]
+    public void Increment()
+    {
+        var month = GetSampleValue();
+        var monthAfter = CalendarUT.GetCalendarMonth(month.Year, month.MonthOfYear + 1);
+        // Act & Assert
+        Assert.Equal(monthAfter, ++month);
+    }
+
+    [Fact]
+    public void NextYear()
+    {
+        var month = GetSampleValue();
+        var monthAfter = CalendarUT.GetCalendarMonth(month.Year, month.MonthOfYear + 1);
+        // Act & Assert
+        Assert.Equal(monthAfter, month.NextMonth());
+    }
+
+    [Fact]
     public void Decrement_Overflows_AtMinValue()
     {
         var min = CalendarUT.MinMaxMonth.LowerValue;
@@ -456,6 +475,24 @@ public partial class CalendarMonthFacts<TDataSet> // Increment / Decrement
         var min = CalendarUT.MinMaxMonth.LowerValue;
         // Act & Assert
         Assert.Overflows(() => min.PreviousMonth());
+    }
+
+    [Fact]
+    public void Decrement()
+    {
+        var month = GetSampleValue();
+        var monthBefore = CalendarUT.GetCalendarMonth(month.Year, month.MonthOfYear - 1);
+        // Act & Assert
+        Assert.Equal(monthBefore, --month);
+    }
+
+    [Fact]
+    public void PreviousYear()
+    {
+        var month = GetSampleValue();
+        var monthBefore = CalendarUT.GetCalendarMonth(month.Year, month.MonthOfYear - 1);
+        // Act & Assert
+        Assert.Equal(monthBefore, month.PreviousMonth());
     }
 }
 
