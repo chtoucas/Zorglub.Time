@@ -85,11 +85,13 @@
     <Compile Include="Tests\Simple\CalendarDateTestSuite.fs" />
     <Compile Include="Tests\Simple\CalendarDayTestSuite.fs" />
     <Compile Include="Tests\Simple\OrdinalDateTestSuite.fs" />
+    <Compile Include="Tests\Simple\DateAdjustmentTestSuite.fs" />
+    <Compile Include="Tests\Simple\DateDayOfWeekTestSuite.fs" />
+    <Compile Include="Tests\Simple\DateMathTestSuite.fs" />
     <Compile Include="Tests\Simple\CalendarMonthTestSuite.fs" />
     <Compile Include="Tests\Simple\CalendarMonthMathTestSuite.fs" />
     <Compile Include="Tests\Simple\CalendarYearTestSuite.fs" />
     <Compile Include="Tests\Simple\CalendarYearMathTestSuite.fs" />
-    <Compile Include="Tests\Simple\GregorianDateTestSuite.fs" />
     <Compile Include="Tests\PartsTests.fs" />
     <Compile Include="Tests\CalendarIdTests.fs" />
     <Compile Include="Tests\OrdTests.fs" />

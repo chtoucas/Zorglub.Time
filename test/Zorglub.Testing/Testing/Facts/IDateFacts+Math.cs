@@ -7,8 +7,8 @@ using Zorglub.Testing.Data;
 using Zorglub.Time.Hemerology;
 
 /// <summary>
-/// Provides math facts about <see cref="IDate{TSelf}"/>.
-/// <para>See also <seealso cref="IDateFacts{TDate, TDataSet}"/>.</para>
+/// Provides more facts about <see cref="IDate{TSelf}"/> and its standard mathematical operations.
+/// <para>See also <seealso cref="IDateFacts{TDate, TDataSet}"/> for some basic facts.</para>
 /// </summary>
 public abstract partial class IDateMathFacts<TDate, TDataSet> :
     CalendarDataConsumer<TDataSet>

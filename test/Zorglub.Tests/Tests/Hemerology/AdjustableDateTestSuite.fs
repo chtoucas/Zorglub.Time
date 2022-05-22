@@ -14,10 +14,10 @@ type CivilDateTests() =
     inherit IAdjustableDateFacts<CivilDate, StandardGregorianDataSet>(
         Range.Create(CivilDate.MinYear, CivilDate.MaxYear))
 
-    override __.CreateDate(y, m, d) = new CivilDate(y, m, d)
+    override __.GetDate(y, m, d) = new CivilDate(y, m, d)
 
 [<Sealed>]
 type GregorianWideDateTests() =
     inherit IAdjustableDateFacts<WideDate, ProlepticGregorianDataSet>(WideCalendar.Gregorian.SupportedYears)
 
-    override __.CreateDate(y, m, d) = WideCalendar.Gregorian.GetWideDate(y, m, d)
+    override __.GetDate(y, m, d) = WideCalendar.Gregorian.GetWideDate(y, m, d)

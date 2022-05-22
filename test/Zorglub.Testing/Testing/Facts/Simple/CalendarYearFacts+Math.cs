@@ -7,9 +7,9 @@ using Zorglub.Testing.Data;
 using Zorglub.Time.Simple;
 
 /// <summary>
-/// Provides math facts about <see cref="CalendarYear"/>.
+/// Provides math facts about <see cref="CalendarYear"/> and its mathematical operations.
 /// </summary>
-public abstract class CalendarYearMathFacts<TDataSet> :
+public abstract partial class CalendarYearMathFacts<TDataSet> :
     CalendarDataConsumer<TDataSet>
     where TDataSet : ICalendarDataSet, IAdvancedMathDataSet, ISingleton<TDataSet>
 {
@@ -24,7 +24,32 @@ public abstract class CalendarYearMathFacts<TDataSet> :
     protected Calendar CalendarUT { get; }
 
     public static DataGroup<YemodaPairAnd<int>> AddYearsData => DataSet.AddYearsData;
+}
 
+public partial class CalendarYearMathFacts<TDataSet> // NextYear()
+{
+    [Fact]
+    public void NextYear_Overflows_AtMaxValue()
+    {
+        var max = CalendarUT.GetCalendarYear(CalendarUT.Scope.SupportedYears.Max);
+        Assert.Overflows(() => max.NextYear());
+        Assert.Overflows(() => max++);
+    }
+}
+
+public partial class CalendarYearMathFacts<TDataSet> // PreviousYear()
+{
+    [Fact]
+    public void PreviousYear_Overflows_AtMinValue()
+    {
+        var min = CalendarUT.GetCalendarYear(CalendarUT.Scope.SupportedYears.Min);
+        Assert.Overflows(() => min.PreviousYear());
+        Assert.Overflows(() => min--);
+    }
+}
+
+public partial class CalendarYearMathFacts<TDataSet> // PlusYears()
+{
     [Fact]
     public void PlusYears_OverflowOrUnderflow()
     {
@@ -78,46 +103,13 @@ public abstract class CalendarYearMathFacts<TDataSet> :
         Assert.Overflows(() => year.PlusYears(maxYears + 1));
     }
 
-    [Fact]
-    public void CountYearsSince_DoesNotOverflow()
+    [Theory, MemberData(nameof(YearInfoData))]
+    public void PlusYears_Zero_IsNeutral(YearInfo info)
     {
-        var scope = CalendarUT.Scope;
-        var min = CalendarUT.GetCalendarYear(scope.SupportedYears.Min);
-        var max = CalendarUT.GetCalendarYear(scope.SupportedYears.Max);
-        int years = scope.SupportedYears.Max - scope.SupportedYears.Min;
+        var year = CalendarUT.GetCalendarYear(info.Year);
         // Act & Assert
-        Assert.Equal(years, max.CountYearsSince(min));
-        Assert.Equal(-years, min.CountYearsSince(max));
+        Assert.Equal(year, year.PlusYears(0));
     }
-
-    [Fact]
-    public void NextYear_Overflows_AtMaxValue()
-    {
-        var max = CalendarUT.GetCalendarYear(CalendarUT.Scope.SupportedYears.Max);
-        Assert.Overflows(() => max.NextYear());
-        Assert.Overflows(() => max++);
-    }
-
-    [Fact]
-    public void PreviousYear_Overflows_AtMinValue()
-    {
-        var min = CalendarUT.GetCalendarYear(CalendarUT.Scope.SupportedYears.Min);
-        Assert.Overflows(() => min.PreviousYear());
-        Assert.Overflows(() => min--);
-    }
-
-    // TODO: (MATH) CountYearsSince(), itou avec CalendarMonthTests().
-    // Utiliser aussi les données DiffCutoff (idem avec PlusYears).
-    // Revoir tous les tests des "math ops" pour les objets calendaires.
-    //[Theory, MemberData(nameof(GregorianData.Diff), MemberType = typeof(GregorianData))]
-    //public void CountYearsSince(Yemoda xstart, Yemoda xend, int years, int months, int days)
-    //{
-    //    var start = new CalendarYear(xstart.ToCalendarDate(CalendarUT));
-    //    var end = new CalendarYear(xend.ToCalendarDate(CalendarUT));
-    //    // Act & Assert
-    //    Assert.Equal(years, end.CountYearsSince(start));
-    //    Assert.Equal(years, end - start);
-    //}
 
     [Theory, MemberData(nameof(AddYearsData))]
     public void PlusYears(YemodaPairAnd<int> info)
@@ -134,6 +126,42 @@ public abstract class CalendarYearMathFacts<TDataSet> :
         Assert.Equal(year, other.PlusYears(-ys));
         // 3) year - (-ys) = other.
         Assert.Equal(other, year - (-ys));
+    }
+}
+
+public partial class CalendarYearMathFacts<TDataSet> // CountYearsSince()
+{
+    [Fact]
+    public void CountYearsSince_DoesNotOverflow()
+    {
+        var scope = CalendarUT.Scope;
+        var min = CalendarUT.GetCalendarYear(scope.SupportedYears.Min);
+        var max = CalendarUT.GetCalendarYear(scope.SupportedYears.Max);
+        int years = scope.SupportedYears.Max - scope.SupportedYears.Min;
+        // Act & Assert
+        Assert.Equal(years, max.CountYearsSince(min));
+        Assert.Equal(-years, min.CountYearsSince(max));
+    }
+
+    // TODO: (MATH) CountYearsSince(), itou avec CalendarMonthTests().
+    // Utiliser aussi les données DiffCutoff (idem avec PlusYears).
+    // Revoir tous les tests des "math ops" pour les objets calendaires.
+    //[Theory, MemberData(nameof(GregorianData.Diff), MemberType = typeof(GregorianData))]
+    //public void CountYearsSince(Yemoda xstart, Yemoda xend, int years, int months, int days)
+    //{
+    //    var start = new CalendarYear(xstart.ToCalendarDate(CalendarUT));
+    //    var end = new CalendarYear(xend.ToCalendarDate(CalendarUT));
+    //    // Act & Assert
+    //    Assert.Equal(years, end.CountYearsSince(start));
+    //    Assert.Equal(years, end - start);
+    //}
+
+    [Theory, MemberData(nameof(YearInfoData))]
+    public void CountYearsSince_WhenSame_IsZero(YearInfo info)
+    {
+        var year = CalendarUT.GetCalendarYear(info.Year);
+        // Act & Assert
+        Assert.Equal(0, year.CountYearsSince(year));
     }
 
     [Theory, MemberData(nameof(AddYearsData))]

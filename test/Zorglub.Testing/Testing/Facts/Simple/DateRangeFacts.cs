@@ -36,9 +36,9 @@ public abstract partial class DateRangeFacts<TDataSet> :
 
     protected Calendar OtherCalendar { get; }
 
-    protected sealed override CalendarDate CreateDate(int y, int m, int d) =>
+    protected sealed override CalendarDate GetDate(int y, int m, int d) =>
         CalendarUT.GetCalendarDate(y, m, d);
-    protected sealed override CalendarDate CreateDate(int y, int doy) =>
+    protected sealed override CalendarDate GetDate(int y, int doy) =>
         CalendarUT.GetOrdinalDate(y, doy).ToCalendarDate();
 
     protected sealed override DateRange CreateRange(CalendarDate start, CalendarDate end) =>
