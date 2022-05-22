@@ -12,6 +12,8 @@ using Zorglub.Time.Simple;
 // with CalendarYear/Month.
 // ISimpleDate is internal, create and use a SimpleDateProxy?
 
+// NB: we know that years between 1 to 9999 are valid.
+
 /// <summary>
 /// Provides facts about <see cref="ISimpleDate{TSelf}"/>.
 /// </summary>

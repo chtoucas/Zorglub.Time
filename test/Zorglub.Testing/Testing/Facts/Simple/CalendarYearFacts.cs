@@ -6,7 +6,10 @@ namespace Zorglub.Testing.Facts.Simple;
 using System.Linq;
 
 using Zorglub.Testing.Data;
+using Zorglub.Time.Core.Intervals;
 using Zorglub.Time.Simple;
+
+// NB: we know that years between 1 to 9999 are valid.
 
 public abstract partial class CalendarYearFacts<TDataSet> :
     CalendarDataConsumer<TDataSet>
@@ -31,17 +34,19 @@ public abstract partial class CalendarYearFacts<TDataSet> :
         (MinValue, MaxValue) = calendar.MinMaxYear;
     }
 
-    /// <summary>
-    /// Gets the calendar under test.
-    /// </summary>
     protected Calendar CalendarUT { get; }
-
     protected Calendar OtherCalendar { get; }
 
     protected SupportedYearsTester SupportedYearsTester { get; }
 
     protected CalendarYear MinValue { get; }
     protected CalendarYear MaxValue { get; }
+
+    /// <summary>
+    /// We only use this sample year when its value matters (mathops); otherwise
+    /// just use the year 1.
+    /// </summary>
+    protected CalendarYear GetSampleValue() => CalendarUT.GetCalendarYear(1234);
 }
 
 public partial class CalendarYearFacts<TDataSet> // Prelude
@@ -401,14 +406,6 @@ public partial class CalendarYearFacts<TDataSet> // Increment / Decrement
     }
 
     [Fact]
-    public void Decrement_Overflows_AtMinValue()
-    {
-        var min = CalendarUT.MinMaxYear.LowerValue;
-        // Act & Assert
-        Assert.Overflows(() => min--);
-    }
-
-    [Fact]
     public void NextYear_Overflows_AtMaxValue()
     {
         var max = CalendarUT.MinMaxYear.UpperValue;
@@ -417,11 +414,55 @@ public partial class CalendarYearFacts<TDataSet> // Increment / Decrement
     }
 
     [Fact]
+    public void Increment()
+    {
+        var year = GetSampleValue();
+        var yearAfter = CalendarUT.GetCalendarYear(year.Year + 1);
+        // Act & Assert
+        Assert.Equal(yearAfter, ++year);
+    }
+
+    [Fact]
+    public void NextYear()
+    {
+        var year = GetSampleValue();
+        var yearAfter = CalendarUT.GetCalendarYear(year.Year + 1);
+        // Act & Assert
+        Assert.Equal(yearAfter, year.NextYear());
+    }
+
+    [Fact]
+    public void Decrement_Overflows_AtMinValue()
+    {
+        var min = CalendarUT.MinMaxYear.LowerValue;
+        // Act & Assert
+        Assert.Overflows(() => min--);
+    }
+
+    [Fact]
     public void PreviousYear_Overflows_AtMinValue()
     {
         var min = CalendarUT.MinMaxYear.LowerValue;
         // Act & Assert
         Assert.Overflows(() => min.PreviousYear());
+    }
+
+    [Fact]
+    public void Decrement()
+    {
+        var year = GetSampleValue();
+        var yearBefore = CalendarUT.GetCalendarYear(year.Year - 1);
+        // Act & Assert
+        Assert.Equal(yearBefore, --year);
+    }
+
+    [Fact]
+    public void PreviousYear()
+    {
+        var year = GetSampleValue();
+        var yearBefore = CalendarUT.GetCalendarYear(year.Year - 1);
+        // Act & Assert
+        Assert.Equal(yearBefore, year.PreviousYear());
     }
 }
 
@@ -442,7 +483,7 @@ public partial class CalendarYearFacts<TDataSet> // Addition
     [Fact]
     public void PlusYears_WithLimitValues()
     {
-        var year = CalendarUT.GetCalendarYear(1);
+        var year = GetSampleValue();
         int minYs = MinValue - year;
         int maxYs = MaxValue - year;
         // Act & Assert
@@ -462,7 +503,11 @@ public partial class CalendarYearFacts<TDataSet> // Addition
     [Fact]
     public void PlusYears_WithLimitValues_AtMinValue()
     {
-        int ys = MaxValue - MinValue;
+        // We could have written:
+        // > int ys = MaxValue - MinValue;
+        // but this is CountYearsSince() in disguise and I prefer to stick to
+        // basic maths.
+        int ys = CalendarUT.SupportedYears.Count() - 1;
         // Act & Assert
         Assert.Overflows(() => MinValue - 1);
         Assert.Overflows(() => MinValue.PlusYears(-1));
@@ -481,7 +526,11 @@ public partial class CalendarYearFacts<TDataSet> // Addition
     [Fact]
     public void PlusYears_WithLimitValues_AtMaxValue()
     {
-        int ys = MaxValue - MinValue;
+        // We could have written:
+        // > int ys = MaxValue - MinValue;
+        // but this is CountYearsSince() in disguise and I prefer to stick to
+        // basic maths.
+        int ys = CalendarUT.SupportedYears.Count() - 1;
         // Act & Assert
         Assert.Overflows(() => MaxValue - (ys + 1));
         Assert.Overflows(() => MaxValue.PlusYears(-ys - 1));

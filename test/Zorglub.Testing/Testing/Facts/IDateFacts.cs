@@ -165,16 +165,16 @@ public partial class IDateFacts<TDate, TDataSet> // Increment / decrement
     }
 
     [Fact]
+    public void NextDay_Overflows_AtMaxValue() =>
+        Assert.Overflows(() => MaxDate.NextDay());
+
+    [Fact]
     public void Decrement_Overflows_AtMinValue()
     {
         var copy = MinDate;
         // Act & Assert
         Assert.Overflows(() => copy--);
     }
-
-    [Fact]
-    public void NextDay_Overflows_AtMaxValue() =>
-        Assert.Overflows(() => MaxDate.NextDay());
 
     [Fact]
     public void PreviousDay_Overflows_AtMinValue() =>
@@ -199,6 +199,7 @@ public partial class IDateFacts<TDate, TDataSet> // Addition
     public void PlusDays_WithLimitValues()
     {
         var (minDayNumber, maxDayNumber) = Domain.Endpoints;
+        // TODO(fact): we should not use the epoch...
         var date = GetDate(1, 1, 1);
         var dayNumber = date.ToDayNumber();
         int minDays = minDayNumber - dayNumber;

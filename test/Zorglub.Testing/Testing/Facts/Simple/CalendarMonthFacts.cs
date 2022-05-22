@@ -7,6 +7,8 @@ using Zorglub.Testing.Data;
 using Zorglub.Time.Core.Intervals;
 using Zorglub.Time.Simple;
 
+// NB: we know that years between 1 to 9999 are valid.
+
 public abstract partial class CalendarMonthFacts<TDataSet> :
     CalendarDataConsumer<TDataSet>
     where TDataSet : ICalendarDataSet, ISingleton<TDataSet>
@@ -30,17 +32,19 @@ public abstract partial class CalendarMonthFacts<TDataSet> :
         (MinValue, MaxValue) = calendar.MinMaxMonth;
     }
 
-    /// <summary>
-    /// Gets the calendar under test.
-    /// </summary>
     protected Calendar CalendarUT { get; }
-
     protected Calendar OtherCalendar { get; }
 
     protected SupportedYearsTester SupportedYearsTester { get; }
 
     protected CalendarMonth MinValue { get; }
     protected CalendarMonth MaxValue { get; }
+
+    /// <summary>
+    /// We only use this sample year when its value matters (mathops); otherwise
+    /// just use the first month of the year 1.
+    /// </summary>
+    protected CalendarMonth GetSampleValue() => CalendarUT.GetCalendarMonth(1234, 2);
 }
 
 public partial class CalendarMonthFacts<TDataSet> // Prelude
@@ -431,6 +435,14 @@ public partial class CalendarMonthFacts<TDataSet> // Increment / Decrement
     }
 
     [Fact]
+    public void NextMonth_Overflows_AtMaxValue()
+    {
+        var max = CalendarUT.MinMaxMonth.UpperValue;
+        // Act & Assert
+        Assert.Overflows(() => max.NextMonth());
+    }
+
+    [Fact]
     public void Decrement_Overflows_AtMinValue()
     {
         var min = CalendarUT.MinMaxMonth.LowerValue;
@@ -439,15 +451,7 @@ public partial class CalendarMonthFacts<TDataSet> // Increment / Decrement
     }
 
     [Fact]
-    public void NextYear_Overflows_AtMaxValue()
-    {
-        var max = CalendarUT.MinMaxMonth.UpperValue;
-        // Act & Assert
-        Assert.Overflows(() => max.NextMonth());
-    }
-
-    [Fact]
-    public void PreviousYear_Overflows_AtMinValue()
+    public void PreviousMonth_Overflows_AtMinValue()
     {
         var min = CalendarUT.MinMaxMonth.LowerValue;
         // Act & Assert
@@ -477,7 +481,7 @@ public partial class CalendarMonthFacts<TDataSet> // Math
     public void PlusMonths_WithLimitValues()
     {
         var supportedYears = CalendarUT.SupportedYears;
-        var month = CalendarUT.GetCalendarMonth(1, 1);
+        var month = GetSampleValue();
         int minMs = MinValue - month;
         int maxMs = MaxValue - month;
         // Act & Assert
@@ -566,38 +570,47 @@ public partial class CalendarMonthFacts<TDataSet> // Math
         Assert.Overflows(() => month.PlusYears(Int32.MaxValue));
     }
 
-    // TODO(fact): math.
-    //[Fact]
-    //public void PlusYears_WithLimitValues()
-    //{
-    //    var month = CalendarUT.GetCalendarMonth(1, 1);
-    //    int minYs = MinValue.Year - month.Year;
-    //    int maxYs = MaxValue.Year - month.Year;
-    //    // Act & Assert
-    //    Assert.Overflows(() => month.PlusYears(minYs - 1));
-    //    Assert.Equal(MinValue, month.PlusYears(minYs));
-    //    Assert.Equal(MaxValue, month.PlusYears(maxYs));
-    //    Assert.Overflows(() => month.PlusYears(maxYs + 1));
-    //}
+    [Fact]
+    public void PlusYears_WithLimitValues()
+    {
+        var month = GetSampleValue();
+        int minYs = MinValue.Year - month.Year;
+        int maxYs = MaxValue.Year - month.Year;
+        // NB: for calendars with a variabe number of months per year, this
+        // might not work.
+        var minValue = MinValue.WithMonthOfYear(month.MonthOfYear);
+        var maxValue = MaxValue.WithMonthOfYear(month.MonthOfYear);
+        // Act & Assert
+        Assert.Overflows(() => month.PlusYears(minYs - 1));
+        Assert.Equal(minValue, month.PlusYears(minYs));
+        Assert.Equal(maxValue, month.PlusYears(maxYs));
+        Assert.Overflows(() => month.PlusYears(maxYs + 1));
+    }
 
     [Fact]
     public void PlusYears_WithLimitValues_AtMinValue()
     {
-        //int ys = CalendarUT.SupportedYears.Count() - 1;
+        int ys = CalendarUT.SupportedYears.Count() - 1;
+        // NB: for calendars with a variabe number of months per year, this
+        // might not work.
+        var maxValue = MaxValue.WithMonthOfYear(MinValue.MonthOfYear);
         // Act & Assert
         Assert.Overflows(() => MinValue.PlusYears(-1));
         Assert.Equal(MinValue, MinValue.PlusYears(0));
-        //Assert.Equal(MaxValue, MinValue.PlusYears(ys));
-        //Assert.Overflows(() => MinValue.PlusYears(ys + 1));
+        Assert.Equal(maxValue, MinValue.PlusYears(ys));
+        Assert.Overflows(() => MinValue.PlusYears(ys + 1));
     }
 
     [Fact]
     public void PlusYears_WithLimitValues_AtMaxValue()
     {
-        //int ys = CalendarUT.SupportedYears.Count() - 1;
+        int ys = CalendarUT.SupportedYears.Count() - 1;
+        // NB: for calendars with a variabe number of months per year, this
+        // might not work.
+        var minValue = MinValue.WithMonthOfYear(MaxValue.MonthOfYear);
         // Act & Assert
-        //Assert.Overflows(() => MaxValue.PlusYears(-ys - 1));
-        //Assert.Equal(MinValue, MaxValue.PlusYears(-ys));
+        Assert.Overflows(() => MaxValue.PlusYears(-ys - 1));
+        Assert.Equal(minValue, MaxValue.PlusYears(-ys));
         Assert.Equal(MaxValue, MaxValue.PlusYears(0));
         Assert.Overflows(() => MaxValue.PlusYears(1));
     }
