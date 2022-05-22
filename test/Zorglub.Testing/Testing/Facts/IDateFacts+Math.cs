@@ -7,7 +7,7 @@ using Zorglub.Testing.Data;
 using Zorglub.Time.Hemerology;
 
 /// <summary>
-/// Provides more facts about <see cref="IDate{TSelf}"/>.
+/// Provides math facts about <see cref="IDate{TSelf}"/>.
 /// <para>See also <seealso cref="IDateFacts{TDate, TDataSet}"/>.</para>
 /// </summary>
 public abstract partial class IDateMathFacts<TDate, TDataSet> :
@@ -73,9 +73,9 @@ public partial class IDateMathFacts<TDate, TDataSet> // Addition
     [Theory, MemberData(nameof(AddDaysData))]
     public void PlusDays(YemodaPairAnd<int> pair)
     {
+        int days = pair.Value;
         var date = GetDate(pair.First);
         var other = GetDate(pair.Second);
-        int days = pair.Value;
         // Act & Assert
         // 1) date + days = other.
         Assert.Equal(other, date + days);
@@ -83,6 +83,8 @@ public partial class IDateMathFacts<TDate, TDataSet> // Addition
         // 2) other - days = date.
         Assert.Equal(date, other - days);
         Assert.Equal(date, other.PlusDays(-days));
+        // 3) date - (-days) = other.
+        Assert.Equal(other, date - (-days));
     }
 
     [Theory, MemberData(nameof(ConsecutiveDaysData))]
@@ -97,14 +99,16 @@ public partial class IDateMathFacts<TDate, TDataSet> // Addition
         // 2) dateAfter - 1 = date.
         Assert.Equal(date, dateAfter - 1);
         Assert.Equal(date, dateAfter.PlusDays(-1));
+        // 3) date - (-days) = dateAfter.
+        Assert.Equal(dateAfter, date - (-1));
     }
 
     [Theory, MemberData(nameof(AddDaysData))]
     public void CountDaysSince(YemodaPairAnd<int> pair)
     {
+        int days = pair.Value;
         var date = GetDate(pair.First);
         var other = GetDate(pair.Second);
-        int days = pair.Value;
         // Act & Assert
         // 1) other - date = days.
         Assert.Equal(days, other - date);

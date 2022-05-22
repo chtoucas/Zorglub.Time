@@ -281,15 +281,12 @@ VS : pas de "Task List" :-(
 Style
 ------
 
-`'a` or `'T`? We don't follow the F# common rule. We use first form with 
+`'a` or `'T`? We don't follow the F# common rule. We use the first form with 
 functions and the other one with types.
 
-We us FShaprLint
-```
-> dotnet fsharplint lint .\test\Zorglub.Tests\Zorglub.Tests.fsproj
-```
+We us FSharpLint; see script `eng\lint.cmd`.
 
-FCustom rules:
+Custom rules:
 - memberNames, underscores: AllowPrefix -> AllowAny
 - redundantNewKeyword, enabled: true -> false
 
