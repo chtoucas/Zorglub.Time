@@ -3,7 +3,8 @@
 
 namespace Zorglub.Time
 {
-    // REVIEW(api): other value: Overflow? Naming: Exact -> Spillover?
+    // TODO(api): what does it mean for OrdinalDate.PlusYears()?
+    // other value: Overflow? Naming: Exact -> Spillover?
     // Préciser que cela n'affecte que les méthodes AddYears(date)
     // et AddMonths(date), peut-être aussi Subtract()?
 

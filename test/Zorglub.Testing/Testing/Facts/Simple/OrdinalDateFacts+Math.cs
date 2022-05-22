@@ -9,7 +9,7 @@ using Zorglub.Time.Simple;
 /// <summary>
 /// Provides facts about <see cref="CalendarDate"/> and its non-standard mathematical operations.
 /// </summary>
-public abstract partial class OrdinalDateMathFacts<TDataSet> :
+public abstract class OrdinalDateMathFacts<TDataSet> :
     CalendarDataConsumer<TDataSet>
     where TDataSet : ICalendarDataSet, IAdvancedMathDataSet, ISingleton<TDataSet>
 {
@@ -27,18 +27,6 @@ public abstract partial class OrdinalDateMathFacts<TDataSet> :
     }
 
     public static DataGroup<YemodaPairAnd<int>> AddYearsData => DataSet.AddYearsData;
-}
-
-public partial class OrdinalDateMathFacts<TDataSet> // PlusYears()
-{
-    [Theory, MemberData(nameof(DateInfoData))]
-    public void PlusYears_Zero_IsNeutral(DateInfo info)
-    {
-        var (y, doy) = info.Yedoy;
-        var date = CalendarUT.GetOrdinalDate(y, doy);
-        // Act & Assert
-        Assert.Equal(date, date.PlusYears(0));
-    }
 
     [Theory(Skip = "This cannot work with AddYearsData"), MemberData(nameof(AddYearsData))]
     public void PlusYears(YemodaPairAnd<int> info)
@@ -48,18 +36,6 @@ public partial class OrdinalDateMathFacts<TDataSet> // PlusYears()
         var other = GetDate(info.Second);
         // Act & Assert
         Assert.Equal(other, date.PlusYears(years));
-    }
-}
-
-public partial class OrdinalDateMathFacts<TDataSet> // CountYearsSince()
-{
-    [Theory, MemberData(nameof(DateInfoData))]
-    public void CountYearsSince_WhenSame_IsZero(DateInfo info)
-    {
-        var (y, doy) = info.Yedoy;
-        var date = CalendarUT.GetOrdinalDate(y, doy);
-        // Act & Assert
-        Assert.Equal(0, date.CountYearsSince(date));
     }
 
     [Theory, MemberData(nameof(AddYearsData))]

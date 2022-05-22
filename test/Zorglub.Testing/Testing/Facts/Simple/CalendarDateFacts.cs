@@ -260,3 +260,42 @@ public partial class CalendarDateFacts<TDataSet> // Conversions
         Assert.Equal(date, other.WithCalendar(CalendarUT));
     }
 }
+
+public partial class CalendarDateFacts<TDataSet> // Math
+{
+    [Theory, MemberData(nameof(DateInfoData))]
+    public void PlusMonths_Zero_IsNeutral(DateInfo info)
+    {
+        var (y, m, d) = info.Yemoda;
+        var date = CalendarUT.GetCalendarDate(y, m, d);
+        // Act & Assert
+        Assert.Equal(date, date.PlusMonths(0));
+    }
+
+    [Theory, MemberData(nameof(DateInfoData))]
+    public void CountMonthsSince_WhenSame_IsZero(DateInfo info)
+    {
+        var (y, m, d) = info.Yemoda;
+        var date = CalendarUT.GetCalendarDate(y, m, d);
+        // Act & Assert
+        Assert.Equal(0, date.CountMonthsSince(date));
+    }
+
+    [Theory, MemberData(nameof(DateInfoData))]
+    public void PlusYears_Zero_IsNeutral(DateInfo info)
+    {
+        var (y, m, d) = info.Yemoda;
+        var date = CalendarUT.GetCalendarDate(y, m, d);
+        // Act & Assert
+        Assert.Equal(date, date.PlusYears(0));
+    }
+
+    [Theory, MemberData(nameof(DateInfoData))]
+    public void CountYearsSince_WhenSame_IsZero(DateInfo info)
+    {
+        var (y, m, d) = info.Yemoda;
+        var date = CalendarUT.GetCalendarDate(y, m, d);
+        // Act & Assert
+        Assert.Equal(0, date.CountYearsSince(date));
+    }
+}

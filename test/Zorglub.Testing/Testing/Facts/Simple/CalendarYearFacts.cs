@@ -163,17 +163,6 @@ public partial class CalendarYearFacts<TDataSet> // Serialization
     }
 }
 
-public partial class CalendarYearFacts<TDataSet> // Conversions
-{
-    //[Fact]
-    //public void WithCalendar_NullCalendar()
-    //{
-    //    var year = CalendarUT.GetCalendarYear(1);
-    //    // Act & Assert
-    //    Assert.ThrowsAnexn("newCalendar", () => year.WithCalendar(null!));
-    //}
-}
-
 public partial class CalendarYearFacts<TDataSet> // Counting
 {
     [Theory, MemberData(nameof(YearInfoData))]
@@ -393,5 +382,83 @@ public partial class CalendarYearFacts<TDataSet> // IComparable
         // Act & Assert
         Assert.Equal(max, CalendarYear.Max(min, max));
         Assert.Equal(max, CalendarYear.Max(max, min));
+    }
+}
+
+public partial class CalendarYearFacts<TDataSet> // Increment / Decrement
+{
+    [Fact]
+    public void Increment_Overflows_AtMaxValue()
+    {
+        var max = CalendarUT.MinMaxYear.UpperValue;
+        Assert.Overflows(() => max++);
+    }
+
+    [Fact]
+    public void Decrement_Overflows_AtMinValue()
+    {
+        var min = CalendarUT.MinMaxYear.LowerValue;
+        Assert.Overflows(() => min--);
+    }
+
+    [Fact]
+    public void NextYear_Overflows_AtMaxValue()
+    {
+        var max = CalendarUT.MinMaxYear.UpperValue;
+        Assert.Overflows(() => max.NextYear());
+    }
+
+    [Fact]
+    public void PreviousYear_Overflows_AtMinValue()
+    {
+        var min = CalendarUT.MinMaxYear.LowerValue;
+        Assert.Overflows(() => min.PreviousYear());
+    }
+}
+
+public partial class CalendarYearFacts<TDataSet> // Addition
+{
+    [Fact]
+    public void PlusYears_Overflows()
+    {
+        var year = CalendarUT.GetCalendarYear(1);
+        // Act & Assert
+        Assert.Overflows(() => year.PlusYears(Int32.MinValue));
+        Assert.Overflows(() => year + Int32.MinValue);
+
+        Assert.Overflows(() => year.PlusYears(Int32.MaxValue));
+        Assert.Overflows(() => year + Int32.MaxValue);
+    }
+
+    [Theory, MemberData(nameof(YearInfoData))]
+    public void PlusYears_Zero_IsNeutral(YearInfo info)
+    {
+        var year = CalendarUT.GetCalendarYear(info.Year);
+        // Act & Assert
+        Assert.Equal(year, year.PlusYears(0));
+        Assert.Equal(year, year + 0);
+        Assert.Equal(year, year - 0);
+    }
+
+    [Fact]
+    public void CountYearsSince_DoesNotOverflow()
+    {
+        var (min, max) = CalendarUT.MinMaxYear;
+        int ys = max.Year - min.Year;
+        // Act & Assert
+        Assert.Equal(ys, max - min);
+        Assert.Equal(ys, max.CountYearsSince(min));
+
+        Assert.Equal(-ys, min - max);
+        Assert.Equal(-ys, min.CountYearsSince(max));
+    }
+
+    [Theory, MemberData(nameof(YearInfoData))]
+    public void CountYearsSince_WhenSame_IsZero(YearInfo info)
+    {
+        var year = CalendarUT.GetCalendarYear(info.Year);
+        // Act & Assert
+        Assert.Equal(0, year.CountYearsSince(year));
+        Assert.Equal(0, year - year);
     }
 }

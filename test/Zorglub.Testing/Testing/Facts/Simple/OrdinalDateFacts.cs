@@ -296,3 +296,24 @@ public partial class OrdinalDateFacts<TDataSet> // Adjustments
         }
     }
 }
+
+public partial class OrdinalDateFacts<TDataSet> // Math
+{
+    [Theory, MemberData(nameof(DateInfoData))]
+    public void PlusYears_Zero_IsNeutral(DateInfo info)
+    {
+        var (y, doy) = info.Yedoy;
+        var date = CalendarUT.GetOrdinalDate(y, doy);
+        // Act & Assert
+        Assert.Equal(date, date.PlusYears(0));
+    }
+
+    [Theory, MemberData(nameof(DateInfoData))]
+    public void CountYearsSince_WhenSame_IsZero(DateInfo info)
+    {
+        var (y, doy) = info.Yedoy;
+        var date = CalendarUT.GetOrdinalDate(y, doy);
+        // Act & Assert
+        Assert.Equal(0, date.CountYearsSince(date));
+    }
+}

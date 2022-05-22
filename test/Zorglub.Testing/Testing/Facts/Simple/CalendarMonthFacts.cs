@@ -185,17 +185,6 @@ public partial class CalendarMonthFacts<TDataSet> // Serialization
     }
 }
 
-public partial class CalendarMonthFacts<TDataSet> // Conversions
-{
-    //[Fact]
-    //public void WithCalendar_NullCalendar()
-    //{
-    //    var month = CalendarUT.GetCalendarMonth(1, 1);
-    //    // Act & Assert
-    //    Assert.ThrowsAnexn("newCalendar", () => month.WithCalendar(null!));
-    //}
-}
-
 public partial class CalendarMonthFacts<TDataSet> // Counting
 {
     [Theory, MemberData(nameof(MonthInfoData))]
@@ -422,5 +411,78 @@ public partial class CalendarMonthFacts<TDataSet> // IComparable
         // Act & Assert
         Assert.Equal(max, CalendarMonth.Max(min, max));
         Assert.Equal(max, CalendarMonth.Max(max, min));
+    }
+}
+
+public partial class CalendarMonthFacts<TDataSet> // Increment / Decrement
+{
+    [Fact]
+    public void Increment_Overflows_AtMaxValue()
+    {
+        var max = CalendarUT.MinMaxMonth.UpperValue;
+        Assert.Overflows(() => max++);
+    }
+
+    [Fact]
+    public void Decrement_Overflows_AtMinValue()
+    {
+        var min = CalendarUT.MinMaxMonth.LowerValue;
+        Assert.Overflows(() => min--);
+    }
+
+    [Fact]
+    public void NextYear_Overflows_AtMaxValue()
+    {
+        var max = CalendarUT.MinMaxMonth.UpperValue;
+        Assert.Overflows(() => max.NextMonth());
+    }
+
+    [Fact]
+    public void PreviousYear_Overflows_AtMinValue()
+    {
+        var min = CalendarUT.MinMaxMonth.LowerValue;
+        Assert.Overflows(() => min.PreviousMonth());
+    }
+}
+
+public partial class CalendarMonthFacts<TDataSet> // Math
+{
+    [Theory, MemberData(nameof(MonthInfoData))]
+    public void PlusMonths_Zero_IsNeutral(MonthInfo info)
+    {
+        var (y, m) = info.Yemo;
+        var month = CalendarUT.GetCalendarMonth(y, m);
+        // Act & Assert
+        Assert.Equal(month, month.PlusMonths(0));
+        Assert.Equal(month, month + 0);
+        Assert.Equal(month, month - 0);
+    }
+
+    [Theory, MemberData(nameof(MonthInfoData))]
+    public void CountMonthsSince_WhenSame_IsZero(MonthInfo info)
+    {
+        var (y, m) = info.Yemo;
+        var month = CalendarUT.GetCalendarMonth(y, m);
+        // Act & Assert
+        Assert.Equal(0, month.CountMonthsSince(month));
+        Assert.Equal(0, month - month);
+    }
+
+    [Theory, MemberData(nameof(MonthInfoData))]
+    public void PlusYears_Zero_IsNeutral(MonthInfo info)
+    {
+        var (y, m) = info.Yemo;
+        var month = CalendarUT.GetCalendarMonth(y, m);
+        // Act & Assert
+        Assert.Equal(month, month.PlusYears(0));
+    }
+
+    [Theory, MemberData(nameof(MonthInfoData))]
+    public void CountYearsSince_WhenSame_IsZero(MonthInfo info)
+    {
+        var (y, m) = info.Yemo;
+        var month = CalendarUT.GetCalendarMonth(y, m);
+        // Act & Assert
+        Assert.Equal(0, month.CountYearsSince(month));
     }
 }

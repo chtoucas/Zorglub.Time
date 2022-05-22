@@ -31,18 +31,6 @@ public abstract partial class CalendarMonthMathFacts<TDataSet> :
 
     public static DataGroup<YemodaPairAnd<int>> AddYearsData => DataSet.AddYearsData;
     public static DataGroup<YemodaPairAnd<int>> AddMonthsData => DataSet.AddMonthsData;
-}
-
-public partial class CalendarMonthMathFacts<TDataSet> // PlusMonths()
-{
-    [Theory, MemberData(nameof(MonthInfoData))]
-    public void PlusMonths_Zero_IsNeutral(MonthInfo info)
-    {
-        var (y, m) = info.Yemo;
-        var month = CalendarUT.GetCalendarMonth(y, m);
-        // Act & Assert
-        Assert.Equal(month, month.PlusMonths(0));
-    }
 
     [Theory, MemberData(nameof(AddMonthsData))]
     public void PlusMonths(YemodaPairAnd<int> info)
@@ -60,18 +48,6 @@ public partial class CalendarMonthMathFacts<TDataSet> // PlusMonths()
         // 3) month - (-ms) = other.
         Assert.Equal(other, month - (-ms));
     }
-}
-
-public partial class CalendarMonthMathFacts<TDataSet> // CountMonthsSince()
-{
-    [Theory, MemberData(nameof(MonthInfoData))]
-    public void CountMonthsSince_WhenSame_IsZero(MonthInfo info)
-    {
-        var (y, m) = info.Yemo;
-        var month = CalendarUT.GetCalendarMonth(y, m);
-        // Act & Assert
-        Assert.Equal(0, month.CountMonthsSince(month));
-    }
 
     [Theory, MemberData(nameof(AddMonthsData))]
     public void CountMonthsSince(YemodaPairAnd<int> info)
@@ -87,18 +63,6 @@ public partial class CalendarMonthMathFacts<TDataSet> // CountMonthsSince()
         Assert.Equal(-ms, month - other);
         Assert.Equal(-ms, month.CountMonthsSince(other));
     }
-}
-
-public partial class CalendarMonthMathFacts<TDataSet> // PlusYears()
-{
-    [Theory, MemberData(nameof(MonthInfoData))]
-    public void PlusYears_Zero_IsNeutral(MonthInfo info)
-    {
-        var (y, m) = info.Yemo;
-        var month = CalendarUT.GetCalendarMonth(y, m);
-        // Act & Assert
-        Assert.Equal(month, month.PlusYears(0));
-    }
 
     [Theory, MemberData(nameof(AddYearsData))]
     public void PlusYears(YemodaPairAnd<int> info)
@@ -109,18 +73,6 @@ public partial class CalendarMonthMathFacts<TDataSet> // PlusYears()
         // Act & Assert
         Assert.Equal(other, month.PlusYears(ys));
         Assert.Equal(month, other.PlusYears(-ys));
-    }
-}
-
-public partial class CalendarMonthMathFacts<TDataSet> // CountYearsSince()
-{
-    [Theory, MemberData(nameof(MonthInfoData))]
-    public void CountYearsSince_WhenSame_IsZero(MonthInfo info)
-    {
-        var (y, m) = info.Yemo;
-        var month = CalendarUT.GetCalendarMonth(y, m);
-        // Act & Assert
-        Assert.Equal(0, month.CountYearsSince(month));
     }
 
     [Theory, MemberData(nameof(AddYearsData))]
