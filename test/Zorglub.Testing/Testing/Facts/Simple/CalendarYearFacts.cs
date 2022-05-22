@@ -27,6 +27,8 @@ public abstract partial class CalendarYearFacts<TDataSet> :
         OtherCalendar = otherCalendar;
 
         SupportedYearsTester = new SupportedYearsTester(calendar.SupportedYears);
+
+        (MinValue, MaxValue) = calendar.MinMaxYear;
     }
 
     /// <summary>
@@ -37,6 +39,9 @@ public abstract partial class CalendarYearFacts<TDataSet> :
     protected Calendar OtherCalendar { get; }
 
     protected SupportedYearsTester SupportedYearsTester { get; }
+
+    protected CalendarYear MinValue { get; }
+    protected CalendarYear MaxValue { get; }
 }
 
 public partial class CalendarYearFacts<TDataSet> // Prelude
@@ -391,6 +396,7 @@ public partial class CalendarYearFacts<TDataSet> // Increment / Decrement
     public void Increment_Overflows_AtMaxValue()
     {
         var max = CalendarUT.MinMaxYear.UpperValue;
+        // Act & Assert
         Assert.Overflows(() => max++);
     }
 
@@ -398,6 +404,7 @@ public partial class CalendarYearFacts<TDataSet> // Increment / Decrement
     public void Decrement_Overflows_AtMinValue()
     {
         var min = CalendarUT.MinMaxYear.LowerValue;
+        // Act & Assert
         Assert.Overflows(() => min--);
     }
 
@@ -405,6 +412,7 @@ public partial class CalendarYearFacts<TDataSet> // Increment / Decrement
     public void NextYear_Overflows_AtMaxValue()
     {
         var max = CalendarUT.MinMaxYear.UpperValue;
+        // Act & Assert
         Assert.Overflows(() => max.NextYear());
     }
 
@@ -412,6 +420,7 @@ public partial class CalendarYearFacts<TDataSet> // Increment / Decrement
     public void PreviousYear_Overflows_AtMinValue()
     {
         var min = CalendarUT.MinMaxYear.LowerValue;
+        // Act & Assert
         Assert.Overflows(() => min.PreviousYear());
     }
 }
@@ -423,11 +432,69 @@ public partial class CalendarYearFacts<TDataSet> // Addition
     {
         var year = CalendarUT.GetCalendarYear(1);
         // Act & Assert
-        Assert.Overflows(() => year.PlusYears(Int32.MinValue));
         Assert.Overflows(() => year + Int32.MinValue);
+        Assert.Overflows(() => year.PlusYears(Int32.MinValue));
 
-        Assert.Overflows(() => year.PlusYears(Int32.MaxValue));
         Assert.Overflows(() => year + Int32.MaxValue);
+        Assert.Overflows(() => year.PlusYears(Int32.MaxValue));
+    }
+
+    [Fact]
+    public void PlusYears_WithLimitValues()
+    {
+        var year = CalendarUT.GetCalendarYear(1);
+        int minYs = MinValue - year;
+        int maxYs = MaxValue - year;
+        // Act & Assert
+        Assert.Overflows(() => year + (minYs - 1));
+        Assert.Overflows(() => year.PlusYears(minYs - 1));
+
+        Assert.Equal(MinValue, year + minYs);
+        Assert.Equal(MinValue, year.PlusYears(minYs));
+
+        Assert.Equal(MaxValue, year + maxYs);
+        Assert.Equal(MaxValue, year.PlusYears(maxYs));
+
+        Assert.Overflows(() => year + (maxYs + 1));
+        Assert.Overflows(() => year.PlusYears(maxYs + 1));
+    }
+
+    [Fact]
+    public void PlusYears_WithLimitValues_AtMinValue()
+    {
+        int ys = MaxValue - MinValue;
+        // Act & Assert
+        Assert.Overflows(() => MinValue - 1);
+        Assert.Overflows(() => MinValue.PlusYears(-1));
+
+        Assert.Equal(MinValue, MinValue - 0);
+        Assert.Equal(MinValue, MinValue + 0);
+        Assert.Equal(MinValue, MinValue.PlusYears(0));
+
+        Assert.Equal(MaxValue, MinValue + ys);
+        Assert.Equal(MaxValue, MinValue.PlusYears(ys));
+
+        Assert.Overflows(() => MinValue + (ys + 1));
+        Assert.Overflows(() => MinValue.PlusYears(ys + 1));
+    }
+
+    [Fact]
+    public void PlusYears_WithLimitValues_AtMaxValue()
+    {
+        int ys = MaxValue - MinValue;
+        // Act & Assert
+        Assert.Overflows(() => MaxValue - (ys + 1));
+        Assert.Overflows(() => MaxValue.PlusYears(-ys - 1));
+
+        Assert.Equal(MinValue, MaxValue - ys);
+        Assert.Equal(MinValue, MaxValue.PlusYears(-ys));
+
+        Assert.Equal(MaxValue, MaxValue - 0);
+        Assert.Equal(MaxValue, MaxValue + 0);
+        Assert.Equal(MaxValue, MaxValue.PlusYears(0));
+
+        Assert.Overflows(() => MaxValue + 1);
+        Assert.Overflows(() => MaxValue.PlusYears(1));
     }
 
     [Theory, MemberData(nameof(YearInfoData))]
@@ -435,9 +502,9 @@ public partial class CalendarYearFacts<TDataSet> // Addition
     {
         var year = CalendarUT.GetCalendarYear(info.Year);
         // Act & Assert
-        Assert.Equal(year, year.PlusYears(0));
         Assert.Equal(year, year + 0);
         Assert.Equal(year, year - 0);
+        Assert.Equal(year, year.PlusYears(0));
     }
 
     [Fact]
@@ -458,7 +525,7 @@ public partial class CalendarYearFacts<TDataSet> // Addition
     {
         var year = CalendarUT.GetCalendarYear(info.Year);
         // Act & Assert
-        Assert.Equal(0, year.CountYearsSince(year));
         Assert.Equal(0, year - year);
+        Assert.Equal(0, year.CountYearsSince(year));
     }
 }

@@ -159,19 +159,17 @@ public partial class IDateFacts<TDate, TDataSet> // Increment / decrement
     [Fact]
     public void Increment_Overflows_AtMaxValue()
     {
-        // Act
         var copy = MaxDate;
-        // Assert
-        Assert.Overflows(() => ++copy);
+        // Act & Assert
+        Assert.Overflows(() => copy++);
     }
 
     [Fact]
     public void Decrement_Overflows_AtMinValue()
     {
-        // Act
         var copy = MinDate;
-        // Assert
-        Assert.Overflows(() => --copy);
+        // Act & Assert
+        Assert.Overflows(() => copy--);
     }
 
     [Fact]
@@ -190,11 +188,11 @@ public partial class IDateFacts<TDate, TDataSet> // Addition
     {
         var date = GetDate(1, 1, 1);
         // Act & Assert
-        Assert.Overflows(() => date.PlusDays(Int32.MinValue));
         Assert.Overflows(() => date + Int32.MinValue);
+        Assert.Overflows(() => date.PlusDays(Int32.MinValue));
 
-        Assert.Overflows(() => date.PlusDays(Int32.MaxValue));
         Assert.Overflows(() => date + Int32.MaxValue);
+        Assert.Overflows(() => date.PlusDays(Int32.MaxValue));
     }
 
     [Fact]
