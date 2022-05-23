@@ -411,9 +411,9 @@ public partial class CivilDateTests // Conversions
         SupportedYearsTester.TestInvalidYear(y => CivilDate.FromOrdinalDate(y, 1));
 
     [Theory, MemberData(nameof(InvalidDayOfYearFieldData))]
-    public static void FromOrdinalDate_InvalidDayOfYear(int y, int dayOfYear) =>
+    public static void FromOrdinalDate_InvalidDayOfYear(int y, int doy) =>
         Assert.ThrowsAoorexn("dayOfYear",
-            () => CivilDate.FromOrdinalDate(y, dayOfYear));
+            () => CivilDate.FromOrdinalDate(y, doy));
 
     [Theory, MemberData(nameof(DateInfoData))]
     public static void FromOrdinalDate(DateInfo info)

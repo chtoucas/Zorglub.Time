@@ -14,6 +14,7 @@ namespace Zorglub.Time.Simple
     /// </summary>
     public readonly partial struct OrdinalDate :
         ISimpleDate<OrdinalDate>,
+        IAdjustableOrdinal<OrdinalDate>,
         ISubtractionOperators<OrdinalDate, int, OrdinalDate>
     {
         /// <summary>
@@ -487,11 +488,7 @@ namespace Zorglub.Time.Simple
         #endregion
         #region Adjustments
 
-        /// <summary>
-        /// Adjusts the date fields to the specified values, yielding a new ordinal date.
-        /// </summary>
-        /// <exception cref="ArgumentNullException"><paramref name="adjuster"/> is null.</exception>
-        /// <exception cref="AoorException">The resulting date would be invalid.</exception>
+        /// <inheritdoc/>
         [Pure]
         public OrdinalDate Adjust(Func<OrdinalParts, OrdinalParts> adjuster)
         {
@@ -502,10 +499,7 @@ namespace Zorglub.Time.Simple
             return new OrdinalDate(ydoy, Cuid);
         }
 
-        /// <summary>
-        /// Adjusts the year field to the specified value, yielding a new ordinal date.
-        /// </summary>
-        /// <exception cref="AoorException">The resulting date would be invalid.</exception>
+        /// <inheritdoc/>
         [Pure]
         public OrdinalDate WithYear(int newYear)
         {
@@ -515,10 +509,7 @@ namespace Zorglub.Time.Simple
             return new OrdinalDate(newYear, doy, Cuid);
         }
 
-        /// <summary>
-        /// Adjusts the day of the year field to the specified value, yielding a new ordinal date.
-        /// </summary>
-        /// <exception cref="AoorException">The resulting date would be invalid.</exception>
+        /// <inheritdoc/>
         [Pure]
         public OrdinalDate WithDayOfYear(int newDayOfYear)
         {

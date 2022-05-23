@@ -26,6 +26,69 @@ public abstract partial class IAdjustableDateFacts<TDate, TDataSet> :
     protected abstract TDate GetDate(int y, int m, int d);
 }
 
+public partial class IAdjustableDateFacts<TDate, TDataSet> // Adjust()
+{
+    [Fact]
+    public void Adjust_InvalidAdjuster()
+    {
+        var date = GetDate(1, 1, 1);
+        // Act & Assert
+        Assert.ThrowsAnexn("adjuster", () => date.Adjust(null!));
+    }
+
+    [Theory, MemberData(nameof(DateInfoData))]
+    public void Adjust_InvalidYears(DateInfo info)
+    {
+        var (y, m, d) = info.Yemoda;
+        var date = GetDate(y, m, d);
+        foreach (var invalidYear in SupportedYearsTester.InvalidYears)
+        {
+            var adjuster = (DateParts parts) =>
+            {
+                var (y, m, d) = parts;
+                return new DateParts(invalidYear, m, d);
+            };
+            // Act & Assert
+            Assert.ThrowsAoorexn("year", () => date.Adjust(adjuster));
+        }
+    }
+
+    [Theory, MemberData(nameof(InvalidMonthFieldData))]
+    public void Adjust_InvalidMonth(int y, int newMonth)
+    {
+        var date = GetDate(y, 1, 1);
+        var adjuster = (DateParts parts) =>
+        {
+            var (y, m, d) = parts;
+            return new DateParts(y, newMonth, d);
+        };
+        // Act & Assert
+        Assert.ThrowsAoorexn("month", () => date.Adjust(adjuster));
+    }
+
+    [Theory, MemberData(nameof(InvalidDayFieldData))]
+    public void Adjust_InvalidDay(int y, int m, int newDay)
+    {
+        var date = GetDate(y, m, 1);
+        var adjuster = (DateParts parts) =>
+        {
+            var (y, m, d) = parts;
+            return new DateParts(y, m, newDay);
+        };
+        // Act & Assert
+        Assert.ThrowsAoorexn("day", () => date.Adjust(adjuster));
+    }
+
+    [Theory, MemberData(nameof(DateInfoData))]
+    public void Adjust_Invariant(DateInfo info)
+    {
+        var (y, m, d) = info.Yemoda;
+        var date = GetDate(y, m, d);
+        // Act & Assert
+        Assert.Equal(date, date.Adjust(x => x));
+    }
+}
+
 public partial class IAdjustableDateFacts<TDate, TDataSet> // WithYear()
 {
     [Theory, MemberData(nameof(DateInfoData))]

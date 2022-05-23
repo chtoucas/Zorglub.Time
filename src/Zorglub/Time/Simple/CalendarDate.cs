@@ -448,10 +448,7 @@ namespace Zorglub.Time.Simple
         #endregion
         #region Adjustments
 
-        /// <summary>
-        /// Adjusts the date fields to the specified values, yielding a new date.
-        /// </summary>
-        /// <exception cref="AoorException">The resulting date would be invalid.</exception>
+        /// <inheritdoc/>
         [Pure]
         public CalendarDate Adjust(Func<DateParts, DateParts> adjuster)
         {
@@ -462,10 +459,7 @@ namespace Zorglub.Time.Simple
             return new CalendarDate(ymd, Cuid);
         }
 
-        /// <summary>
-        /// Adjusts the year field to the specified value, yielding a new date.
-        /// </summary>
-        /// <exception cref="AoorException">The resulting date would be invalid.</exception>
+        /// <inheritdoc/>
         [Pure]
         public CalendarDate WithYear(int newYear)
         {
@@ -476,10 +470,7 @@ namespace Zorglub.Time.Simple
             return new CalendarDate(newYear, m, d, Cuid);
         }
 
-        /// <summary>
-        /// Adjusts the month field to the specified value, yielding a new date.
-        /// </summary>
-        /// <exception cref="AoorException">The resulting date would be invalid.</exception>
+        /// <inheritdoc/>
         [Pure]
         public CalendarDate WithMonth(int newMonth)
         {
@@ -490,10 +481,7 @@ namespace Zorglub.Time.Simple
             return new CalendarDate(y, newMonth, d, Cuid);
         }
 
-        /// <summary>
-        /// Adjusts the day of the month field to the specified value, yielding a new date.
-        /// </summary>
-        /// <exception cref="AoorException">The resulting date would be invalid.</exception>
+        /// <inheritdoc/>
         [Pure]
         public CalendarDate WithDay(int newDay)
         {

@@ -323,10 +323,18 @@ namespace Zorglub.Time.Hemerology
         #endregion
         #region Adjustments
 
-        /// <summary>
-        /// Adjusts the year field of the specified date to the specified value, yielding a new date.
-        /// </summary>
-        /// <exception cref="AoorException">The resulting date would be invalid.</exception>
+        /// <inheritdoc/>
+        [Pure]
+        public WideDate Adjust(Func<DateParts, DateParts> adjuster)
+        {
+            Requires.NotNull(adjuster);
+
+            var chr = Calendar;
+            var ymd = adjuster.Invoke(new DateParts(Parts)).ToYemoda(chr.Scope);
+            return new WideDate(ymd, Cuid);
+        }
+
+        /// <inheritdoc/>
         [Pure]
         public WideDate WithYear(int newYear)
         {
@@ -336,10 +344,7 @@ namespace Zorglub.Time.Hemerology
             return new WideDate(newYear, m, d, Cuid);
         }
 
-        /// <summary>
-        /// Adjusts the month field of the specified date to the specified value, yielding a new date.
-        /// </summary>
-        /// <exception cref="AoorException">The resulting date would be invalid.</exception>
+        /// <inheritdoc/>
         [Pure]
         public WideDate WithMonth(int newMonth)
         {
@@ -349,11 +354,7 @@ namespace Zorglub.Time.Hemerology
             return new WideDate(y, newMonth, d, Cuid);
         }
 
-        /// <summary>
-        /// Adjusts the day of the month field of the specified date to the specified value,
-        /// yielding a new date.
-        /// </summary>
-        /// <exception cref="AoorException">The resulting date would be invalid.</exception>
+        /// <inheritdoc/>
         [Pure]
         public WideDate WithDay(int newDay)
         {

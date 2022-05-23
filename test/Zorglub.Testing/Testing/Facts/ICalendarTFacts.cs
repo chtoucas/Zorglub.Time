@@ -72,8 +72,8 @@ public partial class ICalendarTFacts<TDate, TCalendar, TDataSet> // Factories
         SupportedYearsTester.TestInvalidYear(y => GetDate(y, 1));
 
     [Theory, MemberData(nameof(InvalidDayOfYearFieldData))]
-    public void Factory﹍Ordinal_InvalidDayOfYear(int y, int dayOfYear) =>
-        Assert.ThrowsAoorexn("dayOfYear", () => GetDate(y, dayOfYear));
+    public void Factory﹍Ordinal_InvalidDayOfYear(int y, int doy) =>
+        Assert.ThrowsAoorexn("dayOfYear", () => GetDate(y, doy));
 
     [Theory, MemberData(nameof(DateInfoData))]
     public void Factory﹍Ordinal(DateInfo info)

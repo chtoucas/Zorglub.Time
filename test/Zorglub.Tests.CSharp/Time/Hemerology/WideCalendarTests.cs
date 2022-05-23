@@ -109,8 +109,8 @@ public partial class WideCalendarTests // Conversions
         SupportedYearsTester.TestInvalidYear(y => CalendarUT.GetWideDateOn(y, 1));
 
     [Theory, MemberData(nameof(InvalidDayOfYearFieldData))]
-    public void CreationFromOrdinalDate_InvalidDayOfYear(int y, int dayOfYear) =>
-        Assert.ThrowsAoorexn("dayOfYear", () => CalendarUT.GetWideDateOn(y, dayOfYear));
+    public void CreationFromOrdinalDate_InvalidDayOfYear(int y, int doy) =>
+        Assert.ThrowsAoorexn("dayOfYear", () => CalendarUT.GetWideDateOn(y, doy));
 
     [Theory, MemberData(nameof(DateInfoData))]
     public void CreationFromOrdinalDate(DateInfo info)

@@ -655,6 +655,17 @@ namespace Zorglub.Time.Hemerology
         #endregion
         #region Adjust a single field
 
+        /// <inheritdoc/>
+        [Pure]
+        public CivilDate Adjust(Func<DateParts, DateParts> adjuster)
+        {
+            Requires.NotNull(adjuster);
+
+            Unpack(out int y, out int m, out int d);
+            var (y1, m1, d1) = adjuster.Invoke(new DateParts(y, m, d));
+            return new CivilDate(y1, m1, d1);
+        }
+
         /// <summary>
         /// Adjusts the year field of the specified date to the specified value,
         /// yielding a new date.
