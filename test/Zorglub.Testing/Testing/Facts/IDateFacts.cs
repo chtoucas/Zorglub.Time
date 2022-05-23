@@ -199,7 +199,7 @@ public partial class IDateFacts<TDate, TDataSet> // Addition
     public void PlusDays_WithLimitValues()
     {
         var (minDayNumber, maxDayNumber) = Domain.Endpoints;
-        // TODO(fact): we should not use the epoch...
+        // TODO(fact): we should not use the epoch 1/1/1...
         var date = GetDate(1, 1, 1);
         var dayNumber = date.ToDayNumber();
         int minDays = minDayNumber - dayNumber;

@@ -269,10 +269,11 @@ public partial class OrdinalDateFacts<TDataSet> // Adjustments
 {
     #region WithYear()
 
-    [Fact]
-    public void WithYear_InvalidYears()
+    [Theory, MemberData(nameof(DateInfoData))]
+    public void WithYear_InvalidYears(DateInfo info)
     {
-        var date = CalendarUT.GetOrdinalDate(1, 1);
+        var (y, doy) = info.Yedoy;
+        var date = CalendarUT.GetOrdinalDate(y, doy);
         // Act & Assert
         SupportedYearsTester.TestInvalidYear(date.WithYear, "newYear");
     }

@@ -29,10 +29,11 @@ public abstract partial class IAdjustableDateFacts<TDate, TDataSet> :
 
 public partial class IAdjustableDateFacts<TDate, TDataSet> // WithYear()
 {
-    [Fact]
-    public void WithYear_InvalidYears()
+    [Theory, MemberData(nameof(DateInfoData))]
+    public void WithYear_InvalidYears(DateInfo info)
     {
-        var date = GetDate(1, 1, 1);
+        var (y, m, d) = info.Yemoda;
+        var date = GetDate(y, m, d);
         // Act & Assert
         SupportedYearsTester.TestInvalidYear(date.WithYear, "newYear");
     }
@@ -49,15 +50,6 @@ public partial class IAdjustableDateFacts<TDate, TDataSet> // WithYear()
         }
     }
 
-    [Theory, MemberData(nameof(InvalidYearAdjustementData))]
-    public void WithYear_InvalidResult(YemodaAnd<int> info)
-    {
-        var (y, m, d, newYear) = info;
-        var date = GetDate(y, m, d);
-        // Act & Assert
-        Assert.ThrowsAoorexn("newYear", () => date.WithYear(newYear));
-    }
-
     [Theory, MemberData(nameof(DateInfoData))]
     public void WithYear_Invariant(DateInfo info)
     {
@@ -67,8 +59,27 @@ public partial class IAdjustableDateFacts<TDate, TDataSet> // WithYear()
         Assert.Equal(date, date.WithYear(y));
     }
 
+    [Theory, MemberData(nameof(DateInfoData))]
+    public void WithYear(DateInfo info)
+    {
+        var (y, m, d) = info.Yemoda;
+        var date = GetDate(1, m, d);
+        var exp = GetDate(y, m, d);
+        // Act & Assert
+        Assert.Equal(exp, date.WithYear(y));
+    }
+
+    [Theory, MemberData(nameof(InvalidYearAdjustementData))]
+    public void WithYear_InvalidResult(YemodaAnd<int> info)
+    {
+        var (y, m, d, newYear) = info;
+        var date = GetDate(y, m, d);
+        // Act & Assert
+        Assert.ThrowsAoorexn("newYear", () => date.WithYear(newYear));
+    }
+
     [Theory, MemberData(nameof(YearAdjustementData))]
-    public void WithYear(YemodaAnd<int> info)
+    public void WithYear_ValidResult(YemodaAnd<int> info)
     {
         var (y, m, d, newYear) = info;
         var date = GetDate(y, m, d);

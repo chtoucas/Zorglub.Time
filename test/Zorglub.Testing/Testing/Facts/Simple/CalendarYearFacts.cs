@@ -260,8 +260,6 @@ public partial class CalendarYearFacts<TDataSet> // Adjustments
         }
     }
 
-    // TODO(fact): InvalidYearAdjustementData, YearAdjustementData, idem with CalendarMonth.
-
     [Theory, MemberData(nameof(YearInfoData))]
     public void WithYear_Invariant(YearInfo info)
     {

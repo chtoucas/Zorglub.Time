@@ -5,8 +5,8 @@ namespace Zorglub.Testing.Facts.Core;
 
 using Zorglub.Testing.Data;
 
-// TODO(fact): once IDaysInMonthDistribution becomes public, this should be part
-// of SystemSchemaFacts.
+// REVIEW(fact): once IDaysInMonthDistribution becomes public, this should be
+// part of SystemSchemaFacts.
 
 internal static class DaysInMonthDistributionFacts
 {

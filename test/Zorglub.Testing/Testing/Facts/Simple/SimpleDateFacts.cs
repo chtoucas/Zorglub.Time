@@ -8,7 +8,7 @@ using Zorglub.Time.Core.Intervals;
 using Zorglub.Time.Hemerology;
 using Zorglub.Time.Simple;
 
-// TODO(fact): skip serialization if CalendarUT is not a system calendar; idem
+// FIXME(fact): skip serialization if CalendarUT is not a system calendar; idem
 // with CalendarYear/Month.
 // ISimpleDate is internal, create and use a SimpleDateProxy?
 
