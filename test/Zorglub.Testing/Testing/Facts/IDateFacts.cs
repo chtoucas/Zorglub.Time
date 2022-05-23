@@ -10,6 +10,7 @@ namespace Zorglub.Testing.Facts;
 // TODO(fact): for simple date objects the constructor is tested in
 // CalendarFacts (Factories). For the others, copy this code: CivilDate
 // and WideDate. See also CalendarDateTests.
+// Filter CalCalDataSet.DayOfWeekData.
 
 using Zorglub.Testing.Data;
 using Zorglub.Time.Core.Intervals;
@@ -49,8 +50,6 @@ public abstract partial class IDateFacts<TDate, TDataSet> :
     public static DataGroup<DayNumberInfo> DayNumberInfoData => DataSet.DayNumberInfoData;
 }
 
-// TODO(fact): static methods (gregorian-specific) -> move this to F# test project.
-
 public partial class IDateFacts<TDate, TDataSet> // Prelude
 {
     //[Theory, MemberData(nameof(CalCalDataSet.DayOfWeekData), MemberType = typeof(CalCalDataSet))]
@@ -65,22 +64,6 @@ public partial class IDateFacts<TDate, TDataSet> // Prelude
 
 public partial class IDateFacts<TDate, TDataSet> // Conversions
 {
-    //[Fact]
-    //public void FromDayNumber_InvalidDayNumber() =>
-    //    DomainTester.TestInvalidDayNumber(TDate.FromDayNumber);
-
-    //[Theory, MemberData(nameof(DayNumberInfoData))]
-    //public void FromDayNumber(DayNumberInfo info)
-    //{
-    //    var (dayNumber, y, m, d) = info;
-    //    // Act
-    //    var date = TDate.FromDayNumber(dayNumber);
-    //    // Assert
-    //    Assert.Equal(y, date.Year);
-    //    Assert.Equal(m, date.Month);
-    //    Assert.Equal(d, date.Day);
-    //}
-
     [Theory, MemberData(nameof(DayNumberInfoData))]
     public void ToDayNumber(DayNumberInfo info)
     {

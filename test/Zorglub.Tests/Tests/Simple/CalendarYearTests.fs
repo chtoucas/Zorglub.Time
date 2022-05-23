@@ -16,7 +16,9 @@ open Xunit
 module GregorianCase =
     let private chr = GregorianCalendar.Instance
     let private dataSet = ProlepticGregorianDataSet.Instance
+    let private domainTester = new DomainTester(chr.Domain)
 
+    let dayNumberInfoData = dataSet.DayNumberInfoData
     let yearInfoData = dataSet.YearInfoData
 
     [<Fact>]
@@ -46,9 +48,24 @@ module GregorianCase =
 
         year.ToString() === str
 
+    //
+    // Factories
+    //
+
     [<Fact>]
     let ``GetCurrentYear()`` () =
         let now = DateTime.Now
         let year = CalendarYear.GetCurrentYear()
 
         year.Year  === now.Year
+
+    [<Fact>]
+    let ``FromDayNumber() invalid dayNumber`` () =
+        domainTester.TestInvalidDayNumber(CalendarYear.FromDayNumber)
+
+    [<Theory; MemberData(nameof(dayNumberInfoData))>]
+    let ``FromDayNumber()`` (info: DayNumberInfo) =
+        let (dayNumber, y, _, _) = info.Deconstruct()
+        let year = CalendarYear.FromDayNumber(dayNumber)
+
+        year.Year  === y

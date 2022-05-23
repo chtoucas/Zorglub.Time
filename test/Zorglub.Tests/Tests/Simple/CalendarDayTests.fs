@@ -17,6 +17,7 @@ open Xunit
 module GregorianCase =
     let private chr = GregorianCalendar.Instance
     let private dataSet = ProlepticGregorianDataSet.Instance
+    let private domainTester = new DomainTester(chr.Domain)
 
     let dayNumberInfoData = dataSet.DayNumberInfoData
 
@@ -49,6 +50,10 @@ module GregorianCase =
         let date = chr.GetCalendarDate(y, m, d).ToCalendarDay()
 
         date.ToString() === str
+
+    //
+    // Factories
+    //
 
     [<Fact>]
     let ``Today()`` () =

@@ -92,6 +92,7 @@ namespace Zorglub.Time.Simple
         /// <summary>
         /// Gets the month of the year.
         /// </summary>
+        // REVIEW(api): we should name it Month, not MonthOfYear.
         public int MonthOfYear => _bin.Month;
 
         /// <summary>
