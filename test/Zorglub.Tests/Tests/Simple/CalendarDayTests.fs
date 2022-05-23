@@ -15,13 +15,13 @@ open Zorglub.Time.Simple
 open Xunit
 
 module GregorianCase =
+    let private chr = GregorianCalendar.Instance
     let private dataSet = ProlepticGregorianDataSet.Instance
 
     let dayNumberInfoData = dataSet.DayNumberInfoData
 
     [<Fact>]
     let ``Constructor throws when "dayNumber" is out of range`` () =
-        let chr = GregorianCalendar.Instance
         let domainTester = new DomainTester(chr.Domain)
 
         domainTester.TestInvalidDayNumber(fun x -> new CalendarDay(x))
@@ -34,7 +34,7 @@ module GregorianCase =
         date.Year     === y
         date.Month    === m
         date.Day      === d
-        date.Calendar ==& GregorianCalendar.Instance
+        date.Calendar ==& chr
 
     [<Theory>]
     [<InlineData(-1, 1, 1, "01/01/-0001 (Gregorian)")>]
@@ -46,7 +46,7 @@ module GregorianCase =
     [<InlineData(2019, 1, 3, "03/01/2019 (Gregorian)")>]
     [<InlineData(9999, 12, 31, "31/12/9999 (Gregorian)")>]
     let ``ToString()`` y m d str =
-        let date = GregorianCalendar.Instance.GetCalendarDate(y, m, d).ToCalendarDay()
+        let date = chr.GetCalendarDate(y, m, d).ToCalendarDay()
 
         date.ToString() === str
 
@@ -60,13 +60,14 @@ module GregorianCase =
         today.Day   === now.Day
 
 module JulianCase =
+    let private chr = JulianCalendar.Instance
     let private dataSet = ProlepticJulianDataSet.Instance
 
     let dayNumberInfoData = dataSet.DayNumberInfoData
 
     [<Theory; MemberData(nameof(dayNumberInfoData))>]
     let ``Roundtrip serialization`` (info: DayNumberInfo) =
-        let date = JulianCalendar.Instance.GetCalendarDay(info.DayNumber)
+        let date = chr.GetCalendarDay(info.DayNumber)
 
         CalendarDay.FromBinary(date.ToBinary()) === date
 

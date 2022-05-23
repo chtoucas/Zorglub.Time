@@ -14,6 +14,7 @@ open Zorglub.Time.Simple
 open Xunit
 
 module GregorianCase =
+    let private chr = GregorianCalendar.Instance
     let private dataSet = ProlepticGregorianDataSet.Instance
 
     let dateInfoData = dataSet.DateInfoData
@@ -22,7 +23,6 @@ module GregorianCase =
 
     [<Fact>]
     let ``Constructor throws when "year" is out of range`` () =
-        let chr = GregorianCalendar.Instance
         let supportedYearsTester = new SupportedYearsTester(chr.SupportedYears)
 
         supportedYearsTester.TestInvalidYear(fun y -> new CalendarDate(y, 1, 1))
@@ -44,7 +44,7 @@ module GregorianCase =
         date.Month     === m
         date.DayOfYear === doy
         date.Day       === d
-        date.Calendar  ==& GregorianCalendar.Instance
+        date.Calendar  ==& chr
 
     [<Theory>]
     [<InlineData(-1, 1, 1, "01/01/-0001 (Gregorian)")>]
@@ -56,7 +56,7 @@ module GregorianCase =
     [<InlineData(2019, 1, 3, "03/01/2019 (Gregorian)")>]
     [<InlineData(9999, 12, 31, "31/12/9999 (Gregorian)")>]
     let ``ToString()`` y m d str =
-        let date = GregorianCalendar.Instance.GetCalendarDate(y, m, d)
+        let date = chr.GetCalendarDate(y, m, d)
 
         date.ToString() === str
 
@@ -70,6 +70,7 @@ module GregorianCase =
         today.Day   === now.Day
 
 module JulianCase =
+    let private chr = JulianCalendar.Instance
     let private dataSet = ProlepticJulianDataSet.Instance
 
     let dateInfoData = dataSet.DateInfoData
@@ -78,7 +79,7 @@ module JulianCase =
     [<Theory; MemberData(nameof(dateInfoData))>]
     let ``Roundtrip serialization`` (info: DateInfo) =
         let y, m, d = info.Yemoda.Deconstruct()
-        let date = JulianCalendar.Instance.GetCalendarDate(y, m, d)
+        let date = chr.GetCalendarDate(y, m, d)
 
         CalendarDate.FromBinary(date.ToBinary()) === date
 

@@ -14,6 +14,7 @@ open Zorglub.Time.Simple
 open Xunit
 
 module GregorianCase =
+    let private chr = GregorianCalendar.Instance
     let private dataSet = ProlepticGregorianDataSet.Instance
 
     let monthInfoData = dataSet.MonthInfoData
@@ -21,7 +22,6 @@ module GregorianCase =
 
     [<Fact>]
     let ``Constructor throws when "year" is out of range`` () =
-        let chr = GregorianCalendar.Instance
         let supportedYearsTester = new SupportedYearsTester(chr.SupportedYears)
 
         supportedYearsTester.TestInvalidYear(fun y -> new CalendarMonth(y, 1))
@@ -37,7 +37,7 @@ module GregorianCase =
 
         month.Year        === y
         month.MonthOfYear === m
-        month.Calendar    ==& GregorianCalendar.Instance
+        month.Calendar    ==& chr
 
     [<Theory>]
     [<InlineData(-1, 1, "01/-0001 (Gregorian)")>]
@@ -49,7 +49,7 @@ module GregorianCase =
     [<InlineData(2019, 1, "01/2019 (Gregorian)")>]
     [<InlineData(9999, 12,  "12/9999 (Gregorian)")>]
     let ``ToString()`` y m str =
-        let month = GregorianCalendar.Instance.GetCalendarMonth(y, m)
+        let month = chr.GetCalendarMonth(y, m)
 
         month.ToString() === str
 

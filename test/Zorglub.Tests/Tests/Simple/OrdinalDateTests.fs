@@ -15,6 +15,7 @@ open Zorglub.Time.Simple
 open Xunit
 
 module GregorianCase =
+    let private chr = GregorianCalendar.Instance
     let private dataSet = ProlepticGregorianDataSet.Instance
 
     let dateInfoData = dataSet.DateInfoData
@@ -22,7 +23,6 @@ module GregorianCase =
 
     [<Fact>]
     let ``Constructor throws when "year" is out of range`` () =
-        let chr = GregorianCalendar.Instance
         let supportedYearsTester = new SupportedYearsTester(chr.SupportedYears)
 
         supportedYearsTester.TestInvalidYear(fun y -> new OrdinalDate(y, 1))
@@ -40,7 +40,7 @@ module GregorianCase =
         date.Month     === m
         date.DayOfYear === doy
         date.Day       === d
-        date.Calendar  ==& GregorianCalendar.Instance
+        date.Calendar  ==& chr
 
     [<Theory>]
     [<InlineData(-1, 1, "001/-0001 (Gregorian)")>]
@@ -52,7 +52,7 @@ module GregorianCase =
     [<InlineData(2019, 3, "003/2019 (Gregorian)")>]
     [<InlineData(9999, 365, "365/9999 (Gregorian)")>]
     let ``ToString()`` y doy str =
-        let date = GregorianCalendar.Instance.GetOrdinalDate(y, doy)
+        let date = chr.GetOrdinalDate(y, doy)
 
         date.ToString() === str
 
@@ -65,7 +65,23 @@ module GregorianCase =
         today.Month === now.Month
         today.Day   === now.Day
 
+    [<Fact>]
+    let ``WithYear() invalid result`` () =
+        // End of a leap year mapped to a common year.
+        let date = chr.GetOrdinalDate(4, 366)
+
+        outOfRangeExn "newYear" (fun () -> date.WithYear(3))
+
+    [<Fact>]
+    let ``WithYear() valid result`` () =
+        // End of a leap year mapped to another leap year.
+        let date = chr.GetOrdinalDate(4, 366)
+        let exp = chr.GetOrdinalDate(8, 366)
+
+        date.WithYear(8) === exp
+
 module JulianCase =
+    let private chr = JulianCalendar.Instance
     let private dataSet = ProlepticJulianDataSet.Instance
 
     let dateInfoData = dataSet.DateInfoData
@@ -73,7 +89,7 @@ module JulianCase =
     [<Theory; MemberData(nameof(dateInfoData))>]
     let ``Roundtrip serialization`` (info: DateInfo) =
         let y, doy = info.Yedoy.Deconstruct()
-        let date = JulianCalendar.Instance.GetOrdinalDate(y, doy)
+        let date = chr.GetOrdinalDate(y, doy)
 
         OrdinalDate.FromBinary(date.ToBinary()) === date
 
