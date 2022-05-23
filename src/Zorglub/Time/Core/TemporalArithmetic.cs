@@ -5,6 +5,8 @@ namespace Zorglub.Time.Core
 {
     using static TemporalConstants;
 
+    // REVIEW(code): do we need to use checked ops?
+
     // I observe very tiny performance gains only with:
     // - DivideByNanosecondsPerHour
     // - MultiplyByNanosecondsPerHour
