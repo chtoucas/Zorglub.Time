@@ -6,9 +6,7 @@ namespace Zorglub.Time.Core;
 using Zorglub.Time.Core.Intervals;
 using Zorglub.Time.Core.Utilities;
 
-public static partial class SegmentTests { }
-
-public partial class SegmentTests // Factories
+public static class SegmentTests
 {
     [Fact]
     public static void Create_InvalidEnd()

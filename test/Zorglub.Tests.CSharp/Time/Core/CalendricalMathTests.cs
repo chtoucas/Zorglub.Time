@@ -5,7 +5,7 @@ namespace Zorglub.Time.Core;
 
 using Zorglub.Time.Core.Arithmetic;
 
-public static partial class CalendricalMathTests
+public static class CalendricalMathTests
 {
     public static readonly TheoryData<int> YearData = new()
     {
@@ -35,10 +35,7 @@ public static partial class CalendricalMathTests
         Yemoda.MaxYear + 1,
         Int32.MaxValue,
     };
-}
 
-public partial class CalendricalMathTests
-{
     [Theory, MemberData(nameof(InvalidYearData))]
     public static void CheckYearOverflow_InvalidYear(int y) =>
         Assert.Overflows(() => CalendricalMath.CheckYearOverflow(y));
