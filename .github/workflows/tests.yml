@@ -18,9 +18,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Restore
-      run: dotnet restore
     - name: Build
-      run: dotnet build --no-restore
+      run: dotnet build
     - name: Test
       run: dotnet test test\Zorglub.Tests\ --no-build --filter "ExcludeFrom!=Smoke&Performance!~Slow&Redundant!=true"
