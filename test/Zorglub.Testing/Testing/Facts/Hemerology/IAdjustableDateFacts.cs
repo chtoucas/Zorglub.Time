@@ -87,6 +87,17 @@ public partial class IAdjustableDateFacts<TDate, TDataSet> // Adjust()
         // Act & Assert
         Assert.Equal(date, date.Adjust(x => x));
     }
+
+    [Theory, MemberData(nameof(DateInfoData))]
+    public void Adjust(DateInfo info)
+    {
+        var (y, m, d) = info.Yemoda;
+        var date = GetDate(1, 1, 1);
+        var adjuster = (DateParts _) => new DateParts(y, m, d);
+        var exp = GetDate(y, m, d);
+        // Act & Assert
+        Assert.Equal(exp, date.Adjust(adjuster));
+    }
 }
 
 public partial class IAdjustableDateFacts<TDate, TDataSet> // WithYear()

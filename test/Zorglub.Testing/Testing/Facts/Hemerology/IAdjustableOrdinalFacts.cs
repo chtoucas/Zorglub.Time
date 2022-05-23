@@ -70,6 +70,17 @@ public partial class IAdjustableOrdinalFacts<TDate, TDataSet> // Adjust()
         // Act & Assert
         Assert.Equal(date, date.Adjust(x => x));
     }
+
+    [Theory, MemberData(nameof(DateInfoData))]
+    public void Adjust(DateInfo info)
+    {
+        var (y, doy) = info.Yedoy;
+        var date = GetDate(1, 1);
+        var adjuster = (OrdinalParts _) => new OrdinalParts(y, doy);
+        var exp = GetDate(y, doy);
+        // Act & Assert
+        Assert.Equal(exp, date.Adjust(adjuster));
+    }
 }
 
 public partial class IAdjustableOrdinalFacts<TDate, TDataSet> // WithYear()
