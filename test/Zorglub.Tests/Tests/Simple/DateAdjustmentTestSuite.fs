@@ -13,4 +13,3 @@ type GregorianTests() =
     inherit IAdjustableDateFacts<CalendarDate, ProlepticGregorianDataSet>(GregorianCalendar.Instance.SupportedYears)
 
     override __.GetDate(y, m, d) = GregorianCalendar.Instance.GetCalendarDate(y, m, d)
-
