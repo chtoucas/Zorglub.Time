@@ -37,6 +37,18 @@ public partial class IAdjustableDateFacts<TDate, TDataSet> // WithYear()
         SupportedYearsTester.TestInvalidYear(date.WithYear, "newYear");
     }
 
+    [Fact]
+    public void WithYear_ValidYears()
+    {
+        foreach (int y in SupportedYearsTester.ValidYears)
+        {
+            var date = GetDate(1, 1, 1);
+            var exp = GetDate(y, 1, 1);
+            // Act & Assert
+            Assert.Equal(exp, date.WithYear(y));
+        }
+    }
+
     [Theory, MemberData(nameof(InvalidYearAdjustementData))]
     public void WithYear_InvalidResult(YemodaAnd<int> info)
     {
@@ -53,18 +65,6 @@ public partial class IAdjustableDateFacts<TDate, TDataSet> // WithYear()
         var date = GetDate(y, m, d);
         // Act & Assert
         Assert.Equal(date, date.WithYear(y));
-    }
-
-    [Fact]
-    public void WithYear_ValidYears()
-    {
-        foreach (int y in SupportedYearsTester.ValidYears)
-        {
-            var date = GetDate(1, 1, 1);
-            var exp = GetDate(y, 1, 1);
-            // Act & Assert
-            Assert.Equal(exp, date.WithYear(y));
-        }
     }
 
     [Theory, MemberData(nameof(YearAdjustementData))]

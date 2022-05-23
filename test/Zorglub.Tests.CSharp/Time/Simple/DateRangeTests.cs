@@ -46,11 +46,11 @@ public sealed class JulianDateRangeTests : DateRangeFacts<ProlepticJulianDataSet
     }
 }
 
-public sealed class DateRangeYearTests : GregorianOnlyTesting
+public sealed class DateRangeYearTests : CalendarDataConsumer<ProlepticGregorianDataSet>
 {
     private static readonly JulianCalendar s_Julian = JulianCalendar.Instance;
 
-    public DateRangeYearTests() : base(GregorianCalendar.Instance) { }
+    private static GregorianCalendar CalendarUT => GregorianCalendar.Instance;
 
     [Theory, MemberData(nameof(YearInfoData))]
     public void FromYear(YearInfo info)
@@ -215,11 +215,11 @@ public sealed class DateRangeYearTests : GregorianOnlyTesting
     #endregion
 }
 
-public sealed class DateRangeMonthTests : GregorianOnlyTesting
+public sealed class DateRangeMonthTests : CalendarDataConsumer<ProlepticGregorianDataSet>
 {
     private static readonly JulianCalendar s_Julian = JulianCalendar.Instance;
 
-    public DateRangeMonthTests() : base(GregorianCalendar.Instance) { }
+    private static GregorianCalendar CalendarUT => GregorianCalendar.Instance;
 
     [Theory, MemberData(nameof(MonthInfoData))]
     public void FromMonth(MonthInfo info)

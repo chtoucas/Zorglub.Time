@@ -267,21 +267,14 @@ public partial class OrdinalDateFacts<TDataSet> // Conversions
 
 public partial class OrdinalDateFacts<TDataSet> // Adjustments
 {
+    #region WithYear()
+
     [Fact]
     public void WithYear_InvalidYears()
     {
         var date = CalendarUT.GetOrdinalDate(1, 1);
         // Act & Assert
         SupportedYearsTester.TestInvalidYear(date.WithYear, "newYear");
-    }
-
-    [Theory, MemberData(nameof(DateInfoData))]
-    public void WithYear_Invariant(DateInfo info)
-    {
-        var (y, doy) = info.Yedoy;
-        var date = CalendarUT.GetOrdinalDate(y, doy);
-        // Act & Assert
-        Assert.Equal(date, date.WithYear(y));
     }
 
     [Fact]
@@ -295,6 +288,57 @@ public partial class OrdinalDateFacts<TDataSet> // Adjustments
             Assert.Equal(exp, date.WithYear(y));
         }
     }
+
+    [Theory, MemberData(nameof(DateInfoData))]
+    public void WithYear_Invariant(DateInfo info)
+    {
+        var (y, doy) = info.Yedoy;
+        var date = CalendarUT.GetOrdinalDate(y, doy);
+        // Act & Assert
+        Assert.Equal(date, date.WithYear(y));
+    }
+
+    [Theory, MemberData(nameof(DateInfoData))]
+    public void WithYear(DateInfo info)
+    {
+        var (y, doy) = info.Yedoy;
+        var date = CalendarUT.GetOrdinalDate(1, doy);
+        var exp = CalendarUT.GetOrdinalDate(y, doy);
+        // Act & Assert
+        Assert.Equal(exp, date.WithYear(y));
+    }
+
+    #endregion
+    #region WithDayOfYear()
+
+    [Theory, MemberData(nameof(InvalidDayOfYearFieldData))]
+    public void WithDayOfYear_InvalidDayOfYear(int y, int doy)
+    {
+        var date = CalendarUT.GetOrdinalDate(y, 1);
+        // Act & Assert
+        Assert.ThrowsAoorexn("newDayOfYear", () => date.WithDayOfYear(doy));
+    }
+
+    [Theory, MemberData(nameof(DateInfoData))]
+    public void WithDayOfYear_Invariant(DateInfo info)
+    {
+        var (y, doy) = info.Yedoy;
+        var date = CalendarUT.GetOrdinalDate(y, doy);
+        // Act & Assert
+        Assert.Equal(date, date.WithDayOfYear(doy));
+    }
+
+    [Theory, MemberData(nameof(DateInfoData))]
+    public void WithDayOfYear(DateInfo info)
+    {
+        var (y, doy) = info.Yedoy;
+        var date = CalendarUT.GetOrdinalDate(y, 1);
+        var exp = CalendarUT.GetOrdinalDate(y, doy);
+        // Act & Assert
+        Assert.Equal(exp, date.WithDayOfYear(doy));
+    }
+
+    #endregion
 }
 
 public partial class OrdinalDateFacts<TDataSet> // Math

@@ -245,15 +245,6 @@ public partial class CalendarMonthFacts<TDataSet> // Adjustments
         SupportedYearsTester.TestInvalidYear(month.WithYear, "newYear");
     }
 
-    [Theory, MemberData(nameof(MonthInfoData))]
-    public void WithYear_Invariant(MonthInfo info)
-    {
-        var (y, m) = info.Yemo;
-        var month = CalendarUT.GetCalendarMonth(y, m);
-        // Act & Assert
-        Assert.Equal(month, month.WithYear(y));
-    }
-
     [Fact]
     public void WithYear_ValidYears()
     {
@@ -266,6 +257,25 @@ public partial class CalendarMonthFacts<TDataSet> // Adjustments
         }
     }
 
+    [Theory, MemberData(nameof(MonthInfoData))]
+    public void WithYear_Invariant(MonthInfo info)
+    {
+        var (y, m) = info.Yemo;
+        var month = CalendarUT.GetCalendarMonth(y, m);
+        // Act & Assert
+        Assert.Equal(month, month.WithYear(y));
+    }
+
+    [Theory, MemberData(nameof(MonthInfoData))]
+    public void WithYear(MonthInfo info)
+    {
+        var (y, m) = info.Yemo;
+        var month = CalendarUT.GetCalendarMonth(1, m);
+        var exp = CalendarUT.GetCalendarMonth(y, m);
+        // Act & Assert
+        Assert.Equal(exp, month.WithYear(y));
+    }
+
     #endregion
     #region Month adjustment
 
@@ -275,6 +285,15 @@ public partial class CalendarMonthFacts<TDataSet> // Adjustments
         var month = CalendarUT.GetCalendarMonth(y, 1);
         // Act & Assert
         Assert.ThrowsAoorexn("newMonth", () => month.WithMonthOfYear(newMonth));
+    }
+
+    [Theory, MemberData(nameof(MonthInfoData))]
+    public void WithMonthOfYear_Invariant(MonthInfo info)
+    {
+        var (y, m) = info.Yemo;
+        var month = CalendarUT.GetCalendarMonth(y, m);
+        // Act & Assert
+        Assert.Equal(month, month.WithMonthOfYear(m));
     }
 
     [Theory, MemberData(nameof(MonthInfoData))]
@@ -613,7 +632,7 @@ public partial class CalendarMonthFacts<TDataSet> // Math
         var month = GetSampleValue();
         int minYs = MinValue.Year - month.Year;
         int maxYs = MaxValue.Year - month.Year;
-        // NB: for calendars with a variabe number of months per year, this
+        // NB: for calendars with a variable number of months per year, this
         // might not work.
         var minValue = MinValue.WithMonthOfYear(month.MonthOfYear);
         var maxValue = MaxValue.WithMonthOfYear(month.MonthOfYear);
@@ -628,7 +647,7 @@ public partial class CalendarMonthFacts<TDataSet> // Math
     public void PlusYears_WithLimitValues_AtMinValue()
     {
         int ys = CalendarUT.SupportedYears.Count() - 1;
-        // NB: for calendars with a variabe number of months per year, this
+        // NB: for calendars with a variable number of months per year, this
         // might not work.
         var maxValue = MaxValue.WithMonthOfYear(MinValue.MonthOfYear);
         // Act & Assert
@@ -642,7 +661,7 @@ public partial class CalendarMonthFacts<TDataSet> // Math
     public void PlusYears_WithLimitValues_AtMaxValue()
     {
         int ys = CalendarUT.SupportedYears.Count() - 1;
-        // NB: for calendars with a variabe number of months per year, this
+        // NB: for calendars with a variable number of months per year, this
         // might not work.
         var minValue = MinValue.WithMonthOfYear(MaxValue.MonthOfYear);
         // Act & Assert

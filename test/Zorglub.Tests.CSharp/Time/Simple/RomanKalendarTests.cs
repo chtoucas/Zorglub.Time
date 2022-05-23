@@ -1,7 +1,9 @@
 ﻿// SPDX-License-Identifier: BSD-3-Clause
 // Copyright (c) 2020 Narvalo.Org. All rights reserved.
 
-namespace Zorglub.Time.Simple.Specialized;
+namespace Zorglub.Time.Simple;
+
+using Zorglub.Time.Simple.Specialized;
 
 public static class RomanKalendarTests
 {

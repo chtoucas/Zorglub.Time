@@ -248,6 +248,18 @@ public partial class CalendarYearFacts<TDataSet> // Adjustments
         SupportedYearsTester.TestInvalidYear(year.WithYear, "newYear");
     }
 
+    [Fact]
+    public void WithYear_ValidYears()
+    {
+        foreach (int y in SupportedYearsTester.ValidYears)
+        {
+            var year = CalendarUT.GetCalendarYear(1);
+            var exp = CalendarUT.GetCalendarYear(y);
+            // Act & Assert
+            Assert.Equal(exp, year.WithYear(y));
+        }
+    }
+
     // TODO(fact): InvalidYearAdjustementData, YearAdjustementData, idem with CalendarMonth.
 
     [Theory, MemberData(nameof(YearInfoData))]
@@ -259,16 +271,14 @@ public partial class CalendarYearFacts<TDataSet> // Adjustments
         Assert.Equal(year, year.WithYear(y));
     }
 
-    [Fact]
-    public void WithYear_ValidYears()
+    [Theory, MemberData(nameof(YearInfoData))]
+    public void WithYear(YearInfo info)
     {
-        foreach (int y in SupportedYearsTester.ValidYears)
-        {
-            var year = CalendarUT.GetCalendarYear(1);
-            var exp = CalendarUT.GetCalendarYear(y);
-            // Act & Assert
-            Assert.Equal(exp, year.WithYear(y));
-        }
+        int y = info.Year;
+        var year = CalendarUT.GetCalendarYear(1);
+        var exp = CalendarUT.GetCalendarYear(y);
+        // Act & Assert
+        Assert.Equal(exp, year.WithYear(y));
     }
 }
 

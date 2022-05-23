@@ -3,10 +3,10 @@
 
 namespace Zorglub.Time.Simple;
 
-// We could compute the limits automatically.
-
 // We cannot guarantee that all interconversions will succeed for years
 // in the range [1, 9999].
+// We could compute the limits automatically.
+
 public static class InterconversionTests
 {
     // All calendar epochs can be interconverted into the Gregorian calendar.
