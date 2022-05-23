@@ -12,7 +12,6 @@ using Zorglub.Time.Core;
 /// </summary>
 public sealed partial class UnboundedGregorianDataSet :
     UnboundedCalendarDataSet<GregorianDataSet>,
-    IYearAdjustmentDataSet,
     IMathDataSet,
     IAdvancedMathDataSet,
     IDayOfWeekDataSet,
@@ -30,10 +29,6 @@ public sealed partial class UnboundedGregorianDataSet :
 
     public override DataGroup<DayNumberInfo> DayNumberInfoData { get; } =
         DataGroup.CreateDayNumberInfoData(GregorianDataSet.DaysSinceRataDieInfos);
-
-    // IYearAdjustmentDataSet
-    public DataGroup<YemodaAnd<int>> InvalidYearAdjustementData => SchemaDataSet.InvalidYearAdjustementData;
-    public DataGroup<YemodaAnd<int>> YearAdjustementData => SchemaDataSet.YearAdjustementData;
 
     // IMathDataSet
     public DataGroup<YemodaPairAnd<int>> AddDaysData => SchemaDataSet.AddDaysData;

@@ -83,7 +83,6 @@ public sealed class StandardEthiopic12DataSet :
 /// </summary>
 public sealed class StandardGregorianDataSet :
     StandardCalendarDataSet<UnboundedGregorianDataSet>,
-    IYearAdjustmentDataSet,
     IMathDataSet,
     IAdvancedMathDataSet,
     IDayOfWeekDataSet,
@@ -98,10 +97,6 @@ public sealed class StandardGregorianDataSet :
         internal static readonly StandardGregorianDataSet Instance = new();
         static Singleton() { }
     }
-
-    // IYearAdjustmentDataSet
-    public DataGroup<YemodaAnd<int>> InvalidYearAdjustementData => Unbounded.InvalidYearAdjustementData.WhereT(DataFilter.Filter);
-    public DataGroup<YemodaAnd<int>> YearAdjustementData => Unbounded.YearAdjustementData.WhereT(DataFilter.Filter);
 
     // IMathDataSet
     public DataGroup<YemodaPairAnd<int>> AddDaysData => Unbounded.AddDaysData.WhereT(DataFilter.Filter);

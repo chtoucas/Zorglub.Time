@@ -17,6 +17,23 @@ let private nextDayOfWeek (dayOfWeek: DayOfWeek) =
     let r = (1 + int dayOfWeek) % 7
     (if r >= 0 then r else r + 7) |> enum<DayOfWeek>
 
+module Adjustments =
+    [<Fact>]
+    let ``WithYear() invalid result`` () =
+        // Intercalary day mapped to a common year.
+        let date = new CivilDate(4, 2, 29)
+
+        outOfRangeExn "newYear" (fun () -> date.WithYear(3))
+
+    [<Fact>]
+    let ``WithYear() valid result`` () =
+        // Intercalary day mapped to another leap year.
+        let date = new CivilDate(4, 2, 29)
+        let exp = new CivilDate(8, 2, 29)
+
+        date.WithYear(8) === exp
+
+
 module Postlude =
     let private maxDayNumber = CivilDate.Domain.Max
 

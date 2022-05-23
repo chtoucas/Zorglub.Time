@@ -58,7 +58,7 @@ module GregorianCase =
     [<InlineData(2019, 1, 3, "03/01/2019 (Gregorian)")>]
     [<InlineData(9999, 12, 31, "31/12/9999 (Gregorian)")>]
     let ``ToString()`` y m d str =
-        let date = chr.GetCalendarDate(y, m, d)
+        let date = new CalendarDate(y, m, d)
 
         date.ToString() === str
 
@@ -91,6 +91,25 @@ module GregorianCase =
         date.Year  === y
         date.Month === m
         date.Day   === d
+
+    //
+    // Adjustments
+    //
+
+    [<Fact>]
+    let ``WithYear() invalid result`` () =
+        // Intercalary day mapped to a common year.
+        let date = new CalendarDate(4, 2, 29)
+
+        outOfRangeExn "newYear" (fun () -> date.WithYear(3))
+
+    [<Fact>]
+    let ``WithYear() valid result`` () =
+        // Intercalary day mapped to another leap year.
+        let date = new CalendarDate(4, 2, 29)
+        let exp = new CalendarDate(8, 2, 29)
+
+        date.WithYear(8) === exp
 
 module JulianCase =
     let private chr = JulianCalendar.Instance

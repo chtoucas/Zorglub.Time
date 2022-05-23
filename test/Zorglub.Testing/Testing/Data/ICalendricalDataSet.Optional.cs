@@ -3,14 +3,6 @@
 
 namespace Zorglub.Testing.Data;
 
-public interface IYearAdjustmentDataSet
-{
-    /// <summary>Date, invalid target year with the same month and day parts.</summary>
-    DataGroup<YemodaAnd<int>> InvalidYearAdjustementData { get; }
-    /// <summary>Date, valid target year with the same month and day parts.</summary>
-    DataGroup<YemodaAnd<int>> YearAdjustementData { get; }
-}
-
 public interface IMathDataSet
 {
     /// <summary>Date, expected result, days to be added.</summary>

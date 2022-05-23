@@ -53,8 +53,8 @@ module GregorianCase =
     [<InlineData(111, 26, "026/0111 (Gregorian)")>]
     [<InlineData(2019, 3, "003/2019 (Gregorian)")>]
     [<InlineData(9999, 365, "365/9999 (Gregorian)")>]
-    let ``ToString()`` y doy str =
-        let date = chr.GetOrdinalDate(y, doy)
+    let ``ToString()`` (y: int) doy str =
+        let date = new OrdinalDate(y, doy)
 
         date.ToString() === str
 
@@ -95,15 +95,15 @@ module GregorianCase =
     [<Fact>]
     let ``WithYear() invalid result`` () =
         // End of a leap year mapped to a common year.
-        let date = chr.GetOrdinalDate(4, 366)
+        let date = new OrdinalDate(4, 366)
 
         outOfRangeExn "newYear" (fun () -> date.WithYear(3))
 
     [<Fact>]
     let ``WithYear() valid result`` () =
         // End of a leap year mapped to another leap year.
-        let date = chr.GetOrdinalDate(4, 366)
-        let exp = chr.GetOrdinalDate(8, 366)
+        let date = new OrdinalDate(4, 366)
+        let exp = new OrdinalDate(8, 366)
 
         date.WithYear(8) === exp
 

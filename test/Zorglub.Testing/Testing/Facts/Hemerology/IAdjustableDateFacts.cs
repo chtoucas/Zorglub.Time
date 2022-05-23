@@ -9,10 +9,12 @@ using Zorglub.Time.Hemerology;
 
 // Hypothesis: years and months are complete.
 
+// In addition, one should test WithYear() with valid and invalid results.
+
 public abstract partial class IAdjustableDateFacts<TDate, TDataSet> :
     CalendricalDataConsumer<TDataSet>
     where TDate : IAdjustableDate<TDate>
-    where TDataSet : ICalendricalDataSet, IYearAdjustmentDataSet, ISingleton<TDataSet>
+    where TDataSet : ICalendricalDataSet, ISingleton<TDataSet>
 {
     protected IAdjustableDateFacts(Range<int> supportedYears)
     {
@@ -22,9 +24,6 @@ public abstract partial class IAdjustableDateFacts<TDate, TDataSet> :
     protected SupportedYearsTester SupportedYearsTester { get; }
 
     protected abstract TDate GetDate(int y, int m, int d);
-
-    public static DataGroup<YemodaAnd<int>> InvalidYearAdjustementData => DataSet.InvalidYearAdjustementData;
-    public static DataGroup<YemodaAnd<int>> YearAdjustementData => DataSet.YearAdjustementData;
 }
 
 public partial class IAdjustableDateFacts<TDate, TDataSet> // WithYear()
@@ -62,7 +61,6 @@ public partial class IAdjustableDateFacts<TDate, TDataSet> // WithYear()
     // NB: disabled because this cannot work in case the matching day in year 1
     // is not valid. Nevertheless I keep it around just to remind me that I
     // should not try to create it again.
-    // Of course, that's why we have a separate IYearAdjustmentDataSet.
     //[Theory, MemberData(nameof(DateInfoData))]
     //public void WithYear(DateInfo info)
     //{
@@ -72,25 +70,6 @@ public partial class IAdjustableDateFacts<TDate, TDataSet> // WithYear()
     //    // Act & Assert
     //    Assert.Equal(exp, date.WithYear(y));
     //}
-
-    [Theory, MemberData(nameof(InvalidYearAdjustementData))]
-    public void WithYear_InvalidResult(YemodaAnd<int> info)
-    {
-        var (y, m, d, newYear) = info;
-        var date = GetDate(y, m, d);
-        // Act & Assert
-        Assert.ThrowsAoorexn("newYear", () => date.WithYear(newYear));
-    }
-
-    [Theory, MemberData(nameof(YearAdjustementData))]
-    public void WithYear_ValidResult(YemodaAnd<int> info)
-    {
-        var (y, m, d, newYear) = info;
-        var date = GetDate(y, m, d);
-        var exp = GetDate(newYear, m, d);
-        // Act & Assert
-        Assert.Equal(exp, date.WithYear(newYear));
-    }
 }
 
 public partial class IAdjustableDateFacts<TDate, TDataSet> // WithMonth()

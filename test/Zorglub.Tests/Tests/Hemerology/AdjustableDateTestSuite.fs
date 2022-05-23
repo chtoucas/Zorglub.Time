@@ -16,6 +16,7 @@ type CivilDateTests() =
 
     override __.GetDate(y, m, d) = new CivilDate(y, m, d)
 
+// TODO(code): add tests for custom years (see CivilDateTests.Adjustments).
 [<Sealed>]
 type GregorianWideDateTests() =
     inherit IAdjustableDateFacts<WideDate, ProlepticGregorianDataSet>(WideCalendar.Gregorian.SupportedYears)
