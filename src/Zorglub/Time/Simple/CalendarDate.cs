@@ -244,12 +244,12 @@ namespace Zorglub.Time.Simple
         //
         // CalendarYear
         //
-        // To enumerates the days in a specified year, see DateRange.Create(year).
 
         /// <summary>
         /// Obtains the first day of the specified year.
         /// </summary>
         [Pure]
+        [Obsolete("Use CalendarYear.FirstDay.")]
         public static CalendarDate AtStartOfYear(CalendarYear year) =>
             new(Yemoda.AtStartOfYear(year.Year), year.Cuid);
 
@@ -259,6 +259,7 @@ namespace Zorglub.Time.Simple
         /// <exception cref="AoorException"><paramref name="dayOfYear"/> is outside the range of
         /// valid values.</exception>
         [Pure]
+        [Obsolete("Use CalendarYear.GetDayOfYear().")]
         public static CalendarDate AtDayOfYear(CalendarYear year, int dayOfYear)
         {
             ref readonly var chr = ref year.CalendarRef;
@@ -271,6 +272,7 @@ namespace Zorglub.Time.Simple
         /// Obtains the last day of the specified year.
         /// </summary>
         [Pure]
+        [Obsolete("Use CalendarYear.LastDay.")]
         public static CalendarDate AtEndOfYear(CalendarYear year)
         {
             ref readonly var chr = ref year.CalendarRef;
@@ -281,12 +283,12 @@ namespace Zorglub.Time.Simple
         //
         // Factories (month)
         //
-        // To enumerates the days in a specified month, see DateRange.FromMonth(month).
 
         /// <summary>
         /// Obtains the first day of the specified month.
         /// </summary>
         [Pure]
+        [Obsolete("Use CalendarMonth.FirstDay.")]
         public static CalendarDate AtStartOfMonth(CalendarMonth month) =>
             new(month.Parts.StartOfMonth, month.Cuid);
 
@@ -296,6 +298,7 @@ namespace Zorglub.Time.Simple
         /// <exception cref="AoorException"><paramref name="dayOfMonth"/> is outside the range of
         /// valid values.</exception>
         [Pure]
+        [Obsolete("Use CalendarMonth.GetDayOfMonth().")]
         public static CalendarDate AtDayOfMonth(CalendarMonth month, int dayOfMonth)
         {
             month.Parts.Unpack(out int y, out int m);
@@ -308,6 +311,7 @@ namespace Zorglub.Time.Simple
         /// Obtains the last day of the specified month.
         /// </summary>
         [Pure]
+        [Obsolete("Use CalendarMonth.LastDay.")]
         public static CalendarDate AtEndOfMonth(CalendarMonth month)
         {
             month.Parts.Unpack(out int y, out int m);
@@ -418,11 +422,13 @@ namespace Zorglub.Time.Simple
 
         /// <inheritdoc />
         [Pure]
+        [Obsolete("Use day.CalendarYear.FirstDay.")]
         public static CalendarDate GetStartOfYear(CalendarDate day) =>
             new(day.Parts.StartOfYear, day.Cuid);
 
         /// <inheritdoc />
         [Pure]
+        [Obsolete("Use day.CalendarYear.LastDay.")]
         public static CalendarDate GetEndOfYear(CalendarDate day)
         {
             ref readonly var chr = ref day.CalendarRef;
@@ -432,11 +438,13 @@ namespace Zorglub.Time.Simple
 
         /// <inheritdoc />
         [Pure]
+        [Obsolete("Use day.CalendarMonth.FirstDay.")]
         public static CalendarDate GetStartOfMonth(CalendarDate day) =>
             new(day.Parts.StartOfMonth, day.Cuid);
 
         /// <inheritdoc />
         [Pure]
+        [Obsolete("Use day.CalendarMonth.LastDay.")]
         public static CalendarDate GetEndOfMonth(CalendarDate day)
         {
             day._bin.Unpack(out int y, out int m);

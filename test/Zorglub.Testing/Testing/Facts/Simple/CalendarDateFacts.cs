@@ -167,37 +167,6 @@ public partial class CalendarDateFacts<TDataSet> // Factories
         // Act & Assert
         Assert.Equal(endOfYear, CalendarDate.AtEndOfYear(year));
     }
-
-    [Theory, MemberData(nameof(MonthInfoData))]
-    public void AtStartOfMonth(MonthInfo info)
-    {
-        var (y, m) = info.Yemo;
-        var month = CalendarUT.GetCalendarMonth(y, m);
-        var startOfMonth = CalendarUT.GetCalendarDate(y, m, 1);
-        // Act & Assert
-        Assert.Equal(startOfMonth, CalendarDate.AtStartOfMonth(month));
-    }
-
-    [Theory, MemberData(nameof(DateInfoData))]
-    public void AtDayOfMonth(DateInfo info)
-    {
-        var (y, m, d) = info.Yemoda;
-        var month = CalendarUT.GetCalendarMonth(y, m);
-        var date = CalendarUT.GetCalendarDate(y, m, d);
-        // Act & Assert
-        Assert.Equal(date, CalendarDate.AtDayOfMonth(month, d));
-    }
-
-    [Theory, MemberData(nameof(MonthInfoData))]
-    public void AtEndOfMonth(MonthInfo info)
-    {
-        var (y, m) = info.Yemo;
-        var daysInMonth = info.DaysInMonth;
-        var month = CalendarUT.GetCalendarMonth(y, m);
-        var endOfMonth = CalendarUT.GetCalendarDate(y, m, daysInMonth);
-        // Act & Assert
-        Assert.Equal(endOfMonth, CalendarDate.AtEndOfMonth(month));
-    }
 }
 
 public partial class CalendarDateFacts<TDataSet> // Conversions

@@ -17,6 +17,7 @@ namespace Zorglub.Time.Simple
     /// <para>This class can ONLY be inherited from within friend assemblies.</para>
     /// <para>This type follows the rules of structural equality.</para>
     /// </summary>
+    [Obsolete("TO BE REMOVED")]
     [SuppressMessage("Naming", "CA1710:Identifiers should have correct suffix", Justification = "Interval first.")]
     public partial class DateRange :
         IDateRange<DateRange, CalendarDate>,

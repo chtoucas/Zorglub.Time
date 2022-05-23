@@ -64,13 +64,13 @@ namespace Zorglub.Time.Extensions
         //
         // Dates in a given month.
         //
+        // Now these are methods/props on CalendarMonth.
 
         /// <summary>
         /// Obtains the first day of the specified month.
         /// </summary>
         [Pure]
-        public static CalendarDate GetStartOfMonth(this CalendarMonth @this) =>
-            CalendarDate.AtStartOfMonth(@this);
+        public static CalendarDate GetStartOfMonth(this CalendarMonth @this) => @this.FirstDay;
 
         /// <summary>
         /// Obtains the date corresponding to the specified day of the specified
@@ -80,13 +80,12 @@ namespace Zorglub.Time.Extensions
         /// outside the range of valid values.</exception>
         [Pure]
         public static CalendarDate GetDayOfMonth(this CalendarMonth @this, int dayOfMonth) =>
-            CalendarDate.AtDayOfMonth(@this, dayOfMonth);
+            @this.GetDayOfMonth(dayOfMonth);
 
         /// <summary>
         /// Obtains the last day of the specified month.
         /// </summary>
         [Pure]
-        public static CalendarDate GetEndOfMonth(this CalendarMonth @this) =>
-            CalendarDate.AtEndOfMonth(@this);
+        public static CalendarDate GetEndOfMonth(this CalendarMonth @this) => @this.LastDay;
     }
 }

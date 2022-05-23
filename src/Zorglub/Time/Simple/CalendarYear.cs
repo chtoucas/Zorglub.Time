@@ -15,6 +15,7 @@ namespace Zorglub.Time.Simple
 #endif
 
     using Zorglub.Time.Core;
+    using Zorglub.Time.Core.Intervals;
     using Zorglub.Time.Core.Schemas;
     using Zorglub.Time.Hemerology;
     using Zorglub.Time.Hemerology.Scopes;
@@ -200,6 +201,42 @@ namespace Zorglub.Time.Simple
         }
 
         /// <summary>
+        /// Gets the first month of this year instance.
+        /// </summary>
+        public CalendarMonth FirstMonth => new(Year, 1, Cuid);
+
+        /// <summary>
+        /// Gets the last month of this year instance.
+        /// </summary>
+        public CalendarMonth LastMonth => new(Year, CountMonthsInYear(), Cuid);
+
+        /// <summary>
+        /// Gets the first day of this year instance.
+        /// </summary>
+        public OrdinalDate FirstDay
+        {
+            get
+            {
+                ref readonly var chr = ref CalendarRef;
+                var ydoy = chr.Schema.GetStartOfYearOrdinalParts(Year);
+                return new OrdinalDate(ydoy, Cuid);
+            }
+        }
+
+        /// <summary>
+        /// Gets the last day of this year instance.
+        /// </summary>
+        public OrdinalDate LastDay
+        {
+            get
+            {
+                ref readonly var chr = ref CalendarRef;
+                var ydoy = chr.Schema.GetEndOfYearOrdinalParts(Year);
+                return new OrdinalDate(ydoy, Cuid);
+            }
+        }
+
+        /// <summary>
         /// Gets the calendar to which belongs the current instance.
         /// </summary>
         /// <remarks>
@@ -332,6 +369,24 @@ namespace Zorglub.Time.Simple
         }
 
         #endregion
+        #region Conversion
+
+        // Useful for interconversion.
+        // TODO(api): add extension methods for these types.
+
+        /// <summary>
+        /// Converts the current instance to a range of months.
+        /// </summary>
+        [Pure]
+        public Range<CalendarMonth> ToMonthRange() => Range.Create(FirstMonth, LastMonth);
+
+        /// <summary>
+        /// Converts the current instance to a range of days.
+        /// </summary>
+        [Pure]
+        public Range<OrdinalDate> ToDayRange() => Range.Create(FirstDay, LastDay);
+
+        #endregion
         #region Counting
 
         /// <summary>
@@ -355,14 +410,11 @@ namespace Zorglub.Time.Simple
         }
 
         #endregion
-        #region Months
+        #region Months and Days
+        // We use OrdinalDate for days because it's the most natural type here.
 
-        /// <summary>
-        /// Obtains the first month of this year instance.
-        /// </summary>
-        [Pure]
-        [SuppressMessage("Design", "CA1024:Use properties where appropriate", Justification = "<Pending>")]
-        public CalendarMonth GetFirstMonth() => new(Year, 1, Cuid);
+        // TODO(api): implement IEnumerable<CalendarMonth>? or simply replace
+        // them by Range<>.
 
         /// <summary>
         /// Obtains the month corresponding to the specified month of this year instance.
@@ -378,22 +430,47 @@ namespace Zorglub.Time.Simple
         }
 
         /// <summary>
-        /// Obtains the last month of this year instance.
-        /// </summary>
-        [Pure]
-        public CalendarMonth GetLastMonth() => new(Year, CountMonthsInYear(), Cuid);
-
-        /// <summary>
         /// Obtains the list of all months in this year instance.
         /// </summary>
         [Pure]
         public IEnumerable<CalendarMonth> GetMonthsInYear()
         {
+            var cuid = Cuid;
             int y = Year;
             int monthsInYear = Calendar.Schema.CountMonthsInYear(y);
             for (int m = 1; m <= monthsInYear; m++)
             {
-                yield return new CalendarMonth(y, m, Cuid);
+                yield return new CalendarMonth(y, m, cuid);
+            }
+        }
+
+        /// <summary>
+        /// Obtains the ordinal date corresponding to the specified day of this year instance.
+        /// </summary>
+        /// <exception cref="AoorException"><paramref name="dayOfYear"/> is outside the range of
+        /// valid values.</exception>
+        [Pure]
+        public OrdinalDate GetDayOfYear(int dayOfYear)
+        {
+            ref readonly var chr = ref CalendarRef;
+            chr.PreValidator.ValidateDayOfYear(Year, dayOfYear);
+            return new OrdinalDate(Year, dayOfYear, Cuid);
+        }
+
+        /// <summary>
+        /// Enumerates the days of this year instance.
+        /// </summary>
+        [Pure]
+        public IEnumerable<OrdinalDate> GetDaysInYear()
+        {
+            var cuid = Cuid;
+            int y = Year;
+            // NB: we cannot use CalendarRef (CS8176).
+            int daysInYear = Calendar.Schema.CountMonthsInYear(y);
+
+            for (int doy = 1; doy <= daysInYear; doy++)
+            {
+                yield return new OrdinalDate(y, doy, cuid);
             }
         }
 

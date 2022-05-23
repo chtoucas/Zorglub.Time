@@ -14,12 +14,13 @@ namespace Zorglub.Time.Extensions
 
     public partial class OrdinalResult // CalendarYear.
     {
+        // Now these are methods/props on CalendarMonth.
+
         /// <summary>
         /// Obtains the first day of the specified year.
         /// </summary>
         [Pure]
-        public static OrdinalDate GetStartOfYear(this CalendarYear @this) =>
-            OrdinalDate.AtStartOfYear(@this);
+        public static OrdinalDate GetStartOfYear(this CalendarYear @this) => @this.FirstDay;
 
         /// <summary>
         /// Obtains the ordinal date corresponding to the specified day of this
@@ -29,14 +30,13 @@ namespace Zorglub.Time.Extensions
         /// outside the range of valid values.</exception>
         [Pure]
         public static OrdinalDate GetDayOfYear(this CalendarYear @this, int dayOfYear) =>
-            OrdinalDate.AtDayOfYear(@this, dayOfYear);
+            @this.GetDayOfYear(dayOfYear);
 
         /// <summary>
         /// Obtains the last day of the specified year.
         /// </summary>
         [Pure]
-        public static OrdinalDate GetEndOfYear(this CalendarYear @this) =>
-            OrdinalDate.AtEndOfYear(@this);
+        public static OrdinalDate GetEndOfYear(this CalendarYear @this) => @this.LastDay;
     }
 
     public partial class OrdinalResult // CalendarMonth.

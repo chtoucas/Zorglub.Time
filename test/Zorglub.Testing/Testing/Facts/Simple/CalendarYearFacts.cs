@@ -120,6 +120,46 @@ public partial class CalendarYearFacts<TDataSet> // Prelude
         // We also test the internal prop Cuid.
         Assert.Equal(CalendarUT.Id, year.Cuid);
     }
+
+    [Theory, MemberData(nameof(YearInfoData))]
+    public void FirstMonth_Prop(YearInfo info)
+    {
+        int y = info.Year;
+        var year = CalendarUT.GetCalendarYear(y);
+        var month = CalendarUT.GetCalendarMonth(y, 1);
+        // Act & Assert
+        Assert.Equal(month, year.FirstMonth);
+    }
+
+    [Theory, MemberData(nameof(YearInfoData))]
+    public void LastMonth_Prop(YearInfo info)
+    {
+        int y = info.Year;
+        var year = CalendarUT.GetCalendarYear(y);
+        var month = CalendarUT.GetCalendarMonth(y, info.MonthsInYear);
+        // Act & Assert
+        Assert.Equal(month, year.LastMonth);
+    }
+
+    [Theory, MemberData(nameof(YearInfoData))]
+    public void FirstDay_Prop(YearInfo info)
+    {
+        int y = info.Year;
+        var year = CalendarUT.GetCalendarYear(y);
+        var startOfYear = CalendarUT.GetOrdinalDate(y, 1);
+        // Act & Assert
+        Assert.Equal(startOfYear, year.FirstDay);
+    }
+
+    [Theory, MemberData(nameof(YearInfoData))]
+    public void LastDay_Prop(YearInfo info)
+    {
+        int y = info.Year;
+        var year = CalendarUT.GetCalendarYear(y);
+        var endOfYear = CalendarUT.GetOrdinalDate(y, info.DaysInYear);
+        // Act & Assert
+        Assert.Equal(endOfYear, year.LastDay);
+    }
 }
 
 public partial class CalendarYearFacts<TDataSet> // Calendar mismatch
@@ -192,18 +232,8 @@ public partial class CalendarYearFacts<TDataSet> // Counting
     }
 }
 
-public partial class CalendarYearFacts<TDataSet> // Months
+public partial class CalendarYearFacts<TDataSet> // Months and days
 {
-    [Theory, MemberData(nameof(YearInfoData))]
-    public void GetFirstMonth(YearInfo info)
-    {
-        int y = info.Year;
-        var year = CalendarUT.GetCalendarYear(y);
-        var month = CalendarUT.GetCalendarMonth(y, 1);
-        // Act & Assert
-        Assert.Equal(month, year.GetFirstMonth());
-    }
-
     [Theory, MemberData(nameof(MonthInfoData))]
     public void GetMonthOfYear(MonthInfo info)
     {
@@ -215,16 +245,6 @@ public partial class CalendarYearFacts<TDataSet> // Months
     }
 
     [Theory, MemberData(nameof(YearInfoData))]
-    public void GetLastMonth(YearInfo info)
-    {
-        int y = info.Year;
-        var year = CalendarUT.GetCalendarYear(y);
-        var month = CalendarUT.GetCalendarMonth(y, info.MonthsInYear);
-        // Act & Assert
-        Assert.Equal(month, year.GetLastMonth());
-    }
-
-    [Theory, MemberData(nameof(YearInfoData))]
     public void GetMonthsInYear(YearInfo info)
     {
         int y = info.Year;
@@ -233,6 +253,29 @@ public partial class CalendarYearFacts<TDataSet> // Months
                    select CalendarUT.GetCalendarMonth(y, i);
         // Act
         var actual = year.GetMonthsInYear();
+        // Assert
+        Assert.Equal(list, actual);
+    }
+
+    [Theory, MemberData(nameof(DateInfoData))]
+    public void GetDayOfYear(DateInfo info)
+    {
+        var (y, doy) = info.Yedoy;
+        var year = CalendarUT.GetCalendarYear(y);
+        var exp = CalendarUT.GetOrdinalDate(y, doy);
+        // Act & Assert
+        Assert.Equal(exp, year.GetDayOfYear(doy));
+    }
+
+    [Theory, MemberData(nameof(YearInfoData))]
+    public void GetDaysInYear(YearInfo info)
+    {
+        int y = info.Year;
+        var year = CalendarUT.GetCalendarYear(y);
+        var list = from i in Enumerable.Range(1, info.DaysInYear)
+                   select CalendarUT.GetOrdinalDate(y, i);
+        // Act
+        var actual = year.GetDaysInYear();
         // Assert
         Assert.Equal(list, actual);
     }

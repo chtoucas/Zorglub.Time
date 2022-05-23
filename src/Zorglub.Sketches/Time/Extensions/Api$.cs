@@ -169,6 +169,7 @@ namespace Zorglub.Time.Extensions
         /// Converts the specified year to a range of days.
         /// </summary>
         [Pure]
+        [Obsolete("Use Range<OrdinalDate>.")]
         public static DateRange ToInterval(this CalendarYear @this) => DateRange.FromYear(@this);
 
         /// <summary>
@@ -183,6 +184,7 @@ namespace Zorglub.Time.Extensions
         /// </remarks>
         // On laissera probablement cette méthode de côté.
         [Pure]
+        [Obsolete("Use Range<OrdinalDate>.")]
         public static DateRange WithCalendar(this CalendarYear @this, Calendar newCalendar) =>
             ToInterval(@this).WithCalendar(newCalendar);
     }
@@ -193,6 +195,7 @@ namespace Zorglub.Time.Extensions
         /// Converts the specified month to a range of days.
         /// </summary>
         [Pure]
+        [Obsolete("Use Range<CalendarDate>.")]
         public static DateRange ToInterval(this CalendarMonth @this) => DateRange.FromMonth(@this);
 
         /// <summary>
@@ -206,6 +209,7 @@ namespace Zorglub.Time.Extensions
         /// calendar of the current instance.
         /// </remarks>
         [Pure]
+        [Obsolete("Use Range<CalendarDate>.")]
         public static DateRange WithCalendar(this CalendarMonth @this, Calendar newCalendar) =>
             ToInterval(@this).WithCalendar(newCalendar);
     }

@@ -4,6 +4,7 @@
 namespace Zorglub.Time.Simple
 {
     using Zorglub.Time.Core;
+    using Zorglub.Time.Core.Intervals;
     using Zorglub.Time.Core.Schemas;
     using Zorglub.Time.Hemerology;
     using Zorglub.Time.Hemerology.Scopes;
@@ -122,6 +123,25 @@ namespace Zorglub.Time.Simple
         public CalendarYear CalendarYear => new(Year, Cuid);
 
         /// <summary>
+        /// Gets the first day of this month instance.
+        /// </summary>
+        public CalendarDate FirstDay => new(Parts.StartOfMonth, Cuid);
+
+        /// <summary>
+        /// Obtains the last day of the specified month.
+        /// </summary>
+        public CalendarDate LastDay
+        {
+            get
+            {
+                Parts.Unpack(out int y, out int m);
+                ref readonly var chr = ref CalendarRef;
+                var ymd = chr.Schema.GetEndOfMonthParts(y, m);
+                return new CalendarDate(ymd, Cuid);
+            }
+        }
+
+        /// <summary>
         /// Gets the month parts of current instance.
         /// </summary>
         internal Yemo Parts => _bin.Yemo;
@@ -218,6 +238,15 @@ namespace Zorglub.Time.Simple
         }
 
         #endregion
+        #region Conversion
+
+        /// <summary>
+        /// Converts the current instance to a range of days.
+        /// </summary>
+        [Pure]
+        public Range<CalendarDate> ToRange() => Range.Create(FirstDay, LastDay);
+
+        #endregion
         #region Counting
 
         /// <summary>
@@ -256,10 +285,41 @@ namespace Zorglub.Time.Simple
         }
 
         #endregion
+        #region Days
+        // We use CalendarDate because it's the most natural type here.
 
-        // No methods GetStartOfMonth(), GetDayOfMonth(), GetEndOfMonth();
-        // see CalendarDate, CalendarDay and OrdinalDate.
+        /// <summary>
+        /// Obtains the date corresponding to the specified day of this month instance.
+        /// </summary>
+        /// <exception cref="AoorException"><paramref name="dayOfMonth"/> is outside the range of
+        /// valid values.</exception>
+        [Pure]
+        public CalendarDate GetDayOfMonth(int dayOfMonth)
+        {
+            Parts.Unpack(out int y, out int m);
+            ref readonly var chr = ref CalendarRef;
+            chr.ValidateDayOfMonth(y, m, dayOfMonth);
+            return new CalendarDate(y, m, dayOfMonth, Cuid);
+        }
 
+        /// <summary>
+        /// Enumerates the days of this month instance.
+        /// </summary>
+        [Pure]
+        public IEnumerable<CalendarDate> GetDaysInMonth()
+        {
+            var cuid = Cuid;
+            Parts.Unpack(out int y, out int m);
+            // NB: we cannot use CalendarRef (CS8176).
+            int daysInMonth = Calendar.Schema.CountDaysInYear(y);
+
+            for (int d = 1; d <= daysInMonth; d++)
+            {
+                yield return new CalendarDate(y, m, d, cuid);
+            }
+        }
+
+        #endregion
         #region Adjustments
 
         /// <summary>

@@ -318,16 +318,16 @@ namespace Zorglub.Time.Simple
             // is a CalendarYear and so is bounded to the current calendar.
             _minMaxMonth =
                 minMaxYear.Select(
-                    y => y.GetFirstMonth(),
-                    y => y.GetLastMonth());
+                    y => y.FirstMonth,
+                    y => y.LastMonth);
             _minMaxDate =
                 minMaxYear.Select(
-                    y => CalendarDate.AtStartOfYear(y),
-                    y => CalendarDate.AtEndOfYear(y));
+                    y => y.FirstDay.ToCalendarDate(),
+                    y => y.LastDay.ToCalendarDate());
             _minMaxOrdinal =
                 minMaxYear.Select(
-                    y => OrdinalDate.AtStartOfYear(y),
-                    y => OrdinalDate.AtEndOfYear(y));
+                    y => y.FirstDay,
+                    y => y.LastDay);
 
             // GetCalendarDay() without the validation part.
             _minMaxDay =

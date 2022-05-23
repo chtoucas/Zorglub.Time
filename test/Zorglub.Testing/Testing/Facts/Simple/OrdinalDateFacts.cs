@@ -142,36 +142,6 @@ public partial class OrdinalDateFacts<TDataSet> // Calendar mismatch
 
 public partial class OrdinalDateFacts<TDataSet> // Factories
 {
-    [Theory, MemberData(nameof(YearInfoData))]
-    public void AtStartOfYear(YearInfo info)
-    {
-        int y = info.Year;
-        var year = CalendarUT.GetCalendarYear(y);
-        var startOfYear = CalendarUT.GetOrdinalDate(y, 1);
-        // Act & Assert
-        Assert.Equal(startOfYear, OrdinalDate.AtStartOfYear(year));
-    }
-
-    [Theory, MemberData(nameof(DateInfoData))]
-    public void AtDayOfYear(DateInfo info)
-    {
-        var (y, doy) = info.Yedoy;
-        var year = CalendarUT.GetCalendarYear(y);
-        var exp = CalendarUT.GetOrdinalDate(y, doy);
-        // Act & Assert
-        Assert.Equal(exp, OrdinalDate.AtDayOfYear(year, doy));
-    }
-
-    [Theory, MemberData(nameof(YearInfoData))]
-    public void AtEndOfYear(YearInfo info)
-    {
-        int y = info.Year;
-        var year = CalendarUT.GetCalendarYear(y);
-        var endOfYear = CalendarUT.GetOrdinalDate(y, info.DaysInYear);
-        // Act & Assert
-        Assert.Equal(endOfYear, OrdinalDate.AtEndOfYear(year));
-    }
-
     [Theory, MemberData(nameof(MonthInfoData))]
     public void AtStartOfMonth(MonthInfo info)
     {

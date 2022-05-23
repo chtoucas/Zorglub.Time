@@ -98,6 +98,7 @@ namespace Zorglub.Time.Simple
         /// <summary>
         /// Obtains the first day of the specified year.
         /// </summary>
+        [Obsolete("Use CalendarYear.FirstDay.")]
         [Pure] static abstract TSelf AtStartOfYear(CalendarYear year);
 
         /// <summary>
@@ -105,16 +106,19 @@ namespace Zorglub.Time.Simple
         /// </summary>
         /// <exception cref="AoorException"><paramref name="dayOfYear"/> is outside the range of
         /// valid values.</exception>
+        [Obsolete("Use CalendarYear.GetDayOfYear().")]
         [Pure] static abstract TSelf AtDayOfYear(CalendarYear year, int dayOfYear);
 
         /// <summary>
         /// Obtains the last day of the specified year.
         /// </summary>
+        [Obsolete("Use CalendarYear.LastDay.")]
         [Pure] static abstract TSelf AtEndOfYear(CalendarYear year);
 
         /// <summary>
         /// Obtains the first day of the specified month.
         /// </summary>
+        [Obsolete("Use CalendarMonth.FirstDay.")]
         [Pure] static abstract TSelf AtStartOfMonth(CalendarMonth month);
 
         /// <summary>
@@ -122,11 +126,13 @@ namespace Zorglub.Time.Simple
         /// </summary>
         /// <exception cref="AoorException"><paramref name="dayOfMonth"/> is outside the range of
         /// valid values.</exception>
+        [Obsolete("Use CalendarMonth.GetDayOfMonth().")]
         [Pure] static abstract TSelf AtDayOfMonth(CalendarMonth month, int dayOfMonth);
 
         /// <summary>
         /// Obtains the last day of the specified month.
         /// </summary>
+        [Obsolete("Use CalendarMonth.LastDay.")]
         [Pure] static abstract TSelf AtEndOfMonth(CalendarMonth month);
 
         //

@@ -3,6 +3,8 @@
 
 namespace Zorglub.Testing.Facts.Simple;
 
+using System.Linq;
+
 using Zorglub.Testing.Data;
 using Zorglub.Time.Core.Intervals;
 using Zorglub.Time.Simple;
@@ -133,6 +135,27 @@ public partial class CalendarMonthFacts<TDataSet> // Prelude
         // Act & Assert
         Assert.Equal(exp, month.CalendarYear);
     }
+
+    [Theory, MemberData(nameof(MonthInfoData))]
+    public void FirstDay_Prop(MonthInfo info)
+    {
+        var (y, m) = info.Yemo;
+        var month = CalendarUT.GetCalendarMonth(y, m);
+        var startOfMonth = CalendarUT.GetCalendarDate(y, m, 1);
+        // Act & Assert
+        Assert.Equal(startOfMonth, month.FirstDay);
+    }
+
+    [Theory, MemberData(nameof(MonthInfoData))]
+    public void LastDay_Prop(MonthInfo info)
+    {
+        var (y, m) = info.Yemo;
+        var daysInMonth = info.DaysInMonth;
+        var month = CalendarUT.GetCalendarMonth(y, m);
+        var endOfMonth = CalendarUT.GetCalendarDate(y, m, daysInMonth);
+        // Act & Assert
+        Assert.Equal(endOfMonth, month.LastDay);
+    }
 }
 
 public partial class CalendarMonthFacts<TDataSet> // Calendar mismatch
@@ -229,6 +252,32 @@ public partial class CalendarMonthFacts<TDataSet> // Counting
         int actual = month.CountDaysInMonth();
         // Assert
         Assert.Equal(info.DaysInMonth, actual);
+    }
+}
+
+public partial class CalendarMonthFacts<TDataSet> // Days
+{
+    [Theory, MemberData(nameof(DateInfoData))]
+    public void GetDayOfMonth(DateInfo info)
+    {
+        var (y, m, d) = info.Yemoda;
+        var month = CalendarUT.GetCalendarMonth(y, m);
+        var date = CalendarUT.GetCalendarDate(y, m, d);
+        // Act & Assert
+        Assert.Equal(date, month.GetDayOfMonth(d));
+    }
+
+    [Theory, MemberData(nameof(MonthInfoData))]
+    public void GetDaysInMonth(MonthInfo info)
+    {
+        var (y, m) = info.Yemo;
+        var month = CalendarUT.GetCalendarMonth(y, m);
+        var list = from i in Enumerable.Range(1, info.DaysInMonth)
+                   select CalendarUT.GetCalendarDate(y, m, i);
+        // Act
+        var actual = month.GetDaysInMonth();
+        // Assert
+        Assert.Equal(list, actual);
     }
 }
 
