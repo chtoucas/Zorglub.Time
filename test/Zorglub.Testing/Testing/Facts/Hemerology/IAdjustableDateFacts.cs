@@ -59,15 +59,19 @@ public partial class IAdjustableDateFacts<TDate, TDataSet> // WithYear()
         Assert.Equal(date, date.WithYear(y));
     }
 
-    [Theory, MemberData(nameof(DateInfoData))]
-    public void WithYear(DateInfo info)
-    {
-        var (y, m, d) = info.Yemoda;
-        var date = GetDate(1, m, d);
-        var exp = GetDate(y, m, d);
-        // Act & Assert
-        Assert.Equal(exp, date.WithYear(y));
-    }
+    // NB: disabled because this cannot work in case the matching day in year 1
+    // is not valid. Nevertheless I keep it around just to remind me that I
+    // should not try to create it again.
+    // Of course, that's why we have a separate IYearAdjustmentDataSet.
+    //[Theory, MemberData(nameof(DateInfoData))]
+    //public void WithYear(DateInfo info)
+    //{
+    //    var (y, m, d) = info.Yemoda;
+    //    var date = GetDate(1, m, d);
+    //    var exp = GetDate(y, m, d);
+    //    // Act & Assert
+    //    Assert.Equal(exp, date.WithYear(y));
+    //}
 
     [Theory, MemberData(nameof(InvalidYearAdjustementData))]
     public void WithYear_InvalidResult(YemodaAnd<int> info)
