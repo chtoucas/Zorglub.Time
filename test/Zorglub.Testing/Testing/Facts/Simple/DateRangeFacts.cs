@@ -8,10 +8,11 @@ using Zorglub.Time.Hemerology.Scopes;
 using Zorglub.Time.Simple;
 
 /// <summary>
-/// Provides facts about <see cref="DateRange"/>.
+/// Provides facts about <see cref="DateRangeV0"/>.
 /// </summary>
+[Obsolete("DateRange is obsolete.")]
 public abstract partial class DateRangeFacts<TDataSet> :
-    IDateRangeFacts<CalendarDate, DateRange, TDataSet>
+    IDateRangeFacts<CalendarDate, DateRangeV0, TDataSet>
     where TDataSet : ICalendarDataSet, ISingleton<TDataSet>
 {
     protected DateRangeFacts(Calendar calendar, Calendar otherCalendar)
@@ -41,12 +42,12 @@ public abstract partial class DateRangeFacts<TDataSet> :
     protected sealed override CalendarDate GetDate(int y, int doy) =>
         CalendarUT.GetOrdinalDate(y, doy).ToCalendarDate();
 
-    protected sealed override DateRange CreateRange(CalendarDate start, CalendarDate end) =>
-        DateRange.Create(start, end);
-    protected sealed override DateRange CreateRange(CalendarDate start, int length) =>
-        DateRange.Create(start, length);
+    protected sealed override DateRangeV0 CreateRange(CalendarDate start, CalendarDate end) =>
+        DateRangeV0.Create(start, end);
+    protected sealed override DateRangeV0 CreateRange(CalendarDate start, int length) =>
+        DateRangeV0.Create(start, length);
 
-    protected sealed override bool CheckCalendar(DateRange range)
+    protected sealed override bool CheckCalendar(DateRangeV0 range)
     {
         Requires.NotNull(range);
 
@@ -65,7 +66,7 @@ public partial class DateRangeFacts<TDataSet>
         var start = CalendarUT.GetCalendarDate(3, 4, 5);
         var end = OtherCalendar.GetCalendarDate(3, 4, 6);
         // Act & Assert
-        Assert.Throws<ArgumentException>("other", () => DateRange.Create(start, end));
+        Assert.Throws<ArgumentException>("other", () => DateRangeV0.Create(start, end));
     }
 
     [Fact]
@@ -73,7 +74,7 @@ public partial class DateRangeFacts<TDataSet>
     {
         var start = CalendarUT.GetCalendarDate(3, 4, 5);
         var end = start + 9;
-        var range = DateRange.Create(start, end);
+        var range = DateRangeV0.Create(start, end);
         // Act
         var (from, to) = range;
         // Assert
@@ -88,7 +89,7 @@ public partial class DateRangeFacts<TDataSet>
     {
         var start = CalendarUT.GetCalendarDate(3, 4, 5);
         var end = start + 9;
-        var range = DateRange.Create(start, end);
+        var range = DateRangeV0.Create(start, end);
         // Act
         var (from, to, length) = range;
         // Assert
@@ -102,7 +103,7 @@ public partial class DateRangeFacts<TDataSet>
     public void ToString_DoesSomething()
     {
         var start = CalendarUT.GetCalendarDate(3, 4, 5);
-        var range = DateRange.Create(start, 2);
+        var range = DateRangeV0.Create(start, 2);
         // Act
         string str = range.ToString();
         // Assert
@@ -115,7 +116,7 @@ public partial class DateRangeFacts<TDataSet>
     public void Contains_InvalidDate()
     {
         var start = CalendarUT.GetCalendarDate(3, 4, 5);
-        var range = DateRange.Create(start, 25);
+        var range = DateRangeV0.Create(start, 25);
         var date = OtherCalendar.GetCalendarDate(3, 4, 5);
         // Act & Assert
         Assert.Throws<ArgumentException>("date", () => range.Contains(date));
@@ -125,9 +126,9 @@ public partial class DateRangeFacts<TDataSet>
     public void IsSupersetOf_InvalidRange()
     {
         var start1 = CalendarUT.GetCalendarDate(3, 4, 5);
-        var range1 = DateRange.Create(start1, 25);
+        var range1 = DateRangeV0.Create(start1, 25);
         var start2 = OtherCalendar.GetCalendarDate(3, 4, 5);
-        var range2 = DateRange.Create(start2, 25);
+        var range2 = DateRangeV0.Create(start2, 25);
         // Act & Assert
         Assert.Throws<ArgumentException>("range", () => range1.IsSupersetOf(range2));
     }
@@ -136,7 +137,7 @@ public partial class DateRangeFacts<TDataSet>
     public void Contains_InvalidMonth()
     {
         var start = CalendarUT.GetCalendarDate(3, 4, 5);
-        var range = DateRange.Create(start, 25);
+        var range = DateRangeV0.Create(start, 25);
         var month = OtherCalendar.GetCalendarMonth(3, 4);
         // Act & Assert
         Assert.Throws<ArgumentException>("month", () => range.Contains(month));
@@ -146,7 +147,7 @@ public partial class DateRangeFacts<TDataSet>
     public void Contains_InvalidYear()
     {
         var start = CalendarUT.GetCalendarDate(3, 4, 5);
-        var range = DateRange.Create(start, 25);
+        var range = DateRangeV0.Create(start, 25);
         var cyear = OtherCalendar.GetCalendarYear(3);
         // Act & Assert
         Assert.Throws<ArgumentException>("year", () => range.Contains(cyear));
@@ -160,7 +161,7 @@ public partial class DateRangeFacts<TDataSet>
     public void Contains_Month_EndsBeforeMonth()
     {
         var start = CalendarUT.GetCalendarDate(3, 3, 1);
-        var range = DateRange.Create(start, 2);
+        var range = DateRangeV0.Create(start, 2);
         var month = CalendarUT.GetCalendarMonth(3, 4);
 
         Assert.True(range.End < month.FirstDay, "Self-check");
@@ -173,7 +174,7 @@ public partial class DateRangeFacts<TDataSet>
     public void Contains_Month_OverlapsStartOfMonth()
     {
         var start = CalendarUT.GetCalendarDate(3, 3, 31);
-        var range = DateRange.Create(start, 10);
+        var range = DateRangeV0.Create(start, 10);
         var month = CalendarUT.GetCalendarMonth(3, 4);
 
         Assert.True(range.Start < month.FirstDay, "Self-check");
@@ -188,7 +189,7 @@ public partial class DateRangeFacts<TDataSet>
     public void Contains_Month_SameStartEndsBeforeMonth()
     {
         var start = CalendarUT.GetCalendarDate(3, 4, 1);
-        var range = DateRange.Create(start, 2);
+        var range = DateRangeV0.Create(start, 2);
         var month = CalendarUT.GetCalendarMonth(3, 4);
 
         Assert.Equal(range.Start, month.FirstDay, "Self-check");
@@ -202,7 +203,7 @@ public partial class DateRangeFacts<TDataSet>
     public void Contains_Month_StrictlyInMonth()
     {
         var start = CalendarUT.GetCalendarDate(3, 4, 5);
-        var range = DateRange.Create(start, 2);
+        var range = DateRangeV0.Create(start, 2);
         var month = CalendarUT.GetCalendarMonth(3, 4);
 
         Assert.True(range.Start > month.FirstDay, "Self-check");
@@ -216,7 +217,7 @@ public partial class DateRangeFacts<TDataSet>
     public void Contains_Month_StartsAfterStartOfMonthSameEnd()
     {
         var start = CalendarUT.GetCalendarDate(3, 4, 5);
-        var range = DateRange.Create(start, 26);
+        var range = DateRangeV0.Create(start, 26);
         var month = CalendarUT.GetCalendarMonth(3, 4);
 
         Assert.True(range.Start > month.FirstDay, "Self-check");
@@ -230,7 +231,7 @@ public partial class DateRangeFacts<TDataSet>
     public void Contains_Month_OverlapsEndOfMonth()
     {
         var start = CalendarUT.GetCalendarDate(3, 4, 5);
-        var range = DateRange.Create(start, 100);
+        var range = DateRangeV0.Create(start, 100);
         var month = CalendarUT.GetCalendarMonth(3, 4);
 
         Assert.True(range.Start > month.FirstDay, "Self-check");
@@ -245,7 +246,7 @@ public partial class DateRangeFacts<TDataSet>
     public void Contains_Month_StartsAfterMonth()
     {
         var start = CalendarUT.GetCalendarDate(3, 5, 1);
-        var range = DateRange.Create(start, 2);
+        var range = DateRangeV0.Create(start, 2);
         var month = CalendarUT.GetCalendarMonth(3, 4);
 
         Assert.True(range.Start > month.LastDay, "Self-check");
@@ -258,7 +259,7 @@ public partial class DateRangeFacts<TDataSet>
     public void Contains_Month()
     {
         var start = CalendarUT.GetCalendarDate(3, 4, 1);
-        var range = DateRange.Create(start, 100);
+        var range = DateRangeV0.Create(start, 100);
         var month = CalendarUT.GetCalendarMonth(3, 5);
 
         Assert.True(range.Start < month.FirstDay, "Self-check");
@@ -272,7 +273,7 @@ public partial class DateRangeFacts<TDataSet>
     public void Contains_Month_SameStart()
     {
         var start = CalendarUT.GetCalendarDate(3, 5, 1);
-        var range = DateRange.Create(start, 100);
+        var range = DateRangeV0.Create(start, 100);
         var month = CalendarUT.GetCalendarMonth(3, 5);
 
         Assert.Equal(range.Start, month.FirstDay, "Self-check");
@@ -286,7 +287,7 @@ public partial class DateRangeFacts<TDataSet>
     public void Contains_Month_SameEnd()
     {
         var start = CalendarUT.GetCalendarDate(3, 4, 30);
-        var range = DateRange.Create(start, 32);
+        var range = DateRangeV0.Create(start, 32);
         var month = CalendarUT.GetCalendarMonth(3, 5);
 
         Assert.True(range.Start < month.FirstDay, "Self-check");
@@ -300,7 +301,7 @@ public partial class DateRangeFacts<TDataSet>
     public void Contains_Month_SameStartEnd()
     {
         var start = CalendarUT.GetCalendarDate(3, 4, 1);
-        var range = DateRange.Create(start, 30);
+        var range = DateRangeV0.Create(start, 30);
         var month = CalendarUT.GetCalendarMonth(3, 4);
 
         Assert.Equal(range.Start, month.FirstDay, "Self-check");
@@ -318,7 +319,7 @@ public partial class DateRangeFacts<TDataSet>
     public void Contains_Year_EndsBeforeYear()
     {
         var start = CalendarUT.GetCalendarDate(3, 4, 5);
-        var range = DateRange.Create(start, 2);
+        var range = DateRangeV0.Create(start, 2);
         var cyear = CalendarUT.GetCalendarYear(4);
 
         Assert.True(range.Start < cyear.FirstDay.ToCalendarDate(), "Self-check");
@@ -331,7 +332,7 @@ public partial class DateRangeFacts<TDataSet>
     public void Contains_Year_OverlapsStartOfYear()
     {
         var start = CalendarUT.GetCalendarDate(3, 12, 1);
-        var range = DateRange.Create(start, 100);
+        var range = DateRangeV0.Create(start, 100);
         var cyear = CalendarUT.GetCalendarYear(4);
 
         Assert.True(range.Start < cyear.FirstDay.ToCalendarDate(), "Self-check");
@@ -346,7 +347,7 @@ public partial class DateRangeFacts<TDataSet>
     public void Contains_Year_SameStartEndsBeforeYear()
     {
         var start = CalendarUT.GetCalendarDate(4, 1, 1);
-        var range = DateRange.Create(start, 100);
+        var range = DateRangeV0.Create(start, 100);
         var cyear = CalendarUT.GetCalendarYear(4);
 
         Assert.Equal(range.Start, cyear.FirstDay.ToCalendarDate(), "Self-check");
@@ -360,7 +361,7 @@ public partial class DateRangeFacts<TDataSet>
     public void Contains_Year_StrictlyInYear()
     {
         var start = CalendarUT.GetCalendarDate(4, 2, 1);
-        var range = DateRange.Create(start, 100);
+        var range = DateRangeV0.Create(start, 100);
         var cyear = CalendarUT.GetCalendarYear(4);
 
         Assert.True(range.Start > cyear.FirstDay.ToCalendarDate(), "Self-check");
@@ -374,7 +375,7 @@ public partial class DateRangeFacts<TDataSet>
     public void Contains_Year_StartsAfterStartOfYearSameEnd()
     {
         var start = CalendarUT.GetCalendarDate(4, 1, 2);
-        var range = DateRange.Create(start, 365);
+        var range = DateRangeV0.Create(start, 365);
         var cyear = CalendarUT.GetCalendarYear(4);
 
         Assert.True(range.Start > cyear.FirstDay.ToCalendarDate(), "Self-check");
@@ -388,7 +389,7 @@ public partial class DateRangeFacts<TDataSet>
     public void Contains_Year_OverlapsEndOfYear()
     {
         var start = CalendarUT.GetCalendarDate(4, 1, 2);
-        var range = DateRange.Create(start, 400);
+        var range = DateRangeV0.Create(start, 400);
         var cyear = CalendarUT.GetCalendarYear(4);
 
         Assert.True(range.Start > cyear.FirstDay.ToCalendarDate(), "Self-check");
@@ -403,7 +404,7 @@ public partial class DateRangeFacts<TDataSet>
     public void Contains_Year_StartsAfterYear()
     {
         var start = CalendarUT.GetCalendarDate(5, 1, 1);
-        var range = DateRange.Create(start, 2);
+        var range = DateRangeV0.Create(start, 2);
         var cyear = CalendarUT.GetCalendarYear(4);
 
         Assert.True(range.Start > cyear.LastDay.ToCalendarDate(), "Self-check");
@@ -416,7 +417,7 @@ public partial class DateRangeFacts<TDataSet>
     public void Contains_Year()
     {
         var start = CalendarUT.GetCalendarDate(3, 3, 1);
-        var range = DateRange.Create(start, 1000);
+        var range = DateRangeV0.Create(start, 1000);
         var cyear = CalendarUT.GetCalendarYear(4);
 
         Assert.True(range.Start < cyear.FirstDay.ToCalendarDate(), "Self-check");
@@ -430,7 +431,7 @@ public partial class DateRangeFacts<TDataSet>
     public void Contains_Year_SameStart()
     {
         var start = CalendarUT.GetCalendarDate(3, 1, 1);
-        var range = DateRange.Create(start, 1000);
+        var range = DateRangeV0.Create(start, 1000);
         var cyear = CalendarUT.GetCalendarYear(3);
 
         Assert.Equal(range.Start, cyear.FirstDay.ToCalendarDate(), "Self-check");
@@ -444,7 +445,7 @@ public partial class DateRangeFacts<TDataSet>
     public void Contains_Year_SameEnd()
     {
         var start = CalendarUT.GetCalendarDate(2, 12, 31);
-        var range = DateRange.Create(start, 366);
+        var range = DateRangeV0.Create(start, 366);
         var cyear = CalendarUT.GetCalendarYear(3);
 
         Assert.True(range.Start < cyear.FirstDay.ToCalendarDate(), "Self-check");
@@ -458,7 +459,7 @@ public partial class DateRangeFacts<TDataSet>
     public void Contains_Year_SameStartEnd()
     {
         var start = CalendarUT.GetCalendarDate(3, 1, 1);
-        var range = DateRange.Create(start, 365);
+        var range = DateRangeV0.Create(start, 365);
         var cyear = CalendarUT.GetCalendarYear(3);
 
         Assert.Equal(range.Start, cyear.FirstDay.ToCalendarDate(), "Self-check");
@@ -476,7 +477,7 @@ public partial class DateRangeFacts<TDataSet>
     public void WithCalendar_InvalidCalendar()
     {
         var date = CalendarUT.GetCalendarDate(3, 4, 5);
-        var range = DateRange.Create(date, 6);
+        var range = DateRangeV0.Create(date, 6);
         // Act & Assert
         Assert.ThrowsAnexn("newCalendar", () => range.WithCalendar(null!));
     }
@@ -497,8 +498,8 @@ public partial class DateRangeFacts<TDataSet> // IEquatable
 
         var start = CalendarUT.GetCalendarDate(y, m, d);
         // Act
-        var range1 = DateRange.Create(start, 29);
-        var range2 = DateRange.Create(start, 29);
+        var range1 = DateRangeV0.Create(start, 29);
+        var range2 = DateRangeV0.Create(start, 29);
         // Assert
         Assert.True(range1 == range2);
         Assert.False(range1 != range2);
@@ -511,9 +512,9 @@ public partial class DateRangeFacts<TDataSet> // IEquatable
     {
 #nullable disable
         var start = CalendarUT.GetCalendarDate(3, 4, 5);
-        var range = DateRange.Create(start, 29);
-        var nullRange = (DateRange)null!;
-        var nullRange1 = (DateRange)null!;
+        var range = DateRangeV0.Create(start, 29);
+        var nullRange = (DateRangeV0)null!;
+        var nullRange1 = (DateRangeV0)null!;
         // Act & Assert
         // The order of statements is important otherwise Equals(null)
         // will fool the compiler, it will believe that "range" is null.

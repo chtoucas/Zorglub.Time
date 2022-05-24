@@ -9,6 +9,7 @@ using Zorglub.Testing.Data.Bounded;
 using Zorglub.Time.Core;
 using Zorglub.Time.Core.Intervals;
 
+[Obsolete("DateRange is obsolete.")]
 public sealed class GregorianDateRangeTests : DateRangeFacts<ProlepticGregorianDataSet>
 {
     public GregorianDateRangeTests()
@@ -18,7 +19,7 @@ public sealed class GregorianDateRangeTests : DateRangeFacts<ProlepticGregorianD
     public void WithCalendar()
     {
         var date = CalendarUT.GetCalendarDate(1970, 1, 1);
-        var range = DateRange.Create(date, 2);
+        var range = DateRangeV0.Create(date, 2);
         // Act
         var actual = range.WithCalendar(OtherCalendar);
         // Assert
@@ -28,6 +29,7 @@ public sealed class GregorianDateRangeTests : DateRangeFacts<ProlepticGregorianD
     }
 }
 
+[Obsolete("DateRange is obsolete.")]
 public sealed class JulianDateRangeTests : DateRangeFacts<ProlepticJulianDataSet>
 {
     public JulianDateRangeTests()
@@ -37,7 +39,7 @@ public sealed class JulianDateRangeTests : DateRangeFacts<ProlepticJulianDataSet
     public void WithCalendar()
     {
         var date = CalendarUT.GetCalendarDate(1969, 12, 19);
-        var range = DateRange.Create(date, 2);
+        var range = DateRangeV0.Create(date, 2);
         // Act
         var actual = range.WithCalendar(OtherCalendar);
         // Assert
@@ -47,6 +49,7 @@ public sealed class JulianDateRangeTests : DateRangeFacts<ProlepticJulianDataSet
     }
 }
 
+[Obsolete("DateRange is obsolete.")]
 public sealed class DateRangeYearTests : CalendarDataConsumer<ProlepticGregorianDataSet>
 {
     private static readonly JulianCalendar s_Julian = JulianCalendar.Instance;
@@ -58,9 +61,9 @@ public sealed class DateRangeYearTests : CalendarDataConsumer<ProlepticGregorian
     {
         var year = CalendarUT.GetCalendarYear(1970);
         var date = s_Julian.GetCalendarDate(1969, 12, 19);
-        var range = DateRange.Create(date, 365);
+        var range = DateRangeV0.Create(date, 365);
         // Act
-        var actual = DateRange.FromYear(year).WithCalendar(s_Julian);
+        var actual = DateRangeV0.FromYear(year).WithCalendar(s_Julian);
         // Assert
         Assert.Equal(range, actual);
     }
@@ -82,8 +85,8 @@ public sealed class DateRangeYearTests : CalendarDataConsumer<ProlepticGregorian
     [InlineData(4, 1, false)]
     public void IsSupersetOf_MonthRange(int y, int m, bool inRange)
     {
-        var range = DateRange.FromYear(CalendarUT.GetCalendarYear(3));
-        var other = DateRange.FromMonth(CalendarUT.GetCalendarMonth(y, m));
+        var range = DateRangeV0.FromYear(CalendarUT.GetCalendarYear(3));
+        var other = DateRangeV0.FromMonth(CalendarUT.GetCalendarMonth(y, m));
         // Act & Assert
         Assert.Equal(inRange, range.IsSupersetOf(other));
     }
@@ -94,8 +97,8 @@ public sealed class DateRangeYearTests : CalendarDataConsumer<ProlepticGregorian
     [InlineData(4, false)]
     public void IsSupersetOf_YearRange(int y, bool inRange)
     {
-        var range = DateRange.FromYear(CalendarUT.GetCalendarYear(3));
-        var other = DateRange.FromYear(CalendarUT.GetCalendarYear(y));
+        var range = DateRangeV0.FromYear(CalendarUT.GetCalendarYear(3));
+        var other = DateRangeV0.FromYear(CalendarUT.GetCalendarYear(y));
         // Act & Assert
         Assert.Equal(inRange, range.IsSupersetOf(other));
     }
@@ -108,7 +111,7 @@ public sealed class DateRangeYearTests : CalendarDataConsumer<ProlepticGregorian
     [InlineData(4, 1, 1, false)]
     public void Contains_Date(int y, int m, int d, bool inRange)
     {
-        var range = DateRange.FromYear(CalendarUT.GetCalendarYear(3));
+        var range = DateRangeV0.FromYear(CalendarUT.GetCalendarYear(3));
         var date = CalendarUT.GetCalendarDate(y, m, d);
         // Act & Assert
         Assert.Equal(inRange, range.Contains(date));
@@ -131,7 +134,7 @@ public sealed class DateRangeYearTests : CalendarDataConsumer<ProlepticGregorian
     [InlineData(4, 1, false)]
     public void Contains_Month(int y, int m, bool inRange)
     {
-        var range = DateRange.FromYear(CalendarUT.GetCalendarYear(3));
+        var range = DateRangeV0.FromYear(CalendarUT.GetCalendarYear(3));
         var month = CalendarUT.GetCalendarMonth(y, m);
         // Act & Assert
         Assert.Equal(inRange, range.Contains(month));
@@ -143,7 +146,7 @@ public sealed class DateRangeYearTests : CalendarDataConsumer<ProlepticGregorian
     [InlineData(4, false)]
     public void Contains_Year(int y, bool inRange)
     {
-        var range = DateRange.FromYear(CalendarUT.GetCalendarYear(3));
+        var range = DateRangeV0.FromYear(CalendarUT.GetCalendarYear(3));
         var year1 = CalendarUT.GetCalendarYear(y);
         // Act & Assert
         Assert.Equal(inRange, range.Contains(year1));
@@ -165,6 +168,7 @@ public sealed class DateRangeYearTests : CalendarDataConsumer<ProlepticGregorian
     };
 }
 
+[Obsolete("DateRange is obsolete.")]
 public sealed class DateRangeMonthTests : CalendarDataConsumer<ProlepticGregorianDataSet>
 {
     private static readonly JulianCalendar s_Julian = JulianCalendar.Instance;
@@ -176,9 +180,9 @@ public sealed class DateRangeMonthTests : CalendarDataConsumer<ProlepticGregoria
     {
         var month = CalendarUT.GetCalendarMonth(1970, 1);
         var date = s_Julian.GetCalendarDate(1969, 12, 19);
-        var range = DateRange.Create(date, 31);
+        var range = DateRangeV0.Create(date, 31);
         // Act
-        var actual = DateRange.FromMonth(month).WithCalendar(s_Julian);
+        var actual = DateRangeV0.FromMonth(month).WithCalendar(s_Julian);
         // Assert
         Assert.Equal(range, actual);
     }
@@ -186,8 +190,8 @@ public sealed class DateRangeMonthTests : CalendarDataConsumer<ProlepticGregoria
     [Fact]
     public void IsSupersetOf_RangeA()
     {
-        var range1 = DateRange.FromMonth(CalendarUT.GetCalendarMonth(3, 4));
-        var range2 = DateRange.FromMonth(CalendarUT.GetCalendarMonth(3, 5));
+        var range1 = DateRangeV0.FromMonth(CalendarUT.GetCalendarMonth(3, 4));
+        var range2 = DateRangeV0.FromMonth(CalendarUT.GetCalendarMonth(3, 5));
         // Act & Assert
         Assert.False(range1.IsSupersetOf(range2));
     }
@@ -195,8 +199,8 @@ public sealed class DateRangeMonthTests : CalendarDataConsumer<ProlepticGregoria
     [Fact]
     public void IsSupersetOf_RangeB()
     {
-        var range1 = DateRange.FromMonth(CalendarUT.GetCalendarMonth(3, 4));
-        var range2 = DateRange.FromMonth(CalendarUT.GetCalendarMonth(4, 4));
+        var range1 = DateRangeV0.FromMonth(CalendarUT.GetCalendarMonth(3, 4));
+        var range2 = DateRangeV0.FromMonth(CalendarUT.GetCalendarMonth(4, 4));
         // Act & Assert
         Assert.False(range1.IsSupersetOf(range2));
     }
@@ -204,8 +208,8 @@ public sealed class DateRangeMonthTests : CalendarDataConsumer<ProlepticGregoria
     [Fact]
     public void IsSupersetOf_RangeC()
     {
-        var range1 = DateRange.FromMonth(CalendarUT.GetCalendarMonth(3, 4));
-        var range2 = DateRange.Create(CalendarUT.GetCalendarDate(3, 4, 2), 2);
+        var range1 = DateRangeV0.FromMonth(CalendarUT.GetCalendarMonth(3, 4));
+        var range2 = DateRangeV0.Create(CalendarUT.GetCalendarDate(3, 4, 2), 2);
         // Act & Assert
         Assert.True(range1.IsSupersetOf(range2));
     }
@@ -220,7 +224,7 @@ public sealed class DateRangeMonthTests : CalendarDataConsumer<ProlepticGregoria
     public void Contains_Date(int y, int m, int d, bool inRange)
     {
         var month = CalendarUT.GetCalendarMonth(3, 3);
-        var range = DateRange.FromMonth(month);
+        var range = DateRangeV0.FromMonth(month);
         var date = CalendarUT.GetCalendarDate(y, m, d);
         // Act & Assert
         Assert.Equal(inRange, range.Contains(date));
@@ -235,7 +239,7 @@ public sealed class DateRangeMonthTests : CalendarDataConsumer<ProlepticGregoria
     public void Contains_Month(int y, int m, bool inRange)
     {
         var month = CalendarUT.GetCalendarMonth(3, 3);
-        var range = DateRange.FromMonth(month);
+        var range = DateRangeV0.FromMonth(month);
         var other = CalendarUT.GetCalendarMonth(y, m);
         // Act & Assert
         Assert.Equal(inRange, range.Contains(other));
@@ -248,7 +252,7 @@ public sealed class DateRangeMonthTests : CalendarDataConsumer<ProlepticGregoria
     public void Contains_Year(int y)
     {
         var month = CalendarUT.GetCalendarMonth(3, 3);
-        var range = DateRange.FromMonth(month);
+        var range = DateRangeV0.FromMonth(month);
         var year = CalendarUT.GetCalendarYear(y);
         // Act & Assert
         Assert.False(range.Contains(year));

@@ -4,468 +4,358 @@
 namespace Zorglub.Time.Simple
 {
     using System.Collections;
+    using System.Collections.Generic;
 
-    using Zorglub.Time.Hemerology;
+    using Zorglub.Time.Core.Intervals;
 
-    // TODO(api): ranges for CalendarDay (DayRange) and OrdinalDate (OrdinalRange).
-    // Add OrdinalDate & CalendarDay. Idem w/ in CalendarYear/Month.
-    // Creation from a OrderedPair<CalendarDate>.
+    // TODO(code): optimize enumeration and Contains (static and instance
+    // methods); see DateRange.
+    // Add tests to certify that it's not possible to create a range with
+    // endpoints in different calendars.
 
     /// <summary>
-    /// Represents a range of consecutive days that is a finite and closed
-    /// interval between two given dates.
-    /// <para>This class can ONLY be inherited from within friend assemblies.</para>
-    /// <para>This type follows the rules of structural equality.</para>
+    /// Provides static helpers and extension methods for <see cref="Range{T}"/>.
+    /// <para>This class cannot be inherited.</para>
     /// </summary>
-    [SuppressMessage("Naming", "CA1710:Identifiers should have correct suffix", Justification = "Interval first.")]
-    public partial class DateRange :
-        IDateRange<DateRange, CalendarDate>,
-        IEquatable<DateRange>,
-        IEnumerable<CalendarDate>
+    public static partial class DateRange { }
+
+    public partial class DateRange // Range<CalendarDate>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="DateRange"/> class.
-        /// <para>This constructor does NOT validate its parameters.</para>
+        /// Creates a new instance of the <see cref="Range{T}"/> class from the specified start and
+        /// length.
         /// </summary>
-        private protected DateRange(CalendarDate start, CalendarDate end, int length)
-        {
-            Debug.Assert(start <= end);
-            Debug.Assert(length >= 1);
-            Debug.Assert(length == 1 + (end - start));
-
-            Start = start;
-            End = end;
-            Length = length;
-
-            Cuid = start.Cuid;
-            Calendar = start.Calendar;
-        }
-
-        /// <inheritdoc />
-        public CalendarDate Start { get; }
-
-        /// <inheritdoc />
-        public CalendarDate End { get; }
-
-        /// <inheritdoc />
-        public int Length { get; }
+        [Pure]
+        public static Range<CalendarDate> Create(CalendarDate start, int length) =>
+            Range.Create(start, start + (length - 1));
 
         /// <summary>
-        /// Gets the calendar to which belongs the current instance.
+        /// Obtains the calendar to which belongs the specified range.
         /// </summary>
-        public Calendar Calendar { get; }
+        [Pure]
+        public static Calendar GetCalendar(this Range<CalendarDate> @this) => @this.Min.Calendar;
 
         /// <summary>
-        /// Gets the ID of the calendar to which belongs the current
-        /// instance.
+        /// Obtains the number of days in the specified range.
         /// </summary>
-        private protected Cuid Cuid { get; }
+        [Pure]
+        public static int Count(this Range<CalendarDate> @this) => @this.Max - @this.Min + 1;
 
         /// <summary>
-        /// Returns a culture-independent string representation of the current
-        /// instance.
+        /// Obtains an <see cref="IEnumerable{T}"/> view of the specified range.
         /// </summary>
         [Pure]
-        public override string ToString() =>
-            FormattableString.Invariant($"[{Start}, {End}] ({Calendar})");
+        public static IEnumerable<CalendarDate> ToEnumerable(this Range<CalendarDate> @this)
+        {
+            var min = @this.Min;
+            var max = @this.Max;
+
+            for (var date = min; date <= max; date++)
+            {
+                yield return date;
+            }
+        }
+
+        ///// <summary>
+        ///// Determines whether the specified range contains the specified month or not.
+        ///// </summary>
+        ///// <exception cref="ArgumentException"><paramref name="month"/> does not belong to the
+        ///// calendar of the specified range.</exception>
+        //[Pure]
+        //public static bool ContainsFast(this Range<CalendarDate> @this, CalendarMonth month)
+        //{
+        //    var cuid = @this.GetCalendar().Id;
+        //    if (month.Cuid != cuid) Throw.BadCuid(nameof(month), cuid, month.Cuid);
+
+        //    return @this.Min.CompareFast(month.FirstDay) <= 0
+        //        && month.LastDay.CompareFast(@this.Max) <= 0;
+        //}
 
         /// <summary>
-        /// Deconstructs the current instance into its components.
+        /// Interconverts the specified range to a range within a different calendar.
         /// </summary>
-        public void Deconstruct(out CalendarDate start, out CalendarDate end) =>
-            (start, end) = (Start, End);
-
-        /// <summary>
-        /// Deconstructs the current instance into its components.
-        /// </summary>
-        public void Deconstruct(out CalendarDate start, out CalendarDate end, out int length) =>
-            (start, end, length) = (Start, End, Length);
-
-        private void ValidateCuid(Cuid cuid, string paramName)
-        {
-            if (cuid != Cuid) Throw.BadCuid(paramName, Cuid, cuid);
-        }
-    }
-
-    public partial class DateRange // Factories
-    {
-        /// <summary>
-        /// Creates a new instance of the <see cref="DateRange"/> class from the
-        /// specified start and end.
-        /// </summary>
-        [Pure]
-        public static DateRange Create(CalendarDate start, CalendarDate end)
-        {
-            if (end < start) Throw.ArgumentOutOfRange(nameof(end));
-            return CreateCore(start, end);
-        }
-
-        /// <summary>
-        /// Creates a new instance of the <see cref="DateRange"/> class from the
-        /// specified start and length.
-        /// </summary>
-        [Pure]
-        public static DateRange Create(CalendarDate start, int length)
-        {
-            if (length < 1) Throw.ArgumentOutOfRange(nameof(length));
-            return CreateCore(start, start + (length - 1), length);
-        }
-
-        [Pure]
-        private static DateRange CreateCore(CalendarDate start, CalendarDate end) =>
-            CreateCore(start, end, 1 + (end - start));
-
-        [Pure]
-        private static DateRange CreateCore(CalendarDate start, CalendarDate end, int length)
-        {
-            start.Parts.Unpack(out int y0, out int m0);
-            end.Parts.Unpack(out int y, out int m);
-
-            return y == y0
-                ? m == m0
-                    ? new WithinMonth(start, end, length)
-                    : new WithinYear(start, end, length)
-                : new DateRange(start, end, length);
-        }
-    }
-
-    public partial class DateRange // Set-theoretical operations
-    {
-        /// <inheritdoc />
-        [Pure]
-        public bool Contains(CalendarDate date)
-        {
-            ValidateCuid(date.Cuid, nameof(date));
-
-            return ContainsCore(date);
-        }
-
-        /// <summary>
-        /// Determines whether this range instance contains the specified month or not.
-        /// </summary>
-        /// <exception cref="ArgumentException"><paramref name="month"/> does
-        /// not to the calendar of the current instance.</exception>
-        [Pure]
-        public bool Contains(CalendarMonth month)
-        {
-            ValidateCuid(month.Cuid, nameof(month));
-
-            return ContainsCore(month);
-        }
-
-        /// <summary>
-        /// Determines whether this range instance contains the specified year or not.
-        /// </summary>
-        /// <exception cref="ArgumentException"><paramref name="year"/> does
-        /// not to the calendar of the current instance.</exception>
-        [Pure]
-        public bool Contains(CalendarYear year)
-        {
-            ValidateCuid(year.Cuid, nameof(year));
-
-            return ContainsCore(year);
-        }
-
-        /// <inheritdoc />
-        [Pure]
-        public bool IsSupersetOf(DateRange range)
-        {
-            Requires.NotNull(range);
-            ValidateCuid(range.Cuid, nameof(range));
-
-            return IsSupersetOfCore(range);
-        }
-
-        [Pure]
-        private bool ContainsCore(CalendarDate date)
-        {
-            Debug.Assert(date.Cuid == Cuid);
-
-            // CompareFast() to avoid double checking the Cuid.
-            return Start.CompareFast(date) <= 0 && date.CompareFast(End) <= 0;
-        }
-
-        [Pure]
-        private protected virtual bool ContainsCore(CalendarMonth month)
-        {
-            Debug.Assert(month.Cuid == Cuid);
-
-            var startOfMonth = month.FirstDay;
-            var endOfMonth = month.LastDay;
-            return Start.CompareFast(startOfMonth) <= 0 && endOfMonth.CompareFast(End) <= 0;
-        }
-
-        [Pure]
-        private protected virtual bool ContainsCore(CalendarYear year)
-        {
-            Debug.Assert(year.Cuid == Cuid);
-
-            var startOfYear = year.FirstDay.ToCalendarDate();
-            var endOfYear = year.LastDay.ToCalendarDate();
-            return Start.CompareFast(startOfYear) <= 0 && endOfYear.CompareFast(End) <= 0;
-        }
-
-        [Pure]
-        private bool IsSupersetOfCore(DateRange range)
-        {
-            Debug.Assert(range != null);
-            Debug.Assert(range.Cuid == Cuid);
-
-            return Start.CompareFast(range.Start) <= 0 && range.End.CompareFast(End) <= 0;
-        }
-    }
-
-    public partial class DateRange // Other set ops, conversions
-    {
-        /// <inheritdoc />
-        [Pure]
-        public DateRange? Intersect(DateRange range)
-        {
-            Requires.NotNull(range);
-            ValidateCuid(range.Cuid, nameof(range));
-
-            return IsSupersetOfCore(range) ? range
-                : range.IsSupersetOfCore(this) ? this
-                : range.ContainsCore(Start) ? CreateCore(Start, range.End)
-                : range.ContainsCore(End) ? CreateCore(range.Start, End)
-                : null;
-        }
-
-        /// <inheritdoc />
-        [Pure]
-        public DateRange? Union(DateRange range)
-        {
-            Requires.NotNull(range);
-
-            // NB: no need to check the Cuid's, CalendarDate.Min/Max will do the
-            // job for us.
-
-            var start = CalendarDate.Min(Start, range.Start);
-            var end = CalendarDate.Max(End, range.End);
-            int length = 1 + (end - start);
-
-            return length > Length + range.Length ? null
-                : CreateCore(start, end, length);
-        }
-
-        /// <summary>
-        /// Interconverts the current instance to a range within a different calendar.
-        /// </summary>
-        /// <remarks>
-        /// <para>This method always performs the conversion whether it's necessary or not. To avoid
-        /// an expensive operation, it's better to check before that <paramref name="newCalendar"/>
-        /// is actually different from the calendar of the current instance.</para>
-        /// </remarks>
         /// <exception cref="ArgumentNullException"><paramref name="newCalendar"/> is null.
         /// </exception>
         [Pure]
-        public DateRange WithCalendar(Calendar newCalendar)
+        public static Range<CalendarDate> WithCalendar(this Range<CalendarDate> @this, Calendar newCalendar)
         {
             Requires.NotNull(newCalendar);
 
-            var start = Calendar.GetDayNumber(Start);
-            var end = Calendar.GetDayNumber(End);
+            // TODO(code): check that both dates use the same calendar; idem with
+            // the other WithCalendar().
+            var (min, max) = @this.Endpoints;
 
-            return CreateCore(
-                newCalendar.GetCalendarDateOn(start),
-                newCalendar.GetCalendarDateOn(end),
-                Length);
+            var start = min.WithCalendar(newCalendar);
+            var end = max.WithCalendar(newCalendar);
+
+            return Range.Create(start, end);
         }
     }
 
-    public partial class DateRange // IEquatable
+    public partial class DateRange // Range<CalendarDay>
     {
         /// <summary>
-        /// Determines whether two specified instances of <see cref="DateRange"/>
-        /// are equal.
-        /// </summary>
-        public static bool operator ==(DateRange? left, DateRange? right) =>
-            left is null ? right is null : left.Equals(right);
-
-        /// <summary>
-        /// Determines whether two specified instances of <see cref="DateRange"/>
-        /// are not equal.
-        /// </summary>
-        public static bool operator !=(DateRange? left, DateRange? right) =>
-            left is null ? right is not null : !left.Equals(right);
-
-        /// <inheritdoc />
-        [Pure]
-        public bool Equals(DateRange? other)
-        {
-            if (other is null) { return false; }
-            if (ReferenceEquals(this, other)) { return true; }
-            return Start == other.Start && End == other.End;
-        }
-
-        /// <inheritdoc />
-        [Pure] public override bool Equals(object? obj) => Equals(obj as DateRange);
-
-        /// <inheritdoc />
-        [Pure] public override int GetHashCode() => HashCode.Combine(Start, End);
-    }
-
-    public partial class DateRange // IEnumerable
-    {
-        /// <summary>
-        /// Obtains an enumerator for the dates in this range instance, borders
-        /// included.
+        /// Creates a new instance of the <see cref="Range{T}"/> class from the specified start and
+        /// length.
         /// </summary>
         [Pure]
-        public virtual IEnumerator<CalendarDate> GetEnumerator()
-        {
-            var date = Start;
+        public static Range<CalendarDay> Create(CalendarDay start, int length) =>
+            Range.Create(start, start + (length - 1));
 
-            int length = Length;
-            for (int i = 1; i < length; i++)
+        /// <summary>
+        /// Obtains the calendar to which belongs the specified range.
+        /// </summary>
+        [Pure]
+        public static Calendar GetCalendar(this Range<CalendarDay> @this) => @this.Min.Calendar;
+
+        /// <summary>
+        /// Obtains the number of days in the specified range.
+        /// </summary>
+        [Pure]
+        public static int Count(this Range<CalendarDay> @this) => @this.Max - @this.Min + 1;
+
+        /// <summary>
+        /// Obtains an <see cref="IEnumerable{T}"/> view of the specified range.
+        /// </summary>
+        [Pure]
+        public static IEnumerable<CalendarDay> ToEnumerable(this Range<CalendarDay> @this)
+        {
+            var min = @this.Min;
+            var max = @this.Max;
+
+            for (var date = min; date <= max; date++)
             {
                 yield return date;
-                date = date.NextDay();
             }
-            yield return date;
         }
 
-        /// <inheritdoc/>
-        [Pure] IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+        /// <summary>
+        /// Interconverts the specified range to a range within a different calendar.
+        /// </summary>
+        /// <exception cref="ArgumentNullException"><paramref name="newCalendar"/> is null.
+        /// </exception>
+        [Pure]
+        public static Range<CalendarDay> WithCalendar(this Range<CalendarDay> @this, Calendar newCalendar)
+        {
+            Requires.NotNull(newCalendar);
+
+            var (min, max) = @this.Endpoints;
+
+            var start = min.WithCalendar(newCalendar);
+            var end = max.WithCalendar(newCalendar);
+
+            return Range.Create(start, end);
+        }
     }
 
-    public partial class DateRange // Within the boundaries of a year
+    public partial class DateRange // Range<OrdinalDate>
     {
         /// <summary>
-        /// Converts the specified year to a range of days.
+        /// Creates a new instance of the <see cref="Range{T}"/> class from the specified start and
+        /// length.
         /// </summary>
         [Pure]
-        public static DateRange FromYear(CalendarYear year) => new DaysInYear(year);
+        public static Range<OrdinalDate> Create(OrdinalDate start, int length) =>
+            Range.Create(start, start + (length - 1));
 
-        // Intervalle confiné dans une année.
-        private class WithinYear : DateRange
+        /// <summary>
+        /// Obtains the calendar to which belongs the specified range.
+        /// </summary>
+        [Pure]
+        public static Calendar GetCalendar(this Range<OrdinalDate> @this) => @this.Min.Calendar;
+
+        /// <summary>
+        /// Obtains the number of days in the specified range.
+        /// </summary>
+        [Pure]
+        public static int Count(this Range<OrdinalDate> @this) => @this.Max - @this.Min + 1;
+
+        /// <summary>
+        /// Obtains an <see cref="IEnumerable{T}"/> view of the specified range.
+        /// </summary>
+        [Pure]
+        public static IEnumerable<OrdinalDate> ToEnumerable(this Range<OrdinalDate> @this)
         {
-            /// <summary>
-            /// Initializes a new instance of the <see cref="WithinYear"/> class.
-            /// <para>This constructor does NOT validate its parameters.</para>
-            /// </summary>
-            public WithinYear(CalendarDate start, CalendarDate end, int length)
-                : base(start, end, length)
+            var min = @this.Min;
+            var max = @this.Max;
+
+            for (var date = min; date <= max; date++)
             {
-                Debug.Assert(start.Year == end.Year);
+                yield return date;
+            }
+        }
+
+        /// <summary>
+        /// Interconverts the specified range to a range within a different calendar.
+        /// </summary>
+        /// <exception cref="ArgumentNullException"><paramref name="newCalendar"/> is null.
+        /// </exception>
+        [Pure]
+        public static Range<OrdinalDate> WithCalendar(this Range<OrdinalDate> @this, Calendar newCalendar)
+        {
+            Requires.NotNull(newCalendar);
+
+            var (min, max) = @this.Endpoints;
+
+            var start = min.WithCalendar(newCalendar);
+            var end = max.WithCalendar(newCalendar);
+
+            return Range.Create(start, end);
+        }
+    }
+
+    public partial class DateRange // Range<CalendarMonth>
+    {
+        /// <summary>
+        /// Creates a new instance of the <see cref="Range{T}"/> class from the specified start and
+        /// length.
+        /// </summary>
+        [Pure]
+        public static Range<CalendarMonth> Create(CalendarMonth start, int length) =>
+            Range.Create(start, start + (length - 1));
+
+        /// <summary>
+        /// Obtains the calendar to which belongs the specified range.
+        /// </summary>
+        [Pure]
+        public static Calendar GetCalendar(this Range<CalendarMonth> @this) => @this.Min.Calendar;
+
+        /// <summary>
+        /// Obtains the number of months in the specified range.
+        /// </summary>
+        [Pure]
+        public static int Count(this Range<CalendarMonth> @this) => @this.Max - @this.Min + 1;
+
+        /// <summary>
+        /// Obtains an <see cref="IEnumerable{T}"/> view of the specified range.
+        /// </summary>
+        [Pure]
+        public static IEnumerable<CalendarMonth> ToEnumerable(this Range<CalendarMonth> @this)
+        {
+            var min = @this.Min;
+            var max = @this.Max;
+
+            for (var month = min; month <= max; month++)
+            {
+                yield return month;
+            }
+        }
+    }
+
+    public partial class DateRange // Range<CalendarYear>
+    {
+        /// <summary>
+        /// Creates a new instance of the <see cref="Range{T}"/> class from the specified start and
+        /// length.
+        /// </summary>
+        [Pure]
+        public static Range<CalendarYear> Create(CalendarYear start, int length) =>
+            Range.Create(start, start + (length - 1));
+
+        /// <summary>
+        /// Obtains the calendar to which belongs the specified range.
+        /// </summary>
+        [Pure]
+        public static Calendar GetCalendar(this Range<CalendarYear> @this) => @this.Min.Calendar;
+
+        /// <summary>
+        /// Obtains the number of years in the specified range.
+        /// </summary>
+        [Pure]
+        public static int Count(this Range<CalendarYear> @this) => @this.Max - @this.Min + 1;
+
+        /// <summary>
+        /// Obtains an <see cref="IEnumerable{T}"/> view of the specified range.
+        /// </summary>
+        [Pure]
+        public static IEnumerable<CalendarYear> ToEnumerable(this Range<CalendarYear> @this)
+        {
+            var min = @this.Min;
+            var max = @this.Max;
+
+            for (var month = min; month <= max; month++)
+            {
+                yield return month;
+            }
+        }
+    }
+
+    public partial class DateRange // Enumerators
+    {
+        // Intervalle confiné dans une année.
+        private sealed class RangeWithinYear : IEnumerable<CalendarDate>
+        {
+            private readonly Range<CalendarDate> _range;
+
+            /// <summary>
+            /// Initializes a new instance of the <see cref="RangeWithinYear"/> class.
+            /// </summary>
+            public RangeWithinYear(Range<CalendarDate> range)
+            {
+                _range = range;
             }
 
             /// <inheritdoc/>
             [Pure]
-            public override IEnumerator<CalendarDate> GetEnumerator()
+            public IEnumerator<CalendarDate> GetEnumerator()
             {
-                var sch = Calendar.Schema;
-                int y = Start.Year;
+                var chr = _range.GetCalendar();
+                var cuid = chr.Id;
+                var sch = chr.Schema;
 
-                int first = Start.DayOfYear;
-                int last = first + Length - 1;
+                var min = _range.Min;
+                var count = _range.Count();
+
+                int y = min.Year;
+
+                int first = min.DayOfYear;
+                int last = first + count - 1;
                 for (int doy = first; doy <= last; doy++)
                 {
                     var ymd = sch.GetDateParts(y, doy);
-                    yield return new CalendarDate(ymd, Cuid);
+                    yield return new CalendarDate(ymd, cuid);
                 }
             }
+
+            [Pure]
+            IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
         }
-
-        private sealed class DaysInYear : WithinYear
-        {
-            private readonly CalendarYear _year;
-
-            public DaysInYear(CalendarYear year)
-                : base(
-                      year.FirstDay.ToCalendarDate(),
-                      year.LastDay.ToCalendarDate(),
-                      year.CountDaysInYear())
-            {
-                _year = year;
-            }
-
-            /// <inheritdoc/>
-            [Pure]
-            private protected override bool ContainsCore(CalendarMonth month) =>
-                month.Year == _year.Year;
-
-            /// <inheritdoc/>
-            [Pure]
-            private protected override bool ContainsCore(CalendarYear year) => year == _year;
-
-            /// <inheritdoc/>
-            [Pure]
-            public override IEnumerator<CalendarDate> GetEnumerator()
-            {
-                int y = _year.Year;
-                var sch = _year.Calendar.Schema;
-
-                int monthsInYear = sch.CountMonthsInYear(y);
-                for (int m = 1; m <= monthsInYear; m++)
-                {
-                    int daysInMonth = sch.CountDaysInMonth(y, m);
-                    for (int d = 1; d <= daysInMonth; d++)
-                    {
-                        yield return new CalendarDate(y, m, d, Cuid);
-                    }
-                }
-            }
-        }
-    }
-
-    public partial class DateRange // Within the boundaries of a month
-    {
-        /// <summary>
-        /// Converts the specified month to a range of days.
-        /// </summary>
-        [Pure]
-        public static DateRange FromMonth(CalendarMonth month) => new DaysInMonth(month);
 
         // Intervalle confiné dans un mois.
-        private class WithinMonth : WithinYear
+        private sealed class RangeWithinMonth : IEnumerable<CalendarDate>
         {
+            private readonly Range<CalendarDate> _range;
+
             /// <summary>
-            /// Initializes a new instance of the <see cref="WithinMonth"/> class.
-            /// <para>This constructor does NOT validate its parameters.</para>
+            /// Initializes a new instance of the <see cref="RangeWithinMonth"/> class.
             /// </summary>
-            public WithinMonth(CalendarDate start, CalendarDate end, int length)
-                : base(start, end, length)
+            public RangeWithinMonth(Range<CalendarDate> range)
             {
-                Debug.Assert(start.Year == end.Year);
-                Debug.Assert(start.Month == end.Month);
+                _range = range;
             }
 
             /// <inheritdoc/>
             [Pure]
-            private protected sealed override bool ContainsCore(CalendarYear year) => false;
-
-            /// <inheritdoc/>
-            [Pure]
-            public sealed override IEnumerator<CalendarDate> GetEnumerator()
+            public IEnumerator<CalendarDate> GetEnumerator()
             {
-                Start.Parts.Unpack(out int y, out int m);
+                var chr = _range.GetCalendar();
+                var cuid = chr.Id;
 
-                int first = Start.Day;
-                int last = first + Length - 1;
+                var min = _range.Min;
+                var count = _range.Count();
+
+                min.Parts.Unpack(out int y, out int m);
+
+                int first = min.Day;
+                int last = first + count - 1;
                 for (int d = first; d <= last; d++)
                 {
-                    yield return new CalendarDate(y, m, d, Cuid);
+                    yield return new CalendarDate(y, m, d, cuid);
                 }
             }
-        }
 
-        private sealed class DaysInMonth : WithinMonth
-        {
-            private readonly CalendarMonth _month;
-
-            public DaysInMonth(CalendarMonth month)
-                : base(
-                      month.FirstDay,
-                      month.LastDay,
-                      month.CountDaysInMonth())
-            {
-                _month = month;
-            }
-
-            /// <inheritdoc/>
             [Pure]
-            private protected override bool ContainsCore(CalendarMonth month) => _month == month;
+            IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
         }
     }
 }
