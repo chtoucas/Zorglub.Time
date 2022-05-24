@@ -96,8 +96,7 @@ namespace Zorglub.Time.Simple
         /// <summary>
         /// Gets the month of the year.
         /// </summary>
-        // REVIEW(api): we should name it Month, not MonthOfYear.
-        public int MonthOfYear => _bin.Month;
+        public int Month => _bin.Month;
 
         /// <summary>
         /// Returns true if the current instance is an intercalary month; otherwise returns false.
@@ -360,7 +359,7 @@ namespace Zorglub.Time.Simple
         [Pure]
         public CalendarMonth WithYear(int newYear)
         {
-            int m = MonthOfYear;
+            int m = Month;
             ref readonly var chr = ref CalendarRef;
             // Even when "newYear" is valid, we must re-check "m".
             chr.Scope.ValidateYearMonth(newYear, m, nameof(newYear));
@@ -372,7 +371,7 @@ namespace Zorglub.Time.Simple
         /// </summary>
         /// <exception cref="AoorException">The resulting month would be invalid.</exception>
         [Pure]
-        public CalendarMonth WithMonthOfYear(int newMonth)
+        public CalendarMonth WithMonth(int newMonth)
         {
             int y = Year;
             ref readonly var chr = ref CalendarRef;

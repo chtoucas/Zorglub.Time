@@ -37,9 +37,9 @@ module GregorianCase =
         let y, m = info.Yemo.Deconstruct()
         let month = new CalendarMonth(y, m)
 
-        month.Year        === y
-        month.MonthOfYear === m
-        month.Calendar    ==& chr
+        month.Year     === y
+        month.Month    === m
+        month.Calendar ==& chr
 
     [<Theory>]
     [<InlineData(-1, 1, "01/-0001 (Gregorian)")>]
@@ -64,8 +64,8 @@ module GregorianCase =
         let now = DateTime.Now
         let month = CalendarMonth.GetCurrentMonth()
 
-        month.Year        === now.Year
-        month.MonthOfYear === now.Month
+        month.Year  === now.Year
+        month.Month === now.Month
 
     [<Fact>]
     let ``FromDayNumber() invalid dayNumber`` () =
@@ -76,5 +76,5 @@ module GregorianCase =
         let (dayNumber, y, m, _) = info.Deconstruct()
         let date = CalendarMonth.FromDayNumber(dayNumber)
 
-        date.Year        === y
-        date.MonthOfYear === m
+        date.Year  === y
+        date.Month === m

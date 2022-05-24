@@ -141,14 +141,14 @@ namespace Zorglub.Time.Hemerology
         //
 
 #if false // Partial validation helpers
-        public void ValidateMonth(int y, int monthOfYear, string? paramName = null)
+        public void ValidateMonth(int y, int month, string? paramName = null)
         {
-            Validator.ValidateMonth(y, monthOfYear, paramName ?? nameof(monthOfYear));
+            Validator.ValidateMonth(y, month, paramName ?? nameof(month));
 
             // The first month must be handled with care.
-            if (new Yemo(y, monthOfYear) < FirstMonth)
+            if (new Yemo(y, month) < FirstMonth)
             {
-                Throw.OutOfRange(paramName ?? nameof(monthOfYear));
+                Throw.OutOfRange(paramName ?? nameof(month));
             }
         }
 

@@ -354,30 +354,30 @@ public partial class CalendarMonthFacts<TDataSet> // Adjustments
     #region Month adjustment
 
     [Theory, MemberData(nameof(InvalidMonthFieldData))]
-    public void WithMonthOfYear_InvalidMonth(int y, int newMonth)
+    public void WithMonth_InvalidMonth(int y, int newMonth)
     {
         var month = CalendarUT.GetCalendarMonth(y, 1);
         // Act & Assert
-        Assert.ThrowsAoorexn("newMonth", () => month.WithMonthOfYear(newMonth));
+        Assert.ThrowsAoorexn("newMonth", () => month.WithMonth(newMonth));
     }
 
     [Theory, MemberData(nameof(MonthInfoData))]
-    public void WithMonthOfYear_Invariant(MonthInfo info)
+    public void WithMonth_Invariant(MonthInfo info)
     {
         var (y, m) = info.Yemo;
         var month = CalendarUT.GetCalendarMonth(y, m);
         // Act & Assert
-        Assert.Equal(month, month.WithMonthOfYear(m));
+        Assert.Equal(month, month.WithMonth(m));
     }
 
     [Theory, MemberData(nameof(MonthInfoData))]
-    public void WithMonthOfYear(MonthInfo info)
+    public void WithMonth(MonthInfo info)
     {
         var (y, m) = info.Yemo;
         var month = CalendarUT.GetCalendarMonth(y, 1);
         var exp = CalendarUT.GetCalendarMonth(y, m);
         // Act & Assert
-        Assert.Equal(exp, month.WithMonthOfYear(m));
+        Assert.Equal(exp, month.WithMonth(m));
     }
 
     #endregion
@@ -540,7 +540,7 @@ public partial class CalendarMonthFacts<TDataSet> // Increment / Decrement
     public void Increment()
     {
         var month = GetSampleValue();
-        var monthAfter = CalendarUT.GetCalendarMonth(month.Year, month.MonthOfYear + 1);
+        var monthAfter = CalendarUT.GetCalendarMonth(month.Year, month.Month + 1);
         // Act & Assert
         Assert.Equal(monthAfter, ++month);
     }
@@ -549,7 +549,7 @@ public partial class CalendarMonthFacts<TDataSet> // Increment / Decrement
     public void NextYear()
     {
         var month = GetSampleValue();
-        var monthAfter = CalendarUT.GetCalendarMonth(month.Year, month.MonthOfYear + 1);
+        var monthAfter = CalendarUT.GetCalendarMonth(month.Year, month.Month + 1);
         // Act & Assert
         Assert.Equal(monthAfter, month.NextMonth());
     }
@@ -574,7 +574,7 @@ public partial class CalendarMonthFacts<TDataSet> // Increment / Decrement
     public void Decrement()
     {
         var month = GetSampleValue();
-        var monthBefore = CalendarUT.GetCalendarMonth(month.Year, month.MonthOfYear - 1);
+        var monthBefore = CalendarUT.GetCalendarMonth(month.Year, month.Month - 1);
         // Act & Assert
         Assert.Equal(monthBefore, --month);
     }
@@ -583,7 +583,7 @@ public partial class CalendarMonthFacts<TDataSet> // Increment / Decrement
     public void PreviousYear()
     {
         var month = GetSampleValue();
-        var monthBefore = CalendarUT.GetCalendarMonth(month.Year, month.MonthOfYear - 1);
+        var monthBefore = CalendarUT.GetCalendarMonth(month.Year, month.Month - 1);
         // Act & Assert
         Assert.Equal(monthBefore, month.PreviousMonth());
     }
@@ -708,8 +708,8 @@ public partial class CalendarMonthFacts<TDataSet> // Math
         int maxYs = MaxValue.Year - month.Year;
         // NB: for calendars with a variable number of months per year, this
         // might not work.
-        var minValue = MinValue.WithMonthOfYear(month.MonthOfYear);
-        var maxValue = MaxValue.WithMonthOfYear(month.MonthOfYear);
+        var minValue = MinValue.WithMonth(month.Month);
+        var maxValue = MaxValue.WithMonth(month.Month);
         // Act & Assert
         Assert.Overflows(() => month.PlusYears(minYs - 1));
         Assert.Equal(minValue, month.PlusYears(minYs));
@@ -723,7 +723,7 @@ public partial class CalendarMonthFacts<TDataSet> // Math
         int ys = CalendarUT.SupportedYears.Count() - 1;
         // NB: for calendars with a variable number of months per year, this
         // might not work.
-        var maxValue = MaxValue.WithMonthOfYear(MinValue.MonthOfYear);
+        var maxValue = MaxValue.WithMonth(MinValue.Month);
         // Act & Assert
         Assert.Overflows(() => MinValue.PlusYears(-1));
         Assert.Equal(MinValue, MinValue.PlusYears(0));
@@ -737,7 +737,7 @@ public partial class CalendarMonthFacts<TDataSet> // Math
         int ys = CalendarUT.SupportedYears.Count() - 1;
         // NB: for calendars with a variable number of months per year, this
         // might not work.
-        var minValue = MinValue.WithMonthOfYear(MaxValue.MonthOfYear);
+        var minValue = MinValue.WithMonth(MaxValue.Month);
         // Act & Assert
         Assert.Overflows(() => MaxValue.PlusYears(-ys - 1));
         Assert.Equal(minValue, MaxValue.PlusYears(-ys));

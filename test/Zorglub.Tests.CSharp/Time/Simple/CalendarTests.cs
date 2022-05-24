@@ -332,7 +332,7 @@ public sealed class GregorianCalendarTests :
 
         // Assert
         Assert.Equal(y, cmonth.Year);
-        Assert.Equal(m, cmonth.MonthOfYear);
+        Assert.Equal(m, cmonth.Month);
 
         Assert.Equal(y, year);
         Assert.Equal(m, month);

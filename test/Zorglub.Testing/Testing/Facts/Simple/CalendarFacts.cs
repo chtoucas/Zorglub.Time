@@ -105,10 +105,10 @@ public partial class CalendarFacts<TCalendar, TDataSet> // Factories
     {
         int y = info.Year;
         // Act
-        var cyear = CalendarUT.GetCalendarYear(y);
+        var year = CalendarUT.GetCalendarYear(y);
         // Assert
-        Assert.Equal(y, cyear.Year);
-        Assert.Equal(CalendarUT.Id, cyear.Cuid);
+        Assert.Equal(y, year.Year);
+        Assert.Equal(CalendarUT.Id, year.Cuid);
     }
 
     #endregion
@@ -127,11 +127,11 @@ public partial class CalendarFacts<TCalendar, TDataSet> // Factories
     {
         var (y, m) = info.Yemo;
         // Act
-        var cmonth = CalendarUT.GetCalendarMonth(y, m);
+        var month = CalendarUT.GetCalendarMonth(y, m);
         // Assert
-        Assert.Equal(y, cmonth.Year);
-        Assert.Equal(m, cmonth.MonthOfYear);
-        Assert.Equal(CalendarUT.Id, cmonth.Cuid);
+        Assert.Equal(y, month.Year);
+        Assert.Equal(m, month.Month);
+        Assert.Equal(CalendarUT.Id, month.Cuid);
     }
 
     #endregion
@@ -217,9 +217,9 @@ public partial class CalendarFacts<TCalendar, TDataSet> // Conversions
     {
         var exp = CalendarUT.GetCalendarYear(info.Yemoda.Year);
         // Act
-        var cyear = CalendarUT.GetCalendarYearOn(info.DayNumber);
+        var year = CalendarUT.GetCalendarYearOn(info.DayNumber);
         // Assert
-        Assert.Equal(exp, cyear);
+        Assert.Equal(exp, year);
     }
 
     #endregion
@@ -235,9 +235,9 @@ public partial class CalendarFacts<TCalendar, TDataSet> // Conversions
         var (dayNumber, y, m, _) = info;
         var exp = CalendarUT.GetCalendarMonth(y, m);
         // Act
-        var cmonth = CalendarUT.GetCalendarMonthOn(dayNumber);
+        var month = CalendarUT.GetCalendarMonthOn(dayNumber);
         // Assert
-        Assert.Equal(exp, cmonth);
+        Assert.Equal(exp, month);
     }
 
     #endregion

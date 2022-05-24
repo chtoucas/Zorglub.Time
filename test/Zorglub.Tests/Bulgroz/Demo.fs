@@ -33,8 +33,8 @@ let ``Gregorian calendar`` () =
     printfn "           year    = %O" year
     printfn "  Ordinal date     = %O" <| day.ToOrdinalDate()
 
-    printfn "  End of month     = %O" <| CalendarDate.AtEndOfMonth(month)
-    printfn "         year      = %O" <| CalendarDate.AtEndOfYear(year)
+    printfn "  End of month     = %O" <| month.LastDay
+    printfn "         year      = %O" <| year.LastDay
 
 let ``Gregorian calendar w/ dates after 15/10/1582`` () =
     let sch = GregorianSchema.GetInstance()
@@ -75,5 +75,5 @@ let ``Armenian calendar`` () =
     printfn "  Epagomenal day?  = %b" <| day.IsEpagomenalDay(&epanum)
     printfn "             num   = %i" epanum
 
-    printfn "  End of month     = %O" <| CalendarDate.AtEndOfMonth(month)
-    printfn "         year      = %O" <| CalendarDate.AtEndOfYear(year)
+    printfn "  End of month     = %O" <| month.LastDay
+    printfn "         year      = %O" <| year.LastDay

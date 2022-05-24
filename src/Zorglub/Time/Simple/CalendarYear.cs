@@ -429,13 +429,12 @@ namespace Zorglub.Time.Simple
         /// Obtains the month corresponding to the specified month of this year instance.
         /// </summary>
         [Pure]
-        public CalendarMonth GetMonthOfYear(int monthOfYear)
+        public CalendarMonth GetMonthOfYear(int month)
         {
-            // We already know that "y" is valid, we only need to check
-            // "monthOfYear".
+            // We already know that "y" is valid, we only need to check "month".
             ref readonly var chr = ref CalendarRef;
-            chr.PreValidator.ValidateMonth(Year, monthOfYear);
-            return new CalendarMonth(Year, monthOfYear, Cuid);
+            chr.PreValidator.ValidateMonth(Year, month);
+            return new CalendarMonth(Year, month, Cuid);
         }
 
         /// <summary>
