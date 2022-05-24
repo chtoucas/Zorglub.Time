@@ -14,7 +14,7 @@ namespace Zorglub.Time.Simple
     // endpoints in different calendars.
 
     /// <summary>
-    /// Provides static helpers and extension methods for <see cref="Range{T}"/>.
+    /// Provides static helpers and extension methods for <see cref="Range{TDate}"/>.
     /// <para>This class cannot be inherited.</para>
     /// </summary>
     public static partial class DateRange { }
@@ -201,82 +201,6 @@ namespace Zorglub.Time.Simple
             var end = max.WithCalendar(newCalendar);
 
             return Range.Create(start, end);
-        }
-    }
-
-    public partial class DateRange // Range<CalendarMonth>
-    {
-        /// <summary>
-        /// Creates a new instance of the <see cref="Range{T}"/> class from the specified start and
-        /// length.
-        /// </summary>
-        [Pure]
-        public static Range<CalendarMonth> Create(CalendarMonth start, int length) =>
-            Range.Create(start, start + (length - 1));
-
-        /// <summary>
-        /// Obtains the calendar to which belongs the specified range.
-        /// </summary>
-        [Pure]
-        public static Calendar GetCalendar(this Range<CalendarMonth> @this) => @this.Min.Calendar;
-
-        /// <summary>
-        /// Obtains the number of months in the specified range.
-        /// </summary>
-        [Pure]
-        public static int Count(this Range<CalendarMonth> @this) => @this.Max - @this.Min + 1;
-
-        /// <summary>
-        /// Obtains an <see cref="IEnumerable{T}"/> view of the specified range.
-        /// </summary>
-        [Pure]
-        public static IEnumerable<CalendarMonth> ToEnumerable(this Range<CalendarMonth> @this)
-        {
-            var min = @this.Min;
-            var max = @this.Max;
-
-            for (var month = min; month <= max; month++)
-            {
-                yield return month;
-            }
-        }
-    }
-
-    public partial class DateRange // Range<CalendarYear>
-    {
-        /// <summary>
-        /// Creates a new instance of the <see cref="Range{T}"/> class from the specified start and
-        /// length.
-        /// </summary>
-        [Pure]
-        public static Range<CalendarYear> Create(CalendarYear start, int length) =>
-            Range.Create(start, start + (length - 1));
-
-        /// <summary>
-        /// Obtains the calendar to which belongs the specified range.
-        /// </summary>
-        [Pure]
-        public static Calendar GetCalendar(this Range<CalendarYear> @this) => @this.Min.Calendar;
-
-        /// <summary>
-        /// Obtains the number of years in the specified range.
-        /// </summary>
-        [Pure]
-        public static int Count(this Range<CalendarYear> @this) => @this.Max - @this.Min + 1;
-
-        /// <summary>
-        /// Obtains an <see cref="IEnumerable{T}"/> view of the specified range.
-        /// </summary>
-        [Pure]
-        public static IEnumerable<CalendarYear> ToEnumerable(this Range<CalendarYear> @this)
-        {
-            var min = @this.Min;
-            var max = @this.Max;
-
-            for (var month = min; month <= max; month++)
-            {
-                yield return month;
-            }
         }
     }
 

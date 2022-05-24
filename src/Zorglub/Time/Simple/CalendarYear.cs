@@ -375,12 +375,6 @@ namespace Zorglub.Time.Simple
         #region Conversions
 
         /// <summary>
-        /// Converts the current instance to a range of months.
-        /// </summary>
-        [Pure]
-        public Range<CalendarMonth> ToMonthRange() => Range.Create(FirstMonth, LastMonth);
-
-        /// <summary>
         /// Converts the current instance to a range of days.
         /// </summary>
         [Pure]
