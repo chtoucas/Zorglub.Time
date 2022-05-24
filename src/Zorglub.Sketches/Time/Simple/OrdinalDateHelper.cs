@@ -10,9 +10,54 @@ namespace Zorglub.Time.Simple
     /// <summary>
     /// Provides static helpers related to <see cref="OrdinalDate"/>.
     /// </summary>
-    public static partial class OrdinalDateHelpers { }
+    public sealed partial class OrdinalDateHelper
+    {
+        public OrdinalDateHelper(OrdinalDate date)
+        {
+            Date = date;
+        }
 
-    public partial class OrdinalDateHelpers // CalendarYear.
+        public OrdinalDate Date { get; }
+    }
+
+    public partial class OrdinalDateHelper //
+    {
+        [Pure]
+        public OrdinalDate GetStartOfYear() =>
+            new(Date.Parts.StartOfYear, Date.Cuid);
+
+        [Pure]
+        public OrdinalDate GetEndOfYear()
+        {
+            ref readonly var chr = ref Date.CalendarRef;
+            var ydoy = chr.Schema.GetEndOfYearOrdinalParts(Date.Year);
+            return new OrdinalDate(ydoy, Date.Cuid);
+        }
+
+        [Pure]
+        public OrdinalDate GetStartOfMonth()
+        {
+            Date.Parts.Unpack(out int y, out int doy);
+            ref readonly var chr = ref Date.CalendarRef;
+            var sch = chr.Schema;
+            int m = sch.GetMonth(y, doy, out _);
+            var ydoy = sch.GetStartOfMonthOrdinalParts(y, m);
+            return new OrdinalDate(ydoy, Date.Cuid);
+        }
+
+        [Pure]
+        public OrdinalDate GetEndOfMonth()
+        {
+            Date.Parts.Unpack(out int y, out int doy);
+            ref readonly var chr = ref Date.CalendarRef;
+            var sch = chr.Schema;
+            int m = sch.GetMonth(y, doy, out _);
+            var ydoy = sch.GetEndOfMonthOrdinalParts(y, m);
+            return new OrdinalDate(ydoy, Date.Cuid);
+        }
+    }
+
+    public partial class OrdinalDateHelper // CalendarYear.
     {
         // Now these are methods/props on CalendarMonth.
 
@@ -39,7 +84,7 @@ namespace Zorglub.Time.Simple
         public static OrdinalDate GetEndOfYear(CalendarYear year) => year.LastDay;
     }
 
-    public partial class OrdinalDateHelpers // CalendarMonth.
+    public partial class OrdinalDateHelper // CalendarMonth.
     {
 #if false
 

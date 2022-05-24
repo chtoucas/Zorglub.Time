@@ -156,7 +156,7 @@ namespace Zorglub.Time.Simple
         /// <summary>
         /// Gets a read-only reference to the calendar to which belongs the current instance.
         /// </summary>
-        private ref readonly Calendar CalendarRef
+        internal ref readonly Calendar CalendarRef
         {
             // CIL code size = 17 bytes <= 32 bytes.
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -424,11 +424,13 @@ namespace Zorglub.Time.Simple
 
         /// <inheritdoc />
         [Pure]
+        [Obsolete("TO BE REMOVED")]
         public static OrdinalDate GetStartOfYear(OrdinalDate day) =>
             new(day.Parts.StartOfYear, day.Cuid);
 
         /// <inheritdoc />
         [Pure]
+        [Obsolete("TO BE REMOVED")]
         public static OrdinalDate GetEndOfYear(OrdinalDate day)
         {
             ref readonly var chr = ref day.CalendarRef;
@@ -438,6 +440,7 @@ namespace Zorglub.Time.Simple
 
         /// <inheritdoc />
         [Pure]
+        [Obsolete("TO BE REMOVED")]
         public static OrdinalDate GetStartOfMonth(OrdinalDate day)
         {
             day.Parts.Unpack(out int y, out int doy);
@@ -450,6 +453,7 @@ namespace Zorglub.Time.Simple
 
         /// <inheritdoc />
         [Pure]
+        [Obsolete("TO BE REMOVED")]
         public static OrdinalDate GetEndOfMonth(OrdinalDate day)
         {
             day.Parts.Unpack(out int y, out int doy);

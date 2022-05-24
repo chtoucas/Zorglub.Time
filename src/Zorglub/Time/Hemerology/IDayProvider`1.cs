@@ -28,12 +28,14 @@ namespace Zorglub.Time.Hemerology
         /// Obtains the first day of the month to which belongs the specified day.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="day"/> is null.</exception>
+        [Obsolete("To be removed")]
         [Pure] static abstract TDate GetStartOfMonth(TDate day);
 
         /// <summary>
         /// Obtains the last day of the month to which belongs the specified day.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="day"/> is null.</exception>
+        [Obsolete("To be removed")]
         [Pure] static abstract TDate GetEndOfMonth(TDate day);
     }
 
@@ -43,12 +45,14 @@ namespace Zorglub.Time.Hemerology
         /// Obtains the first day of the year to which belongs the specified day.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="day"/> is null.</exception>
+        [Obsolete("To be removed")]
         [Pure] static abstract TDate GetStartOfYear(TDate day);
 
         /// <summary>
         /// Obtains the last day of the year to which belongs the specified day.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="day"/> is null.</exception>
+        [Obsolete("To be removed")]
         [Pure] static abstract TDate GetEndOfYear(TDate day);
     }
 

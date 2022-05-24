@@ -8,9 +8,54 @@ namespace Zorglub.Time.Simple
     /// <summary>
     /// Provides static helpers related to <see cref="CalendarDay"/>.
     /// </summary>
-    public static partial class CalendarDayHelpers { }
+    public sealed partial class CalendarDayHelper
+    {
+        public CalendarDayHelper(CalendarDay day)
+        {
+            Day = day;
+        }
 
-    public partial class CalendarDayHelpers // CalendarYear
+        public CalendarDay Day { get; }
+    }
+
+    public partial class CalendarDayHelper //
+    {
+        [Pure]
+        public CalendarDay GetStartOfYear()
+        {
+            ref readonly var chr = ref Day.CalendarRef;
+            int daysSinceEpoch = chr.Schema.GetStartOfYear(Day.Year);
+            return new CalendarDay(daysSinceEpoch, Day.Cuid);
+        }
+
+        [Pure]
+        public CalendarDay GetEndOfYear()
+        {
+            ref readonly var chr = ref Day.CalendarRef;
+            int daysSinceEpoch = chr.Schema.GetEndOfYear(Day.Year);
+            return new CalendarDay(daysSinceEpoch, Day.Cuid);
+        }
+
+        [Pure]
+        public CalendarDay GetStartOfMonth()
+        {
+            ref readonly var chr = ref Day.CalendarRef;
+            Day.Unpack(chr, out int y, out int m, out _);
+            int daysSinceEpoch = chr.Schema.GetStartOfMonth(y, m);
+            return new CalendarDay(daysSinceEpoch, Day.Cuid);
+        }
+
+        [Pure]
+        public CalendarDay GetEndOfMonth()
+        {
+            ref readonly var chr = ref Day.CalendarRef;
+            Day.Unpack(chr, out int y, out int m, out _);
+            int daysSinceEpoch = chr.Schema.GetEndOfMonth(y, m);
+            return new CalendarDay(daysSinceEpoch, Day.Cuid);
+        }
+    }
+
+    public partial class CalendarDayHelper // CalendarYear
     {
         /// <summary>
         /// Obtains the sequence of days in the specified year.
@@ -66,7 +111,7 @@ namespace Zorglub.Time.Simple
         }
     }
 
-    public partial class CalendarDayHelpers // CalendarMonth
+    public partial class CalendarDayHelper // CalendarMonth
     {
 #if false
 

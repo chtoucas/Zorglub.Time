@@ -8,11 +8,11 @@ using Zorglub.Time.Simple;
 
 // TODO(fact): do not use conversion. Idem with the two other date types.
 
-public abstract partial class CalendarDayHelpersFacts<TDataSet> :
+public abstract partial class CalendarDayHelperFacts<TDataSet> :
     CalendarDataConsumer<TDataSet>
     where TDataSet : ICalendarDataSet, ISingleton<TDataSet>
 {
-    protected CalendarDayHelpersFacts(Calendar calendar)
+    protected CalendarDayHelperFacts(Calendar calendar)
     {
         CalendarUT = calendar ?? throw new ArgumentNullException(nameof(calendar));
     }
@@ -20,7 +20,7 @@ public abstract partial class CalendarDayHelpersFacts<TDataSet> :
     protected Calendar CalendarUT { get; }
 }
 
-public partial class CalendarDayHelpersFacts<TDataSet>
+public partial class CalendarDayHelperFacts<TDataSet>
 {
     [Theory, MemberData(nameof(YearInfoData))]
     public void AtStartOfYear(YearInfo info)
@@ -29,7 +29,7 @@ public partial class CalendarDayHelpersFacts<TDataSet>
         var year = CalendarUT.GetCalendarYear(y);
         var startOfYear = CalendarUT.GetCalendarDate(y, 1, 1).ToCalendarDay();
         // Act & Assert
-        Assert.Equal(startOfYear, CalendarDayHelpers.GetStartOfYear(year));
+        Assert.Equal(startOfYear, CalendarDayHelper.GetStartOfYear(year));
     }
 
     [Theory, MemberData(nameof(DateInfoData))]
@@ -39,7 +39,7 @@ public partial class CalendarDayHelpersFacts<TDataSet>
         var year = CalendarUT.GetCalendarYear(y);
         var exp = CalendarUT.GetCalendarDate(y, m, d).ToCalendarDay();
         // Act & Assert
-        Assert.Equal(exp, CalendarDayHelpers.GetDayOfYear(year, doy));
+        Assert.Equal(exp, CalendarDayHelper.GetDayOfYear(year, doy));
     }
 
     [Theory, MemberData(nameof(YearInfoData))]
@@ -49,7 +49,7 @@ public partial class CalendarDayHelpersFacts<TDataSet>
         var year = CalendarUT.GetCalendarYear(y);
         var endOfYear = CalendarUT.GetOrdinalDate(y, info.DaysInYear).ToCalendarDay();
         // Act & Assert
-        Assert.Equal(endOfYear, CalendarDayHelpers.GetEndOfYear(year));
+        Assert.Equal(endOfYear, CalendarDayHelper.GetEndOfYear(year));
     }
 
     [Theory, MemberData(nameof(MonthInfoData))]
@@ -59,7 +59,7 @@ public partial class CalendarDayHelpersFacts<TDataSet>
         var month = CalendarUT.GetCalendarMonth(y, m);
         var startOfMonth = CalendarUT.GetCalendarDate(y, m, 1).ToCalendarDay();
         // Act & Assert
-        Assert.Equal(startOfMonth, CalendarDayHelpers.GetStartOfMonth(month));
+        Assert.Equal(startOfMonth, CalendarDayHelper.GetStartOfMonth(month));
     }
 
     [Theory, MemberData(nameof(DateInfoData))]
@@ -69,7 +69,7 @@ public partial class CalendarDayHelpersFacts<TDataSet>
         var month = CalendarUT.GetCalendarMonth(y, m);
         var date = CalendarUT.GetCalendarDate(y, m, d).ToCalendarDay();
         // Act & Assert
-        Assert.Equal(date, CalendarDayHelpers.GetDayOfMonth(month, d));
+        Assert.Equal(date, CalendarDayHelper.GetDayOfMonth(month, d));
     }
 
     [Theory, MemberData(nameof(MonthInfoData))]
@@ -80,6 +80,6 @@ public partial class CalendarDayHelpersFacts<TDataSet>
         var month = CalendarUT.GetCalendarMonth(y, m);
         var endOfMonth = CalendarUT.GetCalendarDate(y, m, daysInMonth).ToCalendarDay();
         // Act & Assert
-        Assert.Equal(endOfMonth, CalendarDayHelpers.GetEndOfMonth(month));
+        Assert.Equal(endOfMonth, CalendarDayHelper.GetEndOfMonth(month));
     }
 }

@@ -216,7 +216,7 @@ namespace Zorglub.Time.Simple
         /// <summary>
         /// Gets a read-only reference to the calendar to which belongs the current instance.
         /// </summary>
-        private ref readonly Calendar CalendarRef
+        internal ref readonly Calendar CalendarRef
         {
             // CIL code size = 15 bytes <= 32 bytes.
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -260,7 +260,7 @@ namespace Zorglub.Time.Simple
         /// </summary>
         // CIL code size = 22 bytes <= 32 bytes.
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private void Unpack(Calendar chr, out int year, out int month, out int day) =>
+        internal void Unpack(Calendar chr, out int year, out int month, out int day) =>
             chr.Schema.GetDateParts(DaysSinceEpoch, out year, out month, out day);
     }
 

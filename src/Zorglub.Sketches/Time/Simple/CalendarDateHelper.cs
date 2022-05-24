@@ -8,9 +8,45 @@ namespace Zorglub.Time.Simple
     /// <summary>
     /// Provides static helpers related to <see cref="CalendarDate"/>.
     /// </summary>
-    public static partial class CalendarDateHelpers { }
+    public sealed partial class CalendarDateHelper
+    {
+        public CalendarDateHelper(CalendarDate date)
+        {
+            Date = date;
+        }
 
-    public partial class CalendarDateHelpers // CalendarYear
+        public CalendarDate Date { get; }
+    }
+
+    public partial class CalendarDateHelper //
+    {
+        [Pure]
+        public CalendarDate GetStartOfYear() =>
+            new(Date.Parts.StartOfYear, Date.Cuid);
+
+        [Pure]
+        public CalendarDate GetEndOfYear()
+        {
+            ref readonly var chr = ref Date.CalendarRef;
+            var ymd = chr.Schema.GetEndOfYearParts(Date.Year);
+            return new CalendarDate(ymd, Date.Cuid);
+        }
+
+        [Pure]
+        public CalendarDate GetStartOfMonth() =>
+            new(Date.Parts.StartOfMonth, Date.Cuid);
+
+        [Pure]
+        public CalendarDate GetEndOfMonth()
+        {
+            Date.Parts.Unpack(out int y, out int m);
+            ref readonly var chr = ref Date.CalendarRef;
+            var ymd = chr.Schema.GetEndOfMonthParts(y, m);
+            return new CalendarDate(ymd, Date.Cuid);
+        }
+    }
+
+    public partial class CalendarDateHelper // CalendarYear
     {
         /// <summary>
         /// Obtains the first day of the specified year.
@@ -46,7 +82,7 @@ namespace Zorglub.Time.Simple
         }
     }
 
-    public partial class CalendarDateHelpers // CalendarMonth.
+    public partial class CalendarDateHelper // CalendarMonth
     {
 #if false
         // Il me semble plus naturel et plus logique d'écrire :
