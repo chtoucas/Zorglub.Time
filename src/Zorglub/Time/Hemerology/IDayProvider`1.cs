@@ -2,7 +2,6 @@
 // Copyright (c) 2020 Narvalo.Org. All rights reserved.
 
 // TODO(api): I don't like this interface...
-// Put GetDaysInYear() and GetDaysInMonth() elsewhere?
 
 namespace Zorglub.Time.Hemerology
 {

@@ -6,18 +6,17 @@ namespace Zorglub.Time.Simple
     using System.Linq;
 
     /// <summary>
-    /// Provides factory methods for <see cref="CalendarDay"/>.
+    /// Provides methods to obtain new <see cref="CalendarDay"/> instances for a given year or month.
     /// </summary>
-    public abstract partial class CalendarDayFactory : IDateFactory<CalendarDay>
-    {
-        protected CalendarDayFactory() { }
-    }
+    public sealed partial class CalendarDayAdapter : ISimpleDateProvider<CalendarDay> { }
 
-    public partial class CalendarDayFactory // CalendarYear
+    public partial class CalendarDayAdapter // CalendarYear
     {
-        /// <inheritdoc/>
+        /// <summary>
+        /// Obtains the sequence of days in the specified year.
+        /// </summary>
         [Pure]
-        public static IEnumerable<CalendarDay> GetDaysInYear(CalendarYear year)
+        public IEnumerable<CalendarDay> GetDaysInYear(CalendarYear year)
         {
             var cuid = year.Cuid;
             var sch = year.Calendar.Schema;
@@ -29,18 +28,24 @@ namespace Zorglub.Time.Simple
                    select new CalendarDay(daysSinceEpoch, cuid);
         }
 
-        /// <inheritdoc/>
+        /// <summary>
+        /// Obtains the first day of the specified year.
+        /// </summary>
         [Pure]
-        public static CalendarDay GetStartOfYear(CalendarYear year)
+        public CalendarDay GetStartOfYear(CalendarYear year)
         {
             ref readonly var chr = ref year.CalendarRef;
             int daysSinceEpoch = chr.Schema.GetStartOfYear(year.Year);
             return new CalendarDay(daysSinceEpoch, year.Cuid);
         }
 
-        /// <inheritdoc/>
+        /// <summary>
+        /// Obtains the date corresponding to the specified day of the specified year.
+        /// </summary>
+        /// <exception cref="AoorException"><paramref name="dayOfYear"/> is outside the range of
+        /// valid values.</exception>
         [Pure]
-        public static CalendarDay GetDayOfYear(CalendarYear year, int dayOfYear)
+        public CalendarDay GetDayOfYear(CalendarYear year, int dayOfYear)
         {
             ref readonly var chr = ref year.CalendarRef;
             chr.PreValidator.ValidateDayOfYear(year.Year, dayOfYear);
@@ -48,9 +53,11 @@ namespace Zorglub.Time.Simple
             return new CalendarDay(daysSinceEpoch, year.Cuid);
         }
 
-        /// <inheritdoc/>
+        /// <summary>
+        /// Obtains the last day of the specified year.
+        /// </summary>
         [Pure]
-        public static CalendarDay GetEndOfYear(CalendarYear year)
+        public CalendarDay GetEndOfYear(CalendarYear year)
         {
             ref readonly var chr = ref year.CalendarRef;
             int daysSinceEpoch = chr.Schema.GetEndOfYear(year.Year);
@@ -58,7 +65,7 @@ namespace Zorglub.Time.Simple
         }
     }
 
-    public partial class CalendarDayFactory // CalendarMonth
+    public partial class CalendarDayAdapter // CalendarMonth
     {
 #if false
 
@@ -66,7 +73,7 @@ namespace Zorglub.Time.Simple
         /// Obtains the first day of the year to which belongs the specified month.
         /// </summary>
         [Pure]
-        public static CalendarDay GetStartOfYear(CalendarMonth month)
+        public CalendarDay GetStartOfYear(CalendarMonth month)
         {
             int daysSinceEpoch = month.Calendar.Schema.GetStartOfYear(month.Year);
             return new CalendarDay(daysSinceEpoch, month.Cuid);
@@ -76,7 +83,7 @@ namespace Zorglub.Time.Simple
         /// Obtains the last day of the year to which belongs the specified month.
         /// </summary>
         [Pure]
-        public static CalendarDay GetEndOfYear(CalendarMonth month)
+        public CalendarDay GetEndOfYear(CalendarMonth month)
         {
             int daysSinceEpoch = month.Calendar.Schema.GetEndOfYear(month.Year);
             return new CalendarDay(daysSinceEpoch, month.Cuid);
@@ -84,9 +91,11 @@ namespace Zorglub.Time.Simple
 
 #endif
 
-        /// <inheritdoc/>
+        /// <summary>
+        /// Obtains the sequence of days in the specified month.
+        /// </summary>
         [Pure]
-        public static IEnumerable<CalendarDay> GetDaysInMonth(CalendarMonth month)
+        public IEnumerable<CalendarDay> GetDaysInMonth(CalendarMonth month)
         {
             var cuid = month.Cuid;
             var sch = month.Calendar.Schema;
@@ -99,9 +108,11 @@ namespace Zorglub.Time.Simple
                    select new CalendarDay(daysSinceEpoch, cuid);
         }
 
-        /// <inheritdoc/>
+        /// <summary>
+        /// Obtains the first day of the specified month.
+        /// </summary>
         [Pure]
-        public static CalendarDay GetStartOfMonth(CalendarMonth month)
+        public CalendarDay GetStartOfMonth(CalendarMonth month)
         {
             month.Parts.Unpack(out int y, out int m);
             ref readonly var chr = ref month.CalendarRef;
@@ -109,9 +120,13 @@ namespace Zorglub.Time.Simple
             return new CalendarDay(daysSinceEpoch, month.Cuid);
         }
 
-        /// <inheritdoc/>
+        /// <summary>
+        /// Obtains the date corresponding to the specified day of the specified month.
+        /// </summary>
+        /// <exception cref="AoorException"><paramref name="dayOfMonth"/> is outside the range of
+        /// valid values.</exception>
         [Pure]
-        public static CalendarDay GetDayOfMonth(CalendarMonth month, int dayOfMonth)
+        public CalendarDay GetDayOfMonth(CalendarMonth month, int dayOfMonth)
         {
             month.Parts.Unpack(out int y, out int m);
             ref readonly var chr = ref month.CalendarRef;
@@ -120,9 +135,11 @@ namespace Zorglub.Time.Simple
             return new CalendarDay(daysSinceEpoch, month.Cuid);
         }
 
-        /// <inheritdoc/>
+        /// <summary>
+        /// Obtains the last day of the specified month.
+        /// </summary>
         [Pure]
-        public static CalendarDay GetEndOfMonth(CalendarMonth month)
+        public CalendarDay GetEndOfMonth(CalendarMonth month)
         {
             month.Parts.Unpack(out int y, out int m);
             ref readonly var chr = ref month.CalendarRef;

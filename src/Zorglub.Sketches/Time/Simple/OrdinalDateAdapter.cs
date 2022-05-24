@@ -6,37 +6,41 @@ namespace Zorglub.Time.Simple
     using Zorglub.Time.Core;
 
     /// <summary>
-    /// Provides factory methods for <see cref="OrdinalDate"/>.
+    /// Provides methods to obtain new <see cref="OrdinalDate"/> instances for a given year or month.
     /// </summary>
-    public abstract partial class OrdinalDateFactory : IDateFactory<OrdinalDate>
+    public sealed partial class OrdinalDateAdapter : ISimpleDateProvider<OrdinalDate> { }
+
+    public partial class OrdinalDateAdapter // CalendarYear
     {
-        protected OrdinalDateFactory() { }
-    }
-
-    public partial class OrdinalDateFactory // CalendarYear
-    {
-        /// <inheritdoc/>
+        /// <summary>
+        /// Obtains the sequence of days in the specified year.
+        /// </summary>
         [Pure]
-        public static IEnumerable<OrdinalDate> GetDaysInYear(CalendarYear year)
-        {
-            throw new NotImplementedException();
-        }
+        public IEnumerable<OrdinalDate> GetDaysInYear(CalendarYear year) => year.GetAllDays();
 
-        /// <inheritdoc/>
+        /// <summary>
+        /// Obtains the first day of the specified year.
+        /// </summary>
         [Pure]
-        public static OrdinalDate GetStartOfYear(CalendarYear year) => year.FirstDay;
+        public OrdinalDate GetStartOfYear(CalendarYear year) => year.FirstDay;
 
-        /// <inheritdoc/>
+        /// <summary>
+        /// Obtains the date corresponding to the specified day of the specified year.
+        /// </summary>
+        /// <exception cref="AoorException"><paramref name="dayOfYear"/> is outside the range of
+        /// valid values.</exception>
         [Pure]
-        public static OrdinalDate GetDayOfYear(CalendarYear year, int dayOfYear) =>
+        public OrdinalDate GetDayOfYear(CalendarYear year, int dayOfYear) =>
             year.GetDayOfYear(dayOfYear);
 
-        /// <inheritdoc/>
+        /// <summary>
+        /// Obtains the last day of the specified year.
+        /// </summary>
         [Pure]
-        public static OrdinalDate GetEndOfYear(CalendarYear year) => year.LastDay;
+        public OrdinalDate GetEndOfYear(CalendarYear year) => year.LastDay;
     }
 
-    public partial class OrdinalDateFactory // CalendarMonth
+    public partial class OrdinalDateAdapter // CalendarMonth
     {
 #if false
 
@@ -44,7 +48,7 @@ namespace Zorglub.Time.Simple
         /// Obtains the first day of the year to which belongs the specified month.
         /// </summary>
         [Pure]
-        public static OrdinalDate GetStartOfYear(CalendarMonth month)
+        public OrdinalDate GetStartOfYear(CalendarMonth month)
         {
             var ydoy = month.Calendar.Schema.GetStartOfYearOrdinalParts(month.Year);
             return new OrdinalDate(ydoy, month.Cuid);
@@ -54,7 +58,7 @@ namespace Zorglub.Time.Simple
         /// Obtains the last day of the year to which belongs the specified month.
         /// </summary>
         [Pure]
-        public static OrdinalDate GetEndOfYear(CalendarMonth month)
+        public OrdinalDate GetEndOfYear(CalendarMonth month)
         {
             var ydoy = month.Calendar.Schema.GetEndOfYearOrdinalParts(month.Year);
             return new OrdinalDate(ydoy, month.Cuid);
@@ -62,9 +66,11 @@ namespace Zorglub.Time.Simple
 
 #endif
 
-        /// <inheritdoc/>
+        /// <summary>
+        /// Obtains the sequence of days in the specified month.
+        /// </summary>
         [Pure]
-        public static IEnumerable<OrdinalDate> GetDaysInMonth(CalendarMonth month)
+        public IEnumerable<OrdinalDate> GetDaysInMonth(CalendarMonth month)
         {
             var sch = month.Calendar.Schema;
             month.Parts.Unpack(out int y, out int m);
@@ -77,9 +83,11 @@ namespace Zorglub.Time.Simple
             }
         }
 
-        /// <inheritdoc/>
+        /// <summary>
+        /// Obtains the first day of the specified month.
+        /// </summary>
         [Pure]
-        public static OrdinalDate GetStartOfMonth(CalendarMonth month)
+        public OrdinalDate GetStartOfMonth(CalendarMonth month)
         {
             month.Parts.Unpack(out int y, out int m);
             ref readonly var chr = ref month.CalendarRef;
@@ -87,9 +95,13 @@ namespace Zorglub.Time.Simple
             return new OrdinalDate(ydoy, month.Cuid);
         }
 
-        /// <inheritdoc/>
+        /// <summary>
+        /// Obtains the date corresponding to the specified day of the specified month.
+        /// </summary>
+        /// <exception cref="AoorException"><paramref name="dayOfMonth"/> is outside the range of
+        /// valid values.</exception>
         [Pure]
-        public static OrdinalDate GetDayOfMonth(CalendarMonth month, int dayOfMonth)
+        public OrdinalDate GetDayOfMonth(CalendarMonth month, int dayOfMonth)
         {
             month.Parts.Unpack(out int y, out int m);
             ref readonly var chr = ref month.CalendarRef;
@@ -98,9 +110,11 @@ namespace Zorglub.Time.Simple
             return new OrdinalDate(new Yedoy(y, doy), month.Cuid);
         }
 
-        /// <inheritdoc/>
+        /// <summary>
+        /// Obtains the last day of the specified month.
+        /// </summary>
         [Pure]
-        public static OrdinalDate GetEndOfMonth(CalendarMonth month)
+        public OrdinalDate GetEndOfMonth(CalendarMonth month)
         {
             month.Parts.Unpack(out int y, out int m);
             ref readonly var chr = ref month.CalendarRef;

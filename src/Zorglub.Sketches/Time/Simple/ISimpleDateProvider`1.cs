@@ -9,8 +9,11 @@ namespace Zorglub.Time.Simple
     // With an int, we can only produce dates in a single calendar, the
     // default one. With CalendarYear, this is no longer a problem.
 
-    internal interface IDateFactory<TDate>
-        where TDate : ISimpleDate
+    /// <summary>
+    /// Provides methods to obtain dates in a year or a month.
+    /// </summary>
+    /// <typeparam name="TDate">The type of date object to return.</typeparam>
+    public interface ISimpleDateProvider<out TDate>
     {
         //
         // CalendarYear
@@ -19,24 +22,24 @@ namespace Zorglub.Time.Simple
         /// <summary>
         /// Obtains the sequence of days in the specified year.
         /// </summary>
-        [Pure] static abstract IEnumerable<TDate> GetDaysInYear(CalendarYear year);
+        [Pure] IEnumerable<TDate> GetDaysInYear(CalendarYear year);
 
         /// <summary>
         /// Obtains the first day of the specified year.
         /// </summary>
-        [Pure] static abstract TDate GetStartOfYear(CalendarYear year);
+        [Pure] TDate GetStartOfYear(CalendarYear year);
 
         /// <summary>
         /// Obtains the date corresponding to the specified day of the specified year.
         /// </summary>
         /// <exception cref="AoorException"><paramref name="dayOfYear"/> is outside the range of
         /// valid values.</exception>
-        [Pure] static abstract TDate GetDayOfYear(CalendarYear year, int dayOfYear);
+        [Pure] TDate GetDayOfYear(CalendarYear year, int dayOfYear);
 
         /// <summary>
         /// Obtains the last day of the specified year.
         /// </summary>
-        [Pure] static abstract TDate GetEndOfYear(CalendarYear year);
+        [Pure] TDate GetEndOfYear(CalendarYear year);
 
         //
         // CalendarMonth
@@ -45,24 +48,24 @@ namespace Zorglub.Time.Simple
         /// <summary>
         /// Obtains the sequence of days in the specified month.
         /// </summary>
-        [Pure] static abstract IEnumerable<TDate> GetDaysInMonth(CalendarMonth month);
+        [Pure] IEnumerable<TDate> GetDaysInMonth(CalendarMonth month);
 
         /// <summary>
         /// Obtains the first day of the specified month.
         /// </summary>
-        [Pure] static abstract TDate GetStartOfMonth(CalendarMonth month);
+        [Pure] TDate GetStartOfMonth(CalendarMonth month);
 
         /// <summary>
         /// Obtains the date corresponding to the specified day of the specified month.
         /// </summary>
         /// <exception cref="AoorException"><paramref name="dayOfMonth"/> is outside the range of
         /// valid values.</exception>
-        [Pure] static abstract TDate GetDayOfMonth(CalendarMonth month, int dayOfMonth);
+        [Pure] TDate GetDayOfMonth(CalendarMonth month, int dayOfMonth);
 
         /// <summary>
         /// Obtains the last day of the specified month.
         /// </summary>
-        [Pure] static abstract TDate GetEndOfMonth(CalendarMonth month);
+        [Pure] TDate GetEndOfMonth(CalendarMonth month);
 
     }
 }

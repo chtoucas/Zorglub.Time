@@ -271,40 +271,42 @@ public partial class OrdinalDateFacts<TDataSet> // DateAdjusters
     }
 }
 
-public partial class OrdinalDateFacts<TDataSet> // OrdinalDateFactory
+public partial class OrdinalDateFacts<TDataSet> // OrdinalDateAdapter
 {
+    private static readonly OrdinalDateAdapter s_Adapter = new();
+
     //
     // CalendarMonth
     //
 
     [Theory, MemberData(nameof(MonthInfoData))]
-    public void OrdinalDateFactory_GetStartOfMonth(MonthInfo info)
+    public void OrdinalDateAdapter_GetStartOfMonth(MonthInfo info)
     {
         var (y, m) = info.Yemo;
         var month = CalendarUT.GetCalendarMonth(y, m);
         var startOfMonth = CalendarUT.GetCalendarDate(y, m, 1).ToOrdinalDate();
         // Act & Assert
-        Assert.Equal(startOfMonth, OrdinalDateFactory.GetStartOfMonth(month));
+        Assert.Equal(startOfMonth, s_Adapter.GetStartOfMonth(month));
     }
 
     [Theory, MemberData(nameof(DateInfoData))]
-    public void OrdinalDateFactory_GetDayOfMonth(DateInfo info)
+    public void OrdinalDateAdapter_GetDayOfMonth(DateInfo info)
     {
         var (y, m, d, doy) = info;
         var month = CalendarUT.GetCalendarMonth(y, m);
         var date = CalendarUT.GetOrdinalDate(y, doy);
         // Act & Assert
-        Assert.Equal(date, OrdinalDateFactory.GetDayOfMonth(month, d));
+        Assert.Equal(date, s_Adapter.GetDayOfMonth(month, d));
     }
 
     [Theory, MemberData(nameof(MonthInfoData))]
-    public void OrdinalDateFactory_GetEndOfMonth(MonthInfo info)
+    public void OrdinalDateAdapter_GetEndOfMonth(MonthInfo info)
     {
         var (y, m) = info.Yemo;
         var daysInMonth = info.DaysInMonth;
         var month = CalendarUT.GetCalendarMonth(y, m);
         var endOfMonth = CalendarUT.GetCalendarDate(y, m, daysInMonth).ToOrdinalDate();
         // Act & Assert
-        Assert.Equal(endOfMonth, OrdinalDateFactory.GetEndOfMonth(month));
+        Assert.Equal(endOfMonth, s_Adapter.GetEndOfMonth(month));
     }
 }

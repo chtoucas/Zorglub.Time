@@ -184,40 +184,42 @@ public partial class CalendarDayFacts<TDataSet> // Conversions
 
 // TODO(fact): DateAdjusters.
 
-public partial class CalendarDayFacts<TDataSet> // CalendarDayFactory
+public partial class CalendarDayFacts<TDataSet> // CalendarDayAdapter
 {
+    private static readonly CalendarDayAdapter s_Adapter = new();
+
     //
     // CalendarYear
     //
 
     [Theory, MemberData(nameof(YearInfoData))]
-    public void CalendarDayFactory_GetStartOfYear(YearInfo info)
+    public void CalendarDayAdapter_GetStartOfYear(YearInfo info)
     {
         int y = info.Year;
         var year = CalendarUT.GetCalendarYear(y);
         var startOfYear = CalendarUT.GetCalendarDate(y, 1, 1).ToCalendarDay();
         // Act & Assert
-        Assert.Equal(startOfYear, CalendarDayFactory.GetStartOfYear(year));
+        Assert.Equal(startOfYear, s_Adapter.GetStartOfYear(year));
     }
 
     [Theory, MemberData(nameof(DateInfoData))]
-    public void CalendarDayFactory_GetDayOfYear(DateInfo info)
+    public void CalendarDayAdapter_GetDayOfYear(DateInfo info)
     {
         var (y, m, d, doy) = info;
         var year = CalendarUT.GetCalendarYear(y);
         var exp = CalendarUT.GetCalendarDate(y, m, d).ToCalendarDay();
         // Act & Assert
-        Assert.Equal(exp, CalendarDayFactory.GetDayOfYear(year, doy));
+        Assert.Equal(exp, s_Adapter.GetDayOfYear(year, doy));
     }
 
     [Theory, MemberData(nameof(YearInfoData))]
-    public void CalendarDayFactory_GetEndOfYear(YearInfo info)
+    public void CalendarDayAdapter_GetEndOfYear(YearInfo info)
     {
         int y = info.Year;
         var year = CalendarUT.GetCalendarYear(y);
         var endOfYear = CalendarUT.GetOrdinalDate(y, info.DaysInYear).ToCalendarDay();
         // Act & Assert
-        Assert.Equal(endOfYear, CalendarDayFactory.GetEndOfYear(year));
+        Assert.Equal(endOfYear, s_Adapter.GetEndOfYear(year));
     }
 
     //
@@ -225,33 +227,33 @@ public partial class CalendarDayFacts<TDataSet> // CalendarDayFactory
     //
 
     [Theory, MemberData(nameof(MonthInfoData))]
-    public void CalendarDayFactory_GetStartOfMonth(MonthInfo info)
+    public void CalendarDayAdapter_GetStartOfMonth(MonthInfo info)
     {
         var (y, m) = info.Yemo;
         var month = CalendarUT.GetCalendarMonth(y, m);
         var startOfMonth = CalendarUT.GetCalendarDate(y, m, 1).ToCalendarDay();
         // Act & Assert
-        Assert.Equal(startOfMonth, CalendarDayFactory.GetStartOfMonth(month));
+        Assert.Equal(startOfMonth, s_Adapter.GetStartOfMonth(month));
     }
 
     [Theory, MemberData(nameof(DateInfoData))]
-    public void CalendarDayFactory_GetDayOfMonth(DateInfo info)
+    public void CalendarDayAdapter_GetDayOfMonth(DateInfo info)
     {
         var (y, m, d) = info.Yemoda;
         var month = CalendarUT.GetCalendarMonth(y, m);
         var date = CalendarUT.GetCalendarDate(y, m, d).ToCalendarDay();
         // Act & Assert
-        Assert.Equal(date, CalendarDayFactory.GetDayOfMonth(month, d));
+        Assert.Equal(date, s_Adapter.GetDayOfMonth(month, d));
     }
 
     [Theory, MemberData(nameof(MonthInfoData))]
-    public void CalendarDayFactory_GetEndOfMonth(MonthInfo info)
+    public void CalendarDayAdapter_GetEndOfMonth(MonthInfo info)
     {
         var (y, m) = info.Yemo;
         var daysInMonth = info.DaysInMonth;
         var month = CalendarUT.GetCalendarMonth(y, m);
         var endOfMonth = CalendarUT.GetCalendarDate(y, m, daysInMonth).ToCalendarDay();
         // Act & Assert
-        Assert.Equal(endOfMonth, CalendarDayFactory.GetEndOfMonth(month));
+        Assert.Equal(endOfMonth, s_Adapter.GetEndOfMonth(month));
     }
 }
