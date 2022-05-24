@@ -10,7 +10,7 @@ using Zorglub.Time.Simple;
 /// <summary>
 /// Provides facts about <see cref="DateRange"/>.
 /// </summary>
-[Obsolete("To be replaced by Range<>.")]
+[Obsolete("TO BE REMOVED")]
 public abstract partial class DateRangeFacts<TDataSet> :
     IDateRangeFacts<CalendarDate, DateRange, TDataSet>
     where TDataSet : ICalendarDataSet, ISingleton<TDataSet>
