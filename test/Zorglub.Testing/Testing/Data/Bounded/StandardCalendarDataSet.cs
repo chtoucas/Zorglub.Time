@@ -3,11 +3,8 @@
 
 namespace Zorglub.Testing.Data.Bounded;
 
-using Zorglub.Testing.Data.Schemas;
 using Zorglub.Testing.Data.Unbounded;
-using Zorglub.Time.Hemerology;
 using Zorglub.Time.Hemerology.Scopes;
-using Zorglub.Time.Simple;
 
 /// <summary>
 /// Defines test data for a calendar with years within the range [1..9999] and provides a base for
