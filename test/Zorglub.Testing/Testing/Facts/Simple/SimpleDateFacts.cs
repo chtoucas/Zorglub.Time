@@ -18,8 +18,7 @@ using Zorglub.Time.Simple;
 /// </summary>
 public abstract partial class SimpleDateFacts<TDate, TDataSet> :
     IDateFacts<TDate, TDataSet>
-    // ISimpleDate being internal, we cannot use it in a type constraint.
-    where TDate : struct, IDate<TDate>, ISerializable<TDate, int>
+    where TDate : struct, ISimpleDate<TDate>
     where TDataSet : ICalendarDataSet, ISingleton<TDataSet>
 {
     protected SimpleDateFacts(Calendar calendar, Calendar otherCalendar)
@@ -51,6 +50,37 @@ public abstract partial class SimpleDateFacts<TDate, TDataSet> :
             Requires.NotNull(calendar);
             return new BaseCtorArgs(calendar.SupportedYears, calendar.Domain);
         }
+    }
+}
+
+public partial class SimpleDateFacts<TDate, TDataSet> // Prelude
+{
+    [Fact]
+    public void Calendar_Prop()
+    {
+        var date = GetDate(1, 1, 1);
+        // Act & Assert
+        Assert.Equal(CalendarUT, date.Calendar);
+    }
+
+    [Theory, MemberData(nameof(DateInfoData))]
+    public void CalendarYear_Prop(DateInfo info)
+    {
+        var (y, m, d) = info.Yemoda;
+        var date = GetDate(y, m, d);
+        var exp = CalendarUT.GetCalendarYear(y);
+        // Act & Assert
+        Assert.Equal(exp, date.CalendarYear);
+    }
+
+    [Theory, MemberData(nameof(DateInfoData))]
+    public void CalendarMonth_Prop(DateInfo info)
+    {
+        var (y, m, d) = info.Yemoda;
+        var date = GetDate(y, m, d);
+        var exp = CalendarUT.GetCalendarMonth(y, m);
+        // Act & Assert
+        Assert.Equal(exp, date.CalendarMonth);
     }
 }
 

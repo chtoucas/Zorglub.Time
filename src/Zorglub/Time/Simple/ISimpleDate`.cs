@@ -14,19 +14,13 @@ namespace Zorglub.Time.Simple
     // - Adjusters for core parts.
     // - Some specific math ops.
     // - CalendarDay.DayNumber instead of CalendarDay.ToDayNumber().
-    //
-    // THE INTERFACE ISimpleDate SHOULD STAY INTERNAL.
-    // Right now, we use this to hide the conversion methods ToXXX() when they
-    // are meaningless but notice that, the interface had been public, they
-    // wouldn't have even been parts of it.
-    // Anyway, we would need a good reason to make it public.
 
     #endregion
 
     /// <summary>
     /// Defines a "simple" date.
     /// </summary>
-    internal interface ISimpleDate : IDate, ISerializable<int>
+    public interface ISimpleDate : IDate, ISerializable<int>
     {
         /// <summary>
         /// Gets the calendar to which belongs the current instance.
@@ -50,10 +44,9 @@ namespace Zorglub.Time.Simple
         //
         // Conversions
         //
-        // The interface being internal, we can hide the trivial (useless)
-        // conversions by using an explicit interface.
-        // No need to add static factories. For instance,
-        // CalendarDay.FromCalendarDate(CalendarDate) is just:
+        // To hide a conversion method when it is meaningless use an explicit
+        // interface implementation. No need to add static factories. For
+        // instance, CalendarDay.FromCalendarDate(CalendarDate) is just:
         // > CalendarDate date = ...
         // > CalendarDay day = date.ToCalendarDay();
 
@@ -77,7 +70,7 @@ namespace Zorglub.Time.Simple
     /// Defines a "simple" date type.
     /// </summary>
     /// <typeparam name="TSelf">The type that implements this interface.</typeparam>
-    internal interface ISimpleDate<TSelf> :
+    public interface ISimpleDate<TSelf> :
         ISimpleDate,
         IDate<TSelf>,
         ISerializable<TSelf, int>

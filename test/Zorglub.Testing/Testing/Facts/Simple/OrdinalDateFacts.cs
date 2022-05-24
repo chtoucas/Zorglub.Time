@@ -61,33 +61,11 @@ public partial class OrdinalDateFacts<TDataSet> // Prelude
     //
 
     [Fact]
-    public void Calendar_Prop()
+    public void Cuid_Prop()
     {
         var date = CalendarUT.GetOrdinalDate(1, 1);
         // Act & Assert
-        Assert.Equal(CalendarUT, date.Calendar);
-        // We also test the internal prop Cuid.
         Assert.Equal(CalendarUT.Id, date.Cuid);
-    }
-
-    [Theory, MemberData(nameof(DateInfoData))]
-    public void CalendarYear_Prop(DateInfo info)
-    {
-        var (y, doy) = info.Yedoy;
-        var date = CalendarUT.GetOrdinalDate(y, doy);
-        var exp = CalendarUT.GetCalendarYear(y);
-        // Act & Assert
-        Assert.Equal(exp, date.CalendarYear);
-    }
-
-    [Theory, MemberData(nameof(DateInfoData))]
-    public void CalendarMonth_Prop(DateInfo info)
-    {
-        var (y, m, _, doy) = info;
-        var date = CalendarUT.GetOrdinalDate(y, doy);
-        var exp = CalendarUT.GetCalendarMonth(y, m);
-        // Act & Assert
-        Assert.Equal(exp, date.CalendarMonth);
     }
 }
 

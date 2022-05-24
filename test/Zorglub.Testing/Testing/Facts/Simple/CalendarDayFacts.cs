@@ -49,32 +49,11 @@ public partial class CalendarDayFacts<TDataSet> // Prelude
     //
 
     [Fact]
-    public void Calendar_Prop()
+    public void Cuid_Prop()
     {
         var date = CalendarUT.GetCalendarDay(CalendarUT.Epoch);
         // Act & Assert
-        Assert.Equal(CalendarUT, date.Calendar);
-        // We also test the internal prop Cuid.
         Assert.Equal(CalendarUT.Id, date.Cuid);
-    }
-
-    [Theory, MemberData(nameof(DayNumberInfoData))]
-    public void CalendarYear_Prop(DayNumberInfo info)
-    {
-        var date = CalendarUT.GetCalendarDay(info.DayNumber);
-        var exp = CalendarUT.GetCalendarYear(info.Yemoda.Year);
-        // Act & Assert
-        Assert.Equal(exp, date.CalendarYear);
-    }
-
-    [Theory, MemberData(nameof(DayNumberInfoData))]
-    public void CalendarMonth_Prop(DayNumberInfo info)
-    {
-        var (dayNumber, y, m, _) = info;
-        var date = CalendarUT.GetCalendarDay(dayNumber);
-        var exp = CalendarUT.GetCalendarMonth(y, m);
-        // Act & Assert
-        Assert.Equal(exp, date.CalendarMonth);
     }
 }
 
