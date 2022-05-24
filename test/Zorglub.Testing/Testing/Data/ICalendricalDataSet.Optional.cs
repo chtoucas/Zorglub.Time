@@ -3,6 +3,7 @@
 
 namespace Zorglub.Testing.Data;
 
+// TODO(data): add ordinal data -> update all math ops, remove any conversion.
 public interface IMathDataSet
 {
     /// <summary>Date, expected result, days to be added.</summary>

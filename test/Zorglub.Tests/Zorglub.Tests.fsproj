@@ -61,6 +61,7 @@
     <Compile Include="Tests\Core\Schemas\PrototypalSchemaTestSuite.fs" />
     <Compile Include="Tests\Core\Schemas\SystemSchemaTestSuite.fs" />
     <Compile Include="Tests\Core\Schemas\PreValidatorTestSuite.fs" />
+    <Compile Include="Tests\Core\Schemas\ArithmeticTestSuite.fs" />
     <Compile Include="Tests\Core\Schemas\FeaturetteTestSuite.fs" />
     <Compile Include="Tests\Core\Schemas\DaysInMonthDistributionTestSuite.fs" />
     <Compile Include="Tests\Core\PartsTests.fs" />

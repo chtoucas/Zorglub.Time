@@ -16,6 +16,8 @@ open Zorglub.Time.Core.Validation
 
 open Xunit
 
+// TODO(code): I should test pre-validators with all schemas.
+
 module Prelude =
     let badLunarProfile = FauxCalendricalSchema.NotLunar
     let badLunisolarProfile = FauxCalendricalSchema.NotLunisolar
