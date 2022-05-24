@@ -9,6 +9,9 @@ namespace Zorglub.Time.Simple
     using Zorglub.Time.Hemerology;
     using Zorglub.Time.Hemerology.Scopes;
 
+    // To represent individual days within a month, the most natural type is
+    // CalendarDate.
+
     /// <summary>
     /// Represents a calendar month.
     /// <para><see cref="CalendarMonth"/> is an immutable struct.</para>
@@ -247,15 +250,13 @@ namespace Zorglub.Time.Simple
         public Range<CalendarDate> ToRange() => Range.Create(FirstDay, LastDay);
 
         /// <summary>
-        /// Interconverts the current instance to a range within a different calendar.
+        /// Interconverts the current instance to a range of days within a different calendar.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="newCalendar"/> is null.
         /// </exception>
         [Pure]
         public Range<CalendarDate> WithCalendar(Calendar newCalendar)
         {
-            Requires.NotNull(newCalendar);
-
             var min = FirstDay.WithCalendar(newCalendar);
             var max = LastDay.WithCalendar(newCalendar);
             return Range.Create(min, max);
@@ -301,7 +302,6 @@ namespace Zorglub.Time.Simple
 
         #endregion
         #region Days
-        // We use CalendarDate because it's the most natural type here.
 
         /// <summary>
         /// Obtains the date corresponding to the specified day of this month instance.
@@ -321,7 +321,7 @@ namespace Zorglub.Time.Simple
         /// Obtains the sequence of all days in this month instance.
         /// </summary>
         [Pure]
-        public IEnumerable<CalendarDate> GetDaysInMonth()
+        public IEnumerable<CalendarDate> GetAllDays()
         {
             var cuid = Cuid;
             Parts.Unpack(out int y, out int m);

@@ -8,6 +8,9 @@
 // https://docs.microsoft.com/en-us/dotnet/api/system.runtime.interopservices.structlayoutattribute.pack?view=net-6.0
 #define CALENDARYEAR_EXPLICIT_LAYOUT
 
+// To represent individual days within a year, the most natural type is
+// OrdinalDate.
+
 namespace Zorglub.Time.Simple
 {
 #if CALENDARYEAR_EXPLICIT_LAYOUT
@@ -371,9 +374,6 @@ namespace Zorglub.Time.Simple
         #endregion
         #region Conversions
 
-        // TODO(api): add extension methods for these types.
-        // Implement IEnumerable<CalendarMonth>? or simply replace them by Range<>.
-
         /// <summary>
         /// Converts the current instance to a range of months.
         /// </summary>
@@ -387,15 +387,13 @@ namespace Zorglub.Time.Simple
         public Range<OrdinalDate> ToRange() => Range.Create(FirstDay, LastDay);
 
         /// <summary>
-        /// Interconverts the current instance to a range within a different calendar.
+        /// Interconverts the current instance to a range of days within a different calendar.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="newCalendar"/> is null.
         /// </exception>
         [Pure]
         public  Range<OrdinalDate> WithCalendar(Calendar newCalendar)
         {
-            Requires.NotNull(newCalendar);
-
             var min = FirstDay.WithCalendar(newCalendar);
             var max = LastDay.WithCalendar(newCalendar);
             return Range.Create(min, max);
@@ -426,7 +424,6 @@ namespace Zorglub.Time.Simple
 
         #endregion
         #region Months and Days
-        // We use OrdinalDate for days because it's the most natural type here.
 
         /// <summary>
         /// Obtains the month corresponding to the specified month of this year instance.
@@ -445,7 +442,7 @@ namespace Zorglub.Time.Simple
         /// Obtains the sequence of all months in this year instance.
         /// </summary>
         [Pure]
-        public IEnumerable<CalendarMonth> GetMonthsInYear()
+        public IEnumerable<CalendarMonth> GetAllMonths()
         {
             var cuid = Cuid;
             int y = Year;
@@ -473,7 +470,7 @@ namespace Zorglub.Time.Simple
         /// Obtains the sequence of all days in this year instance.
         /// </summary>
         [Pure]
-        public IEnumerable<OrdinalDate> GetDaysInYear()
+        public IEnumerable<OrdinalDate> GetAllDays()
         {
             var cuid = Cuid;
             int y = Year;

@@ -215,6 +215,27 @@ public partial class CalendarYearFacts<TDataSet> // Serialization
 
 public partial class CalendarYearFacts<TDataSet> // Conversions
 {
+    [Theory, MemberData(nameof(YearInfoData))]
+    public void ToRange(YearInfo info)
+    {
+        int y = info.Year;
+        var year = CalendarUT.GetCalendarYear(y);
+        var min = CalendarUT.GetOrdinalDate(y, 1);
+        var max = CalendarUT.GetOrdinalDate(y, info.DaysInYear);
+        // Act
+        var range = year.ToRange();
+        // Assert
+        Assert.Equal(min, range.Min);
+        Assert.Equal(max, range.Max);
+    }
+
+    [Fact]
+    public void WithCalendar_InvalidCalendar()
+    {
+        var year = CalendarUT.GetCalendarYear(1);
+        // Act & Assert
+        Assert.ThrowsAnexn("newCalendar", () => year.WithCalendar(null!));
+    }
 }
 
 public partial class CalendarYearFacts<TDataSet> // Counting
@@ -249,14 +270,14 @@ public partial class CalendarYearFacts<TDataSet> // Months and days
     }
 
     [Theory, MemberData(nameof(YearInfoData))]
-    public void GetMonthsInYear(YearInfo info)
+    public void GetAllMonths(YearInfo info)
     {
         int y = info.Year;
         var year = CalendarUT.GetCalendarYear(y);
         var exp = from m in Enumerable.Range(1, info.MonthsInYear)
                   select CalendarUT.GetCalendarMonth(y, m);
         // Act
-        var actual = year.GetMonthsInYear();
+        var actual = year.GetAllMonths();
         // Assert
         Assert.Equal(exp, actual);
     }
@@ -272,14 +293,14 @@ public partial class CalendarYearFacts<TDataSet> // Months and days
     }
 
     [Theory, MemberData(nameof(YearInfoData))]
-    public void GetDaysInYear(YearInfo info)
+    public void GetAllDays(YearInfo info)
     {
         int y = info.Year;
         var year = CalendarUT.GetCalendarYear(y);
         var exp = from doy in Enumerable.Range(1, info.DaysInYear)
                   select CalendarUT.GetOrdinalDate(y, doy);
         // Act
-        var actual = year.GetDaysInYear();
+        var actual = year.GetAllDays();
         // Assert
         Assert.Equal(exp, actual);
     }

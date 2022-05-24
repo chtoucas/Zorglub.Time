@@ -221,6 +221,27 @@ public partial class CalendarMonthFacts<TDataSet> // Serialization
 
 public partial class CalendarMonthFacts<TDataSet> // Conversions
 {
+    [Theory, MemberData(nameof(MonthInfoData))]
+    public void ToRange(MonthInfo info)
+    {
+        var (y, m) = info.Yemo;
+        var month = CalendarUT.GetCalendarMonth(y, m);
+        var min = CalendarUT.GetCalendarDate(y, m, 1);
+        var max = CalendarUT.GetCalendarDate(y, m, info.DaysInMonth);
+        // Act
+        var range = month.ToRange();
+        // Assert
+        Assert.Equal(min, range.Min);
+        Assert.Equal(max, range.Max);
+    }
+
+    [Fact]
+    public void WithCalendar_InvalidCalendar()
+    {
+        var month = CalendarUT.GetCalendarMonth(1, 1);
+        // Act & Assert
+        Assert.ThrowsAnexn("newCalendar", () => month.WithCalendar(null!));
+    }
 }
 
 public partial class CalendarMonthFacts<TDataSet> // Counting
@@ -272,14 +293,14 @@ public partial class CalendarMonthFacts<TDataSet> // Days
     }
 
     [Theory, MemberData(nameof(MonthInfoData))]
-    public void GetDaysInMonth(MonthInfo info)
+    public void GetAllDays(MonthInfo info)
     {
         var (y, m) = info.Yemo;
         var month = CalendarUT.GetCalendarMonth(y, m);
         var exp = from d in Enumerable.Range(1, info.DaysInMonth)
                   select CalendarUT.GetCalendarDate(y, m, d);
         // Act
-        var actual = month.GetDaysInMonth();
+        var actual = month.GetAllDays();
         // Assert
         Assert.Equal(exp, actual);
     }

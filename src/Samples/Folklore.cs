@@ -82,7 +82,7 @@ public static class Folklore // Friday the 13th (Gregorian calendar)
 
         IEnumerable<CalendarDate> Iterator()
         {
-            foreach (var month in year.GetMonthsInYear())
+            foreach (var month in year.GetAllMonths())
             {
                 // On utilise CalendarDate, mais ça aurait aussi bien marché
                 // avec OrdinalDate ou CalendarDay.
