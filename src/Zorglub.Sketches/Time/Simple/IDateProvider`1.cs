@@ -8,12 +8,13 @@ namespace Zorglub.Time.Simple
     // Do NOT replace CalendarYear or CalendarMonth by int, it's a bad idea.
     // With an int, we can only produce dates in a single calendar, the
     // default one. With CalendarYear, this is no longer a problem.
+    // See also IDayProvider in Zorglub.Time.Hemerology.
 
     /// <summary>
     /// Provides methods to obtain dates in a year or a month.
     /// </summary>
     /// <typeparam name="TDate">The type of date object to return.</typeparam>
-    public interface ISimpleDateProvider<out TDate>
+    public interface IDateProvider<out TDate>
     {
         //
         // CalendarYear

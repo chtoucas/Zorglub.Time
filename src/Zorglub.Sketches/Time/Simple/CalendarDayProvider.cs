@@ -8,13 +8,11 @@ namespace Zorglub.Time.Simple
     /// <summary>
     /// Provides methods to obtain new <see cref="CalendarDay"/> instances for a given year or month.
     /// </summary>
-    public sealed partial class CalendarDayAdapter : ISimpleDateProvider<CalendarDay> { }
+    public sealed partial class CalendarDayProvider : IDateProvider<CalendarDay> { }
 
-    public partial class CalendarDayAdapter // CalendarYear
+    public partial class CalendarDayProvider // CalendarYear
     {
-        /// <summary>
-        /// Obtains the sequence of days in the specified year.
-        /// </summary>
+        /// <inheritdoc/>
         [Pure]
         public IEnumerable<CalendarDay> GetDaysInYear(CalendarYear year)
         {
@@ -28,9 +26,7 @@ namespace Zorglub.Time.Simple
                    select new CalendarDay(daysSinceEpoch, cuid);
         }
 
-        /// <summary>
-        /// Obtains the first day of the specified year.
-        /// </summary>
+        /// <inheritdoc/>
         [Pure]
         public CalendarDay GetStartOfYear(CalendarYear year)
         {
@@ -39,11 +35,7 @@ namespace Zorglub.Time.Simple
             return new CalendarDay(daysSinceEpoch, year.Cuid);
         }
 
-        /// <summary>
-        /// Obtains the date corresponding to the specified day of the specified year.
-        /// </summary>
-        /// <exception cref="AoorException"><paramref name="dayOfYear"/> is outside the range of
-        /// valid values.</exception>
+        /// <inheritdoc/>
         [Pure]
         public CalendarDay GetDayOfYear(CalendarYear year, int dayOfYear)
         {
@@ -53,9 +45,7 @@ namespace Zorglub.Time.Simple
             return new CalendarDay(daysSinceEpoch, year.Cuid);
         }
 
-        /// <summary>
-        /// Obtains the last day of the specified year.
-        /// </summary>
+        /// <inheritdoc/>
         [Pure]
         public CalendarDay GetEndOfYear(CalendarYear year)
         {
@@ -65,7 +55,7 @@ namespace Zorglub.Time.Simple
         }
     }
 
-    public partial class CalendarDayAdapter // CalendarMonth
+    public partial class CalendarDayProvider // CalendarMonth
     {
 #if false
 
@@ -91,9 +81,7 @@ namespace Zorglub.Time.Simple
 
 #endif
 
-        /// <summary>
-        /// Obtains the sequence of days in the specified month.
-        /// </summary>
+        /// <inheritdoc/>
         [Pure]
         public IEnumerable<CalendarDay> GetDaysInMonth(CalendarMonth month)
         {
@@ -108,9 +96,7 @@ namespace Zorglub.Time.Simple
                    select new CalendarDay(daysSinceEpoch, cuid);
         }
 
-        /// <summary>
-        /// Obtains the first day of the specified month.
-        /// </summary>
+        /// <inheritdoc/>
         [Pure]
         public CalendarDay GetStartOfMonth(CalendarMonth month)
         {
@@ -120,11 +106,7 @@ namespace Zorglub.Time.Simple
             return new CalendarDay(daysSinceEpoch, month.Cuid);
         }
 
-        /// <summary>
-        /// Obtains the date corresponding to the specified day of the specified month.
-        /// </summary>
-        /// <exception cref="AoorException"><paramref name="dayOfMonth"/> is outside the range of
-        /// valid values.</exception>
+        /// <inheritdoc/>
         [Pure]
         public CalendarDay GetDayOfMonth(CalendarMonth month, int dayOfMonth)
         {
@@ -135,9 +117,7 @@ namespace Zorglub.Time.Simple
             return new CalendarDay(daysSinceEpoch, month.Cuid);
         }
 
-        /// <summary>
-        /// Obtains the last day of the specified month.
-        /// </summary>
+        /// <inheritdoc/>
         [Pure]
         public CalendarDay GetEndOfMonth(CalendarMonth month)
         {

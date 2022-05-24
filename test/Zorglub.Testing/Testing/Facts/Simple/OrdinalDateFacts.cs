@@ -271,9 +271,9 @@ public partial class OrdinalDateFacts<TDataSet> // DateAdjusters
     }
 }
 
-public partial class OrdinalDateFacts<TDataSet> // OrdinalDateAdapter
+public partial class OrdinalDateFacts<TDataSet> // OrdinalDateProvider
 {
-    private static readonly OrdinalDateAdapter s_Adapter = new();
+    private static readonly OrdinalDateProvider s_Provider = new();
 
     //
     // CalendarMonth
@@ -286,7 +286,7 @@ public partial class OrdinalDateFacts<TDataSet> // OrdinalDateAdapter
         var month = CalendarUT.GetCalendarMonth(y, m);
         var startOfMonth = CalendarUT.GetCalendarDate(y, m, 1).ToOrdinalDate();
         // Act & Assert
-        Assert.Equal(startOfMonth, s_Adapter.GetStartOfMonth(month));
+        Assert.Equal(startOfMonth, s_Provider.GetStartOfMonth(month));
     }
 
     [Theory, MemberData(nameof(DateInfoData))]
@@ -296,7 +296,7 @@ public partial class OrdinalDateFacts<TDataSet> // OrdinalDateAdapter
         var month = CalendarUT.GetCalendarMonth(y, m);
         var date = CalendarUT.GetOrdinalDate(y, doy);
         // Act & Assert
-        Assert.Equal(date, s_Adapter.GetDayOfMonth(month, d));
+        Assert.Equal(date, s_Provider.GetDayOfMonth(month, d));
     }
 
     [Theory, MemberData(nameof(MonthInfoData))]
@@ -307,6 +307,6 @@ public partial class OrdinalDateFacts<TDataSet> // OrdinalDateAdapter
         var month = CalendarUT.GetCalendarMonth(y, m);
         var endOfMonth = CalendarUT.GetCalendarDate(y, m, daysInMonth).ToOrdinalDate();
         // Act & Assert
-        Assert.Equal(endOfMonth, s_Adapter.GetEndOfMonth(month));
+        Assert.Equal(endOfMonth, s_Provider.GetEndOfMonth(month));
     }
 }

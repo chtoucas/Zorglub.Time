@@ -8,31 +8,23 @@ namespace Zorglub.Time.Simple
     /// <summary>
     /// Provides methods to obtain new <see cref="CalendarDate"/> instances for a given year or month.
     /// </summary>
-    public sealed partial class CalendarDateAdapter : ISimpleDateProvider<CalendarDate> { }
+    public sealed partial class CalendarDateProvider : IDateProvider<CalendarDate> { }
 
-    public partial class CalendarDateAdapter // CalendarYear
+    public partial class CalendarDateProvider // CalendarYear
     {
-        /// <summary>
-        /// Obtains the sequence of days in the specified year.
-        /// </summary>
+        /// <inheritdoc/>
         [Pure]
         public IEnumerable<CalendarDate> GetDaysInYear(CalendarYear year)
         {
             throw new NotImplementedException();
         }
 
-        /// <summary>
-        /// Obtains the first day of the specified year.
-        /// </summary>
+        /// <inheritdoc/>
         [Pure]
         public CalendarDate GetStartOfYear(CalendarYear year) =>
             new(Yemoda.AtStartOfYear(year.Year), year.Cuid);
 
-        /// <summary>
-        /// Obtains the date corresponding to the specified day of the specified year.
-        /// </summary>
-        /// <exception cref="AoorException"><paramref name="dayOfYear"/> is outside the range of
-        /// valid values.</exception>
+        /// <inheritdoc/>
         [Pure]
         public CalendarDate GetDayOfYear(CalendarYear year, int dayOfYear)
         {
@@ -42,9 +34,7 @@ namespace Zorglub.Time.Simple
             return new CalendarDate(ymd, year.Cuid);
         }
 
-        /// <summary>
-        /// Obtains the last day of the specified year.
-        /// </summary>
+        /// <inheritdoc/>
         [Pure]
         public CalendarDate GetEndOfYear(CalendarYear year)
         {
@@ -54,7 +44,7 @@ namespace Zorglub.Time.Simple
         }
     }
 
-    public partial class CalendarDateAdapter // CalendarMonth
+    public partial class CalendarDateProvider // CalendarMonth
     {
 #if false
         // Il me semble plus naturel et plus logique d'écrire :
@@ -80,31 +70,21 @@ namespace Zorglub.Time.Simple
 
 #endif
 
-        /// <summary>
-        /// Obtains the sequence of days in the specified month.
-        /// </summary>
+        /// <inheritdoc/>
         [Pure]
         public IEnumerable<CalendarDate> GetDaysInMonth(CalendarMonth month) =>
             month.GetAllDays();
 
-        /// <summary>
-        /// Obtains the first day of the specified month.
-        /// </summary>
+        /// <inheritdoc/>
         [Pure]
         public CalendarDate GetStartOfMonth(CalendarMonth month) => month.FirstDay;
 
-        /// <summary>
-        /// Obtains the date corresponding to the specified day of the specified month.
-        /// </summary>
-        /// <exception cref="AoorException"><paramref name="dayOfMonth"/> is outside the range of
-        /// valid values.</exception>
+        /// <inheritdoc/>
         [Pure]
         public CalendarDate GetDayOfMonth(CalendarMonth month, int dayOfMonth) =>
             month.GetDayOfMonth(dayOfMonth);
 
-        /// <summary>
-        /// Obtains the last day of the specified month.
-        /// </summary>
+        /// <inheritdoc/>
         [Pure]
         public CalendarDate GetEndOfMonth(CalendarMonth month) => month.LastDay;
     }
