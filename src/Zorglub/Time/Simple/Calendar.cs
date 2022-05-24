@@ -321,6 +321,7 @@ namespace Zorglub.Time.Simple
                     y => y.FirstMonth,
                     y => y.LastMonth);
             _minMaxDate =
+                // REVIEW(code): optimize.
                 minMaxYear.Select(
                     y => y.FirstDay.ToCalendarDate(),
                     y => y.LastDay.ToCalendarDate());

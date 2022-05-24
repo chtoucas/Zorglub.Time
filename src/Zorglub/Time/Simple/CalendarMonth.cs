@@ -238,13 +238,28 @@ namespace Zorglub.Time.Simple
         }
 
         #endregion
-        #region Conversion
+        #region Conversions
 
         /// <summary>
         /// Converts the current instance to a range of days.
         /// </summary>
         [Pure]
         public Range<CalendarDate> ToRange() => Range.Create(FirstDay, LastDay);
+
+        /// <summary>
+        /// Interconverts the current instance to a range within a different calendar.
+        /// </summary>
+        /// <exception cref="ArgumentNullException"><paramref name="newCalendar"/> is null.
+        /// </exception>
+        [Pure]
+        public Range<CalendarDate> WithCalendar(Calendar newCalendar)
+        {
+            Requires.NotNull(newCalendar);
+
+            var min = FirstDay.WithCalendar(newCalendar);
+            var max = LastDay.WithCalendar(newCalendar);
+            return Range.Create(min, max);
+        }
 
         #endregion
         #region Counting
@@ -303,7 +318,7 @@ namespace Zorglub.Time.Simple
         }
 
         /// <summary>
-        /// Enumerates the days of this month instance.
+        /// Obtains the sequence of all days in this month instance.
         /// </summary>
         [Pure]
         public IEnumerable<CalendarDate> GetDaysInMonth()
@@ -311,7 +326,7 @@ namespace Zorglub.Time.Simple
             var cuid = Cuid;
             Parts.Unpack(out int y, out int m);
             // NB: we cannot use CalendarRef (CS8176).
-            int daysInMonth = Calendar.Schema.CountDaysInYear(y);
+            int daysInMonth = Calendar.Schema.CountDaysInMonth(y, m);
 
             for (int d = 1; d <= daysInMonth; d++)
             {

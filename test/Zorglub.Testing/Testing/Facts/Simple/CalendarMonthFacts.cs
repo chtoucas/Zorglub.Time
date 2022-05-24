@@ -9,7 +9,7 @@ using Zorglub.Testing.Data;
 using Zorglub.Time.Core.Intervals;
 using Zorglub.Time.Simple;
 
-// NB: we know that years between 1 to 9999 are valid.
+// NB: we know that all years within the range [1..9999] are valid.
 
 public abstract partial class CalendarMonthFacts<TDataSet> :
     CalendarDataConsumer<TDataSet>
@@ -219,6 +219,10 @@ public partial class CalendarMonthFacts<TDataSet> // Serialization
     }
 }
 
+public partial class CalendarMonthFacts<TDataSet> // Conversions
+{
+}
+
 public partial class CalendarMonthFacts<TDataSet> // Counting
 {
     [Theory, MemberData(nameof(MonthInfoData))]
@@ -272,12 +276,12 @@ public partial class CalendarMonthFacts<TDataSet> // Days
     {
         var (y, m) = info.Yemo;
         var month = CalendarUT.GetCalendarMonth(y, m);
-        var list = from i in Enumerable.Range(1, info.DaysInMonth)
-                   select CalendarUT.GetCalendarDate(y, m, i);
+        var exp = from d in Enumerable.Range(1, info.DaysInMonth)
+                  select CalendarUT.GetCalendarDate(y, m, d);
         // Act
         var actual = month.GetDaysInMonth();
         // Assert
-        Assert.Equal(list, actual);
+        Assert.Equal(exp, actual);
     }
 }
 

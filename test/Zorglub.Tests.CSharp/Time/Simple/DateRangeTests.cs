@@ -7,7 +7,9 @@ using System.Linq;
 
 using Zorglub.Testing.Data.Bounded;
 using Zorglub.Time.Core;
+using Zorglub.Time.Core.Intervals;
 
+[Obsolete("TO BE REMOVED")]
 public sealed class GregorianDateRangeTests : DateRangeFacts<ProlepticGregorianDataSet>
 {
     public GregorianDateRangeTests()
@@ -27,6 +29,7 @@ public sealed class GregorianDateRangeTests : DateRangeFacts<ProlepticGregorianD
     }
 }
 
+[Obsolete("TO BE REMOVED")]
 public sealed class JulianDateRangeTests : DateRangeFacts<ProlepticJulianDataSet>
 {
     public JulianDateRangeTests()
@@ -53,30 +56,28 @@ public sealed class DateRangeYearTests : CalendarDataConsumer<ProlepticGregorian
     private static GregorianCalendar CalendarUT => GregorianCalendar.Instance;
 
     [Theory, MemberData(nameof(YearInfoData))]
-    public void FromYear(YearInfo info)
+    public void ToRange(YearInfo info)
     {
         int y = info.Year;
-
-        var cyear = CalendarUT.GetCalendarYear(y);
-        var start = CalendarUT.GetCalendarDate(y, 1, 1);
-        var end = CalendarUT.GetCalendarDate(y, 12, 31);
+        var year = CalendarUT.GetCalendarYear(y);
+        var start = CalendarUT.GetOrdinalDate(y, 1);
+        var end = CalendarUT.GetOrdinalDate(y, info.IsLeap ? 366 : 365);
         // Act
-        var range = DateRange.FromYear(cyear);
+        var range = year.ToRange();
         // Assert
-        Assert.Equal(start, range.Start);
-        Assert.Equal(end, range.End);
+        Assert.Equal(start, range.Min);
+        Assert.Equal(end, range.Max);
     }
 
     [Theory, MemberData(nameof(YearInfoData))]
-    public void Length(YearInfo info)
+    public void Count(YearInfo info)
     {
         int y = info.Year;
-
-        var cyear = CalendarUT.GetCalendarYear(y);
+        var year = CalendarUT.GetCalendarYear(y);
         // Act
-        var range = DateRange.FromYear(cyear);
+        var range = year.ToRange();
         // Assert
-        Assert.Equal(info.DaysInYear, range.Length);
+        Assert.Equal(info.DaysInYear, range.Count());
     }
 
     [Fact]
@@ -84,7 +85,7 @@ public sealed class DateRangeYearTests : CalendarDataConsumer<ProlepticGregorian
     {
         var year = CalendarUT.GetCalendarYear(3);
         // Act & Assert
-        Assert.ThrowsAnexn("newCalendar", () => DateRange.FromYear(year).WithCalendar(null!));
+        Assert.ThrowsAnexn("newCalendar", () => year.ToRange().WithCalendar(null!));
     }
 
     [Fact]
@@ -100,15 +101,15 @@ public sealed class DateRangeYearTests : CalendarDataConsumer<ProlepticGregorian
     }
 
     [Fact]
-    public void Enumerate()
+    public void GetDaysInYear()
     {
-        IEnumerable<CalendarDate> listE
-            = from i in Enumerable.Range(1, 365)
-              select CalendarUT.GetOrdinalDate(3, i).ToCalendarDate();
+        IEnumerable<OrdinalDate> exp =
+            from i in Enumerable.Range(1, 365)
+            select CalendarUT.GetOrdinalDate(3, i);
         // Act
-        var actual = DateRange.FromYear(CalendarUT.GetCalendarYear(3));
+        var actual = CalendarUT.GetCalendarYear(3).GetDaysInYear();
         // Assert
-        Assert.Equal(listE, actual);
+        Assert.Equal(exp, actual);
     }
 
     #region Contains()
@@ -249,19 +250,19 @@ public sealed class DateRangeMonthTests : CalendarDataConsumer<ProlepticGregoria
     [Fact]
     public void WithCalendar_InvalidCalendar()
     {
-        var cmonth = CalendarUT.GetCalendarMonth(3, 4);
+        var month = CalendarUT.GetCalendarMonth(3, 4);
         // Act & Assert
-        Assert.ThrowsAnexn("newCalendar", () => DateRange.FromMonth(cmonth).WithCalendar(null!));
+        Assert.ThrowsAnexn("newCalendar", () => DateRange.FromMonth(month).WithCalendar(null!));
     }
 
     [Fact]
     public void WithCalendar()
     {
-        var cmonth = CalendarUT.GetCalendarMonth(1970, 1);
+        var month = CalendarUT.GetCalendarMonth(1970, 1);
         var date = s_Julian.GetCalendarDate(1969, 12, 19);
         var range = DateRange.Create(date, 31);
         // Act
-        var actual = DateRange.FromMonth(cmonth).WithCalendar(s_Julian);
+        var actual = DateRange.FromMonth(month).WithCalendar(s_Julian);
         // Assert
         Assert.Equal(range, actual);
     }

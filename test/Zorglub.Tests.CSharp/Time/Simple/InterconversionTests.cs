@@ -33,7 +33,7 @@ public static class InterconversionTests
     public static void StartOfGregorianYear1_ToAny()
     {
         var year = GregorianCalendar.Instance.GetCalendarYear(1);
-        var date = CalendarDate.AtStartOfYear(year);
+        var date = year.FirstDay;
         foreach (var chr in CalendarCatalog.SystemCalendars)
         {
             if (chr.Epoch > DayZero.NewStyle) { continue; }
@@ -54,8 +54,8 @@ public static class InterconversionTests
     public static void GregorianYear1582To3000_ToAny()
     {
         var gr = GregorianCalendar.Instance;
-        var start = CalendarDate.AtStartOfYear(gr.GetCalendarYear(1582)); // Gregorian reform
-        var end = CalendarDate.AtEndOfYear(gr.GetCalendarYear(3000));
+        var start = gr.GetCalendarYear(1582).FirstDay; // Gregorian reform
+        var end = gr.GetCalendarYear(3000).LastDay;
         foreach (var chr in CalendarCatalog.SystemCalendars)
         {
             try
@@ -76,12 +76,12 @@ public static class InterconversionTests
     [Fact]
     public static void End_DoesNotThrow() => TestMutualInterconversion(9000, false);
 
-    private static void TestMutualInterconversion(int year, bool startOfYear)
+    private static void TestMutualInterconversion(int y, bool startOfYear)
     {
         foreach (var chr in CalendarCatalog.SystemCalendars)
         {
-            var yo = chr.GetCalendarYear(year);
-            var date = startOfYear ? CalendarDate.AtStartOfYear(yo) : CalendarDate.AtEndOfYear(yo);
+            var year = chr.GetCalendarYear(y);
+            var date = startOfYear ? year.FirstDay : year.LastDay;
             foreach (var other in CalendarCatalog.SystemCalendars)
             {
                 try

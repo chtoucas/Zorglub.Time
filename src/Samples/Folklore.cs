@@ -9,6 +9,7 @@ using System.Diagnostics.Contracts;
 using System.Linq;
 
 using Zorglub.Time;
+using Zorglub.Time.Core.Intervals;
 using Zorglub.Time.Simple;
 
 public static class Folklore // Friday the 13th (Gregorian calendar)
@@ -46,11 +47,9 @@ public static class Folklore // Friday the 13th (Gregorian calendar)
     }
 
     [Pure]
-    public static IEnumerable<CalendarDate> FindUnluckyFridays(DateRange interval)
+    public static IEnumerable<CalendarDate> FindUnluckyFridays(Range<CalendarDate> range)
     {
-        if (interval is null) { throw new ArgumentNullException(nameof(interval)); }
-
-        var chr = interval.Calendar;
+        var chr = range.GetCalendar();
         if (!chr.IsUserDefined || chr.PermanentId != CalendarId.Gregorian)
         {
             return Enumerable.Empty<CalendarDate>();
@@ -60,7 +59,7 @@ public static class Folklore // Friday the 13th (Gregorian calendar)
 
         IEnumerable<CalendarDate> Iterator()
         {
-            foreach (var date in interval)
+            foreach (var date in range.ToEnumerable())
             {
                 if (date.Day == 13 && date.DayOfWeek == DayOfWeek.Friday)
                 {
@@ -87,7 +86,7 @@ public static class Folklore // Friday the 13th (Gregorian calendar)
             {
                 // On utilise CalendarDate, mais ça aurait aussi bien marché
                 // avec OrdinalDate ou CalendarDay.
-                var date = CalendarDate.AtDayOfMonth(month, 13);
+                var date = month.GetDayOfMonth(13);
                 if (date.DayOfWeek == DayOfWeek.Friday)
                 {
                     yield return date;

@@ -107,6 +107,8 @@ namespace Zorglub.Time.Core.Intervals
 
     public partial class Range // Range<int>
     {
+        // A range of int's is finite and enumerable.
+
         /// <summary>
         /// Represents the range {<see cref="Int32.MinValue"/>..<see cref="Int32.MaxValue"/>}.
         /// <para>This is the largest range of 32-bit signed integers representable by the system.
@@ -114,8 +116,6 @@ namespace Zorglub.Time.Core.Intervals
         /// <para>This field is read-only.</para>
         /// </summary>
         internal static readonly Range<int> Maximal32 = CreateLeniently(Int32.MinValue, Int32.MaxValue);
-
-        #region Finite
 
         /// <summary>
         /// Obtains the number of elements in the specified range.
@@ -131,9 +131,6 @@ namespace Zorglub.Time.Core.Intervals
         [Pure]
         public static long LongCount(this Range<int> @this) => ((long)@this.Max) - @this.Min + 1;
 
-        #endregion
-        #region Enumerable
-
         /// <summary>
         /// Obtains an <see cref="IEnumerable{T}"/> view of the specified range.
         /// </summary>
@@ -144,13 +141,11 @@ namespace Zorglub.Time.Core.Intervals
             // TODO(code): Overflow... don't bother? This differs from the
             // behaviour of Range<DayNumber>.ToEnumerable()
             Enumerable.Range(@this.Min, @this.Count());
-
-        #endregion
     }
 
     public partial class Range // Range<DayNumber>
     {
-        #region Finite
+        // A range of DayNumber's is finite and enumerable.
 
         /// <summary>
         /// Obtains the number of elements in the specified range.
@@ -167,9 +162,6 @@ namespace Zorglub.Time.Core.Intervals
         public static long LongCount(this Range<DayNumber> @this) =>
             ((long)@this.Max.DaysSinceZero) - @this.Min.DaysSinceZero + 1;
 
-        #endregion
-        #region Enumerable
-
         /// <summary>
         /// Obtains an <see cref="IEnumerable{T}"/> view of the specified range.
         /// </summary>
@@ -184,7 +176,5 @@ namespace Zorglub.Time.Core.Intervals
                 yield return i;
             }
         }
-
-        #endregion
     }
 }

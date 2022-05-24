@@ -7,7 +7,10 @@ namespace Zorglub.Time.Simple
 
     using Zorglub.Time.Core.Intervals;
 
-    // TODO(code): WithCalendar(), optimize enumeration (see DateRange), LongCount().
+    // TODO(code): optimize enumeration (see DateRange).
+    // Range.Create(date, length).
+    // Add tests to certify that it's not possible to create a range with
+    // endpoints in different calendars.
 
     /// <summary>
     /// Provides extension methods for <see cref="Range{T}"/>.
@@ -17,18 +20,17 @@ namespace Zorglub.Time.Simple
 
     public partial class RangeExtensions // Range<CalendarDate>
     {
-        #region Finite
+        /// <summary>
+        /// Obtains the calendar to which belongs the specified range.
+        /// </summary>
+        [Pure]
+        public static Calendar GetCalendar(this Range<CalendarDate> @this) => @this.Min.Calendar;
 
         /// <summary>
-        /// Obtains the number of elements in the specified range.
+        /// Obtains the number of days in the specified range.
         /// </summary>
-        /// <exception cref="OverflowException">The operation would overflow the capacity of
-        /// <see cref="Int32"/>.</exception>
         [Pure]
         public static int Count(this Range<CalendarDate> @this) => @this.Max - @this.Min + 1;
-
-        #endregion
-        #region Enumerable
 
         /// <summary>
         /// Obtains an <see cref="IEnumerable{T}"/> view of the specified range.
@@ -39,23 +41,15 @@ namespace Zorglub.Time.Simple
             var min = @this.Min;
             var max = @this.Max;
 
-            for (var i = min; i <= max; i++)
+            for (var date = min; date <= max; date++)
             {
-                yield return i;
+                yield return date;
             }
         }
-
-        #endregion
-        #region Interconversion
 
         /// <summary>
         /// Interconverts the specified range to a range within a different calendar.
         /// </summary>
-        /// <remarks>
-        /// <para>This method always performs the conversion whether it's necessary or not. To avoid
-        /// an expensive operation, it's better to check before that <paramref name="newCalendar"/>
-        /// is actually different from the calendar of the current instance.</para>
-        /// </remarks>
         /// <exception cref="ArgumentNullException"><paramref name="newCalendar"/> is null.
         /// </exception>
         [Pure]
@@ -63,6 +57,8 @@ namespace Zorglub.Time.Simple
         {
             Requires.NotNull(newCalendar);
 
+            // TODO(code): check that both dates use the same calendar; idem with
+            // the other WithCalendar().
             var (min, max) = @this.Endpoints;
 
             var start = min.WithCalendar(newCalendar);
@@ -70,24 +66,21 @@ namespace Zorglub.Time.Simple
 
             return Range.Create(start, end);
         }
-
-        #endregion
     }
 
     public partial class RangeExtensions // Range<CalendarDay>
     {
-        #region Finite
+        /// <summary>
+        /// Obtains the calendar to which belongs the specified range.
+        /// </summary>
+        [Pure]
+        public static Calendar GetCalendar(this Range<CalendarDay> @this) => @this.Min.Calendar;
 
         /// <summary>
-        /// Obtains the number of elements in the specified range.
+        /// Obtains the number of days in the specified range.
         /// </summary>
-        /// <exception cref="OverflowException">The operation would overflow the capacity of
-        /// <see cref="Int32"/>.</exception>
         [Pure]
         public static int Count(this Range<CalendarDay> @this) => @this.Max - @this.Min + 1;
-
-        #endregion
-        #region Enumerable
 
         /// <summary>
         /// Obtains an <see cref="IEnumerable{T}"/> view of the specified range.
@@ -98,29 +91,44 @@ namespace Zorglub.Time.Simple
             var min = @this.Min;
             var max = @this.Max;
 
-            for (var i = min; i <= max; i++)
+            for (var date = min; date <= max; date++)
             {
-                yield return i;
+                yield return date;
             }
         }
 
-        #endregion
+        /// <summary>
+        /// Interconverts the specified range to a range within a different calendar.
+        /// </summary>
+        /// <exception cref="ArgumentNullException"><paramref name="newCalendar"/> is null.
+        /// </exception>
+        [Pure]
+        public static Range<CalendarDay> WithCalendar(this Range<CalendarDay> @this, Calendar newCalendar)
+        {
+            Requires.NotNull(newCalendar);
+
+            var (min, max) = @this.Endpoints;
+
+            var start = min.WithCalendar(newCalendar);
+            var end = max.WithCalendar(newCalendar);
+
+            return Range.Create(start, end);
+        }
     }
 
     public partial class RangeExtensions // Range<OrdinalDate>
     {
-        #region Finite
+        /// <summary>
+        /// Obtains the calendar to which belongs the specified range.
+        /// </summary>
+        [Pure]
+        public static Calendar GetCalendar(this Range<OrdinalDate> @this) => @this.Min.Calendar;
 
         /// <summary>
-        /// Obtains the number of elements in the specified range.
+        /// Obtains the number of days in the specified range.
         /// </summary>
-        /// <exception cref="OverflowException">The operation would overflow the capacity of
-        /// <see cref="Int32"/>.</exception>
         [Pure]
         public static int Count(this Range<OrdinalDate> @this) => @this.Max - @this.Min + 1;
-
-        #endregion
-        #region Enumerable
 
         /// <summary>
         /// Obtains an <see cref="IEnumerable{T}"/> view of the specified range.
@@ -131,29 +139,44 @@ namespace Zorglub.Time.Simple
             var min = @this.Min;
             var max = @this.Max;
 
-            for (var i = min; i <= max; i++)
+            for (var date = min; date <= max; date++)
             {
-                yield return i;
+                yield return date;
             }
         }
 
-        #endregion
+        /// <summary>
+        /// Interconverts the specified range to a range within a different calendar.
+        /// </summary>
+        /// <exception cref="ArgumentNullException"><paramref name="newCalendar"/> is null.
+        /// </exception>
+        [Pure]
+        public static Range<OrdinalDate> WithCalendar(this Range<OrdinalDate> @this, Calendar newCalendar)
+        {
+            Requires.NotNull(newCalendar);
+
+            var (min, max) = @this.Endpoints;
+
+            var start = min.WithCalendar(newCalendar);
+            var end = max.WithCalendar(newCalendar);
+
+            return Range.Create(start, end);
+        }
     }
 
     public partial class RangeExtensions // Range<CalendarMonth>
     {
-        #region Finite
+        /// <summary>
+        /// Obtains the calendar to which belongs the specified range.
+        /// </summary>
+        [Pure]
+        public static Calendar GetCalendar(this Range<CalendarMonth> @this) => @this.Min.Calendar;
 
         /// <summary>
-        /// Obtains the number of elements in the specified range.
+        /// Obtains the number of months in the specified range.
         /// </summary>
-        /// <exception cref="OverflowException">The operation would overflow the capacity of
-        /// <see cref="Int32"/>.</exception>
         [Pure]
         public static int Count(this Range<CalendarMonth> @this) => @this.Max - @this.Min + 1;
-
-        #endregion
-        #region Enumerable
 
         /// <summary>
         /// Obtains an <see cref="IEnumerable{T}"/> view of the specified range.
@@ -164,12 +187,40 @@ namespace Zorglub.Time.Simple
             var min = @this.Min;
             var max = @this.Max;
 
-            for (var i = min; i <= max; i++)
+            for (var month = min; month <= max; month++)
             {
-                yield return i;
+                yield return month;
             }
         }
+    }
 
-        #endregion
+    public partial class RangeExtensions // Range<CalendarYear>
+    {
+        /// <summary>
+        /// Obtains the calendar to which belongs the specified range.
+        /// </summary>
+        [Pure]
+        public static Calendar GetCalendar(this Range<CalendarYear> @this) => @this.Min.Calendar;
+
+        /// <summary>
+        /// Obtains the number of years in the specified range.
+        /// </summary>
+        [Pure]
+        public static int Count(this Range<CalendarYear> @this) => @this.Max - @this.Min + 1;
+
+        /// <summary>
+        /// Obtains an <see cref="IEnumerable{T}"/> view of the specified range.
+        /// </summary>
+        [Pure]
+        public static IEnumerable<CalendarYear> ToEnumerable(this Range<CalendarYear> @this)
+        {
+            var min = @this.Min;
+            var max = @this.Max;
+
+            for (var month = min; month <= max; month++)
+            {
+                yield return month;
+            }
+        }
     }
 }

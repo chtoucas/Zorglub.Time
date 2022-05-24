@@ -9,7 +9,7 @@ using Zorglub.Testing.Data;
 using Zorglub.Time.Core.Intervals;
 using Zorglub.Time.Simple;
 
-// NB: we know that years between 1 to 9999 are valid.
+// NB: we know that all years within the range [1..9999] are valid.
 
 public abstract partial class CalendarYearFacts<TDataSet> :
     CalendarDataConsumer<TDataSet>
@@ -213,6 +213,10 @@ public partial class CalendarYearFacts<TDataSet> // Serialization
     }
 }
 
+public partial class CalendarYearFacts<TDataSet> // Conversions
+{
+}
+
 public partial class CalendarYearFacts<TDataSet> // Counting
 {
     [Theory, MemberData(nameof(YearInfoData))]
@@ -249,12 +253,12 @@ public partial class CalendarYearFacts<TDataSet> // Months and days
     {
         int y = info.Year;
         var year = CalendarUT.GetCalendarYear(y);
-        var list = from i in Enumerable.Range(1, info.MonthsInYear)
-                   select CalendarUT.GetCalendarMonth(y, i);
+        var exp = from m in Enumerable.Range(1, info.MonthsInYear)
+                  select CalendarUT.GetCalendarMonth(y, m);
         // Act
         var actual = year.GetMonthsInYear();
         // Assert
-        Assert.Equal(list, actual);
+        Assert.Equal(exp, actual);
     }
 
     [Theory, MemberData(nameof(DateInfoData))]
@@ -262,9 +266,9 @@ public partial class CalendarYearFacts<TDataSet> // Months and days
     {
         var (y, doy) = info.Yedoy;
         var year = CalendarUT.GetCalendarYear(y);
-        var exp = CalendarUT.GetOrdinalDate(y, doy);
+        var date = CalendarUT.GetOrdinalDate(y, doy);
         // Act & Assert
-        Assert.Equal(exp, year.GetDayOfYear(doy));
+        Assert.Equal(date, year.GetDayOfYear(doy));
     }
 
     [Theory, MemberData(nameof(YearInfoData))]
@@ -272,12 +276,12 @@ public partial class CalendarYearFacts<TDataSet> // Months and days
     {
         int y = info.Year;
         var year = CalendarUT.GetCalendarYear(y);
-        var list = from i in Enumerable.Range(1, info.DaysInYear)
-                   select CalendarUT.GetOrdinalDate(y, i);
+        var exp = from doy in Enumerable.Range(1, info.DaysInYear)
+                  select CalendarUT.GetOrdinalDate(y, doy);
         // Act
         var actual = year.GetDaysInYear();
         // Assert
-        Assert.Equal(list, actual);
+        Assert.Equal(exp, actual);
     }
 }
 
