@@ -11,11 +11,11 @@ using Zorglub.Time.Simple;
 
 // TODO(fact): tests with ranges that are not a complete year or month...
 
-public abstract partial class RangeFacts<TDataSet> :
+public abstract partial class SimpleRangeFacts<TDataSet> :
     CalendarDataConsumer<TDataSet>
     where TDataSet : ICalendarDataSet, ISingleton<TDataSet>
 {
-    protected RangeFacts(Calendar calendar, Calendar otherCalendar)
+    protected SimpleRangeFacts(Calendar calendar, Calendar otherCalendar)
     {
         Requires.NotNull(calendar);
         Requires.NotNull(otherCalendar);
@@ -34,7 +34,7 @@ public abstract partial class RangeFacts<TDataSet> :
     protected Calendar OtherCalendar { get; }
 }
 
-public abstract partial class RangeFacts<TDataSet> // CalendarDate
+public abstract partial class SimpleRangeFacts<TDataSet> // CalendarDate
 {
     [Theory, MemberData(nameof(MonthInfoData))]
     public void CalendarDate_ToEnumerable(MonthInfo info)
@@ -50,7 +50,7 @@ public abstract partial class RangeFacts<TDataSet> // CalendarDate
     }
 }
 
-public abstract partial class RangeFacts<TDataSet> // OrdinalDate
+public abstract partial class SimpleRangeFacts<TDataSet> // OrdinalDate
 {
     [Theory, MemberData(nameof(YearInfoData))]
     public void OrdinalDate_ToEnumerable(YearInfo info)
@@ -66,7 +66,7 @@ public abstract partial class RangeFacts<TDataSet> // OrdinalDate
     }
 }
 
-public abstract partial class RangeFacts<TDataSet> // Month
+public abstract partial class SimpleRangeFacts<TDataSet> // Month
 {
     [Theory, MemberData(nameof(MonthInfoData))]
     public void Month_Count(MonthInfo info)
@@ -101,7 +101,7 @@ public abstract partial class RangeFacts<TDataSet> // Month
     }
 }
 
-public abstract partial class RangeFacts<TDataSet> // Year
+public abstract partial class SimpleRangeFacts<TDataSet> // Year
 {
     [Theory, MemberData(nameof(YearInfoData))]
     public void Year_Count(YearInfo info)

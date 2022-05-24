@@ -8,7 +8,6 @@ namespace Zorglub.Time.Simple
     using Zorglub.Time.Core.Intervals;
 
     // TODO(code): optimize enumeration (see DateRange).
-    // Range.Create(date, length).
     // Add tests to certify that it's not possible to create a range with
     // endpoints in different calendars.
 
@@ -16,12 +15,18 @@ namespace Zorglub.Time.Simple
     /// Provides static helpers and extension methods for <see cref="Range{T}"/>.
     /// <para>This class cannot be inherited.</para>
     /// </summary>
-    public static partial class SimpleRange
-    {
-    }
+    public static partial class SimpleRange { }
 
     public partial class SimpleRange // Range<CalendarDate>
     {
+        /// <summary>
+        /// Creates a new instance of the <see cref="Range{T}"/> class from the specified start and
+        /// length.
+        /// </summary>
+        [Pure]
+        public static Range<CalendarDate> Create(CalendarDate start, int length) =>
+            Range.Create(start, start + (length - 1));
+
         /// <summary>
         /// Obtains the calendar to which belongs the specified range.
         /// </summary>
@@ -73,6 +78,14 @@ namespace Zorglub.Time.Simple
     public partial class SimpleRange // Range<CalendarDay>
     {
         /// <summary>
+        /// Creates a new instance of the <see cref="Range{T}"/> class from the specified start and
+        /// length.
+        /// </summary>
+        [Pure]
+        public static Range<CalendarDay> Create(CalendarDay start, int length) =>
+            Range.Create(start, start + (length - 1));
+
+        /// <summary>
         /// Obtains the calendar to which belongs the specified range.
         /// </summary>
         [Pure]
@@ -120,6 +133,14 @@ namespace Zorglub.Time.Simple
 
     public partial class SimpleRange // Range<OrdinalDate>
     {
+        /// <summary>
+        /// Creates a new instance of the <see cref="Range{T}"/> class from the specified start and
+        /// length.
+        /// </summary>
+        [Pure]
+        public static Range<OrdinalDate> Create(OrdinalDate start, int length) =>
+            Range.Create(start, start + (length - 1));
+
         /// <summary>
         /// Obtains the calendar to which belongs the specified range.
         /// </summary>
@@ -169,6 +190,14 @@ namespace Zorglub.Time.Simple
     public partial class SimpleRange // Range<CalendarMonth>
     {
         /// <summary>
+        /// Creates a new instance of the <see cref="Range{T}"/> class from the specified start and
+        /// length.
+        /// </summary>
+        [Pure]
+        public static Range<CalendarMonth> Create(CalendarMonth start, int length) =>
+            Range.Create(start, start + (length - 1));
+
+        /// <summary>
         /// Obtains the calendar to which belongs the specified range.
         /// </summary>
         [Pure]
@@ -198,6 +227,14 @@ namespace Zorglub.Time.Simple
 
     public partial class SimpleRange // Range<CalendarYear>
     {
+        /// <summary>
+        /// Creates a new instance of the <see cref="Range{T}"/> class from the specified start and
+        /// length.
+        /// </summary>
+        [Pure]
+        public static Range<CalendarYear> Create(CalendarYear start, int length) =>
+            Range.Create(start, start + (length - 1));
+
         /// <summary>
         /// Obtains the calendar to which belongs the specified range.
         /// </summary>
