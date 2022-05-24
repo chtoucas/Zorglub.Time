@@ -6,8 +6,6 @@
 
 namespace Zorglub.Time.Hemerology
 {
-    using System;
-
     /// <summary>
     /// Provides a set of method to create the special dates of a year or a month, the two
     /// subdivisions of time used by most calendar systems.
