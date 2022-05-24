@@ -267,7 +267,7 @@ module Math =
 
     [<Fact>]
     let ``DayNumber64.MinValue - 1 overflows`` () =
-        (fun () -> DayNumber64.MinValue - 1L)           |> overflows
+        (fun () -> DayNumber64.MinValue - 1L)          |> overflows
         (fun () -> DayNumber64.MinValue + (-1))        |> overflows
         (fun () -> DayNumber64.MinValue.PlusDays(-1))  |> overflows
         (fun () -> DayNumber64.MinValue.PreviousDay()) |> overflows
@@ -284,7 +284,7 @@ module Math =
     [<Fact>]
     let ``DayNumber64.MaxValue + 1 overflows`` () =
         (fun () -> DayNumber64.MaxValue + 1)         |> overflows
-        (fun () -> DayNumber64.MaxValue - (-1L))      |> overflows
+        (fun () -> DayNumber64.MaxValue - (-1L))     |> overflows
         (fun () -> DayNumber64.MaxValue.PlusDays(1)) |> overflows
         (fun () -> DayNumber64.MaxValue.NextDay())   |> overflows
 
