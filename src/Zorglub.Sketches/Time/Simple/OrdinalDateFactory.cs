@@ -6,60 +6,55 @@ namespace Zorglub.Time.Simple
     using Zorglub.Time.Core;
 
     /// <summary>
-    /// Provides helper methods for <see cref="OrdinalDate"/>.
+    /// Provides factory methods for <see cref="OrdinalDate"/>.
     /// </summary>
-    public sealed partial class OrdinalDateHelper : IDateHelper<OrdinalDate>
+    public abstract partial class OrdinalDateFactory : IDateFactory<OrdinalDate>
     {
-        public OrdinalDateHelper(OrdinalDate date)
-        {
-            Date = date;
-        }
-
-        public OrdinalDate Date { get; }
+        protected OrdinalDateFactory() { }
     }
 
-    public partial class OrdinalDateHelper //
+    public partial class OrdinalDateFactory //
     {
         /// <inheritdoc/>
         [Pure]
-        public OrdinalDate GetStartOfYear() =>
-            new(Date.Parts.StartOfYear, Date.Cuid);
+        public static OrdinalDate GetStartOfYear(OrdinalDate date) =>
+            new(date.Parts.StartOfYear, date.Cuid);
 
         /// <inheritdoc/>
         [Pure]
-        public OrdinalDate GetEndOfYear()
+        public static OrdinalDate GetEndOfYear(OrdinalDate date)
         {
-            ref readonly var chr = ref Date.CalendarRef;
-            var ydoy = chr.Schema.GetEndOfYearOrdinalParts(Date.Year);
-            return new OrdinalDate(ydoy, Date.Cuid);
+            ref readonly var chr = ref date.CalendarRef;
+            var ydoy = chr.Schema.GetEndOfYearOrdinalParts(date.Year);
+            return new OrdinalDate(ydoy, date.Cuid);
         }
 
         /// <inheritdoc/>
         [Pure]
-        public OrdinalDate GetStartOfMonth()
+        public static OrdinalDate GetStartOfMonth(OrdinalDate date)
         {
-            Date.Parts.Unpack(out int y, out int doy);
-            ref readonly var chr = ref Date.CalendarRef;
+            date.Parts.Unpack(out int y, out int doy);
+            ref readonly var chr = ref date.CalendarRef;
             var sch = chr.Schema;
             int m = sch.GetMonth(y, doy, out _);
             var ydoy = sch.GetStartOfMonthOrdinalParts(y, m);
-            return new OrdinalDate(ydoy, Date.Cuid);
+            return new OrdinalDate(ydoy, date.Cuid);
         }
 
         /// <inheritdoc/>
         [Pure]
-        public OrdinalDate GetEndOfMonth()
+        public static OrdinalDate GetEndOfMonth(OrdinalDate date)
         {
-            Date.Parts.Unpack(out int y, out int doy);
-            ref readonly var chr = ref Date.CalendarRef;
+            date.Parts.Unpack(out int y, out int doy);
+            ref readonly var chr = ref date.CalendarRef;
             var sch = chr.Schema;
             int m = sch.GetMonth(y, doy, out _);
             var ydoy = sch.GetEndOfMonthOrdinalParts(y, m);
-            return new OrdinalDate(ydoy, Date.Cuid);
+            return new OrdinalDate(ydoy, date.Cuid);
         }
     }
 
-    public partial class OrdinalDateHelper // CalendarYear
+    public partial class OrdinalDateFactory // CalendarYear
     {
         /// <inheritdoc/>
         [Pure]
@@ -82,7 +77,7 @@ namespace Zorglub.Time.Simple
         public static OrdinalDate GetEndOfYear(CalendarYear year) => year.LastDay;
     }
 
-    public partial class OrdinalDateHelper // CalendarMonth
+    public partial class OrdinalDateFactory // CalendarMonth
     {
 #if false
 

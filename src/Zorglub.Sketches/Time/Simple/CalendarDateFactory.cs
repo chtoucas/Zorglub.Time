@@ -6,51 +6,46 @@ namespace Zorglub.Time.Simple
     using Zorglub.Time.Core;
 
     /// <summary>
-    /// Provides helper methods for <see cref="CalendarDate"/>.
+    /// Provides factory methods for <see cref="CalendarDate"/>.
     /// </summary>
-    public sealed partial class CalendarDateHelper : IDateHelper<CalendarDate>
+    public abstract partial class CalendarDateFactory : IDateFactory<CalendarDate>
     {
-        public CalendarDateHelper(CalendarDate date)
-        {
-            Date = date;
-        }
-
-        public CalendarDate Date { get; }
+        protected CalendarDateFactory() { }
     }
 
-    public partial class CalendarDateHelper //
+    public partial class CalendarDateFactory //
     {
         /// <inheritdoc/>
         [Pure]
-        public CalendarDate GetStartOfYear() =>
-            new(Date.Parts.StartOfYear, Date.Cuid);
+        public static CalendarDate GetStartOfYear(CalendarDate date) =>
+            new(date.Parts.StartOfYear, date.Cuid);
 
         /// <inheritdoc/>
         [Pure]
-        public CalendarDate GetEndOfYear()
+        public static CalendarDate GetEndOfYear(CalendarDate date)
         {
-            ref readonly var chr = ref Date.CalendarRef;
-            var ymd = chr.Schema.GetEndOfYearParts(Date.Year);
-            return new CalendarDate(ymd, Date.Cuid);
+            ref readonly var chr = ref date.CalendarRef;
+            var ymd = chr.Schema.GetEndOfYearParts(date.Year);
+            return new CalendarDate(ymd, date.Cuid);
         }
 
         /// <inheritdoc/>
         [Pure]
-        public CalendarDate GetStartOfMonth() =>
-            new(Date.Parts.StartOfMonth, Date.Cuid);
+        public static CalendarDate GetStartOfMonth(CalendarDate date) =>
+            new(date.Parts.StartOfMonth, date.Cuid);
 
         /// <inheritdoc/>
         [Pure]
-        public CalendarDate GetEndOfMonth()
+        public static CalendarDate GetEndOfMonth(CalendarDate date)
         {
-            Date.Parts.Unpack(out int y, out int m);
-            ref readonly var chr = ref Date.CalendarRef;
+            date.Parts.Unpack(out int y, out int m);
+            ref readonly var chr = ref date.CalendarRef;
             var ymd = chr.Schema.GetEndOfMonthParts(y, m);
-            return new CalendarDate(ymd, Date.Cuid);
+            return new CalendarDate(ymd, date.Cuid);
         }
     }
 
-    public partial class CalendarDateHelper // CalendarYear
+    public partial class CalendarDateFactory // CalendarYear
     {
         /// <inheritdoc/>
         [Pure]
@@ -84,7 +79,7 @@ namespace Zorglub.Time.Simple
         }
     }
 
-    public partial class CalendarDateHelper // CalendarMonth
+    public partial class CalendarDateFactory // CalendarMonth
     {
 #if false
         // Il me semble plus naturel et plus logique d'écrire :

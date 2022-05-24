@@ -6,60 +6,55 @@ namespace Zorglub.Time.Simple
     using System.Linq;
 
     /// <summary>
-    /// Provides helper methods for <see cref="CalendarDay"/>.
+    /// Provides factory methods for <see cref="CalendarDay"/>.
     /// </summary>
-    public sealed partial class CalendarDayHelper : IDateHelper<CalendarDay>
+    public abstract partial class CalendarDayFactory : IDateFactory<CalendarDay>
     {
-        public CalendarDayHelper(CalendarDay day)
-        {
-            Day = day;
-        }
-
-        public CalendarDay Day { get; }
+        protected CalendarDayFactory() { }
     }
 
-    public partial class CalendarDayHelper //
+    public partial class CalendarDayFactory //
     {
         /// <inheritdoc/>
         [Pure]
-        public CalendarDay GetStartOfYear()
+        public static CalendarDay GetStartOfYear(CalendarDay date)
         {
-            ref readonly var chr = ref Day.CalendarRef;
-            int daysSinceEpoch = chr.Schema.GetStartOfYear(Day.Year);
-            return new CalendarDay(daysSinceEpoch, Day.Cuid);
+            ref readonly var chr = ref date.CalendarRef;
+            int daysSinceEpoch = chr.Schema.GetStartOfYear(date.Year);
+            return new CalendarDay(daysSinceEpoch, date.Cuid);
         }
 
         /// <inheritdoc/>
         [Pure]
-        public CalendarDay GetEndOfYear()
+        public static CalendarDay GetEndOfYear(CalendarDay date)
         {
-            ref readonly var chr = ref Day.CalendarRef;
-            int daysSinceEpoch = chr.Schema.GetEndOfYear(Day.Year);
-            return new CalendarDay(daysSinceEpoch, Day.Cuid);
+            ref readonly var chr = ref date.CalendarRef;
+            int daysSinceEpoch = chr.Schema.GetEndOfYear(date.Year);
+            return new CalendarDay(daysSinceEpoch, date.Cuid);
         }
 
         /// <inheritdoc/>
         [Pure]
-        public CalendarDay GetStartOfMonth()
+        public static CalendarDay GetStartOfMonth(CalendarDay date)
         {
-            ref readonly var chr = ref Day.CalendarRef;
-            Day.Unpack(chr, out int y, out int m, out _);
+            ref readonly var chr = ref date.CalendarRef;
+            date.Unpack(chr, out int y, out int m, out _);
             int daysSinceEpoch = chr.Schema.GetStartOfMonth(y, m);
-            return new CalendarDay(daysSinceEpoch, Day.Cuid);
+            return new CalendarDay(daysSinceEpoch, date.Cuid);
         }
 
         /// <inheritdoc/>
         [Pure]
-        public CalendarDay GetEndOfMonth()
+        public static CalendarDay GetEndOfMonth(CalendarDay date)
         {
-            ref readonly var chr = ref Day.CalendarRef;
-            Day.Unpack(chr, out int y, out int m, out _);
+            ref readonly var chr = ref date.CalendarRef;
+            date.Unpack(chr, out int y, out int m, out _);
             int daysSinceEpoch = chr.Schema.GetEndOfMonth(y, m);
-            return new CalendarDay(daysSinceEpoch, Day.Cuid);
+            return new CalendarDay(daysSinceEpoch, date.Cuid);
         }
     }
 
-    public partial class CalendarDayHelper // CalendarYear
+    public partial class CalendarDayFactory // CalendarYear
     {
         /// <inheritdoc/>
         [Pure]
@@ -104,7 +99,7 @@ namespace Zorglub.Time.Simple
         }
     }
 
-    public partial class CalendarDayHelper // CalendarMonth
+    public partial class CalendarDayFactory // CalendarMonth
     {
 #if false
 

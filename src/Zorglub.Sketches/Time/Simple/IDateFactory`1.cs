@@ -9,19 +9,31 @@ namespace Zorglub.Time.Simple
     // With an int, we can only produce dates in a single calendar, the
     // default one. With CalendarYear, this is no longer a problem.
 
-    internal interface IDateHelper<TDate>
+    internal interface IDateFactory<TDate>
         where TDate : ISimpleDate
     {
-        [Pure] TDate GetStartOfYear();
+        /// <summary>
+        /// Obtains the start of the year to which belongs the specified date.
+        /// </summary>
+        [Pure] static abstract TDate GetStartOfYear(TDate date);
 
-        [Pure] TDate GetEndOfYear();
+        /// <summary>
+        /// Obtains the end of the year to which belongs the specified date.
+        /// </summary>
+        [Pure] static abstract TDate GetEndOfYear(TDate date);
 
-        [Pure] TDate GetStartOfMonth();
+        /// <summary>
+        /// Obtains the start of the month to which belongs the specified date.
+        /// </summary>
+        [Pure] static abstract TDate GetStartOfMonth(TDate date);
 
-        [Pure] TDate GetEndOfMonth();
+        /// <summary>
+        /// Obtains the end of the month to which belongs the specified date.
+        /// </summary>
+        [Pure] static abstract TDate GetEndOfMonth(TDate date);
 
         //
-        // Factories (CalendarYear)
+        // CalendarYear
         //
 
         /// <summary>
@@ -47,7 +59,7 @@ namespace Zorglub.Time.Simple
         [Pure] static abstract TDate GetEndOfYear(CalendarYear year);
 
         //
-        // Factories (CalendarMonth)
+        // CalendarMonth
         //
 
         /// <summary>
