@@ -12,9 +12,9 @@ using Zorglub.Time.Hemerology;
 // In addition, one should test WithYear() with valid and invalid results.
 
 public abstract partial class IAdjustableDateFacts<TDate, TDataSet> :
-    CalendricalDataConsumer<TDataSet>
+    CalendarDataConsumer<TDataSet>
     where TDate : IAdjustableDate<TDate>
-    where TDataSet : ICalendricalDataSet, ISingleton<TDataSet>
+    where TDataSet : ICalendarDataSet, ISingleton<TDataSet>
 {
     protected IAdjustableDateFacts(Range<int> supportedYears)
     {

@@ -65,7 +65,40 @@ public sealed class DateRangeYearTests : CalendarDataConsumer<ProlepticGregorian
         Assert.Equal(range, actual);
     }
 
-    #region Contains()
+    [Theory]
+    [InlineData(2, 12, false)]
+    [InlineData(3, 1, true)]
+    [InlineData(3, 2, true)]
+    [InlineData(3, 3, true)]
+    [InlineData(3, 4, true)]
+    [InlineData(3, 5, true)]
+    [InlineData(3, 6, true)]
+    [InlineData(3, 7, true)]
+    [InlineData(3, 8, true)]
+    [InlineData(3, 9, true)]
+    [InlineData(3, 10, true)]
+    [InlineData(3, 11, true)]
+    [InlineData(3, 12, true)]
+    [InlineData(4, 1, false)]
+    public void IsSupersetOf_MonthRange(int y, int m, bool inRange)
+    {
+        var range = DateRange.FromYear(CalendarUT.GetCalendarYear(3));
+        var other = DateRange.FromMonth(CalendarUT.GetCalendarMonth(y, m));
+        // Act & Assert
+        Assert.Equal(inRange, range.IsSupersetOf(other));
+    }
+
+    [Theory]
+    [InlineData(2, false)]
+    [InlineData(3, true)]
+    [InlineData(4, false)]
+    public void IsSupersetOf_YearRange(int y, bool inRange)
+    {
+        var range = DateRange.FromYear(CalendarUT.GetCalendarYear(3));
+        var other = DateRange.FromYear(CalendarUT.GetCalendarYear(y));
+        // Act & Assert
+        Assert.Equal(inRange, range.IsSupersetOf(other));
+    }
 
     [Theory]
     [InlineData(2, 12, 31, false)]
@@ -105,29 +138,6 @@ public sealed class DateRangeYearTests : CalendarDataConsumer<ProlepticGregorian
     }
 
     [Theory]
-    [InlineData(2, 12, false)]
-    [InlineData(3, 1, true)]
-    [InlineData(3, 2, true)]
-    [InlineData(3, 3, true)]
-    [InlineData(3, 4, true)]
-    [InlineData(3, 5, true)]
-    [InlineData(3, 6, true)]
-    [InlineData(3, 7, true)]
-    [InlineData(3, 8, true)]
-    [InlineData(3, 9, true)]
-    [InlineData(3, 10, true)]
-    [InlineData(3, 11, true)]
-    [InlineData(3, 12, true)]
-    [InlineData(4, 1, false)]
-    public void IsSupersetOf_MonthRange(int y, int m, bool inRange)
-    {
-        var range = DateRange.FromYear(CalendarUT.GetCalendarYear(3));
-        var other = DateRange.FromMonth(CalendarUT.GetCalendarMonth(y, m));
-        // Act & Assert
-        Assert.Equal(inRange, range.IsSupersetOf(other));
-    }
-
-    [Theory]
     [InlineData(2, false)]
     [InlineData(3, true)]
     [InlineData(4, false)]
@@ -137,18 +147,6 @@ public sealed class DateRangeYearTests : CalendarDataConsumer<ProlepticGregorian
         var year1 = CalendarUT.GetCalendarYear(y);
         // Act & Assert
         Assert.Equal(inRange, range.Contains(year1));
-    }
-
-    [Theory]
-    [InlineData(2, false)]
-    [InlineData(3, true)]
-    [InlineData(4, false)]
-    public void IsSupersetOf_YearRange(int y, bool inRange)
-    {
-        var range = DateRange.FromYear(CalendarUT.GetCalendarYear(3));
-        var other = DateRange.FromYear(CalendarUT.GetCalendarYear(y));
-        // Act & Assert
-        Assert.Equal(inRange, range.IsSupersetOf(other));
     }
 
     // start, end, inRange
@@ -165,8 +163,6 @@ public sealed class DateRangeYearTests : CalendarDataConsumer<ProlepticGregorian
         { new(4, 1, 1), new(4, 1, 1), false },      // Après
         { new(4, 5, 2), new(4, 6, 1), false },      // Après
     };
-
-    #endregion
 }
 
 public sealed class DateRangeMonthTests : CalendarDataConsumer<ProlepticGregorianDataSet>
@@ -186,8 +182,6 @@ public sealed class DateRangeMonthTests : CalendarDataConsumer<ProlepticGregoria
         // Assert
         Assert.Equal(range, actual);
     }
-
-    #region IsSupersetOf()
 
     [Fact]
     public void IsSupersetOf_RangeA()
@@ -215,9 +209,6 @@ public sealed class DateRangeMonthTests : CalendarDataConsumer<ProlepticGregoria
         // Act & Assert
         Assert.True(range1.IsSupersetOf(range2));
     }
-
-    #endregion
-    #region Contains()
 
     [Theory]
     [InlineData(2, 12, 31, false)]
@@ -262,6 +253,4 @@ public sealed class DateRangeMonthTests : CalendarDataConsumer<ProlepticGregoria
         // Act & Assert
         Assert.False(range.Contains(year));
     }
-
-    #endregion
 }

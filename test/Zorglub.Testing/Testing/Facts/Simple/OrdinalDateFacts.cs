@@ -221,3 +221,90 @@ public partial class OrdinalDateFacts<TDataSet> // Math
         Assert.Equal(0, date.CountYearsSince(date));
     }
 }
+
+//
+// Tests for related classes
+//
+
+public partial class OrdinalDateFacts<TDataSet> // DateAdjusters
+{
+    [Theory, MemberData(nameof(DateInfoData))]
+    public void DateAdjusters_GetStartOfYear(DateInfo info)
+    {
+        var (y, doy) = info.Yedoy;
+        var date = CalendarUT.GetOrdinalDate(y, doy);
+        var startOfYear = CalendarUT.GetOrdinalDate(y, 1);
+        // Act & Assert
+        Assert.Equal(startOfYear, DateAdjusters.GetStartOfYear(date));
+    }
+
+    [Theory, MemberData(nameof(YearInfoData))]
+    public void DateAdjusters_GetEndOfYear(YearInfo info)
+    {
+        int y = info.Year;
+        var date = CalendarUT.GetOrdinalDate(y, 1);
+        // Act
+        var endOfYear = DateAdjusters.GetEndOfYear(date);
+        // Assert
+        Assert.Equal(y, endOfYear.Year);
+        Assert.Equal(info.DaysInYear, endOfYear.DayOfYear);
+    }
+
+    [Theory, MemberData(nameof(DateInfoData))]
+    public void DateAdjusters_GetStartOfMonth(DateInfo info)
+    {
+        var (y, m, _, doy) = info;
+        var date = CalendarUT.GetOrdinalDate(y, doy);
+        var startOfMonth = CalendarUT.GetCalendarDate(y, m, 1).ToOrdinalDate();
+        // Act & Assert
+        Assert.Equal(startOfMonth, DateAdjusters.GetStartOfMonth(date));
+    }
+
+    [Theory, MemberData(nameof(MonthInfoData))]
+    public void DateAdjusters_GetEndOfMonth(MonthInfo info)
+    {
+        var (y, m) = info.Yemo;
+        var date = CalendarUT.GetCalendarDate(y, m, 1).ToOrdinalDate();
+        var endOfMonth = CalendarUT.GetCalendarDate(y, m, info.DaysInMonth).ToOrdinalDate();
+        // Act & Assert
+        Assert.Equal(endOfMonth, DateAdjusters.GetEndOfMonth(date));
+    }
+}
+
+public partial class OrdinalDateFacts<TDataSet> // OrdinalDateFactory
+{
+    //
+    // CalendarMonth
+    //
+
+    [Theory, MemberData(nameof(MonthInfoData))]
+    public void OrdinalDateFactory_GetStartOfMonth(MonthInfo info)
+    {
+        var (y, m) = info.Yemo;
+        var month = CalendarUT.GetCalendarMonth(y, m);
+        var startOfMonth = CalendarUT.GetCalendarDate(y, m, 1).ToOrdinalDate();
+        // Act & Assert
+        Assert.Equal(startOfMonth, OrdinalDateFactory.GetStartOfMonth(month));
+    }
+
+    [Theory, MemberData(nameof(DateInfoData))]
+    public void OrdinalDateFactory_GetDayOfMonth(DateInfo info)
+    {
+        var (y, m, d, doy) = info;
+        var month = CalendarUT.GetCalendarMonth(y, m);
+        var date = CalendarUT.GetOrdinalDate(y, doy);
+        // Act & Assert
+        Assert.Equal(date, OrdinalDateFactory.GetDayOfMonth(month, d));
+    }
+
+    [Theory, MemberData(nameof(MonthInfoData))]
+    public void OrdinalDateFactory_GetEndOfMonth(MonthInfo info)
+    {
+        var (y, m) = info.Yemo;
+        var daysInMonth = info.DaysInMonth;
+        var month = CalendarUT.GetCalendarMonth(y, m);
+        var endOfMonth = CalendarUT.GetCalendarDate(y, m, daysInMonth).ToOrdinalDate();
+        // Act & Assert
+        Assert.Equal(endOfMonth, OrdinalDateFactory.GetEndOfMonth(month));
+    }
+}

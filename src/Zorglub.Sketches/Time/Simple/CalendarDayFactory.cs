@@ -13,47 +13,6 @@ namespace Zorglub.Time.Simple
         protected CalendarDayFactory() { }
     }
 
-    public partial class CalendarDayFactory //
-    {
-        /// <inheritdoc/>
-        [Pure]
-        public static CalendarDay GetStartOfYear(CalendarDay date)
-        {
-            ref readonly var chr = ref date.CalendarRef;
-            int daysSinceEpoch = chr.Schema.GetStartOfYear(date.Year);
-            return new CalendarDay(daysSinceEpoch, date.Cuid);
-        }
-
-        /// <inheritdoc/>
-        [Pure]
-        public static CalendarDay GetEndOfYear(CalendarDay date)
-        {
-            ref readonly var chr = ref date.CalendarRef;
-            int daysSinceEpoch = chr.Schema.GetEndOfYear(date.Year);
-            return new CalendarDay(daysSinceEpoch, date.Cuid);
-        }
-
-        /// <inheritdoc/>
-        [Pure]
-        public static CalendarDay GetStartOfMonth(CalendarDay date)
-        {
-            ref readonly var chr = ref date.CalendarRef;
-            date.Unpack(chr, out int y, out int m, out _);
-            int daysSinceEpoch = chr.Schema.GetStartOfMonth(y, m);
-            return new CalendarDay(daysSinceEpoch, date.Cuid);
-        }
-
-        /// <inheritdoc/>
-        [Pure]
-        public static CalendarDay GetEndOfMonth(CalendarDay date)
-        {
-            ref readonly var chr = ref date.CalendarRef;
-            date.Unpack(chr, out int y, out int m, out _);
-            int daysSinceEpoch = chr.Schema.GetEndOfMonth(y, m);
-            return new CalendarDay(daysSinceEpoch, date.Cuid);
-        }
-    }
-
     public partial class CalendarDayFactory // CalendarYear
     {
         /// <inheritdoc/>

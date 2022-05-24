@@ -180,7 +180,9 @@ namespace Zorglub.Time.Simple
             return FormattableString.Invariant($"{d:D2}/{m:D2}/{y:D4} ({chr})");
         }
 
-        /// <inheritdoc />
+        /// <summary>
+        /// Deconstructs the current instance into its components.
+        /// </summary>
         public void Deconstruct(out int year, out int month, out int day) =>
             _bin.Deconstruct(out year, out month, out day);
     }

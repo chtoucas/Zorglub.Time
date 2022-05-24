@@ -13,47 +13,6 @@ namespace Zorglub.Time.Simple
         protected OrdinalDateFactory() { }
     }
 
-    public partial class OrdinalDateFactory //
-    {
-        /// <inheritdoc/>
-        [Pure]
-        public static OrdinalDate GetStartOfYear(OrdinalDate date) =>
-            new(date.Parts.StartOfYear, date.Cuid);
-
-        /// <inheritdoc/>
-        [Pure]
-        public static OrdinalDate GetEndOfYear(OrdinalDate date)
-        {
-            ref readonly var chr = ref date.CalendarRef;
-            var ydoy = chr.Schema.GetEndOfYearOrdinalParts(date.Year);
-            return new OrdinalDate(ydoy, date.Cuid);
-        }
-
-        /// <inheritdoc/>
-        [Pure]
-        public static OrdinalDate GetStartOfMonth(OrdinalDate date)
-        {
-            date.Parts.Unpack(out int y, out int doy);
-            ref readonly var chr = ref date.CalendarRef;
-            var sch = chr.Schema;
-            int m = sch.GetMonth(y, doy, out _);
-            var ydoy = sch.GetStartOfMonthOrdinalParts(y, m);
-            return new OrdinalDate(ydoy, date.Cuid);
-        }
-
-        /// <inheritdoc/>
-        [Pure]
-        public static OrdinalDate GetEndOfMonth(OrdinalDate date)
-        {
-            date.Parts.Unpack(out int y, out int doy);
-            ref readonly var chr = ref date.CalendarRef;
-            var sch = chr.Schema;
-            int m = sch.GetMonth(y, doy, out _);
-            var ydoy = sch.GetEndOfMonthOrdinalParts(y, m);
-            return new OrdinalDate(ydoy, date.Cuid);
-        }
-    }
-
     public partial class OrdinalDateFactory // CalendarYear
     {
         /// <inheritdoc/>

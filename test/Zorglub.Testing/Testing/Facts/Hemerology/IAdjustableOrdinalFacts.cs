@@ -8,9 +8,9 @@ using Zorglub.Time.Core.Intervals;
 using Zorglub.Time.Hemerology;
 
 public abstract partial class IAdjustableOrdinalFacts<TDate, TDataSet> :
-    CalendricalDataConsumer<TDataSet>
+    CalendarDataConsumer<TDataSet>
     where TDate : IAdjustableOrdinal<TDate>
-    where TDataSet : ICalendricalDataSet, ISingleton<TDataSet>
+    where TDataSet : ICalendarDataSet, ISingleton<TDataSet>
 {
     protected IAdjustableOrdinalFacts(Range<int> supportedYears)
     {

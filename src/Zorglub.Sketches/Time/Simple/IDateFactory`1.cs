@@ -12,26 +12,6 @@ namespace Zorglub.Time.Simple
     internal interface IDateFactory<TDate>
         where TDate : ISimpleDate
     {
-        /// <summary>
-        /// Obtains the start of the year to which belongs the specified date.
-        /// </summary>
-        [Pure] static abstract TDate GetStartOfYear(TDate date);
-
-        /// <summary>
-        /// Obtains the end of the year to which belongs the specified date.
-        /// </summary>
-        [Pure] static abstract TDate GetEndOfYear(TDate date);
-
-        /// <summary>
-        /// Obtains the start of the month to which belongs the specified date.
-        /// </summary>
-        [Pure] static abstract TDate GetStartOfMonth(TDate date);
-
-        /// <summary>
-        /// Obtains the end of the month to which belongs the specified date.
-        /// </summary>
-        [Pure] static abstract TDate GetEndOfMonth(TDate date);
-
         //
         // CalendarYear
         //

@@ -7,9 +7,9 @@ using Zorglub.Testing.Data;
 using Zorglub.Testing.Facts.Hemerology;
 using Zorglub.Time.Simple;
 
-public abstract class OrdinalDateAdjustmentFacts<TDataSet> :
+public abstract partial class OrdinalDateAdjustmentFacts<TDataSet> :
     IAdjustableOrdinalFacts<OrdinalDate, TDataSet>
-    where TDataSet : ICalendricalDataSet, ISingleton<TDataSet>
+    where TDataSet : ICalendarDataSet, ISingleton<TDataSet>
 {
     protected OrdinalDateAdjustmentFacts(Calendar calendar)
         : base(calendar?.SupportedYears ?? throw new ArgumentNullException(nameof(calendar)))

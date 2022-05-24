@@ -13,38 +13,6 @@ namespace Zorglub.Time.Simple
         protected CalendarDateFactory() { }
     }
 
-    public partial class CalendarDateFactory //
-    {
-        /// <inheritdoc/>
-        [Pure]
-        public static CalendarDate GetStartOfYear(CalendarDate date) =>
-            new(date.Parts.StartOfYear, date.Cuid);
-
-        /// <inheritdoc/>
-        [Pure]
-        public static CalendarDate GetEndOfYear(CalendarDate date)
-        {
-            ref readonly var chr = ref date.CalendarRef;
-            var ymd = chr.Schema.GetEndOfYearParts(date.Year);
-            return new CalendarDate(ymd, date.Cuid);
-        }
-
-        /// <inheritdoc/>
-        [Pure]
-        public static CalendarDate GetStartOfMonth(CalendarDate date) =>
-            new(date.Parts.StartOfMonth, date.Cuid);
-
-        /// <inheritdoc/>
-        [Pure]
-        public static CalendarDate GetEndOfMonth(CalendarDate date)
-        {
-            date.Parts.Unpack(out int y, out int m);
-            ref readonly var chr = ref date.CalendarRef;
-            var ymd = chr.Schema.GetEndOfMonthParts(y, m);
-            return new CalendarDate(ymd, date.Cuid);
-        }
-    }
-
     public partial class CalendarDateFactory // CalendarYear
     {
         /// <inheritdoc/>

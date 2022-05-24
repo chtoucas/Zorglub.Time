@@ -10,16 +10,15 @@ using Zorglub.Time.Simple;
 
 // FIXME(fact): skip serialization if CalendarUT is not a system calendar; idem
 // with CalendarYear/Month.
-// ISimpleDate is internal, create and use a SimpleDateProxy?
 
-// NB: we know that years between 1 to 9999 are valid.
+// NB: we know that all years within the range [1..9999] are valid.
 
 /// <summary>
 /// Provides facts about <see cref="ISimpleDate{TSelf}"/>.
 /// </summary>
 public abstract partial class SimpleDateFacts<TDate, TDataSet> :
     IDateFacts<TDate, TDataSet>
-    // ISimpleDate being internal, we cannot use in a type constraint.
+    // ISimpleDate being internal, we cannot use it in a type constraint.
     where TDate : struct, IDate<TDate>, ISerializable<TDate, int>
     where TDataSet : ICalendarDataSet, ISingleton<TDataSet>
 {

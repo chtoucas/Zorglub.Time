@@ -47,11 +47,6 @@ namespace Zorglub.Time.Simple
         /// </summary>
         CalendarMonth CalendarMonth { get; }
 
-        /// <summary>
-        /// Deconstructs the current instance into its components.
-        /// </summary>
-        void Deconstruct(out int year, out int month, out int day);
-
         //
         // Conversions
         //
@@ -88,10 +83,6 @@ namespace Zorglub.Time.Simple
         ISerializable<TSelf, int>
         where TSelf : ISimpleDate<TSelf>
     {
-        //
-        // Conversions
-        //
-
         /// <summary>
         /// Interconverts the current instance to a date within a different calendar.
         /// </summary>
