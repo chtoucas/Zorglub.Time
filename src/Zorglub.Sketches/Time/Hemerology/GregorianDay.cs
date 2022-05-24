@@ -9,6 +9,8 @@ namespace Zorglub.Time.Hemerology
 
     public readonly partial struct GregorianDay :
         IDate<GregorianDay>,
+        IYearEndpointsProvider<GregorianDay>,
+        IMonthEndpointsProvider<GregorianDay>,
         IMinMaxValue<GregorianDay>,
         ISubtractionOperators<GregorianDay, int, GregorianDay>
     {

@@ -9,7 +9,6 @@ using Zorglub.Testing.Data.Bounded;
 using Zorglub.Time.Core;
 using Zorglub.Time.Core.Intervals;
 
-[Obsolete("TO BE REMOVED")]
 public sealed class GregorianDateRangeTests : DateRangeFacts<ProlepticGregorianDataSet>
 {
     public GregorianDateRangeTests()
@@ -29,7 +28,6 @@ public sealed class GregorianDateRangeTests : DateRangeFacts<ProlepticGregorianD
     }
 }
 
-[Obsolete("TO BE REMOVED")]
 public sealed class JulianDateRangeTests : DateRangeFacts<ProlepticJulianDataSet>
 {
     public JulianDateRangeTests()
@@ -49,7 +47,6 @@ public sealed class JulianDateRangeTests : DateRangeFacts<ProlepticJulianDataSet
     }
 }
 
-[Obsolete("TO BE REMOVED")]
 public sealed class DateRangeYearTests : CalendarDataConsumer<ProlepticGregorianDataSet>
 {
     private static readonly JulianCalendar s_Julian = JulianCalendar.Instance;
@@ -172,7 +169,6 @@ public sealed class DateRangeYearTests : CalendarDataConsumer<ProlepticGregorian
     #endregion
 }
 
-[Obsolete("TO BE REMOVED")]
 public sealed class DateRangeMonthTests : CalendarDataConsumer<ProlepticGregorianDataSet>
 {
     private static readonly JulianCalendar s_Julian = JulianCalendar.Instance;

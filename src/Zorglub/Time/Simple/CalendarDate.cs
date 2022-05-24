@@ -241,85 +241,6 @@ namespace Zorglub.Time.Simple
             return new CalendarDate(ymd, Cuid.Gregorian);
         }
 
-        //
-        // CalendarYear
-        //
-
-        /// <summary>
-        /// Obtains the first day of the specified year.
-        /// </summary>
-        [Pure]
-        [Obsolete("Use CalendarYear.FirstDay.")]
-        public static CalendarDate AtStartOfYear(CalendarYear year) =>
-            new(Yemoda.AtStartOfYear(year.Year), year.Cuid);
-
-        /// <summary>
-        /// Obtains the date corresponding to the specified day of the specified year.
-        /// </summary>
-        /// <exception cref="AoorException"><paramref name="dayOfYear"/> is outside the range of
-        /// valid values.</exception>
-        [Pure]
-        [Obsolete("Use CalendarYear.GetDayOfYear().")]
-        public static CalendarDate AtDayOfYear(CalendarYear year, int dayOfYear)
-        {
-            ref readonly var chr = ref year.CalendarRef;
-            chr.PreValidator.ValidateDayOfYear(year.Year, dayOfYear);
-            var ymd = chr.Schema.GetDateParts(year.Year, dayOfYear);
-            return new CalendarDate(ymd, year.Cuid);
-        }
-
-        /// <summary>
-        /// Obtains the last day of the specified year.
-        /// </summary>
-        [Pure]
-        [Obsolete("Use CalendarYear.LastDay.")]
-        public static CalendarDate AtEndOfYear(CalendarYear year)
-        {
-            ref readonly var chr = ref year.CalendarRef;
-            var ymd = chr.Schema.GetEndOfYearParts(year.Year);
-            return new CalendarDate(ymd, year.Cuid);
-        }
-
-        //
-        // Factories (month)
-        //
-
-        /// <summary>
-        /// Obtains the first day of the specified month.
-        /// </summary>
-        [Pure]
-        [Obsolete("Use CalendarMonth.FirstDay.")]
-        public static CalendarDate AtStartOfMonth(CalendarMonth month) =>
-            new(month.Parts.StartOfMonth, month.Cuid);
-
-        /// <summary>
-        /// Obtains the date corresponding to the specified day of the specified month.
-        /// </summary>
-        /// <exception cref="AoorException"><paramref name="dayOfMonth"/> is outside the range of
-        /// valid values.</exception>
-        [Pure]
-        [Obsolete("Use CalendarMonth.GetDayOfMonth().")]
-        public static CalendarDate AtDayOfMonth(CalendarMonth month, int dayOfMonth)
-        {
-            month.Parts.Unpack(out int y, out int m);
-            ref readonly var chr = ref month.CalendarRef;
-            chr.ValidateDayOfMonth(y, m, dayOfMonth);
-            return new CalendarDate(y, m, dayOfMonth, month.Cuid);
-        }
-
-        /// <summary>
-        /// Obtains the last day of the specified month.
-        /// </summary>
-        [Pure]
-        [Obsolete("Use CalendarMonth.LastDay.")]
-        public static CalendarDate AtEndOfMonth(CalendarMonth month)
-        {
-            month.Parts.Unpack(out int y, out int m);
-            ref readonly var chr = ref month.CalendarRef;
-            var ymd = chr.Schema.GetEndOfMonthParts(y, m);
-            return new CalendarDate(ymd, month.Cuid);
-        }
-
         #endregion
         #region Conversions
 
@@ -415,42 +336,6 @@ namespace Zorglub.Time.Simple
             _bin.Deconstruct(out int y, out int m, out int d);
             ref readonly var chr = ref CalendarRef;
             return chr.Schema.CountDaysInMonthAfter(y, m, d);
-        }
-
-        #endregion
-        #region Year and month boundaries
-
-        /// <inheritdoc />
-        [Pure]
-        [Obsolete("Use day.CalendarYear.FirstDay.")]
-        public static CalendarDate GetStartOfYear(CalendarDate day) =>
-            new(day.Parts.StartOfYear, day.Cuid);
-
-        /// <inheritdoc />
-        [Pure]
-        [Obsolete("Use day.CalendarYear.LastDay.")]
-        public static CalendarDate GetEndOfYear(CalendarDate day)
-        {
-            ref readonly var chr = ref day.CalendarRef;
-            var ymd = chr.Schema.GetEndOfYearParts(day.Year);
-            return new CalendarDate(ymd, day.Cuid);
-        }
-
-        /// <inheritdoc />
-        [Pure]
-        [Obsolete("Use day.CalendarMonth.FirstDay.")]
-        public static CalendarDate GetStartOfMonth(CalendarDate day) =>
-            new(day.Parts.StartOfMonth, day.Cuid);
-
-        /// <inheritdoc />
-        [Pure]
-        [Obsolete("Use day.CalendarMonth.LastDay.")]
-        public static CalendarDate GetEndOfMonth(CalendarDate day)
-        {
-            day._bin.Unpack(out int y, out int m);
-            ref readonly var chr = ref day.CalendarRef;
-            var ymd = chr.Schema.GetEndOfMonthParts(y, m);
-            return new CalendarDate(ymd, day.Cuid);
         }
 
         #endregion

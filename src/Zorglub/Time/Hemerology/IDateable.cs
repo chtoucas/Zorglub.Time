@@ -115,16 +115,4 @@ namespace Zorglub.Time.Hemerology
         /// </summary>
         [Pure] int CountRemainingDaysInMonth();
     }
-
-    /// <summary>
-    /// Defines a dateable object type.
-    /// </summary>
-    /// <typeparam name="TSelf">The type that implements this interface.</typeparam>
-    [Obsolete("To be extracted to another interface")]
-    public interface IDateable<TSelf> :
-        IDateable,
-        IYearEndpointsProvider<TSelf>,
-        IMonthEndpointsProvider<TSelf>
-        where TSelf : IDateable<TSelf>
-    { }
 }

@@ -9,11 +9,11 @@ using Zorglub.Testing.Data;
 using Zorglub.Time.Hemerology;
 
 /// <summary>
-/// Provides facts about <see cref="IDateable{TSelf}"/>.
+/// Provides facts about <see cref="IDateable"/>.
 /// </summary>
 public abstract partial class IDateableFacts<TDate, TDataSet> :
     CalendricalDataConsumer<TDataSet>
-    where TDate : IDateable<TDate>
+    where TDate : IDateable
     where TDataSet : ICalendricalDataSet, ISingleton<TDataSet>
 {
     protected IDateableFacts() { }

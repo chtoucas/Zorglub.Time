@@ -8,7 +8,7 @@ namespace Zorglub.Time.Simple
     /// <summary>
     /// Provides static helpers related to <see cref="CalendarDay"/>.
     /// </summary>
-    public sealed partial class CalendarDayHelper
+    public sealed partial class CalendarDayHelper : IDateHelper<CalendarDay>
     {
         public CalendarDayHelper(CalendarDay day)
         {
@@ -20,6 +20,7 @@ namespace Zorglub.Time.Simple
 
     public partial class CalendarDayHelper //
     {
+        /// <inheritdoc/>
         [Pure]
         public CalendarDay GetStartOfYear()
         {
@@ -28,6 +29,7 @@ namespace Zorglub.Time.Simple
             return new CalendarDay(daysSinceEpoch, Day.Cuid);
         }
 
+        /// <inheritdoc/>
         [Pure]
         public CalendarDay GetEndOfYear()
         {
@@ -36,6 +38,7 @@ namespace Zorglub.Time.Simple
             return new CalendarDay(daysSinceEpoch, Day.Cuid);
         }
 
+        /// <inheritdoc/>
         [Pure]
         public CalendarDay GetStartOfMonth()
         {
@@ -45,6 +48,7 @@ namespace Zorglub.Time.Simple
             return new CalendarDay(daysSinceEpoch, Day.Cuid);
         }
 
+        /// <inheritdoc/>
         [Pure]
         public CalendarDay GetEndOfMonth()
         {
@@ -57,9 +61,7 @@ namespace Zorglub.Time.Simple
 
     public partial class CalendarDayHelper // CalendarYear
     {
-        /// <summary>
-        /// Obtains the sequence of days in the specified year.
-        /// </summary>
+        /// <inheritdoc/>
         [Pure]
         public static IEnumerable<CalendarDay> GetDaysInYear(CalendarYear year)
         {
@@ -73,9 +75,7 @@ namespace Zorglub.Time.Simple
                    select new CalendarDay(daysSinceEpoch, cuid);
         }
 
-        /// <summary>
-        /// Obtains the first day of the specified year.
-        /// </summary>
+        /// <inheritdoc/>
         [Pure]
         public static CalendarDay GetStartOfYear(CalendarYear year)
         {
@@ -84,12 +84,7 @@ namespace Zorglub.Time.Simple
             return new CalendarDay(daysSinceEpoch, year.Cuid);
         }
 
-        /// <summary>
-        /// Obtains the date corresponding to the specified day of the specified
-        /// year.
-        /// </summary>
-        /// <exception cref="AoorException"><paramref name="dayOfYear"/> is
-        /// outside the range of valid values.</exception>
+        /// <inheritdoc/>
         [Pure]
         public static CalendarDay GetDayOfYear(CalendarYear year, int dayOfYear)
         {
@@ -99,9 +94,7 @@ namespace Zorglub.Time.Simple
             return new CalendarDay(daysSinceEpoch, year.Cuid);
         }
 
-        /// <summary>
-        /// Obtains the last day of the specified year.
-        /// </summary>
+        /// <inheritdoc/>
         [Pure]
         public static CalendarDay GetEndOfYear(CalendarYear year)
         {
@@ -137,9 +130,7 @@ namespace Zorglub.Time.Simple
 
 #endif
 
-        /// <summary>
-        /// Obtains the sequence of days in the specified month.
-        /// </summary>
+        /// <inheritdoc/>
         [Pure]
         public static IEnumerable<CalendarDay> GetDaysInMonth(CalendarMonth month)
         {
@@ -154,9 +145,7 @@ namespace Zorglub.Time.Simple
                    select new CalendarDay(daysSinceEpoch, cuid);
         }
 
-        /// <summary>
-        /// Obtains the first day of the specified month.
-        /// </summary>
+        /// <inheritdoc/>
         [Pure]
         public static CalendarDay GetStartOfMonth(CalendarMonth month)
         {
@@ -166,12 +155,7 @@ namespace Zorglub.Time.Simple
             return new CalendarDay(daysSinceEpoch, month.Cuid);
         }
 
-        /// <summary>
-        /// Obtains the date corresponding to the specified day of the specified
-        /// month.
-        /// </summary>
-        /// <exception cref="AoorException"><paramref name="dayOfMonth"/> is
-        /// outside the range of valid values.</exception>
+        /// <inheritdoc/>
         [Pure]
         public static CalendarDay GetDayOfMonth(CalendarMonth month, int dayOfMonth)
         {
@@ -182,9 +166,7 @@ namespace Zorglub.Time.Simple
             return new CalendarDay(daysSinceEpoch, month.Cuid);
         }
 
-        /// <summary>
-        /// Obtains the last day of the specified month.
-        /// </summary>
+        /// <inheritdoc/>
         [Pure]
         public static CalendarDay GetEndOfMonth(CalendarMonth month)
         {

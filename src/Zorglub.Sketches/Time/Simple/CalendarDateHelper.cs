@@ -8,7 +8,7 @@ namespace Zorglub.Time.Simple
     /// <summary>
     /// Provides static helpers related to <see cref="CalendarDate"/>.
     /// </summary>
-    public sealed partial class CalendarDateHelper
+    public sealed partial class CalendarDateHelper : IDateHelper<CalendarDate>
     {
         public CalendarDateHelper(CalendarDate date)
         {
@@ -20,10 +20,12 @@ namespace Zorglub.Time.Simple
 
     public partial class CalendarDateHelper //
     {
+        /// <inheritdoc/>
         [Pure]
         public CalendarDate GetStartOfYear() =>
             new(Date.Parts.StartOfYear, Date.Cuid);
 
+        /// <inheritdoc/>
         [Pure]
         public CalendarDate GetEndOfYear()
         {
@@ -32,10 +34,12 @@ namespace Zorglub.Time.Simple
             return new CalendarDate(ymd, Date.Cuid);
         }
 
+        /// <inheritdoc/>
         [Pure]
         public CalendarDate GetStartOfMonth() =>
             new(Date.Parts.StartOfMonth, Date.Cuid);
 
+        /// <inheritdoc/>
         [Pure]
         public CalendarDate GetEndOfMonth()
         {
@@ -48,19 +52,19 @@ namespace Zorglub.Time.Simple
 
     public partial class CalendarDateHelper // CalendarYear
     {
-        /// <summary>
-        /// Obtains the first day of the specified year.
-        /// </summary>
+        /// <inheritdoc/>
+        [Pure]
+        public static IEnumerable<CalendarDate> GetDaysInYear(CalendarYear year)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <inheritdoc/>
         [Pure]
         public static CalendarDate GetStartOfYear(CalendarYear year) =>
             new(Yemoda.AtStartOfYear(year.Year), year.Cuid);
 
-        /// <summary>
-        /// Obtains the date corresponding to the specified day of the specified
-        /// year.
-        /// </summary>
-        /// <exception cref="AoorException"><paramref name="dayOfYear"/> is
-        /// outside the range of valid values.</exception>
+        /// <inheritdoc/>
         [Pure]
         public static CalendarDate GetDayOfYear(CalendarYear year, int dayOfYear)
         {
@@ -70,9 +74,7 @@ namespace Zorglub.Time.Simple
             return new CalendarDate(ymd, year.Cuid);
         }
 
-        /// <summary>
-        /// Obtains the last day of the specified year.
-        /// </summary>
+        /// <inheritdoc/>
         [Pure]
         public static CalendarDate GetEndOfYear(CalendarYear year)
         {
@@ -108,30 +110,23 @@ namespace Zorglub.Time.Simple
 
 #endif
 
-        //
-        // Dates in a given month.
-        //
-        // Now these are methods/props on CalendarMonth.
+        /// <inheritdoc/>
+        [Pure]
+        public static IEnumerable<CalendarDate> GetDaysInMonth(CalendarMonth month)
+        {
+            throw new NotImplementedException();
+        }
 
-        /// <summary>
-        /// Obtains the first day of the specified month.
-        /// </summary>
+        /// <inheritdoc/>
         [Pure]
         public static CalendarDate GetStartOfMonth(CalendarMonth month) => month.FirstDay;
 
-        /// <summary>
-        /// Obtains the date corresponding to the specified day of the specified
-        /// month.
-        /// </summary>
-        /// <exception cref="AoorException"><paramref name="dayOfMonth"/> is
-        /// outside the range of valid values.</exception>
+        /// <inheritdoc/>
         [Pure]
         public static CalendarDate GetDayOfMonth(CalendarMonth month, int dayOfMonth) =>
             month.GetDayOfMonth(dayOfMonth);
 
-        /// <summary>
-        /// Obtains the last day of the specified month.
-        /// </summary>
+        /// <inheritdoc/>
         [Pure]
         public static CalendarDate GetEndOfMonth(CalendarMonth month) => month.LastDay;
     }

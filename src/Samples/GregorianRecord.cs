@@ -25,6 +25,8 @@ using static Zorglub.Time.Extensions.Unboxing;
 /// </summary>
 public readonly partial record struct GregorianRecord :
     IAffineDate<GregorianRecord>,
+    IYearEndpointsProvider<GregorianRecord>,
+    IMonthEndpointsProvider<GregorianRecord>,
     IMinMaxValue<GregorianRecord>,
     ISubtractionOperators<GregorianRecord, int, GregorianRecord>
 {

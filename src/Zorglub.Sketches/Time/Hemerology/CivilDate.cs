@@ -48,6 +48,8 @@ namespace Zorglub.Time.Hemerology
     public readonly partial struct CivilDate :
         IDate<CivilDate>,
         IAdjustableDate<CivilDate>,
+        IYearEndpointsProvider<CivilDate>,
+        IMonthEndpointsProvider<CivilDate>,
         IMinMaxValue<CivilDate>,
         ISubtractionOperators<CivilDate, int, CivilDate>
     {

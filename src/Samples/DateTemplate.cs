@@ -50,6 +50,8 @@ public partial struct DateTemplate
 /// </summary>
 public readonly partial struct DateTemplate :
     IDate<DateTemplate>,
+    IYearEndpointsProvider<DateTemplate>,
+    IMonthEndpointsProvider<DateTemplate>,
     IMinMaxValue<DateTemplate>,
     ISubtractionOperators<DateTemplate, int, DateTemplate>
 { }

@@ -144,9 +144,7 @@ namespace Zorglub.Time.Simple
             Debug.Assert(start.Cuid == Cuid);
             Debug.Assert(end.Cuid == Cuid);
 
-            return CountYearsBetweenCore(
-                CalendarDate.AtStartOfMonth(start),
-                CalendarDate.AtStartOfMonth(end));
+            return CountYearsBetweenCore(start.FirstDay, end.FirstDay);
         }
 
         #endregion

@@ -28,6 +28,8 @@ using static Zorglub.Time.Extensions.Unboxing;
 /// </summary>
 public readonly partial struct GregorianTriple :
     IAffineDate<GregorianTriple>,
+    IYearEndpointsProvider<GregorianTriple>,
+    IMonthEndpointsProvider<GregorianTriple>,
     IMinMaxValue<GregorianTriple>,
     ISubtractionOperators<GregorianTriple, int, GregorianTriple>
 {

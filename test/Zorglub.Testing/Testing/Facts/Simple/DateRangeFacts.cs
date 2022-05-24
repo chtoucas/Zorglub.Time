@@ -10,7 +10,6 @@ using Zorglub.Time.Simple;
 /// <summary>
 /// Provides facts about <see cref="DateRange"/>.
 /// </summary>
-[Obsolete("TO BE REMOVED")]
 public abstract partial class DateRangeFacts<TDataSet> :
     IDateRangeFacts<CalendarDate, DateRange, TDataSet>
     where TDataSet : ICalendarDataSet, ISingleton<TDataSet>
@@ -164,7 +163,7 @@ public partial class DateRangeFacts<TDataSet>
         var range = DateRange.Create(start, 2);
         var month = CalendarUT.GetCalendarMonth(3, 4);
 
-        Assert.True(range.End < CalendarDate.AtStartOfMonth(month), "Self-check");
+        Assert.True(range.End < month.FirstDay, "Self-check");
 
         // Act & Assert
         Assert.False(range.Contains(month));
@@ -177,9 +176,9 @@ public partial class DateRangeFacts<TDataSet>
         var range = DateRange.Create(start, 10);
         var month = CalendarUT.GetCalendarMonth(3, 4);
 
-        Assert.True(range.Start < CalendarDate.AtStartOfMonth(month), "Self-check");
-        Assert.True(range.End > CalendarDate.AtStartOfMonth(month), "Self-check");
-        Assert.True(range.End < CalendarDate.AtEndOfMonth(month), "Self-check");
+        Assert.True(range.Start < month.FirstDay, "Self-check");
+        Assert.True(range.End > month.FirstDay, "Self-check");
+        Assert.True(range.End < month.LastDay, "Self-check");
 
         // Act & Assert
         Assert.False(range.Contains(month));
@@ -192,8 +191,8 @@ public partial class DateRangeFacts<TDataSet>
         var range = DateRange.Create(start, 2);
         var month = CalendarUT.GetCalendarMonth(3, 4);
 
-        Assert.Equal(range.Start, CalendarDate.AtStartOfMonth(month), "Self-check");
-        Assert.True(range.End < CalendarDate.AtEndOfMonth(month), "Self-check");
+        Assert.Equal(range.Start, month.FirstDay, "Self-check");
+        Assert.True(range.End < month.LastDay, "Self-check");
 
         // Act & Assert
         Assert.False(range.Contains(month));
@@ -206,8 +205,8 @@ public partial class DateRangeFacts<TDataSet>
         var range = DateRange.Create(start, 2);
         var month = CalendarUT.GetCalendarMonth(3, 4);
 
-        Assert.True(range.Start > CalendarDate.AtStartOfMonth(month), "Self-check");
-        Assert.True(range.End < CalendarDate.AtEndOfMonth(month), "Self-check");
+        Assert.True(range.Start > month.FirstDay, "Self-check");
+        Assert.True(range.End < month.LastDay, "Self-check");
 
         // Act & Assert
         Assert.False(range.Contains(month));
@@ -220,8 +219,8 @@ public partial class DateRangeFacts<TDataSet>
         var range = DateRange.Create(start, 26);
         var month = CalendarUT.GetCalendarMonth(3, 4);
 
-        Assert.True(range.Start > CalendarDate.AtStartOfMonth(month), "Self-check");
-        Assert.Equal(range.End, CalendarDate.AtEndOfMonth(month), "Self-check");
+        Assert.True(range.Start > month.FirstDay, "Self-check");
+        Assert.Equal(range.End, month.LastDay, "Self-check");
 
         // Act & Assert
         Assert.False(range.Contains(month));
@@ -234,9 +233,9 @@ public partial class DateRangeFacts<TDataSet>
         var range = DateRange.Create(start, 100);
         var month = CalendarUT.GetCalendarMonth(3, 4);
 
-        Assert.True(range.Start > CalendarDate.AtStartOfMonth(month), "Self-check");
-        Assert.True(range.Start < CalendarDate.AtEndOfMonth(month), "Self-check");
-        Assert.True(range.End > CalendarDate.AtEndOfMonth(month), "Self-check");
+        Assert.True(range.Start > month.FirstDay, "Self-check");
+        Assert.True(range.Start < month.LastDay, "Self-check");
+        Assert.True(range.End > month.LastDay, "Self-check");
 
         // Act & Assert
         Assert.False(range.Contains(month));
@@ -249,7 +248,7 @@ public partial class DateRangeFacts<TDataSet>
         var range = DateRange.Create(start, 2);
         var month = CalendarUT.GetCalendarMonth(3, 4);
 
-        Assert.True(range.Start > CalendarDate.AtEndOfMonth(month), "Self-check");
+        Assert.True(range.Start > month.LastDay, "Self-check");
 
         // Act & Assert
         Assert.False(range.Contains(month));
@@ -262,8 +261,8 @@ public partial class DateRangeFacts<TDataSet>
         var range = DateRange.Create(start, 100);
         var month = CalendarUT.GetCalendarMonth(3, 5);
 
-        Assert.True(range.Start < CalendarDate.AtStartOfMonth(month), "Self-check");
-        Assert.True(range.End > CalendarDate.AtEndOfMonth(month), "Self-check");
+        Assert.True(range.Start < month.FirstDay, "Self-check");
+        Assert.True(range.End > month.LastDay, "Self-check");
 
         // Act & Assert
         Assert.True(range.Contains(month));
@@ -276,8 +275,8 @@ public partial class DateRangeFacts<TDataSet>
         var range = DateRange.Create(start, 100);
         var month = CalendarUT.GetCalendarMonth(3, 5);
 
-        Assert.Equal(range.Start, CalendarDate.AtStartOfMonth(month), "Self-check");
-        Assert.True(range.End > CalendarDate.AtEndOfMonth(month), "Self-check");
+        Assert.Equal(range.Start, month.FirstDay, "Self-check");
+        Assert.True(range.End > month.LastDay, "Self-check");
 
         // Act & Assert
         Assert.True(range.Contains(month));
@@ -290,8 +289,8 @@ public partial class DateRangeFacts<TDataSet>
         var range = DateRange.Create(start, 32);
         var month = CalendarUT.GetCalendarMonth(3, 5);
 
-        Assert.True(range.Start < CalendarDate.AtStartOfMonth(month), "Self-check");
-        Assert.Equal(range.End, CalendarDate.AtEndOfMonth(month), "Self-check");
+        Assert.True(range.Start < month.FirstDay, "Self-check");
+        Assert.Equal(range.End, month.LastDay, "Self-check");
 
         // Act & Assert
         Assert.True(range.Contains(month));
@@ -304,8 +303,8 @@ public partial class DateRangeFacts<TDataSet>
         var range = DateRange.Create(start, 30);
         var month = CalendarUT.GetCalendarMonth(3, 4);
 
-        Assert.Equal(range.Start, CalendarDate.AtStartOfMonth(month), "Self-check");
-        Assert.Equal(range.End, CalendarDate.AtEndOfMonth(month), "Self-check");
+        Assert.Equal(range.Start, month.FirstDay, "Self-check");
+        Assert.Equal(range.End, month.LastDay, "Self-check");
 
         // Act & Assert
         Assert.True(range.Contains(month));
@@ -322,7 +321,7 @@ public partial class DateRangeFacts<TDataSet>
         var range = DateRange.Create(start, 2);
         var cyear = CalendarUT.GetCalendarYear(4);
 
-        Assert.True(range.Start < CalendarDate.AtStartOfYear(cyear), "Self-check");
+        Assert.True(range.Start < cyear.FirstDay.ToCalendarDate(), "Self-check");
 
         // Act & Assert
         Assert.False(range.Contains(cyear));
@@ -335,9 +334,9 @@ public partial class DateRangeFacts<TDataSet>
         var range = DateRange.Create(start, 100);
         var cyear = CalendarUT.GetCalendarYear(4);
 
-        Assert.True(range.Start < CalendarDate.AtStartOfYear(cyear), "Self-check");
-        Assert.True(range.End > CalendarDate.AtStartOfYear(cyear), "Self-check");
-        Assert.True(range.End < CalendarDate.AtEndOfYear(cyear), "Self-check");
+        Assert.True(range.Start < cyear.FirstDay.ToCalendarDate(), "Self-check");
+        Assert.True(range.End > cyear.FirstDay.ToCalendarDate(), "Self-check");
+        Assert.True(range.End < cyear.LastDay.ToCalendarDate(), "Self-check");
 
         // Act & Assert
         Assert.False(range.Contains(cyear));
@@ -350,8 +349,8 @@ public partial class DateRangeFacts<TDataSet>
         var range = DateRange.Create(start, 100);
         var cyear = CalendarUT.GetCalendarYear(4);
 
-        Assert.Equal(range.Start, CalendarDate.AtStartOfYear(cyear), "Self-check");
-        Assert.True(range.End < CalendarDate.AtEndOfYear(cyear), "Self-check");
+        Assert.Equal(range.Start, cyear.FirstDay.ToCalendarDate(), "Self-check");
+        Assert.True(range.End < cyear.LastDay.ToCalendarDate(), "Self-check");
 
         // Act & Assert
         Assert.False(range.Contains(cyear));
@@ -364,8 +363,8 @@ public partial class DateRangeFacts<TDataSet>
         var range = DateRange.Create(start, 100);
         var cyear = CalendarUT.GetCalendarYear(4);
 
-        Assert.True(range.Start > CalendarDate.AtStartOfYear(cyear), "Self-check");
-        Assert.True(range.End < CalendarDate.AtEndOfYear(cyear), "Self-check");
+        Assert.True(range.Start > cyear.FirstDay.ToCalendarDate(), "Self-check");
+        Assert.True(range.End < cyear.LastDay.ToCalendarDate(), "Self-check");
 
         // Act & Assert
         Assert.False(range.Contains(cyear));
@@ -378,8 +377,8 @@ public partial class DateRangeFacts<TDataSet>
         var range = DateRange.Create(start, 365);
         var cyear = CalendarUT.GetCalendarYear(4);
 
-        Assert.True(range.Start > CalendarDate.AtStartOfYear(cyear), "Self-check");
-        Assert.Equal(range.End, CalendarDate.AtEndOfYear(cyear), "Self-check");
+        Assert.True(range.Start > cyear.FirstDay.ToCalendarDate(), "Self-check");
+        Assert.Equal(range.End, cyear.LastDay.ToCalendarDate(), "Self-check");
 
         // Act & Assert
         Assert.False(range.Contains(cyear));
@@ -392,9 +391,9 @@ public partial class DateRangeFacts<TDataSet>
         var range = DateRange.Create(start, 400);
         var cyear = CalendarUT.GetCalendarYear(4);
 
-        Assert.True(range.Start > CalendarDate.AtStartOfYear(cyear), "Self-check");
-        Assert.True(range.Start < CalendarDate.AtEndOfYear(cyear), "Self-check");
-        Assert.True(range.End > CalendarDate.AtEndOfYear(cyear), "Self-check");
+        Assert.True(range.Start > cyear.FirstDay.ToCalendarDate(), "Self-check");
+        Assert.True(range.Start < cyear.LastDay.ToCalendarDate(), "Self-check");
+        Assert.True(range.End > cyear.LastDay.ToCalendarDate(), "Self-check");
 
         // Act & Assert
         Assert.False(range.Contains(cyear));
@@ -407,7 +406,7 @@ public partial class DateRangeFacts<TDataSet>
         var range = DateRange.Create(start, 2);
         var cyear = CalendarUT.GetCalendarYear(4);
 
-        Assert.True(range.Start > CalendarDate.AtEndOfYear(cyear), "Self-check");
+        Assert.True(range.Start > cyear.LastDay.ToCalendarDate(), "Self-check");
 
         // Act & Assert
         Assert.False(range.Contains(cyear));
@@ -420,8 +419,8 @@ public partial class DateRangeFacts<TDataSet>
         var range = DateRange.Create(start, 1000);
         var cyear = CalendarUT.GetCalendarYear(4);
 
-        Assert.True(range.Start < CalendarDate.AtStartOfYear(cyear), "Self-check");
-        Assert.True(range.End > CalendarDate.AtEndOfYear(cyear), "Self-check");
+        Assert.True(range.Start < cyear.FirstDay.ToCalendarDate(), "Self-check");
+        Assert.True(range.End > cyear.LastDay.ToCalendarDate(), "Self-check");
 
         // Act & Assert
         Assert.True(range.Contains(cyear));
@@ -434,8 +433,8 @@ public partial class DateRangeFacts<TDataSet>
         var range = DateRange.Create(start, 1000);
         var cyear = CalendarUT.GetCalendarYear(3);
 
-        Assert.Equal(range.Start, CalendarDate.AtStartOfYear(cyear), "Self-check");
-        Assert.True(range.End > CalendarDate.AtEndOfYear(cyear), "Self-check");
+        Assert.Equal(range.Start, cyear.FirstDay.ToCalendarDate(), "Self-check");
+        Assert.True(range.End > cyear.LastDay.ToCalendarDate(), "Self-check");
 
         // Act & Assert
         Assert.True(range.Contains(cyear));
@@ -448,8 +447,8 @@ public partial class DateRangeFacts<TDataSet>
         var range = DateRange.Create(start, 366);
         var cyear = CalendarUT.GetCalendarYear(3);
 
-        Assert.True(range.Start < CalendarDate.AtStartOfYear(cyear), "Self-check");
-        Assert.Equal(range.End, CalendarDate.AtEndOfYear(cyear), "Self-check");
+        Assert.True(range.Start < cyear.FirstDay.ToCalendarDate(), "Self-check");
+        Assert.Equal(range.End, cyear.LastDay.ToCalendarDate(), "Self-check");
 
         // Act & Assert
         Assert.True(range.Contains(cyear));
@@ -462,8 +461,8 @@ public partial class DateRangeFacts<TDataSet>
         var range = DateRange.Create(start, 365);
         var cyear = CalendarUT.GetCalendarYear(3);
 
-        Assert.Equal(range.Start, CalendarDate.AtStartOfYear(cyear), "Self-check");
-        Assert.Equal(range.End, CalendarDate.AtEndOfYear(cyear), "Self-check");
+        Assert.Equal(range.Start, cyear.FirstDay.ToCalendarDate(), "Self-check");
+        Assert.Equal(range.End, cyear.LastDay.ToCalendarDate(), "Self-check");
 
         // Act & Assert
         Assert.True(range.Contains(cyear));

@@ -112,11 +112,6 @@ public partial class DateProxy<T> // IDate
     [Pure] public int CountRemainingDaysInYear() => _subject.CountRemainingDaysInYear();
     [Pure] public int CountElapsedDaysInMonth() => _subject.CountElapsedDaysInMonth();
     [Pure] public int CountRemainingDaysInMonth() => _subject.CountRemainingDaysInMonth();
-
-    [Pure] public static T GetStartOfYear(T day) => T.GetStartOfYear(day);
-    [Pure] public static T GetEndOfYear(T day) => T.GetEndOfYear(day);
-    [Pure] public static T GetStartOfMonth(T day) => T.GetStartOfMonth(day);
-    [Pure] public static T GetEndOfMonth(T day) => T.GetEndOfMonth(day);
 }
 
 public partial class DateProxy<T> // IEquatable

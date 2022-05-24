@@ -32,7 +32,6 @@ namespace Zorglub.Time.Hemerology
     /// <typeparam name="TSelf">The type that implements this interface.</typeparam>
     public interface IAffineDate<TSelf> :
         IAffineDate,
-        IDateable<TSelf>,
         // Comparison
         IMinMaxFunctions<TSelf>,
         IComparisonOperators<TSelf, TSelf>,

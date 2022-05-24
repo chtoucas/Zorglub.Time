@@ -18,6 +18,8 @@ namespace Zorglub.Time.Hemerology
     /// </summary>
     public readonly partial struct WideDate :
         IDate<WideDate>,
+        IYearEndpointsProvider<WideDate>,
+        IMonthEndpointsProvider<WideDate>,
         IAdjustableDate<WideDate>,
         ISubtractionOperators<WideDate, int, WideDate>
     {

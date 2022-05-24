@@ -17,7 +17,6 @@ namespace Zorglub.Time.Simple
     /// <para>This class can ONLY be inherited from within friend assemblies.</para>
     /// <para>This type follows the rules of structural equality.</para>
     /// </summary>
-    [Obsolete("TO BE REMOVED")]
     [SuppressMessage("Naming", "CA1710:Identifiers should have correct suffix", Justification = "Interval first.")]
     public partial class DateRange :
         IDateRange<DateRange, CalendarDate>,
@@ -191,8 +190,8 @@ namespace Zorglub.Time.Simple
         {
             Debug.Assert(month.Cuid == Cuid);
 
-            var startOfMonth = CalendarDate.AtStartOfMonth(month);
-            var endOfMonth = CalendarDate.AtEndOfMonth(month);
+            var startOfMonth = month.FirstDay;
+            var endOfMonth = month.LastDay;
             return Start.CompareFast(startOfMonth) <= 0 && endOfMonth.CompareFast(End) <= 0;
         }
 
@@ -201,8 +200,8 @@ namespace Zorglub.Time.Simple
         {
             Debug.Assert(year.Cuid == Cuid);
 
-            var startOfYear = CalendarDate.AtStartOfYear(year);
-            var endOfYear = CalendarDate.AtEndOfYear(year);
+            var startOfYear = year.FirstDay.ToCalendarDate();
+            var endOfYear = year.LastDay.ToCalendarDate();
             return Start.CompareFast(startOfYear) <= 0 && endOfYear.CompareFast(End) <= 0;
         }
 
@@ -374,8 +373,8 @@ namespace Zorglub.Time.Simple
 
             public DaysInYear(CalendarYear year)
                 : base(
-                      CalendarDate.AtStartOfYear(year),
-                      CalendarDate.AtEndOfYear(year),
+                      year.FirstDay.ToCalendarDate(),
+                      year.LastDay.ToCalendarDate(),
                       year.CountDaysInYear())
             {
                 _year = year;
@@ -457,8 +456,8 @@ namespace Zorglub.Time.Simple
 
             public DaysInMonth(CalendarMonth month)
                 : base(
-                      CalendarDate.AtStartOfMonth(month),
-                      CalendarDate.AtEndOfMonth(month),
+                      month.FirstDay,
+                      month.LastDay,
                       month.CountDaysInMonth())
             {
                 _month = month;

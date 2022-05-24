@@ -21,6 +21,8 @@ using static Zorglub.Time.Extensions.Unboxing;
 
 public readonly partial struct MyDate :
     IDate<MyDate>,
+    IYearEndpointsProvider<MyDate>,
+    IMonthEndpointsProvider<MyDate>,
     IMinMaxValue<MyDate>,
     ISubtractionOperators<MyDate, int, MyDate>
 {

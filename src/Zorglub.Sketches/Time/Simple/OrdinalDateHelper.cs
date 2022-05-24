@@ -10,7 +10,7 @@ namespace Zorglub.Time.Simple
     /// <summary>
     /// Provides static helpers related to <see cref="OrdinalDate"/>.
     /// </summary>
-    public sealed partial class OrdinalDateHelper
+    public sealed partial class OrdinalDateHelper : IDateHelper<OrdinalDate>
     {
         public OrdinalDateHelper(OrdinalDate date)
         {
@@ -22,10 +22,12 @@ namespace Zorglub.Time.Simple
 
     public partial class OrdinalDateHelper //
     {
+        /// <inheritdoc/>
         [Pure]
         public OrdinalDate GetStartOfYear() =>
             new(Date.Parts.StartOfYear, Date.Cuid);
 
+        /// <inheritdoc/>
         [Pure]
         public OrdinalDate GetEndOfYear()
         {
@@ -34,6 +36,7 @@ namespace Zorglub.Time.Simple
             return new OrdinalDate(ydoy, Date.Cuid);
         }
 
+        /// <inheritdoc/>
         [Pure]
         public OrdinalDate GetStartOfMonth()
         {
@@ -45,6 +48,7 @@ namespace Zorglub.Time.Simple
             return new OrdinalDate(ydoy, Date.Cuid);
         }
 
+        /// <inheritdoc/>
         [Pure]
         public OrdinalDate GetEndOfMonth()
         {
@@ -57,34 +61,30 @@ namespace Zorglub.Time.Simple
         }
     }
 
-    public partial class OrdinalDateHelper // CalendarYear.
+    public partial class OrdinalDateHelper // CalendarYear
     {
-        // Now these are methods/props on CalendarMonth.
+        /// <inheritdoc/>
+        [Pure]
+        public static IEnumerable<OrdinalDate> GetDaysInYear(CalendarYear year)
+        {
+            throw new NotImplementedException();
+        }
 
-        /// <summary>
-        /// Obtains the first day of the specified year.
-        /// </summary>
+        /// <inheritdoc/>
         [Pure]
         public static OrdinalDate GetStartOfYear(CalendarYear year) => year.FirstDay;
 
-        /// <summary>
-        /// Obtains the ordinal date corresponding to the specified day of this
-        /// year instance.
-        /// </summary>
-        /// <exception cref="AoorException"><paramref name="dayOfYear"/> is
-        /// outside the range of valid values.</exception>
+        /// <inheritdoc/>
         [Pure]
         public static OrdinalDate GetDayOfYear(CalendarYear year, int dayOfYear) =>
             year.GetDayOfYear(dayOfYear);
 
-        /// <summary>
-        /// Obtains the last day of the specified year.
-        /// </summary>
+        /// <inheritdoc/>
         [Pure]
         public static OrdinalDate GetEndOfYear(CalendarYear year) => year.LastDay;
     }
 
-    public partial class OrdinalDateHelper // CalendarMonth.
+    public partial class OrdinalDateHelper // CalendarMonth
     {
 #if false
 
@@ -110,9 +110,7 @@ namespace Zorglub.Time.Simple
 
 #endif
 
-        /// <summary>
-        /// Obtains the sequence of days in the specified month.
-        /// </summary>
+        /// <inheritdoc/>
         [Pure]
         public static IEnumerable<OrdinalDate> GetDaysInMonth(CalendarMonth month)
         {
@@ -127,9 +125,7 @@ namespace Zorglub.Time.Simple
             }
         }
 
-        /// <summary>
-        /// Obtains the first day of the specified month.
-        /// </summary>
+        /// <inheritdoc/>
         [Pure]
         public static OrdinalDate GetStartOfMonth(CalendarMonth month)
         {
@@ -139,12 +135,7 @@ namespace Zorglub.Time.Simple
             return new OrdinalDate(ydoy, month.Cuid);
         }
 
-        /// <summary>
-        /// Obtains the date corresponding to the specified day of the specified
-        /// month.
-        /// </summary>
-        /// <exception cref="AoorException"><paramref name="dayOfMonth"/> is
-        /// outside the range of valid values.</exception>
+        /// <inheritdoc/>
         [Pure]
         public static OrdinalDate GetDayOfMonth(CalendarMonth month, int dayOfMonth)
         {
@@ -155,9 +146,7 @@ namespace Zorglub.Time.Simple
             return new OrdinalDate(new Yedoy(y, doy), month.Cuid);
         }
 
-        /// <summary>
-        /// Obtains the last day of the specified month.
-        /// </summary>
+        /// <inheritdoc/>
         [Pure]
         public static OrdinalDate GetEndOfMonth(CalendarMonth month)
         {
