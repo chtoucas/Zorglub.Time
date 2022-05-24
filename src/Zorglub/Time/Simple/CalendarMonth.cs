@@ -336,6 +336,7 @@ namespace Zorglub.Time.Simple
         //
         // REVIEW(api): "Membership"
         //
+#if false
 
         /// <summary>
         /// Determines whether the current instance contains the specified date or not.
@@ -379,6 +380,7 @@ namespace Zorglub.Time.Simple
             return date.Year == y && date.Month == m;
         }
 
+#endif
         #endregion
         #region Adjustments
 
