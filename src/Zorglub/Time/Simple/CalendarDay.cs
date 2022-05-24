@@ -312,22 +312,7 @@ namespace Zorglub.Time.Simple
         // CalendarYear
         //
 
-        // REVIEW(api): clean up GetDaysInYear() and GetDaysInMonth(). Idem w/ OrdinalDate.
-
-        ///// <summary>
-        ///// Enumerates the days in the specified year.
-        ///// </summary>
-        //[Pure]
-        //public static IEnumerable<CalendarDay> GetDaysInYear(CalendarYear year)
-        //{
-        //    var sch = year.Calendar.Schema;
-        //    int startOfYear = sch.GetStartOfYear(year.Year);
-        //    int daysInYear = sch.CountDaysInYear(year.Year);
-
-        //    return from daysSinceEpoch
-        //           in Enumerable.Range(startOfYear, daysInYear)
-        //           select new CalendarDay(daysSinceEpoch, year.Cuid);
-        //}
+        // TODO(api): clean up; idem w/ OrdinalDate and CalendarDate.
 
         /// <summary>
         /// Obtains the first day of the specified year.
@@ -371,22 +356,6 @@ namespace Zorglub.Time.Simple
         //
         // CalendarMonth
         //
-
-        ///// <summary>
-        ///// Enumerates the days in the specified month.
-        ///// </summary>
-        //[Pure]
-        //public static IEnumerable<CalendarDay> GetDaysInMonth(CalendarMonth month)
-        //{
-        //    var sch = month.Calendar.Schema;
-        //    month.Parts.Unpack(out int y, out int m);
-        //    int startOfMonth = sch.GetStartOfMonth(y, m);
-        //    int daysInMonth = sch.CountDaysInMonth(y, m);
-
-        //    return from daysSinceEpoch
-        //           in Enumerable.Range(startOfMonth, daysInMonth)
-        //           select new CalendarDay(daysSinceEpoch, month.Cuid);
-        //}
 
         /// <summary>
         /// Obtains the first day of the specified month.

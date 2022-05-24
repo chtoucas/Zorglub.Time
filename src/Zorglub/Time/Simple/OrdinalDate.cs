@@ -279,23 +279,6 @@ namespace Zorglub.Time.Simple
         // CalendarMonth
         //
 
-        ///// <summary>
-        ///// Enumerates the days in the specified month.
-        ///// </summary>
-        //[Pure]
-        //public static IEnumerable<OrdinalDate> GetDaysInMonth(CalendarMonth month)
-        //{
-        //    var sch = month.Calendar.Schema;
-        //    month.Parts.Unpack(out int y, out int m);
-        //    int startOfMonth = sch.CountDaysInYearBeforeMonth(y, m);
-        //    int daysInMonth = sch.CountDaysInMonth(y, m);
-
-        //    for (int d = 1; d <= daysInMonth; d++)
-        //    {
-        //        yield return new OrdinalDate(y, startOfMonth + d, month.Cuid);
-        //    }
-        //}
-
         /// <summary>
         /// Obtains the first day of the specified month.
         /// </summary>

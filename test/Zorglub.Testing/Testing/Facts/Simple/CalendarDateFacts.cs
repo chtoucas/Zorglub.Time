@@ -136,39 +136,6 @@ public partial class CalendarDateFacts<TDataSet> // Calendar mismatch
     }
 }
 
-public partial class CalendarDateFacts<TDataSet> // Factories
-{
-    [Theory, MemberData(nameof(YearInfoData))]
-    public void AtStartOfYear(YearInfo info)
-    {
-        int y = info.Year;
-        var year = CalendarUT.GetCalendarYear(y);
-        var startOfYear = CalendarUT.GetCalendarDate(y, 1, 1);
-        // Act & Assert
-        Assert.Equal(startOfYear, CalendarDate.AtStartOfYear(year));
-    }
-
-    [Theory, MemberData(nameof(DateInfoData))]
-    public void AtDayOfYear(DateInfo info)
-    {
-        var (y, m, d, doy) = info;
-        var year = CalendarUT.GetCalendarYear(y);
-        var exp = CalendarUT.GetCalendarDate(y, m, d);
-        // Act & Assert
-        Assert.Equal(exp, CalendarDate.AtDayOfYear(year, doy));
-    }
-
-    [Theory, MemberData(nameof(YearInfoData))]
-    public void AtEndOfYear(YearInfo info)
-    {
-        int y = info.Year;
-        var year = CalendarUT.GetCalendarYear(y);
-        var endOfYear = CalendarUT.GetOrdinalDate(y, info.DaysInYear).ToCalendarDate();
-        // Act & Assert
-        Assert.Equal(endOfYear, CalendarDate.AtEndOfYear(year));
-    }
-}
-
 public partial class CalendarDateFacts<TDataSet> // Conversions
 {
     [Theory, MemberData(nameof(DayNumberInfoData))]
