@@ -483,7 +483,7 @@ namespace Zorglub.Time.Simple
         }
 
         //
-        // "Membership"
+        // REVIEW(api): "Membership"
         //
 
         /// <summary>
@@ -492,7 +492,7 @@ namespace Zorglub.Time.Simple
         /// <exception cref="ArgumentException"><paramref name="month"/> does not belong to the
         /// calendar of the specified range.</exception>
         [Pure]
-        public bool Contains(CalendarMonth month)
+        internal bool Contains(CalendarMonth month)
         {
             if (month.Cuid != Cuid) Throw.BadCuid(nameof(month), Cuid, month.Cuid);
 
@@ -505,7 +505,7 @@ namespace Zorglub.Time.Simple
         /// <exception cref="ArgumentException"><paramref name="date"/> does not belong to the
         /// calendar of the specified range.</exception>
         [Pure]
-        public bool Contains(CalendarDate date)
+        internal bool Contains(CalendarDate date)
         {
             if (date.Cuid != Cuid) Throw.BadCuid(nameof(date), Cuid, date.Cuid);
 
@@ -518,7 +518,7 @@ namespace Zorglub.Time.Simple
         /// <exception cref="ArgumentException"><paramref name="date"/> does not belong to the
         /// calendar of the specified range.</exception>
         [Pure]
-        public bool Contains(CalendarDay date)
+        internal bool Contains(CalendarDay date)
         {
             if (date.Cuid != Cuid) Throw.BadCuid(nameof(date), Cuid, date.Cuid);
 
@@ -531,7 +531,7 @@ namespace Zorglub.Time.Simple
         /// <exception cref="ArgumentException"><paramref name="date"/> does not belong to the
         /// calendar of the specified range.</exception>
         [Pure]
-        public bool Contains(OrdinalDate date)
+        internal bool Contains(OrdinalDate date)
         {
             if (date.Cuid != Cuid) Throw.BadCuid(nameof(date), Cuid, date.Cuid);
 
