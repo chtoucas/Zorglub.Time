@@ -13,12 +13,14 @@ namespace Zorglub.Time.Simple
     // endpoints in different calendars.
 
     /// <summary>
-    /// Provides extension methods for <see cref="Range{T}"/>.
+    /// Provides static helpers and extension methods for <see cref="Range{T}"/>.
     /// <para>This class cannot be inherited.</para>
     /// </summary>
-    public static partial class RangeExtensions { }
+    public static partial class SimpleRange
+    {
+    }
 
-    public partial class RangeExtensions // Range<CalendarDate>
+    public partial class SimpleRange // Range<CalendarDate>
     {
         /// <summary>
         /// Obtains the calendar to which belongs the specified range.
@@ -68,7 +70,7 @@ namespace Zorglub.Time.Simple
         }
     }
 
-    public partial class RangeExtensions // Range<CalendarDay>
+    public partial class SimpleRange // Range<CalendarDay>
     {
         /// <summary>
         /// Obtains the calendar to which belongs the specified range.
@@ -116,7 +118,7 @@ namespace Zorglub.Time.Simple
         }
     }
 
-    public partial class RangeExtensions // Range<OrdinalDate>
+    public partial class SimpleRange // Range<OrdinalDate>
     {
         /// <summary>
         /// Obtains the calendar to which belongs the specified range.
@@ -164,7 +166,7 @@ namespace Zorglub.Time.Simple
         }
     }
 
-    public partial class RangeExtensions // Range<CalendarMonth>
+    public partial class SimpleRange // Range<CalendarMonth>
     {
         /// <summary>
         /// Obtains the calendar to which belongs the specified range.
@@ -194,7 +196,7 @@ namespace Zorglub.Time.Simple
         }
     }
 
-    public partial class RangeExtensions // Range<CalendarYear>
+    public partial class SimpleRange // Range<CalendarYear>
     {
         /// <summary>
         /// Obtains the calendar to which belongs the specified range.
