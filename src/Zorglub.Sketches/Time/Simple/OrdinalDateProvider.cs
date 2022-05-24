@@ -12,49 +12,32 @@ namespace Zorglub.Time.Simple
 
     public partial class OrdinalDateProvider // CalendarYear
     {
-        /// <inheritdoc/>
         [Pure]
-        public IEnumerable<OrdinalDate> GetDaysInYear(CalendarYear year) => year.GetAllDays();
+        IEnumerable<OrdinalDate> IDateProvider<OrdinalDate>.GetDaysInYear(CalendarYear year) =>
+            year.GetAllDays();
 
-        /// <inheritdoc/>
         [Pure]
-        public OrdinalDate GetStartOfYear(CalendarYear year) => year.FirstDay;
+        OrdinalDate IDateProvider<OrdinalDate>.GetStartOfYear(CalendarYear year) =>
+            year.FirstDay;
 
-        /// <inheritdoc/>
         [Pure]
-        public OrdinalDate GetDayOfYear(CalendarYear year, int dayOfYear) =>
+        OrdinalDate IDateProvider<OrdinalDate>.GetDayOfYear(CalendarYear year, int dayOfYear) =>
             year.GetDayOfYear(dayOfYear);
 
-        /// <inheritdoc/>
         [Pure]
-        public OrdinalDate GetEndOfYear(CalendarYear year) => year.LastDay;
+        OrdinalDate IDateProvider<OrdinalDate>.GetEndOfYear(CalendarYear year) =>
+            year.LastDay;
     }
 
     public partial class OrdinalDateProvider // CalendarMonth
     {
-#if false
-
-        /// <summary>
-        /// Obtains the first day of the year to which belongs the specified month.
-        /// </summary>
         [Pure]
-        public OrdinalDate GetStartOfYear(CalendarMonth month)
-        {
-            var ydoy = month.Calendar.Schema.GetStartOfYearOrdinalParts(month.Year);
-            return new OrdinalDate(ydoy, month.Cuid);
-        }
+        OrdinalDate IDateProvider<OrdinalDate>.GetStartOfYear(CalendarMonth month) =>
+            month.CalendarYear.FirstDay;
 
-        /// <summary>
-        /// Obtains the last day of the year to which belongs the specified month.
-        /// </summary>
         [Pure]
-        public OrdinalDate GetEndOfYear(CalendarMonth month)
-        {
-            var ydoy = month.Calendar.Schema.GetEndOfYearOrdinalParts(month.Year);
-            return new OrdinalDate(ydoy, month.Cuid);
-        }
-
-#endif
+        OrdinalDate IDateProvider<OrdinalDate>.GetEndOfYear(CalendarMonth month) =>
+            month.CalendarYear.LastDay;
 
         /// <inheritdoc/>
         [Pure]

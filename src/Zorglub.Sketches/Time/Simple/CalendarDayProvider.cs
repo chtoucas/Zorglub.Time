@@ -57,11 +57,7 @@ namespace Zorglub.Time.Simple
 
     public partial class CalendarDayProvider // CalendarMonth
     {
-#if false
-
-        /// <summary>
-        /// Obtains the first day of the year to which belongs the specified month.
-        /// </summary>
+        /// <inheritdoc/>
         [Pure]
         public CalendarDay GetStartOfYear(CalendarMonth month)
         {
@@ -69,17 +65,13 @@ namespace Zorglub.Time.Simple
             return new CalendarDay(daysSinceEpoch, month.Cuid);
         }
 
-        /// <summary>
-        /// Obtains the last day of the year to which belongs the specified month.
-        /// </summary>
+        /// <inheritdoc/>
         [Pure]
         public CalendarDay GetEndOfYear(CalendarMonth month)
         {
             int daysSinceEpoch = month.Calendar.Schema.GetEndOfYear(month.Year);
             return new CalendarDay(daysSinceEpoch, month.Cuid);
         }
-
-#endif
 
         /// <inheritdoc/>
         [Pure]

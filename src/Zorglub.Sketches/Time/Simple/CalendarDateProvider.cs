@@ -46,21 +46,12 @@ namespace Zorglub.Time.Simple
 
     public partial class CalendarDateProvider // CalendarMonth
     {
-#if false
-        // Il me semble plus naturel et plus logique d'écrire :
-        // - month.CalendarYear.GetStartOfYear()
-        // - month.CalendarYear.GetEndOfYear()
-
-        /// <summary>
-        /// Obtains the first day of the year to which belongs the specified month.
-        /// </summary>
+        /// <inheritdoc/>
         [Pure]
         public CalendarDate GetStartOfYear(CalendarMonth month) =>
             new(month.Parts.StartOfYear, month.Cuid);
 
-        /// <summary>
-        /// Obtains the last day of the year to which belongs the specified month.
-        /// </summary>
+        /// <inheritdoc/>
         [Pure]
         public CalendarDate GetEndOfYear(CalendarMonth month)
         {
@@ -68,24 +59,20 @@ namespace Zorglub.Time.Simple
             return new CalendarDate(ymd, month.Cuid);
         }
 
-#endif
-
-        /// <inheritdoc/>
         [Pure]
-        public IEnumerable<CalendarDate> GetDaysInMonth(CalendarMonth month) =>
+        IEnumerable<CalendarDate> IDateProvider<CalendarDate>.GetDaysInMonth(CalendarMonth month) =>
             month.GetAllDays();
 
-        /// <inheritdoc/>
         [Pure]
-        public CalendarDate GetStartOfMonth(CalendarMonth month) => month.FirstDay;
+        CalendarDate IDateProvider<CalendarDate>.GetStartOfMonth(CalendarMonth month) =>
+            month.FirstDay;
 
-        /// <inheritdoc/>
         [Pure]
-        public CalendarDate GetDayOfMonth(CalendarMonth month, int dayOfMonth) =>
+        CalendarDate IDateProvider<CalendarDate>.GetDayOfMonth(CalendarMonth month, int dayOfMonth) =>
             month.GetDayOfMonth(dayOfMonth);
 
-        /// <inheritdoc/>
         [Pure]
-        public CalendarDate GetEndOfMonth(CalendarMonth month) => month.LastDay;
+        CalendarDate IDateProvider<CalendarDate>.GetEndOfMonth(CalendarMonth month) =>
+            month.LastDay;
     }
 }

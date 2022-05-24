@@ -1,13 +1,11 @@
 ﻿// SPDX-License-Identifier: BSD-3-Clause
 // Copyright (c) 2020 Narvalo.Org. All rights reserved.
 
-// TODO(api): I don't like this interface...
-
 namespace Zorglub.Time.Hemerology
 {
     /// <summary>
-    /// Provides a set of method to create the special dates of a year or a month, the two
-    /// subdivisions of time used by most calendar systems.
+    /// Provides methods to obtain dates in a year or a month, the two subdivisions of time used by
+    /// most calendar systems.
     /// </summary>
     /// <typeparam name="TDate">The type of date object to return.</typeparam>
     public interface IDayProvider<out TDate>

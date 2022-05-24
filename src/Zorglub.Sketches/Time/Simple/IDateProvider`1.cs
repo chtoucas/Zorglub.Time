@@ -8,7 +8,7 @@ namespace Zorglub.Time.Simple
     // Do NOT replace CalendarYear or CalendarMonth by int, it's a bad idea.
     // With an int, we can only produce dates in a single calendar, the
     // default one. With CalendarYear, this is no longer a problem.
-    // See also IDayProvider in Zorglub.Time.Hemerology.
+    // Furthermore, there is already IDayProvider in Zorglub.Time.Hemerology.
 
     /// <summary>
     /// Provides methods to obtain dates in a year or a month.
@@ -45,6 +45,16 @@ namespace Zorglub.Time.Simple
         //
         // CalendarMonth
         //
+
+        /// <summary>
+        /// Obtains the first day of the year to which belongs the specified month.
+        /// </summary>
+        [Pure] TDate GetStartOfYear(CalendarMonth month);
+
+        /// <summary>
+        /// Obtains the last day of the year to which belongs the specified month.
+        /// </summary>
+        [Pure] TDate GetEndOfYear(CalendarMonth month);
 
         /// <summary>
         /// Obtains the sequence of days in the specified month.

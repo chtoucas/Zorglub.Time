@@ -287,7 +287,7 @@ public partial class CalendarDateFacts<TDataSet> // DateAdjusters
 
 public partial class CalendarDateFacts<TDataSet> // CalendarDateProvider
 {
-    private static readonly CalendarDateProvider s_Provider = new();
+    private static readonly IDateProvider<CalendarDate> s_Provider = new CalendarDateProvider();
 
     //
     // CalendarYear

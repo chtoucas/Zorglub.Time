@@ -273,7 +273,7 @@ public partial class OrdinalDateFacts<TDataSet> // DateAdjusters
 
 public partial class OrdinalDateFacts<TDataSet> // OrdinalDateProvider
 {
-    private static readonly OrdinalDateProvider s_Provider = new();
+    private static readonly IDateProvider<OrdinalDate> s_Provider = new OrdinalDateProvider();
 
     //
     // CalendarMonth
