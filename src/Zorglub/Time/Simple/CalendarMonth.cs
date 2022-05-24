@@ -136,7 +136,7 @@ namespace Zorglub.Time.Simple
         {
             get
             {
-                Parts.Unpack(out int y, out int m);
+                _bin.Unpack(out int y, out int m);
                 ref readonly var chr = ref CalendarRef;
                 var ymd = chr.Schema.GetEndOfMonthParts(y, m);
                 return new CalendarDate(ymd, Cuid);
@@ -300,7 +300,7 @@ namespace Zorglub.Time.Simple
         }
 
         #endregion
-        #region Days
+        #region Days within the month
 
         /// <summary>
         /// Obtains the date corresponding to the specified day of this month instance.
@@ -310,7 +310,7 @@ namespace Zorglub.Time.Simple
         [Pure]
         public CalendarDate GetDayOfMonth(int dayOfMonth)
         {
-            Parts.Unpack(out int y, out int m);
+            _bin.Unpack(out int y, out int m);
             ref readonly var chr = ref CalendarRef;
             chr.ValidateDayOfMonth(y, m, dayOfMonth);
             return new CalendarDate(y, m, dayOfMonth, Cuid);
@@ -323,7 +323,7 @@ namespace Zorglub.Time.Simple
         public IEnumerable<CalendarDate> GetAllDays()
         {
             var cuid = Cuid;
-            Parts.Unpack(out int y, out int m);
+            _bin.Unpack(out int y, out int m);
             // NB: we cannot use CalendarRef (CS8176).
             int daysInMonth = Calendar.Schema.CountDaysInMonth(y, m);
 
@@ -331,6 +331,52 @@ namespace Zorglub.Time.Simple
             {
                 yield return new CalendarDate(y, m, d, cuid);
             }
+        }
+
+        //
+        // "Membership"
+        //
+
+        /// <summary>
+        /// Determines whether the current instance contains the specified date or not.
+        /// </summary>
+        /// <exception cref="ArgumentException"><paramref name="date"/> does not belong to the
+        /// calendar of the specified range.</exception>
+        [Pure]
+        public bool Contains(CalendarDate date)
+        {
+            if (date.Cuid != Cuid) Throw.BadCuid(nameof(date), Cuid, date.Cuid);
+
+            _bin.Unpack(out int y, out int m);
+            return date.Year == y && date.Month == m;
+        }
+
+        /// <summary>
+        /// Determines whether the current instance contains the specified date or not.
+        /// </summary>
+        /// <exception cref="ArgumentException"><paramref name="date"/> does not belong to the
+        /// calendar of the specified range.</exception>
+        [Pure]
+        public bool Contains(CalendarDay date)
+        {
+            if (date.Cuid != Cuid) Throw.BadCuid(nameof(date), Cuid, date.Cuid);
+
+            _bin.Unpack(out int y, out int m);
+            return date.Year == y && date.Month == m;
+        }
+
+        /// <summary>
+        /// Determines whether the current instance contains the specified date or not.
+        /// </summary>
+        /// <exception cref="ArgumentException"><paramref name="date"/> does not belong to the
+        /// calendar of the specified range.</exception>
+        [Pure]
+        public bool Contains(OrdinalDate date)
+        {
+            if (date.Cuid != Cuid) Throw.BadCuid(nameof(date), Cuid, date.Cuid);
+
+            _bin.Unpack(out int y, out int m);
+            return date.Year == y && date.Month == m;
         }
 
         #endregion

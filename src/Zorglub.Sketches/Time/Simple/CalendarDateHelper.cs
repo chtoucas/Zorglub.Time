@@ -6,7 +6,7 @@ namespace Zorglub.Time.Simple
     using Zorglub.Time.Core;
 
     /// <summary>
-    /// Provides static helpers related to <see cref="CalendarDate"/>.
+    /// Provides helper methods for <see cref="CalendarDate"/>.
     /// </summary>
     public sealed partial class CalendarDateHelper : IDateHelper<CalendarDate>
     {

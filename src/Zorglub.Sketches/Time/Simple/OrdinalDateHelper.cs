@@ -3,12 +3,10 @@
 
 namespace Zorglub.Time.Simple
 {
-    using System.Linq;
-
     using Zorglub.Time.Core;
 
     /// <summary>
-    /// Provides static helpers related to <see cref="OrdinalDate"/>.
+    /// Provides helper methods for <see cref="OrdinalDate"/>.
     /// </summary>
     public sealed partial class OrdinalDateHelper : IDateHelper<OrdinalDate>
     {

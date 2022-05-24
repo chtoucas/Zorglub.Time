@@ -23,8 +23,8 @@ namespace Zorglub.Time.Simple
     /// Represents a calendar week.
     /// <para><see cref="CalendarWeek"/> is an immutable struct.</para>
     /// </summary>
-    public readonly partial struct CalendarWeek
-        : IEquatable<CalendarWeek>, IComparable<CalendarWeek>, IComparable
+    public readonly partial struct CalendarWeek :
+        IEquatable<CalendarWeek>, IComparable<CalendarWeek>, IComparable
     {
         /// <summary>
         /// Represents the internal binary representation.
@@ -145,21 +145,21 @@ namespace Zorglub.Time.Simple
 
     public partial struct CalendarWeek
     {
-        /// <summary>
-        /// Converts the current instance to an interval of days.
-        /// </summary>
-        [Pure]
-        [Obsolete("Use Range<CalendarWeekdate>.")]
-        public DateRange ToInterval() => DateRange.Create(GetStartOfWeek(), GetEndOfWeek());
+        ///// <summary>
+        ///// Converts the current instance to an interval of days.
+        ///// </summary>
+        //[Pure]
+        //[Obsolete("Use Range<CalendarWeekdate>.")]
+        //public DateRange ToInterval() => DateRange.Create(GetStartOfWeek(), GetEndOfWeek());
 
-        /// <summary>
-        /// Converts the current instance to a day range within a different
-        /// calendar.
-        /// </summary>
-        [Pure]
-        [Obsolete("Use Range<CalendarWeekdate>.")]
-        public DateRange WithCalendar(Calendar newCalendar) =>
-            ToInterval().WithCalendar(newCalendar);
+        ///// <summary>
+        ///// Converts the current instance to a day range within a different
+        ///// calendar.
+        ///// </summary>
+        //[Pure]
+        //[Obsolete("Use Range<CalendarWeekdate>.")]
+        //public DateRange WithCalendar(Calendar newCalendar) =>
+        //    ToInterval().WithCalendar(newCalendar);
 
         /// <summary>
         /// Adjusts the year field of this week instance to the specified value,

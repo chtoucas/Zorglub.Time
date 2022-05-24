@@ -3,11 +3,13 @@
 
 namespace Zorglub.Time.Simple
 {
+    using System.Collections;
     using System.Collections.Generic;
 
     using Zorglub.Time.Core.Intervals;
 
-    // TODO(code): optimize enumeration (see DateRange).
+    // TODO(code): optimize enumeration and Contains (static and instance
+    // methods); see DateRange.
     // Add tests to certify that it's not possible to create a range with
     // endpoints in different calendars.
 
@@ -53,6 +55,21 @@ namespace Zorglub.Time.Simple
                 yield return date;
             }
         }
+
+        ///// <summary>
+        ///// Determines whether the specified range contains the specified month or not.
+        ///// </summary>
+        ///// <exception cref="ArgumentException"><paramref name="month"/> does not belong to the
+        ///// calendar of the specified range.</exception>
+        //[Pure]
+        //public static bool ContainsFast(this Range<CalendarDate> @this, CalendarMonth month)
+        //{
+        //    var cuid = @this.GetCalendar().Id;
+        //    if (month.Cuid != cuid) Throw.BadCuid(nameof(month), cuid, month.Cuid);
+
+        //    return @this.Min.CompareFast(month.FirstDay) <= 0
+        //        && month.LastDay.CompareFast(@this.Max) <= 0;
+        //}
 
         /// <summary>
         /// Interconverts the specified range to a range within a different calendar.
@@ -260,6 +277,85 @@ namespace Zorglub.Time.Simple
             {
                 yield return month;
             }
+        }
+    }
+
+    public partial class SimpleRange // Enumerators
+    {
+        // Intervalle confiné dans une année.
+        private sealed class RangeWithinYear : IEnumerable<CalendarDate>
+        {
+            private readonly Range<CalendarDate> _range;
+
+            /// <summary>
+            /// Initializes a new instance of the <see cref="RangeWithinYear"/> class.
+            /// </summary>
+            public RangeWithinYear(Range<CalendarDate> range)
+            {
+                _range = range;
+            }
+
+            /// <inheritdoc/>
+            [Pure]
+            public IEnumerator<CalendarDate> GetEnumerator()
+            {
+                var chr = _range.GetCalendar();
+                var cuid = chr.Id;
+                var sch = chr.Schema;
+
+                var min = _range.Min;
+                var count = _range.Count();
+
+                int y = min.Year;
+
+                int first = min.DayOfYear;
+                int last = first + count - 1;
+                for (int doy = first; doy <= last; doy++)
+                {
+                    var ymd = sch.GetDateParts(y, doy);
+                    yield return new CalendarDate(ymd, cuid);
+                }
+            }
+
+            [Pure]
+            IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+        }
+
+        // Intervalle confiné dans un mois.
+        private sealed class RangeWithinMonth : IEnumerable<CalendarDate>
+        {
+            private readonly Range<CalendarDate> _range;
+
+            /// <summary>
+            /// Initializes a new instance of the <see cref="RangeWithinMonth"/> class.
+            /// </summary>
+            public RangeWithinMonth(Range<CalendarDate> range)
+            {
+                _range = range;
+            }
+
+            /// <inheritdoc/>
+            [Pure]
+            public IEnumerator<CalendarDate> GetEnumerator()
+            {
+                var chr = _range.GetCalendar();
+                var cuid = chr.Id;
+
+                var min = _range.Min;
+                var count = _range.Count();
+
+                min.Parts.Unpack(out int y, out int m);
+
+                int first = min.Day;
+                int last = first + count - 1;
+                for (int d = first; d <= last; d++)
+                {
+                    yield return new CalendarDate(y, m, d, cuid);
+                }
+            }
+
+            [Pure]
+            IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
         }
     }
 }

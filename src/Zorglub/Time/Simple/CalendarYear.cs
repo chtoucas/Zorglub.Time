@@ -392,7 +392,7 @@ namespace Zorglub.Time.Simple
         /// <exception cref="ArgumentNullException"><paramref name="newCalendar"/> is null.
         /// </exception>
         [Pure]
-        public  Range<OrdinalDate> WithCalendar(Calendar newCalendar)
+        public Range<OrdinalDate> WithCalendar(Calendar newCalendar)
         {
             var min = FirstDay.WithCalendar(newCalendar);
             var max = LastDay.WithCalendar(newCalendar);
@@ -423,7 +423,7 @@ namespace Zorglub.Time.Simple
         }
 
         #endregion
-        #region Months and Days
+        #region Months and days within the year
 
         /// <summary>
         /// Obtains the month corresponding to the specified month of this year instance.
@@ -480,6 +480,62 @@ namespace Zorglub.Time.Simple
             {
                 yield return new OrdinalDate(y, doy, cuid);
             }
+        }
+
+        //
+        // "Membership"
+        //
+
+        /// <summary>
+        /// Determines whether the current instance contains the specified month or not.
+        /// </summary>
+        /// <exception cref="ArgumentException"><paramref name="month"/> does not belong to the
+        /// calendar of the specified range.</exception>
+        [Pure]
+        public bool Contains(CalendarMonth month)
+        {
+            if (month.Cuid != Cuid) Throw.BadCuid(nameof(month), Cuid, month.Cuid);
+
+            return month.Year == Year;
+        }
+
+        /// <summary>
+        /// Determines whether the current instance contains the specified date or not.
+        /// </summary>
+        /// <exception cref="ArgumentException"><paramref name="date"/> does not belong to the
+        /// calendar of the specified range.</exception>
+        [Pure]
+        public bool Contains(CalendarDate date)
+        {
+            if (date.Cuid != Cuid) Throw.BadCuid(nameof(date), Cuid, date.Cuid);
+
+            return date.Year == Year;
+        }
+
+        /// <summary>
+        /// Determines whether the current instance contains the specified date or not.
+        /// </summary>
+        /// <exception cref="ArgumentException"><paramref name="date"/> does not belong to the
+        /// calendar of the specified range.</exception>
+        [Pure]
+        public bool Contains(CalendarDay date)
+        {
+            if (date.Cuid != Cuid) Throw.BadCuid(nameof(date), Cuid, date.Cuid);
+
+            return date.Year == Year;
+        }
+
+        /// <summary>
+        /// Determines whether the current instance contains the specified date or not.
+        /// </summary>
+        /// <exception cref="ArgumentException"><paramref name="date"/> does not belong to the
+        /// calendar of the specified range.</exception>
+        [Pure]
+        public bool Contains(OrdinalDate date)
+        {
+            if (date.Cuid != Cuid) Throw.BadCuid(nameof(date), Cuid, date.Cuid);
+
+            return date.Year == Year;
         }
 
         #endregion
