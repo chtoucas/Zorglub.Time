@@ -13,11 +13,7 @@ using Zorglub.Time.Core.Schemas;
 
 public static class CalendarCatalogTests
 {
-    public const string MyJulianKey = "User Julian";
     public const string MyGregorianKey = "User Gregorian";
-
-    public static readonly Calendar MyJulian = CalendarCatalog.Add(
-        MyJulianKey, new JulianSchema(), DayZero.OldStyle, proleptic: false);
 
     public static readonly Calendar MyGregorian = CalendarCatalog.Add(
         MyGregorianKey, new GregorianSchema(), DayZero.NewStyle, proleptic: false);
@@ -27,7 +23,6 @@ public static class CalendarCatalogTests
 
     [Theory]
     [InlineData(MyGregorianKey)]
-    [InlineData(MyJulianKey)]
     public static void Keys_UserKey(string key) =>
         Assert.Contains(key, CalendarCatalog.Keys);
 
@@ -35,7 +30,6 @@ public static class CalendarCatalogTests
     public static void GetCalendar_UserKey()
     {
         Assert.Same(MyGregorian, CalendarCatalog.GetCalendar(MyGregorianKey));
-        Assert.Same(MyJulian, CalendarCatalog.GetCalendar(MyJulianKey));
     }
 
     [Fact]
@@ -43,9 +37,6 @@ public static class CalendarCatalogTests
     {
         Assert.True(CalendarCatalog.TryGetCalendar(MyGregorianKey, out var gr));
         Assert.Same(MyGregorian, gr);
-
-        Assert.True(CalendarCatalog.TryGetCalendar(MyJulianKey, out var ju));
-        Assert.Same(MyJulian, ju);
     }
 
     [Theory]
@@ -60,166 +51,7 @@ public static class CalendarCatalogTests
     public static void GetCalendarUnchecked_UserId()
     {
         Assert.Same(MyGregorian, CalendarCatalog.GetCalendarUnchecked((int)MyGregorian.Id));
-        Assert.Same(MyJulian, CalendarCatalog.GetCalendarUnchecked((int)MyJulian.Id));
     }
-
-    #region GetOrAdd()
-
-    [Fact]
-    public static void GetOrAdd_NullKey() =>
-        Assert.ThrowsAnexn("key",
-            () => CalendarCatalog.GetOrAdd(null!, new GregorianSchema(), default, false));
-
-    [Fact]
-    public static void GetOrAdd_KeyAlreadyExists()
-    {
-        // Act
-        // NB: on utilise volontairement une epoch et un schéma différents.
-        var chr = CalendarCatalog.GetOrAdd(MyGregorianKey, new JulianSchema(), DayZero.OldStyle, false);
-        // Assert
-        Assert.Equal(MyGregorian, chr);
-    }
-
-    [Fact]
-    public static void GetOrAdd_InvalidSchema()
-    {
-        string key = "key";
-        // Act & Assert
-        Assert.ThrowsAnexn("schema", () => CalendarCatalog.GetOrAdd(key, null!, default, false));
-        OnKeyNotSet(key);
-    }
-
-    [Fact]
-    public static void GetOrAdd()
-    {
-        string key = "GetOrAdd";
-        var epoch = DayZero.NewStyle;
-        // Act
-        var chr = CalendarCatalog.GetOrAdd(key, new GregorianSchema(), epoch, false);
-        // Assert
-        OnKeySet(key, epoch, chr);
-    }
-
-    #endregion
-    #region Add()
-
-    [Fact]
-    public static void Add_NullKey() =>
-        Assert.ThrowsAnexn("key",
-            () => CalendarCatalog.Add(null!, new GregorianSchema(), default, false));
-
-    [Fact]
-    public static void Add_KeyAlreadyExists() =>
-        Assert.Throws<ArgumentException>("key",
-            () => CalendarCatalog.Add(MyGregorianKey, new GregorianSchema(), default, false));
-
-    [Fact]
-    public static void Add_InvalidSchema()
-    {
-        string key = "key";
-        // Act & Assert
-        Assert.ThrowsAnexn("schema",
-            () => CalendarCatalog.Add(key, null!, default, false));
-        OnKeyNotSet(key);
-    }
-
-    [Fact]
-    public static void Add()
-    {
-        string key = "Add";
-        var epoch = DayZero.NewStyle;
-        // Act
-        var chr = CalendarCatalog.Add(key, new GregorianSchema(), epoch, false);
-        // Assert
-        OnKeySet(key, epoch, chr);
-    }
-
-    [Fact]
-    public static void Add_Box()
-    {
-        string key = "Add_Box";
-        var epoch = DayZero.NewStyle;
-        // Act
-        var chr = GregorianSchema.GetInstance().CreateCalendar(key, epoch);
-        // Assert
-        OnKeySet(key, epoch, chr);
-    }
-
-    #endregion
-    #region TryAdd()
-
-    [Fact]
-    public static void TryAdd_NullKey() =>
-        Assert.ThrowsAnexn("key",
-            () => CalendarCatalog.TryAdd(
-                null!, new GregorianSchema(), default, false, out _));
-
-    [Fact]
-    public static void TryAdd_KeyAlreadyExists()
-    {
-        // Act
-        // NB: on utilise volontairement une epoch et un schéma différents.
-        bool created = CalendarCatalog.TryAdd(
-            MyGregorianKey,
-            new JulianSchema(),
-            DayZero.OldStyle,
-            false,
-            out Calendar? calendar);
-        // Assert
-        Assert.False(created);
-        Assert.Null(calendar);
-    }
-
-    [Fact]
-    public static void TryAdd_InvalidSchema()
-    {
-        string key = "key";
-        // Act & Assert
-        Assert.ThrowsAnexn("schema",
-            () => CalendarCatalog.TryAdd(key, null!, default, false, out _));
-        OnKeyNotSet(key);
-    }
-
-    [Fact]
-    public static void TryAdd()
-    {
-        string key = "TryAdd";
-        var epoch = DayZero.NewStyle;
-        // Act
-        bool created = CalendarCatalog.TryAdd(
-            key, new GregorianSchema(), epoch, false, out Calendar? calendar);
-        // Assert
-        Assert.True(created);
-        OnKeySet(key, epoch, calendar);
-    }
-
-    [Fact]
-    public static void TryAdd_EmptyKey()
-    {
-        string key = String.Empty;
-        var epoch = DayZero.NewStyle;
-        // Act
-        bool created = CalendarCatalog.TryAdd(
-            key, new GregorianSchema(), epoch, false, out Calendar? calendar);
-        // Assert
-        Assert.True(created);
-        OnKeySet(key, epoch, calendar);
-    }
-
-    [Fact]
-    public static void TryAdd_Box()
-    {
-        string key = "TryAdd_Box";
-        var epoch = DayZero.NewStyle;
-        // Act
-        bool created = GregorianSchema.GetInstance()
-            .TryCreateCalendar(key, epoch, out Calendar? calendar);
-        // Assert
-        Assert.True(created);
-        OnKeySet(key, epoch, calendar);
-    }
-
-    #endregion
 
     [Theory, MemberData(nameof(EnumDataSet.CalendarIdData), MemberType = typeof(EnumDataSet))]
     public static void GetCalendarXXX_AreAllTheSame(CalendarId id)
