@@ -25,84 +25,17 @@ public static class CalendarCatalogTests
     // We want the two previous static fields to be initialized before anything else.
     static CalendarCatalogTests() { }
 
-    #region Keys
-
-    [Fact]
-    public static void Keys_UnknownKey() =>
-        Assert.DoesNotContain("Unknown Key", CalendarCatalog.Keys);
-
-    [Theory, MemberData(nameof(EnumDataSet.CalendarIdData), MemberType = typeof(EnumDataSet))]
-    public static void Keys_SystemKey(CalendarId id) =>
-        Assert.Contains(id.ToCalendarKey(), CalendarCatalog.Keys);
-
     [Theory]
     [InlineData(MyGregorianKey)]
     [InlineData(MyJulianKey)]
     public static void Keys_UserKey(string key) =>
         Assert.Contains(key, CalendarCatalog.Keys);
 
-    #endregion
-    #region SystemCalendars
-
-    [Fact]
-    public static void SystemCalendars_IsExhaustive()
-    {
-        var count = Enum.GetValues(typeof(CalendarId)).Length;
-        var calendars = CalendarCatalog.SystemCalendars;
-        // Act & Assert
-        Assert.Equal(count, calendars.Count);
-    }
-
-    [Theory, MemberData(nameof(EnumDataSet.CalendarIdData), MemberType = typeof(EnumDataSet))]
-    public static void SystemCalendars(CalendarId id)
-    {
-        var calendars = CalendarCatalog.SystemCalendars;
-        // Act
-        var chr = CalendarCatalog.GetSystemCalendar(id);
-        // Assert
-        Assert.Contains(chr, calendars);
-    }
-
-    #endregion
-    #region GetCalendar(key)
-
-    [Fact]
-    public static void GetCalendar_UnknownKey() =>
-        Assert.Throws<KeyNotFoundException>(() => CalendarCatalog.GetCalendar("Unknown Key"));
-
-    [Theory, MemberData(nameof(EnumDataSet.CalendarIdData), MemberType = typeof(EnumDataSet))]
-    public static void GetCalendar_SystemKey(CalendarId id) =>
-        Assert.NotNull(CalendarCatalog.GetCalendar(id.ToCalendarKey()));
-
     [Fact]
     public static void GetCalendar_UserKey()
     {
         Assert.Same(MyGregorian, CalendarCatalog.GetCalendar(MyGregorianKey));
         Assert.Same(MyJulian, CalendarCatalog.GetCalendar(MyJulianKey));
-    }
-
-    [Theory, MemberData(nameof(EnumDataSet.CalendarIdData), MemberType = typeof(EnumDataSet))]
-    public static void GetCalendar_Repeated(CalendarId id)
-    {
-        var key = id.ToCalendarKey();
-        // Act & Assert
-        Assert.Same(CalendarCatalog.GetCalendar(key), CalendarCatalog.GetCalendar(key));
-    }
-
-    #endregion
-    #region TryGetCalendar(key)
-
-    [Fact]
-    public static void TryGetCalendar_UnknownKey() =>
-        Assert.False(CalendarCatalog.TryGetCalendar("Unknown Key", out _));
-
-    [Theory, MemberData(nameof(EnumDataSet.CalendarIdData), MemberType = typeof(EnumDataSet))]
-    public static void TryGetCalendar_SystemKey(CalendarId id)
-    {
-        var key = id.ToCalendarKey();
-        // Act & Assert
-        Assert.True(CalendarCatalog.TryGetCalendar(key, out var chr));
-        Assert.NotNull(chr);
     }
 
     [Fact]
@@ -115,20 +48,6 @@ public static class CalendarCatalogTests
         Assert.Same(MyJulian, ju);
     }
 
-    [Theory, MemberData(nameof(EnumDataSet.CalendarIdData), MemberType = typeof(EnumDataSet))]
-    public static void TryGetCalendar_Repeated(CalendarId id)
-    {
-        var key = id.ToCalendarKey();
-        // Act
-        _ = CalendarCatalog.TryGetCalendar(key, out var chr1);
-        _ = CalendarCatalog.TryGetCalendar(key, out var chr2);
-        // Assert
-        Assert.Same(chr1, chr2);
-    }
-
-    #endregion
-    #region GetSystemCalendar()
-
     [Theory]
     [InlineData((int)Cuid.MaxSystem + 1)]
     [InlineData((int)Cuid.MinUser)]
@@ -137,31 +56,6 @@ public static class CalendarCatalogTests
     public static void GetSystemCalendar_InvalidId(int id) =>
         Assert.ThrowsAoorexn("id", () => CalendarCatalog.GetSystemCalendar((CalendarId)id));
 
-    [Theory, MemberData(nameof(EnumDataSet.CalendarIdData), MemberType = typeof(EnumDataSet))]
-    public static void GetSystemCalendar(CalendarId id) =>
-        Assert.NotNull(CalendarCatalog.GetSystemCalendar(id));
-
-    [Fact]
-    public static void GetSystemCalendar_All()
-    {
-        foreach (var exp in CalendarCatalog.SystemCalendars)
-        {
-            var actual = CalendarCatalog.GetSystemCalendar(exp.PermanentId);
-            Assert.Same(exp, actual);
-        }
-    }
-
-    [Theory, MemberData(nameof(EnumDataSet.CalendarIdData), MemberType = typeof(EnumDataSet))]
-    public static void GetSystemCalendar_Repeated(CalendarId id) =>
-        Assert.Same(CalendarCatalog.GetSystemCalendar(id), CalendarCatalog.GetSystemCalendar(id));
-
-    #endregion
-    #region GetCalendarUnchecked()
-
-    [Theory, MemberData(nameof(EnumDataSet.CalendarIdData), MemberType = typeof(EnumDataSet))]
-    public static void GetCalendarUnchecked_SystemId(CalendarId id) =>
-        Assert.NotNull(CalendarCatalog.GetCalendarUnchecked((int)id));
-
     [Fact]
     public static void GetCalendarUnchecked_UserId()
     {
@@ -169,13 +63,6 @@ public static class CalendarCatalogTests
         Assert.Same(MyJulian, CalendarCatalog.GetCalendarUnchecked((int)MyJulian.Id));
     }
 
-    [Theory, MemberData(nameof(EnumDataSet.CalendarIdData), MemberType = typeof(EnumDataSet))]
-    public static void GetCalendarUnchecked_Repeated(CalendarId id) =>
-        Assert.Same(
-            CalendarCatalog.GetCalendarUnchecked((int)id),
-            CalendarCatalog.GetCalendarUnchecked((int)id));
-
-    #endregion
     #region GetOrAdd()
 
     [Fact]
