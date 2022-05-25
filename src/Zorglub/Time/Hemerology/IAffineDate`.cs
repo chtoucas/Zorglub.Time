@@ -36,7 +36,7 @@ namespace Zorglub.Time.Hemerology
         IMinMaxFunctions<TSelf>,
         IComparisonOperators<TSelf, TSelf>,
         // Arithmetic
-        IDayArithmetic<TSelf>,
+        IStandardArithmetic<TSelf>,
         IAdditionOperators<TSelf, int, TSelf>,
         ISubtractionOperators<TSelf, TSelf, int>,
         IIncrementOperators<TSelf>,

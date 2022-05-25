@@ -7,8 +7,8 @@ namespace Zorglub.Time.Hemerology
     /// Defines the standard mathematical operations, those related to the day unit.
     /// </summary>
     /// <typeparam name="TSelf">The type that implements this interface.</typeparam>
-    public interface IDayArithmetic<TSelf>
-        where TSelf : IDayArithmetic<TSelf>
+    public interface IStandardArithmetic<TSelf>
+        where TSelf : IStandardArithmetic<TSelf>
     {
         /// <summary>
         /// Counts the number of days elapsed since the specified date.

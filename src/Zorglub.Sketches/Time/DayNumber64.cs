@@ -463,10 +463,10 @@ namespace Zorglub.Time
             this == MinValue ? Throw.DayNumberOverflow<DayNumber64>() : new DayNumber64(_daysSinceZero - 1);
 
         [Pure]
-        int IDayArithmetic<DayNumber64>.CountDaysSince(DayNumber64 other) =>
+        int IStandardArithmetic<DayNumber64>.CountDaysSince(DayNumber64 other) =>
             checked((int)(this - other));
 
         [Pure]
-        DayNumber64 IDayArithmetic<DayNumber64>.PlusDays(int days) => this + days;
+        DayNumber64 IStandardArithmetic<DayNumber64>.PlusDays(int days) => this + days;
     }
 }
