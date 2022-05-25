@@ -19,9 +19,11 @@ namespace Zorglub.Time.Core.Arithmetic
         /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
         protected SolarArithmetic(SystemSchema schema) : base(schema)
         {
-            Debug.Assert(schema != null);
-            Debug.Assert(schema.Profile == CalendricalProfile.Solar12
-                || schema.Profile == CalendricalProfile.Solar13);
+            // Disabled, otherwise we cannot test the derived constructors.
+            // Not that important since this class is internal.
+            //Debug.Assert(schema != null);
+            //Debug.Assert(schema.Profile == CalendricalProfile.Solar12
+            //    || schema.Profile == CalendricalProfile.Solar13);
         }
 
         /// <inheritdoc />

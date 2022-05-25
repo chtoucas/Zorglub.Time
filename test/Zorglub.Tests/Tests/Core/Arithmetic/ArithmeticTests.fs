@@ -5,10 +5,44 @@ module Zorglub.Tests.Core.Schemas.ArithmeticTests
 
 open Zorglub.Testing
 
+open Zorglub.Time.Core
 open Zorglub.Time.Core.Arithmetic
 open Zorglub.Time.Core.Schemas
 
 open Xunit
+
+module Prelude =
+    let badLunarProfile = FauxSystemSchema.NotLunar
+    let badLunisolarProfile = FauxSystemSchema.NotLunisolar
+    let badSolar12Profile = FauxSystemSchema.NotSolar12
+    let badSolar13Profile = FauxSystemSchema.NotSolar13
+
+    [<Fact>]
+    let ``Constructor throws for null schema`` () =
+        nullExn "schema" (fun () -> new CalendricalArithmetic(null))
+        nullExn "schema" (fun () -> new DefaultArithmetic(null))
+        nullExn "schema" (fun () -> new DefaultFastArithmetic(null))
+        nullExn "schema" (fun () -> new GregorianArithmetic(null))
+        nullExn "schema" (fun () -> new LunarArithmetic(null))
+        nullExn "schema" (fun () -> new LunisolarArithmetic(null))
+        nullExn "schema" (fun () -> new Solar12Arithmetic(null))
+        nullExn "schema" (fun () -> new Solar13Arithmetic(null))
+
+    [<Theory; MemberData(nameof(badLunarProfile))>]
+    let ``LunarArithmetic constructor throws for non-lunar schema`` (sch) =
+        argExn "schema" (fun () -> new LunarArithmetic(sch))
+
+    [<Theory; MemberData(nameof(badLunisolarProfile))>]
+    let ``LunisolarArithmetic constructor throws for non-lunisolar schema`` (sch) =
+        argExn "schema" (fun () -> new LunisolarArithmetic(sch))
+
+    [<Theory; MemberData(nameof(badSolar12Profile))>]
+    let ``Solar12Arithmetic constructor throws for non-solar12 schema`` (sch) =
+        argExn "schema" (fun () -> new Solar12Arithmetic(sch))
+
+    [<Theory; MemberData(nameof(badSolar13Profile))>]
+    let ``Solar13Arithmetic constructor throws for non-solar13 schema`` (sch) =
+        argExn "schema" (fun () -> new Solar13Arithmetic(sch))
 
 module FastArithmeticCase =
     [<Fact>]

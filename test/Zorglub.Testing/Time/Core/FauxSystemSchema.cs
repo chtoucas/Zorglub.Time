@@ -5,7 +5,9 @@ namespace Zorglub.Time.Core;
 
 using Zorglub.Time.Core.Intervals;
 
-public class FauxSystemSchema : SystemSchema
+using static Zorglub.Time.Core.CalendricalConstants;
+
+public partial class FauxSystemSchema : SystemSchema
 {
     private const int DefaultMinDaysInYear = 365;
     private const int DefaultMinDaysInMonth = 28;
@@ -62,4 +64,47 @@ public class FauxSystemSchema : SystemSchema
 
     [Pure] public sealed override int GetStartOfYear(int y) => 0;
     public sealed override void GetEndOfYearParts(int y, out int m, out int d) => throw new NotSupportedException();
+}
+
+public partial class FauxSystemSchema // Profiles
+{
+    public static readonly TheoryData<FauxSystemSchema> NotLunar = new()
+    {
+        new FauxRegularSchema(Lunar.MonthsInYear + 1, Lunar.MinDaysInYear, Lunar.MinDaysInMonth),
+        new FauxRegularSchema(Lunar.MonthsInYear, Lunar.MinDaysInYear - 1, Lunar.MinDaysInMonth),
+        new FauxRegularSchema(Lunar.MonthsInYear, Lunar.MinDaysInYear, Lunar.MinDaysInMonth - 1),
+    };
+
+    public static readonly TheoryData<FauxSystemSchema> NotLunisolar = new()
+    {
+        new FauxSystemSchema(Lunisolar.MinDaysInYear - 1, Lunisolar.MinDaysInMonth),
+        new FauxSystemSchema(Lunisolar.MinDaysInYear, Lunisolar.MinDaysInMonth - 1),
+    };
+
+    public static readonly TheoryData<FauxSystemSchema> NotSolar12 = new()
+    {
+        new FauxRegularSchema(Solar12.MonthsInYear + 1, Solar.MinDaysInYear, Solar.MinDaysInMonth),
+        new FauxRegularSchema(Solar12.MonthsInYear, Solar.MinDaysInYear - 1, Solar.MinDaysInMonth),
+        new FauxRegularSchema(Solar12.MonthsInYear, Solar.MinDaysInYear, Solar.MinDaysInMonth - 1),
+    };
+
+    public static readonly TheoryData<FauxSystemSchema> NotSolar13 = new()
+    {
+        new FauxRegularSchema(Solar13.MonthsInYear + 1, Solar.MinDaysInYear, Solar.MinDaysInMonth),
+        new FauxRegularSchema(Solar13.MonthsInYear, Solar.MinDaysInYear - 1, Solar.MinDaysInMonth),
+        new FauxRegularSchema(Solar13.MonthsInYear, Solar.MinDaysInYear, Solar.MinDaysInMonth - 1),
+    };
+
+    private sealed class FauxRegularSchema : FauxSystemSchema, IRegularSchema
+    {
+        public FauxRegularSchema(int monthsInYear, int minDaysInYear, int minDaysInMonth)
+            : base(minDaysInYear, minDaysInMonth)
+        {
+            MonthsInYear = monthsInYear;
+        }
+
+        public int MonthsInYear { get; }
+
+        [Pure] public sealed override int CountMonthsInYear(int y) => MonthsInYear;
+    }
 }
