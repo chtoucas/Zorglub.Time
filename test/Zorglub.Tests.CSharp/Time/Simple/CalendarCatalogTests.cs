@@ -16,14 +16,11 @@ public static class CalendarCatalogTests
     public const string MyJulianKey = "User Julian";
     public const string MyGregorianKey = "User Gregorian";
 
-    private static readonly JulianSchema s_JulianSchema = new();
-    private static readonly GregorianSchema s_GregorianSchema = new();
-
     public static readonly Calendar MyJulian = CalendarCatalog.Add(
-        MyJulianKey, s_JulianSchema, DayZero.OldStyle, proleptic: false);
+        MyJulianKey, new JulianSchema(), DayZero.OldStyle, proleptic: false);
 
     public static readonly Calendar MyGregorian = CalendarCatalog.Add(
-        MyGregorianKey, s_GregorianSchema, DayZero.NewStyle, proleptic: false);
+        MyGregorianKey, new GregorianSchema(), DayZero.NewStyle, proleptic: false);
 
     // We want the two previous static fields to be initialized before anything else.
     static CalendarCatalogTests() { }
@@ -184,14 +181,14 @@ public static class CalendarCatalogTests
     [Fact]
     public static void GetOrAdd_NullKey() =>
         Assert.ThrowsAnexn("key",
-            () => CalendarCatalog.GetOrAdd(null!, s_GregorianSchema, default, false));
+            () => CalendarCatalog.GetOrAdd(null!, new GregorianSchema(), default, false));
 
     [Fact]
     public static void GetOrAdd_KeyAlreadyExists()
     {
         // Act
         // NB: on utilise volontairement une epoch et un schéma différents.
-        var chr = CalendarCatalog.GetOrAdd(MyGregorianKey, s_JulianSchema, DayZero.OldStyle, false);
+        var chr = CalendarCatalog.GetOrAdd(MyGregorianKey, new JulianSchema(), DayZero.OldStyle, false);
         // Assert
         Assert.Equal(MyGregorian, chr);
     }
@@ -211,7 +208,7 @@ public static class CalendarCatalogTests
         string key = "GetOrAdd";
         var epoch = DayZero.NewStyle;
         // Act
-        var chr = CalendarCatalog.GetOrAdd(key, s_GregorianSchema, epoch, false);
+        var chr = CalendarCatalog.GetOrAdd(key, new GregorianSchema(), epoch, false);
         // Assert
         OnKeySet(key, epoch, chr);
     }
@@ -222,12 +219,12 @@ public static class CalendarCatalogTests
     [Fact]
     public static void Add_NullKey() =>
         Assert.ThrowsAnexn("key",
-            () => CalendarCatalog.Add(null!, s_GregorianSchema, default, false));
+            () => CalendarCatalog.Add(null!, new GregorianSchema(), default, false));
 
     [Fact]
     public static void Add_KeyAlreadyExists() =>
         Assert.Throws<ArgumentException>("key",
-            () => CalendarCatalog.Add(MyGregorianKey, s_GregorianSchema, default, false));
+            () => CalendarCatalog.Add(MyGregorianKey, new GregorianSchema(), default, false));
 
     [Fact]
     public static void Add_InvalidSchema()
@@ -245,7 +242,7 @@ public static class CalendarCatalogTests
         string key = "Add";
         var epoch = DayZero.NewStyle;
         // Act
-        var chr = CalendarCatalog.Add(key, s_GregorianSchema, epoch, false);
+        var chr = CalendarCatalog.Add(key, new GregorianSchema(), epoch, false);
         // Assert
         OnKeySet(key, epoch, chr);
     }
@@ -268,7 +265,7 @@ public static class CalendarCatalogTests
     public static void TryAdd_NullKey() =>
         Assert.ThrowsAnexn("key",
             () => CalendarCatalog.TryAdd(
-                null!, s_GregorianSchema, default, false, out _));
+                null!, new GregorianSchema(), default, false, out _));
 
     [Fact]
     public static void TryAdd_KeyAlreadyExists()
@@ -277,7 +274,7 @@ public static class CalendarCatalogTests
         // NB: on utilise volontairement une epoch et un schéma différents.
         bool created = CalendarCatalog.TryAdd(
             MyGregorianKey,
-            s_JulianSchema,
+            new JulianSchema(),
             DayZero.OldStyle,
             false,
             out Calendar? calendar);
@@ -303,7 +300,7 @@ public static class CalendarCatalogTests
         var epoch = DayZero.NewStyle;
         // Act
         bool created = CalendarCatalog.TryAdd(
-            key, s_GregorianSchema, epoch, false, out Calendar? calendar);
+            key, new GregorianSchema(), epoch, false, out Calendar? calendar);
         // Assert
         Assert.True(created);
         OnKeySet(key, epoch, calendar);
@@ -316,7 +313,7 @@ public static class CalendarCatalogTests
         var epoch = DayZero.NewStyle;
         // Act
         bool created = CalendarCatalog.TryAdd(
-            key, s_GregorianSchema, epoch, false, out Calendar? calendar);
+            key, new GregorianSchema(), epoch, false, out Calendar? calendar);
         // Assert
         Assert.True(created);
         OnKeySet(key, epoch, calendar);
@@ -423,7 +420,7 @@ public static class CalendarCatalogTests
                 var epoch = DayZero.NewStyle;
 
                 bool added = CalendarCatalog.TryAdd(
-                    key, s_GregorianSchema, DayZero.NewStyle, false, out Calendar? calendar);
+                    key, new GregorianSchema(), DayZero.NewStyle, false, out Calendar? calendar);
 
                 Assert.True(added);
                 OnKeySetCore(key, epoch, calendar);
@@ -451,14 +448,14 @@ public static class CalendarCatalogTests
         string key = "Key-OVERFLOW";
 
         Assert.Overflows(
-            () => CalendarCatalog.Add(key, s_GregorianSchema, default, false));
+            () => CalendarCatalog.Add(key, new GregorianSchema(), default, false));
         OnKeyNotSet(key);
         Assert.Overflows(
-            () => CalendarCatalog.Add(MyGregorianKey, s_GregorianSchema, default, false));
+            () => CalendarCatalog.Add(MyGregorianKey, new GregorianSchema(), default, false));
 
-        Assert.False(CalendarCatalog.TryAdd(key, s_GregorianSchema, default, false, out _));
+        Assert.False(CalendarCatalog.TryAdd(key, new GregorianSchema(), default, false, out _));
         OnKeyNotSet(key);
-        Assert.False(CalendarCatalog.TryAdd(MyGregorianKey, s_GregorianSchema, default, false, out _));
+        Assert.False(CalendarCatalog.TryAdd(MyGregorianKey, new GregorianSchema(), default, false, out _));
 
         Assert.Overflows(
             () => GregorianSchema.GetInstance().CreateCalendar(key, default));

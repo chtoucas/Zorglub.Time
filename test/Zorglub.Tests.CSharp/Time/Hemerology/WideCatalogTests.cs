@@ -3,7 +3,6 @@
 
 namespace Zorglub.Time.Hemerology;
 
-using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -19,32 +18,14 @@ public static class WideCatalogTests
     public const string GregorianKey = "Wide Gregorian";
     public const string JulianKey = "Wide Julian";
 
-    private static readonly JulianSchema s_JulianSchema = new();
-    private static readonly GregorianSchema s_GregorianSchema = new();
+    public static readonly WideCalendar Gregorian =
+        WideCatalog.Add(GregorianKey, new GregorianSchema(), DayZero.NewStyle, widest: true);
 
-    private static WideCalendar? s_Gregorian;
-    public static WideCalendar Gregorian => s_Gregorian ??= InitGregorian();
+    public static readonly WideCalendar Julian =
+        WideCatalog.Add(JulianKey, new JulianSchema(), DayZero.OldStyle, widest: true);
 
-    private static WideCalendar? s_Julian;
-    public static WideCalendar Julian => s_Julian ??= InitJulian();
-
-    [Pure]
-    private static WideCalendar InitGregorian()
-    {
-        var chr = WideCatalog.Add(GregorianKey, s_GregorianSchema, DayZero.NewStyle, widest: true);
-        Interlocked.CompareExchange(ref s_Gregorian, chr, null);
-        return s_Gregorian;
-    }
-
-    [Pure]
-    private static WideCalendar InitJulian()
-    {
-        var chr = WideCatalog.Add(JulianKey, s_JulianSchema, DayZero.OldStyle, widest: true);
-        Interlocked.CompareExchange(ref s_Julian, chr, null);
-        return s_Julian;
-    }
-
-#if false
+    // We want the two previous static fields to be initialized before anything else.
+    static WideCatalogTests() { }
 
 #if false
     // Si on doit revenir en arrière, ne pas oublier de remplacer dans le projet
@@ -130,7 +111,7 @@ public static class WideCatalogTests
     public static void CurrentKeys_DoesNotContainUnknownKey() =>
         Assert.DoesNotContain("UnknownKey", WideCatalog.Keys);
 
-    [Theory(Skip = "???")]
+    [Theory]
     [InlineData(GregorianKey)]
     [InlineData(JulianKey)]
     public static void CurrentKeys(string key) => Assert.Contains(key, WideCatalog.Keys);
@@ -141,12 +122,12 @@ public static class WideCatalogTests
     [Fact]
     public static void Add_NullKey() =>
         Assert.ThrowsAnexn("name",
-            () => WideCatalog.Add(null!, s_GregorianSchema, default, false));
+            () => WideCatalog.Add(null!, new GregorianSchema(), default, false));
 
-    [Fact(Skip = "???")]
+    [Fact]
     public static void Add_KeyAlreadyExists() =>
         Assert.Throws<ArgumentException>("key",
-            () => WideCatalog.Add(GregorianKey, s_GregorianSchema, default, false));
+            () => WideCatalog.Add(GregorianKey, new GregorianSchema(), default, false));
 
     [Fact]
     public static void Add_InvalidSchema()
@@ -164,7 +145,7 @@ public static class WideCatalogTests
         string key = "Add";
         var epoch = DayZero.NewStyle;
         // Act
-        var chr = WideCatalog.Add(key, s_GregorianSchema, epoch, false);
+        var chr = WideCatalog.Add(key, new GregorianSchema(), epoch, false);
         // Assert
         OnKeySet(key, epoch, chr);
     }
@@ -189,16 +170,16 @@ public static class WideCatalogTests
     public static void TryAdd_NullKey() =>
         Assert.ThrowsAnexn("key",
             () => WideCatalog.TryAdd(
-                null!, s_GregorianSchema, default, false, out _));
+                null!, new GregorianSchema(), default, false, out _));
 
-    [Fact(Skip = "???")]
+    [Fact]
     public static void TryAdd_KeyAlreadyExists()
     {
         // Act
         // NB: on utilise volontairement une epoch et un schéma différents.
         bool created = WideCatalog.TryAdd(
             GregorianKey,
-            s_JulianSchema,
+            new JulianSchema(),
             DayZero.OldStyle,
             false,
             out WideCalendar? calendar);
@@ -225,7 +206,7 @@ public static class WideCatalogTests
         var epoch = DayZero.NewStyle;
         // Act
         bool created = WideCatalog.TryAdd(
-            key, s_GregorianSchema, epoch, false, out WideCalendar? calendar);
+            key, new GregorianSchema(), epoch, false, out WideCalendar? calendar);
         // Assert
         Assert.True(created);
         OnKeySet(key, epoch, calendar);
@@ -238,7 +219,7 @@ public static class WideCatalogTests
         var epoch = DayZero.NewStyle;
         // Act
         bool created = WideCatalog.TryAdd(
-            key, s_GregorianSchema, epoch, false, out WideCalendar? calendar);
+            key, new GregorianSchema(), epoch, false, out WideCalendar? calendar);
         // Assert
         Assert.True(created);
         OnKeySet(key, epoch, calendar);
@@ -351,7 +332,7 @@ public static class WideCatalogTests
                 var epoch = DayZero.NewStyle + i;
 
                 bool created = WideCatalog.TryAdd(
-                    key, s_GregorianSchema, epoch, false, out WideCalendar? calendar);
+                    key, new GregorianSchema(), epoch, false, out WideCalendar? calendar);
 
                 Assert.True(created);
                 OnKeySetCore(key, epoch, calendar);
@@ -377,14 +358,14 @@ public static class WideCatalogTests
         string key = "Key-OVERFLOW";
 
         Assert.Overflows(
-            () => WideCatalog.Add(key, s_GregorianSchema, default, false));
+            () => WideCatalog.Add(key, new GregorianSchema(), default, false));
         OnKeyNotSet(key);
         Assert.Throws<ArgumentException>(
-            () => WideCatalog.Add(GregorianKey, s_GregorianSchema, default, false));
+            () => WideCatalog.Add(GregorianKey, new GregorianSchema(), default, false));
 
-        Assert.False(WideCatalog.TryAdd(key, s_GregorianSchema, default, false, out _));
+        Assert.False(WideCatalog.TryAdd(key, new GregorianSchema(), default, false, out _));
         OnKeyNotSet(key);
-        Assert.False(WideCatalog.TryAdd(GregorianKey, s_GregorianSchema, default, false, out _));
+        Assert.False(WideCatalog.TryAdd(GregorianKey, new GregorianSchema(), default, false, out _));
 
         Assert.Overflows(
             () =>
@@ -408,6 +389,4 @@ public static class WideCatalogTests
                 return chr;
             };
     }
-
-#endif
 }

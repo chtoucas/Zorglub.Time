@@ -4,11 +4,12 @@
 namespace Zorglub.Time.Hemerology;
 
 using Zorglub.Testing.Data.Unbounded;
+using Zorglub.Time.Simple;
 
 public sealed partial class WideCalendarTests :
     ICalendarTFacts<WideDate, WideCalendar, UnboundedGregorianDataSet>
 {
-    public WideCalendarTests() : this(WideCatalogTests.Gregorian) { }
+    public WideCalendarTests() : this(WideCalendar.Gregorian) { }
 
     private WideCalendarTests(WideCalendar calendar) : base(calendar) { }
 
@@ -21,7 +22,7 @@ public partial class WideCalendarTests // Properties
 {
     [Fact]
     public void Key() =>
-        Assert.Equal(WideCatalogTests.GregorianKey, CalendarUT.Key);
+        Assert.Equal(GregorianCalendar.Instance.Key, CalendarUT.Key);
 
     [Fact]
     public sealed override void Algorithm_Prop() =>
@@ -44,7 +45,7 @@ public partial class WideCalendarTests // Properties
 
     [Fact]
     public void ToString_ReturnsKey() =>
-        Assert.Equal(WideCatalogTests.GregorianKey, CalendarUT.ToString());
+        Assert.Equal(CalendarUT.Key, CalendarUT.ToString());
 
     [Fact]
     public void Today()
