@@ -191,8 +191,8 @@ public partial class GregorianDataSet // IMathDataSet
         // End of february.
         new(new(CommonYear, 59), new(CommonYear, 60)), // February 28
         new(new(CommonYear, 60), new(CommonYear, 61)), // March 1st
-        new(new(LeapYear, 60), new(LeapYear, 61)),   // February 29
-        new(new(LeapYear, 61), new(LeapYear, 62)),   // March 1st
+        new(new(LeapYear, 60), new(LeapYear, 61)),     // February 29
+        new(new(LeapYear, 61), new(LeapYear, 62)),     // March 1st
 
         // End of year.
         new(new(CommonYear, 365), new(CommonYear + 1, 1)),

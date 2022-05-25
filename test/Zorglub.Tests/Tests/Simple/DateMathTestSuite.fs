@@ -24,9 +24,15 @@ module CalendarDateCase =
 module OrdinalDateCase =
     [<Sealed>]
     type GregorianTests() =
-        inherit IDateMathFacts<OrdinalDate, ProlepticGregorianDataSet>()
+        inherit IDateOrdinalMathFacts<OrdinalDate, ProlepticGregorianDataSet>()
 
-        override __.GetDate(y, m, d) = GregorianCalendar.Instance.GetCalendarDate(y, m, d).ToOrdinalDate()
+        override __.GetDate(y, doy) = GregorianCalendar.Instance.GetOrdinalDate(y, doy)
+
+    //[<Sealed>]
+    //type GregorianIndirectTests() =
+    //    inherit IDateMathFacts<OrdinalDate, ProlepticGregorianDataSet>()
+
+    //    override __.GetDate(y, m, d) = GregorianCalendar.Instance.GetCalendarDate(y, m, d).ToOrdinalDate()
 
     // Years math operations.
     [<Sealed>]
