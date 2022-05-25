@@ -23,27 +23,19 @@ public partial class CalCalDataSet // Interconversion
     [Pure]
     private static DataGroup<YemodaPair> InitGregorianToJulianData()
     {
-        var data = InitCore();
-        Interlocked.CompareExchange(ref s_GregorianToJulianData, data, null);
-        return s_GregorianToJulianData;
+        var lookup = GregorianDataSet.DaysSinceRataDieInfos.ToLookup(x => x.DaysSinceRataDie);
 
-        [Pure]
-        static DataGroup<YemodaPair> InitCore()
+        var data = new DataGroup<YemodaPair>();
+        foreach (var (rd, julian) in JulianDataSet.DaysSinceRataDieInfos)
         {
-            var lookup = GregorianDataSet.DaysSinceRataDieInfos.ToLookup(x => x.DaysSinceRataDie);
+            var gs = lookup[rd].ToList();
+            if (gs.Count != 1) { continue; }
 
-            var data = new DataGroup<YemodaPair>();
-            foreach (var (rd, julian) in JulianDataSet.DaysSinceRataDieInfos)
-            {
-                var gs = lookup[rd].ToList();
-                if (gs.Count != 1) { continue; }
-
-                var (_, gregorian) = gs.Single();
-                data.Add(new(gregorian, julian));
-            }
-
-            return data;
+            var (_, gregorian) = gs.Single();
+            data.Add(new(gregorian, julian));
         }
+
+        return data;
     }
 }
 

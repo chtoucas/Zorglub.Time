@@ -25,6 +25,9 @@ public static class CalendarCatalogTests
     public static readonly Calendar MyGregorian = CalendarCatalog.Add(
         MyGregorianKey, s_GregorianSchema, DayZero.NewStyle, proleptic: false);
 
+    // We want the two previous static fields to be initialized before anything else.
+    static CalendarCatalogTests() { }
+
     #region Keys
 
     [Fact]
@@ -35,7 +38,7 @@ public static class CalendarCatalogTests
     public static void Keys_SystemKey(CalendarId id) =>
         Assert.Contains(id.ToCalendarKey(), CalendarCatalog.Keys);
 
-    [Theory(Skip = "???")]
+    [Theory]
     [InlineData(MyGregorianKey)]
     [InlineData(MyJulianKey)]
     public static void Keys_UserKey(string key) =>

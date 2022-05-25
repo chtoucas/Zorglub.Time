@@ -3,6 +3,7 @@
 
 namespace Samples;
 
+using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.Threading;
 
@@ -14,21 +15,16 @@ using Zorglub.Time.Simple;
 
 using static Zorglub.Time.Extensions.Unboxing;
 
-// FIXME(code): volatile does not work here. Furthermore, I should verify that
-// the other initializations are correct (I belive they are not), they must
-// happen only once (exception throw when the key is already in use). Maybe we
-// should use TryCreateCalendar().
-// https://stackoverflow.com/questions/72275/when-should-the-volatile-keyword-be-used-in-c
-
 // On en profite pour explorer les différentes manières d'initialiser un
 // champs statique en différé.
-// - internal class (voir p.ex. WideCatalog)
+// - internal field of a private class.
 //   This is the best possible choice. A bit verbose, but thread-safe and lazy.
 // - Interlocked.CompareExchange()
 //   Second best choice.
-// - volatile field.
-//   Less verbose but too magical and I'm not sure that I really understand
-//   all the implications of it. Besides that, it does what it's supposed to.
+// - volatile field (read the latest value).
+//   Less verbose but I'm not sure that I really understand all the implications
+//   of it.
+//   https://stackoverflow.com/questions/72275/when-should-the-volatile-keyword-be-used-in-c
 // - Lazy<T> or (better?) LazyInitializer.EnsureInitialized
 
 /// <summary>
@@ -43,9 +39,13 @@ public static partial class CalendarZoo { }
 // - GenuineGregorian
 // - GenuineJulian
 // - FrenchRevolutionary
+// Lazy initialization, thread-safe because we can create the same calendar twice.
+// While thread-safe, under heavy load, there is a chance that the field will be
+// initialized more than once, which means that during a very short perido of
+// time we might receive different references (these are not singleton calendars).
 public partial class CalendarZoo
 {
-    private static volatile BoundedBelowCalendar? s_GenuineGregorian;
+    private static BoundedBelowCalendar? s_GenuineGregorian;
     /// <summary>
     /// Gets the Gregorian calendar with dates on or after the 15th of
     /// October 1582 CE.
@@ -61,7 +61,7 @@ public partial class CalendarZoo
                  1582, 10, 15)
              ).Unbox();
 
-    private static volatile MinMaxYearCalendar? s_GenuineJulian;
+    private static MinMaxYearCalendar? s_GenuineJulian;
     /// <summary>
     /// Gets the Julian calendar with dates on or after the year 8.
     /// <para>This static property is thread-safe.</para>
@@ -76,7 +76,7 @@ public partial class CalendarZoo
                 8)
              ).Unbox();
 
-    private static volatile MinMaxYearCalendar? s_FrenchRevolutionary;
+    private static MinMaxYearCalendar? s_FrenchRevolutionary;
     /// <summary>
     /// Gets the French Revolutionary calendar with dates in the range from
     /// year I to year XIV.
@@ -109,33 +109,78 @@ public partial class CalendarZoo
 // - Tropicalia
 // - LongGregorian, see WideCalendar.Gregorian
 // - LongJulian
+// Lazy initialization using Interlocked.CompareExchange(), but we must be
+// careful when we create the calendar; see comments below.
+// We also declare the fields as volatile, but I'm not sure of its usefulness.
+// If I'm not mistaken, the created calendars are singleton.
 public partial class CalendarZoo
 {
-    private static volatile Calendar? s_Tropicalia;
     /// <summary>
     /// Gets the proleptic Tropicália calendar.
     /// <para>This static property is thread-safe.</para>
     /// </summary>
-    public static Calendar Tropicalia =>
-        s_Tropicalia ??= TropicaliaSchema.GetInstance().CreateCalendar(
-            "Tropicália",
+    public static Calendar Tropicalia => s_Tropicalia ??= InitTropicalia();
+
+    private static volatile Calendar? s_Tropicalia;
+    [Pure]
+    private static Calendar InitTropicalia()
+    {
+        const string Key = "Tropicália";
+
+        // The creation must be thread-safe, therefore we cannot use the simpler
+        // CreateCalendar() which would throw if the key already exists.
+        // NB: TryCreateCalendar() is thread-safe.
+        var created = TropicaliaSchema.GetInstance().TryCreateCalendar(
+            Key,
             DayZero.NewStyle,
+            out var chr,
             proleptic: true);
 
-    private static volatile WideCalendar? s_LongJulian;
+        if (created == false)
+        {
+            // A calendar with the same key already exists, nevertheless
+            // s_Tropicalia can still be null if the other process that reserved
+            // the key in the catalog has not yet updated the field.
+            return s_Tropicalia ?? CalendarCatalog.GetCalendar(Key);
+        }
+
+        Debug.Assert(chr != null);
+        Interlocked.CompareExchange(ref s_Tropicalia, chr, null);
+        // We return s_Tropicalia not "chr" to always obtain the correct
+        // reference in case the process didn't initialize the field in the
+        // previous line.
+        return s_Tropicalia;
+    }
+
     /// <summary>
     /// Gets the (long) proleptic Julian calendar.
     /// <para>This static property is thread-safe.</para>
     /// </summary>
-    public static WideCalendar LongJulian =>
-        s_LongJulian ??=
-        (from x in JulianSchema.GetInstance()
-         select WideCatalog.Add(
-            "Long Julian",
-            x,
+    public static WideCalendar LongJulian => s_LongJulian ??= InitLongJulian();
+
+    private static volatile WideCalendar? s_LongJulian;
+    [Pure]
+    private static WideCalendar InitLongJulian()
+    {
+        const string Key = "Long Julian";
+
+        var sch = JulianSchema.GetInstance().Unbox();
+        var created = WideCatalog.TryAdd(
+            Key,
+            sch,
             DayZero.OldStyle,
-            widest: true)
-         ).Unbox();
+            widest: true,
+            out var chr);
+
+        if (created == false)
+        {
+            return s_LongJulian ?? WideCatalog.GetCalendar(Key);
+        }
+
+        Debug.Assert(chr != null);
+        Interlocked.CompareExchange(ref s_LongJulian, chr, null);
+        return s_LongJulian;
+    }
 }
 
 // Retropolated calendars of type Calendar.
@@ -146,92 +191,113 @@ public partial class CalendarZoo
 // - Positivist
 // - RevisedWorld
 // - World
+// Lazy initialization of a -group- of calendars.
 public partial class CalendarZoo
 {
-    private static volatile Calendar? s_Egyptian;
     /// <summary>
     /// Gets the Egyptian calendar.
     /// <para>This static property is thread-safe.</para>
     /// </summary>
-    public static Calendar Egyptian =>
-        s_Egyptian ??= Egyptian12Schema.GetInstance().CreateCalendar(
-            "Egyptian",
-            CalendarEpoch.Egyptian,
-            proleptic: false);
+    public static Calendar Egyptian => RetropolatedCalendars.Egyptian;
 
-    private static volatile Calendar? s_FrenchRepublican;
     /// <summary>
     /// Gets the French Republican calendar.
     /// <para>This static property is thread-safe.</para>
     /// </summary>
-    public static Calendar FrenchRepublican =>
-        s_FrenchRepublican ??= FrenchRepublican12Schema.GetInstance().CreateCalendar(
-            "French Republican",
-            CalendarEpoch.FrenchRepublican,
-            proleptic: false);
+    public static Calendar FrenchRepublican => RetropolatedCalendars.FrenchRepublican;
 
-    private static volatile Calendar? s_InternationalFixed;
     /// <summary>
     /// Gets the International Fixed calendar.
     /// <para>This static property is thread-safe.</para>
     /// </summary>
-    public static Calendar InternationalFixed =>
-        // The International Fixed calendar re-uses the Gregorian epoch.
-        s_InternationalFixed ??= InternationalFixedSchema.GetInstance().CreateCalendar(
-            "International Fixed",
-            DayZero.NewStyle,
-            proleptic: false);
+    public static Calendar InternationalFixed => RetropolatedCalendars.InternationalFixed;
 
-    private static volatile Calendar? s_Persian2820;
     /// <summary>
     /// Gets the Persian calendar (proposed arithmetical form).
     /// <para>This static property is thread-safe.</para>
     /// </summary>
-    public static Calendar Persian2820 =>
-        s_Persian2820 ??= Persian2820Schema.GetInstance().CreateCalendar(
-            "Tabular Persian",
-            CalendarEpoch.Persian,
-            proleptic: false);
+    public static Calendar Persian2820 => RetropolatedCalendars.Persian2820;
 
-    private static volatile Calendar? s_Positivist;
     /// <summary>
     /// Gets the Positivist calendar.
     /// <para>This static property is thread-safe.</para>
     /// </summary>
-    public static Calendar Positivist =>
-        s_Positivist ??= PositivistSchema.GetInstance().CreateCalendar(
-            "Positivist",
-            CalendarEpoch.Positivist,
-            proleptic: false);
+    public static Calendar Positivist => RetropolatedCalendars.Positivist;
 
-    private static volatile Calendar? s_RevisedWorld;
     /// <summary>
     /// Gets the revised World calendar.
     /// <para>This static property is thread-safe.</para>
     /// </summary>
-    public static Calendar RevisedWorld =>
-        // The Revised World calendar re-uses the Gregorian epoch.
-        s_RevisedWorld ??= WorldSchema.GetInstance().CreateCalendar(
-            "Revised World",
-            DayZero.NewStyle,
-            proleptic: false);
+    public static Calendar RevisedWorld => RetropolatedCalendars.RevisedWorld;
 
-    private static volatile Calendar? s_World;
     /// <summary>
     /// Gets the World calendar.
     /// <para>This static property is thread-safe.</para>
     /// </summary>
-    public static Calendar World =>
-        s_World ??= WorldSchema.GetInstance().CreateCalendar(
-            "World",
-            CalendarEpoch.SundayBeforeGregorian,
-            proleptic: false);
+    public static Calendar World => RetropolatedCalendars.World;
+
+    private class RetropolatedCalendars
+    {
+        // Static constructor to remove the "BeforeFieldInit" flag, but I'm not
+        // sure that it's necessary here (only affects laziness).
+        // With the flag (default), type initialization may be deferred or not.
+        //   "Specifies that calling static methods of the type does not force the system to initialize the type."
+        //   https://docs.microsoft.com/en-us/dotnet/api/system.reflection.typeattributes?view=net-6.0#system-reflection-typeattributes-beforefieldinit
+        // Without the flag, the CLR is required to call the type initializer
+        // before any member on the class is touched.
+        static RetropolatedCalendars() { }
+
+        internal static readonly Calendar Egyptian =
+            Egyptian12Schema.GetInstance().CreateCalendar(
+                "Egyptian",
+                CalendarEpoch.Egyptian,
+                proleptic: false);
+
+        internal static Calendar FrenchRepublican =
+            FrenchRepublican12Schema.GetInstance().CreateCalendar(
+                "French Republican",
+                CalendarEpoch.FrenchRepublican,
+                proleptic: false);
+
+        internal static Calendar InternationalFixed =
+            // The International Fixed calendar re-uses the Gregorian epoch.
+            InternationalFixedSchema.GetInstance().CreateCalendar(
+                "International Fixed",
+                DayZero.NewStyle,
+                proleptic: false);
+
+        internal static Calendar Persian2820 =
+            Persian2820Schema.GetInstance().CreateCalendar(
+                "Tabular Persian",
+                CalendarEpoch.Persian,
+                proleptic: false);
+
+        internal static Calendar Positivist =
+            PositivistSchema.GetInstance().CreateCalendar(
+                "Positivist",
+                CalendarEpoch.Positivist,
+                proleptic: false);
+
+        internal static Calendar RevisedWorld =
+            // The Revised World calendar re-uses the Gregorian epoch.
+            WorldSchema.GetInstance().CreateCalendar(
+                "Revised World",
+                DayZero.NewStyle,
+                proleptic: false);
+
+        internal static Calendar World =
+            WorldSchema.GetInstance().CreateCalendar(
+                "World",
+                CalendarEpoch.SundayBeforeGregorian,
+                proleptic: false);
+    }
 }
 
 // Offset calendars of type WideCalendar.
 // - Holocene
 // - Minguo
 // - ThaiSolar
+// Lazy initialization using Interlocked.CompareExchange().
 public partial class CalendarZoo
 {
     /// <summary>
@@ -244,18 +310,26 @@ public partial class CalendarZoo
     /// </remarks>
     public static WideCalendar Holocene => s_Holocene ??= InitHolocene();
 
-    private static WideCalendar? s_Holocene;
+    private static volatile WideCalendar? s_Holocene;
     [Pure]
     private static WideCalendar InitHolocene()
     {
-        var chr =
-            (from x in GregorianSchema.GetInstance()
-             select WideCatalog.Add(
-                 "Holocene",
-                 new CalendricalSchemaOffsetted(x, 10_000),
-                 DayZero.NewStyle,
-                 widest: false)
-             ).Unbox();
+        const string Key = "Holocene";
+
+        var sch = CreateOffsettedGregorian(10_000);
+        var created = WideCatalog.TryAdd(
+            Key,
+            sch,
+            DayZero.NewStyle,
+            widest: false,
+            out var chr);
+
+        if (created == false)
+        {
+            return s_Holocene ?? WideCatalog.GetCalendar(Key);
+        }
+
+        Debug.Assert(chr != null);
         Interlocked.CompareExchange(ref s_Holocene, chr, null);
         return s_Holocene;
     }
@@ -270,18 +344,26 @@ public partial class CalendarZoo
     /// </remarks>
     public static WideCalendar Minguo => s_Minguo ??= InitMinguo();
 
-    private static WideCalendar? s_Minguo;
+    private static volatile WideCalendar? s_Minguo;
     [Pure]
     private static WideCalendar InitMinguo()
     {
-        var chr =
-            (from x in GregorianSchema.GetInstance()
-             select WideCatalog.Add(
-                "Minguo",
-                new CalendricalSchemaOffsetted(x, -1911),
-                DayZero.NewStyle,
-                widest: false)
-             ).Unbox();
+        const string Key = "Minguo";
+
+        var sch = CreateOffsettedGregorian(-1911);
+        var created = WideCatalog.TryAdd(
+            Key,
+            sch,
+            DayZero.NewStyle,
+            widest: false,
+            out var chr);
+
+        if (created == false)
+        {
+            return s_Holocene ?? WideCatalog.GetCalendar(Key);
+        }
+
+        Debug.Assert(chr != null);
         Interlocked.CompareExchange(ref s_Minguo, chr, null);
         return s_Minguo;
     }
@@ -296,28 +378,42 @@ public partial class CalendarZoo
     /// </remarks>
     public static WideCalendar ThaiSolar => s_ThaiSolar ??= InitThaiSolar();
 
-    private static WideCalendar? s_ThaiSolar;
+    private static volatile WideCalendar? s_ThaiSolar;
     [Pure]
     private static WideCalendar InitThaiSolar()
     {
-        var chr =
-            (from x in GregorianSchema.GetInstance()
-             select WideCatalog.Add(
-                "Thai Solar",
-                new CalendricalSchemaOffsetted(x, 543),
-                DayZero.NewStyle,
-                widest: false)
-             ).Unbox();
+        const string Key = "Thai Solar";
+
+        var sch = CreateOffsettedGregorian(543);
+        var created = WideCatalog.TryAdd(
+            Key,
+            sch,
+            DayZero.NewStyle,
+            widest: false,
+            out var chr);
+
+        if (created == false)
+        {
+            return s_ThaiSolar ?? WideCatalog.GetCalendar(Key);
+        }
+
+        Debug.Assert(chr != null);
         Interlocked.CompareExchange(ref s_ThaiSolar, chr, null);
         return s_ThaiSolar;
+    }
+
+    private static CalendricalSchemaOffsetted CreateOffsettedGregorian(int offset)
+    {
+        var sch = GregorianSchema.GetInstance().Unbox();
+        return new CalendricalSchemaOffsetted(sch, offset);
     }
 }
 
 // Other calendars of type WideCalendar.
-// - Pax
+// - Pax (disabled)
 public partial class CalendarZoo
 {
-#if false // TODO(code): unfinished Pax schema.
+#if false // TODO(code): unfinished Pax schema. When finished, make the code thread-safe...
     private static volatile WideCalendar? s_Pax;
     /// <summary>
     /// Gets the Pax calendar.
