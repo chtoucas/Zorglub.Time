@@ -244,6 +244,15 @@ namespace Zorglub.Time.Simple
         }
 
         /// <summary>
+        /// Deconstructs the current instance into its components.
+        /// </summary>
+        public void Deconstruct(out int year, out int dayOfYear)
+        {
+            ref readonly var chr = ref CalendarRef;
+            year = chr.Schema.GetYear(DaysSinceEpoch, out dayOfYear);
+        }
+
+        /// <summary>
         /// Packs the specified month parts into a single 32-bit word.
         /// </summary>
         [Pure]

@@ -34,14 +34,26 @@ public partial class CalendarDayFacts<TDataSet> // Prelude
     [Theory, MemberData(nameof(DayNumberInfoData))]
     public void Deconstructor(DayNumberInfo info)
     {
-        var (y, m, d) = info.Yemoda;
-        var date = CalendarUT.GetCalendarDay(info.DayNumber);
+        var (dayNumber, y, m, d) = info;
+        var date = CalendarUT.GetCalendarDay(dayNumber);
         // Act
         var (year, month, day) = date;
         // Assert
         Assert.Equal(y, year);
         Assert.Equal(m, month);
         Assert.Equal(d, day);
+    }
+
+    [Theory, MemberData(nameof(DayNumberInfoData))]
+    public void Deconstructor﹍Ordinal(DayNumberInfo info)
+    {
+        int y = info.Yemoda.Year;
+        var date = CalendarUT.GetCalendarDay(info.DayNumber);
+        // Act
+        var (year, dayOfYear) = date;
+        // Assert
+        Assert.Equal(y, year);
+        Assert.Equal(date.DayOfYear, dayOfYear);
     }
 
     //

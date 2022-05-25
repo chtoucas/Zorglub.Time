@@ -185,6 +185,16 @@ namespace Zorglub.Time.Simple
         /// </summary>
         public void Deconstruct(out int year, out int month, out int day) =>
             _bin.Deconstruct(out year, out month, out day);
+
+        /// <summary>
+        /// Deconstructs the current instance into its components.
+        /// </summary>
+        public void Deconstruct(out int year, out int dayOfYear)
+        {
+            _bin.Deconstruct(out year, out int m, out int d);
+            ref readonly var chr = ref CalendarRef;
+            dayOfYear = chr.Schema.GetDayOfYear(year, m, d);
+        }
     }
 
     public partial struct CalendarDate // Factories, conversions, adjustments, etc.
