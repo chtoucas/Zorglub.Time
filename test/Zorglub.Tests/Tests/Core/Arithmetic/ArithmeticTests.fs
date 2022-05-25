@@ -44,9 +44,9 @@ module Prelude =
     let ``Solar13Arithmetic constructor throws for non-solar13 schema`` (sch) =
         argExn "schema" (fun () -> new Solar13Arithmetic(sch))
 
-module FastArithmeticCase =
+module Factories =
     [<Fact>]
-    let ``Create()`` () =
+    let ``FastArithmetic.Create()`` () =
         FastArithmetic.Create(schemaOf<Coptic12Schema>())           |> is<Solar12Arithmetic>
         argExn "schema" (fun () -> FastArithmetic.Create(schemaOf<Coptic13Schema>()))
         FastArithmetic.Create(schemaOf<Egyptian12Schema>())         |> is<Solar12Arithmetic>
