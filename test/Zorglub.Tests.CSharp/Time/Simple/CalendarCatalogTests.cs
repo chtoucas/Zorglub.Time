@@ -18,26 +18,7 @@ public static class CalendarCatalogTests
     public static readonly Calendar MyGregorian = CalendarCatalog.Add(
         MyGregorianKey, new GregorianSchema(), DayZero.NewStyle, proleptic: false);
 
-    // We want the two previous static fields to be initialized before anything else.
     static CalendarCatalogTests() { }
-
-    [Theory]
-    [InlineData(MyGregorianKey)]
-    public static void Keys_UserKey(string key) =>
-        Assert.Contains(key, CalendarCatalog.Keys);
-
-    [Fact]
-    public static void GetCalendar_UserKey()
-    {
-        Assert.Same(MyGregorian, CalendarCatalog.GetCalendar(MyGregorianKey));
-    }
-
-    [Fact]
-    public static void TryGetCalendar_UserKey()
-    {
-        Assert.True(CalendarCatalog.TryGetCalendar(MyGregorianKey, out var gr));
-        Assert.Same(MyGregorian, gr);
-    }
 
     [Theory]
     [InlineData((int)Cuid.MaxSystem + 1)]
@@ -66,8 +47,6 @@ public static class CalendarCatalogTests
         Assert.Same(call1, call3);
         Assert.Same(call1, call4);
     }
-
-    #region Helpers
 
     private static void OnKeyNotSet(string key)
     {
@@ -188,6 +167,4 @@ public static class CalendarCatalogTests
         Assert.Equal(TotalCount, CalendarCatalog.GetAllCalendars().Count);
         Assert.Equal(CalendarCatalog.MaxNumberOfUserCalendars, CalendarCatalog.GetUserCalendars().Count);
     }
-
-    #endregion
 }
