@@ -7,13 +7,6 @@ public static class UserCalendar
 {
     public const string GregorianKey = "User Gregorian";
 
-    public static Calendar Gregorian { get { return Instances.Gregorian; } }
-
-    private class Instances
-    {
-        static Instances() { }
-
-        internal static readonly Calendar Gregorian =
-            CalendarCatalog.Add(GregorianKey, new GregorianSchema(), DayZero.NewStyle, false);
-    }
+    public static Calendar Gregorian { get; } =
+        CalendarCatalog.Add(GregorianKey, new GregorianSchema(), DayZero.NewStyle, true);
 }

@@ -15,11 +15,25 @@ open Zorglub.Time.Simple
 
 open Xunit
 
-// NB: we also test BoxExtensions.
-
 let private toCalendarKey (id: CalendarId)  = CalendarIdExtensions.ToCalendarKey(id)
 
-let userGregorian = UserCalendar.Gregorian
+let private userGregorian = UserCalendar.Gregorian
+
+module TestCommon =
+    let onKeyNotSet key =
+        Assert.DoesNotContain(key, CalendarCatalog.Keys)
+        throws<KeyNotFoundException> (fun () -> CalendarCatalog.GetCalendar(key))
+
+    let onKeySet key epoch (chr: Calendar) proleptic =
+        chr |> isnotnull
+
+        chr.Key         === key
+        chr.Epoch       === epoch
+        chr.IsProleptic === proleptic
+
+        Assert.Contains(key, CalendarCatalog.Keys)
+
+        CalendarCatalog.GetCalendar(key) ==& chr
 
 module Prelude =
     let calendarIdData = EnumDataSet.CalendarIdData
@@ -54,7 +68,7 @@ module Prelude =
 
         Assert.Contains(chr, calendars)
 
-module ReadOnlyOps =
+module Lookup =
     let calendarIdData = EnumDataSet.CalendarIdData
 
     //
@@ -128,11 +142,11 @@ module ReadOnlyOps =
         chr1 |> isnotnull
         chr1 ==& chr2
 
-    //[<Fact>]
-    //let ``GetSystemCalendar(user id) throws`` () =
-    //    let id = userGregorian.PermanentId
+    [<Fact>]
+    let ``GetSystemCalendar(user id) throws`` () =
+        let id: CalendarId = enum <| int(userGregorian.Id)
 
-    //    throws<NotSupportedException> (fun () -> CalendarCatalog.GetSystemCalendar(id))
+        outOfRangeExn "id" (fun () -> CalendarCatalog.GetSystemCalendar(id))
 
     //
     // GetCalendarUnchecked()
@@ -167,204 +181,160 @@ module ReadOnlyOps =
             let id = sys.PermanentId
             let cuid = int(id)
 
+            let chr = CalendarCatalog.GetSystemCalendar(id)
             let chr1 = CalendarCatalog.GetCalendar(key)
-            let chr2 = CalendarCatalog.GetSystemCalendar(id)
-            let chr3 = CalendarCatalog.GetCalendarUnchecked(cuid)
-            let succeed, chr4 = CalendarCatalog.TryGetCalendar(key)
+            let chr2 = CalendarCatalog.GetCalendarUnchecked(cuid)
+            let succeed, chr3 = CalendarCatalog.TryGetCalendar(key)
 
             succeed |> ok
+            chr  ==& sys
             chr1 ==& sys
             chr2 ==& sys
             chr3 ==& sys
-            chr4 ==& sys
 
-    //[<Fact>]
-    //let ``All lookup methods return the same reference for user-defined calendars`` () =
-    //    let key = userGregorian.Key
-    //    let cuid = int(id)
+    [<Fact>]
+    let ``All lookup methods return the same reference for user-defined calendars`` () =
+        let key = userGregorian.Key
+        let cuid = int(userGregorian.Id)
 
-    //    let chr1 = CalendarCatalog.GetCalendar(key)
-    //    let chr2 = CalendarCatalog.GetCalendarUnchecked(cuid)
-    //    let succeed, chr3 = CalendarCatalog.TryGetCalendar(key)
+        let chr1 = CalendarCatalog.GetCalendar(key)
+        let chr2 = CalendarCatalog.GetCalendarUnchecked(cuid)
+        let succeed, chr3 = CalendarCatalog.TryGetCalendar(key)
 
-    //    succeed |> ok
-    //    chr1 ==& userGregorian
-    //    chr2 ==& userGregorian
-    //    chr3 ==& userGregorian
+        succeed |> ok
+        chr1 ==& userGregorian
+        chr2 ==& userGregorian
+        chr3 ==& userGregorian
 
-module ReadWriteOps =
-    let private onKeyNotSet key =
-        Assert.DoesNotContain(key, CalendarCatalog.Keys)
-        throws<KeyNotFoundException> (fun () -> CalendarCatalog.GetCalendar(key))
+module NoWrite =
+    open TestCommon
 
-    let private onKeySet key epoch (chr: Calendar) proleptic =
-        chr |> isnotnull
+    // NB: quand on essaie d'ajouter un calendrier avec une clé qui est déjà
+    // prise, on utilise volontairement une epoch et un schéma différents.
 
-        chr.Key         === key
-        chr.Epoch       === epoch
-        chr.IsProleptic === proleptic
+    //
+    // GetOrAdd()
+    //
 
-        Assert.Contains(key, CalendarCatalog.Keys)
+    [<Fact>]
+    let ``GetOrAdd() throws for null key`` () =
+        nullExn "key" (fun () -> CalendarCatalog.GetOrAdd(null, new JulianSchema(), DayZero.OldStyle, false))
 
-        CalendarCatalog.GetCalendar(key) ==& chr
+    [<Fact>]
+    let ``GetOrAdd() throws for null schema`` () =
+        let key = "key"
 
-    module Unchanged =
-        // NB: quand on essaie d'ajouter un calendrier avec une clé qui est déjà
-        // prise, on utilise volontairement une epoch et un schéma différents.
+        nullExn "schema" (fun () -> CalendarCatalog.GetOrAdd(key, null, DayZero.OldStyle, false))
+        onKeyNotSet key
 
-        //
-        // GetOrAdd()
-        //
+    [<Fact>]
+    let ``GetOrAdd() when key is a system key`` () =
+        let sys = GregorianCalendar.Instance
+        let chr = CalendarCatalog.GetOrAdd(sys.Key, new JulianSchema(), DayZero.OldStyle, false)
 
-        [<Fact>]
-        let ``GetOrAdd() throws for null key`` () =
-            nullExn "key" (fun () -> CalendarCatalog.GetOrAdd(null, new GregorianSchema(), DayNumber.Zero, false))
+        chr ==& sys
 
-        [<Fact>]
-        let ``GetOrAdd() throws for null schema`` () =
-            let key = "key"
+    [<Fact>]
+    let ``GetOrAdd() when key already exists`` () =
+        let chr = CalendarCatalog.GetOrAdd(userGregorian.Key, new JulianSchema(), DayZero.OldStyle, false)
 
-            nullExn "schema" (fun () -> CalendarCatalog.GetOrAdd(key, null, DayNumber.Zero, false))
-            onKeyNotSet key
+        chr ==& userGregorian
 
-        [<Fact>]
-        let ``GetOrAdd() when key is a system key`` () =
-            let sys = GregorianCalendar.Instance
-            let chr = CalendarCatalog.GetOrAdd(sys.Key, new JulianSchema(), DayZero.OldStyle, false)
+    //
+    // Add()
+    //
 
-            chr ==& sys
+    [<Fact>]
+    let ``Add() throws for null key`` () =
+        nullExn "key" (fun () -> CalendarCatalog.Add(null, new JulianSchema(), DayZero.OldStyle, false))
 
-        [<Fact>]
-        let ``GetOrAdd() when key already exists`` () =
-            let chr = CalendarCatalog.GetOrAdd(userGregorian.Key, new JulianSchema(), DayZero.OldStyle, false)
+    [<Fact>]
+    let ``Add() throws for null schema`` () =
+        let key = "key"
 
-            chr ==& userGregorian
+        nullExn "schema" (fun () -> CalendarCatalog.Add(key, null, DayZero.OldStyle, false))
+        onKeyNotSet key
 
-        //
-        // Add()
-        //
+    [<Fact>]
+    let ``Add() when key is a system key`` () =
+        let sys = GregorianCalendar.Instance
 
-        [<Fact>]
-        let ``Add() throws for null key`` () =
-            nullExn "key" (fun () -> CalendarCatalog.Add(null, new GregorianSchema(), DayNumber.Zero, false))
+        argExn "key" (fun () -> CalendarCatalog.Add(sys.Key, new JulianSchema(), DayZero.OldStyle, false))
 
-        [<Fact>]
-        let ``Add() throws for null schema`` () =
-            let key = "key"
+    [<Fact>]
+    let ``Add() when key already exists`` () =
+        argExn "key" (fun () -> CalendarCatalog.Add(userGregorian.Key, new JulianSchema(), DayZero.OldStyle, false))
 
-            nullExn "schema" (fun () -> CalendarCatalog.Add(key, null, DayNumber.Zero, false))
-            onKeyNotSet key
+    //
+    // TryAdd()
+    //
 
-        [<Fact>]
-        let ``Add() when key is a system key`` () =
-            let sys = GregorianCalendar.Instance
-            argExn "key" (fun () -> CalendarCatalog.Add(sys.Key, new JulianSchema(), DayZero.OldStyle, false))
+    [<Fact>]
+    let ``TryAdd() throws for null key`` () =
+        nullExn "key" (fun () -> CalendarCatalog.TryAdd(null, new JulianSchema(), DayZero.OldStyle, false))
 
-        [<Fact>]
-        let ``Add() when key already exists`` () =
-            argExn "key" (fun () -> CalendarCatalog.Add(userGregorian.Key, new JulianSchema(), DayZero.OldStyle, false))
+    [<Fact>]
+    let ``TryAdd() throws for null schema`` () =
+        let key = "key"
 
-        //
-        // TryAdd()
-        //
+        nullExn "schema" (fun () -> CalendarCatalog.TryAdd(key, null, DayZero.OldStyle, false))
+        onKeyNotSet key
 
-        [<Fact>]
-        let ``TryAdd() throws for null key`` () =
-            nullExn "key" (fun () -> CalendarCatalog.TryAdd(null, new GregorianSchema(), DayNumber.Zero, false))
+    [<Fact>]
+    let ``TryAdd() when key is a system key`` () =
+        let sys = GregorianCalendar.Instance
+        let succeed, chr = CalendarCatalog.TryAdd(sys.Key, new JulianSchema(), DayZero.OldStyle, false)
 
-        [<Fact>]
-        let ``TryAdd() throws for null schema`` () =
-            let key = "key"
+        succeed |> nok
+        chr     |> isnull
 
-            nullExn "schema" (fun () -> CalendarCatalog.TryAdd(key, null, DayNumber.Zero, false))
-            onKeyNotSet key
+    [<Fact>]
+    let ``TryAdd() when key already exists`` () =
+        let succeed, chr = CalendarCatalog.TryAdd(userGregorian.Key, new JulianSchema(), DayZero.OldStyle, false)
 
-        [<Fact>]
-        let ``TryAdd() when key is a system key`` () =
-            let sys = GregorianCalendar.Instance
-            let succeed, chr = CalendarCatalog.TryAdd(sys.Key, new JulianSchema(), DayZero.OldStyle, false)
+        succeed |> nok
+        chr     |> isnull
 
-            succeed |> nok
-            chr     |> isnull
+module Write =
+    open TestCommon
 
-        [<Fact>]
-        let ``TryAdd() when key already exists`` () =
-            let succeed, chr = CalendarCatalog.TryAdd(userGregorian.Key, new JulianSchema(), DayZero.OldStyle, false)
+    // NB: we keep together all the tests that actually modify the state of
+    // the catalog to keep track of all used keys.
 
-            succeed |> nok
-            chr     |> isnull
+    [<Fact>]
+    let ``GetOrAdd()`` () =
+        let key = "CalendarCatalogTests.GetOrAdd"
+        let epoch = DayNumber.Zero + 1234
+        let proleptic = false
+        let chr = CalendarCatalog.GetOrAdd(key, new GregorianSchema(), epoch, proleptic)
 
-    module Changed =
-        // NB: we keep together all the tests that actually modify the state of
-        // the catalog to keep track of all used keys; see at the very end.
+        onKeySet key epoch chr proleptic
 
-        [<Fact>]
-        let ``GetOrAdd()`` () =
-            let key = "GetOrAdd"
-            let epoch = DayNumber.Zero + 1234
-            let proleptic = false
-            let chr = CalendarCatalog.GetOrAdd(key, new GregorianSchema(), epoch, proleptic)
+    [<Fact>]
+    let ``Add()`` () =
+        let key = "CalendarCatalogTests.Add"
+        let epoch = DayNumber.Zero + 1234
+        let proleptic = true
+        let chr = CalendarCatalog.Add(key, new GregorianSchema(), epoch, proleptic)
 
-            onKeySet key epoch chr proleptic
+        onKeySet key epoch chr proleptic
 
-        [<Fact>]
-        let ``Add()`` () =
-            let key = "Add"
-            let epoch = DayNumber.Zero + 1234
-            let proleptic = true
-            let chr = CalendarCatalog.Add(key, new GregorianSchema(), epoch, proleptic)
+    [<Fact>]
+    let ``TryAdd()`` () =
+        let key = "CalendarCatalogTests.TryAdd"
+        let epoch = DayNumber.Zero + 1234
+        let proleptic = false
+        let succeed, chr = CalendarCatalog.TryAdd(key, new GregorianSchema(), epoch, proleptic)
 
-            onKeySet key epoch chr proleptic
+        succeed |> ok
+        onKeySet key epoch chr proleptic
 
-        [<Fact>]
-        let ``TryAdd()`` () =
-            let key = "TryAdd"
-            let epoch = DayNumber.Zero + 1234
-            let proleptic = false
-            let succeed, chr = CalendarCatalog.TryAdd(key, new GregorianSchema(), epoch, proleptic)
+    [<Fact>]
+    let ``TryAdd() when the key is empty`` () =
+        let key = ""
+        let epoch = DayNumber.Zero + 1234
+        let proleptic = true
+        let succeed, chr = CalendarCatalog.TryAdd(key, new GregorianSchema(), epoch, proleptic)
 
-            succeed |> ok
-            onKeySet key epoch chr proleptic
-
-        [<Fact>]
-        let ``TryAdd() when the key is empty`` () =
-            let key = ""
-            let epoch = DayNumber.Zero + 1234
-            let proleptic = true
-            let succeed, chr = CalendarCatalog.TryAdd(key, new GregorianSchema(), epoch, proleptic)
-
-            succeed |> ok
-            onKeySet key epoch chr proleptic
-
-        //
-        // BoxExtensions
-        //
-
-        [<Fact>]
-        let ``BoxExtensions.CreateCalendar()`` () =
-            let key = "BoxExtensions.CreateCalendar"
-            let epoch = DayNumber.Zero + 1234
-            let proleptic = false
-            let chr = GregorianSchema.GetInstance().CreateCalendar(key, epoch, proleptic)
-
-            onKeySet key epoch chr proleptic
-
-        [<Fact>]
-        let ``BoxExtensions.TryCreateCalendar() with default proleptic param`` () =
-            let key = "BoxExtensions.TryCreateCalendar+proleptic=false"
-            let epoch = DayNumber.Zero + 1234
-            let succeed, chr = GregorianSchema.GetInstance().TryCreateCalendar(key, epoch)
-
-            succeed |> ok
-            onKeySet key epoch chr false
-
-        [<Fact>]
-        let ``BoxExtensions.TryCreateCalendar()`` () =
-            let key = "BoxExtensions.TryCreateCalendar+proleptic=true"
-            let epoch = DayNumber.Zero + 1234
-            let mutable chr = null
-            let proleptic = true
-            let succeed = GregorianSchema.GetInstance().TryCreateCalendar(key, epoch, &chr, proleptic)
-
-            succeed |> ok
-            onKeySet key epoch chr proleptic
+        succeed |> ok
+        onKeySet key epoch chr proleptic

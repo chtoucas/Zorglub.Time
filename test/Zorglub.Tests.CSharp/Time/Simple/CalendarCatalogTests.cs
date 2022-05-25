@@ -28,12 +28,6 @@ public static class CalendarCatalogTests
     public static void GetSystemCalendar_InvalidId(int id) =>
         Assert.ThrowsAoorexn("id", () => CalendarCatalog.GetSystemCalendar((CalendarId)id));
 
-    [Fact]
-    public static void GetCalendarUnchecked_UserId()
-    {
-        Assert.Same(MyGregorian, CalendarCatalog.GetCalendarUnchecked((int)MyGregorian.Id));
-    }
-
     [Theory, MemberData(nameof(EnumDataSet.CalendarIdData), MemberType = typeof(EnumDataSet))]
     public static void GetCalendarXXX_AreAllTheSame(CalendarId id)
     {
