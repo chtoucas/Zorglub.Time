@@ -116,9 +116,89 @@ public partial class GregorianDataSet // IMathDataSet
         new(new(3, 12, 31), new(4, 1, 1)),
     };
 
-    public DataGroup<YedoyPairAnd<int>> AddDaysOrdinalData { get; } = new();
+    public DataGroup<YedoyPairAnd<int>> AddDaysOrdinalData { get; } = new()
+    {
+        // A full month (January).
+        new(new(3, 5), new(3, 30), 25),
+        new(new(3, 5), new(3, 29), 24),
+        new(new(3, 5), new(3, 28), 23),
+        new(new(3, 5), new(3, 27), 22),
+        new(new(3, 5), new(3, 26), 21),
+        new(new(3, 5), new(3, 25), 20),
+        new(new(3, 5), new(3, 24), 19),
+        new(new(3, 5), new(3, 23), 18),
+        new(new(3, 5), new(3, 22), 17),
+        new(new(3, 5), new(3, 21), 16),
+        new(new(3, 5), new(3, 20), 15),
+        new(new(3, 5), new(3, 19), 14),
+        new(new(3, 5), new(3, 18), 13),
+        new(new(3, 5), new(3, 17), 12),
+        new(new(3, 5), new(3, 16), 11),
+        new(new(3, 5), new(3, 15), 10),
+        new(new(3, 5), new(3, 14), 9),
+        new(new(3, 5), new(3, 13), 8),
+        new(new(3, 5), new(3, 12), 7),
+        new(new(3, 5), new(3, 11), 6),
+        new(new(3, 5), new(3, 10), 5),
+        new(new(3, 5), new(3, 9), 4),
+        new(new(3, 5), new(3, 8), 3),
+        new(new(3, 5), new(3, 7), 2),
+        new(new(3, 5), new(3, 6), 1),
+        new(new(3, 5), new(3, 5), 0),
+        new(new(3, 5), new(3, 4), -1),
+        new(new(3, 5), new(3, 3), -2),
+        new(new(3, 5), new(3, 2), -3),
+        new(new(3, 5), new(3, 1), -4),
+    };
 
-    public DataGroup<YedoyPair> ConsecutiveDaysOrdinalData { get; } = new();
+    public DataGroup<YedoyPair> ConsecutiveDaysOrdinalData { get; } = new()
+    {
+        // January
+        new(new(CommonYear, 1), new(CommonYear, 2)),
+        new(new(CommonYear, 2), new(CommonYear, 3)),
+        new(new(CommonYear, 3), new(CommonYear, 4)),
+        new(new(CommonYear, 4), new(CommonYear, 5)),
+        new(new(CommonYear, 5), new(CommonYear, 6)),
+        new(new(CommonYear, 6), new(CommonYear, 7)),
+        new(new(CommonYear, 7), new(CommonYear, 8)),
+        new(new(CommonYear, 8), new(CommonYear, 9)),
+        new(new(CommonYear, 9), new(CommonYear, 10)),
+        new(new(CommonYear, 10), new(CommonYear, 11)),
+        new(new(CommonYear, 11), new(CommonYear, 12)),
+        new(new(CommonYear, 12), new(CommonYear, 13)),
+        new(new(CommonYear, 13), new(CommonYear, 14)),
+        new(new(CommonYear, 14), new(CommonYear, 15)),
+        new(new(CommonYear, 15), new(CommonYear, 16)),
+        new(new(CommonYear, 16), new(CommonYear, 17)),
+        new(new(CommonYear, 17), new(CommonYear, 18)),
+        new(new(CommonYear, 18), new(CommonYear, 19)),
+        new(new(CommonYear, 19), new(CommonYear, 20)),
+        new(new(CommonYear, 20), new(CommonYear, 21)),
+        new(new(CommonYear, 21), new(CommonYear, 22)),
+        new(new(CommonYear, 22), new(CommonYear, 23)),
+        new(new(CommonYear, 23), new(CommonYear, 24)),
+        new(new(CommonYear, 24), new(CommonYear, 25)),
+        new(new(CommonYear, 25), new(CommonYear, 26)),
+        new(new(CommonYear, 26), new(CommonYear, 27)),
+        new(new(CommonYear, 27), new(CommonYear, 28)),
+        new(new(CommonYear, 28), new(CommonYear, 29)),
+        new(new(CommonYear, 29), new(CommonYear, 30)),
+        new(new(CommonYear, 30), new(CommonYear, 31)),
+        new(new(CommonYear, 31), new(CommonYear, 32)),
+
+        // February
+        new(new(CommonYear, 32), new(CommonYear, 33)),
+        // End of february.
+        new(new(CommonYear, 59), new(CommonYear, 60)), // February 28
+        new(new(CommonYear, 60), new(CommonYear, 61)), // March 1st
+        new(new(LeapYear, 60), new(LeapYear, 61)),   // February 29
+        new(new(LeapYear, 61), new(LeapYear, 62)),   // March 1st
+
+        // End of year.
+        new(new(CommonYear, 365), new(CommonYear + 1, 1)),
+        new(new(LeapYear, 365), new(LeapYear, 366)),
+        new(new(LeapYear, 366), new(LeapYear + 1, 1)),
+    };
 }
 
 // NB: we do not include data for which the result is ambiguous, see
