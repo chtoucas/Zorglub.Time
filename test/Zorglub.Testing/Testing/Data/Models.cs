@@ -250,10 +250,6 @@ public readonly record struct YemoAnd<T1, T2>(Yemo Yemo, T1 Value1, T2 Value2)
     }
 }
 
-public readonly record struct YemodaPair(Yemoda First, Yemoda Second);
-
-public readonly record struct YemodaPairAnd<T>(Yemoda First, Yemoda Second, T Value) where T : struct;
-
 public readonly record struct YearAnd<T>(int Year, T Value) where T : struct
 {
     public void Deconstruct(out int y, out T value)
@@ -262,6 +258,14 @@ public readonly record struct YearAnd<T>(int Year, T Value) where T : struct
         value = Value;
     }
 }
+
+public readonly record struct YemodaPair(Yemoda First, Yemoda Second);
+
+public readonly record struct YemodaPairAnd<T>(Yemoda First, Yemoda Second, T Value) where T : struct;
+
+public readonly record struct YedoyPair(Yedoy First, Yedoy Second);
+
+public readonly record struct YedoyPairAnd<T>(Yedoy First, Yedoy Second, T Value) where T : struct;
 
 #endregion
 #region Math models

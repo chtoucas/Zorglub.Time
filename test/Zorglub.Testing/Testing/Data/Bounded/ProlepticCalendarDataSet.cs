@@ -41,6 +41,8 @@ public sealed class ProlepticGregorianDataSet :
     // IMathDataSet
     public DataGroup<YemodaPairAnd<int>> AddDaysData => Unbounded.AddDaysData.WhereT(DataFilter.Filter);
     public DataGroup<YemodaPair> ConsecutiveDaysData => Unbounded.ConsecutiveDaysData.WhereT(DataFilter.Filter);
+    public DataGroup<YedoyPairAnd<int>> AddDaysOrdinalData => Unbounded.AddDaysOrdinalData.WhereT(DataFilter.Filter);
+    public DataGroup<YedoyPair> ConsecutiveDaysOrdinalData => Unbounded.ConsecutiveDaysOrdinalData.WhereT(DataFilter.Filter);
 
     // IAdvancedMathDataSet
     public AddAdjustment AddAdjustment => Unbounded.AddAdjustment;

@@ -25,9 +25,11 @@ public abstract partial class ICalendricalArithmeticFacts<TDataSet> :
 
     public static DataGroup<YemodaPairAnd<int>> AddDaysData => DataSet.AddDaysData;
     public static DataGroup<YemodaPair> ConsecutiveDaysData => DataSet.ConsecutiveDaysData;
+    public static DataGroup<YedoyPairAnd<int>> AddDaysOrdinalData => DataSet.AddDaysOrdinalData;
+    public static DataGroup<YedoyPair> ConsecutiveDaysOrdinalData => DataSet.ConsecutiveDaysOrdinalData;
 }
 
-public partial class ICalendricalArithmeticFacts<TDataSet>
+public partial class ICalendricalArithmeticFacts<TDataSet> // Yemoda
 {
     [Theory, MemberData(nameof(AddDaysData))]
     public void AddDays(YemodaPairAnd<int> pair)

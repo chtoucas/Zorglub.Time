@@ -32,6 +32,8 @@ public sealed partial class UnboundedGregorianDataSet :
     // IMathDataSet
     public DataGroup<YemodaPairAnd<int>> AddDaysData => SchemaDataSet.AddDaysData;
     public DataGroup<YemodaPair> ConsecutiveDaysData => SchemaDataSet.ConsecutiveDaysData;
+    public DataGroup<YedoyPairAnd<int>> AddDaysOrdinalData => SchemaDataSet.AddDaysOrdinalData;
+    public DataGroup<YedoyPair> ConsecutiveDaysOrdinalData => SchemaDataSet.ConsecutiveDaysOrdinalData;
 
     // IAdvancedMathDataSet
     public AddAdjustment AddAdjustment => SchemaDataSet.AddAdjustment;

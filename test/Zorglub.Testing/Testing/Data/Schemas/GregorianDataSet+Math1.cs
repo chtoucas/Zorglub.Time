@@ -64,7 +64,6 @@ public partial class GregorianDataSet // IMathDataSet
         new(new(3, 4, 5), new(5, 4, 4), 2 * 365),
     };
 
-    // Also useful for testing Next() and Previous().
     public DataGroup<YemodaPair> ConsecutiveDaysData { get; } = new()
     {
         new(new(CommonYear, 4, 1), new(CommonYear, 4, 2)),
@@ -116,9 +115,14 @@ public partial class GregorianDataSet // IMathDataSet
         new(new(CommonYear, 11, 30), new(CommonYear, 12, 1)),
         new(new(3, 12, 31), new(4, 1, 1)),
     };
+
+    public DataGroup<YedoyPairAnd<int>> AddDaysOrdinalData { get; } = new();
+
+    public DataGroup<YedoyPair> ConsecutiveDaysOrdinalData { get; } = new();
 }
 
-// NB: we do not include data for which the result is ambiguous, see GregorianMathDataSet for that.
+// NB: we do not include data for which the result is ambiguous, see
+// GregorianMathDataSet...Adjustment for that.
 public partial class GregorianDataSet // IAdvancedMathDataSet
 {
     public AddAdjustment AddAdjustment { get; } = AddAdjustment.EndOfMonth;
