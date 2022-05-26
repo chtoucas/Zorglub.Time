@@ -314,6 +314,13 @@ module Misc =
 module GregorianCase =
     let private chr = GregorianCalendar.Instance
     let private domain = chr.Domain
+    // fauxCalendar is constructed such that today is not within the range of
+    // supported days.
+    let private startOfYear3000 = DayNumber.FromGregorianParts(3000, 1, 1)
+    let private fauxCalendar =
+        new Calendar(
+            FauxUserCalendar.DefaultCuid, FauxUserCalendar.DefaultKey, new GregorianSchema(), startOfYear3000, false)
+
     let private calendarDataSet = ProlepticGregorianDataSet.Instance
 
     let dayOfWeekData = calendarDataSet.DayOfWeekData
@@ -331,12 +338,20 @@ module GregorianCase =
         year.Year  === now.Year
 
     [<Fact>]
+    let ``GetCurrentYear() is out of range`` () =
+        outOfRangeExn "dayNumber" (fun () -> fauxCalendar.GetCurrentYear())
+
+    [<Fact>]
     let ``GetCurrentMonth()`` () =
         let now = DateTime.Now
         let month = chr.GetCurrentMonth()
 
         month.Year  === now.Year
         month.Month === now.Month
+
+    [<Fact>]
+    let ``GetCurrentMonth() is out of range`` () =
+        outOfRangeExn "dayNumber" (fun () -> fauxCalendar.GetCurrentMonth())
 
     [<Fact>]
     let ``GetCurrentDate()`` () =
@@ -348,6 +363,10 @@ module GregorianCase =
         date.Day   === now.Day
 
     [<Fact>]
+    let ``GetCurrentDate() is out of range`` () =
+        outOfRangeExn "dayNumber" (fun () -> fauxCalendar.GetCurrentDate())
+
+    [<Fact>]
     let ``GetCurrentDay()`` () =
         let now = DateTime.Now
         let date = chr.GetCurrentDay()
@@ -357,6 +376,10 @@ module GregorianCase =
         date.Day   === now.Day
 
     [<Fact>]
+    let ``GetCurrentDay() is out of range`` () =
+        outOfRangeExn "dayNumber" (fun () -> fauxCalendar.GetCurrentDay())
+
+    [<Fact>]
     let ``GetCurrentOrdinal()`` () =
         let now = DateTime.Now
         let date = chr.GetCurrentOrdinal()
@@ -364,6 +387,10 @@ module GregorianCase =
         date.Year  === now.Year
         date.Month === now.Month
         date.Day   === now.Day
+
+    [<Fact>]
+    let ``GetCurrentOrdinal() is out of range`` () =
+        outOfRangeExn "dayNumber" (fun () -> fauxCalendar.GetCurrentOrdinal())
 
     //
     // GetDayOfWeek()

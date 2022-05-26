@@ -5,7 +5,7 @@ namespace Zorglub.Time.Simple;
 
 public sealed class FauxUserCalendar : Calendar
 {
-    private const string DefaultKey = "FauxKey";
+    public const string DefaultKey = "FauxKey";
     internal const Cuid DefaultCuid = Cuid.Invalid;
 
     public FauxUserCalendar()
