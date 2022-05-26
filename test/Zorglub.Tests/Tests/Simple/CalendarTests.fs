@@ -18,6 +18,8 @@ open Xunit
 
 open Zorglub.Time.FSharpExtensions
 
+// TODO(code): Domain and related props, GetCurrent...()
+
 // Here, we test calendar-specific methods.
 // For methods related to IEpagomenalCalendar, this is done in FeaturetteTestSuite.
 // We also test Gregorian/JulianCalendar.GetDayOfWeek() with

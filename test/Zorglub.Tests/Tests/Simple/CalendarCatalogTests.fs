@@ -64,9 +64,9 @@ module Prelude =
         calendars.Count === count
 
     [<Theory; MemberData(nameof(calendarIdData))>]
-    let ``Property SystemCalendars`` (id: CalendarId) =
+    let ``Property SystemCalendars`` (ident: CalendarId) =
         let calendars = CalendarCatalog.SystemCalendars
-        let chr = CalendarCatalog.GetSystemCalendar(id)
+        let chr = CalendarCatalog.GetSystemCalendar(ident)
 
         Assert.Contains(chr, calendars)
 
@@ -138,22 +138,22 @@ module Lookup =
     //
 
     [<Theory; MemberData(nameof(calendarIdData))>]
-    let ``GetSystemCalendar() is not null and always returns the same reference`` (id: CalendarId) =
-        let chr1 = CalendarCatalog.GetSystemCalendar(id)
-        let chr2 = CalendarCatalog.GetSystemCalendar(id)
+    let ``GetSystemCalendar() is not null and always returns the same reference`` (ident: CalendarId) =
+        let chr1 = CalendarCatalog.GetSystemCalendar(ident)
+        let chr2 = CalendarCatalog.GetSystemCalendar(ident)
 
         chr1 |> isnotnull
         chr1 ==& chr2
 
     [<Theory; MemberData(nameof(invalidCalendarIdData))>]
-    let ``GetSystemCalendar() throws for invalid id`` (id: CalendarId) =
-        outOfRangeExn "id" (fun () -> CalendarCatalog.GetSystemCalendar(id))
+    let ``GetSystemCalendar() throws for invalid id`` (ident: CalendarId) =
+        outOfRangeExn "ident" (fun () -> CalendarCatalog.GetSystemCalendar(ident))
 
     [<Fact>]
     let ``GetSystemCalendar(user id) throws`` () =
-        let id: CalendarId = enum <| int(userGregorian.Id)
+        let ident: CalendarId = enum <| int(userGregorian.Id)
 
-        outOfRangeExn "id" (fun () -> CalendarCatalog.GetSystemCalendar(id))
+        outOfRangeExn "ident" (fun () -> CalendarCatalog.GetSystemCalendar(ident))
 
     //
     // GetCalendarUnchecked()
@@ -178,6 +178,29 @@ module Lookup =
         chr1 ==& chr2
 
     //
+    // GetCalendarUnsafe()
+    //
+    // https://docs.microsoft.com/en-us/dotnet/fsharp/language-reference/byrefs#interop-with-c
+
+    [<Theory; MemberData(nameof(calendarIdData))>]
+    let ``GetCalendarUnsafe(system id) is not null and always returns the same reference`` (id: CalendarId) =
+        let cuid = int(id)
+        let chr1 = CalendarCatalog.GetCalendarUnsafe(cuid)
+        let chr2 = CalendarCatalog.GetCalendarUnsafe(cuid)
+
+        chr1 |> isnotnull
+        chr1 ==& chr2
+
+    [<Fact>]
+    let ``GetCalendarUnsafe(user id) is not null and always returns the same reference`` () =
+        let cuid = int(userGregorian.Id)
+        let chr1 = CalendarCatalog.GetCalendarUnsafe(cuid)
+        let chr2 = CalendarCatalog.GetCalendarUnsafe(cuid)
+
+        chr1 |> isnotnull
+        chr1 ==& chr2
+
+    //
     //
     //
 
@@ -185,19 +208,21 @@ module Lookup =
     let ``All lookup methods return the same reference for system calendars`` () =
         for sys in CalendarCatalog.SystemCalendars do
             let key = sys.Key
-            let id = sys.PermanentId
-            let cuid = int(id)
+            let ident = sys.PermanentId
+            let cuid = int(ident)
 
-            let chr = CalendarCatalog.GetSystemCalendar(id)
+            let chr = CalendarCatalog.GetSystemCalendar(ident)
             let chr1 = CalendarCatalog.GetCalendar(key)
             let chr2 = CalendarCatalog.GetCalendarUnchecked(cuid)
-            let succeed, chr3 = CalendarCatalog.TryGetCalendar(key)
+            let chr3 = CalendarCatalog.GetCalendarUnsafe(cuid)
+            let succeed, chr4 = CalendarCatalog.TryGetCalendar(key)
 
             succeed |> ok
             chr  ==& sys
             chr1 ==& sys
             chr2 ==& sys
             chr3 ==& sys
+            chr4 ==& sys
 
     [<Fact>]
     let ``All lookup methods return the same reference for user-defined calendars`` () =
@@ -206,12 +231,14 @@ module Lookup =
 
         let chr1 = CalendarCatalog.GetCalendar(key)
         let chr2 = CalendarCatalog.GetCalendarUnchecked(cuid)
-        let succeed, chr3 = CalendarCatalog.TryGetCalendar(key)
+        let chr3 = CalendarCatalog.GetCalendarUnsafe(cuid)
+        let succeed, chr4 = CalendarCatalog.TryGetCalendar(key)
 
         succeed |> ok
         chr1 ==& userGregorian
         chr2 ==& userGregorian
         chr3 ==& userGregorian
+        chr4 ==& userGregorian
 
 module NoWrite =
     open TestCommon

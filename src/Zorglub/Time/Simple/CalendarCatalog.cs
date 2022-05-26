@@ -288,13 +288,13 @@ namespace Zorglub.Time.Simple
         /// instance.</para>
         /// </remarks>
         [Pure]
-        public static Calendar GetSystemCalendar(CalendarId id)
+        public static Calendar GetSystemCalendar(CalendarId ident)
         {
-            // REVIEW(code): simply use id.IsInvalid()?
-            int index = (int)id;
+            // REVIEW(code): just use ident.IsInvalid()?
+            int index = (int)ident;
             if (index < 0 || (uint)index >= (uint)s_SystemCalendars.Length)
             {
-                Throw.ArgumentOutOfRange(nameof(id));
+                Throw.ArgumentOutOfRange(nameof(ident));
             }
 
             return s_SystemCalendars[index];
