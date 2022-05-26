@@ -171,6 +171,52 @@ module Prelude =
 
         chr.PeriodicAdjustments === adjustments
 
+    // Scope is tested in CalendarTestSuite.
+    // Math getter is tested in CalendarTestSuite.
+
+    [<Fact>]
+    let ``Property Math setter (sys) throws for a null value`` () =
+        let chr = GregorianCalendar.Instance
+
+        nullExn "value" (fun () -> chr.Math <- null; true)
+
+    [<Fact>]
+    let ``Property Math setter (usr) throws for a null value`` () =
+        let chr = new FauxUserCalendar()
+
+        nullExn "value" (fun () -> chr.Math <- null; true)
+
+    [<Fact>]
+    let ``Property Math setter (sys) throws for an invalid value`` () =
+        let chr = GregorianCalendar.Instance
+        let math = new FauxCalendarMath(JulianCalendar.Instance)
+
+        argExn "value" (fun () -> chr.Math <- math; true)
+
+    [<Fact>]
+    let ``Property Math setter (usr) throws for an invalid value`` () =
+        let chr = new FauxUserCalendar()
+        let math = new FauxCalendarMath(ZoroastrianCalendar.Instance)
+
+        argExn "value" (fun () -> chr.Math <- math; true)
+
+    // NB: we canont test the setter with a system calendar as it could disturb
+    // the other tests; remember that this change is global.
+
+    [<Fact>]
+    let ``Property Math setter (usr)`` () =
+        let sch = FauxSystemSchema.Regular12
+        let chr = new FauxUserCalendar(sch)
+        let math = new FauxCalendarMath(chr)
+
+        chr.Math |> is<Regular12Math>
+
+        chr.Math <- math
+
+        chr.Math ==& math
+        // Just to be clear about the type, even if it is obvious.
+        chr.Math |> is<FauxCalendarMath>
+
     //
     // Internal properties
     //

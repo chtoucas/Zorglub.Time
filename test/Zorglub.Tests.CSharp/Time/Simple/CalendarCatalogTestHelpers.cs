@@ -11,36 +11,21 @@ using global::Samples;
 
 using Zorglub.Time.Core.Schemas;
 
-public static class CalendarCatalogTests
+internal static class CalendarCatalogTestHelpers
 {
-    // F# -> we do not test GetCalendarUnsafe().
-    [Theory, MemberData(nameof(EnumDataSet.CalendarIdData), MemberType = typeof(EnumDataSet))]
-    public static void GetCalendarXXX_AreAllTheSame(CalendarId id)
-    {
-        // Act
-        var call1 = CalendarCatalog.GetSystemCalendar(id);
-        var call2 = CalendarCatalog.GetCalendar(id.ToCalendarKey());
-        var call3 = CalendarCatalog.GetCalendarUnchecked((int)id);
-        ref readonly var call4 = ref CalendarCatalog.GetCalendarUnsafe((int)id);
-        // Assert
-        Assert.Same(call1, call2);
-        Assert.Same(call1, call3);
-        Assert.Same(call1, call4);
-    }
-
-    private static void OnKeyNotSet(string key)
+    public static void OnKeyNotSet(string key)
     {
         Assert.DoesNotContain(key, CalendarCatalog.Keys);
         Assert.Throws<KeyNotFoundException>(() => CalendarCatalog.GetCalendar(key));
     }
 
-    internal static void OnKeySet(string key, DayNumber epoch, Calendar? calendar)
+    public static void OnKeySet(string key, DayNumber epoch, Calendar? calendar)
     {
         OnKeySetCore(key, epoch, calendar);
         MaybeTestInitializationThreshold();
     }
 
-    internal static void OnKeySetCore(string key, DayNumber epoch, Calendar? calendar)
+    public static void OnKeySetCore(string key, DayNumber epoch, Calendar? calendar)
     {
         Assert.NotNull(calendar);
         Assert.Equal(key, calendar!.Key);

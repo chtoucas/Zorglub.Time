@@ -25,29 +25,6 @@ public abstract partial class CalendarFacts<TCalendar, TDataSet> :
     [Fact] public abstract void Scope();
 }
 
-public partial class CalendarFacts<TCalendar, TDataSet> // Tests for CalendarCatalog
-{
-    // Referential equality is guaranteed, all calendars are singleton
-    // (see comments in CalendarCatalog).
-
-    [Fact]
-    public void CalendarCatalog_GetSystemCalendar()
-    {
-        if (CalendarUT.IsUserDefined)
-        {
-            Assert.ThrowsAoorexn("id", () => CalendarCatalog.GetSystemCalendar((CalendarId)CalendarUT.Id));
-        }
-        else
-        {
-            Assert.Same(CalendarUT, CalendarCatalog.GetSystemCalendar(CalendarUT.PermanentId));
-        }
-    }
-
-    [Fact]
-    public void CalendarCatalog_GetCalendarUnchecked() =>
-        Assert.Same(CalendarUT, CalendarCatalog.GetCalendarUnchecked((int)CalendarUT.Id));
-}
-
 public partial class CalendarFacts<TCalendar, TDataSet> // Properties
 {
     [Fact]

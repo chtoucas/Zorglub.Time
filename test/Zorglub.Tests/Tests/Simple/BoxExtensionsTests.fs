@@ -16,8 +16,10 @@ open CalendarCatalogTests.TestCommon
 
 // Sync with CalendarCatalogTests
 
-// Reference the user-defined calendar. Be careful if you decide to move this
-// elsewhere, this variable MUST be initialized before any test run.
+// Tests setup.
+// We MUST initialize the user-defined calendar very early on, otherwise the
+// tests checking that we cannot create a calendar with an already taken key
+// might fail.
 let private userGregorian = UserCalendars.Gregorian
 
 module NoWrite =

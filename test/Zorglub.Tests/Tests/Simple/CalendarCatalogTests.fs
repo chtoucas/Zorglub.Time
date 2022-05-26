@@ -17,9 +17,12 @@ open Xunit
 
 open Zorglub.Time.FSharpExtensions
 
-// Reference the user-defined calendar. Be careful if you decide to move this
-// elsewhere, this variable MUST be initialized before any test run.
+// Tests setup.
+// We MUST initialize the user-defined calendar very early on, otherwise the
+// tests checking that we cannot create a calendar with an already taken key
+// might fail.
 let private userGregorian = UserCalendars.Gregorian
+let private userJulian = UserCalendars.Julian
 
 module TestCommon =
     let onKeyNotSet key =
@@ -57,6 +60,19 @@ module Prelude =
         Assert.Contains(key, CalendarCatalog.Keys)
 
     [<Fact>]
+    let ``Property ReservedKeys is exhaustive`` () =
+        let count = Enum.GetValues(typeof<CalendarId>).Length
+        let keys = CalendarCatalog.ReservedKeys
+
+        keys.Count === count
+
+    [<Theory; MemberData(nameof(calendarIdData))>]
+    let ``Property ReservedKeys`` (id: CalendarId) =
+        let key = toCalendarKey(id)
+
+        Assert.Contains(key, CalendarCatalog.ReservedKeys)
+
+    [<Fact>]
     let ``Property SystemCalendars is exhaustive`` () =
         let count = Enum.GetValues(typeof<CalendarId>).Length
         let calendars = CalendarCatalog.SystemCalendars
@@ -69,6 +85,47 @@ module Prelude =
         let chr = CalendarCatalog.GetSystemCalendar(ident)
 
         Assert.Contains(chr, calendars)
+
+module Snapshots =
+    let calendarIdData = EnumDataSet.CalendarIdData
+
+    [<Theory; MemberData(nameof(calendarIdData))>]
+    let ``GetAllCalendars() contains all system calendars`` (ident: CalendarId) =
+        let calendars = CalendarCatalog.GetAllCalendars()
+        let chr = CalendarCatalog.GetSystemCalendar(ident)
+
+        Assert.Contains(chr, calendars)
+
+    [<Fact>]
+    let ``GetAllCalendars() contains the user-defined calendars`` () =
+        let calendars = CalendarCatalog.GetAllCalendars()
+
+        Assert.Contains(userGregorian, calendars)
+        Assert.Contains(userJulian, calendars)
+        // TODO(code): we should that the code works even of someone added a new
+        // calendar in the meantime; idem for TakeSnapshot().
+
+    [<Fact>]
+    let ``GetUserCalendars() contains the user-defined calendars`` () =
+        let calendars = CalendarCatalog.GetUserCalendars()
+
+        Assert.Contains(userGregorian, calendars)
+        Assert.Contains(userJulian, calendars)
+
+    [<Theory; MemberData(nameof(calendarIdData))>]
+    let ``TakeSnapshot() contains all system calendars`` (ident: CalendarId) =
+        let key = toCalendarKey(ident)
+        let dict = CalendarCatalog.TakeSnapshot()
+        let chr = CalendarCatalog.GetSystemCalendar(ident)
+
+        dict.[key] ==& chr
+
+    [<Fact>]
+    let ``TakeSnapshot() contains the user-defined calendars`` () =
+        let dict = CalendarCatalog.TakeSnapshot()
+
+        dict.[userGregorian.Key] ==& userGregorian
+        dict.[userJulian.Key]    ==& userJulian
 
 module Lookup =
     let calendarIdData = EnumDataSet.CalendarIdData

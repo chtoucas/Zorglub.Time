@@ -3,13 +3,7 @@
 
 namespace Zorglub.Time.Hemerology;
 
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-
-using Zorglub.Time.Core;
 using Zorglub.Time.Core.Schemas;
-using Zorglub.Time.Core.Utilities;
 
 using static Zorglub.Time.Extensions.Unboxing;
 
@@ -253,7 +247,6 @@ public static class WideCatalogTests
         Assert.Throws<KeyNotFoundException>(() => WideCatalog.GetCalendar("UnknownKey"));
 
     [Fact]
-    //[Fact(Skip = "???")]
     public static void GetCalendar()
     {
         Assert.Same(Gregorian, WideCatalog.GetCalendar(GregorianKey));
@@ -272,7 +265,6 @@ public static class WideCatalogTests
         Assert.Equal(WideCalendar.Gregorian, WideCatalog.GetCalendarUnchecked(0));
 
     [Fact]
-    //[Fact(Skip = "???")]
     public static void GetCalendarUnchecked()
     {
         Assert.Same(Gregorian, WideCatalog.GetCalendarUnchecked(Gregorian.Id));
@@ -280,12 +272,6 @@ public static class WideCatalogTests
     }
 
     #endregion
-
-    //private static TryFunc<ICalendricalSchema, WideCalendar?> TryCreate(string key) =>
-    //    (ICalendricalSchema schema, out WideCalendar? result) =>
-    //    {
-    //        return WideCatalog.TryAdd(key, schema, default, false, out result);
-    //    };
 
     private static void OnKeyNotSet(string key)
     {
@@ -295,98 +281,10 @@ public static class WideCatalogTests
 
     private static void OnKeySet(string key, DayNumber epoch, WideCalendar? calendar)
     {
-        OnKeySetCore(key, epoch, calendar);
-        MaybeTestInitializationThreshold();
-    }
-
-    private static void OnKeySetCore(string key, DayNumber epoch, WideCalendar? calendar)
-    {
         Assert.NotNull(calendar);
         Assert.Equal(key, calendar!.Key);
         Assert.Equal(epoch, calendar.Epoch);
         Assert.Contains(key, WideCatalog.Keys);
         Assert.Same(calendar, WideCatalog.GetCalendar(key));
-    }
-
-    private static int s_Count = 2;
-
-    // This is fragile and really not "Unit Test"y, but I haven't found
-    // another way to test the 256 limit.
-    // FIXME: see CalendarCatalogTests.MaybeTestInitializationThreshold().
-    private static void MaybeTestInitializationThreshold()
-    {
-        const int MaxMaxCount = 1 + WideCatalog.MaxId;
-        const int MaxCount = 8;
-
-        if (Interlocked.Increment(ref s_Count) != MaxCount) { return; }
-        Interlocked.Increment(ref s_Count);
-
-        Assert.Equal(MaxCount, WideCatalog.Keys.Count);
-
-        // Create as much calendars as we are allowed to.
-        Parallel.ForEach(
-            Enumerable.Range(1 + MaxCount, MaxMaxCount - MaxCount),
-            i =>
-            {
-                string key = $"Key-{i}";
-                var epoch = DayZero.NewStyle + i;
-
-                bool created = WideCatalog.TryAdd(
-                    key, new GregorianSchema(), epoch, false, out WideCalendar? calendar);
-
-                Assert.True(created);
-                OnKeySetCore(key, epoch, calendar);
-            }
-        );
-
-        // Check CurrentKeys.
-        var allKeys = WideCatalog.Keys;
-        Assert.Equal(MaxMaxCount, allKeys.Count);
-
-        // Check GetCalendar().
-        var calendarsFromKey = allKeys.Select(WideCatalog.GetCalendar).Distinct();
-        foreach (var calendar in calendarsFromKey) { Assert.NotNull(calendar); }
-        Assert.Equal(MaxMaxCount, calendarsFromKey.Count());
-
-        // Check GetCalendar().
-        var calendarsFromId = (from i in Enumerable.Range(0, 256)
-                               select WideCatalog.GetCalendarUnchecked((byte)i)).Distinct();
-        foreach (var calendar in calendarsFromId) { Assert.NotNull(calendar); }
-        Assert.Equal(MaxMaxCount, calendarsFromId.Count());
-
-        // Any subsequent call to an initialization method should fail.
-        string key = "Key-OVERFLOW";
-
-        Assert.Overflows(
-            () => WideCatalog.Add(key, new GregorianSchema(), default, false));
-        OnKeyNotSet(key);
-        Assert.Throws<ArgumentException>(
-            () => WideCatalog.Add(GregorianKey, new GregorianSchema(), default, false));
-
-        Assert.False(WideCatalog.TryAdd(key, new GregorianSchema(), default, false, out _));
-        OnKeyNotSet(key);
-        Assert.False(WideCatalog.TryAdd(GregorianKey, new GregorianSchema(), default, false, out _));
-
-        Assert.Overflows(
-            () =>
-            {
-                var q = from x in GregorianSchema.GetInstance()
-                        select WideCatalog.Add(key, x, default, false);
-                return q.Unbox();
-            });
-        OnKeyNotSet(key);
-
-        Assert.Empty(GregorianSchema.GetInstance().Select(TryCreate(key)));
-        OnKeyNotSet(key);
-
-        // The list of keys didn't change.
-        Assert.Equal(allKeys, WideCatalog.Keys);
-
-        static Func<ICalendricalSchema, WideCalendar?> TryCreate(string key) =>
-            (ICalendricalSchema schema) =>
-            {
-                _ = WideCatalog.TryAdd(key, schema, default, false, out var chr);
-                return chr;
-            };
     }
 }
