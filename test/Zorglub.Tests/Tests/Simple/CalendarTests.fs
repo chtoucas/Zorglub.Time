@@ -52,7 +52,7 @@ module Prelude =
 
     [<Fact>]
     let ``ToString() (usr) returns the key`` () =
-        let chr = new FauxUserCalendar("FauxKey")
+        let chr = new FauxUserCalendar()
 
         chr.ToString() === chr.Key
 
@@ -61,9 +61,9 @@ module Prelude =
     //
 
     [<Theory; MemberData(nameof(calendarIdData))>]
-    let ``Property Key (sys)`` (id: CalendarId) =
-        let chr = new FauxSystemCalendar(id)
-        let key = toCalendarKey(id)
+    let ``Property Key (sys)`` (ident: CalendarId) =
+        let chr = new FauxSystemCalendar(ident)
+        let key = toCalendarKey(ident)
 
         chr.Key === key
 
@@ -168,19 +168,23 @@ module Prelude =
 
         chr.PeriodicAdjustments === adjustments
 
-    //[<Theory; MemberData(nameof(calendarIdData))>]
-    //let ``Property Id (sys)`` (id: CalendarId) =
-    //    let cuid: Cuid = enum <| int(id)
-    //    let chr = new FauxSystemCalendar(id)
+    //
+    // Internal properties
+    //
 
-    //    chr.Id === cuid
+    [<Theory; MemberData(nameof(calendarIdData))>]
+    let ``Property Id (sys)`` (ident: CalendarId) =
+        let id: Cuid = LanguagePrimitives.EnumOfValue <| byte(ident)
+        let chr = new FauxSystemCalendar(ident)
+
+        chr.Id === id
 
     [<Fact>]
     let ``Property Id (usr)`` () =
-        let cuid = Cuid.MinUser
-        let chr = new FauxUserCalendar(cuid)
+        let id = Cuid.MinUser
+        let chr = new FauxUserCalendar(id)
 
-        chr.Id === cuid
+        chr.Id === id
 
     [<Fact>]
     let ``Property Schema (sys)`` () =
@@ -200,20 +204,23 @@ module Prelude =
     // Internal helpers
     //
 
+    [<Fact>]
     let ``ValidateCuid() (sys)`` () =
         let paramName = "cuidParam"
         let chr = new FauxSystemCalendar()
+        let cuid: Cuid = LanguagePrimitives.EnumOfValue <| byte(FauxSystemCalendar.DefaultIdent)
 
-        //chr.ValidateCuidDisclosed((Cuid)FauxSystemCalendar.DefaultIdent, paramName)
+        chr.ValidateCuidDisclosed(cuid, paramName)
 
         argExn paramName (fun () -> chr.ValidateCuidDisclosed(Cuid.Gregorian, paramName))
         argExn paramName (fun () -> chr.ValidateCuidDisclosed(Cuid.MinUser, paramName))
 
+    [<Fact>]
     let ``ValidateCuid() (usr)`` () =
         let paramName = "cuidParam"
         let chr = new FauxUserCalendar()
 
-        chr.ValidateCuidDisclosed(FauxUserCalendar.FauxCuid, paramName)
+        chr.ValidateCuidDisclosed(FauxUserCalendar.DefaultCuid, paramName)
 
         argExn paramName (fun () -> chr.ValidateCuidDisclosed(Cuid.Gregorian, paramName))
         argExn paramName (fun () -> chr.ValidateCuidDisclosed(Cuid.MinUser, paramName))

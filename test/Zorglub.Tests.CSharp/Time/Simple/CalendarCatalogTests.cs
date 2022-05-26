@@ -41,13 +41,13 @@ public static class CalendarCatalogTests
         Assert.Throws<KeyNotFoundException>(() => CalendarCatalog.GetCalendar(key));
     }
 
-    private static void OnKeySet(string key, DayNumber epoch, Calendar? calendar)
+    internal static void OnKeySet(string key, DayNumber epoch, Calendar? calendar)
     {
         OnKeySetCore(key, epoch, calendar);
         MaybeTestInitializationThreshold();
     }
 
-    private static void OnKeySetCore(string key, DayNumber epoch, Calendar? calendar)
+    internal static void OnKeySetCore(string key, DayNumber epoch, Calendar? calendar)
     {
         Assert.NotNull(calendar);
         Assert.Equal(key, calendar!.Key);
