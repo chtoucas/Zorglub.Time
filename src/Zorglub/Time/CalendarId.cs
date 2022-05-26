@@ -58,8 +58,8 @@ namespace Zorglub.Time
         /// Returns true if the specified permanent ID is invalid; otherwise
         /// returns false.
         /// </summary>
-        public static bool IsInvalid(this CalendarId id) =>
-            id < CalendarId.Gregorian || id > CalendarId.Zoroastrian;
+        public static bool IsInvalid(this CalendarId @this) =>
+            @this < CalendarId.Gregorian || @this > CalendarId.Zoroastrian;
 
         /// <summary>
         /// Converts the permanent ID to a calendar key.
