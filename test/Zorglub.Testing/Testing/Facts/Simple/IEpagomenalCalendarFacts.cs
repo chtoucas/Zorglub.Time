@@ -7,6 +7,8 @@ using Zorglub.Testing.Data;
 using Zorglub.Time.Hemerology;
 using Zorglub.Time.Simple;
 
+// TODO(fact): IsEpagomenalDay() with a date from a distinct calendar.
+
 public abstract class IEpagomenalCalendarFacts<TCalendar, TDataSet> :
     CalendarDataConsumer<TDataSet>
     where TCalendar : Calendar, IEpagomenalCalendar<CalendarDate>

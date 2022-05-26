@@ -76,7 +76,7 @@ namespace Zorglub.Time.Simple
             // class has a single public method/prop: AddAdjustment.
 
             // The schema is not regular iff monthsInYear = 0.
-            int monthsInYear = calendar.Schema.IsRegular(out int v) ? v : 0;
+            int monthsInYear = calendar.IsRegular(out int v) ? v : 0;
 
             return monthsInYear switch
             {

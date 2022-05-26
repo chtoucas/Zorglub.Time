@@ -9,6 +9,9 @@ namespace Zorglub.Time.Core.Utilities
 
     #region Developer Notes
 
+    // The main problem with ThrowHelper is that the code coverage can't see if
+    // the tests covered the two branches (with and without exception thrown).
+    //
     // Even if it always throws, a method returning something should be
     // decorated with the attribute Pure. This way, we get a warning if, for
     // instance, we write
