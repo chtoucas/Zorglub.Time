@@ -7,11 +7,17 @@ using Zorglub.Time.Simple;
 
 public static class EnumDataSet
 {
-    public static TheoryData<DayOfWeek> InvalidDayOfWeekData { get; } =
-        new() { (DayOfWeek)(-1), (DayOfWeek)7 };
+    public static TheoryData<DayOfWeek> InvalidDayOfWeekData { get; } = new()
+    {
+        (DayOfWeek)(-1),
+        (DayOfWeek)7
+    };
 
-    public static TheoryData<CalendarId> InvalidCalendarIdData { get; } =
-        new() { (CalendarId)(-1), (CalendarId)(int)(1 + Cuid.MaxSystem) };
+    public static TheoryData<CalendarId> InvalidCalendarIdData { get; } = new()
+    {
+        (CalendarId)(-1),
+        (CalendarId)(int)(1 + Cuid.MaxSystem)
+    };
 
     public static TheoryData<CalendarId> CalendarIdData { get; } = new()
     {

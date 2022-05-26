@@ -20,14 +20,7 @@ public static class CalendarCatalogTests
 
     static CalendarCatalogTests() { }
 
-    [Theory]
-    [InlineData((int)Cuid.MaxSystem + 1)]
-    [InlineData((int)Cuid.MinUser)]
-    [InlineData((int)Cuid.Max)]
-    [InlineData((int)Cuid.Invalid)]
-    public static void GetSystemCalendar_InvalidId(int id) =>
-        Assert.ThrowsAoorexn("id", () => CalendarCatalog.GetSystemCalendar((CalendarId)id));
-
+    // F# -> we do not test GetCalendarUnsafe().
     [Theory, MemberData(nameof(EnumDataSet.CalendarIdData), MemberType = typeof(EnumDataSet))]
     public static void GetCalendarXXX_AreAllTheSame(CalendarId id)
     {

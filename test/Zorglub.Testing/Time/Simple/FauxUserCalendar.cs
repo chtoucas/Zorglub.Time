@@ -5,29 +5,26 @@ namespace Zorglub.Time.Simple;
 
 public sealed class FauxUserCalendar : Calendar
 {
-    private const string DefaultKey = "FauxKey";
-    // Fake ID.
-    internal const Cuid DefaultId = Cuid.Invalid;
-
-    private static readonly DayNumber s_DefaultEpoch = DayZero.NewStyle;
+    public const string FauxKey = "FauxKey";
+    internal const Cuid FauxId = Cuid.Invalid;
 
     public FauxUserCalendar()
-        : base(DefaultId, DefaultKey, FauxSystemSchema.Default, s_DefaultEpoch, proleptic: false) { }
+        : base(FauxId, FauxKey, FauxSystemSchema.Default, default, default) { }
 
-    internal FauxUserCalendar(Cuid cuid)
-        : base(cuid, DefaultKey, FauxSystemSchema.Default, s_DefaultEpoch, proleptic: false) { }
+    internal FauxUserCalendar(Cuid id)
+        : base(id, FauxKey, FauxSystemSchema.Default, default, default) { }
 
     public FauxUserCalendar(string key)
-        : base(DefaultId, key, FauxSystemSchema.Default, s_DefaultEpoch, proleptic: false) { }
+        : base(FauxId, key, FauxSystemSchema.Default, default, default) { }
+
+    public FauxUserCalendar(SystemSchema schema)
+        : base(FauxId, FauxKey, schema, default, default) { }
 
     public FauxUserCalendar(DayNumber epoch)
-        : base(DefaultId, DefaultKey, FauxSystemSchema.Default, epoch, proleptic: false) { }
-
-    public FauxUserCalendar(FauxSystemSchema schema)
-        : base(DefaultId, DefaultKey, schema, s_DefaultEpoch, proleptic: false) { }
+        : base(FauxId, FauxKey, FauxSystemSchema.Default, epoch, default) { }
 
     public FauxUserCalendar(bool proleptic)
-        : base(DefaultId, DefaultKey, FauxSystemSchema.Default, s_DefaultEpoch, proleptic) { }
+        : base(FauxId, FauxKey, FauxSystemSchema.Default, default, proleptic) { }
 
     internal void ValidateCuidDisclosed(Cuid cuid, string paramName) =>
         ValidateCuid(cuid, paramName);

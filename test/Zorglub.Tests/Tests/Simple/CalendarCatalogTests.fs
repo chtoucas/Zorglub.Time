@@ -17,7 +17,18 @@ open Xunit
 
 let private toCalendarKey (id: CalendarId)  = CalendarIdExtensions.ToCalendarKey(id)
 
+// Reference the user-defined calendar. Be careful if you decide to move this
+// elsewhere, this variable MUST be initialized before any test run.
 let private userGregorian = UserCalendar.Gregorian
+
+[<Sealed>]
+type BadSystemIdData() as self =
+    inherit TheoryData<int>()
+    do
+        self.Add(int(Cuid.MaxSystem) + 1)
+        self.Add(int(Cuid.MinUser))
+        self.Add(int(Cuid.Max))
+        self.Add(int(Cuid.Invalid))
 
 module TestCommon =
     let onKeyNotSet key =
@@ -142,6 +153,12 @@ module Lookup =
         chr1 |> isnotnull
         chr1 ==& chr2
 
+    [<Theory; ClassData(typeof<BadSystemIdData>)>]
+    let ``GetSystemCalendar() throws for invalid id`` (cuid: int) =
+        let id: CalendarId = enum cuid
+
+        outOfRangeExn "id" (fun () -> CalendarCatalog.GetSystemCalendar(id))
+
     [<Fact>]
     let ``GetSystemCalendar(user id) throws`` () =
         let id: CalendarId = enum <| int(userGregorian.Id)
@@ -171,7 +188,7 @@ module Lookup =
         chr1 ==& chr2
 
     //
-    // System calendars
+    //
     //
 
     [<Fact>]
@@ -228,14 +245,14 @@ module NoWrite =
         onKeyNotSet key
 
     [<Fact>]
-    let ``GetOrAdd() when key is a system key`` () =
+    let ``GetOrAdd() when the key is a system key`` () =
         let sys = GregorianCalendar.Instance
         let chr = CalendarCatalog.GetOrAdd(sys.Key, new JulianSchema(), DayZero.OldStyle, false)
 
         chr ==& sys
 
     [<Fact>]
-    let ``GetOrAdd() when key already exists`` () =
+    let ``GetOrAdd() when the key already exists`` () =
         let chr = CalendarCatalog.GetOrAdd(userGregorian.Key, new JulianSchema(), DayZero.OldStyle, false)
 
         chr ==& userGregorian
@@ -256,13 +273,13 @@ module NoWrite =
         onKeyNotSet key
 
     [<Fact>]
-    let ``Add() when key is a system key`` () =
+    let ``Add() when the key is a system key`` () =
         let sys = GregorianCalendar.Instance
 
         argExn "key" (fun () -> CalendarCatalog.Add(sys.Key, new JulianSchema(), DayZero.OldStyle, false))
 
     [<Fact>]
-    let ``Add() when key already exists`` () =
+    let ``Add() when the key already exists`` () =
         argExn "key" (fun () -> CalendarCatalog.Add(userGregorian.Key, new JulianSchema(), DayZero.OldStyle, false))
 
     //
@@ -281,7 +298,7 @@ module NoWrite =
         onKeyNotSet key
 
     [<Fact>]
-    let ``TryAdd() when key is a system key`` () =
+    let ``TryAdd() when the key is a system key`` () =
         let sys = GregorianCalendar.Instance
         let succeed, chr = CalendarCatalog.TryAdd(sys.Key, new JulianSchema(), DayZero.OldStyle, false)
 
@@ -289,7 +306,7 @@ module NoWrite =
         chr     |> isnull
 
     [<Fact>]
-    let ``TryAdd() when key already exists`` () =
+    let ``TryAdd() when the key already exists`` () =
         let succeed, chr = CalendarCatalog.TryAdd(userGregorian.Key, new JulianSchema(), DayZero.OldStyle, false)
 
         succeed |> nok

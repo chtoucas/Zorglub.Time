@@ -14,18 +14,6 @@ public static class CalendarTests
     public const string CustomKey = "MyFauxKey";
     public static readonly DayNumber CustomEpoch = DayZero.OldStyle;
 
-    [Fact]
-    public static void Constructor_Sys_NullSchema() =>
-        Assert.ThrowsAnexn("schema", () => new FauxSystemCalendar(null!));
-
-    [Fact]
-    public static void Constructor_Usr_NullSchema() =>
-        Assert.ThrowsAnexn("schema", () => new FauxUserCalendar(schema: null!));
-
-    [Fact]
-    public static void Constructor_Usr_NullKey() =>
-        Assert.ThrowsAnexn("key", () => new FauxUserCalendar(key: null!));
-
     [Theory, MemberData(nameof(EnumDataSet.CalendarIdData), MemberType = typeof(EnumDataSet))]
     public static void Key_Sys(CalendarId id)
     {
@@ -179,7 +167,7 @@ public static class CalendarTests
         var chr = new FauxSystemCalendar();
         string paramName = "cuidParam";
         // Act & Assert
-        chr.ValidateCuidDisclosed((Cuid)FauxSystemCalendar.DefaultId, paramName);
+        chr.ValidateCuidDisclosed((Cuid)FauxSystemCalendar.FauxIdent, paramName);
 
         Assert.Throws<ArgumentException>(paramName,
             () => chr.ValidateCuidDisclosed(Cuid.Gregorian, paramName));
@@ -193,7 +181,7 @@ public static class CalendarTests
         var chr = new FauxUserCalendar();
         string paramName = "cuidParam";
         // Act & Assert
-        chr.ValidateCuidDisclosed(FauxUserCalendar.DefaultId, paramName);
+        chr.ValidateCuidDisclosed(FauxUserCalendar.FauxId, paramName);
 
         Assert.Throws<ArgumentException>(paramName,
             () => chr.ValidateCuidDisclosed(Cuid.Gregorian, paramName));

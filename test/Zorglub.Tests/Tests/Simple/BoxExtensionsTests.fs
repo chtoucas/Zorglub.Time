@@ -16,6 +16,8 @@ open CalendarCatalogTests.TestCommon
 
 // Sync with CalendarCatalogTests
 
+// Reference the user-defined calendar. Be careful if you decide to move this
+// elsewhere, this variable MUST be initialized before any test run.
 let private userGregorian = UserCalendar.Gregorian
 
 module NoWrite =
@@ -30,7 +32,7 @@ module NoWrite =
         nullExn "key" (fun () -> sch.GetOrCreateCalendar(null, DayZero.OldStyle, false))
 
     [<Fact>]
-    let ``GetOrCreateCalendar() throws for null schema`` () =
+    let ``GetOrCreateCalendar() throws for empty schema`` () =
         let key = "key"
         let sch = Box<JulianSchema>.Empty
 
@@ -38,7 +40,7 @@ module NoWrite =
         onKeyNotSet key
 
     [<Fact>]
-    let ``GetOrCreateCalendar() when key is a system key`` () =
+    let ``GetOrCreateCalendar() when the key is a system key`` () =
         let sys = GregorianCalendar.Instance
         let sch = JulianSchema.GetInstance()
         let chr = sch.GetOrCreateCalendar(sys.Key, DayZero.OldStyle, false)
@@ -46,7 +48,7 @@ module NoWrite =
         chr ==& sys
 
     [<Fact>]
-    let ``GetOrCreateCalendar() when key already exists`` () =
+    let ``GetOrCreateCalendar() when the key already exists`` () =
         let sch = JulianSchema.GetInstance()
         let chr = sch.GetOrCreateCalendar(userGregorian.Key, DayZero.OldStyle, false)
 
@@ -63,7 +65,7 @@ module NoWrite =
         nullExn "key" (fun () -> sch.CreateCalendar(null, DayZero.OldStyle, false))
 
     [<Fact>]
-    let ``CreateCalendar() throws for null schema`` () =
+    let ``CreateCalendar() throws for empty schema`` () =
         let key = "key"
         let sch = Box<JulianSchema>.Empty
 
@@ -71,14 +73,14 @@ module NoWrite =
         onKeyNotSet key
 
     [<Fact>]
-    let ``CreateCalendar() when key is a system key`` () =
+    let ``CreateCalendar() when the key is a system key`` () =
         let sys = GregorianCalendar.Instance
         let sch = JulianSchema.GetInstance()
 
         argExn "key" (fun () -> sch.CreateCalendar(sys.Key, DayZero.OldStyle, false))
 
     [<Fact>]
-    let ``CreateCalendar() when key already exists`` () =
+    let ``CreateCalendar() when the key already exists`` () =
         let sch = JulianSchema.GetInstance()
 
         argExn "key" (fun () -> sch.CreateCalendar(userGregorian.Key, DayZero.OldStyle, false))
@@ -94,7 +96,7 @@ module NoWrite =
         nullExn "key" (fun () -> sch.TryCreateCalendar(null,DayZero.OldStyle))
 
     [<Fact>]
-    let ``TryCreateCalendar() throws for null schema`` () =
+    let ``TryCreateCalendar() when the schema is empty`` () =
         let key = "key"
         let sch = Box<JulianSchema>.Empty
         let succeed, chr = sch.TryCreateCalendar(key, DayZero.OldStyle)
@@ -104,7 +106,7 @@ module NoWrite =
         onKeyNotSet key
 
     [<Fact>]
-    let ``TryCreateCalendar() when key is a system key`` () =
+    let ``TryCreateCalendar() when the key is a system key`` () =
         let sys = GregorianCalendar.Instance
         let sch = JulianSchema.GetInstance()
         let succeed, chr = sch.TryCreateCalendar(sys.Key, DayZero.OldStyle)
@@ -113,7 +115,7 @@ module NoWrite =
         chr     |> isnull
 
     [<Fact>]
-    let ``TryCreateCalendar() when key already exists`` () =
+    let ``TryCreateCalendar() when the key already exists`` () =
         let sch = JulianSchema.GetInstance()
         let succeed, chr = sch.TryCreateCalendar(userGregorian.Key, DayZero.OldStyle)
 
@@ -135,7 +137,7 @@ module Write =
     let ``CreateCalendar()`` () =
         let key = "BoxExtensionsTests.CreateCalendar"
         let epoch = DayNumber.Zero + 1234
-        let proleptic = false
+        let proleptic = true
         let sch = GregorianSchema.GetInstance()
         let chr = sch.CreateCalendar(key, epoch, proleptic)
 

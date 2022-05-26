@@ -10,6 +10,7 @@ open Zorglub.Testing.Data
 open Zorglub.Testing.Data.Bounded
 
 open Zorglub.Time
+open Zorglub.Time.Core
 open Zorglub.Time.Simple
 
 open Xunit
@@ -20,6 +21,21 @@ open Xunit
 // CalCalDataSet.DayNumberToDayOfWeekData in CalendarTestSuite via CalendarFacts,
 // but Gregorian and Julian are not part of the "regular" test plan, the one
 // used for code coverage, because they are marked as redundant test groups.
+
+module Prelude =
+    [<Fact>]
+    let ``Constructor (sys) throws for null schema`` () =
+        nullExn "schema" (fun () -> new FauxSystemCalendar(null))
+
+    [<Fact>]
+    let ``Constructor (usr) throws for null schema`` () =
+        nullExn "schema" (fun () -> new FauxUserCalendar(null :> SystemSchema))
+
+    [<Fact>]
+    let ``Constructor (usr) throws for null key`` () =
+        let key: string = null
+
+        nullExn "key" (fun () -> new FauxUserCalendar(key))
 
 module GregorianCase =
     let private chr = GregorianCalendar.Instance
