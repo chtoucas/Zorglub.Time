@@ -12,7 +12,9 @@ function Remove-BinAndObj {
     param(
         [Parameter(Mandatory = $true, ValueFromPipeline = $true)]
         [ValidateNotNullOrEmpty()]
-        [string] $path
+        [string] $path,
+
+        [switch] $Hard,
     )
 
     say "Deleting ""bin"" and ""obj"" directories within ""$path""."
@@ -34,6 +36,8 @@ try {
     Remove-BinAndObj (Join-Path $RootDir 'src' -Resolve)
     Remove-BinAndObj (Join-Path $RootDir 'test' -Resolve)
     Remove-BinAndObj (Join-Path $RootDir 'tools' -Resolve)
+
+    if ($Hard) { Remove-BinAndObj (Join-Path $RootDir '.vs' -Resolve) }
 }
 catch {
     say $_ -Foreground Red
