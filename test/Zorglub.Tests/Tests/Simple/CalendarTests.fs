@@ -15,6 +15,8 @@ open Zorglub.Time.Simple
 
 open Xunit
 
+open Zorglub.Time.FSharpExtensions
+
 // Here, we test calendar-specific methods.
 // For methods related to IEpagomenalCalendar, this is done in FeaturetteTestSuite.
 // We also test Gregorian/JulianCalendar.GetDayOfWeek() with
@@ -23,6 +25,8 @@ open Xunit
 // used for code coverage, because they are marked as redundant test groups.
 
 module Prelude =
+    let calendarIdData = EnumDataSet.CalendarIdData
+
     [<Fact>]
     let ``Constructor (sys) throws for null schema`` () =
         nullExn "schema" (fun () -> new FauxSystemCalendar(null))
@@ -36,6 +40,78 @@ module Prelude =
         let key: string = null
 
         nullExn "key" (fun () -> new FauxUserCalendar(key))
+
+    //
+    // Properties
+    //
+
+    [<Theory; MemberData(nameof(calendarIdData))>]
+    let ``Property Key (sys)`` (id: CalendarId) =
+        let chr = new FauxSystemCalendar(id)
+        let key = toCalendarKey(id)
+
+        chr.Key === key
+
+    [<Fact>]
+    let ``Property Key (usr)`` () =
+        let key = "FauxKey"
+        let chr = new FauxUserCalendar(key)
+
+        chr.Key === key
+
+    [<Fact>]
+    let ``Property IsUserDefined (sys)`` () =
+        let chr = new FauxSystemCalendar()
+
+        chr.IsUserDefined |> nok
+
+    [<Fact>]
+    let ``Property IsUserDefined (usr)`` () =
+        let chr = new FauxUserCalendar()
+
+        chr.IsUserDefined |> ok
+
+    [<Theory; MemberData(nameof(calendarIdData))>]
+    let ``Property PermanentId (sys)`` (ident: CalendarId) =
+        let chr = new FauxSystemCalendar(ident)
+
+        chr.PermanentId === ident
+
+    [<Fact>]
+    let ``Property PermanentId (usr)`` () =
+        let chr = new FauxUserCalendar()
+
+        throws<NotSupportedException> (fun () -> chr.PermanentId)
+
+    [<Fact>]
+    let ``Property Epoch (sys)`` () =
+        let epoch = DayNumber.Zero + 1234
+        let chr = new FauxSystemCalendar(epoch)
+
+        chr.Epoch === epoch
+
+    [<Fact>]
+    let ``Property Epoch (usr)`` () =
+        let epoch = DayNumber.Zero + 1234
+        let chr = new FauxUserCalendar(epoch)
+
+        chr.Epoch === epoch
+
+    [<Theory>]
+    [<InlineData true>]
+    [<InlineData false>]
+    let ``Property IsProleptic (sys)`` (proleptic: bool) =
+        let chr = new FauxSystemCalendar(proleptic)
+
+        chr.IsProleptic === proleptic
+
+    [<Theory>]
+    [<InlineData true>]
+    [<InlineData false>]
+    let ``Property IsProleptic (usr)`` (proleptic: bool) =
+        let chr = new FauxUserCalendar(proleptic)
+
+        chr.IsProleptic === proleptic
 
 module GregorianCase =
     let private chr = GregorianCalendar.Instance

@@ -15,7 +15,7 @@ open Zorglub.Time.Simple
 
 open Xunit
 
-let private toCalendarKey (id: CalendarId)  = CalendarIdExtensions.ToCalendarKey(id)
+open Zorglub.Time.FSharpExtensions
 
 // Reference the user-defined calendar. Be careful if you decide to move this
 // elsewhere, this variable MUST be initialized before any test run.

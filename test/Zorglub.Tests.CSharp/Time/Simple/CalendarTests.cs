@@ -14,67 +14,6 @@ public static class CalendarTests
     public const string CustomKey = "MyFauxKey";
     public static readonly DayNumber CustomEpoch = DayZero.OldStyle;
 
-    [Theory, MemberData(nameof(EnumDataSet.CalendarIdData), MemberType = typeof(EnumDataSet))]
-    public static void Key_Sys(CalendarId id)
-    {
-        var chr = new FauxSystemCalendar(id);
-        // Act & Assert
-        Assert.Equal(id.ToCalendarKey(), chr.Key);
-    }
-
-    [Fact]
-    public static void Key_Usr()
-    {
-        var chr = new FauxUserCalendar(CustomKey);
-        // Act & Assert
-        Assert.Equal(CustomKey, chr.Key);
-    }
-
-    [Fact]
-    public static void IsUserDefined()
-    {
-        var sys = new FauxSystemCalendar();
-        var usr = new FauxUserCalendar();
-        // Act & Assert
-        Assert.False(sys.IsUserDefined);
-        Assert.True(usr.IsUserDefined);
-    }
-
-    [Theory, MemberData(nameof(EnumDataSet.CalendarIdData), MemberType = typeof(EnumDataSet))]
-    public static void PermanentId_Sys(CalendarId id)
-    {
-        var chr = new FauxSystemCalendar(id);
-        // Act & Assert
-        Assert.Equal(id, chr.PermanentId);
-    }
-
-    [Fact]
-    public static void PermanentId_Usr()
-    {
-        var chr = new FauxUserCalendar();
-        // Act & Assert
-        Assert.Throws<NotSupportedException>(() => chr.PermanentId);
-    }
-
-    [Fact]
-    public static void Epoch()
-    {
-        var sys = new FauxSystemCalendar(CustomEpoch);
-        var usr = new FauxUserCalendar(CustomEpoch);
-        // Act & Assert
-        Assert.Equal(CustomEpoch, sys.Epoch);
-        Assert.Equal(CustomEpoch, usr.Epoch);
-    }
-
-    [Fact]
-    public static void IsProleptic()
-    {
-        Assert.False(new FauxSystemCalendar().IsProleptic);
-        Assert.False(new FauxUserCalendar().IsProleptic);
-        Assert.True(new FauxSystemCalendar(proleptic: true).IsProleptic);
-        Assert.True(new FauxUserCalendar(proleptic: true).IsProleptic);
-    }
-
     //[Theory, MemberData(nameof(EnumDataSet.CalendricalAlgorithmData), MemberType = typeof(EnumDataSet))]
     //public static void Algorithm(CalendricalAlgorithm algorithm)
     //{

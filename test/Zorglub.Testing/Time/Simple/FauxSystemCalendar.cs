@@ -7,7 +7,7 @@ public sealed class FauxSystemCalendar : Calendar
 {
     // On ne peut pas utiliser un ID quelconque ici car la clé sera obtenue
     // en utilisant FauxCalendarId.ToCalendarKey().
-    // De plus, ici, CalendarId doit avoir une valeur < 64.
+    // Notons aussi que CalendarId doit avoir une valeur < 64.
     public const CalendarId FauxIdent = CalendarId.Zoroastrian;
 
     public FauxSystemCalendar()

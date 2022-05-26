@@ -25,6 +25,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <Compile Include="Bulgroz\FSharp.fs" />
+    <Compile Include="Bulgroz\FSharpExtensions.fs" />
     <Compile Include="Bulgroz\Misc.fs" />
     <Compile Include="Bulgroz\Samples.fs" />
     <Compile Include="Bulgroz\Demo.fs" />
