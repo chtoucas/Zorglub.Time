@@ -76,4 +76,11 @@ public static class EnumDataSet
         CalendricalAdjustments.None,
         CalendricalAdjustments.Weeks,
     };
+
+    public static TheoryData<AddAdjustment> AddAdjustmentData { get; } = new()
+    {
+        AddAdjustment.EndOfMonth,
+        AddAdjustment.StartOfNextMonth,
+        AddAdjustment.Exact,
+    };
 }

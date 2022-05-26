@@ -1,7 +1,7 @@
 ﻿// SPDX-License-Identifier: BSD-3-Clause
 // Copyright (c) 2020 Narvalo.Org. All rights reserved.
 
-namespace Zorglub.Time.Simple;
+namespace Zorglub.Time;
 
 using System.Linq;
 using System.Threading;
@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using global::Samples;
 
 using Zorglub.Time.Core.Schemas;
+using Zorglub.Time.Simple;
 
 internal static class CalendarCatalogTestHelpers
 {

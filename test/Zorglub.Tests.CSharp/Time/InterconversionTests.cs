@@ -1,7 +1,9 @@
 ﻿// SPDX-License-Identifier: BSD-3-Clause
 // Copyright (c) 2020 Narvalo.Org. All rights reserved.
 
-namespace Zorglub.Time.Simple;
+namespace Zorglub.Time;
+
+using Zorglub.Time.Simple;
 
 // We cannot guarantee that all interconversions will succeed for years
 // in the range [1, 9999].

@@ -1,13 +1,11 @@
 ﻿// SPDX-License-Identifier: BSD-3-Clause
 // Copyright (c) 2020 Narvalo.Org. All rights reserved.
 
-namespace Zorglub.Time.Simple;
-
-using System.Linq;
+namespace Zorglub.Time;
 
 using Zorglub.Testing.Data.Bounded;
 using Zorglub.Time.Core;
-using Zorglub.Time.Core.Intervals;
+using Zorglub.Time.Simple;
 
 [Obsolete("DateRange is obsolete.")]
 public sealed class GregorianDateRangeTests : DateRangeFacts<ProlepticGregorianDataSet>

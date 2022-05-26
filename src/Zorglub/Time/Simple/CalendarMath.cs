@@ -34,6 +34,7 @@ namespace Zorglub.Time.Simple
             YearOverflowChecker = calendar.YearOverflowChecker;
         }
 
+        // TODO(api): should not be abstract.
         /// <summary>
         /// Gets the strategy employed to resolve ambiguities that can occur after adding a number
         /// of months or years to a date.

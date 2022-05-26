@@ -89,6 +89,7 @@
     <Compile Include="Tests\Simple\CalendarTests.fs" />
     <Compile Include="Tests\Simple\CalendarCatalogTests.fs" />
     <Compile Include="Tests\Simple\BoxExtensionsTests.fs" />
+    <Compile Include="Tests\Simple\CalendarMathTests.fs" />
     <Compile Include="Tests\Simple\CalendarDateTests.fs" />
     <Compile Include="Tests\Simple\OrdinalDateTests.fs" />
     <Compile Include="Tests\Simple\CalendarDayTests.fs" />
