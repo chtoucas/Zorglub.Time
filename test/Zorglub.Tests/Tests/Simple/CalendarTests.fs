@@ -11,6 +11,7 @@ open Zorglub.Testing.Data.Bounded
 
 open Zorglub.Time
 open Zorglub.Time.Core
+open Zorglub.Time.Core.Schemas
 open Zorglub.Time.Simple
 
 open Xunit
@@ -69,7 +70,7 @@ module Prelude =
 
     [<Fact>]
     let ``Property Key (usr)`` () =
-        let key = "FauxKey"
+        let key = "MyFauxKey"
         let chr = new FauxUserCalendar(key)
 
         chr.Key === key
@@ -174,7 +175,7 @@ module Prelude =
 
     [<Theory; MemberData(nameof(calendarIdData))>]
     let ``Property Id (sys)`` (ident: CalendarId) =
-        let id: Cuid = LanguagePrimitives.EnumOfValue <| byte(ident)
+        let id: Cuid = toCuid ident
         let chr = new FauxSystemCalendar(ident)
 
         chr.Id === id
@@ -200,6 +201,43 @@ module Prelude =
 
         chr.Schema ==& sch
 
+module Misc =
+    [<Fact>]
+    let ``IsRegular() (sys) returns true if the schema is regular`` () =
+        let sch = new GregorianSchema()
+        let chr = new FauxSystemCalendar(sch)
+        let isRegular, monthsInYear = chr.IsRegular()
+
+        isRegular |> ok
+        monthsInYear === 12
+
+    [<Fact>]
+    let ``IsRegular() (usr) returns true if the schema is regular`` () =
+        let sch = new GregorianSchema()
+        let chr = new FauxUserCalendar(sch)
+        let isRegular, monthsInYear = chr.IsRegular()
+
+        isRegular |> ok
+        monthsInYear === 12
+
+    [<Fact>]
+    let ``IsRegular() (sys) returns false if the schema is not regular`` () =
+        let sch = new FauxSystemSchema()
+        let chr = new FauxSystemCalendar(sch)
+        let isRegular, monthsInYear = chr.IsRegular()
+
+        isRegular |> nok
+        monthsInYear === 0
+
+    [<Fact>]
+    let ``IsRegular() (usr) returns false if the schema is not regular`` () =
+        let sch = new FauxSystemSchema()
+        let chr = new FauxUserCalendar(sch)
+        let isRegular, monthsInYear = chr.IsRegular()
+
+        isRegular |> nok
+        monthsInYear === 0
+
     //
     // Internal helpers
     //
@@ -208,7 +246,7 @@ module Prelude =
     let ``ValidateCuid() (sys)`` () =
         let paramName = "cuidParam"
         let chr = new FauxSystemCalendar()
-        let cuid: Cuid = LanguagePrimitives.EnumOfValue <| byte(FauxSystemCalendar.DefaultIdent)
+        let cuid: Cuid = toCuid FauxSystemCalendar.DefaultIdent
 
         chr.ValidateCuidDisclosed(cuid, paramName)
 

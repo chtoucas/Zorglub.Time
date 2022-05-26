@@ -5,6 +5,13 @@ module Zorglub.Time.FSharpExtensions
 
 open Zorglub.Time.Simple
 
-let inline toCalendarKey id = CalendarIdExtensions.ToCalendarKey(id)
+/// Converts the specified permanent ID, a CalendarId value, to a calendar key.
+let inline toCalendarKey ident = CalendarIdExtensions.ToCalendarKey(ident)
 
-let inline isFixed id = CuidExtensions.IsFixed(id)
+/// Converts the specified ident, a CalendarId value, to a Cuid value.
+let inline internal toCuid (ident: CalendarId) =
+    let cuid: Cuid = LanguagePrimitives.EnumOfValue <| byte(ident)
+    cuid
+
+/// Checks whether the specified Cuid is fixed or not.
+let inline internal isFixed id = CuidExtensions.IsFixed(id)
