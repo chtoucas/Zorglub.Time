@@ -36,9 +36,10 @@ internal static class CalendarCatalogTestHelpers
 
     private static int s_OnKeySetCount;
 
+    // THIS IS NO LONGER VALID.
     // This is fragile and really not "Unit Test"y, but I haven't found
     // another way to test the limit of 64 user calendars.
-    // FIXME: can we check that TestInitializationThreshold did actually run?
+    // Can we check that TestInitializationThreshold did actually run?
     private static void MaybeTestInitializationThreshold()
     {
         int
@@ -79,7 +80,7 @@ internal static class CalendarCatalogTestHelpers
             Enumerable.Range(0, CalendarCatalog.MaxNumberOfUserCalendars - CurrentUserCount),
             i =>
             {
-                string key = $"Key-{i}";
+                string key = $"FauxKey-{i}";
                 var epoch = DayZero.NewStyle;
 
                 bool added = CalendarCatalog.TryAdd(
@@ -110,18 +111,15 @@ internal static class CalendarCatalogTestHelpers
         // Any subsequent call to an initialization method should fail.
         string key = "Key-OVERFLOW";
 
-        Assert.Overflows(
-            () => CalendarCatalog.Add(key, new GregorianSchema(), default, false));
+        Assert.Overflows(() => CalendarCatalog.Add(key, new GregorianSchema(), default, false));
         OnKeyNotSet(key);
-        Assert.Overflows(
-            () => CalendarCatalog.Add(UserCalendars.Gregorian.Key, new GregorianSchema(), default, false));
+        Assert.Overflows(() => CalendarCatalog.Add(UserCalendars.Gregorian.Key, new GregorianSchema(), default, false));
 
         Assert.False(CalendarCatalog.TryAdd(key, new GregorianSchema(), default, false, out _));
         OnKeyNotSet(key);
         Assert.False(CalendarCatalog.TryAdd(UserCalendars.Gregorian.Key, new GregorianSchema(), default, false, out _));
 
-        Assert.Overflows(
-            () => GregorianSchema.GetInstance().CreateCalendar(key, default));
+        Assert.Overflows(() => GregorianSchema.GetInstance().CreateCalendar(key, default));
         OnKeyNotSet(key);
 
         Assert.False(GregorianSchema.GetInstance().TryCreateCalendar(key, default, out Calendar? _));

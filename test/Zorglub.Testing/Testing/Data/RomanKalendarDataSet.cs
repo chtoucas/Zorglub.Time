@@ -1,11 +1,9 @@
 ﻿// SPDX-License-Identifier: BSD-3-Clause
 // Copyright (c) 2020 Narvalo.Org. All rights reserved.
 
-namespace Zorglub.Time.Simple;
+namespace Zorglub.Testing.Data;
 
-using Zorglub.Time.Simple.Specialized;
-
-public static class RomanKalendarTests
+public static class RomanKalendarDataSet
 {
     public static TheoryData<int, int> EpiphanyData { get; } = new()
     {
@@ -131,36 +129,4 @@ public static class RomanKalendarTests
         { 39, 3, 27 },
         { 40, 4, 15 },
     };
-
-    [Theory, MemberData(nameof(EpiphanyData))]
-    public static void EpiphanySunday_Prop(int y, int d)
-    {
-        var epiphanySunday = new CalendarDate(y, 1, d);
-        // Act
-        var actual = new RomanKalendar(y).EpiphanySunday;
-        // Assert
-        Assert.Equal(epiphanySunday, actual);
-        Assert.Equal(DayOfWeek.Sunday, actual.DayOfWeek);
-    }
-
-    [Theory, MemberData(nameof(EasterData))]
-    public static void Easter_Prop(int y, int m, int d)
-    {
-        var easter = new CalendarDate(y, m, d);
-        // Act
-        var actual = new RomanKalendar(y).Easter;
-        // Assert
-        Assert.Equal(easter, actual);
-        Assert.Equal(DayOfWeek.Sunday, actual.DayOfWeek);
-    }
-
-    [Theory(Skip = "D&R data does not match our definition of the Paschal Moon?"), MemberData(nameof(PaschalMoonData))]
-    public static void PaschalMoon_Prop(int y, int m, int d)
-    {
-        var moon = new CalendarDate(y, m, d);
-        // Act
-        var actual = new RomanKalendar(y).PaschalMoon;
-        // Assert
-        Assert.Equal(moon, actual);
-    }
 }
