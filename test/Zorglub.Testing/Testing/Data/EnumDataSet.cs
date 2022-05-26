@@ -83,4 +83,11 @@ public static class EnumDataSet
         AddAdjustment.StartOfNextMonth,
         AddAdjustment.Exact,
     };
+
+    public static TheoryData<AddAdjustment> InvalidAddAdjustmentData { get; } = new()
+    {
+        (AddAdjustment)(-1),
+        AddAdjustment.Exact + 1,
+    };
+
 }

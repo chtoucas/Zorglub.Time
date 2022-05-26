@@ -3,21 +3,21 @@
 
 namespace Zorglub.Time
 {
-    // TODO(api): rename to DateAdditionRule?
+    // TODO(api): rename to DateAdditionRule? DateAdditionStrategy
     // What does it mean for OrdinalDate.PlusYears()? CalendarMonth.PlusYears()?
     // other value: Overflow? Naming: Exact -> Spillover?
     // Préciser que cela n'affecte que les méthodes AddYears(date)
     // et AddMonths(date), peut-être aussi Subtract()?
 
     /// <summary>
-    /// Specifies the strategy to resolve ambiguities that can occur after
-    /// adding a number of months or years to a date.
+    /// Specifies the strategy to resolve ambiguities that can occur after adding a number of months
+    /// or years to a date.
     /// </summary>
     public enum AddAdjustment
     {
         /// <summary>
-        /// When the result is not a valid day of the month (roundoff > 0),
-        /// returns the last day of the month. This is the default strategy.
+        /// When the result is not a valid day of the month (roundoff > 0), return the last day of
+        /// the month. This is the default strategy.
         /// </summary>
         // Si le résultat d'une opération arithmétique n'est pas exact (roundoff > 0),
         // on renvoie le "dernier jour du mois".
@@ -34,8 +34,8 @@ namespace Zorglub.Time
         EndOfMonth = 0,
 
         /// <summary>
-        /// When the result is not a valid day of the month (roundoff > 0),
-        /// returns the first day of the next month.
+        /// When the result is not a valid day of the month (roundoff > 0), return the first day of
+        /// the next month.
         /// </summary>
         // Premier jour du mois suivant.
         // Par exemple, pour les calendriers grégorien et julien,
@@ -51,10 +51,10 @@ namespace Zorglub.Time
         StartOfNextMonth,
 
         /// <summary>
-        /// When the result is not a valid day of the month (roundoff > 0),
-        /// returns the date obtained by adding "roundoff" days to the end of
-        /// the month (no rounding). For most calendars it is simply the day of
-        /// the next month whose day of the month is equal to "roundoff".
+        /// When the result is not a valid day of the month (roundoff > 0), return the date
+        /// obtained by adding "roundoff" days to the end of the month (no rounding). For most
+        /// calendars it is simply the day of the next month whose day of the month is equal to
+        /// "roundoff".
         /// </summary>
         // On décale d'autant de jours que nécessaire pour supprimer l'arrondi.
         // Par exemple, pour les calendriers grégorien et julien, décalage = +1,
@@ -72,7 +72,7 @@ namespace Zorglub.Time
     }
 
     /// <summary>
-    /// Provides extension methods for <see cref="CalendarId"/>.
+    /// Provides extension methods for <see cref="AddAdjustment"/>.
     /// <para>This class cannot be inherited.</para>
     /// </summary>
     internal static class AddAdjustmentExtensions

@@ -6,16 +6,22 @@ module Zorglub.Tests.Simple.CalendarMathTests
 open Zorglub.Testing
 open Zorglub.Testing.Data
 
+open Zorglub.Time
 open Zorglub.Time.Simple
 
 open Xunit
 
 module Prelude =
     let addAdjustmentData = EnumDataSet.AddAdjustmentData
+    let invalidAddAdjustmentData = EnumDataSet.InvalidAddAdjustmentData
 
     [<Fact>]
     let ``Constructor throws for null calendar`` () =
         nullExn "calendar" (fun () -> new FauxCalendarMath(null))
+
+    [<Theory; MemberData(nameof(invalidAddAdjustmentData))>]
+    let ``Constructor throws for invalid AddAdjustment`` (adjustment: AddAdjustment) =
+        outOfRangeExn "adjustment" (fun () -> new FauxCalendarMath(adjustment))
 
     //
     // Properties
@@ -27,6 +33,13 @@ module Prelude =
         let math = new FauxCalendarMath(chr, adjustment)
 
         math.AddAdjustment === adjustment
+
+    [<Fact>]
+    let ``Property SupportedYears`` () =
+        let chr = GregorianCalendar.Instance
+        let math = new FauxCalendarMath(chr)
+
+        math.SupportedYearsDisclosed === chr.SupportedYears
 
     [<Fact>]
     let ``Property Cuid`` () =

@@ -3,11 +3,19 @@
 
 namespace Zorglub.Time.Simple;
 
+using Zorglub.Time.Core.Intervals;
+
 public sealed class FauxCalendarMath : CalendarMath
 {
+    public FauxCalendarMath() : this(new FauxUserCalendar(), default) { }
+
     public FauxCalendarMath(Calendar calendar) : this(calendar, default) { }
 
+    public FauxCalendarMath(AddAdjustment adjustment) : this(new FauxUserCalendar(), adjustment) { }
+
     public FauxCalendarMath(Calendar calendar, AddAdjustment adjustment) : base(calendar, adjustment) { }
+
+    public Range<int> SupportedYearsDisclosed => SupportedYears;
 
     public bool AddYearsCoreDateWasCalled { get; private set; }
     public bool AddMonthsCoreDateWasCalled { get; private set; }
