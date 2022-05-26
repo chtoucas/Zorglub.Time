@@ -13,6 +13,25 @@ public static class EnumDataSet
         (DayOfWeek)7
     };
 
+    internal static TheoryData<Cuid> UnfixedCuidData { get; } = new()
+    {
+        Cuid.MaxSystem + 1,
+        Cuid.MinUser,
+        Cuid.Max,
+        Cuid.Invalid,
+    };
+
+    internal static TheoryData<Cuid> FixedCuidData { get; } = new()
+    {
+        Cuid.Armenian,
+        Cuid.Coptic,
+        Cuid.Ethiopic,
+        Cuid.Gregorian,
+        Cuid.Julian,
+        Cuid.TabularIslamic,
+        Cuid.Zoroastrian,
+    };
+
     public static TheoryData<CalendarId> InvalidCalendarIdData { get; } = new()
     {
         (CalendarId)(-1),

@@ -282,17 +282,17 @@ namespace Zorglub.Time.Simple
         /// <summary>
         /// Looks up a <i>system</i> calendar by its unique identifier.
         /// </summary>
-        /// <exception cref="AoorException">The specified ID is not valid.
-        /// </exception>
+        /// <exception cref="AoorException">The specified ID is not valid.</exception>
         /// <remarks>
-        /// <para>Repeated calls to this method with the same parameter ALWAYS
-        /// return the same instance.</para>
+        /// <para>Repeated calls to this method with the same parameter ALWAYS return the same
+        /// instance.</para>
         /// </remarks>
         [Pure]
         public static Calendar GetSystemCalendar(CalendarId id)
         {
+            // REVIEW(code): simply use id.IsInvalid()?
             int index = (int)id;
-            if ((uint)index >= (uint)s_SystemCalendars.Length)
+            if (index < 0 || (uint)index >= (uint)s_SystemCalendars.Length)
             {
                 Throw.ArgumentOutOfRange(nameof(id));
             }

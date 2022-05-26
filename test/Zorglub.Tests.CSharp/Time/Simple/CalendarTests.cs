@@ -5,7 +5,6 @@ namespace Zorglub.Time.Simple;
 
 using Zorglub.Testing.Data;
 using Zorglub.Testing.Data.Bounded;
-using Zorglub.Time.Core;
 using Zorglub.Time.Hemerology;
 using Zorglub.Time.Hemerology.Scopes;
 
@@ -41,59 +40,18 @@ public static class CalendarTests
         Assert.IsType<FauxCalendarMath>(chr.Math);
     }
 
-    [Theory, MemberData(nameof(EnumDataSet.CalendarIdData), MemberType = typeof(EnumDataSet))]
-    public static void Id_Sys(CalendarId id)
-    {
-        var chr = new FauxSystemCalendar(id);
-        // Act & Assert
-        Assert.Equal((Cuid)id, chr.Id);
-    }
-
-    [Fact]
-    public static void ValidateCuid_Sys()
-    {
-        var chr = new FauxSystemCalendar();
-        string paramName = "cuidParam";
-        // Act & Assert
-        chr.ValidateCuidDisclosed((Cuid)FauxSystemCalendar.FauxIdent, paramName);
-
-        Assert.Throws<ArgumentException>(paramName,
-            () => chr.ValidateCuidDisclosed(Cuid.Gregorian, paramName));
-        Assert.Throws<ArgumentException>(paramName,
-            () => chr.ValidateCuidDisclosed(Cuid.MinUser, paramName));
-    }
-
-    [Fact]
-    public static void ValidateCuid_Usr()
-    {
-        var chr = new FauxUserCalendar();
-        string paramName = "cuidParam";
-        // Act & Assert
-        chr.ValidateCuidDisclosed(FauxUserCalendar.FauxId, paramName);
-
-        Assert.Throws<ArgumentException>(paramName,
-            () => chr.ValidateCuidDisclosed(Cuid.Gregorian, paramName));
-        Assert.Throws<ArgumentException>(paramName,
-            () => chr.ValidateCuidDisclosed(Cuid.MinUser, paramName));
-    }
-}
-
-public sealed class JulianCalendarTests
-{
-    private static readonly JulianCalendar CalendarUT = JulianCalendar.Instance;
-
     // Pour effectuer les tests, on ré-utilise les données collectées pour
     // le calendrier grégorien.
     public static DataGroup<YemodaAnd<DayOfWeek>> GregorianDayOfWeekData =>
         ProlepticGregorianDataSet.Instance.DayOfWeekData;
 
     [Theory, MemberData(nameof(GregorianDayOfWeekData))]
-    public void GetDayOfWeek_UsingDates(YemodaAnd<DayOfWeek> info)
+    public static void GetDayOfWeek_UsingDates(YemodaAnd<DayOfWeek> info)
     {
         var (y, m, d, dayOfWeek) = info;
         ICalendar chr = GregorianCalendar.Instance;
         var dayNumber = chr.GetDayNumberOn(y, m, d);
-        var date = CalendarUT.GetCalendarDateOn(dayNumber);
+        var date = JulianCalendar.Instance.GetCalendarDateOn(dayNumber);
         // Act & Assert
         Assert.Equal(dayOfWeek, date.DayOfWeek);
     }

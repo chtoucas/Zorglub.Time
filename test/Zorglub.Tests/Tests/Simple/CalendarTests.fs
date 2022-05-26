@@ -25,6 +25,7 @@ open Zorglub.Time.FSharpExtensions
 // used for code coverage, because they are marked as redundant test groups.
 
 module Prelude =
+    let fixedCuidData = EnumDataSet.FixedCuidData
     let calendarIdData = EnumDataSet.CalendarIdData
     let calendricalFamilyData = EnumDataSet.CalendricalFamilyData
     let calendricalAdjustmentsData = EnumDataSet.CalendricalAdjustmentsData
@@ -168,18 +169,18 @@ module Prelude =
         chr.PeriodicAdjustments === adjustments
 
     //[<Theory; MemberData(nameof(calendarIdData))>]
-    //let ``Property Id (sys)`` (ident: CalendarId) =
-    //    let id: Cuid = enum <| int(ident)
-    //    let chr = new FauxSystemCalendar(ident)
+    //let ``Property Id (sys)`` (id: CalendarId) =
+    //    let cuid: Cuid = enum <| int(id)
+    //    let chr = new FauxSystemCalendar(id)
 
-    //    chr.Id === id
+    //    chr.Id === cuid
 
     [<Fact>]
     let ``Property Id (usr)`` () =
-        let id = Cuid.MinUser
-        let chr = new FauxUserCalendar(id)
+        let cuid = Cuid.MinUser
+        let chr = new FauxUserCalendar(cuid)
 
-        chr.Id === id
+        chr.Id === cuid
 
     [<Fact>]
     let ``Property Schema (sys)`` () =
@@ -194,6 +195,28 @@ module Prelude =
         let chr = new FauxUserCalendar(sch)
 
         chr.Schema ==& sch
+
+    //
+    // Internal helpers
+    //
+
+    let ``ValidateCuid() (sys)`` () =
+        let paramName = "cuidParam"
+        let chr = new FauxSystemCalendar()
+
+        //chr.ValidateCuidDisclosed((Cuid)FauxSystemCalendar.DefaultIdent, paramName)
+
+        argExn paramName (fun () -> chr.ValidateCuidDisclosed(Cuid.Gregorian, paramName))
+        argExn paramName (fun () -> chr.ValidateCuidDisclosed(Cuid.MinUser, paramName))
+
+    let ``ValidateCuid() (usr)`` () =
+        let paramName = "cuidParam"
+        let chr = new FauxUserCalendar()
+
+        chr.ValidateCuidDisclosed(FauxUserCalendar.FauxCuid, paramName)
+
+        argExn paramName (fun () -> chr.ValidateCuidDisclosed(Cuid.Gregorian, paramName))
+        argExn paramName (fun () -> chr.ValidateCuidDisclosed(Cuid.MinUser, paramName))
 
 module GregorianCase =
     let private chr = GregorianCalendar.Instance

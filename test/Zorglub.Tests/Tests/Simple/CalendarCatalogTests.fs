@@ -21,15 +21,6 @@ open Zorglub.Time.FSharpExtensions
 // elsewhere, this variable MUST be initialized before any test run.
 let private userGregorian = UserCalendar.Gregorian
 
-[<Sealed>]
-type BadSystemIdData() as self =
-    inherit TheoryData<int>()
-    do
-        self.Add(int(Cuid.MaxSystem) + 1)
-        self.Add(int(Cuid.MinUser))
-        self.Add(int(Cuid.Max))
-        self.Add(int(Cuid.Invalid))
-
 module TestCommon =
     let onKeyNotSet key =
         Assert.DoesNotContain(key, CalendarCatalog.Keys)
@@ -81,6 +72,7 @@ module Prelude =
 
 module Lookup =
     let calendarIdData = EnumDataSet.CalendarIdData
+    let invalidCalendarIdData = EnumDataSet.InvalidCalendarIdData
 
     //
     // GetCalendar()
@@ -153,10 +145,8 @@ module Lookup =
         chr1 |> isnotnull
         chr1 ==& chr2
 
-    [<Theory; ClassData(typeof<BadSystemIdData>)>]
-    let ``GetSystemCalendar() throws for invalid id`` (cuid: int) =
-        let id: CalendarId = enum cuid
-
+    [<Theory; MemberData(nameof(invalidCalendarIdData))>]
+    let ``GetSystemCalendar() throws for invalid id`` (id: CalendarId) =
         outOfRangeExn "id" (fun () -> CalendarCatalog.GetSystemCalendar(id))
 
     [<Fact>]
