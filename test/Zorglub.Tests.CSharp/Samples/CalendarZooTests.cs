@@ -29,7 +29,7 @@ public partial class CalendarZooTests
         Assert.Equal(1582, parts.Year);
         Assert.Equal(10, parts.Month);
         Assert.Equal(15, parts.Day);
-        Assert.Equal(DefaultMaxYear, chr.Scope.SupportedYears.Max);
+        Assert.Equal(DefaultMaxYear, chr.SupportedYears.Max);
     }
 
     [Fact]
@@ -43,8 +43,8 @@ public partial class CalendarZooTests
         var chr = CalendarZoo.GenuineJulian;
         // Assert
         Assert.NotNull(chr);
-        Assert.Equal(8, chr.Scope.SupportedYears.Min);
-        Assert.Equal(DefaultMaxYear, chr.Scope.SupportedYears.Max);
+        Assert.Equal(8, chr.SupportedYears.Min);
+        Assert.Equal(DefaultMaxYear, chr.SupportedYears.Max);
     }
 
     [Fact]
@@ -58,8 +58,8 @@ public partial class CalendarZooTests
         var chr = CalendarZoo.FrenchRevolutionary;
         // Assert
         Assert.NotNull(chr);
-        Assert.Equal(1, chr.Scope.SupportedYears.Min);
-        Assert.Equal(14, chr.Scope.SupportedYears.Max);
+        Assert.Equal(1, chr.SupportedYears.Min);
+        Assert.Equal(14, chr.SupportedYears.Max);
     }
 
     [Fact]
@@ -77,8 +77,8 @@ public partial class CalendarZooTests
         var chr = CalendarZoo.Tropicalia;
         // Assert
         Assert.NotNull(chr);
-        Assert.Equal(ProlepticShortScope.MinYear, chr.Scope.SupportedYears.Min);
-        Assert.Equal(ProlepticShortScope.MaxYear, chr.Scope.SupportedYears.Max);
+        Assert.Equal(ProlepticShortScope.MinYear, chr.SupportedYears.Min);
+        Assert.Equal(ProlepticShortScope.MaxYear, chr.SupportedYears.Max);
     }
 
     [Fact]
@@ -92,8 +92,8 @@ public partial class CalendarZooTests
         var chr = WideCalendar.Gregorian;
         // Assert
         Assert.NotNull(chr);
-        Assert.Equal(DefaultMinYear, chr.Scope.SupportedYears.Min);
-        Assert.Equal(DefaultMaxYear, chr.Scope.SupportedYears.Max);
+        Assert.Equal(DefaultMinYear, chr.SupportedYears.Min);
+        Assert.Equal(DefaultMaxYear, chr.SupportedYears.Max);
     }
 
     [Fact]
@@ -107,8 +107,8 @@ public partial class CalendarZooTests
         var chr = CalendarZoo.LongJulian;
         // Assert
         Assert.NotNull(chr);
-        Assert.Equal(DefaultMinYear, chr.Scope.SupportedYears.Min);
-        Assert.Equal(DefaultMaxYear, chr.Scope.SupportedYears.Max);
+        Assert.Equal(DefaultMinYear, chr.SupportedYears.Min);
+        Assert.Equal(DefaultMaxYear, chr.SupportedYears.Max);
     }
 
     [Fact]
@@ -126,8 +126,8 @@ public partial class CalendarZooTests
         var chr = CalendarZoo.Egyptian;
         // Assert
         Assert.NotNull(chr);
-        Assert.Equal(StandardShortScope.MinYear, chr.Scope.SupportedYears.Min);
-        Assert.Equal(StandardShortScope.MaxYear, chr.Scope.SupportedYears.Max);
+        Assert.Equal(StandardShortScope.MinYear, chr.SupportedYears.Min);
+        Assert.Equal(StandardShortScope.MaxYear, chr.SupportedYears.Max);
     }
 
     [Fact]
@@ -141,8 +141,8 @@ public partial class CalendarZooTests
         var chr = CalendarZoo.FrenchRepublican;
         // Assert
         Assert.NotNull(chr);
-        Assert.Equal(StandardShortScope.MinYear, chr.Scope.SupportedYears.Min);
-        Assert.Equal(StandardShortScope.MaxYear, chr.Scope.SupportedYears.Max);
+        Assert.Equal(StandardShortScope.MinYear, chr.SupportedYears.Min);
+        Assert.Equal(StandardShortScope.MaxYear, chr.SupportedYears.Max);
     }
 
     [Fact]
@@ -156,8 +156,8 @@ public partial class CalendarZooTests
         var chr = CalendarZoo.InternationalFixed;
         // Assert
         Assert.NotNull(chr);
-        Assert.Equal(StandardShortScope.MinYear, chr.Scope.SupportedYears.Min);
-        Assert.Equal(StandardShortScope.MaxYear, chr.Scope.SupportedYears.Max);
+        Assert.Equal(StandardShortScope.MinYear, chr.SupportedYears.Min);
+        Assert.Equal(StandardShortScope.MaxYear, chr.SupportedYears.Max);
     }
 
     [Fact]
@@ -171,8 +171,8 @@ public partial class CalendarZooTests
         var chr = CalendarZoo.Persian2820;
         // Assert
         Assert.NotNull(chr);
-        Assert.Equal(StandardShortScope.MinYear, chr.Scope.SupportedYears.Min);
-        Assert.Equal(StandardShortScope.MaxYear, chr.Scope.SupportedYears.Max);
+        Assert.Equal(StandardShortScope.MinYear, chr.SupportedYears.Min);
+        Assert.Equal(StandardShortScope.MaxYear, chr.SupportedYears.Max);
     }
 
     [Fact]
@@ -186,8 +186,8 @@ public partial class CalendarZooTests
         var chr = CalendarZoo.Positivist;
         // Assert
         Assert.NotNull(chr);
-        Assert.Equal(StandardShortScope.MinYear, chr.Scope.SupportedYears.Min);
-        Assert.Equal(StandardShortScope.MaxYear, chr.Scope.SupportedYears.Max);
+        Assert.Equal(StandardShortScope.MinYear, chr.SupportedYears.Min);
+        Assert.Equal(StandardShortScope.MaxYear, chr.SupportedYears.Max);
     }
 
     [Fact]
@@ -201,8 +201,8 @@ public partial class CalendarZooTests
         var chr = CalendarZoo.RevisedWorld;
         // Assert
         Assert.NotNull(chr);
-        Assert.Equal(StandardShortScope.MinYear, chr.Scope.SupportedYears.Min);
-        Assert.Equal(StandardShortScope.MaxYear, chr.Scope.SupportedYears.Max);
+        Assert.Equal(StandardShortScope.MinYear, chr.SupportedYears.Min);
+        Assert.Equal(StandardShortScope.MaxYear, chr.SupportedYears.Max);
     }
 
     [Fact]
@@ -216,8 +216,8 @@ public partial class CalendarZooTests
         var chr = CalendarZoo.World;
         // Assert
         Assert.NotNull(chr);
-        Assert.Equal(StandardShortScope.MinYear, chr.Scope.SupportedYears.Min);
-        Assert.Equal(StandardShortScope.MaxYear, chr.Scope.SupportedYears.Max);
+        Assert.Equal(StandardShortScope.MinYear, chr.SupportedYears.Min);
+        Assert.Equal(StandardShortScope.MaxYear, chr.SupportedYears.Max);
     }
 
     [Fact]
@@ -235,8 +235,8 @@ public partial class CalendarZooTests
         var chr = CalendarZoo.Holocene;
         // Assert
         Assert.NotNull(chr);
-        Assert.Equal(1, chr.Scope.SupportedYears.Min);
-        Assert.Equal(DefaultMaxYear, chr.Scope.SupportedYears.Max);
+        Assert.Equal(1, chr.SupportedYears.Min);
+        Assert.Equal(DefaultMaxYear, chr.SupportedYears.Max);
     }
 
     [Fact]
@@ -250,8 +250,8 @@ public partial class CalendarZooTests
         var chr = CalendarZoo.Minguo;
         // Assert
         Assert.NotNull(chr);
-        Assert.Equal(1, chr.Scope.SupportedYears.Min);
-        Assert.Equal(DefaultMaxYear, chr.Scope.SupportedYears.Max);
+        Assert.Equal(1, chr.SupportedYears.Min);
+        Assert.Equal(DefaultMaxYear, chr.SupportedYears.Max);
     }
 
     [Fact]
@@ -265,8 +265,8 @@ public partial class CalendarZooTests
         var chr = CalendarZoo.ThaiSolar;
         // Assert
         Assert.NotNull(chr);
-        Assert.Equal(1, chr.Scope.SupportedYears.Min);
-        Assert.Equal(DefaultMaxYear, chr.Scope.SupportedYears.Max);
+        Assert.Equal(1, chr.SupportedYears.Min);
+        Assert.Equal(DefaultMaxYear, chr.SupportedYears.Max);
     }
 
     [Fact]
@@ -285,8 +285,8 @@ public partial class CalendarZooTests
         var chr = CalendarZoo.Pax;
         // Assert
         Assert.NotNull(chr);
-        Assert.Equal(1, chr.Scope.SupportedYears.Min);
-        Assert.Equal(SystemSchema.DefaultMaxYear, chr.Scope.SupportedYears.Max);
+        Assert.Equal(1, chr.SupportedYears.Min);
+        Assert.Equal(SystemSchema.DefaultMaxYear, chr.SupportedYears.Max);
     }
 
     [Fact]

@@ -22,17 +22,17 @@ namespace Zorglub.Time.Simple
         /// class.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="calendar"/> is null.</exception>
-        protected CalendarMath(Calendar calendar, AddAdjustment addAdjustment)
+        protected CalendarMath(Calendar calendar, AddAdjustment adjustment)
         {
             Requires.NotNull(calendar);
-            if (addAdjustment.IsInvalid()) Throw.ArgumentOutOfRange(nameof(addAdjustment));
+            if (adjustment.IsInvalid()) Throw.ArgumentOutOfRange(nameof(adjustment));
 
-            AddAdjustment = addAdjustment;
+            AddAdjustment = adjustment;
             Cuid = calendar.Id;
             Schema = calendar.Schema;
             // Internally we use YearOverflowChecker. Externally, one can use
             // SupportedYears instead.
-            SupportedYears = calendar.Scope.SupportedYears;
+            SupportedYears = calendar.SupportedYears;
             YearOverflowChecker = calendar.YearOverflowChecker;
         }
 

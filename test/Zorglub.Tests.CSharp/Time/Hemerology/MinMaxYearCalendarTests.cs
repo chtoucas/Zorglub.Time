@@ -25,8 +25,8 @@ public static class MinMaxYearCalendarTests
         Assert.Equal(name, chr.Name);
         Assert.Equal(epoch, chr.Epoch);
         Assert.Equal(s_Schema, chr.Schema);
-        Assert.Equal(minYear, chr.Scope.SupportedYears.Min);
-        Assert.Equal(maxYear, chr.Scope.SupportedYears.Max);
+        Assert.Equal(minYear, chr.SupportedYears.Min);
+        Assert.Equal(maxYear, chr.SupportedYears.Max);
     }
 
     [Fact]
@@ -48,8 +48,8 @@ public static class MinMaxYearCalendarTests
         Assert.Equal(name, chr.Name);
         Assert.Equal(epoch, chr.Epoch);
         Assert.Equal(s_Schema, chr.Schema);
-        Assert.Equal(minYear, chr.Scope.SupportedYears.Min);
-        Assert.Equal(s_Schema.SupportedYears.Max, chr.Scope.SupportedYears.Max);
+        Assert.Equal(minYear, chr.SupportedYears.Min);
+        Assert.Equal(s_Schema.SupportedYears.Max, chr.SupportedYears.Max);
     }
 
     [Fact]
@@ -71,8 +71,8 @@ public static class MinMaxYearCalendarTests
         Assert.Equal(name, chr.Name);
         Assert.Equal(epoch, chr.Epoch);
         Assert.Equal(s_Schema, chr.Schema);
-        Assert.Equal(s_Schema.SupportedYears.Min, chr.Scope.SupportedYears.Min);
-        Assert.Equal(maxYear, chr.Scope.SupportedYears.Max);
+        Assert.Equal(s_Schema.SupportedYears.Min, chr.SupportedYears.Min);
+        Assert.Equal(maxYear, chr.SupportedYears.Max);
     }
 }
 
@@ -112,9 +112,9 @@ public sealed class GregorianMinMaxYearCalendarTests :
 
     [Fact]
     public void MinYear_Prop() =>
-        Assert.Equal(FirstYear, CalendarUT.Scope.SupportedYears.Min);
+        Assert.Equal(FirstYear, CalendarUT.SupportedYears.Min);
 
     [Fact]
     public void MaxYear_Prop() =>
-        Assert.Equal(LastYear, CalendarUT.Scope.SupportedYears.Max);
+        Assert.Equal(LastYear, CalendarUT.SupportedYears.Max);
 }
