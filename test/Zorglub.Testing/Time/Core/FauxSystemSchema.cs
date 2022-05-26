@@ -48,8 +48,15 @@ public partial class FauxSystemSchema : SystemSchema
     }
 
     public static FauxSystemSchema Default { get; } = new(DefaultMinDaysInYear, DefaultMinDaysInMonth);
+
     public static FauxSystemSchema Regular12 { get; } =
         new FauxRegularSchema(12, DefaultMinDaysInYear, DefaultMinDaysInMonth);
+
+    public static FauxSystemSchema Regular13 { get; } =
+        new FauxRegularSchema(13, DefaultMinDaysInYear, DefaultMinDaysInMonth);
+
+    public static FauxSystemSchema Regular14 { get; } =
+        new FauxRegularSchema(14, DefaultMinDaysInYear, DefaultMinDaysInMonth);
 
     public sealed override CalendricalFamily Family { get; } = CalendricalFamily.Other;
     public sealed override CalendricalAdjustments PeriodicAdjustments { get; } = CalendricalAdjustments.None;

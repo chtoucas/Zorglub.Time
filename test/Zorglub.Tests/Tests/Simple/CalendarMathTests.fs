@@ -7,6 +7,7 @@ open Zorglub.Testing
 open Zorglub.Testing.Data
 
 open Zorglub.Time
+open Zorglub.Time.Core
 open Zorglub.Time.Simple
 
 open Xunit
@@ -28,9 +29,8 @@ module Prelude =
     //
 
     [<Theory; MemberData(nameof(addAdjustmentData))>]
-    let ``Property AddAdjustment`` adjustment =
-        let chr = GregorianCalendar.Instance
-        let math = new FauxCalendarMath(chr, adjustment)
+    let ``Property AddAdjustment`` (adjustment: AddAdjustment) =
+        let math = new FauxCalendarMath(adjustment)
 
         math.AddAdjustment === adjustment
 
@@ -47,6 +47,39 @@ module Prelude =
         let math = new FauxCalendarMath(chr)
 
         math.Cuid === chr.Id
+
+module Factories =
+    [<Fact>]
+    let ``Create() -> Regular12Math`` () =
+        let sch = FauxSystemSchema.Regular12
+        let chr = new FauxSystemCalendar(sch)
+        let math = CalendarMath.Create(chr)
+
+        math |> is<Regular12Math>
+
+    [<Fact>]
+    let ``Create() -> Regular13Math`` () =
+        let sch = FauxSystemSchema.Regular13
+        let chr = new FauxSystemCalendar(sch)
+        let math = CalendarMath.Create(chr)
+
+        math |> is<Regular13Math>
+
+    [<Fact>]
+    let ``Create() -> RegularMath`` () =
+        let sch = FauxSystemSchema.Regular14
+        let chr = new FauxSystemCalendar(sch)
+        let math = CalendarMath.Create(chr)
+
+        math |> is<RegularMath>
+
+    [<Fact>]
+    let ``Create() -> DefaultMath`` () =
+        let sch = FauxSystemSchema.Default
+        let chr = new FauxSystemCalendar(sch)
+        let math = CalendarMath.Create(chr)
+
+        math |> is<DefaultMath>
 
 module Validation =
     let private chr = GregorianCalendar.Instance
