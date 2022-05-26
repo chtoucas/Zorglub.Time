@@ -3,7 +3,9 @@
 #Requires -Version 7
 
 [CmdletBinding()]
-param()
+param(
+    [switch] $Hard
+)
 
 . (Join-Path $PSScriptRoot 'zorglub.ps1')
 
@@ -12,9 +14,7 @@ function Remove-BinAndObj {
     param(
         [Parameter(Mandatory = $true, ValueFromPipeline = $true)]
         [ValidateNotNullOrEmpty()]
-        [string] $path,
-
-        [switch] $Hard,
+        [string] $path
     )
 
     say "Deleting ""bin"" and ""obj"" directories within ""$path""."
@@ -37,7 +37,11 @@ try {
     Remove-BinAndObj (Join-Path $RootDir 'test' -Resolve)
     Remove-BinAndObj (Join-Path $RootDir 'tools' -Resolve)
 
-    if ($Hard) { Remove-BinAndObj (Join-Path $RootDir '.vs' -Resolve) }
+    if ($Hard) {
+        $vsDir = (Join-Path $RootDir '.vs' -Resolve)
+        say "Deleting ""$vsDir""."
+        rm $vsDir -Recurse -Force
+    }
 }
 catch {
     say $_ -Foreground Red
