@@ -6,7 +6,6 @@ namespace Zorglub.Time.Simple;
 using Zorglub.Testing.Data;
 using Zorglub.Testing.Data.Bounded;
 using Zorglub.Time.Hemerology;
-using Zorglub.Time.Hemerology.Scopes;
 
 public static class CalendarTests
 {
@@ -55,20 +54,4 @@ public static class CalendarTests
         // Act & Assert
         Assert.Equal(dayOfWeek, date.DayOfWeek);
     }
-}
-
-public sealed class UserDefinedCalendarTests : CalendarFacts<Calendar, StandardGregorianDataSet>
-{
-    public UserDefinedCalendarTests() : base(CalendarCatalogTests.MyGregorian) { }
-
-    protected override Calendar GetSingleton() => CalendarCatalogTests.MyGregorian;
-
-    [Fact]
-    public override void Id() => Assert.Equal(CalendarCatalogTests.MyGregorian.Id, CalendarUT.Id);
-
-    [Fact]
-    public override void Math() => Assert.IsType<Regular12Math>(CalendarUT.Math);
-
-    [Fact]
-    public override void Scope() => Assert.IsType<GregorianStandardShortScope>(CalendarUT.Scope);
 }

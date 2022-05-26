@@ -18,7 +18,7 @@ open CalendarCatalogTests.TestCommon
 
 // Reference the user-defined calendar. Be careful if you decide to move this
 // elsewhere, this variable MUST be initialized before any test run.
-let private userGregorian = UserCalendar.Gregorian
+let private userGregorian = UserCalendars.Gregorian
 
 module NoWrite =
     //

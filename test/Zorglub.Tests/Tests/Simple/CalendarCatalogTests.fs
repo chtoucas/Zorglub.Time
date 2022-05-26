@@ -19,7 +19,7 @@ open Zorglub.Time.FSharpExtensions
 
 // Reference the user-defined calendar. Be careful if you decide to move this
 // elsewhere, this variable MUST be initialized before any test run.
-let private userGregorian = UserCalendar.Gregorian
+let private userGregorian = UserCalendars.Gregorian
 
 module TestCommon =
     let onKeyNotSet key =
@@ -93,7 +93,7 @@ module Lookup =
 
     [<Fact>]
     let ``GetCalendar(user key) is not null and always returns the same reference`` () =
-        let key = UserCalendar.Gregorian.Key
+        let key = userGregorian.Key
         let chr1 = CalendarCatalog.GetCalendar(key)
         let chr2 = CalendarCatalog.GetCalendar(key)
 
@@ -124,7 +124,7 @@ module Lookup =
 
     [<Fact>]
     let ``TryGetCalendar(user key) succeeds and always returns the same reference`` () =
-        let key = UserCalendar.Gregorian.Key
+        let key = userGregorian.Key
         let succeed1, chr1 = CalendarCatalog.TryGetCalendar(key)
         let succeed2, chr2 = CalendarCatalog.TryGetCalendar(key)
 

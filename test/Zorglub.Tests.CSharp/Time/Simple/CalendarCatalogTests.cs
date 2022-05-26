@@ -13,13 +13,6 @@ using Zorglub.Time.Core.Schemas;
 
 public static class CalendarCatalogTests
 {
-    public const string MyGregorianKey = "User Gregorian";
-
-    public static readonly Calendar MyGregorian = CalendarCatalog.Add(
-        MyGregorianKey, new GregorianSchema(), DayZero.NewStyle, proleptic: false);
-
-    static CalendarCatalogTests() { }
-
     // F# -> we do not test GetCalendarUnsafe().
     [Theory, MemberData(nameof(EnumDataSet.CalendarIdData), MemberType = typeof(EnumDataSet))]
     public static void GetCalendarXXX_AreAllTheSame(CalendarId id)
@@ -136,11 +129,11 @@ public static class CalendarCatalogTests
             () => CalendarCatalog.Add(key, new GregorianSchema(), default, false));
         OnKeyNotSet(key);
         Assert.Overflows(
-            () => CalendarCatalog.Add(MyGregorianKey, new GregorianSchema(), default, false));
+            () => CalendarCatalog.Add(UserCalendars.Gregorian.Key, new GregorianSchema(), default, false));
 
         Assert.False(CalendarCatalog.TryAdd(key, new GregorianSchema(), default, false, out _));
         OnKeyNotSet(key);
-        Assert.False(CalendarCatalog.TryAdd(MyGregorianKey, new GregorianSchema(), default, false, out _));
+        Assert.False(CalendarCatalog.TryAdd(UserCalendars.Gregorian.Key, new GregorianSchema(), default, false, out _));
 
         Assert.Overflows(
             () => GregorianSchema.GetInstance().CreateCalendar(key, default));
