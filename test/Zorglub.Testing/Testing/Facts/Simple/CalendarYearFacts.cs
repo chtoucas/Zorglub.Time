@@ -329,7 +329,7 @@ public partial class CalendarYearFacts<TDataSet> // Adjustments
     }
 
     [Theory, MemberData(nameof(YearInfoData))]
-    public void WithYear_Invariant(YearInfo info)
+    public void WithYear_Invariance(YearInfo info)
     {
         int y = info.Year;
         var year = CalendarUT.GetCalendarYear(y);

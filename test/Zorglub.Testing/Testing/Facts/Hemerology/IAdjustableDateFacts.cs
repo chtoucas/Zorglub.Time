@@ -80,7 +80,7 @@ public partial class IAdjustableDateFacts<TDate, TDataSet> // Adjust()
     }
 
     [Theory, MemberData(nameof(DateInfoData))]
-    public void Adjust_Invariant(DateInfo info)
+    public void Adjust_Invariance(DateInfo info)
     {
         var (y, m, d) = info.Yemoda;
         var date = GetDate(y, m, d);
@@ -124,7 +124,7 @@ public partial class IAdjustableDateFacts<TDate, TDataSet> // WithYear()
     }
 
     [Theory, MemberData(nameof(DateInfoData))]
-    public void WithYear_Invariant(DateInfo info)
+    public void WithYear_Invariance(DateInfo info)
     {
         var (y, m, d) = info.Yemoda;
         var date = GetDate(y, m, d);
@@ -157,7 +157,7 @@ public partial class IAdjustableDateFacts<TDate, TDataSet> // WithMonth()
     }
 
     [Theory, MemberData(nameof(DateInfoData))]
-    public void WithMonth_Invariant(DateInfo info)
+    public void WithMonth_Invariance(DateInfo info)
     {
         var (y, m, d) = info.Yemoda;
         var date = GetDate(y, m, d);
@@ -187,7 +187,7 @@ public partial class IAdjustableDateFacts<TDate, TDataSet> // WithDay()
     }
 
     [Theory, MemberData(nameof(DateInfoData))]
-    public void WithDay_Invariant(DateInfo info)
+    public void WithDay_Invariance(DateInfo info)
     {
         var (y, m, d) = info.Yemoda;
         var date = GetDate(y, m, d);

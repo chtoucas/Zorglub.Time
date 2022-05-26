@@ -332,7 +332,7 @@ public partial class CalendarMonthFacts<TDataSet> // Adjustments
     }
 
     [Theory, MemberData(nameof(MonthInfoData))]
-    public void WithYear_Invariant(MonthInfo info)
+    public void WithYear_Invariance(MonthInfo info)
     {
         var (y, m) = info.Yemo;
         var month = CalendarUT.GetCalendarMonth(y, m);
@@ -362,7 +362,7 @@ public partial class CalendarMonthFacts<TDataSet> // Adjustments
     }
 
     [Theory, MemberData(nameof(MonthInfoData))]
-    public void WithMonth_Invariant(MonthInfo info)
+    public void WithMonth_Invariance(MonthInfo info)
     {
         var (y, m) = info.Yemo;
         var month = CalendarUT.GetCalendarMonth(y, m);

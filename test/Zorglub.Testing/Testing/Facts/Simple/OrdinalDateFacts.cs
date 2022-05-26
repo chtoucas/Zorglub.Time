@@ -158,7 +158,7 @@ public partial class OrdinalDateFacts<TDataSet> // Conversions
     }
 
     [Theory, MemberData(nameof(DayNumberInfoData))]
-    public void WithCalendar_Invariant(DayNumberInfo info)
+    public void WithCalendar_Invariance(DayNumberInfo info)
     {
         var dayNumber = info.DayNumber;
         var date = CalendarUT.GetOrdinalDateOn(dayNumber);

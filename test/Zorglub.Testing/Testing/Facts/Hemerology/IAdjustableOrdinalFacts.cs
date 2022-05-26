@@ -63,7 +63,7 @@ public partial class IAdjustableOrdinalFacts<TDate, TDataSet> // Adjust()
     }
 
     [Theory, MemberData(nameof(DateInfoData))]
-    public void Adjust_Invariant(DateInfo info)
+    public void Adjust_Invariance(DateInfo info)
     {
         var (y, doy) = info.Yedoy;
         var date = GetDate(y, doy);
@@ -107,7 +107,7 @@ public partial class IAdjustableOrdinalFacts<TDate, TDataSet> // WithYear()
     }
 
     [Theory, MemberData(nameof(DateInfoData))]
-    public void WithYear_Invariant(DateInfo info)
+    public void WithYear_Invariance(DateInfo info)
     {
         var (y, doy) = info.Yedoy;
         var date = GetDate(y, doy);
@@ -140,7 +140,7 @@ public partial class IAdjustableOrdinalFacts<TDate, TDataSet> // WithDayOfYear()
     }
 
     [Theory, MemberData(nameof(DateInfoData))]
-    public void WithDayOfYear_Invariant(DateInfo info)
+    public void WithDayOfYear_Invariance(DateInfo info)
     {
         var (y, doy) = info.Yedoy;
         var date = GetDate(y, doy);
