@@ -21,10 +21,6 @@ using static Zorglub.Time.Extensions.Unboxing;
 //   This is the best possible choice. A bit verbose, but thread-safe and lazy.
 // - Interlocked.CompareExchange()
 //   Second best choice.
-// - volatile field (read the latest value).
-//   Less verbose but I'm not sure that I really understand all the implications
-//   of it.
-//   https://stackoverflow.com/questions/72275/when-should-the-volatile-keyword-be-used-in-c
 // - Lazy<T> or (better?) LazyInitializer.EnsureInitialized
 
 /// <summary>
@@ -111,8 +107,12 @@ public partial class CalendarZoo
 // - LongJulian
 // Lazy initialization using Interlocked.CompareExchange(), but we must be
 // careful when we create the calendar; see comments below.
-// We also declare the fields as volatile, but I'm not sure of its usefulness.
-// If I'm not mistaken, the created calendars are singleton.
+// If I'm not mistaken, the calendars are singleton.
+//
+// We also declare the fields as volatile (read the latest value), but I'm not
+// sure of its usefulness here, moreover I don't actually understand all the
+// implications of it.
+// https://stackoverflow.com/questions/72275/when-should-the-volatile-keyword-be-used-in-c
 public partial class CalendarZoo
 {
     /// <summary>
