@@ -203,6 +203,56 @@ module GregorianCase =
     let dayOfWeekData = calendarDataSet.DayOfWeekData
     let dayNumberToDayOfWeekData = CalCalDataSet.GetDayNumberToDayOfWeekData(domain)
 
+    //
+    // Factories
+    //
+
+    [<Fact>]
+    let ``GetCurrentYear()`` () =
+        let now = DateTime.Now
+        let year = chr.GetCurrentYear()
+
+        year.Year  === now.Year
+
+    [<Fact>]
+    let ``GetCurrentMonth()`` () =
+        let now = DateTime.Now
+        let month = chr.GetCurrentMonth()
+
+        month.Year  === now.Year
+        month.Month === now.Month
+
+    [<Fact>]
+    let ``GetCurrentDate()`` () =
+        let now = DateTime.Now
+        let date = chr.GetCurrentDate()
+
+        date.Year  === now.Year
+        date.Month === now.Month
+        date.Day   === now.Day
+
+    [<Fact>]
+    let ``GetCurrentDay()`` () =
+        let now = DateTime.Now
+        let date = chr.GetCurrentDay()
+
+        date.Year  === now.Year
+        date.Month === now.Month
+        date.Day   === now.Day
+
+    [<Fact>]
+    let ``GetCurrentOrdinal()`` () =
+        let now = DateTime.Now
+        let date = chr.GetCurrentOrdinal()
+
+        date.Year  === now.Year
+        date.Month === now.Month
+        date.Day   === now.Day
+
+    //
+    // GetDayOfWeek()
+    //
+
     [<Theory; MemberData(nameof(dayOfWeekData))>]
     let ``GetDayOfWeek(CalendarDate)`` (info: YemodaAnd<DayOfWeek>) =
         let (y, m, d, dayOfWeek) = info.Deconstruct()
