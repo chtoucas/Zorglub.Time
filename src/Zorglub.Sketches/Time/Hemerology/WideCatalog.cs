@@ -242,11 +242,11 @@ namespace Zorglub.Time.Hemerology
 
         // REVIEW: public? officially, a WideCalendar has no ID, only a key.
         [Pure]
-        public static WideCalendar GetSystemCalendar(CalendarId id)
+        public static WideCalendar GetSystemCalendar(CalendarId ident)
         {
-            if (id.IsInvalid()) Throw.ArgumentOutOfRange(nameof(id));
+            if (ident.IsInvalid()) Throw.ArgumentOutOfRange(nameof(ident));
 
-            return s_CalendarsById[(int)id] ?? GetSystemCalendarUncached(id);
+            return s_CalendarsById[(int)ident] ?? GetSystemCalendarUncached(ident);
         }
 
 #nullable disable warnings
