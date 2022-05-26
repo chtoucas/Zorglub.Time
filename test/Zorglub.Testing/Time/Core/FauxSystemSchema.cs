@@ -14,6 +14,9 @@ public partial class FauxSystemSchema : SystemSchema
 
     // Base constructors.
 
+    public FauxSystemSchema()
+        : base(DefaultMinDaysInYear, DefaultMinDaysInMonth) { }
+
     public FauxSystemSchema(int minDaysInYear, int minDaysInMonth)
         : base(minDaysInYear, minDaysInMonth) { }
 

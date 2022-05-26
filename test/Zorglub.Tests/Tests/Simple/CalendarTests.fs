@@ -26,6 +26,8 @@ open Zorglub.Time.FSharpExtensions
 
 module Prelude =
     let calendarIdData = EnumDataSet.CalendarIdData
+    let calendricalFamilyData = EnumDataSet.CalendricalFamilyData
+    let calendricalAdjustmentsData = EnumDataSet.CalendricalAdjustmentsData
 
     [<Fact>]
     let ``Constructor (sys) throws for null schema`` () =
@@ -40,6 +42,18 @@ module Prelude =
         let key: string = null
 
         nullExn "key" (fun () -> new FauxUserCalendar(key))
+
+    [<Fact>]
+    let ``ToString() (sys) returns the key`` () =
+        let chr = new FauxSystemCalendar()
+
+        chr.ToString() === chr.Key
+
+    [<Fact>]
+    let ``ToString() (usr) returns the key`` () =
+        let chr = new FauxUserCalendar("FauxKey")
+
+        chr.ToString() === chr.Key
 
     //
     // Properties
@@ -112,6 +126,74 @@ module Prelude =
         let chr = new FauxUserCalendar(proleptic)
 
         chr.IsProleptic === proleptic
+
+    [<Fact>]
+    let ``Property Algorithm (sys)`` () =
+        let chr = new FauxSystemCalendar()
+
+        chr.Algorithm === CalendricalAlgorithm.Arithmetical
+
+    [<Fact>]
+    let ``Property Algorithm (usr)`` () =
+        let chr = new FauxUserCalendar()
+
+        chr.Algorithm === CalendricalAlgorithm.Arithmetical
+
+    [<Theory; MemberData(nameof(calendricalFamilyData))>]
+    let ``Property Family (sys)`` (familly: CalendricalFamily) =
+        let sch = new FauxSystemSchema(familly)
+        let chr = new FauxSystemCalendar(sch)
+
+        chr.Family === familly
+
+    [<Theory; MemberData(nameof(calendricalFamilyData))>]
+    let ``Property Family (usr)`` (familly: CalendricalFamily) =
+        let sch = new FauxSystemSchema(familly)
+        let chr = new FauxUserCalendar(sch)
+
+        chr.Family === familly
+
+    [<Theory; MemberData(nameof(calendricalAdjustmentsData))>]
+    let ``Property PeriodicAdjustments (sys)`` (adjustments: CalendricalAdjustments) =
+        let sch = new FauxSystemSchema(adjustments)
+        let chr = new FauxSystemCalendar(sch)
+
+        chr.PeriodicAdjustments === adjustments
+
+    [<Theory; MemberData(nameof(calendricalAdjustmentsData))>]
+    let ``Property PeriodicAdjustments (usr)`` (adjustments: CalendricalAdjustments) =
+        let sch = new FauxSystemSchema(adjustments)
+        let chr = new FauxUserCalendar(sch)
+
+        chr.PeriodicAdjustments === adjustments
+
+    //[<Theory; MemberData(nameof(calendarIdData))>]
+    //let ``Property Id (sys)`` (ident: CalendarId) =
+    //    let id: Cuid = enum <| int(ident)
+    //    let chr = new FauxSystemCalendar(ident)
+
+    //    chr.Id === id
+
+    [<Fact>]
+    let ``Property Id (usr)`` () =
+        let id = Cuid.MinUser
+        let chr = new FauxUserCalendar(id)
+
+        chr.Id === id
+
+    [<Fact>]
+    let ``Property Schema (sys)`` () =
+        let sch = new FauxSystemSchema()
+        let chr = new FauxSystemCalendar(sch)
+
+        chr.Schema ==& sch
+
+    [<Fact>]
+    let ``Property Schema (usr)`` () =
+        let sch = new FauxSystemSchema()
+        let chr = new FauxUserCalendar(sch)
+
+        chr.Schema ==& sch
 
 module GregorianCase =
     let private chr = GregorianCalendar.Instance
