@@ -778,12 +778,15 @@ namespace Zorglub.Time.Simple
         [Pure]
         internal virtual DayOfWeek GetDayOfWeek(CalendarDate date)
         {
+            // NB: if we disallow proleptic user-defined calendars, we can use
+            // the unsigned modulo operator; idem with the other GetDayOfWeek().
             Debug.Assert(date.Cuid == Id);
-            Debug.Assert(!IsProleptic);
+            //Debug.Assert(!IsProleptic);
 
             date.Parts.Unpack(out int y, out int m, out int d);
             int days = _epochDayOfWeek + Schema.CountDaysSinceEpoch(y, m, d);
-            return (DayOfWeek)((uint)days % CalendricalConstants.DaysInWeek);
+            //return (DayOfWeek)((uint)days % CalendricalConstants.DaysInWeek);
+            return (DayOfWeek)MathZ.Modulo(days, CalendricalConstants.DaysInWeek);
         }
 
         /// <summary>
@@ -794,11 +797,10 @@ namespace Zorglub.Time.Simple
         internal virtual DayOfWeek GetDayOfWeek(OrdinalDate date)
         {
             Debug.Assert(date.Cuid == Id);
-            Debug.Assert(!IsProleptic);
 
             date.Parts.Unpack(out int y, out int doy);
             int days = _epochDayOfWeek + Schema.CountDaysSinceEpoch(y, doy);
-            return (DayOfWeek)((uint)days % CalendricalConstants.DaysInWeek);
+            return (DayOfWeek)MathZ.Modulo(days, CalendricalConstants.DaysInWeek);
         }
     }
 }
