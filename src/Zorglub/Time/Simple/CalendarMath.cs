@@ -22,10 +22,12 @@ namespace Zorglub.Time.Simple
         /// class.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="calendar"/> is null.</exception>
-        protected CalendarMath(Calendar calendar)
+        protected CalendarMath(Calendar calendar, AddAdjustment addAdjustment)
         {
             Requires.NotNull(calendar);
+            if (addAdjustment.IsInvalid()) Throw.ArgumentOutOfRange(nameof(addAdjustment));
 
+            AddAdjustment = addAdjustment;
             Cuid = calendar.Id;
             Schema = calendar.Schema;
             // Internally we use YearOverflowChecker. Externally, one can use
@@ -34,12 +36,11 @@ namespace Zorglub.Time.Simple
             YearOverflowChecker = calendar.YearOverflowChecker;
         }
 
-        // TODO(api): should not be abstract.
         /// <summary>
         /// Gets the strategy employed to resolve ambiguities that can occur after adding a number
         /// of months or years to a date.
         /// </summary>
-        public abstract AddAdjustment AddAdjustment { get; }
+        public AddAdjustment AddAdjustment { get; }
 
         /// <summary>
         /// Gets the range of supported years.

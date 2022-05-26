@@ -7,12 +7,7 @@ public sealed class FauxCalendarMath : CalendarMath
 {
     public FauxCalendarMath(Calendar calendar) : this(calendar, default) { }
 
-    public FauxCalendarMath(Calendar calendar, AddAdjustment adjustment) : base(calendar)
-    {
-        AddAdjustment = adjustment;
-    }
-
-    public override AddAdjustment AddAdjustment { get; }
+    public FauxCalendarMath(Calendar calendar, AddAdjustment adjustment) : base(calendar, adjustment) { }
 
     public bool AddYearsCoreDateWasCalled { get; private set; }
     public bool AddMonthsCoreDateWasCalled { get; private set; }

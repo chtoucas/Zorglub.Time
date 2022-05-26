@@ -12,26 +12,28 @@ namespace Zorglub.Time.Simple
     // Not sealed, extendable.
     public class PowerMath : CalendarMath
     {
-        public PowerMath(Calendar calendar) : base(calendar)
+        public PowerMath(Calendar calendar) : this(calendar, CreateCalendricalMath(calendar)) { }
+
+        private PowerMath(Calendar calendar, CalendricalMath math) : base(calendar, math.AddAdjustment)
         {
             Debug.Assert(calendar != null);
+            Debug.Assert(math != null);
 
             DefaultRules = calendar.Math;
-            Math = Create(calendar.Schema);
+            Math = math;
         }
 
         protected CalendarMath DefaultRules { get; }
 
         protected CalendricalMath Math { get; }
 
-        public override AddAdjustment AddAdjustment => Math.AddAdjustment;
-
-        // REVIEW: move this method to CalendricalSchema?
+        // REVIEW(code): move this method to CalendricalSchema?
         [Pure]
-        private static CalendricalMath Create(SystemSchema schema)
+        private static CalendricalMath CreateCalendricalMath(Calendar calendar)
         {
-            Debug.Assert(schema != null);
+            Requires.NotNull(calendar);
 
+            var schema = calendar.Schema;
             int monthsInYear = schema.IsRegular(out int v) ? v : 0;
 
             return monthsInYear switch

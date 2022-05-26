@@ -25,15 +25,12 @@ namespace Zorglub.Time.Simple
         /// Initializes a new instance of the <see cref="DefaultMath"/> class.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="calendar"/> is null.</exception>
-        public DefaultMath(Calendar calendar) : base(calendar)
+        public DefaultMath(Calendar calendar) : base(calendar, AddAdjustment.EndOfMonth)
         {
             Debug.Assert(calendar != null);
 
             _schema = calendar.Schema;
         }
-
-        /// <inheritdoc />
-        public override AddAdjustment AddAdjustment => AddAdjustment.EndOfMonth;
 
         #region CalendarDate
 

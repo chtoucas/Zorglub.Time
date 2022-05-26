@@ -18,7 +18,7 @@ namespace Zorglub.Time.Simple
         /// <exception cref="ArgumentNullException"><paramref name="calendar"/> is null.</exception>
         /// <exception cref="ArgumentException"><paramref name="calendar"/> is not regular.
         /// </exception>
-        protected RegularMathBase(Calendar calendar) : base(calendar)
+        protected RegularMathBase(Calendar calendar) : base(calendar, AddAdjustment.EndOfMonth)
         {
             Debug.Assert(calendar != null);
 
@@ -29,9 +29,6 @@ namespace Zorglub.Time.Simple
 
             MonthsInYear = monthsInYear;
         }
-
-        /// <inheritdoc />
-        public sealed override AddAdjustment AddAdjustment => AddAdjustment.EndOfMonth;
 
         /// <summary>
         /// Gets the total number of months in a year.

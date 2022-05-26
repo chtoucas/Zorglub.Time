@@ -70,4 +70,18 @@ namespace Zorglub.Time
         // * 30/5/2015 - 3 mois = 2/3/2015 (le 30/2/2016 n'existe pas) décalage = +2
         Exact,
     }
+
+    /// <summary>
+    /// Provides extension methods for <see cref="CalendarId"/>.
+    /// <para>This class cannot be inherited.</para>
+    /// </summary>
+    internal static class AddAdjustmentExtensions
+    {
+        /// <summary>
+        /// Returns true if the specified permanent ID is invalid; otherwise
+        /// returns false.
+        /// </summary>
+        public static bool IsInvalid(this AddAdjustment @this) =>
+            @this < AddAdjustment.EndOfMonth || @this > AddAdjustment.Exact;
+    }
 }
