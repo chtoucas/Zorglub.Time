@@ -18,7 +18,7 @@ open Xunit
 
 open Zorglub.Time.FSharpExtensions
 
-// TODO(code): Domain and related props, GetCurrent...()
+// TODO(code): Domain and related props.
 
 // Here, we test calendar-specific methods.
 // For methods related to IEpagomenalCalendar, this is done in FeaturetteTestSuite.

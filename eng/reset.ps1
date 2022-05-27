@@ -4,7 +4,8 @@
 
 [CmdletBinding()]
 param(
-    [switch] $Hard
+    [switch] $Artifacts,
+    [switch] $VS
 )
 
 . (Join-Path $PSScriptRoot 'zorglub.ps1')
@@ -37,10 +38,20 @@ try {
     Remove-BinAndObj (Join-Path $RootDir 'test' -Resolve)
     Remove-BinAndObj (Join-Path $RootDir 'tools' -Resolve)
 
-    if ($Hard) {
+    if ($Artifacts) {
+        say "Deleting ""$ArtifactsDir""."
+        if (Test-Path $ArtifactsDir) {
+            rm $ArtifactsDir -Recurse
+        }
+    }
+
+    if ($VS) {
         $vsDir = (Join-Path $RootDir '.vs' -Resolve)
         say "Deleting ""$vsDir""."
-        rm $vsDir -Recurse -Force
+        if (Test-Path $vsDir) {
+            # -Force because the folder is hidden.
+            rm $vsDir -Recurse -Force
+        }
     }
 }
 catch {
