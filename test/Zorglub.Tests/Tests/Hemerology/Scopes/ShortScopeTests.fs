@@ -43,7 +43,7 @@ module Prelude =
     [<Fact>]
     let ``Property Epoch`` () =
         let epoch = DayZero.NewStyle + 123_456_789
-        let scope = new FauxShortScope(FauxCalendricalSchema.Default, epoch, 1)
+        let scope = new FauxShortScope(new FauxCalendricalSchema(), epoch, 1)
 
         scope.Epoch === epoch
 
@@ -61,7 +61,7 @@ module Prelude =
 
     [<Fact>]
     let ``Property SupportedYears`` () =
-        let scope = new FauxShortScope(FauxCalendricalSchema.Default, epoch, 123)
+        let scope = new FauxShortScope(new FauxCalendricalSchema(), epoch, 123)
         let range = Range.Create(123, ShortScope.MaxYear)
 
         scope.SupportedYears === range

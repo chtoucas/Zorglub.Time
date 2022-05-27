@@ -9,23 +9,23 @@ public sealed class FauxUserCalendar : Calendar
     internal const Cuid DefaultCuid = Cuid.Invalid;
 
     public FauxUserCalendar()
-        : base(DefaultCuid, DefaultKey, FauxSystemSchema.Default, default, default) { }
+        : base(DefaultCuid, DefaultKey, new FauxSystemSchema(), default, default) { }
 
+    // Base constructors.
+    internal FauxUserCalendar(Cuid id, string key, SystemSchema schema, DayNumber epoch, bool proleptic)
+        : base(id, key, schema, epoch, proleptic) { }
+
+    // Constructors in order to test the base constructors.
     internal FauxUserCalendar(Cuid id)
-        : base(id, DefaultKey, FauxSystemSchema.Default, default, default) { }
-
+        : base(id, DefaultKey, new FauxSystemSchema(), default, default) { }
     public FauxUserCalendar(string key)
-        : base(DefaultCuid, key, FauxSystemSchema.Default, default, default) { }
-
+        : base(DefaultCuid, key, new FauxSystemSchema(), default, default) { }
     public FauxUserCalendar(SystemSchema schema)
         : base(DefaultCuid, DefaultKey, schema, default, default) { }
-
     public FauxUserCalendar(DayNumber epoch)
-        : base(DefaultCuid, DefaultKey, FauxSystemSchema.Default, epoch, default) { }
-
+        : base(DefaultCuid, DefaultKey, new FauxSystemSchema(), epoch, default) { }
     public FauxUserCalendar(bool proleptic)
-        : base(DefaultCuid, DefaultKey, FauxSystemSchema.Default, default, proleptic) { }
+        : base(DefaultCuid, DefaultKey, new FauxSystemSchema(), default, proleptic) { }
 
-    internal void ValidateCuidDisclosed(Cuid cuid, string paramName) =>
-        ValidateCuid(cuid, paramName);
+    internal void ValidateCuidDisclosed(Cuid cuid, string paramName) => ValidateCuid(cuid, paramName);
 }

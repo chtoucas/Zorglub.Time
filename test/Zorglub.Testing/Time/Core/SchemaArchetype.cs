@@ -12,8 +12,7 @@ public sealed class SchemaArchetype : ArchetypalSchema
     /// <summary>
     /// Initializes a new instance of the <see cref="SchemaArchetype"/> class.
     /// </summary>
-    /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.
-    /// </exception>
+    /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
     public SchemaArchetype(ICalendricalSchema schema) : base(schema)
     {
         Schema = schema;

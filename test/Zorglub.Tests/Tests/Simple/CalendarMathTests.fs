@@ -75,7 +75,7 @@ module Factories =
 
     [<Fact>]
     let ``Create() -> DefaultMath`` () =
-        let sch = FauxSystemSchema.Default
+        let sch = new FauxSystemSchema()
         let chr = new FauxSystemCalendar(sch)
         let math = CalendarMath.Create(chr)
 

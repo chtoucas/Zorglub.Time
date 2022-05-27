@@ -11,20 +11,21 @@ public sealed class FauxSystemCalendar : Calendar
     public const CalendarId DefaultIdent = CalendarId.Zoroastrian;
 
     public FauxSystemCalendar()
-        : base(DefaultIdent, FauxSystemSchema.Default, default, default) { }
+        : base(DefaultIdent, new FauxSystemSchema(), default, default) { }
 
+    // Base constructors.
+    public FauxSystemCalendar(CalendarId ident, SystemSchema schema, DayNumber epoch, bool proleptic)
+        : base(ident, schema, epoch, proleptic) { }
+
+    // Constructors in order to test the base constructors.
     public FauxSystemCalendar(CalendarId ident)
-        : base(ident, FauxSystemSchema.Default, default, default) { }
-
+        : base(ident, new FauxSystemSchema(), default, default) { }
     public FauxSystemCalendar(SystemSchema schema)
         : base(DefaultIdent, schema, default, default) { }
-
     public FauxSystemCalendar(DayNumber epoch)
-        : base(DefaultIdent, FauxSystemSchema.Default, epoch, default) { }
-
+        : base(DefaultIdent, new FauxSystemSchema(), epoch, default) { }
     public FauxSystemCalendar(bool proleptic)
-        : base(DefaultIdent, FauxSystemSchema.Default, default, proleptic) { }
+        : base(DefaultIdent, new FauxSystemSchema(), default, proleptic) { }
 
-    internal void ValidateCuidDisclosed(Cuid cuid, string paramName) =>
-        ValidateCuid(cuid, paramName);
+    internal void ValidateCuidDisclosed(Cuid cuid, string paramName) => ValidateCuid(cuid, paramName);
 }

@@ -38,7 +38,7 @@ module Prelude =
 
     [<Fact>]
     let ``Property PreValidator: default value, repeated`` () =
-        let sch = FauxCalendricalSchema.Default
+        let sch = new FauxCalendricalSchema()
 
         let validator1 = sch.PreValidator
         validator1 |> is<DefaultPreValidator>
@@ -50,7 +50,7 @@ module Prelude =
 
     [<Fact>]
     let ``Property Arithmetic: default value, repeated`` () =
-        let sch = FauxCalendricalSchema.Default
+        let sch = new FauxCalendricalSchema()
 
         let arith1 = sch.Arithmetic
         arith1 |> is<DefaultArithmetic>
@@ -62,7 +62,7 @@ module Prelude =
 
     [<Fact>]
     let ``Property Profile: default value, repeated`` () =
-        let sch = FauxCalendricalSchema.Default
+        let sch = new FauxCalendricalSchema()
 
         let profile1 = sch.Profile
         let profile2 = sch.Profile
@@ -76,12 +76,14 @@ module SystemSchemaPrelude =
     let ``Constructor expects supportedYears.Min to be >= MaxSupportedYears.Min`` () =
         let maxrange = SystemSchema.MaxSupportedYears
         let range = maxrange.WithMin(maxrange.Min - 1)
+
         outOfRangeExn "supportedYears" (fun () -> new FauxSystemSchema(range))
 
     [<Fact>]
     let ``Constructor expects supportedYears.Max to be <= MaxSupportedYears.Max`` () =
         let maxrange = SystemSchema.MaxSupportedYears
         let range = maxrange.WithMax(maxrange.Max + 1)
+
         outOfRangeExn "supportedYears" (fun () -> new FauxSystemSchema(range))
 
     [<Fact>]
@@ -96,6 +98,7 @@ module SystemSchemaPrelude =
     let ``Constructor throws when supportedYearsCore is not a superset of supportedYears`` () =
         let range = Range.Create(1, 100)
         let rangeCore = Range.Create(2, 99)
+
         argExn "value" (fun () -> new FauxSystemSchema(range, rangeCore))
 
     [<Fact>]
@@ -111,11 +114,15 @@ module SystemSchemaPrelude =
 
     [<Fact>]
     let ``Default value for SupportedYearsCore is any int`` () =
-        FauxSystemSchema.Default.SupportedYearsCore === Range.Maximal32
+        let sch = new FauxSystemSchema()
+
+        sch.SupportedYearsCore === Range.Maximal32
 
     [<Fact>]
     let ``Default value for SupportedYears is DefaultSupportedYears`` () =
-        FauxSystemSchema.Default.SupportedYears === SystemSchema.DefaultSupportedYears
+        let sch = new FauxSystemSchema()
+
+        sch.SupportedYears === SystemSchema.DefaultSupportedYears
 
 module Coptic13Case =
     [<Fact>]
