@@ -38,6 +38,14 @@ public partial class FauxSystemSchema : SystemSchema
     public static FauxSystemSchema Regular13 => new FauxRegularSchema(13);
     public static FauxSystemSchema Regular14 => new FauxRegularSchema(14);
 
+    [Pure]
+    public static FauxSystemSchema WithMinDaysInYear(int minDaysInYear) =>
+        new(minDaysInYear, DefaultMinDaysInMonth);
+
+    [Pure]
+    public static FauxSystemSchema WithMinDaysInMonth(int minDaysInMonth) =>
+        new(DefaultMinDaysInYear, minDaysInMonth);
+
     private sealed class FauxRegularSchema : FauxSystemSchema, IRegularSchema
     {
         public FauxRegularSchema(int monthsInYear)

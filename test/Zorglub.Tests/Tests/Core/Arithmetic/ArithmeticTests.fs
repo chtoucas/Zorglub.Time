@@ -44,6 +44,18 @@ module Prelude =
     let ``Solar13Arithmetic constructor throws for non-solar13 schema`` (sch) =
         argExn "schema" (fun () -> new Solar13Arithmetic(sch))
 
+    [<Theory>]
+    [<InlineData 1>]
+    [<InlineData 2>]
+    [<InlineData 3>]
+    [<InlineData 4>]
+    [<InlineData 5>]
+    [<InlineData 6>]
+    let ``FastArithmetic constructor throws when MinDaysInMonth < 7`` i =
+        let sch = FauxSystemSchema.WithMinDaysInMonth(i)
+
+        argExn "schema" (fun () -> new DefaultFastArithmetic(sch))
+
 module Factories =
     [<Fact>]
     let ``FastArithmetic.Create()`` () =
@@ -64,3 +76,98 @@ module Factories =
         FastArithmetic.Create(schemaOf<Tropicalia3031Schema>())     |> is<Solar12Arithmetic>
         FastArithmetic.Create(schemaOf<Tropicalia3130Schema>())     |> is<Solar12Arithmetic>
         FastArithmetic.Create(schemaOf<WorldSchema>())              |> is<Solar12Arithmetic>
+
+module DefaultCase =
+    let private sch = new GregorianSchema()
+    let private ar = new DefaultArithmetic(sch)
+    let private maxYear = sch.SupportedYears.Max
+    let private minYear = sch.SupportedYears.Min
+
+    [<Fact>]
+    let ``NextDay(Yemoda) throws at the end of MaxYear`` () =
+        let endOfMaxYear = sch.GetEndOfYearParts(maxYear)
+
+        (fun () -> ar.NextDay(endOfMaxYear)) |> overflows
+
+    [<Fact>]
+    let ``PreviousDay(Yemoda) throws at the start of MinYear`` () =
+        let startOfMinYear = sch.GetStartOfYearParts(minYear)
+
+        (fun () -> ar.PreviousDay(startOfMinYear)) |> overflows
+
+    [<Fact>]
+    let ``NextDay(Yedoy) throws at the end of MaxYear`` () =
+        let endOfMaxYear = sch.GetEndOfYearOrdinalParts(maxYear)
+
+        (fun () -> ar.NextDay(endOfMaxYear)) |> overflows
+
+    [<Fact>]
+    let ``PreviousDay(Yedoy) throws at the start of MinYear`` () =
+        let startOfMinYear = sch.GetStartOfYearOrdinalParts(minYear)
+
+        (fun () -> ar.PreviousDay(startOfMinYear)) |> overflows
+
+module GregorianCase =
+    let private sch = new GregorianSchema()
+    let private ar = new GregorianArithmetic(sch)
+    let private maxYear = sch.SupportedYears.Max
+    let private minYear = sch.SupportedYears.Min
+
+    [<Fact>]
+    let ``NextDay(Yemoda) throws at the end of MaxYear`` () =
+        let endOfMaxYear = sch.GetEndOfYearParts(maxYear)
+
+        (fun () -> ar.NextDay(endOfMaxYear)) |> overflows
+
+    [<Fact>]
+    let ``PreviousDay(Yemoda) throws at the start of MinYear`` () =
+        let startOfMinYear = sch.GetStartOfYearParts(minYear)
+
+        (fun () -> ar.PreviousDay(startOfMinYear)) |> overflows
+
+    [<Fact>]
+    let ``NextDay(Yedoy) throws at the end of MaxYear`` () =
+        let endOfMaxYear = sch.GetEndOfYearOrdinalParts(maxYear)
+
+        (fun () -> ar.NextDay(endOfMaxYear)) |> overflows
+
+    [<Fact>]
+    let ``PreviousDay(Yedoy) throws at the start of MinYear`` () =
+        let startOfMinYear = sch.GetStartOfYearOrdinalParts(minYear)
+
+        (fun () -> ar.PreviousDay(startOfMinYear)) |> overflows
+
+module SolarCase =
+    let private sch = new GregorianSchema()
+    let private ar = new Solar12Arithmetic(sch)
+    let private maxYear = sch.SupportedYears.Max
+    let private minYear = sch.SupportedYears.Min
+
+    [<Fact>]
+    let ``PreviousDay(Yemoda) throws at the start of MinYear`` () =
+        let startOfMinYear = sch.GetStartOfYearParts(minYear)
+
+        (fun () -> ar.PreviousDay(startOfMinYear)) |> overflows
+
+    [<Fact>]
+    let ``NextDay(Yedoy) throws at the end of MaxYear`` () =
+        let endOfMaxYear = sch.GetEndOfYearOrdinalParts(maxYear)
+
+        (fun () -> ar.NextDay(endOfMaxYear)) |> overflows
+
+    [<Fact>]
+    let ``PreviousDay(Yedoy) throws at the start of MinYear`` () =
+        let startOfMinYear = sch.GetStartOfYearOrdinalParts(minYear)
+
+        (fun () -> ar.PreviousDay(startOfMinYear)) |> overflows
+
+module Solar12Case =
+    let private sch = new GregorianSchema()
+    let private ar = new Solar12Arithmetic(sch)
+    let private maxYear = sch.SupportedYears.Max
+
+    [<Fact>]
+    let ``NextDay(Yemoda) throws at the end of MaxYear`` () =
+        let endOfMaxYear = sch.GetEndOfYearParts(maxYear)
+
+        (fun () -> ar.NextDay(endOfMaxYear)) |> overflows
