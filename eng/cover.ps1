@@ -98,7 +98,8 @@ try {
         & dotnet tool run reportgenerator `
             -reporttypes:"Html" `
             -reports:$rgInput `
-            -targetdir:$rgOutput
+            -targetdir:$rgOutput `
+            -verbosity:Warning
             || die 'Failed to create the reports.'
     }
 }
