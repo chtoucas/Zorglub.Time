@@ -89,7 +89,7 @@ Math
 Postlude: non-unit tests
 ```
 
-### Traps and Problems
+### Traps and Caveats
 
 It's too easy to forget `()` in a let binding. The consequence is that the
 test will not run. It would be nice if we couldn't  apply the attr `Fact`, 
