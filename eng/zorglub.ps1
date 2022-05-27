@@ -13,7 +13,7 @@ New-Variable TestProject (Join-Path $TestDir "Zorglub.Tests") -Scope Script -Opt
 # WARNING: think twice before using the conditional operator | in the filter.
 # It's possible, but it's much simpler not to because then we don't have to use
 # parenthesis when combining the default filter with other conditionals.
-New-Variable RegularTestFilter 'Performance!~Slow&Redundant!=true' -Scope Script -Option Constant
+New-Variable RegularTestFilter 'Performance!~Slow&Redundant!=true&SketchUnderTest!=true' -Scope Script -Option Constant
 
 New-Alias "say" Write-Host
 

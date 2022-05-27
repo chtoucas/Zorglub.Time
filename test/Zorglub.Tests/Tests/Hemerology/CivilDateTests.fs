@@ -17,11 +17,12 @@ open Zorglub.Time.Hemerology
 open Xunit
 
 module Facts =
-    // NB: we use StandardGregorianDataSet which has the same limits as CivilDate.
+    // NB: we use StandardGregorianDataSet which matches the domain of CivilDate.
 
     let private supportedYears = Range.Create(CivilDate.MinYear, CivilDate.MaxYear)
 
     [<Sealed>]
+    [<SketchUnderTest>]
     type DateFacts() =
         inherit IDateFacts<CivilDate, StandardGregorianDataSet>(supportedYears, CivilDate.Domain)
 
@@ -31,18 +32,21 @@ module Facts =
         override __.GetDate(y, m, d) = new CivilDate(y, m, d)
 
     [<Sealed>]
+    [<SketchUnderTest>]
     type DayOfWeekFacts() =
         inherit IDateDayOfWeekFacts<CivilDate, StandardGregorianDataSet>()
 
         override __.GetDate(y, m, d) = new CivilDate(y, m, d)
 
     [<Sealed>]
+    [<SketchUnderTest>]
     type AdjustableDateTests() =
         inherit IAdjustableDateFacts<CivilDate, StandardGregorianDataSet>(supportedYears)
 
         override __.GetDate(y, m, d) = new CivilDate(y, m, d)
 
     [<Sealed>]
+    [<SketchUnderTest>]
     type MathFacts() =
         inherit IDateMathFacts<CivilDate, StandardGregorianDataSet>()
 

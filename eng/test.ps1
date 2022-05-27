@@ -74,20 +74,22 @@ try {
         'smoke' {
             # Smoke testing.
             # - Only keep one test group per test suite (smoke)
+            # - Exclude a bunch of tests for Zorglub.Sketches
             # - Exclude a bunch of tests in Postludes (slow unit)
             # - Exclude ArchetypalSchemaTestSuite (slow group)
             # - Exclude PrototypalSchemaTestSuite (slow group)
             # - Exclude redundant tests
-            # Filters = ExcludeFrom!=Smoke&Performance!~Slow&Redundant!=true
+            # Filters = ExcludeFrom!=Smoke&Performance!~Slow&Redundant!=true&SketchUnderTest!=true
             $filter = "ExcludeFrom!=Smoke&$RegularTestFilter"
         }
         'regular' {
             # Regular test suite.
+            # - Exclude a bunch of tests for Zorglub.Sketches
             # - Exclude a bunch of tests in Postludes (slow unit)
             # - Exclude ArchetypalSchemaTestSuite (slow group)
             # - Exclude PrototypalSchemaTestSuite (slow group)
             # - Exclude redundant tests
-            # Filters = Performance!~Slow&Redundant!=true
+            # Filters = Performance!~Slow&Redundant!=true&SketchUnderTest!=true
             $filter = $RegularTestFilter
         }
         'more' {

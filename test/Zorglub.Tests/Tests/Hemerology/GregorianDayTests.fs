@@ -3,6 +3,7 @@
 
 module Zorglub.Tests.Hemerology.GregorianDayTests
 
+open Zorglub.Testing
 open Zorglub.Testing.Data.Bounded
 open Zorglub.Testing.Facts
 
@@ -10,11 +11,12 @@ open Zorglub.Time.Core.Intervals
 open Zorglub.Time.Hemerology
 
 module Facts =
-    // NB: we use ProlepticGregorianDataSet which has the same limits as GregorianDay.
+    // NB: we use ProlepticGregorianDataSet which matches the domain of GregorianDay.
 
     let private supportedYears = Range.Create(GregorianDay.MinYear, GregorianDay.MaxYear)
 
     [<Sealed>]
+    [<SketchUnderTest>]
     type DateFacts() =
         inherit IDateFacts<GregorianDay, ProlepticGregorianDataSet>(supportedYears, GregorianDay.Domain)
 
@@ -24,12 +26,14 @@ module Facts =
         override __.GetDate(y, m, d) = new GregorianDay(y, m, d)
 
     [<Sealed>]
+    [<SketchUnderTest>]
     type DayOfWeekFacts() =
         inherit IDateDayOfWeekFacts<GregorianDay, ProlepticGregorianDataSet>()
 
         override __.GetDate(y, m, d) = new GregorianDay(y, m, d)
 
     [<Sealed>]
+    [<SketchUnderTest>]
     type MathFacts() =
         inherit IDateMathFacts<GregorianDay, ProlepticGregorianDataSet>()
 
