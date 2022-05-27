@@ -57,7 +57,7 @@ namespace Zorglub.Time.Core
         public CalendricalSegmentBuilder(ICalendricalSchema schema)
         {
             _schema = schema ?? throw new ArgumentNullException(nameof(schema));
-            _partsFactory = ICalendricalPartsFactory.Create(schema, @checked: true);
+            _partsFactory = ICalendricalPartsFactoryEx.Create(schema, @checked: true);
 
             // Normalement, un ICalendricalSchemaPlus satisfait la condition
             // schema.MinMaxYear ⊆ Yemoda.SupportedYears, néanmoins rien ne nous

@@ -48,7 +48,7 @@ namespace Zorglub.Time.Core
         public CalendricalArithmetic(ICalendricalSchema schema)
         {
             _schema = schema ?? throw new ArgumentNullException(nameof(schema));
-            _partsFactory = ICalendricalPartsFactory.Create(schema, @checked: true);
+            _partsFactory = ICalendricalPartsFactoryEx.Create(schema, @checked: true);
 
             (_minDaysSinceEpoch, _maxDaysSinceEpoch) =
                 schema.SupportedYears.Endpoints.Select(schema.GetStartOfYear, schema.GetEndOfYear);

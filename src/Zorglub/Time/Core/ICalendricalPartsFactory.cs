@@ -3,8 +3,6 @@
 
 namespace Zorglub.Time.Core
 {
-    // FIXME(api): Create() -> replace by a better API? One internal and one public.
-
     #region Developer Notes
 
     // Types Implementing ICalendricalSchemaPlus
@@ -34,20 +32,7 @@ namespace Zorglub.Time.Core
     /// <summary>
     /// Provides methods you can use to create new calendrical parts.
     /// </summary>
-    public partial interface ICalendricalPartsFactory
-    {
-        /// <summary>
-        /// Creates a new <see cref="ICalendricalPartsFactory"/> instance.
-        /// <para>When <paramref name="checked"/> is true, a method will throw if the result is not
-        /// representable by the system.</para>
-        /// </summary>
-        /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
-        [Pure]
-        public static ICalendricalPartsFactory Create(ICalendricalSchema schema, bool @checked = true) =>
-            @checked ? new CalendricalPartsFactoryChecked(schema)
-            : schema is ICalendricalPartsFactory sch ? sch
-            : new CalendricalPartsFactoryUnchecked(schema);
-    }
+    public partial interface ICalendricalPartsFactory { }
 
     public partial interface ICalendricalPartsFactory // Conversions
     {

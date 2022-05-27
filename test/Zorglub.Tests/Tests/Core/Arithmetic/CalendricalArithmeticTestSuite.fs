@@ -13,4 +13,3 @@ open Zorglub.Time.Core.Schemas
 [<Sealed>]
 type GregorianTests() =
     inherit ICalendricalArithmeticFacts<GregorianDataSet>(new CalendricalArithmetic(schemaOf<GregorianSchema>()))
-
