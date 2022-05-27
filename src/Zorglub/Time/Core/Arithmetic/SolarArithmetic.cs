@@ -115,7 +115,7 @@ namespace Zorglub.Time.Core.Arithmetic
 
         /// <inheritdoc />
         [Pure]
-        public sealed override Yedoy AddDaysViaDayOfYear(int y, int doy, int days)
+        protected internal sealed override Yedoy AddDaysViaDayOfYear(int y, int doy, int days)
         {
             Debug.Assert(-Schema.MinDaysInYear <= days);
             Debug.Assert(days <= Schema.MinDaysInYear);

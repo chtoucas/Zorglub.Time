@@ -79,7 +79,7 @@ namespace Zorglub.Time.Core.Arithmetic
 
         /// <inheritdoc />
         [Pure]
-        public override Yemoda AddDaysViaDayOfMonth(Yemoda ymd, int days)
+        protected internal override Yemoda AddDaysViaDayOfMonth(Yemoda ymd, int days)
         {
             Debug.Assert(-MaxDaysViaDayOfMonth <= days);
             Debug.Assert(days <= MaxDaysViaDayOfMonth);
@@ -201,7 +201,7 @@ namespace Zorglub.Time.Core.Arithmetic
 
         /// <inheritdoc />
         [Pure]
-        public override Yedoy AddDaysViaDayOfYear(int y, int doy, int days)
+        protected internal override Yedoy AddDaysViaDayOfYear(int y, int doy, int days)
         {
             Debug.Assert(-MaxDaysViaDayOfYear <= days);
             Debug.Assert(days <= MaxDaysViaDayOfYear);

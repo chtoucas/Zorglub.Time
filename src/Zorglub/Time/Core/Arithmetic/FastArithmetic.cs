@@ -121,10 +121,10 @@ namespace Zorglub.Time.Core.Arithmetic
         }
     }
 
-    internal partial class FastArithmetic // ICalendricalArithmetic.
+    internal partial class FastArithmetic // ICalendricalArithmetic
     {
         //
-        // Operations on Yemoda.
+        // Operations on Yemoda
         //
 
         /// <inheritdoc />
@@ -156,7 +156,7 @@ namespace Zorglub.Time.Core.Arithmetic
         [Pure] public abstract int CountDaysBetween(Yedoy start, Yedoy end);
     }
 
-    internal partial class FastArithmetic // Fast additions.
+    internal partial class FastArithmetic // Fast additions
     {
         // AddDaysViaDayOfYear().
         // Only when we know in advance that |days| <= MaxDaysViaDayOfYear.
@@ -179,7 +179,7 @@ namespace Zorglub.Time.Core.Arithmetic
         /// [-<see cref="MaxDaysViaDayOfMonth"/>..<see cref="MaxDaysViaDayOfMonth"/>].</exception>
         /// <exception cref="OverflowException">The operation would overflow the range of supported
         /// values.</exception>
-        [Pure] public abstract Yemoda AddDaysViaDayOfMonth(Yemoda ymd, int days);
+        [Pure] protected internal abstract Yemoda AddDaysViaDayOfMonth(Yemoda ymd, int days);
 
         /// <summary>
         /// Adds a number of days to the specified ordinal date, yielding a new ordinal date within
@@ -191,6 +191,6 @@ namespace Zorglub.Time.Core.Arithmetic
         /// [-<see cref="MaxDaysViaDayOfYear"/>..<see cref="MaxDaysViaDayOfYear"/>].</exception>
         /// <exception cref="OverflowException">The operation would overflow the range of supported
         /// values.</exception>
-        [Pure] public abstract Yedoy AddDaysViaDayOfYear(int y, int doy, int days);
+        [Pure] protected internal abstract Yedoy AddDaysViaDayOfYear(int y, int doy, int days);
     }
 }

@@ -28,7 +28,7 @@ namespace Zorglub.Time.Core.Arithmetic
 
         /// <inheritdoc />
         [Pure]
-        public override Yemoda AddDaysViaDayOfMonth(Yemoda ymd, int days)
+        protected internal override Yemoda AddDaysViaDayOfMonth(Yemoda ymd, int days)
         {
             Debug.Assert(-Solar.MinDaysInMonth <= days);
             Debug.Assert(days <= Solar.MinDaysInMonth);
