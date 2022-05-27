@@ -127,7 +127,7 @@ namespace Zorglub.Time.Core
         ICalendricalPreValidator PreValidator { get; }
 
         /// <summary>
-        /// Gets the arithmetic for this schema.
+        /// Gets the standard arithmetic for this schema.
         /// </summary>
         ICalendricalArithmetic Arithmetic { get; }
     }

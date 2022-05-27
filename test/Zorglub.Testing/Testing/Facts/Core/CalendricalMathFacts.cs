@@ -20,7 +20,7 @@ public abstract partial class CalendricalMathFacts<TSchema, TDataSet> :
     }
 
     /// <summary>
-    /// Gets the calculator under test.
+    /// Gets the math under test.
     /// </summary>
     private protected CalendricalMath MathUT { get; }
 

@@ -9,7 +9,7 @@ open Zorglub.Testing.Facts.Simple
 
 open Zorglub.Time.Simple
 
-let other = GregorianCalendar.Instance
+let private other = GregorianCalendar.Instance
 
 [<Sealed>]
 type ArmenianTests() =
