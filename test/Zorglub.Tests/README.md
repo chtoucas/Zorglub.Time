@@ -17,8 +17,6 @@ TODO
 - [Static member in interface](https://github.com/fsharp/fsharp/blob/master/src/fsharp/FSharp.Core/collections.fsi)
 - Type abbreviations
 
-https://simendsjo.me/fsharp-intro/
-
 ### Xunit
 
 - `AssemblyFixture` (see Xunit samples) for easier testing of `CalendarCatalog`.
@@ -54,73 +52,49 @@ handful of rather simple fakes which I might even replace by F# object expressio
 Tests
 -----
 
-We test the C# libraries using F#.
+We test the C# libraries using F#. 
+
 Advantages:
 - concise syntax
 - more flexibility when naming functions/methods, no need for DisplayName
 - FsCheck
-  - merge several tests while still keeping them separated... 
-    For this to work, we must use the `.&.` combinator and add a label to the
-    subproperties via `|@`. In fact, we are using FsCheck + Xunit, and 
-    `dotnet test` makes it difficult to print anything to the console, therefore
-    I prefer to use Xunit asserts. This way we get the line where an assertion
-    failed.
-  - instead of choosing random data, we let FsCheck do it for us.
-    The real benefice is that it forces us to specify the data, it's no longer 
-    random.
+
 Disadvantages:
-- it's too easy to forget the () in a let binding. The consequence is that the
-  test will not run.
+- it's too easy to forget the () in a let binding.
 - no Xunit analyzer.
 - even if the bridge from C# to F# is much better these days, it's still not 
   possible to refactor a piece of code written in C# and see the F# code 
-  depending on it updated magically. 
-  Our C# code ought to be quite stable, otherwise it gives more work to the 
-  developer.
-
-Ceci étant dit, une grande partie de l'infrastructure de tests est écrite en C#.
-À ce propos, quand une méthode abstraite a l'attribut `Fact`, il n'est pas 
-nécessaire de répéter cet attribut dans la méthode dérivée.
-
-On utilise principalement Xunit et FsCheck.
-Unquote ? La librairie est très facile à utiliser, en cas d'erreur on obtient 
-des messages bien plus faciles à comprendre, et quand on teste une exception
-il n'est plus nécessaire d'utiliser une fonction anonyme. Il faut quand même
-faire attention car, dans une expression Unquote, l'égalité y est structurelle, 
-ce qui n'est pas nécessairement ce qu'on souhaite tester. 
-
-Au final, la quasi-totalité des tests étant formée de tests d'égalité, de vérité 
-ou d'exception, Unquote n'apporte pas grand chose.
-En pratique, on n'utilise Unquote que dans le cas de tests complexes et 
-lorsqu'on souhaite débugger un test.
-
-### Xunit
-
-Traits: see file "Zorglub.Testing.Traits.cs".
+  depending on it updated magically. Our C# code ought to be quite stable, 
+  otherwise it gives more work to the developer.
 
 ### Typical Layout of a Test Module
 
+Xunit traits: see file "Zorglub.Testing.Traits.cs".
+
 #### Value Types
-- TestCommon
-- Prelude: 
-  - default value
-  - constructor
-  - deconstructor
-  - ToString()
-  - properties
-- Factories
-- Conversions
-- Adjustements
-- Equality
-- Comparison
-- Math
-- Postlude: non-unit tests
+```
+TestCommon
+Prelude: 
+  Default value
+  Constructor
+  Deconstructor
+  ToString()
+  Properties
+Factories
+Conversions
+Adjustements
+Equality
+Comparison
+Math
+Postlude: non-unit tests
+```
 
-### Traps
+### Traps and Problems
 
-It's easy to forget `()`. It would be nice if we couldn't apply the attr `Fact`
-`Theory` or `Property` to a variable that is not a function or method.
-Maybe we could write a test that checks that?
+It's too easy to forget `()` in a let binding. The consequence is that the
+test will not run. It would be nice if we couldn't  apply the attr `Fact`, 
+`Theory` or `Property` to a variable that is not a function or method. Maybe we 
+could write a test that checks that?
 
 When testing inequality do NOT write:
 ```
@@ -132,20 +106,40 @@ we test nothing since we filter using the operator we wish to test.
 The common pattern is to define an arbitrary, usually called `xyArbitrary`, just
 for that purpose.
 
-### Tester une librairie C# en F# ?
-
 On ne peut pas tester les opérateurs C# `++` et `--` ?
 
 On ne peut pas tester directement les opérateurs C# `!=`, `<=` et `>=`, 
 néanmoins on peut utiliser `op_Inequality`, `op_LessThanOrEqual` et
 `op_GreaterThanOrEqual`.
 
+### Unquote
+
+La librairie est très facile à utiliser, en cas d'erreur on obtient 
+des messages bien plus faciles à comprendre, et quand on teste une exception
+il n'est plus nécessaire d'utiliser une fonction anonyme. Il faut quand même
+faire attention car, dans une expression Unquote, l'égalité y est structurelle, 
+ce qui n'est pas nécessairement ce qu'on souhaite tester. Au final, la 
+quasi-totalité des tests étant formée de tests d'égalité, de vérité ou 
+d'exception, Unquote n'apporte pas grand chose. En pratique, on n'utilise 
+Unquote que dans le cas de tests complexes et lorsqu'on souhaite débugger un test.
+
 ### FsCheck
+
+Advantages:
+- merge several tests while still keeping them separated... 
+  For this to work, we must use the `.&.` combinator and add a label to the
+  subproperties via `|@`. In fact, we are using FsCheck + Xunit, and 
+  `dotnet test` makes it difficult to print anything to the console, therefore
+  I prefer to use Xunit asserts. This way we get the line where an assertion
+  failed.
+- instead of choosing random data, we let FsCheck do it for us.
+  The real benefice is that it forces us to specify the data, it's no longer 
+  random.
 
 Critiques :
 - la documentation laisse à désirer ;
 - fonctionnement un peu trop magique à mon goût ;
-- `Arb.register()` ne fonctionne pas toujours quand on utilise aussi Xunit ;
+- `Arb.register()` ne fonctionne pas toujours quand on utilise aussi Xunit.
 
 Questions :
 - quelle est la différence entre `Arb.from<int>` et `Arb.Default.Int32()` ?
@@ -164,8 +158,7 @@ Autres possibilités mais uniquement pour générer des données aléatoirement
 #### Record vs SCU 
 I mostly use record structs instead of single-case discriminated unions.
 I use SCUs to test the core date parts but only to keep a record of how it can
-be done.
-Small records: Struct and IsReadOnly.
+be done. Small records: Struct and IsReadOnly.
 
 #### Alternatives to `Arb.register()`
 At function level.
