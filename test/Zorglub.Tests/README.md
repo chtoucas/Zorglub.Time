@@ -4,58 +4,51 @@
 TODO
 ----
 
-### Tests
-
-- How should we test inequality: random or custom data? <- custom data.
+- How should we test inequality: random or custom data? custom data.
 - DataSet and FQ. Sometimes, I use ClassData to avoid this problem.
-- Today, les tests peuvent échouer si entre les deux appels à Today() ou 
-  UtcToday(), on a changé de jour...
+- `Today()`, les tests peuvent échouer si entre les deux appels à `Today()` ou 
+  `UtcToday()`, on a changé de jour...
 
 ### F\#
 
-Out params
-https://stackoverflow.com/questions/28691162/the-f-equivalent-of-cs-out
-https://stackoverflow.com/questions/64834220/f-use-c-sharp-methods-with-out-parameter-within-arrays-and-void-return
-
+- Out params; see [here](https://stackoverflow.com/questions/28691162/the-f-equivalent-of-cs-out) and
+  [there](https://stackoverflow.com/questions/64834220/f-use-c-sharp-methods-with-out-parameter-within-arrays-and-void-return)
 - Really understand the difference between `^a` and `'a`.
-- Static member in interface
-  https://github.com/fsharp/fsharp/blob/master/src/fsharp/FSharp.Core/collections.fsi
+- [Static member in interface](https://github.com/fsharp/fsharp/blob/master/src/fsharp/FSharp.Core/collections.fsi)
 - Type abbreviations
 
 https://simendsjo.me/fsharp-intro/
 
 ### Xunit
 
-Theory:
-https://andrewlock.net/creating-parameterised-tests-in-xunit-with-inlinedata-classdata-and-memberdata/
-https://andrewlock.net/creating-strongly-typed-xunit-theory-test-data-with-theorydata/
+- `AssemblyFixture` (see Xunit samples) for easier testing of `CalendarCatalog`.
+- Theory, see this [blog](https://andrewlock.net/)
 
-AssemblyFixture (see Xunit samples) for easier testing of CalendarCatalog.
-
-Skippable facts.
+#### Skippable facts
 In the end, I prefer to pre-filter the data rather than dynamically skipping tests.
 Requirements:
 - ability to skip a test dynamically
 - do not display a message (optional)
 - compatible with Xunit v3
-  - Assert.Skip(string reason)
-  - Assert.SkipUnless(bool condition, string reason)
-  - Assert.SkipWhen(bool condition, string reason)
-xunit.extensibility.execution
-https://github.com/AArnott/Xunit.SkippableFact/
-https://github.com/xunit/samples.xunit/tree/main/DynamicSkipExample
-https://github.com/xunit/xunit/issues/2073
-https://github.com/xunit/assert.xunit/commit/e6a6d5d22bbc7097f8decad5b3c8cac8cf3fb386
+  - `Assert.Skip(string reason)`
+  - `Assert.SkipUnless(bool condition, string reason)`
+  - `Assert.SkipWhen(bool condition, string reason)`
+
+See xunit.extensibility.execution
+- [Xunit.SkippableFact](https://github.com/AArnott/Xunit.SkippableFact/)
+- [Xunit sample](https://github.com/xunit/samples.xunit/tree/main/DynamicSkipExample)
+- [Xunit v3](https://github.com/xunit/xunit/issues/2073); see also this 
+  [commit](https://github.com/xunit/assert.xunit/commit/e6a6d5d22bbc7097f8decad5b3c8cac8cf3fb386)
 
 ### Other
 
-- Mocking? I liked Moq, but I don't know if it would be useful here: just a 
-  handful of rather simple fakes which I might even replace by F# object expressions.
+Mocking? I liked Moq, but I don't know if it would be useful here: just a 
+handful of rather simple fakes which I might even replace by F# object expressions.
+
 - [dotMemory Unit](https://www.jetbrains.com/dotmemory/unit/)
 - [AltCover](https://www.nuget.org/packages/altcover/)
 - Dummy Data Generator? FsCheck does the job already.
-
-https://github.com/dariusz-wozniak/List-of-Testing-Tools-and-Frameworks-for-.NET
+- [List of testing tools and frameworks](https://github.com/dariusz-wozniak/List-of-Testing-Tools-and-Frameworks-for-.NET)
 
 
 Tests
@@ -185,8 +178,8 @@ At assembly level.
 > [<assembly: Properties( Arbitrary = [| typeof<Arbitraries> |] )>] do()
 
 It seems to be a problem when using FsCheck with Xunit.
-https://github.com/fscheck/FsCheck/issues/390
-https://blog.ploeh.dk/2015/09/08/ad-hoc-arbitraries-with-fscheckxunit/
+- https://github.com/fscheck/FsCheck/issues/390
+- https://blog.ploeh.dk/2015/09/08/ad-hoc-arbitraries-with-fscheckxunit/
 
 #### Problems?
 https://github.com/fscheck/FsCheck/issues/413
@@ -199,10 +192,10 @@ https://fscheck.github.io/FsCheck/RunningTests.html#Using-FsCheck-Xunit
 
 Sortie console
 dotnet test --logger:"console;verbosity=detailed"
-https://stackoverflow.com/questions/61295484/logging-to-output-with-fscheck-xunit
-https://github.com/fscheck/FsCheck/issues/508
+- https://stackoverflow.com/questions/61295484/logging-to-output-with-fscheck-xunit
+- https://github.com/fscheck/FsCheck/issues/508
 
-https://stackoverflow.com/questions/38839721/how-do-i-implement-multiple-argument-generation-using-fscheck/38841255
+- https://stackoverflow.com/questions/38839721/how-do-i-implement-multiple-argument-generation-using-fscheck/38841255
 
 
 F# vs C#
@@ -219,38 +212,40 @@ Better:
 
 ### Static fields
 
-https://stackoverflow.com/questions/60535718/is-it-possible-to-define-public-static-readonly-field-in-f
+[Stackoverflow](https://stackoverflow.com/questions/60535718/is-it-possible-to-define-public-static-readonly-field-in-f)
 
 ### Classes
 I can't get to remember the syntax for classes or interfaces... I find it 
 unnatural and kind of obscure.
 
 No protected member.
-https://stackoverflow.com/questions/2390515/why-isnt-there-a-protected-access-modifier-in-f
+[Stackoverflow](https://stackoverflow.com/questions/2390515/why-isnt-there-a-protected-access-modifier-in-f)
 
 Init-only properties
-https://github.com/fsharp/fslang-suggestions/issues/904
+[Github issue](https://github.com/fsharp/fslang-suggestions/issues/904)
 
 ### Structural Equality
 `NonStructuralComparison`
 Caveats: it's supports primitive types, it does not work for enums like e.g.
 DayOfWeek.
 
-Good news: Xunit asserts use the right Equals
+Good news: Xunit asserts use the right `Equals`.
 
-https://fsharp.github.io/fsharp-core-docs/reference/fsharp-core-operators-nonstructuralcomparison.html
+[Non structural comparison](https://fsharp.github.io/fsharp-core-docs/reference/fsharp-core-operators-nonstructuralcomparison.html)
 
 ### Extension Methods
 Il ne semble pas possible d'utiliser une méthode d'extension définie en C# sur 
 une énumération. Raison ? On ne peut définir en F# des méthodes d'extension que 
 pour des types ouverts.
-https://docs.microsoft.com/en-us/dotnet/fsharp/language-reference/type-extensions
+
+[Doc](https://docs.microsoft.com/en-us/dotnet/fsharp/language-reference/type-extensions)
 
 ### Function Overloading
 Il n'est pas possible de nommer de la même manière deux fonctions ayant juste
 des paramètres différents. Solution : méthodes dans une classe ou "discriminated 
 union".
-https://stackoverflow.com/questions/501069/functions-with-generic-parameter-types
+
+[Stackoverflow](https://stackoverflow.com/questions/501069/functions-with-generic-parameter-types)
 
 ### Method Overloading
 Si une méthode en surcharge une autre avec des paramètres "out", on doit utiliser
@@ -272,7 +267,7 @@ let notSame =
 
 ### Null's
 
-https://latkin.org/blog/2015/05/18/null-checking-considerations-in-f-its-harder-than-you-think/
+[Blog](https://latkin.org/blog/2015/05/18/null-checking-considerations-in-f-its-harder-than-you-think/)
 
 ### Visual Studio
 VS : pas de "Task List" :-(
@@ -290,11 +285,11 @@ Custom rules:
 - memberNames, underscores: AllowPrefix -> AllowAny
 - redundantNewKeyword, enabled: true -> false
 
-https://docs.microsoft.com/en-us/dotnet/fsharp/style-guide/conventions
+[Style guide](https://docs.microsoft.com/en-us/dotnet/fsharp/style-guide/conventions)
 
 
 Références
 ----------
 
-https://fsharp.org/community/projects/
-https://github.com/fsprojects/awesome-fsharp
+- [F# projects](https://fsharp.org/community/projects/)
+- [Awesome F#](https://github.com/fsprojects/awesome-fsharp)
