@@ -14,6 +14,12 @@ open Zorglub.Time
 open Xunit
 
 [<Fact>]
+let ``DayOfWeekData is exhaustive`` () =
+    let count = Enum.GetValues(typeof<DayOfWeek>).Length
+
+    EnumDataSet.DayOfWeekData.Count() === count
+
+[<Fact>]
 let ``AddAdjustmentData is exhaustive`` () =
     let count = Enum.GetValues(typeof<AddAdjustment>).Length
 

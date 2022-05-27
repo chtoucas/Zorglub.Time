@@ -13,6 +13,17 @@ public static class EnumDataSet
         (DayOfWeek)7
     };
 
+    public static TheoryData<DayOfWeek> DayOfWeekData { get; } = new()
+    {
+        DayOfWeek.Monday,
+        DayOfWeek.Tuesday,
+        DayOfWeek.Wednesday,
+        DayOfWeek.Thursday,
+        DayOfWeek.Friday,
+        DayOfWeek.Saturday,
+        DayOfWeek.Sunday,
+    };
+
     //
     // Zorglub.Time
     //

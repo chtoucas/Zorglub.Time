@@ -6,14 +6,18 @@ module Zorglub.Tests.Core.Utilities.RequiresTests
 open System
 
 open Zorglub.Testing
+open Zorglub.Testing.Data
 
 open Zorglub.Time.Core.Utilities
 
 open Xunit
 
-// TODO(code): failing tests.
+// TODO(code): failing tests; see commented code.
 
 let private paramName = "paramName"
+
+let dayOfWeekData  = EnumDataSet.DayOfWeekData
+let invalidDayOfWeekData  = EnumDataSet.InvalidDayOfWeekData
 
 [<Fact>]
 let ``NotNull(obj) does not throw when "obj" is not null`` () =
@@ -34,16 +38,16 @@ let ``NotNull(obj) throws when "obj" is null (with paramName)`` () =
     nullExn paramName (fun () -> Requires.NotNull(v, paramName))
     nullExn paramName (fun () -> Requires.NotNull(null, paramName))
 
-[<Fact>]
-let ``Defined(dayOfWeek) does not throw when "dayOfWeek" is a valid value`` () =
-    Requires.Defined(DayOfWeek.Monday)
-    Requires.Defined(DayOfWeek.Monday, paramName)
+[<Theory; MemberData(nameof(dayOfWeekData))>]
+let ``Defined(dayOfWeek) does not throw when "dayOfWeek" is a valid value`` (dayOfWeek: DayOfWeek) =
+    Requires.Defined(dayOfWeek)
+    Requires.Defined(dayOfWeek, paramName)
 
-[<Fact>]
-let ``Defined(dayOfWeek) throws when "dayOfWeek" is not a valid value (without paramName)`` () =
-    //outOfRangeExn "dayOfWeek" (fun () -> Requires.Defined(dayOfWeekBeforeSunday))
-    outOfRangeExn "" (fun () -> Requires.Defined(dayOfWeekBeforeSunday))
+[<Theory; MemberData(nameof(invalidDayOfWeekData))>]
+let ``Defined(dayOfWeek) throws when "dayOfWeek" is not a valid value (without paramName)`` (dayOfWeek: DayOfWeek) =
+    //outOfRangeExn "dayOfWeek" (fun () -> Requires.Defined(dayOfWeek))
+    outOfRangeExn "" (fun () -> Requires.Defined(dayOfWeek))
 
-[<Fact>]
-let ``Defined(dayOfWeek) throws when "dayOfWeek" is not a valid value (with paramName)`` () =
-    outOfRangeExn paramName (fun () -> Requires.Defined(dayOfWeekBeforeSunday, paramName))
+[<Theory; MemberData(nameof(invalidDayOfWeekData))>]
+let ``Defined(dayOfWeek) throws when "dayOfWeek" is not a valid value (with paramName)`` (dayOfWeek: DayOfWeek) =
+    outOfRangeExn paramName (fun () -> Requires.Defined(dayOfWeek, paramName))

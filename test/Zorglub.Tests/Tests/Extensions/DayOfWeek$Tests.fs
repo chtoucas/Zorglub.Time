@@ -6,15 +6,17 @@ module Zorglub.Tests.Extensions.DayOfWeekExtensionsTests
 open System
 
 open Zorglub.Testing
+open Zorglub.Testing.Data
 
 open Zorglub.Time.Extensions
 
 open Xunit
 
-[<Fact>]
-let ``ToIsoWeekday() throws when the value of DayOfWeek is out of range`` () =
-     outOfRangeExn "@this" (fun () -> dayOfWeekBeforeSunday.ToIsoWeekday())
-     outOfRangeExn "@this" (fun () -> dayOfWeekAfterSaturday.ToIsoWeekday())
+let invalidDayOfWeekData  = EnumDataSet.InvalidDayOfWeekData
+
+[<Theory; MemberData(nameof(invalidDayOfWeekData))>]
+let ``ToIsoWeekday() throws when the value of DayOfWeek is out of range`` (dayOfWeek: DayOfWeek) =
+     outOfRangeExn "@this" (fun () -> dayOfWeek.ToIsoWeekday())
 
 [<Theory>]
 [<InlineData(DayOfWeek.Monday,    1)>]
