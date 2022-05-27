@@ -14,10 +14,10 @@ open Zorglub.Time
 open Xunit
 
 [<Fact>]
-let ``CalendarIdData is exhaustive`` () =
-    let count = Enum.GetValues(typeof<CalendarId>).Length
+let ``AddAdjustmentData is exhaustive`` () =
+    let count = Enum.GetValues(typeof<AddAdjustment>).Length
 
-    EnumDataSet.CalendarIdData.Count() === count
+    EnumDataSet.AddAdjustmentData.Count() === count
 
 [<Fact>]
 let ``CalendricalAlgorithmData is exhaustive`` () =
@@ -30,3 +30,9 @@ let ``CalendricalFamilyData is exhaustive`` () =
     let count = Enum.GetValues(typeof<CalendricalFamily>).Length
 
     EnumDataSet.CalendricalFamilyData.Count() === count
+
+[<Fact>]
+let ``CalendarIdData is exhaustive`` () =
+    let count = Enum.GetValues(typeof<CalendarId>).Length
+
+    EnumDataSet.CalendarIdData.Count() === count

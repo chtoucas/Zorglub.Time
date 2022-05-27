@@ -13,23 +13,60 @@ public static class EnumDataSet
         (DayOfWeek)7
     };
 
-    internal static TheoryData<Cuid> UnfixedCuidData { get; } = new()
+    //
+    // Zorglub.Time
+    //
+
+    public static TheoryData<AddAdjustment> InvalidAddAdjustmentData { get; } = new()
     {
-        Cuid.MaxSystem + 1,
-        Cuid.MinUser,
-        Cuid.Max,
-        Cuid.Invalid,
+        (AddAdjustment)(-1),
+        AddAdjustment.Exact + 1,
     };
 
-    internal static TheoryData<Cuid> FixedCuidData { get; } = new()
+    public static TheoryData<AddAdjustment> AddAdjustmentData { get; } = new()
     {
-        Cuid.Armenian,
-        Cuid.Coptic,
-        Cuid.Ethiopic,
-        Cuid.Gregorian,
-        Cuid.Julian,
-        Cuid.TabularIslamic,
-        Cuid.Zoroastrian,
+        AddAdjustment.EndOfMonth,
+        AddAdjustment.StartOfNextMonth,
+        AddAdjustment.Exact,
+    };
+
+    public static TheoryData<CalendricalAlgorithm> InvalidCalendricalAlgorithmData { get; } = new()
+    {
+        (CalendricalAlgorithm)(-1),
+        CalendricalAlgorithm.Observational + 1,
+    };
+
+    public static TheoryData<CalendricalAlgorithm> CalendricalAlgorithmData { get; } = new()
+    {
+        CalendricalAlgorithm.Arithmetical,
+        CalendricalAlgorithm.Astronomical,
+        CalendricalAlgorithm.Observational,
+        CalendricalAlgorithm.Unknown,
+    };
+
+    public static TheoryData<CalendricalFamily> InvalidCalendricalFamilyData { get; } = new()
+    {
+        (CalendricalFamily)(-1),
+        CalendricalFamily.Lunisolar + 1,
+    };
+
+    public static TheoryData<CalendricalFamily> CalendricalFamilyData { get; } = new()
+    {
+        CalendricalFamily.AnnusVagus,
+        CalendricalFamily.Lunar,
+        CalendricalFamily.Lunisolar,
+        CalendricalFamily.Other,
+        CalendricalFamily.Solar,
+    };
+
+    // All pre-defined values. Being a flag enum, other combinations are legit.
+    public static TheoryData<CalendricalAdjustments> CalendricalAdjustmentsData { get; } = new()
+    {
+        CalendricalAdjustments.Days,
+        CalendricalAdjustments.DaysAndMonths,
+        CalendricalAdjustments.Months,
+        CalendricalAdjustments.None,
+        CalendricalAdjustments.Weeks,
     };
 
     public static TheoryData<CalendarId> InvalidCalendarIdData { get; } = new()
@@ -49,45 +86,26 @@ public static class EnumDataSet
         CalendarId.Zoroastrian,
     };
 
-    public static TheoryData<CalendricalAlgorithm> CalendricalAlgorithmData { get; } = new()
+    //
+    // Zorglub.Time.Simple
+    //
+
+    internal static TheoryData<Cuid> UnfixedCuidData { get; } = new()
     {
-        CalendricalAlgorithm.Arithmetical,
-        CalendricalAlgorithm.Astronomical,
-        CalendricalAlgorithm.Observational,
-        CalendricalAlgorithm.Unknown,
+        Cuid.MaxSystem + 1,
+        Cuid.MinUser,
+        Cuid.Max,
+        Cuid.Invalid,
     };
 
-    public static TheoryData<CalendricalFamily> CalendricalFamilyData { get; } = new()
+    internal static TheoryData<Cuid> FixedCuidData { get; } = new()
     {
-        CalendricalFamily.AnnusVagus,
-        CalendricalFamily.Lunar,
-        CalendricalFamily.Lunisolar,
-        CalendricalFamily.Other,
-        CalendricalFamily.Solar,
+        Cuid.Armenian,
+        Cuid.Coptic,
+        Cuid.Ethiopic,
+        Cuid.Gregorian,
+        Cuid.Julian,
+        Cuid.TabularIslamic,
+        Cuid.Zoroastrian,
     };
-
-    // All pre-defined values.
-    // Being a flag enum, other combinations are legitimate.
-    public static TheoryData<CalendricalAdjustments> CalendricalAdjustmentsData { get; } = new()
-    {
-        CalendricalAdjustments.Days,
-        CalendricalAdjustments.DaysAndMonths,
-        CalendricalAdjustments.Months,
-        CalendricalAdjustments.None,
-        CalendricalAdjustments.Weeks,
-    };
-
-    public static TheoryData<AddAdjustment> AddAdjustmentData { get; } = new()
-    {
-        AddAdjustment.EndOfMonth,
-        AddAdjustment.StartOfNextMonth,
-        AddAdjustment.Exact,
-    };
-
-    public static TheoryData<AddAdjustment> InvalidAddAdjustmentData { get; } = new()
-    {
-        (AddAdjustment)(-1),
-        AddAdjustment.Exact + 1,
-    };
-
 }
