@@ -257,23 +257,48 @@ namespace Zorglub.Time.Hemerology
 
         /// <inheritdoc />
         [Pure]
-        public CivilDay Previous(DayOfWeek dayOfWeek) => new(DayNumber.Previous(dayOfWeek));
+        public CivilDay Previous(DayOfWeek dayOfWeek)
+        {
+            var dayNumber = DayNumber.Previous(dayOfWeek);
+            if (Domain.Contains(dayNumber) == false) { Throw.DateOverflow(); }
+            return new CivilDay(dayNumber - Epoch);
+        }
 
         /// <inheritdoc />
         [Pure]
-        public CivilDay PreviousOrSame(DayOfWeek dayOfWeek) => new(DayNumber.PreviousOrSame(dayOfWeek));
+        public CivilDay PreviousOrSame(DayOfWeek dayOfWeek)
+        {
+            var dayNumber = DayNumber.PreviousOrSame(dayOfWeek);
+            if (Domain.Contains(dayNumber) == false) { Throw.DateOverflow(); }
+            return new CivilDay(dayNumber - Epoch);
+        }
 
         /// <inheritdoc />
         [Pure]
-        public CivilDay Nearest(DayOfWeek dayOfWeek) => new(DayNumber.Nearest(dayOfWeek));
+        public CivilDay Nearest(DayOfWeek dayOfWeek)
+        {
+            var dayNumber = DayNumber.Nearest(dayOfWeek);
+            if (Domain.Contains(dayNumber) == false) { Throw.DateOverflow(); }
+            return new CivilDay(dayNumber - Epoch);
+        }
 
         /// <inheritdoc />
         [Pure]
-        public CivilDay NextOrSame(DayOfWeek dayOfWeek) => new(DayNumber.NextOrSame(dayOfWeek));
+        public CivilDay NextOrSame(DayOfWeek dayOfWeek)
+        {
+            var dayNumber = DayNumber.NextOrSame(dayOfWeek);
+            if (Domain.Contains(dayNumber) == false) { Throw.DateOverflow(); }
+            return new CivilDay(dayNumber - Epoch);
+        }
 
         /// <inheritdoc />
         [Pure]
-        public CivilDay Next(DayOfWeek dayOfWeek) => new(DayNumber.Next(dayOfWeek));
+        public CivilDay Next(DayOfWeek dayOfWeek)
+        {
+            var dayNumber = DayNumber.Next(dayOfWeek);
+            if (Domain.Contains(dayNumber) == false) { Throw.DateOverflow(); }
+            return new CivilDay(dayNumber - Epoch);
+        }
 
         #endregion
     }

@@ -258,23 +258,48 @@ namespace Zorglub.Time.Hemerology
 
         /// <inheritdoc />
         [Pure]
-        public GregorianDay Previous(DayOfWeek dayOfWeek) => new(DayNumber.Previous(dayOfWeek));
+        public GregorianDay Previous(DayOfWeek dayOfWeek)
+        {
+            var dayNumber = DayNumber.Previous(dayOfWeek);
+            if (Domain.Contains(dayNumber) == false) { Throw.DateOverflow(); }
+            return new GregorianDay(dayNumber - Epoch);
+        }
 
         /// <inheritdoc />
         [Pure]
-        public GregorianDay PreviousOrSame(DayOfWeek dayOfWeek) => new(DayNumber.PreviousOrSame(dayOfWeek));
+        public GregorianDay PreviousOrSame(DayOfWeek dayOfWeek)
+        {
+            var dayNumber = DayNumber.PreviousOrSame(dayOfWeek);
+            if (Domain.Contains(dayNumber) == false) { Throw.DateOverflow(); }
+            return new GregorianDay(dayNumber - Epoch);
+        }
 
         /// <inheritdoc />
         [Pure]
-        public GregorianDay Nearest(DayOfWeek dayOfWeek) => new(DayNumber.Nearest(dayOfWeek));
+        public GregorianDay Nearest(DayOfWeek dayOfWeek)
+        {
+            var dayNumber = DayNumber.Nearest(dayOfWeek);
+            if (Domain.Contains(dayNumber) == false) { Throw.DateOverflow(); }
+            return new GregorianDay(dayNumber - Epoch);
+        }
 
         /// <inheritdoc />
         [Pure]
-        public GregorianDay NextOrSame(DayOfWeek dayOfWeek) => new(DayNumber.NextOrSame(dayOfWeek));
+        public GregorianDay NextOrSame(DayOfWeek dayOfWeek)
+        {
+            var dayNumber = DayNumber.NextOrSame(dayOfWeek);
+            if (Domain.Contains(dayNumber) == false) { Throw.DateOverflow(); }
+            return new GregorianDay(dayNumber - Epoch);
+        }
 
         /// <inheritdoc />
         [Pure]
-        public GregorianDay Next(DayOfWeek dayOfWeek) => new(DayNumber.Next(dayOfWeek));
+        public GregorianDay Next(DayOfWeek dayOfWeek)
+        {
+            var dayNumber = DayNumber.Next(dayOfWeek);
+            if (Domain.Contains(dayNumber) == false) { Throw.DateOverflow(); }
+            return new GregorianDay(dayNumber - Epoch);
+        }
 
         #endregion
     }

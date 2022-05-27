@@ -6,6 +6,7 @@ namespace Zorglub.Time.Hemerology;
 using System.Diagnostics.Contracts;
 using System.Linq;
 
+using Zorglub.Testing.Data;
 using Zorglub.Testing.Data.Bounded;
 using Zorglub.Time.Core;
 using Zorglub.Time.Core.Intervals;
@@ -15,26 +16,21 @@ using static Zorglub.Time.Extensions.DayOfWeekExtensions2;
 
 // NB: We use StandardGregorianDataSet which has the same limits as CivilDate.
 
-public sealed partial class CivilDateTests : IDateFacts<CivilDate, StandardGregorianDataSet>
+public sealed partial class CivilDateTests : CalendarDataConsumer<StandardGregorianDataSet>
 {
     public CivilDateTests()
-        : base(Range.Create(CivilDate.MinYear, CivilDate.MaxYear), CivilDate.Domain)
     {
-        MinDate = CivilDate.MinValue;
-        MaxDate = CivilDate.MaxValue;
+        var supportedYears = Range.Create(CivilDate.MinYear, CivilDate.MaxYear);
+        SupportedYearsTester = new SupportedYearsTester(supportedYears);
     }
 
-    protected override CivilDate MinDate { get; }
-    protected override CivilDate MaxDate { get; }
-
-    [Pure]
-    protected override CivilDate GetDate(int y, int m, int d) => new(y, m, d);
+    private SupportedYearsTester SupportedYearsTester { get; }
 
     [Pure]
     private static CivilDate CreateDate(Yemoda ymd)
     {
         var (y, m, d) = ymd;
-        return new(y, m, d);
+        return new CivilDate(y, m, d);
     }
 
     public static DataGroup<YemodaPairAnd<int>> AddYearsData => DataSet.AddYearsData;

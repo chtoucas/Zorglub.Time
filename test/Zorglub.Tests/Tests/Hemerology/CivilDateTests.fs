@@ -6,16 +6,47 @@ module Zorglub.Tests.Hemerology.CivilDateTests
 open System
 
 open Zorglub.Testing
+open Zorglub.Testing.Data.Bounded
+open Zorglub.Testing.Facts
+open Zorglub.Testing.Facts.Hemerology
 
 open Zorglub.Time
+open Zorglub.Time.Core.Intervals
 open Zorglub.Time.Hemerology
 
 open Xunit
 
-/// Obtain the day of the week following the specified one.
-let private nextDayOfWeek (dayOfWeek: DayOfWeek) =
-    let r = (1 + int dayOfWeek) % 7
-    (if r >= 0 then r else r + 7) |> enum<DayOfWeek>
+module Facts =
+    // NB: we use StandardGregorianDataSet which has the same limits as CivilDate.
+
+    let private supportedYears = Range.Create(CivilDate.MinYear, CivilDate.MaxYear)
+
+    [<Sealed>]
+    type DateFacts() =
+        inherit IDateFacts<CivilDate, StandardGregorianDataSet>(supportedYears, CivilDate.Domain)
+
+        override __.MinDate = CivilDate.MinValue
+        override __.MaxDate = CivilDate.MaxValue
+
+        override __.GetDate(y, m, d) = new CivilDate(y, m, d)
+
+    [<Sealed>]
+    type DayOfWeekFacts() =
+        inherit IDateDayOfWeekFacts<CivilDate, StandardGregorianDataSet>()
+
+        override __.GetDate(y, m, d) = new CivilDate(y, m, d)
+
+    [<Sealed>]
+    type AdjustableDateTests() =
+        inherit IAdjustableDateFacts<CivilDate, StandardGregorianDataSet>(supportedYears)
+
+        override __.GetDate(y, m, d) = new CivilDate(y, m, d)
+
+    [<Sealed>]
+    type MathFacts() =
+        inherit IDateMathFacts<CivilDate, StandardGregorianDataSet>()
+
+        override __.GetDate(y, m, d) = new CivilDate(y, m, d)
 
 module Adjustments =
     [<Fact>]
@@ -33,9 +64,13 @@ module Adjustments =
 
         date.WithYear(8) === exp
 
-
 module Postlude =
     let private maxDayNumber = CivilDate.Domain.Max
+
+    /// Obtain the day of the week following the specified one.
+    let private nextDayOfWeek (dayOfWeek: DayOfWeek) =
+        let r = (1 + int dayOfWeek) % 7
+        (if r >= 0 then r else r + 7) |> enum<DayOfWeek>
 
     /// Compare the core properties.
     let rec private compareToBcl (date: CivilDate) (time: DateTime) =
