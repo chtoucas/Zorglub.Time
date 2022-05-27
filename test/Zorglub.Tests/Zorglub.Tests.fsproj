@@ -84,7 +84,7 @@
     <Compile Include="Tests\Hemerology\CivilDateTests.fs" />
     <Compile Include="Tests\Hemerology\CivilDayTests.fs" />
     <Compile Include="Tests\Hemerology\GregorianDayTests.fs" />
-    <Compile Include="Tests\Hemerology\AdjustableDateTestSuite.fs" />
+    <Compile Include="Tests\Hemerology\WideDateTests.fs" />
     <Compile Include="Tests\Simple\Specialized\GregorianReformTests.fs" />
     <Compile Include="Tests\Simple\Specialized\RomanKalendarTests.fs" />
     <Compile Include="Tests\Simple\CuidTests.fs" />
