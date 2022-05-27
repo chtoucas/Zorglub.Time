@@ -9,7 +9,7 @@ public sealed class DomainTester
 {
     public DomainTester(Range<DayNumber> domain)
     {
-        // Un peu naïf mais pour le moment on s'en contentera pour le moment.
+        // Un peu naïf mais on s'en contentera pour le moment.
         var (minDayNumber, maxDayNumber) = domain.Endpoints;
         ValidDayNumbers = new List<DayNumber>
         {

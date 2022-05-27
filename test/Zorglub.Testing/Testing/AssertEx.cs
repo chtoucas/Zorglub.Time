@@ -57,10 +57,7 @@ public partial class AssertEx // Arg exceptions
         Equal(expectedParamName, exn.ParamName);
     }
 
-    //
-    // Below, use "argName" instead of "paramName" to avoid an error CA1507
-    // in the caller code.
-    //
+    // Below, use "argName" instead of "paramName" to avoid an error CA1507 in the caller code.
 
     /// <summary>
     /// Verifies that the specified delegate throws an exception of type

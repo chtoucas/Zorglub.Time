@@ -12,7 +12,7 @@ open Zorglub.Time.Core.Intervals
 /// A dead simple but unrealistic schema: no intercalation, 12 months of 30 days.
 [<Sealed>]
 type SimpleSchema() =
-    inherit CalendricalSchema(Range.Create(1, 9999), 360, 30) with
+    inherit CalendricalSchema(Range.Create(1, 9999), 360, 30)
         override __.Family = CalendricalFamily.Other
         override __.PeriodicAdjustments = CalendricalAdjustments.None
 
