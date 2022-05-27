@@ -7,21 +7,29 @@ using Zorglub.Testing.Data;
 using Zorglub.Time.Hemerology;
 using Zorglub.Time.Simple;
 
-// TODO(fact): IsEpagomenalDay() with a date from a distinct calendar.
-
 public abstract class IEpagomenalCalendarFacts<TCalendar, TDataSet> :
     CalendarDataConsumer<TDataSet>
     where TCalendar : Calendar, IEpagomenalCalendar<CalendarDate>
     where TDataSet : ICalendarDataSet, IEpagomenalDataSet, ISingleton<TDataSet>
 {
     private readonly TCalendar _calendar;
+    private readonly Calendar _otherCalendar;
 
-    protected IEpagomenalCalendarFacts(TCalendar calendar)
+    protected IEpagomenalCalendarFacts(TCalendar calendar, Calendar otherCalendar)
     {
         _calendar = calendar ?? throw new ArgumentNullException(nameof(calendar));
+        _otherCalendar = otherCalendar ?? throw new ArgumentNullException(nameof(otherCalendar));
     }
 
     public static DataGroup<YemodaAnd<int>> EpagomenalDayInfoData => DataSet.EpagomenalDayInfoData;
+
+    [Fact]
+    public void IsEpagomenalDay_InvalidDate()
+    {
+        var date = _otherCalendar.GetCalendarDate(1, 1, 1);
+        // Act & Assert
+        Assert.Throws<ArgumentException>(() => _calendar.IsEpagomenalDay(date, out _));
+    }
 
     [Theory, MemberData(nameof(DateInfoData))]
     public void IsEpagomenalDay(DateInfo info)
