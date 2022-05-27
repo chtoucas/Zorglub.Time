@@ -10,20 +10,10 @@ open Zorglub.Testing.Facts.Simple
 open Zorglub.Time.Hemerology.Scopes
 open Zorglub.Time.Simple
 
-// NB: for smoke testing we keep the proleptic calendar to verify that everything
+// NB: don't remove the proleptic calendar, it's useful to check that everything
 // continues to work with negative years.
 
 [<Sealed>]
-type UserJulianTests() =
-    inherit CalendarFacts<Calendar, ProlepticJulianDataSet>(UserCalendars.Julian)
-
-    override __.GetSingleton() = UserCalendars.Julian
-    override x.Id() = x.CalendarUT.Id === UserCalendars.Julian.Id
-    override x.Math() = x.CalendarUT.Math |> is<Regular12Math>
-    override x.Scope() = x.CalendarUT.Scope |> is<Solar12ProlepticShortScope>
-
-[<Sealed>]
-[<TestExcludeFrom(TestExcludeFrom.Smoke)>]
 type UserGregorianTests() =
     inherit CalendarFacts<Calendar, StandardGregorianDataSet>(UserCalendars.Gregorian)
 
@@ -31,3 +21,13 @@ type UserGregorianTests() =
     override x.Id() = x.CalendarUT.Id === UserCalendars.Gregorian.Id
     override x.Math() = x.CalendarUT.Math |> is<Regular12Math>
     override x.Scope() = x.CalendarUT.Scope |> is<GregorianStandardShortScope>
+
+[<Sealed>]
+[<TestExcludeFrom(TestExcludeFrom.Smoke)>]
+type UserJulianTests() =
+    inherit CalendarFacts<Calendar, ProlepticJulianDataSet>(UserCalendars.Julian)
+
+    override __.GetSingleton() = UserCalendars.Julian
+    override x.Id() = x.CalendarUT.Id === UserCalendars.Julian.Id
+    override x.Math() = x.CalendarUT.Math |> is<Regular12Math>
+    override x.Scope() = x.CalendarUT.Scope |> is<Solar12ProlepticShortScope>

@@ -10,6 +10,8 @@ open Zorglub.Testing.Facts
 open Zorglub.Time.Core.Arithmetic
 open Zorglub.Time.Core.Schemas
 
+// FIXME(code): it fails hard...
+
 //[<Sealed>]
 //type GregorianTests() =
 //    inherit ICalendricalArithmeticFacts<GregorianDataSet>(new DefaultFastArithmetic(schemaOf<GregorianSchema>()))
