@@ -9,3 +9,7 @@ open Zorglub.Time.Core
 /// Creates a new instance of the schema of type 'a.
 let schemaOf<'a when 'a :> ICalendricalSchema and 'a :> IBoxable<'a>> () =
     SchemaActivator.CreateInstance<'a>()
+
+/// Creates a new instance of the schema of type 'a.
+let syschemaOf<'a when 'a :> SystemSchema and 'a :> IBoxable<'a>> () =
+    SchemaActivator.CreateInstance<'a>()
