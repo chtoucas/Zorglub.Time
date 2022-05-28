@@ -5,11 +5,13 @@ module Zorglub.Tests.Core.Schemas.CalendricalArithmeticTestSuite
 
 open Zorglub.Testing
 open Zorglub.Testing.Data.Schemas
-open Zorglub.Testing.Facts
+open Zorglub.Testing.Facts.Core
 
 open Zorglub.Time.Core
 open Zorglub.Time.Core.Schemas
 
+let private arOf x = new CalendricalArithmetic(x) :> ICalendricalArithmetic
+
 [<Sealed>]
 type GregorianTests() =
-    inherit ICalendricalArithmeticFacts<GregorianDataSet>(new CalendricalArithmetic(schemaOf<GregorianSchema>()))
+    inherit CalendricalArithmeticFacts<GregorianDataSet>(schemaOf<GregorianSchema>(), arOf)
