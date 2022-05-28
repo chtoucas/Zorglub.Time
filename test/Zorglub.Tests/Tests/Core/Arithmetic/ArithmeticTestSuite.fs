@@ -11,6 +11,10 @@ open Zorglub.Time.Core
 open Zorglub.Time.Core.Arithmetic
 open Zorglub.Time.Core.Schemas
 
+// Since the Gregorian schema has the most data to offer, we use it as a default
+// model for testing the generic engines. The other tests are marked as redundant
+// except when it tests the default engine for the schema.
+
 // Generic engines.
 let private plainOf x       = new CalendricalArithmetic(x) :> ICalendricalArithmetic
 let private defaultOf x     = new DefaultArithmetic(x)     :> ICalendricalArithmetic
@@ -87,10 +91,36 @@ module GregorianCase =
     //type DefaultFastTests() =
     //    inherit CalendricalArithmeticFacts<GregorianDataSet>(schemaOf<GregorianSchema>(), defaultFastOf)
 
+module LunisolarCase =
+    // LunisolarArithmetic
+    [<Sealed>]
+    type LunisolarTests() =
+        inherit CalendricalArithmeticFacts<LunisolarDataSet>(syschemaOf<LunisolarSchema>())
+
+        member x.Arithmetic() = x.Arithmetic |> is<LunisolarArithmetic>
+
+    // CalendricalArithmetic
+    [<Sealed>]
+    [<RedundantTestGroup>]
+    type CalendricalTests() =
+        inherit CalendricalArithmeticFacts<LunisolarDataSet>(schemaOf<LunisolarSchema>(), plainOf)
+
+    // DefaultArithmetic
+    [<Sealed>]
+    [<RedundantTestGroup>]
+    type DefaultTests() =
+        inherit CalendricalArithmeticFacts<LunisolarDataSet>(schemaOf<LunisolarSchema>(), defaultOf)
+
+    // DefaultFastArithmetic
+    //[<Sealed>]
+    //[<RedundantTestGroup>]
+    //type DefaultFastTests() =
+    //    inherit CalendricalArithmeticFacts<LunisolarDataSet>(schemaOf<LunisolarSchema>(), defaultFastOf)
+
 module PositivistCase =
     // Solar13Arithmetic
     [<Sealed>]
-    type Coptic13Tests() =
+    type PositivistTests() =
         inherit CalendricalArithmeticFacts<PositivistDataSet>(syschemaOf<PositivistSchema>())
 
         member x.Arithmetic() = x.Arithmetic |> is<Solar13Arithmetic>
@@ -116,7 +146,7 @@ module PositivistCase =
 module TabularIslamicCase =
     // LunarArithmetic
     [<Sealed>]
-    type Coptic13Tests() =
+    type TabularIslamicTests() =
         inherit CalendricalArithmeticFacts<TabularIslamicDataSet>(syschemaOf<TabularIslamicSchema>())
 
         member x.Arithmetic() = x.Arithmetic |> is<LunarArithmetic>

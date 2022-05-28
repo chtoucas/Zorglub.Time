@@ -6,7 +6,7 @@ namespace Zorglub.Testing.Data.Schemas;
 /// <summary>
 /// Provides test data for <see cref="LunisolarSchema"/>.
 /// </summary>
-public sealed partial class LunisolarDataSet : SchemaDataSet, ISingleton<LunisolarDataSet>
+public sealed partial class LunisolarDataSet : SchemaDataSet, IMathDataSet, ISingleton<LunisolarDataSet>
 {
     public const int CommonYear = 1;
     public const int LeapYear = 4;

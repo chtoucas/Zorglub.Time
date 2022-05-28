@@ -7,7 +7,7 @@ public partial class GregorianDataSet // IMathDataSet
 {
     public DataGroup<YemodaPairAnd<int>> AddDaysData { get; } = new()
     {
-        // A full month.
+        // April.
         new(new(3, 4, 5), new(3, 4, 30), 25),
         new(new(3, 4, 5), new(3, 4, 29), 24),
         new(new(3, 4, 5), new(3, 4, 28), 23),
@@ -66,6 +66,7 @@ public partial class GregorianDataSet // IMathDataSet
 
     public DataGroup<YemodaPair> ConsecutiveDaysData { get; } = new()
     {
+        // April.
         new(new(CommonYear, 4, 1), new(CommonYear, 4, 2)),
         new(new(CommonYear, 4, 2), new(CommonYear, 4, 3)),
         new(new(CommonYear, 4, 3), new(CommonYear, 4, 4)),
@@ -118,7 +119,12 @@ public partial class GregorianDataSet // IMathDataSet
 
     public DataGroup<YedoyPairAnd<int>> AddDaysOrdinalData { get; } = new()
     {
-        // A full month (January).
+        // 35 days.
+        new(new(3, 5), new(3, 35), 30),
+        new(new(3, 5), new(3, 34), 29),
+        new(new(3, 5), new(3, 33), 28),
+        new(new(3, 5), new(3, 32), 27),
+        new(new(3, 5), new(3, 31), 26),
         new(new(3, 5), new(3, 30), 25),
         new(new(3, 5), new(3, 29), 24),
         new(new(3, 5), new(3, 28), 23),
@@ -153,7 +159,7 @@ public partial class GregorianDataSet // IMathDataSet
 
     public DataGroup<YedoyPair> ConsecutiveDaysOrdinalData { get; } = new()
     {
-        // January
+        // 35 first days.
         new(new(CommonYear, 1), new(CommonYear, 2)),
         new(new(CommonYear, 2), new(CommonYear, 3)),
         new(new(CommonYear, 3), new(CommonYear, 4)),
@@ -185,9 +191,11 @@ public partial class GregorianDataSet // IMathDataSet
         new(new(CommonYear, 29), new(CommonYear, 30)),
         new(new(CommonYear, 30), new(CommonYear, 31)),
         new(new(CommonYear, 31), new(CommonYear, 32)),
-
-        // February
         new(new(CommonYear, 32), new(CommonYear, 33)),
+        new(new(CommonYear, 33), new(CommonYear, 34)),
+        new(new(CommonYear, 34), new(CommonYear, 35)),
+        new(new(CommonYear, 35), new(CommonYear, 36)),
+
         // End of february.
         new(new(CommonYear, 59), new(CommonYear, 60)), // February 28
         new(new(CommonYear, 60), new(CommonYear, 61)), // March 1st
