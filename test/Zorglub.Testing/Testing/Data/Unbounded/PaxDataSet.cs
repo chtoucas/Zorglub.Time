@@ -10,7 +10,8 @@ using Zorglub.Time.Hemerology;
 /// <summary>
 /// Provides test data for the (unbounded) Pax calendar.
 /// </summary>
-public sealed class UnboundedPaxDataSet : UnboundedCalendarDataSet<PaxDataSet>, ISingleton<UnboundedPaxDataSet>
+public sealed class UnboundedPaxDataSet :
+    UnboundedCalendarDataSet<PaxDataSet>, ISingleton<UnboundedPaxDataSet>
 {
     private static readonly DayNumber s_Epoch = CalendarEpoch.SundayBeforeGregorian;
 
