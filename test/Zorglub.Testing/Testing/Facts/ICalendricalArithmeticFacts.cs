@@ -14,13 +14,6 @@ public abstract partial class ICalendricalArithmeticFacts<TDataSet> :
         ArithmeticUT = arithmetic ?? throw new ArgumentNullException(nameof(arithmetic));
     }
 
-    protected ICalendricalArithmeticFacts(ICalendricalSchema schema)
-    {
-        Requires.NotNull(schema);
-
-        ArithmeticUT = schema.Arithmetic;
-    }
-
     protected ICalendricalArithmetic ArithmeticUT { get; }
 
     public static DataGroup<YemodaPairAnd<int>> AddDaysData => DataSet.AddDaysData;

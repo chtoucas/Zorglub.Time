@@ -6,6 +6,7 @@ module Zorglub.Tests.Core.Schemas.ArithmeticTestSuite
 open Zorglub.Testing
 open Zorglub.Testing.Data.Schemas
 open Zorglub.Testing.Facts
+open Zorglub.Testing.Facts.Core
 
 open Zorglub.Time.Core.Arithmetic
 open Zorglub.Time.Core.Schemas
@@ -13,7 +14,7 @@ open Zorglub.Time.Core.Schemas
 // GregorianArithmetic
 [<Sealed>]
 type GregorianTests() =
-    inherit ICalendricalArithmeticFacts<GregorianDataSet>(schemaOf<GregorianSchema>())
+    inherit CalendricalArithmeticFacts<GregorianDataSet>(schemaOf<GregorianSchema>())
 
 // Solar12Arithmetic
 // Right now, we can only test Solar12Arithmetic with the Gregorian schema; we
