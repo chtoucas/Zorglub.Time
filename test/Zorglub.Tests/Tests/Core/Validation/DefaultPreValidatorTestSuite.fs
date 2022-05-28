@@ -12,6 +12,8 @@ open Zorglub.Testing.Facts
 open Zorglub.Time.Core.Schemas
 open Zorglub.Time.Core.Validation
 
+// TODO(code): add all variants; idem with CalendricalPreValidator.
+
 // We use the Copic13 schema because it may overflow when calling
 // CountDaysInYear() or CountDaysInMonth(). Both rely on IsLeapYear() which
 // overflows at Int32.MaxYear.
@@ -26,13 +28,13 @@ type Copic13Tests() =
         supportedYears.Max)
 
     override x.ValidateMonthDay_AtAbsoluteMaxYear() =
-        let validator = x.ValidatorUT
+        let validator = x.PreValidatorUT
         (fun () -> validator.ValidateMonthDay(Int32.MaxValue, 1, 1)) |> overflows
 
     override x.ValidateDayOfYear_AtAbsoluteMaxYear() =
         // The base method works fine but we want to show that the method may
         // overflow with other parameters.
-        let validator = x.ValidatorUT
+        let validator = x.PreValidatorUT
         // At the start of the year, the next method does not overflow because
         // we are below the limit Coptic13Schema.MinDaysInYear.
         validator.ValidateDayOfYear(Int32.MaxValue, 1)

@@ -10,6 +10,7 @@ open Zorglub.Testing.Data.Schemas
 open Zorglub.Testing.Facts
 
 open Zorglub.Time.Core.Schemas
+open Zorglub.Time.Core.Validation
 
 // TODO(code): Hebrew (unfinished, no data) and lunisolar (fake) schema.
 
@@ -18,14 +19,18 @@ open Zorglub.Time.Core.Schemas
 type Coptic12Tests() =
     inherit ICalendricalPreValidatorFacts<Coptic12DataSet>(schemaOf<Coptic12Schema>())
 
+    member x.PreValidator() = x.PreValidatorUT |> is<Solar12PreValidator>
+
 // DefaultPreValidator
 [<Sealed>]
 [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
 type Coptic13Tests() =
     inherit ICalendricalPreValidatorFacts<Coptic13DataSet>(schemaOf<Coptic13Schema>())
 
+    member x.PreValidator() = x.PreValidatorUT |> is<DefaultPreValidator>
+
     override x.ValidateMonthDay_AtAbsoluteMaxYear() =
-        let validator = x.ValidatorUT
+        let validator = x.PreValidatorUT
         // DefaultPreValidator: no shortcut for short values of the day of the
         // month and Coptic13Schema.CountDaysInMonth() overflows.
         (fun () -> validator.ValidateMonthDay(Int32.MaxValue, 1, 1)) |> overflows
@@ -56,11 +61,15 @@ type FrenchRepublican13Tests() =
 type GregorianTests() =
     inherit ICalendricalPreValidatorFacts<GregorianDataSet>(schemaOf<GregorianSchema>())
 
+    member x.PreValidator() = x.PreValidatorUT |> is<GregorianPreValidator>
+
 // Solar13PreValidator
 [<Sealed>]
 [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
 type InternationalFixedTests() =
     inherit ICalendricalPreValidatorFacts<InternationalFixedDataSet>(schemaOf<InternationalFixedSchema>())
+
+    member x.PreValidator() = x.PreValidatorUT |> is<Solar13PreValidator>
 
 // JulianPreValidator
 [<Sealed>]
@@ -68,11 +77,15 @@ type InternationalFixedTests() =
 type JulianTests() =
     inherit ICalendricalPreValidatorFacts<JulianDataSet>(schemaOf<JulianSchema>())
 
+    member x.PreValidator() = x.PreValidatorUT |> is<JulianPreValidator>
+
 // LunisolarPreValidator
 [<Sealed>]
 [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
 type LunisolarTests() =
     inherit ICalendricalPreValidatorFacts<LunisolarDataSet>(schemaOf<LunisolarSchema>())
+
+    member x.PreValidator() = x.PreValidatorUT |> is<LunisolarPreValidator>
 
 [<Sealed>]
 [<RedundantTestGroup>]
@@ -94,6 +107,8 @@ type PositivistTests() =
 [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
 type TabularIslamicTests() =
     inherit ICalendricalPreValidatorFacts<TabularIslamicDataSet>(schemaOf<TabularIslamicSchema>())
+
+    member x.PreValidator() = x.PreValidatorUT |> is<LunarPreValidator>
 
 [<Sealed>]
 [<RedundantTestGroup>]

@@ -26,9 +26,9 @@ type Copic13Tests() =
         supportedYears.Max)
 
     override x.ValidateMonthDay_AtAbsoluteMaxYear() =
-        let validator = x.ValidatorUT
+        let validator = x.PreValidatorUT
         (fun () -> validator.ValidateMonthDay(Int32.MaxValue, 1, 1)) |> overflows
 
     override x.ValidateDayOfYear_AtAbsoluteMaxYear() =
-        let validator = x.ValidatorUT
+        let validator = x.PreValidatorUT
         (fun () -> validator.ValidateDayOfYear(Int32.MaxValue, 1)) |> overflows
