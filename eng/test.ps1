@@ -5,7 +5,7 @@
 [CmdletBinding()]
 param(
     [Parameter(Mandatory = $false, Position = 0)]
-    [ValidateSet('smoke', 'regular', 'more', 'extra', 'most')]
+    [ValidateSet('smoke', 'regular', 'more', 'extra', 'most', 'cover')]
                  [string] $Plan = 'smoke',
 
     [Parameter(Mandatory = $false)]
@@ -34,28 +34,33 @@ Usage: test.ps1 [arguments]
 
 The default behaviour is to run the smoke tests using the configuration Debug.
 
-With the "regular" test plan, we exclude slow-running and redundant tests.
-
-The four other test plans are:
-- "smoke" = "regular" BUT keep only one test group per test suite
-- "more"  = "regular" BUT do not exclude slow-running -individual- tests
-- "extra" = complement of "more" (SLOW)
-- "most"  = the whole test suite (SLOW)
+The available test plans are:
+- "smoke"   = smoke testing
+- "regular" = exclude slow-running or redundant tests
+- "more"    = "regular" AND include slow-running -individual- tests
+- "extra"   = only include slow-running groups of tests and redundant tests,
+              that is the tests excluded from the test plan "more"
+- "most"    = the whole test suite
+- "cover"   = mimic the default test plan used by the code coverage tool
+              It's "regular" minus the tests that don't play well with the code
+              coverage tool and a bunch of tests for types in Narvalo.Sketches
 
 Of course, one can use "dotnet test" to run the whole test suite or to apply
 custom filters.
 
-Examples.
-> test.ps1                      # Smoke testing
-> test.ps1 smoke                # Idem
-> test.ps1 regular              # Execute the regular test suite
-> test.ps1 more                 # Execute the regular test suite + a few more tests
-> test.ps1 extra                # (SLOW) Execute the tests excluded from the test plan "more"
-> test.ps1 most                 # (SLOW) Execute the whole test suite
-
 Typical test plan executions.
-> test.ps1 -NoBuild             # Smoke testing, no build, Debug
-> test.ps1 regular -c Release   # Regular test suite, Release
+> test.ps1 -NoBuild             # Smoke testing (Debug)
+> test.ps1 regular              # Regular test suite (Debug)
+> test.ps1 regular -c Release   # Regular test suite (Release)
+> test.ps1 cover                # Convenient when not working on Sketches (Debug)
+
+Examples.
+> test.ps1 smoke                # ~20 thousand tests (FAST)
+> test.ps1 cover                # ~62 thousand tests
+> test.ps1 regular              # ~70 thousand tests
+> test.ps1 more                 # ~70 thousand tests
+> test.ps1 extra                # ~119 thousand tests (SLOW)
+> test.ps1 most                 # ~189 thousand tests (SLOW)
 
 "@
 }
@@ -73,33 +78,39 @@ try {
     switch ($Plan) {
         'smoke' {
             # Smoke testing.
-            # - Only keep one test group per test suite (smoke)
-            # - Exclude a bunch of tests for Zorglub.Sketches
-            # - Exclude a bunch of tests in Postludes (slow unit)
-            # - Exclude ArchetypalSchemaTestSuite (slow group)
-            # - Exclude PrototypalSchemaTestSuite (slow group)
-            # - Exclude redundant tests
-            # Filters = ExcludeFrom!=Smoke&Performance!~Slow&Redundant!=true&SketchUnderTest!=true
-            $filter = "ExcludeFrom!=Smoke&$RegularTestFilter"
+            # - Exclude explicitely a bunch of tests from smoke testing
+            # - Exclude slow units
+            # - Exclude slow groups
+            # - Exclude redundant tests (implicit exclusion)
+            # - Exclude a bunch of tests for Zorglub.Sketches (implicit exclusion)
+            #
+            # If you change the filter, don't forget to update the github action.
+            $filter = 'ExcludeFrom!=Smoke&Performance!~Slow'
+        }
+        'cover' {
+            # Mimic the default test plan used by cover.ps1.
+            # - Exclude explicitely a bunch of tests from code coverage
+            # - Exclude slow units
+            # - Exclude slow groups
+            # - Exclude redundant tests (implicit exclusion)
+            # - Exclude a bunch of tests for Zorglub.Sketches (implicit exclusion)
+            $filter = 'ExcludeFrom!=CodeCoverage&Performance!~Slow'
         }
         'regular' {
             # Regular test suite.
-            # - Exclude a bunch of tests for Zorglub.Sketches
-            # - Exclude a bunch of tests in Postludes (slow unit)
-            # - Exclude ArchetypalSchemaTestSuite (slow group)
-            # - Exclude PrototypalSchemaTestSuite (slow group)
+            # - Exclude slow units
+            # - Exclude slow groups
             # - Exclude redundant tests
-            # Filters = Performance!~Slow&Redundant!=true&SketchUnderTest!=true
-            $filter = $RegularTestFilter
+            $filter = 'Performance!~Slow&Redundant!=true'
         }
         'more' {
             # Extended test suite.
-            # - Exclude ArchetypalSchemaTestSuite (slow group)
-            # - Exclude PrototypalSchemaTestSuite (slow group)
+            # - Exclude slow groups
             # - Exclude redundant tests
             $filter = 'Performance!=SlowGroup&Redundant!=true'
         }
         'extra' {
+            # Complement of the plan "more".
             $filter = 'Performance=SlowGroup|Redundant=true'
         }
         'most' {

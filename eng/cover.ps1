@@ -14,7 +14,7 @@ param(
                  [switch] $NoTest,
                  [switch] $NoReport,
 
-    [Alias("h")] [switch] $Help
+    [Alias('h')] [switch] $Help
 )
 
 . (Join-Path $PSScriptRoot 'zorglub.ps1')
@@ -73,9 +73,9 @@ try {
     }
 
     if (-not $NoTest) {
-        $filter = $RegularTestFilter
+        # If you change the filter, don't forget to update the plan "cover" in test.ps1.
+        $filter = 'ExcludeFrom!=CodeCoverage&Performance!~Slow'
         if ($Smoke) { $filter = "ExcludeFrom!=Smoke&$filter" }
-        $filter = "ExcludeFrom!=CodeCoverage&$filter"
         $args += "--filter:$filter"
 
         & dotnet test $TestProject $args `

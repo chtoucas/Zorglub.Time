@@ -9,13 +9,13 @@ using Xunit.Sdk;
 #region Developer Notes
 
 // Traits:
-// - RedundantTest
-// - RedundantTestGroup
-// - SketchUnderTest
+// - RedundantTest          => TestExcludeFrom=Smoke and CodeCoverage
+// - RedundantTestGroup     => TestExcludeFrom=Smoke and CodeCoverage
+// - SketchUnderTest        => TestExcludeFrom=Smoke and CodeCoverage
 // - TestPerfomance
 // - TestExcludeFrom
 //
-// See eng\test.ps1, eng\cover.ps1 and github action.
+// Used by eng\test.ps1, eng\cover.ps1 and the github action.
 // See https://github.com/xunit/samples.xunit/blob/main/TraitExtensibility/
 
 #endregion
@@ -149,8 +149,9 @@ public sealed class RedundantTraitDiscoverer : ITraitDiscoverer
         Requires.NotNull(traitAttribute);
 
         yield return new KeyValuePair<string, string>(XunitTraits.Redundant, "true");
-        // We automatically exclude the group from smoke testing.
+        // We automatically exclude the test(s) from smoke testing and code coverage.
         yield return new KeyValuePair<string, string>(XunitTraits.ExcludeFrom, TestExcludeFrom.Smoke.ToString());
+        yield return new KeyValuePair<string, string>(XunitTraits.ExcludeFrom, TestExcludeFrom.CodeCoverage.ToString());
     }
 }
 
@@ -161,7 +162,7 @@ public sealed class SketchUnderTestTraitDiscoverer : ITraitDiscoverer
         Requires.NotNull(traitAttribute);
 
         yield return new KeyValuePair<string, string>(XunitTraits.SketchUnderTest, "true");
-        // We automatically exclude the group from smoke testing and code coverage.
+        // We automatically exclude the test(s) from smoke testing and code coverage.
         yield return new KeyValuePair<string, string>(XunitTraits.ExcludeFrom, TestExcludeFrom.Smoke.ToString());
         yield return new KeyValuePair<string, string>(XunitTraits.ExcludeFrom, TestExcludeFrom.CodeCoverage.ToString());
     }

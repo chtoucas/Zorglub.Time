@@ -5,10 +5,29 @@
 [CmdletBinding()]
 param(
     [switch] $Artifacts,
-    [switch] $VS
+    [switch] $VS,
+
+    [Alias('h')] [switch] $Help
 )
 
 . (Join-Path $PSScriptRoot 'zorglub.ps1')
+
+#-------------------------------------------------------------------------------
+
+function Print-Help {
+    say @"
+
+Cleanup script. Remove all folders "bin" and "obj".
+
+Usage: reset.ps1 [arguments]
+     -Artifacts     delete also the folder "__" containing the artifacts
+     -VS            delete also the folder ".vs" containing the Visual Studio settings
+  -h|-Help          print this help then exit
+
+"@
+}
+
+#-------------------------------------------------------------------------------
 
 function Remove-BinAndObj {
     [CmdletBinding()]
@@ -18,7 +37,7 @@ function Remove-BinAndObj {
         [string] $path
     )
 
-    say "Deleting ""bin"" and ""obj"" directories within ""$path""."
+    say "Deleting ""bin"" and ""obj"" within ""$path""."
 
     if (-not (Test-Path $path)) {
         return Write-Verbose "Skipping ""$path""; the file does NOT exist."
@@ -30,6 +49,10 @@ function Remove-BinAndObj {
     ls $path -Include bin,obj -Recurse `
         | foreach { Write-Verbose "Deleting ""$_""." ; rm $_.FullName -Recurse }
 }
+
+#-------------------------------------------------------------------------------
+
+if ($Help) { Print-Help ; exit }
 
 try {
     pushd $RootDir
