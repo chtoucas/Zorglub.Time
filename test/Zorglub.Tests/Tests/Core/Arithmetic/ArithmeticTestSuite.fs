@@ -13,7 +13,7 @@ open Zorglub.Time.Core.Schemas
 
 // Since the Gregorian schema has the most data to offer, we use it as a default
 // model for testing the generic engines. The other tests are marked as redundant
-// except when it tests the default engine for the schema.
+// except when they test the default engine for a schema.
 
 // Generic engines.
 let private plainOf x       = new CalendricalArithmetic(x) :> ICalendricalArithmetic
@@ -44,6 +44,7 @@ let private solar12Of x     = new Solar12Arithmetic(x)     :> ICalendricalArithm
 module Coptic13Case =
     // DefaultArithmetic
     [<Sealed>]
+    [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
     type Coptic13Tests() =
         inherit CalendricalArithmeticFacts<Coptic13DataSet>(syschemaOf<Coptic13Schema>())
 
@@ -90,6 +91,7 @@ module GregorianCase =
 module LunisolarCase =
     // LunisolarArithmetic
     [<Sealed>]
+    [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
     type LunisolarTests() =
         inherit CalendricalArithmeticFacts<LunisolarDataSet>(syschemaOf<LunisolarSchema>())
 
@@ -116,6 +118,7 @@ module LunisolarCase =
 module PositivistCase =
     // Solar13Arithmetic
     [<Sealed>]
+    [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
     type PositivistTests() =
         inherit CalendricalArithmeticFacts<PositivistDataSet>(syschemaOf<PositivistSchema>())
 
@@ -142,6 +145,7 @@ module PositivistCase =
 module TabularIslamicCase =
     // LunarArithmetic
     [<Sealed>]
+    [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
     type TabularIslamicTests() =
         inherit CalendricalArithmeticFacts<TabularIslamicDataSet>(syschemaOf<TabularIslamicSchema>())
 
