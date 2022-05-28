@@ -11,7 +11,7 @@ using Zorglub.Time.Hemerology;
 /// Provides test data for the (unbounded) Positivist calendar.
 /// </summary>
 public sealed class UnboundedPositivistDataSet :
-    UnboundedCalendarDataSet<PositivistDataSet>, ISingleton<UnboundedPositivistDataSet>
+    UnboundedCalendarDataSet<PositivistDataSet>, IMathDataSet, ISingleton<UnboundedPositivistDataSet>
 {
     private UnboundedPositivistDataSet() : base(PositivistDataSet.Instance, CalendarEpoch.Positivist) { }
 
@@ -25,4 +25,10 @@ public sealed class UnboundedPositivistDataSet :
 
     public override DataGroup<DayNumberInfo> DayNumberInfoData { get; } =
         DataGroup.CreateDayNumberInfoData(PositivistDataSet.DaysSinceZeroInfos);
+
+    // IMathDataSet
+    public DataGroup<YemodaPairAnd<int>> AddDaysData => SchemaDataSet.AddDaysData;
+    public DataGroup<YemodaPair> ConsecutiveDaysData => SchemaDataSet.ConsecutiveDaysData;
+    public DataGroup<YedoyPairAnd<int>> AddDaysOrdinalData => SchemaDataSet.AddDaysOrdinalData;
+    public DataGroup<YedoyPair> ConsecutiveDaysOrdinalData => SchemaDataSet.ConsecutiveDaysOrdinalData;
 }

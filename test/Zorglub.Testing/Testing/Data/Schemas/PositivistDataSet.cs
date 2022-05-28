@@ -8,7 +8,7 @@ using Zorglub.Time.Hemerology;
 /// <summary>
 /// Provides test data for <see cref="PositivistSchema"/>.
 /// </summary>
-public sealed partial class PositivistDataSet : SchemaDataSet, ISingleton<PositivistDataSet>
+public sealed partial class PositivistDataSet : SchemaDataSet, IMathDataSet, ISingleton<PositivistDataSet>
 {
     public const int CommonYear = 3;
     public const int LeapYear = 4;
