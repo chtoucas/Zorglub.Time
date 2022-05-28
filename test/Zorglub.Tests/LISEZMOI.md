@@ -4,6 +4,8 @@ https://bartoszsypytkowski.com/writing-high-performance-f-code/
 https://docs.microsoft.com/en-us/dotnet/fsharp/language-reference/operator-overloading#creating-new-operators
 !, $, %, &, *, +, -, ., /, <, =, >, ?, @, ^, |
 
+https://matthewcrews.com/blog/
+
 À classer
 ---------
 
