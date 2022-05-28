@@ -16,7 +16,6 @@ module Math =
         else
             i / n - 1, rem + n
 
-
 module BitTwiddling =
     // References:
     // - https://en.wikipedia.org/wiki/Bit_manipulation

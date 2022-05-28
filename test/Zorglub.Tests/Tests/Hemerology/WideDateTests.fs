@@ -11,6 +11,8 @@ open Zorglub.Testing.Facts.Hemerology
 open Zorglub.Time.Hemerology
 
 module Facts =
+    // NB: notice the use of UnboundedGregorianDataSet.
+
     let private other = WideCalendar.Julian
 
     [<Sealed>]
@@ -20,15 +22,15 @@ module Facts =
 
     [<Sealed>]
     [<SketchUnderTest>]
-    type DayOfWeekFacts() =
-        inherit IDateDayOfWeekFacts<WideDate, UnboundedGregorianDataSet>()
+    type AdjustableDateFacts() =
+        inherit IAdjustableDateFacts<WideDate, UnboundedGregorianDataSet>(WideCalendar.Gregorian.SupportedYears)
 
         override __.GetDate(y, m, d) = WideCalendar.Gregorian.GetWideDate(y, m, d)
 
     [<Sealed>]
     [<SketchUnderTest>]
-    type AdjustableDateFacts() =
-        inherit IAdjustableDateFacts<WideDate, UnboundedGregorianDataSet>(WideCalendar.Gregorian.SupportedYears)
+    type DayOfWeekFacts() =
+        inherit IDateDayOfWeekFacts<WideDate, UnboundedGregorianDataSet>()
 
         override __.GetDate(y, m, d) = WideCalendar.Gregorian.GetWideDate(y, m, d)
 

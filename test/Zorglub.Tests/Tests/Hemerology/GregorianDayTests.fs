@@ -11,7 +11,7 @@ open Zorglub.Time.Core.Intervals
 open Zorglub.Time.Hemerology
 
 module Facts =
-    // NB: we use ProlepticGregorianDataSet which matches the domain of GregorianDay.
+    // NB: notice the use of ProlepticGregorianDataSet.
 
     let private supportedYears = Range.Create(GregorianDay.MinYear, GregorianDay.MaxYear)
 

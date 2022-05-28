@@ -11,7 +11,7 @@ open Zorglub.Time.Core.Intervals
 open Zorglub.Time.Hemerology
 
 module Facts =
-    // NB: we use StandardGregorianDataSet which matches the domain of CivilDay.
+    // NB: notice the use of StandardGregorianDataSet.
 
     let private supportedYears = Range.Create(CivilDay.MinYear, CivilDay.MaxYear)
 
