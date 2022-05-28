@@ -19,12 +19,8 @@ type GregorianTests() =
 // Solar12Arithmetic
 // Right now, we can only test Solar12Arithmetic with the Gregorian schema; we
 // don't have test data for any other schemas with profile Solar12.
-
-let private sysOf<'a when 'a :> SystemSchema and 'a :> IBoxable<'a>> () =
-    SchemaActivator.CreateInstance<'a>()
-
-let private arOf x = new DefaultArithmetic(x) :> ICalendricalArithmetic
-
+let private solar12Of x = new Solar12Arithmetic(x) :> ICalendricalArithmetic
 [<Sealed>]
+[<TestExcludeFrom(TestExcludeFrom.Smoke)>]
 type Solar12ArithmeticTests() =
-    inherit CalendricalArithmeticFacts<GregorianDataSet>(sysOf<GregorianSchema>(), arOf)
+    inherit CalendricalArithmeticFacts<GregorianDataSet>(syschemaOf<GregorianSchema>(), solar12Of)

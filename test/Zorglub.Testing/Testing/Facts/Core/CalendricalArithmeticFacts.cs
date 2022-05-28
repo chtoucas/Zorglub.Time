@@ -16,6 +16,11 @@ public abstract partial class CalendricalArithmeticFacts<TDataSet> : ICalendrica
         Func<ICalendricalSchema, ICalendricalArithmetic> factory)
         : this(schema, factory?.Invoke(schema) ?? throw new ArgumentNullException(nameof(factory))) { }
 
+    protected CalendricalArithmeticFacts(
+        SystemSchema schema,
+        Func<SystemSchema, ICalendricalArithmetic> factory)
+        : this(schema, factory?.Invoke(schema) ?? throw new ArgumentNullException(nameof(factory))) { }
+
     private CalendricalArithmeticFacts(ICalendricalSchema schema, ICalendricalArithmetic arithmetic)
         : base(arithmetic)
     {
@@ -44,6 +49,7 @@ public abstract partial class CalendricalArithmeticFacts<TDataSet> : ICalendrica
 
     protected Yemoda MinYemoda { get; }
     protected Yemoda MaxYemoda { get; }
+
     protected Yedoy MinYedoy { get; }
     protected Yedoy MaxYedoy { get; }
 }

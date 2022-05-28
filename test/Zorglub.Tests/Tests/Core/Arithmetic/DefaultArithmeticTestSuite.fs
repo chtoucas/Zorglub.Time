@@ -14,5 +14,10 @@ open Zorglub.Time.Core.Schemas
 let private arOf x = new DefaultArithmetic(x) :> ICalendricalArithmetic
 
 [<Sealed>]
+type Coptic13Tests() =
+    inherit CalendricalArithmeticFacts<Coptic13DataSet>(syschemaOf<Coptic13Schema>(), arOf)
+
+[<Sealed>]
+[<RedundantTestGroup>]
 type GregorianTests() =
     inherit CalendricalArithmeticFacts<GregorianDataSet>(schemaOf<GregorianSchema>(), arOf)
