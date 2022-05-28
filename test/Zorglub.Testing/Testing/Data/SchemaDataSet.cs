@@ -6,7 +6,7 @@ namespace Zorglub.Testing.Data;
 /// <summary>
 /// Defines test data for a schema and provides a base for derived classes.
 /// </summary>
-public abstract class SchemaDataSet : ICalendricalDataSet
+public abstract partial class SchemaDataSet : ICalendricalDataSet
 {
     // ICalendricalKernel, not ICalendricalSchema, to prevent us from using any
     // fancy method. We keep ICalendricalSchema in the ctor to ensure that we
@@ -118,4 +118,47 @@ public abstract class SchemaDataSet : ICalendricalDataSet
     }
 
     #endregion
+}
+
+public partial class SchemaDataSet // Math data
+{
+    // Samples for Yedoy should cover the two first months of a year.
+    private const int SampleSize = 70; // Even number for InitDefaultAddDaysOrdinalData()
+    private const int SampleYear = 3;
+
+    public virtual DataGroup<YedoyPairAnd<int>> AddDaysOrdinalData => new(AddDaysOrdinalSamples);
+
+    public virtual DataGroup<YedoyPair> ConsecutiveDaysOrdinalData => new(ConsecutiveDaysOrdinalSamples);
+
+    protected static IEnumerable<YedoyPairAnd<int>> AddDaysOrdinalSamples { get; } =
+        InitDefaultAddDaysOrdinalData();
+
+    protected static IEnumerable<YedoyPair> ConsecutiveDaysOrdinalSamples { get; } =
+        InitDefaultConsecutiveDaysOrdinalData();
+
+    private static IEnumerable<YedoyPairAnd<int>> InitDefaultAddDaysOrdinalData()
+    {
+        const int Middle = SampleSize / 2;
+
+        var data = new List<YedoyPairAnd<int>>();
+        for (int i = -Middle + 1; i <= Middle; i++)
+        {
+            var first = new Yedoy(SampleYear, Middle);
+            var second = new Yedoy(SampleYear, Middle + i);
+            data.Add(new YedoyPairAnd<int>(first, second, i));
+        }
+        return data;
+    }
+
+    private static IEnumerable<YedoyPair> InitDefaultConsecutiveDaysOrdinalData()
+    {
+        var data = new List<YedoyPair>();
+        for (int doy = 1; doy <= SampleSize; doy++)
+        {
+            var first = new Yedoy(SampleYear, doy);
+            var second = new Yedoy(SampleYear, doy + 1);
+            data.Add(new YedoyPair(first, second));
+        }
+        return data;
+    }
 }
