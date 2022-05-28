@@ -120,7 +120,7 @@ public sealed class StandardGregorianDataSet :
 /// Provides test data for the Tabular Islamic calendar with years within the range [1..9999].
 /// </summary>
 public sealed class StandardTabularIslamicDataSet :
-    StandardCalendarDataSet<UnboundedTabularIslamicDataSet>, ISingleton<StandardTabularIslamicDataSet>
+    StandardCalendarDataSet<UnboundedTabularIslamicDataSet>, IMathDataSet, ISingleton<StandardTabularIslamicDataSet>
 {
     private StandardTabularIslamicDataSet() : base(UnboundedTabularIslamicDataSet.Instance) { }
 
@@ -131,6 +131,12 @@ public sealed class StandardTabularIslamicDataSet :
         internal static readonly StandardTabularIslamicDataSet Instance = new();
         static Singleton() { }
     }
+
+    // IMathDataSet
+    public DataGroup<YemodaPairAnd<int>> AddDaysData => Unbounded.AddDaysData.WhereT(DataFilter.Filter);
+    public DataGroup<YemodaPair> ConsecutiveDaysData => Unbounded.ConsecutiveDaysData.WhereT(DataFilter.Filter);
+    public DataGroup<YedoyPairAnd<int>> AddDaysOrdinalData => Unbounded.AddDaysOrdinalData.WhereT(DataFilter.Filter);
+    public DataGroup<YedoyPair> ConsecutiveDaysOrdinalData => Unbounded.ConsecutiveDaysOrdinalData.WhereT(DataFilter.Filter);
 }
 
 /// <summary>

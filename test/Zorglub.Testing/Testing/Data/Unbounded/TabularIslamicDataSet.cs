@@ -11,7 +11,7 @@ using Zorglub.Time.Hemerology;
 /// Provides test data for the (unbounded) Tabular Islamic calendar.
 /// </summary>
 public sealed class UnboundedTabularIslamicDataSet :
-    UnboundedCalendarDataSet<TabularIslamicDataSet>, ISingleton<UnboundedTabularIslamicDataSet>
+    UnboundedCalendarDataSet<TabularIslamicDataSet>, IMathDataSet, ISingleton<UnboundedTabularIslamicDataSet>
 {
     private UnboundedTabularIslamicDataSet() : base(TabularIslamicDataSet.Instance, CalendarEpoch.TabularIslamic) { }
 
@@ -25,4 +25,10 @@ public sealed class UnboundedTabularIslamicDataSet :
 
     public override DataGroup<DayNumberInfo> DayNumberInfoData { get; } =
         DataGroup.CreateDayNumberInfoData(TabularIslamicDataSet.DaysSinceRataDieInfos);
+
+    // IMathDataSet
+    public DataGroup<YemodaPairAnd<int>> AddDaysData => SchemaDataSet.AddDaysData;
+    public DataGroup<YemodaPair> ConsecutiveDaysData => SchemaDataSet.ConsecutiveDaysData;
+    public DataGroup<YedoyPairAnd<int>> AddDaysOrdinalData => SchemaDataSet.AddDaysOrdinalData;
+    public DataGroup<YedoyPair> ConsecutiveDaysOrdinalData => SchemaDataSet.ConsecutiveDaysOrdinalData;
 }

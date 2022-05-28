@@ -51,7 +51,7 @@ module Coptic13Case =
 
     // CalendricalArithmetic
     [<Sealed>]
-    [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
+    [<RedundantTestGroup>]
     type CalendricalTests() =
         inherit CalendricalArithmeticFacts<Coptic13DataSet>(schemaOf<Coptic13Schema>(), plainOf)
 
@@ -97,19 +97,44 @@ module PositivistCase =
 
     // CalendricalArithmetic
     [<Sealed>]
-    [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
+    [<RedundantTestGroup>]
     type CalendricalTests() =
         inherit CalendricalArithmeticFacts<PositivistDataSet>(schemaOf<PositivistSchema>(), plainOf)
 
     // DefaultArithmetic
     [<Sealed>]
-    [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
+    [<RedundantTestGroup>]
     type DefaultTests() =
         inherit CalendricalArithmeticFacts<PositivistDataSet>(schemaOf<PositivistSchema>(), defaultOf)
 
     // DefaultFastArithmetic
     //[<Sealed>]
-    //[<TestExcludeFrom(TestExcludeFrom.Smoke)>]
+    //[<RedundantTestGroup>]
     //type DefaultFastTests() =
     //    inherit CalendricalArithmeticFacts<PositivistDataSet>(schemaOf<PositivistSchema>(), defaultFastOf)
 
+module TabularIslamicCase =
+    // LunarArithmetic
+    [<Sealed>]
+    type Coptic13Tests() =
+        inherit CalendricalArithmeticFacts<TabularIslamicDataSet>(syschemaOf<TabularIslamicSchema>())
+
+        member x.Arithmetic() = x.Arithmetic |> is<LunarArithmetic>
+
+    // CalendricalArithmetic
+    [<Sealed>]
+    [<RedundantTestGroup>]
+    type CalendricalTests() =
+        inherit CalendricalArithmeticFacts<TabularIslamicDataSet>(schemaOf<TabularIslamicSchema>(), plainOf)
+
+    // DefaultArithmetic
+    [<Sealed>]
+    [<RedundantTestGroup>]
+    type DefaultTests() =
+        inherit CalendricalArithmeticFacts<TabularIslamicDataSet>(schemaOf<TabularIslamicSchema>(), defaultOf)
+
+    // DefaultFastArithmetic
+    //[<Sealed>]
+    //[<RedundantTestGroup>]
+    //type DefaultFastTests() =
+    //    inherit CalendricalArithmeticFacts<TabularIslamicDataSet>(schemaOf<TabularIslamicSchema>(), defaultFastOf)
