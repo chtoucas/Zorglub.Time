@@ -18,13 +18,9 @@ open Zorglub.Time.Core.Schemas
 // Generic engines.
 let private plainOf x       = new CalendricalArithmetic(x) :> ICalendricalArithmetic
 let private defaultOf x     = new DefaultArithmetic(x)     :> ICalendricalArithmetic
-
-// Specialized engines.
 let private defaultFastOf x = new DefaultFastArithmetic(x) :> ICalendricalArithmetic
-//let private lunarOf x       = new LunarArithmetic(x)       :> ICalendricalArithmetic
-//let private lunisolarOf x   = new LunisolarArithmetic(x)   :> ICalendricalArithmetic
+// Specialized engines.
 let private solar12Of x     = new Solar12Arithmetic(x)     :> ICalendricalArithmetic
-//let private solar13Of x     = new Solar13Arithmetic(x)     :> ICalendricalArithmetic
 
 // Coptic12Tests           -> Solar12Arithmetic
 // Coptic13Tests           -> DefaultArithmetic
@@ -86,10 +82,10 @@ module GregorianCase =
         inherit CalendricalArithmeticFacts<GregorianDataSet>(schemaOf<GregorianSchema>(), defaultOf)
 
     // DefaultFastArithmetic
-    //[<Sealed>]
-    //[<TestExcludeFrom(TestExcludeFrom.Smoke)>]
-    //type DefaultFastTests() =
-    //    inherit CalendricalArithmeticFacts<GregorianDataSet>(schemaOf<GregorianSchema>(), defaultFastOf)
+    [<Sealed>]
+    [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
+    type DefaultFastTests() =
+        inherit CalendricalArithmeticFacts<GregorianDataSet>(schemaOf<GregorianSchema>(), defaultFastOf)
 
 module LunisolarCase =
     // LunisolarArithmetic
@@ -112,10 +108,10 @@ module LunisolarCase =
         inherit CalendricalArithmeticFacts<LunisolarDataSet>(schemaOf<LunisolarSchema>(), defaultOf)
 
     // DefaultFastArithmetic
-    //[<Sealed>]
-    //[<RedundantTestGroup>]
-    //type DefaultFastTests() =
-    //    inherit CalendricalArithmeticFacts<LunisolarDataSet>(schemaOf<LunisolarSchema>(), defaultFastOf)
+    [<Sealed>]
+    [<RedundantTestGroup>]
+    type DefaultFastTests() =
+        inherit CalendricalArithmeticFacts<LunisolarDataSet>(schemaOf<LunisolarSchema>(), defaultFastOf)
 
 module PositivistCase =
     // Solar13Arithmetic
@@ -138,10 +134,10 @@ module PositivistCase =
         inherit CalendricalArithmeticFacts<PositivistDataSet>(schemaOf<PositivistSchema>(), defaultOf)
 
     // DefaultFastArithmetic
-    //[<Sealed>]
-    //[<RedundantTestGroup>]
-    //type DefaultFastTests() =
-    //    inherit CalendricalArithmeticFacts<PositivistDataSet>(schemaOf<PositivistSchema>(), defaultFastOf)
+    [<Sealed>]
+    [<RedundantTestGroup>]
+    type DefaultFastTests() =
+        inherit CalendricalArithmeticFacts<PositivistDataSet>(schemaOf<PositivistSchema>(), defaultFastOf)
 
 module TabularIslamicCase =
     // LunarArithmetic
@@ -164,7 +160,7 @@ module TabularIslamicCase =
         inherit CalendricalArithmeticFacts<TabularIslamicDataSet>(schemaOf<TabularIslamicSchema>(), defaultOf)
 
     // DefaultFastArithmetic
-    //[<Sealed>]
-    //[<RedundantTestGroup>]
-    //type DefaultFastTests() =
-    //    inherit CalendricalArithmeticFacts<TabularIslamicDataSet>(schemaOf<TabularIslamicSchema>(), defaultFastOf)
+    [<Sealed>]
+    [<RedundantTestGroup>]
+    type DefaultFastTests() =
+        inherit CalendricalArithmeticFacts<TabularIslamicDataSet>(schemaOf<TabularIslamicSchema>(), defaultFastOf)

@@ -62,7 +62,7 @@ namespace Zorglub.Time.Core.Arithmetic
 
             if (-MaxDaysViaDayOfYear <= days && days <= MaxDaysViaDayOfYear)
             {
-                int doy = Schema.GetDayOfYear(y, m, d) + days;
+                int doy = Schema.GetDayOfYear(y, m, d);
                 var (newY, newDoy) = AddDaysViaDayOfYear(y, doy, days);
                 return Schema.GetDateParts(newY, newDoy);
             }
