@@ -26,6 +26,7 @@ public sealed class UnboundedCoptic12DataSet :
     public override DataGroup<DayNumberInfo> DayNumberInfoData { get; } =
         DataGroup.CreateDayNumberInfoData(Coptic12DataSet.DaysSinceRataDieInfos);
 
+    // IEpagomenalDataSet
     public DataGroup<YemodaAnd<int>> EpagomenalDayInfoData => SchemaDataSet.EpagomenalDayInfoData;
 }
 
@@ -33,7 +34,10 @@ public sealed class UnboundedCoptic12DataSet :
 /// Provides test data for the (unbounded) Coptic calendar (alternative form).
 /// </summary>
 public sealed class UnboundedCoptic13DataSet :
-    UnboundedCalendarDataSet<Coptic13DataSet>, IEpagomenalDataSet, ISingleton<UnboundedCoptic13DataSet>
+    UnboundedCalendarDataSet<Coptic13DataSet>,
+    IMathDataSet,
+    IEpagomenalDataSet,
+    ISingleton<UnboundedCoptic13DataSet>
 {
     private UnboundedCoptic13DataSet() : base(Coptic13DataSet.Instance, CalendarEpoch.Coptic) { }
 
@@ -48,5 +52,12 @@ public sealed class UnboundedCoptic13DataSet :
     public override DataGroup<DayNumberInfo> DayNumberInfoData { get; } =
         DataGroup.CreateDayNumberInfoData(Coptic13DataSet.DaysSinceRataDieInfos);
 
+    // IMathDataSet
+    public DataGroup<YemodaPairAnd<int>> AddDaysData => SchemaDataSet.AddDaysData;
+    public DataGroup<YemodaPair> ConsecutiveDaysData => SchemaDataSet.ConsecutiveDaysData;
+    public DataGroup<YedoyPairAnd<int>> AddDaysOrdinalData => SchemaDataSet.AddDaysOrdinalData;
+    public DataGroup<YedoyPair> ConsecutiveDaysOrdinalData => SchemaDataSet.ConsecutiveDaysOrdinalData;
+
+    // IEpagomenalDataSet
     public DataGroup<YemodaAnd<int>> EpagomenalDayInfoData => SchemaDataSet.EpagomenalDayInfoData;
 }
