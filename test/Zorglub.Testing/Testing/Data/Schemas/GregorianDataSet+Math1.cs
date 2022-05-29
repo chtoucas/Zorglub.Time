@@ -44,7 +44,7 @@ public partial class GregorianDataSet // Math data
         // February, common year.
         new(new(CommonYear, 2, 28), new(CommonYear - 1, 2, 28), -365),
         new(new(CommonYear, 2, 28), new(CommonYear + 1, 2, 28), 365),
-        //// February, leap year.
+        // February, leap year.
         new(new(LeapYear, 2, 28), new(LeapYear - 1, 2, 28), -365),
         new(new(LeapYear, 2, 28), new(LeapYear + 1, 2, 27), 365),
         new(new(LeapYear, 2, 29), new(LeapYear - 1, 3, 1), -365),
@@ -93,24 +93,37 @@ public partial class GregorianDataSet // Math data
     public override DataGroup<YedoyPairAnd<int>> AddDaysOrdinalData { get; } = new DataGroup<YedoyPairAnd<int>>()
     {
         //
+        // Branch AddDaysViaDayOfYear()
+        //
+        // |days| <= MinDaysInYear = 365
+
+        // February, common year.
+        new(new(CommonYear, 59), new(CommonYear - 1, 59), -365),
+        new(new(CommonYear, 59), new(CommonYear + 1, 59), 365),
+        // February, leap year.
+        new(new(LeapYear, 59), new(LeapYear - 1, 59), -365),
+        new(new(LeapYear, 59), new(LeapYear + 1, 58), 365),
+        new(new(LeapYear, 60), new(LeapYear - 1, 60), -365),
+        new(new(LeapYear, 60), new(LeapYear + 1, 59), 365),
+
+        //
         // Slowtrack
         //
         // |days| > MinDaysInYear = 365
         // We start with a day after february.
         // In fact we have two cases for which |days| = 365.
 
-        // FIXME(data): see ????
         new(new(3, 64), new(-2, 65), -5 * 365),
         new(new(3, 64), new(-1, 65), -4 * 365),
-        new(new(3, 64), new(0, 65), -3 * 365),  // Result is leap ????
+        new(new(3, 64), new(0, 65), -3 * 365),  // Result is leap -> next step loose one day
         new(new(3, 64), new(1, 64), -2 * 365),
         new(new(3, 64), new(2, 64), -365),
         //new(new(3, 64), new(3, 64), 0),
-        new(new(3, 64), new(4, 64), 365),       // Result is leap ????
+        new(new(3, 64), new(4, 64), 365),       // Result is leap -> next step loose one day
         new(new(3, 64), new(5, 63), 2 * 365),
         new(new(3, 64), new(6, 63), 3 * 365),
         new(new(3, 64), new(7, 63), 4 * 365),
-        new(new(3, 64), new(8, 63), 5 * 365),   // Result is leap ????
+        new(new(3, 64), new(8, 63), 5 * 365),   // Result is leap -> next step loose one day
         new(new(3, 64), new(9, 62), 6 * 365),
         new(new(3, 64), new(10, 62), 7 * 365),
     }.ConcatT(AddDaysOrdinalSamples);

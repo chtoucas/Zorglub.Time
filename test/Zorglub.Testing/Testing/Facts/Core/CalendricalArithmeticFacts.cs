@@ -5,7 +5,8 @@ namespace Zorglub.Testing.Facts.Core;
 
 using Zorglub.Testing.Data;
 
-public abstract partial class CalendricalArithmeticFacts<TDataSet> : ICalendricalArithmeticFacts<TDataSet>
+public abstract partial class CalendricalArithmeticFacts<TDataSet> :
+    ICalendricalArithmeticFacts<ICalendricalArithmetic, TDataSet>
     where TDataSet : ICalendricalDataSet, ISingleton<TDataSet>
 {
     protected CalendricalArithmeticFacts(ICalendricalSchema schema)
@@ -68,12 +69,20 @@ public partial class CalendricalArithmeticFacts<TDataSet> // Overflows
     }
 
     [Fact]
-    public void NextDay﹍Yemoda_Overflows_AtEndOfMaxYear() =>
-        Assert.Overflows(() => ArithmeticUT.NextDay(MaxYemoda));
+    public void AddDays﹍Yemoda_Overflows_AtStartOfMinYear() =>
+        Assert.Overflows(() => ArithmeticUT.AddDays(MinYemoda, -1));
+
+    [Fact]
+    public void AddDays﹍Yemoda_Overflows_AtEndOfMaxYear() =>
+        Assert.Overflows(() => ArithmeticUT.AddDays(MaxYemoda, 1));
 
     [Fact]
     public void PreviousDay﹍Yemoda_Overflows_AtStartOfMinYear() =>
         Assert.Overflows(() => ArithmeticUT.PreviousDay(MinYemoda));
+
+    [Fact]
+    public void NextDay﹍Yemoda_Overflows_AtEndOfMaxYear() =>
+        Assert.Overflows(() => ArithmeticUT.NextDay(MaxYemoda));
 
     [Fact]
     public void AddDays﹍Yedoy_Overflows()
@@ -87,10 +96,18 @@ public partial class CalendricalArithmeticFacts<TDataSet> // Overflows
     }
 
     [Fact]
-    public void NextDay﹍Yedoy_Overflows_AtEndOfMaxYear() =>
-        Assert.Overflows(() => ArithmeticUT.NextDay(MaxYedoy));
+    public void AddDays﹍Yedoy_Overflows_AtStartOfMinYear() =>
+        Assert.Overflows(() => ArithmeticUT.AddDays(MinYedoy, -1));
+
+    [Fact]
+    public void AddDays﹍Yedoy_Overflows_AtEndOfMaxYear() =>
+        Assert.Overflows(() => ArithmeticUT.AddDays(MaxYedoy, 1));
 
     [Fact]
     public void PreviousDay﹍Yedoy_Overflows_AtStartOfMinYear() =>
         Assert.Overflows(() => ArithmeticUT.PreviousDay(MinYedoy));
+
+    [Fact]
+    public void NextDay﹍Yedoy_Overflows_AtEndOfMaxYear() =>
+        Assert.Overflows(() => ArithmeticUT.NextDay(MaxYedoy));
 }

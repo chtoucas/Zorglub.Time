@@ -5,19 +5,20 @@ namespace Zorglub.Testing.Facts;
 
 using Zorglub.Testing.Data;
 
-public abstract partial class ICalendricalArithmeticFacts<TDataSet> :
+public abstract partial class ICalendricalArithmeticFacts<TArithmetic, TDataSet> :
     CalendricalDataConsumer<TDataSet>
+    where TArithmetic : ICalendricalArithmetic
     where TDataSet : ICalendricalDataSet, ISingleton<TDataSet>
 {
-    protected ICalendricalArithmeticFacts(ICalendricalArithmetic arithmetic)
+    protected ICalendricalArithmeticFacts(TArithmetic arithmetic)
     {
         ArithmeticUT = arithmetic ?? throw new ArgumentNullException(nameof(arithmetic));
     }
 
-    protected ICalendricalArithmetic ArithmeticUT { get; }
+    protected TArithmetic ArithmeticUT { get; }
 }
 
-public partial class ICalendricalArithmeticFacts<TDataSet> // Yemoda
+public partial class ICalendricalArithmeticFacts<TArithmetic, TDataSet> // Yemoda
 {
     [Theory, MemberData(nameof(AddDaysData))]
     public void AddDays﹍Yemoda(YemodaPairAnd<int> pair)
@@ -80,7 +81,7 @@ public partial class ICalendricalArithmeticFacts<TDataSet> // Yemoda
     }
 }
 
-public partial class ICalendricalArithmeticFacts<TDataSet> // Yedoy
+public partial class ICalendricalArithmeticFacts<TArithmetic, TDataSet> // Yedoy
 {
     [Theory, MemberData(nameof(AddDaysOrdinalData))]
     public void AddDays﹍Yedoy(YedoyPairAnd<int> pair)
