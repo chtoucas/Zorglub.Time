@@ -7,17 +7,29 @@ open Zorglub.Testing
 open Zorglub.Testing.Data.Schemas
 open Zorglub.Testing.Facts.Core
 
+open Zorglub.Time.Core
 open Zorglub.Time.Core.Arithmetic
 open Zorglub.Time.Core.Schemas
 
 // TODO(code): Hebrew (unfinished, no data), Pax (unfinished) and lunisolar (fake) schema.
 
-// Solar12Arithmetic
+// Solar12Arithmetic is not the default arithmetic for the Gregorian schema, but
+// we still use it because it's the schema has a the most data to offer.
+let private solar12Of x = new Solar12Arithmetic(x) :> ICalendricalArithmetic
 [<Sealed>]
-type Coptic12Tests() =
-    inherit CalendricalArithmeticFacts<Coptic12DataSet>(syschemaOf<Coptic12Schema>())
+type Solar12Tests() =
+    inherit CalendricalArithmeticFacts<GregorianDataSet>(syschemaOf<GregorianSchema>(), solar12Of)
 
     member x.Arithmetic() = x.Arithmetic |> is<Solar12Arithmetic>
+
+//
+// Normal test suite.
+//
+
+[<Sealed>]
+[<RedundantTestGroup>]
+type Coptic12Tests() =
+    inherit CalendricalArithmeticFacts<Coptic12DataSet>(syschemaOf<Coptic12Schema>())
 
 // DefaultArithmetic
 [<Sealed>]
