@@ -7,29 +7,59 @@ public partial class GregorianDataSet // Math data
 {
     public override DataGroup<YemodaPairAnd<int>> AddDaysData { get; } = new DataGroup<YemodaPairAnd<int>>()
     {
+        // Branch AddDaysViaDayOfMonth()
+        //
+        // |days| <= MinDaysInMonth = 28
+        // We only need to provide data when there is a change of month, the
+        // other case is already covered by AddDaysSamples.
+
+        // Change of year.
+        new(new(3, 1, 1), new(2, 12, 4), -28),
+        new(new(2, 12, 4), new(3, 1, 1), 28),
+        // Change of month.
+        new(new(3, 4, 5), new(3, 5, 3), 28),
+        new(new(3, 5, 3), new(3, 4, 5), -28),
+        // February, common year.
+        new(new(CommonYear, 2, 28), new(CommonYear, 3, 28), 28),
+        new(new(CommonYear, 3, 28), new(CommonYear, 2, 28), -28),
+        // February, leap year.
+        new(new(LeapYear, 2, 28), new(LeapYear, 3, 27), 28),
+        new(new(LeapYear, 3, 27), new(LeapYear, 2, 28), -28),
+        new(new(LeapYear, 2, 29), new(LeapYear, 3, 28), 28),
+        new(new(LeapYear, 3, 28), new(LeapYear, 2, 29), -28),
+
+        //
+        // Branch AddDaysViaDayOfYear()
+        //
+        // MinDaysInMonth = 28 < |days| <= MinDaysInYear = 365
+        // We use 32 to ensure that the operation skips one month.
+
         // Change of year.
         new(new(3, 11, 30), new(4, 1, 1), 32),
-        new(new(3, 2, 1), new(2, 12, 31), -32),
-
+        new(new(4, 1, 1), new(3, 11, 30), -32),
         // Change of month.
-        new(new(3, 4, 5), new(3, 5, 1), 26),
-        new(new(3, 4, 5), new(3, 3, 31), -5),
-        // February, common year.
-        new(new(3, 2, 28), new(3, 3, 1), 1),
-        new(new(3, 3, 1), new(3, 2, 28), -1),
-        // February, leap year.
-        new(new(4, 2, 28), new(4, 2, 29), 1),
-        new(new(4, 2, 28), new(4, 3, 1), 2),
-        new(new(4, 2, 29), new(4, 3, 1), 1),
-        new(new(4, 3, 1), new(4, 2, 29), -1),
+        new(new(3, 4, 1), new(3, 5, 3), 32),
+        new(new(3, 5, 3), new(3, 4, 1), -32),
 
-        // years < -365, no leap year in the middle.
-        new(new(3, 4, 5), new(2, 4, 5), -365),
+        //
+        // Slowtrack
+        //
+        // |days| > MinDaysInYear = 365
+        // In fact we have two cases for which |days| = 365.
+
+        new(new(3, 4, 5), new(-2, 4, 6), -5 * 365),
+        new(new(3, 4, 5), new(-1, 4, 6), -4 * 365),
+        new(new(3, 4, 5), new(0, 4, 5), -3 * 365),  // Result is leap
         new(new(3, 4, 5), new(1, 4, 5), -2 * 365),
-
-        // years > 365, one leap year in the middle.
-        new(new(3, 4, 5), new(4, 4, 4), 365),
+        new(new(3, 4, 5), new(2, 4, 5), -365),
+        //new(new(3, 4, 5), new(3, 4, 5), 0),
+        new(new(3, 4, 5), new(4, 4, 4), 365),       // Result is leap
         new(new(3, 4, 5), new(5, 4, 4), 2 * 365),
+        new(new(3, 4, 5), new(6, 4, 4), 3 * 365),
+        new(new(3, 4, 5), new(7, 4, 4), 4 * 365),
+        new(new(3, 4, 5), new(8, 4, 3), 5 * 365),   // Result is leap
+        new(new(3, 4, 5), new(9, 4, 3), 6 * 365),
+        new(new(3, 4, 5), new(10, 4, 3), 7 * 365),
     }.ConcatT(AddDaysSamples);
 
     public override DataGroup<YemodaPair> ConsecutiveDaysData { get; } = new DataGroup<YemodaPair>()
