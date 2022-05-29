@@ -45,6 +45,7 @@ public partial class GregorianDataSet // Math data
         // Slowtrack
         //
         // |days| > MinDaysInYear = 365
+        // We start with a day after february.
         // In fact we have two cases for which |days| = 365.
 
         new(new(3, 4, 5), new(-2, 4, 6), -5 * 365),
@@ -79,6 +80,31 @@ public partial class GregorianDataSet // Math data
         new(new(CommonYear, 11, 30), new(CommonYear, 12, 1)),
         new(new(CommonYear, 12, 31), new(CommonYear + 1, 1, 1)),
     }.ConcatT(ConsecutiveDaysSamples);
+
+    public override DataGroup<YedoyPairAnd<int>> AddDaysOrdinalData { get; } = new DataGroup<YedoyPairAnd<int>>()
+    {
+        //
+        // Slowtrack
+        //
+        // |days| > MinDaysInYear = 365
+        // We start with a day after february.
+        // In fact we have two cases for which |days| = 365.
+
+        // FIXME(data): see ????
+        new(new(3, 64), new(-2, 65), -5 * 365),
+        new(new(3, 64), new(-1, 65), -4 * 365),
+        new(new(3, 64), new(0, 65), -3 * 365),  // Result is leap ????
+        new(new(3, 64), new(1, 64), -2 * 365),
+        new(new(3, 64), new(2, 64), -365),
+        //new(new(3, 64), new(3, 64), 0),
+        new(new(3, 64), new(4, 64), 365),       // Result is leap ????
+        new(new(3, 64), new(5, 63), 2 * 365),
+        new(new(3, 64), new(6, 63), 3 * 365),
+        new(new(3, 64), new(7, 63), 4 * 365),
+        new(new(3, 64), new(8, 63), 5 * 365),   // Result is leap ????
+        new(new(3, 64), new(9, 62), 6 * 365),
+        new(new(3, 64), new(10, 62), 7 * 365),
+    }.ConcatT(AddDaysOrdinalSamples);
 
     public override DataGroup<YedoyPair> ConsecutiveDaysOrdinalData { get; } = new DataGroup<YedoyPair>()
     {
