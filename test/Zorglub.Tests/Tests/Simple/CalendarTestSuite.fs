@@ -12,7 +12,7 @@ open Zorglub.Time.Simple
 
 [<Sealed>]
 type ArmenianTests() =
-    inherit CalendarFacts<ArmenianCalendar, StandardArmenian12DataSet>(ArmenianCalendar.Instance)
+    inherit CalendarFacts<StandardArmenian12DataSet>(ArmenianCalendar.Instance)
 
     override __.GetSingleton() = ArmenianCalendar.Instance
     override x.Id() = x.CalendarUT.Id === Cuid.Armenian
@@ -22,7 +22,7 @@ type ArmenianTests() =
 [<Sealed>]
 [<RedundantTestGroup>]
 type CopticTests() =
-    inherit CalendarFacts<CopticCalendar, StandardCoptic12DataSet>(CopticCalendar.Instance)
+    inherit CalendarFacts<StandardCoptic12DataSet>(CopticCalendar.Instance)
 
     override __.GetSingleton() = CopticCalendar.Instance
     override x.Id() = x.CalendarUT.Id === Cuid.Coptic
@@ -32,7 +32,7 @@ type CopticTests() =
 [<Sealed>]
 [<RedundantTestGroup>]
 type EthiopicTests() =
-    inherit CalendarFacts<EthiopicCalendar, StandardEthiopic12DataSet>(EthiopicCalendar.Instance)
+    inherit CalendarFacts<StandardEthiopic12DataSet>(EthiopicCalendar.Instance)
 
     override __.GetSingleton() = EthiopicCalendar.Instance
     override x.Id() = x.CalendarUT.Id === Cuid.Ethiopic
@@ -42,7 +42,7 @@ type EthiopicTests() =
 [<Sealed>]
 [<RedundantTestGroup>]
 type GregorianTests() =
-    inherit CalendarFacts<GregorianCalendar, ProlepticGregorianDataSet>(GregorianCalendar.Instance)
+    inherit CalendarFacts<ProlepticGregorianDataSet>(GregorianCalendar.Instance)
 
     override __.GetSingleton() = GregorianCalendar.Instance
     override x.Id() = x.CalendarUT.Id === Cuid.Gregorian
@@ -52,7 +52,7 @@ type GregorianTests() =
 [<Sealed>]
 [<RedundantTestGroup>]
 type JulianTests() =
-    inherit CalendarFacts<JulianCalendar, ProlepticJulianDataSet>(JulianCalendar.Instance)
+    inherit CalendarFacts<ProlepticJulianDataSet>(JulianCalendar.Instance)
 
     override __.GetSingleton() = JulianCalendar.Instance
     override x.Id() = x.CalendarUT.Id === Cuid.Julian
@@ -62,7 +62,7 @@ type JulianTests() =
 [<Sealed>]
 [<RedundantTestGroup>]
 type TabularIslamicTests() =
-    inherit CalendarFacts<TabularIslamicCalendar, StandardTabularIslamicDataSet>(TabularIslamicCalendar.Instance)
+    inherit CalendarFacts<StandardTabularIslamicDataSet>(TabularIslamicCalendar.Instance)
 
     override __.GetSingleton() = TabularIslamicCalendar.Instance
     override x.Id() = x.CalendarUT.Id === Cuid.TabularIslamic
@@ -72,7 +72,7 @@ type TabularIslamicTests() =
 [<Sealed>]
 [<RedundantTestGroup>]
 type ZoroastrianTests() =
-    inherit CalendarFacts<ZoroastrianCalendar, StandardZoroastrian12DataSet>(ZoroastrianCalendar.Instance)
+    inherit CalendarFacts<StandardZoroastrian12DataSet>(ZoroastrianCalendar.Instance)
 
     override __.GetSingleton() = ZoroastrianCalendar.Instance
     override x.Id() = x.CalendarUT.Id === Cuid.Zoroastrian

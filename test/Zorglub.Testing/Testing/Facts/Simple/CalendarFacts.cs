@@ -11,21 +11,20 @@ using Zorglub.Time.Simple;
 /// <summary>
 /// Provides facts about <see cref="Calendar"/>.
 /// </summary>
-public abstract partial class CalendarFacts<TCalendar, TDataSet> :
-    ICalendarFacts<TCalendar, TDataSet>
-    where TCalendar : Calendar
+public abstract partial class CalendarFacts<TDataSet> :
+    ICalendarFacts<Calendar, TDataSet>
     where TDataSet : ICalendarDataSet, ISingleton<TDataSet>
 {
-    protected CalendarFacts(TCalendar calendar) : base(calendar) { }
+    protected CalendarFacts(Calendar calendar) : base(calendar) { }
 
-    protected abstract TCalendar GetSingleton();
+    protected abstract Calendar GetSingleton();
 
     [Fact] public abstract void Id();
     [Fact] public abstract void Math();
     [Fact] public abstract void Scope();
 }
 
-public partial class CalendarFacts<TCalendar, TDataSet> // Properties
+public partial class CalendarFacts<TDataSet> // Properties
 {
     [Fact]
     public void Singleton()
@@ -69,7 +68,7 @@ public partial class CalendarFacts<TCalendar, TDataSet> // Properties
     }
 }
 
-public partial class CalendarFacts<TCalendar, TDataSet> // Factories
+public partial class CalendarFacts<TDataSet> // Factories
 {
     #region GetCalendarYear()
 
@@ -181,7 +180,7 @@ public partial class CalendarFacts<TCalendar, TDataSet> // Factories
     #endregion
 }
 
-public partial class CalendarFacts<TCalendar, TDataSet> // Conversions
+public partial class CalendarFacts<TDataSet> // Conversions
 {
     #region GetCalendarYearOn()
 
@@ -258,7 +257,7 @@ public partial class CalendarFacts<TCalendar, TDataSet> // Conversions
     #endregion
 }
 
-public partial class CalendarFacts<TCalendar, TDataSet> // Internal helpers
+public partial class CalendarFacts<TDataSet> // Internal helpers
 {
     #region ValidateDayOfMonth()
 

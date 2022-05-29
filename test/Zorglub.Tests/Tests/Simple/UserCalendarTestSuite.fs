@@ -15,7 +15,7 @@ open Zorglub.Time.Simple
 
 [<Sealed>]
 type UserGregorianTests() =
-    inherit CalendarFacts<Calendar, StandardGregorianDataSet>(UserCalendars.Gregorian)
+    inherit CalendarFacts<StandardGregorianDataSet>(UserCalendars.Gregorian)
 
     override __.GetSingleton() = UserCalendars.Gregorian
     override x.Id() = x.CalendarUT.Id === UserCalendars.Gregorian.Id
@@ -25,7 +25,7 @@ type UserGregorianTests() =
 [<Sealed>]
 [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
 type UserJulianTests() =
-    inherit CalendarFacts<Calendar, ProlepticJulianDataSet>(UserCalendars.Julian)
+    inherit CalendarFacts<ProlepticJulianDataSet>(UserCalendars.Julian)
 
     override __.GetSingleton() = UserCalendars.Julian
     override x.Id() = x.CalendarUT.Id === UserCalendars.Julian.Id
