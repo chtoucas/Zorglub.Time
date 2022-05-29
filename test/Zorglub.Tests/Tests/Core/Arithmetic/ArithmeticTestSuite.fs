@@ -14,7 +14,7 @@ open Zorglub.Time.Core.Schemas
 
 // Solar12Arithmetic
 [<Sealed>]
-type Solar12Tests() =
+type Coptic12Tests() =
     inherit CalendricalArithmeticFacts<Coptic12DataSet>(syschemaOf<Coptic12Schema>())
 
     member x.Arithmetic() = x.Arithmetic |> is<Solar12Arithmetic>

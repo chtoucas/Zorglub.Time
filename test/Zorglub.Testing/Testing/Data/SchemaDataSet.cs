@@ -3,6 +3,11 @@
 
 namespace Zorglub.Testing.Data;
 
+// TODO(data): derived classes should at least override ConsecutiveDaysData and
+// ConsecutiveDaysOrdinalData.
+// DaysSinceEpochInfoData should include data before the epoch, then we should
+// review the facts classes to ensure that we use it to test negative years.
+
 /// <summary>
 /// Defines test data for a schema and provides a base for derived classes.
 /// </summary>
@@ -21,6 +26,11 @@ public abstract partial class SchemaDataSet : ICalendricalDataSet
         SampleLeapYear = leapYear;
     }
 
+    // Both years should be > 0. The reason is that we're going to filter the
+    // data to build the calendar datasets, and most of them will filter out
+    // negative years.
+    // To test negative values, we shall use DaysSinceEpochInfoData, so it's
+    // important to include data before the epoch.
     public int SampleCommonYear { get; }
     public int SampleLeapYear { get; }
 

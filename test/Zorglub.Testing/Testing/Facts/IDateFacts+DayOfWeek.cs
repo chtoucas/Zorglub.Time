@@ -6,8 +6,6 @@ namespace Zorglub.Testing.Facts;
 using Zorglub.Testing.Data;
 using Zorglub.Time.Hemerology;
 
-// TODO(fact): CivilDateTests. Idem with IDateMathFacts.
-
 /// <summary>
 /// Provides more facts about <see cref="IDate{TSelf}"/>.
 /// <para>See also <seealso cref="IDateFacts{TDate, TDataSet}"/>.</para>
