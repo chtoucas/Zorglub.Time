@@ -77,97 +77,62 @@ module Factories =
         FastArithmetic.Create(schemaOf<Tropicalia3130Schema>())     |> is<Solar12Arithmetic>
         FastArithmetic.Create(schemaOf<WorldSchema>())              |> is<Solar12Arithmetic>
 
-module DefaultCase =
-    let private sch = new GregorianSchema()
-    let private ar = new DefaultArithmetic(sch)
-    let private maxYear = sch.SupportedYears.Max
-    let private minYear = sch.SupportedYears.Min
-
-    [<Fact>]
-    let ``NextDay(Yemoda) throws at the end of MaxYear`` () =
-        let endOfMaxYear = sch.GetEndOfYearParts(maxYear)
-
-        (fun () -> ar.NextDay(endOfMaxYear)) |> overflows
-
-    [<Fact>]
-    let ``PreviousDay(Yemoda) throws at the start of MinYear`` () =
-        let startOfMinYear = sch.GetStartOfYearParts(minYear)
-
-        (fun () -> ar.PreviousDay(startOfMinYear)) |> overflows
-
-    [<Fact>]
-    let ``NextDay(Yedoy) throws at the end of MaxYear`` () =
-        let endOfMaxYear = sch.GetEndOfYearOrdinalParts(maxYear)
-
-        (fun () -> ar.NextDay(endOfMaxYear)) |> overflows
-
-    [<Fact>]
-    let ``PreviousDay(Yedoy) throws at the start of MinYear`` () =
-        let startOfMinYear = sch.GetStartOfYearOrdinalParts(minYear)
-
-        (fun () -> ar.PreviousDay(startOfMinYear)) |> overflows
-
 module GregorianCase =
-    let private sch = new GregorianSchema()
-    let private ar = new GregorianArithmetic(sch)
-    let private maxYear = sch.SupportedYears.Max
-    let private minYear = sch.SupportedYears.Min
+    let private sch = schemaOf<GregorianSchema>()
+    let private ari = new GregorianArithmetic(sch)
 
     [<Fact>]
-    let ``NextDay(Yemoda) throws at the end of MaxYear`` () =
-        let endOfMaxYear = sch.GetEndOfYearParts(maxYear)
-
-        (fun () -> ar.NextDay(endOfMaxYear)) |> overflows
+    let ``Property MaxDaysViaDayOfYear`` () =
+        ari.MaxDaysViaDayOfYear === CalendricalConstants.Solar.MinDaysInYear
 
     [<Fact>]
-    let ``PreviousDay(Yemoda) throws at the start of MinYear`` () =
-        let startOfMinYear = sch.GetStartOfYearParts(minYear)
+    let ``Property MaxDaysViaDayOfMonth`` () =
+        ari.MaxDaysViaDayOfMonth === CalendricalConstants.Solar.MinDaysInMonth
 
-        (fun () -> ar.PreviousDay(startOfMinYear)) |> overflows
-
-    [<Fact>]
-    let ``NextDay(Yedoy) throws at the end of MaxYear`` () =
-        let endOfMaxYear = sch.GetEndOfYearOrdinalParts(maxYear)
-
-        (fun () -> ar.NextDay(endOfMaxYear)) |> overflows
+module LunarCase =
+    let private sch = schemaOf<TabularIslamicSchema>()
+    let private ari = new LunarArithmetic(sch)
 
     [<Fact>]
-    let ``PreviousDay(Yedoy) throws at the start of MinYear`` () =
-        let startOfMinYear = sch.GetStartOfYearOrdinalParts(minYear)
-
-        (fun () -> ar.PreviousDay(startOfMinYear)) |> overflows
-
-module SolarCase =
-    let private sch = new GregorianSchema()
-    let private ar = new Solar12Arithmetic(sch)
-    let private maxYear = sch.SupportedYears.Max
-    let private minYear = sch.SupportedYears.Min
+    let ``Property MaxDaysViaDayOfYear`` () =
+        ari.MaxDaysViaDayOfYear === CalendricalConstants.Lunar.MinDaysInYear
 
     [<Fact>]
-    let ``PreviousDay(Yemoda) throws at the start of MinYear`` () =
-        let startOfMinYear = sch.GetStartOfYearParts(minYear)
+    let ``Property MaxDaysViaDayOfMonth`` () =
+        ari.MaxDaysViaDayOfMonth === CalendricalConstants.Lunar.MinDaysInMonth
 
-        (fun () -> ar.PreviousDay(startOfMinYear)) |> overflows
-
-    [<Fact>]
-    let ``NextDay(Yedoy) throws at the end of MaxYear`` () =
-        let endOfMaxYear = sch.GetEndOfYearOrdinalParts(maxYear)
-
-        (fun () -> ar.NextDay(endOfMaxYear)) |> overflows
+module LunisolarCase =
+    let private sch = schemaOf<LunisolarSchema>()
+    let private ari = new LunisolarArithmetic(sch)
 
     [<Fact>]
-    let ``PreviousDay(Yedoy) throws at the start of MinYear`` () =
-        let startOfMinYear = sch.GetStartOfYearOrdinalParts(minYear)
+    let ``Property MaxDaysViaDayOfYear`` () =
+        ari.MaxDaysViaDayOfYear === CalendricalConstants.Lunisolar.MinDaysInYear
 
-        (fun () -> ar.PreviousDay(startOfMinYear)) |> overflows
+    [<Fact>]
+    let ``Property MaxDaysViaDayOfMonth`` () =
+        ari.MaxDaysViaDayOfMonth === CalendricalConstants.Lunisolar.MinDaysInMonth
 
 module Solar12Case =
-    let private sch = new GregorianSchema()
-    let private ar = new Solar12Arithmetic(sch)
-    let private maxYear = sch.SupportedYears.Max
+    let private sch = schemaOf<GregorianSchema>()
+    let private ari = new Solar12Arithmetic(sch)
 
     [<Fact>]
-    let ``NextDay(Yemoda) throws at the end of MaxYear`` () =
-        let endOfMaxYear = sch.GetEndOfYearParts(maxYear)
+    let ``Property MaxDaysViaDayOfYear`` () =
+        ari.MaxDaysViaDayOfYear === CalendricalConstants.Solar.MinDaysInYear
 
-        (fun () -> ar.NextDay(endOfMaxYear)) |> overflows
+    [<Fact>]
+    let ``Property MaxDaysViaDayOfMonth`` () =
+        ari.MaxDaysViaDayOfMonth === CalendricalConstants.Solar.MinDaysInMonth
+
+module Solar13Case =
+    let private sch = schemaOf<PositivistSchema>()
+    let private ari = new Solar13Arithmetic(sch)
+
+    [<Fact>]
+    let ``Property MaxDaysViaDayOfYear`` () =
+        ari.MaxDaysViaDayOfYear === CalendricalConstants.Solar.MinDaysInYear
+
+    [<Fact>]
+    let ``Property MaxDaysViaDayOfMonth`` () =
+        ari.MaxDaysViaDayOfMonth === CalendricalConstants.Solar.MinDaysInMonth
