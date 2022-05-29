@@ -12,7 +12,8 @@ open Zorglub.Testing.Facts
 open Zorglub.Time.Core
 open Zorglub.Time.Core.Schemas
 
-// We use the Copic13 schema because it may overflow when calling
+// CalendricalPreValidator being quite simple, we do no test it with all types
+// of schemas. We use the Copic13 schema because it may overflow when calling
 // CountDaysInYear() or CountDaysInMonth(). Both rely on IsLeapYear() which
 // overflows at Int32.MaxYear.
 let private sch = schemaOf<Coptic13Schema>()
