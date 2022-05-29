@@ -3,7 +3,7 @@
 
 namespace Zorglub.Testing.Data;
 
-public interface ICalendricalDataSet : IMathDataSet
+public interface ICalendricalDataSet
 {
     /// <summary>Gets a sample common year.</summary>
     int SampleCommonYear { get; }
@@ -49,4 +49,14 @@ public interface ICalendricalDataSet : IMathDataSet
     TheoryData<int, int, int> InvalidDayFieldData { get; }
     /// <summary>Year, dayOfYear; ONLY the latter is invalid.</summary>
     TheoryData<int, int> InvalidDayOfYearFieldData { get; }
+
+    /// <summary>Date, expected result, days to be added.</summary>
+    DataGroup<YemodaPairAnd<int>> AddDaysData { get; }
+    /// <summary>Date, date after.</summary>
+    DataGroup<YemodaPair> ConsecutiveDaysData { get; }
+
+    /// <summary>Ordinal date, expected result, days to be added.</summary>
+    DataGroup<YedoyPairAnd<int>> AddDaysOrdinalData { get; }
+    /// <summary>Ordinal date, date after.</summary>
+    DataGroup<YedoyPair> ConsecutiveDaysOrdinalData { get; }
 }

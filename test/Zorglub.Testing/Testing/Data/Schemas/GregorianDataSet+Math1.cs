@@ -3,7 +3,7 @@
 
 namespace Zorglub.Testing.Data.Schemas;
 
-public partial class GregorianDataSet // IMathDataSet
+public partial class GregorianDataSet // Math data
 {
     public override DataGroup<YemodaPairAnd<int>> AddDaysData { get; } = new DataGroup<YemodaPairAnd<int>>()
     {

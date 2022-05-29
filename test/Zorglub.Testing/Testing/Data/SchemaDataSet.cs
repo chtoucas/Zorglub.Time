@@ -52,6 +52,11 @@ public abstract partial class SchemaDataSet : ICalendricalDataSet
     public abstract TheoryData<int, int, int> InvalidDayFieldData { get; }
     public abstract TheoryData<int, int> InvalidDayOfYearFieldData { get; }
 
+    public virtual DataGroup<YemodaPairAnd<int>> AddDaysData => new(AddDaysSamples);
+    public virtual DataGroup<YemodaPair> ConsecutiveDaysData => new(ConsecutiveDaysSamples);
+    public virtual DataGroup<YedoyPairAnd<int>> AddDaysOrdinalData => new(AddDaysOrdinalSamples);
+    public virtual DataGroup<YedoyPair> ConsecutiveDaysOrdinalData => new(ConsecutiveDaysOrdinalSamples);
+
     #region Helpers
     // We could have removed the parameter "source" from MapToStartOfYearParts()
     // and use the property EndOfYearPartsData instead, but this is not such a
@@ -120,19 +125,14 @@ public abstract partial class SchemaDataSet : ICalendricalDataSet
     #endregion
 }
 
-public partial class SchemaDataSet // IMathDataSet
+public partial class SchemaDataSet // Math samples
 {
-    public virtual DataGroup<YemodaPairAnd<int>> AddDaysData => new(AddDaysSamples);
-    public virtual DataGroup<YemodaPair> ConsecutiveDaysData => new(ConsecutiveDaysSamples);
-    public virtual DataGroup<YedoyPairAnd<int>> AddDaysOrdinalData => new(AddDaysOrdinalSamples);
-    public virtual DataGroup<YedoyPair> ConsecutiveDaysOrdinalData => new(ConsecutiveDaysOrdinalSamples);
+    protected static IEnumerable<YemodaPairAnd<int>> AddDaysSamples { get; } = InitAddDaysSamples();
+    protected static IEnumerable<YemodaPair> ConsecutiveDaysSamples { get; } = InitConsecutiveDaysSamples();
+    protected static IEnumerable<YedoyPairAnd<int>> AddDaysOrdinalSamples { get; } = InitAddDaysOrdinalSamples();
+    protected static IEnumerable<YedoyPair> ConsecutiveDaysOrdinalSamples { get; } = InitConsecutiveDaysOrdinalSamples();
 
-    protected static IEnumerable<YemodaPairAnd<int>> AddDaysSamples { get; } = InitDefaultAddDaysData();
-    protected static IEnumerable<YemodaPair> ConsecutiveDaysSamples { get; } = InitDefaultConsecutiveDaysData();
-    protected static IEnumerable<YedoyPairAnd<int>> AddDaysOrdinalSamples { get; } = InitDefaultAddDaysOrdinalData();
-    protected static IEnumerable<YedoyPair> ConsecutiveDaysOrdinalSamples { get; } = InitDefaultConsecutiveDaysOrdinalData();
-
-    private static IEnumerable<YemodaPairAnd<int>> InitDefaultAddDaysData()
+    private static List<YemodaPairAnd<int>> InitAddDaysSamples()
     {
         // Hypothesis: April is at least 28-days long.
         // new(new(3, 4, 14), new(3, 4, 1), -13)
@@ -157,7 +157,7 @@ public partial class SchemaDataSet // IMathDataSet
         return data;
     }
 
-    private static IEnumerable<YemodaPair> InitDefaultConsecutiveDaysData()
+    private static List<YemodaPair> InitConsecutiveDaysSamples()
     {
         // Hypothesis: April is at least 28-days long.
         // new(new(3, 4, 1), new(3, 4, 2))
@@ -179,7 +179,7 @@ public partial class SchemaDataSet // IMathDataSet
         return data;
     }
 
-    private static IEnumerable<YedoyPairAnd<int>> InitDefaultAddDaysOrdinalData()
+    private static List<YedoyPairAnd<int>> InitAddDaysOrdinalSamples()
     {
         // Samples should cover the two first months.
         // new(new(3, 35), new(3, 1), -34)
@@ -203,7 +203,7 @@ public partial class SchemaDataSet // IMathDataSet
         return data;
     }
 
-    private static IEnumerable<YedoyPair> InitDefaultConsecutiveDaysOrdinalData()
+    private static List<YedoyPair> InitConsecutiveDaysOrdinalSamples()
     {
         // Samples should cover the two first months.
         // new(new(3, 1), new(3, 2))

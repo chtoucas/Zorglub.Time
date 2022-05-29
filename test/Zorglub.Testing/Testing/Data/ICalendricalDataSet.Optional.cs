@@ -3,21 +3,6 @@
 
 namespace Zorglub.Testing.Data;
 
-public interface IMathDataSet
-{
-    /// <summary>Date, expected result, days to be added.</summary>
-    DataGroup<YemodaPairAnd<int>> AddDaysData { get; }
-
-    /// <summary>Date, date after.</summary>
-    DataGroup<YemodaPair> ConsecutiveDaysData { get; }
-
-    /// <summary>Ordinal date, expected result, days to be added.</summary>
-    DataGroup<YedoyPairAnd<int>> AddDaysOrdinalData { get; }
-
-    /// <summary>Ordinal date, date after.</summary>
-    DataGroup<YedoyPair> ConsecutiveDaysOrdinalData { get; }
-}
-
 public interface IAdvancedMathDataSet
 {
     /// <summary>

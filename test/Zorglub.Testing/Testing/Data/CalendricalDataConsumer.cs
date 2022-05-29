@@ -40,11 +40,10 @@ public abstract class CalendricalDataConsumer<TDataSet>
     public static TheoryData<int, int, int> InvalidDayFieldData => s_DataSet.InvalidDayFieldData;
     public static TheoryData<int, int> InvalidDayOfYearFieldData => s_DataSet.InvalidDayOfYearFieldData;
 
-    // TODO(code): XunitData
-    public static DataGroup<YemodaPairAnd<int>> AddDaysData => s_DataSet.AddDaysData;
-    public static DataGroup<YemodaPair> ConsecutiveDaysData => s_DataSet.ConsecutiveDaysData;
-    public static DataGroup<YedoyPairAnd<int>> AddDaysOrdinalData => s_DataSet.AddDaysOrdinalData;
-    public static DataGroup<YedoyPair> ConsecutiveDaysOrdinalData => s_DataSet.ConsecutiveDaysOrdinalData;
+    public static XunitData<YemodaPairAnd<int>> AddDaysData => s_Adapter.AddDaysData;
+    public static XunitData<YemodaPair> ConsecutiveDaysData => s_Adapter.ConsecutiveDaysData;
+    public static XunitData<YedoyPairAnd<int>> AddDaysOrdinalData => s_Adapter.AddDaysOrdinalData;
+    public static XunitData<YedoyPair> ConsecutiveDaysOrdinalData => s_Adapter.ConsecutiveDaysOrdinalData;
 
     private sealed class DataSetAdapter
     {
@@ -98,5 +97,21 @@ public abstract class CalendricalDataConsumer<TDataSet>
         private XunitData<YearDaysSinceEpoch>? _endOfYearDaysSinceEpochData;
         public XunitData<YearDaysSinceEpoch> EndOfYearDaysSinceEpochData =>
             _endOfYearDaysSinceEpochData ??= _dataSet.EndOfYearDaysSinceEpochData.ToXunitData();
+
+        private XunitData<YemodaPairAnd<int>>? _addDaysData;
+        public XunitData<YemodaPairAnd<int>> AddDaysData =>
+            _addDaysData ??= _dataSet.AddDaysData.ToXunitData();
+
+        private XunitData<YemodaPair>? _consecutiveDaysData;
+        public XunitData<YemodaPair> ConsecutiveDaysData =>
+            _consecutiveDaysData ??= _dataSet.ConsecutiveDaysData.ToXunitData();
+
+        private XunitData<YedoyPairAnd<int>>? _addDaysOrdinalData;
+        public XunitData<YedoyPairAnd<int>> AddDaysOrdinalData =>
+            _addDaysOrdinalData ??= _dataSet.AddDaysOrdinalData.ToXunitData();
+
+        private XunitData<YedoyPair>? _consecutiveDaysOrdinalData;
+        public XunitData<YedoyPair> ConsecutiveDaysOrdinalData =>
+            _consecutiveDaysOrdinalData ??= _dataSet.ConsecutiveDaysOrdinalData.ToXunitData();
     }
 }

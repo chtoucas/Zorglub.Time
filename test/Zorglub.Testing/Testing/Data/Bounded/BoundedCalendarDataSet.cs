@@ -69,7 +69,6 @@ public class BoundedCalendarDataSet<TDataSet> : ICalendarDataSet
     public TheoryData<int, int, int> InvalidDayFieldData => Unbounded.InvalidDayFieldData;
     public TheoryData<int, int> InvalidDayOfYearFieldData => Unbounded.InvalidDayOfYearFieldData;
 
-    // IMathDataSet
     public DataGroup<YemodaPairAnd<int>> AddDaysData => Unbounded.AddDaysData.WhereT(DataFilter.Filter);
     public DataGroup<YemodaPair> ConsecutiveDaysData => Unbounded.ConsecutiveDaysData.WhereT(DataFilter.Filter);
     public DataGroup<YedoyPairAnd<int>> AddDaysOrdinalData => Unbounded.AddDaysOrdinalData.WhereT(DataFilter.Filter);
