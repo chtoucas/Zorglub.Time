@@ -11,7 +11,9 @@ open Zorglub.Time.Core
 open Zorglub.Time.Core.Arithmetic
 open Zorglub.Time.Core.Schemas
 
-// TODO(code): Hebrew (unfinished, no data), Pax (unfinished) and lunisolar (fake) schema.
+open Xunit
+
+// TODO(code): Hebrew (unfinished, no data) and lunisolar (fake) schema.
 
 // Since the Gregorian schema has the most data to offer, we use it as a default
 // model for testing.
@@ -58,10 +60,10 @@ type JulianTests() =
 type LunisolarTests() =
     inherit CalendricalArithmeticFacts<LunisolarDataSet>(syschemaOf<LunisolarSchema>(), ariOf)
 
-//[<Sealed>]
-//[<RedundantTestGroup>]
-//type PaxTests() =
-//    inherit CalendricalArithmeticFacts<PaxDataSet>(syschemaOf<PaxSchema>(), ariOf)
+// Already tested in ArithmeticTestSuite.
+[<Fact>]
+let ``Default arithmetic for PaxSchema is DefaultFastArithmetic`` () =
+    schemaOf<PaxSchema>().Arithmetic |> is<DefaultFastArithmetic>
 
 [<Sealed>]
 [<RedundantTestGroup>]

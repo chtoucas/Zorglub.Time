@@ -11,6 +11,8 @@ open Zorglub.Time.Core
 open Zorglub.Time.Core.Arithmetic
 open Zorglub.Time.Core.Schemas
 
+open Xunit
+
 // TODO(code): Hebrew (unfinished, no data), Pax (unfinished) and lunisolar (fake) schema.
 
 // Since the Gregorian schema has the most data to offer, we use it as a default
@@ -23,30 +25,30 @@ let private ariOf x = new DefaultArithmetic(x) :> ICalendricalArithmetic
 type Coptic12Tests() =
     inherit CalendricalArithmeticFacts<Coptic12DataSet>(syschemaOf<Coptic12Schema>(), ariOf)
 
-[<Sealed>]
-[<RedundantTestGroup>]
-type Coptic13Tests() =
-    inherit CalendricalArithmeticFacts<Coptic13DataSet>(syschemaOf<Coptic13Schema>(), ariOf)
+// Already tested in ArithmeticTestSuite.
+[<Fact>]
+let ``Default arithmetic for Coptic13Schema is DefaultArithmetic`` () =
+    schemaOf<Coptic13Schema>().Arithmetic |> is<DefaultArithmetic>
 
 [<Sealed>]
 [<RedundantTestGroup>]
 type Egyptian12Tests() =
     inherit CalendricalArithmeticFacts<Egyptian12DataSet>(syschemaOf<Egyptian12Schema>(), ariOf)
 
-[<Sealed>]
-[<RedundantTestGroup>]
-type Egyptian13Tests() =
-    inherit CalendricalArithmeticFacts<Egyptian13DataSet>(syschemaOf<Egyptian13Schema>(), ariOf)
+// Already tested in ArithmeticTestSuite.
+[<Fact>]
+let ``Default arithmetic for Egyptian13Schema is DefaultArithmetic`` () =
+    schemaOf<Egyptian13Schema>().Arithmetic |> is<DefaultArithmetic>
 
 [<Sealed>]
 [<RedundantTestGroup>]
 type FrenchRepublican12Tests() =
     inherit CalendricalArithmeticFacts<FrenchRepublican12DataSet>(syschemaOf<FrenchRepublican12Schema>(), ariOf)
 
-[<Sealed>]
-[<RedundantTestGroup>]
-type FrenchRepublican13Tests() =
-    inherit CalendricalArithmeticFacts<FrenchRepublican13DataSet>(syschemaOf<FrenchRepublican13Schema>(), ariOf)
+// Already tested in ArithmeticTestSuite.
+[<Fact>]
+let ``Default arithmetic for FrenchRepublican13Schema is DefaultArithmetic`` () =
+    schemaOf<FrenchRepublican13Schema>().Arithmetic |> is<DefaultArithmetic>
 
 [<Sealed>]
 type GregorianTests() =
