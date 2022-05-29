@@ -57,12 +57,34 @@ public abstract partial class CalendricalArithmeticFacts<TDataSet> : ICalendrica
 public partial class CalendricalArithmeticFacts<TDataSet> // Overflows
 {
     [Fact]
+    public void AddDays﹍Yemoda_Overflows()
+    {
+        var epoch = new Yemoda(1, 1, 1);
+        // Act & Assert
+        Assert.Overflows(() => ArithmeticUT.AddDays(epoch, MinDaysSinceEpoch - 1));
+        _ = ArithmeticUT.AddDays(epoch, MinDaysSinceEpoch);
+        _ = ArithmeticUT.AddDays(epoch, MaxDaysSinceEpoch);
+        Assert.Overflows(() => ArithmeticUT.AddDays(epoch, MaxDaysSinceEpoch + 1));
+    }
+
+    [Fact]
     public void NextDay﹍Yemoda_Overflows_AtEndOfMaxYear() =>
         Assert.Overflows(() => ArithmeticUT.NextDay(MaxYemoda));
 
     [Fact]
     public void PreviousDay﹍Yemoda_Overflows_AtStartOfMinYear() =>
         Assert.Overflows(() => ArithmeticUT.PreviousDay(MinYemoda));
+
+    [Fact]
+    public void AddDays﹍Yedoy_Overflows()
+    {
+        var epoch = new Yedoy(1, 1);
+        // Act & Assert
+        Assert.Overflows(() => ArithmeticUT.AddDays(epoch, MinDaysSinceEpoch - 1));
+        _ = ArithmeticUT.AddDays(epoch, MinDaysSinceEpoch);
+        _ = ArithmeticUT.AddDays(epoch, MaxDaysSinceEpoch);
+        Assert.Overflows(() => ArithmeticUT.AddDays(epoch, MaxDaysSinceEpoch + 1));
+    }
 
     [Fact]
     public void NextDay﹍Yedoy_Overflows_AtEndOfMaxYear() =>

@@ -86,12 +86,12 @@ type LunisolarTests() =
     member x.Arithmetic() = x.Arithmetic |> is<LunisolarArithmetic>
 
 // DefaultFastArithmetic
-[<Sealed>]
-[<TestExcludeFrom(TestExcludeFrom.Smoke)>]
-type PaxTests() =
-    inherit CalendricalArithmeticFacts<PaxDataSet>(syschemaOf<PaxSchema>())
+//[<Sealed>]
+//[<TestExcludeFrom(TestExcludeFrom.Smoke)>]
+//type PaxTests() =
+//    inherit CalendricalArithmeticFacts<PaxDataSet>(syschemaOf<PaxSchema>())
 
-    member x.Arithmetic() = x.Arithmetic |> is<DefaultFastArithmetic>
+//    member x.Arithmetic() = x.Arithmetic |> is<DefaultFastArithmetic>
 
 [<Sealed>]
 [<RedundantTestGroup>]
