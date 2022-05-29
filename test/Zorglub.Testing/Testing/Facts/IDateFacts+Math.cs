@@ -13,7 +13,7 @@ using Zorglub.Time.Hemerology;
 public abstract partial class IDateMathFacts<TDate, TDataSet> :
     CalendarDataConsumer<TDataSet>
     where TDate : IDate<TDate>
-    where TDataSet : ICalendarDataSet, IMathDataSet, ISingleton<TDataSet>
+    where TDataSet : ICalendarDataSet, ISingleton<TDataSet>
 {
     protected IDateMathFacts() { }
 
@@ -24,9 +24,6 @@ public abstract partial class IDateMathFacts<TDate, TDataSet> :
         var (y, m, d) = ymd;
         return GetDate(y, m, d);
     }
-
-    public static DataGroup<YemodaPairAnd<int>> AddDaysData => DataSet.AddDaysData;
-    public static DataGroup<YemodaPair> ConsecutiveDaysData => DataSet.ConsecutiveDaysData;
 }
 
 public partial class IDateMathFacts<TDate, TDataSet> // Increment or decrement

@@ -3,7 +3,7 @@
 
 namespace Zorglub.Testing.Data;
 
-public interface ICalendricalDataSet
+public interface ICalendricalDataSet : IMathDataSet
 {
     /// <summary>Gets a sample common year.</summary>
     int SampleCommonYear { get; }

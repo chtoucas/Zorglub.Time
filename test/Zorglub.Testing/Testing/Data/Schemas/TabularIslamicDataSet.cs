@@ -8,7 +8,7 @@ using Zorglub.Time.Hemerology;
 /// <summary>
 /// Provides test data for <see cref="TabularIslamicSchema"/>.
 /// </summary>
-public sealed partial class TabularIslamicDataSet : SchemaDataSet, IMathDataSet, ISingleton<TabularIslamicDataSet>
+public sealed partial class TabularIslamicDataSet : SchemaDataSet, ISingleton<TabularIslamicDataSet>
 {
     public const int CommonYear = 1;
     public const int LeapYear = 2;

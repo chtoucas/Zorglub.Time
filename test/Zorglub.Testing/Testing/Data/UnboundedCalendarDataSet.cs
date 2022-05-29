@@ -86,6 +86,11 @@ public abstract class UnboundedCalendarDataSet : ICalendarDataSet
     public TheoryData<int, int, int> InvalidDayFieldData => _dataSet.InvalidDayFieldData;
     public TheoryData<int, int> InvalidDayOfYearFieldData => _dataSet.InvalidDayOfYearFieldData;
 
+    // IMathDataSet
+    public DataGroup<YemodaPairAnd<int>> AddDaysData => _dataSet.AddDaysData;
+    public DataGroup<YemodaPair> ConsecutiveDaysData => _dataSet.ConsecutiveDaysData;
+    public DataGroup<YedoyPairAnd<int>> AddDaysOrdinalData => _dataSet.AddDaysOrdinalData;
+    public DataGroup<YedoyPair> ConsecutiveDaysOrdinalData => _dataSet.ConsecutiveDaysOrdinalData;
     //
     // Helpers
     //

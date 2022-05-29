@@ -11,7 +11,7 @@ using Zorglub.Time.Hemerology;
 /// Provides test data for the (unbounded) faux Lunisolar calendar.
 /// </summary>
 public sealed class UnboundedLunisolarDataSet :
-    UnboundedCalendarDataSet<LunisolarDataSet>, IMathDataSet, ISingleton<UnboundedLunisolarDataSet>
+    UnboundedCalendarDataSet<LunisolarDataSet>, ISingleton<UnboundedLunisolarDataSet>
 {
     private UnboundedLunisolarDataSet() : base(LunisolarDataSet.Instance, CalendarEpoch.Positivist) { }
 
@@ -25,10 +25,4 @@ public sealed class UnboundedLunisolarDataSet :
 
     public override DataGroup<DayNumberInfo> DayNumberInfoData { get; } =
         DataGroup.CreateDayNumberInfoData(LunisolarDataSet.DaysSinceRataDieInfos);
-
-    // IMathDataSet
-    public DataGroup<YemodaPairAnd<int>> AddDaysData => SchemaDataSet.AddDaysData;
-    public DataGroup<YemodaPair> ConsecutiveDaysData => SchemaDataSet.ConsecutiveDaysData;
-    public DataGroup<YedoyPairAnd<int>> AddDaysOrdinalData => SchemaDataSet.AddDaysOrdinalData;
-    public DataGroup<YedoyPair> ConsecutiveDaysOrdinalData => SchemaDataSet.ConsecutiveDaysOrdinalData;
 }

@@ -11,7 +11,6 @@ using Zorglub.Testing.Data.Schemas;
 /// </summary>
 public sealed partial class UnboundedGregorianDataSet :
     UnboundedCalendarDataSet<GregorianDataSet>,
-    IMathDataSet,
     IAdvancedMathDataSet,
     IDayOfWeekDataSet,
     ISingleton<UnboundedGregorianDataSet>
@@ -28,12 +27,6 @@ public sealed partial class UnboundedGregorianDataSet :
 
     public override DataGroup<DayNumberInfo> DayNumberInfoData { get; } =
         DataGroup.CreateDayNumberInfoData(GregorianDataSet.DaysSinceRataDieInfos);
-
-    // IMathDataSet
-    public DataGroup<YemodaPairAnd<int>> AddDaysData => SchemaDataSet.AddDaysData;
-    public DataGroup<YemodaPair> ConsecutiveDaysData => SchemaDataSet.ConsecutiveDaysData;
-    public DataGroup<YedoyPairAnd<int>> AddDaysOrdinalData => SchemaDataSet.AddDaysOrdinalData;
-    public DataGroup<YedoyPair> ConsecutiveDaysOrdinalData => SchemaDataSet.ConsecutiveDaysOrdinalData;
 
     // IAdvancedMathDataSet
     public AddAdjustment AddAdjustment => SchemaDataSet.AddAdjustment;

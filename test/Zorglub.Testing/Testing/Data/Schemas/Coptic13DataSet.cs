@@ -10,7 +10,6 @@ using Zorglub.Time.Hemerology;
 /// </summary>
 public sealed partial class Coptic13DataSet :
     SchemaDataSet,
-    IMathDataSet,
     IEpagomenalDataSet,
     ISingleton<Coptic13DataSet>
 {

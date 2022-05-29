@@ -7,7 +7,7 @@ using Zorglub.Testing.Data;
 
 public abstract partial class ICalendricalArithmeticFacts<TDataSet> :
     CalendricalDataConsumer<TDataSet>
-    where TDataSet : ICalendricalDataSet, IMathDataSet, ISingleton<TDataSet>
+    where TDataSet : ICalendricalDataSet, ISingleton<TDataSet>
 {
     protected ICalendricalArithmeticFacts(ICalendricalArithmetic arithmetic)
     {
@@ -15,11 +15,6 @@ public abstract partial class ICalendricalArithmeticFacts<TDataSet> :
     }
 
     protected ICalendricalArithmetic ArithmeticUT { get; }
-
-    public static DataGroup<YemodaPairAnd<int>> AddDaysData => DataSet.AddDaysData;
-    public static DataGroup<YemodaPair> ConsecutiveDaysData => DataSet.ConsecutiveDaysData;
-    public static DataGroup<YedoyPairAnd<int>> AddDaysOrdinalData => DataSet.AddDaysOrdinalData;
-    public static DataGroup<YedoyPair> ConsecutiveDaysOrdinalData => DataSet.ConsecutiveDaysOrdinalData;
 }
 
 public partial class ICalendricalArithmeticFacts<TDataSet> // Yemoda

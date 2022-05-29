@@ -6,7 +6,7 @@ namespace Zorglub.Testing.Data;
 /// <summary>
 /// Defines test data for a schema and provides a base for derived classes.
 /// </summary>
-public abstract partial class SchemaDataSet : ICalendricalDataSet, IMathDataSet
+public abstract partial class SchemaDataSet : ICalendricalDataSet
 {
     // ICalendricalKernel, not ICalendricalSchema, to prevent us from using any
     // fancy method. We keep ICalendricalSchema in the ctor to ensure that we

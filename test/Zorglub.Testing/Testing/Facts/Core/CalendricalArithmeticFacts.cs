@@ -6,7 +6,7 @@ namespace Zorglub.Testing.Facts.Core;
 using Zorglub.Testing.Data;
 
 public abstract partial class CalendricalArithmeticFacts<TDataSet> : ICalendricalArithmeticFacts<TDataSet>
-    where TDataSet : ICalendricalDataSet, IMathDataSet, ISingleton<TDataSet>
+    where TDataSet : ICalendricalDataSet, ISingleton<TDataSet>
 {
     protected CalendricalArithmeticFacts(ICalendricalSchema schema)
         : this(schema, schema?.Arithmetic ?? throw new ArgumentNullException(nameof(schema))) { }

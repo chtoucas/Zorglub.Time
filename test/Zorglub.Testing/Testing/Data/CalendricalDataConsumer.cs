@@ -40,6 +40,12 @@ public abstract class CalendricalDataConsumer<TDataSet>
     public static TheoryData<int, int, int> InvalidDayFieldData => s_DataSet.InvalidDayFieldData;
     public static TheoryData<int, int> InvalidDayOfYearFieldData => s_DataSet.InvalidDayOfYearFieldData;
 
+    // TODO(code): XunitData
+    public static DataGroup<YemodaPairAnd<int>> AddDaysData => s_DataSet.AddDaysData;
+    public static DataGroup<YemodaPair> ConsecutiveDaysData => s_DataSet.ConsecutiveDaysData;
+    public static DataGroup<YedoyPairAnd<int>> AddDaysOrdinalData => s_DataSet.AddDaysOrdinalData;
+    public static DataGroup<YedoyPair> ConsecutiveDaysOrdinalData => s_DataSet.ConsecutiveDaysOrdinalData;
+
     private sealed class DataSetAdapter
     {
         private readonly TDataSet _dataSet;

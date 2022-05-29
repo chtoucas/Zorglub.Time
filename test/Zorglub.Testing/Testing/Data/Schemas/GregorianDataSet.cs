@@ -10,7 +10,6 @@ using Zorglub.Time.Hemerology;
 /// </summary>
 public sealed partial class GregorianDataSet :
     SchemaDataSet,
-    IMathDataSet,
     IAdvancedMathDataSet,
     ISingleton<GregorianDataSet>
 {

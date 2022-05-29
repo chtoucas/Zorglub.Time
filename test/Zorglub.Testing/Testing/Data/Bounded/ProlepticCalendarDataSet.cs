@@ -23,7 +23,6 @@ public class ProlepticCalendarDataSet<TDataSet> : MinMaxYearCalendarDataSet<TDat
 /// </summary>
 public sealed class ProlepticGregorianDataSet :
     ProlepticCalendarDataSet<UnboundedGregorianDataSet>,
-    IMathDataSet,
     IAdvancedMathDataSet,
     IDayOfWeekDataSet,
     ISingleton<ProlepticGregorianDataSet>
@@ -37,12 +36,6 @@ public sealed class ProlepticGregorianDataSet :
         internal static readonly ProlepticGregorianDataSet Instance = new();
         static Singleton() { }
     }
-
-    // IMathDataSet
-    public DataGroup<YemodaPairAnd<int>> AddDaysData => Unbounded.AddDaysData.WhereT(DataFilter.Filter);
-    public DataGroup<YemodaPair> ConsecutiveDaysData => Unbounded.ConsecutiveDaysData.WhereT(DataFilter.Filter);
-    public DataGroup<YedoyPairAnd<int>> AddDaysOrdinalData => Unbounded.AddDaysOrdinalData.WhereT(DataFilter.Filter);
-    public DataGroup<YedoyPair> ConsecutiveDaysOrdinalData => Unbounded.ConsecutiveDaysOrdinalData.WhereT(DataFilter.Filter);
 
     // IAdvancedMathDataSet
     public AddAdjustment AddAdjustment => Unbounded.AddAdjustment;
