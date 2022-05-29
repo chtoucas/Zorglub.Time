@@ -4,6 +4,8 @@
 module Zorglub.Tests.Core.Arithmetic.ArithmeticTests
 
 open Zorglub.Testing
+open Zorglub.Testing.Data
+open Zorglub.Testing.Data.Schemas
 
 open Zorglub.Time.Core
 open Zorglub.Time.Core.Arithmetic
@@ -76,6 +78,45 @@ module Factories =
         FastArithmetic.Create(schemaOf<Tropicalia3031Schema>())     |> is<Solar12Arithmetic>
         FastArithmetic.Create(schemaOf<Tropicalia3130Schema>())     |> is<Solar12Arithmetic>
         FastArithmetic.Create(schemaOf<WorldSchema>())              |> is<Solar12Arithmetic>
+
+// TODO(data): can we do better than that? I mean do it for all schemas.
+module DefaultFastCase =
+    // Type to avoid the error FS0405 because AddDaysViaDayOfMonth() is a
+    // protected internal method.
+    [<Sealed>]
+    type private ArithmeticWrapper(arithmetic: DefaultFastArithmetic) =
+        member __.Arithmetic = arithmetic
+        member x.AddDaysViaDayOfMonth(ymd, days) = x.Arithmetic.AddDaysViaDayOfMonth(ymd, days)
+
+    let private sch = schemaOf<GregorianSchema>()
+    let private ari = new DefaultFastArithmetic(sch)
+    let private wrapper = new ArithmeticWrapper(ari)
+
+    let dataSet = GregorianDataSet.Instance;
+    let addDaysCustomData = dataSet.AddDaysCustomData
+
+    [<Fact>]
+    let ``AddDaysViaDayOfMonth() overflows at the start of MinYear`` () =
+        let y = sch.SupportedYears.Min
+        let min = sch.GetStartOfYearParts(y)
+
+        (fun () -> wrapper.AddDaysViaDayOfMonth(min, -1)) |> overflows
+
+    [<Fact>]
+    let ``AddDaysViaDayOfMonth() overflows at the start of MaxYear`` () =
+        let y = sch.SupportedYears.Max
+        let max = sch.GetEndOfYearParts(y)
+
+        (fun () -> wrapper.AddDaysViaDayOfMonth(max, 1)) |> overflows
+
+    [<Theory; MemberData(nameof(addDaysCustomData))>]
+    let ``AddDaysViaDayOfMonth()`` (pair: YemodaPairAnd<int>) =
+        let days = pair.Value
+        let date = pair.First
+        let other = pair.Second
+
+        wrapper.AddDaysViaDayOfMonth(date, days)   === other
+        wrapper.AddDaysViaDayOfMonth(other, -days) === date
 
 module GregorianCase =
     let private sch = schemaOf<GregorianSchema>()

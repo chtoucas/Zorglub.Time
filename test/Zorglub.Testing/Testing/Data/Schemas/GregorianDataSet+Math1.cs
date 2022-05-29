@@ -5,6 +5,32 @@ namespace Zorglub.Testing.Data.Schemas;
 
 public partial class GregorianDataSet // Math data
 {
+    // Only to test DefaultFastArithmetic.AddDaysViaDayOfMonth().
+    // Adapted from AddDaysData.
+    public DataGroup<YemodaPairAnd<int>> AddDaysCustomData { get; } = new DataGroup<YemodaPairAnd<int>>()
+    {
+        // Branch AddDaysViaDayOfMonth()
+        //
+        // |days| <= MinDaysInMonth = 28
+        // We only need to provide data when there is a change of month, the
+        // other case is already covered by AddDaysSamples.
+
+        // Change of year.
+        new(new(3, 1, 1), new(2, 12, 4), -28),
+        new(new(2, 12, 4), new(3, 1, 1), 28),
+        // Change of month.
+        new(new(3, 4, 5), new(3, 5, 3), 28),
+        new(new(3, 5, 3), new(3, 4, 5), -28),
+        // February, common year.
+        new(new(CommonYear, 2, 28), new(CommonYear, 3, 28), 28),
+        new(new(CommonYear, 3, 28), new(CommonYear, 2, 28), -28),
+        // February, leap year.
+        new(new(LeapYear, 2, 28), new(LeapYear, 3, 27), 28),
+        new(new(LeapYear, 3, 27), new(LeapYear, 2, 28), -28),
+        new(new(LeapYear, 2, 29), new(LeapYear, 3, 28), 28),
+        new(new(LeapYear, 3, 28), new(LeapYear, 2, 29), -28),
+    }.ConcatT(AddDaysSamples);
+
     public override DataGroup<YemodaPairAnd<int>> AddDaysData { get; } = new DataGroup<YemodaPairAnd<int>>()
     {
         // Branch AddDaysViaDayOfMonth()
