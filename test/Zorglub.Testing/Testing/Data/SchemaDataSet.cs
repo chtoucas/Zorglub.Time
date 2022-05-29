@@ -6,7 +6,7 @@ namespace Zorglub.Testing.Data;
 /// <summary>
 /// Defines test data for a schema and provides a base for derived classes.
 /// </summary>
-public abstract partial class SchemaDataSet : ICalendricalDataSet
+public abstract partial class SchemaDataSet : ICalendricalDataSet, IMathDataSet
 {
     // ICalendricalKernel, not ICalendricalSchema, to prevent us from using any
     // fancy method. We keep ICalendricalSchema in the ctor to ensure that we
@@ -120,44 +120,107 @@ public abstract partial class SchemaDataSet : ICalendricalDataSet
     #endregion
 }
 
-public partial class SchemaDataSet // Math data
+public partial class SchemaDataSet // IMathDataSet
 {
-    // Samples for Yedoy should cover the two first months of a year.
-    private const int SampleSize = 70; // Even number for InitDefaultAddDaysOrdinalData()
-    private const int SampleYear = 3;
-
+    public virtual DataGroup<YemodaPairAnd<int>> AddDaysData => new(AddDaysSamples);
+    public virtual DataGroup<YemodaPair> ConsecutiveDaysData => new(ConsecutiveDaysSamples);
     public virtual DataGroup<YedoyPairAnd<int>> AddDaysOrdinalData => new(AddDaysOrdinalSamples);
-
     public virtual DataGroup<YedoyPair> ConsecutiveDaysOrdinalData => new(ConsecutiveDaysOrdinalSamples);
 
-    protected static IEnumerable<YedoyPairAnd<int>> AddDaysOrdinalSamples { get; } =
-        InitDefaultAddDaysOrdinalData();
+    protected static IEnumerable<YemodaPairAnd<int>> AddDaysSamples { get; } = InitDefaultAddDaysData();
+    protected static IEnumerable<YemodaPair> ConsecutiveDaysSamples { get; } = InitDefaultConsecutiveDaysData();
+    protected static IEnumerable<YedoyPairAnd<int>> AddDaysOrdinalSamples { get; } = InitDefaultAddDaysOrdinalData();
+    protected static IEnumerable<YedoyPair> ConsecutiveDaysOrdinalSamples { get; } = InitDefaultConsecutiveDaysOrdinalData();
 
-    protected static IEnumerable<YedoyPair> ConsecutiveDaysOrdinalSamples { get; } =
-        InitDefaultConsecutiveDaysOrdinalData();
+    private static IEnumerable<YemodaPairAnd<int>> InitDefaultAddDaysData()
+    {
+        // Hypothesis: April is at least 28-days long.
+        // new(new(3, 4, 14), new(3, 4, 1), -13)
+        // new(new(3, 4, 14), new(3, 4, 2), -12)
+        // ...
+        // new(new(3, 4, 14), new(3, 4, 27), 13)
+        // new(new(3, 4, 14), new(3, 4, 28), 14)
+        const int
+            SampleSize = 28,
+            Year = 3,
+            Month = 4,
+            Day = SampleSize / 2;
+
+        var start = new Yemoda(Year, Month, Day);
+
+        var data = new List<YemodaPairAnd<int>>();
+        for (int days = -Day + 1; days <= Day; days++)
+        {
+            var end = new Yemoda(Year, Month, Day + days);
+            data.Add(new YemodaPairAnd<int>(start, end, days));
+        }
+        return data;
+    }
+
+    private static IEnumerable<YemodaPair> InitDefaultConsecutiveDaysData()
+    {
+        // Hypothesis: April is at least 28-days long.
+        // new(new(3, 4, 1), new(3, 4, 2))
+        // new(new(3, 4, 2), new(3, 4, 3))
+        // ...
+        // new(new(3, 4, 27), new(3, 4, 28))
+        const int
+            SampleSize = 27,
+            Year = 3,
+            Month = 4;
+
+        var data = new List<YemodaPair>();
+        for (int d = 1; d <= SampleSize; d++)
+        {
+            var date = new Yemoda(Year, Month, d);
+            var dateAfter = new Yemoda(Year, Month, d + 1);
+            data.Add(new YemodaPair(date, dateAfter));
+        }
+        return data;
+    }
 
     private static IEnumerable<YedoyPairAnd<int>> InitDefaultAddDaysOrdinalData()
     {
-        const int Middle = SampleSize / 2;
+        // Samples should cover the two first months.
+        // new(new(3, 35), new(3, 1), -34)
+        // new(new(3, 35), new(3, 2), -33)
+        // ...
+        // new(new(3, 35), new(3, 69), 34)
+        // new(new(3, 35), new(3, 70), 35)
+        const int
+            SampleSize = 70,
+            Year = 3,
+            DayOfYear = SampleSize / 2;
+
+        var start = new Yedoy(Year, DayOfYear);
 
         var data = new List<YedoyPairAnd<int>>();
-        for (int i = -Middle + 1; i <= Middle; i++)
+        for (int days = -DayOfYear + 1; days <= DayOfYear; days++)
         {
-            var first = new Yedoy(SampleYear, Middle);
-            var second = new Yedoy(SampleYear, Middle + i);
-            data.Add(new YedoyPairAnd<int>(first, second, i));
+            var end = new Yedoy(Year, DayOfYear + days);
+            data.Add(new YedoyPairAnd<int>(start, end, days));
         }
         return data;
     }
 
     private static IEnumerable<YedoyPair> InitDefaultConsecutiveDaysOrdinalData()
     {
+        // Samples should cover the two first months.
+        // new(new(3, 1), new(3, 2))
+        // new(new(3, 2), new(3, 3))
+        // ...
+        // new(new(3, 69), new(3, 70))
+        // new(new(3, 70), new(3, 71))
+        const int
+            SampleSize = 70,
+            Year = 3;
+
         var data = new List<YedoyPair>();
         for (int doy = 1; doy <= SampleSize; doy++)
         {
-            var first = new Yedoy(SampleYear, doy);
-            var second = new Yedoy(SampleYear, doy + 1);
-            data.Add(new YedoyPair(first, second));
+            var date = new Yedoy(Year, doy);
+            var dateAfter = new Yedoy(Year, doy + 1);
+            data.Add(new YedoyPair(date, dateAfter));
         }
         return data;
     }
