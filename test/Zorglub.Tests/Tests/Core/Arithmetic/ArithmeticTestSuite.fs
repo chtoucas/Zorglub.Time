@@ -31,13 +31,10 @@ type Solar12Tests() =
 type Coptic12Tests() =
     inherit CalendricalArithmeticFacts<Coptic12DataSet>(syschemaOf<Coptic12Schema>())
 
-// DefaultArithmetic
 [<Sealed>]
-[<TestExcludeFrom(TestExcludeFrom.Smoke)>]
+[<RedundantTestGroup>]
 type Coptic13Tests() =
     inherit CalendricalArithmeticFacts<Coptic13DataSet>(syschemaOf<Coptic13Schema>())
-
-    member x.Arithmetic() = x.Arithmetic |> is<DefaultArithmetic>
 
 [<Sealed>]
 [<RedundantTestGroup>]
@@ -85,13 +82,10 @@ type LunisolarTests() =
 
     member x.Arithmetic() = x.Arithmetic |> is<LunisolarArithmetic>
 
-// DefaultFastArithmetic
 //[<Sealed>]
-//[<TestExcludeFrom(TestExcludeFrom.Smoke)>]
+//[<RedundantTestGroup>]
 //type PaxTests() =
 //    inherit CalendricalArithmeticFacts<PaxDataSet>(syschemaOf<PaxSchema>())
-
-//    member x.Arithmetic() = x.Arithmetic |> is<DefaultFastArithmetic>
 
 [<Sealed>]
 [<RedundantTestGroup>]
