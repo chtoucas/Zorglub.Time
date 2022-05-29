@@ -32,14 +32,23 @@ public partial class GregorianDataSet // Math data
         // Branch AddDaysViaDayOfYear()
         //
         // MinDaysInMonth = 28 < |days| <= MinDaysInYear = 365
-        // We use 32 to ensure that the operation skips one month.
 
+        // We use 32 to ensure that the operation skips one month.
         // Change of year.
         new(new(3, 11, 30), new(4, 1, 1), 32),
         new(new(4, 1, 1), new(3, 11, 30), -32),
         // Change of month.
         new(new(3, 4, 1), new(3, 5, 3), 32),
         new(new(3, 5, 3), new(3, 4, 1), -32),
+
+        // February, common year.
+        new(new(CommonYear, 2, 28), new(CommonYear - 1, 2, 28), -365),
+        new(new(CommonYear, 2, 28), new(CommonYear + 1, 2, 28), 365),
+        //// February, leap year.
+        new(new(LeapYear, 2, 28), new(LeapYear - 1, 2, 28), -365),
+        new(new(LeapYear, 2, 28), new(LeapYear + 1, 2, 27), 365),
+        new(new(LeapYear, 2, 29), new(LeapYear - 1, 3, 1), -365),
+        new(new(LeapYear, 2, 29), new(LeapYear + 1, 2, 28), 365),
 
         //
         // Slowtrack
