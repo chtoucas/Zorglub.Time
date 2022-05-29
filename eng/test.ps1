@@ -56,11 +56,11 @@ Typical test plan executions.
 
 Examples.
 > test.ps1 smoke                # ~20 thousand tests (FAST)
-> test.ps1 cover                # ~62 thousand tests
-> test.ps1 regular              # ~70 thousand tests
-> test.ps1 more                 # ~70 thousand tests
-> test.ps1 extra                # ~119 thousand tests (SLOW)
-> test.ps1 most                 # ~189 thousand tests (SLOW)
+> test.ps1 cover                # ~66 thousand tests
+> test.ps1 regular              # ~75 thousand tests
+> test.ps1 more                 # ~75 thousand tests
+> test.ps1 extra                # ~153 thousand tests (SLOW)
+> test.ps1 most                 # ~228 thousand tests (SLOW)
 
 "@
 }

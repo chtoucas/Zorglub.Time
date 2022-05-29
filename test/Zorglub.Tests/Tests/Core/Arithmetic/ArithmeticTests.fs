@@ -1,7 +1,7 @@
 ﻿// SPDX-License-Identifier: BSD-3-Clause
 // Copyright (c) 2020 Narvalo.Org. All rights reserved.
 
-module Zorglub.Tests.Core.Schemas.ArithmeticTests
+module Zorglub.Tests.Core.Arithmetic.ArithmeticTests
 
 open Zorglub.Testing
 

@@ -1,170 +1,123 @@
 ﻿// SPDX-License-Identifier: BSD-3-Clause
 // Copyright (c) 2020 Narvalo.Org. All rights reserved.
 
-module Zorglub.Tests.Core.Schemas.ArithmeticTestSuite
+module Zorglub.Tests.Core.Arithmetic.ArithmeticTestSuite
 
 open Zorglub.Testing
 open Zorglub.Testing.Data.Schemas
 open Zorglub.Testing.Facts.Core
 
-open Zorglub.Time.Core
 open Zorglub.Time.Core.Arithmetic
 open Zorglub.Time.Core.Schemas
 
-// Since the Gregorian schema has the most data to offer, we use it as a default
-// model for testing the generic engines. The other tests are marked as redundant
-// except when they test the default engine for a schema.
+// TODO(code): Hebrew (unfinished, no data), Pax (unfinished) and lunisolar (fake) schema.
 
-// Generic engines.
-let private plainOf x       = new CalendricalArithmetic(x) :> ICalendricalArithmetic
-let private defaultOf x     = new DefaultArithmetic(x)     :> ICalendricalArithmetic
-let private defaultFastOf x = new DefaultFastArithmetic(x) :> ICalendricalArithmetic
-// Specialized engines.
-let private solar12Of x     = new Solar12Arithmetic(x)     :> ICalendricalArithmetic
+// Solar12Arithmetic
+[<Sealed>]
+type Solar12Tests() =
+    inherit CalendricalArithmeticFacts<Coptic12DataSet>(syschemaOf<Coptic12Schema>())
 
-// Coptic12Tests           -> Solar12Arithmetic
-// Coptic13Tests           -> DefaultArithmetic
-// Egyptian12Tests         -> Solar12Arithmetic
-// Egyptian13Tests         -> DefaultArithmetic
-// FrenchRepublican12Tests -> Solar12Arithmetic
-// FrenchRepublican13Tests -> DefaultArithmetic
-// GregorianTests          -> GregorianArithmetic
-// InternationalFixedTests -> Solar13Arithmetic
-// JulianTests             -> Solar12Arithmetic
-// LunisolarTests          -> LunisolarArithmetic
-// PaxTests                -> DefaultFastArithmetic
-// Persian2820Tests        -> Solar12Arithmetic
-// PositivistTests         -> Solar13Arithmetic
-// TabularIslamicTests     -> LunarArithmetic
-// TropicaliaTests         -> Solar12Arithmetic
-// Tropicalia3031Tests     -> Solar12Arithmetic
-// Tropicalia3130Tests     -> Solar12Arithmetic
-// WorldTests              -> Solar12Arithmetic
+    member x.Arithmetic() = x.Arithmetic |> is<Solar12Arithmetic>
 
-module Coptic13Case =
-    // DefaultArithmetic
-    [<Sealed>]
-    [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
-    type Coptic13Tests() =
-        inherit CalendricalArithmeticFacts<Coptic13DataSet>(syschemaOf<Coptic13Schema>())
+// DefaultArithmetic
+[<Sealed>]
+[<TestExcludeFrom(TestExcludeFrom.Smoke)>]
+type Coptic13Tests() =
+    inherit CalendricalArithmeticFacts<Coptic13DataSet>(syschemaOf<Coptic13Schema>())
 
-        member x.Arithmetic() = x.Arithmetic |> is<DefaultArithmetic>
+    member x.Arithmetic() = x.Arithmetic |> is<DefaultArithmetic>
 
-    // CalendricalArithmetic
-    [<Sealed>]
-    [<RedundantTestGroup>]
-    type CalendricalTests() =
-        inherit CalendricalArithmeticFacts<Coptic13DataSet>(schemaOf<Coptic13Schema>(), plainOf)
+[<Sealed>]
+[<RedundantTestGroup>]
+type Egyptian12Tests() =
+    inherit CalendricalArithmeticFacts<Egyptian12DataSet>(syschemaOf<Egyptian12Schema>())
 
-module GregorianCase =
-    // GregorianArithmetic
-    [<Sealed>]
-    type GregorianTests() =
-        inherit CalendricalArithmeticFacts<GregorianDataSet>(schemaOf<GregorianSchema>())
+[<Sealed>]
+[<RedundantTestGroup>]
+type Egyptian13Tests() =
+    inherit CalendricalArithmeticFacts<Egyptian13DataSet>(syschemaOf<Egyptian13Schema>())
 
-        member x.Arithmetic() = x.Arithmetic |> is<GregorianArithmetic>
+[<Sealed>]
+[<RedundantTestGroup>]
+type FrenchRepublican12Tests() =
+    inherit CalendricalArithmeticFacts<FrenchRepublican12DataSet>(syschemaOf<FrenchRepublican12Schema>())
 
-    // Solar12Arithmetic
-    [<Sealed>]
-    [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
-    type Solar12Tests() =
-        inherit CalendricalArithmeticFacts<GregorianDataSet>(syschemaOf<GregorianSchema>(), solar12Of)
+[<Sealed>]
+[<RedundantTestGroup>]
+type FrenchRepublican13Tests() =
+    inherit CalendricalArithmeticFacts<FrenchRepublican13DataSet>(syschemaOf<FrenchRepublican13Schema>())
 
-    // CalendricalArithmetic
-    [<Sealed>]
-    [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
-    type CalendricalTests() =
-        inherit CalendricalArithmeticFacts<GregorianDataSet>(schemaOf<GregorianSchema>(), plainOf)
+// GregorianArithmetic
+[<Sealed>]
+[<TestExcludeFrom(TestExcludeFrom.Smoke)>]
+type GregorianTests() =
+    inherit CalendricalArithmeticFacts<GregorianDataSet>(schemaOf<GregorianSchema>())
 
-    // DefaultArithmetic
-    [<Sealed>]
-    [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
-    type DefaultTests() =
-        inherit CalendricalArithmeticFacts<GregorianDataSet>(schemaOf<GregorianSchema>(), defaultOf)
+    member x.Arithmetic() = x.Arithmetic |> is<GregorianArithmetic>
 
-    // DefaultFastArithmetic
-    [<Sealed>]
-    [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
-    type DefaultFastTests() =
-        inherit CalendricalArithmeticFacts<GregorianDataSet>(schemaOf<GregorianSchema>(), defaultFastOf)
+[<Sealed>]
+[<RedundantTestGroup>]
+type InternationalFixedTests() =
+    inherit CalendricalArithmeticFacts<InternationalFixedDataSet>(syschemaOf<InternationalFixedSchema>())
 
-module LunisolarCase =
-    // LunisolarArithmetic
-    [<Sealed>]
-    [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
-    type LunisolarTests() =
-        inherit CalendricalArithmeticFacts<LunisolarDataSet>(syschemaOf<LunisolarSchema>())
+[<Sealed>]
+[<RedundantTestGroup>]
+type JulianTests() =
+    inherit CalendricalArithmeticFacts<JulianDataSet>(syschemaOf<JulianSchema>())
 
-        member x.Arithmetic() = x.Arithmetic |> is<LunisolarArithmetic>
+// LunisolarArithmetic
+[<Sealed>]
+[<TestExcludeFrom(TestExcludeFrom.Smoke)>]
+type LunisolarTests() =
+    inherit CalendricalArithmeticFacts<LunisolarDataSet>(syschemaOf<LunisolarSchema>())
 
-    // CalendricalArithmetic
-    [<Sealed>]
-    [<RedundantTestGroup>]
-    type CalendricalTests() =
-        inherit CalendricalArithmeticFacts<LunisolarDataSet>(schemaOf<LunisolarSchema>(), plainOf)
+    member x.Arithmetic() = x.Arithmetic |> is<LunisolarArithmetic>
 
-    // DefaultArithmetic
-    [<Sealed>]
-    [<RedundantTestGroup>]
-    type DefaultTests() =
-        inherit CalendricalArithmeticFacts<LunisolarDataSet>(schemaOf<LunisolarSchema>(), defaultOf)
+// DefaultFastArithmetic
+[<Sealed>]
+[<TestExcludeFrom(TestExcludeFrom.Smoke)>]
+type PaxTests() =
+    inherit CalendricalArithmeticFacts<PaxDataSet>(syschemaOf<PaxSchema>())
 
-    // DefaultFastArithmetic
-    [<Sealed>]
-    [<RedundantTestGroup>]
-    type DefaultFastTests() =
-        inherit CalendricalArithmeticFacts<LunisolarDataSet>(schemaOf<LunisolarSchema>(), defaultFastOf)
+    member x.Arithmetic() = x.Arithmetic |> is<DefaultFastArithmetic>
 
-module PositivistCase =
-    // Solar13Arithmetic
-    [<Sealed>]
-    [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
-    type PositivistTests() =
-        inherit CalendricalArithmeticFacts<PositivistDataSet>(syschemaOf<PositivistSchema>())
+[<Sealed>]
+[<RedundantTestGroup>]
+type Persian2820Tests() =
+    inherit CalendricalArithmeticFacts<Persian2820DataSet>(syschemaOf<Persian2820Schema>())
 
-        member x.Arithmetic() = x.Arithmetic |> is<Solar13Arithmetic>
+// Solar13Arithmetic
+[<Sealed>]
+[<TestExcludeFrom(TestExcludeFrom.Smoke)>]
+type PositivistTests() =
+    inherit CalendricalArithmeticFacts<PositivistDataSet>(syschemaOf<PositivistSchema>())
 
-    // CalendricalArithmetic
-    [<Sealed>]
-    [<RedundantTestGroup>]
-    type CalendricalTests() =
-        inherit CalendricalArithmeticFacts<PositivistDataSet>(schemaOf<PositivistSchema>(), plainOf)
+    member x.Arithmetic() = x.Arithmetic |> is<Solar13Arithmetic>
 
-    // DefaultArithmetic
-    [<Sealed>]
-    [<RedundantTestGroup>]
-    type DefaultTests() =
-        inherit CalendricalArithmeticFacts<PositivistDataSet>(schemaOf<PositivistSchema>(), defaultOf)
+// LunarArithmetic
+[<Sealed>]
+[<TestExcludeFrom(TestExcludeFrom.Smoke)>]
+type TabularIslamicTests() =
+    inherit CalendricalArithmeticFacts<TabularIslamicDataSet>(syschemaOf<TabularIslamicSchema>())
 
-    // DefaultFastArithmetic
-    [<Sealed>]
-    [<RedundantTestGroup>]
-    type DefaultFastTests() =
-        inherit CalendricalArithmeticFacts<PositivistDataSet>(schemaOf<PositivistSchema>(), defaultFastOf)
+    member x.Arithmetic() = x.Arithmetic |> is<LunarArithmetic>
 
-module TabularIslamicCase =
-    // LunarArithmetic
-    [<Sealed>]
-    [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
-    type TabularIslamicTests() =
-        inherit CalendricalArithmeticFacts<TabularIslamicDataSet>(syschemaOf<TabularIslamicSchema>())
+[<Sealed>]
+[<RedundantTestGroup>]
+type TropicaliaTests() =
+    inherit CalendricalArithmeticFacts<TropicaliaDataSet>(syschemaOf<TropicaliaSchema>())
 
-        member x.Arithmetic() = x.Arithmetic |> is<LunarArithmetic>
+[<Sealed>]
+[<RedundantTestGroup>]
+type Tropicalia3031Tests() =
+    inherit CalendricalArithmeticFacts<Tropicalia3031DataSet>(syschemaOf<Tropicalia3031Schema>())
 
-    // CalendricalArithmetic
-    [<Sealed>]
-    [<RedundantTestGroup>]
-    type CalendricalTests() =
-        inherit CalendricalArithmeticFacts<TabularIslamicDataSet>(schemaOf<TabularIslamicSchema>(), plainOf)
+[<Sealed>]
+[<RedundantTestGroup>]
+type Tropicalia3130Tests() =
+    inherit CalendricalArithmeticFacts<Tropicalia3130DataSet>(syschemaOf<Tropicalia3130Schema>())
 
-    // DefaultArithmetic
-    [<Sealed>]
-    [<RedundantTestGroup>]
-    type DefaultTests() =
-        inherit CalendricalArithmeticFacts<TabularIslamicDataSet>(schemaOf<TabularIslamicSchema>(), defaultOf)
-
-    // DefaultFastArithmetic
-    [<Sealed>]
-    [<RedundantTestGroup>]
-    type DefaultFastTests() =
-        inherit CalendricalArithmeticFacts<TabularIslamicDataSet>(schemaOf<TabularIslamicSchema>(), defaultFastOf)
+[<Sealed>]
+[<RedundantTestGroup>]
+type WorldTests() =
+    inherit CalendricalArithmeticFacts<WorldDataSet>(syschemaOf<WorldSchema>())

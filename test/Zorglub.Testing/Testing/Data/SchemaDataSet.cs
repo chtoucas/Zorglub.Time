@@ -57,7 +57,14 @@ public abstract partial class SchemaDataSet : ICalendricalDataSet
     public virtual DataGroup<YedoyPairAnd<int>> AddDaysOrdinalData => new(AddDaysOrdinalSamples);
     public virtual DataGroup<YedoyPair> ConsecutiveDaysOrdinalData => new(ConsecutiveDaysOrdinalSamples);
 
-    #region Helpers
+    protected static IEnumerable<YemodaPairAnd<int>> AddDaysSamples { get; } = InitAddDaysSamples();
+    protected static IEnumerable<YemodaPair> ConsecutiveDaysSamples { get; } = InitConsecutiveDaysSamples();
+    protected static IEnumerable<YedoyPairAnd<int>> AddDaysOrdinalSamples { get; } = InitAddDaysOrdinalSamples();
+    protected static IEnumerable<YedoyPair> ConsecutiveDaysOrdinalSamples { get; } = InitConsecutiveDaysOrdinalSamples();
+}
+
+public partial class SchemaDataSet // Helpers
+{
     // We could have removed the parameter "source" from MapToStartOfYearParts()
     // and use the property EndOfYearPartsData instead, but this is not such a
     // good idea. Indeed, I prefer to make it clear that, for the method to
@@ -121,17 +128,10 @@ public abstract partial class SchemaDataSet : ICalendricalDataSet
             return new YemodaAnd<int>(y, m, d, daysInMonthAfter);
         }
     }
-
-    #endregion
 }
 
-public partial class SchemaDataSet // Math samples
+public partial class SchemaDataSet // Math helpers
 {
-    protected static IEnumerable<YemodaPairAnd<int>> AddDaysSamples { get; } = InitAddDaysSamples();
-    protected static IEnumerable<YemodaPair> ConsecutiveDaysSamples { get; } = InitConsecutiveDaysSamples();
-    protected static IEnumerable<YedoyPairAnd<int>> AddDaysOrdinalSamples { get; } = InitAddDaysOrdinalSamples();
-    protected static IEnumerable<YedoyPair> ConsecutiveDaysOrdinalSamples { get; } = InitConsecutiveDaysOrdinalSamples();
-
     private static List<YemodaPairAnd<int>> InitAddDaysSamples()
     {
         // Hypothesis: April is at least 28-days long.
