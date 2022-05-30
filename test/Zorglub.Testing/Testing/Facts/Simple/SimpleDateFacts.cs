@@ -8,9 +8,6 @@ using Zorglub.Time.Core.Intervals;
 using Zorglub.Time.Hemerology;
 using Zorglub.Time.Simple;
 
-// FIXME(fact): skip serialization if CalendarUT is not a system calendar; idem
-// with CalendarYear/Month.
-
 // NB: we know that all years within the range [1..9999] are valid.
 
 /// <summary>
@@ -29,11 +26,18 @@ public abstract partial class SimpleDateFacts<TDate, TDataSet> :
     {
         Debug.Assert(calendar != null);
         Requires.NotNull(otherCalendar);
-        // NB: calendars of type Calendar are singletons.
+        // NB: instances of type Calendar are singletons.
         if (ReferenceEquals(otherCalendar, calendar))
         {
             throw new ArgumentException(
                 "\"otherCalendar\" MUST NOT be equal to \"calendar\"", nameof(otherCalendar));
+        }
+        if (calendar.IsUserDefined)
+        {
+            // FIXME(fact): serialization if CalendarUT is not a system calendar;
+            // idem with CalendarYear/Month.
+            throw new ArgumentException(
+                "\"calendar\" MUST NOT be a user-defined calendar", nameof(calendar));
         }
 
         CalendarUT = calendar;

@@ -19,11 +19,16 @@ public abstract partial class CalendarYearFacts<TDataSet> :
     {
         Requires.NotNull(calendar);
         Requires.NotNull(otherCalendar);
-        // NB: calendars of type Calendar are singletons.
+        // NB: instances of type Calendar are singletons.
         if (ReferenceEquals(otherCalendar, calendar))
         {
             throw new ArgumentException(
                 "\"otherCalendar\" MUST NOT be equal to \"calendar\"", nameof(otherCalendar));
+        }
+        if (calendar.IsUserDefined)
+        {
+            throw new ArgumentException(
+                "\"calendar\" MUST NOT be a user-defined calendar", nameof(calendar));
         }
 
         CalendarUT = calendar;
