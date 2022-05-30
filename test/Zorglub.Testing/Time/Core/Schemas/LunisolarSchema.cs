@@ -7,6 +7,9 @@ using static Zorglub.Time.Core.CalendricalConstants;
 
 // NB: waiting for HebrewSchema.
 
+/// <summary>
+/// Represents a <b>fake</b> lunisolar schema.
+/// </summary>
 public sealed class LunisolarSchema :
     SystemSchema,
     IDaysInMonthDistribution,

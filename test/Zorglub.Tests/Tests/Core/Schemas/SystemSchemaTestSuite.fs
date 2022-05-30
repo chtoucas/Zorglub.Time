@@ -25,7 +25,7 @@ open Xunit
 // protected internal method.
 [<Sealed>]
 type private SchemaWrapper(schema: SystemSchema) =
-    member __.Schema = schema
+    member private __.Schema = schema
     member x.TryGetCustomArithmetic() = x.Schema.TryGetCustomArithmetic()
 
 let private verifyThatPreValidatorIs<'a> (sch: ICalendricalSchema) =

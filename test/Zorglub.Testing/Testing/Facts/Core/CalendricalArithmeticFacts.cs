@@ -5,7 +5,7 @@ namespace Zorglub.Testing.Facts.Core;
 
 using Zorglub.Testing.Data;
 
-// TODO(fact): generic param, use TArithmetic rather than a fixed ICalendricalArithmetic.
+// TODO(fact): generic param, use TArithmetic rather than an ICalendricalArithmetic.
 public abstract partial class CalendricalArithmeticFacts<TDataSet> :
     ICalendricalArithmeticFacts<ICalendricalArithmetic, TDataSet>
     where TDataSet : ICalendricalDataSet, ISingleton<TDataSet>
