@@ -195,8 +195,8 @@ namespace Zorglub.Time.Simple
         {
             var bin = new Yemox(data);
             bin.Unpack(out int y, out int m);
-            var id = (CalendarId)bin.Extra;
-            return CalendarCatalog.GetSystemCalendar(id).GetCalendarMonth(y, m);
+            var ident = (CalendarId)bin.Extra;
+            return CalendarCatalog.GetSystemCalendar(ident).GetCalendarMonth(y, m);
         }
 
         /// <summary>

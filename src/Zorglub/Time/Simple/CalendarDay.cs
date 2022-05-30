@@ -291,8 +291,8 @@ namespace Zorglub.Time.Simple
             unchecked
             {
                 int daysSinceEpoch = data >> DaysSinceEpochShift;
-                var id = (CalendarId)(data & CuidMask);
-                var chr = CalendarCatalog.GetSystemCalendar(id);
+                var ident = (CalendarId)(data & CuidMask);
+                var chr = CalendarCatalog.GetSystemCalendar(ident);
                 return chr.GetCalendarDay(chr.Epoch + daysSinceEpoch);
             }
         }

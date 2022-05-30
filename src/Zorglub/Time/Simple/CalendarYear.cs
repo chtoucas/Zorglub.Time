@@ -319,16 +319,16 @@ namespace Zorglub.Time.Simple
             // We still have to validate the input.
             var yo = new CalendarYear(data, true);
             int y = yo.Year;
-            var id = (CalendarId)yo.Cuid;
+            var ident = (CalendarId)yo.Cuid;
 #else
             unchecked
             {
                 int y = data >> YearShift;
-                var id = (CalendarId)(data & CuidMask);
+                var ident = (CalendarId)(data & CuidMask);
             }
 #endif
 
-            return CalendarCatalog.GetSystemCalendar(id).GetCalendarYear(y);
+            return CalendarCatalog.GetSystemCalendar(ident).GetCalendarYear(y);
         }
 
         /// <summary>

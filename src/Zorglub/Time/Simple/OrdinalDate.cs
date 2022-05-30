@@ -206,8 +206,8 @@ namespace Zorglub.Time.Simple
         {
             var bin = new Yedoyx(data);
             bin.Unpack(out int y, out int doy);
-            var id = (CalendarId)bin.Extra;
-            return CalendarCatalog.GetSystemCalendar(id).GetOrdinalDate(y, doy);
+            var ident = (CalendarId)bin.Extra;
+            return CalendarCatalog.GetSystemCalendar(ident).GetOrdinalDate(y, doy);
         }
 
         /// <summary>

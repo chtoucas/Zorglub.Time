@@ -213,6 +213,9 @@ namespace Zorglub.Time.Simple
         // qui retournerait null si le calendrier correspondant n'est pas déjà
         // chargé en mémoire.
 
+        // REVIEW(api): FromBinary() throws an arg exn for param "ident", not "data";
+        // idem with the other datatypes.
+
         /// <summary>
         /// Deserializes a 32-bit binary value and recreates an original serialized
         /// <see cref="CalendarDate"/> object.
@@ -224,8 +227,8 @@ namespace Zorglub.Time.Simple
         {
             var bin = new Yemodax(data);
             bin.Deconstruct(out int y, out int m, out int d);
-            var id = (CalendarId)bin.Extra;
-            return CalendarCatalog.GetSystemCalendar(id).GetCalendarDate(y, m, d);
+            var ident = (CalendarId)bin.Extra;
+            return CalendarCatalog.GetSystemCalendar(ident).GetCalendarDate(y, m, d);
         }
 
         /// <summary>
