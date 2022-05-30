@@ -19,3 +19,8 @@ type RegularMathTests() =
 [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
 type Regular12MathTests() =
     inherit CalendarMathFacts<Regular12Math, ProlepticGregorianDataSet>(new Regular12Math(GregorianCalendar.Instance))
+
+[<Sealed>]
+[<TestExcludeFrom(TestExcludeFrom.Smoke)>]
+type Regular13MathTests() =
+    inherit CalendarMathFacts<Regular13Math, StandardPositivistDataSet>(new Regular13Math(UserCalendars.Positivist))

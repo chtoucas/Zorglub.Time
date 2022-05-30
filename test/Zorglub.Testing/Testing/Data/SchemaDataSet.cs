@@ -65,13 +65,13 @@ public abstract partial class SchemaDataSet : ICalendricalDataSet
     // The Gregorian schema overrides all math-related props.
     // Other schemas overriding AddDaysData:
     // - Lunisolar
-    // - TabularIslamic
+    // - TabularIslamic (model for lunar schema)
     // Other schemas overriding ConsecutiveDaysData & ConsecutiveDaysOrdinalData:
     // - Coptic12/13
     // - Lunisolar
     // - Pax
-    // - Positivist
-    // - TabularIslamic
+    // - Positivist (model for regular13 schema)
+    // - TabularIslamic (model for lunar schema)
     public virtual DataGroup<YemodaPairAnd<int>> AddDaysData => new(AddDaysSamples);
     public virtual DataGroup<YemodaPair> ConsecutiveDaysData => new(ConsecutiveDaysSamples);
     public virtual DataGroup<YedoyPairAnd<int>> AddDaysOrdinalData => new(AddDaysOrdinalSamples);

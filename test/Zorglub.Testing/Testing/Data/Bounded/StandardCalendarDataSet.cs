@@ -103,6 +103,23 @@ public sealed class StandardGregorianDataSet :
 }
 
 /// <summary>
+/// Provides test data for the Positivist calendar with years within the range [1..9999].
+/// </summary>
+public sealed class StandardPositivistDataSet :
+    StandardCalendarDataSet<UnboundedPositivistDataSet>, ISingleton<StandardPositivistDataSet>
+{
+    private StandardPositivistDataSet() : base(UnboundedPositivistDataSet.Instance) { }
+
+    public static StandardPositivistDataSet Instance => Singleton.Instance;
+
+    private static class Singleton
+    {
+        internal static readonly StandardPositivistDataSet Instance = new();
+        static Singleton() { }
+    }
+}
+
+/// <summary>
 /// Provides test data for the Tabular Islamic calendar with years within the range [1..9999].
 /// </summary>
 public sealed class StandardTabularIslamicDataSet :
