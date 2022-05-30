@@ -3,6 +3,7 @@
 
 module Zorglub.Tests.Simple.CalendarMathTestSuite
 
+open Zorglub.Testing
 open Zorglub.Testing.Data.Bounded
 open Zorglub.Testing.Facts.Simple
 
@@ -15,5 +16,6 @@ type RegularMathTests() =
     inherit CalendarMathFacts<RegularMath, ProlepticGregorianDataSet>(new RegularMath(GregorianCalendar.Instance))
 
 [<Sealed>]
+[<TestExcludeFrom(TestExcludeFrom.Smoke)>]
 type Regular12MathTests() =
     inherit CalendarMathFacts<Regular12Math, ProlepticGregorianDataSet>(new Regular12Math(GregorianCalendar.Instance))
