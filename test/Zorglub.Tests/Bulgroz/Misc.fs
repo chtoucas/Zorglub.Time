@@ -53,7 +53,7 @@ module BitTwiddling =
         let diff = i - j
         j + (diff &&& (diff >>> 31))
 
-    let min_alt i j =
+    let ``min (alt)`` i j =
         (((i - j) >>> 31) &&& (i ^^^ j)) ^^^ j
 
     /// Returns the smaller of two 64-bit signed integers.
@@ -68,7 +68,7 @@ module BitTwiddling =
         let diff = i - j
         i - (diff &&& (diff >>> 31))
 
-    let max_alt i j =
+    let ``max (alt)`` i j =
         (((i - j) >>> 31) &&& (j ^^^ i)) ^^^ i
 
     /// Returns the larger of two 64-bit signed integers.

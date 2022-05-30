@@ -16,10 +16,10 @@ open Xunit
 
 [<Literal>]
 let private RandomFrom = 11
-let private MaxMul = Int64.MaxValue / TemporalConstants.TicksPerDay
+let private maxMul = Int64.MaxValue / TemporalConstants.TicksPerDay
 
 let private getFuzzyMul64ForTicksPerDay () =
-    let max = int <| Math.Min(int64(Int32.MaxValue), MaxMul)
+    let max = int <| Math.Min(int64(Int32.MaxValue), maxMul)
     int64 <| RandomNumberGenerator.GetInt32(RandomFrom, max)
 
 [<Sealed>]
