@@ -14,19 +14,14 @@ public partial class GregorianDataSet // Math data
         // other case is already covered by AddDaysSamples.
 
         // Change of year.
-        new(new(3, 1, 1), new(2, 12, 4), -28),
         new(new(2, 12, 4), new(3, 1, 1), 28),
         // Change of month.
         new(new(3, 4, 5), new(3, 5, 3), 28),
-        new(new(3, 5, 3), new(3, 4, 5), -28),
         // February, common year.
         new(new(CommonYear, 2, 28), new(CommonYear, 3, 28), 28),
-        new(new(CommonYear, 3, 28), new(CommonYear, 2, 28), -28),
         // February, leap year.
         new(new(LeapYear, 2, 28), new(LeapYear, 3, 27), 28),
-        new(new(LeapYear, 3, 27), new(LeapYear, 2, 28), -28),
         new(new(LeapYear, 2, 29), new(LeapYear, 3, 28), 28),
-        new(new(LeapYear, 3, 28), new(LeapYear, 2, 29), -28),
 
         //
         // Branch AddDaysViaDayOfYear()
@@ -36,10 +31,8 @@ public partial class GregorianDataSet // Math data
         // We use 32 to ensure that the operation skips one month.
         // Change of year.
         new(new(3, 11, 30), new(4, 1, 1), 32),
-        new(new(4, 1, 1), new(3, 11, 30), -32),
         // Change of month.
         new(new(3, 4, 1), new(3, 5, 3), 32),
-        new(new(3, 5, 3), new(3, 4, 1), -32),
 
         // February, common year.
         new(new(CommonYear, 2, 28), new(CommonYear - 1, 2, 28), -365),
@@ -143,75 +136,30 @@ public partial class GregorianDataSet // IAdvancedMathDataSet
 {
     public AddAdjustment AddAdjustment { get; } = AddAdjustment.EndOfMonth;
 
-    public DataGroup<YemodaPairAnd<int>> AddYearsData { get; } = new()
+    public override DataGroup<YemodaPairAnd<int>> AddYearsData { get; } = new DataGroup<YemodaPairAnd<int>>()
     {
-        new(new(3, 4, 5), new(9, 4, 5), 6),
-        new(new(3, 4, 5), new(8, 4, 5), 5),
-        new(new(3, 4, 5), new(7, 4, 5), 4),
-        new(new(3, 4, 5), new(6, 4, 5), 3),
-        new(new(3, 4, 5), new(5, 4, 5), 2),
-        new(new(3, 4, 5), new(4, 4, 5), 1),
-        new(new(3, 4, 5), new(3, 4, 5), 0),
-        new(new(3, 4, 5), new(2, 4, 5), -1),
-        new(new(3, 4, 5), new(1, 4, 5), -2),
-
         // End of february, common year -> common year.
         new(new(3, 2, 28), new(5, 2, 28), 2),
         new(new(3, 2, 28), new(1, 2, 28), -2),
-
         // End of february, common year -> leap year.
         new(new(3, 2, 28), new(4, 2, 28), 1),
         new(new(5, 2, 28), new(4, 2, 28), -1),
-
         // End of february, leap year -> leap year.
         new(new(4, 2, 29), new(8, 2, 29), 4),
         new(new(8, 2, 29), new(4, 2, 29), -4),
-
         // End of february, leap year -> common year.
-        // See samples with cutoff.
-    };
+        // Ambiguous, see GregorianMathDataSet...Adjustment.
+    }.ConcatT(AddYearsSamples);
 
-    public DataGroup<YemodaPairAnd<int>> AddMonthsData { get; } = new()
+    public override DataGroup<YemodaPairAnd<int>> AddMonthsData { get; } = new DataGroup<YemodaPairAnd<int>>()
     {
-        // Simple cases.
-        new(new(3, 4, 5), new(5, 1, 5), 21),
-        new(new(3, 4, 5), new(4, 12, 5), 20),
-        new(new(3, 4, 5), new(4, 11, 5), 19),
-        new(new(3, 4, 5), new(4, 10, 5), 18),
-        new(new(3, 4, 5), new(4, 9, 5), 17),
-        new(new(3, 4, 5), new(4, 8, 5), 16),
-        new(new(3, 4, 5), new(4, 7, 5), 15),
-        new(new(3, 4, 5), new(4, 6, 5), 14),
-        new(new(3, 4, 5), new(4, 5, 5), 13),
-        new(new(3, 4, 5), new(4, 4, 5), 12),
-        new(new(3, 4, 5), new(4, 3, 5), 11),
-        new(new(3, 4, 5), new(4, 2, 5), 10),
-        new(new(3, 4, 5), new(4, 1, 5), 9),
-        new(new(3, 4, 5), new(3, 12, 5), 8),
-        new(new(3, 4, 5), new(3, 11, 5), 7),
-        new(new(3, 4, 5), new(3, 10, 5), 6),
-        new(new(3, 4, 5), new(3, 9, 5), 5),
-        new(new(3, 4, 5), new(3, 8, 5), 4),
-        new(new(3, 4, 5), new(3, 7, 5), 3),
-        new(new(3, 4, 5), new(3, 6, 5), 2),
-        new(new(3, 4, 5), new(3, 5, 5), 1),
-        new(new(3, 4, 5), new(3, 4, 5), 0),
-        new(new(3, 4, 5), new(3, 3, 5), -1),
-        new(new(3, 4, 5), new(3, 2, 5), -2),
-        new(new(3, 4, 5), new(3, 1, 5), -3),
-        new(new(3, 4, 5), new(2, 12, 5), -4),
-        new(new(3, 4, 5), new(2, 11, 5), -5),
-        new(new(3, 4, 5), new(2, 10, 5), -6),
-        new(new(3, 4, 5), new(2, 9, 5), -7),
-        new(new(3, 4, 5), new(2, 8, 5), -8),
-        new(new(3, 4, 5), new(2, 7, 5), -9),
-        new(new(3, 4, 5), new(2, 6, 5), -10),
-        new(new(3, 4, 5), new(2, 5, 5), -11),
-        new(new(3, 4, 5), new(2, 4, 5), -12),
-        new(new(3, 4, 5), new(2, 3, 5), -13),
-        new(new(3, 4, 5), new(2, 2, 5), -14),
-        new(new(3, 4, 5), new(2, 1, 5), -15),
-        new(new(3, 4, 5), new(1, 12, 5), -16),
+        new(new(3, 6, 5), new(1, 12, 5), -18),
+        new(new(3, 6, 5), new(2, 1, 5), -17),
+        new(new(3, 6, 5), new(2, 12, 5), -6),
+        // For months = -5 to 6, data is already provided by AddMonthsSamples
+        new(new(3, 6, 5), new(4, 1, 5), 7),
+        new(new(3, 6, 5), new(4, 12, 5), 18),
+        new(new(3, 6, 5), new(5, 1, 5), 19),
 
         // 30 days long month -> 31 days long month.
         new(new(1, 4, 30), new(1, 7, 30), 3),
@@ -220,19 +168,11 @@ public partial class GregorianDataSet // IAdvancedMathDataSet
         // Target February (common year).
         new(new(1, 1, 27), new(1, 2, 27), 1),
         new(new(1, 1, 28), new(1, 2, 28), 1),
-        // Backward.
-        new(new(1, 3, 27), new(1, 2, 27), -1),
-        new(new(1, 3, 28), new(1, 2, 28), -1),
-
         // Target February (leap year).
         new(new(4, 1, 27), new(4, 2, 27), 1),
         new(new(4, 1, 28), new(4, 2, 28), 1),
         new(new(4, 1, 29), new(4, 2, 29), 1),
-        // Backward.
-        new(new(4, 3, 27), new(4, 2, 27), -1),
-        new(new(4, 3, 28), new(4, 2, 28), -1),
-        new(new(4, 3, 29), new(4, 2, 29), -1),
-    };
+    }.ConcatT(AddMonthsSamples);
 
     public DataGroup<DateDiff> DateDiffData { get; } = DataGroup.Create(DateDiffs);
 

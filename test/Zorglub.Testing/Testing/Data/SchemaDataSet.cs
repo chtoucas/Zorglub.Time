@@ -3,10 +3,8 @@
 
 namespace Zorglub.Testing.Data;
 
-// TODO(data): derived classes should at least override ConsecutiveDaysData and
-// ConsecutiveDaysOrdinalData.
-// DaysSinceEpochInfoData should include data before the epoch, then we should
-// review the facts classes to ensure that we use it to test negative years.
+// TODO(data): DaysSinceEpochInfoData should include data before the epoch, then
+// we should review the facts classes to ensure that we use it to test negative years.
 
 /// <summary>
 /// Defines test data for a schema and provides a base for derived classes.
@@ -62,15 +60,38 @@ public abstract partial class SchemaDataSet : ICalendricalDataSet
     public abstract TheoryData<int, int, int> InvalidDayFieldData { get; }
     public abstract TheoryData<int, int> InvalidDayOfYearFieldData { get; }
 
+    // TODO(data): derived classes should at least override ConsecutiveDaysData
+    // and ConsecutiveDaysOrdinalData.
+    // The Gregorian schema overrides all math-related props.
+    // Other schemas offering overriding AddDaysData:
+    // - Lunisolar
+    // - TabularIslamic
+    // Other schemas offering overriding ConsecutiveDaysData & ConsecutiveDaysOrdinalData:
+    // - Coptic12/13
+    // - Lunisolar
+    // - Pax
+    // - Positivist
+    // - TabularIslamic
     public virtual DataGroup<YemodaPairAnd<int>> AddDaysData => new(AddDaysSamples);
     public virtual DataGroup<YemodaPair> ConsecutiveDaysData => new(ConsecutiveDaysSamples);
     public virtual DataGroup<YedoyPairAnd<int>> AddDaysOrdinalData => new(AddDaysOrdinalSamples);
     public virtual DataGroup<YedoyPair> ConsecutiveDaysOrdinalData => new(ConsecutiveDaysOrdinalSamples);
 
+    public virtual DataGroup<YemodaPairAnd<int>> AddYearsData => new(AddYearsSamples);
+    public virtual DataGroup<YemodaPairAnd<int>> AddMonthsData => new(AddMonthsSamples);
+
+    /// <remarks>NB: First and Second belongs to the same month.</remarks>
     protected static IEnumerable<YemodaPairAnd<int>> AddDaysSamples { get; } = InitAddDaysSamples();
+    /// <remarks>NB: First and Second belongs to the same month.</remarks>
     protected static IEnumerable<YemodaPair> ConsecutiveDaysSamples { get; } = InitConsecutiveDaysSamples();
+    /// <remarks>NB: First and Second belongs to the same year.</remarks>
     protected static IEnumerable<YedoyPairAnd<int>> AddDaysOrdinalSamples { get; } = InitAddDaysOrdinalSamples();
+    /// <remarks>NB: First and Second belongs to the same year.</remarks>
     protected static IEnumerable<YedoyPair> ConsecutiveDaysOrdinalSamples { get; } = InitConsecutiveDaysOrdinalSamples();
+
+    protected static IEnumerable<YemodaPairAnd<int>> AddYearsSamples { get; } = InitAddYearsSamples();
+    /// <remarks>NB: First and Second belongs to the same year.</remarks>
+    protected static IEnumerable<YemodaPairAnd<int>> AddMonthsSamples { get; } = InitAddMonthsSamples();
 }
 
 public partial class SchemaDataSet // Helpers
@@ -231,6 +252,55 @@ public partial class SchemaDataSet // Math helpers
             var date = new Yedoy(Year, doy);
             var dateAfter = new Yedoy(Year, doy + 1);
             data.Add(new YedoyPair(date, dateAfter));
+        }
+        return data;
+    }
+
+    private static List<YemodaPairAnd<int>> InitAddYearsSamples()
+    {
+        // new(new(5, 4, 5), new(1, 4, 5), -4)
+        // new(new(5, 4, 5), new(2, 4, 5), -3)
+        // ...
+        // new(new(5, 4, 5), new(9, 4, 5), 4)
+        // new(new(5, 4, 5), new(10, 4, 5), 5)
+        const int
+            SampleSize = 10,
+            Year = SampleSize / 2,
+            Month = 4,
+            Day = 5;
+
+        var start = new Yemoda(Year, Month, Day);
+
+        var data = new List<YemodaPairAnd<int>>();
+        for (int years = -Year + 1; years <= Year; years++)
+        {
+            var end = new Yemoda(Year + years, Month, Day);
+            data.Add(new YemodaPairAnd<int>(start, end, years));
+        }
+        return data;
+    }
+
+    private static List<YemodaPairAnd<int>> InitAddMonthsSamples()
+    {
+        // Hypothesis: a year is at least 12-months long.
+        // new(new(3, 6, 5), new(5, 1, 5), -5)
+        // new(new(3, 6, 5), new(5, 2, 5), -4)
+        // ...
+        // new(new(3, 6, 5), new(5, 11, 5), 5)
+        // new(new(3, 6, 5), new(5, 12, 5), 6)
+        const int
+            SampleSize = 12,
+            Year = 3,
+            Month = SampleSize / 2,
+            Day = 5;
+
+        var start = new Yemoda(Year, Month, Day);
+
+        var data = new List<YemodaPairAnd<int>>();
+        for (int months = -Month + 1; months <= Month; months++)
+        {
+            var end = new Yemoda(Year, Month + months, Day);
+            data.Add(new YemodaPairAnd<int>(start, end, months));
         }
         return data;
     }

@@ -13,7 +13,6 @@ public interface IAdvancedMathDataSet
 
     /// <summary>Date, expected result, years to be added.</summary>
     DataGroup<YemodaPairAnd<int>> AddYearsData { get; }
-
     /// <summary>Date, expected result, months to be added.</summary>
     DataGroup<YemodaPairAnd<int>> AddMonthsData { get; }
 

@@ -38,7 +38,7 @@ public abstract class OrdinalDateMathFacts<TDataSet> :
         Assert.Equal(other, date.PlusYears(years));
     }
 
-    [Theory, MemberData(nameof(AddYearsData))]
+    [Theory(Skip = "This cannot work with AddYearsData"), MemberData(nameof(AddYearsData))]
     public void CountYearsSince(YemodaPairAnd<int> info)
     {
         int years = info.Value;

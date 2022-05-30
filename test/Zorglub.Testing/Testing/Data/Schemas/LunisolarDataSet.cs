@@ -290,7 +290,6 @@ public partial class LunisolarDataSet // Math data
 
         // Change of month.
         new(new(3, 4, 1), new(3, 5, 1), 29),
-        new(new(3, 5, 1), new(3, 4, 1), -29),
 
         // December, common year.
         new(new(CommonYear, 12, 29), new(CommonYear, 1, 1), -353),

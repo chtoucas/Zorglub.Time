@@ -40,7 +40,7 @@ public interface ICalendricalDataSet
 
     // NB: for the next three properties, don't use Yemoda, Yemo or Yedoy;
     // any integer value may be used.
-    // We use TheoryData, not DataGroup, ebcause we shouldn't have to filter
+    // We use TheoryData, not DataGroup, because we shouldn't have to filter
     // these properties.
 
     /// <summary>Year, month; ONLY the latter is invalid.</summary>
@@ -49,6 +49,9 @@ public interface ICalendricalDataSet
     TheoryData<int, int, int> InvalidDayFieldData { get; }
     /// <summary>Year, dayOfYear; ONLY the latter is invalid.</summary>
     TheoryData<int, int> InvalidDayOfYearFieldData { get; }
+
+    // NB: no need to add the reverse operations (e.g. -days), it's done
+    // automatically by the tests.
 
     /// <summary>Date, expected result, days to be added.</summary>
     DataGroup<YemodaPairAnd<int>> AddDaysData { get; }
