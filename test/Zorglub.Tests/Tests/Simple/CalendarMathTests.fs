@@ -8,6 +8,7 @@ open Zorglub.Testing.Data
 
 open Zorglub.Time
 open Zorglub.Time.Core
+open Zorglub.Time.Core.Schemas
 open Zorglub.Time.Simple
 
 open Xunit
@@ -23,6 +24,27 @@ module Prelude =
     [<Theory; MemberData(nameof(invalidAddAdjustmentData))>]
     let ``Constructor throws for invalid AddAdjustment`` (adjustment: AddAdjustment) =
         outOfRangeExn "adjustment" (fun () -> new FauxCalendarMath(adjustment))
+
+    [<Fact>]
+    let ``RegularMathBase constructor throws for non-regular schema`` () =
+        let sch = new FauxSystemSchema()
+        let chr = new FauxSystemCalendar(sch)
+
+        argExn "calendar" (fun () -> new RegularMath(chr))
+
+    [<Fact>]
+    let ``Regular12Math constructor throws for regular schema with wrong fixed number of months`` () =
+        let sch = FauxSystemSchema.Regular13
+        let chr = new FauxSystemCalendar(sch)
+
+        argExn "calendar" (fun () -> new Regular12Math(chr))
+
+    [<Fact>]
+    let ``Regular13Math constructor throws for regular schema with wrong fixed number of months`` () =
+        let sch = FauxSystemSchema.Regular12
+        let chr = new FauxSystemCalendar(sch)
+
+        argExn "calendar" (fun () -> new Regular13Math(chr))
 
     //
     // Properties

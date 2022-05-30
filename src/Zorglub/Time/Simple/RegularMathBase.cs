@@ -22,7 +22,7 @@ namespace Zorglub.Time.Simple
         {
             Debug.Assert(calendar != null);
 
-            if (Schema.IsRegular(out int monthsInYear) == false)
+            if (calendar.IsRegular(out int monthsInYear) == false)
             {
                 Throw.Argument(nameof(calendar));
             }
