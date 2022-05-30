@@ -79,7 +79,9 @@ module Factories =
         FastArithmetic.Create(schemaOf<Tropicalia3130Schema>())     |> is<Solar12Arithmetic>
         FastArithmetic.Create(schemaOf<WorldSchema>())              |> is<Solar12Arithmetic>
 
-// REVIEW(code): can we do better than that? I mean do it for all schemas.
+// REVIEW(code): can we do better than that? I mean do it for all schemas. Sure,
+// but is it useful? Here we have to test it separetely because DefaultFastArithmetic
+// does not use it internally.
 module DefaultFastCase =
     // Type to avoid the error FS0405 because AddDaysViaDayOfMonth() is a
     // protected internal method.

@@ -116,8 +116,8 @@ public partial class IAdjustableOrdinalFacts<TDate, TDataSet> // WithYear()
     }
 
     // NB: disabled because this cannot work in case the matching day in year 1
-    // is not valid. Nevertheless I keep it around just to remind me that I
-    // should not try to create it again.
+    // is not valid (leap vs common year). Nevertheless I keep it around just to
+    // remind me that I should not try to create it again.
     //[Theory, MemberData(nameof(DateInfoData))]
     //public void WithYear(DateInfo info)
     //{

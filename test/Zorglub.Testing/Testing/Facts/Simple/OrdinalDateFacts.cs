@@ -258,7 +258,7 @@ public partial class OrdinalDateFacts<TDataSet> // OrdinalDateProvider
     //
 
     [Theory, MemberData(nameof(MonthInfoData))]
-    public void OrdinalDateAdapter_GetStartOfMonth(MonthInfo info)
+    public void OrdinalDateProvider_GetStartOfMonth(MonthInfo info)
     {
         var (y, m) = info.Yemo;
         var month = CalendarUT.GetCalendarMonth(y, m);
@@ -268,7 +268,7 @@ public partial class OrdinalDateFacts<TDataSet> // OrdinalDateProvider
     }
 
     [Theory, MemberData(nameof(DateInfoData))]
-    public void OrdinalDateAdapter_GetDayOfMonth(DateInfo info)
+    public void OrdinalDateProvider_GetDayOfMonth(DateInfo info)
     {
         var (y, m, d, doy) = info;
         var month = CalendarUT.GetCalendarMonth(y, m);
@@ -278,7 +278,7 @@ public partial class OrdinalDateFacts<TDataSet> // OrdinalDateProvider
     }
 
     [Theory, MemberData(nameof(MonthInfoData))]
-    public void OrdinalDateAdapter_GetEndOfMonth(MonthInfo info)
+    public void OrdinalDateProvider_GetEndOfMonth(MonthInfo info)
     {
         var (y, m) = info.Yemo;
         var daysInMonth = info.DaysInMonth;

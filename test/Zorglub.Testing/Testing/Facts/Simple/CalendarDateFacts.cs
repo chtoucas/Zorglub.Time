@@ -284,7 +284,7 @@ public partial class CalendarDateFacts<TDataSet> // CalendarDateProvider
     //
 
     [Theory, MemberData(nameof(YearInfoData))]
-    public void CalendarDateAdapter_GetStartOfYear(YearInfo info)
+    public void CalendarDateProvider_GetStartOfYear(YearInfo info)
     {
         int y = info.Year;
         var year = CalendarUT.GetCalendarYear(y);
@@ -294,7 +294,7 @@ public partial class CalendarDateFacts<TDataSet> // CalendarDateProvider
     }
 
     [Theory, MemberData(nameof(DateInfoData))]
-    public void CalendarDateAdapter_GetDayOfYear(DateInfo info)
+    public void CalendarDateProvider_GetDayOfYear(DateInfo info)
     {
         var (y, m, d, doy) = info;
         var year = CalendarUT.GetCalendarYear(y);
@@ -304,7 +304,7 @@ public partial class CalendarDateFacts<TDataSet> // CalendarDateProvider
     }
 
     [Theory, MemberData(nameof(YearInfoData))]
-    public void CalendarDateAdapter_GetEndOfYear(YearInfo info)
+    public void CalendarDateProvider_GetEndOfYear(YearInfo info)
     {
         int y = info.Year;
         var year = CalendarUT.GetCalendarYear(y);
