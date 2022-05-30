@@ -198,6 +198,16 @@ public partial class CalendarDateFacts<TDataSet> // Math
         Assert.Equal(date, date.PlusMonths(0));
     }
 
+    [Theory, MemberData(nameof(AddMonthsData))]
+    public void PlusMonths(YemodaPairAnd<int> info)
+    {
+        int months = info.Value;
+        var date = GetDate(info.First);
+        var other = GetDate(info.Second);
+        // Act & Assert
+        Assert.Equal(other, date.PlusMonths(months));
+    }
+
     [Theory, MemberData(nameof(DateInfoData))]
     public void CountMonthsSince_WhenSame_IsZero(DateInfo info)
     {
@@ -205,6 +215,16 @@ public partial class CalendarDateFacts<TDataSet> // Math
         var date = CalendarUT.GetCalendarDate(y, m, d);
         // Act & Assert
         Assert.Equal(0, date.CountMonthsSince(date));
+    }
+
+    [Theory, MemberData(nameof(AddMonthsData))]
+    public void CountMonthsSince(YemodaPairAnd<int> info)
+    {
+        int months = info.Value;
+        var date = GetDate(info.First);
+        var other = GetDate(info.Second);
+        // Act & Assert
+        Assert.Equal(months, other.CountMonthsSince(date));
     }
 
     [Theory, MemberData(nameof(DateInfoData))]
@@ -216,6 +236,16 @@ public partial class CalendarDateFacts<TDataSet> // Math
         Assert.Equal(date, date.PlusYears(0));
     }
 
+    [Theory, MemberData(nameof(AddYearsData))]
+    public void PlusYears(YemodaPairAnd<int> info)
+    {
+        int years = info.Value;
+        var date = GetDate(info.First);
+        var other = GetDate(info.Second);
+        // Act & Assert
+        Assert.Equal(other, date.PlusYears(years));
+    }
+
     [Theory, MemberData(nameof(DateInfoData))]
     public void CountYearsSince_WhenSame_IsZero(DateInfo info)
     {
@@ -223,6 +253,16 @@ public partial class CalendarDateFacts<TDataSet> // Math
         var date = CalendarUT.GetCalendarDate(y, m, d);
         // Act & Assert
         Assert.Equal(0, date.CountYearsSince(date));
+    }
+
+    [Theory, MemberData(nameof(AddYearsData))]
+    public void CountYearsSince(YemodaPairAnd<int> info)
+    {
+        int years = info.Value;
+        var date = GetDate(info.First);
+        var other = GetDate(info.Second);
+        // Act & Assert
+        Assert.Equal(years, other.CountYearsSince(date));
     }
 }
 

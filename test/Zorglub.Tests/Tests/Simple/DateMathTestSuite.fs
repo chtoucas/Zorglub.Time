@@ -16,11 +16,6 @@ module CalendarDateCase =
 
         override __.GetDate(y, m, d) = GregorianCalendar.Instance.GetCalendarDate(y, m, d)
 
-    // Years and months math operations.
-    [<Sealed>]
-    type GregorianMoreTests() =
-        inherit CalendarDateMathFacts<ProlepticGregorianDataSet>(GregorianCalendar.Instance)
-
 module OrdinalDateCase =
     [<Sealed>]
     type GregorianTests() =
