@@ -136,13 +136,10 @@ public partial class GregorianDataSet // Math data
     {
         // End of february, common year -> common year.
         new(new(3, 2, 28), new(5, 2, 28), 2),
-        new(new(3, 2, 28), new(1, 2, 28), -2),
         // End of february, common year -> leap year.
         new(new(3, 2, 28), new(4, 2, 28), 1),
-        new(new(5, 2, 28), new(4, 2, 28), -1),
         // End of february, leap year -> leap year.
         new(new(4, 2, 29), new(8, 2, 29), 4),
-        new(new(8, 2, 29), new(4, 2, 29), -4),
         // End of february, leap year -> common year.
         // Ambiguous, see GregorianMathDataSet...Adjustment.
     }.ConcatT(AddYearsSamples);

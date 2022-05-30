@@ -10,7 +10,7 @@ using Zorglub.Time.Simple;
 // for the Gregorian calendar.
 
 /// <summary>
-/// Provides facts about <see cref="CalendarMath"/> and its non-standard mathematical operations.
+/// Provides facts about <see cref="CalendarMath"/>.
 /// </summary>
 public abstract partial class CalendarMathFacts<TMath, TDataSet> :
     CalendarDataConsumer<TDataSet>
@@ -62,7 +62,7 @@ public partial class CalendarMathFacts<TMath, TDataSet> // CalendarDate
     }
 
     [Theory, MemberData(nameof(AddYearsData))]
-    public void CountYearsSince﹍CalendarDate(YemodaPairAnd<int> info)
+    public void CountYearsBetween﹍CalendarDate(YemodaPairAnd<int> info)
     {
         int years = info.Value;
         var start = GetDate(info.First);
