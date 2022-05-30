@@ -24,9 +24,9 @@ namespace Zorglub.Time.Simple
         /// <exception cref="ArgumentNullException"><paramref name="calendar"/> is null.</exception>
         protected CalendarMath(Calendar calendar, AddAdjustment adjustment)
         {
-            Requires.NotNull(calendar);
             if (adjustment.IsInvalid()) Throw.ArgumentOutOfRange(nameof(adjustment));
 
+            Calendar = calendar ?? throw new ArgumentNullException(nameof(calendar));
             AddAdjustment = adjustment;
             Cuid = calendar.Id;
             Schema = calendar.Schema;
@@ -35,6 +35,11 @@ namespace Zorglub.Time.Simple
             SupportedYears = calendar.SupportedYears;
             YearOverflowChecker = calendar.YearOverflowChecker;
         }
+
+        /// <summary>
+        /// Gets the calendar.
+        /// </summary>
+        public Calendar Calendar { get; }
 
         /// <summary>
         /// Gets the strategy employed to resolve ambiguities that can occur after adding a number
