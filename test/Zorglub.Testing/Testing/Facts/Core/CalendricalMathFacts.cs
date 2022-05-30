@@ -6,13 +6,15 @@ namespace Zorglub.Testing.Facts.Core;
 using Zorglub.Testing.Data;
 using Zorglub.Time.Core.Arithmetic;
 
+// TODO(fact): math.
+
 /// <summary>
 /// Provides facts about <see cref="CalendricalMath"/>.
 /// </summary>
 public abstract partial class CalendricalMathFacts<TSchema, TDataSet> :
     CalendricalDataConsumer<TDataSet>
     where TSchema : SystemSchema
-    where TDataSet : ICalendricalDataSet, IAdvancedMathDataSet, ISingleton<TDataSet>
+    where TDataSet : ICalendricalDataSet, ISingleton<TDataSet>
 {
     protected CalendricalMathFacts(CalendricalMath math)
     {
@@ -23,9 +25,6 @@ public abstract partial class CalendricalMathFacts<TSchema, TDataSet> :
     /// Gets the math under test.
     /// </summary>
     private protected CalendricalMath MathUT { get; }
-
-    public static DataGroup<YemodaPairAnd<int>> AddYearsData => DataSet.AddYearsData;
-    public static DataGroup<YemodaPairAnd<int>> AddMonthsData => DataSet.AddMonthsData;
 }
 
 public partial class CalendricalMathFacts<TSchema, TDataSet>

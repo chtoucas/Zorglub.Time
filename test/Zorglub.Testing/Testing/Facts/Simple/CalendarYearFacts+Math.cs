@@ -6,12 +6,14 @@ namespace Zorglub.Testing.Facts.Simple;
 using Zorglub.Testing.Data;
 using Zorglub.Time.Simple;
 
+// TODO(fact): math.
+
 /// <summary>
 /// Provides math facts about <see cref="CalendarYear"/> and its mathematical operations.
 /// </summary>
 public abstract partial class CalendarYearMathFacts<TDataSet> :
     CalendarDataConsumer<TDataSet>
-    where TDataSet : ICalendarDataSet, IAdvancedMathDataSet, ISingleton<TDataSet>
+    where TDataSet : ICalendarDataSet, ISingleton<TDataSet>
 {
     protected CalendarYearMathFacts(Calendar calendar)
     {
@@ -22,8 +24,6 @@ public abstract partial class CalendarYearMathFacts<TDataSet> :
     /// Gets the calendar under test.
     /// </summary>
     protected Calendar CalendarUT { get; }
-
-    public static DataGroup<YemodaPairAnd<int>> AddYearsData => DataSet.AddYearsData;
 
     [Theory, MemberData(nameof(AddYearsData))]
     public void PlusYears(YemodaPairAnd<int> info)

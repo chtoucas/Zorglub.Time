@@ -8,10 +8,7 @@ using Zorglub.Time.Hemerology;
 /// <summary>
 /// Provides test data for <see cref="GregorianSchema"/>.
 /// </summary>
-public sealed partial class GregorianDataSet :
-    SchemaDataSet,
-    IAdvancedMathDataSet,
-    ISingleton<GregorianDataSet>
+public sealed partial class GregorianDataSet : SchemaDataSet, ISingleton<GregorianDataSet>
 {
     public const int CommonYear = 3;
     public const int LeapYear = 4;

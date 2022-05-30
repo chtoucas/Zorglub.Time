@@ -6,12 +6,14 @@ namespace Zorglub.Testing.Facts.Simple;
 using Zorglub.Testing.Data;
 using Zorglub.Time.Simple;
 
+// TODO(fact): math.
+
 /// <summary>
 /// Provides facts about <see cref="CalendarDate"/> and its non-standard mathematical operations.
 /// </summary>
 public abstract class OrdinalDateMathFacts<TDataSet> :
     CalendarDataConsumer<TDataSet>
-    where TDataSet : ICalendarDataSet, IAdvancedMathDataSet, ISingleton<TDataSet>
+    where TDataSet : ICalendarDataSet, ISingleton<TDataSet>
 {
     protected OrdinalDateMathFacts(Calendar calendar)
     {
@@ -25,8 +27,6 @@ public abstract class OrdinalDateMathFacts<TDataSet> :
         var (y, m, d) = ymd;
         return CalendarUT.GetCalendarDate(y, m, d).ToOrdinalDate();
     }
-
-    public static DataGroup<YemodaPairAnd<int>> AddYearsData => DataSet.AddYearsData;
 
     [Theory(Skip = "This cannot work with AddYearsData"), MemberData(nameof(AddYearsData))]
     public void PlusYears(YemodaPairAnd<int> info)

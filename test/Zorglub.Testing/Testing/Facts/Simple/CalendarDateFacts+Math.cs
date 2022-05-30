@@ -6,12 +6,14 @@ namespace Zorglub.Testing.Facts.Simple;
 using Zorglub.Testing.Data;
 using Zorglub.Time.Simple;
 
+// TODO(fact): math.
+
 /// <summary>
 /// Provides facts about <see cref="CalendarDate"/> and its non-standard mathematical operations.
 /// </summary>
 public abstract class CalendarDateMathFacts<TDataSet> :
     CalendarDataConsumer<TDataSet>
-    where TDataSet : ICalendarDataSet, IAdvancedMathDataSet, ISingleton<TDataSet>
+    where TDataSet : ICalendarDataSet, ISingleton<TDataSet>
 {
     protected CalendarDateMathFacts(Calendar calendar)
     {
@@ -25,9 +27,6 @@ public abstract class CalendarDateMathFacts<TDataSet> :
         var (y, m, d) = ymd;
         return CalendarUT.GetCalendarDate(y, m, d);
     }
-
-    public static DataGroup<YemodaPairAnd<int>> AddYearsData => DataSet.AddYearsData;
-    public static DataGroup<YemodaPairAnd<int>> AddMonthsData => DataSet.AddMonthsData;
 
     [Theory, MemberData(nameof(AddMonthsData))]
     public void PlusMonths(YemodaPairAnd<int> info)

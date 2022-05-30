@@ -62,4 +62,9 @@ public interface ICalendricalDataSet
     DataGroup<YedoyPairAnd<int>> AddDaysOrdinalData { get; }
     /// <summary>Ordinal date, date after.</summary>
     DataGroup<YedoyPair> ConsecutiveDaysOrdinalData { get; }
+
+    /// <summary>Date, expected result, years to be added.</summary>
+    DataGroup<YemodaPairAnd<int>> AddYearsData { get; }
+    /// <summary>Date, expected result, months to be added.</summary>
+    DataGroup<YemodaPairAnd<int>> AddMonthsData { get; }
 }

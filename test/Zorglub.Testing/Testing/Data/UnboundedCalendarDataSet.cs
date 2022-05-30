@@ -91,6 +91,9 @@ public abstract class UnboundedCalendarDataSet : ICalendarDataSet
     public DataGroup<YedoyPairAnd<int>> AddDaysOrdinalData => _dataSet.AddDaysOrdinalData;
     public DataGroup<YedoyPair> ConsecutiveDaysOrdinalData => _dataSet.ConsecutiveDaysOrdinalData;
 
+    public DataGroup<YemodaPairAnd<int>> AddYearsData => _dataSet.AddYearsData;
+    public DataGroup<YemodaPairAnd<int>> AddMonthsData => _dataSet.AddMonthsData;
+
     //
     // Helpers
     //

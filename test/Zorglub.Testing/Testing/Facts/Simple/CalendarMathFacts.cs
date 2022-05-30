@@ -6,9 +6,9 @@ namespace Zorglub.Testing.Facts.Simple;
 using Zorglub.Testing.Data;
 using Zorglub.Time.Simple;
 
-// TODO(fact): datediff? idem with CalendarDateMathFacts & co.
-// OrdinalDate, CalendarMonth. We need more test data and not just for the
-// Gregorian calendar.
+// TODO(fact): OrdinalDate, CalendarMonth. We need more test data and not just
+// for the Gregorian calendar.
+// TODO(fact): math.
 
 /// <summary>
 /// Provides facts about <see cref="CalendarMath"/> and its non-standard mathematical operations.
@@ -16,7 +16,7 @@ using Zorglub.Time.Simple;
 public abstract partial class CalendarMathFacts<TMath, TDataSet> :
     CalendarDataConsumer<TDataSet>
     where TMath : CalendarMath
-    where TDataSet : ICalendarDataSet, IAdvancedMathDataSet, ISingleton<TDataSet>
+    where TDataSet : ICalendarDataSet, ISingleton<TDataSet>
 {
     protected CalendarMathFacts(TMath math)
     {
@@ -38,9 +38,6 @@ public abstract partial class CalendarMathFacts<TMath, TDataSet> :
         var (y, m, _) = ymd;
         return Calendar.GetCalendarMonth(y, m);
     }
-
-    public static DataGroup<YemodaPairAnd<int>> AddYearsData => DataSet.AddYearsData;
-    public static DataGroup<YemodaPairAnd<int>> AddMonthsData => DataSet.AddMonthsData;
 }
 
 public partial class CalendarMathFacts<TMath, TDataSet> // CalendarDate

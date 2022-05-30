@@ -45,6 +45,9 @@ public abstract class CalendricalDataConsumer<TDataSet>
     public static XunitData<YedoyPairAnd<int>> AddDaysOrdinalData => s_Adapter.AddDaysOrdinalData;
     public static XunitData<YedoyPair> ConsecutiveDaysOrdinalData => s_Adapter.ConsecutiveDaysOrdinalData;
 
+    public static XunitData<YemodaPairAnd<int>> AddYearsData => s_Adapter.AddYearsData;
+    public static XunitData<YemodaPairAnd<int>> AddMonthsData => s_Adapter.AddMonthsData;
+
     private sealed class DataSetAdapter
     {
         private readonly TDataSet _dataSet;
@@ -113,5 +116,13 @@ public abstract class CalendricalDataConsumer<TDataSet>
         private XunitData<YedoyPair>? _consecutiveDaysOrdinalData;
         public XunitData<YedoyPair> ConsecutiveDaysOrdinalData =>
             _consecutiveDaysOrdinalData ??= _dataSet.ConsecutiveDaysOrdinalData.ToXunitData();
+
+        private XunitData<YemodaPairAnd<int>>? _addYearsData;
+        public XunitData<YemodaPairAnd<int>> AddYearsData =>
+            _addYearsData ??= _dataSet.AddYearsData.ToXunitData();
+
+        private XunitData<YemodaPairAnd<int>>? _addMonthsData;
+        public XunitData<YemodaPairAnd<int>> AddMonthsData =>
+            _addMonthsData ??= _dataSet.AddMonthsData.ToXunitData();
     }
 }

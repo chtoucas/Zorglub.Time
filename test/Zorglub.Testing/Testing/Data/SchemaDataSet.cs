@@ -89,8 +89,9 @@ public abstract partial class SchemaDataSet : ICalendricalDataSet
     /// <remarks>NB: First and Second belongs to the same year.</remarks>
     protected static IEnumerable<YedoyPair> ConsecutiveDaysOrdinalSamples { get; } = InitConsecutiveDaysOrdinalSamples();
 
+    /// <remarks>NB: The data is unambiguous.</remarks>
     protected static IEnumerable<YemodaPairAnd<int>> AddYearsSamples { get; } = InitAddYearsSamples();
-    /// <remarks>NB: First and Second belongs to the same year.</remarks>
+    /// <remarks>NB: The data is unambiguous First and Second belongs to the same year.</remarks>
     protected static IEnumerable<YemodaPairAnd<int>> AddMonthsSamples { get; } = InitAddMonthsSamples();
 }
 

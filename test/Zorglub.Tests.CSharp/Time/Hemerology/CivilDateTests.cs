@@ -33,11 +33,9 @@ public sealed partial class CivilDateTests : CalendarDataConsumer<StandardGregor
         return new CivilDate(y, m, d);
     }
 
-    public static DataGroup<YemodaPairAnd<int>> AddYearsData => DataSet.AddYearsData;
-    public static DataGroup<YemodaPairAnd<int>> AddMonthsData => DataSet.AddMonthsData;
-    public static DataGroup<DateDiff> DateDiffData => DataSet.DateDiffData;
-
-    // TODO(code): filter the data from GregorianMathDataSetEndOfMonthAdjustment.
+    // TODO(code): filter data.
+    public static DataGroup<DateDiff> DateDiffData =>
+        GregorianMathDataSetUnambiguous.DateDiffData;
     public static DataGroup<YemodaPairAnd<int>> AddYearsCutOffData =>
         GregorianMathDataSetEndOfMonthAdjustment.Instance.AddYearsData;
     public static DataGroup<YemodaPairAnd<int>> AddMonthsCutOffData =>
