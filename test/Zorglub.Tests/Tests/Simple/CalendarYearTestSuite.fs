@@ -11,7 +11,11 @@ open Zorglub.Time.Simple
 
 let other = GregorianCalendar.Instance
 
+// Since the Gregorian calendar has the richest dataset, we use it as a default
+// model for testing.
+
 [<Sealed>]
+[<RedundantTestGroup>]
 type ArmenianTests() =
     inherit CalendarYearFacts<StandardArmenian12DataSet>(ArmenianCalendar.Instance, other)
 
@@ -26,7 +30,6 @@ type EthiopicTests() =
     inherit CalendarYearFacts<StandardEthiopic12DataSet>(EthiopicCalendar.Instance, other)
 
 [<Sealed>]
-[<RedundantTestGroup>]
 type GregorianTests() =
     inherit CalendarYearFacts<ProlepticGregorianDataSet>(GregorianCalendar.Instance, JulianCalendar.Instance)
 

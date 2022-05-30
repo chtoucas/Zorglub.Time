@@ -10,7 +10,11 @@ open Zorglub.Testing.Facts.Simple
 open Zorglub.Time.Hemerology.Scopes
 open Zorglub.Time.Simple
 
+// Since the Gregorian calendar has the richest dataset, we use it as a default
+// model for testing.
+
 [<Sealed>]
+[<RedundantTestGroup>]
 type ArmenianTests() =
     inherit CalendarFacts<StandardArmenian12DataSet>(ArmenianCalendar.Instance)
 
@@ -40,7 +44,6 @@ type EthiopicTests() =
     override x.Scope() = x.CalendarUT.Scope |> is<Solar12StandardShortScope>
 
 [<Sealed>]
-[<RedundantTestGroup>]
 type GregorianTests() =
     inherit CalendarFacts<ProlepticGregorianDataSet>(GregorianCalendar.Instance)
 

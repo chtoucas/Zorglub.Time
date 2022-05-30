@@ -12,7 +12,7 @@ open Zorglub.Time.Core.Schemas
 
 // TODO(code): Hebrew (unfinished, no data), Pax (unfinished) and lunisolar (fake) schema.
 
-// Since the Gregorian schema has the most data to offer, we use it as a default
+// Since the Gregorian schema has the richest dataset, we use it as a default
 // model for testing.
 
 let private ariOf x = new CalendricalArithmetic(x) :> ICalendricalArithmetic
