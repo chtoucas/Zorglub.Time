@@ -46,6 +46,7 @@ namespace Zorglub.Time.Simple
 
             YearOverflowChecker.Check(y);
 
+            // NB: DateAdditionRule.EndOfMonth.
             int daysInMonth = Schema.CountDaysInMonth(y, m);
             var ymd = new Yemoda(y, m, Math.Min(d, daysInMonth));
             return new CalendarDate(ymd, Cuid);

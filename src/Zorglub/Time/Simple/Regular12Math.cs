@@ -32,9 +32,7 @@ namespace Zorglub.Time.Simple
             }
         }
 
-        //
-        // Operations on CalendarDate
-        //
+        #region CalendarDate
 
         /// <inheritdoc />
         [Pure]
@@ -48,6 +46,7 @@ namespace Zorglub.Time.Simple
 
             YearOverflowChecker.Check(y);
 
+            // NB: DateAdditionRule.EndOfMonth.
             int daysInMonth = Schema.CountDaysInMonth(y, m);
             var ymd = new Yemoda(y, m, Math.Min(d, daysInMonth));
             return new CalendarDate(ymd, Cuid);
@@ -78,9 +77,8 @@ namespace Zorglub.Time.Simple
             return months;
         }
 
-        //
-        // Operations on CalendarMonth
-        //
+        #endregion
+        #region CalendarMonth
 
         /// <inheritdoc />
         [Pure]
@@ -110,5 +108,7 @@ namespace Zorglub.Time.Simple
 
             return (y - y0) * MonthsPerYear + m - m0;
         }
+
+        #endregion
     }
 }
