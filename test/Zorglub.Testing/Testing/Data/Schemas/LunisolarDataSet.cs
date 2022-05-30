@@ -281,6 +281,28 @@ public partial class LunisolarDataSet // Invalid date parts
 
 public partial class LunisolarDataSet // Math data
 {
+    public override DataGroup<YemodaPairAnd<int>> AddDaysData { get; } = new DataGroup<YemodaPairAnd<int>>()
+    {
+        //
+        // Branch AddDaysViaDayOfYear()
+        //
+        // MinDaysInMonth = 29 < |days| <= MinDaysInYear = 353
+
+        // Change of month.
+        new(new(3, 4, 1), new(3, 5, 1), 29),
+        new(new(3, 5, 1), new(3, 4, 1), -29),
+
+        // December, common year.
+        new(new(CommonYear, 12, 29), new(CommonYear, 1, 1), -353),
+        new(new(CommonYear, 12, 29), new(CommonYear + 1, 12, 28), 353),
+        // December, leap year.
+        new(new(LeapYear, 12, 29), new(LeapYear, 1, 1), -353),
+        new(new(LeapYear, 12, 29), new(LeapYear + 1, 11, 28), 353),
+        // December + 1, leap year.
+        new(new(LeapYear, 13, 30), new(LeapYear, 2, 1), -353),
+        new(new(LeapYear, 13, 30), new(LeapYear + 1, 12, 28), 353),
+    }.ConcatT(AddDaysSamples);
+
     public override DataGroup<YemodaPair> ConsecutiveDaysData { get; } = new DataGroup<YemodaPair>()
     {
         // End of month.
