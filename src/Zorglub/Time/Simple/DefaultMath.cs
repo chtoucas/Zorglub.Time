@@ -13,7 +13,7 @@ namespace Zorglub.Time.Simple
     /// <see cref="CalendarMath.Create(Calendar)"/>.</para>
     /// <para>This class cannot be inherited.</para>
     /// </summary>
-    internal sealed class DefaultMath : CalendarMath
+    public sealed class DefaultMath : CalendarMath
     {
         /// <summary>
         /// Represents the schema.
@@ -94,12 +94,13 @@ namespace Zorglub.Time.Simple
             Debug.Assert(end.Cuid == Cuid);
 
             start.Parts.Unpack(out int y0, out int m0);
-            end.Parts.Unpack(out int y, out int m);
+            end.Parts.Unpack(out int y1, out int m1);
 
-            int months = m - m0;
-            for (int i = y0; i < y; i++)
+            // THIS IS WRONG. See CountMonthsBetweenCore() for CalendarMonth.
+            int months = m1 - m0;
+            for (int y = y0; y < y1; y++)
             {
-                months += _schema.CountMonthsInYear(i);
+                months += _schema.CountMonthsInYear(y);
             }
 
             var newStart = AddMonthsCore(start, months);
@@ -152,6 +153,7 @@ namespace Zorglub.Time.Simple
 
             YearOverflowChecker.Check(y);
 
+            // NB: MonthAdditionRule.EndOfYear.
             int monthsInYear = _schema.CountMonthsInYear(y);
             var ym = new Yemo(y, Math.Min(m, monthsInYear));
             return new CalendarMonth(ym, Cuid);
@@ -183,15 +185,23 @@ namespace Zorglub.Time.Simple
             Debug.Assert(start.Cuid == Cuid);
             Debug.Assert(end.Cuid == Cuid);
 
-            start.Parts.Unpack(out int y0, out int m0);
-            end.Parts.Unpack(out int y, out int m);
+            return end.Year == start.Year ? end.Month - start.Month
+                : start < end ? CountCore(start, end)
+                : -CountCore(end, start);
 
-            int months = m - m0;
-            for (int i = y0; i < y; i++)
+            int CountCore(CalendarMonth start, CalendarMonth end)
             {
-                months += _schema.CountMonthsInYear(i);
+                start.Parts.Unpack(out int y0, out int m0);
+                end.Parts.Unpack(out int y1, out int m1);
+
+                int months = _schema.CountMonthsInYear(y0) - m0;
+                for (int y = y0 + 1; y < y1; y++)
+                {
+                    months += _schema.CountMonthsInYear(y);
+                }
+                months += m1;
+                return months;
             }
-            return months;
         }
 
         #endregion

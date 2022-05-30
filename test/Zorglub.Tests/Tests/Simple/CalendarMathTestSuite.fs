@@ -9,7 +9,7 @@ open Zorglub.Testing.Facts.Simple
 
 open Zorglub.Time.Simple
 
-// TODO(code): WIP.
+// TODO(code): WIP. In particular, don't forget tests for non-regular calendars (DefaultMath).
 
 [<Sealed>]
 type RegularMathTests() =
@@ -24,3 +24,8 @@ type Regular12MathTests() =
 [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
 type Regular13MathTests() =
     inherit CalendarMathFacts<Regular13Math, StandardPositivistDataSet>(new Regular13Math(UserCalendars.Positivist))
+
+[<Sealed>]
+[<TestExcludeFrom(TestExcludeFrom.Smoke)>]
+type DefaultMathTests() =
+    inherit DefaultMathFacts<ProlepticGregorianDataSet>(new DefaultMath(GregorianCalendar.Instance))
