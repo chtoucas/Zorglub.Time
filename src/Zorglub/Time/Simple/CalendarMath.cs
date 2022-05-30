@@ -22,12 +22,11 @@ namespace Zorglub.Time.Simple
         /// class.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="calendar"/> is null.</exception>
-        protected CalendarMath(Calendar calendar, AddAdjustment adjustment)
+        protected CalendarMath(Calendar calendar, AdditionRules additionRules)
         {
-            if (adjustment.IsInvalid()) Throw.ArgumentOutOfRange(nameof(adjustment));
-
             Calendar = calendar ?? throw new ArgumentNullException(nameof(calendar));
-            AddAdjustment = adjustment;
+            AdditionRules = additionRules;
+
             Cuid = calendar.Id;
             Schema = calendar.Schema;
             // Internally we use YearOverflowChecker. Externally, one can use
@@ -42,10 +41,9 @@ namespace Zorglub.Time.Simple
         public Calendar Calendar { get; }
 
         /// <summary>
-        /// Gets the strategy employed to resolve ambiguities that can occur after adding a number
-        /// of months or years to a date.
+        /// Gets the strategy employed to resolve ambiguities.
         /// </summary>
-        public AddAdjustment AddAdjustment { get; }
+        public AdditionRules AdditionRules { get; }
 
         /// <summary>
         /// Gets the range of supported years.
@@ -78,7 +76,7 @@ namespace Zorglub.Time.Simple
             Requires.NotNull(calendar);
 
             // This method could be public, but it would feel odd, indeed this
-            // class has a single public method/prop: AddAdjustment.
+            // class has only two public method/prop: Calendar & AdditionRules.
 
             // The schema is not regular iff monthsInYear = 0.
             int monthsInYear = calendar.IsRegular(out int v) ? v : 0;

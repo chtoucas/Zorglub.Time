@@ -14,7 +14,7 @@ namespace Zorglub.Time.Simple
     {
         public PowerMath(Calendar calendar) : this(calendar, CreateCalendricalMath(calendar)) { }
 
-        private PowerMath(Calendar calendar, CalendricalMath math) : base(calendar, math.AddAdjustment)
+        private PowerMath(Calendar calendar, CalendricalMath math) : base(calendar, math.AdditionRules)
         {
             Debug.Assert(calendar != null);
             Debug.Assert(math != null);
@@ -46,18 +46,18 @@ namespace Zorglub.Time.Simple
         // Version pour les calendriers proleptiques.
         [Pure]
         protected static CalendarDate AdjustResult(
-            CalendarDate result, int roundoff, AddAdjustment adjustment, Calendar calendar)
+            CalendarDate result, int roundoff, DateAdditionRule rule, Calendar calendar)
         {
             Debug.Assert(roundoff > 0);
             Debug.Assert(calendar != null);
 
-            return adjustment switch
+            return rule switch
             {
-                AddAdjustment.StartOfNextMonth => result.PlusDays(1),
-                AddAdjustment.Exact => result.PlusDays(roundoff),
-                AddAdjustment.EndOfMonth => result,
+                DateAdditionRule.StartOfNextMonth => result.PlusDays(1),
+                DateAdditionRule.Exact => result.PlusDays(roundoff),
+                DateAdditionRule.EndOfMonth => result,
 
-                _ => Throw.ArgumentOutOfRange<CalendarDate>(nameof(adjustment)),
+                _ => Throw.ArgumentOutOfRange<CalendarDate>(nameof(rule)),
             };
         }
 

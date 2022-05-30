@@ -18,7 +18,7 @@ namespace Zorglub.Time.Simple
         /// <exception cref="ArgumentNullException"><paramref name="calendar"/> is null.</exception>
         /// <exception cref="ArgumentException"><paramref name="calendar"/> is not regular.
         /// </exception>
-        protected RegularMathBase(Calendar calendar) : base(calendar, AddAdjustment.EndOfMonth)
+        protected RegularMathBase(Calendar calendar) : base(calendar, default)
         {
             Debug.Assert(calendar != null);
 

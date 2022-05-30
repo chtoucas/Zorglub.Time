@@ -3,6 +3,7 @@
 
 namespace Zorglub.Testing.Data;
 
+// TODO(data): name.
 // To be used as a provider for -ambiguous- data.
 public interface IAdvancedMathDataSet
 {
@@ -10,7 +11,7 @@ public interface IAdvancedMathDataSet
     /// Gets the strategy employed to resolve ambiguities that can occur after adding a number
     /// of months or years to a date.
     /// </summary>
-    AddAdjustment AddAdjustment { get; }
+    DateAdditionRule DateAdditionRule { get; }
 
     /// <summary>Date, expected result, years to be added.</summary>
     DataGroup<YemodaPairAnd<int>> AddYearsData { get; }

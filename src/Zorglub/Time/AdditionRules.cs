@@ -4,6 +4,7 @@
 namespace Zorglub.Time
 {
     // TODO(api): other value Overflow? Rename Exact -> Spillover?
+    // AdditionRules() -> ctor arg validation.
     // Préciser que cela n'affecte que les méthodes AddYears(date)
     // et AddMonths(date), peut-être aussi Subtract()?
 
@@ -75,8 +76,8 @@ namespace Zorglub.Time
     }
 
     /// <summary>
-    /// Specifies the strategy to resolve ambiguities that can occur after adding a number of months
-    /// or years to an ordinal date.
+    /// Specifies the strategy to resolve ambiguities that can occur after adding a number of years
+    /// to an ordinal date.
     /// </summary>
     public enum OrdinalAdditionRule
     {
@@ -97,7 +98,7 @@ namespace Zorglub.Time
     }
 
     /// <summary>
-    /// Provides extension methods for <see cref="AddAdjustment"/>.
+    /// Provides extension methods for <see cref="AdditionRules"/>.
     /// <para>This class cannot be inherited.</para>
     /// </summary>
     internal static class AdditionRuleExtensions

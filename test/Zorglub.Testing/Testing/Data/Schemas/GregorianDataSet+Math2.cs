@@ -242,7 +242,7 @@ public class GregorianMathDataSetEndOfMonthAdjustment :
         static Singleton() { }
     }
 
-    public AddAdjustment AddAdjustment { get; } = AddAdjustment.EndOfMonth;
+    public DateAdditionRule DateAdditionRule { get; } = DateAdditionRule.EndOfMonth;
 
     /// <inheritdoc/>
     /// <remarks>Intercalary day, expected result in a common year, years to be added.</remarks>
@@ -333,7 +333,7 @@ public class GregorianMathDataSetStartOfNextMonthAdjustment :
         static Singleton() { }
     }
 
-    public AddAdjustment AddAdjustment { get; } = AddAdjustment.StartOfNextMonth;
+    public DateAdditionRule DateAdditionRule { get; } = DateAdditionRule.StartOfNextMonth;
 
     /// <inheritdoc/>
     /// <remarks>Intercalary day, expected result in a common year, years to be added.</remarks>

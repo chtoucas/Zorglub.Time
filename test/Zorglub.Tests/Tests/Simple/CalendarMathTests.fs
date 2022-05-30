@@ -14,16 +14,17 @@ open Zorglub.Time.Simple
 open Xunit
 
 module Prelude =
-    let addAdjustmentData = EnumDataSet.AddAdjustmentData
-    let invalidAddAdjustmentData = EnumDataSet.InvalidAddAdjustmentData
+    // TODO(code): remove? tests too. We only need to test the ctor for AdditionRules.
+    //let addAdjustmentData = EnumDataSet.AddAdjustmentData
+    //let invalidAddAdjustmentData = EnumDataSet.InvalidAddAdjustmentData
 
     [<Fact>]
     let ``Constructor throws for null calendar`` () =
         nullExn "calendar" (fun () -> new FauxCalendarMath(null))
 
-    [<Theory; MemberData(nameof(invalidAddAdjustmentData))>]
-    let ``Constructor throws for invalid AddAdjustment`` (adjustment: AddAdjustment) =
-        outOfRangeExn "adjustment" (fun () -> new FauxCalendarMath(adjustment))
+    //[<Theory; MemberData(nameof(invalidAddAdjustmentData))>]
+    //let ``Constructor throws for invalid AddAdjustment`` (adjustment: AddAdjustment) =
+    //    outOfRangeExn "adjustment" (fun () -> new FauxCalendarMath(adjustment))
 
     [<Fact>]
     let ``RegularMathBase constructor throws for non-regular schema`` () =
@@ -50,11 +51,11 @@ module Prelude =
     // Properties
     //
 
-    [<Theory; MemberData(nameof(addAdjustmentData))>]
-    let ``Property AddAdjustment`` (adjustment: AddAdjustment) =
-        let math = new FauxCalendarMath(adjustment)
+    //[<Theory; MemberData(nameof(addAdjustmentData))>]
+    //let ``Property AddAdjustment`` (adjustment: AddAdjustment) =
+    //    let math = new FauxCalendarMath(adjustment)
 
-        math.AddAdjustment === adjustment
+    //    math.AddAdjustment === adjustment
 
     [<Fact>]
     let ``Property SupportedYears`` () =

@@ -10,11 +10,11 @@ public sealed partial class FauxCalendarMath : CalendarMath
     public FauxCalendarMath() : this(new FauxUserCalendar(), default) { }
 
     // Base constructors.
-    public FauxCalendarMath(Calendar calendar, AddAdjustment adjustment) : base(calendar, adjustment) { }
+    public FauxCalendarMath(Calendar calendar, AdditionRules additionRules) : base(calendar, additionRules) { }
 
     // Constructors in order to test the base constructors.
     public FauxCalendarMath(Calendar calendar) : this(calendar, default) { }
-    public FauxCalendarMath(AddAdjustment adjustment) : this(new FauxUserCalendar(), adjustment) { }
+    public FauxCalendarMath(AdditionRules additionRules) : this(new FauxUserCalendar(), additionRules) { }
 
     public Range<int> SupportedYearsDisclosed => SupportedYears;
 

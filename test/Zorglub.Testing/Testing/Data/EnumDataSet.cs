@@ -28,17 +28,43 @@ public static class EnumDataSet
     // Zorglub.Time
     //
 
-    public static TheoryData<AddAdjustment> InvalidAddAdjustmentData { get; } = new()
+    public static TheoryData<DateAdditionRule> InvalidDateAdditionRuleData { get; } = new()
     {
-        (AddAdjustment)(-1),
-        AddAdjustment.Exact + 1,
+        (DateAdditionRule)(-1),
+        DateAdditionRule.Exact + 1,
     };
 
-    public static TheoryData<AddAdjustment> AddAdjustmentData { get; } = new()
+    public static TheoryData<DateAdditionRule> DateAdditionRuleData { get; } = new()
     {
-        AddAdjustment.EndOfMonth,
-        AddAdjustment.StartOfNextMonth,
-        AddAdjustment.Exact,
+        DateAdditionRule.EndOfMonth,
+        DateAdditionRule.StartOfNextMonth,
+        DateAdditionRule.Exact,
+    };
+
+    public static TheoryData<OrdinalAdditionRule> InvalidOrdinalAdditionRuleData { get; } = new()
+    {
+        (OrdinalAdditionRule)(-1),
+        OrdinalAdditionRule.Exact + 1,
+    };
+
+    public static TheoryData<OrdinalAdditionRule> OrdinalAdditionRuleData { get; } = new()
+    {
+        OrdinalAdditionRule.EndOfYear,
+        OrdinalAdditionRule.StartOfNextYear,
+        OrdinalAdditionRule.Exact,
+    };
+
+    public static TheoryData<MonthAdditionRule> InvalidMonthAdditionRuleData { get; } = new()
+    {
+        (MonthAdditionRule)(-1),
+        MonthAdditionRule.Exact + 1,
+    };
+
+    public static TheoryData<MonthAdditionRule> MonthAdditionRuleData { get; } = new()
+    {
+        MonthAdditionRule.EndOfYear,
+        MonthAdditionRule.StartOfNextYear,
+        MonthAdditionRule.Exact,
     };
 
     public static TheoryData<CalendricalAlgorithm> InvalidCalendricalAlgorithmData { get; } = new()

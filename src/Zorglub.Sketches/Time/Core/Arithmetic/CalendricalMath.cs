@@ -35,12 +35,13 @@ namespace Zorglub.Time.Core.Arithmetic
         /// <see cref="CalendricalMath"/> class.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
-        protected CalendricalMath(ICalendricalSchema schema)
+        protected CalendricalMath(ICalendricalSchema schema, AdditionRules additionRules)
         {
             // FIXME(code): on doit respecter les props schema.Min/MaxYear
             // mais aussi gérer le cas où MinYear < Yemoda.MinYear ou
             // MaxYear > Yemoda.MaxYear. Voir DefaultArithmetic.
             Schema = schema ?? throw new ArgumentNullException(nameof(schema));
+            AdditionRules = additionRules;
         }
 
         /// <summary>
@@ -49,10 +50,9 @@ namespace Zorglub.Time.Core.Arithmetic
         protected ICalendricalSchema Schema { get; }
 
         /// <summary>
-        /// Gets the strategy employed to resolve ambiguities that can occur after adding a number
-        /// of months or years to a date.
+        /// Gets the strategy employed to resolve ambiguities.
         /// </summary>
-        public abstract AddAdjustment AddAdjustment { get; }
+        public AdditionRules AdditionRules { get; }
 
         /// <summary>
         /// Checks that the specified year does not overflow the range of supported values or not.

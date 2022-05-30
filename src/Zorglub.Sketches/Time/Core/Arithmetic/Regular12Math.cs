@@ -11,7 +11,7 @@ namespace Zorglub.Time.Core.Arithmetic
         /// </summary>
         private const int MonthsInYear = 12;
 
-        public Regular12Math(ICalendricalSchema schema) : base(schema)
+        public Regular12Math(ICalendricalSchema schema) : base(schema, default)
         {
             Debug.Assert(schema != null);
 
@@ -24,9 +24,6 @@ namespace Zorglub.Time.Core.Arithmetic
                 Throw.Argument(nameof(schema));
             }
         }
-
-        /// <inheritdoc />
-        public override AddAdjustment AddAdjustment => AddAdjustment.EndOfMonth;
     }
 
     // Operations on calendrical days.

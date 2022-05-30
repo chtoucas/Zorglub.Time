@@ -13,10 +13,10 @@ public static class Regular12MathTests
         Assert.ThrowsAnexn("schema", () => new Regular12Math(null!));
 
     [Fact]
-    public static void AddAdjustment_Prop()
+    public static void AdditionRules_Prop()
     {
-        var calculator = new Regular12Math(new GregorianSchema());
+        var math = new Regular12Math(new GregorianSchema());
         // Act & Assert
-        Assert.Equal(AddAdjustment.EndOfMonth, calculator.AddAdjustment);
+        Assert.Equal(default, math.AdditionRules);
     }
 }
