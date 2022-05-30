@@ -8,7 +8,6 @@ using Zorglub.Time.Simple;
 
 // TODO(fact): OrdinalDate, CalendarMonth. We need more test data and not just
 // for the Gregorian calendar.
-// TODO(fact): math.
 
 /// <summary>
 /// Provides facts about <see cref="CalendarMath"/> and its non-standard mathematical operations.

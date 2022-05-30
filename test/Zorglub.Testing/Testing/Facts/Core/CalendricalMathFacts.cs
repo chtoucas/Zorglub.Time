@@ -6,8 +6,6 @@ namespace Zorglub.Testing.Facts.Core;
 using Zorglub.Testing.Data;
 using Zorglub.Time.Core.Arithmetic;
 
-// TODO(fact): math.
-
 /// <summary>
 /// Provides facts about <see cref="CalendricalMath"/>.
 /// </summary>

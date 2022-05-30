@@ -6,6 +6,8 @@ namespace Zorglub.Testing.Facts.Simple;
 using Zorglub.Testing.Data;
 using Zorglub.Time.Simple;
 
+// TODO(fact): math but, first, we need data for that.
+
 /// <summary>
 /// Provides facts about <see cref="OrdinalDate"/>.
 /// </summary>
