@@ -134,8 +134,6 @@ public partial class GregorianDataSet // Math data
 // GregorianMathDataSet...Adjustment for that.
 public partial class GregorianDataSet // IAdvancedMathDataSet
 {
-    public AddAdjustment AddAdjustment { get; } = AddAdjustment.EndOfMonth;
-
     public override DataGroup<YemodaPairAnd<int>> AddYearsData { get; } = new DataGroup<YemodaPairAnd<int>>()
     {
         // End of february, common year -> common year.
