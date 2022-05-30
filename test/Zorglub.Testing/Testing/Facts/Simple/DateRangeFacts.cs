@@ -19,7 +19,7 @@ public abstract partial class DateRangeFacts<TDataSet> :
     {
         Requires.NotNull(calendar);
         Requires.NotNull(otherCalendar);
-        // NB: calendars of type Calendar are singletons.
+        // NB: instances of type Calendar are singletons.
         if (ReferenceEquals(otherCalendar, calendar))
         {
             throw new ArgumentException(
