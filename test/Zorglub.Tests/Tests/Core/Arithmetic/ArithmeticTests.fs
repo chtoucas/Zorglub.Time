@@ -79,37 +79,37 @@ module Factories =
         FastArithmetic.Create(schemaOf<Tropicalia3130Schema>())     |> is<Solar12Arithmetic>
         FastArithmetic.Create(schemaOf<WorldSchema>())              |> is<Solar12Arithmetic>
 
-// TODO(data): can we do better than that? I mean do it for all schemas.
+// REVIEW(code): can we do better than that? I mean do it for all schemas.
 module DefaultFastCase =
     // Type to avoid the error FS0405 because AddDaysViaDayOfMonth() is a
     // protected internal method.
     [<Sealed>]
     type private ArithmeticWrapper(arithmetic: DefaultFastArithmetic) =
-        member __.Arithmetic = arithmetic
+        member private __.Arithmetic = arithmetic
         member x.AddDaysViaDayOfMonth(ymd, days) = x.Arithmetic.AddDaysViaDayOfMonth(ymd, days)
 
     let private sch = schemaOf<GregorianSchema>()
     let private ari = new DefaultFastArithmetic(sch)
     let private wrapper = new ArithmeticWrapper(ari)
 
-    let dataSet = GregorianDataSet.Instance;
-    let addDaysCustomData = dataSet.AddDaysCustomData
+    let private maxDaysViaDayOfMonth = ari.MaxDaysViaDayOfMonth
+    let private filter = fun (x: YemodaPairAnd<int>) ->
+        -maxDaysViaDayOfMonth <= x.Value && x.Value <= maxDaysViaDayOfMonth
+    let addDaysData = GregorianDataSet.Instance.AddDaysData.WhereT(filter)
 
     [<Fact>]
     let ``AddDaysViaDayOfMonth() overflows at the start of MinYear`` () =
-        let y = sch.SupportedYears.Min
-        let min = sch.GetStartOfYearParts(y)
+        let min = sch.MinMaxDateParts.LowerValue
 
         (fun () -> wrapper.AddDaysViaDayOfMonth(min, -1)) |> overflows
 
     [<Fact>]
-    let ``AddDaysViaDayOfMonth() overflows at the start of MaxYear`` () =
-        let y = sch.SupportedYears.Max
-        let max = sch.GetEndOfYearParts(y)
+    let ``AddDaysViaDayOfMonth() overflows at the end of MaxYear`` () =
+        let max = sch.MinMaxDateParts.UpperValue
 
         (fun () -> wrapper.AddDaysViaDayOfMonth(max, 1)) |> overflows
 
-    [<Theory; MemberData(nameof(addDaysCustomData))>]
+    [<Theory; MemberData(nameof(addDaysData))>]
     let ``AddDaysViaDayOfMonth()`` (pair: YemodaPairAnd<int>) =
         let days = pair.Value
         let date = pair.First
