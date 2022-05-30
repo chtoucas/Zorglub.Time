@@ -4,14 +4,34 @@
 namespace Zorglub.Time
 {
     // TODO(api): other value Overflow? Rename Exact -> Spillover?
-    // AdditionRules() -> ctor arg validation.
     // Préciser que cela n'affecte que les méthodes AddYears(date)
     // et AddMonths(date), peut-être aussi Subtract()?
 
-    public readonly record struct AdditionRules(
-        DateAdditionRule DateRule,
-        OrdinalAdditionRule OrdinalRule,
-        MonthAdditionRule MonthRule);
+    public readonly record struct AdditionRules
+    {
+        public AdditionRules(
+            DateAdditionRule dateRule,
+            OrdinalAdditionRule ordinalRule,
+            MonthAdditionRule monthRule)
+        {
+            if (dateRule < DateAdditionRule.EndOfMonth || dateRule > DateAdditionRule.Exact)
+                Throw.ArgumentOutOfRange(nameof(dateRule));
+            if (ordinalRule < OrdinalAdditionRule.EndOfYear || ordinalRule > OrdinalAdditionRule.Exact)
+                Throw.ArgumentOutOfRange(nameof(ordinalRule));
+            if (monthRule < MonthAdditionRule.EndOfYear || monthRule > MonthAdditionRule.Exact)
+                Throw.ArgumentOutOfRange(nameof(monthRule));
+
+            DateRule = dateRule;
+            OrdinalRule = ordinalRule;
+            MonthRule = monthRule;
+        }
+
+        public DateAdditionRule DateRule { get; }
+
+        public OrdinalAdditionRule OrdinalRule { get; }
+
+        public MonthAdditionRule MonthRule { get; }
+    }
 
     /// <summary>
     /// Specifies the strategy to resolve ambiguities that can occur after adding a number of months
@@ -95,30 +115,5 @@ namespace Zorglub.Time
         EndOfYear = 0,
         StartOfNextYear,
         Exact,
-    }
-
-    /// <summary>
-    /// Provides extension methods for <see cref="AdditionRules"/>.
-    /// <para>This class cannot be inherited.</para>
-    /// </summary>
-    internal static class AdditionRuleExtensions
-    {
-        /// <summary>
-        /// Returns true if the specified value is invalid; otherwise returns false.
-        /// </summary>
-        public static bool IsInvalid(this DateAdditionRule @this) =>
-            @this < DateAdditionRule.EndOfMonth || @this > DateAdditionRule.Exact;
-
-        /// <summary>
-        /// Returns true if the specified value is invalid; otherwise returns false.
-        /// </summary>
-        public static bool IsInvalid(this OrdinalAdditionRule @this) =>
-            @this < OrdinalAdditionRule.EndOfYear || @this > OrdinalAdditionRule.Exact;
-
-        /// <summary>
-        /// Returns true if the specified value is invalid; otherwise returns false.
-        /// </summary>
-        public static bool IsInvalid(this MonthAdditionRule @this) =>
-            @this < MonthAdditionRule.EndOfYear || @this > MonthAdditionRule.Exact;
     }
 }
