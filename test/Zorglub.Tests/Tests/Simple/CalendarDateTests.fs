@@ -9,9 +9,25 @@ open Zorglub.Testing
 open Zorglub.Testing.Data
 open Zorglub.Testing.Data.Bounded
 
+open Zorglub.Time.Core
 open Zorglub.Time.Simple
 
 open Xunit
+
+module UserCase =
+    [<Fact>]
+    let ``FromBinary() throws`` () =
+        let parts = new Yemodax(1, 1, 1, int(UserCalendars.Gregorian.Id))
+        let data = parts.ToBinary()
+
+        outOfRangeExn "ident" (fun () -> CalendarDate.FromBinary(data))
+        outOfRangeExn "ident" (fun () -> CalendarDate.FromBinary(Int32.MaxValue))
+
+    [<Fact>]
+    let ``ToBinary() throws`` () =
+        let date = UserCalendars.Gregorian.GetCalendarDate(1, 1, 1)
+
+        throws<NotSupportedException> (fun () -> date.ToBinary())
 
 module GregorianCase =
     let private chr = GregorianCalendar.Instance

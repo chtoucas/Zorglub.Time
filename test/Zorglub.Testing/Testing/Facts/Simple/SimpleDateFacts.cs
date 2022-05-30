@@ -34,7 +34,7 @@ public abstract partial class SimpleDateFacts<TDate, TDataSet> :
         }
         if (calendar.IsUserDefined)
         {
-            // FIXME(fact): serialization if CalendarUT is not a system calendar;
+            // REVIEW(fact): serialization if CalendarUT is not a system calendar;
             // idem with CalendarYear/Month.
             throw new ArgumentException(
                 "\"calendar\" MUST NOT be a user-defined calendar", nameof(calendar));

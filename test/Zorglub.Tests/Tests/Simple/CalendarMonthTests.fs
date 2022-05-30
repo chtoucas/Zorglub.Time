@@ -9,9 +9,26 @@ open Zorglub.Testing
 open Zorglub.Testing.Data
 open Zorglub.Testing.Data.Bounded
 
+open Zorglub.Time.Core
 open Zorglub.Time.Simple
 
 open Xunit
+
+module UserCase =
+    [<Fact>]
+    let ``FromBinary() throws`` () =
+        let parts = new Yemox(1, 1, int(UserCalendars.Gregorian.Id))
+        let data = parts.ToBinary()
+
+        // NB: data = Int32.MaxValue is not valid, contrary to the other types
+        // like CalendarYear or CalendarDate.
+        outOfRangeExn "ident" (fun () -> CalendarMonth.FromBinary(data))
+
+    [<Fact>]
+    let ``ToBinary() throws`` () =
+        let month = UserCalendars.Gregorian.GetCalendarMonth(1, 1)
+
+        throws<NotSupportedException> (fun () -> month.ToBinary())
 
 module GregorianCase =
     let private chr = GregorianCalendar.Instance

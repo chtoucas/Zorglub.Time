@@ -13,6 +13,17 @@ open Zorglub.Time.Simple
 
 open Xunit
 
+module UserCase =
+    [<Fact>]
+    let ``FromBinary() throws`` () =
+        outOfRangeExn "ident" (fun () -> CalendarYear.FromBinary(Int32.MaxValue))
+
+    [<Fact>]
+    let ``ToBinary() throws`` () =
+        let year = UserCalendars.Gregorian.GetCalendarYear(1)
+
+        throws<NotSupportedException> (fun () -> year.ToBinary())
+
 module GregorianCase =
     let private chr = GregorianCalendar.Instance
     let private dataSet = ProlepticGregorianDataSet.Instance

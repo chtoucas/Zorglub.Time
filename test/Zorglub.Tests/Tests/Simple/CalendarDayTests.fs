@@ -9,10 +9,22 @@ open Zorglub.Testing
 open Zorglub.Testing.Data
 open Zorglub.Testing.Data.Bounded
 
+open Zorglub.Time
 open Zorglub.Time.Core
 open Zorglub.Time.Simple
 
 open Xunit
+
+module UserCase =
+    [<Fact>]
+    let ``FromBinary() throws`` () =
+        outOfRangeExn "ident" (fun () -> CalendarDay.FromBinary(Int32.MaxValue))
+
+    [<Fact>]
+    let ``ToBinary() throws`` () =
+        let date = UserCalendars.Gregorian.GetCalendarDay(DayZero.NewStyle)
+
+        throws<NotSupportedException> (fun () -> date.ToBinary())
 
 module GregorianCase =
     let private chr = GregorianCalendar.Instance

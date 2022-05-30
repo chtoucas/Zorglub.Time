@@ -14,6 +14,20 @@ open Zorglub.Time.Simple
 
 open Xunit
 
+module UserCase =
+    [<Fact>]
+    let ``FromBinary()`` () =
+        let parts = new Yedoyx(1, 1, int(UserCalendars.Gregorian.Id))
+        let data = parts.ToBinary()
+
+        outOfRangeExn "ident" (fun () -> OrdinalDate.FromBinary(data))
+
+    [<Fact>]
+    let ``ToBinary()`` () =
+        let date = UserCalendars.Gregorian.GetOrdinalDate(1, 1)
+
+        throws<NotSupportedException> (fun () -> date.ToBinary())
+
 module GregorianCase =
     let private chr = GregorianCalendar.Instance
     let private dataSet = ProlepticGregorianDataSet.Instance
