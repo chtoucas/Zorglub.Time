@@ -241,6 +241,24 @@ public partial class CalendarYearFacts<TDataSet> // Conversions
         // Act & Assert
         Assert.ThrowsAnexn("newCalendar", () => year.WithCalendar(null!));
     }
+
+    [Theory, MemberData(nameof(YearInfoData))]
+    public void WithCalendar_Invariance(YearInfo info)
+    {
+        var year = CalendarUT.GetCalendarYear(info.Year);
+        var range = year.ToRange();
+        // Act & Assert
+        Assert.Equal(range, year.WithCalendar(CalendarUT));
+    }
+
+    [Theory, MemberData(nameof(YearInfoData))]
+    public void WithCalendar(YearInfo info)
+    {
+        var year = CalendarUT.GetCalendarYear(info.Year);
+        var range = year.ToRange().WithCalendar(OtherCalendar);
+        // Act & Assert
+        Assert.Equal(range, year.WithCalendar(OtherCalendar));
+    }
 }
 
 public partial class CalendarYearFacts<TDataSet> // Counting

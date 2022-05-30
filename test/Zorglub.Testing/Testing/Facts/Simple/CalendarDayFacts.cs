@@ -19,10 +19,13 @@ public abstract partial class CalendarDayFacts<TDataSet> :
         Debug.Assert(calendar != null);
 
         (MinDate, MaxDate) = calendar.MinMaxDay;
+        DomainTester = new DomainTester(calendar.Domain);
     }
 
     protected sealed override CalendarDay MinDate { get; }
     protected sealed override CalendarDay MaxDate { get; }
+
+    protected DomainTester DomainTester { get; }
 
     protected sealed override CalendarDay GetDate(int y, int m, int d) =>
         // Notice that to create a date we must first pass thru CalendarDate.
@@ -169,6 +172,36 @@ public partial class CalendarDayFacts<TDataSet> // Conversions
     }
 }
 
+public partial class CalendarDayFacts<TDataSet> // Adjustments
+{
+    [Fact]
+    public void WithDayNumber_InvalidDayNumber()
+    {
+        var date = CalendarUT.GetCalendarDay(CalendarUT.Epoch);
+        // Act & Assert
+        DomainTester.TestInvalidDayNumber(date.WithDayNumber);
+    }
+
+    [Theory, MemberData(nameof(DayNumberInfoData))]
+    public void WithDayNumber_Invariance(DayNumberInfo info)
+    {
+        var dayNumber = info.DayNumber;
+        var date = CalendarUT.GetCalendarDay(dayNumber);
+        // Act & Assert
+        Assert.Equal(date, date.WithDayNumber(dayNumber));
+    }
+
+    [Theory, MemberData(nameof(DayNumberInfoData))]
+    public void WithDayNumber(DayNumberInfo info)
+    {
+        var dayNumber = info.DayNumber;
+        var date = CalendarUT.GetCalendarDay(CalendarUT.Epoch);
+        var exp = CalendarUT.GetCalendarDay(dayNumber);
+        // Act & Assert
+        Assert.Equal(exp, date.WithDayNumber(dayNumber));
+    }
+}
+
 //
 // Tests for related classes.
 //
@@ -184,7 +217,7 @@ public partial class CalendarDayFacts<TDataSet> // CalendarDayProvider
     //
 
     [Theory, MemberData(nameof(YearInfoData))]
-    public void CalendarDayAdapter_GetStartOfYear(YearInfo info)
+    public void CalendarDayProvider_GetStartOfYear(YearInfo info)
     {
         int y = info.Year;
         var year = CalendarUT.GetCalendarYear(y);
@@ -194,7 +227,7 @@ public partial class CalendarDayFacts<TDataSet> // CalendarDayProvider
     }
 
     [Theory, MemberData(nameof(DateInfoData))]
-    public void CalendarDayAdapter_GetDayOfYear(DateInfo info)
+    public void CalendarDayProvider_GetDayOfYear(DateInfo info)
     {
         var (y, m, d, doy) = info;
         var year = CalendarUT.GetCalendarYear(y);
@@ -204,7 +237,7 @@ public partial class CalendarDayFacts<TDataSet> // CalendarDayProvider
     }
 
     [Theory, MemberData(nameof(YearInfoData))]
-    public void CalendarDayAdapter_GetEndOfYear(YearInfo info)
+    public void CalendarDayProvider_GetEndOfYear(YearInfo info)
     {
         int y = info.Year;
         var year = CalendarUT.GetCalendarYear(y);
@@ -218,7 +251,7 @@ public partial class CalendarDayFacts<TDataSet> // CalendarDayProvider
     //
 
     [Theory, MemberData(nameof(MonthInfoData))]
-    public void CalendarDayAdapter_GetStartOfMonth(MonthInfo info)
+    public void CalendarDayProvider_GetStartOfMonth(MonthInfo info)
     {
         var (y, m) = info.Yemo;
         var month = CalendarUT.GetCalendarMonth(y, m);
@@ -228,7 +261,7 @@ public partial class CalendarDayFacts<TDataSet> // CalendarDayProvider
     }
 
     [Theory, MemberData(nameof(DateInfoData))]
-    public void CalendarDayAdapter_GetDayOfMonth(DateInfo info)
+    public void CalendarDayProvider_GetDayOfMonth(DateInfo info)
     {
         var (y, m, d) = info.Yemoda;
         var month = CalendarUT.GetCalendarMonth(y, m);
@@ -238,7 +271,7 @@ public partial class CalendarDayFacts<TDataSet> // CalendarDayProvider
     }
 
     [Theory, MemberData(nameof(MonthInfoData))]
-    public void CalendarDayAdapter_GetEndOfMonth(MonthInfo info)
+    public void CalendarDayProvider_GetEndOfMonth(MonthInfo info)
     {
         var (y, m) = info.Yemo;
         var daysInMonth = info.DaysInMonth;

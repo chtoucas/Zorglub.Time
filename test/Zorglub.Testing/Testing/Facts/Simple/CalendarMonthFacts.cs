@@ -247,6 +247,26 @@ public partial class CalendarMonthFacts<TDataSet> // Conversions
         // Act & Assert
         Assert.ThrowsAnexn("newCalendar", () => month.WithCalendar(null!));
     }
+
+    [Theory, MemberData(nameof(MonthInfoData))]
+    public void WithCalendar_Invariance(MonthInfo info)
+    {
+        var (y, m) = info.Yemo;
+        var month = CalendarUT.GetCalendarMonth(y, m);
+        var range = month.ToRange();
+        // Act & Assert
+        Assert.Equal(range, month.WithCalendar(CalendarUT));
+    }
+
+    [Theory, MemberData(nameof(MonthInfoData))]
+    public void WithCalendar(MonthInfo info)
+    {
+        var (y, m) = info.Yemo;
+        var month = CalendarUT.GetCalendarMonth(y, m);
+        var range = month.ToRange().WithCalendar(OtherCalendar);
+        // Act & Assert
+        Assert.Equal(range, month.WithCalendar(OtherCalendar));
+    }
 }
 
 public partial class CalendarMonthFacts<TDataSet> // Counting
