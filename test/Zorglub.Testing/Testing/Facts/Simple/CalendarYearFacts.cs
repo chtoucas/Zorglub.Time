@@ -567,6 +567,8 @@ public partial class CalendarYearFacts<TDataSet> // Increment / Decrement
 
 public partial class CalendarYearFacts<TDataSet> // Addition
 {
+    #region PlusYears()
+
     [Fact]
     public void PlusYears_Overflows()
     {
@@ -655,6 +657,26 @@ public partial class CalendarYearFacts<TDataSet> // Addition
         Assert.Equal(year, year.PlusYears(0));
     }
 
+    [Theory, MemberData(nameof(AddYearsData))]
+    public void PlusYears(YemodaPairAnd<int> info)
+    {
+        int ys = info.Value;
+        var year = CalendarUT.GetCalendarYear(info.First.Year);
+        var other = CalendarUT.GetCalendarYear(info.Second.Year);
+        // Act & Assert
+        // 1) year + ys = other.
+        Assert.Equal(other, year + ys);
+        Assert.Equal(other, year.PlusYears(ys));
+        // 2) other - ys = year.
+        Assert.Equal(year, other - ys);
+        Assert.Equal(year, other.PlusYears(-ys));
+        // 3) year - (-ys) = other.
+        Assert.Equal(other, year - (-ys));
+    }
+
+    #endregion
+    #region CountYearsSince()
+
     [Fact]
     public void CountYearsSince_DoesNotOverflow()
     {
@@ -676,4 +698,21 @@ public partial class CalendarYearFacts<TDataSet> // Addition
         Assert.Equal(0, year - year);
         Assert.Equal(0, year.CountYearsSince(year));
     }
+
+    [Theory, MemberData(nameof(AddYearsData))]
+    public void CountYearsSince(YemodaPairAnd<int> info)
+    {
+        int ys = info.Value;
+        var year = CalendarUT.GetCalendarYear(info.First.Year);
+        var other = CalendarUT.GetCalendarYear(info.Second.Year);
+        // Act & Assert
+        // 1) other - year = ys.
+        Assert.Equal(ys, other - year);
+        Assert.Equal(ys, other.CountYearsSince(year));
+        // 2) year - other = -ys.
+        Assert.Equal(-ys, year - other);
+        Assert.Equal(-ys, year.CountYearsSince(other));
+    }
+
+    #endregion
 }

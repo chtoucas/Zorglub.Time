@@ -47,6 +47,12 @@ public abstract partial class CalendarMonthFacts<TDataSet> :
     protected CalendarMonth MinValue { get; }
     protected CalendarMonth MaxValue { get; }
 
+    private CalendarMonth GetMonth(Yemoda ymd)
+    {
+        var (y, m, _) = ymd;
+        return CalendarUT.GetCalendarMonth(y, m);
+    }
+
     /// <summary>
     /// We only use this sample year when its value matters (mathops); otherwise
     /// just use the first month of the year 1. It is initialized to ensure that
@@ -678,9 +684,7 @@ public partial class CalendarMonthFacts<TDataSet> // Increment / Decrement
 
 public partial class CalendarMonthFacts<TDataSet> // Math
 {
-    //
-    // PlusMonths()
-    //
+    #region PlusMonths()
 
     [Fact]
     public void PlusMonths_Overflows()
@@ -764,6 +768,26 @@ public partial class CalendarMonthFacts<TDataSet> // Math
         Assert.Equal(month, month.PlusMonths(0));
     }
 
+    [Theory, MemberData(nameof(AddMonthsData))]
+    public void PlusMonths(YemodaPairAnd<int> info)
+    {
+        int ms = info.Value;
+        var month = GetMonth(info.First);
+        var other = GetMonth(info.Second);
+        // Act & Assert
+        // 1) month + ms = other.
+        Assert.Equal(other, month + ms);
+        Assert.Equal(other, month.PlusMonths(ms));
+        // 2) other - ms = month.
+        Assert.Equal(month, other - ms);
+        Assert.Equal(month, other.PlusMonths(-ms));
+        // 3) month - (-ms) = other.
+        Assert.Equal(other, month - (-ms));
+    }
+
+    #endregion
+    #region CountMonthsSince()
+
     [Theory, MemberData(nameof(MonthInfoData))]
     public void CountMonthsSince_WhenSame_IsZero(MonthInfo info)
     {
@@ -774,9 +798,23 @@ public partial class CalendarMonthFacts<TDataSet> // Math
         Assert.Equal(0, month.CountMonthsSince(month));
     }
 
-    //
-    // PlusYears()
-    //
+    [Theory, MemberData(nameof(AddMonthsData))]
+    public void CountMonthsSince(YemodaPairAnd<int> info)
+    {
+        int ms = info.Value;
+        var month = GetMonth(info.First);
+        var other = GetMonth(info.Second);
+        // Act & Assert
+        // 1) other - month = ms.
+        Assert.Equal(ms, other - month);
+        Assert.Equal(ms, other.CountMonthsSince(month));
+        // 2) month - other = -ms.
+        Assert.Equal(-ms, month - other);
+        Assert.Equal(-ms, month.CountMonthsSince(other));
+    }
+
+    #endregion
+    #region PlusYears()
 
     [Fact]
     public void PlusYears_Overflows()
@@ -841,6 +879,20 @@ public partial class CalendarMonthFacts<TDataSet> // Math
         Assert.Equal(month, month.PlusYears(0));
     }
 
+    [Theory, MemberData(nameof(AddYearsData))]
+    public void PlusYears(YemodaPairAnd<int> info)
+    {
+        int ys = info.Value;
+        var month = GetMonth(info.First);
+        var other = GetMonth(info.Second);
+        // Act & Assert
+        Assert.Equal(other, month.PlusYears(ys));
+        Assert.Equal(month, other.PlusYears(-ys));
+    }
+
+    #endregion
+    #region CountYearsSince()
+
     [Theory, MemberData(nameof(MonthInfoData))]
     public void CountYearsSince_WhenSame_IsZero(MonthInfo info)
     {
@@ -849,4 +901,17 @@ public partial class CalendarMonthFacts<TDataSet> // Math
         // Act & Assert
         Assert.Equal(0, month.CountYearsSince(month));
     }
+
+    [Theory, MemberData(nameof(AddYearsData))]
+    public void CountYearsSince(YemodaPairAnd<int> info)
+    {
+        int ys = info.Value;
+        var month = GetMonth(info.First);
+        var other = GetMonth(info.Second);
+        // Act & Assert
+        Assert.Equal(ys, other.CountYearsSince(month));
+        Assert.Equal(-ys, month.CountYearsSince(other));
+    }
+
+    #endregion
 }
