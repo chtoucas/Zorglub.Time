@@ -3,6 +3,7 @@
 
 namespace Zorglub.Testing.Data;
 
+// To be used as a provider for -ambiguous- data.
 public interface IAdvancedMathDataSet
 {
     /// <summary>

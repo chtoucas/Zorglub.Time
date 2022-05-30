@@ -45,7 +45,17 @@ public abstract class CalendricalDataConsumer<TDataSet>
     public static XunitData<YedoyPairAnd<int>> AddDaysOrdinalData => s_Adapter.AddDaysOrdinalData;
     public static XunitData<YedoyPair> ConsecutiveDaysOrdinalData => s_Adapter.ConsecutiveDaysOrdinalData;
 
+    /// <remarks>
+    /// <para>We MAY re-use this property to test the difference in years between two dates because
+    /// the data is NOT ambiguous.</para>
+    /// <para>We MAY NOT re-use this property to test the addition of years to an ordinal date.</para>
+    /// </remarks>
     public static XunitData<YemodaPairAnd<int>> AddYearsData => s_Adapter.AddYearsData;
+    /// <remarks>
+    /// <para>We MAY re-use this property to test the difference in months between two dates because
+    /// the data is NOT ambiguous.</para>
+    /// <para>We MAY NOT re-use this property to test the addition of month to an ordinal date.</para>
+    /// </remarks>
     public static XunitData<YemodaPairAnd<int>> AddMonthsData => s_Adapter.AddMonthsData;
 
     private sealed class DataSetAdapter

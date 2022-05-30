@@ -63,10 +63,10 @@ public abstract partial class SchemaDataSet : ICalendricalDataSet
     // TODO(data): derived classes should at least override ConsecutiveDaysData
     // and ConsecutiveDaysOrdinalData.
     // The Gregorian schema overrides all math-related props.
-    // Other schemas offering overriding AddDaysData:
+    // Other schemas overriding AddDaysData:
     // - Lunisolar
     // - TabularIslamic
-    // Other schemas offering overriding ConsecutiveDaysData & ConsecutiveDaysOrdinalData:
+    // Other schemas overriding ConsecutiveDaysData & ConsecutiveDaysOrdinalData:
     // - Coptic12/13
     // - Lunisolar
     // - Pax

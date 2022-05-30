@@ -128,12 +128,10 @@ public partial class GregorianDataSet // Math data
         new(new(LeapYear, 365), new(LeapYear, 366)),
         new(new(LeapYear, 366), new(LeapYear + 1, 1)),
     }.ConcatT(ConsecutiveDaysOrdinalSamples);
-}
 
-// NB: we do not include data for which the result is ambiguous, see
-// GregorianMathDataSet...Adjustment for that.
-public partial class GregorianDataSet // IAdvancedMathDataSet
-{
+    // NB: we do not include data for which the result is ambiguous, see
+    // GregorianMathDataSet...Adjustment for that.
+
     public override DataGroup<YemodaPairAnd<int>> AddYearsData { get; } = new DataGroup<YemodaPairAnd<int>>()
     {
         // End of february, common year -> common year.

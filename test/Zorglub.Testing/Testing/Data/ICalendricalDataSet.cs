@@ -64,9 +64,17 @@ public interface ICalendricalDataSet
     DataGroup<YedoyPair> ConsecutiveDaysOrdinalData { get; }
 
     /// <summary>Date, expected result, years to be added.</summary>
-    /// <remarks>This property SHOULD NOT provide ambiguous data.</remarks>
+    /// <remarks>
+    /// <para>This property SHOULD NOT provide ambiguous data.</para>
+    /// <para>We can re-use this property to test the difference in years between two dates because
+    /// the data is NOT ambiguous.</para>
+    /// </remarks>
     DataGroup<YemodaPairAnd<int>> AddYearsData { get; }
     /// <summary>Date, expected result, months to be added.</summary>
-    /// <remarks>This property SHOULD NOT provide ambiguous data.</remarks>
+    /// <remarks>
+    /// <para>This property SHOULD NOT provide ambiguous data.</para>
+    /// <para>We can re-use this property to test the difference in months between two dates because
+    /// the data is NOT ambiguous.</para>
+    /// </remarks>
     DataGroup<YemodaPairAnd<int>> AddMonthsData { get; }
 }
