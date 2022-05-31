@@ -25,6 +25,12 @@ Xunit
 FsCheck
 -------
     
+https://stackoverflow.com/questions/61506982/fscheck-not-using-registered-arbs-gens
+https://stackoverflow.com/questions/36191290/when-implementing-property-based-testing-when-should-i-use-an-input-generator-o
+https://stackoverflow.com/questions/57772719/generating-custom-data-in-fscheck
+https://github.com/OmanF/gilded_rose/blob/master/GildedRoseTests/Tests.fs
+https://stackoverflow.com/questions/36355460/calling-default-fscheck-generator-from-a-custom-generator-of-the-same-type
+
 Use Gen.elements? Hum apparently no.
 https://blog.ploeh.dk/2015/09/08/ad-hoc-arbitraries-with-fscheckxunit/
 https://blog.ploeh.dk/2020/04/27/an-f-implementation-of-the-maitre-d-kata/

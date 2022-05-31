@@ -3,10 +3,10 @@
 
 namespace Zorglub.Testing.Data;
 
-// REVIEW(data): do we still need Start/EndOfYearDayNumberData?
-
 // What's in ICalendarDataSet? Everything related to DayNumber, including the
 // Epoch and DayOfWeek.
+// We have three properties in ICalendricalDataSet that can be translated in
+// terms of DayNumber's.
 
 public interface ICalendarDataSet : ICalendricalDataSet
 {

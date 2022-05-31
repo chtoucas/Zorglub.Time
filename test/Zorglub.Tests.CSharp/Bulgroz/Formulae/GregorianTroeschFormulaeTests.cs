@@ -3,8 +3,7 @@
 
 namespace Zorglub.Bulgroz.Formulae;
 
-public sealed class GregorianTroeschFormulaeTests
-    : IInterconversionFormulaeFacts<GregorianTroeschFormulae, GregorianDataSet>
+public sealed class GregorianTroeschFormulaeTests : ICalendricalFormulaeFacts<GregorianDataSet>
 {
     public GregorianTroeschFormulaeTests() : base(new GregorianTroeschFormulae()) { }
 
@@ -14,7 +13,7 @@ public sealed class GregorianTroeschFormulaeTests
         var (daysSinceEpoch, y, m, d) = info;
 
         // Act
-        int actual = FormulaeUT.CountDaysSinceEpoch400(y, m, d);
+        int actual = GregorianTroeschFormulae.CountDaysSinceEpoch400(y, m, d);
         // Assert
         Assert.Equal(daysSinceEpoch, actual);
     }

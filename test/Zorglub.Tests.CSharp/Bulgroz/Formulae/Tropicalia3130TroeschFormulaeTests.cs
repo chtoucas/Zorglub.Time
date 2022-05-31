@@ -3,8 +3,7 @@
 
 namespace Zorglub.Bulgroz.Formulae;
 
-public sealed class Tropicalia3130TroeschFormulaeTests
-    : IInterconversionFormulaeFacts<Tropicalia3130TroeschFormulae, Tropicalia3130DataSet>
+public sealed class Tropicalia3130TroeschFormulaeTests : ICalendricalFormulaeFacts<Tropicalia3130DataSet>
 {
     public Tropicalia3130TroeschFormulaeTests() : base(new Tropicalia3130TroeschFormulae()) { }
 

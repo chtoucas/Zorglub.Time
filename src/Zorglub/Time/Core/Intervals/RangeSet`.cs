@@ -139,7 +139,7 @@ namespace Zorglub.Time.Core.Intervals
         [MemberNotNullWhen(returnValue: false, member: nameof(Range))]
         public bool IsEmpty => !_isInhabited;
 
-        // TODO(api): Range do not return null, throw InvalidOperationException()
+        // TODO(api): prop Range do not return null, throw InvalidOperationException()
 
         /// <summary>
         /// Attempts to get a <see cref="Range{T}"/> view of this range.

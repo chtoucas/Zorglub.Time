@@ -7,6 +7,8 @@ using Zorglub.Testing.Data;
 using Zorglub.Time.Hemerology.Scopes;
 
 // FIXME(fact): skip negative years.
+// Use an ICalendarDataSet? StandardCalendarDataSet?
+// What about ProlepticShortScopeFacts.
 
 public static class StandardShortScopeFacts
 {

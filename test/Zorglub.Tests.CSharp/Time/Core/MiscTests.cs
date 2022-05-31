@@ -6,13 +6,13 @@ namespace Zorglub.Time.Core;
 using System.Linq;
 using System.Reflection;
 
-public static class CalendricalSchemaTests
+public static class MiscTests
 {
     private static readonly IEnumerable<TypeInfo> s_DefinedTypes =
         typeof(ICalendricalSchema).Assembly.DefinedTypes;
 
     [Fact]
-    public static void Constructor_IsNotPublic()
+    public static void Schema_Constructor_IsNotPublic()
     {
         // We also test the abstract classes.
         var schemaTypes = s_DefinedTypes
@@ -29,7 +29,7 @@ public static class CalendricalSchemaTests
     }
 
     [Fact]
-    public static void GetInstance()
+    public static void Schema_GetInstance()
     {
         var schemaTypes = s_DefinedTypes
             .Where(t => !t.IsAbstract && t.IsSubclassOf(typeof(SystemSchema)));
@@ -61,7 +61,7 @@ public static class CalendricalSchemaTests
     }
 
     [Fact]
-    public static void MonthsInYear()
+    public static void Schema_MonthsInYear()
     {
         var schemaTypes = s_DefinedTypes
             .Where(t => !t.IsAbstract && typeof(IRegularSchema).IsAssignableFrom(t));
@@ -85,6 +85,23 @@ public static class CalendricalSchemaTests
             var sch = (IRegularSchema)emptyCtor.Invoke(null);
             // Act & Assert
             Assert.True(sch.MonthsInYear > 0);
+        }
+    }
+
+    [Fact]
+    public static void Arithmetic_Constructor_IsNotPublic()
+    {
+        // On teste aussi les classes abstraites.
+        var addTypes = typeof(Ord).Assembly.DefinedTypes
+            .Where(t => t.IsPublic && typeof(ICalendricalArithmetic).IsAssignableFrom(t));
+
+        Assert.NotEmpty(addTypes);
+
+        foreach (var type in addTypes)
+        {
+            var publicCtors = type.GetConstructors(BindingFlags.Public | BindingFlags.Instance);
+
+            Assert.Empty(publicCtors);
         }
     }
 }

@@ -118,7 +118,7 @@ public readonly record struct DayNumberInfo(DayNumber DayNumber, Yemoda Yemoda)
 #pragma warning restore CA2225
 }
 
-// TODO(data): use Yeweda, does not exist yet... idem with DayNumberYewedaInfo
+// REVIEW(data): use Yeweda, does not exist yet... idem with DayNumberYewedaInfo
 public readonly record struct DaysSinceEpochYewedaInfo(int DaysSinceEpoch, Yewe Yewe, DayOfWeek DayOfWeek)
 {
     public DaysSinceEpochYewedaInfo(int daysSinceEpoch, int y, int woy, DayOfWeek dow)

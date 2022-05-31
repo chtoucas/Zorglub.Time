@@ -90,7 +90,6 @@ public sealed class RedundantTestGroupAttribute : Attribute, ITraitAttribute
 // of the main assembly and therefore not need to achieve full code coverage.
 // This trait only existing to help us to reduce the time needed to complete the
 // common test plans, we only bother to mark a few test classes.
-// REVIEW(code): exclude from the "regular" plan?
 [TraitDiscoverer(XunitTraitAssembly.TypePrefix + nameof(SketchUnderTestTraitDiscoverer), XunitTraitAssembly.Name)]
 [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
 public sealed class SketchUnderTestAttribute : Attribute, ITraitAttribute
@@ -118,7 +117,7 @@ public sealed class TestPerformanceAttribute : Attribute, ITraitAttribute
 
 #region Discoverers
 
-// FIXME(code): the trait discoverers do not inspect the base classes.
+// TODO(code): the trait discoverers do not inspect the base classes.
 
 public sealed class ExcludeFromTraitDiscoverer : ITraitDiscoverer
 {

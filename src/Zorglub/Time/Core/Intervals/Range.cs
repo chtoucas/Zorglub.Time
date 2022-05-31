@@ -5,7 +5,7 @@ namespace Zorglub.Time.Core.Intervals
 {
     using System.Linq;
 
-    // REVIEW(code): extension methods "in param"?
+    // REVIEW(code): extension methods "in param"? Public Maximal32?
 
     // Name conflict with BCL System.Range: use an alias, either
     // > using BclRange = System.Range;
@@ -140,7 +140,7 @@ namespace Zorglub.Time.Core.Intervals
         /// <see cref="Int32"/>.</exception>
         [Pure]
         public static IEnumerable<int> ToEnumerable(this Range<int> @this) =>
-            // TODO(code): Overflow... don't bother? This differs from the
+            // TODO(code): overflow... don't bother? This differs from the
             // behaviour of Range<DayNumber>.ToEnumerable()
             Enumerable.Range(@this.Min, @this.Count());
     }

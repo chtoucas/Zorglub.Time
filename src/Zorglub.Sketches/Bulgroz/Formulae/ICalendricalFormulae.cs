@@ -8,7 +8,7 @@ namespace Zorglub.Bulgroz.Formulae;
 /// <para>At calendar level, it means that we can convert a date to a
 /// <see cref="Zorglub.Time.DayNumber"/> and vice-versa.</para>
 /// </summary>
-public interface IInterconversionFormulae
+public interface ICalendricalFormulae
 {
     /// <summary>
     /// Counts the number of consecutive days from the epoch to the specified date.

@@ -10,7 +10,7 @@ using static Zorglub.Bulgroz.JulianConstants;
 /// Formulae for the Julian calendar (Troesch).
 /// <para>This class cannot be inherited.</para>
 /// </summary>
-public sealed class JulianTroeschFormulae : IInterconversionFormulae
+public sealed class JulianTroeschFormulae : ICalendricalFormulae
 {
     /// <summary>1224</summary>
     private const int L1224 = 4 * DaysInYearAfterFebruary;

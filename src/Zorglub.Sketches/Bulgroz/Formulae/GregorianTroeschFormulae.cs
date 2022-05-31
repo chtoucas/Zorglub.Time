@@ -14,7 +14,7 @@ using static Zorglub.Bulgroz.GregorianConstants;
 /// Formulae for the Gregorian calendar (Troesch).
 /// <para>This class cannot be inherited.</para>
 /// </summary>
-public sealed class GregorianTroeschFormulae : IInterconversionFormulae
+public sealed class GregorianTroeschFormulae : ICalendricalFormulae
 {
 #if TROESCH_JD
     /// <summary>Constant = 1_721_426; JDN = 1_721_425.5</summary>
@@ -74,7 +74,7 @@ public sealed class GregorianTroeschFormulae : IInterconversionFormulae
 
     // Inspiré de Hinnant (cycle de 400 ans) ainsi que de Troesch (formes quasi-affines).
     [Pure]
-    public int CountDaysSinceEpoch400(int y, int m, int d)
+    public static int CountDaysSinceEpoch400(int y, int m, int d)
     {
         if (m < 3)
         {

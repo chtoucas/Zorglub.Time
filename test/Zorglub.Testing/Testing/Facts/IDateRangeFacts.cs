@@ -13,6 +13,7 @@ using Zorglub.Time.Hemerology.Scopes;
 /// <summary>
 /// Provides facts about <see cref="IDateRange{T, TDate}"/>.
 /// </summary>
+[Obsolete("IDateRange is obsolete.")]
 public abstract partial class IDateRangeFacts<TDate, TRange, TDataSet> :
     CalendarDataConsumer<TDataSet>
     where TDate : struct, IComparable<TDate>
@@ -335,7 +336,7 @@ public partial class IDateRangeFacts<TDate, TRange, TDataSet> // IEquatable
     {
         var (y, m, d) = info.Yemoda;
         // Autrement, on ne pourrait pas créer range1/2.
-        // FIXME(fact): ShortScope est lié à DateRange, pas à IDateRange.
+        // WRONG: ShortScope est lié à DateRange, pas à IDateRange.
         if (y >= ShortScope.MaxYear) { return; }
 
         var start = GetDate(y, m, d);

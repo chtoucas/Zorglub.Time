@@ -5,7 +5,6 @@ namespace Zorglub.Time.Core.Arithmetic
 {
     using Zorglub.Time.Core.Schemas;
 
-    // FastArithmetic is internal -> no need to go generic.
     // Keeping this class internal ensures that we have complete control on its
     // instances. In particular, we make sure that none of them is used in
     // a wrong context, meaning in a place where a different schema is expected.

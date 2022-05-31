@@ -3,8 +3,7 @@
 
 namespace Zorglub.Bulgroz.Formulae;
 
-public sealed class GregorianHinnantFormulaeTests
-    : IInterconversionFormulaeFacts<GregorianHinnantFormulae, GregorianDataSet>
+public sealed class GregorianHinnantFormulaeTests : ICalendricalFormulaeFacts<GregorianDataSet>
 {
     public GregorianHinnantFormulaeTests() : base(new GregorianHinnantFormulae()) { }
 
@@ -13,7 +12,7 @@ public sealed class GregorianHinnantFormulaeTests
     {
         var (y, m) = info.Yemo;
         // Act
-        int actual = FormulaeUT.CountDaysInYearBeforeMonth(y, m);
+        int actual = GregorianHinnantFormulae.CountDaysInYearBeforeMonth(y, m);
         // Assert
         Assert.Equal(info.DaysInYearBeforeMonth, actual);
     }

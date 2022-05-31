@@ -7,14 +7,13 @@ using Zorglub.Bulgroz.Formulae;
 using Zorglub.Testing.Data;
 
 /// <summary>
-/// Provides facts about <see cref="IInterconversionFormulae"/>.
+/// Provides facts about <see cref="ICalendricalFormulae"/>.
 /// </summary>
-public abstract class IInterconversionFormulaeFacts<TFormulae, TDataSet> :
+public abstract class ICalendricalFormulaeFacts<TDataSet> :
     CalendricalDataConsumer<TDataSet>
-    where TFormulae : IInterconversionFormulae
     where TDataSet : ICalendricalDataSet, ISingleton<TDataSet>
 {
-    protected IInterconversionFormulaeFacts(TFormulae formulae)
+    protected ICalendricalFormulaeFacts(ICalendricalFormulae formulae)
     {
         FormulaeUT = formulae ?? throw new ArgumentNullException(nameof(formulae));
     }
@@ -22,7 +21,7 @@ public abstract class IInterconversionFormulaeFacts<TFormulae, TDataSet> :
     /// <summary>
     /// Gets the schema under test.
     /// </summary>
-    protected TFormulae FormulaeUT { get; }
+    protected ICalendricalFormulae FormulaeUT { get; }
 
     [Theory, MemberData(nameof(DaysSinceEpochInfoData))]
     public void CountDaysSinceEpoch(DaysSinceEpochInfo info)

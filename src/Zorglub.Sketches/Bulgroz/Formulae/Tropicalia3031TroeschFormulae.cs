@@ -27,7 +27,7 @@ using static Zorglub.Bulgroz.TropicalistaConstants;
 /// Formulae for the "Tropicália" (30-31) calendar (Troesch).
 /// <para>This class cannot be inherited.</para>
 /// </summary>
-public sealed class Tropicalia3031TroeschFormulae : IInterconversionFormulae
+public sealed class Tropicalia3031TroeschFormulae : ICalendricalFormulae
 {
     [Pure]
     public int CountDaysSinceEpoch(int y, int m, int d)

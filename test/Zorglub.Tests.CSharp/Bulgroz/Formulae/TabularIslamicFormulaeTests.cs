@@ -3,8 +3,7 @@
 
 namespace Zorglub.Bulgroz.Formulae;
 
-public sealed class TabularIslamicFormulaeTests
-    : IInterconversionFormulaeFacts<TabularIslamicFormulae, TabularIslamicDataSet>
+public sealed class TabularIslamicFormulaeTests : ICalendricalFormulaeFacts<TabularIslamicDataSet>
 {
     public TabularIslamicFormulaeTests() : base(new TabularIslamicFormulae()) { }
 

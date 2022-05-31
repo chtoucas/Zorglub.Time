@@ -3,13 +3,12 @@
 
 namespace Zorglub.Time.Hemerology
 {
-    // TODO(api): use IInterval<> instead.
-
     /// <summary>
     /// Represents a range of consecutive days, that is a finite interval of days.
     /// <para>A type implementing this interface should follow the rules of structural equality.
     /// </para>
     /// </summary>
+    [Obsolete("See Zorglub.Time.Core.Intervals.")]
     public interface IDateRange<T, TDate> : IEquatable<T>, IEnumerable<TDate>
         where TDate : struct, IComparable<TDate>
     {

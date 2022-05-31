@@ -9,7 +9,7 @@ using static Zorglub.Bulgroz.TabularIslamicConstants;
 /// Formulae for the Tabular Islamic calendar.
 /// <para>This class cannot be inherited.</para>
 /// </summary>
-public sealed class TabularIslamicFormulae : IInterconversionFormulae
+public sealed class TabularIslamicFormulae : ICalendricalFormulae
 {
     [Pure]
     public int CountDaysSinceEpoch(int y, int m, int d) =>

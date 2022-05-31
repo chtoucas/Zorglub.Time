@@ -3,7 +3,7 @@
 
 namespace Zorglub.Testing.Data;
 
-// TODO(data): name.
+// TODO(data): to be deleted or reworked.
 // To be used as a provider for -ambiguous- data.
 public interface IAdvancedMathDataSet
 {

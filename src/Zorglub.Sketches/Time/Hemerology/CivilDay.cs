@@ -7,6 +7,8 @@ namespace Zorglub.Time.Hemerology
     using Zorglub.Time.Core.Schemas;
     using Zorglub.Time.Hemerology.Scopes;
 
+    // TODO(api): advanced math.
+
     public readonly partial struct CivilDay :
         IDate<CivilDay>,
         IYearEndpointsProvider<CivilDay>,

@@ -19,7 +19,7 @@ using static Zorglub.Bulgroz.GregorianConstants;
 /// Formulae for the Gregorian calendar (Hinnant).
 /// <para>This class cannot be inherited.</para>
 /// </summary>
-public sealed class GregorianHinnantFormulae : IInterconversionFormulae
+public sealed class GregorianHinnantFormulae : ICalendricalFormulae
 {
     [Pure]
     public int CountDaysSinceEpoch(int y, int m, int d)
@@ -114,7 +114,7 @@ public sealed class GregorianHinnantFormulae : IInterconversionFormulae
     // On vérifie aisément que remplacer 5 par 4 ne change pas le
     // résultat, d'où la formule proposée par Hinnant.
     [Pure]
-    public int CountDaysInYearBeforeMonth(int y, int m)
+    public static int CountDaysInYearBeforeMonth(int y, int m)
     {
         // Formula if the year started in march (algebraic months):
         //   (153 * m + 2) / 5

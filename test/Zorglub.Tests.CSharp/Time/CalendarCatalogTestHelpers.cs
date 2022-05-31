@@ -12,6 +12,8 @@ using global::Samples;
 using Zorglub.Time.Core.Schemas;
 using Zorglub.Time.Simple;
 
+// Badly written code, to be removed after we refactor CalendarCatalog.
+
 internal static class CalendarCatalogTestHelpers
 {
     public static void OnKeyNotSet(string key)

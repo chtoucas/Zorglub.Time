@@ -10,7 +10,7 @@ using System.Linq;
 using Zorglub.Testing.Data;
 using Zorglub.Time.Hemerology;
 
-// TODO(fact): Should derive from ICalendarTFacts
+// TODO(fact): should derive from ICalendarTFacts.
 
 // Ça passe parce qu'on triche, voir GregorianBoundedBelowCalendarTests et
 // GregorianBoundedBelowCalendarTests. En toute rigueur, il faudrait créer

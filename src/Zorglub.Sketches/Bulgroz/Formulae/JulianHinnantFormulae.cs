@@ -10,7 +10,7 @@ using static Zorglub.Bulgroz.JulianConstants;
 /// Formulae for the Julian calendar (Hinnant).
 /// <para>This class cannot be inherited.</para>
 /// </summary>
-public sealed class JulianHinnantFormulae : IInterconversionFormulae
+public sealed class JulianHinnantFormulae : ICalendricalFormulae
 {
     [Pure]
     public int CountDaysSinceEpoch(int y, int m, int d)
