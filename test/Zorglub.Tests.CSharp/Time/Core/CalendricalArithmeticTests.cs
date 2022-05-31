@@ -8,7 +8,7 @@ using System.Reflection;
 
 public static class CalendricalArithmeticTests
 {
-    [Fact(Skip = "WIP")]
+    [Fact]
     public static void Constructor_IsNotPublic()
     {
         // On teste aussi les classes abstraites.
