@@ -5,6 +5,8 @@ namespace Zorglub.Time.Core.Intervals
 {
     using System.Linq;
 
+    // REVIEW(code): extension methods "in param"?
+
     // Name conflict with BCL System.Range: use an alias, either
     // > using BclRange = System.Range;
     // or

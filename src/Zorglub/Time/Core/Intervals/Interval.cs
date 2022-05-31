@@ -3,8 +3,6 @@
 
 namespace Zorglub.Time.Core.Intervals
 {
-    // REVIEW(code): extension methods "in param"?
-
     // Omitted methods: see IntervalExtra in Zorglub.Sketches.
     // Methods with args reversed: see Lavretni in Zorglub.Sketches.
 
