@@ -477,7 +477,7 @@ namespace Zorglub.Time.Simple
         }
 
         //
-        // REVIEW(api): "Membership"
+        // REVIEW(api): "Membership" (disabled)
         //
 #if false
 

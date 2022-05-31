@@ -475,7 +475,7 @@ namespace Zorglub.Time.Core
         // GetMonth() without an out param could be useful for OrdinalDate but,
         // in practice, it seems simpler and better to keep the computations of
         // "d" & "m" together.
-        // REVIEW(code): We encountered a similar situation with GetYear(),
+        // REVIEW(code): we encountered a similar situation with GetYear(),
         // except that we often compute its result without having to compute
         // GetStartOfYear(); see GetYear(int daysSinceEpoch, out int doy).
         // Once we know "m", it is easy to compute "d".

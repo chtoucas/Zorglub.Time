@@ -3,8 +3,6 @@
 
 namespace Zorglub.Time.Core
 {
-    // REVIEW(api): Move Arithmetic elsewhere???
-
     #region Developer Notes
 
     // Types Implementing ICalendricalSchema
