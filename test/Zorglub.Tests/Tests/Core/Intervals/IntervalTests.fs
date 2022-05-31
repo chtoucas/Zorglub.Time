@@ -97,6 +97,151 @@ module Prelude =
         IntervalExtra.Adjacent(v, v)    |> nok
         IntervalExtra.Connected(v, v)   |> ok
 
+module IntersectionCase =
+    // The intersection is the first range.
+    [<Theory>]
+    // Equal
+    [<InlineData(1, 1, 1, 1)>]
+    [<InlineData(1, 4, 1, 4)>]
+    // Strict subset (degenerate)
+    [<InlineData(1, 1, 1, 4)>]
+    [<InlineData(2, 2, 1, 4)>]
+    [<InlineData(3, 3, 1, 4)>]
+    [<InlineData(4, 4, 1, 4)>]
+    // Strict subset (non-degenerate)
+    [<InlineData(1, 2, 1, 4)>]
+    [<InlineData(1, 3, 1, 4)>]
+    [<InlineData(2, 3, 1, 4)>]
+    [<InlineData(2, 4, 1, 4)>]
+    [<InlineData(3, 4, 1, 4)>]
+    let ``Intersect(Range, Range) when subset`` i j m n =
+        let v = Range.Create(i, j)
+        let w = Range.Create(m, n)
+        let inter = RangeSet.Create(i, j)
+
+        Interval.Intersect(v, w) === inter
+        Interval.Intersect(w, v) === inter
+
+    [<Theory>]
+    [<InlineData(1, 4, 4, 7, 4, 4)>]
+    [<InlineData(1, 4, 3, 7, 3, 4)>]
+    let ``Intersect(Range, Range) when overlapping and not subset`` i j k l m n =
+        let v = Range.Create(i, j)
+        let w = Range.Create(k, l)
+        let inter = RangeSet.Create(m, n)
+
+        Interval.Intersect(v, w) === inter
+        Interval.Intersect(w, v) === inter
+
+    [<Theory>]
+    [<InlineData(1, 1, 4, 4)>]
+    [<InlineData(1, 1, 4, 7)>]
+    [<InlineData(1, 4, 6, 9)>]
+    let ``Intersect(Range, Range) when disjoint`` i j m n =
+        let v = Range.Create(i, j)
+        let w = Range.Create(m, n)
+
+        Interval.Intersect(v, w).IsEmpty |> ok
+        Interval.Intersect(w, v).IsEmpty |> ok
+
+    [<Theory>]
+    [<InlineData(1, 1, 1)>]
+    [<InlineData(1, 4, 1)>]
+    let ``Intersect(LowerRay, LowerRay)`` i j m =
+        let v = LowerRay.EndingAt(i)
+        let w = LowerRay.EndingAt(j)
+        let inter = LowerRay.EndingAt(m)
+
+        Interval.Intersect(v, w) === inter
+        Interval.Intersect(w, v) === inter
+
+    [<Theory>]
+    [<InlineData(1, 1, 1)>]
+    [<InlineData(1, 4, 4)>]
+    let ``Intersect(UpperRay, UpperRay)`` i j m =
+        let v = UpperRay.StartingAt(i)
+        let w = UpperRay.StartingAt(j)
+        let inter = UpperRay.StartingAt(m)
+
+        Interval.Intersect(v, w) === inter
+        Interval.Intersect(w, v) === inter
+
+    [<Theory>]
+    // Intersection is a singleton
+    [<InlineData(5, 5, 8, 5, 5)>]
+    [<InlineData(5, 5, 5, 5, 5)>]
+    [<InlineData(5, 4, 4, 4, 4)>]
+    // Overlapping but range is not a subset
+    [<InlineData(5, 4, 8, 4, 5)>]
+    // Overlapping and range is a subset
+    [<InlineData(5, 2, 5, 2, 5)>]
+    [<InlineData(5, 1, 4, 1, 4)>]
+    let ``Intersect(Range, LowerRay) overlapping`` i k l m n=
+        let w = LowerRay.EndingAt(i)
+        let v = Range.Create(k, l)
+        let inter = RangeSet.Create(m, n)
+
+        Interval.Intersect(v, w) === inter
+        Lavretni.Intersect(w, v) === inter
+
+    [<Theory>]
+    [<InlineData(5, 6, 6)>]
+    [<InlineData(5, 6, 9)>]
+    let ``Intersect(Range, LowerRay) disjoint`` i m n =
+        let w = LowerRay.EndingAt(i)
+        let v = Range.Create(m, n)
+
+        Interval.Intersect(v, w).IsEmpty |> ok
+        Lavretni.Intersect(w, v).IsEmpty |> ok
+
+    [<Theory>]
+    // Overlapping
+    [<InlineData(5, 1, 5, 5, 5)>]
+    [<InlineData(5, 5, 5, 5, 5)>]
+    [<InlineData(5, 6, 6, 6, 6)>]
+    // Overlapping but range is not a subset
+    [<InlineData(5, 4, 8, 5, 8)>]
+    // Overlapping and range is a subset
+    [<InlineData(5, 5, 6, 5, 6)>]
+    [<InlineData(5, 6, 9, 6, 9)>]
+    let ``Intersect(Range, UpperRay) overlapping`` i k l m n =
+        let w = UpperRay.StartingAt(i)
+        let v = Range.Create(k, l)
+        let inter = RangeSet.Create(m, n)
+
+        Interval.Intersect(v, w) === inter
+        Lavretni.Intersect(w, v) === inter
+
+    [<Theory>]
+    [<InlineData(5, 1, 1)>]
+    [<InlineData(5, 1, 4)>]
+    let ``Intersect(Range, UpperRay) disjoint`` i m n =
+        let w = UpperRay.StartingAt(i)
+        let v = Range.Create(m, n)
+
+        Interval.Intersect(v, w).IsEmpty |> ok
+        Lavretni.Intersect(w, v).IsEmpty |> ok
+
+    [<Theory>]
+    [<InlineData(5, 5, 5, 5)>]
+    [<InlineData(5, 4, 4, 5)>]
+    let ``Intersect(LowerRay, UpperRay) overlapping`` i j m n =
+        let v = LowerRay.EndingAt(i)
+        let w = UpperRay.StartingAt(j)
+        let inter = RangeSet.Create(m, n)
+
+        Interval.Intersect(v, w) === inter
+        Lavretni.Intersect(w, v) === inter
+
+    [<Theory>]
+    [<InlineData(5, 6)>]
+    let ``Intersect(LowerRay, UpperRay) disjoint`` i j =
+        let v = LowerRay.EndingAt(i)
+        let w = UpperRay.StartingAt(j)
+
+        Interval.Intersect(v, w).IsEmpty |> ok
+        Lavretni.Intersect(w, v).IsEmpty |> ok
+
 module DisjointCase =
     [<Theory>]
     // Equal
@@ -155,7 +300,7 @@ module DisjointCase =
     // Overlapping but range is not a subset
     [<InlineData(5, 4, 8, false)>]
     // Overlapping and range is a subset
-    [<InlineData(5, 2, 6, false)>]
+    [<InlineData(5, 5, 6, false)>]
     [<InlineData(5, 6, 9, false)>]
     // Disjoint
     [<InlineData(5, 1, 1, true)>]
