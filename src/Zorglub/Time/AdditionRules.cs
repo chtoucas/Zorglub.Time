@@ -61,7 +61,7 @@ namespace Zorglub.Time
     {
         /// <summary>
         /// When the result is not a valid day of the month (roundoff > 0), return the last day of
-        /// the month. This is the default strategy.
+        /// the month. This is the <i>default</i> strategy.
         /// </summary>
         // Si le résultat d'une opération arithmétique n'est pas exact (roundoff > 0),
         // on retourne le "dernier jour du mois".
@@ -129,7 +129,7 @@ namespace Zorglub.Time
     {
         /// <summary>
         /// When the result is not a valid day of the year (roundoff > 0), return the last day of
-        /// the year. This is the default strategy.
+        /// the year. This is the <i>default</i> strategy.
         /// </summary>
         EndOfYear = 0,
 
@@ -162,7 +162,7 @@ namespace Zorglub.Time
     {
         /// <summary>
         /// When the result is not a valid month of the year (roundoff > 0), return the last month
-        /// of the year. This is the default strategy.
+        /// of the year. This is the <i>default</i> strategy.
         /// </summary>
         EndOfYear = 0,
 

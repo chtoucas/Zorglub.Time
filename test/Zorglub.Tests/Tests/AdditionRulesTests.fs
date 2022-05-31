@@ -11,6 +11,10 @@ open Zorglub.Time
 open Xunit
 
 module Prelude =
+    let private defaultDateRule    = Unchecked.defaultof<DateAdditionRule>
+    let private defaultOrdinalRule = Unchecked.defaultof<OrdinalAdditionRule>
+    let private defaultMonthRule   = Unchecked.defaultof<MonthAdditionRule>
+
     let dateAdditionRuleData = EnumDataSet.DateAdditionRuleData
     let ordinalAdditionRuleData = EnumDataSet.OrdinalAdditionRuleData
     let monthAdditionRuleData = EnumDataSet.MonthAdditionRuleData
@@ -21,15 +25,15 @@ module Prelude =
 
     [<Theory; MemberData(nameof(invalidDateAdditionRuleData))>]
     let ``Constructor throws for invalid DateAdditionRule`` (rule: DateAdditionRule) =
-        outOfRangeExn "dateRule" (fun () -> new AdditionRules(rule, OrdinalAdditionRule.EndOfYear, MonthAdditionRule.EndOfYear))
+        outOfRangeExn "dateRule" (fun () -> new AdditionRules(rule, defaultOrdinalRule, defaultMonthRule))
 
     [<Theory; MemberData(nameof(invalidOrdinalAdditionRuleData))>]
     let ``Constructor throws for invalid OrdinalAdditionRule`` (rule: OrdinalAdditionRule) =
-        outOfRangeExn "ordinalRule" (fun () -> new AdditionRules(DateAdditionRule.EndOfMonth, rule, MonthAdditionRule.EndOfYear))
+        outOfRangeExn "ordinalRule" (fun () -> new AdditionRules(defaultDateRule, rule, defaultMonthRule))
 
     [<Theory; MemberData(nameof(invalidMonthAdditionRuleData))>]
     let ``Constructor throws for invalid MonthAdditionRule`` (rule: MonthAdditionRule) =
-        outOfRangeExn "monthRule" (fun () -> new AdditionRules(DateAdditionRule.EndOfMonth, OrdinalAdditionRule.EndOfYear, rule))
+        outOfRangeExn "monthRule" (fun () -> new AdditionRules(defaultDateRule, defaultOrdinalRule, rule))
 
     //
     // Properties
@@ -37,18 +41,18 @@ module Prelude =
 
     [<Theory; MemberData(nameof(dateAdditionRuleData))>]
     let ``Property DateRule`` (rule: DateAdditionRule) =
-        let rules = new AdditionRules(rule, OrdinalAdditionRule.EndOfYear, MonthAdditionRule.EndOfYear)
+        let rules = new AdditionRules(rule, defaultOrdinalRule, defaultMonthRule)
 
         rules.DateRule === rule
 
     [<Theory; MemberData(nameof(dateAdditionRuleData))>]
     let ``Property OrdinalRule`` (rule: OrdinalAdditionRule) =
-        let rules = new AdditionRules(DateAdditionRule.EndOfMonth, rule, MonthAdditionRule.EndOfYear)
+        let rules = new AdditionRules(defaultDateRule, rule, defaultMonthRule)
 
         rules.OrdinalRule === rule
 
     [<Theory; MemberData(nameof(dateAdditionRuleData))>]
     let ``Property MonthRule`` (rule: MonthAdditionRule) =
-        let rules = new AdditionRules(DateAdditionRule.EndOfMonth, OrdinalAdditionRule.EndOfYear, rule)
+        let rules = new AdditionRules(defaultDateRule, defaultOrdinalRule, rule)
 
         rules.MonthRule === rule

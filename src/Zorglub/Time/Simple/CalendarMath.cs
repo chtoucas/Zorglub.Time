@@ -6,8 +6,12 @@ namespace Zorglub.Time.Simple
     using Zorglub.Time.Core;
     using Zorglub.Time.Core.Intervals;
 
-    // REVIEW(api): Subtract(), add Add(Period). NextMonth() & co. Week ops. Quarter ops.
-    // Addition overflow: est-ce-que cela affecte aussi Subtract()?
+    // REVIEW(api): difference, add Add(Period). NextMonth() & co. Week ops.
+    // Quarter ops.
+    // Addition rules: impact on Count...Between()?
+    // Add tests related to the warning below. Question: should we provide an
+    // engine for which the operations always give the same result for dates and
+    // ordinal dates? and how could we do that?
 
     // Only handle calendrical objects related to the Calendar system; for other
     // systems, see CalendricalMath.
