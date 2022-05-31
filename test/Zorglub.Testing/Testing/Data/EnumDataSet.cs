@@ -31,7 +31,7 @@ public static class EnumDataSet
     public static TheoryData<DateAdditionRule> InvalidDateAdditionRuleData { get; } = new()
     {
         (DateAdditionRule)(-1),
-        DateAdditionRule.Overflow + 1,
+        DateAdditionRule.Throw + 1,
     };
 
     public static TheoryData<DateAdditionRule> DateAdditionRuleData { get; } = new()
@@ -39,13 +39,13 @@ public static class EnumDataSet
         DateAdditionRule.EndOfMonth,
         DateAdditionRule.StartOfNextMonth,
         DateAdditionRule.Exact,
-        DateAdditionRule.Overflow,
+        DateAdditionRule.Throw,
     };
 
     public static TheoryData<OrdinalAdditionRule> InvalidOrdinalAdditionRuleData { get; } = new()
     {
         (OrdinalAdditionRule)(-1),
-        OrdinalAdditionRule.Overflow + 1,
+        OrdinalAdditionRule.Throw + 1,
     };
 
     public static TheoryData<OrdinalAdditionRule> OrdinalAdditionRuleData { get; } = new()
@@ -53,13 +53,13 @@ public static class EnumDataSet
         OrdinalAdditionRule.EndOfYear,
         OrdinalAdditionRule.StartOfNextYear,
         OrdinalAdditionRule.Exact,
-        OrdinalAdditionRule.Overflow,
+        OrdinalAdditionRule.Throw,
     };
 
     public static TheoryData<MonthAdditionRule> InvalidMonthAdditionRuleData { get; } = new()
     {
         (MonthAdditionRule)(-1),
-        MonthAdditionRule.Overflow + 1,
+        MonthAdditionRule.Throw + 1,
     };
 
     public static TheoryData<MonthAdditionRule> MonthAdditionRuleData { get; } = new()
@@ -67,7 +67,7 @@ public static class EnumDataSet
         MonthAdditionRule.EndOfYear,
         MonthAdditionRule.StartOfNextYear,
         MonthAdditionRule.Exact,
-        MonthAdditionRule.Overflow,
+        MonthAdditionRule.Throw,
     };
 
     public static TheoryData<CalendricalAlgorithm> InvalidCalendricalAlgorithmData { get; } = new()

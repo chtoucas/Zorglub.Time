@@ -3,8 +3,6 @@
 
 namespace Zorglub.Time
 {
-    // TODO(api): Overflow value -> rename, which type of exception should we throw?
-
     /// <summary>
     /// Defines the strategies employed to resolve overflows when adding a number of months or
     /// years to a calendrical object.
@@ -22,11 +20,11 @@ namespace Zorglub.Time
             OrdinalAdditionRule ordinalRule,
             MonthAdditionRule monthRule)
         {
-            if (dateRule < DateAdditionRule.EndOfMonth || dateRule > DateAdditionRule.Overflow)
+            if (dateRule < DateAdditionRule.EndOfMonth || dateRule > DateAdditionRule.Throw)
                 Throw.ArgumentOutOfRange(nameof(dateRule));
-            if (ordinalRule < OrdinalAdditionRule.EndOfYear || ordinalRule > OrdinalAdditionRule.Overflow)
+            if (ordinalRule < OrdinalAdditionRule.EndOfYear || ordinalRule > OrdinalAdditionRule.Throw)
                 Throw.ArgumentOutOfRange(nameof(ordinalRule));
-            if (monthRule < MonthAdditionRule.EndOfYear || monthRule > MonthAdditionRule.Overflow)
+            if (monthRule < MonthAdditionRule.EndOfYear || monthRule > MonthAdditionRule.Throw)
                 Throw.ArgumentOutOfRange(nameof(monthRule));
 
             DateRule = dateRule;
@@ -56,12 +54,14 @@ namespace Zorglub.Time
     /// <summary>
     /// Specifies the strategy to resolve overflows when adding a number of months or years to a
     /// date.
+    /// <para><see cref="EndOfMonth"/> is the <i>default</i> strategy.</para>
     /// </summary>
     public enum DateAdditionRule
     {
         /// <summary>
         /// When the result is not a valid day of the month (roundoff > 0), return the last day of
-        /// the month. This is the <i>default</i> strategy.
+        /// the month.
+        /// <para>This is the <i>default</i> strategy.</para>
         /// </summary>
         // Si le résultat d'une opération arithmétique n'est pas exact (roundoff > 0),
         // on retourne le "dernier jour du mois".
@@ -118,18 +118,20 @@ namespace Zorglub.Time
         /// When the result is not a valid day of the month (roundoff > 0), throw an exception of
         /// type <see cref="OverflowException"/>.
         /// </summary>
-        Overflow,
+        Throw,
     }
 
     /// <summary>
     /// Specifies the strategy to resolve overflows when adding a number of years to an ordinal
     /// date.
+    /// <para><see cref="EndOfYear"/> is the <i>default</i> strategy.</para>
     /// </summary>
     public enum OrdinalAdditionRule
     {
         /// <summary>
         /// When the result is not a valid day of the year (roundoff > 0), return the last day of
-        /// the year. This is the <i>default</i> strategy.
+        /// the year.
+        /// <para>This is the <i>default</i> strategy.</para>
         /// </summary>
         EndOfYear = 0,
 
@@ -151,18 +153,20 @@ namespace Zorglub.Time
         /// When the result is not a valid day of the year (roundoff > 0), throw an exception of
         /// type <see cref="OverflowException"/>.
         /// </summary>
-        Overflow,
+        Throw,
     }
 
     /// <summary>
     /// Specifies the strategy to resolve overflows when adding a number of years to a calendar
     /// month.
+    /// <para><see cref="EndOfYear"/> is the <i>default</i> strategy.</para>
     /// </summary>
     public enum MonthAdditionRule
     {
         /// <summary>
         /// When the result is not a valid month of the year (roundoff > 0), return the last month
-        /// of the year. This is the <i>default</i> strategy.
+        /// of the year.
+        /// <para>This is the <i>default</i> strategy.</para>
         /// </summary>
         EndOfYear = 0,
 
@@ -183,6 +187,6 @@ namespace Zorglub.Time
         /// When the result is not a valid month of the year (roundoff > 0), throw an exception of
         /// type <see cref="OverflowException"/>.
         /// </summary>
-        Overflow,
+        Throw,
     }
 }

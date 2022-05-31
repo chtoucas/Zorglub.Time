@@ -43,7 +43,7 @@ module Prelude =
 
     [<Fact>]
     let ``Property AdditionRules`` () =
-        let rules = new AdditionRules(DateAdditionRule.StartOfNextMonth, OrdinalAdditionRule.Exact, MonthAdditionRule.Overflow)
+        let rules = new AdditionRules(DateAdditionRule.StartOfNextMonth, OrdinalAdditionRule.Exact, MonthAdditionRule.Throw)
         let math = new FauxCalendarMath(rules)
 
         math.AdditionRules === rules
