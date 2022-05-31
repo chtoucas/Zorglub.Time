@@ -12,10 +12,6 @@ open Zorglub.Time.Core.Intervals
 open Xunit
 open FsCheck.Xunit
 
-// REVIEW(code): it does what it's supposed to do but it's a bit quick and dirty.
-// Use ClassData and, for DayNumber, mapping. Some methods are only tested
-// indirectly.
-
 // 1/ Intersect, Union, Coalesce
 // 2/ Span, Gap
 // 3/ Disjoint, Adjacent, Connected
@@ -38,6 +34,20 @@ open FsCheck.Xunit
 // - Adjacency
 // - Connectedness
 // We also test Lavretni.
+
+let private maprange (range: Range<int>) =
+    let endpoints = range.Endpoints.Select(fun i -> DayNumber.Zero + i)
+    Range.FromEndpoints(endpoints)
+let private maprangeset (set: RangeSet<int>) =
+    if set.IsEmpty then
+        RangeSet<DayNumber>.Empty
+    else
+        let endpoints = set.Range.Value.Endpoints.Select(fun i -> DayNumber.Zero + i)
+        RangeSet.FromEndpoints(endpoints)
+let private maplowerray (ray: LowerRay<int>) =
+    LowerRay.EndingAt(DayNumber.Zero + ray.Max)
+let private mapupperray (ray: UpperRay<int>) =
+    UpperRay.StartingAt(DayNumber.Zero + ray.Min)
 
 module Prelude =
     [<Property>]
@@ -104,52 +114,281 @@ module Prelude =
         IntervalExtra.Adjacent(v, v)    |> nok
         IntervalExtra.Connected(v, v)   |> ok
 
-module IntersectionCase =
-    // The intersection is the first range.
-    [<Theory>]
-    // Equal
-    [<InlineData(1, 1, 1, 1)>]
-    [<InlineData(1, 4, 1, 4)>]
-    // Strict subset (degenerate)
-    [<InlineData(1, 1, 1, 4)>]
-    [<InlineData(2, 2, 1, 4)>]
-    [<InlineData(3, 3, 1, 4)>]
-    [<InlineData(4, 4, 1, 4)>]
-    // Strict subset (non-degenerate)
-    [<InlineData(1, 2, 1, 4)>]
-    [<InlineData(1, 3, 1, 4)>]
-    [<InlineData(2, 3, 1, 4)>]
-    [<InlineData(2, 4, 1, 4)>]
-    [<InlineData(3, 4, 1, 4)>]
-    let ``Intersect(Range, Range) when subset`` i j m n =
-        let v = Range.Create(i, j)
-        let w = Range.Create(m, n)
-        let inter = RangeSet.Create(i, j)
+// We test:
+// - Span
+// - Intersect
+// - Gap
+// - Disjoint
+// - Adjacent
+// - Connected
+// - Coalesce
+module SetOps =
+    let rangePairInfoData = IntervalDataSet.RangePairInfoData
+    let lowerRayRangeInfoData = IntervalDataSet.LowerRayRangeInfoData
+    let upperRayRangeInfoData = IntervalDataSet.UpperRayRangeInfoData
+    let lowerRayUpperRayInfoData = IntervalDataSet.LowerRayUpperRayInfoData
+
+    //
+    // Range and Range
+    //
+
+    [<Theory; MemberData(nameof(rangePairInfoData))>]
+    let ``(Range, Range)`` (data: RangePairInfo) =
+        let v = data.First
+        let w = data.Second
+        let span  = data.Span
+        let inter = data.Intersection
+        let gap   = data.Gap
+
+        Interval.Span(v, w) === span
+        Interval.Span(w, v) === span
 
         Interval.Intersect(v, w) === inter
         Interval.Intersect(w, v) === inter
 
-    [<Theory>]
-    [<InlineData(1, 4, 4, 7, 4, 4)>]
-    [<InlineData(1, 4, 3, 7, 3, 4)>]
-    let ``Intersect(Range, Range) when overlapping and not subset`` i j k l m n =
-        let v = Range.Create(i, j)
-        let w = Range.Create(k, l)
-        let inter = RangeSet.Create(m, n)
+        Interval.Gap(v, w) === gap
+        Interval.Gap(w, v) === gap
+
+        Interval.Disjoint(v, w) === data.Disjoint
+        Interval.Disjoint(w, v) === data.Disjoint
+
+        Interval.Adjacent(v, w) === data.Adjacent
+        Interval.Adjacent(w, v) === data.Adjacent
+
+        Interval.Connected(v, w) === data.Connected
+        Interval.Connected(w, v) === data.Connected
+
+        if data.Connected then
+            Interval.Coalesce(v, w).Value === span
+            Interval.Coalesce(w, v).Value === span
+        else
+            Interval.Coalesce(v, w) |> isnull
+            Interval.Coalesce(w, v) |> isnull
+
+    [<Theory; MemberData(nameof(rangePairInfoData))>]
+    let ``(Range, Range) for DayNumber's`` (data: RangePairInfo) =
+        let v = maprange data.First
+        let w = maprange data.Second
+        let span  = maprange data.Span
+        let inter = maprangeset data.Intersection
+        let gap   = maprangeset data.Gap
+
+        Interval.Span(v, w) === span
+        Interval.Span(w, v) === span
 
         Interval.Intersect(v, w) === inter
         Interval.Intersect(w, v) === inter
 
-    [<Theory>]
-    [<InlineData(1, 1, 4, 4)>]
-    [<InlineData(1, 1, 4, 7)>]
-    [<InlineData(1, 4, 6, 9)>]
-    let ``Intersect(Range, Range) when disjoint`` i j m n =
-        let v = Range.Create(i, j)
-        let w = Range.Create(m, n)
+        Interval.Gap(v, w) === gap
+        Interval.Gap(w, v) === gap
 
-        Interval.Intersect(v, w).IsEmpty |> ok
-        Interval.Intersect(w, v).IsEmpty |> ok
+        Interval.Disjoint(v, w) === data.Disjoint
+        Interval.Disjoint(w, v) === data.Disjoint
+
+        Interval.Adjacent(v, w) === data.Adjacent
+        Interval.Adjacent(w, v) === data.Adjacent
+
+        Interval.Connected(v, w) === data.Connected
+        Interval.Connected(w, v) === data.Connected
+
+        if data.Connected then
+            Interval.Coalesce(v, w).Value === span
+            Interval.Coalesce(w, v).Value === span
+        else
+            Interval.Coalesce(v, w) |> isnull
+            Interval.Coalesce(w, v) |> isnull
+
+    //
+    // Range and LowerRay
+    //
+
+    [<Theory; MemberData(nameof(lowerRayRangeInfoData))>]
+    let ``(Range, LowerRay)`` (data: LowerRayRangeInfo) =
+        let w = data.First
+        let v = data.Second
+        let span  = data.Span
+        let inter = data.Intersection
+        let gap   = data.Gap
+
+        Interval.Span(v, w) === span
+        Lavretni.Span(w, v) === span
+
+        Interval.Intersect(v, w) === inter
+        Lavretni.Intersect(w, v) === inter
+
+        Interval.Gap(v, w) === gap
+        Lavretni.Gap(w, v) === gap
+
+        Interval.Disjoint(v, w) === data.Disjoint
+        Lavretni.Disjoint(w, v) === data.Disjoint
+
+        Interval.Adjacent(v, w) === data.Adjacent
+        Lavretni.Adjacent(w, v) === data.Adjacent
+
+        Interval.Connected(v, w) === data.Connected
+        Lavretni.Connected(w, v) === data.Connected
+
+        if data.Connected then
+            Interval.Coalesce(v, w).Value === span
+            Lavretni.Coalesce(w, v).Value === span
+        else
+            Interval.Coalesce(v, w) |> isnull
+            Lavretni.Coalesce(w, v) |> isnull
+
+    [<Theory; MemberData(nameof(lowerRayRangeInfoData))>]
+    let ``(Range, LowerRay) for DayNumber's`` (data: LowerRayRangeInfo) =
+        let w = maplowerray data.First
+        let v = maprange data.Second
+        let span  = maplowerray data.Span
+        let inter = maprangeset data.Intersection
+        let gap   = maprangeset data.Gap
+
+        Interval.Span(v, w) === span
+        Lavretni.Span(w, v) === span
+
+        Interval.Intersect(v, w) === inter
+        Lavretni.Intersect(w, v) === inter
+
+        Interval.Gap(v, w) === gap
+        Lavretni.Gap(w, v) === gap
+
+        Interval.Disjoint(v, w) === data.Disjoint
+        Lavretni.Disjoint(w, v) === data.Disjoint
+
+        Interval.Adjacent(v, w) === data.Adjacent
+        Lavretni.Adjacent(w, v) === data.Adjacent
+
+        Interval.Connected(v, w) === data.Connected
+        Lavretni.Connected(w, v) === data.Connected
+
+        if data.Connected then
+            Interval.Coalesce(v, w).Value === span
+            Lavretni.Coalesce(w, v).Value === span
+        else
+            Interval.Coalesce(v, w) |> isnull
+            Lavretni.Coalesce(w, v) |> isnull
+
+    //
+    // Range and UpperRay
+    //
+
+    [<Theory; MemberData(nameof(upperRayRangeInfoData))>]
+    let ``(Range, UpperRay)`` (data: UpperRayRangeInfo) =
+        let w = data.First
+        let v = data.Second
+        let span  = data.Span
+        let inter = data.Intersection
+        let gap   = data.Gap
+
+        Interval.Span(v, w) === span
+        Lavretni.Span(w, v) === span
+
+        Interval.Intersect(v, w) === inter
+        Lavretni.Intersect(w, v) === inter
+
+        Interval.Gap(v, w) === gap
+        Lavretni.Gap(w, v) === gap
+
+        Interval.Disjoint(v, w) === data.Disjoint
+        Lavretni.Disjoint(w, v) === data.Disjoint
+
+        Interval.Adjacent(v, w) === data.Adjacent
+        Lavretni.Adjacent(w, v) === data.Adjacent
+
+        Interval.Connected(v, w) === data.Connected
+        Lavretni.Connected(w, v) === data.Connected
+
+        if data.Connected then
+            Interval.Coalesce(v, w).Value === span
+            Lavretni.Coalesce(w, v).Value === span
+        else
+            Interval.Coalesce(v, w) |> isnull
+            Lavretni.Coalesce(w, v) |> isnull
+
+    [<Theory; MemberData(nameof(upperRayRangeInfoData))>]
+    let ``(Range, UpperRay) for DayNumber's`` (data: UpperRayRangeInfo) =
+        let w = mapupperray data.First
+        let v = maprange data.Second
+        let span  = mapupperray data.Span
+        let inter = maprangeset data.Intersection
+        let gap   = maprangeset data.Gap
+
+        Interval.Span(v, w) === span
+        Lavretni.Span(w, v) === span
+
+        Interval.Intersect(v, w) === inter
+        Lavretni.Intersect(w, v) === inter
+
+        Interval.Gap(v, w) === gap
+        Lavretni.Gap(w, v) === gap
+
+        Interval.Disjoint(v, w) === data.Disjoint
+        Lavretni.Disjoint(w, v) === data.Disjoint
+
+        Interval.Adjacent(v, w) === data.Adjacent
+        Lavretni.Adjacent(w, v) === data.Adjacent
+
+        Interval.Connected(v, w) === data.Connected
+        Lavretni.Connected(w, v) === data.Connected
+
+        if data.Connected then
+            Interval.Coalesce(v, w).Value === span
+            Lavretni.Coalesce(w, v).Value === span
+        else
+            Interval.Coalesce(v, w) |> isnull
+            Lavretni.Coalesce(w, v) |> isnull
+
+    //
+    // LowerRay and UpperRay
+    //
+
+    [<Theory; MemberData(nameof(lowerRayUpperRayInfoData))>]
+    let ``(LowerRay, UpperRay)`` (data: LowerRayUpperRayInfo) =
+        let v = data.First
+        let w = data.Second
+        let inter = data.Intersection
+        let gap   = data.Gap
+
+        Interval.Intersect(v, w) === inter
+        Lavretni.Intersect(w, v) === inter
+
+        Interval.Gap(v, w) === gap
+        Lavretni.Gap(w, v) === gap
+
+        Interval.Disjoint(v, w) === data.Disjoint
+        Lavretni.Disjoint(w, v) === data.Disjoint
+
+        Interval.Adjacent(v, w) === data.Adjacent
+        Lavretni.Adjacent(w, v) === data.Adjacent
+
+        Interval.Connected(v, w) === data.Connected
+        Lavretni.Connected(w, v) === data.Connected
+
+    [<Theory; MemberData(nameof(lowerRayUpperRayInfoData))>]
+    let ``(LowerRay, UpperRay) for DayNumber's`` (data: LowerRayUpperRayInfo) =
+        let v = maplowerray data.First
+        let w = mapupperray data.Second
+        let inter = maprangeset data.Intersection
+        let gap   = maprangeset data.Gap
+
+        Interval.Intersect(v, w) === inter
+        Lavretni.Intersect(w, v) === inter
+
+        Interval.Gap(v, w) === gap
+        Lavretni.Gap(w, v) === gap
+
+        Interval.Disjoint(v, w) === data.Disjoint
+        Lavretni.Disjoint(w, v) === data.Disjoint
+
+        Interval.Adjacent(v, w) === data.Adjacent
+        Lavretni.Adjacent(w, v) === data.Adjacent
+
+        Interval.Connected(v, w) === data.Connected
+        Lavretni.Connected(w, v) === data.Connected
+
+    //
+    // LowerRay and LowerRay
+    //
 
     [<Theory>]
     [<InlineData(1, 1, 1)>]
@@ -165,94 +404,6 @@ module IntersectionCase =
     [<Theory>]
     [<InlineData(1, 1, 1)>]
     [<InlineData(1, 4, 4)>]
-    let ``Intersect(UpperRay, UpperRay)`` i j m =
-        let v = UpperRay.StartingAt(i)
-        let w = UpperRay.StartingAt(j)
-        let inter = UpperRay.StartingAt(m)
-
-        Interval.Intersect(v, w) === inter
-        Interval.Intersect(w, v) === inter
-
-    [<Theory>]
-    // Intersection is a singleton
-    [<InlineData(5, 5, 8, 5, 5)>]
-    [<InlineData(5, 5, 5, 5, 5)>]
-    [<InlineData(5, 4, 4, 4, 4)>]
-    // Overlapping but range is not a subset
-    [<InlineData(5, 4, 8, 4, 5)>]
-    // Overlapping and range is a subset
-    [<InlineData(5, 2, 5, 2, 5)>]
-    [<InlineData(5, 1, 4, 1, 4)>]
-    let ``Intersect(Range, LowerRay) overlapping`` i k l m n=
-        let w = LowerRay.EndingAt(i)
-        let v = Range.Create(k, l)
-        let inter = RangeSet.Create(m, n)
-
-        Interval.Intersect(v, w) === inter
-        Lavretni.Intersect(w, v) === inter
-
-    [<Theory>]
-    [<InlineData(5, 6, 6)>]
-    [<InlineData(5, 6, 9)>]
-    let ``Intersect(Range, LowerRay) disjoint`` i m n =
-        let w = LowerRay.EndingAt(i)
-        let v = Range.Create(m, n)
-
-        Interval.Intersect(v, w).IsEmpty |> ok
-        Lavretni.Intersect(w, v).IsEmpty |> ok
-
-    [<Theory>]
-    // Overlapping
-    [<InlineData(5, 1, 5, 5, 5)>]
-    [<InlineData(5, 5, 5, 5, 5)>]
-    [<InlineData(5, 6, 6, 6, 6)>]
-    // Overlapping but range is not a subset
-    [<InlineData(5, 4, 8, 5, 8)>]
-    // Overlapping and range is a subset
-    [<InlineData(5, 5, 6, 5, 6)>]
-    [<InlineData(5, 6, 9, 6, 9)>]
-    let ``Intersect(Range, UpperRay) overlapping`` i k l m n =
-        let w = UpperRay.StartingAt(i)
-        let v = Range.Create(k, l)
-        let inter = RangeSet.Create(m, n)
-
-        Interval.Intersect(v, w) === inter
-        Lavretni.Intersect(w, v) === inter
-
-    [<Theory>]
-    [<InlineData(5, 1, 1)>]
-    [<InlineData(5, 1, 4)>]
-    let ``Intersect(Range, UpperRay) disjoint`` i m n =
-        let w = UpperRay.StartingAt(i)
-        let v = Range.Create(m, n)
-
-        Interval.Intersect(v, w).IsEmpty |> ok
-        Lavretni.Intersect(w, v).IsEmpty |> ok
-
-    [<Theory>]
-    [<InlineData(5, 5, 5, 5)>]
-    [<InlineData(5, 4, 4, 5)>]
-    let ``Intersect(LowerRay, UpperRay) overlapping`` i j m n =
-        let v = LowerRay.EndingAt(i)
-        let w = UpperRay.StartingAt(j)
-        let inter = RangeSet.Create(m, n)
-
-        Interval.Intersect(v, w) === inter
-        Lavretni.Intersect(w, v) === inter
-
-    [<Theory>]
-    [<InlineData(5, 6)>]
-    let ``Intersect(LowerRay, UpperRay) disjoint`` i j =
-        let v = LowerRay.EndingAt(i)
-        let w = UpperRay.StartingAt(j)
-
-        Interval.Intersect(v, w).IsEmpty |> ok
-        Lavretni.Intersect(w, v).IsEmpty |> ok
-
-module UnionCase =
-    [<Theory>]
-    [<InlineData(1, 1, 1)>]
-    [<InlineData(1, 4, 4)>]
     let ``Union(LowerRay, LowerRay)`` i j m =
         let v = LowerRay.EndingAt(i)
         let w = LowerRay.EndingAt(j)
@@ -260,6 +411,21 @@ module UnionCase =
 
         Interval.Union(v, w) === union
         Interval.Union(w, v) === union
+
+    //
+    // UpperRay and UpperRay
+    //
+
+    [<Theory>]
+    [<InlineData(1, 1, 1)>]
+    [<InlineData(1, 4, 4)>]
+    let ``Intersect(UpperRay, UpperRay)`` i j m =
+        let v = UpperRay.StartingAt(i)
+        let w = UpperRay.StartingAt(j)
+        let inter = UpperRay.StartingAt(m)
+
+        Interval.Intersect(v, w) === inter
+        Interval.Intersect(w, v) === inter
 
     [<Theory>]
     [<InlineData(1, 1, 1)>]
@@ -271,303 +437,3 @@ module UnionCase =
 
         Interval.Union(v, w) === union
         Interval.Union(w, v) === union
-
-// We also test the specialized methods Coalesce() and Connected().
-module SpanCase =
-    let private maprange (range: Range<int>) =
-        let endpoints = range.Endpoints.Select(fun i -> DayNumber.Zero + i)
-        Range.FromEndpoints(endpoints)
-    let private maprangeset (set: RangeSet<int>) =
-        if set.IsEmpty then
-            RangeSet<DayNumber>.Empty
-        else
-            let endpoints = set.Range.Value.Endpoints.Select(fun i -> DayNumber.Zero + i)
-            RangeSet.FromEndpoints(endpoints)
-    let private maplowerray (ray: LowerRay<int>) =
-        LowerRay.EndingAt(DayNumber.Zero + ray.Max)
-    let private mapupperray (ray: UpperRay<int>) =
-        UpperRay.StartingAt(DayNumber.Zero + ray.Min)
-
-    let rangePairInfoData = IntervalDataSet.RangePairInfoData
-
-    [<Theory; MemberData(nameof(rangePairInfoData))>]
-    let ``Span(Range, Range)`` (data: RangePairInfo) =
-        let v = data.First
-        let w = data.Second
-        let span = data.Span
-        let gap = data.Gap
-
-        Interval.Span(v, w) === span
-        Interval.Span(w, v) === span
-
-        Interval.Gap(v, w) === gap
-        Interval.Gap(w, v) === gap
-
-        Interval.Disjoint(v, w) === data.Disjoint
-        Interval.Disjoint(w, v) === data.Disjoint
-
-        Interval.Adjacent(v, w) === data.Adjacent
-        Interval.Adjacent(w, v) === data.Adjacent
-
-        Interval.Connected(v, w) === data.Connected
-        Interval.Connected(w, v) === data.Connected
-
-        if data.Connected then
-            Interval.Coalesce(v, w).Value === span
-            Interval.Coalesce(w, v).Value === span
-        else
-            Interval.Coalesce(v, w) |> isnull
-            Interval.Coalesce(w, v) |> isnull
-
-    [<Theory; MemberData(nameof(rangePairInfoData))>]
-    let ``Span(Range, Range) DayNumber case`` (data: RangePairInfo) =
-        let v = maprange data.First
-        let w = maprange data.Second
-        let span = maprange data.Span
-        let gap = maprangeset data.Gap
-
-        Interval.Span(v, w) === span
-        Interval.Span(w, v) === span
-
-        Interval.Gap(v, w) === gap
-        Interval.Gap(w, v) === gap
-
-        Interval.Disjoint(v, w) === data.Disjoint
-        Interval.Disjoint(w, v) === data.Disjoint
-
-        Interval.Adjacent(v, w) === data.Adjacent
-        Interval.Adjacent(w, v) === data.Adjacent
-
-        Interval.Connected(v, w) === data.Connected
-        Interval.Connected(w, v) === data.Connected
-
-        if data.Connected then
-            Interval.Coalesce(v, w).Value === span
-            Interval.Coalesce(w, v).Value === span
-        else
-            Interval.Coalesce(v, w) |> isnull
-            Interval.Coalesce(w, v) |> isnull
-
-    [<Theory>]
-    [<InlineData(5, 7, 9, 9, false)>]
-    [<InlineData(5, 6, 6, 6, true)>]
-    [<InlineData(5, 6, 9, 9, true)>]
-    [<InlineData(5, 5, 5, 5, true)>]
-    [<InlineData(5, 3, 7, 7, true)>]
-    [<InlineData(5, 3, 5, 5, true)>]
-    [<InlineData(5, 1, 4, 5, true)>]
-    let ``Span(Range, LowerRay)`` (m: int) i j n connected =
-        let w = LowerRay.EndingAt(m)
-        let v = Range.Create(i, j)
-        let span = LowerRay.EndingAt(n)
-
-        Interval.Span(v, w) === span
-        Lavretni.Span(w, v) === span
-
-        Interval.Connected(v, w) === connected
-        Lavretni.Connected(w, v) === connected
-
-        if connected then
-            Interval.Coalesce(v, w).Value === span
-            Lavretni.Coalesce(w, v).Value === span
-        else
-            Interval.Coalesce(v, w) |> isnull
-            Lavretni.Coalesce(w, v) |> isnull
-
-        // DayNumber
-
-        let w1 = maplowerray w
-        let v1 = maprange v
-        let span1 = LowerRay.EndingAt(DayNumber.Zero + n)
-
-        Interval.Span(v1, w1) === span1
-        Lavretni.Span(w1, v1) === span1
-
-        Interval.Connected(v1, w1) === connected
-        Lavretni.Connected(w1, v1) === connected
-
-        if connected then
-            Interval.Coalesce(v1, w1).Value === span1
-            Lavretni.Coalesce(w1, v1).Value === span1
-        else
-            Interval.Coalesce(v1, w1) |> isnull
-            Lavretni.Coalesce(w1, v1) |> isnull
-
-    [<Theory>]
-    [<InlineData(5, 1, 3, 1, false)>]
-    [<InlineData(5, 1, 4, 1, true)>]
-    [<InlineData(5, 6, 6, 5, true)>]
-    [<InlineData(5, 6, 9, 5, true)>]
-    [<InlineData(5, 5, 5, 5, true)>]
-    [<InlineData(5, 3, 7, 3, true)>]
-    [<InlineData(5, 3, 5, 3, true)>]
-    [<InlineData(5, 1, 4, 1, true)>]
-    let ``Span(Range, UpperRay)`` (m: int) i j n connected =
-        let w = UpperRay.StartingAt(m)
-        let v = Range.Create(i, j)
-        let span = UpperRay.StartingAt(n)
-
-        Interval.Span(v, w) === span
-        Lavretni.Span(w, v) === span
-
-        Interval.Connected(v, w) === connected
-        Lavretni.Connected(w, v) === connected
-
-        if connected then
-            Interval.Coalesce(v, w).Value === span
-            Lavretni.Coalesce(w, v).Value === span
-        else
-            Interval.Coalesce(v, w) |> isnull
-            Lavretni.Coalesce(w, v) |> isnull
-
-        // DayNumber
-
-        let w1 = mapupperray w
-        let v1 = maprange v
-        let span1 = UpperRay.StartingAt(DayNumber.Zero + n)
-
-        Interval.Span(v1, w1) === span1
-        Lavretni.Span(w1, v1) === span1
-
-        Interval.Connected(v1, w1) === connected
-        Lavretni.Connected(w1, v1) === connected
-
-        if connected then
-            Interval.Coalesce(v1, w1).Value === span1
-            Lavretni.Coalesce(w1, v1).Value === span1
-        else
-            Interval.Coalesce(v1, w1) |> isnull
-            Lavretni.Coalesce(w1, v1) |> isnull
-
-module DisjointCase =
-    [<Theory>]
-    // Equal
-    [<InlineData(1, 1, 1, 1, false)>]
-    [<InlineData(1, 4, 1, 4, false)>]
-    // Strict subset (degenerate)
-    [<InlineData(1, 1, 1, 4, false)>]
-    [<InlineData(2, 2, 1, 4, false)>]
-    [<InlineData(3, 3, 1, 4, false)>]
-    [<InlineData(4, 4, 1, 4, false)>]
-    // Strict subset (non-degenerate)
-    [<InlineData(1, 2, 1, 4, false)>]
-    [<InlineData(1, 3, 1, 4, false)>]
-    [<InlineData(2, 3, 1, 4, false)>]
-    [<InlineData(2, 4, 1, 4, false)>]
-    [<InlineData(3, 4, 1, 4, false)>]
-    // Other non-disjoint cases
-    [<InlineData(1, 4, 4, 7, false)>]
-    [<InlineData(1, 4, 3, 7, false)>]
-    // Disjoint
-    [<InlineData(1, 1, 4, 4, true)>]
-    [<InlineData(1, 1, 4, 7, true)>]
-    [<InlineData(1, 4, 6, 9, true)>]
-    let ``Disjoint(Range, Range)`` i j m n disjoint =
-        let v = Range.Create(i, j)
-        let w = Range.Create(m, n)
-
-        Interval.Disjoint(v, w) === disjoint
-        Interval.Disjoint(w, v) === disjoint
-
-    [<Theory>]
-    // Intersection is a singleton
-    [<InlineData(5, 5, 8, false)>]
-    [<InlineData(5, 5, 5, false)>]
-    [<InlineData(5, 4, 4, false)>]
-    // Overlapping but range is not a subset
-    [<InlineData(5, 4, 8, false)>]
-    // Overlapping and range is a subset
-    [<InlineData(5, 2, 5, false)>]
-    [<InlineData(5, 1, 4, false)>]
-    // Disjoint
-    [<InlineData(5, 6, 6, true)>]
-    [<InlineData(5, 6, 9, true)>]
-    let ``Disjoint(Range, LowerRay)`` i m n disjoint =
-        let w = LowerRay.EndingAt(i)
-        let v = Range.Create(m, n)
-
-        Interval.Disjoint(v, w) === disjoint
-        Lavretni.Disjoint(w, v) === disjoint
-
-    [<Theory>]
-    // Overlapping
-    [<InlineData(5, 1, 5, false)>]
-    [<InlineData(5, 5, 5, false)>]
-    [<InlineData(5, 6, 6, false)>]
-    // Overlapping but range is not a subset
-    [<InlineData(5, 4, 8, false)>]
-    // Overlapping and range is a subset
-    [<InlineData(5, 5, 6, false)>]
-    [<InlineData(5, 6, 9, false)>]
-    // Disjoint
-    [<InlineData(5, 1, 1, true)>]
-    [<InlineData(5, 1, 4, true)>]
-    let ``Disjoint(Range, UpperRay)`` i m n disjoint =
-        let w = UpperRay.StartingAt(i)
-        let v = Range.Create(m, n)
-
-        Interval.Disjoint(v, w) === disjoint
-        Lavretni.Disjoint(w, v) === disjoint
-
-    [<Theory>]
-    // Overlapping
-    [<InlineData(5, 5, false)>]
-    [<InlineData(5, 4, false)>]
-    // Disjoint
-    [<InlineData(5, 6, true)>]
-    let ``Disjoint(LowerRay, UpperRay)`` i j disjoint =
-        let v = LowerRay.EndingAt(i)
-        let w = UpperRay.StartingAt(j)
-
-        Interval.Disjoint(v, w) === disjoint
-        Lavretni.Disjoint(w, v) === disjoint
-
-// We also test the specialized method Adjacent().
-module GapCase =
-    [<Theory>]
-    // Overlapping
-    [<InlineData(5, 5, false)>]
-    [<InlineData(5, 4, false)>]
-    // Disjoint but connected
-    [<InlineData(5, 6, true)>]
-    // Disjoint and disconnected
-    [<InlineData(5, 7, false)>]
-    let ``Adjacent(LowerRay, UpperRay)`` (i: int) j adjacent =
-        let v = LowerRay.EndingAt(i)
-        let w = UpperRay.StartingAt(j)
-
-        Interval.Adjacent(v, w) === adjacent
-        Lavretni.Adjacent(w, v) === adjacent
-
-        // DayNumber
-
-        let v1 = LowerRay.EndingAt(DayNumber.Zero + i)
-        let w1 = UpperRay.StartingAt(DayNumber.Zero + j)
-
-        Interval.Adjacent(v1, w1) === adjacent
-        Lavretni.Adjacent(w1, v1) === adjacent
-
-// See also SpanCase above.
-module ConnectednessCase =
-    [<Theory>]
-    // Overlapping
-    [<InlineData(5, 5, true)>]
-    [<InlineData(5, 4, true)>]
-    // Disjoint but connected
-    [<InlineData(5, 6, true)>]
-    // Disjoint and disconnected
-    [<InlineData(5, 7, false)>]
-    let ``Connected(LowerRay, UpperRay)`` (i: int) j connected =
-        let v = LowerRay.EndingAt(i)
-        let w = UpperRay.StartingAt(j)
-
-        Interval.Connected(v, w) === connected
-        Lavretni.Connected(w, v) === connected
-
-        // DayNumber
-
-        let v1 = LowerRay.EndingAt(DayNumber.Zero + i)
-        let w1 = UpperRay.StartingAt(DayNumber.Zero + j)
-
-        Interval.Connected(v1, w1) === connected
-        Lavretni.Connected(w1, v1) === connected
