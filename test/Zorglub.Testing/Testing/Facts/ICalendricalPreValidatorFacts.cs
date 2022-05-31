@@ -118,7 +118,7 @@ public partial class ICalendricalPreValidatorFacts<TDataSet> // Overflows
     // To simplify, we only test the start of a month or a day which usually
     // never overflow because we use shortcuts (MinDaysInYear/Month) to avoid
     // having to perform any calculation; this is not the case with
-    // CalendricalPreValidator and, to some extent, DefaultPreValidator.
+    // CalendricalPreValidator and, to some extent, PlainPreValidator.
     //
     // A consequence of these two remarks is that the following tests are not
     // that interesting.

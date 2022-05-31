@@ -7,7 +7,7 @@ namespace Zorglub.Time.Core.Validation
     /// Provides a plain implementation for <see cref="ICalendricalPreValidator"/>.
     /// <para>This class cannot be inherited.</para>
     /// </summary>
-    internal sealed class DefaultPreValidator : ICalendricalPreValidator
+    internal sealed class PlainPreValidator : ICalendricalPreValidator
     {
         /// <summary>
         /// Represents the minimum total number of days there is at least in a year.
@@ -22,10 +22,10 @@ namespace Zorglub.Time.Core.Validation
         private readonly ICalendricalSchema _schema;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="DefaultPreValidator"/> class.
+        /// Initializes a new instance of the <see cref="PlainPreValidator"/> class.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
-        public DefaultPreValidator(ICalendricalSchema schema)
+        public PlainPreValidator(ICalendricalSchema schema)
         {
             _schema = schema ?? throw new ArgumentNullException(nameof(schema));
             _minDaysInYear = schema.MinDaysInYear;

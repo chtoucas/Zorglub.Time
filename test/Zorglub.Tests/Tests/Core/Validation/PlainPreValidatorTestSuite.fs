@@ -1,7 +1,7 @@
 ﻿// SPDX-License-Identifier: BSD-3-Clause
 // Copyright (c) 2020 Narvalo.Org. All rights reserved.
 
-module Zorglub.Tests.Core.DefaultPreValidatorTestSuite
+module Zorglub.Tests.Core.PlainPreValidatorTestSuite
 
 open System
 
@@ -12,7 +12,7 @@ open Zorglub.Testing.Facts
 open Zorglub.Time.Core.Schemas
 open Zorglub.Time.Core.Validation
 
-// DefaultPreValidator being quite simple, we do no test it with all types of
+// PlainPreValidator being quite simple, we do no test it with all types of
 // schemas. We use the Copic13 schema because it may overflow when calling
 // CountDaysInYear() or CountDaysInMonth(). Both rely on IsLeapYear() which
 // overflows at Int32.MaxYear.
@@ -22,7 +22,7 @@ let private supportedYears = sch.SupportedYears
 [<Sealed>]
 type Copic13Tests() =
     inherit ICalendricalPreValidatorFacts<Coptic13DataSet>(
-        new DefaultPreValidator(sch),
+        new PlainPreValidator(sch),
         supportedYears.Min,
         supportedYears.Max)
 

@@ -69,7 +69,7 @@ type Coptic13Tests() =
     override x.Family_Prop() = x.SchemaUT.Family === CalendricalFamily.Solar
     override x.PeriodicAdjustments_Prop() = x.SchemaUT.PeriodicAdjustments === CalendricalAdjustments.Days
     override x.Profile_Prop() = x.SchemaUT.Profile === CalendricalProfile.Other
-    override x.PreValidator_Prop() = x.VerifyThatPreValidatorIs<DefaultPreValidator>()
+    override x.PreValidator_Prop() = x.VerifyThatPreValidatorIs<PlainPreValidator>()
     override x.Arithmetic_Prop() = x.VerifyThatArithmeticIs<PlainArithmetic>()
     override x.IsRegular() = x.SchemaUT.IsRegular() === (true, 13)
     override x.TryGetCustomArithmetic() = x.VerifyThatTryGetCustomArithmeticFails()
@@ -104,7 +104,7 @@ type Egyptian13Tests() =
     override x.Family_Prop() = x.SchemaUT.Family === CalendricalFamily.AnnusVagus
     override x.PeriodicAdjustments_Prop() = x.SchemaUT.PeriodicAdjustments === CalendricalAdjustments.None
     override x.Profile_Prop() = x.SchemaUT.Profile === CalendricalProfile.Other
-    override x.PreValidator_Prop() = x.VerifyThatPreValidatorIs<DefaultPreValidator>()
+    override x.PreValidator_Prop() = x.VerifyThatPreValidatorIs<PlainPreValidator>()
     override x.Arithmetic_Prop() = x.VerifyThatArithmeticIs<PlainArithmetic>()
     override x.IsRegular() = x.SchemaUT.IsRegular() === (true, 13)
     override x.TryGetCustomArithmetic() = x.VerifyThatTryGetCustomArithmeticFails()
@@ -130,7 +130,7 @@ type FrenchRepublican13Tests() =
     override x.Family_Prop() = x.SchemaUT.Family === CalendricalFamily.Solar
     override x.PeriodicAdjustments_Prop() = x.SchemaUT.PeriodicAdjustments === CalendricalAdjustments.Days
     override x.Profile_Prop() = x.SchemaUT.Profile === CalendricalProfile.Other
-    override x.PreValidator_Prop() = x.VerifyThatPreValidatorIs<DefaultPreValidator>()
+    override x.PreValidator_Prop() = x.VerifyThatPreValidatorIs<PlainPreValidator>()
     override x.Arithmetic_Prop() = x.VerifyThatArithmeticIs<PlainArithmetic>()
     override x.IsRegular() = x.SchemaUT.IsRegular() === (true, 13)
     override x.TryGetCustomArithmetic() = x.VerifyThatTryGetCustomArithmeticFails()
@@ -225,7 +225,7 @@ type PaxTests() as self =
     override x.Algorithm_Prop() = x.SchemaUT.Algorithm === CalendricalAlgorithm.Arithmetical
     override x.Family_Prop() = x.SchemaUT.Family === CalendricalFamily.Other
     override x.PeriodicAdjustments_Prop() = x.SchemaUT.PeriodicAdjustments === CalendricalAdjustments.Weeks
-    override x.PreValidator_Prop() = verifyThatPreValidatorIs<DefaultPreValidator>(x.SchemaUT)
+    override x.PreValidator_Prop() = verifyThatPreValidatorIs<PlainPreValidator>(x.SchemaUT)
     override x.Arithmetic_Prop() = verifyThatArithmeticIs<PlainFastArithmetic>(x.SchemaUT)
     override x.IsRegular() = x.SchemaUT.IsRegular() === (false, 0)
 

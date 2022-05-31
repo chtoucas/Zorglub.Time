@@ -158,7 +158,7 @@ namespace Zorglub.Time.Core
         protected virtual ICalendricalPreValidator GetPreValidatorCore() =>
             TryGetCustomPreValidator(out ICalendricalPreValidator? validator)
             ? validator
-            : new DefaultPreValidator(this);
+            : new PlainPreValidator(this);
 
         /// <summary>
         /// Obtains the <see cref="ICalendricalArithmetic"/> for this schema.

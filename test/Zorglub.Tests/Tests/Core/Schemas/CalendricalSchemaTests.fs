@@ -41,10 +41,10 @@ module Prelude =
         let sch = new FauxCalendricalSchema()
 
         let validator1 = sch.PreValidator
-        validator1 |> is<DefaultPreValidator>
+        validator1 |> is<PlainPreValidator>
 
         let validator2 = sch.PreValidator
-        validator2 |> is<DefaultPreValidator>
+        validator2 |> is<PlainPreValidator>
 
         validator2 === validator1
 

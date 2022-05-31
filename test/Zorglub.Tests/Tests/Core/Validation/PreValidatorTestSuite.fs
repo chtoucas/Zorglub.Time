@@ -21,17 +21,17 @@ type Coptic12Tests() =
 
     member x.PreValidator() = x.PreValidatorUT |> is<Solar12PreValidator>
 
-// DefaultPreValidator
+// PlainPreValidator
 [<Sealed>]
 [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
 type Coptic13Tests() =
     inherit ICalendricalPreValidatorFacts<Coptic13DataSet>(schemaOf<Coptic13Schema>())
 
-    member x.PreValidator() = x.PreValidatorUT |> is<DefaultPreValidator>
+    member x.PreValidator() = x.PreValidatorUT |> is<PlainPreValidator>
 
     override x.ValidateMonthDay_AtAbsoluteMaxYear() =
         let validator = x.PreValidatorUT
-        // DefaultPreValidator: no shortcut for short values of the day of the
+        // PlainPreValidator: no shortcut for short values of the day of the
         // month and Coptic13Schema.CountDaysInMonth() overflows.
         (fun () -> validator.ValidateMonthDay(Int32.MaxValue, 1, 1)) |> overflows
 

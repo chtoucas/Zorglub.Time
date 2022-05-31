@@ -24,7 +24,7 @@ module Prelude =
     [<Fact>]
     let ``Constructor throws for null schema`` () =
         nullExn "schema" (fun () -> new CalendricalPreValidator(null))
-        nullExn "schema" (fun () -> new DefaultPreValidator(null))
+        nullExn "schema" (fun () -> new PlainPreValidator(null))
         nullExn "schema" (fun () -> new LunarPreValidator(null))
         nullExn "schema" (fun () -> new LunisolarPreValidator(null))
         nullExn "schema" (fun () -> new Solar12PreValidator(null))
