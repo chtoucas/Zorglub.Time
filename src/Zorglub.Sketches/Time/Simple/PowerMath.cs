@@ -19,11 +19,11 @@ namespace Zorglub.Time.Simple
             Debug.Assert(calendar != null);
             Debug.Assert(math != null);
 
-            DefaultRules = calendar.Math;
+            DefaultMath = calendar.Math;
             Math = math;
         }
 
-        protected CalendarMath DefaultRules { get; }
+        protected CalendarMath DefaultMath { get; }
 
         protected CalendricalMath Math { get; }
 
@@ -67,19 +67,19 @@ namespace Zorglub.Time.Simple
 
         [Pure]
         protected internal override CalendarDate AddYearsCore(CalendarDate date, int years) =>
-            DefaultRules.AddYearsCore(date, years);
+            DefaultMath.AddYearsCore(date, years);
 
         [Pure]
         protected internal override CalendarDate AddMonthsCore(CalendarDate date, int months) =>
-            DefaultRules.AddMonthsCore(date, months);
+            DefaultMath.AddMonthsCore(date, months);
 
         [Pure]
         protected internal override int CountYearsBetweenCore(CalendarDate start, CalendarDate end) =>
-            DefaultRules.CountYearsBetweenCore(start, end);
+            DefaultMath.CountYearsBetweenCore(start, end);
 
         [Pure]
         protected internal override int CountMonthsBetweenCore(CalendarDate start, CalendarDate end) =>
-            DefaultRules.CountMonthsBetweenCore(start, end);
+            DefaultMath.CountMonthsBetweenCore(start, end);
 
         //
         // Operations on OrdinalDate
@@ -88,12 +88,12 @@ namespace Zorglub.Time.Simple
         /// <inheritdoc />
         [Pure]
         protected internal override OrdinalDate AddYearsCore(OrdinalDate date, int years) =>
-            DefaultRules.AddYearsCore(date, years);
+            DefaultMath.AddYearsCore(date, years);
 
         /// <inheritdoc />
         [Pure]
         protected internal override int CountYearsBetweenCore(OrdinalDate start, OrdinalDate end) =>
-            DefaultRules.CountYearsBetweenCore(start, end);
+            DefaultMath.CountYearsBetweenCore(start, end);
 
         //
         // Operations on CalendarMonth
@@ -101,18 +101,18 @@ namespace Zorglub.Time.Simple
 
         [Pure]
         protected internal override CalendarMonth AddYearsCore(CalendarMonth month, int years) =>
-            DefaultRules.AddYearsCore(month, years);
+            DefaultMath.AddYearsCore(month, years);
 
         [Pure]
         protected internal override CalendarMonth AddMonthsCore(CalendarMonth month, int months) =>
-            DefaultRules.AddMonthsCore(month, months);
+            DefaultMath.AddMonthsCore(month, months);
 
         [Pure]
         protected internal override int CountYearsBetweenCore(CalendarMonth start, CalendarMonth end) =>
-            DefaultRules.CountYearsBetweenCore(start, end);
+            DefaultMath.CountYearsBetweenCore(start, end);
 
         [Pure]
         protected internal override int CountMonthsBetweenCore(CalendarMonth start, CalendarMonth end) =>
-            DefaultRules.CountMonthsBetweenCore(start, end);
+            DefaultMath.CountMonthsBetweenCore(start, end);
     }
 }

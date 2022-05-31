@@ -7,9 +7,16 @@ namespace Zorglub.Time.Simple
     using Zorglub.Time.Core.Intervals;
 
     // REVIEW(api): Subtract(), add Add(Period). NextMonth() & co. Week ops. Quarter ops.
+    // Addition overflow: est-ce-que cela affecte aussi Subtract()?
 
     // Only handle calendrical objects related to the Calendar system; for other
     // systems, see CalendricalMath.
+    //
+    // WARNING: adding years to the date and to the ordinal date of the -same-
+    // day can lead to different results. For instance, in the Gregorian
+    // calendar, if we consider the February 29 of a leap year, adding one year
+    // to the ordinal date of this day is unambiguous, whereas the same operation
+    // applied to the date of this day overflows.
 
     /// <summary>
     /// Defines the non-standard mathematical operations suitable for use with a given calendar and

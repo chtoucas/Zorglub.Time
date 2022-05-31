@@ -18,7 +18,15 @@ namespace Zorglub.Time.Simple
         /// <exception cref="ArgumentNullException"><paramref name="calendar"/> is null.</exception>
         /// <exception cref="ArgumentException"><paramref name="calendar"/> is not regular.
         /// </exception>
-        protected RegularMathBase(Calendar calendar) : base(calendar, default)
+        protected RegularMathBase(Calendar calendar)
+            : base(
+                  calendar,
+                  // Regular calendar => month addition is NOT ambiguous.
+                  // The result is exact and matches the last month of the year,
+                  // therefore we could specify either MonthAdditionRule.Exact
+                  // or MonthAdditionRule.EndOfYear. I prefer the later to
+                  // emphasize that this math engine uses the default rules.
+                  default)
         {
             Debug.Assert(calendar != null);
 
@@ -132,6 +140,7 @@ namespace Zorglub.Time.Simple
 
             YearOverflowChecker.Check(y);
 
+            // NB: the operation is always exact (DateAdditionRule.EndOfYear).
             var ym = new Yemo(y, m);
             return new CalendarMonth(ym, Cuid);
         }
