@@ -97,7 +97,7 @@ module Prelude =
         IntervalExtra.Adjacent(v, v)    |> nok
         IntervalExtra.Connected(v, v)   |> ok
 
-module DisjointMethod =
+module DisjointCase =
     [<Theory>]
     // Equal
     [<InlineData(1, 1, 1, 1, false)>]
@@ -126,3 +126,56 @@ module DisjointMethod =
 
         Interval.Disjoint(v, w) === disjoint
         Interval.Disjoint(w, v) === disjoint
+
+    [<Theory>]
+    // Intersection is a singleton
+    [<InlineData(5, 5, 8, false)>]
+    [<InlineData(5, 5, 5, false)>]
+    [<InlineData(5, 4, 4, false)>]
+    // Overlapping but range is not a subset
+    [<InlineData(5, 4, 8, false)>]
+    // Overlapping and range is a subset
+    [<InlineData(5, 2, 5, false)>]
+    [<InlineData(5, 1, 4, false)>]
+    // Disjoint
+    [<InlineData(5, 6, 6, true)>]
+    [<InlineData(5, 6, 9, true)>]
+    let ``Disjoint(Range, LowerRay)`` i m n disjoint =
+        let w = LowerRay.EndingAt(i)
+        let v = Range.Create(m, n)
+
+        Interval.Disjoint(v, w) === disjoint
+        Lavretni.Disjoint(w, v) === disjoint
+
+    [<Theory>]
+    // Overlapping
+    [<InlineData(5, 1, 5, false)>]
+    [<InlineData(5, 5, 5, false)>]
+    [<InlineData(5, 6, 6, false)>]
+    // Overlapping but range is not a subset
+    [<InlineData(5, 4, 8, false)>]
+    // Overlapping and range is a subset
+    [<InlineData(5, 2, 6, false)>]
+    [<InlineData(5, 6, 9, false)>]
+    // Disjoint
+    [<InlineData(5, 1, 1, true)>]
+    [<InlineData(5, 1, 4, true)>]
+    let ``Disjoint(Range, UpperRay)`` i m n disjoint =
+        let w = UpperRay.StartingAt(i)
+        let v = Range.Create(m, n)
+
+        Interval.Disjoint(v, w) === disjoint
+        Lavretni.Disjoint(w, v) === disjoint
+
+    [<Theory>]
+    // Overlapping
+    [<InlineData(5, 5, false)>]
+    [<InlineData(5, 4, false)>]
+    // Disjoint
+    [<InlineData(5, 6, true)>]
+    let ``Disjoint(LowerRay, UpperRay)`` i j disjoint =
+        let v = LowerRay.EndingAt(i)
+        let w = UpperRay.StartingAt(j)
+
+        Interval.Disjoint(v, w) === disjoint
+        Lavretni.Disjoint(w, v) === disjoint
