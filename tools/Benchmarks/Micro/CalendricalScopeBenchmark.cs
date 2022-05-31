@@ -77,10 +77,10 @@ public class CalendricalScopeBenchmark : BenchmarkBase
         new(new GregorianSchema(), DayZero.NewStyle);
 
 #if ALL
-    private static readonly DefaultProlepticShortScope s_DefaultProlepticShort =
+    private static readonly PlainProlepticShortScope s_DefaultProlepticShort =
         new(new GregorianSchema(), DayZero.NewStyle);
 
-    private static readonly DefaultStandardShortScope s_DefaultStandardShort =
+    private static readonly PlainStandardShortScope s_DefaultStandardShort =
         new(new GregorianSchema(), DayZero.NewStyle);
 
     private static readonly GregorianMaximalScope s_GregorianMaximal =

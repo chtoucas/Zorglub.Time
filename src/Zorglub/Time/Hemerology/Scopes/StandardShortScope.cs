@@ -54,7 +54,7 @@ namespace Zorglub.Time.Hemerology.Scopes
                 CalendricalProfile.Lunar => new LunarStandardShortScope(schema, epoch),
                 CalendricalProfile.Lunisolar => new LunisolarStandardShortScope(schema, epoch),
 
-                _ => new DefaultStandardShortScope(schema, epoch)
+                _ => new PlainStandardShortScope(schema, epoch)
             };
         }
 

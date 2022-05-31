@@ -33,17 +33,17 @@ module StandardScope =
     [<Fact>]
     let ``CreateStandardScope()`` () =
         scopeOf<Coptic12Schema>()           |> is<Solar12StandardShortScope>
-        scopeOf<Coptic13Schema>()           |> is<DefaultStandardShortScope>
+        scopeOf<Coptic13Schema>()           |> is<PlainStandardShortScope>
         scopeOf<Egyptian12Schema>()         |> is<Solar12StandardShortScope>
-        scopeOf<Egyptian13Schema>()         |> is<DefaultStandardShortScope>
+        scopeOf<Egyptian13Schema>()         |> is<PlainStandardShortScope>
         scopeOf<FrenchRepublican12Schema>() |> is<Solar12StandardShortScope>
-        scopeOf<FrenchRepublican13Schema>() |> is<DefaultStandardShortScope>
+        scopeOf<FrenchRepublican13Schema>() |> is<PlainStandardShortScope>
         scopeOf<GregorianSchema>()          |> is<GregorianStandardShortScope>
         scopeOf<HebrewSchema>()             |> is<LunisolarStandardShortScope>
         scopeOf<InternationalFixedSchema>() |> is<Solar13StandardShortScope>
         scopeOf<JulianSchema>()             |> is<Solar12StandardShortScope>
         scopeOf<LunisolarSchema>()          |> is<LunisolarStandardShortScope>
-        scopeOf<PaxSchema>()                |> is<DefaultStandardShortScope>
+        scopeOf<PaxSchema>()                |> is<PlainStandardShortScope>
         scopeOf<PositivistSchema>()         |> is<Solar13StandardShortScope>
         scopeOf<Persian2820Schema>()        |> is<Solar12StandardShortScope>
         scopeOf<TabularIslamicSchema>()     |> is<LunarStandardShortScope>
@@ -65,20 +65,20 @@ module ProlepticScope =
     [<Fact>]
     let ``CreateProlepticScope()`` () =
         scopeOf<Coptic12Schema>()           |> is<Solar12ProlepticShortScope>
-        scopeOf<Coptic13Schema>()           |> is<DefaultProlepticShortScope>
+        scopeOf<Coptic13Schema>()           |> is<PlainProlepticShortScope>
         scopeOf<Egyptian12Schema>()         |> is<Solar12ProlepticShortScope>
-        scopeOf<Egyptian13Schema>()         |> is<DefaultProlepticShortScope>
+        scopeOf<Egyptian13Schema>()         |> is<PlainProlepticShortScope>
         scopeOf<FrenchRepublican12Schema>() |> is<Solar12ProlepticShortScope>
-        scopeOf<FrenchRepublican13Schema>() |> is<DefaultProlepticShortScope>
+        scopeOf<FrenchRepublican13Schema>() |> is<PlainProlepticShortScope>
         scopeOf<GregorianSchema>()          |> is<GregorianProlepticShortScope>
-        scopeOf<HebrewSchema>()             |> is<DefaultProlepticShortScope>
-        scopeOf<InternationalFixedSchema>() |> is<DefaultProlepticShortScope>
+        scopeOf<HebrewSchema>()             |> is<PlainProlepticShortScope>
+        scopeOf<InternationalFixedSchema>() |> is<PlainProlepticShortScope>
         scopeOf<JulianSchema>()             |> is<Solar12ProlepticShortScope>
-        scopeOf<LunisolarSchema>()          |> is<DefaultProlepticShortScope>
+        scopeOf<LunisolarSchema>()          |> is<PlainProlepticShortScope>
         argExn "schema" (fun () -> scopeOf<PaxSchema>()) // PaxSchema.MinYear = 1 > -9999.
-        scopeOf<PositivistSchema>()         |> is<DefaultProlepticShortScope>
+        scopeOf<PositivistSchema>()         |> is<PlainProlepticShortScope>
         scopeOf<Persian2820Schema>()        |> is<Solar12ProlepticShortScope>
-        scopeOf<TabularIslamicSchema>()     |> is<DefaultProlepticShortScope>
+        scopeOf<TabularIslamicSchema>()     |> is<PlainProlepticShortScope>
         scopeOf<Tropicalia3031Schema>()     |> is<Solar12ProlepticShortScope>
         scopeOf<Tropicalia3130Schema>()     |> is<Solar12ProlepticShortScope>
         scopeOf<TropicaliaSchema>()         |> is<Solar12ProlepticShortScope>

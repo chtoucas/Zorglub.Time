@@ -86,7 +86,7 @@ module Prelude =
 
     [<Fact>]
     let ``Constructors for actual scopes throw when "schema" is null`` () =
-        nullExn "schema" (fun () -> new DefaultStandardShortScope(null, epoch))
+        nullExn "schema" (fun () -> new PlainStandardShortScope(null, epoch))
         nullExn "schema" (fun () -> new GregorianStandardShortScope(null, epoch))
         nullExn "schema" (fun () -> new LunarStandardShortScope(null, epoch))
         nullExn "schema" (fun () -> new LunisolarStandardShortScope(null, epoch))

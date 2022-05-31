@@ -29,14 +29,14 @@ namespace Zorglub.Time.Hemerology
     // │  └─ MinMaxYearScope
     // └─ ShortScope [A]
     //    ├─ ProlepticShortScope [A]
-    //    │  ├─ DefaultProlepticShortScope
     //    │  ├─ GregorianProlepticShortScope    (Gregorian-only)
+    //    │  ├─ PlainProlepticShortScope
     //    │  └─ Solar12ProlepticShortScope      (CalendricalSchema)
     //    └─ StandardShortScope [A]
-    //       ├─ DefaultStandardShortScope       (CalendricalSchema)
     //       ├─ GregorianStandardShortScope     (Gregorian-only)
     //       ├─ LunarStandardShortScope         (CalendricalSchema)
     //       ├─ LunisolarStandardShortScope     (CalendricalSchema)
+    //       ├─ PlainStandardShortScope         (CalendricalSchema)
     //       ├─ Solar12StandardShortScope       (CalendricalSchema)
     //       └─ Solar13StandardShortScope       (CalendricalSchema)
     //

@@ -25,7 +25,7 @@ let private scopeOf<'a when 'a :> CalendricalSchema and 'a :> IBoxable<'a>> () =
 type Coptic12Tests() =
     inherit StandardShortScopeFacts<Coptic12DataSet>(scopeOf<Coptic12Schema>())
 
-// DefaultStandardShortScope
+// PlainStandardShortScope
 [<Sealed>]
 [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
 type Coptic13Tests() =

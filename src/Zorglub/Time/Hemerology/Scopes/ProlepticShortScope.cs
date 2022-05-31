@@ -51,7 +51,7 @@ namespace Zorglub.Time.Hemerology.Scopes
                     ? new GregorianProlepticShortScope(gr, epoch)
                     : new Solar12ProlepticShortScope(schema, epoch),
 
-                _ => new DefaultProlepticShortScope(schema, epoch)
+                _ => new PlainProlepticShortScope(schema, epoch)
             };
         }
 

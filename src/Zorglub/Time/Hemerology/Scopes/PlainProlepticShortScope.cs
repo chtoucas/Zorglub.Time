@@ -6,10 +6,10 @@ namespace Zorglub.Time.Hemerology.Scopes
     using Zorglub.Time.Core;
 
     /// <summary>
-    /// Represents the default proleptic short scope of a schema.
+    /// Provides a default implementation for <see cref="ProlepticShortScope"/>.
     /// <para>This class cannot be inherited.</para>
     /// </summary>
-    internal sealed class DefaultProlepticShortScope : ProlepticShortScope
+    internal sealed class PlainProlepticShortScope : ProlepticShortScope
     {
         /// <summary>
         /// Represents the pre-validator.
@@ -18,23 +18,23 @@ namespace Zorglub.Time.Hemerology.Scopes
         private readonly ICalendricalPreValidator _preValidator;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="DefaultProlepticShortScope"/>
+        /// Initializes a new instance of the <see cref="PlainProlepticShortScope"/>
         /// class with the specified schema and epoch.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="schema"/> is
         /// null.</exception>
-        public DefaultProlepticShortScope(ICalendricalSchema schema, DayNumber epoch)
+        public PlainProlepticShortScope(ICalendricalSchema schema, DayNumber epoch)
             : base(schema, epoch)
         {
             Debug.Assert(schema != null);
 
-            // There are only two ways to create a DefaultProlepticShortScope:
+            // There are only two ways to create a PlainProlepticShortScope:
             // - ProlepticShortScope.Create()
             // - ICalendricalScope.CreateProlepticScope()
             // In the first case, we end up here unless
             //   schema.Profile = SchemaProfile.Solar
-            // Contrary to DefaultStandardShortScope, a validator can help here;
-            // see the comments in DefaultStandardShortScope.
+            // Contrary to PlainStandardShortScope, a validator can help here;
+            // see the comments in PlainStandardShortScope.
             _preValidator = schema.PreValidator;
         }
 

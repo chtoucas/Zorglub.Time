@@ -9,7 +9,7 @@ namespace Zorglub.Time.Hemerology.Scopes
     /// Provides a default implementation for <see cref="ShortScope"/>.
     /// <para>This class cannot be inherited.</para>
     /// </summary>
-    internal sealed class DefaultStandardShortScope : StandardShortScope
+    internal sealed class PlainStandardShortScope : StandardShortScope
     {
         /// <summary>
         /// Represents the minimum total number of days there is at least in a year.
@@ -18,13 +18,13 @@ namespace Zorglub.Time.Hemerology.Scopes
         private readonly int _minDaysInYear;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="DefaultStandardShortScope"/> class with the
+        /// Initializes a new instance of the <see cref="PlainStandardShortScope"/> class with the
         /// specified schema and epoch.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
         /// <exception cref="ArgumentException">The range of supported years by
         /// <paramref name="schema"/> does not contain the interval [1..9999].</exception>
-        public DefaultStandardShortScope(CalendricalSchema schema, DayNumber epoch)
+        public PlainStandardShortScope(CalendricalSchema schema, DayNumber epoch)
             : base(schema, epoch)
         {
             Debug.Assert(schema != null);
