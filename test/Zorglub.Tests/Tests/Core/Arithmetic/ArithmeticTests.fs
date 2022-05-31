@@ -23,7 +23,7 @@ module Prelude =
     let ``Constructor throws for null schema`` () =
         nullExn "schema" (fun () -> new CalendricalArithmetic(null))
         nullExn "schema" (fun () -> new DefaultArithmetic(null))
-        nullExn "schema" (fun () -> new DefaultFastArithmetic(null))
+        nullExn "schema" (fun () -> new PlainFastArithmetic(null))
         nullExn "schema" (fun () -> new GregorianArithmetic(null))
         nullExn "schema" (fun () -> new LunarArithmetic(null))
         nullExn "schema" (fun () -> new LunisolarArithmetic(null))
@@ -56,7 +56,7 @@ module Prelude =
     let ``FastArithmetic constructor throws when MinDaysInMonth < 7`` i =
         let sch = FauxSystemSchema.WithMinDaysInMonth(i)
 
-        argExn "schema" (fun () -> new DefaultFastArithmetic(sch))
+        argExn "schema" (fun () -> new PlainFastArithmetic(sch))
 
 module Factories =
     [<Fact>]
@@ -80,18 +80,18 @@ module Factories =
         FastArithmetic.Create(schemaOf<WorldSchema>())              |> is<Solar12Arithmetic>
 
 // REVIEW(code): can we do better than that? I mean do it for all schemas. Sure,
-// but is it useful? Here we have to test it separetely because DefaultFastArithmetic
+// but is it useful? Here we have to test it separetely because PlainFastArithmetic
 // does not use it internally.
 module DefaultFastCase =
     // Type to avoid the error FS0405 because AddDaysViaDayOfMonth() is a
     // protected internal method.
     [<Sealed>]
-    type private ArithmeticWrapper(arithmetic: DefaultFastArithmetic) =
+    type private ArithmeticWrapper(arithmetic: PlainFastArithmetic) =
         member private __.Arithmetic = arithmetic
         member x.AddDaysViaDayOfMonth(ymd, days) = x.Arithmetic.AddDaysViaDayOfMonth(ymd, days)
 
     let private sch = schemaOf<GregorianSchema>()
-    let private ari = new DefaultFastArithmetic(sch)
+    let private ari = new PlainFastArithmetic(sch)
     let private wrapper = new ArithmeticWrapper(ari)
 
     let private maxDaysViaDayOfMonth = ari.MaxDaysViaDayOfMonth

@@ -9,16 +9,16 @@ namespace Zorglub.Time.Core.Arithmetic
     /// <see cref="FastArithmetic.MinMinDaysInMonth"/>.</para>
     /// <para>This class cannot be inherited.</para>
     /// </summary>
-    internal sealed partial class DefaultFastArithmetic : FastArithmetic
+    internal sealed partial class PlainFastArithmetic : FastArithmetic
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="DefaultFastArithmetic"/> class.
+        /// Initializes a new instance of the <see cref="PlainFastArithmetic"/> class.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
         /// <exception cref="ArgumentException"><paramref name="schema"/> contains at least one
         /// month whose length is strictly less than <see cref="FastArithmetic.MinMinDaysInMonth"/>.
         /// </exception>
-        public DefaultFastArithmetic(SystemSchema schema) : base(schema)
+        public PlainFastArithmetic(SystemSchema schema) : base(schema)
         {
             Debug.Assert(schema != null);
 
@@ -37,7 +37,7 @@ namespace Zorglub.Time.Core.Arithmetic
         public override int MaxDaysViaDayOfMonth { get; }
     }
 
-    internal partial class DefaultFastArithmetic // Operations on Yemoda.
+    internal partial class PlainFastArithmetic // Operations on Yemoda.
     {
         /// <inheritdoc />
         [Pure]
@@ -175,7 +175,7 @@ namespace Zorglub.Time.Core.Arithmetic
         }
     }
 
-    internal partial class DefaultFastArithmetic // Operations on Yedoy.
+    internal partial class PlainFastArithmetic // Operations on Yedoy.
     {
         /// <inheritdoc />
         [Pure]

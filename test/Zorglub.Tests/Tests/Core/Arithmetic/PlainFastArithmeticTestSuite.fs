@@ -1,7 +1,7 @@
 ﻿// SPDX-License-Identifier: BSD-3-Clause
 // Copyright (c) 2020 Narvalo.Org. All rights reserved.
 
-module Zorglub.Tests.Core.Arithmetic.DefaultFastArithmeticTestSuite
+module Zorglub.Tests.Core.Arithmetic.PlainFastArithmeticTestSuite
 
 open Zorglub.Testing
 open Zorglub.Testing.Data.Schemas
@@ -18,28 +18,28 @@ open Xunit
 // Since the Gregorian schema has the richest dataset, we use it as a default
 // model for testing.
 
-let private ariOf x = new DefaultFastArithmetic(x) :> ICalendricalArithmetic
+let private ariOf x = new PlainFastArithmetic(x) :> ICalendricalArithmetic
 
 [<Sealed>]
 [<RedundantTestGroup>]
 type Coptic12Tests() =
     inherit CalendricalArithmeticFacts<Coptic12DataSet>(syschemaOf<Coptic12Schema>(), ariOf)
 
-// Coptic13 -> not compatible with DefaultFastArithmetic.
+// Coptic13 -> not compatible with PlainFastArithmetic.
 
 [<Sealed>]
 [<RedundantTestGroup>]
 type Egyptian12Tests() =
     inherit CalendricalArithmeticFacts<Egyptian12DataSet>(syschemaOf<Egyptian12Schema>(), ariOf)
 
-// Egyptian13 -> not compatible with DefaultFastArithmetic.
+// Egyptian13 -> not compatible with PlainFastArithmetic.
 
 [<Sealed>]
 [<RedundantTestGroup>]
 type FrenchRepublican12Tests() =
     inherit CalendricalArithmeticFacts<FrenchRepublican12DataSet>(syschemaOf<FrenchRepublican12Schema>(), ariOf)
 
-// FrenchRepublican13 -> not compatible with DefaultFastArithmetic.
+// FrenchRepublican13 -> not compatible with PlainFastArithmetic.
 
 [<Sealed>]
 type GregorianTests() =
@@ -62,8 +62,8 @@ type LunisolarTests() =
 
 // Already tested in ArithmeticTestSuite.
 [<Fact>]
-let ``Default arithmetic for PaxSchema is DefaultFastArithmetic`` () =
-    schemaOf<PaxSchema>().Arithmetic |> is<DefaultFastArithmetic>
+let ``Default arithmetic for PaxSchema is PlainFastArithmetic`` () =
+    schemaOf<PaxSchema>().Arithmetic |> is<PlainFastArithmetic>
 
 [<Sealed>]
 [<RedundantTestGroup>]

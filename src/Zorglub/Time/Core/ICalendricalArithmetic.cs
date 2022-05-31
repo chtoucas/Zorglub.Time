@@ -13,10 +13,10 @@ namespace Zorglub.Time.Core
     // ├─ CalendricalArithmetic
     // ├─ DefaultArithmetic             (CalendricalSchema)
     // └─ FastArithmetic [A]            (SystemSchema)
-    //    ├─ DefaultFastArithmetic      (SystemSchema)
     //    ├─ GregorianArithmetic        (Gregorian-only)
     //    ├─ LunarArithmetic            (SystemSchema)
     //    ├─ LunisolarArithmetic        (SystemSchema)
+    //    ├─ PlainFastArithmetic        (SystemSchema)
     //    └─ SolarArithmetic [A]        (SystemSchema)
     //       ├─ Solar12Arithmetic       (SystemSchema)
     //       └─ Solar13Arithmetic       (SystemSchema)

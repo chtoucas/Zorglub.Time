@@ -226,7 +226,7 @@ type PaxTests() as self =
     override x.Family_Prop() = x.SchemaUT.Family === CalendricalFamily.Other
     override x.PeriodicAdjustments_Prop() = x.SchemaUT.PeriodicAdjustments === CalendricalAdjustments.Weeks
     override x.PreValidator_Prop() = verifyThatPreValidatorIs<DefaultPreValidator>(x.SchemaUT)
-    override x.Arithmetic_Prop() = verifyThatArithmeticIs<DefaultFastArithmetic>(x.SchemaUT)
+    override x.Arithmetic_Prop() = verifyThatArithmeticIs<PlainFastArithmetic>(x.SchemaUT)
     override x.IsRegular() = x.SchemaUT.IsRegular() === (false, 0)
 
     override x.SupportedYears_Prop() =
@@ -238,7 +238,7 @@ type PaxTests() as self =
 
     [<Fact>]
     member x.TryGetCustomArithmetic() =
-        verifyThatTryGetCustomArithmeticSucceeds<DefaultFastArithmetic>(x.SchemaUT)
+        verifyThatTryGetCustomArithmeticSucceeds<PlainFastArithmetic>(x.SchemaUT)
 
 [<Sealed>]
 [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
