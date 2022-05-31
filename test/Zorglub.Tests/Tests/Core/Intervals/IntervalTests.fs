@@ -5,10 +5,15 @@ module Zorglub.Tests.Core.Intervals.IntervalTests
 
 open Zorglub.Testing
 
+open Zorglub.Time
 open Zorglub.Time.Core.Intervals
 
 open Xunit
 open FsCheck.Xunit
+
+// REVIEW(code): it does what it's supposed to do but it's a bit quick and dirty.
+// Use ClassData and, for DayNumber, mapping. Some methods are only tested
+// indirectly.
 
 // 1/ Intersect, Union, Coalesce
 // 2/ Span, Gap
@@ -31,6 +36,7 @@ open FsCheck.Xunit
 // - Gap
 // - Adjacency
 // - Connectedness
+// We also test Lavretni.
 
 module Prelude =
     [<Property>]
@@ -242,6 +248,184 @@ module IntersectionCase =
         Interval.Intersect(v, w).IsEmpty |> ok
         Lavretni.Intersect(w, v).IsEmpty |> ok
 
+module UnionCase =
+    [<Theory>]
+    [<InlineData(1, 1, 1)>]
+    [<InlineData(1, 4, 4)>]
+    let ``Union(LowerRay, LowerRay)`` i j m =
+        let v = LowerRay.EndingAt(i)
+        let w = LowerRay.EndingAt(j)
+        let union = LowerRay.EndingAt(m)
+
+        Interval.Union(v, w) === union
+        Interval.Union(w, v) === union
+
+    [<Theory>]
+    [<InlineData(1, 1, 1)>]
+    [<InlineData(1, 4, 1)>]
+    let ``Union(UpperRay, UpperRay)`` i j m =
+        let v = UpperRay.StartingAt(i)
+        let w = UpperRay.StartingAt(j)
+        let union = UpperRay.StartingAt(m)
+
+        Interval.Union(v, w) === union
+        Interval.Union(w, v) === union
+
+// We also test the specialized methods Coalesce() and Connected().
+module SpanCase =
+    [<Theory>]
+    // Equal
+    [<InlineData(1, 1, 1, 1, 1, 1, true)>]
+    [<InlineData(1, 4, 1, 4, 1, 4, true)>]
+    // Strict subset (degenerate)
+    [<InlineData(1, 1, 1, 4, 1, 4, true)>]
+    [<InlineData(2, 2, 1, 4, 1, 4, true)>]
+    [<InlineData(3, 3, 1, 4, 1, 4, true)>]
+    [<InlineData(4, 4, 1, 4, 1, 4, true)>]
+    // Strict subset (non-degenerate)
+    [<InlineData(1, 2, 1, 4, 1, 4, true)>]
+    [<InlineData(1, 3, 1, 4, 1, 4, true)>]
+    [<InlineData(2, 3, 1, 4, 1, 4, true)>]
+    [<InlineData(2, 4, 1, 4, 1, 4, true)>]
+    [<InlineData(3, 4, 1, 4, 1, 4, true)>]
+    // Other non-disjoint cases
+    [<InlineData(1, 4, 4, 7, 1, 7, true)>]
+    [<InlineData(1, 4, 3, 7, 1, 7, true)>]
+    // Disjoint and connected
+    [<InlineData(1, 4, 5, 5, 1, 5, true)>]
+    [<InlineData(1, 4, 5, 7, 1, 7, true)>]
+    // Disjoint and disconnected
+    [<InlineData(1, 1, 4, 4, 1, 4, false)>]
+    [<InlineData(1, 1, 4, 7, 1, 7, false)>]
+    [<InlineData(1, 4, 6, 9, 1, 9, false)>]
+    let ``Span(Range, Range)`` (i: int) j k l m n connected =
+        let v = Range.Create(i, j)
+        let w = Range.Create(k, l)
+        let span = Range.Create(m, n)
+
+        Interval.Span(v, w) === span
+        Interval.Span(w, v) === span
+
+        Interval.Connected(v, w) === connected
+        Interval.Connected(w, v) === connected
+
+        if connected then
+            Interval.Coalesce(v, w).Value === span
+            Interval.Coalesce(w, v).Value === span
+        else
+            Interval.Coalesce(v, w) |> isnull
+            Interval.Coalesce(w, v) |> isnull
+
+        // DayNumber
+
+        let v1 = Range.Create(DayNumber.Zero + i, DayNumber.Zero + j)
+        let w1 = Range.Create(DayNumber.Zero + k, DayNumber.Zero + l)
+        let span1 = Range.Create(DayNumber.Zero + m, DayNumber.Zero + n)
+
+        Interval.Span(v1, w1) === span1
+        Interval.Span(w1, v1) === span1
+
+        Interval.Connected(v1, w1) === connected
+        Interval.Connected(w1, v1) === connected
+
+        if connected then
+            Interval.Coalesce(v1, w1).Value === span1
+            Interval.Coalesce(w1, v1).Value === span1
+        else
+            Interval.Coalesce(v1, w1) |> isnull
+            Interval.Coalesce(w1, v1) |> isnull
+
+    [<Theory>]
+    [<InlineData(5, 7, 9, 9, false)>]
+    [<InlineData(5, 6, 6, 6, true)>]
+    [<InlineData(5, 6, 9, 9, true)>]
+    [<InlineData(5, 5, 5, 5, true)>]
+    [<InlineData(5, 3, 7, 7, true)>]
+    [<InlineData(5, 3, 5, 5, true)>]
+    [<InlineData(5, 1, 4, 5, true)>]
+    let ``Span(Range, LowerRay)`` (m: int) i j n connected =
+        let w = LowerRay.EndingAt(m)
+        let v = Range.Create(i, j)
+        let span = LowerRay.EndingAt(n)
+
+        Interval.Span(v, w) === span
+        Lavretni.Span(w, v) === span
+
+        Interval.Connected(v, w) === connected
+        Lavretni.Connected(w, v) === connected
+
+        if connected then
+            Interval.Coalesce(v, w).Value === span
+            Lavretni.Coalesce(w, v).Value === span
+        else
+            Interval.Coalesce(v, w) |> isnull
+            Lavretni.Coalesce(w, v) |> isnull
+
+        // DayNumber
+
+        let w1 = LowerRay.EndingAt(DayNumber.Zero + m)
+        let v1 = Range.Create(DayNumber.Zero + i, DayNumber.Zero + j)
+        let span1 = LowerRay.EndingAt(DayNumber.Zero + n)
+
+        Interval.Span(v1, w1) === span1
+        Lavretni.Span(w1, v1) === span1
+
+        Interval.Connected(v1, w1) === connected
+        Lavretni.Connected(w1, v1) === connected
+
+        if connected then
+            Interval.Coalesce(v1, w1).Value === span1
+            Lavretni.Coalesce(w1, v1).Value === span1
+        else
+            Interval.Coalesce(v1, w1) |> isnull
+            Lavretni.Coalesce(w1, v1) |> isnull
+
+    [<Theory>]
+    [<InlineData(5, 1, 3, 1, false)>]
+    [<InlineData(5, 1, 4, 1, true)>]
+    [<InlineData(5, 6, 6, 5, true)>]
+    [<InlineData(5, 6, 9, 5, true)>]
+    [<InlineData(5, 5, 5, 5, true)>]
+    [<InlineData(5, 3, 7, 3, true)>]
+    [<InlineData(5, 3, 5, 3, true)>]
+    [<InlineData(5, 1, 4, 1, true)>]
+    let ``Span(Range, UpperRay)`` (m: int) i j n connected =
+        let w = UpperRay.StartingAt(m)
+        let v = Range.Create(i, j)
+        let span = UpperRay.StartingAt(n)
+
+        Interval.Span(v, w) === span
+        Lavretni.Span(w, v) === span
+
+        Interval.Connected(v, w) === connected
+        Lavretni.Connected(w, v) === connected
+
+        if connected then
+            Interval.Coalesce(v, w).Value === span
+            Lavretni.Coalesce(w, v).Value === span
+        else
+            Interval.Coalesce(v, w) |> isnull
+            Lavretni.Coalesce(w, v) |> isnull
+
+        // DayNumber
+
+        let w1 = UpperRay.StartingAt(DayNumber.Zero + m)
+        let v1 = Range.Create(DayNumber.Zero + i, DayNumber.Zero + j)
+        let span1 = UpperRay.StartingAt(DayNumber.Zero + n)
+
+        Interval.Span(v1, w1) === span1
+        Lavretni.Span(w1, v1) === span1
+
+        Interval.Connected(v1, w1) === connected
+        Lavretni.Connected(w1, v1) === connected
+
+        if connected then
+            Interval.Coalesce(v1, w1).Value === span1
+            Lavretni.Coalesce(w1, v1).Value === span1
+        else
+            Interval.Coalesce(v1, w1) |> isnull
+            Lavretni.Coalesce(w1, v1) |> isnull
+
 module DisjointCase =
     [<Theory>]
     // Equal
@@ -324,3 +508,53 @@ module DisjointCase =
 
         Interval.Disjoint(v, w) === disjoint
         Lavretni.Disjoint(w, v) === disjoint
+
+// We also test the specialized method Adjacent().
+module GapCase =
+    [<Theory>]
+    // Overlapping
+    [<InlineData(5, 5, false)>]
+    [<InlineData(5, 4, false)>]
+    // Disjoint but connected
+    [<InlineData(5, 6, true)>]
+    // Disjoint and disconnected
+    [<InlineData(5, 7, false)>]
+    let ``Adjacent(LowerRay, UpperRay)`` (i: int) j adjacent =
+        let v = LowerRay.EndingAt(i)
+        let w = UpperRay.StartingAt(j)
+
+        Interval.Adjacent(v, w) === adjacent
+        Lavretni.Adjacent(w, v) === adjacent
+
+        // DayNumber
+
+        let v1 = LowerRay.EndingAt(DayNumber.Zero + i)
+        let w1 = UpperRay.StartingAt(DayNumber.Zero + j)
+
+        Interval.Adjacent(v1, w1) === adjacent
+        Lavretni.Adjacent(w1, v1) === adjacent
+
+// See also SpanCase above.
+module ConnectednessCase =
+    [<Theory>]
+    // Overlapping
+    [<InlineData(5, 5, true)>]
+    [<InlineData(5, 4, true)>]
+    // Disjoint but connected
+    [<InlineData(5, 6, true)>]
+    // Disjoint and disconnected
+    [<InlineData(5, 7, false)>]
+    let ``Connected(LowerRay, UpperRay)`` (i: int) j connected =
+        let v = LowerRay.EndingAt(i)
+        let w = UpperRay.StartingAt(j)
+
+        Interval.Connected(v, w) === connected
+        Lavretni.Connected(w, v) === connected
+
+        // DayNumber
+
+        let v1 = LowerRay.EndingAt(DayNumber.Zero + i)
+        let w1 = UpperRay.StartingAt(DayNumber.Zero + j)
+
+        Interval.Connected(v1, w1) === connected
+        Lavretni.Connected(w1, v1) === connected
