@@ -115,6 +115,7 @@
     <Compile Include="Tests\OrdTests.fs" />
     <Compile Include="Tests\DayNumberTests.fs" />
     <Compile Include="Tests\DayNumber64Tests.fs" />
+    <Compile Include="Tests\AdditionRulesTests.fs" />
     <Compile Include="Tests\ValueTypeTests.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>

@@ -78,6 +78,7 @@ module RuntimeSizes =
         Marshal.SizeOf(typedefof<DateParts>) === 12
         Marshal.SizeOf(typedefof<MonthParts>) === 8
         Marshal.SizeOf(typedefof<OrdinalParts>) === 8
+        Marshal.SizeOf(typedefof<AdditionRules>) === 12
         // Zorglub.Sketches
         Marshal.SizeOf(typedefof<Ord64>) === 8
         Marshal.SizeOf(typedefof<DayNumber64>) === 8

@@ -4,27 +4,17 @@
 module Zorglub.Tests.Simple.CalendarMathTests
 
 open Zorglub.Testing
-open Zorglub.Testing.Data
 
 open Zorglub.Time
 open Zorglub.Time.Core
-open Zorglub.Time.Core.Schemas
 open Zorglub.Time.Simple
 
 open Xunit
 
 module Prelude =
-    // TODO(code): remove? tests too. We only need to test the ctor for AdditionRules.
-    //let addAdjustmentData = EnumDataSet.AddAdjustmentData
-    //let invalidAddAdjustmentData = EnumDataSet.InvalidAddAdjustmentData
-
     [<Fact>]
     let ``Constructor throws for null calendar`` () =
         nullExn "calendar" (fun () -> new FauxCalendarMath(null))
-
-    //[<Theory; MemberData(nameof(invalidAddAdjustmentData))>]
-    //let ``Constructor throws for invalid AddAdjustment`` (adjustment: AddAdjustment) =
-    //    outOfRangeExn "adjustment" (fun () -> new FauxCalendarMath(adjustment))
 
     [<Fact>]
     let ``RegularMathBase constructor throws for non-regular schema`` () =
@@ -51,11 +41,12 @@ module Prelude =
     // Properties
     //
 
-    //[<Theory; MemberData(nameof(addAdjustmentData))>]
-    //let ``Property AddAdjustment`` (adjustment: AddAdjustment) =
-    //    let math = new FauxCalendarMath(adjustment)
+    [<Fact>]
+    let ``Property AdditionRules`` () =
+        let rules = new AdditionRules(DateAdditionRule.StartOfNextMonth, OrdinalAdditionRule.Exact, MonthAdditionRule.Overflow)
+        let math = new FauxCalendarMath(rules)
 
-    //    math.AddAdjustment === adjustment
+        math.AdditionRules === rules
 
     [<Fact>]
     let ``Property SupportedYears`` () =
