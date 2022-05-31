@@ -39,7 +39,7 @@ namespace Zorglub.Time.Core.Arithmetic
         {
             // FIXME(code): on doit respecter les props schema.Min/MaxYear
             // mais aussi gérer le cas où MinYear < Yemoda.MinYear ou
-            // MaxYear > Yemoda.MaxYear. Voir DefaultArithmetic.
+            // MaxYear > Yemoda.MaxYear. Voir PlainArithmetic.
             Schema = schema ?? throw new ArgumentNullException(nameof(schema));
             AdditionRules = additionRules;
         }

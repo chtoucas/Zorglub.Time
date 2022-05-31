@@ -7,7 +7,7 @@ namespace Zorglub.Time.Core.Arithmetic
 
     // FIXME(code): Yemoda/Yedoy validation. Use a CalendricalPartsFactory.
 
-    // Even if DefaultArithmetic does not derive from FastArithmetic, it
+    // Even if PlainArithmetic does not derive from FastArithmetic, it
     // includes some of the optimisations found there, see for instance
     // AddDaysViaDayOfYear(), nevertheless this is hidden.
 
@@ -15,7 +15,7 @@ namespace Zorglub.Time.Core.Arithmetic
     /// Provides a plain implementation for <see cref="ICalendricalArithmetic"/>.
     /// <para>This class cannot be inherited.</para>
     /// </summary>
-    internal sealed partial class DefaultArithmetic : ICalendricalArithmetic
+    internal sealed partial class PlainArithmetic : ICalendricalArithmetic
     {
         /// <summary>
         /// Represents the earliest supported year.
@@ -55,13 +55,13 @@ namespace Zorglub.Time.Core.Arithmetic
         private readonly ICalendricalSchema _schema;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="DefaultArithmetic"/> class.
+        /// Initializes a new instance of the <see cref="PlainArithmetic"/> class.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
         /// <exception cref="ArgumentException">The range of supported years by
         /// <paramref name="schema"/> and <see cref="Yemoda.SupportedYears"/> are disjoint.
         /// </exception>
-        public DefaultArithmetic(ICalendricalSchema schema)
+        public PlainArithmetic(ICalendricalSchema schema)
         {
             _schema = schema ?? throw new ArgumentNullException(nameof(schema));
 
@@ -77,7 +77,7 @@ namespace Zorglub.Time.Core.Arithmetic
         }
     }
 
-    internal partial class DefaultArithmetic // Operations on Yemoda.
+    internal partial class PlainArithmetic // Operations on Yemoda.
     {
         /// <inheritdoc />
         [Pure]
@@ -169,7 +169,7 @@ namespace Zorglub.Time.Core.Arithmetic
         }
     }
 
-    internal partial class DefaultArithmetic // Operations on Yedoy.
+    internal partial class PlainArithmetic // Operations on Yedoy.
     {
         /// <inheritdoc />
         [Pure]

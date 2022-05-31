@@ -165,7 +165,7 @@ namespace Zorglub.Time.Core
         /// </summary>
         [Pure]
         protected virtual ICalendricalArithmetic GetArithmeticCore() =>
-            new DefaultArithmetic(this);
+            new PlainArithmetic(this);
 
         /// <summary>
         /// Returns true if the construction of a specialized pre-validator for this schema was

@@ -158,7 +158,7 @@ namespace Zorglub.Time.Core
         protected override ICalendricalArithmetic GetArithmeticCore() =>
             TryGetCustomArithmetic(out ICalendricalArithmetic? arithmetic)
             ? arithmetic
-            : new DefaultArithmetic(this);
+            : new PlainArithmetic(this);
 
         /// <summary>
         /// Returns true if the construction of a specialized arithmetic engine for this schema was

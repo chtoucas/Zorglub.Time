@@ -5,8 +5,8 @@
 
 namespace Zorglub.Time.Core.Arithmetic
 {
-    [Obsolete("Use DefaultArithmetic instead.")]
-    internal sealed partial class DefaultArithmetic0 : ICalendricalArithmetic
+    [Obsolete("Use PlainArithmetic instead.")]
+    internal sealed partial class PlainArithmetic0 : ICalendricalArithmetic
     {
         private readonly int _minDaysSinceEpoch;
         private readonly int _maxDaysSinceEpoch;
@@ -18,7 +18,7 @@ namespace Zorglub.Time.Core.Arithmetic
 #endif
         private readonly SystemSchema _schema;
 
-        internal DefaultArithmetic0(SystemSchema schema)
+        internal PlainArithmetic0(SystemSchema schema)
         {
             _schema = schema ?? throw new ArgumentNullException(nameof(schema));
 
@@ -35,7 +35,7 @@ namespace Zorglub.Time.Core.Arithmetic
         public int MaxYear => _maxYear;
     }
 
-    internal partial class DefaultArithmetic0 // Operations on Yemoda.
+    internal partial class PlainArithmetic0 // Operations on Yemoda.
     {
         [Pure]
         public Yemoda AddDays(Yemoda ymd, int days)
@@ -152,7 +152,7 @@ namespace Zorglub.Time.Core.Arithmetic
         }
     }
 
-    internal partial class DefaultArithmetic0 // Operations on Yedoy.
+    internal partial class PlainArithmetic0 // Operations on Yedoy.
     {
         [Pure]
         public Yedoy AddDays(Yedoy ydoy, int days)

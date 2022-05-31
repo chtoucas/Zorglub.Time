@@ -53,10 +53,10 @@ module Prelude =
         let sch = new FauxCalendricalSchema()
 
         let arith1 = sch.Arithmetic
-        arith1 |> is<DefaultArithmetic>
+        arith1 |> is<PlainArithmetic>
 
         let arith2 = sch.Arithmetic
-        arith2 |> is<DefaultArithmetic>
+        arith2 |> is<PlainArithmetic>
 
         arith2 === arith1
 

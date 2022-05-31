@@ -22,7 +22,7 @@ module Prelude =
     [<Fact>]
     let ``Constructor throws for null schema`` () =
         nullExn "schema" (fun () -> new CalendricalArithmetic(null))
-        nullExn "schema" (fun () -> new DefaultArithmetic(null))
+        nullExn "schema" (fun () -> new PlainArithmetic(null))
         nullExn "schema" (fun () -> new PlainFastArithmetic(null))
         nullExn "schema" (fun () -> new GregorianArithmetic(null))
         nullExn "schema" (fun () -> new LunarArithmetic(null))
