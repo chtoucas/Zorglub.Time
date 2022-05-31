@@ -114,7 +114,7 @@ public sealed class GregorianHinnantFormulae : ICalendricalFormulae
     // On vérifie aisément que remplacer 5 par 4 ne change pas le
     // résultat, d'où la formule proposée par Hinnant.
     [Pure]
-    public static int CountDaysInYearBeforeMonth(int y, int m)
+    public int CountDaysInYearBeforeMonth(int y, int m)
     {
         // Formula if the year started in march (algebraic months):
         //   (153 * m + 2) / 5

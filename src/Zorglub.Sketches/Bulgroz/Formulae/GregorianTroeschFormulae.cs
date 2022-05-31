@@ -74,7 +74,7 @@ public sealed class GregorianTroeschFormulae : ICalendricalFormulae
 
     // Inspiré de Hinnant (cycle de 400 ans) ainsi que de Troesch (formes quasi-affines).
     [Pure]
-    public static int CountDaysSinceEpoch400(int y, int m, int d)
+    public int CountDaysSinceEpoch400(int y, int m, int d)
     {
         if (m < 3)
         {

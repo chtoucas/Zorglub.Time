@@ -5,14 +5,16 @@ namespace Zorglub.Bulgroz.Formulae;
 
 public sealed class GregorianHinnantFormulaeTests : ICalendricalFormulaeFacts<GregorianDataSet>
 {
-    public GregorianHinnantFormulaeTests() : base(new GregorianHinnantFormulae()) { }
+    private static readonly GregorianHinnantFormulae s_Formulae = new();
+
+    public GregorianHinnantFormulaeTests() : base(s_Formulae) { }
 
     [Theory, MemberData(nameof(MonthInfoData))]
     public void CountDaysInYearBeforeMonth(MonthInfo info)
     {
         var (y, m) = info.Yemo;
         // Act
-        int actual = GregorianHinnantFormulae.CountDaysInYearBeforeMonth(y, m);
+        int actual = s_Formulae.CountDaysInYearBeforeMonth(y, m);
         // Assert
         Assert.Equal(info.DaysInYearBeforeMonth, actual);
     }
