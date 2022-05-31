@@ -8,9 +8,8 @@ public sealed class Tropicalia3130FormulaesTests : CalendricalDataConsumer<Tropi
     [Theory, MemberData(nameof(MonthInfoData))]
     public void CountDaysInYearBeforeMonth(MonthInfo info)
     {
-        var (_, m) = info.Yemo;
         // Act
-        int actual = Tropicalia3130Formulae.CountDaysInYearBeforeMonth(m);
+        int actual = Tropicalia3130Formulae.CountDaysInYearBeforeMonth(info.Yemo.Month);
         // Assert
         Assert.Equal(info.DaysInYearBeforeMonth, actual);
     }

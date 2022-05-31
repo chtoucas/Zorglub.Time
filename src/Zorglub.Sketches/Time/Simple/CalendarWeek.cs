@@ -11,7 +11,7 @@ namespace Zorglub.Time.Simple
     //
     // TODO:
     // - add WeekParts
-    // - add also CalendarWeekDate (year, week, dayOfWeek)
+    // - add also CalendarWeekdate (year, week, dayOfWeek)
     //   => revoir la repr. binaire pour que les deux soient compatibles.
     //      s'inspirer de Yemoda.
     //   Leap-week calendars may drop the subdivision of a year in months.

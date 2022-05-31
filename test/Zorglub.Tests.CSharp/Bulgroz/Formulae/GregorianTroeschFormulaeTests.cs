@@ -11,7 +11,6 @@ public sealed class GregorianTroeschFormulaeTests : ICalendricalFormulaeFacts<Gr
     public void CountDaysSinceEpoch400(DaysSinceEpochInfo info)
     {
         var (daysSinceEpoch, y, m, d) = info;
-
         // Act
         int actual = GregorianTroeschFormulae.CountDaysSinceEpoch400(y, m, d);
         // Assert

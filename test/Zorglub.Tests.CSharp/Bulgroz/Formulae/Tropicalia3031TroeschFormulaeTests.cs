@@ -10,10 +10,8 @@ public sealed class Tropicalia3031TroeschFormulaeTests : ICalendricalFormulaeFac
     [Theory, MemberData(nameof(YearInfoData))]
     public void CountDaysInYear(YearInfo info)
     {
-        int y = info.Year;
-
         // Act
-        int actual = Tropicalia3031TroeschFormulae.CountDaysInYear(y);
+        int actual = Tropicalia3031TroeschFormulae.CountDaysInYear(info.Year);
         // Assert
         Assert.Equal(info.DaysInYear, actual);
     }
@@ -21,9 +19,8 @@ public sealed class Tropicalia3031TroeschFormulaeTests : ICalendricalFormulaeFac
     [Theory, MemberData(nameof(MonthInfoData))]
     public void CountDaysInYearBeforeMonth(MonthInfo info)
     {
-        var (_, m) = info.Yemo;
         // Act
-        int actual = Tropicalia3031TroeschFormulae.CountDaysInYearBeforeMonth(m);
+        int actual = Tropicalia3031TroeschFormulae.CountDaysInYearBeforeMonth(info.Yemo.Month);
         // Assert
         Assert.Equal(info.DaysInYearBeforeMonth, actual);
     }

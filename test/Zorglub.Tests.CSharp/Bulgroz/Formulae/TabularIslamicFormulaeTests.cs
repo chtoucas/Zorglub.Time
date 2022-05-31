@@ -19,9 +19,8 @@ public sealed class TabularIslamicFormulaeTests : ICalendricalFormulaeFacts<Tabu
     [Theory, MemberData(nameof(MonthInfoData))]
     public void CountDaysInYearBeforeMonth(MonthInfo info)
     {
-        var (_, m) = info.Yemo;
         // Act
-        int actual = TabularIslamicFormulae.CountDaysInYearBeforeMonth(m);
+        int actual = TabularIslamicFormulae.CountDaysInYearBeforeMonth(info.Yemo.Month);
         // Assert
         Assert.Equal(info.DaysInYearBeforeMonth, actual);
     }

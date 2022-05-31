@@ -15,8 +15,8 @@ namespace Zorglub.Time.Simple
     // OrdinalDate).
 
     /// <summary>
-    /// Defines the mathematical operations suitable for use with a given calendar and provides a
-    /// base for derived classes.
+    /// Defines the stadard mathematical operations suitable for use with a given calendar and
+    /// provides a base for derived classes.
     /// </summary>
     public sealed partial class StandardMath
     {

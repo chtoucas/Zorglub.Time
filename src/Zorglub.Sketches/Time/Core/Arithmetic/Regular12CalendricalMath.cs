@@ -3,7 +3,7 @@
 
 namespace Zorglub.Time.Core.Arithmetic
 {
-    public sealed partial class Regular12Math : CalendricalMath
+    public sealed partial class Regular12CalendricalMath : CalendricalMath
     {
         /// <summary>
         /// Represents the total number of months in a year.
@@ -11,7 +11,7 @@ namespace Zorglub.Time.Core.Arithmetic
         /// </summary>
         private const int MonthsInYear = 12;
 
-        public Regular12Math(ICalendricalSchema schema) : base(schema, default)
+        public Regular12CalendricalMath(ICalendricalSchema schema) : base(schema, default)
         {
             Debug.Assert(schema != null);
 
@@ -27,7 +27,7 @@ namespace Zorglub.Time.Core.Arithmetic
     }
 
     // Operations on calendrical days.
-    public partial class Regular12Math
+    public partial class Regular12CalendricalMath
     {
         /// <inheritdoc />
         /// <remarks>
@@ -173,7 +173,7 @@ namespace Zorglub.Time.Core.Arithmetic
     }
 
     // Operations on calendrical months.
-    public partial class Regular12Math
+    public partial class Regular12CalendricalMath
     {
         /// <inheritdoc />
         [Pure]
@@ -221,7 +221,7 @@ namespace Zorglub.Time.Core.Arithmetic
     }
 
     // Operations on calendrical years.
-    public partial class Regular12Math
+    public partial class Regular12CalendricalMath
     {
         [Pure]
         public override int AddYears(int y, int years)

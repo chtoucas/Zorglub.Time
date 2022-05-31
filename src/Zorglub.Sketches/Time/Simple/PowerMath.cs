@@ -38,7 +38,7 @@ namespace Zorglub.Time.Simple
 
             return monthsInYear switch
             {
-                12 => new Core.Arithmetic.Regular12Math(schema),
+                12 => new Regular12CalendricalMath(schema),
                 _ => throw new NotImplementedException()
             };
         }
