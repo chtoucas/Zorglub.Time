@@ -6,22 +6,22 @@ namespace Zorglub.Testing.Facts.Simple;
 using Zorglub.Testing.Data;
 using Zorglub.Time.Simple;
 
-// REVIEW(fact): temporary class to be able to test DefaultMath.
+// REVIEW(fact): temporary class to be able to test PlainMath.
 
 /// <summary>
-/// Provides facts about <see cref="DefaultMath"/>.
+/// Provides facts about <see cref="PlainMath"/>.
 /// </summary>
-public abstract partial class DefaultMathFacts<TDataSet> :
+public abstract partial class PlainMathFacts<TDataSet> :
     CalendarDataConsumer<TDataSet>
     where TDataSet : ICalendarDataSet, ISingleton<TDataSet>
 {
-    internal DefaultMathFacts(DefaultMath math)
+    internal PlainMathFacts(PlainMath math)
     {
         MathUT = math ?? throw new ArgumentNullException(nameof(math));
         Calendar = math.Calendar;
     }
 
-    private DefaultMath MathUT { get; }
+    private PlainMath MathUT { get; }
     protected Calendar Calendar { get; }
 
     protected CalendarDate GetDate(Yemoda ymd)
@@ -37,11 +37,11 @@ public abstract partial class DefaultMathFacts<TDataSet> :
     }
 }
 
-public partial class DefaultMathFacts<TDataSet> // CalendarDate
+public partial class PlainMathFacts<TDataSet> // CalendarDate
 {
 }
 
-public partial class DefaultMathFacts<TDataSet> // CalendarMonth
+public partial class PlainMathFacts<TDataSet> // CalendarMonth
 {
     [Theory, MemberData(nameof(AddYearsData))]
     public void AddYears﹍CalendarMonth(YemodaPairAnd<int> info)

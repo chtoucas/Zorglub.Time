@@ -97,7 +97,7 @@ namespace Zorglub.Time.Simple
                 12 => new Regular12Math(calendar),
                 13 => new Regular13Math(calendar),
                 > 0 => new RegularMath(calendar),
-                _ => new DefaultMath(calendar)
+                _ => new PlainMath(calendar)
             };
         }
 

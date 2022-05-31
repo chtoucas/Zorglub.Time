@@ -3,17 +3,17 @@
 
 namespace Zorglub.Time.Simple
 {
-    // FIXME(code): impl DefaultMath.
+    // FIXME(code): impl PlainMath.
 
     using Zorglub.Time.Core;
 
     /// <summary>
-    /// Provides a default implementation for <see cref="CalendarMath"/>.
+    /// Provides a plain implementation for <see cref="CalendarMath"/>.
     /// <para>In practice, we only use this mathematic with non-regular schema; see
     /// <see cref="CalendarMath.Create(Calendar)"/>.</para>
     /// <para>This class cannot be inherited.</para>
     /// </summary>
-    public sealed class DefaultMath : CalendarMath
+    public sealed class PlainMath : CalendarMath
     {
         /// <summary>
         /// Represents the schema.
@@ -22,10 +22,10 @@ namespace Zorglub.Time.Simple
         private readonly SystemSchema _schema;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="DefaultMath"/> class.
+        /// Initializes a new instance of the <see cref="PlainMath"/> class.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="calendar"/> is null.</exception>
-        public DefaultMath(Calendar calendar) : base(calendar, default)
+        public PlainMath(Calendar calendar) : base(calendar, default)
         {
             Debug.Assert(calendar != null);
 

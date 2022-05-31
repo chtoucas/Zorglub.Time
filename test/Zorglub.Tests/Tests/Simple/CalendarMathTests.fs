@@ -88,12 +88,12 @@ module Factories =
         math |> is<RegularMath>
 
     [<Fact>]
-    let ``Create() -> DefaultMath`` () =
+    let ``Create() -> PlainMath`` () =
         let sch = new FauxSystemSchema()
         let chr = new FauxSystemCalendar(sch)
         let math = CalendarMath.Create(chr)
 
-        math |> is<DefaultMath>
+        math |> is<PlainMath>
 
 module Validation =
     let private chr = GregorianCalendar.Instance
