@@ -63,12 +63,12 @@
     <Compile Include="Tests\Core\Schemas\DaysInMonthDistributionTestSuite.fs" />
     <Compile Include="Tests\Core\Validation\PreValidatorTests.fs" />
     <Compile Include="Tests\Core\Validation\CalendricalPreValidatorTestSuite.fs" />
-    <Compile Include="Tests\Core\Validation\DefaultPreValidatorTestSuite.fs" />
+    <Compile Include="Tests\Core\Validation\PlainPreValidatorTestSuite.fs" />
     <Compile Include="Tests\Core\Validation\PreValidatorTestSuite.fs" />
     <Compile Include="Tests\Core\Arithmetic\ArithmeticTests.fs" />
     <Compile Include="Tests\Core\Arithmetic\CalendricalArithmeticTestSuite.fs" />
-    <Compile Include="Tests\Core\Arithmetic\DefaultArithmeticTestSuite.fs" />
-    <Compile Include="Tests\Core\Arithmetic\DefaultFastArithmeticTestSuite.fs" />
+    <Compile Include="Tests\Core\Arithmetic\PlainArithmeticTestSuite.fs" />
+    <Compile Include="Tests\Core\Arithmetic\PlainFastArithmeticTestSuite.fs" />
     <Compile Include="Tests\Core\Arithmetic\ArithmeticTestSuite.fs" />
     <Compile Include="Tests\Core\PartsTests.fs" />
     <Compile Include="Tests\Core\TemporalArithmeticTests.fs" />

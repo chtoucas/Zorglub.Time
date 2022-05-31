@@ -665,10 +665,12 @@ virtual Zorglub.Time.Core.CalendricalSchema.CountDaysSinceEpoch(int y, int m, in
 virtual Zorglub.Time.Core.CalendricalSchema.GetArithmeticCore() -> Zorglub.Time.Core.ICalendricalArithmetic!
 virtual Zorglub.Time.Core.CalendricalSchema.GetDateParts(int daysSinceEpoch, out int y, out int m, out int d) -> void
 virtual Zorglub.Time.Core.CalendricalSchema.GetPreValidatorCore() -> Zorglub.Time.Core.ICalendricalPreValidator!
-Zorglub.Time.AddAdjustment
-Zorglub.Time.AddAdjustment.EndOfMonth = 0 -> Zorglub.Time.AddAdjustment
-Zorglub.Time.AddAdjustment.Exact = 2 -> Zorglub.Time.AddAdjustment
-Zorglub.Time.AddAdjustment.StartOfNextMonth = 1 -> Zorglub.Time.AddAdjustment
+Zorglub.Time.AdditionRules
+Zorglub.Time.AdditionRules.AdditionRules() -> void
+Zorglub.Time.AdditionRules.AdditionRules(Zorglub.Time.DateAdditionRule dateRule, Zorglub.Time.OrdinalAdditionRule ordinalRule, Zorglub.Time.MonthAdditionRule monthRule) -> void
+Zorglub.Time.AdditionRules.DateRule.get -> Zorglub.Time.DateAdditionRule
+Zorglub.Time.AdditionRules.MonthRule.get -> Zorglub.Time.MonthAdditionRule
+Zorglub.Time.AdditionRules.OrdinalRule.get -> Zorglub.Time.OrdinalAdditionRule
 Zorglub.Time.CalendarId
 Zorglub.Time.CalendarId.Armenian = 2 -> Zorglub.Time.CalendarId
 Zorglub.Time.CalendarId.Coptic = 3 -> Zorglub.Time.CalendarId
@@ -1028,6 +1030,11 @@ Zorglub.Time.Core.Yemox.ToBinary() -> int
 Zorglub.Time.Core.Yemox.Year.get -> int
 Zorglub.Time.Core.Yemox.Yemo.get -> Zorglub.Time.Core.Yemo
 Zorglub.Time.Core.Yemox.Yemox() -> void
+Zorglub.Time.DateAdditionRule
+Zorglub.Time.DateAdditionRule.EndOfMonth = 0 -> Zorglub.Time.DateAdditionRule
+Zorglub.Time.DateAdditionRule.Exact = 2 -> Zorglub.Time.DateAdditionRule
+Zorglub.Time.DateAdditionRule.StartOfNextMonth = 1 -> Zorglub.Time.DateAdditionRule
+Zorglub.Time.DateAdditionRule.Throw = 3 -> Zorglub.Time.DateAdditionRule
 Zorglub.Time.DateParts
 Zorglub.Time.DateParts.Century.get -> int
 Zorglub.Time.DateParts.CenturyOfEra.get -> Zorglub.Time.Ord
@@ -1142,6 +1149,11 @@ Zorglub.Time.Hemerology.IStandardArithmetic<TSelf>.PlusDays(int days) -> TSelf
 Zorglub.Time.Hemerology.IStandardArithmetic<TSelf>.PreviousDay() -> TSelf
 Zorglub.Time.Hemerology.RangeExtensions
 Zorglub.Time.Hemerology.YearNumbering
+Zorglub.Time.MonthAdditionRule
+Zorglub.Time.MonthAdditionRule.EndOfYear = 0 -> Zorglub.Time.MonthAdditionRule
+Zorglub.Time.MonthAdditionRule.Exact = 2 -> Zorglub.Time.MonthAdditionRule
+Zorglub.Time.MonthAdditionRule.StartOfNextYear = 1 -> Zorglub.Time.MonthAdditionRule
+Zorglub.Time.MonthAdditionRule.Throw = 3 -> Zorglub.Time.MonthAdditionRule
 Zorglub.Time.MonthParts
 Zorglub.Time.MonthParts.Century.get -> int
 Zorglub.Time.MonthParts.CenturyOfEra.get -> Zorglub.Time.Ord
@@ -1169,6 +1181,11 @@ Zorglub.Time.Ord.Ord() -> void
 Zorglub.Time.Ord.Rank.get -> int
 Zorglub.Time.Ord.Subtract(Zorglub.Time.Ord other) -> int
 Zorglub.Time.Ord.ToInt32() -> int
+Zorglub.Time.OrdinalAdditionRule
+Zorglub.Time.OrdinalAdditionRule.EndOfYear = 0 -> Zorglub.Time.OrdinalAdditionRule
+Zorglub.Time.OrdinalAdditionRule.Exact = 2 -> Zorglub.Time.OrdinalAdditionRule
+Zorglub.Time.OrdinalAdditionRule.StartOfNextYear = 1 -> Zorglub.Time.OrdinalAdditionRule
+Zorglub.Time.OrdinalAdditionRule.Throw = 3 -> Zorglub.Time.OrdinalAdditionRule
 Zorglub.Time.OrdinalParts
 Zorglub.Time.OrdinalParts.Century.get -> int
 Zorglub.Time.OrdinalParts.CenturyOfEra.get -> Zorglub.Time.Ord
@@ -1311,13 +1328,14 @@ Zorglub.Time.Simple.CalendarDay.Year.get -> int
 Zorglub.Time.Simple.CalendarDay.YearOfCentury.get -> int
 Zorglub.Time.Simple.CalendarDay.YearOfEra.get -> Zorglub.Time.Ord
 Zorglub.Time.Simple.CalendarMath
-Zorglub.Time.Simple.CalendarMath.AddAdjustment.get -> Zorglub.Time.AddAdjustment
+Zorglub.Time.Simple.CalendarMath.AdditionRules.get -> Zorglub.Time.AdditionRules
 Zorglub.Time.Simple.CalendarMath.AddMonths(Zorglub.Time.Simple.CalendarDate date, int months) -> Zorglub.Time.Simple.CalendarDate
 Zorglub.Time.Simple.CalendarMath.AddMonths(Zorglub.Time.Simple.CalendarMonth month, int months) -> Zorglub.Time.Simple.CalendarMonth
 Zorglub.Time.Simple.CalendarMath.AddYears(Zorglub.Time.Simple.CalendarDate date, int years) -> Zorglub.Time.Simple.CalendarDate
 Zorglub.Time.Simple.CalendarMath.AddYears(Zorglub.Time.Simple.CalendarMonth month, int years) -> Zorglub.Time.Simple.CalendarMonth
 Zorglub.Time.Simple.CalendarMath.AddYears(Zorglub.Time.Simple.OrdinalDate date, int years) -> Zorglub.Time.Simple.OrdinalDate
-Zorglub.Time.Simple.CalendarMath.CalendarMath(Zorglub.Time.Simple.Calendar! calendar, Zorglub.Time.AddAdjustment adjustment) -> void
+Zorglub.Time.Simple.CalendarMath.Calendar.get -> Zorglub.Time.Simple.Calendar!
+Zorglub.Time.Simple.CalendarMath.CalendarMath(Zorglub.Time.Simple.Calendar! calendar, Zorglub.Time.AdditionRules additionRules) -> void
 Zorglub.Time.Simple.CalendarMath.CountMonthsBetween(Zorglub.Time.Simple.CalendarDate start, Zorglub.Time.Simple.CalendarDate end) -> int
 Zorglub.Time.Simple.CalendarMath.CountMonthsBetween(Zorglub.Time.Simple.CalendarMonth start, Zorglub.Time.Simple.CalendarMonth end) -> int
 Zorglub.Time.Simple.CalendarMath.CountYearsBetween(Zorglub.Time.Simple.CalendarDate start, Zorglub.Time.Simple.CalendarDate end) -> int
@@ -1451,6 +1469,8 @@ Zorglub.Time.Simple.OrdinalDate.WithYear(int newYear) -> Zorglub.Time.Simple.Ord
 Zorglub.Time.Simple.OrdinalDate.Year.get -> int
 Zorglub.Time.Simple.OrdinalDate.YearOfCentury.get -> int
 Zorglub.Time.Simple.OrdinalDate.YearOfEra.get -> Zorglub.Time.Ord
+Zorglub.Time.Simple.PlainMath
+Zorglub.Time.Simple.PlainMath.PlainMath(Zorglub.Time.Simple.Calendar! calendar) -> void
 Zorglub.Time.Simple.TabularIslamicCalendar
 Zorglub.Time.Simple.ZoroastrianCalendar
 Zorglub.Time.Simple.ZoroastrianCalendar.IsEpagomenalDay(Zorglub.Time.Simple.CalendarDate date, out int epagomenalNumber) -> bool
