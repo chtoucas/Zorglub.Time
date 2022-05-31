@@ -4,6 +4,7 @@
 module Zorglub.Tests.Core.Intervals.IntervalTests
 
 open Zorglub.Testing
+open Zorglub.Testing.Data
 
 open Zorglub.Time
 open Zorglub.Time.Core.Intervals
@@ -273,67 +274,79 @@ module UnionCase =
 
 // We also test the specialized methods Coalesce() and Connected().
 module SpanCase =
-    [<Theory>]
-    // Equal
-    [<InlineData(1, 1, 1, 1, 1, 1, true)>]
-    [<InlineData(1, 4, 1, 4, 1, 4, true)>]
-    // Strict subset (degenerate)
-    [<InlineData(1, 1, 1, 4, 1, 4, true)>]
-    [<InlineData(2, 2, 1, 4, 1, 4, true)>]
-    [<InlineData(3, 3, 1, 4, 1, 4, true)>]
-    [<InlineData(4, 4, 1, 4, 1, 4, true)>]
-    // Strict subset (non-degenerate)
-    [<InlineData(1, 2, 1, 4, 1, 4, true)>]
-    [<InlineData(1, 3, 1, 4, 1, 4, true)>]
-    [<InlineData(2, 3, 1, 4, 1, 4, true)>]
-    [<InlineData(2, 4, 1, 4, 1, 4, true)>]
-    [<InlineData(3, 4, 1, 4, 1, 4, true)>]
-    // Other non-disjoint cases
-    [<InlineData(1, 4, 4, 7, 1, 7, true)>]
-    [<InlineData(1, 4, 3, 7, 1, 7, true)>]
-    // Disjoint and connected
-    [<InlineData(1, 4, 5, 5, 1, 5, true)>]
-    [<InlineData(1, 4, 5, 7, 1, 7, true)>]
-    // Disjoint and disconnected
-    [<InlineData(1, 1, 4, 4, 1, 4, false)>]
-    [<InlineData(1, 1, 4, 7, 1, 7, false)>]
-    [<InlineData(1, 4, 6, 9, 1, 9, false)>]
-    let ``Span(Range, Range)`` (i: int) j k l m n connected =
-        let v = Range.Create(i, j)
-        let w = Range.Create(k, l)
-        let span = Range.Create(m, n)
+    let private maprange (range: Range<int>) =
+        let endpoints = range.Endpoints.Select(fun i -> DayNumber.Zero + i)
+        Range.FromEndpoints(endpoints)
+    let private maprangeset (set: RangeSet<int>) =
+        if set.IsEmpty then
+            RangeSet<DayNumber>.Empty
+        else
+            let endpoints = set.Range.Value.Endpoints.Select(fun i -> DayNumber.Zero + i)
+            RangeSet.FromEndpoints(endpoints)
+    let private maplowerray (ray: LowerRay<int>) =
+        LowerRay.EndingAt(DayNumber.Zero + ray.Max)
+    let private mapupperray (ray: UpperRay<int>) =
+        UpperRay.StartingAt(DayNumber.Zero + ray.Min)
+
+    let rangePairInfoData = IntervalDataSet.RangePairInfoData
+
+    [<Theory; MemberData(nameof(rangePairInfoData))>]
+    let ``Span(Range, Range)`` (data: RangePairInfo) =
+        let v = data.First
+        let w = data.Second
+        let span = data.Span
+        let gap = data.Gap
 
         Interval.Span(v, w) === span
         Interval.Span(w, v) === span
 
-        Interval.Connected(v, w) === connected
-        Interval.Connected(w, v) === connected
+        Interval.Gap(v, w) === gap
+        Interval.Gap(w, v) === gap
 
-        if connected then
+        Interval.Disjoint(v, w) === data.Disjoint
+        Interval.Disjoint(w, v) === data.Disjoint
+
+        Interval.Adjacent(v, w) === data.Adjacent
+        Interval.Adjacent(w, v) === data.Adjacent
+
+        Interval.Connected(v, w) === data.Connected
+        Interval.Connected(w, v) === data.Connected
+
+        if data.Connected then
             Interval.Coalesce(v, w).Value === span
             Interval.Coalesce(w, v).Value === span
         else
             Interval.Coalesce(v, w) |> isnull
             Interval.Coalesce(w, v) |> isnull
 
-        // DayNumber
+    [<Theory; MemberData(nameof(rangePairInfoData))>]
+    let ``Span(Range, Range) DayNumber case`` (data: RangePairInfo) =
+        let v = maprange data.First
+        let w = maprange data.Second
+        let span = maprange data.Span
+        let gap = maprangeset data.Gap
 
-        let v1 = Range.Create(DayNumber.Zero + i, DayNumber.Zero + j)
-        let w1 = Range.Create(DayNumber.Zero + k, DayNumber.Zero + l)
-        let span1 = Range.Create(DayNumber.Zero + m, DayNumber.Zero + n)
+        Interval.Span(v, w) === span
+        Interval.Span(w, v) === span
 
-        Interval.Span(v1, w1) === span1
-        Interval.Span(w1, v1) === span1
+        Interval.Gap(v, w) === gap
+        Interval.Gap(w, v) === gap
 
-        Interval.Connected(v1, w1) === connected
-        Interval.Connected(w1, v1) === connected
+        Interval.Disjoint(v, w) === data.Disjoint
+        Interval.Disjoint(w, v) === data.Disjoint
 
-        if connected then
-            Interval.Coalesce(v1, w1).Value === span1
-            Interval.Coalesce(w1, v1).Value === span1
+        Interval.Adjacent(v, w) === data.Adjacent
+        Interval.Adjacent(w, v) === data.Adjacent
+
+        Interval.Connected(v, w) === data.Connected
+        Interval.Connected(w, v) === data.Connected
+
+        if data.Connected then
+            Interval.Coalesce(v, w).Value === span
+            Interval.Coalesce(w, v).Value === span
         else
-            Interval.Coalesce(v1, w1) |> isnull
-            Interval.Coalesce(w1, v1) |> isnull
+            Interval.Coalesce(v, w) |> isnull
+            Interval.Coalesce(w, v) |> isnull
 
     [<Theory>]
     [<InlineData(5, 7, 9, 9, false)>]
@@ -363,8 +376,8 @@ module SpanCase =
 
         // DayNumber
 
-        let w1 = LowerRay.EndingAt(DayNumber.Zero + m)
-        let v1 = Range.Create(DayNumber.Zero + i, DayNumber.Zero + j)
+        let w1 = maplowerray w
+        let v1 = maprange v
         let span1 = LowerRay.EndingAt(DayNumber.Zero + n)
 
         Interval.Span(v1, w1) === span1
@@ -409,8 +422,8 @@ module SpanCase =
 
         // DayNumber
 
-        let w1 = UpperRay.StartingAt(DayNumber.Zero + m)
-        let v1 = Range.Create(DayNumber.Zero + i, DayNumber.Zero + j)
+        let w1 = mapupperray w
+        let v1 = maprange v
         let span1 = UpperRay.StartingAt(DayNumber.Zero + n)
 
         Interval.Span(v1, w1) === span1
