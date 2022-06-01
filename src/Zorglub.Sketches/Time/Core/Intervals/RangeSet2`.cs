@@ -135,8 +135,7 @@ namespace Zorglub.Time.Core.Intervals
         /// Attempts to get a non-empty range.
         /// </summary>
         /// <exception cref="InvalidOperationException">The set is empty.</exception>
-        public Range<T> Range => Boundary.IsEmpty ? Throw.InvalidOperation<Range<T>>()
-            : new Range<T>(Boundary.Endpoints.Value);
+        public Range<T> Range => new(Boundary.Endpoints);
 
         /// <summary>
         /// Returns a culture-independent string representation of this range.

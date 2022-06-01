@@ -118,19 +118,16 @@ namespace Zorglub.Time.Core.Intervals
         /// <summary>
         /// Returns true if this boundary is empty; otherwise returns false.
         /// </summary>
-        [MemberNotNullWhen(returnValue: false, member: nameof(Endpoints))]
         public bool IsEmpty => _count == 0;
 
         /// <summary>
         /// Returns true if this boundary is a singleton; otherwise returns false.
         /// </summary>
-        [MemberNotNullWhen(returnValue: true, member: nameof(Endpoints))]
         public bool IsSingleton => _count == 1;
 
         /// <summary>
         /// Returns true if this boundary is a <i>non-degenerate</i> pair; otherwise returns false.
         /// </summary>
-        [MemberNotNullWhen(returnValue: true, member: nameof(Endpoints))]
         public bool IsProper => _count == 2;
 
         /// <summary>
@@ -142,9 +139,10 @@ namespace Zorglub.Time.Core.Intervals
         /// <summary>
         /// Attempts to get the pair of endpoints.
         /// </summary>
-        /// <returns><see langword="null"/> if this boundary is empty.</returns>
+        /// <exception cref="InvalidOperationException">The set is empty.</exception>
         [Pure]
-        public OrderedPair<T>? Endpoints => IsEmpty ? null : OrderedPair.FromOrderedValues(Min, Max);
+        public OrderedPair<T> Endpoints => IsEmpty ? Throw.InvalidOperation<OrderedPair<T>>()
+            : OrderedPair.FromOrderedValues(Min, Max);
 
         /// <summary>
         /// Gets the minimum element of the boundary set.
