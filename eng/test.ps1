@@ -6,8 +6,8 @@
 param(
     [Parameter(Mandatory = $false, Position = 0)]
     [ValidateSet(
-        'smoke', 'cover', 'regular', 'more', 'safe', 'most',
-        'redundant-or-slow', 'redundant-and-slow', 'redundant-not-slow', 'slow-not-redundant')]
+        'smoke', 'cover', 'regular', 'more', 'most',
+        'redundant', 'redundant-slow', 'redundant-not-slow')]
                  [string] $Plan = 'smoke',
 
     [Parameter(Mandatory = $false)]
@@ -38,24 +38,20 @@ The default behaviour is to run the smoke tests using the configuration Debug.
 
 The common test plans are:
 - "smoke"     = smoke testing
-- "regular"   = exclude redundant tests and slow-running tests
-- "more"      = exclude redundant tests and slow-running test bundles
-- "safe"      = exclude redundant tests
+- "regular"   = exclude redundant tests, slow-running tests and test bundles
+- "more"      = exclude redundant tests
 - "most"      = the whole test suite
 
 The extra test plans are:
-- "redundant-or-slow" =
-    Only include slow-running test bundles or redundant tests.
+- "redundant" =
+    Only include redundant tests.
     This is the complement of the plan "more".
-- "redundant-and-slow" =
+- "redundant-slow" =
     Only include redundant tests also part of a slow-running test bundle.
-    This is a subset of "redundant-or-slow".
+    This is a subset of "redundant".
 - "redundant-not-slow" =
     Only include redundant tests not part of a slow-running test bundle.
-    This is a subset of "redundant-or-slow".
-- "slow-not-redundant" =
-    Only include non-redundant slow-running test bundle.
-    This is a subset of "redundant-or-slow".
+    This is a subset of "redundant".
 - "cover" =
     Mimic the default test plan used by the code coverage tool
     The difference between "cover" and "regular" is really tiny. For a test to
@@ -73,16 +69,13 @@ Examples.
 The common plans.
 > test.ps1 smoke                # ~27 thousand tests (FAST)
 > test.ps1 regular              # ~73 thousand tests
-> test.ps1 more                 # ~81 thousand tests
-> test.ps1 safe                 # ~85 thousand tests
+> test.ps1 more                 # ~85 thousand tests
 > test.ps1 most                 # ~231 thousand tests (SLOW)
 
 The extra plans.
-> test.ps1 cover                # ~73 thousand tests
-> test.ps1 slow-not-redundant   # ~3 thousand tests
-> test.ps1 redundant-and-slow   # ~64 thousand tests
+> test.ps1 redundant-slow       # ~64 thousand tests
 > test.ps1 redundant-not-slow   # ~82 thousand tests
-> test.ps1 redundant-or-slow    # ~149 thousand tests (SLOW)
+> test.ps1 redundant            # ~146 thousand tests (SLOW)
 
 "@
 }
@@ -128,34 +121,19 @@ try {
             $filter = 'ExcludeFrom!=Regular&Performance!~Slow'
         }
         'more' {
-            # Extended test suite, exclude
-            # - slow test bundles
-            # - redundant tests
-            $filter = 'Performance!=SlowBundle&Redundant!=true'
-        }
-        'safe' {
-            # Extended test suite, exclude
-            # - redundant tests
+            # Only exclude redundant tests.
             $filter = 'Redundant!=true'
         }
-        'redundant-or-slow' {
-            # Complement of the plan "more".
-            # Only include slow test bundles and redundant tests;
-            # "union" of redundant tests and slow test bundles.
-            $filter = 'Performance=SlowBundle|Redundant=true'
+        'redundant' {
+            # Only include redundant tests.
+            $filter = 'Redundant=true'
         }
-        # "redundant-or-slow" being pretty slow, we partition it into three subplans:
-        # - "redundant-not-slow" = "complement" of slow test bundles
-        # - "slow-not-redundant" = "complement" of redundant tests
-        # - "redundant-and-slow" = "intersection" of redundant tests and slow test bundles
-        'redundant-and-slow' {
-            $filter = 'Performance=SlowBundle&Redundant=true'
+        # "redundant" being pretty slow, we partition it into two subplans.
+        'redundant-slow' {
+            $filter = 'Redundant=true&Performance=SlowBundle'
         }
         'redundant-not-slow' {
-            $filter = 'Performance!=SlowBundle&Redundant=true'
-        }
-        'slow-not-redundant' {
-            $filter = 'Performance=SlowBundle&Redundant!=true'
+            $filter = 'Redundant=true&Performance!=SlowBundle'
         }
         'most' {
             $filter = ''
