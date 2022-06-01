@@ -129,6 +129,7 @@ namespace Zorglub.Time.Simple
             Debug.Assert(start.Cuid == Cuid);
             Debug.Assert(end.Cuid == Cuid);
 
+            // REVIEW(code): dubious... idem with PlainMath.
             return CountYearsBetweenCore(start.FirstDay, end.FirstDay);
         }
 

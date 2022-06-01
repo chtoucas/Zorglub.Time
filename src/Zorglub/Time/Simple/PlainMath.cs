@@ -171,16 +171,16 @@ namespace Zorglub.Time.Simple
         protected internal override CalendarMonth AddMonthsCore(CalendarMonth month, int months)
         {
             throw new NotImplementedException();
+            //Debug.Assert(month.Cuid == Cuid);
+
+            //return AddMonthsCore(month.FirstDay, months).CalendarMonth;
         }
 
         /// <inheritdoc />
         [Pure]
         protected internal override int CountYearsBetweenCore(CalendarMonth start, CalendarMonth end)
         {
-            Debug.Assert(start.Cuid == Cuid);
-            Debug.Assert(end.Cuid == Cuid);
-
-            return CountYearsBetweenCore(start.FirstDay, end.FirstDay);
+            throw new NotImplementedException();
         }
 
         /// <inheritdoc />
