@@ -9,6 +9,8 @@ on:
     - 'CHANGELOG'
     - 'LICENSE'
     - '**.md'
+    - '**.svg'
+    - '**.txt'
 
 jobs:
   test:
