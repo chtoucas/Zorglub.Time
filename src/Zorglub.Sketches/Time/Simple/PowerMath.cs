@@ -34,13 +34,9 @@ namespace Zorglub.Time.Simple
             Requires.NotNull(calendar);
 
             var schema = calendar.Schema;
-            int monthsInYear = schema.IsRegular(out int v) ? v : 0;
 
-            return monthsInYear switch
-            {
-                12 => new Regular12CalendricalMath(schema),
-                _ => throw new NotImplementedException()
-            };
+            return schema.IsRegular(out _) ? new RegularCalendricalMath(schema)
+                : throw new NotImplementedException();
         }
 
         // Version pour les calendriers proleptiques.

@@ -3,15 +3,15 @@
 
 namespace Zorglub.Time.Core.Arithmetic
 {
-    public sealed partial class Regular12CalendricalMath : CalendricalMath
+    public sealed partial class RegularCalendricalMath : CalendricalMath
     {
         /// <summary>
         /// Represents the total number of months in a year.
-        /// <para>This field is a constant equal to 12.</para>
+        /// <para>This field is read-only.</para>
         /// </summary>
-        private const int MonthsInYear = 12;
+        private readonly int MonthsInYear;
 
-        public Regular12CalendricalMath(ICalendricalSchema schema) : base(schema, default)
+        public RegularCalendricalMath(ICalendricalSchema schema) : base(schema, default)
         {
             Debug.Assert(schema != null);
 
@@ -19,15 +19,12 @@ namespace Zorglub.Time.Core.Arithmetic
             {
                 Throw.Argument(nameof(schema));
             }
-            if (monthsInYear != MonthsInYear)
-            {
-                Throw.Argument(nameof(schema));
-            }
+
+            MonthsInYear = monthsInYear;
         }
     }
 
-    // Operations on calendrical days.
-    public partial class Regular12CalendricalMath
+    public partial class RegularCalendricalMath // Yemoda
     {
         /// <inheritdoc />
         /// <remarks>
@@ -172,8 +169,7 @@ namespace Zorglub.Time.Core.Arithmetic
         }
     }
 
-    // Operations on calendrical months.
-    public partial class Regular12CalendricalMath
+    public partial class RegularCalendricalMath // Yemo
     {
         /// <inheritdoc />
         [Pure]
@@ -220,8 +216,7 @@ namespace Zorglub.Time.Core.Arithmetic
         }
     }
 
-    // Operations on calendrical years.
-    public partial class Regular12CalendricalMath
+    public partial class RegularCalendricalMath // Year
     {
         [Pure]
         public override int AddYears(int y, int years)
