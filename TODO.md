@@ -7,6 +7,8 @@ FIXME
 - Refactor CalendarCatalog, split into a registry and a registar.
   Currently, it's almost impossible to achieve full code coverage.
 - Finish PlainMath.
+- Math: tests for ordinal dates.
+- DayOfWeekTester: Near().
 - Check all occurences of ICalendricalSchema and CalendricalSchema.
 - Parts and validation.
   Types concernés:
@@ -19,6 +21,7 @@ FIXME
   TryGetCustomPreValidator() special cases of GJ
   ArithmeticalSchema -> private protected ctor
 - Check scopes (ICalendricalScope) and Yemoda.SupportedYears / PartsFactory.
+- Tests should not perform any conversion, e.g. CalendarDate -> OrdinalDate.
 - CLSCompliant
 - Yemoda as a binary repr for a date type when the later does not want to
   support y = 0 which is the default value of Yemoda
@@ -33,6 +36,7 @@ TODO
   D.B.targets: disable preview features.
   Clean up unnecessary "#pragma warning disable".
   Generic math: using System.Numerics.
+  Github action: test on Ubuntu and MacOS.
 - Clean up compiler symbols.
 - Exception messages: use ThrowHelpers.
   Only use OverflowException for truely arithmetic overflows?

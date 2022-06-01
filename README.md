@@ -24,8 +24,7 @@ thirteen month to hold them, we don't, but see below if you don't agree.
 
 ### Extensibility
 
-One can create new calendars from a schema and an epoch
-(see `Zorglub.Calendars.Specialized`).
+One can create new calendars from a schema and an epoch.
 
 Below, 12+1 means 12 months plus a virtual thirteenth month.
 
@@ -35,9 +34,11 @@ Arithmetical schemas:
 - Gregorian
 - Julian
 - Tabular Islamic
+
 Arithmetisation of astronomical schemas:
 - French Republican (12 or 12+1 months)
 - Persian
+
 Reforms:
 - Tropicália (three versions)
 
@@ -54,7 +55,7 @@ have at least one schema in each category.
   * International Fixed (*)
   * Positivist aka Georgian (*)
   * World aka Universal (*)
-- Perennial leap-week schemas (see also Reform.md in `Zorglub.Sketches`):
+- Perennial leap-week schemas:
   * Pax (*)
   * ISO
 - Astronomical schemas:
