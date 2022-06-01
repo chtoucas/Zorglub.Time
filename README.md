@@ -1,4 +1,7 @@
 ﻿
+[![tests](https://github.com/chtoucas/Zorglub.Time/workflows/smoke/badge.svg)](https://github.com/chtoucas/Zorglub.Time/actions?query=workflow%3Asmoke)
+[![Coverlet](./test/coverage.svg)](./test/coverage.txt)
+
 Features
 --------
 
