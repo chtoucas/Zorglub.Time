@@ -14,7 +14,7 @@ open Zorglub.Time.Simple
 // model for testing.
 
 [<Sealed>]
-[<RedundantTestGroup>]
+[<RedundantTestBundle>]
 type ArmenianTests() =
     inherit CalendarFacts<StandardArmenian12DataSet>(ArmenianCalendar.Instance)
 
@@ -24,7 +24,7 @@ type ArmenianTests() =
     override x.Scope() = x.CalendarUT.Scope |> is<Solar12StandardShortScope>
 
 [<Sealed>]
-[<RedundantTestGroup>]
+[<RedundantTestBundle>]
 type CopticTests() =
     inherit CalendarFacts<StandardCoptic12DataSet>(CopticCalendar.Instance)
 
@@ -34,7 +34,7 @@ type CopticTests() =
     override x.Scope() = x.CalendarUT.Scope |> is<Solar12StandardShortScope>
 
 [<Sealed>]
-[<RedundantTestGroup>]
+[<RedundantTestBundle>]
 type EthiopicTests() =
     inherit CalendarFacts<StandardEthiopic12DataSet>(EthiopicCalendar.Instance)
 
@@ -53,7 +53,7 @@ type GregorianTests() =
     override x.Scope() = x.CalendarUT.Scope |> is<GregorianProlepticShortScope>
 
 [<Sealed>]
-[<RedundantTestGroup>]
+[<RedundantTestBundle>]
 type JulianTests() =
     inherit CalendarFacts<ProlepticJulianDataSet>(JulianCalendar.Instance)
 
@@ -63,7 +63,7 @@ type JulianTests() =
     override x.Scope() = x.CalendarUT.Scope |> is<Solar12ProlepticShortScope>
 
 [<Sealed>]
-[<RedundantTestGroup>]
+[<RedundantTestBundle>]
 type TabularIslamicTests() =
     inherit CalendarFacts<StandardTabularIslamicDataSet>(TabularIslamicCalendar.Instance)
 
@@ -73,7 +73,7 @@ type TabularIslamicTests() =
     override x.Scope() = x.CalendarUT.Scope |> is<LunarStandardShortScope>
 
 [<Sealed>]
-[<RedundantTestGroup>]
+[<RedundantTestBundle>]
 type ZoroastrianTests() =
     inherit CalendarFacts<StandardZoroastrian12DataSet>(ZoroastrianCalendar.Instance)
 

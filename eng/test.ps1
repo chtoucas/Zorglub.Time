@@ -38,25 +38,24 @@ The default behaviour is to run the smoke tests using the configuration Debug.
 
 The common test plans are:
 - "smoke"     = smoke testing
-- "regular"   = exclude slow-running or redundant tests, and irrelevant tests
-- "more"      = exclude slow-running groups of tests (individual tests are kept)
-                and redundant tests
+- "regular"   = exclude redundant tests and slow-running tests
+- "more"      = exclude redundant tests and slow-running test bundles
 - "safe"      = exclude redundant tests
 - "most"      = the whole test suite
 
 The extra test plans are:
 - "redundant-or-slow" =
-    Only include slow-running groups of tests or redundant tests, that is the
-    tests excluded from the test plan "more"
+    Only include slow-running test bundles or redundant tests.
+    This is the complement of the plan "more".
 - "redundant-and-slow" =
-    Only include redundant tests also part of a slow-running groups of tests;
-    this is a subset of "redundant-or-slow"
+    Only include redundant tests also part of a slow-running test bundle.
+    This is a subset of "redundant-or-slow".
 - "redundant-not-slow" =
-    Only include redundant tests not part of a slow-running groups of tests;
-    this is a subset of "redundant-or-slow"
+    Only include redundant tests not part of a slow-running test bundle.
+    This is a subset of "redundant-or-slow".
 - "slow-not-redundant" =
-    Only include non-redundant slow-running groups of tests;
-    this is a subset of "redundant-or-slow"
+    Only include non-redundant slow-running test bundle.
+    This is a subset of "redundant-or-slow".
 - "cover" =
     Mimic the default test plan used by the code coverage tool
     The difference between "cover" and "regular" is really tiny. For a test to
@@ -101,9 +100,9 @@ try {
     switch ($Plan) {
         'smoke' {
             # Smoke testing, exclude
-            # - tests explicitely excluded from smoke testing
-            # - slow units
-            # - slow groups
+            # - tests explicitely excluded from this plan
+            # - slow test units
+            # - slow test bundles
             # - redundant tests (implicit)
             # - tests excluded from code coverage (implicit)
             # - tests excluded from the "regular" plan (implicit)
@@ -113,26 +112,26 @@ try {
         }
         'cover' {
             # Mimic the default test plan used by cover.ps1, exclude
-            # - tests explicitely excluded from code coverage
-            # - slow units
-            # - slow groups
+            # - tests explicitely excluded from this plan
+            # - slow test units
+            # - slow test bundles
             # - redundant tests (implicit)
             # - tests excluded from the "regular" plan (implicit)
             $filter = 'ExcludeFrom!=CodeCoverage&Performance!~Slow'
         }
         'regular' {
             # Regular test suite, exclude
-            # - tests explicitely excluded from the "regular" plan.
-            # - slow units
-            # - slow groups
+            # - tests explicitely excluded from this plan
+            # - slow test units
+            # - slow test bundles
             # - redundant tests (implicit)
             $filter = 'ExcludeFrom!=Regular&Performance!~Slow'
         }
         'more' {
             # Extended test suite, exclude
-            # - slow groups
+            # - slow test bundles
             # - redundant tests
-            $filter = 'Performance!=SlowGroup&Redundant!=true'
+            $filter = 'Performance!=SlowBundle&Redundant!=true'
         }
         'safe' {
             # Extended test suite, exclude
@@ -141,21 +140,21 @@ try {
         }
         'redundant-or-slow' {
             # Complement of the plan "more".
-            # Only include slow groups and redundant tests.
-            $filter = 'Performance=SlowGroup|Redundant=true'
+            # Only include slow test bundles and redundant tests.
+            $filter = 'Performance=SlowBundle|Redundant=true'
         }
         # "redundant-or-slow" being pretty slow, we partition it into three subplans:
-        # - "redundant-not-slow" = complement of {slow groups}
-        # - "slow-not-redundant" = complement of {redundant tests}.
-        # - "redundant-and-slow" = intersection of {redundant tests} and {slow groups}
+        # - "redundant-not-slow" = complement of slow test bundles
+        # - "slow-not-redundant" = complement of redundant tests
+        # - "redundant-and-slow" = intersection of redundant tests and slow test bundles
         'redundant-and-slow' {
-            $filter = 'Performance=SlowGroup&Redundant=true'
+            $filter = 'Performance=SlowBundle&Redundant=true'
         }
         'redundant-not-slow' {
-            $filter = 'Performance!=SlowGroup&Redundant=true'
+            $filter = 'Performance!=SlowBundle&Redundant=true'
         }
         'slow-not-redundant' {
-            $filter = 'Performance=SlowGroup&Redundant!=true'
+            $filter = 'Performance=SlowBundle&Redundant!=true'
         }
         'most' {
             $filter = ''

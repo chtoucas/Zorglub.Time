@@ -32,22 +32,22 @@ type Coptic13Tests() =
     inherit StandardShortScopeFacts<Coptic13DataSet>(scopeOf<Coptic13Schema>())
 
 [<Sealed>]
-[<RedundantTestGroup>]
+[<RedundantTestBundle>]
 type Egyptian12Tests() =
     inherit StandardShortScopeFacts<Egyptian12DataSet>(scopeOf<Egyptian12Schema>())
 
 [<Sealed>]
-[<RedundantTestGroup>]
+[<RedundantTestBundle>]
 type Egyptian13Tests() =
     inherit StandardShortScopeFacts<Egyptian13DataSet>(scopeOf<Egyptian13Schema>())
 
 [<Sealed>]
-[<RedundantTestGroup>]
+[<RedundantTestBundle>]
 type FrenchRepublican12Tests() =
     inherit StandardShortScopeFacts<FrenchRepublican12DataSet>(scopeOf<FrenchRepublican12Schema>())
 
 [<Sealed>]
-[<RedundantTestGroup>]
+[<RedundantTestBundle>]
 type FrenchRepublican13Tests() =
     inherit StandardShortScopeFacts<FrenchRepublican13DataSet>(scopeOf<FrenchRepublican13Schema>())
 
@@ -64,7 +64,7 @@ type InternationalFixedTests() =
     inherit StandardShortScopeFacts<InternationalFixedDataSet>(scopeOf<InternationalFixedSchema>())
 
 [<Sealed>]
-[<RedundantTestGroup>]
+[<RedundantTestBundle>]
 type JulianTests() =
     inherit StandardShortScopeFacts<JulianDataSet>(scopeOf<JulianSchema>())
 
@@ -75,17 +75,17 @@ type LunisolarTests() =
     inherit StandardShortScopeFacts<LunisolarDataSet>(scopeOf<LunisolarSchema>())
 
 [<Sealed>]
-[<RedundantTestGroup>]
+[<RedundantTestBundle>]
 type PaxTests() =
     inherit StandardShortScopeFacts<PaxDataSet>(scopeOf<PaxSchema>())
 
 [<Sealed>]
-[<RedundantTestGroup>]
+[<RedundantTestBundle>]
 type Persian2820Tests() =
     inherit StandardShortScopeFacts<Persian2820DataSet>(scopeOf<Persian2820Schema>())
 
 [<Sealed>]
-[<RedundantTestGroup>]
+[<RedundantTestBundle>]
 type PositivistTests() =
     inherit StandardShortScopeFacts<PositivistDataSet>(scopeOf<PositivistSchema>())
 
@@ -96,21 +96,21 @@ type TabularIslamicTests() =
     inherit StandardShortScopeFacts<TabularIslamicDataSet>(scopeOf<TabularIslamicSchema>())
 
 [<Sealed>]
-[<RedundantTestGroup>]
+[<RedundantTestBundle>]
 type TropicaliaTests() =
     inherit StandardShortScopeFacts<TropicaliaDataSet>(scopeOf<TropicaliaSchema>())
 
 [<Sealed>]
-[<RedundantTestGroup>]
+[<RedundantTestBundle>]
 type Tropicalia3031Tests() =
     inherit StandardShortScopeFacts<Tropicalia3031DataSet>(scopeOf<Tropicalia3031Schema>())
 
 [<Sealed>]
-[<RedundantTestGroup>]
+[<RedundantTestBundle>]
 type Tropicalia3130Tests() =
     inherit StandardShortScopeFacts<Tropicalia3130DataSet>(scopeOf<Tropicalia3130Schema>())
 
 [<Sealed>]
-[<RedundantTestGroup>]
+[<RedundantTestBundle>]
 type WorldTests() =
     inherit StandardShortScopeFacts<WorldDataSet>(scopeOf<WorldSchema>())

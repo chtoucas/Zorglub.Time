@@ -15,17 +15,17 @@ let other = GregorianCalendar.Instance
 // model for testing.
 
 [<Sealed>]
-[<RedundantTestGroup>]
+[<RedundantTestBundle>]
 type ArmenianTests() =
     inherit OrdinalDateFacts<StandardArmenian12DataSet>(ArmenianCalendar.Instance, other)
 
 [<Sealed>]
-[<RedundantTestGroup>]
+[<RedundantTestBundle>]
 type CopticTests() =
     inherit OrdinalDateFacts<StandardCoptic12DataSet>(CopticCalendar.Instance, other)
 
 [<Sealed>]
-[<RedundantTestGroup>]
+[<RedundantTestBundle>]
 type EthiopicTests() =
     inherit OrdinalDateFacts<StandardEthiopic12DataSet>(EthiopicCalendar.Instance, other)
 
@@ -34,16 +34,16 @@ type GregorianTests() =
     inherit OrdinalDateFacts<ProlepticGregorianDataSet>(GregorianCalendar.Instance, JulianCalendar.Instance)
 
 [<Sealed>]
-[<RedundantTestGroup>]
+[<RedundantTestBundle>]
 type JulianTests() =
     inherit OrdinalDateFacts<ProlepticJulianDataSet>(JulianCalendar.Instance, other)
 
 [<Sealed>]
-[<RedundantTestGroup>]
+[<RedundantTestBundle>]
 type TabularIslamicTests() =
     inherit OrdinalDateFacts<StandardTabularIslamicDataSet>(TabularIslamicCalendar.Instance, other)
 
 [<Sealed>]
-[<RedundantTestGroup>]
+[<RedundantTestBundle>]
 type ZoroastrianTests() =
     inherit OrdinalDateFacts<StandardZoroastrian12DataSet>(ZoroastrianCalendar.Instance, other)

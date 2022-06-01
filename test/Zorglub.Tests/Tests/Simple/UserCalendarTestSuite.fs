@@ -14,7 +14,7 @@ open Zorglub.Time.Simple
 // continues to work with negative years.
 
 [<Sealed>]
-[<RedundantTestGroup>]
+[<RedundantTestBundle>]
 type UserGregorianTests() =
     inherit CalendarFacts<StandardGregorianDataSet>(UserCalendars.Gregorian)
 

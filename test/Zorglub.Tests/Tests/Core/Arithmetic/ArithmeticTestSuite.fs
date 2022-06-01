@@ -27,32 +27,32 @@ type Solar12Tests() =
 //
 
 [<Sealed>]
-[<RedundantTestGroup>]
+[<RedundantTestBundle>]
 type Coptic12Tests() =
     inherit CalendricalArithmeticFacts<Coptic12DataSet>(syschemaOf<Coptic12Schema>())
 
 [<Sealed>]
-[<RedundantTestGroup>]
+[<RedundantTestBundle>]
 type Coptic13Tests() =
     inherit CalendricalArithmeticFacts<Coptic13DataSet>(syschemaOf<Coptic13Schema>())
 
 [<Sealed>]
-[<RedundantTestGroup>]
+[<RedundantTestBundle>]
 type Egyptian12Tests() =
     inherit CalendricalArithmeticFacts<Egyptian12DataSet>(syschemaOf<Egyptian12Schema>())
 
 [<Sealed>]
-[<RedundantTestGroup>]
+[<RedundantTestBundle>]
 type Egyptian13Tests() =
     inherit CalendricalArithmeticFacts<Egyptian13DataSet>(syschemaOf<Egyptian13Schema>())
 
 [<Sealed>]
-[<RedundantTestGroup>]
+[<RedundantTestBundle>]
 type FrenchRepublican12Tests() =
     inherit CalendricalArithmeticFacts<FrenchRepublican12DataSet>(syschemaOf<FrenchRepublican12Schema>())
 
 [<Sealed>]
-[<RedundantTestGroup>]
+[<RedundantTestBundle>]
 type FrenchRepublican13Tests() =
     inherit CalendricalArithmeticFacts<FrenchRepublican13DataSet>(syschemaOf<FrenchRepublican13Schema>())
 
@@ -65,12 +65,12 @@ type GregorianTests() =
     member x.Arithmetic() = x.Arithmetic |> is<GregorianArithmetic>
 
 [<Sealed>]
-[<RedundantTestGroup>]
+[<RedundantTestBundle>]
 type InternationalFixedTests() =
     inherit CalendricalArithmeticFacts<InternationalFixedDataSet>(syschemaOf<InternationalFixedSchema>())
 
 [<Sealed>]
-[<RedundantTestGroup>]
+[<RedundantTestBundle>]
 type JulianTests() =
     inherit CalendricalArithmeticFacts<JulianDataSet>(syschemaOf<JulianSchema>())
 
@@ -83,12 +83,12 @@ type LunisolarTests() =
     member x.Arithmetic() = x.Arithmetic |> is<LunisolarArithmetic>
 
 //[<Sealed>]
-//[<RedundantTestGroup>]
+//[<RedundantTestBundle>]
 //type PaxTests() =
 //    inherit CalendricalArithmeticFacts<PaxDataSet>(syschemaOf<PaxSchema>())
 
 [<Sealed>]
-[<RedundantTestGroup>]
+[<RedundantTestBundle>]
 type Persian2820Tests() =
     inherit CalendricalArithmeticFacts<Persian2820DataSet>(syschemaOf<Persian2820Schema>())
 
@@ -109,21 +109,21 @@ type TabularIslamicTests() =
     member x.Arithmetic() = x.Arithmetic |> is<LunarArithmetic>
 
 [<Sealed>]
-[<RedundantTestGroup>]
+[<RedundantTestBundle>]
 type TropicaliaTests() =
     inherit CalendricalArithmeticFacts<TropicaliaDataSet>(syschemaOf<TropicaliaSchema>())
 
 [<Sealed>]
-[<RedundantTestGroup>]
+[<RedundantTestBundle>]
 type Tropicalia3031Tests() =
     inherit CalendricalArithmeticFacts<Tropicalia3031DataSet>(syschemaOf<Tropicalia3031Schema>())
 
 [<Sealed>]
-[<RedundantTestGroup>]
+[<RedundantTestBundle>]
 type Tropicalia3130Tests() =
     inherit CalendricalArithmeticFacts<Tropicalia3130DataSet>(syschemaOf<Tropicalia3130Schema>())
 
 [<Sealed>]
-[<RedundantTestGroup>]
+[<RedundantTestBundle>]
 type WorldTests() =
     inherit CalendricalArithmeticFacts<WorldDataSet>(syschemaOf<WorldSchema>())

@@ -9,12 +9,12 @@ using Xunit.Sdk;
 #region Developer Notes
 
 // Traits:
-// - RedundantTest          => TestExcludeFrom=Smoke, CodeCoverage and Regular
-// - RedundantTestGroup     => TestExcludeFrom=Smoke, CodeCoverage and Regular
+// - RedundantTest          => exclude from Smoke, CodeCoverage and Regular
+// - RedundantTestBundle    => exclude from Smoke, CodeCoverage and Regular
 // - TestPerfomance
 // - TestExcludeFrom
-//   - CodeCoverage => TestExcludeFrom=Smoke
-//   - Regular      => TestExcludeFrom=Smoke and CodeCoverage
+//   - CodeCoverage         => exclude from Smoke
+//   - Regular              => exclude from Smoke and CodeCoverage
 //
 // Used by eng\test.ps1, eng\cover.ps1 and the github action.
 // See https://github.com/xunit/samples.xunit/blob/main/TraitExtensibility/
@@ -42,14 +42,14 @@ internal static class XunitTraits
 public enum TestPerformance
 {
     /// <summary>
-    /// A single slow test.
+    /// A single slow test unit.
     /// </summary>
     SlowUnit,
 
     /// <summary>
-    /// A group of slow tests, typically a test class.
+    /// A group of slow test bundle, typically a test class.
     /// </summary>
-    SlowGroup
+    SlowBundle
 }
 
 public enum TestExcludeFrom
@@ -94,15 +94,15 @@ public sealed class RedundantTestAttribute : Attribute, ITraitAttribute
     public RedundantTestAttribute() { }
 }
 
-// We use this trait to exclude redundant groups of tests, apply to classes in a
+// We use this trait to exclude redundant test bundle, apply to classes in a
 // test suite. This is very similar to TestExcludeFrom.Smoke, except that
 // we keep all test classes necessary for full code coverage.
 // IMPORTANT: We automatically exclude the group from smoke testing.
 [TraitDiscoverer(XunitTraitAssembly.TypePrefix + nameof(RedundantTraitDiscoverer), XunitTraitAssembly.Name)]
 [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
-public sealed class RedundantTestGroupAttribute : Attribute, ITraitAttribute
+public sealed class RedundantTestBundleAttribute : Attribute, ITraitAttribute
 {
-    public RedundantTestGroupAttribute() { }
+    public RedundantTestBundleAttribute() { }
 }
 
 [TraitDiscoverer(XunitTraitAssembly.TypePrefix + nameof(ExcludeFromTraitDiscoverer), XunitTraitAssembly.Name)]

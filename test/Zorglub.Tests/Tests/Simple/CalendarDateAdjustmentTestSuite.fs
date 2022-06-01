@@ -13,17 +13,17 @@ open Zorglub.Time.Simple
 // model for testing.
 
 [<Sealed>]
-[<RedundantTestGroup>]
+[<RedundantTestBundle>]
 type ArmenianTests() =
     inherit CalendarDateAdjustmentFacts<StandardArmenian12DataSet>(ArmenianCalendar.Instance)
 
 [<Sealed>]
-[<RedundantTestGroup>]
+[<RedundantTestBundle>]
 type CopticTests() =
     inherit CalendarDateAdjustmentFacts<StandardCoptic12DataSet>(CopticCalendar.Instance)
 
 [<Sealed>]
-[<RedundantTestGroup>]
+[<RedundantTestBundle>]
 type EthiopicTests() =
     inherit CalendarDateAdjustmentFacts<StandardEthiopic12DataSet>(EthiopicCalendar.Instance)
 
@@ -32,16 +32,16 @@ type GregorianTests() =
     inherit CalendarDateAdjustmentFacts<ProlepticGregorianDataSet>(GregorianCalendar.Instance)
 
 [<Sealed>]
-[<RedundantTestGroup>]
+[<RedundantTestBundle>]
 type JulianTests() =
     inherit CalendarDateAdjustmentFacts<ProlepticJulianDataSet>(JulianCalendar.Instance)
 
 [<Sealed>]
-[<RedundantTestGroup>]
+[<RedundantTestBundle>]
 type TabularIslamicTests() =
     inherit CalendarDateAdjustmentFacts<StandardTabularIslamicDataSet>(TabularIslamicCalendar.Instance)
 
 [<Sealed>]
-[<RedundantTestGroup>]
+[<RedundantTestBundle>]
 type ZoroastrianTests() =
     inherit CalendarDateAdjustmentFacts<StandardZoroastrian12DataSet>(ZoroastrianCalendar.Instance)

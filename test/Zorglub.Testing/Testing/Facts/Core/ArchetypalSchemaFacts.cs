@@ -9,7 +9,7 @@ using Zorglub.Time.Core.Intervals;
 /// <summary>
 /// Provides facts about <see cref="ArchetypalSchema"/>.
 /// </summary>
-[TestPerformance(TestPerformance.SlowGroup)]
+[TestPerformance(TestPerformance.SlowBundle)]
 public abstract class ArchetypalSchemaFacts<TDataSet> :
     ICalendricalSchemaPlusFacts<ArchetypalSchema, TDataSet>
     where TDataSet : ICalendricalDataSet, ISingleton<TDataSet>
