@@ -14,6 +14,7 @@ open Zorglub.Time.Simple
 // continues to work with negative years.
 
 [<Sealed>]
+[<RedundantTestGroup>]
 type UserGregorianTests() =
     inherit CalendarFacts<StandardGregorianDataSet>(UserCalendars.Gregorian)
 
@@ -23,7 +24,6 @@ type UserGregorianTests() =
     override x.Scope() = x.CalendarUT.Scope |> is<GregorianStandardShortScope>
 
 [<Sealed>]
-[<TestExcludeFrom(TestExcludeFrom.Smoke)>]
 type UserJulianTests() =
     inherit CalendarFacts<ProlepticJulianDataSet>(UserCalendars.Julian)
 

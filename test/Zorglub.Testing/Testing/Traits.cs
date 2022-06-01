@@ -135,19 +135,23 @@ public sealed class ExcludeFromTraitDiscoverer : ITraitDiscoverer
 
         var value = traitAttribute.GetNamedArgument<TestExcludeFrom>(XunitTraits.ExcludeFrom);
 
-        if (value == TestExcludeFrom.CodeCoverage)
+        switch (value)
         {
-            // We automatically exclude the test(s) from smoke testing and code coverage.
-            yield return new KeyValuePair<string, string>(XunitTraits.ExcludeFrom, TestExcludeFromValues.Smoke);
+            case TestExcludeFrom.Smoke:
+                yield return new KeyValuePair<string, string>(XunitTraits.ExcludeFrom, TestExcludeFromValues.Smoke);
+                break;
+            case TestExcludeFrom.CodeCoverage:
+                yield return new KeyValuePair<string, string>(XunitTraits.ExcludeFrom, TestExcludeFromValues.Smoke);
+                yield return new KeyValuePair<string, string>(XunitTraits.ExcludeFrom, TestExcludeFromValues.CodeCoverage);
+                break;
+            case TestExcludeFrom.Regular:
+                yield return new KeyValuePair<string, string>(XunitTraits.ExcludeFrom, TestExcludeFromValues.Smoke);
+                yield return new KeyValuePair<string, string>(XunitTraits.ExcludeFrom, TestExcludeFromValues.CodeCoverage);
+                yield return new KeyValuePair<string, string>(XunitTraits.ExcludeFrom, TestExcludeFromValues.Regular);
+                break;
+            default:
+                throw new InvalidOperationException();
         }
-        if (value == TestExcludeFrom.Regular)
-        {
-            // We automatically exclude the test(s) from smoke testing and code coverage.
-            yield return new KeyValuePair<string, string>(XunitTraits.ExcludeFrom, TestExcludeFromValues.Smoke);
-            yield return new KeyValuePair<string, string>(XunitTraits.ExcludeFrom, TestExcludeFromValues.CodeCoverage);
-        }
-
-        yield return new KeyValuePair<string, string>(XunitTraits.ExcludeFrom, value.ToString());
     }
 }
 
@@ -169,7 +173,7 @@ public sealed class RedundantTraitDiscoverer : ITraitDiscoverer
         Requires.NotNull(traitAttribute);
 
         yield return new KeyValuePair<string, string>(XunitTraits.Redundant, "true");
-        // We automatically exclude the test(s) from smoke testing and code coverage.
+        // We automatically exclude the test(s) from the following plans.
         yield return new KeyValuePair<string, string>(XunitTraits.ExcludeFrom, TestExcludeFromValues.Smoke);
         yield return new KeyValuePair<string, string>(XunitTraits.ExcludeFrom, TestExcludeFromValues.CodeCoverage);
         yield return new KeyValuePair<string, string>(XunitTraits.ExcludeFrom, TestExcludeFromValues.Regular);

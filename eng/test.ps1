@@ -44,7 +44,7 @@ The available test plans are:
 - "most"    = the whole test suite
 - "cover"   = mimic the default test plan used by the code coverage tool
               The difference between "cover" and "regular" is really tiny. For a
-              test to be in "regular" and not in "cover", it must be known to be
+              test to be in "regular" but not in "cover", it must be known to be
               slow and not being explicitely excluded from code coverage, right
               now there is none.
 
@@ -55,7 +55,6 @@ Typical test plan executions.
 > test.ps1 -NoBuild             # Smoke testing (Debug)
 > test.ps1 regular              # Regular test suite (Debug)
 > test.ps1 regular -c Release   # Regular test suite (Release)
-> test.ps1 cover                # Convenient when not working on Sketches (Debug)
 
 Examples.
 > test.ps1 smoke                # ~27 thousand tests (FAST)
