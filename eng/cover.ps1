@@ -13,6 +13,7 @@ param(
                  [switch] $NoBuild,
                  [switch] $NoTest,
                  [switch] $NoReport,
+                 [switch] $Badges,
 
     [Alias('h')] [switch] $Help
 )
@@ -32,6 +33,7 @@ Usage: cover.ps1 [arguments]
      -NoBuild        do NOT build the test suite?
      -NoTest         do NOT execute the test suite? Implies -NoBuild
      -NoReport       do NOT run ReportGenerator?
+     -Badges         create badges?
   -h|-Help           print this help then exit
 
 Examples.
@@ -96,11 +98,27 @@ try {
         }
 
         & dotnet tool run reportgenerator `
-            -reporttypes:"Html" `
+            -reporttypes:"Html;Badges;TextSummary;MarkdownSummary" `
             -reports:$rgInput `
             -targetdir:$rgOutput `
             -verbosity:Warning
             || die 'Failed to create the reports.'
+
+        if ($Badges) {
+            try {
+                pushd $rgOutput
+
+                cp -Force 'badge_branchcoverage.svg' (Join-Path $TestDir 'coverage_branch.svg')
+                cp -Force 'badge_linecoverage.svg'   (Join-Path $TestDir 'coverage_line.svg')
+                cp -Force 'badge_methodcoverage.svg' (Join-Path $TestDir 'coverage_method.svg')
+                cp -Force 'badge_combined.svg' (Join-Path $TestDir 'coverage.svg')
+                cp -Force 'Summary.txt' (Join-Path $TestDir 'coverage.txt')
+                cp -Force 'Summary.md' (Join-Path $TestDir 'coverage.md')
+            }
+            finally {
+                popd
+            }
+        }
     }
 }
 finally {
