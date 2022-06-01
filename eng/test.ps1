@@ -5,7 +5,9 @@
 [CmdletBinding()]
 param(
     [Parameter(Mandatory = $false, Position = 0)]
-    [ValidateSet('smoke', 'regular', 'more', 'extra', 'most', 'cover')]
+    [ValidateSet(
+        'smoke', 'cover', 'regular', 'more', 'safe', 'most',
+        'redundant-or-slow', 'redundant-and-slow', 'redundant-not-slow', 'slow-not-redundant')]
                  [string] $Plan = 'smoke',
 
     [Parameter(Mandatory = $false)]
@@ -34,35 +36,54 @@ Usage: test.ps1 [arguments]
 
 The default behaviour is to run the smoke tests using the configuration Debug.
 
-The available test plans are:
-- "smoke"   = smoke testing
-- "regular" = exclude slow-running or redundant tests, and irrelevant tests
-- "more"    = exclude slow-running groups of tests (individual tests are kept)
-              and redundant tests
-- "extra"   = only include slow-running groups of tests and redundant tests,
-              that is the tests excluded from the test plan "more"
-- "most"    = the whole test suite
-- "cover"   = mimic the default test plan used by the code coverage tool
-              The difference between "cover" and "regular" is really tiny. For a
-              test to be in "regular" but not in "cover", it must be known to be
-              slow and not being explicitely excluded from code coverage, right
-              now there is none.
+The common test plans are:
+- "smoke"     = smoke testing
+- "regular"   = exclude slow-running or redundant tests, and irrelevant tests
+- "more"      = exclude slow-running groups of tests (individual tests are kept)
+                and redundant tests
+- "safe"      = exclude redundant tests
+- "most"      = the whole test suite
+
+The extra test plans are:
+- "redundant-or-slow" =
+    Only include slow-running groups of tests or redundant tests, that is the
+    tests excluded from the test plan "more"
+- "redundant-and-slow" =
+    Only include redundant tests also part of a slow-running groups of tests;
+    this is a subset of "redundant-or-slow"
+- "redundant-not-slow" =
+    Only include redundant tests not part of a slow-running groups of tests;
+    this is a subset of "redundant-or-slow"
+- "slow-not-redundant" =
+    Only include non-redundant slow-running groups of tests;
+    this is a subset of "redundant-or-slow"
+- "cover" =
+    Mimic the default test plan used by the code coverage tool
+    The difference between "cover" and "regular" is really tiny. For a test to
+    be in "regular" but not in "cover", it must be known to be slow and not
+    being explicitely excluded from code coverage, right now there is none.
 
 Of course, one can use "dotnet test" to run the whole test suite or to apply
 custom filters.
 
-Typical test plan executions.
+Examples.
 > test.ps1 -NoBuild             # Smoke testing (Debug)
 > test.ps1 regular              # Regular test suite (Debug)
 > test.ps1 regular -c Release   # Regular test suite (Release)
 
-Examples.
+The common plans.
 > test.ps1 smoke                # ~27 thousand tests (FAST)
-> test.ps1 cover                # ~74 thousand tests
 > test.ps1 regular              # ~74 thousand tests
 > test.ps1 more                 # ~82 thousand tests
-> test.ps1 extra                # ~147 thousand tests (SLOW)
+> test.ps1 safe                 # ~84 thousand tests
 > test.ps1 most                 # ~229 thousand tests (SLOW)
+
+The extra plans.
+> test.ps1 cover                # ~74 thousand tests
+> test.ps1 slow-not-redundant   # ~3 thousand tests
+> test.ps1 redundant-not-slow   # ~64 thousand tests
+> test.ps1 redundant-and-slow   # ~81 thousand tests
+> test.ps1 redundant-or-slow    # ~147 thousand tests (SLOW)
 
 "@
 }
@@ -113,9 +134,28 @@ try {
             # - redundant tests
             $filter = 'Performance!=SlowGroup&Redundant!=true'
         }
-        'extra' {
+        'safe' {
+            # Extended test suite, exclude
+            # - redundant tests
+            $filter = 'Redundant!=true'
+        }
+        'redundant-or-slow' {
             # Complement of the plan "more".
+            # Only include slow groups and redundant tests.
             $filter = 'Performance=SlowGroup|Redundant=true'
+        }
+        # "redundant-or-slow" being pretty slow, we partition it into three subplans:
+        # - "redundant-not-slow" = complement of {slow groups}
+        # - "slow-not-redundant" = complement of {redundant tests}.
+        # - "redundant-and-slow" = intersection of {redundant tests} and {slow groups}
+        'redundant-and-slow' {
+            $filter = 'Performance=SlowGroup&Redundant=true'
+        }
+        'redundant-not-slow' {
+            $filter = 'Performance!=SlowGroup&Redundant=true'
+        }
+        'slow-not-redundant' {
+            $filter = 'Performance=SlowGroup&Redundant!=true'
         }
         'most' {
             $filter = ''
