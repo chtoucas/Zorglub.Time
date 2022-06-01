@@ -64,20 +64,6 @@ namespace Zorglub.Time.Simple
             end.Parts.Unpack(out int y, out int m);
 
             return (y - y0) * MonthsPerYear + m - m0;
-
-            //int months = (y - y0) * MonthsPerYear + m - m0;
-            //CalendarDate newStart = AddMonthsCore(start, months);
-
-            //if (start.CompareFast(end) < 0)
-            //{
-            //    if (newStart.CompareFast(end) > 0) { months--; }
-            //}
-            //else
-            //{
-            //    if (newStart.CompareFast(end) < 0) { months++; }
-            //}
-
-            //return months;
         }
 
         #endregion

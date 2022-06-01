@@ -55,6 +55,16 @@ public partial class PlainMathFacts<TDataSet> // CalendarDate
         Assert.Equal(other, MathUT.AddYears(date, years));
     }
 
+    //[Theory, MemberData(nameof(AddMonthsData))]
+    //public void AddMonths﹍CalendarDate(YemodaPairAnd<int> info)
+    //{
+    //    int months = info.Value;
+    //    var date = GetDate(info.First);
+    //    var other = GetDate(info.Second);
+    //    // Act & Assert
+    //    Assert.Equal(other, MathUT.AddMonths(date, months));
+    //}
+
     [Theory, MemberData(nameof(AddYearsData))]
     public void CountYearsBetween﹍CalendarDate(YemodaPairAnd<int> info)
     {
@@ -64,6 +74,16 @@ public partial class PlainMathFacts<TDataSet> // CalendarDate
         // Act & Assert
         Assert.Equal(years, MathUT.CountYearsBetween(start, end));
     }
+
+    //[Theory, MemberData(nameof(AddMonthsData))]
+    //public void CountMonthsBetween﹍CalendarDate(YemodaPairAnd<int> info)
+    //{
+    //    int months = info.Value;
+    //    var start = GetDate(info.First);
+    //    var end = GetDate(info.Second);
+    //    // Act & Assert
+    //    Assert.Equal(months, MathUT.CountMonthsBetween(start, end));
+    //}
 }
 
 public partial class PlainMathFacts<TDataSet> // OrdinalDate
@@ -100,6 +120,28 @@ public partial class PlainMathFacts<TDataSet> // CalendarMonth
         // Act & Assert
         Assert.Equal(other, MathUT.AddYears(month, ys));
         Assert.Equal(month, MathUT.AddYears(other, -ys));
+    }
+
+    //[Theory, MemberData(nameof(AddMonthsData))]
+    //public void AddMonths﹍CalendarMonth(YemodaPairAnd<int> info)
+    //{
+    //    int ms = info.Value;
+    //    var month = GetMonth(info.First);
+    //    var other = GetMonth(info.Second);
+    //    // Act & Assert
+    //    Assert.Equal(other, MathUT.AddMonths(month, ms));
+    //    Assert.Equal(month, MathUT.AddMonths(other, -ms));
+    //}
+
+    [Theory, MemberData(nameof(AddYearsData))]
+    public void CountYearsBetween﹍CalendarMonth(YemodaPairAnd<int> info)
+    {
+        int ys = info.Value;
+        var start = GetMonth(info.First);
+        var end = GetMonth(info.Second);
+        // Act & Assert
+        Assert.Equal(ys, MathUT.CountYearsBetween(start, end));
+        Assert.Equal(-ys, MathUT.CountYearsBetween(end, start));
     }
 
     [Theory, MemberData(nameof(AddMonthsData))]

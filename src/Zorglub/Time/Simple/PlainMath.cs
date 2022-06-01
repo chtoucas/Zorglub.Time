@@ -45,8 +45,6 @@ namespace Zorglub.Time.Simple
         [Pure]
         protected internal override CalendarDate AddMonthsCore(CalendarDate date, int months)
         {
-            Debug.Assert(date.Cuid == Cuid);
-
             throw new NotImplementedException();
         }
 
@@ -60,6 +58,8 @@ namespace Zorglub.Time.Simple
             int years = end.Year - start.Year;
             CalendarDate newStart = AddYearsCore(start, years);
 
+            // TODO(code): explain why it's not necessary for regular calendars;
+            // idem with the other Count...BetweenCore().
             if (start.CompareFast(end) < 0)
             {
                 if (newStart.CompareFast(end) > 0) { years--; }
@@ -76,10 +76,10 @@ namespace Zorglub.Time.Simple
         [Pure]
         protected internal override int CountMonthsBetweenCore(CalendarDate start, CalendarDate end)
         {
-            Debug.Assert(start.Cuid == Cuid);
-            Debug.Assert(end.Cuid == Cuid);
-
             throw new NotImplementedException();
+
+            //Debug.Assert(start.Cuid == Cuid);
+            //Debug.Assert(end.Cuid == Cuid);
 
             //start.Parts.Unpack(out int y0, out int m0);
             //end.Parts.Unpack(out int y1, out int m1);
@@ -92,6 +92,7 @@ namespace Zorglub.Time.Simple
             //}
 
             //var newStart = AddMonthsCore(start, months);
+
             //if (start.CompareFast(end) < 0)
             //{
             //    if (newStart.CompareFast(end) > 0) { months--; }
@@ -169,8 +170,6 @@ namespace Zorglub.Time.Simple
         [Pure]
         protected internal override CalendarMonth AddMonthsCore(CalendarMonth month, int months)
         {
-            Debug.Assert(month.Cuid == Cuid);
-
             throw new NotImplementedException();
         }
 
@@ -181,7 +180,7 @@ namespace Zorglub.Time.Simple
             Debug.Assert(start.Cuid == Cuid);
             Debug.Assert(end.Cuid == Cuid);
 
-            throw new NotImplementedException();
+            return CountYearsBetweenCore(start.FirstDay, end.FirstDay);
         }
 
         /// <inheritdoc />
@@ -200,6 +199,8 @@ namespace Zorglub.Time.Simple
                 start.Parts.Unpack(out int y0, out int m0);
                 end.Parts.Unpack(out int y1, out int m1);
 
+                // This can certainly be optimized for calendars for which we
+                // know the leap-cycle.
                 int months = Schema.CountMonthsInYear(y0) - m0;
                 for (int y = y0 + 1; y < y1; y++)
                 {

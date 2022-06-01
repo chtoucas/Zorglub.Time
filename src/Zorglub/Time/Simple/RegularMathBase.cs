@@ -71,22 +71,6 @@ namespace Zorglub.Time.Simple
             Debug.Assert(end.Cuid == Cuid);
 
             return end.Year - start.Year;
-
-            // TODO(code): explain why it's not necessary here (regular calendar);
-            // idem with the other Count...BetweenCore().
-            //int years = end.Year - start.Year;
-            //CalendarDate newStart = AddYearsCore(start, years);
-
-            //if (start.CompareFast(end) < 0)
-            //{
-            //    if (newStart.CompareFast(end) > 0) { years--; }
-            //}
-            //else
-            //{
-            //    if (newStart.CompareFast(end) < 0) { years++; }
-            //}
-
-            //return years;
         }
 
         #endregion
@@ -117,20 +101,6 @@ namespace Zorglub.Time.Simple
             Debug.Assert(end.Cuid == Cuid);
 
             return end.Year - start.Year;
-
-            //int years = end.Year - start.Year;
-            //OrdinalDate newStart = AddYearsCore(start, years);
-
-            //if (start.CompareFast(end) < 0)
-            //{
-            //    if (newStart.CompareFast(end) > 0) { years--; }
-            //}
-            //else
-            //{
-            //    if (newStart.CompareFast(end) < 0) { years++; }
-            //}
-
-            //return years;
         }
 
         #endregion
