@@ -8,6 +8,7 @@ namespace Zorglub.Time.Simple
     /// <summary>
     /// Defines the mathematical operations suitable for use by regular calendars and provides a
     /// base for derived classes.
+    /// <para>This class uses the default <see cref="AdditionRules"/> to resolve ambiguities.</para>
     /// </summary>
     internal abstract class RegularMathBase : CalendarMath
     {
@@ -69,19 +70,23 @@ namespace Zorglub.Time.Simple
             Debug.Assert(start.Cuid == Cuid);
             Debug.Assert(end.Cuid == Cuid);
 
-            int years = end.Year - start.Year;
-            CalendarDate newStart = AddYearsCore(start, years);
+            return end.Year - start.Year;
 
-            if (start.CompareFast(end) < 0)
-            {
-                if (newStart.CompareFast(end) > 0) { years--; }
-            }
-            else
-            {
-                if (newStart.CompareFast(end) < 0) { years++; }
-            }
+            // TODO(code): explain why it's not necessary here (regular calendar);
+            // idem with the other Count...BetweenCore().
+            //int years = end.Year - start.Year;
+            //CalendarDate newStart = AddYearsCore(start, years);
 
-            return years;
+            //if (start.CompareFast(end) < 0)
+            //{
+            //    if (newStart.CompareFast(end) > 0) { years--; }
+            //}
+            //else
+            //{
+            //    if (newStart.CompareFast(end) < 0) { years++; }
+            //}
+
+            //return years;
         }
 
         #endregion
@@ -111,19 +116,21 @@ namespace Zorglub.Time.Simple
             Debug.Assert(start.Cuid == Cuid);
             Debug.Assert(end.Cuid == Cuid);
 
-            int years = end.Year - start.Year;
-            OrdinalDate newStart = AddYearsCore(start, years);
+            return end.Year - start.Year;
 
-            if (start.CompareFast(end) < 0)
-            {
-                if (newStart.CompareFast(end) > 0) { years--; }
-            }
-            else
-            {
-                if (newStart.CompareFast(end) < 0) { years++; }
-            }
+            //int years = end.Year - start.Year;
+            //OrdinalDate newStart = AddYearsCore(start, years);
 
-            return years;
+            //if (start.CompareFast(end) < 0)
+            //{
+            //    if (newStart.CompareFast(end) > 0) { years--; }
+            //}
+            //else
+            //{
+            //    if (newStart.CompareFast(end) < 0) { years++; }
+            //}
+
+            //return years;
         }
 
         #endregion

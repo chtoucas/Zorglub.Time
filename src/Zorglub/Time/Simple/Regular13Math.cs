@@ -8,6 +8,7 @@ namespace Zorglub.Time.Simple
     /// <summary>
     /// Represents the mathematical operations suitable for use by calendars with a fixed number of
     /// 13 months per year.
+    /// <para>This class uses the default <see cref="AdditionRules"/> to resolve ambiguities.</para>
     /// <para>This class cannot be inherited.</para>
     /// </summary>
     internal sealed class Regular13Math : RegularMathBase
@@ -62,19 +63,21 @@ namespace Zorglub.Time.Simple
             start.Parts.Unpack(out int y0, out int m0);
             end.Parts.Unpack(out int y, out int m);
 
-            int months = (y - y0) * MonthsPerYear + m - m0;
-            CalendarDate newStart = AddMonthsCore(start, months);
+            return (y - y0) * MonthsPerYear + m - m0;
 
-            if (start.CompareFast(end) < 0)
-            {
-                if (newStart.CompareFast(end) > 0) { months--; }
-            }
-            else
-            {
-                if (newStart.CompareFast(end) < 0) { months++; }
-            }
+            //int months = (y - y0) * MonthsPerYear + m - m0;
+            //CalendarDate newStart = AddMonthsCore(start, months);
 
-            return months;
+            //if (start.CompareFast(end) < 0)
+            //{
+            //    if (newStart.CompareFast(end) > 0) { months--; }
+            //}
+            //else
+            //{
+            //    if (newStart.CompareFast(end) < 0) { months++; }
+            //}
+
+            //return months;
         }
 
         #endregion
