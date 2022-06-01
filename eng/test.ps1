@@ -72,17 +72,17 @@ Examples.
 
 The common plans.
 > test.ps1 smoke                # ~27 thousand tests (FAST)
-> test.ps1 regular              # ~74 thousand tests
-> test.ps1 more                 # ~82 thousand tests
-> test.ps1 safe                 # ~84 thousand tests
-> test.ps1 most                 # ~229 thousand tests (SLOW)
+> test.ps1 regular              # ~73 thousand tests
+> test.ps1 more                 # ~81 thousand tests
+> test.ps1 safe                 # ~85 thousand tests
+> test.ps1 most                 # ~231 thousand tests (SLOW)
 
 The extra plans.
-> test.ps1 cover                # ~74 thousand tests
+> test.ps1 cover                # ~73 thousand tests
 > test.ps1 slow-not-redundant   # ~3 thousand tests
-> test.ps1 redundant-not-slow   # ~64 thousand tests
-> test.ps1 redundant-and-slow   # ~81 thousand tests
-> test.ps1 redundant-or-slow    # ~147 thousand tests (SLOW)
+> test.ps1 redundant-and-slow   # ~64 thousand tests
+> test.ps1 redundant-not-slow   # ~82 thousand tests
+> test.ps1 redundant-or-slow    # ~149 thousand tests (SLOW)
 
 "@
 }
@@ -140,13 +140,14 @@ try {
         }
         'redundant-or-slow' {
             # Complement of the plan "more".
-            # Only include slow test bundles and redundant tests.
+            # Only include slow test bundles and redundant tests;
+            # "union" of redundant tests and slow test bundles.
             $filter = 'Performance=SlowBundle|Redundant=true'
         }
         # "redundant-or-slow" being pretty slow, we partition it into three subplans:
-        # - "redundant-not-slow" = complement of slow test bundles
-        # - "slow-not-redundant" = complement of redundant tests
-        # - "redundant-and-slow" = intersection of redundant tests and slow test bundles
+        # - "redundant-not-slow" = "complement" of slow test bundles
+        # - "slow-not-redundant" = "complement" of redundant tests
+        # - "redundant-and-slow" = "intersection" of redundant tests and slow test bundles
         'redundant-and-slow' {
             $filter = 'Performance=SlowBundle&Redundant=true'
         }
