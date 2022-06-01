@@ -1,8 +1,14 @@
-name: tests
+name: smoke
 
 on:
   push:
     branches: [ main ]
+    paths-ignore:
+    - '.config/**'
+    - 'eng/**'
+    - 'CHANGELOG'
+    - 'LICENSE'
+    - '**.md'
 
 jobs:
   test:
@@ -18,5 +24,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+    - name: Info
+      run: dotnet --info
     - name: Test
       run: dotnet test test\Zorglub.Tests\ --filter "ExcludeFrom!=Smoke&Performance!~Slow"
