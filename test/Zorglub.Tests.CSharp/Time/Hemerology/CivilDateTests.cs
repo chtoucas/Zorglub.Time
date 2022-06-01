@@ -37,11 +37,11 @@ public sealed partial class CivilDateTests : CalendarDataConsumer<StandardGregor
     public static DataGroup<DateDiff> DateDiffData =>
         GregorianMathDataSetUnambiguous.DateDiffData;
     public static DataGroup<YemodaPairAnd<int>> AddYearsCutOffData =>
-        GregorianMathDataSetEndOfMonthAdjustment.Instance.AddYearsData;
+        GregorianMathDataSetCutOff.Instance.AddYearsData;
     public static DataGroup<YemodaPairAnd<int>> AddMonthsCutOffData =>
-        GregorianMathDataSetEndOfMonthAdjustment.Instance.AddMonthsData;
+        GregorianMathDataSetCutOff.Instance.AddMonthsData;
     public static DataGroup<DateDiff> DateDiffCutOffData =>
-        GregorianMathDataSetEndOfMonthAdjustment.Instance.DateDiffData;
+        GregorianMathDataSetCutOff.Instance.DateDiffData;
 
     // IDayOfWeekDataSet
     public static DataGroup<YemodaAnd<DayOfWeek>> DayOfWeekData => DataSet.DayOfWeekData;

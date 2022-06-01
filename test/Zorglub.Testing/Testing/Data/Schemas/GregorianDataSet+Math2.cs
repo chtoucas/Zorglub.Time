@@ -224,30 +224,31 @@ public static class GregorianMathDataSetUnambiguous
 /// <summary>
 /// Provides test data for <see cref="GregorianSchema"/> for math operations when the result is
 /// ambiguous.
-/// <para>Strategy: when the result of a math operation is not a valid day of the month, return the
-/// last day of the month.</para>
+/// <para>This class provides data using the default <see cref="AdditionRules"/>.</para>
 /// <para>See also <see cref="GregorianDataSet"/> for test data for math operations when the result
 /// is unambiguous.</para>
 /// </summary>
-public class GregorianMathDataSetEndOfMonthAdjustment :
-    IAdvancedMathDataSet, ISingleton<GregorianMathDataSetEndOfMonthAdjustment>
+public class GregorianMathDataSetCutOff : IAdvancedMathDataSet, ISingleton<GregorianMathDataSetCutOff>
 {
-    private GregorianMathDataSetEndOfMonthAdjustment() { }
+    private GregorianMathDataSetCutOff() { }
 
-    public static GregorianMathDataSetEndOfMonthAdjustment Instance => Singleton.Instance;
+    public static GregorianMathDataSetCutOff Instance => Singleton.Instance;
 
     private static class Singleton
     {
-        internal static readonly GregorianMathDataSetEndOfMonthAdjustment Instance = new();
+        internal static readonly GregorianMathDataSetCutOff Instance = new();
         static Singleton() { }
     }
 
+    // Default rules.
     public AdditionRules AdditionRules { get; }
 
     /// <inheritdoc/>
     /// <remarks>Intercalary day, expected result in a common year, years to be added.</remarks>
     public DataGroup<YemodaPairAnd<int>> AddYearsData { get; } = new()
     {
+        // End of february, leap year -> common year.
+
         new(new(4, 2, 29), new(11, 2, 28), 7),
         new(new(4, 2, 29), new(10, 2, 28), 6),
         new(new(4, 2, 29), new(9, 2, 28), 5),
@@ -300,6 +301,7 @@ public class GregorianMathDataSetEndOfMonthAdjustment :
     {
         // End of year, leap year -> common year.
         new(new(4, 366), new(3, 365), -1),
+        new(new(4, 366), new(5, 365), 1),
     };
 
     public DataGroup<DateDiff> DateDiffData { get; } = DataGroup.Create(DateDiffs);
@@ -321,21 +323,18 @@ public class GregorianMathDataSetEndOfMonthAdjustment :
 /// <summary>
 /// Provides test data for <see cref="GregorianSchema"/> for math operations when the result is
 /// ambiguous.
-/// <para>Strategy: when the result of a math operation is not a valid day of the month, return the
-/// first day of the next month.</para>
 /// <para>See also <see cref="GregorianDataSet"/> for test data for math operations when the result
 /// is unambiguous.</para>
 /// </summary>
-public class GregorianMathDataSetStartOfNextMonthAdjustment :
-    IAdvancedMathDataSet, ISingleton<GregorianMathDataSetStartOfNextMonthAdjustment>
+public class GregorianMathDataSetNext : IAdvancedMathDataSet, ISingleton<GregorianMathDataSetNext>
 {
-    private GregorianMathDataSetStartOfNextMonthAdjustment() { }
+    private GregorianMathDataSetNext() { }
 
-    public static GregorianMathDataSetStartOfNextMonthAdjustment Instance => Singleton.Instance;
+    public static GregorianMathDataSetNext Instance => Singleton.Instance;
 
     private static class Singleton
     {
-        internal static readonly GregorianMathDataSetStartOfNextMonthAdjustment Instance = new();
+        internal static readonly GregorianMathDataSetNext Instance = new();
         static Singleton() { }
     }
 
