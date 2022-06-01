@@ -11,10 +11,10 @@ using Xunit.Sdk;
 // Traits:
 // - RedundantTest          => TestExcludeFrom=Smoke and CodeCoverage
 // - RedundantTestGroup     => TestExcludeFrom=Smoke and CodeCoverage
-// - SketchUnderTest        => TestExcludeFrom=Smoke and CodeCoverage
 // - TestPerfomance
-//   TestPerfomance.Regular => TestExcludeFrom=Smoke and CodeCoverage
 // - TestExcludeFrom
+//   - CodeCoverage => TestExcludeFrom=Smoke
+//   - Regular      => TestExcludeFrom=Smoke and CodeCoverage
 //
 // Used by eng\test.ps1, eng\cover.ps1 and the github action.
 // See https://github.com/xunit/samples.xunit/blob/main/TraitExtensibility/
@@ -35,7 +35,6 @@ internal static class XunitTraits
     public const string ExcludeFrom = "ExcludeFrom";
     public const string Performance = "Performance";
     public const string Redundant = "Redundant";
-    public const string SketchUnderTest = "SketchUnderTest";
 }
 
 // Be careful if you change the values, the scripts rely on the fact that
@@ -64,12 +63,18 @@ public enum TestExcludeFrom
     /// <summary>
     /// Exclude from code coverage.
     /// <para>For instance, we exclude deeply recursive functions.</para>
+    /// <para>A test marked with this value will also be excluded from smoke testing.</para>
     /// </summary>
     CodeCoverage,
 
     /// <summary>
     /// Exclude from the "regular" test plan.
-    /// <para>We use this value to exclude tests of very low importance.</para>
+    /// <para>We use this value to exclude tests of very low importance and not
+    /// needed to achieve full code coverage.</para>
+    /// <para>This value only exists to reduce the time needed to complete the
+    /// "regular" test.</para>
+    /// <para>A test marked with this value will also be excluded from smoke testing and code
+    /// coverage.</para>
     /// </summary>
     Regular
 }
@@ -91,18 +96,6 @@ public sealed class RedundantTestAttribute : Attribute, ITraitAttribute
 public sealed class RedundantTestGroupAttribute : Attribute, ITraitAttribute
 {
     public RedundantTestGroupAttribute() { }
-}
-
-// TODO(code): remove SketchUnderTest and use TestExcludeFrom.Regular.
-// Used to exclude, from smoke and code coverage, test classes for types not part
-// of the main assembly and therefore not need to achieve full code coverage.
-// This trait only existing to help us to reduce the time needed to complete the
-// common test plans, we only bother to mark a few test classes.
-[TraitDiscoverer(XunitTraitAssembly.TypePrefix + nameof(SketchUnderTestTraitDiscoverer), XunitTraitAssembly.Name)]
-[AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
-public sealed class SketchUnderTestAttribute : Attribute, ITraitAttribute
-{
-    public SketchUnderTestAttribute() { }
 }
 
 [TraitDiscoverer(XunitTraitAssembly.TypePrefix + nameof(ExcludeFromTraitDiscoverer), XunitTraitAssembly.Name)]
@@ -135,6 +128,11 @@ public sealed class ExcludeFromTraitDiscoverer : ITraitDiscoverer
 
         var value = traitAttribute.GetNamedArgument<TestExcludeFrom>(XunitTraits.ExcludeFrom);
 
+        if (value == TestExcludeFrom.CodeCoverage)
+        {
+            // We automatically exclude the test(s) from smoke testing and code coverage.
+            yield return new KeyValuePair<string, string>(XunitTraits.ExcludeFrom, TestExcludeFrom.Smoke.ToString());
+        }
         if (value == TestExcludeFrom.Regular)
         {
             // We automatically exclude the test(s) from smoke testing and code coverage.
@@ -164,19 +162,6 @@ public sealed class RedundantTraitDiscoverer : ITraitDiscoverer
         Requires.NotNull(traitAttribute);
 
         yield return new KeyValuePair<string, string>(XunitTraits.Redundant, "true");
-        // We automatically exclude the test(s) from smoke testing and code coverage.
-        yield return new KeyValuePair<string, string>(XunitTraits.ExcludeFrom, TestExcludeFrom.Smoke.ToString());
-        yield return new KeyValuePair<string, string>(XunitTraits.ExcludeFrom, TestExcludeFrom.CodeCoverage.ToString());
-    }
-}
-
-public sealed class SketchUnderTestTraitDiscoverer : ITraitDiscoverer
-{
-    public IEnumerable<KeyValuePair<string, string>> GetTraits(IAttributeInfo traitAttribute)
-    {
-        Requires.NotNull(traitAttribute);
-
-        yield return new KeyValuePair<string, string>(XunitTraits.SketchUnderTest, "true");
         // We automatically exclude the test(s) from smoke testing and code coverage.
         yield return new KeyValuePair<string, string>(XunitTraits.ExcludeFrom, TestExcludeFrom.Smoke.ToString());
         yield return new KeyValuePair<string, string>(XunitTraits.ExcludeFrom, TestExcludeFrom.CodeCoverage.ToString());

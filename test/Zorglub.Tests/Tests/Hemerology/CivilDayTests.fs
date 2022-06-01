@@ -16,7 +16,7 @@ module FactSuite =
     let private supportedYears = Range.Create(CivilDay.MinYear, CivilDay.MaxYear)
 
     [<Sealed>]
-    [<SketchUnderTest>]
+    [<TestExcludeFrom(TestExcludeFrom.Regular)>]
     type DateFacts() =
         inherit IDateFacts<CivilDay, StandardGregorianDataSet>(supportedYears, CivilDay.Domain)
 
@@ -26,14 +26,14 @@ module FactSuite =
         override __.GetDate(y, m, d) = new CivilDay(y, m, d)
 
     [<Sealed>]
-    [<SketchUnderTest>]
+    [<TestExcludeFrom(TestExcludeFrom.Regular)>]
     type DayOfWeekFacts() =
         inherit IDateDayOfWeekFacts<CivilDay, StandardGregorianDataSet>()
 
         override __.GetDate(y, m, d) = new CivilDay(y, m, d)
 
     [<Sealed>]
-    [<SketchUnderTest>]
+    [<TestExcludeFrom(TestExcludeFrom.Regular)>]
     type MathFacts() =
         inherit IDateMathFacts<CivilDay, StandardGregorianDataSet>()
 

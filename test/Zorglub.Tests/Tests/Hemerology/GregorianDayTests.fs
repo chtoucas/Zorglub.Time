@@ -16,7 +16,6 @@ module FactSuite =
     let private supportedYears = Range.Create(GregorianDay.MinYear, GregorianDay.MaxYear)
 
     [<Sealed>]
-    [<SketchUnderTest>]
     [<TestExcludeFrom(TestExcludeFrom.Regular)>]
     type DateFacts() =
         inherit IDateFacts<GregorianDay, ProlepticGregorianDataSet>(supportedYears, GregorianDay.Domain)
@@ -27,7 +26,6 @@ module FactSuite =
         override __.GetDate(y, m, d) = new GregorianDay(y, m, d)
 
     [<Sealed>]
-    [<SketchUnderTest>]
     [<TestExcludeFrom(TestExcludeFrom.Regular)>]
     type DayOfWeekFacts() =
         inherit IDateDayOfWeekFacts<GregorianDay, ProlepticGregorianDataSet>()
@@ -35,7 +33,6 @@ module FactSuite =
         override __.GetDate(y, m, d) = new GregorianDay(y, m, d)
 
     [<Sealed>]
-    [<SketchUnderTest>]
     [<TestExcludeFrom(TestExcludeFrom.Regular)>]
     type MathFacts() =
         inherit IDateMathFacts<GregorianDay, ProlepticGregorianDataSet>()
