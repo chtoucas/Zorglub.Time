@@ -6,7 +6,6 @@ Features
 --------
 
 An experimental calendar library with a focus on extensibility and performance.
-As of now, we are only interested in arithmetical calendars.
 
 ### Core calendars
 

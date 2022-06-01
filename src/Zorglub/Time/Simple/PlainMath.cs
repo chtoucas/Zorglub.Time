@@ -9,6 +9,7 @@ namespace Zorglub.Time.Simple
 
     /// <summary>
     /// Provides a plain implementation for <see cref="CalendarMath"/>.
+    /// <para>This class uses the default <see cref="AdditionRules"/> to resolve ambiguities.</para>
     /// <para>In practice, we only use this mathematic with non-regular schema; see
     /// <see cref="CalendarMath.Create(Calendar)"/>.</para>
     /// <para>This class cannot be inherited.</para>
@@ -104,7 +105,6 @@ namespace Zorglub.Time.Simple
             }
 
             var newStart = AddMonthsCore(start, months);
-
             if (start.CompareFast(end) < 0)
             {
                 if (newStart.CompareFast(end) > 0) { months--; }

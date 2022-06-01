@@ -130,7 +130,7 @@ public partial class GregorianDataSet // Math data
     }.ConcatT(ConsecutiveDaysOrdinalSamples);
 
     // NB: we do not include data for which the result is ambiguous, see
-    // GregorianMathDataSet...Adjustment for that.
+    // GregorianMathDataSet... for that.
 
     public override DataGroup<YemodaPairAnd<int>> AddYearsData { get; } = new DataGroup<YemodaPairAnd<int>>()
     {
@@ -140,8 +140,7 @@ public partial class GregorianDataSet // Math data
         new(new(3, 2, 28), new(4, 2, 28), 1),
         // End of february, leap year -> leap year.
         new(new(4, 2, 29), new(8, 2, 29), 4),
-        // End of february, leap year -> common year.
-        // Ambiguous, see GregorianMathDataSet...Adjustment.
+        // End of february, leap year -> common year (ambiguous).
     }.ConcatT(AddYearsSamples);
 
     public override DataGroup<YemodaPairAnd<int>> AddMonthsData { get; } = new DataGroup<YemodaPairAnd<int>>()
@@ -175,8 +174,7 @@ public partial class GregorianDataSet // Math data
         new(new(3, 365), new(4, 365), 1),
         // End of february, leap year -> leap year.
         new(new(4, 366), new(8, 366), 4),
-        // End of year, leap year -> common year.
-        // Ambiguous, see GregorianMathDataSet...Adjustment.
+        // End of year, leap year -> common year (ambiguous).
     }.ConcatT(AddYearsOrdinalSamples);
 
 }

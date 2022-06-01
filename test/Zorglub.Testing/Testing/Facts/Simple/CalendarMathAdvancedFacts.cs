@@ -9,6 +9,8 @@ using Zorglub.Time.Simple;
 // FIXME(fact): how to filter data (update CalendarMathTestSuite afterwards).
 // Right now, it's just a copy of CalendarMathFacts.
 // Test AdditionRules.
+// We should also test CalendricalArithmetic, CalendarDate, etc. and not just
+// for the Gregorian calendar.
 
 /// <summary>
 /// Provides facts about <see cref="CalendarMath"/>; ambiguous cases.

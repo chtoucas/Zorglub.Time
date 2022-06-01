@@ -3,9 +3,6 @@
 
 namespace Zorglub.Testing.Data.Schemas;
 
-// TODO(data): use GregorianMathDataSetEndOfMonthAdjustment to test
-// CalendricalArithmetic, CalendarDate, etc.
-
 public static class GregorianMathDataSetUnambiguous
 {
     /// <summary>Start date, end date, exact diff between.</summary>
