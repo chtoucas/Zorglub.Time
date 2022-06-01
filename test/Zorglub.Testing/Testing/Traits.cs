@@ -9,8 +9,8 @@ using Xunit.Sdk;
 #region Developer Notes
 
 // Traits:
-// - RedundantTest          => TestExcludeFrom=Smoke and CodeCoverage
-// - RedundantTestGroup     => TestExcludeFrom=Smoke and CodeCoverage
+// - RedundantTest          => TestExcludeFrom=Smoke, CodeCoverage and Regular
+// - RedundantTestGroup     => TestExcludeFrom=Smoke, CodeCoverage and Regular
 // - TestPerfomance
 // - TestExcludeFrom
 //   - CodeCoverage => TestExcludeFrom=Smoke
@@ -79,6 +79,13 @@ public enum TestExcludeFrom
     Regular
 }
 
+public static class TestExcludeFromValues
+{
+    public static readonly string Smoke = TestExcludeFrom.Smoke.ToString();
+    public static readonly string CodeCoverage = TestExcludeFrom.CodeCoverage.ToString();
+    public static readonly string Regular = TestExcludeFrom.Regular.ToString();
+}
+
 // We use this trait to exclude redundant individual tests.
 [TraitDiscoverer(XunitTraitAssembly.TypePrefix + nameof(RedundantTraitDiscoverer), XunitTraitAssembly.Name)]
 [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
@@ -131,13 +138,13 @@ public sealed class ExcludeFromTraitDiscoverer : ITraitDiscoverer
         if (value == TestExcludeFrom.CodeCoverage)
         {
             // We automatically exclude the test(s) from smoke testing and code coverage.
-            yield return new KeyValuePair<string, string>(XunitTraits.ExcludeFrom, TestExcludeFrom.Smoke.ToString());
+            yield return new KeyValuePair<string, string>(XunitTraits.ExcludeFrom, TestExcludeFromValues.Smoke);
         }
         if (value == TestExcludeFrom.Regular)
         {
             // We automatically exclude the test(s) from smoke testing and code coverage.
-            yield return new KeyValuePair<string, string>(XunitTraits.ExcludeFrom, TestExcludeFrom.Smoke.ToString());
-            yield return new KeyValuePair<string, string>(XunitTraits.ExcludeFrom, TestExcludeFrom.CodeCoverage.ToString());
+            yield return new KeyValuePair<string, string>(XunitTraits.ExcludeFrom, TestExcludeFromValues.Smoke);
+            yield return new KeyValuePair<string, string>(XunitTraits.ExcludeFrom, TestExcludeFromValues.CodeCoverage);
         }
 
         yield return new KeyValuePair<string, string>(XunitTraits.ExcludeFrom, value.ToString());
@@ -163,8 +170,9 @@ public sealed class RedundantTraitDiscoverer : ITraitDiscoverer
 
         yield return new KeyValuePair<string, string>(XunitTraits.Redundant, "true");
         // We automatically exclude the test(s) from smoke testing and code coverage.
-        yield return new KeyValuePair<string, string>(XunitTraits.ExcludeFrom, TestExcludeFrom.Smoke.ToString());
-        yield return new KeyValuePair<string, string>(XunitTraits.ExcludeFrom, TestExcludeFrom.CodeCoverage.ToString());
+        yield return new KeyValuePair<string, string>(XunitTraits.ExcludeFrom, TestExcludeFromValues.Smoke);
+        yield return new KeyValuePair<string, string>(XunitTraits.ExcludeFrom, TestExcludeFromValues.CodeCoverage);
+        yield return new KeyValuePair<string, string>(XunitTraits.ExcludeFrom, TestExcludeFromValues.Regular);
     }
 }
 

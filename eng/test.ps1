@@ -36,14 +36,17 @@ The default behaviour is to run the smoke tests using the configuration Debug.
 
 The available test plans are:
 - "smoke"   = smoke testing
-- "regular" = exclude slow-running or redundant tests
-- "more"    = "regular" AND include slow-running -individual- tests
+- "regular" = exclude slow-running or redundant tests, and irrelevant tests
+- "more"    = exclude slow-running groups of tests (individual tests are kept)
+              and redundant tests
 - "extra"   = only include slow-running groups of tests and redundant tests,
               that is the tests excluded from the test plan "more"
 - "most"    = the whole test suite
 - "cover"   = mimic the default test plan used by the code coverage tool
-              It's "regular" minus the tests that don't play well with the code
-              coverage tool and a bunch of tests for types in Narvalo.Sketches
+              The difference between "cover" and "regular" is really tiny. For a
+              test to be in "regular" and not in "cover", it must be known to be
+              slow and not being explicitely excluded from code coverage, right
+              now there is none.
 
 Of course, one can use "dotnet test" to run the whole test suite or to apply
 custom filters.
@@ -56,8 +59,8 @@ Typical test plan executions.
 
 Examples.
 > test.ps1 smoke                # ~27 thousand tests (FAST)
-> test.ps1 cover                # ~73 thousand tests
-> test.ps1 regular              # ~75 thousand tests
+> test.ps1 cover                # ~74 thousand tests
+> test.ps1 regular              # ~74 thousand tests
 > test.ps1 more                 # ~82 thousand tests
 > test.ps1 extra                # ~147 thousand tests (SLOW)
 > test.ps1 most                 # ~229 thousand tests (SLOW)
@@ -77,39 +80,38 @@ try {
 
     switch ($Plan) {
         'smoke' {
-            # Smoke testing.
-            # - Exclude explicitely a bunch of tests from smoke testing
-            # - Exclude slow units
-            # - Exclude slow groups
-            # - Exclude redundant tests (implicit exclusion)
-            # - Exclude a bunch of tests for Zorglub.Sketches (implicit exclusion)
-            # - Exclude tests ignored by the "regular" plan (implicit exclusion)
+            # Smoke testing, exclude
+            # - tests explicitely excluded from smoke testing
+            # - slow units
+            # - slow groups
+            # - redundant tests (implicit)
+            # - tests excluded from code coverage (implicit)
+            # - tests excluded from the "regular" plan (implicit)
             #
             # If you change the filter, don't forget to update the github action.
             $filter = 'ExcludeFrom!=Smoke&Performance!~Slow'
         }
         'cover' {
-            # Mimic the default test plan used by cover.ps1.
-            # - Exclude explicitely a bunch of tests from code coverage
-            # - Exclude slow units
-            # - Exclude slow groups
-            # - Exclude redundant tests (implicit exclusion)
-            # - Exclude a bunch of tests for Zorglub.Sketches (implicit exclusion)
-            # - Exclude tests ignored by the "regular" plan (implicit exclusion)
+            # Mimic the default test plan used by cover.ps1, exclude
+            # - tests explicitely excluded from code coverage
+            # - slow units
+            # - slow groups
+            # - redundant tests (implicit)
+            # - tests excluded from the "regular" plan (implicit)
             $filter = 'ExcludeFrom!=CodeCoverage&Performance!~Slow'
         }
         'regular' {
-            # Regular test suite.
-            # - Exclude explicitely a bunch of tests from the "regular" plan.
-            # - Exclude slow units
-            # - Exclude slow groups
-            # - Exclude redundant tests
-            $filter = 'ExcludeFrom!=Regular&Performance!~Slow&Redundant!=true'
+            # Regular test suite, exclude
+            # - tests explicitely excluded from the "regular" plan.
+            # - slow units
+            # - slow groups
+            # - redundant tests (implicit)
+            $filter = 'ExcludeFrom!=Regular&Performance!~Slow'
         }
         'more' {
-            # Extended test suite.
-            # - Exclude slow groups
-            # - Exclude redundant tests
+            # Extended test suite, exclude
+            # - slow groups
+            # - redundant tests
             $filter = 'Performance!=SlowGroup&Redundant!=true'
         }
         'extra' {

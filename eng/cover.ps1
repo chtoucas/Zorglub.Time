@@ -104,7 +104,7 @@ try {
             -verbosity:Warning
             || die 'Failed to create the reports.'
 
-        if ($Badges) {
+        if ($Badges -and $Configuration -eq 'Debug') {
             try {
                 pushd $rgOutput
 
@@ -114,6 +114,12 @@ try {
                 cp -Force 'badge_combined.svg' (Join-Path $TestDir 'coverage.svg')
                 cp -Force 'Summary.txt' (Join-Path $TestDir 'coverage.txt')
                 cp -Force 'Summary.md' (Join-Path $TestDir 'coverage.md')
+            }
+            catch {
+                say $_ -Foreground Red
+                say $_.Exception
+                say $_.ScriptStackTrace
+                exit 1
             }
             finally {
                 popd
