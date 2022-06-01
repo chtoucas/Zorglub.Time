@@ -83,6 +83,7 @@ try {
             # - Exclude slow groups
             # - Exclude redundant tests (implicit exclusion)
             # - Exclude a bunch of tests for Zorglub.Sketches (implicit exclusion)
+            # - Exclude tests ignored by the "regular" plan (implicit exclusion)
             #
             # If you change the filter, don't forget to update the github action.
             $filter = 'ExcludeFrom!=Smoke&Performance!~Slow'
@@ -94,11 +95,12 @@ try {
             # - Exclude slow groups
             # - Exclude redundant tests (implicit exclusion)
             # - Exclude a bunch of tests for Zorglub.Sketches (implicit exclusion)
+            # - Exclude tests ignored by the "regular" plan (implicit exclusion)
             $filter = 'ExcludeFrom!=CodeCoverage&Performance!~Slow'
         }
         'regular' {
             # Regular test suite.
-            # - Exclude explicitely a bunch of tests
+            # - Exclude explicitely a bunch of tests from the "regular" plan.
             # - Exclude slow units
             # - Exclude slow groups
             # - Exclude redundant tests

@@ -13,6 +13,7 @@ using Xunit.Sdk;
 // - RedundantTestGroup     => TestExcludeFrom=Smoke and CodeCoverage
 // - SketchUnderTest        => TestExcludeFrom=Smoke and CodeCoverage
 // - TestPerfomance
+//   TestPerfomance.Regular => TestExcludeFrom=Smoke and CodeCoverage
 // - TestExcludeFrom
 //
 // Used by eng\test.ps1, eng\cover.ps1 and the github action.
@@ -92,6 +93,7 @@ public sealed class RedundantTestGroupAttribute : Attribute, ITraitAttribute
     public RedundantTestGroupAttribute() { }
 }
 
+// TODO(code): remove SketchUnderTest and use TestExcludeFrom.Regular.
 // Used to exclude, from smoke and code coverage, test classes for types not part
 // of the main assembly and therefore not need to achieve full code coverage.
 // This trait only existing to help us to reduce the time needed to complete the
@@ -132,6 +134,14 @@ public sealed class ExcludeFromTraitDiscoverer : ITraitDiscoverer
         Requires.NotNull(traitAttribute);
 
         var value = traitAttribute.GetNamedArgument<TestExcludeFrom>(XunitTraits.ExcludeFrom);
+
+        if (value == TestExcludeFrom.Regular)
+        {
+            // We automatically exclude the test(s) from smoke testing and code coverage.
+            yield return new KeyValuePair<string, string>(XunitTraits.ExcludeFrom, TestExcludeFrom.Smoke.ToString());
+            yield return new KeyValuePair<string, string>(XunitTraits.ExcludeFrom, TestExcludeFrom.CodeCoverage.ToString());
+        }
+
         yield return new KeyValuePair<string, string>(XunitTraits.ExcludeFrom, value.ToString());
     }
 }

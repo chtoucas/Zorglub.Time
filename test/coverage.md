@@ -1,26 +1,26 @@
 ﻿# Summary
 |||
 |:---|:---|
-| Generated on: | 01/06/2022 - 08:08:33 |
+| Generated on: | 01/06/2022 - 12:40:28 |
 | Parser: | OpenCover |
 | Assemblies: | 1 |
 | Classes: | 114 |
 | Files: | 106 |
-| Covered lines: | 5798 |
-| Uncovered lines: | 74 |
-| Coverable lines: | 5872 |
-| Total lines: | 21644 |
-| Line coverage: | 98.7% (5798 of 5872) |
-| Covered branches: | 2010 |
-| Total branches: | 2053 |
-| Branch coverage: | 97.9% (2010 of 2053) |
+| Covered lines: | 5756 |
+| Uncovered lines: | 71 |
+| Coverable lines: | 5827 |
+| Total lines: | 21660 |
+| Line coverage: | 98.7% (5756 of 5827) |
+| Covered branches: | 1992 |
+| Total branches: | 2023 |
+| Branch coverage: | 98.4% (1992 of 2023) |
 | Covered methods: | 1569 |
 | Total methods: | 1577 |
 | Method coverage: | 99.4% (1569 of 1577) |
 
 |**Name**|**Covered**|**Uncovered**|**Coverable**|**Total**|**Line coverage**|**Covered**|**Total**|**Branch coverage**|**Covered**|**Total**|**Method coverage**|
 |:---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
-|**Zorglub.Time**|**5798**|**74**|**5872**|**23988**|**98.7%**|**2010**|**2053**|**97.9%**|**1569**|**1577**|**99.4%**|
+|**Zorglub.Time**|**5756**|**71**|**5827**|**24004**|**98.7%**|**1992**|**2023**|**98.4%**|**1569**|**1577**|**99.4%**|
 |Zorglub.Time.AdditionRules|14|0|14|192|100%|12|12|100%|4|4|100%|
 |Zorglub.Time.CalendarIdExtensions|12|0|12|82|100%|10|10|100%|2|2|100%|
 |Zorglub.Time.Core.Arithmetic.FastArithmetic|35|0|35|195|100%|11|11|100%|7|7|100%|
@@ -129,9 +129,9 @@
 |Zorglub.Time.Simple.JulianCalendar|19|0|19|301|100%|0|0||4|4|100%|
 |Zorglub.Time.Simple.OrdinalDate|235|0|235|668|100%|30|30|100%|69|69|100%|
 |Zorglub.Time.Simple.PlainMath|32|54|86|209|37.2%|6|20|30%|3|11|27.2%|
-|Zorglub.Time.Simple.Regular12Math|48|0|48|114|100%|6|8|75%|5|5|100%|
-|Zorglub.Time.Simple.Regular13Math|48|0|48|114|100%|6|8|75%|5|5|100%|
-|Zorglub.Time.Simple.RegularMath|43|0|43|102|100%|4|6|66.6%|5|5|100%|
-|Zorglub.Time.Simple.RegularMathBase|72|3|75|160|96%|8|14|57.1%|8|8|100%|
+|Zorglub.Time.Simple.Regular12Math|39|0|39|117|100%|2|2|100%|5|5|100%|
+|Zorglub.Time.Simple.Regular13Math|39|0|39|117|100%|2|2|100%|5|5|100%|
+|Zorglub.Time.Simple.RegularMath|34|0|34|105|100%|0|0||5|5|100%|
+|Zorglub.Time.Simple.RegularMathBase|57|0|57|167|100%|2|2|100%|8|8|100%|
 |Zorglub.Time.Simple.TabularIslamicCalendar|7|0|7|301|100%|0|0||2|2|100%|
 |Zorglub.Time.Simple.ZoroastrianCalendar|13|0|13|301|100%|0|0||4|4|100%|
