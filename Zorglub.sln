@@ -53,7 +53,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{C1F3
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{FD091D60-75FC-427B-A602-A54D76EE83BA}"
 	ProjectSection(SolutionItems) = preProject
-		.github\workflows\tests.yml = .github\workflows\tests.yml
+		.github\workflows\smoke.yml = .github\workflows\smoke.yml
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zorglub.Sketches", "src\Zorglub.Sketches\Zorglub.Sketches.csproj", "{9E3B4401-9371-497C-917E-7B1686838032}"
