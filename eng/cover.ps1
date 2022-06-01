@@ -97,16 +97,23 @@ try {
             Remove-Item $rgOutput -Force -Recurse
         }
 
+        $publish = $Badges -and -not $Smoke -and $Configuration -eq 'Debug'
+        $reporttypes = $publish ? 'Html;Badges;TextSummary;MarkdownSummary' : 'Html'
+
+        say 'Creating the reports...'
+
         & dotnet tool run reportgenerator `
-            -reporttypes:"Html;Badges;TextSummary;MarkdownSummary" `
+            -reporttypes:$reporttypes `
             -reports:$rgInput `
             -targetdir:$rgOutput `
             -verbosity:Warning
             || die 'Failed to create the reports.'
 
-        if ($Badges -and $Configuration -eq 'Debug') {
+        if ($publish) {
             try {
                 pushd $rgOutput
+
+                say 'Publishing the reports...'
 
                 cp -Force 'badge_branchcoverage.svg' (Join-Path $TestDir 'coverage_branch.svg')
                 cp -Force 'badge_linecoverage.svg'   (Join-Path $TestDir 'coverage_line.svg')
