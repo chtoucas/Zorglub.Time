@@ -21,7 +21,7 @@ let private maprangeset (set: RangeSet<int>) =
     if set.IsEmpty then
         RangeSet<DayNumber>.Empty
     else
-        let endpoints = set.Range.Value.Endpoints.Select(fun i -> DayNumber.Zero + i)
+        let endpoints = set.Range.Endpoints.Select(fun i -> DayNumber.Zero + i)
         RangeSet.FromEndpoints(endpoints)
 let private maplowerray (ray: LowerRay<int>) =
     LowerRay.EndingAt(DayNumber.Zero + ray.Max)

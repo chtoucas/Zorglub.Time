@@ -64,12 +64,12 @@ namespace Zorglub.Time.Core
             // permet d'affirmer que c'est réellement le cas.
             var set = Interval.Intersect(schema.SupportedYears, Yemoda.SupportedYears);
             if (set.IsEmpty) Throw.Argument(nameof(schema));
-            var range = set.Range.Value;
+            var range = set.Range;
 
             (_minYear, _maxYear) = range.Endpoints;
 
             var set1 = Interval.Intersect(range, Range.StartingAt(1));
-            _minYearOnOrAfterYear1 = set1.IsEmpty ? null : set1.Range.Value.Min;
+            _minYearOnOrAfterYear1 = set1.IsEmpty ? null : set1.Range.Min;
         }
 
         /// <summary>

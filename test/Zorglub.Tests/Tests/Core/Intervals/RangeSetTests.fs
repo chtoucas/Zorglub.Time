@@ -3,6 +3,8 @@
 
 module Zorglub.Tests.Core.Intervals.RangeSetTests
 
+open System
+
 open Zorglub.Testing
 
 open Zorglub.Time.Core.Intervals
@@ -22,7 +24,7 @@ module Prelude =
         let v = RangeSet<int>.Empty
 
         v.IsEmpty |> ok
-        v.Range.HasValue |> nok
+        throws<InvalidOperationException> (fun () -> v.Range)
         v.ToString() === "[]"
 
 module Factories =
@@ -31,7 +33,7 @@ module Factories =
         let v = RangeSet.Empty<int>()
 
         v.IsEmpty |> ok
-        v.Range.HasValue |> nok
+        throws<InvalidOperationException> (fun () -> v.Range)
         v.ToString() === "[]"
 
     [<Property>]
@@ -44,8 +46,7 @@ module Factories =
         let range = Range.Create(x.Min, x.Max)
 
         v.IsEmpty |> nok
-        v.Range.HasValue |> ok
-        v.Range.Value === range
+        v.Range === range
         v.ToString() === sprintf "[%i..%i]" x.Min x.Max
 
         // Constructor
@@ -58,8 +59,7 @@ module Factories =
         let range = Range.Singleton(i)
 
         v.IsEmpty |> nok
-        v.Range.HasValue |> ok
-        v.Range.Value === range
+        v.Range === range
         v.ToString() === sprintf "[%i]" i
 
         // Constructor
@@ -74,8 +74,7 @@ module Factories =
         let isSingleton = x.LowerValue = x.UpperValue
 
         v.IsEmpty |> nok
-        v.Range.HasValue |> ok
-        v.Range.Value === range
+        v.Range === range
         v.ToString() ===
             if isSingleton then
                 sprintf "[%i]" x.LowerValue

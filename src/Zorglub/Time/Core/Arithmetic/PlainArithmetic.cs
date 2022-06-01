@@ -67,7 +67,7 @@ namespace Zorglub.Time.Core.Arithmetic
 
             var set = Interval.Intersect(schema.SupportedYears, Yemoda.SupportedYears);
             if (set.IsEmpty) Throw.Argument(nameof(schema));
-            var pair = set.Range.Value.Endpoints;
+            var pair = set.Range.Endpoints;
 
             (_minYear, _maxYear) = pair;
             (_minDaysSinceEpoch, _maxDaysSinceEpoch) =

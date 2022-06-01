@@ -129,21 +129,20 @@ namespace Zorglub.Time.Core.Intervals
         /// <summary>
         /// Returns true if this range is empty; otherwise returns false.
         /// </summary>
-        [MemberNotNullWhen(returnValue: false, member: nameof(Range))]
         public bool IsEmpty => Boundary.IsEmpty;
 
         /// <summary>
         /// Attempts to get a non-empty range.
         /// </summary>
-        /// <returns><see langword="null"/> if this range is empty.</returns>
-        [Pure]
-        public Range<T>? Range => Boundary.IsEmpty ? null : new Range<T>(Boundary.Endpoints.Value);
+        /// <exception cref="InvalidOperationException">The set is empty.</exception>
+        public Range<T> Range => Boundary.IsEmpty ? Throw.InvalidOperation<Range<T>>()
+            : new Range<T>(Boundary.Endpoints.Value);
 
         /// <summary>
         /// Returns a culture-independent string representation of this range.
         /// </summary>
         [Pure]
-        public override string ToString() => IsEmpty ? "[]" : Range.Value.ToString();
+        public override string ToString() => IsEmpty ? "[]" : Range.ToString();
     }
 
     public partial struct RangeSet2<T> // IEquatable

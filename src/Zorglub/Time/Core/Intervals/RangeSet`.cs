@@ -136,23 +136,20 @@ namespace Zorglub.Time.Core.Intervals
         /// <summary>
         /// Returns true if this range is empty; otherwise returns false.
         /// </summary>
-        [MemberNotNullWhen(returnValue: false, member: nameof(Range))]
         public bool IsEmpty => !_isInhabited;
 
-        // TODO(api): prop Range do not return null, throw InvalidOperationException()
-
         /// <summary>
-        /// Attempts to get a <see cref="Range{T}"/> view of this range.
+        /// Returns a <see cref="Range{T}"/> view of this range.
         /// </summary>
-        /// <returns><see langword="null"/> if this range is empty.</returns>
-        [Pure]
-        public Range<T>? Range => _isInhabited ? new Range<T>(_endpoints) : null;
+        /// <exception cref="InvalidOperationException">The set is empty.</exception>
+        public Range<T> Range => _isInhabited ? new Range<T>(_endpoints)
+            : Throw.InvalidOperation<Range<T>>();
 
         /// <summary>
         /// Returns a culture-independent string representation of this range.
         /// </summary>
         [Pure]
-        public override string ToString() => Range?.ToString() ?? "[]";
+        public override string ToString() => _isInhabited ? Range.ToString() : "[]";
     }
 
     public partial struct RangeSet<T> // IEquatable

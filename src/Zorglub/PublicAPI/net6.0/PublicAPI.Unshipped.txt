@@ -865,7 +865,7 @@ Zorglub.Time.Core.Intervals.RangeSet
 Zorglub.Time.Core.Intervals.RangeSet<T>
 Zorglub.Time.Core.Intervals.RangeSet<T>.Equals(Zorglub.Time.Core.Intervals.RangeSet<T> other) -> bool
 Zorglub.Time.Core.Intervals.RangeSet<T>.IsEmpty.get -> bool
-Zorglub.Time.Core.Intervals.RangeSet<T>.Range.get -> Zorglub.Time.Core.Intervals.Range<T>?
+Zorglub.Time.Core.Intervals.RangeSet<T>.Range.get -> Zorglub.Time.Core.Intervals.Range<T>
 Zorglub.Time.Core.Intervals.RangeSet<T>.RangeSet() -> void
 Zorglub.Time.Core.Intervals.RangeSet<T>.RangeSet(T min, T max) -> void
 Zorglub.Time.Core.Intervals.UpperRay
