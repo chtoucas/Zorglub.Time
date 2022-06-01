@@ -5,7 +5,7 @@ namespace Zorglub.Testing.Data;
 
 using Zorglub.Time.Core.Intervals;
 
-public sealed record RangePairInfo(
+public sealed record RangeRangeInfo(
     Range<int> First,
     Range<int> Second,
     Range<int> Span,
@@ -46,7 +46,7 @@ public sealed record LowerRayUpperRayInfo(
 
 public static class IntervalDataSet
 {
-    public static DataGroup<RangePairInfo> RangePairInfoData { get; } = new()
+    public static DataGroup<RangeRangeInfo> RangeRangeInfoData { get; } = new()
     {
         //
         // Overlapping ranges
