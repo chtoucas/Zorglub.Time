@@ -6,7 +6,7 @@ namespace Zorglub.Testing.Facts.Simple;
 using Zorglub.Testing.Data;
 using Zorglub.Time.Simple;
 
-// REVIEW(fact): temporary class to be able to test PlainMath.
+// REVIEW(fact): temporary class to be able to test PlainMath; see CalendarMathFacts.
 
 /// <summary>
 /// Provides facts about <see cref="PlainMath"/>.
@@ -24,10 +24,16 @@ public abstract partial class PlainMathFacts<TDataSet> :
     private PlainMath MathUT { get; }
     protected Calendar Calendar { get; }
 
-    protected CalendarDate GetDate(Yemoda ymd)
+    private CalendarDate GetDate(Yemoda ymd)
     {
         var (y, m, d) = ymd;
         return Calendar.GetCalendarDate(y, m, d);
+    }
+
+    private OrdinalDate GetDate(Yedoy ydoy)
+    {
+        var (y, doy) = ydoy;
+        return Calendar.GetOrdinalDate(y, doy);
     }
 
     private CalendarMonth GetMonth(Yemoda ymd)
@@ -39,6 +45,48 @@ public abstract partial class PlainMathFacts<TDataSet> :
 
 public partial class PlainMathFacts<TDataSet> // CalendarDate
 {
+    [Theory, MemberData(nameof(AddYearsData))]
+    public void AddYears﹍CalendarDate(YemodaPairAnd<int> info)
+    {
+        int years = info.Value;
+        var date = GetDate(info.First);
+        var other = GetDate(info.Second);
+        // Act & Assert
+        Assert.Equal(other, MathUT.AddYears(date, years));
+    }
+
+    [Theory, MemberData(nameof(AddYearsData))]
+    public void CountYearsBetween﹍CalendarDate(YemodaPairAnd<int> info)
+    {
+        int years = info.Value;
+        var start = GetDate(info.First);
+        var end = GetDate(info.Second);
+        // Act & Assert
+        Assert.Equal(years, MathUT.CountYearsBetween(start, end));
+    }
+}
+
+public partial class PlainMathFacts<TDataSet> // OrdinalDate
+{
+    [Theory, MemberData(nameof(AddYearsOrdinalData))]
+    public void AddYears﹍OrdinalDate(YedoyPairAnd<int> info)
+    {
+        int years = info.Value;
+        var date = GetDate(info.First);
+        var other = GetDate(info.Second);
+        // Act & Assert
+        Assert.Equal(other, MathUT.AddYears(date, years));
+    }
+
+    [Theory, MemberData(nameof(AddYearsOrdinalData))]
+    public void CountYearsBetween﹍OrdinalDate(YedoyPairAnd<int> info)
+    {
+        int years = info.Value;
+        var start = GetDate(info.First);
+        var end = GetDate(info.Second);
+        // Act & Assert
+        Assert.Equal(years, MathUT.CountYearsBetween(start, end));
+    }
 }
 
 public partial class PlainMathFacts<TDataSet> // CalendarMonth

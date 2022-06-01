@@ -17,21 +17,10 @@ namespace Zorglub.Time.Simple
     public sealed class PlainMath : CalendarMath
     {
         /// <summary>
-        /// Represents the schema.
-        /// <para>This field is read-only.</para>
-        /// </summary>
-        private readonly SystemSchema _schema;
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="PlainMath"/> class.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="calendar"/> is null.</exception>
-        public PlainMath(Calendar calendar) : base(calendar, default)
-        {
-            Debug.Assert(calendar != null);
-
-            _schema = calendar.Schema;
-        }
+        public PlainMath(Calendar calendar) : base(calendar, default) { }
 
         #region CalendarDate
 
@@ -41,19 +30,15 @@ namespace Zorglub.Time.Simple
         {
             Debug.Assert(date.Cuid == Cuid);
 
-            //date.Parts.Unpack(out int y, out int m, out int d);
-            //y = checked(y + years);
+            date.Parts.Unpack(out int y, out int m, out int d);
+            y = checked(y + years);
 
-            //// Années complètes : on doit juste vérifier l'année.
-            //ShortScope.CheckYearOverflowImpl(y);
+            YearOverflowChecker.Check(y);
 
-            //// Ce n'est pas bon.
-            //m = Math.Min(m, _schema.CountMonthsInYear(y));
-            //int daysInMonth = _schema.CountDaysInMonth(y, m);
-            //var ymd = new Yemoda(y, m, Math.Min(d, daysInMonth));
-            //return new CalendarDate(ymd, Cuid);
-
-            throw new NotImplementedException();
+            // NB: DateAdditionRule.EndOfMonth.
+            m = Math.Min(m, Schema.CountMonthsInYear(y));
+            d = Math.Min(d, Schema.CountDaysInMonth(y, m));
+            return new CalendarDate(new Yemoda(y, m, d), Cuid);
         }
 
         /// <inheritdoc />
@@ -94,27 +79,29 @@ namespace Zorglub.Time.Simple
             Debug.Assert(start.Cuid == Cuid);
             Debug.Assert(end.Cuid == Cuid);
 
-            start.Parts.Unpack(out int y0, out int m0);
-            end.Parts.Unpack(out int y1, out int m1);
+            throw new NotImplementedException();
 
-            // THIS IS WRONG. See CountMonthsBetweenCore() for CalendarMonth.
-            int months = m1 - m0;
-            for (int y = y0; y < y1; y++)
-            {
-                months += _schema.CountMonthsInYear(y);
-            }
+            //start.Parts.Unpack(out int y0, out int m0);
+            //end.Parts.Unpack(out int y1, out int m1);
 
-            var newStart = AddMonthsCore(start, months);
-            if (start.CompareFast(end) < 0)
-            {
-                if (newStart.CompareFast(end) > 0) { months--; }
-            }
-            else
-            {
-                if (newStart.CompareFast(end) < 0) { months++; }
-            }
+            //// THIS IS WRONG. See CountMonthsBetweenCore() for CalendarMonth.
+            //int months = m1 - m0;
+            //for (int y = y0; y < y1; y++)
+            //{
+            //    months += Schema.CountMonthsInYear(y);
+            //}
 
-            return months;
+            //var newStart = AddMonthsCore(start, months);
+            //if (start.CompareFast(end) < 0)
+            //{
+            //    if (newStart.CompareFast(end) > 0) { months--; }
+            //}
+            //else
+            //{
+            //    if (newStart.CompareFast(end) < 0) { months++; }
+            //}
+
+            //return months;
         }
 
         #endregion
@@ -126,7 +113,14 @@ namespace Zorglub.Time.Simple
         {
             Debug.Assert(date.Cuid == Cuid);
 
-            throw new NotImplementedException();
+            date.Parts.Unpack(out int y, out int doy);
+            y = checked(y + years);
+
+            YearOverflowChecker.Check(y);
+
+            // NB: OrdinalAdditionRule.EndOfYear.
+            doy = Math.Min(doy, Schema.CountDaysInYear(y));
+            return new OrdinalDate(new Yedoy(y, doy), Cuid);
         }
 
         /// <inheritdoc />
@@ -136,7 +130,19 @@ namespace Zorglub.Time.Simple
             Debug.Assert(start.Cuid == Cuid);
             Debug.Assert(end.Cuid == Cuid);
 
-            throw new NotImplementedException();
+            int years = end.Year - start.Year;
+            OrdinalDate newStart = AddYearsCore(start, years);
+
+            if (start.CompareFast(end) < 0)
+            {
+                if (newStart.CompareFast(end) > 0) { years--; }
+            }
+            else
+            {
+                if (newStart.CompareFast(end) < 0) { years++; }
+            }
+
+            return years;
         }
 
         #endregion
@@ -154,7 +160,7 @@ namespace Zorglub.Time.Simple
             YearOverflowChecker.Check(y);
 
             // NB: MonthAdditionRule.EndOfYear.
-            int monthsInYear = _schema.CountMonthsInYear(y);
+            int monthsInYear = Schema.CountMonthsInYear(y);
             var ym = new Yemo(y, Math.Min(m, monthsInYear));
             return new CalendarMonth(ym, Cuid);
         }
@@ -194,10 +200,10 @@ namespace Zorglub.Time.Simple
                 start.Parts.Unpack(out int y0, out int m0);
                 end.Parts.Unpack(out int y1, out int m1);
 
-                int months = _schema.CountMonthsInYear(y0) - m0;
+                int months = Schema.CountMonthsInYear(y0) - m0;
                 for (int y = y0 + 1; y < y1; y++)
                 {
-                    months += _schema.CountMonthsInYear(y);
+                    months += Schema.CountMonthsInYear(y);
                 }
                 months += m1;
                 return months;

@@ -25,13 +25,13 @@ public abstract partial class CalendarMathFacts<TMath, TDataSet> :
     protected TMath MathUT { get; }
     protected Calendar Calendar { get; }
 
-    protected CalendarDate GetDate(Yemoda ymd)
+    private CalendarDate GetDate(Yemoda ymd)
     {
         var (y, m, d) = ymd;
         return Calendar.GetCalendarDate(y, m, d);
     }
 
-    protected OrdinalDate GetDate(Yedoy ydoy)
+    private OrdinalDate GetDate(Yedoy ydoy)
     {
         var (y, doy) = ydoy;
         return Calendar.GetOrdinalDate(y, doy);

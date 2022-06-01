@@ -58,9 +58,10 @@ namespace Zorglub.Time
     /// </summary>
     public enum DateAdditionRule
     {
+        // REVIEW(api): diff between PlusYears() and PlusMonths().
         /// <summary>
         /// When the result is not a valid day of the month (roundoff > 0), return the last day of
-        /// the month.
+        /// the month (adding months) or the last day of the last valid month (adding years).
         /// <para>This is the <i>default</i> strategy.</para>
         /// </summary>
         // Si le résultat d'une opération arithmétique n'est pas exact (roundoff > 0),
