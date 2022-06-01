@@ -4,6 +4,9 @@
 FIXME
 -----
 
+- Refactor CalendarCatalog, split into a registry and a registar.
+  Currently, it's almost impossible to achieve full code coverage.
+- Finish PlainMath.
 - Check all occurences of ICalendricalSchema and CalendricalSchema.
 - Parts and validation.
   Types concernés:
@@ -24,8 +27,8 @@ FIXME
 TODO
 ----
 
-- Packaging: version numbering (timestamp)
-- Publication: GitHub
+- Packaging: version numbering (timestamp).
+- Publication: GitHub & NuGet.
 - When .NET 7 is out:
   D.B.targets: disable preview features.
   Clean up unnecessary "#pragma warning disable".
