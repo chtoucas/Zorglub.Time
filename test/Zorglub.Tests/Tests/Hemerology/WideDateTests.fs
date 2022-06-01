@@ -17,12 +17,13 @@ module FactSuite =
 
     [<Sealed>]
     [<SketchUnderTest>]
+    [<TestExcludeFrom(TestExcludeFrom.Regular)>]
     type DateFacts() =
         inherit WideDateFacts<UnboundedGregorianDataSet>(WideCalendar.Gregorian, other)
 
     [<Sealed>]
     [<SketchUnderTest>]
-    [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
+    [<TestExcludeFrom(TestExcludeFrom.Regular)>]
     type AdjustableDateFacts() =
         inherit IAdjustableDateFacts<WideDate, UnboundedGregorianDataSet>(WideCalendar.Gregorian.SupportedYears)
 
@@ -30,7 +31,7 @@ module FactSuite =
 
     [<Sealed>]
     [<SketchUnderTest>]
-    [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
+    [<TestExcludeFrom(TestExcludeFrom.Regular)>]
     type DayOfWeekFacts() =
         inherit IDateDayOfWeekFacts<WideDate, UnboundedGregorianDataSet>()
 
@@ -38,7 +39,7 @@ module FactSuite =
 
     [<Sealed>]
     [<SketchUnderTest>]
-    [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
+    [<TestExcludeFrom(TestExcludeFrom.Regular)>]
     type MathFacts() =
         inherit IDateMathFacts<WideDate, UnboundedGregorianDataSet>()
 

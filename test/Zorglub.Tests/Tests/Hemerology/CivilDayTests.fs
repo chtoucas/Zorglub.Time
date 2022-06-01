@@ -27,7 +27,6 @@ module FactSuite =
 
     [<Sealed>]
     [<SketchUnderTest>]
-    [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
     type DayOfWeekFacts() =
         inherit IDateDayOfWeekFacts<CivilDay, StandardGregorianDataSet>()
 
@@ -35,7 +34,6 @@ module FactSuite =
 
     [<Sealed>]
     [<SketchUnderTest>]
-    [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
     type MathFacts() =
         inherit IDateMathFacts<CivilDay, StandardGregorianDataSet>()
 

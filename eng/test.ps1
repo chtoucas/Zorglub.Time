@@ -55,12 +55,12 @@ Typical test plan executions.
 > test.ps1 cover                # Convenient when not working on Sketches (Debug)
 
 Examples.
-> test.ps1 smoke                # ~20 thousand tests (FAST)
-> test.ps1 cover                # ~66 thousand tests
+> test.ps1 smoke                # ~27 thousand tests (FAST)
+> test.ps1 cover                # ~73 thousand tests
 > test.ps1 regular              # ~75 thousand tests
-> test.ps1 more                 # ~75 thousand tests
-> test.ps1 extra                # ~153 thousand tests (SLOW)
-> test.ps1 most                 # ~228 thousand tests (SLOW)
+> test.ps1 more                 # ~82 thousand tests
+> test.ps1 extra                # ~147 thousand tests (SLOW)
+> test.ps1 most                 # ~229 thousand tests (SLOW)
 
 "@
 }
@@ -98,10 +98,11 @@ try {
         }
         'regular' {
             # Regular test suite.
+            # - Exclude explicitely a bunch of tests
             # - Exclude slow units
             # - Exclude slow groups
             # - Exclude redundant tests
-            $filter = 'Performance!~Slow&Redundant!=true'
+            $filter = 'ExcludeFrom!=Regular&Performance!~Slow&Redundant!=true'
         }
         'more' {
             # Extended test suite.

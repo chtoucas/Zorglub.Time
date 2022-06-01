@@ -23,6 +23,7 @@ module FactSuite =
 
     [<Sealed>]
     [<SketchUnderTest>]
+    [<TestExcludeFrom(TestExcludeFrom.Regular)>]
     type DateFacts() =
         inherit IDateFacts<CivilDate, StandardGregorianDataSet>(supportedYears, CivilDate.Domain)
 
@@ -33,7 +34,7 @@ module FactSuite =
 
     [<Sealed>]
     [<SketchUnderTest>]
-    [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
+    [<TestExcludeFrom(TestExcludeFrom.Regular)>]
     type AdjustableDateTests() =
         inherit IAdjustableDateFacts<CivilDate, StandardGregorianDataSet>(supportedYears)
 
@@ -41,7 +42,7 @@ module FactSuite =
 
     [<Sealed>]
     [<SketchUnderTest>]
-    [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
+    [<TestExcludeFrom(TestExcludeFrom.Regular)>]
     type DayOfWeekFacts() =
         inherit IDateDayOfWeekFacts<CivilDate, StandardGregorianDataSet>()
 
@@ -49,7 +50,7 @@ module FactSuite =
 
     [<Sealed>]
     [<SketchUnderTest>]
-    [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
+    [<TestExcludeFrom(TestExcludeFrom.Regular)>]
     type MathFacts() =
         inherit IDateMathFacts<CivilDate, StandardGregorianDataSet>()
 

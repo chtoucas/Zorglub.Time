@@ -56,7 +56,7 @@ public enum TestExcludeFrom
 {
     /// <summary>
     /// Exclude from smoke testing.
-    /// <para>We use this to exclude all classes in a test suite but the first one.</para>
+    /// <para>We use this value to exclude all classes in a test suite but the first one.</para>
     /// </summary>
     Smoke,
 
@@ -64,7 +64,13 @@ public enum TestExcludeFrom
     /// Exclude from code coverage.
     /// <para>For instance, we exclude deeply recursive functions.</para>
     /// </summary>
-    CodeCoverage
+    CodeCoverage,
+
+    /// <summary>
+    /// Exclude from the "regular" test plan.
+    /// <para>We use this value to exclude tests of very low importance.</para>
+    /// </summary>
+    Regular
 }
 
 // We use this trait to exclude redundant individual tests.

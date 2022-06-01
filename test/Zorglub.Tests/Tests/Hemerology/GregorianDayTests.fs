@@ -17,6 +17,7 @@ module FactSuite =
 
     [<Sealed>]
     [<SketchUnderTest>]
+    [<TestExcludeFrom(TestExcludeFrom.Regular)>]
     type DateFacts() =
         inherit IDateFacts<GregorianDay, ProlepticGregorianDataSet>(supportedYears, GregorianDay.Domain)
 
@@ -27,7 +28,7 @@ module FactSuite =
 
     [<Sealed>]
     [<SketchUnderTest>]
-    [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
+    [<TestExcludeFrom(TestExcludeFrom.Regular)>]
     type DayOfWeekFacts() =
         inherit IDateDayOfWeekFacts<GregorianDay, ProlepticGregorianDataSet>()
 
@@ -35,7 +36,7 @@ module FactSuite =
 
     [<Sealed>]
     [<SketchUnderTest>]
-    [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
+    [<TestExcludeFrom(TestExcludeFrom.Regular)>]
     type MathFacts() =
         inherit IDateMathFacts<GregorianDay, ProlepticGregorianDataSet>()
 

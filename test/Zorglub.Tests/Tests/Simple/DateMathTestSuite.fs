@@ -3,6 +3,7 @@
 
 module Zorglub.Tests.Simple.DateMathTestSuite
 
+open Zorglub.Testing
 open Zorglub.Testing.Data.Bounded
 open Zorglub.Testing.Facts
 
@@ -17,6 +18,7 @@ module CalendarDateCase =
 
 module OrdinalDateCase =
     [<Sealed>]
+    [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
     type GregorianTests() =
         inherit IDateOrdinalMathFacts<OrdinalDate, ProlepticGregorianDataSet>()
 
@@ -24,6 +26,7 @@ module OrdinalDateCase =
 
 module CalendarDayCase =
     [<Sealed>]
+    [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
     type GregorianTests() =
         inherit IDateMathFacts<CalendarDay, ProlepticGregorianDataSet>()
 
