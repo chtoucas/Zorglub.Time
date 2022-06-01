@@ -187,6 +187,30 @@ public partial class OrdinalDateFacts<TDataSet> // Conversions
     }
 }
 
+public partial class OrdinalDateFacts<TDataSet> // Comparison
+{
+    [Theory, MemberData(nameof(DateInfoData))]
+    public void CompareFast_WhenEqual(DateInfo info)
+    {
+        var (y, doy) = info.Yedoy;
+        var left = CalendarUT.GetOrdinalDate(y, doy);
+        var right = CalendarUT.GetOrdinalDate(y, doy);
+        // Act & Assert
+        Assert.Equal(0, left.CompareFast(right));
+    }
+
+    [Theory]
+    [InlineData(2, 1)]
+    [InlineData(1, 2)]
+    public void CompareFast_WhenNotEqual(int y, int doy)
+    {
+        var left = CalendarUT.GetOrdinalDate(1, 1);
+        var right = CalendarUT.GetOrdinalDate(y, doy);
+        // Act & Assert
+        Assert.True(left.CompareFast(right) < 0);
+    }
+}
+
 public partial class OrdinalDateFacts<TDataSet> // Math
 {
     [Theory, MemberData(nameof(DateInfoData))]

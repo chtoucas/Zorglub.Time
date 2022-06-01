@@ -187,6 +187,31 @@ public partial class CalendarDateFacts<TDataSet> // Conversions
     }
 }
 
+public partial class CalendarDateFacts<TDataSet> // Comparison
+{
+    [Theory, MemberData(nameof(DateInfoData))]
+    public void CompareFast_WhenEqual(DateInfo info)
+    {
+        var (y, m, d) = info.Yemoda;
+        var left = CalendarUT.GetCalendarDate(y, m, d);
+        var right = CalendarUT.GetCalendarDate(y, m, d);
+        // Act & Assert
+        Assert.Equal(0, left.CompareFast(right));
+    }
+
+    [Theory]
+    [InlineData(2, 1, 1)]
+    [InlineData(1, 2, 1)]
+    [InlineData(1, 1, 2)]
+    public void CompareFast_WhenNotEqual(int y, int m, int d)
+    {
+        var left = CalendarUT.GetCalendarDate(1, 1, 1);
+        var right = CalendarUT.GetCalendarDate(y, m, d);
+        // Act & Assert
+        Assert.True(left.CompareFast(right) < 0);
+    }
+}
+
 public partial class CalendarDateFacts<TDataSet> // Math
 {
     [Theory, MemberData(nameof(DateInfoData))]
