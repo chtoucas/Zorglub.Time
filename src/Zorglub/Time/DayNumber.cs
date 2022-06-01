@@ -237,7 +237,6 @@ namespace Zorglub.Time
 
         // REVIEW(code): not coverable? hum no, it should be, I was just tired.
         [Pure]
-        [ExcludeFromCodeCoverage]
         static DayNumber IFixedDay<DayNumber>.FromDayNumber(DayNumber dayNumber) => dayNumber;
 
         [Pure]
