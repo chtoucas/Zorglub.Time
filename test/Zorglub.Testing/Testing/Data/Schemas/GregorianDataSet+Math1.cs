@@ -166,4 +166,17 @@ public partial class GregorianDataSet // Math data
         new(new(4, 1, 28), new(4, 2, 28), 1),
         new(new(4, 1, 29), new(4, 2, 29), 1),
     }.ConcatT(AddMonthsSamples);
+
+    public override DataGroup<YedoyPairAnd<int>> AddYearsOrdinalData { get; } = new DataGroup<YedoyPairAnd<int>>()
+    {
+        // End of year, common year -> common year.
+        new(new(3, 365), new(5, 365), 2),
+        // End of year, common year -> leap year.
+        new(new(3, 365), new(4, 365), 1),
+        // End of february, leap year -> leap year.
+        new(new(4, 366), new(8, 366), 4),
+        // End of year, leap year -> common year.
+        // Ambiguous, see GregorianMathDataSet...Adjustment.
+    }.ConcatT(AddYearsOrdinalSamples);
+
 }

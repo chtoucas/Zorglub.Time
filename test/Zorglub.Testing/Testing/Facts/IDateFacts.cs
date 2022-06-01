@@ -52,6 +52,7 @@ public abstract partial class IDateFacts<TDate, TDataSet> :
 
 public partial class IDateFacts<TDate, TDataSet> // Prelude
 {
+    // TODO(fact): DayOfWeek via DayNumber.
     //[Theory, MemberData(nameof(CalCalDataSet.DayOfWeekData), MemberType = typeof(CalCalDataSet))]
     //public void DayOfWeek_Prop_ViaDayNumber(DayNumber dayNumber, DayOfWeek dayOfWeek)
     //{

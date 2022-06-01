@@ -8,18 +8,19 @@ namespace Zorglub.Testing.Data;
 public interface IAdvancedMathDataSet
 {
     /// <summary>
-    /// Gets the strategy employed to resolve ambiguities that can occur after adding a number
-    /// of months or years to a date.
+    /// Gets the rules employed to resolve ambiguities.
     /// </summary>
-    DateAdditionRule DateAdditionRule { get; }
+    AdditionRules AdditionRules { get; }
 
     /// <summary>Date, expected result, years to be added.</summary>
     DataGroup<YemodaPairAnd<int>> AddYearsData { get; }
     /// <summary>Date, expected result, months to be added.</summary>
     DataGroup<YemodaPairAnd<int>> AddMonthsData { get; }
+    /// <summary>Date, expected result, years to be added.</summary>
+    DataGroup<YedoyPairAnd<int>> AddYearsOrdinalData { get; }
 
-    /// <summary>Start date, end date, exact diff between.</summary>
-    DataGroup<DateDiff> DateDiffData { get; }
+    ///// <summary>Start date, end date, exact diff between.</summary>
+    //DataGroup<DateDiff> DateDiffData { get; }
 }
 
 public interface IEpagomenalDataSet

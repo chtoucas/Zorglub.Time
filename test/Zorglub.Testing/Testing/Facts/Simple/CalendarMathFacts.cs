@@ -6,8 +6,7 @@ namespace Zorglub.Testing.Facts.Simple;
 using Zorglub.Testing.Data;
 using Zorglub.Time.Simple;
 
-// TODO(fact): OrdinalDate, CalendarMonth. We need more test data and not just
-// for the Gregorian calendar.
+// TODO(fact): test the basic properties (commutatibity, zero, see CalendarDateFacts).
 
 /// <summary>
 /// Provides facts about <see cref="CalendarMath"/>.
@@ -30,6 +29,12 @@ public abstract partial class CalendarMathFacts<TMath, TDataSet> :
     {
         var (y, m, d) = ymd;
         return Calendar.GetCalendarDate(y, m, d);
+    }
+
+    protected OrdinalDate GetDate(Yedoy ydoy)
+    {
+        var (y, doy) = ydoy;
+        return Calendar.GetOrdinalDate(y, doy);
     }
 
     private CalendarMonth GetMonth(Yemoda ymd)
@@ -79,6 +84,29 @@ public partial class CalendarMathFacts<TMath, TDataSet> // CalendarDate
         var end = GetDate(info.Second);
         // Act & Assert
         Assert.Equal(months, MathUT.CountMonthsBetween(start, end));
+    }
+}
+
+public partial class CalendarMathFacts<TMath, TDataSet> // OrdinalDate
+{
+    [Theory, MemberData(nameof(AddYearsOrdinalData))]
+    public void AddYears﹍OrdinalDate(YedoyPairAnd<int> info)
+    {
+        int years = info.Value;
+        var date = GetDate(info.First);
+        var other = GetDate(info.Second);
+        // Act & Assert
+        Assert.Equal(other, MathUT.AddYears(date, years));
+    }
+
+    [Theory, MemberData(nameof(AddYearsOrdinalData))]
+    public void CountYearsBetween﹍OrdinalDate(YedoyPairAnd<int> info)
+    {
+        int years = info.Value;
+        var start = GetDate(info.First);
+        var end = GetDate(info.Second);
+        // Act & Assert
+        Assert.Equal(years, MathUT.CountYearsBetween(start, end));
     }
 }
 

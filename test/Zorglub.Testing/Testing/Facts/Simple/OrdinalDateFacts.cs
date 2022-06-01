@@ -26,6 +26,12 @@ public abstract partial class OrdinalDateFacts<TDataSet> :
     protected sealed override OrdinalDate MinDate { get; }
     protected sealed override OrdinalDate MaxDate { get; }
 
+    protected OrdinalDate GetDate(Yedoy ydoy)
+    {
+        var (y, doy) = ydoy;
+        return CalendarUT.GetOrdinalDate(y, doy);
+    }
+
     protected sealed override OrdinalDate GetDate(int y, int m, int d) =>
         // Notice that to create an OrdinalDate we must first pass thru CalendarDate.
         CalendarUT.GetCalendarDate(y, m, d).ToOrdinalDate();
@@ -192,6 +198,16 @@ public partial class OrdinalDateFacts<TDataSet> // Math
         Assert.Equal(date, date.PlusYears(0));
     }
 
+    [Theory, MemberData(nameof(AddYearsOrdinalData))]
+    public void PlusYears(YedoyPairAnd<int> info)
+    {
+        int years = info.Value;
+        var date = GetDate(info.First);
+        var other = GetDate(info.Second);
+        // Act & Assert
+        Assert.Equal(other, date.PlusYears(years));
+    }
+
     [Theory, MemberData(nameof(DateInfoData))]
     public void CountYearsSince_WhenSame_IsZero(DateInfo info)
     {
@@ -199,6 +215,16 @@ public partial class OrdinalDateFacts<TDataSet> // Math
         var date = CalendarUT.GetOrdinalDate(y, doy);
         // Act & Assert
         Assert.Equal(0, date.CountYearsSince(date));
+    }
+
+    [Theory, MemberData(nameof(AddYearsOrdinalData))]
+    public void CountYearsSince(YedoyPairAnd<int> info)
+    {
+        int years = info.Value;
+        var date = GetDate(info.First);
+        var other = GetDate(info.Second);
+        // Act & Assert
+        Assert.Equal(years, other.CountYearsSince(date));
     }
 }
 

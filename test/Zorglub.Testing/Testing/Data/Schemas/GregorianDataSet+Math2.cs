@@ -242,7 +242,7 @@ public class GregorianMathDataSetEndOfMonthAdjustment :
         static Singleton() { }
     }
 
-    public DateAdditionRule DateAdditionRule { get; } = DateAdditionRule.EndOfMonth;
+    public AdditionRules AdditionRules { get; }
 
     /// <inheritdoc/>
     /// <remarks>Intercalary day, expected result in a common year, years to be added.</remarks>
@@ -296,6 +296,12 @@ public class GregorianMathDataSetEndOfMonthAdjustment :
         new(new(4, 4, 30), new(3, 2, 28), -14),
     };
 
+    public DataGroup<YedoyPairAnd<int>> AddYearsOrdinalData { get; } = new()
+    {
+        // End of year, leap year -> common year.
+        new(new(4, 366), new(3, 365), -1),
+    };
+
     public DataGroup<DateDiff> DateDiffData { get; } = DataGroup.Create(DateDiffs);
 
     private static IEnumerable<DateDiff> DateDiffs
@@ -333,7 +339,8 @@ public class GregorianMathDataSetStartOfNextMonthAdjustment :
         static Singleton() { }
     }
 
-    public DateAdditionRule DateAdditionRule { get; } = DateAdditionRule.StartOfNextMonth;
+    public AdditionRules AdditionRules { get; } =
+        new(DateAdditionRule.StartOfNextMonth, OrdinalAdditionRule.StartOfNextYear, MonthAdditionRule.StartOfNextYear);
 
     /// <inheritdoc/>
     /// <remarks>Intercalary day, expected result in a common year, years to be added.</remarks>
@@ -357,8 +364,7 @@ public class GregorianMathDataSetStartOfNextMonthAdjustment :
 #pragma warning disable CA1065 // Do not raise exceptions in unexpected locations (Design)
 
     public DataGroup<YemodaPairAnd<int>> AddMonthsData => throw new NotImplementedException();
-
-    public DataGroup<DateDiff> DateDiffData => throw new NotImplementedException();
+    public DataGroup<YedoyPairAnd<int>> AddYearsOrdinalData => throw new NotImplementedException();
 
 #pragma warning restore CA1065
 }

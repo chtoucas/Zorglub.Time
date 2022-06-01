@@ -81,6 +81,7 @@ public abstract partial class SchemaDataSet : ICalendricalDataSet
 
     public virtual DataGroup<YemodaPairAnd<int>> AddYearsData => new(AddYearsSamples);
     public virtual DataGroup<YemodaPairAnd<int>> AddMonthsData => new(AddMonthsSamples);
+    public virtual DataGroup<YedoyPairAnd<int>> AddYearsOrdinalData => new(AddYearsOrdinalSamples);
 
     /// <remarks>NB: First and Second belongs to the same month.</remarks>
     protected static IEnumerable<YemodaPairAnd<int>> AddDaysSamples { get; } = InitAddDaysSamples();
@@ -95,6 +96,8 @@ public abstract partial class SchemaDataSet : ICalendricalDataSet
     protected static IEnumerable<YemodaPairAnd<int>> AddYearsSamples { get; } = InitAddYearsSamples();
     /// <remarks>NB: The data is unambiguous First and Second belongs to the same year.</remarks>
     protected static IEnumerable<YemodaPairAnd<int>> AddMonthsSamples { get; } = InitAddMonthsSamples();
+    /// <remarks>NB: The data is unambiguous.</remarks>
+    protected static IEnumerable<YedoyPairAnd<int>> AddYearsOrdinalSamples { get; } = InitAddYearsOrdinalSamples();
 }
 
 public partial class SchemaDataSet // Helpers
@@ -239,7 +242,7 @@ public partial class SchemaDataSet // Math helpers
 
     private static List<YedoyPair> InitConsecutiveDaysOrdinalSamples()
     {
-        // Samples should cover the two first months.
+        // Samples should covers at least the two first months.
         // new(new(3, 1), new(3, 2))
         // new(new(3, 2), new(3, 3))
         // ...
@@ -304,6 +307,29 @@ public partial class SchemaDataSet // Math helpers
         {
             var end = new Yemoda(Year, Month + months, Day);
             data.Add(new YemodaPairAnd<int>(start, end, months));
+        }
+        return data;
+    }
+
+    private static List<YedoyPairAnd<int>> InitAddYearsOrdinalSamples()
+    {
+        // new(new(5, 35), new(1, 35), -4)
+        // new(new(5, 35), new(2, 35), -3)
+        // ...
+        // new(new(5, 35), new(9, 35), 4)
+        // new(new(5, 35), new(10, 35), 5)
+        const int
+            SampleSize = 10,
+            Year = SampleSize / 2,
+            DayOfYear = 35;
+
+        var start = new Yedoy(Year, DayOfYear);
+
+        var data = new List<YedoyPairAnd<int>>();
+        for (int years = -Year + 1; years <= Year; years++)
+        {
+            var end = new Yedoy(Year + years, DayOfYear);
+            data.Add(new YedoyPairAnd<int>(start, end, years));
         }
         return data;
     }

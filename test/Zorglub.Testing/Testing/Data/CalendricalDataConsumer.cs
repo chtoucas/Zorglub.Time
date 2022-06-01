@@ -57,6 +57,12 @@ public abstract class CalendricalDataConsumer<TDataSet>
     /// <para>We MAY NOT re-use this property to test the addition of month to an ordinal date.</para>
     /// </remarks>
     public static XunitData<YemodaPairAnd<int>> AddMonthsData => s_Adapter.AddMonthsData;
+    /// <remarks>
+    /// <para>We MAY re-use this property to test the difference in years between two ordinal dates
+    /// because the data is NOT ambiguous.</para>
+    /// <para>We MAY NOT re-use this property to test the addition of years to a calendar date.</para>
+    /// </remarks>
+    public static XunitData<YedoyPairAnd<int>> AddYearsOrdinalData => s_Adapter.AddYearsOrdinalData;
 
     private sealed class DataSetAdapter
     {
@@ -134,5 +140,9 @@ public abstract class CalendricalDataConsumer<TDataSet>
         private XunitData<YemodaPairAnd<int>>? _addMonthsData;
         public XunitData<YemodaPairAnd<int>> AddMonthsData =>
             _addMonthsData ??= _dataSet.AddMonthsData.ToXunitData();
+
+        private XunitData<YedoyPairAnd<int>>? _addYearsOrdinalData;
+        public XunitData<YedoyPairAnd<int>> AddYearsOrdinalData =>
+            _addYearsOrdinalData ??= _dataSet.AddYearsOrdinalData.ToXunitData();
     }
 }
