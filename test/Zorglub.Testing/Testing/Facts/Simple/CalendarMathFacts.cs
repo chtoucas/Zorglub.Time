@@ -11,7 +11,8 @@ using Zorglub.Time.Simple;
 
 // TODO(fact): custom AddYearsMonthData and AddMonthsMonthData, idem with the
 // difference. We should use `CalendarMath...Facts` for all types of calendars,
-// not just the Gregorian one.
+// not just the Gregorian one. IFixedDayArithmeticFacts for CalendarDay and
+// DayNumber?
 
 /// <summary>
 /// Provides facts about <see cref="CalendarMath"/>; <i>unambiguous</i> math.
@@ -79,8 +80,21 @@ public abstract partial class CalendarMathFacts<TMath, TDataSet> :
     }
 }
 
+public partial class CalendarMathFacts<TMath, TDataSet> // CalendarDay
+{
+    //
+    // Day (base) unit
+    //
+    // See IDateFacts and IDateArithmeticFacts.
+}
+
 public partial class CalendarMathFacts<TMath, TDataSet> // CalendarDate
 {
+    //
+    // Day (base) unit
+    //
+    // See IDateFacts and IDateArithmeticFacts.
+
     //
     // Month unit
     //
@@ -303,6 +317,11 @@ public partial class CalendarMathFacts<TMath, TDataSet> // CalendarDate
 public partial class CalendarMathFacts<TMath, TDataSet> // OrdinalDate
 {
     //
+    // Day (base) unit
+    //
+    // See IDateFacts and IOrdinalDateArithmeticFacts.
+
+    //
     // Year unit
     //
 
@@ -419,9 +438,8 @@ public partial class CalendarMathFacts<TMath, TDataSet> // OrdinalDate
 public partial class CalendarMathFacts<TMath, TDataSet> // CalendarMonth
 {
     //
-    // Month unit
+    // Month (base) unit
     //
-    // More or less a standard unit: we also test the math ops +, -, ++, --.
 
     #region CalendarMonth.NextMonth()
 
@@ -791,9 +809,8 @@ public partial class CalendarMathFacts<TMath, TDataSet> // CalendarMonth
 public partial class CalendarMathFacts<TMath, TDataSet> // CalendarYear
 {
     //
-    // Year unit
+    // Year (base) unit
     //
-    // Standard unit: we also test the math ops +, -, ++, --.
 
     #region CalendarYear.NextYear()
 

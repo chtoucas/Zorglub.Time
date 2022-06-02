@@ -171,9 +171,8 @@ public partial class IDateFacts<TDate, TDataSet> // Addition
         var date = GetDate(1, 1, 1);
         // Act & Assert
         Assert.Overflows(() => date + Int32.MinValue);
-        Assert.Overflows(() => date.PlusDays(Int32.MinValue));
-
         Assert.Overflows(() => date + Int32.MaxValue);
+        Assert.Overflows(() => date.PlusDays(Int32.MinValue));
         Assert.Overflows(() => date.PlusDays(Int32.MaxValue));
     }
 
@@ -189,15 +188,12 @@ public partial class IDateFacts<TDate, TDataSet> // Addition
         int maxDays = maxDayNumber - dayNumber;
         // Act & Assert
         Assert.Overflows(() => date + (minDays - 1));
-        Assert.Overflows(() => date.PlusDays(minDays - 1));
-
         Assert.Equal(MinDate, date + minDays);
-        Assert.Equal(MinDate, date.PlusDays(minDays));
-
         Assert.Equal(MaxDate, date + maxDays);
-        Assert.Equal(MaxDate, date.PlusDays(maxDays));
-
         Assert.Overflows(() => date + (maxDays + 1));
+        Assert.Overflows(() => date.PlusDays(minDays - 1));
+        Assert.Equal(MinDate, date.PlusDays(minDays));
+        Assert.Equal(MaxDate, date.PlusDays(maxDays));
         Assert.Overflows(() => date.PlusDays(maxDays + 1));
     }
 
@@ -207,16 +203,13 @@ public partial class IDateFacts<TDate, TDataSet> // Addition
         int days = Domain.Count() - 1;
         // Act & Assert
         Assert.Overflows(() => MinDate - 1);
-        Assert.Overflows(() => MinDate.PlusDays(-1));
-
         Assert.Equal(MinDate, MinDate - 0);
         Assert.Equal(MinDate, MinDate + 0);
-        Assert.Equal(MinDate, MinDate.PlusDays(0));
-
         Assert.Equal(MaxDate, MinDate + days);
-        Assert.Equal(MaxDate, MinDate.PlusDays(days));
-
         Assert.Overflows(() => MinDate + (days + 1));
+        Assert.Overflows(() => MinDate.PlusDays(-1));
+        Assert.Equal(MinDate, MinDate.PlusDays(0));
+        Assert.Equal(MaxDate, MinDate.PlusDays(days));
         Assert.Overflows(() => MinDate.PlusDays(days + 1));
     }
 
@@ -226,16 +219,13 @@ public partial class IDateFacts<TDate, TDataSet> // Addition
         int days = Domain.Count() - 1;
         // Act & Assert
         Assert.Overflows(() => MaxDate - (days + 1));
-        Assert.Overflows(() => MaxDate.PlusDays(-days - 1));
-
         Assert.Equal(MinDate, MaxDate - days);
-        Assert.Equal(MinDate, MaxDate.PlusDays(-days));
-
         Assert.Equal(MaxDate, MaxDate - 0);
         Assert.Equal(MaxDate, MaxDate + 0);
-        Assert.Equal(MaxDate, MaxDate.PlusDays(0));
-
         Assert.Overflows(() => MaxDate + 1);
+        Assert.Overflows(() => MaxDate.PlusDays(-days - 1));
+        Assert.Equal(MinDate, MaxDate.PlusDays(-days));
+        Assert.Equal(MaxDate, MaxDate.PlusDays(0));
         Assert.Overflows(() => MaxDate.PlusDays(1));
     }
 
@@ -256,9 +246,8 @@ public partial class IDateFacts<TDate, TDataSet> // Addition
         int days = Domain.Count() - 1;
         // Act & Assert
         Assert.Equal(days, MaxDate - MinDate);
-        Assert.Equal(days, MaxDate.CountDaysSince(MinDate));
-
         Assert.Equal(-days, MinDate - MaxDate);
+        Assert.Equal(days, MaxDate.CountDaysSince(MinDate));
         Assert.Equal(-days, MinDate.CountDaysSince(MaxDate));
     }
 

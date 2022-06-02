@@ -25,8 +25,8 @@ public class Derived : Base {
 }
 ```
 
-Arithmetic and Math
--------------------
+Math Operations
+---------------
 
 We have two types of tests: DDT and limits (overflow, min/max values).
 
@@ -42,13 +42,8 @@ We have two types of tests: DDT and limits (overflow, min/max values).
   - Limits for the standard methods/ops on dates.
 - `IDateArithmeticFacts`
   - DDT for the standard methods/ops on dates.
-- `IDateOrdinalArithmeticFacts`
+- `IOrdinalDateArithmeticFacts`
   - DDT for the standard methods/ops on ordinal dates.
-
-We distinguish ordinary dates from ordinal dates and we don't include the tests
-in `IDateFacts` because, for ordinal dates, it would require a conversion. In
-particular `IDateOrdinalArithmeticFacts` uses a dataset specialised to
-ordinal dates.
     
 ### Simple Calendars and Date Types
 - `CalendarMath`
@@ -61,7 +56,7 @@ ordinal dates.
 - `OrdinalDateFacts`
   - `CalendarMathFacts`, limits and DDT for the non-standard methods
   - `OrdinalDateFacts`, limits for the standard methods/ops (inherited from `IDateFacts`).
-  - `IDateOrdinalArithmeticFacts`, DDT for the standard methods/ops.
+  - `IOrdinalDateArithmeticFacts`, DDT for the standard methods/ops.
 - `CalendarDay`
   - `CalendarDayFacts`, limits for the standard methods/ops (inherited from `IDateFacts`).
   - `IDateArithmeticFacts`, DDT for the standard methods/ops.

@@ -6,9 +6,10 @@ FIXME
 
 - Refactor CalendarCatalog, split into a registry and a registar.
   Currently, it's almost impossible to achieve full code coverage.
-- Finish PlainMath.
-- Math: tests for ordinal dates.
-- DayOfWeekTester: Near().
+- Math: PlainMath, tests for ordinal dates.
+  API for CalendarDay (PlusYears, PlusMonths?), humm no, use conversion to
+  CalendarDate. We have the three forms of dates for that purpose.
+- DayOfWeekTester: Nearest().
 - Check all occurences of ICalendricalSchema and CalendricalSchema.
 - Parts and validation.
   Types concernés:

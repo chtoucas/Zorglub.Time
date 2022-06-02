@@ -20,7 +20,7 @@ module OrdinalDateCase =
     [<Sealed>]
     [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
     type GregorianTests() =
-        inherit IDateOrdinalArithmeticFacts<OrdinalDate, ProlepticGregorianDataSet>()
+        inherit IOrdinalDateArithmeticFacts<OrdinalDate, ProlepticGregorianDataSet>()
 
         override __.GetDate(y, doy) = GregorianCalendar.Instance.GetOrdinalDate(y, doy)
 
