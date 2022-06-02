@@ -24,19 +24,19 @@ public abstract partial class PlainMathFacts<TDataSet> :
     private PlainMath MathUT { get; }
     protected Calendar Calendar { get; }
 
-    private CalendarDate GetDate(Yemoda ymd)
+    protected CalendarDate GetDate(Yemoda ymd)
     {
         var (y, m, d) = ymd;
         return Calendar.GetCalendarDate(y, m, d);
     }
 
-    private OrdinalDate GetDate(Yedoy ydoy)
+    protected OrdinalDate GetDate(Yedoy ydoy)
     {
         var (y, doy) = ydoy;
         return Calendar.GetOrdinalDate(y, doy);
     }
 
-    private CalendarMonth GetMonth(Yemoda ymd)
+    protected CalendarMonth GetMonth(Yemoda ymd)
     {
         var (y, m, _) = ymd;
         return Calendar.GetCalendarMonth(y, m);

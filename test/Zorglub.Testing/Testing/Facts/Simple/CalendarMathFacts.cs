@@ -27,11 +27,19 @@ public abstract partial class CalendarMathFacts<TMath, TDataSet> :
         MathUT = math ?? throw new ArgumentNullException(nameof(math));
         Calendar = math.Calendar;
 
+        (MinDate, MaxDate) = Calendar.MinMaxDate;
+        (MinOrdinal, MaxOrdinal) = Calendar.MinMaxOrdinal;
         (MinMonth, MaxMonth) = Calendar.MinMaxMonth;
     }
 
     protected TMath MathUT { get; }
     protected Calendar Calendar { get; }
+
+    protected CalendarDate MinDate { get; }
+    protected CalendarDate MaxDate { get; }
+
+    protected OrdinalDate MinOrdinal { get; }
+    protected OrdinalDate MaxOrdinal { get; }
 
     protected CalendarMonth MinMonth { get; }
     protected CalendarMonth MaxMonth { get; }
@@ -43,19 +51,19 @@ public abstract partial class CalendarMathFacts<TMath, TDataSet> :
     /// </summary>
     protected CalendarMonth GetSampleMonth() => Calendar.GetCalendarMonth(1234, 2);
 
-    private CalendarDate GetDate(Yemoda ymd)
+    protected CalendarDate GetDate(Yemoda ymd)
     {
         var (y, m, d) = ymd;
         return Calendar.GetCalendarDate(y, m, d);
     }
 
-    private OrdinalDate GetDate(Yedoy ydoy)
+    protected OrdinalDate GetDate(Yedoy ydoy)
     {
         var (y, doy) = ydoy;
         return Calendar.GetOrdinalDate(y, doy);
     }
 
-    private CalendarMonth GetMonth(Yemoda ymd)
+    protected CalendarMonth GetMonth(Yemoda ymd)
     {
         var (y, m, _) = ymd;
         return Calendar.GetCalendarMonth(y, m);
@@ -130,6 +138,15 @@ public partial class CalendarMathFacts<TMath, TDataSet> // CalendarDate
     #endregion
     #region CountYearsBetween()
 
+    [Fact]
+    public void CountYearsBetween﹍CalendarDate_DoesNotOverflow()
+    {
+        int ys = Calendar.SupportedYears.Count() - 1;
+        // Act & Assert
+        Assert.Equal(ys, MathUT.CountYearsBetween(MinDate, MaxDate));
+        Assert.Equal(-ys, MathUT.CountYearsBetween(MaxDate, MinDate));
+    }
+
     [Theory, MemberData(nameof(DateInfoData))]
     public void CountYearsBetween﹍CalendarDate_WhenSame_IsZero(DateInfo info)
     {
@@ -152,6 +169,13 @@ public partial class CalendarMathFacts<TMath, TDataSet> // CalendarDate
 
     #endregion
     #region CountMonthsBetween()
+
+    [Fact]
+    public void CountMonthsBetween﹍CalendarDate_DoesNotOverflow()
+    {
+        _ = MathUT.CountMonthsBetween(MinDate, MaxDate);
+        _ = MathUT.CountMonthsBetween(MaxDate, MinDate);
+    }
 
     [Theory, MemberData(nameof(DateInfoData))]
     public void CountMonthsBetween﹍CalendarDate_WhenSame_IsZero(DateInfo info)
@@ -211,6 +235,15 @@ public partial class CalendarMathFacts<TMath, TDataSet> // OrdinalDate
 
     #endregion
     #region CountYearsBetween()
+
+    [Fact]
+    public void CountYearsBetween﹍OrdinalDate_DoesNotOverflow()
+    {
+        int ys = Calendar.SupportedYears.Count() - 1;
+        // Act & Assert
+        Assert.Equal(ys, MathUT.CountYearsBetween(MinOrdinal, MaxOrdinal));
+        Assert.Equal(-ys, MathUT.CountYearsBetween(MaxOrdinal, MinOrdinal));
+    }
 
     [Theory, MemberData(nameof(DateInfoData))]
     public void CountYearsBetween﹍OrdinalDate_WhenSame_IsZero(DateInfo info)
@@ -384,6 +417,15 @@ public partial class CalendarMathFacts<TMath, TDataSet> // CalendarMonth
     #endregion
     #region CountYearsBetween()
 
+    [Fact]
+    public void CountYearsBetween﹍CalendarMonth_DoesNotOverflow()
+    {
+        int ys = Calendar.SupportedYears.Count() - 1;
+        // Act & Assert
+        Assert.Equal(ys, MathUT.CountYearsBetween(MinMonth, MaxMonth));
+        Assert.Equal(-ys, MathUT.CountYearsBetween(MaxMonth, MinMonth));
+    }
+
     [Theory, MemberData(nameof(MonthInfoData))]
     public void CountYearsBetween﹍CalendarMonth_WhenSame_IsZero(MonthInfo info)
     {
@@ -406,6 +448,13 @@ public partial class CalendarMathFacts<TMath, TDataSet> // CalendarMonth
 
     #endregion
     #region CountMonthsBetween()
+
+    [Fact]
+    public void CountMonthsBetween﹍CalendarMonth_DoesNotOverflow()
+    {
+        _ = MathUT.CountMonthsBetween(MinMonth, MaxMonth);
+        _ = MathUT.CountMonthsBetween(MaxMonth, MinMonth);
+    }
 
     [Theory, MemberData(nameof(MonthInfoData))]
     public void CountMonthsBetween﹍CalendarMonth_WhenSame_IsZero(MonthInfo info)

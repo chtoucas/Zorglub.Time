@@ -48,7 +48,7 @@ public abstract partial class CalendarMathAdvancedFacts<TMath, TDataSet>
         return Calendar.GetOrdinalDate(y, doy);
     }
 
-    private CalendarMonth GetMonth(Yemoda ymd)
+    protected CalendarMonth GetMonth(Yemoda ymd)
     {
         var (y, m, _) = ymd;
         return Calendar.GetCalendarMonth(y, m);
