@@ -3,7 +3,10 @@
 
 namespace Zorglub.Testing.Facts.Simple;
 
+using System.Linq;
+
 using Zorglub.Testing.Data;
+using Zorglub.Time.Core.Intervals;
 using Zorglub.Time.Simple;
 
 // TODO(fact): test the basic properties (commutatibity, zero, behaviour at the
@@ -23,10 +26,22 @@ public abstract partial class CalendarMathFacts<TMath, TDataSet> :
     {
         MathUT = math ?? throw new ArgumentNullException(nameof(math));
         Calendar = math.Calendar;
+
+        (MinMonth, MaxMonth) = Calendar.MinMaxMonth;
     }
 
     protected TMath MathUT { get; }
     protected Calendar Calendar { get; }
+
+    protected CalendarMonth MinMonth { get; }
+    protected CalendarMonth MaxMonth { get; }
+
+    /// <summary>
+    /// We only use this sample year when its value matters (mathops); otherwise
+    /// just use the first month of the year 1. It is initialized to ensure that
+    /// the math operations we are going to perform will work.
+    /// </summary>
+    protected CalendarMonth GetSampleMonth() => Calendar.GetCalendarMonth(1234, 2);
 
     private CalendarDate GetDate(Yemoda ymd)
     {
@@ -233,6 +248,51 @@ public partial class CalendarMathFacts<TMath, TDataSet> // CalendarMonth
         Assert.Overflows(() => MathUT.AddYears(month, Int32.MaxValue));
     }
 
+    [Fact]
+    public void AddYears﹍CalendarMonth_WithLimitValues()
+    {
+        var month = GetSampleMonth();
+        int minYs = MinMonth.Year - month.Year;
+        int maxYs = MaxMonth.Year - month.Year;
+        // NB: for calendars with a variable number of months per year, this
+        // might not work.
+        var minValue = MinMonth.WithMonth(month.Month);
+        var maxValue = MaxMonth.WithMonth(month.Month);
+        // Act & Assert
+        Assert.Overflows(() => MathUT.AddYears(month, minYs - 1));
+        Assert.Equal(minValue, MathUT.AddYears(month, minYs));
+        Assert.Equal(maxValue, MathUT.AddYears(month, maxYs));
+        Assert.Overflows(() => MathUT.AddYears(month, maxYs + 1));
+    }
+
+    [Fact]
+    public void AddYears﹍CalendarMonth_WithLimitValues_AtMinValue()
+    {
+        int ys = Calendar.SupportedYears.Count() - 1;
+        // NB: for calendars with a variable number of months per year, this
+        // might not work.
+        var maxValue = MaxMonth.WithMonth(MinMonth.Month);
+        // Act & Assert
+        Assert.Overflows(() => MathUT.AddYears(MinMonth, -1));
+        Assert.Equal(MinMonth, MathUT.AddYears(MinMonth, 0));
+        Assert.Equal(maxValue, MathUT.AddYears(MinMonth, ys));
+        Assert.Overflows(() => MathUT.AddYears(MinMonth, ys + 1));
+    }
+
+    [Fact]
+    public void AddYears﹍CalendarMonth_WithLimitValues_AtMaxValue()
+    {
+        int ys = Calendar.SupportedYears.Count() - 1;
+        // NB: for calendars with a variable number of months per year, this
+        // might not work.
+        var minValue = MinMonth.WithMonth(MaxMonth.Month);
+        // Act & Assert
+        Assert.Overflows(() => MathUT.AddYears(MaxMonth, -ys - 1));
+        Assert.Equal(minValue, MathUT.AddYears(MaxMonth, -ys));
+        Assert.Equal(MaxMonth, MathUT.AddYears(MaxMonth, 0));
+        Assert.Overflows(() => MathUT.AddYears(MaxMonth, 1));
+    }
+
     [Theory, MemberData(nameof(MonthInfoData))]
     public void AddYears﹍CalendarMonth_Zero_IsNeutral(MonthInfo info)
     {
@@ -263,6 +323,42 @@ public partial class CalendarMathFacts<TMath, TDataSet> // CalendarMonth
         // Act & Assert
         Assert.Overflows(() => MathUT.AddMonths(month, Int32.MinValue));
         Assert.Overflows(() => MathUT.AddMonths(month, Int32.MaxValue));
+    }
+
+    [Fact]
+    public void AddMonths﹍CalendarMonth_WithLimitValues()
+    {
+        var supportedYears = Calendar.SupportedYears;
+        var month = GetSampleMonth();
+        int minMs = MinMonth - month;
+        int maxMs = MaxMonth - month;
+        // Act & Assert
+        Assert.Overflows(() => MathUT.AddMonths(month, minMs - 1));
+        Assert.Equal(MinMonth, MathUT.AddMonths(month, minMs));
+        Assert.Equal(MaxMonth, MathUT.AddMonths(month, maxMs));
+        Assert.Overflows(() => MathUT.AddMonths(month, maxMs + 1));
+    }
+
+    [Fact]
+    public void AddMonths﹍CalendarMonth_WithLimitValues_AtMinValue()
+    {
+        int ms = MaxMonth - MinMonth;
+        // Act & Assert
+        Assert.Overflows(() => MathUT.AddMonths(MinMonth, -1));
+        Assert.Equal(MinMonth, MathUT.AddMonths(MinMonth, 0));
+        Assert.Equal(MaxMonth, MathUT.AddMonths(MinMonth, ms));
+        Assert.Overflows(() => MathUT.AddMonths(MinMonth, ms + 1));
+    }
+
+    [Fact]
+    public void AddMonths﹍CalendarMonth_WithLimitValues_AtMaxValue()
+    {
+        int ms = MaxMonth - MinMonth;
+        // Act & Assert
+        Assert.Overflows(() => MathUT.AddMonths(MaxMonth, -ms - 1));
+        Assert.Equal(MinMonth, MathUT.AddMonths(MaxMonth, -ms));
+        Assert.Equal(MaxMonth, MathUT.AddMonths(MaxMonth, 0));
+        Assert.Overflows(() => MathUT.AddMonths(MaxMonth, 1));
     }
 
     [Theory, MemberData(nameof(MonthInfoData))]
