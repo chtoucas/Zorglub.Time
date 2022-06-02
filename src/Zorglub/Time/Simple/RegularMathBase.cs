@@ -5,12 +5,14 @@ namespace Zorglub.Time.Simple
 {
     using Zorglub.Time.Core;
 
+    // FIXME(code): CountYearsBetweenCore() is dubious... idem with PlainMath.
+
     /// <summary>
     /// Defines the mathematical operations suitable for use by regular calendars and provides a
     /// base for derived classes.
     /// <para>This class uses the default <see cref="AdditionRules"/> to resolve ambiguities.</para>
     /// </summary>
-    internal abstract class RegularMathBase : CalendarMath
+    internal abstract partial class RegularMathBase : CalendarMath
     {
         /// <summary>
         /// Called from constructors in derived classes to initialize the
@@ -31,10 +33,7 @@ namespace Zorglub.Time.Simple
         {
             Debug.Assert(calendar != null);
 
-            if (calendar.IsRegular(out int monthsInYear) == false)
-            {
-                Throw.Argument(nameof(calendar));
-            }
+            if (calendar.IsRegular(out int monthsInYear) == false) Throw.Argument(nameof(calendar));
 
             MonthsInYear = monthsInYear;
         }
@@ -43,9 +42,10 @@ namespace Zorglub.Time.Simple
         /// Gets the total number of months in a year.
         /// </summary>
         protected int MonthsInYear { get; }
+    }
 
-        #region CalendarDate
-
+    internal partial class RegularMathBase // CalendarDate
+    {
         /// <inheritdoc />
         [Pure]
         protected internal sealed override CalendarDate AddYearsCore(CalendarDate date, int years)
@@ -58,9 +58,8 @@ namespace Zorglub.Time.Simple
             YearOverflowChecker.Check(y);
 
             // NB: DateAdditionRule.EndOfMonth.
-            int daysInMonth = Schema.CountDaysInMonth(y, m);
-            var ymd = new Yemoda(y, m, Math.Min(d, daysInMonth));
-            return new CalendarDate(ymd, Cuid);
+            d = Math.Min(d, Schema.CountDaysInMonth(y, m));
+            return new CalendarDate(new Yemoda(y, m, d), Cuid);
         }
 
         /// <inheritdoc />
@@ -72,10 +71,10 @@ namespace Zorglub.Time.Simple
 
             return end.Year - start.Year;
         }
+    }
 
-        #endregion
-        #region OrdinalDate
-
+    internal partial class RegularMathBase // OrdinalDate
+    {
         /// <inheritdoc />
         [Pure]
         protected internal sealed override OrdinalDate AddYearsCore(OrdinalDate date, int years)
@@ -88,9 +87,8 @@ namespace Zorglub.Time.Simple
             YearOverflowChecker.Check(y);
 
             // NB: OrdinalAdditionRule.EndOfYear.
-            int daysInYear = Schema.CountDaysInYear(y);
-            var ydoy = new Yedoy(y, Math.Min(doy, daysInYear));
-            return new OrdinalDate(ydoy, Cuid);
+            doy = Math.Min(doy, Schema.CountDaysInYear(y));
+            return new OrdinalDate(new Yedoy(y, doy), Cuid);
         }
 
         /// <inheritdoc />
@@ -102,10 +100,10 @@ namespace Zorglub.Time.Simple
 
             return end.Year - start.Year;
         }
+    }
 
-        #endregion
-        #region CalendarMonth
-
+    internal partial class RegularMathBase // CalendarMonth
+    {
         /// <inheritdoc />
         [Pure]
         protected internal sealed override CalendarMonth AddYearsCore(CalendarMonth month, int years)
@@ -117,9 +115,9 @@ namespace Zorglub.Time.Simple
 
             YearOverflowChecker.Check(y);
 
-            // NB: the operation is always exact (DateAdditionRule.EndOfYear).
-            var ym = new Yemo(y, m);
-            return new CalendarMonth(ym, Cuid);
+            // NB: the operation is always exact.
+            // It's compatible with DateAdditionRule.EndOfYear.
+            return new CalendarMonth(new Yemo(y, m), Cuid);
         }
 
         /// <inheritdoc />
@@ -129,10 +127,7 @@ namespace Zorglub.Time.Simple
             Debug.Assert(start.Cuid == Cuid);
             Debug.Assert(end.Cuid == Cuid);
 
-            // REVIEW(code): dubious... idem with PlainMath.
             return CountYearsBetweenCore(start.FirstDay, end.FirstDay);
         }
-
-        #endregion
     }
 }
