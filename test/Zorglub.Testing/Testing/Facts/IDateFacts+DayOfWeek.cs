@@ -8,7 +8,6 @@ using Zorglub.Time.Hemerology;
 
 /// <summary>
 /// Provides more facts about <see cref="IDate{TSelf}"/>.
-/// <para>See also <seealso cref="IDateFacts{TDate, TDataSet}"/>.</para>
 /// </summary>
 public abstract partial class IDateDayOfWeekFacts<TDate, TDataSet> :
     CalendarDataConsumer<TDataSet>

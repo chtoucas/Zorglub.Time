@@ -28,10 +28,6 @@ public class Derived : Base {
 Arithmetic and Math
 -------------------
 
-TODO(fact): a bit messy... move most tests to `CalendarMath...Facts`.
-Therefore we should use `CalendarMath...Facts` for all types of calendars, not just the 
-Gregorian one.
-
 We have two types of tests: DDT and limits (overflow, min/max values).
 
 ### Schemas
@@ -40,18 +36,6 @@ We have two types of tests: DDT and limits (overflow, min/max values).
 - `CalendricalArithmeticFacts`
   - Limits for `ICalendricalArithmetic`.
   - DDT for `ICalendricalArithmetic` (inherited from `ICalendricalArithmeticFacts`)
-    
-### Calendars
-- `CalendarMathFacts`
-  - Limits and DDT when the non-standard methods are _unambiguous_.
-  - DDT for the non-standard methods of `OrdinalDate`.
-  - DDT for the non-standard methods of `CalendarDate`.
-  - Limits and DDT for all methods/ops of `CalendarMonth`.
-- `CalendarMathAdvancedFacts`
-  - Limits and DDT when the non-standard methods are _ambiguous_
-  - Limits and DDT for all methods of `CalendarMonth`.
-
-The two classes use different datasets.
 
 ### Date Types
 - `IDateFacts`
@@ -65,11 +49,23 @@ We distinguish ordinary dates from ordinal dates and we don't include the tests
 in `IDateFacts` because, for ordinal dates, it would require a conversion. In
 particular `IDateOrdinalArithmeticFacts` uses a dataset specialised to
 ordinal dates.
-
-Simple date types.
-- `CalendarDateFacts`
-  - Limits for the standard methods/ops (inherited from `IDateFacts`).
+    
+### Simple Calendars and Date Types
+- `CalendarMath`
+  - `CalendarMathFacts` when the result is _unambiguous_
+  - `CalendarMathAdvancedFacts` when the result is _ambiguous_
+- `CalendarDate`
+  - `CalendarMathFacts`, limits and DDT for the non-standard methods.
+  - `CalendarDateFacts`, limits for the standard methods/ops (inherited from `IDateFacts`).
+  - `IDateArithmeticFacts`, DDT for the standard methods/ops.
 - `OrdinalDateFacts`
-  - Limits for the standard methods/ops (inherited from `IDateFacts`).
-- `CalendarYearFacts`
-  - Limits and DDT for the standard methods/ops.
+  - `CalendarMathFacts`, limits and DDT for the non-standard methods
+  - `OrdinalDateFacts`, limits for the standard methods/ops (inherited from `IDateFacts`).
+  - `IDateOrdinalArithmeticFacts`, DDT for the standard methods/ops.
+- `CalendarDay`
+  - `CalendarDayFacts`, limits for the standard methods/ops (inherited from `IDateFacts`).
+  - `IDateArithmeticFacts`, DDT for the standard methods/ops.
+- `CalendarMonth`
+  - `CalendarMathFacts`, limits and DDT for all methods.
+- `CalendarYear`
+  - `CalendarMathFacts`, limits and DDT for all methods.

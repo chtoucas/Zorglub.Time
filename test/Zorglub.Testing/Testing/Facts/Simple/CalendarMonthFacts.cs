@@ -6,11 +6,13 @@ namespace Zorglub.Testing.Facts.Simple;
 using System.Linq;
 
 using Zorglub.Testing.Data;
-using Zorglub.Time.Core.Intervals;
 using Zorglub.Time.Simple;
 
 // NB: we know that all years within the range [1..9999] are valid.
 
+/// <summary>
+/// Provides facts about <see cref="CalendarMonth"/>.
+/// </summary>
 public abstract partial class CalendarMonthFacts<TDataSet> :
     CalendarDataConsumer<TDataSet>
     where TDataSet : ICalendarDataSet, ISingleton<TDataSet>
@@ -35,30 +37,12 @@ public abstract partial class CalendarMonthFacts<TDataSet> :
         OtherCalendar = otherCalendar;
 
         SupportedYearsTester = new SupportedYearsTester(calendar.SupportedYears);
-
-        (MinValue, MaxValue) = calendar.MinMaxMonth;
     }
 
     protected Calendar CalendarUT { get; }
     protected Calendar OtherCalendar { get; }
 
     protected SupportedYearsTester SupportedYearsTester { get; }
-
-    protected CalendarMonth MinValue { get; }
-    protected CalendarMonth MaxValue { get; }
-
-    private CalendarMonth GetMonth(Yemoda ymd)
-    {
-        var (y, m, _) = ymd;
-        return CalendarUT.GetCalendarMonth(y, m);
-    }
-
-    /// <summary>
-    /// We only use this sample year when its value matters (mathops); otherwise
-    /// just use the first month of the year 1. It is initialized to ensure that
-    /// the math operations we are going to perform will work.
-    /// </summary>
-    protected CalendarMonth GetSampleValue() => CalendarUT.GetCalendarMonth(1234, 2);
 }
 
 public partial class CalendarMonthFacts<TDataSet> // Prelude

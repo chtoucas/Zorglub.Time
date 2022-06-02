@@ -24,12 +24,6 @@ public abstract partial class OrdinalDateFacts<TDataSet> :
     protected sealed override OrdinalDate MinDate { get; }
     protected sealed override OrdinalDate MaxDate { get; }
 
-    protected OrdinalDate GetDate(Yedoy ydoy)
-    {
-        var (y, doy) = ydoy;
-        return CalendarUT.GetOrdinalDate(y, doy);
-    }
-
     protected sealed override OrdinalDate GetDate(int y, int m, int d) =>
         // Notice that to create an OrdinalDate we must first pass thru CalendarDate.
         CalendarUT.GetCalendarDate(y, m, d).ToOrdinalDate();

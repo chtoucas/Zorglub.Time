@@ -8,7 +8,6 @@ using Zorglub.Time.Hemerology;
 
 /// <summary>
 /// Provides more facts about <see cref="IDate{TSelf}"/> and its standard mathematical operations.
-/// <para>See also <seealso cref="IDateFacts{TDate, TDataSet}"/> for some basic facts.</para>
 /// </summary>
 public abstract partial class IDateArithmeticFacts<TDate, TDataSet> :
     CalendarDataConsumer<TDataSet>

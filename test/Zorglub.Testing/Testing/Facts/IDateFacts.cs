@@ -18,8 +18,6 @@ using Zorglub.Time.Hemerology;
 
 /// <summary>
 /// Provides facts about <see cref="IDate{TSelf}"/>.
-/// <para>See also <seealso cref="IDateDayOfWeekFacts{TDate, TDataSet}"/> and
-/// <seealso cref="IDateArithmeticFacts{TDate, TDataSet}"/>.</para>
 /// </summary>
 public abstract partial class IDateFacts<TDate, TDataSet> :
     IDateableFacts<TDate, TDataSet>
