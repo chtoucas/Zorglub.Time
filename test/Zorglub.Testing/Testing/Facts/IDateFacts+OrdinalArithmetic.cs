@@ -10,26 +10,26 @@ using Zorglub.Time.Hemerology;
 /// Provides more facts about <see cref="IDate{TSelf}"/> and its standard mathematical operations.
 /// <para>See also <seealso cref="IDateFacts{TDate, TDataSet}"/> for some basic facts.</para>
 /// </summary>
-public abstract partial class IDateMathFacts<TDate, TDataSet> :
+public abstract partial class IDateOrdinalArithmeticFacts<TDate, TDataSet> :
     CalendarDataConsumer<TDataSet>
     where TDate : IDate<TDate>
     where TDataSet : ICalendarDataSet, ISingleton<TDataSet>
 {
-    protected IDateMathFacts() { }
+    protected IDateOrdinalArithmeticFacts() { }
 
-    protected abstract TDate GetDate(int y, int m, int d);
+    protected abstract TDate GetDate(int y, int doy);
 
-    protected TDate GetDate(Yemoda ymd)
+    protected TDate GetDate(Yedoy ydoy)
     {
-        var (y, m, d) = ymd;
-        return GetDate(y, m, d);
+        var (y, doy) = ydoy;
+        return GetDate(y, doy);
     }
 }
 
-public partial class IDateMathFacts<TDate, TDataSet> // Increment or decrement
+public partial class IDateOrdinalArithmeticFacts<TDate, TDataSet> // Increment or decrement
 {
-    [Theory, MemberData(nameof(ConsecutiveDaysData))]
-    public void Increment(YemodaPair pair)
+    [Theory, MemberData(nameof(ConsecutiveDaysOrdinalData))]
+    public void Increment(YedoyPair pair)
     {
         var date = GetDate(pair.First);
         var dateAfter = GetDate(pair.Second);
@@ -37,8 +37,8 @@ public partial class IDateMathFacts<TDate, TDataSet> // Increment or decrement
         Assert.Equal(dateAfter, ++date);
     }
 
-    [Theory, MemberData(nameof(ConsecutiveDaysData))]
-    public void Decrement(YemodaPair pair)
+    [Theory, MemberData(nameof(ConsecutiveDaysOrdinalData))]
+    public void Decrement(YedoyPair pair)
     {
         var date = GetDate(pair.First);
         var dateAfter = GetDate(pair.Second);
@@ -46,8 +46,8 @@ public partial class IDateMathFacts<TDate, TDataSet> // Increment or decrement
         Assert.Equal(date, --dateAfter);
     }
 
-    [Theory, MemberData(nameof(ConsecutiveDaysData))]
-    public void NextDay(YemodaPair pair)
+    [Theory, MemberData(nameof(ConsecutiveDaysOrdinalData))]
+    public void NextDay(YedoyPair pair)
     {
         var date = GetDate(pair.First);
         var dateAfter = GetDate(pair.Second);
@@ -55,8 +55,8 @@ public partial class IDateMathFacts<TDate, TDataSet> // Increment or decrement
         Assert.Equal(dateAfter, date.NextDay());
     }
 
-    [Theory, MemberData(nameof(ConsecutiveDaysData))]
-    public void PreviousDay(YemodaPair pair)
+    [Theory, MemberData(nameof(ConsecutiveDaysOrdinalData))]
+    public void PreviousDay(YedoyPair pair)
     {
         var date = GetDate(pair.First);
         var dateAfter = GetDate(pair.Second);
@@ -65,10 +65,10 @@ public partial class IDateMathFacts<TDate, TDataSet> // Increment or decrement
     }
 }
 
-public partial class IDateMathFacts<TDate, TDataSet> // Addition
+public partial class IDateOrdinalArithmeticFacts<TDate, TDataSet> // Addition
 {
-    [Theory, MemberData(nameof(AddDaysData))]
-    public void PlusDays(YemodaPairAnd<int> pair)
+    [Theory, MemberData(nameof(AddDaysOrdinalData))]
+    public void PlusDays(YedoyPairAnd<int> pair)
     {
         int days = pair.Value;
         var date = GetDate(pair.First);
@@ -84,8 +84,8 @@ public partial class IDateMathFacts<TDate, TDataSet> // Addition
         Assert.Equal(other, date - (-days));
     }
 
-    [Theory, MemberData(nameof(ConsecutiveDaysData))]
-    public void PlusDays_ViaConsecutiveDays(YemodaPair pair)
+    [Theory, MemberData(nameof(ConsecutiveDaysOrdinalData))]
+    public void PlusDays_ViaConsecutiveDays(YedoyPair pair)
     {
         var date = GetDate(pair.First);
         var dateAfter = GetDate(pair.Second);
@@ -100,8 +100,8 @@ public partial class IDateMathFacts<TDate, TDataSet> // Addition
         Assert.Equal(dateAfter, date - (-1));
     }
 
-    [Theory, MemberData(nameof(AddDaysData))]
-    public void CountDaysSince(YemodaPairAnd<int> pair)
+    [Theory, MemberData(nameof(AddDaysOrdinalData))]
+    public void CountDaysSince(YedoyPairAnd<int> pair)
     {
         int days = pair.Value;
         var date = GetDate(pair.First);
@@ -115,8 +115,8 @@ public partial class IDateMathFacts<TDate, TDataSet> // Addition
         Assert.Equal(-days, date.CountDaysSince(other));
     }
 
-    [Theory, MemberData(nameof(ConsecutiveDaysData))]
-    public void CountDaysSince_ViaConsecutiveDays(YemodaPair pair)
+    [Theory, MemberData(nameof(ConsecutiveDaysOrdinalData))]
+    public void CountDaysSince_ViaConsecutiveDays(YedoyPair pair)
     {
         var date = GetDate(pair.First);
         var dateAfter = GetDate(pair.Second);

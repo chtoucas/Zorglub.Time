@@ -48,7 +48,7 @@ module FactSuite =
     [<Sealed>]
     [<TestExcludeFrom(TestExcludeFrom.Regular)>]
     type MathFacts() =
-        inherit IDateMathFacts<CivilDate, StandardGregorianDataSet>()
+        inherit IDateArithmeticFacts<CivilDate, StandardGregorianDataSet>()
 
         override __.GetDate(y, m, d) = new CivilDate(y, m, d)
 

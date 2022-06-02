@@ -106,7 +106,7 @@
     <Compile Include="Tests\Simple\OrdinalDateTestSuite.fs" />
     <Compile Include="Tests\Simple\OrdinalDateAdjustmentTestSuite.fs" />
     <Compile Include="Tests\Simple\DateDayOfWeekTestSuite.fs" />
-    <Compile Include="Tests\Simple\DateMathTestSuite.fs" />
+    <Compile Include="Tests\Simple\DateArithmeticTestSuite.fs" />
     <Compile Include="Tests\Simple\CalendarMonthTestSuite.fs" />
     <Compile Include="Tests\Simple\CalendarYearTestSuite.fs" />
     <Compile Include="Tests\PartsTests.fs" />

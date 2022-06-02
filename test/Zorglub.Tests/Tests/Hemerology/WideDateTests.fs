@@ -37,6 +37,6 @@ module FactSuite =
     [<Sealed>]
     [<TestExcludeFrom(TestExcludeFrom.Regular)>]
     type MathFacts() =
-        inherit IDateMathFacts<WideDate, UnboundedGregorianDataSet>()
+        inherit IDateArithmeticFacts<WideDate, UnboundedGregorianDataSet>()
 
         override __.GetDate(y, m, d) = WideCalendar.Gregorian.GetWideDate(y, m, d)
