@@ -6,7 +6,8 @@ namespace Zorglub.Testing.Facts.Simple;
 using Zorglub.Testing.Data;
 using Zorglub.Time.Simple;
 
-// TODO(fact): test the basic properties (commutatibity, zero, see CalendarDateFacts).
+// TODO(fact): test the basic properties (commutatibity, zero, etc.); see CalendarDateFacts.
+// We should use an AddYearsMonthData and AddMonthsMonthData.
 
 /// <summary>
 /// Provides facts about <see cref="CalendarMath"/>; unambiguous cases.
@@ -134,16 +135,16 @@ public partial class CalendarMathFacts<TMath, TDataSet> // CalendarMonth
         Assert.Equal(month, MathUT.AddMonths(other, -ms));
     }
 
-    //[Theory, MemberData(nameof(AddYearsData))]
-    //public void CountYearsBetween﹍CalendarMonth(YemodaPairAnd<int> info)
-    //{
-    //    int ys = info.Value;
-    //    var start = GetMonth(info.First);
-    //    var end = GetMonth(info.Second);
-    //    // Act & Assert
-    //    Assert.Equal(ys, MathUT.CountYearsBetween(start, end));
-    //    Assert.Equal(-ys, MathUT.CountYearsBetween(end, start));
-    //}
+    [Theory, MemberData(nameof(AddYearsData))]
+    public void CountYearsBetween﹍CalendarMonth(YemodaPairAnd<int> info)
+    {
+        int ys = info.Value;
+        var start = GetMonth(info.First);
+        var end = GetMonth(info.Second);
+        // Act & Assert
+        Assert.Equal(ys, MathUT.CountYearsBetween(start, end));
+        Assert.Equal(-ys, MathUT.CountYearsBetween(end, start));
+    }
 
     [Theory, MemberData(nameof(AddMonthsData))]
     public void CountMonthsBetween﹍CalendarMonth(YemodaPairAnd<int> info)
