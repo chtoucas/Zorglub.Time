@@ -9,6 +9,7 @@ FIXME
 - Math: PlainMath, tests for ordinal dates.
   API for CalendarDay (PlusYears, PlusMonths?), humm no, use conversion to
   CalendarDate. We have the three forms of dates for that purpose.
+- Add UserCalendars to all tests.
 - DayOfWeekTester: Nearest().
 - Check all occurences of ICalendricalSchema and CalendricalSchema.
 - Parts and validation.

@@ -12,7 +12,11 @@ using Zorglub.Time.Simple;
 // TODO(fact): custom AddYearsMonthData and AddMonthsMonthData, idem with the
 // difference. We should use `CalendarMath...Facts` for all types of calendars,
 // not just the Gregorian one. IFixedDayArithmeticFacts for CalendarDay and
-// DayNumber?
+// maybe DayNumber?
+// 1) non-standard math for the Gregorian calendar, see CalendarMathAdvancedFacts
+// 2) standard math for the Gregorian calendar (missing data)
+// 3) standard math for all calendars
+// 4) non-standard math for more calendars (missing data)
 
 /// <summary>
 /// Provides facts about <see cref="CalendarMath"/>; <i>unambiguous</i> math.
@@ -85,7 +89,7 @@ public partial class CalendarMathFacts<TMath, TDataSet> // CalendarDay
     //
     // Day (base) unit
     //
-    // See IDateFacts and IDateArithmeticFacts.
+    // See IDateFacts (via CalendarDayFacts) and IDateArithmeticFacts.
 }
 
 public partial class CalendarMathFacts<TMath, TDataSet> // CalendarDate
@@ -93,7 +97,7 @@ public partial class CalendarMathFacts<TMath, TDataSet> // CalendarDate
     //
     // Day (base) unit
     //
-    // See IDateFacts and IDateArithmeticFacts.
+    // See IDateFacts (via CalendarDateFacts) and IDateArithmeticFacts.
 
     //
     // Month unit
@@ -319,7 +323,7 @@ public partial class CalendarMathFacts<TMath, TDataSet> // OrdinalDate
     //
     // Day (base) unit
     //
-    // See IDateFacts and IOrdinalDateArithmeticFacts.
+    // See IDateFacts (via OrdinalDateFacts) and IOrdinalDateArithmeticFacts.
 
     //
     // Year unit
