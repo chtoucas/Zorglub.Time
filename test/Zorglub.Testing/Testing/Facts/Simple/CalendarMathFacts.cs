@@ -72,39 +72,11 @@ public abstract partial class CalendarMathFacts<TMath, TDataSet> :
 
 public partial class CalendarMathFacts<TMath, TDataSet> // CalendarDate
 {
-    #region AddYears()
+    //
+    // Month unit
+    //
 
-    [Fact]
-    public void AddYears﹍CalendarDate_Overflows()
-    {
-        var date = Calendar.GetCalendarDate(1, 1, 1);
-        // Act & Assert
-        Assert.Overflows(() => MathUT.AddYears(date, Int32.MinValue));
-        Assert.Overflows(() => MathUT.AddYears(date, Int32.MaxValue));
-    }
-
-    [Theory, MemberData(nameof(DateInfoData))]
-    public void AddYears﹍CalendarDate_Zero_IsNeutral(DateInfo info)
-    {
-        var (y, m, d) = info.Yemoda;
-        var date = Calendar.GetCalendarDate(y, m, d);
-        // Act & Assert
-        Assert.Equal(date, MathUT.AddYears(date, 0));
-    }
-
-    [Theory, MemberData(nameof(AddYearsData))]
-    public void AddYears﹍CalendarDate(YemodaPairAnd<int> info)
-    {
-        int ys = info.Value;
-        var date = GetDate(info.First);
-        var other = GetDate(info.Second);
-        // Act & Assert
-        Assert.Equal(other, MathUT.AddYears(date, ys));
-        Assert.Equal(date, MathUT.AddYears(other, -ys));
-    }
-
-    #endregion
-    #region AddMonths()
+    #region AddMonths() and CalendarDate.PlusMonths()
 
     [Fact]
     public void AddMonths﹍CalendarDate_Overflows()
@@ -113,6 +85,9 @@ public partial class CalendarMathFacts<TMath, TDataSet> // CalendarDate
         // Act & Assert
         Assert.Overflows(() => MathUT.AddMonths(date, Int32.MinValue));
         Assert.Overflows(() => MathUT.AddMonths(date, Int32.MaxValue));
+        // CalendarDate
+        Assert.Overflows(() => date.PlusMonths(Int32.MinValue));
+        Assert.Overflows(() => date.PlusMonths(Int32.MaxValue));
     }
 
     [Theory, MemberData(nameof(DateInfoData))]
@@ -122,6 +97,8 @@ public partial class CalendarMathFacts<TMath, TDataSet> // CalendarDate
         var date = Calendar.GetCalendarDate(y, m, d);
         // Act & Assert
         Assert.Equal(date, MathUT.AddMonths(date, 0));
+        // CalendarDate
+        Assert.Equal(date, date.PlusMonths(0));
     }
 
     [Theory, MemberData(nameof(AddMonthsData))]
@@ -133,48 +110,22 @@ public partial class CalendarMathFacts<TMath, TDataSet> // CalendarDate
         // Act & Assert
         Assert.Equal(other, MathUT.AddMonths(date, ms));
         Assert.Equal(date, MathUT.AddMonths(other, -ms));
+        // CalendarDate
+        Assert.Equal(other, date.PlusMonths(ms));
+        Assert.Equal(date, other.PlusMonths(-ms));
     }
 
     #endregion
-    #region CountYearsBetween()
-
-    [Fact]
-    public void CountYearsBetween﹍CalendarDate_DoesNotOverflow()
-    {
-        int ys = Calendar.SupportedYears.Count() - 1;
-        // Act & Assert
-        Assert.Equal(ys, MathUT.CountYearsBetween(MinDate, MaxDate));
-        Assert.Equal(-ys, MathUT.CountYearsBetween(MaxDate, MinDate));
-    }
-
-    [Theory, MemberData(nameof(DateInfoData))]
-    public void CountYearsBetween﹍CalendarDate_WhenSame_IsZero(DateInfo info)
-    {
-        var (y, m, d) = info.Yemoda;
-        var date = Calendar.GetCalendarDate(y, m, d);
-        // Act & Assert
-        Assert.Equal(0, MathUT.CountYearsBetween(date, date));
-    }
-
-    [Theory, MemberData(nameof(AddYearsData))]
-    public void CountYearsBetween﹍CalendarDate(YemodaPairAnd<int> info)
-    {
-        int ys = info.Value;
-        var start = GetDate(info.First);
-        var end = GetDate(info.Second);
-        // Act & Assert
-        Assert.Equal(ys, MathUT.CountYearsBetween(start, end));
-        Assert.Equal(-ys, MathUT.CountYearsBetween(end, start));
-    }
-
-    #endregion
-    #region CountMonthsBetween()
+    #region CountMonthsBetween() and CalendarDate.CountMonthsSince()
 
     [Fact]
     public void CountMonthsBetween﹍CalendarDate_DoesNotOverflow()
     {
         _ = MathUT.CountMonthsBetween(MinDate, MaxDate);
         _ = MathUT.CountMonthsBetween(MaxDate, MinDate);
+        // CalendarDate
+        _ = MaxDate.CountMonthsSince(MinDate);
+        _ = MinDate.CountMonthsSince(MaxDate);
     }
 
     [Theory, MemberData(nameof(DateInfoData))]
@@ -184,6 +135,8 @@ public partial class CalendarMathFacts<TMath, TDataSet> // CalendarDate
         var date = Calendar.GetCalendarDate(y, m, d);
         // Act & Assert
         Assert.Equal(0, MathUT.CountMonthsBetween(date, date));
+        // CalendarDate
+        Assert.Equal(0, date.CountMonthsSince(date));
     }
 
     [Theory, MemberData(nameof(AddMonthsData))]
@@ -195,14 +148,107 @@ public partial class CalendarMathFacts<TMath, TDataSet> // CalendarDate
         // Act & Assert
         Assert.Equal(ms, MathUT.CountMonthsBetween(start, end));
         Assert.Equal(-ms, MathUT.CountMonthsBetween(end, start));
+        // CalendarDate
+        Assert.Equal(ms, end.CountMonthsSince(start));
+        Assert.Equal(-ms, start.CountMonthsSince(end));
     }
 
     #endregion
+
+    //
+    // Year unit
+    //
+
+    #region AddYears() and CalendarDate.PlusYears()
+
+    [Fact]
+    public void AddYears﹍CalendarDate_Overflows()
+    {
+        var date = Calendar.GetCalendarDate(1, 1, 1);
+        // Act & Assert
+        Assert.Overflows(() => MathUT.AddYears(date, Int32.MinValue));
+        Assert.Overflows(() => MathUT.AddYears(date, Int32.MaxValue));
+        // CalendarDate
+        Assert.Overflows(() => date.PlusYears(Int32.MinValue));
+        Assert.Overflows(() => date.PlusYears(Int32.MaxValue));
+    }
+
+    [Theory, MemberData(nameof(DateInfoData))]
+    public void AddYears﹍CalendarDate_Zero_IsNeutral(DateInfo info)
+    {
+        var (y, m, d) = info.Yemoda;
+        var date = Calendar.GetCalendarDate(y, m, d);
+        // Act & Assert
+        Assert.Equal(date, MathUT.AddYears(date, 0));
+        // CalendarDate
+        Assert.Equal(date, date.PlusYears(0));
+    }
+
+    [Theory, MemberData(nameof(AddYearsData))]
+    public void AddYears﹍CalendarDate(YemodaPairAnd<int> info)
+    {
+        int ys = info.Value;
+        var date = GetDate(info.First);
+        var other = GetDate(info.Second);
+        // Act & Assert
+        Assert.Equal(other, MathUT.AddYears(date, ys));
+        Assert.Equal(date, MathUT.AddYears(other, -ys));
+        // CalendarDate
+        Assert.Equal(other, date.PlusYears(ys));
+        Assert.Equal(date, other.PlusYears(-ys));
+    }
+
+    #endregion
+    #region CountYearsBetween() and CalendarDate.CountYearsSince()
+
+    [Fact]
+    public void CountYearsBetween﹍CalendarDate_DoesNotOverflow()
+    {
+        int ys = Calendar.SupportedYears.Count() - 1;
+        // Act & Assert
+        Assert.Equal(ys, MathUT.CountYearsBetween(MinDate, MaxDate));
+        Assert.Equal(-ys, MathUT.CountYearsBetween(MaxDate, MinDate));
+        // CalendarDate
+        Assert.Equal(ys, MaxDate.CountYearsSince(MinDate));
+        Assert.Equal(-ys, MinDate.CountYearsSince(MaxDate));
+    }
+
+    [Theory, MemberData(nameof(DateInfoData))]
+    public void CountYearsBetween﹍CalendarDate_WhenSame_IsZero(DateInfo info)
+    {
+        var (y, m, d) = info.Yemoda;
+        var date = Calendar.GetCalendarDate(y, m, d);
+        // Act & Assert
+        Assert.Equal(0, MathUT.CountYearsBetween(date, date));
+        // CalendarDate
+        Assert.Equal(0, date.CountYearsSince(date));
+    }
+
+    [Theory, MemberData(nameof(AddYearsData))]
+    public void CountYearsBetween﹍CalendarDate(YemodaPairAnd<int> info)
+    {
+        int ys = info.Value;
+        var start = GetDate(info.First);
+        var end = GetDate(info.Second);
+        // Act & Assert
+        Assert.Equal(ys, MathUT.CountYearsBetween(start, end));
+        Assert.Equal(-ys, MathUT.CountYearsBetween(end, start));
+        // CalendarDate
+        Assert.Equal(ys, end.CountYearsSince(start));
+        Assert.Equal(-ys, start.CountYearsSince(end));
+    }
+
+    #endregion
+
 }
 
 public partial class CalendarMathFacts<TMath, TDataSet> // OrdinalDate
 {
-    #region AddYears()
+    //
+    // Year unit
+    //
+
+    #region AddYears() and OrdinalDate.PlusYears()
 
     [Fact]
     public void AddYears﹍OrdinalDate_Overflows()
@@ -211,6 +257,9 @@ public partial class CalendarMathFacts<TMath, TDataSet> // OrdinalDate
         // Act & Assert
         Assert.Overflows(() => MathUT.AddYears(date, Int32.MinValue));
         Assert.Overflows(() => MathUT.AddYears(date, Int32.MaxValue));
+        // OrdinalDate
+        Assert.Overflows(() => date.PlusYears(Int32.MinValue));
+        Assert.Overflows(() => date.PlusYears(Int32.MaxValue));
     }
 
     [Theory, MemberData(nameof(DateInfoData))]
@@ -220,6 +269,8 @@ public partial class CalendarMathFacts<TMath, TDataSet> // OrdinalDate
         var date = Calendar.GetOrdinalDate(y, doy);
         // Act & Assert
         Assert.Equal(date, MathUT.AddYears(date, 0));
+        // OrdinalDate
+        Assert.Equal(date, date.PlusYears(0));
     }
 
     [Theory, MemberData(nameof(AddYearsOrdinalData))]
@@ -231,10 +282,13 @@ public partial class CalendarMathFacts<TMath, TDataSet> // OrdinalDate
         // Act & Assert
         Assert.Equal(other, MathUT.AddYears(date, ys));
         Assert.Equal(date, MathUT.AddYears(other, -ys));
+        // OrdinalDate
+        Assert.Equal(other, date.PlusYears(ys));
+        Assert.Equal(date, other.PlusYears(-ys));
     }
 
     #endregion
-    #region CountYearsBetween()
+    #region CountYearsBetween() and OrdinalDate.CountYearsSince()
 
     [Fact]
     public void CountYearsBetween﹍OrdinalDate_DoesNotOverflow()
@@ -243,6 +297,9 @@ public partial class CalendarMathFacts<TMath, TDataSet> // OrdinalDate
         // Act & Assert
         Assert.Equal(ys, MathUT.CountYearsBetween(MinOrdinal, MaxOrdinal));
         Assert.Equal(-ys, MathUT.CountYearsBetween(MaxOrdinal, MinOrdinal));
+        // OrdinalDate
+        Assert.Equal(ys, MaxOrdinal.CountYearsSince(MinOrdinal));
+        Assert.Equal(-ys, MinOrdinal.CountYearsSince(MaxOrdinal));
     }
 
     [Theory, MemberData(nameof(DateInfoData))]
@@ -252,6 +309,8 @@ public partial class CalendarMathFacts<TMath, TDataSet> // OrdinalDate
         var date = Calendar.GetOrdinalDate(y, doy);
         // Act & Assert
         Assert.Equal(0, MathUT.CountYearsBetween(date, date));
+        // OrdinalDate
+        Assert.Equal(0, date.CountYearsSince(date));
     }
 
     [Theory, MemberData(nameof(AddYearsOrdinalData))]
@@ -263,6 +322,9 @@ public partial class CalendarMathFacts<TMath, TDataSet> // OrdinalDate
         // Act & Assert
         Assert.Equal(ys, MathUT.CountYearsBetween(start, end));
         Assert.Equal(-ys, MathUT.CountYearsBetween(end, start));
+        // OrdinalDate
+        Assert.Equal(ys, end.CountYearsSince(start));
+        Assert.Equal(-ys, start.CountYearsSince(end));
     }
 
     #endregion
@@ -270,7 +332,11 @@ public partial class CalendarMathFacts<TMath, TDataSet> // OrdinalDate
 
 public partial class CalendarMathFacts<TMath, TDataSet> // CalendarMonth
 {
-    #region AddYears()
+    //
+    // Year unit
+    //
+
+    #region AddYears() and CalendarMonth.PlusYears()
 
     [Fact]
     public void AddYears﹍CalendarMonth_Overflows()
@@ -279,6 +345,9 @@ public partial class CalendarMathFacts<TMath, TDataSet> // CalendarMonth
         // Act & Assert
         Assert.Overflows(() => MathUT.AddYears(month, Int32.MinValue));
         Assert.Overflows(() => MathUT.AddYears(month, Int32.MaxValue));
+        // CalendarMonth
+        Assert.Overflows(() => month.PlusYears(Int32.MinValue));
+        Assert.Overflows(() => month.PlusYears(Int32.MaxValue));
     }
 
     [Fact]
@@ -296,10 +365,15 @@ public partial class CalendarMathFacts<TMath, TDataSet> // CalendarMonth
         Assert.Equal(minValue, MathUT.AddYears(month, minYs));
         Assert.Equal(maxValue, MathUT.AddYears(month, maxYs));
         Assert.Overflows(() => MathUT.AddYears(month, maxYs + 1));
+        // CalendarMonth
+        Assert.Overflows(() => month.PlusYears(minYs - 1));
+        Assert.Equal(minValue, month.PlusYears(minYs));
+        Assert.Equal(maxValue, month.PlusYears(maxYs));
+        Assert.Overflows(() => month.PlusYears(maxYs + 1));
     }
 
     [Fact]
-    public void AddYears﹍CalendarMonth_WithLimitValues_AtMinValue()
+    public void AddYears﹍CalendarMonth_AtMinValue()
     {
         int ys = Calendar.SupportedYears.Count() - 1;
         // NB: for calendars with a variable number of months per year, this
@@ -310,10 +384,15 @@ public partial class CalendarMathFacts<TMath, TDataSet> // CalendarMonth
         Assert.Equal(MinMonth, MathUT.AddYears(MinMonth, 0));
         Assert.Equal(maxValue, MathUT.AddYears(MinMonth, ys));
         Assert.Overflows(() => MathUT.AddYears(MinMonth, ys + 1));
+        // CalendarMonth
+        Assert.Overflows(() => MinMonth.PlusYears(-1));
+        Assert.Equal(MinMonth, MinMonth.PlusYears(0));
+        Assert.Equal(maxValue, MinMonth.PlusYears(ys));
+        Assert.Overflows(() => MinMonth.PlusYears(ys + 1));
     }
 
     [Fact]
-    public void AddYears﹍CalendarMonth_WithLimitValues_AtMaxValue()
+    public void AddYears﹍CalendarMonth_AtMaxValue()
     {
         int ys = Calendar.SupportedYears.Count() - 1;
         // NB: for calendars with a variable number of months per year, this
@@ -324,6 +403,11 @@ public partial class CalendarMathFacts<TMath, TDataSet> // CalendarMonth
         Assert.Equal(minValue, MathUT.AddYears(MaxMonth, -ys));
         Assert.Equal(MaxMonth, MathUT.AddYears(MaxMonth, 0));
         Assert.Overflows(() => MathUT.AddYears(MaxMonth, 1));
+        // CalendarMonth
+        Assert.Overflows(() => MaxMonth.PlusYears(-ys - 1));
+        Assert.Equal(minValue, MaxMonth.PlusYears(-ys));
+        Assert.Equal(MaxMonth, MaxMonth.PlusYears(0));
+        Assert.Overflows(() => MaxMonth.PlusYears(1));
     }
 
     [Theory, MemberData(nameof(MonthInfoData))]
@@ -333,6 +417,8 @@ public partial class CalendarMathFacts<TMath, TDataSet> // CalendarMonth
         var month = Calendar.GetCalendarMonth(y, m);
         // Act & Assert
         Assert.Equal(month, MathUT.AddYears(month, 0));
+        // CalendarMonth
+        Assert.Equal(month, month.PlusYears(0));
     }
 
     [Theory, MemberData(nameof(AddYearsData))]
@@ -344,10 +430,126 @@ public partial class CalendarMathFacts<TMath, TDataSet> // CalendarMonth
         // Act & Assert
         Assert.Equal(other, MathUT.AddYears(month, ys));
         Assert.Equal(month, MathUT.AddYears(other, -ys));
+        // CalendarMonth
+        Assert.Equal(other, month.PlusYears(ys));
+        Assert.Equal(month, other.PlusYears(-ys));
     }
 
     #endregion
-    #region AddMonths()
+    #region CountYearsBetween()  and CalendarMonth.CountYearsSince()
+
+    [Fact]
+    public void CountYearsBetween﹍CalendarMonth_DoesNotOverflow()
+    {
+        int ys = Calendar.SupportedYears.Count() - 1;
+        // Act & Assert
+        Assert.Equal(ys, MathUT.CountYearsBetween(MinMonth, MaxMonth));
+        Assert.Equal(-ys, MathUT.CountYearsBetween(MaxMonth, MinMonth));
+        // CalendarMonth
+        Assert.Equal(ys, MaxMonth.CountYearsSince(MinMonth));
+        Assert.Equal(-ys, MinMonth.CountYearsSince(MaxMonth));
+    }
+
+    [Theory, MemberData(nameof(MonthInfoData))]
+    public void CountYearsBetween﹍CalendarMonth_WhenSame_IsZero(MonthInfo info)
+    {
+        var (y, m) = info.Yemo;
+        var month = Calendar.GetCalendarMonth(y, m);
+        // Act & Assert
+        Assert.Equal(0, MathUT.CountYearsBetween(month, month));
+        // CalendarMonth
+        Assert.Equal(0, month.CountYearsSince(month));
+    }
+
+    [Theory, MemberData(nameof(AddYearsData))]
+    public void CountYearsBetween﹍CalendarMonth(YemodaPairAnd<int> info)
+    {
+        int ys = info.Value;
+        var start = GetMonth(info.First);
+        var end = GetMonth(info.Second);
+        // Act & Assert
+        Assert.Equal(ys, MathUT.CountYearsBetween(start, end));
+        Assert.Equal(-ys, MathUT.CountYearsBetween(end, start));
+        // CalendarMonth
+        Assert.Equal(ys, end.CountYearsSince(start));
+        Assert.Equal(-ys, start.CountYearsSince(end));
+    }
+
+    #endregion
+
+    //
+    // Month unit
+    //
+    // More or less a standard unit: we also test the math ops +, -, ++, --.
+
+    #region CalendarMonth.NextMonth()
+
+    [Fact]
+    public void Increment﹍CalendarMonth_Overflows_AtMaxValue()
+    {
+        var max = MaxMonth;
+        // Act & Assert
+        Assert.Overflows(() => max++);
+    }
+
+    [Fact]
+    public void NextMonth﹍CalendarMonth_Overflows_AtMaxValue() =>
+        Assert.Overflows(() => MaxMonth.NextMonth());
+
+    [Fact]
+    public void Increment﹍CalendarMonth()
+    {
+        var month = GetSampleMonth();
+        var monthAfter = Calendar.GetCalendarMonth(month.Year, month.Month + 1);
+        // Act & Assert
+        Assert.Equal(monthAfter, ++month);
+    }
+
+    [Fact]
+    public void NextMonth﹍CalendarMonth()
+    {
+        var month = GetSampleMonth();
+        var monthAfter = Calendar.GetCalendarMonth(month.Year, month.Month + 1);
+        // Act & Assert
+        Assert.Equal(monthAfter, month.NextMonth());
+    }
+
+    #endregion
+    #region CalendarMonth.PreviousMonth()
+
+    [Fact]
+    public void Decrement﹍CalendarMonth_Overflows_AtMinValue()
+    {
+        var min = MinMonth;
+        // Act & Assert
+        Assert.Overflows(() => min--);
+    }
+
+    [Fact]
+    public void PreviousMonth﹍CalendarMonth_Overflows_AtMinValue() =>
+        Assert.Overflows(() => MinMonth.PreviousMonth());
+
+    [Fact]
+    public void Decrement()
+    {
+        var month = GetSampleMonth();
+        var monthBefore = Calendar.GetCalendarMonth(month.Year, month.Month - 1);
+        // Act & Assert
+        Assert.Equal(monthBefore, --month);
+    }
+
+    [Fact]
+    public void PreviousYear()
+    {
+        var month = GetSampleMonth();
+        var monthBefore = Calendar.GetCalendarMonth(month.Year, month.Month - 1);
+        // Act & Assert
+        Assert.Equal(monthBefore, month.PreviousMonth());
+    }
+
+    #endregion
+
+    #region AddMonths() and CalendarMonth.PlusMonths()
 
     [Fact]
     public void AddMonths﹍CalendarMonth_Overflows()
@@ -356,6 +558,11 @@ public partial class CalendarMathFacts<TMath, TDataSet> // CalendarMonth
         // Act & Assert
         Assert.Overflows(() => MathUT.AddMonths(month, Int32.MinValue));
         Assert.Overflows(() => MathUT.AddMonths(month, Int32.MaxValue));
+        // CalendarMonth
+        Assert.Overflows(() => month + Int32.MinValue);
+        Assert.Overflows(() => month + Int32.MaxValue);
+        Assert.Overflows(() => month.PlusMonths(Int32.MinValue));
+        Assert.Overflows(() => month.PlusMonths(Int32.MaxValue));
     }
 
     [Fact]
@@ -370,10 +577,19 @@ public partial class CalendarMathFacts<TMath, TDataSet> // CalendarMonth
         Assert.Equal(MinMonth, MathUT.AddMonths(month, minMs));
         Assert.Equal(MaxMonth, MathUT.AddMonths(month, maxMs));
         Assert.Overflows(() => MathUT.AddMonths(month, maxMs + 1));
+        // CalendarMonth
+        Assert.Overflows(() => month + (minMs - 1));
+        Assert.Equal(MinMonth, month + minMs);
+        Assert.Equal(MaxMonth, month + maxMs);
+        Assert.Overflows(() => month + (maxMs + 1));
+        Assert.Overflows(() => month.PlusMonths(minMs - 1));
+        Assert.Equal(MinMonth, month.PlusMonths(minMs));
+        Assert.Equal(MaxMonth, month.PlusMonths(maxMs));
+        Assert.Overflows(() => month.PlusMonths(maxMs + 1));
     }
 
     [Fact]
-    public void AddMonths﹍CalendarMonth_WithLimitValues_AtMinValue()
+    public void AddMonths﹍CalendarMonth_AtMinValue()
     {
         int ms = MaxMonth - MinMonth;
         // Act & Assert
@@ -381,10 +597,19 @@ public partial class CalendarMathFacts<TMath, TDataSet> // CalendarMonth
         Assert.Equal(MinMonth, MathUT.AddMonths(MinMonth, 0));
         Assert.Equal(MaxMonth, MathUT.AddMonths(MinMonth, ms));
         Assert.Overflows(() => MathUT.AddMonths(MinMonth, ms + 1));
+        // CalendarMonth
+        Assert.Overflows(() => MinMonth - 1);
+        Assert.Equal(MinMonth, MinMonth + 0);
+        Assert.Equal(MaxMonth, MinMonth + ms);
+        Assert.Overflows(() => MinMonth + (ms + 1));
+        Assert.Overflows(() => MinMonth.PlusMonths(-1));
+        Assert.Equal(MinMonth, MinMonth.PlusMonths(0));
+        Assert.Equal(MaxMonth, MinMonth.PlusMonths(ms));
+        Assert.Overflows(() => MinMonth.PlusMonths(ms + 1));
     }
 
     [Fact]
-    public void AddMonths﹍CalendarMonth_WithLimitValues_AtMaxValue()
+    public void AddMonths﹍CalendarMonth_AtMaxValue()
     {
         int ms = MaxMonth - MinMonth;
         // Act & Assert
@@ -392,6 +617,15 @@ public partial class CalendarMathFacts<TMath, TDataSet> // CalendarMonth
         Assert.Equal(MinMonth, MathUT.AddMonths(MaxMonth, -ms));
         Assert.Equal(MaxMonth, MathUT.AddMonths(MaxMonth, 0));
         Assert.Overflows(() => MathUT.AddMonths(MaxMonth, 1));
+        // CalendarMonth
+        Assert.Overflows(() => MaxMonth - (ms + 1));
+        Assert.Equal(MinMonth, MaxMonth - ms);
+        Assert.Equal(MaxMonth, MaxMonth + 0);
+        Assert.Overflows(() => MaxMonth + 1);
+        Assert.Overflows(() => MaxMonth.PlusMonths(-ms - 1));
+        Assert.Equal(MinMonth, MaxMonth.PlusMonths(-ms));
+        Assert.Equal(MaxMonth, MaxMonth.PlusMonths(0));
+        Assert.Overflows(() => MaxMonth.PlusMonths(1));
     }
 
     [Theory, MemberData(nameof(MonthInfoData))]
@@ -401,6 +635,8 @@ public partial class CalendarMathFacts<TMath, TDataSet> // CalendarMonth
         var month = Calendar.GetCalendarMonth(y, m);
         // Act & Assert
         Assert.Equal(month, MathUT.AddMonths(month, 0));
+        // CalendarMonth
+        Assert.Equal(month, month.PlusMonths(0));
     }
 
     [Theory, MemberData(nameof(AddMonthsData))]
@@ -412,48 +648,27 @@ public partial class CalendarMathFacts<TMath, TDataSet> // CalendarMonth
         // Act & Assert
         Assert.Equal(other, MathUT.AddMonths(month, ms));
         Assert.Equal(month, MathUT.AddMonths(other, -ms));
+        // CalendarMonth
+        Assert.Equal(other, month + ms);
+        Assert.Equal(month, other - ms);
+        Assert.Equal(other, month - (-ms));
+        Assert.Equal(other, month.PlusMonths(ms));
+        Assert.Equal(month, other.PlusMonths(-ms));
     }
 
     #endregion
-    #region CountYearsBetween()
-
-    [Fact]
-    public void CountYearsBetween﹍CalendarMonth_DoesNotOverflow()
-    {
-        int ys = Calendar.SupportedYears.Count() - 1;
-        // Act & Assert
-        Assert.Equal(ys, MathUT.CountYearsBetween(MinMonth, MaxMonth));
-        Assert.Equal(-ys, MathUT.CountYearsBetween(MaxMonth, MinMonth));
-    }
-
-    [Theory, MemberData(nameof(MonthInfoData))]
-    public void CountYearsBetween﹍CalendarMonth_WhenSame_IsZero(MonthInfo info)
-    {
-        var (y, m) = info.Yemo;
-        var month = Calendar.GetCalendarMonth(y, m);
-        // Act & Assert
-        Assert.Equal(0, MathUT.CountYearsBetween(month, month));
-    }
-
-    [Theory, MemberData(nameof(AddYearsData))]
-    public void CountYearsBetween﹍CalendarMonth(YemodaPairAnd<int> info)
-    {
-        int ys = info.Value;
-        var start = GetMonth(info.First);
-        var end = GetMonth(info.Second);
-        // Act & Assert
-        Assert.Equal(ys, MathUT.CountYearsBetween(start, end));
-        Assert.Equal(-ys, MathUT.CountYearsBetween(end, start));
-    }
-
-    #endregion
-    #region CountMonthsBetween()
+    #region CountMonthsBetween() and CalendarMonth.CountMonthsSince()
 
     [Fact]
     public void CountMonthsBetween﹍CalendarMonth_DoesNotOverflow()
     {
         _ = MathUT.CountMonthsBetween(MinMonth, MaxMonth);
         _ = MathUT.CountMonthsBetween(MaxMonth, MinMonth);
+        // CalendarMonth
+        _ = MaxMonth - MinMonth;
+        _ = MinMonth - MaxMonth;
+        _ = MaxMonth.CountMonthsSince(MinMonth);
+        _ = MinMonth.CountMonthsSince(MaxMonth);
     }
 
     [Theory, MemberData(nameof(MonthInfoData))]
@@ -463,6 +678,9 @@ public partial class CalendarMathFacts<TMath, TDataSet> // CalendarMonth
         var month = Calendar.GetCalendarMonth(y, m);
         // Act & Assert
         Assert.Equal(0, MathUT.CountMonthsBetween(month, month));
+        // CalendarMonth
+        Assert.Equal(0, month - month);
+        Assert.Equal(0, month.CountMonthsSince(month));
     }
 
     [Theory, MemberData(nameof(AddMonthsData))]
@@ -474,6 +692,11 @@ public partial class CalendarMathFacts<TMath, TDataSet> // CalendarMonth
         // Act & Assert
         Assert.Equal(ms, MathUT.CountMonthsBetween(start, end));
         Assert.Equal(-ms, MathUT.CountMonthsBetween(end, start));
+        // CalendarMonth
+        Assert.Equal(ms, end - start);
+        Assert.Equal(-ms, start - end);
+        Assert.Equal(ms, end.CountMonthsSince(start));
+        Assert.Equal(-ms, start.CountMonthsSince(end));
     }
 
     #endregion

@@ -24,3 +24,52 @@ public class Derived : Base {
     public override void TestMethod() { ... }
 }
 ```
+
+Arithmetic and Math
+-------------------
+
+TODO(fact): a bit messy... move most tests to `CalendarMath...Facts`.
+Therefore we should use `CalendarMath...Facts` for all types of calendars, not just the 
+Gregorian one.
+
+We have two types of tests: DDT and limits (overflow, min/max values).
+
+### Schemas
+- `ICalendricalArithmeticFacts`
+  - DDT for `ICalendricalArithmetic`.
+- `CalendricalArithmeticFacts`
+  - Limits for `ICalendricalArithmetic`.
+  - DDT for `ICalendricalArithmetic` (inherited from `ICalendricalArithmeticFacts`)
+    
+### Calendars
+- `CalendarMathFacts`
+  - Limits and DDT when the non-standard methods are _unambiguous_.
+  - DDT for the non-standard methods of `OrdinalDate`.
+  - DDT for the non-standard methods of `CalendarDate`.
+  - Limits and DDT for all methods/ops of `CalendarMonth`.
+- `CalendarMathAdvancedFacts`
+  - Limits and DDT when the non-standard methods are _ambiguous_
+  - Limits and DDT for all methods of `CalendarMonth`.
+
+The two classes use different datasets.
+
+### Date Types
+- `IDateFacts`
+  - Limits for the standard methods/ops on dates.
+- `IDateArithmeticFacts`
+  - DDT for the standard methods/ops on dates.
+- `IDateOrdinalArithmeticFacts`
+  - DDT for the standard methods/ops on ordinal dates.
+
+We distinguish ordinary dates from ordinal dates and we don't include the tests
+in `IDateFacts` because, for ordinal dates, it would require a conversion. In
+particular `IDateOrdinalArithmeticFacts` uses a dataset specialised to
+ordinal dates.
+
+Simple date types.
+- `CalendarDateFacts`
+  - Limits for the standard methods/ops (inherited from `IDateFacts`).
+- `OrdinalDateFacts`
+  - Limits for the standard methods/ops (inherited from `IDateFacts`).
+- `CalendarYearFacts`
+  - Limits and DDT for the standard methods/ops.

@@ -212,53 +212,6 @@ public partial class CalendarDateFacts<TDataSet> // Comparison
     }
 }
 
-public partial class CalendarDateFacts<TDataSet> // Math
-{
-    // We only do basic checks, complete testing is done in CalendarMathFacts.
-
-    [Theory, MemberData(nameof(AddMonthsData))]
-    public void PlusMonths(YemodaPairAnd<int> info)
-    {
-        int ms = info.Value;
-        var date = GetDate(info.First);
-        var other = GetDate(info.Second);
-        // Act & Assert
-        Assert.Equal(other, date.PlusMonths(ms));
-    }
-
-    [Theory, MemberData(nameof(AddMonthsData))]
-    public void CountMonthsSince(YemodaPairAnd<int> info)
-    {
-        int ms = info.Value;
-        var date = GetDate(info.First);
-        var other = GetDate(info.Second);
-        // Act & Assert
-        Assert.Equal(ms, other.CountMonthsSince(date));
-    }
-
-    [Theory, MemberData(nameof(AddYearsData))]
-    public void PlusYears(YemodaPairAnd<int> info)
-    {
-        int ys = info.Value;
-        var date = GetDate(info.First);
-        var other = GetDate(info.Second);
-        // Act & Assert
-        Assert.Equal(other, date.PlusYears(ys));
-        Assert.Equal(date, other.PlusYears(-ys));
-    }
-
-    [Theory, MemberData(nameof(AddYearsData))]
-    public void CountYearsSince(YemodaPairAnd<int> info)
-    {
-        int ys = info.Value;
-        var date = GetDate(info.First);
-        var other = GetDate(info.Second);
-        // Act & Assert
-        Assert.Equal(ys, other.CountYearsSince(date));
-        Assert.Equal(-ys, date.CountYearsSince(other));
-    }
-}
-
 //
 // Tests for related classes
 //

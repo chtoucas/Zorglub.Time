@@ -6,8 +6,6 @@ namespace Zorglub.Testing.Facts.Simple;
 using Zorglub.Testing.Data;
 using Zorglub.Time.Simple;
 
-// TODO(fact): math but, first, we need data for that.
-
 /// <summary>
 /// Provides facts about <see cref="OrdinalDate"/>.
 /// </summary>
@@ -208,31 +206,6 @@ public partial class OrdinalDateFacts<TDataSet> // Comparison
         var right = CalendarUT.GetOrdinalDate(y, doy);
         // Act & Assert
         Assert.True(left.CompareFast(right) < 0);
-    }
-}
-
-public partial class OrdinalDateFacts<TDataSet> // Math
-{
-    // We only do basic checks, complete testing is done in CalendarMathFacts.
-
-    [Theory, MemberData(nameof(AddYearsOrdinalData))]
-    public void PlusYears(YedoyPairAnd<int> info)
-    {
-        int years = info.Value;
-        var date = GetDate(info.First);
-        var other = GetDate(info.Second);
-        // Act & Assert
-        Assert.Equal(other, date.PlusYears(years));
-    }
-
-    [Theory, MemberData(nameof(AddYearsOrdinalData))]
-    public void CountYearsSince(YedoyPairAnd<int> info)
-    {
-        int years = info.Value;
-        var date = GetDate(info.First);
-        var other = GetDate(info.Second);
-        // Act & Assert
-        Assert.Equal(years, other.CountYearsSince(date));
     }
 }
 
