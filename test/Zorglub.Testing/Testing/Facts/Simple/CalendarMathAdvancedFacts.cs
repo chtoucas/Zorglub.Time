@@ -13,7 +13,7 @@ using Zorglub.Time.Simple;
 // for the Gregorian calendar.
 
 /// <summary>
-/// Provides facts about <see cref="CalendarMath"/>; ambiguous cases.
+/// Provides facts about <see cref="CalendarMath"/>; <i>ambiguous</i> cases.
 /// </summary>
 public abstract partial class CalendarMathAdvancedFacts<TMath, TDataSet>
     where TMath : CalendarMath

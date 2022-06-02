@@ -213,14 +213,7 @@ public partial class OrdinalDateFacts<TDataSet> // Comparison
 
 public partial class OrdinalDateFacts<TDataSet> // Math
 {
-    [Theory, MemberData(nameof(DateInfoData))]
-    public void PlusYears_Zero_IsNeutral(DateInfo info)
-    {
-        var (y, doy) = info.Yedoy;
-        var date = CalendarUT.GetOrdinalDate(y, doy);
-        // Act & Assert
-        Assert.Equal(date, date.PlusYears(0));
-    }
+    // We only do basic checks, complete testing is done in CalendarMathFacts.
 
     [Theory, MemberData(nameof(AddYearsOrdinalData))]
     public void PlusYears(YedoyPairAnd<int> info)
@@ -230,15 +223,6 @@ public partial class OrdinalDateFacts<TDataSet> // Math
         var other = GetDate(info.Second);
         // Act & Assert
         Assert.Equal(other, date.PlusYears(years));
-    }
-
-    [Theory, MemberData(nameof(DateInfoData))]
-    public void CountYearsSince_WhenSame_IsZero(DateInfo info)
-    {
-        var (y, doy) = info.Yedoy;
-        var date = CalendarUT.GetOrdinalDate(y, doy);
-        // Act & Assert
-        Assert.Equal(0, date.CountYearsSince(date));
     }
 
     [Theory, MemberData(nameof(AddYearsOrdinalData))]
