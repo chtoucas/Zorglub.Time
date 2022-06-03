@@ -30,7 +30,7 @@ Run the test suite.
 
 Usage: test.ps1 [arguments]
     |-Plan           specify the test plan. Default = "smoke"
-  -c|-Configuration  the configuration to test the solution for. Default = "Debug"
+  -c|-Configuration  configuration to test the solution for. Default = "Debug"
     |-NoBuild        do NOT build the test suite?
   -h|-Help           print this help then exit
 
@@ -38,55 +38,39 @@ The default behaviour is to run the smoke tests using the configuration Debug.
 
 Test plans
 ----------
-The common test plans are:
 - "smoke"     = smoke testing
-- "regular"   = exclude redundant tests, slow-running tests and test bundles
+- "regular"   = exclude redundant tests, slow-running test units or bundles
 - "more"      = exclude redundant tests
 - "most"      = the whole test suite
 
-The extra test plans are:
-- "redundant" =
-    Only include redundant tests.
-    This is the complement of the plan "more".
-- "redundant-slow" =
-    Only include redundant tests also part of a slow-running test bundle.
-    This is a subset of "redundant".
-- "redundant-not-slow" =
-    Only include redundant tests not part of a slow-running test bundle.
-    This is a subset of "redundant".
-- "cover" =
-    Mimic the default test plan used by the code coverage tool
-    The difference between "cover" and "regular" is really tiny. For a test to
-    be in "regular" but not in "cover", it must be known to be slow and not
-    being explicitely excluded from code coverage, right now there is none.
+The extra test plans are
+- "redundant" = redundant tests, this is the complement of the plan "more".
+- "redundant-slow" = redundant tests part of a slow-running test bundle.
+- "redundant-not-slow" = redundant tests not part of a slow-running test bundle.
+
+We have also a plan named "cover". It mimics the default test plan used by the
+code coverage tool. The difference between "cover" and "regular" is really tiny.
+For a test to be in "regular" but not in "cover", it must be known to be slow
+and not being explicitely excluded from code coverage, right now there is none.
 
 Of course, one can use "dotnet test" to run the whole test suite or to apply
 custom filters.
 
 Examples
 --------
-Simple daily testing.
 > test.ps1 -NoBuild             # Smoke testing (Debug)
-> test.ps1 regular              # Regular test suite (Debug)
 > test.ps1 regular -c Release   # Regular test suite (Release)
+> test.ps1 more                 # Comprehensive test suite (Debug)
 
-Split comprehensive test suite.
-> test.ps1 more
-> test.ps1 redundant-not-slow
-> test.ps1 redundant-slow
-
-Figures
--------
-The common plans.
-> test.ps1 smoke                # ~27 thousand tests (FAST)
-> test.ps1 regular              # ~73 thousand tests
-> test.ps1 more                 # ~85 thousand tests
-> test.ps1 most                 # ~231 thousand tests (SLOW)
-
-The extra plans.
+Figures.
+> test.ps1 smoke                # ~30 thousand tests (FAST)
+> test.ps1 regular              # ~75 thousand tests
+> test.ps1 more                 # ~87 thousand tests
+> test.ps1 most                 # ~245 thousand tests (SLOW)
+Extra plans.
 > test.ps1 redundant-slow       # ~64 thousand tests
-> test.ps1 redundant-not-slow   # ~82 thousand tests
-> test.ps1 redundant            # ~146 thousand tests (SLOW)
+> test.ps1 redundant-not-slow   # ~93 thousand tests
+> test.ps1 redundant            # ~158 thousand tests (SLOW)
 
 "@
 }
