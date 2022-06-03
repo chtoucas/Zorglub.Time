@@ -50,7 +50,19 @@ namespace Zorglub.Time.Simple
             start.Parts.Unpack(out int y0, out int m0);
             end.Parts.Unpack(out int y, out int m);
 
-            return (y - y0) * MonthsInYear + m - m0;
+            int months = (y - y0) * MonthsInYear + m - m0;
+            var newStart = AddMonthsCore(start, months);
+
+            if (start.CompareFast(end) < 0)
+            {
+                if (newStart.CompareFast(end) > 0) { months--; }
+            }
+            else
+            {
+                if (newStart.CompareFast(end) < 0) { months++; }
+            }
+
+            return months;
         }
 
         #endregion

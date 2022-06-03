@@ -9,19 +9,35 @@ using Zorglub.Testing.Data;
 using Zorglub.Time.Core.Intervals;
 using Zorglub.Time.Simple;
 
-// TODO(fact): custom AddYearsMonthData and AddMonthsMonthData, idem with the
-// difference. We should use `CalendarMath...Facts` for all types of calendars,
-// not just the Gregorian one. IFixedDayArithmeticFacts for CalendarDay and
-// maybe DayNumber?
+// FIXME(fact): math.
 // 1) non-standard math for the Gregorian calendar, see CalendarMathAdvancedFacts
 // 2) standard math for the Gregorian calendar (missing data)
 // 3) standard math for all calendars
 // 4) non-standard math for more calendars (missing data)
+// Missing data, the biggest problem right now is with Count...() because we can
+// only test the simplest cases and I already know that CalendarMath is not
+// working correctly even if we cannot see it yet through the tests.
+// - CalendarDate
+//   - CountYearsBetween(), currently we use AddYearsData
+//   - CountMonthsBetween(), currently we use AddMonthsData
+// - OrdinalDate
+//   - CountYearsBetween(), currently we use AddYearsOrdinalData
+// - CalendarMonth
+//   - AddYears(), currently we use AddYearsData
+//   - CountYearsBetween(), currently we use AddYearsData
+//   - AddMonths(), currently we use AddMonthsData
+//   - CountMonthsBetween(), currently we use AddMonthsData
+// - CalendarYear
+//   - AddYears(), currently we use AddYearsData
+//   - CountYearsBetween(), currently we use AddYearsData
 
-// What's not included here for the day-related math ops
-// - CalendarDate; see IDateFacts and SimpleDateFacts (via CalendarDateFacts).
-// - OrdinalDate; see IDateFacts and SimpleDateFacts (via OrdinalDateFacts).
-// - CalendarDay; see IDateFacts and SimpleDateFacts (via CalendarDayFacts).
+// CalendarMathFacts is our main testing class for math-related operations.
+//
+// What's not in CalendarMathFacts:
+// - Standard methods/ops for CalendarDate, CalendarDay and OrdinalDate.
+//   The tests are to be found in their specialized test classes, inherited from
+//   SimpleDateFacts and IDateFacts.
+// - CalendarMathAdvancedFacts for when the result is _ambiguous_.
 
 /// <summary>
 /// Provides facts about <see cref="CalendarMath"/>; <i>unambiguous</i> math.
@@ -96,8 +112,11 @@ public partial class CalendarMathFacts<TMath, TDataSet> // CalendarDate
     //
     // Year unit
     //
+    // We also test
+    // - CalendarDate.PlusYears()
+    // - CalendarDate.CountYearsSince()
 
-    #region AddYears() and CalendarDate.PlusYears()
+    #region AddYears()
 
     [Fact]
     public void AddYears﹍CalendarDate_Overflows()
@@ -165,7 +184,7 @@ public partial class CalendarMathFacts<TMath, TDataSet> // CalendarDate
     }
 
     #endregion
-    #region CountYearsBetween() and CalendarDate.CountYearsSince()
+    #region CountYearsBetween()
 
     [Fact]
     public void CountYearsBetween﹍CalendarDate_DoesNotOverflow()
@@ -191,7 +210,7 @@ public partial class CalendarMathFacts<TMath, TDataSet> // CalendarDate
     }
 
     [Theory, MemberData(nameof(AddYearsData))]
-    public void CountYearsBetween﹍CalendarDate_ViaAddition(YemodaPairAnd<int> info)
+    public void CountYearsBetween﹍CalendarDate_ViaYemodaAddition(YemodaPairAnd<int> info)
     {
         int ys = info.Value;
         var start = GetDate(info.First);
@@ -209,8 +228,11 @@ public partial class CalendarMathFacts<TMath, TDataSet> // CalendarDate
     //
     // Month unit
     //
+    // We also test
+    // - CalendarDate.PlusMonths()
+    // - CalendarDate.CountMonthsSince()
 
-    #region AddMonths() and CalendarDate.PlusMonths()
+    #region AddMonths()
 
     [Fact]
     public void AddMonths﹍CalendarDate_Overflows()
@@ -272,7 +294,7 @@ public partial class CalendarMathFacts<TMath, TDataSet> // CalendarDate
     }
 
     #endregion
-    #region CountMonthsBetween() and CalendarDate.CountMonthsSince()
+    #region CountMonthsBetween()
 
     [Fact]
     public void CountMonthsBetween﹍CalendarDate_DoesNotOverflow()
@@ -296,7 +318,7 @@ public partial class CalendarMathFacts<TMath, TDataSet> // CalendarDate
     }
 
     [Theory, MemberData(nameof(AddMonthsData))]
-    public void CountMonthsBetween﹍CalendarDate_ViaAddition(YemodaPairAnd<int> info)
+    public void CountMonthsBetween﹍CalendarDate_ViaYemodaAddition(YemodaPairAnd<int> info)
     {
         int ms = info.Value;
         var start = GetDate(info.First);
@@ -317,8 +339,11 @@ public partial class CalendarMathFacts<TMath, TDataSet> // OrdinalDate
     //
     // Year unit
     //
+    // We also test
+    // - OrdinalDate.PlusYears()
+    // - OrdinalDate.CountYearsSince()
 
-    #region AddYears() and OrdinalDate.PlusYears()
+    #region AddYears()
 
     [Fact]
     public void AddYears﹍OrdinalDate_Overflows()
@@ -386,7 +411,7 @@ public partial class CalendarMathFacts<TMath, TDataSet> // OrdinalDate
     }
 
     #endregion
-    #region CountYearsBetween() and OrdinalDate.CountYearsSince()
+    #region CountYearsBetween()
 
     [Fact]
     public void CountYearsBetween﹍OrdinalDate_DoesNotOverflow()
@@ -412,7 +437,7 @@ public partial class CalendarMathFacts<TMath, TDataSet> // OrdinalDate
     }
 
     [Theory, MemberData(nameof(AddYearsOrdinalData))]
-    public void CountYearsBetween﹍OrdinalDate_ViaAddition(YedoyPairAnd<int> info)
+    public void CountYearsBetween﹍OrdinalDate_ViaYedoyAddition(YedoyPairAnd<int> info)
     {
         int ys = info.Value;
         var start = GetDate(info.First);
@@ -433,8 +458,11 @@ public partial class CalendarMathFacts<TMath, TDataSet> // CalendarMonth
     //
     // Year unit
     //
+    // We also test
+    // - CalendarMonth.PlusYears()
+    // - CalendarMonth.CountYearsSince()
 
-    #region AddYears() and CalendarMonth.PlusYears()
+    #region AddYears()
 
     [Fact]
     public void AddYears﹍CalendarMonth_Overflows()
@@ -520,7 +548,7 @@ public partial class CalendarMathFacts<TMath, TDataSet> // CalendarMonth
     }
 
     [Theory, MemberData(nameof(AddYearsData))]
-    public void AddYears﹍CalendarMonth(YemodaPairAnd<int> info)
+    public void AddYears﹍CalendarMonth_ViaYemodaAddition(YemodaPairAnd<int> info)
     {
         int ys = info.Value;
         var month = GetMonth(info.First);
@@ -534,7 +562,7 @@ public partial class CalendarMathFacts<TMath, TDataSet> // CalendarMonth
     }
 
     #endregion
-    #region CountYearsBetween()  and CalendarMonth.CountYearsSince()
+    #region CountYearsBetween()
 
     [Fact]
     public void CountYearsBetween﹍CalendarMonth_DoesNotOverflow()
@@ -560,7 +588,7 @@ public partial class CalendarMathFacts<TMath, TDataSet> // CalendarMonth
     }
 
     [Theory, MemberData(nameof(AddYearsData))]
-    public void CountYearsBetween﹍CalendarMonth_ViaAddition(YemodaPairAnd<int> info)
+    public void CountYearsBetween﹍CalendarMonth_ViaYemodaAddition(YemodaPairAnd<int> info)
     {
         int ys = info.Value;
         var start = GetMonth(info.First);
@@ -578,8 +606,14 @@ public partial class CalendarMathFacts<TMath, TDataSet> // CalendarMonth
     //
     // Month (base) unit
     //
+    // We also test
+    // - CalendarMonth.NextMonth()
+    // - CalendarMonth.PreviousMonth()
+    // - CalendarMonth.PlusMonths()
+    // - CalendarMonth.CountMonthsSince()
+    // and the related math operators.
 
-    #region CalendarMonth.NextMonth()
+    #region NextMonth()
 
     [Fact]
     public void Increment﹍CalendarMonth_Overflows_AtMaxMonth()
@@ -612,7 +646,7 @@ public partial class CalendarMathFacts<TMath, TDataSet> // CalendarMonth
     }
 
     #endregion
-    #region CalendarMonth.PreviousMonth()
+    #region PreviousMonth()
 
     [Fact]
     public void Decrement﹍CalendarMonth_Overflows_AtMinMonth()
@@ -646,7 +680,7 @@ public partial class CalendarMathFacts<TMath, TDataSet> // CalendarMonth
 
     #endregion
 
-    #region AddMonths() and CalendarMonth.PlusMonths()
+    #region AddMonths()
 
     [Fact]
     public void AddMonths﹍CalendarMonth_Overflows()
@@ -737,7 +771,7 @@ public partial class CalendarMathFacts<TMath, TDataSet> // CalendarMonth
     }
 
     [Theory, MemberData(nameof(AddMonthsData))]
-    public void AddMonths﹍CalendarMonth(YemodaPairAnd<int> info)
+    public void AddMonths﹍CalendarMonth_ViaYemodaAddition(YemodaPairAnd<int> info)
     {
         int ms = info.Value;
         var month = GetMonth(info.First);
@@ -754,7 +788,7 @@ public partial class CalendarMathFacts<TMath, TDataSet> // CalendarMonth
     }
 
     #endregion
-    #region CountMonthsBetween() and CalendarMonth.CountMonthsSince()
+    #region CountMonthsBetween()
 
     [Fact]
     public void CountMonthsBetween﹍CalendarMonth_DoesNotOverflow()
@@ -781,7 +815,7 @@ public partial class CalendarMathFacts<TMath, TDataSet> // CalendarMonth
     }
 
     [Theory, MemberData(nameof(AddMonthsData))]
-    public void CountMonthsBetween﹍CalendarMonth_ViaAddition(YemodaPairAnd<int> info)
+    public void CountMonthsBetween﹍CalendarMonth_ViaYemodaAddition(YemodaPairAnd<int> info)
     {
         int ms = info.Value;
         var start = GetMonth(info.First);
@@ -804,8 +838,14 @@ public partial class CalendarMathFacts<TMath, TDataSet> // CalendarYear
     //
     // Year (base) unit
     //
+    // We also test
+    // - CalendarYear.NextYear()
+    // - CalendarYear.PreviousYear()
+    // - CalendarYear.PlusYear()
+    // - CalendarYear.CountYearsSince()
+    // and the related math operators.
 
-    #region CalendarYear.NextYear()
+    #region NextYear()
 
     [Fact]
     public void Increment﹍CalendarYear_Overflows_AtMaxValue()
@@ -838,7 +878,7 @@ public partial class CalendarMathFacts<TMath, TDataSet> // CalendarYear
     }
 
     #endregion
-    #region CalendarYear.PreviousYear()
+    #region PreviousYear()
 
     [Fact]
     public void Decrement﹍CalendarYear_Overflows_AtMinValue()
@@ -953,7 +993,7 @@ public partial class CalendarMathFacts<TMath, TDataSet> // CalendarYear
     }
 
     [Theory, MemberData(nameof(AddYearsData))]
-    public void PlusYears﹍CalendarYear(YemodaPairAnd<int> info)
+    public void PlusYears﹍CalendarYear_ViaYemodaAddition(YemodaPairAnd<int> info)
     {
         int ys = info.Value;
         var year = Calendar.GetCalendarYear(info.First.Year);
@@ -991,7 +1031,7 @@ public partial class CalendarMathFacts<TMath, TDataSet> // CalendarYear
     }
 
     [Theory, MemberData(nameof(AddYearsData))]
-    public void CountYearsSince﹍CalendarYear(YemodaPairAnd<int> info)
+    public void CountYearsSince﹍CalendarYear_ViaYemodaAddition(YemodaPairAnd<int> info)
     {
         int ys = info.Value;
         var year = Calendar.GetCalendarYear(info.First.Year);

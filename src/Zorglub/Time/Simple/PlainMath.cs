@@ -4,6 +4,7 @@
 namespace Zorglub.Time.Simple
 {
     // FIXME(code): impl PlainMath.
+    // Do we need stricter validation? or is YearOverflowChecker enough?
 
     using Zorglub.Time.Core;
 
@@ -58,8 +59,6 @@ namespace Zorglub.Time.Simple
             int years = end.Year - start.Year;
             CalendarDate newStart = AddYearsCore(start, years);
 
-            // TODO(code): explain why it's not necessary for regular calendars;
-            // idem with the other Count...BetweenCore().
             if (start.CompareFast(end) < 0)
             {
                 if (newStart.CompareFast(end) > 0) { years--; }

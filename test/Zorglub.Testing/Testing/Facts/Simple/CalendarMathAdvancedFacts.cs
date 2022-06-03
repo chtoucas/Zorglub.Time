@@ -94,10 +94,10 @@ public partial class CalendarMathAdvancedFacts<TMath, TDataSet> // CalendarDate
         var end = GetDate(info.Second);
         // Act & Assert
         Assert.Equal(ys, MathUT.CountYearsBetween(start, end));
-        Assert.Equal(-ys, MathUT.CountYearsBetween(end, start));
+        //Assert.Equal(-ys, MathUT.CountYearsBetween(end, start));
         // CalendarDate
         Assert.Equal(ys, end.CountYearsSince(start));
-        Assert.Equal(-ys, start.CountYearsSince(end));
+        //Assert.Equal(-ys, start.CountYearsSince(end));
     }
 
     [Theory, MemberData(nameof(AddMonthsData))]
@@ -108,10 +108,10 @@ public partial class CalendarMathAdvancedFacts<TMath, TDataSet> // CalendarDate
         var end = GetDate(info.Second);
         // Act & Assert
         Assert.Equal(ms, MathUT.CountMonthsBetween(start, end));
-        Assert.Equal(-ms, MathUT.CountMonthsBetween(end, start));
+        //Assert.Equal(-ms, MathUT.CountMonthsBetween(end, start));
         // CalendarDate
         Assert.Equal(ms, end.CountMonthsSince(start));
-        Assert.Equal(-ms, start.CountMonthsSince(end));
+        //Assert.Equal(-ms, start.CountMonthsSince(end));
     }
 }
 
@@ -139,10 +139,10 @@ public partial class CalendarMathAdvancedFacts<TMath, TDataSet> // OrdinalDate
         var end = GetDate(info.Second);
         // Act & Assert
         Assert.Equal(ys, MathUT.CountYearsBetween(start, end));
-        Assert.Equal(-ys, MathUT.CountYearsBetween(end, start));
+        //Assert.Equal(-ys, MathUT.CountYearsBetween(end, start));
         // OrdinalDate
         Assert.Equal(ys, end.CountYearsSince(start));
-        Assert.Equal(-ys, start.CountYearsSince(end));
+        //Assert.Equal(-ys, start.CountYearsSince(end));
     }
 }
 

@@ -5,8 +5,6 @@ namespace Zorglub.Time.Simple
 {
     using Zorglub.Time.Core;
 
-    // FIXME(code): CountYearsBetweenCore() is dubious... idem with PlainMath.
-
     /// <summary>
     /// Defines the mathematical operations suitable for use by regular calendars and provides a
     /// base for derived classes.
@@ -69,7 +67,19 @@ namespace Zorglub.Time.Simple
             Debug.Assert(start.Cuid == Cuid);
             Debug.Assert(end.Cuid == Cuid);
 
-            return end.Year - start.Year;
+            int years = end.Year - start.Year;
+            CalendarDate newStart = AddYearsCore(start, years);
+
+            if (start.CompareFast(end) < 0)
+            {
+                if (newStart.CompareFast(end) > 0) { years--; }
+            }
+            else
+            {
+                if (newStart.CompareFast(end) < 0) { years++; }
+            }
+
+            return years;
         }
     }
 
@@ -98,7 +108,19 @@ namespace Zorglub.Time.Simple
             Debug.Assert(start.Cuid == Cuid);
             Debug.Assert(end.Cuid == Cuid);
 
-            return end.Year - start.Year;
+            int years = end.Year - start.Year;
+            OrdinalDate newStart = AddYearsCore(start, years);
+
+            if (start.CompareFast(end) < 0)
+            {
+                if (newStart.CompareFast(end) > 0) { years--; }
+            }
+            else
+            {
+                if (newStart.CompareFast(end) < 0) { years++; }
+            }
+
+            return years;
         }
     }
 
@@ -127,6 +149,7 @@ namespace Zorglub.Time.Simple
             Debug.Assert(start.Cuid == Cuid);
             Debug.Assert(end.Cuid == Cuid);
 
+            // FIXME(code): CountYearsBetweenCore(CalendarMonth).
             return CountYearsBetweenCore(start.FirstDay, end.FirstDay);
         }
     }
