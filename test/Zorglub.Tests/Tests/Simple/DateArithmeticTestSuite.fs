@@ -9,25 +9,9 @@ open Zorglub.Testing.Facts
 
 open Zorglub.Time.Simple
 
-module CalendarDateCase =
-    [<Sealed>]
-    type GregorianTests() =
-        inherit IDateArithmeticFacts<CalendarDate, ProlepticGregorianDataSet>()
+[<Sealed>]
+[<TestExcludeFrom(TestExcludeFrom.Smoke)>]
+type GregorianTests() =
+    inherit IOrdinalDateArithmeticFacts<OrdinalDate, ProlepticGregorianDataSet>()
 
-        override __.GetDate(y, m, d) = GregorianCalendar.Instance.GetCalendarDate(y, m, d)
-
-module OrdinalDateCase =
-    [<Sealed>]
-    [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
-    type GregorianTests() =
-        inherit IOrdinalDateArithmeticFacts<OrdinalDate, ProlepticGregorianDataSet>()
-
-        override __.GetDate(y, doy) = GregorianCalendar.Instance.GetOrdinalDate(y, doy)
-
-module CalendarDayCase =
-    [<Sealed>]
-    [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
-    type GregorianTests() =
-        inherit IDateArithmeticFacts<CalendarDay, ProlepticGregorianDataSet>()
-
-        override __.GetDate(y, m, d) = GregorianCalendar.Instance.GetCalendarDate(y, m, d).ToCalendarDay()
+    override __.GetDate(y, doy) = GregorianCalendar.Instance.GetOrdinalDate(y, doy)

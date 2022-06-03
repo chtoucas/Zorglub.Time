@@ -16,7 +16,7 @@ open Zorglub.Time.Hemerology
 
 open Xunit
 
-module FactSuite =
+module Bundles =
     // NB: notice the use of StandardGregorianDataSet.
 
     let private supportedYears = Range.Create(CivilDate.MinYear, CivilDate.MaxYear)
@@ -42,13 +42,6 @@ module FactSuite =
     [<TestExcludeFrom(TestExcludeFrom.Regular)>]
     type DayOfWeekFacts() =
         inherit IDateDayOfWeekFacts<CivilDate, StandardGregorianDataSet>()
-
-        override __.GetDate(y, m, d) = new CivilDate(y, m, d)
-
-    [<Sealed>]
-    [<TestExcludeFrom(TestExcludeFrom.Regular)>]
-    type MathFacts() =
-        inherit IDateArithmeticFacts<CivilDate, StandardGregorianDataSet>()
 
         override __.GetDate(y, m, d) = new CivilDate(y, m, d)
 

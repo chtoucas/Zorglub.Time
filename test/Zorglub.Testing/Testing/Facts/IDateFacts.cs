@@ -146,9 +146,27 @@ public partial class IDateFacts<TDate, TDataSet> // Increment / decrement
         Assert.Overflows(() => copy++);
     }
 
+    [Theory, MemberData(nameof(ConsecutiveDaysData))]
+    public void Increment(YemodaPair pair)
+    {
+        var date = GetDate(pair.First);
+        var dateAfter = GetDate(pair.Second);
+        // Act & Assert
+        Assert.Equal(dateAfter, ++date);
+    }
+
     [Fact]
     public void NextDay_Overflows_AtMaxValue() =>
         Assert.Overflows(() => MaxDate.NextDay());
+
+    [Theory, MemberData(nameof(ConsecutiveDaysData))]
+    public void NextDay(YemodaPair pair)
+    {
+        var date = GetDate(pair.First);
+        var dateAfter = GetDate(pair.Second);
+        // Act & Assert
+        Assert.Equal(dateAfter, date.NextDay());
+    }
 
     [Fact]
     public void Decrement_Overflows_AtMinValue()
@@ -158,9 +176,27 @@ public partial class IDateFacts<TDate, TDataSet> // Increment / decrement
         Assert.Overflows(() => copy--);
     }
 
+    [Theory, MemberData(nameof(ConsecutiveDaysData))]
+    public void Decrement(YemodaPair pair)
+    {
+        var date = GetDate(pair.First);
+        var dateAfter = GetDate(pair.Second);
+        // Act & Assert
+        Assert.Equal(date, --dateAfter);
+    }
+
     [Fact]
     public void PreviousDay_Overflows_AtMinValue() =>
         Assert.Overflows(() => MinDate.PreviousDay());
+
+    [Theory, MemberData(nameof(ConsecutiveDaysData))]
+    public void PreviousDay(YemodaPair pair)
+    {
+        var date = GetDate(pair.First);
+        var dateAfter = GetDate(pair.Second);
+        // Act & Assert
+        Assert.Equal(date, dateAfter.PreviousDay());
+    }
 }
 
 public partial class IDateFacts<TDate, TDataSet> // Addition
@@ -198,7 +234,7 @@ public partial class IDateFacts<TDate, TDataSet> // Addition
     }
 
     [Fact]
-    public void PlusDays_WithLimitValues_AtMinValue()
+    public void PlusDays_AtMinValue()
     {
         int days = Domain.Count() - 1;
         // Act & Assert
@@ -214,7 +250,7 @@ public partial class IDateFacts<TDate, TDataSet> // Addition
     }
 
     [Fact]
-    public void PlusDays_WithLimitValues_AtMaxValue()
+    public void PlusDays_AtMaxValue()
     {
         int days = Domain.Count() - 1;
         // Act & Assert
@@ -240,6 +276,33 @@ public partial class IDateFacts<TDate, TDataSet> // Addition
         Assert.Equal(date, date.PlusDays(0));
     }
 
+    [Theory, MemberData(nameof(AddDaysData))]
+    public void PlusDays(YemodaPairAnd<int> pair)
+    {
+        int days = pair.Value;
+        var date = GetDate(pair.First);
+        var other = GetDate(pair.Second);
+        // Act & Assert
+        Assert.Equal(other, date + days);
+        Assert.Equal(date, other - days);
+        Assert.Equal(other, date - (-days));
+        Assert.Equal(other, date.PlusDays(days));
+        Assert.Equal(date, other.PlusDays(-days));
+    }
+
+    [Theory, MemberData(nameof(ConsecutiveDaysData))]
+    public void PlusDays_ViaConsecutiveDays(YemodaPair pair)
+    {
+        var date = GetDate(pair.First);
+        var dateAfter = GetDate(pair.Second);
+        // Act & Assert
+        Assert.Equal(dateAfter, date + 1);
+        Assert.Equal(date, dateAfter - 1);
+        Assert.Equal(dateAfter, date - (-1));
+        Assert.Equal(dateAfter, date.PlusDays(1));
+        Assert.Equal(date, dateAfter.PlusDays(-1));
+    }
+
     [Fact]
     public void CountDaysSince_DoesNotOverflow()
     {
@@ -259,6 +322,31 @@ public partial class IDateFacts<TDate, TDataSet> // Addition
         // Act & Assert
         Assert.Equal(0, date - date);
         Assert.Equal(0, date.CountDaysSince(date));
+    }
+
+    [Theory, MemberData(nameof(AddDaysData))]
+    public void CountDaysSince(YemodaPairAnd<int> pair)
+    {
+        int days = pair.Value;
+        var date = GetDate(pair.First);
+        var other = GetDate(pair.Second);
+        // Act & Assert
+        Assert.Equal(days, other - date);
+        Assert.Equal(-days, date - other);
+        Assert.Equal(days, other.CountDaysSince(date));
+        Assert.Equal(-days, date.CountDaysSince(other));
+    }
+
+    [Theory, MemberData(nameof(ConsecutiveDaysData))]
+    public void CountDaysSince_ViaConsecutiveDays(YemodaPair pair)
+    {
+        var date = GetDate(pair.First);
+        var dateAfter = GetDate(pair.Second);
+        // Act & Assert
+        Assert.Equal(1, dateAfter - date);
+        Assert.Equal(-1, date - dateAfter);
+        Assert.Equal(1, dateAfter.CountDaysSince(date));
+        Assert.Equal(-1, date.CountDaysSince(dateAfter));
     }
 }
 
@@ -317,10 +405,6 @@ public partial class IDateFacts<TDate, TDataSet> // IEquatable
     }
 }
 
-// Expected algebraic properties.
-//   1) Reflexivity
-//   2) Anti-symmetry
-//   3) Transitivity
 public partial class IDateFacts<TDate, TDataSet> // IComparable
 {
     [Fact]

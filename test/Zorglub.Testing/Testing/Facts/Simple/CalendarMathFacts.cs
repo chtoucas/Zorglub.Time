@@ -18,13 +18,10 @@ using Zorglub.Time.Simple;
 // 3) standard math for all calendars
 // 4) non-standard math for more calendars (missing data)
 
-// What's not included here:
-// - CalendarDate: day (base) unit math ops.
-//   See IDateFacts (via CalendarDateFacts) and IDateArithmeticFacts.
-// - OrdinalDate: day (base) unit math ops.
-//   See IDateFacts (via OrdinalDateFacts) and IOrdinalDateArithmeticFacts.
-// - CalendarDay: day (base) unit math ops.
-//   See IDateFacts (via CalendarDayFacts) and IDateArithmeticFacts.
+// What's not included here for the day-related math ops
+// - CalendarDate; see IDateFacts (via CalendarDateFacts).
+// - OrdinalDate; see IDateFacts (via OrdinalDateFacts) and IOrdinalDateArithmeticFacts.
+// - CalendarDay; see IDateFacts (via CalendarDayFacts).
 
 /// <summary>
 /// Provides facts about <see cref="CalendarMath"/>; <i>unambiguous</i> math.

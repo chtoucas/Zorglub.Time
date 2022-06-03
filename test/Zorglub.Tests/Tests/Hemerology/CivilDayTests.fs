@@ -10,7 +10,7 @@ open Zorglub.Testing.Facts
 open Zorglub.Time.Core.Intervals
 open Zorglub.Time.Hemerology
 
-module FactSuite =
+module Bundles =
     // NB: notice the use of StandardGregorianDataSet.
 
     let private supportedYears = Range.Create(CivilDay.MinYear, CivilDay.MaxYear)
@@ -29,12 +29,5 @@ module FactSuite =
     [<TestExcludeFrom(TestExcludeFrom.Regular)>]
     type DayOfWeekFacts() =
         inherit IDateDayOfWeekFacts<CivilDay, StandardGregorianDataSet>()
-
-        override __.GetDate(y, m, d) = new CivilDay(y, m, d)
-
-    [<Sealed>]
-    [<TestExcludeFrom(TestExcludeFrom.Regular)>]
-    type MathFacts() =
-        inherit IDateArithmeticFacts<CivilDay, StandardGregorianDataSet>()
 
         override __.GetDate(y, m, d) = new CivilDay(y, m, d)

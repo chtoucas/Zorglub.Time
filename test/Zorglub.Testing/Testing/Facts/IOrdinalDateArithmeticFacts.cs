@@ -6,6 +6,8 @@ namespace Zorglub.Testing.Facts;
 using Zorglub.Testing.Data;
 using Zorglub.Time.Hemerology;
 
+// TODO(fact): merge this with IDateFacts. Prerequesite: ordinal factory.
+
 /// <summary>
 /// Provides more facts about <see cref="IDate{TSelf}"/> and its standard mathematical operations.
 /// </summary>
