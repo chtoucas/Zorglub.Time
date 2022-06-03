@@ -28,8 +28,10 @@ public abstract partial class CalendarDayFacts<TDataSet> :
     protected DomainTester DomainTester { get; }
 
     protected sealed override CalendarDay GetDate(int y, int m, int d) =>
-        // Notice that to create a date we must first pass thru CalendarDate.
         CalendarUT.GetCalendarDate(y, m, d).ToCalendarDay();
+
+    protected sealed override CalendarDay GetDate(int y, int doy) =>
+        CalendarUT.GetOrdinalDate(y, doy).ToCalendarDay();
 }
 
 public partial class CalendarDayFacts<TDataSet> // Prelude

@@ -26,6 +26,9 @@ public abstract partial class CalendarDateFacts<TDataSet> :
 
     protected sealed override CalendarDate GetDate(int y, int m, int d) =>
         CalendarUT.GetCalendarDate(y, m, d);
+
+    protected sealed override CalendarDate GetDate(int y, int doy) =>
+        CalendarUT.GetOrdinalDate(y, doy).ToCalendarDate();
 }
 
 public partial class CalendarDateFacts<TDataSet> // Prelude

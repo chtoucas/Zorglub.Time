@@ -39,24 +39,22 @@ We have two types of tests: DDT and limits (overflow, min/max values).
 
 ### Date Types
 - `IDateFacts`
-  - Limits and DDT for the standard methods/ops on dates.
-- `IOrdinalDateArithmeticFacts`
-  - DDT for the standard methods/ops on ordinal dates.
+  - Limits and DDT for all standard methods/ops on dates.
     
 ### Simple Calendars and Date Types
 - `CalendarMath`
   - `CalendarMathFacts` when the result is _unambiguous_
   - `CalendarMathAdvancedFacts` when the result is _ambiguous_
 - `CalendarDate`
-  - `CalendarMathFacts`, limits and DDT for the non-standard methods.
-  - `CalendarDateFacts`, limits and DDT for the standard methods/ops (inherited from `IDateFacts`).
+  - `CalendarDateFacts`, standard methods/ops (inherited).
+  - `CalendarMathFacts`, non-standard methods.
 - `OrdinalDateFacts`
-  - `CalendarMathFacts`, limits and DDT for the non-standard methods
-  - `OrdinalDateFacts`, limits and DDT for the standard methods/ops (inherited from `IDateFacts`).
-  - `IOrdinalDateArithmeticFacts`, DDT for the standard methods/ops.
+  - `OrdinalDateFacts`, standard methods/ops (inherited).
+  - `CalendarMathFacts`, non-standard methods
 - `CalendarDay`
-  - `CalendarDayFacts`, limits and DDT for the standard methods/ops (inherited from `IDateFacts`).
+  - `CalendarDayFacts`, standard methods/ops (inherited).
+  - there is no non-standard method.
 - `CalendarMonth`
-  - `CalendarMathFacts`, limits and DDT for all methods.
+  - `CalendarMathFacts`, everything.
 - `CalendarYear`
-  - `CalendarMathFacts`, limits and DDT for all methods.
+  - `CalendarMathFacts`, everything.

@@ -136,8 +136,10 @@ public partial class IDateFacts<TDate, TDataSet> // Adjust the day of the week
         DayOfWeekAdjusterTester.NearMaxValue(MaxDate).TestNext();
 }
 
-public partial class IDateFacts<TDate, TDataSet> // Increment / decrement
+public partial class IDateFacts<TDate, TDataSet> // Math
 {
+    #region NextDay()
+
     [Fact]
     public void Increment_Overflows_AtMaxValue()
     {
@@ -168,6 +170,9 @@ public partial class IDateFacts<TDate, TDataSet> // Increment / decrement
         Assert.Equal(dateAfter, date.NextDay());
     }
 
+    #endregion
+    #region PreviousDay()
+
     [Fact]
     public void Decrement_Overflows_AtMinValue()
     {
@@ -197,10 +202,10 @@ public partial class IDateFacts<TDate, TDataSet> // Increment / decrement
         // Act & Assert
         Assert.Equal(date, dateAfter.PreviousDay());
     }
-}
 
-public partial class IDateFacts<TDate, TDataSet> // Addition
-{
+    #endregion
+    #region PlusDays()
+
     [Fact]
     public void PlusDays_Overflows()
     {
@@ -303,6 +308,9 @@ public partial class IDateFacts<TDate, TDataSet> // Addition
         Assert.Equal(date, dateAfter.PlusDays(-1));
     }
 
+    #endregion
+    #region CountDaysSince()
+
     [Fact]
     public void CountDaysSince_DoesNotOverflow()
     {
@@ -348,6 +356,8 @@ public partial class IDateFacts<TDate, TDataSet> // Addition
         Assert.Equal(1, dateAfter.CountDaysSince(date));
         Assert.Equal(-1, date.CountDaysSince(dateAfter));
     }
+
+    #endregion
 }
 
 public partial class IDateFacts<TDate, TDataSet> // IEquatable

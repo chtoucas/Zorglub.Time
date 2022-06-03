@@ -19,9 +19,9 @@ using Zorglub.Time.Simple;
 // 4) non-standard math for more calendars (missing data)
 
 // What's not included here for the day-related math ops
-// - CalendarDate; see IDateFacts (via CalendarDateFacts).
-// - OrdinalDate; see IDateFacts (via OrdinalDateFacts) and IOrdinalDateArithmeticFacts.
-// - CalendarDay; see IDateFacts (via CalendarDayFacts).
+// - CalendarDate; see IDateFacts and SimpleDateFacts (via CalendarDateFacts).
+// - OrdinalDate; see IDateFacts and SimpleDateFacts (via OrdinalDateFacts).
+// - CalendarDay; see IDateFacts and SimpleDateFacts (via CalendarDayFacts).
 
 /// <summary>
 /// Provides facts about <see cref="CalendarMath"/>; <i>unambiguous</i> math.

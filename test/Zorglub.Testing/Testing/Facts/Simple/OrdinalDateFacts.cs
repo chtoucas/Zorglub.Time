@@ -25,8 +25,10 @@ public abstract partial class OrdinalDateFacts<TDataSet> :
     protected sealed override OrdinalDate MaxDate { get; }
 
     protected sealed override OrdinalDate GetDate(int y, int m, int d) =>
-        // Notice that to create an OrdinalDate we must first pass thru CalendarDate.
         CalendarUT.GetCalendarDate(y, m, d).ToOrdinalDate();
+
+    protected sealed override OrdinalDate GetDate(int y, int doy) =>
+        CalendarUT.GetOrdinalDate(y, doy);
 }
 
 public partial class OrdinalDateFacts<TDataSet> // Prelude

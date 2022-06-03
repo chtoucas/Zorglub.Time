@@ -8,6 +8,8 @@ using Zorglub.Time.Core.Intervals;
 using Zorglub.Time.Hemerology;
 using Zorglub.Time.Simple;
 
+// TODO(fact): move math tests to IDateFacts. Prerequesite: ordinal factory.
+
 // NB: we know that all years within the range [1..9999] are valid.
 
 /// <summary>
@@ -46,6 +48,14 @@ public abstract partial class SimpleDateFacts<TDate, TDataSet> :
 
     protected Calendar CalendarUT { get; }
     protected Calendar OtherCalendar { get; }
+
+    protected abstract TDate GetDate(int y, int doy);
+
+    protected TDate GetDate(Yedoy ydoy)
+    {
+        var (y, doy) = ydoy;
+        return GetDate(y, doy);
+    }
 
     private sealed record BaseCtorArgs(Range<int> SupportedYears, Range<DayNumber> Domain)
     {
@@ -105,5 +115,96 @@ public partial class SimpleDateFacts<TDate, TDataSet> // Serialization
         var date = TDate.FromDayNumber(info.DayNumber);
         // Act & Assert
         Assert.Equal(date, TDate.FromBinary(date.ToBinary()));
+    }
+}
+
+public partial class SimpleDateFacts<TDate, TDataSet> // Math
+{
+    [Theory, MemberData(nameof(ConsecutiveDaysOrdinalData))]
+    public void Increment_Ordinal(YedoyPair pair)
+    {
+        var date = GetDate(pair.First);
+        var dateAfter = GetDate(pair.Second);
+        // Act & Assert
+        Assert.Equal(dateAfter, ++date);
+    }
+
+    [Theory, MemberData(nameof(ConsecutiveDaysOrdinalData))]
+    public void Decrement_Ordinal(YedoyPair pair)
+    {
+        var date = GetDate(pair.First);
+        var dateAfter = GetDate(pair.Second);
+        // Act & Assert
+        Assert.Equal(date, --dateAfter);
+    }
+
+    [Theory, MemberData(nameof(ConsecutiveDaysOrdinalData))]
+    public void NextDay_Ordinal(YedoyPair pair)
+    {
+        var date = GetDate(pair.First);
+        var dateAfter = GetDate(pair.Second);
+        // Act & Assert
+        Assert.Equal(dateAfter, date.NextDay());
+    }
+
+    [Theory, MemberData(nameof(ConsecutiveDaysOrdinalData))]
+    public void PreviousDay_Ordinal(YedoyPair pair)
+    {
+        var date = GetDate(pair.First);
+        var dateAfter = GetDate(pair.Second);
+        // Act & Assert
+        Assert.Equal(date, dateAfter.PreviousDay());
+    }
+
+    [Theory, MemberData(nameof(AddDaysOrdinalData))]
+    public void PlusDays_Ordinal(YedoyPairAnd<int> pair)
+    {
+        int days = pair.Value;
+        var date = GetDate(pair.First);
+        var other = GetDate(pair.Second);
+        // Act & Assert
+        Assert.Equal(other, date + days);
+        Assert.Equal(date, other - days);
+        Assert.Equal(other, date - (-days));
+        Assert.Equal(other, date.PlusDays(days));
+        Assert.Equal(date, other.PlusDays(-days));
+    }
+
+    [Theory, MemberData(nameof(ConsecutiveDaysOrdinalData))]
+    public void PlusDays_Ordinal_ViaConsecutiveDays(YedoyPair pair)
+    {
+        var date = GetDate(pair.First);
+        var dateAfter = GetDate(pair.Second);
+        // Act & Assert
+        Assert.Equal(dateAfter, date + 1);
+        Assert.Equal(date, dateAfter - 1);
+        Assert.Equal(dateAfter, date - (-1));
+        Assert.Equal(dateAfter, date.PlusDays(1));
+        Assert.Equal(date, dateAfter.PlusDays(-1));
+    }
+
+    [Theory, MemberData(nameof(AddDaysOrdinalData))]
+    public void CountDaysSince_Ordinal(YedoyPairAnd<int> pair)
+    {
+        int days = pair.Value;
+        var date = GetDate(pair.First);
+        var other = GetDate(pair.Second);
+        // Act & Assert
+        Assert.Equal(days, other - date);
+        Assert.Equal(-days, date - other);
+        Assert.Equal(days, other.CountDaysSince(date));
+        Assert.Equal(-days, date.CountDaysSince(other));
+    }
+
+    [Theory, MemberData(nameof(ConsecutiveDaysOrdinalData))]
+    public void CountDaysSince_Ordinal_ViaConsecutiveDays(YedoyPair pair)
+    {
+        var date = GetDate(pair.First);
+        var dateAfter = GetDate(pair.Second);
+        // Act & Assert
+        Assert.Equal(1, dateAfter - date);
+        Assert.Equal(-1, date - dateAfter);
+        Assert.Equal(1, dateAfter.CountDaysSince(date));
+        Assert.Equal(-1, date.CountDaysSince(dateAfter));
     }
 }
