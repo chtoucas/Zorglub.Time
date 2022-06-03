@@ -30,12 +30,14 @@ using Zorglub.Time.Simple;
 // - CalendarYear
 //   - AddYears(), currently we use AddYearsData
 //   - CountYearsBetween(), currently we use AddYearsData
+// We should also test CalendricalArithmetic, CalendarDate, etc. and not just
+// for the Gregorian calendar.
 
 // CalendarMathFacts is our main testing class for math-related operations.
 //
 // What's not in CalendarMathFacts:
 // - Standard methods/ops for CalendarDate, CalendarDay and OrdinalDate.
-//   The tests are to be found in their specialized test classes, inherited from
+//   The tests are to be found in their specialized test class, inherited from
 //   SimpleDateFacts and IDateFacts.
 // - CalendarMathAdvancedFacts for when the result is _ambiguous_.
 

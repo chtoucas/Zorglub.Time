@@ -6,10 +6,7 @@ namespace Zorglub.Testing.Facts.Simple;
 using Zorglub.Testing.Data;
 using Zorglub.Time.Simple;
 
-// FIXME(fact): how to filter data (update CalendarMathTestSuite afterwards).
-// Test AdditionRules.
-// We should also test CalendricalArithmetic, CalendarDate, etc. and not just
-// for the Gregorian calendar.
+// FIXME(fact): how to filter data? Update the TestSuite afterwards.
 
 /// <summary>
 /// Provides facts about <see cref="CalendarMath"/>; <i>ambiguous</i> cases.
@@ -24,6 +21,8 @@ public abstract partial class CalendarMathAdvancedFacts<TMath, TDataSet>
     {
         MathUT = math ?? throw new ArgumentNullException(nameof(math));
         Calendar = math.Calendar;
+
+        CalendarIsRegular = Calendar.IsRegular(out _);
     }
 
     protected static TDataSet DataSet => TDataSet.Instance;
@@ -36,6 +35,8 @@ public abstract partial class CalendarMathAdvancedFacts<TMath, TDataSet>
 
     protected TMath MathUT { get; }
     protected Calendar Calendar { get; }
+
+    protected bool CalendarIsRegular { get; }
 
     protected CalendarDate GetDate(Yemoda ymd)
     {
@@ -66,10 +67,12 @@ public partial class CalendarMathAdvancedFacts<TMath, TDataSet> // CalendarDate
         var other = GetDate(info.Second);
         // Act & Assert
         Assert.Equal(other, MathUT.AddYears(date, ys));
-        //Assert.Equal(date, MathUT.AddYears(other, -ys));
-        // CalendarDate
         Assert.Equal(other, date.PlusYears(ys));
-        //Assert.Equal(date, other.PlusYears(-ys));
+        if (AdditionRules.DateRule == DateAdditionRule.Exact)
+        {
+            Assert.Equal(date, MathUT.AddYears(other, -ys));
+            Assert.Equal(date, other.PlusYears(-ys));
+        }
     }
 
     [Theory, MemberData(nameof(AddMonthsData))]
@@ -80,10 +83,12 @@ public partial class CalendarMathAdvancedFacts<TMath, TDataSet> // CalendarDate
         var other = GetDate(info.Second);
         // Act & Assert
         Assert.Equal(other, MathUT.AddMonths(date, ms));
-        //Assert.Equal(date, MathUT.AddMonths(other, -ms));
-        // CalendarDate
         Assert.Equal(other, date.PlusMonths(ms));
-        //Assert.Equal(date, other.PlusMonths(-ms));
+        if (AdditionRules.DateRule == DateAdditionRule.Exact)
+        {
+            Assert.Equal(date, MathUT.AddMonths(other, -ms));
+            Assert.Equal(date, other.PlusMonths(-ms));
+        }
     }
 
     [Theory, MemberData(nameof(AddYearsData))]
@@ -94,10 +99,12 @@ public partial class CalendarMathAdvancedFacts<TMath, TDataSet> // CalendarDate
         var end = GetDate(info.Second);
         // Act & Assert
         Assert.Equal(ys, MathUT.CountYearsBetween(start, end));
-        //Assert.Equal(-ys, MathUT.CountYearsBetween(end, start));
-        // CalendarDate
         Assert.Equal(ys, end.CountYearsSince(start));
-        //Assert.Equal(-ys, start.CountYearsSince(end));
+        if (AdditionRules.DateRule == DateAdditionRule.Exact)
+        {
+            Assert.Equal(-ys, MathUT.CountYearsBetween(end, start));
+            Assert.Equal(-ys, start.CountYearsSince(end));
+        }
     }
 
     [Theory, MemberData(nameof(AddMonthsData))]
@@ -108,10 +115,12 @@ public partial class CalendarMathAdvancedFacts<TMath, TDataSet> // CalendarDate
         var end = GetDate(info.Second);
         // Act & Assert
         Assert.Equal(ms, MathUT.CountMonthsBetween(start, end));
-        //Assert.Equal(-ms, MathUT.CountMonthsBetween(end, start));
-        // CalendarDate
         Assert.Equal(ms, end.CountMonthsSince(start));
-        //Assert.Equal(-ms, start.CountMonthsSince(end));
+        if (AdditionRules.DateRule == DateAdditionRule.Exact)
+        {
+            Assert.Equal(-ms, MathUT.CountMonthsBetween(end, start));
+            Assert.Equal(-ms, start.CountMonthsSince(end));
+        }
     }
 }
 
@@ -125,10 +134,12 @@ public partial class CalendarMathAdvancedFacts<TMath, TDataSet> // OrdinalDate
         var other = GetDate(info.Second);
         // Act & Assert
         Assert.Equal(other, MathUT.AddYears(date, ys));
-        //Assert.Equal(date, MathUT.AddYears(other, -ys));
-        // OrdinalDate
         Assert.Equal(other, date.PlusYears(ys));
-        //Assert.Equal(date, other.PlusYears(-ys));
+        if (AdditionRules.OrdinalRule == OrdinalAdditionRule.Exact)
+        {
+            Assert.Equal(date, MathUT.AddYears(other, -ys));
+            Assert.Equal(date, other.PlusYears(-ys));
+        }
     }
 
     [Theory, MemberData(nameof(AddYearsOrdinalData))]
@@ -139,10 +150,12 @@ public partial class CalendarMathAdvancedFacts<TMath, TDataSet> // OrdinalDate
         var end = GetDate(info.Second);
         // Act & Assert
         Assert.Equal(ys, MathUT.CountYearsBetween(start, end));
-        //Assert.Equal(-ys, MathUT.CountYearsBetween(end, start));
-        // OrdinalDate
         Assert.Equal(ys, end.CountYearsSince(start));
-        //Assert.Equal(-ys, start.CountYearsSince(end));
+        if (AdditionRules.OrdinalRule == OrdinalAdditionRule.Exact)
+        {
+            Assert.Equal(-ys, MathUT.CountYearsBetween(end, start));
+            Assert.Equal(-ys, start.CountYearsSince(end));
+        }
     }
 }
 
@@ -156,10 +169,13 @@ public partial class CalendarMathAdvancedFacts<TMath, TDataSet> // CalendarMonth
         var other = GetMonth(info.Second);
         // Act & Assert
         Assert.Equal(other, MathUT.AddYears(month, ys));
-        Assert.Equal(month, MathUT.AddYears(other, -ys));
-        // CalendarMonth
         Assert.Equal(other, month.PlusYears(ys));
-        Assert.Equal(month, other.PlusYears(-ys));
+        if (CalendarIsRegular
+            || AdditionRules.MonthRule == MonthAdditionRule.Exact)
+        {
+            Assert.Equal(month, MathUT.AddYears(other, -ys));
+            Assert.Equal(month, other.PlusYears(-ys));
+        }
     }
 
     [Theory, MemberData(nameof(AddYearsData))]
@@ -170,9 +186,13 @@ public partial class CalendarMathAdvancedFacts<TMath, TDataSet> // CalendarMonth
         var end = GetMonth(info.Second);
         // Act & Assert
         Assert.Equal(ys, MathUT.CountYearsBetween(start, end));
-        Assert.Equal(-ys, MathUT.CountYearsBetween(end, start));
         // CalendarMonth
         Assert.Equal(ys, end.CountYearsSince(start));
-        Assert.Equal(-ys, start.CountYearsSince(end));
+        if (CalendarIsRegular
+            || AdditionRules.MonthRule == MonthAdditionRule.Exact)
+        {
+            Assert.Equal(-ys, MathUT.CountYearsBetween(end, start));
+            Assert.Equal(-ys, start.CountYearsSince(end));
+        }
     }
 }
