@@ -9,6 +9,7 @@ on:
     - 'CHANGELOG'
     - 'LICENSE'
     - '**.md'
+    - '**.ps1'
     - '**.svg'
     - '**.txt'
 
@@ -26,7 +27,5 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Info
-      run: dotnet --info
     - name: Test
       run: dotnet test test\Zorglub.Tests\ --filter "ExcludeFrom!=Smoke&Performance!~Slow"
