@@ -24,37 +24,3 @@ public class Derived : Base {
     public override void TestMethod() { ... }
 }
 ```
-
-Math Operations
----------------
-
-We have two types of tests: DDT and limits (overflow, min/max values).
-
-### Schemas
-- `ICalendricalArithmeticFacts`
-  - DDT for `ICalendricalArithmetic`.
-- `CalendricalArithmeticFacts`
-  - Limits for `ICalendricalArithmetic`.
-  - DDT for `ICalendricalArithmetic` (inherited from `ICalendricalArithmeticFacts`)
-
-### Date Types
-- `IDateFacts`
-  - Limits and DDT for all standard methods/ops on dates.
-    
-### Simple Calendars and Date Types
-- `CalendarMath`
-  - `CalendarMathFacts` when the result is _unambiguous_
-  - `CalendarMathAdvancedFacts` when the result is _ambiguous_
-- `CalendarDate`
-  - `CalendarDateFacts`, standard methods/ops (inherited).
-  - `CalendarMathFacts`, non-standard methods.
-- `OrdinalDateFacts`
-  - `OrdinalDateFacts`, standard methods/ops (inherited).
-  - `CalendarMathFacts`, non-standard methods
-- `CalendarDay`
-  - `CalendarDayFacts`, standard methods/ops (inherited).
-  - there is no non-standard method.
-- `CalendarMonth`
-  - `CalendarMathFacts`, everything.
-- `CalendarYear`
-  - `CalendarMathFacts`, everything.

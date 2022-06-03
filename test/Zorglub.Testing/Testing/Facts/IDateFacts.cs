@@ -10,7 +10,7 @@ namespace Zorglub.Testing.Facts;
 // TODO(fact): for simple date objects the constructor is tested in
 // CalendarFacts (Factories). For the others, copy this code: CivilDate
 // and WideDate. See also CalendarDateTests.
-// Filter CalCalDataSet.DayOfWeekData.
+// DayOfWeek via DayNumber. Pre-filter CalCalDataSet.DayOfWeekData.
 
 using Zorglub.Testing.Data;
 using Zorglub.Time.Core.Intervals;
@@ -50,7 +50,6 @@ public abstract partial class IDateFacts<TDate, TDataSet> :
 
 public partial class IDateFacts<TDate, TDataSet> // Prelude
 {
-    // TODO(fact): DayOfWeek via DayNumber.
     //[Theory, MemberData(nameof(CalCalDataSet.DayOfWeekData), MemberType = typeof(CalCalDataSet))]
     //public void DayOfWeek_Prop_ViaDayNumber(DayNumber dayNumber, DayOfWeek dayOfWeek)
     //{
