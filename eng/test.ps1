@@ -36,6 +36,8 @@ Usage: test.ps1 [arguments]
 
 The default behaviour is to run the smoke tests using the configuration Debug.
 
+Test plans
+----------
 The common test plans are:
 - "smoke"     = smoke testing
 - "regular"   = exclude redundant tests, slow-running tests and test bundles
@@ -61,11 +63,20 @@ The extra test plans are:
 Of course, one can use "dotnet test" to run the whole test suite or to apply
 custom filters.
 
-Examples.
+Examples
+--------
+Simple daily testing.
 > test.ps1 -NoBuild             # Smoke testing (Debug)
 > test.ps1 regular              # Regular test suite (Debug)
 > test.ps1 regular -c Release   # Regular test suite (Release)
 
+Split comprehensive test suite.
+> test.ps1 more
+> test.ps1 redundant-not-slow
+> test.ps1 redundant-slow
+
+Figures
+-------
 The common plans.
 > test.ps1 smoke                # ~27 thousand tests (FAST)
 > test.ps1 regular              # ~73 thousand tests
