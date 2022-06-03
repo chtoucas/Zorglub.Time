@@ -10,7 +10,7 @@ using Zorglub.Time.Simple;
 
 /// <summary>
 /// Provides facts about <see cref="CalendarMath"/>; <i>ambiguous</i> cases.
-/// <para>We also test the math part of <see cref="CalendarDate"/>, <see cref="OrdinalDate"/>,
+/// <para>This class also includes tests for <see cref="CalendarDate"/>, <see cref="OrdinalDate"/>,
 /// <see cref="CalendarMonth"/> and <see cref="CalendarYear"/>.</para>
 /// </summary>
 public abstract partial class CalendarMathAdvancedFacts<TMath, TDataSet>
@@ -36,6 +36,8 @@ public abstract partial class CalendarMathAdvancedFacts<TMath, TDataSet>
     protected TMath MathUT { get; }
     protected Calendar Calendar { get; }
 
+    // When the calendar is regular, CalendarMonth.AddYears() and CalendarMonth.CountYearsBetween()
+    // are unambiguous.
     protected bool CalendarIsRegular { get; }
 
     protected CalendarDate GetDate(Yemoda ymd)

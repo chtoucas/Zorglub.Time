@@ -140,32 +140,22 @@ public partial class IDateFacts<TDate, TDataSet> // Math
     #region NextDay()
 
     [Fact]
-    public void Increment_Overflows_AtMaxValue()
+    public void NextDay_Overflows_AtMaxValue()
     {
         var copy = MaxDate;
         // Act & Assert
         Assert.Overflows(() => copy++);
-    }
-
-    [Theory, MemberData(nameof(ConsecutiveDaysData))]
-    public void Increment(YemodaPair pair)
-    {
-        var date = GetDate(pair.First);
-        var dateAfter = GetDate(pair.Second);
-        // Act & Assert
-        Assert.Equal(dateAfter, ++date);
-    }
-
-    [Fact]
-    public void NextDay_Overflows_AtMaxValue() =>
         Assert.Overflows(() => MaxDate.NextDay());
+    }
 
     [Theory, MemberData(nameof(ConsecutiveDaysData))]
     public void NextDay(YemodaPair pair)
     {
         var date = GetDate(pair.First);
+        var copy = date;
         var dateAfter = GetDate(pair.Second);
         // Act & Assert
+        Assert.Equal(dateAfter, ++copy);
         Assert.Equal(dateAfter, date.NextDay());
     }
 
@@ -173,37 +163,27 @@ public partial class IDateFacts<TDate, TDataSet> // Math
     #region PreviousDay()
 
     [Fact]
-    public void Decrement_Overflows_AtMinValue()
+    public void PreviousDay_Overflows_AtMinValue()
     {
         var copy = MinDate;
         // Act & Assert
         Assert.Overflows(() => copy--);
-    }
-
-    [Theory, MemberData(nameof(ConsecutiveDaysData))]
-    public void Decrement(YemodaPair pair)
-    {
-        var date = GetDate(pair.First);
-        var dateAfter = GetDate(pair.Second);
-        // Act & Assert
-        Assert.Equal(date, --dateAfter);
-    }
-
-    [Fact]
-    public void PreviousDay_Overflows_AtMinValue() =>
         Assert.Overflows(() => MinDate.PreviousDay());
+    }
 
     [Theory, MemberData(nameof(ConsecutiveDaysData))]
     public void PreviousDay(YemodaPair pair)
     {
         var date = GetDate(pair.First);
         var dateAfter = GetDate(pair.Second);
+        var copy = dateAfter;
         // Act & Assert
+        Assert.Equal(date, --copy);
         Assert.Equal(date, dateAfter.PreviousDay());
     }
 
     #endregion
-    #region PlusDays()
+    #region PlusDays() & CountDaysSince()
 
     [Fact]
     public void PlusDays_Overflows()
@@ -212,6 +192,7 @@ public partial class IDateFacts<TDate, TDataSet> // Math
         // Act & Assert
         Assert.Overflows(() => date + Int32.MinValue);
         Assert.Overflows(() => date + Int32.MaxValue);
+
         Assert.Overflows(() => date.PlusDays(Int32.MinValue));
         Assert.Overflows(() => date.PlusDays(Int32.MaxValue));
     }
@@ -231,10 +212,33 @@ public partial class IDateFacts<TDate, TDataSet> // Math
         Assert.Equal(MinDate, date + minDays);
         Assert.Equal(MaxDate, date + maxDays);
         Assert.Overflows(() => date + (maxDays + 1));
+
         Assert.Overflows(() => date.PlusDays(minDays - 1));
         Assert.Equal(MinDate, date.PlusDays(minDays));
         Assert.Equal(MaxDate, date.PlusDays(maxDays));
         Assert.Overflows(() => date.PlusDays(maxDays + 1));
+
+        Assert.Equal(minDays, MinDate - date);
+        Assert.Equal(-minDays, date - MinDate);
+        Assert.Equal(maxDays, MaxDate - date);
+        Assert.Equal(-maxDays, date - MaxDate);
+
+        Assert.Equal(minDays, MinDate.CountDaysSince(date));
+        Assert.Equal(-minDays, date.CountDaysSince(MinDate));
+        Assert.Equal(maxDays, MaxDate.CountDaysSince(date));
+        Assert.Equal(-maxDays, date.CountDaysSince(MaxDate));
+    }
+
+    [Fact]
+    public void CountDaysSince_DoesNotOverflow()
+    {
+        int days = Domain.Count() - 1;
+        // Act & Assert
+        Assert.Equal(days, MaxDate - MinDate);
+        Assert.Equal(-days, MinDate - MaxDate);
+
+        Assert.Equal(days, MaxDate.CountDaysSince(MinDate));
+        Assert.Equal(-days, MinDate.CountDaysSince(MaxDate));
     }
 
     [Fact]
@@ -247,6 +251,7 @@ public partial class IDateFacts<TDate, TDataSet> // Math
         Assert.Equal(MinDate, MinDate + 0);
         Assert.Equal(MaxDate, MinDate + days);
         Assert.Overflows(() => MinDate + (days + 1));
+
         Assert.Overflows(() => MinDate.PlusDays(-1));
         Assert.Equal(MinDate, MinDate.PlusDays(0));
         Assert.Equal(MaxDate, MinDate.PlusDays(days));
@@ -263,6 +268,7 @@ public partial class IDateFacts<TDate, TDataSet> // Math
         Assert.Equal(MaxDate, MaxDate - 0);
         Assert.Equal(MaxDate, MaxDate + 0);
         Assert.Overflows(() => MaxDate + 1);
+
         Assert.Overflows(() => MaxDate.PlusDays(-days - 1));
         Assert.Equal(MinDate, MaxDate.PlusDays(-days));
         Assert.Equal(MaxDate, MaxDate.PlusDays(0));
@@ -278,6 +284,9 @@ public partial class IDateFacts<TDate, TDataSet> // Math
         Assert.Equal(date, date + 0);
         Assert.Equal(date, date - 0);
         Assert.Equal(date, date.PlusDays(0));
+
+        Assert.Equal(0, date - date);
+        Assert.Equal(0, date.CountDaysSince(date));
     }
 
     [Theory, MemberData(nameof(AddDaysData))]
@@ -288,12 +297,21 @@ public partial class IDateFacts<TDate, TDataSet> // Math
         var other = GetDate(pair.Second);
         // Act & Assert
         Assert.Equal(other, date + days);
-        Assert.Equal(date, other - days);
         Assert.Equal(other, date - (-days));
+        Assert.Equal(date, other - days);
+        Assert.Equal(date, other + (-days));
+
         Assert.Equal(other, date.PlusDays(days));
         Assert.Equal(date, other.PlusDays(-days));
+
+        Assert.Equal(days, other - date);
+        Assert.Equal(-days, date - other);
+
+        Assert.Equal(days, other.CountDaysSince(date));
+        Assert.Equal(-days, date.CountDaysSince(other));
     }
 
+    [RedundantTest]
     [Theory, MemberData(nameof(ConsecutiveDaysData))]
     public void PlusDays_ViaConsecutiveDays(YemodaPair pair)
     {
@@ -301,57 +319,16 @@ public partial class IDateFacts<TDate, TDataSet> // Math
         var dateAfter = GetDate(pair.Second);
         // Act & Assert
         Assert.Equal(dateAfter, date + 1);
-        Assert.Equal(date, dateAfter - 1);
         Assert.Equal(dateAfter, date - (-1));
+        Assert.Equal(date, dateAfter - 1);
+        Assert.Equal(date, dateAfter + (-1));
+
         Assert.Equal(dateAfter, date.PlusDays(1));
         Assert.Equal(date, dateAfter.PlusDays(-1));
-    }
 
-    #endregion
-    #region CountDaysSince()
-
-    [Fact]
-    public void CountDaysSince_DoesNotOverflow()
-    {
-        int days = Domain.Count() - 1;
-        // Act & Assert
-        Assert.Equal(days, MaxDate - MinDate);
-        Assert.Equal(-days, MinDate - MaxDate);
-        Assert.Equal(days, MaxDate.CountDaysSince(MinDate));
-        Assert.Equal(-days, MinDate.CountDaysSince(MaxDate));
-    }
-
-    [Theory, MemberData(nameof(DateInfoData))]
-    public void CountDaysSince_WhenSame_IsZero(DateInfo info)
-    {
-        var (y, m, d) = info.Yemoda;
-        var date = GetDate(y, m, d);
-        // Act & Assert
-        Assert.Equal(0, date - date);
-        Assert.Equal(0, date.CountDaysSince(date));
-    }
-
-    [Theory, MemberData(nameof(AddDaysData))]
-    public void CountDaysSince(YemodaPairAnd<int> pair)
-    {
-        int days = pair.Value;
-        var date = GetDate(pair.First);
-        var other = GetDate(pair.Second);
-        // Act & Assert
-        Assert.Equal(days, other - date);
-        Assert.Equal(-days, date - other);
-        Assert.Equal(days, other.CountDaysSince(date));
-        Assert.Equal(-days, date.CountDaysSince(other));
-    }
-
-    [Theory, MemberData(nameof(ConsecutiveDaysData))]
-    public void CountDaysSince_ViaConsecutiveDays(YemodaPair pair)
-    {
-        var date = GetDate(pair.First);
-        var dateAfter = GetDate(pair.Second);
-        // Act & Assert
         Assert.Equal(1, dateAfter - date);
         Assert.Equal(-1, date - dateAfter);
+
         Assert.Equal(1, dateAfter.CountDaysSince(date));
         Assert.Equal(-1, date.CountDaysSince(dateAfter));
     }

@@ -84,6 +84,7 @@ public partial class NakedCalendarFacts<TCalendar, TDataSet> // Conversions
         Assert.Equal(exp, actual);
     }
 
+    [RedundantTest]
     [Theory, MemberData(nameof(DateInfoData))]
     public void GetDateParts﹍DayNumber_ViaDateInfo(DateInfo info)
     {
@@ -126,7 +127,7 @@ public partial class NakedCalendarFacts<TCalendar, TDataSet> // Conversions
         DomainTester.TestInvalidDayNumber(x => CalendarUT.GetOrdinalParts(x));
 
     [Theory, MemberData(nameof(DateInfoData))]
-    public void GetOrdinalParts﹍DayNumber_ViaDateInfo(DateInfo info)
+    public void GetOrdinalParts﹍DayNumber_UsingDateInfo(DateInfo info)
     {
         var (y, m, d, doy) = info;
         var dayNumber = CalendarUT.GetDayNumberOn(y, m, d);

@@ -52,6 +52,7 @@ public partial class ICalendarTFacts<TDate, TCalendar, TDataSet> // Factories
         Assert.Equal(d, date.Day);
     }
 
+    [RedundantTest]
     [Theory, MemberData(nameof(DayNumberInfoData))]
     public void Factory_ViaDayNumber(DayNumberInfo info)
     {

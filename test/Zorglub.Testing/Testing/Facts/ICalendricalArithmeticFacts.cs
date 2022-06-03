@@ -31,6 +31,7 @@ public partial class ICalendricalArithmeticFacts<TArithmetic, TDataSet> // Yemod
         Assert.Equal(date, ArithmeticUT.AddDays(other, -days));
     }
 
+    [RedundantTest]
     [Theory, MemberData(nameof(ConsecutiveDaysData))]
     public void AddDays﹍Yemoda_ViaConsecutiveDays(YemodaPair pair)
     {
@@ -70,6 +71,7 @@ public partial class ICalendricalArithmeticFacts<TArithmetic, TDataSet> // Yemod
         Assert.Equal(-days, ArithmeticUT.CountDaysBetween(other, date));
     }
 
+    [RedundantTest]
     [Theory, MemberData(nameof(ConsecutiveDaysData))]
     public void CountDaysBetween﹍Yemoda_ViaConsecutiveDays(YemodaPair pair)
     {
@@ -94,6 +96,7 @@ public partial class ICalendricalArithmeticFacts<TArithmetic, TDataSet> // Yedoy
         Assert.Equal(date, ArithmeticUT.AddDays(other, -days));
     }
 
+    [RedundantTest]
     [Theory, MemberData(nameof(ConsecutiveDaysOrdinalData))]
     public void AddDays﹍Yedoy_ViaConsecutiveDays(YedoyPair pair)
     {
@@ -133,6 +136,7 @@ public partial class ICalendricalArithmeticFacts<TArithmetic, TDataSet> // Yedoy
         Assert.Equal(-days, ArithmeticUT.CountDaysBetween(other, date));
     }
 
+    [RedundantTest]
     [Theory, MemberData(nameof(ConsecutiveDaysOrdinalData))]
     public void CountDaysBetween﹍Yedoy_ViaConsecutiveDays(YedoyPair pair)
     {

@@ -121,29 +121,13 @@ public partial class SimpleDateFacts<TDate, TDataSet> // Serialization
 public partial class SimpleDateFacts<TDate, TDataSet> // Math
 {
     [Theory, MemberData(nameof(ConsecutiveDaysOrdinalData))]
-    public void Increment_Ordinal(YedoyPair pair)
-    {
-        var date = GetDate(pair.First);
-        var dateAfter = GetDate(pair.Second);
-        // Act & Assert
-        Assert.Equal(dateAfter, ++date);
-    }
-
-    [Theory, MemberData(nameof(ConsecutiveDaysOrdinalData))]
-    public void Decrement_Ordinal(YedoyPair pair)
-    {
-        var date = GetDate(pair.First);
-        var dateAfter = GetDate(pair.Second);
-        // Act & Assert
-        Assert.Equal(date, --dateAfter);
-    }
-
-    [Theory, MemberData(nameof(ConsecutiveDaysOrdinalData))]
     public void NextDay_Ordinal(YedoyPair pair)
     {
         var date = GetDate(pair.First);
+        var copy = date;
         var dateAfter = GetDate(pair.Second);
         // Act & Assert
+        Assert.Equal(dateAfter, ++copy);
         Assert.Equal(dateAfter, date.NextDay());
     }
 
@@ -152,7 +136,9 @@ public partial class SimpleDateFacts<TDate, TDataSet> // Math
     {
         var date = GetDate(pair.First);
         var dateAfter = GetDate(pair.Second);
+        var copy = dateAfter;
         // Act & Assert
+        Assert.Equal(date, --copy);
         Assert.Equal(date, dateAfter.PreviousDay());
     }
 
@@ -164,12 +150,21 @@ public partial class SimpleDateFacts<TDate, TDataSet> // Math
         var other = GetDate(pair.Second);
         // Act & Assert
         Assert.Equal(other, date + days);
-        Assert.Equal(date, other - days);
         Assert.Equal(other, date - (-days));
+        Assert.Equal(date, other - days);
+        Assert.Equal(date, other + (-days));
+
         Assert.Equal(other, date.PlusDays(days));
         Assert.Equal(date, other.PlusDays(-days));
+
+        Assert.Equal(days, other - date);
+        Assert.Equal(-days, date - other);
+
+        Assert.Equal(days, other.CountDaysSince(date));
+        Assert.Equal(-days, date.CountDaysSince(other));
     }
 
+    [RedundantTest]
     [Theory, MemberData(nameof(ConsecutiveDaysOrdinalData))]
     public void PlusDays_Ordinal_ViaConsecutiveDays(YedoyPair pair)
     {
@@ -177,33 +172,16 @@ public partial class SimpleDateFacts<TDate, TDataSet> // Math
         var dateAfter = GetDate(pair.Second);
         // Act & Assert
         Assert.Equal(dateAfter, date + 1);
-        Assert.Equal(date, dateAfter - 1);
         Assert.Equal(dateAfter, date - (-1));
+        Assert.Equal(date, dateAfter - 1);
+        Assert.Equal(date, dateAfter + (-1));
+
         Assert.Equal(dateAfter, date.PlusDays(1));
         Assert.Equal(date, dateAfter.PlusDays(-1));
-    }
 
-    [Theory, MemberData(nameof(AddDaysOrdinalData))]
-    public void CountDaysSince_Ordinal(YedoyPairAnd<int> pair)
-    {
-        int days = pair.Value;
-        var date = GetDate(pair.First);
-        var other = GetDate(pair.Second);
-        // Act & Assert
-        Assert.Equal(days, other - date);
-        Assert.Equal(-days, date - other);
-        Assert.Equal(days, other.CountDaysSince(date));
-        Assert.Equal(-days, date.CountDaysSince(other));
-    }
-
-    [Theory, MemberData(nameof(ConsecutiveDaysOrdinalData))]
-    public void CountDaysSince_Ordinal_ViaConsecutiveDays(YedoyPair pair)
-    {
-        var date = GetDate(pair.First);
-        var dateAfter = GetDate(pair.Second);
-        // Act & Assert
         Assert.Equal(1, dateAfter - date);
         Assert.Equal(-1, date - dateAfter);
+
         Assert.Equal(1, dateAfter.CountDaysSince(date));
         Assert.Equal(-1, date.CountDaysSince(dateAfter));
     }

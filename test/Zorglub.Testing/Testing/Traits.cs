@@ -125,7 +125,7 @@ public sealed class TestPerformanceAttribute : Attribute, ITraitAttribute
 
 #region Discoverers
 
-// TODO(code): the trait discoverers do not inspect the base classes.
+// TODO(code): the trait discoverers do not inspect the base class attributes.
 
 public sealed class ExcludeFromTraitDiscoverer : ITraitDiscoverer
 {

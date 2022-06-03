@@ -63,10 +63,10 @@ Examples
 > test.ps1 more                 # Comprehensive test suite (Debug)
 
 Figures.
-> test.ps1 smoke                # ~30 thousand tests (FAST)
-> test.ps1 regular              # ~75 thousand tests
-> test.ps1 more                 # ~87 thousand tests
-> test.ps1 most                 # ~245 thousand tests (SLOW)
+> test.ps1 smoke                # ~26 thousand tests (FAST)
+> test.ps1 regular              # ~71 thousand tests
+> test.ps1 more                 # ~82 thousand tests
+> test.ps1 most                 # ~234 thousand tests (SLOW)
 Extra plans.
 > test.ps1 redundant-slow       # ~64 thousand tests
 > test.ps1 redundant-not-slow   # ~93 thousand tests
