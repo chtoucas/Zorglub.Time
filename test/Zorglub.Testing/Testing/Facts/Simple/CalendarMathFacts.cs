@@ -18,10 +18,7 @@ using Zorglub.Time.Simple;
 // only test the simplest cases and I already know that CalendarMath is not
 // working correctly even if we cannot see it yet through the tests.
 // - CalendarDate
-//   - CountYearsBetween(), currently we use AddYearsData
 //   - CountMonthsBetween(), currently we use AddMonthsData
-// - OrdinalDate
-//   - CountYearsBetween(), currently we use AddYearsOrdinalData
 // - CalendarMonth
 //   - AddYears(), currently we use AddYearsData            -> AddYearsMonthData
 //   - CountYearsBetween(), currently we use AddYearsData   -> CountYearsBetweenMonthData
@@ -439,8 +436,8 @@ public partial class CalendarMathFacts<TMath, TDataSet> // OrdinalDate
         Assert.Equal(0, date.CountYearsSince(date));
     }
 
-    [Theory, MemberData(nameof(AddYearsOrdinalData))]
-    public void CountYearsBetween﹍OrdinalDate_UsingYedoyAddition(YedoyPairAnd<int> info)
+    [Theory, MemberData(nameof(CountYearsBetweenOrdinalData))]
+    public void CountYearsBetween﹍OrdinalDate(YedoyPairAnd<int> info)
     {
         int ys = info.Value;
         var start = GetDate(info.First);

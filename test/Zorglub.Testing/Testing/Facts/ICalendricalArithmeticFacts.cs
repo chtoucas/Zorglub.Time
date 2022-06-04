@@ -137,11 +137,11 @@ public partial class ICalendricalArithmeticFacts<TArithmetic, TDataSet> // Yedoy
         Assert.Equal(-days, ArithmeticUT.CountDaysBetween(other, date));
     }
 
-    // TODO(fact): marked as redundant even if, today, it's not.
-    // We need more data in AddDaysOrdinalData.
+    // TODO(fact): should be marked as redundant but we need custom data
+    // (AddDaysOrdinalData) for the following schemas:
     // - LunarArithmetic
     // - LunisolarArithmetic
-    [RedundantTest]
+    //[RedundantTest]
     [Theory, MemberData(nameof(ConsecutiveDaysOrdinalData))]
     public void CountDaysBetween﹍Yedoy_ViaConsecutiveDays(YedoyPair pair)
     {

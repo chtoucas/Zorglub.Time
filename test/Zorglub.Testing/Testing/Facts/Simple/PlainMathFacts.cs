@@ -65,7 +65,7 @@ public partial class PlainMathFacts<TDataSet> // CalendarDate
     //    Assert.Equal(other, MathUT.AddMonths(date, months));
     //}
 
-    [Theory, MemberData(nameof(AddYearsData))]
+    [Theory, MemberData(nameof(CountYearsBetweenData))]
     public void CountYearsBetween﹍CalendarDate(YemodaPairAnd<int> info)
     {
         int years = info.Value;
@@ -98,7 +98,7 @@ public partial class PlainMathFacts<TDataSet> // OrdinalDate
         Assert.Equal(other, MathUT.AddYears(date, years));
     }
 
-    [Theory, MemberData(nameof(AddYearsOrdinalData))]
+    [Theory, MemberData(nameof(CountYearsBetweenOrdinalData))]
     public void CountYearsBetween﹍OrdinalDate(YedoyPairAnd<int> info)
     {
         int years = info.Value;

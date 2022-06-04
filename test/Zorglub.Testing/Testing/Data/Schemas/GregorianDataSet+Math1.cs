@@ -143,28 +143,6 @@ public partial class GregorianDataSet // Math data
         // End of february, leap year -> common year (ambiguous).
     }.ConcatT(base.AddYearsData);
 
-    public override DataGroup<YemodaPairAnd<int>> CountYearsBetweenData => new DataGroup<YemodaPairAnd<int>>()
-    {
-        new(new(3, 6, 5), new(2, 5, 5), -1),
-        new(new(3, 6, 5), new(2, 6, 5), -1),
-        new(new(3, 6, 5), new(2, 7, 5), 0),
-        new(new(3, 6, 5), new(2, 8, 5), 0),
-        new(new(3, 6, 5), new(2, 9, 5), 0),
-        new(new(3, 6, 5), new(2, 10, 5), 0),
-        new(new(3, 6, 5), new(2, 11, 5), 0),
-        new(new(3, 6, 5), new(2, 12, 5), 0),
-        //new(new(3, 6, 5), new(3, 1, 5), 0),
-        // ... see CountYearsBetweenSamples
-        //new(new(3, 6, 5), new(3, 12, 5), 0),
-        new(new(3, 6, 5), new(4, 1, 5), 0),
-        new(new(3, 6, 5), new(4, 2, 5), 0),
-        new(new(3, 6, 5), new(4, 3, 5), 0),
-        new(new(3, 6, 5), new(4, 4, 5), 0),
-        new(new(3, 6, 5), new(4, 5, 5), 0),
-        new(new(3, 6, 5), new(4, 6, 5), 1),
-        new(new(3, 6, 5), new(4, 7, 5), 1),
-    }.ConcatT(base.CountYearsBetweenData);
-
     public override DataGroup<YemodaPairAnd<int>> AddMonthsData => new DataGroup<YemodaPairAnd<int>>()
     {
         new(new(3, 6, 5), new(1, 12, 5), -18),
@@ -198,4 +176,42 @@ public partial class GregorianDataSet // Math data
         new(new(4, 366), new(8, 366), 4),
         // End of year, leap year -> common year (ambiguous).
     }.ConcatT(base.AddYearsOrdinalData);
+
+    public override DataGroup<YemodaPairAnd<int>> CountYearsBetweenData => new DataGroup<YemodaPairAnd<int>>()
+    {
+        new(new(3, 6, 5), new(2, 5, 5), -1),
+        new(new(3, 6, 5), new(2, 6, 5), -1), // Last date for which years = -1
+        new(new(3, 6, 5), new(2, 6, 6), 0),  // First date for which years = 0
+        new(new(3, 6, 5), new(2, 7, 5), 0),
+        // ...
+        new(new(3, 6, 5), new(2, 12, 5), 0),
+        //new(new(3, 6, 5), new(3, 1, 5), 0),
+        // ... see CountYearsBetweenSamples
+        //new(new(3, 6, 5), new(3, 12, 5), 0),
+        new(new(3, 6, 5), new(4, 1, 5), 0),
+        // ...
+        new(new(3, 6, 5), new(4, 5, 31), 0),
+        new(new(3, 6, 5), new(4, 6, 4), 0), // Last date for which years = 0
+        new(new(3, 6, 5), new(4, 6, 5), 1), // First date for which years = 1
+        new(new(3, 6, 5), new(4, 7, 5), 1),
+
+        // Start = start of a month.
+        new(new(3, 6, 1), new(2, 6, 1), -1),
+        new(new(3, 6, 1), new(2, 6, 2), 0),
+        new(new(3, 6, 1), new(4, 5, 31), 0),
+        new(new(3, 6, 1), new(4, 6, 1), 1),
+        // Start = end of a month.
+        new(new(3, 6, 30), new(2, 6, 30), -1),
+        new(new(3, 6, 30), new(2, 7, 1), 0),
+        new(new(3, 6, 30), new(4, 6, 29), 0),
+        new(new(3, 6, 30), new(4, 6, 30), 1),
+    }.ConcatT(base.CountYearsBetweenData);
+
+    public override DataGroup<YedoyPairAnd<int>> CountYearsBetweenOrdinalData => new DataGroup<YedoyPairAnd<int>>()
+    {
+        new(new(3, 35), new(2, 35), -1), // Last date for which years = -1
+        new(new(3, 35), new(2, 36), 0),  // First date for which years = 0
+        new(new(3, 35), new(4, 34), 0),  // Last date for which years = 0
+        new(new(3, 35), new(4, 35), 1),  // First date for which years = 1
+    }.ConcatT(base.CountYearsBetweenOrdinalData);
 }

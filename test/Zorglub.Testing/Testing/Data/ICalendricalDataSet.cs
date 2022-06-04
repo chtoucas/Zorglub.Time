@@ -86,4 +86,5 @@ public interface ICalendricalDataSet
     DataGroup<YedoyPairAnd<int>> AddYearsOrdinalData { get; }
 
     DataGroup<YemodaPairAnd<int>> CountYearsBetweenData { get; }
+    DataGroup<YedoyPairAnd<int>> CountYearsBetweenOrdinalData { get; }
 }
