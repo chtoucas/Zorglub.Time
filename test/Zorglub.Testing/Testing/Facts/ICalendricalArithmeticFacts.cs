@@ -31,7 +31,8 @@ public partial class ICalendricalArithmeticFacts<TArithmetic, TDataSet> // Yemod
         Assert.Equal(date, ArithmeticUT.AddDays(other, -days));
     }
 
-    [RedundantTest]
+    // NB: this test is not redundant, it is in fact necessary in order to cover
+    // all branches of AddDaysViaDayOfMonth().
     [Theory, MemberData(nameof(ConsecutiveDaysData))]
     public void AddDays﹍Yemoda_ViaConsecutiveDays(YemodaPair pair)
     {
@@ -136,6 +137,10 @@ public partial class ICalendricalArithmeticFacts<TArithmetic, TDataSet> // Yedoy
         Assert.Equal(-days, ArithmeticUT.CountDaysBetween(other, date));
     }
 
+    // TODO(fact): marked as redundant even if, today, it's not.
+    // We need more data in AddDaysOrdinalData.
+    // - LunarArithmetic
+    // - LunisolarArithmetic
     [RedundantTest]
     [Theory, MemberData(nameof(ConsecutiveDaysOrdinalData))]
     public void CountDaysBetween﹍Yedoy_ViaConsecutiveDays(YedoyPair pair)

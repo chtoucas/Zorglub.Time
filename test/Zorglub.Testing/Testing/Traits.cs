@@ -86,7 +86,7 @@ public static class TestExcludeFromValues
     public static readonly string Regular = TestExcludeFrom.Regular.ToString();
 }
 
-// We use this trait to exclude redundant individual tests.
+// We use this trait to exclude redundant test units.
 [TraitDiscoverer(XunitTraitAssembly.TypePrefix + nameof(RedundantTraitDiscoverer), XunitTraitAssembly.Name)]
 [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
 public sealed class RedundantTestAttribute : Attribute, ITraitAttribute
@@ -94,10 +94,7 @@ public sealed class RedundantTestAttribute : Attribute, ITraitAttribute
     public RedundantTestAttribute() { }
 }
 
-// We use this trait to exclude redundant test bundle, apply to classes in a
-// test suite. This is very similar to TestExcludeFrom.Smoke, except that
-// we keep all test classes necessary for full code coverage.
-// IMPORTANT: We automatically exclude the group from smoke testing.
+// We use this trait to exclude redundant test bundles, that is classes in a test suite.
 [TraitDiscoverer(XunitTraitAssembly.TypePrefix + nameof(RedundantTraitDiscoverer), XunitTraitAssembly.Name)]
 [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
 public sealed class RedundantTestBundleAttribute : Attribute, ITraitAttribute
