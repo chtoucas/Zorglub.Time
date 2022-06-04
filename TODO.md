@@ -33,7 +33,7 @@ TODO
 ----
 
 - Packaging: version numbering (timestamp).
-- Publication: GitHub & NuGet.
+- Publication: GitHub & NuGet (for NuGet only when reach 1.0.0).
 - When .NET 7 is out:
   D.B.targets: disable preview features.
   Clean up unnecessary "#pragma warning disable".
