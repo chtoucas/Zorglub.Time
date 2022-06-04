@@ -359,7 +359,7 @@ public partial class TabularIslamicDataSet // Invalid date parts
 
 public partial class TabularIslamicDataSet // Math data
 {
-    public override DataGroup<YemodaPairAnd<int>> AddDaysData { get; } = new DataGroup<YemodaPairAnd<int>>()
+    public override DataGroup<YemodaPairAnd<int>> AddDaysData => new DataGroup<YemodaPairAnd<int>>()
     {
         //
         // Branch AddDaysViaDayOfYear()
@@ -377,9 +377,9 @@ public partial class TabularIslamicDataSet // Math data
         new(new(LeapYear, 12, 29), new(LeapYear + 1, 12, 28), 354),
         new(new(LeapYear, 12, 30), new(LeapYear, 1, 1), -354),
         new(new(LeapYear, 12, 30), new(LeapYear + 1, 12, 29), 354),
-    }.ConcatT(AddDaysSamples);
+    }.ConcatT(base.AddDaysData);
 
-    public override DataGroup<YemodaPair> ConsecutiveDaysData { get; } = new DataGroup<YemodaPair>()
+    public override DataGroup<YemodaPair> ConsecutiveDaysData => new DataGroup<YemodaPair>()
     {
         // End of month.
         new(new(CommonYear, 1, 30), new(CommonYear, 2, 1)),
@@ -396,13 +396,13 @@ public partial class TabularIslamicDataSet // Math data
         new(new(CommonYear, 12, 29), new(CommonYear + 1, 1, 1)),
         new(new(LeapYear, 12, 29), new(LeapYear, 12, 30)),
         new(new(LeapYear, 12, 30), new(LeapYear + 1, 1, 1)),
-    }.ConcatT(ConsecutiveDaysSamples);
+    }.ConcatT(base.ConsecutiveDaysData);
 
-    public override DataGroup<YedoyPair> ConsecutiveDaysOrdinalData { get; } = new DataGroup<YedoyPair>()
+    public override DataGroup<YedoyPair> ConsecutiveDaysOrdinalData => new DataGroup<YedoyPair>()
     {
         // End of year.
         new(new(CommonYear, 354), new(CommonYear + 1, 1)),
         new(new(LeapYear, 354), new(LeapYear, 355)),
         new(new(LeapYear, 355), new(LeapYear + 1, 1)),
-    }.ConcatT(ConsecutiveDaysOrdinalSamples);
+    }.ConcatT(base.ConsecutiveDaysOrdinalData);
 }

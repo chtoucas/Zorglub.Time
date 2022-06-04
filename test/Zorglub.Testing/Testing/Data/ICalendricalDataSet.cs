@@ -84,4 +84,6 @@ public interface ICalendricalDataSet
     /// the data is NOT ambiguous.</para>
     /// </remarks>
     DataGroup<YedoyPairAnd<int>> AddYearsOrdinalData { get; }
+
+    DataGroup<YemodaPairAnd<int>> CountYearsBetweenData { get; }
 }

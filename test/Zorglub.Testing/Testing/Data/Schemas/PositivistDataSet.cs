@@ -227,7 +227,7 @@ public partial class PositivistDataSet // Invalid date parts
 
 public partial class PositivistDataSet // Math data
 {
-    public override DataGroup<YemodaPair> ConsecutiveDaysData { get; } = new DataGroup<YemodaPair>()
+    public override DataGroup<YemodaPair> ConsecutiveDaysData => new DataGroup<YemodaPair>()
     {
         // End of month.
         new(new(CommonYear, 1, 28), new(CommonYear, 2, 1)),
@@ -245,13 +245,13 @@ public partial class PositivistDataSet // Math data
         new(new(CommonYear, 13, 29), new(CommonYear + 1, 1, 1)),
         new(new(LeapYear, 13, 29), new(LeapYear, 13, 30)),
         new(new(LeapYear, 13, 30), new(LeapYear + 1, 1, 1)),
-    }.ConcatT(ConsecutiveDaysSamples);
+    }.ConcatT(base.ConsecutiveDaysData);
 
-    public override DataGroup<YedoyPair> ConsecutiveDaysOrdinalData { get; } = new DataGroup<YedoyPair>()
+    public override DataGroup<YedoyPair> ConsecutiveDaysOrdinalData => new DataGroup<YedoyPair>()
     {
         // End of year.
         new(new(CommonYear, 365), new(CommonYear + 1, 1)),
         new(new(LeapYear, 365), new(LeapYear, 366)),
         new(new(LeapYear, 366), new(LeapYear + 1, 1)),
-    }.ConcatT(ConsecutiveDaysOrdinalSamples);
+    }.ConcatT(base.ConsecutiveDaysOrdinalData);
 }

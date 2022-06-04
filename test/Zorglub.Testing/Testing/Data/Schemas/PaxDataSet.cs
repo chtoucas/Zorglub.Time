@@ -269,7 +269,7 @@ public partial class PaxDataSet // Invalid date parts
 
 public partial class PaxDataSet // Math data
 {
-    public override DataGroup<YemodaPair> ConsecutiveDaysData { get; } = new DataGroup<YemodaPair>()
+    public override DataGroup<YemodaPair> ConsecutiveDaysData => new DataGroup<YemodaPair>()
     {
         // End of month.
         new(new(CommonYear, 1, 28), new(CommonYear, 2, 1)),
@@ -287,7 +287,7 @@ public partial class PaxDataSet // Math data
         new(new(CommonYear, 13, 28), new(CommonYear + 1, 1, 1)),
         new(new(LeapYear, 13, 7), new(LeapYear, 14, 1)),
         new(new(LeapYear, 14, 28), new(LeapYear + 1, 1, 1)),
-    }.ConcatT(ConsecutiveDaysSamples);
+    }.ConcatT(base.ConsecutiveDaysData);
 
     public override DataGroup<YedoyPair> ConsecutiveDaysOrdinalData => new DataGroup<YedoyPair>()
     {
@@ -301,5 +301,5 @@ public partial class PaxDataSet // Math data
         new(new(LeapYear, 369), new(LeapYear, 370)),
         new(new(LeapYear, 370), new(LeapYear, 371)),
         new(new(LeapYear, 371), new(LeapYear + 1, 1)),
-    }.ConcatT(ConsecutiveDaysOrdinalSamples);
+    }.ConcatT(base.ConsecutiveDaysOrdinalData);
 }

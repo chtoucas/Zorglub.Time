@@ -5,7 +5,7 @@ namespace Zorglub.Testing.Data.Schemas;
 
 public partial class GregorianDataSet // Math data
 {
-    public override DataGroup<YemodaPairAnd<int>> AddDaysData { get; } = new DataGroup<YemodaPairAnd<int>>()
+    public override DataGroup<YemodaPairAnd<int>> AddDaysData => new DataGroup<YemodaPairAnd<int>>()
     {
         // Branch AddDaysViaDayOfMonth()
         //
@@ -63,9 +63,9 @@ public partial class GregorianDataSet // Math data
         new(new(3, 4, 5), new(8, 4, 3), 5 * 365),   // Result is leap
         new(new(3, 4, 5), new(9, 4, 3), 6 * 365),
         new(new(3, 4, 5), new(10, 4, 3), 7 * 365),
-    }.ConcatT(AddDaysSamples);
+    }.ConcatT(base.AddDaysData);
 
-    public override DataGroup<YemodaPair> ConsecutiveDaysData { get; } = new DataGroup<YemodaPair>()
+    public override DataGroup<YemodaPair> ConsecutiveDaysData => new DataGroup<YemodaPair>()
     {
         // End of month.
         new(new(CommonYear, 1, 31), new(CommonYear, 2, 1)),
@@ -81,9 +81,9 @@ public partial class GregorianDataSet // Math data
         new(new(CommonYear, 10, 31), new(CommonYear, 11, 1)),
         new(new(CommonYear, 11, 30), new(CommonYear, 12, 1)),
         new(new(CommonYear, 12, 31), new(CommonYear + 1, 1, 1)),
-    }.ConcatT(ConsecutiveDaysSamples);
+    }.ConcatT(base.ConsecutiveDaysData);
 
-    public override DataGroup<YedoyPairAnd<int>> AddDaysOrdinalData { get; } = new DataGroup<YedoyPairAnd<int>>()
+    public override DataGroup<YedoyPairAnd<int>> AddDaysOrdinalData => new DataGroup<YedoyPairAnd<int>>()
     {
         //
         // Branch AddDaysViaDayOfYear()
@@ -119,20 +119,20 @@ public partial class GregorianDataSet // Math data
         new(new(3, 64), new(8, 63), 5 * 365),   // Result is leap -> next step loose one day
         new(new(3, 64), new(9, 62), 6 * 365),
         new(new(3, 64), new(10, 62), 7 * 365),
-    }.ConcatT(AddDaysOrdinalSamples);
+    }.ConcatT(base.AddDaysOrdinalData);
 
-    public override DataGroup<YedoyPair> ConsecutiveDaysOrdinalData { get; } = new DataGroup<YedoyPair>()
+    public override DataGroup<YedoyPair> ConsecutiveDaysOrdinalData => new DataGroup<YedoyPair>()
     {
         // End of year.
         new(new(CommonYear, 365), new(CommonYear + 1, 1)),
         new(new(LeapYear, 365), new(LeapYear, 366)),
         new(new(LeapYear, 366), new(LeapYear + 1, 1)),
-    }.ConcatT(ConsecutiveDaysOrdinalSamples);
+    }.ConcatT(base.ConsecutiveDaysOrdinalData);
 
     // NB: we do not include data for which the result is ambiguous, see
     // GregorianMathDataSet... for that.
 
-    public override DataGroup<YemodaPairAnd<int>> AddYearsData { get; } = new DataGroup<YemodaPairAnd<int>>()
+    public override DataGroup<YemodaPairAnd<int>> AddYearsData => new DataGroup<YemodaPairAnd<int>>()
     {
         // End of february, common year -> common year.
         new(new(3, 2, 28), new(5, 2, 28), 2),
@@ -141,9 +141,31 @@ public partial class GregorianDataSet // Math data
         // End of february, leap year -> leap year.
         new(new(4, 2, 29), new(8, 2, 29), 4),
         // End of february, leap year -> common year (ambiguous).
-    }.ConcatT(AddYearsSamples);
+    }.ConcatT(base.AddYearsData);
 
-    public override DataGroup<YemodaPairAnd<int>> AddMonthsData { get; } = new DataGroup<YemodaPairAnd<int>>()
+    public override DataGroup<YemodaPairAnd<int>> CountYearsBetweenData => new DataGroup<YemodaPairAnd<int>>()
+    {
+        new(new(3, 6, 5), new(2, 5, 5), -1),
+        new(new(3, 6, 5), new(2, 6, 5), -1),
+        new(new(3, 6, 5), new(2, 7, 5), 0),
+        new(new(3, 6, 5), new(2, 8, 5), 0),
+        new(new(3, 6, 5), new(2, 9, 5), 0),
+        new(new(3, 6, 5), new(2, 10, 5), 0),
+        new(new(3, 6, 5), new(2, 11, 5), 0),
+        new(new(3, 6, 5), new(2, 12, 5), 0),
+        //new(new(3, 6, 5), new(3, 1, 5), 0),
+        // ... see CountYearsBetweenSamples
+        //new(new(3, 6, 5), new(3, 12, 5), 0),
+        new(new(3, 6, 5), new(4, 1, 5), 0),
+        new(new(3, 6, 5), new(4, 2, 5), 0),
+        new(new(3, 6, 5), new(4, 3, 5), 0),
+        new(new(3, 6, 5), new(4, 4, 5), 0),
+        new(new(3, 6, 5), new(4, 5, 5), 0),
+        new(new(3, 6, 5), new(4, 6, 5), 1),
+        new(new(3, 6, 5), new(4, 7, 5), 1),
+    }.ConcatT(base.CountYearsBetweenData);
+
+    public override DataGroup<YemodaPairAnd<int>> AddMonthsData => new DataGroup<YemodaPairAnd<int>>()
     {
         new(new(3, 6, 5), new(1, 12, 5), -18),
         new(new(3, 6, 5), new(2, 1, 5), -17),
@@ -164,9 +186,9 @@ public partial class GregorianDataSet // Math data
         new(new(4, 1, 27), new(4, 2, 27), 1),
         new(new(4, 1, 28), new(4, 2, 28), 1),
         new(new(4, 1, 29), new(4, 2, 29), 1),
-    }.ConcatT(AddMonthsSamples);
+    }.ConcatT(base.AddMonthsData);
 
-    public override DataGroup<YedoyPairAnd<int>> AddYearsOrdinalData { get; } = new DataGroup<YedoyPairAnd<int>>()
+    public override DataGroup<YedoyPairAnd<int>> AddYearsOrdinalData => new DataGroup<YedoyPairAnd<int>>()
     {
         // End of year, common year -> common year.
         new(new(3, 365), new(5, 365), 2),
@@ -175,6 +197,5 @@ public partial class GregorianDataSet // Math data
         // End of february, leap year -> leap year.
         new(new(4, 366), new(8, 366), 4),
         // End of year, leap year -> common year (ambiguous).
-    }.ConcatT(AddYearsOrdinalSamples);
-
+    }.ConcatT(base.AddYearsOrdinalData);
 }

@@ -212,8 +212,8 @@ public partial class CalendarMathFacts<TMath, TDataSet> // CalendarDate
         Assert.Equal(0, date.CountYearsSince(date));
     }
 
-    [Theory, MemberData(nameof(AddYearsData))]
-    public void CountYearsBetween﹍CalendarDate_UsingYemodaAddition(YemodaPairAnd<int> info)
+    [Theory, MemberData(nameof(CountYearsBetweenData))]
+    public void CountYearsBetween﹍CalendarDate(YemodaPairAnd<int> info)
     {
         int ys = info.Value;
         var start = GetDate(info.First);

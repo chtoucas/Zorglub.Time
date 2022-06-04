@@ -166,6 +166,15 @@ public sealed class DataGroup<T> : IReadOnlyCollection<object?[]>
         return DataGroup.Create(q);
     }
 
+    public DataGroup<T> ConcatT(DataGroup<T> data)
+    {
+        Requires.NotNull(data);
+
+        var q = _container.Values.Concat(data._container.Values);
+
+        return DataGroup.Create(q);
+    }
+
     public DataGroup<T> AsReadOnly() => IsReadOnly ? this : new(new ReadOnlyContainer(_container.Values));
 
     public DataGroup<T> AsReadWrite() => IsReadOnly ? new(new Container(_container.Values)) : this;

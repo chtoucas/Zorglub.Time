@@ -288,7 +288,7 @@ public partial class Coptic13DataSet // Invalid date parts
 
 public partial class Coptic13DataSet // Math data
 {
-    public override DataGroup<YemodaPair> ConsecutiveDaysData { get; } = new DataGroup<YemodaPair>()
+    public override DataGroup<YemodaPair> ConsecutiveDaysData => new DataGroup<YemodaPair>()
     {
         // End of month.
         new(new(CommonYear, 1, 30), new(CommonYear, 2, 1)),
@@ -306,7 +306,7 @@ public partial class Coptic13DataSet // Math data
         new(new(CommonYear, 13, 5), new(CommonYear + 1, 1, 1)),
         new(new(LeapYear, 13, 5), new(LeapYear, 13, 6)),
         new(new(LeapYear, 13, 6), new(LeapYear + 1, 1, 1)),
-    }.ConcatT(ConsecutiveDaysSamples);
+    }.ConcatT(base.ConsecutiveDaysData);
 
     public override DataGroup<YedoyPair> ConsecutiveDaysOrdinalData => new DataGroup<YedoyPair>()
     {
@@ -314,7 +314,7 @@ public partial class Coptic13DataSet // Math data
         new(new(CommonYear, 365), new(CommonYear + 1, 1)),
         new(new(LeapYear, 365), new(LeapYear, 366)),
         new(new(LeapYear, 366), new(LeapYear + 1, 1)),
-    }.ConcatT(ConsecutiveDaysOrdinalSamples);
+    }.ConcatT(base.ConsecutiveDaysOrdinalData);
 }
 
 public partial class Coptic13DataSet // IEpagomenalDataSet

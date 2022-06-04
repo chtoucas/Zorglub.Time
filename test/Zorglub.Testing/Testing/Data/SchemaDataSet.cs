@@ -4,7 +4,7 @@
 namespace Zorglub.Testing.Data;
 
 // TODO(data): DaysSinceEpochInfoData should include data before the epoch, then
-// we should review the facts classes to ensure that we use it to test negative years.
+// we should review the test bundles to ensure that we use it to test negative years.
 
 /// <summary>
 /// Defines test data for a schema and provides a base for derived classes.
@@ -83,21 +83,27 @@ public abstract partial class SchemaDataSet : ICalendricalDataSet
     public virtual DataGroup<YemodaPairAnd<int>> AddMonthsData => new(AddMonthsSamples);
     public virtual DataGroup<YedoyPairAnd<int>> AddYearsOrdinalData => new(AddYearsOrdinalSamples);
 
+    public virtual DataGroup<YemodaPairAnd<int>> CountYearsBetweenData =>
+        new DataGroup<YemodaPairAnd<int>>(CountYearsBetweenSamples).ConcatT(AddYearsData);
+
     /// <remarks>NB: First and Second belongs to the same month.</remarks>
-    protected static IEnumerable<YemodaPairAnd<int>> AddDaysSamples { get; } = InitAddDaysSamples();
+    private static IEnumerable<YemodaPairAnd<int>> AddDaysSamples { get; } = InitAddDaysSamples();
     /// <remarks>NB: First and Second belongs to the same month.</remarks>
-    protected static IEnumerable<YemodaPair> ConsecutiveDaysSamples { get; } = InitConsecutiveDaysSamples();
+    private static IEnumerable<YemodaPair> ConsecutiveDaysSamples { get; } = InitConsecutiveDaysSamples();
     /// <remarks>NB: First and Second belongs to the same year.</remarks>
-    protected static IEnumerable<YedoyPairAnd<int>> AddDaysOrdinalSamples { get; } = InitAddDaysOrdinalSamples();
+    private static IEnumerable<YedoyPairAnd<int>> AddDaysOrdinalSamples { get; } = InitAddDaysOrdinalSamples();
     /// <remarks>NB: First and Second belongs to the same year.</remarks>
-    protected static IEnumerable<YedoyPair> ConsecutiveDaysOrdinalSamples { get; } = InitConsecutiveDaysOrdinalSamples();
+    private static IEnumerable<YedoyPair> ConsecutiveDaysOrdinalSamples { get; } = InitConsecutiveDaysOrdinalSamples();
 
     /// <remarks>NB: The data is unambiguous.</remarks>
-    protected static IEnumerable<YemodaPairAnd<int>> AddYearsSamples { get; } = InitAddYearsSamples();
-    /// <remarks>NB: The data is unambiguous First and Second belongs to the same year.</remarks>
-    protected static IEnumerable<YemodaPairAnd<int>> AddMonthsSamples { get; } = InitAddMonthsSamples();
+    private static IEnumerable<YemodaPairAnd<int>> AddYearsSamples { get; } = InitAddYearsSamples();
+    /// <remarks>NB: The data is unambiguous. First and Second belongs to the same year.</remarks>
+    private static IEnumerable<YemodaPairAnd<int>> AddMonthsSamples { get; } = InitAddMonthsSamples();
     /// <remarks>NB: The data is unambiguous.</remarks>
-    protected static IEnumerable<YedoyPairAnd<int>> AddYearsOrdinalSamples { get; } = InitAddYearsOrdinalSamples();
+    private static IEnumerable<YedoyPairAnd<int>> AddYearsOrdinalSamples { get; } = InitAddYearsOrdinalSamples();
+
+    /// <remarks>NB: The data is unambiguous. First and Second belongs to the same year.</remarks>
+    private static IEnumerable<YemodaPairAnd<int>> CountYearsBetweenSamples { get; } = InitCountYearsBetweenSamples();
 }
 
 public partial class SchemaDataSet // Helpers
@@ -330,6 +336,31 @@ public partial class SchemaDataSet // Math helpers
         {
             var end = new Yedoy(Year + years, DayOfYear);
             data.Add(new YedoyPairAnd<int>(start, end, years));
+        }
+        return data;
+    }
+
+    private static List<YemodaPairAnd<int>> InitCountYearsBetweenSamples()
+    {
+        // Hypothesis: a year is at least 12-months long.
+        // new(new(3, 6, 5), new(3, 1, 5), 0)
+        // new(new(3, 6, 5), new(3, 2, 5), 0)
+        // ...
+        // new(new(3, 6, 5), new(3, 11, 5), 0)
+        // new(new(3, 6, 5), new(3, 12, 5), 0)
+        const int
+            SampleSize = 12,
+            Year = 3,
+            Month = SampleSize / 2,
+            Day = 5;
+
+        var start = new Yemoda(Year, Month, Day);
+
+        var data = new List<YemodaPairAnd<int>>();
+        for (int months = -Month + 1; months <= Month; months++)
+        {
+            var end = new Yemoda(Year, Month + months, Day);
+            data.Add(new YemodaPairAnd<int>(start, end, 0));
         }
         return data;
     }
