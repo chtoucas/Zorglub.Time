@@ -209,7 +209,29 @@ public partial class GregorianDataSet // Math data
 
     public override DataGroup<YemodaPairAnd<int>> CountMonthsBetweenData => new DataGroup<YemodaPairAnd<int>>()
     {
-        // TODO(data): empty right now.
+        new(new(3, 6, 5), new(2, 1, 5), -17),
+        new(new(3, 6, 5), new(2, 12, 5), -6),
+        // ... see CountMonthsBetweenSamples
+        new(new(3, 6, 5), new(4, 1, 5), 7),
+        new(new(3, 6, 5), new(4, 12, 5), 18),
+
+        new(new(3, 6, 5), new(3, 5, 5), -1), // Last date for which months = -1
+        new(new(3, 6, 5), new(3, 5, 6), 0),  // First date for which months = 0
+        new(new(3, 6, 5), new(3, 7, 4), 0),  // Last date for which months = 0
+        //new(new(3, 6, 5), new(3, 7, 5), 1), // First date for which months = 1 (already in CountMonthsBetweenSamples)
+
+        // Start = start of a month.
+        new(new(3, 6, 1), new(3, 5, 1), -1),
+        new(new(3, 6, 1), new(3, 5, 2), 0),
+        new(new(3, 6, 1), new(3, 6, 30), 0),
+        new(new(3, 6, 1), new(3, 7, 1), 1),
+        // Start = end of a month.
+        new(new(3, 6, 30), new(3, 5, 30), -1),
+        //new(new(3, 6, 30), new(3, 5, 31), -1), // **ambiguous**
+        new(new(3, 6, 30), new(3, 6, 1), 0),
+        new(new(3, 6, 30), new(3, 7, 29), 0),
+        new(new(3, 6, 30), new(3, 7, 30), 1),
+        new(new(3, 6, 30), new(3, 7, 31), 1),
     }.ConcatT(base.CountMonthsBetweenData);
 
     public override DataGroup<YedoyPairAnd<int>> CountYearsBetweenOrdinalData => new DataGroup<YedoyPairAnd<int>>()
