@@ -74,46 +74,50 @@ public abstract partial class SchemaDataSet : ICalendricalDataSet
     // - Pax
     // - Positivist (model for regular13 schema)
     // - TabularIslamic (model for lunar schema)
-    public virtual DataGroup<YemodaPairAnd<int>> AddDaysData => new(AddDaysSamples);
-    public virtual DataGroup<YemodaPair> ConsecutiveDaysData => new(ConsecutiveDaysSamples);
-    public virtual DataGroup<YedoyPairAnd<int>> AddDaysOrdinalData => new(AddDaysOrdinalSamples);
-    public virtual DataGroup<YedoyPair> ConsecutiveDaysOrdinalData => new(ConsecutiveDaysOrdinalSamples);
+    public virtual DataGroup<YemodaPairAnd<int>> AddDaysData => new(s_AddDaysSamples);
+    public virtual DataGroup<YemodaPair> ConsecutiveDaysData => new(s_ConsecutiveDaysSamples);
+    public virtual DataGroup<YedoyPairAnd<int>> AddDaysOrdinalData => new(s_AddDaysOrdinalSamples);
+    public virtual DataGroup<YedoyPair> ConsecutiveDaysOrdinalData => new(s_ConsecutiveDaysOrdinalSamples);
 
-    public virtual DataGroup<YemodaPairAnd<int>> AddYearsData => new(AddYearsSamples);
-    public virtual DataGroup<YemodaPairAnd<int>> AddMonthsData => new(AddMonthsSamples);
-    public virtual DataGroup<YedoyPairAnd<int>> AddYearsOrdinalData => new(AddYearsOrdinalSamples);
+    public virtual DataGroup<YemodaPairAnd<int>> AddYearsData => new(s_AddYearsSamples);
+    public virtual DataGroup<YemodaPairAnd<int>> AddMonthsData => new(s_AddMonthsSamples);
+    public virtual DataGroup<YedoyPairAnd<int>> AddYearsOrdinalData => new(s_AddYearsOrdinalSamples);
 
     // Include AddYears(Ordinal)Data.
     // NB: if a derived class overrides AddYearsData, CountYearsBetweenData uses it.
     public virtual DataGroup<YemodaPairAnd<int>> CountYearsBetweenData =>
-        new DataGroup<YemodaPairAnd<int>>(CountYearsBetweenSamples).ConcatT(AddYearsData);
+        new DataGroup<YemodaPairAnd<int>>(s_CountYearsBetweenSamples).ConcatT(AddYearsData);
     public virtual DataGroup<YemodaPairAnd<int>> CountMonthsBetweenData =>
-        new DataGroup<YemodaPairAnd<int>>(CountMonthsBetweenSamples).ConcatT(AddMonthsData);
+        new DataGroup<YemodaPairAnd<int>>(s_CountMonthsBetweenSamples).ConcatT(AddMonthsData);
     public virtual DataGroup<YedoyPairAnd<int>> CountYearsBetweenOrdinalData =>
-        new DataGroup<YedoyPairAnd<int>>(CountYearsBetweenOrdinalSamples).ConcatT(AddYearsOrdinalSamples);
+        new DataGroup<YedoyPairAnd<int>>(s_CountYearsBetweenOrdinalSamples).ConcatT(AddYearsOrdinalData);
+
+    public virtual DataGroup<YemoPair> ConsecutiveMonthsData => new(s_ConsecutivesMonthsSamples);
 
     /// <remarks>NB: First and Second belongs to the same month.</remarks>
-    private static IEnumerable<YemodaPairAnd<int>> AddDaysSamples { get; } = InitAddDaysSamples();
+    private static readonly IEnumerable<YemodaPairAnd<int>> s_AddDaysSamples = InitAddDaysSamples();
     /// <remarks>NB: First and Second belongs to the same month.</remarks>
-    private static IEnumerable<YemodaPair> ConsecutiveDaysSamples { get; } = InitConsecutiveDaysSamples();
+    private static readonly IEnumerable<YemodaPair> s_ConsecutiveDaysSamples = InitConsecutiveDaysSamples();
     /// <remarks>NB: First and Second belongs to the same year.</remarks>
-    private static IEnumerable<YedoyPairAnd<int>> AddDaysOrdinalSamples { get; } = InitAddDaysOrdinalSamples();
+    private static readonly IEnumerable<YedoyPairAnd<int>> s_AddDaysOrdinalSamples = InitAddDaysOrdinalSamples();
     /// <remarks>NB: First and Second belongs to the same year.</remarks>
-    private static IEnumerable<YedoyPair> ConsecutiveDaysOrdinalSamples { get; } = InitConsecutiveDaysOrdinalSamples();
+    private static readonly IEnumerable<YedoyPair> s_ConsecutiveDaysOrdinalSamples = InitConsecutiveDaysOrdinalSamples();
 
     /// <remarks>NB: The data is unambiguous.</remarks>
-    private static IEnumerable<YemodaPairAnd<int>> AddYearsSamples { get; } = InitAddYearsSamples();
+    private static readonly IEnumerable<YemodaPairAnd<int>> s_AddYearsSamples = InitAddYearsSamples();
     /// <remarks>NB: The data is unambiguous. First and Second belongs to the same year.</remarks>
-    private static IEnumerable<YemodaPairAnd<int>> AddMonthsSamples { get; } = InitAddMonthsSamples();
+    private static readonly IEnumerable<YemodaPairAnd<int>> s_AddMonthsSamples = InitAddMonthsSamples();
     /// <remarks>NB: The data is unambiguous.</remarks>
-    private static IEnumerable<YedoyPairAnd<int>> AddYearsOrdinalSamples { get; } = InitAddYearsOrdinalSamples();
+    private static readonly IEnumerable<YedoyPairAnd<int>> s_AddYearsOrdinalSamples = InitAddYearsOrdinalSamples();
 
     /// <remarks>NB: The data is unambiguous. First and Second belongs to the same year.</remarks>
-    private static IEnumerable<YemodaPairAnd<int>> CountYearsBetweenSamples { get; } = InitCountYearsBetweenSamples();
+    private static readonly IEnumerable<YemodaPairAnd<int>> s_CountYearsBetweenSamples = InitCountYearsBetweenSamples();
     /// <remarks>NB: The data is unambiguous. First and Second belongs to the same year.</remarks>
-    private static IEnumerable<YemodaPairAnd<int>> CountMonthsBetweenSamples { get; } = InitCountMonthsBetweenSamples();
+    private static readonly IEnumerable<YemodaPairAnd<int>> s_CountMonthsBetweenSamples = InitCountMonthsBetweenSamples();
     /// <remarks>NB: The data is unambiguous. First and Second belongs to the same year.</remarks>
-    private static IEnumerable<YedoyPairAnd<int>> CountYearsBetweenOrdinalSamples { get; } = InitCountYearsBetweenOrdinalSamples();
+    private static readonly IEnumerable<YedoyPairAnd<int>> s_CountYearsBetweenOrdinalSamples = InitCountYearsBetweenOrdinalSamples();
+
+    private static readonly IEnumerable<YemoPair> s_ConsecutivesMonthsSamples = InitConsecutivesMonthsSamples();
 }
 
 public partial class SchemaDataSet // Helpers
@@ -420,6 +424,27 @@ public partial class SchemaDataSet // Math helpers
         {
             var end = new Yedoy(Year, DayOfYear + days);
             data.Add(new YedoyPairAnd<int>(start, end, 0));
+        }
+        return data;
+    }
+
+    private static List<YemoPair> InitConsecutivesMonthsSamples()
+    {
+        // Hypothesis: a year is at least 12-months long.
+        // new(new(3, 1), new(3, 2))
+        // new(new(3, 2), new(3, 3))
+        // ...
+        // new(new(3, 11), new(3, 12))
+        const int
+            SampleSize = 11,
+            Year = 3;
+
+        var data = new List<YemoPair>();
+        for (int m = 1; m <= SampleSize; m++)
+        {
+            var month = new Yemo(Year, m);
+            var monthAfter = new Yemo(Year, m + 1);
+            data.Add(new YemoPair(month, monthAfter));
         }
         return data;
     }

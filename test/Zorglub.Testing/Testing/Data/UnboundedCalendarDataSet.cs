@@ -99,6 +99,8 @@ public abstract class UnboundedCalendarDataSet : ICalendarDataSet
     public DataGroup<YemodaPairAnd<int>> CountMonthsBetweenData => _dataSet.CountMonthsBetweenData;
     public DataGroup<YedoyPairAnd<int>> CountYearsBetweenOrdinalData => _dataSet.CountYearsBetweenOrdinalData;
 
+    public DataGroup<YemoPair> ConsecutiveMonthsData => _dataSet.ConsecutiveMonthsData;
+
     //
     // Helpers
     //

@@ -267,6 +267,8 @@ public readonly record struct YedoyPair(Yedoy First, Yedoy Second);
 
 public readonly record struct YedoyPairAnd<T>(Yedoy First, Yedoy Second, T Value) where T : struct;
 
+public readonly record struct YemoPair(Yemo First, Yemo Second);
+
 #endregion
 #region Math models
 

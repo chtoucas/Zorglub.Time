@@ -148,6 +148,7 @@ module RuntimeSizes =
         sizeof<YemodaPairAnd<int>>() === 12
         Marshal.SizeOf(typedefof<YedoyPair>) === 8
         sizeof<YedoyPairAnd<int>>() === 12
+        Marshal.SizeOf(typedefof<YemoPair>) === 8
 
 module DefaultValues =
     // Date types built upon DayNumber: 01/01/0001 (year 1)

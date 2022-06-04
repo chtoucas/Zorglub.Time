@@ -17,8 +17,6 @@ using Zorglub.Time.Simple;
 // Missing data, the biggest problem right now is with Count...() because we can
 // only test the simplest cases and I already know that CalendarMath is not
 // working correctly even if we cannot see it yet through the tests.
-// - CalendarDate
-//   - CountMonthsBetween(), currently we use AddMonthsData
 // - CalendarMonth
 //   - AddYears(), currently we use AddYearsData            -> AddYearsMonthData
 //   - CountYearsBetween(), currently we use AddYearsData   -> CountYearsBetweenMonthData
@@ -105,6 +103,12 @@ public abstract partial class CalendarMathFacts<TDataSet> :
     protected CalendarMonth GetMonth(Yemoda ymd)
     {
         var (y, m, _) = ymd;
+        return Calendar.GetCalendarMonth(y, m);
+    }
+
+    protected CalendarMonth GetMonth(Yemo ym)
+    {
+        var (y, m) = ym;
         return Calendar.GetCalendarMonth(y, m);
     }
 }
@@ -626,12 +630,12 @@ public partial class CalendarMathFacts<TDataSet> // CalendarMonth
         Assert.Overflows(() => MaxMonth.NextMonth());
     }
 
-    [Fact]
-    public void NextMonth﹍CalendarMonth()
+    [Theory, MemberData(nameof(ConsecutiveMonthsData))]
+    public void NextMonth﹍CalendarMonth(YemoPair pair)
     {
-        var month = GetSampleMonth();
+        var month = GetMonth(pair.First);
         var copy = month;
-        var monthAfter = Calendar.GetCalendarMonth(month.Year, month.Month + 1);
+        var monthAfter = GetMonth(pair.Second);
         // Act & Assert
         Assert.Equal(monthAfter, ++copy);
         Assert.Equal(monthAfter, month.NextMonth());
@@ -649,15 +653,15 @@ public partial class CalendarMathFacts<TDataSet> // CalendarMonth
         Assert.Overflows(() => MinMonth.PreviousMonth());
     }
 
-    [Fact]
-    public void PreviousMonth﹍CalendarMonth()
+    [Theory, MemberData(nameof(ConsecutiveMonthsData))]
+    public void PreviousMonth﹍CalendarMonth(YemoPair pair)
     {
-        var month = GetSampleMonth();
-        var copy = month;
-        var monthBefore = Calendar.GetCalendarMonth(month.Year, month.Month - 1);
+        var month = GetMonth(pair.First);
+        var monthAfter = GetMonth(pair.Second);
+        var copy = monthAfter;
         // Act & Assert
-        Assert.Equal(monthBefore, --copy);
-        Assert.Equal(monthBefore, month.PreviousMonth());
+        Assert.Equal(month, --copy);
+        Assert.Equal(month, monthAfter.PreviousMonth());
     }
 
     #endregion
