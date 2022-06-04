@@ -22,11 +22,11 @@ using Zorglub.Time.Simple;
 // - CalendarMonth
 //   - AddYears(), currently we use AddYearsData            -> AddYearsMonthData
 //   - CountYearsBetween(), currently we use AddYearsData   -> CountYearsBetweenMonthData
-//   - AddMonths(), currently we use AddMonthsData          -> AddMonthsMonthData
+//   - AddMonths(), currently we use AddMonthsData          -> AddMonthsMonthData (= AddMonthsData filtered)
 //   - CountMonthsBetween(), currently we use AddMonthsData -> AddMonthsMonthData
 // - CalendarYear
-//   - AddYears(), currently we use AddYearsData
-//   - CountYearsBetween(), currently we use AddYearsData
+//   - AddYears(), currently we use AddYearsData            -> AddYearsYearData (= AddYearsData filtered)
+//   - CountYearsBetween(), currently we use AddYearsData   -> AddYearsYearData
 // Don't forget to update CalendarMathAdvancedFacts too?
 // We should also test CalendricalArithmetic, CalendarDate, etc. and not just
 // for the Gregorian calendar.
@@ -317,8 +317,8 @@ public partial class CalendarMathFacts<TMath, TDataSet> // CalendarDate
         Assert.Equal(0, date.CountMonthsSince(date));
     }
 
-    [Theory, MemberData(nameof(AddMonthsData))]
-    public void CountMonthsBetween﹍CalendarDate_UsingYemodaAddition(YemodaPairAnd<int> info)
+    [Theory, MemberData(nameof(CountMonthsBetweenData))]
+    public void CountMonthsBetween﹍CalendarDate(YemodaPairAnd<int> info)
     {
         int ms = info.Value;
         var start = GetDate(info.First);

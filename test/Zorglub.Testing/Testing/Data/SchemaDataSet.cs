@@ -87,6 +87,8 @@ public abstract partial class SchemaDataSet : ICalendricalDataSet
     // NB: if a derived class overrides AddYearsData, CountYearsBetweenData uses it.
     public virtual DataGroup<YemodaPairAnd<int>> CountYearsBetweenData =>
         new DataGroup<YemodaPairAnd<int>>(CountYearsBetweenSamples).ConcatT(AddYearsData);
+    public virtual DataGroup<YemodaPairAnd<int>> CountMonthsBetweenData =>
+        new DataGroup<YemodaPairAnd<int>>(CountMonthsBetweenSamples).ConcatT(AddMonthsData);
     public virtual DataGroup<YedoyPairAnd<int>> CountYearsBetweenOrdinalData =>
         new DataGroup<YedoyPairAnd<int>>(CountYearsBetweenOrdinalSamples).ConcatT(AddYearsOrdinalSamples);
 
@@ -108,6 +110,8 @@ public abstract partial class SchemaDataSet : ICalendricalDataSet
 
     /// <remarks>NB: The data is unambiguous. First and Second belongs to the same year.</remarks>
     private static IEnumerable<YemodaPairAnd<int>> CountYearsBetweenSamples { get; } = InitCountYearsBetweenSamples();
+
+    private static IEnumerable<YemodaPairAnd<int>> CountMonthsBetweenSamples { get; } = InitCountMonthsBetweenSamples();
     /// <remarks>NB: The data is unambiguous. First and Second belongs to the same year.</remarks>
     private static IEnumerable<YedoyPairAnd<int>> CountYearsBetweenOrdinalSamples { get; } = InitCountYearsBetweenOrdinalSamples();
 }
@@ -368,6 +372,32 @@ public partial class SchemaDataSet // Math helpers
             var end = new Yemoda(Year, Month + months, Day);
             data.Add(new YemodaPairAnd<int>(start, end, 0));
         }
+        return data;
+    }
+
+    private static List<YemodaPairAnd<int>> InitCountMonthsBetweenSamples()
+    {
+        // TODO(data): empty right now.
+        // Hypothesis: a year is at least 12-months long.
+        // new(new(3, 6, 5), new(3, 1, 5), 0)
+        // new(new(3, 6, 5), new(3, 2, 5), 0)
+        // ...
+        // new(new(3, 6, 5), new(3, 11, 5), 0)
+        // new(new(3, 6, 5), new(3, 12, 5), 0)
+        //const int
+        //    SampleSize = 12,
+        //    Year = 3,
+        //    Month = SampleSize / 2,
+        //    Day = 5;
+
+        //var start = new Yemoda(Year, Month, Day);
+
+        var data = new List<YemodaPairAnd<int>>();
+        //for (int months = -Month + 1; months <= Month; months++)
+        //{
+        //    var end = new Yemoda(Year, Month + months, Day);
+        //    data.Add(new YemodaPairAnd<int>(start, end, 0));
+        //}
         return data;
     }
 

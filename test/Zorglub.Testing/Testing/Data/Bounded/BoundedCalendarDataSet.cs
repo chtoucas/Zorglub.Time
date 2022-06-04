@@ -79,5 +79,6 @@ public class BoundedCalendarDataSet<TDataSet> : ICalendarDataSet
     public DataGroup<YedoyPairAnd<int>> AddYearsOrdinalData => Unbounded.AddYearsOrdinalData.WhereT(DataFilter.Filter);
 
     public DataGroup<YemodaPairAnd<int>> CountYearsBetweenData => Unbounded.CountYearsBetweenData.WhereT(DataFilter.Filter);
+    public DataGroup<YemodaPairAnd<int>> CountMonthsBetweenData => Unbounded.CountMonthsBetweenData.WhereT(DataFilter.Filter);
     public DataGroup<YedoyPairAnd<int>> CountYearsBetweenOrdinalData => Unbounded.CountYearsBetweenOrdinalData.WhereT(DataFilter.Filter);
 }

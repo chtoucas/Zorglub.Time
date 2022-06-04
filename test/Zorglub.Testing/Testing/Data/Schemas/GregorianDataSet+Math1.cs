@@ -207,6 +207,11 @@ public partial class GregorianDataSet // Math data
         new(new(3, 6, 30), new(4, 6, 30), 1),
     }.ConcatT(base.CountYearsBetweenData);
 
+    public override DataGroup<YemodaPairAnd<int>> CountMonthsBetweenData => new DataGroup<YemodaPairAnd<int>>()
+    {
+        // TODO(data): empty right now.
+    }.ConcatT(base.CountMonthsBetweenData);
+
     public override DataGroup<YedoyPairAnd<int>> CountYearsBetweenOrdinalData => new DataGroup<YedoyPairAnd<int>>()
     {
         new(new(3, 35), new(2, 35), -1), // Last date for which years = -1
