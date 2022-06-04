@@ -39,14 +39,14 @@ The default behaviour is to run the smoke tests using the configuration Debug.
 Test plans
 ----------
 - "smoke"     = smoke testing
-- "regular"   = exclude redundant tests, slow-running test units or bundles
+- "regular"   = exclude redundant tests, slow-running tests
 - "more"      = exclude redundant tests
 - "most"      = the whole test suite
 
 The extra test plans are
-- "redundant" = redundant tests, this is the complement of the plan "more".
-- "redundant-slow" = redundant tests part of a slow-running test bundle.
-- "redundant-not-slow" = redundant tests not part of a slow-running test bundle.
+- "redundant" = complement of "more" in "most", ie "redundant" = "most" - "more".
+- "redundant-slow" = slow-running redundant tests.
+- "redundant-not-slow" = complement of "redundant-slow" in "redundant".
 
 We have also a plan named "cover". It mimics the default test plan used by the
 code coverage tool. The difference between "cover" and "regular" is really tiny.
@@ -62,15 +62,15 @@ Examples
 > test.ps1 regular -c Release   # Regular test suite (Release)
 > test.ps1 more                 # Comprehensive test suite (Debug)
 
-Figures.
+Rough numbers.
 > test.ps1 smoke                # ~26 thousand tests (FAST)
 > test.ps1 regular              # ~71 thousand tests
 > test.ps1 more                 # ~82 thousand tests
 > test.ps1 most                 # ~234 thousand tests (SLOW)
 Extra plans.
 > test.ps1 redundant-slow       # ~64 thousand tests
-> test.ps1 redundant-not-slow   # ~93 thousand tests
-> test.ps1 redundant            # ~158 thousand tests (SLOW)
+> test.ps1 redundant-not-slow   # ~88 thousand tests
+> test.ps1 redundant            # ~152 thousand tests (SLOW)
 
 "@
 }
@@ -89,8 +89,7 @@ try {
         'smoke' {
             # Smoke testing, exclude
             # - tests explicitely excluded from this plan
-            # - slow test units
-            # - slow test bundles
+            # - slow tests
             # - redundant tests (implicit)
             # - tests excluded from code coverage (implicit)
             # - tests excluded from the "regular" plan (implicit)
@@ -101,8 +100,7 @@ try {
         'cover' {
             # Mimic the default test plan used by cover.ps1, exclude
             # - tests explicitely excluded from this plan
-            # - slow test units
-            # - slow test bundles
+            # - slow tests
             # - redundant tests (implicit)
             # - tests excluded from the "regular" plan (implicit)
             $filter = 'ExcludeFrom!=CodeCoverage&Performance!~Slow'
@@ -110,8 +108,7 @@ try {
         'regular' {
             # Regular test suite, exclude
             # - tests explicitely excluded from this plan
-            # - slow test units
-            # - slow test bundles
+            # - slow tests
             # - redundant tests (implicit)
             $filter = 'ExcludeFrom!=Regular&Performance!~Slow'
         }
@@ -125,10 +122,10 @@ try {
         }
         # "redundant" being pretty slow, we partition it into two subplans.
         'redundant-slow' {
-            $filter = 'Redundant=true&Performance=SlowBundle'
+            $filter = 'Redundant=true&Performance~Slow'
         }
         'redundant-not-slow' {
-            $filter = 'Redundant=true&Performance!=SlowBundle'
+            $filter = 'Redundant=true&Performance!~Slow'
         }
         'most' {
             $filter = ''

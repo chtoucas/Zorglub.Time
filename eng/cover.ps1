@@ -133,6 +133,8 @@ try {
             }
         }
     }
+
+    say "`nCode coverage completed successfully" -Foreground Green
 }
 finally {
     popd
