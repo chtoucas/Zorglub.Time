@@ -377,27 +377,26 @@ public partial class SchemaDataSet // Math helpers
 
     private static List<YemodaPairAnd<int>> InitCountMonthsBetweenSamples()
     {
-        // TODO(data): empty right now.
         // Hypothesis: a year is at least 12-months long.
-        // new(new(3, 6, 5), new(3, 1, 5), 0)
-        // new(new(3, 6, 5), new(3, 2, 5), 0)
+        // new(new(3, 6, 5), new(3, 1, 5), -5)
+        // new(new(3, 6, 5), new(3, 2, 5), -4)
         // ...
-        // new(new(3, 6, 5), new(3, 11, 5), 0)
-        // new(new(3, 6, 5), new(3, 12, 5), 0)
-        //const int
-        //    SampleSize = 12,
-        //    Year = 3,
-        //    Month = SampleSize / 2,
-        //    Day = 5;
+        // new(new(3, 6, 5), new(3, 11, 5), 5)
+        // new(new(3, 6, 5), new(3, 12, 5), 6)
+        const int
+            SampleSize = 12,
+            Year = 3,
+            Month = SampleSize / 2,
+            Day = 5;
 
-        //var start = new Yemoda(Year, Month, Day);
+        var start = new Yemoda(Year, Month, Day);
 
         var data = new List<YemodaPairAnd<int>>();
-        //for (int months = -Month + 1; months <= Month; months++)
-        //{
-        //    var end = new Yemoda(Year, Month + months, Day);
-        //    data.Add(new YemodaPairAnd<int>(start, end, 0));
-        //}
+        for (int months = -Month + 1; months <= Month; months++)
+        {
+            var end = new Yemoda(Year, Month + months, Day);
+            data.Add(new YemodaPairAnd<int>(start, end, months));
+        }
         return data;
     }
 
