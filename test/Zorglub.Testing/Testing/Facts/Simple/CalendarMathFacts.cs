@@ -44,12 +44,14 @@ using Zorglub.Time.Simple;
 /// <para>This class also includes tests for <see cref="CalendarDate"/>, <see cref="OrdinalDate"/>,
 /// <see cref="CalendarMonth"/> and <see cref="CalendarYear"/>.</para>
 /// </summary>
-public abstract partial class CalendarMathFacts<TMath, TDataSet> :
+public abstract partial class CalendarMathFacts<TDataSet> :
     CalendarDataConsumer<TDataSet>
-    where TMath : CalendarMath
     where TDataSet : ICalendarDataSet, ISingleton<TDataSet>
 {
-    protected CalendarMathFacts(TMath math)
+    protected CalendarMathFacts(Calendar calendar)
+        : this(calendar?.Math ?? throw new ArgumentNullException(nameof(calendar))) { }
+
+    protected CalendarMathFacts(CalendarMath math)
     {
         MathUT = math ?? throw new ArgumentNullException(nameof(math));
         Calendar = math.Calendar;
@@ -60,7 +62,7 @@ public abstract partial class CalendarMathFacts<TMath, TDataSet> :
         (MinYear, MaxYear) = Calendar.MinMaxYear;
     }
 
-    protected TMath MathUT { get; }
+    protected CalendarMath MathUT { get; }
     protected Calendar Calendar { get; }
 
     protected CalendarDate MinDate { get; }
@@ -107,7 +109,7 @@ public abstract partial class CalendarMathFacts<TMath, TDataSet> :
     }
 }
 
-public partial class CalendarMathFacts<TMath, TDataSet> // CalendarDate
+public partial class CalendarMathFacts<TDataSet> // CalendarDate
 {
     //
     // Year unit
@@ -334,7 +336,7 @@ public partial class CalendarMathFacts<TMath, TDataSet> // CalendarDate
     #endregion
 }
 
-public partial class CalendarMathFacts<TMath, TDataSet> // OrdinalDate
+public partial class CalendarMathFacts<TDataSet> // OrdinalDate
 {
     //
     // Year unit
@@ -453,7 +455,7 @@ public partial class CalendarMathFacts<TMath, TDataSet> // OrdinalDate
     #endregion
 }
 
-public partial class CalendarMathFacts<TMath, TDataSet> // CalendarMonth
+public partial class CalendarMathFacts<TDataSet> // CalendarMonth
 {
     //
     // Year unit
@@ -808,7 +810,7 @@ public partial class CalendarMathFacts<TMath, TDataSet> // CalendarMonth
     #endregion
 }
 
-public partial class CalendarMathFacts<TMath, TDataSet> // CalendarYear
+public partial class CalendarMathFacts<TDataSet> // CalendarYear
 {
     //
     // Year (base) unit

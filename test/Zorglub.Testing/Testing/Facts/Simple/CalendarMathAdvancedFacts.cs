@@ -13,11 +13,13 @@ using Zorglub.Time.Simple;
 /// <para>This class also includes tests for <see cref="CalendarDate"/>, <see cref="OrdinalDate"/>,
 /// <see cref="CalendarMonth"/> and <see cref="CalendarYear"/>.</para>
 /// </summary>
-public abstract partial class CalendarMathAdvancedFacts<TMath, TDataSet>
-    where TMath : CalendarMath
+public abstract partial class CalendarMathAdvancedFacts<TDataSet>
     where TDataSet : IAdvancedMathDataSet, ISingleton<TDataSet>
 {
-    protected CalendarMathAdvancedFacts(TMath math)
+    protected CalendarMathAdvancedFacts(Calendar calendar)
+        : this(calendar?.Math ?? throw new ArgumentNullException(nameof(calendar))) { }
+
+    protected CalendarMathAdvancedFacts(CalendarMath math)
     {
         MathUT = math ?? throw new ArgumentNullException(nameof(math));
         Calendar = math.Calendar;
@@ -33,7 +35,7 @@ public abstract partial class CalendarMathAdvancedFacts<TMath, TDataSet>
     public static DataGroup<YemodaPairAnd<int>> AddMonthsData => DataSet.AddMonthsData;
     public static DataGroup<YedoyPairAnd<int>> AddYearsOrdinalData => DataSet.AddYearsOrdinalData;
 
-    protected TMath MathUT { get; }
+    protected CalendarMath MathUT { get; }
     protected Calendar Calendar { get; }
 
     // When the calendar is regular, CalendarMonth.AddYears() and CalendarMonth.CountYearsBetween()
@@ -59,7 +61,7 @@ public abstract partial class CalendarMathAdvancedFacts<TMath, TDataSet>
     }
 }
 
-public partial class CalendarMathAdvancedFacts<TMath, TDataSet> // CalendarDate
+public partial class CalendarMathAdvancedFacts<TDataSet> // CalendarDate
 {
     [Theory, MemberData(nameof(AddYearsData))]
     public void AddYears﹍CalendarDate(YemodaPairAnd<int> info)
@@ -126,7 +128,7 @@ public partial class CalendarMathAdvancedFacts<TMath, TDataSet> // CalendarDate
     }
 }
 
-public partial class CalendarMathAdvancedFacts<TMath, TDataSet> // OrdinalDate
+public partial class CalendarMathAdvancedFacts<TDataSet> // OrdinalDate
 {
     [Theory, MemberData(nameof(AddYearsOrdinalData))]
     public void AddYears﹍OrdinalDate(YedoyPairAnd<int> info)
@@ -161,7 +163,7 @@ public partial class CalendarMathAdvancedFacts<TMath, TDataSet> // OrdinalDate
     }
 }
 
-public partial class CalendarMathAdvancedFacts<TMath, TDataSet> // CalendarMonth
+public partial class CalendarMathAdvancedFacts<TDataSet> // CalendarMonth
 {
     [Theory, MemberData(nameof(AddYearsData))]
     public void AddYears﹍CalendarMonth(YemodaPairAnd<int> info)
