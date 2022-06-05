@@ -14,12 +14,6 @@ using Zorglub.Time.Simple;
 // 2) standard math for the Gregorian calendar (missing data)
 // 3) standard math for all calendars
 // 4) non-standard math for more calendars (missing data)
-// Missing data, the biggest problem right now is with Count...() because we can
-// only test the simplest cases and I already know that CalendarMath is not
-// working correctly even if we cannot see it yet through the tests.
-// - CalendarYear
-//   - AddYears(), currently we use AddYearsData            -> AddYearsYearData (= AddYearsData filtered)
-//   - CountYearsBetween(), currently we use AddYearsData   -> AddYearsYearData
 // Don't forget to update CalendarMathAdvancedFacts too?
 // We should also test CalendricalArithmetic, CalendarDate, etc. and not just
 // for the Gregorian calendar.
@@ -70,19 +64,6 @@ public abstract partial class CalendarMathFacts<TDataSet> :
     protected CalendarYear MinYear { get; }
     protected CalendarYear MaxYear { get; }
 
-    /// <summary>
-    /// We only use this sample year when its value matters (mathops); otherwise
-    /// just use the first month of the year 1. It is initialized to ensure that
-    /// the math operations we are going to perform will work.
-    /// </summary>
-    protected CalendarMonth GetSampleMonth() => Calendar.GetCalendarMonth(1234, 2);
-
-    /// <summary>
-    /// We only use this sample year when its value matters (mathops); otherwise
-    /// just use the year 1.
-    /// </summary>
-    protected CalendarYear GetSampleYear() => Calendar.GetCalendarYear(1234);
-
     protected CalendarDate GetDate(Yemoda ymd)
     {
         var (y, m, d) = ymd;
@@ -100,6 +81,19 @@ public abstract partial class CalendarMathFacts<TDataSet> :
         var (y, m) = ym;
         return Calendar.GetCalendarMonth(y, m);
     }
+
+    /// <summary>
+    /// We only use this sample year when its value matters (mathops); otherwise
+    /// just use the first month of the year 1. It is initialized to ensure that
+    /// the math operations we are going to perform will work.
+    /// </summary>
+    private CalendarMonth GetSampleMonth() => Calendar.GetCalendarMonth(1234, 2);
+
+    /// <summary>
+    /// We only use this sample year when its value matters (mathops); otherwise
+    /// just use the year 1.
+    /// </summary>
+    private CalendarYear GetSampleYear() => Calendar.GetCalendarYear(1234);
 }
 
 public partial class CalendarMathFacts<TDataSet> // CalendarDate
@@ -961,12 +955,14 @@ public partial class CalendarMathFacts<TDataSet> // CalendarYear
         Assert.Equal(0, year.CountYearsSince(year));
     }
 
-    [Theory, MemberData(nameof(AddYearsData))]
-    public void PlusYears﹍CalendarYear_UsingYemodaAddition(YemodaPairAnd<int> info)
+    [Fact]
+    public void PlusYears﹍CalendarYear()
     {
-        int ys = info.Value;
-        var year = Calendar.GetCalendarYear(info.First.Year);
-        var other = Calendar.GetCalendarYear(info.Second.Year);
+        // NB: ys is such that "other" is a valid year for both standard and
+        // proleptic calendars.
+        int ys = 876;
+        var year = GetSampleYear();
+        var other = Calendar.GetCalendarYear(year.Year + ys);
         // Act & Assert
         Assert.Equal(other, year + ys);
         Assert.Equal(other, year - (-ys));

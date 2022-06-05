@@ -61,7 +61,7 @@ public abstract partial class SchemaDataSet : ICalendricalDataSet
     // and ConsecutiveDaysOrdinalData. Lunisolar, Positivist and TabularIslamic
     // should override all math-related props. Hum, maybe we should do that for
     // one model per schema type (regular12/13, non-regular, etc.).
-    // The Gregorian schema overrides all math-related props.
+    // The Gregorian schema should override all math-related props.
     // Other schemas overriding AddDaysData:
     // - Lunisolar (model for lunisolar schema)
     // - TabularIslamic (model for lunar schema)
@@ -84,7 +84,7 @@ public abstract partial class SchemaDataSet : ICalendricalDataSet
     public virtual DataGroup<YemoPairAnd<int>> AddMonthsMonthData => new(s_AddMonthsMonthSamples);
     public virtual DataGroup<YemoPairAnd<int>> AddYearsMonthData => new(s_AddYearsMonthSamples);
 
-    // Include AddYears(Ordinal)Data.
+    // Include AddYears(Ordinal)Data, etc.
     // NB: if a derived class overrides AddYearsData, CountYearsBetweenData uses it.
     public virtual DataGroup<YemodaPairAnd<int>> CountMonthsBetweenData =>
         DataGroup.Create(s_CountMonthsBetweenSamples)
