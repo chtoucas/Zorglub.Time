@@ -296,23 +296,25 @@ public partial class CalendarFacts<TDataSet> // Internal helpers
     #endregion
     #region GetDayOfWeek
 
-    [Theory, MemberData(nameof(CalCalDataSet.DayNumberToDayOfWeekData), MemberType = typeof(CalCalDataSet))]
-    public void GetDayOfWeek(DayNumber dayNumber, DayOfWeek dayOfWeek)
-    {
-        if (Domain.Contains(dayNumber) == false) { return; }
-        var date = CalendarUT.GetCalendarDateOn(dayNumber);
-        // Act & Assert
-        Assert.Equal(dayOfWeek, CalendarUT.GetDayOfWeek(date));
-    }
+    // TODO(fact): filter data.
 
-    [Theory, MemberData(nameof(CalCalDataSet.DayNumberToDayOfWeekData), MemberType = typeof(CalCalDataSet))]
-    public void GetDayOfWeek﹍Ordinal(DayNumber dayNumber, DayOfWeek dayOfWeek)
-    {
-        if (Domain.Contains(dayNumber) == false) { return; }
-        var date = CalendarUT.GetOrdinalDateOn(dayNumber);
-        // Act & Assert
-        Assert.Equal(dayOfWeek, CalendarUT.GetDayOfWeek(date));
-    }
+    //[Theory, MemberData(nameof(CalCalDataSet.DayNumberToDayOfWeekData), MemberType = typeof(CalCalDataSet))]
+    //public void GetDayOfWeek(DayNumber dayNumber, DayOfWeek dayOfWeek)
+    //{
+    //    if (Domain.Contains(dayNumber) == false) { return; }
+    //    var date = CalendarUT.GetCalendarDateOn(dayNumber);
+    //    // Act & Assert
+    //    Assert.Equal(dayOfWeek, CalendarUT.GetDayOfWeek(date));
+    //}
+
+    //[Theory, MemberData(nameof(CalCalDataSet.DayNumberToDayOfWeekData), MemberType = typeof(CalCalDataSet))]
+    //public void GetDayOfWeek﹍Ordinal(DayNumber dayNumber, DayOfWeek dayOfWeek)
+    //{
+    //    if (Domain.Contains(dayNumber) == false) { return; }
+    //    var date = CalendarUT.GetOrdinalDateOn(dayNumber);
+    //    // Act & Assert
+    //    Assert.Equal(dayOfWeek, CalendarUT.GetDayOfWeek(date));
+    //}
 
     #endregion
 }

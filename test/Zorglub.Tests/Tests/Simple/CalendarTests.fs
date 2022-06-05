@@ -441,3 +441,24 @@ module JulianCase =
         let date = chr.GetOrdinalDateOn(dayNumber)
 
         chr.GetDayOfWeek(date) === dayOfWeek
+
+module UserJulianCase =
+    let private chr = UserCalendars.Julian
+    let private domain = chr.Domain
+
+    let dayNumberToDayOfWeekData = CalCalDataSet.GetDayNumberToDayOfWeekData(domain)
+
+    // Notice that to properly test GetDayOfWeek(), negative values, we use the
+    // -proleptic- Julian calendar.
+
+    [<Theory; MemberData(nameof(dayNumberToDayOfWeekData))>]
+    let ``GetDayOfWeek(CalendarDate) via DayNumber`` (dayNumber: DayNumber) (dayOfWeek: DayOfWeek) =
+        let date = chr.GetCalendarDateOn(dayNumber)
+
+        chr.GetDayOfWeek(date) === dayOfWeek
+
+    [<Theory; MemberData(nameof(dayNumberToDayOfWeekData))>]
+    let ``GetDayOfWeek(OrdinalDate) via DayNumber`` (dayNumber: DayNumber) (dayOfWeek: DayOfWeek) =
+        let date = chr.GetOrdinalDateOn(dayNumber)
+
+        chr.GetDayOfWeek(date) === dayOfWeek

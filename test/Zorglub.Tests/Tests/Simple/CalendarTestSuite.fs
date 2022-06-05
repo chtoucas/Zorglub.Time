@@ -96,11 +96,8 @@ type UserGregorianTests() =
     override x.Math() = x.CalendarUT.Math |> is<Regular12Math>
     override x.Scope() = x.CalendarUT.Scope |> is<GregorianStandardShortScope>
 
-// TODO(code): make it redundant. Right we can't if we want to achieve full test
-// coverage. Requirement: tests for Calendar.GetDayOfWeek()
-// Notice that testing these methods should be done with a proleptic calendar.
 [<Sealed>]
-[<TestExcludeFrom(TestExcludeFrom.Smoke)>]
+[<RedundantTestBundle>]
 type UserJulianTests() =
     inherit CalendarFacts<ProlepticJulianDataSet>(UserCalendars.Julian)
 
