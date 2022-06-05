@@ -31,6 +31,8 @@ public static class UserCalendars
     public static Calendar Positivist { get; } =
         CalendarCatalog.Add("User Positivist", new PositivistSchema(), CalendarEpoch.Positivist, proleptic: false);
 
+    // TODO(code): not possible right now, we cannot create a calendar for a
+    // schema with at least one very short month.
     ///// <summary>
     ///// Gets the <i>non-proleptic</i> user-defined Coptic13 calendar.
     ///// <para>This static property is thread-safe.</para>
