@@ -6,6 +6,10 @@ namespace Zorglub.Testing.Data.Schemas;
 // NB: we do not include data for which the result is ambiguous, see Math2... for that.
 public partial class GregorianDataSet // Math data
 {
+    //
+    // Data for Next() and Previous()
+    //
+
     public override DataGroup<YemodaPair> ConsecutiveDaysData => new DataGroup<YemodaPair>()
     {
         // End of month.
@@ -38,6 +42,10 @@ public partial class GregorianDataSet // Math data
         // ... see ConsecutiveMonthsSamples
         new(new(3, 12), new(4, 1)),
     }.ConcatT(base.ConsecutiveMonthsData);
+
+    //
+    // Data for the additions
+    //
 
     public override DataGroup<YemodaPairAnd<int>> AddDaysData => new DataGroup<YemodaPairAnd<int>>()
     {
@@ -181,6 +189,10 @@ public partial class GregorianDataSet // Math data
         new(new(4, 366), new(8, 366), 4),
         // End of year, leap year -> common year (ambiguous).
     }.ConcatT(base.AddYearsOrdinalData);
+
+    //
+    // Data for the subtractions
+    //
 
     public override DataGroup<YemodaPairAnd<int>> CountMonthsBetweenData => new DataGroup<YemodaPairAnd<int>>()
     {

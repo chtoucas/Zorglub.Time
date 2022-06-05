@@ -55,6 +55,7 @@ public abstract class CalendricalDataConsumer<TDataSet>
     public static XunitData<YemodaPairAnd<int>> CountMonthsBetweenData => s_Adapter.CountMonthsBetweenData;
     public static XunitData<YemodaPairAnd<int>> CountYearsBetweenData => s_Adapter.CountYearsBetweenData;
     public static XunitData<YedoyPairAnd<int>> CountYearsBetweenOrdinalData => s_Adapter.CountYearsBetweenOrdinalData;
+    public static XunitData<YemoPairAnd<int>> CountYearsBetweenMonthData => s_Adapter.CountYearsBetweenMonthData;
 
     private sealed class DataSetAdapter
     {
@@ -172,5 +173,9 @@ public abstract class CalendricalDataConsumer<TDataSet>
         private XunitData<YedoyPairAnd<int>>? _countYearsBetweenOrdinalData;
         public XunitData<YedoyPairAnd<int>> CountYearsBetweenOrdinalData =>
             _countYearsBetweenOrdinalData ??= _dataSet.CountYearsBetweenOrdinalData.ToXunitData();
+
+        private XunitData<YemoPairAnd<int>>? _countYearsBetweenMonthData;
+        public XunitData<YemoPairAnd<int>> CountYearsBetweenMonthData =>
+            _countYearsBetweenMonthData ??= _dataSet.CountYearsBetweenMonthData.ToXunitData();
     }
 }

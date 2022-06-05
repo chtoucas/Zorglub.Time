@@ -95,6 +95,9 @@ public abstract partial class SchemaDataSet : ICalendricalDataSet
     public virtual DataGroup<YedoyPairAnd<int>> CountYearsBetweenOrdinalData =>
         DataGroup.Create(s_CountYearsBetweenOrdinalSamples)
         .ConcatT(AddYearsOrdinalData);
+    public virtual DataGroup<YemoPairAnd<int>> CountYearsBetweenMonthData =>
+        DataGroup.Create(s_CountYearsBetweenMonthSamples)
+        .ConcatT(AddYearsMonthData);
 }
 
 public partial class SchemaDataSet // Helpers
@@ -182,6 +185,7 @@ public partial class SchemaDataSet // Math helpers
     private static readonly IEnumerable<YemodaPairAnd<int>> s_CountMonthsBetweenSamples = InitCountMonthsBetweenSamples();
     private static readonly IEnumerable<YemodaPairAnd<int>> s_CountYearsBetweenSamples = InitCountYearsBetweenSamples();
     private static readonly IEnumerable<YedoyPairAnd<int>> s_CountYearsBetweenOrdinalSamples = InitCountYearsBetweenOrdinalSamples();
+    private static readonly IEnumerable<YemoPairAnd<int>> s_CountYearsBetweenMonthSamples = InitCountYearsBetweenMonthSamples();
 
     //
     // Data for Next() and Previous()
@@ -501,4 +505,29 @@ public partial class SchemaDataSet // Math helpers
         }
         return data;
     }
+
+    private static List<YemoPairAnd<int>> InitCountYearsBetweenMonthSamples()
+    {
+        // Hypothesis: a year is at least 12-months long.
+        // new(new(3, 6), new(3, 1), 0)
+        // new(new(3, 6), new(3, 2), 0)
+        // ...
+        // new(new(3, 6), new(3, 11), 0)
+        // new(new(3, 6), new(3, 12), 0)
+        const int
+            SampleSize = 12,
+            Year = 3,
+            Month = SampleSize / 2;
+
+        var start = new Yemo(Year, Month);
+
+        var data = new List<YemoPairAnd<int>>();
+        for (int months = -Month + 1; months <= Month; months++)
+        {
+            var end = new Yemo(Year, Month + months);
+            data.Add(new YemoPairAnd<int>(start, end, 0));
+        }
+        return data;
+    }
+
 }

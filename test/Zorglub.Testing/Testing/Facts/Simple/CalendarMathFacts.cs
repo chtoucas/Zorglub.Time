@@ -17,11 +17,6 @@ using Zorglub.Time.Simple;
 // Missing data, the biggest problem right now is with Count...() because we can
 // only test the simplest cases and I already know that CalendarMath is not
 // working correctly even if we cannot see it yet through the tests.
-// - CalendarMonth
-//   - AddYears(), currently we use AddYearsData            -> AddYearsMonthData
-//   - CountYearsBetween(), currently we use AddYearsData   -> CountYearsBetweenMonthData
-//   - AddMonths(), currently we use AddMonthsData          -> AddMonthsMonthData (= AddMonthsData filtered)
-//   - CountMonthsBetween(), currently we use AddMonthsData -> AddMonthsMonthData
 // - CalendarYear
 //   - AddYears(), currently we use AddYearsData            -> AddYearsYearData (= AddYearsData filtered)
 //   - CountYearsBetween(), currently we use AddYearsData   -> AddYearsYearData
@@ -98,12 +93,6 @@ public abstract partial class CalendarMathFacts<TDataSet> :
     {
         var (y, doy) = ydoy;
         return Calendar.GetOrdinalDate(y, doy);
-    }
-
-    protected CalendarMonth GetMonth(Yemoda ymd)
-    {
-        var (y, m, _) = ymd;
-        return Calendar.GetCalendarMonth(y, m);
     }
 
     protected CalendarMonth GetMonth(Yemo ym)
@@ -553,8 +542,8 @@ public partial class CalendarMathFacts<TDataSet> // CalendarMonth
         Assert.Equal(month, month.PlusYears(0));
     }
 
-    [Theory, MemberData(nameof(AddYearsData))]
-    public void AddYears﹍CalendarMonth_UsingYemodaAddition(YemodaPairAnd<int> info)
+    [Theory, MemberData(nameof(AddYearsMonthData))]
+    public void AddYears﹍CalendarMonth(YemoPairAnd<int> info)
     {
         int ys = info.Value;
         var month = GetMonth(info.First);
@@ -593,8 +582,8 @@ public partial class CalendarMathFacts<TDataSet> // CalendarMonth
         Assert.Equal(0, month.CountYearsSince(month));
     }
 
-    [Theory, MemberData(nameof(AddYearsData))]
-    public void CountYearsBetween﹍CalendarMonth_UsingYemodaAddition(YemodaPairAnd<int> info)
+    [Theory, MemberData(nameof(CountYearsBetweenMonthData))]
+    public void CountYearsBetween﹍CalendarMonth(YemoPairAnd<int> info)
     {
         int ys = info.Value;
         var start = GetMonth(info.First);
@@ -782,8 +771,8 @@ public partial class CalendarMathFacts<TDataSet> // CalendarMonth
         Assert.Equal(0, month.CountMonthsSince(month));
     }
 
-    [Theory, MemberData(nameof(AddMonthsData))]
-    public void AddMonths﹍CalendarMonth_UsingYemodaAddition(YemodaPairAnd<int> info)
+    [Theory, MemberData(nameof(AddMonthsMonthData))]
+    public void AddMonths﹍CalendarMonth(YemoPairAnd<int> info)
     {
         int ms = info.Value;
         var month = GetMonth(info.First);
