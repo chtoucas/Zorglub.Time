@@ -149,8 +149,19 @@ namespace Zorglub.Time.Simple
             Debug.Assert(start.Cuid == Cuid);
             Debug.Assert(end.Cuid == Cuid);
 
-            // FIXME(code): CountYearsBetweenCore(CalendarMonth).
-            return CountYearsBetweenCore(start.FirstDay, end.FirstDay);
+            int years = end.Year - start.Year;
+            CalendarMonth newStart = AddYearsCore(start, years);
+
+            if (start.CompareFast(end) < 0)
+            {
+                if (newStart.CompareFast(end) > 0) { years--; }
+            }
+            else
+            {
+                if (newStart.CompareFast(end) < 0) { years++; }
+            }
+
+            return years;
         }
     }
 }

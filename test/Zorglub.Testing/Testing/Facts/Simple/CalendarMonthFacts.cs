@@ -568,6 +568,26 @@ public partial class CalendarMonthFacts<TDataSet> // IComparable
         Assert.True(left.CompareTo((object)right) < 0);
     }
 
+    [Theory, MemberData(nameof(MonthInfoData))]
+    public void CompareFast_WhenEqual(MonthInfo info)
+    {
+        var (y, m) = info.Yemo;
+        var left = CalendarUT.GetCalendarMonth(y, m);
+        var right = CalendarUT.GetCalendarMonth(y, m);
+        // Act & Assert
+        Assert.Equal(0, left.CompareFast(right));
+    }
+
+    [Theory]
+    [InlineData(2, 1)]
+    [InlineData(1, 2)]
+    public void CompareFast_WhenNotEqual(int y, int m)
+    {
+        var left = CalendarUT.GetCalendarMonth(1, 1);
+        var right = CalendarUT.GetCalendarMonth(y, m);
+        // Act & Assert
+        Assert.True(left.CompareFast(right) < 0);
+    }
     [Theory]
     [InlineData(2, 1)]
     [InlineData(1, 2)]

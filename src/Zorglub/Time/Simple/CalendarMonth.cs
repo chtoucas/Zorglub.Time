@@ -531,6 +531,18 @@ namespace Zorglub.Time.Simple
             return Parts.CompareTo(other.Parts);
         }
 
+        /// <summary>
+        /// Indicates whether this instance is earlier, later or the same as the specified one.
+        /// <para>This method does NOT validate its parameter.</para>
+        /// </summary>
+        [Pure]
+        internal int CompareFast(CalendarMonth other)
+        {
+            Debug.Assert(other.Cuid == Cuid);
+
+            return Parts.CompareTo(other.Parts);
+        }
+
         /// <inheritdoc />
         [Pure]
         public int CompareTo(object? obj) =>
