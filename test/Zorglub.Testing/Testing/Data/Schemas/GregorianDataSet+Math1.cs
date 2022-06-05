@@ -258,4 +258,17 @@ public partial class GregorianDataSet // Math data
         new(new(3, 35), new(4, 34), 0),  // Last date for which years = 0
         new(new(3, 35), new(4, 35), 1),  // First date for which years = 1
     }.ConcatT(base.CountYearsBetweenOrdinalData);
+
+    public override DataGroup<YemoPairAnd<int>> CountYearsBetweenMonthData => new DataGroup<YemoPairAnd<int>>()
+    {
+        new(new(3, 6), new(2, 6), -1),
+        new(new(3, 6), new(2, 7), 0),
+        // ...
+        new(new(3, 6), new(2, 12), 0),
+        // ... see CountYearsBetweenMonthSamples.
+        new(new(3, 6), new(4, 1), 0),
+        // ...
+        new(new(3, 6), new(4, 5), 0),
+        new(new(3, 6), new(4, 6), 1),
+    }.ConcatT(base.CountYearsBetweenMonthData);
 }

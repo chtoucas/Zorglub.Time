@@ -343,4 +343,19 @@ public partial class LunisolarDataSet // Math data
         new(new(LeapYear, 13, 30), new(LeapYear, 2, 1), -353),
         new(new(LeapYear, 13, 30), new(LeapYear + 1, 12, 28), 353),
     }.ConcatT(base.AddDaysData);
+
+    public override DataGroup<YemoPairAnd<int>> AddYearsMonthData => new DataGroup<YemoPairAnd<int>>()
+    {
+        new(new(CommonYear, 1), new(CommonYear, 2), 1),
+        new(new(CommonYear, 1), new(CommonYear, 12), 11),
+        new(new(CommonYear, 1), new(CommonYear + 1, 1), 12),
+
+        new(new(LeapYear, 1), new(LeapYear, 2), 1),
+        new(new(LeapYear, 1), new(LeapYear, 12), 11),
+        new(new(LeapYear, 1), new(LeapYear, 13), 12),
+        new(new(LeapYear, 1), new(LeapYear + 1, 1), 13),
+
+        new(new(LeapYear, 13), new(LeapYear + 1, 12), 12),
+        new(new(LeapYear, 13), new(LeapYear + 2, 1), 13),
+    }.ConcatT(base.AddYearsMonthData);
 }
