@@ -3,7 +3,7 @@
 
 namespace Zorglub.Time.Simple
 {
-    // FIXME(code): impl PlainMath.
+    // FIXME(code): impl PlainMath. Improve impl.
     // Do we need stricter validation? or is YearOverflowChecker enough?
 
     using Zorglub.Time.Core;
@@ -77,50 +77,63 @@ namespace Zorglub.Time.Simple
         [Pure]
         protected internal override CalendarDate AddMonthsCore(CalendarDate date, int months)
         {
-            throw new NotImplementedException();
+            var month = AddMonthsCore(date.CalendarMonth, months);
+
+            // NB: DateAdditionRule.EndOfMonth.
+            int d = Math.Min(date.Day, month.CountDaysInMonth());
+            return month.GetDayOfMonth(d);
         }
 
         /// <inheritdoc />
         [Pure]
         protected internal override CalendarMonth AddMonthsCore(CalendarMonth month, int months)
         {
-            throw new NotImplementedException();
             //Debug.Assert(month.Cuid == Cuid);
 
-            //return AddMonthsCore(month.FirstDay, months).CalendarMonth;
+            //month.Parts.Unpack(out int y, out int m);
+
+            //int monthsInYear = Schema.CountMonthsInYear(y);
+            //if (m + months <= monthsInYear)
+            //{
+            //    return new CalendarMonth(new Yemo(y, m + months), Cuid);
+            //}
+            //else
+            //{
+            //    y++;
+            //    months -= monthsInYear - m;
+            //}
+
+            //while (months > 0)
+            //{
+            //    monthsInYear = Schema.CountMonthsInYear(y);
+            //    if (months > monthsInYear)
+            //    {
+            //        y++;
+            //        months -= monthsInYear;
+            //    }
+            //}
+
+            //return new CalendarMonth(new Yemo(y, months), Cuid);
+            throw new NotImplementedException();
         }
 
         /// <inheritdoc />
         [Pure]
         protected internal override int CountMonthsBetweenCore(CalendarDate start, CalendarDate end)
         {
-            throw new NotImplementedException();
+            int months = CountMonthsBetweenCore(start.CalendarMonth, end.CalendarMonth);
+            var newStart = AddMonthsCore(start, months);
 
-            //Debug.Assert(start.Cuid == Cuid);
-            //Debug.Assert(end.Cuid == Cuid);
+            if (start.CompareFast(end) < 0)
+            {
+                if (newStart.CompareFast(end) > 0) { months--; }
+            }
+            else
+            {
+                if (newStart.CompareFast(end) < 0) { months++; }
+            }
 
-            //start.Parts.Unpack(out int y0, out int m0);
-            //end.Parts.Unpack(out int y1, out int m1);
-
-            //// THIS IS WRONG. See CountMonthsBetweenCore() for CalendarMonth.
-            //int months = m1 - m0;
-            //for (int y = y0; y < y1; y++)
-            //{
-            //    months += Schema.CountMonthsInYear(y);
-            //}
-
-            //var newStart = AddMonthsCore(start, months);
-
-            //if (start.CompareFast(end) < 0)
-            //{
-            //    if (newStart.CompareFast(end) > 0) { months--; }
-            //}
-            //else
-            //{
-            //    if (newStart.CompareFast(end) < 0) { months++; }
-            //}
-
-            //return months;
+            return months;
         }
 
         /// <inheritdoc />
