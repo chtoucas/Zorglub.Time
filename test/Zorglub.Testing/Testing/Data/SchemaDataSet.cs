@@ -57,20 +57,12 @@ public abstract partial class SchemaDataSet : ICalendricalDataSet
     public abstract TheoryData<int, int, int> InvalidDayFieldData { get; }
     public abstract TheoryData<int, int> InvalidDayOfYearFieldData { get; }
 
-    // TODO(data): derived classes should at least override ConsecutiveDaysData
-    // and ConsecutiveDaysOrdinalData. Lunisolar, Positivist and TabularIslamic
-    // should override all math-related props. Hum, maybe we should do that for
-    // one model per schema type (regular12/13, non-regular, etc.).
+    // TODO(data): derived classes should at least override
+    // - ConsecutiveDaysData
+    // - ConsecutiveDaysOrdinalData
+    // - ConsecutiveMonthsData
     // The Gregorian schema should override all math-related props.
-    // Other schemas overriding AddDaysData:
-    // - Lunisolar (model for lunisolar schema)
-    // - TabularIslamic (model for lunar schema)
-    // Other schemas overriding ConsecutiveDaysData & ConsecutiveDaysOrdinalData:
-    // - Coptic12/13
-    // - Lunisolar (model for lunisolar schema)
-    // - Pax
-    // - Positivist (model for regular13 schema)
-    // - TabularIslamic (model for lunar schema)
+    // Other schemas, see CalendarMathTestSuite.
 
     public virtual DataGroup<YemodaPair> ConsecutiveDaysData => new(s_ConsecutiveDaysSamples);
     public virtual DataGroup<YedoyPair> ConsecutiveDaysOrdinalData => new(s_ConsecutiveDaysOrdinalSamples);

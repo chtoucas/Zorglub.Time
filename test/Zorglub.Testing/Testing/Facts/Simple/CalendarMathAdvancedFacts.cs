@@ -7,6 +7,8 @@ using Zorglub.Testing.Data;
 using Zorglub.Time.Simple;
 
 // FIXME(fact): how to filter data? Update the TestSuite afterwards.
+// 1) non-standard math for the Gregorian calendar
+// 2) non-standard math for more calendars (missing data)
 
 /// <summary>
 /// Provides facts about <see cref="CalendarMath"/>; <i>ambiguous</i> cases.

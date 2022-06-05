@@ -9,15 +9,6 @@ using Zorglub.Testing.Data;
 using Zorglub.Time.Core.Intervals;
 using Zorglub.Time.Simple;
 
-// FIXME(fact): math.
-// 1) non-standard math for the Gregorian calendar, see CalendarMathAdvancedFacts
-// 2) standard math for the Gregorian calendar (missing data)
-// 3) standard math for all calendars
-// 4) non-standard math for more calendars (missing data)
-// Don't forget to update CalendarMathAdvancedFacts too?
-// We should also test CalendricalArithmetic, CalendarDate, etc. and not just
-// for the Gregorian calendar.
-
 // CalendarMathFacts is our main testing class for math-related operations.
 //
 // What's not in CalendarMathFacts:

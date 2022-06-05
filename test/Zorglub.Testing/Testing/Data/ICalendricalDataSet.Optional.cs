@@ -3,7 +3,7 @@
 
 namespace Zorglub.Testing.Data;
 
-// TODO(data): one interface per rule? Do we need separate data for subtraction?
+// TODO(data): one interface per rule? Separate data for subtraction?
 // To be used as a provider for -ambiguous- data.
 public interface IAdvancedMathDataSet
 {
