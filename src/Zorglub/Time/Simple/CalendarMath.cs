@@ -198,7 +198,25 @@ namespace Zorglub.Time.Simple
         /// </summary>
         [Pure]
         [SuppressMessage("Naming", "CA1716:Identifiers should not match keywords.", MessageId = "end", Justification = "F# & VB.NET End statement.")]
-        protected internal abstract int CountYearsBetweenCore(CalendarDate start, CalendarDate end);
+        protected internal virtual int CountYearsBetweenCore(CalendarDate start, CalendarDate end)
+        {
+            Debug.Assert(start.Cuid == Cuid);
+            Debug.Assert(end.Cuid == Cuid);
+
+            int years = end.Year - start.Year;
+            CalendarDate newStart = AddYearsCore(start, years);
+
+            if (start.CompareFast(end) < 0)
+            {
+                if (newStart.CompareFast(end) > 0) { years--; }
+            }
+            else
+            {
+                if (newStart.CompareFast(end) < 0) { years++; }
+            }
+
+            return years;
+        }
 
         /// <summary>
         /// Counts the number of months between the two specified dates.
@@ -261,7 +279,25 @@ namespace Zorglub.Time.Simple
         /// </summary>
         [Pure]
         [SuppressMessage("Naming", "CA1716:Identifiers should not match keywords.", MessageId = "end", Justification = "F# & VB.NET End statement.")]
-        protected internal abstract int CountYearsBetweenCore(OrdinalDate start, OrdinalDate end);
+        protected internal virtual int CountYearsBetweenCore(OrdinalDate start, OrdinalDate end)
+        {
+            Debug.Assert(start.Cuid == Cuid);
+            Debug.Assert(end.Cuid == Cuid);
+
+            int years = end.Year - start.Year;
+            OrdinalDate newStart = AddYearsCore(start, years);
+
+            if (start.CompareFast(end) < 0)
+            {
+                if (newStart.CompareFast(end) > 0) { years--; }
+            }
+            else
+            {
+                if (newStart.CompareFast(end) < 0) { years++; }
+            }
+
+            return years;
+        }
 
         #endregion
     }
@@ -333,6 +369,7 @@ namespace Zorglub.Time.Simple
         /// </summary>
         /// <exception cref="OverflowException">The calculation would overflow the range of
         /// supported months.</exception>
+        [Pure]
         protected internal abstract CalendarMonth AddYearsCore(CalendarMonth month, int years);
 
         /// <summary>
@@ -341,6 +378,7 @@ namespace Zorglub.Time.Simple
         /// </summary>
         /// <exception cref="OverflowException">The calculation would overflow the range of
         /// supported months.</exception>
+        [Pure]
         protected internal abstract CalendarMonth AddMonthsCore(CalendarMonth month, int months);
 
         /// <summary>
@@ -349,7 +387,25 @@ namespace Zorglub.Time.Simple
         /// </summary>
         [Pure]
         [SuppressMessage("Naming", "CA1716:Identifiers should not match keywords.", MessageId = "end", Justification = "F# & VB.NET End statement.")]
-        protected internal abstract int CountYearsBetweenCore(CalendarMonth start, CalendarMonth end);
+        protected internal virtual int CountYearsBetweenCore(CalendarMonth start, CalendarMonth end)
+        {
+            Debug.Assert(start.Cuid == Cuid);
+            Debug.Assert(end.Cuid == Cuid);
+
+            int years = end.Year - start.Year;
+            CalendarMonth newStart = AddYearsCore(start, years);
+
+            if (start.CompareFast(end) < 0)
+            {
+                if (newStart.CompareFast(end) > 0) { years--; }
+            }
+            else
+            {
+                if (newStart.CompareFast(end) < 0) { years++; }
+            }
+
+            return years;
+        }
 
         /// <summary>
         /// Counts the number of months between the two specified months.

@@ -33,8 +33,6 @@ namespace Zorglub.Time.Simple
             }
         }
 
-        #region CalendarDate
-
         /// <inheritdoc />
         [Pure]
         protected internal override CalendarDate AddMonthsCore(CalendarDate date, int months)
@@ -50,6 +48,21 @@ namespace Zorglub.Time.Simple
             // NB: DateAdditionRule.EndOfMonth.
             d = Math.Min(d, Schema.CountDaysInMonth(y, m));
             return new CalendarDate(new Yemoda(y, m, d), Cuid);
+        }
+
+        /// <inheritdoc />
+        [Pure]
+        protected internal override CalendarMonth AddMonthsCore(CalendarMonth month, int months)
+        {
+            Debug.Assert(month.Cuid == Cuid);
+
+            month.Parts.Unpack(out int y, out int m);
+            m = 1 + MathZ.Modulo(checked(m - 1 + months), MonthsPerYear, out int y0);
+            y += y0;
+
+            YearOverflowChecker.Check(y);
+
+            return new CalendarMonth(new Yemo(y, m), Cuid);
         }
 
         /// <inheritdoc />
@@ -77,24 +90,6 @@ namespace Zorglub.Time.Simple
             return months;
         }
 
-        #endregion
-        #region CalendarMonth
-
-        /// <inheritdoc />
-        [Pure]
-        protected internal override CalendarMonth AddMonthsCore(CalendarMonth month, int months)
-        {
-            Debug.Assert(month.Cuid == Cuid);
-
-            month.Parts.Unpack(out int y, out int m);
-            m = 1 + MathZ.Modulo(checked(m - 1 + months), MonthsPerYear, out int y0);
-            y += y0;
-
-            YearOverflowChecker.Check(y);
-
-            return new CalendarMonth(new Yemo(y, m), Cuid);
-        }
-
         /// <inheritdoc />
         [Pure]
         protected internal override int CountMonthsBetweenCore(CalendarMonth start, CalendarMonth end)
@@ -107,7 +102,5 @@ namespace Zorglub.Time.Simple
 
             return (y - y0) * MonthsPerYear + m - m0;
         }
-
-        #endregion
     }
 }

@@ -23,8 +23,6 @@ namespace Zorglub.Time.Simple
         /// <exception cref="ArgumentNullException"><paramref name="calendar"/> is null.</exception>
         public PlainMath(Calendar calendar) : base(calendar, default) { }
 
-        #region CalendarDate
-
         /// <inheritdoc />
         [Pure]
         protected internal override CalendarDate AddYearsCore(CalendarDate date, int years)
@@ -44,6 +42,39 @@ namespace Zorglub.Time.Simple
 
         /// <inheritdoc />
         [Pure]
+        protected internal override OrdinalDate AddYearsCore(OrdinalDate date, int years)
+        {
+            Debug.Assert(date.Cuid == Cuid);
+
+            date.Parts.Unpack(out int y, out int doy);
+            y = checked(y + years);
+
+            YearOverflowChecker.Check(y);
+
+            // NB: OrdinalAdditionRule.EndOfYear.
+            doy = Math.Min(doy, Schema.CountDaysInYear(y));
+            return new OrdinalDate(new Yedoy(y, doy), Cuid);
+        }
+
+        /// <inheritdoc />
+        [Pure]
+        protected internal override CalendarMonth AddYearsCore(CalendarMonth month, int years)
+        {
+            Debug.Assert(month.Cuid == Cuid);
+
+            month.Parts.Unpack(out int y, out int m);
+            y = checked(y + years);
+
+            YearOverflowChecker.Check(y);
+
+            // NB: MonthAdditionRule.EndOfYear.
+            int monthsInYear = Schema.CountMonthsInYear(y);
+            var ym = new Yemo(y, Math.Min(m, monthsInYear));
+            return new CalendarMonth(ym, Cuid);
+        }
+
+        /// <inheritdoc />
+        [Pure]
         protected internal override CalendarDate AddMonthsCore(CalendarDate date, int months)
         {
             throw new NotImplementedException();
@@ -51,24 +82,12 @@ namespace Zorglub.Time.Simple
 
         /// <inheritdoc />
         [Pure]
-        protected internal override int CountYearsBetweenCore(CalendarDate start, CalendarDate end)
+        protected internal override CalendarMonth AddMonthsCore(CalendarMonth month, int months)
         {
-            Debug.Assert(start.Cuid == Cuid);
-            Debug.Assert(end.Cuid == Cuid);
+            throw new NotImplementedException();
+            //Debug.Assert(month.Cuid == Cuid);
 
-            int years = end.Year - start.Year;
-            CalendarDate newStart = AddYearsCore(start, years);
-
-            if (start.CompareFast(end) < 0)
-            {
-                if (newStart.CompareFast(end) > 0) { years--; }
-            }
-            else
-            {
-                if (newStart.CompareFast(end) < 0) { years++; }
-            }
-
-            return years;
+            //return AddMonthsCore(month.FirstDay, months).CalendarMonth;
         }
 
         /// <inheritdoc />
@@ -104,84 +123,6 @@ namespace Zorglub.Time.Simple
             //return months;
         }
 
-        #endregion
-        #region OrdinalDate
-
-        /// <inheritdoc />
-        [Pure]
-        protected internal override OrdinalDate AddYearsCore(OrdinalDate date, int years)
-        {
-            Debug.Assert(date.Cuid == Cuid);
-
-            date.Parts.Unpack(out int y, out int doy);
-            y = checked(y + years);
-
-            YearOverflowChecker.Check(y);
-
-            // NB: OrdinalAdditionRule.EndOfYear.
-            doy = Math.Min(doy, Schema.CountDaysInYear(y));
-            return new OrdinalDate(new Yedoy(y, doy), Cuid);
-        }
-
-        /// <inheritdoc />
-        [Pure]
-        protected internal override int CountYearsBetweenCore(OrdinalDate start, OrdinalDate end)
-        {
-            Debug.Assert(start.Cuid == Cuid);
-            Debug.Assert(end.Cuid == Cuid);
-
-            int years = end.Year - start.Year;
-            OrdinalDate newStart = AddYearsCore(start, years);
-
-            if (start.CompareFast(end) < 0)
-            {
-                if (newStart.CompareFast(end) > 0) { years--; }
-            }
-            else
-            {
-                if (newStart.CompareFast(end) < 0) { years++; }
-            }
-
-            return years;
-        }
-
-        #endregion
-        #region CalendarMonth
-
-        /// <inheritdoc />
-        [Pure]
-        protected internal override CalendarMonth AddYearsCore(CalendarMonth month, int years)
-        {
-            Debug.Assert(month.Cuid == Cuid);
-
-            month.Parts.Unpack(out int y, out int m);
-            y = checked(y + years);
-
-            YearOverflowChecker.Check(y);
-
-            // NB: MonthAdditionRule.EndOfYear.
-            int monthsInYear = Schema.CountMonthsInYear(y);
-            var ym = new Yemo(y, Math.Min(m, monthsInYear));
-            return new CalendarMonth(ym, Cuid);
-        }
-
-        /// <inheritdoc />
-        [Pure]
-        protected internal override CalendarMonth AddMonthsCore(CalendarMonth month, int months)
-        {
-            throw new NotImplementedException();
-            //Debug.Assert(month.Cuid == Cuid);
-
-            //return AddMonthsCore(month.FirstDay, months).CalendarMonth;
-        }
-
-        /// <inheritdoc />
-        [Pure]
-        protected internal override int CountYearsBetweenCore(CalendarMonth start, CalendarMonth end)
-        {
-            throw new NotImplementedException();
-        }
-
         /// <inheritdoc />
         [Pure]
         protected internal override int CountMonthsBetweenCore(CalendarMonth start, CalendarMonth end)
@@ -209,7 +150,5 @@ namespace Zorglub.Time.Simple
                 return months;
             }
         }
-
-        #endregion
     }
 }

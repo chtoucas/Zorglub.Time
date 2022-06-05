@@ -63,6 +63,12 @@ public abstract partial class SchemaDataSet : ICalendricalDataSet
     // - ConsecutiveMonthsData
     // The Gregorian schema should override all virtual props.
     // Other schemas, see CalendarMathTestSuite.
+    // - Gregorian (Profile = Solar12)
+    // - Positivist (Profile = Solar13)
+    // - Lunisolar
+    // Optionally
+    // - Coptic13 (Profile = Other)
+    // - TabularIslamic (Profile = Lunar)
 
     public virtual DataGroup<YemodaPair> ConsecutiveDaysData => new(s_ConsecutiveDaysSamples);
     public virtual DataGroup<YedoyPair> ConsecutiveDaysOrdinalData => new(s_ConsecutiveDaysOrdinalSamples);

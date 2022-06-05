@@ -10,7 +10,7 @@ namespace Zorglub.Time.Simple
     /// base for derived classes.
     /// <para>This class uses the default <see cref="AdditionRules"/> to resolve ambiguities.</para>
     /// </summary>
-    internal abstract partial class RegularMathBase : CalendarMath
+    internal abstract class RegularMathBase : CalendarMath
     {
         /// <summary>
         /// Called from constructors in derived classes to initialize the
@@ -40,10 +40,7 @@ namespace Zorglub.Time.Simple
         /// Gets the total number of months in a year.
         /// </summary>
         protected int MonthsInYear { get; }
-    }
 
-    internal partial class RegularMathBase // CalendarDate
-    {
         /// <inheritdoc />
         [Pure]
         protected internal sealed override CalendarDate AddYearsCore(CalendarDate date, int years)
@@ -62,31 +59,6 @@ namespace Zorglub.Time.Simple
 
         /// <inheritdoc />
         [Pure]
-        protected internal sealed override int CountYearsBetweenCore(CalendarDate start, CalendarDate end)
-        {
-            Debug.Assert(start.Cuid == Cuid);
-            Debug.Assert(end.Cuid == Cuid);
-
-            int years = end.Year - start.Year;
-            CalendarDate newStart = AddYearsCore(start, years);
-
-            if (start.CompareFast(end) < 0)
-            {
-                if (newStart.CompareFast(end) > 0) { years--; }
-            }
-            else
-            {
-                if (newStart.CompareFast(end) < 0) { years++; }
-            }
-
-            return years;
-        }
-    }
-
-    internal partial class RegularMathBase // OrdinalDate
-    {
-        /// <inheritdoc />
-        [Pure]
         protected internal sealed override OrdinalDate AddYearsCore(OrdinalDate date, int years)
         {
             Debug.Assert(date.Cuid == Cuid);
@@ -103,31 +75,6 @@ namespace Zorglub.Time.Simple
 
         /// <inheritdoc />
         [Pure]
-        protected internal sealed override int CountYearsBetweenCore(OrdinalDate start, OrdinalDate end)
-        {
-            Debug.Assert(start.Cuid == Cuid);
-            Debug.Assert(end.Cuid == Cuid);
-
-            int years = end.Year - start.Year;
-            OrdinalDate newStart = AddYearsCore(start, years);
-
-            if (start.CompareFast(end) < 0)
-            {
-                if (newStart.CompareFast(end) > 0) { years--; }
-            }
-            else
-            {
-                if (newStart.CompareFast(end) < 0) { years++; }
-            }
-
-            return years;
-        }
-    }
-
-    internal partial class RegularMathBase // CalendarMonth
-    {
-        /// <inheritdoc />
-        [Pure]
         protected internal sealed override CalendarMonth AddYearsCore(CalendarMonth month, int years)
         {
             Debug.Assert(month.Cuid == Cuid);
@@ -140,28 +87,6 @@ namespace Zorglub.Time.Simple
             // NB: the operation is always exact.
             // It's compatible with DateAdditionRule.EndOfYear.
             return new CalendarMonth(new Yemo(y, m), Cuid);
-        }
-
-        /// <inheritdoc />
-        [Pure]
-        protected internal sealed override int CountYearsBetweenCore(CalendarMonth start, CalendarMonth end)
-        {
-            Debug.Assert(start.Cuid == Cuid);
-            Debug.Assert(end.Cuid == Cuid);
-
-            int years = end.Year - start.Year;
-            CalendarMonth newStart = AddYearsCore(start, years);
-
-            if (start.CompareFast(end) < 0)
-            {
-                if (newStart.CompareFast(end) > 0) { years--; }
-            }
-            else
-            {
-                if (newStart.CompareFast(end) < 0) { years++; }
-            }
-
-            return years;
         }
     }
 }
