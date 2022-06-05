@@ -97,7 +97,6 @@
     <Compile Include="Tests\Simple\CalendarMonthTests.fs" />
     <Compile Include="Tests\Simple\CalendarYearTests.fs" />
     <Compile Include="Tests\Simple\CalendarTestSuite.fs" />
-    <Compile Include="Tests\Simple\UserCalendarTestSuite.fs" />
     <Compile Include="Tests\Simple\FeaturetteTestSuite.fs" />
     <Compile Include="Tests\Simple\CalendarMathTestSuite.fs" />
     <Compile Include="Tests\Simple\CalendarDateTestSuite.fs" />

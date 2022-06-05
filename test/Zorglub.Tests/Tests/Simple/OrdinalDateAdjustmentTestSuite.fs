@@ -46,3 +46,26 @@ type TabularIslamicTests() =
 type ZoroastrianTests() =
     inherit OrdinalDateAdjustmentFacts<StandardZoroastrian12DataSet>(ZoroastrianCalendar.Instance)
 
+//
+// User-defined calendars
+//
+
+[<Sealed>]
+[<RedundantTestBundle>]
+type UserGregorianTests() =
+    inherit OrdinalDateAdjustmentFacts<StandardGregorianDataSet>(UserCalendars.Gregorian)
+
+[<Sealed>]
+[<RedundantTestBundle>]
+type UserJulianTests() =
+    inherit OrdinalDateAdjustmentFacts<ProlepticJulianDataSet>(UserCalendars.Julian)
+
+[<Sealed>]
+[<RedundantTestBundle>]
+type UserLunisolarTests() =
+    inherit OrdinalDateAdjustmentFacts<StandardLunisolarDataSet>(UserCalendars.Lunisolar)
+
+[<Sealed>]
+[<RedundantTestBundle>]
+type UserPositivistTests() =
+    inherit OrdinalDateAdjustmentFacts<StandardPositivistDataSet>(UserCalendars.Positivist)

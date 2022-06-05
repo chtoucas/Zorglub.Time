@@ -227,6 +227,10 @@ public partial class PositivistDataSet // Invalid date parts
 
 public partial class PositivistDataSet // Math data
 {
+    //
+    // Data for Next() and Previous()
+    //
+
     public override DataGroup<YemodaPair> ConsecutiveDaysData => new DataGroup<YemodaPair>()
     {
         // End of month.
@@ -254,4 +258,45 @@ public partial class PositivistDataSet // Math data
         new(new(LeapYear, 365), new(LeapYear, 366)),
         new(new(LeapYear, 366), new(LeapYear + 1, 1)),
     }.ConcatT(base.ConsecutiveDaysOrdinalData);
+
+    public override DataGroup<YemoPair> ConsecutiveMonthsData => new DataGroup<YemoPair>()
+    {
+        new(new(CommonYear, 12), new(CommonYear, 13)),
+        new(new(CommonYear, 13), new(CommonYear + 1, 1)),
+        new(new(LeapYear, 12), new(LeapYear, 13)),
+        new(new(LeapYear, 13), new(LeapYear + 1, 1)),
+    }.ConcatT(base.ConsecutiveMonthsData);
+
+    //
+    // Data for the subtractions
+    //
+
+    public override DataGroup<YemodaPairAnd<int>> CountMonthsBetweenData => new DataGroup<YemodaPairAnd<int>>()
+    {
+        new(new(3, 6, 5), new(2, 1, 5), -18),
+        new(new(3, 6, 5), new(2, 13, 5), -6),
+        // ... see CountMonthsBetweenSamples
+        new(new(3, 6, 5), new(3, 13, 5), 7),
+        new(new(3, 6, 5), new(4, 1, 5), 8),
+        new(new(3, 6, 5), new(4, 12, 5), 19),
+        new(new(3, 6, 5), new(4, 13, 5), 20),
+
+        new(new(3, 6, 5), new(3, 5, 5), -1), // Last date for which months = -1
+        new(new(3, 6, 5), new(3, 5, 6), 0),  // First date for which months = 0
+        new(new(3, 6, 5), new(3, 7, 4), 0),  // Last date for which months = 0
+        //new(new(3, 6, 5), new(3, 7, 5), 1), // First date for which months = 1 (already in CountMonthsBetweenSamples)
+
+        // Start = start of a month.
+        new(new(3, 6, 1), new(3, 5, 1), -1),
+        new(new(3, 6, 1), new(3, 5, 2), 0),
+        new(new(3, 6, 1), new(3, 6, 28), 0),
+        new(new(3, 6, 1), new(3, 7, 1), 1),
+        // Start = end of a month.
+        new(new(3, 6, 28), new(3, 5, 28), -1),
+        new(new(3, 6, 28), new(3, 6, 1), 0),
+        new(new(3, 6, 28), new(3, 7, 27), 0),
+        new(new(3, 6, 28), new(3, 7, 28), 1),
+        new(new(3, 6, 28), new(3, 8, 1), 1),
+        new(new(3, 6, 28), new(3, 8, 28), 2),
+    }.ConcatT(base.CountMonthsBetweenData);
 }

@@ -81,3 +81,50 @@ type ZoroastrianTests() =
     override x.Id() = x.CalendarUT.Id === Cuid.Zoroastrian
     override x.Math() = x.CalendarUT.Math |> is<Regular12Math>
     override x.Scope() = x.CalendarUT.Scope |> is<Solar12StandardShortScope>
+
+//
+// User-defined calendars
+//
+
+[<Sealed>]
+[<RedundantTestBundle>]
+type UserGregorianTests() =
+    inherit CalendarFacts<StandardGregorianDataSet>(UserCalendars.Gregorian)
+
+    override __.GetSingleton() = UserCalendars.Gregorian
+    override x.Id() = x.CalendarUT.Id === UserCalendars.Gregorian.Id
+    override x.Math() = x.CalendarUT.Math |> is<Regular12Math>
+    override x.Scope() = x.CalendarUT.Scope |> is<GregorianStandardShortScope>
+
+// TODO(code): make it redundant. Right we can't if we want to achieve full test
+// coverage. Requirement: tests for Calendar.GetDayOfWeek()
+// Notice that testing these methods should be done with a proleptic calendar.
+[<Sealed>]
+[<TestExcludeFrom(TestExcludeFrom.Smoke)>]
+type UserJulianTests() =
+    inherit CalendarFacts<ProlepticJulianDataSet>(UserCalendars.Julian)
+
+    override __.GetSingleton() = UserCalendars.Julian
+    override x.Id() = x.CalendarUT.Id === UserCalendars.Julian.Id
+    override x.Math() = x.CalendarUT.Math |> is<Regular12Math>
+    override x.Scope() = x.CalendarUT.Scope |> is<Solar12ProlepticShortScope>
+
+[<Sealed>]
+[<RedundantTestBundle>]
+type UserLunisolarTests() =
+    inherit CalendarFacts<StandardLunisolarDataSet>(UserCalendars.Lunisolar)
+
+    override __.GetSingleton() = UserCalendars.Lunisolar
+    override x.Id() = x.CalendarUT.Id === UserCalendars.Lunisolar.Id
+    override x.Math() = x.CalendarUT.Math |> is<PlainMath>
+    override x.Scope() = x.CalendarUT.Scope |> is<LunisolarStandardShortScope>
+
+[<Sealed>]
+[<RedundantTestBundle>]
+type UserPositivistTests() =
+    inherit CalendarFacts<StandardPositivistDataSet>(UserCalendars.Positivist)
+
+    override __.GetSingleton() = UserCalendars.Positivist
+    override x.Id() = x.CalendarUT.Id === UserCalendars.Positivist.Id
+    override x.Math() = x.CalendarUT.Math |> is<Regular13Math>
+    override x.Scope() = x.CalendarUT.Scope |> is<Solar13StandardShortScope>

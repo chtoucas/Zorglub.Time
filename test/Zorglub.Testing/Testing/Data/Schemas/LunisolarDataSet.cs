@@ -281,26 +281,9 @@ public partial class LunisolarDataSet // Invalid date parts
 
 public partial class LunisolarDataSet // Math data
 {
-    public override DataGroup<YemodaPairAnd<int>> AddDaysData => new DataGroup<YemodaPairAnd<int>>()
-    {
-        //
-        // Branch AddDaysViaDayOfYear()
-        //
-        // MinDaysInMonth = 29 < |days| <= MinDaysInYear = 353
-
-        // Change of month.
-        new(new(3, 4, 1), new(3, 5, 1), 29),
-
-        // December, common year.
-        new(new(CommonYear, 12, 29), new(CommonYear, 1, 1), -353),
-        new(new(CommonYear, 12, 29), new(CommonYear + 1, 12, 28), 353),
-        // December, leap year.
-        new(new(LeapYear, 12, 29), new(LeapYear, 1, 1), -353),
-        new(new(LeapYear, 12, 29), new(LeapYear + 1, 11, 28), 353),
-        // December + 1, leap year.
-        new(new(LeapYear, 13, 30), new(LeapYear, 2, 1), -353),
-        new(new(LeapYear, 13, 30), new(LeapYear + 1, 12, 28), 353),
-    }.ConcatT(base.AddDaysData);
+    //
+    // Data for Next() and Previous()
+    //
 
     public override DataGroup<YemodaPair> ConsecutiveDaysData => new DataGroup<YemodaPair>()
     {
@@ -328,4 +311,36 @@ public partial class LunisolarDataSet // Math data
         new(new(LeapYear, 354), new(LeapYear, 355)),
         new(new(LeapYear, 384), new(LeapYear + 1, 1)),
     }.ConcatT(base.ConsecutiveDaysOrdinalData);
+
+    public override DataGroup<YemoPair> ConsecutiveMonthsData => new DataGroup<YemoPair>()
+    {
+        new(new(CommonYear, 12), new(CommonYear + 1, 1)),
+        new(new(LeapYear, 12), new(LeapYear, 13)),
+        new(new(LeapYear, 13), new(LeapYear + 1, 1)),
+    }.ConcatT(base.ConsecutiveMonthsData);
+
+    //
+    // Data for the additions
+    //
+
+    public override DataGroup<YemodaPairAnd<int>> AddDaysData => new DataGroup<YemodaPairAnd<int>>()
+    {
+        //
+        // Branch AddDaysViaDayOfYear()
+        //
+        // MinDaysInMonth = 29 < |days| <= MinDaysInYear = 353
+
+        // Change of month.
+        new(new(3, 4, 1), new(3, 5, 1), 29),
+
+        // December, common year.
+        new(new(CommonYear, 12, 29), new(CommonYear, 1, 1), -353),
+        new(new(CommonYear, 12, 29), new(CommonYear + 1, 12, 28), 353),
+        // December, leap year.
+        new(new(LeapYear, 12, 29), new(LeapYear, 1, 1), -353),
+        new(new(LeapYear, 12, 29), new(LeapYear + 1, 11, 28), 353),
+        // December + 1, leap year.
+        new(new(LeapYear, 13, 30), new(LeapYear, 2, 1), -353),
+        new(new(LeapYear, 13, 30), new(LeapYear + 1, 12, 28), 353),
+    }.ConcatT(base.AddDaysData);
 }

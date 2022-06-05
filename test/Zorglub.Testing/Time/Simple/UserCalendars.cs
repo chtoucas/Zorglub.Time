@@ -5,6 +5,9 @@ namespace Zorglub.Time.Simple;
 
 using Zorglub.Time.Hemerology;
 
+// NB: don't remove the proleptic calendar, it's useful to check that everything
+// continues to work with negative years.
+
 /// <summary>
 /// Provides user-defined calendars.
 /// </summary>

@@ -61,7 +61,7 @@ public abstract partial class SchemaDataSet : ICalendricalDataSet
     // - ConsecutiveDaysData
     // - ConsecutiveDaysOrdinalData
     // - ConsecutiveMonthsData
-    // The Gregorian schema should override all math-related props.
+    // The Gregorian schema should override all virtual props.
     // Other schemas, see CalendarMathTestSuite.
 
     public virtual DataGroup<YemodaPair> ConsecutiveDaysData => new(s_ConsecutiveDaysSamples);
