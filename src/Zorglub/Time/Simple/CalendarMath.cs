@@ -8,7 +8,10 @@ namespace Zorglub.Time.Simple
 
     // REVIEW(api): difference, add Add(Period). NextMonth() & co. Week ops.
     // Quarter ops.
-    // Addition rules: impact on Count...Between()?
+    // Count...Between()
+    // - Give definition in terms of addition <- therefore depends on the addition rules
+    // - Remove virtual
+    // - Default impl works if there is no extremely short years
     // Add tests related to the warning below. Question: should we provide an
     // engine for which the operations always give the same result for dates and
     // ordinal dates? and how could we do that?
