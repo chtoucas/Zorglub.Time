@@ -3,8 +3,42 @@
 
 namespace Zorglub.Testing.Data.Schemas;
 
+// NB: we do not include data for which the result is ambiguous, see Math2... for that.
 public partial class GregorianDataSet // Math data
 {
+    public override DataGroup<YemodaPair> ConsecutiveDaysData => new DataGroup<YemodaPair>()
+    {
+        // End of month.
+        new(new(CommonYear, 1, 31), new(CommonYear, 2, 1)),
+        new(new(CommonYear, 2, 28), new(CommonYear, 3, 1)),
+        new(new(LeapYear, 2, 28), new(LeapYear, 2, 29)),
+        new(new(LeapYear, 2, 29), new(LeapYear, 3, 1)),
+        new(new(CommonYear, 3, 31), new(CommonYear, 4, 1)),
+        new(new(CommonYear, 5, 31), new(CommonYear, 6, 1)),
+        new(new(CommonYear, 6, 30), new(CommonYear, 7, 1)),
+        new(new(CommonYear, 7, 31), new(CommonYear, 8, 1)),
+        new(new(CommonYear, 8, 31), new(CommonYear, 9, 1)),
+        new(new(CommonYear, 9, 30), new(CommonYear, 10, 1)),
+        new(new(CommonYear, 10, 31), new(CommonYear, 11, 1)),
+        new(new(CommonYear, 11, 30), new(CommonYear, 12, 1)),
+        new(new(CommonYear, 12, 31), new(CommonYear + 1, 1, 1)),
+    }.ConcatT(base.ConsecutiveDaysData);
+
+    public override DataGroup<YedoyPair> ConsecutiveDaysOrdinalData => new DataGroup<YedoyPair>()
+    {
+        // End of year.
+        new(new(CommonYear, 365), new(CommonYear + 1, 1)),
+        new(new(LeapYear, 365), new(LeapYear, 366)),
+        new(new(LeapYear, 366), new(LeapYear + 1, 1)),
+    }.ConcatT(base.ConsecutiveDaysOrdinalData);
+
+    public override DataGroup<YemoPair> ConsecutiveMonthsData => new DataGroup<YemoPair>()
+    {
+        new(new(2, 12), new(3, 1)),
+        // ... see ConsecutiveMonthsSamples
+        new(new(3, 12), new(4, 1)),
+    }.ConcatT(base.ConsecutiveMonthsData);
+
     public override DataGroup<YemodaPairAnd<int>> AddDaysData => new DataGroup<YemodaPairAnd<int>>()
     {
         // Branch AddDaysViaDayOfMonth()
@@ -65,23 +99,39 @@ public partial class GregorianDataSet // Math data
         new(new(3, 4, 5), new(10, 4, 3), 7 * 365),
     }.ConcatT(base.AddDaysData);
 
-    public override DataGroup<YemodaPair> ConsecutiveDaysData => new DataGroup<YemodaPair>()
+    public override DataGroup<YemodaPairAnd<int>> AddMonthsData => new DataGroup<YemodaPairAnd<int>>()
     {
-        // End of month.
-        new(new(CommonYear, 1, 31), new(CommonYear, 2, 1)),
-        new(new(CommonYear, 2, 28), new(CommonYear, 3, 1)),
-        new(new(LeapYear, 2, 28), new(LeapYear, 2, 29)),
-        new(new(LeapYear, 2, 29), new(LeapYear, 3, 1)),
-        new(new(CommonYear, 3, 31), new(CommonYear, 4, 1)),
-        new(new(CommonYear, 5, 31), new(CommonYear, 6, 1)),
-        new(new(CommonYear, 6, 30), new(CommonYear, 7, 1)),
-        new(new(CommonYear, 7, 31), new(CommonYear, 8, 1)),
-        new(new(CommonYear, 8, 31), new(CommonYear, 9, 1)),
-        new(new(CommonYear, 9, 30), new(CommonYear, 10, 1)),
-        new(new(CommonYear, 10, 31), new(CommonYear, 11, 1)),
-        new(new(CommonYear, 11, 30), new(CommonYear, 12, 1)),
-        new(new(CommonYear, 12, 31), new(CommonYear + 1, 1, 1)),
-    }.ConcatT(base.ConsecutiveDaysData);
+        new(new(3, 6, 5), new(1, 12, 5), -18),
+        new(new(3, 6, 5), new(2, 1, 5), -17),
+        new(new(3, 6, 5), new(2, 12, 5), -6),
+        // For months = -5 to 6, data is already provided by AddMonthsSamples
+        new(new(3, 6, 5), new(4, 1, 5), 7),
+        new(new(3, 6, 5), new(4, 12, 5), 18),
+        new(new(3, 6, 5), new(5, 1, 5), 19),
+
+        // 30 days long month -> 31 days long month.
+        new(new(1, 4, 30), new(1, 7, 30), 3),
+        new(new(1, 4, 30), new(1, 1, 30), -3),
+
+        // Target February (common year).
+        new(new(1, 1, 27), new(1, 2, 27), 1),
+        new(new(1, 1, 28), new(1, 2, 28), 1),
+        // Target February (leap year).
+        new(new(4, 1, 27), new(4, 2, 27), 1),
+        new(new(4, 1, 28), new(4, 2, 28), 1),
+        new(new(4, 1, 29), new(4, 2, 29), 1),
+    }.ConcatT(base.AddMonthsData);
+
+    public override DataGroup<YemodaPairAnd<int>> AddYearsData => new DataGroup<YemodaPairAnd<int>>()
+    {
+        // End of february, common year -> common year.
+        new(new(3, 2, 28), new(5, 2, 28), 2),
+        // End of february, common year -> leap year.
+        new(new(3, 2, 28), new(4, 2, 28), 1),
+        // End of february, leap year -> leap year.
+        new(new(4, 2, 29), new(8, 2, 29), 4),
+        // End of february, leap year -> common year (ambiguous).
+    }.ConcatT(base.AddYearsData);
 
     public override DataGroup<YedoyPairAnd<int>> AddDaysOrdinalData => new DataGroup<YedoyPairAnd<int>>()
     {
@@ -121,51 +171,6 @@ public partial class GregorianDataSet // Math data
         new(new(3, 64), new(10, 62), 7 * 365),
     }.ConcatT(base.AddDaysOrdinalData);
 
-    public override DataGroup<YedoyPair> ConsecutiveDaysOrdinalData => new DataGroup<YedoyPair>()
-    {
-        // End of year.
-        new(new(CommonYear, 365), new(CommonYear + 1, 1)),
-        new(new(LeapYear, 365), new(LeapYear, 366)),
-        new(new(LeapYear, 366), new(LeapYear + 1, 1)),
-    }.ConcatT(base.ConsecutiveDaysOrdinalData);
-
-    // NB: we do not include data for which the result is ambiguous, see
-    // GregorianMathDataSet... for that.
-
-    public override DataGroup<YemodaPairAnd<int>> AddYearsData => new DataGroup<YemodaPairAnd<int>>()
-    {
-        // End of february, common year -> common year.
-        new(new(3, 2, 28), new(5, 2, 28), 2),
-        // End of february, common year -> leap year.
-        new(new(3, 2, 28), new(4, 2, 28), 1),
-        // End of february, leap year -> leap year.
-        new(new(4, 2, 29), new(8, 2, 29), 4),
-        // End of february, leap year -> common year (ambiguous).
-    }.ConcatT(base.AddYearsData);
-
-    public override DataGroup<YemodaPairAnd<int>> AddMonthsData => new DataGroup<YemodaPairAnd<int>>()
-    {
-        new(new(3, 6, 5), new(1, 12, 5), -18),
-        new(new(3, 6, 5), new(2, 1, 5), -17),
-        new(new(3, 6, 5), new(2, 12, 5), -6),
-        // For months = -5 to 6, data is already provided by AddMonthsSamples
-        new(new(3, 6, 5), new(4, 1, 5), 7),
-        new(new(3, 6, 5), new(4, 12, 5), 18),
-        new(new(3, 6, 5), new(5, 1, 5), 19),
-
-        // 30 days long month -> 31 days long month.
-        new(new(1, 4, 30), new(1, 7, 30), 3),
-        new(new(1, 4, 30), new(1, 1, 30), -3),
-
-        // Target February (common year).
-        new(new(1, 1, 27), new(1, 2, 27), 1),
-        new(new(1, 1, 28), new(1, 2, 28), 1),
-        // Target February (leap year).
-        new(new(4, 1, 27), new(4, 2, 27), 1),
-        new(new(4, 1, 28), new(4, 2, 28), 1),
-        new(new(4, 1, 29), new(4, 2, 29), 1),
-    }.ConcatT(base.AddMonthsData);
-
     public override DataGroup<YedoyPairAnd<int>> AddYearsOrdinalData => new DataGroup<YedoyPairAnd<int>>()
     {
         // End of year, common year -> common year.
@@ -176,6 +181,33 @@ public partial class GregorianDataSet // Math data
         new(new(4, 366), new(8, 366), 4),
         // End of year, leap year -> common year (ambiguous).
     }.ConcatT(base.AddYearsOrdinalData);
+
+    public override DataGroup<YemodaPairAnd<int>> CountMonthsBetweenData => new DataGroup<YemodaPairAnd<int>>()
+    {
+        new(new(3, 6, 5), new(2, 1, 5), -17),
+        new(new(3, 6, 5), new(2, 12, 5), -6),
+        // ... see CountMonthsBetweenSamples
+        new(new(3, 6, 5), new(4, 1, 5), 7),
+        new(new(3, 6, 5), new(4, 12, 5), 18),
+
+        new(new(3, 6, 5), new(3, 5, 5), -1), // Last date for which months = -1
+        new(new(3, 6, 5), new(3, 5, 6), 0),  // First date for which months = 0
+        new(new(3, 6, 5), new(3, 7, 4), 0),  // Last date for which months = 0
+        //new(new(3, 6, 5), new(3, 7, 5), 1), // First date for which months = 1 (already in CountMonthsBetweenSamples)
+
+        // Start = start of a month.
+        new(new(3, 6, 1), new(3, 5, 1), -1),
+        new(new(3, 6, 1), new(3, 5, 2), 0),
+        new(new(3, 6, 1), new(3, 6, 30), 0),
+        new(new(3, 6, 1), new(3, 7, 1), 1),
+        // Start = end of a month.
+        new(new(3, 6, 30), new(3, 5, 30), -1),
+        //new(new(3, 6, 30), new(3, 5, 31), -1), // **ambiguous**
+        new(new(3, 6, 30), new(3, 6, 1), 0),
+        new(new(3, 6, 30), new(3, 7, 29), 0),
+        new(new(3, 6, 30), new(3, 7, 30), 1),
+        new(new(3, 6, 30), new(3, 7, 31), 1),
+    }.ConcatT(base.CountMonthsBetweenData);
 
     public override DataGroup<YemodaPairAnd<int>> CountYearsBetweenData => new DataGroup<YemodaPairAnd<int>>()
     {
@@ -206,33 +238,6 @@ public partial class GregorianDataSet // Math data
         new(new(3, 6, 30), new(4, 6, 29), 0),
         new(new(3, 6, 30), new(4, 6, 30), 1),
     }.ConcatT(base.CountYearsBetweenData);
-
-    public override DataGroup<YemodaPairAnd<int>> CountMonthsBetweenData => new DataGroup<YemodaPairAnd<int>>()
-    {
-        new(new(3, 6, 5), new(2, 1, 5), -17),
-        new(new(3, 6, 5), new(2, 12, 5), -6),
-        // ... see CountMonthsBetweenSamples
-        new(new(3, 6, 5), new(4, 1, 5), 7),
-        new(new(3, 6, 5), new(4, 12, 5), 18),
-
-        new(new(3, 6, 5), new(3, 5, 5), -1), // Last date for which months = -1
-        new(new(3, 6, 5), new(3, 5, 6), 0),  // First date for which months = 0
-        new(new(3, 6, 5), new(3, 7, 4), 0),  // Last date for which months = 0
-        //new(new(3, 6, 5), new(3, 7, 5), 1), // First date for which months = 1 (already in CountMonthsBetweenSamples)
-
-        // Start = start of a month.
-        new(new(3, 6, 1), new(3, 5, 1), -1),
-        new(new(3, 6, 1), new(3, 5, 2), 0),
-        new(new(3, 6, 1), new(3, 6, 30), 0),
-        new(new(3, 6, 1), new(3, 7, 1), 1),
-        // Start = end of a month.
-        new(new(3, 6, 30), new(3, 5, 30), -1),
-        //new(new(3, 6, 30), new(3, 5, 31), -1), // **ambiguous**
-        new(new(3, 6, 30), new(3, 6, 1), 0),
-        new(new(3, 6, 30), new(3, 7, 29), 0),
-        new(new(3, 6, 30), new(3, 7, 30), 1),
-        new(new(3, 6, 30), new(3, 7, 31), 1),
-    }.ConcatT(base.CountMonthsBetweenData);
 
     public override DataGroup<YedoyPairAnd<int>> CountYearsBetweenOrdinalData => new DataGroup<YedoyPairAnd<int>>()
     {

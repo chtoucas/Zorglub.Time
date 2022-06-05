@@ -260,14 +260,13 @@ public readonly record struct YearAnd<T>(int Year, T Value) where T : struct
 }
 
 public readonly record struct YemodaPair(Yemoda First, Yemoda Second);
-
 public readonly record struct YemodaPairAnd<T>(Yemoda First, Yemoda Second, T Value) where T : struct;
 
 public readonly record struct YedoyPair(Yedoy First, Yedoy Second);
-
 public readonly record struct YedoyPairAnd<T>(Yedoy First, Yedoy Second, T Value) where T : struct;
 
 public readonly record struct YemoPair(Yemo First, Yemo Second);
+public readonly record struct YemoPairAnd<T>(Yemo First, Yemo Second, T Value) where T : struct;
 
 #endregion
 #region Math models

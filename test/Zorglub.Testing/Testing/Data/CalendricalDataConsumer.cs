@@ -40,35 +40,21 @@ public abstract class CalendricalDataConsumer<TDataSet>
     public static TheoryData<int, int, int> InvalidDayFieldData => s_DataSet.InvalidDayFieldData;
     public static TheoryData<int, int> InvalidDayOfYearFieldData => s_DataSet.InvalidDayOfYearFieldData;
 
-    public static XunitData<YemodaPairAnd<int>> AddDaysData => s_Adapter.AddDaysData;
     public static XunitData<YemodaPair> ConsecutiveDaysData => s_Adapter.ConsecutiveDaysData;
-    public static XunitData<YedoyPairAnd<int>> AddDaysOrdinalData => s_Adapter.AddDaysOrdinalData;
     public static XunitData<YedoyPair> ConsecutiveDaysOrdinalData => s_Adapter.ConsecutiveDaysOrdinalData;
-
-    /// <remarks>
-    /// <para>We MAY re-use this property to test the difference in years between two dates because
-    /// the data is NOT ambiguous.</para>
-    /// <para>We MAY NOT re-use this property to test the addition of years to an ordinal date.</para>
-    /// </remarks>
-    public static XunitData<YemodaPairAnd<int>> AddYearsData => s_Adapter.AddYearsData;
-    /// <remarks>
-    /// <para>We MAY re-use this property to test the difference in months between two dates because
-    /// the data is NOT ambiguous.</para>
-    /// <para>We MAY NOT re-use this property to test the addition of month to an ordinal date.</para>
-    /// </remarks>
-    public static XunitData<YemodaPairAnd<int>> AddMonthsData => s_Adapter.AddMonthsData;
-    /// <remarks>
-    /// <para>We MAY re-use this property to test the difference in years between two ordinal dates
-    /// because the data is NOT ambiguous.</para>
-    /// <para>We MAY NOT re-use this property to test the addition of years to a calendar date.</para>
-    /// </remarks>
-    public static XunitData<YedoyPairAnd<int>> AddYearsOrdinalData => s_Adapter.AddYearsOrdinalData;
-
-    public static XunitData<YemodaPairAnd<int>> CountYearsBetweenData => s_Adapter.CountYearsBetweenData;
-    public static XunitData<YemodaPairAnd<int>> CountMonthsBetweenData => s_Adapter.CountMonthsBetweenData;
-    public static XunitData<YedoyPairAnd<int>> CountYearsBetweenOrdinalData => s_Adapter.CountYearsBetweenOrdinalData;
-
     public static XunitData<YemoPair> ConsecutiveMonthsData => s_Adapter.ConsecutiveMonthsData;
+
+    public static XunitData<YemodaPairAnd<int>> AddDaysData => s_Adapter.AddDaysData;
+    public static XunitData<YemodaPairAnd<int>> AddMonthsData => s_Adapter.AddMonthsData;
+    public static XunitData<YemodaPairAnd<int>> AddYearsData => s_Adapter.AddYearsData;
+    public static XunitData<YedoyPairAnd<int>> AddDaysOrdinalData => s_Adapter.AddDaysOrdinalData;
+    public static XunitData<YedoyPairAnd<int>> AddYearsOrdinalData => s_Adapter.AddYearsOrdinalData;
+    public static XunitData<YemoPairAnd<int>> AddMonthsMonthData => s_Adapter.AddMonthsMonthData;
+    public static XunitData<YemoPairAnd<int>> AddYearsMonthData => s_Adapter.AddYearsMonthData;
+
+    public static XunitData<YemodaPairAnd<int>> CountMonthsBetweenData => s_Adapter.CountMonthsBetweenData;
+    public static XunitData<YemodaPairAnd<int>> CountYearsBetweenData => s_Adapter.CountYearsBetweenData;
+    public static XunitData<YedoyPairAnd<int>> CountYearsBetweenOrdinalData => s_Adapter.CountYearsBetweenOrdinalData;
 
     private sealed class DataSetAdapter
     {
@@ -123,48 +109,68 @@ public abstract class CalendricalDataConsumer<TDataSet>
         public XunitData<YearDaysSinceEpoch> EndOfYearDaysSinceEpochData =>
             _endOfYearDaysSinceEpochData ??= _dataSet.EndOfYearDaysSinceEpochData.ToXunitData();
 
-        private XunitData<YemodaPairAnd<int>>? _addDaysData;
-        public XunitData<YemodaPairAnd<int>> AddDaysData =>
-            _addDaysData ??= _dataSet.AddDaysData.ToXunitData();
+        //
+        // Data for Next() and Previous()
+        //
 
         private XunitData<YemodaPair>? _consecutiveDaysData;
         public XunitData<YemodaPair> ConsecutiveDaysData =>
             _consecutiveDaysData ??= _dataSet.ConsecutiveDaysData.ToXunitData();
 
-        private XunitData<YedoyPairAnd<int>>? _addDaysOrdinalData;
-        public XunitData<YedoyPairAnd<int>> AddDaysOrdinalData =>
-            _addDaysOrdinalData ??= _dataSet.AddDaysOrdinalData.ToXunitData();
-
         private XunitData<YedoyPair>? _consecutiveDaysOrdinalData;
         public XunitData<YedoyPair> ConsecutiveDaysOrdinalData =>
             _consecutiveDaysOrdinalData ??= _dataSet.ConsecutiveDaysOrdinalData.ToXunitData();
 
-        private XunitData<YemodaPairAnd<int>>? _addYearsData;
-        public XunitData<YemodaPairAnd<int>> AddYearsData =>
-            _addYearsData ??= _dataSet.AddYearsData.ToXunitData();
+        private XunitData<YemoPair>? _consecutiveMonthsData;
+        public XunitData<YemoPair> ConsecutiveMonthsData =>
+            _consecutiveMonthsData ??= _dataSet.ConsecutiveMonthsData.ToXunitData();
+
+        //
+        // Data for the additions
+        //
+
+        private XunitData<YemodaPairAnd<int>>? _addDaysData;
+        public XunitData<YemodaPairAnd<int>> AddDaysData =>
+            _addDaysData ??= _dataSet.AddDaysData.ToXunitData();
 
         private XunitData<YemodaPairAnd<int>>? _addMonthsData;
         public XunitData<YemodaPairAnd<int>> AddMonthsData =>
             _addMonthsData ??= _dataSet.AddMonthsData.ToXunitData();
 
+        private XunitData<YemodaPairAnd<int>>? _addYearsData;
+        public XunitData<YemodaPairAnd<int>> AddYearsData =>
+            _addYearsData ??= _dataSet.AddYearsData.ToXunitData();
+
+        private XunitData<YedoyPairAnd<int>>? _addDaysOrdinalData;
+        public XunitData<YedoyPairAnd<int>> AddDaysOrdinalData =>
+            _addDaysOrdinalData ??= _dataSet.AddDaysOrdinalData.ToXunitData();
+
         private XunitData<YedoyPairAnd<int>>? _addYearsOrdinalData;
         public XunitData<YedoyPairAnd<int>> AddYearsOrdinalData =>
             _addYearsOrdinalData ??= _dataSet.AddYearsOrdinalData.ToXunitData();
 
-        private XunitData<YemodaPairAnd<int>>? _countYearsBetweenData;
-        public XunitData<YemodaPairAnd<int>> CountYearsBetweenData =>
-            _countYearsBetweenData ??= _dataSet.CountYearsBetweenData.ToXunitData();
+        private XunitData<YemoPairAnd<int>>? _addMonthsMonthData;
+        public XunitData<YemoPairAnd<int>> AddMonthsMonthData =>
+            _addMonthsMonthData ??= _dataSet.AddMonthsMonthData.ToXunitData();
+
+        private XunitData<YemoPairAnd<int>>? _addYearsMonthData;
+        public XunitData<YemoPairAnd<int>> AddYearsMonthData =>
+            _addYearsMonthData ??= _dataSet.AddYearsMonthData.ToXunitData();
+
+        //
+        // Data for the subtractions
+        //
 
         private XunitData<YemodaPairAnd<int>>? _countMonthsBetweenData;
         public XunitData<YemodaPairAnd<int>> CountMonthsBetweenData =>
             _countMonthsBetweenData ??= _dataSet.CountMonthsBetweenData.ToXunitData();
 
+        private XunitData<YemodaPairAnd<int>>? _countYearsBetweenData;
+        public XunitData<YemodaPairAnd<int>> CountYearsBetweenData =>
+            _countYearsBetweenData ??= _dataSet.CountYearsBetweenData.ToXunitData();
+
         private XunitData<YedoyPairAnd<int>>? _countYearsBetweenOrdinalData;
         public XunitData<YedoyPairAnd<int>> CountYearsBetweenOrdinalData =>
             _countYearsBetweenOrdinalData ??= _dataSet.CountYearsBetweenOrdinalData.ToXunitData();
-
-        private XunitData<YemoPair>? _consecutiveMonthsData;
-        public XunitData<YemoPair> ConsecutiveMonthsData =>
-            _consecutiveMonthsData ??= _dataSet.ConsecutiveMonthsData.ToXunitData();
     }
 }

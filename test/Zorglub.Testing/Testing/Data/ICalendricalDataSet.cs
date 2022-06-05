@@ -3,7 +3,7 @@
 
 namespace Zorglub.Testing.Data;
 
-public interface ICalendricalDataSet
+public partial interface ICalendricalDataSet
 {
     /// <summary>Gets a sample common year.</summary>
     int SampleCommonYear { get; }
@@ -49,45 +49,42 @@ public interface ICalendricalDataSet
     TheoryData<int, int, int> InvalidDayFieldData { get; }
     /// <summary>Year, dayOfYear; ONLY the latter is invalid.</summary>
     TheoryData<int, int> InvalidDayOfYearFieldData { get; }
+}
 
+public partial interface ICalendricalDataSet
+{
     // NB: no need to add the reverse operations (e.g. -days), it's done
     // automatically by the tests.
 
-    /// <summary>Date, expected result, days to be added.</summary>
-    DataGroup<YemodaPairAnd<int>> AddDaysData { get; }
     /// <summary>Date, date after.</summary>
     DataGroup<YemodaPair> ConsecutiveDaysData { get; }
-
-    /// <summary>Ordinal date, expected result, days to be added.</summary>
-    DataGroup<YedoyPairAnd<int>> AddDaysOrdinalData { get; }
-    /// <summary>Ordinal date, date after.</summary>
+    /// <summary>Date, date after.</summary>
     DataGroup<YedoyPair> ConsecutiveDaysOrdinalData { get; }
+    /// <summary>Month, month after.</summary>
+    DataGroup<YemoPair> ConsecutiveMonthsData { get; }
 
-    /// <summary>Date, expected result, years to be added.</summary>
-    /// <remarks>
-    /// <para>This property SHOULD NOT contain any ambiguous data.</para>
-    /// <para>We can re-use this property to test the difference in years between two dates because
-    /// the data is NOT ambiguous.</para>
-    /// </remarks>
-    DataGroup<YemodaPairAnd<int>> AddYearsData { get; }
+    /// <summary>Date, expected result, days to be added.</summary>
+    DataGroup<YemodaPairAnd<int>> AddDaysData { get; }
     /// <summary>Date, expected result, months to be added.</summary>
-    /// <remarks>
-    /// <para>This property SHOULD NOT contain any ambiguous data.</para>
-    /// <para>We can re-use this property to test the difference in months between two dates because
-    /// the data is NOT ambiguous.</para>
-    /// </remarks>
     DataGroup<YemodaPairAnd<int>> AddMonthsData { get; }
     /// <summary>Date, expected result, years to be added.</summary>
-    /// <remarks>
-    /// <para>This property SHOULD NOT contain any ambiguous data.</para>
-    /// <para>We can re-use this property to test the difference in years between two dates because
-    /// the data is NOT ambiguous.</para>
-    /// </remarks>
+    DataGroup<YemodaPairAnd<int>> AddYearsData { get; }
+
+    /// <summary>Date, expected result, days to be added.</summary>
+    DataGroup<YedoyPairAnd<int>> AddDaysOrdinalData { get; }
+    /// <summary>Date, expected result, years to be added.</summary>
     DataGroup<YedoyPairAnd<int>> AddYearsOrdinalData { get; }
 
-    DataGroup<YemodaPairAnd<int>> CountYearsBetweenData { get; }
+    /// <summary>Month, expected result, months to be added.</summary>
+    DataGroup<YemoPairAnd<int>> AddMonthsMonthData { get; }
+    /// <summary>Month, expected result, years to be added.</summary>
+    DataGroup<YemoPairAnd<int>> AddYearsMonthData { get; }
+
+    /// <summary>Start date, end date, difference in months.</summary>
     DataGroup<YemodaPairAnd<int>> CountMonthsBetweenData { get; }
+    /// <summary>Start date, end date, difference in years.</summary>
+    DataGroup<YemodaPairAnd<int>> CountYearsBetweenData { get; }
+    /// <summary>Start date, end date, difference in years.</summary>
     DataGroup<YedoyPairAnd<int>> CountYearsBetweenOrdinalData { get; }
 
-    DataGroup<YemoPair> ConsecutiveMonthsData { get; }
 }

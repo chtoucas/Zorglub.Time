@@ -43,13 +43,10 @@ public abstract partial class SchemaDataSet : ICalendricalDataSet
     /// </remarks>
     public virtual DataGroup<CenturyInfo> CenturyInfoData => YearNumberingDataSet.CenturyInfoData;
 
-    public virtual DataGroup<YemodaAnd<int>> DaysInYearAfterDateData =>
-        MapToDaysInYearAfterDateData(DateInfoData);
-    public virtual DataGroup<YemodaAnd<int>> DaysInMonthAfterDateData =>
-        MapToDaysInMonthAfterDateData(DateInfoData);
+    public virtual DataGroup<YemodaAnd<int>> DaysInYearAfterDateData => MapToDaysInYearAfterDateData(DateInfoData);
+    public virtual DataGroup<YemodaAnd<int>> DaysInMonthAfterDateData => MapToDaysInMonthAfterDateData(DateInfoData);
 
-    public virtual DataGroup<Yemoda> StartOfYearPartsData =>
-        MapToStartOfYearParts(EndOfYearPartsData);
+    public virtual DataGroup<Yemoda> StartOfYearPartsData => MapToStartOfYearParts(EndOfYearPartsData);
     public abstract DataGroup<Yemoda> EndOfYearPartsData { get; }
 
     public abstract DataGroup<YearDaysSinceEpoch> StartOfYearDaysSinceEpochData { get; }
@@ -74,50 +71,30 @@ public abstract partial class SchemaDataSet : ICalendricalDataSet
     // - Pax
     // - Positivist (model for regular13 schema)
     // - TabularIslamic (model for lunar schema)
-    public virtual DataGroup<YemodaPairAnd<int>> AddDaysData => new(s_AddDaysSamples);
-    public virtual DataGroup<YemodaPair> ConsecutiveDaysData => new(s_ConsecutiveDaysSamples);
-    public virtual DataGroup<YedoyPairAnd<int>> AddDaysOrdinalData => new(s_AddDaysOrdinalSamples);
-    public virtual DataGroup<YedoyPair> ConsecutiveDaysOrdinalData => new(s_ConsecutiveDaysOrdinalSamples);
 
-    public virtual DataGroup<YemodaPairAnd<int>> AddYearsData => new(s_AddYearsSamples);
+    public virtual DataGroup<YemodaPair> ConsecutiveDaysData => new(s_ConsecutiveDaysSamples);
+    public virtual DataGroup<YedoyPair> ConsecutiveDaysOrdinalData => new(s_ConsecutiveDaysOrdinalSamples);
+    public virtual DataGroup<YemoPair> ConsecutiveMonthsData => new(s_ConsecutivesMonthsSamples);
+
+    public virtual DataGroup<YemodaPairAnd<int>> AddDaysData => new(s_AddDaysSamples);
     public virtual DataGroup<YemodaPairAnd<int>> AddMonthsData => new(s_AddMonthsSamples);
+    public virtual DataGroup<YemodaPairAnd<int>> AddYearsData => new(s_AddYearsSamples);
+    public virtual DataGroup<YedoyPairAnd<int>> AddDaysOrdinalData => new(s_AddDaysOrdinalSamples);
     public virtual DataGroup<YedoyPairAnd<int>> AddYearsOrdinalData => new(s_AddYearsOrdinalSamples);
+    public virtual DataGroup<YemoPairAnd<int>> AddMonthsMonthData => new(s_AddMonthsMonthSamples);
+    public virtual DataGroup<YemoPairAnd<int>> AddYearsMonthData => new(s_AddYearsMonthSamples);
 
     // Include AddYears(Ordinal)Data.
     // NB: if a derived class overrides AddYearsData, CountYearsBetweenData uses it.
-    public virtual DataGroup<YemodaPairAnd<int>> CountYearsBetweenData =>
-        new DataGroup<YemodaPairAnd<int>>(s_CountYearsBetweenSamples).ConcatT(AddYearsData);
     public virtual DataGroup<YemodaPairAnd<int>> CountMonthsBetweenData =>
-        new DataGroup<YemodaPairAnd<int>>(s_CountMonthsBetweenSamples).ConcatT(AddMonthsData);
+        DataGroup.Create(s_CountMonthsBetweenSamples)
+        .ConcatT(AddMonthsData);
+    public virtual DataGroup<YemodaPairAnd<int>> CountYearsBetweenData =>
+        DataGroup.Create(s_CountYearsBetweenSamples)
+        .ConcatT(AddYearsData);
     public virtual DataGroup<YedoyPairAnd<int>> CountYearsBetweenOrdinalData =>
-        new DataGroup<YedoyPairAnd<int>>(s_CountYearsBetweenOrdinalSamples).ConcatT(AddYearsOrdinalData);
-
-    public virtual DataGroup<YemoPair> ConsecutiveMonthsData => new(s_ConsecutivesMonthsSamples);
-
-    /// <remarks>NB: First and Second belongs to the same month.</remarks>
-    private static readonly IEnumerable<YemodaPairAnd<int>> s_AddDaysSamples = InitAddDaysSamples();
-    /// <remarks>NB: First and Second belongs to the same month.</remarks>
-    private static readonly IEnumerable<YemodaPair> s_ConsecutiveDaysSamples = InitConsecutiveDaysSamples();
-    /// <remarks>NB: First and Second belongs to the same year.</remarks>
-    private static readonly IEnumerable<YedoyPairAnd<int>> s_AddDaysOrdinalSamples = InitAddDaysOrdinalSamples();
-    /// <remarks>NB: First and Second belongs to the same year.</remarks>
-    private static readonly IEnumerable<YedoyPair> s_ConsecutiveDaysOrdinalSamples = InitConsecutiveDaysOrdinalSamples();
-
-    /// <remarks>NB: The data is unambiguous.</remarks>
-    private static readonly IEnumerable<YemodaPairAnd<int>> s_AddYearsSamples = InitAddYearsSamples();
-    /// <remarks>NB: The data is unambiguous. First and Second belongs to the same year.</remarks>
-    private static readonly IEnumerable<YemodaPairAnd<int>> s_AddMonthsSamples = InitAddMonthsSamples();
-    /// <remarks>NB: The data is unambiguous.</remarks>
-    private static readonly IEnumerable<YedoyPairAnd<int>> s_AddYearsOrdinalSamples = InitAddYearsOrdinalSamples();
-
-    /// <remarks>NB: The data is unambiguous. First and Second belongs to the same year.</remarks>
-    private static readonly IEnumerable<YemodaPairAnd<int>> s_CountYearsBetweenSamples = InitCountYearsBetweenSamples();
-    /// <remarks>NB: The data is unambiguous. First and Second belongs to the same year.</remarks>
-    private static readonly IEnumerable<YemodaPairAnd<int>> s_CountMonthsBetweenSamples = InitCountMonthsBetweenSamples();
-    /// <remarks>NB: The data is unambiguous. First and Second belongs to the same year.</remarks>
-    private static readonly IEnumerable<YedoyPairAnd<int>> s_CountYearsBetweenOrdinalSamples = InitCountYearsBetweenOrdinalSamples();
-
-    private static readonly IEnumerable<YemoPair> s_ConsecutivesMonthsSamples = InitConsecutivesMonthsSamples();
+        DataGroup.Create(s_CountYearsBetweenOrdinalSamples)
+        .ConcatT(AddYearsOrdinalData);
 }
 
 public partial class SchemaDataSet // Helpers
@@ -189,6 +166,96 @@ public partial class SchemaDataSet // Helpers
 
 public partial class SchemaDataSet // Math helpers
 {
+    // NB: the data is unambiguous.
+    private static readonly IEnumerable<YemodaPair> s_ConsecutiveDaysSamples = InitConsecutiveDaysSamples();
+    private static readonly IEnumerable<YedoyPair> s_ConsecutiveDaysOrdinalSamples = InitConsecutiveDaysOrdinalSamples();
+    private static readonly IEnumerable<YemoPair> s_ConsecutivesMonthsSamples = InitConsecutivesMonthsSamples();
+
+    private static readonly IEnumerable<YemodaPairAnd<int>> s_AddDaysSamples = InitAddDaysSamples();
+    private static readonly IEnumerable<YemodaPairAnd<int>> s_AddMonthsSamples = InitAddMonthsSamples();
+    private static readonly IEnumerable<YemodaPairAnd<int>> s_AddYearsSamples = InitAddYearsSamples();
+    private static readonly IEnumerable<YedoyPairAnd<int>> s_AddDaysOrdinalSamples = InitAddDaysOrdinalSamples();
+    private static readonly IEnumerable<YedoyPairAnd<int>> s_AddYearsOrdinalSamples = InitAddYearsOrdinalSamples();
+    private static readonly IEnumerable<YemoPairAnd<int>> s_AddMonthsMonthSamples = InitAddMonthsMonthSamples();
+    private static readonly IEnumerable<YemoPairAnd<int>> s_AddYearsMonthSamples = InitAddYearsMonthSamples();
+
+    private static readonly IEnumerable<YemodaPairAnd<int>> s_CountMonthsBetweenSamples = InitCountMonthsBetweenSamples();
+    private static readonly IEnumerable<YemodaPairAnd<int>> s_CountYearsBetweenSamples = InitCountYearsBetweenSamples();
+    private static readonly IEnumerable<YedoyPairAnd<int>> s_CountYearsBetweenOrdinalSamples = InitCountYearsBetweenOrdinalSamples();
+
+    //
+    // Data for Next() and Previous()
+    //
+
+    private static List<YemodaPair> InitConsecutiveDaysSamples()
+    {
+        // Hypothesis: April is at least 28-days long.
+        // new(new(3, 4, 1), new(3, 4, 2))
+        // new(new(3, 4, 2), new(3, 4, 3))
+        // ...
+        // new(new(3, 4, 27), new(3, 4, 28))
+        const int
+            SampleSize = 27,
+            Year = 3,
+            Month = 4;
+
+        var data = new List<YemodaPair>();
+        for (int d = 1; d <= SampleSize; d++)
+        {
+            var date = new Yemoda(Year, Month, d);
+            var dateAfter = new Yemoda(Year, Month, d + 1);
+            data.Add(new YemodaPair(date, dateAfter));
+        }
+        return data;
+    }
+
+    private static List<YedoyPair> InitConsecutiveDaysOrdinalSamples()
+    {
+        // Samples should covers at least the two first months.
+        // new(new(3, 1), new(3, 2))
+        // new(new(3, 2), new(3, 3))
+        // ...
+        // new(new(3, 69), new(3, 70))
+        // new(new(3, 70), new(3, 71))
+        const int
+            SampleSize = 70,
+            Year = 3;
+
+        var data = new List<YedoyPair>();
+        for (int doy = 1; doy <= SampleSize; doy++)
+        {
+            var date = new Yedoy(Year, doy);
+            var dateAfter = new Yedoy(Year, doy + 1);
+            data.Add(new YedoyPair(date, dateAfter));
+        }
+        return data;
+    }
+
+    private static List<YemoPair> InitConsecutivesMonthsSamples()
+    {
+        // Hypothesis: a year is at least 12-months long.
+        // new(new(3, 1), new(3, 2))
+        // new(new(3, 2), new(3, 3))
+        // ...
+        // new(new(3, 11), new(3, 12))
+        const int
+            SampleSize = 11,
+            Year = 3;
+
+        var data = new List<YemoPair>();
+        for (int m = 1; m <= SampleSize; m++)
+        {
+            var month = new Yemo(Year, m);
+            var monthAfter = new Yemo(Year, m + 1);
+            data.Add(new YemoPair(month, monthAfter));
+        }
+        return data;
+    }
+
+    //
+    // Data for the additions
+    //
+
     private static List<YemodaPairAnd<int>> InitAddDaysSamples()
     {
         // Hypothesis: April is at least 28-days long.
@@ -214,70 +281,27 @@ public partial class SchemaDataSet // Math helpers
         return data;
     }
 
-    private static List<YemodaPair> InitConsecutiveDaysSamples()
+    private static List<YemodaPairAnd<int>> InitAddMonthsSamples()
     {
-        // Hypothesis: April is at least 28-days long.
-        // new(new(3, 4, 1), new(3, 4, 2))
-        // new(new(3, 4, 2), new(3, 4, 3))
+        // Hypothesis: a year is at least 12-months long.
+        // new(new(3, 6, 5), new(3, 1, 5), -5)
+        // new(new(3, 6, 5), new(3, 2, 5), -4)
         // ...
-        // new(new(3, 4, 27), new(3, 4, 28))
+        // new(new(3, 6, 5), new(3, 11, 5), 5)
+        // new(new(3, 6, 5), new(3, 12, 5), 6)
         const int
-            SampleSize = 27,
+            SampleSize = 12,
             Year = 3,
-            Month = 4;
+            Month = SampleSize / 2,
+            Day = 5;
 
-        var data = new List<YemodaPair>();
-        for (int d = 1; d <= SampleSize; d++)
+        var start = new Yemoda(Year, Month, Day);
+
+        var data = new List<YemodaPairAnd<int>>();
+        for (int months = -Month + 1; months <= Month; months++)
         {
-            var date = new Yemoda(Year, Month, d);
-            var dateAfter = new Yemoda(Year, Month, d + 1);
-            data.Add(new YemodaPair(date, dateAfter));
-        }
-        return data;
-    }
-
-    private static List<YedoyPairAnd<int>> InitAddDaysOrdinalSamples()
-    {
-        // Samples should cover the two first months.
-        // new(new(3, 35), new(3, 1), -34)
-        // new(new(3, 35), new(3, 2), -33)
-        // ...
-        // new(new(3, 35), new(3, 69), 34)
-        // new(new(3, 35), new(3, 70), 35)
-        const int
-            SampleSize = 70,
-            Year = 3,
-            DayOfYear = SampleSize / 2;
-
-        var start = new Yedoy(Year, DayOfYear);
-
-        var data = new List<YedoyPairAnd<int>>();
-        for (int days = -DayOfYear + 1; days <= DayOfYear; days++)
-        {
-            var end = new Yedoy(Year, DayOfYear + days);
-            data.Add(new YedoyPairAnd<int>(start, end, days));
-        }
-        return data;
-    }
-
-    private static List<YedoyPair> InitConsecutiveDaysOrdinalSamples()
-    {
-        // Samples should covers at least the two first months.
-        // new(new(3, 1), new(3, 2))
-        // new(new(3, 2), new(3, 3))
-        // ...
-        // new(new(3, 69), new(3, 70))
-        // new(new(3, 70), new(3, 71))
-        const int
-            SampleSize = 70,
-            Year = 3;
-
-        var data = new List<YedoyPair>();
-        for (int doy = 1; doy <= SampleSize; doy++)
-        {
-            var date = new Yedoy(Year, doy);
-            var dateAfter = new Yedoy(Year, doy + 1);
-            data.Add(new YedoyPair(date, dateAfter));
+            var end = new Yemoda(Year, Month + months, Day);
+            data.Add(new YemodaPairAnd<int>(start, end, months));
         }
         return data;
     }
@@ -306,27 +330,26 @@ public partial class SchemaDataSet // Math helpers
         return data;
     }
 
-    private static List<YemodaPairAnd<int>> InitAddMonthsSamples()
+    private static List<YedoyPairAnd<int>> InitAddDaysOrdinalSamples()
     {
-        // Hypothesis: a year is at least 12-months long.
-        // new(new(3, 6, 5), new(5, 1, 5), -5)
-        // new(new(3, 6, 5), new(5, 2, 5), -4)
+        // Samples should cover the two first months.
+        // new(new(3, 35), new(3, 1), -34)
+        // new(new(3, 35), new(3, 2), -33)
         // ...
-        // new(new(3, 6, 5), new(5, 11, 5), 5)
-        // new(new(3, 6, 5), new(5, 12, 5), 6)
+        // new(new(3, 35), new(3, 69), 34)
+        // new(new(3, 35), new(3, 70), 35)
         const int
-            SampleSize = 12,
+            SampleSize = 70,
             Year = 3,
-            Month = SampleSize / 2,
-            Day = 5;
+            DayOfYear = SampleSize / 2;
 
-        var start = new Yemoda(Year, Month, Day);
+        var start = new Yedoy(Year, DayOfYear);
 
-        var data = new List<YemodaPairAnd<int>>();
-        for (int months = -Month + 1; months <= Month; months++)
+        var data = new List<YedoyPairAnd<int>>();
+        for (int days = -DayOfYear + 1; days <= DayOfYear; days++)
         {
-            var end = new Yemoda(Year, Month + months, Day);
-            data.Add(new YemodaPairAnd<int>(start, end, months));
+            var end = new Yedoy(Year, DayOfYear + days);
+            data.Add(new YedoyPairAnd<int>(start, end, days));
         }
         return data;
     }
@@ -350,6 +373,82 @@ public partial class SchemaDataSet // Math helpers
         {
             var end = new Yedoy(Year + years, DayOfYear);
             data.Add(new YedoyPairAnd<int>(start, end, years));
+        }
+        return data;
+    }
+
+    private static List<YemoPairAnd<int>> InitAddMonthsMonthSamples()
+    {
+        // Hypothesis: a year is at least 12-months long.
+        // new(new(3, 6), new(3, 1), -5)
+        // new(new(3, 6), new(3, 2), -4)
+        // ...
+        // new(new(3, 6), new(3, 11), 5)
+        // new(new(3, 6), new(3, 12), 6)
+        const int
+            SampleSize = 12,
+            Year = 3,
+            Month = SampleSize / 2;
+
+        var start = new Yemo(Year, Month);
+
+        var data = new List<YemoPairAnd<int>>();
+        for (int months = -Month + 1; months <= Month; months++)
+        {
+            var end = new Yemo(Year, Month + months);
+            data.Add(new YemoPairAnd<int>(start, end, months));
+        }
+        return data;
+    }
+
+    private static List<YemoPairAnd<int>> InitAddYearsMonthSamples()
+    {
+        // new(new(5, 4), new(1, 4), -4)
+        // new(new(5, 4), new(2, 4), -3)
+        // ...
+        // new(new(5, 4), new(9, 4), 4)
+        // new(new(5, 4), new(10, 4), 5)
+        const int
+            SampleSize = 10,
+            Year = SampleSize / 2,
+            Month = 4;
+
+        var start = new Yemo(Year, Month);
+
+        var data = new List<YemoPairAnd<int>>();
+        for (int months = -Year + 1; months <= Year; months++)
+        {
+            var end = new Yemo(Year + months, Month);
+            data.Add(new YemoPairAnd<int>(start, end, months));
+        }
+        return data;
+    }
+
+    //
+    // Data for the subtractions
+    //
+
+    private static List<YemodaPairAnd<int>> InitCountMonthsBetweenSamples()
+    {
+        // Hypothesis: a year is at least 12-months long.
+        // new(new(3, 6, 5), new(3, 1, 5), -5)
+        // new(new(3, 6, 5), new(3, 2, 5), -4)
+        // ...
+        // new(new(3, 6, 5), new(3, 11, 5), 5)
+        // new(new(3, 6, 5), new(3, 12, 5), 6)
+        const int
+            SampleSize = 12,
+            Year = 3,
+            Month = SampleSize / 2,
+            Day = 5;
+
+        var start = new Yemoda(Year, Month, Day);
+
+        var data = new List<YemodaPairAnd<int>>();
+        for (int months = -Month + 1; months <= Month; months++)
+        {
+            var end = new Yemoda(Year, Month + months, Day);
+            data.Add(new YemodaPairAnd<int>(start, end, months));
         }
         return data;
     }
@@ -379,31 +478,6 @@ public partial class SchemaDataSet // Math helpers
         return data;
     }
 
-    private static List<YemodaPairAnd<int>> InitCountMonthsBetweenSamples()
-    {
-        // Hypothesis: a year is at least 12-months long.
-        // new(new(3, 6, 5), new(3, 1, 5), -5)
-        // new(new(3, 6, 5), new(3, 2, 5), -4)
-        // ...
-        // new(new(3, 6, 5), new(3, 11, 5), 5)
-        // new(new(3, 6, 5), new(3, 12, 5), 6)
-        const int
-            SampleSize = 12,
-            Year = 3,
-            Month = SampleSize / 2,
-            Day = 5;
-
-        var start = new Yemoda(Year, Month, Day);
-
-        var data = new List<YemodaPairAnd<int>>();
-        for (int months = -Month + 1; months <= Month; months++)
-        {
-            var end = new Yemoda(Year, Month + months, Day);
-            data.Add(new YemodaPairAnd<int>(start, end, months));
-        }
-        return data;
-    }
-
     private static List<YedoyPairAnd<int>> InitCountYearsBetweenOrdinalSamples()
     {
         // Samples should covers at least the two first months.
@@ -424,27 +498,6 @@ public partial class SchemaDataSet // Math helpers
         {
             var end = new Yedoy(Year, DayOfYear + days);
             data.Add(new YedoyPairAnd<int>(start, end, 0));
-        }
-        return data;
-    }
-
-    private static List<YemoPair> InitConsecutivesMonthsSamples()
-    {
-        // Hypothesis: a year is at least 12-months long.
-        // new(new(3, 1), new(3, 2))
-        // new(new(3, 2), new(3, 3))
-        // ...
-        // new(new(3, 11), new(3, 12))
-        const int
-            SampleSize = 11,
-            Year = 3;
-
-        var data = new List<YemoPair>();
-        for (int m = 1; m <= SampleSize; m++)
-        {
-            var month = new Yemo(Year, m);
-            var monthAfter = new Yemo(Year, m + 1);
-            data.Add(new YemoPair(month, monthAfter));
         }
         return data;
     }
