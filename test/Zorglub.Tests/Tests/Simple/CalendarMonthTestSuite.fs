@@ -47,3 +47,27 @@ type TabularIslamicTests() =
 [<RedundantTestBundle>]
 type ZoroastrianTests() =
     inherit CalendarMonthFacts<StandardZoroastrian12DataSet>(ZoroastrianCalendar.Instance, other)
+
+//
+// User-defined calendars
+//
+
+//[<Sealed>]
+//[<RedundantTestBundle>]
+//type UserGregorianTests() =
+//    inherit CalendarMonthFacts<StandardGregorianDataSet>(UserCalendars.Gregorian, other)
+
+//[<Sealed>]
+//[<RedundantTestBundle>]
+//type UserJulianTests() =
+//    inherit CalendarMonthFacts<ProlepticJulianDataSet>(UserCalendars.Julian, other)
+
+//[<Sealed>]
+//[<RedundantTestBundle>]
+//type UserLunisolarTests() =
+//    inherit CalendarMonthFacts<StandardLunisolarDataSet>(UserCalendars.Lunisolar, other)
+
+//[<Sealed>]
+//[<RedundantTestBundle>]
+//type UserPositivistTests() =
+//    inherit CalendarMonthFacts<StandardPositivistDataSet>(UserCalendars.Positivist, other)
