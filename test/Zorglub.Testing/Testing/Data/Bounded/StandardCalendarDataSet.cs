@@ -57,6 +57,25 @@ public sealed class StandardCoptic12DataSet :
 }
 
 /// <summary>
+/// Provides test data for the Coptic13 calendar with years within the range [1..9999].
+/// </summary>
+public sealed class StandardCoptic13DataSet :
+    StandardCalendarDataSet<UnboundedCoptic13DataSet>, IEpagomenalDataSet, ISingleton<StandardCoptic13DataSet>
+{
+    private StandardCoptic13DataSet() : base(UnboundedCoptic13DataSet.Instance) { }
+
+    public static StandardCoptic13DataSet Instance => Singleton.Instance;
+
+    private static class Singleton
+    {
+        internal static readonly StandardCoptic13DataSet Instance = new();
+        static Singleton() { }
+    }
+
+    public DataGroup<YemodaAnd<int>> EpagomenalDayInfoData => Unbounded.EpagomenalDayInfoData.WhereT(DataFilter.Filter);
+}
+
+/// <summary>
 /// Provides test data for the Ethiopic calendar with years within the range [1..9999].
 /// </summary>
 public sealed class StandardEthiopic12DataSet :
@@ -100,6 +119,23 @@ public sealed class StandardGregorianDataSet :
     public DataGroup<YemodaPairAnd<DayOfWeek>> DayOfWeek_Nearest_Data => Unbounded.DayOfWeek_Nearest_Data.WhereT(DataFilter.Filter);
     public DataGroup<YemodaPairAnd<DayOfWeek>> DayOfWeek_OnOrAfter_Data => Unbounded.DayOfWeek_OnOrAfter_Data.WhereT(DataFilter.Filter);
     public DataGroup<YemodaPairAnd<DayOfWeek>> DayOfWeek_After_Data => Unbounded.DayOfWeek_After_Data.WhereT(DataFilter.Filter);
+}
+
+/// <summary>
+/// Provides test data for the Lunisolar calendar with years within the range [1..9999].
+/// </summary>
+public sealed class StandardLunisolarDataSet :
+    StandardCalendarDataSet<UnboundedLunisolarDataSet>, ISingleton<StandardLunisolarDataSet>
+{
+    private StandardLunisolarDataSet() : base(UnboundedLunisolarDataSet.Instance) { }
+
+    public static StandardLunisolarDataSet Instance => Singleton.Instance;
+
+    private static class Singleton
+    {
+        internal static readonly StandardLunisolarDataSet Instance = new();
+        static Singleton() { }
+    }
 }
 
 /// <summary>

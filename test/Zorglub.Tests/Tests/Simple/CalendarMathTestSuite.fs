@@ -12,36 +12,91 @@ open Zorglub.Time.Simple
 
 open Xunit
 
-// TODO(code): WIP. In particular, don't forget to test non-regular calendars (PlainMath).
+// TODO(code): WIP.
 
-// RegularMath
-[<Sealed>]
-type RegularMathTests() =
-    inherit CalendarMathFacts<ProlepticGregorianDataSet>(new RegularMath(GregorianCalendar.Instance))
+// We only need to test the following calendars
+// - Gregorian (PlainMath, RegularMath, Regular12Math)          <- CalendricalProfile.Solar12
+// - Positivist (PlainMath, RegularMath, Regular13Math)         <- CalendricalProfile.Solar13
+// - Lunisolar (PlainMath), non-regular                         <- CalendricalProfile.Lunisolar
+// but to be safe we also test
+// - Coptic13 (PlainMath, RegularMath, Regular13Math)           <- CalendricalProfile.Other
+// - TabularIslamic (PlainMath, RegularMath, Regular12Math)     <- CalendricalProfile.Lunar
 
-// RegularMath (advanced)
-[<Sealed>]
-[<TestExcludeFrom(TestExcludeFrom.Smoke)>]
-type RegularMathAdvancedTests() =
-    inherit CalendarMathAdvancedFacts<GregorianMathDataSetCutOff>(new RegularMath(GregorianCalendar.Instance))
+module PlainMathCase =
+    //[<Sealed>]
+    //[<RedundantTestBundle>]
+    //type Coptic13Tests() =
+    //    inherit PlainMathFacts<StandardCoptic13DataSet>(new PlainMath(UserCalendars.Coptic13))
 
-// Regular12Math (advanced)
-[<Sealed>]
-[<TestExcludeFrom(TestExcludeFrom.Smoke)>]
-type Regular12MathAdvancedTests() =
-    inherit CalendarMathAdvancedFacts<GregorianMathDataSetCutOff>(new Regular12Math(GregorianCalendar.Instance))
+    [<Sealed>]
+    type GregorianTests() =
+        inherit PlainMathFacts<ProlepticGregorianDataSet>(new PlainMath(GregorianCalendar.Instance))
 
-// Regular13Math
-[<Sealed>]
-[<TestExcludeFrom(TestExcludeFrom.Smoke)>]
-type Regular13MathTests() =
-    inherit CalendarMathFacts<StandardPositivistDataSet>(new Regular13Math(UserCalendars.Positivist))
+    [<Sealed>]
+    [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
+    type LunisolarTests() =
+        inherit PlainMathFacts<StandardLunisolarDataSet>(new PlainMath(UserCalendars.Lunisolar))
 
-// PlainMath
-[<Sealed>]
-[<TestExcludeFrom(TestExcludeFrom.Smoke)>]
-type PlainMathTests() =
-    inherit PlainMathFacts<ProlepticGregorianDataSet>(new PlainMath(GregorianCalendar.Instance))
+    [<Sealed>]
+    [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
+    type PositivistTests() =
+        inherit PlainMathFacts<StandardPositivistDataSet>(new PlainMath(UserCalendars.Positivist))
+
+    [<Sealed>]
+    [<RedundantTestBundle>]
+    type TabularIslamicTests() =
+        inherit PlainMathFacts<StandardTabularIslamicDataSet>(new PlainMath(TabularIslamicCalendar.Instance))
+
+module RegularMathCase =
+    //[<Sealed>]
+    //[<RedundantTestBundle>]
+    //type Coptic13Tests() =
+    //    inherit CalendarMathFacts<StandardCoptic13DataSet>(new RegularMath(UserCalendars.Coptic13))
+
+    [<Sealed>]
+    [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
+    type GregorianTests() =
+        inherit CalendarMathFacts<ProlepticGregorianDataSet>(new RegularMath(GregorianCalendar.Instance))
+
+    [<Sealed>]
+    [<RedundantTestBundle>]
+    type PositivistTests() =
+        inherit CalendarMathFacts<StandardPositivistDataSet>(new RegularMath(UserCalendars.Positivist))
+
+    [<Sealed>]
+    [<RedundantTestBundle>]
+    type TabularIslamicTests() =
+        inherit CalendarMathFacts<StandardTabularIslamicDataSet>(new RegularMath(TabularIslamicCalendar.Instance))
+
+module Regular13MathCase =
+    //[<Sealed>]
+    //[<RedundantTestBundle>]
+    //type Coptic13Tests() =
+    //    inherit CalendarMathFacts<StandardCoptic13DataSet>(new Regular13Math(UserCalendars.Coptic13))
+
+    [<Sealed>]
+    [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
+    type PositivistTests() =
+        inherit CalendarMathFacts<StandardPositivistDataSet>(new Regular13Math(UserCalendars.Positivist))
+
+module MathAdvancedCase =
+    //// PlainMath
+    //[<Sealed>]
+    //[<TestExcludeFrom(TestExcludeFrom.Smoke)>]
+    //type GregorianRegularTests() =
+    //    inherit CalendarMathAdvancedFacts<GregorianMathDataSetCutOff>(new PlainMath(GregorianCalendar.Instance))
+
+    // RegularMath
+    [<Sealed>]
+    [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
+    type GregorianRegularTests() =
+        inherit CalendarMathAdvancedFacts<GregorianMathDataSetCutOff>(new RegularMath(GregorianCalendar.Instance))
+
+    // Regular12Math
+    [<Sealed>]
+    [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
+    type GregorianRegular12Tests() =
+        inherit CalendarMathAdvancedFacts<GregorianMathDataSetCutOff>(new Regular12Math(GregorianCalendar.Instance))
 
 //
 // Default Math
