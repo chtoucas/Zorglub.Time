@@ -120,7 +120,7 @@
 
   <ItemGroup>
     <!--<PackageReference Update="FSharp.Core" Version="6.0.4" />-->
-    <PackageReference Include="FsCheck.Xunit" Version="2.16.4" />
+    <PackageReference Include="FsCheck.Xunit" Version="2.16.5" />
     <PackageReference Include="Unquote" Version="6.1.0" />
   </ItemGroup>
 
