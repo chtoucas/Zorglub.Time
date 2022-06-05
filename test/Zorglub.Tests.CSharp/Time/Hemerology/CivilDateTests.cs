@@ -175,6 +175,7 @@ public partial class CivilDateTests // Properties
         Assert.Equal(dow, date.IsoDayOfWeek);
     }
 
+    // TODO(fact): filter data.
     [Theory, MemberData(nameof(CalCalDataSet.DayNumberToDayOfWeekData), MemberType = typeof(CalCalDataSet))]
     public static void IsoDayOfWeek_ViaDayNumbers(DayNumber dayNumber, DayOfWeek dayOfWeek)
     {
