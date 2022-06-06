@@ -153,7 +153,7 @@ namespace Zorglub.Time.Simple
                 end.Parts.Unpack(out int y1, out int m1);
 
                 // This can certainly be optimized for calendars for which we
-                // know the leap-cycle.
+                // know the number of months in a leap-cycle.
                 int months = Schema.CountMonthsInYear(y0) - m0;
                 for (int y = y0 + 1; y < y1; y++)
                 {

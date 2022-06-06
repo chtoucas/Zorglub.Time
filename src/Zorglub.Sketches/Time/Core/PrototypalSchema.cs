@@ -97,8 +97,8 @@ namespace Zorglub.Time.Core
 
             if (daysSinceEpoch >= 0)
             {
-                // Notice that the first approximation for the value of the year is
-                // greater than or equal to the actual value.
+                // Notice that the first approximation for the value of the year
+                // is greater than or equal to the actual value.
                 while (daysSinceEpoch < startOfYear)
                 {
                     startOfYear -= CountDaysInYear(--y);
