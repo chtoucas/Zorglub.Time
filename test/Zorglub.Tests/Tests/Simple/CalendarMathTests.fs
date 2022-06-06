@@ -49,13 +49,6 @@ module Prelude =
         math.AdditionRules === rules
 
     [<Fact>]
-    let ``Property SupportedYears`` () =
-        let chr = GregorianCalendar.Instance
-        let math = new FauxCalendarMath(chr)
-
-        math.SupportedYearsDisclosed === chr.SupportedYears
-
-    [<Fact>]
     let ``Property Cuid`` () =
         let chr = GregorianCalendar.Instance
         let math = new FauxCalendarMath(chr)

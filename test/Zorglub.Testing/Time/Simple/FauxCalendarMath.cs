@@ -16,8 +16,6 @@ public sealed partial class FauxCalendarMath : CalendarMath
     public FauxCalendarMath(Calendar calendar) : this(calendar, default) { }
     public FauxCalendarMath(AdditionRules additionRules) : this(new FauxUserCalendar(), additionRules) { }
 
-    public Range<int> SupportedYearsDisclosed => SupportedYears;
-
     public bool AddYearsCoreDateWasCalled { get; private set; }
     public bool AddMonthsCoreDateWasCalled { get; private set; }
     public bool CountYearsBetweenCoreDateWasCalled { get; private set; }

@@ -43,26 +43,22 @@ namespace Zorglub.Time.Simple
 
             Cuid = calendar.Id;
             Schema = calendar.Schema;
-            // Internally we use YearOverflowChecker. Externally, one can use
-            // SupportedYears instead.
-            SupportedYears = calendar.SupportedYears;
             YearOverflowChecker = calendar.YearOverflowChecker;
         }
 
         /// <summary>
         /// Gets the calendar.
         /// </summary>
+        // NB: do not remove this property. For instance, if internally we can
+        // use YearOverflowChecker, externally we cannot, but there is
+        // Calendar.SupportedYears instead. It's also useful if we want to be
+        // able to create new date objects...
         public Calendar Calendar { get; }
 
         /// <summary>
         /// Gets the strategy employed to resolve ambiguities.
         /// </summary>
         public AdditionRules AdditionRules { get; }
-
-        /// <summary>
-        /// Gets the range of supported years.
-        /// </summary>
-        protected Range<int> SupportedYears { get; }
 
         /// <summary>
         /// Gets the checker for overflows of the range of years.
@@ -116,8 +112,6 @@ namespace Zorglub.Time.Simple
 
     public partial class CalendarMath // CalendarDate
     {
-        #region Public methods
-
         /// <summary>
         /// Adds a number of years to the year field of the specified date.
         /// </summary>
@@ -131,6 +125,16 @@ namespace Zorglub.Time.Simple
             ValidateCuid(date.Cuid, nameof(date));
             return AddYearsCore(date, years);
         }
+
+        /// <summary>
+        /// Adds a number of years to the year field of the specified date.
+        /// <para>This method does NOT validate the date parameter.</para>
+        /// </summary>
+        /// <exception cref="OverflowException">The calculation would overflow the range of
+        /// supported dates.</exception>
+        [Pure]
+        [SuppressMessage("Naming", "CA1716:Identifiers should not match keywords.", MessageId = "date", Justification = "VB.NET Date.")]
+        protected internal abstract CalendarDate AddYearsCore(CalendarDate date, int years);
 
         /// <summary>
         /// Adds a number of months to the month field of the specified date.
@@ -147,6 +151,16 @@ namespace Zorglub.Time.Simple
         }
 
         /// <summary>
+        /// Adds a number of months to the months field of the specified date.
+        /// <para>This method does NOT validate the date parameter.</para>
+        /// </summary>
+        /// <exception cref="OverflowException">The calculation would overflow the range of
+        /// supported dates.</exception>
+        [Pure]
+        [SuppressMessage("Naming", "CA1716:Identifiers should not match keywords.", MessageId = "date", Justification = "VB.NET Date.")]
+        protected internal abstract CalendarDate AddMonthsCore(CalendarDate date, int months);
+
+        /// <summary>
         /// Counts the number of years between the two specified dates.
         /// </summary>
         /// <exception cref="ArgumentException">One of the paramaters does not belong to the
@@ -158,42 +172,6 @@ namespace Zorglub.Time.Simple
             ValidateCuid(end.Cuid, nameof(end));
             return CountYearsBetweenCore(start, end);
         }
-
-        /// <summary>
-        /// Counts the number of months between the two specified dates.
-        /// </summary>
-        /// <exception cref="ArgumentException">One of the paramaters does not belong to the
-        /// underlying calendar.</exception>
-        [Pure]
-        public int CountMonthsBetween(CalendarDate start, CalendarDate end)
-        {
-            ValidateCuid(start.Cuid, nameof(start));
-            ValidateCuid(end.Cuid, nameof(end));
-            return CountMonthsBetweenCore(start, end);
-        }
-
-        #endregion
-        #region Abstract methods
-
-        /// <summary>
-        /// Adds a number of years to the year field of the specified date.
-        /// <para>This method does NOT validate the date parameter.</para>
-        /// </summary>
-        /// <exception cref="OverflowException">The calculation would overflow the range of
-        /// supported dates.</exception>
-        [Pure]
-        [SuppressMessage("Naming", "CA1716:Identifiers should not match keywords.", MessageId = "date", Justification = "VB.NET Date.")]
-        protected internal abstract CalendarDate AddYearsCore(CalendarDate date, int years);
-
-        /// <summary>
-        /// Adds a number of months to the months field of the specified date.
-        /// <para>This method does NOT validate the date parameter.</para>
-        /// </summary>
-        /// <exception cref="OverflowException">The calculation would overflow the range of
-        /// supported dates.</exception>
-        [Pure]
-        [SuppressMessage("Naming", "CA1716:Identifiers should not match keywords.", MessageId = "date", Justification = "VB.NET Date.")]
-        protected internal abstract CalendarDate AddMonthsCore(CalendarDate date, int months);
 
         /// <summary>
         /// Counts the number of months between the two specified dates.
@@ -223,19 +201,28 @@ namespace Zorglub.Time.Simple
 
         /// <summary>
         /// Counts the number of months between the two specified dates.
+        /// </summary>
+        /// <exception cref="ArgumentException">One of the paramaters does not belong to the
+        /// underlying calendar.</exception>
+        [Pure]
+        public int CountMonthsBetween(CalendarDate start, CalendarDate end)
+        {
+            ValidateCuid(start.Cuid, nameof(start));
+            ValidateCuid(end.Cuid, nameof(end));
+            return CountMonthsBetweenCore(start, end);
+        }
+
+        /// <summary>
+        /// Counts the number of months between the two specified dates.
         /// <para>This method does NOT validate its parameters.</para>
         /// </summary>
         [Pure]
         [SuppressMessage("Naming", "CA1716:Identifiers should not match keywords.", MessageId = "end", Justification = "F# & VB.NET End statement.")]
         protected internal abstract int CountMonthsBetweenCore(CalendarDate start, CalendarDate end);
-
-        #endregion
     }
 
     public partial class CalendarMath // OrdinalDate
     {
-        #region Public methods
-
         /// <summary>
         /// Adds a number of years to the year field of the specified ordinal date.
         /// </summary>
@@ -251,6 +238,16 @@ namespace Zorglub.Time.Simple
         }
 
         /// <summary>
+        /// Adds a number of years to the year field of the specified ordinal date.
+        /// <para>This method does NOT validate the date parameter.</para>
+        /// </summary>
+        /// <exception cref="OverflowException">The calculation would overflow the range of
+        /// supported dates.</exception>
+        [Pure]
+        [SuppressMessage("Naming", "CA1716:Identifiers should not match keywords.", MessageId = "date", Justification = "VB.NET Date.")]
+        protected internal abstract OrdinalDate AddYearsCore(OrdinalDate date, int years);
+
+        /// <summary>
         /// Counts the number of years between the two specified ordinal dates.
         /// </summary>
         /// <exception cref="ArgumentException">One of the paramaters does not belong to the
@@ -262,19 +259,6 @@ namespace Zorglub.Time.Simple
             ValidateCuid(end.Cuid, nameof(end));
             return CountYearsBetweenCore(start, end);
         }
-
-        #endregion
-        #region Abstract methods
-
-        /// <summary>
-        /// Adds a number of years to the year field of the specified ordinal date.
-        /// <para>This method does NOT validate the date parameter.</para>
-        /// </summary>
-        /// <exception cref="OverflowException">The calculation would overflow the range of
-        /// supported dates.</exception>
-        [Pure]
-        [SuppressMessage("Naming", "CA1716:Identifiers should not match keywords.", MessageId = "date", Justification = "VB.NET Date.")]
-        protected internal abstract OrdinalDate AddYearsCore(OrdinalDate date, int years);
 
         /// <summary>
         /// Counts the number of months between the two specified ordinal dates.
@@ -301,14 +285,10 @@ namespace Zorglub.Time.Simple
 
             return years;
         }
-
-        #endregion
     }
 
     public partial class CalendarMath // CalendarMonth
     {
-        #region Public methods
-
         /// <summary>
         /// Adds a number of years to the year field of the specified month.
         /// </summary>
@@ -322,6 +302,15 @@ namespace Zorglub.Time.Simple
             ValidateCuid(month.Cuid, nameof(month));
             return AddYearsCore(month, years);
         }
+
+        /// <summary>
+        /// Adds a number of years to the year field of the specified month.
+        /// <para>This method does NOT validate the date parameter.</para>
+        /// </summary>
+        /// <exception cref="OverflowException">The calculation would overflow the range of
+        /// supported months.</exception>
+        [Pure]
+        protected internal abstract CalendarMonth AddYearsCore(CalendarMonth month, int years);
 
         /// <summary>
         /// Adds a number of months to the month field of the specified month.
@@ -338,6 +327,15 @@ namespace Zorglub.Time.Simple
         }
 
         /// <summary>
+        /// Adds a number of months to the month field of the specified month.
+        /// <para>This method does NOT validate the month parameter.</para>
+        /// </summary>
+        /// <exception cref="OverflowException">The calculation would overflow the range of
+        /// supported months.</exception>
+        [Pure]
+        protected internal abstract CalendarMonth AddMonthsCore(CalendarMonth month, int months);
+
+        /// <summary>
         /// Counts the number of years between the two specified months.
         /// </summary>
         /// <exception cref="ArgumentException">One of the paramaters does not belong to the
@@ -349,40 +347,6 @@ namespace Zorglub.Time.Simple
             ValidateCuid(end.Cuid, nameof(end));
             return CountYearsBetweenCore(start, end);
         }
-
-        /// <summary>
-        /// Counts the number of months between the two specified months.
-        /// </summary>
-        /// <exception cref="ArgumentException">One of the paramaters does not belong to the
-        /// underlying calendar.</exception>
-        [Pure]
-        public int CountMonthsBetween(CalendarMonth start, CalendarMonth end)
-        {
-            ValidateCuid(start.Cuid, nameof(start));
-            ValidateCuid(end.Cuid, nameof(end));
-            return CountMonthsBetweenCore(start, end);
-        }
-
-        #endregion
-        #region Abstract methods
-
-        /// <summary>
-        /// Adds a number of years to the year field of the specified month.
-        /// <para>This method does NOT validate the date parameter.</para>
-        /// </summary>
-        /// <exception cref="OverflowException">The calculation would overflow the range of
-        /// supported months.</exception>
-        [Pure]
-        protected internal abstract CalendarMonth AddYearsCore(CalendarMonth month, int years);
-
-        /// <summary>
-        /// Adds a number of months to the month field of the specified month.
-        /// <para>This method does NOT validate the month parameter.</para>
-        /// </summary>
-        /// <exception cref="OverflowException">The calculation would overflow the range of
-        /// supported months.</exception>
-        [Pure]
-        protected internal abstract CalendarMonth AddMonthsCore(CalendarMonth month, int months);
 
         /// <summary>
         /// Counts the number of years between the two specified months.
@@ -412,12 +376,23 @@ namespace Zorglub.Time.Simple
 
         /// <summary>
         /// Counts the number of months between the two specified months.
+        /// </summary>
+        /// <exception cref="ArgumentException">One of the paramaters does not belong to the
+        /// underlying calendar.</exception>
+        [Pure]
+        public int CountMonthsBetween(CalendarMonth start, CalendarMonth end)
+        {
+            ValidateCuid(start.Cuid, nameof(start));
+            ValidateCuid(end.Cuid, nameof(end));
+            return CountMonthsBetweenCore(start, end);
+        }
+
+        /// <summary>
+        /// Counts the number of months between the two specified months.
         /// <para>This method does NOT validate its parameters.</para>
         /// </summary>
         [Pure]
         [SuppressMessage("Naming", "CA1716:Identifiers should not match keywords.", MessageId = "end", Justification = "F# & VB.NET End statement.")]
         protected internal abstract int CountMonthsBetweenCore(CalendarMonth start, CalendarMonth end);
-
-        #endregion
     }
 }
