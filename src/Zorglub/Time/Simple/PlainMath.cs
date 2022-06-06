@@ -88,6 +88,9 @@ namespace Zorglub.Time.Simple
         [Pure]
         protected internal override CalendarMonth AddMonthsCore(CalendarMonth month, int months)
         {
+            // First approximation of target year: months / MinMonthsInYear.
+            // Then goes backwards in time until we reach the correct result.
+
             //Debug.Assert(month.Cuid == Cuid);
 
             //month.Parts.Unpack(out int y, out int m);
@@ -153,7 +156,8 @@ namespace Zorglub.Time.Simple
                 end.Parts.Unpack(out int y1, out int m1);
 
                 // This can certainly be optimized for calendars for which we
-                // know the number of months in a leap-cycle.
+                // know the number of months in a leap-cycle. For instance, this
+                // is the case of Lunisolar calendars.
                 int months = Schema.CountMonthsInYear(y0) - m0;
                 for (int y = y0 + 1; y < y1; y++)
                 {

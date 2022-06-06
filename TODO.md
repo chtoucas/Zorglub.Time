@@ -50,7 +50,6 @@ TODO
   https://mattwarren.org/2020/02/19/Under-the-hood-of-Default-Interface-Methods/
 - XML doc/comments: currently largely outdated or badly written.
 - ISO calendar.
-- LunisolarMath
 - New code coverage? https://github.com/FortuneN/FineCodeCoverage
   - https://devblogs.microsoft.com/dotnet/automate-code-metrics-and-class-diagrams-with-github-actions/
   - https://github.com/microsoft/dotnet/

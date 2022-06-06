@@ -167,6 +167,10 @@ namespace Zorglub.Time.Core
         {
             if (DisableStartOfYearCache) { return GetStartOfYearCore(y); }
 
+            // TODO(code): caching.
+            // Currently, we just copied the cache class from NodaTime.
+            // https://github.com/bitfaster/BitFaster.Caching
+
             int index = StartOfYearCache.GetIndex(y);
             StartOfYearCache value = _startOfYearCache[index];
 

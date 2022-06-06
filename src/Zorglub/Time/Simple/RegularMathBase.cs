@@ -84,8 +84,8 @@ namespace Zorglub.Time.Simple
 
             YearOverflowChecker.Check(y);
 
-            // NB: the operation is always exact.
-            // It's compatible with DateAdditionRule.EndOfYear.
+            // NB: the operation is always exact and it's compatible with
+            // DateAdditionRule.EndOfYear.
             return new CalendarMonth(new Yemo(y, m), Cuid);
         }
     }

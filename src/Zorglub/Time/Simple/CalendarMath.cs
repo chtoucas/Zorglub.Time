@@ -12,6 +12,8 @@ namespace Zorglub.Time.Simple
     // - Give definition in terms of addition <- therefore depends on the addition rules
     // - Remove virtual
     // - Default impl works if there is no extremely short years
+    // The terminology is wrong: this class also contains standard ops for
+    // CalendarMonth.
     // Add tests related to the warning below. Question: should we provide an
     // engine for which the operations always give the same result for dates and
     // ordinal dates? and how could we do that?
@@ -20,7 +22,7 @@ namespace Zorglub.Time.Simple
     // systems, see CalendricalMath.
     //
     // WARNING: adding years to the date and to the ordinal date of the -same-
-    // day can lead to different results. For instance, in the Gregorian
+    // day may lead to different results. For instance, in the Gregorian
     // calendar, if we consider the February 29 of a leap year, adding one year
     // to the ordinal date of this day is unambiguous, whereas the same operation
     // applied to the date of this day overflows.
@@ -91,6 +93,7 @@ namespace Zorglub.Time.Simple
             // The schema is not regular iff monthsInYear = 0.
             int monthsInYear = calendar.IsRegular(out int v) ? v : 0;
 
+            // TODO(code): create LunisolarMath (12 or 13 months in a year).
             return monthsInYear switch
             {
                 12 => new Regular12Math(calendar),

@@ -4,6 +4,9 @@
 namespace Zorglub.Testing.Data;
 
 // TODO(data): one interface per rule? Separate data for subtraction?
+// To avoid having to create a dataset per rule, we could chnage the format and
+// add roundoff.
+
 // To be used as a provider for -ambiguous- data.
 public interface IAdvancedMathDataSet
 {
