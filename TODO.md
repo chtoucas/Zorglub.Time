@@ -6,10 +6,16 @@ FIXME
 
 - Refactor CalendarCatalog, split into a registry and a registar.
   Currently, it's almost impossible to achieve full code coverage.
-- Math: PlainMath, tests for ordinal dates.
-  API for CalendarDay (PlusYears, PlusMonths?), humm no, use conversion to
-  CalendarDate. We have the three forms of dates for that purpose.
-- Add UserCalendars to all tests.
+- Math:
+  * Calendar.FastArithmetic: too restrictive, we cannot create a Calendar instance
+    for schemas with a virtual month, missing AddDaysViaDayOfMonth().
+    Better to use an extended ICalendricalArithmetic.
+  * Move standard ops (on CalendarMonth) from Math to Arithmetic.
+    Problem: optimization of AddMonths() and Count...() depending on the profile.
+    For regular schema, it's fine, and for lunisolar schema?
+  * PlainMath, tests for ordinal dates.
+  * API for CalendarDay (PlusYears, PlusMonths?), humm no, use conversion to
+    CalendarDate. We have the three forms of dates for that purpose.
 - DayOfWeekTester: Nearest().
 - Check all occurences of ICalendricalSchema and CalendricalSchema.
 - Parts and validation.

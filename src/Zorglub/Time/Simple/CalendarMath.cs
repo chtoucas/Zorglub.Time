@@ -8,15 +8,19 @@ namespace Zorglub.Time.Simple
 
     // REVIEW(api): difference, add Add(Period). NextMonth() & co. Week ops.
     // Quarter ops.
+    //
     // Count...Between()
     // - Give definition in terms of addition <- therefore depends on the addition rules
     // - Remove virtual
     // - Default impl works if there is no extremely short years
+    //
     // The terminology is wrong: this class also contains standard ops for
-    // CalendarMonth.
+    // CalendarMonth, move AddMonths() and CountMonthsBetween() to Arithmetic?
+    //
     // Add tests related to the warning below. Question: should we provide an
     // engine for which the operations always give the same result for dates and
-    // ordinal dates? and how could we do that?
+    // ordinal dates? and how could this be done? Hum no, use conversion from
+    // date to ordinal repr.
 
     // Only handle calendrical objects related to the Calendar system; for other
     // systems, see CalendricalMath.

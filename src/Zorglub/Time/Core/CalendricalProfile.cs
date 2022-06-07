@@ -20,12 +20,12 @@ namespace Zorglub.Time.Core
     {
         /// <summary>
         /// Unspecified profile.
-        /// <para>Ptolemaic and Egyptian calendars with a virtual thirteen month shorter than usual
-        /// (strictly less than 7 days).</para>
+        /// <para>For instance, in this category, we find Ptolemaic and Egyptian calendars with a
+        /// virtual thirteen month shorter than usual (strictly less than 7 days).</para>
         /// </summary>
         /// <remarks>
-        /// <para>Trying to bypass CountDaysInMonth() won't actually bring any performance
-        /// improvement, it might even be the opposite.</para>
+        /// <para>For calendars with a virtual thirteen month, trying to bypass CountDaysInMonth()
+        /// won't actually bring any performance improvement, it might even be the opposite.</para>
         /// <para>We must be careful with FastArithmetic.AddDaysViaDayOfMonth().</para>
         /// </remarks>
         Other = 0,
@@ -44,6 +44,8 @@ namespace Zorglub.Time.Core
         /// The schema is regular.
         /// <para>Years are 13-months long and at least 365-days long, and months are at least
         /// 28-days long.</para>
+        /// <para>Despite its name, this profile is NOT restricted to solar calendars, but most of
+        /// them follow this pattern.</para>
         /// <para>Most reformed solar calendars.</para>
         /// </summary>
         Solar13,
@@ -54,14 +56,14 @@ namespace Zorglub.Time.Core
         /// 29-days long.</para>
         /// <para>Despite its name, this profile is NOT restricted to lunar calendars, but most of
         /// them follow this pattern.</para>
-        /// <para>Lunar calendars.</para>
         /// </summary>
         Lunar,
 
         /// <summary>
         /// The schema is NOT regular.
         /// <para>Years are at least 353-days long, and months are at least 29-days long.</para>
-        /// <para>Lunisolar calendars.</para>
+        /// <para>Despite its name, this profile is NOT restricted to lunisolar calendars, but most
+        /// of them follow this pattern.</para>
         /// </summary>
         Lunisolar
     }
