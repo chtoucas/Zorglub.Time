@@ -30,7 +30,7 @@ public abstract partial class CalendricalArithmeticFacts<TDataSet> :
         Schema = schema ?? throw new ArgumentNullException(nameof(schema));
 
         var minMaxYear = schema.SupportedYears.Endpoints;
-        var partsFactory = ICalendricalPartsFactoryEx.Create(schema, @checked: true);
+        var partsFactory = ICalendricalPartsFactory.Create(schema, @checked: true);
 
         (MinYear, MaxYear) = minMaxYear;
 

@@ -29,7 +29,7 @@ namespace Zorglub.Time.Core
     #endregion
 
     /// <summary>
-    /// Provides validation methods for calendrical data.
+    /// Provides methods to check the well-formedness of calendrical data.
     /// </summary>
     public interface ICalendricalPreValidator
     {

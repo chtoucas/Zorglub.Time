@@ -5,7 +5,7 @@ namespace Zorglub.Time.Core.Arithmetic
 {
     using Zorglub.Time.Core.Intervals;
 
-    // FIXME(code): Yemoda/Yedoy validation. Use a CalendricalPartsFactory.
+    // REVIEW(code): checked or unchecked factory?
 
     // Even if PlainArithmetic does not derive from FastArithmetic, it
     // includes some of the optimisations found there, see for instance
@@ -55,6 +55,12 @@ namespace Zorglub.Time.Core.Arithmetic
         private readonly ICalendricalSchema _schema;
 
         /// <summary>
+        /// Represents the factory for calendrical parts.
+        /// <para>This field is read-only.</para>
+        /// </summary>
+        private readonly ICalendricalPartsFactory _partsFactory;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="PlainArithmetic"/> class.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
@@ -64,6 +70,7 @@ namespace Zorglub.Time.Core.Arithmetic
         public PlainArithmetic(ICalendricalSchema schema)
         {
             _schema = schema ?? throw new ArgumentNullException(nameof(schema));
+            _partsFactory = ICalendricalPartsFactory.Create(schema, @checked: false);
 
             var set = Interval.Intersect(schema.SupportedYears, Yemoda.SupportedYears);
             if (set.IsEmpty) Throw.Argument(nameof(schema));
@@ -90,7 +97,7 @@ namespace Zorglub.Time.Core.Arithmetic
             {
                 int doy = _schema.GetDayOfYear(y, m, d);
                 var (newY, newDoy) = AddDaysViaDayOfYear(y, doy, days);
-                return GetDateParts1(newY, newDoy);
+                return _partsFactory.GetDateParts(newY, newDoy);
             }
 
             // Slow track.
@@ -100,21 +107,7 @@ namespace Zorglub.Time.Core.Arithmetic
                 Throw.DateOverflow();
             }
 
-            return GetDateParts2(daysSinceEpoch);
-
-            [Pure]
-            Yemoda GetDateParts1(int y, int doy)
-            {
-                m = _schema.GetMonth(y, doy, out int d);
-                return new Yemoda(y, m, d);
-            }
-
-            [Pure]
-            Yemoda GetDateParts2(int daysSinceEpoch)
-            {
-                _schema.GetDateParts(daysSinceEpoch, out int y, out int m, out int d);
-                return new Yemoda(y, m, d);
-            }
+            return _partsFactory.GetDateParts(daysSinceEpoch);
         }
 
         /// <inheritdoc />
@@ -136,24 +129,9 @@ namespace Zorglub.Time.Core.Arithmetic
             ymd.Unpack(out int y, out int m, out int d);
 
             return d > 1 ? new Yemoda(y, m, d - 1)
-                : m > 1 ? GetEndOfMonthParts(y, m - 1)
-                : y > _minYear ? GetEndOfYearParts(y - 1)
+                : m > 1 ? _partsFactory.GetEndOfMonthParts(y, m - 1)
+                : y > _minYear ? _partsFactory.GetEndOfYearParts(y - 1)
                 : Throw.DateOverflow<Yemoda>();
-
-            [Pure]
-            Yemoda GetEndOfMonthParts(int y, int m)
-            {
-                int d = _schema.CountDaysInMonth(y, m);
-                return new Yemoda(y, m, d);
-            }
-
-            [Pure]
-            Yemoda GetEndOfYearParts(int y)
-            {
-                int m = _schema.CountMonthsInYear(y);
-                int d = _schema.CountDaysInMonth(y, m);
-                return new Yemoda(y, m, d);
-            }
         }
 
         /// <inheritdoc />
@@ -190,14 +168,7 @@ namespace Zorglub.Time.Core.Arithmetic
                 Throw.DateOverflow();
             }
 
-            return GetOrdinalParts(daysSinceEpoch);
-
-            [Pure]
-            Yedoy GetOrdinalParts(int daysSinceEpoch)
-            {
-                int y = _schema.GetYear(daysSinceEpoch, out int doy);
-                return new Yedoy(y, doy);
-            }
+            return _partsFactory.GetOrdinalParts(daysSinceEpoch);
         }
 
         /// <inheritdoc />

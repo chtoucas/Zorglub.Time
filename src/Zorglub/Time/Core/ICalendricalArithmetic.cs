@@ -10,8 +10,8 @@ namespace Zorglub.Time.Core
     // **Only the interface is public.**
     //
     // ICalendricalArithmetic
-    // ├─ CalendricalArithmetic
-    // ├─ PlainArithmetic               (CalendricalSchema)
+    // ├─ CalendricalArithmetic         (ICalendricalSchema)
+    // ├─ PlainArithmetic               (ICalendricalSchema)
     // └─ FastArithmetic [A]            (SystemSchema)
     //    ├─ GregorianArithmetic        (Gregorian-only)
     //    ├─ LunarArithmetic            (SystemSchema)

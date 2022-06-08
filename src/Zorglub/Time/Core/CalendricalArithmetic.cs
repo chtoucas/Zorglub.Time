@@ -3,14 +3,6 @@
 
 namespace Zorglub.Time.Core
 {
-    // TODO(doc): expliquer pourquoi cette classe est publique.
-    // Construction n'est pas possible directement car un schéma n'a pas de
-    // constructeur publique (GetInstance() -> Box<schema>).
-    // ICalendricalSchemaPlus:
-    // - si on a un ICalendricalSchema, on l'étend en utilisant checked = true,
-    //   ainsi toute création de Yemoda/Yedoy est protégée (Yemoda.Create()).
-    // - si on a un ICalendricalSchemaPlus, on suppose... quoi?
-
     /// <summary>
     /// Provides a plain implementation for <see cref="ICalendricalArithmetic"/>.
     /// <para>This class cannot be inherited.</para>
@@ -48,7 +40,7 @@ namespace Zorglub.Time.Core
         public CalendricalArithmetic(ICalendricalSchema schema)
         {
             _schema = schema ?? throw new ArgumentNullException(nameof(schema));
-            _partsFactory = ICalendricalPartsFactoryEx.Create(schema, @checked: true);
+            _partsFactory = ICalendricalPartsFactory.Create(schema, @checked: false);
 
             (_minDaysSinceEpoch, _maxDaysSinceEpoch) =
                 schema.SupportedYears.Endpoints.Select(schema.GetStartOfYear, schema.GetEndOfYear);

@@ -23,9 +23,6 @@ abstract Zorglub.Time.Simple.CalendarMath.AddYearsCore(Zorglub.Time.Simple.Calen
 abstract Zorglub.Time.Simple.CalendarMath.AddYearsCore(Zorglub.Time.Simple.OrdinalDate date, int years) -> Zorglub.Time.Simple.OrdinalDate
 abstract Zorglub.Time.Simple.CalendarMath.CountMonthsBetweenCore(Zorglub.Time.Simple.CalendarDate start, Zorglub.Time.Simple.CalendarDate end) -> int
 abstract Zorglub.Time.Simple.CalendarMath.CountMonthsBetweenCore(Zorglub.Time.Simple.CalendarMonth start, Zorglub.Time.Simple.CalendarMonth end) -> int
-abstract Zorglub.Time.Simple.CalendarMath.CountYearsBetweenCore(Zorglub.Time.Simple.CalendarDate start, Zorglub.Time.Simple.CalendarDate end) -> int
-abstract Zorglub.Time.Simple.CalendarMath.CountYearsBetweenCore(Zorglub.Time.Simple.CalendarMonth start, Zorglub.Time.Simple.CalendarMonth end) -> int
-abstract Zorglub.Time.Simple.CalendarMath.CountYearsBetweenCore(Zorglub.Time.Simple.OrdinalDate start, Zorglub.Time.Simple.OrdinalDate end) -> int
 const Zorglub.Time.Core.CalendricalConstants.DaysInWanderingYear = 365 -> int
 const Zorglub.Time.Core.CalendricalConstants.DaysInWeek = 7 -> int
 const Zorglub.Time.Core.CalendricalConstants.DaysPer4JulianYearCycle = 1461 -> int
@@ -665,6 +662,9 @@ virtual Zorglub.Time.Core.CalendricalSchema.CountDaysSinceEpoch(int y, int m, in
 virtual Zorglub.Time.Core.CalendricalSchema.GetArithmeticCore() -> Zorglub.Time.Core.ICalendricalArithmetic!
 virtual Zorglub.Time.Core.CalendricalSchema.GetDateParts(int daysSinceEpoch, out int y, out int m, out int d) -> void
 virtual Zorglub.Time.Core.CalendricalSchema.GetPreValidatorCore() -> Zorglub.Time.Core.ICalendricalPreValidator!
+virtual Zorglub.Time.Simple.CalendarMath.CountYearsBetweenCore(Zorglub.Time.Simple.CalendarDate start, Zorglub.Time.Simple.CalendarDate end) -> int
+virtual Zorglub.Time.Simple.CalendarMath.CountYearsBetweenCore(Zorglub.Time.Simple.CalendarMonth start, Zorglub.Time.Simple.CalendarMonth end) -> int
+virtual Zorglub.Time.Simple.CalendarMath.CountYearsBetweenCore(Zorglub.Time.Simple.OrdinalDate start, Zorglub.Time.Simple.OrdinalDate end) -> int
 Zorglub.Time.AdditionRules
 Zorglub.Time.AdditionRules.AdditionRules() -> void
 Zorglub.Time.AdditionRules.AdditionRules(Zorglub.Time.DateAdditionRule dateRule, Zorglub.Time.OrdinalAdditionRule ordinalRule, Zorglub.Time.MonthAdditionRule monthRule) -> void
@@ -696,6 +696,16 @@ Zorglub.Time.CalendricalFamily.Lunar = 3 -> Zorglub.Time.CalendricalFamily
 Zorglub.Time.CalendricalFamily.Lunisolar = 4 -> Zorglub.Time.CalendricalFamily
 Zorglub.Time.CalendricalFamily.Other = 0 -> Zorglub.Time.CalendricalFamily
 Zorglub.Time.CalendricalFamily.Solar = 2 -> Zorglub.Time.CalendricalFamily
+Zorglub.Time.Core.CalendricalArithmetic
+Zorglub.Time.Core.CalendricalArithmetic.AddDays(Zorglub.Time.Core.Yedoy ydoy, int days) -> Zorglub.Time.Core.Yedoy
+Zorglub.Time.Core.CalendricalArithmetic.AddDays(Zorglub.Time.Core.Yemoda ymd, int days) -> Zorglub.Time.Core.Yemoda
+Zorglub.Time.Core.CalendricalArithmetic.CalendricalArithmetic(Zorglub.Time.Core.ICalendricalSchema! schema) -> void
+Zorglub.Time.Core.CalendricalArithmetic.CountDaysBetween(Zorglub.Time.Core.Yedoy start, Zorglub.Time.Core.Yedoy end) -> int
+Zorglub.Time.Core.CalendricalArithmetic.CountDaysBetween(Zorglub.Time.Core.Yemoda start, Zorglub.Time.Core.Yemoda end) -> int
+Zorglub.Time.Core.CalendricalArithmetic.NextDay(Zorglub.Time.Core.Yedoy ydoy) -> Zorglub.Time.Core.Yedoy
+Zorglub.Time.Core.CalendricalArithmetic.NextDay(Zorglub.Time.Core.Yemoda ymd) -> Zorglub.Time.Core.Yemoda
+Zorglub.Time.Core.CalendricalArithmetic.PreviousDay(Zorglub.Time.Core.Yedoy ydoy) -> Zorglub.Time.Core.Yedoy
+Zorglub.Time.Core.CalendricalArithmetic.PreviousDay(Zorglub.Time.Core.Yemoda ymd) -> Zorglub.Time.Core.Yemoda
 Zorglub.Time.Core.CalendricalConstants
 Zorglub.Time.Core.CalendricalPreValidator
 Zorglub.Time.Core.CalendricalPreValidator.CalendricalPreValidator(Zorglub.Time.Core.ICalendricalKernel! schema) -> void
@@ -755,6 +765,7 @@ Zorglub.Time.Core.ICalendricalKernel.IsSupplementaryDay(int y, int m, int d) -> 
 Zorglub.Time.Core.ICalendricalKernel.PeriodicAdjustments.get -> Zorglub.Time.CalendricalAdjustments
 Zorglub.Time.Core.ICalendricalKernel.SupportedYears.get -> Zorglub.Time.Core.Intervals.Range<int>
 Zorglub.Time.Core.ICalendricalPartsFactory
+Zorglub.Time.Core.ICalendricalPartsFactory.Create(Zorglub.Time.Core.ICalendricalSchema! schema, bool checked = true) -> Zorglub.Time.Core.ICalendricalPartsFactory!
 Zorglub.Time.Core.ICalendricalPartsFactory.GetDateParts(int daysSinceEpoch) -> Zorglub.Time.Core.Yemoda
 Zorglub.Time.Core.ICalendricalPartsFactory.GetDateParts(int y, int doy) -> Zorglub.Time.Core.Yemoda
 Zorglub.Time.Core.ICalendricalPartsFactory.GetEndOfMonthOrdinalParts(int y, int m) -> Zorglub.Time.Core.Yedoy
@@ -1342,7 +1353,6 @@ Zorglub.Time.Simple.CalendarMath.CountYearsBetween(Zorglub.Time.Simple.CalendarD
 Zorglub.Time.Simple.CalendarMath.CountYearsBetween(Zorglub.Time.Simple.CalendarMonth start, Zorglub.Time.Simple.CalendarMonth end) -> int
 Zorglub.Time.Simple.CalendarMath.CountYearsBetween(Zorglub.Time.Simple.OrdinalDate start, Zorglub.Time.Simple.OrdinalDate end) -> int
 Zorglub.Time.Simple.CalendarMath.Schema.get -> Zorglub.Time.Core.SystemSchema!
-Zorglub.Time.Simple.CalendarMath.SupportedYears.get -> Zorglub.Time.Core.Intervals.Range<int>
 Zorglub.Time.Simple.CalendarMonth
 Zorglub.Time.Simple.CalendarMonth.Adjust(System.Func<Zorglub.Time.MonthParts, Zorglub.Time.MonthParts>! adjuster) -> Zorglub.Time.Simple.CalendarMonth
 Zorglub.Time.Simple.CalendarMonth.Calendar.get -> Zorglub.Time.Simple.Calendar!
