@@ -2,7 +2,8 @@
 [![tests](https://github.com/chtoucas/Zorglub.Time/workflows/smoke/badge.svg)](https://github.com/chtoucas/Zorglub.Time/actions?query=workflow%3Asmoke)
 [![Coverlet](./test/coverage.svg)](./test/coverage.md)
 
-An experimental calendar library with a focus on extensibility and performance.
+An experimental calendar library with a focus on calendrical calculations,
+extensibility and performance.
 
 Features
 --------

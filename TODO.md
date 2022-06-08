@@ -7,6 +7,7 @@ FIXME
 - Refactor CalendarCatalog, split into a registry and a registar.
   Currently, it's almost impossible to achieve full code coverage.
 - Math:
+  * Profile: OtherRegular, Other7 (MinDaysInMonth >= 7)?
   * Calendar.FastArithmetic: too restrictive, we cannot create a Calendar instance
     for schemas with a virtual month, missing AddDaysViaDayOfMonth().
     Better to use an extended ICalendricalArithmetic.

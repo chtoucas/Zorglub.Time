@@ -13,19 +13,19 @@ namespace Zorglub.Time.Core
     /// <summary>
     /// Specifies the profile of the schema.
     /// <para>A profile gives us basic informations on the layout of a year that prove to be useful
-    /// when trying to optimize a bunch of operations (validation, arithmetic). These informations
-    /// are very generic. For more precise data, one should refer to the schemas themselves.</para>
+    /// when trying to optimize <i>validation</i> and <i>arithmetic</i>. For more precise data, one
+    /// should refer to the schemas themselves.</para>
     /// </summary>
     internal enum CalendricalProfile
     {
         /// <summary>
         /// Unspecified profile.
-        /// <para>For instance, in this category, we find Ptolemaic and Egyptian calendars with a
-        /// virtual thirteen month shorter than usual (strictly less than 7 days).</para>
         /// </summary>
         /// <remarks>
-        /// <para>For calendars with a virtual thirteen month, trying to bypass CountDaysInMonth()
-        /// won't actually bring any performance improvement, it might even be the opposite.</para>
+        /// <para>For instance, in this category, we find the Ptolemaic and Egyptian calendars with
+        /// a virtual thirteen month shorter than usual (strictly less than 7 days) in which case
+        /// trying to bypass CountDaysInMonth() won't actually bring any performance improvement,
+        /// it might even be the opposite.</para>
         /// <para>We must be careful with FastArithmetic.AddDaysViaDayOfMonth().</para>
         /// </remarks>
         Other = 0,
