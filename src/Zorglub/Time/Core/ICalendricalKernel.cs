@@ -34,7 +34,7 @@ namespace Zorglub.Time.Core
         CalendricalAdjustments PeriodicAdjustments { get; }
 
         /// <summary>
-        /// Gets the interval of years for which the methods are known not to overflow.
+        /// Gets the range of years for which the methods are known not to overflow.
         /// </summary>
         Range<int> SupportedYears { get; }
 

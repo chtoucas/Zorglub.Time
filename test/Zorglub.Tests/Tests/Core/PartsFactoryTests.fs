@@ -14,6 +14,9 @@ open Zorglub.Time.Core.Schemas
 
 open Xunit
 
+// TODO(code): test CalendricalPartsFactoryChecked with a schema for which
+// Yemoda.Create() & co throw.
+
 module Bundles =
     [<Sealed>]
     type CalendricalPartsFactoryCheckedTests() =
@@ -42,7 +45,8 @@ module Factories =
             self.Add(Yemoda.MaxYear + 1)
             self.Add(Int32.MaxValue)
 
-    let private factory = new CalendricalPartsFactoryChecked(schemaOf<GregorianSchema>())
+    let private sch = schemaOf<GregorianSchema>()
+    let private factory = new CalendricalPartsFactoryChecked(sch)
 
     [<Theory; ClassData(typeof<BadYearData>)>]
     let ``GetStartOfYearParts() throws when "year" is out of range`` y =
