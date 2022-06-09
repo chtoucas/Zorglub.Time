@@ -33,7 +33,7 @@ namespace Zorglub.Time.Core.Arithmetic
         public sealed override int MaxDaysViaDayOfMonth => Solar.MinDaysInMonth;
     }
 
-    internal partial class SolarArithmetic // Operations on Yemoda.
+    internal partial class SolarArithmetic // Operations on Yemoda
     {
         /// <inheritdoc />
         [Pure]
@@ -89,7 +89,7 @@ namespace Zorglub.Time.Core.Arithmetic
         }
     }
 
-    internal partial class SolarArithmetic // Operations on Yedoy.
+    internal partial class SolarArithmetic // Operations on Yedoy
     {
         /// <inheritdoc />
         [Pure]

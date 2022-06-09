@@ -95,7 +95,7 @@ namespace Zorglub.Time.Core.Arithmetic
             AddDaysViaDayOfYear(ydoy, days);
     }
 
-    internal partial class PlainArithmetic // Operations on Yemoda.
+    internal partial class PlainArithmetic // Operations on Yemoda
     {
         /// <inheritdoc />
         [Pure]
@@ -158,7 +158,7 @@ namespace Zorglub.Time.Core.Arithmetic
         }
     }
 
-    internal partial class PlainArithmetic // Operations on Yedoy.
+    internal partial class PlainArithmetic // Operations on Yedoy
     {
         /// <inheritdoc />
         [Pure]

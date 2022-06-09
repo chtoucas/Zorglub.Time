@@ -150,7 +150,7 @@ namespace Zorglub.Time.Core.Arithmetic
         [Pure] public abstract int CountDaysBetween(Yemoda start, Yemoda end);
 
         //
-        // Operations on Yedoy.
+        // Operations on Yedoy
         //
 
         /// <inheritdoc />

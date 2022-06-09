@@ -34,7 +34,7 @@ namespace Zorglub.Time.Core.Arithmetic
         public override int MaxDaysViaDayOfMonth => Lunisolar.MinDaysInMonth;
     }
 
-    internal partial class LunisolarArithmetic // Operations on Yemoda.
+    internal partial class LunisolarArithmetic // Operations on Yemoda
     {
         /// <inheritdoc />
         [Pure]
@@ -152,7 +152,7 @@ namespace Zorglub.Time.Core.Arithmetic
         }
     }
 
-    internal partial class LunisolarArithmetic // Operations on Yedoy.
+    internal partial class LunisolarArithmetic // Operations on Yedoy
     {
         /// <inheritdoc />
         [Pure]

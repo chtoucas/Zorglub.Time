@@ -41,7 +41,7 @@ namespace Zorglub.Time.Core.Arithmetic
         public override int MaxDaysViaDayOfMonth => Solar.MinDaysInMonth;
     }
 
-    internal partial class GregorianArithmetic // Operations on Yemoda.
+    internal partial class GregorianArithmetic // Operations on Yemoda
     {
         /// <inheritdoc />
         [Pure]
@@ -159,7 +159,7 @@ namespace Zorglub.Time.Core.Arithmetic
         }
     }
 
-    internal partial class GregorianArithmetic // Operations on Yedoy.
+    internal partial class GregorianArithmetic // Operations on Yedoy
     {
         /// <inheritdoc />
         [Pure]

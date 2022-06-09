@@ -37,7 +37,7 @@ namespace Zorglub.Time.Core.Arithmetic
         public override int MaxDaysViaDayOfMonth { get; }
     }
 
-    internal partial class PlainFastArithmetic // Operations on Yemoda.
+    internal partial class PlainFastArithmetic // Operations on Yemoda
     {
         /// <inheritdoc />
         [Pure]
@@ -175,7 +175,7 @@ namespace Zorglub.Time.Core.Arithmetic
         }
     }
 
-    internal partial class PlainFastArithmetic // Operations on Yedoy.
+    internal partial class PlainFastArithmetic // Operations on Yedoy
     {
         /// <inheritdoc />
         [Pure]
