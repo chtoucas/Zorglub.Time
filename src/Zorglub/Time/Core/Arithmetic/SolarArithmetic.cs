@@ -49,7 +49,7 @@ namespace Zorglub.Time.Core.Arithmetic
             if (-Solar.MinDaysInYear <= days && days <= Solar.MinDaysInYear)
             {
                 int doy = Schema.GetDayOfYear(y, m, d);
-                var (newY, newDoy) = AddDaysViaDayOfYear(y, doy, days);
+                var (newY, newDoy) = AddDaysViaDayOfYear(new Yedoy(y, doy), days);
                 return Schema.GetDateParts(newY, newDoy);
             }
 
@@ -95,13 +95,13 @@ namespace Zorglub.Time.Core.Arithmetic
         [Pure]
         public sealed override Yedoy AddDays(Yedoy ydoy, int days)
         {
-            ydoy.Unpack(out int y, out int doy);
-
             // Fast track.
             if (-Solar.MinDaysInYear <= days && days <= Solar.MinDaysInYear)
             {
-                return AddDaysViaDayOfYear(y, doy, days);
+                return AddDaysViaDayOfYear(ydoy, days);
             }
+
+            ydoy.Unpack(out int y, out int doy);
 
             // Slow track.
             int daysSinceEpoch = checked(Schema.CountDaysSinceEpoch(y, doy) + days);
@@ -115,10 +115,12 @@ namespace Zorglub.Time.Core.Arithmetic
 
         /// <inheritdoc />
         [Pure]
-        protected internal sealed override Yedoy AddDaysViaDayOfYear(int y, int doy, int days)
+        protected internal sealed override Yedoy AddDaysViaDayOfYear(Yedoy ydoy, int days)
         {
             Debug.Assert(-Schema.MinDaysInYear <= days);
             Debug.Assert(days <= Schema.MinDaysInYear);
+
+            ydoy.Unpack(out int y, out int doy);
 
             doy += days;
             if (doy < 1)

@@ -7,15 +7,15 @@ namespace Zorglub.Time.Core.Arithmetic
 
     // REVIEW(code): checked or unchecked factory?
 
-    // Even if PlainArithmetic does not derive from FastArithmetic, it
-    // includes some of the optimisations found there, see for instance
+    // Even if PlainArithmetic does not derive from FastArithmetic, it includes
+    // some of the optimisations found there, see for instance
     // AddDaysViaDayOfYear(), nevertheless this is hidden.
 
     /// <summary>
-    /// Provides a plain implementation for <see cref="ICalendricalArithmetic"/>.
+    /// Provides a plain implementation for <see cref="IFastArithmetic"/>.
     /// <para>This class cannot be inherited.</para>
     /// </summary>
-    internal sealed partial class PlainArithmetic : ICalendricalArithmetic
+    internal sealed partial class PlainArithmetic : IFastArithmetic
     {
         /// <summary>
         /// Represents the earliest supported year.
@@ -74,14 +74,25 @@ namespace Zorglub.Time.Core.Arithmetic
 
             var set = Interval.Intersect(schema.SupportedYears, Yemoda.SupportedYears);
             if (set.IsEmpty) Throw.Argument(nameof(schema));
-            var pair = set.Range.Endpoints;
 
-            (_minYear, _maxYear) = pair;
+            SupportedYears = set.Range;
+
+            var minMaxYear = SupportedYears.Endpoints;
+            (_minYear, _maxYear) = minMaxYear;
             (_minDaysSinceEpoch, _maxDaysSinceEpoch) =
-                pair.Select(schema.GetStartOfYear, schema.GetEndOfYear);
+                minMaxYear.Select(schema.GetStartOfYear, schema.GetEndOfYear);
 
             _maxDaysViaDayOfYear = schema.MinDaysInYear;
         }
+
+        /// <inheritdoc/>
+        public Range<int> SupportedYears { get; }
+
+        Yemoda IFastArithmetic.AddDaysViaDayOfMonth(Yemoda ymd, int days) =>
+            AddDays(ymd, days);
+
+        Yedoy IFastArithmetic.AddDaysViaDayOfYear(Yedoy ydoy, int days) =>
+            AddDaysViaDayOfYear(ydoy, days);
     }
 
     internal partial class PlainArithmetic // Operations on Yemoda.
@@ -96,7 +107,7 @@ namespace Zorglub.Time.Core.Arithmetic
             if (-_maxDaysViaDayOfYear <= days && days <= _maxDaysViaDayOfYear)
             {
                 int doy = _schema.GetDayOfYear(y, m, d);
-                var (newY, newDoy) = AddDaysViaDayOfYear(y, doy, days);
+                var (newY, newDoy) = AddDaysViaDayOfYear(new Yedoy(y, doy), days);
                 return _partsFactory.GetDateParts(newY, newDoy);
             }
 
@@ -153,13 +164,13 @@ namespace Zorglub.Time.Core.Arithmetic
         [Pure]
         public Yedoy AddDays(Yedoy ydoy, int days)
         {
-            ydoy.Unpack(out int y, out int doy);
-
             // Fast track.
             if (-_maxDaysViaDayOfYear <= days && days <= _maxDaysViaDayOfYear)
             {
-                return AddDaysViaDayOfYear(y, doy, days);
+                return AddDaysViaDayOfYear(ydoy, days);
             }
+
+            ydoy.Unpack(out int y, out int doy);
 
             // Slow track.
             int daysSinceEpoch = checked(_schema.CountDaysSinceEpoch(y, doy) + days);
@@ -173,10 +184,12 @@ namespace Zorglub.Time.Core.Arithmetic
 
         /// <inheritdoc />
         [Pure]
-        private Yedoy AddDaysViaDayOfYear(int y, int doy, int days)
+        private Yedoy AddDaysViaDayOfYear(Yedoy ydoy, int days)
         {
             Debug.Assert(-_maxDaysViaDayOfYear <= days);
             Debug.Assert(days <= _maxDaysViaDayOfYear);
+
+            ydoy.Unpack(out int y, out int doy);
 
             doy += days;
             if (doy < 1)

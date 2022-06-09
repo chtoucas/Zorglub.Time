@@ -5,7 +5,7 @@ namespace Zorglub.Time.Simple
 {
     // TODO(code): fix validation of result, is it even meaningful to have it here?
 
-    using Zorglub.Time.Core.Arithmetic;
+    using Zorglub.Time.Core;
 
     // The "standard" operations are also available on the objects themselves.
     // Here, there is the advantage of not having to perform a "Calendar" lookup.
@@ -30,7 +30,7 @@ namespace Zorglub.Time.Simple
         /// Represents the arithmetic engine.
         /// <para>This field is a read-only.</para>
         /// </summary>
-        private readonly FastArithmetic _arithmetic;
+        private readonly ICalendricalArithmetic _arithmetic;
 
         /// <summary>
         /// Called from constructors in derived classes to initialize the <see cref="StandardMath"/>

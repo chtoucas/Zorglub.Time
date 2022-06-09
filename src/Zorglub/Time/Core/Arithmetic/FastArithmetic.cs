@@ -3,6 +3,7 @@
 
 namespace Zorglub.Time.Core.Arithmetic
 {
+    using Zorglub.Time.Core.Intervals;
     using Zorglub.Time.Core.Schemas;
 
     // Keeping this class internal ensures that we have complete control on its
@@ -17,7 +18,7 @@ namespace Zorglub.Time.Core.Arithmetic
     /// calendrical point of view, nevertheless they MUST ensure that all returned values are valid
     /// when the previous condition is met.</para>
     /// </remarks>
-    internal abstract partial class FastArithmetic : ICalendricalArithmetic
+    internal abstract partial class FastArithmetic : IFastArithmetic
     {
         /// <summary>
         /// Represents the absolute minimum value admissible for the minimum total number of days
@@ -41,12 +42,16 @@ namespace Zorglub.Time.Core.Arithmetic
             if (schema.MinDaysInMonth < MinMinDaysInMonth) Throw.Argument(nameof(schema));
 
             Schema = schema;
+            SupportedYears = schema.SupportedYears;
 
-            Debug.Assert(schema.SupportedYears.IsSubsetOf(Yemoda.SupportedYears));
+            Debug.Assert(SupportedYears.IsSubsetOf(Yemoda.SupportedYears));
 
-            (MinYear, MaxYear) = schema.SupportedYears.Endpoints;
+            (MinYear, MaxYear) = SupportedYears.Endpoints;
             (MinDaysSinceEpoch, MaxDaysSinceEpoch) = schema.Domain.Endpoints;
         }
+
+        /// <inheritdoc/>
+        public Range<int> SupportedYears { get; }
 
         /// <summary>
         /// Gets the underlying schema.
@@ -118,6 +123,12 @@ namespace Zorglub.Time.Core.Arithmetic
                     : Throw.Argument<FastArithmetic>(nameof(schema)),
             };
         }
+
+        Yemoda IFastArithmetic.AddDaysViaDayOfMonth(Yemoda ymd, int days) =>
+            AddDaysViaDayOfMonth(ymd, days);
+
+        Yedoy IFastArithmetic.AddDaysViaDayOfYear(Yedoy ydoy, int days) =>
+            AddDaysViaDayOfYear(ydoy, days);
     }
 
     internal partial class FastArithmetic // ICalendricalArithmetic
@@ -190,6 +201,6 @@ namespace Zorglub.Time.Core.Arithmetic
         /// [-<see cref="MaxDaysViaDayOfYear"/>..<see cref="MaxDaysViaDayOfYear"/>].</exception>
         /// <exception cref="OverflowException">The operation would overflow the range of supported
         /// values.</exception>
-        [Pure] protected internal abstract Yedoy AddDaysViaDayOfYear(int y, int doy, int days);
+        [Pure] protected internal abstract Yedoy AddDaysViaDayOfYear(Yedoy ydoy, int days);
     }
 }

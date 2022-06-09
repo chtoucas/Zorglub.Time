@@ -379,8 +379,7 @@ namespace Zorglub.Time.Simple
 
             ref readonly var chr = ref CalendarRef;
             int δ = dayOfWeek - chr.GetDayOfWeek(this);
-            _bin.Unpack(out int y, out int doy);
-            var ydoy = chr.Arithmetic.AddDaysViaDayOfYear(y, doy, δ >= 0 ? δ - CalendricalConstants.DaysInWeek : δ);
+            var ydoy = chr.Arithmetic.AddDaysViaDayOfYear(Parts, δ >= 0 ? δ - CalendricalConstants.DaysInWeek : δ);
             chr.YearOverflowChecker.CheckLowerBound(ydoy.Year);
             return new OrdinalDate(ydoy, Cuid);
         }
@@ -394,8 +393,7 @@ namespace Zorglub.Time.Simple
             ref readonly var chr = ref CalendarRef;
             int δ = dayOfWeek - chr.GetDayOfWeek(this);
             if (δ == 0) { return this; }
-            _bin.Unpack(out int y, out int doy);
-            var ydoy = chr.Arithmetic.AddDaysViaDayOfYear(y, doy, δ > 0 ? δ - CalendricalConstants.DaysInWeek : δ);
+            var ydoy = chr.Arithmetic.AddDaysViaDayOfYear(Parts, δ > 0 ? δ - CalendricalConstants.DaysInWeek : δ);
             chr.YearOverflowChecker.CheckLowerBound(ydoy.Year);
             return new OrdinalDate(ydoy, Cuid);
         }
@@ -418,8 +416,7 @@ namespace Zorglub.Time.Simple
             ref readonly var chr = ref CalendarRef;
             int δ = dayOfWeek - chr.GetDayOfWeek(this);
             if (δ == 0) { return this; }
-            _bin.Unpack(out int y, out int doy);
-            var ydoy = chr.Arithmetic.AddDaysViaDayOfYear(y, doy, δ < 0 ? δ + CalendricalConstants.DaysInWeek : δ);
+            var ydoy = chr.Arithmetic.AddDaysViaDayOfYear(Parts, δ < 0 ? δ + CalendricalConstants.DaysInWeek : δ);
             chr.YearOverflowChecker.CheckUpperBound(ydoy.Year);
             return new OrdinalDate(ydoy, Cuid);
         }
@@ -432,8 +429,7 @@ namespace Zorglub.Time.Simple
 
             ref readonly var chr = ref CalendarRef;
             int δ = dayOfWeek - chr.GetDayOfWeek(this);
-            _bin.Unpack(out int y, out int doy);
-            var ydoy = chr.Arithmetic.AddDaysViaDayOfYear(y, doy, δ <= 0 ? δ + CalendricalConstants.DaysInWeek : δ);
+            var ydoy = chr.Arithmetic.AddDaysViaDayOfYear(Parts, δ <= 0 ? δ + CalendricalConstants.DaysInWeek : δ);
             chr.YearOverflowChecker.CheckUpperBound(ydoy.Year);
             return new OrdinalDate(ydoy, Cuid);
         }

@@ -3,6 +3,8 @@
 
 namespace Zorglub.Time.Core
 {
+    using Zorglub.Time.Core.Intervals;
+
     #region Developer Notes
 
     // Types Implementing ICalendricalArithmetic
@@ -11,15 +13,16 @@ namespace Zorglub.Time.Core
     //
     // ICalendricalArithmetic
     // ├─ CalendricalArithmetic         (ICalendricalSchema)
-    // ├─ PlainArithmetic               (ICalendricalSchema)
-    // └─ FastArithmetic [A]            (SystemSchema)
-    //    ├─ GregorianArithmetic        (Gregorian-only)
-    //    ├─ LunarArithmetic            (SystemSchema)
-    //    ├─ LunisolarArithmetic        (SystemSchema)
-    //    ├─ PlainFastArithmetic        (SystemSchema)
-    //    └─ SolarArithmetic [A]        (SystemSchema)
-    //       ├─ Solar12Arithmetic       (SystemSchema)
-    //       └─ Solar13Arithmetic       (SystemSchema)
+    // └─ IFastArithmetic
+    //    ├─ PlainArithmetic            (ICalendricalSchema)
+    //    └─ FastArithmetic [A]         (SystemSchema)
+    //       ├─ GregorianArithmetic     (Gregorian-only)
+    //       ├─ LunarArithmetic         (SystemSchema)
+    //       ├─ LunisolarArithmetic     (SystemSchema)
+    //       ├─ PlainFastArithmetic     (SystemSchema)
+    //       └─ SolarArithmetic [A]     (SystemSchema)
+    //          ├─ Solar12Arithmetic    (SystemSchema)
+    //          └─ Solar13Arithmetic    (SystemSchema)
     //
     // Annotation: [A] = abstract
     //
@@ -54,6 +57,11 @@ namespace Zorglub.Time.Core
     /// </summary>
     public interface ICalendricalArithmetic
     {
+        /// <summary>
+        /// Gets the range of supported years.
+        /// </summary>
+        Range<int> SupportedYears { get; }
+
         //
         // Operations on Yemoda
         //

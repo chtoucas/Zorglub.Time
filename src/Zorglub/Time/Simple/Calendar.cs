@@ -51,6 +51,8 @@ namespace Zorglub.Time.Simple
     /// </summary>
     public partial class Calendar : ICalendar
     {
+        // TODO(code): to be removed, we are going to allow schemas with a
+        // virtual thirteenth month.
         /// <summary>
         /// Represents the absolute minimum value admissible for the minimum total number of days
         /// there is at least in a month.
@@ -379,7 +381,7 @@ namespace Zorglub.Time.Simple
         /// <summary>
         /// Gets the arithmetical operators.
         /// </summary>
-        internal FastArithmetic Arithmetic { get; }
+        internal IFastArithmetic Arithmetic { get; }
 
         /// <summary>
         /// Gets the checker for overflows of the range of years.

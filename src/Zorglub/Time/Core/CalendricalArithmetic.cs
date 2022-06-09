@@ -3,6 +3,8 @@
 
 namespace Zorglub.Time.Core
 {
+    using Zorglub.Time.Core.Intervals;
+
     /// <summary>
     /// Provides a plain implementation for <see cref="ICalendricalArithmetic"/>.
     /// <para>This class cannot be inherited.</para>
@@ -42,9 +44,17 @@ namespace Zorglub.Time.Core
             _schema = schema ?? throw new ArgumentNullException(nameof(schema));
             _partsFactory = ICalendricalPartsFactory.Create(schema, @checked: false);
 
+            var set = Interval.Intersect(schema.SupportedYears, Yemoda.SupportedYears);
+            if (set.IsEmpty) Throw.Argument(nameof(schema));
+
+            SupportedYears = set.Range;
+
             (_minDaysSinceEpoch, _maxDaysSinceEpoch) =
-                schema.SupportedYears.Endpoints.Select(schema.GetStartOfYear, schema.GetEndOfYear);
+                SupportedYears.Endpoints.Select(schema.GetStartOfYear, schema.GetEndOfYear);
         }
+
+        /// <inheritdoc/>
+        public Range<int> SupportedYears { get; }
     }
 
     public partial class CalendricalArithmetic // Operations on Yemoda

@@ -63,7 +63,7 @@ namespace Zorglub.Time.Core.Arithmetic
             if (-MaxDaysViaDayOfYear <= days && days <= MaxDaysViaDayOfYear)
             {
                 int doy = Schema.GetDayOfYear(y, m, d);
-                var (newY, newDoy) = AddDaysViaDayOfYear(y, doy, days);
+                var (newY, newDoy) = AddDaysViaDayOfYear(new Yedoy(y, doy), days);
                 return Schema.GetDateParts(newY, newDoy);
             }
 
@@ -181,13 +181,13 @@ namespace Zorglub.Time.Core.Arithmetic
         [Pure]
         public override Yedoy AddDays(Yedoy ydoy, int days)
         {
-            ydoy.Unpack(out int y, out int doy);
-
             // Fast track.
             if (-MaxDaysViaDayOfYear <= days && days <= MaxDaysViaDayOfYear)
             {
-                return AddDaysViaDayOfYear(y, doy, days);
+                return AddDaysViaDayOfYear(ydoy, days);
             }
+
+            ydoy.Unpack(out int y, out int doy);
 
             // Slow track.
             int daysSinceEpoch = checked(Schema.CountDaysSinceEpoch(y, doy) + days);
@@ -201,10 +201,12 @@ namespace Zorglub.Time.Core.Arithmetic
 
         /// <inheritdoc />
         [Pure]
-        protected internal override Yedoy AddDaysViaDayOfYear(int y, int doy, int days)
+        protected internal override Yedoy AddDaysViaDayOfYear(Yedoy ydoy, int days)
         {
             Debug.Assert(-MaxDaysViaDayOfYear <= days);
             Debug.Assert(days <= MaxDaysViaDayOfYear);
+
+            ydoy.Unpack(out int y, out int doy);
 
             // No need to use checked arithmetic here.
             doy += days;
