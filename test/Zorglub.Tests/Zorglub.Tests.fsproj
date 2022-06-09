@@ -70,6 +70,7 @@
     <Compile Include="Tests\Core\Arithmetic\PlainFastArithmeticTestSuite.fs" />
     <Compile Include="Tests\Core\Arithmetic\ArithmeticTestSuite.fs" />
     <Compile Include="Tests\Core\PartsTests.fs" />
+    <Compile Include="Tests\Core\PartsFactoryTests.fs" />
     <Compile Include="Tests\Core\TemporalArithmeticTests.fs" />
     <Compile Include="Tests\Hemerology\Scopes\CalendarScopeTests.fs" />
     <Compile Include="Tests\Hemerology\Scopes\ShortScopeTests.fs" />
