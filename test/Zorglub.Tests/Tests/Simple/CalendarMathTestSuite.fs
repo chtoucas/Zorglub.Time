@@ -10,8 +10,6 @@ open Zorglub.Testing.Facts.Simple
 
 open Zorglub.Time.Simple
 
-open Xunit
-
 // TODO(code): WIP.
 
 // We only need to test the following calendars

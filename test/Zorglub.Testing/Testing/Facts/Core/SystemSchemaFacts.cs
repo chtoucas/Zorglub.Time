@@ -6,6 +6,8 @@ namespace Zorglub.Testing.Facts.Core;
 using Zorglub.Testing.Data;
 using Zorglub.Time.Core.Intervals;
 
+// Sync with ICalendricalPartsFactoryFacts.
+
 /// <summary>
 /// Provides facts about <see cref="SystemSchema"/>.
 /// </summary>
@@ -128,11 +130,11 @@ public partial class SystemSchemaFacts<TDataSet> // Methods
     {
         var (daysSinceEpoch, y, m, d) = info;
         int doy = SchemaUT.GetDayOfYear(y, m, d);
-        var parts = new Yedoy(y, doy);
+        var ydoy = new Yedoy(y, doy);
         // Act
         var actual = SchemaUT.GetOrdinalParts(daysSinceEpoch);
         // Assert
-        Assert.Equal(parts, actual);
+        Assert.Equal(ydoy, actual);
     }
 
     [Theory, MemberData(nameof(DateInfoData))]

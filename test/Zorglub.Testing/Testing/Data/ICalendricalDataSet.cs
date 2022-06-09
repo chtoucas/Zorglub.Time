@@ -51,7 +51,7 @@ public partial interface ICalendricalDataSet
     TheoryData<int, int> InvalidDayOfYearFieldData { get; }
 }
 
-public partial interface ICalendricalDataSet
+public partial interface ICalendricalDataSet // Math
 {
     // NB: no need to add the reverse operations (e.g. -days), it's done
     // automatically by the tests.
