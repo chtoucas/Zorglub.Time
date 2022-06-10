@@ -117,7 +117,6 @@ const Zorglub.Time.DayNumber.MinDaysSinceZero = -2147483647 -> int
 const Zorglub.Time.DayNumber.MinSupportedYear = -4999999 -> int
 const Zorglub.Time.Ord.MaxAlgebraicValue = 2147483647 -> int
 const Zorglub.Time.Ord.MinAlgebraicValue = -2147483646 -> int
-const Zorglub.Time.Simple.Calendar.MinMinDaysInMonth = 7 -> int
 override sealed Zorglub.Time.Core.Schemas.Coptic12Schema.CountDaysInMonth(int y, int m) -> int
 override sealed Zorglub.Time.Core.Schemas.Coptic12Schema.CountMonthsInYear(int y) -> int
 override sealed Zorglub.Time.Core.Schemas.Coptic12Schema.GetDateParts(int daysSinceEpoch, out int y, out int m, out int d) -> void
@@ -706,6 +705,7 @@ Zorglub.Time.Core.CalendricalArithmetic.NextDay(Zorglub.Time.Core.Yedoy ydoy) ->
 Zorglub.Time.Core.CalendricalArithmetic.NextDay(Zorglub.Time.Core.Yemoda ymd) -> Zorglub.Time.Core.Yemoda
 Zorglub.Time.Core.CalendricalArithmetic.PreviousDay(Zorglub.Time.Core.Yedoy ydoy) -> Zorglub.Time.Core.Yedoy
 Zorglub.Time.Core.CalendricalArithmetic.PreviousDay(Zorglub.Time.Core.Yemoda ymd) -> Zorglub.Time.Core.Yemoda
+Zorglub.Time.Core.CalendricalArithmetic.SupportedYears.get -> Zorglub.Time.Core.Intervals.Range<int>
 Zorglub.Time.Core.CalendricalConstants
 Zorglub.Time.Core.CalendricalPreValidator
 Zorglub.Time.Core.CalendricalPreValidator.CalendricalPreValidator(Zorglub.Time.Core.ICalendricalKernel! schema) -> void
@@ -739,6 +739,7 @@ Zorglub.Time.Core.CalendricalSchema.MinDaysInMonth.get -> int
 Zorglub.Time.Core.CalendricalSchema.MinDaysInYear.get -> int
 Zorglub.Time.Core.CalendricalSchema.PreValidator.get -> Zorglub.Time.Core.ICalendricalPreValidator!
 Zorglub.Time.Core.CalendricalSchema.SupportedYears.get -> Zorglub.Time.Core.Intervals.Range<int>
+Zorglub.Time.Core.CalendricalSchema.TryGetCustomArithmetic(out Zorglub.Time.Core.ICalendricalArithmetic? arithmetic) -> bool
 Zorglub.Time.Core.CalendricalSchema.TryGetCustomPreValidator(out Zorglub.Time.Core.ICalendricalPreValidator? validator) -> bool
 Zorglub.Time.Core.IBoxable<TSelf>
 Zorglub.Time.Core.IBoxable<TSelf>.GetInstance() -> Zorglub.Time.Core.Utilities.Box<TSelf!>!
@@ -751,6 +752,7 @@ Zorglub.Time.Core.ICalendricalArithmetic.NextDay(Zorglub.Time.Core.Yedoy ydoy) -
 Zorglub.Time.Core.ICalendricalArithmetic.NextDay(Zorglub.Time.Core.Yemoda ymd) -> Zorglub.Time.Core.Yemoda
 Zorglub.Time.Core.ICalendricalArithmetic.PreviousDay(Zorglub.Time.Core.Yedoy ydoy) -> Zorglub.Time.Core.Yedoy
 Zorglub.Time.Core.ICalendricalArithmetic.PreviousDay(Zorglub.Time.Core.Yemoda ymd) -> Zorglub.Time.Core.Yemoda
+Zorglub.Time.Core.ICalendricalArithmetic.SupportedYears.get -> Zorglub.Time.Core.Intervals.Range<int>
 Zorglub.Time.Core.ICalendricalKernel
 Zorglub.Time.Core.ICalendricalKernel.Algorithm.get -> Zorglub.Time.CalendricalAlgorithm
 Zorglub.Time.Core.ICalendricalKernel.CountDaysInMonth(int y, int m) -> int
@@ -787,6 +789,7 @@ Zorglub.Time.Core.ICalendricalSchema.Arithmetic.get -> Zorglub.Time.Core.ICalend
 Zorglub.Time.Core.ICalendricalSchema.CountDaysInYearBeforeMonth(int y, int m) -> int
 Zorglub.Time.Core.ICalendricalSchema.CountDaysSinceEpoch(int y, int doy) -> int
 Zorglub.Time.Core.ICalendricalSchema.CountDaysSinceEpoch(int y, int m, int d) -> int
+Zorglub.Time.Core.ICalendricalSchema.Domain.get -> Zorglub.Time.Core.Intervals.Range<int>
 Zorglub.Time.Core.ICalendricalSchema.GetDateParts(int daysSinceEpoch, out int y, out int m, out int d) -> void
 Zorglub.Time.Core.ICalendricalSchema.GetDayOfYear(int y, int m, int d) -> int
 Zorglub.Time.Core.ICalendricalSchema.GetEndOfMonth(int y, int m) -> int
