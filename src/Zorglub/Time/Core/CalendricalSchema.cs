@@ -305,12 +305,7 @@ namespace Zorglub.Time.Core
         public Range<int> SupportedYears { get; }
 
         private Range<int>? _domain;
-        /// <summary>
-        /// Gets the range of supported days, or more precisely the range of supported numbers of
-        /// consecutive days from the epoch.
-        /// </summary>
-        /// <returns>The range from the first day of the first supported year to the last day of the
-        /// last supported year.</returns>
+        /// <inheritdoc />
         public Range<int> Domain =>
             _domain ??= new Range<int>(SupportedYears.Endpoints.Select(GetStartOfYear, GetEndOfYear));
     }

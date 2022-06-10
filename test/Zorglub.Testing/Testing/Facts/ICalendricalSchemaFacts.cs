@@ -4,6 +4,7 @@
 namespace Zorglub.Testing.Facts;
 
 using Zorglub.Testing.Data;
+using Zorglub.Time.Core.Intervals;
 
 /// <summary>
 /// Provides facts about <see cref="ICalendricalSchema"/>.
@@ -38,6 +39,16 @@ public partial class ICalendricalSchemaFacts<TSchema, TDataSet> // Properties
     [Theory, MemberData(nameof(MonthInfoData))]
     public void MinDaysInMonth_Prop_IsLessThanOrEqualTo_DaysInMonth(MonthInfo info) =>
         Assert.True(SchemaUT.MinDaysInMonth <= info.DaysInMonth);
+
+    [Fact]
+    public void Domain_Prop()
+    {
+        var domain = new Range<int>(MinDaysSinceEpoch, MaxDaysSinceEpoch);
+        // Act & Assert
+        Assert.Equal(domain, SchemaUT.Domain);
+        // Lazy prop: we duplicate the test to ensure full test coverage.
+        Assert.Equal(domain, SchemaUT.Domain);
+    }
 }
 
 public partial class ICalendricalSchemaFacts<TSchema, TDataSet> // Methods

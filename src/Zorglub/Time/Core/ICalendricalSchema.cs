@@ -3,6 +3,8 @@
 
 namespace Zorglub.Time.Core
 {
+    using Zorglub.Time.Core.Intervals;
+
     #region Developer Notes
 
     // Types Implementing ICalendricalSchema
@@ -108,6 +110,14 @@ namespace Zorglub.Time.Core
     {
         // ICalendricalKernel is shared between calendars and schemas, otherwise
         // most properties below could have been part of the kernel.
+
+        /// <summary>
+        /// Gets the range of supported days, or more precisely the range of supported numbers of
+        /// consecutive days from the epoch.
+        /// </summary>
+        /// <returns>The range from the first day of the first supported year to the last day of the
+        /// last supported year.</returns>
+        Range<int> Domain { get; }
 
         /// <summary>
         /// Gets the minimal total number of days there is at least in a year.

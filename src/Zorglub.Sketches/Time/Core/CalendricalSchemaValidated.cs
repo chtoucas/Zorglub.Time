@@ -39,6 +39,9 @@ namespace Zorglub.Time.Core
         public Range<int> SupportedYears => Schema.SupportedYears;
 
         /// <inheritdoc />
+        public Range<int> Domain => Schema.Domain;
+
+        /// <inheritdoc />
         public ICalendricalPreValidator PreValidator => Schema.PreValidator;
 
         /// <inheritdoc />

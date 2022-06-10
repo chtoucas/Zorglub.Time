@@ -12,7 +12,7 @@ using Zorglub.Time.Core.Intervals;
 /// Provides facts about <see cref="SystemSchema"/>.
 /// </summary>
 public abstract partial class SystemSchemaFacts<TDataSet> :
-    CalendricalSchemaFacts<SystemSchema, TDataSet>
+    ICalendricalSchemaFacts<SystemSchema, TDataSet>
     where TDataSet : ICalendricalDataSet, ISingleton<TDataSet>
 {
     protected SystemSchemaFacts(SystemSchema schema) : base(schema) { }
@@ -38,6 +38,10 @@ public abstract partial class SystemSchemaFacts<TDataSet> :
 
 public partial class SystemSchemaFacts<TDataSet> // Properties
 {
+    [Fact]
+    public sealed override void Algorithm_Prop() =>
+        Assert.Equal(CalendricalAlgorithm.Arithmetical, SchemaUT.Algorithm);
+
     [Fact]
     public override void SupportedYears_Prop() =>
         Assert.Equal(SystemSchema.DefaultSupportedYears, SchemaUT.SupportedYears);

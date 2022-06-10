@@ -52,6 +52,11 @@ namespace Zorglub.Time.Core
         /// <inheritdoc />
         public Range<int> SupportedYears => _schema.SupportedYears;
 
+        private Range<int>? _domain;
+        /// <inheritdoc />
+        public Range<int> Domain =>
+            _domain ??= new Range<int>(SupportedYears.Endpoints.Select(GetStartOfYear, GetEndOfYear));
+
         /// <inheritdoc />
         [Pure] public bool IsRegular(out int monthsInYear) => _schema.IsRegular(out monthsInYear);
 

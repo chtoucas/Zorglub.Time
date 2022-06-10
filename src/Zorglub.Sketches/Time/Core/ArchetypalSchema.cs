@@ -169,6 +169,14 @@ namespace Zorglub.Time.Core
         /// <inheritdoc />
         public virtual Range<int> SupportedYears { get; } = Range.Create(-9998, 9999);
 
+        private Range<int>? _domain;
+        /// <inheritdoc />
+        public Range<int> Domain =>
+            _domain ??= new Range<int>(
+                SupportedYears.Endpoints.Select(
+                    GetStartOfYear,
+                    ((ICalendricalSchema)this).GetEndOfYear));
+
         /// <inheritdoc />
         [Pure]
         public virtual int CountDaysInYearBeforeMonth(int y, int m)
