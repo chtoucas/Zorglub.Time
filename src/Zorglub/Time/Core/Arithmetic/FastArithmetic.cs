@@ -6,6 +6,12 @@ namespace Zorglub.Time.Core.Arithmetic
     using Zorglub.Time.Core.Intervals;
     using Zorglub.Time.Core.Schemas;
 
+    // TODO(code):
+    // - remove FastArithmetic
+    // - Calendar now works with all system schemas
+    // - SystemSchemaFacts
+    // - ArithmeticTests
+
     // Keeping this class internal ensures that we have complete control on its
     // instances. In particular, we make sure that none of them is used in
     // a wrong context, meaning in a place where a different schema is expected.
@@ -43,40 +49,6 @@ namespace Zorglub.Time.Core.Arithmetic
         {
             Debug.Assert(schema != null);
             if (schema.MinDaysInMonth < MinMinDaysInMonth) Throw.Argument(nameof(schema));
-        }
-
-        /// <summary>
-        /// Creates the default fast arithmetic engine.
-        /// </summary>
-        /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
-        /// <exception cref="ArgumentException"><paramref name="schema"/> contains at least one
-        /// month whose length is strictly less than <see cref="MinMinDaysInMonth"/>.</exception>
-        [Pure]
-        public static FastArithmetic Create(SystemSchema schema)
-        {
-            Requires.NotNull(schema);
-
-            // NB: there is no real gain to expect in trying to improve the perf
-            // for regular schemas. Not convinced? Check the code, we only
-            // call CountMonthsInYear() in two corner cases.
-            return schema.Profile switch
-            {
-                CalendricalProfile.Solar12 =>
-                    schema is GregorianSchema gr
-                    ? new GregorianArithmetic(gr)
-                    : new Solar12Arithmetic(schema),
-                CalendricalProfile.Solar13 => new Solar13Arithmetic(schema),
-                CalendricalProfile.Lunar => new LunarArithmetic(schema),
-                CalendricalProfile.Lunisolar => new LunisolarArithmetic(schema),
-
-                // WARNING: if we change this, we MUST update
-                // CalendricalSchema.TryGetCustomArithmetic() too.
-                _ => schema.MinDaysInMonth >= MinMinDaysInMonth
-                    ? new PlainFastArithmetic(schema)
-                    // We do not provide a fast arithmetic for schemas with a
-                    // virtual thirteen month.
-                    : Throw.Argument<FastArithmetic>(nameof(schema)),
-            };
         }
     }
 }

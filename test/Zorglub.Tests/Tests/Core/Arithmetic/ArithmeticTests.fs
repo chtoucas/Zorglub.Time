@@ -53,31 +53,31 @@ module Prelude =
     [<InlineData 4>]
     [<InlineData 5>]
     [<InlineData 6>]
-    let ``FastArithmetic constructor throws when MinDaysInMonth < 7`` i =
+    let ``PlainFastArithmetic constructor throws when MinDaysInMonth < 7`` i =
         let sch = FauxSystemSchema.WithMinDaysInMonth(i)
 
         argExn "schema" (fun () -> new PlainFastArithmetic(sch))
 
 module Factories =
     [<Fact>]
-    let ``FastArithmetic.Create()`` () =
-        FastArithmetic.Create(schemaOf<Coptic12Schema>())           |> is<Solar12Arithmetic>
-        argExn "schema" (fun () -> FastArithmetic.Create(schemaOf<Coptic13Schema>()))
-        FastArithmetic.Create(schemaOf<Egyptian12Schema>())         |> is<Solar12Arithmetic>
-        argExn "schema" (fun () -> FastArithmetic.Create(schemaOf<Egyptian13Schema>()))
-        FastArithmetic.Create(schemaOf<FrenchRepublican12Schema>()) |> is<Solar12Arithmetic>
-        argExn "schema" (fun () -> FastArithmetic.Create(schemaOf<FrenchRepublican13Schema>()))
-        FastArithmetic.Create(schemaOf<GregorianSchema>())          |> is<GregorianArithmetic>
-        //FastArithmetic.Create(schemaOf<HebrewSchema>())             |> is<LunisolarArithmetic>
-        FastArithmetic.Create(schemaOf<InternationalFixedSchema>()) |> is<Solar13Arithmetic>
-        FastArithmetic.Create(schemaOf<JulianSchema>())             |> is<Solar12Arithmetic>
-        FastArithmetic.Create(schemaOf<Persian2820Schema>())        |> is<Solar12Arithmetic>
-        FastArithmetic.Create(schemaOf<PositivistSchema>())         |> is<Solar13Arithmetic>
-        FastArithmetic.Create(schemaOf<TabularIslamicSchema>())     |> is<LunarArithmetic>
-        FastArithmetic.Create(schemaOf<TropicaliaSchema>())         |> is<Solar12Arithmetic>
-        FastArithmetic.Create(schemaOf<Tropicalia3031Schema>())     |> is<Solar12Arithmetic>
-        FastArithmetic.Create(schemaOf<Tropicalia3130Schema>())     |> is<Solar12Arithmetic>
-        FastArithmetic.Create(schemaOf<WorldSchema>())              |> is<Solar12Arithmetic>
+    let ``StandardArithmetic.Create()`` () =
+        StandardArithmetic.Create(schemaOf<Coptic12Schema>())           |> is<Solar12Arithmetic>
+        StandardArithmetic.Create(schemaOf<Coptic13Schema>())           |> is<PlainArithmetic>
+        StandardArithmetic.Create(schemaOf<Egyptian12Schema>())         |> is<Solar12Arithmetic>
+        StandardArithmetic.Create(schemaOf<Egyptian13Schema>())         |> is<PlainArithmetic>
+        StandardArithmetic.Create(schemaOf<FrenchRepublican12Schema>()) |> is<Solar12Arithmetic>
+        StandardArithmetic.Create(schemaOf<FrenchRepublican13Schema>()) |> is<PlainArithmetic>
+        StandardArithmetic.Create(schemaOf<GregorianSchema>())          |> is<GregorianArithmetic>
+        //StandardArithmetic.Create(schemaOf<HebrewSchema>())             |> is<LunisolarArithmetic>
+        StandardArithmetic.Create(schemaOf<InternationalFixedSchema>()) |> is<Solar13Arithmetic>
+        StandardArithmetic.Create(schemaOf<JulianSchema>())             |> is<Solar12Arithmetic>
+        StandardArithmetic.Create(schemaOf<Persian2820Schema>())        |> is<Solar12Arithmetic>
+        StandardArithmetic.Create(schemaOf<PositivistSchema>())         |> is<Solar13Arithmetic>
+        StandardArithmetic.Create(schemaOf<TabularIslamicSchema>())     |> is<LunarArithmetic>
+        StandardArithmetic.Create(schemaOf<TropicaliaSchema>())         |> is<Solar12Arithmetic>
+        StandardArithmetic.Create(schemaOf<Tropicalia3031Schema>())     |> is<Solar12Arithmetic>
+        StandardArithmetic.Create(schemaOf<Tropicalia3130Schema>())     |> is<Solar12Arithmetic>
+        StandardArithmetic.Create(schemaOf<WorldSchema>())              |> is<Solar12Arithmetic>
 
 // REVIEW(code): can we do better than that? I mean do it for all schemas. Sure,
 // but is it useful? Here we have to test it separetely because PlainFastArithmetic

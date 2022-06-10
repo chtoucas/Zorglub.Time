@@ -165,7 +165,9 @@ namespace Zorglub.Time.Core
         /// </summary>
         [Pure]
         protected virtual ICalendricalArithmetic GetArithmeticCore() =>
-            new PlainArithmetic(this);
+            TryGetCustomArithmetic(out ICalendricalArithmetic? arithmetic)
+            ? arithmetic
+            : new PlainArithmetic(this);
 
         /// <summary>
         /// Returns true if the construction of a specialized pre-validator for this schema was
@@ -195,6 +197,44 @@ namespace Zorglub.Time.Core
                 default:
                     validator = null;
                     return false;
+            }
+        }
+
+        /// <summary>
+        /// Returns true if the construction of a specialized arithmetic engine for this schema was
+        /// successful; otherwise returns false; the result is given in an output parameter.
+        /// </summary>
+        [Pure]
+        protected internal bool TryGetCustomArithmetic(
+            [NotNullWhen(true)] out ICalendricalArithmetic? arithmetic)
+        {
+            switch (Profile)
+            {
+                case CalendricalProfile.Solar12:
+                    arithmetic =
+                        this is GregorianSchema gr ? new GregorianArithmetic(gr)
+                        : new Solar12Arithmetic(this);
+                    return true;
+                case CalendricalProfile.Solar13:
+                    arithmetic = new Solar13Arithmetic(this);
+                    return true;
+                case CalendricalProfile.Lunar:
+                    arithmetic = new LunarArithmetic(this);
+                    return true;
+                case CalendricalProfile.Lunisolar:
+                    arithmetic = new LunisolarArithmetic(this);
+                    return true;
+                default:
+                    if (MinDaysInMonth >= FastArithmetic.MinMinDaysInMonth)
+                    {
+                        arithmetic = new PlainFastArithmetic(this);
+                        return true;
+                    }
+                    else
+                    {
+                        arithmetic = null;
+                        return false;
+                    }
             }
         }
 

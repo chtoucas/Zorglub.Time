@@ -150,35 +150,6 @@ namespace Zorglub.Time.Core
                 return false;
             }
         }
-
-        /// <summary>
-        /// Obtains the <see cref="ICalendricalArithmetic"/> for this schema.
-        /// </summary>
-        [Pure]
-        protected override ICalendricalArithmetic GetArithmeticCore() =>
-            TryGetCustomArithmetic(out ICalendricalArithmetic? arithmetic)
-            ? arithmetic
-            : base.GetArithmeticCore();
-
-        /// <summary>
-        /// Returns true if the construction of a specialized arithmetic engine for this schema was
-        /// successful; otherwise returns false; the result is given in an output parameter.
-        /// </summary>
-        [Pure]
-        protected internal bool TryGetCustomArithmetic(
-            [NotNullWhen(true)] out ICalendricalArithmetic? arithmetic)
-        {
-            if (MinDaysInMonth >= FastArithmetic.MinMinDaysInMonth)
-            {
-                arithmetic = FastArithmetic.Create(this);
-                return true;
-            }
-            else
-            {
-                arithmetic = null;
-                return false;
-            }
-        }
     }
 
     // Properties.

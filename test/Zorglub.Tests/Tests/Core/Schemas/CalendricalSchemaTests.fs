@@ -50,7 +50,9 @@ module Prelude =
 
     [<Fact>]
     let ``Property Arithmetic: default value, repeated`` () =
-        let sch = new FauxCalendricalSchema()
+        // The use of a custom value for MinDaysInMonth is necessary to get the
+        // "default" arithmetic.
+        let sch = FauxCalendricalSchema.WithMinDaysInMonth(5)
 
         let arith1 = sch.Arithmetic
         arith1 |> is<PlainArithmetic>
