@@ -8,7 +8,6 @@ namespace Zorglub.Time.Core.Arithmetic
 
     // TODO(code):
     // - remove FastArithmetic
-    // - Calendar now works with all system schemas
     // - SystemSchemaFacts
     // - ArithmeticTests
 

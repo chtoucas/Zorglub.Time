@@ -99,8 +99,6 @@ namespace Zorglub.Time.Simple
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
         /// <exception cref="ArgumentNullException"><paramref name="key"/> is null.</exception>
-        /// <exception cref="ArgumentException"><paramref name="schema"/> defines at least one month
-        /// whose length is strictly less than <see cref="MinMinDaysInMonth"/>.</exception>
         /// <exception cref="ArgumentException">The range of supported years by
         /// <paramref name="schema"/> does not contain the interval [-9998, 9999].</exception>
         internal Calendar(

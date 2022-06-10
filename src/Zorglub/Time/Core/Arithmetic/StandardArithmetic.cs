@@ -99,8 +99,6 @@ namespace Zorglub.Time.Core.Arithmetic
         /// Creates the default fast arithmetic engine.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
-        /// <exception cref="ArgumentException"><paramref name="schema"/> contains at least one
-        /// month whose length is strictly less than <see cref="MinMinDaysInMonth"/>.</exception>
         [Pure]
         public static StandardArithmetic Create(CalendricalSchema schema)
         {
