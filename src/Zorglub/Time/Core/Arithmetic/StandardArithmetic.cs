@@ -48,15 +48,15 @@ namespace Zorglub.Time.Core.Arithmetic
 
             var set = Interval.Intersect(schema.SupportedYears, Yemoda.SupportedYears);
             if (set.IsEmpty) Throw.Argument(nameof(schema));
-            SupportedYears = set.Range;
+            var supportedYears = set.Range;
 
             // REVIEW(code): checked or unchecked factory?
             PartsFactory = ICalendricalPartsFactory.Create(schema, @checked: false);
 
-            var minMaxYear = SupportedYears.Endpoints;
-            (MinYear, MaxYear) = minMaxYear;
+            SupportedYears = supportedYears;
+            (MinYear, MaxYear) = supportedYears.Endpoints;
             (MinDaysSinceEpoch, MaxDaysSinceEpoch) =
-                minMaxYear.Select(schema.GetStartOfYear, schema.GetEndOfYear);
+                supportedYears.Endpoints.Select(schema.GetStartOfYear, schema.GetEndOfYear);
 
             MaxDaysViaDayOfYear = schema.MinDaysInYear;
             MaxDaysViaDayOfMonth = schema.MinDaysInMonth;

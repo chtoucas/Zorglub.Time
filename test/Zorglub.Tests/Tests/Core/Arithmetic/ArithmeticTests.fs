@@ -9,6 +9,7 @@ open Zorglub.Testing.Data.Schemas
 
 open Zorglub.Time.Core
 open Zorglub.Time.Core.Arithmetic
+open Zorglub.Time.Core.Intervals
 open Zorglub.Time.Core.Schemas
 
 open Xunit
@@ -29,6 +30,19 @@ module Prelude =
         nullExn "schema" (fun () -> new LunisolarArithmetic(null))
         nullExn "schema" (fun () -> new Solar12Arithmetic(null))
         nullExn "schema" (fun () -> new Solar13Arithmetic(null))
+
+    [<Fact>]
+    let ``Constructor throws for schemas with bad range of supported years`` () =
+        let range = Range.StartingAt(Yemoda.MaxYear + 1)
+        let sch = new FauxCalendricalSchema(range)
+
+        argExn "schema" (fun () -> new CalendricalArithmetic(sch))
+        argExn "schema" (fun () -> new PlainArithmetic(sch))
+        argExn "schema" (fun () -> new PlainFastArithmetic(sch))
+        argExn "schema" (fun () -> new LunarArithmetic(sch))
+        argExn "schema" (fun () -> new LunisolarArithmetic(sch))
+        argExn "schema" (fun () -> new Solar12Arithmetic(sch))
+        argExn "schema" (fun () -> new Solar13Arithmetic(sch))
 
     [<Theory; MemberData(nameof(badLunarProfile))>]
     let ``LunarArithmetic constructor throws for non-lunar schema`` (sch) =
