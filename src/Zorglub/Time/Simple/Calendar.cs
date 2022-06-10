@@ -379,9 +379,9 @@ namespace Zorglub.Time.Simple
         internal ICalendricalPreValidator PreValidator { get; }
 
         /// <summary>
-        /// Gets the arithmetical operators.
+        /// Gets the standard arithmetical operators.
         /// </summary>
-        internal IFastArithmetic Arithmetic { get; }
+        internal StandardArithmetic Arithmetic { get; }
 
         /// <summary>
         /// Gets the checker for overflows of the range of years.

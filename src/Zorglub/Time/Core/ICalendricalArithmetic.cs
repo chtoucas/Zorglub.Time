@@ -9,20 +9,20 @@ namespace Zorglub.Time.Core
 
     // Types Implementing ICalendricalArithmetic
     // -----------------------------------------
-    // **Only the interface is public.**
+    // **Only ICalendricalArithmetic and CalendricalArithmetic are public.**
     //
     // ICalendricalArithmetic
-    // ├─ CalendricalArithmetic         (ICalendricalSchema)
-    // └─ IFastArithmetic
-    //    ├─ PlainArithmetic            (ICalendricalSchema)
-    //    └─ FastArithmetic [A]         (SystemSchema)
+    // ├─ CalendricalArithmetic
+    // └─ StandardArithmetic [A]
+    //    ├─ PlainArithmetic
+    //    └─ FastArithmetic [A]
     //       ├─ GregorianArithmetic     (Gregorian-only)
-    //       ├─ LunarArithmetic         (SystemSchema)
-    //       ├─ LunisolarArithmetic     (SystemSchema)
-    //       ├─ PlainFastArithmetic     (SystemSchema)
-    //       └─ SolarArithmetic [A]     (SystemSchema)
-    //          ├─ Solar12Arithmetic    (SystemSchema)
-    //          └─ Solar13Arithmetic    (SystemSchema)
+    //       ├─ LunarArithmetic         (CalendricalSchema)
+    //       ├─ LunisolarArithmetic     (CalendricalSchema)
+    //       ├─ PlainFastArithmetic
+    //       └─ SolarArithmetic [A]     (CalendricalSchema)
+    //          ├─ Solar12Arithmetic    (CalendricalSchema)
+    //          └─ Solar13Arithmetic    (CalendricalSchema)
     //
     // Annotation: [A] = abstract
     //

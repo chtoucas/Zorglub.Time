@@ -15,26 +15,13 @@ namespace Zorglub.Time.Core.Arithmetic
         /// Initializes a new instance of the <see cref="PlainFastArithmetic"/> class.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
+        /// <exception cref="ArgumentException">The range of supported years by
+        /// <paramref name="schema"/> and <see cref="Yemoda.SupportedYears"/> are disjoint.
+        /// </exception>
         /// <exception cref="ArgumentException"><paramref name="schema"/> contains at least one
         /// month whose length is strictly less than <see cref="FastArithmetic.MinMinDaysInMonth"/>.
         /// </exception>
-        public PlainFastArithmetic(SystemSchema schema) : base(schema)
-        {
-            Debug.Assert(schema != null);
-
-            MaxDaysViaDayOfYear = schema.MinDaysInYear;
-            MaxDaysViaDayOfMonth = schema.MinDaysInMonth;
-        }
-
-        /// <inheritdoc />
-        public override int MaxDaysViaDayOfYear { get; }
-
-        /// <inheritdoc />
-        /// <remarks>
-        /// <para>The value is guaranteed to be greater than or equal to
-        /// <see cref="FastArithmetic.MinMinDaysInMonth"/>.</para>
-        /// </remarks>
-        public override int MaxDaysViaDayOfMonth { get; }
+        public PlainFastArithmetic(ICalendricalSchema schema) : base(schema) { }
     }
 
     internal partial class PlainFastArithmetic // Operations on Yemoda
@@ -64,7 +51,7 @@ namespace Zorglub.Time.Core.Arithmetic
             {
                 int doy = Schema.GetDayOfYear(y, m, d);
                 var (newY, newDoy) = AddDaysViaDayOfYear(new Yedoy(y, doy), days);
-                return Schema.GetDateParts(newY, newDoy);
+                return PartsFactory.GetDateParts(newY, newDoy);
             }
 
             // Slow track.
@@ -74,7 +61,7 @@ namespace Zorglub.Time.Core.Arithmetic
                 Throw.DateOverflow();
             }
 
-            return Schema.GetDateParts(daysSinceEpoch);
+            return PartsFactory.GetDateParts(daysSinceEpoch);
         }
 
         /// <inheritdoc />
@@ -96,8 +83,7 @@ namespace Zorglub.Time.Core.Arithmetic
                     // Last month of previous year.
                     if (y == MinYear) Throw.DateOverflow();
                     y--;
-                    Schema.GetEndOfYearParts(y, out int m0, out int d0);
-                    m = m0;
+                    (_, m, int d0) = PartsFactory.GetEndOfYearParts(y);
                     dom += d0;
                 }
                 else
@@ -155,9 +141,9 @@ namespace Zorglub.Time.Core.Arithmetic
                 // Same month, the day before.
                 d > 1 ? new Yemoda(y, m, d - 1)
                 // Same year, end of previous month.
-                : m > 1 ? Schema.GetEndOfMonthParts(y, m - 1)
+                : m > 1 ? PartsFactory.GetEndOfMonthParts(y, m - 1)
                 // End of previous year...
-                : y > MinYear ? Schema.GetEndOfYearParts(y - 1)
+                : y > MinYear ? PartsFactory.GetEndOfYearParts(y - 1)
                 // ... or overflow.
                 : Throw.DateOverflow<Yemoda>();
         }
@@ -196,7 +182,7 @@ namespace Zorglub.Time.Core.Arithmetic
                 Throw.DateOverflow();
             }
 
-            return Schema.GetOrdinalParts(daysSinceEpoch);
+            return PartsFactory.GetOrdinalParts(daysSinceEpoch);
         }
 
         /// <inheritdoc />
@@ -248,7 +234,7 @@ namespace Zorglub.Time.Core.Arithmetic
             ydoy.Unpack(out int y, out int doy);
 
             return doy > 1 ? new Yedoy(y, doy - 1)
-                : y > MinYear ? Schema.GetEndOfYearOrdinalParts(y - 1)
+                : y > MinYear ? PartsFactory.GetEndOfYearOrdinalParts(y - 1)
                 : Throw.DateOverflow<Yedoy>();
         }
 

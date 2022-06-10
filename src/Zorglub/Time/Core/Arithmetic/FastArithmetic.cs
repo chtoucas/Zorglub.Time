@@ -18,7 +18,7 @@ namespace Zorglub.Time.Core.Arithmetic
     /// calendrical point of view, nevertheless they MUST ensure that all returned values are valid
     /// when the previous condition is met.</para>
     /// </remarks>
-    internal abstract partial class FastArithmetic : IFastArithmetic
+    internal abstract class FastArithmetic : StandardArithmetic
     {
         /// <summary>
         /// Represents the absolute minimum value admissible for the minimum total number of days
@@ -34,61 +34,16 @@ namespace Zorglub.Time.Core.Arithmetic
         /// <see cref="FastArithmetic"/> class.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
+        /// <exception cref="ArgumentException">The range of supported years by
+        /// <paramref name="schema"/> and <see cref="Yemoda.SupportedYears"/> are disjoint.
+        /// </exception>
         /// <exception cref="ArgumentException"><paramref name="schema"/> contains at least one month
         /// whose length is strictly less than <see cref="MinMinDaysInMonth"/>.</exception>
-        protected FastArithmetic(SystemSchema schema)
+        protected FastArithmetic(ICalendricalSchema schema) : base(schema)
         {
-            Requires.NotNull(schema);
+            Debug.Assert(schema != null);
             if (schema.MinDaysInMonth < MinMinDaysInMonth) Throw.Argument(nameof(schema));
-
-            Schema = schema;
-            SupportedYears = schema.SupportedYears;
-
-            Debug.Assert(SupportedYears.IsSubsetOf(Yemoda.SupportedYears));
-
-            (MinYear, MaxYear) = SupportedYears.Endpoints;
-            (MinDaysSinceEpoch, MaxDaysSinceEpoch) = schema.Domain.Endpoints;
         }
-
-        /// <inheritdoc/>
-        public Range<int> SupportedYears { get; }
-
-        /// <summary>
-        /// Gets the underlying schema.
-        /// </summary>
-        protected SystemSchema Schema { get; }
-
-        /// <summary>
-        /// Gets the earliest supported year.
-        /// </summary>
-        protected int MinYear { get; }
-
-        /// <summary>
-        /// Gets the latest supported year.
-        /// </summary>
-        protected int MaxYear { get; }
-
-        /// <summary>
-        /// Gets the minimum possible value for the number of consecutive days from the epoch.
-        /// </summary>
-        protected int MinDaysSinceEpoch { get; }
-
-        /// <summary>
-        /// Gets the maximum possible value for the number of consecutive days from the epoch.
-        /// </summary>
-        protected int MaxDaysSinceEpoch { get; }
-
-        /// <summary>
-        /// Gets the maximum absolute value for a parameter "days" for the method
-        /// <see cref="AddDaysViaDayOfYear(int, int, int)"/>.
-        /// </summary>
-        public abstract int MaxDaysViaDayOfYear { get; }
-
-        /// <summary>
-        /// Gets the maximum absolute value for a parameter "days" for the method
-        /// <see cref="AddDaysViaDayOfMonth(Yemoda, int)"/>.
-        /// </summary>
-        public abstract int MaxDaysViaDayOfMonth { get; }
 
         /// <summary>
         /// Creates the default fast arithmetic engine.
@@ -123,84 +78,5 @@ namespace Zorglub.Time.Core.Arithmetic
                     : Throw.Argument<FastArithmetic>(nameof(schema)),
             };
         }
-
-        Yemoda IFastArithmetic.AddDaysViaDayOfMonth(Yemoda ymd, int days) =>
-            AddDaysViaDayOfMonth(ymd, days);
-
-        Yedoy IFastArithmetic.AddDaysViaDayOfYear(Yedoy ydoy, int days) =>
-            AddDaysViaDayOfYear(ydoy, days);
-    }
-
-    internal partial class FastArithmetic // ICalendricalArithmetic
-    {
-        //
-        // Operations on Yemoda
-        //
-
-        /// <inheritdoc />
-        [Pure] public abstract Yemoda AddDays(Yemoda ymd, int days);
-
-        /// <inheritdoc />
-        [Pure] public abstract Yemoda NextDay(Yemoda ymd);
-
-        /// <inheritdoc />
-        [Pure] public abstract Yemoda PreviousDay(Yemoda ymd);
-
-        /// <inheritdoc />
-        [Pure] public abstract int CountDaysBetween(Yemoda start, Yemoda end);
-
-        //
-        // Operations on Yedoy
-        //
-
-        /// <inheritdoc />
-        [Pure] public abstract Yedoy AddDays(Yedoy ydoy, int days);
-
-        /// <inheritdoc />
-        [Pure] public abstract Yedoy NextDay(Yedoy ydoy);
-
-        /// <inheritdoc />
-        [Pure] public abstract Yedoy PreviousDay(Yedoy ydoy);
-
-        /// <inheritdoc />
-        [Pure] public abstract int CountDaysBetween(Yedoy start, Yedoy end);
-    }
-
-    internal partial class FastArithmetic // Fast additions
-    {
-        // AddDaysViaDayOfYear().
-        // Only when we know in advance that |days| <= MaxDaysViaDayOfYear.
-        // The limits are chosen such that (ymd + days) is guaranteed to
-        // stay in the range from (y - 1) to (y + 1).
-        // - Faster when "days is small" (no change of month) or "big" (slow
-        //   track).
-        // - Slower for "days in between", where we have to compute the day
-        //   of the year.
-
-        /// <summary>
-        /// Adds a number of days to the specified date, yielding a new date within the same month
-        /// or one of the two contiguous months.
-        /// <para><paramref name="days"/> MUST be in the range
-        /// [-<see cref="MaxDaysViaDayOfMonth"/>..<see cref="MaxDaysViaDayOfMonth"/>].</para>
-        /// <para>This method is used to adjust the day of the week, which means that we must ensure
-        /// that <see cref="MaxDaysViaDayOfMonth"/> is greater than or equal to 7.</para>
-        /// </summary>
-        /// <exception cref="AoorException"><paramref name="days"/> is not in the range
-        /// [-<see cref="MaxDaysViaDayOfMonth"/>..<see cref="MaxDaysViaDayOfMonth"/>].</exception>
-        /// <exception cref="OverflowException">The operation would overflow the range of supported
-        /// values.</exception>
-        [Pure] protected internal abstract Yemoda AddDaysViaDayOfMonth(Yemoda ymd, int days);
-
-        /// <summary>
-        /// Adds a number of days to the specified ordinal date, yielding a new ordinal date within
-        /// the same year or one of the two contiguous years.
-        /// <para><paramref name="days"/> MUST be in the range
-        /// [-<see cref="MaxDaysViaDayOfYear"/>..<see cref="MaxDaysViaDayOfYear"/>].</para>
-        /// </summary>
-        /// <exception cref="AoorException"><paramref name="days"/> is not in the range
-        /// [-<see cref="MaxDaysViaDayOfYear"/>..<see cref="MaxDaysViaDayOfYear"/>].</exception>
-        /// <exception cref="OverflowException">The operation would overflow the range of supported
-        /// values.</exception>
-        [Pure] protected internal abstract Yedoy AddDaysViaDayOfYear(Yedoy ydoy, int days);
     }
 }

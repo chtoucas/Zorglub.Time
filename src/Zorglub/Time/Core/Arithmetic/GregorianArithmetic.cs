@@ -34,11 +34,11 @@ namespace Zorglub.Time.Core.Arithmetic
             Debug.Assert(MaxYear == MaxSupportedYear);
         }
 
-        /// <inheritdoc />
-        public override int MaxDaysViaDayOfYear => Solar.MinDaysInYear;
+        ///// <inheritdoc />
+        //public override int MaxDaysViaDayOfYear => Solar.MinDaysInYear;
 
-        /// <inheritdoc />
-        public override int MaxDaysViaDayOfMonth => Solar.MinDaysInMonth;
+        ///// <inheritdoc />
+        //public override int MaxDaysViaDayOfMonth => Solar.MinDaysInMonth;
     }
 
     internal partial class GregorianArithmetic // Operations on Yemoda
@@ -58,7 +58,7 @@ namespace Zorglub.Time.Core.Arithmetic
             {
                 int doy = Schema.GetDayOfYear(y, m, d);
                 var (newY, newDoy) = AddDaysViaDayOfYear(new Yedoy(y, doy), days);
-                return Schema.GetDateParts(newY, newDoy);
+                return PartsFactory.GetDateParts(newY, newDoy);
             }
 
             // Slow track.
@@ -140,8 +140,8 @@ namespace Zorglub.Time.Core.Arithmetic
 
             return
                 d > 1 ? new Yemoda(y, m, d - 1)
-                : m > 1 ? Schema.GetEndOfMonthParts(y, m - 1)
-                : y > MinSupportedYear ? Schema.GetEndOfYearParts(y - 1)
+                : m > 1 ? PartsFactory.GetEndOfMonthParts(y, m - 1)
+                : y > MinSupportedYear ? PartsFactory.GetEndOfYearParts(y - 1)
                 : Throw.DateOverflow<Yemoda>();
         }
 
@@ -180,7 +180,7 @@ namespace Zorglub.Time.Core.Arithmetic
                 Throw.DateOverflow();
             }
 
-            return Schema.GetOrdinalParts(daysSinceEpoch);
+            return PartsFactory.GetOrdinalParts(daysSinceEpoch);
         }
 
         /// <inheritdoc />
@@ -234,7 +234,7 @@ namespace Zorglub.Time.Core.Arithmetic
 
             return
                 doy > 1 ? new Yedoy(y, doy - 1)
-                : y > MinSupportedYear ? Schema.GetEndOfYearOrdinalParts(y - 1)
+                : y > MinSupportedYear ? PartsFactory.GetEndOfYearOrdinalParts(y - 1)
                 : Throw.DateOverflow<Yedoy>();
         }
 

@@ -17,9 +17,12 @@ namespace Zorglub.Time.Core.Arithmetic
         /// specified schema.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
+        /// <exception cref="ArgumentException">The range of supported years by
+        /// <paramref name="schema"/> and <see cref="Yemoda.SupportedYears"/> are disjoint.
+        /// </exception>
         /// <exception cref="ArgumentException"><paramref name="schema"/> does not have the expected
         /// profile <see cref="CalendricalProfile.Solar12"/>.</exception>
-        public Solar12Arithmetic(SystemSchema schema) : base(schema)
+        public Solar12Arithmetic(CalendricalSchema schema) : base(schema)
         {
             Debug.Assert(schema != null);
 
@@ -42,8 +45,7 @@ namespace Zorglub.Time.Core.Arithmetic
                 {
                     if (y == MinYear) Throw.DateOverflow();
                     y--;
-                    Schema.GetEndOfYearParts(y, out int m0, out int d0);
-                    m = m0;
+                    (_, m, int d0) = PartsFactory.GetEndOfYearParts(y);
                     dom += d0;
                 }
                 else
