@@ -12,7 +12,7 @@ using Zorglub.Time.Core.Intervals;
 /// Provides facts about <see cref="SystemSchema"/>.
 /// </summary>
 public abstract partial class SystemSchemaFacts<TDataSet> :
-    ICalendricalSchemaFacts<SystemSchema, TDataSet>
+    ICalendricalSchemaPlusFacts<SystemSchema, TDataSet>
     where TDataSet : ICalendricalDataSet, ISingleton<TDataSet>
 {
     protected SystemSchemaFacts(SystemSchema schema) : base(schema) { }
