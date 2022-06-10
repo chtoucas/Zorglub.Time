@@ -109,7 +109,7 @@ namespace Zorglub.Time.Core.Arithmetic
         /// </summary>
         /// <remarks>
         /// <para>The value is guaranteed to be greater than or equal to
-        /// <see cref="FastArithmetic.MinMinDaysInMonth"/>.</para>
+        /// <see cref="MinMinDaysInMonth"/>.</para>
         /// </remarks>
         public int MaxDaysViaDayOfMonth { get; }
 

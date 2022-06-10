@@ -4,9 +4,9 @@
 namespace Zorglub.Time.Core.Arithmetic
 {
     /// <summary>
-    /// Provides a plain implementation for <see cref="FastArithmetic"/>.
+    /// Provides a plain implementation for <see cref="StandardArithmetic"/>.
     /// <para>The length of a month must be greater than or equal to
-    /// <see cref="FastArithmetic.MinMinDaysInMonth"/>.</para>
+    /// <see cref="StandardArithmetic.MinMinDaysInMonth"/>.</para>
     /// <para>This class cannot be inherited.</para>
     /// </summary>
     internal sealed partial class PlainFastArithmetic : StandardArithmetic
@@ -19,7 +19,7 @@ namespace Zorglub.Time.Core.Arithmetic
         /// <paramref name="schema"/> and <see cref="Yemoda.SupportedYears"/> are disjoint.
         /// </exception>
         /// <exception cref="ArgumentException"><paramref name="schema"/> contains at least one
-        /// month whose length is strictly less than <see cref="FastArithmetic.MinMinDaysInMonth"/>.
+        /// month whose length is strictly less than <see cref="StandardArithmetic.MinMinDaysInMonth"/>.
         /// </exception>
         public PlainFastArithmetic(ICalendricalSchema schema) : base(schema)
         {
