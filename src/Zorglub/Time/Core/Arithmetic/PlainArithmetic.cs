@@ -81,18 +81,6 @@ namespace Zorglub.Time.Core.Arithmetic
                 : y > MinYear ? PartsFactory.GetEndOfYearParts(y - 1)
                 : Throw.DateOverflow<Yemoda>();
         }
-
-        /// <inheritdoc />
-        [Pure]
-        public override int CountDaysBetween(Yemoda start, Yemoda end)
-        {
-            if (end.Yemo == start.Yemo) { return end.Day - start.Day; }
-
-            start.Unpack(out int y0, out int m0, out int d0);
-            end.Unpack(out int y1, out int m1, out int d1);
-
-            return Schema.CountDaysSinceEpoch(y1, m1, d1) - Schema.CountDaysSinceEpoch(y0, m0, d0);
-        }
     }
 
     internal partial class PlainArithmetic // Operations on Yedoy
@@ -170,18 +158,6 @@ namespace Zorglub.Time.Core.Arithmetic
             return doy > 1 ? new Yedoy(y, doy - 1)
                 : y > MinYear ? PartsFactory.GetEndOfYearOrdinalParts(y - 1)
                 : Throw.DateOverflow<Yedoy>();
-        }
-
-        /// <inheritdoc />
-        [Pure]
-        public override int CountDaysBetween(Yedoy start, Yedoy end)
-        {
-            if (end.Year == start.Year) { return end.DayOfYear - start.DayOfYear; }
-
-            start.Unpack(out int y0, out int doy0);
-            end.Unpack(out int y1, out int doy1);
-
-            return Schema.CountDaysSinceEpoch(y1, doy1) - Schema.CountDaysSinceEpoch(y0, doy0);
         }
     }
 }

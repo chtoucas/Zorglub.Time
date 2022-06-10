@@ -162,7 +162,16 @@ namespace Zorglub.Time.Core.Arithmetic
         [Pure] public abstract Yemoda PreviousDay(Yemoda ymd);
 
         /// <inheritdoc />
-        [Pure] public abstract int CountDaysBetween(Yemoda start, Yemoda end);
+        [Pure]
+        public int CountDaysBetween(Yemoda start, Yemoda end)
+        {
+            if (end.Yemo == start.Yemo) { return end.Day - start.Day; }
+
+            start.Unpack(out int y0, out int m0, out int d0);
+            end.Unpack(out int y1, out int m1, out int d1);
+
+            return Schema.CountDaysSinceEpoch(y1, m1, d1) - Schema.CountDaysSinceEpoch(y0, m0, d0);
+        }
 
         //
         // Operations on Yedoy
@@ -178,7 +187,16 @@ namespace Zorglub.Time.Core.Arithmetic
         [Pure] public abstract Yedoy PreviousDay(Yedoy ydoy);
 
         /// <inheritdoc />
-        [Pure] public abstract int CountDaysBetween(Yedoy start, Yedoy end);
+        [Pure]
+        public int CountDaysBetween(Yedoy start, Yedoy end)
+        {
+            if (end.Year == start.Year) { return end.DayOfYear - start.DayOfYear; }
+
+            start.Unpack(out int y0, out int doy0);
+            end.Unpack(out int y1, out int doy1);
+
+            return Schema.CountDaysSinceEpoch(y1, doy1) - Schema.CountDaysSinceEpoch(y0, doy0);
+        }
     }
 
     internal partial class StandardArithmetic // Fast operations
