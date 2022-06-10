@@ -11,7 +11,7 @@ namespace Zorglub.Time.Core.Arithmetic
     /// Provides the core mathematical operations on dates within the Gregorian calendar.
     /// <para>This class cannot be inherited.</para>
     /// </summary>
-    internal sealed partial class GregorianArithmetic : FastArithmetic
+    internal sealed partial class GregorianArithmetic : StandardArithmetic
     {
         /// <summary>
         /// Represents the earliest supported year.
@@ -30,15 +30,11 @@ namespace Zorglub.Time.Core.Arithmetic
         /// </summary>
         public GregorianArithmetic(GregorianSchema schema) : base(schema)
         {
+            Debug.Assert(schema != null);
             Debug.Assert(MinYear == MinSupportedYear);
             Debug.Assert(MaxYear == MaxSupportedYear);
+            Debug.Assert(Solar.MinDaysInMonth >= MinMinDaysInMonth);
         }
-
-        ///// <inheritdoc />
-        //public override int MaxDaysViaDayOfYear => Solar.MinDaysInYear;
-
-        ///// <inheritdoc />
-        //public override int MaxDaysViaDayOfMonth => Solar.MinDaysInMonth;
     }
 
     internal partial class GregorianArithmetic // Operations on Yemoda

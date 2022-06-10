@@ -225,7 +225,7 @@ namespace Zorglub.Time.Core
                     arithmetic = new LunisolarArithmetic(this);
                     return true;
                 default:
-                    if (MinDaysInMonth >= FastArithmetic.MinMinDaysInMonth)
+                    if (MinDaysInMonth >= StandardArithmetic.MinMinDaysInMonth)
                     {
                         arithmetic = new PlainFastArithmetic(this);
                         return true;

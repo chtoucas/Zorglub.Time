@@ -51,15 +51,6 @@ namespace Zorglub.Time.Simple
     /// </summary>
     public partial class Calendar : ICalendar
     {
-        // TODO(code): to be removed, we are going to allow schemas with a
-        // virtual thirteenth month.
-        /// <summary>
-        /// Represents the absolute minimum value admissible for the minimum total number of days
-        /// there is at least in a month.
-        /// <para>This field is a constant equal to 7.</para>
-        /// </summary>
-        public const int MinMinDaysInMonth = FastArithmetic.MinMinDaysInMonth;
-
         /// <summary>
         /// Represents the integer value of the day of the week of the epoch of the calendar.
         /// <para>This field is read-only.</para>

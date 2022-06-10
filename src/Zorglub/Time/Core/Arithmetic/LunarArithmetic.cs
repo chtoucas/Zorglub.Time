@@ -10,7 +10,7 @@ namespace Zorglub.Time.Core.Arithmetic
     /// <see cref="CalendricalProfile.Lunar"/>.
     /// <para>This class cannot be inherited.</para>
     /// </summary>
-    internal sealed partial class LunarArithmetic : FastArithmetic
+    internal sealed partial class LunarArithmetic : StandardArithmetic
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="LunarArithmetic"/> class with the specified
@@ -25,15 +25,10 @@ namespace Zorglub.Time.Core.Arithmetic
         public LunarArithmetic(CalendricalSchema schema) : base(schema)
         {
             Debug.Assert(schema != null);
+            Debug.Assert(Lunar.MinDaysInMonth >= MinMinDaysInMonth);
 
             Requires.Profile(schema, CalendricalProfile.Lunar);
         }
-
-        ///// <inheritdoc />
-        //public override int MaxDaysViaDayOfYear => Lunar.MinDaysInYear;
-
-        ///// <inheritdoc />
-        //public override int MaxDaysViaDayOfMonth => Lunar.MinDaysInMonth;
     }
 
     internal partial class LunarArithmetic // Operations on Yemoda

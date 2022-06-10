@@ -10,7 +10,7 @@ namespace Zorglub.Time.Core.Arithmetic
     /// <see cref="CalendricalProfile.Solar12"/> or <see cref="CalendricalProfile.Solar13"/>, and provides a
     /// base for derived classes.
     /// </summary>
-    internal abstract partial class SolarArithmetic : FastArithmetic
+    internal abstract partial class SolarArithmetic : StandardArithmetic
     {
         /// <summary>
         /// Called from constructors in derived classes to initialize the
@@ -24,16 +24,11 @@ namespace Zorglub.Time.Core.Arithmetic
         {
             // Disabled, otherwise we cannot test the derived constructors.
             // Not that important since this class is internal.
-            //Debug.Assert(schema != null);
+            Debug.Assert(schema != null);
+            Debug.Assert(Solar.MinDaysInMonth >= MinMinDaysInMonth);
             //Debug.Assert(schema.Profile == CalendricalProfile.Solar12
             //    || schema.Profile == CalendricalProfile.Solar13);
         }
-
-        ///// <inheritdoc />
-        //public sealed override int MaxDaysViaDayOfYear => Solar.MinDaysInYear;
-
-        ///// <inheritdoc />
-        //public sealed override int MaxDaysViaDayOfMonth => Solar.MinDaysInMonth;
     }
 
     internal partial class SolarArithmetic // Operations on Yemoda

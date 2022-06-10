@@ -9,7 +9,7 @@ namespace Zorglub.Time.Core.Arithmetic
     /// <see cref="FastArithmetic.MinMinDaysInMonth"/>.</para>
     /// <para>This class cannot be inherited.</para>
     /// </summary>
-    internal sealed partial class PlainFastArithmetic : FastArithmetic
+    internal sealed partial class PlainFastArithmetic : StandardArithmetic
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="PlainFastArithmetic"/> class.
@@ -21,7 +21,11 @@ namespace Zorglub.Time.Core.Arithmetic
         /// <exception cref="ArgumentException"><paramref name="schema"/> contains at least one
         /// month whose length is strictly less than <see cref="FastArithmetic.MinMinDaysInMonth"/>.
         /// </exception>
-        public PlainFastArithmetic(ICalendricalSchema schema) : base(schema) { }
+        public PlainFastArithmetic(ICalendricalSchema schema) : base(schema)
+        {
+            Debug.Assert(schema != null);
+            if (schema.MinDaysInMonth < MinMinDaysInMonth) Throw.Argument(nameof(schema));
+        }
     }
 
     internal partial class PlainFastArithmetic // Operations on Yemoda

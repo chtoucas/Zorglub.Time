@@ -6,6 +6,15 @@ namespace Zorglub.Time.Core.Arithmetic
     using Zorglub.Time.Core.Intervals;
     using Zorglub.Time.Core.Schemas;
 
+    // TODO(code):
+    // - explain MinMinDaysInMonth
+    // - SystemSchemaFacts
+    // - ArithmeticTests
+
+    // Keeping this class internal ensures that we have complete control on its
+    // instances. In particular, we make sure that none of them is used in
+    // a wrong context, meaning in a place where a different schema is expected.
+
     /// <summary>
     /// Defines the core mathematical operations on dates and provides a base for derived classes.
     /// </summary>
@@ -16,6 +25,15 @@ namespace Zorglub.Time.Core.Arithmetic
     /// </remarks>
     internal abstract partial class StandardArithmetic : ICalendricalArithmetic
     {
+        /// <summary>
+        /// Represents the absolute minimum value admissible for the minimum total number of days
+        /// there is at least in a month.
+        /// <para>This field is a constant equal to 7.</para>
+        /// </summary>
+        // The value has been chosen such that we can call AddDaysViaDayOfMonth()
+        // safely when adjusting the day of the week.
+        public const int MinMinDaysInMonth = 7;
+
         /// <summary>
         /// Called from constructors in derived classes to initialize the
         /// <see cref="StandardArithmetic"/> class.
@@ -119,7 +137,7 @@ namespace Zorglub.Time.Core.Arithmetic
 
                 // WARNING: if we change this, we MUST update
                 // CalendricalSchema.TryGetCustomArithmetic() too.
-                _ => schema.MinDaysInMonth >= FastArithmetic.MinMinDaysInMonth
+                _ => schema.MinDaysInMonth >= MinMinDaysInMonth
                     ? new PlainFastArithmetic(schema)
                     // We do not provide a fast arithmetic for schemas with a
                     // virtual thirteen month.
