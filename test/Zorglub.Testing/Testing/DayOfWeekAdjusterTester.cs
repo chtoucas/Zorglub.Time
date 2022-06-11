@@ -29,9 +29,8 @@ public sealed partial class DayOfWeekAdjusterTester<T> where T : IFixedDay<T>
     private readonly T day5;
     private readonly T day6;
     private readonly T day7;
-    // Désactivé pour le moment -> Nearest().
-    //private readonly T day8;
-    //private readonly T day9;
+    private readonly T day8;
+    private readonly T day9;
 
     private readonly DayOfWeek dow;
     private readonly DayOfWeek dow1;
@@ -58,8 +57,8 @@ public sealed partial class DayOfWeekAdjusterTester<T> where T : IFixedDay<T>
             day5 = add(day4, -1);
             day6 = add(day5, -1);
             day7 = add(day6, -1);
-            //day8 = add(day7, -1);
-            //day9 = add(day8, -1);
+            day8 = add(day7, -1);
+            day9 = add(day8, -1);
 
             dow1 = PreviousDayOfWeek(dow);
             dow2 = PreviousDayOfWeek(dow1);
@@ -77,8 +76,8 @@ public sealed partial class DayOfWeekAdjusterTester<T> where T : IFixedDay<T>
             day5 = add(day4, 1);
             day6 = add(day5, 1);
             day7 = add(day6, 1);
-            //day8 = add(day7, 1);
-            //day9 = add(day8, 1);
+            day8 = add(day7, 1);
+            day9 = add(day8, 1);
 
             dow1 = NextDayOfWeek(dow);
             dow2 = NextDayOfWeek(dow1);
@@ -231,13 +230,79 @@ public partial class DayOfWeekAdjusterTester<T> // Previous() & PreviousOrSame()
 
 public partial class DayOfWeekAdjusterTester<T> // Nearest()
 {
+    [Fact]
+    public void TestNearest()
+    {
+        // MinValue.
+        Assert.Equal(day, day.Nearest(dow));
+        Assert.Equal(day1, day.Nearest(dow1));
+        Assert.Equal(day2, day.Nearest(dow2));
+        Assert.Equal(day3, day.Nearest(dow3));
+        Assert.Overflows(() => day.Nearest(dow4));  // day - 3
+        Assert.Overflows(() => day.Nearest(dow5));  // day - 2
+        Assert.Overflows(() => day.Nearest(dow6));  // day - 1
+
+        // MinValue + 1.
+        Assert.Equal(day, day1.Nearest(dow));
+        Assert.Equal(day1, day1.Nearest(dow1));
+        Assert.Equal(day2, day1.Nearest(dow2));
+        Assert.Equal(day3, day1.Nearest(dow3));
+        Assert.Equal(day4, day1.Nearest(dow4));
+        Assert.Overflows(() => day1.Nearest(dow5)); // day - 2
+        Assert.Overflows(() => day1.Nearest(dow6)); // day - 1
+
+        // MinValue + 2.
+        Assert.Equal(day, day2.Nearest(dow));
+        Assert.Equal(day1, day2.Nearest(dow1));
+        Assert.Equal(day2, day2.Nearest(dow2));
+        Assert.Equal(day3, day2.Nearest(dow3));
+        Assert.Equal(day4, day2.Nearest(dow4));
+        Assert.Equal(day5, day2.Nearest(dow5));
+        Assert.Overflows(() => day2.Nearest(dow6)); // day - 1
+
+        // MinValue + 3.
+        Assert.Equal(day, day3.Nearest(dow));
+        Assert.Equal(day1, day3.Nearest(dow1));
+        Assert.Equal(day2, day3.Nearest(dow2));
+        Assert.Equal(day3, day3.Nearest(dow3));
+        Assert.Equal(day4, day3.Nearest(dow4));
+        Assert.Equal(day5, day3.Nearest(dow5));
+        Assert.Equal(day6, day3.Nearest(dow6));
+
+        // MinValue + 4.
+        Assert.Equal(day7, day4.Nearest(dow));      // day + 7
+        Assert.Equal(day1, day4.Nearest(dow1));
+        Assert.Equal(day2, day4.Nearest(dow2));
+        Assert.Equal(day3, day4.Nearest(dow3));
+        Assert.Equal(day4, day4.Nearest(dow4));
+        Assert.Equal(day5, day4.Nearest(dow5));
+        Assert.Equal(day6, day4.Nearest(dow6));
+
+        // MinValue + 5.
+        Assert.Equal(day7, day5.Nearest(dow));      // day + 7
+        Assert.Equal(day8, day5.Nearest(dow1));     // day + 8
+        Assert.Equal(day2, day5.Nearest(dow2));
+        Assert.Equal(day3, day5.Nearest(dow3));
+        Assert.Equal(day4, day5.Nearest(dow4));
+        Assert.Equal(day5, day5.Nearest(dow5));
+        Assert.Equal(day6, day5.Nearest(dow6));
+
+        // MinValue + 6.
+        Assert.Equal(day7, day6.Nearest(dow));      // day + 7
+        Assert.Equal(day8, day6.Nearest(dow1));     // day + 8
+        Assert.Equal(day9, day6.Nearest(dow2));     // day + 9
+        Assert.Equal(day3, day6.Nearest(dow3));
+        Assert.Equal(day4, day6.Nearest(dow4));
+        Assert.Equal(day5, day6.Nearest(dow5));
+        Assert.Equal(day6, day6.Nearest(dow6));
+    }
 }
 
 public partial class DayOfWeekAdjusterTester<T> // Next() & NextOrSame()
 {
     public void TestNextOrSame()
     {
-        if (!_testNext) { throw new InvalidOperationException(); }
+        if (_testNext == false) { throw new InvalidOperationException(); }
 
         Assert.Equal(day, day.NextOrSame(dow));
         Assert.Overflows(() => day.NextOrSame(dow1));
@@ -298,7 +363,7 @@ public partial class DayOfWeekAdjusterTester<T> // Next() & NextOrSame()
 
     public void TestNext()
     {
-        if (!_testNext) { throw new InvalidOperationException(); }
+        if (_testNext == false) { throw new InvalidOperationException(); }
 
         Assert.Overflows(() => day.Next(dow));
         Assert.Overflows(() => day.Next(dow1));

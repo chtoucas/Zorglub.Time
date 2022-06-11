@@ -127,6 +127,14 @@ public partial class IDateFacts<TDate, TDataSet> // Adjust the day of the week
         DayOfWeekAdjusterTester.NearMinValue(MinDate).TestPreviousOrSame();
 
     [Fact]
+    public void Nearest_NearMinValue() =>
+        DayOfWeekAdjusterTester.NearMinValue(MinDate).TestNearest();
+
+    [Fact]
+    public void Nearest_NearMaxValue() =>
+        DayOfWeekAdjusterTester.NearMaxValue(MaxDate).TestNearest();
+
+    [Fact]
     public void NextOrSame_NearMaxValue() =>
         DayOfWeekAdjusterTester.NearMaxValue(MaxDate).TestNextOrSame();
 

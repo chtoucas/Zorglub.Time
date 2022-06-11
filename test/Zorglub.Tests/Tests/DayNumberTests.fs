@@ -468,6 +468,14 @@ module DayOfWeekAdjustment =
         DayOfWeekAdjusterTester.NearMinValue(DayNumber.MinValue).TestPreviousOrSame()
 
     [<Fact>]
+    let ``Nearest() near DayNumber.MinValue`` () =
+        DayOfWeekAdjusterTester.NearMinValue(DayNumber.MinValue).TestNearest()
+
+    [<Fact>]
+    let ``Nearest() near DayNumber.MaxValue`` () =
+        DayOfWeekAdjusterTester.NearMaxValue(DayNumber.MaxValue).TestNearest()
+
+    [<Fact>]
     let ``NextOrSame() near DayNumber.MaxValue`` () =
         DayOfWeekAdjusterTester.NearMaxValue(DayNumber.MaxValue).TestNextOrSame()
 
@@ -531,18 +539,22 @@ module DayOfWeekAdjustment2 =
     // Arg check
     //
 
+    [<TestExcludeFrom(TestExcludeFrom.Regular)>]
     [<Theory; MemberData(nameof(invalidDayOfWeekData))>]
     let ``Before() throws when "dayOfWeek" is out of range`` dayOfWeek =
         outOfRangeExn "dayOfWeek" (fun () -> DayNumber.Zero.Before(dayOfWeek))
 
+    [<TestExcludeFrom(TestExcludeFrom.Regular)>]
     [<Theory; MemberData(nameof(invalidDayOfWeekData))>]
     let ``OnOrBefore() throws when "dayOfWeek" is out of range`` dayOfWeek =
         outOfRangeExn "dayOfWeek" (fun () -> DayNumber.Zero.OnOrBefore(dayOfWeek))
 
+    [<TestExcludeFrom(TestExcludeFrom.Regular)>]
     [<Theory; MemberData(nameof(invalidDayOfWeekData))>]
     let ``OnOrAfter() throws when "dayOfWeek" is out of range`` dayOfWeek =
         outOfRangeExn "dayOfWeek" (fun () -> DayNumber.Zero.OnOrAfter(dayOfWeek))
 
+    [<TestExcludeFrom(TestExcludeFrom.Regular)>]
     [<Theory; MemberData(nameof(invalidDayOfWeekData))>]
     let ``After() throws when "dayOfWeek" is out of range`` dayOfWeek =
         outOfRangeExn "dayOfWeek" (fun () -> DayNumber.Zero.After(dayOfWeek))
@@ -551,6 +563,7 @@ module DayOfWeekAdjustment2 =
     // Ajustments
     //
 
+    [<TestExcludeFrom(TestExcludeFrom.Regular)>]
     [<Theory; MemberData(nameof(beforeData))>]
     let ``Before()`` (info: YemodaPairAnd<DayOfWeek>) =
         let x, y, dayOfWeek = info.Deconstruct()
@@ -558,6 +571,7 @@ module DayOfWeekAdjustment2 =
 
         v.Before(dayOfWeek) === w
 
+    [<TestExcludeFrom(TestExcludeFrom.Regular)>]
     [<Theory; MemberData(nameof(onOrBeforeData))>]
     let ``OnOrBefore()`` (info: YemodaPairAnd<DayOfWeek>) =
         let x, y, dayOfWeek = info.Deconstruct()
@@ -565,6 +579,7 @@ module DayOfWeekAdjustment2 =
 
         v.OnOrBefore(dayOfWeek) === w
 
+    [<TestExcludeFrom(TestExcludeFrom.Regular)>]
     [<Theory; MemberData(nameof(onOrAfterData))>]
     let ``OnOrAfter()`` (info: YemodaPairAnd<DayOfWeek>) =
         let x, y, dayOfWeek = info.Deconstruct()
@@ -572,6 +587,7 @@ module DayOfWeekAdjustment2 =
 
         v.OnOrAfter(dayOfWeek) === w
 
+    [<TestExcludeFrom(TestExcludeFrom.Regular)>]
     [<Theory; MemberData(nameof(afterData))>]
     let ``After()`` (info: YemodaPairAnd<DayOfWeek>) =
         let x, y, dayOfWeek = info.Deconstruct()
