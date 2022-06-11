@@ -9,7 +9,7 @@ namespace Zorglub.Time.Core.Arithmetic
     /// <see cref="StandardArithmetic.MinMinDaysInMonth"/>.</para>
     /// <para>This class cannot be inherited.</para>
     /// </summary>
-    internal sealed partial class PlainFastArithmetic : StandardArithmetic
+    internal sealed partial class PlainFastArithmetic : PlainArithmetic
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="PlainFastArithmetic"/> class.
@@ -133,101 +133,6 @@ namespace Zorglub.Time.Core.Arithmetic
                 : y < MaxYear ? Yemoda.AtStartOfYear(y + 1)
                 // ... or overflow.
                 : Throw.DateOverflow<Yemoda>();
-        }
-
-        /// <inheritdoc />
-        [Pure]
-        public override Yemoda PreviousDay(Yemoda ymd)
-        {
-            ymd.Unpack(out int y, out int m, out int d);
-
-            return
-                // Same month, the day before.
-                d > 1 ? new Yemoda(y, m, d - 1)
-                // Same year, end of previous month.
-                : m > 1 ? PartsFactory.GetEndOfMonthParts(y, m - 1)
-                // End of previous year...
-                : y > MinYear ? PartsFactory.GetEndOfYearParts(y - 1)
-                // ... or overflow.
-                : Throw.DateOverflow<Yemoda>();
-        }
-    }
-
-    internal partial class PlainFastArithmetic // Operations on Yedoy
-    {
-        /// <inheritdoc />
-        [Pure]
-        public override Yedoy AddDays(Yedoy ydoy, int days)
-        {
-            // Fast track.
-            if (-MaxDaysViaDayOfYear <= days && days <= MaxDaysViaDayOfYear)
-            {
-                return AddDaysViaDayOfYear(ydoy, days);
-            }
-
-            ydoy.Unpack(out int y, out int doy);
-
-            // Slow track.
-            int daysSinceEpoch = checked(Schema.CountDaysSinceEpoch(y, doy) + days);
-            if (daysSinceEpoch < MinDaysSinceEpoch || daysSinceEpoch > MaxDaysSinceEpoch)
-            {
-                Throw.DateOverflow();
-            }
-
-            return PartsFactory.GetOrdinalParts(daysSinceEpoch);
-        }
-
-        /// <inheritdoc />
-        [Pure]
-        protected internal override Yedoy AddDaysViaDayOfYear(Yedoy ydoy, int days)
-        {
-            Debug.Assert(-MaxDaysViaDayOfYear <= days);
-            Debug.Assert(days <= MaxDaysViaDayOfYear);
-
-            ydoy.Unpack(out int y, out int doy);
-
-            // No need to use checked arithmetic here.
-            doy += days;
-            if (doy < 1)
-            {
-                if (y == MinYear) Throw.DateOverflow();
-                y--;
-                doy += Schema.CountDaysInYear(y);
-            }
-            else
-            {
-                int daysInYear = Schema.CountDaysInYear(y);
-                if (doy > daysInYear)
-                {
-                    if (y == MaxYear) Throw.DateOverflow();
-                    y++;
-                    doy -= daysInYear;
-                }
-            }
-
-            return new Yedoy(y, doy);
-        }
-
-        /// <inheritdoc />
-        [Pure]
-        public override Yedoy NextDay(Yedoy ydoy)
-        {
-            ydoy.Unpack(out int y, out int doy);
-
-            return doy < MaxDaysViaDayOfYear || doy < Schema.CountDaysInYear(y) ? new Yedoy(y, doy + 1)
-                : y < MaxYear ? Yedoy.AtStartOfYear(y + 1)
-                : Throw.DateOverflow<Yedoy>();
-        }
-
-        /// <inheritdoc />
-        [Pure]
-        public override Yedoy PreviousDay(Yedoy ydoy)
-        {
-            ydoy.Unpack(out int y, out int doy);
-
-            return doy > 1 ? new Yedoy(y, doy - 1)
-                : y > MinYear ? PartsFactory.GetEndOfYearOrdinalParts(y - 1)
-                : Throw.DateOverflow<Yedoy>();
         }
     }
 }

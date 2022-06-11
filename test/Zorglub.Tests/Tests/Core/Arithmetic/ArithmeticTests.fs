@@ -36,7 +36,7 @@ module Prelude =
     [<Fact>]
     let ``Constructor throws for null schema`` () =
         nullExn "schema" (fun () -> new CalendricalArithmetic(null))
-        nullExn "schema" (fun () -> new PlainArithmetic(null))
+        nullExn "schema" (fun () -> new PlainSlowArithmetic(null))
         nullExn "schema" (fun () -> new PlainFastArithmetic(null))
         nullExn "schema" (fun () -> new LunarArithmetic(null))
         nullExn "schema" (fun () -> new LunisolarArithmetic(null))
@@ -49,7 +49,7 @@ module Prelude =
         let sch = new FauxCalendricalSchema(range)
 
         argExn "schema" (fun () -> new CalendricalArithmetic(sch))
-        argExn "schema" (fun () -> new PlainArithmetic(sch))
+        argExn "schema" (fun () -> new PlainSlowArithmetic(sch))
         argExn "schema" (fun () -> new PlainFastArithmetic(sch))
         argExn "schema" (fun () -> new LunarArithmetic(sch))
         argExn "schema" (fun () -> new LunisolarArithmetic(sch))
@@ -88,11 +88,11 @@ module Factories =
     [<Fact>]
     let ``StandardArithmetic.Create()`` () =
         StandardArithmetic.Create(schemaOf<Coptic12Schema>())           |> is<Solar12Arithmetic>
-        StandardArithmetic.Create(schemaOf<Coptic13Schema>())           |> is<PlainArithmetic>
+        StandardArithmetic.Create(schemaOf<Coptic13Schema>())           |> is<PlainSlowArithmetic>
         StandardArithmetic.Create(schemaOf<Egyptian12Schema>())         |> is<Solar12Arithmetic>
-        StandardArithmetic.Create(schemaOf<Egyptian13Schema>())         |> is<PlainArithmetic>
+        StandardArithmetic.Create(schemaOf<Egyptian13Schema>())         |> is<PlainSlowArithmetic>
         StandardArithmetic.Create(schemaOf<FrenchRepublican12Schema>()) |> is<Solar12Arithmetic>
-        StandardArithmetic.Create(schemaOf<FrenchRepublican13Schema>()) |> is<PlainArithmetic>
+        StandardArithmetic.Create(schemaOf<FrenchRepublican13Schema>()) |> is<PlainSlowArithmetic>
         StandardArithmetic.Create(schemaOf<GregorianSchema>())          |> is<GregorianArithmetic>
         //StandardArithmetic.Create(schemaOf<HebrewSchema>())             |> is<LunisolarArithmetic>
         StandardArithmetic.Create(schemaOf<InternationalFixedSchema>()) |> is<Solar13Arithmetic>
@@ -105,12 +105,11 @@ module Factories =
         StandardArithmetic.Create(schemaOf<Tropicalia3130Schema>())     |> is<Solar12Arithmetic>
         StandardArithmetic.Create(schemaOf<WorldSchema>())              |> is<Solar12Arithmetic>
 
-// REVIEW(code): can we do better than that? I mean do it for all schemas. Sure,
-// but is it useful? Here we have to test it separetely because PlainArithmetic
-// and PlainFastArithmetic doe not use AddDaysViaDayOfMonth() internally.
-module PlainCase =
+// We have to test AddDaysViaDayOfMonth() separately because PlainSlowArithmetic
+// and PlainFastArithmetic do not use it internally.
+module PlainSlowCase =
     let private sch = schemaOf<GregorianSchema>()
-    let private ari = new PlainArithmetic(sch)
+    let private ari = new PlainSlowArithmetic(sch)
     let private wrapper = new ArithmeticWrapper(ari)
 
     let addDaysData = getAddDaysData ari
@@ -136,7 +135,7 @@ module PlainCase =
         wrapper.AddDaysViaDayOfMonth(date, days)   === other
         wrapper.AddDaysViaDayOfMonth(other, -days) === date
 
-module DefaultFastCase =
+module PlainFastCase =
     let private sch = schemaOf<GregorianSchema>()
     let private ari = new PlainFastArithmetic(sch)
     let private wrapper = new ArithmeticWrapper(ari)

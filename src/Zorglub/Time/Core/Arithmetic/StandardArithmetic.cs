@@ -127,26 +127,8 @@ namespace Zorglub.Time.Core.Arithmetic
                 CalendricalProfile.Lunar => new LunarArithmetic(schema),
                 CalendricalProfile.Lunisolar => new LunisolarArithmetic(schema),
 
-                _ => GetPlainArithmetic(schema)
+                _ => PlainArithmetic.Create(schema)
             };
-        }
-
-        /// <summary>
-        /// Creates the plain arithmetic engine.
-        /// </summary>
-        /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
-        [Pure]
-        public static StandardArithmetic GetPlainArithmetic(ICalendricalSchema schema)
-        {
-            Requires.NotNull(schema);
-
-            // WARNING: if we change this, we MUST update
-            // CalendricalSchema.TryGetCustomArithmetic() too.
-            return schema.MinDaysInMonth >= MinMinDaysInMonth
-                ? new PlainFastArithmetic(schema)
-                // We do not provide a fast arithmetic for schemas with a
-                // virtual thirteen month.
-                : new PlainArithmetic(schema);
         }
     }
 

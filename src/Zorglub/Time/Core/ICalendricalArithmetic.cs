@@ -14,15 +14,15 @@ namespace Zorglub.Time.Core
     // ICalendricalArithmetic
     // ├─ CalendricalArithmetic
     // └─ StandardArithmetic [A]
-    //    ├─ PlainArithmetic
-    //    └─ FastArithmetic [A]
-    //       ├─ GregorianArithmetic     (Gregorian-only)
-    //       ├─ LunarArithmetic         (CalendricalSchema)
-    //       ├─ LunisolarArithmetic     (CalendricalSchema)
-    //       ├─ PlainFastArithmetic
-    //       └─ SolarArithmetic [A]     (CalendricalSchema)
-    //          ├─ Solar12Arithmetic    (CalendricalSchema)
-    //          └─ Solar13Arithmetic    (CalendricalSchema)
+    //    ├─ GregorianArithmetic     (Gregorian-only)
+    //    ├─ LunarArithmetic         (CalendricalSchema)
+    //    ├─ LunisolarArithmetic     (CalendricalSchema)
+    //    ├─ PlainArithmetic [A]     (ICalendricalSchema)
+    //    │  ├─ PlainFastArithmetic  (ICalendricalSchema)
+    //    │  └─ PlainSlowArithmetic  (ICalendricalSchema)
+    //    └─ SolarArithmetic [A]     (CalendricalSchema)
+    //       ├─ Solar12Arithmetic    (CalendricalSchema)
+    //       └─ Solar13Arithmetic    (CalendricalSchema)
     //
     // Annotation: [A] = abstract
     //

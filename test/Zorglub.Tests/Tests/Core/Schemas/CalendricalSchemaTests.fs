@@ -49,16 +49,26 @@ module Prelude =
         validator2 === validator1
 
     [<Fact>]
-    let ``Property Arithmetic: default value, repeated`` () =
-        // The use of a custom value for MinDaysInMonth is necessary to get the
-        // "default" arithmetic.
+    let ``Property Arithmetic: default (fast) value, repeated`` () =
+        let sch = new FauxCalendricalSchema()
+
+        let arith1 = sch.Arithmetic
+        arith1 |> is<PlainFastArithmetic>
+
+        let arith2 = sch.Arithmetic
+        arith2 |> is<PlainFastArithmetic>
+
+        arith2 === arith1
+
+    [<Fact>]
+    let ``Property Arithmetic: default (slow) value, repeated`` () =
         let sch = FauxCalendricalSchema.WithMinDaysInMonth(5)
 
         let arith1 = sch.Arithmetic
-        arith1 |> is<PlainArithmetic>
+        arith1 |> is<PlainSlowArithmetic>
 
         let arith2 = sch.Arithmetic
-        arith2 |> is<PlainArithmetic>
+        arith2 |> is<PlainSlowArithmetic>
 
         arith2 === arith1
 

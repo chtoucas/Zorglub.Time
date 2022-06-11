@@ -40,6 +40,12 @@ let private verifyThatTryGetCustomArithmeticSucceeds<'a> (sch: SystemSchema) =
     passed |> ok
     arithmetic |> is<'a>
 
+let private verifyThatTryGetCustomArithmeticFails (sch: SystemSchema) =
+    let wrapper = new SchemaWrapper(sch)
+    let passed, arithmetic = wrapper.TryGetCustomArithmetic()
+    passed |> nok
+    arithmetic |> isnull
+
 [<Sealed>]
 type Coptic12Tests() =
     inherit SystemSchemaFacts<Coptic12DataSet>(syschemaOf<Coptic12Schema>())
@@ -70,7 +76,7 @@ type Coptic13Tests() =
     override x.PeriodicAdjustments_Prop() = x.SchemaUT.PeriodicAdjustments === CalendricalAdjustments.Days
     override x.Profile_Prop() = x.SchemaUT.Profile === CalendricalProfile.Other
     override x.PreValidator_Prop() = x.VerifyThatPreValidatorIs<PlainPreValidator>()
-    override x.Arithmetic_Prop() = x.VerifyThatArithmeticIs<PlainArithmetic>()
+    override x.Arithmetic_Prop() = x.VerifyThatArithmeticIs<PlainSlowArithmetic>()
     override x.IsRegular() = x.SchemaUT.IsRegular() === (true, 13)
     override x.TryGetCustomArithmetic() = x.VerifyThatTryGetCustomArithmeticFails()
 
@@ -105,7 +111,7 @@ type Egyptian13Tests() =
     override x.PeriodicAdjustments_Prop() = x.SchemaUT.PeriodicAdjustments === CalendricalAdjustments.None
     override x.Profile_Prop() = x.SchemaUT.Profile === CalendricalProfile.Other
     override x.PreValidator_Prop() = x.VerifyThatPreValidatorIs<PlainPreValidator>()
-    override x.Arithmetic_Prop() = x.VerifyThatArithmeticIs<PlainArithmetic>()
+    override x.Arithmetic_Prop() = x.VerifyThatArithmeticIs<PlainSlowArithmetic>()
     override x.IsRegular() = x.SchemaUT.IsRegular() === (true, 13)
     override x.TryGetCustomArithmetic() = x.VerifyThatTryGetCustomArithmeticFails()
 
@@ -131,7 +137,7 @@ type FrenchRepublican13Tests() =
     override x.PeriodicAdjustments_Prop() = x.SchemaUT.PeriodicAdjustments === CalendricalAdjustments.Days
     override x.Profile_Prop() = x.SchemaUT.Profile === CalendricalProfile.Other
     override x.PreValidator_Prop() = x.VerifyThatPreValidatorIs<PlainPreValidator>()
-    override x.Arithmetic_Prop() = x.VerifyThatArithmeticIs<PlainArithmetic>()
+    override x.Arithmetic_Prop() = x.VerifyThatArithmeticIs<PlainSlowArithmetic>()
     override x.IsRegular() = x.SchemaUT.IsRegular() === (true, 13)
     override x.TryGetCustomArithmetic() = x.VerifyThatTryGetCustomArithmeticFails()
 
@@ -237,8 +243,7 @@ type PaxTests() as self =
     member x.Profile_Prop() = x.SchemaUT.Profile === CalendricalProfile.Other
 
     [<Fact>]
-    member x.TryGetCustomArithmetic() =
-        verifyThatTryGetCustomArithmeticSucceeds<PlainFastArithmetic>(x.SchemaUT)
+    member x.TryGetCustomArithmetic() = verifyThatTryGetCustomArithmeticFails(x.SchemaUT)
 
 [<Sealed>]
 [<TestExcludeFrom(TestExcludeFrom.Smoke)>]

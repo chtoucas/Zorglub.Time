@@ -167,7 +167,7 @@ namespace Zorglub.Time.Core
         protected virtual ICalendricalArithmetic GetArithmeticCore() =>
             TryGetCustomArithmetic(out ICalendricalArithmetic? arithmetic)
             ? arithmetic
-            : StandardArithmetic.GetPlainArithmetic(this);
+            : PlainArithmetic.Create(this);
 
         /// <summary>
         /// Returns true if the construction of a specialized pre-validator for this schema was

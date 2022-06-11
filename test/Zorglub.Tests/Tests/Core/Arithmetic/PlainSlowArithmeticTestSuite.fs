@@ -1,7 +1,7 @@
 ﻿// SPDX-License-Identifier: BSD-3-Clause
 // Copyright (c) 2020 Narvalo.Org. All rights reserved.
 
-module Zorglub.Tests.Core.Arithmetic.PlainArithmeticTestSuite
+module Zorglub.Tests.Core.Arithmetic.PlainSlowArithmeticTestSuite
 
 open Zorglub.Testing
 open Zorglub.Testing.Data.Schemas
@@ -18,7 +18,7 @@ open Xunit
 // Since the Gregorian schema has the richest dataset, we use it as a default
 // model for testing.
 
-let private ariOf x = new PlainArithmetic(x) :> ICalendricalArithmetic
+let private ariOf x = new PlainSlowArithmetic(x) :> ICalendricalArithmetic
 
 [<Sealed>]
 [<RedundantTestBundle>]
@@ -27,8 +27,8 @@ type Coptic12Tests() =
 
 // Already tested in ArithmeticTestSuite.
 [<Fact>]
-let ``Default arithmetic for Coptic13Schema is PlainArithmetic`` () =
-    schemaOf<Coptic13Schema>().Arithmetic |> is<PlainArithmetic>
+let ``Default arithmetic for Coptic13Schema is PlainSlowArithmetic`` () =
+    schemaOf<Coptic13Schema>().Arithmetic |> is<PlainSlowArithmetic>
 
 [<Sealed>]
 [<RedundantTestBundle>]
@@ -37,8 +37,8 @@ type Egyptian12Tests() =
 
 // Already tested in ArithmeticTestSuite.
 [<Fact>]
-let ``Default arithmetic for Egyptian13Schema is PlainArithmetic`` () =
-    schemaOf<Egyptian13Schema>().Arithmetic |> is<PlainArithmetic>
+let ``Default arithmetic for Egyptian13Schema is PlainSlowArithmetic`` () =
+    schemaOf<Egyptian13Schema>().Arithmetic |> is<PlainSlowArithmetic>
 
 [<Sealed>]
 [<RedundantTestBundle>]
@@ -47,8 +47,8 @@ type FrenchRepublican12Tests() =
 
 // Already tested in ArithmeticTestSuite.
 [<Fact>]
-let ``Default arithmetic for FrenchRepublican13Schema is PlainArithmetic`` () =
-    schemaOf<FrenchRepublican13Schema>().Arithmetic |> is<PlainArithmetic>
+let ``Default arithmetic for FrenchRepublican13Schema is PlainSlowArithmetic`` () =
+    schemaOf<FrenchRepublican13Schema>().Arithmetic |> is<PlainSlowArithmetic>
 
 [<Sealed>]
 type GregorianTests() =
