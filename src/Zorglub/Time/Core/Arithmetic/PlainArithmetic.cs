@@ -5,8 +5,6 @@ namespace Zorglub.Time.Core.Arithmetic
 {
     using Zorglub.Time.Core.Intervals;
 
-    // REVIEW(code): checked or unchecked factory?
-
     // Even if PlainArithmetic does not derive from FastArithmetic, it includes
     // some of the optimisations found there, see for instance
     // AddDaysViaDayOfYear(), nevertheless this is hidden.

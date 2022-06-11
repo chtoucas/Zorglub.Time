@@ -167,7 +167,7 @@ namespace Zorglub.Time.Core
         protected virtual ICalendricalArithmetic GetArithmeticCore() =>
             TryGetCustomArithmetic(out ICalendricalArithmetic? arithmetic)
             ? arithmetic
-            : new PlainArithmetic(this);
+            : StandardArithmetic.GetPlainArithmetic(this);
 
         /// <summary>
         /// Returns true if the construction of a specialized pre-validator for this schema was
@@ -225,16 +225,8 @@ namespace Zorglub.Time.Core
                     arithmetic = new LunisolarArithmetic(this);
                     return true;
                 default:
-                    if (MinDaysInMonth >= StandardArithmetic.MinMinDaysInMonth)
-                    {
-                        arithmetic = new PlainFastArithmetic(this);
-                        return true;
-                    }
-                    else
-                    {
-                        arithmetic = null;
-                        return false;
-                    }
+                    arithmetic = null;
+                    return false;
             }
         }
 

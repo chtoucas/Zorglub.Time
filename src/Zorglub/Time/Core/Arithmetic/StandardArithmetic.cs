@@ -6,10 +6,8 @@ namespace Zorglub.Time.Core.Arithmetic
     using Zorglub.Time.Core.Intervals;
     using Zorglub.Time.Core.Schemas;
 
-    // TODO(code):
-    // - explain MinMinDaysInMonth
-    // - SystemSchemaFacts
-    // - ArithmeticTests
+    // TODO(code): better explanation for the meaning of MinMinDaysInMonth and
+    // MaxDaysViaDayOfMonth.
 
     // Keeping this class internal ensures that we have complete control on its
     // instances. In particular, we make sure that none of them is used in
@@ -20,8 +18,8 @@ namespace Zorglub.Time.Core.Arithmetic
     /// </summary>
     /// <remarks>
     /// <para>Operations are <i>lenient</i>, they assume that their parameters are valid from a
-    /// calendrical point of view, nevertheless they MUST ensure that all returned values are valid
-    /// when the previous condition is met.</para>
+    /// calendrical point of view. They MUST ensure that all returned values are valid when the
+    /// previous condition is met.</para>
     /// </remarks>
     internal abstract partial class StandardArithmetic : ICalendricalArithmetic
     {
@@ -50,7 +48,8 @@ namespace Zorglub.Time.Core.Arithmetic
             if (set.IsEmpty) Throw.Argument(nameof(schema));
             var supportedYears = set.Range;
 
-            // REVIEW(code): checked or unchecked factory?
+            // Notice the use of unchecked constructs, we assume that derived
+            // classes verify the data before calling a method of PartsFactory.
             PartsFactory = ICalendricalPartsFactory.Create(schema, @checked: false);
 
             SupportedYears = supportedYears;
@@ -101,20 +100,14 @@ namespace Zorglub.Time.Core.Arithmetic
         /// </summary>
         public int MaxDaysViaDayOfYear { get; }
 
-        // FIXME(doc): MaxDaysViaDayOfMonth.
-
         /// <summary>
         /// Gets the maximum absolute value for a parameter "days" for the method
         /// <see cref="AddDaysViaDayOfMonth(Yemoda, int)"/>.
         /// </summary>
-        /// <remarks>
-        /// <para>The value is guaranteed to be greater than or equal to
-        /// <see cref="MinMinDaysInMonth"/>.</para>
-        /// </remarks>
         public int MaxDaysViaDayOfMonth { get; }
 
         /// <summary>
-        /// Creates the default fast arithmetic engine.
+        /// Creates the default arithmetic engine.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
         [Pure]
@@ -134,14 +127,26 @@ namespace Zorglub.Time.Core.Arithmetic
                 CalendricalProfile.Lunar => new LunarArithmetic(schema),
                 CalendricalProfile.Lunisolar => new LunisolarArithmetic(schema),
 
-                // WARNING: if we change this, we MUST update
-                // CalendricalSchema.TryGetCustomArithmetic() too.
-                _ => schema.MinDaysInMonth >= MinMinDaysInMonth
-                    ? new PlainFastArithmetic(schema)
-                    // We do not provide a fast arithmetic for schemas with a
-                    // virtual thirteen month.
-                    : new PlainArithmetic(schema)
+                _ => GetPlainArithmetic(schema)
             };
+        }
+
+        /// <summary>
+        /// Creates the plain arithmetic engine.
+        /// </summary>
+        /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
+        [Pure]
+        public static StandardArithmetic GetPlainArithmetic(ICalendricalSchema schema)
+        {
+            Requires.NotNull(schema);
+
+            // WARNING: if we change this, we MUST update
+            // CalendricalSchema.TryGetCustomArithmetic() too.
+            return schema.MinDaysInMonth >= MinMinDaysInMonth
+                ? new PlainFastArithmetic(schema)
+                // We do not provide a fast arithmetic for schemas with a
+                // virtual thirteen month.
+                : new PlainArithmetic(schema);
         }
     }
 
@@ -217,8 +222,6 @@ namespace Zorglub.Time.Core.Arithmetic
         /// <para>This method is used to adjust the day of the week, which means that we must ensure
         /// that <see cref="MaxDaysViaDayOfMonth"/> is greater than or equal to 7.</para>
         /// </summary>
-        /// <exception cref="AoorException"><paramref name="days"/> is not in the range
-        /// [-<see cref="MaxDaysViaDayOfMonth"/>..<see cref="MaxDaysViaDayOfMonth"/>].</exception>
         /// <exception cref="OverflowException">The operation would overflow the range of supported
         /// values.</exception>
         [Pure] protected internal abstract Yemoda AddDaysViaDayOfMonth(Yemoda ymd, int days);
@@ -229,8 +232,6 @@ namespace Zorglub.Time.Core.Arithmetic
         /// <para><paramref name="days"/> MUST be in the range
         /// [-<see cref="MaxDaysViaDayOfYear"/>..<see cref="MaxDaysViaDayOfYear"/>].</para>
         /// </summary>
-        /// <exception cref="AoorException"><paramref name="days"/> is not in the range
-        /// [-<see cref="MaxDaysViaDayOfYear"/>..<see cref="MaxDaysViaDayOfYear"/>].</exception>
         /// <exception cref="OverflowException">The operation would overflow the range of supported
         /// values.</exception>
         [Pure] protected internal abstract Yedoy AddDaysViaDayOfYear(Yedoy ydoy, int days);
