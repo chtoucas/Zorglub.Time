@@ -4,7 +4,6 @@
 namespace Zorglub.Time.Simple
 {
     using Zorglub.Time.Core;
-    using Zorglub.Time.Core.Intervals;
 
     // REVIEW(api): difference, add Add(Period). NextMonth() & co. Week ops.
     // Quarter ops.

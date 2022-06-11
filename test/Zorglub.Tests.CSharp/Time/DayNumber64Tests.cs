@@ -3,8 +3,6 @@
 
 namespace Zorglub.Time;
 
-using System.Globalization;
-
 using Zorglub.Time.Core.Schemas;
 using Zorglub.Time.Hemerology;
 

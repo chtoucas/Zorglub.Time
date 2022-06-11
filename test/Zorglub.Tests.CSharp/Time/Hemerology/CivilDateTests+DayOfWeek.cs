@@ -3,8 +3,6 @@
 
 namespace Zorglub.Time.Hemerology;
 
-using Zorglub.Time.Core;
-
 using static Zorglub.Time.Extensions.CivilDateExtensions;
 
 public partial class CivilDateTests

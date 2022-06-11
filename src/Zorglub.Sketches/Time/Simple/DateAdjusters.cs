@@ -3,12 +3,6 @@
 
 namespace Zorglub.Time.Simple
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
-
     public static partial class DateAdjusters { }
 
     public partial class DateAdjusters // CalendarDate

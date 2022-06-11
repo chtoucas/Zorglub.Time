@@ -3,8 +3,6 @@
 
 namespace Zorglub.Time.Core.Arithmetic
 {
-    using Zorglub.Time.Core.Intervals;
-
     /// <summary>
     /// Defines a plain implementation for <see cref="SystemArithmetic"/> and provides a base for
     /// derived classes.

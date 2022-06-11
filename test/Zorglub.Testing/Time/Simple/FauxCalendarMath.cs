@@ -3,8 +3,6 @@
 
 namespace Zorglub.Time.Simple;
 
-using Zorglub.Time.Core.Intervals;
-
 public sealed partial class FauxCalendarMath : CalendarMath
 {
     public FauxCalendarMath() : this(new FauxUserCalendar(), default) { }

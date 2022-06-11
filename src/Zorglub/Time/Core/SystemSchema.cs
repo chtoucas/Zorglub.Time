@@ -3,7 +3,6 @@
 
 namespace Zorglub.Time.Core
 {
-    using Zorglub.Time.Core.Arithmetic;
     using Zorglub.Time.Core.Intervals;
 
     // Annotations

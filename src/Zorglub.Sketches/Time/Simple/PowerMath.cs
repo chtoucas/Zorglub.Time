@@ -3,7 +3,6 @@
 
 namespace Zorglub.Time.Simple
 {
-    using Zorglub.Time.Core;
     using Zorglub.Time.Core.Arithmetic;
 
     // TODO: custom factory for CalendricalMath.

@@ -3,7 +3,6 @@
 
 namespace Benchmarks.Micro;
 
-using Zorglub.Bulgroz.Formulae;
 using Zorglub.Time.Core.Schemas;
 
 public class GregorianSchema_CountDaysInYearBeforeMonth : GregorianSchemaBenchmark

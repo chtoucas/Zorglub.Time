@@ -3,8 +3,6 @@
 
 namespace Zorglub.Time.Hemerology;
 
-using Zorglub.Time.Core;
-
 // PlusDays(), CountDaysSince(), op_Addition, op_Subtraction.
 public partial class CivilDateTests
 {

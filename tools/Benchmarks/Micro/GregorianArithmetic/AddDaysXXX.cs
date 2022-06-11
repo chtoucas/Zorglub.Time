@@ -5,7 +5,6 @@ namespace Benchmarks.Micro;
 
 using Zorglub.Time.Core;
 using Zorglub.Time.Core.Arithmetic;
-using Zorglub.Time.Core.Schemas;
 
 // With short values of "days",
 //  1. AddDaysViaDayOfMonth()

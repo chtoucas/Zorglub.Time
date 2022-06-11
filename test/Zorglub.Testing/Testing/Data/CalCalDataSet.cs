@@ -4,7 +4,6 @@
 namespace Zorglub.Testing.Data;
 
 using System.Linq;
-using System.Threading;
 
 using Zorglub.Testing.Data.Schemas;
 using Zorglub.Time.Core.Intervals;
