@@ -60,7 +60,6 @@ public partial class WideCalendarTests // Properties
     }
 }
 
-// Validation.
 public partial class WideCalendarTests // Validation
 {
     [Fact]

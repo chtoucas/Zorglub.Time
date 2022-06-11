@@ -3,8 +3,7 @@
 
 namespace Zorglub.Time.Hemerology;
 
-// PlusDays(), CountDaysSince(), op_Addition, op_Subtraction.
-public partial class CivilDateTests
+public partial class CivilDateTests // CountDaysSince()
 {
     [Theory, MemberData(nameof(DayNumberInfoData))]
     public void CountDaysSince_Epoch(DayNumberInfo info)
@@ -19,8 +18,7 @@ public partial class CivilDateTests
     }
 }
 
-// PlusYears(), CountYearsSince().
-public partial class CivilDateTests
+public partial class CivilDateTests // PlusYears(), CountYearsSince()
 {
     [Fact]
     public static void PlusYears_OverflowOrUnderflow()
@@ -236,8 +234,7 @@ public partial class CivilDateTests
     }
 }
 
-// PlusMonths(), CountMonthsSince().
-public partial class CivilDateTests
+public partial class CivilDateTests // PlusMonths(), CountMonthsSince()
 {
     [Fact]
     public static void PlusMonths_OverflowOrUnderflow()
@@ -449,8 +446,7 @@ public partial class CivilDateTests
     }
 }
 
-// Subtract()
-public partial class CivilDateTests
+public partial class CivilDateTests // Subtract()
 {
     [Theory, MemberData(nameof(DateDiffData))]
     public static void Subtract(DateDiff info)
