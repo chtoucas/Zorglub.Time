@@ -441,7 +441,7 @@ namespace Zorglub.Time.Simple
             ref readonly var chr = ref CalendarRef;
             var nearest = chr.GetDayNumber(this).Nearest(dayOfWeek);
             chr.Domain.CheckOverflow(nearest);
-            var ymd = chr.Schema.GetDateParts(nearest - DayZero.NewStyle);
+            var ymd = chr.Schema.GetDateParts(nearest - chr.Epoch);
             return new CalendarDate(ymd, Cuid);
         }
 

@@ -405,7 +405,7 @@ namespace Zorglub.Time.Simple
             ref readonly var chr = ref CalendarRef;
             var nearest = chr.GetDayNumber(this).Nearest(dayOfWeek);
             chr.Domain.CheckOverflow(nearest);
-            var ydoy = chr.Schema.GetOrdinalParts(nearest - DayZero.NewStyle);
+            var ydoy = chr.Schema.GetOrdinalParts(nearest - chr.Epoch);
             return new OrdinalDate(ydoy, Cuid);
         }
 
