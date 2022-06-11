@@ -14,6 +14,19 @@ open Zorglub.Time.Core.Schemas
 
 open Xunit
 
+// Type to avoid the error FS0405 because AddDaysViaDayOfMonth() is a protected
+// internal method.
+[<Sealed>]
+type private ArithmeticWrapper(arithmetic: StandardArithmetic) =
+    member private __.Arithmetic = arithmetic
+    member x.AddDaysViaDayOfMonth(ymd, days) = x.Arithmetic.AddDaysViaDayOfMonth(ymd, days)
+
+let private getAddDaysData (ari: StandardArithmetic) =
+    let maxDaysViaDayOfMonth = ari.MaxDaysViaDayOfMonth
+    let filter = fun (x: YemodaPairAnd<int>) ->
+        -maxDaysViaDayOfMonth <= x.Value && x.Value <= maxDaysViaDayOfMonth
+    GregorianDataSet.Instance.AddDaysData.WhereT(filter)
+
 module Prelude =
     let badLunarProfile = FauxSystemSchema.NotLunar
     let badLunisolarProfile = FauxSystemSchema.NotLunisolar
@@ -25,7 +38,6 @@ module Prelude =
         nullExn "schema" (fun () -> new CalendricalArithmetic(null))
         nullExn "schema" (fun () -> new PlainArithmetic(null))
         nullExn "schema" (fun () -> new PlainFastArithmetic(null))
-        nullExn "schema" (fun () -> new GregorianArithmetic(null))
         nullExn "schema" (fun () -> new LunarArithmetic(null))
         nullExn "schema" (fun () -> new LunisolarArithmetic(null))
         nullExn "schema" (fun () -> new Solar12Arithmetic(null))
@@ -94,24 +106,14 @@ module Factories =
         StandardArithmetic.Create(schemaOf<WorldSchema>())              |> is<Solar12Arithmetic>
 
 // REVIEW(code): can we do better than that? I mean do it for all schemas. Sure,
-// but is it useful? Here we have to test it separetely because PlainFastArithmetic
-// does not use it internally.
+// but is it useful? Here we have to test it separetely because PlainArithmetic
+// and PlainFastArithmetic doe not use AddDaysViaDayOfMonth() internally.
 module PlainCase =
-    // Type to avoid the error FS0405 because AddDaysViaDayOfMonth() is a
-    // protected internal method.
-    [<Sealed>]
-    type private ArithmeticWrapper(arithmetic: PlainArithmetic) =
-        member private __.Arithmetic = arithmetic
-        member x.AddDaysViaDayOfMonth(ymd, days) = x.Arithmetic.AddDaysViaDayOfMonth(ymd, days)
-
     let private sch = schemaOf<GregorianSchema>()
     let private ari = new PlainArithmetic(sch)
     let private wrapper = new ArithmeticWrapper(ari)
 
-    let private maxDaysViaDayOfMonth = ari.MaxDaysViaDayOfMonth
-    let private filter = fun (x: YemodaPairAnd<int>) ->
-        -maxDaysViaDayOfMonth <= x.Value && x.Value <= maxDaysViaDayOfMonth
-    let addDaysData = GregorianDataSet.Instance.AddDaysData.WhereT(filter)
+    let addDaysData = getAddDaysData ari
 
     [<Fact>]
     let ``AddDaysViaDayOfMonth() overflows at the start of MinYear`` () =
@@ -135,21 +137,11 @@ module PlainCase =
         wrapper.AddDaysViaDayOfMonth(other, -days) === date
 
 module DefaultFastCase =
-    // Type to avoid the error FS0405 because AddDaysViaDayOfMonth() is a
-    // protected internal method.
-    [<Sealed>]
-    type private ArithmeticWrapper(arithmetic: PlainFastArithmetic) =
-        member private __.Arithmetic = arithmetic
-        member x.AddDaysViaDayOfMonth(ymd, days) = x.Arithmetic.AddDaysViaDayOfMonth(ymd, days)
-
     let private sch = schemaOf<GregorianSchema>()
     let private ari = new PlainFastArithmetic(sch)
     let private wrapper = new ArithmeticWrapper(ari)
 
-    let private maxDaysViaDayOfMonth = ari.MaxDaysViaDayOfMonth
-    let private filter = fun (x: YemodaPairAnd<int>) ->
-        -maxDaysViaDayOfMonth <= x.Value && x.Value <= maxDaysViaDayOfMonth
-    let addDaysData = GregorianDataSet.Instance.AddDaysData.WhereT(filter)
+    let addDaysData = getAddDaysData ari
 
     [<Fact>]
     let ``AddDaysViaDayOfMonth() overflows at the start of MinYear`` () =
@@ -173,8 +165,7 @@ module DefaultFastCase =
         wrapper.AddDaysViaDayOfMonth(other, -days) === date
 
 module GregorianCase =
-    let private sch = schemaOf<GregorianSchema>()
-    let private ari = new GregorianArithmetic(sch)
+    let private ari = new GregorianArithmetic()
 
     [<Fact>]
     let ``Property MaxDaysViaDayOfYear`` () =

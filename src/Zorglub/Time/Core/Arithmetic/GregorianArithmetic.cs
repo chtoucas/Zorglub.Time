@@ -28,9 +28,8 @@ namespace Zorglub.Time.Core.Arithmetic
         /// <summary>
         /// Initializes a new instance of the <see cref="GregorianArithmetic"/> class.
         /// </summary>
-        public GregorianArithmetic(GregorianSchema schema) : base(schema)
+        public GregorianArithmetic() : base(new GregorianSchema())
         {
-            Debug.Assert(schema != null);
             Debug.Assert(MinYear == MinSupportedYear);
             Debug.Assert(MaxYear == MaxSupportedYear);
             Debug.Assert(Solar.MinDaysInMonth >= MinMinDaysInMonth);

@@ -212,7 +212,7 @@ namespace Zorglub.Time.Core
             {
                 case CalendricalProfile.Solar12:
                     arithmetic =
-                        this is GregorianSchema gr ? new GregorianArithmetic(gr)
+                        this is GregorianSchema ? new GregorianArithmetic()
                         : new Solar12Arithmetic(this);
                     return true;
                 case CalendricalProfile.Solar13:

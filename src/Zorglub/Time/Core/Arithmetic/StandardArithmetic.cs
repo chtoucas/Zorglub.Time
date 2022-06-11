@@ -128,8 +128,7 @@ namespace Zorglub.Time.Core.Arithmetic
             return schema.Profile switch
             {
                 CalendricalProfile.Solar12 =>
-                    schema is GregorianSchema gr
-                    ? new GregorianArithmetic(gr)
+                    schema is GregorianSchema ? new GregorianArithmetic()
                     : new Solar12Arithmetic(schema),
                 CalendricalProfile.Solar13 => new Solar13Arithmetic(schema),
                 CalendricalProfile.Lunar => new LunarArithmetic(schema),

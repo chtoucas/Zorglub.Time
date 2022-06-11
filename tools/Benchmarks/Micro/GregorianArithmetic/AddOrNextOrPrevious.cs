@@ -9,7 +9,7 @@ using Zorglub.Time.Core.Schemas;
 
 public class GregorianArithmetic_AddOrNextOrPrevious : BenchmarkBase
 {
-    private static readonly GregorianArithmetic s_Arithmetic = new(new GregorianSchema());
+    private static readonly GregorianArithmetic s_Arithmetic = new();
     private static readonly Yemoda s_StartOfMonth = new(1777, 1, 1);
     private static readonly Yemoda s_MiddleOfMonth = new(1777, 11, 22); // 22 + 7 > MinDaysInMonth
     private static readonly Yemoda s_EndOfMonth = new(1777, 11, 31);
