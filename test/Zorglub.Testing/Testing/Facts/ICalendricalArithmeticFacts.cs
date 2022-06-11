@@ -141,6 +141,7 @@ public partial class ICalendricalArithmeticFacts<TArithmetic, TDataSet> // Yedoy
     // (AddDaysOrdinalData) for the following schemas:
     // - LunarArithmetic
     // - LunisolarArithmetic
+    // See also AddDays﹍Yemoda_ViaConsecutiveDays().
     //[RedundantTest]
     [Theory, MemberData(nameof(ConsecutiveDaysOrdinalData))]
     public void CountDaysBetween﹍Yedoy_ViaConsecutiveDays(YedoyPair pair)
