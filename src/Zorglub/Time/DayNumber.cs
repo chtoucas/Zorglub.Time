@@ -235,8 +235,9 @@ namespace Zorglub.Time
         #endregion
         #region Conversions
 
-        // REVIEW(code): not coverable? hum no, it should be, I was just tired.
         [Pure]
+        // We do actually test this method, but in Zorglub.Tests.CSharp.
+        [ExcludeFromCodeCoverage]
         static DayNumber IFixedDay<DayNumber>.FromDayNumber(DayNumber dayNumber) => dayNumber;
 
         [Pure]

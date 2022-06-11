@@ -3,8 +3,21 @@
 
 namespace Zorglub.Time;
 
+using Zorglub.Time.Hemerology;
+
 public static partial class DayNumberTests
 {
+    [Fact]
+    public static void FromDayNumber()
+    {
+        Test<DayNumber>(DayNumber.MinValue);
+        Test<DayNumber>(DayNumber.Zero);
+        Test<DayNumber>(DayNumber.MaxValue);
+
+        static void Test<T>(DayNumber x) where T : IFixedDay<DayNumber> =>
+            Assert.Equal(x, T.FromDayNumber(x));
+    }
+
     [Fact]
     public static void Op_Increment_Overflows_AtMaxValue()
     {
