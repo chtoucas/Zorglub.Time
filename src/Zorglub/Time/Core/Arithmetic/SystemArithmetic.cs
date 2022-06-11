@@ -21,7 +21,7 @@ namespace Zorglub.Time.Core.Arithmetic
     /// calendrical point of view. They MUST ensure that all returned values are valid when the
     /// previous condition is met.</para>
     /// </remarks>
-    internal abstract partial class StandardArithmetic : ICalendricalArithmetic
+    internal abstract partial class SystemArithmetic : ICalendricalArithmetic
     {
         /// <summary>
         /// Represents the absolute minimum value admissible for the minimum total number of days
@@ -34,13 +34,13 @@ namespace Zorglub.Time.Core.Arithmetic
 
         /// <summary>
         /// Called from constructors in derived classes to initialize the
-        /// <see cref="StandardArithmetic"/> class.
+        /// <see cref="SystemArithmetic"/> class.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
         /// <exception cref="ArgumentException">The range of supported years by
         /// <paramref name="schema"/> and <see cref="Yemoda.SupportedYears"/> are disjoint.
         /// </exception>
-        protected StandardArithmetic(ICalendricalSchema schema)
+        protected SystemArithmetic(ICalendricalSchema schema)
         {
             Schema = schema ?? throw new ArgumentNullException(nameof(schema));
 
@@ -111,7 +111,7 @@ namespace Zorglub.Time.Core.Arithmetic
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
         [Pure]
-        public static StandardArithmetic Create(CalendricalSchema schema)
+        public static SystemArithmetic Create(CalendricalSchema schema)
         {
             Requires.NotNull(schema);
 
@@ -132,7 +132,7 @@ namespace Zorglub.Time.Core.Arithmetic
         }
     }
 
-    internal partial class StandardArithmetic // ICalendricalArithmetic
+    internal partial class SystemArithmetic // ICalendricalArithmetic
     {
         //
         // Operations on Yemoda
@@ -185,7 +185,7 @@ namespace Zorglub.Time.Core.Arithmetic
         }
     }
 
-    internal partial class StandardArithmetic // Fast operations
+    internal partial class SystemArithmetic // Fast operations
     {
         // AddDaysViaDayOfYear().
         // Only when we know in advance that |days| <= MaxDaysViaDayOfYear.

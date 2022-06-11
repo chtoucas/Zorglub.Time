@@ -17,11 +17,11 @@ open Xunit
 // Type to avoid the error FS0405 because AddDaysViaDayOfMonth() is a protected
 // internal method.
 [<Sealed>]
-type private ArithmeticWrapper(arithmetic: StandardArithmetic) =
+type private ArithmeticWrapper(arithmetic: SystemArithmetic) =
     member private __.Arithmetic = arithmetic
     member x.AddDaysViaDayOfMonth(ymd, days) = x.Arithmetic.AddDaysViaDayOfMonth(ymd, days)
 
-let private getAddDaysData (ari: StandardArithmetic) =
+let private getAddDaysData (ari: SystemArithmetic) =
     let maxDaysViaDayOfMonth = ari.MaxDaysViaDayOfMonth
     let filter = fun (x: YemodaPairAnd<int>) ->
         -maxDaysViaDayOfMonth <= x.Value && x.Value <= maxDaysViaDayOfMonth
@@ -86,24 +86,24 @@ module Prelude =
 
 module Factories =
     [<Fact>]
-    let ``StandardArithmetic.Create()`` () =
-        StandardArithmetic.Create(schemaOf<Coptic12Schema>())           |> is<Solar12Arithmetic>
-        StandardArithmetic.Create(schemaOf<Coptic13Schema>())           |> is<PlainSlowArithmetic>
-        StandardArithmetic.Create(schemaOf<Egyptian12Schema>())         |> is<Solar12Arithmetic>
-        StandardArithmetic.Create(schemaOf<Egyptian13Schema>())         |> is<PlainSlowArithmetic>
-        StandardArithmetic.Create(schemaOf<FrenchRepublican12Schema>()) |> is<Solar12Arithmetic>
-        StandardArithmetic.Create(schemaOf<FrenchRepublican13Schema>()) |> is<PlainSlowArithmetic>
-        StandardArithmetic.Create(schemaOf<GregorianSchema>())          |> is<GregorianArithmetic>
-        //StandardArithmetic.Create(schemaOf<HebrewSchema>())             |> is<LunisolarArithmetic>
-        StandardArithmetic.Create(schemaOf<InternationalFixedSchema>()) |> is<Solar13Arithmetic>
-        StandardArithmetic.Create(schemaOf<JulianSchema>())             |> is<Solar12Arithmetic>
-        StandardArithmetic.Create(schemaOf<Persian2820Schema>())        |> is<Solar12Arithmetic>
-        StandardArithmetic.Create(schemaOf<PositivistSchema>())         |> is<Solar13Arithmetic>
-        StandardArithmetic.Create(schemaOf<TabularIslamicSchema>())     |> is<LunarArithmetic>
-        StandardArithmetic.Create(schemaOf<TropicaliaSchema>())         |> is<Solar12Arithmetic>
-        StandardArithmetic.Create(schemaOf<Tropicalia3031Schema>())     |> is<Solar12Arithmetic>
-        StandardArithmetic.Create(schemaOf<Tropicalia3130Schema>())     |> is<Solar12Arithmetic>
-        StandardArithmetic.Create(schemaOf<WorldSchema>())              |> is<Solar12Arithmetic>
+    let ``SystemArithmetic.Create()`` () =
+        SystemArithmetic.Create(schemaOf<Coptic12Schema>())           |> is<Solar12Arithmetic>
+        SystemArithmetic.Create(schemaOf<Coptic13Schema>())           |> is<PlainSlowArithmetic>
+        SystemArithmetic.Create(schemaOf<Egyptian12Schema>())         |> is<Solar12Arithmetic>
+        SystemArithmetic.Create(schemaOf<Egyptian13Schema>())         |> is<PlainSlowArithmetic>
+        SystemArithmetic.Create(schemaOf<FrenchRepublican12Schema>()) |> is<Solar12Arithmetic>
+        SystemArithmetic.Create(schemaOf<FrenchRepublican13Schema>()) |> is<PlainSlowArithmetic>
+        SystemArithmetic.Create(schemaOf<GregorianSchema>())          |> is<GregorianArithmetic>
+        //SystemArithmetic.Create(schemaOf<HebrewSchema>())             |> is<LunisolarArithmetic>
+        SystemArithmetic.Create(schemaOf<InternationalFixedSchema>()) |> is<Solar13Arithmetic>
+        SystemArithmetic.Create(schemaOf<JulianSchema>())             |> is<Solar12Arithmetic>
+        SystemArithmetic.Create(schemaOf<Persian2820Schema>())        |> is<Solar12Arithmetic>
+        SystemArithmetic.Create(schemaOf<PositivistSchema>())         |> is<Solar13Arithmetic>
+        SystemArithmetic.Create(schemaOf<TabularIslamicSchema>())     |> is<LunarArithmetic>
+        SystemArithmetic.Create(schemaOf<TropicaliaSchema>())         |> is<Solar12Arithmetic>
+        SystemArithmetic.Create(schemaOf<Tropicalia3031Schema>())     |> is<Solar12Arithmetic>
+        SystemArithmetic.Create(schemaOf<Tropicalia3130Schema>())     |> is<Solar12Arithmetic>
+        SystemArithmetic.Create(schemaOf<WorldSchema>())              |> is<Solar12Arithmetic>
 
 // We have to test AddDaysViaDayOfMonth() separately because PlainSlowArithmetic
 // and PlainFastArithmetic do not use it internally.

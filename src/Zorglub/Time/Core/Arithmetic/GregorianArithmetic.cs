@@ -11,7 +11,7 @@ namespace Zorglub.Time.Core.Arithmetic
     /// Provides the core mathematical operations on dates within the Gregorian calendar.
     /// <para>This class cannot be inherited.</para>
     /// </summary>
-    internal sealed partial class GregorianArithmetic : StandardArithmetic
+    internal sealed partial class GregorianArithmetic : SystemArithmetic
     {
         /// <summary>
         /// Represents the earliest supported year.

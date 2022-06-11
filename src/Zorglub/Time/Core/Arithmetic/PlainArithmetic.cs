@@ -6,11 +6,11 @@ namespace Zorglub.Time.Core.Arithmetic
     using Zorglub.Time.Core.Intervals;
 
     /// <summary>
-    /// Defines a plain implementation for <see cref="StandardArithmetic"/> and provides a base for
+    /// Defines a plain implementation for <see cref="SystemArithmetic"/> and provides a base for
     /// derived classes.
     /// <para>This class cannot be inherited.</para>
     /// </summary>
-    internal abstract partial class PlainArithmetic : StandardArithmetic
+    internal abstract partial class PlainArithmetic : SystemArithmetic
     {
         /// <summary>
         /// Called from constructors in derived classes to initialize the

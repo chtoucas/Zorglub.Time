@@ -10,7 +10,7 @@ namespace Zorglub.Time.Core.Arithmetic
     /// <see cref="CalendricalProfile.Lunisolar"/>.
     /// <para>This class cannot be inherited.</para>
     /// </summary>
-    internal sealed partial class LunisolarArithmetic : StandardArithmetic
+    internal sealed partial class LunisolarArithmetic : SystemArithmetic
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="LunisolarArithmetic"/> class with the

@@ -10,7 +10,7 @@ namespace Zorglub.Time.Core.Arithmetic
     /// <see cref="CalendricalProfile.Solar12"/> or <see cref="CalendricalProfile.Solar13"/>, and provides a
     /// base for derived classes.
     /// </summary>
-    internal abstract partial class SolarArithmetic : StandardArithmetic
+    internal abstract partial class SolarArithmetic : SystemArithmetic
     {
         /// <summary>
         /// Called from constructors in derived classes to initialize the

@@ -13,7 +13,7 @@ namespace Zorglub.Time.Core
     //
     // ICalendricalArithmetic
     // ├─ CalendricalArithmetic
-    // └─ StandardArithmetic [A]
+    // └─ SystemArithmetic [A]
     //    ├─ GregorianArithmetic     (Gregorian-only)
     //    ├─ LunarArithmetic         (CalendricalSchema)
     //    ├─ LunisolarArithmetic     (CalendricalSchema)
