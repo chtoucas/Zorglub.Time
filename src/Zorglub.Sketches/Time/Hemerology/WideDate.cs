@@ -403,7 +403,9 @@ namespace Zorglub.Time.Hemerology
         {
             var chr = Calendar;
             var nearest = chr.GetDayNumber(this).Nearest(dayOfWeek);
-            return chr.GetWideDateOn(nearest);
+            chr.Domain.CheckOverflow(nearest);
+            chr.Schema.GetDateParts(nearest - chr.Epoch, out int y, out int m, out int d);
+            return new WideDate(new Yemoda(y, m, d), Cuid);
         }
 
         /// <inheritdoc />
