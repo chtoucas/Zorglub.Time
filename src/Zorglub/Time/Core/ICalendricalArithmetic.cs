@@ -30,10 +30,10 @@ namespace Zorglub.Time.Core
     // ------------
     // Public:
     //   ICalendricalSchema.Arithmetic
-    //   SystemSchema.TryGetCustomArithmetic()
+    //   CalendricalSchema.TryGetCustomArithmetic()
     //
     // Internal:
-    //   FastArithmetic.Create(SystemSchema)
+    //   SystemArithmetic.Create(CalendricalSchema)
     //
     // Comments
     // --------
