@@ -102,6 +102,9 @@ public sealed class RedundantTestBundleAttribute : Attribute, ITraitAttribute
     public RedundantTestBundleAttribute() { }
 }
 
+// One SHOULD NOT use this attribute in a test bundle aka facts class: one should
+// use RedundantTest or something else that does not depend on the plan.
+// One exception: CodeCoverage is OK.
 [TraitDiscoverer(XunitTraitAssembly.TypePrefix + nameof(ExcludeFromTraitDiscoverer), XunitTraitAssembly.Name)]
 [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = true)]
 public sealed class TestExcludeFromAttribute : Attribute, ITraitAttribute
