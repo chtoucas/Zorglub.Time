@@ -1,30 +1,35 @@
 ﻿Summary
-  Generated on: 01/06/2022 - 12:40:28
+  Generated on: 11/06/2022 - 18:50:18
   Parser: OpenCover
   Assemblies: 1
-  Classes: 114
-  Files: 106
-  Line coverage: 98.7%
-  Covered lines: 5756
-  Uncovered lines: 71
-  Coverable lines: 5827
-  Total lines: 21660
+  Classes: 119
+  Files: 111
+  Line coverage: 99.3%
+  Covered lines: 5818
+  Uncovered lines: 36
+  Coverable lines: 5854
+  Total lines: 21797
 
-Zorglub.Time                                                    98.7%
+Zorglub.Time                                                    99.3%
   Zorglub.Time.AdditionRules                                   100.0%
   Zorglub.Time.CalendarIdExtensions                            100.0%
-  Zorglub.Time.Core.Arithmetic.FastArithmetic                  100.0%
   Zorglub.Time.Core.Arithmetic.GregorianArithmetic             100.0%
   Zorglub.Time.Core.Arithmetic.LunarArithmetic                 100.0%
   Zorglub.Time.Core.Arithmetic.LunisolarArithmetic             100.0%
   Zorglub.Time.Core.Arithmetic.PlainArithmetic                 100.0%
   Zorglub.Time.Core.Arithmetic.PlainFastArithmetic             100.0%
+  Zorglub.Time.Core.Arithmetic.PlainSlowArithmetic             100.0%
   Zorglub.Time.Core.Arithmetic.Solar12Arithmetic               100.0%
   Zorglub.Time.Core.Arithmetic.Solar13Arithmetic               100.0%
   Zorglub.Time.Core.Arithmetic.SolarArithmetic                 100.0%
+  Zorglub.Time.Core.Arithmetic.SystemArithmetic                100.0%
+  Zorglub.Time.Core.CalendricalArithmetic                      100.0%
+  Zorglub.Time.Core.CalendricalPartsFactoryChecked             100.0%
+  Zorglub.Time.Core.CalendricalPartsFactoryUnchecked           100.0%
   Zorglub.Time.Core.CalendricalPreValidator                    100.0%
   Zorglub.Time.Core.CalendricalSchema                          100.0%
   Zorglub.Time.Core.DoomsdayRule                               100.0%
+  Zorglub.Time.Core.ICalendricalPartsFactory                   100.0%
   Zorglub.Time.Core.Intervals.Interval                         100.0%
   Zorglub.Time.Core.Intervals.LowerRay                         100.0%
   Zorglub.Time.Core.Intervals.LowerRay<T>                      100.0%
@@ -118,7 +123,7 @@ Zorglub.Time                                                    98.7%
   Zorglub.Time.Simple.GregorianCalendar                        100.0%
   Zorglub.Time.Simple.JulianCalendar                           100.0%
   Zorglub.Time.Simple.OrdinalDate                              100.0%
-  Zorglub.Time.Simple.PlainMath                                 37.2%
+  Zorglub.Time.Simple.PlainMath                                 70.3%
   Zorglub.Time.Simple.Regular12Math                            100.0%
   Zorglub.Time.Simple.Regular13Math                            100.0%
   Zorglub.Time.Simple.RegularMath                              100.0%

@@ -1,47 +1,52 @@
 ﻿# Summary
 |||
 |:---|:---|
-| Generated on: | 01/06/2022 - 12:40:28 |
+| Generated on: | 11/06/2022 - 18:50:18 |
 | Parser: | OpenCover |
 | Assemblies: | 1 |
-| Classes: | 114 |
-| Files: | 106 |
-| Covered lines: | 5756 |
-| Uncovered lines: | 71 |
-| Coverable lines: | 5827 |
-| Total lines: | 21660 |
-| Line coverage: | 98.7% (5756 of 5827) |
-| Covered branches: | 1992 |
-| Total branches: | 2023 |
-| Branch coverage: | 98.4% (1992 of 2023) |
-| Covered methods: | 1569 |
-| Total methods: | 1577 |
-| Method coverage: | 99.4% (1569 of 1577) |
+| Classes: | 119 |
+| Files: | 111 |
+| Covered lines: | 5818 |
+| Uncovered lines: | 36 |
+| Coverable lines: | 5854 |
+| Total lines: | 21797 |
+| Line coverage: | 99.3% (5818 of 5854) |
+| Covered branches: | 2013 |
+| Total branches: | 2034 |
+| Branch coverage: | 98.9% (2013 of 2034) |
+| Covered methods: | 1589 |
+| Total methods: | 1592 |
+| Method coverage: | 99.8% (1589 of 1592) |
 
 |**Name**|**Covered**|**Uncovered**|**Coverable**|**Total**|**Line coverage**|**Covered**|**Total**|**Branch coverage**|**Covered**|**Total**|**Method coverage**|
 |:---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
-|**Zorglub.Time**|**5756**|**71**|**5827**|**24004**|**98.7%**|**1992**|**2023**|**98.4%**|**1569**|**1577**|**99.4%**|
-|Zorglub.Time.AdditionRules|14|0|14|192|100%|12|12|100%|4|4|100%|
+|**Zorglub.Time**|**5818**|**36**|**5854**|**24138**|**99.3%**|**2013**|**2034**|**98.9%**|**1589**|**1592**|**99.8%**|
+|Zorglub.Time.AdditionRules|14|0|14|193|100%|12|12|100%|4|4|100%|
 |Zorglub.Time.CalendarIdExtensions|12|0|12|82|100%|10|10|100%|2|2|100%|
-|Zorglub.Time.Core.Arithmetic.FastArithmetic|35|0|35|195|100%|11|11|100%|7|7|100%|
-|Zorglub.Time.Core.Arithmetic.GregorianArithmetic|138|0|138|251|100%|70|70|100%|13|13|100%|
-|Zorglub.Time.Core.Arithmetic.LunarArithmetic|138|0|138|243|100%|70|70|100%|13|13|100%|
-|Zorglub.Time.Core.Arithmetic.LunisolarArithmetic|138|0|138|244|100%|70|70|100%|13|13|100%|
-|Zorglub.Time.Core.Arithmetic.PlainArithmetic|120|0|120|273|100%|53|54|98.1%|10|10|100%|
-|Zorglub.Time.Core.Arithmetic.PlainFastArithmetic|141|0|141|265|100%|70|70|100%|13|13|100%|
-|Zorglub.Time.Core.Arithmetic.Solar12Arithmetic|53|0|53|91|100%|22|22|100%|3|3|100%|
-|Zorglub.Time.Core.Arithmetic.Solar13Arithmetic|53|0|53|91|100%|22|22|100%|3|3|100%|
-|Zorglub.Time.Core.Arithmetic.SolarArithmetic|88|0|88|181|100%|48|48|100%|11|11|100%|
+|Zorglub.Time.Core.Arithmetic.GregorianArithmetic|124|0|124|222|100%|66|66|100%|9|9|100%|
+|Zorglub.Time.Core.Arithmetic.LunarArithmetic|124|0|124|217|100%|66|66|100%|9|9|100%|
+|Zorglub.Time.Core.Arithmetic.LunisolarArithmetic|124|0|124|218|100%|66|66|100%|9|9|100%|
+|Zorglub.Time.Core.Arithmetic.PlainArithmetic|67|0|67|142|100%|34|34|100%|7|7|100%|
+|Zorglub.Time.Core.Arithmetic.PlainFastArithmetic|69|0|69|138|100%|36|36|100%|4|4|100%|
+|Zorglub.Time.Core.Arithmetic.PlainSlowArithmetic|22|0|22|67|100%|14|14|100%|4|4|100%|
+|Zorglub.Time.Core.Arithmetic.Solar12Arithmetic|52|0|52|93|100%|22|22|100%|3|3|100%|
+|Zorglub.Time.Core.Arithmetic.Solar13Arithmetic|52|0|52|93|100%|22|22|100%|3|3|100%|
+|Zorglub.Time.Core.Arithmetic.SolarArithmetic|76|0|76|156|100%|44|44|100%|7|7|100%|
+|Zorglub.Time.Core.Arithmetic.SystemArithmetic|49|0|49|221|100%|15|15|100%|13|13|100%|
+|Zorglub.Time.Core.CalendricalArithmetic|41|0|41|131|100%|12|12|100%|10|10|100%|
+|Zorglub.Time.Core.CalendricalPartsFactoryChecked|54|0|54|134|100%|14|14|100%|13|13|100%|
+|Zorglub.Time.Core.CalendricalPartsFactoryUnchecked|45|0|45|120|100%|2|2|100%|13|13|100%|
 |Zorglub.Time.Core.CalendricalPreValidator|22|0|22|70|100%|18|18|100%|4|4|100%|
-|Zorglub.Time.Core.CalendricalSchema|112|0|112|519|100%|49|49|100%|33|33|100%|
+|Zorglub.Time.Core.CalendricalSchema|129|0|129|546|100%|58|58|100%|34|34|100%|
 |Zorglub.Time.Core.DoomsdayRule|22|0|22|54|100%|4|4|100%|2|2|100%|
+|Zorglub.Time.Core.ICalendricalPartsFactory|3|0|3|131|100%|4|4|100%|1|1|100%|
 |Zorglub.Time.Core.Intervals.Interval|103|0|103|560|100%|66|66|100%|47|47|100%|
 |Zorglub.Time.Core.Intervals.LowerRay|11|0|11|59|100%|4|4|100%|3|3|100%|
 |Zorglub.Time.Core.Intervals.LowerRay`1|19|0|19|129|100%|2|2|100%|19|19|100%|
 |Zorglub.Time.Core.Intervals.Range|35|0|35|182|100%|2|2|100%|14|14|100%|
 |Zorglub.Time.Core.Intervals.Range`1|34|0|34|230|100%|18|18|100%|26|26|100%|
-|Zorglub.Time.Core.Intervals.RangeSet|12|0|12|185|100%|0|0||4|4|100%|
-|Zorglub.Time.Core.Intervals.RangeSet`1|18|0|18|185|100%|12|12|100%|10|10|100%|
+|Zorglub.Time.Core.Intervals.RangeSet|12|0|12|182|100%|0|0||4|4|100%|
+|Zorglub.Time.Core.Intervals.RangeSet`1|19|0|19|182|100%|10|10|100%|10|10|100%|
 |Zorglub.Time.Core.Intervals.UpperRay|11|0|11|56|100%|4|4|100%|3|3|100%|
 |Zorglub.Time.Core.Intervals.UpperRay`1|19|0|19|120|100%|2|2|100%|19|19|100%|
 |Zorglub.Time.Core.Schemas.Coptic12Schema|17|0|17|95|100%|2|2|100%|12|12|100%|
@@ -63,7 +68,7 @@
 |Zorglub.Time.Core.Schemas.TabularIslamicSchema|32|0|32|165|100%|14|14|100%|19|19|100%|
 |Zorglub.Time.Core.Schemas.TropicaliaSchema|50|0|50|135|100%|22|22|100%|9|9|100%|
 |Zorglub.Time.Core.Schemas.TropicalistaSchema|18|0|18|122|100%|4|4|100%|12|12|100%|
-|Zorglub.Time.Core.SystemSchema|86|0|86|417|100%|14|14|100%|23|23|100%|
+|Zorglub.Time.Core.SystemSchema|74|0|74|388|100%|10|10|100%|21|21|100%|
 |Zorglub.Time.Core.TemporalArithmetic|25|0|25|238|100%|0|0||6|6|100%|
 |Zorglub.Time.Core.Utilities.Box|10|0|10|158|100%|4|4|100%|3|3|100%|
 |Zorglub.Time.Core.Utilities.Box`1|18|0|18|158|100%|2|2|100%|6|6|100%|
@@ -90,7 +95,7 @@
 |Zorglub.Time.Core.Yemodax|83|0|83|363|100%|26|26|100%|23|23|100%|
 |Zorglub.Time.Core.Yemox|79|0|79|309|100%|24|24|100%|22|22|100%|
 |Zorglub.Time.DateParts|33|0|33|167|100%|10|10|100%|18|18|100%|
-|Zorglub.Time.DayNumber|181|0|181|774|100%|47|48|97.9%|55|55|100%|
+|Zorglub.Time.DayNumber|181|0|181|774|100%|48|48|100%|55|55|100%|
 |Zorglub.Time.DayZero|3|0|3|36|100%|0|0||1|1|100%|
 |Zorglub.Time.Extensions.DayOfWeekExtensions|4|0|4|24|100%|2|2|100%|1|1|100%|
 |Zorglub.Time.Extensions.Unboxing|14|0|14|58|100%|4|4|100%|2|2|100%|
@@ -115,23 +120,23 @@
 |Zorglub.Time.OrdinalParts|29|0|29|147|100%|6|6|100%|17|17|100%|
 |Zorglub.Time.Simple.ArmenianCalendar|13|0|13|301|100%|0|0||4|4|100%|
 |Zorglub.Time.Simple.BoxExtensions|21|0|21|92|100%|6|6|100%|3|3|100%|
-|Zorglub.Time.Simple.Calendar|247|0|247|806|100%|38|38|100%|61|61|100%|
-|Zorglub.Time.Simple.CalendarCatalog|156|17|173|623|90.1%|29|44|65.9%|21|21|100%|
-|Zorglub.Time.Simple.CalendarDate|237|0|237|726|100%|32|32|100%|72|72|100%|
+|Zorglub.Time.Simple.Calendar|247|0|247|797|100%|38|38|100%|61|61|100%|
+|Zorglub.Time.Simple.CalendarCatalog|156|17|173|617|90.1%|29|44|65.9%|21|21|100%|
+|Zorglub.Time.Simple.CalendarDate|239|0|239|728|100%|32|32|100%|72|72|100%|
 |Zorglub.Time.Simple.CalendarDay|193|0|193|658|100%|32|32|100%|66|66|100%|
-|Zorglub.Time.Simple.CalendarMath|74|0|74|364|100%|12|12|100%|19|19|100%|
-|Zorglub.Time.Simple.CalendarMonth|158|0|158|663|100%|20|20|100%|57|57|100%|
+|Zorglub.Time.Simple.CalendarMath|114|0|114|405|100%|30|30|100%|21|21|100%|
+|Zorglub.Time.Simple.CalendarMonth|162|0|162|675|100%|20|20|100%|58|58|100%|
 |Zorglub.Time.Simple.CalendarYear|145|0|145|752|100%|20|20|100%|52|52|100%|
 |Zorglub.Time.Simple.CopticCalendar|13|0|13|301|100%|0|0||4|4|100%|
 |Zorglub.Time.Simple.CuidExtensions|1|0|1|108|100%|0|0||1|1|100%|
 |Zorglub.Time.Simple.EthiopicCalendar|13|0|13|301|100%|0|0||4|4|100%|
 |Zorglub.Time.Simple.GregorianCalendar|19|0|19|301|100%|0|0||4|4|100%|
 |Zorglub.Time.Simple.JulianCalendar|19|0|19|301|100%|0|0||4|4|100%|
-|Zorglub.Time.Simple.OrdinalDate|235|0|235|668|100%|30|30|100%|69|69|100%|
-|Zorglub.Time.Simple.PlainMath|32|54|86|209|37.2%|6|20|30%|3|11|27.2%|
-|Zorglub.Time.Simple.Regular12Math|39|0|39|117|100%|2|2|100%|5|5|100%|
-|Zorglub.Time.Simple.Regular13Math|39|0|39|117|100%|2|2|100%|5|5|100%|
-|Zorglub.Time.Simple.RegularMath|34|0|34|105|100%|0|0||5|5|100%|
-|Zorglub.Time.Simple.RegularMathBase|57|0|57|167|100%|2|2|100%|8|8|100%|
+|Zorglub.Time.Simple.OrdinalDate|233|0|233|666|100%|30|30|100%|69|69|100%|
+|Zorglub.Time.Simple.PlainMath|45|19|64|171|70.3%|6|12|50%|5|8|62.5%|
+|Zorglub.Time.Simple.Regular12Math|46|0|46|106|100%|8|8|100%|5|5|100%|
+|Zorglub.Time.Simple.Regular13Math|46|0|46|106|100%|8|8|100%|5|5|100%|
+|Zorglub.Time.Simple.RegularMath|41|0|41|94|100%|6|6|100%|5|5|100%|
+|Zorglub.Time.Simple.RegularMathBase|37|0|37|92|100%|2|2|100%|5|5|100%|
 |Zorglub.Time.Simple.TabularIslamicCalendar|7|0|7|301|100%|0|0||2|2|100%|
 |Zorglub.Time.Simple.ZoroastrianCalendar|13|0|13|301|100%|0|0||4|4|100%|
