@@ -15,7 +15,7 @@ namespace Zorglub.Time.Simple
     /// <see cref="CalendarMath.Create(Calendar)"/>.</para>
     /// <para>This class cannot be inherited.</para>
     /// </summary>
-    public sealed class PlainMath : CalendarMath
+    internal sealed class PlainMath : CalendarMath
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="PlainMath"/> class.
@@ -163,7 +163,7 @@ namespace Zorglub.Time.Simple
                 // know the number of months in a leap-cycle. For instance, this
                 // is the case of Lunisolar calendars.
                 // Of course, if the calendar is regular, the loop can be
-                // replaced by a simple formula.
+                // replaced by a simple formula (see RegularMathXXX).
                 int months = Schema.CountMonthsInYear(y0) - m0;
                 for (int y = y0 + 1; y < y1; y++)
                 {
