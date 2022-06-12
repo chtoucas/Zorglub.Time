@@ -34,8 +34,6 @@ namespace Zorglub.Time.Core
     /// </summary>
     public partial interface ICalendricalPartsFactory
     {
-        // FIXME(api): Create() -> replace by a better API? One internal and one public.
-
         /// <summary>
         /// Creates a new <see cref="ICalendricalPartsFactory"/> instance.
         /// <para>When <paramref name="checked"/> is true, a method will throw if the result is not

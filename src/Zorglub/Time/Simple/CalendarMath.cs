@@ -5,14 +5,16 @@ namespace Zorglub.Time.Simple
 {
     using Zorglub.Time.Core;
 
-    // REVIEW(api): difference, add Add(Period). NextMonth() & co. Week ops.
-    // Quarter ops.
+    // FIXME(code): Impl PlainMath. Improve impl.
+    // Do we need stricter validation? or is YearOverflowChecker enough?
+    // Move AddMonths(CalendarMonth) and CountMonthsBetween() to Arithmetic.
+    // Create LunisolarMath (12 or 13 months in a year).
     //
     // Count...Between()
     // - Give definition in terms of addition <- therefore depends on the addition rules
     // - Default impl works if there is no extremely short years
     //
-    // Move AddMonths(CalendarMonth) and CountMonthsBetween() to Arithmetic.
+    // Difference, add Add(Period). NextMonth() & co. Week ops. Quarter ops.
     //
     // Add tests related to the warning below. Question: should we provide an
     // engine for which the operations always give the same result for dates and
@@ -94,7 +96,6 @@ namespace Zorglub.Time.Simple
             // The schema is not regular iff monthsInYear = 0.
             int monthsInYear = calendar.IsRegular(out int v) ? v : 0;
 
-            // TODO(code): create LunisolarMath (12 or 13 months in a year).
             return monthsInYear switch
             {
                 12 => new Regular12Math(calendar),

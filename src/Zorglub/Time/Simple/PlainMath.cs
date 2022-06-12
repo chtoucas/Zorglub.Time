@@ -3,9 +3,6 @@
 
 namespace Zorglub.Time.Simple
 {
-    // FIXME(code): impl PlainMath. Improve impl.
-    // Do we need stricter validation? or is YearOverflowChecker enough?
-
     using Zorglub.Time.Core;
 
     /// <summary>
