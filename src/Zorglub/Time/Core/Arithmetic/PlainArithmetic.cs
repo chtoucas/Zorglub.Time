@@ -29,12 +29,8 @@ namespace Zorglub.Time.Core.Arithmetic
         {
             Requires.NotNull(schema);
 
-            // WARNING: if we change this, we MUST update
-            // CalendricalSchema.TryGetCustomArithmetic() too.
             return schema.MinDaysInMonth >= MinMinDaysInMonth
                 ? new PlainFastArithmetic(schema)
-                // We do not provide a fast arithmetic for schemas with a
-                // virtual thirteen month.
                 : new PlainSlowArithmetic(schema);
         }
     }

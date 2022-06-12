@@ -69,10 +69,6 @@ namespace Zorglub.Time.Simple
             DefaultMath.AddMonthsCore(date, months);
 
         [Pure]
-        protected internal override int CountYearsBetweenCore(CalendarDate start, CalendarDate end) =>
-            DefaultMath.CountYearsBetweenCore(start, end);
-
-        [Pure]
         protected internal override int CountMonthsBetweenCore(CalendarDate start, CalendarDate end) =>
             DefaultMath.CountMonthsBetweenCore(start, end);
 
@@ -80,15 +76,9 @@ namespace Zorglub.Time.Simple
         // Operations on OrdinalDate
         //
 
-        /// <inheritdoc />
         [Pure]
         protected internal override OrdinalDate AddYearsCore(OrdinalDate date, int years) =>
             DefaultMath.AddYearsCore(date, years);
-
-        /// <inheritdoc />
-        [Pure]
-        protected internal override int CountYearsBetweenCore(OrdinalDate start, OrdinalDate end) =>
-            DefaultMath.CountYearsBetweenCore(start, end);
 
         //
         // Operations on CalendarMonth
@@ -101,10 +91,6 @@ namespace Zorglub.Time.Simple
         [Pure]
         protected internal override CalendarMonth AddMonthsCore(CalendarMonth month, int months) =>
             DefaultMath.AddMonthsCore(month, months);
-
-        [Pure]
-        protected internal override int CountYearsBetweenCore(CalendarMonth start, CalendarMonth end) =>
-            DefaultMath.CountYearsBetweenCore(start, end);
 
         [Pure]
         protected internal override int CountMonthsBetweenCore(CalendarMonth start, CalendarMonth end) =>

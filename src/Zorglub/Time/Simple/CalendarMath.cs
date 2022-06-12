@@ -10,11 +10,9 @@ namespace Zorglub.Time.Simple
     //
     // Count...Between()
     // - Give definition in terms of addition <- therefore depends on the addition rules
-    // - Remove virtual
     // - Default impl works if there is no extremely short years
     //
-    // The terminology is wrong: this class also contains standard ops for
-    // CalendarMonth, move AddMonths() and CountMonthsBetween() to Arithmetic?
+    // Move AddMonths(CalendarMonth) and CountMonthsBetween() to Arithmetic.
     //
     // Add tests related to the warning below. Question: should we provide an
     // engine for which the operations always give the same result for dates and
@@ -184,8 +182,7 @@ namespace Zorglub.Time.Simple
         /// <para>This method does NOT validate its parameters.</para>
         /// </summary>
         [Pure]
-        [SuppressMessage("Naming", "CA1716:Identifiers should not match keywords.", MessageId = "end", Justification = "F# & VB.NET End statement.")]
-        protected internal virtual int CountYearsBetweenCore(CalendarDate start, CalendarDate end)
+        protected internal int CountYearsBetweenCore(CalendarDate start, CalendarDate end)
         {
             Debug.Assert(start.Cuid == Cuid);
             Debug.Assert(end.Cuid == Cuid);
@@ -271,8 +268,7 @@ namespace Zorglub.Time.Simple
         /// <para>This method does NOT validate its parameters.</para>
         /// </summary>
         [Pure]
-        [SuppressMessage("Naming", "CA1716:Identifiers should not match keywords.", MessageId = "end", Justification = "F# & VB.NET End statement.")]
-        protected internal virtual int CountYearsBetweenCore(OrdinalDate start, OrdinalDate end)
+        protected internal int CountYearsBetweenCore(OrdinalDate start, OrdinalDate end)
         {
             Debug.Assert(start.Cuid == Cuid);
             Debug.Assert(end.Cuid == Cuid);
@@ -359,8 +355,7 @@ namespace Zorglub.Time.Simple
         /// <para>This method does NOT validate its parameters.</para>
         /// </summary>
         [Pure]
-        [SuppressMessage("Naming", "CA1716:Identifiers should not match keywords.", MessageId = "end", Justification = "F# & VB.NET End statement.")]
-        protected internal virtual int CountYearsBetweenCore(CalendarMonth start, CalendarMonth end)
+        protected internal int CountYearsBetweenCore(CalendarMonth start, CalendarMonth end)
         {
             Debug.Assert(start.Cuid == Cuid);
             Debug.Assert(end.Cuid == Cuid);

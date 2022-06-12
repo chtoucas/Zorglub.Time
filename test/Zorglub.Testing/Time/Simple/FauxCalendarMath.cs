@@ -3,7 +3,7 @@
 
 namespace Zorglub.Time.Simple;
 
-public sealed partial class FauxCalendarMath : CalendarMath
+public sealed class FauxCalendarMath : CalendarMath
 {
     public FauxCalendarMath() : this(new FauxUserCalendar(), default) { }
 
@@ -16,20 +16,18 @@ public sealed partial class FauxCalendarMath : CalendarMath
 
     public bool AddYearsCoreDateWasCalled { get; private set; }
     public bool AddMonthsCoreDateWasCalled { get; private set; }
-    public bool CountYearsBetweenCoreDateWasCalled { get; private set; }
     public bool CountMonthsBetweenCoreDateWasCalled { get; private set; }
 
     public bool AddYearsCoreOrdinalDateWasCalled { get; private set; }
-    public bool CountYearsBetweenCoreOrdinalDateWasCalled { get; private set; }
 
     public bool AddYearsCoreMonthWasCalled { get; private set; }
     public bool AddMonthsCoreMonthWasCalled { get; private set; }
-    public bool CountYearsBetweenCoreMonthWasCalled { get; private set; }
     public bool CountMonthsBetweenCoreMonthWasCalled { get; private set; }
-}
 
-public partial class FauxCalendarMath // CalendarDate
-{
+    //
+    // Operations on CalendarDate
+    //
+
     [Pure]
     protected internal override CalendarDate AddYearsCore(CalendarDate date, int years)
     { AddYearsCoreDateWasCalled = true; return date; }
@@ -39,27 +37,21 @@ public partial class FauxCalendarMath // CalendarDate
     { AddMonthsCoreDateWasCalled = true; return date; }
 
     [Pure]
-    protected internal override int CountYearsBetweenCore(CalendarDate start, CalendarDate end)
-    { CountYearsBetweenCoreDateWasCalled = true; return 0; }
-
-    [Pure]
     protected internal override int CountMonthsBetweenCore(CalendarDate start, CalendarDate end)
     { CountMonthsBetweenCoreDateWasCalled = true; return 0; }
-}
 
-public partial class FauxCalendarMath // OrdinalDate
-{
+    //
+    // Operations on OrdinalDate
+    //
+
     [Pure]
     protected internal override OrdinalDate AddYearsCore(OrdinalDate date, int years)
     { AddYearsCoreOrdinalDateWasCalled = true; return date; }
 
-    [Pure]
-    protected internal override int CountYearsBetweenCore(OrdinalDate start, OrdinalDate end)
-    { CountYearsBetweenCoreOrdinalDateWasCalled = true; return 0; }
-}
+    //
+    // Operations on CalendarMonth
+    //
 
-public partial class FauxCalendarMath // CalendarMonth
-{
     [Pure]
     protected internal override CalendarMonth AddYearsCore(CalendarMonth month, int years)
     { AddYearsCoreMonthWasCalled = true; return month; }
@@ -67,10 +59,6 @@ public partial class FauxCalendarMath // CalendarMonth
     [Pure]
     protected internal override CalendarMonth AddMonthsCore(CalendarMonth month, int months)
     { AddMonthsCoreMonthWasCalled = true; return month; }
-
-    [Pure]
-    protected internal override int CountYearsBetweenCore(CalendarMonth start, CalendarMonth end)
-    { CountYearsBetweenCoreMonthWasCalled = true; return 0; }
 
     [Pure]
     protected internal override int CountMonthsBetweenCore(CalendarMonth start, CalendarMonth end)

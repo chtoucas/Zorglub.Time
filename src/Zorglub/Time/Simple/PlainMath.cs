@@ -77,11 +77,12 @@ namespace Zorglub.Time.Simple
         [Pure]
         protected internal override CalendarDate AddMonthsCore(CalendarDate date, int months)
         {
-            var month = AddMonthsCore(date.CalendarMonth, months);
+            //var month = AddMonthsCore(date.CalendarMonth, months);
 
-            // NB: DateAdditionRule.EndOfMonth.
-            int d = Math.Min(date.Day, month.CountDaysInMonth());
-            return month.GetDayOfMonth(d);
+            //// NB: DateAdditionRule.EndOfMonth.
+            //int d = Math.Min(date.Day, month.CountDaysInMonth());
+            //return month.GetDayOfMonth(d);
+            throw new NotImplementedException();
         }
 
         /// <inheritdoc />
@@ -124,19 +125,20 @@ namespace Zorglub.Time.Simple
         [Pure]
         protected internal override int CountMonthsBetweenCore(CalendarDate start, CalendarDate end)
         {
-            int months = CountMonthsBetweenCore(start.CalendarMonth, end.CalendarMonth);
-            var newStart = AddMonthsCore(start, months);
+            //int months = CountMonthsBetweenCore(start.CalendarMonth, end.CalendarMonth);
+            //var newStart = AddMonthsCore(start, months);
 
-            if (start.CompareFast(end) < 0)
-            {
-                if (newStart.CompareFast(end) > 0) { months--; }
-            }
-            else
-            {
-                if (newStart.CompareFast(end) < 0) { months++; }
-            }
+            //if (start.CompareFast(end) < 0)
+            //{
+            //    if (newStart.CompareFast(end) > 0) { months--; }
+            //}
+            //else
+            //{
+            //    if (newStart.CompareFast(end) < 0) { months++; }
+            //}
 
-            return months;
+            //return months;
+            throw new NotImplementedException();
         }
 
         /// <inheritdoc />
@@ -152,12 +154,16 @@ namespace Zorglub.Time.Simple
 
             int CountCore(CalendarMonth start, CalendarMonth end)
             {
+                Debug.Assert(start < end);
+
                 start.Parts.Unpack(out int y0, out int m0);
                 end.Parts.Unpack(out int y1, out int m1);
 
                 // This can certainly be optimized for calendars for which we
                 // know the number of months in a leap-cycle. For instance, this
                 // is the case of Lunisolar calendars.
+                // Of course, if the calendar is regular, the loop can be
+                // replaced by a simple formula.
                 int months = Schema.CountMonthsInYear(y0) - m0;
                 for (int y = y0 + 1; y < y1; y++)
                 {

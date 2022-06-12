@@ -186,12 +186,6 @@ module Core =
         math.AddMonthsCoreDateWasCalled |> ok
 
     [<Fact>]
-    let ``CountYearsBetween(date) calls CountYearsBetweenCore()`` () =
-        math.CountYearsBetweenCoreDateWasCalled |> nok
-        math.CountYearsBetween(date, otherDate) |> ignore
-        math.CountYearsBetweenCoreDateWasCalled |> ok
-
-    [<Fact>]
     let ``CountMonthsBetween(date) calls CountMonthsBetweenCore()`` () =
         math.CountMonthsBetweenCoreDateWasCalled |> nok
         math.CountMonthsBetween(date, otherDate) |> ignore
@@ -206,12 +200,6 @@ module Core =
         math.AddYearsCoreOrdinalDateWasCalled |> nok
         math.AddYears(ordinalDate, 1000)      |> ignore
         math.AddYearsCoreOrdinalDateWasCalled |> ok
-
-    [<Fact>]
-    let ``CountYearsBetween(ordinal date) calls CountYearsBetweenCore()`` () =
-        math.CountYearsBetweenCoreOrdinalDateWasCalled        |> nok
-        math.CountYearsBetween(ordinalDate, otherOrdinalDate) |> ignore
-        math.CountYearsBetweenCoreOrdinalDateWasCalled        |> ok
 
     //
     // CalendarMonth
@@ -228,12 +216,6 @@ module Core =
         math.AddMonthsCoreMonthWasCalled |> nok
         math.AddMonths(month, 1000)      |> ignore
         math.AddMonthsCoreMonthWasCalled |> ok
-
-    [<Fact>]
-    let ``CountYearsBetween(month) calls CountYearsBetweenCore()`` () =
-        math.CountYearsBetweenCoreMonthWasCalled  |> nok
-        math.CountYearsBetween(month, otherMonth) |> ignore
-        math.CountYearsBetweenCoreMonthWasCalled  |> ok
 
     [<Fact>]
     let ``CountMonthsBetween(month) calls CountMonthsBetweenCore()`` () =

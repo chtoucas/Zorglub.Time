@@ -115,9 +115,6 @@ namespace Zorglub.Time.Core.Arithmetic
         {
             Requires.NotNull(schema);
 
-            // NB: there is no real gain to expect in trying to improve the perf
-            // for regular schemas. Not convinced? Check the code, we only
-            // call CountMonthsInYear() in two corner cases.
             return schema.Profile switch
             {
                 CalendricalProfile.Solar12 =>
@@ -127,6 +124,9 @@ namespace Zorglub.Time.Core.Arithmetic
                 CalendricalProfile.Lunar => new LunarArithmetic(schema),
                 CalendricalProfile.Lunisolar => new LunisolarArithmetic(schema),
 
+                // NB: there is no real gain to expect in trying to improve the
+                // perf for regular schemas. Not convinced? Check the code, we
+                // only call CountMonthsInYear() in two corner cases.
                 _ => PlainArithmetic.Create(schema)
             };
         }
