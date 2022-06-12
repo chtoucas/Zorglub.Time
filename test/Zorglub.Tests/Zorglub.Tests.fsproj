@@ -44,6 +44,7 @@
     <Compile Include="Tests\Core\Utilities\MathUTests.fs" />
     <Compile Include="Tests\Core\Utilities\MathZTests.fs" />
     <Compile Include="Tests\Core\Utilities\MathTTests.fs" />
+    <Compile Include="Tests\Core\Utilities\UnitTests.fs" />
     <Compile Include="Tests\Core\Utilities\OrderedPairTests.fs" />
     <Compile Include="Tests\Core\Utilities\BoxTests.fs" />
     <Compile Include="Tests\Core\Utilities\ReadOnlySetTests.fs" />
