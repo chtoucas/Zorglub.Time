@@ -661,9 +661,6 @@ virtual Zorglub.Time.Core.CalendricalSchema.CountDaysSinceEpoch(int y, int m, in
 virtual Zorglub.Time.Core.CalendricalSchema.GetArithmeticCore() -> Zorglub.Time.Core.ICalendricalArithmetic!
 virtual Zorglub.Time.Core.CalendricalSchema.GetDateParts(int daysSinceEpoch, out int y, out int m, out int d) -> void
 virtual Zorglub.Time.Core.CalendricalSchema.GetPreValidatorCore() -> Zorglub.Time.Core.ICalendricalPreValidator!
-virtual Zorglub.Time.Simple.CalendarMath.CountYearsBetweenCore(Zorglub.Time.Simple.CalendarDate start, Zorglub.Time.Simple.CalendarDate end) -> int
-virtual Zorglub.Time.Simple.CalendarMath.CountYearsBetweenCore(Zorglub.Time.Simple.CalendarMonth start, Zorglub.Time.Simple.CalendarMonth end) -> int
-virtual Zorglub.Time.Simple.CalendarMath.CountYearsBetweenCore(Zorglub.Time.Simple.OrdinalDate start, Zorglub.Time.Simple.OrdinalDate end) -> int
 Zorglub.Time.AdditionRules
 Zorglub.Time.AdditionRules.AdditionRules() -> void
 Zorglub.Time.AdditionRules.AdditionRules(Zorglub.Time.DateAdditionRule dateRule, Zorglub.Time.OrdinalAdditionRule ordinalRule, Zorglub.Time.MonthAdditionRule monthRule) -> void
@@ -1355,6 +1352,9 @@ Zorglub.Time.Simple.CalendarMath.CountMonthsBetween(Zorglub.Time.Simple.Calendar
 Zorglub.Time.Simple.CalendarMath.CountYearsBetween(Zorglub.Time.Simple.CalendarDate start, Zorglub.Time.Simple.CalendarDate end) -> int
 Zorglub.Time.Simple.CalendarMath.CountYearsBetween(Zorglub.Time.Simple.CalendarMonth start, Zorglub.Time.Simple.CalendarMonth end) -> int
 Zorglub.Time.Simple.CalendarMath.CountYearsBetween(Zorglub.Time.Simple.OrdinalDate start, Zorglub.Time.Simple.OrdinalDate end) -> int
+Zorglub.Time.Simple.CalendarMath.CountYearsBetweenCore(Zorglub.Time.Simple.CalendarDate start, Zorglub.Time.Simple.CalendarDate end) -> int
+Zorglub.Time.Simple.CalendarMath.CountYearsBetweenCore(Zorglub.Time.Simple.CalendarMonth start, Zorglub.Time.Simple.CalendarMonth end) -> int
+Zorglub.Time.Simple.CalendarMath.CountYearsBetweenCore(Zorglub.Time.Simple.OrdinalDate start, Zorglub.Time.Simple.OrdinalDate end) -> int
 Zorglub.Time.Simple.CalendarMath.Schema.get -> Zorglub.Time.Core.SystemSchema!
 Zorglub.Time.Simple.CalendarMonth
 Zorglub.Time.Simple.CalendarMonth.Adjust(System.Func<Zorglub.Time.MonthParts, Zorglub.Time.MonthParts>! adjuster) -> Zorglub.Time.Simple.CalendarMonth
@@ -1482,8 +1482,6 @@ Zorglub.Time.Simple.OrdinalDate.WithYear(int newYear) -> Zorglub.Time.Simple.Ord
 Zorglub.Time.Simple.OrdinalDate.Year.get -> int
 Zorglub.Time.Simple.OrdinalDate.YearOfCentury.get -> int
 Zorglub.Time.Simple.OrdinalDate.YearOfEra.get -> Zorglub.Time.Ord
-Zorglub.Time.Simple.PlainMath
-Zorglub.Time.Simple.PlainMath.PlainMath(Zorglub.Time.Simple.Calendar! calendar) -> void
 Zorglub.Time.Simple.TabularIslamicCalendar
 Zorglub.Time.Simple.ZoroastrianCalendar
 Zorglub.Time.Simple.ZoroastrianCalendar.IsEpagomenalDay(Zorglub.Time.Simple.CalendarDate date, out int epagomenalNumber) -> bool
