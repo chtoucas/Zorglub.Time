@@ -90,6 +90,7 @@ module Prelude =
     let ``Static property Zero`` () =
         DayNumber.Zero.DaysSinceZero === 0
         DayNumber.Zero.Ordinal === Ord.First
+        DayNumber.Zero.DayOfWeek === DayOfWeek.Monday
 
     [<Fact>]
     let ``Static property MinValue`` () =
@@ -156,15 +157,15 @@ module Prelude =
 module Factories =
     [<Fact>]
     let ``Today()`` () =
-        let today = CivilDate.Today()
+        let today = CivilDate.Today().ToDayNumber()
 
-        DayNumber.Today() === today.ToDayNumber()
+        DayNumber.Today() === today
 
     [<Fact>]
     let ``UtcToday()`` () =
-        let today = CivilDate.UtcToday()
+        let today = CivilDate.UtcToday().ToDayNumber()
 
-        DayNumber.UtcToday() === today.ToDayNumber()
+        DayNumber.UtcToday() === today
 
 module Conversions =
     [<Property>]
@@ -206,7 +207,7 @@ module GregorianConversion =
         outOfRangeExn "dayOfYear" (fun () -> DayNumber.FromGregorianOrdinalParts(y, doy))
 
     //
-    // Behaviour at the limits
+    // Overflows
     //
 
     [<Fact>]
@@ -220,6 +221,24 @@ module GregorianConversion =
         (fun () -> w.GetGregorianParts())        |> overflows
         (fun () -> w.GetGregorianOrdinalParts()) |> overflows
         (fun () -> w.GetGregorianYear())         |> overflows
+
+    //
+    // Remarkable values
+    //
+
+    [<Fact>]
+    let ``Date parts for DayNumber.Zero`` () =
+        let dayNumber = DayNumber.Zero
+
+        let ymd = dayNumber.GetGregorianParts()
+        ymd.Deconstruct() === (1, 1, 1)
+
+    [<Fact>]
+    let ``Ordinal parts for DayNumber.Zero`` () =
+        let dayNumber = DayNumber.Zero
+
+        let ymd = dayNumber.GetGregorianOrdinalParts()
+        ymd.Deconstruct() === (1, 1)
 
     [<Fact>]
     let ``Date parts for DayNumber.MinSupportedYear`` () =
@@ -331,7 +350,7 @@ module JulianConversion =
         outOfRangeExn "dayOfYear" (fun () -> DayNumber.FromJulianOrdinalParts(y, doy))
 
     //
-    // Behaviour at the limits
+    // Overflows
     //
 
     [<Fact>]
@@ -345,6 +364,24 @@ module JulianConversion =
         (fun () -> w.GetJulianParts())        |> overflows
         (fun () -> w.GetJulianOrdinalParts()) |> overflows
         (fun () -> w.GetJulianYear())         |> overflows
+
+    //
+    // Remarkable values
+    //
+
+    [<Fact>]
+    let ``Date parts for DayNumber.Zero - 2`` () =
+        let dayNumber = DayNumber.Zero - 2
+
+        let ymd = dayNumber.GetJulianParts()
+        ymd.Deconstruct() === (1, 1, 1)
+
+    [<Fact>]
+    let ``Ordinal parts for DayNumber.Zero - 2`` () =
+        let dayNumber = DayNumber.Zero - 2
+
+        let ymd = dayNumber.GetJulianOrdinalParts()
+        ymd.Deconstruct() === (1, 1)
 
     [<Fact>]
     let ``Date parts for DayNumber.MinSupportedYear`` () =

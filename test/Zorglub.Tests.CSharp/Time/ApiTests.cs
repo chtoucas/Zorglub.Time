@@ -1,12 +1,14 @@
 ﻿// SPDX-License-Identifier: BSD-3-Clause
 // Copyright (c) 2020 Narvalo.Org. All rights reserved.
 
-namespace Zorglub.Time.Core;
+namespace Zorglub.Time;
 
 using System.Linq;
 using System.Reflection;
 
-public static class MiscTests
+using Zorglub.Time.Core;
+
+public static class ApiTests
 {
     private static readonly IEnumerable<TypeInfo> s_DefinedTypes =
         typeof(ICalendricalSchema).Assembly.DefinedTypes;
