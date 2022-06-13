@@ -228,18 +228,6 @@ namespace Zorglub.Time.Core
     public partial interface ICalendricalSchema //
     {
         /// <summary>
-        /// Counts the number of consecutive months from the epoch to the first month of the
-        /// specified year.
-        /// </summary>
-        [Pure] int CountMonthsSinceEpochAtStartOfYear(int y);
-
-        /// <summary>
-        /// Counts the number of consecutive months from the epoch to the last month of the
-        /// specified year.
-        /// </summary>
-        [Pure] int CountMonthsSinceEpochAtEndOfYear(int y);
-
-        /// <summary>
         /// Counts the number of consecutive days from the epoch to the first day of the specified
         /// year.
         /// </summary>

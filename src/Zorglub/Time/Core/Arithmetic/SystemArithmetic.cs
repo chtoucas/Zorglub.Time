@@ -54,8 +54,7 @@ namespace Zorglub.Time.Core.Arithmetic
 
             SupportedYears = supportedYears;
             (MinYear, MaxYear) = supportedYears.Endpoints;
-            (MinMonthsSinceEpoch, MaxMonthsSinceEpoch) =
-                supportedYears.Endpoints.Select(schema.CountMonthsSinceEpochAtStartOfYear, schema.CountMonthsSinceEpochAtEndOfYear);
+            (MinMonthsSinceEpoch, MaxMonthsSinceEpoch) = new MonthsSinceEpochHelper(schema).Domain;
             (MinDaysSinceEpoch, MaxDaysSinceEpoch) =
                 supportedYears.Endpoints.Select(schema.GetStartOfYear, schema.GetEndOfYear);
 

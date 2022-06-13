@@ -471,8 +471,13 @@ namespace Zorglub.Time.Core
     {
         /// <inheritdoc />
         [Pure]
-        public virtual int CountMonthsSinceEpoch(int y, int m) =>
-            CountMonthsSinceEpochAtStartOfYear(y) + m - 1;
+        public virtual int CountMonthsSinceEpoch(int y, int m)
+        {
+            // FIXME(XXX)
+            if (IsRegular(out int monthsInYear) == false) throw new NotImplementedException();
+
+            return monthsInYear * (y - 1) + m - 1;
+        }
 
         /// <inheritdoc />
         [Pure]
@@ -536,21 +541,6 @@ namespace Zorglub.Time.Core
 
     public partial class CalendricalSchema //
     {
-        /// <inheritdoc />
-        [Pure]
-        public int CountMonthsSinceEpochAtStartOfYear(int y)
-        {
-            // FIXME(XXX)
-            if (IsRegular(out int monthsInYear) == false) throw new NotImplementedException();
-
-            return monthsInYear * (y - 1);
-        }
-
-        /// <inheritdoc />
-        [Pure]
-        public int CountMonthsSinceEpochAtEndOfYear(int y) =>
-            CountMonthsSinceEpochAtStartOfYear(y) + CountMonthsInYear(y) - 1;
-
         /// <inheritdoc />
         // Even if it is just CountDaysSinceEpoch(y, 1, 1), this method MUST
         // be implemented independently. Indeed, we use it to provide a default

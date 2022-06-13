@@ -267,7 +267,7 @@ namespace Zorglub.Time.Core
         }
 
         [Pure]
-        public virtual int CountMonthsSinceEpochAtStartOfYear(int y) =>
+        public virtual int CountMonthsSinceEpoch(int y, int m) =>
             // FIXME(XXX)
             throw new NotImplementedException();
 
@@ -315,10 +315,6 @@ namespace Zorglub.Time.Core
 #pragma warning disable CA1033 // Interface methods should be callable by child types (Design)
 
         [Pure]
-        int ICalendricalSchema.CountMonthsSinceEpoch(int y, int m) =>
-            CountMonthsSinceEpochAtStartOfYear(y) + m - 1;
-
-        [Pure]
         int ICalendricalSchema.CountDaysSinceEpoch(int y, int m, int d) =>
             GetStartOfYear(y) + CountDaysInYearBeforeMonth(y, m) + d - 1;
 
@@ -341,10 +337,6 @@ namespace Zorglub.Time.Core
         [Pure]
         int ICalendricalSchema.GetDayOfYear(int y, int m, int d) =>
             CountDaysInYearBeforeMonth(y, m) + d;
-
-        [Pure]
-        int ICalendricalSchema.CountMonthsSinceEpochAtEndOfYear(int y) =>
-            CountMonthsSinceEpochAtStartOfYear(y) + CountMonthsInYear(y) - 1;
 
         [Pure]
         int ICalendricalSchema.GetEndOfYear(int y) =>

@@ -12,13 +12,16 @@ namespace Zorglub.Time.Simple
     // Create LunisolarMath (12 or 13 months in a year)?
     // Better solution:
     // - Add CountMonthsSinceEpoch() and GetMonthParts() to schemas
+    //   MinMonthsInYear?
     //   Copy code here to CalendricalSchema, SystemSchema and ArchetypalSchema
     //   Later on, modify the interface, optimize the code
     // - Add month ops to CalendricalArithmetic
+    //   MaxMonthsViaMonthOfYear
     //   Should we create RegularArithmetic?
     // - Remove month ops from CalendarMath
     // - To be fixed:
-    //   * CalendricalSchema (partial impl) -> naming CountMonthsAt...()
+    //   * MonthsSinceEpochHelper
+    //   * CalendricalSchema (partial impl)
     //   * ArchetypalSchema (not impl)
     //   * SystemArithmetic (partial impl)
     //   * use Throw.MonthOverflow()
