@@ -309,6 +309,20 @@ namespace Zorglub.Time.Core
     public partial class CalendricalSchemaValidated //
     {
         [Pure]
+        public int CountMonthsAtStartOfYear(int y)
+        {
+            ValidateYear(y);
+            return Schema.CountMonthsAtStartOfYear(y);
+        }
+
+        [Pure]
+        public int CountMonthsAtEndOfYear(int y)
+        {
+            ValidateYear(y);
+            return Schema.CountMonthsAtEndOfYear(y);
+        }
+
+        [Pure]
         public int GetStartOfYear(int y)
         {
             ValidateYear(y);

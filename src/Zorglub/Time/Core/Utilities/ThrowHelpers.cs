@@ -362,6 +362,11 @@ namespace Zorglub.Time.Core.Utilities
 
     internal partial class ThrowHelpers // OverflowException
     {
+        /// <summary>The operation would overflow the range of supported months.</summary>
+        /// <exception cref="OverflowException"/>
+        [DoesNotReturn]
+        public static void MonthOverflow() => throw GetMonthOverflowExn();
+
         /// <summary>The operation would overflow the range of supported dates.</summary>
         /// <exception cref="OverflowException"/>
         [DoesNotReturn]
@@ -394,6 +399,10 @@ namespace Zorglub.Time.Core.Utilities
         public static void CatalogOverflow() => throw GetCatalogOverflowExn();
 
         #region Factories
+
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        private static OverflowException GetMonthOverflowExn() =>
+            new("The computation would overflow the range of supported months.");
 
         [MethodImpl(MethodImplOptions.NoInlining)]
         private static OverflowException GetDateOverflowExn() =>

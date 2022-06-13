@@ -144,14 +144,14 @@ public partial class PlainMathFacts<TDataSet> // CalendarMonth
         Assert.Equal(-ys, MathUT.CountYearsBetween(end, start));
     }
 
-    [Theory, MemberData(nameof(AddMonthsData))]
-    public void CountMonthsBetween﹍CalendarMonth(YemodaPairAnd<int> info)
-    {
-        int ms = info.Value;
-        var start = GetMonth(info.First);
-        var end = GetMonth(info.Second);
-        // Act & Assert
-        Assert.Equal(ms, MathUT.CountMonthsBetween(start, end));
-        Assert.Equal(-ms, MathUT.CountMonthsBetween(end, start));
-    }
+    //[Theory, MemberData(nameof(AddMonthsData))]
+    //public void CountMonthsBetween﹍CalendarMonth(YemodaPairAnd<int> info)
+    //{
+    //    int ms = info.Value;
+    //    var start = GetMonth(info.First);
+    //    var end = GetMonth(info.Second);
+    //    // Act & Assert
+    //    Assert.Equal(ms, MathUT.CountMonthsBetween(start, end));
+    //    Assert.Equal(-ms, MathUT.CountMonthsBetween(end, start));
+    //}
 }

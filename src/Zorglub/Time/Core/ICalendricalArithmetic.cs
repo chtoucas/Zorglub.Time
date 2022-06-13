@@ -98,8 +98,7 @@ namespace Zorglub.Time.Core
         //
 
         /// <summary>
-        /// Adds a number of days to the specified ordinal date, yielding a new
-        /// ordinal date.
+        /// Adds a number of days to the specified ordinal date, yielding a new ordinal date.
         /// </summary>
         /// <exception cref="OverflowException">The operation would overflow the range of supported
         /// values.</exception>
@@ -124,5 +123,36 @@ namespace Zorglub.Time.Core
         /// </summary>
         [SuppressMessage("Naming", "CA1716:Identifiers should not match keywords.", MessageId = "end", Justification = "F# & VB.NET End statement.")]
         [Pure] int CountDaysBetween(Yedoy start, Yedoy end);
+
+        //
+        // Operations on Yedoy
+        //
+
+        /// <summary>
+        /// Adds a number of months to the specified month, yielding a new month.
+        /// </summary>
+        /// <exception cref="OverflowException">The operation would overflow the range of supported
+        /// values.</exception>
+        [Pure] Yemo AddMonths(Yemo ym, int months);
+
+        /// <summary>
+        /// Obtains the month after the specified month.
+        /// </summary>
+        /// <exception cref="OverflowException">The operation would overflow the range of supported
+        /// values.</exception>
+        [Pure] Yemo NextMonth(Yemo ym);
+
+        /// <summary>
+        /// Obtains the month before the specified month.
+        /// </summary>
+        /// <exception cref="OverflowException">The operation would overflow the range of supported
+        /// values.</exception>
+        [Pure] Yemo PreviousMonth(Yemo ym);
+
+        /// <summary>
+        /// Counts the number of months between the two specified months.
+        /// </summary>
+        [SuppressMessage("Naming", "CA1716:Identifiers should not match keywords.", MessageId = "end", Justification = "F# & VB.NET End statement.")]
+        [Pure] int CountMonthsBetween(Yemo start, Yemo end);
     }
 }

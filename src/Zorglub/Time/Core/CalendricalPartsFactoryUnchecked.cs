@@ -28,6 +28,14 @@ namespace Zorglub.Time.Core
     {
         /// <inheritdoc />
         [Pure]
+        public Yemo GetMonthParts(int monthsSinceEpoch)
+        {
+            _schema.GetMonthParts(monthsSinceEpoch, out int y, out int m);
+            return new Yemo(y, m);
+        }
+
+        /// <inheritdoc />
+        [Pure]
         public Yemoda GetDateParts(int daysSinceEpoch)
         {
             _schema.GetDateParts(daysSinceEpoch, out int y, out int m, out int d);

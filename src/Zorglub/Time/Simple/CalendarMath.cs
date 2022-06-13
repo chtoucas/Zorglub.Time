@@ -14,12 +14,14 @@ namespace Zorglub.Time.Simple
     // - Add CountMonthsSinceEpoch() and GetMonthParts() to schemas
     //   Copy code here to CalendricalSchema, SystemSchema and ArchetypalSchema
     //   Later on, modify the interface, optimize the code
-    //   * CalendricalSchema (partial impl)
-    //   * ArchetypalSchema (not impl)
-    //   * CalendricalValidator (not impl)
     // - Add month ops to CalendricalArithmetic
     //   Should we create RegularArithmetic?
     // - Remove month ops from CalendarMath
+    // - To be fixed:
+    //   * CalendricalSchema (partial impl) -> naming CountMonthsAt...()
+    //   * ArchetypalSchema (not impl)
+    //   * SystemArithmetic (partial impl)
+    //   * use Throw.MonthOverflow()
     //
     // Count...Between()
     // - Give definition in terms of addition <- therefore depends on the addition rules

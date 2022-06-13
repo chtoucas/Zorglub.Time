@@ -50,6 +50,13 @@ namespace Zorglub.Time.Core
     public partial interface ICalendricalPartsFactory // Conversions
     {
         /// <summary>
+        /// Obtains the date parts for the specified month count (the number of consecutive months
+        /// from the epoch to a date).
+        /// </summary>
+        /// <exception cref="AoorException">The result is not representable by the system.</exception>
+        [Pure] Yemo GetMonthParts(int monthsSinceEpoch);
+
+        /// <summary>
         /// Obtains the date parts for the specified day count (the number of consecutive days from
         /// the epoch to a date).
         /// </summary>

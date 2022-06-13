@@ -23,6 +23,9 @@ namespace Zorglub.Time.Core
         /// </summary>
         private readonly int _maxYear;
 
+        private readonly int _minMonthsSinceEpoch;
+        private readonly int _maxMonthsSinceEpoch;
+
         private readonly int _minDaysSinceEpoch;
         private readonly int _maxDaysSinceEpoch;
 
@@ -50,6 +53,8 @@ namespace Zorglub.Time.Core
             (_minYear, _maxYear) = supportedYears.Endpoints;
             _preValidator = schema.PreValidator;
 
+            (_minMonthsSinceEpoch, _maxMonthsSinceEpoch) =
+                supportedYears.Endpoints.Select(schema.CountMonthsAtStartOfYear, schema.CountMonthsAtEndOfYear);
             (_minDaysSinceEpoch, _maxDaysSinceEpoch) =
                 supportedYears.Endpoints.Select(schema.GetStartOfYear, schema.GetEndOfYear);
         }
@@ -90,7 +95,10 @@ namespace Zorglub.Time.Core
         /// <exception cref="AoorException">The validation failed.</exception>
         public void ValidateMonthsSinceEpoch(int monthsSinceEpoch)
         {
-            throw new NotImplementedException();
+            if (monthsSinceEpoch < _minMonthsSinceEpoch || monthsSinceEpoch > _maxMonthsSinceEpoch)
+            {
+                Throw.ArgumentOutOfRange(nameof(monthsSinceEpoch));
+            }
         }
 
         /// <summary>

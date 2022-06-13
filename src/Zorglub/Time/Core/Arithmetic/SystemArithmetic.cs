@@ -54,6 +54,8 @@ namespace Zorglub.Time.Core.Arithmetic
 
             SupportedYears = supportedYears;
             (MinYear, MaxYear) = supportedYears.Endpoints;
+            (MinMonthsSinceEpoch, MaxMonthsSinceEpoch) =
+                supportedYears.Endpoints.Select(schema.CountMonthsAtStartOfYear, schema.CountMonthsAtEndOfYear);
             (MinDaysSinceEpoch, MaxDaysSinceEpoch) =
                 supportedYears.Endpoints.Select(schema.GetStartOfYear, schema.GetEndOfYear);
 
@@ -83,6 +85,16 @@ namespace Zorglub.Time.Core.Arithmetic
         /// Gets the latest supported year.
         /// </summary>
         protected int MaxYear { get; }
+
+        /// <summary>
+        /// Gets the minimum possible value for the number of consecutive months from the epoch.
+        /// </summary>
+        protected int MinMonthsSinceEpoch { get; }
+
+        /// <summary>
+        /// Gets the maximum possible value for the number of consecutive months from the epoch.
+        /// </summary>
+        protected int MaxMonthsSinceEpoch { get; }
 
         /// <summary>
         /// Gets the minimum possible value for the number of consecutive days from the epoch.
@@ -182,6 +194,44 @@ namespace Zorglub.Time.Core.Arithmetic
             end.Unpack(out int y1, out int doy1);
 
             return Schema.CountDaysSinceEpoch(y1, doy1) - Schema.CountDaysSinceEpoch(y0, doy0);
+        }
+
+        //
+        // Operations on Yemo
+        //
+        // FIXME(XXX)
+
+        /// <inheritdoc />
+        [Pure]
+        public Yemo AddMonths(Yemo ym, int months)
+        {
+            ym.Unpack(out int y, out int m);
+
+            int monthsSinceEpoch = checked(Schema.CountMonthsSinceEpoch(y, m) + months);
+            if (monthsSinceEpoch < MinMonthsSinceEpoch || monthsSinceEpoch > MaxMonthsSinceEpoch)
+            {
+                Throw.MonthOverflow();
+            }
+
+            return PartsFactory.GetMonthParts(monthsSinceEpoch);
+        }
+
+        /// <inheritdoc />
+        [Pure]
+        public Yemo NextMonth(Yemo ym) => AddMonths(ym, 1);
+
+        /// <inheritdoc />
+        [Pure]
+        public Yemo PreviousMonth(Yemo ym) => AddMonths(ym, -1);
+
+        /// <inheritdoc />
+        [Pure]
+        public int CountMonthsBetween(Yemo start, Yemo end)
+        {
+            start.Unpack(out int y0, out int m0);
+            end.Unpack(out int y1, out int m1);
+
+            return Schema.CountMonthsSinceEpoch(y1, m1) - Schema.CountMonthsSinceEpoch(y0, m0);
         }
     }
 
