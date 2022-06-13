@@ -1,5 +1,6 @@
 ﻿
-[![tests](https://github.com/chtoucas/Zorglub.Time/workflows/smoke/badge.svg)](https://github.com/chtoucas/Zorglub.Time/actions?query=workflow%3Asmoke)
+[![smoke](https://github.com/chtoucas/Zorglub.Time/workflows/smoke/badge.svg)](https://github.com/chtoucas/Zorglub.Time/actions?query=workflow%3Asmoke)
+[![test](https://github.com/chtoucas/Zorglub.Time/workflows/test/badge.svg)](https://github.com/chtoucas/Zorglub.Time/actions?query=workflow%3Atest)
 [![Coverlet](./test/coverage.svg)](./test/coverage.md)
 
 An experimental calendar library with a focus on calendrical calculations,
