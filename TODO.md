@@ -14,6 +14,7 @@ FIXME
   * PlainMath, tests for ordinal dates.
   * API for CalendarDay (PlusYears, PlusMonths?), humm no, use conversion to
     CalendarDate. We have the three forms of dates for that purpose.
+- NotImplementedException
 - Check all occurences of ICalendricalSchema and CalendricalSchema.
 - Parts and validation.
   Types concernés:
