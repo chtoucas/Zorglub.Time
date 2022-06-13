@@ -231,13 +231,13 @@ namespace Zorglub.Time.Core
         /// Counts the number of consecutive months from the epoch to the first month of the
         /// specified year.
         /// </summary>
-        [Pure] int CountMonthsAtStartOfYear(int y);
+        [Pure] int CountMonthsSinceEpochAtStartOfYear(int y);
 
         /// <summary>
         /// Counts the number of consecutive months from the epoch to the last month of the
         /// specified year.
         /// </summary>
-        [Pure] int CountMonthsAtEndOfYear(int y);
+        [Pure] int CountMonthsSinceEpochAtEndOfYear(int y);
 
         /// <summary>
         /// Counts the number of consecutive days from the epoch to the first day of the specified

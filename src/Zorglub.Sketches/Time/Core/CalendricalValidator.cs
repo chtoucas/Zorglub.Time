@@ -54,7 +54,7 @@ namespace Zorglub.Time.Core
             _preValidator = schema.PreValidator;
 
             (_minMonthsSinceEpoch, _maxMonthsSinceEpoch) =
-                supportedYears.Endpoints.Select(schema.CountMonthsAtStartOfYear, schema.CountMonthsAtEndOfYear);
+                supportedYears.Endpoints.Select(schema.CountMonthsSinceEpochAtStartOfYear, schema.CountMonthsSinceEpochAtEndOfYear);
             (_minDaysSinceEpoch, _maxDaysSinceEpoch) =
                 supportedYears.Endpoints.Select(schema.GetStartOfYear, schema.GetEndOfYear);
         }

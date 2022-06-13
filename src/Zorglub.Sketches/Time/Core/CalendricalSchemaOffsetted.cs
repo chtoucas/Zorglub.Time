@@ -133,9 +133,9 @@ namespace Zorglub.Time.Core
         [Pure] public int GetDayOfYear(int y, int m, int d) => _schema.GetDayOfYear(y - Offset, m, d);
 
         /// <inheritdoc />
-        [Pure] public int CountMonthsAtStartOfYear(int y) => _schema.CountMonthsAtStartOfYear(y - Offset);
+        [Pure] public int CountMonthsSinceEpochAtStartOfYear(int y) => _schema.CountMonthsSinceEpochAtStartOfYear(y - Offset);
         /// <inheritdoc />
-        [Pure] public int CountMonthsAtEndOfYear(int y) => _schema.CountMonthsAtEndOfYear(y - Offset);
+        [Pure] public int CountMonthsSinceEpochAtEndOfYear(int y) => _schema.CountMonthsSinceEpochAtEndOfYear(y - Offset);
         /// <inheritdoc />
         [Pure] public int GetStartOfYear(int y) => _schema.GetStartOfYear(y - Offset);
         /// <inheritdoc />

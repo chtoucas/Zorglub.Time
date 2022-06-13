@@ -472,7 +472,7 @@ namespace Zorglub.Time.Core
         /// <inheritdoc />
         [Pure]
         public virtual int CountMonthsSinceEpoch(int y, int m) =>
-            CountMonthsAtStartOfYear(y) + m - 1;
+            CountMonthsSinceEpochAtStartOfYear(y) + m - 1;
 
         /// <inheritdoc />
         [Pure]
@@ -538,7 +538,7 @@ namespace Zorglub.Time.Core
     {
         /// <inheritdoc />
         [Pure]
-        public int CountMonthsAtStartOfYear(int y)
+        public int CountMonthsSinceEpochAtStartOfYear(int y)
         {
             // FIXME(XXX)
             if (IsRegular(out int monthsInYear) == false) throw new NotImplementedException();
@@ -548,8 +548,8 @@ namespace Zorglub.Time.Core
 
         /// <inheritdoc />
         [Pure]
-        public int CountMonthsAtEndOfYear(int y) =>
-            CountMonthsAtStartOfYear(y) + CountMonthsInYear(y) - 1;
+        public int CountMonthsSinceEpochAtEndOfYear(int y) =>
+            CountMonthsSinceEpochAtStartOfYear(y) + CountMonthsInYear(y) - 1;
 
         /// <inheritdoc />
         // Even if it is just CountDaysSinceEpoch(y, 1, 1), this method MUST
