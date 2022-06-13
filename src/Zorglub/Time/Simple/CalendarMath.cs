@@ -7,8 +7,19 @@ namespace Zorglub.Time.Simple
 
     // FIXME(code): Impl PlainMath. Improve impl.
     // Do we need stricter validation? or is YearOverflowChecker enough?
-    // Move AddMonths(CalendarMonth) and CountMonthsBetween() to Arithmetic.
-    // Create LunisolarMath (12 or 13 months in a year).
+    //
+    // Move AddMonths(CalendarMonth) and CountMonthsBetween() to Arithmetic?
+    // Create LunisolarMath (12 or 13 months in a year)?
+    // Better solution:
+    // - Add CountMonthsSinceEpoch() and GetMonthParts() to schemas
+    //   Copy code here to CalendricalSchema, SystemSchema and ArchetypalSchema
+    //   Later on, modify the interface, optimize the code
+    //   * CalendricalSchema (partial impl)
+    //   * ArchetypalSchema (not impl)
+    //   * CalendricalValidator (not impl)
+    // - Add month ops to CalendricalArithmetic
+    //   Should we create RegularArithmetic?
+    // - Remove month ops from CalendarMath
     //
     // Count...Between()
     // - Give definition in terms of addition <- therefore depends on the addition rules
@@ -94,7 +105,7 @@ namespace Zorglub.Time.Simple
             // class has only two public method/prop: Calendar & AdditionRules.
 
             // The schema is not regular iff monthsInYear = 0.
-            int monthsInYear = calendar.IsRegular(out int v) ? v : 0;
+            _ = calendar.IsRegular(out int monthsInYear);
 
             return monthsInYear switch
             {
