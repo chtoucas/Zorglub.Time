@@ -59,6 +59,7 @@ namespace Zorglub.Time.Core
         protected abstract void ValidateYearMonth(int y, int m);
         protected abstract void ValidateYearMonthDay(int y, int m, int d);
         protected abstract void ValidateOrdinal(int y, int doy);
+        protected abstract void ValidateMonthsSinceEpoch(int monthsSinceEpoch);
         protected abstract void ValidateDaysSinceEpoch(int daysSinceEpoch);
 
         /// <summary>
@@ -82,6 +83,8 @@ namespace Zorglub.Time.Core
 
             protected override void ValidateOrdinal(int y, int doy) =>
                 PreValidator.ValidateDayOfYear(y, doy);
+
+            protected override void ValidateMonthsSinceEpoch(int monthsSinceEpoch) { }
 
             protected override void ValidateDaysSinceEpoch(int daysSinceEpoch) { }
         }
@@ -108,6 +111,9 @@ namespace Zorglub.Time.Core
 
             protected override void ValidateOrdinal(int y, int doy) =>
                 _validator.ValidateOrdinal(y, doy);
+
+            protected override void ValidateMonthsSinceEpoch(int monthsSinceEpoch) =>
+                _validator.ValidateMonthsSinceEpoch(monthsSinceEpoch);
 
             protected override void ValidateDaysSinceEpoch(int daysSinceEpoch) =>
                 _validator.ValidateDaysSinceEpoch(daysSinceEpoch);
@@ -246,6 +252,13 @@ namespace Zorglub.Time.Core
     public partial class CalendricalSchemaValidated // Conversions
     {
         [Pure]
+        public int CountMonthsSinceEpoch(int y, int m)
+        {
+            ValidateYearMonth(y, m);
+            return Schema.CountMonthsSinceEpoch(y, m);
+        }
+
+        [Pure]
         public int CountDaysSinceEpoch(int y, int m, int d)
         {
             ValidateYearMonthDay(y, m, d);
@@ -257,6 +270,12 @@ namespace Zorglub.Time.Core
         {
             ValidateOrdinal(y, doy);
             return Schema.CountDaysSinceEpoch(y, doy);
+        }
+
+        public void GetMonthParts(int monthsSinceEpoch, out int y, out int m)
+        {
+            ValidateMonthsSinceEpoch(monthsSinceEpoch);
+            Schema.GetMonthParts(monthsSinceEpoch, out y, out m);
         }
 
         public void GetDateParts(int daysSinceEpoch, out int y, out int m, out int d)

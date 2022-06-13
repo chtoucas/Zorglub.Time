@@ -85,6 +85,15 @@ namespace Zorglub.Time.Core
         }
 
         /// <summary>
+        /// Validates the specified number of consecutive months from the epoch.
+        /// </summary>
+        /// <exception cref="AoorException">The validation failed.</exception>
+        public void ValidateMonthsSinceEpoch(int monthsSinceEpoch)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
         /// Validates the specified number of consecutive days from the epoch.
         /// </summary>
         /// <exception cref="AoorException">The validation failed.</exception>

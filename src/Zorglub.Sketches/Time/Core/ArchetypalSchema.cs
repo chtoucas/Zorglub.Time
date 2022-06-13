@@ -310,12 +310,21 @@ namespace Zorglub.Time.Core
 #pragma warning disable CA1033 // Interface methods should be callable by child types (Design)
 
         [Pure]
+        int ICalendricalSchema.CountMonthsSinceEpoch(int y, int m) =>
+            throw new NotImplementedException();
+
+        [Pure]
         int ICalendricalSchema.CountDaysSinceEpoch(int y, int m, int d) =>
             GetStartOfYear(y) + CountDaysInYearBeforeMonth(y, m) + d - 1;
 
         [Pure]
         int ICalendricalSchema.CountDaysSinceEpoch(int y, int doy) =>
             GetStartOfYear(y) + doy - 1;
+
+        void ICalendricalSchema.GetMonthParts(int monthsSinceEpoch, out int y, out int m)
+        {
+            throw new NotImplementedException();
+        }
 
         void ICalendricalSchema.GetDateParts(int daysSinceEpoch, out int y, out int m, out int d)
         {

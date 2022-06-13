@@ -243,6 +243,19 @@ namespace Zorglub.Time.Core
         // part of its work to GetOrdinalParts().
         [Pure] public abstract int GetYear(int daysSinceEpoch);
 
+        /// <summary>
+        /// Obtains the month parts for the specified month count (the number of consecutive months
+        /// from the epoch to a month).
+        /// </summary>
+        [Pure]
+        // CIL code size = XXX bytes <= 32 bytes.
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Yemo GetMonthParts(int monthsSinceEpoch)
+        {
+            GetMonthParts(monthsSinceEpoch, out int y, out int m);
+            return new Yemo(y, m);
+        }
+
         /// <inheritdoc />
         /// <remarks>
         /// <para>See also

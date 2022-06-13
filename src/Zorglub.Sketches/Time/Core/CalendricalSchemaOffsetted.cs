@@ -108,9 +108,17 @@ namespace Zorglub.Time.Core
 #endif
 
         /// <inheritdoc />
+        [Pure] public int CountMonthsSinceEpoch(int y, int m) => _schema.CountMonthsSinceEpoch(y - Offset, m);
+        /// <inheritdoc />
         [Pure] public int CountDaysSinceEpoch(int y, int m, int d) => _schema.CountDaysSinceEpoch(y - Offset, m, d);
         /// <inheritdoc />
         [Pure] public int CountDaysSinceEpoch(int y, int doy) => _schema.CountDaysSinceEpoch(y - Offset, doy);
+        /// <inheritdoc />
+        public void GetMonthParts(int monthsSinceEpoch, out int y, out int m)
+        {
+            _schema.GetMonthParts(monthsSinceEpoch, out y, out m);
+            y += Offset;
+        }
         /// <inheritdoc />
         public void GetDateParts(int daysSinceEpoch, out int y, out int m, out int d)
         {

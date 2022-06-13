@@ -152,6 +152,14 @@ namespace Zorglub.Time.Core
     public partial interface ICalendricalSchema // Conversions
     {
         /// <summary>
+        /// Counts the number of consecutive months from the epoch to the specified month.
+        /// </summary>
+        /// <remarks>
+        /// <para>Conversion year/month -&gt; monthsSinceEpoch.</para>
+        /// </remarks>
+        [Pure] int CountMonthsSinceEpoch(int y, int m);
+
+        /// <summary>
         /// Counts the number of consecutive days from the epoch to the specified date.
         /// </summary>
         /// <remarks>
@@ -166,6 +174,15 @@ namespace Zorglub.Time.Core
         /// <para>Conversion year/dayOfYear -&gt; daysSinceEpoch.</para>
         /// </remarks>
         [Pure] int CountDaysSinceEpoch(int y, int doy);
+
+        /// <summary>
+        /// Obtains the month parts for the specified month count (the number of consecutive months
+        /// from the epoch to a month); the month parts are given in output parameters.
+        /// </summary>
+        /// <remarks>
+        /// <para>Conversion <paramref name="monthsSinceEpoch"/> -&gt; year/month.</para>
+        /// </remarks>
+        void GetMonthParts(int monthsSinceEpoch, out int y, out int m);
 
         /// <summary>
         /// Obtains the date parts for the specified day count (the number of consecutive days from
