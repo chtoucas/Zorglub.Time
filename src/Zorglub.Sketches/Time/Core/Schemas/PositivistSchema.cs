@@ -141,7 +141,7 @@ namespace Zorglub.Time.Core.Schemas
         /// <inheritdoc />
         [Pure]
         public sealed override int CountMonthsSinceEpoch(int y, int m) =>
-            RegularSchema.Thirteen.CountMonthsSinceEpoch(y, m);
+            IRegularSchema.Thirteen.CountMonthsSinceEpoch(y, m);
 
         /// <inheritdoc />
         [Pure]
@@ -150,7 +150,7 @@ namespace Zorglub.Time.Core.Schemas
 
         /// <inheritdoc />
         public sealed override void GetMonthParts(int monthsSinceEpoch, out int y, out int m) =>
-            RegularSchema.Thirteen.GetMonthParts(monthsSinceEpoch, out y, out m);
+            IRegularSchema.Thirteen.GetMonthParts(monthsSinceEpoch, out y, out m);
 
         /// <inheritdoc />
         [Pure]
