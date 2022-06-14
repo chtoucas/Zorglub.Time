@@ -234,7 +234,7 @@ namespace Zorglub.Time.Core
         private CalendricalProfile FindProfile()
         {
             // The schema is not regular iff monthsInYear = 0.
-            int monthsInYear = IsRegular(out int x) ? x : 0;
+            _ = IsRegular(out int monthsInYear);
 
             // WARNING: the order is important, higher values of MinDaysInYear
             // MUST come first, then those of MinDaysInMonth.
