@@ -68,10 +68,8 @@ namespace Zorglub.Time.Core.Schemas
         public bool IsLastMonthOfYear(int y, int m) => m == 14 || (m == 13 && !IsLeapYear(y));
     }
 
-    // LeapWeekSchema.
-    public partial class PaxSchema
+    public partial class PaxSchema // LeapWeekSchema
     {
-
         /// <inheritdoc />
         public sealed override DayOfWeek FirstDayOfWeek => DayOfWeek.Sunday;
 
@@ -99,8 +97,7 @@ namespace Zorglub.Time.Core.Schemas
         }
     }
 
-    // Year, month or day infos.
-    public partial class PaxSchema
+    public partial class PaxSchema // Year, month or day infos
     {
         /// <inheritdoc />
         [Pure]
@@ -126,8 +123,7 @@ namespace Zorglub.Time.Core.Schemas
         public sealed override bool IsSupplementaryDay(int y, int m, int d) => false;
     }
 
-    // Counting months and days within a year or a month.
-    public partial class PaxSchema
+    public partial class PaxSchema // Counting months and days within a year or a month
     {
         /// <inheritdoc />
         [Pure]
@@ -149,9 +145,21 @@ namespace Zorglub.Time.Core.Schemas
         public sealed override int CountDaysInMonth(int y, int m) => IsPaxMonth(y, m) ? 7 : 28;
     }
 
-    // Conversions.
-    public partial class PaxSchema
+    public partial class PaxSchema // Conversions
     {
+        /// <inheritdoc />
+        [Pure]
+        public sealed override int CountMonthsSinceEpoch(int y, int m)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <inheritdoc />
+        public sealed override void GetMonthParts(int monthsSinceEpoch, out int y, out int m)
+        {
+            throw new NotImplementedException();
+        }
+
         /// <inheritdoc />
         [Pure]
         public sealed override int GetMonth(int y, int doy, out int d)
@@ -186,8 +194,7 @@ namespace Zorglub.Time.Core.Schemas
         }
     }
 
-    // Dates in a given year or month.
-    public partial class PaxSchema
+    public partial class PaxSchema // Dates in a given year or month
     {
         /// <inheritdoc />
         [Pure]

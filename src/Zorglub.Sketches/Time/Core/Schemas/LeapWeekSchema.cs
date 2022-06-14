@@ -5,8 +5,8 @@ namespace Zorglub.Time.Core.Schemas
 {
     using Zorglub.Time.Core.Intervals;
 
-    // TODO: (y, m, d) <-> (y, woy, dow). See also CalendarWeek. Maybe create
-    // a CalendarWeekdate? Interface?
+    // TODO(api): should be an interface.
+    // (y, m, d) <-> (y, woy, dow). See also CalendarWeek. Maybe create CalendarWeekdate?
 
     // References:
     // https://en.wikipedia.org/wiki/Leap_week_calendar

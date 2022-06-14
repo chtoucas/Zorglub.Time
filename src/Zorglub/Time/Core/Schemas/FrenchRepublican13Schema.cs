@@ -52,7 +52,7 @@ namespace Zorglub.Time.Core.Schemas
             : new byte[13] { 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 5 };
     }
 
-    public partial class FrenchRepublican13Schema // Year, month or day infos.
+    public partial class FrenchRepublican13Schema // Year, month or day infos
     {
         /// <inheritdoc />
         [Pure]
@@ -70,7 +70,7 @@ namespace Zorglub.Time.Core.Schemas
             Thirteen.IsSupplementaryDay(m);
     }
 
-    public partial class FrenchRepublican13Schema // Counting months and days within a year or a month.
+    public partial class FrenchRepublican13Schema // Counting months and days within a year or a month
     {
         /// <inheritdoc />
         [Pure]
@@ -82,8 +82,17 @@ namespace Zorglub.Time.Core.Schemas
             Thirteen.CountDaysInMonth(IsLeapYear(y), m);
     }
 
-    public partial class FrenchRepublican13Schema // Conversions.
+    public partial class FrenchRepublican13Schema // Conversions
     {
+        /// <inheritdoc />
+        [Pure]
+        public sealed override int CountMonthsSinceEpoch(int y, int m) =>
+            RegularSchema.Thirteen.CountMonthsSinceEpoch(y, m);
+
+        /// <inheritdoc />
+        public sealed override void GetMonthParts(int monthsSinceEpoch, out int y, out int m) =>
+            RegularSchema.Thirteen.GetMonthParts(monthsSinceEpoch, out y, out m);
+
         /// <inheritdoc />
         [Pure]
         public sealed override void GetDateParts(int daysSinceEpoch, out int y, out int m, out int d)
@@ -98,7 +107,7 @@ namespace Zorglub.Time.Core.Schemas
             Thirteen.GetMonth(doy - 1, out d);
     }
 
-    public partial class FrenchRepublican13Schema // Dates in a given year or month.
+    public partial class FrenchRepublican13Schema // Dates in a given year or month
     {
         /// <inheritdoc />
         public sealed override void GetEndOfYearParts(int y, out int m, out int d) =>

@@ -89,8 +89,7 @@ namespace Zorglub.Time.Core.Schemas
         public static Box<PositivistSchema> GetInstance() => Box.Create(new PositivistSchema());
     }
 
-    // Year, month or day infos.
-    public partial class PositivistSchema
+    public partial class PositivistSchema // Year, month or day infos
     {
         /// <inheritdoc />
         [Pure]
@@ -116,8 +115,7 @@ namespace Zorglub.Time.Core.Schemas
         public sealed override bool IsSupplementaryDay(int y, int m, int d) => d > 28;
     }
 
-    // Counting months and days within a year or a month.
-    public partial class PositivistSchema
+    public partial class PositivistSchema // Counting months and days within a year or a month
     {
         /// <inheritdoc />
         [Pure]
@@ -138,13 +136,21 @@ namespace Zorglub.Time.Core.Schemas
             m == 13 ? 28 + (GregorianFormulae.IsLeapYear(y) ? 2 : 1) : 28;
     }
 
-    // Conversions.
-    public partial class PositivistSchema
+    public partial class PositivistSchema // Conversions
     {
+        /// <inheritdoc />
+        [Pure]
+        public sealed override int CountMonthsSinceEpoch(int y, int m) =>
+            RegularSchema.Thirteen.CountMonthsSinceEpoch(y, m);
+
         /// <inheritdoc />
         [Pure]
         public sealed override int CountDaysSinceEpoch(int y, int m, int d) =>
             GregorianFormulae.GetStartOfYear(y) + 28 * (m - 1) + d - 1;
+
+        /// <inheritdoc />
+        public sealed override void GetMonthParts(int monthsSinceEpoch, out int y, out int m) =>
+            RegularSchema.Thirteen.GetMonthParts(monthsSinceEpoch, out y, out m);
 
         /// <inheritdoc />
         [Pure]
@@ -171,8 +177,7 @@ namespace Zorglub.Time.Core.Schemas
             GregorianFormulae.GetYear(daysSinceEpoch);
     }
 
-    // Dates in a given year or month.
-    public partial class PositivistSchema
+    public partial class PositivistSchema // Dates in a given year or month
     {
         /// <inheritdoc />
         [Pure]
@@ -181,7 +186,7 @@ namespace Zorglub.Time.Core.Schemas
         /// <inheritdoc />
         public sealed override void GetEndOfYearParts(int y, out int m, out int d)
         {
-            m = 13;
+            m = MonthsPerYear;
             d = GregorianFormulae.IsLeapYear(y) ? 30 : 29;
         }
     }

@@ -62,7 +62,7 @@ namespace Zorglub.Time.Core.Schemas
         public int MonthsInYear => MonthsPerYear;
     }
 
-    public partial class TropicalistaSchema // Year, month or day infos.
+    public partial class TropicalistaSchema // Year, month or day infos
     {
         /// <summary>
         /// Determines whether the specified year is leap or not.
@@ -86,7 +86,7 @@ namespace Zorglub.Time.Core.Schemas
         public sealed override bool IsSupplementaryDay(int y, int m, int d) => false;
     }
 
-    public partial class TropicalistaSchema // Counting months and days within a year or a month.
+    public partial class TropicalistaSchema // Counting months and days within a year or a month
     {
         /// <inheritdoc />
         [Pure]
@@ -98,8 +98,17 @@ namespace Zorglub.Time.Core.Schemas
             IsLeapYearImpl(y) ? DaysInLeapYear : DaysInCommonYear;
     }
 
-    public partial class TropicalistaSchema // Conversions.
+    public partial class TropicalistaSchema // Conversions
     {
+        /// <inheritdoc />
+        [Pure]
+        public sealed override int CountMonthsSinceEpoch(int y, int m) =>
+            RegularSchema.Twelve.CountMonthsSinceEpoch(y, m);
+
+        /// <inheritdoc />
+        public sealed override void GetMonthParts(int monthsSinceEpoch, out int y, out int m) =>
+            RegularSchema.Twelve.GetMonthParts(monthsSinceEpoch, out y, out m);
+
         /// <inheritdoc />
         [Pure]
         public sealed override int GetYear(int daysSinceEpoch)
@@ -109,7 +118,7 @@ namespace Zorglub.Time.Core.Schemas
         }
     }
 
-    public partial class TropicalistaSchema // Dates in a given year or month.
+    public partial class TropicalistaSchema // Dates in a given year or month
     {
         /// <inheritdoc />
         [Pure]

@@ -37,7 +37,7 @@ namespace Zorglub.Time.Core.Schemas
         }
     }
 
-    public partial class CopticSchema // Year, month or day infos.
+    public partial class CopticSchema // Year, month or day infos
     {
         /// <inheritdoc />
         [Pure]
@@ -46,7 +46,7 @@ namespace Zorglub.Time.Core.Schemas
             (checked(y + 1) & 3) == 0;
     }
 
-    public partial class CopticSchema // Conversions.
+    public partial class CopticSchema // Conversions
     {
         /// <inheritdoc />
         [Pure]
@@ -59,7 +59,7 @@ namespace Zorglub.Time.Core.Schemas
             MathZ.Divide((daysSinceEpoch << 2) + 1463, DaysPer4YearCycle);
     }
 
-    public partial class CopticSchema // Dates in a given year or month.
+    public partial class CopticSchema // Dates in a given year or month
     {
         /// <inheritdoc />
         [Pure]

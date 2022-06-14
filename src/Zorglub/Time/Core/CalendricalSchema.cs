@@ -471,13 +471,7 @@ namespace Zorglub.Time.Core
     {
         /// <inheritdoc />
         [Pure]
-        public virtual int CountMonthsSinceEpoch(int y, int m)
-        {
-            // FIXME(XXX)
-            if (IsRegular(out int monthsInYear) == false) throw new NotImplementedException();
-
-            return monthsInYear * (y - 1) + m - 1;
-        }
+        public abstract int CountMonthsSinceEpoch(int y, int m);
 
         /// <inheritdoc />
         [Pure]
@@ -489,14 +483,7 @@ namespace Zorglub.Time.Core
         public int CountDaysSinceEpoch(int y, int doy) => GetStartOfYear(y) + doy - 1;
 
         /// <inheritdoc />
-        public virtual void GetMonthParts(int monthsSinceEpoch, out int y, out int m)
-        {
-            // FIXME(XXX)
-            if (IsRegular(out int monthsInYear) == false) throw new NotImplementedException();
-
-            y = 1 + MathZ.Divide(monthsSinceEpoch, monthsInYear, out int m0);
-            m = 1 + m0;
-        }
+        public abstract void GetMonthParts(int monthsSinceEpoch, out int y, out int m);
 
         /// <inheritdoc />
         public virtual void GetDateParts(int daysSinceEpoch, out int y, out int m, out int d)

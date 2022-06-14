@@ -128,7 +128,7 @@ namespace Zorglub.Time.Core.Schemas
             : new byte[12] { 31, 31, 31, 31, 31, 31, 30, 30, 30, 30, 30, 29 };
     }
 
-    public partial class Persian2820Schema // Year, month or day infos.
+    public partial class Persian2820Schema // Year, month or day infos
     {
         /// <inheritdoc />
         [Pure]
@@ -154,7 +154,7 @@ namespace Zorglub.Time.Core.Schemas
         public sealed override bool IsSupplementaryDay(int y, int m, int d) => false;
     }
 
-    public partial class Persian2820Schema // Counting months and days within a year or a month.
+    public partial class Persian2820Schema // Counting months and days within a year or a month
     {
         /// <inheritdoc />
         [Pure]
@@ -178,8 +178,17 @@ namespace Zorglub.Time.Core.Schemas
             : IsLeapYear(y) ? 30 : 29;
     }
 
-    public partial class Persian2820Schema // Conversions.
+    public partial class Persian2820Schema // Conversions
     {
+        /// <inheritdoc />
+        [Pure]
+        public sealed override int CountMonthsSinceEpoch(int y, int m) =>
+            RegularSchema.Twelve.CountMonthsSinceEpoch(y, m);
+
+        /// <inheritdoc />
+        public sealed override void GetMonthParts(int monthsSinceEpoch, out int y, out int m) =>
+            RegularSchema.Twelve.GetMonthParts(monthsSinceEpoch, out y, out m);
+
         /// <inheritdoc />
         [Pure]
         public sealed override int GetMonth(int y, int doy, out int d)
@@ -206,7 +215,7 @@ namespace Zorglub.Time.Core.Schemas
         }
     }
 
-    public partial class Persian2820Schema // Dates in a given year or month.
+    public partial class Persian2820Schema // Dates in a given year or month
     {
         /// <inheritdoc />
         [Pure]
@@ -220,7 +229,7 @@ namespace Zorglub.Time.Core.Schemas
         /// <inheritdoc />
         public sealed override void GetEndOfYearParts(int y, out int m, out int d)
         {
-            m = 12;
+            m = MonthsPerYear;
             d = IsLeapYear(y) ? 30 : 29;
         }
     }

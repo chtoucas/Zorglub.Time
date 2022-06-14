@@ -82,7 +82,7 @@ namespace Zorglub.Time.Core.Schemas
             : new byte[12] { 30, 29, 30, 29, 30, 29, 30, 29, 30, 29, 30, 29 };
     }
 
-    public partial class TabularIslamicSchema // Year, month or day infos.
+    public partial class TabularIslamicSchema // Year, month or day infos
     {
         /// <inheritdoc />
         [Pure]
@@ -101,7 +101,7 @@ namespace Zorglub.Time.Core.Schemas
         public sealed override bool IsSupplementaryDay(int y, int m, int d) => false;
     }
 
-    public partial class TabularIslamicSchema // Counting months and days within a year or a month.
+    public partial class TabularIslamicSchema // Counting months and days within a year or a month
     {
         /// <inheritdoc />
         [Pure]
@@ -122,8 +122,17 @@ namespace Zorglub.Time.Core.Schemas
             (m & 1) == 0 && (m != 12 || !IsLeapYear(y)) ? 29 : 30;
     }
 
-    public partial class TabularIslamicSchema // Conversions.
+    public partial class TabularIslamicSchema // Conversions
     {
+        /// <inheritdoc />
+        [Pure]
+        public sealed override int CountMonthsSinceEpoch(int y, int m) =>
+            RegularSchema.Twelve.CountMonthsSinceEpoch(y, m);
+
+        /// <inheritdoc />
+        public sealed override void GetMonthParts(int monthsSinceEpoch, out int y, out int m) =>
+            RegularSchema.Twelve.GetMonthParts(monthsSinceEpoch, out y, out m);
+
         /// <inheritdoc />
         [Pure]
         public sealed override int CountDaysSinceEpoch(int y, int m, int d) =>
@@ -148,7 +157,7 @@ namespace Zorglub.Time.Core.Schemas
             MathZ.Divide(30 * daysSinceEpoch + 10_646, DaysPer30YearCycle);
     }
 
-    public partial class TabularIslamicSchema // Dates in a given year or month.
+    public partial class TabularIslamicSchema // Dates in a given year or month
     {
         /// <inheritdoc />
         [Pure]

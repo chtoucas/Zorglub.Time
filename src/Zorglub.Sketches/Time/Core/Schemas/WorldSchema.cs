@@ -94,8 +94,7 @@ namespace Zorglub.Time.Core.Schemas
             (m - 1) % 3 == 0 ? 31 : 30;
     }
 
-    // Year, month or day infos.
-    public partial class WorldSchema
+    public partial class WorldSchema // Year, month or day infos
     {
         /// <inheritdoc />
         [Pure]
@@ -121,8 +120,7 @@ namespace Zorglub.Time.Core.Schemas
         public sealed override bool IsSupplementaryDay(int y, int m, int d) => IsBlankDay(y, m, d);
     }
 
-    // Counting months and days within a year or a month.
-    public partial class WorldSchema
+    public partial class WorldSchema // Counting months and days within a year or a month
     {
         /// <inheritdoc />
         [Pure]
@@ -155,13 +153,21 @@ namespace Zorglub.Time.Core.Schemas
             : 30;
     }
 
-    // Conversions.
-    public partial class WorldSchema
+    public partial class WorldSchema // Conversions
     {
+        /// <inheritdoc />
+        [Pure]
+        public sealed override int CountMonthsSinceEpoch(int y, int m) =>
+            RegularSchema.Twelve.CountMonthsSinceEpoch(y, m);
+
         /// <inheritdoc />
         [Pure]
         public sealed override int CountDaysSinceEpoch(int y, int m, int d) =>
             GregorianFormulae.GetStartOfYear(y) + CountDaysInYearBeforeMonth(y, m) + d - 1;
+
+        /// <inheritdoc />
+        public sealed override void GetMonthParts(int monthsSinceEpoch, out int y, out int m) =>
+            RegularSchema.Twelve.GetMonthParts(monthsSinceEpoch, out y, out m);
 
         /// <inheritdoc />
         [Pure]
@@ -202,8 +208,7 @@ namespace Zorglub.Time.Core.Schemas
             GregorianFormulae.GetYear(daysSinceEpoch);
     }
 
-    // Dates in a given year or month.
-    public partial class WorldSchema
+    public partial class WorldSchema // Dates in a given year or month
     {
         /// <inheritdoc />
         [Pure]
@@ -212,7 +217,7 @@ namespace Zorglub.Time.Core.Schemas
         /// <inheritdoc />
         public sealed override void GetEndOfYearParts(int y, out int m, out int d)
         {
-            m = 12; d = 31;
+            m = MonthsPerYear; d = 31;
         }
     }
 }

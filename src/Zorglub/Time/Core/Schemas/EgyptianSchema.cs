@@ -39,7 +39,7 @@ namespace Zorglub.Time.Core.Schemas
         public abstract int MonthsInYear { get; }
     }
 
-    public partial class EgyptianSchema // Year, month or day infos.
+    public partial class EgyptianSchema // Year, month or day infos
     {
         /// <inheritdoc />
         [Pure]
@@ -54,7 +54,7 @@ namespace Zorglub.Time.Core.Schemas
         public sealed override bool IsIntercalaryDay(int y, int m, int d) => false;
     }
 
-    public partial class EgyptianSchema // Counting months and days within a year or a month.
+    public partial class EgyptianSchema // Counting months and days within a year or a month
     {
         /// <inheritdoc />
         [Pure]
@@ -65,7 +65,7 @@ namespace Zorglub.Time.Core.Schemas
         public sealed override int CountDaysInYearBeforeMonth(int y, int m) => 30 * (m - 1);
     }
 
-    public partial class EgyptianSchema // Conversions.
+    public partial class EgyptianSchema // Conversions
     {
         /// <inheritdoc />
         [Pure]
@@ -87,7 +87,7 @@ namespace Zorglub.Time.Core.Schemas
             1 + MathZ.Divide(daysSinceEpoch, DaysInYear);
     }
 
-    public partial class EgyptianSchema // Dates in a given year or month.
+    public partial class EgyptianSchema // Dates in a given year or month
     {
         /// <inheritdoc />
         [Pure]

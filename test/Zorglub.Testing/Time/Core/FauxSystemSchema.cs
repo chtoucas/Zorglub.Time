@@ -76,6 +76,8 @@ public partial class FauxSystemSchema // Props & methods
     [Pure] public sealed override int CountDaysInYearBeforeMonth(int y, int m) => throw new NotSupportedException();
     [Pure] public sealed override int CountDaysInMonth(int y, int m) => MinDaysInMonth;
 
+    [Pure] public sealed override int CountMonthsSinceEpoch(int y, int m) => throw new NotSupportedException();
+    public sealed override void GetMonthParts(int monthsSinceEpoch, out int y, out int m) => throw new NotSupportedException();
     [Pure] public sealed override int GetMonth(int y, int doy, out int d) => throw new NotSupportedException();
     [Pure] public sealed override int GetYear(int daysSinceEpoch) => throw new NotSupportedException();
 

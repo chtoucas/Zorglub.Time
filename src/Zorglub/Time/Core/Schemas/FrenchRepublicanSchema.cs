@@ -37,7 +37,7 @@ namespace Zorglub.Time.Core.Schemas
         private protected FrenchRepublicanSchema(int minDaysInMonth) : base(minDaysInMonth) { }
     }
 
-    public partial class FrenchRepublicanSchema // Year, month or day infos.
+    public partial class FrenchRepublicanSchema // Year, month or day infos
     {
         /// <inheritdoc />
         [Pure]
@@ -52,7 +52,7 @@ namespace Zorglub.Time.Core.Schemas
             && (y % 4000 != 0);
     }
 
-    public partial class FrenchRepublicanSchema // Conversions.
+    public partial class FrenchRepublicanSchema // Conversions
     {
         /// <inheritdoc />
         [Pure]
@@ -90,7 +90,7 @@ namespace Zorglub.Time.Core.Schemas
         }
     }
 
-    public partial class FrenchRepublicanSchema // Dates in a given year or month.
+    public partial class FrenchRepublicanSchema // Dates in a given year or month
     {
         /// <inheritdoc />
         [Pure]

@@ -48,7 +48,7 @@ namespace Zorglub.Time.Core.Schemas
             new byte[12] { 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 35 };
     }
 
-    public partial class Egyptian12Schema // Year, month or day infos.
+    public partial class Egyptian12Schema // Year, month or day infos
     {
         /// <inheritdoc />
         [Pure]
@@ -61,7 +61,7 @@ namespace Zorglub.Time.Core.Schemas
             Ptolemaic12.IsSupplementaryDay(d);
     }
 
-    public partial class Egyptian12Schema // Counting months and days within a year or a month.
+    public partial class Egyptian12Schema // Counting months and days within a year or a month
     {
         /// <inheritdoc />
         [Pure]
@@ -72,8 +72,17 @@ namespace Zorglub.Time.Core.Schemas
         public sealed override int CountDaysInMonth(int y, int m) => m == 12 ? 35 : 30;
     }
 
-    public partial class Egyptian12Schema // Conversions.
+    public partial class Egyptian12Schema // Conversions
     {
+        /// <inheritdoc />
+        [Pure]
+        public sealed override int CountMonthsSinceEpoch(int y, int m) =>
+            RegularSchema.Twelve.CountMonthsSinceEpoch(y, m);
+
+        /// <inheritdoc />
+        public sealed override void GetMonthParts(int monthsSinceEpoch, out int y, out int m) =>
+            RegularSchema.Twelve.GetMonthParts(monthsSinceEpoch, out y, out m);
+
         /// <inheritdoc />
         public sealed override void GetDateParts(int daysSinceEpoch, out int y, out int m, out int d)
         {
@@ -87,12 +96,12 @@ namespace Zorglub.Time.Core.Schemas
             Ptolemaic12.GetMonth(doy - 1, out d);
     }
 
-    public partial class Egyptian12Schema // Dates in a given year or month.
+    public partial class Egyptian12Schema // Dates in a given year or month
     {
         /// <inheritdoc />
         public sealed override void GetEndOfYearParts(int y, out int m, out int d)
         {
-            m = 12; d = 35;
+            m = MonthsPerYear; d = 35;
         }
     }
 }

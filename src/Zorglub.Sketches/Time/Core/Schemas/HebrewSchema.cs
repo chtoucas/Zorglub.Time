@@ -33,8 +33,7 @@ namespace Zorglub.Time.Core.Schemas
         internal static bool IsSabbaticalYear(int y) => MathZ.Modulo(y, 7) == 0;
     }
 
-    // Year, month or day infos.
-    public partial class HebrewSchema
+    public partial class HebrewSchema // Year, month or day infos
     {
         /// <inheritdoc />
         [Pure]
@@ -62,8 +61,7 @@ namespace Zorglub.Time.Core.Schemas
         }
     }
 
-    // Counting months and days within a year or a month.
-    public partial class HebrewSchema
+    public partial class HebrewSchema // Counting months and days within a year or a month
     {
         /// <inheritdoc />
         [Pure]
@@ -92,9 +90,21 @@ namespace Zorglub.Time.Core.Schemas
         }
     }
 
-    // Conversions.
-    public partial class HebrewSchema
+    public partial class HebrewSchema // Conversions
     {
+        /// <inheritdoc />
+        [Pure]
+        public sealed override int CountMonthsSinceEpoch(int y, int m)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <inheritdoc />
+        public sealed override void GetMonthParts(int monthsSinceEpoch, out int y, out int m)
+        {
+            throw new NotImplementedException();
+        }
+
         /// <inheritdoc />
         [Pure]
         public sealed override int GetMonth(int y, int doy, out int d)
@@ -110,8 +120,7 @@ namespace Zorglub.Time.Core.Schemas
         }
     }
 
-    // Dates in a given year or month.
-    public partial class HebrewSchema
+    public partial class HebrewSchema // Dates in a given year or month
     {
         /// <inheritdoc />
         [Pure]

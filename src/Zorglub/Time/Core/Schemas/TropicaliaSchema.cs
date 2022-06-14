@@ -42,14 +42,14 @@ namespace Zorglub.Time.Core.Schemas
             : new byte[12] { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
     }
 
-    public partial class TropicaliaSchema // Year, month or day infos.
+    public partial class TropicaliaSchema // Year, month or day infos
     {
         /// <inheritdoc />
         [Pure]
         public sealed override bool IsIntercalaryDay(int y, int m, int d) => m == 2 && d == 29;
     }
 
-    public partial class TropicaliaSchema // Counting months and days within a year or a month.
+    public partial class TropicaliaSchema // Counting months and days within a year or a month
     {
         /// <inheritdoc />
         [Pure]
@@ -64,7 +64,7 @@ namespace Zorglub.Time.Core.Schemas
             m != 2 ? 30 + ((m + (m >> 3)) & 1) : IsLeapYearImpl(y) ? 29 : 28;
     }
 
-    public partial class TropicaliaSchema // Conversions.
+    public partial class TropicaliaSchema // Conversions
     {
         /// <inheritdoc />
         [Pure]
@@ -124,7 +124,7 @@ namespace Zorglub.Time.Core.Schemas
         }
     }
 
-    public partial class TropicaliaSchema // Dates in a given year or month.
+    public partial class TropicaliaSchema // Dates in a given year or month
     {
         /// <inheritdoc />
         public sealed override void GetEndOfYearParts(int y, out int m, out int d)
