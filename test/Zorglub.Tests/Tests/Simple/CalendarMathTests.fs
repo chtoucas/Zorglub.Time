@@ -166,7 +166,6 @@ module Core =
     let private month = new CalendarMonth(1, 1, chr.Id)
 
     let private otherDate = new CalendarDate(2000, 1, 1, chr.Id)
-    let private otherOrdinalDate = new OrdinalDate(2000, 1, chr.Id)
     let private otherMonth = new CalendarMonth(2000, 1, chr.Id)
 
     //

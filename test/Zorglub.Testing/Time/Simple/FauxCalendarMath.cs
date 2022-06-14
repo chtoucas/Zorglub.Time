@@ -57,10 +57,12 @@ public sealed class FauxCalendarMath : CalendarMath
     { AddYearsCoreMonthWasCalled = true; return month; }
 
     [Pure]
+    [Obsolete("Use CalendricalArithmetic instead.")]
     protected internal override CalendarMonth AddMonthsCore(CalendarMonth month, int months)
     { AddMonthsCoreMonthWasCalled = true; return month; }
 
     [Pure]
+    [Obsolete("Use CalendricalArithmetic instead.")]
     protected internal override int CountMonthsBetweenCore(CalendarMonth start, CalendarMonth end)
     { CountMonthsBetweenCoreMonthWasCalled = true; return 0; }
 }

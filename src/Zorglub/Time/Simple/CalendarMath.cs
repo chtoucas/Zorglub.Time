@@ -339,6 +339,7 @@ namespace Zorglub.Time.Simple
         /// <exception cref="OverflowException">The calculation would overflow the range of
         /// supported months.</exception>
         [Pure]
+        [Obsolete("Use CalendricalArithmetic instead.")]
         public CalendarMonth AddMonths(CalendarMonth month, int months)
         {
             ValidateCuid(month.Cuid, nameof(month));
@@ -352,6 +353,7 @@ namespace Zorglub.Time.Simple
         /// <exception cref="OverflowException">The calculation would overflow the range of
         /// supported months.</exception>
         [Pure]
+        [Obsolete("Use CalendricalArithmetic instead.")]
         protected internal abstract CalendarMonth AddMonthsCore(CalendarMonth month, int months);
 
         /// <summary>
@@ -398,6 +400,7 @@ namespace Zorglub.Time.Simple
         /// <exception cref="ArgumentException">One of the paramaters does not belong to the
         /// underlying calendar.</exception>
         [Pure]
+        [Obsolete("Use CalendricalArithmetic instead.")]
         public int CountMonthsBetween(CalendarMonth start, CalendarMonth end)
         {
             ValidateCuid(start.Cuid, nameof(start));
@@ -411,6 +414,7 @@ namespace Zorglub.Time.Simple
         /// </summary>
         [Pure]
         [SuppressMessage("Naming", "CA1716:Identifiers should not match keywords.", MessageId = "end", Justification = "F# & VB.NET End statement.")]
+        [Obsolete("Use CalendricalArithmetic instead.")]
         protected internal abstract int CountMonthsBetweenCore(CalendarMonth start, CalendarMonth end);
     }
 }
