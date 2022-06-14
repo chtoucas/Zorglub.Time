@@ -208,6 +208,7 @@ namespace Zorglub.Time.Core
         protected internal bool TryGetCustomArithmetic(
             [NotNullWhen(true)] out ICalendricalArithmetic? arithmetic)
         {
+            // Sync with SystemArithmetic.Create().
             switch (Profile)
             {
                 case CalendricalProfile.Solar12:

@@ -129,6 +129,7 @@ namespace Zorglub.Time.Core.Arithmetic
         {
             Requires.NotNull(schema);
 
+            // Sync with CalendricalSchema.TryGetCustomArithmetic().
             return schema.Profile switch
             {
                 CalendricalProfile.Solar12 =>
@@ -228,7 +229,7 @@ namespace Zorglub.Time.Core.Arithmetic
 
         /// <inheritdoc />
         [Pure]
-        public int CountMonthsBetween(Yemo start, Yemo end)
+        public virtual int CountMonthsBetween(Yemo start, Yemo end)
         {
             start.Unpack(out int y0, out int m0);
             end.Unpack(out int y1, out int m1);
