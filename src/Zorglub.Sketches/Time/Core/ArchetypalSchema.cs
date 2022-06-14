@@ -198,6 +198,36 @@ namespace Zorglub.Time.Core
 
         /// <inheritdoc />
         [Pure]
+        public virtual int CountMonthsSinceEpoch(int y, int m)
+        {
+            int startOfYear = 0;
+
+            if (y < 1)
+            {
+                for (int i = y; i < 1; i++)
+                {
+                    startOfYear -= CountMonthsInYear(i);
+                }
+            }
+            else
+            {
+                for (int i = 1; i < y; i++)
+                {
+                    startOfYear += CountMonthsInYear(i);
+                }
+            }
+
+            return startOfYear + m - 1;
+        }
+
+        /// <inheritdoc />
+        public virtual void GetMonthParts(int monthsSinceEpoch, out int y, out int m)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <inheritdoc />
+        [Pure]
         public virtual int GetYear(int daysSinceEpoch, out int doy)
         {
             // Faster alternatives:
@@ -266,11 +296,6 @@ namespace Zorglub.Time.Core
             return m;
         }
 
-        [Pure]
-        public virtual int CountMonthsSinceEpoch(int y, int m) =>
-            // FIXME(XXX)
-            throw new NotImplementedException();
-
         /// <inheritdoc />
         [Pure]
         public virtual int GetStartOfYear(int y)
@@ -321,12 +346,6 @@ namespace Zorglub.Time.Core
         [Pure]
         int ICalendricalSchema.CountDaysSinceEpoch(int y, int doy) =>
             GetStartOfYear(y) + doy - 1;
-
-        void ICalendricalSchema.GetMonthParts(int monthsSinceEpoch, out int y, out int m)
-        {
-            // FIXME(XXX)
-            throw new NotImplementedException();
-        }
 
         void ICalendricalSchema.GetDateParts(int daysSinceEpoch, out int y, out int m, out int d)
         {
