@@ -19,6 +19,7 @@ namespace Zorglub.Time.Simple
     //   Should we create RegularArithmetic?
     // - Remove month ops from CalendarMath
     // - To be fixed:
+    //   * CIL code size
     //   * MonthsSinceEpochHelper
     //   * CalendarMonth
     //   * Schemas: partial impl for archetypal, Pax and Hebrew schemas
