@@ -125,7 +125,7 @@ namespace Zorglub.Time.Core
         [Pure] int CountDaysBetween(Yedoy start, Yedoy end);
 
         //
-        // Operations on Yedoy
+        // Operations on Yemo
         //
 
         /// <summary>

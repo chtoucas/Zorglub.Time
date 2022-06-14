@@ -39,9 +39,13 @@ public sealed class LunisolarSchema :
     [Pure] public override int CountDaysInYearBeforeMonth(int y, int m) => 29 * (m - 1) + (m >> 1);
     [Pure] public override int CountDaysInMonth(int y, int m) => 29 + (m & 1);
 
+    // TODO(code): non vérifié.
     [Pure]
-    public override int CountMonthsSinceEpoch(int y, int m) =>
-        throw new NotImplementedException();
+    public override int CountMonthsSinceEpoch(int y, int m)
+    {
+        y--;
+        return 12 * y + (y >> 2) + m - 1;
+    }
 
     public override void GetMonthParts(int monthsSinceEpoch, out int y, out int m) =>
         throw new NotImplementedException();

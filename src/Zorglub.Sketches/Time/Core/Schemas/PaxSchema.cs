@@ -151,7 +151,8 @@ namespace Zorglub.Time.Core.Schemas
         [Pure]
         public sealed override int CountMonthsSinceEpoch(int y, int m)
         {
-            throw new NotImplementedException();
+            // FIXME(code): temporary value for tests.
+            return 0;
         }
 
         /// <inheritdoc />

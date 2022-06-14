@@ -7,6 +7,10 @@ namespace Zorglub.Time.Core
     {
         private readonly ICalendricalSchema _schema;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MonthsSinceEpochHelper"/> class.
+        /// </summary>
+        /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
         public MonthsSinceEpochHelper(ICalendricalSchema schema)
         {
             _schema = schema ?? throw new ArgumentNullException(nameof(schema));
@@ -27,8 +31,7 @@ namespace Zorglub.Time.Core
         /// specified year.
         /// </summary>
         [Pure]
-        public int GetStartOfYear(int y) =>
-            _schema.CountMonthsSinceEpoch(y, 1);
+        public int GetStartOfYear(int y) => _schema.CountMonthsSinceEpoch(y, 1);
 
         /// <summary>
         /// Counts the number of consecutive months from the epoch to the last month of the

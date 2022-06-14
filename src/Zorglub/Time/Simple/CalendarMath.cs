@@ -14,15 +14,14 @@ namespace Zorglub.Time.Simple
     // - Add CountMonthsSinceEpoch() and GetMonthParts() to schemas
     //   MinMonthsInYear?
     //   Copy code here to CalendricalSchema, SystemSchema and ArchetypalSchema
-    //   Later on, modify the interface, optimize the code
     // - Add month ops to CalendricalArithmetic
     //   MaxMonthsViaMonthOfYear
     //   Should we create RegularArithmetic?
     // - Remove month ops from CalendarMath
     // - To be fixed:
     //   * MonthsSinceEpochHelper
-    //   * CalendricalSchema (partial impl)
-    //   * ArchetypalSchema (not impl)
+    //   * CalendarMonth
+    //   * Schemas: partial impl for archetypal, Pax and Hebrew schemas
     //   * SystemArithmetic (partial impl)
     //   * use Throw.MonthOverflow()
     //

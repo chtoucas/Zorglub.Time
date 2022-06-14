@@ -209,8 +209,11 @@ namespace Zorglub.Time.Core
     { }
 
     // Conversions.
+    //   CountMonthsSinceEpoch(y, m)    -> monthsSinceEpoch     (Yemo)         => MonthsSinceEpoch
     //   CountDaysSinceEpoch(y, m, d)   -> daysSinceEpoch       (Yemoda)       => DaysSinceEpoch
     //   CountDaysSinceEpoch(y, doy)    -> daysSinceEpoch       (Yedoy)        => DaysSinceEpoch
+    //   GetMonthParts(monthsSinceEpoch)-> out y, m             -
+    //   GetMonthParts(monthsSinceEpoch)-> Yemo                 MonthsSinceEpoch => Yemo
     //   GetDateParts(daysSinceEpoch)   -> out y, m, d          -
     // + GetDateParts(daysSinceEpoch)   -> Yemoda               DaysSinceEpoch => Yemoda
     //   GetYear(daysSinceEpoch)        -> y, out doy           -

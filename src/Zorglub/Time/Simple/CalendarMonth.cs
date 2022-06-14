@@ -595,6 +595,7 @@ namespace Zorglub.Time.Simple
         public static CalendarMonth operator --(CalendarMonth value) => value.PreviousMonth();
 
 #pragma warning restore CA2225
+        // FIXME(XXX)
 
         /// <summary>
         /// Counts the number of months elapsed since the specified month.
@@ -607,7 +608,8 @@ namespace Zorglub.Time.Simple
             if (other.Cuid != Cuid) Throw.BadCuid(nameof(other), Cuid, other.Cuid);
 
             ref readonly var chr = ref CalendarRef;
-            return chr.Math.CountMonthsBetweenCore(other, this);
+            return chr.Arithmetic.CountMonthsBetween(other.Parts, Parts);
+            //return chr.Math.CountMonthsBetweenCore(other, this);
         }
 
         /// <summary>
@@ -619,7 +621,10 @@ namespace Zorglub.Time.Simple
         public CalendarMonth PlusMonths(int months)
         {
             ref readonly var chr = ref CalendarRef;
-            return chr.Math.AddMonthsCore(this, months);
+            var ym = chr.Arithmetic.AddMonths(Parts, months);
+            chr.YearOverflowChecker.Check(ym.Year);
+            return new CalendarMonth(ym, Cuid);
+            //return chr.Math.AddMonthsCore(this, months);
         }
 
         /// <summary>
@@ -631,7 +636,10 @@ namespace Zorglub.Time.Simple
         public CalendarMonth NextMonth()
         {
             ref readonly var chr = ref CalendarRef;
-            return chr.Math.AddMonthsCore(this, 1);
+            var ym = chr.Arithmetic.NextMonth(Parts);
+            chr.YearOverflowChecker.CheckUpperBound(ym.Year);
+            return new CalendarMonth(ym, Cuid);
+            //return chr.Math.AddMonthsCore(this, 1);
         }
 
         /// <summary>
@@ -643,7 +651,10 @@ namespace Zorglub.Time.Simple
         public CalendarMonth PreviousMonth()
         {
             ref readonly var chr = ref CalendarRef;
-            return chr.Math.AddMonthsCore(this, -1);
+            var ym = chr.Arithmetic.PreviousMonth(Parts);
+            chr.YearOverflowChecker.CheckLowerBound(ym.Year);
+            return new CalendarMonth(ym, Cuid);
+            //return chr.Math.AddMonthsCore(this, -1);
         }
 
         /// <summary>
