@@ -54,9 +54,12 @@ namespace Zorglub.Time.Core.Arithmetic
 
             SupportedYears = supportedYears;
             (MinYear, MaxYear) = supportedYears.Endpoints;
-            (MinMonthsSinceEpoch, MaxMonthsSinceEpoch) = new MonthsSinceEpochHelper(schema).Domain;
             (MinDaysSinceEpoch, MaxDaysSinceEpoch) =
                 supportedYears.Endpoints.Select(schema.GetStartOfYear, schema.GetEndOfYear);
+
+            var helper = MonthsSinceEpochHelper.Create(schema);
+            (MinMonthsSinceEpoch, MaxMonthsSinceEpoch) =
+                supportedYears.Endpoints.Select(helper.GetStartOfYear, helper.GetEndOfYear);
 
             MaxDaysViaDayOfYear = schema.MinDaysInYear;
             MaxDaysViaDayOfMonth = schema.MinDaysInMonth;

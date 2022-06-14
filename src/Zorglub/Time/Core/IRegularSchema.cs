@@ -31,16 +31,6 @@ namespace Zorglub.Time.Core
                 y = 1 + MathZ.Divide(monthsSinceEpoch, MonthsInYear, out int m0);
                 m = 1 + m0;
             }
-
-            [Pure]
-            // CIL code size = XXX bytes <= 32 bytes.
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            public static int GetStartOfYear(int y) => MonthsInYear * (y - 1);
-
-            [Pure]
-            // CIL code size = XXX bytes <= 32 bytes.
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            public static int GetEndOfYear(int y) => MonthsInYear * y - 1;
         }
 
         internal static class Thirteen
@@ -57,16 +47,6 @@ namespace Zorglub.Time.Core
                 y = 1 + MathZ.Divide(monthsSinceEpoch, MonthsInYear, out int m0);
                 m = 1 + m0;
             }
-
-            [Pure]
-            // CIL code size = XXX bytes <= 32 bytes.
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            public static int GetStartOfYear(int y) => MonthsInYear * (y - 1);
-
-            [Pure]
-            // CIL code size = XXX bytes <= 32 bytes.
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            public static int GetEndOfYear(int y) => MonthsInYear * y - 1;
         }
     }
 }
