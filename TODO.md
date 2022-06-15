@@ -36,14 +36,6 @@ FIXME
 TODO
 ----
 
-Prerequisites for version 1.0.
-- Stable API and full test coverage.
-  * At least one Lunisolar calendar (Hebrew)
-  * At least one leap week calendar (ISO & Pax)
-- XML doc/comments: currently largely outdated or badly written.
-- .NET 7, we use preview features
-
-Misc TODOs
 - Packaging: version numbering (timestamp).
 - Publication: GitHub & NuGet (for NuGet only when reach 1.0.0).
 - When .NET 7 is out:
@@ -63,6 +55,25 @@ Misc TODOs
 - New code coverage? https://github.com/FortuneN/FineCodeCoverage
   - https://devblogs.microsoft.com/dotnet/automate-code-metrics-and-class-diagrams-with-github-actions/
   - https://github.com/microsoft/dotnet/
+
+
+Plan?
+-----
+
+### Version 1.0
+- Stable API and full test coverage.
+  * At least one Lunisolar calendar (Hebrew)
+  * At least one leap week calendar (ISO & Pax)
+- XML doc/comments: currently largely outdated or badly written.
+- .NET 7, we use preview features
+
+### Version 1.x
+- Core
+- Geometry
+- Hemerology
+
+### Version 2.x
+- Horology
 
 
 Subprojects
