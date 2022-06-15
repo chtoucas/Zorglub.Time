@@ -55,10 +55,10 @@ type InternationalFixedTests() =
 type JulianTests() =
     inherit CalendricalArithmeticFacts<JulianDataSet>(syschemaOf<JulianSchema>(), ariOf)
 
-[<Sealed>]
-[<RedundantTestBundle>]
-type LunisolarTests() =
-    inherit CalendricalArithmeticFacts<LunisolarDataSet>(syschemaOf<LunisolarSchema>(), ariOf)
+//[<Sealed>]
+//[<RedundantTestBundle>]
+//type LunisolarTests() =
+//    inherit CalendricalArithmeticFacts<LunisolarDataSet>(syschemaOf<LunisolarSchema>(), ariOf)
 
 // Already tested in ArithmeticTestSuite.
 [<Fact>]
