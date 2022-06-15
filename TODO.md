@@ -36,6 +36,14 @@ FIXME
 TODO
 ----
 
+Prerequisites for version 1.0.
+- Stable API and full test coverage.
+  * At least one Lunisolar calendar (Hebrew)
+  * At least one leap week calendar (ISO & Pax)
+- XML doc/comments: currently largely outdated or badly written.
+- .NET 7, we use preview features
+
+Misc TODOs
 - Packaging: version numbering (timestamp).
 - Publication: GitHub & NuGet (for NuGet only when reach 1.0.0).
 - When .NET 7 is out:
@@ -52,8 +60,6 @@ TODO
 - Clean up DIM.
   Beware of DIM and structs.
   https://mattwarren.org/2020/02/19/Under-the-hood-of-Default-Interface-Methods/
-- XML doc/comments: currently largely outdated or badly written.
-- ISO calendar.
 - New code coverage? https://github.com/FortuneN/FineCodeCoverage
   - https://devblogs.microsoft.com/dotnet/automate-code-metrics-and-class-diagrams-with-github-actions/
   - https://github.com/microsoft/dotnet/
@@ -65,6 +71,7 @@ Subprojects
 - C# source generators for specialized date types?
 - C# analyzers.
 - Parsing / formatting.
+
 
 Calendars
 ---------
