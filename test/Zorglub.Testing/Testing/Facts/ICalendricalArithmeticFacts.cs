@@ -167,6 +167,35 @@ public partial class ICalendricalArithmeticFacts<TArithmetic, TDataSet> // Yemo
         Assert.Equal(month, ArithmeticUT.AddMonths(other, -ms));
     }
 
+    [RedundantTest]
+    [Theory, MemberData(nameof(ConsecutiveMonthsData))]
+    public void AddMonths﹍CalendarMonth_ViaConsecutiveMonths(YemoPair pair)
+    {
+        var month = pair.First;
+        var monthAfter = pair.Second;
+        // Act & Assert
+        Assert.Equal(monthAfter, ArithmeticUT.AddMonths(month, 1));
+        Assert.Equal(month, ArithmeticUT.AddMonths(monthAfter, -1));
+    }
+
+    [Theory, MemberData(nameof(ConsecutiveMonthsData))]
+    public void NextMonth﹍CalendarMonth(YemoPair pair)
+    {
+        var month = pair.First;
+        var monthAfter = pair.Second;
+        // Act & Assert
+        Assert.Equal(monthAfter, ArithmeticUT.NextMonth(month));
+    }
+
+    [Theory, MemberData(nameof(ConsecutiveMonthsData))]
+    public void PreviousMonth﹍CalendarMonth(YemoPair pair)
+    {
+        var month = pair.First;
+        var monthAfter = pair.Second;
+        // Act & Assert
+        Assert.Equal(month, ArithmeticUT.PreviousMonth(monthAfter));
+    }
+
     [Theory, MemberData(nameof(AddMonthsMonthData))]
     public void CountMonthsBetween﹍CalendarMonth(YemoPairAnd<int> info)
     {
@@ -176,5 +205,16 @@ public partial class ICalendricalArithmeticFacts<TArithmetic, TDataSet> // Yemo
         // Act & Assert
         Assert.Equal(ms, ArithmeticUT.CountMonthsBetween(month, other));
         Assert.Equal(-ms, ArithmeticUT.CountMonthsBetween(other, month));
+    }
+
+    [RedundantTest]
+    [Theory, MemberData(nameof(ConsecutiveMonthsData))]
+    public void CountMonthsBetween﹍CalendarMonth_ViaConsecutiveMonths(YemoPair pair)
+    {
+        var month = pair.First;
+        var monthAfter = pair.Second;
+        // Act & Assert
+        Assert.Equal(1, ArithmeticUT.CountMonthsBetween(month, monthAfter));
+        Assert.Equal(-1, ArithmeticUT.CountMonthsBetween(monthAfter, month));
     }
 }

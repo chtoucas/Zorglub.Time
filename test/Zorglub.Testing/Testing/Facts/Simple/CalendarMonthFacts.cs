@@ -37,12 +37,30 @@ public abstract partial class CalendarMonthFacts<TDataSet> :
         OtherCalendar = otherCalendar;
 
         SupportedYearsTester = new SupportedYearsTester(calendar.SupportedYears);
+
+        (MinMonth, MaxMonth) = calendar.MinMaxMonth;
     }
 
     protected Calendar CalendarUT { get; }
     protected Calendar OtherCalendar { get; }
 
     protected SupportedYearsTester SupportedYearsTester { get; }
+
+    protected CalendarMonth MinMonth { get; }
+    protected CalendarMonth MaxMonth { get; }
+
+    protected CalendarMonth GetMonth(Yemo ym)
+    {
+        var (y, m) = ym;
+        return CalendarUT.GetCalendarMonth(y, m);
+    }
+
+    /// <summary>
+    /// We only use this sample year when its value matters (mathops); otherwise
+    /// just use the first month of the year 1. It is initialized to ensure that
+    /// the math operations we are going to perform will work.
+    /// </summary>
+    private CalendarMonth GetSampleMonth() => CalendarUT.GetCalendarMonth(1234, 2);
 }
 
 public partial class CalendarMonthFacts<TDataSet> // Prelude
@@ -613,4 +631,167 @@ public partial class CalendarMonthFacts<TDataSet> // IComparable
         Assert.Equal(max, CalendarMonth.Max(min, max));
         Assert.Equal(max, CalendarMonth.Max(max, min));
     }
+}
+
+public partial class CalendarMonthFacts<TDataSet> // Math
+{
+    #region NextMonth()
+
+    [Fact]
+    public void NextMonth_Overflows_AtMaxMonth()
+    {
+        var copy = MaxMonth;
+        // Act & Assert
+        Assert.Overflows(() => copy++);
+        Assert.Overflows(() => MaxMonth.NextMonth());
+    }
+
+    [Theory, MemberData(nameof(ConsecutiveMonthsData))]
+    public void NextMonth(YemoPair pair)
+    {
+        var month = GetMonth(pair.First);
+        var copy = month;
+        var monthAfter = GetMonth(pair.Second);
+        // Act & Assert
+        Assert.Equal(monthAfter, ++copy);
+        Assert.Equal(monthAfter, month.NextMonth());
+    }
+
+    #endregion
+    #region PreviousMonth()
+
+    [Fact]
+    public void PreviousMonth_Overflows_AtMinMonth()
+    {
+        var copy = MinMonth;
+        // Act & Assert
+        Assert.Overflows(() => copy--);
+        Assert.Overflows(() => MinMonth.PreviousMonth());
+    }
+
+    [Theory, MemberData(nameof(ConsecutiveMonthsData))]
+    public void PreviousMonth(YemoPair pair)
+    {
+        var month = GetMonth(pair.First);
+        var monthAfter = GetMonth(pair.Second);
+        var copy = monthAfter;
+        // Act & Assert
+        Assert.Equal(month, --copy);
+        Assert.Equal(month, monthAfter.PreviousMonth());
+    }
+
+    #endregion
+
+    #region AddMonths() & CountMonthsBetween()
+
+    [Fact]
+    public void AddMonths_Overflows_WithMaxMonths()
+    {
+        var month = CalendarUT.GetCalendarMonth(1, 1);
+        // Act & Assert
+        Assert.Overflows(() => month + Int32.MinValue);
+        Assert.Overflows(() => month + Int32.MaxValue);
+        Assert.Overflows(() => month.PlusMonths(Int32.MinValue));
+        Assert.Overflows(() => month.PlusMonths(Int32.MaxValue));
+    }
+
+    [Fact]
+    public void AddMonths_AtMinMonth()
+    {
+        int ms = MaxMonth - MinMonth;
+        // Act & Assert
+        Assert.Overflows(() => MinMonth - 1);
+        Assert.Equal(MinMonth, MinMonth - 0);
+        Assert.Equal(MinMonth, MinMonth + 0);
+        Assert.Equal(MaxMonth, MinMonth + ms);
+        Assert.Overflows(() => MinMonth + (ms + 1));
+
+        Assert.Overflows(() => MinMonth.PlusMonths(-1));
+        Assert.Equal(MinMonth, MinMonth.PlusMonths(0));
+        Assert.Equal(MaxMonth, MinMonth.PlusMonths(ms));
+        Assert.Overflows(() => MinMonth.PlusMonths(ms + 1));
+    }
+
+    [Fact]
+    public void AddMonths_AtMaxMonth()
+    {
+        int ms = MaxMonth - MinMonth;
+        // Act & Assert
+        Assert.Overflows(() => MaxMonth - (ms + 1));
+        Assert.Equal(MinMonth, MaxMonth - ms);
+        Assert.Equal(MaxMonth, MaxMonth - 0);
+        Assert.Equal(MaxMonth, MaxMonth + 0);
+        Assert.Overflows(() => MaxMonth + 1);
+
+        Assert.Overflows(() => MaxMonth.PlusMonths(-ms - 1));
+        Assert.Equal(MinMonth, MaxMonth.PlusMonths(-ms));
+        Assert.Equal(MaxMonth, MaxMonth.PlusMonths(0));
+        Assert.Overflows(() => MaxMonth.PlusMonths(1));
+    }
+
+    [Fact]
+    public void AddMonths_WithLimitMonths()
+    {
+        var supportedYears = CalendarUT.SupportedYears;
+        var month = GetSampleMonth();
+        int minMs = MinMonth - month;
+        int maxMs = MaxMonth - month;
+        // Act & Assert
+        Assert.Overflows(() => month + (minMs - 1));
+        Assert.Equal(MinMonth, month + minMs);
+        Assert.Equal(MaxMonth, month + maxMs);
+        Assert.Overflows(() => month + (maxMs + 1));
+
+        Assert.Overflows(() => month.PlusMonths(minMs - 1));
+        Assert.Equal(MinMonth, month.PlusMonths(minMs));
+        Assert.Equal(MaxMonth, month.PlusMonths(maxMs));
+        Assert.Overflows(() => month.PlusMonths(maxMs + 1));
+    }
+
+    [Fact]
+    public void CountMonthsBetween_DoesNotOverflow()
+    {
+        _ = MaxMonth - MinMonth;
+        _ = MinMonth - MaxMonth;
+        _ = MaxMonth.CountMonthsSince(MinMonth);
+        _ = MinMonth.CountMonthsSince(MaxMonth);
+    }
+
+    [Theory, MemberData(nameof(MonthInfoData))]
+    public void AddMonths_Zero_IsNeutral(MonthInfo info)
+    {
+        var (y, m) = info.Yemo;
+        var month = CalendarUT.GetCalendarMonth(y, m);
+        // Act & Assert
+        Assert.Equal(month, month + 0);
+        Assert.Equal(month, month - 0);
+        Assert.Equal(month, month.PlusMonths(0));
+
+        Assert.Equal(0, month - month);
+        Assert.Equal(0, month.CountMonthsSince(month));
+    }
+
+    [Theory, MemberData(nameof(AddMonthsMonthData))]
+    public void AddMonths(YemoPairAnd<int> info)
+    {
+        int ms = info.Value;
+        var month = GetMonth(info.First);
+        var other = GetMonth(info.Second);
+        // Act & Assert
+        Assert.Equal(other, month + ms);
+        Assert.Equal(other, month - (-ms));
+        Assert.Equal(month, other - ms);
+        Assert.Equal(month, other + (-ms));
+
+        Assert.Equal(other, month.PlusMonths(ms));
+        Assert.Equal(month, other.PlusMonths(-ms));
+
+        Assert.Equal(ms, other - month);
+        Assert.Equal(-ms, month - other);
+
+        Assert.Equal(ms, other.CountMonthsSince(month));
+        Assert.Equal(-ms, month.CountMonthsSince(other));
+    }
+
+    #endregion
 }
