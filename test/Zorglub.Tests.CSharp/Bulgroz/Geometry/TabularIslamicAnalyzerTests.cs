@@ -291,8 +291,6 @@ public sealed class TabularIslamicYearFormTests : AnalyzerFacts
     }
 }
 
-#pragma warning disable CA1034 // Nested types should not be visible (Design) 👈 Tests
-
 // MonthForm's.
 public static class TabularIslamicMonthFormTests
 {
@@ -437,5 +435,3 @@ public static class TabularIslamicMonthFormTests
         }
     }
 }
-
-#pragma warning restore CA1034

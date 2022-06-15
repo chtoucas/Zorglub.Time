@@ -7,8 +7,6 @@ using Zorglub.Time.Core.Schemas;
 using Zorglub.Time.Geometry.Discrete;
 using Zorglub.Time.Geometry.Forms;
 
-#pragma warning disable CA1034 // Nested types should not be visible (Design) 👈 Tests
-
 // MonthForm's.
 // NB: the resulting form is the same whether the year is leap or not.
 public static class Tropicalia3130MonthFormTests
@@ -126,5 +124,3 @@ public static class Tropicalia3130MonthFormTests
         }
     }
 }
-
-#pragma warning restore CA1034

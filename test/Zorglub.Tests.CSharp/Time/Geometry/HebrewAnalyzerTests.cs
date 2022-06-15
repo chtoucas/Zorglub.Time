@@ -96,8 +96,6 @@ public sealed partial class HebrewLeapYearFormTests : AnalyzerFacts
 // 385 days long. Both Cheshvan and Kislev have 30 days. The Hebrew
 // letter ש "shin" is used in the keviyah.
 
-#pragma warning disable CA1034 // Nested types should not be visible (Design) 👈 Tests
-
 // MonthForm's.
 public static class HebrewMonthFormTests
 {
@@ -518,5 +516,3 @@ public static class HebrewMonthFormTests
             TryConvertCodeToForm_SomeVersions(RotatedForms);
     }
 }
-
-#pragma warning restore CA1034

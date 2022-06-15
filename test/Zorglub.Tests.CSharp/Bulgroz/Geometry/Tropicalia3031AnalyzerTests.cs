@@ -7,8 +7,6 @@ using Zorglub.Time.Core.Schemas;
 using Zorglub.Time.Geometry.Discrete;
 using Zorglub.Time.Geometry.Forms;
 
-#pragma warning disable CA1034 // Nested types should not be visible (Design) 👈 Tests
-
 // MonthForm's.
 public static class Tropicalia3031MonthFormTests
 {
@@ -168,5 +166,3 @@ public static class Tropicalia3031MonthFormTests
         }
     }
 }
-
-#pragma warning restore CA1034
