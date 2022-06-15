@@ -229,13 +229,7 @@ namespace Zorglub.Time.Core.Arithmetic
 
         /// <inheritdoc />
         [Pure]
-        public virtual int CountMonthsBetween(Yemo start, Yemo end)
-        {
-            start.Unpack(out int y0, out int m0);
-            end.Unpack(out int y1, out int m1);
-
-            return Schema.CountMonthsSinceEpoch(y1, m1) - Schema.CountMonthsSinceEpoch(y0, m0);
-        }
+        public abstract int CountMonthsBetween(Yemo start, Yemo end);
     }
 
     internal partial class SystemArithmetic // Fast operations

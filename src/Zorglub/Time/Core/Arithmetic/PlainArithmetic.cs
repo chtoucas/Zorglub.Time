@@ -133,4 +133,17 @@ namespace Zorglub.Time.Core.Arithmetic
                 : Throw.DateOverflow<Yedoy>();
         }
     }
+
+    internal partial class PlainArithmetic // Operations on Yemo
+    {
+        /// <inheritdoc />
+        [Pure]
+        public override int CountMonthsBetween(Yemo start, Yemo end)
+        {
+            start.Unpack(out int y0, out int m0);
+            end.Unpack(out int y1, out int m1);
+
+            return Schema.CountMonthsSinceEpoch(y1, m1) - Schema.CountMonthsSinceEpoch(y0, m0);
+        }
+    }
 }
