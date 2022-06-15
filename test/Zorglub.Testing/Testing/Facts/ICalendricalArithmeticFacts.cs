@@ -153,3 +153,28 @@ public partial class ICalendricalArithmeticFacts<TArithmetic, TDataSet> // Yedoy
         Assert.Equal(-1, ArithmeticUT.CountDaysBetween(dateAfter, date));
     }
 }
+
+public partial class ICalendricalArithmeticFacts<TArithmetic, TDataSet> // Yemo
+{
+    [Theory, MemberData(nameof(AddMonthsMonthData))]
+    public void AddMonths﹍CalendarMonth(YemoPairAnd<int> info)
+    {
+        int ms = info.Value;
+        var month = info.First;
+        var other = info.Second;
+        // Act & Assert
+        Assert.Equal(other, ArithmeticUT.AddMonths(month, ms));
+        Assert.Equal(month, ArithmeticUT.AddMonths(other, -ms));
+    }
+
+    [Theory, MemberData(nameof(AddMonthsMonthData))]
+    public void CountMonthsBetween﹍CalendarMonth(YemoPairAnd<int> info)
+    {
+        int ms = info.Value;
+        var month = info.First;
+        var other = info.Second;
+        // Act & Assert
+        Assert.Equal(ms, ArithmeticUT.CountMonthsBetween(month, other));
+        Assert.Equal(-ms, ArithmeticUT.CountMonthsBetween(other, month));
+    }
+}
