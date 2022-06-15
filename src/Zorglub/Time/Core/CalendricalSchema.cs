@@ -237,6 +237,10 @@ namespace Zorglub.Time.Core
             // The schema is not regular iff monthsInYear = 0.
             _ = IsRegular(out int monthsInYear);
 
+            // TODO(code): set Lunisolar.MinDaysInYear to 354, then it's easy to
+            // distinguish Lunar from Lunisolar, since one is regular and the
+            // other is not.
+
             // WARNING: the order is important, higher values of MinDaysInYear
             // MUST come first, then those of MinDaysInMonth.
             return this switch

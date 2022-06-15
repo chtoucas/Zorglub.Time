@@ -19,6 +19,7 @@ namespace Zorglub.Time.Simple
     //   Should we create RegularArithmetic?
     // - Remove month ops from CalendarMath
     // - To be fixed:
+    //   * Lunisolar arithmetic tests
     //   * CIL code size
     //   * MonthsSinceEpochHelper
     //   * CalendarMonth

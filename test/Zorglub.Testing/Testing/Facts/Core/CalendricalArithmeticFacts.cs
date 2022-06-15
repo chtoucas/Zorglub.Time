@@ -59,6 +59,10 @@ public abstract partial class CalendricalArithmeticFacts<TDataSet> :
 
 public partial class CalendricalArithmeticFacts<TDataSet> // Overflows
 {
+    //
+    // Yemoda
+    //
+
     [Fact]
     public void AddDays﹍Yemoda_Overflows()
     {
@@ -86,6 +90,10 @@ public partial class CalendricalArithmeticFacts<TDataSet> // Overflows
     public void NextDay﹍Yemoda_Overflows_AtEndOfMaxYear() =>
         Assert.Overflows(() => ArithmeticUT.NextDay(MaxYemoda));
 
+    //
+    // Yedoy
+    //
+
     [Fact]
     public void AddDays﹍Yedoy_Overflows()
     {
@@ -112,4 +120,9 @@ public partial class CalendricalArithmeticFacts<TDataSet> // Overflows
     [Fact]
     public void NextDay﹍Yedoy_Overflows_AtEndOfMaxYear() =>
         Assert.Overflows(() => ArithmeticUT.NextDay(MaxYedoy));
+
+    //
+    // Yemo
+    //
+    // TODO(fact): Yemo limits.
 }
