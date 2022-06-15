@@ -15,6 +15,15 @@ public sealed class LunisolarSchema :
     IDaysInMonthDistribution,
     IBoxable<LunisolarSchema>
 {
+    public const int MonthsPer4YearCycle = 50;
+    public const int DaysPer4YearCycle = 1446;
+
+    public const int MonthsInCommonYear = 12;
+    public const int MonthsInLeapYear = 13;
+
+    public const int DaysInCommonYear = 354;
+    public const int DaysInLeapYear = 384;
+
     public LunisolarSchema() : base(Lunisolar.MinDaysInYear, Lunisolar.MinDaysInMonth) { }
 
     [Pure]
@@ -34,8 +43,8 @@ public sealed class LunisolarSchema :
     [Pure] public override bool IsIntercalaryDay(int y, int m, int d) => false;
     [Pure] public override bool IsSupplementaryDay(int y, int m, int d) => false;
 
-    [Pure] public override int CountMonthsInYear(int y) => IsLeapYear(y) ? 13 : 12;
-    [Pure] public override int CountDaysInYear(int y) => IsLeapYear(y) ? 384 : 354;
+    [Pure] public override int CountMonthsInYear(int y) => IsLeapYear(y) ? MonthsInLeapYear : MonthsInCommonYear;
+    [Pure] public override int CountDaysInYear(int y) => IsLeapYear(y) ? DaysInLeapYear : DaysInCommonYear;
     [Pure] public override int CountDaysInYearBeforeMonth(int y, int m) => 29 * (m - 1) + (m >> 1);
     [Pure] public override int CountDaysInMonth(int y, int m) => 29 + (m & 1);
 
@@ -44,7 +53,7 @@ public sealed class LunisolarSchema :
     public override int CountMonthsSinceEpoch(int y, int m)
     {
         y--;
-        return 12 * y + (y >> 2) + m - 1;
+        return MonthsInCommonYear * y + (y >> 2) + m - 1;
     }
 
     public override void GetMonthParts(int monthsSinceEpoch, out int y, out int m) =>
@@ -62,23 +71,23 @@ public sealed class LunisolarSchema :
     [Pure]
     public override int GetYear(int daysSinceEpoch)
     {
-        int C = MathZ.Divide(daysSinceEpoch, 1446, out int D);
+        int C = MathZ.Divide(daysSinceEpoch, DaysPer4YearCycle, out int D);
         return (C << 2) + (D >= 1416 ? 4 : 1 + D / 354);
     }
 
     [Pure]
-    public override int GetStartOfYear(int y) => 354 * (--y) + 30 * (y >> 2);
+    public override int GetStartOfYear(int y) => DaysInCommonYear * (--y) + 30 * (y >> 2);
 
     public override void GetEndOfYearParts(int y, out int m, out int d)
     {
         if (IsLeapYear(y))
         {
-            m = 13;
+            m = MonthsInLeapYear;
             d = 30;
         }
         else
         {
-            m = 12;
+            m = MonthsInCommonYear;
             d = 29;
         }
     }
