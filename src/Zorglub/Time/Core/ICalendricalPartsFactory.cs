@@ -3,6 +3,8 @@
 
 namespace Zorglub.Time.Core
 {
+    // TODO(api): add GetStartOfYearMonthParts() and GetEndOfYearMonthParts().
+
     #region Developer Notes
 
     // Types Implementing ICalendricalSchemaPlus

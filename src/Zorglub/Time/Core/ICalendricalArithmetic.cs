@@ -5,6 +5,8 @@ namespace Zorglub.Time.Core
 {
     using Zorglub.Time.Core.Intervals;
 
+    // TODO(api): add Min/MaxDaysSinceEpoch and Min/MaxMonthsSinceEpoch.
+
     #region Developer Notes
 
     // Types Implementing ICalendricalArithmetic

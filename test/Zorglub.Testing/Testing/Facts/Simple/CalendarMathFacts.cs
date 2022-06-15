@@ -586,6 +586,8 @@ public partial class CalendarMathFacts<TDataSet> // CalendarMonth
     //
 
     #region AddMonths() & CountMonthsBetween()
+#pragma warning disable CS0618 // Type or member is obsolete
+    // TODO(fact): move the tests to CalendricalArithmeticFacts.
 
     [Fact]
     public void AddMonths﹍CalendarMonth_Overflows_WithMaxMonths()
@@ -663,6 +665,7 @@ public partial class CalendarMathFacts<TDataSet> // CalendarMonth
         Assert.Equal(-ms, MathUT.CountMonthsBetween(other, month));
     }
 
+#pragma warning restore CS0618
     #endregion
 }
 
@@ -677,6 +680,7 @@ public partial class CalendarMathFacts<TDataSet> // CalendarYear
     // - CalendarYear.PlusYear()
     // - CalendarYear.CountYearsSince()
     // and the related math operators.
+    // TODO(fact): move the tests to CalendarYearFacts.
 
     #region NextYear()
 
