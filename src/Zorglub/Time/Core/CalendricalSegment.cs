@@ -31,6 +31,8 @@ namespace Zorglub.Time.Core
 
             Schema = schema;
 
+            SupportedYears = Range.Create(start.Year, end.Year);
+
             MinMaxDaysSinceEpoch =
                 OrderedPair.FromOrderedValues(start.DaysSinceEpoch, end.DaysSinceEpoch);
             MinMaxDateParts =
@@ -43,6 +45,11 @@ namespace Zorglub.Time.Core
             MinMaxMonthParts =
                 OrderedPair.FromOrderedValues(start.MonthParts, end.MonthParts);
         }
+
+        /// <summary>
+        /// Gets the range of years for which the methods are known not to overflow.
+        /// </summary>
+        public Range<int> SupportedYears { get; }
 
         /// <summary>
         /// Gets the pair of earliest and latest supported "day number"s.

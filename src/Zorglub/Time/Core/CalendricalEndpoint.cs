@@ -15,6 +15,8 @@ namespace Zorglub.Time.Core
         public int MonthsSinceEpoch { get; init; }
         public Yemo MonthParts => DateParts.Yemo;
 
+        public int Year => MonthParts.Year;
+
         // NB: comparison w/ null always returns false, even null >= null and null <= null.
         public static bool operator <(CalendricalEndpoint? left, CalendricalEndpoint? right) =>
             left is not null && right is not null && left.CompareTo(right) < 0;

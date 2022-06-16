@@ -59,17 +59,10 @@ namespace Zorglub.Time.Core
             _schema = schema ?? throw new ArgumentNullException(nameof(schema));
             _partsFactory = ICalendricalPartsFactory.Create(schema, @checked: false);
 
-            var set = Interval.Intersect(schema.SupportedYears, Yemoda.SupportedYears);
-            if (set.IsEmpty) Throw.Argument(nameof(schema));
-
-            SupportedYears = set.Range;
-
-            (_minDaysSinceEpoch, _maxDaysSinceEpoch) =
-                SupportedYears.Endpoints.Select(schema.GetStartOfYear, schema.GetEndOfYear);
-
-            var helper = MonthsSinceEpochHelper.Create(schema);
-            (_minMonthsSinceEpoch, _maxMonthsSinceEpoch) =
-                SupportedYears.Endpoints.Select(helper.GetStartOfYear, helper.GetEndOfYear);
+            var segment = CalendricalSegment.CreateMaximal(schema, onOrAfterEpoch: false);
+            SupportedYears = segment.SupportedYears;
+            (_minDaysSinceEpoch, _maxDaysSinceEpoch) = segment.MinMaxDaysSinceEpoch;
+            (_minMonthsSinceEpoch, _maxMonthsSinceEpoch) = segment.MinMaxMonthsSinceEpoch;
         }
 
         /// <inheritdoc/>
