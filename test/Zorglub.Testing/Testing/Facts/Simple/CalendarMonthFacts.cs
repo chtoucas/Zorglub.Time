@@ -681,7 +681,6 @@ public partial class CalendarMonthFacts<TDataSet> // Math
     }
 
     #endregion
-
     #region AddMonths() & CountMonthsBetween()
 
     [Fact]

@@ -37,7 +37,6 @@ public abstract partial class CalendarMathFacts<TDataSet> :
         (MinDate, MaxDate) = Calendar.MinMaxDate;
         (MinOrdinal, MaxOrdinal) = Calendar.MinMaxOrdinal;
         (MinMonth, MaxMonth) = Calendar.MinMaxMonth;
-        (MinYear, MaxYear) = Calendar.MinMaxYear;
     }
 
     protected CalendarMath MathUT { get; }
@@ -51,9 +50,6 @@ public abstract partial class CalendarMathFacts<TDataSet> :
 
     protected CalendarMonth MinMonth { get; }
     protected CalendarMonth MaxMonth { get; }
-
-    protected CalendarYear MinYear { get; }
-    protected CalendarYear MaxYear { get; }
 
     protected CalendarDate GetDate(Yemoda ymd)
     {
@@ -79,12 +75,6 @@ public abstract partial class CalendarMathFacts<TDataSet> :
     /// the math operations we are going to perform will work.
     /// </summary>
     private CalendarMonth GetSampleMonth() => Calendar.GetCalendarMonth(1234, 2);
-
-    /// <summary>
-    /// We only use this sample year when its value matters (mathops); otherwise
-    /// just use the year 1.
-    /// </summary>
-    private CalendarYear GetSampleYear() => Calendar.GetCalendarYear(1234);
 }
 
 public partial class CalendarMathFacts<TDataSet> // CalendarDate
@@ -586,8 +576,9 @@ public partial class CalendarMathFacts<TDataSet> // CalendarMonth
     //
 
     #region AddMonths() & CountMonthsBetween()
-#pragma warning disable CS0618 // Type or member is obsolete
     // TODO(fact): move the tests to CalendricalArithmeticFacts.
+#if false
+#pragma warning disable CS0618 // Type or member is obsolete
 
     [Fact]
     public void AddMonths﹍CalendarMonth_Overflows_WithMaxMonths()
@@ -666,191 +657,6 @@ public partial class CalendarMathFacts<TDataSet> // CalendarMonth
     }
 
 #pragma warning restore CS0618
-    #endregion
-}
-
-public partial class CalendarMathFacts<TDataSet> // CalendarYear
-{
-    //
-    // Year (base) unit
-    //
-    // We also test
-    // - CalendarYear.NextYear()
-    // - CalendarYear.PreviousYear()
-    // - CalendarYear.PlusYear()
-    // - CalendarYear.CountYearsSince()
-    // and the related math operators.
-    // TODO(fact): move the tests to CalendarYearFacts.
-
-    #region NextYear()
-
-    [Fact]
-    public void NextYear﹍CalendarYear_Overflows_AtMaxValue()
-    {
-        var copy = MaxYear;
-        // Act & Assert
-        Assert.Overflows(() => copy++);
-        Assert.Overflows(() => MaxYear.NextYear());
-    }
-
-    [Fact]
-    public void NextYear﹍CalendarYear()
-    {
-        var year = GetSampleYear();
-        var copy = year;
-        var yearAfter = Calendar.GetCalendarYear(year.Year + 1);
-        // Act & Assert
-        Assert.Equal(yearAfter, ++copy);
-        Assert.Equal(yearAfter, year.NextYear());
-    }
-
-    #endregion
-    #region PreviousYear()
-
-    [Fact]
-    public void PreviousYear﹍CalendarYear_Overflows_AtMinValue()
-    {
-        var copy = MinYear;
-        // Act & Assert
-        Assert.Overflows(() => copy--);
-        Assert.Overflows(() => MinYear.PreviousYear());
-    }
-
-    [Fact]
-    public void PreviousYear﹍CalendarYear()
-    {
-        var year = GetSampleYear();
-        var copy = year;
-        var yearBefore = Calendar.GetCalendarYear(year.Year - 1);
-        // Act & Assert
-        Assert.Equal(yearBefore, --copy);
-        Assert.Equal(yearBefore, year.PreviousYear());
-    }
-
-    #endregion
-
-    #region PlusYears() & CountYearsSince()
-
-    [Fact]
-    public void PlusYears﹍CalendarYear_Overflows_WithMaxYears()
-    {
-        var year = Calendar.GetCalendarYear(1);
-        // Act & Assert
-        Assert.Overflows(() => year + Int32.MinValue);
-        Assert.Overflows(() => year + Int32.MaxValue);
-
-        Assert.Overflows(() => year.PlusYears(Int32.MinValue));
-        Assert.Overflows(() => year.PlusYears(Int32.MaxValue));
-    }
-
-    [Fact]
-    public void PlusYears﹍CalendarYear_WithLimitYears()
-    {
-        var year = GetSampleYear();
-        int minYs = MinYear - year;
-        int maxYs = MaxYear - year;
-        // Act & Assert
-        Assert.Overflows(() => year + (minYs - 1));
-        Assert.Equal(MinYear, year + minYs);
-        Assert.Equal(MaxYear, year + maxYs);
-        Assert.Overflows(() => year + (maxYs + 1));
-
-        Assert.Overflows(() => year.PlusYears(minYs - 1));
-        Assert.Equal(MinYear, year.PlusYears(minYs));
-        Assert.Equal(MaxYear, year.PlusYears(maxYs));
-        Assert.Overflows(() => year.PlusYears(maxYs + 1));
-    }
-
-    [Fact]
-    public void CountYearsSince﹍CalendarYear_DoesNotOverflow()
-    {
-        int ys = MaxYear.Year - MinYear.Year;
-        // Act & Assert
-        Assert.Equal(ys, MaxYear - MinYear);
-        Assert.Equal(-ys, MinYear - MaxYear);
-
-        Assert.Equal(ys, MaxYear.CountYearsSince(MinYear));
-        Assert.Equal(-ys, MinYear.CountYearsSince(MaxYear));
-    }
-
-    [Fact]
-    public void PlusYears﹍CalendarYear_AtMinYear()
-    {
-        // We could have written:
-        // > int ys = MaxYear - MinYear;
-        // but this is CountYearsSince() in disguise and I prefer to stick to
-        // basic maths.
-        int ys = Calendar.SupportedYears.Count() - 1;
-        // Act & Assert
-        Assert.Overflows(() => MinYear - 1);
-        Assert.Equal(MinYear, MinYear - 0);
-        Assert.Equal(MinYear, MinYear + 0);
-        Assert.Equal(MaxYear, MinYear + ys);
-        Assert.Overflows(() => MinYear + (ys + 1));
-
-        Assert.Overflows(() => MinYear.PlusYears(-1));
-        Assert.Equal(MinYear, MinYear.PlusYears(0));
-        Assert.Equal(MaxYear, MinYear.PlusYears(ys));
-        Assert.Overflows(() => MinYear.PlusYears(ys + 1));
-    }
-
-    [Fact]
-    public void PlusYears﹍CalendarYear_AtMaxYear()
-    {
-        // We could have written:
-        // > int ys = MaxYear - MinYear;
-        // but this is CountYearsSince() in disguise and I prefer to stick to
-        // basic maths.
-        int ys = Calendar.SupportedYears.Count() - 1;
-        // Act & Assert
-        Assert.Overflows(() => MaxYear - (ys + 1));
-        Assert.Equal(MinYear, MaxYear - ys);
-        Assert.Equal(MaxYear, MaxYear - 0);
-        Assert.Equal(MaxYear, MaxYear + 0);
-        Assert.Overflows(() => MaxYear + 1);
-
-        Assert.Overflows(() => MaxYear.PlusYears(-ys - 1));
-        Assert.Equal(MinYear, MaxYear.PlusYears(-ys));
-        Assert.Equal(MaxYear, MaxYear.PlusYears(0));
-        Assert.Overflows(() => MaxYear.PlusYears(1));
-    }
-
-    [Theory, MemberData(nameof(YearInfoData))]
-    public void PlusYears﹍CalendarYear_Zero_IsNeutral(YearInfo info)
-    {
-        var year = Calendar.GetCalendarYear(info.Year);
-        // Act & Assert
-        Assert.Equal(year, year + 0);
-        Assert.Equal(year, year - 0);
-        Assert.Equal(year, year.PlusYears(0));
-
-        Assert.Equal(0, year - year);
-        Assert.Equal(0, year.CountYearsSince(year));
-    }
-
-    [Fact]
-    public void PlusYears﹍CalendarYear()
-    {
-        // NB: ys is such that "other" is a valid year for both standard and
-        // proleptic calendars.
-        int ys = 876;
-        var year = GetSampleYear();
-        var other = Calendar.GetCalendarYear(year.Year + ys);
-        // Act & Assert
-        Assert.Equal(other, year + ys);
-        Assert.Equal(other, year - (-ys));
-        Assert.Equal(year, other - ys);
-        Assert.Equal(year, other + (-ys));
-
-        Assert.Equal(other, year.PlusYears(ys));
-        Assert.Equal(year, other.PlusYears(-ys));
-
-        Assert.Equal(ys, other - year);
-        Assert.Equal(-ys, year - other);
-
-        Assert.Equal(ys, other.CountYearsSince(year));
-        Assert.Equal(-ys, year.CountYearsSince(other));
-    }
-
+#endif
     #endregion
 }

@@ -6,6 +6,7 @@ namespace Zorglub.Testing.Facts.Simple;
 using System.Linq;
 
 using Zorglub.Testing.Data;
+using Zorglub.Time.Core.Intervals;
 using Zorglub.Time.Simple;
 
 // NB: we know that all years within the range [1..9999] are valid.
@@ -37,12 +38,23 @@ public abstract partial class CalendarYearFacts<TDataSet> :
         OtherCalendar = otherCalendar;
 
         SupportedYearsTester = new SupportedYearsTester(calendar.SupportedYears);
+
+        (MinYear, MaxYear) = calendar.MinMaxYear;
     }
 
     protected Calendar CalendarUT { get; }
     protected Calendar OtherCalendar { get; }
 
     protected SupportedYearsTester SupportedYearsTester { get; }
+
+    protected CalendarYear MinYear { get; }
+    protected CalendarYear MaxYear { get; }
+
+    /// <summary>
+    /// We only use this sample year when its value matters (mathops); otherwise
+    /// just use the year 1.
+    /// </summary>
+    private CalendarYear GetSampleYear() => CalendarUT.GetCalendarYear(1234);
 }
 
 public partial class CalendarYearFacts<TDataSet> // Prelude
@@ -483,4 +495,178 @@ public partial class CalendarYearFacts<TDataSet> // IComparable
         Assert.Equal(max, CalendarYear.Max(min, max));
         Assert.Equal(max, CalendarYear.Max(max, min));
     }
+}
+
+public partial class CalendarYearFacts<TDataSet> // Math
+{
+    #region NextYear()
+
+    [Fact]
+    public void NextYear_Overflows_AtMaxValue()
+    {
+        var copy = MaxYear;
+        // Act & Assert
+        Assert.Overflows(() => copy++);
+        Assert.Overflows(() => MaxYear.NextYear());
+    }
+
+    [Fact]
+    public void NextYear()
+    {
+        var year = GetSampleYear();
+        var copy = year;
+        var yearAfter = CalendarUT.GetCalendarYear(year.Year + 1);
+        // Act & Assert
+        Assert.Equal(yearAfter, ++copy);
+        Assert.Equal(yearAfter, year.NextYear());
+    }
+
+    #endregion
+    #region PreviousYear()
+
+    [Fact]
+    public void PreviousYear_Overflows_AtMinValue()
+    {
+        var copy = MinYear;
+        // Act & Assert
+        Assert.Overflows(() => copy--);
+        Assert.Overflows(() => MinYear.PreviousYear());
+    }
+
+    [Fact]
+    public void PreviousYear()
+    {
+        var year = GetSampleYear();
+        var copy = year;
+        var yearBefore = CalendarUT.GetCalendarYear(year.Year - 1);
+        // Act & Assert
+        Assert.Equal(yearBefore, --copy);
+        Assert.Equal(yearBefore, year.PreviousYear());
+    }
+
+    #endregion
+    #region PlusYears() & CountYearsSince()
+
+    [Fact]
+    public void PlusYears_Overflows_WithMaxYears()
+    {
+        var year = CalendarUT.GetCalendarYear(1);
+        // Act & Assert
+        Assert.Overflows(() => year + Int32.MinValue);
+        Assert.Overflows(() => year + Int32.MaxValue);
+
+        Assert.Overflows(() => year.PlusYears(Int32.MinValue));
+        Assert.Overflows(() => year.PlusYears(Int32.MaxValue));
+    }
+
+    [Fact]
+    public void PlusYears_WithLimitYears()
+    {
+        var year = GetSampleYear();
+        int minYs = MinYear - year;
+        int maxYs = MaxYear - year;
+        // Act & Assert
+        Assert.Overflows(() => year + (minYs - 1));
+        Assert.Equal(MinYear, year + minYs);
+        Assert.Equal(MaxYear, year + maxYs);
+        Assert.Overflows(() => year + (maxYs + 1));
+
+        Assert.Overflows(() => year.PlusYears(minYs - 1));
+        Assert.Equal(MinYear, year.PlusYears(minYs));
+        Assert.Equal(MaxYear, year.PlusYears(maxYs));
+        Assert.Overflows(() => year.PlusYears(maxYs + 1));
+    }
+
+    [Fact]
+    public void CountYearsSince_DoesNotOverflow()
+    {
+        int ys = MaxYear.Year - MinYear.Year;
+        // Act & Assert
+        Assert.Equal(ys, MaxYear - MinYear);
+        Assert.Equal(-ys, MinYear - MaxYear);
+
+        Assert.Equal(ys, MaxYear.CountYearsSince(MinYear));
+        Assert.Equal(-ys, MinYear.CountYearsSince(MaxYear));
+    }
+
+    [Fact]
+    public void PlusYears_AtMinYear()
+    {
+        // We could have written:
+        // > int ys = MaxYear - MinYear;
+        // but this is CountYearsSince() in disguise and I prefer to stick to
+        // basic maths.
+        int ys = CalendarUT.SupportedYears.Count() - 1;
+        // Act & Assert
+        Assert.Overflows(() => MinYear - 1);
+        Assert.Equal(MinYear, MinYear - 0);
+        Assert.Equal(MinYear, MinYear + 0);
+        Assert.Equal(MaxYear, MinYear + ys);
+        Assert.Overflows(() => MinYear + (ys + 1));
+
+        Assert.Overflows(() => MinYear.PlusYears(-1));
+        Assert.Equal(MinYear, MinYear.PlusYears(0));
+        Assert.Equal(MaxYear, MinYear.PlusYears(ys));
+        Assert.Overflows(() => MinYear.PlusYears(ys + 1));
+    }
+
+    [Fact]
+    public void PlusYears_AtMaxYear()
+    {
+        // We could have written:
+        // > int ys = MaxYear - MinYear;
+        // but this is CountYearsSince() in disguise and I prefer to stick to
+        // basic maths.
+        int ys = CalendarUT.SupportedYears.Count() - 1;
+        // Act & Assert
+        Assert.Overflows(() => MaxYear - (ys + 1));
+        Assert.Equal(MinYear, MaxYear - ys);
+        Assert.Equal(MaxYear, MaxYear - 0);
+        Assert.Equal(MaxYear, MaxYear + 0);
+        Assert.Overflows(() => MaxYear + 1);
+
+        Assert.Overflows(() => MaxYear.PlusYears(-ys - 1));
+        Assert.Equal(MinYear, MaxYear.PlusYears(-ys));
+        Assert.Equal(MaxYear, MaxYear.PlusYears(0));
+        Assert.Overflows(() => MaxYear.PlusYears(1));
+    }
+
+    [Theory, MemberData(nameof(YearInfoData))]
+    public void PlusYears_Zero_IsNeutral(YearInfo info)
+    {
+        var year = CalendarUT.GetCalendarYear(info.Year);
+        // Act & Assert
+        Assert.Equal(year, year + 0);
+        Assert.Equal(year, year - 0);
+        Assert.Equal(year, year.PlusYears(0));
+
+        Assert.Equal(0, year - year);
+        Assert.Equal(0, year.CountYearsSince(year));
+    }
+
+    [Fact]
+    public void PlusYears()
+    {
+        // NB: ys is such that "other" is a valid year for both standard and
+        // proleptic calendars.
+        int ys = 876;
+        var year = GetSampleYear();
+        var other = CalendarUT.GetCalendarYear(year.Year + ys);
+        // Act & Assert
+        Assert.Equal(other, year + ys);
+        Assert.Equal(other, year - (-ys));
+        Assert.Equal(year, other - ys);
+        Assert.Equal(year, other + (-ys));
+
+        Assert.Equal(other, year.PlusYears(ys));
+        Assert.Equal(year, other.PlusYears(-ys));
+
+        Assert.Equal(ys, other - year);
+        Assert.Equal(-ys, year - other);
+
+        Assert.Equal(ys, other.CountYearsSince(year));
+        Assert.Equal(-ys, year.CountYearsSince(other));
+    }
+
+    #endregion
 }
