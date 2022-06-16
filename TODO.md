@@ -62,13 +62,13 @@ Plan?
 
 ### Version 1.0
 - Stable API and full test coverage.
+  * Complete Core
   * At least one Lunisolar calendar (Hebrew)
   * At least one leap week calendar (ISO & Pax)
 - XML doc/comments: currently largely outdated or badly written.
 - .NET 7, we use preview features
 
 ### Version 1.x
-- Core
 - Geometry
 - Hemerology
 
