@@ -60,7 +60,7 @@ namespace Zorglub.Time.Core
             _partsFactory = ICalendricalPartsFactory.Create(schema, @checked: false);
 
             var segment = CalendricalSegment.CreateMaximal(schema, onOrAfterEpoch: false);
-            SupportedYears = segment.SupportedYears;
+            SupportedYears = Range.FromEndpoints(segment.MinMaxYear);
             (_minDaysSinceEpoch, _maxDaysSinceEpoch) = segment.MinMaxDaysSinceEpoch;
             (_minMonthsSinceEpoch, _maxMonthsSinceEpoch) = segment.MinMaxMonthsSinceEpoch;
         }
