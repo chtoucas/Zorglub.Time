@@ -84,7 +84,7 @@ namespace Zorglub.Time.Simple
 
         /// <inheritdoc />
         [Pure]
-        [Obsolete("Use CalendricalArithmetic instead.")]
+        [Obsolete("Use CalendricalArithmetic instead."), ExcludeFromCodeCoverage]
         protected internal override CalendarMonth AddMonthsCore(CalendarMonth month, int months)
         {
             // First approximation of target year: months / MinMonthsInYear.
@@ -141,7 +141,7 @@ namespace Zorglub.Time.Simple
 
         /// <inheritdoc />
         [Pure]
-        [Obsolete("Use CalendricalArithmetic instead.")]
+        [Obsolete("Use CalendricalArithmetic instead."), ExcludeFromCodeCoverage]
         protected internal override int CountMonthsBetweenCore(CalendarMonth start, CalendarMonth end)
         {
             Debug.Assert(start.Cuid == Cuid);
