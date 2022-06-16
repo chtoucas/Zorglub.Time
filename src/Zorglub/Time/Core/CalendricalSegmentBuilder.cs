@@ -59,9 +59,9 @@ namespace Zorglub.Time.Core
             _schema = schema ?? throw new ArgumentNullException(nameof(schema));
             _partsFactory = ICalendricalPartsFactory.Create(schema, @checked: true);
 
-            // Normalement, un ICalendricalSchemaPlus satisfait la condition
-            // schema.MinMaxYear ⊆ Yemoda.SupportedYears, néanmoins rien ne nous
-            // permet d'affirmer que c'est réellement le cas.
+            // Normalement, un ICalendricalSchemaPlus devrait satisfaire la
+            // condition schema.MinMaxYear ⊆ Yemoda.SupportedYears, néanmoins
+            // rien ne nous permet d'affirmer que c'est réellement le cas.
             var set = Interval.Intersect(schema.SupportedYears, Yemoda.SupportedYears);
             if (set.IsEmpty) Throw.Argument(nameof(schema));
             var range = set.Range;
@@ -133,6 +133,13 @@ namespace Zorglub.Time.Core
         [Pure]
         [SuppressMessage("Design", "CA1024:Use properties where appropriate", Justification = "<Pending>")]
         public CalendricalSegment GetSegment() => new(_schema, Start, End);
+
+        [Pure]
+        public int CountMonthsSinceEpoch(Yemoda ymd)
+        {
+            var (y, m, _) = ymd;
+            return _schema.CountMonthsSinceEpoch(y, m);
+        }
     }
 
     public partial class CalendricalSegmentBuilder // Builder methods
@@ -148,11 +155,14 @@ namespace Zorglub.Time.Core
                 Throw.ArgumentOutOfRange(nameof(daysSinceEpoch));
             }
 
+            var ymd = _partsFactory.GetDateParts(daysSinceEpoch);
+
             Start = new CalendricalEndpoint
             {
                 DaysSinceEpoch = daysSinceEpoch,
-                DateParts = _partsFactory.GetDateParts(daysSinceEpoch),
-                OrdinalParts = _partsFactory.GetOrdinalParts(daysSinceEpoch)
+                DateParts = ymd,
+                OrdinalParts = _partsFactory.GetOrdinalParts(daysSinceEpoch),
+                MonthsSinceEpoch = CountMonthsSinceEpoch(ymd),
             };
         }
 
@@ -167,11 +177,14 @@ namespace Zorglub.Time.Core
                 Throw.ArgumentOutOfRange(nameof(daysSinceEpoch));
             }
 
+            var ymd = _partsFactory.GetDateParts(daysSinceEpoch);
+
             End = new CalendricalEndpoint
             {
                 DaysSinceEpoch = daysSinceEpoch,
-                DateParts = _partsFactory.GetDateParts(daysSinceEpoch),
-                OrdinalParts = _partsFactory.GetOrdinalParts(daysSinceEpoch)
+                DateParts = ymd,
+                OrdinalParts = _partsFactory.GetOrdinalParts(daysSinceEpoch),
+                MonthsSinceEpoch = CountMonthsSinceEpoch(ymd),
             };
         }
 
@@ -191,6 +204,7 @@ namespace Zorglub.Time.Core
                 DaysSinceEpoch = _schema.CountDaysSinceEpoch(y, m, d),
                 DateParts = ymd,
                 OrdinalParts = _partsFactory.GetOrdinalParts(y, m, d),
+                MonthsSinceEpoch = CountMonthsSinceEpoch(ymd),
             };
         }
 
@@ -210,6 +224,7 @@ namespace Zorglub.Time.Core
                 DaysSinceEpoch = _schema.CountDaysSinceEpoch(y, m, d),
                 DateParts = ymd,
                 OrdinalParts = _partsFactory.GetOrdinalParts(y, m, d),
+                MonthsSinceEpoch = CountMonthsSinceEpoch(ymd),
             };
         }
 
@@ -224,11 +239,14 @@ namespace Zorglub.Time.Core
             if (y < _minYear || y > _maxYear) Throw.YearOutOfRange(y, nameof(ydoy));
             _schema.PreValidator.ValidateDayOfYear(y, doy, nameof(ydoy));
 
+            var ymd = _partsFactory.GetDateParts(y, doy);
+
             Start = new CalendricalEndpoint
             {
                 DaysSinceEpoch = _schema.CountDaysSinceEpoch(y, doy),
-                DateParts = _partsFactory.GetDateParts(y, doy),
+                DateParts = ymd,
                 OrdinalParts = ydoy,
+                MonthsSinceEpoch = CountMonthsSinceEpoch(ymd),
             };
         }
 
@@ -243,11 +261,14 @@ namespace Zorglub.Time.Core
             if (y < _minYear || y > _maxYear) Throw.YearOutOfRange(y, nameof(ydoy));
             _schema.PreValidator.ValidateDayOfYear(y, doy, nameof(ydoy));
 
+            var ymd = _partsFactory.GetDateParts(y, doy);
+
             End = new CalendricalEndpoint
             {
                 DaysSinceEpoch = _schema.CountDaysSinceEpoch(y, doy),
-                DateParts = _partsFactory.GetDateParts(y, doy),
+                DateParts = ymd,
                 OrdinalParts = ydoy,
+                MonthsSinceEpoch = CountMonthsSinceEpoch(ymd),
             };
         }
 
@@ -259,24 +280,15 @@ namespace Zorglub.Time.Core
         {
             if (year < _minYear || year > _maxYear) Throw.YearOutOfRange(year);
 
+            var ymd = _partsFactory.GetStartOfYearParts(year);
+
             Start = new CalendricalEndpoint
             {
                 DaysSinceEpoch = _schema.GetStartOfYear(year),
-                DateParts = _partsFactory.GetStartOfYearParts(year),
+                DateParts = ymd,
                 OrdinalParts = _partsFactory.GetStartOfYearOrdinalParts(year),
+                MonthsSinceEpoch = CountMonthsSinceEpoch(ymd),
             };
-        }
-
-        /// <summary>
-        /// Sets the start of the segment to the start of the earliest supported year.
-        /// </summary>
-        public void SetMinSupportedYear(bool onOrAfterEpoch)
-        {
-            int minYear =
-                onOrAfterEpoch
-                ? _minYearOnOrAfterYear1 ?? Throw.InvalidOperation<int>()
-                : _minYear;
-            SetMinYear(minYear);
         }
 
         /// <summary>
@@ -287,17 +299,43 @@ namespace Zorglub.Time.Core
         {
             if (year < _minYear || year > _maxYear) Throw.YearOutOfRange(year);
 
+            var ymd = _partsFactory.GetEndOfYearParts(year);
+
             End = new CalendricalEndpoint
             {
                 DaysSinceEpoch = _schema.GetEndOfYear(year),
-                DateParts = _partsFactory.GetEndOfYearParts(year),
+                DateParts = ymd,
                 OrdinalParts = _partsFactory.GetEndOfYearOrdinalParts(year),
+                MonthsSinceEpoch = CountMonthsSinceEpoch(ymd),
             };
+        }
+
+        /// <summary>
+        /// Sets the start of the segment to the start of the earliest supported year.
+        /// </summary>
+        public void UseMinSupportedYear(bool onOrAfterEpoch)
+        {
+            int minYear =
+                onOrAfterEpoch
+                ? _minYearOnOrAfterYear1 ?? Throw.InvalidOperation<int>()
+                : _minYear;
+            SetMinYear(minYear);
         }
 
         /// <summary>
         /// Sets the end of the segment to the end of the latest supported year.
         /// </summary>
-        public void SetMaxSupportedYear() => SetMaxYear(_maxYear);
+        public void UseMaxSupportedYear() => SetMaxYear(_maxYear);
+
+        /// <summary>
+        /// Sets the start of the segment to the start of the earliest supported year, and the end
+        /// of the segment to the end of the latest supported year.
+        /// </summary>
+        [Pure]
+        public void UseMaximalRange(bool onOrAfterEpoch)
+        {
+            UseMinSupportedYear(onOrAfterEpoch);
+            UseMaxSupportedYear();
+        }
     }
 }

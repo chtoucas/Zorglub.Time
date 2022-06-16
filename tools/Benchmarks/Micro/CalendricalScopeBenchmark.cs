@@ -84,10 +84,10 @@ public class CalendricalScopeBenchmark : BenchmarkBase
         new(new GregorianSchema(), DayZero.NewStyle);
 
     private static readonly GregorianMaximalScope s_GregorianMaximal =
-        new(new GregorianSchema(), DayZero.NewStyle, widest: true);
+        new(new GregorianSchema(), DayZero.NewStyle, onOrAfterEpoch: false);
 
     private static readonly MinMaxYearScope s_MinMaxYear =
-        MinMaxYearScope.WithMaximalRange(new GregorianSchema(), DayZero.NewStyle, widest: true);
+        MinMaxYearScope.WithMaximalRange(new GregorianSchema(), DayZero.NewStyle, onOrAfterEpoch: false);
 #endif
 
     public CalendricalScopeBenchmark()

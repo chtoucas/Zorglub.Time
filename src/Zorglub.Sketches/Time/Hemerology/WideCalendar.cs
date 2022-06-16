@@ -58,7 +58,7 @@ namespace Zorglub.Time.Hemerology
                   schema,
                   // NB: MinMaxYearScope ensures years outside the range defined
                   // by Yemoda are not allowed.
-                  MinMaxYearScope.WithMaximalRange(schema, epoch, widest),
+                  MinMaxYearScope.WithMaximalRange(schema, epoch, onOrAfterEpoch: !widest),
                   userDefined)
         { }
 

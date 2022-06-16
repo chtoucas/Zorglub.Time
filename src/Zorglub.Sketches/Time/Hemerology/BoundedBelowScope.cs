@@ -73,7 +73,7 @@ namespace Zorglub.Time.Hemerology
             }
             else
             {
-                builder.SetMaxSupportedYear();
+                builder.UseMaxSupportedYear();
             }
             return builder.GetSegment();
         }

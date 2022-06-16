@@ -148,7 +148,7 @@ namespace Zorglub.Time.Extensions
         {
             Requires.NotNull(@this);
 
-            @this.SetMinSupportedYear(onOrAfterEpoch);
+            @this.UseMinSupportedYear(onOrAfterEpoch);
             return @this;
         }
 
@@ -163,7 +163,7 @@ namespace Zorglub.Time.Extensions
         {
             Requires.NotNull(@this);
 
-            @this.SetMaxSupportedYear();
+            @this.UseMaxSupportedYear();
             return @this;
         }
     }

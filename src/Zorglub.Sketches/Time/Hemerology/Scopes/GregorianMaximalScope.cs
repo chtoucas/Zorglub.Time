@@ -33,14 +33,14 @@ namespace Zorglub.Time.Hemerology.Scopes
         /// Initializes a new instance of the <see cref="GregorianMaximalScope"/> class.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
-        public GregorianMaximalScope(GregorianSchema schema, DayNumber epoch, bool widest)
+        public GregorianMaximalScope(GregorianSchema schema, DayNumber epoch, bool onOrAfterEpoch)
         {
             Requires.NotNull(schema);
             Debug.Assert(schema.Profile == CalendricalProfile.Solar12);
 
             Epoch = epoch;
 
-            _minYear = widest ? GregorianSchema.MinYear : 1;
+            _minYear = onOrAfterEpoch ? 1 : GregorianSchema.MinYear;
             SupportedYears = Range.CreateLeniently(_minYear, MaxYear);
 
             var minDaysSinceEpoch = schema.GetStartOfYear(_minYear);

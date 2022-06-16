@@ -5,6 +5,8 @@ namespace Zorglub.Time.Core
 {
     using System.Text;
 
+    using Zorglub.Time.Core.Intervals;
+
     /// <summary>
     /// Provides informations on an interval of days for a given schema.
     /// <para>This class can only represent subintervals of <see cref="Yemoda.SupportedYears"/>.
@@ -35,6 +37,11 @@ namespace Zorglub.Time.Core
                 OrderedPair.FromOrderedValues(start.DateParts, end.DateParts);
             MinMaxOrdinalParts =
                 OrderedPair.FromOrderedValues(start.OrdinalParts, end.OrdinalParts);
+
+            MinMaxMonthsSinceEpoch =
+                OrderedPair.FromOrderedValues(start.MonthsSinceEpoch, end.MonthsSinceEpoch);
+            MinMaxMonthParts =
+                OrderedPair.FromOrderedValues(start.MonthParts, end.MonthParts);
         }
 
         /// <summary>
@@ -53,21 +60,56 @@ namespace Zorglub.Time.Core
         public OrderedPair<Yedoy> MinMaxOrdinalParts { get; }
 
         /// <summary>
+        /// Gets the pair of earliest and latest supported "month number"s.
+        /// </summary>
+        public OrderedPair<int> MinMaxMonthsSinceEpoch { get; }
+
+        /// <summary>
+        /// Gets the pair of earliest and latest supported month parts.
+        /// </summary>
+        public OrderedPair<Yemo> MinMaxMonthParts { get; }
+
+        /// <summary>
         /// Gets the schema.
         /// </summary>
         internal ICalendricalSchema Schema { get; }
+
+        /// <summary>
+        /// Creates the maximal segment for <paramref name="schema"/>.
+        /// </summary>
+        /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
+        /// <exception cref="ArgumentException">The range of supported years by
+        /// <paramref name="schema"/> and <see cref="Yemoda.SupportedYears"/> are disjoint.
+        /// </exception>
+        [Pure]
+        public static CalendricalSegment CreateMaximal(ICalendricalSchema schema, bool onOrAfterEpoch)
+        {
+            var builder = new CalendricalSegmentBuilder(schema);
+            builder.UseMinSupportedYear(onOrAfterEpoch);
+            builder.UseMaxSupportedYear();
+            return builder.GetSegment();
+        }
 
         [SuppressMessage("CodeQuality", "IDE0051:Remove unused private members", Justification = "PrintMembers() for records.")]
         private bool PrintMembers(StringBuilder builder)
         {
             builder.Append("Start = { ");
+
             builder.Append(
                 FormattableString.Invariant(
                     $"DaysSinceEpoch = {MinMaxDaysSinceEpoch.LowerValue}, DateParts = {MinMaxDateParts.LowerValue}, OrdinalParts = {MinMaxOrdinalParts.LowerValue}"));
+            builder.Append(
+                FormattableString.Invariant(
+                    $"MonthsSinceEpoch = {MinMaxMonthsSinceEpoch.LowerValue}, MonthParts = {MinMaxMonthParts.LowerValue}"));
+
             builder.Append(" }, End = { ");
             builder.Append(
                 FormattableString.Invariant(
                     $"DaysSinceEpoch = {MinMaxDaysSinceEpoch.UpperValue}, DateParts = {MinMaxDateParts.UpperValue}, OrdinalParts = {MinMaxOrdinalParts.UpperValue}"));
+            builder.Append(
+                FormattableString.Invariant(
+                    $"MonthsSinceEpoch = {MinMaxMonthsSinceEpoch.UpperValue}, MonthParts = {MinMaxMonthParts.UpperValue}"));
+
             builder.Append(" }");
             return true;
         }
