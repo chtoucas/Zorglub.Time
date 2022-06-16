@@ -23,7 +23,7 @@ namespace Zorglub.Time.Hemerology.Scopes
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
         /// <exception cref="ArgumentException">The range of supported years by
-        /// <paramref name="schema"/> does not contain the interval [-9998, 9999].</exception>
+        /// <paramref name="schema"/> does not contain the interval [-9998..9999].</exception>
         protected ProlepticShortScope(ICalendricalSchema schema, DayNumber epoch)
             : base(schema, epoch, MinYear) { }
 
@@ -38,7 +38,7 @@ namespace Zorglub.Time.Hemerology.Scopes
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
         /// <exception cref="ArgumentException">The range of supported years by
-        /// <paramref name="schema"/> does not contain the interval [-9998, 9999].</exception>
+        /// <paramref name="schema"/> does not contain the interval [-9998..9999].</exception>
         [Pure]
         public static ProlepticShortScope Create(CalendricalSchema schema, DayNumber epoch)
         {

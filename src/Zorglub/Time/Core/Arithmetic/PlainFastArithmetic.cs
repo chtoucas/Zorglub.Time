@@ -16,7 +16,7 @@ namespace Zorglub.Time.Core.Arithmetic
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
         /// <exception cref="ArgumentException">The range of supported years by
-        /// <paramref name="schema"/> and <see cref="Yemoda.SupportedYears"/> are disjoint.
+        /// <paramref name="schema"/> and <see cref="Yemoda"/> are disjoint.
         /// </exception>
         /// <exception cref="ArgumentException"><paramref name="schema"/> contains at least one
         /// month whose length is strictly less than <see cref="SystemArithmetic.MinMinDaysInMonth"/>.

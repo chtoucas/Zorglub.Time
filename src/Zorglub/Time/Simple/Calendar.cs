@@ -91,7 +91,7 @@ namespace Zorglub.Time.Simple
         /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
         /// <exception cref="ArgumentNullException"><paramref name="key"/> is null.</exception>
         /// <exception cref="ArgumentException">The range of supported years by
-        /// <paramref name="schema"/> does not contain the interval [-9998, 9999].</exception>
+        /// <paramref name="schema"/> does not contain the interval [-9998..9999].</exception>
         internal Calendar(
             Cuid id,
             string key,

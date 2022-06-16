@@ -51,6 +51,9 @@ namespace Zorglub.Time.Core
         /// Initializes a new instance of the <see cref="CalendricalArithmetic"/> class.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
+        /// <exception cref="ArgumentException">The range of supported years by
+        /// <paramref name="schema"/> and <see cref="Yemoda"/> are disjoint.
+        /// </exception>
         public CalendricalArithmetic(ICalendricalSchema schema)
         {
             _schema = schema ?? throw new ArgumentNullException(nameof(schema));

@@ -383,8 +383,8 @@ namespace Zorglub.Time.Simple
         /// <exception cref="ArgumentNullException">One of the parameters is
         /// null.</exception>
         /// <exception cref="ArgumentException">The range of supported years by
-        /// <paramref name="schema"/> does not contain the interval [1, 9999]
-        /// (non-proleptic case) or [-9998, 9999] (proleptic case).</exception>
+        /// <paramref name="schema"/> does not contain the interval [1..9999]
+        /// (non-proleptic case) or [-9998..9999] (proleptic case).</exception>
         /// <exception cref="OverflowException">The key was not already taken
         /// but the system already reached the maximum number of calendars it
         /// can handle.</exception>
@@ -450,8 +450,8 @@ namespace Zorglub.Time.Simple
         /// <exception cref="ArgumentException">A calendar with the same key
         /// already exists. See also <seealso cref="ReservedKeys"/>.</exception>
         /// <exception cref="ArgumentException">The range of supported years by
-        /// <paramref name="schema"/> does not contain the interval [1, 9999]
-        /// (non-proleptic case) or [-9998, 9999] (proleptic case).</exception>
+        /// <paramref name="schema"/> does not contain the interval [1..9999]
+        /// (non-proleptic case) or [-9998..9999] (proleptic case).</exception>
         /// <exception cref="OverflowException">The system already reached the
         /// maximum number of calendars it can handle.</exception>
         [Pure]

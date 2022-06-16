@@ -52,7 +52,7 @@ namespace Zorglub.Time.Core
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
         /// <exception cref="ArgumentException">The range of supported years by
-        /// <paramref name="schema"/> and <see cref="Yemoda.SupportedYears"/> are disjoint.
+        /// <paramref name="schema"/> and <see cref="Yemoda"/> are disjoint.
         /// </exception>
         public CalendricalSegmentBuilder(ICalendricalSchema schema)
         {
