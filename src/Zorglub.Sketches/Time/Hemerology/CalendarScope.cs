@@ -37,11 +37,11 @@ namespace Zorglub.Time.Hemerology
             MinMaxDateParts = segment.MinMaxDateParts;
             MinMaxOrdinalParts = segment.MinMaxOrdinalParts;
 
-            SupportedYears = Range.FromEndpoints(segment.MinMaxYear);
-            (MinYear, MaxYear) = segment.MinMaxYear;
+            SupportedYears = segment.SupportedYears;
+            (MinYear, MaxYear) = segment.SupportedYears.Endpoints;
 
             Domain = Range.FromEndpoints(
-                from daysSinceEpoch in segment.MinMaxDaysSinceEpoch select epoch + daysSinceEpoch);
+                from daysSinceEpoch in segment.Domain.Endpoints select epoch + daysSinceEpoch);
         }
 
         /// <inheritdoc />

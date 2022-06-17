@@ -31,25 +31,23 @@ namespace Zorglub.Time.Core
 
             Schema = schema;
 
-            MinMaxDaysSinceEpoch =
-                OrderedPair.FromOrderedValues(start.DaysSinceEpoch, end.DaysSinceEpoch);
-            MinMaxDateParts =
-                OrderedPair.FromOrderedValues(start.DateParts, end.DateParts);
-            MinMaxOrdinalParts =
-                OrderedPair.FromOrderedValues(start.OrdinalParts, end.OrdinalParts);
+            Domain = Range.Create(start.DaysSinceEpoch, end.DaysSinceEpoch);
+            MinMaxDateParts = OrderedPair.FromOrderedValues(start.DateParts, end.DateParts);
+            MinMaxOrdinalParts = OrderedPair.FromOrderedValues(start.OrdinalParts, end.OrdinalParts);
 
-            MinMaxMonthsSinceEpoch =
-                OrderedPair.FromOrderedValues(start.MonthsSinceEpoch, end.MonthsSinceEpoch);
-            MinMaxMonthParts =
-                OrderedPair.FromOrderedValues(start.MonthParts, end.MonthParts);
+            MonthDomain = Range.Create(start.MonthsSinceEpoch, end.MonthsSinceEpoch);
+            MinMaxMonthParts = OrderedPair.FromOrderedValues(start.MonthParts, end.MonthParts);
 
-            MinMaxYear = OrderedPair.FromOrderedValues(start.Year, end.Year);
+            SupportedYears = Range.Create(start.Year, end.Year);
         }
 
         /// <summary>
-        /// Gets the pair of earliest and latest supported "day number"s.
+        /// Gets the range of supported days, or more precisely the range of supported numbers of
+        /// consecutive days from the epoch.
         /// </summary>
-        public OrderedPair<int> MinMaxDaysSinceEpoch { get; }
+        /// <returns>The range from the first day of the first supported year to the last day of the
+        /// last supported year.</returns>
+        public Range<int> Domain { get; }
 
         /// <summary>
         /// Gets the pair of earliest and latest supported date parts.
@@ -62,9 +60,12 @@ namespace Zorglub.Time.Core
         public OrderedPair<Yedoy> MinMaxOrdinalParts { get; }
 
         /// <summary>
-        /// Gets the pair of earliest and latest supported "month number"s.
+        /// Gets the range of supported months, or more precisely the range of supported numbers of
+        /// consecutive months from the epoch.
         /// </summary>
-        public OrderedPair<int> MinMaxMonthsSinceEpoch { get; }
+        /// <returns>The range from the first month of the first supported year to the last month of
+        /// the last supported year.</returns>
+        public Range<int> MonthDomain { get; }
 
         /// <summary>
         /// Gets the pair of earliest and latest supported month parts.
@@ -72,9 +73,9 @@ namespace Zorglub.Time.Core
         public OrderedPair<Yemo> MinMaxMonthParts { get; }
 
         /// <summary>
-        /// Gets the pair of earliest and latest supported years.
+        /// Gets the range of supported years.
         /// </summary>
-        public OrderedPair<int> MinMaxYear { get; }
+        public Range<int> SupportedYears { get; }
 
         /// <summary>
         /// Gets the schema.
@@ -104,18 +105,18 @@ namespace Zorglub.Time.Core
 
             builder.Append(
                 FormattableString.Invariant(
-                    $"DaysSinceEpoch = {MinMaxDaysSinceEpoch.LowerValue}, DateParts = {MinMaxDateParts.LowerValue}, OrdinalParts = {MinMaxOrdinalParts.LowerValue}"));
+                    $"DaysSinceEpoch = {Domain.Min}, DateParts = {MinMaxDateParts.LowerValue}, OrdinalParts = {MinMaxOrdinalParts.LowerValue}"));
             builder.Append(
                 FormattableString.Invariant(
-                    $"MonthsSinceEpoch = {MinMaxMonthsSinceEpoch.LowerValue}, MonthParts = {MinMaxMonthParts.LowerValue}"));
+                    $"MonthsSinceEpoch = {MonthDomain.Min}, MonthParts = {MinMaxMonthParts.LowerValue}"));
 
             builder.Append(" }, End = { ");
             builder.Append(
                 FormattableString.Invariant(
-                    $"DaysSinceEpoch = {MinMaxDaysSinceEpoch.UpperValue}, DateParts = {MinMaxDateParts.UpperValue}, OrdinalParts = {MinMaxOrdinalParts.UpperValue}"));
+                    $"DaysSinceEpoch = {Domain.Max}, DateParts = {MinMaxDateParts.UpperValue}, OrdinalParts = {MinMaxOrdinalParts.UpperValue}"));
             builder.Append(
                 FormattableString.Invariant(
-                    $"MonthsSinceEpoch = {MinMaxMonthsSinceEpoch.UpperValue}, MonthParts = {MinMaxMonthParts.UpperValue}"));
+                    $"MonthsSinceEpoch = {MonthDomain.Max}, MonthParts = {MinMaxMonthParts.UpperValue}"));
 
             builder.Append(" }");
             return true;
