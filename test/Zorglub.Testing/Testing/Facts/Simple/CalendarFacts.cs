@@ -61,7 +61,7 @@ public partial class CalendarFacts<TDataSet> // Properties
     public void ToString_ReturnsKey()
     {
         Assert.Equal(CalendarUT.Key, CalendarUT.ToString());
-        if (!CalendarUT.IsUserDefined)
+        if (CalendarUT.IsUserDefined == false)
         {
             Assert.Equal(CalendarUT.PermanentId.ToCalendarKey(), CalendarUT.ToString());
         }

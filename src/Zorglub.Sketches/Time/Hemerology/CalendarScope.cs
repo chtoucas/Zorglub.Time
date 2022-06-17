@@ -28,10 +28,7 @@ namespace Zorglub.Time.Hemerology
             Schema = schema ?? throw new ArgumentNullException(nameof(schema));
             Requires.NotNull(segment);
 
-            if (ReferenceEquals(segment.Schema, schema) == false)
-            {
-                Throw.Argument(nameof(segment));
-            }
+            if (ReferenceEquals(segment.Schema, schema) == false) Throw.Argument(nameof(segment));
 
             Epoch = epoch;
 
@@ -40,9 +37,8 @@ namespace Zorglub.Time.Hemerology
             MinMaxDateParts = segment.MinMaxDateParts;
             MinMaxOrdinalParts = segment.MinMaxOrdinalParts;
 
-            var minMaxYear = from parts in MinMaxDateParts select parts.Year;
-            SupportedYears = Range.FromEndpoints(minMaxYear);
-            (MinYear, MaxYear) = minMaxYear;
+            SupportedYears = Range.FromEndpoints(segment.MinMaxYear);
+            (MinYear, MaxYear) = segment.MinMaxYear;
 
             Domain = Range.FromEndpoints(
                 from daysSinceEpoch in segment.MinMaxDaysSinceEpoch select epoch + daysSinceEpoch);

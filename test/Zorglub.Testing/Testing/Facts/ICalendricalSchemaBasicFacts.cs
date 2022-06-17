@@ -43,7 +43,7 @@ public abstract class ICalendricalSchemaBasicFacts<TSchema, TDataSet> :
     [Theory, MemberData(nameof(DaysSinceEpochInfoData))]
     public void GetYear(DaysSinceEpochInfo info)
     {
-        if (!TestGetYearAnyway)
+        if (TestGetYearAnyway == false)
         {
             Assert.Throws<NotImplementedException>(() => SchemaUT.GetYear(info.DaysSinceEpoch, out _));
             return;
@@ -58,7 +58,7 @@ public abstract class ICalendricalSchemaBasicFacts<TSchema, TDataSet> :
     [Theory, MemberData(nameof(DateInfoData))]
     public void GetYear_DateParts(DateInfo info)
     {
-        if (!TestGetYearAnyway) { return; }
+        if (TestGetYearAnyway == false) { return; }
 
         var (y, m, d, doy) = info;
         int daysSinceEpoch = SchemaUT.CountDaysSinceEpoch(y, m, d);
@@ -73,7 +73,7 @@ public abstract class ICalendricalSchemaBasicFacts<TSchema, TDataSet> :
     public void GetMonth(DateInfo info)
     {
         var (y, m, d, doy) = info;
-        if (!TestGetMonthAnyway)
+        if (TestGetMonthAnyway == false)
         {
             Assert.Throws<NotImplementedException>(() => SchemaUT.GetMonth(y, doy, out _));
             return;

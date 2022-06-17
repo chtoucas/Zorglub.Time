@@ -211,7 +211,7 @@ namespace Zorglub.Time.Geometry.Discrete
                 {
                     int c = _codes[i];
 
-                    if (!koMax && c > maxThreshold)
+                    if (koMax == false && c > maxThreshold)
                     {
                         if (c == max && indexOfMax == -1)
                         {
@@ -223,7 +223,7 @@ namespace Zorglub.Time.Geometry.Discrete
                         }
                     }
 
-                    if (!koMin && c < minThreshold)
+                    if (koMin == false && c < minThreshold)
                     {
                         if (c == min && indexOfMin == -1)
                         {
@@ -335,7 +335,7 @@ namespace Zorglub.Time.Geometry.Discrete
         [Pure]
         public BoolArray ToBoolArray()
         {
-            if (!Reducible) Throw.InvalidOperation();
+            if (Reducible == false) Throw.InvalidOperation();
 
             int min = Min;
             var arr = new bool[_codes.Length];

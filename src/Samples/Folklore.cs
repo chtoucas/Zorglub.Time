@@ -50,7 +50,7 @@ public static class Folklore // Friday the 13th (Gregorian calendar)
     public static IEnumerable<CalendarDate> FindUnluckyFridays(Range<CalendarDate> range)
     {
         var chr = range.GetCalendar();
-        if (!chr.IsUserDefined || chr.PermanentId != CalendarId.Gregorian)
+        if (chr.IsUserDefined == false || chr.PermanentId != CalendarId.Gregorian)
         {
             return Enumerable.Empty<CalendarDate>();
         }
@@ -73,7 +73,7 @@ public static class Folklore // Friday the 13th (Gregorian calendar)
     public static IEnumerable<CalendarDate> FindUnluckyFridays(CalendarYear year)
     {
         var chr = year.Calendar;
-        if (!chr.IsUserDefined || chr.PermanentId != CalendarId.Gregorian)
+        if (chr.IsUserDefined == false || chr.PermanentId != CalendarId.Gregorian)
         {
             return Enumerable.Empty<CalendarDate>();
         }

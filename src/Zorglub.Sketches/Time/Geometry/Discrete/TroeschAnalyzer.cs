@@ -72,7 +72,7 @@ namespace Zorglub.Time.Geometry.Discrete
             [Pure]
             static AnalyzeResult AnalyzeRecursively(CodeArray code, AnalyzeResult result)
             {
-                if (!code.StrictlyReducible) { return result; }
+                if (code.StrictlyReducible == false) { return result; }
 
                 // Shear mapping.
                 // NB: boolArr.Count < code.Count, this is not a never ending loop!
@@ -147,7 +147,7 @@ namespace Zorglub.Time.Geometry.Discrete
         public IReadOnlyList<QuasiAffineForm> ReverseAnalysis()
         {
             var output = Result.Output;
-            if (!output.Constant) Throw.InvalidOperation();
+            if (output.Constant == false) Throw.InvalidOperation();
 
             return Transformer.TransformBackWalkthru(output.ToQuasiAffineForm()).AsReadOnly();
         }
@@ -157,7 +157,7 @@ namespace Zorglub.Time.Geometry.Discrete
         public QuasiAffineForm MakeForm()
         {
             var output = Result.Output;
-            if (!output.Constant) Throw.InvalidOperation();
+            if (output.Constant == false) Throw.InvalidOperation();
 
             return Transformer.ApplyBack(output.ToQuasiAffineForm());
         }
