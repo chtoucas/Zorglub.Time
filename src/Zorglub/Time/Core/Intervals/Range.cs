@@ -94,7 +94,7 @@ namespace Zorglub.Time.Core.Intervals
         }
     }
 
-    public partial class Range // Conversions
+    public partial class Range // Conversions, transformations
     {
         /// <summary>
         /// Creates a new instance of the <see cref="Range{T}"/> struct from the specified endpoints.
@@ -105,6 +105,11 @@ namespace Zorglub.Time.Core.Intervals
         {
             return new Range<T>(endpoints);
         }
+
+        // TODO(api): better name, public?
+        [Pure]
+        internal static Range<DayNumber> Fix(this Range<int> @this, DayNumber epoch) =>
+            new(@this.Endpoints.Select(x => epoch + x));
     }
 
     public partial class Range // Range<int>

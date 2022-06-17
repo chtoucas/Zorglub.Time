@@ -12,30 +12,6 @@ namespace Zorglub.Time.Core
     public sealed partial class CalendricalArithmetic : ICalendricalArithmetic
     {
         /// <summary>
-        /// Represents the earliest month number.
-        /// <para>This field is read-only.</para>
-        /// </summary>
-        private readonly int _minMonthsSinceEpoch;
-
-        /// <summary>
-        /// Represents the latest month number.
-        /// <para>This field is read-only.</para>
-        /// </summary>
-        private readonly int _maxMonthsSinceEpoch;
-
-        /// <summary>
-        /// Represents the earliest day number.
-        /// <para>This field is read-only.</para>
-        /// </summary>
-        private readonly int _minDaysSinceEpoch;
-
-        /// <summary>
-        /// Represents the latest day number.
-        /// <para>This field is read-only.</para>
-        /// </summary>
-        private readonly int _maxDaysSinceEpoch;
-
-        /// <summary>
         /// Represents the schema.
         /// <para>This field is read-only.</para>
         /// </summary>
@@ -46,6 +22,8 @@ namespace Zorglub.Time.Core
         /// <para>This field is read-only.</para>
         /// </summary>
         private readonly ICalendricalPartsFactory _partsFactory;
+
+        private readonly CalendricalSegment _segment;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CalendricalArithmetic"/> class.
@@ -58,15 +36,15 @@ namespace Zorglub.Time.Core
         {
             _schema = schema ?? throw new ArgumentNullException(nameof(schema));
             _partsFactory = ICalendricalPartsFactory.Create(schema, @checked: false);
-
-            var segment = CalendricalSegment.CreateMaximal(schema, onOrAfterEpoch: false);
-            SupportedYears = segment.SupportedYears;
-            (_minDaysSinceEpoch, _maxDaysSinceEpoch) = segment.Domain.Endpoints;
-            (_minMonthsSinceEpoch, _maxMonthsSinceEpoch) = segment.MonthDomain.Endpoints;
+            _segment = CalendricalSegment.CreateMaximal(schema, onOrAfterEpoch: false);
         }
 
         /// <inheritdoc/>
-        public Range<int> SupportedYears { get; }
+        public Range<int> SupportedYears => _segment.SupportedYears;
+
+        private Range<int> Domain => _segment.Domain;
+
+        private Range<int> MonthDomain => _segment.MonthDomain;
     }
 
     public partial class CalendricalArithmetic // Operations on Yemoda
@@ -78,10 +56,7 @@ namespace Zorglub.Time.Core
             ymd.Unpack(out int y, out int m, out int d);
 
             int daysSinceEpoch = checked(_schema.CountDaysSinceEpoch(y, m, d) + days);
-            if (daysSinceEpoch < _minDaysSinceEpoch || daysSinceEpoch > _maxDaysSinceEpoch)
-            {
-                Throw.DateOverflow();
-            }
+            if (Domain.Contains(daysSinceEpoch) == false) Throw.DateOverflow();
 
             return _partsFactory.GetDateParts(daysSinceEpoch);
         }
@@ -114,10 +89,7 @@ namespace Zorglub.Time.Core
             ydoy.Unpack(out int y, out int doy);
 
             int daysSinceEpoch = checked(_schema.CountDaysSinceEpoch(y, doy) + days);
-            if (daysSinceEpoch < _minDaysSinceEpoch || daysSinceEpoch > _maxDaysSinceEpoch)
-            {
-                Throw.DateOverflow();
-            }
+            if (Domain.Contains(daysSinceEpoch) == false) Throw.DateOverflow();
 
             return _partsFactory.GetOrdinalParts(daysSinceEpoch);
         }
@@ -150,10 +122,7 @@ namespace Zorglub.Time.Core
             ym.Unpack(out int y, out int m);
 
             int monthsSinceEpoch = checked(_schema.CountMonthsSinceEpoch(y, m) + months);
-            if (monthsSinceEpoch < _minMonthsSinceEpoch || monthsSinceEpoch > _maxMonthsSinceEpoch)
-            {
-                Throw.MonthOverflow();
-            }
+            if (MonthDomain.Contains(monthsSinceEpoch) == false) Throw.MonthOverflow();
 
             return _partsFactory.GetMonthParts(monthsSinceEpoch);
         }

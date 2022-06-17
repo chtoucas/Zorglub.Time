@@ -14,6 +14,8 @@ namespace Zorglub.Time.Hemerology
     /// </summary>
     public abstract partial class CalendarScope : ICalendarScope
     {
+        private readonly CalendricalSegment _segment;
+
         /// <summary>
         /// Called from constructors in derived classes to initialize the
         /// <see cref="CalendarScope"/> class.
@@ -34,14 +36,12 @@ namespace Zorglub.Time.Hemerology
 
             PreValidator = schema.PreValidator;
 
-            MinMaxDateParts = segment.MinMaxDateParts;
-            MinMaxOrdinalParts = segment.MinMaxOrdinalParts;
+            _segment = segment;
 
             SupportedYears = segment.SupportedYears;
             (MinYear, MaxYear) = segment.SupportedYears.Endpoints;
 
-            Domain = Range.FromEndpoints(
-                from daysSinceEpoch in segment.Domain.Endpoints select epoch + daysSinceEpoch);
+            Domain = segment.Domain.Fix(epoch);
         }
 
         /// <inheritdoc />
@@ -56,12 +56,12 @@ namespace Zorglub.Time.Hemerology
         /// <summary>
         /// Gets the pair of earliest and latest supported date parts.
         /// </summary>
-        public OrderedPair<Yemoda> MinMaxDateParts { get; }
+        public OrderedPair<Yemoda> MinMaxDateParts => _segment.MinMaxDateParts;
 
         /// <summary>
         /// Gets the pair of earliest and latest supported ordinal date parts.
         /// </summary>
-        public OrderedPair<Yedoy> MinMaxOrdinalParts { get; }
+        public OrderedPair<Yedoy> MinMaxOrdinalParts => _segment.MinMaxOrdinalParts;
 
         /// <summary>
         /// Gets the earliest supported year.
