@@ -55,8 +55,8 @@ public readonly partial struct GregorianTriple :
     }
 
     public static Range<int> Domain => s_Schema.Domain;
-    public static GregorianTriple MinValue { get; } = new(s_Schema.MinMaxDateParts.LowerValue);
-    public static GregorianTriple MaxValue { get; } = new(s_Schema.MinMaxDateParts.UpperValue);
+    public static GregorianTriple MinValue { get; } = new(s_Schema.Segment.MinMaxDateParts.LowerValue);
+    public static GregorianTriple MaxValue { get; } = new(s_Schema.Segment.MinMaxDateParts.UpperValue);
 
     public Ord CenturyOfEra => Ord.FromInt32(Century);
     public int Century => YearNumbering.GetCentury(Year);

@@ -8,7 +8,7 @@ namespace Zorglub.Time.Core
     using Zorglub.Time.Core.Intervals;
 
     /// <summary>
-    /// Provides informations on an interval of days for a given schema.
+    /// Provides informations on a range of days for a given schema.
     /// <para>This class can only represent subintervals of <see cref="Yemoda.SupportedYears"/>.
     /// </para>
     /// <para>This class cannot be inherited.</para>
@@ -52,11 +52,15 @@ namespace Zorglub.Time.Core
         /// <summary>
         /// Gets the pair of earliest and latest supported date parts.
         /// </summary>
+        /// <returns>The pair of the first day of the first supported year and the last day of the
+        /// last supported year.</returns>
         public OrderedPair<Yemoda> MinMaxDateParts { get; }
 
         /// <summary>
         /// Gets the pair of earliest and latest supported ordinal date parts.
         /// </summary>
+        /// <returns>The pair of the first day of the first supported year and the last day of the
+        /// last supported year.</returns>
         public OrderedPair<Yedoy> MinMaxOrdinalParts { get; }
 
         /// <summary>
@@ -70,6 +74,8 @@ namespace Zorglub.Time.Core
         /// <summary>
         /// Gets the pair of earliest and latest supported month parts.
         /// </summary>
+        /// <returns>The pair of the first month of the first supported year and the last month of
+        /// the last supported year.</returns>
         public OrderedPair<Yemo> MinMaxMonthParts { get; }
 
         /// <summary>
@@ -90,7 +96,7 @@ namespace Zorglub.Time.Core
         /// <paramref name="schema"/> and <see cref="Yemoda"/> are disjoint.
         /// </exception>
         [Pure]
-        public static CalendricalSegment CreateMaximal(ICalendricalSchema schema, bool onOrAfterEpoch)
+        public static CalendricalSegment CreateMaximal(ICalendricalSchema schema, bool onOrAfterEpoch = false)
         {
             var builder = new CalendricalSegmentBuilder(schema);
             builder.UseMinSupportedYear(onOrAfterEpoch);

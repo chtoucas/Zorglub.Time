@@ -30,7 +30,7 @@ namespace Zorglub.Time.Core
         private readonly ICalendricalPartsFactory _partsFactory;
 
         /// <summary>
-        /// Represents the earliest supported year >= 1.
+        /// Represents the earliest supported year &gt;= 1.
         /// <para>This field is read-only.</para>
         /// </summary>
         private readonly int? _minYearOnOrAfterYear1;

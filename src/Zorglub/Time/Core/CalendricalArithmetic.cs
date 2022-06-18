@@ -36,7 +36,7 @@ namespace Zorglub.Time.Core
         {
             _schema = schema ?? throw new ArgumentNullException(nameof(schema));
             _partsFactory = ICalendricalPartsFactory.Create(schema, @checked: false);
-            _segment = CalendricalSegment.CreateMaximal(schema, onOrAfterEpoch: false);
+            _segment = CalendricalSegment.CreateMaximal(schema);
         }
 
         /// <inheritdoc/>

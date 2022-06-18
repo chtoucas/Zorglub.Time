@@ -157,30 +157,19 @@ namespace Zorglub.Time.Core
     // A PeriodicAdjustments
     //   SupportedYears
     // * SupportedYearsCore
-    // * Domain
+    //   Domain
+    // * Segment
     // * MinMaxDateParts
     // * MinMaxOrdinalParts
     //   MinDaysInYear
-    // * MinDaysInMonth
+    //   MinDaysInMonth
     public partial class SystemSchema // Properties
     {
-        private OrderedPair<Yemoda>? _minMaxDateParts;
+        private CalendricalSegment? _segment;
         /// <summary>
-        /// Gets the pair of date parts of the first day of the first supported year and the last
-        /// day of the last supported year.
+        /// Gets informations on the range of supported days.
         /// </summary>
-        public OrderedPair<Yemoda> MinMaxDateParts =>
-            _minMaxDateParts ??=
-                SupportedYears.Endpoints.Select(GetStartOfYearParts, GetEndOfYearParts);
-
-        private OrderedPair<Yedoy>? _minMaxOrdinalParts;
-        /// <summary>
-        /// Gets the pair of ordinal date parts of the first day of the first supported year and the
-        /// last day of the last supported year.
-        /// </summary>
-        public OrderedPair<Yedoy> MinMaxOrdinalParts =>
-            _minMaxOrdinalParts ??=
-                SupportedYears.Endpoints.Select(GetStartOfYearOrdinalParts, GetEndOfYearOrdinalParts);
+        public CalendricalSegment Segment => _segment ??= CalendricalSegment.CreateMaximal(this);
     }
 
     // Year, month or day infos.

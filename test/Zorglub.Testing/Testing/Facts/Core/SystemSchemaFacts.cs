@@ -51,27 +51,38 @@ public partial class SystemSchemaFacts<TDataSet> // Properties
         Assert.Equal(Range.Maximal32, SchemaUT.SupportedYearsCore);
 
     [Fact]
-    public void MinMaxDateParts_Prop()
+    public void Segment_Prop() =>
+        // Lazy prop: we duplicate the test to ensure full test coverage.
+        Assert.Equal(SchemaUT.Segment, SchemaUT.Segment);
+
+    [Fact]
+    public void Segment_Prop_Domain()
     {
+        var seg = SchemaUT.Segment;
+        // Act & Assert
+        Assert.Equal(SchemaUT.Domain, seg.Domain);
+    }
+
+    [Fact]
+    public void Segment_Prop_MinMaxDateParts()
+    {
+        var seg = SchemaUT.Segment;
         var startOfYear = SchemaUT.GetStartOfYearParts(MinYear);
         var endOfYear = SchemaUT.GetEndOfYearParts(MaxYear);
         var minmax = OrderedPair.Create(startOfYear, endOfYear);
         // Act & Assert
-        Assert.Equal(minmax, SchemaUT.MinMaxDateParts);
-        // Lazy prop: we duplicate the test to ensure full test coverage.
-        Assert.Equal(minmax, SchemaUT.MinMaxDateParts);
+        Assert.Equal(minmax, seg.MinMaxDateParts);
     }
 
     [Fact]
-    public void MinMaxOrdinalParts_Prop()
+    public void Segment_Prop_MinMaxOrdinalParts()
     {
+        var seg = SchemaUT.Segment;
         var startOfYear = SchemaUT.GetStartOfYearOrdinalParts(MinYear);
         var endOfYear = SchemaUT.GetEndOfYearOrdinalParts(MaxYear);
         var minmax = OrderedPair.Create(startOfYear, endOfYear);
         // Act & Assert
-        Assert.Equal(minmax, SchemaUT.MinMaxOrdinalParts);
-        // Lazy prop: we duplicate the test to ensure full test coverage.
-        Assert.Equal(minmax, SchemaUT.MinMaxOrdinalParts);
+        Assert.Equal(minmax, seg.MinMaxOrdinalParts);
     }
 }
 

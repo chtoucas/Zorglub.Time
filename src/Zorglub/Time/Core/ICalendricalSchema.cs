@@ -5,6 +5,8 @@ namespace Zorglub.Time.Core
 {
     using Zorglub.Time.Core.Intervals;
 
+    // REVIEW(api): add MonthDomain.
+
     #region Developer Notes
 
     // Types Implementing ICalendricalSchema

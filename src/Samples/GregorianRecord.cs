@@ -51,8 +51,8 @@ public readonly partial record struct GregorianRecord :
     }
 
     public static Range<int> Domain => s_Schema.Domain;
-    public static GregorianRecord MinValue { get; } = new(s_Schema.MinMaxDateParts.LowerValue);
-    public static GregorianRecord MaxValue { get; } = new(s_Schema.MinMaxDateParts.UpperValue);
+    public static GregorianRecord MinValue { get; } = new(s_Schema.Segment.MinMaxDateParts.LowerValue);
+    public static GregorianRecord MaxValue { get; } = new(s_Schema.Segment.MinMaxDateParts.UpperValue);
 
     public Ord CenturyOfEra => Ord.FromInt32(Century);
     public int Century => YearNumbering.GetCentury(Year);
