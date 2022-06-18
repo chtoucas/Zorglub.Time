@@ -104,6 +104,23 @@ namespace Zorglub.Time.Core
             return builder.GetSegment();
         }
 
+        /// <summary>
+        /// Creates a new instance of the <see cref="CalendricalSegment"/> class.
+        /// </summary>
+        /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
+        /// <exception cref="ArgumentException">The range of supported years by
+        /// <paramref name="schema"/> and <see cref="Yemoda"/> are disjoint.
+        /// </exception>
+        /// <exception cref="AoorException"><paramref name="supportedYears"/> is NOT a subinterval
+        /// of the range of supported years by <paramref name="schema"/>.</exception>
+        [Pure]
+        public static CalendricalSegment Create(ICalendricalSchema schema, Range<int> supportedYears)
+        {
+            var builder = new CalendricalSegmentBuilder(schema);
+            builder.SetSupportedYears(supportedYears);
+            return builder.GetSegment();
+        }
+
         [SuppressMessage("CodeQuality", "IDE0051:Remove unused private members", Justification = "PrintMembers() for records.")]
         private bool PrintMembers(StringBuilder builder)
         {

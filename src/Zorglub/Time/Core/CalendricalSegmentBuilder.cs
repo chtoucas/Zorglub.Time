@@ -337,5 +337,18 @@ namespace Zorglub.Time.Core
             UseMinSupportedYear(onOrAfterEpoch);
             UseMaxSupportedYear();
         }
+
+        [Pure]
+        internal void SetSupportedYears(Range<int> supportedYears)
+        {
+            // REVIEW(code): we should check that supportedYears is a subset of [_minYear.._maxYear].
+            if (supportedYears.IsSubsetOf(_schema.SupportedYears) == false)
+            {
+                Throw.ArgumentOutOfRange(nameof(supportedYears));
+            }
+
+            SetMinYear(supportedYears.Min);
+            SetMaxYear(supportedYears.Max);
+        }
     }
 }

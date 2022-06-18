@@ -12,24 +12,6 @@ namespace Zorglub.Time.Core
     public sealed class CalendricalValidator : ICalendricalValidator
     {
         /// <summary>
-        /// Represents the earliest supported year.
-        /// <para>This field is read-only.</para>
-        /// </summary>
-        private readonly int _minYear;
-
-        /// <summary>
-        /// Represents the latest supported year.
-        /// <para>This field is read-only.</para>
-        /// </summary>
-        private readonly int _maxYear;
-
-        private readonly int _minMonthsSinceEpoch;
-        private readonly int _maxMonthsSinceEpoch;
-
-        private readonly int _minDaysSinceEpoch;
-        private readonly int _maxDaysSinceEpoch;
-
-        /// <summary>
         /// Represents the pre-validator.
         /// <para>This field is read-only.</para>
         /// </summary>
@@ -43,51 +25,47 @@ namespace Zorglub.Time.Core
         /// of the range of supported years by <paramref name="schema"/>.</exception>
         public CalendricalValidator(ICalendricalSchema schema, Range<int> supportedYears)
         {
-            Requires.NotNull(schema);
-            if (supportedYears.IsSubsetOf(schema.SupportedYears) == false)
-            {
-                Throw.ArgumentOutOfRange(nameof(supportedYears));
-            }
+            var seg = CalendricalSegment.Create(schema, supportedYears);
 
-            SupportedYears = supportedYears;
-            (_minYear, _maxYear) = supportedYears.Endpoints;
+            Debug.Assert(schema != null);
             _preValidator = schema.PreValidator;
 
-            (_minDaysSinceEpoch, _maxDaysSinceEpoch) =
-                supportedYears.Endpoints.Select(schema.GetStartOfYear, schema.GetEndOfYear);
-
-            var helper = MonthsSinceEpochHelper.Create(schema);
-            (_minMonthsSinceEpoch, _maxMonthsSinceEpoch) =
-                supportedYears.Endpoints.Select(helper.GetStartOfYear, helper.GetEndOfYear);
+            SupportedYears = supportedYears;
+            Domain = seg.Domain;
+            MonthDomain = seg.MonthDomain;
         }
 
         /// <inheritdoc />
         public Range<int> SupportedYears { get; }
 
+        public Range<int> Domain { get; }
+
+        public Range<int> MonthDomain { get; }
+
         /// <inheritdoc />
         public void ValidateYear(int year, string? paramName = null)
         {
-            if (year < _minYear || year > _maxYear) Throw.YearOutOfRange(year, paramName);
+            if (SupportedYears.Contains(year) == false) Throw.YearOutOfRange(year, paramName);
         }
 
         /// <inheritdoc />
         public void ValidateYearMonth(int year, int month, string? paramName = null)
         {
-            if (year < _minYear || year > _maxYear) Throw.YearOutOfRange(year, paramName);
+            if (SupportedYears.Contains(year) == false) Throw.YearOutOfRange(year, paramName);
             _preValidator.ValidateMonth(year, month, paramName);
         }
 
         /// <inheritdoc />
         public void ValidateYearMonthDay(int year, int month, int day, string? paramName = null)
         {
-            if (year < _minYear || year > _maxYear) Throw.YearOutOfRange(year, paramName);
+            if (SupportedYears.Contains(year) == false) Throw.YearOutOfRange(year, paramName);
             _preValidator.ValidateMonthDay(year, month, day, paramName);
         }
 
         /// <inheritdoc />
         public void ValidateOrdinal(int year, int dayOfYear, string? paramName = null)
         {
-            if (year < _minYear || year > _maxYear) Throw.YearOutOfRange(year, paramName);
+            if (SupportedYears.Contains(year) == false) Throw.YearOutOfRange(year, paramName);
             _preValidator.ValidateDayOfYear(year, dayOfYear, paramName);
         }
 
@@ -97,7 +75,7 @@ namespace Zorglub.Time.Core
         /// <exception cref="AoorException">The validation failed.</exception>
         public void ValidateMonthsSinceEpoch(int monthsSinceEpoch)
         {
-            if (monthsSinceEpoch < _minMonthsSinceEpoch || monthsSinceEpoch > _maxMonthsSinceEpoch)
+            if (MonthDomain.Contains(monthsSinceEpoch) == false)
             {
                 Throw.ArgumentOutOfRange(nameof(monthsSinceEpoch));
             }
@@ -109,7 +87,7 @@ namespace Zorglub.Time.Core
         /// <exception cref="AoorException">The validation failed.</exception>
         public void ValidateDaysSinceEpoch(int daysSinceEpoch)
         {
-            if (daysSinceEpoch < _minDaysSinceEpoch || daysSinceEpoch > _maxDaysSinceEpoch)
+            if (Domain.Contains(daysSinceEpoch) == false)
             {
                 Throw.ArgumentOutOfRange(nameof(daysSinceEpoch));
             }
