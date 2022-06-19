@@ -9,10 +9,10 @@ namespace Zorglub.Time.Core.Arithmetic
     /// <see cref="SystemArithmetic.MinMinDaysInMonth"/>.</para>
     /// <para>This class cannot be inherited.</para>
     /// </summary>
-    internal sealed partial class PlainFastArithmetic : PlainArithmetic
+    internal sealed partial class RegularArithmetic : SystemArithmetic
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="PlainFastArithmetic"/> class.
+        /// Initializes a new instance of the <see cref="RegularArithmetic"/> class.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
         /// <exception cref="ArgumentException">The range of supported years by
@@ -21,14 +21,20 @@ namespace Zorglub.Time.Core.Arithmetic
         /// <exception cref="ArgumentException"><paramref name="schema"/> contains at least one
         /// month whose length is strictly less than <see cref="SystemArithmetic.MinMinDaysInMonth"/>.
         /// </exception>
-        public PlainFastArithmetic(ICalendricalSchema schema) : base(schema)
+        /// <exception cref="ArgumentException"><paramref name="schema"/> is not regular.</exception>
+        public RegularArithmetic(ICalendricalSchema schema) : base(schema)
         {
             Debug.Assert(schema != null);
             if (schema.MinDaysInMonth < MinMinDaysInMonth) Throw.Argument(nameof(schema));
+            if (schema.IsRegular(out int monthsInYear) == false) Throw.Argument(nameof(schema));
+
+            MonthsInYear = monthsInYear;
         }
+
+        public int MonthsInYear { get; }
     }
 
-    internal partial class PlainFastArithmetic // Operations on Yemoda
+    internal partial class RegularArithmetic // Operations on Yemoda
     {
         /// <inheritdoc />
         [Pure]
@@ -99,7 +105,7 @@ namespace Zorglub.Time.Core.Arithmetic
             {
                 // Next month.
                 dom -= daysInMonth;
-                if (m == Schema.CountMonthsInYear(y))
+                if (m == MonthsInYear)
                 {
                     // First month of next year.
                     if (y == MaxYear) Throw.DateOverflow();
@@ -125,11 +131,117 @@ namespace Zorglub.Time.Core.Arithmetic
                 // Same month, the day after.
                 d < MaxDaysViaDayOfMonth || d < Schema.CountDaysInMonth(y, m) ? new Yemoda(y, m, d + 1)
                 // Same year, start of next month.
-                : m < Schema.CountMonthsInYear(y) ? Yemoda.AtStartOfMonth(y, m + 1)
+                : m < MonthsInYear ? Yemoda.AtStartOfMonth(y, m + 1)
                 // Start of next year...
                 : y < MaxYear ? Yemoda.AtStartOfYear(y + 1)
                 // ... or overflow.
                 : Throw.DateOverflow<Yemoda>();
+        }
+
+        /// <inheritdoc />
+        [Pure]
+        public override Yemoda PreviousDay(Yemoda ymd)
+        {
+            ymd.Unpack(out int y, out int m, out int d);
+
+            return
+                // Same month, the day before.
+                d > 1 ? new Yemoda(y, m, d - 1)
+                // Same year, end of previous month.
+                : m > 1 ? PartsFactory.GetEndOfMonthParts(y, m - 1)
+                // End of previous year...
+                : y > MinYear ? PartsFactory.GetEndOfYearParts(y - 1)
+                // ... or overflow.
+                : Throw.DateOverflow<Yemoda>();
+        }
+    }
+
+    internal partial class RegularArithmetic // Operations on Yedoy
+    {
+        /// <inheritdoc />
+        [Pure]
+        public sealed override Yedoy AddDays(Yedoy ydoy, int days)
+        {
+            // Fast track.
+            if (-MaxDaysViaDayOfYear <= days && days <= MaxDaysViaDayOfYear)
+            {
+                return AddDaysViaDayOfYear(ydoy, days);
+            }
+
+            ydoy.Unpack(out int y, out int doy);
+
+            // Slow track.
+            int daysSinceEpoch = checked(Schema.CountDaysSinceEpoch(y, doy) + days);
+            if (Domain.Contains(daysSinceEpoch) == false) Throw.DateOverflow();
+
+            return PartsFactory.GetOrdinalParts(daysSinceEpoch);
+        }
+
+        /// <inheritdoc />
+        [Pure]
+        protected internal sealed override Yedoy AddDaysViaDayOfYear(Yedoy ydoy, int days)
+        {
+            Debug.Assert(-MaxDaysViaDayOfYear <= days);
+            Debug.Assert(days <= MaxDaysViaDayOfYear);
+
+            ydoy.Unpack(out int y, out int doy);
+
+            // No need to use checked arithmetic here.
+            doy += days;
+            if (doy < 1)
+            {
+                if (y == MinYear) Throw.DateOverflow();
+                y--;
+                doy += Schema.CountDaysInYear(y);
+            }
+            else
+            {
+                int daysInYear = Schema.CountDaysInYear(y);
+                if (doy > daysInYear)
+                {
+                    if (y == MaxYear) Throw.DateOverflow();
+                    y++;
+                    doy -= daysInYear;
+                }
+            }
+
+            return new Yedoy(y, doy);
+        }
+
+        /// <inheritdoc />
+        [Pure]
+        public sealed override Yedoy NextDay(Yedoy ydoy)
+        {
+            ydoy.Unpack(out int y, out int doy);
+
+            return
+                doy < MaxDaysViaDayOfYear || doy < Schema.CountDaysInYear(y) ? new Yedoy(y, doy + 1)
+                : y < MaxYear ? Yedoy.AtStartOfYear(y + 1)
+                : Throw.DateOverflow<Yedoy>();
+        }
+
+        /// <inheritdoc />
+        [Pure]
+        public sealed override Yedoy PreviousDay(Yedoy ydoy)
+        {
+            ydoy.Unpack(out int y, out int doy);
+
+            return doy > 1 ? new Yedoy(y, doy - 1)
+                : y > MinYear ? PartsFactory.GetEndOfYearOrdinalParts(y - 1)
+                : Throw.DateOverflow<Yedoy>();
+        }
+    }
+
+    internal partial class RegularArithmetic // Operations on Yemo
+    {
+        /// <inheritdoc />
+        [Pure]
+        public override int CountMonthsBetween(Yemo start, Yemo end)
+        {
+            start.Unpack(out int y0, out int m0);
+            end.Unpack(out int y1, out int m1);
+
+            return (y1 - y0) * MonthsInYear + m1 - m0;
         }
     }
 }

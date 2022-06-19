@@ -121,9 +121,13 @@ namespace Zorglub.Time.Core.Arithmetic
                 CalendricalProfile.Lunisolar => new LunisolarArithmetic(schema),
 
                 // NB: there is no real gain to expect in trying to improve the
-                // perf for regular schemas. Not convinced? Check the code, we
-                // only call CountMonthsInYear() in two corner cases.
-                _ => PlainArithmetic.Create(schema)
+                // perf for regular schemas except for month ops. Not convinced?
+                // Check the code, we only call CountMonthsInYear() in two
+                // corner cases.
+                _ => schema.MinDaysInMonth >= MinMinDaysInMonth
+                    && schema.IsRegular(out _)
+                    ? new RegularArithmetic(schema)
+                    : new PlainArithmetic(schema)
             };
         }
     }

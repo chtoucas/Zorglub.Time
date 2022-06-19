@@ -163,11 +163,14 @@ namespace Zorglub.Time.Core
         /// <summary>
         /// Obtains the <see cref="ICalendricalArithmetic"/> for this schema.
         /// </summary>
+        /// <exception cref="ArgumentException">The range of supported years by the schema and
+        /// <see cref="Yemoda"/> are disjoint.
+        /// </exception>
         [Pure]
         protected virtual ICalendricalArithmetic GetArithmeticCore() =>
             TryGetCustomArithmetic(out ICalendricalArithmetic? arithmetic)
             ? arithmetic
-            : PlainArithmetic.Create(this);
+            : new PlainArithmetic(this);
 
         /// <summary>
         /// Returns true if the construction of a specialized pre-validator for this schema was

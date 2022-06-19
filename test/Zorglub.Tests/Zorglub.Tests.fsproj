@@ -67,8 +67,8 @@
     <Compile Include="Tests\Core\Validation\PreValidatorTestSuite.fs" />
     <Compile Include="Tests\Core\Arithmetic\ArithmeticTests.fs" />
     <Compile Include="Tests\Core\Arithmetic\CalendricalArithmeticTestSuite.fs" />
-    <Compile Include="Tests\Core\Arithmetic\PlainSlowArithmeticTestSuite.fs" />
-    <Compile Include="Tests\Core\Arithmetic\PlainFastArithmeticTestSuite.fs" />
+    <Compile Include="Tests\Core\Arithmetic\PlainArithmeticTestSuite.fs" />
+    <Compile Include="Tests\Core\Arithmetic\RegularArithmeticTestSuite.fs" />
     <Compile Include="Tests\Core\Arithmetic\ArithmeticTestSuite.fs" />
     <Compile Include="Tests\Core\PartsTests.fs" />
     <Compile Include="Tests\Core\PartsFactoryTests.fs" />

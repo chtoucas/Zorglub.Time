@@ -1,7 +1,7 @@
 ﻿// SPDX-License-Identifier: BSD-3-Clause
 // Copyright (c) 2020 Narvalo.Org. All rights reserved.
 
-module Zorglub.Tests.Core.Arithmetic.PlainFastArithmeticTestSuite
+module Zorglub.Tests.Core.Arithmetic.PlainArithmeticTestSuite
 
 open Zorglub.Testing
 open Zorglub.Testing.Data.Schemas
@@ -13,33 +13,42 @@ open Zorglub.Time.Core.Schemas
 
 open Xunit
 
-// TODO(code): Hebrew (unfinished, no data) and lunisolar (fake) schema.
+// TODO(code): Hebrew (unfinished, no data), Pax (unfinished) and lunisolar (fake) schema.
 
 // Since the Gregorian schema has the richest dataset, we use it as a default
 // model for testing.
 
-let private ariOf x = new PlainFastArithmetic(x) :> ICalendricalArithmetic
+let private ariOf x = new PlainArithmetic(x) :> ICalendricalArithmetic
 
 [<Sealed>]
 [<RedundantTestBundle>]
 type Coptic12Tests() =
     inherit CalendricalArithmeticFacts<Coptic12DataSet>(syschemaOf<Coptic12Schema>(), ariOf)
 
-// Coptic13 -> not compatible with PlainFastArithmetic.
+// Already tested in ArithmeticTestSuite.
+[<Fact>]
+let ``Default arithmetic for Coptic13Schema is PlainArithmetic`` () =
+    schemaOf<Coptic13Schema>().Arithmetic |> is<PlainArithmetic>
 
 [<Sealed>]
 [<RedundantTestBundle>]
 type Egyptian12Tests() =
     inherit CalendricalArithmeticFacts<Egyptian12DataSet>(syschemaOf<Egyptian12Schema>(), ariOf)
 
-// Egyptian13 -> not compatible with PlainFastArithmetic.
+// Already tested in ArithmeticTestSuite.
+[<Fact>]
+let ``Default arithmetic for Egyptian13Schema is PlainArithmetic`` () =
+    schemaOf<Egyptian13Schema>().Arithmetic |> is<PlainArithmetic>
 
 [<Sealed>]
 [<RedundantTestBundle>]
 type FrenchRepublican12Tests() =
     inherit CalendricalArithmeticFacts<FrenchRepublican12DataSet>(syschemaOf<FrenchRepublican12Schema>(), ariOf)
 
-// FrenchRepublican13 -> not compatible with PlainFastArithmetic.
+// Already tested in ArithmeticTestSuite.
+[<Fact>]
+let ``Default arithmetic for FrenchRepublican13Schema is PlainArithmetic`` () =
+    schemaOf<FrenchRepublican13Schema>().Arithmetic |> is<PlainArithmetic>
 
 [<Sealed>]
 type GregorianTests() =
@@ -62,8 +71,8 @@ type JulianTests() =
 
 // Already tested in ArithmeticTestSuite.
 [<Fact>]
-let ``Default arithmetic for PaxSchema is PlainFastArithmetic`` () =
-    schemaOf<PaxSchema>().Arithmetic |> is<PlainFastArithmetic>
+let ``Default arithmetic for PaxSchema is PlainArithmetic`` () =
+    schemaOf<PaxSchema>().Arithmetic |> is<PlainArithmetic>
 
 [<Sealed>]
 [<RedundantTestBundle>]

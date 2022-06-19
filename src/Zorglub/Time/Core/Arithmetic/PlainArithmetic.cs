@@ -8,7 +8,7 @@ namespace Zorglub.Time.Core.Arithmetic
     /// derived classes.
     /// <para>This class cannot be inherited.</para>
     /// </summary>
-    internal abstract partial class PlainArithmetic : SystemArithmetic
+    internal sealed partial class PlainArithmetic : SystemArithmetic
     {
         /// <summary>
         /// Called from constructors in derived classes to initialize the
@@ -18,28 +18,52 @@ namespace Zorglub.Time.Core.Arithmetic
         /// <exception cref="ArgumentException">The range of supported years by
         /// <paramref name="schema"/> and <see cref="Yemoda"/> are disjoint.
         /// </exception>
-        protected PlainArithmetic(ICalendricalSchema schema) : base(schema) { }
-
-        /// <summary>
-        /// Creates the plain arithmetic engine.
-        /// </summary>
-        /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
-        [Pure]
-        public static PlainArithmetic Create(ICalendricalSchema schema)
-        {
-            Requires.NotNull(schema);
-
-            return schema.MinDaysInMonth >= MinMinDaysInMonth
-                ? new PlainFastArithmetic(schema)
-                : new PlainSlowArithmetic(schema);
-        }
+        public PlainArithmetic(ICalendricalSchema schema) : base(schema) { }
     }
 
     internal partial class PlainArithmetic // Operations on Yemoda
     {
         /// <inheritdoc />
         [Pure]
-        public sealed override Yemoda PreviousDay(Yemoda ymd)
+        public override Yemoda AddDays(Yemoda ymd, int days)
+        {
+            ymd.Unpack(out int y, out int m, out int d);
+
+            // Fast track.
+            if (-MaxDaysViaDayOfYear <= days && days <= MaxDaysViaDayOfYear)
+            {
+                int doy = Schema.GetDayOfYear(y, m, d);
+                var (newY, newDoy) = AddDaysViaDayOfYear(new Yedoy(y, doy), days);
+                return PartsFactory.GetDateParts(newY, newDoy);
+            }
+
+            // Slow track.
+            int daysSinceEpoch = checked(Schema.CountDaysSinceEpoch(y, m, d) + days);
+            if (Domain.Contains(daysSinceEpoch) == false) Throw.DateOverflow();
+
+            return PartsFactory.GetDateParts(daysSinceEpoch);
+        }
+
+        /// <inheritdoc />
+        [Pure]
+        protected internal override Yemoda AddDaysViaDayOfMonth(Yemoda ymd, int days) =>
+            AddDays(ymd, days);
+
+        /// <inheritdoc />
+        [Pure]
+        public override Yemoda NextDay(Yemoda ymd)
+        {
+            ymd.Unpack(out int y, out int m, out int d);
+
+            return d < Schema.CountDaysInMonth(y, m) ? new Yemoda(y, m, d + 1)
+                : m < Schema.CountMonthsInYear(y) ? Yemoda.AtStartOfMonth(y, m + 1)
+                : y < MaxYear ? Yemoda.AtStartOfYear(y + 1)
+                : Throw.DateOverflow<Yemoda>();
+        }
+
+        /// <inheritdoc />
+        [Pure]
+        public override Yemoda PreviousDay(Yemoda ymd)
         {
             ymd.Unpack(out int y, out int m, out int d);
 
@@ -59,7 +83,7 @@ namespace Zorglub.Time.Core.Arithmetic
     {
         /// <inheritdoc />
         [Pure]
-        public sealed override Yedoy AddDays(Yedoy ydoy, int days)
+        public override Yedoy AddDays(Yedoy ydoy, int days)
         {
             // Fast track.
             if (-MaxDaysViaDayOfYear <= days && days <= MaxDaysViaDayOfYear)
@@ -78,7 +102,7 @@ namespace Zorglub.Time.Core.Arithmetic
 
         /// <inheritdoc />
         [Pure]
-        protected internal sealed override Yedoy AddDaysViaDayOfYear(Yedoy ydoy, int days)
+        protected internal override Yedoy AddDaysViaDayOfYear(Yedoy ydoy, int days)
         {
             Debug.Assert(-MaxDaysViaDayOfYear <= days);
             Debug.Assert(days <= MaxDaysViaDayOfYear);
@@ -109,7 +133,7 @@ namespace Zorglub.Time.Core.Arithmetic
 
         /// <inheritdoc />
         [Pure]
-        public sealed override Yedoy NextDay(Yedoy ydoy)
+        public override Yedoy NextDay(Yedoy ydoy)
         {
             ydoy.Unpack(out int y, out int doy);
 
@@ -121,7 +145,7 @@ namespace Zorglub.Time.Core.Arithmetic
 
         /// <inheritdoc />
         [Pure]
-        public sealed override Yedoy PreviousDay(Yedoy ydoy)
+        public override Yedoy PreviousDay(Yedoy ydoy)
         {
             ydoy.Unpack(out int y, out int doy);
 

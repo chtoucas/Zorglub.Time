@@ -36,8 +36,8 @@ module Prelude =
     [<Fact>]
     let ``Constructor throws for null schema`` () =
         nullExn "schema" (fun () -> new CalendricalArithmetic(null))
-        nullExn "schema" (fun () -> new PlainSlowArithmetic(null))
-        nullExn "schema" (fun () -> new PlainFastArithmetic(null))
+        nullExn "schema" (fun () -> new PlainArithmetic(null))
+        nullExn "schema" (fun () -> new RegularArithmetic(null))
         nullExn "schema" (fun () -> new LunarArithmetic(null))
         nullExn "schema" (fun () -> new LunisolarArithmetic(null))
         nullExn "schema" (fun () -> new Solar12Arithmetic(null))
@@ -49,8 +49,8 @@ module Prelude =
         let sch = new FauxCalendricalSchema(range)
 
         argExn "schema" (fun () -> new CalendricalArithmetic(sch))
-        argExn "schema" (fun () -> new PlainSlowArithmetic(sch))
-        argExn "schema" (fun () -> new PlainFastArithmetic(sch))
+        argExn "schema" (fun () -> new PlainArithmetic(sch))
+        argExn "schema" (fun () -> new RegularArithmetic(sch))
         argExn "schema" (fun () -> new LunarArithmetic(sch))
         argExn "schema" (fun () -> new LunisolarArithmetic(sch))
         argExn "schema" (fun () -> new Solar12Arithmetic(sch))
@@ -79,20 +79,20 @@ module Prelude =
     [<InlineData 4>]
     [<InlineData 5>]
     [<InlineData 6>]
-    let ``PlainFastArithmetic constructor throws when MinDaysInMonth < 7`` i =
+    let ``RegularArithmetic constructor throws when MinDaysInMonth < 7`` i =
         let sch = FauxSystemSchema.WithMinDaysInMonth(i)
 
-        argExn "schema" (fun () -> new PlainFastArithmetic(sch))
+        argExn "schema" (fun () -> new RegularArithmetic(sch))
 
 module Factories =
     [<Fact>]
     let ``SystemArithmetic.Create()`` () =
         SystemArithmetic.Create(schemaOf<Coptic12Schema>())           |> is<Solar12Arithmetic>
-        SystemArithmetic.Create(schemaOf<Coptic13Schema>())           |> is<PlainSlowArithmetic>
+        SystemArithmetic.Create(schemaOf<Coptic13Schema>())           |> is<PlainArithmetic>
         SystemArithmetic.Create(schemaOf<Egyptian12Schema>())         |> is<Solar12Arithmetic>
-        SystemArithmetic.Create(schemaOf<Egyptian13Schema>())         |> is<PlainSlowArithmetic>
+        SystemArithmetic.Create(schemaOf<Egyptian13Schema>())         |> is<PlainArithmetic>
         SystemArithmetic.Create(schemaOf<FrenchRepublican12Schema>()) |> is<Solar12Arithmetic>
-        SystemArithmetic.Create(schemaOf<FrenchRepublican13Schema>()) |> is<PlainSlowArithmetic>
+        SystemArithmetic.Create(schemaOf<FrenchRepublican13Schema>()) |> is<PlainArithmetic>
         SystemArithmetic.Create(schemaOf<GregorianSchema>())          |> is<GregorianArithmetic>
         //SystemArithmetic.Create(schemaOf<HebrewSchema>())             |> is<LunisolarArithmetic>
         SystemArithmetic.Create(schemaOf<InternationalFixedSchema>()) |> is<Solar13Arithmetic>
@@ -105,11 +105,11 @@ module Factories =
         SystemArithmetic.Create(schemaOf<Tropicalia3130Schema>())     |> is<Solar12Arithmetic>
         SystemArithmetic.Create(schemaOf<WorldSchema>())              |> is<Solar12Arithmetic>
 
-// We have to test AddDaysViaDayOfMonth() separately because PlainSlowArithmetic
-// and PlainFastArithmetic do not use it internally.
-module PlainSlowCase =
+// We have to test AddDaysViaDayOfMonth() separately because PlainArithmetic
+// and RegularArithmetic do not use it internally.
+module PlainCase =
     let private sch = schemaOf<GregorianSchema>()
-    let private ari = new PlainSlowArithmetic(sch)
+    let private ari = new PlainArithmetic(sch)
     let private wrapper = new ArithmeticWrapper(ari)
 
     let addDaysData = getAddDaysData ari
@@ -135,9 +135,9 @@ module PlainSlowCase =
         wrapper.AddDaysViaDayOfMonth(date, days)   === other
         wrapper.AddDaysViaDayOfMonth(other, -days) === date
 
-module PlainFastCase =
+module RegularCase =
     let private sch = schemaOf<GregorianSchema>()
-    let private ari = new PlainFastArithmetic(sch)
+    let private ari = new RegularArithmetic(sch)
     let private wrapper = new ArithmeticWrapper(ari)
 
     let addDaysData = getAddDaysData ari

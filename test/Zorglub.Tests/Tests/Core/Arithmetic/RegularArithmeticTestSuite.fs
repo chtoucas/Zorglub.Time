@@ -1,7 +1,7 @@
 ﻿// SPDX-License-Identifier: BSD-3-Clause
 // Copyright (c) 2020 Narvalo.Org. All rights reserved.
 
-module Zorglub.Tests.Core.Arithmetic.PlainSlowArithmeticTestSuite
+module Zorglub.Tests.Core.Arithmetic.RegularArithmeticTestSuite
 
 open Zorglub.Testing
 open Zorglub.Testing.Data.Schemas
@@ -13,42 +13,33 @@ open Zorglub.Time.Core.Schemas
 
 open Xunit
 
-// TODO(code): Hebrew (unfinished, no data), Pax (unfinished) and lunisolar (fake) schema.
+// TODO(code): Hebrew (unfinished, no data) and lunisolar (fake) schema.
 
 // Since the Gregorian schema has the richest dataset, we use it as a default
 // model for testing.
 
-let private ariOf x = new PlainSlowArithmetic(x) :> ICalendricalArithmetic
+let private ariOf x = new RegularArithmetic(x) :> ICalendricalArithmetic
 
 [<Sealed>]
 [<RedundantTestBundle>]
 type Coptic12Tests() =
     inherit CalendricalArithmeticFacts<Coptic12DataSet>(syschemaOf<Coptic12Schema>(), ariOf)
 
-// Already tested in ArithmeticTestSuite.
-[<Fact>]
-let ``Default arithmetic for Coptic13Schema is PlainSlowArithmetic`` () =
-    schemaOf<Coptic13Schema>().Arithmetic |> is<PlainSlowArithmetic>
+// Coptic13 -> not compatible with RegularArithmetic.
 
 [<Sealed>]
 [<RedundantTestBundle>]
 type Egyptian12Tests() =
     inherit CalendricalArithmeticFacts<Egyptian12DataSet>(syschemaOf<Egyptian12Schema>(), ariOf)
 
-// Already tested in ArithmeticTestSuite.
-[<Fact>]
-let ``Default arithmetic for Egyptian13Schema is PlainSlowArithmetic`` () =
-    schemaOf<Egyptian13Schema>().Arithmetic |> is<PlainSlowArithmetic>
+// Egyptian13 -> not compatible with RegularArithmetic.
 
 [<Sealed>]
 [<RedundantTestBundle>]
 type FrenchRepublican12Tests() =
     inherit CalendricalArithmeticFacts<FrenchRepublican12DataSet>(syschemaOf<FrenchRepublican12Schema>(), ariOf)
 
-// Already tested in ArithmeticTestSuite.
-[<Fact>]
-let ``Default arithmetic for FrenchRepublican13Schema is PlainSlowArithmetic`` () =
-    schemaOf<FrenchRepublican13Schema>().Arithmetic |> is<PlainSlowArithmetic>
+// FrenchRepublican13 -> not compatible with RegularArithmetic.
 
 [<Sealed>]
 type GregorianTests() =
@@ -69,10 +60,7 @@ type JulianTests() =
 //type LunisolarTests() =
 //    inherit CalendricalArithmeticFacts<LunisolarDataSet>(syschemaOf<LunisolarSchema>(), ariOf)
 
-//[<Sealed>]
-//[<RedundantTestBundle>]
-//type PaxTests() =
-//    inherit CalendricalArithmeticFacts<PaxDataSet>(syschemaOf<PaxSchema>(), ariOf)
+// Pax -> not compatible with RegularArithmetic.
 
 [<Sealed>]
 [<RedundantTestBundle>]
