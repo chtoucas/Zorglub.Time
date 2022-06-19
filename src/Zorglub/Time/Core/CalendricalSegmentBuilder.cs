@@ -6,10 +6,8 @@ namespace Zorglub.Time.Core
     using Zorglub.Time.Core.Intervals;
 
     // We validate before and after calling a method from the method:
-    // - before, to respect the schema layout
-    //   eg _minYear <= year <= _maxYear
-    // - after, to stay within the limits of Yemoda/Yedoy
-    //   via ICalendricalSchemaPlus.Promote(schema, checked: true)
+    // - before, to respect the schema layout (_supportedYears)
+    // - after, to stay within the limits of Yemoda/Yedoy (_partsFactory)
 
     /// <summary>
     /// Represents a builder for <see cref="CalendricalSegment"/>.
@@ -30,22 +28,16 @@ namespace Zorglub.Time.Core
         private readonly ICalendricalPartsFactory _partsFactory;
 
         /// <summary>
+        /// Represents the range of supported years.
+        /// <para>This field is read-only.</para>
+        /// </summary>
+        private readonly Range<int> _supportedYears;
+
+        /// <summary>
         /// Represents the earliest supported year &gt;= 1.
         /// <para>This field is read-only.</para>
         /// </summary>
         private readonly int? _minYearOnOrAfterYear1;
-
-        /// <summary>
-        /// Represents the earliest supported year.
-        /// <para>This field is read-only.</para>
-        /// </summary>
-        private readonly int _minYear;
-
-        /// <summary>
-        /// Represents the latest supported year.
-        /// <para>This field is read-only.</para>
-        /// </summary>
-        private readonly int _maxYear;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CalendricalSegmentBuilder"/> class.
@@ -57,18 +49,14 @@ namespace Zorglub.Time.Core
         public CalendricalSegmentBuilder(ICalendricalSchema schema)
         {
             _schema = schema ?? throw new ArgumentNullException(nameof(schema));
-            _partsFactory = ICalendricalPartsFactory.Create(schema, @checked: true);
+            _partsFactory = new CalendricalPartsFactoryChecked(schema);
 
-            // Normalement, un ICalendricalSchemaPlus devrait satisfaire la
-            // condition schema.MinMaxYear ⊆ Yemoda.SupportedYears, néanmoins
-            // rien ne nous permet d'affirmer que c'est réellement le cas.
             var set = Interval.Intersect(schema.SupportedYears, Yemoda.SupportedYears);
             if (set.IsEmpty) Throw.Argument(nameof(schema));
-            var range = set.Range;
 
-            (_minYear, _maxYear) = range.Endpoints;
+            _supportedYears = set.Range;
 
-            var set1 = Interval.Intersect(range, Range.StartingAt(1));
+            var set1 = Interval.Intersect(_supportedYears, Range.StartingAt(1));
             _minYearOnOrAfterYear1 = set1.IsEmpty ? null : set1.Range.Min;
         }
 
@@ -115,17 +103,12 @@ namespace Zorglub.Time.Core
             }
         }
 
-        private int? _minDaysSinceEpoch;
+        private Range<int>? _domain;
         /// <summary>
         /// Gets the minimum possible value for the number of consecutive days from the epoch.
         /// </summary>
-        private int MinDaysSinceEpoch => _minDaysSinceEpoch ??= _schema.GetStartOfYear(_minYear);
-
-        private int? _maxDaysSinceEpoch;
-        /// <summary>
-        /// Gets the maximum possible value for the number of consecutive days from the epoch.
-        /// </summary>
-        private int MaxDaysSinceEpoch => _maxDaysSinceEpoch ??= _schema.GetEndOfYear(_maxYear);
+        private Range<int> Domain =>
+            _domain ??= new Range<int>(_supportedYears.Endpoints.Select(_schema.GetStartOfYear, _schema.GetEndOfYear));
 
         /// <summary>
         /// Obtains the segment.
@@ -150,7 +133,7 @@ namespace Zorglub.Time.Core
         /// <exception cref="AoorException">The result is not representable by the system.</exception>
         public void SetMinDaysSinceEpoch(int daysSinceEpoch)
         {
-            if (daysSinceEpoch < MinDaysSinceEpoch || daysSinceEpoch > MaxDaysSinceEpoch)
+            if (Domain.Contains(daysSinceEpoch) == false)
             {
                 Throw.ArgumentOutOfRange(nameof(daysSinceEpoch));
             }
@@ -172,7 +155,7 @@ namespace Zorglub.Time.Core
         /// <exception cref="AoorException">The result is not representable by the system.</exception>
         public void SetMaxDaysSinceEpoch(int daysSinceEpoch)
         {
-            if (daysSinceEpoch < MinDaysSinceEpoch || daysSinceEpoch > MaxDaysSinceEpoch)
+            if (Domain.Contains(daysSinceEpoch) == false)
             {
                 Throw.ArgumentOutOfRange(nameof(daysSinceEpoch));
             }
@@ -196,7 +179,7 @@ namespace Zorglub.Time.Core
         {
             var (y, m, d) = ymd;
 
-            if (y < _minYear || y > _maxYear) Throw.YearOutOfRange(y, nameof(ymd));
+            if (_supportedYears.Contains(y) == false) Throw.YearOutOfRange(y, nameof(ymd));
             _schema.PreValidator.ValidateMonthDay(y, m, d, nameof(ymd));
 
             Start = new CalendricalEndpoint
@@ -216,7 +199,7 @@ namespace Zorglub.Time.Core
         {
             var (y, m, d) = ymd;
 
-            if (y < _minYear || y > _maxYear) Throw.YearOutOfRange(y, nameof(ymd));
+            if (_supportedYears.Contains(y) == false) Throw.YearOutOfRange(y, nameof(ymd));
             _schema.PreValidator.ValidateMonthDay(y, m, d, nameof(ymd));
 
             End = new CalendricalEndpoint
@@ -236,7 +219,7 @@ namespace Zorglub.Time.Core
         {
             var (y, doy) = ydoy;
 
-            if (y < _minYear || y > _maxYear) Throw.YearOutOfRange(y, nameof(ydoy));
+            if (_supportedYears.Contains(y) == false) Throw.YearOutOfRange(y, nameof(ydoy));
             _schema.PreValidator.ValidateDayOfYear(y, doy, nameof(ydoy));
 
             var ymd = _partsFactory.GetDateParts(y, doy);
@@ -258,7 +241,7 @@ namespace Zorglub.Time.Core
         {
             var (y, doy) = ydoy;
 
-            if (y < _minYear || y > _maxYear) Throw.YearOutOfRange(y, nameof(ydoy));
+            if (_supportedYears.Contains(y) == false) Throw.YearOutOfRange(y, nameof(ydoy));
             _schema.PreValidator.ValidateDayOfYear(y, doy, nameof(ydoy));
 
             var ymd = _partsFactory.GetDateParts(y, doy);
@@ -278,7 +261,7 @@ namespace Zorglub.Time.Core
         /// <exception cref="AoorException">The result is not representable by the system.</exception>
         public void SetMinYear(int year)
         {
-            if (year < _minYear || year > _maxYear) Throw.YearOutOfRange(year);
+            if (_supportedYears.Contains(year) == false) Throw.YearOutOfRange(year);
 
             var ymd = _partsFactory.GetStartOfYearParts(year);
 
@@ -297,7 +280,7 @@ namespace Zorglub.Time.Core
         /// <exception cref="AoorException">The result is not representable by the system.</exception>
         public void SetMaxYear(int year)
         {
-            if (year < _minYear || year > _maxYear) Throw.YearOutOfRange(year);
+            if (_supportedYears.Contains(year) == false) Throw.YearOutOfRange(year);
 
             var ymd = _partsFactory.GetEndOfYearParts(year);
 
@@ -318,14 +301,14 @@ namespace Zorglub.Time.Core
             int minYear =
                 onOrAfterEpoch
                 ? _minYearOnOrAfterYear1 ?? Throw.InvalidOperation<int>()
-                : _minYear;
+                : _supportedYears.Min;
             SetMinYear(minYear);
         }
 
         /// <summary>
         /// Sets the end of the segment to the end of the latest supported year.
         /// </summary>
-        public void UseMaxSupportedYear() => SetMaxYear(_maxYear);
+        public void UseMaxSupportedYear() => SetMaxYear(_supportedYears.Max);
 
         /// <summary>
         /// Sets the start of the segment to the start of the earliest supported year, and the end
@@ -341,8 +324,7 @@ namespace Zorglub.Time.Core
         [Pure]
         internal void SetSupportedYears(Range<int> supportedYears)
         {
-            // REVIEW(code): we should check that supportedYears is a subset of [_minYear.._maxYear].
-            if (supportedYears.IsSubsetOf(_schema.SupportedYears) == false)
+            if (supportedYears.IsSubsetOf(_supportedYears) == false)
             {
                 Throw.ArgumentOutOfRange(nameof(supportedYears));
             }

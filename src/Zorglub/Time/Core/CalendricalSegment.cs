@@ -7,6 +7,45 @@ namespace Zorglub.Time.Core
 
     using Zorglub.Time.Core.Intervals;
 
+    // By keeping this record internal, we can ensure that the properties are
+    // coherent, ie that they represent the same day. Furthemore, an endpoint
+    // does not keep track of the schema, which makes it incomplete.
+    internal sealed record CalendricalEndpoint
+    {
+        public int DaysSinceEpoch { get; init; }
+        public Yemoda DateParts { get; init; }
+        public Yedoy OrdinalParts { get; init; }
+
+        public int MonthsSinceEpoch { get; init; }
+        public Yemo MonthParts => DateParts.Yemo;
+
+        public int Year => MonthParts.Year;
+
+        // Comparison w/ null always returns false, even null >= null and null <= null.
+
+        public static bool operator <(CalendricalEndpoint? left, CalendricalEndpoint? right) =>
+            left is not null && right is not null && left.CompareTo(right) < 0;
+        public static bool operator <=(CalendricalEndpoint? left, CalendricalEndpoint? right) =>
+            left is not null && right is not null && left.CompareTo(right) <= 0;
+        public static bool operator >(CalendricalEndpoint? left, CalendricalEndpoint? right) =>
+            left is not null && right is not null && left.CompareTo(right) > 0;
+        public static bool operator >=(CalendricalEndpoint? left, CalendricalEndpoint? right) =>
+            left is not null && right is not null && left.CompareTo(right) >= 0;
+
+        public int CompareTo(CalendricalEndpoint other)
+        {
+            Requires.NotNull(other);
+
+            return DaysSinceEpoch.CompareTo(other.DaysSinceEpoch);
+        }
+    }
+
+    // A schema provides:
+    // - SupportedYears
+    // - Domain
+    // - MonthDomain
+    // A calendrical segment adds parts info.
+
     /// <summary>
     /// Provides informations on a range of days for a given schema.
     /// <para>This class can only represent subintervals of <see cref="Yemoda.SupportedYears"/>.

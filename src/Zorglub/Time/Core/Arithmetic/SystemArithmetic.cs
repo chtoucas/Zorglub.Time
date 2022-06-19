@@ -44,13 +44,13 @@ namespace Zorglub.Time.Core.Arithmetic
         {
             Schema = schema ?? throw new ArgumentNullException(nameof(schema));
 
-            var set = Interval.Intersect(schema.SupportedYears, Yemoda.SupportedYears);
-            if (set.IsEmpty) Throw.Argument(nameof(schema));
-            var supportedYears = set.Range;
-
             // Notice the use of unchecked constructs, we assume that derived
             // classes verify the data before calling a method of PartsFactory.
             PartsFactory = ICalendricalPartsFactory.Create(schema, @checked: false);
+
+            var set = Interval.Intersect(schema.SupportedYears, Yemoda.SupportedYears);
+            if (set.IsEmpty) Throw.Argument(nameof(schema));
+            var supportedYears = set.Range;
 
             SupportedYears = supportedYears;
             (MinYear, MaxYear) = supportedYears.Endpoints;

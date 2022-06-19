@@ -33,7 +33,7 @@ public abstract partial class CalendricalArithmeticFacts<TDataSet> :
 
         var minMaxYear = schema.SupportedYears.Endpoints;
         var helper = MonthsSinceEpochHelper.Create(schema);
-        var partsFactory = ICalendricalPartsFactory.Create(schema, @checked: true);
+        var partsFactory = new CalendricalPartsFactoryChecked(schema);
 
         var minMaxMonthsSinceEpoch = minMaxYear.Select(helper.GetStartOfYear, helper.GetEndOfYear);
 

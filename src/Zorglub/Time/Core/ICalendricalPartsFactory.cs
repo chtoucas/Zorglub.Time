@@ -7,14 +7,13 @@ namespace Zorglub.Time.Core
 
     #region Developer Notes
 
-    // Types Implementing ICalendricalSchemaPlus
-    // -----------------------------------------
+    // Types Implementing ICalendricalPartsFactory
+    // -------------------------------------------
     //
-    // ICalendricalSchema
-    // └─ ICalendricalSchemaPlus
-    //    ├─ SystemSchema
-    //    ├─ CalendricalSchemaPlusChecked
-    //    └─ CalendricalSchemaPlusUnchecked
+    // ICalendricalPartsFactory
+    // ├─ SystemSchema
+    // ├─ CalendricalSchemaPlusChecked
+    // └─ CalendricalSchemaPlusUnchecked
     //
     // Comments
     // --------
@@ -36,6 +35,8 @@ namespace Zorglub.Time.Core
     /// </summary>
     public partial interface ICalendricalPartsFactory
     {
+        // REVIEW(api): better solution?
+
         /// <summary>
         /// Creates a new <see cref="ICalendricalPartsFactory"/> instance.
         /// <para>When <paramref name="checked"/> is true, a method will throw if the result is not
