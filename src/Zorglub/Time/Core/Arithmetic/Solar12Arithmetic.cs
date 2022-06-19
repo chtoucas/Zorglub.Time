@@ -29,6 +29,10 @@ namespace Zorglub.Time.Core.Arithmetic
             Requires.Profile(schema, CalendricalProfile.Solar12);
         }
 
+        //
+        // Operations on Yemoda
+        //
+
         /// <inheritdoc />
         [Pure]
         protected internal override Yemoda AddDaysViaDayOfMonth(Yemoda ymd, int days)
@@ -88,6 +92,24 @@ namespace Zorglub.Time.Core.Arithmetic
                 : m < Solar12.MonthsInYear ? Yemoda.AtStartOfMonth(y, m + 1)
                 : y < MaxYear ? Yemoda.AtStartOfYear(y + 1)
                 : Throw.DateOverflow<Yemoda>();
+        }
+
+        //
+        // Operations on Yemo
+        //
+
+        /// <inheritdoc />
+        [Pure]
+        public override Yemo AddMonths(Yemo ym, int months)
+        {
+            ym.Unpack(out int y, out int m);
+
+            m = 1 + MathZ.Modulo(checked(m - 1 + months), Solar12.MonthsInYear, out int y0);
+            y += y0;
+
+            if (SupportedYears.Contains(y) == false) Throw.MonthOverflow();
+
+            return new Yemo(y, m);
         }
 
         /// <inheritdoc />

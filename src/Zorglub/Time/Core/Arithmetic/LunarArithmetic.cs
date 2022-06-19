@@ -213,6 +213,20 @@ namespace Zorglub.Time.Core.Arithmetic
     {
         /// <inheritdoc />
         [Pure]
+        public override Yemo AddMonths(Yemo ym, int months)
+        {
+            ym.Unpack(out int y, out int m);
+
+            m = 1 + MathZ.Modulo(checked(m - 1 + months), Lunar.MonthsInYear, out int y0);
+            y += y0;
+
+            if (SupportedYears.Contains(y) == false) Throw.MonthOverflow();
+
+            return new Yemo(y, m);
+        }
+
+        /// <inheritdoc />
+        [Pure]
         public override int CountMonthsBetween(Yemo start, Yemo end)
         {
             start.Unpack(out int y0, out int m0);

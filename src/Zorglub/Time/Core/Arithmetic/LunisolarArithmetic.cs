@@ -214,6 +214,18 @@ namespace Zorglub.Time.Core.Arithmetic
     {
         /// <inheritdoc />
         [Pure]
+        public override Yemo AddMonths(Yemo ym, int months)
+        {
+            ym.Unpack(out int y, out int m);
+
+            int monthsSinceEpoch = checked(Schema.CountMonthsSinceEpoch(y, m) + months);
+            if (MonthDomain.Contains(monthsSinceEpoch) == false) Throw.MonthOverflow();
+
+            return PartsFactory.GetMonthParts(monthsSinceEpoch);
+        }
+
+        /// <inheritdoc />
+        [Pure]
         public override int CountMonthsBetween(Yemo start, Yemo end)
         {
             start.Unpack(out int y0, out int m0);

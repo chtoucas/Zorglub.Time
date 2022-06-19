@@ -70,6 +70,11 @@ namespace Zorglub.Time.Core.Arithmetic
         protected Range<int> MonthDomain => Segment.MonthDomain;
 
         /// <summary>
+        /// Gets the range of supported years.
+        /// </summary>
+        protected Range<int> SupportedYears => Segment.SupportedYears;
+
+        /// <summary>
         /// Gets the underlying schema.
         /// </summary>
         protected ICalendricalSchema Schema { get; }
@@ -191,15 +196,7 @@ namespace Zorglub.Time.Core.Arithmetic
 
         /// <inheritdoc />
         [Pure]
-        public Yemo AddMonths(Yemo ym, int months)
-        {
-            ym.Unpack(out int y, out int m);
-
-            int monthsSinceEpoch = checked(Schema.CountMonthsSinceEpoch(y, m) + months);
-            if (MonthDomain.Contains(monthsSinceEpoch) == false) Throw.MonthOverflow();
-
-            return PartsFactory.GetMonthParts(monthsSinceEpoch);
-        }
+        public abstract Yemo AddMonths(Yemo ym, int months);
 
         /// <inheritdoc />
         [Pure]
