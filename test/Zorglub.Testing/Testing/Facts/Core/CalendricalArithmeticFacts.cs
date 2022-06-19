@@ -27,37 +27,14 @@ public abstract partial class CalendricalArithmeticFacts<TDataSet> :
     private CalendricalArithmeticFacts(ICalendricalSchema schema, ICalendricalArithmetic arithmetic)
         : base(arithmetic)
     {
+        Debug.Assert(arithmetic != null);
+
         Schema = schema ?? throw new ArgumentNullException(nameof(schema));
-
-        var segment = arithmetic.Segment;
-
-        (MinYear, MaxYear) = segment.SupportedYears.Endpoints;
-        (MinMonthsSinceEpoch, MaxMonthsSinceEpoch) = segment.MonthDomain.Endpoints;
-        (MinDaysSinceEpoch, MaxDaysSinceEpoch) = segment.Domain.Endpoints;
-        (MinYemoda, MaxYemoda) = segment.MinMaxDateParts;
-        (MinYedoy, MaxYedoy) = segment.MinMaxOrdinalParts;
-        (MinYemo, MaxYemo) = segment.MinMaxMonthParts;
+        Segment = arithmetic.Segment;
     }
 
     protected ICalendricalSchema Schema { get; }
-
-    protected int MinYear { get; }
-    protected int MaxYear { get; }
-
-    protected int MinMonthsSinceEpoch { get; }
-    protected int MaxMonthsSinceEpoch { get; }
-
-    protected int MinDaysSinceEpoch { get; }
-    protected int MaxDaysSinceEpoch { get; }
-
-    protected Yemoda MinYemoda { get; }
-    protected Yemoda MaxYemoda { get; }
-
-    protected Yedoy MinYedoy { get; }
-    protected Yedoy MaxYedoy { get; }
-
-    protected Yemo MinYemo { get; }
-    protected Yemo MaxYemo { get; }
+    protected CalendricalSegment Segment { get; }
 }
 
 public partial class CalendricalArithmeticFacts<TDataSet> // Overflows
@@ -69,29 +46,30 @@ public partial class CalendricalArithmeticFacts<TDataSet> // Overflows
     [Fact]
     public void AddDays﹍Yemoda_Overflows()
     {
+        var (minDaysSinceEpoch, maxDaysSinceEpoch) = Segment.Domain.Endpoints;
         var epoch = new Yemoda(1, 1, 1);
         // Act & Assert
-        Assert.Overflows(() => ArithmeticUT.AddDays(epoch, MinDaysSinceEpoch - 1));
-        _ = ArithmeticUT.AddDays(epoch, MinDaysSinceEpoch);
-        _ = ArithmeticUT.AddDays(epoch, MaxDaysSinceEpoch);
-        Assert.Overflows(() => ArithmeticUT.AddDays(epoch, MaxDaysSinceEpoch + 1));
+        Assert.Overflows(() => ArithmeticUT.AddDays(epoch, minDaysSinceEpoch - 1));
+        _ = ArithmeticUT.AddDays(epoch, minDaysSinceEpoch);
+        _ = ArithmeticUT.AddDays(epoch, maxDaysSinceEpoch);
+        Assert.Overflows(() => ArithmeticUT.AddDays(epoch, maxDaysSinceEpoch + 1));
     }
 
     [Fact]
     public void AddDays﹍Yemoda_Overflows_AtStartOfMinYear() =>
-        Assert.Overflows(() => ArithmeticUT.AddDays(MinYemoda, -1));
+        Assert.Overflows(() => ArithmeticUT.AddDays(Segment.MinMaxDateParts.LowerValue, -1));
 
     [Fact]
     public void AddDays﹍Yemoda_Overflows_AtEndOfMaxYear() =>
-        Assert.Overflows(() => ArithmeticUT.AddDays(MaxYemoda, 1));
+        Assert.Overflows(() => ArithmeticUT.AddDays(Segment.MinMaxDateParts.UpperValue, 1));
 
     [Fact]
     public void PreviousDay﹍Yemoda_Overflows_AtStartOfMinYear() =>
-        Assert.Overflows(() => ArithmeticUT.PreviousDay(MinYemoda));
+        Assert.Overflows(() => ArithmeticUT.PreviousDay(Segment.MinMaxDateParts.LowerValue));
 
     [Fact]
     public void NextDay﹍Yemoda_Overflows_AtEndOfMaxYear() =>
-        Assert.Overflows(() => ArithmeticUT.NextDay(MaxYemoda));
+        Assert.Overflows(() => ArithmeticUT.NextDay(Segment.MinMaxDateParts.UpperValue));
 
     //
     // Yedoy
@@ -100,29 +78,30 @@ public partial class CalendricalArithmeticFacts<TDataSet> // Overflows
     [Fact]
     public void AddDays﹍Yedoy_Overflows()
     {
+        var (minDaysSinceEpoch, maxDaysSinceEpoch) = Segment.Domain.Endpoints;
         var epoch = new Yedoy(1, 1);
         // Act & Assert
-        Assert.Overflows(() => ArithmeticUT.AddDays(epoch, MinDaysSinceEpoch - 1));
-        _ = ArithmeticUT.AddDays(epoch, MinDaysSinceEpoch);
-        _ = ArithmeticUT.AddDays(epoch, MaxDaysSinceEpoch);
-        Assert.Overflows(() => ArithmeticUT.AddDays(epoch, MaxDaysSinceEpoch + 1));
+        Assert.Overflows(() => ArithmeticUT.AddDays(epoch, minDaysSinceEpoch - 1));
+        _ = ArithmeticUT.AddDays(epoch, minDaysSinceEpoch);
+        _ = ArithmeticUT.AddDays(epoch, maxDaysSinceEpoch);
+        Assert.Overflows(() => ArithmeticUT.AddDays(epoch, maxDaysSinceEpoch + 1));
     }
 
     [Fact]
     public void AddDays﹍Yedoy_Overflows_AtStartOfMinYear() =>
-        Assert.Overflows(() => ArithmeticUT.AddDays(MinYedoy, -1));
+        Assert.Overflows(() => ArithmeticUT.AddDays(Segment.MinMaxOrdinalParts.LowerValue, -1));
 
     [Fact]
     public void AddDays﹍Yedoy_Overflows_AtEndOfMaxYear() =>
-        Assert.Overflows(() => ArithmeticUT.AddDays(MaxYedoy, 1));
+        Assert.Overflows(() => ArithmeticUT.AddDays(Segment.MinMaxOrdinalParts.UpperValue, 1));
 
     [Fact]
     public void PreviousDay﹍Yedoy_Overflows_AtStartOfMinYear() =>
-        Assert.Overflows(() => ArithmeticUT.PreviousDay(MinYedoy));
+        Assert.Overflows(() => ArithmeticUT.PreviousDay(Segment.MinMaxOrdinalParts.LowerValue));
 
     [Fact]
     public void NextDay﹍Yedoy_Overflows_AtEndOfMaxYear() =>
-        Assert.Overflows(() => ArithmeticUT.NextDay(MaxYedoy));
+        Assert.Overflows(() => ArithmeticUT.NextDay(Segment.MinMaxOrdinalParts.UpperValue));
 
     //
     // Yemo
@@ -131,27 +110,28 @@ public partial class CalendricalArithmeticFacts<TDataSet> // Overflows
     [Fact]
     public void AddMonths﹍Yemo_Overflows()
     {
+        var (minMonthsSinceEpoch, maxMonthsSinceEpoch) = Segment.MonthDomain.Endpoints;
         var epoch = new Yemo(1, 1);
         // Act & Assert
-        Assert.Overflows(() => ArithmeticUT.AddMonths(epoch, MinMonthsSinceEpoch - 1));
-        _ = ArithmeticUT.AddMonths(epoch, MinMonthsSinceEpoch);
-        _ = ArithmeticUT.AddMonths(epoch, MaxMonthsSinceEpoch);
-        Assert.Overflows(() => ArithmeticUT.AddMonths(epoch, MaxMonthsSinceEpoch + 1));
+        Assert.Overflows(() => ArithmeticUT.AddMonths(epoch, minMonthsSinceEpoch - 1));
+        _ = ArithmeticUT.AddMonths(epoch, minMonthsSinceEpoch);
+        _ = ArithmeticUT.AddMonths(epoch, maxMonthsSinceEpoch);
+        Assert.Overflows(() => ArithmeticUT.AddMonths(epoch, maxMonthsSinceEpoch + 1));
     }
 
     [Fact]
     public void AddMonths﹍Yemo_Overflows_AtStartOfMinYear() =>
-        Assert.Overflows(() => ArithmeticUT.AddMonths(MinYemo, -1));
+        Assert.Overflows(() => ArithmeticUT.AddMonths(Segment.MinMaxMonthParts.LowerValue, -1));
 
     [Fact]
     public void AddMonths﹍Yemo_Overflows_AtEndOfMaxYear() =>
-        Assert.Overflows(() => ArithmeticUT.AddMonths(MaxYemo, 1));
+        Assert.Overflows(() => ArithmeticUT.AddMonths(Segment.MinMaxMonthParts.UpperValue, 1));
 
     [Fact]
     public void PreviousMonth﹍Yemo_Overflows_AtStartOfMinYear() =>
-        Assert.Overflows(() => ArithmeticUT.PreviousMonth(MinYemo));
+        Assert.Overflows(() => ArithmeticUT.PreviousMonth(Segment.MinMaxMonthParts.LowerValue));
 
     [Fact]
     public void NextMonth﹍Yemo_Overflows_AtEndOfMaxYear() =>
-        Assert.Overflows(() => ArithmeticUT.NextMonth(MaxYemo));
+        Assert.Overflows(() => ArithmeticUT.NextMonth(Segment.MinMaxMonthParts.UpperValue));
 }
