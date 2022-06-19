@@ -53,10 +53,7 @@ namespace Zorglub.Time.Core.Arithmetic
 
             // Slow track.
             int daysSinceEpoch = checked(Schema.CountDaysSinceEpoch(y, m, d) + days);
-            if (daysSinceEpoch < MinDaysSinceEpoch || daysSinceEpoch > MaxDaysSinceEpoch)
-            {
-                Throw.DateOverflow();
-            }
+            if (Domain.Contains(daysSinceEpoch) == false) Throw.DateOverflow();
 
             return PartsFactory.GetDateParts(daysSinceEpoch);
         }
@@ -91,10 +88,7 @@ namespace Zorglub.Time.Core.Arithmetic
 
             // Slow track.
             int daysSinceEpoch = checked(Schema.CountDaysSinceEpoch(y, doy) + days);
-            if (daysSinceEpoch < MinDaysSinceEpoch || daysSinceEpoch > MaxDaysSinceEpoch)
-            {
-                Throw.DateOverflow();
-            }
+            if (Domain.Contains(daysSinceEpoch) == false) Throw.DateOverflow();
 
             return PartsFactory.GetOrdinalParts(daysSinceEpoch);
         }

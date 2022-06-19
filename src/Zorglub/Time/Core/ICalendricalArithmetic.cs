@@ -60,9 +60,9 @@ namespace Zorglub.Time.Core
     public interface ICalendricalArithmetic
     {
         /// <summary>
-        /// Gets the range of supported years.
+        /// Gets the calendrical segment.
         /// </summary>
-        Range<int> SupportedYears { get; }
+        CalendricalSegment Segment { get; }
 
         //
         // Operations on Yemoda

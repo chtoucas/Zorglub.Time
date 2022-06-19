@@ -71,7 +71,7 @@ public partial class FauxSystemSchema // Props & methods
     [Pure] public sealed override bool IsIntercalaryDay(int y, int m, int d) => throw new NotSupportedException();
     [Pure] public sealed override bool IsSupplementaryDay(int y, int m, int d) => throw new NotSupportedException();
 
-    [Pure] public override int CountMonthsInYear(int y) => 0;
+    [Pure] public override int CountMonthsInYear(int y) => 1;
     [Pure] public sealed override int CountDaysInYear(int y) => MinDaysInYear;
     [Pure] public sealed override int CountDaysInYearBeforeMonth(int y, int m) => throw new NotSupportedException();
     [Pure] public sealed override int CountDaysInMonth(int y, int m) => MinDaysInMonth;

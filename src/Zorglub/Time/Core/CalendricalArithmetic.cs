@@ -23,8 +23,6 @@ namespace Zorglub.Time.Core
         /// </summary>
         private readonly ICalendricalPartsFactory _partsFactory;
 
-        private readonly CalendricalSegment _segment;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="CalendricalArithmetic"/> class.
         /// </summary>
@@ -36,15 +34,15 @@ namespace Zorglub.Time.Core
         {
             _schema = schema ?? throw new ArgumentNullException(nameof(schema));
             _partsFactory = ICalendricalPartsFactory.Create(schema, @checked: false);
-            _segment = CalendricalSegment.CreateMaximal(schema);
+            Segment = CalendricalSegment.CreateMaximal(schema);
         }
 
         /// <inheritdoc/>
-        public Range<int> SupportedYears => _segment.SupportedYears;
+        public CalendricalSegment Segment { get; }
 
-        private Range<int> Domain => _segment.Domain;
+        private Range<int> Domain => Segment.Domain;
 
-        private Range<int> MonthDomain => _segment.MonthDomain;
+        private Range<int> MonthDomain => Segment.MonthDomain;
     }
 
     public partial class CalendricalArithmetic // Operations on Yemoda

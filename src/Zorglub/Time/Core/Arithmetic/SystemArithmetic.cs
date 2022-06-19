@@ -48,25 +48,20 @@ namespace Zorglub.Time.Core.Arithmetic
             // classes verify the data before calling a method of PartsFactory.
             PartsFactory = ICalendricalPartsFactory.Create(schema, @checked: false);
 
-            var set = Interval.Intersect(schema.SupportedYears, Yemoda.SupportedYears);
-            if (set.IsEmpty) Throw.Argument(nameof(schema));
-            var supportedYears = set.Range;
+            Segment = CalendricalSegment.CreateMaximal(schema);
 
-            SupportedYears = supportedYears;
-            (MinYear, MaxYear) = supportedYears.Endpoints;
-            (MinDaysSinceEpoch, MaxDaysSinceEpoch) =
-                supportedYears.Endpoints.Select(schema.GetStartOfYear, schema.GetEndOfYear);
-
-            var helper = MonthsSinceEpochHelper.Create(schema);
-            (MinMonthsSinceEpoch, MaxMonthsSinceEpoch) =
-                supportedYears.Endpoints.Select(helper.GetStartOfYear, helper.GetEndOfYear);
+            (MinYear, MaxYear) = Segment.SupportedYears.Endpoints;
 
             MaxDaysViaDayOfYear = schema.MinDaysInYear;
             MaxDaysViaDayOfMonth = schema.MinDaysInMonth;
         }
 
         /// <inheritdoc/>
-        public Range<int> SupportedYears { get; }
+        public CalendricalSegment Segment { get; }
+
+        protected Range<int> Domain => Segment.Domain;
+
+        protected Range<int> MonthDomain => Segment.MonthDomain;
 
         /// <summary>
         /// Gets the underlying schema.
@@ -87,26 +82,6 @@ namespace Zorglub.Time.Core.Arithmetic
         /// Gets the latest supported year.
         /// </summary>
         protected int MaxYear { get; }
-
-        /// <summary>
-        /// Gets the minimum possible value for the number of consecutive months from the epoch.
-        /// </summary>
-        protected int MinMonthsSinceEpoch { get; }
-
-        /// <summary>
-        /// Gets the maximum possible value for the number of consecutive months from the epoch.
-        /// </summary>
-        protected int MaxMonthsSinceEpoch { get; }
-
-        /// <summary>
-        /// Gets the minimum possible value for the number of consecutive days from the epoch.
-        /// </summary>
-        protected int MinDaysSinceEpoch { get; }
-
-        /// <summary>
-        /// Gets the maximum possible value for the number of consecutive days from the epoch.
-        /// </summary>
-        protected int MaxDaysSinceEpoch { get; }
 
         /// <summary>
         /// Gets the maximum absolute value for a parameter "days" for the method
@@ -211,10 +186,7 @@ namespace Zorglub.Time.Core.Arithmetic
             ym.Unpack(out int y, out int m);
 
             int monthsSinceEpoch = checked(Schema.CountMonthsSinceEpoch(y, m) + months);
-            if (monthsSinceEpoch < MinMonthsSinceEpoch || monthsSinceEpoch > MaxMonthsSinceEpoch)
-            {
-                Throw.MonthOverflow();
-            }
+            if (MonthDomain.Contains(monthsSinceEpoch) == false) Throw.MonthOverflow();
 
             return PartsFactory.GetMonthParts(monthsSinceEpoch);
         }

@@ -86,7 +86,8 @@ namespace Zorglub.Time.Core.Schemas
         [Pure]
         public sealed override int CountDaysInMonth(int y, int m)
         {
-            throw new NotImplementedException();
+            // FIXME: temporary value for tests; GetArithmetic().
+            return 29;
         }
     }
 

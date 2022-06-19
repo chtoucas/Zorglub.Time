@@ -5,8 +5,8 @@ namespace Zorglub.Time.Core;
 
 // GetStartOfYear() must be implemented for calendars, arithmetic & scope to work.
 // We must also implement IsRegular(), otherwise CalendricalSchema.Profile will fail.
-// CountMonthsInYear() and CountMonthsSinceEpoch() must be implemented too for
-// arithmetic.
+// CountMonthsInYear() (must be > 0) and CountMonthsSinceEpoch() must be implemented
+// too for arithmetic.
 
 using Zorglub.Time.Core.Intervals;
 
@@ -83,7 +83,7 @@ public partial class FauxCalendricalSchema // Props & methods
     [Pure] public sealed override bool IsIntercalaryDay(int y, int m, int d) => throw new NotSupportedException();
     [Pure] public sealed override bool IsSupplementaryDay(int y, int m, int d) => throw new NotSupportedException();
 
-    [Pure] public override int CountMonthsInYear(int y) => 0;
+    [Pure] public override int CountMonthsInYear(int y) => 1;
     [Pure] public sealed override int CountDaysInYear(int y) => MinDaysInYear;
     [Pure] public sealed override int CountDaysInYearBeforeMonth(int y, int m) => throw new NotSupportedException();
     [Pure] public sealed override int CountDaysInMonth(int y, int m) => MinDaysInMonth;

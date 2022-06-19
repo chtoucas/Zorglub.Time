@@ -29,25 +29,14 @@ public abstract partial class CalendricalArithmeticFacts<TDataSet> :
     {
         Schema = schema ?? throw new ArgumentNullException(nameof(schema));
 
-        // FIXME(fact): this is wrong, see CalendricalArithmetic's ctor (SupportedYears = set.Range).
+        var segment = arithmetic.Segment;
 
-        var minMaxYear = schema.SupportedYears.Endpoints;
-        var helper = MonthsSinceEpochHelper.Create(schema);
-        var partsFactory = new CalendricalPartsFactoryChecked(schema);
-
-        var minMaxMonthsSinceEpoch = minMaxYear.Select(helper.GetStartOfYear, helper.GetEndOfYear);
-
-        (MinYear, MaxYear) = minMaxYear;
-
-        (MinMonthsSinceEpoch, MaxMonthsSinceEpoch) = minMaxMonthsSinceEpoch;
-        (MinDaysSinceEpoch, MaxDaysSinceEpoch) =
-            minMaxYear.Select(schema.GetStartOfYear, schema.GetEndOfYear);
-        (MinYemoda, MaxYemoda) =
-            minMaxYear.Select(partsFactory.GetStartOfYearParts, partsFactory.GetEndOfYearParts);
-        (MinYedoy, MaxYedoy) =
-            minMaxYear.Select(partsFactory.GetStartOfYearOrdinalParts, partsFactory.GetEndOfYearOrdinalParts);
-        (MinYemo, MaxYemo) =
-            minMaxMonthsSinceEpoch.Select(partsFactory.GetMonthParts, partsFactory.GetMonthParts);
+        (MinYear, MaxYear) = segment.SupportedYears.Endpoints;
+        (MinMonthsSinceEpoch, MaxMonthsSinceEpoch) = segment.MonthDomain.Endpoints;
+        (MinDaysSinceEpoch, MaxDaysSinceEpoch) = segment.Domain.Endpoints;
+        (MinYemoda, MaxYemoda) = segment.MinMaxDateParts;
+        (MinYedoy, MaxYedoy) = segment.MinMaxOrdinalParts;
+        (MinYemo, MaxYemo) = segment.MinMaxMonthParts;
     }
 
     protected ICalendricalSchema Schema { get; }

@@ -128,7 +128,8 @@ namespace Zorglub.Time.Core
         internal ICalendricalSchema Schema { get; }
 
         /// <summary>
-        /// Creates the maximal segment for <paramref name="schema"/>.
+        /// Creates the maximal segment for <paramref name="schema"/> for which
+        /// <see cref="SupportedYears"/> is a subrange of <see cref="Yemoda.SupportedYears"/>.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
         /// <exception cref="ArgumentException">The range of supported years by
