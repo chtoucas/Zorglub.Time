@@ -144,18 +144,9 @@ module Validation =
         argExn "month" (fun () -> math.AddYears(invalidMonth, 1))
 
     [<Fact>]
-    let ``AddMonths(invalid month) throws`` () =
-        argExn "month" (fun () -> math.AddMonths(invalidMonth, 1))
-
-    [<Fact>]
     let ``CountYearsBetween(invalid month) throws`` () =
         argExn "end" (fun () -> math.CountYearsBetween(month, invalidMonth))
         argExn "start" (fun () -> math.CountYearsBetween(invalidMonth, month))
-
-    [<Fact>]
-    let ``CountMonthsBetween(invalid month) throws`` () =
-        argExn "end" (fun () -> math.CountMonthsBetween(month, invalidMonth))
-        argExn "start" (fun () -> math.CountMonthsBetween(invalidMonth, month))
 
 module Core =
     let private chr = GregorianCalendar.Instance
@@ -209,15 +200,3 @@ module Core =
         math.AddYearsCoreMonthWasCalled |> nok
         math.AddYears(month, 1000)      |> ignore
         math.AddYearsCoreMonthWasCalled |> ok
-
-    [<Fact>]
-    let ``AddMonths(month) calls AddMonthsCore()`` () =
-        math.AddMonthsCoreMonthWasCalled |> nok
-        math.AddMonths(month, 1000)      |> ignore
-        math.AddMonthsCoreMonthWasCalled |> ok
-
-    [<Fact>]
-    let ``CountMonthsBetween(month) calls CountMonthsBetweenCore()`` () =
-        math.CountMonthsBetweenCoreMonthWasCalled  |> nok
-        math.CountMonthsBetween(month, otherMonth) |> ignore
-        math.CountMonthsBetweenCoreMonthWasCalled  |> ok

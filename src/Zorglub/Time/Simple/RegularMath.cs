@@ -40,22 +40,6 @@ namespace Zorglub.Time.Simple
 
         /// <inheritdoc />
         [Pure]
-        [Obsolete("Use CalendricalArithmetic instead."), ExcludeFromCodeCoverage]
-        protected internal override CalendarMonth AddMonthsCore(CalendarMonth month, int months)
-        {
-            Debug.Assert(month.Cuid == Cuid);
-
-            month.Parts.Unpack(out int y, out int m);
-            m = 1 + MathZ.Modulo(checked(m - 1 + months), MonthsInYear, out int y0);
-            y += y0;
-
-            YearOverflowChecker.Check(y);
-
-            return new CalendarMonth(new Yemo(y, m), Cuid);
-        }
-
-        /// <inheritdoc />
-        [Pure]
         protected internal override int CountMonthsBetweenCore(CalendarDate start, CalendarDate end)
         {
             Debug.Assert(start.Cuid == Cuid);
@@ -77,20 +61,6 @@ namespace Zorglub.Time.Simple
             }
 
             return months;
-        }
-
-        /// <inheritdoc />
-        [Pure]
-        [Obsolete("Use CalendricalArithmetic instead."), ExcludeFromCodeCoverage]
-        protected internal override int CountMonthsBetweenCore(CalendarMonth start, CalendarMonth end)
-        {
-            Debug.Assert(start.Cuid == Cuid);
-            Debug.Assert(end.Cuid == Cuid);
-
-            start.Parts.Unpack(out int y0, out int m0);
-            end.Parts.Unpack(out int y, out int m);
-
-            return (y - y0) * MonthsInYear + m - m0;
         }
     }
 }

@@ -192,11 +192,12 @@ namespace Zorglub.Time.Core.Arithmetic
         //
         // Operations on Yemo
         //
-        // FIXME(XXX)
 
         /// <inheritdoc />
         [Pure]
         public abstract Yemo AddMonths(Yemo ym, int months);
+
+        // REVIEW(code): optimize Next/PreviousMonth().
 
         /// <inheritdoc />
         [Pure]

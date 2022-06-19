@@ -21,8 +21,6 @@ public sealed class FauxCalendarMath : CalendarMath
     public bool AddYearsCoreOrdinalDateWasCalled { get; private set; }
 
     public bool AddYearsCoreMonthWasCalled { get; private set; }
-    public bool AddMonthsCoreMonthWasCalled { get; private set; }
-    public bool CountMonthsBetweenCoreMonthWasCalled { get; private set; }
 
     //
     // Operations on CalendarDate
@@ -55,14 +53,4 @@ public sealed class FauxCalendarMath : CalendarMath
     [Pure]
     protected internal override CalendarMonth AddYearsCore(CalendarMonth month, int years)
     { AddYearsCoreMonthWasCalled = true; return month; }
-
-    [Pure]
-    [Obsolete("Use CalendricalArithmetic instead.")]
-    protected internal override CalendarMonth AddMonthsCore(CalendarMonth month, int months)
-    { AddMonthsCoreMonthWasCalled = true; return month; }
-
-    [Pure]
-    [Obsolete("Use CalendricalArithmetic instead.")]
-    protected internal override int CountMonthsBetweenCore(CalendarMonth start, CalendarMonth end)
-    { CountMonthsBetweenCoreMonthWasCalled = true; return 0; }
 }

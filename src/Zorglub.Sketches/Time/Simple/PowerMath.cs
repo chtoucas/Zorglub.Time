@@ -87,15 +87,5 @@ namespace Zorglub.Time.Simple
         [Pure]
         protected internal override CalendarMonth AddYearsCore(CalendarMonth month, int years) =>
             DefaultMath.AddYearsCore(month, years);
-
-        [Pure]
-        [Obsolete("Use CalendricalArithmetic instead."), ExcludeFromCodeCoverage]
-        protected internal override CalendarMonth AddMonthsCore(CalendarMonth month, int months) =>
-            DefaultMath.AddMonthsCore(month, months);
-
-        [Pure]
-        [Obsolete("Use CalendricalArithmetic instead."), ExcludeFromCodeCoverage]
-        protected internal override int CountMonthsBetweenCore(CalendarMonth start, CalendarMonth end) =>
-            DefaultMath.CountMonthsBetweenCore(start, end);
     }
 }
