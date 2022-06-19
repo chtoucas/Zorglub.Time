@@ -8,24 +8,10 @@ namespace Zorglub.Time.Simple
     // FIXME(code): Impl PlainMath. Improve impl.
     // Do we need stricter validation? or is YearOverflowChecker enough?
     //
-    // Move AddMonths(CalendarMonth) and CountMonthsBetween() to Arithmetic?
-    // Create LunisolarMath (12 or 13 months in a year)?
-    // Better solution:
-    // - Add CountMonthsSinceEpoch() and GetMonthParts() to schemas
-    //   MinMonthsInYear?
-    //   Copy code here to CalendricalSchema, SystemSchema and ArchetypalSchema
-    // - Add month ops to CalendricalArithmetic
-    //   MaxMonthsViaMonthOfYear
-    //   Should we create RegularArithmetic?
-    // - Remove month ops from CalendarMath
-    // - To be fixed:
-    //   * Lunisolar arithmetic tests
-    //   * CIL code size
-    //   * MonthsSinceEpochHelper
-    //   * CalendarMonth
-    //   * Schemas: partial impl for archetypal, Pax and Hebrew schemas
-    //   * SystemArithmetic (partial impl)
-    //   * use Throw.MonthOverflow()
+    // To be done:
+    // * Lunisolar arithmetic tests
+    // * CIL code size
+    // * Schemas: partial impl for archetypal, Pax and Hebrew schemas
     //
     // Count...Between()
     // - Give definition in terms of addition <- therefore depends on the addition rules
