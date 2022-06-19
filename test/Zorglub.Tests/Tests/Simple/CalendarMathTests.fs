@@ -156,13 +156,6 @@ module Core =
     let private ordinalDate = new OrdinalDate(1, 1, chr.Id)
     let private month = new CalendarMonth(1, 1, chr.Id)
 
-    let private otherDate = new CalendarDate(2000, 1, 1, chr.Id)
-    let private otherMonth = new CalendarMonth(2000, 1, chr.Id)
-
-    //
-    // CalendarDate
-    //
-
     [<Fact>]
     let ``AddYears(date) calls AddYearsCore()`` () =
         math.AddYearsCoreDateWasCalled |> nok
@@ -176,24 +169,10 @@ module Core =
         math.AddMonthsCoreDateWasCalled |> ok
 
     [<Fact>]
-    let ``CountMonthsBetween(date) calls CountMonthsBetweenCore()`` () =
-        math.CountMonthsBetweenCoreDateWasCalled |> nok
-        math.CountMonthsBetween(date, otherDate) |> ignore
-        math.CountMonthsBetweenCoreDateWasCalled |> ok
-
-    //
-    // OrdinalDate
-    //
-
-    [<Fact>]
     let ``AddYears(ordinal date) calls AddYearsCore()`` () =
         math.AddYearsCoreOrdinalDateWasCalled |> nok
         math.AddYears(ordinalDate, 1000)      |> ignore
         math.AddYearsCoreOrdinalDateWasCalled |> ok
-
-    //
-    // CalendarMonth
-    //
 
     [<Fact>]
     let ``AddYears(month) calls AddYearsCore()`` () =

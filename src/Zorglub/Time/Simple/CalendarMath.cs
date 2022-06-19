@@ -9,6 +9,7 @@ namespace Zorglub.Time.Simple
     // Do we need stricter validation? or is YearOverflowChecker enough?
     //
     // To be done:
+    // * Merge RegularXXXMath
     // * Lunisolar arithmetic tests
     // * CIL code size
     // * Schemas: partial impl for archetypal, Pax and Hebrew schemas
@@ -224,8 +225,25 @@ namespace Zorglub.Time.Simple
         /// <para>This method does NOT validate its parameters.</para>
         /// </summary>
         [Pure]
-        [SuppressMessage("Naming", "CA1716:Identifiers should not match keywords.", MessageId = "end", Justification = "F# & VB.NET End statement.")]
-        protected internal abstract int CountMonthsBetweenCore(CalendarDate start, CalendarDate end);
+        protected internal int CountMonthsBetweenCore(CalendarDate start, CalendarDate end)
+        {
+            Debug.Assert(start.Cuid == Cuid);
+            Debug.Assert(end.Cuid == Cuid);
+
+            int months = Schema.Arithmetic.CountMonthsBetween(start.Parts.Yemo, end.Parts.Yemo);
+            var newStart = AddMonthsCore(start, months);
+
+            if (start.CompareFast(end) < 0)
+            {
+                if (newStart.CompareFast(end) > 0) { months--; }
+            }
+            else
+            {
+                if (newStart.CompareFast(end) < 0) { months++; }
+            }
+
+            return months;
+        }
     }
 
     public partial class CalendarMath // OrdinalDate

@@ -24,26 +24,26 @@ module PlainMathCase =
     [<Sealed>]
     [<RedundantTestBundle>]
     type Coptic13Tests() =
-        inherit PlainMathFacts<StandardCoptic13DataSet>(new PlainMath(UserCalendars.Coptic13))
+        inherit CalendarMathFacts<StandardCoptic13DataSet>(new PlainMath(UserCalendars.Coptic13))
 
     [<Sealed>]
     type GregorianTests() =
-        inherit PlainMathFacts<ProlepticGregorianDataSet>(new PlainMath(GregorianCalendar.Instance))
+        inherit CalendarMathFacts<ProlepticGregorianDataSet>(new PlainMath(GregorianCalendar.Instance))
 
-    [<Sealed>]
-    [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
-    type LunisolarTests() =
-        inherit PlainMathFacts<StandardLunisolarDataSet>(new PlainMath(UserCalendars.Lunisolar))
+    //[<Sealed>]
+    //[<TestExcludeFrom(TestExcludeFrom.Smoke)>]
+    //type LunisolarTests() =
+    //    inherit CalendarMathFacts<StandardLunisolarDataSet>(new PlainMath(UserCalendars.Lunisolar))
 
     [<Sealed>]
     [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
     type PositivistTests() =
-        inherit PlainMathFacts<StandardPositivistDataSet>(new PlainMath(UserCalendars.Positivist))
+        inherit CalendarMathFacts<StandardPositivistDataSet>(new PlainMath(UserCalendars.Positivist))
 
     [<Sealed>]
     [<RedundantTestBundle>]
     type TabularIslamicTests() =
-        inherit PlainMathFacts<StandardTabularIslamicDataSet>(new PlainMath(TabularIslamicCalendar.Instance))
+        inherit CalendarMathFacts<StandardTabularIslamicDataSet>(new PlainMath(TabularIslamicCalendar.Instance))
 
 module RegularMathCase =
     [<Sealed>]

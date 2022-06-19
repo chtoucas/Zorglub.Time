@@ -74,32 +74,14 @@ namespace Zorglub.Time.Simple
         [Pure]
         protected internal override CalendarDate AddMonthsCore(CalendarDate date, int months)
         {
-            //var month = AddMonthsCore(date.CalendarMonth, months);
+            Debug.Assert(date.Cuid == Cuid);
 
-            //// NB: DateAdditionRule.EndOfMonth.
-            //int d = Math.Min(date.Day, month.CountDaysInMonth());
-            //return month.GetDayOfMonth(d);
-            throw new NotImplementedException();
-        }
+            var (y, m) = Schema.Arithmetic.AddMonths(date.Parts.Yemo, months);
 
-        /// <inheritdoc />
-        [Pure]
-        protected internal override int CountMonthsBetweenCore(CalendarDate start, CalendarDate end)
-        {
-            //int months = CountMonthsBetweenCore(start.CalendarMonth, end.CalendarMonth);
-            //var newStart = AddMonthsCore(start, months);
+            YearOverflowChecker.Check(y);
 
-            //if (start.CompareFast(end) < 0)
-            //{
-            //    if (newStart.CompareFast(end) > 0) { months--; }
-            //}
-            //else
-            //{
-            //    if (newStart.CompareFast(end) < 0) { months++; }
-            //}
-
-            //return months;
-            throw new NotImplementedException();
+            int d = Math.Min(date.Day, Schema.CountDaysInMonth(y, m));
+            return new CalendarDate(new Yemoda(y, m, d), Cuid);
         }
     }
 }

@@ -49,30 +49,5 @@ namespace Zorglub.Time.Simple
             d = Math.Min(d, Schema.CountDaysInMonth(y, m));
             return new CalendarDate(new Yemoda(y, m, d), Cuid);
         }
-
-        /// <inheritdoc />
-        [Pure]
-        protected internal override int CountMonthsBetweenCore(CalendarDate start, CalendarDate end)
-        {
-            Debug.Assert(start.Cuid == Cuid);
-            Debug.Assert(end.Cuid == Cuid);
-
-            start.Parts.Unpack(out int y0, out int m0);
-            end.Parts.Unpack(out int y, out int m);
-
-            int months = (y - y0) * MonthsPerYear + m - m0;
-            var newStart = AddMonthsCore(start, months);
-
-            if (start.CompareFast(end) < 0)
-            {
-                if (newStart.CompareFast(end) > 0) { months--; }
-            }
-            else
-            {
-                if (newStart.CompareFast(end) < 0) { months++; }
-            }
-
-            return months;
-        }
     }
 }
