@@ -40,8 +40,14 @@ namespace Zorglub.Time.Core
         /// <inheritdoc/>
         public CalendricalSegment Segment { get; }
 
+        /// <summary>
+        /// Gets the range of supported days.
+        /// </summary>
         private Range<int> Domain => Segment.Domain;
 
+        /// <summary>
+        /// Gets the range of supported months.
+        /// </summary>
         private Range<int> MonthDomain => Segment.MonthDomain;
     }
 

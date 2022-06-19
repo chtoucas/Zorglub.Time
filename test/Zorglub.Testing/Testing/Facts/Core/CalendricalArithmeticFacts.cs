@@ -30,11 +30,10 @@ public abstract partial class CalendricalArithmeticFacts<TDataSet> :
         Debug.Assert(arithmetic != null);
 
         Schema = schema ?? throw new ArgumentNullException(nameof(schema));
-        Segment = arithmetic.Segment;
     }
 
     protected ICalendricalSchema Schema { get; }
-    protected CalendricalSegment Segment { get; }
+    protected CalendricalSegment Segment => ArithmeticUT.Segment;
 }
 
 public partial class CalendricalArithmeticFacts<TDataSet> // Overflows

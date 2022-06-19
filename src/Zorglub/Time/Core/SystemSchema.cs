@@ -159,8 +159,6 @@ namespace Zorglub.Time.Core
     // * SupportedYearsCore
     //   Domain
     // * Segment
-    // * MinMaxDateParts
-    // * MinMaxOrdinalParts
     //   MinDaysInYear
     //   MinDaysInMonth
     public partial class SystemSchema // Properties
