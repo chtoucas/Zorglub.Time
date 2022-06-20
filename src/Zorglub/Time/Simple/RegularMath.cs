@@ -13,6 +13,12 @@ namespace Zorglub.Time.Simple
     internal sealed class RegularMath : CalendarMath
     {
         /// <summary>
+        /// Represents the total number of months in a year.
+        /// <para>This field is read-only.</para>
+        /// </summary>
+        private readonly int _monthsInYear;
+
+        /// <summary>
         /// Called from constructors in derived classes to initialize the
         /// <see cref="RegularMath"/> class.
         /// </summary>
@@ -30,16 +36,10 @@ namespace Zorglub.Time.Simple
                   default)
         {
             Debug.Assert(calendar != null);
-
             if (calendar.IsRegular(out int monthsInYear) == false) Throw.Argument(nameof(calendar));
 
-            MonthsInYear = monthsInYear;
+            _monthsInYear = monthsInYear;
         }
-
-        /// <summary>
-        /// Gets the total number of months in a year.
-        /// </summary>
-        private int MonthsInYear { get; }
 
         /// <inheritdoc />
         [Pure]
@@ -66,7 +66,7 @@ namespace Zorglub.Time.Simple
             // We could have used Schema.Arithmetic.AddMonths() as in PlainMath,
             // but here we avoid the double validation by copying its code.
             date.Parts.Unpack(out int y, out int m, out int d);
-            m = 1 + MathZ.Modulo(checked(m - 1 + months), MonthsInYear, out int y0);
+            m = 1 + MathZ.Modulo(checked(m - 1 + months), _monthsInYear, out int y0);
             y += y0;
 
             YearOverflowChecker.Check(y);
