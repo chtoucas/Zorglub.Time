@@ -5,38 +5,21 @@ namespace Zorglub.Time.Simple
 {
     using Zorglub.Time.Core.Arithmetic;
 
-    // TODO: custom factory for CalendricalMath.
     // WARNING: Math use a shorter range of years... (Yemoda vs Yemodax)
 
-    // Not sealed, extendable.
     public class PowerMath : CalendarMath
     {
-        public PowerMath(Calendar calendar) : this(calendar, CreateCalendricalMath(calendar)) { }
-
-        private PowerMath(Calendar calendar, CalendricalMath math) : base(calendar, math.AdditionRules)
+        public PowerMath(Calendar calendar, AdditionRules additionRules) : base(calendar, additionRules)
         {
             Debug.Assert(calendar != null);
-            Debug.Assert(math != null);
 
             DefaultMath = calendar.Math;
-            Math = math;
+            CalendricalMath = CalendricalMath.Create(calendar.Schema);
         }
 
         protected CalendarMath DefaultMath { get; }
 
-        protected CalendricalMath Math { get; }
-
-        // REVIEW(code): move this method to CalendricalSchema?
-        [Pure]
-        private static CalendricalMath CreateCalendricalMath(Calendar calendar)
-        {
-            Requires.NotNull(calendar);
-
-            var schema = calendar.Schema;
-
-            return schema.IsRegular(out _) ? new RegularCalendricalMath(schema)
-                : throw new NotImplementedException();
-        }
+        protected CalendricalMath CalendricalMath { get; }
 
         // Version pour les calendriers proleptiques.
         [Pure]
