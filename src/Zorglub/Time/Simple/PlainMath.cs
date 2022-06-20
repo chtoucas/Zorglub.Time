@@ -9,7 +9,7 @@ namespace Zorglub.Time.Simple
     /// Provides a plain implementation for <see cref="CalendarMath"/>.
     /// <para>This class uses the default <see cref="AdditionRules"/> to resolve ambiguities.</para>
     /// <para>In practice, we only use this mathematic with non-regular schema; see
-    /// <see cref="CalendarMath.Create(Calendar)"/>.</para>
+    /// <see cref="CalendarMath.CreateDefault(Calendar)"/>.</para>
     /// <para>This class cannot be inherited.</para>
     /// </summary>
     internal sealed class PlainMath : CalendarMath

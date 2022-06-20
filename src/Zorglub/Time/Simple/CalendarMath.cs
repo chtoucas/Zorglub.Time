@@ -84,12 +84,12 @@ namespace Zorglub.Time.Simple
         internal Cuid Cuid { get; }
 
         /// <summary>
-        /// Creates the default instance of the <see cref="CalendarMath"/> class for the specified
-        /// calendar.
+        /// Creates an instance of the <see cref="CalendarMath"/> class using the default addition
+        /// rules for the specified calendar.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="calendar"/> is null.</exception>
         [Pure]
-        internal static CalendarMath Create(Calendar calendar)
+        internal static CalendarMath CreateDefault(Calendar calendar)
         {
             Requires.NotNull(calendar);
 

@@ -43,34 +43,34 @@ module Prelude =
 
 module Factories =
     [<Fact>]
-    let ``Create() -> RegularMath when Regular12`` () =
+    let ``CreateDefault() -> RegularMath when Regular12`` () =
         let sch = FauxSystemSchema.Regular12
         let chr = new FauxSystemCalendar(sch)
-        let math = CalendarMath.Create(chr)
+        let math = CalendarMath.CreateDefault(chr)
 
         math |> is<RegularMath>
 
     [<Fact>]
-    let ``Create() -> RegularMath when Regular13`` () =
+    let ``CreateDefault() -> RegularMath when Regular13`` () =
         let sch = FauxSystemSchema.Regular13
         let chr = new FauxSystemCalendar(sch)
-        let math = CalendarMath.Create(chr)
+        let math = CalendarMath.CreateDefault(chr)
 
         math |> is<RegularMath>
 
     [<Fact>]
-    let ``Create() -> RegularMath when Regular14`` () =
+    let ``CreateDefault() -> RegularMath when Regular14`` () =
         let sch = FauxSystemSchema.Regular14
         let chr = new FauxSystemCalendar(sch)
-        let math = CalendarMath.Create(chr)
+        let math = CalendarMath.CreateDefault(chr)
 
         math |> is<RegularMath>
 
     [<Fact>]
-    let ``Create() -> PlainMath`` () =
+    let ``CreateDefault() -> PlainMath when not regular`` () =
         let sch = new FauxSystemSchema()
         let chr = new FauxSystemCalendar(sch)
-        let math = CalendarMath.Create(chr)
+        let math = CalendarMath.CreateDefault(chr)
 
         math |> is<PlainMath>
 

@@ -153,7 +153,7 @@ namespace Zorglub.Time.Simple
 
             // Keep this at the end of the constructor: before using "this",
             // all props should be initialized.
-            _math = CalendarMath.Create(this);
+            _math = CalendarMath.CreateDefault(this);
         }
 
         /// <summary>
