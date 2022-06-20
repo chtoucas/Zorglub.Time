@@ -59,6 +59,25 @@ namespace Zorglub.Time.Simple
 
         /// <inheritdoc />
         [Pure]
+        protected internal sealed override CalendarDate AddMonthsCore(CalendarDate date, int months)
+        {
+            Debug.Assert(date.Cuid == Cuid);
+
+            // We could have used Schema.Arithmetic.AddMonths() as in PlainMath,
+            // but here we avoid the double validation by copying its code.
+            date.Parts.Unpack(out int y, out int m, out int d);
+            m = 1 + MathZ.Modulo(checked(m - 1 + months), MonthsInYear, out int y0);
+            y += y0;
+
+            YearOverflowChecker.Check(y);
+
+            // NB: DateAdditionRule.EndOfMonth.
+            d = Math.Min(d, Schema.CountDaysInMonth(y, m));
+            return new CalendarDate(new Yemoda(y, m, d), Cuid);
+        }
+
+        /// <inheritdoc />
+        [Pure]
         protected internal sealed override OrdinalDate AddYearsCore(OrdinalDate date, int years)
         {
             Debug.Assert(date.Cuid == Cuid);
@@ -84,29 +103,9 @@ namespace Zorglub.Time.Simple
 
             YearOverflowChecker.Check(y);
 
-            // NB: the operation is always exact and it's compatible with
-            // DateAdditionRule.EndOfYear.
+            // NB: MonthAdditionRule.EndOfYear.
+            // The operation is always exact, and it's compatible with "EndOfYear".
             return new CalendarMonth(new Yemo(y, m), Cuid);
-        }
-
-        /// <inheritdoc />
-        [Pure]
-        protected internal sealed override CalendarDate AddMonthsCore(CalendarDate date, int months)
-        {
-            Debug.Assert(date.Cuid == Cuid);
-
-            // We could have used the same code as in PlainMath, but here we
-            // avoid the double validation by copying the code from
-            // Arithmetic.AddMonths() in the regular case.
-            date.Parts.Unpack(out int y, out int m, out int d);
-            m = 1 + MathZ.Modulo(checked(m - 1 + months), MonthsInYear, out int y0);
-            y += y0;
-
-            YearOverflowChecker.Check(y);
-
-            // NB: DateAdditionRule.EndOfMonth.
-            d = Math.Min(d, Schema.CountDaysInMonth(y, m));
-            return new CalendarDate(new Yemoda(y, m, d), Cuid);
         }
     }
 }

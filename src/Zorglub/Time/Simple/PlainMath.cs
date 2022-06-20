@@ -39,6 +39,21 @@ namespace Zorglub.Time.Simple
 
         /// <inheritdoc />
         [Pure]
+        protected internal override CalendarDate AddMonthsCore(CalendarDate date, int months)
+        {
+            Debug.Assert(date.Cuid == Cuid);
+
+            var (y, m) = Schema.Arithmetic.AddMonths(date.Parts.Yemo, months);
+
+            YearOverflowChecker.Check(y);
+
+            // NB: DateAdditionRule.EndOfMonth.
+            int d = Math.Min(date.Day, Schema.CountDaysInMonth(y, m));
+            return new CalendarDate(new Yemoda(y, m, d), Cuid);
+        }
+
+        /// <inheritdoc />
+        [Pure]
         protected internal override OrdinalDate AddYearsCore(OrdinalDate date, int years)
         {
             Debug.Assert(date.Cuid == Cuid);
@@ -65,23 +80,8 @@ namespace Zorglub.Time.Simple
             YearOverflowChecker.Check(y);
 
             // NB: MonthAdditionRule.EndOfYear.
-            int monthsInYear = Schema.CountMonthsInYear(y);
-            var ym = new Yemo(y, Math.Min(m, monthsInYear));
-            return new CalendarMonth(ym, Cuid);
-        }
-
-        /// <inheritdoc />
-        [Pure]
-        protected internal override CalendarDate AddMonthsCore(CalendarDate date, int months)
-        {
-            Debug.Assert(date.Cuid == Cuid);
-
-            var (y, m) = Schema.Arithmetic.AddMonths(date.Parts.Yemo, months);
-
-            YearOverflowChecker.Check(y);
-
-            int d = Math.Min(date.Day, Schema.CountDaysInMonth(y, m));
-            return new CalendarDate(new Yemoda(y, m, d), Cuid);
+            m = Math.Min(m, Schema.CountMonthsInYear(y));
+            return new CalendarMonth(new Yemo(y, m), Cuid);
         }
     }
 }

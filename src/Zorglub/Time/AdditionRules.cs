@@ -3,6 +3,8 @@
 
 namespace Zorglub.Time
 {
+    // REVIEW(api): DateAdditionRule, diff between PlusYears() and PlusMonths().
+
     /// <summary>
     /// Defines the strategies employed to resolve overflows when adding a number of months or
     /// years to a calendrical object.
@@ -58,7 +60,6 @@ namespace Zorglub.Time
     /// </summary>
     public enum DateAdditionRule
     {
-        // REVIEW(api): diff between PlusYears() and PlusMonths().
         /// <summary>
         /// When the result is not a valid day of the month (roundoff > 0), return the last day of
         /// the month (adding months) or the last day of the last valid month (adding years).
