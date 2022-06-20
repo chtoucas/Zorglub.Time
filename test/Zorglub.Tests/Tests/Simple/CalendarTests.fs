@@ -209,7 +209,7 @@ module Prelude =
         let chr = new FauxUserCalendar(sch)
         let math = new FauxCalendarMath(chr)
 
-        chr.Math |> is<Regular12Math>
+        chr.Math |> is<RegularMath>
 
         chr.Math <- math
 

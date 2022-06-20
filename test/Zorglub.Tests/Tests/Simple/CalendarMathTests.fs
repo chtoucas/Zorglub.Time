@@ -17,25 +17,11 @@ module Prelude =
         nullExn "calendar" (fun () -> new FauxCalendarMath(null))
 
     [<Fact>]
-    let ``RegularMathBase constructor throws for non-regular schema`` () =
+    let ``RegularMath constructor throws for non-regular schema`` () =
         let sch = new FauxSystemSchema()
         let chr = new FauxSystemCalendar(sch)
 
         argExn "calendar" (fun () -> new RegularMath(chr))
-
-    [<Fact>]
-    let ``Regular12Math constructor throws for regular schema with wrong fixed number of months`` () =
-        let sch = FauxSystemSchema.Regular13
-        let chr = new FauxSystemCalendar(sch)
-
-        argExn "calendar" (fun () -> new Regular12Math(chr))
-
-    [<Fact>]
-    let ``Regular13Math constructor throws for regular schema with wrong fixed number of months`` () =
-        let sch = FauxSystemSchema.Regular12
-        let chr = new FauxSystemCalendar(sch)
-
-        argExn "calendar" (fun () -> new Regular13Math(chr))
 
     //
     // Properties
@@ -57,23 +43,23 @@ module Prelude =
 
 module Factories =
     [<Fact>]
-    let ``Create() -> Regular12Math`` () =
+    let ``Create() -> RegularMath when Regular12`` () =
         let sch = FauxSystemSchema.Regular12
         let chr = new FauxSystemCalendar(sch)
         let math = CalendarMath.Create(chr)
 
-        math |> is<Regular12Math>
+        math |> is<RegularMath>
 
     [<Fact>]
-    let ``Create() -> Regular13Math`` () =
+    let ``Create() -> RegularMath when Regular13`` () =
         let sch = FauxSystemSchema.Regular13
         let chr = new FauxSystemCalendar(sch)
         let math = CalendarMath.Create(chr)
 
-        math |> is<Regular13Math>
+        math |> is<RegularMath>
 
     [<Fact>]
-    let ``Create() -> RegularMath`` () =
+    let ``Create() -> RegularMath when Regular14`` () =
         let sch = FauxSystemSchema.Regular14
         let chr = new FauxSystemCalendar(sch)
         let math = CalendarMath.Create(chr)

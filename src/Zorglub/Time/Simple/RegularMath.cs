@@ -6,27 +6,98 @@ namespace Zorglub.Time.Simple
     using Zorglub.Time.Core;
 
     /// <summary>
-    /// Represents the mathematical operations suitable for use by calendars with a fixed number of
-    /// months per year.
+    /// Defines the mathematical operations suitable for use by regular calendars and provides a
+    /// base for derived classes.
     /// <para>This class uses the default <see cref="AdditionRules"/> to resolve ambiguities.</para>
-    /// <para>This class cannot be inherited.</para>
     /// </summary>
-    internal sealed class RegularMath : RegularMathBase
+    internal sealed class RegularMath : CalendarMath
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="RegularMath"/> class.
+        /// Called from constructors in derived classes to initialize the
+        /// <see cref="RegularMath"/> class.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="calendar"/> is null.</exception>
         /// <exception cref="ArgumentException"><paramref name="calendar"/> is not regular.
         /// </exception>
-        public RegularMath(Calendar calendar) : base(calendar) { }
+        public RegularMath(Calendar calendar)
+            : base(
+                  calendar,
+                  // Regular calendar => month addition is NOT ambiguous.
+                  // The result is exact and matches the last month of the year,
+                  // therefore we could specify either MonthAdditionRule.Exact
+                  // or MonthAdditionRule.EndOfYear. I prefer the later to
+                  // emphasize that this math engine uses the default rules.
+                  default)
+        {
+            Debug.Assert(calendar != null);
+
+            if (calendar.IsRegular(out int monthsInYear) == false) Throw.Argument(nameof(calendar));
+
+            MonthsInYear = monthsInYear;
+        }
+
+        /// <summary>
+        /// Gets the total number of months in a year.
+        /// </summary>
+        private int MonthsInYear { get; }
 
         /// <inheritdoc />
         [Pure]
-        protected internal override CalendarDate AddMonthsCore(CalendarDate date, int months)
+        protected internal sealed override CalendarDate AddYearsCore(CalendarDate date, int years)
         {
             Debug.Assert(date.Cuid == Cuid);
 
+            date.Parts.Unpack(out int y, out int m, out int d);
+            y = checked(y + years);
+
+            YearOverflowChecker.Check(y);
+
+            // NB: DateAdditionRule.EndOfMonth.
+            d = Math.Min(d, Schema.CountDaysInMonth(y, m));
+            return new CalendarDate(new Yemoda(y, m, d), Cuid);
+        }
+
+        /// <inheritdoc />
+        [Pure]
+        protected internal sealed override OrdinalDate AddYearsCore(OrdinalDate date, int years)
+        {
+            Debug.Assert(date.Cuid == Cuid);
+
+            date.Parts.Unpack(out int y, out int doy);
+            y = checked(y + years);
+
+            YearOverflowChecker.Check(y);
+
+            // NB: OrdinalAdditionRule.EndOfYear.
+            doy = Math.Min(doy, Schema.CountDaysInYear(y));
+            return new OrdinalDate(new Yedoy(y, doy), Cuid);
+        }
+
+        /// <inheritdoc />
+        [Pure]
+        protected internal sealed override CalendarMonth AddYearsCore(CalendarMonth month, int years)
+        {
+            Debug.Assert(month.Cuid == Cuid);
+
+            month.Parts.Unpack(out int y, out int m);
+            y = checked(y + years);
+
+            YearOverflowChecker.Check(y);
+
+            // NB: the operation is always exact and it's compatible with
+            // DateAdditionRule.EndOfYear.
+            return new CalendarMonth(new Yemo(y, m), Cuid);
+        }
+
+        /// <inheritdoc />
+        [Pure]
+        protected internal sealed override CalendarDate AddMonthsCore(CalendarDate date, int months)
+        {
+            Debug.Assert(date.Cuid == Cuid);
+
+            // We could have used the same code as in PlainMath, but here we
+            // avoid the double validation by copying the code from
+            // Arithmetic.AddMonths() in the regular case.
             date.Parts.Unpack(out int y, out int m, out int d);
             m = 1 + MathZ.Modulo(checked(m - 1 + months), MonthsInYear, out int y0);
             y += y0;

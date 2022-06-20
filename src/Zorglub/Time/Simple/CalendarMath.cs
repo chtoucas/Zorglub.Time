@@ -9,7 +9,6 @@ namespace Zorglub.Time.Simple
     // Do we need stricter validation? or is YearOverflowChecker enough?
     //
     // To be done:
-    // * Merge RegularXXXMath
     // * Lunisolar arithmetic tests
     // * CIL code size
     // * Schemas: partial impl for archetypal, Pax and Hebrew schemas
@@ -97,16 +96,7 @@ namespace Zorglub.Time.Simple
             // This method could be public, but it would feel odd, indeed this
             // class has only two public method/prop: Calendar & AdditionRules.
 
-            // The schema is not regular iff monthsInYear = 0.
-            _ = calendar.IsRegular(out int monthsInYear);
-
-            return monthsInYear switch
-            {
-                12 => new Regular12Math(calendar),
-                13 => new Regular13Math(calendar),
-                > 0 => new RegularMath(calendar),
-                _ => new PlainMath(calendar)
-            };
+            return calendar.IsRegular(out _) ? new RegularMath(calendar) : new PlainMath(calendar);
         }
 
         /// <summary>
