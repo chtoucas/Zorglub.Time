@@ -1,9 +1,9 @@
 ﻿// SPDX-License-Identifier: BSD-3-Clause
 // Copyright (c) 2020 Narvalo.Org. All rights reserved.
 
-namespace Zorglub.Time.Core.Arithmetic
+namespace Zorglub.Time.Core
 {
-    public sealed partial class RegularCalendricalMath : CalendricalMath
+    internal sealed class RegularCalendricalMath : CalendricalMath
     {
         /// <summary>
         /// Represents the total number of months in a year.
@@ -18,10 +18,7 @@ namespace Zorglub.Time.Core.Arithmetic
 
             _monthsInYear = monthsInYear;
         }
-    }
 
-    public partial class RegularCalendricalMath // Yemoda
-    {
         /// <inheritdoc />
         [Pure]
         public override Yemoda AddYears(Yemoda ymd, int years, out int roundoff)
@@ -30,10 +27,6 @@ namespace Zorglub.Time.Core.Arithmetic
 
             y = checked(y + years);
 
-            // Années complètes : on doit juste vérifier l'année.
-            // Par contrat, à partir du moment où l'année est dans la plage
-            // d'années supportée par un schéma, on sait que les méthodes ne
-            // provoqueront pas de débordements arithmétiques.
             CheckYearOverflow(y);
 
             // Nbre invariable de mois par an : (y, m) est une combinaison valide.
@@ -41,10 +34,6 @@ namespace Zorglub.Time.Core.Arithmetic
             int daysInMonth = Schema.CountDaysInMonth(y, m);
             roundoff = Math.Max(0, d - daysInMonth);
             // On retourne le dernier jour du mois si d > daysInMonth.
-            // Si les années n'étaient pas complètes, il faudrait prendre en
-            // compte le cas des années limites (Min/MaxYear).
-            // Si on ignorait roundoff, on pourrait juste utiliser
-            // Math.Min(d, daysInMonth).
             return new Yemoda(y, m, roundoff > 0 ? daysInMonth : d);
         }
 
@@ -64,13 +53,25 @@ namespace Zorglub.Time.Core.Arithmetic
             roundoff = Math.Max(0, d - daysInMonth);
             return new Yemoda(y, m, roundoff > 0 ? daysInMonth : d);
         }
-    }
 
-    public partial class RegularCalendricalMath // Yemo
-    {
         /// <inheritdoc />
         [Pure]
-        public override Yemo AddYears(Yemo ym, int years)
+        public override Yedoy AddYears(Yedoy ydoy, int years, out int roundoff)
+        {
+            ydoy.Unpack(out int y, out int doy);
+
+            y = checked(y + years);
+
+            CheckYearOverflow(y);
+
+            int daysInYear = Schema.CountDaysInYear(y);
+            roundoff = Math.Max(0, doy - daysInYear);
+            return new Yedoy(y, roundoff > 0 ? daysInYear : doy);
+        }
+
+        /// <inheritdoc />
+        [Pure]
+        public override Yemo AddYears(Yemo ym, int years, out int roundoff)
         {
             ym.Unpack(out int y, out int m);
 
@@ -79,12 +80,8 @@ namespace Zorglub.Time.Core.Arithmetic
             CheckYearOverflow(y);
 
             // Nbre invariable de mois par an : (y, m) est une combinaison valide.
+            roundoff = 0;
             return new Yemo(y, m);
         }
-
-        /// <inheritdoc />
-        [Pure]
-        public override int CountYearsBetween(Yemo start, Yemo end) =>
-            CountYearsBetween(start.StartOfMonth, end.StartOfMonth, out _);
     }
 }

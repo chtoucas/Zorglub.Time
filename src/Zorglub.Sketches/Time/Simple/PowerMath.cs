@@ -3,56 +3,123 @@
 
 namespace Zorglub.Time.Simple
 {
+    using Zorglub.Time.Core;
     using Zorglub.Time.Core.Arithmetic;
 
-    // WARNING: Math use a shorter range of years... (Yemoda vs Yemodax)
+    // TODO(code): Math use a shorter range of years... (Yemoda vs Yemodax)
+    // Overflow after adjustment.
 
-    public class PowerMath : CalendarMath
+    public sealed class PowerMath : CalendarMath
     {
+        private readonly ICalendricalArithmetic _arithmetic;
+        private readonly CalendricalMath _math;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PowerMath"/> class.
+        /// </summary>
+        /// <exception cref="ArgumentNullException"><paramref name="calendar"/> is null.</exception>
         public PowerMath(Calendar calendar, AdditionRules additionRules) : base(calendar, additionRules)
         {
             Debug.Assert(calendar != null);
 
-            DefaultMath = calendar.Math;
-            CalendricalMath = CalendricalMath.Create(calendar.Schema);
+            _arithmetic = calendar.Arithmetic;
+            _math = CalendricalMath.Create(calendar.Schema);
         }
 
-        protected CalendarMath DefaultMath { get; }
-
-        protected CalendricalMath CalendricalMath { get; }
-
-        // Version pour les calendriers proleptiques.
+        /// <inheritdoc/>
         [Pure]
-        protected static CalendarDate AdjustResult(
-            CalendarDate result, int roundoff, DateAdditionRule rule, Calendar calendar)
+        protected internal override CalendarDate AddYearsCore(CalendarDate date, int years)
+        {
+            Debug.Assert(date.Cuid == Cuid);
+
+            var ymd = _math.AddYears(date.Parts, years, out int roundoff);
+            if (roundoff > 0) { ymd = Adjust(ymd, roundoff); }
+            return new CalendarDate(ymd, Cuid);
+        }
+
+        /// <inheritdoc/>
+        [Pure]
+        protected internal override CalendarDate AddMonthsCore(CalendarDate date, int months)
+        {
+            Debug.Assert(date.Cuid == Cuid);
+
+            var ymd = _math.AddMonths(date.Parts, months, out int roundoff);
+            if (roundoff > 0) { ymd = Adjust(ymd, roundoff); }
+            return new CalendarDate(ymd, Cuid);
+        }
+
+        /// <inheritdoc/>
+        [Pure]
+        protected internal override OrdinalDate AddYearsCore(OrdinalDate date, int years)
+        {
+            Debug.Assert(date.Cuid == Cuid);
+
+            var ydoy = _math.AddYears(date.Parts, years, out int roundoff);
+            if (roundoff > 0) { ydoy = Adjust(ydoy, roundoff); }
+            return new OrdinalDate(ydoy, Cuid);
+        }
+
+        /// <inheritdoc/>
+        [Pure]
+        protected internal override CalendarMonth AddYearsCore(CalendarMonth month, int years)
+        {
+            Debug.Assert(month.Cuid == Cuid);
+
+            var ym = _math.AddYears(month.Parts, years, out int roundoff);
+            if (roundoff > 0) { ym = Adjust(ym, roundoff); }
+            return new CalendarMonth(ym, Cuid);
+        }
+
+        //
+        // Adjustments
+        //
+
+        [Pure]
+        private Yemoda Adjust(Yemoda ymd, int roundoff)
         {
             Debug.Assert(roundoff > 0);
-            Debug.Assert(calendar != null);
 
-            return rule switch
+            // NB: according to CalendricalMath, ymd is the last day of the month.
+            return AdditionRules.DateRule switch
             {
-                DateAdditionRule.StartOfNextMonth => result.PlusDays(1),
-                DateAdditionRule.Exact => result.PlusDays(roundoff),
-                DateAdditionRule.EndOfMonth => result,
+                DateAdditionRule.StartOfNextMonth => _arithmetic.AddDays(ymd, 1),
+                DateAdditionRule.Exact => _arithmetic.AddDays(ymd, roundoff),
+                DateAdditionRule.EndOfMonth => ymd,
 
-                _ => Throw.ArgumentOutOfRange<CalendarDate>(nameof(rule)),
+                _ => Throw.InvalidOperation<Yemoda>(),
             };
         }
 
         [Pure]
-        protected internal override CalendarDate AddYearsCore(CalendarDate date, int years) =>
-            DefaultMath.AddYearsCore(date, years);
+        private Yedoy Adjust(Yedoy ydoy, int roundoff)
+        {
+            Debug.Assert(roundoff > 0);
+
+            // NB: according to CalendricalMath, ydoy is the last day of the year.
+            return AdditionRules.OrdinalRule switch
+            {
+                OrdinalAdditionRule.StartOfNextYear => _arithmetic.AddDays(ydoy, 1),
+                OrdinalAdditionRule.Exact => _arithmetic.AddDays(ydoy, roundoff),
+                OrdinalAdditionRule.EndOfYear => ydoy,
+
+                _ => Throw.InvalidOperation<Yedoy>(),
+            };
+        }
 
         [Pure]
-        protected internal override CalendarDate AddMonthsCore(CalendarDate date, int months) =>
-            DefaultMath.AddMonthsCore(date, months);
+        private Yemo Adjust(Yemo ym, int roundoff)
+        {
+            Debug.Assert(roundoff > 0);
 
-        [Pure]
-        protected internal override OrdinalDate AddYearsCore(OrdinalDate date, int years) =>
-            DefaultMath.AddYearsCore(date, years);
+            // NB: according to CalendricalMath, ym is the last month of the year.
+            return AdditionRules.MonthRule switch
+            {
+                MonthAdditionRule.StartOfNextYear => _arithmetic.AddMonths(ym, 1),
+                MonthAdditionRule.Exact => _arithmetic.AddMonths(ym, roundoff),
+                MonthAdditionRule.EndOfYear => ym,
 
-        [Pure]
-        protected internal override CalendarMonth AddYearsCore(CalendarMonth month, int years) =>
-            DefaultMath.AddYearsCore(month, years);
+                _ => Throw.InvalidOperation<Yemo>(),
+            };
+        }
     }
 }

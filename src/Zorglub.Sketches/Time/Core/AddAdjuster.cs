@@ -1,7 +1,7 @@
 ﻿// SPDX-License-Identifier: BSD-3-Clause
 // Copyright (c) 2020 Narvalo.Org. All rights reserved.
 
-namespace Zorglub.Time.Core.Arithmetic
+namespace Zorglub.Time.Core
 {
     // Résultat rectifié en fonction d'un "adjustement".
     //
@@ -10,8 +10,7 @@ namespace Zorglub.Time.Core.Arithmetic
     // AddYears() et AddMonths()). Ces conditions ne sont pas renforcées en
     // mode RELEASE, important car les méthodes ne fonctionnent plus correctement
     // si roundoff = 0.
-    //
-    // TODO: scinder chaque méthode AdjustToStartOfNextMonth(), etc ?
+    [Obsolete("TO BE REMOVED")]
     internal static class AddAdjuster
     {
         // Version générique.

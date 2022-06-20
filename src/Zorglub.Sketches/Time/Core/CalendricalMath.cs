@@ -1,9 +1,12 @@
 ﻿// SPDX-License-Identifier: BSD-3-Clause
 // Copyright (c) 2020 Narvalo.Org. All rights reserved.
 
-namespace Zorglub.Time.Core.Arithmetic
+namespace Zorglub.Time.Core
 {
-    // TODO: add ops for Yedoy.
+    // FIXME(code): move Subtract() elsewhere. Revoir les Count...()
+    // On doit respecter les props schema.Min/MaxYear
+    // mais aussi gérer le cas où MinYear < Yemoda.MinYear ou
+    // MaxYear > Yemoda.MaxYear. Voir PlainArithmetic.
 
     // Un "calculateur" ne dépend que du "schéma" calendaire et du champs
     // d'application du calendrier.
@@ -37,9 +40,6 @@ namespace Zorglub.Time.Core.Arithmetic
         /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
         protected CalendricalMath(ICalendricalSchema schema)
         {
-            // FIXME(code): on doit respecter les props schema.Min/MaxYear
-            // mais aussi gérer le cas où MinYear < Yemoda.MinYear ou
-            // MaxYear > Yemoda.MaxYear. Voir PlainArithmetic.
             Schema = schema ?? throw new ArgumentNullException(nameof(schema));
         }
 
@@ -54,7 +54,7 @@ namespace Zorglub.Time.Core.Arithmetic
             Requires.NotNull(schema);
 
             return schema.IsRegular(out _) ? new RegularCalendricalMath(schema)
-                : throw new NotImplementedException();
+                : new PlainCalendricalMath(schema);
         }
 
         /// <summary>
@@ -62,8 +62,14 @@ namespace Zorglub.Time.Core.Arithmetic
         /// </summary>
         /// <exception cref="OverflowException">The calculation would overflow the range of
         /// supported values.</exception>
-        protected internal static void CheckYearOverflow(int year)
+        protected static void CheckYearOverflow(int year)
         {
+            // Années complètes : on doit juste vérifier l'année.
+            // Par contrat, à partir du moment où l'année est dans la plage
+            // d'années supportée par un schéma, on sait que les méthodes ne
+            // provoqueront pas de débordements arithmétiques.
+            // Si les années n'étaient pas complètes, il faudrait prendre en
+            // compte le cas des années limites (Min/MaxYear).
             if (year < Yemoda.MinYear || year > Yemoda.MaxYear) Throw.DateOverflow();
         }
     }
@@ -103,8 +109,8 @@ namespace Zorglub.Time.Core.Arithmetic
         {
             // En première approximation.
             int years = end.Year - start.Year;
-            // REVIEW: overflow? Avec des années complètes, je ne pense pas.
-            // Idem avec CountMonthsBetween().
+            // TODO(code): overflow? Avec des années complètes, je ne pense pas.
+            // Idem avec CountMonthsBetween(), etc.
             newStart = AddYears(start, years, out _);
 
             // On vérifie qu'on n'est pas allé trop loin.
@@ -164,7 +170,8 @@ namespace Zorglub.Time.Core.Arithmetic
         /// Calculates the exact difference between the two specified dates.
         /// <para>This method does NOT validate its parameters.</para>
         /// </summary>
-        [Pure] public (int years, int months, int days) Subtract(Yemoda left, Yemoda right)
+        [Pure]
+        public (int years, int months, int days) Subtract(Yemoda left, Yemoda right)
         {
             // Même si on utilise AddYears() et AddMonths() (qui retournent
             // parfois le jour la plus proche), le résultat final est exact car
@@ -179,21 +186,93 @@ namespace Zorglub.Time.Core.Arithmetic
         }
     }
 
+    public partial class CalendricalMath // Yemoda
+    {
+        /// <summary>
+        /// Adds a number of years to the year field of the specified ordinal date.
+        /// <para>This method does NOT validate its parameters.</para>
+        /// </summary>
+        /// <remarks>
+        /// <para>When the result is not a valid date (roundoff > 0), returns the last day of the
+        /// year.</para>
+        /// </remarks>
+        /// <exception cref="OverflowException">The calculation would overflow the range of
+        /// supported values.</exception>
+        [Pure] public abstract Yedoy AddYears(Yedoy ydoy, int years, out int roundoff);
+
+        /// <summary>
+        /// Counts the number of years between the two specified ordinal dates.
+        /// <para>This method does NOT validate its parameters.</para>
+        /// </summary>
+        [Pure]
+        public int CountYearsBetween(Yedoy start, Yedoy end, out Yedoy newStart)
+        {
+            int years = end.Year - start.Year;
+            newStart = AddYears(start, years, out _);
+
+            if (start < end)
+            {
+                if (newStart > end)
+                {
+                    years--;
+                    newStart = AddYears(start, years, out _);
+                }
+            }
+            else
+            {
+                if (newStart < end)
+                {
+                    years++;
+                    newStart = AddYears(start, years, out _);
+                }
+            }
+
+            return years;
+        }
+    }
+
     public partial class CalendricalMath // Yemo
     {
         /// <summary>
         /// Adds a number of years to the year field of the specified month.
         /// <para>This method does NOT validate its parameters.</para>
         /// </summary>
+        /// <remarks>
+        /// <para>When the result is not a valid date (roundoff > 0), returns the last month of the
+        /// year.</para>
+        /// </remarks>
         /// <exception cref="OverflowException">The calculation would overflow the range of
         /// supported values.</exception>
-        [Pure] public abstract Yemo AddYears(Yemo ym, int years);
+        [Pure] public abstract Yemo AddYears(Yemo ym, int years, out int roundoff);
 
         /// <summary>
         /// Counts the number of years between the two specified months.
         /// <para>This method does NOT validate its parameters.</para>
         /// </summary>
-        [SuppressMessage("Naming", "CA1716:Identifiers should not match keywords.", MessageId = "end", Justification = "F# & VB.NET End statement.")]
-        [Pure] public abstract int CountYearsBetween(Yemo start, Yemo end);
+        [Pure]
+        public int CountYearsBetween(Yemo start, Yemo end, out Yemo newStart)
+        {
+            int years = end.Year - start.Year;
+            newStart = AddYears(start, years, out _);
+
+            if (start < end)
+            {
+                if (newStart > end)
+                {
+                    years--;
+                    newStart = AddYears(start, years, out _);
+                }
+            }
+            else
+            {
+                if (newStart < end)
+                {
+                    years++;
+                    newStart = AddYears(start, years, out _);
+                }
+            }
+
+            return years;
+        }
     }
 }
