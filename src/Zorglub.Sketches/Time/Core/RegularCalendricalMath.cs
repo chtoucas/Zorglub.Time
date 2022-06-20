@@ -29,8 +29,6 @@ namespace Zorglub.Time.Core
 
             CheckYearOverflow(y);
 
-            // Nbre invariable de mois par an : (y, m) est une combinaison valide.
-            // On vérifie qu'on ne dépasse pas le dernier jour du mois.
             int daysInMonth = Schema.CountDaysInMonth(y, m);
             roundoff = Math.Max(0, d - daysInMonth);
             // On retourne le dernier jour du mois si d > daysInMonth.
@@ -79,7 +77,6 @@ namespace Zorglub.Time.Core
 
             CheckYearOverflow(y);
 
-            // Nbre invariable de mois par an : (y, m) est une combinaison valide.
             roundoff = 0;
             return new Yemo(y, m);
         }

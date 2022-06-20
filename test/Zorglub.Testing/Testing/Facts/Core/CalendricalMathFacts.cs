@@ -6,6 +6,8 @@ namespace Zorglub.Testing.Facts.Core;
 using Zorglub.Testing.Data;
 using Zorglub.Time.Core.Arithmetic;
 
+// TODO(fact): CalendricalMath.
+
 /// <summary>
 /// Provides facts about <see cref="CalendricalMath"/>.
 /// </summary>
@@ -37,15 +39,15 @@ public partial class CalendricalMathFacts<TSchema, TDataSet>
         Assert.Equal(end, actual);
     }
 
-    [Theory, MemberData(nameof(AddMonthsData))]
-    public void CountMonthsBetween(YemodaPairAnd<int> info)
-    {
-        var (start, end, months) = info;
-        // Act
-        int actual = MathUT.CountMonthsBetween(start, end, out _);
-        // Assert
-        Assert.Equal(months, actual);
-    }
+    //[Theory, MemberData(nameof(AddMonthsData))]
+    //public void CountMonthsBetween(YemodaPairAnd<int> info)
+    //{
+    //    var (start, end, months) = info;
+    //    // Act
+    //    int actual = MathUT.CountMonthsBetween(start, end, out _);
+    //    // Assert
+    //    Assert.Equal(months, actual);
+    //}
 
     [Theory, MemberData(nameof(AddYearsData))]
     public void AddYears(YemodaPairAnd<int> info)
@@ -55,16 +57,16 @@ public partial class CalendricalMathFacts<TSchema, TDataSet>
         var actual = MathUT.AddMonths(start, years, out _);
         // Act & Assert
         Assert.Equal(end, actual);
-        Assert.Equal(years, MathUT.CountYearsBetween(start, end, out _));
+        //Assert.Equal(years, MathUT.CountYearsBetween(start, end, out _));
     }
 
-    [Theory, MemberData(nameof(AddYearsData))]
-    public void CountYearsBetween(YemodaPairAnd<int> info)
-    {
-        var (start, end, years) = info;
-        // Act
-        int actual = MathUT.CountYearsBetween(start, end, out _);
-        // Act & Assert
-        Assert.Equal(years, actual);
-    }
+    //[Theory, MemberData(nameof(AddYearsData))]
+    //public void CountYearsBetween(YemodaPairAnd<int> info)
+    //{
+    //    var (start, end, years) = info;
+    //    // Act
+    //    int actual = MathUT.CountYearsBetween(start, end, out _);
+    //    // Act & Assert
+    //    Assert.Equal(years, actual);
+    //}
 }

@@ -6,9 +6,6 @@ namespace Zorglub.Time.Simple
     using Zorglub.Time.Core;
     using Zorglub.Time.Core.Arithmetic;
 
-    // TODO(code): Math use a shorter range of years... (Yemoda vs Yemodax)
-    // Overflow after adjustment.
-
     public sealed class PowerMath : CalendarMath
     {
         private readonly ICalendricalArithmetic _arithmetic;
@@ -34,6 +31,9 @@ namespace Zorglub.Time.Simple
 
             var ymd = _math.AddYears(date.Parts, years, out int roundoff);
             if (roundoff > 0) { ymd = Adjust(ymd, roundoff); }
+
+            YearOverflowChecker.Check(ymd.Year);
+
             return new CalendarDate(ymd, Cuid);
         }
 
@@ -45,6 +45,9 @@ namespace Zorglub.Time.Simple
 
             var ymd = _math.AddMonths(date.Parts, months, out int roundoff);
             if (roundoff > 0) { ymd = Adjust(ymd, roundoff); }
+
+            YearOverflowChecker.Check(ymd.Year);
+
             return new CalendarDate(ymd, Cuid);
         }
 
@@ -56,6 +59,9 @@ namespace Zorglub.Time.Simple
 
             var ydoy = _math.AddYears(date.Parts, years, out int roundoff);
             if (roundoff > 0) { ydoy = Adjust(ydoy, roundoff); }
+
+            YearOverflowChecker.Check(ydoy.Year);
+
             return new OrdinalDate(ydoy, Cuid);
         }
 
@@ -67,16 +73,22 @@ namespace Zorglub.Time.Simple
 
             var ym = _math.AddYears(month.Parts, years, out int roundoff);
             if (roundoff > 0) { ym = Adjust(ym, roundoff); }
+
+            YearOverflowChecker.Check(ym.Year);
+
             return new CalendarMonth(ym, Cuid);
         }
 
         //
         // Adjustments
         //
+        // Résultat rectifié en fonction de la règle sélectionnée.
 
         [Pure]
         private Yemoda Adjust(Yemoda ymd, int roundoff)
         {
+            // Si on ne filtrait pas roundoff > 0, il faudrait prendre en compte
+            // le cas roundoff = 0 et retourner ymd (résultat exact).
             Debug.Assert(roundoff > 0);
 
             // NB: according to CalendricalMath, ymd is the last day of the month.
@@ -93,6 +105,8 @@ namespace Zorglub.Time.Simple
         [Pure]
         private Yedoy Adjust(Yedoy ydoy, int roundoff)
         {
+            // Si on ne filtrait pas roundoff > 0, il faudrait prendre en compte
+            // le cas roundoff = 0 et retourner ydoy (résultat exact).
             Debug.Assert(roundoff > 0);
 
             // NB: according to CalendricalMath, ydoy is the last day of the year.
@@ -109,6 +123,8 @@ namespace Zorglub.Time.Simple
         [Pure]
         private Yemo Adjust(Yemo ym, int roundoff)
         {
+            // Si on ne filtrait pas roundoff > 0, il faudrait prendre en compte
+            // le cas roundoff = 0 et retourner ym (résultat exact).
             Debug.Assert(roundoff > 0);
 
             // NB: according to CalendricalMath, ym is the last month of the year.

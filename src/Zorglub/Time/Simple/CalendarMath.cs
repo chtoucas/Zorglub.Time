@@ -7,6 +7,7 @@ namespace Zorglub.Time.Simple
 
     // FIXME(code): Impl PlainMath. Improve impl.
     // Do we need stricter validation? or is YearOverflowChecker enough?
+    // Can we avoid multiple overflow checks.
     //
     // To be done:
     // * Lunisolar arithmetic tests
@@ -82,6 +83,26 @@ namespace Zorglub.Time.Simple
         /// Gets the ID of the underlying calendar.
         /// </summary>
         internal Cuid Cuid { get; }
+
+        // TODO(code): use PlainMath.
+        ///// <summary>
+        ///// Creates an instance of the <see cref="CalendarMath"/> class for the specified calendar
+        ///// and addition rules .
+        ///// </summary>
+        ///// <exception cref="ArgumentNullException"><paramref name="calendar"/> is null.</exception>
+        //[Pure]
+        //public static CalendarMath Create(Calendar calendar, AdditionRules additionRules)
+        //{
+        //    Requires.NotNull(calendar);
+
+        //    // This method could be public, but it would feel odd, indeed this
+        //    // class has only two public method/prop: Calendar & AdditionRules.
+
+        //    //return additionRules == default
+        //    //    ? calendar.IsRegular(out _) ? new RegularMath(calendar) : new PlainMath(calendar)
+        //    //    : new PowerMath(calendar, additionRules);
+        //    return calendar.IsRegular(out _) ? new RegularMath(calendar) : new PlainMath(calendar);
+        //}
 
         /// <summary>
         /// Creates an instance of the <see cref="CalendarMath"/> class using the default addition
