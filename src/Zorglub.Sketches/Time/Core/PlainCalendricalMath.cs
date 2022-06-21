@@ -19,20 +19,29 @@ namespace Zorglub.Time.Core
 
             var sch = Schema;
             int monthsInYear = sch.CountMonthsInYear(y);
-            roundoff = 0;
             if (m > monthsInYear)
             {
+                // The target year y has less months than the year y0, we
+                // return the end of the target year.
+                // roundoff =
+                //   "days" after the end of (y0, monthsInYear) until (y0, m, d) included
+                //   + diff between end of (y0, monthsInYear) and (y, monthsInYear)
+                roundoff = d;
                 for (int i = monthsInYear + 1; i < m; i++)
                 {
-                    // REVIEW(code): y or y0?
                     roundoff += sch.CountDaysInMonth(y0, i);
                 }
                 m = monthsInYear;
+                int daysInMonth = sch.CountDaysInMonth(y, m);
+                roundoff += Math.Max(0, d - daysInMonth);
+                return new Yemoda(y, m, roundoff > 0 ? daysInMonth : d);
             }
-
-            int daysInMonth = sch.CountDaysInMonth(y, m);
-            roundoff += Math.Max(0, d - daysInMonth);
-            return new Yemoda(y, m, roundoff > 0 ? daysInMonth : d);
+            else
+            {
+                int daysInMonth = sch.CountDaysInMonth(y, m);
+                roundoff = Math.Max(0, d - daysInMonth);
+                return new Yemoda(y, m, roundoff > 0 ? daysInMonth : d);
+            }
         }
 
         /// <inheritdoc />
