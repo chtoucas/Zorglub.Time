@@ -28,46 +28,18 @@ public static class EnumDataSet
     // Zorglub.Time
     //
 
-    public static TheoryData<DateAdditionRule> InvalidDateAdditionRuleData { get; } = new()
+    public static TheoryData<AdditionRule> InvalidAdditionRuleData { get; } = new()
     {
-        (DateAdditionRule)(-1),
-        DateAdditionRule.Throw + 1,
+        (AdditionRule)(-1),
+        AdditionRule.Throw + 1,
     };
 
-    public static TheoryData<DateAdditionRule> DateAdditionRuleData { get; } = new()
+    public static TheoryData<AdditionRule> AdditionRuleData { get; } = new()
     {
-        DateAdditionRule.EndOfMonth,
-        DateAdditionRule.StartOfNextMonth,
-        DateAdditionRule.Exact,
-        DateAdditionRule.Throw,
-    };
-
-    public static TheoryData<OrdinalAdditionRule> InvalidOrdinalAdditionRuleData { get; } = new()
-    {
-        (OrdinalAdditionRule)(-1),
-        OrdinalAdditionRule.Throw + 1,
-    };
-
-    public static TheoryData<OrdinalAdditionRule> OrdinalAdditionRuleData { get; } = new()
-    {
-        OrdinalAdditionRule.EndOfYear,
-        OrdinalAdditionRule.StartOfNextYear,
-        OrdinalAdditionRule.Exact,
-        OrdinalAdditionRule.Throw,
-    };
-
-    public static TheoryData<MonthAdditionRule> InvalidMonthAdditionRuleData { get; } = new()
-    {
-        (MonthAdditionRule)(-1),
-        MonthAdditionRule.Throw + 1,
-    };
-
-    public static TheoryData<MonthAdditionRule> MonthAdditionRuleData { get; } = new()
-    {
-        MonthAdditionRule.EndOfYear,
-        MonthAdditionRule.StartOfNextYear,
-        MonthAdditionRule.Exact,
-        MonthAdditionRule.Throw,
+        AdditionRule.Truncate,
+        AdditionRule.Overspill,
+        AdditionRule.Exact,
+        AdditionRule.Throw,
     };
 
     public static TheoryData<CalendricalAlgorithm> InvalidCalendricalAlgorithmData { get; } = new()

@@ -28,11 +28,11 @@ module Prelude =
     //
 
     [<Fact>]
-    let ``Property AdditionRules`` () =
-        let rules = new AdditionRules(DateAdditionRule.StartOfNextMonth, OrdinalAdditionRule.Exact, MonthAdditionRule.Throw)
-        let math = new FauxCalendarMath(rules)
+    let ``Property AdditionRuleset`` () =
+        let ruleset = new AdditionRuleset(AdditionRule.Overspill, AdditionRule.Exact, AdditionRule.Throw)
+        let math = new FauxCalendarMath(ruleset)
 
-        math.AdditionRules === rules
+        math.AdditionRuleset === ruleset
 
     [<Fact>]
     let ``Property Cuid`` () =

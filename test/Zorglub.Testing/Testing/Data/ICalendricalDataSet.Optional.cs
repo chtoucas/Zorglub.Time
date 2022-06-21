@@ -13,7 +13,7 @@ public interface IAdvancedMathDataSet
     /// <summary>
     /// Gets the rules employed to resolve ambiguities.
     /// </summary>
-    AdditionRules AdditionRules { get; }
+    AdditionRuleset AdditionRuleset { get; }
 
     /// <summary>Date, expected result, years to be added.</summary>
     DataGroup<YemodaPairAnd<int>> AddYearsData { get; }

@@ -15,7 +15,8 @@ namespace Zorglub.Time.Simple
         /// Initializes a new instance of the <see cref="PowerMath"/> class.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="calendar"/> is null.</exception>
-        public PowerMath(Calendar calendar, AdditionRules additionRules) : base(calendar, additionRules)
+        public PowerMath(Calendar calendar, AdditionRuleset additionRuleset)
+            : base(calendar, additionRuleset)
         {
             Debug.Assert(calendar != null);
 
@@ -92,11 +93,11 @@ namespace Zorglub.Time.Simple
             Debug.Assert(roundoff > 0);
 
             // NB: according to CalendricalMath, ymd is the last day of the month.
-            return AdditionRules.DateRule switch
+            return AdditionRuleset.DateRule switch
             {
-                DateAdditionRule.StartOfNextMonth => _arithmetic.AddDays(ymd, 1),
-                DateAdditionRule.Exact => _arithmetic.AddDays(ymd, roundoff),
-                DateAdditionRule.EndOfMonth => ymd,
+                AdditionRule.Overspill => _arithmetic.AddDays(ymd, 1),
+                AdditionRule.Exact => _arithmetic.AddDays(ymd, roundoff),
+                AdditionRule.Truncate => ymd,
 
                 _ => Throw.InvalidOperation<Yemoda>(),
             };
@@ -110,11 +111,11 @@ namespace Zorglub.Time.Simple
             Debug.Assert(roundoff > 0);
 
             // NB: according to CalendricalMath, ydoy is the last day of the year.
-            return AdditionRules.OrdinalRule switch
+            return AdditionRuleset.OrdinalRule switch
             {
-                OrdinalAdditionRule.StartOfNextYear => _arithmetic.AddDays(ydoy, 1),
-                OrdinalAdditionRule.Exact => _arithmetic.AddDays(ydoy, roundoff),
-                OrdinalAdditionRule.EndOfYear => ydoy,
+                AdditionRule.Overspill => _arithmetic.AddDays(ydoy, 1),
+                AdditionRule.Exact => _arithmetic.AddDays(ydoy, roundoff),
+                AdditionRule.Truncate => ydoy,
 
                 _ => Throw.InvalidOperation<Yedoy>(),
             };
@@ -128,11 +129,11 @@ namespace Zorglub.Time.Simple
             Debug.Assert(roundoff > 0);
 
             // NB: according to CalendricalMath, ym is the last month of the year.
-            return AdditionRules.MonthRule switch
+            return AdditionRuleset.MonthRule switch
             {
-                MonthAdditionRule.StartOfNextYear => _arithmetic.AddMonths(ym, 1),
-                MonthAdditionRule.Exact => _arithmetic.AddMonths(ym, roundoff),
-                MonthAdditionRule.EndOfYear => ym,
+                AdditionRule.Overspill => _arithmetic.AddMonths(ym, 1),
+                AdditionRule.Exact => _arithmetic.AddMonths(ym, roundoff),
+                AdditionRule.Truncate => ym,
 
                 _ => Throw.InvalidOperation<Yemo>(),
             };

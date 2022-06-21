@@ -20,22 +20,10 @@ let ``DayOfWeekData is exhaustive`` () =
     EnumDataSet.DayOfWeekData.Count() === count
 
 [<Fact>]
-let ``DateAdditionRuleData is exhaustive`` () =
-    let count = Enum.GetValues(typeof<DateAdditionRule>).Length
+let ``AdditionRuleData is exhaustive`` () =
+    let count = Enum.GetValues(typeof<AdditionRule>).Length
 
-    EnumDataSet.DateAdditionRuleData.Count() === count
-
-[<Fact>]
-let ``OrdinalAdditionRuleData is exhaustive`` () =
-    let count = Enum.GetValues(typeof<OrdinalAdditionRule>).Length
-
-    EnumDataSet.OrdinalAdditionRuleData.Count() === count
-
-[<Fact>]
-let ``MonthAdditionRuleData is exhaustive`` () =
-    let count = Enum.GetValues(typeof<MonthAdditionRule>).Length
-
-    EnumDataSet.MonthAdditionRuleData.Count() === count
+    EnumDataSet.AdditionRuleData.Count() === count
 
 [<Fact>]
 let ``CalendricalAlgorithmData is exhaustive`` () =

@@ -31,7 +31,7 @@ public abstract partial class CalendarMathAdvancedFacts<TDataSet>
 
     protected static TDataSet DataSet => TDataSet.Instance;
 
-    protected static AdditionRules AdditionRules => DataSet.AdditionRules;
+    protected static AdditionRuleset AdditionRuleset => DataSet.AdditionRuleset;
 
     public static DataGroup<YemodaPairAnd<int>> AddYearsData => DataSet.AddYearsData;
     public static DataGroup<YemodaPairAnd<int>> AddMonthsData => DataSet.AddMonthsData;
@@ -74,7 +74,7 @@ public partial class CalendarMathAdvancedFacts<TDataSet> // CalendarDate
         // Act & Assert
         Assert.Equal(other, MathUT.AddYears(date, ys));
         Assert.Equal(other, date.PlusYears(ys));
-        if (AdditionRules.DateRule == DateAdditionRule.Exact)
+        if (AdditionRuleset.DateRule == AdditionRule.Exact)
         {
             Assert.Equal(date, MathUT.AddYears(other, -ys));
             Assert.Equal(date, other.PlusYears(-ys));
@@ -90,7 +90,7 @@ public partial class CalendarMathAdvancedFacts<TDataSet> // CalendarDate
         // Act & Assert
         Assert.Equal(other, MathUT.AddMonths(date, ms));
         Assert.Equal(other, date.PlusMonths(ms));
-        if (AdditionRules.DateRule == DateAdditionRule.Exact)
+        if (AdditionRuleset.DateRule == AdditionRule.Exact)
         {
             Assert.Equal(date, MathUT.AddMonths(other, -ms));
             Assert.Equal(date, other.PlusMonths(-ms));
@@ -106,7 +106,7 @@ public partial class CalendarMathAdvancedFacts<TDataSet> // CalendarDate
         // Act & Assert
         Assert.Equal(ys, MathUT.CountYearsBetween(start, end));
         Assert.Equal(ys, end.CountYearsSince(start));
-        if (AdditionRules.DateRule == DateAdditionRule.Exact)
+        if (AdditionRuleset.DateRule == AdditionRule.Exact)
         {
             Assert.Equal(-ys, MathUT.CountYearsBetween(end, start));
             Assert.Equal(-ys, start.CountYearsSince(end));
@@ -122,7 +122,7 @@ public partial class CalendarMathAdvancedFacts<TDataSet> // CalendarDate
         // Act & Assert
         Assert.Equal(ms, MathUT.CountMonthsBetween(start, end));
         Assert.Equal(ms, end.CountMonthsSince(start));
-        if (AdditionRules.DateRule == DateAdditionRule.Exact)
+        if (AdditionRuleset.DateRule == AdditionRule.Exact)
         {
             Assert.Equal(-ms, MathUT.CountMonthsBetween(end, start));
             Assert.Equal(-ms, start.CountMonthsSince(end));
@@ -141,7 +141,7 @@ public partial class CalendarMathAdvancedFacts<TDataSet> // OrdinalDate
         // Act & Assert
         Assert.Equal(other, MathUT.AddYears(date, ys));
         Assert.Equal(other, date.PlusYears(ys));
-        if (AdditionRules.OrdinalRule == OrdinalAdditionRule.Exact)
+        if (AdditionRuleset.OrdinalRule == AdditionRule.Exact)
         {
             Assert.Equal(date, MathUT.AddYears(other, -ys));
             Assert.Equal(date, other.PlusYears(-ys));
@@ -157,7 +157,7 @@ public partial class CalendarMathAdvancedFacts<TDataSet> // OrdinalDate
         // Act & Assert
         Assert.Equal(ys, MathUT.CountYearsBetween(start, end));
         Assert.Equal(ys, end.CountYearsSince(start));
-        if (AdditionRules.OrdinalRule == OrdinalAdditionRule.Exact)
+        if (AdditionRuleset.OrdinalRule == AdditionRule.Exact)
         {
             Assert.Equal(-ys, MathUT.CountYearsBetween(end, start));
             Assert.Equal(-ys, start.CountYearsSince(end));
@@ -177,7 +177,7 @@ public partial class CalendarMathAdvancedFacts<TDataSet> // CalendarMonth
         Assert.Equal(other, MathUT.AddYears(month, ys));
         Assert.Equal(other, month.PlusYears(ys));
         if (CalendarIsRegular
-            || AdditionRules.MonthRule == MonthAdditionRule.Exact)
+            || AdditionRuleset.MonthRule == AdditionRule.Exact)
         {
             Assert.Equal(month, MathUT.AddYears(other, -ys));
             Assert.Equal(month, other.PlusYears(-ys));
@@ -195,7 +195,7 @@ public partial class CalendarMathAdvancedFacts<TDataSet> // CalendarMonth
         // CalendarMonth
         Assert.Equal(ys, end.CountYearsSince(start));
         if (CalendarIsRegular
-            || AdditionRules.MonthRule == MonthAdditionRule.Exact)
+            || AdditionRuleset.MonthRule == AdditionRule.Exact)
         {
             Assert.Equal(-ys, MathUT.CountYearsBetween(end, start));
             Assert.Equal(-ys, start.CountYearsSince(end));

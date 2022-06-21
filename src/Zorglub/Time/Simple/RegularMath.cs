@@ -8,7 +8,7 @@ namespace Zorglub.Time.Simple
     /// <summary>
     /// Defines the mathematical operations suitable for use by regular calendars and provides a
     /// base for derived classes.
-    /// <para>This class uses the default <see cref="AdditionRules"/> to resolve ambiguities.</para>
+    /// <para>This class uses the default <see cref="AdditionRuleset"/> to resolve ambiguities.</para>
     /// </summary>
     internal sealed class RegularMath : CalendarMath
     {
@@ -30,8 +30,8 @@ namespace Zorglub.Time.Simple
                   calendar,
                   // Regular calendar => month addition is NOT ambiguous.
                   // The result is exact and matches the last month of the year,
-                  // therefore we could specify either MonthAdditionRule.Exact
-                  // or MonthAdditionRule.EndOfYear. I prefer the later to
+                  // therefore we could specify either AdditionRule.Exact
+                  // or AdditionRule.Truncate. I prefer the later to
                   // emphasize that this math engine uses the default rules.
                   default)
         {
@@ -52,7 +52,7 @@ namespace Zorglub.Time.Simple
 
             YearOverflowChecker.Check(y);
 
-            // NB: DateAdditionRule.EndOfMonth.
+            // NB: AdditionRule.Truncate.
             d = Math.Min(d, Schema.CountDaysInMonth(y, m));
             return new CalendarDate(new Yemoda(y, m, d), Cuid);
         }
@@ -71,7 +71,7 @@ namespace Zorglub.Time.Simple
 
             YearOverflowChecker.Check(y);
 
-            // NB: DateAdditionRule.EndOfMonth.
+            // NB: AdditionRule.Truncate.
             d = Math.Min(d, Schema.CountDaysInMonth(y, m));
             return new CalendarDate(new Yemoda(y, m, d), Cuid);
         }
@@ -87,7 +87,7 @@ namespace Zorglub.Time.Simple
 
             YearOverflowChecker.Check(y);
 
-            // NB: OrdinalAdditionRule.EndOfYear.
+            // NB: AdditionRule.Truncate.
             doy = Math.Min(doy, Schema.CountDaysInYear(y));
             return new OrdinalDate(new Yedoy(y, doy), Cuid);
         }
@@ -103,7 +103,7 @@ namespace Zorglub.Time.Simple
 
             YearOverflowChecker.Check(y);
 
-            // NB: MonthAdditionRule.EndOfYear.
+            // NB: AdditionRule.Truncate.
             // The operation is always exact, and it's compatible with "EndOfYear".
             return new CalendarMonth(new Yemo(y, m), Cuid);
         }

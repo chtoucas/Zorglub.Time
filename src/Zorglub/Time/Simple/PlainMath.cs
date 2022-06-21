@@ -7,7 +7,7 @@ namespace Zorglub.Time.Simple
 
     /// <summary>
     /// Provides a plain implementation for <see cref="CalendarMath"/>.
-    /// <para>This class uses the default <see cref="AdditionRules"/> to resolve ambiguities.</para>
+    /// <para>This class uses the default <see cref="AdditionRuleset"/> to resolve ambiguities.</para>
     /// <para>In practice, we only use this mathematic with non-regular schema; see
     /// <see cref="CalendarMath.CreateDefault(Calendar)"/>.</para>
     /// <para>This class cannot be inherited.</para>
@@ -31,7 +31,7 @@ namespace Zorglub.Time.Simple
 
             YearOverflowChecker.Check(y);
 
-            // NB: DateAdditionRule.EndOfMonth.
+            // NB: AdditionRule.Truncate.
             m = Math.Min(m, Schema.CountMonthsInYear(y));
             d = Math.Min(d, Schema.CountDaysInMonth(y, m));
             return new CalendarDate(new Yemoda(y, m, d), Cuid);
@@ -47,7 +47,7 @@ namespace Zorglub.Time.Simple
 
             YearOverflowChecker.Check(y);
 
-            // NB: DateAdditionRule.EndOfMonth.
+            // NB: AdditionRule.Truncate.
             int d = Math.Min(date.Day, Schema.CountDaysInMonth(y, m));
             return new CalendarDate(new Yemoda(y, m, d), Cuid);
         }
@@ -63,7 +63,7 @@ namespace Zorglub.Time.Simple
 
             YearOverflowChecker.Check(y);
 
-            // NB: OrdinalAdditionRule.EndOfYear.
+            // NB: AdditionRule.Truncate.
             doy = Math.Min(doy, Schema.CountDaysInYear(y));
             return new OrdinalDate(new Yedoy(y, doy), Cuid);
         }
@@ -79,7 +79,7 @@ namespace Zorglub.Time.Simple
 
             YearOverflowChecker.Check(y);
 
-            // NB: MonthAdditionRule.EndOfYear.
+            // NB: AdditionRule.Truncate.
             m = Math.Min(m, Schema.CountMonthsInYear(y));
             return new CalendarMonth(new Yemo(y, m), Cuid);
         }

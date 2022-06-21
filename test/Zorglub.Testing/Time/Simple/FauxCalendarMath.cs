@@ -8,11 +8,11 @@ public sealed class FauxCalendarMath : CalendarMath
     public FauxCalendarMath() : this(new FauxUserCalendar(), default) { }
 
     // Base constructors.
-    public FauxCalendarMath(Calendar calendar, AdditionRules additionRules) : base(calendar, additionRules) { }
+    public FauxCalendarMath(Calendar calendar, AdditionRuleset additionRuleset) : base(calendar, additionRuleset) { }
 
     // Constructors in order to test the base constructors.
     public FauxCalendarMath(Calendar calendar) : this(calendar, default) { }
-    public FauxCalendarMath(AdditionRules additionRules) : this(new FauxUserCalendar(), additionRules) { }
+    public FauxCalendarMath(AdditionRuleset additionRuleset) : this(new FauxUserCalendar(), additionRuleset) { }
 
     public bool AddYearsCoreDateWasCalled { get; private set; }
     public bool AddMonthsCoreDateWasCalled { get; private set; }

@@ -45,10 +45,10 @@ namespace Zorglub.Time.Simple
         /// class.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="calendar"/> is null.</exception>
-        protected CalendarMath(Calendar calendar, AdditionRules additionRules)
+        protected CalendarMath(Calendar calendar, AdditionRuleset additionRuleset)
         {
             Calendar = calendar ?? throw new ArgumentNullException(nameof(calendar));
-            AdditionRules = additionRules;
+            AdditionRuleset = additionRuleset;
 
             Cuid = calendar.Id;
             Schema = calendar.Schema;
@@ -67,7 +67,7 @@ namespace Zorglub.Time.Simple
         /// <summary>
         /// Gets the strategy employed to resolve ambiguities.
         /// </summary>
-        public AdditionRules AdditionRules { get; }
+        public AdditionRuleset AdditionRuleset { get; }
 
         /// <summary>
         /// Gets the checker for overflows of the range of years.
