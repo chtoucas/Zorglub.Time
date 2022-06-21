@@ -160,7 +160,7 @@ namespace Zorglub.Time.Core.Arithmetic
     {
         /// <inheritdoc />
         [Pure]
-        public sealed override Yedoy AddDays(Yedoy ydoy, int days)
+        public override Yedoy AddDays(Yedoy ydoy, int days)
         {
             // Fast track.
             if (-MaxDaysViaDayOfYear <= days && days <= MaxDaysViaDayOfYear)
@@ -179,7 +179,7 @@ namespace Zorglub.Time.Core.Arithmetic
 
         /// <inheritdoc />
         [Pure]
-        protected internal sealed override Yedoy AddDaysViaDayOfYear(Yedoy ydoy, int days)
+        protected internal override Yedoy AddDaysViaDayOfYear(Yedoy ydoy, int days)
         {
             Debug.Assert(-MaxDaysViaDayOfYear <= days);
             Debug.Assert(days <= MaxDaysViaDayOfYear);
@@ -210,7 +210,7 @@ namespace Zorglub.Time.Core.Arithmetic
 
         /// <inheritdoc />
         [Pure]
-        public sealed override Yedoy NextDay(Yedoy ydoy)
+        public override Yedoy NextDay(Yedoy ydoy)
         {
             ydoy.Unpack(out int y, out int doy);
 
@@ -222,7 +222,7 @@ namespace Zorglub.Time.Core.Arithmetic
 
         /// <inheritdoc />
         [Pure]
-        public sealed override Yedoy PreviousDay(Yedoy ydoy)
+        public override Yedoy PreviousDay(Yedoy ydoy)
         {
             ydoy.Unpack(out int y, out int doy);
 
