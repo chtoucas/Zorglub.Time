@@ -11,17 +11,27 @@ namespace Zorglub.Time.Core
         [Pure]
         public override Yemoda AddYears(Yemoda ymd, int years, out int roundoff)
         {
-            ymd.Unpack(out int y, out int m, out int d);
+            ymd.Unpack(out int y0, out int m, out int d);
 
-            y = checked(y + years);
+            int y = checked(y0 + years);
 
             CheckYearOverflow(y);
 
-            // FIXME(code): WIP, roundoff is not correct.
-            int monthsInYear = Schema.CountMonthsInYear(y);
-            m = Math.Min(m, monthsInYear);
-            int daysInMonth = Schema.CountDaysInMonth(y, m);
-            roundoff = Math.Max(0, d - daysInMonth);
+            var sch = Schema;
+            int monthsInYear = sch.CountMonthsInYear(y);
+            roundoff = 0;
+            if (m > monthsInYear)
+            {
+                for (int i = monthsInYear + 1; i < m; i++)
+                {
+                    // REVIEW(code): y or y0?
+                    roundoff += sch.CountDaysInMonth(y0, i);
+                }
+                m = monthsInYear;
+            }
+
+            int daysInMonth = sch.CountDaysInMonth(y, m);
+            roundoff += Math.Max(0, d - daysInMonth);
             return new Yemoda(y, m, roundoff > 0 ? daysInMonth : d);
         }
 
@@ -31,11 +41,12 @@ namespace Zorglub.Time.Core
         {
             int d = ymd.Day;
 
-            var (y, m) = Schema.Arithmetic.AddMonths(ymd.Yemo, months);
+            var sch = Schema;
+            var (y, m) = sch.Arithmetic.AddMonths(ymd.Yemo, months);
 
             CheckYearOverflow(y);
 
-            int daysInMonth = Schema.CountDaysInMonth(y, m);
+            int daysInMonth = sch.CountDaysInMonth(y, m);
             roundoff = Math.Max(0, d - daysInMonth);
             return new Yemoda(y, m, roundoff > 0 ? daysInMonth : d);
         }
