@@ -3,12 +3,23 @@
 
 namespace Zorglub.Time.Core
 {
+    using Zorglub.Time.Core.Intervals;
+
     // FIXME(code): move Subtract() elsewhere. Supprimer les Count...()
+    // SupportedYears is wrong, see SystemArithmetic. Don't bother right now, as
+    // we're going to merge CalendricalMath and CalendricalArithmetic.
     // On doit respecter les props schema.Min/MaxYear
     // mais aussi gérer le cas où MinYear < Yemoda.MinYear ou
     // MaxYear > Yemoda.MaxYear. Voir PlainArithmetic.
     // CountYearsBetween() overflow? Avec des années complètes, je ne pense pas.
     // Idem avec CountMonthsBetween(), etc.
+
+    // Années complètes : on doit juste vérifier l'année.
+    // Par contrat, à partir du moment où l'année est dans la plage
+    // d'années supportée par un schéma, on sait que les méthodes ne
+    // provoqueront pas de débordements arithmétiques.
+    // Si les années n'étaient pas complètes, il faudrait prendre en
+    // compte le cas des années limites (Min/MaxYear).
 
     // Un "calculateur" ne dépend que du "schéma" calendaire et du champs
     // d'application du calendrier.
@@ -50,6 +61,11 @@ namespace Zorglub.Time.Core
         /// </summary>
         protected ICalendricalSchema Schema { get; }
 
+        /// <summary>
+        /// Gets the range of supported years.
+        /// </summary>
+        protected Range<int> SupportedYears => Schema.SupportedYears;
+
         [Pure]
         public static CalendricalMath Create(ICalendricalSchema schema)
         {
@@ -60,28 +76,12 @@ namespace Zorglub.Time.Core
         }
 
         /// <summary>
-        /// Checks that the specified year does not overflow the range of supported values or not.
-        /// </summary>
-        /// <exception cref="OverflowException">The calculation would overflow the range of
-        /// supported values.</exception>
-        protected static void CheckYearOverflow(int year)
-        {
-            // Années complètes : on doit juste vérifier l'année.
-            // Par contrat, à partir du moment où l'année est dans la plage
-            // d'années supportée par un schéma, on sait que les méthodes ne
-            // provoqueront pas de débordements arithmétiques.
-            // Si les années n'étaient pas complètes, il faudrait prendre en
-            // compte le cas des années limites (Min/MaxYear).
-            if (year < Yemoda.MinYear || year > Yemoda.MaxYear) Throw.DateOverflow();
-        }
-
-        /// <summary>
         /// Adds a number of years to the year field of the specified date.
         /// <para>This method does NOT validate its parameters.</para>
         /// </summary>
         /// <remarks>
         /// <para>When the result is not a valid date (roundoff > 0), returns the last day of the
-        /// month.</para>
+        /// month or the last day of the year.</para>
         /// </remarks>
         /// <exception cref="OverflowException">The calculation would overflow the range of
         /// supported values.</exception>

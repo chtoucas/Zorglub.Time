@@ -4,7 +4,7 @@
 namespace Zorglub.Time
 {
     /// <summary>
-    /// Defines the strategies employed to resolve overflows when adding a number of months or
+    /// Defines the strategies employed to resolve ambiguities when adding a number of months or
     /// years to a calendrical object.
     /// <para><see cref="AdditionRuleset"/> is an immutable struct.</para>
     /// </summary>
@@ -33,26 +33,26 @@ namespace Zorglub.Time
         }
 
         /// <summary>
-        /// Gets the strategy employed to resolve overflows when adding a number of months or
+        /// Gets the strategy employed to resolve ambiguities when adding a number of months or
         /// years to a date.
         /// </summary>
         public AdditionRule DateRule { get; }
 
         /// <summary>
-        /// Gets the strategy employed to resolve overflows when adding a number of years to an
+        /// Gets the strategy employed to resolve ambiguities when adding a number of years to an
         /// ordinal date.
         /// </summary>
         public AdditionRule OrdinalRule { get; }
 
         /// <summary>
-        /// Gets the strategy employed to resolve overflows when adding a number of years to a
+        /// Gets the strategy employed to resolve ambiguities when adding a number of years to a
         /// month.
         /// </summary>
         public AdditionRule MonthRule { get; }
     }
 
     /// <summary>
-    /// Specifies the strategy to resolve overflows when adding a number of months or years to a
+    /// Specifies the strategy to resolve ambiguities when adding a number of months or years to a
     /// date, or a number of years to a month.
     /// <para><see cref="Truncate"/> is the <i>default</i> strategy.</para>
     /// </summary>

@@ -27,7 +27,7 @@ namespace Zorglub.Time.Core
 
             y = checked(y + years);
 
-            CheckYearOverflow(y);
+            if (SupportedYears.Contains(y) == false) Throw.DateOverflow();
 
             int daysInMonth = Schema.CountDaysInMonth(y, m);
             roundoff = Math.Max(0, d - daysInMonth);
@@ -45,7 +45,7 @@ namespace Zorglub.Time.Core
             m = 1 + MathZ.Modulo(checked(m - 1 + months), _monthsInYear, out int y0);
             y += y0;
 
-            CheckYearOverflow(y);
+            if (SupportedYears.Contains(y) == false) Throw.DateOverflow();
 
             int daysInMonth = Schema.CountDaysInMonth(y, m);
             roundoff = Math.Max(0, d - daysInMonth);
@@ -60,7 +60,7 @@ namespace Zorglub.Time.Core
 
             y = checked(y + years);
 
-            CheckYearOverflow(y);
+            if (SupportedYears.Contains(y) == false) Throw.DateOverflow();
 
             int daysInYear = Schema.CountDaysInYear(y);
             roundoff = Math.Max(0, doy - daysInYear);
@@ -75,7 +75,7 @@ namespace Zorglub.Time.Core
 
             y = checked(y + years);
 
-            CheckYearOverflow(y);
+            if (SupportedYears.Contains(y) == false) Throw.MonthOverflow();
 
             roundoff = 0;
             return new Yemo(y, m);

@@ -6,14 +6,13 @@
 namespace Zorglub.Time.Simple
 {
     /// <summary>
-    /// Provides helpers to compute the difference between various calendrical
-    /// types.
+    /// Provides helpers to compute the difference between various calendrical types.
     /// </summary>
     public static class DateDifference
     {
         /// <summary>
-        /// Calculates the exact difference (expressed in years, months and days)
-        /// between the two specified dates.
+        /// Calculates the exact difference (expressed in years, months and days) between the two
+        /// specified dates.
         /// </summary>
         // Pour obtenir en plus le nombre de semaines :
         // > (years, months, days / DaysPerWeek, days % DaysPerWeek);
@@ -22,8 +21,7 @@ namespace Zorglub.Time.Simple
         {
             ValidateCuid(start.Cuid, end.Cuid);
 
-            var chr = CalendarCatalog.GetCalendar(start.Cuid);
-            return chr.Ops.GetDifferenceBetween(start, end);
+            return start.Calendar.Math.Subtract(start, end);
         }
 
         /// <summary>
@@ -34,8 +32,7 @@ namespace Zorglub.Time.Simple
         {
             ValidateCuid(start.Cuid, end.Cuid);
 
-            var chr = CalendarCatalog.GetCalendar(start.Cuid);
-            int years = chr.Ops.CountYearsBetween(start, end, out newStart);
+            int years = start.Calendar.Math.CountYearsBetween(start, end, out newStart);
             return years;
         }
 
@@ -47,66 +44,57 @@ namespace Zorglub.Time.Simple
         {
             ValidateCuid(start.Cuid, end.Cuid);
 
-            var chr = CalendarCatalog.GetCalendar(start.Cuid);
-            int months = chr.Ops.CountMonthsBetween(start, end, out newStart);
+            int months = start.Calendar.Math.CountMonthsBetween(start, end, out newStart);
             return months;
         }
 
         /// <summary>
         /// Counts the number of days between the two specified dates.
+        /// <para>Alias for <see cref="CalendarDate.CountDaysSince(CalendarDate)"/>.</para>
         /// </summary>
         // Pour obtenir le nombre de semaines :
         //   CountDaysBetween(start, end) / DaysPerWeek;
-        // Alias pour CalendarDate.Minus().
         [Pure]
         public static int InDays(CalendarDate start, CalendarDate end) => end - start;
 
         //
-        // Mois.
+        // CalendarMonth
         //
 
-        ///// <summary>
-        ///// Counts the number of years between the two specified calendar
-        ///// months.
-        ///// </summary>
-        //// Fonctionne parce que CountYearsBetween() ne tient pas compte des
-        //// champs Month et Day.
-        //[Pure]
-        //public static int InYears(CalendarMonth start, CalendarMonth end)
-        //{
-        //    ValidateCuid(start.Cuid, end.Cuid);
+        /// <summary>
+        /// Counts the number of years between the two specified calendar months.
+        /// </summary>
+        // Fonctionne parce que CountYearsBetween() ne tient pas compte des
+        // champs Month et Day.
+        [Pure]
+        public static int InYears(CalendarMonth start, CalendarMonth end)
+        {
+            ValidateCuid(start.Cuid, end.Cuid);
 
-        //    return start.Calendar.Ops.CountYearsBetween(start, end);
-        //}
+            return start.Calendar.Math.CountYearsBetween(start, end);
+        }
 
-        ///// <summary>
-        ///// Counts the number of months between the two specified calendar
-        ///// months.
-        ///// <para>Alias for <see cref="CalendarMonth.Minus(CalendarMonth)"/>.
-        ///// </para>
-        ///// </summary>
-        //[Pure]
-        //public static int InMonths(CalendarMonth start, CalendarMonth end) => end - start;
+        /// <summary>
+        /// Counts the number of months between the two specified calendar months.
+        /// <para>Alias for <see cref="CalendarMonth.CountMonthsSince(CalendarMonth)"/>.</para>
+        /// </summary>
+        [Pure]
+        public static int InMonths(CalendarMonth start, CalendarMonth end) => end - start;
 
-        ////
-        //// Années.
-        ////
+        //
+        // CalendarYear
+        //
 
-        ///// <summary>
-        ///// Counts the number of years between the two specified calendar
-        ///// years.
-        ///// <para>Alias for <see cref="CalendarYear.Minus(CalendarYear)"/>.
-        ///// </para>
-        ///// </summary>
-        //[Pure]
-        //public static int InYears(CalendarYear start, CalendarYear end) => end - start;
+        /// <summary>
+        /// Counts the number of years between the two specified calendar years.
+        /// <para>Alias for <see cref="CalendarYear.CountYearsSince(CalendarYear)"/>.</para>
+        /// </summary>
+        [Pure]
+        public static int InYears(CalendarYear start, CalendarYear end) => end - start;
 
         private static void ValidateCuid(Cuid start, Cuid end)
         {
-            if (start != end)
-            {
-                Throw.InvalidEnum(nameof(end), start, end);
-            }
+            if (start != end) Throw.BadCuid(nameof(end), start, end);
         }
     }
 }
