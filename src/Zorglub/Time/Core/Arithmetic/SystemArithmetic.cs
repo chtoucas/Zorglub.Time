@@ -21,7 +21,7 @@ namespace Zorglub.Time.Core.Arithmetic
     /// calendrical point of view. They MUST ensure that all returned values are valid when the
     /// previous condition is met.</para>
     /// </remarks>
-    internal abstract partial class SystemArithmetic : ICalendricalArithmetic
+    internal abstract partial class SystemArithmetic : ICalendricalArithmeticPlus
     {
         /// <summary>
         /// Represents the absolute minimum value admissible for the minimum total number of days

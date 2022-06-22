@@ -137,9 +137,13 @@ namespace Zorglub.Time.Core
         /// <inheritdoc />
         public ICalendricalPreValidator PreValidator => _validator ??= GetPreValidatorCore();
 
-        private ICalendricalArithmetic? _arithmetic;
-        /// <inheritdoc />
-        public ICalendricalArithmetic Arithmetic => _arithmetic ??= GetArithmeticCore();
+        ICalendricalArithmetic ICalendricalSchema.Arithmetic => Arithmetic;
+
+        private ICalendricalArithmeticPlus? _arithmetic;
+        /// <summary>
+        /// Gets the arithmetic for this schema.
+        /// </summary>
+        public ICalendricalArithmeticPlus Arithmetic => _arithmetic ??= GetArithmeticCore();
 
         private CalendricalProfile? _profile;
         /// <summary>
@@ -152,87 +156,30 @@ namespace Zorglub.Time.Core
         public abstract bool IsRegular(out int monthsInYear);
 
         /// <summary>
-        /// Obtains the <see cref="ICalendricalPreValidator"/> for this schema.
+        /// Obtains the default <see cref="ICalendricalPreValidator"/> for this schema.
         /// </summary>
         [Pure]
         protected virtual ICalendricalPreValidator GetPreValidatorCore() =>
-            TryGetCustomPreValidator(out ICalendricalPreValidator? validator)
-            ? validator
-            : new PlainPreValidator(this);
+            Profile switch
+            {
+                CalendricalProfile.Solar12 =>
+                    this is GregorianSchema ? GregorianPreValidator.Instance
+                    : this is JulianSchema ? JulianPreValidator.Instance
+                    : new Solar12PreValidator(this),
+                CalendricalProfile.Solar13 => new Solar13PreValidator(this),
+                CalendricalProfile.Lunar => new LunarPreValidator(this),
+                CalendricalProfile.Lunisolar => new LunisolarPreValidator(this),
+                _ => new PlainPreValidator(this)
+            };
 
         /// <summary>
-        /// Obtains the <see cref="ICalendricalArithmetic"/> for this schema.
+        /// Obtains the default <see cref="ICalendricalArithmetic"/> for this schema.
         /// </summary>
         /// <exception cref="ArgumentException">The range of supported years by the schema and
         /// <see cref="Yemoda"/> are disjoint.
         /// </exception>
         [Pure]
-        protected virtual ICalendricalArithmetic GetArithmeticCore() =>
-            TryGetCustomArithmetic(out ICalendricalArithmetic? arithmetic)
-            ? arithmetic
-            : new PlainArithmetic(this);
-
-        /// <summary>
-        /// Returns true if the construction of a specialized pre-validator for this schema was
-        /// successful; otherwise returns false; the result is given in an output parameter.
-        /// </summary>
-        [Pure]
-        protected internal bool TryGetCustomPreValidator(
-            [NotNullWhen(true)] out ICalendricalPreValidator? validator)
-        {
-            switch (Profile)
-            {
-                case CalendricalProfile.Solar12:
-                    validator =
-                        this is GregorianSchema ? GregorianPreValidator.Instance
-                        : this is JulianSchema ? JulianPreValidator.Instance
-                        : new Solar12PreValidator(this);
-                    return true;
-                case CalendricalProfile.Solar13:
-                    validator = new Solar13PreValidator(this);
-                    return true;
-                case CalendricalProfile.Lunar:
-                    validator = new LunarPreValidator(this);
-                    return true;
-                case CalendricalProfile.Lunisolar:
-                    validator = new LunisolarPreValidator(this);
-                    return true;
-                default:
-                    validator = null;
-                    return false;
-            }
-        }
-
-        /// <summary>
-        /// Returns true if the construction of a specialized arithmetic engine for this schema was
-        /// successful; otherwise returns false; the result is given in an output parameter.
-        /// </summary>
-        [Pure]
-        protected internal bool TryGetCustomArithmetic(
-            [NotNullWhen(true)] out ICalendricalArithmetic? arithmetic)
-        {
-            // Sync with SystemArithmetic.Create().
-            switch (Profile)
-            {
-                case CalendricalProfile.Solar12:
-                    arithmetic =
-                        this is GregorianSchema ? new GregorianArithmetic()
-                        : new Solar12Arithmetic(this);
-                    return true;
-                case CalendricalProfile.Solar13:
-                    arithmetic = new Solar13Arithmetic(this);
-                    return true;
-                case CalendricalProfile.Lunar:
-                    arithmetic = new LunarArithmetic(this);
-                    return true;
-                case CalendricalProfile.Lunisolar:
-                    arithmetic = new LunisolarArithmetic(this);
-                    return true;
-                default:
-                    arithmetic = null;
-                    return false;
-            }
-        }
+        protected virtual ICalendricalArithmeticPlus GetArithmeticCore() => SystemArithmetic.Create(this);
 
         [Pure]
         private CalendricalProfile FindProfile()

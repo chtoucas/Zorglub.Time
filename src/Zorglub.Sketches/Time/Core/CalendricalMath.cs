@@ -131,7 +131,7 @@ namespace Zorglub.Time.Core
         /// <para>This method does NOT validate its parameters.</para>
         /// </summary>
         [Pure]
-        [Obsolete("To be removed, CalendarMath")]
+        [Obsolete("TO BE REMOVED, CalendarMath")]
         public int CountYearsBetween(Yemoda start, Yemoda end, out Yemoda newStart)
         {
             int years = end.Year - start.Year;
@@ -162,7 +162,7 @@ namespace Zorglub.Time.Core
         /// <para>This method does NOT validate its parameters.</para>
         /// </summary>
         [Pure]
-        [Obsolete("To be removed, CalendarMath")]
+        [Obsolete("TO BE REMOVED, CalendarMath")]
         public int CountMonthsBetween(Yemoda start, Yemoda end, out Yemoda newStart)
         {
             int months = Schema.Arithmetic.CountMonthsBetween(start.Yemo, end.Yemo);
@@ -193,7 +193,7 @@ namespace Zorglub.Time.Core
         /// <para>This method does NOT validate its parameters.</para>
         /// </summary>
         [Pure]
-        [Obsolete("To be removed, CalendarMath")]
+        [Obsolete("TO BE REMOVED, CalendarMath")]
         public int CountYearsBetween(Yedoy start, Yedoy end, out Yedoy newStart)
         {
             int years = end.Year - start.Year;
@@ -224,7 +224,7 @@ namespace Zorglub.Time.Core
         /// <para>This method does NOT validate its parameters.</para>
         /// </summary>
         [Pure]
-        [Obsolete("To be removed, CalendarMath")]
+        [Obsolete("TO BE REMOVED, CalendarMath")]
         public int CountYearsBetween(Yemo start, Yemo end, out Yemo newStart)
         {
             int years = end.Year - start.Year;
@@ -255,7 +255,7 @@ namespace Zorglub.Time.Core
         /// <para>This method does NOT validate its parameters.</para>
         /// </summary>
         [Pure]
-        [Obsolete("To be removed, DateDifference")]
+        [Obsolete("TO BE REMOVED, DateDifference")]
         public (int years, int months, int days) Subtract(Yemoda left, Yemoda right)
         {
             // Même si on utilise AddYears() et AddMonths() (qui retournent

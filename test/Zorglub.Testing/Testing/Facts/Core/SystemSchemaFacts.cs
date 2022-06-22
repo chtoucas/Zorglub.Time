@@ -20,20 +20,6 @@ public abstract partial class SystemSchemaFacts<TDataSet> :
     // This property is actually part of CalendricalSchema but being internal
     // it's not publicly testable.
     [Fact] public abstract void Profile_Prop();
-
-    [Fact] public abstract void TryGetCustomArithmetic();
-
-    protected void VerifyThatTryGetCustomArithmeticSucceeds<T>()
-    {
-        Assert.True(SchemaUT.TryGetCustomArithmetic(out ICalendricalArithmetic? arithmetic));
-        Assert.IsType<T>(arithmetic);
-    }
-
-    protected void VerifyThatTryGetCustomArithmeticFails()
-    {
-        Assert.False(SchemaUT.TryGetCustomArithmetic(out ICalendricalArithmetic? arithmetic));
-        Assert.Null(arithmetic);
-    }
 }
 
 public partial class SystemSchemaFacts<TDataSet> // Properties

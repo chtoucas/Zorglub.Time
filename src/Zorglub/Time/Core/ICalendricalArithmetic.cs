@@ -52,7 +52,7 @@ namespace Zorglub.Time.Core
     #endregion
 
     /// <summary>
-    /// Defines the arithmetical operations on dates related to the day unit.
+    /// Defines the standard arithmetical operations on calendrical types.
     /// </summary>
     public interface ICalendricalArithmetic
     {

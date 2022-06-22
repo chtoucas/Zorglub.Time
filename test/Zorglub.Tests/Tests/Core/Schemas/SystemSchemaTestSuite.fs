@@ -21,30 +21,11 @@ open Xunit
 
 // TODO(code): Hebrew (unfinished, no data), Pax (unfinished) and lunisolar (fake) schema.
 
-// Type to avoid the error FS0405 because TryGetCustomArithmetic() is a
-// protected internal method.
-[<Sealed>]
-type private SchemaWrapper(schema: SystemSchema) =
-    member private __.Schema = schema
-    member x.TryGetCustomArithmetic() = x.Schema.TryGetCustomArithmetic()
-
 let private verifyThatPreValidatorIs<'a> (sch: ICalendricalSchema) =
     sch.PreValidator |> is<'a>
 
 let private verifyThatArithmeticIs<'a> (sch: ICalendricalSchema) =
     sch.Arithmetic |> is<'a>
-
-let private verifyThatTryGetCustomArithmeticSucceeds<'a> (sch: SystemSchema) =
-    let wrapper = new SchemaWrapper(sch)
-    let passed, arithmetic = wrapper.TryGetCustomArithmetic()
-    passed |> ok
-    arithmetic |> is<'a>
-
-let private verifyThatTryGetCustomArithmeticFails (sch: SystemSchema) =
-    let wrapper = new SchemaWrapper(sch)
-    let passed, arithmetic = wrapper.TryGetCustomArithmetic()
-    passed |> nok
-    arithmetic |> isnull
 
 [<Sealed>]
 type Coptic12Tests() =
@@ -56,7 +37,6 @@ type Coptic12Tests() =
     override x.PreValidator_Prop() = x.VerifyThatPreValidatorIs<Solar12PreValidator>()
     override x.Arithmetic_Prop() = x.VerifyThatArithmeticIs<Solar12Arithmetic>()
     override x.IsRegular() = x.SchemaUT.IsRegular() === (true, 12)
-    override x.TryGetCustomArithmetic() = x.VerifyThatTryGetCustomArithmeticSucceeds<Solar12Arithmetic>()
 
     override x.SupportedYearsCore_Prop() =
         x.SchemaUT.SupportedYearsCore === Range.EndingAt(Int32.MaxValue - 1)
@@ -78,7 +58,6 @@ type Coptic13Tests() =
     override x.PreValidator_Prop() = x.VerifyThatPreValidatorIs<PlainPreValidator>()
     override x.Arithmetic_Prop() = x.VerifyThatArithmeticIs<PlainArithmetic>()
     override x.IsRegular() = x.SchemaUT.IsRegular() === (true, 13)
-    override x.TryGetCustomArithmetic() = x.VerifyThatTryGetCustomArithmeticFails()
 
     override x.SupportedYearsCore_Prop() =
         x.SchemaUT.SupportedYearsCore === Range.EndingAt(Int32.MaxValue - 1)
@@ -100,7 +79,6 @@ type Egyptian12Tests() =
     override x.PreValidator_Prop() = x.VerifyThatPreValidatorIs<Solar12PreValidator>()
     override x.Arithmetic_Prop() = x.VerifyThatArithmeticIs<Solar12Arithmetic>()
     override x.IsRegular() = x.SchemaUT.IsRegular() === (true, 12)
-    override x.TryGetCustomArithmetic() = x.VerifyThatTryGetCustomArithmeticSucceeds<Solar12Arithmetic>()
 
 [<Sealed>]
 [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
@@ -113,7 +91,6 @@ type Egyptian13Tests() =
     override x.PreValidator_Prop() = x.VerifyThatPreValidatorIs<PlainPreValidator>()
     override x.Arithmetic_Prop() = x.VerifyThatArithmeticIs<PlainArithmetic>()
     override x.IsRegular() = x.SchemaUT.IsRegular() === (true, 13)
-    override x.TryGetCustomArithmetic() = x.VerifyThatTryGetCustomArithmeticFails()
 
 [<Sealed>]
 [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
@@ -126,7 +103,6 @@ type FrenchRepublican12Tests() =
     override x.PreValidator_Prop() = x.VerifyThatPreValidatorIs<Solar12PreValidator>()
     override x.Arithmetic_Prop() = x.VerifyThatArithmeticIs<Solar12Arithmetic>()
     override x.IsRegular() = x.SchemaUT.IsRegular() === (true, 12)
-    override x.TryGetCustomArithmetic() = x.VerifyThatTryGetCustomArithmeticSucceeds<Solar12Arithmetic>()
 
 [<Sealed>]
 [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
@@ -139,7 +115,6 @@ type FrenchRepublican13Tests() =
     override x.PreValidator_Prop() = x.VerifyThatPreValidatorIs<PlainPreValidator>()
     override x.Arithmetic_Prop() = x.VerifyThatArithmeticIs<PlainArithmetic>()
     override x.IsRegular() = x.SchemaUT.IsRegular() === (true, 13)
-    override x.TryGetCustomArithmetic() = x.VerifyThatTryGetCustomArithmeticFails()
 
 [<Sealed>]
 [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
@@ -152,7 +127,6 @@ type GregorianTests() =
     override x.PreValidator_Prop() = x.VerifyThatPreValidatorIs<GregorianPreValidator>()
     override x.Arithmetic_Prop() = x.VerifyThatArithmeticIs<GregorianArithmetic>()
     override x.IsRegular() = x.SchemaUT.IsRegular() === (true, 12)
-    override x.TryGetCustomArithmetic() = x.VerifyThatTryGetCustomArithmeticSucceeds<GregorianArithmetic>()
 
 [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
 module HebrewTests =
@@ -179,9 +153,6 @@ module HebrewTests =
     [<Fact>]
     let ``IsRegular()`` () = sch.IsRegular() === (false, 0)
 
-    [<Fact>]
-    let ``TryGetCustomArithmetic()`` () = verifyThatTryGetCustomArithmeticSucceeds<LunisolarArithmetic>(sch)
-
 [<Sealed>]
 [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
 type InternationalFixedTests() =
@@ -193,7 +164,6 @@ type InternationalFixedTests() =
     override x.PreValidator_Prop() = x.VerifyThatPreValidatorIs<Solar13PreValidator>()
     override x.Arithmetic_Prop() = x.VerifyThatArithmeticIs<Solar13Arithmetic>()
     override x.IsRegular() = x.SchemaUT.IsRegular() === (true, 13)
-    override x.TryGetCustomArithmetic() = x.VerifyThatTryGetCustomArithmeticSucceeds<Solar13Arithmetic>()
 
 [<Sealed>]
 [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
@@ -206,7 +176,6 @@ type JulianTests() =
     override x.PreValidator_Prop() = x.VerifyThatPreValidatorIs<JulianPreValidator>()
     override x.Arithmetic_Prop() = x.VerifyThatArithmeticIs<Solar12Arithmetic>()
     override x.IsRegular() = x.SchemaUT.IsRegular() === (true, 12)
-    override x.TryGetCustomArithmetic() = x.VerifyThatTryGetCustomArithmeticSucceeds<Solar12Arithmetic>()
 
 [<Sealed>]
 [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
@@ -219,7 +188,6 @@ type LunisolarTests() =
     override x.PreValidator_Prop() = x.VerifyThatPreValidatorIs<LunisolarPreValidator>()
     override x.Arithmetic_Prop() = x.VerifyThatArithmeticIs<LunisolarArithmetic>()
     override x.IsRegular() = x.SchemaUT.IsRegular() === (false, 0)
-    override x.TryGetCustomArithmetic() = x.VerifyThatTryGetCustomArithmeticSucceeds<LunisolarArithmetic>()
 
 [<Sealed>]
 [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
@@ -242,9 +210,6 @@ type PaxTests() as self =
     [<Fact>]
     member x.Profile_Prop() = x.SchemaUT.Profile === CalendricalProfile.Other
 
-    [<Fact>]
-    member x.TryGetCustomArithmetic() = verifyThatTryGetCustomArithmeticFails(x.SchemaUT)
-
 [<Sealed>]
 [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
 type Persian2820Tests() =
@@ -256,7 +221,6 @@ type Persian2820Tests() =
     override x.PreValidator_Prop() = x.VerifyThatPreValidatorIs<Solar12PreValidator>()
     override x.Arithmetic_Prop() = x.VerifyThatArithmeticIs<Solar12Arithmetic>()
     override x.IsRegular() = x.SchemaUT.IsRegular() === (true, 12)
-    override x.TryGetCustomArithmetic() = x.VerifyThatTryGetCustomArithmeticSucceeds<Solar12Arithmetic>()
 
     override x.SupportedYearsCore_Prop() =
         x.SchemaUT.SupportedYearsCore === Range.StartingAt(Int32.MinValue + Persian2820Schema.Year0)
@@ -286,7 +250,6 @@ type PositivistTests() =
     override x.PreValidator_Prop() = x.VerifyThatPreValidatorIs<Solar13PreValidator>()
     override x.Arithmetic_Prop() = x.VerifyThatArithmeticIs<Solar13Arithmetic>()
     override x.IsRegular() = x.SchemaUT.IsRegular() === (true, 13)
-    override x.TryGetCustomArithmetic() = x.VerifyThatTryGetCustomArithmeticSucceeds<Solar13Arithmetic>()
 
 [<Sealed>]
 [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
@@ -301,7 +264,6 @@ type TabularIslamicTests() =
     override x.PreValidator_Prop() = x.VerifyThatPreValidatorIs<LunarPreValidator>()
     override x.Arithmetic_Prop() = x.VerifyThatArithmeticIs<LunarArithmetic>()
     override x.IsRegular() = x.SchemaUT.IsRegular() === (true, 12)
-    override x.TryGetCustomArithmetic() = x.VerifyThatTryGetCustomArithmeticSucceeds<LunarArithmetic>()
 
     override x.SupportedYears_Prop() =
         x.SchemaUT.SupportedYears === Range.Create(-199_999, 200_000)
@@ -340,7 +302,6 @@ type TropicaliaTests() =
     override x.PreValidator_Prop() = x.VerifyThatPreValidatorIs<Solar12PreValidator>()
     override x.Arithmetic_Prop() = x.VerifyThatArithmeticIs<Solar12Arithmetic>()
     override x.IsRegular() = x.SchemaUT.IsRegular() === (true, 12)
-    override x.TryGetCustomArithmetic() = x.VerifyThatTryGetCustomArithmeticSucceeds<Solar12Arithmetic>()
 
 [<Sealed>]
 [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
@@ -353,7 +314,6 @@ type Tropicalia3031Tests() =
     override x.PreValidator_Prop() = x.VerifyThatPreValidatorIs<Solar12PreValidator>()
     override x.Arithmetic_Prop() = x.VerifyThatArithmeticIs<Solar12Arithmetic>()
     override x.IsRegular() = x.SchemaUT.IsRegular() === (true, 12)
-    override x.TryGetCustomArithmetic() = x.VerifyThatTryGetCustomArithmeticSucceeds<Solar12Arithmetic>()
 
 [<Sealed>]
 [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
@@ -366,7 +326,6 @@ type Tropicalia3130Tests() =
     override x.PreValidator_Prop() = x.VerifyThatPreValidatorIs<Solar12PreValidator>()
     override x.Arithmetic_Prop() = x.VerifyThatArithmeticIs<Solar12Arithmetic>()
     override x.IsRegular() = x.SchemaUT.IsRegular() === (true, 12)
-    override x.TryGetCustomArithmetic() = x.VerifyThatTryGetCustomArithmeticSucceeds<Solar12Arithmetic>()
 
 [<Sealed>]
 [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
@@ -379,4 +338,3 @@ type WorldTests() =
     override x.PreValidator_Prop() = x.VerifyThatPreValidatorIs<Solar12PreValidator>()
     override x.Arithmetic_Prop() = x.VerifyThatArithmeticIs<Solar12Arithmetic>()
     override x.IsRegular() = x.SchemaUT.IsRegular() === (true, 12)
-    override x.TryGetCustomArithmetic() = x.VerifyThatTryGetCustomArithmeticSucceeds<Solar12Arithmetic>()
