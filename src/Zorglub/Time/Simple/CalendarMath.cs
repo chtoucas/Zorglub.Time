@@ -7,7 +7,7 @@ namespace Zorglub.Time.Simple
 
     // FIXME(code): Impl PlainMath. Improve impl.
     // Do we need stricter validation? or is YearOverflowChecker enough?
-    // Can we avoid multiple overflow checks.
+    // Can we avoid multiple overflow checks -> SupportedYears in arithmetic ctor?
     // CountYearsBetween() overflow? Avec des années complètes, je ne pense pas.
     // Idem avec CountMonthsBetween(), etc.
     //

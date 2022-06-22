@@ -197,6 +197,19 @@ public partial class CalendarMathFacts<TDataSet> // CalendarDate
         Assert.Equal(start.PlusYears(ys), newStart);
         Assert.Equal(-ys, MathUT.CountYearsBetween(end, start, out newStart));
         Assert.Equal(end.PlusYears(-ys), newStart);
+        // TODO(fact): test that PlusYears(ys + 1 or maybe - 1) > end; idem with the other
+        // methods and in CalendarMathAdvancedFacts.
+        //if (ys >= 0)
+        //{
+        //    Assert.True(newStart < end);
+        //    Assert.True(start.PlusYears(ys + 1) > end);
+        //    Assert.True(end.PlusYears(-ys - 1) < start);
+        //}
+        //else
+        //{
+        //    //Assert.True(start.PlusYears(ys - 1) < end);
+        //    //Assert.True(end.PlusYears(-ys + 1) > start);
+        //}
         // CalendarDate
         Assert.Equal(ys, end.CountYearsSince(start));
         Assert.Equal(-ys, start.CountYearsSince(end));

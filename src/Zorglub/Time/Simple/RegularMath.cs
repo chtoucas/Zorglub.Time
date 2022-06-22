@@ -63,7 +63,8 @@ namespace Zorglub.Time.Simple
             Debug.Assert(date.Cuid == Cuid);
 
             // We could have used Schema.Arithmetic.AddMonths() as in PlainMath,
-            // but here we avoid the double validation by copying its code.
+            // but here we avoid the double (overflow) validation by copying its
+            // code.
             date.Parts.Unpack(out int y, out int m, out int d);
             m = 1 + MathZ.Modulo(checked(m - 1 + months), _monthsInYear, out int y0);
             y += y0;
