@@ -508,7 +508,7 @@ namespace Zorglub.Time.Simple
         /// right one.
         /// </summary>
         /// <exception cref="ArgumentException"><paramref name="right"/> belongs to a different
-        /// calendar than <paramref name="right"/>.</exception>
+        /// calendar from that of <paramref name="left"/>.</exception>
         public static bool operator <(CalendarDay left, CalendarDay right) => left.CompareTo(right) < 0;
 
         /// <summary>
@@ -516,7 +516,7 @@ namespace Zorglub.Time.Simple
         /// the right one.
         /// </summary>
         /// <exception cref="ArgumentException"><paramref name="right"/> belongs to a different
-        /// calendar than <paramref name="right"/>.</exception>
+        /// calendar from that of <paramref name="left"/>.</exception>
         public static bool operator <=(CalendarDay left, CalendarDay right) => left.CompareTo(right) <= 0;
 
         /// <summary>
@@ -524,7 +524,7 @@ namespace Zorglub.Time.Simple
         /// right one.
         /// </summary>
         /// <exception cref="ArgumentException"><paramref name="right"/> belongs to a different
-        /// calendar than <paramref name="right"/>.</exception>
+        /// calendar from that of <paramref name="left"/>.</exception>
         public static bool operator >(CalendarDay left, CalendarDay right) => left.CompareTo(right) > 0;
 
         /// <summary>
@@ -532,14 +532,14 @@ namespace Zorglub.Time.Simple
         /// the right one.
         /// </summary>
         /// <exception cref="ArgumentException"><paramref name="right"/> belongs to a different
-        /// calendar than <paramref name="right"/>.</exception>
+        /// calendar from that of <paramref name="left"/>.</exception>
         public static bool operator >=(CalendarDay left, CalendarDay right) => left.CompareTo(right) >= 0;
 
         /// <summary>
         /// Obtains the earlier date of two specified dates.
         /// </summary>
         /// <exception cref="ArgumentException"><paramref name="y"/> belongs to a different calendar
-        /// than <paramref name="y"/>.</exception>
+        /// from that of <paramref name="y"/>.</exception>
         [Pure]
         public static CalendarDay Min(CalendarDay x, CalendarDay y) =>
             x.CompareTo(y) < 0 ? x : y;
@@ -548,7 +548,7 @@ namespace Zorglub.Time.Simple
         /// Obtains the later date of two specified dates.
         /// </summary>
         /// <exception cref="ArgumentException"><paramref name="y"/> belongs to a different calendar
-        /// than <paramref name="y"/>.</exception>
+        /// from that of <paramref name="y"/>.</exception>
         [Pure]
         public static CalendarDay Max(CalendarDay x, CalendarDay y) =>
             x.CompareTo(y) > 0 ? x : y;
@@ -583,7 +583,7 @@ namespace Zorglub.Time.Simple
         /// Subtracts the two specified dates and returns the number of days between them.
         /// </summary>
         /// <exception cref="ArgumentException"><paramref name="right"/> belongs to a different
-        /// calendar than <paramref name="right"/>.</exception>
+        /// calendar from that of <paramref name="left"/>.</exception>
         public static int operator -(CalendarDay left, CalendarDay right) => left.CountDaysSince(right);
 
         /// <summary>

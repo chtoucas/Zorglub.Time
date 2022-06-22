@@ -474,7 +474,7 @@ namespace Zorglub.Time.Simple
         /// right one.
         /// </summary>
         /// <exception cref="ArgumentException"><paramref name="right"/> belongs to a different
-        /// calendar than <paramref name="right"/>.</exception>
+        /// calendar from that of <paramref name="left"/>.</exception>
         public static bool operator <(OrdinalDate left, OrdinalDate right) =>
             left.CompareTo(right) < 0;
 
@@ -483,7 +483,7 @@ namespace Zorglub.Time.Simple
         /// the right one.
         /// </summary>
         /// <exception cref="ArgumentException"><paramref name="right"/> belongs to a different
-        /// calendar than <paramref name="right"/>.</exception>
+        /// calendar from that of <paramref name="left"/>.</exception>
         public static bool operator <=(OrdinalDate left, OrdinalDate right) =>
             left.CompareTo(right) <= 0;
 
@@ -492,7 +492,7 @@ namespace Zorglub.Time.Simple
         /// right one.
         /// </summary>
         /// <exception cref="ArgumentException"><paramref name="right"/> belongs to a different
-        /// calendar than <paramref name="right"/>.</exception>
+        /// calendar from that of <paramref name="left"/>.</exception>
         public static bool operator >(OrdinalDate left, OrdinalDate right) =>
             left.CompareTo(right) > 0;
 
@@ -501,7 +501,7 @@ namespace Zorglub.Time.Simple
         /// the right one.
         /// </summary>
         /// <exception cref="ArgumentException"><paramref name="right"/> belongs to a different
-        /// calendar than <paramref name="right"/>.</exception>
+        /// calendar from that of <paramref name="left"/>.</exception>
         public static bool operator >=(OrdinalDate left, OrdinalDate right) =>
             left.CompareTo(right) >= 0;
 
@@ -509,7 +509,7 @@ namespace Zorglub.Time.Simple
         /// Obtains the earlier date of two specified dates.
         /// </summary>
         /// <exception cref="ArgumentException"><paramref name="y"/> belongs to a different calendar
-        /// than <paramref name="y"/>.</exception>
+        /// from that of <paramref name="y"/>.</exception>
         [Pure]
         public static OrdinalDate Min(OrdinalDate x, OrdinalDate y) =>
             x.CompareTo(y) < 0 ? x : y;
@@ -518,7 +518,7 @@ namespace Zorglub.Time.Simple
         /// Obtains the later date of two specified dates.
         /// </summary>
         /// <exception cref="ArgumentException"><paramref name="y"/> belongs to a different calendar
-        /// than <paramref name="y"/>.</exception>
+        /// from that of <paramref name="y"/>.</exception>
         [Pure]
         public static OrdinalDate Max(OrdinalDate x, OrdinalDate y) =>
             x.CompareTo(y) > 0 ? x : y;
@@ -565,7 +565,7 @@ namespace Zorglub.Time.Simple
         /// Subtracts the two specified dates and returns the number of days between them.
         /// </summary>
         /// <exception cref="ArgumentException"><paramref name="right"/> belongs to a different
-        /// calendar than <paramref name="right"/>.</exception>
+        /// calendar from that of <paramref name="left"/>.</exception>
         public static int operator -(OrdinalDate left, OrdinalDate right) =>
             left.CountDaysSince(right);
 

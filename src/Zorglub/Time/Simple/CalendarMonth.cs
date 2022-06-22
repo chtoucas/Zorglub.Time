@@ -469,7 +469,7 @@ namespace Zorglub.Time.Simple
         /// right one.
         /// </summary>
         /// <exception cref="ArgumentException"><paramref name="right"/> belongs to a different
-        /// calendar than <paramref name="right"/>.</exception>
+        /// calendar from that of <paramref name="left"/>.</exception>
         public static bool operator <(CalendarMonth left, CalendarMonth right) =>
             left.CompareTo(right) < 0;
 
@@ -478,7 +478,7 @@ namespace Zorglub.Time.Simple
         /// the right one.
         /// </summary>
         /// <exception cref="ArgumentException"><paramref name="right"/> belongs to a different
-        /// calendar than <paramref name="right"/>.</exception>
+        /// calendar from that of <paramref name="left"/>.</exception>
         public static bool operator <=(CalendarMonth left, CalendarMonth right) =>
             left.CompareTo(right) <= 0;
 
@@ -487,7 +487,7 @@ namespace Zorglub.Time.Simple
         /// right one.
         /// </summary>
         /// <exception cref="ArgumentException"><paramref name="right"/> belongs to a different
-        /// calendar than <paramref name="right"/>.</exception>
+        /// calendar from that of <paramref name="left"/>.</exception>
         public static bool operator >(CalendarMonth left, CalendarMonth right) =>
             left.CompareTo(right) > 0;
 
@@ -496,27 +496,27 @@ namespace Zorglub.Time.Simple
         /// the right one.
         /// </summary>
         /// <exception cref="ArgumentException"><paramref name="right"/> belongs to a different
-        /// calendar than <paramref name="right"/>.</exception>
+        /// calendar from that of <paramref name="left"/>.</exception>
         public static bool operator >=(CalendarMonth left, CalendarMonth right) =>
             left.CompareTo(right) >= 0;
 
         /// <summary>
         /// Obtains the earlier month of two specified months.
         /// </summary>
-        /// <exception cref="ArgumentException"><paramref name="right"/> belongs to a different
-        /// calendar than <paramref name="right"/>.</exception>
+        /// <exception cref="ArgumentException"><paramref name="y"/> belongs to a different
+        /// calendar from that of <paramref name="x"/>.</exception>
         [Pure]
-        public static CalendarMonth Min(CalendarMonth left, CalendarMonth right) =>
-            left.CompareTo(right) < 0 ? left : right;
+        public static CalendarMonth Min(CalendarMonth x, CalendarMonth y) =>
+            x.CompareTo(y) < 0 ? x : y;
 
         /// <summary>
         /// Obtains the later month of two specified months.
         /// </summary>
-        /// <exception cref="ArgumentException"><paramref name="right"/> belongs to a different
-        /// calendar than <paramref name="right"/>.</exception>
+        /// <exception cref="ArgumentException"><paramref name="y"/> belongs to a different
+        /// calendar from that of <paramref name="x"/>.</exception>
         [Pure]
-        public static CalendarMonth Max(CalendarMonth left, CalendarMonth right) =>
-            left.CompareTo(right) > 0 ? left : right;
+        public static CalendarMonth Max(CalendarMonth x, CalendarMonth y) =>
+            x.CompareTo(y) > 0 ? x : y;
 
         /// <summary>
         /// Indicates whether this instance is earlier, later or the same as the specified one.
@@ -560,7 +560,7 @@ namespace Zorglub.Time.Simple
         /// Subtracts the two specified months and returns the number of months between them.
         /// </summary>
         /// <exception cref="ArgumentException"><paramref name="right"/> belongs to a different
-        /// calendar than <paramref name="right"/>.</exception>
+        /// calendar from that of <paramref name="left"/>.</exception>
         public static int operator -(CalendarMonth left, CalendarMonth right) =>
             left.CountMonthsSince(right);
 

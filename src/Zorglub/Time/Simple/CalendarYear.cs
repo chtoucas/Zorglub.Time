@@ -591,7 +591,7 @@ namespace Zorglub.Time.Simple
         /// right one.
         /// </summary>
         /// <exception cref="ArgumentException"><paramref name="right"/> belongs to a different
-        /// calendar than <paramref name="right"/>.</exception>
+        /// calendar from that of <paramref name="left"/>.</exception>
         public static bool operator <(CalendarYear left, CalendarYear right) =>
             left.CompareTo(right) < 0;
 
@@ -600,7 +600,7 @@ namespace Zorglub.Time.Simple
         /// the right one.
         /// </summary>
         /// <exception cref="ArgumentException"><paramref name="right"/> belongs to a different
-        /// calendar than <paramref name="right"/>.</exception>
+        /// calendar from that of <paramref name="left"/>.</exception>
         public static bool operator <=(CalendarYear left, CalendarYear right) =>
             left.CompareTo(right) <= 0;
 
@@ -609,7 +609,7 @@ namespace Zorglub.Time.Simple
         /// right one.
         /// </summary>
         /// <exception cref="ArgumentException"><paramref name="right"/> belongs to a different
-        /// calendar than <paramref name="right"/>.</exception>
+        /// calendar from that of <paramref name="left"/>.</exception>
         public static bool operator >(CalendarYear left, CalendarYear right) =>
             left.CompareTo(right) > 0;
 
@@ -618,27 +618,27 @@ namespace Zorglub.Time.Simple
         /// the right one.
         /// </summary>
         /// <exception cref="ArgumentException"><paramref name="right"/> belongs to a different
-        /// calendar than <paramref name="right"/>.</exception>
+        /// calendar from that of <paramref name="left"/>.</exception>
         public static bool operator >=(CalendarYear left, CalendarYear right) =>
             left.CompareTo(right) >= 0;
 
         /// <summary>
         /// Obtains the earlier year of two specified years.
         /// </summary>
-        /// <exception cref="ArgumentException"><paramref name="right"/> belongs to a different
-        /// calendar than <paramref name="right"/>.</exception>
+        /// <exception cref="ArgumentException"><paramref name="y"/> belongs to a different
+        /// calendar from that of <paramref name="y"/>.</exception>
         [Pure]
-        public static CalendarYear Min(CalendarYear left, CalendarYear right) =>
-            left.CompareTo(right) < 0 ? left : right;
+        public static CalendarYear Min(CalendarYear x, CalendarYear y) =>
+            x.CompareTo(y) < 0 ? x : y;
 
         /// <summary>
         /// Obtains the later year of two specified years.
         /// </summary>
-        /// <exception cref="ArgumentException"><paramref name="right"/> belongs to a different
-        /// calendar than <paramref name="right"/>.</exception>
+        /// <exception cref="ArgumentException"><paramref name="y"/> belongs to a different
+        /// calendar from that of <paramref name="y"/>.</exception>
         [Pure]
-        public static CalendarYear Max(CalendarYear left, CalendarYear right) =>
-            left.CompareTo(right) > 0 ? left : right;
+        public static CalendarYear Max(CalendarYear x, CalendarYear y) =>
+            x.CompareTo(y) > 0 ? x : y;
 
         /// <summary>
         /// Indicates whether this instance is earlier, later or the same as the specified one.
@@ -670,7 +670,7 @@ namespace Zorglub.Time.Simple
         /// Subtracts the two specified years and returns the number of years between them.
         /// </summary>
         /// <exception cref="ArgumentException"><paramref name="right"/> belongs to a different
-        /// calendar than <paramref name="right"/>.</exception>
+        /// calendar from that of <paramref name="left"/>.</exception>
         public static int operator -(CalendarYear left, CalendarYear right) =>
             left.CountYearsSince(right);
 
