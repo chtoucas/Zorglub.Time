@@ -147,4 +147,52 @@ namespace Zorglub.Time.Core.Arithmetic
                 : Throw.DateOverflow<Yedoy>();
         }
     }
+
+    internal partial class SolarArithmetic // ICalendricalArithmeticPlus
+    {
+        /// <inheritdoc />
+        [Pure]
+        public sealed override Yemoda AddYears(Yemoda ymd, int years, out int roundoff)
+        {
+            ymd.Unpack(out int y, out int m, out int d);
+
+            y = checked(y + years);
+
+            if (SupportedYears.Contains(y) == false) Throw.DateOverflow();
+
+            int daysInMonth = Schema.CountDaysInMonth(y, m);
+            roundoff = Math.Max(0, d - daysInMonth);
+            // On retourne le dernier jour du mois si d > daysInMonth.
+            return new Yemoda(y, m, roundoff > 0 ? daysInMonth : d);
+        }
+
+        /// <inheritdoc />
+        [Pure]
+        public sealed override Yedoy AddYears(Yedoy ydoy, int years, out int roundoff)
+        {
+            ydoy.Unpack(out int y, out int doy);
+
+            y = checked(y + years);
+
+            if (SupportedYears.Contains(y) == false) Throw.DateOverflow();
+
+            int daysInYear = Schema.CountDaysInYear(y);
+            roundoff = Math.Max(0, doy - daysInYear);
+            return new Yedoy(y, roundoff > 0 ? daysInYear : doy);
+        }
+
+        /// <inheritdoc />
+        [Pure]
+        public sealed override Yemo AddYears(Yemo ym, int years, out int roundoff)
+        {
+            ym.Unpack(out int y, out int m);
+
+            y = checked(y + years);
+
+            if (SupportedYears.Contains(y) == false) Throw.MonthOverflow();
+
+            roundoff = 0;
+            return new Yemo(y, m);
+        }
+    }
 }

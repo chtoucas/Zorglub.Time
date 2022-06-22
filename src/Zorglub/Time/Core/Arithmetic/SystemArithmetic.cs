@@ -212,6 +212,21 @@ namespace Zorglub.Time.Core.Arithmetic
         public abstract int CountMonthsBetween(Yemo start, Yemo end);
     }
 
+    internal partial class SystemArithmetic // ICalendricalArithmeticPlus
+    {
+        /// <inheritdoc/>
+        [Pure] public abstract Yemoda AddYears(Yemoda ymd, int years, out int roundoff);
+
+        /// <inheritdoc/>
+        [Pure] public abstract Yemoda AddMonths(Yemoda ymd, int months, out int roundoff);
+
+        /// <inheritdoc/>
+        [Pure] public abstract Yedoy AddYears(Yedoy ydoy, int years, out int roundoff);
+
+        /// <inheritdoc/>
+        [Pure] public abstract Yemo AddYears(Yemo ym, int years, out int roundoff);
+    }
+
     internal partial class SystemArithmetic // Fast operations
     {
         // AddDaysViaDayOfYear().

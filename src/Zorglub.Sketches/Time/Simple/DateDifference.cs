@@ -8,7 +8,7 @@ namespace Zorglub.Time.Simple
     /// <summary>
     /// Provides helpers to compute the difference between various calendrical types.
     /// </summary>
-    public static class DateDifference
+    public sealed class DateDifference
     {
         /// <summary>
         /// Calculates the exact difference (expressed in years, months and days) between the two

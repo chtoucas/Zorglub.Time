@@ -121,5 +121,26 @@ namespace Zorglub.Time.Core.Arithmetic
 
             return (y1 - y0) * Solar13.MonthsInYear + m1 - m0;
         }
+
+        //
+        // ICalendricalArithmeticPlus
+        //
+
+        /// <inheritdoc />
+        [Pure]
+        public override Yemoda AddMonths(Yemoda ymd, int months, out int roundoff)
+        {
+            ymd.Unpack(out int y, out int m, out int d);
+
+            // On retranche 1 à "m" pour le rendre algébrique.
+            m = 1 + MathZ.Modulo(checked(m - 1 + months), Solar13.MonthsInYear, out int y0);
+            y += y0;
+
+            if (SupportedYears.Contains(y) == false) Throw.DateOverflow();
+
+            int daysInMonth = Schema.CountDaysInMonth(y, m);
+            roundoff = Math.Max(0, d - daysInMonth);
+            return new Yemoda(y, m, roundoff > 0 ? daysInMonth : d);
+        }
     }
 }

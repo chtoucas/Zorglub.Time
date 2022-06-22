@@ -7,6 +7,7 @@ using Zorglub.Testing.Data;
 using Zorglub.Time.Core.Arithmetic;
 
 // TODO(fact): CalendricalMath.
+#if false
 
 /// <summary>
 /// Provides facts about <see cref="CalendricalMath"/>.
@@ -70,3 +71,5 @@ public partial class CalendricalMathFacts<TSchema, TDataSet>
     //    Assert.Equal(years, actual);
     //}
 }
+
+#endif
