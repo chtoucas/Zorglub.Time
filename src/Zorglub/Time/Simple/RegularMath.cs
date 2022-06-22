@@ -19,8 +19,7 @@ namespace Zorglub.Time.Simple
         private readonly int _monthsInYear;
 
         /// <summary>
-        /// Called from constructors in derived classes to initialize the
-        /// <see cref="RegularMath"/> class.
+        /// Initializes a new instance of the <see cref="RegularMath"/> class.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="calendar"/> is null.</exception>
         /// <exception cref="ArgumentException"><paramref name="calendar"/> is not regular.

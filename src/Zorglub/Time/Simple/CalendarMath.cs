@@ -8,6 +8,8 @@ namespace Zorglub.Time.Simple
     // FIXME(code): Impl PlainMath. Improve impl.
     // Do we need stricter validation? or is YearOverflowChecker enough?
     // Can we avoid multiple overflow checks.
+    // CountYearsBetween() overflow? Avec des années complètes, je ne pense pas.
+    // Idem avec CountMonthsBetween(), etc.
     //
     // To be done:
     // * Lunisolar arithmetic tests
@@ -24,6 +26,32 @@ namespace Zorglub.Time.Simple
     // engine for which the operations always give the same result for dates and
     // ordinal dates? and how could this be done? Hum no, use conversion from
     // date to ordinal repr.
+    //
+    // Années complètes : on doit juste vérifier l'année.
+    // Par contrat, à partir du moment où l'année est dans la plage
+    // d'années supportée par un schéma, on sait que les méthodes ne
+    // provoqueront pas de débordements arithmétiques.
+    // Si les années n'étaient pas complètes, il faudrait prendre en
+    // compte le cas des années limites (Min/MaxYear).
+
+    // Un "calculateur" ne dépend que du "schéma" calendaire et du champs
+    // d'application du calendrier.
+    //
+    // Pour des raisons techniques, la dépendance vis-à-vis du schéma n'est pas
+    // visible ici ; voir p.ex. CustomCalculator. On aurait pu tout de même
+    // rendre celle-ci explicite, mais comme ce n'est pas nécessaire, on s'en
+    // passe très bien.
+    //
+    // Quant au champs d'application, celui étant fixe dans le cas présent
+    // (calendriers proleptiques), on constate qu'on peut se contenter de
+    // vérifier le champs année, ie on peut très bien se passer du "scope".
+    //
+    // Les méthods AddDays() et CountDaysBetween() ne sont pas incluses ici
+    // mais dans Calendar. La raison en est qu'elles sont déjà largement
+    // optimisées et qu'elles ne souffrent d'aucun choix arbitraire,
+    // contrairement à AddMonths() p.ex. Notons aussi que AddDays() a besoin de
+    // connaître Min/MaxDayNumber c-à-d le "scope" sous-jacent ; encore une
+    // bonne raison de ne pas inclure cette méthode ici.
 
     // Only handle calendrical objects related to the Calendar system; for other
     // systems, see CalendricalMath.
@@ -84,25 +112,19 @@ namespace Zorglub.Time.Simple
         /// </summary>
         internal Cuid Cuid { get; }
 
-        // TODO(code): use PlainMath.
-        ///// <summary>
-        ///// Creates an instance of the <see cref="CalendarMath"/> class for the specified calendar
-        ///// and addition rules .
-        ///// </summary>
-        ///// <exception cref="ArgumentNullException"><paramref name="calendar"/> is null.</exception>
-        //[Pure]
-        //public static CalendarMath Create(Calendar calendar, AdditionRules additionRules)
-        //{
-        //    Requires.NotNull(calendar);
+        /// <summary>
+        /// Creates an instance of the <see cref="CalendarMath"/> class for the specified calendar
+        /// and addition rules.
+        /// </summary>
+        /// <exception cref="ArgumentNullException"><paramref name="calendar"/> is null.</exception>
+        [Pure]
+        public static CalendarMath Create(Calendar calendar, AdditionRuleset additionRuleset)
+        {
+            Requires.NotNull(calendar);
 
-        //    // This method could be public, but it would feel odd, indeed this
-        //    // class has only two public method/prop: Calendar & AdditionRules.
-
-        //    //return additionRules == default
-        //    //    ? calendar.IsRegular(out _) ? new RegularMath(calendar) : new PlainMath(calendar)
-        //    //    : new PowerMath(calendar, additionRules);
-        //    return calendar.IsRegular(out _) ? new RegularMath(calendar) : new PlainMath(calendar);
-        //}
+            return additionRuleset == default ? CreateDefault(calendar)
+                : new PowerMath(calendar, additionRuleset);
+        }
 
         /// <summary>
         /// Creates an instance of the <see cref="CalendarMath"/> class using the default addition
@@ -113,9 +135,6 @@ namespace Zorglub.Time.Simple
         internal static CalendarMath CreateDefault(Calendar calendar)
         {
             Requires.NotNull(calendar);
-
-            // This method could be public, but it would feel odd, indeed this
-            // class has only two public method/prop: Calendar & AdditionRules.
 
             return calendar.IsRegular(out _) ? new RegularMath(calendar) : new PlainMath(calendar);
         }
