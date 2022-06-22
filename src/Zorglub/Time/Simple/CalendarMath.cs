@@ -166,11 +166,11 @@ namespace Zorglub.Time.Simple
         /// <exception cref="ArgumentException">One of the paramaters does not belong to the
         /// underlying calendar.</exception>
         [Pure]
-        public int CountYearsBetween(CalendarDate start, CalendarDate end)
+        public int CountYearsBetween(CalendarDate start, CalendarDate end, out CalendarDate newStart)
         {
             ValidateCuid(start.Cuid, nameof(start));
             ValidateCuid(end.Cuid, nameof(end));
-            return CountYearsBetweenCore(start, end);
+            return CountYearsBetweenCore(start, end, out newStart);
         }
 
         /// <summary>
@@ -179,11 +179,11 @@ namespace Zorglub.Time.Simple
         /// <exception cref="ArgumentException">One of the paramaters does not belong to the
         /// underlying calendar.</exception>
         [Pure]
-        public int CountMonthsBetween(CalendarDate start, CalendarDate end)
+        public int CountMonthsBetween(CalendarDate start, CalendarDate end, out CalendarDate newStart)
         {
             ValidateCuid(start.Cuid, nameof(start));
             ValidateCuid(end.Cuid, nameof(end));
-            return CountMonthsBetweenCore(start, end);
+            return CountMonthsBetweenCore(start, end, out newStart);
         }
 
         /// <summary>
@@ -211,21 +211,30 @@ namespace Zorglub.Time.Simple
         /// <para>This method does NOT validate its parameters.</para>
         /// </summary>
         [Pure]
-        protected internal int CountYearsBetweenCore(CalendarDate start, CalendarDate end)
+        protected internal int CountYearsBetweenCore(
+            CalendarDate start, CalendarDate end, out CalendarDate newStart)
         {
             Debug.Assert(start.Cuid == Cuid);
             Debug.Assert(end.Cuid == Cuid);
 
             int years = end.Year - start.Year;
-            CalendarDate newStart = AddYearsCore(start, years);
+            newStart = AddYearsCore(start, years);
 
             if (start.CompareFast(end) < 0)
             {
-                if (newStart.CompareFast(end) > 0) { years--; }
+                if (newStart.CompareFast(end) > 0)
+                {
+                    years--;
+                    newStart = AddYearsCore(start, years);
+                }
             }
             else
             {
-                if (newStart.CompareFast(end) < 0) { years++; }
+                if (newStart.CompareFast(end) < 0)
+                {
+                    years++;
+                    newStart = AddYearsCore(start, years);
+                }
             }
 
             return years;
@@ -236,21 +245,30 @@ namespace Zorglub.Time.Simple
         /// <para>This method does NOT validate its parameters.</para>
         /// </summary>
         [Pure]
-        protected internal int CountMonthsBetweenCore(CalendarDate start, CalendarDate end)
+        protected internal int CountMonthsBetweenCore(
+            CalendarDate start, CalendarDate end, out CalendarDate newStart)
         {
             Debug.Assert(start.Cuid == Cuid);
             Debug.Assert(end.Cuid == Cuid);
 
             int months = Schema.Arithmetic.CountMonthsBetween(start.Parts.Yemo, end.Parts.Yemo);
-            var newStart = AddMonthsCore(start, months);
+            newStart = AddMonthsCore(start, months);
 
             if (start.CompareFast(end) < 0)
             {
-                if (newStart.CompareFast(end) > 0) { months--; }
+                if (newStart.CompareFast(end) > 0)
+                {
+                    months--;
+                    newStart = AddMonthsCore(start, months);
+                }
             }
             else
             {
-                if (newStart.CompareFast(end) < 0) { months++; }
+                if (newStart.CompareFast(end) < 0)
+                {
+                    months++;
+                    newStart = AddMonthsCore(start, months);
+                }
             }
 
             return months;
@@ -279,11 +297,11 @@ namespace Zorglub.Time.Simple
         /// <exception cref="ArgumentException">One of the paramaters does not belong to the
         /// underlying calendar.</exception>
         [Pure]
-        public int CountYearsBetween(OrdinalDate start, OrdinalDate end)
+        public int CountYearsBetween(OrdinalDate start, OrdinalDate end, out OrdinalDate newStart)
         {
             ValidateCuid(start.Cuid, nameof(start));
             ValidateCuid(end.Cuid, nameof(end));
-            return CountYearsBetweenCore(start, end);
+            return CountYearsBetweenCore(start, end, out newStart);
         }
 
         /// <summary>
@@ -301,21 +319,30 @@ namespace Zorglub.Time.Simple
         /// <para>This method does NOT validate its parameters.</para>
         /// </summary>
         [Pure]
-        protected internal int CountYearsBetweenCore(OrdinalDate start, OrdinalDate end)
+        protected internal int CountYearsBetweenCore(
+            OrdinalDate start, OrdinalDate end, out OrdinalDate newStart)
         {
             Debug.Assert(start.Cuid == Cuid);
             Debug.Assert(end.Cuid == Cuid);
 
             int years = end.Year - start.Year;
-            OrdinalDate newStart = AddYearsCore(start, years);
+            newStart = AddYearsCore(start, years);
 
             if (start.CompareFast(end) < 0)
             {
-                if (newStart.CompareFast(end) > 0) { years--; }
+                if (newStart.CompareFast(end) > 0)
+                {
+                    years--;
+                    newStart = AddYearsCore(start, years);
+                }
             }
             else
             {
-                if (newStart.CompareFast(end) < 0) { years++; }
+                if (newStart.CompareFast(end) < 0)
+                {
+                    years++;
+                    newStart = AddYearsCore(start, years);
+                }
             }
 
             return years;
@@ -344,11 +371,12 @@ namespace Zorglub.Time.Simple
         /// <exception cref="ArgumentException">One of the paramaters does not belong to the
         /// underlying calendar.</exception>
         [Pure]
-        public int CountYearsBetween(CalendarMonth start, CalendarMonth end)
+        public int CountYearsBetween(
+            CalendarMonth start, CalendarMonth end, out CalendarMonth newStart)
         {
             ValidateCuid(start.Cuid, nameof(start));
             ValidateCuid(end.Cuid, nameof(end));
-            return CountYearsBetweenCore(start, end);
+            return CountYearsBetweenCore(start, end, out newStart);
         }
 
         /// <summary>
@@ -365,21 +393,30 @@ namespace Zorglub.Time.Simple
         /// <para>This method does NOT validate its parameters.</para>
         /// </summary>
         [Pure]
-        protected internal int CountYearsBetweenCore(CalendarMonth start, CalendarMonth end)
+        protected internal int CountYearsBetweenCore(
+            CalendarMonth start, CalendarMonth end, out CalendarMonth newStart)
         {
             Debug.Assert(start.Cuid == Cuid);
             Debug.Assert(end.Cuid == Cuid);
 
             int years = end.Year - start.Year;
-            CalendarMonth newStart = AddYearsCore(start, years);
+            newStart = AddYearsCore(start, years);
 
             if (start.CompareFast(end) < 0)
             {
-                if (newStart.CompareFast(end) > 0) { years--; }
+                if (newStart.CompareFast(end) > 0)
+                {
+                    years--;
+                    newStart = AddYearsCore(start, years);
+                }
             }
             else
             {
-                if (newStart.CompareFast(end) < 0) { years++; }
+                if (newStart.CompareFast(end) < 0)
+                {
+                    years++;
+                    newStart = AddYearsCore(start, years);
+                }
             }
 
             return years;

@@ -663,7 +663,7 @@ namespace Zorglub.Time.Simple
             if (other.Cuid != Cuid) Throw.BadCuid(nameof(other), Cuid, other.Cuid);
 
             ref readonly var chr = ref CalendarRef;
-            return chr.Math.CountYearsBetweenCore(other, this);
+            return chr.Math.CountYearsBetweenCore(other, this, out _);
         }
 
         /// <summary>

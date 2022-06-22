@@ -1,8 +1,6 @@
 ﻿// SPDX-License-Identifier: BSD-3-Clause
 // Copyright (c) 2020 Narvalo.Org. All rights reserved.
 
-#if false
-
 namespace Zorglub.Time.Simple
 {
     /// <summary>
@@ -21,32 +19,30 @@ namespace Zorglub.Time.Simple
         {
             ValidateCuid(start.Cuid, end.Cuid);
 
-            return start.Calendar.Math.Subtract(start, end);
+            var math = start.Calendar.Math;
+
+            // Le résultat final est exact car on effectue les calculs de proche en proche.
+
+            int years = math.CountYearsBetweenCore(end, start, out CalendarDate newStart1);
+            int months = math.CountMonthsBetweenCore(end, newStart1, out CalendarDate newStart2);
+            int days = start - newStart2;
+
+            return (years, months, days);
         }
 
         /// <summary>
         /// Counts the number of years between the two specified dates.
         /// </summary>
         [Pure]
-        public static int InYears(CalendarDate start, CalendarDate end, out CalendarDate newStart)
-        {
-            ValidateCuid(start.Cuid, end.Cuid);
-
-            int years = start.Calendar.Math.CountYearsBetween(start, end, out newStart);
-            return years;
-        }
+        public static int InYears(CalendarDate start, CalendarDate end, out CalendarDate newStart) =>
+            start.Calendar.Math.CountYearsBetween(start, end, out newStart);
 
         /// <summary>
         /// Counts the number of months between the two specified dates.
         /// </summary>
         [Pure]
-        public static int InMonths(CalendarDate start, CalendarDate end, out CalendarDate newStart)
-        {
-            ValidateCuid(start.Cuid, end.Cuid);
-
-            int months = start.Calendar.Math.CountMonthsBetween(start, end, out newStart);
-            return months;
-        }
+        public static int InMonths(CalendarDate start, CalendarDate end, out CalendarDate newStart) =>
+            start.Calendar.Math.CountMonthsBetween(start, end, out newStart);
 
         /// <summary>
         /// Counts the number of days between the two specified dates.
@@ -67,12 +63,8 @@ namespace Zorglub.Time.Simple
         // Fonctionne parce que CountYearsBetween() ne tient pas compte des
         // champs Month et Day.
         [Pure]
-        public static int InYears(CalendarMonth start, CalendarMonth end)
-        {
-            ValidateCuid(start.Cuid, end.Cuid);
-
-            return start.Calendar.Math.CountYearsBetween(start, end);
-        }
+        public static int InYears(CalendarMonth start, CalendarMonth end, out CalendarMonth newStart) =>
+            start.Calendar.Math.CountYearsBetween(start, end, out newStart);
 
         /// <summary>
         /// Counts the number of months between the two specified calendar months.
@@ -98,5 +90,3 @@ namespace Zorglub.Time.Simple
         }
     }
 }
-
-#endif
