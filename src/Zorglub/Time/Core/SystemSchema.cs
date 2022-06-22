@@ -128,8 +128,6 @@ namespace Zorglub.Time.Core
     //   Arithmetic
     // * Profile
     //   IsRegular()
-    // * GetPreValidatorCore()
-    // * GetArithmeticCore()
     public partial class SystemSchema // Misc
     {
         /// <inheritdoc />

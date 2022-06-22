@@ -135,7 +135,15 @@ namespace Zorglub.Time.Core
 
         private ICalendricalPreValidator? _validator;
         /// <inheritdoc />
-        public ICalendricalPreValidator PreValidator => _validator ??= GetPreValidatorCore();
+        public ICalendricalPreValidator PreValidator
+        {
+            get => _validator ??= ICalendricalPreValidator.CreateDefault(this);
+            protected init
+            {
+                Requires.NotNull(value);
+                _validator = value;
+            }
+        }
 
         ICalendricalArithmetic ICalendricalSchema.Arithmetic => Arithmetic;
 
@@ -143,7 +151,15 @@ namespace Zorglub.Time.Core
         /// <summary>
         /// Gets the arithmetic for this schema.
         /// </summary>
-        public ICalendricalArithmeticPlus Arithmetic => _arithmetic ??= GetArithmeticCore();
+        public ICalendricalArithmeticPlus Arithmetic
+        {
+            get => _arithmetic ??= ICalendricalArithmeticPlus.CreateDefault(this);
+            protected init
+            {
+                Requires.NotNull(value);
+                _arithmetic = value;
+            }
+        }
 
         private CalendricalProfile? _profile;
         /// <summary>
@@ -154,32 +170,6 @@ namespace Zorglub.Time.Core
         /// <inheritdoc />
         [Pure]
         public abstract bool IsRegular(out int monthsInYear);
-
-        /// <summary>
-        /// Obtains the default <see cref="ICalendricalPreValidator"/> for this schema.
-        /// </summary>
-        [Pure]
-        protected virtual ICalendricalPreValidator GetPreValidatorCore() =>
-            Profile switch
-            {
-                CalendricalProfile.Solar12 =>
-                    this is GregorianSchema ? GregorianPreValidator.Instance
-                    : this is JulianSchema ? JulianPreValidator.Instance
-                    : new Solar12PreValidator(this),
-                CalendricalProfile.Solar13 => new Solar13PreValidator(this),
-                CalendricalProfile.Lunar => new LunarPreValidator(this),
-                CalendricalProfile.Lunisolar => new LunisolarPreValidator(this),
-                _ => new PlainPreValidator(this)
-            };
-
-        /// <summary>
-        /// Obtains the default <see cref="ICalendricalArithmetic"/> for this schema.
-        /// </summary>
-        /// <exception cref="ArgumentException">The range of supported years by the schema and
-        /// <see cref="Yemoda"/> are disjoint.
-        /// </exception>
-        [Pure]
-        protected virtual ICalendricalArithmeticPlus GetArithmeticCore() => SystemArithmetic.Create(this);
 
         [Pure]
         private CalendricalProfile FindProfile()

@@ -3,6 +3,9 @@
 
 namespace Zorglub.Time.Core
 {
+    using Zorglub.Time.Core.Schemas;
+    using Zorglub.Time.Core.Validation;
+
     #region Developer Notes
 
     // Types Implementing ICalendricalPreValidator
@@ -59,5 +62,27 @@ namespace Zorglub.Time.Core
         /// <see cref="Int32"/>.</exception>
         /// <exception cref="AoorException">The validation failed.</exception>
         void ValidateDayOfYear(int y, int dayOfYear, string? paramName = null);
+
+        /// <summary>
+        /// Creates the default <see cref="ICalendricalPreValidator"/> for the specified schema.
+        /// </summary>
+        /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
+        [Pure]
+        public static ICalendricalPreValidator CreateDefault(CalendricalSchema schema)
+        {
+            Requires.NotNull(schema);
+
+            return schema.Profile switch
+            {
+                CalendricalProfile.Solar12 =>
+                    schema is GregorianSchema ? GregorianPreValidator.Instance
+                    : schema is JulianSchema ? JulianPreValidator.Instance
+                    : new Solar12PreValidator(schema),
+                CalendricalProfile.Solar13 => new Solar13PreValidator(schema),
+                CalendricalProfile.Lunar => new LunarPreValidator(schema),
+                CalendricalProfile.Lunisolar => new LunisolarPreValidator(schema),
+                _ => new PlainPreValidator(schema)
+            };
+        }
     }
 }

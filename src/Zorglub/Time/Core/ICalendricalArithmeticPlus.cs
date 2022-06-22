@@ -3,6 +3,9 @@
 
 namespace Zorglub.Time.Core
 {
+    using Zorglub.Time.Core.Arithmetic;
+    using Zorglub.Time.Core.Schemas;
+
     // TODO(api): add non-standard ops.
     // Later on, merge with ICalendricalArithmetic?
 
@@ -11,5 +14,12 @@ namespace Zorglub.Time.Core
     /// </summary>
     public interface ICalendricalArithmeticPlus : ICalendricalArithmetic
     {
+        /// <summary>
+        /// Creates the default <see cref="ICalendricalArithmeticPlus"/> for the specified schema.
+        /// </summary>
+        /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
+        [Pure]
+        public static ICalendricalArithmeticPlus CreateDefault(CalendricalSchema schema) =>
+            SystemArithmetic.Create(schema);
     }
 }
