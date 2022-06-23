@@ -171,6 +171,20 @@ namespace Zorglub.Time.Core
             return new Yemo(Pack(year, month));
         }
 
+        /// <summary>
+        /// Creates a new instance of <see cref="Yemo"/> representing the first month of the
+        /// specified year.
+        /// <para>This method does NOT validate its parameter.</para>
+        /// </summary>
+        [Pure]
+        internal static Yemo AtStartOfYear(int y)
+        {
+            Debug.Assert(MinYear <= y);
+            Debug.Assert(y <= MaxYear);
+
+            return new Yemo(unchecked(y << Yemoda.YearShift));
+        }
+
         // We don't call this method GetDayOfMonth() to stress that it might not
         // be a valid day of the month.
 

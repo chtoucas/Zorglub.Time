@@ -55,7 +55,7 @@ namespace Zorglub.Time.Core
     public interface ICalendricalArithmetic
     {
         /// <summary>
-        /// Gets the calendrical segment.
+        /// Gets the calendrical segment of days.
         /// </summary>
         CalendricalSegment Segment { get; }
 

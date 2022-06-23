@@ -4,8 +4,7 @@
 namespace Zorglub.Time.Core
 {
     using Zorglub.Time.Core.Arithmetic;
-
-    // TODO(api): merge with ICalendricalArithmetic?
+    using Zorglub.Time.Core.Intervals;
 
     /// <summary>
     /// Defines the arithmetical operations on calendrical types.
@@ -67,5 +66,15 @@ namespace Zorglub.Time.Core
         [Pure]
         public static ICalendricalArithmeticPlus CreateDefault(CalendricalSchema schema) =>
             SystemArithmetic.Create(schema);
+
+        /// <summary>
+        /// Creates the default <see cref="ICalendricalArithmeticPlus"/> for the specified schema
+        /// and range of supported years.
+        /// </summary>
+        /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
+        [Pure]
+        public static ICalendricalArithmeticPlus CreateDefault(
+            CalendricalSchema schema, Range<int> supportedYears) =>
+            SystemArithmetic.Create(schema, supportedYears);
     }
 }

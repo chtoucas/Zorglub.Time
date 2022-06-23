@@ -228,6 +228,30 @@ namespace Zorglub.Time.Core.Arithmetic
             return new Yemo(y, m);
         }
 
+        ///// <inheritdoc />
+        //[Pure]
+        //public override Yemo NextMonth(Yemo ym)
+        //{
+        //    ym.Unpack(out int y, out int m);
+
+        //    return
+        //        m < MonthsInYear ? new Yemo(y, m + 1)
+        //        : y < MaxYear ? Yemo.AtStartOfYear(y + 1)
+        //        : Throw.DateOverflow<Yemo>();
+        //}
+
+        ///// <inheritdoc />
+        //[Pure]
+        //public override Yemo PreviousMonth(Yemo ym)
+        //{
+        //    ym.Unpack(out int y, out int m);
+
+        //    return
+        //        m > 1 ? new Yemo(y, m - 1)
+        //        : y > MinYear ? new Yemo(y - 1, 12)
+        //        : Throw.DateOverflow<Yemo>();
+        //}
+
         /// <inheritdoc />
         [Pure]
         public override int CountMonthsBetween(Yemo start, Yemo end)

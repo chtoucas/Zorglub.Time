@@ -10,7 +10,6 @@ namespace Zorglub.Time.Simple
     // Idem avec CountMonthsBetween(), etc.
     //
     // To be done:
-    // * Segment, add prop IsComplete
     // * Lunisolar arithmetic tests
     // * Schemas: partial impl for archetypal, Pax and Hebrew schemas
     //
