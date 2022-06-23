@@ -13,12 +13,6 @@ namespace Zorglub.Time.Simple
     internal sealed class RegularMath : CalendarMath
     {
         /// <summary>
-        /// Represents the total number of months in a year.
-        /// <para>This field is read-only.</para>
-        /// </summary>
-        private readonly int _monthsInYear;
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="RegularMath"/> class.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="calendar"/> is null.</exception>
@@ -35,9 +29,7 @@ namespace Zorglub.Time.Simple
                   default)
         {
             Debug.Assert(calendar != null);
-            if (calendar.IsRegular(out int monthsInYear) == false) Throw.Argument(nameof(calendar));
-
-            _monthsInYear = monthsInYear;
+            if (calendar.IsRegular(out _) == false) Throw.Argument(nameof(calendar));
         }
 
         /// <inheritdoc />
@@ -62,18 +54,10 @@ namespace Zorglub.Time.Simple
         {
             Debug.Assert(date.Cuid == Cuid);
 
-            // TODO(code): no longer necessary.
-            // We could have used Arithmetic.AddMonths() as in PlainMath,
-            // but here we avoid the double (overflow) validation by copying its
-            // code.
-            date.Parts.Unpack(out int y, out int m, out int d);
-            m = 1 + MathZ.Modulo(checked(m - 1 + months), _monthsInYear, out int y0);
-            y += y0;
-
-            YearOverflowChecker.Check(y);
+            var (y, m) = Arithmetic.AddMonths(date.Parts.Yemo, months);
 
             // NB: AdditionRule.Truncate.
-            d = Math.Min(d, Schema.CountDaysInMonth(y, m));
+            int d = Math.Min(date.Day, Schema.CountDaysInMonth(y, m));
             return new CalendarDate(new Yemoda(y, m, d), Cuid);
         }
 
