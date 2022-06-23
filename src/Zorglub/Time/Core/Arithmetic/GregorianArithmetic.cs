@@ -22,25 +22,11 @@ namespace Zorglub.Time.Core.Arithmetic
         private const int MaxDaysViaDayOfMonth_ = MinDaysInMonth;
 
         /// <summary>
-        /// Represents the earliest supported year.
-        /// <para>This field is a constant equal to -999_998.</para>
-        /// </summary>
-        private const int MinSupportedYear = GregorianSchema.MinYear;
-
-        /// <summary>
-        /// Represents the latest supported year.
-        /// <para>This field is a constant equal to 999_999.</para>
-        /// </summary>
-        private const int MaxSupportedYear = GregorianSchema.MaxYear;
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="GregorianArithmetic"/> class.
         /// </summary>
         public GregorianArithmetic(Range<int>? supportedYears = null)
             : base(new GregorianSchema(), supportedYears)
         {
-            Debug.Assert(MinYear == MinSupportedYear);
-            Debug.Assert(MaxYear == MaxSupportedYear);
             Debug.Assert(MaxDaysViaDayOfMonth_ >= MinMinDaysInMonth);
 
             MaxDaysViaDayOfYear = MaxDaysViaDayOfYear_;
@@ -89,7 +75,7 @@ namespace Zorglub.Time.Core.Arithmetic
             {
                 if (m == 1)
                 {
-                    if (y == MinSupportedYear) Throw.DateOverflow();
+                    if (y == MinYear) Throw.DateOverflow();
                     y--;
                     m = MonthsInYear;
                     dom += 31;
@@ -108,7 +94,7 @@ namespace Zorglub.Time.Core.Arithmetic
                     dom -= daysInMonth;
                     if (m == MonthsInYear)
                     {
-                        if (y == MaxSupportedYear) Throw.DateOverflow();
+                        if (y == MaxYear) Throw.DateOverflow();
                         y++;
                         m = 1;
                     }
@@ -132,7 +118,7 @@ namespace Zorglub.Time.Core.Arithmetic
                 d < MinDaysInMonth || d < GregorianFormulae.CountDaysInMonth(y, m)
                     ? new Yemoda(y, m, d + 1)
                 : m < MonthsInYear ? Yemoda.AtStartOfMonth(y, m + 1)
-                : y < MaxSupportedYear ? Yemoda.AtStartOfYear(y + 1)
+                : y < MaxYear ? Yemoda.AtStartOfYear(y + 1)
                 : Throw.DateOverflow<Yemoda>();
         }
 
@@ -145,7 +131,7 @@ namespace Zorglub.Time.Core.Arithmetic
             return
                 d > 1 ? new Yemoda(y, m, d - 1)
                 : m > 1 ? PartsFactory.GetEndOfMonthParts(y, m - 1)
-                : y > MinSupportedYear ? PartsFactory.GetEndOfYearParts(y - 1)
+                : y > MinYear ? PartsFactory.GetEndOfYearParts(y - 1)
                 : Throw.DateOverflow<Yemoda>();
         }
     }
@@ -183,7 +169,7 @@ namespace Zorglub.Time.Core.Arithmetic
             doy += days;
             if (doy < 1)
             {
-                if (y == MinSupportedYear) Throw.DateOverflow();
+                if (y == MinYear) Throw.DateOverflow();
                 y--;
                 doy += GregorianFormulae.CountDaysInYear(y);
             }
@@ -192,7 +178,7 @@ namespace Zorglub.Time.Core.Arithmetic
                 int daysInYear = GregorianFormulae.CountDaysInYear(y);
                 if (doy > daysInYear)
                 {
-                    if (y == MaxSupportedYear) Throw.DateOverflow();
+                    if (y == MaxYear) Throw.DateOverflow();
                     y++;
                     doy -= daysInYear;
                 }
@@ -210,7 +196,7 @@ namespace Zorglub.Time.Core.Arithmetic
             return
                 doy < MinDaysInYear || doy < GregorianFormulae.CountDaysInYear(y)
                     ? new Yedoy(y, doy + 1)
-                : y < MaxSupportedYear ? Yedoy.AtStartOfYear(y + 1)
+                : y < MaxYear ? Yedoy.AtStartOfYear(y + 1)
                 : Throw.DateOverflow<Yedoy>();
         }
 
@@ -221,7 +207,7 @@ namespace Zorglub.Time.Core.Arithmetic
             ydoy.Unpack(out int y, out int doy);
 
             return doy > 1 ? new Yedoy(y, doy - 1)
-                : y > MinSupportedYear ? PartsFactory.GetEndOfYearOrdinalParts(y - 1)
+                : y > MinYear ? PartsFactory.GetEndOfYearOrdinalParts(y - 1)
                 : Throw.DateOverflow<Yedoy>();
         }
     }
