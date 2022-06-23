@@ -49,7 +49,7 @@ namespace Zorglub.Time.Core.Arithmetic
             PartsFactory = ICalendricalPartsFactory.Create(schema, @checked: false);
 
             Segment = supportedYears is null ? CalendricalSegment.CreateMaximal(schema)
-                : CalendricalSegment.Create(schema, schema.SupportedYears);
+                : CalendricalSegment.Create(schema, supportedYears.Value);
 
             (MinYear, MaxYear) = Segment.SupportedYears.Endpoints;
 
