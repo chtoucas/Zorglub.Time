@@ -4,7 +4,6 @@
 namespace Zorglub.Time.Simple
 {
     using Zorglub.Time.Core;
-    using Zorglub.Time.Core.Arithmetic;
 
     // TODO(code): use a custom exn when using the rule AdditionRule.Throw.
 

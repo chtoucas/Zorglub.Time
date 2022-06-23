@@ -3,8 +3,6 @@
 
 namespace Zorglub.Time.Core
 {
-    using Zorglub.Time.Core.Intervals;
-
     #region Developer Notes
 
     // Types Implementing ICalendricalArithmetic
