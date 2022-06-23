@@ -43,8 +43,10 @@ namespace Zorglub.Time.Simple
         {
             Debug.Assert(date.Cuid == Cuid);
 
-            var (y, m) = Schema.Arithmetic.AddMonths(date.Parts.Yemo, months);
+            var (y, m) = Arithmetic.AddMonths(date.Parts.Yemo, months);
 
+            // FIXME(code): Unnecessary here because Arithmetic use the same range of years.
+            // Idem with PowerMath.
             YearOverflowChecker.Check(y);
 
             // NB: AdditionRule.Truncate.

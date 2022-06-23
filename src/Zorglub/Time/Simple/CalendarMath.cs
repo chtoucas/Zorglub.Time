@@ -12,6 +12,7 @@ namespace Zorglub.Time.Simple
     // Idem avec CountMonthsBetween(), etc.
     //
     // To be done:
+    // * we should be able to remove YearOverflowChecker in Simple objects.
     // * Lunisolar arithmetic tests
     // * CIL code size
     // * Schemas: partial impl for archetypal, Pax and Hebrew schemas
@@ -106,6 +107,11 @@ namespace Zorglub.Time.Simple
         /// Gets the calendrical schema.
         /// </summary>
         protected SystemSchema Schema { get; }
+
+        /// <summary>
+        /// Gets the calendrical schema.
+        /// </summary>
+        protected ICalendricalArithmeticPlus Arithmetic => Calendar.Arithmetic;
 
         /// <summary>
         /// Gets the ID of the underlying calendar.

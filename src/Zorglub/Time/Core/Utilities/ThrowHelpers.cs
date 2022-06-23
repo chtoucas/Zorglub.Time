@@ -367,6 +367,11 @@ namespace Zorglub.Time.Core.Utilities
         [DoesNotReturn]
         public static void MonthOverflow() => throw GetMonthOverflowExn();
 
+        /// <summary>The operation would overflow the range of supported months.</summary>
+        /// <exception cref="OverflowException"/>
+        [DoesNotReturn, Pure]
+        public static T MonthOverflow<T>() => throw GetMonthOverflowExn();
+
         /// <summary>The operation would overflow the range of supported dates.</summary>
         /// <exception cref="OverflowException"/>
         [DoesNotReturn]

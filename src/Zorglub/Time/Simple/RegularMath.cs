@@ -62,7 +62,8 @@ namespace Zorglub.Time.Simple
         {
             Debug.Assert(date.Cuid == Cuid);
 
-            // We could have used Schema.Arithmetic.AddMonths() as in PlainMath,
+            // TODO(code): no longer necessary.
+            // We could have used Arithmetic.AddMonths() as in PlainMath,
             // but here we avoid the double (overflow) validation by copying its
             // code.
             date.Parts.Unpack(out int y, out int m, out int d);

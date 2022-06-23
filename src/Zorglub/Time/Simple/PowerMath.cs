@@ -6,25 +6,16 @@ namespace Zorglub.Time.Simple
     using Zorglub.Time.Core;
     using Zorglub.Time.Core.Arithmetic;
 
+    // TODO(code): use a custom exn when using the rule AdditionRule.Throw.
+
     public sealed class PowerMath : CalendarMath
     {
-        /// <summary>
-        /// Represents the arithmetic.
-        /// <para>This field is read-only.</para>
-        /// </summary>
-        private readonly ICalendricalArithmeticPlus _arithmetic;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="PowerMath"/> class.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="calendar"/> is null.</exception>
         public PowerMath(Calendar calendar, AdditionRuleset additionRuleset)
-            : base(calendar, additionRuleset)
-        {
-            Debug.Assert(calendar != null);
-
-            _arithmetic = calendar.Arithmetic;
-        }
+            : base(calendar, additionRuleset) { }
 
         /// <inheritdoc/>
         [Pure]
@@ -32,10 +23,11 @@ namespace Zorglub.Time.Simple
         {
             Debug.Assert(date.Cuid == Cuid);
 
-            var ymd = _arithmetic.AddYears(date.Parts, years, out int roundoff);
+            var ymd = Arithmetic.AddYears(date.Parts, years, out int roundoff);
             if (roundoff > 0) { ymd = Adjust(ymd, roundoff); }
 
-            YearOverflowChecker.Check(ymd.Year);
+            // Unnecessary here because Arithmetic use the same range of years.
+            //YearOverflowChecker.Check(ymd.Year);
 
             return new CalendarDate(ymd, Cuid);
         }
@@ -46,10 +38,11 @@ namespace Zorglub.Time.Simple
         {
             Debug.Assert(date.Cuid == Cuid);
 
-            var ymd = _arithmetic.AddMonths(date.Parts, months, out int roundoff);
+            var ymd = Arithmetic.AddMonths(date.Parts, months, out int roundoff);
             if (roundoff > 0) { ymd = Adjust(ymd, roundoff); }
 
-            YearOverflowChecker.Check(ymd.Year);
+            // Unnecessary here because Arithmetic use the same range of years.
+            //YearOverflowChecker.Check(ymd.Year);
 
             return new CalendarDate(ymd, Cuid);
         }
@@ -60,10 +53,11 @@ namespace Zorglub.Time.Simple
         {
             Debug.Assert(date.Cuid == Cuid);
 
-            var ydoy = _arithmetic.AddYears(date.Parts, years, out int roundoff);
+            var ydoy = Arithmetic.AddYears(date.Parts, years, out int roundoff);
             if (roundoff > 0) { ydoy = Adjust(ydoy, roundoff); }
 
-            YearOverflowChecker.Check(ydoy.Year);
+            // Unnecessary here because Arithmetic use the same range of years.
+            //YearOverflowChecker.Check(ydoy.Year);
 
             return new OrdinalDate(ydoy, Cuid);
         }
@@ -74,10 +68,11 @@ namespace Zorglub.Time.Simple
         {
             Debug.Assert(month.Cuid == Cuid);
 
-            var ym = _arithmetic.AddYears(month.Parts, years, out int roundoff);
+            var ym = Arithmetic.AddYears(month.Parts, years, out int roundoff);
             if (roundoff > 0) { ym = Adjust(ym, roundoff); }
 
-            YearOverflowChecker.Check(ym.Year);
+            // Unnecessary here because Arithmetic use the same range of years.
+            //YearOverflowChecker.Check(ym.Year);
 
             return new CalendarMonth(ym, Cuid);
         }
@@ -97,9 +92,10 @@ namespace Zorglub.Time.Simple
             // NB: according to CalendricalMath, ymd is the last day of the month.
             return AdditionRuleset.DateRule switch
             {
-                AdditionRule.Overspill => _arithmetic.AddDays(ymd, 1),
-                AdditionRule.Exact => _arithmetic.AddDays(ymd, roundoff),
                 AdditionRule.Truncate => ymd,
+                AdditionRule.Overspill => Arithmetic.AddDays(ymd, 1),
+                AdditionRule.Exact => Arithmetic.AddDays(ymd, roundoff),
+                AdditionRule.Throw => Throw.DateOverflow<Yemoda>(),
 
                 _ => Throw.InvalidOperation<Yemoda>(),
             };
@@ -115,9 +111,10 @@ namespace Zorglub.Time.Simple
             // NB: according to CalendricalMath, ydoy is the last day of the year.
             return AdditionRuleset.OrdinalRule switch
             {
-                AdditionRule.Overspill => _arithmetic.AddDays(ydoy, 1),
-                AdditionRule.Exact => _arithmetic.AddDays(ydoy, roundoff),
                 AdditionRule.Truncate => ydoy,
+                AdditionRule.Overspill => Arithmetic.AddDays(ydoy, 1),
+                AdditionRule.Exact => Arithmetic.AddDays(ydoy, roundoff),
+                AdditionRule.Throw => Throw.DateOverflow<Yedoy>(),
 
                 _ => Throw.InvalidOperation<Yedoy>(),
             };
@@ -133,9 +130,10 @@ namespace Zorglub.Time.Simple
             // NB: according to CalendricalMath, ym is the last month of the year.
             return AdditionRuleset.MonthRule switch
             {
-                AdditionRule.Overspill => _arithmetic.AddMonths(ym, 1),
-                AdditionRule.Exact => _arithmetic.AddMonths(ym, roundoff),
                 AdditionRule.Truncate => ym,
+                AdditionRule.Overspill => Arithmetic.AddMonths(ym, 1),
+                AdditionRule.Exact => Arithmetic.AddMonths(ym, roundoff),
+                AdditionRule.Throw => Throw.MonthOverflow<Yemo>(),
 
                 _ => Throw.InvalidOperation<Yemo>(),
             };
