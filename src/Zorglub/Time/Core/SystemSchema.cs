@@ -234,7 +234,7 @@ namespace Zorglub.Time.Core
         /// from the epoch to a month).
         /// </summary>
         [Pure]
-        // CIL code size = XXX bytes <= 32 bytes.
+        // CIL code size = 19 bytes <= 32 bytes.
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Yemo GetMonthParts(int monthsSinceEpoch)
         {

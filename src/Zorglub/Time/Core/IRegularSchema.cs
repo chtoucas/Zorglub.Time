@@ -22,10 +22,12 @@ namespace Zorglub.Time.Core
             private const int MonthsInYear = 12;
 
             [Pure]
-            // CIL code size = XXX bytes <= 32 bytes.
+            // CIL code size = 11 bytes <= 32 bytes.
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static int CountMonthsSinceEpoch(int y, int m) => MonthsInYear * (y - 1) + m - 1;
 
+            // CIL code size = 20 bytes <= 32 bytes.
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static void GetMonthParts(int monthsSinceEpoch, out int y, out int m)
             {
                 y = 1 + MathZ.Divide(monthsSinceEpoch, MonthsInYear, out int m0);
@@ -38,10 +40,12 @@ namespace Zorglub.Time.Core
             private const int MonthsInYear = 13;
 
             [Pure]
-            // CIL code size = XXX bytes <= 32 bytes.
+            // CIL code size = 11 bytes <= 32 bytes.
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static int CountMonthsSinceEpoch(int y, int m) => MonthsInYear * (y - 1) + m - 1;
 
+            // CIL code size = 20 bytes <= 32 bytes.
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public static void GetMonthParts(int monthsSinceEpoch, out int y, out int m)
             {
                 y = 1 + MathZ.Divide(monthsSinceEpoch, MonthsInYear, out int m0);

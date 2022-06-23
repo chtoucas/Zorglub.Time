@@ -368,7 +368,7 @@ namespace Zorglub.Time.Simple
         internal ICalendricalPreValidator PreValidator { get; }
 
         /// <summary>
-        /// Gets the standard arithmetical operators.
+        /// Gets the arithmetical operators.
         /// </summary>
         internal SystemArithmetic Arithmetic { get; }
 

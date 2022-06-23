@@ -1408,6 +1408,7 @@ Zorglub.Time.Simple.CalendarMath.AddMonths(Zorglub.Time.Simple.CalendarDate date
 Zorglub.Time.Simple.CalendarMath.AddYears(Zorglub.Time.Simple.CalendarDate date, int years) -> Zorglub.Time.Simple.CalendarDate
 Zorglub.Time.Simple.CalendarMath.AddYears(Zorglub.Time.Simple.CalendarMonth month, int years) -> Zorglub.Time.Simple.CalendarMonth
 Zorglub.Time.Simple.CalendarMath.AddYears(Zorglub.Time.Simple.OrdinalDate date, int years) -> Zorglub.Time.Simple.OrdinalDate
+Zorglub.Time.Simple.CalendarMath.Arithmetic.get -> Zorglub.Time.Core.ICalendricalArithmeticPlus!
 Zorglub.Time.Simple.CalendarMath.Calendar.get -> Zorglub.Time.Simple.Calendar!
 Zorglub.Time.Simple.CalendarMath.CalendarMath(Zorglub.Time.Simple.Calendar! calendar, Zorglub.Time.AdditionRuleset additionRuleset) -> void
 Zorglub.Time.Simple.CalendarMath.CountMonthsBetween(Zorglub.Time.Simple.CalendarDate start, Zorglub.Time.Simple.CalendarDate end, out Zorglub.Time.Simple.CalendarDate newStart) -> int
@@ -1418,7 +1419,7 @@ Zorglub.Time.Simple.CalendarMath.CountYearsBetween(Zorglub.Time.Simple.OrdinalDa
 Zorglub.Time.Simple.CalendarMath.CountYearsBetweenCore(Zorglub.Time.Simple.CalendarDate start, Zorglub.Time.Simple.CalendarDate end, out Zorglub.Time.Simple.CalendarDate newStart) -> int
 Zorglub.Time.Simple.CalendarMath.CountYearsBetweenCore(Zorglub.Time.Simple.CalendarMonth start, Zorglub.Time.Simple.CalendarMonth end, out Zorglub.Time.Simple.CalendarMonth newStart) -> int
 Zorglub.Time.Simple.CalendarMath.CountYearsBetweenCore(Zorglub.Time.Simple.OrdinalDate start, Zorglub.Time.Simple.OrdinalDate end, out Zorglub.Time.Simple.OrdinalDate newStart) -> int
-Zorglub.Time.Simple.CalendarMath.Schema.get -> Zorglub.Time.Core.SystemSchema!
+Zorglub.Time.Simple.CalendarMath.Schema.get -> Zorglub.Time.Core.ICalendricalKernel!
 Zorglub.Time.Simple.CalendarMonth
 Zorglub.Time.Simple.CalendarMonth.Adjust(System.Func<Zorglub.Time.MonthParts, Zorglub.Time.MonthParts>! adjuster) -> Zorglub.Time.Simple.CalendarMonth
 Zorglub.Time.Simple.CalendarMonth.Calendar.get -> Zorglub.Time.Simple.Calendar!

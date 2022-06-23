@@ -5,17 +5,13 @@ namespace Zorglub.Time.Simple
 {
     using Zorglub.Time.Core;
 
-    // FIXME(code): Impl PlainMath. Improve impl.
-    // Do we need stricter validation? or is YearOverflowChecker enough?
-    // Can we avoid multiple overflow checks -> SupportedYears in arithmetic ctor?
+    // FIXME(code):
     // CountYearsBetween() overflow? Avec des années complètes, je ne pense pas.
     // Idem avec CountMonthsBetween(), etc.
     //
     // To be done:
-    // * we should be able to remove YearOverflowChecker in Simple objects.
     // * Segment, add prop IsComplete
     // * Lunisolar arithmetic tests
-    // * CIL code size
     // * Schemas: partial impl for archetypal, Pax and Hebrew schemas
     //
     // Count...Between()
@@ -29,6 +25,7 @@ namespace Zorglub.Time.Simple
     // ordinal dates? and how could this be done? Hum no, use conversion from
     // date to ordinal repr.
     //
+    // Do we need stricter validation? or is YearOverflowChecker enough?
     // Années complètes : on doit juste vérifier l'année.
     // Par contrat, à partir du moment où l'année est dans la plage
     // d'années supportée par un schéma, on sait que les méthodes ne
@@ -107,7 +104,7 @@ namespace Zorglub.Time.Simple
         /// <summary>
         /// Gets the calendrical schema.
         /// </summary>
-        protected SystemSchema Schema { get; }
+        protected ICalendricalKernel Schema { get; }
 
         /// <summary>
         /// Gets the calendrical schema.
@@ -277,7 +274,7 @@ namespace Zorglub.Time.Simple
             Debug.Assert(start.Cuid == Cuid);
             Debug.Assert(end.Cuid == Cuid);
 
-            int months = Schema.Arithmetic.CountMonthsBetween(start.Parts.Yemo, end.Parts.Yemo);
+            int months = Arithmetic.CountMonthsBetween(start.Parts.Yemo, end.Parts.Yemo);
             newStart = AddMonthsCore(start, months);
 
             if (start.CompareFast(end) < 0)
