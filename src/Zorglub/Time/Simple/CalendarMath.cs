@@ -13,6 +13,7 @@ namespace Zorglub.Time.Simple
     //
     // To be done:
     // * we should be able to remove YearOverflowChecker in Simple objects.
+    // * Segment, add prop IsComplete
     // * Lunisolar arithmetic tests
     // * CIL code size
     // * Schemas: partial impl for archetypal, Pax and Hebrew schemas

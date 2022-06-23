@@ -214,7 +214,6 @@ namespace Zorglub.Time.Core.Arithmetic
 
     internal partial class GregorianArithmetic // Operations on Yemo
     {
-
         /// <inheritdoc />
         [Pure]
         public override Yemo AddMonths(Yemo ym, int months)
