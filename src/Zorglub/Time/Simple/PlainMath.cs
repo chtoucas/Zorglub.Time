@@ -45,10 +45,6 @@ namespace Zorglub.Time.Simple
 
             var (y, m) = Arithmetic.AddMonths(date.Parts.Yemo, months);
 
-            // FIXME(code): Unnecessary here because Arithmetic use the same range of years.
-            // Idem with PowerMath.
-            YearOverflowChecker.Check(y);
-
             // NB: AdditionRule.Truncate.
             int d = Math.Min(date.Day, Schema.CountDaysInMonth(y, m));
             return new CalendarDate(new Yemoda(y, m, d), Cuid);

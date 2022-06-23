@@ -26,9 +26,6 @@ namespace Zorglub.Time.Simple
             var ymd = Arithmetic.AddYears(date.Parts, years, out int roundoff);
             if (roundoff > 0) { ymd = Adjust(ymd, roundoff); }
 
-            // Unnecessary here because Arithmetic use the same range of years.
-            //YearOverflowChecker.Check(ymd.Year);
-
             return new CalendarDate(ymd, Cuid);
         }
 
@@ -40,9 +37,6 @@ namespace Zorglub.Time.Simple
 
             var ymd = Arithmetic.AddMonths(date.Parts, months, out int roundoff);
             if (roundoff > 0) { ymd = Adjust(ymd, roundoff); }
-
-            // Unnecessary here because Arithmetic use the same range of years.
-            //YearOverflowChecker.Check(ymd.Year);
 
             return new CalendarDate(ymd, Cuid);
         }
@@ -56,9 +50,6 @@ namespace Zorglub.Time.Simple
             var ydoy = Arithmetic.AddYears(date.Parts, years, out int roundoff);
             if (roundoff > 0) { ydoy = Adjust(ydoy, roundoff); }
 
-            // Unnecessary here because Arithmetic use the same range of years.
-            //YearOverflowChecker.Check(ydoy.Year);
-
             return new OrdinalDate(ydoy, Cuid);
         }
 
@@ -70,9 +61,6 @@ namespace Zorglub.Time.Simple
 
             var ym = Arithmetic.AddYears(month.Parts, years, out int roundoff);
             if (roundoff > 0) { ym = Adjust(ym, roundoff); }
-
-            // Unnecessary here because Arithmetic use the same range of years.
-            //YearOverflowChecker.Check(ym.Year);
 
             return new CalendarMonth(ym, Cuid);
         }
