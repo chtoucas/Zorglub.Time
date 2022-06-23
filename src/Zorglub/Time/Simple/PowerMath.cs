@@ -8,6 +8,10 @@ namespace Zorglub.Time.Simple
 
     public sealed class PowerMath : CalendarMath
     {
+        /// <summary>
+        /// Represents the arithmetic.
+        /// <para>This field is read-only.</para>
+        /// </summary>
         private readonly ICalendricalArithmeticPlus _arithmetic;
 
         /// <summary>
