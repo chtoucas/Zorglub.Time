@@ -117,6 +117,11 @@ module OverflowExns =
         (fun () -> ThrowHelpers.DateOverflow<string>()) |> overflows
 
     [<Fact>]
+    let MonthOverflow () =
+        (fun () -> ThrowHelpers.MonthOverflow()) |> overflows
+        (fun () -> ThrowHelpers.MonthOverflow<string>()) |> overflows
+
+    [<Fact>]
     let DayNumberOverflow () =
         (fun () -> ThrowHelpers.DayNumberOverflow()) |> overflows
         (fun () -> ThrowHelpers.DayNumberOverflow<string>()) |> overflows
