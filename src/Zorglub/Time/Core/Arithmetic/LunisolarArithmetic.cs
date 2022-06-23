@@ -3,7 +3,7 @@
 
 namespace Zorglub.Time.Core.Arithmetic
 {
-    using static Zorglub.Time.Core.CalendricalConstants;
+    using __Lunisolar = CalendricalConstants.Lunisolar;
 
     /// <summary>
     /// Provides the core mathematical operations on dates for schemas with profile
@@ -12,6 +12,11 @@ namespace Zorglub.Time.Core.Arithmetic
     /// </summary>
     internal sealed partial class LunisolarArithmetic : SystemArithmetic
     {
+        private const int MinDaysInYear = __Lunisolar.MinDaysInYear;
+        private const int MinDaysInMonth = __Lunisolar.MinDaysInMonth;
+        private const int MaxDaysViaDayOfYear_ = MinDaysInYear;
+        private const int MaxDaysViaDayOfMonth_ = MinDaysInMonth;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="LunisolarArithmetic"/> class with the
         /// specified schema.
@@ -25,10 +30,12 @@ namespace Zorglub.Time.Core.Arithmetic
         /// </exception>
         public LunisolarArithmetic(CalendricalSchema schema) : base(schema)
         {
-            Debug.Assert(schema != null);
-            Debug.Assert(Lunisolar.MinDaysInMonth >= MinMinDaysInMonth);
+            Debug.Assert(MaxDaysViaDayOfMonth_ >= MinMinDaysInMonth);
 
             Requires.Profile(schema, CalendricalProfile.Lunisolar);
+
+            MaxDaysViaDayOfYear = MaxDaysViaDayOfYear_;
+            MaxDaysViaDayOfMonth = MaxDaysViaDayOfMonth_;
         }
     }
 
@@ -39,13 +46,13 @@ namespace Zorglub.Time.Core.Arithmetic
         public override Yemoda AddDays(Yemoda ymd, int days)
         {
             // Fast tracks.
-            if (-Lunisolar.MinDaysInMonth <= days && days <= Lunisolar.MinDaysInMonth)
+            if (-MaxDaysViaDayOfMonth_ <= days && days <= MaxDaysViaDayOfMonth_)
             {
                 return AddDaysViaDayOfMonth(ymd, days);
             }
 
             ymd.Unpack(out int y, out int m, out int d);
-            if (-Lunisolar.MinDaysInYear <= days && days <= Lunisolar.MinDaysInYear)
+            if (-MaxDaysViaDayOfYear_ <= days && days <= MaxDaysViaDayOfYear_)
             {
                 int doy = Schema.GetDayOfYear(y, m, d);
                 var (newY, newDoy) = AddDaysViaDayOfYear(new Yedoy(y, doy), days);
@@ -63,8 +70,8 @@ namespace Zorglub.Time.Core.Arithmetic
         [Pure]
         protected internal override Yemoda AddDaysViaDayOfMonth(Yemoda ymd, int days)
         {
-            Debug.Assert(-Lunisolar.MinDaysInMonth <= days);
-            Debug.Assert(days <= Lunisolar.MinDaysInMonth);
+            Debug.Assert(-MaxDaysViaDayOfMonth_ <= days);
+            Debug.Assert(days <= MaxDaysViaDayOfMonth_);
 
             ymd.Unpack(out int y, out int m, out int d);
 
@@ -84,7 +91,7 @@ namespace Zorglub.Time.Core.Arithmetic
                     dom += Schema.CountDaysInMonth(y, m);
                 }
             }
-            else if (dom > Lunisolar.MinDaysInMonth)
+            else if (dom > MinDaysInMonth)
             {
                 int daysInMonth = Schema.CountDaysInMonth(y, m);
                 if (dom > daysInMonth)
@@ -113,7 +120,7 @@ namespace Zorglub.Time.Core.Arithmetic
             ymd.Unpack(out int y, out int m, out int d);
 
             return
-                d < Lunisolar.MinDaysInMonth || d < Schema.CountDaysInMonth(y, m)
+                d < MinDaysInMonth || d < Schema.CountDaysInMonth(y, m)
                     ? new Yemoda(y, m, d + 1)
                 : m < Schema.CountMonthsInYear(y) ? Yemoda.AtStartOfMonth(y, m + 1)
                 : y < MaxYear ? Yemoda.AtStartOfYear(y + 1)
@@ -141,7 +148,7 @@ namespace Zorglub.Time.Core.Arithmetic
         public override Yedoy AddDays(Yedoy ydoy, int days)
         {
             // Fast track.
-            if (-Lunisolar.MinDaysInYear <= days && days <= Lunisolar.MinDaysInYear)
+            if (-MaxDaysViaDayOfYear_ <= days && days <= MaxDaysViaDayOfYear_)
             {
                 return AddDaysViaDayOfYear(ydoy, days);
             }
@@ -159,8 +166,8 @@ namespace Zorglub.Time.Core.Arithmetic
         [Pure]
         protected internal override Yedoy AddDaysViaDayOfYear(Yedoy ydoy, int days)
         {
-            Debug.Assert(-Schema.MinDaysInYear <= days);
-            Debug.Assert(days <= Schema.MinDaysInYear);
+            Debug.Assert(-MaxDaysViaDayOfYear_ <= days);
+            Debug.Assert(days <= MaxDaysViaDayOfYear_);
 
             ydoy.Unpack(out int y, out int doy);
 
@@ -192,7 +199,7 @@ namespace Zorglub.Time.Core.Arithmetic
             ydoy.Unpack(out int y, out int doy);
 
             return
-                doy < Lunisolar.MinDaysInYear || doy < Schema.CountDaysInYear(y)
+                doy < MinDaysInYear || doy < Schema.CountDaysInYear(y)
                     ? new Yedoy(y, doy + 1)
                 : y < MaxYear ? Yedoy.AtStartOfYear(y + 1)
                 : Throw.DateOverflow<Yedoy>();

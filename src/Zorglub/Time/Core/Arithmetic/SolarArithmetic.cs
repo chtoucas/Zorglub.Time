@@ -3,15 +3,20 @@
 
 namespace Zorglub.Time.Core.Arithmetic
 {
-    using static Zorglub.Time.Core.CalendricalConstants;
+    using __Solar = CalendricalConstants.Solar;
 
     /// <summary>
     /// Defines the core mathematical operations on dates for schemas with profile
-    /// <see cref="CalendricalProfile.Solar12"/> or <see cref="CalendricalProfile.Solar13"/>, and provides a
-    /// base for derived classes.
+    /// <see cref="CalendricalProfile.Solar12"/> or <see cref="CalendricalProfile.Solar13"/>, and
+    /// provides a base for derived classes.
     /// </summary>
     internal abstract partial class SolarArithmetic : SystemArithmetic
     {
+        protected const int MinDaysInYear = __Solar.MinDaysInYear;
+        protected const int MinDaysInMonth = __Solar.MinDaysInMonth;
+        protected const int MaxDaysViaDayOfYear_ = MinDaysInYear;
+        protected const int MaxDaysViaDayOfMonth_ = MinDaysInMonth;
+
         /// <summary>
         /// Called from constructors in derived classes to initialize the
         /// <see cref="SolarArithmetic"/> class.
@@ -24,10 +29,12 @@ namespace Zorglub.Time.Core.Arithmetic
         {
             // Disabled, otherwise we cannot test the derived constructors.
             // Not that important since this class is internal.
-            Debug.Assert(schema != null);
-            Debug.Assert(Solar.MinDaysInMonth >= MinMinDaysInMonth);
+            Debug.Assert(MaxDaysViaDayOfMonth_ >= MinMinDaysInMonth);
             //Debug.Assert(schema.Profile == CalendricalProfile.Solar12
             //    || schema.Profile == CalendricalProfile.Solar13);
+
+            MaxDaysViaDayOfYear = MaxDaysViaDayOfYear_;
+            MaxDaysViaDayOfMonth = MaxDaysViaDayOfMonth_;
         }
     }
 
@@ -38,13 +45,13 @@ namespace Zorglub.Time.Core.Arithmetic
         public sealed override Yemoda AddDays(Yemoda ymd, int days)
         {
             // Fast tracks.
-            if (-Solar.MinDaysInMonth <= days && days <= Solar.MinDaysInMonth)
+            if (-MaxDaysViaDayOfMonth_ <= days && days <= MaxDaysViaDayOfMonth_)
             {
                 return AddDaysViaDayOfMonth(ymd, days);
             }
 
             ymd.Unpack(out int y, out int m, out int d);
-            if (-Solar.MinDaysInYear <= days && days <= Solar.MinDaysInYear)
+            if (-MaxDaysViaDayOfYear_ <= days && days <= MaxDaysViaDayOfYear_)
             {
                 int doy = Schema.GetDayOfYear(y, m, d);
                 var (newY, newDoy) = AddDaysViaDayOfYear(new Yedoy(y, doy), days);
@@ -79,7 +86,7 @@ namespace Zorglub.Time.Core.Arithmetic
         public sealed override Yedoy AddDays(Yedoy ydoy, int days)
         {
             // Fast track.
-            if (-Solar.MinDaysInYear <= days && days <= Solar.MinDaysInYear)
+            if (-MaxDaysViaDayOfYear_ <= days && days <= MaxDaysViaDayOfYear_)
             {
                 return AddDaysViaDayOfYear(ydoy, days);
             }
@@ -97,8 +104,8 @@ namespace Zorglub.Time.Core.Arithmetic
         [Pure]
         protected internal sealed override Yedoy AddDaysViaDayOfYear(Yedoy ydoy, int days)
         {
-            Debug.Assert(-Schema.MinDaysInYear <= days);
-            Debug.Assert(days <= Schema.MinDaysInYear);
+            Debug.Assert(-MaxDaysViaDayOfYear_ <= days);
+            Debug.Assert(days <= MaxDaysViaDayOfYear_);
 
             ydoy.Unpack(out int y, out int doy);
 
@@ -130,7 +137,7 @@ namespace Zorglub.Time.Core.Arithmetic
             ydoy.Unpack(out int y, out int doy);
 
             return
-                doy < Solar.MinDaysInYear || doy < Schema.CountDaysInYear(y)
+                doy < MinDaysInYear || doy < Schema.CountDaysInYear(y)
                     ? new Yedoy(y, doy + 1)
                 : y < MaxYear ? Yedoy.AtStartOfYear(y + 1)
                 : Throw.DateOverflow<Yedoy>();

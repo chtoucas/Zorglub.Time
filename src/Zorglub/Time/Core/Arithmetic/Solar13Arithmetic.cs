@@ -3,7 +3,7 @@
 
 namespace Zorglub.Time.Core.Arithmetic
 {
-    using static Zorglub.Time.Core.CalendricalConstants;
+    using __Solar13 = CalendricalConstants.Solar13;
 
     /// <summary>
     /// Provides the core mathematical operations on dates for schemas with profile
@@ -12,6 +12,8 @@ namespace Zorglub.Time.Core.Arithmetic
     /// </summary>
     internal sealed class Solar13Arithmetic : SolarArithmetic
     {
+        private const int MonthsInYear = __Solar13.MonthsInYear;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Solar13Arithmetic"/> class with the
         /// specified schema.
@@ -37,8 +39,8 @@ namespace Zorglub.Time.Core.Arithmetic
         [Pure]
         protected internal override Yemoda AddDaysViaDayOfMonth(Yemoda ymd, int days)
         {
-            Debug.Assert(-Solar.MinDaysInMonth <= days);
-            Debug.Assert(days <= Solar.MinDaysInMonth);
+            Debug.Assert(-MaxDaysViaDayOfMonth_ <= days);
+            Debug.Assert(days <= MaxDaysViaDayOfMonth_);
 
             ymd.Unpack(out int y, out int m, out int d);
 
@@ -58,13 +60,13 @@ namespace Zorglub.Time.Core.Arithmetic
                     dom += Schema.CountDaysInMonth(y, m);
                 }
             }
-            else if (dom > Solar.MinDaysInMonth)
+            else if (dom > MinDaysInMonth)
             {
                 int daysInMonth = Schema.CountDaysInMonth(y, m);
                 if (dom > daysInMonth)
                 {
                     dom -= daysInMonth;
-                    if (m == Solar13.MonthsInYear)
+                    if (m == MonthsInYear)
                     {
                         if (y == MaxYear) Throw.DateOverflow();
                         y++;
@@ -87,9 +89,9 @@ namespace Zorglub.Time.Core.Arithmetic
             ymd.Unpack(out int y, out int m, out int d);
 
             return
-                d < Solar.MinDaysInMonth || d < Schema.CountDaysInMonth(y, m)
+                d < MinDaysInMonth || d < Schema.CountDaysInMonth(y, m)
                     ? new Yemoda(y, m, d + 1)
-                : m < Solar13.MonthsInYear ? Yemoda.AtStartOfMonth(y, m + 1)
+                : m < MonthsInYear ? Yemoda.AtStartOfMonth(y, m + 1)
                 : y < MaxYear ? Yemoda.AtStartOfYear(y + 1)
                 : Throw.DateOverflow<Yemoda>();
         }
@@ -104,7 +106,7 @@ namespace Zorglub.Time.Core.Arithmetic
         {
             ym.Unpack(out int y, out int m);
 
-            m = 1 + MathZ.Modulo(checked(m - 1 + months), Solar13.MonthsInYear, out int y0);
+            m = 1 + MathZ.Modulo(checked(m - 1 + months), MonthsInYear, out int y0);
             y += y0;
 
             if (SupportedYears.Contains(y) == false) Throw.MonthOverflow();
@@ -119,7 +121,7 @@ namespace Zorglub.Time.Core.Arithmetic
             start.Unpack(out int y0, out int m0);
             end.Unpack(out int y1, out int m1);
 
-            return (y1 - y0) * Solar13.MonthsInYear + m1 - m0;
+            return (y1 - y0) * MonthsInYear + m1 - m0;
         }
 
         //
@@ -133,7 +135,7 @@ namespace Zorglub.Time.Core.Arithmetic
             ymd.Unpack(out int y, out int m, out int d);
 
             // On retranche 1 à "m" pour le rendre algébrique.
-            m = 1 + MathZ.Modulo(checked(m - 1 + months), Solar13.MonthsInYear, out int y0);
+            m = 1 + MathZ.Modulo(checked(m - 1 + months), MonthsInYear, out int y0);
             y += y0;
 
             if (SupportedYears.Contains(y) == false) Throw.DateOverflow();

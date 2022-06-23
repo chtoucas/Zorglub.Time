@@ -3,7 +3,7 @@
 
 namespace Zorglub.Time.Core.Arithmetic
 {
-    using static Zorglub.Time.Core.CalendricalConstants;
+    using __Lunar = CalendricalConstants.Lunar;
 
     /// <summary>
     /// Provides the core mathematical operations on dates for schemas with profile
@@ -12,6 +12,12 @@ namespace Zorglub.Time.Core.Arithmetic
     /// </summary>
     internal sealed partial class LunarArithmetic : SystemArithmetic
     {
+        private const int MonthsInYear = __Lunar.MonthsInYear;
+        private const int MinDaysInYear = __Lunar.MinDaysInYear;
+        private const int MinDaysInMonth = __Lunar.MinDaysInMonth;
+        private const int MaxDaysViaDayOfYear_ = MinDaysInYear;
+        private const int MaxDaysViaDayOfMonth_ = MinDaysInMonth;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="LunarArithmetic"/> class with the specified
         /// schema.
@@ -24,10 +30,12 @@ namespace Zorglub.Time.Core.Arithmetic
         /// profile <see cref="CalendricalProfile.Lunar"/>.</exception>
         public LunarArithmetic(CalendricalSchema schema) : base(schema)
         {
-            Debug.Assert(schema != null);
-            Debug.Assert(Lunar.MinDaysInMonth >= MinMinDaysInMonth);
+            Debug.Assert(MaxDaysViaDayOfMonth_ >= MinMinDaysInMonth);
 
             Requires.Profile(schema, CalendricalProfile.Lunar);
+
+            MaxDaysViaDayOfYear = MaxDaysViaDayOfYear_;
+            MaxDaysViaDayOfMonth = MaxDaysViaDayOfMonth_;
         }
     }
 
@@ -38,13 +46,13 @@ namespace Zorglub.Time.Core.Arithmetic
         public override Yemoda AddDays(Yemoda ymd, int days)
         {
             // Fast tracks.
-            if (-Lunar.MinDaysInMonth <= days && days <= Lunar.MinDaysInMonth)
+            if (-MaxDaysViaDayOfMonth_ <= days && days <= MaxDaysViaDayOfMonth_)
             {
                 return AddDaysViaDayOfMonth(ymd, days);
             }
 
             ymd.Unpack(out int y, out int m, out int d);
-            if (-Lunar.MinDaysInYear <= days && days <= Lunar.MinDaysInYear)
+            if (-MaxDaysViaDayOfYear_ <= days && days <= MaxDaysViaDayOfYear_)
             {
                 int doy = Schema.GetDayOfYear(y, m, d);
                 var (newY, newDoy) = AddDaysViaDayOfYear(new Yedoy(y, doy), days);
@@ -62,8 +70,8 @@ namespace Zorglub.Time.Core.Arithmetic
         [Pure]
         protected internal override Yemoda AddDaysViaDayOfMonth(Yemoda ymd, int days)
         {
-            Debug.Assert(-Lunar.MinDaysInMonth <= days);
-            Debug.Assert(days <= Lunar.MinDaysInMonth);
+            Debug.Assert(-MaxDaysViaDayOfMonth_ <= days);
+            Debug.Assert(days <= MaxDaysViaDayOfMonth_);
 
             ymd.Unpack(out int y, out int m, out int d);
 
@@ -83,13 +91,13 @@ namespace Zorglub.Time.Core.Arithmetic
                     dom += Schema.CountDaysInMonth(y, m);
                 }
             }
-            else if (dom > Lunar.MinDaysInMonth)
+            else if (dom > MinDaysInMonth)
             {
                 int daysInMonth = Schema.CountDaysInMonth(y, m);
                 if (dom > daysInMonth)
                 {
                     dom -= daysInMonth;
-                    if (m == Lunar.MonthsInYear)
+                    if (m == MonthsInYear)
                     {
                         if (y == MaxYear) Throw.DateOverflow();
                         y++;
@@ -112,9 +120,9 @@ namespace Zorglub.Time.Core.Arithmetic
             ymd.Unpack(out int y, out int m, out int d);
 
             return
-                d < Lunar.MinDaysInMonth || d < Schema.CountDaysInMonth(y, m)
+                d < MinDaysInMonth || d < Schema.CountDaysInMonth(y, m)
                     ? new Yemoda(y, m, d + 1)
-                : m < Lunar.MonthsInYear ? Yemoda.AtStartOfMonth(y, m + 1)
+                : m < MonthsInYear ? Yemoda.AtStartOfMonth(y, m + 1)
                 : y < MaxYear ? Yemoda.AtStartOfYear(y + 1)
                 : Throw.DateOverflow<Yemoda>();
         }
@@ -140,7 +148,7 @@ namespace Zorglub.Time.Core.Arithmetic
         public override Yedoy AddDays(Yedoy ydoy, int days)
         {
             // Fast track.
-            if (-Lunar.MinDaysInYear <= days && days <= Lunar.MinDaysInYear)
+            if (-MaxDaysViaDayOfYear_ <= days && days <= MaxDaysViaDayOfYear_)
             {
                 return AddDaysViaDayOfYear(ydoy, days);
             }
@@ -158,8 +166,8 @@ namespace Zorglub.Time.Core.Arithmetic
         [Pure]
         protected internal override Yedoy AddDaysViaDayOfYear(Yedoy ydoy, int days)
         {
-            Debug.Assert(-Schema.MinDaysInYear <= days);
-            Debug.Assert(days <= Schema.MinDaysInYear);
+            Debug.Assert(-MaxDaysViaDayOfYear_ <= days);
+            Debug.Assert(days <= MaxDaysViaDayOfYear_);
 
             ydoy.Unpack(out int y, out int doy);
 
@@ -191,7 +199,7 @@ namespace Zorglub.Time.Core.Arithmetic
             ydoy.Unpack(out int y, out int doy);
 
             return
-                doy < Lunar.MinDaysInYear || doy < Schema.CountDaysInYear(y)
+                doy < MinDaysInYear || doy < Schema.CountDaysInYear(y)
                     ? new Yedoy(y, doy + 1)
                 : y < MaxYear ? Yedoy.AtStartOfYear(y + 1)
                 : Throw.DateOverflow<Yedoy>();
@@ -217,7 +225,7 @@ namespace Zorglub.Time.Core.Arithmetic
         {
             ym.Unpack(out int y, out int m);
 
-            m = 1 + MathZ.Modulo(checked(m - 1 + months), Lunar.MonthsInYear, out int y0);
+            m = 1 + MathZ.Modulo(checked(m - 1 + months), MonthsInYear, out int y0);
             y += y0;
 
             if (SupportedYears.Contains(y) == false) Throw.MonthOverflow();
@@ -232,7 +240,7 @@ namespace Zorglub.Time.Core.Arithmetic
             start.Unpack(out int y0, out int m0);
             end.Unpack(out int y1, out int m1);
 
-            return (y1 - y0) * Lunar.MonthsInYear + m1 - m0;
+            return (y1 - y0) * MonthsInYear + m1 - m0;
         }
     }
 
@@ -261,7 +269,7 @@ namespace Zorglub.Time.Core.Arithmetic
             ymd.Unpack(out int y, out int m, out int d);
 
             // On retranche 1 à "m" pour le rendre algébrique.
-            m = 1 + MathZ.Modulo(checked(m - 1 + months), Lunar.MonthsInYear, out int y0);
+            m = 1 + MathZ.Modulo(checked(m - 1 + months), MonthsInYear, out int y0);
             y += y0;
 
             if (SupportedYears.Contains(y) == false) Throw.DateOverflow();

@@ -98,13 +98,13 @@ namespace Zorglub.Time.Core.Arithmetic
         /// Gets the maximum absolute value for a parameter "days" for the method
         /// <see cref="AddDaysViaDayOfYear(Yedoy, int)"/>.
         /// </summary>
-        public int MaxDaysViaDayOfYear { get; }
+        public int MaxDaysViaDayOfYear { get; init; }
 
         /// <summary>
         /// Gets the maximum absolute value for a parameter "days" for the method
         /// <see cref="AddDaysViaDayOfMonth(Yemoda, int)"/>.
         /// </summary>
-        public int MaxDaysViaDayOfMonth { get; }
+        public int MaxDaysViaDayOfMonth { get; init; }
 
         /// <summary>
         /// Creates the default arithmetic engine.
@@ -115,7 +115,6 @@ namespace Zorglub.Time.Core.Arithmetic
         {
             Requires.NotNull(schema);
 
-            // Sync with CalendricalSchema.TryGetCustomArithmetic().
             return schema.Profile switch
             {
                 CalendricalProfile.Solar12 =>
