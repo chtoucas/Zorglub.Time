@@ -3,6 +3,8 @@
 
 namespace Zorglub.Time.Core.Arithmetic
 {
+    using Zorglub.Time.Core.Intervals;
+
     using __Solar12 = CalendricalConstants.Solar12;
 
     /// <summary>
@@ -24,7 +26,8 @@ namespace Zorglub.Time.Core.Arithmetic
         /// </exception>
         /// <exception cref="ArgumentException"><paramref name="schema"/> does not have the expected
         /// profile <see cref="CalendricalProfile.Solar12"/>.</exception>
-        public Solar12Arithmetic(CalendricalSchema schema) : base(schema)
+        public Solar12Arithmetic(CalendricalSchema schema, Range<int>? supportedYears = null)
+            : base(schema, supportedYears)
         {
             Debug.Assert(schema != null);
 

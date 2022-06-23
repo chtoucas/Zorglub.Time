@@ -3,6 +3,8 @@
 
 namespace Zorglub.Time.Core.Arithmetic
 {
+    using Zorglub.Time.Core.Intervals;
+
     using __Solar = CalendricalConstants.Solar;
 
     /// <summary>
@@ -25,7 +27,8 @@ namespace Zorglub.Time.Core.Arithmetic
         /// <exception cref="ArgumentException">The range of supported years by
         /// <paramref name="schema"/> and <see cref="Yemoda"/> are disjoint.
         /// </exception>
-        protected SolarArithmetic(CalendricalSchema schema) : base(schema)
+        protected SolarArithmetic(CalendricalSchema schema, Range<int>? supportedYears)
+            : base(schema, supportedYears)
         {
             // Disabled, otherwise we cannot test the derived constructors.
             // Not that important since this class is internal.

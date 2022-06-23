@@ -3,6 +3,8 @@
 
 namespace Zorglub.Time.Core.Arithmetic
 {
+    using Zorglub.Time.Core.Intervals;
+
     /// <summary>
     /// Defines a plain implementation for <see cref="SystemArithmetic"/> and provides a base for
     /// derived classes.
@@ -18,7 +20,8 @@ namespace Zorglub.Time.Core.Arithmetic
         /// <exception cref="ArgumentException">The range of supported years by
         /// <paramref name="schema"/> and <see cref="Yemoda"/> are disjoint.
         /// </exception>
-        public PlainArithmetic(ICalendricalSchema schema) : base(schema) { }
+        public PlainArithmetic(ICalendricalSchema schema, Range<int>? supportedYears = null)
+            : base(schema, supportedYears) { }
     }
 
     internal partial class PlainArithmetic // Operations on Yemoda

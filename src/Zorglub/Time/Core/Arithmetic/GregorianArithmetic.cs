@@ -3,6 +3,7 @@
 
 namespace Zorglub.Time.Core.Arithmetic
 {
+    using Zorglub.Time.Core.Intervals;
     using Zorglub.Time.Core.Schemas;
 
     using __Solar = CalendricalConstants.Solar;
@@ -35,7 +36,8 @@ namespace Zorglub.Time.Core.Arithmetic
         /// <summary>
         /// Initializes a new instance of the <see cref="GregorianArithmetic"/> class.
         /// </summary>
-        public GregorianArithmetic() : base(new GregorianSchema())
+        public GregorianArithmetic(Range<int>? supportedYears = null)
+            : base(new GregorianSchema(), supportedYears)
         {
             Debug.Assert(MinYear == MinSupportedYear);
             Debug.Assert(MaxYear == MaxSupportedYear);

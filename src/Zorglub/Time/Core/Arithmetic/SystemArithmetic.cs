@@ -40,7 +40,7 @@ namespace Zorglub.Time.Core.Arithmetic
         /// <exception cref="ArgumentException">The range of supported years by
         /// <paramref name="schema"/> and <see cref="Yemoda"/> are disjoint.
         /// </exception>
-        protected SystemArithmetic(ICalendricalSchema schema)
+        protected SystemArithmetic(ICalendricalSchema schema, Range<int>? supportedYears)
         {
             Schema = schema ?? throw new ArgumentNullException(nameof(schema));
 
@@ -48,7 +48,8 @@ namespace Zorglub.Time.Core.Arithmetic
             // classes verify the data before calling a method of PartsFactory.
             PartsFactory = ICalendricalPartsFactory.Create(schema, @checked: false);
 
-            Segment = CalendricalSegment.CreateMaximal(schema);
+            Segment = supportedYears is null ? CalendricalSegment.CreateMaximal(schema)
+                : CalendricalSegment.Create(schema, schema.SupportedYears);
 
             (MinYear, MaxYear) = Segment.SupportedYears.Endpoints;
 
@@ -111,18 +112,34 @@ namespace Zorglub.Time.Core.Arithmetic
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
         [Pure]
-        public static SystemArithmetic Create(CalendricalSchema schema)
+        public static SystemArithmetic Create(CalendricalSchema schema) =>
+            CreateCore(schema, schema?.SupportedYears);
+
+        /// <summary>
+        /// Creates the default arithmetic engine.
+        /// </summary>
+        /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
+        [Pure]
+        public static SystemArithmetic Create(CalendricalSchema schema, Range<int> supportedYears) =>
+            CreateCore(schema, supportedYears);
+
+        /// <summary>
+        /// Creates the default arithmetic engine.
+        /// </summary>
+        /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
+        [Pure]
+        private static SystemArithmetic CreateCore(CalendricalSchema schema, Range<int>? supportedYears)
         {
             Requires.NotNull(schema);
 
             return schema.Profile switch
             {
                 CalendricalProfile.Solar12 =>
-                    schema is GregorianSchema ? new GregorianArithmetic()
-                    : new Solar12Arithmetic(schema),
-                CalendricalProfile.Solar13 => new Solar13Arithmetic(schema),
-                CalendricalProfile.Lunar => new LunarArithmetic(schema),
-                CalendricalProfile.Lunisolar => new LunisolarArithmetic(schema),
+                    schema is GregorianSchema ? new GregorianArithmetic(supportedYears)
+                    : new Solar12Arithmetic(schema, supportedYears),
+                CalendricalProfile.Solar13 => new Solar13Arithmetic(schema, supportedYears),
+                CalendricalProfile.Lunar => new LunarArithmetic(schema, supportedYears),
+                CalendricalProfile.Lunisolar => new LunisolarArithmetic(schema, supportedYears),
 
                 // NB: there is no real gain to expect in trying to improve the
                 // perf for regular schemas except for month ops. Not convinced?
@@ -130,8 +147,8 @@ namespace Zorglub.Time.Core.Arithmetic
                 // corner cases.
                 _ => schema.MinDaysInMonth >= MinMinDaysInMonth
                     && schema.IsRegular(out _)
-                    ? new RegularArithmetic(schema)
-                    : new PlainArithmetic(schema)
+                    ? new RegularArithmetic(schema, supportedYears)
+                    : new PlainArithmetic(schema, supportedYears)
             };
         }
     }

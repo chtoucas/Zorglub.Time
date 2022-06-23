@@ -3,6 +3,8 @@
 
 namespace Zorglub.Time.Core.Arithmetic
 {
+    using Zorglub.Time.Core.Intervals;
+
     using __Lunisolar = CalendricalConstants.Lunisolar;
 
     /// <summary>
@@ -28,7 +30,8 @@ namespace Zorglub.Time.Core.Arithmetic
         /// <exception cref="ArgumentException"><paramref name="schema"/> does not have the expected
         /// profile <see cref="CalendricalProfile.Lunisolar"/>.
         /// </exception>
-        public LunisolarArithmetic(CalendricalSchema schema) : base(schema)
+        public LunisolarArithmetic(CalendricalSchema schema, Range<int>? supportedYears = null)
+            : base(schema, supportedYears)
         {
             Debug.Assert(MaxDaysViaDayOfMonth_ >= MinMinDaysInMonth);
 

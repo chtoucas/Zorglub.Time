@@ -3,6 +3,8 @@
 
 namespace Zorglub.Time.Core.Arithmetic
 {
+    using Zorglub.Time.Core.Intervals;
+
     /// <summary>
     /// Provides a plain implementation for <see cref="SystemArithmetic"/>.
     /// <para>The length of a month must be greater than or equal to
@@ -22,7 +24,8 @@ namespace Zorglub.Time.Core.Arithmetic
         /// month whose length is strictly less than <see cref="SystemArithmetic.MinMinDaysInMonth"/>.
         /// </exception>
         /// <exception cref="ArgumentException"><paramref name="schema"/> is not regular.</exception>
-        public RegularArithmetic(ICalendricalSchema schema) : base(schema)
+        public RegularArithmetic(ICalendricalSchema schema, Range<int>? supportedYears = null)
+            : base(schema, supportedYears)
         {
             Debug.Assert(schema != null);
             if (schema.MinDaysInMonth < MinMinDaysInMonth) Throw.Argument(nameof(schema));

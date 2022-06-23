@@ -145,7 +145,7 @@ namespace Zorglub.Time.Simple
             }
 
             PreValidator = schema.PreValidator;
-            Arithmetic = SystemArithmetic.Create(schema);
+            Arithmetic = SystemArithmetic.Create(schema, Scope.SupportedYears);
 
             SupportedYears = Scope.SupportedYears;
             Domain = Scope.Domain;
