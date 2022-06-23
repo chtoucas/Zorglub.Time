@@ -415,7 +415,6 @@ namespace Zorglub.Time.Simple
             int δ = dayOfWeek - chr.GetDayOfWeek(this);
             // 0 <= dayOfWeek <= 6  =>  |δ| <= 6  =>  -7 <= (δ - 7 or δ) <= -1.
             var ymd = chr.Arithmetic.AddDaysViaDayOfMonth(Parts, δ >= 0 ? δ - CalendricalConstants.DaysInWeek : δ);
-            chr.YearOverflowChecker.CheckLowerBound(ymd.Year);
             return new CalendarDate(ymd, Cuid);
         }
 
@@ -430,7 +429,6 @@ namespace Zorglub.Time.Simple
             if (δ == 0) { return this; }
             // |δ| <= 6 and δ != 0  =>  -6 <= (δ - 7 or δ) <= -1.
             var ymd = chr.Arithmetic.AddDaysViaDayOfMonth(Parts, δ > 0 ? δ - CalendricalConstants.DaysInWeek : δ);
-            chr.YearOverflowChecker.CheckLowerBound(ymd.Year);
             return new CalendarDate(ymd, Cuid);
         }
 
@@ -456,7 +454,6 @@ namespace Zorglub.Time.Simple
             if (δ == 0) { return this; }
             // |δ| <= 6 and δ != 0  =>  1 <= (δ + 7 or δ) <= 6.
             var ymd = chr.Arithmetic.AddDaysViaDayOfMonth(Parts, δ < 0 ? δ + CalendricalConstants.DaysInWeek : δ);
-            chr.YearOverflowChecker.CheckUpperBound(ymd.Year);
             return new CalendarDate(ymd, Cuid);
         }
 
@@ -470,7 +467,6 @@ namespace Zorglub.Time.Simple
             int δ = dayOfWeek - chr.GetDayOfWeek(this);
             // |δ| <= 6  =>  1 <= (δ + 7 or δ) <= 7.
             var ymd = chr.Arithmetic.AddDaysViaDayOfMonth(Parts, δ <= 0 ? δ + CalendricalConstants.DaysInWeek : δ);
-            chr.YearOverflowChecker.CheckUpperBound(ymd.Year);
             return new CalendarDate(ymd, Cuid);
         }
 
@@ -653,7 +649,6 @@ namespace Zorglub.Time.Simple
         {
             ref readonly var chr = ref CalendarRef;
             var ymd = chr.Arithmetic.AddDays(Parts, days);
-            chr.YearOverflowChecker.Check(ymd.Year);
             return new CalendarDate(ymd, Cuid);
         }
 
@@ -663,7 +658,6 @@ namespace Zorglub.Time.Simple
         {
             ref readonly var chr = ref CalendarRef;
             var ymd = chr.Arithmetic.NextDay(Parts);
-            chr.YearOverflowChecker.CheckUpperBound(ymd.Year);
             return new CalendarDate(ymd, Cuid);
         }
 
@@ -673,7 +667,6 @@ namespace Zorglub.Time.Simple
         {
             ref readonly var chr = ref CalendarRef;
             var ymd = chr.Arithmetic.PreviousDay(Parts);
-            chr.YearOverflowChecker.CheckLowerBound(ymd.Year);
             return new CalendarDate(ymd, Cuid);
         }
 

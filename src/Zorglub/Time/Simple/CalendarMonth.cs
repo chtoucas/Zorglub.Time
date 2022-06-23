@@ -620,7 +620,6 @@ namespace Zorglub.Time.Simple
         {
             ref readonly var chr = ref CalendarRef;
             var ym = chr.Arithmetic.AddMonths(Parts, months);
-            chr.YearOverflowChecker.Check(ym.Year);
             return new CalendarMonth(ym, Cuid);
         }
 
@@ -634,7 +633,6 @@ namespace Zorglub.Time.Simple
         {
             ref readonly var chr = ref CalendarRef;
             var ym = chr.Arithmetic.NextMonth(Parts);
-            chr.YearOverflowChecker.CheckUpperBound(ym.Year);
             return new CalendarMonth(ym, Cuid);
         }
 
@@ -648,7 +646,6 @@ namespace Zorglub.Time.Simple
         {
             ref readonly var chr = ref CalendarRef;
             var ym = chr.Arithmetic.PreviousMonth(Parts);
-            chr.YearOverflowChecker.CheckLowerBound(ym.Year);
             return new CalendarMonth(ym, Cuid);
         }
 

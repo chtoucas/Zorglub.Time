@@ -380,7 +380,6 @@ namespace Zorglub.Time.Simple
             ref readonly var chr = ref CalendarRef;
             int δ = dayOfWeek - chr.GetDayOfWeek(this);
             var ydoy = chr.Arithmetic.AddDaysViaDayOfYear(Parts, δ >= 0 ? δ - CalendricalConstants.DaysInWeek : δ);
-            chr.YearOverflowChecker.CheckLowerBound(ydoy.Year);
             return new OrdinalDate(ydoy, Cuid);
         }
 
@@ -394,7 +393,6 @@ namespace Zorglub.Time.Simple
             int δ = dayOfWeek - chr.GetDayOfWeek(this);
             if (δ == 0) { return this; }
             var ydoy = chr.Arithmetic.AddDaysViaDayOfYear(Parts, δ > 0 ? δ - CalendricalConstants.DaysInWeek : δ);
-            chr.YearOverflowChecker.CheckLowerBound(ydoy.Year);
             return new OrdinalDate(ydoy, Cuid);
         }
 
@@ -419,7 +417,6 @@ namespace Zorglub.Time.Simple
             int δ = dayOfWeek - chr.GetDayOfWeek(this);
             if (δ == 0) { return this; }
             var ydoy = chr.Arithmetic.AddDaysViaDayOfYear(Parts, δ < 0 ? δ + CalendricalConstants.DaysInWeek : δ);
-            chr.YearOverflowChecker.CheckUpperBound(ydoy.Year);
             return new OrdinalDate(ydoy, Cuid);
         }
 
@@ -432,7 +429,6 @@ namespace Zorglub.Time.Simple
             ref readonly var chr = ref CalendarRef;
             int δ = dayOfWeek - chr.GetDayOfWeek(this);
             var ydoy = chr.Arithmetic.AddDaysViaDayOfYear(Parts, δ <= 0 ? δ + CalendricalConstants.DaysInWeek : δ);
-            chr.YearOverflowChecker.CheckUpperBound(ydoy.Year);
             return new OrdinalDate(ydoy, Cuid);
         }
 
@@ -615,7 +611,6 @@ namespace Zorglub.Time.Simple
         {
             ref readonly var chr = ref CalendarRef;
             var ydoy = chr.Arithmetic.AddDays(Parts, days);
-            chr.YearOverflowChecker.Check(ydoy.Year);
             return new OrdinalDate(ydoy, Cuid);
         }
 
@@ -625,7 +620,6 @@ namespace Zorglub.Time.Simple
         {
             ref readonly var chr = ref CalendarRef;
             var ydoy = chr.Arithmetic.NextDay(Parts);
-            chr.YearOverflowChecker.CheckUpperBound(ydoy.Year);
             return new OrdinalDate(ydoy, Cuid);
         }
 
@@ -635,7 +629,6 @@ namespace Zorglub.Time.Simple
         {
             ref readonly var chr = ref CalendarRef;
             var ydoy = chr.Arithmetic.PreviousDay(Parts);
-            chr.YearOverflowChecker.CheckLowerBound(ydoy.Year);
             return new OrdinalDate(ydoy, Cuid);
         }
 
