@@ -33,20 +33,13 @@ public readonly partial struct GregorianTriple :
     IMinMaxValue<GregorianTriple>,
     ISubtractionOperators<GregorianTriple, int, GregorianTriple>
 {
-    public const int MinYear = -9998;
-    public const int MaxYear = 9999;
-
-    // WARNING: proper initialization of the static fields depends on the
-    // order in which they are written.
-
     private static readonly GregorianSchema s_Schema = GregorianSchema.GetInstance().Unbox();
-    private static readonly PartsFactory s_PartsFactory = PartsFactory.Create(s_Schema);
 
     private readonly Yemoda _bin;
 
     public GregorianTriple(int year, int month, int day)
     {
-        _bin = s_PartsFactory.CreateYemoda(year, month, day);
+        _bin = PartsFactory.CreateYemoda(year, month, day);
     }
 
     private GregorianTriple(Yemoda bin)
@@ -54,9 +47,13 @@ public readonly partial struct GregorianTriple :
         _bin = bin;
     }
 
-    public static Range<int> Domain => s_Schema.Domain;
+    public static Range<int> SupportedYears => s_Schema.SupportedYears;
     public static GregorianTriple MinValue { get; } = new(s_Schema.Segment.MinMaxDateParts.LowerValue);
     public static GregorianTriple MaxValue { get; } = new(s_Schema.Segment.MinMaxDateParts.UpperValue);
+
+    private static Range<int> Domain { get; } = s_Schema.Domain;
+    private static PartsFactory PartsFactory { get; } = PartsFactory.Create(s_Schema);
+    private static ICalendricalArithmetic Arithmetic { get; } = s_Schema.Arithmetic;
 
     public Ord CenturyOfEra => Ord.FromInt32(Century);
     public int Century => YearNumbering.GetCentury(Year);
@@ -233,24 +230,17 @@ public partial struct GregorianTriple // Math ops
 
     [Pure]
     public int CountDaysSince(GregorianTriple other) =>
-        s_Schema.Arithmetic.CountDaysBetween(other._bin, _bin);
+        Arithmetic.CountDaysBetween(other._bin, _bin);
 
     [Pure]
-    public GregorianTriple PlusDays(int days)
-    {
-        var ymd = s_Schema.Arithmetic.AddDays(_bin, days);
-        int y = ymd.Year;
-        if (y < MinYear || y > MaxYear) throw new OverflowException();
-        return new GregorianTriple(ymd);
-    }
+    public GregorianTriple PlusDays(int days) =>
+        new(Arithmetic.AddDays(_bin, days));
 
     [Pure]
     public GregorianTriple NextDay() =>
-        this == MaxValue ? throw new OverflowException()
-        : new GregorianTriple(s_Schema.Arithmetic.NextDay(_bin));
+        new(Arithmetic.NextDay(_bin));
 
     [Pure]
     public GregorianTriple PreviousDay() =>
-        this == MinValue ? throw new OverflowException()
-        : new GregorianTriple(s_Schema.Arithmetic.PreviousDay(_bin));
+        new(Arithmetic.PreviousDay(_bin));
 }

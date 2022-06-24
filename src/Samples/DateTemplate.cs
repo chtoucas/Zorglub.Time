@@ -66,10 +66,9 @@ public partial struct DateTemplate // Type init, partial methods
     private static readonly DayNumber s_Epoch = InitEpoch();
     private static readonly int s_EpochDayOfWeek = (int)s_Epoch.DayOfWeek;
 
-    private static readonly ICalendarScope s_Scope =
-        MinMaxYearScope.WithMinYear(s_Schema, s_Epoch, 1);
-
+    private static readonly ICalendarScope s_Scope = MinMaxYearScope.WithMinYear(s_Schema, s_Epoch, 1);
     private static readonly PartsFactory s_PartsFactory = new(s_Scope);
+    private static readonly ICalendricalArithmetic s_Arithmetic = ICalendricalArithmeticPlus.CreateDefault(s_Schema, s_Scope.SupportedYears);
 
     [Pure] private static partial SystemSchema InitSchema();
     [Pure] private static partial DayNumber InitEpoch();
@@ -90,9 +89,11 @@ public partial struct DateTemplate
     }
 
     public static DayNumber Epoch => s_Epoch;
-    public static Range<DayNumber> Domain { get; } = s_Scope.Domain;
+    public static Range<int> SupportedYears => s_Scope.SupportedYears;
     public static DateTemplate MinValue { get; } = new(s_Schema.GetStartOfYearParts(s_Scope.SupportedYears.Min));
     public static DateTemplate MaxValue { get; } = new(s_Schema.GetEndOfYearParts(s_Scope.SupportedYears.Max));
+
+    private static Range<DayNumber> Domain { get; } = s_Scope.Domain;
 
     public Ord CenturyOfEra => Ord.FromInt32(Century);
     public int Century => YearNumbering.GetCentury(Year);
@@ -361,23 +362,17 @@ public partial struct DateTemplate // Math ops
 
     [Pure]
     public int CountDaysSince(DateTemplate other) =>
-        s_Schema.Arithmetic.CountDaysBetween(other._bin, _bin);
+        s_Arithmetic.CountDaysBetween(other._bin, _bin);
 
     [Pure]
-    public DateTemplate PlusDays(int days)
-    {
-        var ymd = s_Schema.Arithmetic.AddDays(_bin, days);
-        if (s_Scope.SupportedYears.Contains(ymd.Year) == false) { throw new OverflowException(); }
-        return new DateTemplate(ymd);
-    }
+    public DateTemplate PlusDays(int days) =>
+        new(s_Arithmetic.AddDays(_bin, days));
 
     [Pure]
     public DateTemplate NextDay() =>
-        this == MaxValue ? throw new OverflowException()
-        : new DateTemplate(s_Schema.Arithmetic.NextDay(_bin));
+        new(s_Arithmetic.NextDay(_bin));
 
     [Pure]
     public DateTemplate PreviousDay() =>
-        this == MinValue ? throw new OverflowException()
-        : new DateTemplate(s_Schema.Arithmetic.PreviousDay(_bin));
+        new(s_Arithmetic.PreviousDay(_bin));
 }

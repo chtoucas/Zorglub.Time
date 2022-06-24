@@ -30,14 +30,11 @@ public readonly partial record struct GregorianRecord :
     IMinMaxValue<GregorianRecord>,
     ISubtractionOperators<GregorianRecord, int, GregorianRecord>
 {
-    public const int MinYear = -9998;
-    public const int MaxYear = 9999;
-
     private static readonly GregorianSchema s_Schema = GregorianSchema.GetInstance().Unbox();
 
     public GregorianRecord(int year, int month, int day)
     {
-        if (year < MinYear || year > MaxYear) throw new ArgumentOutOfRangeException(nameof(year));
+        if (s_Schema.SupportedYears.Contains(year) == false) throw new ArgumentOutOfRangeException(nameof(year));
         s_Schema.PreValidator.ValidateMonthDay(year, month, day);
 
         Year = year;
@@ -50,9 +47,12 @@ public readonly partial record struct GregorianRecord :
         (Year, Month, Day) = ymd;
     }
 
-    public static Range<int> Domain => s_Schema.Domain;
+    public static Range<int> SupportedYears => s_Schema.SupportedYears;
     public static GregorianRecord MinValue { get; } = new(s_Schema.Segment.MinMaxDateParts.LowerValue);
     public static GregorianRecord MaxValue { get; } = new(s_Schema.Segment.MinMaxDateParts.UpperValue);
+
+    private static Range<int> Domain { get; } = s_Schema.Domain;
+    private static ICalendricalArithmetic Arithmetic { get; } = s_Schema.Arithmetic;
 
     public Ord CenturyOfEra => Ord.FromInt32(Century);
     public int Century => YearNumbering.GetCentury(Year);
@@ -170,24 +170,17 @@ public partial record struct GregorianRecord // Math ops
 
     [Pure]
     public int CountDaysSince(GregorianRecord other) =>
-        s_Schema.Arithmetic.CountDaysBetween(other.Yemoda, Yemoda);
+        Arithmetic.CountDaysBetween(other.Yemoda, Yemoda);
 
     [Pure]
-    public GregorianRecord PlusDays(int days)
-    {
-        var ymd = s_Schema.Arithmetic.AddDays(Yemoda, days);
-        int y = ymd.Year;
-        if (y < MinYear || y > MaxYear) throw new OverflowException();
-        return new GregorianRecord(ymd);
-    }
+    public GregorianRecord PlusDays(int days) =>
+        new(Arithmetic.AddDays(Yemoda, days));
 
     [Pure]
     public GregorianRecord NextDay() =>
-        this == MaxValue ? throw new OverflowException()
-        : new GregorianRecord(s_Schema.Arithmetic.NextDay(Yemoda));
+        new(Arithmetic.NextDay(Yemoda));
 
     [Pure]
     public GregorianRecord PreviousDay() =>
-        this == MinValue ? throw new OverflowException()
-        : new GregorianRecord(s_Schema.Arithmetic.PreviousDay(Yemoda));
+        new(Arithmetic.PreviousDay(Yemoda));
 }

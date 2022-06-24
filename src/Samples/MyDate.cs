@@ -35,6 +35,7 @@ public readonly partial struct MyDate :
 
     private static readonly ICalendarScope s_Scope = new MinMaxYearScope(s_Schema, s_Epoch, 1, 9999);
     private static readonly PartsFactory s_PartsFactory = new(s_Scope);
+    private static readonly ICalendricalArithmetic s_Arithmetic = ICalendricalArithmeticPlus.CreateDefault(s_Schema, s_Scope.SupportedYears);
 
     private readonly Yemoda _bin;
 
@@ -49,9 +50,11 @@ public readonly partial struct MyDate :
     }
 
     public static DayNumber Epoch => s_Epoch;
-    public static Range<DayNumber> Domain { get; } = s_Scope.Domain;
+    public static Range<int> SupportedYears => s_Scope.SupportedYears;
     public static MyDate MinValue { get; } = new(s_Schema.GetStartOfYearParts(s_Scope.SupportedYears.Min));
     public static MyDate MaxValue { get; } = new(s_Schema.GetEndOfYearParts(s_Scope.SupportedYears.Max));
+
+    private static Range<DayNumber> Domain { get; } = s_Scope.Domain;
 
     public Ord CenturyOfEra => Ord.FromInt32(Century);
     public int Century => YearNumbering.GetCentury(Year);
@@ -291,34 +294,17 @@ public partial struct MyDate // Math ops
 
     [Pure]
     public int CountDaysSince(MyDate other) =>
-        s_Schema.Arithmetic.CountDaysBetween(other._bin, _bin);
+        s_Arithmetic.CountDaysBetween(other._bin, _bin);
 
     [Pure]
-    public MyDate PlusDays(int days)
-    {
-        var ymd = s_Schema.Arithmetic.AddDays(_bin, days);
-        if (s_Scope.SupportedYears.Contains(ymd.Year) == false)
-        {
-            throw new OverflowException();
-        }
-        return new MyDate(ymd);
-    }
+    public MyDate PlusDays(int days) =>
+        new(s_Arithmetic.AddDays(_bin, days));
 
     [Pure]
-    public MyDate NextDay()
-    {
-        if (this == MaxValue) { throw new OverflowException(); }
-
-        var ymd = s_Schema.Arithmetic.NextDay(_bin);
-        return new MyDate(ymd);
-    }
+    public MyDate NextDay() =>
+        new(s_Arithmetic.NextDay(_bin));
 
     [Pure]
-    public MyDate PreviousDay()
-    {
-        if (this == MinValue) { throw new OverflowException(); }
-
-        var ymd = s_Schema.Arithmetic.PreviousDay(_bin);
-        return new MyDate(ymd);
-    }
+    public MyDate PreviousDay() =>
+        new(s_Arithmetic.PreviousDay(_bin));
 }
