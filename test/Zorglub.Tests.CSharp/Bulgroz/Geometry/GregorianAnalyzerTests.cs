@@ -97,7 +97,7 @@ public partial class GregorianCenturyFormTests
         Assert.Equal(new CalendricalForm(4, 146_097, 1227), altForm.Reverse());
     }
 
-    #region AltCenturyForm.
+    #region AltCenturyForm
 
     [Theory, MemberData(nameof(CenturyLengths))]
     public static void AltCenturyForm_CountDaysInCentury(int c, int daysInCentury) =>

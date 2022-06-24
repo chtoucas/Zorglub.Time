@@ -44,8 +44,8 @@ namespace Zorglub.Time.Core
     // ICalendricalSchema: no overflow, lenient methods, same range of years,
     // etc.
     //
-    // All methods assume that a Yemoda (or a Yedoy) input forms a valid date
-    // for the underlying schema.
+    // All methods assume that a Yemoda (Yemo, or Yedoy) input forms a valid
+    // object for the underlying schema.
 
     #endregion
 
@@ -55,7 +55,7 @@ namespace Zorglub.Time.Core
     public interface ICalendricalArithmetic
     {
         /// <summary>
-        /// Gets the calendrical segment of days.
+        /// Gets the calendrical segment of supported days.
         /// </summary>
         CalendricalSegment Segment { get; }
 

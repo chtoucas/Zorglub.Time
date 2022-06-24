@@ -60,7 +60,7 @@ namespace Zorglub.Time.Core
         [Pure] Yemo AddYears(Yemo ym, int years, out int roundoff);
 
         /// <summary>
-        /// Creates the default <see cref="ICalendricalArithmeticPlus"/> for the specified schema.
+        /// Creates the default arithmetic for the specified schema.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
         [Pure]
@@ -68,8 +68,7 @@ namespace Zorglub.Time.Core
             SystemArithmetic.Create(schema);
 
         /// <summary>
-        /// Creates the default <see cref="ICalendricalArithmeticPlus"/> for the specified schema
-        /// and range of supported years.
+        /// Creates the default arithmetic for the specified schema and range of supported years.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
         [Pure]

@@ -116,7 +116,7 @@ namespace Zorglub.Time.Core.Arithmetic
             CreateCore(schema, schema?.SupportedYears);
 
         /// <summary>
-        /// Creates the default arithmetic engine.
+        /// Creates the default arithmetic for the specified schema and range of supported years.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
         [Pure]
@@ -124,7 +124,7 @@ namespace Zorglub.Time.Core.Arithmetic
             CreateCore(schema, supportedYears);
 
         /// <summary>
-        /// Creates the default arithmetic engine.
+        /// Creates the default arithmetic for the specified schema.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
         [Pure]
