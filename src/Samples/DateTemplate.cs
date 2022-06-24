@@ -18,17 +18,13 @@ using Zorglub.Time.Hemerology;
 
 using static Zorglub.Time.Extensions.Unboxing;
 
-// Exploring the idea of a date type without an accompanying calendar type.
-// Hypothesis: proleptic scope (important for the arithmetic engine which
-// assumes that).
-// See also Zorglub.Time.Hemerology.CivilDate.
+// Exploring the idea of a date type without a companion calendar type.
 // Pros:
 // - Faster, no Calendar lookup, we are also free to add any local
 //   optimisation we like.
 // - We can add custom methods only meaningful to a specific date type.
 // Cons:
-// - Puts a lot of burden on the developer, BUT could it be minimized w/ a
-//   Source Generator?
+// - Puts more burden on the developer.
 
 // Using the template in the Gregorian case.
 public partial struct DateTemplate
@@ -88,12 +84,12 @@ public partial struct DateTemplate
         _bin = bin;
     }
 
+    private static Range<DayNumber> Domain { get; } = s_Scope.Domain;
+
     public static DayNumber Epoch => s_Epoch;
     public static Range<int> SupportedYears => s_Scope.SupportedYears;
     public static DateTemplate MinValue { get; } = new(s_Schema.GetStartOfYearParts(s_Scope.SupportedYears.Min));
     public static DateTemplate MaxValue { get; } = new(s_Schema.GetEndOfYearParts(s_Scope.SupportedYears.Max));
-
-    private static Range<DayNumber> Domain { get; } = s_Scope.Domain;
 
     public Ord CenturyOfEra => Ord.FromInt32(Century);
     public int Century => YearNumbering.GetCentury(Year);
@@ -361,18 +357,14 @@ public partial struct DateTemplate // Math ops
 #pragma warning restore CA2225
 
     [Pure]
-    public int CountDaysSince(DateTemplate other) =>
-        s_Arithmetic.CountDaysBetween(other._bin, _bin);
+    public int CountDaysSince(DateTemplate other) => s_Arithmetic.CountDaysBetween(other._bin, _bin);
 
     [Pure]
-    public DateTemplate PlusDays(int days) =>
-        new(s_Arithmetic.AddDays(_bin, days));
+    public DateTemplate PlusDays(int days) => new(s_Arithmetic.AddDays(_bin, days));
 
     [Pure]
-    public DateTemplate NextDay() =>
-        new(s_Arithmetic.NextDay(_bin));
+    public DateTemplate NextDay() => new(s_Arithmetic.NextDay(_bin));
 
     [Pure]
-    public DateTemplate PreviousDay() =>
-        new(s_Arithmetic.PreviousDay(_bin));
+    public DateTemplate PreviousDay() => new(s_Arithmetic.PreviousDay(_bin));
 }

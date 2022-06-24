@@ -15,10 +15,8 @@ using Zorglub.Time.Hemerology;
 
 using static Zorglub.Time.Extensions.Unboxing;
 
-// Exploring the idea of a date type without an accompanying calendar type
+// Exploring the idea of a date type without a companion calendar type
 // and built upon DayNumber instead of Yemoda.
-// Hypothesis: proleptic scope.
-// See also Zorglub.Time.Hemerology.GregorianDay.
 // Pros:
 // - Some operations are simpler and even sometimes faster: everything
 //   related to the day of the week, interconversion. In theory, the adding
@@ -66,8 +64,7 @@ public partial struct DayTemplate // Type init, partial methods
     private static readonly SystemSchema s_Schema = InitSchema();
     private static readonly DayNumber s_Epoch = InitEpoch();
 
-    private static readonly ICalendarScope s_Scope =
-        MinMaxYearScope.WithMinYear(s_Schema, s_Epoch, 1);
+    private static readonly ICalendarScope s_Scope = MinMaxYearScope.WithMinYear(s_Schema, s_Epoch, 1);
 
     [Pure] private static partial SystemSchema InitSchema();
     [Pure] private static partial DayNumber InitEpoch();
@@ -96,8 +93,9 @@ public partial struct DayTemplate
         _daysSinceEpoch = daysSinceEpoch;
     }
 
+    private static Range<DayNumber> Domain { get; } = s_Scope.Domain;
+
     public static DayNumber Epoch => s_Epoch;
-    public static Range<DayNumber> Domain { get; } = s_Scope.Domain;
     public static DayTemplate MinValue { get; } = new(Domain.Min - Epoch);
     public static DayTemplate MaxValue { get; } = new(Domain.Max - Epoch);
 

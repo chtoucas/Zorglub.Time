@@ -47,13 +47,13 @@ public readonly partial struct GregorianTriple :
         _bin = bin;
     }
 
-    public static Range<int> SupportedYears => s_Schema.SupportedYears;
-    public static GregorianTriple MinValue { get; } = new(s_Schema.Segment.MinMaxDateParts.LowerValue);
-    public static GregorianTriple MaxValue { get; } = new(s_Schema.Segment.MinMaxDateParts.UpperValue);
-
     private static Range<int> Domain { get; } = s_Schema.Domain;
     private static PartsFactory PartsFactory { get; } = PartsFactory.Create(s_Schema);
     private static ICalendricalArithmetic Arithmetic { get; } = s_Schema.Arithmetic;
+
+    public static Range<int> SupportedYears => s_Schema.SupportedYears;
+    public static GregorianTriple MinValue { get; } = new(s_Schema.Segment.MinMaxDateParts.LowerValue);
+    public static GregorianTriple MaxValue { get; } = new(s_Schema.Segment.MinMaxDateParts.UpperValue);
 
     public Ord CenturyOfEra => Ord.FromInt32(Century);
     public int Century => YearNumbering.GetCentury(Year);
