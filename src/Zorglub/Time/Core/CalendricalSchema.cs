@@ -147,6 +147,9 @@ namespace Zorglub.Time.Core
         private ICalendricalArithmeticPlus? _arithmetic;
         /// <summary>
         /// Gets the arithmetic for this schema.
+        /// <remarks>
+        /// <para>See also the factory methods in <see cref="ICalendricalArithmeticPlus"/>.</para>
+        /// </remarks>
         /// </summary>
         public ICalendricalArithmeticPlus Arithmetic
         {

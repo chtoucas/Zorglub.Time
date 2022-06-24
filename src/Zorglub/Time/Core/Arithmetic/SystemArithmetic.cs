@@ -213,7 +213,7 @@ namespace Zorglub.Time.Core.Arithmetic
         [Pure]
         public abstract Yemo AddMonths(Yemo ym, int months);
 
-        // REVIEW(code): optimize Next/PreviousMonth().
+        // REVIEW(code): optimize Next/PreviousMonth(). See GregorianArithmetic.
 
         /// <inheritdoc />
         [Pure]

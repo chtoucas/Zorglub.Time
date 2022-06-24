@@ -139,6 +139,9 @@ namespace Zorglub.Time.Core
         /// <summary>
         /// Gets the standard arithmetic for this schema.
         /// </summary>
+        /// <remarks>
+        /// <para>See also the factory methods in <see cref="ICalendricalArithmeticPlus"/>.</para>
+        /// </remarks>
         ICalendricalArithmetic Arithmetic { get; }
     }
 
