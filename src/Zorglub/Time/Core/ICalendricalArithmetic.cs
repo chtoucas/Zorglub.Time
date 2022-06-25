@@ -10,16 +10,16 @@ namespace Zorglub.Time.Core
     // **Only ICalendricalArithmetic and CalendricalArithmetic are public.**
     //
     // ICalendricalArithmetic
-    // ├─ CalendricalArithmetic
-    // └─ SystemArithmetic [A]
-    //    ├─ GregorianArithmetic     (Gregorian-only)
-    //    ├─ LunarArithmetic         (CalendricalSchema)
-    //    ├─ LunisolarArithmetic     (CalendricalSchema)
-    //    ├─ PlainArithmetic         (ICalendricalSchema)
-    //    ├─ RegularArithmetic       (ICalendricalSchema)
-    //    └─ SolarArithmetic [A]     (CalendricalSchema)
-    //       ├─ Solar12Arithmetic    (CalendricalSchema)
-    //       └─ Solar13Arithmetic    (CalendricalSchema)
+    // ├─ CalendricalArithmetic         (ICalendricalSchema)
+    // └─ CalendricalArithmeticPlus [A] (CalendricalSchema)
+    //    ├─ GregorianArithmetic        (GregorianSchema)
+    //    ├─ LunarArithmetic            (-)
+    //    ├─ LunisolarArithmetic        (-)
+    //    ├─ PlainArithmetic            (-)
+    //    ├─ RegularArithmetic          (-)
+    //    └─ SolarArithmetic [A]        (-)
+    //       ├─ Solar12Arithmetic       (-)
+    //       └─ Solar13Arithmetic       (-)
     //
     // Annotation: [A] = abstract
     //
@@ -27,10 +27,7 @@ namespace Zorglub.Time.Core
     // ------------
     // Public:
     //   ICalendricalSchema.Arithmetic
-    //   CalendricalSchema.TryGetCustomArithmetic()
-    //
-    // Internal:
-    //   SystemArithmetic.Create(CalendricalSchema)
+    //   CalendricalArithmeticPlus.CreateDefault(CalendricalSchema)
     //
     // Comments
     // --------

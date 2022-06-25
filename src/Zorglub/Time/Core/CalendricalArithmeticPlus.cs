@@ -1,8 +1,9 @@
 ﻿// SPDX-License-Identifier: BSD-3-Clause
 // Copyright (c) 2020 Narvalo.Org. All rights reserved.
 
-namespace Zorglub.Time.Core.Arithmetic
+namespace Zorglub.Time.Core
 {
+    using Zorglub.Time.Core.Arithmetic;
     using Zorglub.Time.Core.Intervals;
     using Zorglub.Time.Core.Schemas;
 
@@ -14,14 +15,15 @@ namespace Zorglub.Time.Core.Arithmetic
     // a wrong context, meaning in a place where a different schema is expected.
 
     /// <summary>
-    /// Defines the core mathematical operations on dates and provides a base for derived classes.
+    /// Defines the core mathematical operations on dates and months, and provides a base for derived
+    /// classes.
     /// </summary>
     /// <remarks>
     /// <para>Operations are <i>lenient</i>, they assume that their parameters are valid from a
     /// calendrical point of view. They MUST ensure that all returned values are valid when the
     /// previous condition is met.</para>
     /// </remarks>
-    internal abstract partial class SystemArithmetic : ICalendricalArithmeticPlus
+    public abstract partial class CalendricalArithmeticPlus : ICalendricalArithmetic
     {
         /// <summary>
         /// Represents the absolute minimum value admissible for the minimum total number of days
@@ -30,17 +32,17 @@ namespace Zorglub.Time.Core.Arithmetic
         /// </summary>
         // The value has been chosen such that we can call AddDaysViaDayOfMonth()
         // safely when adjusting the day of the week.
-        public const int MinMinDaysInMonth = 7;
+        internal const int MinMinDaysInMonth = 7;
 
         /// <summary>
         /// Called from constructors in derived classes to initialize the
-        /// <see cref="SystemArithmetic"/> class.
+        /// <see cref="CalendricalArithmeticPlus"/> class.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
         /// <exception cref="ArgumentException">The range of supported years by
         /// <paramref name="schema"/> and <see cref="Yemoda"/> are disjoint.
         /// </exception>
-        protected SystemArithmetic(ICalendricalSchema schema, Range<int>? supportedYears)
+        protected CalendricalArithmeticPlus(CalendricalSchema schema, Range<int>? supportedYears)
         {
             Schema = schema ?? throw new ArgumentNullException(nameof(schema));
 
@@ -78,7 +80,7 @@ namespace Zorglub.Time.Core.Arithmetic
         /// <summary>
         /// Gets the underlying schema.
         /// </summary>
-        protected ICalendricalSchema Schema { get; }
+        protected CalendricalSchema Schema { get; }
 
         /// <summary>
         /// Gets the factory for calendrical parts.
@@ -108,52 +110,41 @@ namespace Zorglub.Time.Core.Arithmetic
         public int MaxDaysViaDayOfMonth { get; init; }
 
         /// <summary>
-        /// Creates the default arithmetic engine.
+        /// Creates the default arithmetic object for the specified schema.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
         [Pure]
-        public static SystemArithmetic Create(CalendricalSchema schema) =>
-            CreateCore(schema, schema?.SupportedYears);
-
-        /// <summary>
-        /// Creates the default arithmetic for the specified schema and range of supported years.
-        /// </summary>
-        /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
-        [Pure]
-        public static SystemArithmetic Create(CalendricalSchema schema, Range<int> supportedYears) =>
-            CreateCore(schema, supportedYears);
-
-        /// <summary>
-        /// Creates the default arithmetic for the specified schema.
-        /// </summary>
-        /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
-        [Pure]
-        private static SystemArithmetic CreateCore(CalendricalSchema schema, Range<int>? supportedYears)
+        public static CalendricalArithmeticPlus CreateDefault(CalendricalSchema schema)
         {
             Requires.NotNull(schema);
 
             return schema.Profile switch
             {
                 CalendricalProfile.Solar12 =>
-                    schema is GregorianSchema ? new GregorianArithmetic(supportedYears)
-                    : new Solar12Arithmetic(schema, supportedYears),
-                CalendricalProfile.Solar13 => new Solar13Arithmetic(schema, supportedYears),
-                CalendricalProfile.Lunar => new LunarArithmetic(schema, supportedYears),
-                CalendricalProfile.Lunisolar => new LunisolarArithmetic(schema, supportedYears),
+                    schema is GregorianSchema ? new GregorianArithmetic()
+                    : new Solar12Arithmetic(schema),
+                CalendricalProfile.Solar13 => new Solar13Arithmetic(schema),
+                CalendricalProfile.Lunar => new LunarArithmetic(schema),
+                CalendricalProfile.Lunisolar => new LunisolarArithmetic(schema),
 
                 // NB: there is no real gain to expect in trying to improve the
                 // perf for regular schemas except for month ops. Not convinced?
                 // Check the code, we only call CountMonthsInYear() in two
                 // corner cases.
-                _ => schema.MinDaysInMonth >= MinMinDaysInMonth
-                    && schema.IsRegular(out _)
-                    ? new RegularArithmetic(schema, supportedYears)
-                    : new PlainArithmetic(schema, supportedYears)
+                _ => schema.MinDaysInMonth >= MinMinDaysInMonth && schema.IsRegular(out _)
+                    ? new RegularArithmetic(schema)
+                    : new PlainArithmetic(schema)
             };
         }
+
+        /// <summary>
+        /// Creates a new arithmetic object using the same underlying schema but with the specified
+        /// range of supported years.
+        /// </summary>
+        [Pure] public abstract CalendricalArithmeticPlus WithSupportedYears(Range<int> supportedYears);
     }
 
-    internal partial class SystemArithmetic // ICalendricalArithmetic
+    public partial class CalendricalArithmeticPlus // ICalendricalArithmetic
     {
         //
         // Operations on Yemoda
@@ -225,25 +216,50 @@ namespace Zorglub.Time.Core.Arithmetic
 
         /// <inheritdoc />
         [Pure]
+        [SuppressMessage("Naming", "CA1716:Identifiers should not match keywords.", Justification = "F# & VB.NET End statement.")]
         public abstract int CountMonthsBetween(Yemo start, Yemo end);
     }
 
-    internal partial class SystemArithmetic // ICalendricalArithmeticPlus
+    public partial class CalendricalArithmeticPlus // Non-standard operations
     {
-        /// <inheritdoc/>
+        /// <summary>
+        /// Adds a number of years to the year field of the specified date.
+        /// </summary>
+        /// <returns>The end of the target month (resp. year) when the naive result is not a valid
+        /// day (resp. month).</returns>
+        /// <exception cref="OverflowException">The calculation would overflow the range of
+        /// supported values.</exception>
         [Pure] public abstract Yemoda AddYears(Yemoda ymd, int years, out int roundoff);
 
-        /// <inheritdoc/>
+        /// <summary>
+        /// Adds a number of months to the specified date.
+        /// </summary>
+        /// <returns>The last day of the month when the naive result is not a valid day
+        /// (roundoff > 0).</returns>
+        /// <exception cref="OverflowException">The calculation would overflow the range of
+        /// supported values.</exception>
         [Pure] public abstract Yemoda AddMonths(Yemoda ymd, int months, out int roundoff);
 
-        /// <inheritdoc/>
+        /// <summary>
+        /// Adds a number of years to the year field of the specified ordinal date.
+        /// </summary>
+        /// <returns>The last day of the year when the naive result is not a valid day
+        /// (roundoff > 0).</returns>
+        /// <exception cref="OverflowException">The calculation would overflow the range of
+        /// supported values.</exception>
         [Pure] public abstract Yedoy AddYears(Yedoy ydoy, int years, out int roundoff);
 
-        /// <inheritdoc/>
+        /// <summary>
+        /// Adds a number of years to the year field of the specified month.
+        /// </summary>
+        /// <returns>The last month of the year when the naive result is not a valid month
+        /// (roundoff > 0).</returns>
+        /// <exception cref="OverflowException">The calculation would overflow the range of
+        /// supported values.</exception>
         [Pure] public abstract Yemo AddYears(Yemo ym, int years, out int roundoff);
     }
 
-    internal partial class SystemArithmetic // Fast operations
+    public partial class CalendricalArithmeticPlus // Fast operations
     {
         // AddDaysViaDayOfYear().
         // Only when we know in advance that |days| <= MaxDaysViaDayOfYear.

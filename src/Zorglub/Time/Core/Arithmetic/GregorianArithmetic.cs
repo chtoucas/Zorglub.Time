@@ -13,7 +13,7 @@ namespace Zorglub.Time.Core.Arithmetic
     /// Provides the core mathematical operations on dates within the Gregorian calendar.
     /// <para>This class cannot be inherited.</para>
     /// </summary>
-    internal sealed partial class GregorianArithmetic : SystemArithmetic
+    internal sealed partial class GregorianArithmetic : CalendricalArithmeticPlus
     {
         private const int MonthsInYear = __Solar12.MonthsInYear;
         private const int MinDaysInYear = __Solar.MinDaysInYear;
@@ -32,6 +32,11 @@ namespace Zorglub.Time.Core.Arithmetic
             MaxDaysViaDayOfYear = MaxDaysViaDayOfYear_;
             MaxDaysViaDayOfMonth = MaxDaysViaDayOfMonth_;
         }
+
+        /// <inheritdoc />
+        [Pure]
+        public override CalendricalArithmeticPlus WithSupportedYears(Range<int> supportedYears) =>
+            new GregorianArithmetic(supportedYears);
     }
 
     internal partial class GregorianArithmetic // Operations on Yemoda
@@ -263,7 +268,7 @@ namespace Zorglub.Time.Core.Arithmetic
         }
     }
 
-    internal partial class GregorianArithmetic // ICalendricalArithmeticPlus
+    internal partial class GregorianArithmetic // Non-standard operations
     {
         /// <inheritdoc />
         [Pure]

@@ -145,7 +145,7 @@ namespace Zorglub.Time.Simple
             }
 
             PreValidator = schema.PreValidator;
-            Arithmetic = SystemArithmetic.Create(schema, Scope.SupportedYears);
+            Arithmetic = schema.Arithmetic.WithSupportedYears(Scope.SupportedYears);
 
             SupportedYears = Scope.SupportedYears;
             Domain = Scope.Domain;
@@ -370,7 +370,7 @@ namespace Zorglub.Time.Simple
         /// <summary>
         /// Gets the arithmetical operators.
         /// </summary>
-        internal SystemArithmetic Arithmetic { get; }
+        internal CalendricalArithmeticPlus Arithmetic { get; }
 
         /// <summary>
         /// Gets the checker for overflows of the range of years.

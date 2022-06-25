@@ -6,12 +6,12 @@ namespace Zorglub.Time.Core.Arithmetic
     using Zorglub.Time.Core.Intervals;
 
     /// <summary>
-    /// Provides a plain implementation for <see cref="SystemArithmetic"/>.
+    /// Provides a plain implementation for <see cref="CalendricalArithmeticPlus"/>.
     /// <para>The length of a month must be greater than or equal to
-    /// <see cref="SystemArithmetic.MinMinDaysInMonth"/>.</para>
+    /// <see cref="CalendricalArithmeticPlus.MinMinDaysInMonth"/>.</para>
     /// <para>This class cannot be inherited.</para>
     /// </summary>
-    internal sealed partial class RegularArithmetic : SystemArithmetic
+    internal sealed partial class RegularArithmetic : CalendricalArithmeticPlus
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="RegularArithmetic"/> class.
@@ -21,10 +21,10 @@ namespace Zorglub.Time.Core.Arithmetic
         /// <paramref name="schema"/> and <see cref="Yemoda"/> are disjoint.
         /// </exception>
         /// <exception cref="ArgumentException"><paramref name="schema"/> contains at least one
-        /// month whose length is strictly less than <see cref="SystemArithmetic.MinMinDaysInMonth"/>.
+        /// month whose length is strictly less than <see cref="CalendricalArithmeticPlus.MinMinDaysInMonth"/>.
         /// </exception>
         /// <exception cref="ArgumentException"><paramref name="schema"/> is not regular.</exception>
-        public RegularArithmetic(ICalendricalSchema schema, Range<int>? supportedYears = null)
+        public RegularArithmetic(CalendricalSchema schema, Range<int>? supportedYears = null)
             : base(schema, supportedYears)
         {
             Debug.Assert(schema != null);
@@ -35,6 +35,11 @@ namespace Zorglub.Time.Core.Arithmetic
         }
 
         public int MonthsInYear { get; }
+
+        /// <inheritdoc />
+        [Pure]
+        public override CalendricalArithmeticPlus WithSupportedYears(Range<int> supportedYears) =>
+            new RegularArithmetic(Schema, supportedYears);
     }
 
     internal partial class RegularArithmetic // Operations on Yemoda
@@ -262,7 +267,7 @@ namespace Zorglub.Time.Core.Arithmetic
         }
     }
 
-    internal partial class RegularArithmetic // ICalendricalArithmeticPlus
+    internal partial class RegularArithmetic // Non-standard operations
     {
         /// <inheritdoc />
         [Pure]

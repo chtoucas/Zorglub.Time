@@ -35,7 +35,7 @@ public readonly partial struct MyDate :
 
     private static readonly ICalendarScope s_Scope = new MinMaxYearScope(s_Schema, s_Epoch, 1, 9999);
     private static readonly PartsFactory s_PartsFactory = new(s_Scope);
-    private static readonly ICalendricalArithmetic s_Arithmetic = ICalendricalArithmeticPlus.CreateDefault(s_Schema, s_Scope.SupportedYears);
+    private static readonly ICalendricalArithmetic s_Arithmetic = s_Schema.Arithmetic.WithSupportedYears(s_Scope.SupportedYears);
 
     private readonly Yemoda _bin;
 

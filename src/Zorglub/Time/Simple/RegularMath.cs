@@ -25,7 +25,7 @@ namespace Zorglub.Time.Simple
                   // The result is exact and matches the last month of the year,
                   // therefore we could specify either AdditionRule.Exact
                   // or AdditionRule.Truncate. I prefer the later to
-                  // emphasize that this math engine uses the default rules.
+                  // emphasize that this math object uses the default rules.
                   default)
         {
             Debug.Assert(calendar != null);

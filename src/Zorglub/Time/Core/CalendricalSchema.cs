@@ -144,16 +144,13 @@ namespace Zorglub.Time.Core
 
         ICalendricalArithmetic ICalendricalSchema.Arithmetic => Arithmetic;
 
-        private ICalendricalArithmeticPlus? _arithmetic;
+        private CalendricalArithmeticPlus? _arithmetic;
         /// <summary>
         /// Gets the arithmetic for this schema.
-        /// <remarks>
-        /// <para>See also the factory methods in <see cref="ICalendricalArithmeticPlus"/>.</para>
-        /// </remarks>
         /// </summary>
-        public ICalendricalArithmeticPlus Arithmetic
+        public CalendricalArithmeticPlus Arithmetic
         {
-            get => _arithmetic ??= ICalendricalArithmeticPlus.CreateDefault(this);
+            get => _arithmetic ??= CalendricalArithmeticPlus.CreateDefault(this);
             protected init
             {
                 Requires.NotNull(value);

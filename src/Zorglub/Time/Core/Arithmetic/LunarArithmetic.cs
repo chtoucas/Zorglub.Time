@@ -12,7 +12,7 @@ namespace Zorglub.Time.Core.Arithmetic
     /// <see cref="CalendricalProfile.Lunar"/>.
     /// <para>This class cannot be inherited.</para>
     /// </summary>
-    internal sealed partial class LunarArithmetic : SystemArithmetic
+    internal sealed partial class LunarArithmetic : CalendricalArithmeticPlus
     {
         private const int MonthsInYear = __Lunar.MonthsInYear;
         private const int MinDaysInYear = __Lunar.MinDaysInYear;
@@ -40,6 +40,11 @@ namespace Zorglub.Time.Core.Arithmetic
             MaxDaysViaDayOfYear = MaxDaysViaDayOfYear_;
             MaxDaysViaDayOfMonth = MaxDaysViaDayOfMonth_;
         }
+
+        /// <inheritdoc />
+        [Pure]
+        public override CalendricalArithmeticPlus WithSupportedYears(Range<int> supportedYears) =>
+            new LunarArithmetic(Schema, supportedYears);
     }
 
     internal partial class LunarArithmetic // Operations on Yemoda
@@ -247,7 +252,7 @@ namespace Zorglub.Time.Core.Arithmetic
         }
     }
 
-    internal partial class LunarArithmetic // ICalendricalArithmeticPlus
+    internal partial class LunarArithmetic // Non-standard operations
     {
         /// <inheritdoc />
         [Pure]

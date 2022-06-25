@@ -20,8 +20,8 @@ namespace Zorglub.Time.Simple
     // Difference, add Add(Period). NextMonth() & co. Week ops. Quarter ops.
     //
     // Add tests related to the warning below. Question: should we provide an
-    // engine for which the operations always give the same result for dates and
-    // ordinal dates? and how could this be done? Hum no, use conversion from
+    // arithmetic for which the operations always give the same result for dates
+    // and ordinal dates? and how could this be done? Hum no, use conversion from
     // date to ordinal repr.
     //
     // Do we need stricter validation? or is YearOverflowChecker enough?
@@ -106,9 +106,9 @@ namespace Zorglub.Time.Simple
         protected ICalendricalKernel Schema { get; }
 
         /// <summary>
-        /// Gets the calendrical schema.
+        /// Gets the calendrical arithmetic.
         /// </summary>
-        protected ICalendricalArithmeticPlus Arithmetic => Calendar.Arithmetic;
+        protected CalendricalArithmeticPlus Arithmetic => Calendar.Arithmetic;
 
         /// <summary>
         /// Gets the ID of the underlying calendar.

@@ -34,6 +34,11 @@ namespace Zorglub.Time.Core.Arithmetic
             Requires.Profile(schema, CalendricalProfile.Solar13);
         }
 
+        /// <inheritdoc />
+        [Pure]
+        public override CalendricalArithmeticPlus WithSupportedYears(Range<int> supportedYears) =>
+            new Solar13Arithmetic(Schema, supportedYears);
+
         //
         // Operations on Yemoda
         //
@@ -128,7 +133,7 @@ namespace Zorglub.Time.Core.Arithmetic
         }
 
         //
-        // ICalendricalArithmeticPlus
+        // Non-standard operations
         //
 
         /// <inheritdoc />

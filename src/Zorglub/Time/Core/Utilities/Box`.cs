@@ -6,7 +6,7 @@ namespace Zorglub.Time.Core.Utilities
     #region Developer Notes
 
     // This class has been added in order to keep the schemas and other types
-    // (e.g. arithmetic engines) public while disallowing -direct- access to
+    // (e.g. arithmetic object) public while disallowing -direct- access to
     // their methods. For instance, even if GregorianSchema is public, one can
     // only create an instance of Box<GregorianSchema>, which effectively hides
     // its methods.
