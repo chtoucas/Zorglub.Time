@@ -13,7 +13,7 @@ namespace Zorglub.Time.Core.Arithmetic
     /// Provides the core mathematical operations on dates within the Gregorian calendar.
     /// <para>This class cannot be inherited.</para>
     /// </summary>
-    internal sealed partial class GregorianArithmetic : CalendricalArithmeticPlus
+    internal sealed partial class GregorianArithmetic : SystemArithmetic
     {
         private const int MonthsInYear = __Solar12.MonthsInYear;
         private const int MinDaysInYear = __Solar.MinDaysInYear;
@@ -35,7 +35,7 @@ namespace Zorglub.Time.Core.Arithmetic
 
         /// <inheritdoc />
         [Pure]
-        public override CalendricalArithmeticPlus WithSupportedYears(Range<int> supportedYears) =>
+        public override SystemArithmetic WithSupportedYears(Range<int> supportedYears) =>
             new GregorianArithmetic(supportedYears);
     }
 

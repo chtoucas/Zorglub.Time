@@ -23,7 +23,7 @@ namespace Zorglub.Time.Core
     /// calendrical point of view. They MUST ensure that all returned values are valid when the
     /// previous condition is met.</para>
     /// </remarks>
-    public abstract partial class CalendricalArithmeticPlus : ICalendricalArithmetic
+    public abstract partial class SystemArithmetic : ICalendricalArithmetic
     {
         /// <summary>
         /// Represents the absolute minimum value admissible for the minimum total number of days
@@ -36,13 +36,13 @@ namespace Zorglub.Time.Core
 
         /// <summary>
         /// Called from constructors in derived classes to initialize the
-        /// <see cref="CalendricalArithmeticPlus"/> class.
+        /// <see cref="SystemArithmetic"/> class.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
         /// <exception cref="ArgumentException">The range of supported years by
         /// <paramref name="schema"/> and <see cref="Yemoda"/> are disjoint.
         /// </exception>
-        protected CalendricalArithmeticPlus(CalendricalSchema schema, Range<int>? supportedYears)
+        protected SystemArithmetic(CalendricalSchema schema, Range<int>? supportedYears)
         {
             Schema = schema ?? throw new ArgumentNullException(nameof(schema));
 
@@ -114,7 +114,7 @@ namespace Zorglub.Time.Core
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
         [Pure]
-        public static CalendricalArithmeticPlus CreateDefault(CalendricalSchema schema)
+        public static SystemArithmetic CreateDefault(CalendricalSchema schema)
         {
             Requires.NotNull(schema);
 
@@ -127,6 +127,7 @@ namespace Zorglub.Time.Core
                 CalendricalProfile.Lunar => new LunarArithmetic(schema),
                 CalendricalProfile.Lunisolar => new LunisolarArithmetic(schema),
 
+                // (no longer true)
                 // NB: there is no real gain to expect in trying to improve the
                 // perf for regular schemas except for month ops. Not convinced?
                 // Check the code, we only call CountMonthsInYear() in two
@@ -141,10 +142,10 @@ namespace Zorglub.Time.Core
         /// Creates a new arithmetic object using the same underlying schema but with the specified
         /// range of supported years.
         /// </summary>
-        [Pure] public abstract CalendricalArithmeticPlus WithSupportedYears(Range<int> supportedYears);
+        [Pure] public abstract SystemArithmetic WithSupportedYears(Range<int> supportedYears);
     }
 
-    public partial class CalendricalArithmeticPlus // ICalendricalArithmetic
+    public partial class SystemArithmetic // ICalendricalArithmetic
     {
         //
         // Operations on Yemoda
@@ -220,7 +221,7 @@ namespace Zorglub.Time.Core
         public abstract int CountMonthsBetween(Yemo start, Yemo end);
     }
 
-    public partial class CalendricalArithmeticPlus // Non-standard operations
+    public partial class SystemArithmetic // Non-standard operations
     {
         /// <summary>
         /// Adds a number of years to the year field of the specified date.
@@ -259,7 +260,7 @@ namespace Zorglub.Time.Core
         [Pure] public abstract Yemo AddYears(Yemo ym, int years, out int roundoff);
     }
 
-    public partial class CalendricalArithmeticPlus // Fast operations
+    public partial class SystemArithmetic // Fast operations
     {
         // AddDaysViaDayOfYear().
         // Only when we know in advance that |days| <= MaxDaysViaDayOfYear.

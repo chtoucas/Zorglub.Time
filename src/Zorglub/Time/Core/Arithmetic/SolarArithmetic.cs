@@ -12,7 +12,7 @@ namespace Zorglub.Time.Core.Arithmetic
     /// <see cref="CalendricalProfile.Solar12"/> or <see cref="CalendricalProfile.Solar13"/>, and
     /// provides a base for derived classes.
     /// </summary>
-    internal abstract partial class SolarArithmetic : CalendricalArithmeticPlus
+    internal abstract partial class SolarArithmetic : SystemArithmetic
     {
         protected const int MinDaysInYear = __Solar.MinDaysInYear;
         protected const int MinDaysInMonth = __Solar.MinDaysInMonth;

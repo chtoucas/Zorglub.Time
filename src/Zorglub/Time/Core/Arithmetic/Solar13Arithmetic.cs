@@ -36,7 +36,7 @@ namespace Zorglub.Time.Core.Arithmetic
 
         /// <inheritdoc />
         [Pure]
-        public override CalendricalArithmeticPlus WithSupportedYears(Range<int> supportedYears) =>
+        public override SystemArithmetic WithSupportedYears(Range<int> supportedYears) =>
             new Solar13Arithmetic(Schema, supportedYears);
 
         //

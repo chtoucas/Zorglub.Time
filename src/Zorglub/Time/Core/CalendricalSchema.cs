@@ -142,15 +142,18 @@ namespace Zorglub.Time.Core
             }
         }
 
+        // Covariant return type does not work when a property (Arithmetic here),
+        // is a property from an interface or has a setter.
+
         ICalendricalArithmetic ICalendricalSchema.Arithmetic => Arithmetic;
 
-        private CalendricalArithmeticPlus? _arithmetic;
+        private SystemArithmetic? _arithmetic;
         /// <summary>
-        /// Gets the arithmetic for this schema.
+        /// Gets or initializes the arithmetic for this schema.
         /// </summary>
-        public CalendricalArithmeticPlus Arithmetic
+        public SystemArithmetic Arithmetic
         {
-            get => _arithmetic ??= CalendricalArithmeticPlus.CreateDefault(this);
+            get => _arithmetic ??= SystemArithmetic.CreateDefault(this);
             protected init
             {
                 Requires.NotNull(value);

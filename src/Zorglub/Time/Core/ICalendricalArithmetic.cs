@@ -11,7 +11,7 @@ namespace Zorglub.Time.Core
     //
     // ICalendricalArithmetic
     // ├─ CalendricalArithmetic         (ICalendricalSchema)
-    // └─ CalendricalArithmeticPlus [A] (CalendricalSchema)
+    // └─ SystemArithmetic [A]          (CalendricalSchema)
     //    ├─ GregorianArithmetic        (GregorianSchema)
     //    ├─ LunarArithmetic            (-)
     //    ├─ LunisolarArithmetic        (-)
@@ -27,7 +27,7 @@ namespace Zorglub.Time.Core
     // ------------
     // Public:
     //   ICalendricalSchema.Arithmetic
-    //   CalendricalArithmeticPlus.CreateDefault(CalendricalSchema)
+    //   SystemArithmetic.CreateDefault(CalendricalSchema)
     //
     // Comments
     // --------

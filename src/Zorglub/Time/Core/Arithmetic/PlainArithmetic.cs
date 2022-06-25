@@ -6,11 +6,11 @@ namespace Zorglub.Time.Core.Arithmetic
     using Zorglub.Time.Core.Intervals;
 
     /// <summary>
-    /// Defines a plain implementation for <see cref="CalendricalArithmeticPlus"/> and provides a base for
+    /// Defines a plain implementation for <see cref="SystemArithmetic"/> and provides a base for
     /// derived classes.
     /// <para>This class cannot be inherited.</para>
     /// </summary>
-    internal sealed partial class PlainArithmetic : CalendricalArithmeticPlus
+    internal sealed partial class PlainArithmetic : SystemArithmetic
     {
         /// <summary>
         /// Called from constructors in derived classes to initialize the
@@ -25,7 +25,7 @@ namespace Zorglub.Time.Core.Arithmetic
 
         /// <inheritdoc />
         [Pure]
-        public override CalendricalArithmeticPlus WithSupportedYears(Range<int> supportedYears) =>
+        public override SystemArithmetic WithSupportedYears(Range<int> supportedYears) =>
             new PlainArithmetic(Schema, supportedYears);
     }
 
