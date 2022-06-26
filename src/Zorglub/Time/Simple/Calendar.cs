@@ -370,7 +370,7 @@ namespace Zorglub.Time.Simple
         /// <summary>
         /// Gets the arithmetical operators.
         /// </summary>
-        internal SystemArithmetic Arithmetic { get; }
+        internal CalendricalArithmetic Arithmetic { get; }
 
         /// <summary>
         /// Gets the checker for overflows of the range of years.

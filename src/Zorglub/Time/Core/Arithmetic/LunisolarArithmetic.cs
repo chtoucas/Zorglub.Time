@@ -12,7 +12,7 @@ namespace Zorglub.Time.Core.Arithmetic
     /// <see cref="CalendricalProfile.Lunisolar"/>.
     /// <para>This class cannot be inherited.</para>
     /// </summary>
-    internal sealed partial class LunisolarArithmetic : SystemArithmetic
+    internal sealed partial class LunisolarArithmetic : CalendricalArithmetic
     {
         private const int MinDaysInYear = __Lunisolar.MinDaysInYear;
         private const int MinDaysInMonth = __Lunisolar.MinDaysInMonth;
@@ -43,7 +43,7 @@ namespace Zorglub.Time.Core.Arithmetic
 
         /// <inheritdoc />
         [Pure]
-        public override SystemArithmetic WithSupportedYears(Range<int> supportedYears) =>
+        public override CalendricalArithmetic WithSupportedYears(Range<int> supportedYears) =>
             new LunisolarArithmetic(Schema, supportedYears);
     }
 
@@ -250,7 +250,7 @@ namespace Zorglub.Time.Core.Arithmetic
         }
     }
 
-    internal partial class LunisolarArithmetic // Non-standard operations
+    internal partial class LunisolarArithmetic // ICalendricalArithmeticPlus
     {
         /// <inheritdoc />
         [Pure]

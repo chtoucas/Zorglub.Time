@@ -3,38 +3,60 @@
 
 namespace Zorglub.Time.Core
 {
+    using Zorglub.Time.Core.Arithmetic;
     using Zorglub.Time.Core.Intervals;
+    using Zorglub.Time.Core.Schemas;
+
+    // TODO(code): better explanation for the meaning of MinMinDaysInMonth and
+    // MaxDaysViaDayOfMonth.
+
+    // Keeping this class internal ensures that we have complete control on its
+    // instances. In particular, we make sure that none of them is used in
+    // a wrong context, meaning in a place where a different schema is expected.
 
     /// <summary>
-    /// Provides a plain implementation for <see cref="ICalendricalArithmetic"/>.
-    /// <para>This class cannot be inherited.</para>
+    /// Defines the core mathematical operations on dates and months, and provides a base for derived
+    /// classes.
     /// </summary>
-    public sealed partial class CalendricalArithmetic : ICalendricalArithmetic
+    /// <remarks>
+    /// <para>Operations are <i>lenient</i>, they assume that their parameters are valid from a
+    /// calendrical point of view. They MUST ensure that all returned values are valid when the
+    /// previous condition is met.</para>
+    /// </remarks>
+    public abstract partial class CalendricalArithmetic : ICalendricalArithmeticPlus
     {
         /// <summary>
-        /// Represents the schema.
-        /// <para>This field is read-only.</para>
+        /// Represents the absolute minimum value admissible for the minimum total number of days
+        /// there is at least in a month.
+        /// <para>This field is a constant equal to 7.</para>
         /// </summary>
-        private readonly ICalendricalSchema _schema;
+        // The value has been chosen such that we can call AddDaysViaDayOfMonth()
+        // safely when adjusting the day of the week.
+        private protected const int MinMinDaysInMonth = 7;
 
         /// <summary>
-        /// Represents the factory for calendrical parts.
-        /// <para>This field is read-only.</para>
-        /// </summary>
-        private readonly ICalendricalPartsFactory _partsFactory;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="CalendricalArithmetic"/> class.
+        /// Called from constructors in derived classes to initialize the
+        /// <see cref="CalendricalArithmetic"/> class.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
         /// <exception cref="ArgumentException">The range of supported years by
         /// <paramref name="schema"/> and <see cref="Yemoda"/> are disjoint.
         /// </exception>
-        public CalendricalArithmetic(ICalendricalSchema schema)
+        protected CalendricalArithmetic(CalendricalSchema schema, Range<int>? supportedYears)
         {
-            _schema = schema ?? throw new ArgumentNullException(nameof(schema));
-            _partsFactory = ICalendricalPartsFactory.Create(schema, @checked: false);
-            Segment = CalendricalSegment.CreateMaximal(schema);
+            Schema = schema ?? throw new ArgumentNullException(nameof(schema));
+
+            // Notice the use of unchecked constructs, we assume that derived
+            // classes verify the data before calling a method of PartsFactory.
+            PartsFactory = ICalendricalPartsFactory.Create(schema, @checked: false);
+
+            Segment = supportedYears is null ? CalendricalSegment.CreateMaximal(schema)
+                : CalendricalSegment.Create(schema, supportedYears.Value);
+
+            (MinYear, MaxYear) = Segment.SupportedYears.Endpoints;
+
+            MaxDaysViaDayOfYear = schema.MinDaysInYear;
+            MaxDaysViaDayOfMonth = schema.MinDaysInMonth;
         }
 
         /// <inheritdoc/>
@@ -43,93 +65,147 @@ namespace Zorglub.Time.Core
         /// <summary>
         /// Gets the range of supported days.
         /// </summary>
-        private Range<int> Domain => Segment.Domain;
+        protected Range<int> Domain => Segment.Domain;
 
         /// <summary>
         /// Gets the range of supported months.
         /// </summary>
-        private Range<int> MonthDomain => Segment.MonthDomain;
-    }
+        protected Range<int> MonthDomain => Segment.MonthDomain;
 
-    public partial class CalendricalArithmetic // Operations on Yemoda
-    {
-        /// <inheritdoc />
+        /// <summary>
+        /// Gets the range of supported years.
+        /// </summary>
+        protected Range<int> SupportedYears => Segment.SupportedYears;
+
+        /// <summary>
+        /// Gets the underlying schema.
+        /// </summary>
+        protected CalendricalSchema Schema { get; }
+
+        /// <summary>
+        /// Gets the factory for calendrical parts.
+        /// </summary>
+        protected ICalendricalPartsFactory PartsFactory { get; }
+
+        /// <summary>
+        /// Gets the earliest supported year.
+        /// </summary>
+        protected int MinYear { get; }
+
+        /// <summary>
+        /// Gets the latest supported year.
+        /// </summary>
+        protected int MaxYear { get; }
+
+        /// <summary>
+        /// Gets the maximum absolute value for a parameter "days" for the method
+        /// <see cref="AddDaysViaDayOfYear(Yedoy, int)"/>.
+        /// </summary>
+        public int MaxDaysViaDayOfYear { get; init; }
+
+        /// <summary>
+        /// Gets the maximum absolute value for a parameter "days" for the method
+        /// <see cref="AddDaysViaDayOfMonth(Yemoda, int)"/>.
+        /// </summary>
+        public int MaxDaysViaDayOfMonth { get; init; }
+
+        /// <summary>
+        /// Creates the default arithmetic object for the specified schema.
+        /// </summary>
+        /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
         [Pure]
-        public Yemoda AddDays(Yemoda ymd, int days)
+        public static CalendricalArithmetic CreateDefault(CalendricalSchema schema)
         {
-            ymd.Unpack(out int y, out int m, out int d);
+            Requires.NotNull(schema);
 
-            int daysSinceEpoch = checked(_schema.CountDaysSinceEpoch(y, m, d) + days);
-            if (Domain.Contains(daysSinceEpoch) == false) Throw.DateOverflow();
+            return schema.Profile switch
+            {
+                CalendricalProfile.Solar12 =>
+                    schema is GregorianSchema ? new GregorianArithmetic()
+                    : new Solar12Arithmetic(schema),
+                CalendricalProfile.Solar13 => new Solar13Arithmetic(schema),
+                CalendricalProfile.Lunar => new LunarArithmetic(schema),
+                CalendricalProfile.Lunisolar => new LunisolarArithmetic(schema),
 
-            return _partsFactory.GetDateParts(daysSinceEpoch);
+                // (no longer true)
+                // NB: there is no real gain to expect in trying to improve the
+                // perf for regular schemas except for month ops. Not convinced?
+                // Check the code, we only call CountMonthsInYear() in two
+                // corner cases.
+                _ => schema.MinDaysInMonth >= MinMinDaysInMonth && schema.IsRegular(out _)
+                    ? new RegularArithmetic(schema)
+                    : new PlainArithmetic(schema)
+            };
         }
 
-        /// <inheritdoc />
-        [Pure]
-        public Yemoda NextDay(Yemoda ymd) => AddDays(ymd, 1);
+        /// <summary>
+        /// Creates a new arithmetic object using the same underlying schema but with the specified
+        /// range of supported years.
+        /// </summary>
+        [Pure] public abstract CalendricalArithmetic WithSupportedYears(Range<int> supportedYears);
+    }
+
+    public partial class CalendricalArithmetic // ICalendricalArithmetic
+    {
+        //
+        // Operations on Yemoda
+        //
 
         /// <inheritdoc />
-        [Pure]
-        public Yemoda PreviousDay(Yemoda ymd) => AddDays(ymd, -1);
+        [Pure] public abstract Yemoda AddDays(Yemoda ymd, int days);
+
+        /// <inheritdoc />
+        [Pure] public abstract Yemoda NextDay(Yemoda ymd);
+
+        /// <inheritdoc />
+        [Pure] public abstract Yemoda PreviousDay(Yemoda ymd);
 
         /// <inheritdoc />
         [Pure]
         public int CountDaysBetween(Yemoda start, Yemoda end)
         {
+            if (end.Yemo == start.Yemo) { return end.Day - start.Day; }
+
             start.Unpack(out int y0, out int m0, out int d0);
             end.Unpack(out int y1, out int m1, out int d1);
 
-            return _schema.CountDaysSinceEpoch(y1, m1, d1) - _schema.CountDaysSinceEpoch(y0, m0, d0);
-        }
-    }
-
-    public partial class CalendricalArithmetic // Operations on Yedoy
-    {
-        /// <inheritdoc />
-        [Pure]
-        public Yedoy AddDays(Yedoy ydoy, int days)
-        {
-            ydoy.Unpack(out int y, out int doy);
-
-            int daysSinceEpoch = checked(_schema.CountDaysSinceEpoch(y, doy) + days);
-            if (Domain.Contains(daysSinceEpoch) == false) Throw.DateOverflow();
-
-            return _partsFactory.GetOrdinalParts(daysSinceEpoch);
+            return Schema.CountDaysSinceEpoch(y1, m1, d1) - Schema.CountDaysSinceEpoch(y0, m0, d0);
         }
 
-        /// <inheritdoc />
-        [Pure]
-        public Yedoy NextDay(Yedoy ydoy) => AddDays(ydoy, 1);
+        //
+        // Operations on Yedoy
+        //
 
         /// <inheritdoc />
-        [Pure]
-        public Yedoy PreviousDay(Yedoy ydoy) => AddDays(ydoy, -1);
+        [Pure] public abstract Yedoy AddDays(Yedoy ydoy, int days);
+
+        /// <inheritdoc />
+        [Pure] public abstract Yedoy NextDay(Yedoy ydoy);
+
+        /// <inheritdoc />
+        [Pure] public abstract Yedoy PreviousDay(Yedoy ydoy);
 
         /// <inheritdoc />
         [Pure]
         public int CountDaysBetween(Yedoy start, Yedoy end)
         {
+            if (end.Year == start.Year) { return end.DayOfYear - start.DayOfYear; }
+
             start.Unpack(out int y0, out int doy0);
             end.Unpack(out int y1, out int doy1);
 
-            return _schema.CountDaysSinceEpoch(y1, doy1) - _schema.CountDaysSinceEpoch(y0, doy0);
+            return Schema.CountDaysSinceEpoch(y1, doy1) - Schema.CountDaysSinceEpoch(y0, doy0);
         }
-    }
 
-    public partial class CalendricalArithmetic // Operations on Yemo
-    {
+        //
+        // Operations on Yemo
+        //
+
         /// <inheritdoc />
         [Pure]
-        public Yemo AddMonths(Yemo ym, int months)
-        {
-            ym.Unpack(out int y, out int m);
+        public abstract Yemo AddMonths(Yemo ym, int months);
 
-            int monthsSinceEpoch = checked(_schema.CountMonthsSinceEpoch(y, m) + months);
-            if (MonthDomain.Contains(monthsSinceEpoch) == false) Throw.MonthOverflow();
-
-            return _partsFactory.GetMonthParts(monthsSinceEpoch);
-        }
+        // REVIEW(code): optimize Next/PreviousMonth(). See GregorianArithmetic.
 
         /// <inheritdoc />
         [Pure]
@@ -141,12 +217,56 @@ namespace Zorglub.Time.Core
 
         /// <inheritdoc />
         [Pure]
-        public int CountMonthsBetween(Yemo start, Yemo end)
-        {
-            start.Unpack(out int y0, out int m0);
-            end.Unpack(out int y1, out int m1);
+        [SuppressMessage("Naming", "CA1716:Identifiers should not match keywords.", Justification = "F# & VB.NET End statement.")]
+        public abstract int CountMonthsBetween(Yemo start, Yemo end);
+    }
 
-            return _schema.CountMonthsSinceEpoch(y1, m1) - _schema.CountMonthsSinceEpoch(y0, m0);
-        }
+    public partial class CalendricalArithmetic // ICalendricalArithmeticPlus
+    {
+        /// <inheritdoc />
+        [Pure] public abstract Yemoda AddYears(Yemoda ymd, int years, out int roundoff);
+
+        /// <inheritdoc />
+        [Pure] public abstract Yemoda AddMonths(Yemoda ymd, int months, out int roundoff);
+
+        /// <inheritdoc />
+        [Pure] public abstract Yedoy AddYears(Yedoy ydoy, int years, out int roundoff);
+
+        /// <inheritdoc />
+        [Pure] public abstract Yemo AddYears(Yemo ym, int years, out int roundoff);
+    }
+
+    public partial class CalendricalArithmetic // Fast operations
+    {
+        // AddDaysViaDayOfYear().
+        // Only when we know in advance that |days| <= MaxDaysViaDayOfYear.
+        // The limits are chosen such that (ymd + days) is guaranteed to
+        // stay in the range from (y - 1) to (y + 1).
+        // - Faster when "days is small" (no change of month) or "big" (slow
+        //   track).
+        // - Slower for "days in between", where we have to compute the day
+        //   of the year.
+
+        /// <summary>
+        /// Adds a number of days to the specified date, yielding a new date within the same month
+        /// or one of the two contiguous months.
+        /// <para><paramref name="days"/> MUST be in the range
+        /// [-<see cref="MaxDaysViaDayOfMonth"/>..<see cref="MaxDaysViaDayOfMonth"/>].</para>
+        /// <para>This method is used to adjust the day of the week, which means that we must ensure
+        /// that <see cref="MaxDaysViaDayOfMonth"/> is greater than or equal to 7.</para>
+        /// </summary>
+        /// <exception cref="OverflowException">The operation would overflow the range of supported
+        /// values.</exception>
+        [Pure] protected internal abstract Yemoda AddDaysViaDayOfMonth(Yemoda ymd, int days);
+
+        /// <summary>
+        /// Adds a number of days to the specified ordinal date, yielding a new ordinal date within
+        /// the same year or one of the two contiguous years.
+        /// <para><paramref name="days"/> MUST be in the range
+        /// [-<see cref="MaxDaysViaDayOfYear"/>..<see cref="MaxDaysViaDayOfYear"/>].</para>
+        /// </summary>
+        /// <exception cref="OverflowException">The operation would overflow the range of supported
+        /// values.</exception>
+        [Pure] protected internal abstract Yedoy AddDaysViaDayOfYear(Yedoy ydoy, int days);
     }
 }

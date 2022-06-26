@@ -87,10 +87,10 @@ namespace Zorglub.Time.Core
         public sealed override int MinDaysInMonth { get; }
 
         /// <inheritdoc />
-        public override ICalendricalPreValidator PreValidator => new CalendricalPreValidator(this);
+        public override ICalendricalPreValidator PreValidator => new CalendricalPreValidatorBasic(this);
 
         /// <inheritdoc />
-        public override ICalendricalArithmetic Arithmetic => new CalendricalArithmetic(this);
+        public override ICalendricalArithmetic Arithmetic => new CalendricalArithmeticBasic(this);
 
         /// <summary>
         /// Gets or sets a value indicating whether the cache for <see cref="GetStartOfYear(int)"/>

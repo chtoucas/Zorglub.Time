@@ -1,7 +1,7 @@
 ﻿// SPDX-License-Identifier: BSD-3-Clause
 // Copyright (c) 2020 Narvalo.Org. All rights reserved.
 
-module Zorglub.Tests.Core.CalendricalPreValidatorTestSuite
+module Zorglub.Tests.Core.CalendricalPreValidatorBasicTestSuite
 
 open System
 
@@ -22,7 +22,7 @@ let private supportedYears = sch.SupportedYears
 [<Sealed>]
 type Copic13Tests() =
     inherit ICalendricalPreValidatorFacts<Coptic13DataSet>(
-        new CalendricalPreValidator(sch),
+        new CalendricalPreValidatorBasic(sch),
         supportedYears.Min,
         supportedYears.Max)
 

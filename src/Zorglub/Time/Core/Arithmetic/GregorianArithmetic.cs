@@ -13,7 +13,7 @@ namespace Zorglub.Time.Core.Arithmetic
     /// Provides the core mathematical operations on dates within the Gregorian calendar.
     /// <para>This class cannot be inherited.</para>
     /// </summary>
-    internal sealed partial class GregorianArithmetic : SystemArithmetic
+    internal sealed partial class GregorianArithmetic : CalendricalArithmetic
     {
         private const int MonthsInYear = __Solar12.MonthsInYear;
         private const int MinDaysInYear = __Solar.MinDaysInYear;
@@ -35,7 +35,7 @@ namespace Zorglub.Time.Core.Arithmetic
 
         /// <inheritdoc />
         [Pure]
-        public override SystemArithmetic WithSupportedYears(Range<int> supportedYears) =>
+        public override CalendricalArithmetic WithSupportedYears(Range<int> supportedYears) =>
             new GregorianArithmetic(supportedYears);
     }
 
@@ -233,6 +233,7 @@ namespace Zorglub.Time.Core.Arithmetic
             return new Yemo(y, m);
         }
 
+        // TODO(code): cleanup.
         ///// <inheritdoc />
         //[Pure]
         //public override Yemo NextMonth(Yemo ym)
@@ -268,7 +269,7 @@ namespace Zorglub.Time.Core.Arithmetic
         }
     }
 
-    internal partial class GregorianArithmetic // Non-standard operations
+    internal partial class GregorianArithmetic // ICalendricalArithmeticPlus
     {
         /// <inheritdoc />
         [Pure]

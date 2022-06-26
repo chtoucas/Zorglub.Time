@@ -11,9 +11,9 @@ namespace Zorglub.Time.Core
     // -------------------------------------------
     //
     // ICalendricalPartsFactory
-    // ├─ SystemSchema
     // ├─ CalendricalSchemaPlusChecked
-    // └─ CalendricalSchemaPlusUnchecked
+    // ├─ CalendricalSchemaPlusUnchecked
+    // └─ SystemSchema
     //
     // Comments
     // --------

@@ -147,13 +147,13 @@ namespace Zorglub.Time.Core
 
         ICalendricalArithmetic ICalendricalSchema.Arithmetic => Arithmetic;
 
-        private SystemArithmetic? _arithmetic;
+        private CalendricalArithmetic? _arithmetic;
         /// <summary>
         /// Gets or initializes the arithmetic for this schema.
         /// </summary>
-        public SystemArithmetic Arithmetic
+        public CalendricalArithmetic Arithmetic
         {
-            get => _arithmetic ??= SystemArithmetic.CreateDefault(this);
+            get => _arithmetic ??= CalendricalArithmetic.CreateDefault(this);
             protected init
             {
                 Requires.NotNull(value);

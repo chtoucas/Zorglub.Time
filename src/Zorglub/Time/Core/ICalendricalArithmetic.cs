@@ -7,19 +7,19 @@ namespace Zorglub.Time.Core
 
     // Types Implementing ICalendricalArithmetic
     // -----------------------------------------
-    // **Only ICalendricalArithmetic and CalendricalArithmetic are public.**
     //
-    // ICalendricalArithmetic
-    // ├─ CalendricalArithmetic         (ICalendricalSchema)
-    // └─ SystemArithmetic [A]          (CalendricalSchema)
-    //    ├─ GregorianArithmetic        (GregorianSchema)
-    //    ├─ LunarArithmetic            (-)
-    //    ├─ LunisolarArithmetic        (-)
-    //    ├─ PlainArithmetic            (-)
-    //    ├─ RegularArithmetic          (-)
-    //    └─ SolarArithmetic [A]        (-)
-    //       ├─ Solar12Arithmetic       (-)
-    //       └─ Solar13Arithmetic       (-)
+    // ICalendricalArithmetic                                   PUBLIC
+    // ├─ CalendricalArithmeticBasic    (ICalendricalSchema)    PUBLIC
+    // └─ ICalendricalArithmeticPlus
+    //    └─ CalendricalArithmetic [A]  (CalendricalSchema)
+    //       ├─ GregorianArithmetic     (GregorianSchema)
+    //       ├─ LunarArithmetic         (-)
+    //       ├─ LunisolarArithmetic     (-)
+    //       ├─ PlainArithmetic         (-)
+    //       ├─ RegularArithmetic       (-)
+    //       └─ SolarArithmetic [A]     (-)
+    //          ├─ Solar12Arithmetic    (-)
+    //          └─ Solar13Arithmetic    (-)
     //
     // Annotation: [A] = abstract
     //
@@ -27,7 +27,7 @@ namespace Zorglub.Time.Core
     // ------------
     // Public:
     //   ICalendricalSchema.Arithmetic
-    //   SystemArithmetic.CreateDefault(CalendricalSchema)
+    //   CalendricalArithmetic.CreateDefault(CalendricalSchema)
     //
     // Comments
     // --------
@@ -47,7 +47,7 @@ namespace Zorglub.Time.Core
     #endregion
 
     /// <summary>
-    /// Defines the standard arithmetical operations on calendrical types.
+    /// Defines the standard calendrical arithmetic.
     /// </summary>
     public interface ICalendricalArithmetic
     {

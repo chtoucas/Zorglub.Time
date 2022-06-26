@@ -6,12 +6,12 @@ namespace Zorglub.Time.Core.Arithmetic
     using Zorglub.Time.Core.Intervals;
 
     /// <summary>
-    /// Provides a plain implementation for <see cref="SystemArithmetic"/>.
+    /// Provides a plain implementation for <see cref="CalendricalArithmetic"/>.
     /// <para>The length of a month must be greater than or equal to
-    /// <see cref="SystemArithmetic.MinMinDaysInMonth"/>.</para>
+    /// <see cref="CalendricalArithmetic.MinMinDaysInMonth"/>.</para>
     /// <para>This class cannot be inherited.</para>
     /// </summary>
-    internal sealed partial class RegularArithmetic : SystemArithmetic
+    internal sealed partial class RegularArithmetic : CalendricalArithmetic
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="RegularArithmetic"/> class.
@@ -21,7 +21,7 @@ namespace Zorglub.Time.Core.Arithmetic
         /// <paramref name="schema"/> and <see cref="Yemoda"/> are disjoint.
         /// </exception>
         /// <exception cref="ArgumentException"><paramref name="schema"/> contains at least one
-        /// month whose length is strictly less than <see cref="SystemArithmetic.MinMinDaysInMonth"/>.
+        /// month whose length is strictly less than <see cref="CalendricalArithmetic.MinMinDaysInMonth"/>.
         /// </exception>
         /// <exception cref="ArgumentException"><paramref name="schema"/> is not regular.</exception>
         public RegularArithmetic(CalendricalSchema schema, Range<int>? supportedYears = null)
@@ -38,7 +38,7 @@ namespace Zorglub.Time.Core.Arithmetic
 
         /// <inheritdoc />
         [Pure]
-        public override SystemArithmetic WithSupportedYears(Range<int> supportedYears) =>
+        public override CalendricalArithmetic WithSupportedYears(Range<int> supportedYears) =>
             new RegularArithmetic(Schema, supportedYears);
     }
 
@@ -267,7 +267,7 @@ namespace Zorglub.Time.Core.Arithmetic
         }
     }
 
-    internal partial class RegularArithmetic // Non-standard operations
+    internal partial class RegularArithmetic // ICalendricalArithmeticPlus
     {
         /// <inheritdoc />
         [Pure]

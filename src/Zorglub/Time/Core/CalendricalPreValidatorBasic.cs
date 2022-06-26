@@ -16,10 +16,10 @@ namespace Zorglub.Time.Core
     #endregion
 
     /// <summary>
-    /// Provides a plain implementation for <see cref="ICalendricalPreValidator"/>.
+    /// Provides an elementary implementation for <see cref="ICalendricalPreValidator"/>.
     /// <para>This class cannot be inherited.</para>
     /// </summary>
-    public sealed class CalendricalPreValidator : ICalendricalPreValidator
+    public sealed class CalendricalPreValidatorBasic : ICalendricalPreValidator
     {
         /// <summary>
         /// Represents the schema.
@@ -28,10 +28,10 @@ namespace Zorglub.Time.Core
         private readonly ICalendricalKernel _schema;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="CalendricalPreValidator"/> class.
+        /// Initializes a new instance of the <see cref="CalendricalPreValidatorBasic"/> class.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
-        public CalendricalPreValidator(ICalendricalKernel schema)
+        public CalendricalPreValidatorBasic(ICalendricalKernel schema)
         {
             _schema = schema ?? throw new ArgumentNullException(nameof(schema));
         }
