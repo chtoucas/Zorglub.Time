@@ -7,49 +7,32 @@ namespace Zorglub.Time.Geometry.Discrete
     using System.Linq;
 
     /// <summary>
-    /// Represents a non-empty finite sequence of slices, or more correctly
-    /// their lengths.
-    /// <para>A well-formed sequence of slices is a sequence (empty or not) of
-    /// complete slices maybe followed by a terminal slice; see the remarks for
-    /// an explanation.</para>
+    /// Represents a non-empty finite sequence of slices, or more correctly their lengths.
+    /// <para>A well-formed sequence of slices is a sequence (empty or not) of complete slices maybe
+    /// followed by a terminal slice; see the remarks for an explanation.</para>
     /// <para>The collection is read-only.</para>
     /// <para>This class cannot be inherited.</para>
     /// </summary>
     /// <remarks>
-    /// <para>Slices are never empty, and they are either complete or truncated:
-    /// </para>
+    /// <para>Slices are never empty, and they are either complete or truncated:</para>
     /// <list type="bullet">
-    /// <item>
-    /// A <i>complete</i> slice is a finite sequence of zeroes (possibly empty)
-    /// followed by one 1; the shortest complete slice is the singleton {1}.
+    /// <item>A <i>complete</i> slice is a finite sequence of zeroes (possibly empty) followed by
+    /// one 1; the shortest complete slice is the singleton {1}.</item>
+    /// <item>A <i>truncated</i> slice is a non-empty finite sequence of zeroes; the shortest
+    /// truncated slice is the singleton {0}. <i>Only the last slice can be truncated.</i></item>
+    /// <item>The first slice in a sequence is said to be <i>initial</i> if, and only if, it is
+    /// complete.
+    /// <para>There is only one case where there is no initial slice, it is whenthe first slice is
+    /// truncated (which happens to be also the last one).</para>
     /// </item>
-    /// <item>
-    /// A <i>truncated</i> slice is a non-empty finite sequence of zeroes; the
-    /// shortest truncated slice is the singleton {0}. <i>Only the last slice
-    /// can be truncated.</i>
-    /// </item>
-    /// <item>
-    /// The first slice in a sequence is said to be <i>initial</i> if, and only
-    /// if, it is complete.
-    /// <para>There is only one case where there is no initial slice, it is when
-    /// the first slice is truncated (which happens to be also the last one).
-    /// </para>
-    /// </item>
-    /// <item>
-    /// The last slice in a sequence is said to be <i>terminal</i> if, and only
-    /// if, it is truncated.
-    /// </item>
-    /// <item>
-    /// An <i>internal</i> slice is a slice that is neither initial nor
-    /// terminal; otherwise it is said to be <i>external</i>.
-    /// </item>
-    /// <item>
-    /// An external slice is said to be <i>major</i> when it is strictly longer
-    /// than the shortest internal slice; otherwise it is said to be
-    /// <i>minor</i>.
-    /// <para>If there are no internal slices, only the longest external slice
-    /// is major, unless they have the same length, in which case both are major.
-    /// </para>
+    /// <item>The last slice in a sequence is said to be <i>terminal</i> if, and only if, it is
+    /// truncated.</item>
+    /// <item>An <i>internal</i> slice is a slice that is neither initial nor terminal; otherwise it
+    /// is said to be <i>external</i>.</item>
+    /// <item>An external slice is said to be <i>major</i> when it is strictly longer than the
+    /// shortest internal slice; otherwise it is said to be <i>minor</i>.
+    /// <para>If there are no internal slices, only the longest external slice is major, unless they
+    /// have the same length, in which case both are major.</para>
     /// </item>
     /// </list>
     /// </remarks>
@@ -102,7 +85,7 @@ namespace Zorglub.Time.Geometry.Discrete
         /// </summary>
         private int TerminalSlice { get { Debug.Assert(Truncated); return _slices[^1]; } }
 
-        #region Interface IReadOnlyList<>.
+        #region IReadOnlyList<>
 
         /// <inheritdoc />
         public int Count => _slices.Length;
@@ -114,7 +97,6 @@ namespace Zorglub.Time.Geometry.Discrete
         [Pure]
         public IEnumerator<int> GetEnumerator() => ((IEnumerable<int>)_slices).GetEnumerator();
 
-        /// <inheritdoc />
         [Pure]
         IEnumerator IEnumerable.GetEnumerator() => _slices.GetEnumerator();
 
@@ -140,10 +122,10 @@ namespace Zorglub.Time.Geometry.Discrete
         }
 
         /// <summary>
-        /// Converts the current instance to a <see cref="CodeArray"/> while
-        /// removing the minor external slices.
-        /// <para>When the initial slice is minor, its length is given in an
-        /// output parameter; otherwise <paramref name="g"/> is set to 0.</para>
+        /// Converts the current instance to a <see cref="CodeArray"/> while removing the minor
+        /// external slices.
+        /// <para>When the initial slice is minor, its length is given in an output parameter;
+        /// otherwise <paramref name="g"/> is set to 0.</para>
         /// </summary>
         [Pure]
         public CodeArray RemoveMinorExternals(out int g)
@@ -233,8 +215,7 @@ namespace Zorglub.Time.Geometry.Discrete
         }
     }
 
-    // Interface IEquatable<>.
-    public partial class SliceArray
+    public partial class SliceArray // IEquatable
     {
         /// <inheritdoc />
         [Pure]

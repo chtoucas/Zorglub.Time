@@ -66,31 +66,27 @@ namespace Zorglub.Time.Geometry.Discrete
         public int Max { get; }
 
         /// <summary>
-        /// Returns true if the current sequence is constant; otherwise returns
-        /// false.
+        /// Returns true if the current sequence is constant; otherwise returns false.
         /// </summary>
         public bool Constant => Height == 0;
 
         /// <summary>
-        /// Returns true if the current instance is convertible to a
-        /// <see cref="BoolArray"/>; otherwise returns false.
+        /// Returns true if the current instance is convertible to a <see cref="BoolArray"/>;
+        /// otherwise returns false.
         /// </summary>
         /// <remarks>
-        /// <para>It simply means that <see cref="Height"/> is equal to 0 or 1.
-        /// </para>
+        /// <para>It simply means that <see cref="Height"/> is equal to 0 or 1.</para>
         /// </remarks>
         public bool Reducible => Height < 2;
 
         /// <summary>
-        /// Returns true if the current instance is a <i>non-constant</i>
-        /// sequence convertible to a <see cref="BoolArray"/>; otherwise returns
-        /// false.
+        /// Returns true if the current instance is a <i>non-constant</i> sequence convertible to a
+        /// <see cref="BoolArray"/>; otherwise returns false.
         /// </summary>
         public bool StrictlyReducible => Height == 1;
 
         /// <summary>
-        /// Gets the difference between the maximum and the minimum values in
-        /// the sequence.
+        /// Gets the difference between the maximum and the minimum values in the sequence.
         /// </summary>
         public int Height => Max - Min;
 
@@ -102,7 +98,7 @@ namespace Zorglub.Time.Geometry.Discrete
             return new CodeArray(slice);
         }
 
-        #region Interface IReadOnlyList<>.
+        #region IReadOnlyList<>
 
         /// <inheritdoc />
         public int Count => _codes.Length;
@@ -114,15 +110,13 @@ namespace Zorglub.Time.Geometry.Discrete
         [Pure]
         public IEnumerator<int> GetEnumerator() => ((IEnumerable<int>)_codes).GetEnumerator();
 
-        /// <inheritdoc />
         [Pure]
         IEnumerator IEnumerable.GetEnumerator() => _codes.GetEnumerator();
 
         #endregion
     }
 
-    // Conversions, manips.
-    public partial class CodeArray
+    public partial class CodeArray // Conversions, manips
     {
         // We say that a code is almost reducible if it is not reducible,
         // and if by just removing a single element the resulting code turns out

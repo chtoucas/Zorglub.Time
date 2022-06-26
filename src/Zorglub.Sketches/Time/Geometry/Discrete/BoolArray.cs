@@ -37,7 +37,7 @@ namespace Zorglub.Time.Geometry.Discrete
             _arr = arr;
         }
 
-        #region Interface IReadOnlyList<>.
+        #region IReadOnlyList<>
 
         /// <inheritdoc />
         public int Count => _arr.Length;
@@ -49,7 +49,6 @@ namespace Zorglub.Time.Geometry.Discrete
         [Pure]
         public IEnumerator<bool> GetEnumerator() => ((IEnumerable<bool>)_arr).GetEnumerator();
 
-        /// <inheritdoc />
         [Pure]
         IEnumerator IEnumerable.GetEnumerator() => _arr.GetEnumerator();
 
@@ -59,12 +58,11 @@ namespace Zorglub.Time.Geometry.Discrete
     public partial class BoolArray
     {
         /// <summary>
-        /// Returns true if the value true is isolated in the sequence;
-        /// otherwise returns false.
+        /// Returns true if the value true is isolated in the sequence; otherwise returns false.
         /// </summary>
         /// <remarks>
-        /// <para>The value true is said to be isolated if the sequence does NOT
-        /// contain a subsequence {true, true}.</para>
+        /// <para>The value true is said to be isolated if the sequence does NOT contain a
+        /// subsequence {true, true}.</para>
         /// <para>Beware, this method returns false for the singleton {1}.</para>
         /// </remarks>
         [Pure]
