@@ -12,8 +12,8 @@ namespace Zorglub.Time.Geometry.Discrete
         private AnalyzeResult? _result;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="TroeschAnalyzer"/>
-        /// class with the specified code.
+        /// Initializes a new instance of the <see cref="TroeschAnalyzer"/> class with the specified
+        /// code.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="input"/> is null.</exception>
         public TroeschAnalyzer(CodeArray input)
@@ -35,8 +35,8 @@ namespace Zorglub.Time.Geometry.Discrete
         private AnalyzeResult Result => _result ?? Throw.InvalidOperation<AnalyzeResult>();
 
         /// <summary>
-        /// Returns true if <paramref name="input"/> is the code of a segment of
-        /// a discrete straight line; otherwise returns false.
+        /// Returns true if <paramref name="input"/> is the code of a segment of a discrete straight
+        /// line; otherwise returns false.
         /// </summary>
         [Pure]
         public static bool TryConvertCodeToForm(
@@ -49,8 +49,7 @@ namespace Zorglub.Time.Geometry.Discrete
         }
     }
 
-    // Analysis.
-    public partial class TroeschAnalyzer
+    public partial class TroeschAnalyzer // Analysis
     {
         // Only executed once. Further calls do nothing.
         // No attr [Pure], the result is optional, see Analysis.Successful.
@@ -139,8 +138,7 @@ namespace Zorglub.Time.Geometry.Discrete
         }
     }
 
-    // Reversed analysis.
-    public partial class TroeschAnalyzer
+    public partial class TroeschAnalyzer // Reversed analysis
     {
         // InvalidOperationException
         [Pure]

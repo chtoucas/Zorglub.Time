@@ -36,7 +36,7 @@ namespace Zorglub.Time.Geometry.Discrete
         }
 
         //
-        // Direct transformations.
+        // Direct transformations
         //
 
         [Pure]
@@ -65,7 +65,7 @@ namespace Zorglub.Time.Geometry.Discrete
         }
 
         //
-        // Inverse transformations.
+        // Inverse transformations
         //
 
         [Pure]

@@ -5,6 +5,8 @@ namespace Zorglub.Time.Core
 {
     using Zorglub.Time.Core.Intervals;
 
+    // REVIEW(api): ctor visibility.
+
     // Annotations
     // -----------
     // A : abstract

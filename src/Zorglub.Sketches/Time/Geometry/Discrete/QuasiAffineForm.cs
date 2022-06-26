@@ -16,8 +16,7 @@ namespace Zorglub.Time.Geometry.Discrete
         private readonly int _b;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="QuasiAffineForm"/>
-        /// record.
+        /// Initializes a new instance of the <see cref="QuasiAffineForm"/> record.
         /// </summary>
         public QuasiAffineForm(int A, int B, int Remainder)
         {
@@ -60,8 +59,7 @@ namespace Zorglub.Time.Geometry.Discrete
         public QuasiAffineForm Reverse() => new(B, A, B - 1 - R);
 
         /// <summary>
-        /// Computes the value of the current form instance for
-        /// <paramref name="x"/>.
+        /// Computes the value of the current form instance for <paramref name="x"/>.
         /// </summary>
         [Pure]
         public int ValueAt(int x) => MathZ.Divide(A * x + R, B);
@@ -73,8 +71,8 @@ namespace Zorglub.Time.Geometry.Discrete
         public int Divide(int n) => Reverse().ValueAt(n);
 
         /// <summary>
-        /// Divides <paramref name="n"/> using the current form instance and
-        /// also returns the remainder in an output parameter.
+        /// Divides <paramref name="n"/> using the current form instance and also returns the
+        /// remainder in an output parameter.
         /// </summary>
         [Pure]
         public int Divide(int n, out int remainder)
@@ -87,7 +85,6 @@ namespace Zorglub.Time.Geometry.Discrete
         /// <summary>
         /// Computes the code of the current form instance for <paramref name="x"/>.
         /// </summary>
-        //
         // Deux valeurs possibles : [a/b] et [a/b] + 1.
         // En particulier si a < b, les seules valeurs possibles sont 0 et 1.
         [Pure]
@@ -98,7 +95,7 @@ namespace Zorglub.Time.Geometry.Discrete
     // Certaines opérations peuvent échouer : a et b != 0.
     public partial record QuasiAffineForm
     {
-        #region Shear mappings aka transvections.
+        #region Shear mappings aka transvections
 
         // Vertical shear (parallel to the y-axis) of parameter m (the shear
         // factor): (x, y) -> (x, y + mx) where m is a given integer.
@@ -114,14 +111,14 @@ namespace Zorglub.Time.Geometry.Discrete
         public QuasiAffineForm ApplyHozizontalShear(int q) => new(A, B + q * A, R);
 
         #endregion
-        #region Symétrie oblique d'axe y = x/2 et de direction l'axe vertical : (x, y) -> (x, y - x).
+        #region Symétrie oblique d'axe y = x/2 et de direction l'axe vertical : (x, y) -> (x, y - x)
 
         // (a, b, r) -> (b - a, b, b - 1 - r)
         [Pure]
         public QuasiAffineForm ApplyObliqueSymmetry() => new(B - A, B, B - 1 - R);
 
         #endregion
-        #region Symétrie orthogonale (réflexion par rapport à la diagonale y = x) : (x, y) -> (y, x).
+        #region Symétrie orthogonale (réflexion par rapport à la diagonale y = x) : (x, y) -> (y, x)
 
         // (a, b, r) -> (b, a, a - 1 - r)
         [Pure]
@@ -132,7 +129,7 @@ namespace Zorglub.Time.Geometry.Discrete
         public QuasiAffineForm ApplyBackOrthogonalSymmetry() => new(B, A, B - 1 - R);
 
         #endregion
-        #region Translation de vecteur (g, 1) : (x, y) -> (x - g, y - 1).
+        #region Translation de vecteur (g, 1) : (x, y) -> (x - g, y - 1)
 
         // FIXME: On pourrait utiliser aussi (a, b, r - ga + b).
         // https://en.wikipedia.org/wiki/Transformation_matrix#Examples_in_2_dimensions
