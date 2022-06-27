@@ -15,7 +15,7 @@ public sealed class LunisolarSchema :
     IDaysInMonthDistribution,
     IBoxable<LunisolarSchema>
 {
-    public const int MonthsPer4YearCycle = 50;
+    public const int MonthsPer4YearCycle = 49;
     public const int DaysPer4YearCycle = 1446;
 
     public const int MonthsInCommonYear = 12;
@@ -57,8 +57,8 @@ public sealed class LunisolarSchema :
 
     public override void GetMonthParts(int monthsSinceEpoch, out int y, out int m)
     {
-        y = MathZ.Divide(4 * monthsSinceEpoch + 52, 49);
-        m = 1 + monthsSinceEpoch - MathZ.Divide(49 * y - 49, 4);
+        y = MathZ.Divide((monthsSinceEpoch << 2) + 52, 49);
+        m = 1 + monthsSinceEpoch - ((49 * y - 49) >> 2);
     }
 
     [Pure]

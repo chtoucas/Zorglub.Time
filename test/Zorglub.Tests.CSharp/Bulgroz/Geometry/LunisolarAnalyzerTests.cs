@@ -39,30 +39,6 @@ public sealed record YearMonthForm(int MonthsPerCycle, int YearsPerCycle, int Re
         int y = GetYear(monthsSinceEpoch, out int m0);
         return new Yemo(y, 1 + m0);
     }
-
-    [Pure]
-    public YearMonthForm Normalize()
-    {
-        var (y0, m0, d0) = Origin;
-        if ((m0, d0) != (1, 1)) ThrowHelpers.InvalidOperation();
-
-        int monthsFromEpochToOrigin = CountMonthsFromEpochToStartOfYear(y0);
-
-        return this with
-        {
-            Remainder = Remainder - MonthsPerCycle * y0 + YearsPerCycle * monthsFromEpochToOrigin,
-            Origin = Epoch
-        };
-    }
-
-    [Pure]
-    public int CountMonthsFromEpochToStartOfYear(int y)
-    {
-        int y0 = Origin.Year;
-
-        return GetStartOfYear(y - y0) - GetStartOfYear(1 - y0);
-    }
-
 }
 
 public class LunisolarYearMonthFormTests
@@ -74,14 +50,11 @@ public class LunisolarYearMonthFormTests
     /// </remarks>
     public static readonly YearMonthForm Form = new(49, 4, 0) { Origin = new Yemoda(0, 1, 1) };
 
-    /// <summary>Represents the year form (49, 4, -48).</summary>
+    /// <summary>Represents the year form (49, 4, -49).</summary>
     /// <remarks>
     /// <para>This form encodes the sequence: 12, 12, 12, 13.</para>
     /// <para>This form origin is 01/01/0001.</para>
     /// </remarks>
-    public static readonly YearMonthForm NormalForm = new(49, 4, -48);
-
-    /// <summary>Represents the year form (49, 4, -49).</summary>
     public static readonly YearMonthForm OrdinalForm = new(49, 4, -49);
 
     // Year length in months.
@@ -103,20 +76,6 @@ public class LunisolarYearMonthFormTests
 
 #pragma warning restore CA1810
 
-    [Fact]
-    public static void OrdinalForm_CountMonthsInYear()
-    {
-        Assert.Equal(13, OrdinalForm.CountMonthsInYear(0));
-        Assert.Equal(12, OrdinalForm.CountMonthsInYear(1));
-        Assert.Equal(12, OrdinalForm.CountMonthsInYear(2));
-        Assert.Equal(12, OrdinalForm.CountMonthsInYear(3));
-        Assert.Equal(13, OrdinalForm.CountMonthsInYear(4));
-        Assert.Equal(12, OrdinalForm.CountMonthsInYear(5));
-        Assert.Equal(12, OrdinalForm.CountMonthsInYear(6));
-        Assert.Equal(12, OrdinalForm.CountMonthsInYear(7));
-        Assert.Equal(13, OrdinalForm.CountMonthsInYear(8));
-    }
-
     // Forme encondant le nombre de mois par année.
     [Fact]
     public void TryConvertCodeToForm()
@@ -127,23 +86,6 @@ public class LunisolarYearMonthFormTests
         Assert.True(TroeschAnalyzer.TryConvertCodeToForm(code, out var form));
         Assert.Equal(new(49, 4, 0), form);
     }
-
-    [Fact]
-    public void NormalForm_Values()
-    {
-        Assert.Equal(NormalForm, Form.Normalize());
-        Assert.Equal(new CalendricalForm(4, 49, 51), NormalForm.Reverse());
-    }
-
-    [Fact]
-    public void OrdinalForm_Values()
-    {
-        Assert.Equal(new CalendricalForm(4, 49, 52), OrdinalForm.Reverse());
-    }
-
-    [Fact]
-    public void Form_Reverse() =>
-        Assert.Equal(new CalendricalForm(4, 49, 3), Form.Reverse());
 
     [Theory, MemberData(nameof(YearLengthData))]
     public static void Form_CountMonthsInYear(int y, int monthsInYear) =>
@@ -159,6 +101,10 @@ public class LunisolarYearMonthFormTests
         Assert.Equal(y, Form.GetYear(startOfYear, out int m0));
         Assert.Equal(0, m0);
     }
+
+    [Fact]
+    public void OrdinalForm_Values() =>
+        Assert.Equal(new CalendricalForm(4, 49, 52), OrdinalForm.Reverse());
 
     [Theory]
     // Year 0.
