@@ -60,12 +60,18 @@ namespace Zorglub.Time.Geometry.Discrete
 
         /// <summary>
         /// Computes the value of the current form instance for <paramref name="x"/>.
+        /// <code><![CDATA[
+        ///   [(a * x + r) / b]
+        /// ]]></code>
         /// </summary>
         [Pure]
         public int ValueAt(int x) => MathZ.Divide(A * x + R, B);
 
         /// <summary>
         /// Divides <paramref name="n"/> using the current form instance.
+        /// <code><![CDATA[
+        ///   [(b * x + b - 1 - r) / a]
+        /// ]]></code>
         /// </summary>
         [Pure]
         public int Divide(int n) => Reverse().ValueAt(n);

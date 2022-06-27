@@ -103,7 +103,7 @@ public partial class GJYearFormTests
         Assert.Equal(new CalendricalForm(4, 1461, 1227), altForm.Reverse());
     }
 
-    #region YearForm.
+    #region YearForm
 
     [Theory, MemberData(nameof(YearLengths))]
     public static void YearForm_CountDaysInYear(int y, int daysInYear) =>
@@ -121,7 +121,7 @@ public partial class GJYearFormTests
     }
 
     #endregion
-    #region AltYearForm.
+    #region AltYearForm
 
     [Theory, MemberData(nameof(YearLengths))]
     public static void AltYearForm_CountDaysInYear(int y, int daysInYear) =>
@@ -311,7 +311,7 @@ public partial class GJMonthFormTests
     public void MonthForm_CountDaysInMonth_AtMonth11() =>
         Assert.Equal(30, GJGeometry.MonthForm.CountDaysInMonth(11));
 
-    #region Alternatives.
+    #region Alternatives
 
     // Ordinal version.
     [Theory, MemberData(nameof(MonthLengths))]

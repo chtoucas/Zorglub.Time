@@ -7,7 +7,7 @@ namespace Zorglub.Time.Geometry.Forms
 
     // Autant que faire se peut, on optera plutôt pour des formes dont le
     // reste est >= 0. En effet, dans ce cas, ValueAt(x) pour x >= 0 ne
-    // nécessite pas d'en passer par MathOperations.Divide().
+    // nécessite pas d'en passer par MathZ.Divide().
 
     /// <summary>
     /// Represents the (quasi-affine) calendrical form.
@@ -53,17 +53,15 @@ namespace Zorglub.Time.Geometry.Forms
         public void Deconstruct(out int a, out int b, out int r) => (a, b, r) = (A, B, Remainder);
 
         /// <summary>
-        /// Obtains the inverse of the current form instance.
+        /// Reverse the current form instance.
         /// </summary>
         [Pure]
         public CalendricalForm Reverse() => new(B, A, B - 1 - Remainder);
 
         /// <summary>
-        /// Computes the value of the current form instance for
-        /// <paramref name="x"/>.
+        /// Computes the value of the current form instance for <paramref name="x"/>.
         /// </summary>
-        //
-        // REVIEW: checked
+        // REVIEW(code): checked
         // On effectue systématiquement les opérations avec des Int64 pour
         // éviter autant que faire se peut les débordements arithmétiques,
         // chose qui peut arriver dès que A est grand. C'est un peu brutal mais
@@ -79,8 +77,8 @@ namespace Zorglub.Time.Geometry.Forms
         protected int Divide(int n) => Reverse().ValueAt(n);
 
         /// <summary>
-        /// Divides <paramref name="n"/> using the current form instance and
-        /// also returns the remainder in an output parameter.
+        /// Divides <paramref name="n"/> using the current form instance and also returns the
+        /// remainder in an output parameter.
         /// </summary>
         [Pure]
         protected int Divide(int n, out int remainder)

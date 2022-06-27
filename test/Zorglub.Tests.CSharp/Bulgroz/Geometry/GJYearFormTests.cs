@@ -172,7 +172,7 @@ public partial class GJYearFormTests
 // the right property: f(y + 4) = f(y) + 1461.
 public partial class GJYearFormTests
 {
-    #region YearForm2, sequence 365, 365, 366, 365.
+    #region YearForm2, sequence 365, 365, 366, 365
 
     // The form found in RotatedForms is (1096, 3, 0), but we can't use it.
     // We have to double the 4-year cycle.
@@ -205,7 +205,7 @@ public partial class GJYearFormTests
     }
 
     #endregion
-    #region YearForm3, sequence 365, 366, 365, 365.
+    #region YearForm3, sequence 365, 366, 365, 365
 
     // The form found in RotatedForms is (1096, 3, 1), but we can't use it.
     // We have to double the 4-year cycle.
