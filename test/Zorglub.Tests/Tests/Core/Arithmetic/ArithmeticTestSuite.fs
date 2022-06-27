@@ -75,12 +75,12 @@ type JulianTests() =
     inherit CalendricalArithmeticFacts<JulianDataSet>(syschemaOf<JulianSchema>())
 
 // LunisolarArithmetic
-//[<Sealed>]
-//[<TestExcludeFrom(TestExcludeFrom.Smoke)>]
-//type LunisolarTests() =
-//    inherit CalendricalArithmeticFacts<LunisolarDataSet>(syschemaOf<LunisolarSchema>())
+[<Sealed>]
+[<TestExcludeFrom(TestExcludeFrom.Smoke)>]
+type LunisolarTests() =
+    inherit CalendricalArithmeticFacts<LunisolarDataSet>(syschemaOf<LunisolarSchema>())
 
-//    member x.Arithmetic() = x.Arithmetic |> is<LunisolarArithmetic>
+    member x.Arithmetic() = x.Arithmetic |> is<LunisolarArithmetic>
 
 //[<Sealed>]
 //[<RedundantTestBundle>]

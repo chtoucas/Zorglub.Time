@@ -11,8 +11,6 @@ open Zorglub.Time.Core
 open Zorglub.Time.Core.Arithmetic
 open Zorglub.Time.Core.Schemas
 
-open Xunit
-
 // TODO(code): Hebrew (unfinished, no data) and lunisolar (fake) schema.
 
 // Since the Gregorian schema has the richest dataset, we use it as a default
@@ -55,10 +53,7 @@ type InternationalFixedTests() =
 type JulianTests() =
     inherit CalendricalArithmeticFacts<JulianDataSet>(syschemaOf<JulianSchema>(), ariOf)
 
-//[<Sealed>]
-//[<RedundantTestBundle>]
-//type LunisolarTests() =
-//    inherit CalendricalArithmeticFacts<LunisolarDataSet>(syschemaOf<LunisolarSchema>(), ariOf)
+// Lunisolar -> not compatible with RegularArithmetic.
 
 // Pax -> not compatible with RegularArithmetic.
 

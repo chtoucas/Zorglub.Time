@@ -34,10 +34,10 @@ public sealed record YearMonthForm(int MonthsPerCycle, int YearsPerCycle, int Re
     [Pure]
     public int CountMonthsInYear(int c) => CodeAt(c);
 
-    public void GetMonthParts(int monthsSinceEpoch, out int y, out int m)
+    public Yemo GetMonthParts(int monthsSinceEpoch)
     {
-        y = GetYear(monthsSinceEpoch, out int m0);
-        m = 1 + m0;
+        int y = GetYear(monthsSinceEpoch, out int m0);
+        return new Yemo(y, 1 + m0);
     }
 
     [Pure]
@@ -46,11 +46,11 @@ public sealed record YearMonthForm(int MonthsPerCycle, int YearsPerCycle, int Re
         var (y0, m0, d0) = Origin;
         if ((m0, d0) != (1, 1)) ThrowHelpers.InvalidOperation();
 
-        int daysFromEpochToOrigin = CountMonthsFromEpochToStartOfYear(y0);
+        int monthsFromEpochToOrigin = CountMonthsFromEpochToStartOfYear(y0);
 
         return this with
         {
-            Remainder = Remainder - MonthsPerCycle * y0 + YearsPerCycle * daysFromEpochToOrigin,
+            Remainder = Remainder - MonthsPerCycle * y0 + YearsPerCycle * monthsFromEpochToOrigin,
             Origin = Epoch
         };
     }
@@ -81,6 +81,9 @@ public class LunisolarYearMonthFormTests
     /// </remarks>
     public static readonly YearMonthForm NormalForm = new(49, 4, -48);
 
+    /// <summary>Represents the year form (49, 4, -49).</summary>
+    public static readonly YearMonthForm OrdinalForm = new(49, 4, -49);
+
     // Year length in months.
     public static readonly TheoryData<int, int> YearLengthData;
     public static readonly TheoryData<int, int> StartOfYearData;
@@ -100,6 +103,20 @@ public class LunisolarYearMonthFormTests
 
 #pragma warning restore CA1810
 
+    [Fact]
+    public static void OrdinalForm_CountMonthsInYear()
+    {
+        Assert.Equal(13, OrdinalForm.CountMonthsInYear(0));
+        Assert.Equal(12, OrdinalForm.CountMonthsInYear(1));
+        Assert.Equal(12, OrdinalForm.CountMonthsInYear(2));
+        Assert.Equal(12, OrdinalForm.CountMonthsInYear(3));
+        Assert.Equal(13, OrdinalForm.CountMonthsInYear(4));
+        Assert.Equal(12, OrdinalForm.CountMonthsInYear(5));
+        Assert.Equal(12, OrdinalForm.CountMonthsInYear(6));
+        Assert.Equal(12, OrdinalForm.CountMonthsInYear(7));
+        Assert.Equal(13, OrdinalForm.CountMonthsInYear(8));
+    }
+
     // Forme encondant le nombre de mois par année.
     [Fact]
     public void TryConvertCodeToForm()
@@ -112,8 +129,17 @@ public class LunisolarYearMonthFormTests
     }
 
     [Fact]
-    public void Form_Normalize() =>
+    public void NormalForm_Values()
+    {
         Assert.Equal(NormalForm, Form.Normalize());
+        Assert.Equal(new CalendricalForm(4, 49, 51), NormalForm.Reverse());
+    }
+
+    [Fact]
+    public void OrdinalForm_Values()
+    {
+        Assert.Equal(new CalendricalForm(4, 49, 52), OrdinalForm.Reverse());
+    }
 
     [Fact]
     public void Form_Reverse() =>
@@ -122,16 +148,6 @@ public class LunisolarYearMonthFormTests
     [Theory, MemberData(nameof(YearLengthData))]
     public static void Form_CountMonthsInYear(int y, int monthsInYear) =>
         Assert.Equal(monthsInYear, Form.CountMonthsInYear(y));
-
-    //[Fact]
-    //public static void NormalForm_CountMonthsInYear()
-    //{
-    //    Assert.Equal(13, NormalForm.CountMonthsInYear(0));
-    //    Assert.Equal(12, NormalForm.CountMonthsInYear(1));
-    //    Assert.Equal(12, NormalForm.CountMonthsInYear(2));
-    //    Assert.Equal(12, NormalForm.CountMonthsInYear(3));
-    //    Assert.Equal(13, NormalForm.CountMonthsInYear(4));
-    //}
 
     [Theory, MemberData(nameof(StartOfYearData))]
     public static void Form_GetStartOfYear(int y, int startOfYear) =>
@@ -213,16 +229,11 @@ public class LunisolarYearMonthFormTests
     // Year 8.
     [InlineData(8, 1, 98)]
     [InlineData(8, 12, 109)]
-    public static void Form_GetMonthParts(int y0, int m, int monthsSinceEpoch)
+    public static void Form_GetMonthParts(int y, int m, int monthsSinceEpoch)
     {
-        // Act
-        Form.GetMonthParts(monthsSinceEpoch, out int y0A, out int mA);
-        // Assert
-        Assert.Equal(y0, y0A);
-        Assert.Equal(m, mA);
-
-        //NormalForm.GetMonthParts(monthsSinceEpoch, out int yA, out mA);
-        //Assert.Equal(y0 + 1, yA);
-        //Assert.Equal(m, mA);
+        var ym = new Yemo(y, m);
+        // Act & Assert
+        Assert.Equal(ym, Form.GetMonthParts(monthsSinceEpoch));
+        Assert.Equal(new Yemo(y + 1, m), OrdinalForm.GetMonthParts(monthsSinceEpoch));
     }
 }

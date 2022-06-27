@@ -57,8 +57,8 @@ public sealed class LunisolarSchema :
 
     public override void GetMonthParts(int monthsSinceEpoch, out int y, out int m)
     {
-        y = MathZ.Divide(4 * monthsSinceEpoch + 3, 49);
-        m = 1 + monthsSinceEpoch - MathZ.Divide(49 * y, 4);
+        y = MathZ.Divide(4 * monthsSinceEpoch + 52, 49);
+        m = 1 + monthsSinceEpoch - MathZ.Divide(49 * y - 49, 4);
     }
 
     [Pure]
