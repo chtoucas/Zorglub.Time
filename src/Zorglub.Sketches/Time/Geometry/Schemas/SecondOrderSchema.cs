@@ -124,7 +124,7 @@ namespace Zorglub.Time.Geometry.Schemas
         [Pure]
         public int CountDaysInYear(int y)
         {
-            if (YearForm.Normal == false) Throw.InvalidOperation();
+            if (YearForm.IsNormal == false) Throw.InvalidOperation();
 
             return YearForm.CountDaysInYear(y);
         }
@@ -135,7 +135,7 @@ namespace Zorglub.Time.Geometry.Schemas
         [Pure]
         public int GetYear(int daysSinceEpoch, out int doy)
         {
-            if (YearForm.Normal == false) Throw.InvalidOperation();
+            if (YearForm.IsNormal == false) Throw.InvalidOperation();
 
             int y = YearForm.GetYear(daysSinceEpoch, out int d0y);
             doy = 1 + d0y;
@@ -155,7 +155,7 @@ namespace Zorglub.Time.Geometry.Schemas
         [Pure]
         public int GetStartOfYear(int y)
         {
-            if (YearForm.Normal == false) Throw.InvalidOperation();
+            if (YearForm.IsNormal == false) Throw.InvalidOperation();
 
             return YearForm.GetStartOfYear(y);
         }

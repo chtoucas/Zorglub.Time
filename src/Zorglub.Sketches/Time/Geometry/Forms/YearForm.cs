@@ -15,7 +15,7 @@ namespace Zorglub.Time.Geometry.Forms
     {
         // FIXME: ce n'est pas suffisant, il faut aussi que le param y soit
         // "normal", dans le sens où on n'a pas besoin de manip du genre y -> y - 1.
-        public bool Normal => Origin == Epoch;
+        public bool IsNormal => Origin == Epoch;
 
         // TODO: naming PatchValue, add to the other forms?
         // Il faut que GetStartOfYear(1 - y0) soit valide.
