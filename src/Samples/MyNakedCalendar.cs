@@ -5,7 +5,6 @@ namespace Samples;
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Diagnostics.Contracts;
 
 using Zorglub.Time;
@@ -17,18 +16,16 @@ using Zorglub.Time.Hemerology;
 
 public partial class MyNakedCalendar : NakedCalendar
 {
-    public MyNakedCalendar(string name, SystemSchema schema, DayNumber epoch)
+    public MyNakedCalendar(string name, ICalendricalSchema schema, DayNumber epoch)
         : this(name, schema, new MinMaxYearScope(schema, epoch, 1, 9999)) { }
 
-    public MyNakedCalendar(string name, SystemSchema schema, MinMaxYearScope scope)
+    public MyNakedCalendar(string name, ICalendricalSchema schema, MinMaxYearScope scope)
         : base(name, schema, scope)
     {
-        Debug.Assert(schema != null);
-
-        SystemSchema = schema;
+        PartsFactory = ICalendricalPartsFactory.Create(schema);
     }
 
-    protected SystemSchema SystemSchema { get; }
+    protected ICalendricalPartsFactory PartsFactory { get; }
 }
 
 public partial class MyNakedCalendar // Year, month, day infos
@@ -75,7 +72,7 @@ public partial class MyNakedCalendar // Dates in a given year or month
     public sealed override DateParts GetStartOfYear(int year)
     {
         Scope.ValidateYear(year);
-        var ymd = SystemSchema.GetDatePartsAtStartOfYear(year);
+        var ymd = PartsFactory.GetDatePartsAtStartOfYear(year);
         return new DateParts(ymd);
     }
 
@@ -83,7 +80,7 @@ public partial class MyNakedCalendar // Dates in a given year or month
     public sealed override DateParts GetEndOfYear(int year)
     {
         Scope.ValidateYear(year);
-        var ymd = SystemSchema.GetDatePartsAtEndOfYear(year);
+        var ymd = PartsFactory.GetDatePartsAtEndOfYear(year);
         return new DateParts(ymd);
     }
 
@@ -91,7 +88,7 @@ public partial class MyNakedCalendar // Dates in a given year or month
     public sealed override DateParts GetStartOfMonth(int year, int month)
     {
         Scope.ValidateYearMonth(year, month);
-        var ymd = SystemSchema.GetDatePartsAtStartOfMonth(year, month);
+        var ymd = PartsFactory.GetDatePartsAtStartOfMonth(year, month);
         return new DateParts(ymd);
     }
 
@@ -99,7 +96,7 @@ public partial class MyNakedCalendar // Dates in a given year or month
     public sealed override DateParts GetEndOfMonth(int year, int month)
     {
         Scope.ValidateYearMonth(year, month);
-        var ymd = SystemSchema.GetDatePartsAtEndOfMonth(year, month);
+        var ymd = PartsFactory.GetDatePartsAtEndOfMonth(year, month);
         return new DateParts(ymd);
     }
 }
