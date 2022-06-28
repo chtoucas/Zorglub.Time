@@ -38,8 +38,10 @@ namespace Zorglub.Time.Core
     // ### Virtual Methods
     //
     // - CountDaysInYearBeforeMonth()
+    // - GetMonthParts()
     // - GetYear()
     // - GetMonth()
+    // - GetStartOfYearInMonths()
     // - GetStartOfYear()
     //
     // WARNING: the default impl of GetYear() and GetStartOfYear() are extremely
@@ -173,7 +175,7 @@ namespace Zorglub.Time.Core
         // efficiently.
 
         /// <inheritdoc />
-        public virtual Range<int> SupportedYears { get; } = Range.Create(-9998, 9999);
+        public Range<int> SupportedYears { get; init; } = Range.Create(-9998, 9999);
 
         private Range<int>? _domain;
         /// <inheritdoc />
@@ -214,7 +216,40 @@ namespace Zorglub.Time.Core
         /// <inheritdoc />
         public virtual void GetMonthParts(int monthsSinceEpoch, out int y, out int m)
         {
-            throw new NotImplementedException();
+            // Faster alternatives:
+            // - Use a purely computational formula.
+            // - Start with an approximation of the result.
+
+            if (monthsSinceEpoch < 0)
+            {
+                y = 0;
+                int startOfYear = -CountMonthsInYear(0);
+
+                while (monthsSinceEpoch < startOfYear)
+                {
+                    startOfYear -= CountMonthsInYear(--y);
+                }
+
+                // Notice that, as expected, m >= 1.
+                m = 1 + monthsSinceEpoch - startOfYear;
+            }
+            else
+            {
+                y = 1;
+                int startOfYear = 0;
+
+                while (monthsSinceEpoch >= startOfYear)
+                {
+                    int startOfNextYear = startOfYear + CountMonthsInYear(y);
+                    if (monthsSinceEpoch < startOfNextYear) { break; }
+                    y++;
+                    startOfYear = startOfNextYear;
+                }
+                Debug.Assert(monthsSinceEpoch >= startOfYear);
+
+                // Notice that, as expected, m >= 1.
+                m = 1 + monthsSinceEpoch - startOfYear;
+            }
         }
 
         /// <inheritdoc />
