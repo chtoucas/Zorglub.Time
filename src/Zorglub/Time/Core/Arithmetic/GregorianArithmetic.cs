@@ -135,8 +135,8 @@ namespace Zorglub.Time.Core.Arithmetic
 
             return
                 d > 1 ? new Yemoda(y, m, d - 1)
-                : m > 1 ? PartsFactory.GetEndOfMonthParts(y, m - 1)
-                : y > MinYear ? PartsFactory.GetEndOfYearParts(y - 1)
+                : m > 1 ? PartsFactory.GetDatePartsAtEndOfMonth(y, m - 1)
+                : y > MinYear ? PartsFactory.GetDatePartsAtEndOfYear(y - 1)
                 : Throw.DateOverflow<Yemoda>();
         }
     }
@@ -212,7 +212,7 @@ namespace Zorglub.Time.Core.Arithmetic
             ydoy.Unpack(out int y, out int doy);
 
             return doy > 1 ? new Yedoy(y, doy - 1)
-                : y > MinYear ? PartsFactory.GetEndOfYearOrdinalParts(y - 1)
+                : y > MinYear ? PartsFactory.GetOrdinalPartsAtEndOfYear(y - 1)
                 : Throw.DateOverflow<Yedoy>();
         }
     }

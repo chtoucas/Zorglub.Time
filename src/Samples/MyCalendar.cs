@@ -122,7 +122,7 @@ public partial class MyCalendar // Dates in a given year or month
     public MyDate GetStartOfYear(int year)
     {
         Scope.ValidateYear(year);
-        var ymd = _schema.GetStartOfYearParts(year);
+        var ymd = _schema.GetDatePartsAtStartOfYear(year);
         return new MyDate(ymd);
     }
 
@@ -130,7 +130,7 @@ public partial class MyCalendar // Dates in a given year or month
     public MyDate GetEndOfYear(int year)
     {
         Scope.ValidateYear(year);
-        var ymd = _schema.GetEndOfYearParts(year);
+        var ymd = _schema.GetDatePartsAtEndOfYear(year);
         return new MyDate(ymd);
     }
 
@@ -138,7 +138,7 @@ public partial class MyCalendar // Dates in a given year or month
     public MyDate GetStartOfMonth(int year, int month)
     {
         Scope.ValidateYearMonth(year, month);
-        var ymd = _schema.GetStartOfMonthParts(year, month);
+        var ymd = _schema.GetDatePartsAtStartOfMonth(year, month);
         return new MyDate(ymd);
     }
 
@@ -146,7 +146,7 @@ public partial class MyCalendar // Dates in a given year or month
     public MyDate GetEndOfMonth(int year, int month)
     {
         Scope.ValidateYearMonth(year, month);
-        var ymd = _schema.GetEndOfMonthParts(year, month);
+        var ymd = _schema.GetDatePartsAtEndOfMonth(year, month);
         return new MyDate(ymd);
     }
 }

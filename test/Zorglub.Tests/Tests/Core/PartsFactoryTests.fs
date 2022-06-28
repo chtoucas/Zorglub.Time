@@ -49,13 +49,13 @@ module Factories =
     let private factory = new CalendricalPartsFactoryChecked(sch)
 
     [<Theory; ClassData(typeof<BadYearData>)>]
-    let ``GetStartOfYearParts() throws when "year" is out of range`` y =
-        outOfRangeExn "year" (fun () -> factory.GetStartOfYearParts(y))
+    let ``GetDatePartsAtStartOfYear() throws when "year" is out of range`` y =
+        outOfRangeExn "year" (fun () -> factory.GetDatePartsAtStartOfYear(y))
 
     [<Theory; ClassData(typeof<BadYearData>)>]
-    let ``GetStartOfYearOrdinalParts() throws when "year" is out of range`` y =
-        outOfRangeExn "year" (fun () -> factory.GetStartOfYearOrdinalParts(y))
+    let ``GetOrdinalPartsAtStartOfYear() throws when "year" is out of range`` y =
+        outOfRangeExn "year" (fun () -> factory.GetOrdinalPartsAtStartOfYear(y))
 
     [<Theory; ClassData(typeof<BadYearData>)>]
-    let ``GetStartOfMonthParts() throws when "year" is out of range`` y =
-        outOfRangeExn "year" (fun () -> factory.GetStartOfMonthParts(y, 1))
+    let ``GetDatePartsAtStartOfMonth() throws when "year" is out of range`` y =
+        outOfRangeExn "year" (fun () -> factory.GetDatePartsAtStartOfMonth(y, 1))

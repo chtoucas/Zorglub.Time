@@ -80,7 +80,7 @@ public sealed class LunisolarSchema :
     [Pure]
     public override int GetStartOfYear(int y) => DaysInCommonYear * (--y) + 30 * (y >> 2);
 
-    public override void GetEndOfYearParts(int y, out int m, out int d)
+    public override void GetDatePartsAtEndOfYear(int y, out int m, out int d)
     {
         if (IsLeapYear(y))
         {

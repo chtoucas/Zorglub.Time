@@ -84,152 +84,152 @@ public partial class ICalendricalPartsFactoryFacts<TDataSet> // Conversions
 public partial class ICalendricalPartsFactoryFacts<TDataSet> // Dates in a given year or month
 {
 
-    #region GetStartOfYearParts()
+    #region GetDatePartsAtStartOfYear()
 
     [Fact]
-    public void GetStartOfYearParts_AtYear1()
+    public void GetDatePartsAtStartOfYear_AtYear1()
     {
         var ymd = new Yemoda(1, 1, 1);
         // Act
-        var actual = FactoryUT.GetStartOfYearParts(1);
+        var actual = FactoryUT.GetDatePartsAtStartOfYear(1);
         // Assert
         Assert.Equal(ymd, actual);
     }
 
     [Theory, MemberData(nameof(StartOfYearPartsData))]
-    public void GetStartOfYearParts(Yemoda ymd)
+    public void GetDatePartsAtStartOfYear(Yemoda ymd)
     {
         // Act
-        var actual = FactoryUT.GetStartOfYearParts(ymd.Year);
+        var actual = FactoryUT.GetDatePartsAtStartOfYear(ymd.Year);
         // Assert
         Assert.Equal(ymd, actual);
     }
 
     #endregion
-    #region GetStartOfYearOrdinalParts()
+    #region GetOrdinalPartsAtStartOfYear()
 
     [Fact]
-    public void GetStartOfYearOrdinalParts_AtYear1()
+    public void GetOrdinalPartsAtStartOfYear_AtYear1()
     {
         var ydoy = new Yedoy(1, 1);
         // Act
-        var actual = FactoryUT.GetStartOfYearOrdinalParts(1);
+        var actual = FactoryUT.GetOrdinalPartsAtStartOfYear(1);
         // Assert
         Assert.Equal(ydoy, actual);
     }
 
     [Theory, MemberData(nameof(StartOfYearDaysSinceEpochData))]
-    public void GetStartOfYearOrdinalParts(YearDaysSinceEpoch info)
+    public void GetOrdinalPartsAtStartOfYear(YearDaysSinceEpoch info)
     {
         int y = info.Year;
         var ydoy = new Yedoy(y, 1);
         // Act
-        var actual = FactoryUT.GetStartOfYearOrdinalParts(y);
+        var actual = FactoryUT.GetOrdinalPartsAtStartOfYear(y);
         // Assert
         Assert.Equal(ydoy, actual);
     }
 
     #endregion
 
-    #region GetEndOfYearParts()
+    #region GetDatePartsAtEndOfYear()
 
     [Theory, MemberData(nameof(EndOfYearPartsData))]
-    public void GetEndOfYearParts(Yemoda ymd)
+    public void GetDatePartsAtEndOfYear(Yemoda ymd)
     {
         // Act
-        var actual = FactoryUT.GetEndOfYearParts(ymd.Year);
+        var actual = FactoryUT.GetDatePartsAtEndOfYear(ymd.Year);
         // Assert
         Assert.Equal(ymd, actual);
     }
 
     #endregion
-    #region GetEndOfYearOrdinalParts()
+    #region GetOrdinalPartsAtEndOfYear()
 
     [Theory, MemberData(nameof(YearInfoData))]
-    public void GetEndOfYearOrdinalParts(YearInfo info)
+    public void GetOrdinalPartsAtEndOfYear(YearInfo info)
     {
         int y = info.Year;
         var ydoy = new Yedoy(y, info.DaysInYear);
         // Act
-        var actual = FactoryUT.GetEndOfYearOrdinalParts(y);
+        var actual = FactoryUT.GetOrdinalPartsAtEndOfYear(y);
         // Assert
         Assert.Equal(ydoy, actual);
     }
 
     #endregion
 
-    #region GetStartOfMonthParts()
+    #region GetDatePartsAtStartOfMonth()
 
     [Fact]
-    public void GetStartOfMonthParts_AtFirstMonthOfYear1()
+    public void GetDatePartsAtStartOfMonth_AtFirstMonthOfYear1()
     {
         var ymd = new Yemoda(1, 1, 1);
         // Act
-        var actual = FactoryUT.GetStartOfMonthParts(1, 1);
+        var actual = FactoryUT.GetDatePartsAtStartOfMonth(1, 1);
         // Assert
         Assert.Equal(ymd, actual);
     }
 
     [Theory, MemberData(nameof(MonthInfoData))]
-    public void GetStartOfMonthParts(MonthInfo info)
+    public void GetDatePartsAtStartOfMonth(MonthInfo info)
     {
         var (y, m) = info.Yemo;
         var ymd = new Yemoda(y, m, 1);
         // Act
-        var actual = FactoryUT.GetStartOfMonthParts(y, m);
+        var actual = FactoryUT.GetDatePartsAtStartOfMonth(y, m);
         // Assert
         Assert.Equal(ymd, actual);
     }
 
     #endregion
-    #region GetStartOfMonthOrdinalParts()
+    #region GetOrdinalPartsAtStartOfMonth()
 
     [Fact]
-    public void GetStartOfMonthOrdinalParts_AtFirstMonthOfYear1()
+    public void GetOrdinalPartsAtStartOfMonth_AtFirstMonthOfYear1()
     {
         var ydoy = new Yedoy(1, 1);
         // Act
-        var actual = FactoryUT.GetStartOfMonthOrdinalParts(1, 1);
+        var actual = FactoryUT.GetOrdinalPartsAtStartOfMonth(1, 1);
         // Assert
         Assert.Equal(ydoy, actual);
     }
 
     [Theory, MemberData(nameof(MonthInfoData))]
-    public void GetStartOfMonthOrdinalParts(MonthInfo info)
+    public void GetOrdinalPartsAtStartOfMonth(MonthInfo info)
     {
         var (y, m) = info.Yemo;
         var ydoy = new Yedoy(y, info.DaysInYearBeforeMonth + 1);
         // Act
-        var actual = FactoryUT.GetStartOfMonthOrdinalParts(y, m);
+        var actual = FactoryUT.GetOrdinalPartsAtStartOfMonth(y, m);
         // Assert
         Assert.Equal(ydoy, actual);
     }
 
     #endregion
 
-    #region GetEndOfMonthParts()
+    #region GetDatePartsAtEndOfMonth()
 
     [Theory, MemberData(nameof(MonthInfoData))]
-    public void GetEndOfMonthParts(MonthInfo info)
+    public void GetDatePartsAtEndOfMonth(MonthInfo info)
     {
         var (y, m) = info.Yemo;
         var ymd = new Yemoda(y, m, info.DaysInMonth);
         // Act
-        var actual = FactoryUT.GetEndOfMonthParts(y, m);
+        var actual = FactoryUT.GetDatePartsAtEndOfMonth(y, m);
         // Assert
         Assert.Equal(ymd, actual);
     }
 
     #endregion
-    #region GetEndOfMonthOrdinalParts()
+    #region GetOrdinalPartsAtEndOfMonth()
 
     [Theory, MemberData(nameof(MonthInfoData))]
-    public void GetEndOfMonthOrdinalParts(MonthInfo info)
+    public void GetOrdinalPartsAtEndOfMonth(MonthInfo info)
     {
         var (y, m) = info.Yemo;
         var ydoy = new Yedoy(y, info.DaysInYearBeforeMonth + info.DaysInMonth);
         // Act
-        var actual = FactoryUT.GetEndOfMonthOrdinalParts(y, m);
+        var actual = FactoryUT.GetOrdinalPartsAtEndOfMonth(y, m);
         // Assert
         Assert.Equal(ydoy, actual);
     }

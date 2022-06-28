@@ -110,7 +110,7 @@ namespace Zorglub.Time.Core.Schemas
     public partial class FrenchRepublican13Schema // Dates in a given year or month
     {
         /// <inheritdoc />
-        public sealed override void GetEndOfYearParts(int y, out int m, out int d) =>
+        public sealed override void GetDatePartsAtEndOfYear(int y, out int m, out int d) =>
             Thirteen.GetEndOfYearParts(IsLeapYear(y), out m, out d);
     }
 }

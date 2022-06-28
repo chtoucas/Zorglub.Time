@@ -21,7 +21,7 @@ namespace Zorglub.Time.Simple
         public static CalendarDate GetEndOfYear(CalendarDate date)
         {
             ref readonly var chr = ref date.CalendarRef;
-            var ymd = chr.Schema.GetEndOfYearParts(date.Year);
+            var ymd = chr.Schema.GetDatePartsAtEndOfYear(date.Year);
             return new CalendarDate(ymd, date.Cuid);
         }
 
@@ -40,7 +40,7 @@ namespace Zorglub.Time.Simple
         {
             date.Parts.Unpack(out int y, out int m);
             ref readonly var chr = ref date.CalendarRef;
-            var ymd = chr.Schema.GetEndOfMonthParts(y, m);
+            var ymd = chr.Schema.GetDatePartsAtEndOfMonth(y, m);
             return new CalendarDate(ymd, date.Cuid);
         }
     }
@@ -110,7 +110,7 @@ namespace Zorglub.Time.Simple
         public static OrdinalDate GetEndOfYear(OrdinalDate date)
         {
             ref readonly var chr = ref date.CalendarRef;
-            var ydoy = chr.Schema.GetEndOfYearOrdinalParts(date.Year);
+            var ydoy = chr.Schema.GetOrdinalPartsAtEndOfYear(date.Year);
             return new OrdinalDate(ydoy, date.Cuid);
         }
 
@@ -124,7 +124,7 @@ namespace Zorglub.Time.Simple
             ref readonly var chr = ref date.CalendarRef;
             var sch = chr.Schema;
             int m = sch.GetMonth(y, doy, out _);
-            var ydoy = sch.GetStartOfMonthOrdinalParts(y, m);
+            var ydoy = sch.GetOrdinalPartsAtStartOfMonth(y, m);
             return new OrdinalDate(ydoy, date.Cuid);
         }
 
@@ -138,7 +138,7 @@ namespace Zorglub.Time.Simple
             ref readonly var chr = ref date.CalendarRef;
             var sch = chr.Schema;
             int m = sch.GetMonth(y, doy, out _);
-            var ydoy = sch.GetEndOfMonthOrdinalParts(y, m);
+            var ydoy = sch.GetOrdinalPartsAtEndOfMonth(y, m);
             return new OrdinalDate(ydoy, date.Cuid);
         }
     }

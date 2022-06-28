@@ -88,8 +88,8 @@ public partial struct DateTemplate
 
     public static DayNumber Epoch => s_Epoch;
     public static Range<int> SupportedYears => s_Scope.SupportedYears;
-    public static DateTemplate MinValue { get; } = new(s_Schema.GetStartOfYearParts(s_Scope.SupportedYears.Min));
-    public static DateTemplate MaxValue { get; } = new(s_Schema.GetEndOfYearParts(s_Scope.SupportedYears.Max));
+    public static DateTemplate MinValue { get; } = new(s_Schema.GetDatePartsAtStartOfYear(s_Scope.SupportedYears.Min));
+    public static DateTemplate MaxValue { get; } = new(s_Schema.GetDatePartsAtEndOfYear(s_Scope.SupportedYears.Max));
 
     public Ord CenturyOfEra => Ord.FromInt32(Century);
     public int Century => YearNumbering.GetCentury(Year);
@@ -221,7 +221,7 @@ public partial struct DateTemplate // Conversions, adjustments...
     [Pure]
     public static DateTemplate GetEndOfYear(DateTemplate day)
     {
-        var ymd = s_Schema.GetEndOfYearParts(day.Year);
+        var ymd = s_Schema.GetDatePartsAtEndOfYear(day.Year);
         return new DateTemplate(ymd);
     }
 
@@ -232,7 +232,7 @@ public partial struct DateTemplate // Conversions, adjustments...
     public static DateTemplate GetEndOfMonth(DateTemplate day)
     {
         var (y, m, _) = day._bin;
-        var ymd = s_Schema.GetEndOfMonthParts(y, m);
+        var ymd = s_Schema.GetDatePartsAtEndOfMonth(y, m);
         return new DateTemplate(ymd);
     }
 

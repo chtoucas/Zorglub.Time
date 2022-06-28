@@ -92,48 +92,48 @@ namespace Zorglub.Time.Core
         /// Obtains the date parts for the first day of the specified year.
         /// </summary>
         /// <exception cref="AoorException">The result is not representable by the system.</exception>
-        [Pure] Yemoda GetStartOfYearParts(int y);
+        [Pure] Yemoda GetDatePartsAtStartOfYear(int y);
 
         /// <summary>
         /// Obtains the ordinal date parts for the first day of the specified year.
         /// </summary>
         /// <exception cref="AoorException">The result is not representable by the system.</exception>
-        [Pure] Yedoy GetStartOfYearOrdinalParts(int y);
+        [Pure] Yedoy GetOrdinalPartsAtStartOfYear(int y);
 
         /// <summary>
         /// Obtains the date parts for the last day of the specified year.
         /// </summary>
         /// <exception cref="AoorException">The result is not representable by the system.</exception>
-        [Pure] Yemoda GetEndOfYearParts(int y);
+        [Pure] Yemoda GetDatePartsAtEndOfYear(int y);
 
         /// <summary>
         /// Obtains the ordinal date parts for the last day of the specified year.
         /// </summary>
         /// <exception cref="AoorException">The result is not representable by the system.</exception>
-        [Pure] Yedoy GetEndOfYearOrdinalParts(int y);
+        [Pure] Yedoy GetOrdinalPartsAtEndOfYear(int y);
 
         /// <summary>
         /// Obtains the date parts for the first day of the specified month.
         /// </summary>
         /// <exception cref="AoorException">The result is not representable by the system.</exception>
-        [Pure] Yemoda GetStartOfMonthParts(int y, int m);
+        [Pure] Yemoda GetDatePartsAtStartOfMonth(int y, int m);
 
         /// <summary>
         /// Obtains the ordinal date parts for the first day of the specified month.
         /// </summary>
         /// <exception cref="AoorException">The result is not representable by the system.</exception>
-        [Pure] Yedoy GetStartOfMonthOrdinalParts(int y, int m);
+        [Pure] Yedoy GetOrdinalPartsAtStartOfMonth(int y, int m);
 
         /// <summary>
         /// Obtains the date parts for the last day of the specified month.
         /// </summary>
         /// <exception cref="AoorException">The result is not representable by the system.</exception>
-        [Pure] Yemoda GetEndOfMonthParts(int y, int m);
+        [Pure] Yemoda GetDatePartsAtEndOfMonth(int y, int m);
 
         /// <summary>
         /// Obtains the ordinal date parts for the last day of the specified month.
         /// </summary>
         /// <exception cref="AoorException">The result is not representable by the system.</exception>
-        [Pure] Yedoy GetEndOfMonthOrdinalParts(int y, int m);
+        [Pure] Yedoy GetOrdinalPartsAtEndOfMonth(int y, int m);
     }
 }

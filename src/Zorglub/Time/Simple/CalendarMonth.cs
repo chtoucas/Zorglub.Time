@@ -138,7 +138,7 @@ namespace Zorglub.Time.Simple
             {
                 _bin.Unpack(out int y, out int m);
                 ref readonly var chr = ref CalendarRef;
-                var ymd = chr.Schema.GetEndOfMonthParts(y, m);
+                var ymd = chr.Schema.GetDatePartsAtEndOfMonth(y, m);
                 return new CalendarDate(ymd, Cuid);
             }
         }

@@ -184,7 +184,7 @@ namespace Zorglub.Time.Core.Schemas
         public sealed override int GetStartOfYear(int y) => GregorianFormulae.GetStartOfYear(y);
 
         /// <inheritdoc />
-        public sealed override void GetEndOfYearParts(int y, out int m, out int d)
+        public sealed override void GetDatePartsAtEndOfYear(int y, out int m, out int d)
         {
             m = MonthsPerYear;
             d = GregorianFormulae.IsLeapYear(y) ? 30 : 29;

@@ -221,7 +221,7 @@ namespace Zorglub.Time.Simple
             get
             {
                 ref readonly var chr = ref CalendarRef;
-                var ydoy = chr.Schema.GetStartOfYearOrdinalParts(Year);
+                var ydoy = chr.Schema.GetOrdinalPartsAtStartOfYear(Year);
                 return new OrdinalDate(ydoy, Cuid);
             }
         }
@@ -234,7 +234,7 @@ namespace Zorglub.Time.Simple
             get
             {
                 ref readonly var chr = ref CalendarRef;
-                var ydoy = chr.Schema.GetEndOfYearOrdinalParts(Year);
+                var ydoy = chr.Schema.GetOrdinalPartsAtEndOfYear(Year);
                 return new OrdinalDate(ydoy, Cuid);
             }
         }

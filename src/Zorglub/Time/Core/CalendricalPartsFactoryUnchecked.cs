@@ -71,15 +71,15 @@ namespace Zorglub.Time.Core
     {
         /// <inheritdoc />
         [Pure]
-        public Yemoda GetStartOfYearParts(int y) => Yemoda.AtStartOfYear(y);
+        public Yemoda GetDatePartsAtStartOfYear(int y) => Yemoda.AtStartOfYear(y);
 
         /// <inheritdoc />
         [Pure]
-        public Yedoy GetStartOfYearOrdinalParts(int y) => Yedoy.AtStartOfYear(y);
+        public Yedoy GetOrdinalPartsAtStartOfYear(int y) => Yedoy.AtStartOfYear(y);
 
         /// <inheritdoc />
         [Pure]
-        public Yemoda GetEndOfYearParts(int y)
+        public Yemoda GetDatePartsAtEndOfYear(int y)
         {
             int m = _schema.CountMonthsInYear(y);
             int d = _schema.CountDaysInMonth(y, m);
@@ -88,7 +88,7 @@ namespace Zorglub.Time.Core
 
         /// <inheritdoc />
         [Pure]
-        public Yedoy GetEndOfYearOrdinalParts(int y)
+        public Yedoy GetOrdinalPartsAtEndOfYear(int y)
         {
             int doy = _schema.CountDaysInYear(y);
             return new Yedoy(y, doy);
@@ -96,11 +96,11 @@ namespace Zorglub.Time.Core
 
         /// <inheritdoc />
         [Pure]
-        public Yemoda GetStartOfMonthParts(int y, int m) => Yemoda.AtStartOfMonth(y, m);
+        public Yemoda GetDatePartsAtStartOfMonth(int y, int m) => Yemoda.AtStartOfMonth(y, m);
 
         /// <inheritdoc />
         [Pure]
-        public Yedoy GetStartOfMonthOrdinalParts(int y, int m)
+        public Yedoy GetOrdinalPartsAtStartOfMonth(int y, int m)
         {
             // Conversion (y, m, d) -> (y, doy)
             int doy = _schema.GetDayOfYear(y, m, 1);
@@ -109,7 +109,7 @@ namespace Zorglub.Time.Core
 
         /// <inheritdoc />
         [Pure]
-        public Yemoda GetEndOfMonthParts(int y, int m)
+        public Yemoda GetDatePartsAtEndOfMonth(int y, int m)
         {
             int d = _schema.CountDaysInMonth(y, m);
             return new Yemoda(y, m, d);
@@ -117,7 +117,7 @@ namespace Zorglub.Time.Core
 
         /// <inheritdoc />
         [Pure]
-        public Yedoy GetEndOfMonthOrdinalParts(int y, int m)
+        public Yedoy GetOrdinalPartsAtEndOfMonth(int y, int m)
         {
             int d = _schema.CountDaysInMonth(y, m);
             // Conversion (y, m, d) -> (y, doy)

@@ -110,7 +110,7 @@ public partial record struct GregorianRecord // Conversions, adjustments...
     public static GregorianRecord GetEndOfYear(GregorianRecord day)
     {
         int y = day.Year;
-        s_Schema.GetEndOfYearParts(y, out int m, out int d);
+        s_Schema.GetDatePartsAtEndOfYear(y, out int m, out int d);
         return new GregorianRecord(y, m, d);
     }
 

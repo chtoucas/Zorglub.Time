@@ -51,8 +51,8 @@ public readonly partial struct MyDate :
 
     public static DayNumber Epoch => s_Epoch;
     public static Range<int> SupportedYears => s_Scope.SupportedYears;
-    public static MyDate MinValue { get; } = new(s_Schema.GetStartOfYearParts(s_Scope.SupportedYears.Min));
-    public static MyDate MaxValue { get; } = new(s_Schema.GetEndOfYearParts(s_Scope.SupportedYears.Max));
+    public static MyDate MinValue { get; } = new(s_Schema.GetDatePartsAtStartOfYear(s_Scope.SupportedYears.Min));
+    public static MyDate MaxValue { get; } = new(s_Schema.GetDatePartsAtEndOfYear(s_Scope.SupportedYears.Max));
 
     private static Range<DayNumber> Domain { get; } = s_Scope.Domain;
 
@@ -166,7 +166,7 @@ public partial struct MyDate // Conversions, adjustments...
     [Pure]
     public static MyDate GetEndOfYear(MyDate day)
     {
-        var ymd = s_Schema.GetEndOfYearParts(day.Year);
+        var ymd = s_Schema.GetDatePartsAtEndOfYear(day.Year);
         return new MyDate(ymd);
     }
 
@@ -177,7 +177,7 @@ public partial struct MyDate // Conversions, adjustments...
     public static MyDate GetEndOfMonth(MyDate day)
     {
         var (y, m, _) = day._bin;
-        var ymd = s_Schema.GetEndOfMonthParts(y, m);
+        var ymd = s_Schema.GetDatePartsAtEndOfMonth(y, m);
         return new MyDate(ymd);
     }
 

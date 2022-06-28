@@ -39,7 +39,7 @@ namespace Zorglub.Time.Simple
         public CalendarDate GetEndOfYear(CalendarYear year)
         {
             ref readonly var chr = ref year.CalendarRef;
-            var ymd = chr.Schema.GetEndOfYearParts(year.Year);
+            var ymd = chr.Schema.GetDatePartsAtEndOfYear(year.Year);
             return new CalendarDate(ymd, year.Cuid);
         }
     }
@@ -55,7 +55,7 @@ namespace Zorglub.Time.Simple
         [Pure]
         public CalendarDate GetEndOfYear(CalendarMonth month)
         {
-            var ymd = month.Calendar.Schema.GetEndOfYearParts(month.Year);
+            var ymd = month.Calendar.Schema.GetDatePartsAtEndOfYear(month.Year);
             return new CalendarDate(ymd, month.Cuid);
         }
 

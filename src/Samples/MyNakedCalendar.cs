@@ -75,7 +75,7 @@ public partial class MyNakedCalendar // Dates in a given year or month
     public sealed override DateParts GetStartOfYear(int year)
     {
         Scope.ValidateYear(year);
-        var ymd = SystemSchema.GetStartOfYearParts(year);
+        var ymd = SystemSchema.GetDatePartsAtStartOfYear(year);
         return new DateParts(ymd);
     }
 
@@ -83,7 +83,7 @@ public partial class MyNakedCalendar // Dates in a given year or month
     public sealed override DateParts GetEndOfYear(int year)
     {
         Scope.ValidateYear(year);
-        var ymd = SystemSchema.GetEndOfYearParts(year);
+        var ymd = SystemSchema.GetDatePartsAtEndOfYear(year);
         return new DateParts(ymd);
     }
 
@@ -91,7 +91,7 @@ public partial class MyNakedCalendar // Dates in a given year or month
     public sealed override DateParts GetStartOfMonth(int year, int month)
     {
         Scope.ValidateYearMonth(year, month);
-        var ymd = SystemSchema.GetStartOfMonthParts(year, month);
+        var ymd = SystemSchema.GetDatePartsAtStartOfMonth(year, month);
         return new DateParts(ymd);
     }
 
@@ -99,7 +99,7 @@ public partial class MyNakedCalendar // Dates in a given year or month
     public sealed override DateParts GetEndOfMonth(int year, int month)
     {
         Scope.ValidateYearMonth(year, month);
-        var ymd = SystemSchema.GetEndOfMonthParts(year, month);
+        var ymd = SystemSchema.GetDatePartsAtEndOfMonth(year, month);
         return new DateParts(ymd);
     }
 }

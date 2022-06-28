@@ -298,39 +298,39 @@ namespace Zorglub.Time.Core
 
     // Dates in a given year or month.
     // A GetStartOfYear(y)                      -> daysSinceEpoch
-    // + GetStartOfYearParts(y)                 -> Yemoda
-    // + GetStartOfYearOrdinalParts(y)          -> Yedoy
+    // + GetDatePartsAtStartOfYear(y)           -> Yemoda
+    // + GetOrdinalPartsAtStartOfYear(y)        -> Yedoy
     //
     //   GetEndOfYear(y)                        -> daysSinceEpoch
-    // A GetEndOfYearParts(y)                   -> out m, d
+    // A GetDatePartsAtEndOfYear(y)             -> out m, d
     // +   ...                                  -> Yemoda
-    // + GetEndOfYearOrdinalParts(y)            -> Yedoy
+    // + GetOrdinalPartsAtEndOfYear(y)          -> Yedoy
     //
     //   GetStartOfMonth(y, m)                  -> daysSinceEpoch
-    // + GetStartOfMonthParts(y, m)             -> Yemoda
-    // + GetStartOfMonthOrdinalParts(y, m)      -> Yedoy
+    // + GetDatePartsAtStartOfMonth(y, m)       -> Yemoda
+    // + GetOrdinalPartsAtStartOfMonth(y, m)    -> Yedoy
     //
     //   GetEndOfMonth(y, m)                    -> daysSinceEpoch
-    // + GetEndOfMonthParts(y, m)               -> Yemoda
-    // + GetEndOfMonthOrdinalParts(y, m)        -> Yedoy
+    // + GetDatePartsAtEndOfMonth(y, m)         -> Yemoda
+    // + GetOrdinalPartsAtEndOfMonth(y, m)      -> Yedoy
     //
-    // IMPORTANT: We "duplicate" GetEndOfYearParts() to allow derived classes to
-    // be created outside this assembly.
+    // IMPORTANT: We "duplicate" GetDatePartsAtEndOfYear() to allow derived
+    // classes to be created outside this assembly.
     public partial class SystemSchema // Dates in a given year or month
     {
         /// <inheritdoc />
         [Pure]
-        public Yemoda GetStartOfYearParts(int y) => Yemoda.AtStartOfYear(y);
+        public Yemoda GetDatePartsAtStartOfYear(int y) => Yemoda.AtStartOfYear(y);
 
         /// <inheritdoc />
         [Pure]
-        public Yedoy GetStartOfYearOrdinalParts(int y) => Yedoy.AtStartOfYear(y);
+        public Yedoy GetOrdinalPartsAtStartOfYear(int y) => Yedoy.AtStartOfYear(y);
 
         /// <inheritdoc />
         [Pure]
-        public Yemoda GetEndOfYearParts(int y)
+        public Yemoda GetDatePartsAtEndOfYear(int y)
         {
-            GetEndOfYearParts(y, out int m, out int d);
+            GetDatePartsAtEndOfYear(y, out int m, out int d);
             return new Yemoda(y, m, d);
         }
 
@@ -345,11 +345,11 @@ namespace Zorglub.Time.Core
         // for regular schemas, we can write:
         // > m = MonthsInYear;
         // > d = CountDaysInMonth(y, MonthsInYear);
-        public abstract void GetEndOfYearParts(int y, out int m, out int d);
+        public abstract void GetDatePartsAtEndOfYear(int y, out int m, out int d);
 
         /// <inheritdoc />
         [Pure]
-        public Yedoy GetEndOfYearOrdinalParts(int y)
+        public Yedoy GetOrdinalPartsAtEndOfYear(int y)
         {
             int doy = CountDaysInYear(y);
             return new Yedoy(y, doy);
@@ -357,11 +357,11 @@ namespace Zorglub.Time.Core
 
         /// <inheritdoc />
         [Pure]
-        public Yemoda GetStartOfMonthParts(int y, int m) => Yemoda.AtStartOfMonth(y, m);
+        public Yemoda GetDatePartsAtStartOfMonth(int y, int m) => Yemoda.AtStartOfMonth(y, m);
 
         /// <inheritdoc />
         [Pure]
-        public Yedoy GetStartOfMonthOrdinalParts(int y, int m)
+        public Yedoy GetOrdinalPartsAtStartOfMonth(int y, int m)
         {
             int doy = CountDaysInYearBeforeMonth(y, m) + 1;
             return new Yedoy(y, doy);
@@ -371,7 +371,7 @@ namespace Zorglub.Time.Core
         /// Obtains the date parts for the last day of the specified month.
         /// </summary>
         [Pure]
-        public Yemoda GetEndOfMonthParts(int y, int m)
+        public Yemoda GetDatePartsAtEndOfMonth(int y, int m)
         {
             int d = CountDaysInMonth(y, m);
             return new Yemoda(y, m, d);
@@ -379,7 +379,7 @@ namespace Zorglub.Time.Core
 
         /// <inheritdoc />
         [Pure]
-        public Yedoy GetEndOfMonthOrdinalParts(int y, int m)
+        public Yedoy GetOrdinalPartsAtEndOfMonth(int y, int m)
         {
             int doy = CountDaysInYearBeforeMonth(y, m) + CountDaysInMonth(y, m);
             return new Yedoy(y, doy);

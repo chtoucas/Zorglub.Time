@@ -60,7 +60,7 @@ namespace Zorglub.Time.Simple
         {
             month.Parts.Unpack(out int y, out int m);
             ref readonly var chr = ref month.CalendarRef;
-            var ydoy = chr.Schema.GetStartOfMonthOrdinalParts(y, m);
+            var ydoy = chr.Schema.GetOrdinalPartsAtStartOfMonth(y, m);
             return new OrdinalDate(ydoy, month.Cuid);
         }
 
@@ -81,7 +81,7 @@ namespace Zorglub.Time.Simple
         {
             month.Parts.Unpack(out int y, out int m);
             ref readonly var chr = ref month.CalendarRef;
-            var ydoy = chr.Schema.GetEndOfMonthOrdinalParts(y, m);
+            var ydoy = chr.Schema.GetOrdinalPartsAtEndOfMonth(y, m);
             return new OrdinalDate(ydoy, month.Cuid);
         }
     }

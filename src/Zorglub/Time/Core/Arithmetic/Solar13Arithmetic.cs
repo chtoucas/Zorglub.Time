@@ -59,7 +59,7 @@ namespace Zorglub.Time.Core.Arithmetic
                 {
                     if (y == MinYear) Throw.DateOverflow();
                     y--;
-                    (_, m, int d0) = PartsFactory.GetEndOfYearParts(y);
+                    (_, m, int d0) = PartsFactory.GetDatePartsAtEndOfYear(y);
                     dom += d0;
                 }
                 else

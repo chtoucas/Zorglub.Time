@@ -165,7 +165,7 @@ namespace Zorglub.Time.Core.Schemas
             DaysInCommonYear * (y - 1) + MathZ.Divide(3 + 11 * y, 30);
 
         /// <inheritdoc />
-        public sealed override void GetEndOfYearParts(int y, out int m, out int d)
+        public sealed override void GetDatePartsAtEndOfYear(int y, out int m, out int d)
         {
             m = 12;
             d = IsLeapYear(y) ? 30 : 29;

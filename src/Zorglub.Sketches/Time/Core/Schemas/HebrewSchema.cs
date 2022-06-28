@@ -133,7 +133,7 @@ namespace Zorglub.Time.Core.Schemas
         }
 
         [Pure]
-        public sealed override void GetEndOfYearParts(int y, out int m, out int d)
+        public sealed override void GetDatePartsAtEndOfYear(int y, out int m, out int d)
         {
             throw new NotImplementedException();
         }

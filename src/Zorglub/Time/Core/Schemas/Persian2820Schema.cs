@@ -227,7 +227,7 @@ namespace Zorglub.Time.Core.Schemas
         }
 
         /// <inheritdoc />
-        public sealed override void GetEndOfYearParts(int y, out int m, out int d)
+        public sealed override void GetDatePartsAtEndOfYear(int y, out int m, out int d)
         {
             m = MonthsPerYear;
             d = IsLeapYear(y) ? 30 : 29;

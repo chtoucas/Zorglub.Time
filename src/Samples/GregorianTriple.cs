@@ -156,7 +156,7 @@ public partial struct GregorianTriple // Conversions, adjustments...
     public static GregorianTriple GetEndOfYear(GregorianTriple day)
     {
         int y = day.Year;
-        s_Schema.GetEndOfYearParts(y, out int m, out int d);
+        s_Schema.GetDatePartsAtEndOfYear(y, out int m, out int d);
         // TODO(code): bypass validation? Idem GetEndOfMonth().
         return new GregorianTriple(y, m, d);
     }
