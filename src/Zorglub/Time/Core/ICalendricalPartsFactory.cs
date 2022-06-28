@@ -3,7 +3,11 @@
 
 namespace Zorglub.Time.Core
 {
-    // TODO(api): add GetStartOfYearMonthParts() and GetEndOfYearMonthParts().
+    // TODO(api): Create() shouldn't be public since the methods from a
+    // factory do not check their parameters.
+    // - Create() -> internal
+    // - new public Create() without the checked option
+    // - CalendricalPartsFactoryChecked should perform strict validation
 
     #region Developer Notes
 
@@ -35,8 +39,6 @@ namespace Zorglub.Time.Core
     /// </summary>
     public partial interface ICalendricalPartsFactory
     {
-        // REVIEW(api): better solution?
-
         /// <summary>
         /// Creates a new <see cref="ICalendricalPartsFactory"/> instance.
         /// <para>When <paramref name="checked"/> is true, a method will throw if the result is not

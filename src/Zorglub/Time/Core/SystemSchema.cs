@@ -298,10 +298,12 @@ namespace Zorglub.Time.Core
 
     // Dates in a given year or month.
     // A GetStartOfYear(y)                      -> daysSinceEpoch
+    // + GetMonthPartsAtStartOfYear(y)          -> Yemo
     // + GetDatePartsAtStartOfYear(y)           -> Yemoda
     // + GetOrdinalPartsAtStartOfYear(y)        -> Yedoy
     //
     //   GetEndOfYear(y)                        -> daysSinceEpoch
+    // + GetMonthPartsAtEndOfYear(y)            -> Yemo
     // A GetDatePartsAtEndOfYear(y)             -> out m, d
     // +   ...                                  -> Yemoda
     // + GetOrdinalPartsAtEndOfYear(y)          -> Yedoy

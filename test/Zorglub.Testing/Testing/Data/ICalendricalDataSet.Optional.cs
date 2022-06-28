@@ -22,6 +22,8 @@ public interface IAdvancedMathDataSet
     /// <summary>Date, expected result, years to be added.</summary>
     DataGroup<YedoyPairAnd<int>> AddYearsOrdinalData { get; }
 
+    //DataGroup<YemoPairAnd<int>> AddYearsMonthData { get; }
+
     ///// <summary>Start date, end date, exact diff between.</summary>
     //DataGroup<DateDiff> DateDiffData { get; }
 }

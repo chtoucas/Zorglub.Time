@@ -254,7 +254,7 @@ namespace Zorglub.Time.Core.Arithmetic
 
         //    return
         //        m > 1 ? new Yemo(y, m - 1)
-        //        : y > MinYear ? new Yemo(y - 1, 12)
+        //        : y > MinYear ? PartsFactory.GetMonthPartsAtEndOfYear(y - 1)
         //        : Throw.DateOverflow<Yemo>();
         //}
 
