@@ -27,6 +27,9 @@ public sealed partial class Coptic12DataSet :
 
 public partial class Coptic12DataSet // Infos
 {
+    public override DataGroup<MonthsSinceEpochInfo> MonthsSinceEpochInfoData { get; } =
+        GenMonthsSinceEpochInfoData(12);
+
     public override DataGroup<DaysSinceEpochInfo> DaysSinceEpochInfoData { get; } =
         DataGroup.CreateDaysSinceEpochInfoData(DaysSinceRataDieInfos, CalendarEpoch.Coptic);
 
@@ -178,6 +181,9 @@ public partial class Coptic12DataSet // Start and end of year
         new(CommonYear, 12, 35),
         new(LeapYear, 12, 36),
     };
+
+    public override DataGroup<YearMonthsSinceEpoch> StartOfYearMonthsSinceEpochData { get; } =
+        GenStartOfYearMonthsSinceEpochData(12);
 
     public override DataGroup<YearDaysSinceEpoch> StartOfYearDaysSinceEpochData { get; } = new()
     {

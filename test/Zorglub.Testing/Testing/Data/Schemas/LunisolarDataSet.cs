@@ -24,6 +24,28 @@ public sealed partial class LunisolarDataSet : SchemaDataSet, ISingleton<Lunisol
 
 public partial class LunisolarDataSet // Infos
 {
+    public override DataGroup<MonthsSinceEpochInfo> MonthsSinceEpochInfoData { get; } = new()
+    {
+        new(-25, -1, 1),
+        new(-13, 0, 1), // leap year
+        new(0, 1, 1),
+        new(1, 1, 2),
+        new(2, 1, 3),
+        new(3, 1, 4),
+        new(4, 1, 5),
+        new(5, 1, 6),
+        new(6, 1, 7),
+        new(7, 1, 8),
+        new(8, 1, 9),
+        new(9, 1, 10),
+        new(10, 1, 11),
+        new(11, 1, 12),
+        new(12, 2, 1),
+        new(24, 3, 1),
+        new(36, 4, 1), // leap year
+        new(49, 5, 1),
+    };
+
     public override DataGroup<DaysSinceEpochInfo> DaysSinceEpochInfoData { get; } =
         DataGroup.CreateDaysSinceEpochInfoData(DaysSinceRataDieInfos, DayZero.NewStyle);
 
@@ -178,6 +200,18 @@ public partial class LunisolarDataSet // Start and end of year
     {
         new(CommonYear, 12, 29),
         new(LeapYear, 13, 30),
+    };
+
+    // TODO(data): à compléter.
+    public override DataGroup<YearMonthsSinceEpoch> StartOfYearMonthsSinceEpochData { get; } = new()
+    {
+        new(-1, -25),
+        new(0, -13), // leap year
+        new(1, 0),
+        new(2, 12),
+        new(3, 24),
+        new(4, 36), // leap year
+        new(5, 49),
     };
 
     public override DataGroup<YearDaysSinceEpoch> StartOfYearDaysSinceEpochData { get; } = new()

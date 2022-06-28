@@ -27,12 +27,12 @@ public abstract partial class SchemaDataSet : ICalendricalDataSet
     // Both years should be > 0. The reason is that we're going to filter the
     // data to build the calendar datasets, and most of them will filter out
     // negative years.
-    // To test negative values, we shall use DaysSinceEpochInfoData, so it's
+    // To test negative values, we will use DaysSinceEpochInfoData, so it's
     // important to include data before the epoch.
     public int SampleCommonYear { get; }
     public int SampleLeapYear { get; }
 
-    public DataGroup<MonthsSinceEpochInfo> MonthsSinceEpochInfoData => throw new NotImplementedException();
+    public abstract DataGroup<MonthsSinceEpochInfo> MonthsSinceEpochInfoData { get; }
     public abstract DataGroup<DaysSinceEpochInfo> DaysSinceEpochInfoData { get; }
 
     public abstract DataGroup<DateInfo> DateInfoData { get; }
@@ -50,7 +50,7 @@ public abstract partial class SchemaDataSet : ICalendricalDataSet
     public virtual DataGroup<Yemoda> StartOfYearPartsData => MapToStartOfYearParts(EndOfYearPartsData);
     public abstract DataGroup<Yemoda> EndOfYearPartsData { get; }
 
-    public DataGroup<YearMonthsSinceEpoch> StartOfYearMonthsSinceEpochData => throw new NotImplementedException();
+    public abstract DataGroup<YearMonthsSinceEpoch> StartOfYearMonthsSinceEpochData { get; }
     public virtual DataGroup<YearMonthsSinceEpoch> EndOfYearMonthsSinceEpochData =>
         MapToEndOfYearMonthsSinceEpochData(StartOfYearMonthsSinceEpochData);
 
@@ -110,6 +110,31 @@ public partial class SchemaDataSet // Helpers
     // good idea. Indeed, I prefer to make it clear that, for the method to
     // work properly, "source" must not be null.
     // This remark applies to the other helpers.
+
+    [Pure]
+    protected static DataGroup<MonthsSinceEpochInfo> GenMonthsSinceEpochInfoData(int monthsInYear)
+    {
+        var seq = new List<MonthsSinceEpochInfo>();
+        for (int y = -10; y <= 10; y++)
+        {
+            for (int m = 1; m <= monthsInYear; m++)
+            {
+                seq.Add(new MonthsSinceEpochInfo((y - 1) * monthsInYear + (m - 1), y, m));
+            }
+        }
+        return DataGroup.Create(seq);
+    }
+
+    [Pure]
+    protected static DataGroup<YearMonthsSinceEpoch> GenStartOfYearMonthsSinceEpochData(int monthsInYear)
+    {
+        var seq = new List<YearMonthsSinceEpoch>();
+        for (int y = -10; y <= 10; y++)
+        {
+            seq.Add(new YearMonthsSinceEpoch(y, (y - 1) * monthsInYear));
+        }
+        return DataGroup.Create(seq);
+    }
 
     [Pure]
     private static DataGroup<Yemoda> MapToStartOfYearParts(DataGroup<Yemoda> source)

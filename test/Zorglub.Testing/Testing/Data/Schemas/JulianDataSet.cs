@@ -24,6 +24,9 @@ public sealed partial class JulianDataSet : SchemaDataSet, ISingleton<JulianData
 
 public partial class JulianDataSet // Infos
 {
+    public override DataGroup<MonthsSinceEpochInfo> MonthsSinceEpochInfoData { get; } =
+        GenMonthsSinceEpochInfoData(12);
+
     public override DataGroup<DaysSinceEpochInfo> DaysSinceEpochInfoData { get; } =
         DataGroup.CreateDaysSinceEpochInfoData(DaysSinceRataDieInfos, DayZero.OldStyle);
 
@@ -172,6 +175,9 @@ public partial class JulianDataSet // Start and end of year
         new(CommonYear, 12, 31),
         new(LeapYear, 12, 31),
     };
+
+    public override DataGroup<YearMonthsSinceEpoch> StartOfYearMonthsSinceEpochData { get; } =
+        GenStartOfYearMonthsSinceEpochData(12);
 
     public override DataGroup<YearDaysSinceEpoch> StartOfYearDaysSinceEpochData { get; } = new()
     {

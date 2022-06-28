@@ -10,6 +10,9 @@ public abstract class TropicalistaDataSet : SchemaDataSet
 
     protected TropicalistaDataSet(TropicalistaSchema schema) : base(schema, CommonYear, LeapYear) { }
 
+    public sealed override DataGroup<MonthsSinceEpochInfo> MonthsSinceEpochInfoData { get; } =
+        GenMonthsSinceEpochInfoData(12);
+
     public sealed override DataGroup<YearInfo> YearInfoData { get; } = new()
     {
         // Leap years.
@@ -77,6 +80,9 @@ public abstract class TropicalistaDataSet : SchemaDataSet
         new(384, 12, 365, false),
         new(512, 12, 365, false),
     };
+
+    public sealed override DataGroup<YearMonthsSinceEpoch> StartOfYearMonthsSinceEpochData { get; } =
+        GenStartOfYearMonthsSinceEpochData(12);
 
     public sealed override DataGroup<YearDaysSinceEpoch> StartOfYearDaysSinceEpochData { get; } = new()
     {

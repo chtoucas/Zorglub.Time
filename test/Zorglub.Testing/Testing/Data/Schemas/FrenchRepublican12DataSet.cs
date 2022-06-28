@@ -29,6 +29,9 @@ public sealed partial class FrenchRepublican12DataSet :
 
 public partial class FrenchRepublican12DataSet // Infos
 {
+    public override DataGroup<MonthsSinceEpochInfo> MonthsSinceEpochInfoData { get; } =
+        GenMonthsSinceEpochInfoData(12);
+
     public override DataGroup<DaysSinceEpochInfo> DaysSinceEpochInfoData { get; } =
         DataGroup.CreateDaysSinceEpochInfoData(DaysSinceRataDieInfos, CalendarEpoch.FrenchRepublican);
 
@@ -272,6 +275,9 @@ public partial class FrenchRepublican12DataSet // Start and end of year
         new(CommonCentury, 12, 35),
         new(LeapCentury, 12, 36),
     };
+
+    public override DataGroup<YearMonthsSinceEpoch> StartOfYearMonthsSinceEpochData { get; } =
+        GenStartOfYearMonthsSinceEpochData(12);
 
     public override DataGroup<YearDaysSinceEpoch> StartOfYearDaysSinceEpochData { get; } = new()
     {

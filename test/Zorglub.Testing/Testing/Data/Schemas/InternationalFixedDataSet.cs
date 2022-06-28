@@ -24,6 +24,9 @@ public sealed partial class InternationalFixedDataSet : SchemaDataSet, ISingleto
 
 public partial class InternationalFixedDataSet // Infos
 {
+    public override DataGroup<MonthsSinceEpochInfo> MonthsSinceEpochInfoData { get; } =
+        GenMonthsSinceEpochInfoData(13);
+
     public override DataGroup<DaysSinceEpochInfo> DaysSinceEpochInfoData { get; } =
         DataGroup.Create(DaysSinceEpochInfos);
 
@@ -128,6 +131,9 @@ public partial class InternationalFixedDataSet // Start and end of year
         new(CommonYear, 13, 29),
         new(LeapYear, 13, 29),
     };
+
+    public override DataGroup<YearMonthsSinceEpoch> StartOfYearMonthsSinceEpochData { get; } =
+        GenStartOfYearMonthsSinceEpochData(13);
 
     public override DataGroup<YearDaysSinceEpoch> StartOfYearDaysSinceEpochData { get; } = new()
     {

@@ -24,6 +24,9 @@ public sealed partial class WorldDataSet : SchemaDataSet, ISingleton<WorldDataSe
 
 public partial class WorldDataSet // Infos
 {
+    public override DataGroup<MonthsSinceEpochInfo> MonthsSinceEpochInfoData { get; } =
+        GenMonthsSinceEpochInfoData(12);
+
     public override DataGroup<DaysSinceEpochInfo> DaysSinceEpochInfoData { get; } =
         DataGroup.Create(DaysSinceEpochInfos);
 
@@ -126,6 +129,9 @@ public partial class WorldDataSet // Start and end of year
         new(CommonYear, 12, 31),
         new(LeapYear, 12, 31),
     };
+
+    public override DataGroup<YearMonthsSinceEpoch> StartOfYearMonthsSinceEpochData { get; } =
+        GenStartOfYearMonthsSinceEpochData(12);
 
     public override DataGroup<YearDaysSinceEpoch> StartOfYearDaysSinceEpochData { get; } = new()
     {

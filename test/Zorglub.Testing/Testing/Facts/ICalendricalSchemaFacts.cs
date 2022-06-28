@@ -6,12 +6,6 @@ namespace Zorglub.Testing.Facts;
 using Zorglub.Testing.Data;
 using Zorglub.Time.Core.Intervals;
 
-// TODO(fact):
-// - CountMonthsSinceEpoch()
-// - GetMonthParts()
-// - GetStartOfYearInMonths()
-// - GetEndOfYearInMonths()
-
 /// <summary>
 /// Provides facts about <see cref="ICalendricalSchema"/>.
 /// </summary>
@@ -110,6 +104,16 @@ public partial class ICalendricalSchemaFacts<TSchema, TDataSet> // Methods
         Assert.Equal(0, actual);
     }
 
+    [Theory, MemberData(nameof(MonthsSinceEpochInfoData))]
+    public void CountMonthsSinceEpoch(MonthsSinceEpochInfo info)
+    {
+        var (monthsSinceEpoch, y, m) = info;
+        // Act
+        int actual = SchemaUT.CountMonthsSinceEpoch(y, m);
+        // Assert
+        Assert.Equal(monthsSinceEpoch, actual);
+    }
+
     #endregion
     #region CountDaysSinceEpoch﹍DateParts()
 
@@ -157,6 +161,17 @@ public partial class ICalendricalSchemaFacts<TSchema, TDataSet> // Methods
 
     #endregion
     #region GetMonthParts()
+
+    [Theory, MemberData(nameof(MonthsSinceEpochInfoData))]
+    public void GetMonthParts(MonthsSinceEpochInfo info)
+    {
+        var (monthsSinceEpoch, y, m) = info;
+        // Act
+        SchemaUT.GetMonthParts(monthsSinceEpoch, out int yA, out int mA);
+        // Assert
+        Assert.Equal(y, yA);
+        Assert.Equal(m, mA);
+    }
 
     #endregion
     #region GetDateParts()
@@ -248,11 +263,28 @@ public partial class ICalendricalSchemaFacts<TSchema, TDataSet> // Methods
         Assert.Equal(0, actual);
     }
 
+    [Theory, MemberData(nameof(StartOfYearMonthsSinceEpochData))]
+    public void GetStartOfYearInMonths(YearMonthsSinceEpoch info)
+    {
+        // Act
+        var actual = SchemaUT.GetStartOfYearInMonths(info.Year);
+        // Assert
+        Assert.Equal(info.MonthsSinceEpoch, actual);
+    }
+
     #endregion
     #region GetEndOfYearInMonths()
 
-    #endregion
+    [Theory, MemberData(nameof(EndOfYearMonthsSinceEpochData))]
+    public void GetEndOfYearInMonths(YearMonthsSinceEpoch info)
+    {
+        // Act
+        var actual = SchemaUT.GetEndOfYearInMonths(info.Year);
+        // Assert
+        Assert.Equal(info.MonthsSinceEpoch, actual);
+    }
 
+    #endregion
     #region GetStartOfYear()
 
     [Fact]

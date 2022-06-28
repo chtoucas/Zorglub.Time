@@ -26,6 +26,9 @@ public sealed partial class PositivistDataSet : SchemaDataSet, ISingleton<Positi
 
 public partial class PositivistDataSet // Infos
 {
+    public override DataGroup<MonthsSinceEpochInfo> MonthsSinceEpochInfoData { get; } =
+        GenMonthsSinceEpochInfoData(13);
+
     public override DataGroup<DaysSinceEpochInfo> DaysSinceEpochInfoData { get; } =
         DataGroup.CreateDaysSinceEpochInfoData(DaysSinceZeroInfos, CalendarEpoch.Positivist);
 
@@ -130,6 +133,9 @@ public partial class PositivistDataSet // Start and end of year
         new(CommonYear, 13, 29),
         new(LeapYear, 13, 30),
     };
+
+    public override DataGroup<YearMonthsSinceEpoch> StartOfYearMonthsSinceEpochData { get; } =
+        GenStartOfYearMonthsSinceEpochData(13);
 
     public override DataGroup<YearDaysSinceEpoch> StartOfYearDaysSinceEpochData { get; } = new()
     {

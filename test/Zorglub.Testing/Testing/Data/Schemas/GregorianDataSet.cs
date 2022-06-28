@@ -26,6 +26,9 @@ public sealed partial class GregorianDataSet : SchemaDataSet, ISingleton<Gregori
 
 public partial class GregorianDataSet // Infos
 {
+    public override DataGroup<MonthsSinceEpochInfo> MonthsSinceEpochInfoData { get; } =
+        GenMonthsSinceEpochInfoData(12);
+
     public override DataGroup<DaysSinceEpochInfo> DaysSinceEpochInfoData { get; } =
         DataGroup.CreateDaysSinceEpochInfoData(DaysSinceRataDieInfos, DayZero.NewStyle);
 
@@ -338,6 +341,9 @@ public partial class GregorianDataSet // Start and end of year
         new(CommonYear, 12, 31),
         new(LeapYear, 12, 31),
     };
+
+    public override DataGroup<YearMonthsSinceEpoch> StartOfYearMonthsSinceEpochData { get; } =
+        GenStartOfYearMonthsSinceEpochData(12);
 
     public override DataGroup<YearDaysSinceEpoch> StartOfYearDaysSinceEpochData { get; } = new()
     {

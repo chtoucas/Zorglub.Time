@@ -26,6 +26,9 @@ public sealed partial class TabularIslamicDataSet : SchemaDataSet, ISingleton<Ta
 
 public partial class TabularIslamicDataSet // Infos
 {
+    public override DataGroup<MonthsSinceEpochInfo> MonthsSinceEpochInfoData { get; } =
+        GenMonthsSinceEpochInfoData(12);
+
     public override DataGroup<DaysSinceEpochInfo> DaysSinceEpochInfoData { get; } =
         DataGroup.CreateDaysSinceEpochInfoData(DaysSinceRataDieInfos, CalendarEpoch.TabularIslamic);
 
@@ -211,6 +214,9 @@ public partial class TabularIslamicDataSet // Start and end of year
         new(CommonYear, 12, 29),
         new(LeapYear, 12, 30),
     };
+
+    public override DataGroup<YearMonthsSinceEpoch> StartOfYearMonthsSinceEpochData { get; } =
+        GenStartOfYearMonthsSinceEpochData(12);
 
     public override DataGroup<YearDaysSinceEpoch> StartOfYearDaysSinceEpochData { get; } = new()
     {

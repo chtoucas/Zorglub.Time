@@ -24,6 +24,26 @@ public sealed partial class PaxDataSet : SchemaDataSet, ISingleton<PaxDataSet>
 
 public partial class PaxDataSet // Infos
 {
+    public override DataGroup<MonthsSinceEpochInfo> MonthsSinceEpochInfoData { get; } = new()
+    {
+        new(0, 1, 1),
+        new(1, 1, 2),
+        new(2, 1, 3),
+        new(3, 1, 4),
+        new(4, 1, 5),
+        new(5, 1, 6),
+        new(6, 1, 7),
+        new(7, 1, 8),
+        new(8, 1, 9),
+        new(9, 1, 10),
+        new(10, 1, 11),
+        new(11, 1, 12),
+        new(12, 1, 13),
+        new(13, 2, 1),
+        new(26, 3, 1),
+        new(39, 4, 1),
+    };
+
     public override DataGroup<DaysSinceEpochInfo> DaysSinceEpochInfoData { get; } =
         DataGroup.Create(DaysSinceEpochInfos);
 
@@ -146,6 +166,15 @@ public partial class PaxDataSet // Start and end of year
     {
         new(CommonYear, 13, 28),
         new(LeapYear, 14, 28),
+    };
+
+    // TODO(data): à compléter.
+    public override DataGroup<YearMonthsSinceEpoch> StartOfYearMonthsSinceEpochData { get; } = new()
+    {
+        new(1, 0),
+        new(2, 13),
+        new(3, 26),
+        new(4, 39),
     };
 
     public override DataGroup<YearDaysSinceEpoch> StartOfYearDaysSinceEpochData { get; } = new()

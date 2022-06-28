@@ -26,6 +26,9 @@ public sealed partial class Persian2820DataSet : SchemaDataSet, ISingleton<Persi
 
 public partial class Persian2820DataSet // Infos
 {
+    public override DataGroup<MonthsSinceEpochInfo> MonthsSinceEpochInfoData { get; } =
+        GenMonthsSinceEpochInfoData(12);
+
     public override DataGroup<DaysSinceEpochInfo> DaysSinceEpochInfoData { get; } =
         DataGroup.CreateDaysSinceEpochInfoData(DaysSinceRataDieInfos, CalendarEpoch.Persian);
 
@@ -196,6 +199,9 @@ public partial class Persian2820DataSet // Start and end of year
         new(CommonYear, 12, 29),
         new(LeapYear, 12, 30),
     };
+
+    public override DataGroup<YearMonthsSinceEpoch> StartOfYearMonthsSinceEpochData { get; } =
+        GenStartOfYearMonthsSinceEpochData(12);
 
     public override DataGroup<YearDaysSinceEpoch> StartOfYearDaysSinceEpochData { get; } = new()
     {
