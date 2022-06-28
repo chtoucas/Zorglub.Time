@@ -19,7 +19,7 @@ namespace Zorglub.Time.Core
         public int MonthsSinceEpoch { get; init; }
         public Yemo MonthParts => DateParts.Yemo;
 
-        public int Year => MonthParts.Year;
+        public int Year => DateParts.Year;
 
         // Comparison w/ null always returns false, even null >= null and null <= null.
 
