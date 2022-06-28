@@ -39,7 +39,7 @@ public readonly partial struct GregorianTriple :
 
     public GregorianTriple(int year, int month, int day)
     {
-        _bin = PartsFactory.CreateYemoda(year, month, day);
+        _bin = PartsCreator.CreateYemoda(year, month, day);
     }
 
     private GregorianTriple(Yemoda bin)
@@ -48,7 +48,7 @@ public readonly partial struct GregorianTriple :
     }
 
     private static Range<int> Domain { get; } = s_Schema.Domain;
-    private static PartsFactory PartsFactory { get; } = PartsFactory.Create(s_Schema);
+    private static PartsCreator PartsCreator { get; } = PartsCreator.Create(s_Schema);
     private static ICalendricalArithmetic Arithmetic { get; } = s_Schema.Arithmetic;
 
     public static Range<int> SupportedYears => s_Schema.SupportedYears;

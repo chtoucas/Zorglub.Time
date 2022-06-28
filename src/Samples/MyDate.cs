@@ -34,14 +34,14 @@ public readonly partial struct MyDate :
     private static readonly DayNumber s_Epoch = DayZero.NewStyle;
 
     private static readonly ICalendarScope s_Scope = new MinMaxYearScope(s_Schema, s_Epoch, 1, 9999);
-    private static readonly PartsFactory s_PartsFactory = new(s_Scope);
+    private static readonly PartsCreator s_PartsCreator = new(s_Scope);
     private static readonly ICalendricalArithmetic s_Arithmetic = s_Schema.Arithmetic.WithSupportedYears(s_Scope.SupportedYears);
 
     private readonly Yemoda _bin;
 
     public MyDate(int year, int month, int day)
     {
-        _bin = s_PartsFactory.CreateYemoda(year, month, day);
+        _bin = s_PartsCreator.CreateYemoda(year, month, day);
     }
 
     internal MyDate(Yemoda bin)

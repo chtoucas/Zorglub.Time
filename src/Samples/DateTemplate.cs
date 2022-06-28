@@ -63,7 +63,7 @@ public partial struct DateTemplate // Type init, partial methods
     private static readonly int s_EpochDayOfWeek = (int)s_Epoch.DayOfWeek;
 
     private static readonly ICalendarScope s_Scope = MinMaxYearScope.WithMinYear(s_Schema, s_Epoch, 1);
-    private static readonly PartsFactory s_PartsFactory = new(s_Scope);
+    private static readonly PartsCreator s_PartsCreator = new(s_Scope);
     private static readonly ICalendricalArithmetic s_Arithmetic = s_Schema.Arithmetic.WithSupportedYears(s_Scope.SupportedYears);
 
     [Pure] private static partial SystemSchema InitSchema();
@@ -76,7 +76,7 @@ public partial struct DateTemplate
 
     public DateTemplate(int year, int month, int day)
     {
-        _bin = s_PartsFactory.CreateYemoda(year, month, day);
+        _bin = s_PartsCreator.CreateYemoda(year, month, day);
     }
 
     private DateTemplate(Yemoda bin)

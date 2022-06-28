@@ -13,7 +13,7 @@ namespace Zorglub.Time.Core
     /// Provides factory methods to create new calendrical objects.
     /// <para>This class cannot be inherited.</para>
     /// </summary>
-    public sealed class PartsFactory
+    public sealed class PartsCreator
     {
         /// <summary>
         /// Represents a calendrical validator.
@@ -22,13 +22,13 @@ namespace Zorglub.Time.Core
         private readonly ICalendricalValidator _validator;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="PartsFactory"/> class.
+        /// Initializes a new instance of the <see cref="PartsCreator"/> class.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="validator"/> is null.</exception>
         /// <exception cref="ArgumentException">The range of supported years by
         /// <paramref name="validator"/> is not a subinterval of <see cref="Yemoda.SupportedYears"/>.
         /// </exception>
-        public PartsFactory(ICalendricalValidator validator)
+        public PartsCreator(ICalendricalValidator validator)
         {
             Requires.NotNull(validator);
             // Necessary condition to be able to use the Yemoda/Yedoy constructors.
@@ -41,11 +41,11 @@ namespace Zorglub.Time.Core
         }
 
         /// <summary>
-        /// Creates a new instance of the <see cref="PartsFactory"/> class for which the validator
+        /// Creates a new instance of the <see cref="PartsCreator"/> class for which the validator
         /// allows all years within the range of supported years by <paramref name="schema"/>.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
-        public static PartsFactory Create(ICalendricalSchema schema)
+        public static PartsCreator Create(ICalendricalSchema schema)
         {
             Requires.NotNull(schema);
 
