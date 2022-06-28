@@ -11,7 +11,9 @@ namespace Zorglub.Time.Core
         /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
         protected MonthHelper(ICalendricalSchema schema)
         {
-            Schema = schema ?? throw new ArgumentNullException(nameof(schema));
+            Debug.Assert(schema != null);
+
+            Schema = schema;
         }
 
         protected ICalendricalSchema Schema { get; }

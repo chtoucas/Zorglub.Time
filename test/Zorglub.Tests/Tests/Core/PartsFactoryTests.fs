@@ -35,7 +35,7 @@ module Prelude =
         nullExn "schema" (fun () -> new CalendricalPartsFactoryChecked(null))
         nullExn "schema" (fun () -> new CalendricalPartsFactoryUnchecked(null))
 
-module Factories =
+module Methods =
     [<Sealed>]
     type BadYearData() as self =
         inherit TheoryData<int>()
