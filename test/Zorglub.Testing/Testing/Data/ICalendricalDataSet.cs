@@ -11,6 +11,8 @@ public partial interface ICalendricalDataSet
     /// <summary>Gets a sample leap year.</summary>
     int SampleLeapYear { get; }
 
+    /// <summary>Number of consecutive months from the epoch to a date.</summary>
+    DataGroup<MonthsSinceEpochInfo> MonthsSinceEpochInfoData { get; }
     /// <summary>Number of consecutive days from the epoch to a date.</summary>
     DataGroup<DaysSinceEpochInfo> DaysSinceEpochInfoData { get; }
 
@@ -32,6 +34,11 @@ public partial interface ICalendricalDataSet
     DataGroup<Yemoda> StartOfYearPartsData { get; }
     /// <summary>Date at the end of a year.</summary>
     DataGroup<Yemoda> EndOfYearPartsData { get; }
+
+    /// <summary>Year, number of consecutive months from the epoch to the start of the year.</summary>
+    DataGroup<YearMonthsSinceEpoch> StartOfYearMonthsSinceEpochData { get; }
+    /// <summary>Year, number of consecutive months from the epoch to the end of the year.</summary>
+    DataGroup<YearMonthsSinceEpoch> EndOfYearMonthsSinceEpochData { get; }
 
     /// <summary>Year, number of consecutive days from the epoch to the start of the year.</summary>
     DataGroup<YearDaysSinceEpoch> StartOfYearDaysSinceEpochData { get; }

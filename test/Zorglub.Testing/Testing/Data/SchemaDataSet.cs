@@ -32,6 +32,7 @@ public abstract partial class SchemaDataSet : ICalendricalDataSet
     public int SampleCommonYear { get; }
     public int SampleLeapYear { get; }
 
+    public DataGroup<MonthsSinceEpochInfo> MonthsSinceEpochInfoData => throw new NotImplementedException();
     public abstract DataGroup<DaysSinceEpochInfo> DaysSinceEpochInfoData { get; }
 
     public abstract DataGroup<DateInfo> DateInfoData { get; }
@@ -48,6 +49,10 @@ public abstract partial class SchemaDataSet : ICalendricalDataSet
 
     public virtual DataGroup<Yemoda> StartOfYearPartsData => MapToStartOfYearParts(EndOfYearPartsData);
     public abstract DataGroup<Yemoda> EndOfYearPartsData { get; }
+
+    public DataGroup<YearMonthsSinceEpoch> StartOfYearMonthsSinceEpochData => throw new NotImplementedException();
+    public virtual DataGroup<YearMonthsSinceEpoch> EndOfYearMonthsSinceEpochData =>
+        MapToEndOfYearMonthsSinceEpochData(StartOfYearMonthsSinceEpochData);
 
     public abstract DataGroup<YearDaysSinceEpoch> StartOfYearDaysSinceEpochData { get; }
     public virtual DataGroup<YearDaysSinceEpoch> EndOfYearDaysSinceEpochData =>
@@ -114,6 +119,20 @@ public partial class SchemaDataSet // Helpers
         return source.SelectT(Selector);
 
         static Yemoda Selector(Yemoda x) => new(x.Year, 1, 1);
+    }
+
+    [Pure]
+    private static DataGroup<YearMonthsSinceEpoch> MapToEndOfYearMonthsSinceEpochData(DataGroup<YearMonthsSinceEpoch> source)
+    {
+        Requires.NotNull(source);
+
+        return source.SelectT(Selector);
+
+        static YearMonthsSinceEpoch Selector(YearMonthsSinceEpoch x)
+        {
+            var (y, monthsSinceEpoch) = x;
+            return new YearMonthsSinceEpoch(y - 1, monthsSinceEpoch - 1);
+        }
     }
 
     [Pure]

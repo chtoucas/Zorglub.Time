@@ -12,9 +12,11 @@ public interface IDataFilter
     bool Filter(Yemo x);
     bool Filter(Yedoy x);
 
+    bool Filter(YearMonthsSinceEpoch x);
     bool Filter(YearDaysSinceEpoch x);
     bool Filter(YearDayNumber x);
 
+    bool Filter(MonthsSinceEpochInfo x);
     bool Filter(DaysSinceEpochInfo x);
     bool Filter(DayNumberInfo x);
 

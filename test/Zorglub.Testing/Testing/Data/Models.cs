@@ -40,6 +40,8 @@ namespace Zorglub.Testing.Data;
 
 #region YearDayXXX
 
+public readonly record struct YearMonthsSinceEpoch(int Year, int MonthsSinceEpoch);
+
 public readonly record struct YearDaysSinceEpoch(int Year, int DaysSinceEpoch)
 {
     [Pure]

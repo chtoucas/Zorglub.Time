@@ -66,6 +66,7 @@ public abstract class UnboundedCalendarDataSet : ICalendarDataSet
     public int SampleCommonYear => _dataSet.SampleCommonYear;
     public int SampleLeapYear => _dataSet.SampleLeapYear;
 
+    public DataGroup<MonthsSinceEpochInfo> MonthsSinceEpochInfoData => _dataSet.MonthsSinceEpochInfoData;
     public DataGroup<DaysSinceEpochInfo> DaysSinceEpochInfoData => _dataSet.DaysSinceEpochInfoData;
 
     public DataGroup<DateInfo> DateInfoData => _dataSet.DateInfoData;
@@ -78,6 +79,9 @@ public abstract class UnboundedCalendarDataSet : ICalendarDataSet
 
     public DataGroup<Yemoda> StartOfYearPartsData => _dataSet.StartOfYearPartsData;
     public DataGroup<Yemoda> EndOfYearPartsData => _dataSet.EndOfYearPartsData;
+
+    public DataGroup<YearMonthsSinceEpoch> StartOfYearMonthsSinceEpochData => _dataSet.StartOfYearMonthsSinceEpochData;
+    public DataGroup<YearMonthsSinceEpoch> EndOfYearMonthsSinceEpochData => _dataSet.EndOfYearMonthsSinceEpochData;
 
     public DataGroup<YearDaysSinceEpoch> StartOfYearDaysSinceEpochData => _dataSet.StartOfYearDaysSinceEpochData;
     public DataGroup<YearDaysSinceEpoch> EndOfYearDaysSinceEpochData => _dataSet.EndOfYearDaysSinceEpochData;

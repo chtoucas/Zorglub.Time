@@ -48,6 +48,7 @@ public class BoundedCalendarDataSet<TDataSet> : ICalendarDataSet
     public int SampleCommonYear { get; }
     public int SampleLeapYear { get; }
 
+    public DataGroup<MonthsSinceEpochInfo> MonthsSinceEpochInfoData => Unbounded.MonthsSinceEpochInfoData.WhereT(DataFilter.Filter);
     public DataGroup<DaysSinceEpochInfo> DaysSinceEpochInfoData => Unbounded.DaysSinceEpochInfoData.WhereT(DataFilter.Filter);
 
     public DataGroup<DateInfo> DateInfoData => Unbounded.DateInfoData.WhereT(DataFilter.Filter);
@@ -60,6 +61,9 @@ public class BoundedCalendarDataSet<TDataSet> : ICalendarDataSet
 
     public DataGroup<Yemoda> StartOfYearPartsData => Unbounded.StartOfYearPartsData.WhereT(DataFilter.Filter);
     public DataGroup<Yemoda> EndOfYearPartsData => Unbounded.EndOfYearPartsData.WhereT(DataFilter.Filter);
+
+    public DataGroup<YearMonthsSinceEpoch> StartOfYearMonthsSinceEpochData => Unbounded.StartOfYearMonthsSinceEpochData.WhereT(DataFilter.Filter);
+    public DataGroup<YearMonthsSinceEpoch> EndOfYearMonthsSinceEpochData => Unbounded.EndOfYearMonthsSinceEpochData.WhereT(DataFilter.Filter);
 
     public DataGroup<YearDaysSinceEpoch> StartOfYearDaysSinceEpochData => Unbounded.StartOfYearDaysSinceEpochData.WhereT(DataFilter.Filter);
     public DataGroup<YearDaysSinceEpoch> EndOfYearDaysSinceEpochData => Unbounded.EndOfYearDaysSinceEpochData.WhereT(DataFilter.Filter);

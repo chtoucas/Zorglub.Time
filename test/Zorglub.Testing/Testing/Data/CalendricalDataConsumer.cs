@@ -20,6 +20,7 @@ public abstract class CalendricalDataConsumer<TDataSet>
     protected static int SampleCommonYear { get; } = s_DataSet.SampleCommonYear;
     protected static int SampleLeapYear { get; } = s_DataSet.SampleLeapYear;
 
+    public static XunitData<MonthsSinceEpochInfo> MonthsSinceEpochInfoData => s_Adapter.MonthsSinceEpochInfoData;
     public static XunitData<DaysSinceEpochInfo> DaysSinceEpochInfoData => s_Adapter.DaysSinceEpochInfoData;
 
     public static XunitData<DateInfo> DateInfoData => s_Adapter.DateInfoData;
@@ -32,6 +33,9 @@ public abstract class CalendricalDataConsumer<TDataSet>
 
     public static XunitData<Yemoda> StartOfYearPartsData => s_Adapter.StartOfYearPartsData;
     public static XunitData<Yemoda> EndOfYearPartsData => s_Adapter.EndOfYearPartsData;
+
+    public static XunitData<YearMonthsSinceEpoch> StartOfYearMonthsSinceEpochData => s_Adapter.StartOfYearMonthsSinceEpochData;
+    public static XunitData<YearMonthsSinceEpoch> EndOfYearMonthsSinceEpochData => s_Adapter.EndOfYearMonthsSinceEpochData;
 
     public static XunitData<YearDaysSinceEpoch> StartOfYearDaysSinceEpochData => s_Adapter.StartOfYearDaysSinceEpochData;
     public static XunitData<YearDaysSinceEpoch> EndOfYearDaysSinceEpochData => s_Adapter.EndOfYearDaysSinceEpochData;
@@ -65,6 +69,10 @@ public abstract class CalendricalDataConsumer<TDataSet>
         {
             _dataSet = dataSet ?? throw new ArgumentNullException(nameof(dataSet));
         }
+
+        private XunitData<MonthsSinceEpochInfo>? _monthsSinceEpochInfoData;
+        public XunitData<MonthsSinceEpochInfo> MonthsSinceEpochInfoData =>
+            _monthsSinceEpochInfoData ??= _dataSet.MonthsSinceEpochInfoData.ToXunitData();
 
         private XunitData<DaysSinceEpochInfo>? _daysSinceEpochInfoData;
         public XunitData<DaysSinceEpochInfo> DaysSinceEpochInfoData =>
@@ -101,6 +109,14 @@ public abstract class CalendricalDataConsumer<TDataSet>
         private XunitData<Yemoda>? _endOfYearPartsData;
         public XunitData<Yemoda> EndOfYearPartsData =>
             _endOfYearPartsData ??= _dataSet.EndOfYearPartsData.ToXunitData();
+
+        private XunitData<YearMonthsSinceEpoch>? _startOfYearMonthsSinceEpochData;
+        public XunitData<YearMonthsSinceEpoch> StartOfYearMonthsSinceEpochData =>
+            _startOfYearMonthsSinceEpochData ??= _dataSet.StartOfYearMonthsSinceEpochData.ToXunitData();
+
+        private XunitData<YearMonthsSinceEpoch>? _endOfYearMonthsSinceEpochData;
+        public XunitData<YearMonthsSinceEpoch> EndOfYearMonthsSinceEpochData =>
+            _endOfYearMonthsSinceEpochData ??= _dataSet.EndOfYearMonthsSinceEpochData.ToXunitData();
 
         private XunitData<YearDaysSinceEpoch>? _startOfYearDaysSinceEpochData;
         public XunitData<YearDaysSinceEpoch> StartOfYearDaysSinceEpochData =>
