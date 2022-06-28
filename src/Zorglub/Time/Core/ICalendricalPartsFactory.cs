@@ -88,6 +88,16 @@ namespace Zorglub.Time.Core
 
     public partial interface ICalendricalPartsFactory // Dates in a given year or month
     {
+        //
+        // Start of year
+        //
+
+        /// <summary>
+        /// Obtains the month parts for the first month of the specified year.
+        /// </summary>
+        /// <exception cref="AoorException">The result is not representable by the system.</exception>
+        [Pure] Yemo GetMonthPartsAtStartOfYear(int y);
+
         /// <summary>
         /// Obtains the date parts for the first day of the specified year.
         /// </summary>
@@ -99,6 +109,16 @@ namespace Zorglub.Time.Core
         /// </summary>
         /// <exception cref="AoorException">The result is not representable by the system.</exception>
         [Pure] Yedoy GetOrdinalPartsAtStartOfYear(int y);
+
+        //
+        // End of year
+        //
+
+        /// <summary>
+        /// Obtains the date parts for the last month of the specified year.
+        /// </summary>
+        /// <exception cref="AoorException">The result is not representable by the system.</exception>
+        [Pure] Yemo GetMonthPartsAtEndOfYear(int y);
 
         /// <summary>
         /// Obtains the date parts for the last day of the specified year.
@@ -112,6 +132,10 @@ namespace Zorglub.Time.Core
         /// <exception cref="AoorException">The result is not representable by the system.</exception>
         [Pure] Yedoy GetOrdinalPartsAtEndOfYear(int y);
 
+        //
+        // Start of month
+        //
+
         /// <summary>
         /// Obtains the date parts for the first day of the specified month.
         /// </summary>
@@ -123,6 +147,10 @@ namespace Zorglub.Time.Core
         /// </summary>
         /// <exception cref="AoorException">The result is not representable by the system.</exception>
         [Pure] Yedoy GetOrdinalPartsAtStartOfMonth(int y, int m);
+
+        //
+        // End of month
+        //
 
         /// <summary>
         /// Obtains the date parts for the last day of the specified month.

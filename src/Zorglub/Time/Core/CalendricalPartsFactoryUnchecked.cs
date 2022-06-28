@@ -71,11 +71,23 @@ namespace Zorglub.Time.Core
     {
         /// <inheritdoc />
         [Pure]
+        public Yemo GetMonthPartsAtStartOfYear(int y) => Yemo.AtStartOfYear(y);
+
+        /// <inheritdoc />
+        [Pure]
         public Yemoda GetDatePartsAtStartOfYear(int y) => Yemoda.AtStartOfYear(y);
 
         /// <inheritdoc />
         [Pure]
         public Yedoy GetOrdinalPartsAtStartOfYear(int y) => Yedoy.AtStartOfYear(y);
+
+        /// <inheritdoc />
+        [Pure]
+        public Yemo GetMonthPartsAtEndOfYear(int y)
+        {
+            int m = _schema.CountMonthsInYear(y);
+            return new Yemo(y, m);
+        }
 
         /// <inheritdoc />
         [Pure]

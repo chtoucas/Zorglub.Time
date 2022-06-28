@@ -320,11 +320,23 @@ namespace Zorglub.Time.Core
     {
         /// <inheritdoc />
         [Pure]
+        public Yemo GetMonthPartsAtStartOfYear(int y) => Yemo.AtStartOfYear(y);
+
+        /// <inheritdoc />
+        [Pure]
         public Yemoda GetDatePartsAtStartOfYear(int y) => Yemoda.AtStartOfYear(y);
 
         /// <inheritdoc />
         [Pure]
         public Yedoy GetOrdinalPartsAtStartOfYear(int y) => Yedoy.AtStartOfYear(y);
+
+        /// <inheritdoc />
+        [Pure]
+        public Yemo GetMonthPartsAtEndOfYear(int y)
+        {
+            int monthsInYear = CountMonthsInYear(y);
+            return new Yemo(y, monthsInYear);
+        }
 
         /// <inheritdoc />
         [Pure]
@@ -341,8 +353,8 @@ namespace Zorglub.Time.Core
         // The default implementation
         // > m = CountMonthsInYear(y);
         // > d = CountDaysInMonth(y, m);
-        // is rather inefficient, indeed "m" is often a constant. For instance,
-        // for regular schemas, we can write:
+        // is rather inefficient, indeed "m" and "d" are often constant.
+        // For instance, for regular schemas, we can write:
         // > m = MonthsInYear;
         // > d = CountDaysInMonth(y, MonthsInYear);
         public abstract void GetDatePartsAtEndOfYear(int y, out int m, out int d);

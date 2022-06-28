@@ -73,6 +73,14 @@ namespace Zorglub.Time.Core
     {
         /// <inheritdoc />
         [Pure]
+        public Yemo GetMonthPartsAtStartOfYear(int y)
+        {
+            if (y < Yemoda.MinYear || y > Yemoda.MaxYear) Throw.YearOutOfRange(y);
+            return Yemo.AtStartOfYear(y);
+        }
+
+        /// <inheritdoc />
+        [Pure]
         public Yemoda GetDatePartsAtStartOfYear(int y)
         {
             if (y < Yemoda.MinYear || y > Yemoda.MaxYear) Throw.YearOutOfRange(y);
@@ -85,6 +93,14 @@ namespace Zorglub.Time.Core
         {
             if (y < Yemoda.MinYear || y > Yemoda.MaxYear) Throw.YearOutOfRange(y);
             return Yedoy.AtStartOfYear(y);
+        }
+
+        /// <inheritdoc />
+        [Pure]
+        public Yemo GetMonthPartsAtEndOfYear(int y)
+        {
+            int m = _schema.CountMonthsInYear(y);
+            return Yemo.Create(y, m);
         }
 
         /// <inheritdoc />
