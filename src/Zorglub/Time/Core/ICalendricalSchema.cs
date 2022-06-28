@@ -5,8 +5,6 @@ namespace Zorglub.Time.Core
 {
     using Zorglub.Time.Core.Intervals;
 
-    // REVIEW(api): add MonthDomain.
-
     #region Developer Notes
 
     // Types Implementing ICalendricalSchema
@@ -132,6 +130,14 @@ namespace Zorglub.Time.Core
         Range<int> Domain { get; }
 
         /// <summary>
+        /// Gets the range of supported months, or more precisely the range of supported numbers of
+        /// consecutive months from the epoch.
+        /// </summary>
+        /// <returns>The range from the first month of the first supported year to the last month of
+        /// the last supported year.</returns>
+        Range<int> MonthDomain { get; }
+
+        /// <summary>
         /// Gets the pre-validator for this schema.
         /// </summary>
         ICalendricalPreValidator PreValidator { get; }
@@ -229,6 +235,18 @@ namespace Zorglub.Time.Core
 
     public partial interface ICalendricalSchema //
     {
+        /// <summary>
+        /// Counts the number of consecutive months from the epoch to the first month of the
+        /// specified year.
+        /// </summary>
+        [Pure] int GetStartOfYearInMonths(int y);
+
+        /// <summary>
+        /// Counts the number of consecutive months from the epoch to the last month of the
+        /// specified year.
+        /// </summary>
+        [Pure] int GetEndOfYearInMonths(int y);
+
         /// <summary>
         /// Counts the number of consecutive days from the epoch to the first day of the specified
         /// year.

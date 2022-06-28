@@ -111,6 +111,12 @@ namespace Zorglub.Time.Core
             /// <summary>Conversion daysSinceEpoch -> (y, m, d).</summary>
             public void GetDateParts(int daysSinceEpoch, out int y, out int m, out int d) =>
                 _this.GetDateParts(daysSinceEpoch, out y, out m, out d);
+
+            [Pure]
+            public int GetEndOfYear(int y) => _this.GetEndOfYear(y);
+
+            [Pure]
+            public int GetEndOfYearInMonths(int y) => _this.GetEndOfYearInMonths(y);
         }
     }
 
@@ -175,7 +181,16 @@ namespace Zorglub.Time.Core
             _domain ??= new Range<int>(
                 SupportedYears.Endpoints.Select(
                     GetStartOfYear,
-                    ((ICalendricalSchema)this).GetEndOfYear));
+                    _proxy.GetEndOfYear));
+
+        private Range<int>? _monthDomain;
+        /// <inheritdoc />
+        public Range<int> MonthDomain =>
+            _monthDomain ??=
+            new Range<int>(
+                SupportedYears.Endpoints.Select(
+                    GetStartOfYearInMonths,
+                    _proxy.GetEndOfYearInMonths));
 
         /// <inheritdoc />
         [Pure]
@@ -194,30 +209,6 @@ namespace Zorglub.Time.Core
                 count += CountDaysInMonth(y, i);
             }
             return count;
-        }
-
-        /// <inheritdoc />
-        [Pure]
-        public virtual int CountMonthsSinceEpoch(int y, int m)
-        {
-            int startOfYear = 0;
-
-            if (y < 1)
-            {
-                for (int i = y; i < 1; i++)
-                {
-                    startOfYear -= CountMonthsInYear(i);
-                }
-            }
-            else
-            {
-                for (int i = 1; i < y; i++)
-                {
-                    startOfYear += CountMonthsInYear(i);
-                }
-            }
-
-            return startOfYear + m - 1;
         }
 
         /// <inheritdoc />
@@ -298,6 +289,30 @@ namespace Zorglub.Time.Core
 
         /// <inheritdoc />
         [Pure]
+        public virtual int GetStartOfYearInMonths(int y)
+        {
+            int monthsSinceEpoch = 0;
+
+            if (y < 1)
+            {
+                for (int i = y; i < 1; i++)
+                {
+                    monthsSinceEpoch -= CountMonthsInYear(i);
+                }
+            }
+            else
+            {
+                for (int i = 1; i < y; i++)
+                {
+                    monthsSinceEpoch += CountMonthsInYear(i);
+                }
+            }
+
+            return monthsSinceEpoch;
+        }
+
+        /// <inheritdoc />
+        [Pure]
         public virtual int GetStartOfYear(int y)
         {
             // Faster alternatives:
@@ -340,6 +355,10 @@ namespace Zorglub.Time.Core
 #pragma warning disable CA1033 // Interface methods should be callable by child types (Design)
 
         [Pure]
+        int ICalendricalSchema.CountMonthsSinceEpoch(int y, int m) =>
+            GetStartOfYearInMonths(y) + m - 1;
+
+        [Pure]
         int ICalendricalSchema.CountDaysSinceEpoch(int y, int m, int d) =>
             GetStartOfYear(y) + CountDaysInYearBeforeMonth(y, m) + d - 1;
 
@@ -356,6 +375,10 @@ namespace Zorglub.Time.Core
         [Pure]
         int ICalendricalSchema.GetDayOfYear(int y, int m, int d) =>
             CountDaysInYearBeforeMonth(y, m) + d;
+
+        [Pure]
+        int ICalendricalSchema.GetEndOfYearInMonths(int y) =>
+            GetStartOfYearInMonths(y) + CountMonthsInYear(y) - 1;
 
         [Pure]
         int ICalendricalSchema.GetEndOfYear(int y) =>

@@ -42,6 +42,9 @@ namespace Zorglub.Time.Core
         public Range<int> Domain => Schema.Domain;
 
         /// <inheritdoc />
+        public Range<int> MonthDomain => Schema.MonthDomain;
+
+        /// <inheritdoc />
         public ICalendricalPreValidator PreValidator => Schema.PreValidator;
 
         /// <inheritdoc />
@@ -308,6 +311,20 @@ namespace Zorglub.Time.Core
 
     public partial class CalendricalSchemaValidated //
     {
+        [Pure]
+        public int GetStartOfYearInMonths(int y)
+        {
+            ValidateYear(y);
+            return Schema.GetStartOfYearInMonths(y);
+        }
+
+        [Pure]
+        public int GetEndOfYearInMonths(int y)
+        {
+            ValidateYear(y);
+            return Schema.GetEndOfYearInMonths(y);
+        }
+
         [Pure]
         public int GetStartOfYear(int y)
         {

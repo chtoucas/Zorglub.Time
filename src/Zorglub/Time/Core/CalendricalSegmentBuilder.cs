@@ -116,13 +116,6 @@ namespace Zorglub.Time.Core
         [Pure]
         [SuppressMessage("Design", "CA1024:Use properties where appropriate", Justification = "<Pending>")]
         public CalendricalSegment GetSegment() => new(_schema, Start, End);
-
-        [Pure]
-        public int CountMonthsSinceEpoch(Yemoda ymd)
-        {
-            var (y, m, _) = ymd;
-            return _schema.CountMonthsSinceEpoch(y, m);
-        }
     }
 
     public partial class CalendricalSegmentBuilder // Builder methods
@@ -138,14 +131,11 @@ namespace Zorglub.Time.Core
                 Throw.ArgumentOutOfRange(nameof(daysSinceEpoch));
             }
 
-            var ymd = _partsFactory.GetDateParts(daysSinceEpoch);
-
             Start = new CalendricalEndpoint
             {
                 DaysSinceEpoch = daysSinceEpoch,
-                DateParts = ymd,
+                DateParts = _partsFactory.GetDateParts(daysSinceEpoch),
                 OrdinalParts = _partsFactory.GetOrdinalParts(daysSinceEpoch),
-                MonthsSinceEpoch = CountMonthsSinceEpoch(ymd),
             };
         }
 
@@ -160,14 +150,11 @@ namespace Zorglub.Time.Core
                 Throw.ArgumentOutOfRange(nameof(daysSinceEpoch));
             }
 
-            var ymd = _partsFactory.GetDateParts(daysSinceEpoch);
-
             End = new CalendricalEndpoint
             {
                 DaysSinceEpoch = daysSinceEpoch,
-                DateParts = ymd,
+                DateParts = _partsFactory.GetDateParts(daysSinceEpoch),
                 OrdinalParts = _partsFactory.GetOrdinalParts(daysSinceEpoch),
-                MonthsSinceEpoch = CountMonthsSinceEpoch(ymd),
             };
         }
 
@@ -187,7 +174,6 @@ namespace Zorglub.Time.Core
                 DaysSinceEpoch = _schema.CountDaysSinceEpoch(y, m, d),
                 DateParts = ymd,
                 OrdinalParts = _partsFactory.GetOrdinalParts(y, m, d),
-                MonthsSinceEpoch = CountMonthsSinceEpoch(ymd),
             };
         }
 
@@ -207,7 +193,6 @@ namespace Zorglub.Time.Core
                 DaysSinceEpoch = _schema.CountDaysSinceEpoch(y, m, d),
                 DateParts = ymd,
                 OrdinalParts = _partsFactory.GetOrdinalParts(y, m, d),
-                MonthsSinceEpoch = CountMonthsSinceEpoch(ymd),
             };
         }
 
@@ -222,14 +207,11 @@ namespace Zorglub.Time.Core
             if (_supportedYears.Contains(y) == false) Throw.YearOutOfRange(y, nameof(ydoy));
             _schema.PreValidator.ValidateDayOfYear(y, doy, nameof(ydoy));
 
-            var ymd = _partsFactory.GetDateParts(y, doy);
-
             Start = new CalendricalEndpoint
             {
                 DaysSinceEpoch = _schema.CountDaysSinceEpoch(y, doy),
-                DateParts = ymd,
+                DateParts = _partsFactory.GetDateParts(y, doy),
                 OrdinalParts = ydoy,
-                MonthsSinceEpoch = CountMonthsSinceEpoch(ymd),
             };
         }
 
@@ -244,14 +226,11 @@ namespace Zorglub.Time.Core
             if (_supportedYears.Contains(y) == false) Throw.YearOutOfRange(y, nameof(ydoy));
             _schema.PreValidator.ValidateDayOfYear(y, doy, nameof(ydoy));
 
-            var ymd = _partsFactory.GetDateParts(y, doy);
-
             End = new CalendricalEndpoint
             {
                 DaysSinceEpoch = _schema.CountDaysSinceEpoch(y, doy),
-                DateParts = ymd,
+                DateParts = _partsFactory.GetDateParts(y, doy),
                 OrdinalParts = ydoy,
-                MonthsSinceEpoch = CountMonthsSinceEpoch(ymd),
             };
         }
 
@@ -263,14 +242,11 @@ namespace Zorglub.Time.Core
         {
             if (_supportedYears.Contains(year) == false) Throw.YearOutOfRange(year);
 
-            var ymd = _partsFactory.GetDatePartsAtStartOfYear(year);
-
             Start = new CalendricalEndpoint
             {
                 DaysSinceEpoch = _schema.GetStartOfYear(year),
-                DateParts = ymd,
+                DateParts = _partsFactory.GetDatePartsAtStartOfYear(year),
                 OrdinalParts = _partsFactory.GetOrdinalPartsAtStartOfYear(year),
-                MonthsSinceEpoch = CountMonthsSinceEpoch(ymd),
             };
         }
 
@@ -282,14 +258,11 @@ namespace Zorglub.Time.Core
         {
             if (_supportedYears.Contains(year) == false) Throw.YearOutOfRange(year);
 
-            var ymd = _partsFactory.GetDatePartsAtEndOfYear(year);
-
             End = new CalendricalEndpoint
             {
                 DaysSinceEpoch = _schema.GetEndOfYear(year),
-                DateParts = ymd,
+                DateParts = _partsFactory.GetDatePartsAtEndOfYear(year),
                 OrdinalParts = _partsFactory.GetOrdinalPartsAtEndOfYear(year),
-                MonthsSinceEpoch = CountMonthsSinceEpoch(ymd),
             };
         }
 

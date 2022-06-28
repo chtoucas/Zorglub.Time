@@ -16,9 +16,7 @@ namespace Zorglub.Time.Core
         public Yemoda DateParts { get; init; }
         public Yedoy OrdinalParts { get; init; }
 
-        public int MonthsSinceEpoch { get; init; }
         public Yemo MonthParts => DateParts.Yemo;
-
         public int Year => DateParts.Year;
 
         // Comparison w/ null always returns false, even null >= null and null <= null.
@@ -74,10 +72,17 @@ namespace Zorglub.Time.Core
             MinMaxDateParts = OrderedPair.FromOrderedValues(start.DateParts, end.DateParts);
             MinMaxOrdinalParts = OrderedPair.FromOrderedValues(start.OrdinalParts, end.OrdinalParts);
 
-            MonthDomain = Range.Create(start.MonthsSinceEpoch, end.MonthsSinceEpoch);
+            MonthDomain = Range.FromEndpoints(MinMaxDateParts.Select(CountMonthsSinceEpoch, CountMonthsSinceEpoch));
             MinMaxMonthParts = OrderedPair.FromOrderedValues(start.MonthParts, end.MonthParts);
 
             SupportedYears = Range.Create(start.Year, end.Year);
+        }
+
+        [Pure]
+        private int CountMonthsSinceEpoch(Yemoda ymd)
+        {
+            var (y, m, _) = ymd;
+            return Schema.CountMonthsSinceEpoch(y, m);
         }
 
         /// <summary>

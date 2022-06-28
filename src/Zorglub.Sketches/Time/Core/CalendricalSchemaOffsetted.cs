@@ -57,6 +57,11 @@ namespace Zorglub.Time.Core
         public Range<int> Domain =>
             _domain ??= new Range<int>(SupportedYears.Endpoints.Select(GetStartOfYear, GetEndOfYear));
 
+        private Range<int>? _monthDomain;
+        /// <inheritdoc />
+        public Range<int> MonthDomain =>
+            _monthDomain ??= new Range<int>(SupportedYears.Endpoints.Select(GetStartOfYearInMonths, GetEndOfYearInMonths));
+
         /// <inheritdoc />
         [Pure] public bool IsRegular(out int monthsInYear) => _schema.IsRegular(out monthsInYear);
 
@@ -132,6 +137,10 @@ namespace Zorglub.Time.Core
         /// <inheritdoc />
         [Pure] public int GetDayOfYear(int y, int m, int d) => _schema.GetDayOfYear(y - Offset, m, d);
 
+        /// <inheritdoc />
+        [Pure] public int GetStartOfYearInMonths(int y) => _schema.GetStartOfYearInMonths(y - Offset);
+        /// <inheritdoc />
+        [Pure] public int GetEndOfYearInMonths(int y) => _schema.GetEndOfYearInMonths(y - Offset);
         /// <inheritdoc />
         [Pure] public int GetStartOfYear(int y) => _schema.GetStartOfYear(y - Offset);
         /// <inheritdoc />

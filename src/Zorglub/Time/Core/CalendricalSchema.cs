@@ -241,6 +241,15 @@ namespace Zorglub.Time.Core
         /// <inheritdoc />
         public Range<int> Domain =>
             _domain ??= new Range<int>(SupportedYears.Endpoints.Select(GetStartOfYear, GetEndOfYear));
+
+        private Range<int>? _monthDomain;
+        /// <inheritdoc />
+        public Range<int> MonthDomain =>
+            _monthDomain ??=
+            new Range<int>(SupportedYears.Endpoints.Select(GetStartOfYearInMonths, GetEndOfYearInMonths));
+
+        private MonthHelper? _monthHelper;
+        private MonthHelper MonthHelper => _monthHelper ??= MonthHelper.Create(this);
     }
 
     public partial class CalendricalSchema // Year, month or day infos
@@ -469,6 +478,14 @@ namespace Zorglub.Time.Core
 
     public partial class CalendricalSchema //
     {
+        /// <inheritdoc />
+        [Pure]
+        public int GetStartOfYearInMonths(int y) => MonthHelper.GetStartOfYear(y);
+
+        /// <inheritdoc />
+        [Pure]
+        public int GetEndOfYearInMonths(int y) => MonthHelper.GetStartOfYear(y);
+
         /// <inheritdoc />
         // Even if it is just CountDaysSinceEpoch(y, 1, 1), this method MUST
         // be implemented independently. Indeed, we use it to provide a default
