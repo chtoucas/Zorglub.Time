@@ -484,7 +484,7 @@ namespace Zorglub.Time.Core
 
         /// <inheritdoc />
         [Pure]
-        public int GetEndOfYearInMonths(int y) => MonthHelper.GetStartOfYear(y);
+        public int GetEndOfYearInMonths(int y) => MonthHelper.GetEndOfYear(y);
 
         /// <inheritdoc />
         // Even if it is just CountDaysSinceEpoch(y, 1, 1), this method MUST
