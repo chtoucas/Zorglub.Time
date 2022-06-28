@@ -47,10 +47,8 @@ type SimpleSchema() =
             m <- 1 + d0y / 30
             d <- 1 + d0y % 30
 
-        override x.GetYear(daysSinceEpoch, doy) =
-            let y = 1 + daysSinceEpoch / 360
-            doy <- 1 + daysSinceEpoch - x.GetStartOfYear(y)
-            y
+        override __.GetYear(daysSinceEpoch) =
+            1 + daysSinceEpoch / 360
 
         override __.GetMonth(y, doy, d) =
             let d0y = doy - 1

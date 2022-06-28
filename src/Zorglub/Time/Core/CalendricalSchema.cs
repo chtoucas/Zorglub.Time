@@ -453,7 +453,22 @@ namespace Zorglub.Time.Core
         }
 
         /// <inheritdoc />
-        [Pure] public abstract int GetYear(int daysSinceEpoch, out int doy);
+        [Pure]
+        public virtual int GetYear(int daysSinceEpoch, out int doy)
+        {
+            int y = GetYear(daysSinceEpoch);
+            doy = 1 + daysSinceEpoch - GetStartOfYear(y);
+            return y;
+        }
+
+        /// <summary>
+        /// Obtains the year from the specified day count (the number of consecutive days from the
+        /// epoch to a date).
+        /// </summary>
+        // Partial form of the other GetYear(). One can also say that it's a
+        // partial form of GetDateParts(), but this method usually delegates
+        // part of its work to GetOrdinalParts().
+        [Pure] public abstract int GetYear(int daysSinceEpoch);
 
         /// <inheritdoc />
         // GetMonth() without an out param could be useful for OrdinalDate but,
@@ -461,7 +476,7 @@ namespace Zorglub.Time.Core
         // "d" & "m" together.
         // REVIEW(code): we encountered a similar situation with GetYear(),
         // except that we often compute its result without having to compute
-        // GetStartOfYear(); see GetYear(int daysSinceEpoch, out int doy).
+        // GetStartOfYear().
         // Once we know "m", it is easy to compute "d".
         //   d = doy - CountDaysInYearBeforeMonth(y, m);
         [Pure] public abstract int GetMonth(int y, int doy, out int d);

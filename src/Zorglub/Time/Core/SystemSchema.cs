@@ -211,26 +211,8 @@ namespace Zorglub.Time.Core
     //
     // IMPORTANT: We "duplicate" GetDateParts() and GetOrdinalParts() to allow
     // derived classes to be created outside this assembly.
-    public partial class SystemSchema // Conversions
+    public partial class SystemSchema // Conversions (ICalendricalPartsFactory)
     {
-        /// <inheritdoc />
-        [Pure]
-        public override int GetYear(int daysSinceEpoch, out int doy)
-        {
-            int y = GetYear(daysSinceEpoch);
-            doy = 1 + daysSinceEpoch - GetStartOfYear(y);
-            return y;
-        }
-
-        /// <summary>
-        /// Obtains the year from the specified day count (the number of consecutive days from the
-        /// epoch to a date).
-        /// </summary>
-        // Partial form of the other GetYear(). One can also say that it's a
-        // partial form of GetDateParts(), but this method usually delegates
-        // part of its work to GetOrdinalParts().
-        [Pure] public abstract int GetYear(int daysSinceEpoch);
-
         /// <summary>
         /// Obtains the month parts for the specified month count (the number of consecutive months
         /// from the epoch to a month).
@@ -318,7 +300,7 @@ namespace Zorglub.Time.Core
     //
     // IMPORTANT: We "duplicate" GetDatePartsAtEndOfYear() to allow derived
     // classes to be created outside this assembly.
-    public partial class SystemSchema // Dates in a given year or month
+    public partial class SystemSchema // Dates in a given year or month (ICalendricalPartsFactory)
     {
         /// <inheritdoc />
         [Pure]
