@@ -98,31 +98,6 @@ namespace Zorglub.Time.Core
                 Throw.ArgumentOutOfRange(nameof(supportedYears));
             }
         }
-
-        private Range<int> _supportedYearsCore = Range.Maximal32;
-        /// <summary>
-        /// Gets the core domain, the interval of years for which the <i>core</i> methods are known
-        /// not to overflow.
-        /// </summary>
-        /// <remarks>
-        /// <para>The core methods are those inherited from <see cref="ICalendricalKernel"/>.</para>
-        /// <para>The default value is equal to the whole range of 32-bit signed integers.</para>
-        /// <para>For methods expecting a month or day parameters, we assume that they are within
-        /// the ranges defined by <see cref="Yemoda"/>.</para>
-        /// <para>See also <seealso cref="ICalendricalPreValidator"/>.</para>
-        /// </remarks>
-        public Range<int> SupportedYearsCore
-        {
-            get => _supportedYearsCore;
-            protected init
-            {
-                if (value.IsSupersetOf(SupportedYears) == false)
-                {
-                    Throw.Argument(nameof(value));
-                }
-                _supportedYearsCore = value;
-            }
-        }
     }
 
     // Misc.
@@ -161,6 +136,31 @@ namespace Zorglub.Time.Core
     //   MinDaysInMonth
     public partial class SystemSchema // Properties
     {
+        private Range<int> _supportedYearsCore = Range.Maximal32;
+        /// <summary>
+        /// Gets the core domain, the interval of years for which the <i>core</i> methods are known
+        /// not to overflow.
+        /// </summary>
+        /// <remarks>
+        /// <para>The core methods are those inherited from <see cref="ICalendricalKernel"/>.</para>
+        /// <para>The default value is equal to the whole range of 32-bit signed integers.</para>
+        /// <para>For methods expecting a month or day parameters, we assume that they are within
+        /// the ranges defined by <see cref="Yemoda"/>.</para>
+        /// <para>See also <seealso cref="ICalendricalPreValidator"/>.</para>
+        /// </remarks>
+        public Range<int> SupportedYearsCore
+        {
+            get => _supportedYearsCore;
+            protected init
+            {
+                if (value.IsSupersetOf(SupportedYears) == false)
+                {
+                    Throw.Argument(nameof(value));
+                }
+                _supportedYearsCore = value;
+            }
+        }
+
         private CalendricalSegment? _segment;
         /// <summary>
         /// Gets informations on the range of supported days.
