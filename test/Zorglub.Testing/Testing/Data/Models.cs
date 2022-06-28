@@ -49,7 +49,19 @@ public readonly record struct YearDaysSinceEpoch(int Year, int DaysSinceEpoch)
 public readonly record struct YearDayNumber(int Year, DayNumber DayNumber);
 
 #endregion
-#region DaySinceXXXInfo and DayNumberInfo
+#region MonthsSinceEpochInfo, DaySinceXXXInfo and DayNumberInfo
+
+public readonly record struct MonthsSinceEpochInfo(int MonthsSinceEpoch, Yemo Yemo)
+{
+    public MonthsSinceEpochInfo(int monthsSinceEpoch, int y, int m)
+        : this(monthsSinceEpoch, new Yemo(y, m)) { }
+
+    public void Deconstruct(out int monthsSinceEpoch, out int y, out int m)
+    {
+        monthsSinceEpoch = MonthsSinceEpoch;
+        (y, m) = Yemo;
+    }
+}
 
 public readonly record struct DaysSinceEpochInfo(int DaysSinceEpoch, Yemoda Yemoda)
 {

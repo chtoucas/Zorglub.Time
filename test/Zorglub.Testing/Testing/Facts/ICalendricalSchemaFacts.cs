@@ -6,6 +6,12 @@ namespace Zorglub.Testing.Facts;
 using Zorglub.Testing.Data;
 using Zorglub.Time.Core.Intervals;
 
+// TODO(fact):
+// - CountMonthsSinceEpoch()
+// - GetMonthParts()
+// - GetStartOfYearInMonths()
+// - GetEndOfYearInMonths()
+
 /// <summary>
 /// Provides facts about <see cref="ICalendricalSchema"/>.
 /// </summary>
@@ -18,10 +24,16 @@ public abstract partial class ICalendricalSchemaFacts<TSchema, TDataSet> :
     {
         MinDaysSinceEpoch = schema.GetStartOfYear(MinYear);
         MaxDaysSinceEpoch = schema.GetEndOfYear(MaxYear);
+
+        MinMonthsSinceEpoch = schema.GetStartOfYearInMonths(MinYear);
+        MaxMonthsSinceEpoch = schema.GetEndOfYearInMonths(MaxYear);
     }
 
     protected int MinDaysSinceEpoch { get; }
     protected int MaxDaysSinceEpoch { get; }
+
+    protected int MinMonthsSinceEpoch { get; }
+    protected int MaxMonthsSinceEpoch { get; }
 
     [Fact] public abstract void PreValidator_Prop();
     [Fact] public abstract void Arithmetic_Prop();
@@ -48,6 +60,16 @@ public partial class ICalendricalSchemaFacts<TSchema, TDataSet> // Properties
         Assert.Equal(domain, SchemaUT.Domain);
         // Lazy prop: we duplicate the test to ensure full test coverage.
         Assert.Equal(domain, SchemaUT.Domain);
+    }
+
+    [Fact]
+    public void MonthDomain_Prop()
+    {
+        var domain = new Range<int>(MinMonthsSinceEpoch, MaxMonthsSinceEpoch);
+        // Act & Assert
+        Assert.Equal(domain, SchemaUT.MonthDomain);
+        // Lazy prop: we duplicate the test to ensure full test coverage.
+        Assert.Equal(domain, SchemaUT.MonthDomain);
     }
 }
 
@@ -77,6 +99,18 @@ public partial class ICalendricalSchemaFacts<TSchema, TDataSet> // Methods
 
     #endregion
 
+    #region CountMonthsSinceEpoch()
+
+    [Fact]
+    public void CountMonthsSinceEpoch_AtEpoch_IsZero()
+    {
+        // Act
+        int actual = SchemaUT.CountMonthsSinceEpoch(1, 1);
+        // Assert
+        Assert.Equal(0, actual);
+    }
+
+    #endregion
     #region CountDaysSinceEpoch﹍DateParts()
 
     [Fact]
@@ -120,6 +154,9 @@ public partial class ICalendricalSchemaFacts<TSchema, TDataSet> // Methods
         // Assert
         Assert.Equal(daysSinceEpoch, actual);
     }
+
+    #endregion
+    #region GetMonthParts()
 
     #endregion
     #region GetDateParts()
@@ -197,6 +234,22 @@ public partial class ICalendricalSchemaFacts<TSchema, TDataSet> // Methods
         // Assert
         Assert.Equal(doy, actual);
     }
+
+    #endregion
+
+    #region GetStartOfYearInMonths()
+
+    [Fact]
+    public void GetStartOfYearInMonths_AtYear1_IsZero()
+    {
+        // Act
+        int actual = SchemaUT.GetStartOfYearInMonths(1);
+        // Assert
+        Assert.Equal(0, actual);
+    }
+
+    #endregion
+    #region GetEndOfYearInMonths()
 
     #endregion
 
@@ -338,6 +391,12 @@ public partial class ICalendricalSchemaFacts<TSchema, TDataSet> // Overflows
 
     [Fact] public void GetDayOfYear_DoesNotUnderflow() => _ = SchemaUT.GetDayOfYear(MinYear, 1, 1);
     [Fact] public void GetDayOfYear_DoesNotOverflow() => _ = SchemaUT.GetDayOfYear(MaxYear, MaxMonth, MaxDay);
+
+    [Fact] public void GetStartOfYearInMonths_DoesNotUnderflow() => _ = SchemaUT.GetStartOfYearInMonths(MinYear);
+    [Fact] public void GetStartOfYearInMonths_DoesNotOverflow() => _ = SchemaUT.GetStartOfYearInMonths(MaxYear);
+
+    [Fact] public void GetEndOfYearInMonths_DoesNotUnderflow() => _ = SchemaUT.GetEndOfYearInMonths(MinYear);
+    [Fact] public void GetEndOfYearInMonths_DoesNotOverflow() => _ = SchemaUT.GetEndOfYearInMonths(MaxYear);
 
     [Fact] public void GetStartOfYear_DoesNotUnderflow() => _ = SchemaUT.GetStartOfYear(MinYear);
     [Fact] public void GetStartOfYear_DoesNotOverflow() => _ = SchemaUT.GetStartOfYear(MaxYear);
