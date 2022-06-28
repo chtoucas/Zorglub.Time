@@ -54,7 +54,7 @@ public readonly partial struct MyDate :
     public static MyDate MinValue { get; } = new(s_Schema.GetDatePartsAtStartOfYear(s_Scope.SupportedYears.Min));
     public static MyDate MaxValue { get; } = new(s_Schema.GetDatePartsAtEndOfYear(s_Scope.SupportedYears.Max));
 
-    private static Range<DayNumber> Domain { get; } = s_Scope.Domain;
+    private static Range<DayNumber> Domain => s_Scope.Domain;
 
     public Ord CenturyOfEra => Ord.FromInt32(Century);
     public int Century => YearNumbering.GetCentury(Year);
@@ -118,7 +118,7 @@ public partial struct MyDate // Conversions, adjustments...
     [Pure]
     public static MyDate FromDayNumber(DayNumber dayNumber)
     {
-        s_Scope.Domain.Validate(dayNumber);
+        Domain.Validate(dayNumber);
         var ymd = s_Schema.GetDateParts(dayNumber - Epoch);
         return new MyDate(ymd);
     }

@@ -40,7 +40,7 @@ public partial struct DayTemplate
         return FormattableString.Invariant($"{d:D2}/{m:D2}/{y:D4} (Gregorian)");
     }
 
-    private static partial SystemSchema InitSchema() => GregorianSchema.GetInstance().Unbox();
+    private static partial CalendricalSchema InitSchema() => GregorianSchema.GetInstance().Unbox();
 
     private static partial DayNumber InitEpoch() => DayZero.NewStyle;
 }
@@ -61,12 +61,12 @@ public partial struct DayTemplate // Type init, partial methods
     // WARNING: proper initialization of the static fields depends on the
     // order in which they are written.
 
-    private static readonly SystemSchema s_Schema = InitSchema();
+    private static readonly CalendricalSchema s_Schema = InitSchema();
     private static readonly DayNumber s_Epoch = InitEpoch();
 
     private static readonly ICalendarScope s_Scope = MinMaxYearScope.WithMinYear(s_Schema, s_Epoch, 1);
 
-    [Pure] private static partial SystemSchema InitSchema();
+    [Pure] private static partial CalendricalSchema InitSchema();
     [Pure] private static partial DayNumber InitEpoch();
 }
 
@@ -93,11 +93,11 @@ public partial struct DayTemplate
         _daysSinceEpoch = daysSinceEpoch;
     }
 
-    private static Range<DayNumber> Domain { get; } = s_Scope.Domain;
-
     public static DayNumber Epoch => s_Epoch;
     public static DayTemplate MinValue { get; } = new(Domain.Min - Epoch);
     public static DayTemplate MaxValue { get; } = new(Domain.Max - Epoch);
+
+    private static Range<DayNumber> Domain => s_Scope.Domain;
 
     public DayNumber DayNumber => Epoch + _daysSinceEpoch;
 

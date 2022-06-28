@@ -18,6 +18,7 @@ using Zorglub.Time.Hemerology;
 public sealed partial class MyCalendar : BasicCalendar, ICalendar<MyDate>
 {
     private readonly SystemSchema _schema;
+    private readonly ICalendricalPartsFactory _partsFactory;
 
     internal MyCalendar(SystemSchema schema, DayNumber epoch)
         : base(schema, MinMaxYearScope.WithMinYear(schema, epoch, 1))
@@ -25,6 +26,7 @@ public sealed partial class MyCalendar : BasicCalendar, ICalendar<MyDate>
         Debug.Assert(schema != null);
 
         _schema = schema;
+        _partsFactory = ICalendricalPartsFactory.Create(schema);
 
         MinMaxDate = Domain.Endpoints.Select(GetDateOn);
     }
@@ -122,7 +124,7 @@ public partial class MyCalendar // Dates in a given year or month
     public MyDate GetStartOfYear(int year)
     {
         Scope.ValidateYear(year);
-        var ymd = _schema.GetDatePartsAtStartOfYear(year);
+        var ymd = _partsFactory.GetDatePartsAtStartOfYear(year);
         return new MyDate(ymd);
     }
 
@@ -130,7 +132,7 @@ public partial class MyCalendar // Dates in a given year or month
     public MyDate GetEndOfYear(int year)
     {
         Scope.ValidateYear(year);
-        var ymd = _schema.GetDatePartsAtEndOfYear(year);
+        var ymd = _partsFactory.GetDatePartsAtEndOfYear(year);
         return new MyDate(ymd);
     }
 
@@ -138,7 +140,7 @@ public partial class MyCalendar // Dates in a given year or month
     public MyDate GetStartOfMonth(int year, int month)
     {
         Scope.ValidateYearMonth(year, month);
-        var ymd = _schema.GetDatePartsAtStartOfMonth(year, month);
+        var ymd = _partsFactory.GetDatePartsAtStartOfMonth(year, month);
         return new MyDate(ymd);
     }
 
@@ -146,7 +148,7 @@ public partial class MyCalendar // Dates in a given year or month
     public MyDate GetEndOfMonth(int year, int month)
     {
         Scope.ValidateYearMonth(year, month);
-        var ymd = _schema.GetDatePartsAtEndOfMonth(year, month);
+        var ymd = _partsFactory.GetDatePartsAtEndOfMonth(year, month);
         return new MyDate(ymd);
     }
 }
