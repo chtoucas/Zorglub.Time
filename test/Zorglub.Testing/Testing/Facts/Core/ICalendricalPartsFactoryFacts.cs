@@ -27,6 +27,18 @@ public partial class ICalendricalPartsFactoryFacts<TDataSet> :
 
 public partial class ICalendricalPartsFactoryFacts<TDataSet> // Conversions
 {
+    #region GetMonthParts()
+
+    [Theory, MemberData(nameof(MonthsSinceEpochInfoData))]
+    public void GetMonthParts﹍MonthsSinceEpoch(MonthsSinceEpochInfo info)
+    {
+        // Act
+        var actual = FactoryUT.GetMonthParts(info.MonthsSinceEpoch);
+        // Assert
+        Assert.Equal(info.Yemo, actual);
+    }
+
+    #endregion
     #region GetDateParts﹍DaysSinceEpoch()
 
     [Theory, MemberData(nameof(DaysSinceEpochInfoData))]
@@ -83,7 +95,28 @@ public partial class ICalendricalPartsFactoryFacts<TDataSet> // Conversions
 
 public partial class ICalendricalPartsFactoryFacts<TDataSet> // Dates in a given year or month
 {
+    #region GetMonthPartsAtStartOfYear()
 
+    [Fact]
+    public void GetMonthPartsAtStartOfYear_AtYear1()
+    {
+        var ym = new Yemo(1, 1);
+        // Act
+        var actual = FactoryUT.GetMonthPartsAtStartOfYear(1);
+        // Assert
+        Assert.Equal(ym, actual);
+    }
+
+    [Theory, MemberData(nameof(StartOfYearPartsData))]
+    public void GetMonthPartsAtStartOfYear(Yemoda ymd)
+    {
+        // Act
+        var actual = FactoryUT.GetMonthPartsAtStartOfYear(ymd.Year);
+        // Assert
+        Assert.Equal(ymd.Yemo, actual);
+    }
+
+    #endregion
     #region GetDatePartsAtStartOfYear()
 
     [Fact]
@@ -131,6 +164,18 @@ public partial class ICalendricalPartsFactoryFacts<TDataSet> // Dates in a given
 
     #endregion
 
+    #region GetMonthPartsAtEndOfYear()
+
+    [Theory, MemberData(nameof(EndOfYearPartsData))]
+    public void GetMonthPartsAtEndOfYear(Yemoda ymd)
+    {
+        // Act
+        var actual = FactoryUT.GetMonthPartsAtEndOfYear(ymd.Year);
+        // Assert
+        Assert.Equal(ymd.Yemo, actual);
+    }
+
+    #endregion
     #region GetDatePartsAtEndOfYear()
 
     [Theory, MemberData(nameof(EndOfYearPartsData))]

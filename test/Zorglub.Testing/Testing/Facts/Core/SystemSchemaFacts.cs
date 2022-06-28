@@ -98,6 +98,19 @@ public partial class SystemSchemaFacts<TDataSet> // Methods
 
     #endregion
 
+    #region GetMonthParts()
+
+    [Theory, MemberData(nameof(MonthsSinceEpochInfoData))]
+    public void GetMonthParts﹍MonthsSinceEpoch(MonthsSinceEpochInfo info)
+    {
+        // Act
+        var actual = SchemaUT.GetMonthParts(info.MonthsSinceEpoch);
+        // Assert
+        Assert.Equal(info.Yemo, actual);
+    }
+
+    #endregion
+
     #region GetDateParts﹍DaysSinceEpoch()
 
     [Theory, MemberData(nameof(DaysSinceEpochInfoData))]
@@ -164,6 +177,28 @@ public partial class SystemSchemaFacts<TDataSet> // Methods
 
     #endregion
 
+    #region GetMonthPartsAtStartOfYear()
+
+    [Fact]
+    public void GetMonthPartsAtStartOfYear_AtYear1()
+    {
+        var ym = new Yemo(1, 1);
+        // Act
+        var actual = SchemaUT.GetMonthPartsAtStartOfYear(1);
+        // Assert
+        Assert.Equal(ym, actual);
+    }
+
+    [Theory, MemberData(nameof(StartOfYearPartsData))]
+    public void GetMonthPartsAtStartOfYear(Yemoda ymd)
+    {
+        // Act
+        var actual = SchemaUT.GetMonthPartsAtStartOfYear(ymd.Year);
+        // Assert
+        Assert.Equal(ymd.Yemo, actual);
+    }
+
+    #endregion
     #region GetDatePartsAtStartOfYear()
 
     [Fact]
@@ -211,6 +246,18 @@ public partial class SystemSchemaFacts<TDataSet> // Methods
 
     #endregion
 
+    #region GetMonthPartsAtEndOfYear()
+
+    [Theory, MemberData(nameof(EndOfYearPartsData))]
+    public void GetMonthPartsAtEndOfYear(Yemoda ymd)
+    {
+        // Act
+        var actual = SchemaUT.GetMonthPartsAtEndOfYear(ymd.Year);
+        // Assert
+        Assert.Equal(ymd.Yemo, actual);
+    }
+
+    #endregion
     #region GetDatePartsAtEndOfYear()
 
     [Theory, MemberData(nameof(EndOfYearPartsData))]

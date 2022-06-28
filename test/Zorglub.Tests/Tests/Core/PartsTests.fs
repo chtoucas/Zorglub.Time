@@ -611,6 +611,13 @@ module Yemo =
 
             (a, b) = (y, m)
 
+        [<Property>]
+        let ``AtStartOfYear()`` (YearField y) =
+            let ym = Yemo.AtStartOfYear(y)
+            let startOfYear = new Yemo(y, 1)
+
+            ym = startOfYear
+
         [<Theory; ClassData(typeof<BadDayData>)>]
         let ``GetYemodaAt() throws when "day" is out of range`` d =
             let ym = Yemo.Create(1, 1)
