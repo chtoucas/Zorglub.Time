@@ -45,7 +45,7 @@ namespace Zorglub.Time.Hemerology
             var builder = new CalendricalSegmentBuilder(schema);
             builder.SetMinYear(minYear);
             builder.SetMaxYear(maxYear);
-            return builder.GetSegment();
+            return builder.BuildSegment();
         }
 
         /// <summary>
@@ -88,7 +88,7 @@ namespace Zorglub.Time.Hemerology
             var builder = new CalendricalSegmentBuilder(schema);
             builder.SetMinYear(minYear);
             builder.UseMaxSupportedYear();
-            var segment = builder.GetSegment();
+            var segment = builder.BuildSegment();
 
             return new MinMaxYearScope(schema, epoch, segment);
         }
@@ -104,7 +104,7 @@ namespace Zorglub.Time.Hemerology
             var builder = new CalendricalSegmentBuilder(schema);
             builder.UseMinSupportedYear(onOrAfterEpoch: false);
             builder.SetMaxYear(maxYear);
-            var segment = builder.GetSegment();
+            var segment = builder.BuildSegment();
 
             return new MinMaxYearScope(schema, epoch, segment);
         }
@@ -114,30 +114,21 @@ namespace Zorglub.Time.Hemerology
         /// <inheritdoc />
         public sealed override void ValidateYearMonth(int year, int month, string? paramName = null)
         {
-            if (year < MinYear || year > MaxYear)
-            {
-                Throw.YearOutOfRange(year, paramName);
-            }
+            if (year < MinYear || year > MaxYear) Throw.YearOutOfRange(year, paramName);
             PreValidator.ValidateMonth(year, month, paramName);
         }
 
         /// <inheritdoc />
         public sealed override void ValidateYearMonthDay(int year, int month, int day, string? paramName = null)
         {
-            if (year < MinYear || year > MaxYear)
-            {
-                Throw.YearOutOfRange(year, paramName);
-            }
+            if (year < MinYear || year > MaxYear) Throw.YearOutOfRange(year, paramName);
             PreValidator.ValidateMonthDay(year, month, day, paramName);
         }
 
         /// <inheritdoc />
         public sealed override void ValidateOrdinal(int year, int dayOfYear, string? paramName = null)
         {
-            if (year < MinYear || year > MaxYear)
-            {
-                Throw.YearOutOfRange(year, paramName);
-            }
+            if (year < MinYear || year > MaxYear) Throw.YearOutOfRange(year, paramName);
             PreValidator.ValidateDayOfYear(year, dayOfYear, paramName);
         }
 

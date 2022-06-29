@@ -146,7 +146,7 @@ namespace Zorglub.Time.Core
             var builder = new CalendricalSegmentBuilder(schema);
             builder.UseMinSupportedYear(onOrAfterEpoch);
             builder.UseMaxSupportedYear();
-            return builder.GetSegment();
+            return builder.BuildSegment();
         }
 
         /// <summary>
@@ -163,7 +163,7 @@ namespace Zorglub.Time.Core
         {
             var builder = new CalendricalSegmentBuilder(schema);
             builder.SetSupportedYears(supportedYears);
-            return builder.GetSegment();
+            return builder.BuildSegment();
         }
 
         [SuppressMessage("CodeQuality", "IDE0051:Remove unused private members", Justification = "PrintMembers() for records.")]

@@ -111,11 +111,10 @@ namespace Zorglub.Time.Core
             _domain ??= new Range<int>(_supportedYears.Endpoints.Select(_schema.GetStartOfYear, _schema.GetEndOfYear));
 
         /// <summary>
-        /// Obtains the segment.
+        /// Builds the segment.
         /// </summary>
         [Pure]
-        [SuppressMessage("Design", "CA1024:Use properties where appropriate", Justification = "<Pending>")]
-        public CalendricalSegment GetSegment() => new(_schema, Start, End);
+        public CalendricalSegment BuildSegment() => new(_schema, Start, End);
     }
 
     public partial class CalendricalSegmentBuilder // Builder methods

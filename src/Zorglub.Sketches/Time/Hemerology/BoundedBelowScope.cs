@@ -75,7 +75,7 @@ namespace Zorglub.Time.Hemerology
             {
                 builder.UseMaxSupportedYear();
             }
-            return builder.GetSegment();
+            return builder.BuildSegment();
         }
 
         /// <inheritdoc />
