@@ -16,8 +16,6 @@ using Zorglub.Time.Core.Intervals;
 using Zorglub.Time.Core.Schemas;
 using Zorglub.Time.Hemerology;
 
-using static Zorglub.Time.Extensions.Unboxing;
-
 // Exploring the idea of a date type without a companion calendar type.
 // Pros:
 // - Faster, no Calendar lookup, we are also free to add any local
@@ -25,21 +23,6 @@ using static Zorglub.Time.Extensions.Unboxing;
 // - We can add custom methods only meaningful to a specific date type.
 // Cons:
 // - Puts more burden on the developer.
-
-// Using the template in the Gregorian case.
-public partial struct DateTemplate
-{
-    [Pure]
-    public override string ToString()
-    {
-        var (y, m, d) = _bin;
-        return FormattableString.Invariant($"{d:D2}/{m:D2}/{y:D4} (Gregorian)");
-    }
-
-    private static partial CalendricalSchema InitSchema() => GregorianSchema.GetInstance().Unbox();
-
-    private static partial DayNumber InitEpoch() => DayZero.NewStyle;
-}
 
 /// <summary>
 /// Provides a Gregorian date.
@@ -50,25 +33,20 @@ public readonly partial struct DateTemplate :
     IMonthEndpointsProvider<DateTemplate>,
     IMinMaxValue<DateTemplate>,
     ISubtractionOperators<DateTemplate, int, DateTemplate>
-{ }
-
-public partial struct DateTemplate // Type init, partial methods
 {
-    private static readonly CalendricalSchema s_Schema = InitSchema();
-    private static readonly DayNumber s_Epoch = InitEpoch();
+    private static readonly CalendarContext __ =
+        CalendarContext.WithYearsAfterZero<GregorianSchema>(DayZero.NewStyle);
 
-    [Pure] private static partial CalendricalSchema InitSchema();
-    [Pure] private static partial DayNumber InitEpoch();
+    [Pure]
+    public override string ToString()
+    {
+        var (y, m, d) = _bin;
+        return FormattableString.Invariant($"{d:D2}/{m:D2}/{y:D4} (Gregorian)");
+    }
 }
 
 public partial struct DateTemplate
 {
-    // WARNING: proper initialization of the static fields depends on the order
-    // in which they are written.
-
-    private static readonly ICalendricalPartsFactory s_PartsFactory = ICalendricalPartsFactory.Create(s_Schema);
-    private static readonly ICalendarScope s_Scope = MinMaxYearScope.WithMinYear(s_Schema, s_Epoch, 1);
-
     private readonly Yemoda _bin;
 
     public DateTemplate(int year, int month, int day)
@@ -81,15 +59,19 @@ public partial struct DateTemplate
         _bin = bin;
     }
 
-    public static DayNumber Epoch => s_Epoch;
-    public static Range<int> SupportedYears => s_Scope.SupportedYears;
-    public static DateTemplate MinValue { get; } = new(s_PartsFactory.GetDatePartsAtStartOfYear(s_Scope.SupportedYears.Min));
-    public static DateTemplate MaxValue { get; } = new(s_PartsFactory.GetDatePartsAtEndOfYear(s_Scope.SupportedYears.Max));
+    public static DayNumber Epoch => __.Epoch;
+    public static Range<int> SupportedYears => Scope.SupportedYears;
+    public static DateTemplate MinValue { get; } = new(PartsFactory.GetDatePartsAtStartOfYear(SupportedYears.Min));
+    public static DateTemplate MaxValue { get; } = new(PartsFactory.GetDatePartsAtEndOfYear(SupportedYears.Max));
 
-    private static int EpochDayOfWeek { get; } = (int)s_Epoch.DayOfWeek;
-    private static PartsCreator PartsCreator { get; } = new(s_Scope);
-    private static ICalendricalArithmetic Arithmetic { get; } = s_Schema.Arithmetic.WithSupportedYears(s_Scope.SupportedYears);
-    private static Range<DayNumber> Domain => s_Scope.Domain;
+    private static CalendricalSchema Schema => __.Schema;
+    private static ICalendarScope Scope => __.Scope;
+    private static ICalendricalPartsFactory PartsFactory => __.PartsFactory;
+    private static PartsCreator PartsCreator => __.PartsCreator;
+    private static ICalendricalArithmetic Arithmetic => __.Arithmetic;
+    private static Range<DayNumber> Domain => Scope.Domain;
+
+    private static int EpochDayOfWeek { get; } = (int)__.Epoch.DayOfWeek;
 
     public Ord CenturyOfEra => Ord.FromInt32(Century);
     public int Century => YearNumbering.GetCentury(Year);
@@ -103,7 +85,7 @@ public partial struct DateTemplate
         get
         {
             var (y, m, d) = _bin;
-            return s_Schema.GetDayOfYear(y, m, d);
+            return Schema.GetDayOfYear(y, m, d);
         }
     }
 
@@ -114,7 +96,7 @@ public partial struct DateTemplate
         get
         {
             var (y, m, d) = _bin;
-            int daysSinceEpoch = s_Schema.CountDaysSinceEpoch(y, m, d);
+            int daysSinceEpoch = Schema.CountDaysSinceEpoch(y, m, d);
             return (DayOfWeek)Modulo(
                 checked(EpochDayOfWeek + daysSinceEpoch),
                 CalendricalConstants.DaysInWeek);
@@ -126,7 +108,7 @@ public partial struct DateTemplate
         get
         {
             var (y, m, d) = _bin;
-            return s_Schema.IsIntercalaryDay(y, m, d);
+            return Schema.IsIntercalaryDay(y, m, d);
         }
     }
 
@@ -135,7 +117,7 @@ public partial struct DateTemplate
         get
         {
             var (y, m, d) = _bin;
-            return s_Schema.IsSupplementaryDay(y, m, d);
+            return Schema.IsSupplementaryDay(y, m, d);
         }
     }
 
@@ -174,7 +156,7 @@ public partial struct DateTemplate // Conversions, adjustments...
     public static DateTemplate FromDayNumber(DayNumber dayNumber)
     {
         Domain.Validate(dayNumber);
-        var ymd = s_PartsFactory.GetDateParts(dayNumber - Epoch);
+        var ymd = PartsFactory.GetDateParts(dayNumber - Epoch);
         return new DateTemplate(ymd);
     }
 
@@ -182,7 +164,7 @@ public partial struct DateTemplate // Conversions, adjustments...
     public DayNumber ToDayNumber()
     {
         var (y, m, d) = _bin;
-        return Epoch + s_Schema.CountDaysSinceEpoch(y, m, d);
+        return Epoch + Schema.CountDaysSinceEpoch(y, m, d);
     }
 
     #endregion
@@ -192,14 +174,14 @@ public partial struct DateTemplate // Conversions, adjustments...
     public int CountElapsedDaysInYear()
     {
         var (y, m, d) = _bin;
-        return s_Schema.CountDaysInYearBefore(y, m, d);
+        return Schema.CountDaysInYearBefore(y, m, d);
     }
 
     [Pure]
     public int CountRemainingDaysInYear()
     {
         var (y, m, d) = _bin;
-        return s_Schema.CountDaysInYearAfter(y, m, d);
+        return Schema.CountDaysInYearAfter(y, m, d);
     }
 
     [Pure]
@@ -209,7 +191,7 @@ public partial struct DateTemplate // Conversions, adjustments...
     public int CountRemainingDaysInMonth()
     {
         var (y, m, d) = _bin;
-        return s_Schema.CountDaysInMonthAfter(y, m, d);
+        return Schema.CountDaysInMonthAfter(y, m, d);
     }
 
     #endregion
@@ -221,7 +203,7 @@ public partial struct DateTemplate // Conversions, adjustments...
     [Pure]
     public static DateTemplate GetEndOfYear(DateTemplate day)
     {
-        var ymd = s_PartsFactory.GetDatePartsAtEndOfYear(day.Year);
+        var ymd = PartsFactory.GetDatePartsAtEndOfYear(day.Year);
         return new DateTemplate(ymd);
     }
 
@@ -232,7 +214,7 @@ public partial struct DateTemplate // Conversions, adjustments...
     public static DateTemplate GetEndOfMonth(DateTemplate day)
     {
         var (y, m, _) = day._bin;
-        var ymd = s_PartsFactory.GetDatePartsAtEndOfMonth(y, m);
+        var ymd = PartsFactory.GetDatePartsAtEndOfMonth(y, m);
         return new DateTemplate(ymd);
     }
 
