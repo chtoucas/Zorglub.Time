@@ -3,11 +3,8 @@
 
 namespace Zorglub.Time.Core
 {
-    // TODO(api): Create() shouldn't be public since the methods from a
-    // factory do not check their parameters.
-    // - Create() -> internal
-    // - new public Create() without the checked option
-    // - CalendricalPartsFactoryChecked should perform strict validation
+    // REVIEW(api): Create()
+    // - should CalendricalPartsFactoryChecked perform strict validation?
 
     #region Developer Notes
 
