@@ -41,6 +41,8 @@ namespace Zorglub.Time.Core
         /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
         [Pure]
         public static ICalendricalPartsFactory Create(ICalendricalSchema schema) =>
+            // If the schema already implements the interface, we assume that
+            // (y, m, d, doy) are within the range of valid values.
             schema is ICalendricalPartsFactory sch ? sch
             : new CalendricalPartsFactoryChecked(schema);
 
