@@ -17,7 +17,7 @@ using static Zorglub.Time.Extensions.Unboxing;
 
 internal sealed class CalendarContext
 {
-    private CalendarContext(CalendricalSchema schema, DayNumber epoch, ICalendarScope scope)
+    public CalendarContext(CalendricalSchema schema, DayNumber epoch, CalendarScope scope)
     {
         Schema = schema ?? throw new ArgumentNullException(nameof(schema));
         Epoch = epoch;
@@ -30,7 +30,7 @@ internal sealed class CalendarContext
 
     public CalendricalSchema Schema { get; }
     public DayNumber Epoch { get; }
-    public ICalendarScope Scope { get; }
+    public CalendarScope Scope { get; }
 
     public ICalendricalPartsFactory PartsFactory { get; }
     public PartsCreator PartsCreator { get; }
@@ -59,9 +59,9 @@ internal sealed class CalendarContext
     }
 }
 
-internal sealed class AffineContext
+internal sealed class SchemaContext
 {
-    private AffineContext(CalendricalSchema schema)
+    private SchemaContext(CalendricalSchema schema)
     {
         Schema = schema ?? throw new ArgumentNullException(nameof(schema));
 
@@ -75,11 +75,11 @@ internal sealed class AffineContext
     public PartsCreator PartsCreator { get; }
 
     [Pure]
-    public static AffineContext Create<TSchema>()
+    public static SchemaContext Create<TSchema>()
         where TSchema : CalendricalSchema, IBoxable<TSchema>
     {
         var sch = TSchema.GetInstance().Unbox();
 
-        return new AffineContext(sch);
+        return new SchemaContext(sch);
     }
 }

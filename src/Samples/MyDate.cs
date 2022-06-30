@@ -27,6 +27,8 @@ public readonly partial struct MyDate :
     private static readonly CalendarContext __ =
         CalendarContext.WithYearsBetween1And9999<GregorianSchema>(DayZero.NewStyle);
 
+    internal static CalendarContext Context => __;
+
     [Pure]
     public override string ToString()
     {

@@ -19,8 +19,13 @@ public sealed partial class MyCalendar : BasicCalendar, ICalendar<MyDate>
 {
     private readonly ICalendricalPartsFactory _partsFactory;
 
-    internal MyCalendar(ICalendricalSchema schema, DayNumber epoch)
-        : base(schema, MinMaxYearScope.WithMinYear(schema, epoch, 1))
+    public MyCalendar() : this(MyDate.Context) { }
+
+    private MyCalendar(CalendarContext context)
+        : this(context.Schema, context.Scope) { }
+
+    private MyCalendar(ICalendricalSchema schema, CalendarScope scope)
+        : base(schema, scope)
     {
         Debug.Assert(schema != null);
 

@@ -28,7 +28,7 @@ public readonly partial record struct GregorianRecord :
     IMinMaxValue<GregorianRecord>,
     ISubtractionOperators<GregorianRecord, int, GregorianRecord>
 {
-    private static readonly AffineContext __ = AffineContext.Create<GregorianSchema>();
+    private static readonly SchemaContext __ = SchemaContext.Create<GregorianSchema>();
 }
 
 public partial record struct GregorianRecord
