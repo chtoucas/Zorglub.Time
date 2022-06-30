@@ -9,7 +9,7 @@ namespace Zorglub.Time.Core
     // -----------------------------------------
     //
     // ICalendricalArithmetic                                   PUBLIC
-    // ├─ CalendricalArithmeticBasic    (ICalendricalSchema)    PUBLIC
+    // ├─ BasicArithmetic               (ICalendricalSchema)    PUBLIC
     // └─ ICalendricalArithmeticPlus
     //    └─ CalendricalArithmetic [A]  (CalendricalSchema)
     //       ├─ GregorianArithmetic     (GregorianSchema)

@@ -1,7 +1,7 @@
 ﻿// SPDX-License-Identifier: BSD-3-Clause
 // Copyright (c) 2020 Narvalo.Org. All rights reserved.
 
-module Zorglub.Tests.Core.Arithmetic.CalendricalArithmeticBasicTestSuite
+module Zorglub.Tests.Core.Arithmetic.BasicArithmeticTestSuite
 
 open Zorglub.Testing
 open Zorglub.Testing.Data.Schemas
@@ -15,7 +15,7 @@ open Zorglub.Time.Core.Schemas
 // Since the Gregorian schema has the richest dataset, we use it as a default
 // model for testing.
 
-let private ariOf x = new CalendricalArithmeticBasic(x) :> ICalendricalArithmetic
+let private ariOf x = new BasicArithmetic(x) :> ICalendricalArithmetic
 
 [<Sealed>]
 [<RedundantTestBundle>]

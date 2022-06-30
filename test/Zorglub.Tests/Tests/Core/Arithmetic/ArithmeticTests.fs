@@ -35,7 +35,7 @@ module Prelude =
 
     [<Fact>]
     let ``Constructor throws for null schema`` () =
-        nullExn "schema" (fun () -> new CalendricalArithmeticBasic(null))
+        nullExn "schema" (fun () -> new BasicArithmetic(null))
         nullExn "schema" (fun () -> new PlainArithmetic(null))
         nullExn "schema" (fun () -> new RegularArithmetic(null))
         nullExn "schema" (fun () -> new LunarArithmetic(null))
@@ -48,7 +48,7 @@ module Prelude =
         let range = Range.StartingAt(Yemoda.MaxYear + 1)
         let sch = new FauxCalendricalSchema(range)
 
-        argExn "schema" (fun () -> new CalendricalArithmeticBasic(sch))
+        argExn "schema" (fun () -> new BasicArithmetic(sch))
         argExn "schema" (fun () -> new PlainArithmetic(sch))
         argExn "schema" (fun () -> new RegularArithmetic(sch))
         argExn "schema" (fun () -> new LunarArithmetic(sch))

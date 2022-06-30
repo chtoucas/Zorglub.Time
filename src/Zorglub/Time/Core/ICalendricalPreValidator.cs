@@ -12,7 +12,7 @@ namespace Zorglub.Time.Core
     // -------------------------------------------
     //
     // ICalendricalPreValidator                                 PUBLIC
-    // ├─ CalendricalPreValidatorBasic  (ICalendricalSchema)    PUBLIC
+    // ├─ BasicPreValidator             (ICalendricalSchema)    PUBLIC
     // ├─ GregorianPreValidator         (Gregorian-only)
     // ├─ JulianPreValidator            (Julian-only)
     // ├─ LunarPreValidator             (CalendricalSchema)

@@ -6,10 +6,10 @@ namespace Zorglub.Time.Core
     using Zorglub.Time.Core.Intervals;
 
     /// <summary>
-    /// Provides an elementary implementation for <see cref="ICalendricalArithmetic"/>.
+    /// Provides a basic implementation for <see cref="ICalendricalArithmetic"/>.
     /// <para>This class cannot be inherited.</para>
     /// </summary>
-    public sealed partial class CalendricalArithmeticBasic : ICalendricalArithmetic
+    public sealed partial class BasicArithmetic : ICalendricalArithmetic
     {
         /// <summary>
         /// Represents the schema.
@@ -24,13 +24,13 @@ namespace Zorglub.Time.Core
         private readonly ICalendricalPartsFactory _partsFactory;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="CalendricalArithmeticBasic"/> class.
+        /// Initializes a new instance of the <see cref="BasicArithmetic"/> class.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
         /// <exception cref="ArgumentException">The range of supported years by
         /// <paramref name="schema"/> and <see cref="Yemoda"/> are disjoint.
         /// </exception>
-        public CalendricalArithmeticBasic(ICalendricalSchema schema)
+        public BasicArithmetic(ICalendricalSchema schema)
         {
             _schema = schema ?? throw new ArgumentNullException(nameof(schema));
             _partsFactory = ICalendricalPartsFactory.Create(schema);
@@ -51,7 +51,7 @@ namespace Zorglub.Time.Core
         private Range<int> MonthDomain => Segment.MonthDomain;
     }
 
-    public partial class CalendricalArithmeticBasic // Operations on Yemoda
+    public partial class BasicArithmetic // Operations on Yemoda
     {
         /// <inheritdoc />
         [Pure]
@@ -84,7 +84,7 @@ namespace Zorglub.Time.Core
         }
     }
 
-    public partial class CalendricalArithmeticBasic // Operations on Yedoy
+    public partial class BasicArithmetic // Operations on Yedoy
     {
         /// <inheritdoc />
         [Pure]
@@ -117,7 +117,7 @@ namespace Zorglub.Time.Core
         }
     }
 
-    public partial class CalendricalArithmeticBasic // Operations on Yemo
+    public partial class BasicArithmetic // Operations on Yemo
     {
         /// <inheritdoc />
         [Pure]
