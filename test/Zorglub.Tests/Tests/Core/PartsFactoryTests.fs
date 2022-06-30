@@ -14,26 +14,26 @@ open Zorglub.Time.Core.Schemas
 
 open Xunit
 
-// TODO(code): test CalendricalPartsFactoryChecked with a schema for which
+// TODO(code): test PartsFactory with a schema for which
 // Yemoda.Create() & co throw.
 
 module Bundles =
     [<Sealed>]
-    type CalendricalPartsFactoryCheckedTests() =
+    type PartsFactoryTests() =
         inherit ICalendricalPartsFactoryFacts<GregorianDataSet>(
-            new CalendricalPartsFactoryChecked(schemaOf<GregorianSchema>()))
+            new PartsFactory(schemaOf<GregorianSchema>()))
 
     [<Sealed>]
     [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
-    type CalendricalPartsFactoryUncheckedTests() =
+    type PartsFactoryUncheckedTests() =
         inherit ICalendricalPartsFactoryFacts<GregorianDataSet>(
-            new CalendricalPartsFactoryUnchecked(schemaOf<GregorianSchema>()))
+            new PartsFactoryUnchecked(schemaOf<GregorianSchema>()))
 
 module Prelude =
     [<Fact>]
     let ``Constructor throws for null schema`` () =
-        nullExn "schema" (fun () -> new CalendricalPartsFactoryChecked(null))
-        nullExn "schema" (fun () -> new CalendricalPartsFactoryUnchecked(null))
+        nullExn "schema" (fun () -> new PartsFactory(null))
+        nullExn "schema" (fun () -> new PartsFactoryUnchecked(null))
 
 module Methods =
     [<Sealed>]
@@ -46,7 +46,7 @@ module Methods =
             self.Add(Int32.MaxValue)
 
     let private sch = schemaOf<GregorianSchema>()
-    let private factory = new CalendricalPartsFactoryChecked(sch)
+    let private factory = new PartsFactory(sch)
 
     [<Theory; ClassData(typeof<BadYearData>)>]
     let ``GetMonthPartsAtStartOfYear() throws when "year" is out of range`` y =

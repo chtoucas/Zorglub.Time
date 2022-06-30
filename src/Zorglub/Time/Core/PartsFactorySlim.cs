@@ -9,7 +9,7 @@ namespace Zorglub.Time.Core
     /// schema. It only checks that each calendrical part can be represented by
     /// <see cref="Yemoda"/>, <see cref="Yemo"/> or <see cref="Yedoy"/>.</para>
     /// </summary>
-    internal sealed partial class CalendricalPartsFactoryChecked : ICalendricalPartsFactory
+    internal sealed partial class PartsFactorySlim : ICalendricalPartsFactory
     {
         /// <summary>
         /// Represents the schema.
@@ -18,16 +18,16 @@ namespace Zorglub.Time.Core
         private readonly ICalendricalSchema _schema;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="CalendricalPartsFactoryChecked"/> class.
+        /// Initializes a new instance of the <see cref="PartsFactorySlim"/> class.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
-        public CalendricalPartsFactoryChecked(ICalendricalSchema schema)
+        public PartsFactorySlim(ICalendricalSchema schema)
         {
             _schema = schema ?? throw new ArgumentNullException(nameof(schema));
         }
     }
 
-    internal partial class CalendricalPartsFactoryChecked // Conversions
+    internal partial class PartsFactorySlim // Conversions
     {
         /// <inheritdoc />
         [Pure]
@@ -70,7 +70,7 @@ namespace Zorglub.Time.Core
         }
     }
 
-    internal partial class CalendricalPartsFactoryChecked // Dates in a given year or month
+    internal partial class PartsFactorySlim // Dates in a given year or month
     {
         /// <inheritdoc />
         [Pure]

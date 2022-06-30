@@ -49,7 +49,7 @@ namespace Zorglub.Time.Core
         public CalendricalSegmentBuilder(ICalendricalSchema schema)
         {
             _schema = schema ?? throw new ArgumentNullException(nameof(schema));
-            _partsFactory = new CalendricalPartsFactoryChecked(schema);
+            _partsFactory = new PartsFactory(schema);
 
             var set = Interval.Intersect(schema.SupportedYears, Yemoda.SupportedYears);
             if (set.IsEmpty) Throw.Argument(nameof(schema));

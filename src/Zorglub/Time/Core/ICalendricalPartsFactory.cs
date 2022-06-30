@@ -44,7 +44,7 @@ namespace Zorglub.Time.Core
             // If the schema already implements the interface, we assume that
             // (y, m, d, doy) are within the range of valid values.
             schema is ICalendricalPartsFactory sch ? sch
-            : new CalendricalPartsFactoryChecked(schema);
+            : new PartsFactory(schema);
 
         ///// <summary>
         ///// Creates a new <see cref="ICalendricalPartsFactory"/> instance.
@@ -54,9 +54,9 @@ namespace Zorglub.Time.Core
         ///// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
         //[Pure]
         //public static ICalendricalPartsFactory Create(ICalendricalSchema schema, bool @checked) =>
-        //    @checked ? new CalendricalPartsFactoryChecked(schema)
+        //    @checked ? new PartsFactory(schema)
         //    : schema is ICalendricalPartsFactory sch ? sch
-        //    : new CalendricalPartsFactoryUnchecked(schema);
+        //    : new PartsFactoryUnchecked(schema);
     }
 
     public partial interface ICalendricalPartsFactory // Conversions
