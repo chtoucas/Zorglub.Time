@@ -21,17 +21,13 @@ public sealed partial class MyCalendar : BasicCalendar, ICalendar<MyDate>
 
     public MyCalendar() : this(MyDate.Context) { }
 
-    private MyCalendar(CalendarContext context)
-        : this(context.Schema, context.Scope) { }
-
-    private MyCalendar(ICalendricalSchema schema, CalendarScope scope)
-        : base(schema, scope)
+    private MyCalendar(CalendarContext context) : base(context.Schema, context.Scope)
     {
-        Debug.Assert(schema != null);
+        Debug.Assert(context != null);
 
-        _partsFactory = ICalendricalPartsFactory.Create(schema);
+        _partsFactory = ICalendricalPartsFactory.Create(context.Schema);
 
-        MinMaxDate = Domain.Endpoints.Select(GetDateOn);
+        MinMaxDate = Domain.Endpoints.Select(MyDate.FromDayNumber);
     }
 
     public OrderedPair<MyDate> MinMaxDate { get; }
@@ -64,18 +60,7 @@ public partial class MyCalendar // Year, month or day infos
 public partial class MyCalendar // Factories
 {
     [Pure]
-    public MyDate Today() => GetDateOn(DayNumber.Today());
-}
-
-public partial class MyCalendar // Conversions
-{
-    [Pure]
-    public MyDate GetDateOn(DayNumber dayNumber)
-    {
-        Domain.Validate(dayNumber);
-        var ymd = _partsFactory.GetDateParts(dayNumber - Epoch);
-        return new MyDate(ymd);
-    }
+    MyDate ICalendar<MyDate>.Today() => MyDate.Today();
 }
 
 public partial class MyCalendar // Dates in a given year or month
