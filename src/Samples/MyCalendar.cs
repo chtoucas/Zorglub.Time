@@ -17,15 +17,13 @@ using Zorglub.Time.Hemerology;
 
 public sealed partial class MyCalendar : BasicCalendar, ICalendar<MyDate>
 {
-    private readonly SystemSchema _schema;
     private readonly ICalendricalPartsFactory _partsFactory;
 
-    internal MyCalendar(SystemSchema schema, DayNumber epoch)
+    internal MyCalendar(ICalendricalSchema schema, DayNumber epoch)
         : base(schema, MinMaxYearScope.WithMinYear(schema, epoch, 1))
     {
         Debug.Assert(schema != null);
 
-        _schema = schema;
         _partsFactory = ICalendricalPartsFactory.Create(schema);
 
         MinMaxDate = Domain.Endpoints.Select(GetDateOn);
@@ -70,7 +68,7 @@ public partial class MyCalendar // Conversions
     public MyDate GetDateOn(DayNumber dayNumber)
     {
         Domain.Validate(dayNumber);
-        var ymd = _schema.GetDateParts(dayNumber - Epoch);
+        var ymd = _partsFactory.GetDateParts(dayNumber - Epoch);
         return new MyDate(ymd);
     }
 }

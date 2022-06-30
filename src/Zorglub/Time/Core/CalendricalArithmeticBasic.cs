@@ -33,7 +33,7 @@ namespace Zorglub.Time.Core
         public CalendricalArithmeticBasic(ICalendricalSchema schema)
         {
             _schema = schema ?? throw new ArgumentNullException(nameof(schema));
-            _partsFactory = ICalendricalPartsFactory.Create(schema, @checked: false);
+            _partsFactory = ICalendricalPartsFactory.Create(schema);
             Segment = CalendricalSegment.CreateMaximal(schema);
         }
 

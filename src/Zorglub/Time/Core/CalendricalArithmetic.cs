@@ -46,9 +46,7 @@ namespace Zorglub.Time.Core
         {
             Schema = schema ?? throw new ArgumentNullException(nameof(schema));
 
-            // Notice the use of unchecked constructs, we assume that derived
-            // classes verify the data before calling a method of PartsFactory.
-            PartsFactory = ICalendricalPartsFactory.Create(schema, @checked: false);
+            PartsFactory = ICalendricalPartsFactory.Create(schema);
 
             Segment = supportedYears is null ? CalendricalSegment.CreateMaximal(schema)
                 : CalendricalSegment.Create(schema, supportedYears.Value);

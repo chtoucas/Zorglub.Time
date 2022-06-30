@@ -8,7 +8,6 @@ using System.Diagnostics.Contracts;
 
 using Zorglub.Time;
 using Zorglub.Time.Core;
-using Zorglub.Time.Core.Schemas;
 using Zorglub.Time.Hemerology;
 
 using static Zorglub.Time.Extensions.Unboxing;
