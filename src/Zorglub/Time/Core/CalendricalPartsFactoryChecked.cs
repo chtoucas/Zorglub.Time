@@ -5,8 +5,9 @@ namespace Zorglub.Time.Core
 {
     /// <summary>
     /// Provides methods you can use to create new calendrical parts.
-    /// <para>Like a schema, this class does not check the input parameters. It only checks that it
-    /// can create a <see cref="Yemoda"/> or a <see cref="Yedoy"/> instance.</para>
+    /// <para>This class assumes that input parameters are valid for the underlying calendrical
+    /// schema. It only checks that each calendrical part can be represented by
+    /// <see cref="Yemoda"/>, <see cref="Yemo"/> or <see cref="Yedoy"/>.</para>
     /// </summary>
     internal sealed partial class CalendricalPartsFactoryChecked : ICalendricalPartsFactory
     {
@@ -125,6 +126,7 @@ namespace Zorglub.Time.Core
         public Yemoda GetDatePartsAtStartOfMonth(int y, int m)
         {
             if (y < Yemoda.MinYear || y > Yemoda.MaxYear) Throw.YearOutOfRange(y);
+            if (y < Yemoda.MinMonth || m > Yemoda.MaxMonth) Throw.MonthOutOfRange(m);
             return Yemoda.AtStartOfMonth(y, m);
         }
 
@@ -132,7 +134,6 @@ namespace Zorglub.Time.Core
         [Pure]
         public Yedoy GetOrdinalPartsAtStartOfMonth(int y, int m)
         {
-            // Conversion (y, m, d) -> (y, doy)
             int doy = _schema.GetDayOfYear(y, m, 1);
             return Yedoy.Create(y, doy);
         }
@@ -150,7 +151,6 @@ namespace Zorglub.Time.Core
         public Yedoy GetOrdinalPartsAtEndOfMonth(int y, int m)
         {
             int d = _schema.CountDaysInMonth(y, m);
-            // Conversion (y, m, d) -> (y, doy)
             int doy = _schema.GetDayOfYear(y, m, d);
             return Yedoy.Create(y, doy);
         }

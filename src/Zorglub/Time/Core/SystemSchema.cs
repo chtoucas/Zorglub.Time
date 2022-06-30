@@ -7,6 +7,11 @@ namespace Zorglub.Time.Core
 
     // REVIEW(api): ctor visibility.
 
+    // WARNING
+    // SystemSchema puts limits on the range of admissible values for the year
+    // but also for the month of the year and the day of the month, therefore it
+    // cannot represent schemas with unusually long years or months.
+    //
     // Annotations
     // -----------
     // A : abstract
@@ -359,6 +364,8 @@ namespace Zorglub.Time.Core
         [Pure]
         public Yedoy GetOrdinalPartsAtStartOfMonth(int y, int m)
         {
+            // Conversion (y, m, d) -> (y, doy)
+            //int doy = GetDayOfYear(y, m, 1);
             int doy = CountDaysInYearBeforeMonth(y, m) + 1;
             return new Yedoy(y, doy);
         }
@@ -377,6 +384,9 @@ namespace Zorglub.Time.Core
         [Pure]
         public Yedoy GetOrdinalPartsAtEndOfMonth(int y, int m)
         {
+            // Conversion (y, m, d) -> (y, doy)
+            //int d = CountDaysInMonth(y, m);
+            //int doy = GetDayOfYear(y, m, d);
             int doy = CountDaysInYearBeforeMonth(y, m) + CountDaysInMonth(y, m);
             return new Yedoy(y, doy);
         }

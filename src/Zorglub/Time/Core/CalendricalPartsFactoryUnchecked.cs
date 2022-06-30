@@ -114,7 +114,6 @@ namespace Zorglub.Time.Core
         [Pure]
         public Yedoy GetOrdinalPartsAtStartOfMonth(int y, int m)
         {
-            // Conversion (y, m, d) -> (y, doy)
             int doy = _schema.GetDayOfYear(y, m, 1);
             return new Yedoy(y, doy);
         }
@@ -132,7 +131,6 @@ namespace Zorglub.Time.Core
         public Yedoy GetOrdinalPartsAtEndOfMonth(int y, int m)
         {
             int d = _schema.CountDaysInMonth(y, m);
-            // Conversion (y, m, d) -> (y, doy)
             int doy = _schema.GetDayOfYear(y, m, d);
             return new Yedoy(y, doy);
         }
