@@ -1,9 +1,6 @@
 ﻿// SPDX-License-Identifier: BSD-3-Clause
 // Copyright (c) 2020 Narvalo.Org. All rights reserved.
 
-// TODO(code): volatile calendar or not?
-//#define VOLATILE_CALENDAR
-
 namespace Zorglub.Time.Hemerology
 {
     using Zorglub.Time.Core;
@@ -129,13 +126,7 @@ namespace Zorglub.Time.Hemerology
         /// <para>Performance tip: cache this property locally if used repeatedly within a code
         /// block.</para>
         /// </remarks>
-#if VOLATILE_CALENDAR
-        public WideCalendar Calendar =>
-            _cuid > WideCatalog.MaxId ? VolatileCalendar.ForId(_cuid)
-                : WideCatalog.GetCalendarUnchecked(_cuid);
-#else
         public WideCalendar Calendar => WideCatalog.GetCalendarUnchecked(_cuid);
-#endif
 
         /// <summary>
         /// Gets the date parts of current instance.
