@@ -5,9 +5,6 @@ namespace Zorglub.Time.Core
 {
     /// <summary>
     /// Provides methods you can use to create new calendrical parts.
-    /// <para>This class assumes that input parameters are valid for the underlying calendrical
-    /// schema. It only checks that each calendrical part can be represented by
-    /// <see cref="Yemoda"/>, <see cref="Yemo"/> or <see cref="Yedoy"/>.</para>
     /// </summary>
     internal sealed partial class PartsFactory : ICalendricalPartsFactory
     {
@@ -23,7 +20,9 @@ namespace Zorglub.Time.Core
         /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
         public PartsFactory(ICalendricalSchema schema)
         {
-            _schema = schema ?? throw new ArgumentNullException(nameof(schema));
+            Debug.Assert(schema != null);
+
+            _schema = schema;
         }
     }
 

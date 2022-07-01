@@ -3,8 +3,6 @@
 
 namespace Zorglub.Time.Core
 {
-    // REVIEW(api): Create()
-
     #region Developer Notes
 
     // Types Implementing ICalendricalPartsFactory
@@ -32,6 +30,9 @@ namespace Zorglub.Time.Core
 
     /// <summary>
     /// Provides methods you can use to create new calendrical parts.
+    /// <para>A factory for parts assumes that input parameters are valid for the underlying
+    /// calendrical schema. It only checks that each calendrical part can be represented by
+    /// <see cref="Yemoda"/>, <see cref="Yemo"/> or <see cref="Yedoy"/>.</para>
     /// </summary>
     public partial interface ICalendricalPartsFactory
     {
@@ -40,23 +41,15 @@ namespace Zorglub.Time.Core
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
         [Pure]
-        public static ICalendricalPartsFactory Create(ICalendricalSchema schema) =>
-            // If the schema already implements the interface, we assume that
-            // (y, m, d, doy) are within the range of valid values.
-            schema is ICalendricalPartsFactory sch ? sch
-            : new PartsFactory(schema);
+        public static ICalendricalPartsFactory Create(ICalendricalSchema schema)
+        {
+            Requires.NotNull(schema);
 
-        ///// <summary>
-        ///// Creates a new <see cref="ICalendricalPartsFactory"/> instance.
-        ///// <para>When <paramref name="checked"/> is true, a method will throw if the result is not
-        ///// representable by the system.</para>
-        ///// </summary>
-        ///// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
-        //[Pure]
-        //public static ICalendricalPartsFactory Create(ICalendricalSchema schema, bool @checked) =>
-        //    @checked ? new PartsFactory(schema)
-        //    : schema is ICalendricalPartsFactory sch ? sch
-        //    : new PartsFactoryUnchecked(schema);
+            return
+                schema is SystemSchema sch ? sch
+                : schema.SupportedYears.IsSubsetOf(Yemoda.SupportedYears) ? new PartsFactorySlim(schema)
+                : new PartsFactory(schema);
+        }
     }
 
     public partial interface ICalendricalPartsFactory // Conversions

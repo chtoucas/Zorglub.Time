@@ -29,11 +29,10 @@ module Bundles =
         inherit ICalendricalPartsFactoryFacts<GregorianDataSet>(
             new PartsFactoryUnchecked(schemaOf<GregorianSchema>()))
 
-module Prelude =
+module Factories =
     [<Fact>]
-    let ``Constructor throws for null schema`` () =
-        nullExn "schema" (fun () -> new PartsFactory(null))
-        nullExn "schema" (fun () -> new PartsFactoryUnchecked(null))
+    let ``ICalendricalPartsFactory.Create() throws for null schema`` () =
+        nullExn "schema" (fun () -> ICalendricalPartsFactory.Create(null))
 
 module Methods =
     [<Sealed>]

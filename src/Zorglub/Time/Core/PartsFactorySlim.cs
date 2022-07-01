@@ -5,9 +5,6 @@ namespace Zorglub.Time.Core
 {
     /// <summary>
     /// Provides methods you can use to create new calendrical parts.
-    /// <para>This class assumes that input parameters are valid for the underlying calendrical
-    /// schema. It only checks that each calendrical part can be represented by
-    /// <see cref="Yemoda"/>, <see cref="Yemo"/> or <see cref="Yedoy"/>.</para>
     /// </summary>
     internal sealed partial class PartsFactorySlim : ICalendricalPartsFactory
     {
@@ -23,7 +20,10 @@ namespace Zorglub.Time.Core
         /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
         public PartsFactorySlim(ICalendricalSchema schema)
         {
-            _schema = schema ?? throw new ArgumentNullException(nameof(schema));
+            Debug.Assert(schema != null);
+            Debug.Assert(schema.SupportedYears.IsSubsetOf(Yemoda.SupportedYears));
+
+            _schema = schema;
         }
     }
 
@@ -34,7 +34,8 @@ namespace Zorglub.Time.Core
         public Yemo GetMonthParts(int monthsSinceEpoch)
         {
             _schema.GetMonthParts(monthsSinceEpoch, out int y, out int m);
-            return Yemo.Create(y, m);
+            if (m < Yemo.MinMonth || m > Yemo.MaxMonth) Throw.MonthOutOfRange(m);
+            return new Yemo(y, m);
         }
 
         /// <inheritdoc />
@@ -42,7 +43,9 @@ namespace Zorglub.Time.Core
         public Yemoda GetDateParts(int daysSinceEpoch)
         {
             _schema.GetDateParts(daysSinceEpoch, out int y, out int m, out int d);
-            return Yemoda.Create(y, m, d);
+            if (m < Yemoda.MinMonth || m > Yemoda.MaxMonth) Throw.MonthOutOfRange(m);
+            if (d < Yemoda.MinDay || d > Yemoda.MaxDay) Throw.DayOutOfRange(d);
+            return new Yemoda(y, m, d);
         }
 
         /// <inheritdoc />
@@ -50,7 +53,8 @@ namespace Zorglub.Time.Core
         public Yedoy GetOrdinalParts(int daysSinceEpoch)
         {
             int y = _schema.GetYear(daysSinceEpoch, out int doy);
-            return Yedoy.Create(y, doy);
+            if (doy < Yedoy.MinDayOfYear || doy > Yedoy.MaxDayOfYear) Throw.DayOfYearOutOfRange(doy);
+            return new Yedoy(y, doy);
         }
 
         /// <inheritdoc />
@@ -58,7 +62,8 @@ namespace Zorglub.Time.Core
         public Yedoy GetOrdinalParts(int y, int m, int d)
         {
             int doy = _schema.GetDayOfYear(y, m, d);
-            return Yedoy.Create(y, doy);
+            if (doy < Yedoy.MinDayOfYear || doy > Yedoy.MaxDayOfYear) Throw.DayOfYearOutOfRange(doy);
+            return new Yedoy(y, doy);
         }
 
         /// <inheritdoc />
@@ -66,7 +71,9 @@ namespace Zorglub.Time.Core
         public Yemoda GetDateParts(int y, int doy)
         {
             int m = _schema.GetMonth(y, doy, out int d);
-            return Yemoda.Create(y, m, d);
+            if (m < Yemoda.MinMonth || m > Yemoda.MaxMonth) Throw.MonthOutOfRange(m);
+            if (d < Yemoda.MinDay || d > Yemoda.MaxDay) Throw.DayOutOfRange(d);
+            return new Yemoda(y, m, d);
         }
     }
 
@@ -74,34 +81,23 @@ namespace Zorglub.Time.Core
     {
         /// <inheritdoc />
         [Pure]
-        public Yemo GetMonthPartsAtStartOfYear(int y)
-        {
-            if (y < Yemoda.MinYear || y > Yemoda.MaxYear) Throw.YearOutOfRange(y);
-            return Yemo.AtStartOfYear(y);
-        }
+        public Yemo GetMonthPartsAtStartOfYear(int y) => Yemo.AtStartOfYear(y);
 
         /// <inheritdoc />
         [Pure]
-        public Yemoda GetDatePartsAtStartOfYear(int y)
-        {
-            if (y < Yemoda.MinYear || y > Yemoda.MaxYear) Throw.YearOutOfRange(y);
-            return Yemoda.AtStartOfYear(y);
-        }
+        public Yemoda GetDatePartsAtStartOfYear(int y) => Yemoda.AtStartOfYear(y);
 
         /// <inheritdoc />
         [Pure]
-        public Yedoy GetOrdinalPartsAtStartOfYear(int y)
-        {
-            if (y < Yemoda.MinYear || y > Yemoda.MaxYear) Throw.YearOutOfRange(y);
-            return Yedoy.AtStartOfYear(y);
-        }
+        public Yedoy GetOrdinalPartsAtStartOfYear(int y) => Yedoy.AtStartOfYear(y);
 
         /// <inheritdoc />
         [Pure]
         public Yemo GetMonthPartsAtEndOfYear(int y)
         {
             int m = _schema.CountMonthsInYear(y);
-            return Yemo.Create(y, m);
+            if (m < Yemo.MinMonth || m > Yemo.MaxMonth) Throw.MonthOutOfRange(m);
+            return new Yemo(y, m);
         }
 
         /// <inheritdoc />
@@ -109,8 +105,10 @@ namespace Zorglub.Time.Core
         public Yemoda GetDatePartsAtEndOfYear(int y)
         {
             int m = _schema.CountMonthsInYear(y);
+            if (m < Yemoda.MinMonth || m > Yemoda.MaxMonth) Throw.MonthOutOfRange(m);
             int d = _schema.CountDaysInMonth(y, m);
-            return Yemoda.Create(y, m, d);
+            if (d < Yemoda.MinDay || d > Yemoda.MaxDay) Throw.DayOutOfRange(d);
+            return new Yemoda(y, m, d);
         }
 
         /// <inheritdoc />
@@ -118,14 +116,14 @@ namespace Zorglub.Time.Core
         public Yedoy GetOrdinalPartsAtEndOfYear(int y)
         {
             int doy = _schema.CountDaysInYear(y);
-            return Yedoy.Create(y, doy);
+            if (doy < Yedoy.MinDayOfYear || doy > Yedoy.MaxDayOfYear) Throw.DayOfYearOutOfRange(doy);
+            return new Yedoy(y, doy);
         }
 
         /// <inheritdoc />
         [Pure]
         public Yemoda GetDatePartsAtStartOfMonth(int y, int m)
         {
-            if (y < Yemoda.MinYear || y > Yemoda.MaxYear) Throw.YearOutOfRange(y);
             if (y < Yemoda.MinMonth || m > Yemoda.MaxMonth) Throw.MonthOutOfRange(m);
             return Yemoda.AtStartOfMonth(y, m);
         }
@@ -135,7 +133,8 @@ namespace Zorglub.Time.Core
         public Yedoy GetOrdinalPartsAtStartOfMonth(int y, int m)
         {
             int doy = _schema.GetDayOfYear(y, m, 1);
-            return Yedoy.Create(y, doy);
+            if (doy < Yedoy.MinDayOfYear || doy > Yedoy.MaxDayOfYear) Throw.DayOfYearOutOfRange(doy);
+            return new Yedoy(y, doy);
         }
 
         /// <inheritdoc />
@@ -143,7 +142,8 @@ namespace Zorglub.Time.Core
         public Yemoda GetDatePartsAtEndOfMonth(int y, int m)
         {
             int d = _schema.CountDaysInMonth(y, m);
-            return Yemoda.Create(y, m, d);
+            if (d < Yemoda.MinDay || d > Yemoda.MaxDay) Throw.DayOutOfRange(d);
+            return new Yemoda(y, m, d);
         }
 
         /// <inheritdoc />
@@ -152,7 +152,8 @@ namespace Zorglub.Time.Core
         {
             int d = _schema.CountDaysInMonth(y, m);
             int doy = _schema.GetDayOfYear(y, m, d);
-            return Yedoy.Create(y, doy);
+            if (doy < Yedoy.MinDayOfYear || doy > Yedoy.MaxDayOfYear) Throw.DayOfYearOutOfRange(doy);
+            return new Yedoy(y, doy);
         }
     }
 }
