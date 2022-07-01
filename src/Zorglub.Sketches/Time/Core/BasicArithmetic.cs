@@ -6,7 +6,7 @@ namespace Zorglub.Time.Core
     using Zorglub.Time.Core.Intervals;
 
     /// <summary>
-    /// Provides a basic implementation for <see cref="ICalendricalArithmetic"/>.
+    /// Provides a reference implementation for <see cref="ICalendricalArithmetic"/>.
     /// <para>This class cannot be inherited.</para>
     /// </summary>
     public sealed partial class BasicArithmetic : ICalendricalArithmetic

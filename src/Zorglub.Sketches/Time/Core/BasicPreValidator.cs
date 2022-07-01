@@ -16,7 +16,7 @@ namespace Zorglub.Time.Core
     #endregion
 
     /// <summary>
-    /// Provides a basic implementation for <see cref="ICalendricalPreValidator"/>.
+    /// Provides a reference implementation for <see cref="ICalendricalPreValidator"/>.
     /// <para>This class cannot be inherited.</para>
     /// </summary>
     public sealed class BasicPreValidator : ICalendricalPreValidator
