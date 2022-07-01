@@ -17,7 +17,6 @@ namespace Zorglub.Time.Core
         /// <summary>
         /// Initializes a new instance of the <see cref="PartsFactory"/> class.
         /// </summary>
-        /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
         public PartsFactory(ICalendricalSchema schema)
         {
             Debug.Assert(schema != null);
