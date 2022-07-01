@@ -1,0 +1,626 @@
+﻿// SPDX-License-Identifier: BSD-3-Clause
+// Copyright (c) 2020 Narvalo.Org. All rights reserved.
+
+namespace Zorglub.Time.Hemerology
+{
+    using Zorglub.Time.Core;
+    using Zorglub.Time.Core.Schemas;
+
+    // TODO(code): finish...
+    // Add adjustments and arithmetic as if it was a (y, m, d).
+
+    // Methods provided by CalendarDate that do not apply to a WideDate:
+    // - ToOrdinalDate()
+    // - math ops w/ months, years
+
+    /// <summary>
+    /// Represents a date within a calendar system of type <see cref="WideCalendar"/>.
+    /// <para><see cref="WideDate2"/> is an immutable struct.</para>
+    /// </summary>
+    public readonly partial struct WideDate2 :
+        IDate<WideDate2>,
+        //IYearEndpointsProvider<WideDate2>,
+        //IMonthEndpointsProvider<WideDate2>,
+        //IAdjustableDate<WideDate2>,
+        ISubtractionOperators<WideDate2, int, WideDate2>
+    {
+        private readonly int _daysSinceEpoch; // 4 bytes
+
+        /// <summary>
+        /// Represents the internal identifier of the calendar to which belongs the current instance.
+        /// <para>This field is read-only.</para>
+        /// </summary>
+        private readonly int _cuid; // 4 bytes
+
+        public WideDate2(DayNumber dayNumber)
+        {
+            WideCalendar.Gregorian.Domain.Validate(dayNumber);
+
+            _daysSinceEpoch = dayNumber - DayZero.NewStyle;
+            _cuid = (int)CalendarId.Gregorian;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WideDate2"/> struct to the specified date
+        /// parts in the Gregorian calendar.
+        /// </summary>
+        public WideDate2(int year, int month, int day)
+        {
+            WideCalendar.ValidateGregorianYearMonthDay(year, month, day);
+
+            _daysSinceEpoch = GregorianFormulae.CountDaysSinceEpoch(year, month, day);
+            _cuid = (int)CalendarId.Gregorian;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WideDate2"/> struct.
+        /// <para>This constructor does NOT validate its parameters.</para>
+        /// </summary>
+        internal WideDate2(int daysSinceEpoch, int cuid)
+        {
+            _daysSinceEpoch = daysSinceEpoch;
+            _cuid = cuid;
+        }
+
+        /// <summary>
+        /// Gets the day number.
+        /// </summary>
+        public DayNumber DayNumber
+        {
+            get
+            {
+                var chr = Calendar;
+                return chr.Epoch + _daysSinceEpoch;
+            }
+        }
+
+        /// <inheritdoc />
+        public Ord CenturyOfEra => Ord.FromInt32(Century);
+
+        /// <inheritdoc />
+        public int Century => YearNumbering.GetCentury(Year);
+
+        /// <inheritdoc />
+        public Ord YearOfEra => Ord.FromInt32(Year);
+
+        /// <inheritdoc />
+        public int YearOfCentury => YearNumbering.GetYearOfCentury(Year);
+
+        /// <inheritdoc />
+        public int Year
+        {
+            get
+            {
+                var chr = Calendar;
+                return chr.Schema.GetYear(_daysSinceEpoch, out _);
+            }
+        }
+
+        /// <inheritdoc />
+        public int Month
+        {
+            get
+            {
+                var chr = Calendar;
+                chr.Schema.GetDateParts(_daysSinceEpoch, out _, out int m, out _);
+                return m;
+            }
+        }
+
+        /// <inheritdoc />
+        public int DayOfYear
+        {
+            get
+            {
+                var chr = Calendar;
+                _ = chr.Schema.GetYear(_daysSinceEpoch, out int doy);
+                return doy;
+            }
+        }
+
+        /// <inheritdoc />
+        public int Day
+        {
+            get
+            {
+                var chr = Calendar;
+                chr.Schema.GetDateParts(_daysSinceEpoch, out _, out _, out int d);
+                return d;
+            }
+        }
+
+        /// <inheritdoc />
+        public DayOfWeek DayOfWeek => DayNumber.DayOfWeek;
+
+        /// <inheritdoc />
+        public bool IsIntercalary
+        {
+            get
+            {
+                var chr = Calendar;
+                chr.Schema.GetDateParts(_daysSinceEpoch, out int y, out int m, out int d);
+                return chr.Schema.IsIntercalaryDay(y, m, d);
+            }
+        }
+
+        /// <inheritdoc />
+        public bool IsSupplementary
+        {
+            get
+            {
+                var chr = Calendar;
+                chr.Schema.GetDateParts(_daysSinceEpoch, out int y, out int m, out int d);
+                return Calendar.Schema.IsSupplementaryDay(y, m, d);
+            }
+        }
+
+        /// <summary>
+        /// Gets the calendar to which belongs the current instance.
+        /// </summary>
+        /// <remarks>
+        /// <para>Performance tip: cache this property locally if used repeatedly within a code
+        /// block.</para>
+        /// </remarks>
+        public WideCalendar Calendar => WideCatalog.GetCalendarUnchecked(_cuid);
+
+        /// <summary>
+        /// Gets the internal ID of the calendar to which belongs the current instance.
+        /// </summary>
+        internal int Cuid => _cuid;
+
+        /// <summary>
+        /// Returns a culture-independent string representation of the current instance.
+        /// </summary>
+        [Pure]
+        public override string ToString()
+        {
+            var chr = Calendar;
+            chr.Schema.GetDateParts(_daysSinceEpoch, out int y, out int m, out int d);
+            return FormattableString.Invariant($"{d:D2}/{m:D2}/{y:D4} ({chr})");
+        }
+
+        /// <summary>
+        /// Deconstructs the current instance into its components.
+        /// </summary>
+        public void Deconstruct(out int year, out int month, out int day)
+        {
+            var chr = Calendar;
+            chr.Schema.GetDateParts(_daysSinceEpoch, out year, out month, out day);
+        }
+    }
+
+    public partial struct WideDate2 // Conversions, adjustments...
+    {
+        #region Binary serialization
+        // TODO: peut faire mieux, en particulier pour vérifier qu'il s'agit
+        // d'un calendrier système ou lors de la conversion de extraData à
+        // CalendarId.
+
+        ///// <summary>
+        ///// Deserializes a 32-bit binary value and recreates an original serialized
+        ///// <see cref="Simple.CalendarDate"/> object.
+        ///// </summary>
+        ///// <exception cref="AoorException">The matching calendar is not a system calendar.
+        ///// </exception>
+        //[Pure]
+        //public static WideDate2 FromBinary(long data)
+        //{
+        //    var bin = Yemoda.FromBinary(data, out uint extraData);
+        //    bin.Deconstruct(out int y, out int m, out int d);
+        //    if (extraData > Byte.MaxValue) Throw.ArgumentOutOfRange(nameof(data));
+        //    var id = (CalendarId)extraData;
+        //    return WideCatalog.GetSystemCalendar(id).GetWideDate2(y, m, d);
+        //}
+
+        ///// <summary>
+        ///// Serializes the current <see cref="Simple.CalendarDate"/> object to a 32-bit binary value
+        ///// that subsequently can be used to recreate the <see cref="Simple.CalendarDate"/> object.
+        ///// </summary>
+        ///// <exception cref="NotSupportedException">Binary serialization is only supported for dates
+        ///// belonging to a system calendar.</exception>
+        //[Pure]
+        //public long ToBinary() =>
+        //    _cuid > (int)CalendarId.Zoroastrian ? Throw.NotSupported<long>()
+        //        : _bin.ToBinary((uint)_cuid);
+
+        #endregion
+        #region Factories
+
+        // TODO(code): we can do better than that.
+        /// <summary>
+        /// Obtains the current date in the Gregorian calendar on this machine, expressed in local
+        /// time, not UTC.
+        /// </summary>
+        [Pure]
+        public static WideDate2 Today() =>
+            WideCalendar.Gregorian.GetWideDate2On(DayNumber.Today());
+
+        #endregion
+        #region Conversions
+
+        /// <inheritdoc />
+        [Pure]
+        static WideDate2 IFixedDay<WideDate2>.FromDayNumber(DayNumber dayNumber) =>
+            new(dayNumber);
+
+        /// <inheritdoc />
+        [Pure]
+        DayNumber IFixedDay.ToDayNumber() => DayNumber;
+
+        /// <summary>
+        /// Interconverts the current instance to a date within a different calendar.
+        /// </summary>
+        /// <remarks>
+        /// This method always performs the conversion whether it's necessary or not. To avoid an
+        /// expensive operation, it's better to check before that <paramref name="newCalendar"/> is
+        /// actually different from the calendar of the current instance.
+        /// </remarks>
+        /// <exception cref="ArgumentNullException"><paramref name="newCalendar"/> is null.
+        /// </exception>
+        /// <exception cref="AoorException">The specified date cannot be converted into the new
+        /// calendar, the resulting date would be outside its range of years.</exception>
+        [Pure]
+        public WideDate2 WithCalendar(WideCalendar newCalendar)
+        {
+            Requires.NotNull(newCalendar);
+
+            return newCalendar.GetWideDate2On(DayNumber);
+        }
+
+        #endregion
+        #region Counting
+
+        /// <inheritdoc />
+        [Pure]
+        public int CountElapsedDaysInYear()
+        {
+            var chr = Calendar;
+            _ = chr.Schema.GetYear(_daysSinceEpoch, out int doy);
+            return doy - 1;
+        }
+
+        /// <inheritdoc />
+        [Pure]
+        public int CountRemainingDaysInYear()
+        {
+            var chr = Calendar;
+            var sch = chr.Schema;
+            int y = sch.GetYear(_daysSinceEpoch, out int doy);
+            return sch.CountDaysInYear(y) - doy;
+        }
+
+        /// <inheritdoc />
+        [Pure]
+        public int CountElapsedDaysInMonth()
+        {
+            var chr = Calendar;
+            chr.Schema.GetDateParts(_daysSinceEpoch, out _, out _, out int d);
+            return d - 1;
+        }
+
+        /// <inheritdoc />
+        [Pure]
+        public int CountRemainingDaysInMonth()
+        {
+            var chr = Calendar;
+            var sch = chr.Schema;
+            sch.GetDateParts(_daysSinceEpoch, out int y, out int m, out int d);
+            return sch.CountDaysInMonth(y, m) - d;
+        }
+
+        #endregion
+        //#region Year and month boundaries
+
+        //// REVIEW: on a déjà Calendar.GetStartOfYear()
+        //// Le seul avantage à avoir ces méthodes ici est qu'on n'a pas à
+        //// revalider les paramètres.
+        //// On pourrait rajouter
+        //// > T GetStartOfYear(T)
+        //// à l'API de ICalendar<T>. Cela nous permettrait de gérer le cas de
+        //// DayNumber pour lequel on ne dispose pas de méthode équivalente.
+
+        //// FIXME(code): validation, use PartsFactory.
+
+        ///// <inheritdoc />
+        //[Pure]
+        //public static WideDate2 GetStartOfYear(WideDate2 day) => new(day._bin.StartOfYear, day._cuid);
+
+        ///// <inheritdoc />
+        //[Pure]
+        //public static WideDate2 GetEndOfYear(WideDate2 day)
+        //{
+        //    int y = day.Year;
+        //    //day.Calendar.Schema.GetEndOfYearParts(y, out int m, out int d);
+        //    var sch = day.Calendar.Schema;
+        //    int m = sch.CountMonthsInYear(y);
+        //    int d = sch.CountDaysInMonth(y, m);
+        //    return new WideDate2(y, m, d, day._cuid);
+        //}
+
+        ///// <inheritdoc />
+        //[Pure]
+        //public static WideDate2 GetStartOfMonth(WideDate2 day) => new(day._bin.StartOfMonth, day._cuid);
+
+        ///// <inheritdoc />
+        //[Pure]
+        //public static WideDate2 GetEndOfMonth(WideDate2 day)
+        //{
+        //    day._bin.Unpack(out int y, out int m);
+        //    int d = day.Calendar.Schema.CountDaysInMonth(y, m);
+        //    return new WideDate2(y, m, d, day._cuid);
+        //}
+
+        //#endregion
+        #region Adjustments
+
+        ///// <inheritdoc/>
+        //[Pure]
+        //public WideDate2 Adjust(Func<DateParts, DateParts> adjuster)
+        //{
+        //    Requires.NotNull(adjuster);
+
+        //    var chr = Calendar;
+        //    var ymd = adjuster.Invoke(new DateParts(Parts)).ToYemoda(chr.Scope);
+        //    return new WideDate2(ymd, Cuid);
+        //}
+
+        ///// <inheritdoc/>
+        //[Pure]
+        //public WideDate2 WithYear(int newYear)
+        //{
+        //    _bin.Unpack(out _, out int m, out int d);
+        //    var chr = Calendar;
+        //    chr.Scope.ValidateYearMonthDay(newYear, m, d, nameof(newYear));
+        //    return new WideDate2(newYear, m, d, Cuid);
+        //}
+
+        ///// <inheritdoc/>
+        //[Pure]
+        //public WideDate2 WithMonth(int newMonth)
+        //{
+        //    _bin.Unpack(out int y, out _, out int d);
+        //    var chr = Calendar;
+        //    chr.PreValidator.ValidateMonthDay(y, newMonth, d, nameof(newMonth));
+        //    return new WideDate2(y, newMonth, d, Cuid);
+        //}
+
+        ///// <inheritdoc/>
+        //[Pure]
+        //public WideDate2 WithDay(int newDay)
+        //{
+        //    _bin.Unpack(out int y, out int m);
+        //    var chr = Calendar;
+        //    chr.ValidateDayOfMonth(y, m, newDay, nameof(newDay));
+        //    return new WideDate2(y, m, newDay, Cuid);
+        //}
+
+        //
+        // Adjust the day of the week
+        //
+
+        /// <inheritdoc />
+        [Pure]
+        public WideDate2 Previous(DayOfWeek dayOfWeek)
+        {
+            Requires.Defined(dayOfWeek);
+
+            int δ = dayOfWeek - DayOfWeek;
+            return PlusDays(δ >= 0 ? δ - CalendricalConstants.DaysInWeek : δ);
+        }
+
+        /// <inheritdoc />
+        [Pure]
+        public WideDate2 PreviousOrSame(DayOfWeek dayOfWeek)
+        {
+            Requires.Defined(dayOfWeek);
+
+            int δ = dayOfWeek - DayOfWeek;
+            return δ == 0 ? this : PlusDays(δ > 0 ? δ - CalendricalConstants.DaysInWeek : δ);
+        }
+
+        /// <inheritdoc />
+        [Pure]
+        public WideDate2 Nearest(DayOfWeek dayOfWeek)
+        {
+            var chr = Calendar;
+            var epoch = chr.Epoch;
+            var dayNumber = epoch + _daysSinceEpoch;
+            var nearest = dayNumber.Nearest(dayOfWeek);
+            chr.Domain.CheckOverflow(nearest);
+            return new(nearest - epoch, Cuid);
+        }
+
+        /// <inheritdoc />
+        [Pure]
+        public WideDate2 NextOrSame(DayOfWeek dayOfWeek)
+        {
+            Requires.Defined(dayOfWeek);
+
+            int δ = dayOfWeek - DayOfWeek;
+            return δ == 0 ? this : PlusDays(δ < 0 ? δ + CalendricalConstants.DaysInWeek : δ);
+        }
+
+        /// <inheritdoc />
+        [Pure]
+        public WideDate2 Next(DayOfWeek dayOfWeek)
+        {
+            Requires.Defined(dayOfWeek);
+
+            int δ = dayOfWeek - DayOfWeek;
+            return PlusDays(δ <= 0 ? δ + CalendricalConstants.DaysInWeek : δ);
+        }
+
+        #endregion
+    }
+
+    public partial struct WideDate2 // IEquatable
+    {
+        /// <summary>
+        /// Determines whether two specified instances of <see cref="WideDate2"/> are equal.
+        /// </summary>
+        public static bool operator ==(WideDate2 left, WideDate2 right) =>
+            left._daysSinceEpoch == right._daysSinceEpoch && left._cuid == right._cuid;
+
+        /// <summary>
+        /// Determines whether two specified instances of <see cref="WideDate2"/> are not equal.
+        /// </summary>
+        public static bool operator !=(WideDate2 left, WideDate2 right) => !(left == right);
+
+        /// <inheritdoc />
+        [Pure]
+        public bool Equals(WideDate2 other) => this == other;
+
+        /// <inheritdoc />
+        [Pure]
+        public override bool Equals([NotNullWhen(true)] object? obj) =>
+            obj is WideDate2 date && this == date;
+
+        /// <inheritdoc />
+        [Pure]
+        public override int GetHashCode() => HashCode.Combine(_daysSinceEpoch, _cuid);
+    }
+
+    public partial struct WideDate2 // IComparable
+    {
+        /// <summary>
+        /// Compares the two specified instances to see if the left one is strictly earlier than the
+        /// right one.
+        /// </summary>
+        public static bool operator <(WideDate2 left, WideDate2 right) => left.CompareTo(right) < 0;
+
+        /// <summary>
+        /// Compares the two specified instances to see if the left one is earlier than or equal to
+        /// the right one.
+        /// </summary>
+        public static bool operator <=(WideDate2 left, WideDate2 right) => left.CompareTo(right) <= 0;
+
+        /// <summary>
+        /// Compares the two specified instances to see if the left one is strictly later than the
+        /// right one.
+        /// </summary>
+        public static bool operator >(WideDate2 left, WideDate2 right) => left.CompareTo(right) > 0;
+
+        /// <summary>
+        /// Compares the two specified instances to see if the left one is later than or equal to
+        /// the right one.
+        /// </summary>
+        public static bool operator >=(WideDate2 left, WideDate2 right) => left.CompareTo(right) >= 0;
+
+        /// <summary>
+        /// Obtains the earlier date of two specified dates.
+        /// </summary>
+        [Pure]
+        public static WideDate2 Min(WideDate2 x, WideDate2 y) => x.CompareTo(y) < 0 ? x : y;
+
+        /// <summary>
+        /// Obtains the later date of two specified dates.
+        /// </summary>
+        [Pure]
+        public static WideDate2 Max(WideDate2 x, WideDate2 y) => x.CompareTo(y) > 0 ? x : y;
+
+        /// <summary>
+        /// Indicates whether this instance is earlier, later or the same as the specified one.
+        /// </summary>
+        /// <exception cref="ArgumentException"><paramref name="other"/> does not belong to the
+        /// calendar of the current instance.</exception>
+        [Pure]
+        public int CompareTo(WideDate2 other)
+        {
+            if (other._cuid != _cuid) Throw.BadCuid(nameof(other), _cuid, other._cuid);
+
+            return _daysSinceEpoch.CompareTo(other._daysSinceEpoch);
+        }
+
+        /// <summary>
+        /// Indicates whether this instance is earlier, later or the same as the specified one.
+        /// <para>This method does NOT validate its parameter.</para>
+        /// </summary>
+        [Pure]
+        internal int CompareFast(WideDate2 other)
+        {
+            Debug.Assert(other._cuid == _cuid);
+
+            return _daysSinceEpoch.CompareTo(other._daysSinceEpoch);
+        }
+
+        /// <inheritdoc />
+        [Pure]
+        public int CompareTo(object? obj) =>
+            obj is null ? 1
+            : obj is WideDate2 date ? CompareTo(date)
+            : Throw.NonComparable(typeof(WideDate2), obj);
+    }
+
+    public partial struct WideDate2 // Math ops
+    {
+#pragma warning disable CA2225 // Operator overloads have named alternates (Usage)
+        // Friendly alternates do exist but use domain-specific names.
+
+        /// <summary>
+        /// Subtracts the two specified dates and returns the number of days between them.
+        /// </summary>
+        public static int operator -(WideDate2 left, WideDate2 right) =>
+            left.CountDaysSince(right);
+
+        /// <summary>
+        /// Adds a number of days to the specified date, yielding a new date.
+        /// </summary>
+        public static WideDate2 operator +(WideDate2 value, int days) => value.PlusDays(days);
+
+        /// <summary>
+        /// Subtracts a number of days to the specified date, yielding a new date.
+        /// </summary>
+        public static WideDate2 operator -(WideDate2 value, int days) => value.PlusDays(-days);
+
+        /// <summary>
+        /// Adds one day to the specified date, yielding a new date.
+        /// </summary>
+        public static WideDate2 operator ++(WideDate2 value) => value.NextDay();
+
+        /// <summary>
+        /// Subtracts one day to the specified date, yielding a new date.
+        /// </summary>
+        public static WideDate2 operator --(WideDate2 value) => value.PreviousDay();
+
+#pragma warning restore CA2225
+
+        /// <inheritdoc />
+        [Pure]
+        public int CountDaysSince(WideDate2 other)
+        {
+            if (other._cuid != _cuid) Throw.BadCuid(nameof(other), _cuid, other._cuid);
+
+            return checked(_daysSinceEpoch - other._daysSinceEpoch);
+        }
+
+        /// <inheritdoc />
+        [Pure]
+        public WideDate2 PlusDays(int days)
+        {
+            var daysSinceEpoch = checked(_daysSinceEpoch + days);
+            var chr = Calendar;
+            chr.Domain.CheckOverflow(chr.Epoch + daysSinceEpoch);
+            return new WideDate2(daysSinceEpoch, Cuid);
+        }
+
+        /// <inheritdoc />
+        [Pure]
+        public WideDate2 NextDay()
+        {
+            var chr = Calendar;
+            return chr.Epoch + _daysSinceEpoch == chr.Domain.Max
+                ? Throw.DateOverflow<WideDate2>()
+                : new WideDate2(_daysSinceEpoch + 1, Cuid);
+        }
+
+        /// <inheritdoc />
+        [Pure]
+        public WideDate2 PreviousDay()
+        {
+            var chr = Calendar;
+            return chr.Epoch + _daysSinceEpoch == chr.Domain.Min
+                ? Throw.DateOverflow<WideDate2>()
+                : new WideDate2(_daysSinceEpoch - 1, Cuid);
+        }
+    }
+}

@@ -261,6 +261,18 @@ namespace Zorglub.Time.Hemerology
             Schema.GetDateParts(dayNumber - Epoch, out int y, out int m, out int d);
             return new WideDate(new Yemoda(y, m, d), Id);
         }
+
+        /// <summary>
+        /// Converts the specified day number to a date object.
+        /// </summary>
+        /// <exception cref="AoorException"><paramref name="dayNumber"/> is outside the range of
+        /// values supported by this calendar.</exception>
+        [Pure]
+        public WideDate2 GetWideDate2On(DayNumber dayNumber)
+        {
+            Domain.Validate(dayNumber);
+            return new WideDate2(dayNumber - Epoch, Id);
+        }
     }
 
     public partial class WideCalendar // Dates in a given year or month
@@ -406,7 +418,7 @@ namespace Zorglub.Time.Hemerology
             int daysSinceEpoch = Schema.CountDaysSinceEpoch(y, m, d);
             return (DayOfWeek)MathZ.Modulo(
                 checked(_epochDayOfWeek + daysSinceEpoch),
-                CalendricalConstants.DaysInWeek);
+                DaysInWeek);
         }
     }
 }
