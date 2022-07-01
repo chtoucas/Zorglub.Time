@@ -139,9 +139,9 @@ namespace Zorglub.Time.Core.Arithmetic
                 // Same month, the day after.
                 d < MaxDaysViaDayOfMonth || d < Schema.CountDaysInMonth(y, m) ? new Yemoda(y, m, d + 1)
                 // Same year, start of next month.
-                : m < MonthsInYear ? Yemoda.AtStartOfMonth(y, m + 1)
+                : m < MonthsInYear ? PartsFactory.GetDatePartsAtStartOfMonth(y, m + 1)
                 // Start of next year...
-                : y < MaxYear ? Yemoda.AtStartOfYear(y + 1)
+                : y < MaxYear ? PartsFactory.GetDatePartsAtStartOfYear(y + 1)
                 // ... or overflow.
                 : Throw.DateOverflow<Yemoda>();
         }
@@ -224,7 +224,7 @@ namespace Zorglub.Time.Core.Arithmetic
 
             return
                 doy < MaxDaysViaDayOfYear || doy < Schema.CountDaysInYear(y) ? new Yedoy(y, doy + 1)
-                : y < MaxYear ? Yedoy.AtStartOfYear(y + 1)
+                : y < MaxYear ? PartsFactory.GetOrdinalPartsAtStartOfYear(y + 1)
                 : Throw.DateOverflow<Yedoy>();
         }
 

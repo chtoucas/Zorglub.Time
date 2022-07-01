@@ -64,8 +64,8 @@ namespace Zorglub.Time.Core.Arithmetic
             ymd.Unpack(out int y, out int m, out int d);
 
             return d < Schema.CountDaysInMonth(y, m) ? new Yemoda(y, m, d + 1)
-                : m < Schema.CountMonthsInYear(y) ? Yemoda.AtStartOfMonth(y, m + 1)
-                : y < MaxYear ? Yemoda.AtStartOfYear(y + 1)
+                : m < Schema.CountMonthsInYear(y) ? PartsFactory.GetDatePartsAtStartOfMonth(y, m + 1)
+                : y < MaxYear ? PartsFactory.GetDatePartsAtStartOfYear(y + 1)
                 : Throw.DateOverflow<Yemoda>();
         }
 
@@ -147,7 +147,7 @@ namespace Zorglub.Time.Core.Arithmetic
 
             return
                 doy < MaxDaysViaDayOfYear || doy < Schema.CountDaysInYear(y) ? new Yedoy(y, doy + 1)
-                : y < MaxYear ? Yedoy.AtStartOfYear(y + 1)
+                : y < MaxYear ? PartsFactory.GetOrdinalPartsAtStartOfYear(y + 1)
                 : Throw.DateOverflow<Yedoy>();
         }
 

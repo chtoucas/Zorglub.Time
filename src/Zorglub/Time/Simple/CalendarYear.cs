@@ -216,7 +216,15 @@ namespace Zorglub.Time.Simple
         /// <summary>
         /// Gets the first day of this year instance.
         /// </summary>
-        public OrdinalDate FirstDay => new(Yedoy.AtStartOfYear(Year), Cuid);
+        public OrdinalDate FirstDay
+        {
+            get
+            {
+                ref readonly var chr = ref CalendarRef;
+                var ydoy = chr.Schema.GetOrdinalPartsAtStartOfYear(Year);
+                return new OrdinalDate(ydoy, Cuid);
+            }
+        }
 
         /// <summary>
         /// Gets the last day of this year instance.

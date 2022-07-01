@@ -21,8 +21,12 @@ namespace Zorglub.Time.Simple
 
         /// <inheritdoc/>
         [Pure]
-        public CalendarDate GetStartOfYear(CalendarYear year) =>
-            new(Yemoda.AtStartOfYear(year.Year), year.Cuid);
+        public CalendarDate GetStartOfYear(CalendarYear year)
+        {
+            ref readonly var chr = ref year.CalendarRef;
+            var ymd = chr.Schema.GetDatePartsAtStartOfYear(year.Year);
+            return new(ymd, year.Cuid);
+        }
 
         /// <inheritdoc/>
         [Pure]

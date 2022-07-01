@@ -13,6 +13,8 @@ FIXME
     - CountDaysInMonthAfter(y, doy)
     - GetOrdinalPartsAtStartOfMonth(int y, int m)
     - GetOrdinalPartsAtEndOfMonth(int y, int m)
+- PartsFactory & PartsCreator
+  * Remove Yemoda.AtStartOfYear() & co (kind of).
 - Math:
   * Profile: OtherRegular, Other7 (MinDaysInMonth >= 7)?
   * Move standard ops (on CalendarMonth) from Math to Arithmetic.

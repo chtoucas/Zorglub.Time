@@ -142,7 +142,7 @@ namespace Zorglub.Time.Core.Arithmetic
             return
                 doy < MinDaysInYear || doy < Schema.CountDaysInYear(y)
                     ? new Yedoy(y, doy + 1)
-                : y < MaxYear ? Yedoy.AtStartOfYear(y + 1)
+                : y < MaxYear ? PartsFactory.GetOrdinalPartsAtStartOfYear(y + 1)
                 : Throw.DateOverflow<Yedoy>();
         }
 
