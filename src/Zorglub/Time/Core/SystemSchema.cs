@@ -5,7 +5,7 @@ namespace Zorglub.Time.Core
 {
     using Zorglub.Time.Core.Intervals;
 
-    // REVIEW(api): ctor visibility.
+    // REVIEW(api): ctor visibility? Internal because of Yemoda & co.
 
     // WARNING: SystemSchema puts limits on the range of admissible values for
     // the year but more importantly also for the month of the year and the day
