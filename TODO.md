@@ -6,6 +6,13 @@ FIXME
 
 - Refactor CalendarCatalog, split into a registry and a registar.
   Currently, it's almost impossible to achieve full code coverage.
+- Schemas:
+  * Move prop Arithmetic from CalendricalSchema to SystemSchema.
+  * Remove things using a conversion (y, m, d) <-> (y, doy)?
+    - CountDaysInMonthBefore(y, doy)
+    - CountDaysInMonthAfter(y, doy)
+    - GetOrdinalPartsAtStartOfMonth(int y, int m)
+    - GetOrdinalPartsAtEndOfMonth(int y, int m)
 - Math:
   * Profile: OtherRegular, Other7 (MinDaysInMonth >= 7)?
   * Move standard ops (on CalendarMonth) from Math to Arithmetic.

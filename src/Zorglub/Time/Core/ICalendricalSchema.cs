@@ -143,7 +143,7 @@ namespace Zorglub.Time.Core
         ICalendricalPreValidator PreValidator { get; }
 
         /// <summary>
-        /// Gets the standard arithmetic for this schema.
+        /// Gets the arithmetic for this schema.
         /// </summary>
         ICalendricalArithmetic Arithmetic { get; }
     }
@@ -233,8 +233,10 @@ namespace Zorglub.Time.Core
         [Pure] int GetDayOfYear(int y, int m, int d);
     }
 
-    public partial interface ICalendricalSchema //
+    public partial interface ICalendricalSchema // Counting months and days since the epoch
     {
+        // "Fast" versions of CountMonthsSinceEpoch() and CountDaysSinceEpoch().
+
         /// <summary>
         /// Counts the number of consecutive months from the epoch to the first month of the
         /// specified year.

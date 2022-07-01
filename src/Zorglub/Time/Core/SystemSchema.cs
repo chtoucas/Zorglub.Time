@@ -7,24 +7,18 @@ namespace Zorglub.Time.Core
 
     // REVIEW(api): ctor visibility.
 
-    // WARNING
-    // SystemSchema puts limits on the range of admissible values for the year
-    // but also for the month of the year and the day of the month, therefore it
-    // cannot represent schemas with unusually long years or months.
-    //
-    // Annotations
-    // -----------
-    // A : abstract
-    // + : not part of ICalendricalSchema but of ICalendricalSchemaPlus
-    // * : neither part of ICalendricalSchema nor ICalendricalSchemaPlus
+    // WARNING: SystemSchema puts limits on the range of admissible values for
+    // the year but more importantly also for the month of the year and the day
+    // of the month, therefore it cannot represent schemas with unusually long
+    // years or months.
 
     /// <summary>
     /// Represents a system schema and provides a base for derived classes.
     /// <para>This class can ONLY be initialized from within friend assemblies.</para>
     /// </summary>
     /// <remarks>
-    /// <para>All results SHOULD be representable by the system; see <see cref="Yemoda"/> and
-    /// <see cref="Yedoy"/>.</para>
+    /// <para>All results SHOULD be representable by the system; see <see cref="Yemoda"/>,
+    /// <see cref="Yemo"/> and <see cref="Yedoy"/>.</para>
     /// </remarks>
     public abstract partial class SystemSchema : CalendricalSchema, ICalendricalPartsFactory
     {
@@ -105,40 +99,6 @@ namespace Zorglub.Time.Core
         }
     }
 
-    // Misc.
-    //   PreValidator
-    //   Arithmetic
-    // * Profile
-    //   IsRegular()
-    public partial class SystemSchema // Misc
-    {
-        /// <inheritdoc />
-        [Pure]
-        public sealed override bool IsRegular(out int monthsInYear)
-        {
-            if (this is IRegularSchema sch)
-            {
-                monthsInYear = sch.MonthsInYear;
-                return true;
-            }
-            else
-            {
-                monthsInYear = 0;
-                return false;
-            }
-        }
-    }
-
-    // Properties.
-    //   Algorithm
-    // A Family
-    // A PeriodicAdjustments
-    //   SupportedYears
-    // * SupportedYearsCore
-    //   Domain
-    // * Segment
-    //   MinDaysInYear
-    //   MinDaysInMonth
     public partial class SystemSchema // Properties
     {
         private Range<int> _supportedYearsCore = Range.Maximal32;
@@ -171,52 +131,25 @@ namespace Zorglub.Time.Core
         /// Gets informations on the range of supported days.
         /// </summary>
         public CalendricalSegment Segment => _segment ??= CalendricalSegment.CreateMaximal(this);
+
+        /// <inheritdoc />
+        [Pure]
+        public sealed override bool IsRegular(out int monthsInYear)
+        {
+            if (this is IRegularSchema sch)
+            {
+                monthsInYear = sch.MonthsInYear;
+                return true;
+            }
+            else
+            {
+                monthsInYear = 0;
+                return false;
+            }
+        }
     }
 
-    // Year, month or day infos.
-    // A IsLeapYear(y)
-    // A IsIntercalaryMonth(y, m)
-    // A IsIntercalaryDay(y, m, d)
-    // A IsSupplementaryDay(y, m, d)
-    public partial class SystemSchema // Year, month or day infos
-    { }
-
-    // Counting months and days within a year or a month.
-    // A CountMonthsInYear(y)
-    // A CountDaysInYear(y)
-    // A CountDaysInYearBeforeMonth(y, m)
-    //   CountDaysInYearAfterMonth(y, m)
-    //   CountDaysInYearBefore(y, m, d)
-    //   CountDaysInYearAfter(y, m, d)
-    //   CountDaysInYearBefore(daysSinceEpoch)
-    //   CountDaysInYearAfter(daysSinceEpoch)
-    // A CountDaysInMonth(y, m)
-    //   CountDaysInMonthBefore(y, m, d)
-    //   CountDaysInMonthAfter(y, m, d)
-    //   CountDaysInMonthBefore(daysSinceEpoch)
-    //   CountDaysInMonthAfter(daysSinceEpoch)
-    public partial class SystemSchema // Counting months and days within a year or a month
-    { }
-
-    // Conversions.
-    //   CountMonthsSinceEpoch(y, m)    -> monthsSinceEpoch     (Yemo)         => MonthsSinceEpoch
-    //   CountDaysSinceEpoch(y, m, d)   -> daysSinceEpoch       (Yemoda)       => DaysSinceEpoch
-    //   CountDaysSinceEpoch(y, doy)    -> daysSinceEpoch       (Yedoy)        => DaysSinceEpoch
-    //   GetMonthParts(monthsSinceEpoch)-> out y, m             -
-    //   GetMonthParts(monthsSinceEpoch)-> Yemo                 MonthsSinceEpoch => Yemo
-    //   GetDateParts(daysSinceEpoch)   -> out y, m, d          -
-    // + GetDateParts(daysSinceEpoch)   -> Yemoda               DaysSinceEpoch => Yemoda
-    //   GetYear(daysSinceEpoch)        -> y, out doy           -
-    // A GetYear(daysSinceEpoch)        -> y                    -
-    // + GetOrdinalParts(daySinceEpoch) -> Yedoy                DaysSinceEpoch => Yedoy
-    // A GetMonth(y, doy)               -> m, out d             -
-    // + GetDateParts(y, doy)           -> Yemoda               (Yedoy)        => Yemoda
-    //   GetDayOfYear(y, m, d)          -> doy                  -
-    // + GetOrdinalParts(y, m, d)       -> Yedoy                (Yemoda)       => Yedoy
-    //
-    // IMPORTANT: We "duplicate" GetDateParts() and GetOrdinalParts() to allow
-    // derived classes to be created outside this assembly.
-    public partial class SystemSchema // Conversions (ICalendricalPartsFactory)
+    public partial class SystemSchema // ICalendricalPartsFactory (1)
     {
         /// <summary>
         /// Obtains the month parts for the specified month count (the number of consecutive months
@@ -283,29 +216,7 @@ namespace Zorglub.Time.Core
         }
     }
 
-    // Dates in a given year or month.
-    // A GetStartOfYear(y)                      -> daysSinceEpoch
-    // + GetMonthPartsAtStartOfYear(y)          -> Yemo
-    // + GetDatePartsAtStartOfYear(y)           -> Yemoda
-    // + GetOrdinalPartsAtStartOfYear(y)        -> Yedoy
-    //
-    //   GetEndOfYear(y)                        -> daysSinceEpoch
-    // + GetMonthPartsAtEndOfYear(y)            -> Yemo
-    // A GetDatePartsAtEndOfYear(y)             -> out m, d
-    // +   ...                                  -> Yemoda
-    // + GetOrdinalPartsAtEndOfYear(y)          -> Yedoy
-    //
-    //   GetStartOfMonth(y, m)                  -> daysSinceEpoch
-    // + GetDatePartsAtStartOfMonth(y, m)       -> Yemoda
-    // + GetOrdinalPartsAtStartOfMonth(y, m)    -> Yedoy
-    //
-    //   GetEndOfMonth(y, m)                    -> daysSinceEpoch
-    // + GetDatePartsAtEndOfMonth(y, m)         -> Yemoda
-    // + GetOrdinalPartsAtEndOfMonth(y, m)      -> Yedoy
-    //
-    // IMPORTANT: We "duplicate" GetDatePartsAtEndOfYear() to allow derived
-    // classes to be created outside this assembly.
-    public partial class SystemSchema // Dates in a given year or month (ICalendricalPartsFactory)
+    public partial class SystemSchema // ICalendricalPartsFactory (2)
     {
         /// <inheritdoc />
         [Pure]

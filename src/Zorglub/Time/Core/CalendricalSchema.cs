@@ -106,6 +106,12 @@ namespace Zorglub.Time.Core
     // - Everything arithmetic
     //   Missing requirement: a "scope".
     // All this will be part of a calendar or a date object.
+    //
+    // Annotations
+    // -----------
+    // A : abstract
+    // V : virtual
+    // + : part of ICalendricalSchemaPlus
 
     #endregion
 
@@ -130,46 +136,11 @@ namespace Zorglub.Time.Core
             MinDaysInMonth = minDaysInMonth;
         }
 
-        private ICalendricalPreValidator? _validator;
-        /// <inheritdoc />
-        public ICalendricalPreValidator PreValidator
-        {
-            get => _validator ??= ICalendricalPreValidator.CreateDefault(this);
-            protected init
-            {
-                Requires.NotNull(value);
-                _validator = value;
-            }
-        }
-
-        // Covariant return type does not work when a property (Arithmetic here),
-        // is a property from an interface or has a setter.
-
-        ICalendricalArithmetic ICalendricalSchema.Arithmetic => Arithmetic;
-
-        private CalendricalArithmetic? _arithmetic;
-        /// <summary>
-        /// Gets or initializes the arithmetic for this schema.
-        /// </summary>
-        public CalendricalArithmetic Arithmetic
-        {
-            get => _arithmetic ??= CalendricalArithmetic.CreateDefault(this);
-            protected init
-            {
-                Requires.NotNull(value);
-                _arithmetic = value;
-            }
-        }
-
         private CalendricalProfile? _profile;
         /// <summary>
         /// Gets the schema profile.
         /// </summary>
         internal CalendricalProfile Profile => _profile ??= FindProfile();
-
-        /// <inheritdoc />
-        [Pure]
-        public abstract bool IsRegular(out int monthsInYear);
 
         [Pure]
         private CalendricalProfile FindProfile()
@@ -213,6 +184,15 @@ namespace Zorglub.Time.Core
         }
     }
 
+    // Properties.
+    //   Algorithm
+    // A Family
+    // A PeriodicAdjustments
+    //   SupportedYears
+    //   Domain
+    //   MinDaysInYear
+    //   MinDaysInMonth
+    // A IsRegular()
     public partial class CalendricalSchema // Properties
     {
         /// <inheritdoc />
@@ -250,8 +230,48 @@ namespace Zorglub.Time.Core
 
         private MonthHelper? _monthHelper;
         private MonthHelper MonthHelper => _monthHelper ??= MonthHelper.Create(this);
+
+        private ICalendricalPreValidator? _validator;
+        /// <inheritdoc />
+        public ICalendricalPreValidator PreValidator
+        {
+            get => _validator ??= ICalendricalPreValidator.CreateDefault(this);
+            protected init
+            {
+                Requires.NotNull(value);
+                _validator = value;
+            }
+        }
+
+        // Covariant return type does not work when a property (Arithmetic here),
+        // is a property from an interface or has a setter.
+
+        ICalendricalArithmetic ICalendricalSchema.Arithmetic => Arithmetic;
+
+        private CalendricalArithmetic? _arithmetic;
+        /// <summary>
+        /// Gets or initializes the arithmetic for this schema.
+        /// </summary>
+        public CalendricalArithmetic Arithmetic
+        {
+            get => _arithmetic ??= CalendricalArithmetic.CreateDefault(this);
+            protected init
+            {
+                Requires.NotNull(value);
+                _arithmetic = value;
+            }
+        }
+
+        /// <inheritdoc />
+        [Pure]
+        public abstract bool IsRegular(out int monthsInYear);
     }
 
+    // Year, month or day infos.
+    // A IsLeapYear(y)
+    // A IsIntercalaryMonth(y, m)
+    // A IsIntercalaryDay(y, m, d)
+    // A IsSupplementaryDay(y, m, d)
     public partial class CalendricalSchema // Year, month or day infos
     {
         /// <inheritdoc />
@@ -275,6 +295,26 @@ namespace Zorglub.Time.Core
         [Pure] public abstract bool IsSupplementaryDay(int y, int m, int d);
     }
 
+    // Counting months and days within a year or a month.
+    // A CountMonthsInYear(y)
+    // A CountDaysInYear(y)
+    // A CountDaysInMonth(y, m)
+    // A CountDaysInYearBeforeMonth(y, m)
+    //
+    // ICalendricalSchemaPlus:
+    //   CountDaysInYearAfterMonth(y, m)
+    //   CountDaysInYearBefore(y, m, d)
+    //   CountDaysInYearBefore(y, doy)
+    //   CountDaysInYearBefore(daysSinceEpoch)
+    //   CountDaysInYearAfter(y, m, d)
+    //   CountDaysInYearAfter(y, doy)
+    //   CountDaysInYearAfter(daysSinceEpoch)
+    //   CountDaysInMonthBefore(y, m, d)
+    //   CountDaysInMonthBefore(y, doy)
+    //   CountDaysInMonthBefore(daysSinceEpoch)
+    //   CountDaysInMonthAfter(y, m, d)
+    //   CountDaysInMonthAfter(y, doy)
+    //   CountDaysInMonthAfter(daysSinceEpoch)
     public partial class CalendricalSchema // Counting months and days within a year or a month
     {
         /// <inheritdoc />
@@ -375,6 +415,7 @@ namespace Zorglub.Time.Core
         [Pure]
         public int CountDaysInMonthBefore(int y, int doy)
         {
+            // Conversion (y, doy) -> (y, m, d)
             _ = GetMonth(y, doy, out int d);
             return d - 1;
         }
@@ -400,6 +441,7 @@ namespace Zorglub.Time.Core
         [Pure]
         public int CountDaysInMonthAfter(int y, int doy)
         {
+            // Conversion (y, doy) -> (y, m, d)
             int m = GetMonth(y, doy, out int d);
             return CountDaysInMonth(y, m) - d;
         }
@@ -417,6 +459,16 @@ namespace Zorglub.Time.Core
         #endregion
     }
 
+    // Conversions.
+    // A CountMonthsSinceEpoch(y, m)    -> monthsSinceEpoch     "Yemo"   => MonthsSinceEpoch
+    // V CountDaysSinceEpoch(y, m, d)   -> daysSinceEpoch       "Yemoda" => DaysSinceEpoch
+    //   CountDaysSinceEpoch(y, doy)    -> daysSinceEpoch       "Yedoy"  => DaysSinceEpoch
+    // A GetMonthParts(monthsSinceEpoch)-> out y, m             MonthsSinceEpoch => "Yemo"
+    // V GetDateParts(daysSinceEpoch)   -> out y, m, d          DaysSinceEpoch   => "Yemoda"
+    // V GetYear(daysSinceEpoch)        -> y, out doy           DaysSinceEpoch   => "Yedoy"
+    // A GetYear(daysSinceEpoch)        -> y                    -
+    // A GetMonth(y, doy)               -> m, out d             "Yedoy"  => "Yemoda"
+    //   GetDayOfYear(y, m, d)          -> doy                  "Yemoda" => "Yedoy"
     public partial class CalendricalSchema // Conversions
     {
         /// <inheritdoc />
@@ -491,7 +543,14 @@ namespace Zorglub.Time.Core
             CountDaysInYearBeforeMonth(y, m) + d;
     }
 
-    public partial class CalendricalSchema //
+    // Counting days or months since the epoch.
+    //   GetStartOfYearInMonths(y)      -> monthsSinceEpoch
+    //   GetEndOfYearInMonths(y)        -> monthsSinceEpoch
+    // A GetStartOfYear(y)              -> daysSinceEpoch
+    //   GetEndOfYear(y)                -> daysSinceEpoch
+    //   GetStartOfMonth(y, m)          -> daysSinceEpoch
+    //   GetEndOfMonth(y, m)            -> daysSinceEpoch
+    public partial class CalendricalSchema // Counting months and days since the epoch
     {
         /// <inheritdoc />
         [Pure]
