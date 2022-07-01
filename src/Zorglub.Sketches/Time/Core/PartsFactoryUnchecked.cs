@@ -20,9 +20,7 @@ namespace Zorglub.Time.Core
         /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
         public PartsFactoryUnchecked(ICalendricalSchema schema)
         {
-            Debug.Assert(schema != null);
-
-            _schema = schema;
+            _schema = schema ?? throw new ArgumentNullException(nameof(schema));
         }
     }
 
