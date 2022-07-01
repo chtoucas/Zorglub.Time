@@ -5,12 +5,13 @@ namespace Zorglub.Time.Core
 {
     using Zorglub.Time.Core.Intervals;
 
-    // REVIEW(api): ctor visibility? Internal because of Yemoda & co.
-
-    // WARNING: SystemSchema puts limits on the range of admissible values for
-    // the year but more importantly also for the month of the year and the day
-    // of the month, therefore it cannot represent schemas with unusually long
-    // years or months.
+    // SystemSchema puts limits on the range of admissible values for the year
+    // but more importantly also for the month of the year and the day of the
+    // month, therefore it cannot represent schemas with unusually long years or
+    // months.
+    //
+    // This class is public but has an internal ctor since we cannot guarantee
+    // that a derived class follows the rules defined above.
 
     /// <summary>
     /// Represents a system schema and provides a base for derived classes.
