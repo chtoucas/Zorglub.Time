@@ -37,12 +37,6 @@ namespace Zorglub.Time.Hemerology
     public partial class WideCalendar : BasicCalendar, ICalendar<WideDate>
     {
         /// <summary>
-        /// Represents the integer value of the day of the week of the epoch of the calendar.
-        /// <para>This field is read-only.</para>
-        /// </summary>
-        private readonly int _epochDayOfWeek;
-
-        /// <summary>
         /// Initializes a new instance of <see cref="WideCalendar"/> class.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
@@ -78,8 +72,6 @@ namespace Zorglub.Time.Hemerology
 
             Id = id;
             IsUserDefined = userDefined;
-
-            _epochDayOfWeek = (int)Epoch.DayOfWeek;
 
             MinMaxDate = from dayNumber in scope.Domain.Endpoints select new WideDate(dayNumber - Epoch, id);
         }
