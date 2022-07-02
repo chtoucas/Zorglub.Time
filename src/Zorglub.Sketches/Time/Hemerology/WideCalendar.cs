@@ -220,8 +220,8 @@ namespace Zorglub.Time.Hemerology
         /// <summary>
         /// Creates a new instance of the <see cref="WideDate"/> struct.
         /// </summary>
-        /// <exception cref="AoorException">The ordinal date is either invalid or outside the range
-        /// of supported dates.</exception>
+        /// <exception cref="AoorException">The date is either invalid or outside the range of
+        /// supported dates.</exception>
         [Pure]
         public WideDate GetDate(int year, int month, int day)
         {
@@ -246,45 +246,6 @@ namespace Zorglub.Time.Hemerology
         /// <inheritdoc />
         [Pure]
         public WideDate Today() => GetDate(DayNumber.Today());
-
-        /// <summary>
-        /// Creates a new instance of the <see cref="WideDate0"/> struct from its components.
-        /// </summary>
-        [Pure]
-        [Obsolete("To be removed")]
-        public WideDate0 GetWideDate(int year, int month, int day)
-        {
-            Scope.ValidateYearMonthDay(year, month, day);
-            return new WideDate0(year, month, day, Id);
-        }
-
-        /// <summary>
-        /// Converts the specified ordinal date to a date object.
-        /// </summary>
-        /// <exception cref="AoorException">The ordinal date is either invalid or outside the range
-        /// of supported dates.</exception>
-        [Pure]
-        [Obsolete("To be removed")]
-        public WideDate0 GetWideDateOn(int year, int dayOfYear)
-        {
-            Scope.ValidateOrdinal(year, dayOfYear);
-            int m = Schema.GetMonth(year, dayOfYear, out int d);
-            return new WideDate0(new Yemoda(year, m, d), Id);
-        }
-
-        /// <summary>
-        /// Converts the specified day number to a date object.
-        /// </summary>
-        /// <exception cref="AoorException"><paramref name="dayNumber"/> is outside the range of
-        /// values supported by this calendar.</exception>
-        [Pure]
-        [Obsolete("To be removed")]
-        public WideDate0 GetWideDateOn(DayNumber dayNumber)
-        {
-            Domain.Validate(dayNumber);
-            Schema.GetDateParts(dayNumber - Epoch, out int y, out int m, out int d);
-            return new WideDate0(new Yemoda(y, m, d), Id);
-        }
     }
 
     public partial class WideCalendar // Dates in a given year or month
@@ -398,6 +359,7 @@ namespace Zorglub.Time.Hemerology
         /// Validates the specified Gregorian date.
         /// </summary>
         /// <exception cref="AoorException">The validation failed.</exception>
+        [Obsolete("To be removed")]
         internal static void ValidateGregorianOrdinalParts(int year, int dayOfYear, string? paramName = null)
         {
             if (year < GregorianSchema.MinYear || year > GregorianSchema.MaxYear)
@@ -420,36 +382,13 @@ namespace Zorglub.Time.Hemerology
         /// <exception cref="OverflowException">The operation overflows the
         /// capacity of <see cref="Int32"/>.</exception>
         /// <exception cref="AoorException">The validation failed.</exception>
+        [Obsolete("To be removed")]
         internal void ValidateDayOfMonth(int y, int m, int dayOfMonth, string? paramName = null)
         {
             if (dayOfMonth < 1 || dayOfMonth > Schema.CountDaysInMonth(y, m))
             {
                 Throw.ArgumentOutOfRange(paramName ?? nameof(dayOfMonth));
             }
-        }
-
-        [Pure]
-        [Obsolete("To be removed")]
-        internal DayNumber GetDayNumber(WideDate0 date)
-        {
-            Debug.Assert(date.Cuid == Id);
-
-            date.Parts.Unpack(out int y, out int m, out int d);
-            return Epoch + Schema.CountDaysSinceEpoch(y, m, d);
-        }
-
-        [Pure]
-        [Obsolete("To be removed")]
-        internal DayOfWeek GetDayOfWeek(WideDate0 date)
-        {
-            Debug.Assert(date.Cuid == Id);
-
-            // Copied from CalendricalSchema.GetDayOfWeek().
-            date.Parts.Unpack(out int y, out int m, out int d);
-            int daysSinceEpoch = Schema.CountDaysSinceEpoch(y, m, d);
-            return (DayOfWeek)MathZ.Modulo(
-                checked(_epochDayOfWeek + daysSinceEpoch),
-                DaysInWeek);
         }
     }
 }

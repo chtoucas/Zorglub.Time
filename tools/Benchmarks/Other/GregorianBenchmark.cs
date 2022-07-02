@@ -141,23 +141,6 @@ public class GregorianBenchmark : BenchmarkBase
         Consume(in dayOfYear);
     }
 
-    [Benchmark(Description = "WideDate0 (Y) ")]
-    public void WithWideDate0()
-    {
-        WideDate0 start = new(Year, Month, Day);
-        WideDate0 end = start.NextDay().PlusDays(D7).PlusDays(D30).PlusDays(D401);
-
-        var (y, m, d) = end;
-        DayOfWeek dayOfWeek = end.DayOfWeek;
-        int dayOfYear = end.DayOfYear;
-
-        Consume(in y);
-        Consume(in m);
-        Consume(in d);
-        Consume(in dayOfWeek);
-        Consume(in dayOfYear);
-    }
-
     [Benchmark(Description = "WideDate      ")]
     public void WithWideDate()
     {

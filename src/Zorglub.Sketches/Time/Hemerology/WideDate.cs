@@ -6,13 +6,7 @@ namespace Zorglub.Time.Hemerology
     using Zorglub.Time.Core;
     using Zorglub.Time.Core.Schemas;
 
-    // TODO(code): new WideDate struct.
-    // Add adjustments and arithmetic as if it was a (y, m, d).
-    // Non-standard arithmetic.
-    // Obsolete comments:
-    // Methods provided by CalendarDate that do not apply to a WideDate:
-    // - ToOrdinalDate()
-    // - math ops w/ months, years
+    // TODO(code): serialization, adjustments, non-standard arithmetic.
 
     // WideDate is modeled after CalendarDay, not CalendarDate.
     // - faster standard arithmetic
@@ -22,6 +16,7 @@ namespace Zorglub.Time.Hemerology
     // - default value = 1/1/1
     // Slow operations:
     // - obtaining the y/m/d representation
+    // - non-standard arithmetic
 
     /// <summary>
     /// Represents a date within a calendar system of type <see cref="WideCalendar"/>.
@@ -263,7 +258,6 @@ namespace Zorglub.Time.Hemerology
         #endregion
         #region Factories
 
-        // TODO(code): we can do better than that.
         /// <summary>
         /// Obtains the current date in the Gregorian calendar on this machine, expressed in local
         /// time, not UTC.
@@ -346,13 +340,13 @@ namespace Zorglub.Time.Hemerology
         #endregion
         #region Year and month boundaries
 
-        //// REVIEW(api): on a déjà Calendar.GetStartOfYear()
-        //// Le seul avantage à avoir ces méthodes ici est qu'on n'a pas à
-        //// revalider les paramètres.
-        //// On pourrait rajouter
-        //// > T GetStartOfYear(T)
-        //// à l'API de ICalendar<T>. Cela nous permettrait de gérer le cas de
-        //// DayNumber pour lequel on ne dispose pas de méthode équivalente.
+        // REVIEW(api): on a déjà Calendar.GetStartOfYear()
+        // Le seul avantage à avoir ces méthodes ici est qu'on n'a pas à
+        // revalider les paramètres.
+        // On pourrait rajouter
+        // > T GetStartOfYear(T)
+        // à l'API de ICalendar<T>. Cela nous permettrait de gérer le cas de
+        // DayNumber pour lequel on ne dispose pas de méthode équivalente.
 
         /// <inheritdoc />
         [Pure]

@@ -7,8 +7,8 @@ namespace Zorglub.Time.Core
     using Zorglub.Time.Core.Intervals;
     using Zorglub.Time.Core.Schemas;
 
-    // TODO(code): better explanation for the meaning of MinMinDaysInMonth and
-    // MaxDaysViaDayOfMonth.
+    // FIXME(api): Can only work reliably with SystemSchema.
+    // Better explanation for the meaning of MinMinDaysInMonth and MaxDaysViaDayOfMonth.
 
     // Keeping this class internal ensures that we have complete control on its
     // instances. In particular, we make sure that none of them is used in
