@@ -21,7 +21,6 @@ public abstract class ArchetypalSchemaFacts<TDataSet> :
     [Fact] public sealed override void Family_Prop() { }
     [Fact] public sealed override void PeriodicAdjustments_Prop() { }
     [Fact] public sealed override void PreValidator_Prop() { }
-    [Fact] public sealed override void Arithmetic_Prop() { }
     [Fact] public sealed override void IsRegular() { }
 
     [Fact]

@@ -11,13 +11,8 @@ public abstract partial class CalendricalArithmeticFacts<TDataSet> :
     ICalendricalArithmeticFacts<ICalendricalArithmetic, TDataSet>
     where TDataSet : ICalendricalDataSet, ISingleton<TDataSet>
 {
-    protected CalendricalArithmeticFacts(ICalendricalSchema schema)
+    protected CalendricalArithmeticFacts(SystemSchema schema)
         : this(schema, schema?.Arithmetic ?? throw new ArgumentNullException(nameof(schema))) { }
-
-    protected CalendricalArithmeticFacts(
-        ICalendricalSchema schema,
-        Func<ICalendricalSchema, ICalendricalArithmetic> factory)
-        : this(schema, factory?.Invoke(schema) ?? throw new ArgumentNullException(nameof(factory))) { }
 
     protected CalendricalArithmeticFacts(
         SystemSchema schema,

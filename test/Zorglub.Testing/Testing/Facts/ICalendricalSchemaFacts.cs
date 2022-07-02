@@ -30,10 +30,8 @@ public abstract partial class ICalendricalSchemaFacts<TSchema, TDataSet> :
     protected int MaxMonthsSinceEpoch { get; }
 
     [Fact] public abstract void PreValidator_Prop();
-    [Fact] public abstract void Arithmetic_Prop();
 
     protected void VerifyThatPreValidatorIs<T>() => Assert.IsType<T>(SchemaUT.PreValidator);
-    protected void VerifyThatArithmeticIs<T>() => Assert.IsType<T>(SchemaUT.Arithmetic);
 }
 
 public partial class ICalendricalSchemaFacts<TSchema, TDataSet> // Properties
