@@ -253,10 +253,10 @@ namespace Zorglub.Time.Hemerology
         /// <exception cref="AoorException"><paramref name="dayNumber"/> is outside the range of
         /// values supported by this calendar.</exception>
         [Pure]
-        public WideDate2 GetDate(DayNumber dayNumber)
+        public WideDate GetDate(DayNumber dayNumber)
         {
             Domain.Validate(dayNumber);
-            return new WideDate2(dayNumber - Epoch, Id);
+            return new WideDate(dayNumber - Epoch, Id);
         }
     }
 

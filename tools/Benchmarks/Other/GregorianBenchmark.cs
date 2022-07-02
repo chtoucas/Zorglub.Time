@@ -161,8 +161,8 @@ public class GregorianBenchmark : BenchmarkBase
     [Benchmark(Description = "WideDate      ")]
     public void WithWideDate()
     {
-        WideDate2 start = new(Year, Month, Day);
-        WideDate2 end = start.NextDay().PlusDays(D7).PlusDays(D30).PlusDays(D401);
+        WideDate start = new(Year, Month, Day);
+        WideDate end = start.NextDay().PlusDays(D7).PlusDays(D30).PlusDays(D401);
 
         var (y, m, d) = end;
         DayOfWeek dayOfWeek = end.DayOfWeek;
