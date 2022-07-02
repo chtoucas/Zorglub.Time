@@ -44,17 +44,17 @@ namespace Zorglub.Time.Hemerology
         /// Initializes a new instance of <see cref="WideCalendar"/> class.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
-        /// <exception cref="ArgumentNullException"><paramref name="name"/> is null.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="key"/> is null.</exception>
         internal WideCalendar(
             int id,
-            string name,
+            string key,
             ICalendricalSchema schema,
             DayNumber epoch,
             bool widest,
             bool userDefined)
             : this(
                   id,
-                  name,
+                  key,
                   schema,
                   // NB: MinMaxYearScope ensures years outside the range defined
                   // by Yemoda are not allowed.
@@ -64,7 +64,7 @@ namespace Zorglub.Time.Hemerology
 
         private WideCalendar(
             int id,
-            string name,
+            string key,
             ICalendricalSchema schema,
             MinMaxYearScope scope,
             bool userDefined)
@@ -72,7 +72,7 @@ namespace Zorglub.Time.Hemerology
         {
             Debug.Assert(schema != null);
 
-            Name = name ?? throw new ArgumentNullException(nameof(name));
+            Name = Key = key ?? throw new ArgumentNullException(nameof(key));
 
             Id = id;
             IsUserDefined = userDefined;
@@ -80,8 +80,6 @@ namespace Zorglub.Time.Hemerology
             _epochDayOfWeek = (int)Epoch.DayOfWeek;
 
             DayProvider = new MinMaxYearDayProvider(scope);
-
-            Arithmetic = schema.Arithmetic;
             YearOverflowChecker = scope.YearOverflowChecker;
 
             MinMaxDate = from parts in scope.MinMaxDateParts select new WideDate(parts, id);
@@ -136,26 +134,18 @@ namespace Zorglub.Time.Hemerology
         /// <summary>
         /// Gets the name of the current instance.
         /// </summary>
-        public string Name { get; }
+        public string Name { get; init; }
 
         /// <summary>
         /// Gets the unique key of the current instance.
         /// </summary>
-        /// <exception cref="NotSupportedException">The current instance is
-        /// transient.</exception>
-        public string Key => IsVolatile ? Throw.NotSupported<string>() : Name;
+        public string Key { get; }
 
         /// <summary>
         /// Returns true if the current instance is user-defined; otherwise
         /// returns false.
         /// </summary>
         public bool IsUserDefined { get; }
-
-        /// <summary>
-        /// Returns true if the current instance is volatile; otherwise returns
-        /// false.
-        /// </summary>
-        public bool IsVolatile { get; protected init; }
 
         /// <summary>
         /// Gets the pair of earliest and latest supported <see cref="WideDate"/>.
@@ -173,11 +163,6 @@ namespace Zorglub.Time.Hemerology
         internal int Id { get; }
 
         /// <summary>
-        /// Gets or sets the underlying arithmetic engine.
-        /// </summary>
-        internal ICalendricalArithmetic Arithmetic { get; }
-
-        /// <summary>
         /// Gets the checker for overflows of the range of years.
         /// </summary>
         internal IOverflowChecker<int> YearOverflowChecker { get; }
@@ -186,7 +171,7 @@ namespace Zorglub.Time.Hemerology
         /// Returns a string representation of the current instance.
         /// </summary>
         [Pure]
-        public override string ToString() => Name;
+        public override string ToString() => Key;
     }
 
     public partial class WideCalendar // Year or month infos
@@ -268,7 +253,7 @@ namespace Zorglub.Time.Hemerology
         /// <exception cref="AoorException"><paramref name="dayNumber"/> is outside the range of
         /// values supported by this calendar.</exception>
         [Pure]
-        public WideDate2 GetWideDate2On(DayNumber dayNumber)
+        public WideDate2 GetDate(DayNumber dayNumber)
         {
             Domain.Validate(dayNumber);
             return new WideDate2(dayNumber - Epoch, Id);

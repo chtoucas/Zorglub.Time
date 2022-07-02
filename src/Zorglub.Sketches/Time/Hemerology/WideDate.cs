@@ -368,8 +368,9 @@ namespace Zorglub.Time.Hemerology
             Requires.Defined(dayOfWeek);
 
             var chr = Calendar;
+            var ari = chr.Schema.Arithmetic;
             int δ = dayOfWeek - DayOfWeek;
-            var ymd = chr.Arithmetic.AddDays(_bin, δ >= 0 ? δ - CalendricalConstants.DaysInWeek : δ);
+            var ymd = ari.AddDays(_bin, δ >= 0 ? δ - CalendricalConstants.DaysInWeek : δ);
             chr.YearOverflowChecker.CheckLowerBound(ymd.Year);
             return new WideDate(ymd, _cuid);
         }
@@ -381,9 +382,10 @@ namespace Zorglub.Time.Hemerology
             Requires.Defined(dayOfWeek);
 
             var chr = Calendar;
+            var ari = chr.Schema.Arithmetic;
             int δ = dayOfWeek - DayOfWeek;
             if (δ == 0) { return this; }
-            var ymd = chr.Arithmetic.AddDays(_bin, δ > 0 ? δ - CalendricalConstants.DaysInWeek : δ);
+            var ymd = ari.AddDays(_bin, δ > 0 ? δ - CalendricalConstants.DaysInWeek : δ);
             chr.YearOverflowChecker.CheckLowerBound(ymd.Year);
             return new WideDate(ymd, _cuid);
         }
@@ -406,9 +408,10 @@ namespace Zorglub.Time.Hemerology
             Requires.Defined(dayOfWeek);
 
             var chr = Calendar;
+            var ari = chr.Schema.Arithmetic;
             int δ = dayOfWeek - DayOfWeek;
             if (δ == 0) { return this; }
-            var ymd = chr.Arithmetic.AddDays(_bin, δ < 0 ? δ + CalendricalConstants.DaysInWeek : δ);
+            var ymd = ari.AddDays(_bin, δ < 0 ? δ + CalendricalConstants.DaysInWeek : δ);
             chr.YearOverflowChecker.CheckUpperBound(ymd.Year);
             return new WideDate(ymd, _cuid);
         }
@@ -420,8 +423,9 @@ namespace Zorglub.Time.Hemerology
             Requires.Defined(dayOfWeek);
 
             var chr = Calendar;
+            var ari = chr.Schema.Arithmetic;
             int δ = dayOfWeek - DayOfWeek;
-            var ymd = chr.Arithmetic.AddDays(_bin, δ <= 0 ? δ + CalendricalConstants.DaysInWeek : δ);
+            var ymd = ari.AddDays(_bin, δ <= 0 ? δ + CalendricalConstants.DaysInWeek : δ);
             chr.YearOverflowChecker.CheckUpperBound(ymd.Year);
             return new WideDate(ymd, _cuid);
         }
@@ -566,7 +570,9 @@ namespace Zorglub.Time.Hemerology
         {
             if (other._cuid != _cuid) Throw.BadCuid(nameof(other), _cuid, other._cuid);
 
-            return Calendar.Arithmetic.CountDaysBetween(other._bin, _bin);
+            var chr = Calendar;
+            var ari = chr.Schema.Arithmetic;
+            return ari.CountDaysBetween(other._bin, _bin);
         }
 
         /// <inheritdoc />
@@ -574,7 +580,8 @@ namespace Zorglub.Time.Hemerology
         public WideDate PlusDays(int days)
         {
             var chr = Calendar;
-            var ymd = chr.Arithmetic.AddDays(_bin, days);
+            var ari = chr.Schema.Arithmetic;
+            var ymd = ari.AddDays(_bin, days);
             chr.YearOverflowChecker.Check(ymd.Year);
             return new WideDate(ymd, _cuid);
         }
@@ -584,7 +591,8 @@ namespace Zorglub.Time.Hemerology
         public WideDate NextDay()
         {
             var chr = Calendar;
-            var ymd = chr.Arithmetic.NextDay(_bin);
+            var ari = chr.Schema.Arithmetic;
+            var ymd = ari.NextDay(_bin);
             chr.YearOverflowChecker.CheckUpperBound(ymd.Year);
             return new WideDate(ymd, _cuid);
         }
@@ -594,7 +602,8 @@ namespace Zorglub.Time.Hemerology
         public WideDate PreviousDay()
         {
             var chr = Calendar;
-            var ymd = chr.Arithmetic.PreviousDay(_bin);
+            var ari = chr.Schema.Arithmetic;
+            var ymd = ari.PreviousDay(_bin);
             chr.YearOverflowChecker.CheckLowerBound(ymd.Year);
             return new WideDate(ymd, _cuid);
         }

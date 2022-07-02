@@ -22,6 +22,7 @@ namespace Zorglub.Time.Hemerology
     // ID
     //   https://www.nimaara.com/generating-ids-in-csharp/
 
+    [Obsolete("TO BE REMOVED")]
     internal sealed class VolatileIdProvider
     {
         private static int s_LastIdent = WideCatalog.MaxId;
@@ -47,6 +48,7 @@ namespace Zorglub.Time.Hemerology
     /// <see cref="WideCatalog.GetCalendar(string)"/> or
     /// <see cref="WideCatalog.TryGetCalendar(string, out WideCalendar?)"/>.</para>
     /// </summary>
+    [Obsolete("TO BE REMOVED")]
     public sealed class VolatileCalendar : WideCalendar, IDisposable
     {
         private static readonly Dictionary<int, VolatileCalendar> s_TransientCalendars = new();
@@ -76,7 +78,6 @@ namespace Zorglub.Time.Hemerology
             bool widest)
             : base(ident, name, schema, epoch, widest, userDefined: true)
         {
-            IsVolatile = true;
             s_TransientCalendars.Add(ident, this);
         }
 

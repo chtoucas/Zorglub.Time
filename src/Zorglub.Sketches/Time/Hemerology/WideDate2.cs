@@ -6,12 +6,20 @@ namespace Zorglub.Time.Hemerology
     using Zorglub.Time.Core;
     using Zorglub.Time.Core.Schemas;
 
-    // TODO(code): finish...
+    // TODO(code): new WideDate struct.
     // Add adjustments and arithmetic as if it was a (y, m, d).
 
     // Methods provided by CalendarDate that do not apply to a WideDate:
     // - ToOrdinalDate()
     // - math ops w/ months, years
+
+    // WideDate is modeled after CalendarDay, not CalendarDate.
+    // - faster standard arithmetic
+    // - no need for a custom arithmetic object which requires Yemoda & co
+    // - faster adjustment of the day of the week
+    // - faster interconversion
+    // Slow operations:
+    // - obtaining the y/m/d representation
 
     /// <summary>
     /// Represents a date within a calendar system of type <see cref="WideCalendar"/>.
@@ -24,6 +32,11 @@ namespace Zorglub.Time.Hemerology
         //IAdjustableDate<WideDate2>,
         ISubtractionOperators<WideDate2, int, WideDate2>
     {
+        /// <summary>
+        /// Represents the count of days since the epoch of the calendar to which belongs the current
+        /// instance.
+        /// <para>This field is read-only.</para>
+        /// </summary>
         private readonly int _daysSinceEpoch; // 4 bytes
 
         /// <summary>
@@ -32,6 +45,14 @@ namespace Zorglub.Time.Hemerology
         /// </summary>
         private readonly int _cuid; // 4 bytes
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CalendarDay"/> struct to the specified day
+        /// number in the Gregorian calendar.
+        /// <para>To create an instance for another calendar, see
+        /// <see cref="WideCalendar.GetDate(DayNumber)"/>.</para>
+        /// </summary>
+        /// <exception cref="AoorException"><paramref name="dayNumber"/> is outside the range of
+        /// values supported by the Gregorian calendar.</exception>
         public WideDate2(DayNumber dayNumber)
         {
             WideCalendar.Gregorian.Domain.Validate(dayNumber);
@@ -233,7 +254,7 @@ namespace Zorglub.Time.Hemerology
         /// </summary>
         [Pure]
         public static WideDate2 Today() =>
-            WideCalendar.Gregorian.GetWideDate2On(DayNumber.Today());
+            WideCalendar.Gregorian.GetDate(DayNumber.Today());
 
         #endregion
         #region Conversions
@@ -264,7 +285,7 @@ namespace Zorglub.Time.Hemerology
         {
             Requires.NotNull(newCalendar);
 
-            return newCalendar.GetWideDate2On(DayNumber);
+            return newCalendar.GetDate(DayNumber);
         }
 
         #endregion
