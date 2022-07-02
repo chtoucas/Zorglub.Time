@@ -9,7 +9,7 @@ FIXME
 - Schemas:
   * Check all occurences of ICalendricalSchema and CalendricalSchema.
   * Move prop Arithmetic from CalendricalSchema to SystemSchema.
-    NB: See alos the prop Segement of IArithmeticSchema.
+    NB: See alos the prop Segment of IArithmeticSchema.
   * Remove things using a conversion (y, m, d) <-> (y, doy)?
     - CountDaysInMonthBefore(y, doy)
     - CountDaysInMonthAfter(y, doy)
@@ -18,10 +18,8 @@ FIXME
 - Parts and validation, PartsFactory & PartsCreator
   Remove Yemoda.AtStartOfYear() & co (kind of).
   Types concernés:
-  - ICalendricalschemaPlus OK
   - SystemSchema
   - CalendricalSegmentBuilder
-  - PartsFactory
   - Arithmetic
   DefaultArithmetic and Yemoda/Yedoy.
   TryGetCustomPreValidator() special cases of GJ
