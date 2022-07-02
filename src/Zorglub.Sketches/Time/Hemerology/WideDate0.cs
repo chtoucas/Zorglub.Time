@@ -13,12 +13,13 @@ namespace Zorglub.Time.Hemerology
     /// Represents a date within a calendar system of type <see cref="WideCalendar"/>.
     /// <para><see cref="WideDate0"/> is an immutable struct.</para>
     /// </summary>
+    [Obsolete("To be removed")]
     public readonly partial struct WideDate0 :
-        IDate<WideDate0>,
-        IYearEndpointsProvider<WideDate0>,
-        IMonthEndpointsProvider<WideDate0>,
-        IAdjustableDate<WideDate0>,
-        ISubtractionOperators<WideDate0, int, WideDate0>
+    IDate<WideDate0>,
+    IYearEndpointsProvider<WideDate0>,
+    IMonthEndpointsProvider<WideDate0>,
+    IAdjustableDate<WideDate0>,
+    ISubtractionOperators<WideDate0, int, WideDate0>
     {
         /// <summary>
         /// Represents the internal binary representation of the year, month and day components of

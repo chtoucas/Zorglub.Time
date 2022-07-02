@@ -19,6 +19,7 @@ namespace Zorglub.Time.Hemerology
     // - no need for a custom arithmetic object which requires Yemoda & co
     // - faster adjustment of the day of the week
     // - faster interconversion
+    // - default value = 1/1/1
     // Slow operations:
     // - obtaining the y/m/d representation
 

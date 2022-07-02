@@ -251,6 +251,7 @@ namespace Zorglub.Time.Hemerology
         /// Creates a new instance of the <see cref="WideDate0"/> struct from its components.
         /// </summary>
         [Pure]
+        [Obsolete("To be removed")]
         public WideDate0 GetWideDate(int year, int month, int day)
         {
             Scope.ValidateYearMonthDay(year, month, day);
@@ -263,6 +264,7 @@ namespace Zorglub.Time.Hemerology
         /// <exception cref="AoorException">The ordinal date is either invalid or outside the range
         /// of supported dates.</exception>
         [Pure]
+        [Obsolete("To be removed")]
         public WideDate0 GetWideDateOn(int year, int dayOfYear)
         {
             Scope.ValidateOrdinal(year, dayOfYear);
@@ -276,6 +278,7 @@ namespace Zorglub.Time.Hemerology
         /// <exception cref="AoorException"><paramref name="dayNumber"/> is outside the range of
         /// values supported by this calendar.</exception>
         [Pure]
+        [Obsolete("To be removed")]
         public WideDate0 GetWideDateOn(DayNumber dayNumber)
         {
             Domain.Validate(dayNumber);
@@ -426,6 +429,7 @@ namespace Zorglub.Time.Hemerology
         }
 
         [Pure]
+        [Obsolete("To be removed")]
         internal DayNumber GetDayNumber(WideDate0 date)
         {
             Debug.Assert(date.Cuid == Id);
@@ -435,6 +439,7 @@ namespace Zorglub.Time.Hemerology
         }
 
         [Pure]
+        [Obsolete("To be removed")]
         internal DayOfWeek GetDayOfWeek(WideDate0 date)
         {
             Debug.Assert(date.Cuid == Id);
