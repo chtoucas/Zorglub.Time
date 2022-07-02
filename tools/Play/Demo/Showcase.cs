@@ -43,11 +43,11 @@ public static class Showcase
         WriteLine();
         WriteLine("Gregorian-like calendars.");
         WriteLine($"    {GregorianCalendar.Instance.GetCalendarDateOn(today)}");
-        WriteLine($"    {WideCalendar.Gregorian.GetWideDateOn(today)}");
+        WriteLine($"    {WideCalendar.Gregorian.GetDate(today)}");
         WriteLine($"    {CalendarZoo.GenuineGregorian.GetDateParts(today)} ({CalendarZoo.GenuineGregorian})");
-        WriteLine($"    {CalendarZoo.Minguo.GetWideDateOn(today)}");
-        WriteLine($"    {CalendarZoo.Holocene.GetWideDateOn(today)}");
-        WriteLine($"    {CalendarZoo.ThaiSolar.GetWideDateOn(today)}");
+        WriteLine($"    {CalendarZoo.Minguo.GetDate(today)}");
+        WriteLine($"    {CalendarZoo.Holocene.GetDate(today)}");
+        WriteLine($"    {CalendarZoo.ThaiSolar.GetDate(today)}");
 
         WriteLine();
         WriteLine("Tropicalista calendars.");
@@ -59,7 +59,7 @@ public static class Showcase
         WriteLine();
         WriteLine("Other calendars.");
         WriteLine($"    {JulianCalendar.Instance.GetCalendarDateOn(today)}");
-        WriteLine($"    {CalendarZoo.LongJulian.GetWideDateOn(today)}");
+        WriteLine($"    {CalendarZoo.LongJulian.GetDate(today)}");
         WriteLine($"    {CalendarZoo.GenuineJulian.GetDateParts(today)} ({CalendarZoo.GenuineJulian})");
         WriteLine($"    {TabularIslamicCalendar.Instance.GetCalendarDateOn(today)}");
         WriteLine($"    {CalendarZoo.Persian2820.GetCalendarDateOn(today)}");

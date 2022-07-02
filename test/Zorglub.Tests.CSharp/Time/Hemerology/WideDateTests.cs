@@ -17,7 +17,7 @@ public static class WideDateTests
     [InlineData(10_000, 12, 31, "31/12/10000 (Gregorian)")]
     public static void ToString_InvariantCulture(int y, int m, int d, string str)
     {
-        var date = WideCalendar.Gregorian.GetWideDate(y, m, d);
+        var date = WideCalendar.Gregorian.GetDate(y, m, d);
         // Act & Assert
         Assert.Equal(str, date.ToString());
     }
@@ -27,7 +27,7 @@ public static class WideDateTests
     {
         // Julian MinDayNumber is not within the Gregorian range.
         var minDayNumber = WideCalendar.Julian.Domain.Min;
-        var date = WideCalendar.Julian.GetWideDateOn(minDayNumber);
+        var date = WideCalendar.Julian.GetDate(minDayNumber);
         // Act & Assert
         Assert.ThrowsAoorexn("dayNumber", () => date.WithCalendar(WideCalendar.Gregorian));
     }
@@ -36,8 +36,8 @@ public static class WideDateTests
     public static void GregorianToJulian(YemodaPair pair)
     {
         var (g, j) = pair;
-        var source = WideCalendar.Gregorian.GetWideDate(g.Year, g.Month, g.Day);
-        var result = WideCalendar.Julian.GetWideDate(j.Year, j.Month, j.Day);
+        var source = WideCalendar.Gregorian.GetDate(g.Year, g.Month, g.Day);
+        var result = WideCalendar.Julian.GetDate(j.Year, j.Month, j.Day);
         // Act & Assert
         Assert.Equal(result, source.WithCalendar(WideCalendar.Julian));
     }
@@ -46,8 +46,8 @@ public static class WideDateTests
     public static void JulianToGregorian(YemodaPair pair)
     {
         var (g, j) = pair;
-        var source = WideCalendar.Julian.GetWideDate(j.Year, j.Month, j.Day);
-        var result = WideCalendar.Gregorian.GetWideDate(g.Year, g.Month, g.Day);
+        var source = WideCalendar.Julian.GetDate(j.Year, j.Month, j.Day);
+        var result = WideCalendar.Gregorian.GetDate(g.Year, g.Month, g.Day);
         // Act & Assert
         Assert.Equal(result, source.WithCalendar(WideCalendar.Gregorian));
     }
