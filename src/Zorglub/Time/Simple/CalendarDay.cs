@@ -414,6 +414,10 @@ namespace Zorglub.Time.Simple
         // Adjust the day of the week
         //
 
+        // REVIEW(code): PlusDays() overflow checking could be "optimized" since
+        // we know in advance if the number of days to be added is positive or
+        // negative. Idem with WideDate.
+
         /// <inheritdoc />
         [Pure]
         public CalendarDay Previous(DayOfWeek dayOfWeek)

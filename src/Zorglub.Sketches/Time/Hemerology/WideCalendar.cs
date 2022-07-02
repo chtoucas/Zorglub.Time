@@ -201,11 +201,48 @@ namespace Zorglub.Time.Hemerology
         }
     }
 
-    public partial class WideCalendar // Factories
+    public partial class WideCalendar // Factories, conversions
     {
         /// <summary>
-        /// Creates a new instance of the <see cref="WideDate0"/> struct from
-        /// its components.
+        /// Creates a new instance of the <see cref="WideDate"/> struct.
+        /// </summary>
+        /// <exception cref="AoorException"><paramref name="dayNumber"/> is outside the range of
+        /// values supported by this calendar.</exception>
+        [Pure]
+        public WideDate GetDate(DayNumber dayNumber)
+        {
+            Domain.Validate(dayNumber);
+            return new WideDate(dayNumber - Epoch, Id);
+        }
+
+        /// <summary>
+        /// Creates a new instance of the <see cref="WideDate"/> struct.
+        /// </summary>
+        /// <exception cref="AoorException">The ordinal date is either invalid or outside the range
+        /// of supported dates.</exception>
+        [Pure]
+        public WideDate GetDate(int year, int month, int day)
+        {
+            Scope.ValidateYearMonthDay(year, month, day);
+            int daysSinceEpoch = Schema.CountDaysSinceEpoch(year, month, day);
+            return new WideDate(daysSinceEpoch, Id);
+        }
+
+        /// <summary>
+        /// Converts the specified ordinal date to a date object.
+        /// </summary>
+        /// <exception cref="AoorException">The ordinal date is either invalid or outside the range
+        /// of supported dates.</exception>
+        [Pure]
+        public WideDate GetDate(int year, int dayOfYear)
+        {
+            Scope.ValidateOrdinal(year, dayOfYear);
+            int daysSinceEpoch = Schema.CountDaysSinceEpoch(year, dayOfYear);
+            return new WideDate(daysSinceEpoch, Id);
+        }
+
+        /// <summary>
+        /// Creates a new instance of the <see cref="WideDate0"/> struct from its components.
         /// </summary>
         [Pure]
         public WideDate0 GetWideDate(int year, int month, int day)
@@ -217,10 +254,7 @@ namespace Zorglub.Time.Hemerology
         /// <inheritdoc />
         [Pure]
         public WideDate0 Today() => GetWideDateOn(DayNumber.Today());
-    }
 
-    public partial class WideCalendar // Conversions
-    {
         /// <summary>
         /// Converts the specified ordinal date to a date object.
         /// </summary>
@@ -245,18 +279,6 @@ namespace Zorglub.Time.Hemerology
             Domain.Validate(dayNumber);
             Schema.GetDateParts(dayNumber - Epoch, out int y, out int m, out int d);
             return new WideDate0(new Yemoda(y, m, d), Id);
-        }
-
-        /// <summary>
-        /// Converts the specified day number to a date object.
-        /// </summary>
-        /// <exception cref="AoorException"><paramref name="dayNumber"/> is outside the range of
-        /// values supported by this calendar.</exception>
-        [Pure]
-        public WideDate GetDate(DayNumber dayNumber)
-        {
-            Domain.Validate(dayNumber);
-            return new WideDate(dayNumber - Epoch, Id);
         }
     }
 
@@ -350,7 +372,7 @@ namespace Zorglub.Time.Hemerology
         /// Validates the specified Gregorian date.
         /// </summary>
         /// <exception cref="AoorException">The validation failed.</exception>
-        internal static void ValidateGregorianYearMonthDay(int year, int month, int day, string? paramName = null)
+        internal static void ValidateGregorianParts(int year, int month, int day, string? paramName = null)
         {
             if (year < GregorianSchema.MinYear || year > GregorianSchema.MaxYear)
             {
@@ -365,6 +387,24 @@ namespace Zorglub.Time.Hemerology
                     && day > GregorianFormulae.CountDaysInMonth(year, month)))
             {
                 Throw.DayOutOfRange(day, paramName);
+            }
+        }
+
+        /// <summary>
+        /// Validates the specified Gregorian date.
+        /// </summary>
+        /// <exception cref="AoorException">The validation failed.</exception>
+        internal static void ValidateGregorianOrdinalParts(int year, int dayOfYear, string? paramName = null)
+        {
+            if (year < GregorianSchema.MinYear || year > GregorianSchema.MaxYear)
+            {
+                Throw.YearOutOfRange(year, paramName);
+            }
+            if (dayOfYear < 1
+                || (dayOfYear > Solar.MinDaysInYear
+                    && dayOfYear > GregorianFormulae.CountDaysInYear(year)))
+            {
+                Throw.DayOutOfRange(dayOfYear, paramName);
             }
         }
 

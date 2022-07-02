@@ -5,6 +5,8 @@ namespace Zorglub.Time.Hemerology
 {
     using Zorglub.Time.Core.Intervals;
 
+    // REVIEW(api): generic CheckOverflow() & co.
+
     /// <summary>
     /// Provides extension methods for <see cref="Range{T}"/>.
     /// <para>This class cannot be inherited.</para>
@@ -24,17 +26,36 @@ namespace Zorglub.Time.Hemerology
         }
 
         /// <summary>
-        /// Checks that the specified <see cref="DayNumber"/> value does not overflow the range of
-        /// supported values.
+        /// Determines whether the specified <see cref="DayNumber"/> is outside the range of
+        /// supported values or not.
         /// </summary>
         /// <exception cref="OverflowException"><paramref name="dayNumber"/> would overflow the
         /// range of supported values.</exception>
         internal static void CheckOverflow(this Range<DayNumber> @this, DayNumber dayNumber)
         {
-            if (dayNumber < @this.Min || dayNumber > @this.Max)
-            {
-                Throw.DateOverflow();
-            }
+            if (dayNumber < @this.Min || dayNumber > @this.Max) Throw.DateOverflow();
+        }
+
+        /// <summary>
+        /// Determines whether the specified <see cref="DayNumber"/> is greater than the upper bound
+        /// of the range of supported values or not.
+        /// </summary>
+        /// <exception cref="OverflowException">The value is greater than the upper bound of the
+        /// range of supported values.</exception>
+        internal static void CheckUpperBound(this Range<DayNumber> @this, DayNumber dayNumber)
+        {
+            if (dayNumber > @this.Max) Throw.DateOverflow();
+        }
+
+        /// <summary>
+        /// Determines whether the specified <see cref="DayNumber"/> is less than the lower bound of
+        /// the range of supported values or not.
+        /// </summary>
+        /// <exception cref="OverflowException">The value is less than the lower bound of the range
+        /// of supported values.</exception>
+        internal static void CheckLowerBound(this Range<DayNumber> @this, DayNumber dayNumber)
+        {
+            if (dayNumber < @this.Min) Throw.DateOverflow();
         }
     }
 }

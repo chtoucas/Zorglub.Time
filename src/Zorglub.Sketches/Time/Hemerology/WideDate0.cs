@@ -39,7 +39,7 @@ namespace Zorglub.Time.Hemerology
         /// </summary>
         public WideDate0(int year, int month, int day)
         {
-            WideCalendar.ValidateGregorianYearMonthDay(year, month, day);
+            WideCalendar.ValidateGregorianParts(year, month, day);
 
             _bin = new Yemoda(year, month, day);
             _cuid = (int)CalendarId.Gregorian;

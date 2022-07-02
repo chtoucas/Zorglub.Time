@@ -12,6 +12,8 @@ namespace Zorglub.Time.Hemerology
     using Zorglub.Time.Core;
     using Zorglub.Time.Simple;
 
+    // TODO(code): to be rewritten. WideDate._cuid is now a full int, MaxId?
+
     /// <summary>
     /// Provides static methods to initialize a calendar or lookup an already
     /// initialized calendar.

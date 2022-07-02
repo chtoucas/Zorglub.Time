@@ -8,6 +8,7 @@ namespace Zorglub.Time.Hemerology
 
     // TODO(code): new WideDate struct.
     // Add adjustments and arithmetic as if it was a (y, m, d).
+    // Non-standard arithmetic.
     // Obsolete comments:
     // Methods provided by CalendarDate that do not apply to a WideDate:
     // - ToOrdinalDate()
@@ -27,8 +28,8 @@ namespace Zorglub.Time.Hemerology
     /// </summary>
     public readonly partial struct WideDate :
         IDate<WideDate>,
-        //IYearEndpointsProvider<WideDate>,
-        //IMonthEndpointsProvider<WideDate>,
+        IYearEndpointsProvider<WideDate>,
+        IMonthEndpointsProvider<WideDate>,
         //IAdjustableDate<WideDate>,
         ISubtractionOperators<WideDate, int, WideDate>
     {
@@ -67,11 +68,23 @@ namespace Zorglub.Time.Hemerology
         /// </summary>
         public WideDate(int year, int month, int day)
         {
-            WideCalendar.ValidateGregorianYearMonthDay(year, month, day);
+            WideCalendar.ValidateGregorianParts(year, month, day);
 
             _daysSinceEpoch = GregorianFormulae.CountDaysSinceEpoch(year, month, day);
             _cuid = (int)CalendarId.Gregorian;
         }
+
+        ///// <summary>
+        ///// Initializes a new instance of the <see cref="WideDate"/> struct to the specified
+        ///// ordinal date parts in the Gregorian calendar.
+        ///// </summary>
+        //public WideDate(int year, int dayOfYear)
+        //{
+        //    WideCalendar.ValidateGregorianOrdinalParts(year, dayOfYear);
+
+        //    _daysSinceEpoch = GregorianFormulae.GetStartOfYear(year) + dayOfYear - 1;
+        //    _cuid = (int)CalendarId.Gregorian;
+        //}
 
         /// <summary>
         /// Initializes a new instance of the <see cref="WideDate"/> struct.
@@ -159,8 +172,9 @@ namespace Zorglub.Time.Hemerology
             get
             {
                 var chr = Calendar;
-                chr.Schema.GetDateParts(_daysSinceEpoch, out int y, out int m, out int d);
-                return chr.Schema.IsIntercalaryDay(y, m, d);
+                var sch = chr.Schema;
+                sch.GetDateParts(_daysSinceEpoch, out int y, out int m, out int d);
+                return sch.IsIntercalaryDay(y, m, d);
             }
         }
 
@@ -170,8 +184,9 @@ namespace Zorglub.Time.Hemerology
             get
             {
                 var chr = Calendar;
-                chr.Schema.GetDateParts(_daysSinceEpoch, out int y, out int m, out int d);
-                return Calendar.Schema.IsSupplementaryDay(y, m, d);
+                var sch = chr.Schema;
+                sch.GetDateParts(_daysSinceEpoch, out int y, out int m, out int d);
+                return sch.IsSupplementaryDay(y, m, d);
             }
         }
 
@@ -253,16 +268,14 @@ namespace Zorglub.Time.Hemerology
         /// time, not UTC.
         /// </summary>
         [Pure]
-        public static WideDate Today() =>
-            WideCalendar.Gregorian.GetDate(DayNumber.Today());
+        public static WideDate Today() => new(DayNumber.Today());
 
         #endregion
         #region Conversions
 
         /// <inheritdoc />
         [Pure]
-        static WideDate IFixedDay<WideDate>.FromDayNumber(DayNumber dayNumber) =>
-            new(dayNumber);
+        static WideDate IFixedDay<WideDate>.FromDayNumber(DayNumber dayNumber) => new(dayNumber);
 
         /// <inheritdoc />
         [Pure]
@@ -330,9 +343,9 @@ namespace Zorglub.Time.Hemerology
         }
 
         #endregion
-        //#region Year and month boundaries
+        #region Year and month boundaries
 
-        //// REVIEW: on a déjà Calendar.GetStartOfYear()
+        //// REVIEW(api): on a déjà Calendar.GetStartOfYear()
         //// Le seul avantage à avoir ces méthodes ici est qu'on n'a pas à
         //// revalider les paramètres.
         //// On pourrait rajouter
@@ -340,39 +353,65 @@ namespace Zorglub.Time.Hemerology
         //// à l'API de ICalendar<T>. Cela nous permettrait de gérer le cas de
         //// DayNumber pour lequel on ne dispose pas de méthode équivalente.
 
-        //// FIXME(code): validation, use PartsFactory.
+        /// <inheritdoc />
+        [Pure]
+        public static WideDate GetStartOfYear(WideDate day)
+        {
+            var chr = day.Calendar;
+            var sch = chr.Schema;
+            int y = sch.GetYear(day._daysSinceEpoch, out _);
+            var startOfYear = sch.GetStartOfYear(y);
+            return new(startOfYear, day._cuid);
+        }
 
-        ///// <inheritdoc />
-        //[Pure]
-        //public static WideDate GetStartOfYear(WideDate day) => new(day._bin.StartOfYear, day._cuid);
+        /// <inheritdoc />
+        [Pure]
+        public static WideDate GetEndOfYear(WideDate day)
+        {
+            var chr = day.Calendar;
+            var sch = chr.Schema;
+            int y = sch.GetYear(day._daysSinceEpoch, out _);
+            var endOfYear = sch.GetEndOfYear(y);
+            return new(endOfYear, day._cuid);
+        }
 
-        ///// <inheritdoc />
-        //[Pure]
-        //public static WideDate GetEndOfYear(WideDate day)
-        //{
-        //    int y = day.Year;
-        //    //day.Calendar.Schema.GetEndOfYearParts(y, out int m, out int d);
-        //    var sch = day.Calendar.Schema;
-        //    int m = sch.CountMonthsInYear(y);
-        //    int d = sch.CountDaysInMonth(y, m);
-        //    return new WideDate(y, m, d, day._cuid);
-        //}
+        /// <inheritdoc />
+        [Pure]
+        public static WideDate GetStartOfMonth(WideDate day)
+        {
+            var chr = day.Calendar;
+            var sch = chr.Schema;
+            sch.GetDateParts(day._daysSinceEpoch, out int y, out int m, out _);
+            var startOfYear = sch.GetStartOfMonth(y, m);
+            return new(startOfYear, day._cuid);
+        }
 
-        ///// <inheritdoc />
-        //[Pure]
-        //public static WideDate GetStartOfMonth(WideDate day) => new(day._bin.StartOfMonth, day._cuid);
+        /// <inheritdoc />
+        [Pure]
+        public static WideDate GetEndOfMonth(WideDate day)
+        {
+            var chr = day.Calendar;
+            var sch = chr.Schema;
+            sch.GetDateParts(day._daysSinceEpoch, out int y, out int m, out _);
+            var startOfYear = sch.GetEndOfMonth(y, m);
+            return new(startOfYear, day._cuid);
+        }
 
-        ///// <inheritdoc />
-        //[Pure]
-        //public static WideDate GetEndOfMonth(WideDate day)
-        //{
-        //    day._bin.Unpack(out int y, out int m);
-        //    int d = day.Calendar.Schema.CountDaysInMonth(y, m);
-        //    return new WideDate(y, m, d, day._cuid);
-        //}
-
-        //#endregion
+        #endregion
         #region Adjustments
+
+        /// <summary>
+        /// Adjusts the day number field to the specified values, yielding a new calendar day.
+        /// </summary>
+        /// <exception cref="AoorException"><paramref name="newDayNumber"/> is outside the range of
+        /// supported values.</exception>
+        [Pure]
+        public WideDate WithDayNumber(DayNumber newDayNumber)
+        {
+            var chr = Calendar;
+            chr.Domain.Validate(newDayNumber);
+            return new WideDate(newDayNumber - chr.Epoch, Cuid);
+        }
 
         ///// <inheritdoc/>
         //[Pure]
@@ -629,9 +668,8 @@ namespace Zorglub.Time.Hemerology
         public WideDate NextDay()
         {
             var chr = Calendar;
-            return chr.Epoch + _daysSinceEpoch == chr.Domain.Max
-                ? Throw.DateOverflow<WideDate>()
-                : new WideDate(_daysSinceEpoch + 1, Cuid);
+            chr.Domain.CheckUpperBound(chr.Epoch + _daysSinceEpoch);
+            return new WideDate(_daysSinceEpoch + 1, Cuid);
         }
 
         /// <inheritdoc />
@@ -639,9 +677,8 @@ namespace Zorglub.Time.Hemerology
         public WideDate PreviousDay()
         {
             var chr = Calendar;
-            return chr.Epoch + _daysSinceEpoch == chr.Domain.Min
-                ? Throw.DateOverflow<WideDate>()
-                : new WideDate(_daysSinceEpoch - 1, Cuid);
+            chr.Domain.CheckLowerBound(chr.Epoch + _daysSinceEpoch);
+            return new WideDate(_daysSinceEpoch - 1, Cuid);
         }
     }
 }
