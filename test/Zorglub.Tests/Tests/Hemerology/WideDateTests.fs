@@ -24,7 +24,7 @@ module Bundles =
     //[<Sealed>]
     //[<TestExcludeFrom(TestExcludeFrom.Regular)>]
     //type AdjustableDateFacts() =
-    //    inherit IAdjustableDateFacts<WideDate0, UnboundedGregorianDataSet>(WideCalendar.Gregorian.SupportedYears)
+    //    inherit IAdjustableDateFacts<WideDate, UnboundedGregorianDataSet>(WideCalendar.Gregorian.SupportedYears)
 
     //    override __.GetDate(y, m, d) = WideCalendar.Gregorian.GetWideDate(y, m, d)
 

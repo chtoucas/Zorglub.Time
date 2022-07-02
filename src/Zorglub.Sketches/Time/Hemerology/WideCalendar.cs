@@ -81,9 +81,6 @@ namespace Zorglub.Time.Hemerology
 
             _epochDayOfWeek = (int)Epoch.DayOfWeek;
 
-            DayProvider = new MinMaxYearDayProvider(scope);
-            YearOverflowChecker = scope.YearOverflowChecker;
-
             MinMaxDate = from dayNumber in scope.Domain.Endpoints select new WideDate(dayNumber - Epoch, id);
         }
 
@@ -155,19 +152,9 @@ namespace Zorglub.Time.Hemerology
         public OrderedPair<WideDate> MinMaxDate { get; }
 
         /// <summary>
-        /// Gets a provider for day numbers in a year or a month.
-        /// </summary>
-        public IDayProvider<DayNumber> DayProvider { get; }
-
-        /// <summary>
         /// Gets the ID of the current instance.
         /// </summary>
         internal int Id { get; }
-
-        /// <summary>
-        /// Gets the checker for overflows of the range of years.
-        /// </summary>
-        internal IOverflowChecker<int> YearOverflowChecker { get; }
 
         /// <summary>
         /// Returns a string representation of the current instance.

@@ -6,7 +6,7 @@ namespace Zorglub.Time.Hemerology
     using Zorglub.Time.Core;
     using Zorglub.Time.Core.Schemas;
 
-    // TODO(code): serialization, adjustments, non-standard arithmetic.
+    // TODO(code): ordinal ctor, serialization, adjustments, non-standard arithmetic.
 
     // WideDate is modeled after CalendarDay, not CalendarDate.
     // - faster standard arithmetic
