@@ -24,7 +24,7 @@ open Xunit
 let private verifyThatPreValidatorIs<'a> (sch: ICalendricalSchema) =
     sch.PreValidator |> is<'a>
 
-let private verifyThatArithmeticIs<'a> (sch: ICalendricalSchema) =
+let private verifyThatArithmeticIs<'a> (sch: SystemSchema) =
     sch.Arithmetic |> is<'a>
 
 [<Sealed>]

@@ -141,11 +141,6 @@ namespace Zorglub.Time.Core
         /// Gets the pre-validator for this schema.
         /// </summary>
         ICalendricalPreValidator PreValidator { get; }
-
-        /// <summary>
-        /// Gets the arithmetic for this schema.
-        /// </summary>
-        ICalendricalArithmetic Arithmetic { get; }
     }
 
     public partial interface ICalendricalSchema // Counting months and days within a year or a month

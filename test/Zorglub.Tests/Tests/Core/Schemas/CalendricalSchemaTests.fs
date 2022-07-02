@@ -50,7 +50,7 @@ module Prelude =
 
     [<Fact>]
     let ``Property Arithmetic: default value, repeated`` () =
-        let sch = new FauxCalendricalSchema()
+        let sch = new FauxSystemSchema()
 
         let arith1 = sch.Arithmetic
         arith1 |> is<PlainArithmetic>

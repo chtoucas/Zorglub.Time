@@ -47,9 +47,6 @@ namespace Zorglub.Time.Core
         /// <inheritdoc />
         public ICalendricalPreValidator PreValidator => Schema.PreValidator;
 
-        /// <inheritdoc />
-        public ICalendricalArithmetic Arithmetic => Schema.Arithmetic;
-
         /// <summary>
         /// Gets the original <see cref="ICalendricalSchema"/>.
         /// </summary>

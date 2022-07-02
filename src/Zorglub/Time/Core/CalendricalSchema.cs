@@ -119,6 +119,8 @@ namespace Zorglub.Time.Core
     /// </summary>
     public abstract partial class CalendricalSchema : ICalendricalSchemaPlus
     {
+        private readonly MonthHelper _monthHelper;
+
         /// <summary>
         /// Called from constructors in derived classes to initialize the
         /// <see cref="CalendricalSchema"/> class.
@@ -133,6 +135,8 @@ namespace Zorglub.Time.Core
             SupportedYears = supportedYears;
             MinDaysInYear = minDaysInYear;
             MinDaysInMonth = minDaysInMonth;
+
+            _monthHelper = MonthHelper.Create(this);
         }
 
         private CalendricalProfile? _profile;
@@ -193,8 +197,6 @@ namespace Zorglub.Time.Core
     //   MinDaysInMonth
     // A IsRegular()
     //   PreValidator (+ init)
-    //   Arithmetic (+ init)
-    //   MonthHelper
     public partial class CalendricalSchema // Properties
     {
         /// <inheritdoc />
@@ -245,28 +247,6 @@ namespace Zorglub.Time.Core
                 _validator = value;
             }
         }
-
-        // Covariant return type does not work when a property (Arithmetic here),
-        // is a property from an interface or has a setter.
-
-        ICalendricalArithmetic ICalendricalSchema.Arithmetic => Arithmetic;
-
-        private CalendricalArithmetic? _arithmetic;
-        /// <summary>
-        /// Gets or initializes the arithmetic for this schema.
-        /// </summary>
-        public CalendricalArithmetic Arithmetic
-        {
-            get => _arithmetic ??= CalendricalArithmetic.CreateDefault(this);
-            protected init
-            {
-                Requires.NotNull(value);
-                _arithmetic = value;
-            }
-        }
-
-        private MonthHelper? _monthHelper;
-        private MonthHelper MonthHelper => _monthHelper ??= MonthHelper.Create(this);
     }
 
     // Year, month or day infos.
@@ -554,11 +534,11 @@ namespace Zorglub.Time.Core
     {
         /// <inheritdoc />
         [Pure]
-        public int GetStartOfYearInMonths(int y) => MonthHelper.GetStartOfYear(y);
+        public int GetStartOfYearInMonths(int y) => _monthHelper.GetStartOfYear(y);
 
         /// <inheritdoc />
         [Pure]
-        public int GetEndOfYearInMonths(int y) => MonthHelper.GetEndOfYear(y);
+        public int GetEndOfYearInMonths(int y) => _monthHelper.GetEndOfYear(y);
 
         /// <inheritdoc />
         // Even if it is just CountDaysSinceEpoch(y, 1, 1), this method MUST

@@ -384,8 +384,6 @@ namespace Zorglub.Time.Core
 
         /// <inheritdoc />
         public abstract ICalendricalPreValidator PreValidator { get; }
-        /// <inheritdoc />
-        public abstract ICalendricalArithmetic Arithmetic { get; }
 
 #pragma warning disable CA1033 // Interface methods should be callable by child types (Design)
 

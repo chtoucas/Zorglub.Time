@@ -7,7 +7,8 @@ namespace Zorglub.Time.Core
     using Zorglub.Time.Core.Intervals;
     using Zorglub.Time.Core.Schemas;
 
-    // FIXME(api): Can only work reliably with SystemSchema.
+    // FIXME(api): Can only work reliably with SystemSchema. We still use
+    // CreateDefault() in a few places where we should not.
     // Better explanation for the meaning of MinMinDaysInMonth and MaxDaysViaDayOfMonth.
 
     // Keeping this class internal ensures that we have complete control on its

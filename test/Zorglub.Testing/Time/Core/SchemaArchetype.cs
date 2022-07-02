@@ -33,6 +33,4 @@ public sealed class SchemaArchetype : ArchetypalSchema
 
     /// <inheritdoc />
     public override ICalendricalPreValidator PreValidator => Schema.PreValidator;
-    /// <inheritdoc />
-    public override ICalendricalArithmetic Arithmetic => Schema.Arithmetic;
 }
