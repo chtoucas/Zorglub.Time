@@ -65,10 +65,10 @@ public class InterconversionBenchmark : BenchmarkBase
         return (y, m, d);
     }
 
-    [Benchmark(Description = "WideDate  (Y)")]
-    public (int, int, int) WithWideDate()
+    [Benchmark(Description = "WideDate0 (Y)")]
+    public (int, int, int) WithWideDate0()
     {
-        WideDate start = WideCalendar.Gregorian.GetWideDate(Year, Month, Day);
+        WideDate0 start = WideCalendar.Gregorian.GetWideDate(Year, Month, Day);
         var (y, m, d) = start.WithCalendar(WideCalendar.Julian);
         return (y, m, d);
     }

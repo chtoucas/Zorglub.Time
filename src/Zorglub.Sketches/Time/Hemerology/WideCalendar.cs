@@ -32,7 +32,7 @@ namespace Zorglub.Time.Hemerology
     /// <summary>
     /// Represents a wide calendar.
     /// </summary>
-    public partial class WideCalendar : BasicCalendar, ICalendar<WideDate>
+    public partial class WideCalendar : BasicCalendar, ICalendar<WideDate0>
     {
         /// <summary>
         /// Represents the integer value of the day of the week of the epoch of the calendar.
@@ -82,7 +82,7 @@ namespace Zorglub.Time.Hemerology
             DayProvider = new MinMaxYearDayProvider(scope);
             YearOverflowChecker = scope.YearOverflowChecker;
 
-            MinMaxDate = from parts in scope.MinMaxDateParts select new WideDate(parts, id);
+            MinMaxDate = from parts in scope.MinMaxDateParts select new WideDate0(parts, id);
         }
 
         #region System calendars
@@ -148,9 +148,9 @@ namespace Zorglub.Time.Hemerology
         public bool IsUserDefined { get; }
 
         /// <summary>
-        /// Gets the pair of earliest and latest supported <see cref="WideDate"/>.
+        /// Gets the pair of earliest and latest supported <see cref="WideDate0"/>.
         /// </summary>
-        public OrderedPair<WideDate> MinMaxDate { get; }
+        public OrderedPair<WideDate0> MinMaxDate { get; }
 
         /// <summary>
         /// Gets a provider for day numbers in a year or a month.
@@ -204,19 +204,19 @@ namespace Zorglub.Time.Hemerology
     public partial class WideCalendar // Factories
     {
         /// <summary>
-        /// Creates a new instance of the <see cref="WideDate"/> struct from
+        /// Creates a new instance of the <see cref="WideDate0"/> struct from
         /// its components.
         /// </summary>
         [Pure]
-        public WideDate GetWideDate(int year, int month, int day)
+        public WideDate0 GetWideDate(int year, int month, int day)
         {
             Scope.ValidateYearMonthDay(year, month, day);
-            return new WideDate(year, month, day, Id);
+            return new WideDate0(year, month, day, Id);
         }
 
         /// <inheritdoc />
         [Pure]
-        public WideDate Today() => GetWideDateOn(DayNumber.Today());
+        public WideDate0 Today() => GetWideDateOn(DayNumber.Today());
     }
 
     public partial class WideCalendar // Conversions
@@ -227,11 +227,11 @@ namespace Zorglub.Time.Hemerology
         /// <exception cref="AoorException">The ordinal date is either invalid or outside the range
         /// of supported dates.</exception>
         [Pure]
-        public WideDate GetWideDateOn(int year, int dayOfYear)
+        public WideDate0 GetWideDateOn(int year, int dayOfYear)
         {
             Scope.ValidateOrdinal(year, dayOfYear);
             int m = Schema.GetMonth(year, dayOfYear, out int d);
-            return new WideDate(new Yemoda(year, m, d), Id);
+            return new WideDate0(new Yemoda(year, m, d), Id);
         }
 
         /// <summary>
@@ -240,11 +240,11 @@ namespace Zorglub.Time.Hemerology
         /// <exception cref="AoorException"><paramref name="dayNumber"/> is outside the range of
         /// values supported by this calendar.</exception>
         [Pure]
-        public WideDate GetWideDateOn(DayNumber dayNumber)
+        public WideDate0 GetWideDateOn(DayNumber dayNumber)
         {
             Domain.Validate(dayNumber);
             Schema.GetDateParts(dayNumber - Epoch, out int y, out int m, out int d);
-            return new WideDate(new Yemoda(y, m, d), Id);
+            return new WideDate0(new Yemoda(y, m, d), Id);
         }
 
         /// <summary>
@@ -264,14 +264,14 @@ namespace Zorglub.Time.Hemerology
     {
         /// <inheritdoc />
         [Pure]
-        public IEnumerable<WideDate> GetDaysInYear(int year)
+        public IEnumerable<WideDate0> GetDaysInYear(int year)
         {
             // Check arg eagerly.
             Scope.ValidateYear(year);
 
             return Iterator();
 
-            IEnumerable<WideDate> Iterator()
+            IEnumerable<WideDate0> Iterator()
             {
                 int monthsInYear = Schema.CountMonthsInYear(year);
 
@@ -281,7 +281,7 @@ namespace Zorglub.Time.Hemerology
 
                     for (int d = 1; d <= daysInMonth; d++)
                     {
-                        yield return new WideDate(year, m, d, Id);
+                        yield return new WideDate0(year, m, d, Id);
                     }
                 }
             }
@@ -289,58 +289,58 @@ namespace Zorglub.Time.Hemerology
 
         /// <inheritdoc />
         [Pure]
-        public IEnumerable<WideDate> GetDaysInMonth(int year, int month)
+        public IEnumerable<WideDate0> GetDaysInMonth(int year, int month)
         {
             // Check arg eagerly.
             Scope.ValidateYearMonth(year, month);
 
             return Iterator();
 
-            IEnumerable<WideDate> Iterator()
+            IEnumerable<WideDate0> Iterator()
             {
                 int daysInMonth = Schema.CountDaysInMonth(year, month);
 
                 for (int d = 1; d <= daysInMonth; d++)
                 {
-                    yield return new WideDate(year, month, d, Id);
+                    yield return new WideDate0(year, month, d, Id);
                 }
             }
         }
 
         /// <inheritdoc />
         [Pure]
-        public WideDate GetStartOfYear(int year)
+        public WideDate0 GetStartOfYear(int year)
         {
             Scope.ValidateYear(year);
-            return new WideDate(Yemoda.AtStartOfYear(year), Id);
+            return new WideDate0(Yemoda.AtStartOfYear(year), Id);
         }
 
         /// <inheritdoc />
         [Pure]
-        public WideDate GetEndOfYear(int year)
+        public WideDate0 GetEndOfYear(int year)
         {
             Scope.ValidateYear(year);
             //Schema.GetEndOfYearParts(year, out int m, out int d);
             int m = Schema.CountMonthsInYear(year);
             int d = Schema.CountDaysInMonth(year, m);
-            return new WideDate(new Yemoda(year, m, d), Id);
+            return new WideDate0(new Yemoda(year, m, d), Id);
         }
 
         /// <inheritdoc />
         [Pure]
-        public WideDate GetStartOfMonth(int year, int month)
+        public WideDate0 GetStartOfMonth(int year, int month)
         {
             Scope.ValidateYearMonth(year, month);
-            return new WideDate(Yemoda.AtStartOfMonth(year, month), Id);
+            return new WideDate0(Yemoda.AtStartOfMonth(year, month), Id);
         }
 
         /// <inheritdoc />
         [Pure]
-        public WideDate GetEndOfMonth(int year, int month)
+        public WideDate0 GetEndOfMonth(int year, int month)
         {
             Scope.ValidateYearMonth(year, month);
             int d = Schema.CountDaysInMonth(year, month);
-            return new WideDate(year, month, d, Id);
+            return new WideDate0(year, month, d, Id);
         }
     }
 
@@ -385,7 +385,7 @@ namespace Zorglub.Time.Hemerology
         }
 
         [Pure]
-        internal DayNumber GetDayNumber(WideDate date)
+        internal DayNumber GetDayNumber(WideDate0 date)
         {
             Debug.Assert(date.Cuid == Id);
 
@@ -394,7 +394,7 @@ namespace Zorglub.Time.Hemerology
         }
 
         [Pure]
-        internal DayOfWeek GetDayOfWeek(WideDate date)
+        internal DayOfWeek GetDayOfWeek(WideDate0 date)
         {
             Debug.Assert(date.Cuid == Id);
 
