@@ -70,10 +70,10 @@ public class TodayBenchmark
         return (y, m, d, today.DayOfWeek);
     }
 
-    [Benchmark(Description = "WideDate0 (Y)")]
-    public (int, int, int, DayOfWeek) WithWideDate0()
+    [Benchmark(Description = "WideDate (Y)")]
+    public (int, int, int, DayOfWeek) WithWideDate()
     {
-        WideDate0 today = WideCalendar.Gregorian.Today();
+        WideDate today = WideCalendar.Gregorian.Today();
         var (y, m, d) = today;
 
         return (y, m, d, today.DayOfWeek);

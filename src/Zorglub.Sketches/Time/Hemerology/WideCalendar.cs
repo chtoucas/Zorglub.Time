@@ -3,6 +3,8 @@
 
 namespace Zorglub.Time.Hemerology
 {
+    using System.Linq;
+
     using Zorglub.Time.Core;
     using Zorglub.Time.Core.Schemas;
 
@@ -32,7 +34,7 @@ namespace Zorglub.Time.Hemerology
     /// <summary>
     /// Represents a wide calendar.
     /// </summary>
-    public partial class WideCalendar : BasicCalendar, ICalendar<WideDate0>
+    public partial class WideCalendar : BasicCalendar, ICalendar<WideDate>
     {
         /// <summary>
         /// Represents the integer value of the day of the week of the epoch of the calendar.
@@ -241,6 +243,10 @@ namespace Zorglub.Time.Hemerology
             return new WideDate(daysSinceEpoch, Id);
         }
 
+        /// <inheritdoc />
+        [Pure]
+        public WideDate Today() => GetDate(DayNumber.Today());
+
         /// <summary>
         /// Creates a new instance of the <see cref="WideDate0"/> struct from its components.
         /// </summary>
@@ -250,10 +256,6 @@ namespace Zorglub.Time.Hemerology
             Scope.ValidateYearMonthDay(year, month, day);
             return new WideDate0(year, month, day, Id);
         }
-
-        /// <inheritdoc />
-        [Pure]
-        public WideDate0 Today() => GetWideDateOn(DayNumber.Today());
 
         /// <summary>
         /// Converts the specified ordinal date to a date object.
@@ -286,83 +288,82 @@ namespace Zorglub.Time.Hemerology
     {
         /// <inheritdoc />
         [Pure]
-        public IEnumerable<WideDate0> GetDaysInYear(int year)
+        public IEnumerable<WideDate> GetDaysInYear(int year)
         {
             // Check arg eagerly.
             Scope.ValidateYear(year);
 
             return Iterator();
 
-            IEnumerable<WideDate0> Iterator()
+            IEnumerable<WideDate> Iterator()
             {
-                int monthsInYear = Schema.CountMonthsInYear(year);
+                int cuid = Id;
+                var sch = Schema;
+                int startOfYear = sch.GetStartOfYear(year);
+                int daysInYear = sch.CountDaysInYear(year);
 
-                for (int m = 1; m <= monthsInYear; m++)
-                {
-                    int daysInMonth = Schema.CountDaysInMonth(year, m);
-
-                    for (int d = 1; d <= daysInMonth; d++)
-                    {
-                        yield return new WideDate0(year, m, d, Id);
-                    }
-                }
+                return from daysSinceEpoch
+                       in Enumerable.Range(startOfYear, daysInYear)
+                       select new WideDate(daysSinceEpoch, cuid);
             }
         }
 
         /// <inheritdoc />
         [Pure]
-        public IEnumerable<WideDate0> GetDaysInMonth(int year, int month)
+        public IEnumerable<WideDate> GetDaysInMonth(int year, int month)
         {
             // Check arg eagerly.
             Scope.ValidateYearMonth(year, month);
 
             return Iterator();
 
-            IEnumerable<WideDate0> Iterator()
+            IEnumerable<WideDate> Iterator()
             {
-                int daysInMonth = Schema.CountDaysInMonth(year, month);
+                var cuid = Id;
+                var sch = Schema;
+                int startOfMonth = sch.GetStartOfMonth(year, month);
+                int daysInMonth = sch.CountDaysInMonth(year, month);
 
-                for (int d = 1; d <= daysInMonth; d++)
-                {
-                    yield return new WideDate0(year, month, d, Id);
-                }
+                return from daysSinceEpoch
+                       in Enumerable.Range(startOfMonth, daysInMonth)
+                       select new WideDate(daysSinceEpoch, cuid);
             }
         }
 
         /// <inheritdoc />
         [Pure]
-        public WideDate0 GetStartOfYear(int year)
+        public WideDate GetStartOfYear(int year)
         {
             Scope.ValidateYear(year);
-            return new WideDate0(Yemoda.AtStartOfYear(year), Id);
+            int daysSinceEpoch = Schema.GetStartOfYear(year);
+            return new WideDate(daysSinceEpoch, Id);
         }
 
         /// <inheritdoc />
         [Pure]
-        public WideDate0 GetEndOfYear(int year)
+        public WideDate GetEndOfYear(int year)
         {
             Scope.ValidateYear(year);
-            //Schema.GetEndOfYearParts(year, out int m, out int d);
-            int m = Schema.CountMonthsInYear(year);
-            int d = Schema.CountDaysInMonth(year, m);
-            return new WideDate0(new Yemoda(year, m, d), Id);
+            int daysSinceEpoch = Schema.GetEndOfYear(year);
+            return new WideDate(daysSinceEpoch, Id);
         }
 
         /// <inheritdoc />
         [Pure]
-        public WideDate0 GetStartOfMonth(int year, int month)
+        public WideDate GetStartOfMonth(int year, int month)
         {
             Scope.ValidateYearMonth(year, month);
-            return new WideDate0(Yemoda.AtStartOfMonth(year, month), Id);
+            int daysSinceEpoch = Schema.GetStartOfMonth(year, month);
+            return new WideDate(daysSinceEpoch, Id);
         }
 
         /// <inheritdoc />
         [Pure]
-        public WideDate0 GetEndOfMonth(int year, int month)
+        public WideDate GetEndOfMonth(int year, int month)
         {
             Scope.ValidateYearMonth(year, month);
-            int d = Schema.CountDaysInMonth(year, month);
-            return new WideDate0(year, month, d, Id);
+            int daysSinceEpoch = Schema.GetEndOfMonth(year, month);
+            return new WideDate(daysSinceEpoch, Id);
         }
     }
 

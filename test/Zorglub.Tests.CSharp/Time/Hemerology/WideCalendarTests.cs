@@ -7,15 +7,15 @@ using Zorglub.Testing.Data.Unbounded;
 using Zorglub.Time.Simple;
 
 public sealed partial class WideCalendarTests :
-    ICalendarTFacts<WideDate0, WideCalendar, UnboundedGregorianDataSet>
+    ICalendarTFacts<WideDate, WideCalendar, UnboundedGregorianDataSet>
 {
     public WideCalendarTests() : this(WideCalendar.Gregorian) { }
 
     private WideCalendarTests(WideCalendar calendar) : base(calendar) { }
 
-    protected override WideDate0 GetDate(int y, int m, int d) => CalendarUT.GetWideDate(y, m, d);
-    protected override WideDate0 GetDate(int y, int doy) => CalendarUT.GetWideDateOn(y, doy);
-    protected override WideDate0 GetDate(DayNumber dayNumber) => CalendarUT.GetWideDateOn(dayNumber);
+    protected override WideDate GetDate(int y, int m, int d) => CalendarUT.GetDate(y, m, d);
+    protected override WideDate GetDate(int y, int doy) => CalendarUT.GetDate(y, doy);
+    protected override WideDate GetDate(DayNumber dayNumber) => CalendarUT.GetDate(dayNumber);
 }
 
 public partial class WideCalendarTests // Properties
