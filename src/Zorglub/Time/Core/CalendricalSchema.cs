@@ -111,14 +111,13 @@ namespace Zorglub.Time.Core
     // -----------
     // A : abstract
     // V : virtual
-    // + : part of ICalendricalSchemaPlus
 
     #endregion
 
     /// <summary>
     /// Represents a calendrical schema and provides a base for derived classes.
     /// </summary>
-    public abstract partial class CalendricalSchema : ICalendricalSchema, ICalendricalSchemaPlus
+    public abstract partial class CalendricalSchema : ICalendricalSchemaPlus
     {
         /// <summary>
         /// Called from constructors in derived classes to initialize the
@@ -193,6 +192,9 @@ namespace Zorglub.Time.Core
     //   MinDaysInYear
     //   MinDaysInMonth
     // A IsRegular()
+    //   PreValidator (+ init)
+    //   Arithmetic (+ init)
+    //   MonthHelper
     public partial class CalendricalSchema // Properties
     {
         /// <inheritdoc />
@@ -228,8 +230,9 @@ namespace Zorglub.Time.Core
             _monthDomain ??=
             new Range<int>(SupportedYears.Endpoints.Select(GetStartOfYearInMonths, GetEndOfYearInMonths));
 
-        private MonthHelper? _monthHelper;
-        private MonthHelper MonthHelper => _monthHelper ??= MonthHelper.Create(this);
+        /// <inheritdoc />
+        [Pure]
+        public abstract bool IsRegular(out int monthsInYear);
 
         private ICalendricalPreValidator? _validator;
         /// <inheritdoc />
@@ -262,9 +265,8 @@ namespace Zorglub.Time.Core
             }
         }
 
-        /// <inheritdoc />
-        [Pure]
-        public abstract bool IsRegular(out int monthsInYear);
+        private MonthHelper? _monthHelper;
+        private MonthHelper MonthHelper => _monthHelper ??= MonthHelper.Create(this);
     }
 
     // Year, month or day infos.
@@ -300,8 +302,6 @@ namespace Zorglub.Time.Core
     // A CountDaysInYear(y)
     // A CountDaysInMonth(y, m)
     // A CountDaysInYearBeforeMonth(y, m)
-    //
-    // ICalendricalSchemaPlus:
     //   CountDaysInYearAfterMonth(y, m)
     //   CountDaysInYearBefore(y, m, d)
     //   CountDaysInYearBefore(y, doy)
