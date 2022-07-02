@@ -764,8 +764,6 @@ Zorglub.Time.Core.CalendricalArithmetic.SupportedYears.get -> Zorglub.Time.Core.
 Zorglub.Time.Core.CalendricalConstants
 Zorglub.Time.Core.CalendricalSchema
 Zorglub.Time.Core.CalendricalSchema.Algorithm.get -> Zorglub.Time.CalendricalAlgorithm
-Zorglub.Time.Core.CalendricalSchema.Arithmetic.get -> Zorglub.Time.Core.CalendricalArithmetic!
-Zorglub.Time.Core.CalendricalSchema.Arithmetic.init -> void
 Zorglub.Time.Core.CalendricalSchema.CalendricalSchema(Zorglub.Time.Core.Intervals.Range<int> supportedYears, int minDaysInYear, int minDaysInMonth) -> void
 Zorglub.Time.Core.CalendricalSchema.CountDaysInMonthAfter(int daysSinceEpoch) -> int
 Zorglub.Time.Core.CalendricalSchema.CountDaysInMonthAfter(int y, int doy) -> int
@@ -875,7 +873,6 @@ Zorglub.Time.Core.ICalendricalPreValidator.ValidateDayOfYear(int y, int dayOfYea
 Zorglub.Time.Core.ICalendricalPreValidator.ValidateMonth(int y, int month, string? paramName = null) -> void
 Zorglub.Time.Core.ICalendricalPreValidator.ValidateMonthDay(int y, int month, int day, string? paramName = null) -> void
 Zorglub.Time.Core.ICalendricalSchema
-Zorglub.Time.Core.ICalendricalSchema.Arithmetic.get -> Zorglub.Time.Core.ICalendricalArithmetic!
 Zorglub.Time.Core.ICalendricalSchema.CountDaysInYearBeforeMonth(int y, int m) -> int
 Zorglub.Time.Core.ICalendricalSchema.CountDaysSinceEpoch(int y, int doy) -> int
 Zorglub.Time.Core.ICalendricalSchema.CountDaysSinceEpoch(int y, int m, int d) -> int
@@ -1033,6 +1030,7 @@ Zorglub.Time.Core.Schemas.TropicaliaSchema
 Zorglub.Time.Core.Schemas.TropicalistaSchema
 Zorglub.Time.Core.Schemas.TropicalistaSchema.MonthsInYear.get -> int
 Zorglub.Time.Core.SystemSchema
+Zorglub.Time.Core.SystemSchema.Arithmetic.get -> Zorglub.Time.Core.CalendricalArithmetic!
 Zorglub.Time.Core.SystemSchema.GetDateParts(int daysSinceEpoch) -> Zorglub.Time.Core.Yemoda
 Zorglub.Time.Core.SystemSchema.GetDateParts(int y, int doy) -> Zorglub.Time.Core.Yemoda
 Zorglub.Time.Core.SystemSchema.GetDatePartsAtEndOfMonth(int y, int m) -> Zorglub.Time.Core.Yemoda
