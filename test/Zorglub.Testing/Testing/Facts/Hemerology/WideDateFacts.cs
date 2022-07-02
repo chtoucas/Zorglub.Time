@@ -8,10 +8,10 @@ using Zorglub.Time.Core.Intervals;
 using Zorglub.Time.Hemerology;
 
 /// <summary>
-/// Provides facts about <see cref="WideDate0"/>.
+/// Provides facts about <see cref="WideDate"/>.
 /// </summary>
 public abstract partial class WideDateFacts<TDataSet> :
-    IDateFacts<WideDate0, TDataSet>
+    IDateFacts<WideDate, TDataSet>
     where TDataSet : ICalendarDataSet, ISingleton<TDataSet>
 {
     protected WideDateFacts(WideCalendar calendar, WideCalendar otherCalendar)
@@ -38,10 +38,10 @@ public abstract partial class WideDateFacts<TDataSet> :
     protected WideCalendar CalendarUT { get; }
     protected WideCalendar OtherCalendar { get; }
 
-    protected sealed override WideDate0 MinDate { get; }
-    protected sealed override WideDate0 MaxDate { get; }
+    protected sealed override WideDate MinDate { get; }
+    protected sealed override WideDate MaxDate { get; }
 
-    protected sealed override WideDate0 GetDate(int y, int m, int d) => CalendarUT.GetWideDate(y, m, d);
+    protected sealed override WideDate GetDate(int y, int m, int d) => CalendarUT.GetDate(y, m, d);
 
     private sealed record BaseCtorArgs(Range<int> SupportedYears, Range<DayNumber> Domain)
     {

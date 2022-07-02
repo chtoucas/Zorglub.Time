@@ -115,7 +115,7 @@ public static class WideCatalogTests
 
     [Fact]
     public static void Add_NullKey() =>
-        Assert.ThrowsAnexn("name",
+        Assert.ThrowsAnexn("key",
             () => WideCatalog.Add(null!, new GregorianSchema(), default, false));
 
     [Fact]

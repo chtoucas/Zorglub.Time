@@ -82,7 +82,7 @@ namespace Zorglub.Time.Hemerology
             DayProvider = new MinMaxYearDayProvider(scope);
             YearOverflowChecker = scope.YearOverflowChecker;
 
-            MinMaxDate = from parts in scope.MinMaxDateParts select new WideDate0(parts, id);
+            MinMaxDate = from dayNumber in scope.Domain.Endpoints select new WideDate(dayNumber - Epoch, id);
         }
 
         #region System calendars
@@ -148,9 +148,9 @@ namespace Zorglub.Time.Hemerology
         public bool IsUserDefined { get; }
 
         /// <summary>
-        /// Gets the pair of earliest and latest supported <see cref="WideDate0"/>.
+        /// Gets the pair of earliest and latest supported <see cref="WideDate"/>.
         /// </summary>
-        public OrderedPair<WideDate0> MinMaxDate { get; }
+        public OrderedPair<WideDate> MinMaxDate { get; }
 
         /// <summary>
         /// Gets a provider for day numbers in a year or a month.

@@ -667,18 +667,20 @@ namespace Zorglub.Time.Hemerology
         [Pure]
         public WideDate NextDay()
         {
+            int daysSinceEpoch = _daysSinceEpoch + 1;
             var chr = Calendar;
-            chr.Domain.CheckUpperBound(chr.Epoch + _daysSinceEpoch);
-            return new WideDate(_daysSinceEpoch + 1, Cuid);
+            chr.Domain.CheckUpperBound(chr.Epoch + daysSinceEpoch);
+            return new WideDate(daysSinceEpoch, Cuid);
         }
 
         /// <inheritdoc />
         [Pure]
         public WideDate PreviousDay()
         {
+            int daysSinceEpoch = _daysSinceEpoch - 1;
             var chr = Calendar;
-            chr.Domain.CheckLowerBound(chr.Epoch + _daysSinceEpoch);
-            return new WideDate(_daysSinceEpoch - 1, Cuid);
+            chr.Domain.CheckLowerBound(chr.Epoch + daysSinceEpoch);
+            return new WideDate(daysSinceEpoch, Cuid);
         }
     }
 }
