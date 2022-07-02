@@ -43,7 +43,7 @@ namespace Zorglub.Time.Hemerology
         private readonly int _cuid; // 4 bytes
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="CalendarDay"/> struct to the specified day
+        /// Initializes a new instance of the <see cref="WideDate"/> struct to the specified day
         /// number in the Gregorian calendar.
         /// <para>To create an instance for another calendar, see
         /// <see cref="WideCalendar.GetDate(DayNumber)"/>.</para>
