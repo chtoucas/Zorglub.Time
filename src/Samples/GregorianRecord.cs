@@ -33,6 +33,13 @@ public readonly partial record struct GregorianRecord :
 
 public partial record struct GregorianRecord
 {
+    private static readonly CalendricalSchema Schema = __.Schema;
+    private static readonly ICalendricalPartsFactory PartsFactory = __.PartsFactory;
+    private static readonly PartsCreator PartsCreator = __.PartsCreator;
+    private static readonly ICalendricalArithmetic Arithmetic = __.Arithmetic;
+    private static readonly ICalendricalPreValidator PreValidator = __.PreValidator;
+    private static readonly Range<int> Domain = __.Domain;
+
     public GregorianRecord(int year, int month, int day)
     {
         if (SupportedYears.Contains(year) == false) throw new ArgumentOutOfRangeException(nameof(year));
@@ -47,13 +54,6 @@ public partial record struct GregorianRecord
     {
         (Year, Month, Day) = ymd;
     }
-
-    private static CalendricalSchema Schema { get; } = __.Schema;
-    private static ICalendricalPartsFactory PartsFactory { get; } = __.PartsFactory;
-    private static PartsCreator PartsCreator { get; } = __.PartsCreator;
-    private static ICalendricalArithmetic Arithmetic { get; } = __.Arithmetic;
-    private static ICalendricalPreValidator PreValidator { get; } = Schema.PreValidator;
-    private static Range<int> Domain { get; } = Schema.Domain;
 
     public static Range<int> SupportedYears => Schema.SupportedYears;
     public static GregorianRecord MinValue { get; } = new(PartsFactory.GetDatePartsAtStartOfYear(SupportedYears.Min));

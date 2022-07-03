@@ -43,6 +43,12 @@ public readonly partial struct GregorianTriple :
 
 public partial struct GregorianTriple
 {
+    private static readonly CalendricalSchema Schema = __.Schema;
+    private static readonly ICalendricalPartsFactory PartsFactory = __.PartsFactory;
+    private static readonly PartsCreator PartsCreator = __.PartsCreator;
+    private static readonly ICalendricalArithmetic Arithmetic = __.Arithmetic;
+    private static readonly Range<int> Domain = __.Domain;
+
     private readonly Yemoda _bin;
 
     public GregorianTriple(int year, int month, int day)
@@ -54,12 +60,6 @@ public partial struct GregorianTriple
     {
         _bin = bin;
     }
-
-    private static CalendricalSchema Schema { get; } = __.Schema;
-    private static ICalendricalPartsFactory PartsFactory { get; } = __.PartsFactory;
-    private static PartsCreator PartsCreator { get; } = __.PartsCreator;
-    private static ICalendricalArithmetic Arithmetic { get; } = __.Arithmetic;
-    private static Range<int> Domain { get; } = Schema.Domain;
 
     public static Range<int> SupportedYears => Schema.SupportedYears;
     public static GregorianTriple MinValue { get; } = new(PartsFactory.GetDatePartsAtStartOfYear(SupportedYears.Min));

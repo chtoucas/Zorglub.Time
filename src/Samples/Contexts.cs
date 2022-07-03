@@ -8,6 +8,7 @@ using System.Diagnostics.Contracts;
 
 using Zorglub.Time;
 using Zorglub.Time.Core;
+using Zorglub.Time.Core.Intervals;
 using Zorglub.Time.Hemerology;
 
 using static Zorglub.Time.Extensions.Unboxing;
@@ -35,6 +36,8 @@ internal sealed class CalendarContext
     public ICalendricalPartsFactory PartsFactory { get; }
     public PartsCreator PartsCreator { get; }
     public ICalendricalArithmetic Arithmetic { get; }
+
+    public Range<DayNumber> Domain => Scope.Domain;
 
     /// <summary>Dates on or after year 1.</summary>
     [Pure]
@@ -75,6 +78,9 @@ internal sealed class SchemaContext
     public ICalendricalPartsFactory PartsFactory { get; }
     public PartsCreator PartsCreator { get; }
     public ICalendricalArithmetic Arithmetic { get; }
+
+    public ICalendricalPreValidator PreValidator => Schema.PreValidator;
+    public Range<int> Domain => Schema.Domain;
 
     [Pure]
     public static SchemaContext Create<TSchema>()

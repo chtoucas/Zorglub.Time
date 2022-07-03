@@ -47,6 +47,13 @@ public readonly partial struct DateTemplate :
 
 public partial struct DateTemplate
 {
+    private static readonly CalendricalSchema Schema = __.Schema;
+    private static readonly ICalendarScope Scope = __.Scope;
+    private static readonly ICalendricalPartsFactory PartsFactory = __.PartsFactory;
+    private static readonly PartsCreator PartsCreator = __.PartsCreator;
+    private static readonly ICalendricalArithmetic Arithmetic = __.Arithmetic;
+    private static readonly Range<DayNumber> Domain = __.Domain;
+
     private readonly Yemoda _bin;
 
     public DateTemplate(int year, int month, int day)
@@ -59,17 +66,10 @@ public partial struct DateTemplate
         _bin = bin;
     }
 
-    public static DayNumber Epoch => __.Epoch;
+    public static DayNumber Epoch => Scope.Epoch;
     public static Range<int> SupportedYears => Scope.SupportedYears;
     public static DateTemplate MinValue { get; } = new(PartsFactory.GetDatePartsAtStartOfYear(SupportedYears.Min));
     public static DateTemplate MaxValue { get; } = new(PartsFactory.GetDatePartsAtEndOfYear(SupportedYears.Max));
-
-    private static CalendricalSchema Schema => __.Schema;
-    private static ICalendarScope Scope => __.Scope;
-    private static ICalendricalPartsFactory PartsFactory => __.PartsFactory;
-    private static PartsCreator PartsCreator => __.PartsCreator;
-    private static ICalendricalArithmetic Arithmetic => __.Arithmetic;
-    private static Range<DayNumber> Domain => Scope.Domain;
 
     private static int EpochDayOfWeek { get; } = (int)__.Epoch.DayOfWeek;
 

@@ -51,6 +51,10 @@ public readonly partial struct DayTemplate :
 
 public partial struct DayTemplate
 {
+    private static readonly CalendricalSchema Schema = __.Schema;
+    private static readonly ICalendarScope Scope = __.Scope;
+    private static readonly Range<DayNumber> Domain = __.Domain;
+
     private readonly int _daysSinceEpoch;
 
     public DayTemplate(int year, int month, int day)
@@ -72,14 +76,10 @@ public partial struct DayTemplate
         _daysSinceEpoch = daysSinceEpoch;
     }
 
-    public static DayNumber Epoch => __.Epoch;
+    public static DayNumber Epoch => Scope.Epoch;
     public static Range<int> SupportedYears => Scope.SupportedYears;
     public static DayTemplate MinValue { get; } = new(Domain.Min - Epoch);
     public static DayTemplate MaxValue { get; } = new(Domain.Max - Epoch);
-
-    private static CalendricalSchema Schema => __.Schema;
-    private static ICalendarScope Scope => __.Scope;
-    private static Range<DayNumber> Domain => Scope.Domain;
 
     public DayNumber DayNumber => Epoch + _daysSinceEpoch;
 
