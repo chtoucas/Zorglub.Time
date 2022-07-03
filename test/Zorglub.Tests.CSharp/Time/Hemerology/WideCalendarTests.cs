@@ -87,19 +87,19 @@ public partial class WideCalendarTests // Validation
             () => CalendarUT.Scope.ValidateYearMonthDay(y, m, d, "paramName"));
     }
 
-    [Theory, MemberData(nameof(InvalidMonthFieldData))]
-    public void ValidateMonthDay_InvalidMonthOfYear(int y, int m)
-    {
-        Assert.ThrowsAoorexn("paramName",
-            () => CalendarUT.PreValidator.ValidateMonthDay(y, m, 1, "paramName"));
-    }
+    //[Theory, MemberData(nameof(InvalidMonthFieldData))]
+    //public void ValidateMonthDay_InvalidMonthOfYear(int y, int m)
+    //{
+    //    Assert.ThrowsAoorexn("paramName",
+    //        () => CalendarUT.PreValidator.ValidateMonthDay(y, m, 1, "paramName"));
+    //}
 
-    [Theory, MemberData(nameof(InvalidDayFieldData))]
-    public void ValidateMonthDay_InvalidDayOfMonth(int y, int m, int d)
-    {
-        Assert.ThrowsAoorexn("paramName",
-            () => CalendarUT.PreValidator.ValidateMonthDay(y, m, d, "paramName"));
-    }
+    //[Theory, MemberData(nameof(InvalidDayFieldData))]
+    //public void ValidateMonthDay_InvalidDayOfMonth(int y, int m, int d)
+    //{
+    //    Assert.ThrowsAoorexn("paramName",
+    //        () => CalendarUT.PreValidator.ValidateMonthDay(y, m, d, "paramName"));
+    //}
 }
 
 public partial class WideCalendarTests // Conversions

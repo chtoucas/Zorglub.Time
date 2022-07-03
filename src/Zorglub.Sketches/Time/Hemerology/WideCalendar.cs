@@ -6,9 +6,13 @@ namespace Zorglub.Time.Hemerology
     using System.Linq;
 
     using Zorglub.Time.Core;
+    using Zorglub.Time.Core.Intervals;
     using Zorglub.Time.Core.Schemas;
+    using Zorglub.Time.Hemerology.Scopes;
 
     using static Zorglub.Time.Core.CalendricalConstants;
+
+    // REVIEW(api): prop Name (get and init) with default value = Key.
 
     #region Developer Notes
 
@@ -34,7 +38,7 @@ namespace Zorglub.Time.Hemerology
     /// <summary>
     /// Represents a wide calendar.
     /// </summary>
-    public partial class WideCalendar : BasicCalendar, ICalendar<WideDate>
+    public partial class WideCalendar : ICalendar<WideDate>
     {
         /// <summary>
         /// Initializes a new instance of <see cref="WideCalendar"/> class.
@@ -48,30 +52,19 @@ namespace Zorglub.Time.Hemerology
             DayNumber epoch,
             bool widest,
             bool userDefined)
-            : this(
-                  id,
-                  key,
-                  schema,
-                  // NB: MinMaxYearScope ensures years outside the range defined
-                  // by Yemoda are not allowed.
-                  MinMaxYearScope.WithMaximalRange(schema, epoch, onOrAfterEpoch: !widest),
-                  userDefined)
-        { }
-
-        private WideCalendar(
-            int id,
-            string key,
-            ICalendricalSchema schema,
-            MinMaxYearScope scope,
-            bool userDefined)
-            : base(schema, scope)
         {
-            Debug.Assert(schema != null);
-
-            Name = Key = key ?? throw new ArgumentNullException(nameof(key));
+            Key = key ?? throw new ArgumentNullException(nameof(key));
+            Schema = schema ?? throw new ArgumentNullException(nameof(schema));
 
             Id = id;
             IsUserDefined = userDefined;
+
+            var scope = new MaximalScope(schema, epoch, onOrAfterEpoch: !widest);
+
+            Scope = scope;
+            Epoch = scope.Epoch;
+            SupportedYears = scope.SupportedYears;
+            Domain = scope.Domain;
 
             MinMaxDate = from dayNumber in scope.Domain.Endpoints select new WideDate(dayNumber - Epoch, id);
         }
@@ -123,11 +116,6 @@ namespace Zorglub.Time.Hemerology
         #endregion
 
         /// <summary>
-        /// Gets the name of the current instance.
-        /// </summary>
-        public string Name { get; init; }
-
-        /// <summary>
         /// Gets the unique key of the current instance.
         /// </summary>
         public string Key { get; }
@@ -143,6 +131,32 @@ namespace Zorglub.Time.Hemerology
         /// </summary>
         public OrderedPair<WideDate> MinMaxDate { get; }
 
+        /// <inheritdoc />
+        public DayNumber Epoch { get; }
+
+        /// <inheritdoc />
+        public CalendricalAlgorithm Algorithm => Schema.Algorithm;
+
+        /// <inheritdoc />
+        public CalendricalFamily Family => Schema.Family;
+
+        /// <inheritdoc />
+        public CalendricalAdjustments PeriodicAdjustments => Schema.PeriodicAdjustments;
+
+        /// <inheritdoc />
+        public Range<int> SupportedYears { get; }
+
+        /// <inheritdoc />
+        public Range<DayNumber> Domain { get; }
+
+        /// <inheritdoc />
+        public ICalendarScope Scope { get; }
+
+        /// <summary>
+        /// Gets the underlying calendrical schema.
+        /// </summary>
+        protected internal ICalendricalSchema Schema { get; }
+
         /// <summary>
         /// Gets the ID of the current instance.
         /// </summary>
@@ -153,33 +167,87 @@ namespace Zorglub.Time.Hemerology
         /// </summary>
         [Pure]
         public override string ToString() => Key;
-    }
 
-    public partial class WideCalendar // Year or month infos
-    {
         /// <inheritdoc />
         [Pure]
-        public override int CountMonthsInYear(int year)
+        public bool IsRegular(out int monthsInYear) => Schema.IsRegular(out monthsInYear);
+    }
+
+    public partial class WideCalendar // Year, month or day infos
+    {
+#pragma warning disable CA1725 // Parameter names should match base declaration (Naming)
+
+        /// <inheritdoc />
+        /// <exception cref="AoorException">The year is outside the range of supported years.
+        /// </exception>
+        [Pure]
+        public bool IsLeapYear(int year)
+        {
+            Scope.ValidateYear(year);
+            return Schema.IsLeapYear(year);
+        }
+
+        /// <inheritdoc />
+        /// <exception cref="AoorException">The month is either invalid or outside the range of
+        /// supported months.</exception>
+        [Pure]
+        public bool IsIntercalaryMonth(int year, int month)
+        {
+            Scope.ValidateYearMonth(year, month);
+            return Schema.IsIntercalaryMonth(year, month);
+        }
+
+        /// <inheritdoc />
+        /// <exception cref="AoorException">The date is either invalid or outside the range of
+        /// supported dates.</exception>
+        [Pure]
+        public bool IsIntercalaryDay(int year, int month, int day)
+        {
+            Scope.ValidateYearMonthDay(year, month, day);
+            return Schema.IsIntercalaryDay(year, month, day);
+        }
+
+        /// <inheritdoc />
+        /// <exception cref="AoorException">The date is either invalid or outside the range of
+        /// supported dates.</exception>
+        [Pure]
+        public bool IsSupplementaryDay(int year, int month, int day)
+        {
+            Scope.ValidateYearMonthDay(year, month, day);
+            return Schema.IsSupplementaryDay(year, month, day);
+        }
+
+        /// <inheritdoc />
+        /// <exception cref="AoorException">The year is outside the range of supported years.
+        /// </exception>
+        [Pure]
+        public int CountMonthsInYear(int year)
         {
             Scope.ValidateYear(year);
             return Schema.CountMonthsInYear(year);
         }
 
         /// <inheritdoc />
+        /// <exception cref="AoorException">The year is outside the range of supported years.
+        /// </exception>
         [Pure]
-        public override int CountDaysInYear(int year)
+        public int CountDaysInYear(int year)
         {
             Scope.ValidateYear(year);
             return Schema.CountDaysInYear(year);
         }
 
         /// <inheritdoc />
+        /// <exception cref="AoorException">The month is either invalid or outside the range of
+        /// supported months.</exception>
         [Pure]
-        public override int CountDaysInMonth(int year, int month)
+        public int CountDaysInMonth(int year, int month)
         {
             Scope.ValidateYearMonth(year, month);
             return Schema.CountDaysInMonth(year, month);
         }
+
+#pragma warning restore CA1725 // Parameter names should match base declaration
     }
 
     public partial class WideCalendar // Factories, conversions
@@ -225,6 +293,22 @@ namespace Zorglub.Time.Hemerology
         /// <inheritdoc />
         [Pure]
         public WideDate Today() => GetDate(DayNumber.Today());
+
+        /// <inheritdoc />
+        [Pure]
+        public DayNumber GetDayNumberOn(int year, int month, int day)
+        {
+            Scope.ValidateYearMonthDay(year, month, day);
+            return Epoch + Schema.CountDaysSinceEpoch(year, month, day);
+        }
+
+        /// <inheritdoc />
+        [Pure]
+        public DayNumber GetDayNumberOn(int year, int dayOfYear)
+        {
+            Scope.ValidateOrdinal(year, dayOfYear);
+            return Epoch + Schema.CountDaysSinceEpoch(year, dayOfYear);
+        }
     }
 
     public partial class WideCalendar // Dates in a given year or month
