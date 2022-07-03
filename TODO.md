@@ -5,25 +5,17 @@ FIXME
 -----
 
 - Refactor CalendarCatalog, split into a registry and a registar.
-  Currently, it's almost impossible to achieve full code coverage.
-- Schemas:
-  * Check all occurences of ICalendricalSchema and CalendricalSchema.
-  * Move prop Arithmetic from CalendricalSchema to SystemSchema.
-    NB: See alos the prop Segment of IArithmeticSchema.
+  Currently, it's almost impossible to achieve full test coverage.
+- Schemas: Yemoda & co
+  * ICalendricalSchema v CalendricalSchema v SystemSchema.
+  * Prop Segment.
+  * PartsFactory & PartsCreator
   * Remove things using a conversion (y, m, d) <-> (y, doy)?
     - CountDaysInMonthBefore(y, doy)
     - CountDaysInMonthAfter(y, doy)
     - GetOrdinalPartsAtStartOfMonth(int y, int m)
     - GetOrdinalPartsAtEndOfMonth(int y, int m)
-- Parts and validation, PartsFactory & PartsCreator
-  Remove Yemoda.AtStartOfYear() & co (kind of).
-  Types concernés:
-  - SystemSchema
-  - CalendricalSegmentBuilder
-  - Arithmetic
-  DefaultArithmetic and Yemoda/Yedoy.
-  TryGetCustomPreValidator() special cases of GJ
-  ArithmeticalSchema -> private protected ctor
+  * Remove Yemoda.AtStartOfYear() & co (kind of).
 - Math:
   * Profile: OtherRegular, Other7 (MinDaysInMonth >= 7)?
   * Move standard ops (on CalendarMonth) from Math to Arithmetic.
@@ -33,9 +25,7 @@ FIXME
   * API for CalendarDay (PlusYears, PlusMonths?), humm no, use conversion to
     CalendarDate. We have the three forms of dates for that purpose.
 - NotImplementedException
-- Check scopes (ICalendricalScope) and Yemoda.SupportedYears / PartsFactory.
 - Tests should not perform any conversion, e.g. CalendarDate -> OrdinalDate.
-- CLSCompliant
 - Yemoda as a binary repr for a date type when the later does not want to
   support y = 0 which is the default value of Yemoda
 
@@ -51,6 +41,7 @@ TODO
   Generic math: using System.Numerics.
   Github action: test on Ubuntu and MacOS.
 - Clean up compiler symbols.
+- CLSCompliant
 - Exception messages: use ThrowHelpers.
   Only use OverflowException for truely arithmetic overflows?
   XML doc: "would", "was"

@@ -149,9 +149,6 @@ namespace Zorglub.Time.Core
             }
         }
 
-        // Covariant return type does not work when a property (Arithmetic here),
-        // is a property from an interface or has a setter.
-
         private CalendricalArithmetic? _arithmetic;
         /// <summary>
         /// Gets or initializes the arithmetic for this schema.
