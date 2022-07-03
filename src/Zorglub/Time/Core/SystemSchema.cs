@@ -5,13 +5,36 @@ namespace Zorglub.Time.Core
 {
     using Zorglub.Time.Core.Intervals;
 
+    #region Developer Notes
+
     // SystemSchema puts limits on the range of admissible values for the year
     // but more importantly also for the month of the year and the day of the
-    // month, therefore it cannot represent schemas with unusually long years or
-    // months.
+    // month, therefore it cannot represent schemas with __unusually long years
+    // or months__.
     //
     // This class is public but has an internal ctor since we cannot guarantee
     // that a derived class follows the rules defined above.
+    //
+    // Les limites MinMinYear/MaxMaxYear ont été fixées afin de pouvoir
+    // utiliser Yemoda & co, mais aussi d'éviter des dépassements
+    // arithmétiques. Sans cela on pourrait parfois aller beaucoup plus loin
+    // (à condition de rester dans les limites de Int32), d'où l'interface
+    // ICalendricalSchema permettant de définir des schémas dépourvus des
+    // contraintes liées à Yemoda & co.
+    // Il est à noter qu'en pratique on peut très bien ignorer ces derniers.
+    // Ceci est plus important qu'il n'y paraît, car Yemoda impose aussi des
+    // limites sur les mois et les jours, ce qui pourrait être gênant si on
+    // décide d'écrire des schémas pour les calendriers chinois ou maya.
+    //
+    // Par défaut, on n'utilise pas Yemoda.Min/MaxYear: les valeurs sont trop
+    // grandes et nous obligerait à utiliser des Int64 pour effectuer un
+    // certain nombre de calculs.
+    //
+    // Enfin, ces limites sont tout à fait théoriques. Un schéma n'est pas
+    // un calendrier. Pour ces derniers, on utilisera des valeurs bien
+    // inférieures (voir scopes).
+
+    #endregion
 
     /// <summary>
     /// Represents a system schema and provides a base for derived classes.
@@ -23,25 +46,6 @@ namespace Zorglub.Time.Core
     /// </remarks>
     public abstract partial class SystemSchema : CalendricalSchema, ICalendricalPartsFactory
     {
-        // Les limites MinMinYear/MaxMaxYear ont été fixées afin de pouvoir
-        // utiliser Yemoda & co, mais aussi d'éviter des dépassements
-        // arithmétiques. Sans cela on pourrait parfois aller beaucoup plus loin
-        // (à condition de rester dans les limites de Int32), d'où l'interface
-        // ICalendricalSchema permettant de définir des schémas dépourvus des
-        // contraintes liées à Yemoda & co.
-        // Il est à noter qu'en pratique on peut très bien ignorer ces derniers.
-        // Ceci est plus important qu'il n'y paraît, car Yemoda impose aussi des
-        // limites sur les mois et les jours, ce qui pourrait être gênant si on
-        // décide d'écrire des schémas pour les calendriers chinois ou maya.
-        //
-        // par défaut, on n'utilise pas Yemoda.Min/MaxYear: les valeurs sont trop
-        // grandes et nous obligerait à utiliser des Int64 pour effectuer un
-        // certain nombre de calculs.
-        //
-        // Enfin, ces limites sont tout à fait théoriques. Un schéma n'est pas
-        // un calendrier. Pour ces derniers, on utilisera des valeurs bien
-        // inférieures (voir scopes).
-
         /// <summary>
         /// Represents the default value for the earliest supported year.
         /// <para>This field is a constant equal to -999_998.</para>
@@ -56,7 +60,7 @@ namespace Zorglub.Time.Core
 
         /// <summary>
         /// Represents the interval [-999_998..999_999].
-        /// <para>It is also the default value for <see cref="ICalendricalKernel.SupportedYears"/>.</para>
+        /// <para>It is the default value for <see cref="ICalendricalKernel.SupportedYears"/>.</para>
         /// <para>This field is read-only.</para>
         /// </summary>
         public static readonly Range<int> DefaultSupportedYears = new(DefaultMinYear, DefaultMaxYear);
@@ -64,6 +68,7 @@ namespace Zorglub.Time.Core
         /// <summary>
         /// Represents the interval [<see cref="Yemoda.MinYear"/>..<see cref="Yemoda.MaxYear"/>],
         /// that is [-2_097_152, 2_097_151].
+        /// <para>It is the maximum value for <see cref="ICalendricalKernel.SupportedYears"/>.</para>
         /// <para>It matches the value of <see cref="Yemoda.SupportedYears"/>.</para>
         /// <para>This field is read-only.</para>
         /// </summary>
@@ -74,8 +79,8 @@ namespace Zorglub.Time.Core
         /// <see cref="SystemSchema"/> class.
         /// </summary>
         /// <remarks>
-        /// <para>All methods MUST work with negative years.</para>
-        /// <para>All methods MUST work with years in <see cref="DefaultSupportedYears"/>.</para>
+        /// <para>All methods MUST work with years in <see cref="DefaultSupportedYears"/>. In
+        /// particular, methods must work with negative years.</para>
         /// </remarks>
         /// <exception cref="AoorException"><paramref name="minDaysInYear"/> or
         /// <paramref name="minDaysInMonth"/> is a negative integer.</exception>

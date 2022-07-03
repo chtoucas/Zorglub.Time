@@ -196,7 +196,7 @@ namespace Zorglub.Time.Core
     //   MinDaysInYear
     //   MinDaysInMonth
     // A IsRegular()
-    //   PreValidator (+ init)
+    //   PreValidator
     public partial class CalendricalSchema // Properties
     {
         /// <inheritdoc />
