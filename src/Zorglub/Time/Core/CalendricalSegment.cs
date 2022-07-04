@@ -7,43 +7,6 @@ namespace Zorglub.Time.Core
 
     using Zorglub.Time.Core.Intervals;
 
-    // By keeping this record internal, we can ensure that the properties are
-    // coherent, ie that they represent the same day. Furthemore, an endpoint
-    // does not keep track of the schema, which makes it incomplete.
-    internal sealed record CalendricalEndpoint
-    {
-        public int DaysSinceEpoch { get; init; }
-        public Yemoda DateParts { get; init; }
-        public Yedoy OrdinalParts { get; init; }
-
-        public Yemo MonthParts => DateParts.Yemo;
-        public int Year => DateParts.Year;
-
-        // Comparison w/ null always returns false, even null >= null and null <= null.
-
-        public static bool operator <(CalendricalEndpoint? left, CalendricalEndpoint? right) =>
-            left is not null && right is not null && left.CompareTo(right) < 0;
-        public static bool operator <=(CalendricalEndpoint? left, CalendricalEndpoint? right) =>
-            left is not null && right is not null && left.CompareTo(right) <= 0;
-        public static bool operator >(CalendricalEndpoint? left, CalendricalEndpoint? right) =>
-            left is not null && right is not null && left.CompareTo(right) > 0;
-        public static bool operator >=(CalendricalEndpoint? left, CalendricalEndpoint? right) =>
-            left is not null && right is not null && left.CompareTo(right) >= 0;
-
-        public int CompareTo(CalendricalEndpoint other)
-        {
-            Requires.NotNull(other);
-
-            return DaysSinceEpoch.CompareTo(other.DaysSinceEpoch);
-        }
-    }
-
-    // A schema provides:
-    // - SupportedYears
-    // - Domain
-    // - MonthDomain
-    // A calendrical segment adds parts info.
-
     /// <summary>
     /// Provides informations on a range of days for a given schema.
     /// <para>This class can only represent subintervals of <see cref="Yemoda.SupportedYears"/>.
@@ -58,10 +21,7 @@ namespace Zorglub.Time.Core
         /// Initializes a new instance of the <see cref="CalendricalSegment"/> class.
         /// <para>This constructor does NOT validate its parameters.</para>
         /// </summary>
-        internal CalendricalSegment(
-            ICalendricalSchema schema,
-            CalendricalEndpoint start,
-            CalendricalEndpoint end)
+        internal CalendricalSegment(ICalendricalSchema schema, Endpoint start, Endpoint end)
         {
             Debug.Assert(schema != null);
             Debug.Assert(start <= end);
@@ -188,6 +148,37 @@ namespace Zorglub.Time.Core
 
             builder.Append(" }");
             return true;
+        }
+
+        // By keeping this record internal, we can ensure that the properties are
+        // coherent, ie that they represent the same day. Furthemore, an endpoint
+        // does not keep track of the schema, which makes it incomplete.
+        internal sealed record Endpoint
+        {
+            public int DaysSinceEpoch { get; init; }
+            public Yemoda DateParts { get; init; }
+            public Yedoy OrdinalParts { get; init; }
+
+            public Yemo MonthParts => DateParts.Yemo;
+            public int Year => DateParts.Year;
+
+            // Comparison w/ null always returns false, even null >= null and null <= null.
+
+            public static bool operator <(Endpoint? left, Endpoint? right) =>
+                left is not null && right is not null && left.CompareTo(right) < 0;
+            public static bool operator <=(Endpoint? left, Endpoint? right) =>
+                left is not null && right is not null && left.CompareTo(right) <= 0;
+            public static bool operator >(Endpoint? left, Endpoint? right) =>
+                left is not null && right is not null && left.CompareTo(right) > 0;
+            public static bool operator >=(Endpoint? left, Endpoint? right) =>
+                left is not null && right is not null && left.CompareTo(right) >= 0;
+
+            public int CompareTo(Endpoint other)
+            {
+                Requires.NotNull(other);
+
+                return DaysSinceEpoch.CompareTo(other.DaysSinceEpoch);
+            }
         }
     }
 }

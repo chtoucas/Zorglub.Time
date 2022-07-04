@@ -5,6 +5,8 @@ namespace Zorglub.Time.Core
 {
     using Zorglub.Time.Core.Intervals;
 
+    using Endpoint = CalendricalSegment.Endpoint;
+
     // We validate before and after calling a method from the method:
     // - before, to respect the schema layout (_supportedYears)
     // - after, to stay within the limits of Yemoda/Yedoy (_partsFactory)
@@ -75,13 +77,13 @@ namespace Zorglub.Time.Core
         /// </summary>
         public bool IsBuildable => HasStart && HasEnd;
 
-        private CalendricalEndpoint? _start;
+        private Endpoint? _start;
         /// <summary>
         /// Gets the start of the segment.
         /// </summary>
-        internal CalendricalEndpoint Start
+        internal Endpoint Start
         {
-            get => _start ?? Throw.InvalidOperation<CalendricalEndpoint>();
+            get => _start ?? Throw.InvalidOperation<Endpoint>();
             private set
             {
                 if (value > _end) Throw.ArgumentOutOfRange(nameof(value));
@@ -89,13 +91,13 @@ namespace Zorglub.Time.Core
             }
         }
 
-        private CalendricalEndpoint? _end;
+        private Endpoint? _end;
         /// <summary>
         /// Gets the end of the segment.
         /// </summary>
-        internal CalendricalEndpoint End
+        internal Endpoint End
         {
-            get => _end ?? Throw.InvalidOperation<CalendricalEndpoint>();
+            get => _end ?? Throw.InvalidOperation<Endpoint>();
             private set
             {
                 if (value < _start) Throw.ArgumentOutOfRange(nameof(value));
@@ -130,7 +132,7 @@ namespace Zorglub.Time.Core
                 Throw.ArgumentOutOfRange(nameof(daysSinceEpoch));
             }
 
-            Start = new CalendricalEndpoint
+            Start = new Endpoint
             {
                 DaysSinceEpoch = daysSinceEpoch,
                 DateParts = _partsFactory.GetDateParts(daysSinceEpoch),
@@ -149,7 +151,7 @@ namespace Zorglub.Time.Core
                 Throw.ArgumentOutOfRange(nameof(daysSinceEpoch));
             }
 
-            End = new CalendricalEndpoint
+            End = new Endpoint
             {
                 DaysSinceEpoch = daysSinceEpoch,
                 DateParts = _partsFactory.GetDateParts(daysSinceEpoch),
@@ -168,7 +170,7 @@ namespace Zorglub.Time.Core
             if (_supportedYears.Contains(y) == false) Throw.YearOutOfRange(y, nameof(ymd));
             _schema.PreValidator.ValidateMonthDay(y, m, d, nameof(ymd));
 
-            Start = new CalendricalEndpoint
+            Start = new Endpoint
             {
                 DaysSinceEpoch = _schema.CountDaysSinceEpoch(y, m, d),
                 DateParts = ymd,
@@ -187,7 +189,7 @@ namespace Zorglub.Time.Core
             if (_supportedYears.Contains(y) == false) Throw.YearOutOfRange(y, nameof(ymd));
             _schema.PreValidator.ValidateMonthDay(y, m, d, nameof(ymd));
 
-            End = new CalendricalEndpoint
+            End = new Endpoint
             {
                 DaysSinceEpoch = _schema.CountDaysSinceEpoch(y, m, d),
                 DateParts = ymd,
@@ -206,7 +208,7 @@ namespace Zorglub.Time.Core
             if (_supportedYears.Contains(y) == false) Throw.YearOutOfRange(y, nameof(ydoy));
             _schema.PreValidator.ValidateDayOfYear(y, doy, nameof(ydoy));
 
-            Start = new CalendricalEndpoint
+            Start = new Endpoint
             {
                 DaysSinceEpoch = _schema.CountDaysSinceEpoch(y, doy),
                 DateParts = _partsFactory.GetDateParts(y, doy),
@@ -225,7 +227,7 @@ namespace Zorglub.Time.Core
             if (_supportedYears.Contains(y) == false) Throw.YearOutOfRange(y, nameof(ydoy));
             _schema.PreValidator.ValidateDayOfYear(y, doy, nameof(ydoy));
 
-            End = new CalendricalEndpoint
+            End = new Endpoint
             {
                 DaysSinceEpoch = _schema.CountDaysSinceEpoch(y, doy),
                 DateParts = _partsFactory.GetDateParts(y, doy),
@@ -241,7 +243,7 @@ namespace Zorglub.Time.Core
         {
             if (_supportedYears.Contains(year) == false) Throw.YearOutOfRange(year);
 
-            Start = new CalendricalEndpoint
+            Start = new Endpoint
             {
                 DaysSinceEpoch = _schema.GetStartOfYear(year),
                 DateParts = _partsFactory.GetDatePartsAtStartOfYear(year),
@@ -257,7 +259,7 @@ namespace Zorglub.Time.Core
         {
             if (_supportedYears.Contains(year) == false) Throw.YearOutOfRange(year);
 
-            End = new CalendricalEndpoint
+            End = new Endpoint
             {
                 DaysSinceEpoch = _schema.GetEndOfYear(year),
                 DateParts = _partsFactory.GetDatePartsAtEndOfYear(year),
