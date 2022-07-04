@@ -4,7 +4,6 @@
 module Zorglub.Tests.PartsTests
 
 open System
-open System.Runtime.CompilerServices
 
 open Zorglub.Testing
 open Zorglub.Testing.Data
@@ -38,66 +37,25 @@ module TestCommon =
             self.Add(ProlepticShortScope.MaxYear + 1)
             self.Add(Int32.MaxValue)
 
-    //
-    // FsCheck
-    //
-
-    /// Represents an invalid field of type month, day or day of the month,
-    /// its value is <= 0.
-    [<Struct; IsReadOnly>]
-    type BadField = { Value: int } with
-        override x.ToString() = x.Value.ToString()
-        static member op_Explicit (x: BadField) = x.Value
-
-    /// Represents an valid field of type month, day or day of the month,
-    /// its value is > 0.
-    [<Struct; IsReadOnly>]
-    type GoodField = { Value: int } with
-        override x.ToString() = x.Value.ToString()
-        static member op_Explicit (x: GoodField) = x.Value
-
-    [<Sealed>]
-    type Arbitraries =
-        /// Gets an arbitrary for an invalid field, its value is <= 0.
-        static member GetBadFieldArbitrary() =
-            IntArbitraries.lessThanOrEqualToZero
-            |> Arb.convert (fun i -> { BadField.Value = i }) int
-
-        /// Gets an arbitrary for a valid field, its value is > 0.
-        static member GetGoodFieldArbitrary() =
-            IntArbitraries.greaterThanZero
-            |> Arb.convert (fun i -> { GoodField.Value = i }) int
-
-[<Properties(Arbitrary = [| typeof<TestCommon.Arbitraries> |] )>]
 module DateParts =
     open TestCommon
 
     module Prelude =
-        let centuryInfoData = YearNumberingDataSet.CenturyInfoData
-
         [<Fact>]
         let ``Default value`` () =
             let parts = Unchecked.defaultof<DateParts>
             let y, m, d = parts.Deconstruct()
 
-            (y, m, d) === (0, 1, 1)
+            (y, m, d) === (0, 0, 0)
 
         [<Property>]
-        let ``Constructor throws when "month" is out of range`` (m: BadField) =
-            outOfRangeExn "month" (fun () -> new DateParts(1, m.Value, 1))
-
-        [<Property>]
-        let ``Constructor throws when "day" is out of range`` (d: BadField) =
-            outOfRangeExn "day" (fun () -> new DateParts(1, 1, d.Value))
-
-        [<Property>]
-        let Constructor y (m: GoodField) (d: GoodField) =
-            let parts = new DateParts(y, m.Value, d.Value)
+        let Constructor y m d =
+            let parts = new DateParts(y, m, d)
             let a = parts.Year
             let b = parts.Month
             let c = parts.Day
 
-            (a, b, c) = (y, m.Value, d.Value)
+            (a, b, c) = (y, m, d)
 
         [<Property>]
         let ``Constructor(Yemoda)`` ymd  =
@@ -110,11 +68,11 @@ module DateParts =
             (a, b, c) = (y, m, d)
 
         [<Property>]
-        let Deconstructor y (m: GoodField) (d: GoodField) =
-            let parts = new DateParts(y, m.Value, d.Value)
+        let Deconstructor y m d =
+            let parts = new DateParts(y, m, d)
             let a, b, c = parts.Deconstruct()
 
-            (a, b, c) = (y, m.Value, d.Value)
+            (a, b, c) = (y, m, d)
 
         [<Theory>]
         [<InlineData(0, 1, 1, "01/01/0000")>] // default
@@ -128,40 +86,6 @@ module DateParts =
             let parts = new DateParts(y, m, d)
 
             parts.ToString() === str
-
-        //
-        // Properties
-        //
-
-        [<Theory; MemberData(nameof(centuryInfoData))>]
-        let ``Property CenturyOfEra`` (info: CenturyInfo) =
-            let y, century, _ = info.Deconstruct()
-            let parts = new DateParts(y, 1, 1)
-            let centuryOfEra = Ord.Zeroth + century
-
-            parts.CenturyOfEra === centuryOfEra
-
-        [<Theory; MemberData(nameof(centuryInfoData))>]
-        let ``Property Century`` (info: CenturyInfo) =
-            let y, century, _ = info.Deconstruct()
-            let parts = new DateParts(y, 1, 1)
-
-            parts.Century === century
-
-        [<Theory; MemberData(nameof(centuryInfoData))>]
-        let ``Property YearOfEra`` (info: CenturyInfo) =
-            let y = info.Year
-            let parts = new DateParts(y, 1, 1)
-            let yearOfEra = Ord.Zeroth + y
-
-            parts.YearOfEra === yearOfEra
-
-        [<Theory; MemberData(nameof(centuryInfoData))>]
-        let ``Property YearOfCentury`` (info: CenturyInfo) =
-            let y, _, yearOfCentury = info.Deconstruct()
-            let parts = new DateParts(y, 1, 1)
-
-            parts.YearOfCentury === int(yearOfCentury)
 
     module Conversions =
         let private dataSet = GregorianDataSet.Instance
@@ -260,31 +184,24 @@ module DateParts =
         let ``GetHashCode() is invariant`` (x: DateParts) =
             x.GetHashCode() = x.GetHashCode()
 
-[<Properties(Arbitrary = [| typeof<TestCommon.Arbitraries> |] )>]
 module MonthParts =
     open TestCommon
 
     module Prelude =
-        let centuryInfoData = YearNumberingDataSet.CenturyInfoData
-
         [<Fact>]
         let ``Default value`` () =
             let parts = Unchecked.defaultof<MonthParts>
             let y, m = parts.Deconstruct()
 
-            (y, m) === (0, 1)
+            (y, m) === (0, 0)
 
         [<Property>]
-        let ``Constructor throws when "month" is out of range`` (m: BadField) =
-            outOfRangeExn "month" (fun () -> new MonthParts(1, m.Value))
-
-        [<Property>]
-        let Constructor y (m: GoodField) =
-            let parts = new MonthParts(y, m.Value)
+        let Constructor y m =
+            let parts = new MonthParts(y, m)
             let a = parts.Year
             let b = parts.Month
 
-            (a, b) = (y, m.Value)
+            (a, b) = (y, m)
 
         [<Property>]
         let ``Constructor(Yemo)`` ym  =
@@ -296,11 +213,11 @@ module MonthParts =
             (a, b) = (y, m)
 
         [<Property>]
-        let Deconstructor y (m: GoodField) =
-            let parts = new MonthParts(y, m.Value)
+        let Deconstructor y m =
+            let parts = new MonthParts(y, m)
             let a, b = parts.Deconstruct()
 
-            (a, b) = (y, m.Value)
+            (a, b) = (y, m)
 
         [<Theory>]
         [<InlineData(0, 1, "01/0000")>] // default
@@ -314,40 +231,6 @@ module MonthParts =
             let parts = new MonthParts(y, m)
 
             parts.ToString() === str
-
-        //
-        // Properties
-        //
-
-        [<Theory; MemberData(nameof(centuryInfoData))>]
-        let ``Property CenturyOfEra`` (info: CenturyInfo) =
-            let y, century, _ = info.Deconstruct()
-            let parts = new MonthParts(y, 1)
-            let centuryOfEra = Ord.Zeroth + century
-
-            parts.CenturyOfEra === centuryOfEra
-
-        [<Theory; MemberData(nameof(centuryInfoData))>]
-        let ``Property Century`` (info: CenturyInfo) =
-            let y, century, _ = info.Deconstruct()
-            let parts = new MonthParts(y, 1)
-
-            parts.Century === century
-
-        [<Theory; MemberData(nameof(centuryInfoData))>]
-        let ``Property YearOfEra`` (info: CenturyInfo) =
-            let y = info.Year
-            let parts = new MonthParts(y, 1)
-            let yearOfEra = Ord.Zeroth + y
-
-            parts.YearOfEra === yearOfEra
-
-        [<Theory; MemberData(nameof(centuryInfoData))>]
-        let ``Property YearOfCentury`` (info: CenturyInfo) =
-            let y, _, yearOfCentury = info.Deconstruct()
-            let parts = new MonthParts(y, 1)
-
-            parts.YearOfCentury === int(yearOfCentury)
 
     module Conversions =
         let private dataSet = GregorianDataSet.Instance
@@ -432,31 +315,24 @@ module MonthParts =
         let ``GetHashCode() is invariant`` (x: MonthParts) =
             x.GetHashCode() = x.GetHashCode()
 
-[<Properties(Arbitrary = [| typeof<TestCommon.Arbitraries> |] )>]
 module OrdinalParts =
     open TestCommon
 
     module Prelude =
-        let centuryInfoData = YearNumberingDataSet.CenturyInfoData
-
         [<Fact>]
         let ``Default value`` () =
             let parts = Unchecked.defaultof<OrdinalParts>
             let y, doy = parts.Deconstruct()
 
-            (y, doy) === (0, 1)
+            (y, doy) === (0, 0)
 
         [<Property>]
-        let ``Constructor throws when "dayOfYear" is out of range`` (doy: BadField) =
-            outOfRangeExn "dayOfYear" (fun () -> new OrdinalParts(1, doy.Value))
-
-        [<Property>]
-        let Constructor y (doy: GoodField) =
-            let parts = new OrdinalParts(y, doy.Value)
+        let Constructor y doy =
+            let parts = new OrdinalParts(y, doy)
             let a = parts.Year
             let b = parts.DayOfYear
 
-            (a, b) = (y, doy.Value)
+            (a, b) = (y, doy)
 
         [<Property>]
         let ``Constructor(Yedoy)`` ydoy  =
@@ -468,11 +344,11 @@ module OrdinalParts =
             (a, b) = (y, doy)
 
         [<Property>]
-        let Deconstructor y (doy: GoodField) =
-            let parts = new OrdinalParts(y, doy.Value)
+        let Deconstructor y doy =
+            let parts = new OrdinalParts(y, doy)
             let a, b = parts.Deconstruct()
 
-            (a, b) = (y, doy.Value)
+            (a, b) = (y, doy)
 
         [<Theory>]
         [<InlineData(0, 1, "001/0000")>] // default
@@ -486,40 +362,6 @@ module OrdinalParts =
             let parts = new OrdinalParts(y, doy)
 
             parts.ToString() === str
-
-        //
-        // Properties
-        //
-
-        [<Theory; MemberData(nameof(centuryInfoData))>]
-        let ``Property CenturyOfEra`` (info: CenturyInfo) =
-            let y, century, _ = info.Deconstruct()
-            let parts = new OrdinalParts(y, 1)
-            let centuryOfEra = Ord.Zeroth + century
-
-            parts.CenturyOfEra === centuryOfEra
-
-        [<Theory; MemberData(nameof(centuryInfoData))>]
-        let ``Property Century`` (info: CenturyInfo) =
-            let y, century, _ = info.Deconstruct()
-            let parts = new OrdinalParts(y, 1)
-
-            parts.Century === century
-
-        [<Theory; MemberData(nameof(centuryInfoData))>]
-        let ``Property YearOfEra`` (info: CenturyInfo) =
-            let y = info.Year
-            let parts = new OrdinalParts(y, 1)
-            let yearOfEra = Ord.Zeroth + y
-
-            parts.YearOfEra === yearOfEra
-
-        [<Theory; MemberData(nameof(centuryInfoData))>]
-        let ``Property YearOfCentury`` (info: CenturyInfo) =
-            let y, _, yearOfCentury = info.Deconstruct()
-            let parts = new OrdinalParts(y, 1)
-
-            parts.YearOfCentury === int(yearOfCentury)
 
     module Conversions =
         let private dataSet = GregorianDataSet.Instance

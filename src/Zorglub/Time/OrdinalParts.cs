@@ -11,19 +11,10 @@ namespace Zorglub.Time
     /// <para><see cref="OrdinalParts"/> is an immutable struct.</para>
     /// </summary>
     /// <remarks>
-    /// <para>An <see cref="OrdinalParts"/> value is NOT a true ordinal date.</para>
+    /// <para>An <see cref="OrdinalParts"/> does NOT represent an ordinal date.</para>
     /// </remarks>
     public readonly partial struct OrdinalParts : IEqualityOperators<OrdinalParts, OrdinalParts>
     {
-        // We make sure that default(OrdinalParts) is such that DayOfYear = 1,
-        // not 0 which is surely invalid.
-
-        /// <summary>
-        /// Represents the algebraic day of the year (start at zero).
-        /// <para>This field is read-only.</para>
-        /// </summary>
-        private readonly int _day0fYear;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="OrdinalParts"/> struct from the specified
         /// ordinal parts.
@@ -32,45 +23,18 @@ namespace Zorglub.Time
         {
             parts.Unpack(out int y, out int doy);
             Year = y;
-            _day0fYear = doy - 1;
+            DayOfYear = doy;
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="OrdinalParts"/> struct from the specified
-        /// year and day of the year.
+        /// year and day of the year values.
         /// </summary>
-        /// <exception cref="AoorException"><paramref name="dayOfYear"/> is a negative integer.
-        /// </exception>
         public OrdinalParts(int year, int dayOfYear)
         {
-            if (dayOfYear < 1) Throw.DayOfYearOutOfRange(dayOfYear);
-
             Year = year;
-            _day0fYear = dayOfYear - 1;
+            DayOfYear = dayOfYear;
         }
-
-        /// <summary>
-        /// Gets the century of the era.
-        /// </summary>
-        public Ord CenturyOfEra => Ord.FromInt32(Century);
-
-        /// <summary>
-        /// Gets the century number.
-        /// </summary>
-        public int Century => YearNumbering.GetCentury(Year);
-
-        /// <summary>
-        /// Gets the year of the era.
-        /// </summary>
-        /// <exception cref="AoorException"><see cref="Year"/> is lower than
-        /// <see cref="Ord.MinAlgebraicValue"/>.</exception>
-        public Ord YearOfEra => Ord.FromInt32(Year);
-
-        /// <summary>
-        /// Gets the year of the century.
-        /// <para>The result is in the range from 1 to 100.</para>
-        /// </summary>
-        public int YearOfCentury => YearNumbering.GetYearOfCentury(Year);
 
         /// <summary>
         /// Gets the (algebraic) year number.
@@ -80,7 +44,7 @@ namespace Zorglub.Time
         /// <summary>
         /// Gets the day of the year.
         /// </summary>
-        public int DayOfYear => _day0fYear + 1;
+        public int DayOfYear { get; }
 
         /// <summary>
         /// Returns a culture-independent string representation of the current instance.
@@ -127,7 +91,7 @@ namespace Zorglub.Time
         /// Determines whether two specified instances of <see cref="OrdinalParts"/> are equal.
         /// </summary>
         public static bool operator ==(OrdinalParts left, OrdinalParts right) =>
-            left.Year == right.Year && left._day0fYear == right._day0fYear;
+            left.Year == right.Year && left.DayOfYear == right.DayOfYear;
 
         /// <summary>
         /// Determines whether two specified instances of <see cref="OrdinalParts"/> are not equal.
@@ -142,6 +106,6 @@ namespace Zorglub.Time
             obj is OrdinalParts parts && this == parts;
 
         /// <inheritdoc />
-        public override int GetHashCode() => HashCode.Combine(Year, _day0fYear);
+        public override int GetHashCode() => HashCode.Combine(Year, DayOfYear);
     }
 }

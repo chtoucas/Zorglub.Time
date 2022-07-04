@@ -8,33 +8,69 @@ namespace Zorglub.Time
 
     /// <summary>
     /// Represents a pair of a year and a month.
-    /// <para><see cref="MonthParts"/> is an immutable struct.</para>
+    /// <para><see cref="MonthFields"/> is an immutable struct.</para>
     /// </summary>
     /// <remarks>
-    /// <para>A <see cref="MonthParts"/> does NOT represent a month.</para>
+    /// <para>A <see cref="MonthFields"/> does NOT represent a month.</para>
     /// </remarks>
-    public readonly partial struct MonthParts : IEqualityOperators<MonthParts, MonthParts>
+    public readonly partial struct MonthFields : IEqualityOperators<MonthFields, MonthFields>
     {
+        // We make sure that default(MonthFields) is such that Month = 1,
+        // not 0 which is surely invalid.
+
         /// <summary>
-        /// Initializes a new instance of the <see cref="MonthParts"/> struct from the specified
+        /// Represents the algebraic month of the year (start at zero).
+        /// <para>This field is read-only.</para>
+        /// </summary>
+        private readonly int _month0;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MonthFields"/> struct from the specified
         /// month parts.
         /// </summary>
-        public MonthParts(Yemo parts)
+        public MonthFields(Yemo parts)
         {
             parts.Unpack(out int y, out int m);
             Year = y;
-            Month = m;
+            _month0 = m - 1;
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="MonthParts"/> struct from the specified
+        /// Initializes a new instance of the <see cref="MonthFields"/> struct from the specified
         /// year and month values.
         /// </summary>
-        public MonthParts(int year, int month)
+        /// <exception cref="AoorException"><paramref name="month"/> is a negative integer.
+        /// </exception>
+        public MonthFields(int year, int month)
         {
+            if (month < 1) Throw.MonthOutOfRange(month);
+
             Year = year;
-            Month = month;
+            _month0 = month - 1;
         }
+
+        /// <summary>
+        /// Gets the century of the era.
+        /// </summary>
+        public Ord CenturyOfEra => Ord.FromInt32(Century);
+
+        /// <summary>
+        /// Gets the century number.
+        /// </summary>
+        public int Century => YearNumbering.GetCentury(Year);
+
+        /// <summary>
+        /// Gets the year of the era.
+        /// </summary>
+        /// <exception cref="AoorException"><see cref="Year"/> is lower than
+        /// <see cref="Ord.MinAlgebraicValue"/>.</exception>
+        public Ord YearOfEra => Ord.FromInt32(Year);
+
+        /// <summary>
+        /// Gets the year of the century.
+        /// <para>The result is in the range from 1 to 100.</para>
+        /// </summary>
+        public int YearOfCentury => YearNumbering.GetYearOfCentury(Year);
 
         /// <summary>
         /// Gets the (algebraic) year number.
@@ -44,7 +80,7 @@ namespace Zorglub.Time
         /// <summary>
         /// Gets the month of the year.
         /// </summary>
-        public int Month { get; }
+        public int Month => _month0 + 1;
 
         /// <summary>
         /// Returns a culture-independent string representation of the current instance.
@@ -83,25 +119,25 @@ namespace Zorglub.Time
         }
     }
 
-    public partial struct MonthParts // IEquatable
+    public partial struct MonthFields // IEquatable
     {
         /// <summary>
-        /// Determines whether two specified instances of <see cref="MonthParts"/> are equal.
+        /// Determines whether two specified instances of <see cref="MonthFields"/> are equal.
         /// </summary>
-        public static bool operator ==(MonthParts left, MonthParts right) =>
-            left.Year == right.Year && left.Month == right.Month;
+        public static bool operator ==(MonthFields left, MonthFields right) =>
+            left.Year == right.Year && left._month0 == right._month0;
 
         /// <summary>
-        /// Determines whether two specified instances of <see cref="MonthParts"/> are not equal.
+        /// Determines whether two specified instances of <see cref="MonthFields"/> are not equal.
         /// </summary>
-        public static bool operator !=(MonthParts left, MonthParts right) => !(left == right);
+        public static bool operator !=(MonthFields left, MonthFields right) => !(left == right);
 
         /// <inheritdoc />
-        public bool Equals(MonthParts other) => this == other;
+        public bool Equals(MonthFields other) => this == other;
 
         /// <inheritdoc />
         public override bool Equals([NotNullWhen(true)] object? obj) =>
-            obj is MonthParts fields && this == fields;
+            obj is MonthFields parts && this == parts;
 
         /// <inheritdoc />
         public override int GetHashCode() => HashCode.Combine(Year, Month);

@@ -82,6 +82,9 @@ module RuntimeSizes =
         // Zorglub.Sketches
         Marshal.SizeOf(typedefof<Ord64>) === 8
         Marshal.SizeOf(typedefof<DayNumber64>) === 8
+        Marshal.SizeOf(typedefof<DateFields>) === 12
+        Marshal.SizeOf(typedefof<MonthFields>) === 8
+        Marshal.SizeOf(typedefof<OrdinalFields>) === 8
 
     [<Fact>]
     let ``Types in Zorglub.Time.Core`` () =
@@ -178,32 +181,57 @@ module DefaultValues =
         (y, m, d) === (1L, 1, 1)
 
     //
-    // Date parts found in Zorglub.Time
+    // Calendrical parts found in Zorglub.Time
     //
 
     [<Fact>]
-    let ``Default value of DateParts is 01/01/0000`` () =
+    let ``Default value of DateParts is 00/00/0000`` () =
         let parts = Unchecked.defaultof<DateParts>
         let y, m, d = parts.Deconstruct()
+
+        (y, m, d) === (0, 0, 0)
+
+    [<Fact>]
+    let ``Default value of MonthParts is 00/0000`` () =
+        let parts = Unchecked.defaultof<MonthParts>
+        let y, m = parts.Deconstruct()
+
+        (y, m) === (0, 0)
+
+    [<Fact>]
+    let ``Default value of OrdinalParts is 00/0000`` () =
+        let parts = Unchecked.defaultof<OrdinalParts>
+        let y, doy = parts.Deconstruct()
+
+        (y, doy) === (0, 0)
+
+    //
+    // Calendrical fields
+    //
+
+    [<Fact>]
+    let ``Default value of DateFields is 01/01/0000`` () =
+        let fields = Unchecked.defaultof<DateFields>
+        let y, m, d = fields.Deconstruct()
 
         (y, m, d) === (0, 1, 1)
 
     [<Fact>]
-    let ``Default value of MonthParts is 01/0000`` () =
-        let parts = Unchecked.defaultof<MonthParts>
-        let y, m = parts.Deconstruct()
+    let ``Default value of MonthFields is 01/0000`` () =
+        let fields = Unchecked.defaultof<MonthFields>
+        let y, m = fields.Deconstruct()
 
         (y, m) === (0, 1)
 
     [<Fact>]
-    let ``Default value of OrdinalParts is 01/0000`` () =
-        let parts = Unchecked.defaultof<OrdinalParts>
-        let y, doy = parts.Deconstruct()
+    let ``Default value of OrdinalFields is 01/0000`` () =
+        let fields = Unchecked.defaultof<OrdinalFields>
+        let y, doy = fields.Deconstruct()
 
         (y, doy) === (0, 1)
 
     //
-    // Date parts found in Zorglub.Time.core
+    // Calendrical parts found in Zorglub.Time.core
     //
 
     [<Fact>]

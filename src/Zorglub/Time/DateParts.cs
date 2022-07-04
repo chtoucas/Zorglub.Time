@@ -6,9 +6,13 @@ namespace Zorglub.Time
     using Zorglub.Time.Core;
     using Zorglub.Time.Hemerology;
 
+    // FIXME(code): use a record struct? tests with negative valuse for m and d.
+    // ToYemoda(ICalendarScope scope) it's not enough to ensure that Year and
+    // Month are valid for Yemo. Idem w/ the other fields types.
+
     // Differences w/ Yemoda:
-    // - DateParts does not force y, m, d to be in a specific range; we still
-    //   require m and d to be >= 1.
+    // - DateParts does not force y, m, d to be in a specific range; we don't
+    //   even require m and d to be >= 1.
     // - DateParts does not implement IComparable<>.
 
     /// <summary>
@@ -16,25 +20,10 @@ namespace Zorglub.Time
     /// <para><see cref="DateParts"/> is an immutable struct.</para>
     /// </summary>
     /// <remarks>
-    /// <para>A <see cref="DateParts"/> value is NOT a true date.</para>
+    /// <para>A <see cref="DateParts"/> does NOT represent a date.</para>
     /// </remarks>
     public readonly partial struct DateParts : IEqualityOperators<DateParts, DateParts>
     {
-        // We make sure that default(DateParts) is such that Month = Day = 1,
-        // not 0 which surely is invalid.
-
-        /// <summary>
-        /// Represents the algebraic month of the year (start at zero).
-        /// <para>This field is read-only.</para>
-        /// </summary>
-        private readonly int _month0;
-
-        /// <summary>
-        /// Represents the algebraic day of the month (start at zero).
-        /// <para>This field is read-only.</para>
-        /// </summary>
-        private readonly int _day0;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="DateParts"/> struct from the specified
         /// date parts.
@@ -43,49 +32,20 @@ namespace Zorglub.Time
         {
             parts.Unpack(out int y, out int m, out int d);
             Year = y;
-            _month0 = m - 1;
-            _day0 = d - 1;
+            Month = m;
+            Day = d;
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DateParts"/> struct from the specified year,
-        /// month and day.
+        /// month and day values.
         /// </summary>
-        /// <exception cref="AoorException"><paramref name="month"/> is a negative integer.
-        /// </exception>
-        /// <exception cref="AoorException"><paramref name="day"/> is a negative integer.</exception>
         public DateParts(int year, int month, int day)
         {
-            if (month < 1) Throw.MonthOutOfRange(month);
-            if (day < 1) Throw.DayOutOfRange(day);
-
             Year = year;
-            _month0 = month - 1;
-            _day0 = day - 1;
+            Month = month;
+            Day = day;
         }
-
-        /// <summary>
-        /// Gets the century of the era.
-        /// </summary>
-        public Ord CenturyOfEra => Ord.FromInt32(Century);
-
-        /// <summary>
-        /// Gets the century number.
-        /// </summary>
-        public int Century => YearNumbering.GetCentury(Year);
-
-        /// <summary>
-        /// Gets the year of the era.
-        /// </summary>
-        /// <exception cref="AoorException"><see cref="Year"/> is lower than
-        /// <see cref="Ord.MinAlgebraicValue"/>.</exception>
-        public Ord YearOfEra => Ord.FromInt32(Year);
-
-        /// <summary>
-        /// Gets the year of the century.
-        /// <para>The result is in the range from 1 to 100.</para>
-        /// </summary>
-        public int YearOfCentury => YearNumbering.GetYearOfCentury(Year);
 
         /// <summary>
         /// Gets the (algebraic) year number.
@@ -95,12 +55,12 @@ namespace Zorglub.Time
         /// <summary>
         /// Gets the month of the year.
         /// </summary>
-        public int Month => _month0 + 1;
+        public int Month { get; }
 
         /// <summary>
         /// Gets the day of the month.
         /// </summary>
-        public int Day => _day0 + 1;
+        public int Day { get; }
 
         /// <summary>
         /// Returns a culture-independent string representation of the current instance.
@@ -147,7 +107,7 @@ namespace Zorglub.Time
         /// Determines whether two specified instances of <see cref="DateParts"/> are equal.
         /// </summary>
         public static bool operator ==(DateParts left, DateParts right) =>
-            left.Year == right.Year && left._month0 == right._month0 && left._day0 == right._day0;
+            left.Year == right.Year && left.Month == right.Month && left.Day == right.Day;
 
         /// <summary>
         /// Determines whether two specified instances of <see cref="DateParts"/> are not equal.
