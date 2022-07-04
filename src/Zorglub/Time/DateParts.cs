@@ -10,16 +10,15 @@ namespace Zorglub.Time
     // ToYemoda(ICalendarScope scope) it's not enough to ensure that Year and
     // Month are valid for Yemo. Idem w/ the other fields types.
 
-    // Differences w/ Yemoda:
-    // - DateParts does not force y, m, d to be in a specific range; we don't
-    //   even require m and d to be >= 1.
-    // - DateParts does not implement IComparable<>.
+    // Main difference w/ Yemoda: DateParts does not force y, m, d to be in a
+    // specific range; we don't even require m and d to be >= 1.
 
     /// <summary>
     /// Represents a triple of a year, a month and a day.
     /// <para><see cref="DateParts"/> is an immutable struct.</para>
     /// </summary>
     /// <remarks>
+    /// <para>This type uses the lexicographic order on triples (Year, Month, Day).</para>
     /// <para>A <see cref="DateParts"/> does NOT represent a date.</para>
     /// </remarks>
     public readonly partial struct DateParts : IEqualityOperators<DateParts, DateParts>
@@ -61,6 +60,11 @@ namespace Zorglub.Time
         /// Gets the day of the month.
         /// </summary>
         public int Day { get; }
+
+        /// <summary>
+        /// Gets the month parts.
+        /// </summary>
+        public MonthParts MonthParts => new(Year, Month);
 
         /// <summary>
         /// Returns a culture-independent string representation of the current instance.
@@ -124,4 +128,67 @@ namespace Zorglub.Time
         /// <inheritdoc />
         public override int GetHashCode() => HashCode.Combine(Year, Month, Day);
     }
+
+    //public partial struct DateParts // IComparable
+    //{
+    //    /// <summary>
+    //    /// Compares the two specified instances to see if the left one is strictly earlier than the
+    //    /// right one.
+    //    /// </summary>
+    //    /// <remarks>
+    //    /// <para>The comparison is done using the lexicographic order on triples (Year, Month, Day).
+    //    /// </para>
+    //    /// </remarks>
+    //    public static bool operator <(DateParts left, DateParts right) => left.CompareTo(right) < 0;
+
+    //    /// <summary>
+    //    /// Compares the two specified instances to see if the left one is earlier than or equal to
+    //    /// the right one.
+    //    /// </summary>
+    //    /// <remarks>
+    //    /// <para>The comparison is done using the lexicographic order on triples (Year, Month, Day).
+    //    /// </para>
+    //    /// </remarks>
+    //    public static bool operator <=(DateParts left, DateParts right) => left.CompareTo(right) <= 0;
+
+    //    /// <summary>
+    //    /// Compares the two specified instances to see if the left one is strictly later than the
+    //    /// right one.
+    //    /// </summary>
+    //    /// <remarks>
+    //    /// <para>The comparison is done using the lexicographic order on triples (Year, Month, Day).
+    //    /// </para>
+    //    /// </remarks>
+    //    public static bool operator >(DateParts left, DateParts right) => left.CompareTo(right) > 0;
+
+    //    /// <summary>
+    //    /// Compares the two specified instances to see if the left one is later than or equal to
+    //    /// the right one.
+    //    /// </summary>
+    //    /// <remarks>
+    //    /// <para>The comparison is done using the lexicographic order on triples (Year, Month, Day).
+    //    /// </para>
+    //    /// </remarks>
+    //    public static bool operator >=(DateParts left, DateParts right) => left.CompareTo(right) >= 0;
+
+    //    /// <inheritdoc />
+    //    /// <remarks>
+    //    /// <para>The comparison is done using the lexicographic order on triples (Year, Month, Day).
+    //    /// </para>
+    //    /// </remarks>
+    //    [Pure]
+    //    public int CompareTo(DateParts other) =>
+    //        Equals(other) ? 0
+    //        : Year.CompareTo(other.Year) < 0 ? -1
+    //        : Month.CompareTo(other.Month) < 0 ? -1
+    //        : Day.CompareTo(other.Day) < 0 ? - 1
+    //        : 1;
+
+    //    /// <inheritdoc />
+    //    [Pure]
+    //    public int CompareTo(object? obj) =>
+    //        obj is null ? 1
+    //        : obj is DateParts ymd ? CompareTo(ymd)
+    //        : Throw.NonComparable(typeof(Yemoda), obj);
+    //}
 }
