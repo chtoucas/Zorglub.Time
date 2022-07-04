@@ -515,7 +515,11 @@ static Zorglub.Time.Core.Yemox.FromBinary(int data) -> Zorglub.Time.Core.Yemox
 static Zorglub.Time.Core.Yemox.operator !=(Zorglub.Time.Core.Yemox left, Zorglub.Time.Core.Yemox right) -> bool
 static Zorglub.Time.Core.Yemox.operator ==(Zorglub.Time.Core.Yemox left, Zorglub.Time.Core.Yemox right) -> bool
 static Zorglub.Time.DateParts.operator !=(Zorglub.Time.DateParts left, Zorglub.Time.DateParts right) -> bool
+static Zorglub.Time.DateParts.operator <(Zorglub.Time.DateParts left, Zorglub.Time.DateParts right) -> bool
+static Zorglub.Time.DateParts.operator <=(Zorglub.Time.DateParts left, Zorglub.Time.DateParts right) -> bool
 static Zorglub.Time.DateParts.operator ==(Zorglub.Time.DateParts left, Zorglub.Time.DateParts right) -> bool
+static Zorglub.Time.DateParts.operator >(Zorglub.Time.DateParts left, Zorglub.Time.DateParts right) -> bool
+static Zorglub.Time.DateParts.operator >=(Zorglub.Time.DateParts left, Zorglub.Time.DateParts right) -> bool
 static Zorglub.Time.DayNumber.FromGregorianOrdinalParts(int year, int dayOfYear) -> Zorglub.Time.DayNumber
 static Zorglub.Time.DayNumber.FromGregorianParts(int year, int month, int day) -> Zorglub.Time.DayNumber
 static Zorglub.Time.DayNumber.FromJulianOrdinalParts(int year, int dayOfYear) -> Zorglub.Time.DayNumber
@@ -570,7 +574,11 @@ static Zorglub.Time.Hemerology.YearNumbering.GetYearFromIsoMillennium(int millen
 static Zorglub.Time.Hemerology.YearNumbering.GetYearFromMillennium(int millennium, int yearOfMillennium) -> int
 static Zorglub.Time.Hemerology.YearNumbering.GetYearOfCentury(int year) -> int
 static Zorglub.Time.MonthParts.operator !=(Zorglub.Time.MonthParts left, Zorglub.Time.MonthParts right) -> bool
+static Zorglub.Time.MonthParts.operator <(Zorglub.Time.MonthParts left, Zorglub.Time.MonthParts right) -> bool
+static Zorglub.Time.MonthParts.operator <=(Zorglub.Time.MonthParts left, Zorglub.Time.MonthParts right) -> bool
 static Zorglub.Time.MonthParts.operator ==(Zorglub.Time.MonthParts left, Zorglub.Time.MonthParts right) -> bool
+static Zorglub.Time.MonthParts.operator >(Zorglub.Time.MonthParts left, Zorglub.Time.MonthParts right) -> bool
+static Zorglub.Time.MonthParts.operator >=(Zorglub.Time.MonthParts left, Zorglub.Time.MonthParts right) -> bool
 static Zorglub.Time.Ord.explicit operator int(Zorglub.Time.Ord ord) -> int
 static Zorglub.Time.Ord.FromInt32(int value) -> Zorglub.Time.Ord
 static Zorglub.Time.Ord.FromRank(int rank) -> Zorglub.Time.Ord
@@ -591,7 +599,11 @@ static Zorglub.Time.Ord.operator ==(Zorglub.Time.Ord left, Zorglub.Time.Ord righ
 static Zorglub.Time.Ord.operator >(Zorglub.Time.Ord left, Zorglub.Time.Ord right) -> bool
 static Zorglub.Time.Ord.operator >=(Zorglub.Time.Ord left, Zorglub.Time.Ord right) -> bool
 static Zorglub.Time.OrdinalParts.operator !=(Zorglub.Time.OrdinalParts left, Zorglub.Time.OrdinalParts right) -> bool
+static Zorglub.Time.OrdinalParts.operator <(Zorglub.Time.OrdinalParts left, Zorglub.Time.OrdinalParts right) -> bool
+static Zorglub.Time.OrdinalParts.operator <=(Zorglub.Time.OrdinalParts left, Zorglub.Time.OrdinalParts right) -> bool
 static Zorglub.Time.OrdinalParts.operator ==(Zorglub.Time.OrdinalParts left, Zorglub.Time.OrdinalParts right) -> bool
+static Zorglub.Time.OrdinalParts.operator >(Zorglub.Time.OrdinalParts left, Zorglub.Time.OrdinalParts right) -> bool
+static Zorglub.Time.OrdinalParts.operator >=(Zorglub.Time.OrdinalParts left, Zorglub.Time.OrdinalParts right) -> bool
 static Zorglub.Time.Simple.ArmenianCalendar.Instance.get -> Zorglub.Time.Simple.ArmenianCalendar!
 static Zorglub.Time.Simple.BoxExtensions.CreateCalendar<TSchema>(this Zorglub.Time.Core.Utilities.Box<TSchema!>! this, string! key, Zorglub.Time.DayNumber epoch, bool proleptic = false) -> Zorglub.Time.Simple.Calendar!
 static Zorglub.Time.Simple.BoxExtensions.GetOrCreateCalendar<TSchema>(this Zorglub.Time.Core.Utilities.Box<TSchema!>! this, string! key, Zorglub.Time.DayNumber epoch, bool proleptic = false) -> Zorglub.Time.Simple.Calendar!
@@ -1140,8 +1152,8 @@ Zorglub.Time.Core.Yemox.Year.get -> int
 Zorglub.Time.Core.Yemox.Yemo.get -> Zorglub.Time.Core.Yemo
 Zorglub.Time.Core.Yemox.Yemox() -> void
 Zorglub.Time.DateParts
-Zorglub.Time.DateParts.Century.get -> int
-Zorglub.Time.DateParts.CenturyOfEra.get -> Zorglub.Time.Ord
+Zorglub.Time.DateParts.CompareTo(object? obj) -> int
+Zorglub.Time.DateParts.CompareTo(Zorglub.Time.DateParts other) -> int
 Zorglub.Time.DateParts.DateParts() -> void
 Zorglub.Time.DateParts.DateParts(int year, int month, int day) -> void
 Zorglub.Time.DateParts.DateParts(Zorglub.Time.Core.Yemoda parts) -> void
@@ -1152,8 +1164,6 @@ Zorglub.Time.DateParts.Month.get -> int
 Zorglub.Time.DateParts.ToYemoda() -> Zorglub.Time.Core.Yemoda
 Zorglub.Time.DateParts.ToYemoda(Zorglub.Time.Hemerology.ICalendarScope! scope) -> Zorglub.Time.Core.Yemoda
 Zorglub.Time.DateParts.Year.get -> int
-Zorglub.Time.DateParts.YearOfCentury.get -> int
-Zorglub.Time.DateParts.YearOfEra.get -> Zorglub.Time.Ord
 Zorglub.Time.DayNumber
 Zorglub.Time.DayNumber.CompareTo(object? obj) -> int
 Zorglub.Time.DayNumber.CompareTo(Zorglub.Time.DayNumber other) -> int
@@ -1254,8 +1264,8 @@ Zorglub.Time.Hemerology.IStandardArithmetic<TSelf>.PreviousDay() -> TSelf
 Zorglub.Time.Hemerology.RangeExtensions
 Zorglub.Time.Hemerology.YearNumbering
 Zorglub.Time.MonthParts
-Zorglub.Time.MonthParts.Century.get -> int
-Zorglub.Time.MonthParts.CenturyOfEra.get -> Zorglub.Time.Ord
+Zorglub.Time.MonthParts.CompareTo(object? obj) -> int
+Zorglub.Time.MonthParts.CompareTo(Zorglub.Time.MonthParts other) -> int
 Zorglub.Time.MonthParts.Deconstruct(out int year, out int month) -> void
 Zorglub.Time.MonthParts.Equals(Zorglub.Time.MonthParts other) -> bool
 Zorglub.Time.MonthParts.Month.get -> int
@@ -1265,8 +1275,6 @@ Zorglub.Time.MonthParts.MonthParts(Zorglub.Time.Core.Yemo parts) -> void
 Zorglub.Time.MonthParts.ToYemo() -> Zorglub.Time.Core.Yemo
 Zorglub.Time.MonthParts.ToYemo(Zorglub.Time.Hemerology.ICalendarScope! scope) -> Zorglub.Time.Core.Yemo
 Zorglub.Time.MonthParts.Year.get -> int
-Zorglub.Time.MonthParts.YearOfCentury.get -> int
-Zorglub.Time.MonthParts.YearOfEra.get -> Zorglub.Time.Ord
 Zorglub.Time.Ord
 Zorglub.Time.Ord.Add(int num) -> Zorglub.Time.Ord
 Zorglub.Time.Ord.CompareTo(object? obj) -> int
@@ -1281,8 +1289,8 @@ Zorglub.Time.Ord.Rank.get -> int
 Zorglub.Time.Ord.Subtract(Zorglub.Time.Ord other) -> int
 Zorglub.Time.Ord.ToInt32() -> int
 Zorglub.Time.OrdinalParts
-Zorglub.Time.OrdinalParts.Century.get -> int
-Zorglub.Time.OrdinalParts.CenturyOfEra.get -> Zorglub.Time.Ord
+Zorglub.Time.OrdinalParts.CompareTo(object? obj) -> int
+Zorglub.Time.OrdinalParts.CompareTo(Zorglub.Time.OrdinalParts other) -> int
 Zorglub.Time.OrdinalParts.DayOfYear.get -> int
 Zorglub.Time.OrdinalParts.Deconstruct(out int year, out int dayOfYear) -> void
 Zorglub.Time.OrdinalParts.Equals(Zorglub.Time.OrdinalParts other) -> bool
@@ -1292,8 +1300,6 @@ Zorglub.Time.OrdinalParts.OrdinalParts(Zorglub.Time.Core.Yedoy parts) -> void
 Zorglub.Time.OrdinalParts.ToYedoy() -> Zorglub.Time.Core.Yedoy
 Zorglub.Time.OrdinalParts.ToYedoy(Zorglub.Time.Hemerology.ICalendarScope! scope) -> Zorglub.Time.Core.Yedoy
 Zorglub.Time.OrdinalParts.Year.get -> int
-Zorglub.Time.OrdinalParts.YearOfCentury.get -> int
-Zorglub.Time.OrdinalParts.YearOfEra.get -> Zorglub.Time.Ord
 Zorglub.Time.Simple.ArmenianCalendar
 Zorglub.Time.Simple.ArmenianCalendar.IsEpagomenalDay(Zorglub.Time.Simple.CalendarDate date, out int epagomenalNumber) -> bool
 Zorglub.Time.Simple.BoxExtensions
