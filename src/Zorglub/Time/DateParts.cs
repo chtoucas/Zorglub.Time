@@ -9,6 +9,7 @@ namespace Zorglub.Time
     // FIXME(code): use a record struct? tests with negative valuse for m and d.
     // ToYemoda(ICalendarScope scope) it's not enough to ensure that Year, Month
     // and Day are valid for Yemoda. Idem w/ the other fields types.
+    // Prop MonthParts? ToString()
 
     // Main difference w/ Yemoda: DateParts does not force y, m, d to be in a
     // specific range; we don't even require m and d to be >= 1.
@@ -60,11 +61,6 @@ namespace Zorglub.Time
         /// Gets the day of the month.
         /// </summary>
         public int Day { get; }
-
-        /// <summary>
-        /// Gets the month parts.
-        /// </summary>
-        public MonthParts MonthParts => new(Year, Month);
 
         /// <summary>
         /// Returns a culture-independent string representation of the current instance.
