@@ -385,10 +385,10 @@ namespace Zorglub.Time.Simple
         #region Adjustments
 
         /// <summary>
-        /// Adjusts the date fields to the specified values, yielding a new month.
+        /// Adjusts the month fields to the specified values, yielding a new month.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="adjuster"/> is null.</exception>
-        /// <exception cref="AoorException">The resulting date would be invalid.</exception>
+        /// <exception cref="AoorException">The resulting month would be invalid.</exception>
         [Pure]
         public CalendarMonth Adjust(Func<MonthParts, MonthParts> adjuster)
         {
