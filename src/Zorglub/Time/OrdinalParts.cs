@@ -13,7 +13,7 @@ namespace Zorglub.Time
     /// <remarks>
     /// <para>An <see cref="OrdinalParts"/> does NOT represent an ordinal date.</para>
     /// </remarks>
-    public readonly partial struct OrdinalParts : IEqualityOperators<OrdinalParts, OrdinalParts>
+    public readonly partial struct OrdinalParts : IComparisonOperators<OrdinalParts, OrdinalParts>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="OrdinalParts"/> struct from the specified
@@ -107,5 +107,75 @@ namespace Zorglub.Time
 
         /// <inheritdoc />
         public override int GetHashCode() => HashCode.Combine(Year, DayOfYear);
+    }
+
+    public partial struct OrdinalParts // IComparable
+    {
+        /// <summary>
+        /// Compares the two specified instances to see if the left one is strictly earlier than the
+        /// right one.
+        /// </summary>
+        /// <remarks>
+        /// <para>The comparison is done using the lexicographic order on pairs (Year, DayOfYear).
+        /// </para>
+        /// </remarks>
+        public static bool operator <(OrdinalParts left, OrdinalParts right) =>
+            left.CompareTo(right) < 0;
+
+        /// <summary>
+        /// Compares the two specified instances to see if the left one is earlier than or equal to
+        /// the right one.
+        /// </summary>
+        /// <remarks>
+        /// <para>The comparison is done using the lexicographic order on pairs (Year, DayOfYear).
+        /// </para>
+        /// </remarks>
+        public static bool operator <=(OrdinalParts left, OrdinalParts right) =>
+            left.CompareTo(right) <= 0;
+
+        /// <summary>
+        /// Compares the two specified instances to see if the left one is strictly later than the
+        /// right one.
+        /// </summary>
+        /// <remarks>
+        /// <para>The comparison is done using the lexicographic order on pairs (Year, DayOfYear).
+        /// </para>
+        /// </remarks>
+        public static bool operator >(OrdinalParts left, OrdinalParts right) =>
+            left.CompareTo(right) > 0;
+
+        /// <summary>
+        /// Compares the two specified instances to see if the left one is later than or equal to
+        /// the right one.
+        /// </summary>
+        /// <remarks>
+        /// <para>The comparison is done using the lexicographic order on pairs (Year, DayOfYear).
+        /// </para>
+        /// </remarks>
+        public static bool operator >=(OrdinalParts left, OrdinalParts right) =>
+            left.CompareTo(right) >= 0;
+
+        /// <inheritdoc />
+        /// <remarks>
+        /// <para>The comparison is done using the lexicographic order on pairs (Year, DayOfYear).
+        /// </para>
+        /// </remarks>
+        [Pure]
+        public int CompareTo(OrdinalParts other)
+        {
+            int c = Year.CompareTo(other.Year);
+            if (c == 0)
+            {
+                c = DayOfYear.CompareTo(other.DayOfYear);
+            }
+            return c;
+        }
+
+        /// <inheritdoc />
+        [Pure]
+        public int CompareTo(object? obj) =>
+            obj is null ? 1
+            : obj is OrdinalParts parts ? CompareTo(parts)
+            : Throw.NonComparable(typeof(OrdinalParts), obj);
     }
 }

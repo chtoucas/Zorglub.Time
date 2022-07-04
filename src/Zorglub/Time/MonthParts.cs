@@ -13,7 +13,7 @@ namespace Zorglub.Time
     /// <remarks>
     /// <para>A <see cref="MonthParts"/> does NOT represent a month.</para>
     /// </remarks>
-    public readonly partial struct MonthParts : IEqualityOperators<MonthParts, MonthParts>
+    public readonly partial struct MonthParts : IComparisonOperators<MonthParts, MonthParts>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="MonthParts"/> struct from the specified
@@ -105,5 +105,70 @@ namespace Zorglub.Time
 
         /// <inheritdoc />
         public override int GetHashCode() => HashCode.Combine(Year, Month);
+    }
+
+    public partial struct MonthParts // IComparable
+    {
+        /// <summary>
+        /// Compares the two specified instances to see if the left one is strictly earlier than the
+        /// right one.
+        /// </summary>
+        /// <remarks>
+        /// <para>The comparison is done using the lexicographic order on pairs (Year, Month).</para>
+        /// </remarks>
+        public static bool operator <(MonthParts left, MonthParts right) =>
+            left.CompareTo(right) < 0;
+
+        /// <summary>
+        /// Compares the two specified instances to see if the left one is earlier than or equal to
+        /// the right one.
+        /// </summary>
+        /// <remarks>
+        /// <para>The comparison is done using the lexicographic order on pairs (Year, Month).</para>
+        /// </remarks>
+        public static bool operator <=(MonthParts left, MonthParts right) =>
+            left.CompareTo(right) <= 0;
+
+        /// <summary>
+        /// Compares the two specified instances to see if the left one is strictly later than the
+        /// right one.
+        /// </summary>
+        /// <remarks>
+        /// <para>The comparison is done using the lexicographic order on pairs (Year, Month).</para>
+        /// </remarks>
+        public static bool operator >(MonthParts left, MonthParts right) =>
+            left.CompareTo(right) > 0;
+
+        /// <summary>
+        /// Compares the two specified instances to see if the left one is later than or equal to
+        /// the right one.
+        /// </summary>
+        /// <remarks>
+        /// <para>The comparison is done using the lexicographic order on pairs (Year, Month).</para>
+        /// </remarks>
+        public static bool operator >=(MonthParts left, MonthParts right) =>
+            left.CompareTo(right) >= 0;
+
+        /// <inheritdoc />
+        /// <remarks>
+        /// <para>The comparison is done using the lexicographic order on pairs (Year, Month).</para>
+        /// </remarks>
+        [Pure]
+        public int CompareTo(MonthParts other)
+        {
+            int c = Year.CompareTo(other.Year);
+            if (c == 0)
+            {
+                c = Month.CompareTo(other.Month);
+            }
+            return c;
+        }
+
+        /// <inheritdoc />
+        [Pure]
+        public int CompareTo(object? obj) =>
+            obj is null ? 1
+            : obj is MonthParts parts ? CompareTo(parts)
+            : Throw.NonComparable(typeof(MonthParts), obj);
     }
 }

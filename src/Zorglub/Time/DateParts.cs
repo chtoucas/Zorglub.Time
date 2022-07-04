@@ -7,8 +7,8 @@ namespace Zorglub.Time
     using Zorglub.Time.Hemerology;
 
     // FIXME(code): use a record struct? tests with negative valuse for m and d.
-    // ToYemoda(ICalendarScope scope) it's not enough to ensure that Year and
-    // Month are valid for Yemo. Idem w/ the other fields types.
+    // ToYemoda(ICalendarScope scope) it's not enough to ensure that Year, Month
+    // and Day are valid for Yemoda. Idem w/ the other fields types.
 
     // Main difference w/ Yemoda: DateParts does not force y, m, d to be in a
     // specific range; we don't even require m and d to be >= 1.
@@ -21,7 +21,7 @@ namespace Zorglub.Time
     /// <para>This type uses the lexicographic order on triples (Year, Month, Day).</para>
     /// <para>A <see cref="DateParts"/> does NOT represent a date.</para>
     /// </remarks>
-    public readonly partial struct DateParts : IEqualityOperators<DateParts, DateParts>
+    public readonly partial struct DateParts : IComparisonOperators<DateParts, DateParts>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="DateParts"/> struct from the specified
@@ -129,66 +129,77 @@ namespace Zorglub.Time
         public override int GetHashCode() => HashCode.Combine(Year, Month, Day);
     }
 
-    //public partial struct DateParts // IComparable
-    //{
-    //    /// <summary>
-    //    /// Compares the two specified instances to see if the left one is strictly earlier than the
-    //    /// right one.
-    //    /// </summary>
-    //    /// <remarks>
-    //    /// <para>The comparison is done using the lexicographic order on triples (Year, Month, Day).
-    //    /// </para>
-    //    /// </remarks>
-    //    public static bool operator <(DateParts left, DateParts right) => left.CompareTo(right) < 0;
+    public partial struct DateParts // IComparable
+    {
+        /// <summary>
+        /// Compares the two specified instances to see if the left one is strictly earlier than the
+        /// right one.
+        /// </summary>
+        /// <remarks>
+        /// <para>The comparison is done using the lexicographic order on triples (Year, Month, Day).
+        /// </para>
+        /// </remarks>
+        public static bool operator <(DateParts left, DateParts right) =>
+            left.CompareTo(right) < 0;
 
-    //    /// <summary>
-    //    /// Compares the two specified instances to see if the left one is earlier than or equal to
-    //    /// the right one.
-    //    /// </summary>
-    //    /// <remarks>
-    //    /// <para>The comparison is done using the lexicographic order on triples (Year, Month, Day).
-    //    /// </para>
-    //    /// </remarks>
-    //    public static bool operator <=(DateParts left, DateParts right) => left.CompareTo(right) <= 0;
+        /// <summary>
+        /// Compares the two specified instances to see if the left one is earlier than or equal to
+        /// the right one.
+        /// </summary>
+        /// <remarks>
+        /// <para>The comparison is done using the lexicographic order on triples (Year, Month, Day).
+        /// </para>
+        /// </remarks>
+        public static bool operator <=(DateParts left, DateParts right) =>
+            left.CompareTo(right) <= 0;
 
-    //    /// <summary>
-    //    /// Compares the two specified instances to see if the left one is strictly later than the
-    //    /// right one.
-    //    /// </summary>
-    //    /// <remarks>
-    //    /// <para>The comparison is done using the lexicographic order on triples (Year, Month, Day).
-    //    /// </para>
-    //    /// </remarks>
-    //    public static bool operator >(DateParts left, DateParts right) => left.CompareTo(right) > 0;
+        /// <summary>
+        /// Compares the two specified instances to see if the left one is strictly later than the
+        /// right one.
+        /// </summary>
+        /// <remarks>
+        /// <para>The comparison is done using the lexicographic order on triples (Year, Month, Day).
+        /// </para>
+        /// </remarks>
+        public static bool operator >(DateParts left, DateParts right) =>
+            left.CompareTo(right) > 0;
 
-    //    /// <summary>
-    //    /// Compares the two specified instances to see if the left one is later than or equal to
-    //    /// the right one.
-    //    /// </summary>
-    //    /// <remarks>
-    //    /// <para>The comparison is done using the lexicographic order on triples (Year, Month, Day).
-    //    /// </para>
-    //    /// </remarks>
-    //    public static bool operator >=(DateParts left, DateParts right) => left.CompareTo(right) >= 0;
+        /// <summary>
+        /// Compares the two specified instances to see if the left one is later than or equal to
+        /// the right one.
+        /// </summary>
+        /// <remarks>
+        /// <para>The comparison is done using the lexicographic order on triples (Year, Month, Day).
+        /// </para>
+        /// </remarks>
+        public static bool operator >=(DateParts left, DateParts right) =>
+            left.CompareTo(right) >= 0;
 
-    //    /// <inheritdoc />
-    //    /// <remarks>
-    //    /// <para>The comparison is done using the lexicographic order on triples (Year, Month, Day).
-    //    /// </para>
-    //    /// </remarks>
-    //    [Pure]
-    //    public int CompareTo(DateParts other) =>
-    //        Equals(other) ? 0
-    //        : Year.CompareTo(other.Year) < 0 ? -1
-    //        : Month.CompareTo(other.Month) < 0 ? -1
-    //        : Day.CompareTo(other.Day) < 0 ? - 1
-    //        : 1;
+        /// <inheritdoc />
+        /// <remarks>
+        /// <para>The comparison is done using the lexicographic order on triples (Year, Month, Day).
+        /// </para>
+        /// </remarks>
+        [Pure]
+        public int CompareTo(DateParts other)
+        {
+            int c = Year.CompareTo(other.Year);
+            if (c == 0)
+            {
+                c = Month.CompareTo(other.Month);
+                if (c == 0)
+                {
+                    c = Day.CompareTo(other.Day);
+                }
+            }
+            return c;
+        }
 
-    //    /// <inheritdoc />
-    //    [Pure]
-    //    public int CompareTo(object? obj) =>
-    //        obj is null ? 1
-    //        : obj is DateParts ymd ? CompareTo(ymd)
-    //        : Throw.NonComparable(typeof(Yemoda), obj);
-    //}
+        /// <inheritdoc />
+        [Pure]
+        public int CompareTo(object? obj) =>
+            obj is null ? 1
+            : obj is DateParts parts ? CompareTo(parts)
+            : Throw.NonComparable(typeof(DateParts), obj);
+    }
 }
