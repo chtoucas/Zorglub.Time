@@ -101,22 +101,6 @@ namespace Zorglub.Time
         /// </exception>
         [Pure]
         public Yemo ToYemo() => Yemo.Create(Year, Month);
-
-        /// <summary>
-        /// Validates the current instance with the specified scope then converts it to a
-        /// <see cref="Yemo"/> value.
-        /// </summary>
-        /// <exception cref="ArgumentNullException"><paramref name="scope"/> is null.</exception>
-        /// <exception cref="AoorException">The current instance is not valid according to the
-        /// specified scope.</exception>
-        [Pure]
-        public Yemo ToYemo(ICalendarScope scope)
-        {
-            Requires.NotNull(scope);
-
-            scope.ValidateYearMonth(Year, Month);
-            return new Yemo(Year, Month);
-        }
     }
 
     public partial struct MonthFields // IEquatable

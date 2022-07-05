@@ -363,8 +363,8 @@ namespace Zorglub.Time.Simple
             Requires.NotNull(adjuster);
 
             ref readonly var chr = ref CalendarRef;
-            var ymd = adjuster.Invoke(new DateParts(Parts)).ToYemoda(chr.Scope);
-            return new CalendarDate(ymd, Cuid);
+            var (y, m, d) = adjuster.Invoke(new DateParts(Parts));
+            return chr.GetCalendarDate(y, m, d);
         }
 
         /// <inheritdoc/>

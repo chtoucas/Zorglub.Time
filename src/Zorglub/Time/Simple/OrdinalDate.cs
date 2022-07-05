@@ -343,8 +343,8 @@ namespace Zorglub.Time.Simple
             Requires.NotNull(adjuster);
 
             ref readonly var chr = ref CalendarRef;
-            var ydoy = adjuster.Invoke(new OrdinalParts(Parts)).ToYedoy(chr.Scope);
-            return new OrdinalDate(ydoy, Cuid);
+            var (y, doy) = adjuster.Invoke(new OrdinalParts(Parts));
+            return chr.GetOrdinalDate(y, doy);
         }
 
         /// <inheritdoc/>

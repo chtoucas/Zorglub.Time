@@ -19,6 +19,8 @@ open Xunit
 open FsCheck
 open FsCheck.Xunit
 
+open type Zorglub.Time.Extensions.PartsExtensions
+
 // TODO(code): test ToYemoda() & co, when the parts cannot be converted.
 
 module TestCommon =

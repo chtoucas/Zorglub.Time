@@ -4,11 +4,8 @@
 namespace Zorglub.Time
 {
     using Zorglub.Time.Core;
-    using Zorglub.Time.Hemerology;
 
-    // FIXME(code): use a record struct? tests with negative valuse for m and d.
-    // ToYemoda(ICalendarScope scope) it's not enough to ensure that Year, Month
-    // and Day are valid for Yemoda. Idem w/ the other fields types.
+    // TODO(code): use a record struct? tests with negative values for m and d.
     // Prop MonthParts? ToString()
 
     // Main difference w/ Yemoda: DateParts does not force y, m, d to be in a
@@ -83,22 +80,6 @@ namespace Zorglub.Time
         /// </exception>
         [Pure]
         public Yemoda ToYemoda() => Yemoda.Create(Year, Month, Day);
-
-        /// <summary>
-        /// Validates the current instance with the specified scope then converts it to a
-        /// <see cref="Yemoda"/> value.
-        /// </summary>
-        /// <exception cref="ArgumentNullException"><paramref name="scope"/> is null.</exception>
-        /// <exception cref="AoorException">The current instance is not valid according to the
-        /// specified scope.</exception>
-        [Pure]
-        public Yemoda ToYemoda(ICalendarScope scope)
-        {
-            Requires.NotNull(scope);
-
-            scope.ValidateYearMonthDay(Year, Month, Day);
-            return new Yemoda(Year, Month, Day);
-        }
     }
 
     public partial struct DateParts // IEquatable

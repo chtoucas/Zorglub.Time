@@ -103,22 +103,6 @@ namespace Zorglub.Time
         /// </exception>
         [Pure]
         public Yedoy ToYedoy() => Yedoy.Create(Year, DayOfYear);
-
-        /// <summary>
-        /// Validates the current instance with the specified scope then converts it to a
-        /// <see cref="Yedoy"/> value.
-        /// </summary>
-        /// <exception cref="ArgumentNullException"><paramref name="scope"/> is null.</exception>
-        /// <exception cref="AoorException">The current instance is not valid according to the
-        /// specified scope.</exception>
-        [Pure]
-        public Yedoy ToYedoy(ICalendarScope scope)
-        {
-            Requires.NotNull(scope);
-
-            scope.ValidateOrdinal(Year, DayOfYear);
-            return new Yedoy(Year, DayOfYear);
-        }
     }
 
     public partial struct OrdinalFields // IEquatable

@@ -6,9 +6,6 @@ namespace Zorglub.Time
     using Zorglub.Time.Core;
     using Zorglub.Time.Hemerology;
 
-    // FIXME(code): ToYemoda(ICalendarScope scope), it's not enough to ensure
-    // that Year and Month are valid for Yemo. Idem w/ the other types.
-
     // Differences w/ Yemoda:
     // - DateFields does not force y, m, d to be in a specific range; we still
     //   require m and d to be >= 1.
@@ -126,22 +123,6 @@ namespace Zorglub.Time
         /// </exception>
         [Pure]
         public Yemoda ToYemoda() => Yemoda.Create(Year, Month, Day);
-
-        /// <summary>
-        /// Validates the current instance with the specified scope then converts it to a
-        /// <see cref="Yemoda"/> value.
-        /// </summary>
-        /// <exception cref="ArgumentNullException"><paramref name="scope"/> is null.</exception>
-        /// <exception cref="AoorException">The current instance is not valid according to the
-        /// specified scope.</exception>
-        [Pure]
-        public Yemoda ToYemoda(ICalendarScope scope)
-        {
-            Requires.NotNull(scope);
-
-            scope.ValidateYearMonthDay(Year, Month, Day);
-            return new Yemoda(Year, Month, Day);
-        }
     }
 
     public partial struct DateFields // IEquatable
