@@ -5,9 +5,8 @@ namespace Zorglub.Time.Hemerology
 {
     using Zorglub.Time.Core;
 
-    // REVIEW(code): date objects (DateParts) are not comparable...
-    // L'absence d'un objet date fait qu'on doit revalider les données à
-    // chaque fois.
+    // REVIEW(code): l'absence d'un objet date fait qu'on doit revalider les
+    // données à chaque fois.
     // Add
     // - GetFirstMonth() -> MonthParts.
     // - GetMonthsInYear() -> MonthParts.
@@ -55,6 +54,7 @@ namespace Zorglub.Time.Hemerology
             Name = name ?? throw new ArgumentNullException(nameof(name));
 
             MinMaxDateParts = scope.MinMaxDateParts;
+            PartsProvider = new PartsProvider(schema);
         }
 
         /// <summary>
@@ -66,6 +66,8 @@ namespace Zorglub.Time.Hemerology
         /// Gets the earliest supported date parts.
         /// </summary>
         public OrderedPair<DateParts> MinMaxDateParts { get; }
+
+        protected PartsProvider PartsProvider { get; }
 
         /// <summary>
         /// Returns a string representation of the current instance.

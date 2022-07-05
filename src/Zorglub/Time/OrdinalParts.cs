@@ -3,8 +3,6 @@
 
 namespace Zorglub.Time
 {
-    using Zorglub.Time.Core;
-
     /// <summary>
     /// Represents a pair of a year and a day of the year.
     /// <para><see cref="OrdinalParts"/> is an immutable struct.</para>
@@ -14,17 +12,6 @@ namespace Zorglub.Time
     /// </remarks>
     public readonly partial struct OrdinalParts : IComparisonOperators<OrdinalParts, OrdinalParts>
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="OrdinalParts"/> struct from the specified
-        /// ordinal parts.
-        /// </summary>
-        public OrdinalParts(Yedoy parts)
-        {
-            parts.Unpack(out int y, out int doy);
-            Year = y;
-            DayOfYear = doy;
-        }
-
         /// <summary>
         /// Initializes a new instance of the <see cref="OrdinalParts"/> struct from the specified
         /// year and day of the year values.
@@ -57,15 +44,6 @@ namespace Zorglub.Time
         /// </summary>
         public void Deconstruct(out int year, out int dayOfYear) =>
             (year, dayOfYear) = (Year, DayOfYear);
-
-        /// <summary>
-        /// Converts the current instance to a <see cref="Yedoy"/> value.
-        /// </summary>
-        /// <exception cref="AoorException">The current instance is not representable by a
-        /// <see cref="Yedoy"/>; one of the value is too large to be handled by the system.
-        /// </exception>
-        [Pure]
-        public Yedoy ToYedoy() => Yedoy.Create(Year, DayOfYear);
     }
 
     public partial struct OrdinalParts // IEquatable

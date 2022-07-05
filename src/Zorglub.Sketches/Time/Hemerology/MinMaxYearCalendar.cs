@@ -127,7 +127,7 @@ namespace Zorglub.Time.Hemerology
 
                     for (int d = 1; d <= daysInMonth; d++)
                     {
-                        yield return new DateParts(new Yemoda(year, m, d));
+                        yield return new DateParts(year, m, d);
                     }
                 }
             }
@@ -148,7 +148,7 @@ namespace Zorglub.Time.Hemerology
 
                 for (int d = 1; d <= daysInMonth; d++)
                 {
-                    yield return new DateParts(new Yemoda(year, month, d));
+                    yield return new DateParts(year, month, d);
                 }
             }
         }
@@ -158,7 +158,7 @@ namespace Zorglub.Time.Hemerology
         public sealed override DateParts GetStartOfYear(int year)
         {
             Scope.ValidateYear(year);
-            return new DateParts(Yemoda.AtStartOfYear(year));
+            return PartsProvider.GetDatePartsAtStartOfYear(year);
         }
 
         /// <inheritdoc />
@@ -166,10 +166,7 @@ namespace Zorglub.Time.Hemerology
         public sealed override DateParts GetEndOfYear(int year)
         {
             Scope.ValidateYear(year);
-            //Schema.GetEndOfYearParts(year, out int m, out int d);
-            int m = Schema.CountMonthsInYear(year);
-            int d = Schema.CountDaysInMonth(year, m);
-            return new DateParts(year, m, d);
+            return PartsProvider.GetDatePartsAtEndOfYear(year);
         }
 
         /// <inheritdoc />
@@ -177,8 +174,7 @@ namespace Zorglub.Time.Hemerology
         public sealed override DateParts GetStartOfMonth(int year, int month)
         {
             Scope.ValidateYearMonth(year, month);
-            var ymd = Yemoda.AtStartOfMonth(year, month);
-            return new DateParts(ymd);
+            return PartsProvider.GetDatePartsAtStartOfMonth(year, month);
         }
 
         /// <inheritdoc />
@@ -186,8 +182,7 @@ namespace Zorglub.Time.Hemerology
         public sealed override DateParts GetEndOfMonth(int year, int month)
         {
             Scope.ValidateYearMonth(year, month);
-            int d = Schema.CountDaysInMonth(year, month);
-            return new DateParts(year, month, d);
+            return PartsProvider.GetDatePartsAtEndOfMonth(year, month);
         }
     }
 }

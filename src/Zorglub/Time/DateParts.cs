@@ -3,8 +3,6 @@
 
 namespace Zorglub.Time
 {
-    using Zorglub.Time.Core;
-
     // TODO(code): use a record struct? tests with negative values for m and d.
     // ToString()
 
@@ -21,18 +19,6 @@ namespace Zorglub.Time
     /// </remarks>
     public readonly partial struct DateParts : IComparisonOperators<DateParts, DateParts>
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="DateParts"/> struct from the specified
-        /// date parts.
-        /// </summary>
-        public DateParts(Yemoda parts)
-        {
-            parts.Unpack(out int y, out int m, out int d);
-            Year = y;
-            Month = m;
-            Day = d;
-        }
-
         /// <summary>
         /// Initializes a new instance of the <see cref="DateParts"/> struct from the specified year,
         /// month and day values.
@@ -76,15 +62,6 @@ namespace Zorglub.Time
         /// </summary>
         public void Deconstruct(out int year, out int month, out int day) =>
             (year, month, day) = (Year, Month, Day);
-
-        /// <summary>
-        /// Converts the current instance to a <see cref="Yemoda"/> value.
-        /// </summary>
-        /// <exception cref="AoorException">The current instance is not representable by a
-        /// <see cref="Yemoda"/>; one of the value is too large to be handled by the system.
-        /// </exception>
-        [Pure]
-        public Yemoda ToYemoda() => Yemoda.Create(Year, Month, Day);
     }
 
     public partial struct DateParts // IEquatable

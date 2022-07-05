@@ -8,7 +8,7 @@ namespace Zorglub.Time.Core
     /// <para>A factory for parts assumes that input parameters are valid for the underlying
     /// calendrical schema.</para>
     /// </summary>
-    internal sealed partial class PartsProvider
+    public sealed partial class PartsProvider
     {
         /// <summary>
         /// Represents the schema.
@@ -26,7 +26,7 @@ namespace Zorglub.Time.Core
         }
     }
 
-    internal partial class PartsProvider // Conversions
+    public partial class PartsProvider // Conversions
     {
         /// <summary>
         /// Obtains the date parts for the specified month count (the number of consecutive months
@@ -82,7 +82,7 @@ namespace Zorglub.Time.Core
         }
     }
 
-    internal partial class PartsProvider // Dates in a given year or month
+    public partial class PartsProvider // Dates in a given year or month
     {
         /// <summary>
         /// Obtains the month parts for the first month of the specified year.

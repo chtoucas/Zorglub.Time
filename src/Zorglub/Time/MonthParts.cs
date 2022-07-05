@@ -3,8 +3,6 @@
 
 namespace Zorglub.Time
 {
-    using Zorglub.Time.Core;
-
     /// <summary>
     /// Represents a pair of a year and a month.
     /// <para><see cref="MonthParts"/> is an immutable struct.</para>
@@ -14,17 +12,6 @@ namespace Zorglub.Time
     /// </remarks>
     public readonly partial struct MonthParts : IComparisonOperators<MonthParts, MonthParts>
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="MonthParts"/> struct from the specified
-        /// month parts.
-        /// </summary>
-        public MonthParts(Yemo parts)
-        {
-            parts.Unpack(out int y, out int m);
-            Year = y;
-            Month = m;
-        }
-
         /// <summary>
         /// Initializes a new instance of the <see cref="MonthParts"/> struct from the specified
         /// year and month values.
@@ -55,15 +42,6 @@ namespace Zorglub.Time
         /// Deconstructs the current instance into its components.
         /// </summary>
         public void Deconstruct(out int year, out int month) => (year, month) = (Year, Month);
-
-        /// <summary>
-        /// Converts the current instance to a <see cref="Yemo"/> value.
-        /// </summary>
-        /// <exception cref="AoorException">The current instance is not representable by a
-        /// <see cref="Yemo"/>; one of the value is too large to be handled by the system.
-        /// </exception>
-        [Pure]
-        public Yemo ToYemo() => Yemo.Create(Year, Month);
     }
 
     public partial struct MonthParts // IEquatable

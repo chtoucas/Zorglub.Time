@@ -342,8 +342,9 @@ namespace Zorglub.Time.Simple
         {
             Requires.NotNull(adjuster);
 
+            Parts.Unpack(out int y, out int doy);
             ref readonly var chr = ref CalendarRef;
-            var (y, doy) = adjuster.Invoke(new OrdinalParts(Parts));
+            (y, doy) = adjuster.Invoke(new OrdinalParts(y, doy));
             return chr.GetOrdinalDate(y, doy);
         }
 

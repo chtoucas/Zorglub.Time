@@ -20,12 +20,7 @@ public partial class MyNakedCalendar : NakedCalendar
         : this(name, schema, new MinMaxYearScope(schema, epoch, 1, 9999)) { }
 
     public MyNakedCalendar(string name, ICalendricalSchema schema, MinMaxYearScope scope)
-        : base(name, schema, scope)
-    {
-        PartsFactory = ICalendricalPartsFactory.Create(schema);
-    }
-
-    protected ICalendricalPartsFactory PartsFactory { get; }
+        : base(name, schema, scope) { }
 }
 
 public partial class MyNakedCalendar // Year, month, day infos
@@ -72,31 +67,27 @@ public partial class MyNakedCalendar // Dates in a given year or month
     public sealed override DateParts GetStartOfYear(int year)
     {
         Scope.ValidateYear(year);
-        var ymd = PartsFactory.GetDatePartsAtStartOfYear(year);
-        return new DateParts(ymd);
+        return PartsProvider.GetDatePartsAtStartOfYear(year);
     }
 
     [Pure]
     public sealed override DateParts GetEndOfYear(int year)
     {
         Scope.ValidateYear(year);
-        var ymd = PartsFactory.GetDatePartsAtEndOfYear(year);
-        return new DateParts(ymd);
+        return PartsProvider.GetDatePartsAtEndOfYear(year);
     }
 
     [Pure]
     public sealed override DateParts GetStartOfMonth(int year, int month)
     {
         Scope.ValidateYearMonth(year, month);
-        var ymd = PartsFactory.GetDatePartsAtStartOfMonth(year, month);
-        return new DateParts(ymd);
+        return PartsProvider.GetDatePartsAtStartOfMonth(year, month);
     }
 
     [Pure]
     public sealed override DateParts GetEndOfMonth(int year, int month)
     {
         Scope.ValidateYearMonth(year, month);
-        var ymd = PartsFactory.GetDatePartsAtEndOfMonth(year, month);
-        return new DateParts(ymd);
+        return PartsProvider.GetDatePartsAtEndOfMonth(year, month);
     }
 }

@@ -362,8 +362,9 @@ namespace Zorglub.Time.Simple
         {
             Requires.NotNull(adjuster);
 
+            Parts.Unpack(out int y, out int m, out int d);
             ref readonly var chr = ref CalendarRef;
-            var (y, m, d) = adjuster.Invoke(new DateParts(Parts));
+            (y, m, d) = adjuster.Invoke(new DateParts(y, m, d));
             return chr.GetCalendarDate(y, m, d);
         }
 
