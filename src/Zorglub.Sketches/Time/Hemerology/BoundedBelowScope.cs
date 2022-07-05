@@ -7,8 +7,6 @@ namespace Zorglub.Time.Hemerology
 
     /// <summary>
     /// Represents a scope with dates on or after a given date, but not the first day of a year.
-    /// <para>This class can only represent subintervals of <see cref="Yemoda.SupportedYears"/>.
-    /// </para>
     /// <para>This class cannot be inherited.</para>
     /// </summary>
     public sealed class BoundedBelowScope : CalendarScope
@@ -17,13 +15,13 @@ namespace Zorglub.Time.Hemerology
         /// Represents the earliest supported "date".
         /// <para>This field is read-only.</para>
         /// </summary>
-        private readonly Yemoda _minDateParts;
+        private readonly DateParts _minDateParts;
 
         /// <summary>
         /// Represents the earliest supported ordinal "date".
         /// <para>This field is read-only.</para>
         /// </summary>
-        private readonly Yedoy _minOrdinalParts;
+        private readonly OrdinalParts _minOrdinalParts;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BoundedBelowScope"/>
@@ -47,7 +45,7 @@ namespace Zorglub.Time.Hemerology
         }
 
         /// <summary>
-        /// Creates a new instance of the <see cref="CalendricalSegment"/> class.
+        /// Creates a new instance of the <see cref="CalendricalSection"/> class.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
         /// <exception cref="AoorException">The min date is not representable by the system.</exception>
@@ -56,16 +54,16 @@ namespace Zorglub.Time.Hemerology
         /// <paramref name="schema"/> is a strict superset of <see cref="Yemoda.SupportedYears"/>.
         /// </exception>
         // Internal for testing.
-        internal static CalendricalSegment GetSegment(
+        internal static CalendricalSection GetSegment(
             ICalendricalSchema schema,
             int year,
             int month,
             int day,
             int? maxYear)
         {
-            var minDate = Yemoda.Create(year, month, day);
+            var minDate = new DateParts(year, month, day);
 
-            var builder = new CalendricalSegmentBuilder(schema);
+            var builder = new CalendricalSectionBuilder(schema);
             builder.SetMinDate(minDate);
             if (maxYear.HasValue)
             {
@@ -88,7 +86,7 @@ namespace Zorglub.Time.Hemerology
             PreValidator.ValidateMonth(year, month, paramName);
 
             // Small optimization: we first check "year".
-            if (year == MinYear && new Yemo(year, month) < _minDateParts.Yemo)
+            if (year == MinYear && new MonthParts(year, month) < _minDateParts.MonthParts)
             {
                 Throw.MonthOutOfRange(month, paramName);
             }
@@ -108,12 +106,12 @@ namespace Zorglub.Time.Hemerology
             {
                 // We check the month parts first even if it is not necessary.
                 // Reason: identify the guilty part.
-                var ymd = new Yemoda(year, month, day);
-                if (ymd.Yemo < _minDateParts.Yemo)
+                var parts = new DateParts(year, month, day);
+                if (parts.MonthParts < _minDateParts.MonthParts)
                 {
                     Throw.MonthOutOfRange(month, paramName);
                 }
-                else if (ymd < _minDateParts)
+                else if (parts < _minDateParts)
                 {
                     Throw.DayOutOfRange(day, paramName);
                 }
@@ -130,7 +128,7 @@ namespace Zorglub.Time.Hemerology
             PreValidator.ValidateDayOfYear(year, dayOfYear, paramName);
 
             // Small optimization: we first check "year".
-            if (year == MinYear && new Yedoy(year, dayOfYear) < _minOrdinalParts)
+            if (year == MinYear && new OrdinalParts(year, dayOfYear) < _minOrdinalParts)
             {
                 Throw.DayOfYearOutOfRange(dayOfYear, paramName);
             }

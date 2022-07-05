@@ -45,8 +45,8 @@ namespace Zorglub.Time.Hemerology
 
             (MinYear, MaxYear) = scope.SupportedYears.Endpoints;
 
-            MinYemoda = scope.MinMaxDateParts.LowerValue;
-            MinYedoy = scope.MinMaxOrdinalParts.LowerValue;
+            MinDateParts = scope.MinMaxDateParts.LowerValue;
+            MinOrdinalParts = scope.MinMaxOrdinalParts.LowerValue;
         }
 
         /// <summary>
@@ -67,12 +67,12 @@ namespace Zorglub.Time.Hemerology
         /// <summary>
         /// Gets the earliest supported "date".
         /// </summary>
-        protected Yemoda MinYemoda { get; }
+        protected DateParts MinDateParts { get; }
 
         /// <summary>
         /// Gets the earliest supported ordinal "date".
         /// </summary>
-        protected Yedoy MinYedoy { get; }
+        protected OrdinalParts MinOrdinalParts { get; }
     }
 
     public partial class BoundedBelowCalendar // Year, month, day infos
@@ -110,7 +110,7 @@ namespace Zorglub.Time.Hemerology
         public sealed override int CountDaysInMonth(int year, int month)
         {
             Scope.ValidateYearMonth(year, month);
-            return new Yemo(year, month) == MinYemoda.Yemo
+            return new MonthParts(year, month) == MinDateParts.MonthParts
                 ? CountDaysInFirstMonth()
                 : Schema.CountDaysInMonth(year, month);
         }
@@ -120,14 +120,14 @@ namespace Zorglub.Time.Hemerology
         /// </summary>
         [Pure]
         public int CountMonthsInFirstYear() =>
-            Schema.CountMonthsInYear(MinYear) - MinYemoda.Month + 1;
+            Schema.CountMonthsInYear(MinYear) - MinDateParts.Month + 1;
 
         /// <summary>
         /// Obtains the number of days in the first supported year.
         /// </summary>
         [Pure]
         public int CountDaysInFirstYear() =>
-            Schema.CountDaysInYear(MinYear) - MinYedoy.DayOfYear + 1;
+            Schema.CountDaysInYear(MinYear) - MinOrdinalParts.DayOfYear + 1;
 
         /// <summary>
         /// Obtains the number of days in the first supported month.
@@ -135,7 +135,7 @@ namespace Zorglub.Time.Hemerology
         [Pure]
         public int CountDaysInFirstMonth()
         {
-            MinYemoda.Unpack(out int y, out int m, out int d);
+            var (y, m, d) = MinDateParts;
             return Schema.CountDaysInMonth(y, m) - d + 1;
         }
     }
@@ -182,7 +182,7 @@ namespace Zorglub.Time.Hemerology
         public sealed override DateParts GetStartOfMonth(int year, int month)
         {
             Scope.ValidateYearMonth(year, month);
-            return new Yemo(year, month) == MinYemoda.Yemo
+            return new MonthParts(year, month) == MinDateParts.MonthParts
                 ? Throw.ArgumentOutOfRange<DateParts>(nameof(month))
                 : new DateParts(Yemoda.AtStartOfMonth(year, month));
         }

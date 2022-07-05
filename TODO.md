@@ -20,6 +20,7 @@ FIXME
   * Remove Yemoda.AtStartOfYear() & co (kind of).
   * Scopes: remove YearOverflowChecker and use Range<> extensions.
     Simplify code and almost always use a pre-validator.
+    Update XML doc now that we use CalendricalSection.
 - Math:
   * Profile: OtherRegular, Other7 (MinDaysInMonth >= 7)?
   * Move standard ops (on CalendarMonth) from Math to Arithmetic.

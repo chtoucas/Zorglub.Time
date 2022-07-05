@@ -9,12 +9,10 @@ namespace Zorglub.Time.Hemerology
     /// <summary>
     /// Represents the scope of a schema, an interval of days, and provides a base for derived
     /// classes.
-    /// <para>This class can only represent subintervals of <see cref="Yemoda.SupportedYears"/>.
-    /// </para>
     /// </summary>
     public abstract partial class CalendarScope : ICalendarScope
     {
-        private readonly CalendricalSegment _segment;
+        private readonly CalendricalSection _segment;
 
         /// <summary>
         /// Called from constructors in derived classes to initialize the
@@ -25,7 +23,7 @@ namespace Zorglub.Time.Hemerology
         protected CalendarScope(
             ICalendricalSchema schema,
             DayNumber epoch,
-            CalendricalSegment segment)
+            CalendricalSection segment)
         {
             Schema = schema ?? throw new ArgumentNullException(nameof(schema));
             Requires.NotNull(segment);
@@ -56,12 +54,12 @@ namespace Zorglub.Time.Hemerology
         /// <summary>
         /// Gets the pair of earliest and latest supported date parts.
         /// </summary>
-        public OrderedPair<Yemoda> MinMaxDateParts => _segment.MinMaxDateParts;
+        public OrderedPair<DateParts> MinMaxDateParts => _segment.MinMaxDateParts;
 
         /// <summary>
         /// Gets the pair of earliest and latest supported ordinal date parts.
         /// </summary>
-        public OrderedPair<Yedoy> MinMaxOrdinalParts => _segment.MinMaxOrdinalParts;
+        public OrderedPair<OrdinalParts> MinMaxOrdinalParts => _segment.MinMaxOrdinalParts;
 
         /// <summary>
         /// Gets the earliest supported year.

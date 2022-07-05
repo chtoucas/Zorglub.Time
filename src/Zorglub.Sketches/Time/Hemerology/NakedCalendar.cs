@@ -54,10 +54,7 @@ namespace Zorglub.Time.Hemerology
 
             Name = name ?? throw new ArgumentNullException(nameof(name));
 
-            // DateParts is not comparable, therefore we can't use OrderedPair<>.
-            var (min, max) = scope.MinMaxDateParts;
-            MinDateParts = new DateParts(min);
-            MaxDateParts = new DateParts(max);
+            MinMaxDateParts = scope.MinMaxDateParts;
         }
 
         /// <summary>
@@ -65,19 +62,10 @@ namespace Zorglub.Time.Hemerology
         /// </summary>
         public string Name { get; }
 
-        // DateParts does not implement IComparable, therefore using Min/Max
-        // feels a bit odd, Earliest and Latest would be better, but I prefer
-        // to use the same wording everywhere.
-
         /// <summary>
         /// Gets the earliest supported date parts.
         /// </summary>
-        public DateParts MinDateParts { get; }
-
-        /// <summary>
-        /// Gets the latest supported date parts.
-        /// </summary>
-        public DateParts MaxDateParts { get; }
+        public OrderedPair<DateParts> MinMaxDateParts { get; }
 
         /// <summary>
         /// Returns a string representation of the current instance.

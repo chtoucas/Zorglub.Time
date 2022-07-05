@@ -36,8 +36,8 @@ namespace Zorglub.Time.Hemerology
 
             MinYear = scope.SupportedYears.Min;
 
-            MinYemoda = scope.MinMaxDateParts.LowerValue;
-            MinYedoy = scope.MinMaxOrdinalParts.LowerValue;
+            MinDateParts = scope.MinMaxDateParts.LowerValue;
+            MinOrdinalParts = scope.MinMaxOrdinalParts.LowerValue;
         }
 
         /// <summary>
@@ -58,12 +58,12 @@ namespace Zorglub.Time.Hemerology
         /// <summary>
         /// Gets the earliest supported "date".
         /// </summary>
-        private Yemoda MinYemoda { get; }
+        private DateParts MinDateParts { get; }
 
         /// <summary>
         /// Gets the earliest supported ordinal "date".
         /// </summary>
-        private Yedoy MinYedoy { get; }
+        private OrdinalParts MinOrdinalParts { get; }
 
         // TODO(code): shouldn't be here.
 
@@ -72,7 +72,7 @@ namespace Zorglub.Time.Hemerology
         /// </summary>
         [Pure]
         public int CountDaysInFirstYear() =>
-            _schema.CountDaysInYear(MinYear) - MinYedoy.DayOfYear + 1;
+            _schema.CountDaysInYear(MinYear) - MinOrdinalParts.DayOfYear + 1;
 
         /// <summary>
         /// Obtains the number of days in the first supported month.
@@ -80,7 +80,7 @@ namespace Zorglub.Time.Hemerology
         [Pure]
         public int CountDaysInFirstMonth()
         {
-            MinYemoda.Unpack(out int y, out int m, out int d);
+            var (y, m, d) = MinDateParts;
             return _schema.CountDaysInMonth(y, m) - d + 1;
         }
 
@@ -117,7 +117,7 @@ namespace Zorglub.Time.Hemerology
         {
             Scope.ValidateYearMonth(year, month);
             int startOfMonth, daysInMonth;
-            if (new Yemo(year, month) == MinYemoda.Yemo)
+            if (new MonthParts(year, month) == MinDateParts.MonthParts)
             {
                 startOfMonth = MinDayNumber - _epoch;
                 daysInMonth = CountDaysInFirstMonth();
@@ -161,7 +161,7 @@ namespace Zorglub.Time.Hemerology
         public DayNumber GetStartOfMonth(int year, int month)
         {
             Scope.ValidateYearMonth(year, month);
-            return new Yemo(year, month) == MinYemoda.Yemo
+            return new MonthParts(year, month) == MinDateParts.MonthParts
                 ? Throw.ArgumentOutOfRange<DayNumber>(nameof(month))
                 : _epoch + _schema.GetStartOfMonth(year, month);
         }
