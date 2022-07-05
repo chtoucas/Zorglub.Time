@@ -8,7 +8,9 @@ FIXME
   Currently, it's almost impossible to achieve full test coverage.
 - Schemas: Yemoda & co
   * ICalendricalSchema v CalendricalSchema v SystemSchema.
-  * Prop Segment.
+  * Naming: parts in Time or in Time.Core. PartsProvider, PartsFactory & co.
+    Segment & Section.
+  * CalendricalSegment
   * PartsFactory & PartsCreator
   * Remove things using a conversion (y, m, d) <-> (y, doy)?
     - CountDaysInMonthBefore(y, doy)

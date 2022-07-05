@@ -141,6 +141,8 @@ namespace Zorglub.Time.Extensions
         /// Sets the start of the segment to the start of the earliest supported year.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="this"/> is null.</exception>
+        /// <exception cref="ArgumentException">The range of supported years by the schema
+        /// does not contain the year 1.</exception>
         /// <exception cref="AoorException">The result is not representable by the system.</exception>
         [Pure]
         public static CalendricalSegmentBuilder WithMinSupportedYear(
