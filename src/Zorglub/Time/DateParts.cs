@@ -6,7 +6,7 @@ namespace Zorglub.Time
     using Zorglub.Time.Core;
 
     // TODO(code): use a record struct? tests with negative values for m and d.
-    // Prop MonthParts? ToString()
+    // ToString()
 
     // Main difference w/ Yemoda: DateParts does not force y, m, d to be in a
     // specific range; we don't even require m and d to be >= 1.
@@ -58,6 +58,11 @@ namespace Zorglub.Time
         /// Gets the day of the month.
         /// </summary>
         public int Day { get; }
+
+        /// <summary>
+        /// Gets the month parts from this instance.
+        /// </summary>
+        public MonthParts MonthParts => new(Year, Month);
 
         /// <summary>
         /// Returns a culture-independent string representation of the current instance.

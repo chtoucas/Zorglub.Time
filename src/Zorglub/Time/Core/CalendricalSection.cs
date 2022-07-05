@@ -9,7 +9,6 @@ namespace Zorglub.Time.Core
 
     /// <summary>
     /// Provides informations on a range of days for a given schema.
-    /// </para>
     /// <para>This class cannot be inherited.</para>
     /// </summary>
     public sealed record CalendricalSection
@@ -153,14 +152,7 @@ namespace Zorglub.Time.Core
             public DateParts DateParts { get; init; }
             public OrdinalParts OrdinalParts { get; init; }
 
-            public MonthParts MonthParts
-            {
-                get
-                {
-                    var (y, m, _) = DateParts;
-                    return new MonthParts(y, m);
-                }
-            }
+            public MonthParts MonthParts => DateParts.MonthParts;
             public int Year => DateParts.Year;
 
             // Comparison w/ null always returns false, even null >= null and null <= null.
