@@ -7,6 +7,7 @@ namespace Zorglub.Time.Extensions
 
     /// <summary>
     /// Provides extension methods for <see cref="JulianDateVersion"/>.
+    /// <para>This class cannot be inherited.</para>
     /// </summary>
     public static class JulianDateVersionExtensions
     {
