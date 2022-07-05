@@ -122,6 +122,8 @@ namespace Zorglub.Time.Core
 
     public partial class CalendricalSegmentBuilder // Builder methods
     {
+#if false
+
         /// <summary>
         /// Sets the start of the segment to the specified number of consecutive days from the epoch.
         /// </summary>
@@ -236,6 +238,8 @@ namespace Zorglub.Time.Core
             };
         }
 
+#endif
+
         /// <summary>
         /// Sets the start of the segment to the start of the specified year.
         /// </summary>
@@ -287,18 +291,18 @@ namespace Zorglub.Time.Core
         /// </summary>
         public void UseMaxSupportedYear() => SetMaxYear(_supportedYears.Max);
 
-        /// <summary>
-        /// Sets the start of the segment to the start of the earliest supported year, and the end
-        /// of the segment to the end of the latest supported year.
-        /// </summary>
-        /// <exception cref="ArgumentException">The range of supported years by the schema
-        /// does not contain the year 1.</exception>
-        [Pure]
-        public void UseMaximalRange(bool onOrAfterEpoch)
-        {
-            UseMinSupportedYear(onOrAfterEpoch);
-            UseMaxSupportedYear();
-        }
+        ///// <summary>
+        ///// Sets the start of the segment to the start of the earliest supported year, and the end
+        ///// of the segment to the end of the latest supported year.
+        ///// </summary>
+        ///// <exception cref="ArgumentException">The range of supported years by the schema
+        ///// does not contain the year 1.</exception>
+        //[Pure]
+        //public void UseMaximalRange(bool onOrAfterEpoch)
+        //{
+        //    UseMinSupportedYear(onOrAfterEpoch);
+        //    UseMaxSupportedYear();
+        //}
 
         [Pure]
         internal void SetSupportedYears(Range<int> supportedYears)

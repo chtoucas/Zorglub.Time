@@ -278,16 +278,16 @@ namespace Zorglub.Time.Core
         /// </summary>
         public void UseMaxSupportedYear() => SetMaxYear(SupportedYears.Max);
 
-        /// <summary>
-        /// Sets the start of the segment to the start of the earliest supported year, and the end
-        /// of the segment to the end of the latest supported year.
-        /// </summary>
-        [Pure]
-        public void UseMaximalRange(bool onOrAfterEpoch)
-        {
-            UseMinSupportedYear(onOrAfterEpoch);
-            UseMaxSupportedYear();
-        }
+        ///// <summary>
+        ///// Sets the start of the segment to the start of the earliest supported year, and the end
+        ///// of the segment to the end of the latest supported year.
+        ///// </summary>
+        //[Pure]
+        //public void UseMaximalRange(bool onOrAfterEpoch)
+        //{
+        //    UseMinSupportedYear(onOrAfterEpoch);
+        //    UseMaxSupportedYear();
+        //}
 
         [Pure]
         internal void SetSupportedYears(Range<int> supportedYears)

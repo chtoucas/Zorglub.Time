@@ -30,7 +30,7 @@ namespace Zorglub.Time.Hemerology
             : base(schema, epoch, segment) { }
 
         /// <summary>
-        /// Creates a new instance of the <see cref="CalendricalSegment"/> class.
+        /// Creates a new instance of the <see cref="CalendricalSection"/> class.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
         /// <exception cref="ArgumentException">The range of years supported by

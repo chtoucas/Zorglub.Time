@@ -25,7 +25,7 @@ namespace Zorglub.Time.Core
         /// of the range of supported years by <paramref name="schema"/>.</exception>
         public CalendricalValidator(ICalendricalSchema schema, Range<int> supportedYears)
         {
-            var seg = CalendricalSegment.Create(schema, supportedYears);
+            var seg = CalendricalSection.Create(schema, supportedYears);
 
             Debug.Assert(schema != null);
             _preValidator = schema.PreValidator;
