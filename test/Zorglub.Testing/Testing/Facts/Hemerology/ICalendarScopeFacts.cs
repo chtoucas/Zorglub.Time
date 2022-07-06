@@ -4,17 +4,18 @@
 namespace Zorglub.Testing.Facts.Hemerology;
 
 using Zorglub.Testing.Data;
+using Zorglub.Time.Hemerology;
 using Zorglub.Time.Hemerology.Scopes;
 
 /// <summary>
 /// Provides data-driven tests for <see cref="ShortScope"/>.
 /// </summary>
-internal abstract class ShortScopeFacts<TScope, TDataSet> :
+internal abstract class ICalendarScopeFacts<TScope, TDataSet> :
     CalendricalDataConsumer<TDataSet>
-    where TScope : ShortScope
+    where TScope : ICalendarScope
     where TDataSet : ICalendricalDataSet, ISingleton<TDataSet>
 {
-    protected ShortScopeFacts(TScope scope)
+    protected ICalendarScopeFacts(TScope scope)
     {
         ScopeUT = scope ?? throw new ArgumentNullException(nameof(scope));
     }

@@ -1,9 +1,11 @@
 ﻿// SPDX-License-Identifier: BSD-3-Clause
 // Copyright (c) 2020 Narvalo.Org. All rights reserved.
 
-namespace Zorglub.Time.Hemerology
+namespace Zorglub.Time.Hemerology.Scopes
 {
+    using Zorglub.Time;
     using Zorglub.Time.Core;
+    using Zorglub.Time.Hemerology;
 
     /// <summary>
     /// Represents a scope with dates on or after a given date, but not the first day of a year.

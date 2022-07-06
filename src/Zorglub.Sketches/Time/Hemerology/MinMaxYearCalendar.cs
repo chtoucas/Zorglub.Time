@@ -4,6 +4,7 @@
 namespace Zorglub.Time.Hemerology
 {
     using Zorglub.Time.Core;
+    using Zorglub.Time.Hemerology.Scopes;
 
     /// <summary>
     /// Represents a calendar with dates within a range of years.

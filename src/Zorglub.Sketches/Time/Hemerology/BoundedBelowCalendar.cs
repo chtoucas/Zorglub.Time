@@ -4,6 +4,7 @@
 namespace Zorglub.Time.Hemerology
 {
     using Zorglub.Time.Core;
+    using Zorglub.Time.Hemerology.Scopes;
 
     // FIXME(code): we no longer require that minDate != startOfYear and
     // maxDate != endOfYear when building a scope.

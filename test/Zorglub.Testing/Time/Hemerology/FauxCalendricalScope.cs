@@ -3,6 +3,8 @@
 
 namespace Zorglub.Time.Hemerology;
 
+using Zorglub.Time.Hemerology.Scopes;
+
 public sealed class FauxCalendricalScope : CalendarScope
 {
     public FauxCalendricalScope(SystemSchema schema, DayNumber epoch)

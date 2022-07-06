@@ -3,6 +3,8 @@
 
 namespace Zorglub.Time.Hemerology;
 
+using Zorglub.Time.Hemerology.Scopes;
+
 public sealed class FauxGregorianScope : CalendarScope
 {
     public FauxGregorianScope(GregorianSchema schema, int minYear, int maxYear)

@@ -9,6 +9,7 @@ using Zorglub.Time;
 using Zorglub.Time.Core.Schemas;
 using Zorglub.Time.Core.Utilities;
 using Zorglub.Time.Hemerology;
+using Zorglub.Time.Hemerology.Scopes;
 using Zorglub.Time.Simple;
 
 using static Zorglub.Time.Extensions.BoxExtensions;

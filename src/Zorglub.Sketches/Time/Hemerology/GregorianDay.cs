@@ -24,7 +24,7 @@ namespace Zorglub.Time.Hemerology
         /// Represents the latest supported year.
         /// <para>This field is a constant equal to 9999.</para>
         /// </summary>
-        public const int MaxYear = ShortScope.MaxYear;
+        public const int MaxYear = ProlepticShortScope.MaxYear;
 
         /// <summary>
         /// Represents the count of days since the Gregorian epoch.

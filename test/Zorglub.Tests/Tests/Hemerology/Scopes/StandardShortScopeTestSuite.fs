@@ -18,7 +18,7 @@ open Zorglub.Time.Hemerology.Scopes
 // Returns a StandardShortScope.
 let private scopeOf<'a when 'a :> CalendricalSchema and 'a :> IBoxable<'a>> () =
     let sch = SchemaActivator.CreateInstance<'a>()
-    StandardShortScope.Create(sch, DayZero.OldStyle)
+    new StandardShortScope(sch, DayZero.OldStyle)
 
 // Solar12StandardShortScope
 [<Sealed>]

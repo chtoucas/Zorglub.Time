@@ -4,7 +4,6 @@
 namespace Zorglub.Time.Simple
 {
     using Zorglub.Time.Core;
-    using Zorglub.Time.Core.Arithmetic;
     using Zorglub.Time.Core.Intervals;
     using Zorglub.Time.Hemerology;
     using Zorglub.Time.Hemerology.Scopes;
@@ -135,12 +134,12 @@ namespace Zorglub.Time.Simple
 
             if (proleptic)
             {
-                Scope = ProlepticShortScope.Create(schema, epoch);
+                Scope = new ProlepticShortScope(schema, epoch);
                 YearOverflowChecker = ProlepticShortScope.YearOverflowChecker;
             }
             else
             {
-                Scope = StandardShortScope.Create(schema, epoch);
+                Scope = new StandardShortScope(schema, epoch);
                 YearOverflowChecker = StandardShortScope.YearOverflowChecker;
             }
 

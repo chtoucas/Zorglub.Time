@@ -17,7 +17,7 @@ open Zorglub.Time.Hemerology.Scopes
 // Returns a ProlepticShortScope.
 let private scopeOf<'a when 'a :> CalendricalSchema and 'a :> IBoxable<'a>> () =
     let sch = SchemaActivator.CreateInstance<'a>()
-    ProlepticShortScope.Create(sch, DayZero.OldStyle)
+    new ProlepticShortScope(sch, DayZero.OldStyle)
 
 // Solar12ProlepticShortScope
 [<Sealed>]

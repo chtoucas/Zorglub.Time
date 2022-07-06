@@ -5,6 +5,7 @@ namespace Zorglub.Time.Hemerology;
 
 using Zorglub.Time.Core;
 using Zorglub.Time.Core.Schemas;
+using Zorglub.Time.Hemerology.Scopes;
 
 // TODO: on ne vérifie pas le nom du paramètre de certaines exceptions car ce
 // dernier varie pas mal: Yemoda.Of(), SystemSegmentBuilder, etc.

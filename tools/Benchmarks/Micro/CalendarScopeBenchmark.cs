@@ -1,25 +1,17 @@
 ﻿// SPDX-License-Identifier: BSD-3-Clause
 // Copyright (c) 2020 Narvalo.Org. All rights reserved.
 
-//#define NO_INLINING
-#define ALL
-
 namespace Benchmarks.Micro;
-
-#if NO_INLINING
-using System.Runtime.CompilerServices;
-#endif
 
 using Zorglub.Time;
 using Zorglub.Time.Core;
 using Zorglub.Time.Core.Schemas;
-using Zorglub.Time.Hemerology;
 using Zorglub.Time.Hemerology.Scopes;
 
 // TODO(perf): Oddly, it seems that the first benchmark to run is slower
 // than it should (compare Lenient and AAA).
 
-/* BenchmarkOption.Fixed / INLINING
+/* BenchmarkOption.Fixed
 BenchmarkDotNet=v0.13.1, OS=Windows 10.0.19044.1586 (21H2)
 Intel Core i7-4500U CPU 1.80GHz (Haswell), 1 CPU, 4 logical and 2 physical cores
 .NET SDK=6.0.201
@@ -48,43 +40,22 @@ Intel Core2 Duo CPU E8500 3.16GHz, 1 CPU, 2 logical and 2 physical cores
 
 |                         Method |     Mean |    Error |   StdDev | Ratio | Rank | Code Size |
 |------------------------------- |---------:|---------:|---------:|------:|-----:|----------:|
-|                        Lenient | 12.98 ns | 0.016 ns | 0.015 ns |  1.00 |    I |     500 B |
-|               GregorianMaximal | 15.51 ns | 0.023 ns | 0.021 ns |  1.19 |   II |     767 B |
-|        GregorianProlepticShort | 15.81 ns | 0.009 ns | 0.008 ns |  1.22 |  III |     757 B |
-|            SolarProlepticShort | 15.82 ns | 0.021 ns | 0.019 ns |  1.22 |  III |     650 B |
-|             SolarStandardShort | 15.83 ns | 0.026 ns | 0.021 ns |  1.22 |  III |     646 B |
-|                            AAA | 15.85 ns | 0.018 ns | 0.017 ns |  1.22 |  III |     500 B |
-| GregorianProlepticShort_Static | 16.45 ns | 0.014 ns | 0.012 ns |  1.27 |   IV |     721 B |
-|                     MinMaxYear | 16.47 ns | 0.025 ns | 0.024 ns |  1.27 |   IV |     571 B |
-|           DefaultStandardShort | 16.47 ns | 0.032 ns | 0.029 ns |  1.27 |   IV |     573 B |
-|          GregorianMaximal_Wide | 16.48 ns | 0.025 ns | 0.024 ns |  1.27 |   IV |     721 B |
-|          DefaultProlepticShort | 19.33 ns | 0.028 ns | 0.026 ns |  1.49 |    V |     577 B |
-
-NO INLINING
-
+|                        Lenient | 12.98 ns | 0.021 ns | 0.020 ns |  1.00 |    I |     500 B |
+|         GregorianStandardShort | 15.82 ns | 0.017 ns | 0.015 ns |  1.22 |   II |     753 B |
+|                     MinMaxYear | 16.45 ns | 0.025 ns | 0.023 ns |  1.27 |  III |     571 B |
+| GregorianProlepticShort_Static | 16.46 ns | 0.028 ns | 0.026 ns |  1.27 |  III |     721 B |
+|            PlainProlepticShort | 16.48 ns | 0.023 ns | 0.021 ns |  1.27 |  III |     577 B |
+|             PlainStandardShort | 16.64 ns | 0.166 ns | 0.155 ns |  1.28 |  III |     573 B |
+|        GregorianProlepticShort | 18.71 ns | 0.025 ns | 0.023 ns |  1.44 |   IV |     757 B |
  */
 
 [DisassemblyDiagnoser]
 public class CalendarScopeBenchmark : BenchmarkBase
 {
-    private static readonly GregorianProlepticShortScope s_GregorianProlepticShort =
+    private static readonly ProlepticShortScope s_ProlepticShort =
         new(new GregorianSchema(), DayZero.NewStyle);
 
-#pragma warning disable CS0618 // Type or member is obsolete
-
-    private static readonly Solar12ProlepticShortScope s_SolarProlepticShort =
-        new(new GregorianSchema(), DayZero.NewStyle);
-
-    private static readonly Solar12StandardShortScope s_SolarStandardShort =
-        new(new GregorianSchema(), DayZero.NewStyle);
-
-#pragma warning restore CS0618 // Type or member is obsolete
-
-#if ALL
-    private static readonly PlainProlepticShortScope s_DefaultProlepticShort =
-        new(new GregorianSchema(), DayZero.NewStyle);
-
-    private static readonly PlainStandardShortScope s_DefaultStandardShort =
+    private static readonly StandardShortScope s_StandardShort =
         new(new GregorianSchema(), DayZero.NewStyle);
 
     private static readonly GregorianMaximalScope s_GregorianMaximal =
@@ -92,7 +63,6 @@ public class CalendarScopeBenchmark : BenchmarkBase
 
     private static readonly MinMaxYearScope s_MinMaxYear =
         MinMaxYearScope.WithMaximalRange(new GregorianSchema(), DayZero.NewStyle, onOrAfterEpoch: false);
-#endif
 
     public CalendarScopeBenchmark()
     {
@@ -101,19 +71,14 @@ public class CalendarScopeBenchmark : BenchmarkBase
         //Option = BenchmarkOption.Slow;
     }
 
-#if ALL
     [Benchmark]
     public void AAA()
     {
         var ymd = Core(Year, Month, Day);
         Consume(in ymd);
 
-#if NO_INLINING
-        [MethodImpl(MethodImplOptions.NoInlining)]
-#endif
         static Yemoda Core(int y, int m, int d) => new(y, m, d);
     }
-#endif
 
     [Benchmark(Baseline = true)]
     public void Lenient()
@@ -121,13 +86,8 @@ public class CalendarScopeBenchmark : BenchmarkBase
         var ymd = Core(Year, Month, Day);
         Consume(in ymd);
 
-#if NO_INLINING
-        [MethodImpl(MethodImplOptions.NoInlining)]
-#endif
         static Yemoda Core(int y, int m, int d) => new(y, m, d);
     }
-
-    #region Proleptic short scope
 
     [Benchmark]
     public void GregorianProlepticShort()
@@ -135,25 +95,6 @@ public class CalendarScopeBenchmark : BenchmarkBase
         var ymd = Core(Year, Month, Day);
         Consume(in ymd);
 
-#if NO_INLINING
-        [MethodImpl(MethodImplOptions.NoInlining)]
-#endif
-        static Yemoda Core(int y, int m, int d)
-        {
-            s_GregorianProlepticShort.ValidateYearMonthDay(y, m, d);
-            return new Yemoda(y, m, d);
-        }
-    }
-
-    [Benchmark]
-    public void GregorianProlepticShort_Static()
-    {
-        var ymd = Core(Year, Month, Day);
-        Consume(in ymd);
-
-#if NO_INLINING
-        [MethodImpl(MethodImplOptions.NoInlining)]
-#endif
         static Yemoda Core(int y, int m, int d)
         {
             GregorianProlepticShortScope.ValidateYearMonthDayImpl(y, m, d);
@@ -162,79 +103,30 @@ public class CalendarScopeBenchmark : BenchmarkBase
     }
 
     [Benchmark]
-    public void SolarProlepticShort()
+    public void ProlepticShort()
     {
         var ymd = Core(Year, Month, Day);
         Consume(in ymd);
 
-#if NO_INLINING
-        [MethodImpl(MethodImplOptions.NoInlining)]
-#endif
         static Yemoda Core(int y, int m, int d)
         {
-            s_SolarProlepticShort.ValidateYearMonthDay(y, m, d);
+            s_ProlepticShort.ValidateYearMonthDay(y, m, d);
             return new Yemoda(y, m, d);
         }
     }
-
-#if ALL
-    [Benchmark]
-    public void DefaultProlepticShort()
-    {
-        var ymd = Core(Year, Month, Day);
-        Consume(in ymd);
-
-#if NO_INLINING
-        [MethodImpl(MethodImplOptions.NoInlining)]
-#endif
-        static Yemoda Core(int y, int m, int d)
-        {
-            s_DefaultProlepticShort.ValidateYearMonthDay(y, m, d);
-            return new Yemoda(y, m, d);
-        }
-    }
-#endif
-
-    #endregion
-    #region Standard short scope
 
     [Benchmark]
-    public void SolarStandardShort()
+    public void StandardShort()
     {
         var ymd = Core(Year, Month, Day);
         Consume(in ymd);
 
-#if NO_INLINING
-        [MethodImpl(MethodImplOptions.NoInlining)]
-#endif
         static Yemoda Core(int y, int m, int d)
         {
-            s_SolarStandardShort.ValidateYearMonthDay(y, m, d);
+            s_StandardShort.ValidateYearMonthDay(y, m, d);
             return new Yemoda(y, m, d);
         }
     }
-
-#if ALL
-    [Benchmark]
-    public void DefaultStandardShort()
-    {
-        var ymd = Core(Year, Month, Day);
-        Consume(in ymd);
-
-#if NO_INLINING
-        [MethodImpl(MethodImplOptions.NoInlining)]
-#endif
-        static Yemoda Core(int y, int m, int d)
-        {
-            s_DefaultStandardShort.ValidateYearMonthDay(y, m, d);
-            return new Yemoda(y, m, d);
-        }
-    }
-#endif
-
-    #endregion
-    #region Maximal
-#if ALL
 
     [Benchmark]
     public void GregorianMaximal()
@@ -242,9 +134,6 @@ public class CalendarScopeBenchmark : BenchmarkBase
         var ymd = Core(Year, Month, Day);
         Consume(in ymd);
 
-#if NO_INLINING
-        [MethodImpl(MethodImplOptions.NoInlining)]
-#endif
         static Yemoda Core(int y, int m, int d)
         {
             s_GregorianMaximal.ValidateYearMonthDay(y, m, d);
@@ -258,9 +147,6 @@ public class CalendarScopeBenchmark : BenchmarkBase
         var ymd = Core(Year, Month, Day);
         Consume(in ymd);
 
-#if NO_INLINING
-        [MethodImpl(MethodImplOptions.NoInlining)]
-#endif
         static Yemoda Core(int y, int m, int d)
         {
             GregorianMaximalScope.ValidateWideYearMonthDay(y, m, d);
@@ -274,16 +160,10 @@ public class CalendarScopeBenchmark : BenchmarkBase
         var ymd = Core(Year, Month, Day);
         Consume(in ymd);
 
-#if NO_INLINING
-        [MethodImpl(MethodImplOptions.NoInlining)]
-#endif
         static Yemoda Core(int y, int m, int d)
         {
             s_MinMaxYear.ValidateYearMonthDay(y, m, d);
             return new Yemoda(y, m, d);
         }
     }
-
-#endif
-    #endregion
 }

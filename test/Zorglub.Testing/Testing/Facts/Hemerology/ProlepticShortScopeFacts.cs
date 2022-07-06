@@ -12,7 +12,7 @@ public static class ProlepticShortScopeFacts
     {
         Int32.MinValue,
         ProlepticShortScope.MinYear - 1,
-        ShortScope.MaxYear + 1,
+        ProlepticShortScope.MaxYear + 1,
         Int32.MaxValue,
     };
 
@@ -23,8 +23,8 @@ public static class ProlepticShortScopeFacts
         -1,
         0,
         1,
-        ShortScope.MaxYear - 1,
-        ShortScope.MaxYear
+        ProlepticShortScope.MaxYear - 1,
+        ProlepticShortScope.MaxYear
     };
 }
 
@@ -32,7 +32,7 @@ public static class ProlepticShortScopeFacts
 /// Provides data-driven tests for <see cref="ProlepticShortScope"/>.
 /// </summary>
 internal abstract class ProlepticShortScopeFacts<TDataSet> :
-    ShortScopeFacts<ProlepticShortScope, TDataSet>
+    ICalendarScopeFacts<ProlepticShortScope, TDataSet>
     where TDataSet : ICalendricalDataSet, ISingleton<TDataSet>
 {
     protected ProlepticShortScopeFacts(ProlepticShortScope scope) : base(scope)

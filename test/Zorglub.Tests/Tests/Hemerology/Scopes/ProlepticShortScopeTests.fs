@@ -30,26 +30,26 @@ module Prelude =
 
     [<Fact>]
     let ``Constructor throws when "schema" is null`` () =
-        nullExn "schema" (fun () -> new FauxProlepticShortScope(null, epoch))
+        nullExn "schema" (fun () -> new ProlepticShortScope(null, epoch))
 
     [<Fact>]
     let ``Constructor throws when schema.MinYear > minYear`` () =
         let range = Range.Create(ProlepticShortScope.MinYear + 1, ProlepticShortScope.MaxYear)
         let sch = new FauxCalendricalSchema(range)
 
-        argExn "schema" (fun () -> new FauxProlepticShortScope(sch, epoch))
+        argExn "schema" (fun () -> new ProlepticShortScope(sch, epoch))
 
     [<Fact>]
     let ``Constructor throws when schema.MaxYear < 9999`` () =
         let range = Range.Create(1, ProlepticShortScope.MaxYear - 1)
         let sch = new FauxCalendricalSchema(range)
 
-        argExn "schema" (fun () -> new FauxProlepticShortScope(sch, epoch))
+        argExn "schema" (fun () -> new ProlepticShortScope(sch, epoch))
 
     [<Fact>]
     let ``Property Epoch`` () =
         let epoch = DayZero.NewStyle + 123_456_789
-        let scope = new FauxProlepticShortScope(new FauxCalendricalSchema(), epoch)
+        let scope = new ProlepticShortScope(new FauxCalendricalSchema(), epoch)
 
         scope.Epoch === epoch
 
@@ -57,7 +57,7 @@ module Prelude =
     let ``Property Domain`` () =
         let epoch = DayZero.NewStyle + 123_456_789
         let sch = new GregorianSchema()
-        let scope = new FauxProlepticShortScope(sch, epoch)
+        let scope = new ProlepticShortScope(sch, epoch)
         let minDayNumber = epoch + sch.GetStartOfYear(ProlepticShortScope.MinYear)
         let maxDayNumber = epoch + sch.GetEndOfYear(ProlepticShortScope.MaxYear)
         let range = Range.Create(minDayNumber, maxDayNumber)
@@ -66,33 +66,10 @@ module Prelude =
 
     [<Fact>]
     let ``Property SupportedYears`` () =
-        let scope = new FauxProlepticShortScope(new FauxCalendricalSchema(), epoch)
+        let scope = new ProlepticShortScope(new FauxCalendricalSchema(), epoch)
         let range = Range.Create(ProlepticShortScope.MinYear, ProlepticShortScope.MaxYear)
 
         scope.SupportedYears === range
-
-    //
-    // Factories
-    //
-    // We fully test ProlepticShortScope.Create() in CalendarScopeTests.
-
-    [<Fact>]
-    let ``Create() throws when "schema" is null`` () =
-        nullExn "schema" (fun () -> ProlepticShortScope.Create(null, epoch))
-
-    //
-    // Actual scopes
-    //
-
-    [<Fact>]
-    let ``Constructors for actual scopes throw when "schema" is null`` () =
-        nullExn "schema" (fun () -> new PlainProlepticShortScope(null, epoch))
-        nullExn "schema" (fun () -> new GregorianProlepticShortScope(null, epoch))
-        //nullExn "schema" (fun () -> new Solar12ProlepticShortScope(null, epoch))
-
-    //[<Theory; MemberData(nameof(badSolar12Profile))>]
-    //let ``Solar12ProlepticShortScope constructor throws when "schema" is not solar12``(sch) =
-    //    argExn "schema" (fun () -> new Solar12ProlepticShortScope(sch, epoch))
 
 module YearOverflowChecker =
     let validYearData = ProlepticShortScopeFacts.ValidYearData
@@ -122,7 +99,7 @@ module YearOverflowChecker =
 
     [<Fact>]
     let ``CheckUpperBound() overflows when "year" is out of range`` () =
-        (fun () -> checker.CheckUpperBound(ShortScope.MaxYear + 1)) |> overflows
+        (fun () -> checker.CheckUpperBound(ProlepticShortScope.MaxYear + 1)) |> overflows
         (fun () -> checker.CheckUpperBound(Int32.MaxValue)) |> overflows
 
     [<Fact>]

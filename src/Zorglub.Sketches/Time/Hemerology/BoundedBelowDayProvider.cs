@@ -6,6 +6,7 @@ namespace Zorglub.Time.Hemerology
     using System.Linq;
 
     using Zorglub.Time.Core;
+    using Zorglub.Time.Hemerology.Scopes;
 
     public sealed class BoundedBelowDayProvider : IDayProvider<DayNumber>
     {

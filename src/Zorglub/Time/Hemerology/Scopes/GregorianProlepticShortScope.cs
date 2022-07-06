@@ -3,7 +3,6 @@
 
 namespace Zorglub.Time.Hemerology.Scopes
 {
-    using Zorglub.Time.Core;
     using Zorglub.Time.Core.Intervals;
     using Zorglub.Time.Core.Schemas;
 
@@ -13,8 +12,20 @@ namespace Zorglub.Time.Hemerology.Scopes
     /// Represents the proleptic short scope of the Gregorian schema.
     /// <para>This class cannot be inherited.</para>
     /// </summary>
-    internal sealed partial class GregorianProlepticShortScope : ProlepticShortScope
+    internal static class GregorianProlepticShortScope
     {
+        /// <summary>
+        /// Represents the earliest supported year.
+        /// <para>This field is a constant equal to -9998.</para>
+        /// </summary>
+        public const int MinYear = ProlepticShortScope.MinYear;
+
+        /// <summary>
+        /// Represents the latest supported year.
+        /// <para>This field is a constant equal to 9999.</para>
+        /// </summary>
+        public const int MaxYear = ProlepticShortScope.MaxYear;
+
         /// <summary>
         /// Represents the minimum possible value for the number of consecutive days from the epoch.
         /// <para>This field is read-only.</para>
@@ -26,19 +37,6 @@ namespace Zorglub.Time.Hemerology.Scopes
         /// <para>This field is read-only.</para>
         /// </summary>
         private static readonly int s_MaxDaysSinceEpoch = GregorianFormulae.GetEndOfYear(MaxYear);
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="GregorianProlepticShortScope"/> class with
-        /// the specified schema and epoch.
-        /// </summary>
-        /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
-        public GregorianProlepticShortScope(GregorianSchema schema, DayNumber epoch)
-            : base(schema, epoch)
-        {
-            Debug.Assert(schema != null);
-            // We check the profile because we use the constant attached to it.
-            Debug.Assert(schema.Profile == CalendricalProfile.Solar12);
-        }
 
         /// <summary>
         /// Gets the range of supported <see cref="DayNumber"/> values (<i>Gregorian</i> calendar).
@@ -63,60 +61,7 @@ namespace Zorglub.Time.Hemerology.Scopes
                 Throw.DateOverflow();
             }
         }
-    }
 
-    internal partial class GregorianProlepticShortScope // ICalendricalScope
-    {
-        /// <inheritdoc />
-        public override void ValidateYearMonth(int year, int month, string? paramName = null)
-        {
-            if (year < MinYear || year > MaxYear)
-            {
-                Throw.YearOutOfRange(year, paramName);
-            }
-            if (month < 1 || month > Solar12.MonthsInYear)
-            {
-                Throw.MonthOutOfRange(month, paramName);
-            }
-        }
-
-        /// <inheritdoc />
-        public override void ValidateYearMonthDay(int year, int month, int day, string? paramName = null)
-        {
-            if (year < MinYear || year > MaxYear)
-            {
-                Throw.YearOutOfRange(year, paramName);
-            }
-            if (month < 1 || month > Solar12.MonthsInYear)
-            {
-                Throw.MonthOutOfRange(month, paramName);
-            }
-            if (day < 1
-                || (day > Solar.MinDaysInMonth
-                    && day > GregorianFormulae.CountDaysInMonth(year, month)))
-            {
-                Throw.DayOutOfRange(day, paramName);
-            }
-        }
-
-        /// <inheritdoc />
-        public override void ValidateOrdinal(int year, int dayOfYear, string? paramName = null)
-        {
-            if (year < MinYear || year > MaxYear)
-            {
-                Throw.YearOutOfRange(year, paramName);
-            }
-            if (dayOfYear < 1
-                || (dayOfYear > Solar.MinDaysInYear
-                    && dayOfYear > GregorianFormulae.CountDaysInYear(year)))
-            {
-                Throw.DayOfYearOutOfRange(dayOfYear, paramName);
-            }
-        }
-    }
-
-    internal partial class GregorianProlepticShortScope // Static versions
-    {
         /// <summary>
         /// Validates the specified year.
         /// </summary>

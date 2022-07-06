@@ -16,7 +16,7 @@ public static class StandardShortScopeFacts
     {
         Int32.MinValue,
         StandardShortScope.MinYear - 1,
-        ShortScope.MaxYear + 1,
+        StandardShortScope.MaxYear + 1,
         Int32.MaxValue,
     };
 
@@ -24,8 +24,8 @@ public static class StandardShortScopeFacts
     {
         StandardShortScope.MinYear,
         StandardShortScope.MinYear + 1,
-        ShortScope.MaxYear - 1,
-        ShortScope.MaxYear
+        StandardShortScope.MaxYear - 1,
+        StandardShortScope.MaxYear
     };
 }
 
@@ -33,7 +33,7 @@ public static class StandardShortScopeFacts
 /// Provides data-driven tests for <see cref="StandardShortScope"/>.
 /// </summary>
 internal abstract class StandardShortScopeFacts<TDataSet> :
-    ShortScopeFacts<StandardShortScope, TDataSet>
+    ICalendarScopeFacts<StandardShortScope, TDataSet>
     where TDataSet : ICalendricalDataSet, ISingleton<TDataSet>
 {
     protected StandardShortScopeFacts(StandardShortScope scope) : base(scope)

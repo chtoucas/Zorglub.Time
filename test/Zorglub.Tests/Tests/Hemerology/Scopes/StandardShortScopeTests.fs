@@ -30,26 +30,26 @@ module Prelude =
 
     [<Fact>]
     let ``Constructor throws when "schema" is null`` () =
-        nullExn "schema" (fun () -> new FauxStandardShortScope(null, epoch))
+        nullExn "schema" (fun () -> new StandardShortScope(null, epoch))
 
     [<Fact>]
     let ``Constructor throws when schema.MinYear > minYear`` () =
         let range = Range.Create(StandardShortScope.MinYear + 1, StandardShortScope.MaxYear)
         let sch = new FauxCalendricalSchema(range)
 
-        argExn "schema" (fun () -> new FauxStandardShortScope(sch, epoch))
+        argExn "schema" (fun () -> new StandardShortScope(sch, epoch))
 
     [<Fact>]
     let ``Constructor throws when schema.MaxYear < 9999`` () =
         let range = Range.Create(1, StandardShortScope.MaxYear - 1)
         let sch = new FauxCalendricalSchema(range)
 
-        argExn "schema" (fun () -> new FauxStandardShortScope(sch, epoch))
+        argExn "schema" (fun () -> new StandardShortScope(sch, epoch))
 
     [<Fact>]
     let ``Property Epoch`` () =
         let epoch = DayZero.NewStyle + 123_456_789
-        let scope = new FauxStandardShortScope(new FauxCalendricalSchema(), epoch)
+        let scope = new StandardShortScope(new FauxCalendricalSchema(), epoch)
 
         scope.Epoch === epoch
 
@@ -57,7 +57,7 @@ module Prelude =
     let ``Property Domain`` () =
         let epoch = DayZero.NewStyle + 123_456_789
         let sch = new GregorianSchema()
-        let scope = new FauxStandardShortScope(sch, epoch)
+        let scope = new StandardShortScope(sch, epoch)
         let minDayNumber = epoch + sch.GetStartOfYear(StandardShortScope.MinYear)
         let maxDayNumber = epoch + sch.GetEndOfYear(StandardShortScope.MaxYear)
         let range = Range.Create(minDayNumber, maxDayNumber)
@@ -66,48 +66,10 @@ module Prelude =
 
     [<Fact>]
     let ``Property SupportedYears`` () =
-        let scope = new FauxStandardShortScope(new FauxCalendricalSchema(), epoch)
+        let scope = new StandardShortScope(new FauxCalendricalSchema(), epoch)
         let range = Range.Create(StandardShortScope.MinYear, StandardShortScope.MaxYear)
 
         scope.SupportedYears === range
-
-    //
-    // Factories
-    //
-    // We fully test StandardShortScope.Create() in CalendarScopeTests.
-
-    [<Fact>]
-    let ``Create() throws when "schema" is null`` () =
-        nullExn "schema" (fun () -> StandardShortScope.Create(null, epoch))
-
-    //
-    // Actual scopes
-    //
-
-    [<Fact>]
-    let ``Constructors for actual scopes throw when "schema" is null`` () =
-        nullExn "schema" (fun () -> new PlainStandardShortScope(null, epoch))
-        nullExn "schema" (fun () -> new GregorianStandardShortScope(null, epoch))
-        //nullExn "schema" (fun () -> new LunarStandardShortScope(null, epoch))
-        //nullExn "schema" (fun () -> new LunisolarStandardShortScope(null, epoch))
-        //nullExn "schema" (fun () -> new Solar12StandardShortScope(null, epoch))
-        //nullExn "schema" (fun () -> new Solar13StandardShortScope(null, epoch))
-
-    //[<Theory; MemberData(nameof(badLunarProfile))>]
-    //let ``LunarStandardShortScope constructor throws when "schema" is not lunar`` (sch) =
-    //    argExn "schema" (fun () -> new LunarStandardShortScope(sch, epoch))
-
-    //[<Theory; MemberData(nameof(badLunisolarProfile))>]
-    //let ``LunisolarStandardShortScope constructor throws when "schema" is not lunisolar`` (sch) =
-    //    argExn "schema" (fun () -> new LunisolarStandardShortScope(sch, epoch))
-
-    //[<Theory; MemberData(nameof(badSolar12Profile))>]
-    //let ``Solar12ProlepticShortScope constructor throws when "schema" is not solar12`` (sch) =
-    //    argExn "schema" (fun () -> new Solar12StandardShortScope(sch, epoch))
-
-    //[<Theory; MemberData(nameof(badSolar13Profile))>]
-    //let ``Solar13StandardShortScope constructor throws when "schema" is not solar13`` (sch) =
-    //    argExn "schema" (fun () -> new Solar13StandardShortScope(sch, epoch))
 
 module YearOverflowChecker =
     let validYearData = StandardShortScopeFacts.ValidYearData
@@ -137,7 +99,7 @@ module YearOverflowChecker =
 
     [<Fact>]
     let ``CheckUpperBound() overflows when "year" is out of range`` () =
-        (fun () -> checker.CheckUpperBound(ShortScope.MaxYear + 1)) |> overflows
+        (fun () -> checker.CheckUpperBound(StandardShortScope.MaxYear + 1)) |> overflows
         (fun () -> checker.CheckUpperBound(Int32.MaxValue)) |> overflows
 
     [<Fact>]

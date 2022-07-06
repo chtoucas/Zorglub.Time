@@ -8,6 +8,8 @@ namespace Zorglub.Time.Core.Validation
     /// <summary>
     /// Provides methods to check the well-formedness of data according to a schema with profile
     /// <see cref="CalendricalProfile.Lunisolar"/>.
+    /// <para>For such schemas, we can mostly avoid to compute the number of days in a year or in
+    /// a month.</para>
     /// <para>This class cannot be inherited.</para>
     /// </summary>
     internal sealed class LunisolarPreValidator : ICalendricalPreValidator

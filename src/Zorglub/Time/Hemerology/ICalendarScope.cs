@@ -5,7 +5,6 @@ namespace Zorglub.Time.Hemerology
 {
     using Zorglub.Time.Core;
     using Zorglub.Time.Core.Intervals;
-    using Zorglub.Time.Hemerology.Scopes;
 
     #region Developer Notes
 
@@ -24,33 +23,26 @@ namespace Zorglub.Time.Hemerology
     // ### Full Hierarchy
     //
     // ICalendarScope
-    // ├─ CalendarScope [A]
-    // │  ├─ BoundedBelowScope
-    // │  └─ MinMaxYearScope
-    // └─ ShortScope [A]
-    //    ├─ ProlepticShortScope [A]
-    //    │  ├─ GregorianProlepticShortScope    (Gregorian-only)
-    //    │  ├─ PlainProlepticShortScope        (ICalendricalSchema)
-    //    └─ StandardShortScope [A]
-    //       ├─ GregorianStandardShortScope     (Gregorian-only)
-    //       └─ PlainStandardShortScope         (ICalendricalSchema)
+    // ├─ ProlepticShortScope [A]
+    // ├─ StandardShortScope [A]
+    // └─ CalendarScope [A]
+    //    ├─ BoundedBelowScope
+    //    └─ MinMaxYearScope
     //
     // Construction
     // ------------
     // Public ctors:
     //   BoundedBelowScope.ctor(ICalendricalSchema)
     //   MinMaxYearScope.ctor(ICalendricalSchema)
+    //   ProlepticShortScope.ctor(ICalendricalSchema)
+    //   StandardShortScope.ctor(ICalendricalSchema)
 
     // Public factory methods:
     //   MinMaxYearScope.WithMaxYear(ICalendricalSchema)
     //   MinMaxYearScope.WithMinYear(ICalendricalSchema)
-    //   ICalendarScope.CreateStandardScope(ICalendricalSchema)
-    //   ICalendarScope.CreateProlepticScope(ICalendricalSchema)
     //
     // Internal factory methods:
     //   MinMaxYearScope.WithMaximalRange(ICalendricalSchema)
-    //   ProlepticShortScope.Create(CalendricalSchema)
-    //   StandardShortScope.Create(CalendricalSchema)
     //
     // Range of Supported Years
     // ------------------------
@@ -78,40 +70,5 @@ namespace Zorglub.Time.Hemerology
         /// Gets the range of supported <see cref="DayNumber"/> values.
         /// </summary>
         Range<DayNumber> Domain { get; }
-    }
-
-    public partial interface ICalendarScope // Factories
-    {
-        // Public versions of internal factory methods.
-
-        /// <summary>
-        /// Creates a standard scope for the specified schema and epoch.
-        /// <para>A standard scope supports dates within the interval [1..9999] of years.</para>
-        /// </summary>
-        /// <remarks>
-        /// <para>This is the scope used by <see cref="Simple.Calendar"/>, except in the Gregorian
-        /// and Julian cases.</para>
-        /// </remarks>
-        /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
-        /// <exception cref="ArgumentException">The range of supported years by
-        /// <paramref name="schema"/> does not contain the interval [1..9999].</exception>
-        [Pure]
-        public static ICalendarScope CreateStandardScope(ICalendricalSchema schema, DayNumber epoch) =>
-            StandardShortScope.Create(schema, epoch);
-
-        /// <summary>
-        /// Creates a proleptic scope for the specified schema and epoch.
-        /// <para>A proleptic scope supports dates within the interval [-9998..9999] of years.</para>
-        /// </summary>
-        /// <remarks>
-        /// <para>This is the scope used by <see cref="Simple.Calendar"/> in the Gregorian and
-        /// Julian cases.</para>
-        /// </remarks>
-        /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
-        /// <exception cref="ArgumentException">The range of supported years by
-        /// <paramref name="schema"/> does not contain the interval [-9998..9999].</exception>
-        [Pure]
-        public static ICalendarScope CreateProlepticScope(ICalendricalSchema schema, DayNumber epoch) =>
-            ProlepticShortScope.Create(schema, epoch);
     }
 }
