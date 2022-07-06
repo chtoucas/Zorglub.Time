@@ -40,25 +40,25 @@ Intel Core i7-4500U CPU 1.80GHz (Haswell), 1 CPU, 4 logical and 2 physical cores
 |       DefaultProlepticShort | 14.13 ns | 0.085 ns | 0.080 ns |  1.24 |    0.01 |  III |     575 B |
 |                DefaultShort | 18.50 ns | 0.060 ns | 0.050 ns |  1.63 |    0.01 |   IV |     672 B |
 
-BenchmarkDotNet=v0.13.1, OS=Windows 10.0.19042.1586 (20H2/October2020Update)
+BenchmarkDotNet=v0.13.1, OS=Windows 10.0.19044.1766 (21H2)
 Intel Core2 Duo CPU E8500 3.16GHz, 1 CPU, 2 logical and 2 physical cores
-.NET SDK=6.0.201
-  [Host]     : .NET 6.0.3 (6.0.322.12309), X64 RyuJIT
-  DefaultJob : .NET 6.0.3 (6.0.322.12309), X64 RyuJIT
+.NET SDK=6.0.301
+  [Host]     : .NET 6.0.6 (6.0.622.26707), X64 RyuJIT
+  DefaultJob : .NET 6.0.6 (6.0.622.26707), X64 RyuJIT
 
-|                      Method |     Mean |    Error |   StdDev | Ratio | Rank | Code Size |
-|---------------------------- |---------:|---------:|---------:|------:|-----:|----------:|
-|                     Lenient | 12.97 ns | 0.011 ns | 0.009 ns |  1.00 |    I |     500 B |
-|                  SolarShort | 15.52 ns | 0.020 ns | 0.018 ns |  1.20 |   II |     797 B |
-|                         AAA | 15.85 ns | 0.020 ns | 0.019 ns |  1.22 |  III |     500 B |
-|            GregorianMaximal | 16.14 ns | 0.026 ns | 0.025 ns |  1.24 |   IV |     914 B |
-|     GregorianProlepticShort | 16.15 ns | 0.031 ns | 0.029 ns |  1.25 |   IV |     907 B |
-|         SolarProlepticShort | 16.16 ns | 0.042 ns | 0.039 ns |  1.25 |   IV |     801 B |
-| GregorianProlepticShortImpl | 16.46 ns | 0.024 ns | 0.021 ns |  1.27 |    V |     868 B |
-|       GregorianMaximal_Wide | 16.47 ns | 0.026 ns | 0.025 ns |  1.27 |    V |     868 B |
-|                  MinMaxYear | 17.41 ns | 0.020 ns | 0.018 ns |  1.34 |   VI |     655 B |
-|       DefaultProlepticShort | 17.42 ns | 0.027 ns | 0.026 ns |  1.34 |   VI |     661 B |
-|                DefaultShort | 20.27 ns | 0.025 ns | 0.024 ns |  1.56 |  VII |     832 B |
+|                         Method |     Mean |    Error |   StdDev | Ratio | Rank | Code Size |
+|------------------------------- |---------:|---------:|---------:|------:|-----:|----------:|
+|                        Lenient | 12.98 ns | 0.016 ns | 0.015 ns |  1.00 |    I |     500 B |
+|               GregorianMaximal | 15.51 ns | 0.023 ns | 0.021 ns |  1.19 |   II |     767 B |
+|        GregorianProlepticShort | 15.81 ns | 0.009 ns | 0.008 ns |  1.22 |  III |     757 B |
+|            SolarProlepticShort | 15.82 ns | 0.021 ns | 0.019 ns |  1.22 |  III |     650 B |
+|             SolarStandardShort | 15.83 ns | 0.026 ns | 0.021 ns |  1.22 |  III |     646 B |
+|                            AAA | 15.85 ns | 0.018 ns | 0.017 ns |  1.22 |  III |     500 B |
+| GregorianProlepticShort_Static | 16.45 ns | 0.014 ns | 0.012 ns |  1.27 |   IV |     721 B |
+|                     MinMaxYear | 16.47 ns | 0.025 ns | 0.024 ns |  1.27 |   IV |     571 B |
+|           DefaultStandardShort | 16.47 ns | 0.032 ns | 0.029 ns |  1.27 |   IV |     573 B |
+|          GregorianMaximal_Wide | 16.48 ns | 0.025 ns | 0.024 ns |  1.27 |   IV |     721 B |
+|          DefaultProlepticShort | 19.33 ns | 0.028 ns | 0.026 ns |  1.49 |    V |     577 B |
 
 NO INLINING
 
