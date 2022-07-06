@@ -105,12 +105,14 @@ namespace Zorglub.Time.Core
             }
         }
 
+#if false
         private Range<int>? _domain;
         /// <summary>
         /// Gets the range of supported values for the number of consecutive days from the epoch.
         /// </summary>
         private Range<int> Domain =>
             _domain ??= new Range<int>(_supportedYears.Endpoints.Select(_schema.GetStartOfYear, _schema.GetEndOfYear));
+#endif
 
         /// <summary>
         /// Builds the segment.
@@ -291,18 +293,20 @@ namespace Zorglub.Time.Core
         /// </summary>
         public void UseMaxSupportedYear() => SetMaxYear(_supportedYears.Max);
 
-        ///// <summary>
-        ///// Sets the start of the segment to the start of the earliest supported year, and the end
-        ///// of the segment to the end of the latest supported year.
-        ///// </summary>
-        ///// <exception cref="ArgumentException">The range of supported years by the schema
-        ///// does not contain the year 1.</exception>
-        //[Pure]
-        //public void UseMaximalRange(bool onOrAfterEpoch)
-        //{
-        //    UseMinSupportedYear(onOrAfterEpoch);
-        //    UseMaxSupportedYear();
-        //}
+#if false
+        /// <summary>
+        /// Sets the start of the segment to the start of the earliest supported year, and the end
+        /// of the segment to the end of the latest supported year.
+        /// </summary>
+        /// <exception cref="ArgumentException">The range of supported years by the schema
+        /// does not contain the year 1.</exception>
+        [Pure]
+        public void UseMaximalRange(bool onOrAfterEpoch)
+        {
+            UseMinSupportedYear(onOrAfterEpoch);
+            UseMaxSupportedYear();
+        }
+#endif
 
         [Pure]
         internal void SetSupportedYears(Range<int> supportedYears)
