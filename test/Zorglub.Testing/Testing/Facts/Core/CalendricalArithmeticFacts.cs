@@ -28,7 +28,7 @@ public abstract partial class CalendricalArithmeticFacts<TDataSet> :
     }
 
     protected ICalendricalSchema Schema { get; }
-    protected CalendricalSegment Segment => ArithmeticUT.Segment;
+    protected SystemSegment Segment => ArithmeticUT.Segment;
 }
 
 public partial class CalendricalArithmeticFacts<TDataSet> // Overflows

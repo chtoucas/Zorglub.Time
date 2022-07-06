@@ -26,7 +26,7 @@ namespace Zorglub.Time.Core.Arithmetic
         /// </exception>
         /// <exception cref="ArgumentException"><paramref name="schema"/> does not have the expected
         /// profile <see cref="CalendricalProfile.Solar12"/>.</exception>
-        public Solar12Arithmetic(CalendricalSchema schema, Range<int>? supportedYears = null)
+        public Solar12Arithmetic(SystemSchema schema, Range<int>? supportedYears = null)
             : base(schema, supportedYears)
         {
             Debug.Assert(schema != null);
@@ -36,7 +36,7 @@ namespace Zorglub.Time.Core.Arithmetic
 
         /// <inheritdoc />
         [Pure]
-        public override CalendricalArithmetic WithSupportedYears(Range<int> supportedYears) =>
+        public override SystemArithmetic WithSupportedYears(Range<int> supportedYears) =>
             new Solar12Arithmetic(Schema, supportedYears);
 
         //
@@ -59,7 +59,7 @@ namespace Zorglub.Time.Core.Arithmetic
                 {
                     if (y == MinYear) Throw.DateOverflow();
                     y--;
-                    (_, m, int d0) = PartsFactory.GetDatePartsAtEndOfYear(y);
+                    (_, m, int d0) = Schema.GetDatePartsAtEndOfYear(y);
                     dom += d0;
                 }
                 else
@@ -99,8 +99,8 @@ namespace Zorglub.Time.Core.Arithmetic
             return
                 d < MinDaysInMonth || d < Schema.CountDaysInMonth(y, m)
                     ? new Yemoda(y, m, d + 1)
-                : m < MonthsInYear ? PartsFactory.GetDatePartsAtStartOfMonth(y, m + 1)
-                : y < MaxYear ? PartsFactory.GetDatePartsAtStartOfYear(y + 1)
+                : m < MonthsInYear ? Schema.GetDatePartsAtStartOfMonth(y, m + 1)
+                : y < MaxYear ? Schema.GetDatePartsAtStartOfYear(y + 1)
                 : Throw.DateOverflow<Yemoda>();
         }
 

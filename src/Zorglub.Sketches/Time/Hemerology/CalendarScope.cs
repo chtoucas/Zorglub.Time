@@ -12,7 +12,7 @@ namespace Zorglub.Time.Hemerology
     /// </summary>
     public abstract partial class CalendarScope : ICalendarScope
     {
-        private readonly CalendricalSection _segment;
+        private readonly CalendricalSegment _segment;
 
         /// <summary>
         /// Called from constructors in derived classes to initialize the
@@ -23,7 +23,7 @@ namespace Zorglub.Time.Hemerology
         protected CalendarScope(
             ICalendricalSchema schema,
             DayNumber epoch,
-            CalendricalSection segment)
+            CalendricalSegment segment)
         {
             Schema = schema ?? throw new ArgumentNullException(nameof(schema));
             Requires.NotNull(segment);

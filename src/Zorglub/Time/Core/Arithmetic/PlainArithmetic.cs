@@ -6,11 +6,11 @@ namespace Zorglub.Time.Core.Arithmetic
     using Zorglub.Time.Core.Intervals;
 
     /// <summary>
-    /// Defines a plain implementation for <see cref="CalendricalArithmetic"/> and provides a base for
+    /// Defines a plain implementation for <see cref="SystemArithmetic"/> and provides a base for
     /// derived classes.
     /// <para>This class cannot be inherited.</para>
     /// </summary>
-    internal sealed partial class PlainArithmetic : CalendricalArithmetic
+    internal sealed partial class PlainArithmetic : SystemArithmetic
     {
         /// <summary>
         /// Called from constructors in derived classes to initialize the
@@ -20,12 +20,12 @@ namespace Zorglub.Time.Core.Arithmetic
         /// <exception cref="ArgumentException">The range of supported years by
         /// <paramref name="schema"/> and <see cref="Yemoda"/> are disjoint.
         /// </exception>
-        public PlainArithmetic(CalendricalSchema schema, Range<int>? supportedYears = null)
+        public PlainArithmetic(SystemSchema schema, Range<int>? supportedYears = null)
             : base(schema, supportedYears) { }
 
         /// <inheritdoc />
         [Pure]
-        public override CalendricalArithmetic WithSupportedYears(Range<int> supportedYears) =>
+        public override SystemArithmetic WithSupportedYears(Range<int> supportedYears) =>
             new PlainArithmetic(Schema, supportedYears);
     }
 
@@ -42,14 +42,14 @@ namespace Zorglub.Time.Core.Arithmetic
             {
                 int doy = Schema.GetDayOfYear(y, m, d);
                 var (newY, newDoy) = AddDaysViaDayOfYear(new Yedoy(y, doy), days);
-                return PartsFactory.GetDateParts(newY, newDoy);
+                return Schema.GetDateParts(newY, newDoy);
             }
 
             // Slow track.
             int daysSinceEpoch = checked(Schema.CountDaysSinceEpoch(y, m, d) + days);
             if (Domain.Contains(daysSinceEpoch) == false) Throw.DateOverflow();
 
-            return PartsFactory.GetDateParts(daysSinceEpoch);
+            return Schema.GetDateParts(daysSinceEpoch);
         }
 
         /// <inheritdoc />
@@ -64,8 +64,8 @@ namespace Zorglub.Time.Core.Arithmetic
             ymd.Unpack(out int y, out int m, out int d);
 
             return d < Schema.CountDaysInMonth(y, m) ? new Yemoda(y, m, d + 1)
-                : m < Schema.CountMonthsInYear(y) ? PartsFactory.GetDatePartsAtStartOfMonth(y, m + 1)
-                : y < MaxYear ? PartsFactory.GetDatePartsAtStartOfYear(y + 1)
+                : m < Schema.CountMonthsInYear(y) ? Schema.GetDatePartsAtStartOfMonth(y, m + 1)
+                : y < MaxYear ? Schema.GetDatePartsAtStartOfYear(y + 1)
                 : Throw.DateOverflow<Yemoda>();
         }
 
@@ -79,9 +79,9 @@ namespace Zorglub.Time.Core.Arithmetic
                 // Same month, the day before.
                 d > 1 ? new Yemoda(y, m, d - 1)
                 // Same year, end of previous month.
-                : m > 1 ? PartsFactory.GetDatePartsAtEndOfMonth(y, m - 1)
+                : m > 1 ? Schema.GetDatePartsAtEndOfMonth(y, m - 1)
                 // End of previous year...
-                : y > MinYear ? PartsFactory.GetDatePartsAtEndOfYear(y - 1)
+                : y > MinYear ? Schema.GetDatePartsAtEndOfYear(y - 1)
                 // ... or overflow.
                 : Throw.DateOverflow<Yemoda>();
         }
@@ -105,7 +105,7 @@ namespace Zorglub.Time.Core.Arithmetic
             int daysSinceEpoch = checked(Schema.CountDaysSinceEpoch(y, doy) + days);
             if (Domain.Contains(daysSinceEpoch) == false) Throw.DateOverflow();
 
-            return PartsFactory.GetOrdinalParts(daysSinceEpoch);
+            return Schema.GetOrdinalParts(daysSinceEpoch);
         }
 
         /// <inheritdoc />
@@ -147,7 +147,7 @@ namespace Zorglub.Time.Core.Arithmetic
 
             return
                 doy < MaxDaysViaDayOfYear || doy < Schema.CountDaysInYear(y) ? new Yedoy(y, doy + 1)
-                : y < MaxYear ? PartsFactory.GetOrdinalPartsAtStartOfYear(y + 1)
+                : y < MaxYear ? Schema.GetOrdinalPartsAtStartOfYear(y + 1)
                 : Throw.DateOverflow<Yedoy>();
         }
 
@@ -158,7 +158,7 @@ namespace Zorglub.Time.Core.Arithmetic
             ydoy.Unpack(out int y, out int doy);
 
             return doy > 1 ? new Yedoy(y, doy - 1)
-                : y > MinYear ? PartsFactory.GetOrdinalPartsAtEndOfYear(y - 1)
+                : y > MinYear ? Schema.GetOrdinalPartsAtEndOfYear(y - 1)
                 : Throw.DateOverflow<Yedoy>();
         }
     }
@@ -174,7 +174,7 @@ namespace Zorglub.Time.Core.Arithmetic
             int monthsSinceEpoch = checked(Schema.CountMonthsSinceEpoch(y, m) + months);
             if (MonthDomain.Contains(monthsSinceEpoch) == false) Throw.MonthOverflow();
 
-            return PartsFactory.GetMonthParts(monthsSinceEpoch);
+            return Schema.GetMonthParts(monthsSinceEpoch);
         }
 
         /// <inheritdoc />

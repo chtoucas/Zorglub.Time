@@ -54,7 +54,7 @@ namespace Zorglub.Time.Core
         /// <summary>
         /// Gets the calendrical segment of supported days.
         /// </summary>
-        CalendricalSegment Segment { get; }
+        SystemSegment Segment { get; }
 
         //
         // Operations on Yemoda

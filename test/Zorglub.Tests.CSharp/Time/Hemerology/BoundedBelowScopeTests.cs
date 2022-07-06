@@ -7,7 +7,7 @@ using Zorglub.Time.Core;
 using Zorglub.Time.Core.Schemas;
 
 // TODO: on ne vérifie pas le nom du paramètre de certaines exceptions car ce
-// dernier varie pas mal: Yemoda.Of(), CalendricalSegmentBuilder, etc.
+// dernier varie pas mal: Yemoda.Of(), SystemSegmentBuilder, etc.
 
 public sealed partial class BoundedBelowScopeTests : CalendricalDataConsumer<GregorianDataSet>
 {

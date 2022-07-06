@@ -132,11 +132,11 @@ namespace Zorglub.Time.Core
             }
         }
 
-        private CalendricalSegment? _segment;
+        private SystemSegment? _segment;
         /// <summary>
         /// Gets informations on the range of supported days.
         /// </summary>
-        public CalendricalSegment Segment => _segment ??= CalendricalSegment.CreateMaximal(this);
+        public SystemSegment Segment => _segment ??= SystemSegment.CreateMaximal(this);
 
         /// <inheritdoc />
         [Pure]
@@ -157,12 +157,12 @@ namespace Zorglub.Time.Core
         // Covariant return type does not work when a property (Arithmetic here),
         // is a property from an interface or has a setter.
 
-        private CalendricalArithmetic? _arithmetic;
+        private SystemArithmetic? _arithmetic;
         /// <summary>
         /// Gets or initializes the arithmetic for this schema.
         /// </summary>
-        public CalendricalArithmetic Arithmetic =>
-            _arithmetic ??= CalendricalArithmetic.CreateDefault(this);
+        public SystemArithmetic Arithmetic =>
+            _arithmetic ??= SystemArithmetic.CreateDefault(this);
     }
 
     public partial class SystemSchema // ICalendricalPartsFactory (1)

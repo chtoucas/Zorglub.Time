@@ -11,15 +11,15 @@ namespace Zorglub.Time.Core
     /// Provides informations on a range of days for a given schema.
     /// <para>This class cannot be inherited.</para>
     /// </summary>
-    public sealed record CalendricalSection
+    public sealed record SystemSegment
     {
-        // No public ctor, see CalendricalSectionBuilder.
+        // No public ctor, see SystemSegmentBuilder.
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="CalendricalSection"/> class.
+        /// Initializes a new instance of the <see cref="SystemSegment"/> class.
         /// <para>This constructor does NOT validate its parameters.</para>
         /// </summary>
-        internal CalendricalSection(ICalendricalSchema schema, Endpoint start, Endpoint end)
+        internal SystemSegment(SystemSchema schema, Endpoint start, Endpoint end)
         {
             Debug.Assert(schema != null);
             Debug.Assert(start <= end);
@@ -37,9 +37,9 @@ namespace Zorglub.Time.Core
         }
 
         [Pure]
-        private int CountMonthsSinceEpoch(DateParts parts)
+        private int CountMonthsSinceEpoch(Yemoda ymd)
         {
-            var (y, m, _) = parts;
+            var (y, m, _) = ymd;
             return Schema.CountMonthsSinceEpoch(y, m);
         }
 
@@ -56,14 +56,14 @@ namespace Zorglub.Time.Core
         /// </summary>
         /// <returns>The pair of the first day of the first supported year and the last day of the
         /// last supported year.</returns>
-        public OrderedPair<DateParts> MinMaxDateParts { get; }
+        public OrderedPair<Yemoda> MinMaxDateParts { get; }
 
         /// <summary>
         /// Gets the pair of earliest and latest supported ordinal date parts.
         /// </summary>
         /// <returns>The pair of the first day of the first supported year and the last day of the
         /// last supported year.</returns>
-        public OrderedPair<OrdinalParts> MinMaxOrdinalParts { get; }
+        public OrderedPair<Yedoy> MinMaxOrdinalParts { get; }
 
         /// <summary>
         /// Gets the range of supported months, or more precisely the range of supported numbers of
@@ -78,7 +78,7 @@ namespace Zorglub.Time.Core
         /// </summary>
         /// <returns>The pair of the first month of the first supported year and the last month of
         /// the last supported year.</returns>
-        public OrderedPair<MonthParts> MinMaxMonthParts { get; }
+        public OrderedPair<Yemo> MinMaxMonthParts { get; }
 
         /// <summary>
         /// Gets the range of supported years.
@@ -88,33 +88,32 @@ namespace Zorglub.Time.Core
         /// <summary>
         /// Gets the schema.
         /// </summary>
-        internal ICalendricalSchema Schema { get; }
+        internal SystemSchema Schema { get; }
 
         /// <summary>
-        /// Creates the maximal segment for <paramref name="schema"/>.
+        /// Creates the maximal segment for <paramref name="schema"/> for which
+        /// <see cref="SupportedYears"/> is a subrange of <see cref="Yemoda.SupportedYears"/>.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
-        /// <exception cref="ArgumentException">The range of supported years by the schema
-        /// does not contain the year 1.</exception>
         [Pure]
-        public static CalendricalSection CreateMaximal(ICalendricalSchema schema, bool onOrAfterEpoch = false)
+        public static SystemSegment CreateMaximal(SystemSchema schema, bool onOrAfterEpoch = false)
         {
-            var builder = new CalendricalSectionBuilder(schema);
+            var builder = new SystemSegmentBuilder(schema);
             builder.UseMinSupportedYear(onOrAfterEpoch);
             builder.UseMaxSupportedYear();
             return builder.BuildSegment();
         }
 
         /// <summary>
-        /// Creates a new instance of the <see cref="CalendricalSection"/> class.
+        /// Creates a new instance of the <see cref="SystemSegment"/> class.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
         /// <exception cref="AoorException"><paramref name="supportedYears"/> is NOT a subinterval
         /// of the range of supported years by <paramref name="schema"/>.</exception>
         [Pure]
-        public static CalendricalSection Create(ICalendricalSchema schema, Range<int> supportedYears)
+        public static SystemSegment Create(SystemSchema schema, Range<int> supportedYears)
         {
-            var builder = new CalendricalSectionBuilder(schema);
+            var builder = new SystemSegmentBuilder(schema);
             builder.SetSupportedYears(supportedYears);
             return builder.BuildSegment();
         }
@@ -149,10 +148,10 @@ namespace Zorglub.Time.Core
         internal sealed record Endpoint
         {
             public int DaysSinceEpoch { get; init; }
-            public DateParts DateParts { get; init; }
-            public OrdinalParts OrdinalParts { get; init; }
+            public Yemoda DateParts { get; init; }
+            public Yedoy OrdinalParts { get; init; }
 
-            public MonthParts MonthParts => DateParts.MonthParts;
+            public Yemo MonthParts => DateParts.Yemo;
             public int Year => DateParts.Year;
 
             // Comparison w/ null always returns false, even null >= null and null <= null.

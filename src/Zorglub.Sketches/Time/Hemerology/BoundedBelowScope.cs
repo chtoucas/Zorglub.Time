@@ -45,7 +45,7 @@ namespace Zorglub.Time.Hemerology
         }
 
         /// <summary>
-        /// Creates a new instance of the <see cref="CalendricalSection"/> class.
+        /// Creates a new instance of the <see cref="CalendricalSegment"/> class.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
         /// <exception cref="AoorException">The min date is not representable by the system.</exception>
@@ -54,7 +54,7 @@ namespace Zorglub.Time.Hemerology
         /// <paramref name="schema"/> is a strict superset of <see cref="Yemoda.SupportedYears"/>.
         /// </exception>
         // Internal for testing.
-        internal static CalendricalSection GetSegment(
+        internal static CalendricalSegment GetSegment(
             ICalendricalSchema schema,
             int year,
             int month,
@@ -63,7 +63,7 @@ namespace Zorglub.Time.Hemerology
         {
             var minDate = new DateParts(year, month, day);
 
-            var builder = new CalendricalSectionBuilder(schema);
+            var builder = new CalendricalSegmentBuilder(schema);
             builder.SetMinDate(minDate);
             if (maxYear.HasValue)
             {

@@ -9,8 +9,6 @@ namespace Zorglub.Time.Core
 
     /// <summary>
     /// Provides informations on a range of days for a given schema.
-    /// <para>This class can only represent subintervals of <see cref="Yemoda.SupportedYears"/>.
-    /// </para>
     /// <para>This class cannot be inherited.</para>
     /// </summary>
     public sealed record CalendricalSegment
@@ -39,9 +37,9 @@ namespace Zorglub.Time.Core
         }
 
         [Pure]
-        private int CountMonthsSinceEpoch(Yemoda ymd)
+        private int CountMonthsSinceEpoch(DateParts parts)
         {
-            var (y, m, _) = ymd;
+            var (y, m, _) = parts;
             return Schema.CountMonthsSinceEpoch(y, m);
         }
 
@@ -58,14 +56,14 @@ namespace Zorglub.Time.Core
         /// </summary>
         /// <returns>The pair of the first day of the first supported year and the last day of the
         /// last supported year.</returns>
-        public OrderedPair<Yemoda> MinMaxDateParts { get; }
+        public OrderedPair<DateParts> MinMaxDateParts { get; }
 
         /// <summary>
         /// Gets the pair of earliest and latest supported ordinal date parts.
         /// </summary>
         /// <returns>The pair of the first day of the first supported year and the last day of the
         /// last supported year.</returns>
-        public OrderedPair<Yedoy> MinMaxOrdinalParts { get; }
+        public OrderedPair<OrdinalParts> MinMaxOrdinalParts { get; }
 
         /// <summary>
         /// Gets the range of supported months, or more precisely the range of supported numbers of
@@ -80,7 +78,7 @@ namespace Zorglub.Time.Core
         /// </summary>
         /// <returns>The pair of the first month of the first supported year and the last month of
         /// the last supported year.</returns>
-        public OrderedPair<Yemo> MinMaxMonthParts { get; }
+        public OrderedPair<MonthParts> MinMaxMonthParts { get; }
 
         /// <summary>
         /// Gets the range of supported years.
@@ -93,13 +91,11 @@ namespace Zorglub.Time.Core
         internal ICalendricalSchema Schema { get; }
 
         /// <summary>
-        /// Creates the maximal segment for <paramref name="schema"/> for which
-        /// <see cref="SupportedYears"/> is a subrange of <see cref="Yemoda.SupportedYears"/>.
+        /// Creates the maximal segment for <paramref name="schema"/>.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
-        /// <exception cref="ArgumentException">The range of supported years by
-        /// <paramref name="schema"/> and <see cref="Yemoda"/> are disjoint.
-        /// </exception>
+        /// <exception cref="ArgumentException">The range of supported years by the schema
+        /// does not contain the year 1.</exception>
         [Pure]
         public static CalendricalSegment CreateMaximal(ICalendricalSchema schema, bool onOrAfterEpoch = false)
         {
@@ -113,9 +109,6 @@ namespace Zorglub.Time.Core
         /// Creates a new instance of the <see cref="CalendricalSegment"/> class.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
-        /// <exception cref="ArgumentException">The range of supported years by
-        /// <paramref name="schema"/> and <see cref="Yemoda"/> are disjoint.
-        /// </exception>
         /// <exception cref="AoorException"><paramref name="supportedYears"/> is NOT a subinterval
         /// of the range of supported years by <paramref name="schema"/>.</exception>
         [Pure]
@@ -156,10 +149,10 @@ namespace Zorglub.Time.Core
         internal sealed record Endpoint
         {
             public int DaysSinceEpoch { get; init; }
-            public Yemoda DateParts { get; init; }
-            public Yedoy OrdinalParts { get; init; }
+            public DateParts DateParts { get; init; }
+            public OrdinalParts OrdinalParts { get; init; }
 
-            public Yemo MonthParts => DateParts.Yemo;
+            public MonthParts MonthParts => DateParts.MonthParts;
             public int Year => DateParts.Year;
 
             // Comparison w/ null always returns false, even null >= null and null <= null.

@@ -13,12 +13,14 @@ using Zorglub.Time.Hemerology;
 
 using static Zorglub.Time.Extensions.Unboxing;
 
+// TODO(code): remplacer SystemSchema par CalendricalSchema.
+
 // Helpers to initialize all the fields at once, otherwise proper initialization
 // of static fields would depend on the order in which they are written.
 
 internal sealed class CalendarContext
 {
-    public CalendarContext(CalendricalSchema schema, DayNumber epoch, CalendarScope scope)
+    public CalendarContext(SystemSchema schema, DayNumber epoch, CalendarScope scope)
     {
         Schema = schema ?? throw new ArgumentNullException(nameof(schema));
         Epoch = epoch;
@@ -26,7 +28,7 @@ internal sealed class CalendarContext
 
         PartsFactory = ICalendricalPartsFactory.Create(schema);
         PartsCreator = new PartsCreator(scope);
-        Arithmetic = CalendricalArithmetic.CreateDefault(schema).WithSupportedYears(scope.SupportedYears);
+        Arithmetic = SystemArithmetic.CreateDefault(schema).WithSupportedYears(scope.SupportedYears);
     }
 
     public CalendricalSchema Schema { get; }
@@ -42,7 +44,7 @@ internal sealed class CalendarContext
     /// <summary>Dates on or after year 1.</summary>
     [Pure]
     public static CalendarContext WithYearsAfterZero<TSchema>(DayNumber epoch)
-        where TSchema : CalendricalSchema, IBoxable<TSchema>
+        where TSchema : SystemSchema, IBoxable<TSchema>
     {
         var sch = TSchema.GetInstance().Unbox();
         var scope = MinMaxYearScope.WithMinYear(sch, epoch, 1);
@@ -53,7 +55,7 @@ internal sealed class CalendarContext
     /// <summary>Dates between years 1 and 9999.</summary>
     [Pure]
     public static CalendarContext WithYearsBetween1And9999<TSchema>(DayNumber epoch)
-        where TSchema : CalendricalSchema, IBoxable<TSchema>
+        where TSchema : SystemSchema, IBoxable<TSchema>
     {
         var sch = TSchema.GetInstance().Unbox();
         var scope = new MinMaxYearScope(sch, epoch, 1, 9999);
@@ -64,13 +66,13 @@ internal sealed class CalendarContext
 
 internal sealed class SchemaContext
 {
-    private SchemaContext(CalendricalSchema schema)
+    private SchemaContext(SystemSchema schema)
     {
         Schema = schema ?? throw new ArgumentNullException(nameof(schema));
 
         PartsFactory = ICalendricalPartsFactory.Create(schema);
         PartsCreator = PartsCreator.Create(schema);
-        Arithmetic = CalendricalArithmetic.CreateDefault(schema);
+        Arithmetic = SystemArithmetic.CreateDefault(schema);
     }
 
     public CalendricalSchema Schema { get; }
@@ -84,7 +86,7 @@ internal sealed class SchemaContext
 
     [Pure]
     public static SchemaContext Create<TSchema>()
-        where TSchema : CalendricalSchema, IBoxable<TSchema>
+        where TSchema : SystemSchema, IBoxable<TSchema>
     {
         var sch = TSchema.GetInstance().Unbox();
 

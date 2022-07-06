@@ -10,7 +10,7 @@ namespace Zorglub.Time.Core
     // FIXME(api): Can only work reliably with SystemSchema. We still use
     // CreateDefault() in a few places where we should not.
     // Better explanation for the meaning of MinMinDaysInMonth and MaxDaysViaDayOfMonth.
-
+    // (outdated doc)
     // Keeping this class internal ensures that we have complete control on its
     // instances. In particular, we make sure that none of them is used in
     // a wrong context, meaning in a place where a different schema is expected.
@@ -24,7 +24,7 @@ namespace Zorglub.Time.Core
     /// calendrical point of view. They MUST ensure that all returned values are valid when the
     /// previous condition is met.</para>
     /// </remarks>
-    public abstract partial class CalendricalArithmetic : ICalendricalArithmeticPlus
+    public abstract partial class SystemArithmetic : ICalendricalArithmeticPlus
     {
         /// <summary>
         /// Represents the absolute minimum value admissible for the minimum total number of days
@@ -37,20 +37,18 @@ namespace Zorglub.Time.Core
 
         /// <summary>
         /// Called from constructors in derived classes to initialize the
-        /// <see cref="CalendricalArithmetic"/> class.
+        /// <see cref="SystemArithmetic"/> class.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
         /// <exception cref="ArgumentException">The range of supported years by
         /// <paramref name="schema"/> and <see cref="Yemoda"/> are disjoint.
         /// </exception>
-        protected CalendricalArithmetic(CalendricalSchema schema, Range<int>? supportedYears)
+        protected SystemArithmetic(SystemSchema schema, Range<int>? supportedYears)
         {
             Schema = schema ?? throw new ArgumentNullException(nameof(schema));
 
-            PartsFactory = ICalendricalPartsFactory.Create(schema);
-
-            Segment = supportedYears is null ? CalendricalSegment.CreateMaximal(schema)
-                : CalendricalSegment.Create(schema, supportedYears.Value);
+            Segment = supportedYears is null ? SystemSegment.CreateMaximal(schema)
+                : SystemSegment.Create(schema, supportedYears.Value);
 
             (MinYear, MaxYear) = Segment.SupportedYears.Endpoints;
 
@@ -59,7 +57,7 @@ namespace Zorglub.Time.Core
         }
 
         /// <inheritdoc/>
-        public CalendricalSegment Segment { get; }
+        public SystemSegment Segment { get; }
 
         /// <summary>
         /// Gets the range of supported days.
@@ -79,12 +77,7 @@ namespace Zorglub.Time.Core
         /// <summary>
         /// Gets the underlying schema.
         /// </summary>
-        protected CalendricalSchema Schema { get; }
-
-        /// <summary>
-        /// Gets the factory for calendrical parts.
-        /// </summary>
-        protected ICalendricalPartsFactory PartsFactory { get; }
+        protected SystemSchema Schema { get; }
 
         /// <summary>
         /// Gets the earliest supported year.
@@ -113,7 +106,7 @@ namespace Zorglub.Time.Core
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
         [Pure]
-        public static CalendricalArithmetic CreateDefault(CalendricalSchema schema)
+        public static SystemArithmetic CreateDefault(SystemSchema schema)
         {
             Requires.NotNull(schema);
 
@@ -141,10 +134,10 @@ namespace Zorglub.Time.Core
         /// Creates a new arithmetic object using the same underlying schema but with the specified
         /// range of supported years.
         /// </summary>
-        [Pure] public abstract CalendricalArithmetic WithSupportedYears(Range<int> supportedYears);
+        [Pure] public abstract SystemArithmetic WithSupportedYears(Range<int> supportedYears);
     }
 
-    public partial class CalendricalArithmetic // ICalendricalArithmetic
+    public partial class SystemArithmetic // ICalendricalArithmetic
     {
         //
         // Operations on Yemoda
@@ -220,7 +213,7 @@ namespace Zorglub.Time.Core
         public abstract int CountMonthsBetween(Yemo start, Yemo end);
     }
 
-    public partial class CalendricalArithmetic // ICalendricalArithmeticPlus
+    public partial class SystemArithmetic // ICalendricalArithmeticPlus
     {
         /// <inheritdoc />
         [Pure] public abstract Yemoda AddYears(Yemoda ymd, int years, out int roundoff);
@@ -235,7 +228,7 @@ namespace Zorglub.Time.Core
         [Pure] public abstract Yemo AddYears(Yemo ym, int years, out int roundoff);
     }
 
-    public partial class CalendricalArithmetic // Fast operations
+    public partial class SystemArithmetic // Fast operations
     {
         // AddDaysViaDayOfYear().
         // Only when we know in advance that |days| <= MaxDaysViaDayOfYear.

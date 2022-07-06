@@ -108,7 +108,7 @@ namespace Zorglub.Time.Simple
         /// <summary>
         /// Gets the calendrical arithmetic.
         /// </summary>
-        protected CalendricalArithmetic Arithmetic => Calendar.Arithmetic;
+        protected SystemArithmetic Arithmetic => Calendar.Arithmetic;
 
         /// <summary>
         /// Gets the ID of the underlying calendar.
