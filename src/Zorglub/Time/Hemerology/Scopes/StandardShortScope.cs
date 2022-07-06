@@ -40,7 +40,7 @@ namespace Zorglub.Time.Hemerology.Scopes
         /// <exception cref="ArgumentException">The range of supported years by
         /// <paramref name="schema"/> does not contain the interval [1..9999].</exception>
         [Pure]
-        public static StandardShortScope Create(CalendricalSchema schema, DayNumber epoch)
+        public static StandardShortScope Create(ICalendricalSchema schema, DayNumber epoch)
         {
             Requires.NotNull(schema);
 

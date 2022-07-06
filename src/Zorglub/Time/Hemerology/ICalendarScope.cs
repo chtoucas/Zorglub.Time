@@ -30,15 +30,10 @@ namespace Zorglub.Time.Hemerology
     // └─ ShortScope [A]
     //    ├─ ProlepticShortScope [A]
     //    │  ├─ GregorianProlepticShortScope    (Gregorian-only)
-    //    │  ├─ PlainProlepticShortScope
-    //    │  └─ Solar12ProlepticShortScope      (CalendricalSchema)
+    //    │  ├─ PlainProlepticShortScope        (ICalendricalSchema)
     //    └─ StandardShortScope [A]
     //       ├─ GregorianStandardShortScope     (Gregorian-only)
-    //       ├─ LunarStandardShortScope         (CalendricalSchema)
-    //       ├─ LunisolarStandardShortScope     (CalendricalSchema)
-    //       ├─ PlainStandardShortScope         (CalendricalSchema)
-    //       ├─ Solar12StandardShortScope       (CalendricalSchema)
-    //       └─ Solar13StandardShortScope       (CalendricalSchema)
+    //       └─ PlainStandardShortScope         (ICalendricalSchema)
     //
     // Construction
     // ------------
@@ -101,7 +96,7 @@ namespace Zorglub.Time.Hemerology
         /// <exception cref="ArgumentException">The range of supported years by
         /// <paramref name="schema"/> does not contain the interval [1..9999].</exception>
         [Pure]
-        public static ICalendarScope CreateStandardScope(CalendricalSchema schema, DayNumber epoch) =>
+        public static ICalendarScope CreateStandardScope(ICalendricalSchema schema, DayNumber epoch) =>
             StandardShortScope.Create(schema, epoch);
 
         /// <summary>
@@ -116,7 +111,7 @@ namespace Zorglub.Time.Hemerology
         /// <exception cref="ArgumentException">The range of supported years by
         /// <paramref name="schema"/> does not contain the interval [-9998..9999].</exception>
         [Pure]
-        public static ICalendarScope CreateProlepticScope(CalendricalSchema schema, DayNumber epoch) =>
+        public static ICalendarScope CreateProlepticScope(ICalendricalSchema schema, DayNumber epoch) =>
             ProlepticShortScope.Create(schema, epoch);
     }
 }

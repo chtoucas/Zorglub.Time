@@ -6,13 +6,9 @@ namespace Zorglub.Time.Hemerology.Scopes
     using Zorglub.Time.Core;
     using Zorglub.Time.Core.Intervals;
 
-    // ShortScope is internal -> no need to go generics.
     // Keeping this class internal ensures that we have complete control on its
     // instances. In particular, we make sure that none of them is used in
     // a wrong context, meaning in a place where a different schema is expected.
-    //
-    // We could have re-used the validators, but let's keep things simple.
-    // Anyway, the code is pretty straightforward.
 
     /// <summary>
     /// Represents the short scope of a schema and provides a base for derived classes.
