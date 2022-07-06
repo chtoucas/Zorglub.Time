@@ -28,7 +28,7 @@ internal sealed class CalendarContext
 
         PartsFactory = ICalendricalPartsFactoryV2.Create(schema);
         PartsCreator = new PartsCreator(scope);
-        Arithmetic = SystemArithmetic.CreateDefault(schema).WithSupportedYears(scope.SupportedYears);
+        Arithmetic = schema.Arithmetic.WithSupportedYears(scope.SupportedYears);
     }
 
     public CalendricalSchema Schema { get; }
@@ -72,7 +72,7 @@ internal sealed class SchemaContext
 
         PartsFactory = ICalendricalPartsFactoryV2.Create(schema);
         PartsCreator = PartsCreator.Create(schema);
-        Arithmetic = SystemArithmetic.CreateDefault(schema);
+        Arithmetic = schema.Arithmetic;
     }
 
     public CalendricalSchema Schema { get; }

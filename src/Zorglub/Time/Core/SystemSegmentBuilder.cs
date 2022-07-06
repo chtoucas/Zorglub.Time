@@ -7,15 +7,11 @@ namespace Zorglub.Time.Core
 
     using Endpoint = SystemSegment.Endpoint;
 
-    // We validate before and after calling a method from the method:
-    // - before, to respect the schema layout (_supportedYears)
-    // - after, to stay within the limits of Yemoda/Yedoy (_partsFactory)
-
     /// <summary>
     /// Represents a builder for <see cref="SystemSegment"/>.
     /// <para>This class cannot be inherited.</para>
     /// </summary>
-    public sealed partial class SystemSegmentBuilder
+    internal sealed class SystemSegmentBuilder
     {
         /// <summary>
         /// Represents the schema.
@@ -24,56 +20,19 @@ namespace Zorglub.Time.Core
         private readonly SystemSchema _schema;
 
         /// <summary>
-        /// Represents the range of supported years.
-        /// <para>This field is read-only.</para>
-        /// </summary>
-        private readonly Range<int> _supportedYears;
-
-        /// <summary>
-        /// Represents the earliest supported year &gt;= 1.
-        /// <para>This field is read-only.</para>
-        /// </summary>
-        private readonly int? _minYearOnOrAfterYear1;
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="SystemSegmentBuilder"/> class.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
         public SystemSegmentBuilder(SystemSchema schema)
         {
             _schema = schema ?? throw new ArgumentNullException(nameof(schema));
-
-            //_partsFactory = new PartsFactory(schema);
-            //var set0 = Interval.Intersect(schema.SupportedYears, Yemoda.SupportedYears);
-            //if (set0.IsEmpty) Throw.Argument(nameof(schema));
-            //_supportedYears = set0.Range;
-
-            _supportedYears = schema.SupportedYears;
-
-            var set = Interval.Intersect(_supportedYears, Range.StartingAt(1));
-            _minYearOnOrAfterYear1 = set.IsEmpty ? null : set.Range.Min;
         }
-
-        /// <summary>
-        /// Returns true if the start of the segment has been set; otherwise returns false.
-        /// </summary>
-        public bool HasStart => _start != null;
-
-        /// <summary>
-        /// Returns true if the end of the segment has been set; otherwise returns false.
-        /// </summary>
-        public bool HasEnd => _end != null;
-
-        /// <summary>
-        /// Returns true if both start and end have been set; otherwise returns false.
-        /// </summary>
-        public bool IsBuildable => HasStart && HasEnd;
 
         private Endpoint? _start;
         /// <summary>
         /// Gets the start of the segment.
         /// </summary>
-        internal Endpoint Start
+        public Endpoint Start
         {
             get => _start ?? Throw.InvalidOperation<Endpoint>();
             private set
@@ -87,7 +46,7 @@ namespace Zorglub.Time.Core
         /// <summary>
         /// Gets the end of the segment.
         /// </summary>
-        internal Endpoint End
+        public Endpoint End
         {
             get => _end ?? Throw.InvalidOperation<Endpoint>();
             private set
@@ -97,14 +56,10 @@ namespace Zorglub.Time.Core
             }
         }
 
-#if false
-        private Range<int>? _domain;
         /// <summary>
-        /// Gets the range of supported values for the number of consecutive days from the epoch.
+        /// Gets the range of supported years.
         /// </summary>
-        private Range<int> Domain =>
-            _domain ??= new Range<int>(_supportedYears.Endpoints.Select(_schema.GetStartOfYear, _schema.GetEndOfYear));
-#endif
+        private Range<int> SupportedYears => _schema.SupportedYears;
 
         /// <summary>
         /// Builds the segment.
@@ -112,135 +67,19 @@ namespace Zorglub.Time.Core
         /// <exception cref="InvalidOperationException">The segment was not buildable.</exception>
         [Pure]
         public SystemSegment BuildSegment() => new(_schema, Start, End);
-    }
 
-    public partial class SystemSegmentBuilder // Builder methods
-    {
-#if false
-
-        /// <summary>
-        /// Sets the start of the segment to the specified number of consecutive days from the epoch.
-        /// </summary>
-        /// <exception cref="AoorException">The result is not representable by the system.</exception>
-        public void SetMinDaysSinceEpoch(int daysSinceEpoch)
-        {
-            if (Domain.Contains(daysSinceEpoch) == false)
-            {
-                Throw.ArgumentOutOfRange(nameof(daysSinceEpoch));
-            }
-
-            Start = new Endpoint
-            {
-                DaysSinceEpoch = daysSinceEpoch,
-                DateParts = _partsFactory.GetDateParts(daysSinceEpoch),
-                OrdinalParts = _partsFactory.GetOrdinalParts(daysSinceEpoch),
-            };
-        }
-
-        /// <summary>
-        /// Sets the end of the segment to the specified number of consecutive days from the epoch.
-        /// </summary>
-        /// <exception cref="AoorException">The result is not representable by the system.</exception>
-        public void SetMaxDaysSinceEpoch(int daysSinceEpoch)
-        {
-            if (Domain.Contains(daysSinceEpoch) == false)
-            {
-                Throw.ArgumentOutOfRange(nameof(daysSinceEpoch));
-            }
-
-            End = new Endpoint
-            {
-                DaysSinceEpoch = daysSinceEpoch,
-                DateParts = _partsFactory.GetDateParts(daysSinceEpoch),
-                OrdinalParts = _partsFactory.GetOrdinalParts(daysSinceEpoch),
-            };
-        }
-
-        /// <summary>
-        /// Sets the start of the segment to the specified date.
-        /// </summary>
-        /// <exception cref="AoorException">The result is not representable by the system.</exception>
-        public void SetMinDate(Yemoda ymd)
-        {
-            var (y, m, d) = ymd;
-
-            if (_supportedYears.Contains(y) == false) Throw.YearOutOfRange(y, nameof(ymd));
-            _schema.PreValidator.ValidateMonthDay(y, m, d, nameof(ymd));
-
-            Start = new Endpoint
-            {
-                DaysSinceEpoch = _schema.CountDaysSinceEpoch(y, m, d),
-                DateParts = ymd,
-                OrdinalParts = _partsFactory.GetOrdinalParts(y, m, d),
-            };
-        }
-
-        /// <summary>
-        /// Sets the end of the segment to the specified date.
-        /// </summary>
-        /// <exception cref="AoorException">The result is not representable by the system.</exception>
-        public void SetMaxDate(Yemoda ymd)
-        {
-            var (y, m, d) = ymd;
-
-            if (_supportedYears.Contains(y) == false) Throw.YearOutOfRange(y, nameof(ymd));
-            _schema.PreValidator.ValidateMonthDay(y, m, d, nameof(ymd));
-
-            End = new Endpoint
-            {
-                DaysSinceEpoch = _schema.CountDaysSinceEpoch(y, m, d),
-                DateParts = ymd,
-                OrdinalParts = _partsFactory.GetOrdinalParts(y, m, d),
-            };
-        }
-
-        /// <summary>
-        /// Sets the start of the segment to the specified ordinal date.
-        /// </summary>
-        /// <exception cref="AoorException">The result is not representable by the system.</exception>
-        public void SetMinOrdinal(Yedoy ydoy)
-        {
-            var (y, doy) = ydoy;
-
-            if (_supportedYears.Contains(y) == false) Throw.YearOutOfRange(y, nameof(ydoy));
-            _schema.PreValidator.ValidateDayOfYear(y, doy, nameof(ydoy));
-
-            Start = new Endpoint
-            {
-                DaysSinceEpoch = _schema.CountDaysSinceEpoch(y, doy),
-                DateParts = _partsFactory.GetDateParts(y, doy),
-                OrdinalParts = ydoy,
-            };
-        }
-
-        /// <summary>
-        /// Sets the end of the segment to the specified ordinal date.
-        /// </summary>
-        /// <exception cref="AoorException">The result is not representable by the system.</exception>
-        public void SetMaxOrdinal(Yedoy ydoy)
-        {
-            var (y, doy) = ydoy;
-
-            if (_supportedYears.Contains(y) == false) Throw.YearOutOfRange(y, nameof(ydoy));
-            _schema.PreValidator.ValidateDayOfYear(y, doy, nameof(ydoy));
-
-            End = new Endpoint
-            {
-                DaysSinceEpoch = _schema.CountDaysSinceEpoch(y, doy),
-                DateParts = _partsFactory.GetDateParts(y, doy),
-                OrdinalParts = ydoy,
-            };
-        }
-
-#endif
+        //
+        // Builder methods
+        //
 
         /// <summary>
         /// Sets the start of the segment to the start of the specified year.
         /// </summary>
-        /// <exception cref="AoorException">The result is not representable by the system.</exception>
+        /// <exception cref="AoorException"><paramref name="year"/> was outside the range of
+        /// supported years by the schema.</exception>
         public void SetMinYear(int year)
         {
-            if (_supportedYears.Contains(year) == false) Throw.YearOutOfRange(year);
+            if (SupportedYears.Contains(year) == false) Throw.YearOutOfRange(year);
 
             Start = new Endpoint
             {
@@ -253,10 +92,11 @@ namespace Zorglub.Time.Core
         /// <summary>
         /// Sets the end of the segment to the end of the specified year.
         /// </summary>
-        /// <exception cref="AoorException">The result is not representable by the system.</exception>
+        /// <exception cref="AoorException"><paramref name="year"/> was outside the range of
+        /// supported years by the schema.</exception>
         public void SetMaxYear(int year)
         {
-            if (_supportedYears.Contains(year) == false) Throw.YearOutOfRange(year);
+            if (SupportedYears.Contains(year) == false) Throw.YearOutOfRange(year);
 
             End = new Endpoint
             {
@@ -266,42 +106,7 @@ namespace Zorglub.Time.Core
             };
         }
 
-        /// <summary>
-        /// Sets the start of the segment to the start of the earliest supported year.
-        /// </summary>
-        /// <exception cref="ArgumentException">The range of supported years by the schema
-        /// does not contain the year 1.</exception>
-        public void UseMinSupportedYear(bool onOrAfterEpoch)
-        {
-            int minYear =
-                onOrAfterEpoch
-                ? _minYearOnOrAfterYear1 ?? Throw.Argument<int>(nameof(onOrAfterEpoch))
-                : _supportedYears.Min;
-            SetMinYear(minYear);
-        }
-
-        /// <summary>
-        /// Sets the end of the segment to the end of the latest supported year.
-        /// </summary>
-        public void UseMaxSupportedYear() => SetMaxYear(_supportedYears.Max);
-
-#if false
-        /// <summary>
-        /// Sets the start of the segment to the start of the earliest supported year, and the end
-        /// of the segment to the end of the latest supported year.
-        /// </summary>
-        /// <exception cref="ArgumentException">The range of supported years by the schema
-        /// does not contain the year 1.</exception>
-        [Pure]
-        public void UseMaximalRange(bool onOrAfterEpoch)
-        {
-            UseMinSupportedYear(onOrAfterEpoch);
-            UseMaxSupportedYear();
-        }
-#endif
-
-        [Pure]
-        internal void SetSupportedYears(Range<int> supportedYears)
+        public void SetSupportedYears(Range<int> supportedYears)
         {
             SetMinYear(supportedYears.Min);
             SetMaxYear(supportedYears.Max);

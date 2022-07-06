@@ -91,21 +91,20 @@ namespace Zorglub.Time.Core
         internal SystemSchema Schema { get; }
 
         /// <summary>
-        /// Creates the maximal segment for <paramref name="schema"/> for which
-        /// <see cref="SupportedYears"/> is a subrange of <see cref="Yemoda.SupportedYears"/>.
+        /// Creates the maximal segment for <paramref name="schema"/>.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
         [Pure]
-        public static SystemSegment CreateMaximal(SystemSchema schema, bool onOrAfterEpoch = false)
+        public static SystemSegment CreateMaximal(SystemSchema schema)
         {
             var builder = new SystemSegmentBuilder(schema);
-            builder.UseMinSupportedYear(onOrAfterEpoch);
-            builder.UseMaxSupportedYear();
+            builder.SetSupportedYears(schema.SupportedYears);
             return builder.BuildSegment();
         }
 
         /// <summary>
-        /// Creates a new instance of the <see cref="SystemSegment"/> class.
+        /// Creates a new instance of the <see cref="SystemSegment"/> class from the specified range
+        /// of supported years.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
         /// <exception cref="AoorException"><paramref name="supportedYears"/> is NOT a subinterval

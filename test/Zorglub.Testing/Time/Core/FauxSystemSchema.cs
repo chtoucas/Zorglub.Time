@@ -82,7 +82,11 @@ public partial class FauxSystemSchema // Props & methods
     [Pure] public sealed override int GetYear(int daysSinceEpoch) => throw new NotSupportedException();
 
     [Pure] public sealed override int GetStartOfYear(int y) => 0;
-    public sealed override void GetDatePartsAtEndOfYear(int y, out int m, out int d) => throw new NotSupportedException();
+    public sealed override void GetDatePartsAtEndOfYear(int y, out int m, out int d)
+    {
+        m = CountMonthsInYear(y);
+        d = CountDaysInMonth(y, m);
+    }
 }
 
 public partial class FauxSystemSchema // Profiles

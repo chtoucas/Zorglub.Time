@@ -7,6 +7,10 @@ namespace Zorglub.Time.Core
 
     using Endpoint = CalendricalSegment.Endpoint;
 
+    // We validate before and after calling a method from the method:
+    // - before, to respect the schema layout (_supportedYears)
+    // - after, to stay within the limits of Yemoda/Yedoy (_partsFactory)
+
     /// <summary>
     /// Represents a builder for <see cref="CalendricalSegment"/>.
     /// <para>This class cannot be inherited.</para>
@@ -278,18 +282,6 @@ namespace Zorglub.Time.Core
         /// </summary>
         public void UseMaxSupportedYear() => SetMaxYear(SupportedYears.Max);
 
-        ///// <summary>
-        ///// Sets the start of the segment to the start of the earliest supported year, and the end
-        ///// of the segment to the end of the latest supported year.
-        ///// </summary>
-        //[Pure]
-        //public void UseMaximalRange(bool onOrAfterEpoch)
-        //{
-        //    UseMinSupportedYear(onOrAfterEpoch);
-        //    UseMaxSupportedYear();
-        //}
-
-        [Pure]
         internal void SetSupportedYears(Range<int> supportedYears)
         {
             SetMinYear(supportedYears.Min);

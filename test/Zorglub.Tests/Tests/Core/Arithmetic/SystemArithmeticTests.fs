@@ -1,7 +1,7 @@
 ﻿// SPDX-License-Identifier: BSD-3-Clause
 // Copyright (c) 2020 Narvalo.Org. All rights reserved.
 
-module Zorglub.Tests.Core.Arithmetic.ArithmeticTests
+module Zorglub.Tests.Core.Arithmetic.SystemArithmeticTests
 
 open Zorglub.Testing
 open Zorglub.Testing.Data
@@ -43,18 +43,18 @@ module Prelude =
         nullExn "schema" (fun () -> new Solar12Arithmetic(null))
         nullExn "schema" (fun () -> new Solar13Arithmetic(null))
 
-    [<Fact>]
-    let ``Constructor throws for schemas with bad range of supported years`` () =
-        let range = Range.StartingAt(Yemoda.MaxYear + 1)
-        let sch = new FauxSystemSchema(range)
+    //[<Fact>]
+    //let ``Constructor throws for schemas with bad range of supported years`` () =
+    //    let range = Range.StartingAt(Yemoda.MaxYear + 1)
+    //    let sch = new FauxSystemSchema(range)
 
-        argExn "schema" (fun () -> new BasicArithmetic(sch))
-        argExn "schema" (fun () -> new PlainArithmetic(sch))
-        argExn "schema" (fun () -> new RegularArithmetic(sch))
-        argExn "schema" (fun () -> new LunarArithmetic(sch))
-        argExn "schema" (fun () -> new LunisolarArithmetic(sch))
-        argExn "schema" (fun () -> new Solar12Arithmetic(sch))
-        argExn "schema" (fun () -> new Solar13Arithmetic(sch))
+    //    argExn "schema" (fun () -> new BasicArithmetic(sch))
+    //    argExn "schema" (fun () -> new PlainArithmetic(sch))
+    //    argExn "schema" (fun () -> new RegularArithmetic(sch))
+    //    argExn "schema" (fun () -> new LunarArithmetic(sch))
+    //    argExn "schema" (fun () -> new LunisolarArithmetic(sch))
+    //    argExn "schema" (fun () -> new Solar12Arithmetic(sch))
+    //    argExn "schema" (fun () -> new Solar13Arithmetic(sch))
 
     [<Theory; MemberData(nameof(badLunarProfile))>]
     let ``LunarArithmetic constructor throws for non-lunar schema`` (sch) =

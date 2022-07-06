@@ -135,7 +135,9 @@ namespace Zorglub.Time.Core.Schemas
         [Pure]
         public sealed override void GetDatePartsAtEndOfYear(int y, out int m, out int d)
         {
-            throw new NotImplementedException();
+            // FIXME(code): temporary for tests.
+            m = CountMonthsInYear(y);
+            d = CountDaysInMonth(y, m);
         }
     }
 }

@@ -108,8 +108,10 @@ namespace Zorglub.Time.Core
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
         [Pure]
-        public static SystemArithmetic CreateDefault(SystemSchema schema)
+        internal static SystemArithmetic CreateDefault(SystemSchema schema)
         {
+            // Should only be used by SystemSchema.Arithmetic.
+
             Requires.NotNull(schema);
 
             return schema.Profile switch
