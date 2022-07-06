@@ -38,15 +38,16 @@ Intel Core2 Duo CPU E8500 3.16GHz, 1 CPU, 2 logical and 2 physical cores
   [Host]     : .NET 6.0.6 (6.0.622.26707), X64 RyuJIT
   DefaultJob : .NET 6.0.6 (6.0.622.26707), X64 RyuJIT
 
-|                         Method |     Mean |    Error |   StdDev | Ratio | Rank | Code Size |
-|------------------------------- |---------:|---------:|---------:|------:|-----:|----------:|
-|                        Lenient | 12.98 ns | 0.021 ns | 0.020 ns |  1.00 |    I |     500 B |
-|         GregorianStandardShort | 15.82 ns | 0.017 ns | 0.015 ns |  1.22 |   II |     753 B |
-|                     MinMaxYear | 16.45 ns | 0.025 ns | 0.023 ns |  1.27 |  III |     571 B |
-| GregorianProlepticShort_Static | 16.46 ns | 0.028 ns | 0.026 ns |  1.27 |  III |     721 B |
-|            PlainProlepticShort | 16.48 ns | 0.023 ns | 0.021 ns |  1.27 |  III |     577 B |
-|             PlainStandardShort | 16.64 ns | 0.166 ns | 0.155 ns |  1.28 |  III |     573 B |
-|        GregorianProlepticShort | 18.71 ns | 0.025 ns | 0.023 ns |  1.44 |   IV |     757 B |
+|                  Method |     Mean |    Error |   StdDev | Ratio | Rank | Code Size |
+|------------------------ |---------:|---------:|---------:|------:|-----:|----------:|
+|                 Lenient | 13.00 ns | 0.041 ns | 0.038 ns |  1.00 |    I |     500 B |
+|                     AAA | 15.86 ns | 0.026 ns | 0.024 ns |  1.22 |   II |     500 B |
+|   GregorianMaximal_Wide | 16.46 ns | 0.023 ns | 0.021 ns |  1.27 |  III |     721 B |
+| GregorianProlepticShort | 16.47 ns | 0.027 ns | 0.025 ns |  1.27 |  III |     721 B |
+|          ProlepticShort | 16.47 ns | 0.022 ns | 0.020 ns |  1.27 |  III |     577 B |
+|              MinMaxYear | 16.47 ns | 0.029 ns | 0.027 ns |  1.27 |  III |     571 B |
+|           StandardShort | 16.47 ns | 0.012 ns | 0.011 ns |  1.27 |  III |     573 B |
+|        GregorianMaximal | 18.37 ns | 0.022 ns | 0.021 ns |  1.41 |   IV |     767 B |
  */
 
 [DisassemblyDiagnoser]
