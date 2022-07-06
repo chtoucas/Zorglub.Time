@@ -8,46 +8,46 @@ using Zorglub.Time.Hemerology.Scopes;
 
 // FIXME(fact): skip negative years.
 // Use an ICalendarDataSet? StandardCalendarDataSet?
-// What about ProlepticShortScopeFacts.
+// What about ProlepticScopeFacts.
 
-public static class StandardShortScopeFacts
+public static class StandardScopeFacts
 {
     public static readonly TheoryData<int> InvalidYearData = new()
     {
         Int32.MinValue,
-        StandardShortScope.MinYear - 1,
-        StandardShortScope.MaxYear + 1,
+        StandardScope.MinYear - 1,
+        StandardScope.MaxYear + 1,
         Int32.MaxValue,
     };
 
     public static readonly TheoryData<int> ValidYearData = new()
     {
-        StandardShortScope.MinYear,
-        StandardShortScope.MinYear + 1,
-        StandardShortScope.MaxYear - 1,
-        StandardShortScope.MaxYear
+        StandardScope.MinYear,
+        StandardScope.MinYear + 1,
+        StandardScope.MaxYear - 1,
+        StandardScope.MaxYear
     };
 }
 
 /// <summary>
-/// Provides data-driven tests for <see cref="StandardShortScope"/>.
+/// Provides data-driven tests for <see cref="StandardScope"/>.
 /// </summary>
-internal abstract class StandardShortScopeFacts<TDataSet> :
-    ICalendarScopeFacts<StandardShortScope, TDataSet>
+internal abstract class StandardScopeFacts<TDataSet> :
+    ICalendarScopeFacts<StandardScope, TDataSet>
     where TDataSet : ICalendricalDataSet, ISingleton<TDataSet>
 {
-    protected StandardShortScopeFacts(StandardShortScope scope) : base(scope)
+    protected StandardScopeFacts(StandardScope scope) : base(scope)
     {
         StandardScopeView = scope;
     }
 
-    public static TheoryData<int> InvalidYearData => StandardShortScopeFacts.InvalidYearData;
-    public static TheoryData<int> ValidYearData => StandardShortScopeFacts.ValidYearData;
+    public static TheoryData<int> InvalidYearData => StandardScopeFacts.InvalidYearData;
+    public static TheoryData<int> ValidYearData => StandardScopeFacts.ValidYearData;
 
     /// <summary>
-    /// Gets a <see cref="StandardShortScope"/> view of the scope under test.
+    /// Gets a <see cref="StandardScope"/> view of the scope under test.
     /// </summary>
-    protected StandardShortScope StandardScopeView { get; }
+    protected StandardScope StandardScopeView { get; }
 
     [Theory, MemberData(nameof(ValidYearData))]
     public sealed override void ValidateYear(int y) => StandardScopeView.ValidateYear(y);

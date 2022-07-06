@@ -4,6 +4,7 @@
 namespace Zorglub.Time.Hemerology
 {
     using Zorglub.Time.Core;
+    using Zorglub.Time.Hemerology.Scopes;
 
     // REVIEW(code): l'absence d'un objet date fait qu'on doit revalider les
     // données à chaque fois.

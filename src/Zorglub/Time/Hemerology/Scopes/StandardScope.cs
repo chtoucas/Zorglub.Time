@@ -8,20 +8,20 @@ namespace Zorglub.Time.Hemerology.Scopes
     using Zorglub.Time.Core.Schemas;
 
     /// <summary>
-    /// Represents the proleptic short scope of a schema.
-    /// <para>A proleptic scope supports dates within the interval [-9998..9999] of years.</para>
+    /// Represents the standard short scope of a schema.
+    /// <para>A standard scope supports dates within the interval [1..9999] of years.</para>
     /// </summary>
     /// <remarks>
-    /// <para>This is the scope used by <see cref="Simple.Calendar"/> in the Gregorian and
-    /// Julian cases.</para>
+    /// <para>This is the scope used by <see cref="Simple.Calendar"/>, except in the Gregorian
+    /// and Julian cases.</para>
     /// </remarks>
-    public sealed class ProlepticShortScope : ICalendarScope
+    public sealed class StandardScope : ICalendarScope
     {
         /// <summary>
         /// Represents the earliest supported year.
-        /// <para>This field is a constant equal to -9998.</para>
+        /// <para>This field is a constant equal to 1.</para>
         /// </summary>
-        public const int MinYear = -9998;
+        public const int MinYear = 1;
 
         /// <summary>
         /// Represents the latest supported year.
@@ -36,13 +36,13 @@ namespace Zorglub.Time.Hemerology.Scopes
         private readonly ICalendricalPreValidator _preValidator;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ProlepticShortScope"/> class with the
+        /// Initializes a new instance of the <see cref="StandardScope"/> class with the
         /// specified schema and epoch.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
         /// <exception cref="ArgumentException">The range of supported years by
-        /// <paramref name="schema"/> does not contain the interval [-9998..9999].</exception>
-        public ProlepticShortScope(ICalendricalSchema schema, DayNumber epoch)
+        /// <paramref name="schema"/> does not contain the interval [1..9999].</exception>
+        public StandardScope(ICalendricalSchema schema, DayNumber epoch)
         {
             Requires.NotNull(schema);
 

@@ -5,7 +5,6 @@ namespace Zorglub.Time.Hemerology.Scopes
 {
     using Zorglub.Time;
     using Zorglub.Time.Core;
-    using Zorglub.Time.Hemerology;
 
     /// <summary>
     /// Represents a scope with dates on or after a given date, but not the first day of a year.

@@ -15,7 +15,7 @@ public class ProlepticCalendarDataSet<TDataSet> : MinMaxYearCalendarDataSet<TDat
     where TDataSet : UnboundedCalendarDataSet
 {
     public ProlepticCalendarDataSet(TDataSet inner)
-        : base(inner, ProlepticShortScope.MinYear, ProlepticShortScope.MaxYear) { }
+        : base(inner, ProlepticScope.MinYear, ProlepticScope.MaxYear) { }
 }
 
 /// <summary>

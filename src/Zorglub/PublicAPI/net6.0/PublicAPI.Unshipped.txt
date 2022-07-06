@@ -128,10 +128,10 @@ const Zorglub.Time.DayNumber.MaxDaysSinceZero = 2147483646 -> int
 const Zorglub.Time.DayNumber.MaxSupportedYear = 5000000 -> int
 const Zorglub.Time.DayNumber.MinDaysSinceZero = -2147483647 -> int
 const Zorglub.Time.DayNumber.MinSupportedYear = -4999999 -> int
-const Zorglub.Time.Hemerology.Scopes.ProlepticShortScope.MaxYear = 9999 -> int
-const Zorglub.Time.Hemerology.Scopes.ProlepticShortScope.MinYear = -9998 -> int
-const Zorglub.Time.Hemerology.Scopes.StandardShortScope.MaxYear = 9999 -> int
-const Zorglub.Time.Hemerology.Scopes.StandardShortScope.MinYear = 1 -> int
+const Zorglub.Time.Hemerology.Scopes.ProlepticScope.MaxYear = 9999 -> int
+const Zorglub.Time.Hemerology.Scopes.ProlepticScope.MinYear = -9998 -> int
+const Zorglub.Time.Hemerology.Scopes.StandardScope.MaxYear = 9999 -> int
+const Zorglub.Time.Hemerology.Scopes.StandardScope.MinYear = 1 -> int
 const Zorglub.Time.Ord.MaxAlgebraicValue = 2147483647 -> int
 const Zorglub.Time.Ord.MinAlgebraicValue = -2147483646 -> int
 override sealed Zorglub.Time.Core.Schemas.Coptic12Schema.CountDaysInMonth(int y, int m) -> int
@@ -1265,24 +1265,24 @@ Zorglub.Time.Hemerology.IStandardArithmetic<TSelf>.NextDay() -> TSelf
 Zorglub.Time.Hemerology.IStandardArithmetic<TSelf>.PlusDays(int days) -> TSelf
 Zorglub.Time.Hemerology.IStandardArithmetic<TSelf>.PreviousDay() -> TSelf
 Zorglub.Time.Hemerology.RangeExtensions
-Zorglub.Time.Hemerology.Scopes.ProlepticShortScope
-Zorglub.Time.Hemerology.Scopes.ProlepticShortScope.Domain.get -> Zorglub.Time.Core.Intervals.Range<Zorglub.Time.DayNumber>
-Zorglub.Time.Hemerology.Scopes.ProlepticShortScope.Epoch.get -> Zorglub.Time.DayNumber
-Zorglub.Time.Hemerology.Scopes.ProlepticShortScope.ProlepticShortScope(Zorglub.Time.Core.ICalendricalSchema! schema, Zorglub.Time.DayNumber epoch) -> void
-Zorglub.Time.Hemerology.Scopes.ProlepticShortScope.SupportedYears.get -> Zorglub.Time.Core.Intervals.Range<int>
-Zorglub.Time.Hemerology.Scopes.ProlepticShortScope.ValidateOrdinal(int year, int dayOfYear, string? paramName = null) -> void
-Zorglub.Time.Hemerology.Scopes.ProlepticShortScope.ValidateYear(int year, string? paramName = null) -> void
-Zorglub.Time.Hemerology.Scopes.ProlepticShortScope.ValidateYearMonth(int year, int month, string? paramName = null) -> void
-Zorglub.Time.Hemerology.Scopes.ProlepticShortScope.ValidateYearMonthDay(int year, int month, int day, string? paramName = null) -> void
-Zorglub.Time.Hemerology.Scopes.StandardShortScope
-Zorglub.Time.Hemerology.Scopes.StandardShortScope.Domain.get -> Zorglub.Time.Core.Intervals.Range<Zorglub.Time.DayNumber>
-Zorglub.Time.Hemerology.Scopes.StandardShortScope.Epoch.get -> Zorglub.Time.DayNumber
-Zorglub.Time.Hemerology.Scopes.StandardShortScope.StandardShortScope(Zorglub.Time.Core.ICalendricalSchema! schema, Zorglub.Time.DayNumber epoch) -> void
-Zorglub.Time.Hemerology.Scopes.StandardShortScope.SupportedYears.get -> Zorglub.Time.Core.Intervals.Range<int>
-Zorglub.Time.Hemerology.Scopes.StandardShortScope.ValidateOrdinal(int year, int dayOfYear, string? paramName = null) -> void
-Zorglub.Time.Hemerology.Scopes.StandardShortScope.ValidateYear(int year, string? paramName = null) -> void
-Zorglub.Time.Hemerology.Scopes.StandardShortScope.ValidateYearMonth(int year, int month, string? paramName = null) -> void
-Zorglub.Time.Hemerology.Scopes.StandardShortScope.ValidateYearMonthDay(int year, int month, int day, string? paramName = null) -> void
+Zorglub.Time.Hemerology.Scopes.ProlepticScope
+Zorglub.Time.Hemerology.Scopes.ProlepticScope.Domain.get -> Zorglub.Time.Core.Intervals.Range<Zorglub.Time.DayNumber>
+Zorglub.Time.Hemerology.Scopes.ProlepticScope.Epoch.get -> Zorglub.Time.DayNumber
+Zorglub.Time.Hemerology.Scopes.ProlepticScope.ProlepticScope(Zorglub.Time.Core.ICalendricalSchema! schema, Zorglub.Time.DayNumber epoch) -> void
+Zorglub.Time.Hemerology.Scopes.ProlepticScope.SupportedYears.get -> Zorglub.Time.Core.Intervals.Range<int>
+Zorglub.Time.Hemerology.Scopes.ProlepticScope.ValidateOrdinal(int year, int dayOfYear, string? paramName = null) -> void
+Zorglub.Time.Hemerology.Scopes.ProlepticScope.ValidateYear(int year, string? paramName = null) -> void
+Zorglub.Time.Hemerology.Scopes.ProlepticScope.ValidateYearMonth(int year, int month, string? paramName = null) -> void
+Zorglub.Time.Hemerology.Scopes.ProlepticScope.ValidateYearMonthDay(int year, int month, int day, string? paramName = null) -> void
+Zorglub.Time.Hemerology.Scopes.StandardScope
+Zorglub.Time.Hemerology.Scopes.StandardScope.Domain.get -> Zorglub.Time.Core.Intervals.Range<Zorglub.Time.DayNumber>
+Zorglub.Time.Hemerology.Scopes.StandardScope.Epoch.get -> Zorglub.Time.DayNumber
+Zorglub.Time.Hemerology.Scopes.StandardScope.StandardScope(Zorglub.Time.Core.ICalendricalSchema! schema, Zorglub.Time.DayNumber epoch) -> void
+Zorglub.Time.Hemerology.Scopes.StandardScope.SupportedYears.get -> Zorglub.Time.Core.Intervals.Range<int>
+Zorglub.Time.Hemerology.Scopes.StandardScope.ValidateOrdinal(int year, int dayOfYear, string? paramName = null) -> void
+Zorglub.Time.Hemerology.Scopes.StandardScope.ValidateYear(int year, string? paramName = null) -> void
+Zorglub.Time.Hemerology.Scopes.StandardScope.ValidateYearMonth(int year, int month, string? paramName = null) -> void
+Zorglub.Time.Hemerology.Scopes.StandardScope.ValidateYearMonthDay(int year, int month, int day, string? paramName = null) -> void
 Zorglub.Time.Hemerology.YearNumbering
 Zorglub.Time.MonthParts
 Zorglub.Time.MonthParts.CompareTo(object? obj) -> int

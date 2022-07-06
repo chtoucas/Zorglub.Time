@@ -34,7 +34,7 @@ namespace Zorglub.Time.Simple
         /// calendar.</exception>
         public OrdinalDate(int year, int dayOfYear)
         {
-            GregorianProlepticShortScope.ValidateOrdinalImpl(year, dayOfYear);
+            GregorianProlepticScope.ValidateOrdinal(year, dayOfYear);
 
             _bin = new Yedoyx(year, dayOfYear, (int)Cuid.Gregorian);
         }
@@ -253,7 +253,7 @@ namespace Zorglub.Time.Simple
         [Pure]
         public static OrdinalDate FromDayNumber(DayNumber dayNumber)
         {
-            GregorianProlepticShortScope.DefaultDomain.Validate(dayNumber);
+            GregorianProlepticScope.DefaultDomain.Validate(dayNumber);
             var ydoy = GregorianFormulae.GetOrdinalParts(dayNumber - DayZero.NewStyle);
             return new OrdinalDate(ydoy, Cuid.Gregorian);
         }

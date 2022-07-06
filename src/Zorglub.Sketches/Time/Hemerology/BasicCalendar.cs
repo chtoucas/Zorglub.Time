@@ -5,6 +5,7 @@ namespace Zorglub.Time.Hemerology
 {
     using Zorglub.Time.Core;
     using Zorglub.Time.Core.Intervals;
+    using Zorglub.Time.Hemerology.Scopes;
 
     // REVIEW(api): we keep the param "schema" in the ctor even if it is not
     // really necessary. It's also available thru the scope.Schema but this prop

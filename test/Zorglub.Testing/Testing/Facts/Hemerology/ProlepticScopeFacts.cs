@@ -6,47 +6,47 @@ namespace Zorglub.Testing.Facts.Hemerology;
 using Zorglub.Testing.Data;
 using Zorglub.Time.Hemerology.Scopes;
 
-public static class ProlepticShortScopeFacts
+public static class ProlepticScopeFacts
 {
     public static readonly TheoryData<int> InvalidYearData = new()
     {
         Int32.MinValue,
-        ProlepticShortScope.MinYear - 1,
-        ProlepticShortScope.MaxYear + 1,
+        ProlepticScope.MinYear - 1,
+        ProlepticScope.MaxYear + 1,
         Int32.MaxValue,
     };
 
     public static readonly TheoryData<int> ValidYearData = new()
     {
-        ProlepticShortScope.MinYear,
-        ProlepticShortScope.MinYear + 1,
+        ProlepticScope.MinYear,
+        ProlepticScope.MinYear + 1,
         -1,
         0,
         1,
-        ProlepticShortScope.MaxYear - 1,
-        ProlepticShortScope.MaxYear
+        ProlepticScope.MaxYear - 1,
+        ProlepticScope.MaxYear
     };
 }
 
 /// <summary>
-/// Provides data-driven tests for <see cref="ProlepticShortScope"/>.
+/// Provides data-driven tests for <see cref="ProlepticScope"/>.
 /// </summary>
-internal abstract class ProlepticShortScopeFacts<TDataSet> :
-    ICalendarScopeFacts<ProlepticShortScope, TDataSet>
+internal abstract class ProlepticScopeFacts<TDataSet> :
+    ICalendarScopeFacts<ProlepticScope, TDataSet>
     where TDataSet : ICalendricalDataSet, ISingleton<TDataSet>
 {
-    protected ProlepticShortScopeFacts(ProlepticShortScope scope) : base(scope)
+    protected ProlepticScopeFacts(ProlepticScope scope) : base(scope)
     {
         ProlepticScopeView = scope;
     }
 
-    public static TheoryData<int> InvalidYearData => ProlepticShortScopeFacts.InvalidYearData;
-    public static TheoryData<int> ValidYearData => ProlepticShortScopeFacts.ValidYearData;
+    public static TheoryData<int> InvalidYearData => ProlepticScopeFacts.InvalidYearData;
+    public static TheoryData<int> ValidYearData => ProlepticScopeFacts.ValidYearData;
 
     /// <summary>
-    /// Gets a <see cref="ProlepticShortScope"/> view of the scope under test.
+    /// Gets a <see cref="ProlepticScope"/> view of the scope under test.
     /// </summary>
-    protected ProlepticShortScope ProlepticScopeView { get; }
+    protected ProlepticScope ProlepticScopeView { get; }
 
     [Theory, MemberData(nameof(ValidYearData))]
     public sealed override void ValidateYear(int y) => ProlepticScopeView.ValidateYear(y);

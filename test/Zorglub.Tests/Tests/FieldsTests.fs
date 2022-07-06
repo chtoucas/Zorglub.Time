@@ -36,8 +36,8 @@ module TestCommon =
         inherit TheoryData<int>()
         do
             self.Add(Int32.MinValue)
-            self.Add(ProlepticShortScope.MinYear - 1)
-            self.Add(ProlepticShortScope.MaxYear + 1)
+            self.Add(ProlepticScope.MinYear - 1)
+            self.Add(ProlepticScope.MaxYear + 1)
             self.Add(Int32.MaxValue)
 
     //
@@ -173,7 +173,7 @@ module DateFields =
         let invalidMonthFieldData = dataSet.InvalidMonthFieldData
         let invalidDayFieldData = dataSet.InvalidDayFieldData
 
-        let scope = new ProlepticShortScope(new GregorianSchema(), calendarDataSet.Epoch)
+        let scope = new ProlepticScope(new GregorianSchema(), calendarDataSet.Epoch)
 
         [<Property>]
         let ``ToYemoda()`` (ymd: Yemoda) =
@@ -358,7 +358,7 @@ module MonthFields =
         let monthInfoData = dataSet.MonthInfoData
         let invalidMonthFieldData = dataSet.InvalidMonthFieldData
 
-        let scope = new ProlepticShortScope(new GregorianSchema(), calendarDataSet.Epoch)
+        let scope = new ProlepticScope(new GregorianSchema(), calendarDataSet.Epoch)
 
         [<Property>]
         let ``ToYemo()`` (ym: Yemo) =
@@ -530,7 +530,7 @@ module OrdinalFields =
         let dateInfoData = dataSet.DateInfoData
         let invalidDayOfYearFieldData = dataSet.InvalidDayOfYearFieldData
 
-        let scope = new ProlepticShortScope(new GregorianSchema(), calendarDataSet.Epoch)
+        let scope = new ProlepticScope(new GregorianSchema(), calendarDataSet.Epoch)
 
         [<Property>]
         let ``ToYedoy()`` (ydoy: Yedoy) =

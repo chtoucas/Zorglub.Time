@@ -48,13 +48,13 @@ public partial class CalendarFacts<TDataSet> // Properties
     [Fact]
     public sealed override void SupportedYears_Prop()
     {
-        int minYear = CalendarUT.IsProleptic ? ProlepticShortScope.MinYear : StandardShortScope.MinYear;
+        int minYear = CalendarUT.IsProleptic ? ProlepticScope.MinYear : StandardScope.MinYear;
         // Act
         var supportedYears = CalendarUT.SupportedYears;
         // Assert
         Assert.Equal(CalendarUT.Scope.SupportedYears, supportedYears);
         Assert.Equal(minYear, supportedYears.Min);
-        Assert.Equal(ProlepticShortScope.MaxYear, supportedYears.Max);
+        Assert.Equal(ProlepticScope.MaxYear, supportedYears.Max);
     }
 
     [Fact]
@@ -263,8 +263,8 @@ public partial class CalendarFacts<TDataSet> // Internal helpers
 
     [Theory]
     [InlineData(Int32.MinValue)]
-    [InlineData(ProlepticShortScope.MinYear - 1)]
-    [InlineData(ProlepticShortScope.MaxYear + 1)]
+    [InlineData(ProlepticScope.MinYear - 1)]
+    [InlineData(ProlepticScope.MaxYear + 1)]
     [InlineData(Int32.MaxValue)]
     public void ValidateDayOfMonth_IgnoresYear(int y)
     {

@@ -6,7 +6,6 @@ namespace Zorglub.Time.Hemerology.Scopes
     using Zorglub.Time;
     using Zorglub.Time.Core;
     using Zorglub.Time.Core.Intervals;
-    using Zorglub.Time.Hemerology;
 
     /// <summary>
     /// Represents the scope of a schema with dates within a given range of years.

@@ -23,8 +23,8 @@ namespace Zorglub.Time.Hemerology
     // ### Full Hierarchy
     //
     // ICalendarScope
-    // ├─ ProlepticShortScope [A]
-    // ├─ StandardShortScope [A]
+    // ├─ ProlepticScope [A]
+    // ├─ StandardScope [A]
     // └─ CalendarScope [A]
     //    ├─ BoundedBelowScope
     //    └─ MinMaxYearScope
@@ -34,8 +34,8 @@ namespace Zorglub.Time.Hemerology
     // Public ctors:
     //   BoundedBelowScope.ctor(ICalendricalSchema)
     //   MinMaxYearScope.ctor(ICalendricalSchema)
-    //   ProlepticShortScope.ctor(ICalendricalSchema)
-    //   StandardShortScope.ctor(ICalendricalSchema)
+    //   ProlepticScope.ctor(ICalendricalSchema)
+    //   StandardScope.ctor(ICalendricalSchema)
 
     // Public factory methods:
     //   MinMaxYearScope.WithMaxYear(ICalendricalSchema)
@@ -48,8 +48,8 @@ namespace Zorglub.Time.Hemerology
     // ------------------------
     // Only BoundedBelowScope supports ranges that do not map to complete years.
     //
-    // - ProlepticShortScope    [-9998..9999]
-    // - StandardShortScope     [1..9999]
+    // - ProlepticScope         [-9998..9999]
+    // - StandardScope          [1..9999]
     // - CalendarScope          Subintervals of [Yemoda.MinYear..Yemoda.MaxYear]
     //   - MinMaxYearScope      [minYear..maxYear] ⋂ [Yemoda.MinYear..Yemoda.MaxYear]
     //   - BoundedBelowScope    [minDate..maxYear] ⋂ [Yemoda.MinYear..Yemoda.MaxYear]

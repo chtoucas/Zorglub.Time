@@ -62,7 +62,7 @@ namespace Zorglub.Time.Simple
         /// values supported by the Gregorian calendar.</exception>
         public CalendarDay(DayNumber dayNumber)
         {
-            GregorianProlepticShortScope.DefaultDomain.Validate(dayNumber);
+            GregorianProlepticScope.DefaultDomain.Validate(dayNumber);
 
             _bin = Pack(dayNumber - DayZero.NewStyle, (byte)Cuid.Gregorian);
         }

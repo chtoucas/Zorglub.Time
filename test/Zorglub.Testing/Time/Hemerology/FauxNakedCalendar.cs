@@ -3,6 +3,8 @@
 
 namespace Zorglub.Time.Hemerology;
 
+using Zorglub.Time.Hemerology.Scopes;
+
 public sealed class FauxNakedCalendar : NakedCalendar
 {
     public FauxNakedCalendar(SystemSchema schema, CalendarScope scope)

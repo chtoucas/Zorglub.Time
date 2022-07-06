@@ -76,10 +76,10 @@
     <Compile Include="Tests\Core\TemporalArithmeticTests.fs" />
     <Compile Include="Tests\Hemerology\Scopes\CalendarScopeTests.fs" />
     <Compile Include="Tests\Hemerology\Scopes\ShortScopeTests.fs" />
-    <Compile Include="Tests\Hemerology\Scopes\StandardShortScopeTests.fs" />
-    <Compile Include="Tests\Hemerology\Scopes\ProlepticShortScopeTests.fs" />
-    <Compile Include="Tests\Hemerology\Scopes\StandardShortScopeTestSuite.fs" />
-    <Compile Include="Tests\Hemerology\Scopes\ProlepticShortScopeTestSuite.fs" />
+    <Compile Include="Tests\Hemerology\Scopes\StandardScopeTests.fs" />
+    <Compile Include="Tests\Hemerology\Scopes\ProlepticScopeTests.fs" />
+    <Compile Include="Tests\Hemerology\Scopes\StandardScopeTestSuite.fs" />
+    <Compile Include="Tests\Hemerology\Scopes\ProlepticScopeTestSuite.fs" />
     <Compile Include="Tests\Hemerology\RangeExtensionsTests.fs" />
     <Compile Include="Tests\Hemerology\CalendarEpochTests.fs" />
     <Compile Include="Tests\Hemerology\YearNumberingTests.fs" />

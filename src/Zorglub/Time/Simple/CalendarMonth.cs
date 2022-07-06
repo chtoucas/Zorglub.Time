@@ -44,7 +44,7 @@ namespace Zorglub.Time.Simple
         /// calendar.</exception>
         public CalendarMonth(int year, int month)
         {
-            GregorianProlepticShortScope.ValidateYearMonthImpl(year, month);
+            GregorianProlepticScope.ValidateYearMonth(year, month);
 
             _bin = new Yemox(year, month, (int)Cuid.Gregorian);
         }
@@ -234,7 +234,7 @@ namespace Zorglub.Time.Simple
         [Pure]
         public static CalendarMonth FromDayNumber(DayNumber dayNumber)
         {
-            GregorianProlepticShortScope.DefaultDomain.Validate(dayNumber);
+            GregorianProlepticScope.DefaultDomain.Validate(dayNumber);
             var ymd = GregorianFormulae.GetDateParts(dayNumber - DayZero.NewStyle);
             return new CalendarMonth(ymd.Yemo, Cuid.Gregorian);
         }

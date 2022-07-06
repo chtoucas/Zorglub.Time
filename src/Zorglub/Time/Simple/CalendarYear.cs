@@ -118,7 +118,7 @@ namespace Zorglub.Time.Simple
         /// supported by the Gregorian calendar.</exception>
         public CalendarYear(int year)
         {
-            GregorianProlepticShortScope.ValidateYearImpl(year);
+            GregorianProlepticScope.ValidateYear(year);
 
 #if CALENDARYEAR_EXPLICIT_LAYOUT
             _bin = 0;
@@ -366,7 +366,7 @@ namespace Zorglub.Time.Simple
         [Pure]
         public static CalendarYear FromDayNumber(DayNumber dayNumber)
         {
-            GregorianProlepticShortScope.DefaultDomain.Validate(dayNumber);
+            GregorianProlepticScope.DefaultDomain.Validate(dayNumber);
             int y = GregorianFormulae.GetYear(dayNumber - DayZero.NewStyle);
             return new CalendarYear(y, Cuid.Gregorian);
         }

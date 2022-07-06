@@ -26,54 +26,54 @@ module StandardScope =
     // Returns an ICalendarScope.
     let scopeOf<'a when 'a :> CalendricalSchema and 'a :> IBoxable<'a>> () =
         let sch = SchemaActivator.CreateInstance<'a>()
-        new StandardShortScope(sch, epoch)
+        new StandardScope(sch, epoch)
 
     [<Fact>]
     let ``CreateStandardScope()`` () =
-        scopeOf<Coptic12Schema>()           |> is<StandardShortScope>
-        scopeOf<Coptic13Schema>()           |> is<StandardShortScope>
-        scopeOf<Egyptian12Schema>()         |> is<StandardShortScope>
-        scopeOf<Egyptian13Schema>()         |> is<StandardShortScope>
-        scopeOf<FrenchRepublican12Schema>() |> is<StandardShortScope>
-        scopeOf<FrenchRepublican13Schema>() |> is<StandardShortScope>
-        scopeOf<GregorianSchema>()          |> is<StandardShortScope>
-        scopeOf<HebrewSchema>()             |> is<StandardShortScope>
-        scopeOf<InternationalFixedSchema>() |> is<StandardShortScope>
-        scopeOf<JulianSchema>()             |> is<StandardShortScope>
-        scopeOf<LunisolarSchema>()          |> is<StandardShortScope>
-        scopeOf<PaxSchema>()                |> is<StandardShortScope>
-        scopeOf<PositivistSchema>()         |> is<StandardShortScope>
-        scopeOf<Persian2820Schema>()        |> is<StandardShortScope>
-        scopeOf<TabularIslamicSchema>()     |> is<StandardShortScope>
-        scopeOf<Tropicalia3031Schema>()     |> is<StandardShortScope>
-        scopeOf<Tropicalia3130Schema>()     |> is<StandardShortScope>
-        scopeOf<TropicaliaSchema>()         |> is<StandardShortScope>
-        scopeOf<WorldSchema>()              |> is<StandardShortScope>
+        scopeOf<Coptic12Schema>()           |> is<StandardScope>
+        scopeOf<Coptic13Schema>()           |> is<StandardScope>
+        scopeOf<Egyptian12Schema>()         |> is<StandardScope>
+        scopeOf<Egyptian13Schema>()         |> is<StandardScope>
+        scopeOf<FrenchRepublican12Schema>() |> is<StandardScope>
+        scopeOf<FrenchRepublican13Schema>() |> is<StandardScope>
+        scopeOf<GregorianSchema>()          |> is<StandardScope>
+        scopeOf<HebrewSchema>()             |> is<StandardScope>
+        scopeOf<InternationalFixedSchema>() |> is<StandardScope>
+        scopeOf<JulianSchema>()             |> is<StandardScope>
+        scopeOf<LunisolarSchema>()          |> is<StandardScope>
+        scopeOf<PaxSchema>()                |> is<StandardScope>
+        scopeOf<PositivistSchema>()         |> is<StandardScope>
+        scopeOf<Persian2820Schema>()        |> is<StandardScope>
+        scopeOf<TabularIslamicSchema>()     |> is<StandardScope>
+        scopeOf<Tropicalia3031Schema>()     |> is<StandardScope>
+        scopeOf<Tropicalia3130Schema>()     |> is<StandardScope>
+        scopeOf<TropicaliaSchema>()         |> is<StandardScope>
+        scopeOf<WorldSchema>()              |> is<StandardScope>
 
 module ProlepticScope =
     // Returns an ICalendarScope.
     let scopeOf<'a when 'a :> CalendricalSchema and 'a :> IBoxable<'a>> () =
         let sch = SchemaActivator.CreateInstance<'a>()
-        new ProlepticShortScope(sch, epoch)
+        new ProlepticScope(sch, epoch)
 
     [<Fact>]
     let ``CreateProlepticScope()`` () =
-        scopeOf<Coptic12Schema>()           |> is<ProlepticShortScope>
-        scopeOf<Coptic13Schema>()           |> is<ProlepticShortScope>
-        scopeOf<Egyptian12Schema>()         |> is<ProlepticShortScope>
-        scopeOf<Egyptian13Schema>()         |> is<ProlepticShortScope>
-        scopeOf<FrenchRepublican12Schema>() |> is<ProlepticShortScope>
-        scopeOf<FrenchRepublican13Schema>() |> is<ProlepticShortScope>
-        scopeOf<GregorianSchema>()          |> is<ProlepticShortScope>
-        scopeOf<HebrewSchema>()             |> is<ProlepticShortScope>
-        scopeOf<InternationalFixedSchema>() |> is<ProlepticShortScope>
-        scopeOf<JulianSchema>()             |> is<ProlepticShortScope>
-        scopeOf<LunisolarSchema>()          |> is<ProlepticShortScope>
+        scopeOf<Coptic12Schema>()           |> is<ProlepticScope>
+        scopeOf<Coptic13Schema>()           |> is<ProlepticScope>
+        scopeOf<Egyptian12Schema>()         |> is<ProlepticScope>
+        scopeOf<Egyptian13Schema>()         |> is<ProlepticScope>
+        scopeOf<FrenchRepublican12Schema>() |> is<ProlepticScope>
+        scopeOf<FrenchRepublican13Schema>() |> is<ProlepticScope>
+        scopeOf<GregorianSchema>()          |> is<ProlepticScope>
+        scopeOf<HebrewSchema>()             |> is<ProlepticScope>
+        scopeOf<InternationalFixedSchema>() |> is<ProlepticScope>
+        scopeOf<JulianSchema>()             |> is<ProlepticScope>
+        scopeOf<LunisolarSchema>()          |> is<ProlepticScope>
         argExn "schema" (fun () -> scopeOf<PaxSchema>()) // PaxSchema.MinYear = 1 > -9999.
-        scopeOf<PositivistSchema>()         |> is<ProlepticShortScope>
-        scopeOf<Persian2820Schema>()        |> is<ProlepticShortScope>
-        scopeOf<TabularIslamicSchema>()     |> is<ProlepticShortScope>
-        scopeOf<Tropicalia3031Schema>()     |> is<ProlepticShortScope>
-        scopeOf<Tropicalia3130Schema>()     |> is<ProlepticShortScope>
-        scopeOf<TropicaliaSchema>()         |> is<ProlepticShortScope>
-        scopeOf<WorldSchema>()              |> is<ProlepticShortScope>
+        scopeOf<PositivistSchema>()         |> is<ProlepticScope>
+        scopeOf<Persian2820Schema>()        |> is<ProlepticScope>
+        scopeOf<TabularIslamicSchema>()     |> is<ProlepticScope>
+        scopeOf<Tropicalia3031Schema>()     |> is<ProlepticScope>
+        scopeOf<Tropicalia3130Schema>()     |> is<ProlepticScope>
+        scopeOf<TropicaliaSchema>()         |> is<ProlepticScope>
+        scopeOf<WorldSchema>()              |> is<ProlepticScope>

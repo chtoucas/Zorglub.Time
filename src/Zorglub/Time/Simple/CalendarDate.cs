@@ -53,7 +53,7 @@ namespace Zorglub.Time.Simple
         /// calendar.</exception>
         public CalendarDate(int year, int month, int day)
         {
-            GregorianProlepticShortScope.ValidateYearMonthDayImpl(year, month, day);
+            GregorianProlepticScope.ValidateYearMonthDay(year, month, day);
 
             _bin = new Yemodax(year, month, day, (int)Cuid.Gregorian);
         }
@@ -274,7 +274,7 @@ namespace Zorglub.Time.Simple
         [Pure]
         public static CalendarDate FromDayNumber(DayNumber dayNumber)
         {
-            GregorianProlepticShortScope.DefaultDomain.Validate(dayNumber);
+            GregorianProlepticScope.DefaultDomain.Validate(dayNumber);
             var ymd = GregorianFormulae.GetDateParts(dayNumber - DayZero.NewStyle);
             return new CalendarDate(ymd, Cuid.Gregorian);
         }

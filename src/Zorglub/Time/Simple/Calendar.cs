@@ -134,13 +134,13 @@ namespace Zorglub.Time.Simple
 
             if (proleptic)
             {
-                Scope = new ProlepticShortScope(schema, epoch);
-                YearOverflowChecker = ProlepticShortScope.YearOverflowChecker;
+                Scope = new ProlepticScope(schema, epoch);
+                YearOverflowChecker = ProlepticScope.YearOverflowChecker;
             }
             else
             {
-                Scope = new StandardShortScope(schema, epoch);
-                YearOverflowChecker = StandardShortScope.YearOverflowChecker;
+                Scope = new StandardScope(schema, epoch);
+                YearOverflowChecker = StandardScope.YearOverflowChecker;
             }
 
             PreValidator = schema.PreValidator;

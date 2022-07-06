@@ -18,13 +18,13 @@ namespace Zorglub.Time.Hemerology
         /// Represents the earliest supported year.
         /// <para>This field is a constant equal to -9998.</para>
         /// </summary>
-        public const int MinYear = ProlepticShortScope.MinYear;
+        public const int MinYear = ProlepticScope.MinYear;
 
         /// <summary>
         /// Represents the latest supported year.
         /// <para>This field is a constant equal to 9999.</para>
         /// </summary>
-        public const int MaxYear = ProlepticShortScope.MaxYear;
+        public const int MaxYear = ProlepticScope.MaxYear;
 
         /// <summary>
         /// Represents the count of days since the Gregorian epoch.
@@ -38,7 +38,7 @@ namespace Zorglub.Time.Hemerology
         /// </summary>
         public GregorianDay(int year, int month, int day)
         {
-            GregorianProlepticShortScope.ValidateYearMonthDayImpl(year, month, day);
+            GregorianProlepticScope.ValidateYearMonthDay(year, month, day);
 
             _daysSinceEpoch = GregorianFormulae.CountDaysSinceEpoch(year, month, day);
         }
@@ -74,7 +74,7 @@ namespace Zorglub.Time.Hemerology
         /// Gets the domain, the interval of supported <see cref="DayNumber"/>.
         /// <para>This static property is thread-safe.</para>
         /// </summary>
-        public static Range<DayNumber> Domain { get; } = GregorianProlepticShortScope.DefaultDomain;
+        public static Range<DayNumber> Domain { get; } = GregorianProlepticScope.DefaultDomain;
 
         /// <summary>
         /// Gets the smallest possible value of a <see cref="GregorianDay"/>.
@@ -439,7 +439,7 @@ namespace Zorglub.Time.Hemerology
         public GregorianDay PlusDays(int days)
         {
             int daysSinceEpoch = checked(_daysSinceEpoch + days);
-            GregorianProlepticShortScope.CheckOverflow(daysSinceEpoch);
+            GregorianProlepticScope.CheckOverflow(daysSinceEpoch);
             return new(daysSinceEpoch);
         }
 

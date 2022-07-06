@@ -9,22 +9,22 @@ namespace Zorglub.Time.Hemerology.Scopes
     using static Zorglub.Time.Core.CalendricalConstants;
 
     /// <summary>
-    /// Represents the proleptic short scope of the Gregorian schema.
+    /// Represents the standard short scope of the Gregorian schema.
     /// <para>This class cannot be inherited.</para>
     /// </summary>
-    internal static class GregorianProlepticShortScope
+    internal static class GregorianStandardScope
     {
         /// <summary>
         /// Represents the earliest supported year.
         /// <para>This field is a constant equal to -9998.</para>
         /// </summary>
-        public const int MinYear = ProlepticShortScope.MinYear;
+        public const int MinYear = StandardScope.MinYear;
 
         /// <summary>
         /// Represents the latest supported year.
         /// <para>This field is a constant equal to 9999.</para>
         /// </summary>
-        public const int MaxYear = ProlepticShortScope.MaxYear;
+        public const int MaxYear = StandardScope.MaxYear;
 
         /// <summary>
         /// Represents the minimum possible value for the number of consecutive days from the epoch.
@@ -53,7 +53,7 @@ namespace Zorglub.Time.Hemerology.Scopes
         /// of supported values.
         /// </summary>
         /// <exception cref="OverflowException">The operation would overflow the range of supported
-        /// values.</exception>
+        /// dates.</exception>
         public static void CheckOverflow(int daysSinceEpoch)
         {
             if (daysSinceEpoch < s_MinDaysSinceEpoch || daysSinceEpoch > s_MaxDaysSinceEpoch)
@@ -66,7 +66,7 @@ namespace Zorglub.Time.Hemerology.Scopes
         /// Validates the specified year.
         /// </summary>
         /// <exception cref="AoorException">The validation failed.</exception>
-        public static void ValidateYearImpl(int year, string? paramName = null)
+        public static void ValidateYear(int year, string? paramName = null)
         {
             if (year < MinYear || year > MaxYear)
             {
@@ -78,7 +78,7 @@ namespace Zorglub.Time.Hemerology.Scopes
         /// Validates the specified month.
         /// </summary>
         /// <exception cref="AoorException">The validation failed.</exception>
-        public static void ValidateYearMonthImpl(int year, int month, string? paramName = null)
+        public static void ValidateYearMonth(int year, int month, string? paramName = null)
         {
             if (year < MinYear || year > MaxYear)
             {
@@ -94,7 +94,7 @@ namespace Zorglub.Time.Hemerology.Scopes
         /// Validates the specified date.
         /// </summary>
         /// <exception cref="AoorException">The validation failed.</exception>
-        public static void ValidateYearMonthDayImpl(int year, int month, int day, string? paramName = null)
+        public static void ValidateYearMonthDay(int year, int month, int day, string? paramName = null)
         {
             if (year < MinYear || year > MaxYear)
             {
@@ -116,7 +116,7 @@ namespace Zorglub.Time.Hemerology.Scopes
         /// Validates the specified ordinal date.
         /// </summary>
         /// <exception cref="AoorException">The validation failed.</exception>
-        public static void ValidateOrdinalImpl(int year, int dayOfYear, string? paramName = null)
+        public static void ValidateOrdinal(int year, int dayOfYear, string? paramName = null)
         {
             if (year < MinYear || year > MaxYear)
             {

@@ -20,13 +20,13 @@ namespace Zorglub.Time.Hemerology
         /// Represents the earliest supported year.
         /// <para>This field is a constant equal to 1.</para>
         /// </summary>
-        public const int MinYear = StandardShortScope.MinYear;
+        public const int MinYear = StandardScope.MinYear;
 
         /// <summary>
         /// Represents the latest supported year.
         /// <para>This field is a constant equal to 9999.</para>
         /// </summary>
-        public const int MaxYear = StandardShortScope.MaxYear;
+        public const int MaxYear = StandardScope.MaxYear;
 
         /// <summary>
         /// Represents the count of days since the Gregorian epoch.
@@ -40,7 +40,7 @@ namespace Zorglub.Time.Hemerology
         /// </summary>
         public CivilDay(int year, int month, int day)
         {
-            GregorianStandardShortScope.ValidateYearMonthDayImpl(year, month, day);
+            GregorianStandardScope.ValidateYearMonthDay(year, month, day);
 
             _daysSinceEpoch = GregorianFormulaeAfterYear0.CountDaysSinceEpoch(year, month, day);
         }
@@ -76,7 +76,7 @@ namespace Zorglub.Time.Hemerology
         /// Gets the domain, the interval of supported <see cref="DayNumber"/>.
         /// <para>This static property is thread-safe.</para>
         /// </summary>
-        public static Range<DayNumber> Domain { get; } = GregorianStandardShortScope.DefaultDomain;
+        public static Range<DayNumber> Domain { get; } = GregorianStandardScope.DefaultDomain;
 
         /// <summary>
         /// Gets the smallest possible value of a <see cref="CivilDay"/>.
@@ -439,7 +439,7 @@ namespace Zorglub.Time.Hemerology
         public CivilDay PlusDays(int days)
         {
             int daysSinceEpoch = checked(_daysSinceEpoch + days);
-            GregorianStandardShortScope.CheckOverflow(daysSinceEpoch);
+            GregorianStandardScope.CheckOverflow(daysSinceEpoch);
             return new(daysSinceEpoch);
         }
 
