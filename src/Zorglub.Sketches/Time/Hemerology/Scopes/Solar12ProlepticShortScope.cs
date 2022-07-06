@@ -8,21 +8,20 @@ namespace Zorglub.Time.Hemerology.Scopes
     using static Zorglub.Time.Core.CalendricalConstants;
 
     /// <summary>
-    /// Represents the short scope of a schema with profile <see cref="CalendricalProfile.Solar12"/>.
-    /// <para>For such calendars, we can mostly avoid to compute the number of days in a year or in
-    /// a month.</para>
+    /// Represents a proleptic short scope of a schema with profile
+    /// <see cref="CalendricalProfile.Solar12"/>.
     /// <para>This class cannot be inherited.</para>
     /// </summary>
-    internal sealed class Solar12StandardShortScope : StandardShortScope
+    [Obsolete("To be removed")]
+    internal sealed class Solar12ProlepticShortScope : ProlepticShortScope
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="Solar12StandardShortScope"/> class with the specified
-        /// schema and epoch.
+        /// Initializes a new instance of the <see cref="Solar12ProlepticShortScope"/>
+        /// class with the specified schema and epoch.
         /// </summary>
-        /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
-        /// <exception cref="ArgumentException"><paramref name="schema"/> does not have the expected
-        /// profile <see cref="CalendricalProfile.Solar12"/>.</exception>
-        public Solar12StandardShortScope(CalendricalSchema schema, DayNumber epoch)
+        /// <exception cref="ArgumentNullException"><paramref name="schema"/> is
+        /// null.</exception>
+        public Solar12ProlepticShortScope(CalendricalSchema schema, DayNumber epoch)
             : base(schema, epoch)
         {
             Debug.Assert(schema != null);

@@ -12,10 +12,10 @@ namespace Zorglub.Time.Hemerology.Scopes
     internal sealed class PlainStandardShortScope : StandardShortScope
     {
         /// <summary>
-        /// Represents the minimum total number of days there is at least in a year.
+        /// Represents the pre-validator.
         /// <para>This field is read-only.</para>
         /// </summary>
-        private readonly int _minDaysInYear;
+        private readonly ICalendricalPreValidator _preValidator;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PlainStandardShortScope"/> class with the
@@ -36,7 +36,7 @@ namespace Zorglub.Time.Hemerology.Scopes
             // schema.Profile = SchemaProfile.Other. A direct consequence is
             // that using a validator will most certainly not help (unless
             // the schema provides a custom validator).
-            _minDaysInYear = schema.MinDaysInYear;
+            _preValidator = schema.PreValidator;
         }
 
         /// <inheritdoc />
@@ -46,10 +46,7 @@ namespace Zorglub.Time.Hemerology.Scopes
             {
                 Throw.YearOutOfRange(year, paramName);
             }
-            if (month < 1 || month > Schema.CountMonthsInYear(year))
-            {
-                Throw.MonthOutOfRange(month, paramName);
-            }
+            _preValidator.ValidateMonth(year, month, paramName);
         }
 
         /// <inheritdoc />
@@ -59,14 +56,7 @@ namespace Zorglub.Time.Hemerology.Scopes
             {
                 Throw.YearOutOfRange(year, paramName);
             }
-            if (month < 1 || month > Schema.CountMonthsInYear(year))
-            {
-                Throw.MonthOutOfRange(month, paramName);
-            }
-            if (day < 1 || day > Schema.CountDaysInMonth(year, month))
-            {
-                Throw.DayOutOfRange(day, paramName);
-            }
+            _preValidator.ValidateMonthDay(year, month, day, paramName);
         }
 
         /// <inheritdoc />
@@ -76,11 +66,7 @@ namespace Zorglub.Time.Hemerology.Scopes
             {
                 Throw.YearOutOfRange(year, paramName);
             }
-            if (dayOfYear < 1
-                || (dayOfYear > _minDaysInYear && dayOfYear > Schema.CountDaysInYear(year)))
-            {
-                Throw.DayOfYearOutOfRange(dayOfYear, paramName);
-            }
+            _preValidator.ValidateDayOfYear(year, dayOfYear, paramName);
         }
     }
 }

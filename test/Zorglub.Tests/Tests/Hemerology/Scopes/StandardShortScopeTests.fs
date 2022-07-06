@@ -88,26 +88,26 @@ module Prelude =
     let ``Constructors for actual scopes throw when "schema" is null`` () =
         nullExn "schema" (fun () -> new PlainStandardShortScope(null, epoch))
         nullExn "schema" (fun () -> new GregorianStandardShortScope(null, epoch))
-        nullExn "schema" (fun () -> new LunarStandardShortScope(null, epoch))
-        nullExn "schema" (fun () -> new LunisolarStandardShortScope(null, epoch))
-        nullExn "schema" (fun () -> new Solar12StandardShortScope(null, epoch))
-        nullExn "schema" (fun () -> new Solar13StandardShortScope(null, epoch))
+        //nullExn "schema" (fun () -> new LunarStandardShortScope(null, epoch))
+        //nullExn "schema" (fun () -> new LunisolarStandardShortScope(null, epoch))
+        //nullExn "schema" (fun () -> new Solar12StandardShortScope(null, epoch))
+        //nullExn "schema" (fun () -> new Solar13StandardShortScope(null, epoch))
 
-    [<Theory; MemberData(nameof(badLunarProfile))>]
-    let ``LunarStandardShortScope constructor throws when "schema" is not lunar`` (sch) =
-        argExn "schema" (fun () -> new LunarStandardShortScope(sch, epoch))
+    //[<Theory; MemberData(nameof(badLunarProfile))>]
+    //let ``LunarStandardShortScope constructor throws when "schema" is not lunar`` (sch) =
+    //    argExn "schema" (fun () -> new LunarStandardShortScope(sch, epoch))
 
-    [<Theory; MemberData(nameof(badLunisolarProfile))>]
-    let ``LunisolarStandardShortScope constructor throws when "schema" is not lunisolar`` (sch) =
-        argExn "schema" (fun () -> new LunisolarStandardShortScope(sch, epoch))
+    //[<Theory; MemberData(nameof(badLunisolarProfile))>]
+    //let ``LunisolarStandardShortScope constructor throws when "schema" is not lunisolar`` (sch) =
+    //    argExn "schema" (fun () -> new LunisolarStandardShortScope(sch, epoch))
 
-    [<Theory; MemberData(nameof(badSolar12Profile))>]
-    let ``Solar12ProlepticShortScope constructor throws when "schema" is not solar12`` (sch) =
-        argExn "schema" (fun () -> new Solar12StandardShortScope(sch, epoch))
+    //[<Theory; MemberData(nameof(badSolar12Profile))>]
+    //let ``Solar12ProlepticShortScope constructor throws when "schema" is not solar12`` (sch) =
+    //    argExn "schema" (fun () -> new Solar12StandardShortScope(sch, epoch))
 
-    [<Theory; MemberData(nameof(badSolar13Profile))>]
-    let ``Solar13StandardShortScope constructor throws when "schema" is not solar13`` (sch) =
-        argExn "schema" (fun () -> new Solar13StandardShortScope(sch, epoch))
+    //[<Theory; MemberData(nameof(badSolar13Profile))>]
+    //let ``Solar13StandardShortScope constructor throws when "schema" is not solar13`` (sch) =
+    //    argExn "schema" (fun () -> new Solar13StandardShortScope(sch, epoch))
 
 module YearOverflowChecker =
     let validYearData = StandardShortScopeFacts.ValidYearData

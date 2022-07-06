@@ -21,7 +21,7 @@ type ArmenianTests() =
     override __.GetSingleton() = ArmenianCalendar.Instance
     override x.Id() = x.CalendarUT.Id === Cuid.Armenian
     override x.Math() = x.CalendarUT.Math |> is<RegularMath>
-    override x.Scope() = x.CalendarUT.Scope |> is<Solar12StandardShortScope>
+    override x.Scope() = x.CalendarUT.Scope |> is<PlainStandardShortScope>
 
 [<Sealed>]
 [<RedundantTestBundle>]
@@ -31,7 +31,7 @@ type CopticTests() =
     override __.GetSingleton() = CopticCalendar.Instance
     override x.Id() = x.CalendarUT.Id === Cuid.Coptic
     override x.Math() = x.CalendarUT.Math |> is<RegularMath>
-    override x.Scope() = x.CalendarUT.Scope |> is<Solar12StandardShortScope>
+    override x.Scope() = x.CalendarUT.Scope |> is<PlainStandardShortScope>
 
 [<Sealed>]
 [<RedundantTestBundle>]
@@ -41,7 +41,7 @@ type EthiopicTests() =
     override __.GetSingleton() = EthiopicCalendar.Instance
     override x.Id() = x.CalendarUT.Id === Cuid.Ethiopic
     override x.Math() = x.CalendarUT.Math |> is<RegularMath>
-    override x.Scope() = x.CalendarUT.Scope |> is<Solar12StandardShortScope>
+    override x.Scope() = x.CalendarUT.Scope |> is<PlainStandardShortScope>
 
 [<Sealed>]
 type GregorianTests() =
@@ -60,7 +60,7 @@ type JulianTests() =
     override __.GetSingleton() = JulianCalendar.Instance
     override x.Id() = x.CalendarUT.Id === Cuid.Julian
     override x.Math() = x.CalendarUT.Math |> is<RegularMath>
-    override x.Scope() = x.CalendarUT.Scope |> is<Solar12ProlepticShortScope>
+    override x.Scope() = x.CalendarUT.Scope |> is<PlainProlepticShortScope>
 
 [<Sealed>]
 [<RedundantTestBundle>]
@@ -70,7 +70,7 @@ type TabularIslamicTests() =
     override __.GetSingleton() = TabularIslamicCalendar.Instance
     override x.Id() = x.CalendarUT.Id === Cuid.TabularIslamic
     override x.Math() = x.CalendarUT.Math |> is<RegularMath>
-    override x.Scope() = x.CalendarUT.Scope |> is<LunarStandardShortScope>
+    override x.Scope() = x.CalendarUT.Scope |> is<PlainStandardShortScope>
 
 [<Sealed>]
 [<RedundantTestBundle>]
@@ -80,7 +80,7 @@ type ZoroastrianTests() =
     override __.GetSingleton() = ZoroastrianCalendar.Instance
     override x.Id() = x.CalendarUT.Id === Cuid.Zoroastrian
     override x.Math() = x.CalendarUT.Math |> is<RegularMath>
-    override x.Scope() = x.CalendarUT.Scope |> is<Solar12StandardShortScope>
+    override x.Scope() = x.CalendarUT.Scope |> is<PlainStandardShortScope>
 
 //
 // User-defined calendars
@@ -104,7 +104,7 @@ type UserJulianTests() =
     override __.GetSingleton() = UserCalendars.Julian
     override x.Id() = x.CalendarUT.Id === UserCalendars.Julian.Id
     override x.Math() = x.CalendarUT.Math |> is<RegularMath>
-    override x.Scope() = x.CalendarUT.Scope |> is<Solar12ProlepticShortScope>
+    override x.Scope() = x.CalendarUT.Scope |> is<PlainProlepticShortScope>
 
 [<Sealed>]
 [<RedundantTestBundle>]
@@ -114,7 +114,7 @@ type UserLunisolarTests() =
     override __.GetSingleton() = UserCalendars.Lunisolar
     override x.Id() = x.CalendarUT.Id === UserCalendars.Lunisolar.Id
     override x.Math() = x.CalendarUT.Math |> is<PlainMath>
-    override x.Scope() = x.CalendarUT.Scope |> is<LunisolarStandardShortScope>
+    override x.Scope() = x.CalendarUT.Scope |> is<PlainStandardShortScope>
 
 [<Sealed>]
 [<RedundantTestBundle>]
@@ -124,4 +124,4 @@ type UserPositivistTests() =
     override __.GetSingleton() = UserCalendars.Positivist
     override x.Id() = x.CalendarUT.Id === UserCalendars.Positivist.Id
     override x.Math() = x.CalendarUT.Math |> is<RegularMath>
-    override x.Scope() = x.CalendarUT.Scope |> is<Solar13StandardShortScope>
+    override x.Scope() = x.CalendarUT.Scope |> is<PlainStandardShortScope>

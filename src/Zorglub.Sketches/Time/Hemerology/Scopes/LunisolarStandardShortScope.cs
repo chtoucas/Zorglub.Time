@@ -13,6 +13,7 @@ namespace Zorglub.Time.Hemerology.Scopes
     /// a month.</para>
     /// <para>This class cannot be inherited.</para>
     /// </summary>
+    [Obsolete("To be removed")]
     internal sealed class LunisolarStandardShortScope : StandardShortScope
     {
         /// <summary>

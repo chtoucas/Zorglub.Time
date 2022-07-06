@@ -88,11 +88,11 @@ module Prelude =
     let ``Constructors for actual scopes throw when "schema" is null`` () =
         nullExn "schema" (fun () -> new PlainProlepticShortScope(null, epoch))
         nullExn "schema" (fun () -> new GregorianProlepticShortScope(null, epoch))
-        nullExn "schema" (fun () -> new Solar12ProlepticShortScope(null, epoch))
+        //nullExn "schema" (fun () -> new Solar12ProlepticShortScope(null, epoch))
 
-    [<Theory; MemberData(nameof(badSolar12Profile))>]
-    let ``Solar12ProlepticShortScope constructor throws when "schema" is not solar12``(sch) =
-        argExn "schema" (fun () -> new Solar12ProlepticShortScope(sch, epoch))
+    //[<Theory; MemberData(nameof(badSolar12Profile))>]
+    //let ``Solar12ProlepticShortScope constructor throws when "schema" is not solar12``(sch) =
+    //    argExn "schema" (fun () -> new Solar12ProlepticShortScope(sch, epoch))
 
 module YearOverflowChecker =
     let validYearData = ProlepticShortScopeFacts.ValidYearData

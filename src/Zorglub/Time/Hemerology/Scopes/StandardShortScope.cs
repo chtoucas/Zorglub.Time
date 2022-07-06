@@ -44,18 +44,8 @@ namespace Zorglub.Time.Hemerology.Scopes
         {
             Requires.NotNull(schema);
 
-            return schema.Profile switch
-            {
-                CalendricalProfile.Solar12 =>
-                    schema is GregorianSchema gr
-                    ? new GregorianStandardShortScope(gr, epoch)
-                    : new Solar12StandardShortScope(schema, epoch),
-                CalendricalProfile.Solar13 => new Solar13StandardShortScope(schema, epoch),
-                CalendricalProfile.Lunar => new LunarStandardShortScope(schema, epoch),
-                CalendricalProfile.Lunisolar => new LunisolarStandardShortScope(schema, epoch),
-
-                _ => new PlainStandardShortScope(schema, epoch)
-            };
+            return schema is GregorianSchema gr ? new GregorianStandardShortScope(gr, epoch)
+                : new PlainStandardShortScope(schema, epoch);
         }
 
         /// <inheritdoc />

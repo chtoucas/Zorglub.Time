@@ -44,15 +44,8 @@ namespace Zorglub.Time.Hemerology.Scopes
         {
             Requires.NotNull(schema);
 
-            return schema.Profile switch
-            {
-                CalendricalProfile.Solar12 =>
-                    schema is GregorianSchema gr
-                    ? new GregorianProlepticShortScope(gr, epoch)
-                    : new Solar12ProlepticShortScope(schema, epoch),
-
-                _ => new PlainProlepticShortScope(schema, epoch)
-            };
+            return schema is GregorianSchema gr ? new GregorianProlepticShortScope(gr, epoch)
+                : new PlainProlepticShortScope(schema, epoch);
         }
 
         /// <inheritdoc />

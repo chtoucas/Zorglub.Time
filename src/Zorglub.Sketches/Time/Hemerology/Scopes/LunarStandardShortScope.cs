@@ -8,26 +8,29 @@ namespace Zorglub.Time.Hemerology.Scopes
     using static Zorglub.Time.Core.CalendricalConstants;
 
     /// <summary>
-    /// Represents the short scope of a schema with profile <see cref="CalendricalProfile.Solar13"/>.
+    /// Represents the short scope of a schema with profile <see cref="CalendricalProfile.Lunar"/>.
     /// <para>For such calendars, we can mostly avoid to compute the number of days in a year or in
     /// a month.</para>
     /// <para>This class cannot be inherited.</para>
     /// </summary>
-    internal sealed class Solar13StandardShortScope : StandardShortScope
+    [Obsolete("To be removed")]
+    internal sealed class LunarStandardShortScope : StandardShortScope
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="Solar13StandardShortScope"/> class with the
-        /// specified schema and epoch.
+        /// Initializes a new instance of the <see cref="LunarStandardShortScope"/> class with the specified
+        /// schema and epoch.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
         /// <exception cref="ArgumentException"><paramref name="schema"/> does not have the expected
-        /// profile <see cref="CalendricalProfile.Solar13"/>.</exception>
-        public Solar13StandardShortScope(CalendricalSchema schema, DayNumber epoch)
+        /// profile <see cref="CalendricalProfile.Lunar"/>.</exception>
+        /// <exception cref="ArgumentException">The range of supported years by
+        /// <paramref name="schema"/> does not contain the interval [1..9999].</exception>
+        public LunarStandardShortScope(CalendricalSchema schema, DayNumber epoch)
             : base(schema, epoch)
         {
             Debug.Assert(schema != null);
 
-            if (schema.Profile != CalendricalProfile.Solar13)
+            if (schema.Profile != CalendricalProfile.Lunar)
             {
                 Throw.Argument(nameof(schema));
             }
@@ -40,7 +43,7 @@ namespace Zorglub.Time.Hemerology.Scopes
             {
                 Throw.YearOutOfRange(year, paramName);
             }
-            if (month < 1 || month > Solar13.MonthsInYear)
+            if (month < 1 || month > Lunar.MonthsInYear)
             {
                 Throw.MonthOutOfRange(month, paramName);
             }
@@ -53,12 +56,12 @@ namespace Zorglub.Time.Hemerology.Scopes
             {
                 Throw.YearOutOfRange(year, paramName);
             }
-            if (month < 1 || month > Solar13.MonthsInYear)
+            if (month < 1 || month > Lunar.MonthsInYear)
             {
                 Throw.MonthOutOfRange(month, paramName);
             }
             if (day < 1
-                || (day > Solar.MinDaysInMonth
+                || (day > Lunar.MinDaysInMonth
                     && day > Schema.CountDaysInMonth(year, month)))
             {
                 Throw.DayOutOfRange(day, paramName);
@@ -66,14 +69,14 @@ namespace Zorglub.Time.Hemerology.Scopes
         }
 
         /// <inheritdoc />
-        public sealed override void ValidateOrdinal(int year, int dayOfYear, string? paramName = null)
+        public override void ValidateOrdinal(int year, int dayOfYear, string? paramName = null)
         {
             if (year < MinYear || year > MaxYear)
             {
                 Throw.YearOutOfRange(year, paramName);
             }
             if (dayOfYear < 1
-                || (dayOfYear > Solar.MinDaysInYear
+                || (dayOfYear > Lunar.MinDaysInYear
                     && dayOfYear > Schema.CountDaysInYear(year)))
             {
                 Throw.DayOfYearOutOfRange(dayOfYear, paramName);
