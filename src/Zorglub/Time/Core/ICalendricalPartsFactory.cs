@@ -34,23 +34,7 @@ namespace Zorglub.Time.Core
     /// calendrical schema. It only checks that each calendrical part can be represented by
     /// <see cref="Yemoda"/>, <see cref="Yemo"/> or <see cref="Yedoy"/>.</para>
     /// </summary>
-    public partial interface ICalendricalPartsFactory
-    {
-        /// <summary>
-        /// Creates a new <see cref="ICalendricalPartsFactory"/> instance.
-        /// </summary>
-        /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
-        [Pure]
-        public static ICalendricalPartsFactory Create(ICalendricalSchema schema)
-        {
-            Requires.NotNull(schema);
-
-            return
-                schema is SystemSchema sch ? sch
-                : schema.SupportedYears.IsSubsetOf(Yemoda.SupportedYears) ? new PartsFactorySlim(schema)
-                : new PartsFactory(schema);
-        }
-    }
+    public partial interface ICalendricalPartsFactory { }
 
     public partial interface ICalendricalPartsFactory // Conversions
     {

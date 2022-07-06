@@ -267,7 +267,7 @@ namespace Zorglub.Time.Core.Arithmetic
         }
     }
 
-    internal partial class RegularArithmetic // ICalendricalArithmeticPlus
+    internal partial class RegularArithmetic // Non-standard operations
     {
         /// <inheritdoc />
         [Pure]

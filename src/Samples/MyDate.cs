@@ -43,7 +43,7 @@ public partial struct MyDate
     private static readonly ICalendarScope Scope = __.Scope;
     private static readonly ICalendricalPartsFactory PartsFactory = __.PartsFactory;
     private static readonly PartsCreator PartsCreator = __.PartsCreator;
-    private static readonly ICalendricalArithmetic Arithmetic = __.Arithmetic;
+    private static readonly SystemArithmetic Arithmetic = __.Arithmetic;
     private static readonly Range<DayNumber> Domain = __.Domain;
 
     private readonly Yemoda _bin;

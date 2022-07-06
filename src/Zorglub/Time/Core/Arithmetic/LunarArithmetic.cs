@@ -252,7 +252,7 @@ namespace Zorglub.Time.Core.Arithmetic
         }
     }
 
-    internal partial class LunarArithmetic // ICalendricalArithmeticPlus
+    internal partial class LunarArithmetic // Non-standard operations
     {
         /// <inheritdoc />
         [Pure]

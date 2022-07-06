@@ -158,7 +158,7 @@ namespace Zorglub.Time.Core.Arithmetic
         }
     }
 
-    internal partial class SolarArithmetic // ICalendricalArithmeticPlus
+    internal partial class SolarArithmetic // Non-standard operations
     {
         /// <inheritdoc />
         [Pure]

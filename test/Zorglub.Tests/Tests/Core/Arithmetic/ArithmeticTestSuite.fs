@@ -15,10 +15,10 @@ open Zorglub.Time.Core.Schemas
 
 // Solar12Arithmetic is not the default arithmetic for the Gregorian schema, but
 // we still use it because it's the schema has a the most data to offer.
-let private solar12Of x = new Solar12Arithmetic(x) :> ICalendricalArithmetic
+let private solar12Of x = new Solar12Arithmetic(x) :> SystemArithmetic
 [<Sealed>]
 type Solar12Tests() =
-    inherit CalendricalArithmeticFacts<GregorianDataSet>(syschemaOf<GregorianSchema>(), solar12Of)
+    inherit SystemArithmeticFacts<GregorianDataSet>(syschemaOf<GregorianSchema>(), solar12Of)
 
     member x.Arithmetic() = x.Arithmetic |> is<Solar12Arithmetic>
 
@@ -29,74 +29,74 @@ type Solar12Tests() =
 [<Sealed>]
 [<RedundantTestBundle>]
 type Coptic12Tests() =
-    inherit CalendricalArithmeticFacts<Coptic12DataSet>(syschemaOf<Coptic12Schema>())
+    inherit SystemArithmeticFacts<Coptic12DataSet>(syschemaOf<Coptic12Schema>())
 
 [<Sealed>]
 [<RedundantTestBundle>]
 type Coptic13Tests() =
-    inherit CalendricalArithmeticFacts<Coptic13DataSet>(syschemaOf<Coptic13Schema>())
+    inherit SystemArithmeticFacts<Coptic13DataSet>(syschemaOf<Coptic13Schema>())
 
 [<Sealed>]
 [<RedundantTestBundle>]
 type Egyptian12Tests() =
-    inherit CalendricalArithmeticFacts<Egyptian12DataSet>(syschemaOf<Egyptian12Schema>())
+    inherit SystemArithmeticFacts<Egyptian12DataSet>(syschemaOf<Egyptian12Schema>())
 
 [<Sealed>]
 [<RedundantTestBundle>]
 type Egyptian13Tests() =
-    inherit CalendricalArithmeticFacts<Egyptian13DataSet>(syschemaOf<Egyptian13Schema>())
+    inherit SystemArithmeticFacts<Egyptian13DataSet>(syschemaOf<Egyptian13Schema>())
 
 [<Sealed>]
 [<RedundantTestBundle>]
 type FrenchRepublican12Tests() =
-    inherit CalendricalArithmeticFacts<FrenchRepublican12DataSet>(syschemaOf<FrenchRepublican12Schema>())
+    inherit SystemArithmeticFacts<FrenchRepublican12DataSet>(syschemaOf<FrenchRepublican12Schema>())
 
 [<Sealed>]
 [<RedundantTestBundle>]
 type FrenchRepublican13Tests() =
-    inherit CalendricalArithmeticFacts<FrenchRepublican13DataSet>(syschemaOf<FrenchRepublican13Schema>())
+    inherit SystemArithmeticFacts<FrenchRepublican13DataSet>(syschemaOf<FrenchRepublican13Schema>())
 
 // GregorianArithmetic
 [<Sealed>]
 [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
 type GregorianTests() =
-    inherit CalendricalArithmeticFacts<GregorianDataSet>(schemaOf<GregorianSchema>())
+    inherit SystemArithmeticFacts<GregorianDataSet>(schemaOf<GregorianSchema>())
 
     member x.Arithmetic() = x.Arithmetic |> is<GregorianArithmetic>
 
 [<Sealed>]
 [<RedundantTestBundle>]
 type InternationalFixedTests() =
-    inherit CalendricalArithmeticFacts<InternationalFixedDataSet>(syschemaOf<InternationalFixedSchema>())
+    inherit SystemArithmeticFacts<InternationalFixedDataSet>(syschemaOf<InternationalFixedSchema>())
 
 [<Sealed>]
 [<RedundantTestBundle>]
 type JulianTests() =
-    inherit CalendricalArithmeticFacts<JulianDataSet>(syschemaOf<JulianSchema>())
+    inherit SystemArithmeticFacts<JulianDataSet>(syschemaOf<JulianSchema>())
 
 // LunisolarArithmetic
 [<Sealed>]
 [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
 type LunisolarTests() =
-    inherit CalendricalArithmeticFacts<LunisolarDataSet>(syschemaOf<LunisolarSchema>())
+    inherit SystemArithmeticFacts<LunisolarDataSet>(syschemaOf<LunisolarSchema>())
 
     member x.Arithmetic() = x.Arithmetic |> is<LunisolarArithmetic>
 
 //[<Sealed>]
 //[<RedundantTestBundle>]
 //type PaxTests() =
-//    inherit CalendricalArithmeticFacts<PaxDataSet>(syschemaOf<PaxSchema>())
+//    inherit SystemArithmeticFacts<PaxDataSet>(syschemaOf<PaxSchema>())
 
 [<Sealed>]
 [<RedundantTestBundle>]
 type Persian2820Tests() =
-    inherit CalendricalArithmeticFacts<Persian2820DataSet>(syschemaOf<Persian2820Schema>())
+    inherit SystemArithmeticFacts<Persian2820DataSet>(syschemaOf<Persian2820Schema>())
 
 // Solar13Arithmetic
 [<Sealed>]
 [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
 type PositivistTests() =
-    inherit CalendricalArithmeticFacts<PositivistDataSet>(syschemaOf<PositivistSchema>())
+    inherit SystemArithmeticFacts<PositivistDataSet>(syschemaOf<PositivistSchema>())
 
     member x.Arithmetic() = x.Arithmetic |> is<Solar13Arithmetic>
 
@@ -104,26 +104,26 @@ type PositivistTests() =
 [<Sealed>]
 [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
 type TabularIslamicTests() =
-    inherit CalendricalArithmeticFacts<TabularIslamicDataSet>(syschemaOf<TabularIslamicSchema>())
+    inherit SystemArithmeticFacts<TabularIslamicDataSet>(syschemaOf<TabularIslamicSchema>())
 
     member x.Arithmetic() = x.Arithmetic |> is<LunarArithmetic>
 
 [<Sealed>]
 [<RedundantTestBundle>]
 type TropicaliaTests() =
-    inherit CalendricalArithmeticFacts<TropicaliaDataSet>(syschemaOf<TropicaliaSchema>())
+    inherit SystemArithmeticFacts<TropicaliaDataSet>(syschemaOf<TropicaliaSchema>())
 
 [<Sealed>]
 [<RedundantTestBundle>]
 type Tropicalia3031Tests() =
-    inherit CalendricalArithmeticFacts<Tropicalia3031DataSet>(syschemaOf<Tropicalia3031Schema>())
+    inherit SystemArithmeticFacts<Tropicalia3031DataSet>(syschemaOf<Tropicalia3031Schema>())
 
 [<Sealed>]
 [<RedundantTestBundle>]
 type Tropicalia3130Tests() =
-    inherit CalendricalArithmeticFacts<Tropicalia3130DataSet>(syschemaOf<Tropicalia3130Schema>())
+    inherit SystemArithmeticFacts<Tropicalia3130DataSet>(syschemaOf<Tropicalia3130Schema>())
 
 [<Sealed>]
 [<RedundantTestBundle>]
 type WorldTests() =
-    inherit CalendricalArithmeticFacts<WorldDataSet>(syschemaOf<WorldSchema>())
+    inherit SystemArithmeticFacts<WorldDataSet>(syschemaOf<WorldSchema>())

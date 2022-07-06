@@ -24,7 +24,7 @@ namespace Zorglub.Time.Core
     /// calendrical point of view. They MUST ensure that all returned values are valid when the
     /// previous condition is met.</para>
     /// </remarks>
-    public abstract partial class SystemArithmetic : ICalendricalArithmeticPlus
+    public abstract partial class SystemArithmetic
     {
         /// <summary>
         /// Represents the absolute minimum value admissible for the minimum total number of days
@@ -56,7 +56,9 @@ namespace Zorglub.Time.Core
             MaxDaysViaDayOfMonth = schema.MinDaysInMonth;
         }
 
-        /// <inheritdoc/>
+        /// <summary>
+        /// Gets the calendrical segment of supported days.
+        /// </summary>
         public SystemSegment Segment { get; }
 
         /// <summary>
@@ -137,22 +139,36 @@ namespace Zorglub.Time.Core
         [Pure] public abstract SystemArithmetic WithSupportedYears(Range<int> supportedYears);
     }
 
-    public partial class SystemArithmetic // ICalendricalArithmetic
+    public partial class SystemArithmetic // Standard operations
     {
         //
         // Operations on Yemoda
         //
 
-        /// <inheritdoc />
+        /// <summary>
+        /// Adds a number of days to the specified date, yielding a new date.
+        /// </summary>
+        /// <exception cref="OverflowException">The operation would overflow the range of supported
+        /// values.</exception>
         [Pure] public abstract Yemoda AddDays(Yemoda ymd, int days);
 
-        /// <inheritdoc />
+        /// <summary>
+        /// Obtains the day after the specified date.
+        /// </summary>
+        /// <exception cref="OverflowException">The operation would overflow the range of supported
+        /// values.</exception>
         [Pure] public abstract Yemoda NextDay(Yemoda ymd);
 
-        /// <inheritdoc />
+        /// <summary>
+        /// Obtains the day before the specified date.
+        /// </summary>
+        /// <exception cref="OverflowException">The operation would overflow the range of supported
+        /// values.</exception>
         [Pure] public abstract Yemoda PreviousDay(Yemoda ymd);
 
-        /// <inheritdoc />
+        /// <summary>
+        /// Counts the number of days between the two specified dates.
+        /// </summary>
         [Pure]
         public int CountDaysBetween(Yemoda start, Yemoda end)
         {
@@ -168,16 +184,30 @@ namespace Zorglub.Time.Core
         // Operations on Yedoy
         //
 
-        /// <inheritdoc />
+        /// <summary>
+        /// Adds a number of days to the specified ordinal date, yielding a new ordinal date.
+        /// </summary>
+        /// <exception cref="OverflowException">The operation would overflow the range of supported
+        /// values.</exception>
         [Pure] public abstract Yedoy AddDays(Yedoy ydoy, int days);
 
-        /// <inheritdoc />
+        /// <summary>
+        /// Obtains the day after the specified ordinal date.
+        /// </summary>
+        /// <exception cref="OverflowException">The operation would overflow the range of supported
+        /// values.</exception>
         [Pure] public abstract Yedoy NextDay(Yedoy ydoy);
 
-        /// <inheritdoc />
+        /// <summary>
+        /// Obtains the day before the specified ordinal date.
+        /// </summary>
+        /// <exception cref="OverflowException">The operation would overflow the range of supported
+        /// values.</exception>
         [Pure] public abstract Yedoy PreviousDay(Yedoy ydoy);
 
-        /// <inheritdoc />
+        /// <summary>
+        /// Counts the number of days between the two specified ordinal dates.
+        /// </summary>
         [Pure]
         public int CountDaysBetween(Yedoy start, Yedoy end)
         {
@@ -193,38 +223,76 @@ namespace Zorglub.Time.Core
         // Operations on Yemo
         //
 
-        /// <inheritdoc />
+        /// <summary>
+        /// Adds a number of months to the specified month, yielding a new month.
+        /// </summary>
+        /// <exception cref="OverflowException">The operation would overflow the range of supported
+        /// values.</exception>
         [Pure]
         public abstract Yemo AddMonths(Yemo ym, int months);
 
         // REVIEW(code): optimize Next/PreviousMonth(). See GregorianArithmetic.
 
-        /// <inheritdoc />
+        /// <summary>
+        /// Obtains the month after the specified month.
+        /// </summary>
+        /// <exception cref="OverflowException">The operation would overflow the range of supported
+        /// values.</exception>
         [Pure]
         public Yemo NextMonth(Yemo ym) => AddMonths(ym, 1);
 
-        /// <inheritdoc />
+        /// <summary>
+        /// Obtains the month before the specified month.
+        /// </summary>
+        /// <exception cref="OverflowException">The operation would overflow the range of supported
+        /// values.</exception>
         [Pure]
         public Yemo PreviousMonth(Yemo ym) => AddMonths(ym, -1);
 
-        /// <inheritdoc />
+        /// <summary>
+        /// Counts the number of months between the two specified months.
+        /// </summary>
         [Pure]
         [SuppressMessage("Naming", "CA1716:Identifiers should not match keywords.", Justification = "F# & VB.NET End statement.")]
         public abstract int CountMonthsBetween(Yemo start, Yemo end);
     }
 
-    public partial class SystemArithmetic // ICalendricalArithmeticPlus
+    public partial class SystemArithmetic // Non-standard operations
     {
-        /// <inheritdoc />
+        /// <summary>
+        /// Adds a number of years to the year field of the specified date.
+        /// </summary>
+        /// <returns>The end of the target month (resp. year) when the naive result is not a valid
+        /// day (resp. month).</returns>
+        /// <exception cref="OverflowException">The calculation would overflow the range of
+        /// supported values.</exception>
         [Pure] public abstract Yemoda AddYears(Yemoda ymd, int years, out int roundoff);
 
-        /// <inheritdoc />
+        /// <summary>
+        /// Adds a number of months to the specified date.
+        /// </summary>
+        /// <returns>The last day of the month when the naive result is not a valid day
+        /// (roundoff > 0).</returns>
+        /// <exception cref="OverflowException">The calculation would overflow the range of
+        /// supported values.</exception>
         [Pure] public abstract Yemoda AddMonths(Yemoda ymd, int months, out int roundoff);
 
-        /// <inheritdoc />
+        /// <summary>
+        /// Adds a number of years to the year field of the specified ordinal date.
+        /// </summary>
+        /// <returns>The last day of the year when the naive result is not a valid day
+        /// (roundoff > 0).</returns>
+        /// <exception cref="OverflowException">The calculation would overflow the range of
+        /// supported values.</exception>
         [Pure] public abstract Yedoy AddYears(Yedoy ydoy, int years, out int roundoff);
 
-        /// <inheritdoc />
+        /// <summary>
+        /// Adds a number of years to the year field of the specified month.
+        /// </summary>
+        /// <returns>The last month of the year when the naive result is not a valid month
+        /// (roundoff > 0).</returns>
+        /// <exception cref="OverflowException">The calculation would overflow the range of
+        /// supported values.</exception>
         [Pure] public abstract Yemo AddYears(Yemo ym, int years, out int roundoff);
     }
 

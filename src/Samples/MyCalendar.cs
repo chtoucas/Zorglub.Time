@@ -25,7 +25,7 @@ public sealed partial class MyCalendar : BasicCalendar, ICalendar<MyDate>
     {
         Debug.Assert(context != null);
 
-        _partsFactory = ICalendricalPartsFactory.Create(context.Schema);
+        _partsFactory = ICalendricalPartsFactoryV2.Create(context.Schema);
 
         MinMaxDate = Domain.Endpoints.Select(MyDate.FromDayNumber);
     }

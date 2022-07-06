@@ -67,27 +67,27 @@ public partial class MyNakedCalendar // Dates in a given year or month
     public sealed override DateParts GetStartOfYear(int year)
     {
         Scope.ValidateYear(year);
-        return PartsProvider.GetDatePartsAtStartOfYear(year);
+        return PartsFactory.GetDatePartsAtStartOfYear(year);
     }
 
     [Pure]
     public sealed override DateParts GetEndOfYear(int year)
     {
         Scope.ValidateYear(year);
-        return PartsProvider.GetDatePartsAtEndOfYear(year);
+        return PartsFactory.GetDatePartsAtEndOfYear(year);
     }
 
     [Pure]
     public sealed override DateParts GetStartOfMonth(int year, int month)
     {
         Scope.ValidateYearMonth(year, month);
-        return PartsProvider.GetDatePartsAtStartOfMonth(year, month);
+        return PartsFactory.GetDatePartsAtStartOfMonth(year, month);
     }
 
     [Pure]
     public sealed override DateParts GetEndOfMonth(int year, int month)
     {
         Scope.ValidateYearMonth(year, month);
-        return PartsProvider.GetDatePartsAtEndOfMonth(year, month);
+        return PartsFactory.GetDatePartsAtEndOfMonth(year, month);
     }
 }

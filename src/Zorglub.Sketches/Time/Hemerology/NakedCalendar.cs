@@ -54,7 +54,7 @@ namespace Zorglub.Time.Hemerology
             Name = name ?? throw new ArgumentNullException(nameof(name));
 
             MinMaxDateParts = scope.MinMaxDateParts;
-            PartsProvider = new PartsProvider(schema);
+            PartsFactory = new PartsFactory(schema);
         }
 
         /// <summary>
@@ -67,7 +67,7 @@ namespace Zorglub.Time.Hemerology
         /// </summary>
         public OrderedPair<DateParts> MinMaxDateParts { get; }
 
-        protected PartsProvider PartsProvider { get; }
+        protected PartsFactory PartsFactory { get; }
 
         /// <summary>
         /// Returns a string representation of the current instance.

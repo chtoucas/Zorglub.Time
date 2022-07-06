@@ -19,9 +19,9 @@ open Xunit
 
 module Bundles =
     [<Sealed>]
-    type PartsFactoryTests() =
+    type PartsFactoryCheckedTests() =
         inherit ICalendricalPartsFactoryFacts<GregorianDataSet>(
-            new PartsFactory(schemaOf<GregorianSchema>()))
+            new PartsFactoryChecked(schemaOf<GregorianSchema>()))
 
     [<Sealed>]
     [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
@@ -32,7 +32,7 @@ module Bundles =
 module Factories =
     [<Fact>]
     let ``ICalendricalPartsFactory.Create() throws for null schema`` () =
-        nullExn "schema" (fun () -> ICalendricalPartsFactory.Create(null))
+        nullExn "schema" (fun () -> ICalendricalPartsFactoryV2.Create(null))
 
 module Methods =
     [<Sealed>]
@@ -45,7 +45,7 @@ module Methods =
             self.Add(Int32.MaxValue)
 
     let private sch = schemaOf<GregorianSchema>()
-    let private factory = new PartsFactory(sch)
+    let private factory = new PartsFactoryChecked(sch)
 
     [<Theory; ClassData(typeof<BadYearData>)>]
     let ``GetMonthPartsAtStartOfYear() throws when "year" is out of range`` y =

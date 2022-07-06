@@ -3,6 +3,8 @@
 
 namespace Zorglub.Time.Core
 {
+    // TODO(api): use DateParts & co, not Yemoda & co.
+
     #region Developer Notes
 
     // Types Implementing ICalendricalArithmetic
@@ -54,16 +56,15 @@ namespace Zorglub.Time.Core
         /// <summary>
         /// Gets the calendrical segment of supported days.
         /// </summary>
-        SystemSegment Segment { get; }
+        CalendricalSegment Segment { get; }
 
         //
-        // Operations on Yemoda
+        // Operations on DateParts
         //
 
         /// <summary>
         /// Adds a number of days to the specified date, yielding a new date.
         /// </summary>
-        /// <exception cref="AoorException">The result is not representable by the system.</exception>
         /// <exception cref="OverflowException">The operation would overflow the range of supported
         /// values.</exception>
         [Pure] Yemoda AddDays(Yemoda ymd, int days);
@@ -71,7 +72,6 @@ namespace Zorglub.Time.Core
         /// <summary>
         /// Obtains the day after the specified date.
         /// </summary>
-        /// <exception cref="AoorException">The result is not representable by the system.</exception>
         /// <exception cref="OverflowException">The operation would overflow the range of supported
         /// values.</exception>
         [Pure] Yemoda NextDay(Yemoda ymd);
@@ -79,7 +79,6 @@ namespace Zorglub.Time.Core
         /// <summary>
         /// Obtains the day before the specified date.
         /// </summary>
-        /// <exception cref="AoorException">The result is not representable by the system.</exception>
         /// <exception cref="OverflowException">The operation would overflow the range of supported
         /// values.</exception>
         [Pure] Yemoda PreviousDay(Yemoda ymd);
@@ -97,7 +96,6 @@ namespace Zorglub.Time.Core
         /// <summary>
         /// Adds a number of days to the specified ordinal date, yielding a new ordinal date.
         /// </summary>
-        /// <exception cref="AoorException">The result is not representable by the system.</exception>
         /// <exception cref="OverflowException">The operation would overflow the range of supported
         /// values.</exception>
         [Pure] Yedoy AddDays(Yedoy ydoy, int days);
@@ -105,7 +103,6 @@ namespace Zorglub.Time.Core
         /// <summary>
         /// Obtains the day after the specified ordinal date.
         /// </summary>
-        /// <exception cref="AoorException">The result is not representable by the system.</exception>
         /// <exception cref="OverflowException">The operation would overflow the range of supported
         /// values.</exception>
         [Pure] Yedoy NextDay(Yedoy ydoy);
@@ -113,7 +110,6 @@ namespace Zorglub.Time.Core
         /// <summary>
         /// Obtains the day before the specified ordinal date.
         /// </summary>
-        /// <exception cref="AoorException">The result is not representable by the system.</exception>
         /// <exception cref="OverflowException">The operation would overflow the range of supported
         /// values.</exception>
         [Pure] Yedoy PreviousDay(Yedoy ydoy);
@@ -131,7 +127,6 @@ namespace Zorglub.Time.Core
         /// <summary>
         /// Adds a number of months to the specified month, yielding a new month.
         /// </summary>
-        /// <exception cref="AoorException">The result is not representable by the system.</exception>
         /// <exception cref="OverflowException">The operation would overflow the range of supported
         /// values.</exception>
         [Pure] Yemo AddMonths(Yemo ym, int months);
@@ -139,7 +134,6 @@ namespace Zorglub.Time.Core
         /// <summary>
         /// Obtains the month after the specified month.
         /// </summary>
-        /// <exception cref="AoorException">The result is not representable by the system.</exception>
         /// <exception cref="OverflowException">The operation would overflow the range of supported
         /// values.</exception>
         [Pure] Yemo NextMonth(Yemo ym);
@@ -147,7 +141,6 @@ namespace Zorglub.Time.Core
         /// <summary>
         /// Obtains the month before the specified month.
         /// </summary>
-        /// <exception cref="AoorException">The result is not representable by the system.</exception>
         /// <exception cref="OverflowException">The operation would overflow the range of supported
         /// values.</exception>
         [Pure] Yemo PreviousMonth(Yemo ym);

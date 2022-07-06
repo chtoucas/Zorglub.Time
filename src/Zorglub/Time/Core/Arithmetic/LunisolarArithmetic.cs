@@ -250,7 +250,7 @@ namespace Zorglub.Time.Core.Arithmetic
         }
     }
 
-    internal partial class LunisolarArithmetic // ICalendricalArithmeticPlus
+    internal partial class LunisolarArithmetic // Non-standard operations
     {
         /// <inheritdoc />
         [Pure]

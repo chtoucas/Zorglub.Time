@@ -36,7 +36,7 @@ public partial record struct GregorianRecord
     private static readonly CalendricalSchema Schema = __.Schema;
     private static readonly ICalendricalPartsFactory PartsFactory = __.PartsFactory;
     private static readonly PartsCreator PartsCreator = __.PartsCreator;
-    private static readonly ICalendricalArithmetic Arithmetic = __.Arithmetic;
+    private static readonly SystemArithmetic Arithmetic = __.Arithmetic;
     private static readonly ICalendricalPreValidator PreValidator = __.PreValidator;
     private static readonly Range<int> Domain = __.Domain;
 

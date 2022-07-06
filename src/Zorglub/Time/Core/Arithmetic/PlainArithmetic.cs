@@ -188,7 +188,7 @@ namespace Zorglub.Time.Core.Arithmetic
         }
     }
 
-    internal partial class PlainArithmetic // ICalendricalArithmeticPlus
+    internal partial class PlainArithmetic // Non-standard operations
     {
         /// <inheritdoc />
         [Pure]

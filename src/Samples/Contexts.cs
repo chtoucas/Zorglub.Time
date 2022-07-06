@@ -26,7 +26,7 @@ internal sealed class CalendarContext
         Epoch = epoch;
         Scope = scope ?? throw new ArgumentNullException(nameof(scope));
 
-        PartsFactory = ICalendricalPartsFactory.Create(schema);
+        PartsFactory = ICalendricalPartsFactoryV2.Create(schema);
         PartsCreator = new PartsCreator(scope);
         Arithmetic = SystemArithmetic.CreateDefault(schema).WithSupportedYears(scope.SupportedYears);
     }
@@ -37,7 +37,7 @@ internal sealed class CalendarContext
 
     public ICalendricalPartsFactory PartsFactory { get; }
     public PartsCreator PartsCreator { get; }
-    public ICalendricalArithmetic Arithmetic { get; }
+    public SystemArithmetic Arithmetic { get; }
 
     public Range<DayNumber> Domain => Scope.Domain;
 
@@ -70,7 +70,7 @@ internal sealed class SchemaContext
     {
         Schema = schema ?? throw new ArgumentNullException(nameof(schema));
 
-        PartsFactory = ICalendricalPartsFactory.Create(schema);
+        PartsFactory = ICalendricalPartsFactoryV2.Create(schema);
         PartsCreator = PartsCreator.Create(schema);
         Arithmetic = SystemArithmetic.CreateDefault(schema);
     }
@@ -79,7 +79,7 @@ internal sealed class SchemaContext
 
     public ICalendricalPartsFactory PartsFactory { get; }
     public PartsCreator PartsCreator { get; }
-    public ICalendricalArithmetic Arithmetic { get; }
+    public SystemArithmetic Arithmetic { get; }
 
     public ICalendricalPreValidator PreValidator => Schema.PreValidator;
     public Range<int> Domain => Schema.Domain;

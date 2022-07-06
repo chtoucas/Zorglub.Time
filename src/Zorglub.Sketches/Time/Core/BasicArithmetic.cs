@@ -30,15 +30,15 @@ namespace Zorglub.Time.Core
         /// <exception cref="ArgumentException">The range of supported years by
         /// <paramref name="schema"/> and <see cref="Yemoda"/> are disjoint.
         /// </exception>
-        public BasicArithmetic(SystemSchema schema)
+        public BasicArithmetic(ICalendricalSchema schema)
         {
             _schema = schema ?? throw new ArgumentNullException(nameof(schema));
-            _partsFactory = ICalendricalPartsFactory.Create(schema);
-            Segment = SystemSegment.CreateMaximal(schema);
+            _partsFactory = ICalendricalPartsFactoryV2.Create(schema);
+            Segment = CalendricalSegment.CreateMaximal(schema);
         }
 
         /// <inheritdoc/>
-        public SystemSegment Segment { get; }
+        public CalendricalSegment Segment { get; }
 
         /// <summary>
         /// Gets the range of supported days.

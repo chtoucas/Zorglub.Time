@@ -133,7 +133,7 @@ namespace Zorglub.Time.Core.Arithmetic
         }
 
         //
-        // ICalendricalArithmeticPlus
+        // Non-standard operations
         //
 
         /// <inheritdoc />

@@ -269,7 +269,7 @@ namespace Zorglub.Time.Core.Arithmetic
         }
     }
 
-    internal partial class GregorianArithmetic // ICalendricalArithmeticPlus
+    internal partial class GregorianArithmetic // Non-standard operations
     {
         /// <inheritdoc />
         [Pure]

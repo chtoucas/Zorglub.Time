@@ -5,8 +5,10 @@ namespace Zorglub.Time.Core
 {
     /// <summary>
     /// Provides methods you can use to create new calendrical parts.
+    /// <para>A factory for parts assumes that input parameters are valid for the underlying
+    /// calendrical schema.</para>
     /// </summary>
-    internal sealed partial class PartsFactory : ICalendricalPartsFactory
+    public sealed partial class PartsFactory
     {
         /// <summary>
         /// Represents the schema.
@@ -17,140 +19,155 @@ namespace Zorglub.Time.Core
         /// <summary>
         /// Initializes a new instance of the <see cref="PartsFactory"/> class.
         /// </summary>
+        /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
         public PartsFactory(ICalendricalSchema schema)
         {
-            Debug.Assert(schema != null);
-
-            _schema = schema;
+            _schema = schema ?? throw new ArgumentNullException(nameof(schema));
         }
     }
 
-    internal partial class PartsFactory // Conversions
+    public partial class PartsFactory // Conversions
     {
-        /// <inheritdoc />
+        /// <summary>
+        /// Obtains the date parts for the specified month count (the number of consecutive months
+        /// from the epoch to a date).
+        /// </summary>
         [Pure]
-        public Yemo GetMonthParts(int monthsSinceEpoch)
+        public MonthParts GetMonthParts(int monthsSinceEpoch)
         {
             _schema.GetMonthParts(monthsSinceEpoch, out int y, out int m);
-            return Yemo.Create(y, m);
+            return new MonthParts(y, m);
         }
 
-        /// <inheritdoc />
+        /// <summary>
+        /// Obtains the date parts for the specified day count (the number of consecutive days from
+        /// the epoch to a date).
+        /// </summary>
         [Pure]
-        public Yemoda GetDateParts(int daysSinceEpoch)
+        public DateParts GetDateParts(int daysSinceEpoch)
         {
             _schema.GetDateParts(daysSinceEpoch, out int y, out int m, out int d);
-            return Yemoda.Create(y, m, d);
+            return new DateParts(y, m, d);
         }
 
-        /// <inheritdoc />
+        /// <summary>
+        /// Obtains the ordinal date parts for the specified day count (the number of consecutive
+        /// days from the epoch to a date).
+        /// </summary>
         [Pure]
-        public Yedoy GetOrdinalParts(int daysSinceEpoch)
+        public OrdinalParts GetOrdinalParts(int daysSinceEpoch)
         {
             int y = _schema.GetYear(daysSinceEpoch, out int doy);
-            return Yedoy.Create(y, doy);
+            return new OrdinalParts(y, doy);
         }
 
-        /// <inheritdoc />
+        /// <summary>
+        /// Obtains the ordinal date parts for the specified date.
+        /// </summary>
         [Pure]
-        public Yedoy GetOrdinalParts(int y, int m, int d)
+        public OrdinalParts GetOrdinalParts(int y, int m, int d)
         {
             int doy = _schema.GetDayOfYear(y, m, d);
-            return Yedoy.Create(y, doy);
+            return new OrdinalParts(y, doy);
         }
 
-        /// <inheritdoc />
+        /// <summary>
+        /// Obtains the date parts for the specified ordinal date.
+        /// </summary>
         [Pure]
-        public Yemoda GetDateParts(int y, int doy)
+        public DateParts GetDateParts(int y, int doy)
         {
             int m = _schema.GetMonth(y, doy, out int d);
-            return Yemoda.Create(y, m, d);
+            return new DateParts(y, m, d);
         }
     }
 
-    internal partial class PartsFactory // Dates in a given year or month
+    public partial class PartsFactory // Dates in a given year or month
     {
-        /// <inheritdoc />
+        /// <summary>
+        /// Obtains the month parts for the first month of the specified year.
+        /// </summary>
         [Pure]
-        public Yemo GetMonthPartsAtStartOfYear(int y)
-        {
-            if (y < Yemoda.MinYear || y > Yemoda.MaxYear) Throw.YearOutOfRange(y);
-            return Yemo.AtStartOfYear(y);
-        }
+        public static MonthParts GetMonthPartsAtStartOfYear(int y) => new(y, 1);
 
-        /// <inheritdoc />
+        /// <summary>
+        /// Obtains the date parts for the first day of the specified year.
+        /// </summary>
         [Pure]
-        public Yemoda GetDatePartsAtStartOfYear(int y)
-        {
-            if (y < Yemoda.MinYear || y > Yemoda.MaxYear) Throw.YearOutOfRange(y);
-            return Yemoda.AtStartOfYear(y);
-        }
+        public static DateParts GetDatePartsAtStartOfYear(int y) => new(y, 1, 1);
 
-        /// <inheritdoc />
+        /// <summary>
+        /// Obtains the ordinal date parts for the first day of the specified year.
+        /// </summary>
         [Pure]
-        public Yedoy GetOrdinalPartsAtStartOfYear(int y)
-        {
-            if (y < Yemoda.MinYear || y > Yemoda.MaxYear) Throw.YearOutOfRange(y);
-            return Yedoy.AtStartOfYear(y);
-        }
+        public static OrdinalParts GetOrdinalPartsAtStartOfYear(int y) => new(y, 1);
 
-        /// <inheritdoc />
+        /// <summary>
+        /// Obtains the date parts for the last month of the specified year.
+        /// </summary>
         [Pure]
-        public Yemo GetMonthPartsAtEndOfYear(int y)
+        public MonthParts GetMonthPartsAtEndOfYear(int y)
         {
             int m = _schema.CountMonthsInYear(y);
-            return Yemo.Create(y, m);
+            return new MonthParts(y, m);
         }
 
-        /// <inheritdoc />
+        /// <summary>
+        /// Obtains the date parts for the last day of the specified year.
+        /// </summary>
         [Pure]
-        public Yemoda GetDatePartsAtEndOfYear(int y)
+        public DateParts GetDatePartsAtEndOfYear(int y)
         {
             int m = _schema.CountMonthsInYear(y);
             int d = _schema.CountDaysInMonth(y, m);
-            return Yemoda.Create(y, m, d);
+            return new DateParts(y, m, d);
         }
 
-        /// <inheritdoc />
+        /// <summary>
+        /// Obtains the ordinal date parts for the last day of the specified year.
+        /// </summary>
         [Pure]
-        public Yedoy GetOrdinalPartsAtEndOfYear(int y)
+        public OrdinalParts GetOrdinalPartsAtEndOfYear(int y)
         {
             int doy = _schema.CountDaysInYear(y);
-            return Yedoy.Create(y, doy);
+            return new OrdinalParts(y, doy);
         }
 
-        /// <inheritdoc />
+        /// <summary>
+        /// Obtains the date parts for the first day of the specified month.
+        /// </summary>
         [Pure]
-        public Yemoda GetDatePartsAtStartOfMonth(int y, int m)
-        {
-            if (y < Yemoda.MinYear || y > Yemoda.MaxYear) Throw.YearOutOfRange(y);
-            if (y < Yemoda.MinMonth || m > Yemoda.MaxMonth) Throw.MonthOutOfRange(m);
-            return Yemoda.AtStartOfMonth(y, m);
-        }
+        public static DateParts GetDatePartsAtStartOfMonth(int y, int m) => new(y, m, 1);
 
-        /// <inheritdoc />
+        /// <summary>
+        /// Obtains the ordinal date parts for the first day of the specified month.
+        /// </summary>
         [Pure]
-        public Yedoy GetOrdinalPartsAtStartOfMonth(int y, int m)
+        public OrdinalParts GetOrdinalPartsAtStartOfMonth(int y, int m)
         {
             int doy = _schema.GetDayOfYear(y, m, 1);
-            return Yedoy.Create(y, doy);
+            return new OrdinalParts(y, doy);
         }
 
-        /// <inheritdoc />
+        /// <summary>
+        /// Obtains the date parts for the last day of the specified month.
+        /// </summary>
         [Pure]
-        public Yemoda GetDatePartsAtEndOfMonth(int y, int m)
+        public DateParts GetDatePartsAtEndOfMonth(int y, int m)
         {
             int d = _schema.CountDaysInMonth(y, m);
-            return Yemoda.Create(y, m, d);
+            return new DateParts(y, m, d);
         }
 
-        /// <inheritdoc />
+        /// <summary>
+        /// Obtains the ordinal date parts for the last day of the specified month.
+        /// </summary>
         [Pure]
-        public Yedoy GetOrdinalPartsAtEndOfMonth(int y, int m)
+        public OrdinalParts GetOrdinalPartsAtEndOfMonth(int y, int m)
         {
             int d = _schema.CountDaysInMonth(y, m);
             int doy = _schema.GetDayOfYear(y, m, d);
-            return Yedoy.Create(y, doy);
+            return new OrdinalParts(y, doy);
         }
     }
 }
