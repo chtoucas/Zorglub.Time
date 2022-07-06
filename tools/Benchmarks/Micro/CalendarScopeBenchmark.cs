@@ -65,16 +65,20 @@ NO INLINING
  */
 
 [DisassemblyDiagnoser]
-public class CalendricalScopeBenchmark : BenchmarkBase
+public class CalendarScopeBenchmark : BenchmarkBase
 {
     private static readonly GregorianProlepticShortScope s_GregorianProlepticShort =
         new(new GregorianSchema(), DayZero.NewStyle);
+
+#pragma warning disable CS0618 // Type or member is obsolete
 
     private static readonly Solar12ProlepticShortScope s_SolarProlepticShort =
         new(new GregorianSchema(), DayZero.NewStyle);
 
     private static readonly Solar12StandardShortScope s_SolarStandardShort =
         new(new GregorianSchema(), DayZero.NewStyle);
+
+#pragma warning restore CS0618 // Type or member is obsolete
 
 #if ALL
     private static readonly PlainProlepticShortScope s_DefaultProlepticShort =
@@ -90,7 +94,7 @@ public class CalendricalScopeBenchmark : BenchmarkBase
         MinMaxYearScope.WithMaximalRange(new GregorianSchema(), DayZero.NewStyle, onOrAfterEpoch: false);
 #endif
 
-    public CalendricalScopeBenchmark()
+    public CalendarScopeBenchmark()
     {
         // Fixed => we benchmark the fast track of ValidateYearMonthDay().
         Option = BenchmarkOption.Fixed;
