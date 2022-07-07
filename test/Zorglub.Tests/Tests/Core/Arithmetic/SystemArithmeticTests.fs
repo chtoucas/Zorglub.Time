@@ -116,13 +116,13 @@ module PlainCase =
 
     [<Fact>]
     let ``AddDaysViaDayOfMonth() overflows at the start of MinYear`` () =
-        let min = sch.Segment.MinMaxDateParts.LowerValue
+        let min = ari.Segment.MinMaxDateParts.LowerValue
 
         (fun () -> wrapper.AddDaysViaDayOfMonth(min, -1)) |> overflows
 
     [<Fact>]
     let ``AddDaysViaDayOfMonth() overflows at the end of MaxYear`` () =
-        let max = sch.Segment.MinMaxDateParts.UpperValue
+        let max = ari.Segment.MinMaxDateParts.UpperValue
 
         (fun () -> wrapper.AddDaysViaDayOfMonth(max, 1)) |> overflows
 
@@ -144,13 +144,13 @@ module RegularCase =
 
     [<Fact>]
     let ``AddDaysViaDayOfMonth() overflows at the start of MinYear`` () =
-        let min = sch.Segment.MinMaxDateParts.LowerValue
+        let min = ari.Segment.MinMaxDateParts.LowerValue
 
         (fun () -> wrapper.AddDaysViaDayOfMonth(min, -1)) |> overflows
 
     [<Fact>]
     let ``AddDaysViaDayOfMonth() overflows at the end of MaxYear`` () =
-        let max = sch.Segment.MinMaxDateParts.UpperValue
+        let max = ari.Segment.MinMaxDateParts.UpperValue
 
         (fun () -> wrapper.AddDaysViaDayOfMonth(max, 1)) |> overflows
 

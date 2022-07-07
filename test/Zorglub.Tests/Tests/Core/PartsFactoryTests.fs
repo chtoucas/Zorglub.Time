@@ -32,7 +32,7 @@ module Bundles =
 module Factories =
     [<Fact>]
     let ``ICalendricalPartsFactory.Create() throws for null schema`` () =
-        nullExn "schema" (fun () -> ICalendricalPartsFactoryV2.Create(null))
+        nullExn "schema" (fun () -> ICalendricalPartsFactory2.Create(null))
 
 module Methods =
     [<Sealed>]

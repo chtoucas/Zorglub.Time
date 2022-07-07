@@ -38,41 +38,6 @@ public partial class SystemSchemaFacts<TDataSet> // Properties
     [Fact]
     public virtual void SupportedYearsCore_Prop() =>
         Assert.Equal(Range.Maximal32, SchemaUT.SupportedYearsCore);
-
-    [Fact]
-    public void Segment_Prop() =>
-        // Lazy prop: we duplicate the test to ensure full test coverage.
-        Assert.Equal(SchemaUT.Segment, SchemaUT.Segment);
-
-    [Fact]
-    public void Segment_Prop_Domain()
-    {
-        var seg = SchemaUT.Segment;
-        // Act & Assert
-        Assert.Equal(SchemaUT.Domain, seg.Domain);
-    }
-
-    [Fact]
-    public void Segment_Prop_MinMaxDateParts()
-    {
-        var seg = SchemaUT.Segment;
-        var startOfYear = SchemaUT.GetDatePartsAtStartOfYear(MinYear);
-        var endOfYear = SchemaUT.GetDatePartsAtEndOfYear(MaxYear);
-        var minmax = OrderedPair.Create(startOfYear, endOfYear);
-        // Act & Assert
-        Assert.Equal(minmax, seg.MinMaxDateParts);
-    }
-
-    [Fact]
-    public void Segment_Prop_MinMaxOrdinalParts()
-    {
-        var seg = SchemaUT.Segment;
-        var startOfYear = SchemaUT.GetOrdinalPartsAtStartOfYear(MinYear);
-        var endOfYear = SchemaUT.GetOrdinalPartsAtEndOfYear(MaxYear);
-        var minmax = OrderedPair.Create(startOfYear, endOfYear);
-        // Act & Assert
-        Assert.Equal(minmax, seg.MinMaxOrdinalParts);
-    }
 }
 
 public partial class SystemSchemaFacts<TDataSet> // Methods

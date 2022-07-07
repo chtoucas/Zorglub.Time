@@ -57,8 +57,8 @@ namespace Zorglub.Time.Hemerology.Scopes
             Epoch = epoch;
             _preValidator = schema.PreValidator;
 
-            var seg = CalendricalSegment.Create(schema, s_SupportedYears);
-            Domain = seg.GetFixedDomain(epoch);
+            Segment = CalendricalSegment.Create(schema, s_SupportedYears);
+            Domain = Segment.GetFixedDomain(epoch);
         }
 
         /// <inheritdoc />
@@ -69,6 +69,9 @@ namespace Zorglub.Time.Hemerology.Scopes
 
         /// <inheritdoc />
         public Range<int> SupportedYears => s_SupportedYears;
+
+        /// <inheritdoc />
+        public CalendricalSegment Segment { get; }
 
         /// <summary>
         /// Gets the underlying schema.

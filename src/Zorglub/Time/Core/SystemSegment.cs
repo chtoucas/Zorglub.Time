@@ -34,13 +34,13 @@ namespace Zorglub.Time.Core
             MinMaxMonthParts = OrderedPair.FromOrderedValues(start.MonthParts, end.MonthParts);
 
             SupportedYears = Range.Create(start.Year, end.Year);
-        }
 
-        [Pure]
-        private int CountMonthsSinceEpoch(Yemoda ymd)
-        {
-            var (y, m, _) = ymd;
-            return Schema.CountMonthsSinceEpoch(y, m);
+            [Pure]
+            int CountMonthsSinceEpoch(Yemoda ymd)
+            {
+                var (y, m, _) = ymd;
+                return schema.CountMonthsSinceEpoch(y, m);
+            }
         }
 
         /// <summary>

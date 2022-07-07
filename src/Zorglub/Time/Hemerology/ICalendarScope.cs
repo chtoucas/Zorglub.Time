@@ -44,5 +44,10 @@ namespace Zorglub.Time.Hemerology
         /// Gets the range of supported <see cref="DayNumber"/> values.
         /// </summary>
         Range<DayNumber> Domain { get; }
+
+        /// <summary>
+        /// Gets the segment of supported days.
+        /// </summary>
+        CalendricalSegment Segment { get; }
     }
 }

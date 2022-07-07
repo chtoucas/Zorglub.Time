@@ -142,13 +142,14 @@ namespace Zorglub.Time.Simple
                 Scope = new StandardScope(schema, epoch);
                 YearOverflowChecker = StandardScope.YearOverflowChecker;
             }
+            var supportedYears = Scope.SupportedYears;
 
             PreValidator = schema.PreValidator;
-            Arithmetic = schema.Arithmetic.WithSupportedYears(Scope.SupportedYears);
+            Arithmetic = schema.Arithmetic.WithSupportedYears(supportedYears);
 
-            SupportedYears = Scope.SupportedYears;
+            SupportedYears = supportedYears;
             Domain = Scope.Domain;
-            (MinDaysSinceEpoch, MaxDaysSinceEpoch) = Domain.Endpoints.Select(x => x - Epoch);
+            (MinDaysSinceEpoch, MaxDaysSinceEpoch) = Scope.Segment.Domain.Endpoints;
 
             // Keep this at the end of the constructor: before using "this",
             // all props should be initialized.
@@ -300,25 +301,13 @@ namespace Zorglub.Time.Simple
             if (_initialized) return;
 
             // GetCalendarYear() without the validation part.
-            var minMaxYear = from y in SupportedYears.Endpoints select new CalendarYear(y, Id);
+            _minMaxYear = from y in SupportedYears.Endpoints select new CalendarYear(y, Id);
 
-            _minMaxYear = minMaxYear;
-
-            // NB: It might not be obvious at first glance, but the param "y"
-            // is a CalendarYear and so is bounded to the current calendar.
-            _minMaxMonth =
-                minMaxYear.Select(
-                    y => y.FirstMonth,
-                    y => y.LastMonth);
-            _minMaxDate =
-                // REVIEW(code): optimize.
-                minMaxYear.Select(
-                    y => y.FirstDay.ToCalendarDate(),
-                    y => y.LastDay.ToCalendarDate());
-            _minMaxOrdinal =
-                minMaxYear.Select(
-                    y => y.FirstDay,
-                    y => y.LastDay);
+            // We don't use Scope.Segment because it does not use the core parts.
+            var seg = Arithmetic.Segment;
+            _minMaxMonth = from ym in seg.MinMaxMonthParts select new CalendarMonth(ym, Id);
+            _minMaxDate = from ymd in seg.MinMaxDateParts select new CalendarDate(ymd, Id);
+            _minMaxOrdinal = from ydoy in seg.MinMaxOrdinalParts select new OrdinalDate(ydoy, Id);
 
             // GetCalendarDay() without the validation part.
             _minMaxDay =

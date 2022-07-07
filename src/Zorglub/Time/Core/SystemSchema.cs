@@ -132,12 +132,6 @@ namespace Zorglub.Time.Core
             }
         }
 
-        private SystemSegment? _segment;
-        /// <summary>
-        /// Gets informations on the range of supported days.
-        /// </summary>
-        public SystemSegment Segment => _segment ??= SystemSegment.CreateMaximal(this);
-
         /// <inheritdoc />
         [Pure]
         public sealed override bool IsRegular(out int monthsInYear)

@@ -23,7 +23,7 @@ public abstract partial class SystemArithmeticFacts<TDataSet> :
         ArithmeticUT = arithmetic ?? throw new ArgumentNullException(nameof(arithmetic));
     }
 
-    protected ICalendricalSchema Schema { get; }
+    protected SystemSchema Schema { get; }
     protected SystemArithmetic ArithmeticUT { get; }
     protected SystemSegment Segment => ArithmeticUT.Segment;
 }

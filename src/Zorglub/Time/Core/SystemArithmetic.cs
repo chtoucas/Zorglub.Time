@@ -57,7 +57,7 @@ namespace Zorglub.Time.Core
         }
 
         /// <summary>
-        /// Gets the calendrical segment of supported days.
+        /// Gets the segment of supported days.
         /// </summary>
         public SystemSegment Segment { get; }
 

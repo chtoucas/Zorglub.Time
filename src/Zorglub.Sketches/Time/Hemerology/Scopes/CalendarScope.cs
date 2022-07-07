@@ -27,7 +27,6 @@ namespace Zorglub.Time.Hemerology.Scopes
         {
             Schema = schema ?? throw new ArgumentNullException(nameof(schema));
             Requires.NotNull(segment);
-
             if (ReferenceEquals(segment.Schema, schema) == false) Throw.Argument(nameof(segment));
 
             Epoch = epoch;
@@ -46,9 +45,7 @@ namespace Zorglub.Time.Hemerology.Scopes
         /// <inheritdoc />
         public Range<int> SupportedYears { get; }
 
-        /// <summary>
-        /// Gets the segment.
-        /// </summary>
+        /// <inheritdoc />
         public CalendricalSegment Segment { get; }
 
         /// <summary>
