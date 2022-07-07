@@ -159,18 +159,16 @@ namespace Zorglub.Time.Core
         /// Sets the start of the segment to the specified date.
         /// </summary>
         /// <exception cref="AoorException">The result is not representable by the system.</exception>
-        public void SetMinDate(DateParts parts)
+        public void SetMinDate(int year, int month, int day)
         {
-            var (y, m, d) = parts;
-
-            if (SupportedYears.Contains(y) == false) Throw.YearOutOfRange(y, nameof(parts));
-            PreValidator.ValidateMonthDay(y, m, d, nameof(parts));
+            if (SupportedYears.Contains(year) == false) Throw.YearOutOfRange(year);
+            PreValidator.ValidateMonthDay(year, month, day);
 
             Start = new Endpoint
             {
-                DaysSinceEpoch = _schema.CountDaysSinceEpoch(y, m, d),
-                DateParts = parts,
-                OrdinalParts = _partsFactory.GetOrdinalParts(y, m, d),
+                DaysSinceEpoch = _schema.CountDaysSinceEpoch(year, month, day),
+                DateParts = new DateParts(year, month, day),
+                OrdinalParts = _partsFactory.GetOrdinalParts(year, month, day),
             };
         }
 
@@ -178,18 +176,16 @@ namespace Zorglub.Time.Core
         /// Sets the end of the segment to the specified date.
         /// </summary>
         /// <exception cref="AoorException">The result is not representable by the system.</exception>
-        public void SetMaxDate(DateParts parts)
+        public void SetMaxDate(int year, int month, int day)
         {
-            var (y, m, d) = parts;
-
-            if (SupportedYears.Contains(y) == false) Throw.YearOutOfRange(y, nameof(parts));
-            PreValidator.ValidateMonthDay(y, m, d, nameof(parts));
+            if (SupportedYears.Contains(year) == false) Throw.YearOutOfRange(year);
+            PreValidator.ValidateMonthDay(year, month, day);
 
             End = new Endpoint
             {
-                DaysSinceEpoch = _schema.CountDaysSinceEpoch(y, m, d),
-                DateParts = parts,
-                OrdinalParts = _partsFactory.GetOrdinalParts(y, m, d),
+                DaysSinceEpoch = _schema.CountDaysSinceEpoch(year, month, day),
+                DateParts = new DateParts(year, month, day),
+                OrdinalParts = _partsFactory.GetOrdinalParts(year, month, day),
             };
         }
 
@@ -197,18 +193,16 @@ namespace Zorglub.Time.Core
         /// Sets the start of the segment to the specified ordinal date.
         /// </summary>
         /// <exception cref="AoorException">The result is not representable by the system.</exception>
-        public void SetMinOrdinal(OrdinalParts parts)
+        public void SetMinOrdinal(int year, int dayOfYear)
         {
-            var (y, doy) = parts;
-
-            if (SupportedYears.Contains(y) == false) Throw.YearOutOfRange(y, nameof(parts));
-            PreValidator.ValidateDayOfYear(y, doy, nameof(parts));
+            if (SupportedYears.Contains(year) == false) Throw.YearOutOfRange(year);
+            PreValidator.ValidateDayOfYear(year, dayOfYear);
 
             Start = new Endpoint
             {
-                DaysSinceEpoch = _schema.CountDaysSinceEpoch(y, doy),
-                DateParts = _partsFactory.GetDateParts(y, doy),
-                OrdinalParts = parts,
+                DaysSinceEpoch = _schema.CountDaysSinceEpoch(year, dayOfYear),
+                DateParts = _partsFactory.GetDateParts(year, dayOfYear),
+                OrdinalParts = new OrdinalParts(year, dayOfYear),
             };
         }
 
@@ -216,18 +210,16 @@ namespace Zorglub.Time.Core
         /// Sets the end of the segment to the specified ordinal date.
         /// </summary>
         /// <exception cref="AoorException">The result is not representable by the system.</exception>
-        public void SetMaxOrdinal(OrdinalParts parts)
+        public void SetMaxOrdinal(int year, int dayOfYear)
         {
-            var (y, doy) = parts;
-
-            if (SupportedYears.Contains(y) == false) Throw.YearOutOfRange(y, nameof(parts));
-            PreValidator.ValidateDayOfYear(y, doy, nameof(parts));
+            if (SupportedYears.Contains(year) == false) Throw.YearOutOfRange(year);
+            PreValidator.ValidateDayOfYear(year, dayOfYear);
 
             End = new Endpoint
             {
-                DaysSinceEpoch = _schema.CountDaysSinceEpoch(y, doy),
-                DateParts = _partsFactory.GetDateParts(y, doy),
-                OrdinalParts = parts,
+                DaysSinceEpoch = _schema.CountDaysSinceEpoch(year, dayOfYear),
+                DateParts = _partsFactory.GetDateParts(year, dayOfYear),
+                OrdinalParts = new OrdinalParts(year, dayOfYear),
             };
         }
 

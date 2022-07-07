@@ -5,6 +5,7 @@ namespace Zorglub.Time.Hemerology.Scopes
 {
     using Zorglub.Time;
     using Zorglub.Time.Core;
+    using Zorglub.Time.Core.Intervals;
 
     /// <summary>
     /// Represents the scope of a schema with dates within a given range of years.
@@ -19,7 +20,11 @@ namespace Zorglub.Time.Hemerology.Scopes
         /// <exception cref="AoorException"><paramref name="minYear"/> or <paramref name="maxYear"/>
         /// is outside the range of supported years by <paramref name="schema"/>.</exception>
         public MinMaxYearScope(ICalendricalSchema schema, DayNumber epoch, int minYear, int maxYear)
-            : base(schema, epoch, CalendricalSegment.Create(schema, minYear, maxYear)) { }
+            : base(
+                  schema,
+                  epoch,
+                  CalendricalSegment.Create(schema, Range.Create(minYear, maxYear)))
+        { }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MinMaxYearScope"/> class.

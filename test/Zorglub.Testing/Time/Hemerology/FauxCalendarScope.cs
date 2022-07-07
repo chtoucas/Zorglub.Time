@@ -3,6 +3,7 @@
 
 namespace Zorglub.Time.Hemerology;
 
+using Zorglub.Time.Core.Intervals;
 using Zorglub.Time.Hemerology.Scopes;
 
 public sealed class FauxCalendarScope : CalendarScope
@@ -11,7 +12,7 @@ public sealed class FauxCalendarScope : CalendarScope
         : this(schema, default, minYear, maxYear) { }
 
     public FauxCalendarScope(ICalendricalSchema schema, DayNumber epoch, int minYear, int maxYear)
-        : base(schema, epoch, CalendricalSegment.Create(schema, minYear, maxYear)) { }
+        : base(schema, epoch, CalendricalSegment.Create(schema, Range.Create(minYear, maxYear))) { }
 
     public override void ValidateYearMonth(int year, int month, string? paramName = null) => throw new NotSupportedException();
     public override void ValidateYearMonthDay(int year, int month, int day, string? paramName = null) => throw new NotSupportedException();

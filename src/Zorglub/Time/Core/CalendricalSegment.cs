@@ -113,23 +113,6 @@ namespace Zorglub.Time.Core
         /// Creates a new instance of the <see cref="CalendricalSegment"/> class.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
-        /// <exception cref="AoorException"><paramref name="minYear"/> is outside range of supported
-        /// years by <paramref name="schema"/>.</exception>
-        /// <exception cref="AoorException"><paramref name="maxYear"/> is outside range of supported
-        /// years by <paramref name="schema"/>.</exception>
-        [Pure]
-        public static CalendricalSegment Create(ICalendricalSchema schema, int minYear, int maxYear)
-        {
-            var builder = new CalendricalSegmentBuilder(schema);
-            builder.SetMinYear(minYear);
-            builder.SetMinYear(maxYear);
-            return builder.BuildSegment();
-        }
-
-        /// <summary>
-        /// Creates a new instance of the <see cref="CalendricalSegment"/> class.
-        /// </summary>
-        /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
         /// <exception cref="AoorException"><paramref name="supportedYears"/> is NOT a subinterval
         /// of the range of supported years by <paramref name="schema"/>.</exception>
         [Pure]
@@ -149,17 +132,15 @@ namespace Zorglub.Time.Core
         /// <exception cref="AoorException"><paramref name="maxYear"/> is outside range of supported
         /// years by <paramref name="schema"/>.</exception>
         [Pure]
-        public static CalendricalSegment Create(
+        internal static CalendricalSegment Create(
             ICalendricalSchema schema,
             int year,
             int month,
             int day,
             int? maxYear)
         {
-            var minDate = new DateParts(year, month, day);
-
             var builder = new CalendricalSegmentBuilder(schema);
-            builder.SetMinDate(minDate);
+            builder.SetMinDate(year, month, day);
             if (maxYear.HasValue)
             {
                 builder.SetMaxYear(maxYear.Value);

@@ -9,6 +9,7 @@ namespace Zorglub.Time.Core
 
     /// <summary>
     /// Provides informations on a range of days for a given schema.
+    /// <para>Only <i>complete</i> ranges of years are supported by this type.</para>
     /// <para>This class cannot be inherited.</para>
     /// </summary>
     public sealed record SystemSegment

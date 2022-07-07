@@ -50,11 +50,11 @@ namespace Zorglub.Time.Extensions
         /// <exception cref="AoorException">The result is not representable by the system.</exception>
         [Pure]
         public static CalendricalSegmentBuilder WithMinDate(
-            this CalendricalSegmentBuilder @this, DateParts parts)
+            this CalendricalSegmentBuilder @this, int year, int month, int day)
         {
             Requires.NotNull(@this);
 
-            @this.SetMinDate(parts);
+            @this.SetMinDate(year, month, day);
             return @this;
         }
 
@@ -65,11 +65,11 @@ namespace Zorglub.Time.Extensions
         /// <exception cref="AoorException">The result is not representable by the system.</exception>
         [Pure]
         public static CalendricalSegmentBuilder WithMaxDate(
-            this CalendricalSegmentBuilder @this, DateParts parts)
+            this CalendricalSegmentBuilder @this, int year, int month, int day)
         {
             Requires.NotNull(@this);
 
-            @this.SetMaxDate(parts);
+            @this.SetMaxDate(year, month, day);
             return @this;
         }
 
@@ -80,11 +80,11 @@ namespace Zorglub.Time.Extensions
         /// <exception cref="AoorException">The result is not representable by the system.</exception>
         [Pure]
         public static CalendricalSegmentBuilder WithMinOrdinal(
-            this CalendricalSegmentBuilder @this, OrdinalParts parts)
+            this CalendricalSegmentBuilder @this, int year, int dayOfYear)
         {
             Requires.NotNull(@this);
 
-            @this.SetMinOrdinal(parts);
+            @this.SetMinOrdinal(year, dayOfYear);
             return @this;
         }
 
@@ -95,11 +95,11 @@ namespace Zorglub.Time.Extensions
         /// <exception cref="AoorException">The result is not representable by the system.</exception>
         [Pure]
         public static CalendricalSegmentBuilder WithMaxOrdinal(
-            this CalendricalSegmentBuilder @this, OrdinalParts parts)
+            this CalendricalSegmentBuilder @this, int year, int dayOfYear)
         {
             Requires.NotNull(@this);
 
-            @this.SetMaxOrdinal(parts);
+            @this.SetMaxOrdinal(year, dayOfYear);
             return @this;
         }
 
