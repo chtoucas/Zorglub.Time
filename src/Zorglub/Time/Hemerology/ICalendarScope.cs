@@ -12,7 +12,6 @@ namespace Zorglub.Time.Hemerology
     // ---------------------------------
     //
     // ICalendarScope
-    // ├─ MaximalScope
     // ├─ ProlepticScope
     // ├─ StandardScope
     // └─ CalendarScope [A]
@@ -23,14 +22,11 @@ namespace Zorglub.Time.Hemerology
     //
     // Range of Supported Years
     // ------------------------
-    // Only BoundedBelowScope supports ranges that do not map to an interval of
-    // years.
     //
-    // - ProlepticScope         [-9998..9999]
-    // - StandardScope          [1..9999]
-    // - CalendarScope
-    //   - MinMaxYearScope      [minYear..maxYear]
-    //   - BoundedBelowScope    [minDate..maxYear]
+    // - ProlepticScope     [-9998..9999]
+    // - StandardScope      [1..9999]
+    // - MinMaxYearScope    [minYear..maxYear]
+    // - BoundedBelowScope  [minDate.Year..maxYear], the first year is not complete
 
     #endregion
 

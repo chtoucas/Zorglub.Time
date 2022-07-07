@@ -21,13 +21,6 @@ open Xunit
 let private epoch = DayZero.OldStyle
 
 module Prelude =
-    let badLunarProfile = FauxCalendricalSchema.NotLunar
-    let badLunisolarProfile = FauxCalendricalSchema.NotLunisolar
-    let badSolar12Profile = FauxCalendricalSchema.NotSolar12
-    let badSolar13Profile = FauxCalendricalSchema.NotSolar13
-
-    // We repeat some tests found in ShortScopeTests using a faux.
-
     [<Fact>]
     let ``Constructor throws when "schema" is null`` () =
         nullExn "schema" (fun () -> new ProlepticScope(null, epoch))
@@ -45,6 +38,12 @@ module Prelude =
         let sch = new FauxCalendricalSchema(range)
 
         argExn "schema" (fun () -> new ProlepticScope(sch, epoch))
+
+    [<Fact>]
+    let ``Constructor throws for PaxSchema`` () =
+        let sch = SchemaActivator.CreateInstance<PaxSchema>()
+
+        argExn "schema" (fun () -> new ProlepticScope(sch, epoch)) // PaxSchema.MinYear = 1 > -9999.
 
     [<Fact>]
     let ``Property Epoch`` () =

@@ -13,7 +13,6 @@ open Zorglub.Time.Core.Schemas
 open Zorglub.Time.Hemerology.Scopes
 
 // TODO(code): Hebrew (unfinished, no data) and lunisolar (fake) schemas.
-// Add test for ProlepticScope.Create().
 
 // Returns a StandardScope.
 let private scopeOf<'a when 'a :> CalendricalSchema and 'a :> IBoxable<'a>> () =
