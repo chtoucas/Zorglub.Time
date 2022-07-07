@@ -26,7 +26,7 @@ internal sealed class CalendarContext
         Epoch = epoch;
         Scope = scope ?? throw new ArgumentNullException(nameof(scope));
 
-        PartsFactory = ICalendricalPartsFactoryV2.Create(schema);
+        PartsFactory = ICalendricalPartsFactory2.Create(schema);
         PartsCreator = new PartsCreator(scope);
         Arithmetic = schema.Arithmetic.WithSupportedYears(scope.SupportedYears);
     }
@@ -70,7 +70,7 @@ internal sealed class SchemaContext
     {
         Schema = schema ?? throw new ArgumentNullException(nameof(schema));
 
-        PartsFactory = ICalendricalPartsFactoryV2.Create(schema);
+        PartsFactory = ICalendricalPartsFactory2.Create(schema);
         PartsCreator = PartsCreator.Create(schema);
         Arithmetic = schema.Arithmetic;
     }

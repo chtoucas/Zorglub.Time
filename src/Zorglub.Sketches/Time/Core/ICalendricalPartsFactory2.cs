@@ -5,7 +5,7 @@ namespace Zorglub.Time.Core
 {
     using System;
 
-    public interface ICalendricalPartsFactoryV2
+    public interface ICalendricalPartsFactory2
     {
         /// <summary>
         /// Creates a new <see cref="ICalendricalPartsFactory"/> instance.
