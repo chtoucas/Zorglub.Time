@@ -808,13 +808,13 @@ Zorglub.Time.Core.CalendricalSegmentBuilder.CalendricalSegmentBuilder(Zorglub.Ti
 Zorglub.Time.Core.CalendricalSegmentBuilder.HasEnd.get -> bool
 Zorglub.Time.Core.CalendricalSegmentBuilder.HasStart.get -> bool
 Zorglub.Time.Core.CalendricalSegmentBuilder.IsBuildable.get -> bool
-Zorglub.Time.Core.CalendricalSegmentBuilder.SetMaxDate(Zorglub.Time.DateParts parts) -> void
+Zorglub.Time.Core.CalendricalSegmentBuilder.SetMaxDate(int year, int month, int day) -> void
 Zorglub.Time.Core.CalendricalSegmentBuilder.SetMaxDaysSinceEpoch(int daysSinceEpoch) -> void
-Zorglub.Time.Core.CalendricalSegmentBuilder.SetMaxOrdinal(Zorglub.Time.OrdinalParts parts) -> void
+Zorglub.Time.Core.CalendricalSegmentBuilder.SetMaxOrdinal(int year, int dayOfYear) -> void
 Zorglub.Time.Core.CalendricalSegmentBuilder.SetMaxYear(int year) -> void
-Zorglub.Time.Core.CalendricalSegmentBuilder.SetMinDate(Zorglub.Time.DateParts parts) -> void
+Zorglub.Time.Core.CalendricalSegmentBuilder.SetMinDate(int year, int month, int day) -> void
 Zorglub.Time.Core.CalendricalSegmentBuilder.SetMinDaysSinceEpoch(int daysSinceEpoch) -> void
-Zorglub.Time.Core.CalendricalSegmentBuilder.SetMinOrdinal(Zorglub.Time.OrdinalParts parts) -> void
+Zorglub.Time.Core.CalendricalSegmentBuilder.SetMinOrdinal(int year, int dayOfYear) -> void
 Zorglub.Time.Core.CalendricalSegmentBuilder.SetMinYear(int year) -> void
 Zorglub.Time.Core.CalendricalSegmentBuilder.UseMaxSupportedYear() -> void
 Zorglub.Time.Core.CalendricalSegmentBuilder.UseMinSupportedYear(bool onOrAfterEpoch) -> void
@@ -1058,7 +1058,6 @@ Zorglub.Time.Core.SystemSchema.GetOrdinalPartsAtEndOfMonth(int y, int m) -> Zorg
 Zorglub.Time.Core.SystemSchema.GetOrdinalPartsAtEndOfYear(int y) -> Zorglub.Time.Core.Yedoy
 Zorglub.Time.Core.SystemSchema.GetOrdinalPartsAtStartOfMonth(int y, int m) -> Zorglub.Time.Core.Yedoy
 Zorglub.Time.Core.SystemSchema.GetOrdinalPartsAtStartOfYear(int y) -> Zorglub.Time.Core.Yedoy
-Zorglub.Time.Core.SystemSchema.Segment.get -> Zorglub.Time.Core.SystemSegment!
 Zorglub.Time.Core.SystemSchema.SupportedYearsCore.get -> Zorglub.Time.Core.Intervals.Range<int>
 Zorglub.Time.Core.SystemSegment
 Zorglub.Time.Core.SystemSegment.Domain.get -> Zorglub.Time.Core.Intervals.Range<int>
@@ -1221,6 +1220,7 @@ Zorglub.Time.Hemerology.ICalendar<TDate>.Today() -> TDate
 Zorglub.Time.Hemerology.ICalendarScope
 Zorglub.Time.Hemerology.ICalendarScope.Domain.get -> Zorglub.Time.Core.Intervals.Range<Zorglub.Time.DayNumber>
 Zorglub.Time.Hemerology.ICalendarScope.Epoch.get -> Zorglub.Time.DayNumber
+Zorglub.Time.Hemerology.ICalendarScope.Segment.get -> Zorglub.Time.Core.CalendricalSegment!
 Zorglub.Time.Hemerology.IDate
 Zorglub.Time.Hemerology.IDate<TSelf>
 Zorglub.Time.Hemerology.IDateable
@@ -1269,6 +1269,7 @@ Zorglub.Time.Hemerology.Scopes.ProlepticScope
 Zorglub.Time.Hemerology.Scopes.ProlepticScope.Domain.get -> Zorglub.Time.Core.Intervals.Range<Zorglub.Time.DayNumber>
 Zorglub.Time.Hemerology.Scopes.ProlepticScope.Epoch.get -> Zorglub.Time.DayNumber
 Zorglub.Time.Hemerology.Scopes.ProlepticScope.ProlepticScope(Zorglub.Time.Core.ICalendricalSchema! schema, Zorglub.Time.DayNumber epoch) -> void
+Zorglub.Time.Hemerology.Scopes.ProlepticScope.Segment.get -> Zorglub.Time.Core.CalendricalSegment!
 Zorglub.Time.Hemerology.Scopes.ProlepticScope.SupportedYears.get -> Zorglub.Time.Core.Intervals.Range<int>
 Zorglub.Time.Hemerology.Scopes.ProlepticScope.ValidateOrdinal(int year, int dayOfYear, string? paramName = null) -> void
 Zorglub.Time.Hemerology.Scopes.ProlepticScope.ValidateYear(int year, string? paramName = null) -> void
@@ -1277,6 +1278,7 @@ Zorglub.Time.Hemerology.Scopes.ProlepticScope.ValidateYearMonthDay(int year, int
 Zorglub.Time.Hemerology.Scopes.StandardScope
 Zorglub.Time.Hemerology.Scopes.StandardScope.Domain.get -> Zorglub.Time.Core.Intervals.Range<Zorglub.Time.DayNumber>
 Zorglub.Time.Hemerology.Scopes.StandardScope.Epoch.get -> Zorglub.Time.DayNumber
+Zorglub.Time.Hemerology.Scopes.StandardScope.Segment.get -> Zorglub.Time.Core.CalendricalSegment!
 Zorglub.Time.Hemerology.Scopes.StandardScope.StandardScope(Zorglub.Time.Core.ICalendricalSchema! schema, Zorglub.Time.DayNumber epoch) -> void
 Zorglub.Time.Hemerology.Scopes.StandardScope.SupportedYears.get -> Zorglub.Time.Core.Intervals.Range<int>
 Zorglub.Time.Hemerology.Scopes.StandardScope.ValidateOrdinal(int year, int dayOfYear, string? paramName = null) -> void
