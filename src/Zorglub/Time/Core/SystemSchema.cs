@@ -153,10 +153,9 @@ namespace Zorglub.Time.Core
 
         private SystemArithmetic? _arithmetic;
         /// <summary>
-        /// Gets or initializes the arithmetic for this schema.
+        /// Gets the arithmetic for this schema.
         /// </summary>
-        public SystemArithmetic Arithmetic =>
-            _arithmetic ??= SystemArithmetic.CreateDefault(this);
+        public SystemArithmetic Arithmetic => _arithmetic ??= SystemArithmetic.CreateDefault(this);
     }
 
     public partial class SystemSchema // ICalendricalPartsFactory (1)
