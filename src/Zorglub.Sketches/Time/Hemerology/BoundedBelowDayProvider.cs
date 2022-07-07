@@ -37,8 +37,9 @@ namespace Zorglub.Time.Hemerology
 
             MinYear = scope.SupportedYears.Min;
 
-            MinDateParts = scope.MinMaxDateParts.LowerValue;
-            MinOrdinalParts = scope.MinMaxOrdinalParts.LowerValue;
+            var seg = scope.Segment;
+            MinDateParts = seg.MinMaxDateParts.LowerValue;
+            MinOrdinalParts = seg.MinMaxOrdinalParts.LowerValue;
         }
 
         /// <summary>

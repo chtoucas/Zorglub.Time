@@ -5,6 +5,7 @@ namespace Zorglub.Time.Core
 {
     /// <summary>
     /// Defines helpers to check for overflows of a range.
+    /// <para>We use this interface for ranges with constant endpoints.</para>
     /// </summary>
     /// <typeparam name="T">The type of value to check for overflows.</typeparam>
     internal interface IOverflowChecker<T>

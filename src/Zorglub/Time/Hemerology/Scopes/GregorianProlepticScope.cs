@@ -39,10 +39,10 @@ namespace Zorglub.Time.Hemerology.Scopes
         private static readonly int s_MaxDaysSinceEpoch = GregorianFormulae.GetEndOfYear(MaxYear);
 
         /// <summary>
-        /// Gets the range of supported <see cref="DayNumber"/> values (<i>Gregorian</i> calendar).
+        /// Gets the range of supported <see cref="DayNumber"/> values by the <i>Gregorian</i>
+        /// calendar.
         /// <para>This static propery is thread-safe.</para>
         /// </summary>
-        // WARNING: only for the Gregorian calendar, epoch = DayZero.NewStyle
         public static Range<DayNumber> DefaultDomain { get; } =
             Range.CreateLeniently(
                 DayZero.NewStyle + s_MinDaysSinceEpoch,
@@ -68,10 +68,7 @@ namespace Zorglub.Time.Hemerology.Scopes
         /// <exception cref="AoorException">The validation failed.</exception>
         public static void ValidateYear(int year, string? paramName = null)
         {
-            if (year < MinYear || year > MaxYear)
-            {
-                Throw.YearOutOfRange(year, paramName);
-            }
+            if (year < MinYear || year > MaxYear) Throw.YearOutOfRange(year, paramName);
         }
 
         /// <summary>
@@ -80,14 +77,8 @@ namespace Zorglub.Time.Hemerology.Scopes
         /// <exception cref="AoorException">The validation failed.</exception>
         public static void ValidateYearMonth(int year, int month, string? paramName = null)
         {
-            if (year < MinYear || year > MaxYear)
-            {
-                Throw.YearOutOfRange(year, paramName);
-            }
-            if (month < 1 || month > Solar12.MonthsInYear)
-            {
-                Throw.MonthOutOfRange(month, paramName);
-            }
+            if (year < MinYear || year > MaxYear) Throw.YearOutOfRange(year, paramName);
+            if (month < 1 || month > Solar12.MonthsInYear) Throw.MonthOutOfRange(month, paramName);
         }
 
         /// <summary>
@@ -96,14 +87,8 @@ namespace Zorglub.Time.Hemerology.Scopes
         /// <exception cref="AoorException">The validation failed.</exception>
         public static void ValidateYearMonthDay(int year, int month, int day, string? paramName = null)
         {
-            if (year < MinYear || year > MaxYear)
-            {
-                Throw.YearOutOfRange(year, paramName);
-            }
-            if (month < 1 || month > Solar12.MonthsInYear)
-            {
-                Throw.MonthOutOfRange(month, paramName);
-            }
+            if (year < MinYear || year > MaxYear) Throw.YearOutOfRange(year, paramName);
+            if (month < 1 || month > Solar12.MonthsInYear) Throw.MonthOutOfRange(month, paramName);
             if (day < 1
                 || (day > Solar.MinDaysInMonth
                     && day > GregorianFormulae.CountDaysInMonth(year, month)))
@@ -118,10 +103,7 @@ namespace Zorglub.Time.Hemerology.Scopes
         /// <exception cref="AoorException">The validation failed.</exception>
         public static void ValidateOrdinal(int year, int dayOfYear, string? paramName = null)
         {
-            if (year < MinYear || year > MaxYear)
-            {
-                Throw.YearOutOfRange(year, paramName);
-            }
+            if (year < MinYear || year > MaxYear) Throw.YearOutOfRange(year, paramName);
             if (dayOfYear < 1
                 || (dayOfYear > Solar.MinDaysInYear
                     && dayOfYear > GregorianFormulae.CountDaysInYear(year)))

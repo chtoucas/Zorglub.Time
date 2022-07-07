@@ -14,8 +14,6 @@ namespace Zorglub.Time.Hemerology.Scopes
     /// </summary>
     public abstract partial class CalendarScope : ICalendarScope
     {
-        private readonly CalendricalSegment _segment;
-
         /// <summary>
         /// Called from constructors in derived classes to initialize the
         /// <see cref="CalendarScope"/> class.
@@ -33,15 +31,10 @@ namespace Zorglub.Time.Hemerology.Scopes
             if (ReferenceEquals(segment.Schema, schema) == false) Throw.Argument(nameof(segment));
 
             Epoch = epoch;
-
             PreValidator = schema.PreValidator;
-
-            _segment = segment;
-
+            Segment = segment;
             SupportedYears = segment.SupportedYears;
-            (MinYear, MaxYear) = segment.SupportedYears.Endpoints;
-
-            Domain = segment.Domain.Fix(epoch);
+            Domain = segment.GetFixedDomain(epoch);
         }
 
         /// <inheritdoc />
@@ -54,24 +47,9 @@ namespace Zorglub.Time.Hemerology.Scopes
         public Range<int> SupportedYears { get; }
 
         /// <summary>
-        /// Gets the pair of earliest and latest supported date parts.
+        /// Gets the segment.
         /// </summary>
-        public OrderedPair<DateParts> MinMaxDateParts => _segment.MinMaxDateParts;
-
-        /// <summary>
-        /// Gets the pair of earliest and latest supported ordinal date parts.
-        /// </summary>
-        public OrderedPair<OrdinalParts> MinMaxOrdinalParts => _segment.MinMaxOrdinalParts;
-
-        /// <summary>
-        /// Gets the earliest supported year.
-        /// </summary>
-        protected int MinYear { get; }
-
-        /// <summary>
-        /// Gets the latest supported year.
-        /// </summary>
-        protected int MaxYear { get; }
+        public CalendricalSegment Segment { get; }
 
         /// <summary>
         /// Gets the pre-validator.
@@ -86,10 +64,7 @@ namespace Zorglub.Time.Hemerology.Scopes
         /// <inheritdoc />
         public void ValidateYear(int year, string? paramName = null)
         {
-            if (year < MinYear || year > MaxYear)
-            {
-                Throw.YearOutOfRange(year, paramName);
-            }
+            if (SupportedYears.Contains(year) == false) Throw.YearOutOfRange(year, paramName);
         }
 
         /// <inheritdoc />

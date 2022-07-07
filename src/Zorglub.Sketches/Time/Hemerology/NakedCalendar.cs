@@ -54,7 +54,7 @@ namespace Zorglub.Time.Hemerology
 
             Name = name ?? throw new ArgumentNullException(nameof(name));
 
-            MinMaxDateParts = scope.MinMaxDateParts;
+            MinMaxDateParts = scope.Segment.MinMaxDateParts;
             PartsFactory = new PartsFactory(schema);
         }
 

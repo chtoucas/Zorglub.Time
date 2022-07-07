@@ -105,11 +105,6 @@ namespace Zorglub.Time.Core.Intervals
         {
             return new Range<T>(endpoints);
         }
-
-        // TODO(api): better name, public?
-        [Pure]
-        internal static Range<DayNumber> Fix(this Range<int> @this, DayNumber epoch) =>
-            new(@this.Endpoints.Select(x => epoch + x));
     }
 
     public partial class Range // Range<int>

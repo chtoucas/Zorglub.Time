@@ -11,48 +11,26 @@ namespace Zorglub.Time.Hemerology
     // Types Implementing ICalendarScope
     // ---------------------------------
     //
-    // ### Public Hierarchy
-    //
     // ICalendarScope
+    // ├─ MaximalScope
+    // ├─ ProlepticScope
+    // ├─ StandardScope
     // └─ CalendarScope [A]
     //    ├─ BoundedBelowScope
     //    └─ MinMaxYearScope
     //
     // Annotation: [A] = abstract
     //
-    // ### Full Hierarchy
-    //
-    // ICalendarScope
-    // ├─ ProlepticScope [A]
-    // ├─ StandardScope [A]
-    // └─ CalendarScope [A]
-    //    ├─ BoundedBelowScope
-    //    └─ MinMaxYearScope
-    //
-    // Construction
-    // ------------
-    // Public ctors:
-    //   BoundedBelowScope.ctor(ICalendricalSchema)
-    //   MinMaxYearScope.ctor(ICalendricalSchema)
-    //   ProlepticScope.ctor(ICalendricalSchema)
-    //   StandardScope.ctor(ICalendricalSchema)
-
-    // Public factory methods:
-    //   MinMaxYearScope.WithMaxYear(ICalendricalSchema)
-    //   MinMaxYearScope.WithMinYear(ICalendricalSchema)
-    //
-    // Internal factory methods:
-    //   MinMaxYearScope.WithMaximalRange(ICalendricalSchema)
-    //
     // Range of Supported Years
     // ------------------------
-    // Only BoundedBelowScope supports ranges that do not map to complete years.
+    // Only BoundedBelowScope supports ranges that do not map to an interval of
+    // years.
     //
     // - ProlepticScope         [-9998..9999]
     // - StandardScope          [1..9999]
-    // - CalendarScope          Subintervals of [Yemoda.MinYear..Yemoda.MaxYear]
-    //   - MinMaxYearScope      [minYear..maxYear] ⋂ [Yemoda.MinYear..Yemoda.MaxYear]
-    //   - BoundedBelowScope    [minDate..maxYear] ⋂ [Yemoda.MinYear..Yemoda.MaxYear]
+    // - CalendarScope
+    //   - MinMaxYearScope      [minYear..maxYear]
+    //   - BoundedBelowScope    [minDate..maxYear]
 
     #endregion
 

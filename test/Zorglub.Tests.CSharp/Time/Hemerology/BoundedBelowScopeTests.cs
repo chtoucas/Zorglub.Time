@@ -51,7 +51,8 @@ public sealed partial class BoundedBelowScopeTests : CalendricalDataConsumer<Gre
         var (y, m, d, doy) = info;
         // Act
         var scope = new BoundedBelowScope(s_Schema, DayZero.NewStyle, y, m, d, 9999);
-        var minDate = scope.MinMaxDateParts.LowerValue;
+        var minDate = scope.Segment.MinMaxDateParts.LowerValue;
+        var minOrdinalDate = scope.Segment.MinMaxOrdinalParts.LowerValue;
         // Assert
         Assert.NotNull(scope);
         Assert.Equal(y, scope.SupportedYears.Min);
@@ -59,7 +60,7 @@ public sealed partial class BoundedBelowScopeTests : CalendricalDataConsumer<Gre
         Assert.Equal(m, minDate.Month);
         Assert.Equal(d, minDate.Day);
         Assert.Equal(9999, scope.SupportedYears.Max);
-        Assert.Equal(doy, scope.MinMaxOrdinalParts.LowerValue.DayOfYear);
+        Assert.Equal(doy, minOrdinalDate.DayOfYear);
     }
 
     [Fact]

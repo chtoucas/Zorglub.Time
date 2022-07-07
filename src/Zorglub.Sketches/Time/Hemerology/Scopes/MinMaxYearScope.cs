@@ -5,7 +5,6 @@ namespace Zorglub.Time.Hemerology.Scopes
 {
     using Zorglub.Time;
     using Zorglub.Time.Core;
-    using Zorglub.Time.Core.Intervals;
 
     /// <summary>
     /// Represents the scope of a schema with dates within a given range of years.
@@ -18,10 +17,9 @@ namespace Zorglub.Time.Hemerology.Scopes
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
         /// <exception cref="AoorException"><paramref name="minYear"/> or <paramref name="maxYear"/>
-        /// is outside the range of supported years by <paramref name="schema"/> or
-        /// <see cref="Yemoda"/>.</exception>
+        /// is outside the range of supported years by <paramref name="schema"/>.</exception>
         public MinMaxYearScope(ICalendricalSchema schema, DayNumber epoch, int minYear, int maxYear)
-            : base(schema, epoch, GetSegment(schema, minYear, maxYear)) { }
+            : base(schema, epoch, CalendricalSegment.Create(schema, minYear, maxYear)) { }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MinMaxYearScope"/> class.
@@ -30,35 +28,10 @@ namespace Zorglub.Time.Hemerology.Scopes
         private MinMaxYearScope(ICalendricalSchema schema, DayNumber epoch, CalendricalSegment segment)
             : base(schema, epoch, segment) { }
 
-        /// <summary>
-        /// Creates a new instance of the <see cref="CalendricalSegment"/> class.
-        /// </summary>
-        /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
-        /// <exception cref="ArgumentException">The range of years supported by
-        /// <paramref name="schema"/> is a strict superset of
-        /// <see cref="Yemoda.SupportedYears"/>.</exception>
-        // Internal for testing.
-        internal static CalendricalSegment GetSegment(
-            ICalendricalSchema schema, int minYear, int maxYear)
-        {
-            var builder = new CalendricalSegmentBuilder(schema);
-            builder.SetMinYear(minYear);
-            builder.SetMaxYear(maxYear);
-            return builder.BuildSegment();
-        }
-
-        /// <summary>
-        /// Gets the checker for overflows of the range of years.
-        /// </summary>
-        internal IOverflowChecker<int> YearOverflowChecker =>
-            new YearOverflowChecker_(SupportedYears);
-
         #region Factories
 
         /// <summary>
         /// Creates the default maximal scope for the specified schema and epoch.
-        /// <para>A maximal scope only supports years within <see cref="Yemoda.SupportedYears"/>,
-        /// even if the schema accepts a wider range of years.</para>
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
         [Pure]
@@ -113,44 +86,22 @@ namespace Zorglub.Time.Hemerology.Scopes
         /// <inheritdoc />
         public sealed override void ValidateYearMonth(int year, int month, string? paramName = null)
         {
-            if (year < MinYear || year > MaxYear) Throw.YearOutOfRange(year, paramName);
+            if (SupportedYears.Contains(year) == false) Throw.YearOutOfRange(year, paramName);
             PreValidator.ValidateMonth(year, month, paramName);
         }
 
         /// <inheritdoc />
         public sealed override void ValidateYearMonthDay(int year, int month, int day, string? paramName = null)
         {
-            if (year < MinYear || year > MaxYear) Throw.YearOutOfRange(year, paramName);
+            if (SupportedYears.Contains(year) == false) Throw.YearOutOfRange(year, paramName);
             PreValidator.ValidateMonthDay(year, month, day, paramName);
         }
 
         /// <inheritdoc />
         public sealed override void ValidateOrdinal(int year, int dayOfYear, string? paramName = null)
         {
-            if (year < MinYear || year > MaxYear) Throw.YearOutOfRange(year, paramName);
+            if (SupportedYears.Contains(year) == false) Throw.YearOutOfRange(year, paramName);
             PreValidator.ValidateDayOfYear(year, dayOfYear, paramName);
-        }
-
-        private sealed class YearOverflowChecker_ : IOverflowChecker<int>
-        {
-            private readonly Range<int> _range;
-
-            public YearOverflowChecker_(Range<int> range) { _range = range; }
-
-            public void Check(int value)
-            {
-                if (value < _range.Min || value > _range.Max) Throw.DateOverflow();
-            }
-
-            public void CheckUpperBound(int value)
-            {
-                if (value > _range.Max) Throw.DateOverflow();
-            }
-
-            public void CheckLowerBound(int value)
-            {
-                if (value < _range.Min) Throw.DateOverflow();
-            }
         }
     }
 }

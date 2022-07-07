@@ -59,7 +59,7 @@ namespace Zorglub.Time.Hemerology
             Id = id;
             IsUserDefined = userDefined;
 
-            var scope = new MaximalScope(schema, epoch, onOrAfterEpoch: !widest);
+            var scope = MinMaxYearScope.WithMaximalRange(schema, epoch, onOrAfterEpoch: !widest);
 
             Scope = scope;
             Epoch = scope.Epoch;

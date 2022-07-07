@@ -5,15 +5,15 @@ namespace Zorglub.Time.Hemerology.Scopes
 {
     using Zorglub.Time.Core;
     using Zorglub.Time.Core.Intervals;
-    using Zorglub.Time.Core.Schemas;
 
     /// <summary>
     /// Represents the standard short scope of a schema.
     /// <para>A standard scope supports dates within the interval [1..9999] of years.</para>
+    /// <para>This class cannot be inherited.</para>
     /// </summary>
     /// <remarks>
-    /// <para>This is the scope used by <see cref="Simple.Calendar"/>, except in the Gregorian
-    /// and Julian cases.</para>
+    /// <para>This is the scope used by <see cref="Simple.Calendar"/>, except in the Gregorian and
+    /// Julian cases.</para>
     /// </remarks>
     public sealed class StandardScope : ICalendarScope
     {
@@ -28,6 +28,12 @@ namespace Zorglub.Time.Hemerology.Scopes
         /// <para>This field is a constant equal to 9999.</para>
         /// </summary>
         public const int MaxYear = 9999;
+
+        /// <summary>
+        /// Represents the range of supported years.
+        /// <para>This field is read-only.</para>
+        /// </summary>
+        private static readonly Range<int> s_SupportedYears = Range.CreateLeniently(MinYear, MaxYear);
 
         /// <summary>
         /// Represents the pre-validator.
@@ -45,24 +51,14 @@ namespace Zorglub.Time.Hemerology.Scopes
         public StandardScope(ICalendricalSchema schema, DayNumber epoch)
         {
             Requires.NotNull(schema);
+            if (s_SupportedYears.IsSubsetOf(schema.SupportedYears) == false) Throw.Argument(nameof(schema));
 
-            // NB: don't write
-            // > if (minYear < schema.SupportedYears.Min) Throw.ArgumentOutOfRange(nameof(minYear));
-            // > if (schema.SupportedYears.Max < MaxYear) Throw.Argument(nameof(schema));
-            // This class is internal and the derived classes have a fixed min year,
-            // which means that the culprit will be the schema not the specified minYear.
-            var range = Range.Create(MinYear, MaxYear);
-            if (range.IsSubsetOf(schema.SupportedYears) == false) Throw.Argument(nameof(schema));
-
+            Schema = schema;
             Epoch = epoch;
             _preValidator = schema.PreValidator;
 
-            SupportedYears = Range.CreateLeniently(MinYear, MaxYear);
-
-            var minDaysSinceEpoch = schema.GetStartOfYear(MinYear);
-            var maxDaysSinceEpoch = schema.GetEndOfYear(MaxYear);
-
-            Domain = Range.CreateLeniently(epoch + minDaysSinceEpoch, epoch + maxDaysSinceEpoch);
+            var seg = CalendricalSegment.Create(schema, s_SupportedYears);
+            Domain = seg.GetFixedDomain(epoch);
         }
 
         /// <inheritdoc />
@@ -72,7 +68,12 @@ namespace Zorglub.Time.Hemerology.Scopes
         public Range<DayNumber> Domain { get; }
 
         /// <inheritdoc />
-        public Range<int> SupportedYears { get; }
+        public Range<int> SupportedYears => s_SupportedYears;
+
+        /// <summary>
+        /// Gets the underlying schema.
+        /// </summary>
+        internal ICalendricalSchema Schema { get; }
 
         /// <summary>
         /// Gets the checker for overflows of the range of years.
@@ -82,39 +83,27 @@ namespace Zorglub.Time.Hemerology.Scopes
         /// <inheritdoc />
         public void ValidateYear(int year, string? paramName = null)
         {
-            if (year < MinYear || year > MaxYear)
-            {
-                Throw.YearOutOfRange(year, paramName);
-            }
+            if (year < MinYear || year > MaxYear) Throw.YearOutOfRange(year, paramName);
         }
 
         /// <inheritdoc />
         public void ValidateYearMonth(int year, int month, string? paramName = null)
         {
-            if (year < MinYear || year > MaxYear)
-            {
-                Throw.YearOutOfRange(year, paramName);
-            }
+            if (year < MinYear || year > MaxYear) Throw.YearOutOfRange(year, paramName);
             _preValidator.ValidateMonth(year, month, paramName);
         }
 
         /// <inheritdoc />
         public void ValidateYearMonthDay(int year, int month, int day, string? paramName = null)
         {
-            if (year < MinYear || year > MaxYear)
-            {
-                Throw.YearOutOfRange(year, paramName);
-            }
+            if (year < MinYear || year > MaxYear) Throw.YearOutOfRange(year, paramName);
             _preValidator.ValidateMonthDay(year, month, day, paramName);
         }
 
         /// <inheritdoc />
         public void ValidateOrdinal(int year, int dayOfYear, string? paramName = null)
         {
-            if (year < MinYear || year > MaxYear)
-            {
-                Throw.YearOutOfRange(year, paramName);
-            }
+            if (year < MinYear || year > MaxYear) Throw.YearOutOfRange(year, paramName);
             _preValidator.ValidateDayOfYear(year, dayOfYear, paramName);
         }
 
