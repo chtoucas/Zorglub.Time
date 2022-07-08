@@ -355,7 +355,7 @@ public readonly record struct MonthPartsPairAnd<T>(MonthParts First, MonthParts 
     }
 }
 
-#pragma warning restore CA2225 // Operator overloads have named alternates
+#pragma warning restore CA2225
 #endregion
 #region Math models
 
