@@ -283,6 +283,80 @@ public readonly record struct YemoPair(Yemo First, Yemo Second);
 public readonly record struct YemoPairAnd<T>(Yemo First, Yemo Second, T Value) where T : struct;
 
 #endregion
+#region
+#pragma warning disable CA2225 // Operator overloads have named alternates
+
+public readonly record struct DatePartsPair(DateParts First, DateParts Second)
+{
+    public static explicit operator DatePartsPair(YemodaPair pair)
+    {
+        var (y, m, d) = pair.First;
+        var first = new DateParts(y, m, d);
+        (y, m, d) = pair.Second;
+        var second = new DateParts(y, m, d);
+        return new DatePartsPair(first, second);
+    }
+}
+public readonly record struct DatePartsPairAnd<T>(DateParts First, DateParts Second, T Value) where T : struct
+{
+    public static explicit operator DatePartsPairAnd<T>(YemodaPairAnd<T> pair)
+    {
+        var (y, m, d) = pair.First;
+        var first = new DateParts(y, m, d);
+        (y, m, d) = pair.Second;
+        var second = new DateParts(y, m, d);
+        return new DatePartsPairAnd<T>(first, second, pair.Value);
+    }
+}
+
+public readonly record struct OrdinalPartsPair(OrdinalParts First, OrdinalParts Second)
+{
+    public static explicit operator OrdinalPartsPair(YedoyPair pair)
+    {
+        var (y, doy) = pair.First;
+        var first = new OrdinalParts(y, doy);
+        (y, doy) = pair.Second;
+        var second = new OrdinalParts(y, doy);
+        return new OrdinalPartsPair(first, second);
+    }
+}
+public readonly record struct OrdinalPartsPairAnd<T>(OrdinalParts First, OrdinalParts Second, T Value) where T : struct
+{
+    public static explicit operator OrdinalPartsPairAnd<T>(YedoyPairAnd<T> pair)
+    {
+        var (y, doy) = pair.First;
+        var first = new OrdinalParts(y, doy);
+        (y, doy) = pair.Second;
+        var second = new OrdinalParts(y, doy);
+        return new OrdinalPartsPairAnd<T>(first, second, pair.Value);
+    }
+}
+
+public readonly record struct MonthPartsPair(MonthParts First, MonthParts Second)
+{
+    public static explicit operator MonthPartsPair(YemoPair pair)
+    {
+        var (y, m) = pair.First;
+        var first = new MonthParts(y, m);
+        (y, m) = pair.Second;
+        var second = new MonthParts(y, m);
+        return new MonthPartsPair(first, second);
+    }
+}
+public readonly record struct MonthPartsPairAnd<T>(MonthParts First, MonthParts Second, T Value) where T : struct
+{
+    public static explicit operator MonthPartsPairAnd<T>(YemoPairAnd<T> pair)
+    {
+        var (y, m) = pair.First;
+        var first = new MonthParts(y, m);
+        (y, m) = pair.Second;
+        var second = new MonthParts(y, m);
+        return new MonthPartsPairAnd<T>(first, second, pair.Value);
+    }
+}
+
+#pragma warning restore CA2225 // Operator overloads have named alternates
+#endregion
 #region Math models
 
 // Too big to be a struct (20 bytes).

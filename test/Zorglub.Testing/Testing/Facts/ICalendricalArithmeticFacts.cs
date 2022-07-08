@@ -5,24 +5,27 @@ namespace Zorglub.Testing.Facts;
 
 using Zorglub.Testing.Data;
 
-public abstract partial class ICalendricalArithmeticFacts<TArithmetic, TDataSet> :
+// Sync with SystemArithmeticFacts.
+
+public partial class ICalendricalArithmeticFacts<TDataSet> :
     CalendricalDataConsumer<TDataSet>
-    where TArithmetic : ICalendricalArithmetic
     where TDataSet : ICalendricalDataSet, ISingleton<TDataSet>
 {
-    protected ICalendricalArithmeticFacts(TArithmetic arithmetic)
+    public ICalendricalArithmeticFacts(ICalendricalArithmetic arithmetic)
     {
         ArithmeticUT = arithmetic ?? throw new ArgumentNullException(nameof(arithmetic));
     }
 
-    protected TArithmetic ArithmeticUT { get; }
+    protected ICalendricalArithmetic ArithmeticUT { get; }
+    protected CalendricalSegment Segment => ArithmeticUT.Segment;
 }
 
-public partial class ICalendricalArithmeticFacts<TArithmetic, TDataSet> // Yemoda
+public partial class ICalendricalArithmeticFacts<TDataSet> // DateParts
 {
     [Theory, MemberData(nameof(AddDaysData))]
-    public void AddDays﹍Yemoda(YemodaPairAnd<int> pair)
+    public void AddDays﹍DateParts(YemodaPairAnd<int> p)
     {
+        var pair = (DatePartsPairAnd<int>)p;
         int days = pair.Value;
         var date = pair.First;
         var other = pair.Second;
@@ -34,8 +37,9 @@ public partial class ICalendricalArithmeticFacts<TArithmetic, TDataSet> // Yemod
     // NB: this test is not redundant, it is in fact necessary in order to cover
     // all branches of AddDaysViaDayOfMonth().
     [Theory, MemberData(nameof(ConsecutiveDaysData))]
-    public void AddDays﹍Yemoda_ViaConsecutiveDays(YemodaPair pair)
+    public void AddDays﹍DateParts_ViaConsecutiveDays(YemodaPair p)
     {
+        var pair = (DatePartsPair)p;
         var date = pair.First;
         var dateAfter = pair.Second;
         // Act & Assert
@@ -44,8 +48,9 @@ public partial class ICalendricalArithmeticFacts<TArithmetic, TDataSet> // Yemod
     }
 
     [Theory, MemberData(nameof(ConsecutiveDaysData))]
-    public void NexDay﹍Yemoda(YemodaPair pair)
+    public void NexDay﹍DateParts(YemodaPair p)
     {
+        var pair = (DatePartsPair)p;
         var date = pair.First;
         var dateAfter = pair.Second;
         // Act & Assert
@@ -53,8 +58,9 @@ public partial class ICalendricalArithmeticFacts<TArithmetic, TDataSet> // Yemod
     }
 
     [Theory, MemberData(nameof(ConsecutiveDaysData))]
-    public void PreviousDay﹍Yemoda(YemodaPair pair)
+    public void PreviousDay﹍DateParts(YemodaPair p)
     {
+        var pair = (DatePartsPair)p;
         var date = pair.First;
         var dateAfter = pair.Second;
         // Act & Assert
@@ -62,8 +68,9 @@ public partial class ICalendricalArithmeticFacts<TArithmetic, TDataSet> // Yemod
     }
 
     [Theory, MemberData(nameof(AddDaysData))]
-    public void CountDaysBetween﹍Yemoda(YemodaPairAnd<int> pair)
+    public void CountDaysBetween﹍DateParts(YemodaPairAnd<int> p)
     {
+        var pair = (DatePartsPairAnd<int>)p;
         int days = pair.Value;
         var date = pair.First;
         var other = pair.Second;
@@ -74,8 +81,9 @@ public partial class ICalendricalArithmeticFacts<TArithmetic, TDataSet> // Yemod
 
     [RedundantTest]
     [Theory, MemberData(nameof(ConsecutiveDaysData))]
-    public void CountDaysBetween﹍Yemoda_ViaConsecutiveDays(YemodaPair pair)
+    public void CountDaysBetween﹍DateParts_ViaConsecutiveDays(YemodaPair p)
     {
+        var pair = (DatePartsPair)p;
         var date = pair.First;
         var dateAfter = pair.Second;
         // Act & Assert
@@ -84,11 +92,12 @@ public partial class ICalendricalArithmeticFacts<TArithmetic, TDataSet> // Yemod
     }
 }
 
-public partial class ICalendricalArithmeticFacts<TArithmetic, TDataSet> // Yedoy
+public partial class ICalendricalArithmeticFacts<TDataSet> // OrdinalParts
 {
     [Theory, MemberData(nameof(AddDaysOrdinalData))]
-    public void AddDays﹍Yedoy(YedoyPairAnd<int> pair)
+    public void AddDays﹍OrdinalParts(YedoyPairAnd<int> p)
     {
+        var pair = (OrdinalPartsPairAnd<int>)p;
         int days = pair.Value;
         var date = pair.First;
         var other = pair.Second;
@@ -99,8 +108,9 @@ public partial class ICalendricalArithmeticFacts<TArithmetic, TDataSet> // Yedoy
 
     [RedundantTest]
     [Theory, MemberData(nameof(ConsecutiveDaysOrdinalData))]
-    public void AddDays﹍Yedoy_ViaConsecutiveDays(YedoyPair pair)
+    public void AddDays﹍OrdinalParts_ViaConsecutiveDays(YedoyPair p)
     {
+        var pair = (OrdinalPartsPair)p;
         var date = pair.First;
         var dateAfter = pair.Second;
         // Act & Assert
@@ -109,8 +119,9 @@ public partial class ICalendricalArithmeticFacts<TArithmetic, TDataSet> // Yedoy
     }
 
     [Theory, MemberData(nameof(ConsecutiveDaysOrdinalData))]
-    public void NexDay﹍Yedoy(YedoyPair pair)
+    public void NexDay﹍OrdinalParts(YedoyPair p)
     {
+        var pair = (OrdinalPartsPair)p;
         var date = pair.First;
         var dateAfter = pair.Second;
         // Act & Assert
@@ -118,8 +129,9 @@ public partial class ICalendricalArithmeticFacts<TArithmetic, TDataSet> // Yedoy
     }
 
     [Theory, MemberData(nameof(ConsecutiveDaysOrdinalData))]
-    public void PreviousDay﹍Yedoy(YedoyPair pair)
+    public void PreviousDay﹍OrdinalParts(YedoyPair p)
     {
+        var pair = (OrdinalPartsPair)p;
         var date = pair.First;
         var dateAfter = pair.Second;
         // Act & Assert
@@ -127,8 +139,9 @@ public partial class ICalendricalArithmeticFacts<TArithmetic, TDataSet> // Yedoy
     }
 
     [Theory, MemberData(nameof(AddDaysOrdinalData))]
-    public void CountDaysBetween﹍Yedoy(YedoyPairAnd<int> pair)
+    public void CountDaysBetween﹍OrdinalParts(YedoyPairAnd<int> p)
     {
+        var pair = (OrdinalPartsPairAnd<int>)p;
         int days = pair.Value;
         var date = pair.First;
         var other = pair.Second;
@@ -141,11 +154,12 @@ public partial class ICalendricalArithmeticFacts<TArithmetic, TDataSet> // Yedoy
     // (AddDaysOrdinalData) for the following schemas:
     // - LunarArithmetic
     // - LunisolarArithmetic
-    // See also AddDays﹍Yemoda_ViaConsecutiveDays().
+    // See also AddDays﹍DateParts_ViaConsecutiveDays().
     //[RedundantTest]
     [Theory, MemberData(nameof(ConsecutiveDaysOrdinalData))]
-    public void CountDaysBetween﹍Yedoy_ViaConsecutiveDays(YedoyPair pair)
+    public void CountDaysBetween﹍OrdinalParts_ViaConsecutiveDays(YedoyPair p)
     {
+        var pair = (OrdinalPartsPair)p;
         var date = pair.First;
         var dateAfter = pair.Second;
         // Act & Assert
@@ -154,14 +168,15 @@ public partial class ICalendricalArithmeticFacts<TArithmetic, TDataSet> // Yedoy
     }
 }
 
-public partial class ICalendricalArithmeticFacts<TArithmetic, TDataSet> // Yemo
+public partial class ICalendricalArithmeticFacts<TDataSet> // MonthParts
 {
     [Theory, MemberData(nameof(AddMonthsMonthData))]
-    public void AddMonths﹍CalendarMonth(YemoPairAnd<int> info)
+    public void AddMonths﹍MonthParts(YemoPairAnd<int> p)
     {
-        int ms = info.Value;
-        var month = info.First;
-        var other = info.Second;
+        var pair = (MonthPartsPairAnd<int>)p;
+        int ms = pair.Value;
+        var month = pair.First;
+        var other = pair.Second;
         // Act & Assert
         Assert.Equal(other, ArithmeticUT.AddMonths(month, ms));
         Assert.Equal(month, ArithmeticUT.AddMonths(other, -ms));
@@ -169,8 +184,9 @@ public partial class ICalendricalArithmeticFacts<TArithmetic, TDataSet> // Yemo
 
     [RedundantTest]
     [Theory, MemberData(nameof(ConsecutiveMonthsData))]
-    public void AddMonths﹍CalendarMonth_ViaConsecutiveMonths(YemoPair pair)
+    public void AddMonths﹍MonthParts_ViaConsecutiveMonths(YemoPair p)
     {
+        var pair = (MonthPartsPair)p;
         var month = pair.First;
         var monthAfter = pair.Second;
         // Act & Assert
@@ -179,8 +195,9 @@ public partial class ICalendricalArithmeticFacts<TArithmetic, TDataSet> // Yemo
     }
 
     [Theory, MemberData(nameof(ConsecutiveMonthsData))]
-    public void NextMonth﹍CalendarMonth(YemoPair pair)
+    public void NextMonth﹍MonthParts(YemoPair p)
     {
+        var pair = (MonthPartsPair)p;
         var month = pair.First;
         var monthAfter = pair.Second;
         // Act & Assert
@@ -188,8 +205,9 @@ public partial class ICalendricalArithmeticFacts<TArithmetic, TDataSet> // Yemo
     }
 
     [Theory, MemberData(nameof(ConsecutiveMonthsData))]
-    public void PreviousMonth﹍CalendarMonth(YemoPair pair)
+    public void PreviousMonth﹍MonthParts(YemoPair p)
     {
+        var pair = (MonthPartsPair)p;
         var month = pair.First;
         var monthAfter = pair.Second;
         // Act & Assert
@@ -197,11 +215,12 @@ public partial class ICalendricalArithmeticFacts<TArithmetic, TDataSet> // Yemo
     }
 
     [Theory, MemberData(nameof(AddMonthsMonthData))]
-    public void CountMonthsBetween﹍CalendarMonth(YemoPairAnd<int> info)
+    public void CountMonthsBetween﹍MonthParts(YemoPairAnd<int> p)
     {
-        int ms = info.Value;
-        var month = info.First;
-        var other = info.Second;
+        var pair = (MonthPartsPairAnd<int>)p;
+        int ms = pair.Value;
+        var month = pair.First;
+        var other = pair.Second;
         // Act & Assert
         Assert.Equal(ms, ArithmeticUT.CountMonthsBetween(month, other));
         Assert.Equal(-ms, ArithmeticUT.CountMonthsBetween(other, month));
@@ -209,12 +228,112 @@ public partial class ICalendricalArithmeticFacts<TArithmetic, TDataSet> // Yemo
 
     [RedundantTest]
     [Theory, MemberData(nameof(ConsecutiveMonthsData))]
-    public void CountMonthsBetween﹍CalendarMonth_ViaConsecutiveMonths(YemoPair pair)
+    public void CountMonthsBetween﹍MonthParts_ViaConsecutiveMonths(YemoPair p)
     {
+        var pair = (MonthPartsPair)p;
         var month = pair.First;
         var monthAfter = pair.Second;
         // Act & Assert
         Assert.Equal(1, ArithmeticUT.CountMonthsBetween(month, monthAfter));
         Assert.Equal(-1, ArithmeticUT.CountMonthsBetween(monthAfter, month));
     }
+}
+
+public partial class ICalendricalArithmeticFacts<TDataSet> // Overflows
+{
+    //
+    // DateParts
+    //
+
+    [Fact]
+    public void AddDays﹍DateParts_Overflows()
+    {
+        var (minDaysSinceEpoch, maxDaysSinceEpoch) = Segment.Domain.Endpoints;
+        var epoch = new DateParts(1, 1, 1);
+        // Act & Assert
+        Assert.Overflows(() => ArithmeticUT.AddDays(epoch, minDaysSinceEpoch - 1));
+        _ = ArithmeticUT.AddDays(epoch, minDaysSinceEpoch);
+        _ = ArithmeticUT.AddDays(epoch, maxDaysSinceEpoch);
+        Assert.Overflows(() => ArithmeticUT.AddDays(epoch, maxDaysSinceEpoch + 1));
+    }
+
+    [Fact]
+    public void AddDays﹍DateParts_Overflows_AtStartOfMinYear() =>
+        Assert.Overflows(() => ArithmeticUT.AddDays(Segment.MinMaxDateParts.LowerValue, -1));
+
+    [Fact]
+    public void AddDays﹍DateParts_Overflows_AtEndOfMaxYear() =>
+        Assert.Overflows(() => ArithmeticUT.AddDays(Segment.MinMaxDateParts.UpperValue, 1));
+
+    [Fact]
+    public void PreviousDay﹍DateParts_Overflows_AtStartOfMinYear() =>
+        Assert.Overflows(() => ArithmeticUT.PreviousDay(Segment.MinMaxDateParts.LowerValue));
+
+    [Fact]
+    public void NextDay﹍DateParts_Overflows_AtEndOfMaxYear() =>
+        Assert.Overflows(() => ArithmeticUT.NextDay(Segment.MinMaxDateParts.UpperValue));
+
+    //
+    // OrdinalParts
+    //
+
+    [Fact]
+    public void AddDays﹍OrdinalParts_Overflows()
+    {
+        var (minDaysSinceEpoch, maxDaysSinceEpoch) = Segment.Domain.Endpoints;
+        var epoch = new OrdinalParts(1, 1);
+        // Act & Assert
+        Assert.Overflows(() => ArithmeticUT.AddDays(epoch, minDaysSinceEpoch - 1));
+        _ = ArithmeticUT.AddDays(epoch, minDaysSinceEpoch);
+        _ = ArithmeticUT.AddDays(epoch, maxDaysSinceEpoch);
+        Assert.Overflows(() => ArithmeticUT.AddDays(epoch, maxDaysSinceEpoch + 1));
+    }
+
+    [Fact]
+    public void AddDays﹍OrdinalParts_Overflows_AtStartOfMinYear() =>
+        Assert.Overflows(() => ArithmeticUT.AddDays(Segment.MinMaxOrdinalParts.LowerValue, -1));
+
+    [Fact]
+    public void AddDays﹍OrdinalParts_Overflows_AtEndOfMaxYear() =>
+        Assert.Overflows(() => ArithmeticUT.AddDays(Segment.MinMaxOrdinalParts.UpperValue, 1));
+
+    [Fact]
+    public void PreviousDay﹍OrdinalParts_Overflows_AtStartOfMinYear() =>
+        Assert.Overflows(() => ArithmeticUT.PreviousDay(Segment.MinMaxOrdinalParts.LowerValue));
+
+    [Fact]
+    public void NextDay﹍OrdinalParts_Overflows_AtEndOfMaxYear() =>
+        Assert.Overflows(() => ArithmeticUT.NextDay(Segment.MinMaxOrdinalParts.UpperValue));
+
+    //
+    // MonthParts
+    //
+
+    [Fact]
+    public void AddMonths﹍MonthParts_Overflows()
+    {
+        var (minMonthsSinceEpoch, maxMonthsSinceEpoch) = Segment.MonthDomain.Endpoints;
+        var epoch = new MonthParts(1, 1);
+        // Act & Assert
+        Assert.Overflows(() => ArithmeticUT.AddMonths(epoch, minMonthsSinceEpoch - 1));
+        _ = ArithmeticUT.AddMonths(epoch, minMonthsSinceEpoch);
+        _ = ArithmeticUT.AddMonths(epoch, maxMonthsSinceEpoch);
+        Assert.Overflows(() => ArithmeticUT.AddMonths(epoch, maxMonthsSinceEpoch + 1));
+    }
+
+    [Fact]
+    public void AddMonths﹍MonthParts_Overflows_AtStartOfMinYear() =>
+        Assert.Overflows(() => ArithmeticUT.AddMonths(Segment.MinMaxMonthParts.LowerValue, -1));
+
+    [Fact]
+    public void AddMonths﹍MonthParts_Overflows_AtEndOfMaxYear() =>
+        Assert.Overflows(() => ArithmeticUT.AddMonths(Segment.MinMaxMonthParts.UpperValue, 1));
+
+    [Fact]
+    public void PreviousMonth﹍MonthParts_Overflows_AtStartOfMinYear() =>
+        Assert.Overflows(() => ArithmeticUT.PreviousMonth(Segment.MinMaxMonthParts.LowerValue));
+
+    [Fact]
+    public void NextMonth﹍MonthParts_Overflows_AtEndOfMaxYear() =>
+        Assert.Overflows(() => ArithmeticUT.NextMonth(Segment.MinMaxMonthParts.UpperValue));
 }

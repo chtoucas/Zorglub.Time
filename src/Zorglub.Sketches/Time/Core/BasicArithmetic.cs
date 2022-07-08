@@ -21,7 +21,7 @@ namespace Zorglub.Time.Core
         /// Represents the factory for calendrical parts.
         /// <para>This field is read-only.</para>
         /// </summary>
-        private readonly ICalendricalPartsFactory _partsFactory;
+        private readonly PartsFactory _partsFactory;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BasicArithmetic"/> class.
@@ -30,11 +30,15 @@ namespace Zorglub.Time.Core
         /// <exception cref="ArgumentException">The range of supported years by
         /// <paramref name="schema"/> and <see cref="Yemoda"/> are disjoint.
         /// </exception>
-        public BasicArithmetic(ICalendricalSchema schema)
+        public BasicArithmetic(ICalendricalSchema schema, CalendricalSegment segment)
         {
             _schema = schema ?? throw new ArgumentNullException(nameof(schema));
-            _partsFactory = ICalendricalPartsFactory2.Create(schema);
-            Segment = CalendricalSegment.CreateMaximal(schema);
+
+            Requires.NotNull(segment);
+            if (ReferenceEquals(segment.Schema, schema) == false) Throw.Argument(nameof(segment));
+            Segment = segment;
+
+            _partsFactory = new PartsFactory(schema);
         }
 
         /// <inheritdoc/>
@@ -51,15 +55,15 @@ namespace Zorglub.Time.Core
         private Range<int> MonthDomain => Segment.MonthDomain;
     }
 
-    public partial class BasicArithmetic // Operations on Yemoda
+    public partial class BasicArithmetic // Operations on DateParts
     {
         /// <inheritdoc />
         [Pure]
-        public Yemoda AddDays(Yemoda ymd, int days)
+        public DateParts AddDays(DateParts parts, int days)
         {
-            ymd.Unpack(out int y, out int m, out int d);
-
+            var (y, m, d) = parts;
             int daysSinceEpoch = checked(_schema.CountDaysSinceEpoch(y, m, d) + days);
+
             if (Domain.Contains(daysSinceEpoch) == false) Throw.DateOverflow();
 
             return _partsFactory.GetDateParts(daysSinceEpoch);
@@ -67,32 +71,32 @@ namespace Zorglub.Time.Core
 
         /// <inheritdoc />
         [Pure]
-        public Yemoda NextDay(Yemoda ymd) => AddDays(ymd, 1);
+        public DateParts NextDay(DateParts parts) => AddDays(parts, 1);
 
         /// <inheritdoc />
         [Pure]
-        public Yemoda PreviousDay(Yemoda ymd) => AddDays(ymd, -1);
+        public DateParts PreviousDay(DateParts parts) => AddDays(parts, -1);
 
         /// <inheritdoc />
         [Pure]
-        public int CountDaysBetween(Yemoda start, Yemoda end)
+        public int CountDaysBetween(DateParts start, DateParts end)
         {
-            start.Unpack(out int y0, out int m0, out int d0);
-            end.Unpack(out int y1, out int m1, out int d1);
+            var (y0, m0, d0) = start;
+            var (y1, m1, d1) = end;
 
             return _schema.CountDaysSinceEpoch(y1, m1, d1) - _schema.CountDaysSinceEpoch(y0, m0, d0);
         }
     }
 
-    public partial class BasicArithmetic // Operations on Yedoy
+    public partial class BasicArithmetic // Operations on OrdinalParts
     {
         /// <inheritdoc />
         [Pure]
-        public Yedoy AddDays(Yedoy ydoy, int days)
+        public OrdinalParts AddDays(OrdinalParts parts, int days)
         {
-            ydoy.Unpack(out int y, out int doy);
-
+            var (y, doy) = parts;
             int daysSinceEpoch = checked(_schema.CountDaysSinceEpoch(y, doy) + days);
+
             if (Domain.Contains(daysSinceEpoch) == false) Throw.DateOverflow();
 
             return _partsFactory.GetOrdinalParts(daysSinceEpoch);
@@ -100,32 +104,32 @@ namespace Zorglub.Time.Core
 
         /// <inheritdoc />
         [Pure]
-        public Yedoy NextDay(Yedoy ydoy) => AddDays(ydoy, 1);
+        public OrdinalParts NextDay(OrdinalParts parts) => AddDays(parts, 1);
 
         /// <inheritdoc />
         [Pure]
-        public Yedoy PreviousDay(Yedoy ydoy) => AddDays(ydoy, -1);
+        public OrdinalParts PreviousDay(OrdinalParts parts) => AddDays(parts, -1);
 
         /// <inheritdoc />
         [Pure]
-        public int CountDaysBetween(Yedoy start, Yedoy end)
+        public int CountDaysBetween(OrdinalParts start, OrdinalParts end)
         {
-            start.Unpack(out int y0, out int doy0);
-            end.Unpack(out int y1, out int doy1);
+            var (y0, doy0) = start;
+            var (y1, doy1) = end;
 
             return _schema.CountDaysSinceEpoch(y1, doy1) - _schema.CountDaysSinceEpoch(y0, doy0);
         }
     }
 
-    public partial class BasicArithmetic // Operations on Yemo
+    public partial class BasicArithmetic // Operations on MonthParts
     {
         /// <inheritdoc />
         [Pure]
-        public Yemo AddMonths(Yemo ym, int months)
+        public MonthParts AddMonths(MonthParts parts, int months)
         {
-            ym.Unpack(out int y, out int m);
-
+            var (y, m) = parts;
             int monthsSinceEpoch = checked(_schema.CountMonthsSinceEpoch(y, m) + months);
+
             if (MonthDomain.Contains(monthsSinceEpoch) == false) Throw.MonthOverflow();
 
             return _partsFactory.GetMonthParts(monthsSinceEpoch);
@@ -133,18 +137,18 @@ namespace Zorglub.Time.Core
 
         /// <inheritdoc />
         [Pure]
-        public Yemo NextMonth(Yemo ym) => AddMonths(ym, 1);
+        public MonthParts NextMonth(MonthParts parts) => AddMonths(parts, 1);
 
         /// <inheritdoc />
         [Pure]
-        public Yemo PreviousMonth(Yemo ym) => AddMonths(ym, -1);
+        public MonthParts PreviousMonth(MonthParts parts) => AddMonths(parts, -1);
 
         /// <inheritdoc />
         [Pure]
-        public int CountMonthsBetween(Yemo start, Yemo end)
+        public int CountMonthsBetween(MonthParts start, MonthParts end)
         {
-            start.Unpack(out int y0, out int m0);
-            end.Unpack(out int y1, out int m1);
+            var (y0, m0) = start;
+            var (y1, m1) = end;
 
             return _schema.CountMonthsSinceEpoch(y1, m1) - _schema.CountMonthsSinceEpoch(y0, m0);
         }

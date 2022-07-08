@@ -3,51 +3,6 @@
 
 namespace Zorglub.Time.Core
 {
-    // TODO(api): use DateParts & co, not Yemoda & co.
-
-    #region Developer Notes
-
-    // Types Implementing ICalendricalArithmetic
-    // -----------------------------------------
-    //
-    // ICalendricalArithmetic                                   PUBLIC
-    // ├─ BasicArithmetic               (ICalendricalSchema)    PUBLIC
-    // └─ ICalendricalArithmeticPlus
-    //    └─ CalendricalArithmetic [A]  (CalendricalSchema)
-    //       ├─ GregorianArithmetic     (GregorianSchema)
-    //       ├─ LunarArithmetic         (-)
-    //       ├─ LunisolarArithmetic     (-)
-    //       ├─ PlainArithmetic         (-)
-    //       ├─ RegularArithmetic       (-)
-    //       └─ SolarArithmetic [A]     (-)
-    //          ├─ Solar12Arithmetic    (-)
-    //          └─ Solar13Arithmetic    (-)
-    //
-    // Annotation: [A] = abstract
-    //
-    // Construction
-    // ------------
-    // Public:
-    //   ICalendricalSchema.Arithmetic
-    //   CalendricalArithmetic.CreateDefault(CalendricalSchema)
-    //
-    // Comments
-    // --------
-    // ICalendricalArithmetic is more naturally part of ICalendricalSchema but
-    // the code being the same for very different types of schemas, adding the
-    // members of this interface to ICalendricalSchema would lead to a lot of
-    // duplications. Therefore this is just an implementation detail and one
-    // should really use the public property ICalendricalSchema.Arithmetic.
-    //
-    // An implementation of ICalendricalArithmetic should follow the rules of
-    // ICalendricalSchema: no overflow, lenient methods, same range of years,
-    // etc.
-    //
-    // All methods assume that a Yemoda (Yemo, or Yedoy) input forms a valid
-    // object for the underlying schema.
-
-    #endregion
-
     /// <summary>
     /// Defines the standard calendrical arithmetic.
     /// </summary>
@@ -67,30 +22,30 @@ namespace Zorglub.Time.Core
         /// </summary>
         /// <exception cref="OverflowException">The operation would overflow the range of supported
         /// values.</exception>
-        [Pure] Yemoda AddDays(Yemoda ymd, int days);
+        [Pure] DateParts AddDays(DateParts parts, int days);
 
         /// <summary>
         /// Obtains the day after the specified date.
         /// </summary>
         /// <exception cref="OverflowException">The operation would overflow the range of supported
         /// values.</exception>
-        [Pure] Yemoda NextDay(Yemoda ymd);
+        [Pure] DateParts NextDay(DateParts parts);
 
         /// <summary>
         /// Obtains the day before the specified date.
         /// </summary>
         /// <exception cref="OverflowException">The operation would overflow the range of supported
         /// values.</exception>
-        [Pure] Yemoda PreviousDay(Yemoda ymd);
+        [Pure] DateParts PreviousDay(DateParts parts);
 
         /// <summary>
         /// Counts the number of days between the two specified dates.
         /// </summary>
         [SuppressMessage("Naming", "CA1716:Identifiers should not match keywords.", MessageId = "end", Justification = "F# & VB.NET End statement.")]
-        [Pure] int CountDaysBetween(Yemoda start, Yemoda end);
+        [Pure] int CountDaysBetween(DateParts start, DateParts end);
 
         //
-        // Operations on Yedoy
+        // Operations on OrdinalParts
         //
 
         /// <summary>
@@ -98,30 +53,30 @@ namespace Zorglub.Time.Core
         /// </summary>
         /// <exception cref="OverflowException">The operation would overflow the range of supported
         /// values.</exception>
-        [Pure] Yedoy AddDays(Yedoy ydoy, int days);
+        [Pure] OrdinalParts AddDays(OrdinalParts parts, int days);
 
         /// <summary>
         /// Obtains the day after the specified ordinal date.
         /// </summary>
         /// <exception cref="OverflowException">The operation would overflow the range of supported
         /// values.</exception>
-        [Pure] Yedoy NextDay(Yedoy ydoy);
+        [Pure] OrdinalParts NextDay(OrdinalParts parts);
 
         /// <summary>
         /// Obtains the day before the specified ordinal date.
         /// </summary>
         /// <exception cref="OverflowException">The operation would overflow the range of supported
         /// values.</exception>
-        [Pure] Yedoy PreviousDay(Yedoy ydoy);
+        [Pure] OrdinalParts PreviousDay(OrdinalParts parts);
 
         /// <summary>
         /// Counts the number of days between the two specified ordinal dates.
         /// </summary>
         [SuppressMessage("Naming", "CA1716:Identifiers should not match keywords.", MessageId = "end", Justification = "F# & VB.NET End statement.")]
-        [Pure] int CountDaysBetween(Yedoy start, Yedoy end);
+        [Pure] int CountDaysBetween(OrdinalParts start, OrdinalParts end);
 
         //
-        // Operations on Yemo
+        // Operations on MonthParts
         //
 
         /// <summary>
@@ -129,26 +84,26 @@ namespace Zorglub.Time.Core
         /// </summary>
         /// <exception cref="OverflowException">The operation would overflow the range of supported
         /// values.</exception>
-        [Pure] Yemo AddMonths(Yemo ym, int months);
+        [Pure] MonthParts AddMonths(MonthParts parts, int months);
 
         /// <summary>
         /// Obtains the month after the specified month.
         /// </summary>
         /// <exception cref="OverflowException">The operation would overflow the range of supported
         /// values.</exception>
-        [Pure] Yemo NextMonth(Yemo ym);
+        [Pure] MonthParts NextMonth(MonthParts parts);
 
         /// <summary>
         /// Obtains the month before the specified month.
         /// </summary>
         /// <exception cref="OverflowException">The operation would overflow the range of supported
         /// values.</exception>
-        [Pure] Yemo PreviousMonth(Yemo ym);
+        [Pure] MonthParts PreviousMonth(MonthParts parts);
 
         /// <summary>
         /// Counts the number of months between the two specified months.
         /// </summary>
         [SuppressMessage("Naming", "CA1716:Identifiers should not match keywords.", MessageId = "end", Justification = "F# & VB.NET End statement.")]
-        [Pure] int CountMonthsBetween(Yemo start, Yemo end);
+        [Pure] int CountMonthsBetween(MonthParts start, MonthParts end);
     }
 }
