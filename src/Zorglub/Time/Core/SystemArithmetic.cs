@@ -15,6 +15,46 @@ namespace Zorglub.Time.Core
     // instances. In particular, we make sure that none of them is used in
     // a wrong context, meaning in a place where a different schema is expected.
 
+    #region Developer Notes
+
+    // Types Derived from SystemArithmetic
+    // -----------------------------------
+    //
+    // SystemArithmetic [A]  (CalendricalSchema)
+    // ├─ GregorianArithmetic     (GregorianSchema)
+    // ├─ LunarArithmetic         (-)
+    // ├─ LunisolarArithmetic     (-)
+    // ├─ PlainArithmetic         (-)
+    // ├─ RegularArithmetic       (-)
+    // └─ SolarArithmetic [A]     (-)
+    //    ├─ Solar12Arithmetic    (-)
+    //    └─ Solar13Arithmetic    (-)
+    //
+    // Annotation: [A] = abstract
+    //
+    // Construction
+    // ------------
+    // Public:
+    //   SystemSchema.Arithmetic
+    //   SystemArithmetic.CreateDefault(CalendricalSchema)
+    //
+    // Comments
+    // --------
+    // SystemArithmetic is more naturally part of SystemSchema but
+    // the code being the same for very different types of schemas, adding the
+    // members of this interface to SystemSchema would lead to a lot of
+    // duplications. Therefore this is just an implementation detail and one
+    // should really use the public property ICalendricalSchema.Arithmetic.
+    //
+    // An implementation of SystemArithmetic should follow the rules of
+    // ICalendricalSchema: no overflow, lenient methods, same range of years,
+    // etc.
+    //
+    // All methods assume that a Yemoda (Yemo, or Yedoy) input forms a valid
+    // object for the underlying schema.
+
+    #endregion
+
     /// <summary>
     /// Defines the core mathematical operations on dates and months, and provides a base for derived
     /// classes.

@@ -35,7 +35,7 @@ module Prelude =
 
     [<Fact>]
     let ``Constructor throws for null schema`` () =
-        nullExn "schema" (fun () -> new BasicArithmetic(null))
+        //nullExn "schema" (fun () -> new BasicArithmetic(null))
         nullExn "schema" (fun () -> new PlainArithmetic(null))
         nullExn "schema" (fun () -> new RegularArithmetic(null))
         nullExn "schema" (fun () -> new LunarArithmetic(null))

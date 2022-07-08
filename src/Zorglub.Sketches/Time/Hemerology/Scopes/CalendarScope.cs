@@ -26,12 +26,13 @@ namespace Zorglub.Time.Hemerology.Scopes
             CalendricalSegment segment)
         {
             Schema = schema ?? throw new ArgumentNullException(nameof(schema));
+
             Requires.NotNull(segment);
             if (ReferenceEquals(segment.Schema, schema) == false) Throw.Argument(nameof(segment));
+            Segment = segment;
 
             Epoch = epoch;
             PreValidator = schema.PreValidator;
-            Segment = segment;
             SupportedYears = segment.SupportedYears;
             Domain = segment.GetFixedDomain(epoch);
         }

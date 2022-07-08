@@ -5,6 +5,8 @@ namespace Zorglub.Testing.Facts.Core;
 
 using Zorglub.Testing.Data;
 
+// Sync with ICalendricalArithmeticFacts.
+
 public abstract partial class SystemArithmeticFacts<TDataSet> :
     CalendricalDataConsumer<TDataSet>
     where TDataSet : ICalendricalDataSet, ISingleton<TDataSet>
@@ -167,11 +169,11 @@ public partial class SystemArithmeticFacts<TDataSet> // Yedoy
 public partial class SystemArithmeticFacts<TDataSet> // Yemo
 {
     [Theory, MemberData(nameof(AddMonthsMonthData))]
-    public void AddMonths﹍CalendarMonth(YemoPairAnd<int> info)
+    public void AddMonths﹍Yemo(YemoPairAnd<int> pair)
     {
-        int ms = info.Value;
-        var month = info.First;
-        var other = info.Second;
+        int ms = pair.Value;
+        var month = pair.First;
+        var other = pair.Second;
         // Act & Assert
         Assert.Equal(other, ArithmeticUT.AddMonths(month, ms));
         Assert.Equal(month, ArithmeticUT.AddMonths(other, -ms));
@@ -179,7 +181,7 @@ public partial class SystemArithmeticFacts<TDataSet> // Yemo
 
     [RedundantTest]
     [Theory, MemberData(nameof(ConsecutiveMonthsData))]
-    public void AddMonths﹍CalendarMonth_ViaConsecutiveMonths(YemoPair pair)
+    public void AddMonths﹍Yemo_ViaConsecutiveMonths(YemoPair pair)
     {
         var month = pair.First;
         var monthAfter = pair.Second;
@@ -189,7 +191,7 @@ public partial class SystemArithmeticFacts<TDataSet> // Yemo
     }
 
     [Theory, MemberData(nameof(ConsecutiveMonthsData))]
-    public void NextMonth﹍CalendarMonth(YemoPair pair)
+    public void NextMonth﹍Yemo(YemoPair pair)
     {
         var month = pair.First;
         var monthAfter = pair.Second;
@@ -198,7 +200,7 @@ public partial class SystemArithmeticFacts<TDataSet> // Yemo
     }
 
     [Theory, MemberData(nameof(ConsecutiveMonthsData))]
-    public void PreviousMonth﹍CalendarMonth(YemoPair pair)
+    public void PreviousMonth﹍Yemo(YemoPair pair)
     {
         var month = pair.First;
         var monthAfter = pair.Second;
@@ -207,11 +209,11 @@ public partial class SystemArithmeticFacts<TDataSet> // Yemo
     }
 
     [Theory, MemberData(nameof(AddMonthsMonthData))]
-    public void CountMonthsBetween﹍CalendarMonth(YemoPairAnd<int> info)
+    public void CountMonthsBetween﹍Yemo(YemoPairAnd<int> pair)
     {
-        int ms = info.Value;
-        var month = info.First;
-        var other = info.Second;
+        int ms = pair.Value;
+        var month = pair.First;
+        var other = pair.Second;
         // Act & Assert
         Assert.Equal(ms, ArithmeticUT.CountMonthsBetween(month, other));
         Assert.Equal(-ms, ArithmeticUT.CountMonthsBetween(other, month));
@@ -219,7 +221,7 @@ public partial class SystemArithmeticFacts<TDataSet> // Yemo
 
     [RedundantTest]
     [Theory, MemberData(nameof(ConsecutiveMonthsData))]
-    public void CountMonthsBetween﹍CalendarMonth_ViaConsecutiveMonths(YemoPair pair)
+    public void CountMonthsBetween﹍Yemo_ViaConsecutiveMonths(YemoPair pair)
     {
         var month = pair.First;
         var monthAfter = pair.Second;
