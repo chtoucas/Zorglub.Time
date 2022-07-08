@@ -29,16 +29,16 @@ public readonly partial record struct GregorianRecord :
     ISubtractionOperators<GregorianRecord, int, GregorianRecord>
 {
     private static readonly SchemaContext __ = SchemaContext.Create<GregorianSchema>();
+    private static readonly CalendricalSchema Schema = __.Schema;
+    private static readonly CalendricalSegment Segment = __.Segment;
 }
 
-public partial record struct GregorianRecord
+public readonly partial record struct GregorianRecord
 {
-    private static readonly CalendricalSchema Schema = __.Schema;
-    private static readonly ICalendricalPartsFactory PartsFactory = __.PartsFactory;
-    private static readonly PartsCreator PartsCreator = __.PartsCreator;
-    private static readonly SystemArithmetic Arithmetic = __.Arithmetic;
-    private static readonly ICalendricalPreValidator PreValidator = __.PreValidator;
-    private static readonly Range<int> Domain = __.Domain;
+    private static PartsFactory PartsFactory { get; } = new(Schema);
+    private static ICalendricalArithmetic Arithmetic { get; } = new BasicArithmetic(Schema, Segment);
+    private static ICalendricalPreValidator PreValidator => Schema.PreValidator;
+    private static Range<int> Domain => Segment.Domain;
 
     public GregorianRecord(int year, int month, int day)
     {
@@ -50,12 +50,12 @@ public partial record struct GregorianRecord
         Day = day;
     }
 
-    private GregorianRecord(Yemoda ymd)
+    private GregorianRecord(DateParts parts)
     {
-        (Year, Month, Day) = ymd;
+        (Year, Month, Day) = parts;
     }
 
-    public static Range<int> SupportedYears => Schema.SupportedYears;
+    public static Range<int> SupportedYears => Segment.SupportedYears;
     public static GregorianRecord MinValue { get; } = new(PartsFactory.GetDatePartsAtStartOfYear(SupportedYears.Min));
     public static GregorianRecord MaxValue { get; } = new(PartsFactory.GetDatePartsAtEndOfYear(SupportedYears.Max));
 
@@ -70,9 +70,7 @@ public partial record struct GregorianRecord
     public bool IsIntercalary => Schema.IsIntercalaryDay(Year, Month, Day);
     public bool IsSupplementary => Schema.IsSupplementaryDay(Year, Month, Day);
 
-    // FIXME(code): initialization of an already valid Yemoda.
-    // Same pbm with PartsFactory.
-    private Yemoda Yemoda => PartsCreator.CreateYemoda(Year, Month, Day);
+    private DateParts DateParts => new(Year, Month, Day);
 
     public void Deconstruct(out int year, out int month, out int day) =>
         (year, month, day) = (Year, Month, Day);
@@ -85,8 +83,8 @@ public partial record struct GregorianRecord // Conversions, adjustments...
     {
         if (Domain.Contains(daysSinceEpoch) == false) throw new ArgumentOutOfRangeException(nameof(daysSinceEpoch));
 
-        var (y, m, d) = PartsFactory.GetDateParts(daysSinceEpoch);
-        return new GregorianRecord(y, m, d);
+        var parts = PartsFactory.GetDateParts(daysSinceEpoch);
+        return new GregorianRecord(parts);
     }
 
     [Pure]
@@ -110,26 +108,33 @@ public partial record struct GregorianRecord // Conversions, adjustments...
     #region Year and month boundaries
 
     [Pure]
-    public static GregorianRecord GetStartOfYear(GregorianRecord day) => new(day.Year, 1, 1);
+    public static GregorianRecord GetStartOfYear(GregorianRecord day)
+    {
+        var parts = PartsFactory.GetDatePartsAtEndOfYear(day.Year);
+        return new GregorianRecord(parts);
+    }
 
     [Pure]
     public static GregorianRecord GetEndOfYear(GregorianRecord day)
     {
-        int y = day.Year;
-        var (_, m, d) = PartsFactory.GetDatePartsAtEndOfYear(y);
-        return new GregorianRecord(y, m, d);
+        var parts = PartsFactory.GetDatePartsAtEndOfYear(day.Year);
+        return new GregorianRecord(parts);
     }
 
     [Pure]
-    public static GregorianRecord GetStartOfMonth(GregorianRecord day) => new(day.Year, day.Month, 1);
+    public static GregorianRecord GetStartOfMonth(GregorianRecord day)
+    {
+        var (y, m, _) = day;
+        var parts = PartsFactory.GetDatePartsAtStartOfMonth(y, m);
+        return new GregorianRecord(parts);
+    }
 
     [Pure]
     public static GregorianRecord GetEndOfMonth(GregorianRecord day)
     {
-        int y = day.Year;
-        int m = day.Month;
-        int d = Schema.CountDaysInMonth(y, m);
-        return new GregorianRecord(y, m, d);
+        var (y, m, _) = day;
+        var parts = PartsFactory.GetDatePartsAtEndOfMonth(y, m);
+        return new GregorianRecord(parts);
     }
 
     #endregion
@@ -149,9 +154,7 @@ public partial record struct GregorianRecord // IComparable
     public static GregorianRecord Max(GregorianRecord x, GregorianRecord y) => x.CompareTo(y) > 0 ? x : y;
 
     [Pure]
-    public int CompareTo(GregorianRecord other) =>
-        // FIXME(code): I feel lazy right now.
-        throw new NotImplementedException();
+    public int CompareTo(GregorianRecord other) => DateParts.CompareTo(other.DateParts);
 
     [Pure]
     public int CompareTo(object? obj) =>
@@ -176,17 +179,17 @@ public partial record struct GregorianRecord // Math ops
 
     [Pure]
     public int CountDaysSince(GregorianRecord other) =>
-        Arithmetic.CountDaysBetween(other.Yemoda, Yemoda);
+        Arithmetic.CountDaysBetween(other.DateParts, DateParts);
 
     [Pure]
     public GregorianRecord PlusDays(int days) =>
-        new(Arithmetic.AddDays(Yemoda, days));
+        new(Arithmetic.AddDays(DateParts, days));
 
     [Pure]
     public GregorianRecord NextDay() =>
-        new(Arithmetic.NextDay(Yemoda));
+        new(Arithmetic.NextDay(DateParts));
 
     [Pure]
     public GregorianRecord PreviousDay() =>
-        new(Arithmetic.PreviousDay(Yemoda));
+        new(Arithmetic.PreviousDay(DateParts));
 }

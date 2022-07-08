@@ -31,7 +31,10 @@ public readonly partial struct GregorianTriple :
     IMinMaxValue<GregorianTriple>,
     ISubtractionOperators<GregorianTriple, int, GregorianTriple>
 {
-    private static readonly SchemaContext __ = SchemaContext.Create<GregorianSchema>();
+    private static readonly SystemContext __ = SystemContext.Create<GregorianSchema>();
+    private static readonly SystemSchema Schema = __.Schema;
+    private static readonly SystemSegment Segment = __.Segment;
+    private static readonly SystemArithmetic Arithmetic = __.Arithmetic;
 
     [Pure]
     public override string ToString()
@@ -43,11 +46,8 @@ public readonly partial struct GregorianTriple :
 
 public partial struct GregorianTriple
 {
-    private static readonly CalendricalSchema Schema = __.Schema;
-    private static readonly ICalendricalPartsFactory PartsFactory = __.PartsFactory;
-    private static readonly PartsCreator PartsCreator = __.PartsCreator;
-    private static readonly SystemArithmetic Arithmetic = __.Arithmetic;
-    private static readonly Range<int> Domain = __.Domain;
+    private static PartsCreator PartsCreator { get; } = PartsCreator.Create(Schema);
+    private static Range<int> Domain => Segment.Domain;
 
     private readonly Yemoda _bin;
 
@@ -62,8 +62,8 @@ public partial struct GregorianTriple
     }
 
     public static Range<int> SupportedYears => Schema.SupportedYears;
-    public static GregorianTriple MinValue { get; } = new(PartsFactory.GetDatePartsAtStartOfYear(SupportedYears.Min));
-    public static GregorianTriple MaxValue { get; } = new(PartsFactory.GetDatePartsAtEndOfYear(SupportedYears.Max));
+    public static GregorianTriple MinValue { get; } = new(Schema.GetDatePartsAtStartOfYear(SupportedYears.Min));
+    public static GregorianTriple MaxValue { get; } = new(Schema.GetDatePartsAtEndOfYear(SupportedYears.Max));
 
     public Ord CenturyOfEra => Ord.FromInt32(Century);
     public int Century => YearNumbering.GetCentury(Year);
@@ -112,7 +112,7 @@ public partial struct GregorianTriple // Conversions, adjustments...
     {
         if (Domain.Contains(daysSinceEpoch) == false) throw new ArgumentOutOfRangeException(nameof(daysSinceEpoch));
 
-        var ymd = PartsFactory.GetDateParts(daysSinceEpoch);
+        var ymd = Schema.GetDateParts(daysSinceEpoch);
         return new GregorianTriple(ymd);
     }
 
@@ -158,10 +158,8 @@ public partial struct GregorianTriple // Conversions, adjustments...
     [Pure]
     public static GregorianTriple GetEndOfYear(GregorianTriple day)
     {
-        int y = day.Year;
-        var (_, m, d) = PartsFactory.GetDatePartsAtEndOfYear(y);
-        // TODO(code): bypass validation? Idem GetEndOfMonth().
-        return new GregorianTriple(y, m, d);
+        var ymd = Schema.GetDatePartsAtEndOfYear(day.Year);
+        return new GregorianTriple(ymd);
     }
 
     [Pure]
@@ -171,8 +169,8 @@ public partial struct GregorianTriple // Conversions, adjustments...
     public static GregorianTriple GetEndOfMonth(GregorianTriple day)
     {
         var (y, m, _) = day;
-        int d = Schema.CountDaysInMonth(y, m);
-        return new GregorianTriple(y, m, d);
+        var ymd = Schema.GetDatePartsAtEndOfMonth(y, m);
+        return new GregorianTriple(ymd);
     }
 
     #endregion

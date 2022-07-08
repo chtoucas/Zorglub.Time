@@ -4,6 +4,7 @@
 namespace Samples;
 
 using System;
+using System.Diagnostics;
 using System.Diagnostics.Contracts;
 
 using Zorglub.Time;
@@ -66,30 +67,50 @@ internal sealed class CalendarContext
 
 internal sealed class SchemaContext
 {
-    private SchemaContext(SystemSchema schema)
+    private SchemaContext(CalendricalSchema schema, CalendricalSegment segment)
     {
-        Schema = schema ?? throw new ArgumentNullException(nameof(schema));
+        Debug.Assert(schema != null);
+        Debug.Assert(segment != null);
 
-        PartsFactory = ICalendricalPartsFactory2.Create(schema);
-        PartsCreator = PartsCreator.Create(schema);
-        Arithmetic = schema.Arithmetic;
+        Schema = schema;
+        Segment = segment;
     }
 
     public CalendricalSchema Schema { get; }
-
-    public ICalendricalPartsFactory PartsFactory { get; }
-    public PartsCreator PartsCreator { get; }
-    public SystemArithmetic Arithmetic { get; }
-
-    public ICalendricalPreValidator PreValidator => Schema.PreValidator;
-    public Range<int> Domain => Schema.Domain;
+    public CalendricalSegment Segment { get; }
 
     [Pure]
     public static SchemaContext Create<TSchema>()
         where TSchema : SystemSchema, IBoxable<TSchema>
     {
         var sch = TSchema.GetInstance().Unbox();
+        var seg = CalendricalSegment.CreateMaximal(sch);
 
-        return new SchemaContext(sch);
+        return new SchemaContext(sch, seg);
+    }
+}
+
+internal sealed class SystemContext
+{
+    private SystemContext(SystemSchema schema, Range<int> supportedYears)
+    {
+        Schema = schema ?? throw new ArgumentNullException(nameof(schema));
+
+        // Temporary code.
+        Arithmetic = schema.Arithmetic.WithSupportedYears(supportedYears);
+        Segment = Arithmetic.Segment;
+    }
+
+    public SystemSchema Schema { get; }
+    public SystemSegment Segment { get; }
+    public SystemArithmetic Arithmetic { get; }
+
+    [Pure]
+    public static SystemContext Create<TSchema>()
+        where TSchema : SystemSchema, IBoxable<TSchema>
+    {
+        var sch = TSchema.GetInstance().Unbox();
+
+        return new SystemContext(sch, sch.SupportedYears);
     }
 }
