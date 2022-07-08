@@ -107,6 +107,7 @@ module Factories =
 
 // We have to test AddDaysViaDayOfMonth() separately because PlainArithmetic
 // and RegularArithmetic do not use it internally.
+
 module PlainCase =
     let private sch = schemaOf<GregorianSchema>()
     let private ari = new PlainArithmetic(sch)

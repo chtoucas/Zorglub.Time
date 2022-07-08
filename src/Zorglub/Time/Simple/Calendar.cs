@@ -288,31 +288,20 @@ namespace Zorglub.Time.Simple
         private bool _initialized;
         private void EnsureInitialized()
         {
-            // We delay the initialization for the following reasons:
-            // - We want the ctor to be as lightweight as possible.
-            //   It's important for it not to fail otherwise the CalendarCatalog
-            //   initialization will crash hard.
-            // - With unfinished schemas, GetDateParts() or GetOrdinalParts()
-            //   may throw.
-            // - Too many types involved which could also result in type init
-            //   problems.
-            // - We don't really need these props.
-
             if (_initialized) return;
 
-            // GetCalendarYear() without the validation part.
-            _minMaxYear = from y in SupportedYears.Endpoints select new CalendarYear(y, Id);
+            _minMaxYear =
+                from y in SupportedYears.Endpoints select new CalendarYear(y, Id);
+            _minMaxDay =
+                from dayNumber in Domain.Endpoints select new CalendarDay(dayNumber - Epoch, Id);
 
             // We don't use Scope.Segment because it does not use the core parts.
-            var seg = Arithmetic.Segment;
+            // We could have used Arithmetic.Segment, but I find it clearer to
+            // build the segment from scratch.
+            var seg = SystemSegment.Create(Schema, SupportedYears);
             _minMaxMonth = from ym in seg.MinMaxMonthParts select new CalendarMonth(ym, Id);
             _minMaxDate = from ymd in seg.MinMaxDateParts select new CalendarDate(ymd, Id);
             _minMaxOrdinal = from ydoy in seg.MinMaxOrdinalParts select new OrdinalDate(ydoy, Id);
-
-            // GetCalendarDay() without the validation part.
-            _minMaxDay =
-                from dayNumber in Domain.Endpoints
-                select new CalendarDay(dayNumber - Epoch, Id);
 
             _initialized = true;
         }

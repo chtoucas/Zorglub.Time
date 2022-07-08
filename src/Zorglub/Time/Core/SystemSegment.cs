@@ -14,8 +14,6 @@ namespace Zorglub.Time.Core
     /// </summary>
     public sealed record SystemSegment
     {
-        // No public ctor, see SystemSegmentBuilder.
-
         /// <summary>
         /// Initializes a new instance of the <see cref="SystemSegment"/> class.
         /// <para>This constructor does NOT validate its parameters.</para>
