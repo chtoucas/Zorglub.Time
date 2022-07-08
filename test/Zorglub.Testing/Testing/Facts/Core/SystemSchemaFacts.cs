@@ -152,7 +152,7 @@ public partial class SystemSchemaFacts<TDataSet> // Methods
     {
         var ym = new Yemo(1, 1);
         // Act
-        var actual = SchemaUT.GetMonthPartsAtStartOfYear(1);
+        var actual = SystemSchema.GetMonthPartsAtStartOfYear(1);
         // Assert
         Assert.Equal(ym, actual);
     }
@@ -161,7 +161,7 @@ public partial class SystemSchemaFacts<TDataSet> // Methods
     public void GetMonthPartsAtStartOfYear(Yemoda ymd)
     {
         // Act
-        var actual = SchemaUT.GetMonthPartsAtStartOfYear(ymd.Year);
+        var actual = SystemSchema.GetMonthPartsAtStartOfYear(ymd.Year);
         // Assert
         Assert.Equal(ymd.Yemo, actual);
     }
@@ -174,7 +174,7 @@ public partial class SystemSchemaFacts<TDataSet> // Methods
     {
         var ymd = new Yemoda(1, 1, 1);
         // Act
-        var actual = SchemaUT.GetDatePartsAtStartOfYear(1);
+        var actual = SystemSchema.GetDatePartsAtStartOfYear(1);
         // Assert
         Assert.Equal(ymd, actual);
     }
@@ -183,7 +183,7 @@ public partial class SystemSchemaFacts<TDataSet> // Methods
     public void GetDatePartsAtStartOfYear(Yemoda ymd)
     {
         // Act
-        var actual = SchemaUT.GetDatePartsAtStartOfYear(ymd.Year);
+        var actual = SystemSchema.GetDatePartsAtStartOfYear(ymd.Year);
         // Assert
         Assert.Equal(ymd, actual);
     }
@@ -196,7 +196,7 @@ public partial class SystemSchemaFacts<TDataSet> // Methods
     {
         var ydoy = new Yedoy(1, 1);
         // Act
-        var actual = SchemaUT.GetOrdinalPartsAtStartOfYear(1);
+        var actual = SystemSchema.GetOrdinalPartsAtStartOfYear(1);
         // Assert
         Assert.Equal(ydoy, actual);
     }
@@ -207,7 +207,7 @@ public partial class SystemSchemaFacts<TDataSet> // Methods
         int y = info.Year;
         var ydoy = new Yedoy(y, 1);
         // Act
-        var actual = SchemaUT.GetOrdinalPartsAtStartOfYear(y);
+        var actual = SystemSchema.GetOrdinalPartsAtStartOfYear(y);
         // Assert
         Assert.Equal(ydoy, actual);
     }
@@ -260,7 +260,7 @@ public partial class SystemSchemaFacts<TDataSet> // Methods
     {
         var ymd = new Yemoda(1, 1, 1);
         // Act
-        var actual = SchemaUT.GetDatePartsAtStartOfMonth(1, 1);
+        var actual = SystemSchema.GetDatePartsAtStartOfMonth(1, 1);
         // Assert
         Assert.Equal(ymd, actual);
     }
@@ -271,7 +271,7 @@ public partial class SystemSchemaFacts<TDataSet> // Methods
         var (y, m) = info.Yemo;
         var ymd = new Yemoda(y, m, 1);
         // Act
-        var actual = SchemaUT.GetDatePartsAtStartOfMonth(y, m);
+        var actual = SystemSchema.GetDatePartsAtStartOfMonth(y, m);
         // Assert
         Assert.Equal(ymd, actual);
     }
@@ -396,18 +396,18 @@ public partial class SystemSchemaFacts<TDataSet> // Overflows
     [Fact] public void GetOrdinalParts﹍DateParts_DoesNotUnderflow() => _ = SchemaUT.GetOrdinalParts(MinYear, 1, 1);
     [Fact] public void GetOrdinalParts﹍DateParts_DoesNotOverflow() => _ = SchemaUT.GetOrdinalParts(MaxYear, MaxMonth, MaxDay);
 
-    [Fact] public void GetDatePartsAtStartOfYear_DoesNotUnderflow() => _ = SchemaUT.GetDatePartsAtStartOfYear(MinYear);
-    [Fact] public void GetDatePartsAtStartOfYear_DoesNotOverflow() => _ = SchemaUT.GetDatePartsAtStartOfYear(MaxYear);
-    [Fact] public void GetOrdinalPartsAtStartOfYear_DoesNotUnderflow() => _ = SchemaUT.GetOrdinalPartsAtStartOfYear(MinYear);
-    [Fact] public void GetOrdinalPartsAtStartOfYear_DoesNotOverflow() => _ = SchemaUT.GetOrdinalPartsAtStartOfYear(MaxYear);
+    [Fact] public void GetDatePartsAtStartOfYear_DoesNotUnderflow() => _ = SystemSchema.GetDatePartsAtStartOfYear(MinYear);
+    [Fact] public void GetDatePartsAtStartOfYear_DoesNotOverflow() => _ = SystemSchema.GetDatePartsAtStartOfYear(MaxYear);
+    [Fact] public void GetOrdinalPartsAtStartOfYear_DoesNotUnderflow() => _ = SystemSchema.GetOrdinalPartsAtStartOfYear(MinYear);
+    [Fact] public void GetOrdinalPartsAtStartOfYear_DoesNotOverflow() => _ = SystemSchema.GetOrdinalPartsAtStartOfYear(MaxYear);
 
     [Fact] public void GetDatePartsAtEndOfYear_DoesNotUnderflow() => _ = SchemaUT.GetDatePartsAtEndOfYear(MinYear);
     [Fact] public void GetDatePartsAtEndOfYear_DoesNotOverflow() => _ = SchemaUT.GetDatePartsAtEndOfYear(MaxYear);
     [Fact] public void GetOrdinalPartsAtEndOfYear_DoesNotUnderflow() => _ = SchemaUT.GetOrdinalPartsAtEndOfYear(MinYear);
     [Fact] public void GetOrdinalPartsAtEndOfYear_DoesNotOverflow() => _ = SchemaUT.GetOrdinalPartsAtEndOfYear(MaxYear);
 
-    [Fact] public void GetDatePartsAtStartOfMonth_DoesNotUnderflow() => _ = SchemaUT.GetDatePartsAtStartOfMonth(MinYear, 1);
-    [Fact] public void GetDatePartsAtStartOfMonth_DoesNotOverflow() => _ = SchemaUT.GetDatePartsAtStartOfMonth(MaxYear, MaxMonth);
+    [Fact] public void GetDatePartsAtStartOfMonth_DoesNotUnderflow() => _ = SystemSchema.GetDatePartsAtStartOfMonth(MinYear, 1);
+    [Fact] public void GetDatePartsAtStartOfMonth_DoesNotOverflow() => _ = SystemSchema.GetDatePartsAtStartOfMonth(MaxYear, MaxMonth);
     [Fact] public void GetOrdinalPartsAtStartOfMonth_DoesNotUnderflow() => _ = SchemaUT.GetOrdinalPartsAtStartOfMonth(MinYear, 1);
     [Fact] public void GetOrdinalPartsAtStartOfMonth_DoesNotOverflow() => _ = SchemaUT.GetOrdinalPartsAtStartOfMonth(MaxYear, MaxMonth);
 

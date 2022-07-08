@@ -181,8 +181,6 @@ namespace Zorglub.Time.Core
         /// Creates a new instance of <see cref="Yedoy"/> representing the first day of the
         /// specified year.
         /// <para>This method does NOT validate its parameter.</para>
-        /// <para>This method SHOULD only be used to implement
-        /// <see cref="ICalendricalPartsFactory.GetOrdinalPartsAtStartOfYear(int)"/>.</para>
         /// </summary>
         [Pure]
         // CIL code size = XXX bytes <= 32 bytes.

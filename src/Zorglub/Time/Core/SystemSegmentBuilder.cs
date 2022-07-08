@@ -84,8 +84,8 @@ namespace Zorglub.Time.Core
             Start = new Endpoint
             {
                 DaysSinceEpoch = _schema.GetStartOfYear(year),
-                DateParts = _schema.GetDatePartsAtStartOfYear(year),
-                OrdinalParts = _schema.GetOrdinalPartsAtStartOfYear(year),
+                DateParts = Yemoda.AtStartOfYear(year),
+                OrdinalParts = Yedoy.AtStartOfYear(year),
             };
         }
 

@@ -62,7 +62,7 @@ public partial struct GregorianTriple
     }
 
     public static Range<int> SupportedYears => Schema.SupportedYears;
-    public static GregorianTriple MinValue { get; } = new(Schema.GetDatePartsAtStartOfYear(SupportedYears.Min));
+    public static GregorianTriple MinValue { get; } = new(SystemSchema.GetDatePartsAtStartOfYear(SupportedYears.Min));
     public static GregorianTriple MaxValue { get; } = new(Schema.GetDatePartsAtEndOfYear(SupportedYears.Max));
 
     public Ord CenturyOfEra => Ord.FromInt32(Century);

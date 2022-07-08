@@ -27,16 +27,14 @@ internal sealed class CalendarContext
         Epoch = epoch;
         Scope = scope ?? throw new ArgumentNullException(nameof(scope));
 
-        PartsFactory = ICalendricalPartsFactory2.Create(schema);
         PartsCreator = new PartsCreator(scope);
         Arithmetic = schema.Arithmetic.WithSupportedYears(scope.SupportedYears);
     }
 
-    public CalendricalSchema Schema { get; }
+    public SystemSchema Schema { get; }
     public DayNumber Epoch { get; }
     public CalendarScope Scope { get; }
 
-    public ICalendricalPartsFactory PartsFactory { get; }
     public PartsCreator PartsCreator { get; }
     public SystemArithmetic Arithmetic { get; }
 

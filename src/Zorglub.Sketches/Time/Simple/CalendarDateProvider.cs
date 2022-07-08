@@ -23,8 +23,7 @@ namespace Zorglub.Time.Simple
         [Pure]
         public CalendarDate GetStartOfYear(CalendarYear year)
         {
-            ref readonly var chr = ref year.CalendarRef;
-            var ymd = chr.Schema.GetDatePartsAtStartOfYear(year.Year);
+            var ymd = Yemoda.AtStartOfYear(year.Year);
             return new(ymd, year.Cuid);
         }
 

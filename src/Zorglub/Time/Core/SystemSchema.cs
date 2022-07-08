@@ -44,7 +44,7 @@ namespace Zorglub.Time.Core
     /// <para>All results SHOULD be representable by the system; see <see cref="Yemoda"/>,
     /// <see cref="Yemo"/> and <see cref="Yedoy"/>.</para>
     /// </remarks>
-    public abstract partial class SystemSchema : CalendricalSchema, ICalendricalPartsFactory
+    public abstract partial class SystemSchema : CalendricalSchema
     {
         /// <summary>
         /// Represents the default value for the earliest supported year.
@@ -158,11 +158,11 @@ namespace Zorglub.Time.Core
         public SystemArithmetic Arithmetic => _arithmetic ??= SystemArithmetic.CreateDefault(this);
     }
 
-    public partial class SystemSchema // ICalendricalPartsFactory (1)
+    public partial class SystemSchema //
     {
         /// <summary>
-        /// Obtains the month parts for the specified month count (the number of consecutive months
-        /// from the epoch to a month).
+        /// Obtains the date parts for the specified month count (the number of consecutive months
+        /// from the epoch to a date).
         /// </summary>
         [Pure]
         // CIL code size = 19 bytes <= 32 bytes.
@@ -173,7 +173,10 @@ namespace Zorglub.Time.Core
             return new Yemo(y, m);
         }
 
-        /// <inheritdoc />
+        /// <summary>
+        /// Obtains the date parts for the specified day count (the number of consecutive days from
+        /// the epoch to a date).
+        /// </summary>
         /// <remarks>
         /// <para>See also
         /// <seealso cref="ICalendricalSchema.GetDateParts(int, out int, out int, out int)"/>.</para>
@@ -187,7 +190,10 @@ namespace Zorglub.Time.Core
             return new Yemoda(y, m, d);
         }
 
-        /// <inheritdoc />
+        /// <summary>
+        /// Obtains the ordinal date parts for the specified day count (the number of consecutive
+        /// days from the epoch to a date).
+        /// </summary>
         /// <remarks>
         /// <para>See also
         /// <seealso cref="ICalendricalSchema.GetYear(int, out int)"/>.</para>
@@ -201,7 +207,9 @@ namespace Zorglub.Time.Core
             return new Yedoy(y, doy);
         }
 
-        /// <inheritdoc />
+        /// <summary>
+        /// Obtains the date parts for the specified ordinal date.
+        /// </summary>
         /// <remarks>
         /// <para>See also
         /// <seealso cref="ICalendricalSchema.GetMonth(int, int, out int)"/>.</para>
@@ -215,7 +223,9 @@ namespace Zorglub.Time.Core
             return new Yemoda(y, m, d);
         }
 
-        /// <inheritdoc />
+        /// <summary>
+        /// Obtains the ordinal date parts for the specified date.
+        /// </summary>
         // CIL code size = 18 bytes <= 32 bytes.
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Yedoy GetOrdinalParts(int y, int m, int d)
@@ -225,21 +235,40 @@ namespace Zorglub.Time.Core
         }
     }
 
-    public partial class SystemSchema // ICalendricalPartsFactory (2)
+    public partial class SystemSchema //
     {
-        /// <inheritdoc />
-        [Pure]
-        public Yemo GetMonthPartsAtStartOfYear(int y) => Yemo.AtStartOfYear(y);
+        //
+        // Start of year
+        //
 
-        /// <inheritdoc />
+        /// <summary>
+        /// Obtains the month parts for the first month of the specified year.
+        /// </summary>
         [Pure]
-        public Yemoda GetDatePartsAtStartOfYear(int y) => Yemoda.AtStartOfYear(y);
+        [Obsolete("Use Yemo.AtStartOfYear()")]
+        public static Yemo GetMonthPartsAtStartOfYear(int y) => Yemo.AtStartOfYear(y);
 
-        /// <inheritdoc />
+        /// <summary>
+        /// Obtains the date parts for the first day of the specified year.
+        /// </summary>
         [Pure]
-        public Yedoy GetOrdinalPartsAtStartOfYear(int y) => Yedoy.AtStartOfYear(y);
+        [Obsolete("Use Yemoda.AtStartOfYear()")]
+        public static Yemoda GetDatePartsAtStartOfYear(int y) => Yemoda.AtStartOfYear(y);
 
-        /// <inheritdoc />
+        /// <summary>
+        /// Obtains the ordinal date parts for the first day of the specified year.
+        /// </summary>
+        [Pure]
+        [Obsolete("Use Yedoy.AtStartOfYear()")]
+        public static Yedoy GetOrdinalPartsAtStartOfYear(int y) => Yedoy.AtStartOfYear(y);
+
+        //
+        // End of year
+        //
+
+        /// <summary>
+        /// Obtains the date parts for the last month of the specified year.
+        /// </summary>
         [Pure]
         public Yemo GetMonthPartsAtEndOfYear(int y)
         {
@@ -247,7 +276,9 @@ namespace Zorglub.Time.Core
             return new Yemo(y, monthsInYear);
         }
 
-        /// <inheritdoc />
+        /// <summary>
+        /// Obtains the date parts for the last day of the specified year.
+        /// </summary>
         [Pure]
         public Yemoda GetDatePartsAtEndOfYear(int y)
         {
@@ -268,7 +299,9 @@ namespace Zorglub.Time.Core
         // > d = CountDaysInMonth(y, MonthsInYear);
         public abstract void GetDatePartsAtEndOfYear(int y, out int m, out int d);
 
-        /// <inheritdoc />
+        /// <summary>
+        /// Obtains the ordinal date parts for the last day of the specified year.
+        /// </summary>
         [Pure]
         public Yedoy GetOrdinalPartsAtEndOfYear(int y)
         {
@@ -276,11 +309,20 @@ namespace Zorglub.Time.Core
             return new Yedoy(y, doy);
         }
 
-        /// <inheritdoc />
-        [Pure]
-        public Yemoda GetDatePartsAtStartOfMonth(int y, int m) => Yemoda.AtStartOfMonth(y, m);
+        //
+        // Start of month
+        //
 
-        /// <inheritdoc />
+        /// <summary>
+        /// Obtains the date parts for the first day of the specified month.
+        /// </summary>
+        [Pure]
+        [Obsolete("Use Yemoda.AtStartOfMonth()")]
+        public static Yemoda GetDatePartsAtStartOfMonth(int y, int m) => Yemoda.AtStartOfMonth(y, m);
+
+        /// <summary>
+        /// Obtains the ordinal date parts for the first day of the specified month.
+        /// </summary>
         [Pure]
         public Yedoy GetOrdinalPartsAtStartOfMonth(int y, int m)
         {
@@ -289,6 +331,10 @@ namespace Zorglub.Time.Core
             int doy = CountDaysInYearBeforeMonth(y, m) + 1;
             return new Yedoy(y, doy);
         }
+
+        //
+        // End of month
+        //
 
         /// <summary>
         /// Obtains the date parts for the last day of the specified month.
@@ -300,7 +346,9 @@ namespace Zorglub.Time.Core
             return new Yemoda(y, m, d);
         }
 
-        /// <inheritdoc />
+        /// <summary>
+        /// Obtains the ordinal date parts for the last day of the specified month.
+        /// </summary>
         [Pure]
         public Yedoy GetOrdinalPartsAtEndOfMonth(int y, int m)
         {

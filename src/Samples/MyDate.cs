@@ -39,9 +39,8 @@ public readonly partial struct MyDate :
 
 public partial struct MyDate
 {
-    private static readonly CalendricalSchema Schema = __.Schema;
+    private static readonly SystemSchema Schema = __.Schema;
     private static readonly ICalendarScope Scope = __.Scope;
-    private static readonly ICalendricalPartsFactory PartsFactory = __.PartsFactory;
     private static readonly PartsCreator PartsCreator = __.PartsCreator;
     private static readonly SystemArithmetic Arithmetic = __.Arithmetic;
     private static readonly Range<DayNumber> Domain = __.Domain;
@@ -60,8 +59,8 @@ public partial struct MyDate
 
     public static DayNumber Epoch => Scope.Epoch;
     public static Range<int> SupportedYears => Scope.SupportedYears;
-    public static MyDate MinValue { get; } = new(PartsFactory.GetDatePartsAtStartOfYear(Scope.SupportedYears.Min));
-    public static MyDate MaxValue { get; } = new(PartsFactory.GetDatePartsAtEndOfYear(Scope.SupportedYears.Max));
+    public static MyDate MinValue { get; } = new(SystemSchema.GetDatePartsAtStartOfYear(Scope.SupportedYears.Min));
+    public static MyDate MaxValue { get; } = new(Schema.GetDatePartsAtEndOfYear(Scope.SupportedYears.Max));
 
     public Ord CenturyOfEra => Ord.FromInt32(Century);
     public int Century => YearNumbering.GetCentury(Year);
@@ -119,7 +118,7 @@ public partial struct MyDate // Conversions, adjustments...
     public static MyDate FromDayNumber(DayNumber dayNumber)
     {
         Domain.Validate(dayNumber);
-        var ymd = PartsFactory.GetDateParts(dayNumber - Epoch);
+        var ymd = Schema.GetDateParts(dayNumber - Epoch);
         return new MyDate(ymd);
     }
 
@@ -166,7 +165,7 @@ public partial struct MyDate // Conversions, adjustments...
     [Pure]
     public static MyDate GetEndOfYear(MyDate day)
     {
-        var ymd = PartsFactory.GetDatePartsAtEndOfYear(day.Year);
+        var ymd = Schema.GetDatePartsAtEndOfYear(day.Year);
         return new MyDate(ymd);
     }
 
@@ -177,7 +176,7 @@ public partial struct MyDate // Conversions, adjustments...
     public static MyDate GetEndOfMonth(MyDate day)
     {
         var (y, m, _) = day._bin;
-        var ymd = PartsFactory.GetDatePartsAtEndOfMonth(y, m);
+        var ymd = Schema.GetDatePartsAtEndOfMonth(y, m);
         return new MyDate(ymd);
     }
 

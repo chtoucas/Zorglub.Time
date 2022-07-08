@@ -99,8 +99,8 @@ namespace Zorglub.Time.Core.Arithmetic
             return
                 d < MinDaysInMonth || d < Schema.CountDaysInMonth(y, m)
                     ? new Yemoda(y, m, d + 1)
-                : m < MonthsInYear ? Schema.GetDatePartsAtStartOfMonth(y, m + 1)
-                : y < MaxYear ? Schema.GetDatePartsAtStartOfYear(y + 1)
+                : m < MonthsInYear ? Yemoda.AtStartOfMonth(y, m + 1)
+                : y < MaxYear ? Yemoda.AtStartOfYear(y + 1)
                 : Throw.DateOverflow<Yemoda>();
         }
 

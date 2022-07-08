@@ -220,8 +220,7 @@ namespace Zorglub.Time.Simple
         {
             get
             {
-                ref readonly var chr = ref CalendarRef;
-                var ydoy = chr.Schema.GetOrdinalPartsAtStartOfYear(Year);
+                var ydoy = Yedoy.AtStartOfYear(Year);
                 return new OrdinalDate(ydoy, Cuid);
             }
         }

@@ -47,9 +47,8 @@ public readonly partial struct DateTemplate :
 
 public partial struct DateTemplate
 {
-    private static readonly CalendricalSchema Schema = __.Schema;
+    private static readonly SystemSchema Schema = __.Schema;
     private static readonly ICalendarScope Scope = __.Scope;
-    private static readonly ICalendricalPartsFactory PartsFactory = __.PartsFactory;
     private static readonly PartsCreator PartsCreator = __.PartsCreator;
     private static readonly SystemArithmetic Arithmetic = __.Arithmetic;
     private static readonly Range<DayNumber> Domain = __.Domain;
@@ -68,8 +67,8 @@ public partial struct DateTemplate
 
     public static DayNumber Epoch => Scope.Epoch;
     public static Range<int> SupportedYears => Scope.SupportedYears;
-    public static DateTemplate MinValue { get; } = new(PartsFactory.GetDatePartsAtStartOfYear(SupportedYears.Min));
-    public static DateTemplate MaxValue { get; } = new(PartsFactory.GetDatePartsAtEndOfYear(SupportedYears.Max));
+    public static DateTemplate MinValue { get; } = new(SystemSchema.GetDatePartsAtStartOfYear(SupportedYears.Min));
+    public static DateTemplate MaxValue { get; } = new(Schema.GetDatePartsAtEndOfYear(SupportedYears.Max));
 
     private static int EpochDayOfWeek { get; } = (int)__.Epoch.DayOfWeek;
 
@@ -156,7 +155,7 @@ public partial struct DateTemplate // Conversions, adjustments...
     public static DateTemplate FromDayNumber(DayNumber dayNumber)
     {
         Domain.Validate(dayNumber);
-        var ymd = PartsFactory.GetDateParts(dayNumber - Epoch);
+        var ymd = Schema.GetDateParts(dayNumber - Epoch);
         return new DateTemplate(ymd);
     }
 
@@ -203,7 +202,7 @@ public partial struct DateTemplate // Conversions, adjustments...
     [Pure]
     public static DateTemplate GetEndOfYear(DateTemplate day)
     {
-        var ymd = PartsFactory.GetDatePartsAtEndOfYear(day.Year);
+        var ymd = Schema.GetDatePartsAtEndOfYear(day.Year);
         return new DateTemplate(ymd);
     }
 
@@ -214,7 +213,7 @@ public partial struct DateTemplate // Conversions, adjustments...
     public static DateTemplate GetEndOfMonth(DateTemplate day)
     {
         var (y, m, _) = day._bin;
-        var ymd = PartsFactory.GetDatePartsAtEndOfMonth(y, m);
+        var ymd = Schema.GetDatePartsAtEndOfMonth(y, m);
         return new DateTemplate(ymd);
     }
 

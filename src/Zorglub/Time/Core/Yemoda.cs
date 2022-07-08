@@ -312,8 +312,6 @@ namespace Zorglub.Time.Core
         /// Creates a new instance of <see cref="Yemoda"/> representing the first day of the
         /// specified year.
         /// <para>This method does NOT validate its parameter.</para>
-        /// <para>This method SHOULD only be used to implement
-        /// <see cref="ICalendricalPartsFactory.GetDatePartsAtStartOfYear(int)"/>.</para>
         /// </summary>
         [Pure]
         // CIL code size = XXX bytes <= 32 bytes.
@@ -330,8 +328,6 @@ namespace Zorglub.Time.Core
         /// Creates a new instance of <see cref="Yemoda"/> representing the first day of the
         /// specified month.
         /// <para>This method does NOT validate its parameters.</para>
-        /// <para>This method SHOULD only be used to implement
-        /// <see cref="ICalendricalPartsFactory.GetDatePartsAtStartOfMonth(int, int)"/>.</para>
         /// </summary>
         [Pure]
         // CIL code size = XXX bytes <= 32 bytes.

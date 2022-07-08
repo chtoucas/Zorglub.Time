@@ -475,6 +475,10 @@ static Zorglub.Time.Core.Schemas.JulianSchema.GetInstance() -> Zorglub.Time.Core
 static Zorglub.Time.Core.Schemas.Persian2820Schema.GetInstance() -> Zorglub.Time.Core.Utilities.Box<Zorglub.Time.Core.Schemas.Persian2820Schema!>!
 static Zorglub.Time.Core.Schemas.TabularIslamicSchema.GetInstance() -> Zorglub.Time.Core.Utilities.Box<Zorglub.Time.Core.Schemas.TabularIslamicSchema!>!
 static Zorglub.Time.Core.Schemas.TropicaliaSchema.GetInstance() -> Zorglub.Time.Core.Utilities.Box<Zorglub.Time.Core.Schemas.TropicaliaSchema!>!
+static Zorglub.Time.Core.SystemSchema.GetDatePartsAtStartOfMonth(int y, int m) -> Zorglub.Time.Core.Yemoda
+static Zorglub.Time.Core.SystemSchema.GetDatePartsAtStartOfYear(int y) -> Zorglub.Time.Core.Yemoda
+static Zorglub.Time.Core.SystemSchema.GetMonthPartsAtStartOfYear(int y) -> Zorglub.Time.Core.Yemo
+static Zorglub.Time.Core.SystemSchema.GetOrdinalPartsAtStartOfYear(int y) -> Zorglub.Time.Core.Yedoy
 static Zorglub.Time.Core.SystemSegment.Create(Zorglub.Time.Core.SystemSchema! schema, Zorglub.Time.Core.Intervals.Range<int> supportedYears) -> Zorglub.Time.Core.SystemSegment!
 static Zorglub.Time.Core.SystemSegment.CreateMaximal(Zorglub.Time.Core.SystemSchema! schema) -> Zorglub.Time.Core.SystemSegment!
 static Zorglub.Time.Core.Utilities.Box.Create<T>(T? obj) -> Zorglub.Time.Core.Utilities.Box<T!>!
@@ -833,22 +837,6 @@ Zorglub.Time.Core.ICalendricalKernel.IsRegular(out int monthsInYear) -> bool
 Zorglub.Time.Core.ICalendricalKernel.IsSupplementaryDay(int y, int m, int d) -> bool
 Zorglub.Time.Core.ICalendricalKernel.PeriodicAdjustments.get -> Zorglub.Time.CalendricalAdjustments
 Zorglub.Time.Core.ICalendricalKernel.SupportedYears.get -> Zorglub.Time.Core.Intervals.Range<int>
-Zorglub.Time.Core.ICalendricalPartsFactory
-Zorglub.Time.Core.ICalendricalPartsFactory.GetDateParts(int daysSinceEpoch) -> Zorglub.Time.Core.Yemoda
-Zorglub.Time.Core.ICalendricalPartsFactory.GetDateParts(int y, int doy) -> Zorglub.Time.Core.Yemoda
-Zorglub.Time.Core.ICalendricalPartsFactory.GetDatePartsAtEndOfMonth(int y, int m) -> Zorglub.Time.Core.Yemoda
-Zorglub.Time.Core.ICalendricalPartsFactory.GetDatePartsAtEndOfYear(int y) -> Zorglub.Time.Core.Yemoda
-Zorglub.Time.Core.ICalendricalPartsFactory.GetDatePartsAtStartOfMonth(int y, int m) -> Zorglub.Time.Core.Yemoda
-Zorglub.Time.Core.ICalendricalPartsFactory.GetDatePartsAtStartOfYear(int y) -> Zorglub.Time.Core.Yemoda
-Zorglub.Time.Core.ICalendricalPartsFactory.GetMonthParts(int monthsSinceEpoch) -> Zorglub.Time.Core.Yemo
-Zorglub.Time.Core.ICalendricalPartsFactory.GetMonthPartsAtEndOfYear(int y) -> Zorglub.Time.Core.Yemo
-Zorglub.Time.Core.ICalendricalPartsFactory.GetMonthPartsAtStartOfYear(int y) -> Zorglub.Time.Core.Yemo
-Zorglub.Time.Core.ICalendricalPartsFactory.GetOrdinalParts(int daysSinceEpoch) -> Zorglub.Time.Core.Yedoy
-Zorglub.Time.Core.ICalendricalPartsFactory.GetOrdinalParts(int y, int m, int d) -> Zorglub.Time.Core.Yedoy
-Zorglub.Time.Core.ICalendricalPartsFactory.GetOrdinalPartsAtEndOfMonth(int y, int m) -> Zorglub.Time.Core.Yedoy
-Zorglub.Time.Core.ICalendricalPartsFactory.GetOrdinalPartsAtEndOfYear(int y) -> Zorglub.Time.Core.Yedoy
-Zorglub.Time.Core.ICalendricalPartsFactory.GetOrdinalPartsAtStartOfMonth(int y, int m) -> Zorglub.Time.Core.Yedoy
-Zorglub.Time.Core.ICalendricalPartsFactory.GetOrdinalPartsAtStartOfYear(int y) -> Zorglub.Time.Core.Yedoy
 Zorglub.Time.Core.ICalendricalPreValidator
 Zorglub.Time.Core.ICalendricalPreValidator.CreateDefault(Zorglub.Time.Core.CalendricalSchema! schema) -> Zorglub.Time.Core.ICalendricalPreValidator!
 Zorglub.Time.Core.ICalendricalPreValidator.ValidateDayOfYear(int y, int dayOfYear, string? paramName = null) -> void
@@ -1047,17 +1035,13 @@ Zorglub.Time.Core.SystemSchema.GetDateParts(int daysSinceEpoch) -> Zorglub.Time.
 Zorglub.Time.Core.SystemSchema.GetDateParts(int y, int doy) -> Zorglub.Time.Core.Yemoda
 Zorglub.Time.Core.SystemSchema.GetDatePartsAtEndOfMonth(int y, int m) -> Zorglub.Time.Core.Yemoda
 Zorglub.Time.Core.SystemSchema.GetDatePartsAtEndOfYear(int y) -> Zorglub.Time.Core.Yemoda
-Zorglub.Time.Core.SystemSchema.GetDatePartsAtStartOfMonth(int y, int m) -> Zorglub.Time.Core.Yemoda
-Zorglub.Time.Core.SystemSchema.GetDatePartsAtStartOfYear(int y) -> Zorglub.Time.Core.Yemoda
 Zorglub.Time.Core.SystemSchema.GetMonthParts(int monthsSinceEpoch) -> Zorglub.Time.Core.Yemo
 Zorglub.Time.Core.SystemSchema.GetMonthPartsAtEndOfYear(int y) -> Zorglub.Time.Core.Yemo
-Zorglub.Time.Core.SystemSchema.GetMonthPartsAtStartOfYear(int y) -> Zorglub.Time.Core.Yemo
 Zorglub.Time.Core.SystemSchema.GetOrdinalParts(int daysSinceEpoch) -> Zorglub.Time.Core.Yedoy
 Zorglub.Time.Core.SystemSchema.GetOrdinalParts(int y, int m, int d) -> Zorglub.Time.Core.Yedoy
 Zorglub.Time.Core.SystemSchema.GetOrdinalPartsAtEndOfMonth(int y, int m) -> Zorglub.Time.Core.Yedoy
 Zorglub.Time.Core.SystemSchema.GetOrdinalPartsAtEndOfYear(int y) -> Zorglub.Time.Core.Yedoy
 Zorglub.Time.Core.SystemSchema.GetOrdinalPartsAtStartOfMonth(int y, int m) -> Zorglub.Time.Core.Yedoy
-Zorglub.Time.Core.SystemSchema.GetOrdinalPartsAtStartOfYear(int y) -> Zorglub.Time.Core.Yedoy
 Zorglub.Time.Core.SystemSchema.SupportedYearsCore.get -> Zorglub.Time.Core.Intervals.Range<int>
 Zorglub.Time.Core.SystemSegment
 Zorglub.Time.Core.SystemSegment.Domain.get -> Zorglub.Time.Core.Intervals.Range<int>

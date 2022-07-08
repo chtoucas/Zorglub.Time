@@ -4,8 +4,7 @@
 namespace Zorglub.Time.Hemerology.Scopes
 {
     /// <summary>
-    /// The <see cref="Scopes"/> namespace contains internal implementations for
-    /// <see cref="ICalendarScope"/>.
+    /// The <see cref="Scopes"/> namespace contains implementations for <see cref="ICalendarScope"/>.
     /// </summary>
     [CompilerGenerated]
     internal static class NamespaceDoc { }

@@ -122,8 +122,8 @@ namespace Zorglub.Time.Core.Arithmetic
             return
                 d < MinDaysInMonth || d < GregorianFormulae.CountDaysInMonth(y, m)
                     ? new Yemoda(y, m, d + 1)
-                : m < MonthsInYear ? Schema.GetDatePartsAtStartOfMonth(y, m + 1)
-                : y < MaxYear ? Schema.GetDatePartsAtStartOfYear(y + 1)
+                : m < MonthsInYear ? Yemoda.AtStartOfMonth(y, m + 1)
+                : y < MaxYear ? Yemoda.AtStartOfYear(y + 1)
                 : Throw.DateOverflow<Yemoda>();
         }
 
@@ -201,7 +201,7 @@ namespace Zorglub.Time.Core.Arithmetic
             return
                 doy < MinDaysInYear || doy < GregorianFormulae.CountDaysInYear(y)
                     ? new Yedoy(y, doy + 1)
-                : y < MaxYear ? Schema.GetOrdinalPartsAtStartOfYear(y + 1)
+                : y < MaxYear ? Yedoy.AtStartOfYear(y + 1)
                 : Throw.DateOverflow<Yedoy>();
         }
 
