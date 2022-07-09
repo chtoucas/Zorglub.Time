@@ -34,9 +34,9 @@ public static class Program
             //.With(new EtwProfiler())Zorglub.Benchmarks.GregorianSchema.Impl
             ;
 
-        BenchmarkRunner.Run<Micro.CalendarScopeBenchmark>(config);
+        //BenchmarkRunner.Run<Micro.CalendarScopeBenchmark>(config);
         //BenchmarkRunner.Run<Other.JulianBenchmark>(config);
-        //BenchmarkRunner.Run<Other.GregorianBenchmark>(config);
+        BenchmarkRunner.Run<Other.GregorianBenchmark>(config);
     }
 #endif
 
