@@ -27,7 +27,7 @@ namespace Zorglub.Time.Core.Arithmetic
         /// profile <see cref="CalendricalProfile.Solar12"/>.</exception>
         public Solar12Arithmetic(SystemSegment segment) : base(segment)
         {
-            Requires.Profile(Schema, CalendricalProfile.Solar12);
+            Requires.Profile(Schema, CalendricalProfile.Solar12, nameof(segment));
         }
 
         //

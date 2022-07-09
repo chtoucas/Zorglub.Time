@@ -20,7 +20,7 @@ public sealed partial class MyCalendar : BasicCalendar, ICalendar<MyDate>
 
     public MyCalendar() : this(MyDate.Context) { }
 
-    private MyCalendar(CalendarContext context) : base(context.Schema, context.Scope)
+    private MyCalendar(CalendarContext context) : base(context.Scope)
     {
         Debug.Assert(context != null);
 

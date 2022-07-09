@@ -30,8 +30,7 @@ namespace Zorglub.Time.Core.Arithmetic
         /// <summary>
         /// Initializes a new instance of the <see cref="GregorianArithmetic"/> class.
         /// </summary>
-        internal GregorianArithmetic(SystemSegment segment)
-            : base(segment)
+        internal GregorianArithmetic(SystemSegment segment) : base(segment)
         {
             Debug.Assert(MaxDaysViaDayOfMonth_ >= MinMinDaysInMonth);
             Debug.Assert(Schema is GregorianSchema);

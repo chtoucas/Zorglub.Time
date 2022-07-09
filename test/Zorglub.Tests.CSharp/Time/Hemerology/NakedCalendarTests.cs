@@ -13,11 +13,11 @@ public static class NakedCalendarTests
     public static void Constructor_InvalidName() =>
         Assert.ThrowsAnexn("name",
             () => new FauxNakedCalendar(
-                null!, s_Schema, new FauxCalendarScope(s_Schema, 1, 2)));
+                null!, new FauxCalendarScope(s_Schema, 1, 2)));
 
     [Fact]
     public static void Constructor_InvalidScope() =>
-        Assert.ThrowsAnexn("scope", () => new FauxNakedCalendar("name", s_Schema, null!));
+        Assert.ThrowsAnexn("scope", () => new FauxNakedCalendar("name", null!));
 
     [Fact]
     public static void Constructor()
@@ -26,7 +26,7 @@ public static class NakedCalendarTests
         var epoch = DayZero.NewStyle + 123456789;
         var scope = new FauxCalendarScope(s_Schema, epoch, 1, 2);
         // Act
-        var chr = new FauxNakedCalendar(name, s_Schema, scope);
+        var chr = new FauxNakedCalendar(name, scope);
         // Assert
         Assert.Equal(name, chr.Name);
         Assert.Equal(epoch, chr.Epoch);

@@ -18,8 +18,7 @@ namespace Zorglub.Time.Hemerology
     public partial class BoundedBelowCalendar : NakedCalendar
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="BoundedBelowCalendar"/>
-        /// class.
+        /// Initializes a new instance of the <see cref="BoundedBelowCalendar"/> class.
         /// </summary>
         public BoundedBelowCalendar(
             string name,
@@ -31,16 +30,15 @@ namespace Zorglub.Time.Hemerology
             int? maxYear = null)
             : this(
                 name,
-                schema,
                 new BoundedBelowScope(schema, epoch, year, month, day, maxYear))
         { }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="BoundedBelowCalendar"/>
-        /// class.
+        /// Initializes a new instance of the <see cref="BoundedBelowCalendar"/> class.
         /// </summary>
-        public BoundedBelowCalendar(string name, ICalendricalSchema schema, BoundedBelowScope scope)
-            : base(name, schema, scope)
+        /// <exception cref="ArgumentNullException"><paramref name="name"/> is null.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="scope"/> is null.</exception>
+        public BoundedBelowCalendar(string name, BoundedBelowScope scope) : base(name, scope)
         {
             DayProvider = new BoundedBelowDayProvider(scope);
 

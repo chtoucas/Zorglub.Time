@@ -47,15 +47,14 @@ namespace Zorglub.Time.Hemerology
         /// <exception cref="ArgumentNullException"><paramref name="name"/> is null.</exception>
         /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
         /// <exception cref="ArgumentNullException"><paramref name="scope"/> is null.</exception>
-        protected NakedCalendar(string name, ICalendricalSchema schema, CalendarScope scope)
-            : base(schema, scope)
+        protected NakedCalendar(string name, CalendarScope scope) : base(scope)
         {
             Debug.Assert(scope != null);
 
             Name = name ?? throw new ArgumentNullException(nameof(name));
 
             MinMaxDateParts = scope.Segment.MinMaxDateParts;
-            PartsAdapter = new PartsAdapter(schema);
+            PartsAdapter = new PartsAdapter(Schema);
         }
 
         /// <summary>

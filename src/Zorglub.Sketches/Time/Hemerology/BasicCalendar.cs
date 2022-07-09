@@ -7,12 +7,8 @@ namespace Zorglub.Time.Hemerology
     using Zorglub.Time.Core.Intervals;
     using Zorglub.Time.Hemerology.Scopes;
 
-    // REVIEW(api): we keep the param "schema" in the ctor even if it is not
-    // really necessary. It's also available thru the scope.Schema but this prop
-    // is internal.
-    // TODO(code): use ICalendarScope instead of CalendarScope, but then we
-    // cannot use scope.Schema. The "pbm" w/ CalendarScope is that we restrict
-    // calendars to Yemoda.SupportedYears.
+    // REVIEW(api): use ICalendarScope instead of CalendarScope, but then we
+    // cannot use scope.Schema.
 
     /// <summary>
     /// Represents a basic calendar and provides a base for derived classes.
@@ -24,23 +20,16 @@ namespace Zorglub.Time.Hemerology
         /// Called from constructors in derived classes to initialize the <see cref="BasicCalendar"/>
         /// class.
         /// </summary>
-        /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
         /// <exception cref="ArgumentNullException"><paramref name="scope"/> is null.</exception>
-        protected BasicCalendar(ICalendricalSchema schema, CalendarScope scope)
+        protected BasicCalendar(CalendarScope scope)
         {
-            Schema = schema ?? throw new ArgumentNullException(nameof(schema));
             Scope = scope ?? throw new ArgumentNullException(nameof(scope));
 
-            if (ReferenceEquals(scope.Schema, schema) == false)
-            {
-                Throw.Argument(nameof(scope));
-            }
-
+            Schema = scope.Schema;
             Epoch = scope.Epoch;
             SupportedYears = scope.SupportedYears;
             Domain = scope.Domain;
-
-            PreValidator = schema.PreValidator;
+            PreValidator = Schema.PreValidator;
         }
 
         /// <inheritdoc />

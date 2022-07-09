@@ -24,9 +24,9 @@ internal sealed class CalendarContext
     public CalendarContext(SystemSchema schema, DayNumber epoch, CalendarScope scope)
     {
         Schema = schema ?? throw new ArgumentNullException(nameof(schema));
-        Epoch = epoch;
         Scope = scope ?? throw new ArgumentNullException(nameof(scope));
 
+        Epoch = epoch;
         PartsFactory = new PartsFactory(scope);
         Arithmetic = SystemArithmetic.CreateDefault(schema, scope.SupportedYears);
     }

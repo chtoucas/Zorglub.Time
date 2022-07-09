@@ -129,13 +129,6 @@ namespace Zorglub.Time.Core
         /// </summary>
         public int MaxDaysViaDayOfMonth { get; init; }
 
-        // Internal for testing.
-        // Under normal circumstances, there is no reason to create an arithmetic
-        // with the default range of years.
-        [Pure]
-        internal static SystemArithmetic CreateDefault(SystemSchema schema) =>
-            CreateDefault(schema, schema.SupportedYears);
-
         /// <summary>
         /// Creates the default arithmetic object for the specified schema and range of supported
         /// years.
@@ -156,14 +149,14 @@ namespace Zorglub.Time.Core
         {
             Requires.NotNull(segment);
 
-            var schema = segment.Schema;
+            var sch = segment.Schema;
 
-            if (schema is GregorianSchema)
+            if (sch is GregorianSchema)
             {
                 return new GregorianArithmetic(segment);
             }
 
-            return schema.Profile switch
+            return sch.Profile switch
             {
                 CalendricalProfile.Solar12 => new Solar12Arithmetic(segment),
                 CalendricalProfile.Solar13 => new Solar13Arithmetic(segment),
@@ -175,7 +168,7 @@ namespace Zorglub.Time.Core
                 // perf for regular schemas except for month ops. Not convinced?
                 // Check the code, we only call CountMonthsInYear() in two
                 // corner cases.
-                _ => schema.MinDaysInMonth >= MinMinDaysInMonth && schema.IsRegular(out _)
+                _ => sch.MinDaysInMonth >= MinMinDaysInMonth && sch.IsRegular(out _)
                     ? new RegularArithmetic(segment)
                     : new PlainArithmetic(segment)
             };

@@ -25,16 +25,14 @@ namespace Zorglub.Time.Hemerology
             DayNumber epoch,
             int minYear,
             int maxYear)
-            : this(name, schema, new MinMaxYearScope(schema, epoch, minYear, maxYear)) { }
+            : this(name, new MinMaxYearScope(schema, epoch, minYear, maxYear)) { }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MinMaxYearCalendar"/> class.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="name"/> is null.</exception>
-        /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
         /// <exception cref="ArgumentNullException"><paramref name="scope"/> is null.</exception>
-        public MinMaxYearCalendar(string name, ICalendricalSchema schema, MinMaxYearScope scope)
-            : base(name, schema, scope)
+        public MinMaxYearCalendar(string name, MinMaxYearScope scope) : base(name, scope)
         {
             DayProvider = new MinMaxYearDayProvider(scope);
         }

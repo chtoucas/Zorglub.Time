@@ -18,10 +18,10 @@ using Zorglub.Time.Hemerology.Scopes;
 public partial class MyNakedCalendar : NakedCalendar
 {
     public MyNakedCalendar(string name, ICalendricalSchema schema, DayNumber epoch)
-        : this(name, schema, new MinMaxYearScope(schema, epoch, 1, 9999)) { }
+        : this(name, new MinMaxYearScope(schema, epoch, 1, 9999)) { }
 
-    public MyNakedCalendar(string name, ICalendricalSchema schema, MinMaxYearScope scope)
-        : base(name, schema, scope) { }
+    public MyNakedCalendar(string name, MinMaxYearScope scope)
+        : base(name, scope) { }
 }
 
 public partial class MyNakedCalendar // Year, month, day infos

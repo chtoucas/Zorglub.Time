@@ -7,8 +7,7 @@ using Zorglub.Time.Hemerology.Scopes;
 
 public sealed class FauxNakedCalendar : NakedCalendar
 {
-    public FauxNakedCalendar(string name, ICalendricalSchema schema, CalendarScope scope)
-        : base(name, schema, scope) { }
+    public FauxNakedCalendar(string name, CalendarScope scope) : base(name, scope) { }
 
     public override int CountDaysInMonth(int year, int month) => throw new NotSupportedException();
     public override int CountDaysInYear(int year) => throw new NotSupportedException();

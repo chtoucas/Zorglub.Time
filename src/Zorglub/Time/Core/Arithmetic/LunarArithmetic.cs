@@ -33,7 +33,7 @@ namespace Zorglub.Time.Core.Arithmetic
         {
             Debug.Assert(MaxDaysViaDayOfMonth_ >= MinMinDaysInMonth);
 
-            Requires.Profile(Schema, CalendricalProfile.Lunar);
+            Requires.Profile(Schema, CalendricalProfile.Lunar, nameof(segment));
 
             MaxDaysViaDayOfYear = MaxDaysViaDayOfYear_;
             MaxDaysViaDayOfMonth = MaxDaysViaDayOfMonth_;

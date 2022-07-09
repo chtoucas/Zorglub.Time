@@ -144,10 +144,10 @@ namespace Zorglub.Time.Simple
             }
 
             var supportedYears = Scope.SupportedYears;
-            var seg = SystemSegment.Create(schema, supportedYears);
+            SystemSegment = SystemSegment.Create(schema, supportedYears);
 
             PreValidator = schema.PreValidator;
-            Arithmetic = SystemArithmetic.CreateDefault(seg);
+            Arithmetic = SystemArithmetic.CreateDefault(SystemSegment);
 
             SupportedYears = supportedYears;
             Domain = Scope.Domain;
@@ -297,10 +297,7 @@ namespace Zorglub.Time.Simple
             _minMaxDay =
                 from dayNumber in Domain.Endpoints select new CalendarDay(dayNumber - Epoch, Id);
 
-            // We don't use Scope.Segment because it does not use the core parts.
-            // We could have used Arithmetic.Segment, but I find it clearer to
-            // build the segment from scratch.
-            var seg = SystemSegment.Create(Schema, SupportedYears);
+            var seg = SystemSegment;
             _minMaxMonth = from ym in seg.MinMaxMonthParts select new CalendarMonth(ym, Id);
             _minMaxDate = from ymd in seg.MinMaxDateParts select new CalendarDate(ymd, Id);
             _minMaxOrdinal = from ydoy in seg.MinMaxOrdinalParts select new OrdinalDate(ydoy, Id);
@@ -345,6 +342,8 @@ namespace Zorglub.Time.Simple
         /// Gets the pre-validator.
         /// </summary>
         internal ICalendricalPreValidator PreValidator { get; }
+
+        internal SystemSegment SystemSegment { get; }
 
         /// <summary>
         /// Gets the arithmetical operators.
