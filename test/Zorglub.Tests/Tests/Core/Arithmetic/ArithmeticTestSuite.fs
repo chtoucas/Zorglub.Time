@@ -37,10 +37,13 @@ type Solar12Tests() =
 type Coptic12Tests() =
     inherit SystemArithmeticFacts<Coptic12DataSet>(ariOf<Coptic12Schema>())
 
+// PlainArithmetic
 [<Sealed>]
-[<RedundantTestBundle>]
+[<TestExcludeFrom(TestExcludeFrom.Smoke)>]
 type Coptic13Tests() =
     inherit SystemArithmeticFacts<Coptic13DataSet>(ariOf<Coptic13Schema>())
+
+    member x.Arithmetic() = x.Arithmetic |> is<PlainArithmetic>
 
 [<Sealed>]
 [<RedundantTestBundle>]
@@ -91,7 +94,7 @@ type LunisolarTests() =
 //[<Sealed>]
 //[<RedundantTestBundle>]
 //type PaxTests() =
-//    inherit SystemArithmeticFacts<PaxDataSet>(syschemaOf<PaxSchema>())
+//    inherit SystemArithmeticFacts<PaxDataSet>(ariOf<PaxSchema>())
 
 [<Sealed>]
 [<RedundantTestBundle>]

@@ -7,13 +7,8 @@ namespace Zorglub.Time.Core
     using Zorglub.Time.Core.Intervals;
     using Zorglub.Time.Core.Schemas;
 
-    // FIXME(api): Can only work reliably with SystemSchema. We still use
-    // CreateDefault() in a few places where we should not.
-    // Better explanation for the meaning of MinMinDaysInMonth and MaxDaysViaDayOfMonth.
-    // (outdated doc)
-    // Keeping this class internal ensures that we have complete control on its
-    // instances. In particular, we make sure that none of them is used in
-    // a wrong context, meaning in a place where a different schema is expected.
+    // TODO(doc): better explanation for the meaning of MinMinDaysInMonth and
+    // MaxDaysViaDayOfMonth.
 
     #region Developer Notes
 
@@ -31,12 +26,6 @@ namespace Zorglub.Time.Core
     //    └─ Solar13Arithmetic    (-)
     //
     // Annotation: [A] = abstract
-    //
-    // Construction
-    // ------------
-    // Public:
-    //   SystemSchema.Arithmetic
-    //   SystemArithmetic.CreateDefault(CalendricalSchema)
     //
     // Comments
     // --------
@@ -142,18 +131,6 @@ namespace Zorglub.Time.Core
         public int MaxDaysViaDayOfMonth { get; init; }
 
         /// <summary>
-        /// Creates the default arithmetic object for the specified schema.
-        /// </summary>
-        /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
-        [Pure]
-        public static SystemArithmetic CreateDefault(SystemSchema schema)
-        {
-            Requires.NotNull(schema);
-
-            return CreateDefault(schema, schema.SupportedYears);
-        }
-
-        /// <summary>
         /// Creates the default arithmetic object for the specified schema and range of supported
         /// years.
         /// </summary>
@@ -161,18 +138,20 @@ namespace Zorglub.Time.Core
         /// <exception cref="AoorException"><paramref name="supportedYears"/> is NOT a subinterval
         /// of the range of supported years by <paramref name="schema"/>.</exception>
         [Pure]
-        public static SystemArithmetic CreateDefault(SystemSchema schema, Range<int> supportedYears)
+        public static SystemArithmetic CreateDefault(SystemSchema schema, Range<int>? supportedYears = null)
         {
             Requires.NotNull(schema);
+
+            var r = supportedYears is null ? schema.SupportedYears : supportedYears.Value;
 
             return schema.Profile switch
             {
                 CalendricalProfile.Solar12 =>
-                    schema is GregorianSchema gr ? new GregorianArithmetic(gr, supportedYears)
-                    : new Solar12Arithmetic(schema, supportedYears),
-                CalendricalProfile.Solar13 => new Solar13Arithmetic(schema, supportedYears),
-                CalendricalProfile.Lunar => new LunarArithmetic(schema, supportedYears),
-                CalendricalProfile.Lunisolar => new LunisolarArithmetic(schema, supportedYears),
+                    schema is GregorianSchema gr ? new GregorianArithmetic(gr, r)
+                    : new Solar12Arithmetic(schema, r),
+                CalendricalProfile.Solar13 => new Solar13Arithmetic(schema, r),
+                CalendricalProfile.Lunar => new LunarArithmetic(schema, r),
+                CalendricalProfile.Lunisolar => new LunisolarArithmetic(schema, r),
 
                 // (no longer true)
                 // NB: there is no real gain to expect in trying to improve the
@@ -180,8 +159,8 @@ namespace Zorglub.Time.Core
                 // Check the code, we only call CountMonthsInYear() in two
                 // corner cases.
                 _ => schema.MinDaysInMonth >= MinMinDaysInMonth && schema.IsRegular(out _)
-                    ? new RegularArithmetic(schema, supportedYears)
-                    : new PlainArithmetic(schema, supportedYears)
+                    ? new RegularArithmetic(schema, r)
+                    : new PlainArithmetic(schema, r)
             };
         }
     }

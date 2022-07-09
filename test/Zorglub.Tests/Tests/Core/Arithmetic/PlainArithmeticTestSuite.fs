@@ -11,8 +11,6 @@ open Zorglub.Time.Core
 open Zorglub.Time.Core.Arithmetic
 open Zorglub.Time.Core.Schemas
 
-open Xunit
-
 // TODO(code): Hebrew (unfinished, no data), Pax (unfinished) and lunisolar (fake) schema.
 
 // Since the Gregorian schema has the richest dataset, we use it as a default
@@ -27,30 +25,21 @@ let private ariOf<'a when 'a :> SystemSchema and 'a :> IBoxable<'a>> () =
 type Coptic12Tests() =
     inherit SystemArithmeticFacts<Coptic12DataSet>(ariOf<Coptic12Schema>())
 
-// Already tested in ArithmeticTestSuite.
-[<Fact>]
-let ``Default arithmetic for Coptic13Schema is PlainArithmetic`` () =
-    SystemArithmetic.CreateDefault(schemaOf<Coptic13Schema>()) |> is<PlainArithmetic>
+// Coptic13Schema -> already tested in ArithmeticTestSuite.
 
 [<Sealed>]
 [<RedundantTestBundle>]
 type Egyptian12Tests() =
     inherit SystemArithmeticFacts<Egyptian12DataSet>(ariOf<Egyptian12Schema>())
 
-// Already tested in ArithmeticTestSuite.
-[<Fact>]
-let ``Default arithmetic for Egyptian13Schema is PlainArithmetic`` () =
-    SystemArithmetic.CreateDefault(schemaOf<Egyptian13Schema>()) |> is<PlainArithmetic>
+// Egyptian13Schema -> already tested in ArithmeticTestSuite.
 
 [<Sealed>]
 [<RedundantTestBundle>]
 type FrenchRepublican12Tests() =
     inherit SystemArithmeticFacts<FrenchRepublican12DataSet>(ariOf<FrenchRepublican12Schema>())
 
-// Already tested in ArithmeticTestSuite.
-[<Fact>]
-let ``Default arithmetic for FrenchRepublican13Schema is PlainArithmetic`` () =
-    SystemArithmetic.CreateDefault(schemaOf<FrenchRepublican13Schema>()) |> is<PlainArithmetic>
+// FrenchRepublican13Schema -> already tested in ArithmeticTestSuite.
 
 [<Sealed>]
 type GregorianTests() =
@@ -71,10 +60,7 @@ type JulianTests() =
 type LunisolarTests() =
     inherit SystemArithmeticFacts<LunisolarDataSet>(ariOf<LunisolarSchema>())
 
-// Already tested in ArithmeticTestSuite.
-[<Fact>]
-let ``Default arithmetic for PaxSchema is PlainArithmetic`` () =
-    SystemArithmetic.CreateDefault(schemaOf<PaxSchema>()) |> is<PlainArithmetic>
+// PaxSchema -> already tested in ArithmeticTestSuite.
 
 [<Sealed>]
 [<RedundantTestBundle>]
