@@ -21,7 +21,8 @@ let private ariOf<'a when 'a :> SystemSchema and 'a :> IBoxable<'a>> () =
 // we still use it because it's the schema has a the most data to offer.
 let private solar12Of<'a when 'a :> SystemSchema and 'a :> IBoxable<'a>> () =
     let sch = syschemaOf<'a>()
-    new Solar12Arithmetic(sch, sch.SupportedYears)
+    let seg = SystemSegment.Create(sch, sch.SupportedYears)
+    new Solar12Arithmetic(seg)
 [<Sealed>]
 type Solar12Tests() =
     inherit SystemArithmeticFacts<GregorianDataSet>(solar12Of<GregorianSchema>())

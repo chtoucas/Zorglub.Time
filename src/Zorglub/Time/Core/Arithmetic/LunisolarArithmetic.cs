@@ -29,12 +29,11 @@ namespace Zorglub.Time.Core.Arithmetic
         /// <exception cref="ArgumentException"><paramref name="schema"/> does not have the expected
         /// profile <see cref="CalendricalProfile.Lunisolar"/>.
         /// </exception>
-        public LunisolarArithmetic(SystemSchema schema, Range<int> supportedYears)
-            : base(schema, supportedYears)
+        public LunisolarArithmetic(SystemSegment segment) : base(segment)
         {
             Debug.Assert(MaxDaysViaDayOfMonth_ >= MinMinDaysInMonth);
 
-            Requires.Profile(schema, CalendricalProfile.Lunisolar);
+            Requires.Profile(Schema, CalendricalProfile.Lunisolar);
 
             MaxDaysViaDayOfYear = MaxDaysViaDayOfYear_;
             MaxDaysViaDayOfMonth = MaxDaysViaDayOfMonth_;

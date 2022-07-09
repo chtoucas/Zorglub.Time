@@ -18,7 +18,8 @@ open Zorglub.Time.Core.Schemas
 
 let private ariOf<'a when 'a :> SystemSchema and 'a :> IBoxable<'a>> () =
     let sch = syschemaOf<'a>()
-    new PlainArithmetic(sch, sch.SupportedYears)
+    let seg = SystemSegment.Create(sch, sch.SupportedYears)
+    new PlainArithmetic(seg)
 
 [<Sealed>]
 [<RedundantTestBundle>]

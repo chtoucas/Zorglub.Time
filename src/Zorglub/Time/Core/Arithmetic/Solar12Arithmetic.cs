@@ -25,12 +25,9 @@ namespace Zorglub.Time.Core.Arithmetic
         /// of the range of supported years by <paramref name="schema"/>.</exception>
         /// <exception cref="ArgumentException"><paramref name="schema"/> does not have the expected
         /// profile <see cref="CalendricalProfile.Solar12"/>.</exception>
-        public Solar12Arithmetic(SystemSchema schema, Range<int> supportedYears)
-            : base(schema, supportedYears)
+        public Solar12Arithmetic(SystemSegment segment) : base(segment)
         {
-            Debug.Assert(schema != null);
-
-            Requires.Profile(schema, CalendricalProfile.Solar12);
+            Requires.Profile(Schema, CalendricalProfile.Solar12);
         }
 
         //

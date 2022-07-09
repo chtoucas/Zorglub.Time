@@ -142,10 +142,12 @@ namespace Zorglub.Time.Simple
                 Scope = new StandardScope(schema, epoch);
                 YearOverflowChecker = StandardScope.YearOverflowChecker;
             }
+
             var supportedYears = Scope.SupportedYears;
+            var seg = SystemSegment.Create(schema, supportedYears);
 
             PreValidator = schema.PreValidator;
-            Arithmetic = SystemArithmetic.CreateDefault(schema, supportedYears);
+            Arithmetic = SystemArithmetic.CreateDefault(seg);
 
             SupportedYears = supportedYears;
             Domain = Scope.Domain;

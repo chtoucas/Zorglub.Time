@@ -23,12 +23,10 @@ namespace Zorglub.Time.Core.Arithmetic
         /// month whose length is strictly less than <see cref="SystemArithmetic.MinMinDaysInMonth"/>.
         /// </exception>
         /// <exception cref="ArgumentException"><paramref name="schema"/> is not regular.</exception>
-        public RegularArithmetic(SystemSchema schema, Range<int> supportedYears)
-            : base(schema, supportedYears)
+        public RegularArithmetic(SystemSegment segment) : base(segment)
         {
-            Debug.Assert(schema != null);
-            if (schema.MinDaysInMonth < MinMinDaysInMonth) Throw.Argument(nameof(schema));
-            if (schema.IsRegular(out int monthsInYear) == false) Throw.Argument(nameof(schema));
+            if (Schema.MinDaysInMonth < MinMinDaysInMonth) Throw.Argument(nameof(segment));
+            if (Schema.IsRegular(out int monthsInYear) == false) Throw.Argument(nameof(segment));
 
             MonthsInYear = monthsInYear;
         }

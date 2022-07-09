@@ -23,10 +23,9 @@ namespace Zorglub.Time.Hemerology.Scopes
         {
             Segment = segment ?? throw new ArgumentNullException(nameof(segment));
 
-            var sch = segment.Schema;
-            Schema = sch;
+            Schema = segment.Schema;
             Epoch = epoch;
-            PreValidator = sch.PreValidator;
+            PreValidator = Schema.PreValidator;
             SupportedYears = segment.SupportedYears;
             Domain = segment.GetFixedDomain(epoch);
         }

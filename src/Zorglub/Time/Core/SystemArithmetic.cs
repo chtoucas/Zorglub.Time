@@ -9,6 +9,7 @@ namespace Zorglub.Time.Core
 
     // TODO(doc): better explanation for the meaning of MinMinDaysInMonth and
     // MaxDaysViaDayOfMonth.
+    // Explain that we require complete years (SystemSegment).
 
     #region Developer Notes
 
@@ -71,16 +72,14 @@ namespace Zorglub.Time.Core
         /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
         /// <exception cref="AoorException"><paramref name="supportedYears"/> is NOT a subinterval
         /// of the range of supported years by <paramref name="schema"/>.</exception>
-        protected SystemArithmetic(SystemSchema schema, Range<int> supportedYears)
+        protected SystemArithmetic(SystemSegment segment)
         {
-            Schema = schema ?? throw new ArgumentNullException(nameof(schema));
+            Segment = segment ?? throw new ArgumentNullException(nameof(segment));
 
-            Segment = SystemSegment.Create(schema, supportedYears);
-
+            Schema = segment.Schema;
             (MinYear, MaxYear) = Segment.SupportedYears.Endpoints;
-
-            MaxDaysViaDayOfYear = schema.MinDaysInYear;
-            MaxDaysViaDayOfMonth = schema.MinDaysInMonth;
+            MaxDaysViaDayOfYear = Schema.MinDaysInYear;
+            MaxDaysViaDayOfMonth = Schema.MinDaysInMonth;
         }
 
         /// <summary>
@@ -134,23 +133,8 @@ namespace Zorglub.Time.Core
         // Under normal circumstances, there is no reason to create an arithmetic
         // with the default range of years.
         [Pure]
-        internal static SystemArithmetic CreateDefault(SystemSchema schema)
-        {
-            Requires.NotNull(schema);
-
-            return CreateDefault(schema, schema.SupportedYears);
-        }
-
-        // TODO(api): SystemArithmetic from Segment.
-        [Pure]
-        public static SystemArithmetic CreateDefault(SystemSchema schema, SystemSegment segment)
-        {
-            Requires.NotNull(schema);
-            Requires.NotNull(segment);
-            if (ReferenceEquals(segment.Schema, schema) == false) Throw.Argument(nameof(segment));
-
-            return CreateDefault(schema, segment.SupportedYears);
-        }
+        internal static SystemArithmetic CreateDefault(SystemSchema schema) =>
+            CreateDefault(schema, schema.SupportedYears);
 
         /// <summary>
         /// Creates the default arithmetic object for the specified schema and range of supported
@@ -160,18 +144,31 @@ namespace Zorglub.Time.Core
         /// <exception cref="AoorException"><paramref name="supportedYears"/> is NOT a subinterval
         /// of the range of supported years by <paramref name="schema"/>.</exception>
         [Pure]
-        public static SystemArithmetic CreateDefault(SystemSchema schema, Range<int> supportedYears)
+        public static SystemArithmetic CreateDefault(SystemSchema schema, Range<int> supportedYears) =>
+            CreateDefault(SystemSegment.Create(schema, supportedYears));
+
+        /// <summary>
+        /// Creates the default arithmetic object for the specified segment.
+        /// </summary>
+        /// <exception cref="ArgumentNullException"><paramref name="segment"/> is null.</exception>
+        [Pure]
+        public static SystemArithmetic CreateDefault(SystemSegment segment)
         {
-            Requires.NotNull(schema);
+            Requires.NotNull(segment);
+
+            var schema = segment.Schema;
+
+            if (schema is GregorianSchema)
+            {
+                return new GregorianArithmetic(segment);
+            }
 
             return schema.Profile switch
             {
-                CalendricalProfile.Solar12 =>
-                    schema is GregorianSchema gr ? new GregorianArithmetic(gr, supportedYears)
-                    : new Solar12Arithmetic(schema, supportedYears),
-                CalendricalProfile.Solar13 => new Solar13Arithmetic(schema, supportedYears),
-                CalendricalProfile.Lunar => new LunarArithmetic(schema, supportedYears),
-                CalendricalProfile.Lunisolar => new LunisolarArithmetic(schema, supportedYears),
+                CalendricalProfile.Solar12 => new Solar12Arithmetic(segment),
+                CalendricalProfile.Solar13 => new Solar13Arithmetic(segment),
+                CalendricalProfile.Lunar => new LunarArithmetic(segment),
+                CalendricalProfile.Lunisolar => new LunisolarArithmetic(segment),
 
                 // (no longer true)
                 // NB: there is no real gain to expect in trying to improve the
@@ -179,8 +176,8 @@ namespace Zorglub.Time.Core
                 // Check the code, we only call CountMonthsInYear() in two
                 // corner cases.
                 _ => schema.MinDaysInMonth >= MinMinDaysInMonth && schema.IsRegular(out _)
-                    ? new RegularArithmetic(schema, supportedYears)
-                    : new PlainArithmetic(schema, supportedYears)
+                    ? new RegularArithmetic(segment)
+                    : new PlainArithmetic(segment)
             };
         }
     }

@@ -90,19 +90,6 @@ namespace Zorglub.Time.Core
         internal SystemSchema Schema { get; }
 
         /// <summary>
-        /// Creates the maximal segment for <paramref name="schema"/>.
-        /// </summary>
-        /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
-        [Pure]
-        [Obsolete("TO BE REMOVED")]
-        public static SystemSegment CreateMaximal(SystemSchema schema)
-        {
-            var builder = new SystemSegmentBuilder(schema);
-            builder.SetSupportedYears(schema.SupportedYears);
-            return builder.BuildSegment();
-        }
-
-        /// <summary>
         /// Creates a new instance of the <see cref="SystemSegment"/> class from the specified range
         /// of supported years.
         /// </summary>
