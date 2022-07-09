@@ -7,7 +7,8 @@ namespace Zorglub.Time.Hemerology.Scopes
     using Zorglub.Time.Core;
 
     /// <summary>
-    /// Represents a scope with dates on or after a given date, but not the first day of a year.
+    /// Represents the scope of a calendar with dates on or after a given date,
+    /// but not the first day of a year.
     /// <para>This class cannot be inherited.</para>
     /// </summary>
     public sealed class BoundedBelowScope : CalendarScope

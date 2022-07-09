@@ -7,7 +7,7 @@ namespace Zorglub.Time.Hemerology.Scopes
     using Zorglub.Time.Core.Intervals;
 
     /// <summary>
-    /// Represents the standard short scope of a schema.
+    /// Represents the standard short scope of a calendar.
     /// <para>A standard scope supports dates within the interval [1..9999] of years.</para>
     /// <para>This class cannot be inherited.</para>
     /// </summary>
@@ -15,7 +15,7 @@ namespace Zorglub.Time.Hemerology.Scopes
     /// <para>This is the scope used by <see cref="Simple.Calendar"/>, except in the Gregorian and
     /// Julian cases.</para>
     /// </remarks>
-    public sealed class StandardScope : ICalendarScope
+    public sealed class StandardScope : CalendarScope
     {
         /// <summary>
         /// Represents the earliest supported year.
@@ -36,12 +36,6 @@ namespace Zorglub.Time.Hemerology.Scopes
         private static readonly Range<int> s_SupportedYears = Range.CreateLeniently(MinYear, MaxYear);
 
         /// <summary>
-        /// Represents the pre-validator.
-        /// <para>This field is read-only.</para>
-        /// </summary>
-        private readonly ICalendricalPreValidator _preValidator;
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="StandardScope"/> class with the
         /// specified schema and epoch.
         /// </summary>
@@ -49,65 +43,42 @@ namespace Zorglub.Time.Hemerology.Scopes
         /// <exception cref="ArgumentException">The range of supported years by
         /// <paramref name="schema"/> does not contain the interval [1..9999].</exception>
         public StandardScope(ICalendricalSchema schema, DayNumber epoch)
+            : base(epoch, CalendricalSegment.Create(schema, s_SupportedYears))
         {
-            Requires.NotNull(schema);
+            Debug.Assert(schema != null);
             if (s_SupportedYears.IsSubsetOf(schema.SupportedYears) == false) Throw.Argument(nameof(schema));
-
-            Schema = schema;
-            Epoch = epoch;
-            _preValidator = schema.PreValidator;
-
-            Segment = CalendricalSegment.Create(schema, s_SupportedYears);
-            Domain = Segment.GetFixedDomain(epoch);
         }
-
-        /// <inheritdoc />
-        public DayNumber Epoch { get; }
-
-        /// <inheritdoc />
-        public Range<DayNumber> Domain { get; }
-
-        /// <inheritdoc />
-        public Range<int> SupportedYears => s_SupportedYears;
-
-        /// <inheritdoc />
-        public CalendricalSegment Segment { get; }
-
-        /// <summary>
-        /// Gets the underlying schema.
-        /// </summary>
-        internal ICalendricalSchema Schema { get; }
 
         /// <summary>
         /// Gets the checker for overflows of the range of years.
         /// </summary>
         internal static IOverflowChecker<int> YearOverflowChecker { get; } = new YearOverflowChecker_();
 
+        ///// <inheritdoc />
+        //public new void ValidateYear(int year, string? paramName = null)
+        //{
+        //    if (year < MinYear || year > MaxYear) Throw.YearOutOfRange(year, paramName);
+        //}
+
         /// <inheritdoc />
-        public void ValidateYear(int year, string? paramName = null)
+        public sealed override void ValidateYearMonth(int year, int month, string? paramName = null)
         {
             if (year < MinYear || year > MaxYear) Throw.YearOutOfRange(year, paramName);
+            PreValidator.ValidateMonth(year, month, paramName);
         }
 
         /// <inheritdoc />
-        public void ValidateYearMonth(int year, int month, string? paramName = null)
+        public sealed override void ValidateYearMonthDay(int year, int month, int day, string? paramName = null)
         {
             if (year < MinYear || year > MaxYear) Throw.YearOutOfRange(year, paramName);
-            _preValidator.ValidateMonth(year, month, paramName);
+            PreValidator.ValidateMonthDay(year, month, day, paramName);
         }
 
         /// <inheritdoc />
-        public void ValidateYearMonthDay(int year, int month, int day, string? paramName = null)
+        public sealed override void ValidateOrdinal(int year, int dayOfYear, string? paramName = null)
         {
             if (year < MinYear || year > MaxYear) Throw.YearOutOfRange(year, paramName);
-            _preValidator.ValidateMonthDay(year, month, day, paramName);
-        }
-
-        /// <inheritdoc />
-        public void ValidateOrdinal(int year, int dayOfYear, string? paramName = null)
-        {
-            if (year < MinYear || year > MaxYear) Throw.YearOutOfRange(year, paramName);
-            _preValidator.ValidateDayOfYear(year, dayOfYear, paramName);
+            PreValidator.ValidateDayOfYear(year, dayOfYear, paramName);
         }
 
         private sealed class YearOverflowChecker_ : IOverflowChecker<int>

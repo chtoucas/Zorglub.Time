@@ -32,7 +32,7 @@ public static class ProlepticScopeFacts
 /// Provides data-driven tests for <see cref="ProlepticScope"/>.
 /// </summary>
 internal abstract class ProlepticScopeFacts<TDataSet> :
-    ICalendarScopeFacts<ProlepticScope, TDataSet>
+    CalendarScopeFacts<ProlepticScope, TDataSet>
     where TDataSet : ICalendricalDataSet, ISingleton<TDataSet>
 {
     protected ProlepticScopeFacts(ProlepticScope scope) : base(scope)

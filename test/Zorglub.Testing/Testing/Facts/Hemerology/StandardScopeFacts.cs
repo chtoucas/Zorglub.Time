@@ -33,7 +33,7 @@ public static class StandardScopeFacts
 /// Provides data-driven tests for <see cref="StandardScope"/>.
 /// </summary>
 internal abstract class StandardScopeFacts<TDataSet> :
-    ICalendarScopeFacts<StandardScope, TDataSet>
+    CalendarScopeFacts<StandardScope, TDataSet>
     where TDataSet : ICalendricalDataSet, ISingleton<TDataSet>
 {
     protected StandardScopeFacts(StandardScope scope) : base(scope)

@@ -45,7 +45,7 @@ namespace Zorglub.Time.Hemerology
         /// <summary>
         /// Gets the calendrical scope, an object providing validation methods.
         /// </summary>
-        public ICalendarScope Scope { get; }
+        public CalendarScope Scope { get; }
 
         /// <summary>
         /// Gets the earliest supported <see cref="DayNumber"/>

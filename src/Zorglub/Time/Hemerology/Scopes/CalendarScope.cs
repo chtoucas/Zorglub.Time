@@ -8,11 +8,19 @@ namespace Zorglub.Time.Hemerology.Scopes
     using Zorglub.Time.Core.Intervals;
     using Zorglub.Time.Hemerology;
 
+    // Range of Supported Years
+    // ------------------------
+    //
+    // - ProlepticScope     [-9998..9999]
+    // - StandardScope      [1..9999]
+    // - MinMaxYearScope    [minYear..maxYear]
+    // - BoundedBelowScope  [minDate.Year..maxYear], the first year is not complete
+
     /// <summary>
-    /// Represents the scope of a schema, an interval of days, and provides a base for derived
-    /// classes.
+    /// Defines the scope of application of a calendar, an interval of days, and provides a base for
+    /// derived classes.
     /// </summary>
-    public abstract partial class CalendarScope : ICalendarScope
+    public abstract partial class CalendarScope : ICalendricalValidator
     {
         /// <summary>
         /// Called from constructors in derived classes to initialize the
@@ -23,23 +31,29 @@ namespace Zorglub.Time.Hemerology.Scopes
         {
             Segment = segment ?? throw new ArgumentNullException(nameof(segment));
 
-            Schema = segment.Schema;
             Epoch = epoch;
+            Schema = segment.Schema;
             PreValidator = Schema.PreValidator;
             SupportedYears = segment.SupportedYears;
             Domain = segment.GetFixedDomain(epoch);
         }
 
-        /// <inheritdoc />
+        /// <summary>
+        /// Gets the epoch.
+        /// </summary>
         public DayNumber Epoch { get; }
 
-        /// <inheritdoc />
+        /// <summary>
+        /// Gets the range of supported <see cref="DayNumber"/> values.
+        /// </summary>
         public Range<DayNumber> Domain { get; }
 
         /// <inheritdoc />
         public Range<int> SupportedYears { get; }
 
-        /// <inheritdoc />
+        /// <summary>
+        /// Gets the segment of supported days.
+        /// </summary>
         public CalendricalSegment Segment { get; }
 
         /// <summary>

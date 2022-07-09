@@ -5,6 +5,7 @@ namespace Zorglub.Time.Hemerology
 {
     using Zorglub.Time.Core;
     using Zorglub.Time.Core.Intervals;
+    using Zorglub.Time.Hemerology.Scopes;
 
     #region Developer Notes
 
@@ -120,7 +121,7 @@ namespace Zorglub.Time.Hemerology
         /// <summary>
         /// Gets the calendrical scope, an object providing validation methods.
         /// </summary>
-        ICalendarScope Scope { get; }
+        CalendarScope Scope { get; }
 
         //
         // Conversions

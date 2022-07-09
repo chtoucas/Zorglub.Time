@@ -308,7 +308,7 @@ namespace Zorglub.Time.Simple
         #endregion
 
         /// <inheritdoc />
-        public ICalendarScope Scope { get; }
+        public CalendarScope Scope { get; }
 
         /// <summary>
         /// Gets or sets the mathematical rules followed by the current instance.

@@ -15,6 +15,7 @@ using Zorglub.Time.Core;
 using Zorglub.Time.Core.Intervals;
 using Zorglub.Time.Core.Schemas;
 using Zorglub.Time.Hemerology;
+using Zorglub.Time.Hemerology.Scopes;
 
 // Exploring the idea of a date type without a companion calendar type.
 // Pros:
@@ -48,7 +49,7 @@ public readonly partial struct DateTemplate :
 public partial struct DateTemplate
 {
     private static readonly SystemSchema Schema = __.Schema;
-    private static readonly ICalendarScope Scope = __.Scope;
+    private static readonly CalendarScope Scope = __.Scope;
     private static readonly PartsFactory PartsFactory = __.PartsFactory;
     private static readonly SystemArithmetic Arithmetic = __.Arithmetic;
     private static readonly Range<DayNumber> Domain = __.Domain;

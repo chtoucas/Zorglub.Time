@@ -47,7 +47,7 @@ namespace Zorglub.Time.Hemerology
         /// <summary>
         /// Gets the calendrical scope, an object providing validation methods.
         /// </summary>
-        public ICalendarScope Scope { get; }
+        public CalendarScope Scope { get; }
 
         /// <inheritdoc />
         [Pure]

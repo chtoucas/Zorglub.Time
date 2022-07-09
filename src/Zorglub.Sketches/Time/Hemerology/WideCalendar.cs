@@ -150,7 +150,7 @@ namespace Zorglub.Time.Hemerology
         public Range<DayNumber> Domain { get; }
 
         /// <inheritdoc />
-        public ICalendarScope Scope { get; }
+        public CalendarScope Scope { get; }
 
         /// <summary>
         /// Gets the underlying calendrical schema.

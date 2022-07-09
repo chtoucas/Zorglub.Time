@@ -12,6 +12,7 @@ using Zorglub.Time.Core;
 using Zorglub.Time.Core.Intervals;
 using Zorglub.Time.Core.Schemas;
 using Zorglub.Time.Hemerology;
+using Zorglub.Time.Hemerology.Scopes;
 
 // Exploring the idea of a date type without a companion calendar type
 // and built upon DayNumber instead of Yemoda.
@@ -52,7 +53,7 @@ public readonly partial struct DayTemplate :
 public partial struct DayTemplate
 {
     private static readonly CalendricalSchema Schema = __.Schema;
-    private static readonly ICalendarScope Scope = __.Scope;
+    private static readonly CalendarScope Scope = __.Scope;
     private static readonly Range<DayNumber> Domain = __.Domain;
 
     private readonly int _daysSinceEpoch;

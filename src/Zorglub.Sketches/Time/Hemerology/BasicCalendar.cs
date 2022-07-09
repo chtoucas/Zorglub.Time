@@ -7,9 +7,6 @@ namespace Zorglub.Time.Hemerology
     using Zorglub.Time.Core.Intervals;
     using Zorglub.Time.Hemerology.Scopes;
 
-    // REVIEW(api): use ICalendarScope instead of CalendarScope, but then we
-    // cannot use scope.Schema.
-
     /// <summary>
     /// Represents a basic calendar and provides a base for derived classes.
     /// <para>This class only supports subintervals of <see cref="Yemoda.SupportedYears"/>.</para>
@@ -51,7 +48,7 @@ namespace Zorglub.Time.Hemerology
         public Range<DayNumber> Domain { get; }
 
         /// <inheritdoc />
-        public ICalendarScope Scope { get; }
+        public CalendarScope Scope { get; }
 
         /// <summary>
         /// Gets the underlying calendrical schema.

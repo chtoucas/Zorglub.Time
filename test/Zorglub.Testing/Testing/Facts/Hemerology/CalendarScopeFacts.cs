@@ -10,12 +10,12 @@ using Zorglub.Time.Hemerology.Scopes;
 /// <summary>
 /// Provides data-driven tests for <see cref="ShortScope"/>.
 /// </summary>
-internal abstract class ICalendarScopeFacts<TScope, TDataSet> :
+internal abstract class CalendarScopeFacts<TScope, TDataSet> :
     CalendricalDataConsumer<TDataSet>
-    where TScope : ICalendarScope
+    where TScope : CalendarScope
     where TDataSet : ICalendricalDataSet, ISingleton<TDataSet>
 {
-    protected ICalendarScopeFacts(TScope scope)
+    protected CalendarScopeFacts(TScope scope)
     {
         ScopeUT = scope ?? throw new ArgumentNullException(nameof(scope));
     }

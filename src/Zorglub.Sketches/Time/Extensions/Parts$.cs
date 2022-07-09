@@ -4,13 +4,8 @@
 namespace Zorglub.Time.Extensions
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
 
     using Zorglub.Time.Core;
-    using Zorglub.Time.Hemerology;
 
     // !!! DO NOT USE !!!
     // It's not enough to validate y/m/d with a scope to be able create a Yemoda.
@@ -32,7 +27,7 @@ namespace Zorglub.Time.Extensions
         /// <exception cref="AoorException">The current instance is not valid according to the
         /// specified scope.</exception>
         [Pure]
-        public static Yemoda ToYemoda(this DateParts @this, ICalendarScope scope)
+        public static Yemoda ToYemoda(this DateParts @this, ICalendricalValidator scope)
         {
             Requires.NotNull(scope);
 
@@ -49,7 +44,7 @@ namespace Zorglub.Time.Extensions
         /// <exception cref="AoorException">The current instance is not valid according to the
         /// specified scope.</exception>
         [Pure]
-        public static Yedoy ToYedoy(this OrdinalParts @this, ICalendarScope scope)
+        public static Yedoy ToYedoy(this OrdinalParts @this, ICalendricalValidator scope)
         {
             Requires.NotNull(scope);
 
@@ -66,7 +61,7 @@ namespace Zorglub.Time.Extensions
         /// <exception cref="AoorException">The current instance is not valid according to the
         /// specified scope.</exception>
         [Pure]
-        public static Yemo ToYemo(this MonthParts @this, ICalendarScope scope)
+        public static Yemo ToYemo(this MonthParts @this, ICalendricalValidator scope)
         {
             Requires.NotNull(scope);
 
@@ -86,7 +81,7 @@ namespace Zorglub.Time.Extensions
         /// <exception cref="AoorException">The current instance is not valid according to the
         /// specified scope.</exception>
         [Pure]
-        public static Yemoda ToYemoda(this DateFields @this, ICalendarScope scope)
+        public static Yemoda ToYemoda(this DateFields @this, ICalendricalValidator scope)
         {
             Requires.NotNull(scope);
 
@@ -103,7 +98,7 @@ namespace Zorglub.Time.Extensions
         /// <exception cref="AoorException">The current instance is not valid according to the
         /// specified scope.</exception>
         [Pure]
-        public static Yedoy ToYedoy(this OrdinalFields @this, ICalendarScope scope)
+        public static Yedoy ToYedoy(this OrdinalFields @this, ICalendricalValidator scope)
         {
             Requires.NotNull(scope);
 
@@ -120,7 +115,7 @@ namespace Zorglub.Time.Extensions
         /// <exception cref="AoorException">The current instance is not valid according to the
         /// specified scope.</exception>
         [Pure]
-        public static Yemo ToYemo(this MonthFields @this, ICalendarScope scope)
+        public static Yemo ToYemo(this MonthFields @this, ICalendricalValidator scope)
         {
             Requires.NotNull(scope);
 
