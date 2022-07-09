@@ -45,7 +45,6 @@ namespace Zorglub.Time.Hemerology
         /// <see cref="NakedCalendar"/> class.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="name"/> is null.</exception>
-        /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
         /// <exception cref="ArgumentNullException"><paramref name="scope"/> is null.</exception>
         protected NakedCalendar(string name, CalendarScope scope) : base(scope)
         {

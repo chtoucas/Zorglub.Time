@@ -30,8 +30,10 @@ abstract Zorglub.Time.Core.SystemArithmetic.NextDay(Zorglub.Time.Core.Yedoy ydoy
 abstract Zorglub.Time.Core.SystemArithmetic.NextDay(Zorglub.Time.Core.Yemoda ymd) -> Zorglub.Time.Core.Yemoda
 abstract Zorglub.Time.Core.SystemArithmetic.PreviousDay(Zorglub.Time.Core.Yedoy ydoy) -> Zorglub.Time.Core.Yedoy
 abstract Zorglub.Time.Core.SystemArithmetic.PreviousDay(Zorglub.Time.Core.Yemoda ymd) -> Zorglub.Time.Core.Yemoda
-abstract Zorglub.Time.Core.SystemArithmetic.WithSupportedYears(Zorglub.Time.Core.Intervals.Range<int> supportedYears) -> Zorglub.Time.Core.SystemArithmetic!
 abstract Zorglub.Time.Core.SystemSchema.GetDatePartsAtEndOfYear(int y, out int m, out int d) -> void
+abstract Zorglub.Time.Hemerology.Scopes.CalendarScope.ValidateOrdinal(int year, int dayOfYear, string? paramName = null) -> void
+abstract Zorglub.Time.Hemerology.Scopes.CalendarScope.ValidateYearMonth(int year, int month, string? paramName = null) -> void
+abstract Zorglub.Time.Hemerology.Scopes.CalendarScope.ValidateYearMonthDay(int year, int month, int day, string? paramName = null) -> void
 abstract Zorglub.Time.Simple.CalendarMath.AddMonthsCore(Zorglub.Time.Simple.CalendarDate date, int months) -> Zorglub.Time.Simple.CalendarDate
 abstract Zorglub.Time.Simple.CalendarMath.AddYearsCore(Zorglub.Time.Simple.CalendarDate date, int years) -> Zorglub.Time.Simple.CalendarDate
 abstract Zorglub.Time.Simple.CalendarMath.AddYearsCore(Zorglub.Time.Simple.CalendarMonth month, int years) -> Zorglub.Time.Simple.CalendarMonth
@@ -291,6 +293,12 @@ override sealed Zorglub.Time.Core.Schemas.TropicalistaSchema.IsLeapYear(int y) -
 override sealed Zorglub.Time.Core.Schemas.TropicalistaSchema.IsSupplementaryDay(int y, int m, int d) -> bool
 override sealed Zorglub.Time.Core.Schemas.TropicalistaSchema.PeriodicAdjustments.get -> Zorglub.Time.CalendricalAdjustments
 override sealed Zorglub.Time.Core.SystemSchema.IsRegular(out int monthsInYear) -> bool
+override sealed Zorglub.Time.Hemerology.Scopes.ProlepticScope.ValidateOrdinal(int year, int dayOfYear, string? paramName = null) -> void
+override sealed Zorglub.Time.Hemerology.Scopes.ProlepticScope.ValidateYearMonth(int year, int month, string? paramName = null) -> void
+override sealed Zorglub.Time.Hemerology.Scopes.ProlepticScope.ValidateYearMonthDay(int year, int month, int day, string? paramName = null) -> void
+override sealed Zorglub.Time.Hemerology.Scopes.StandardScope.ValidateOrdinal(int year, int dayOfYear, string? paramName = null) -> void
+override sealed Zorglub.Time.Hemerology.Scopes.StandardScope.ValidateYearMonth(int year, int month, string? paramName = null) -> void
+override sealed Zorglub.Time.Hemerology.Scopes.StandardScope.ValidateYearMonthDay(int year, int month, int day, string? paramName = null) -> void
 override sealed Zorglub.Time.Simple.Calendar.ToString() -> string!
 override Zorglub.Time.Core.Intervals.LowerRay<T>.Equals(object? obj) -> bool
 override Zorglub.Time.Core.Intervals.LowerRay<T>.GetHashCode() -> int
@@ -451,10 +459,6 @@ static Zorglub.Time.Core.Intervals.UpperRay.Complement(this Zorglub.Time.Core.In
 static Zorglub.Time.Core.Intervals.UpperRay.StartingAt<T>(T min) -> Zorglub.Time.Core.Intervals.UpperRay<T>
 static Zorglub.Time.Core.Intervals.UpperRay<T>.operator !=(Zorglub.Time.Core.Intervals.UpperRay<T> left, Zorglub.Time.Core.Intervals.UpperRay<T> right) -> bool
 static Zorglub.Time.Core.Intervals.UpperRay<T>.operator ==(Zorglub.Time.Core.Intervals.UpperRay<T> left, Zorglub.Time.Core.Intervals.UpperRay<T> right) -> bool
-static Zorglub.Time.Core.PartsFactory.GetDatePartsAtStartOfMonth(int y, int m) -> Zorglub.Time.DateParts
-static Zorglub.Time.Core.PartsFactory.GetDatePartsAtStartOfYear(int y) -> Zorglub.Time.DateParts
-static Zorglub.Time.Core.PartsFactory.GetMonthPartsAtStartOfYear(int y) -> Zorglub.Time.MonthParts
-static Zorglub.Time.Core.PartsFactory.GetOrdinalPartsAtStartOfYear(int y) -> Zorglub.Time.OrdinalParts
 static Zorglub.Time.Core.Schemas.Coptic12Schema.GetInstance() -> Zorglub.Time.Core.Utilities.Box<Zorglub.Time.Core.Schemas.Coptic12Schema!>!
 static Zorglub.Time.Core.Schemas.Coptic12Schema.IsEpagomenalDay(int y, int m, int d, out int epagomenalNumber) -> bool
 static Zorglub.Time.Core.Schemas.Coptic13Schema.GetInstance() -> Zorglub.Time.Core.Utilities.Box<Zorglub.Time.Core.Schemas.Coptic13Schema!>!
@@ -475,12 +479,9 @@ static Zorglub.Time.Core.Schemas.JulianSchema.GetInstance() -> Zorglub.Time.Core
 static Zorglub.Time.Core.Schemas.Persian2820Schema.GetInstance() -> Zorglub.Time.Core.Utilities.Box<Zorglub.Time.Core.Schemas.Persian2820Schema!>!
 static Zorglub.Time.Core.Schemas.TabularIslamicSchema.GetInstance() -> Zorglub.Time.Core.Utilities.Box<Zorglub.Time.Core.Schemas.TabularIslamicSchema!>!
 static Zorglub.Time.Core.Schemas.TropicaliaSchema.GetInstance() -> Zorglub.Time.Core.Utilities.Box<Zorglub.Time.Core.Schemas.TropicaliaSchema!>!
-static Zorglub.Time.Core.SystemSchema.GetDatePartsAtStartOfMonth(int y, int m) -> Zorglub.Time.Core.Yemoda
-static Zorglub.Time.Core.SystemSchema.GetDatePartsAtStartOfYear(int y) -> Zorglub.Time.Core.Yemoda
-static Zorglub.Time.Core.SystemSchema.GetMonthPartsAtStartOfYear(int y) -> Zorglub.Time.Core.Yemo
-static Zorglub.Time.Core.SystemSchema.GetOrdinalPartsAtStartOfYear(int y) -> Zorglub.Time.Core.Yedoy
+static Zorglub.Time.Core.SystemArithmetic.CreateDefault(Zorglub.Time.Core.SystemSchema! schema, Zorglub.Time.Core.Intervals.Range<int> supportedYears) -> Zorglub.Time.Core.SystemArithmetic!
+static Zorglub.Time.Core.SystemArithmetic.CreateDefault(Zorglub.Time.Core.SystemSegment! segment) -> Zorglub.Time.Core.SystemArithmetic!
 static Zorglub.Time.Core.SystemSegment.Create(Zorglub.Time.Core.SystemSchema! schema, Zorglub.Time.Core.Intervals.Range<int> supportedYears) -> Zorglub.Time.Core.SystemSegment!
-static Zorglub.Time.Core.SystemSegment.CreateMaximal(Zorglub.Time.Core.SystemSchema! schema) -> Zorglub.Time.Core.SystemSegment!
 static Zorglub.Time.Core.Utilities.Box.Create<T>(T? obj) -> Zorglub.Time.Core.Utilities.Box<T!>!
 static Zorglub.Time.Core.Utilities.Box.Empty<T>() -> Zorglub.Time.Core.Utilities.Box<T!>!
 static Zorglub.Time.Core.Utilities.Box.Flatten<T>(this Zorglub.Time.Core.Utilities.Box<Zorglub.Time.Core.Utilities.Box<T!>!>! this) -> Zorglub.Time.Core.Utilities.Box<T!>!
@@ -527,6 +528,8 @@ static Zorglub.Time.Core.Yemox.Create(Zorglub.Time.Core.Yemo ym, int extra) -> Z
 static Zorglub.Time.Core.Yemox.FromBinary(int data) -> Zorglub.Time.Core.Yemox
 static Zorglub.Time.Core.Yemox.operator !=(Zorglub.Time.Core.Yemox left, Zorglub.Time.Core.Yemox right) -> bool
 static Zorglub.Time.Core.Yemox.operator ==(Zorglub.Time.Core.Yemox left, Zorglub.Time.Core.Yemox right) -> bool
+static Zorglub.Time.DateParts.AtStartOfMonth(int y, int m) -> Zorglub.Time.DateParts
+static Zorglub.Time.DateParts.AtStartOfYear(int y) -> Zorglub.Time.DateParts
 static Zorglub.Time.DateParts.operator !=(Zorglub.Time.DateParts left, Zorglub.Time.DateParts right) -> bool
 static Zorglub.Time.DateParts.operator <(Zorglub.Time.DateParts left, Zorglub.Time.DateParts right) -> bool
 static Zorglub.Time.DateParts.operator <=(Zorglub.Time.DateParts left, Zorglub.Time.DateParts right) -> bool
@@ -586,6 +589,7 @@ static Zorglub.Time.Hemerology.YearNumbering.GetYearFromIsoDecade(int decade, in
 static Zorglub.Time.Hemerology.YearNumbering.GetYearFromIsoMillennium(int millennium, int yearOfMillennium) -> int
 static Zorglub.Time.Hemerology.YearNumbering.GetYearFromMillennium(int millennium, int yearOfMillennium) -> int
 static Zorglub.Time.Hemerology.YearNumbering.GetYearOfCentury(int year) -> int
+static Zorglub.Time.MonthParts.AtStartOfYear(int y) -> Zorglub.Time.MonthParts
 static Zorglub.Time.MonthParts.operator !=(Zorglub.Time.MonthParts left, Zorglub.Time.MonthParts right) -> bool
 static Zorglub.Time.MonthParts.operator <(Zorglub.Time.MonthParts left, Zorglub.Time.MonthParts right) -> bool
 static Zorglub.Time.MonthParts.operator <=(Zorglub.Time.MonthParts left, Zorglub.Time.MonthParts right) -> bool
@@ -611,6 +615,7 @@ static Zorglub.Time.Ord.operator <=(Zorglub.Time.Ord left, Zorglub.Time.Ord righ
 static Zorglub.Time.Ord.operator ==(Zorglub.Time.Ord left, Zorglub.Time.Ord right) -> bool
 static Zorglub.Time.Ord.operator >(Zorglub.Time.Ord left, Zorglub.Time.Ord right) -> bool
 static Zorglub.Time.Ord.operator >=(Zorglub.Time.Ord left, Zorglub.Time.Ord right) -> bool
+static Zorglub.Time.OrdinalParts.AtStartOfYear(int y) -> Zorglub.Time.OrdinalParts
 static Zorglub.Time.OrdinalParts.operator !=(Zorglub.Time.OrdinalParts left, Zorglub.Time.OrdinalParts right) -> bool
 static Zorglub.Time.OrdinalParts.operator <(Zorglub.Time.OrdinalParts left, Zorglub.Time.OrdinalParts right) -> bool
 static Zorglub.Time.OrdinalParts.operator <=(Zorglub.Time.OrdinalParts left, Zorglub.Time.OrdinalParts right) -> bool
@@ -978,19 +983,19 @@ Zorglub.Time.Core.ISetMembership<T>
 Zorglub.Time.Core.ISetMembership<T>.Contains(T value) -> bool
 Zorglub.Time.Core.IVirtualMonthFeaturette
 Zorglub.Time.Core.IVirtualMonthFeaturette.VirtualMonth.get -> int
-Zorglub.Time.Core.PartsFactory
-Zorglub.Time.Core.PartsFactory.GetDateParts(int daysSinceEpoch) -> Zorglub.Time.DateParts
-Zorglub.Time.Core.PartsFactory.GetDateParts(int y, int doy) -> Zorglub.Time.DateParts
-Zorglub.Time.Core.PartsFactory.GetDatePartsAtEndOfMonth(int y, int m) -> Zorglub.Time.DateParts
-Zorglub.Time.Core.PartsFactory.GetDatePartsAtEndOfYear(int y) -> Zorglub.Time.DateParts
-Zorglub.Time.Core.PartsFactory.GetMonthParts(int monthsSinceEpoch) -> Zorglub.Time.MonthParts
-Zorglub.Time.Core.PartsFactory.GetMonthPartsAtEndOfYear(int y) -> Zorglub.Time.MonthParts
-Zorglub.Time.Core.PartsFactory.GetOrdinalParts(int daysSinceEpoch) -> Zorglub.Time.OrdinalParts
-Zorglub.Time.Core.PartsFactory.GetOrdinalParts(int y, int m, int d) -> Zorglub.Time.OrdinalParts
-Zorglub.Time.Core.PartsFactory.GetOrdinalPartsAtEndOfMonth(int y, int m) -> Zorglub.Time.OrdinalParts
-Zorglub.Time.Core.PartsFactory.GetOrdinalPartsAtEndOfYear(int y) -> Zorglub.Time.OrdinalParts
-Zorglub.Time.Core.PartsFactory.GetOrdinalPartsAtStartOfMonth(int y, int m) -> Zorglub.Time.OrdinalParts
-Zorglub.Time.Core.PartsFactory.PartsFactory(Zorglub.Time.Core.ICalendricalSchema! schema) -> void
+Zorglub.Time.Core.PartsAdapter
+Zorglub.Time.Core.PartsAdapter.GetDateParts(int daysSinceEpoch) -> Zorglub.Time.DateParts
+Zorglub.Time.Core.PartsAdapter.GetDateParts(int y, int doy) -> Zorglub.Time.DateParts
+Zorglub.Time.Core.PartsAdapter.GetDatePartsAtEndOfMonth(int y, int m) -> Zorglub.Time.DateParts
+Zorglub.Time.Core.PartsAdapter.GetDatePartsAtEndOfYear(int y) -> Zorglub.Time.DateParts
+Zorglub.Time.Core.PartsAdapter.GetMonthParts(int monthsSinceEpoch) -> Zorglub.Time.MonthParts
+Zorglub.Time.Core.PartsAdapter.GetMonthPartsAtEndOfYear(int y) -> Zorglub.Time.MonthParts
+Zorglub.Time.Core.PartsAdapter.GetOrdinalParts(int daysSinceEpoch) -> Zorglub.Time.OrdinalParts
+Zorglub.Time.Core.PartsAdapter.GetOrdinalParts(int y, int m, int d) -> Zorglub.Time.OrdinalParts
+Zorglub.Time.Core.PartsAdapter.GetOrdinalPartsAtEndOfMonth(int y, int m) -> Zorglub.Time.OrdinalParts
+Zorglub.Time.Core.PartsAdapter.GetOrdinalPartsAtEndOfYear(int y) -> Zorglub.Time.OrdinalParts
+Zorglub.Time.Core.PartsAdapter.GetOrdinalPartsAtStartOfMonth(int y, int m) -> Zorglub.Time.OrdinalParts
+Zorglub.Time.Core.PartsAdapter.PartsAdapter(Zorglub.Time.Core.ICalendricalSchema! schema) -> void
 Zorglub.Time.Core.Schemas.Coptic12Schema
 Zorglub.Time.Core.Schemas.Coptic13Schema
 Zorglub.Time.Core.Schemas.CopticSchema
@@ -1028,20 +1033,23 @@ Zorglub.Time.Core.SystemArithmetic.PreviousMonth(Zorglub.Time.Core.Yemo ym) -> Z
 Zorglub.Time.Core.SystemArithmetic.Schema.get -> Zorglub.Time.Core.SystemSchema!
 Zorglub.Time.Core.SystemArithmetic.Segment.get -> Zorglub.Time.Core.SystemSegment!
 Zorglub.Time.Core.SystemArithmetic.SupportedYears.get -> Zorglub.Time.Core.Intervals.Range<int>
-Zorglub.Time.Core.SystemArithmetic.SystemArithmetic(Zorglub.Time.Core.SystemSchema! schema, Zorglub.Time.Core.Intervals.Range<int>? supportedYears) -> void
+Zorglub.Time.Core.SystemArithmetic.SystemArithmetic(Zorglub.Time.Core.SystemSegment! segment) -> void
 Zorglub.Time.Core.SystemSchema
-Zorglub.Time.Core.SystemSchema.Arithmetic.get -> Zorglub.Time.Core.SystemArithmetic!
 Zorglub.Time.Core.SystemSchema.GetDateParts(int daysSinceEpoch) -> Zorglub.Time.Core.Yemoda
 Zorglub.Time.Core.SystemSchema.GetDateParts(int y, int doy) -> Zorglub.Time.Core.Yemoda
 Zorglub.Time.Core.SystemSchema.GetDatePartsAtEndOfMonth(int y, int m) -> Zorglub.Time.Core.Yemoda
 Zorglub.Time.Core.SystemSchema.GetDatePartsAtEndOfYear(int y) -> Zorglub.Time.Core.Yemoda
+Zorglub.Time.Core.SystemSchema.GetDatePartsAtStartOfMonth(int y, int m) -> Zorglub.Time.Core.Yemoda
+Zorglub.Time.Core.SystemSchema.GetDatePartsAtStartOfYear(int y) -> Zorglub.Time.Core.Yemoda
 Zorglub.Time.Core.SystemSchema.GetMonthParts(int monthsSinceEpoch) -> Zorglub.Time.Core.Yemo
 Zorglub.Time.Core.SystemSchema.GetMonthPartsAtEndOfYear(int y) -> Zorglub.Time.Core.Yemo
+Zorglub.Time.Core.SystemSchema.GetMonthPartsAtStartOfYear(int y) -> Zorglub.Time.Core.Yemo
 Zorglub.Time.Core.SystemSchema.GetOrdinalParts(int daysSinceEpoch) -> Zorglub.Time.Core.Yedoy
 Zorglub.Time.Core.SystemSchema.GetOrdinalParts(int y, int m, int d) -> Zorglub.Time.Core.Yedoy
 Zorglub.Time.Core.SystemSchema.GetOrdinalPartsAtEndOfMonth(int y, int m) -> Zorglub.Time.Core.Yedoy
 Zorglub.Time.Core.SystemSchema.GetOrdinalPartsAtEndOfYear(int y) -> Zorglub.Time.Core.Yedoy
 Zorglub.Time.Core.SystemSchema.GetOrdinalPartsAtStartOfMonth(int y, int m) -> Zorglub.Time.Core.Yedoy
+Zorglub.Time.Core.SystemSchema.GetOrdinalPartsAtStartOfYear(int y) -> Zorglub.Time.Core.Yedoy
 Zorglub.Time.Core.SystemSchema.SupportedYearsCore.get -> Zorglub.Time.Core.Intervals.Range<int>
 Zorglub.Time.Core.SystemSegment
 Zorglub.Time.Core.SystemSegment.Domain.get -> Zorglub.Time.Core.Intervals.Range<int>
@@ -1198,13 +1206,9 @@ Zorglub.Time.Hemerology.ICalendar.Domain.get -> Zorglub.Time.Core.Intervals.Rang
 Zorglub.Time.Hemerology.ICalendar.Epoch.get -> Zorglub.Time.DayNumber
 Zorglub.Time.Hemerology.ICalendar.GetDayNumberOn(int year, int dayOfYear) -> Zorglub.Time.DayNumber
 Zorglub.Time.Hemerology.ICalendar.GetDayNumberOn(int year, int month, int day) -> Zorglub.Time.DayNumber
-Zorglub.Time.Hemerology.ICalendar.Scope.get -> Zorglub.Time.Hemerology.ICalendarScope!
+Zorglub.Time.Hemerology.ICalendar.Scope.get -> Zorglub.Time.Hemerology.Scopes.CalendarScope!
 Zorglub.Time.Hemerology.ICalendar<TDate>
 Zorglub.Time.Hemerology.ICalendar<TDate>.Today() -> TDate
-Zorglub.Time.Hemerology.ICalendarScope
-Zorglub.Time.Hemerology.ICalendarScope.Domain.get -> Zorglub.Time.Core.Intervals.Range<Zorglub.Time.DayNumber>
-Zorglub.Time.Hemerology.ICalendarScope.Epoch.get -> Zorglub.Time.DayNumber
-Zorglub.Time.Hemerology.ICalendarScope.Segment.get -> Zorglub.Time.Core.CalendricalSegment!
 Zorglub.Time.Hemerology.IDate
 Zorglub.Time.Hemerology.IDate<TSelf>
 Zorglub.Time.Hemerology.IDateable
@@ -1249,26 +1253,19 @@ Zorglub.Time.Hemerology.IStandardArithmetic<TSelf>.NextDay() -> TSelf
 Zorglub.Time.Hemerology.IStandardArithmetic<TSelf>.PlusDays(int days) -> TSelf
 Zorglub.Time.Hemerology.IStandardArithmetic<TSelf>.PreviousDay() -> TSelf
 Zorglub.Time.Hemerology.RangeExtensions
+Zorglub.Time.Hemerology.Scopes.CalendarScope
+Zorglub.Time.Hemerology.Scopes.CalendarScope.CalendarScope(Zorglub.Time.DayNumber epoch, Zorglub.Time.Core.CalendricalSegment! segment) -> void
+Zorglub.Time.Hemerology.Scopes.CalendarScope.Domain.get -> Zorglub.Time.Core.Intervals.Range<Zorglub.Time.DayNumber>
+Zorglub.Time.Hemerology.Scopes.CalendarScope.Epoch.get -> Zorglub.Time.DayNumber
+Zorglub.Time.Hemerology.Scopes.CalendarScope.PreValidator.get -> Zorglub.Time.Core.ICalendricalPreValidator!
+Zorglub.Time.Hemerology.Scopes.CalendarScope.Schema.get -> Zorglub.Time.Core.ICalendricalSchema!
+Zorglub.Time.Hemerology.Scopes.CalendarScope.Segment.get -> Zorglub.Time.Core.CalendricalSegment!
+Zorglub.Time.Hemerology.Scopes.CalendarScope.SupportedYears.get -> Zorglub.Time.Core.Intervals.Range<int>
+Zorglub.Time.Hemerology.Scopes.CalendarScope.ValidateYear(int year, string? paramName = null) -> void
 Zorglub.Time.Hemerology.Scopes.ProlepticScope
-Zorglub.Time.Hemerology.Scopes.ProlepticScope.Domain.get -> Zorglub.Time.Core.Intervals.Range<Zorglub.Time.DayNumber>
-Zorglub.Time.Hemerology.Scopes.ProlepticScope.Epoch.get -> Zorglub.Time.DayNumber
 Zorglub.Time.Hemerology.Scopes.ProlepticScope.ProlepticScope(Zorglub.Time.Core.ICalendricalSchema! schema, Zorglub.Time.DayNumber epoch) -> void
-Zorglub.Time.Hemerology.Scopes.ProlepticScope.Segment.get -> Zorglub.Time.Core.CalendricalSegment!
-Zorglub.Time.Hemerology.Scopes.ProlepticScope.SupportedYears.get -> Zorglub.Time.Core.Intervals.Range<int>
-Zorglub.Time.Hemerology.Scopes.ProlepticScope.ValidateOrdinal(int year, int dayOfYear, string? paramName = null) -> void
-Zorglub.Time.Hemerology.Scopes.ProlepticScope.ValidateYear(int year, string? paramName = null) -> void
-Zorglub.Time.Hemerology.Scopes.ProlepticScope.ValidateYearMonth(int year, int month, string? paramName = null) -> void
-Zorglub.Time.Hemerology.Scopes.ProlepticScope.ValidateYearMonthDay(int year, int month, int day, string? paramName = null) -> void
 Zorglub.Time.Hemerology.Scopes.StandardScope
-Zorglub.Time.Hemerology.Scopes.StandardScope.Domain.get -> Zorglub.Time.Core.Intervals.Range<Zorglub.Time.DayNumber>
-Zorglub.Time.Hemerology.Scopes.StandardScope.Epoch.get -> Zorglub.Time.DayNumber
-Zorglub.Time.Hemerology.Scopes.StandardScope.Segment.get -> Zorglub.Time.Core.CalendricalSegment!
 Zorglub.Time.Hemerology.Scopes.StandardScope.StandardScope(Zorglub.Time.Core.ICalendricalSchema! schema, Zorglub.Time.DayNumber epoch) -> void
-Zorglub.Time.Hemerology.Scopes.StandardScope.SupportedYears.get -> Zorglub.Time.Core.Intervals.Range<int>
-Zorglub.Time.Hemerology.Scopes.StandardScope.ValidateOrdinal(int year, int dayOfYear, string? paramName = null) -> void
-Zorglub.Time.Hemerology.Scopes.StandardScope.ValidateYear(int year, string? paramName = null) -> void
-Zorglub.Time.Hemerology.Scopes.StandardScope.ValidateYearMonth(int year, int month, string? paramName = null) -> void
-Zorglub.Time.Hemerology.Scopes.StandardScope.ValidateYearMonthDay(int year, int month, int day, string? paramName = null) -> void
 Zorglub.Time.Hemerology.YearNumbering
 Zorglub.Time.MonthParts
 Zorglub.Time.MonthParts.CompareTo(object? obj) -> int
@@ -1336,7 +1333,7 @@ Zorglub.Time.Simple.Calendar.MinMaxOrdinal.get -> Zorglub.Time.Core.Utilities.Or
 Zorglub.Time.Simple.Calendar.MinMaxYear.get -> Zorglub.Time.Core.Utilities.OrderedPair<Zorglub.Time.Simple.CalendarYear>
 Zorglub.Time.Simple.Calendar.PeriodicAdjustments.get -> Zorglub.Time.CalendricalAdjustments
 Zorglub.Time.Simple.Calendar.PermanentId.get -> Zorglub.Time.CalendarId
-Zorglub.Time.Simple.Calendar.Scope.get -> Zorglub.Time.Hemerology.ICalendarScope!
+Zorglub.Time.Simple.Calendar.Scope.get -> Zorglub.Time.Hemerology.Scopes.CalendarScope!
 Zorglub.Time.Simple.Calendar.SupportedYears.get -> Zorglub.Time.Core.Intervals.Range<int>
 Zorglub.Time.Simple.CalendarCatalog
 Zorglub.Time.Simple.CalendarDate

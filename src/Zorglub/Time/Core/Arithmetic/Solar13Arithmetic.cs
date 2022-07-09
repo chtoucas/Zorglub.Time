@@ -20,10 +20,8 @@ namespace Zorglub.Time.Core.Arithmetic
         /// Initializes a new instance of the <see cref="Solar13Arithmetic"/> class with the
         /// specified schema.
         /// </summary>
-        /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
-        /// <exception cref="AoorException"><paramref name="supportedYears"/> is NOT a subinterval
-        /// of the range of supported years by <paramref name="schema"/>.</exception>
-        /// <exception cref="ArgumentException"><paramref name="schema"/> does not have the expected
+        /// <exception cref="ArgumentNullException"><paramref name="segment"/> is null.</exception>
+        /// <exception cref="ArgumentException">The underlying schema does not have the expected
         /// profile <see cref="CalendricalProfile.Solar13"/>.</exception>
         public Solar13Arithmetic(SystemSegment segment) : base(segment)
         {
