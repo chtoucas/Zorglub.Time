@@ -84,27 +84,30 @@ namespace Zorglub.Time.Core
 
     public partial class PartsAdapter // Dates in a given year or month
     {
-        // Contrary to SystemSchema, some methods may be static.
-        // For instance, GetDatePartsAtStartOfYear() calls the DateParts' ctor
-        // which is completely safe; this was not the case with Yemoda.
+#if DEBUG
+        // Contrary to SystemSchema, the "box principle" does not apply here,
+        // therefore some methods may be static, nervetheless I prefer to
+        // exclude them from the API as they are just aliases of other methods.
 
         /// <summary>
         /// Obtains the month parts for the first month of the specified year.
         /// </summary>
-        [Pure]
-        public static MonthParts GetMonthPartsAtStartOfYear(int y) => new(y, 1);
+        [Pure, ExcludeFromCodeCoverage]
+        public static MonthParts GetMonthPartsAtStartOfYear(int y) => MonthParts.AtStartOfYear(y);
 
         /// <summary>
         /// Obtains the date parts for the first day of the specified year.
         /// </summary>
-        [Pure]
-        public static DateParts GetDatePartsAtStartOfYear(int y) => new(y, 1, 1);
+        [Pure, ExcludeFromCodeCoverage]
+        public static DateParts GetDatePartsAtStartOfYear(int y) => DateParts.AtStartOfYear(y);
 
         /// <summary>
         /// Obtains the ordinal date parts for the first day of the specified year.
         /// </summary>
-        [Pure]
-        public static OrdinalParts GetOrdinalPartsAtStartOfYear(int y) => new(y, 1);
+        [Pure, ExcludeFromCodeCoverage]
+        public static OrdinalParts GetOrdinalPartsAtStartOfYear(int y) =>
+            OrdinalParts.AtStartOfYear(y);
+#endif
 
         /// <summary>
         /// Obtains the date parts for the last month of the specified year.
@@ -137,11 +140,14 @@ namespace Zorglub.Time.Core
             return new OrdinalParts(y, doy);
         }
 
+#if DEBUG
         /// <summary>
         /// Obtains the date parts for the first day of the specified month.
         /// </summary>
-        [Pure]
-        public static DateParts GetDatePartsAtStartOfMonth(int y, int m) => new(y, m, 1);
+        [Pure, ExcludeFromCodeCoverage]
+        public static DateParts GetDatePartsAtStartOfMonth(int y, int m) =>
+            DateParts.AtStartOfMonth(y, m);
+#endif
 
         /// <summary>
         /// Obtains the ordinal date parts for the first day of the specified month.

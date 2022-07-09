@@ -62,6 +62,20 @@ namespace Zorglub.Time
         /// </summary>
         public void Deconstruct(out int year, out int month, out int day) =>
             (year, month, day) = (Year, Month, Day);
+
+        /// <summary>
+        /// Creates a new instance of <see cref="DateParts"/> representing the first day of the
+        /// specified year.
+        /// </summary>
+        [Pure]
+        public static DateParts AtStartOfYear(int y) => new(y, 1, 1);
+
+        /// <summary>
+        /// Creates a new instance of <see cref="DateParts"/> representing the first day of the
+        /// specified month.
+        /// </summary>
+        [Pure]
+        public static DateParts AtStartOfMonth(int y, int m) => new(y, m, 1);
     }
 
     public partial struct DateParts // IEquatable

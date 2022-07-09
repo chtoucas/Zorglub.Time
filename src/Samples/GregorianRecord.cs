@@ -56,7 +56,7 @@ public readonly partial record struct GregorianRecord
     }
 
     public static Range<int> SupportedYears => Segment.SupportedYears;
-    public static GregorianRecord MinValue { get; } = new(PartsAdapter.GetDatePartsAtStartOfYear(SupportedYears.Min));
+    public static GregorianRecord MinValue { get; } = new(DateParts.AtStartOfYear(SupportedYears.Min));
     public static GregorianRecord MaxValue { get; } = new(PartsAdapter.GetDatePartsAtEndOfYear(SupportedYears.Max));
 
     public Ord CenturyOfEra => Ord.FromInt32(Century);
@@ -125,7 +125,7 @@ public partial record struct GregorianRecord // Conversions, adjustments...
     public static GregorianRecord GetStartOfMonth(GregorianRecord day)
     {
         var (y, m, _) = day;
-        var parts = PartsAdapter.GetDatePartsAtStartOfMonth(y, m);
+        var parts = DateParts.AtStartOfMonth(y, m);
         return new GregorianRecord(parts);
     }
 

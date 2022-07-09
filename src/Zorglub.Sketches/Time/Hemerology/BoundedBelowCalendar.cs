@@ -165,7 +165,7 @@ namespace Zorglub.Time.Hemerology
             Scope.ValidateYear(year);
             return year == MinYear
                 ? Throw.ArgumentOutOfRange<DateParts>(nameof(year))
-                : PartsAdapter.GetDatePartsAtStartOfYear(year);
+                : DateParts.AtStartOfYear(year);
         }
 
         /// <inheritdoc />
@@ -183,7 +183,7 @@ namespace Zorglub.Time.Hemerology
             Scope.ValidateYearMonth(year, month);
             return new MonthParts(year, month) == MinDateParts.MonthParts
                 ? Throw.ArgumentOutOfRange<DateParts>(nameof(month))
-                : PartsAdapter.GetDatePartsAtStartOfMonth(year, month);
+                : DateParts.AtStartOfMonth(year, month);
         }
 
         /// <inheritdoc />

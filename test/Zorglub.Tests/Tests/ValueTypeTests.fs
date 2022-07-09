@@ -129,12 +129,15 @@ module RuntimeSizes =
         // Zorglub.Testing.Data
         Marshal.SizeOf(typedefof<YearDaysSinceEpoch>) === 8
         Marshal.SizeOf(typedefof<YearDayNumber>) === 8
+        //
+        Marshal.SizeOf(typedefof<MonthsSinceEpochInfo>) === 8
         Marshal.SizeOf(typedefof<DaysSinceEpochInfo>) === 8
         Marshal.SizeOf(typedefof<DaysSinceZeroInfo>) === 8
         Marshal.SizeOf(typedefof<DaysSinceRataDieInfo>) === 8
         Marshal.SizeOf(typedefof<DayNumberInfo>) === 8
         Marshal.SizeOf(typedefof<DaysSinceEpochYewedaInfo>) === 12
         Marshal.SizeOf(typedefof<DayNumberYewedaInfo>) === 12
+        //
         Marshal.SizeOf(typedefof<DateInfo>) === 16
         Marshal.SizeOf(typedefof<MonthInfo>) === 16
         Marshal.SizeOf(typedefof<YearInfo>) === 12
@@ -142,6 +145,7 @@ module RuntimeSizes =
         Marshal.SizeOf(typedefof<CenturyInfo>) === 12
         Marshal.SizeOf(typedefof<MillenniumInfo>) === 12
         Marshal.SizeOf(typedefof<DecadeOfCenturyInfo>) === 12
+        //
         sizeof<YemodaAnd<int>>() === 8
         sizeof<YemodaAnd<DayOfWeek>>() === 8
         sizeof<YemoAnd<int>>() === 8
@@ -153,6 +157,13 @@ module RuntimeSizes =
         sizeof<YedoyPairAnd<int>>() === 12
         Marshal.SizeOf(typedefof<YemoPair>) === 8
         sizeof<YemoPairAnd<int>>() === 12
+        //
+        Marshal.SizeOf(typedefof<DatePartsPair>) === 24     // BIG struct
+        sizeof<DatePartsPairAnd<int>>() === 28              // BIG struct
+        Marshal.SizeOf(typedefof<OrdinalPartsPair>) === 16
+        sizeof<OrdinalPartsPairAnd<int>>() === 20           // BIG struct
+        Marshal.SizeOf(typedefof<MonthPartsPair>) === 16
+        sizeof<MonthPartsPairAnd<int>>() === 20             // BIG struct
 
 module DefaultValues =
     // Date types built upon DayNumber: 01/01/0001 (year 1)

@@ -159,7 +159,7 @@ namespace Zorglub.Time.Hemerology
         public sealed override DateParts GetStartOfYear(int year)
         {
             Scope.ValidateYear(year);
-            return PartsAdapter.GetDatePartsAtStartOfYear(year);
+            return DateParts.AtStartOfYear(year);
         }
 
         /// <inheritdoc />
@@ -175,7 +175,7 @@ namespace Zorglub.Time.Hemerology
         public sealed override DateParts GetStartOfMonth(int year, int month)
         {
             Scope.ValidateYearMonth(year, month);
-            return PartsAdapter.GetDatePartsAtStartOfMonth(year, month);
+            return DateParts.AtStartOfMonth(year, month);
         }
 
         /// <inheritdoc />

@@ -44,6 +44,13 @@ namespace Zorglub.Time
         /// </summary>
         public void Deconstruct(out int year, out int dayOfYear) =>
             (year, dayOfYear) = (Year, DayOfYear);
+
+        /// <summary>
+        /// Creates a new instance of <see cref="OrdinalParts"/> representing the first day of the
+        /// specified year.
+        /// </summary>
+        [Pure]
+        public static OrdinalParts AtStartOfYear(int y) => new(y, 1);
     }
 
     public partial struct OrdinalParts // IEquatable

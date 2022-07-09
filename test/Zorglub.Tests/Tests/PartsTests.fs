@@ -49,6 +49,18 @@ module DateParts =
 
             parts.ToString() === str
 
+        [<Property>]
+        let ``AtStartOfYear()`` y =
+            let parts = new DateParts(y, 1, 1)
+
+            DateParts.AtStartOfYear(y) === parts
+
+        [<Property>]
+        let ``AtStartOfMonth()`` y m =
+            let parts = new DateParts(y, m, 1)
+
+            DateParts.AtStartOfMonth(y, m) === parts
+
     module Equality =
         open NonStructuralComparison
 
@@ -133,6 +145,12 @@ module MonthParts =
 
             parts.ToString() === str
 
+        [<Property>]
+        let ``AtStartOfYear()`` y =
+            let parts = new MonthParts(y, 1)
+
+            MonthParts.AtStartOfYear(y) === parts
+
     module Equality =
         open NonStructuralComparison
 
@@ -210,6 +228,12 @@ module OrdinalParts =
             let parts = new OrdinalParts(y, doy)
 
             parts.ToString() === str
+
+        [<Property>]
+        let ``AtStartOfYear()`` y =
+            let parts = new OrdinalParts(y, 1)
+
+            OrdinalParts.AtStartOfYear(y) === parts
 
     module Equality =
         open NonStructuralComparison

@@ -42,6 +42,13 @@ namespace Zorglub.Time
         /// Deconstructs the current instance into its components.
         /// </summary>
         public void Deconstruct(out int year, out int month) => (year, month) = (Year, Month);
+
+        /// <summary>
+        /// Creates a new instance of <see cref="MonthParts"/> representing the first month of the
+        /// specified year.
+        /// </summary>
+        [Pure]
+        public static MonthParts AtStartOfYear(int y) => new(y, 1);
     }
 
     public partial struct MonthParts // IEquatable
