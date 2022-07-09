@@ -94,9 +94,8 @@ internal sealed class SystemContext
     {
         Schema = schema ?? throw new ArgumentNullException(nameof(schema));
 
-        // Temporary code.
-        Arithmetic = SystemArithmetic.CreateDefault(schema, supportedYears);
-        Segment = Arithmetic.Segment;
+        Segment = SystemSegment.Create(schema, supportedYears);
+        Arithmetic = SystemArithmetic.CreateDefault(schema, Segment);
     }
 
     public SystemSchema Schema { get; }
