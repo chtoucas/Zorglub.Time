@@ -8,24 +8,24 @@ using Zorglub.Testing.Data;
 // Sync with SystemSchemaFacts.
 
 /// <summary>
-/// Provides facts about <see cref="ICalendricalPartsFactory"/>.
+/// Provides facts about <see cref="ISchemaAdapter"/>.
 /// </summary>
-public partial class ICalendricalPartsFactoryFacts<TDataSet> :
+public partial class ISchemaAdapterFacts<TDataSet> :
     CalendricalDataConsumer<TDataSet>
     where TDataSet : ICalendricalDataSet, ISingleton<TDataSet>
 {
-    protected ICalendricalPartsFactoryFacts(ICalendricalPartsFactory factory)
+    protected ISchemaAdapterFacts(ISchemaAdapter adapter)
     {
-        FactoryUT = factory ?? throw new ArgumentNullException(nameof(factory));
+        AdapterUT = adapter ?? throw new ArgumentNullException(nameof(adapter));
     }
 
     /// <summary>
-    /// Gets the factory under test.
+    /// Gets the adapter under test.
     /// </summary>
-    protected ICalendricalPartsFactory FactoryUT { get; }
+    protected ISchemaAdapter AdapterUT { get; }
 }
 
-public partial class ICalendricalPartsFactoryFacts<TDataSet> // Conversions
+public partial class ISchemaAdapterFacts<TDataSet> // Conversions
 {
     #region GetMonthParts()
 
@@ -33,7 +33,7 @@ public partial class ICalendricalPartsFactoryFacts<TDataSet> // Conversions
     public void GetMonthParts﹍MonthsSinceEpoch(MonthsSinceEpochInfo info)
     {
         // Act
-        var actual = FactoryUT.GetMonthParts(info.MonthsSinceEpoch);
+        var actual = AdapterUT.GetMonthParts(info.MonthsSinceEpoch);
         // Assert
         Assert.Equal(info.Yemo, actual);
     }
@@ -45,7 +45,7 @@ public partial class ICalendricalPartsFactoryFacts<TDataSet> // Conversions
     public void GetDateParts﹍DaysSinceEpoch(DaysSinceEpochInfo info)
     {
         // Act
-        var actual = FactoryUT.GetDateParts(info.DaysSinceEpoch);
+        var actual = AdapterUT.GetDateParts(info.DaysSinceEpoch);
         // Assert
         Assert.Equal(info.Yemoda, actual);
     }
@@ -57,9 +57,9 @@ public partial class ICalendricalPartsFactoryFacts<TDataSet> // Conversions
     public void GetOrdinalParts﹍DaysSinceEpoch(DaysSinceEpochInfo info)
     {
         var (daysSinceEpoch, y, m, d) = info;
-        var ydoy = FactoryUT.GetOrdinalParts(y, m, d);
+        var ydoy = AdapterUT.GetOrdinalParts(y, m, d);
         // Act
-        var actual = FactoryUT.GetOrdinalParts(daysSinceEpoch);
+        var actual = AdapterUT.GetOrdinalParts(daysSinceEpoch);
         // Assert
         Assert.Equal(ydoy, actual);
     }
@@ -72,7 +72,7 @@ public partial class ICalendricalPartsFactoryFacts<TDataSet> // Conversions
     {
         var (y, m, d) = info.Yemoda;
         // Act
-        var actual = FactoryUT.GetOrdinalParts(y, m, d);
+        var actual = AdapterUT.GetOrdinalParts(y, m, d);
         // Assert
         Assert.Equal(info.Yedoy, actual);
     }
@@ -85,7 +85,7 @@ public partial class ICalendricalPartsFactoryFacts<TDataSet> // Conversions
     {
         var (y, doy) = info.Yedoy;
         // Act
-        var actual = FactoryUT.GetDateParts(y, doy);
+        var actual = AdapterUT.GetDateParts(y, doy);
         // Assert
         Assert.Equal(info.Yemoda, actual);
     }
@@ -93,7 +93,7 @@ public partial class ICalendricalPartsFactoryFacts<TDataSet> // Conversions
     #endregion
 }
 
-public partial class ICalendricalPartsFactoryFacts<TDataSet> // Dates in a given year or month
+public partial class ISchemaAdapterFacts<TDataSet> // Dates in a given year or month
 {
     #region GetMonthPartsAtStartOfYear()
 
@@ -102,7 +102,7 @@ public partial class ICalendricalPartsFactoryFacts<TDataSet> // Dates in a given
     {
         var ym = new Yemo(1, 1);
         // Act
-        var actual = FactoryUT.GetMonthPartsAtStartOfYear(1);
+        var actual = AdapterUT.GetMonthPartsAtStartOfYear(1);
         // Assert
         Assert.Equal(ym, actual);
     }
@@ -111,7 +111,7 @@ public partial class ICalendricalPartsFactoryFacts<TDataSet> // Dates in a given
     public void GetMonthPartsAtStartOfYear(Yemoda ymd)
     {
         // Act
-        var actual = FactoryUT.GetMonthPartsAtStartOfYear(ymd.Year);
+        var actual = AdapterUT.GetMonthPartsAtStartOfYear(ymd.Year);
         // Assert
         Assert.Equal(ymd.Yemo, actual);
     }
@@ -124,7 +124,7 @@ public partial class ICalendricalPartsFactoryFacts<TDataSet> // Dates in a given
     {
         var ymd = new Yemoda(1, 1, 1);
         // Act
-        var actual = FactoryUT.GetDatePartsAtStartOfYear(1);
+        var actual = AdapterUT.GetDatePartsAtStartOfYear(1);
         // Assert
         Assert.Equal(ymd, actual);
     }
@@ -133,7 +133,7 @@ public partial class ICalendricalPartsFactoryFacts<TDataSet> // Dates in a given
     public void GetDatePartsAtStartOfYear(Yemoda ymd)
     {
         // Act
-        var actual = FactoryUT.GetDatePartsAtStartOfYear(ymd.Year);
+        var actual = AdapterUT.GetDatePartsAtStartOfYear(ymd.Year);
         // Assert
         Assert.Equal(ymd, actual);
     }
@@ -146,7 +146,7 @@ public partial class ICalendricalPartsFactoryFacts<TDataSet> // Dates in a given
     {
         var ydoy = new Yedoy(1, 1);
         // Act
-        var actual = FactoryUT.GetOrdinalPartsAtStartOfYear(1);
+        var actual = AdapterUT.GetOrdinalPartsAtStartOfYear(1);
         // Assert
         Assert.Equal(ydoy, actual);
     }
@@ -157,7 +157,7 @@ public partial class ICalendricalPartsFactoryFacts<TDataSet> // Dates in a given
         int y = info.Year;
         var ydoy = new Yedoy(y, 1);
         // Act
-        var actual = FactoryUT.GetOrdinalPartsAtStartOfYear(y);
+        var actual = AdapterUT.GetOrdinalPartsAtStartOfYear(y);
         // Assert
         Assert.Equal(ydoy, actual);
     }
@@ -170,7 +170,7 @@ public partial class ICalendricalPartsFactoryFacts<TDataSet> // Dates in a given
     public void GetMonthPartsAtEndOfYear(Yemoda ymd)
     {
         // Act
-        var actual = FactoryUT.GetMonthPartsAtEndOfYear(ymd.Year);
+        var actual = AdapterUT.GetMonthPartsAtEndOfYear(ymd.Year);
         // Assert
         Assert.Equal(ymd.Yemo, actual);
     }
@@ -182,7 +182,7 @@ public partial class ICalendricalPartsFactoryFacts<TDataSet> // Dates in a given
     public void GetDatePartsAtEndOfYear(Yemoda ymd)
     {
         // Act
-        var actual = FactoryUT.GetDatePartsAtEndOfYear(ymd.Year);
+        var actual = AdapterUT.GetDatePartsAtEndOfYear(ymd.Year);
         // Assert
         Assert.Equal(ymd, actual);
     }
@@ -196,7 +196,7 @@ public partial class ICalendricalPartsFactoryFacts<TDataSet> // Dates in a given
         int y = info.Year;
         var ydoy = new Yedoy(y, info.DaysInYear);
         // Act
-        var actual = FactoryUT.GetOrdinalPartsAtEndOfYear(y);
+        var actual = AdapterUT.GetOrdinalPartsAtEndOfYear(y);
         // Assert
         Assert.Equal(ydoy, actual);
     }
@@ -210,7 +210,7 @@ public partial class ICalendricalPartsFactoryFacts<TDataSet> // Dates in a given
     {
         var ymd = new Yemoda(1, 1, 1);
         // Act
-        var actual = FactoryUT.GetDatePartsAtStartOfMonth(1, 1);
+        var actual = AdapterUT.GetDatePartsAtStartOfMonth(1, 1);
         // Assert
         Assert.Equal(ymd, actual);
     }
@@ -221,7 +221,7 @@ public partial class ICalendricalPartsFactoryFacts<TDataSet> // Dates in a given
         var (y, m) = info.Yemo;
         var ymd = new Yemoda(y, m, 1);
         // Act
-        var actual = FactoryUT.GetDatePartsAtStartOfMonth(y, m);
+        var actual = AdapterUT.GetDatePartsAtStartOfMonth(y, m);
         // Assert
         Assert.Equal(ymd, actual);
     }
@@ -234,7 +234,7 @@ public partial class ICalendricalPartsFactoryFacts<TDataSet> // Dates in a given
     {
         var ydoy = new Yedoy(1, 1);
         // Act
-        var actual = FactoryUT.GetOrdinalPartsAtStartOfMonth(1, 1);
+        var actual = AdapterUT.GetOrdinalPartsAtStartOfMonth(1, 1);
         // Assert
         Assert.Equal(ydoy, actual);
     }
@@ -245,7 +245,7 @@ public partial class ICalendricalPartsFactoryFacts<TDataSet> // Dates in a given
         var (y, m) = info.Yemo;
         var ydoy = new Yedoy(y, info.DaysInYearBeforeMonth + 1);
         // Act
-        var actual = FactoryUT.GetOrdinalPartsAtStartOfMonth(y, m);
+        var actual = AdapterUT.GetOrdinalPartsAtStartOfMonth(y, m);
         // Assert
         Assert.Equal(ydoy, actual);
     }
@@ -260,7 +260,7 @@ public partial class ICalendricalPartsFactoryFacts<TDataSet> // Dates in a given
         var (y, m) = info.Yemo;
         var ymd = new Yemoda(y, m, info.DaysInMonth);
         // Act
-        var actual = FactoryUT.GetDatePartsAtEndOfMonth(y, m);
+        var actual = AdapterUT.GetDatePartsAtEndOfMonth(y, m);
         // Assert
         Assert.Equal(ymd, actual);
     }
@@ -274,7 +274,7 @@ public partial class ICalendricalPartsFactoryFacts<TDataSet> // Dates in a given
         var (y, m) = info.Yemo;
         var ydoy = new Yedoy(y, info.DaysInYearBeforeMonth + info.DaysInMonth);
         // Act
-        var actual = FactoryUT.GetOrdinalPartsAtEndOfMonth(y, m);
+        var actual = AdapterUT.GetOrdinalPartsAtEndOfMonth(y, m);
         // Assert
         Assert.Equal(ydoy, actual);
     }

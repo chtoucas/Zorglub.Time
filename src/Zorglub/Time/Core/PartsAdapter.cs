@@ -5,10 +5,10 @@ namespace Zorglub.Time.Core
 {
     /// <summary>
     /// Provides methods you can use to create new calendrical parts.
-    /// <para>A factory for parts assumes that input parameters are valid for the underlying
-    /// calendrical schema.</para>
+    /// <para>This class assumes that input parameters are valid for the underlying calendrical
+    /// schema.</para>
     /// </summary>
-    public sealed partial class PartsFactory
+    public sealed partial class PartsAdapter
     {
         /// <summary>
         /// Represents the schema.
@@ -17,16 +17,16 @@ namespace Zorglub.Time.Core
         private readonly ICalendricalSchema _schema;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="PartsFactory"/> class.
+        /// Initializes a new instance of the <see cref="PartsAdapter"/> class.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
-        public PartsFactory(ICalendricalSchema schema)
+        public PartsAdapter(ICalendricalSchema schema)
         {
             _schema = schema ?? throw new ArgumentNullException(nameof(schema));
         }
     }
 
-    public partial class PartsFactory // Conversions
+    public partial class PartsAdapter // Conversions
     {
         /// <summary>
         /// Obtains the date parts for the specified month count (the number of consecutive months
@@ -82,8 +82,12 @@ namespace Zorglub.Time.Core
         }
     }
 
-    public partial class PartsFactory // Dates in a given year or month
+    public partial class PartsAdapter // Dates in a given year or month
     {
+        // Contrary to SystemSchema, some methods may be static.
+        // For instance, GetDatePartsAtStartOfYear() calls the DateParts' ctor
+        // which is completely safe; this was not the case with Yemoda.
+
         /// <summary>
         /// Obtains the month parts for the first month of the specified year.
         /// </summary>

@@ -49,7 +49,7 @@ public partial struct DateTemplate
 {
     private static readonly SystemSchema Schema = __.Schema;
     private static readonly ICalendarScope Scope = __.Scope;
-    private static readonly PartsCreator PartsCreator = __.PartsCreator;
+    private static readonly PartsFactory PartsFactory = __.PartsFactory;
     private static readonly SystemArithmetic Arithmetic = __.Arithmetic;
     private static readonly Range<DayNumber> Domain = __.Domain;
 
@@ -57,7 +57,7 @@ public partial struct DateTemplate
 
     public DateTemplate(int year, int month, int day)
     {
-        _bin = PartsCreator.CreateYemoda(year, month, day);
+        _bin = PartsFactory.CreateYemoda(year, month, day);
     }
 
     private DateTemplate(Yemoda bin)
@@ -67,7 +67,7 @@ public partial struct DateTemplate
 
     public static DayNumber Epoch => Scope.Epoch;
     public static Range<int> SupportedYears => Scope.SupportedYears;
-    public static DateTemplate MinValue { get; } = new(SystemSchema.GetDatePartsAtStartOfYear(SupportedYears.Min));
+    public static DateTemplate MinValue { get; } = new(Schema.GetDatePartsAtStartOfYear(SupportedYears.Min));
     public static DateTemplate MaxValue { get; } = new(Schema.GetDatePartsAtEndOfYear(SupportedYears.Max));
 
     private static int EpochDayOfWeek { get; } = (int)__.Epoch.DayOfWeek;

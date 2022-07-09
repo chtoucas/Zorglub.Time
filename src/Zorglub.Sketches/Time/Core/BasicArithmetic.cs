@@ -18,10 +18,10 @@ namespace Zorglub.Time.Core
         private readonly ICalendricalSchema _schema;
 
         /// <summary>
-        /// Represents the factory for calendrical parts.
+        /// Represents the adapter for calendrical parts.
         /// <para>This field is read-only.</para>
         /// </summary>
-        private readonly PartsFactory _partsFactory;
+        private readonly PartsAdapter _partsAdapter;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BasicArithmetic"/> class.
@@ -38,7 +38,7 @@ namespace Zorglub.Time.Core
             if (ReferenceEquals(segment.Schema, schema) == false) Throw.Argument(nameof(segment));
             Segment = segment;
 
-            _partsFactory = new PartsFactory(schema);
+            _partsAdapter = new PartsAdapter(schema);
         }
 
         /// <inheritdoc/>
@@ -66,7 +66,7 @@ namespace Zorglub.Time.Core
 
             if (Domain.Contains(daysSinceEpoch) == false) Throw.DateOverflow();
 
-            return _partsFactory.GetDateParts(daysSinceEpoch);
+            return _partsAdapter.GetDateParts(daysSinceEpoch);
         }
 
         /// <inheritdoc />
@@ -99,7 +99,7 @@ namespace Zorglub.Time.Core
 
             if (Domain.Contains(daysSinceEpoch) == false) Throw.DateOverflow();
 
-            return _partsFactory.GetOrdinalParts(daysSinceEpoch);
+            return _partsAdapter.GetOrdinalParts(daysSinceEpoch);
         }
 
         /// <inheritdoc />
@@ -132,7 +132,7 @@ namespace Zorglub.Time.Core
 
             if (MonthDomain.Contains(monthsSinceEpoch) == false) Throw.MonthOverflow();
 
-            return _partsFactory.GetMonthParts(monthsSinceEpoch);
+            return _partsAdapter.GetMonthParts(monthsSinceEpoch);
         }
 
         /// <inheritdoc />

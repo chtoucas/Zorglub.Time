@@ -34,26 +34,24 @@ namespace Zorglub.Time.Core
     /// calendrical schema. It only checks that each calendrical part can be represented by
     /// <see cref="Yemoda"/>, <see cref="Yemo"/> or <see cref="Yedoy"/>.</para>
     /// </summary>
-    [Obsolete("To be removed")]
-    public partial interface ICalendricalPartsFactory
+    public partial interface ISchemaAdapter
     {
         /// <summary>
-        /// Creates a new <see cref="ICalendricalPartsFactory"/> instance.
+        /// Creates a new <see cref="ISchemaAdapter"/> instance.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
         [Pure]
-        public static ICalendricalPartsFactory Create(ICalendricalSchema schema)
+        public static ISchemaAdapter Create(ICalendricalSchema schema)
         {
             Requires.NotNull(schema);
 
             return
-                schema is ICalendricalPartsFactory sch ? sch
-                : schema.SupportedYears.IsSubsetOf(Yemoda.SupportedYears) ? new PartsFactorySlim(schema)
-                : new PartsFactoryChecked(schema);
+                schema.SupportedYears.IsSubsetOf(Yemoda.SupportedYears) ? new SchemaAdapterSlim(schema)
+                : new SchemaAdapterChecked(schema);
         }
     }
 
-    public partial interface ICalendricalPartsFactory // Conversions
+    public partial interface ISchemaAdapter // Conversions
     {
         /// <summary>
         /// Obtains the date parts for the specified month count (the number of consecutive months
@@ -89,7 +87,7 @@ namespace Zorglub.Time.Core
         [Pure] Yemoda GetDateParts(int y, int doy);
     }
 
-    public partial interface ICalendricalPartsFactory // Dates in a given year or month
+    public partial interface ISchemaAdapter // Dates in a given year or month
     {
         //
         // Start of year

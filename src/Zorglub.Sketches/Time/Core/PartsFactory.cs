@@ -3,7 +3,8 @@
 
 namespace Zorglub.Time.Core
 {
-    // TODO(api): add supportedYears to ctor, add CreateYewe().
+    // FIXME(api): should only work with SystemSchema (because of Yemoda & co).
+    // Add supportedYears to ctor, add CreateYewe().
 
     // Public factory methods for calendrical parts (ctors are internal).
     // Methods useful to avoid a double validation (validator and Yemoda own
@@ -13,7 +14,7 @@ namespace Zorglub.Time.Core
     /// Provides factory methods to create new calendrical objects.
     /// <para>This class cannot be inherited.</para>
     /// </summary>
-    public sealed class PartsCreator
+    public sealed class PartsFactory
     {
         /// <summary>
         /// Represents a calendrical validator.
@@ -22,13 +23,13 @@ namespace Zorglub.Time.Core
         private readonly ICalendricalValidator _validator;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="PartsCreator"/> class.
+        /// Initializes a new instance of the <see cref="PartsFactory"/> class.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="validator"/> is null.</exception>
         /// <exception cref="ArgumentException">The range of supported years by
         /// <paramref name="validator"/> is not a subinterval of <see cref="Yemoda.SupportedYears"/>.
         /// </exception>
-        public PartsCreator(ICalendricalValidator validator)
+        public PartsFactory(ICalendricalValidator validator)
         {
             Requires.NotNull(validator);
             // Necessary condition to be able to use the Yemoda/Yedoy constructors.
@@ -41,11 +42,11 @@ namespace Zorglub.Time.Core
         }
 
         /// <summary>
-        /// Creates a new instance of the <see cref="PartsCreator"/> class for which the validator
+        /// Creates a new instance of the <see cref="PartsFactory"/> class for which the validator
         /// allows all years within the range of supported years by <paramref name="schema"/>.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
-        public static PartsCreator Create(ICalendricalSchema schema)
+        public static PartsFactory Create(SystemSchema schema)
         {
             Requires.NotNull(schema);
 

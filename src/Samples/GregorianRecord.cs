@@ -35,7 +35,7 @@ public readonly partial record struct GregorianRecord :
 
 public readonly partial record struct GregorianRecord
 {
-    private static PartsFactory PartsFactory { get; } = new(Schema);
+    private static PartsAdapter PartsAdapter { get; } = new(Schema);
     private static ICalendricalArithmetic Arithmetic { get; } = new BasicArithmetic(Schema, Segment);
     private static ICalendricalPreValidator PreValidator => Schema.PreValidator;
     private static Range<int> Domain => Segment.Domain;
@@ -56,8 +56,8 @@ public readonly partial record struct GregorianRecord
     }
 
     public static Range<int> SupportedYears => Segment.SupportedYears;
-    public static GregorianRecord MinValue { get; } = new(PartsFactory.GetDatePartsAtStartOfYear(SupportedYears.Min));
-    public static GregorianRecord MaxValue { get; } = new(PartsFactory.GetDatePartsAtEndOfYear(SupportedYears.Max));
+    public static GregorianRecord MinValue { get; } = new(PartsAdapter.GetDatePartsAtStartOfYear(SupportedYears.Min));
+    public static GregorianRecord MaxValue { get; } = new(PartsAdapter.GetDatePartsAtEndOfYear(SupportedYears.Max));
 
     public Ord CenturyOfEra => Ord.FromInt32(Century);
     public int Century => YearNumbering.GetCentury(Year);
@@ -83,7 +83,7 @@ public partial record struct GregorianRecord // Conversions, adjustments...
     {
         if (Domain.Contains(daysSinceEpoch) == false) throw new ArgumentOutOfRangeException(nameof(daysSinceEpoch));
 
-        var parts = PartsFactory.GetDateParts(daysSinceEpoch);
+        var parts = PartsAdapter.GetDateParts(daysSinceEpoch);
         return new GregorianRecord(parts);
     }
 
@@ -110,14 +110,14 @@ public partial record struct GregorianRecord // Conversions, adjustments...
     [Pure]
     public static GregorianRecord GetStartOfYear(GregorianRecord day)
     {
-        var parts = PartsFactory.GetDatePartsAtEndOfYear(day.Year);
+        var parts = PartsAdapter.GetDatePartsAtEndOfYear(day.Year);
         return new GregorianRecord(parts);
     }
 
     [Pure]
     public static GregorianRecord GetEndOfYear(GregorianRecord day)
     {
-        var parts = PartsFactory.GetDatePartsAtEndOfYear(day.Year);
+        var parts = PartsAdapter.GetDatePartsAtEndOfYear(day.Year);
         return new GregorianRecord(parts);
     }
 
@@ -125,7 +125,7 @@ public partial record struct GregorianRecord // Conversions, adjustments...
     public static GregorianRecord GetStartOfMonth(GregorianRecord day)
     {
         var (y, m, _) = day;
-        var parts = PartsFactory.GetDatePartsAtStartOfMonth(y, m);
+        var parts = PartsAdapter.GetDatePartsAtStartOfMonth(y, m);
         return new GregorianRecord(parts);
     }
 
@@ -133,7 +133,7 @@ public partial record struct GregorianRecord // Conversions, adjustments...
     public static GregorianRecord GetEndOfMonth(GregorianRecord day)
     {
         var (y, m, _) = day;
-        var parts = PartsFactory.GetDatePartsAtEndOfMonth(y, m);
+        var parts = PartsAdapter.GetDatePartsAtEndOfMonth(y, m);
         return new GregorianRecord(parts);
     }
 

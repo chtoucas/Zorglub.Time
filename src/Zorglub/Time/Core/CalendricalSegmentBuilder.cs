@@ -24,10 +24,10 @@ namespace Zorglub.Time.Core
         private readonly ICalendricalSchema _schema;
 
         /// <summary>
-        /// Represents the factory for calendrical parts.
+        /// Represents the adapter for calendrical parts.
         /// <para>This field is read-only.</para>
         /// </summary>
-        private readonly PartsFactory _partsFactory;
+        private readonly PartsAdapter _partsAdapter;
 
         /// <summary>
         /// Represents the earliest supported year &gt;= 1.
@@ -43,7 +43,7 @@ namespace Zorglub.Time.Core
         {
             _schema = schema ?? throw new ArgumentNullException(nameof(schema));
 
-            _partsFactory = new PartsFactory(schema);
+            _partsAdapter = new PartsAdapter(schema);
 
             var set = Interval.Intersect(schema.SupportedYears, Range.StartingAt(1));
             _minYearOnOrAfterYear1 = set.IsEmpty ? null : set.Range.Min;
@@ -131,8 +131,8 @@ namespace Zorglub.Time.Core
             Start = new Endpoint
             {
                 DaysSinceEpoch = daysSinceEpoch,
-                DateParts = _partsFactory.GetDateParts(daysSinceEpoch),
-                OrdinalParts = _partsFactory.GetOrdinalParts(daysSinceEpoch),
+                DateParts = _partsAdapter.GetDateParts(daysSinceEpoch),
+                OrdinalParts = _partsAdapter.GetOrdinalParts(daysSinceEpoch),
             };
         }
 
@@ -150,8 +150,8 @@ namespace Zorglub.Time.Core
             End = new Endpoint
             {
                 DaysSinceEpoch = daysSinceEpoch,
-                DateParts = _partsFactory.GetDateParts(daysSinceEpoch),
-                OrdinalParts = _partsFactory.GetOrdinalParts(daysSinceEpoch),
+                DateParts = _partsAdapter.GetDateParts(daysSinceEpoch),
+                OrdinalParts = _partsAdapter.GetOrdinalParts(daysSinceEpoch),
             };
         }
 
@@ -168,7 +168,7 @@ namespace Zorglub.Time.Core
             {
                 DaysSinceEpoch = _schema.CountDaysSinceEpoch(year, month, day),
                 DateParts = new DateParts(year, month, day),
-                OrdinalParts = _partsFactory.GetOrdinalParts(year, month, day),
+                OrdinalParts = _partsAdapter.GetOrdinalParts(year, month, day),
             };
         }
 
@@ -185,7 +185,7 @@ namespace Zorglub.Time.Core
             {
                 DaysSinceEpoch = _schema.CountDaysSinceEpoch(year, month, day),
                 DateParts = new DateParts(year, month, day),
-                OrdinalParts = _partsFactory.GetOrdinalParts(year, month, day),
+                OrdinalParts = _partsAdapter.GetOrdinalParts(year, month, day),
             };
         }
 
@@ -201,7 +201,7 @@ namespace Zorglub.Time.Core
             Start = new Endpoint
             {
                 DaysSinceEpoch = _schema.CountDaysSinceEpoch(year, dayOfYear),
-                DateParts = _partsFactory.GetDateParts(year, dayOfYear),
+                DateParts = _partsAdapter.GetDateParts(year, dayOfYear),
                 OrdinalParts = new OrdinalParts(year, dayOfYear),
             };
         }
@@ -218,7 +218,7 @@ namespace Zorglub.Time.Core
             End = new Endpoint
             {
                 DaysSinceEpoch = _schema.CountDaysSinceEpoch(year, dayOfYear),
-                DateParts = _partsFactory.GetDateParts(year, dayOfYear),
+                DateParts = _partsAdapter.GetDateParts(year, dayOfYear),
                 OrdinalParts = new OrdinalParts(year, dayOfYear),
             };
         }
@@ -234,8 +234,8 @@ namespace Zorglub.Time.Core
             Start = new Endpoint
             {
                 DaysSinceEpoch = _schema.GetStartOfYear(year),
-                DateParts = PartsFactory.GetDatePartsAtStartOfYear(year),
-                OrdinalParts = PartsFactory.GetOrdinalPartsAtStartOfYear(year),
+                DateParts = PartsAdapter.GetDatePartsAtStartOfYear(year),
+                OrdinalParts = PartsAdapter.GetOrdinalPartsAtStartOfYear(year),
             };
         }
 
@@ -250,8 +250,8 @@ namespace Zorglub.Time.Core
             End = new Endpoint
             {
                 DaysSinceEpoch = _schema.GetEndOfYear(year),
-                DateParts = _partsFactory.GetDatePartsAtEndOfYear(year),
-                OrdinalParts = _partsFactory.GetOrdinalPartsAtEndOfYear(year),
+                DateParts = _partsAdapter.GetDatePartsAtEndOfYear(year),
+                OrdinalParts = _partsAdapter.GetOrdinalPartsAtEndOfYear(year),
             };
         }
 

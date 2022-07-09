@@ -46,14 +46,14 @@ public readonly partial struct GregorianTriple :
 
 public partial struct GregorianTriple
 {
-    private static PartsCreator PartsCreator { get; } = PartsCreator.Create(Schema);
+    private static PartsFactory PartsFactory { get; } = PartsFactory.Create(Schema);
     private static Range<int> Domain => Segment.Domain;
 
     private readonly Yemoda _bin;
 
     public GregorianTriple(int year, int month, int day)
     {
-        _bin = PartsCreator.CreateYemoda(year, month, day);
+        _bin = PartsFactory.CreateYemoda(year, month, day);
     }
 
     private GregorianTriple(Yemoda bin)
@@ -62,7 +62,7 @@ public partial struct GregorianTriple
     }
 
     public static Range<int> SupportedYears => Schema.SupportedYears;
-    public static GregorianTriple MinValue { get; } = new(SystemSchema.GetDatePartsAtStartOfYear(SupportedYears.Min));
+    public static GregorianTriple MinValue { get; } = new(Schema.GetDatePartsAtStartOfYear(SupportedYears.Min));
     public static GregorianTriple MaxValue { get; } = new(Schema.GetDatePartsAtEndOfYear(SupportedYears.Max));
 
     public Ord CenturyOfEra => Ord.FromInt32(Century);

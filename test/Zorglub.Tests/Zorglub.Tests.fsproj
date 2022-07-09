@@ -71,7 +71,8 @@
     <Compile Include="Tests\Core\Arithmetic\RegularArithmeticTestSuite.fs" />
     <Compile Include="Tests\Core\Arithmetic\ArithmeticTestSuite.fs" />
     <Compile Include="Tests\Core\PartsTests.fs" />
-    <Compile Include="Tests\Core\PartsFactoryTests.fs" />
+    <Compile Include="Tests\Core\PartsAdapterTests.fs" />
+    <Compile Include="Tests\Core\SchemaAdapterTests.fs" />
     <Compile Include="Tests\Core\MonthHelperTests.fs" />
     <Compile Include="Tests\Core\TemporalArithmeticTests.fs" />
     <Compile Include="Tests\Hemerology\Scopes\CalendarScopeTests.fs" />

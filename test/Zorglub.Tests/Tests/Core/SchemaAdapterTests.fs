@@ -1,7 +1,7 @@
 ﻿// SPDX-License-Identifier: BSD-3-Clause
 // Copyright (c) 2020 Narvalo.Org. All rights reserved.
 
-module Zorglub.Tests.Core.PartsFactoryTests
+module Zorglub.Tests.Core.SchemaAdapterTests
 
 open System
 
@@ -14,25 +14,31 @@ open Zorglub.Time.Core.Schemas
 
 open Xunit
 
-// TODO(code): test PartsFactory with a schema for which
+// TODO(code): test SchemaAdapter with a schema for which
 // Yemoda.Create() & co throw.
 
 module Bundles =
     [<Sealed>]
-    type PartsFactoryCheckedTests() =
-        inherit ICalendricalPartsFactoryFacts<GregorianDataSet>(
-            new PartsFactoryChecked(schemaOf<GregorianSchema>()))
+    type SchemaAdapterCheckedTests() =
+        inherit ISchemaAdapterFacts<GregorianDataSet>(
+            new SchemaAdapterChecked(schemaOf<GregorianSchema>()))
 
     [<Sealed>]
     [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
-    type PartsFactoryUncheckedTests() =
-        inherit ICalendricalPartsFactoryFacts<GregorianDataSet>(
-            new PartsFactoryUnchecked(schemaOf<GregorianSchema>()))
+    type SchemaAdapterSlimTests() =
+        inherit ISchemaAdapterFacts<GregorianDataSet>(
+            new SchemaAdapterSlim(schemaOf<GregorianSchema>()))
+
+    [<Sealed>]
+    [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
+    type SchemaAdapterUncheckedTests() =
+        inherit ISchemaAdapterFacts<GregorianDataSet>(
+            new SchemaAdapterUnchecked(schemaOf<GregorianSchema>()))
 
 module Factories =
     [<Fact>]
-    let ``ICalendricalPartsFactory.Create() throws for null schema`` () =
-        nullExn "schema" (fun () -> ICalendricalPartsFactory.Create(null))
+    let ``ISchemaAdapter.Create() throws for null schema`` () =
+        nullExn "schema" (fun () -> ISchemaAdapter.Create(null))
 
 module Methods =
     [<Sealed>]
@@ -45,20 +51,20 @@ module Methods =
             self.Add(Int32.MaxValue)
 
     let private sch = schemaOf<GregorianSchema>()
-    let private factory = new PartsFactoryChecked(sch)
+    let private adapter = new SchemaAdapterChecked(sch)
 
     [<Theory; ClassData(typeof<BadYearData>)>]
     let ``GetMonthPartsAtStartOfYear() throws when "year" is out of range`` y =
-        outOfRangeExn "year" (fun () -> factory.GetMonthPartsAtStartOfYear(y))
+        outOfRangeExn "year" (fun () -> adapter.GetMonthPartsAtStartOfYear(y))
 
     [<Theory; ClassData(typeof<BadYearData>)>]
     let ``GetDatePartsAtStartOfYear() throws when "year" is out of range`` y =
-        outOfRangeExn "year" (fun () -> factory.GetDatePartsAtStartOfYear(y))
+        outOfRangeExn "year" (fun () -> adapter.GetDatePartsAtStartOfYear(y))
 
     [<Theory; ClassData(typeof<BadYearData>)>]
     let ``GetOrdinalPartsAtStartOfYear() throws when "year" is out of range`` y =
-        outOfRangeExn "year" (fun () -> factory.GetOrdinalPartsAtStartOfYear(y))
+        outOfRangeExn "year" (fun () -> adapter.GetOrdinalPartsAtStartOfYear(y))
 
     [<Theory; ClassData(typeof<BadYearData>)>]
     let ``GetDatePartsAtStartOfMonth() throws when "year" is out of range`` y =
-        outOfRangeExn "year" (fun () -> factory.GetDatePartsAtStartOfMonth(y, 1))
+        outOfRangeExn "year" (fun () -> adapter.GetDatePartsAtStartOfMonth(y, 1))

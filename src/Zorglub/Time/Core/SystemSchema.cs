@@ -158,7 +158,7 @@ namespace Zorglub.Time.Core
         public SystemArithmetic Arithmetic => _arithmetic ??= SystemArithmetic.CreateDefault(this);
     }
 
-    public partial class SystemSchema //
+    public partial class SystemSchema // Conversions
     {
         /// <summary>
         /// Obtains the date parts for the specified month count (the number of consecutive months
@@ -235,7 +235,7 @@ namespace Zorglub.Time.Core
         }
     }
 
-    public partial class SystemSchema //
+    public partial class SystemSchema // Dates in a given year or month
     {
         //
         // Start of year
@@ -245,22 +245,22 @@ namespace Zorglub.Time.Core
         /// Obtains the month parts for the first month of the specified year.
         /// </summary>
         [Pure]
-        [Obsolete("Use Yemo.AtStartOfYear()")]
-        public static Yemo GetMonthPartsAtStartOfYear(int y) => Yemo.AtStartOfYear(y);
+        [SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "Box principle")]
+        public Yemo GetMonthPartsAtStartOfYear(int y) => Yemo.AtStartOfYear(y);
 
         /// <summary>
         /// Obtains the date parts for the first day of the specified year.
         /// </summary>
         [Pure]
-        [Obsolete("Use Yemoda.AtStartOfYear()")]
-        public static Yemoda GetDatePartsAtStartOfYear(int y) => Yemoda.AtStartOfYear(y);
+        [SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "Box principle")]
+        public Yemoda GetDatePartsAtStartOfYear(int y) => Yemoda.AtStartOfYear(y);
 
         /// <summary>
         /// Obtains the ordinal date parts for the first day of the specified year.
         /// </summary>
         [Pure]
-        [Obsolete("Use Yedoy.AtStartOfYear()")]
-        public static Yedoy GetOrdinalPartsAtStartOfYear(int y) => Yedoy.AtStartOfYear(y);
+        [SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "Box principle")]
+        public Yedoy GetOrdinalPartsAtStartOfYear(int y) => Yedoy.AtStartOfYear(y);
 
         //
         // End of year
@@ -317,8 +317,8 @@ namespace Zorglub.Time.Core
         /// Obtains the date parts for the first day of the specified month.
         /// </summary>
         [Pure]
-        [Obsolete("Use Yemoda.AtStartOfMonth()")]
-        public static Yemoda GetDatePartsAtStartOfMonth(int y, int m) => Yemoda.AtStartOfMonth(y, m);
+        [SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "Box principle")]
+        public Yemoda GetDatePartsAtStartOfMonth(int y, int m) => Yemoda.AtStartOfMonth(y, m);
 
         /// <summary>
         /// Obtains the ordinal date parts for the first day of the specified month.

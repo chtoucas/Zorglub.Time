@@ -27,7 +27,7 @@ internal sealed class CalendarContext
         Epoch = epoch;
         Scope = scope ?? throw new ArgumentNullException(nameof(scope));
 
-        PartsCreator = new PartsCreator(scope);
+        PartsFactory = new PartsFactory(scope);
         Arithmetic = schema.Arithmetic.WithSupportedYears(scope.SupportedYears);
     }
 
@@ -35,7 +35,7 @@ internal sealed class CalendarContext
     public DayNumber Epoch { get; }
     public CalendarScope Scope { get; }
 
-    public PartsCreator PartsCreator { get; }
+    public PartsFactory PartsFactory { get; }
     public SystemArithmetic Arithmetic { get; }
 
     public Range<DayNumber> Domain => Scope.Domain;

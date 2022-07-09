@@ -6,7 +6,7 @@ namespace Zorglub.Time.Core
     /// <summary>
     /// Provides methods you can use to create new calendrical parts.
     /// </summary>
-    internal sealed partial class PartsFactoryChecked : ICalendricalPartsFactory
+    internal sealed partial class SchemaAdapterChecked : ISchemaAdapter
     {
         /// <summary>
         /// Represents the schema.
@@ -15,9 +15,9 @@ namespace Zorglub.Time.Core
         private readonly ICalendricalSchema _schema;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="PartsFactoryChecked"/> class.
+        /// Initializes a new instance of the <see cref="SchemaAdapterChecked"/> class.
         /// </summary>
-        public PartsFactoryChecked(ICalendricalSchema schema)
+        public SchemaAdapterChecked(ICalendricalSchema schema)
         {
             Debug.Assert(schema != null);
 
@@ -25,7 +25,7 @@ namespace Zorglub.Time.Core
         }
     }
 
-    internal partial class PartsFactoryChecked // Conversions
+    internal partial class SchemaAdapterChecked // Conversions
     {
         /// <inheritdoc />
         [Pure]
@@ -68,7 +68,7 @@ namespace Zorglub.Time.Core
         }
     }
 
-    internal partial class PartsFactoryChecked // Dates in a given year or month
+    internal partial class SchemaAdapterChecked // Dates in a given year or month
     {
         /// <inheritdoc />
         [Pure]

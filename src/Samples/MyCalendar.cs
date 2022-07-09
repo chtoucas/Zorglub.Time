@@ -7,7 +7,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.Contracts;
 
-using Zorglub.Time;
 using Zorglub.Time.Core;
 using Zorglub.Time.Core.Utilities;
 using Zorglub.Time.Hemerology;
@@ -17,7 +16,7 @@ using Zorglub.Time.Hemerology;
 
 public sealed partial class MyCalendar : BasicCalendar, ICalendar<MyDate>
 {
-    private readonly ICalendricalPartsFactory _partsFactory;
+    private readonly SystemSchema _schema;
 
     public MyCalendar() : this(MyDate.Context) { }
 
@@ -25,7 +24,7 @@ public sealed partial class MyCalendar : BasicCalendar, ICalendar<MyDate>
     {
         Debug.Assert(context != null);
 
-        _partsFactory = ICalendricalPartsFactory.Create(context.Schema);
+        _schema = context.Schema;
 
         MinMaxDate = Domain.Endpoints.Select(MyDate.FromDayNumber);
     }
@@ -112,7 +111,7 @@ public partial class MyCalendar // Dates in a given year or month
     public MyDate GetStartOfYear(int year)
     {
         Scope.ValidateYear(year);
-        var ymd = _partsFactory.GetDatePartsAtStartOfYear(year);
+        var ymd = _schema.GetDatePartsAtStartOfYear(year);
         return new MyDate(ymd);
     }
 
@@ -120,7 +119,7 @@ public partial class MyCalendar // Dates in a given year or month
     public MyDate GetEndOfYear(int year)
     {
         Scope.ValidateYear(year);
-        var ymd = _partsFactory.GetDatePartsAtEndOfYear(year);
+        var ymd = _schema.GetDatePartsAtEndOfYear(year);
         return new MyDate(ymd);
     }
 
@@ -128,7 +127,7 @@ public partial class MyCalendar // Dates in a given year or month
     public MyDate GetStartOfMonth(int year, int month)
     {
         Scope.ValidateYearMonth(year, month);
-        var ymd = _partsFactory.GetDatePartsAtStartOfMonth(year, month);
+        var ymd = _schema.GetDatePartsAtStartOfMonth(year, month);
         return new MyDate(ymd);
     }
 
@@ -136,7 +135,7 @@ public partial class MyCalendar // Dates in a given year or month
     public MyDate GetEndOfMonth(int year, int month)
     {
         Scope.ValidateYearMonth(year, month);
-        var ymd = _partsFactory.GetDatePartsAtEndOfMonth(year, month);
+        var ymd = _schema.GetDatePartsAtEndOfMonth(year, month);
         return new MyDate(ymd);
     }
 }

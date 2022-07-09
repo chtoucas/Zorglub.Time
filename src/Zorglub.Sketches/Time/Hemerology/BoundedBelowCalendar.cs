@@ -165,7 +165,7 @@ namespace Zorglub.Time.Hemerology
             Scope.ValidateYear(year);
             return year == MinYear
                 ? Throw.ArgumentOutOfRange<DateParts>(nameof(year))
-                : PartsFactory.GetDatePartsAtStartOfYear(year);
+                : PartsAdapter.GetDatePartsAtStartOfYear(year);
         }
 
         /// <inheritdoc />
@@ -173,7 +173,7 @@ namespace Zorglub.Time.Hemerology
         public sealed override DateParts GetEndOfYear(int year)
         {
             Scope.ValidateYear(year);
-            return PartsFactory.GetDatePartsAtEndOfYear(year);
+            return PartsAdapter.GetDatePartsAtEndOfYear(year);
         }
 
         /// <inheritdoc />
@@ -183,7 +183,7 @@ namespace Zorglub.Time.Hemerology
             Scope.ValidateYearMonth(year, month);
             return new MonthParts(year, month) == MinDateParts.MonthParts
                 ? Throw.ArgumentOutOfRange<DateParts>(nameof(month))
-                : PartsFactory.GetDatePartsAtStartOfMonth(year, month);
+                : PartsAdapter.GetDatePartsAtStartOfMonth(year, month);
         }
 
         /// <inheritdoc />
@@ -191,7 +191,7 @@ namespace Zorglub.Time.Hemerology
         public sealed override DateParts GetEndOfMonth(int year, int month)
         {
             Scope.ValidateYearMonth(year, month);
-            return PartsFactory.GetDatePartsAtEndOfMonth(year, month);
+            return PartsAdapter.GetDatePartsAtEndOfMonth(year, month);
         }
     }
 }
