@@ -69,9 +69,7 @@ namespace Zorglub.Time.Core
         /// Called from constructors in derived classes to initialize the
         /// <see cref="SystemArithmetic"/> class.
         /// </summary>
-        /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
-        /// <exception cref="AoorException"><paramref name="supportedYears"/> is NOT a subinterval
-        /// of the range of supported years by <paramref name="schema"/>.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="segment"/> is null.</exception>
         protected SystemArithmetic(SystemSegment segment)
         {
             Segment = segment ?? throw new ArgumentNullException(nameof(segment));

@@ -143,15 +143,10 @@ namespace Zorglub.Time.Simple
                 YearOverflowChecker = StandardScope.YearOverflowChecker;
             }
 
-            var supportedYears = Scope.SupportedYears;
-            SystemSegment = SystemSegment.Create(schema, supportedYears);
-
-            PreValidator = schema.PreValidator;
+            SystemSegment = SystemSegment.Create(schema, Scope.SupportedYears);
             Arithmetic = SystemArithmetic.CreateDefault(SystemSegment);
 
-            SupportedYears = supportedYears;
-            Domain = Scope.Domain;
-            (MinDaysSinceEpoch, MaxDaysSinceEpoch) = Scope.Segment.Domain.Endpoints;
+            (MinDaysSinceEpoch, MaxDaysSinceEpoch) = SystemSegment.Domain.Endpoints;
 
             // Keep this at the end of the constructor: before using "this",
             // all props should be initialized.
@@ -223,10 +218,10 @@ namespace Zorglub.Time.Simple
         // equivalent of IMinMaxValue<>.
 
         /// <inheritdoc />
-        public Range<DayNumber> Domain { get; }
+        public Range<DayNumber> Domain => Scope.Domain;
 
         /// <inheritdoc />
-        public Range<int> SupportedYears { get; }
+        public Range<int> SupportedYears => Scope.SupportedYears;
 
         /// <summary>
         /// Represents the minimum possible value for the number of consecutive days from the epoch.
@@ -341,8 +336,11 @@ namespace Zorglub.Time.Simple
         /// <summary>
         /// Gets the pre-validator.
         /// </summary>
-        internal ICalendricalPreValidator PreValidator { get; }
+        internal ICalendricalPreValidator PreValidator => Schema.PreValidator;
 
+        /// <summary>
+        /// Gets the calendrical segment.
+        /// </summary>
         internal SystemSegment SystemSegment { get; }
 
         /// <summary>

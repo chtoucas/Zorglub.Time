@@ -23,9 +23,7 @@ namespace Zorglub.Time.Core.Arithmetic
         /// Called from constructors in derived classes to initialize the
         /// <see cref="SolarArithmetic"/> class.
         /// </summary>
-        /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
-        /// <exception cref="AoorException"><paramref name="supportedYears"/> is NOT a subinterval
-        /// of the range of supported years by <paramref name="schema"/>.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="segment"/> is null.</exception>
         protected SolarArithmetic(SystemSegment segment) : base(segment)
         {
             // Disabled, otherwise we cannot test the derived constructors.

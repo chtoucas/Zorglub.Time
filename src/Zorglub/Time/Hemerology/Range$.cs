@@ -5,8 +5,6 @@ namespace Zorglub.Time.Hemerology
 {
     using Zorglub.Time.Core.Intervals;
 
-    // REVIEW(api): generic CheckOverflow() & co.
-
     /// <summary>
     /// Provides extension methods for <see cref="Range{T}"/>.
     /// <para>This class cannot be inherited.</para>

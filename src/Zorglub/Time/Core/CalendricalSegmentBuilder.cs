@@ -120,7 +120,6 @@ namespace Zorglub.Time.Core
         /// <summary>
         /// Sets the start of the segment to the specified number of consecutive days from the epoch.
         /// </summary>
-        /// <exception cref="AoorException">The result is not representable by the system.</exception>
         public void SetMinDaysSinceEpoch(int daysSinceEpoch)
         {
             if (Domain.Contains(daysSinceEpoch) == false)
@@ -139,7 +138,6 @@ namespace Zorglub.Time.Core
         /// <summary>
         /// Sets the end of the segment to the specified number of consecutive days from the epoch.
         /// </summary>
-        /// <exception cref="AoorException">The result is not representable by the system.</exception>
         public void SetMaxDaysSinceEpoch(int daysSinceEpoch)
         {
             if (Domain.Contains(daysSinceEpoch) == false)
@@ -158,7 +156,6 @@ namespace Zorglub.Time.Core
         /// <summary>
         /// Sets the start of the segment to the specified date.
         /// </summary>
-        /// <exception cref="AoorException">The result is not representable by the system.</exception>
         public void SetMinDate(int year, int month, int day)
         {
             if (SupportedYears.Contains(year) == false) Throw.YearOutOfRange(year);
@@ -175,7 +172,6 @@ namespace Zorglub.Time.Core
         /// <summary>
         /// Sets the end of the segment to the specified date.
         /// </summary>
-        /// <exception cref="AoorException">The result is not representable by the system.</exception>
         public void SetMaxDate(int year, int month, int day)
         {
             if (SupportedYears.Contains(year) == false) Throw.YearOutOfRange(year);
@@ -192,7 +188,6 @@ namespace Zorglub.Time.Core
         /// <summary>
         /// Sets the start of the segment to the specified ordinal date.
         /// </summary>
-        /// <exception cref="AoorException">The result is not representable by the system.</exception>
         public void SetMinOrdinal(int year, int dayOfYear)
         {
             if (SupportedYears.Contains(year) == false) Throw.YearOutOfRange(year);
@@ -209,7 +204,6 @@ namespace Zorglub.Time.Core
         /// <summary>
         /// Sets the end of the segment to the specified ordinal date.
         /// </summary>
-        /// <exception cref="AoorException">The result is not representable by the system.</exception>
         public void SetMaxOrdinal(int year, int dayOfYear)
         {
             if (SupportedYears.Contains(year) == false) Throw.YearOutOfRange(year);
@@ -226,7 +220,6 @@ namespace Zorglub.Time.Core
         /// <summary>
         /// Sets the start of the segment to the start of the specified year.
         /// </summary>
-        /// <exception cref="AoorException">The result is not representable by the system.</exception>
         public void SetMinYear(int year)
         {
             if (SupportedYears.Contains(year) == false) Throw.YearOutOfRange(year);
@@ -242,7 +235,6 @@ namespace Zorglub.Time.Core
         /// <summary>
         /// Sets the end of the segment to the end of the specified year.
         /// </summary>
-        /// <exception cref="AoorException">The result is not representable by the system.</exception>
         public void SetMaxYear(int year)
         {
             if (SupportedYears.Contains(year) == false) Throw.YearOutOfRange(year);

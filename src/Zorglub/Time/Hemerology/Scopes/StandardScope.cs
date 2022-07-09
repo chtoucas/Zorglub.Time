@@ -40,7 +40,7 @@ namespace Zorglub.Time.Hemerology.Scopes
         /// specified schema and epoch.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
-        /// <exception cref="ArgumentException">The range of supported years by
+        /// <exception cref="AoorException">The range of supported years by
         /// <paramref name="schema"/> does not contain the interval [1..9999].</exception>
         public StandardScope(ICalendricalSchema schema, DayNumber epoch)
             : base(epoch, CalendricalSegment.Create(schema, s_SupportedYears))

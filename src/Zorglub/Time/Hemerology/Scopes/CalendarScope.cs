@@ -9,8 +9,6 @@ namespace Zorglub.Time.Hemerology.Scopes
     using Zorglub.Time.Hemerology;
 
     // Range of Supported Years
-    // ------------------------
-    //
     // - ProlepticScope     [-9998..9999]
     // - StandardScope      [1..9999]
     // - MinMaxYearScope    [minYear..maxYear]
@@ -23,8 +21,8 @@ namespace Zorglub.Time.Hemerology.Scopes
     public abstract partial class CalendarScope : ICalendricalValidator
     {
         /// <summary>
-        /// Called from constructors in derived classes to initialize the
-        /// <see cref="CalendarScope"/> class.
+        /// Called from constructors in derived classes to initialize the <see cref="CalendarScope"/>
+        /// class.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="segment"/> is null.</exception>
         protected CalendarScope(DayNumber epoch, CalendricalSegment segment)
@@ -32,10 +30,7 @@ namespace Zorglub.Time.Hemerology.Scopes
             Segment = segment ?? throw new ArgumentNullException(nameof(segment));
 
             Epoch = epoch;
-            Schema = segment.Schema;
-            PreValidator = Schema.PreValidator;
-            SupportedYears = segment.SupportedYears;
-            Domain = segment.GetFixedDomain(epoch);
+            Domain = Range.FromEndpoints(segment.Domain.Endpoints.Select(x => epoch + x));
         }
 
         /// <summary>
@@ -49,7 +44,7 @@ namespace Zorglub.Time.Hemerology.Scopes
         public Range<DayNumber> Domain { get; }
 
         /// <inheritdoc />
-        public Range<int> SupportedYears { get; }
+        public Range<int> SupportedYears => Segment.SupportedYears;
 
         /// <summary>
         /// Gets the segment of supported days.
@@ -59,12 +54,12 @@ namespace Zorglub.Time.Hemerology.Scopes
         /// <summary>
         /// Gets the pre-validator.
         /// </summary>
-        protected ICalendricalPreValidator PreValidator { get; }
+        protected ICalendricalPreValidator PreValidator => Schema.PreValidator;
 
         /// <summary>
         /// Gets the underlying schema.
         /// </summary>
-        protected internal ICalendricalSchema Schema { get; }
+        protected internal ICalendricalSchema Schema => Segment.Schema;
 
         /// <inheritdoc />
         public void ValidateYear(int year, string? paramName = null)

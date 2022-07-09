@@ -16,13 +16,11 @@ namespace Zorglub.Time.Core.Arithmetic
         /// <summary>
         /// Initializes a new instance of the <see cref="RegularArithmetic"/> class.
         /// </summary>
-        /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
-        /// <exception cref="AoorException"><paramref name="supportedYears"/> is NOT a subinterval
-        /// of the range of supported years by <paramref name="schema"/>.</exception>
-        /// <exception cref="ArgumentException"><paramref name="schema"/> contains at least one
+        /// <exception cref="ArgumentNullException"><paramref name="segment"/> is null.</exception>
+        /// <exception cref="ArgumentException">The underlying schema contains at least one
         /// month whose length is strictly less than <see cref="SystemArithmetic.MinMinDaysInMonth"/>.
         /// </exception>
-        /// <exception cref="ArgumentException"><paramref name="schema"/> is not regular.</exception>
+        /// <exception cref="ArgumentException">The underlying schema is not regular.</exception>
         public RegularArithmetic(SystemSegment segment) : base(segment)
         {
             if (Schema.MinDaysInMonth < MinMinDaysInMonth) Throw.Argument(nameof(segment));

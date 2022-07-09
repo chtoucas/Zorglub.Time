@@ -30,20 +30,20 @@ module Prelude =
         let range = Range.Create(ProlepticScope.MinYear + 1, ProlepticScope.MaxYear)
         let sch = new FauxCalendricalSchema(range)
 
-        argExn "schema" (fun () -> new ProlepticScope(sch, epoch))
+        outOfRangeExn "year" (fun () -> new ProlepticScope(sch, epoch))
 
     [<Fact>]
     let ``Constructor throws when schema.MaxYear < 9999`` () =
         let range = Range.Create(1, ProlepticScope.MaxYear - 1)
         let sch = new FauxCalendricalSchema(range)
 
-        argExn "schema" (fun () -> new ProlepticScope(sch, epoch))
+        outOfRangeExn "year" (fun () -> new ProlepticScope(sch, epoch))
 
     [<Fact>]
     let ``Constructor throws for PaxSchema`` () =
         let sch = SchemaActivator.CreateInstance<PaxSchema>()
 
-        argExn "schema" (fun () -> new ProlepticScope(sch, epoch)) // PaxSchema.MinYear = 1 > -9999.
+        outOfRangeExn "year" (fun () -> new ProlepticScope(sch, epoch)) // PaxSchema.MinYear = 1 > -9999.
 
     [<Fact>]
     let ``Property Epoch`` () =

@@ -24,12 +24,16 @@ namespace Zorglub.Time.Core.Arithmetic
         /// <summary>
         /// Initializes a new instance of the <see cref="GregorianArithmetic"/> class.
         /// </summary>
+        /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
+        /// <exception cref="AoorException"><paramref name="supportedYears"/> is NOT a subinterval
+        /// of the range of supported years by <paramref name="schema"/>.</exception>
         public GregorianArithmetic(GregorianSchema schema, Range<int> supportedYears)
             : this(SystemSegment.Create(schema, supportedYears)) { }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GregorianArithmetic"/> class.
         /// </summary>
+        /// <exception cref="ArgumentNullException"><paramref name="segment"/> is null.</exception>
         internal GregorianArithmetic(SystemSegment segment) : base(segment)
         {
             Debug.Assert(MaxDaysViaDayOfMonth_ >= MinMinDaysInMonth);

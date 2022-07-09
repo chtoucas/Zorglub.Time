@@ -90,10 +90,6 @@ namespace Zorglub.Time.Core
         /// </summary>
         internal ICalendricalSchema Schema { get; }
 
-        [Pure]
-        internal Range<DayNumber> GetFixedDomain(DayNumber epoch) =>
-            new(Domain.Endpoints.Select(x => epoch + x));
-
         /// <summary>
         /// Creates the maximal segment for <paramref name="schema"/>.
         /// </summary>
