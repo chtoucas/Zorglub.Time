@@ -5,6 +5,8 @@ namespace Zorglub.Time.Core
 {
     using Zorglub.Time.Core.Intervals;
 
+    // Works even if the boundary years are not complete.
+
     /// <summary>
     /// Provides a reference implementation for <see cref="ICalendricalArithmetic"/>.
     /// <para>This class cannot be inherited.</para>
