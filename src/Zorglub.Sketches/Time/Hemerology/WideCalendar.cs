@@ -422,7 +422,7 @@ namespace Zorglub.Time.Hemerology
         /// Validates the specified Gregorian date.
         /// </summary>
         /// <exception cref="AoorException">The validation failed.</exception>
-        [Obsolete("To be removed")]
+        [Obsolete("TO BE REMOVED")]
         internal static void ValidateGregorianOrdinalParts(int year, int dayOfYear, string? paramName = null)
         {
             if (year < GregorianSchema.MinYear || year > GregorianSchema.MaxYear)
@@ -445,7 +445,7 @@ namespace Zorglub.Time.Hemerology
         /// <exception cref="OverflowException">The operation overflows the
         /// capacity of <see cref="Int32"/>.</exception>
         /// <exception cref="AoorException">The validation failed.</exception>
-        [Obsolete("To be removed")]
+        [Obsolete("TO BE REMOVED")]
         internal void ValidateDayOfMonth(int y, int m, int dayOfMonth, string? paramName = null)
         {
             if (dayOfMonth < 1 || dayOfMonth > Schema.CountDaysInMonth(y, m))

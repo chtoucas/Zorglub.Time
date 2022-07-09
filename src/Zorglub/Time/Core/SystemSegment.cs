@@ -94,6 +94,7 @@ namespace Zorglub.Time.Core
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
         [Pure]
+        [Obsolete("TO BE REMOVED")]
         public static SystemSegment CreateMaximal(SystemSchema schema)
         {
             var builder = new SystemSegmentBuilder(schema);
