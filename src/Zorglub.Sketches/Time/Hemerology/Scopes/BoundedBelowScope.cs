@@ -50,7 +50,7 @@ namespace Zorglub.Time.Hemerology.Scopes
             int month,
             int day,
             int? maxYear)
-            : base(schema, epoch, CalendricalSegment.Create(schema, year, month, day, maxYear))
+            : base(epoch, CalendricalSegment.Create(schema, year, month, day, maxYear))
         {
             var seg = Segment;
             _minYear = seg.SupportedYears.Min;

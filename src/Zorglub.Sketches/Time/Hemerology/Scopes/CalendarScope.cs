@@ -18,21 +18,15 @@ namespace Zorglub.Time.Hemerology.Scopes
         /// Called from constructors in derived classes to initialize the
         /// <see cref="CalendarScope"/> class.
         /// </summary>
-        /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
         /// <exception cref="ArgumentNullException"><paramref name="segment"/> is null.</exception>
-        protected CalendarScope(
-            ICalendricalSchema schema,
-            DayNumber epoch,
-            CalendricalSegment segment)
+        protected CalendarScope(DayNumber epoch, CalendricalSegment segment)
         {
-            Schema = schema ?? throw new ArgumentNullException(nameof(schema));
+            Segment = segment ?? throw new ArgumentNullException(nameof(segment));
 
-            Requires.NotNull(segment);
-            if (ReferenceEquals(segment.Schema, schema) == false) Throw.Argument(nameof(segment));
-            Segment = segment;
-
+            var sch = segment.Schema;
+            Schema = sch;
             Epoch = epoch;
-            PreValidator = schema.PreValidator;
+            PreValidator = sch.PreValidator;
             SupportedYears = segment.SupportedYears;
             Domain = segment.GetFixedDomain(epoch);
         }

@@ -21,7 +21,6 @@ namespace Zorglub.Time.Hemerology.Scopes
         /// is outside the range of supported years by <paramref name="schema"/>.</exception>
         public MinMaxYearScope(ICalendricalSchema schema, DayNumber epoch, int minYear, int maxYear)
             : base(
-                  schema,
                   epoch,
                   CalendricalSegment.Create(schema, Range.Create(minYear, maxYear)))
         { }
@@ -29,9 +28,9 @@ namespace Zorglub.Time.Hemerology.Scopes
         /// <summary>
         /// Initializes a new instance of the <see cref="MinMaxYearScope"/> class.
         /// </summary>
-        /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
-        private MinMaxYearScope(ICalendricalSchema schema, DayNumber epoch, CalendricalSegment segment)
-            : base(schema, epoch, segment) { }
+        /// <exception cref="ArgumentNullException"><paramref name="segment"/> is null.</exception>
+        private MinMaxYearScope(DayNumber epoch, CalendricalSegment segment)
+            : base(epoch, segment) { }
 
         #region Factories
 
@@ -51,7 +50,7 @@ namespace Zorglub.Time.Hemerology.Scopes
 
             var segment = CalendricalSegment.CreateMaximal(schema, onOrAfterEpoch);
 
-            return new MinMaxYearScope(schema, epoch, segment);
+            return new MinMaxYearScope(epoch, segment);
         }
 
         /// <summary>
@@ -67,7 +66,7 @@ namespace Zorglub.Time.Hemerology.Scopes
             builder.UseMaxSupportedYear();
             var segment = builder.BuildSegment();
 
-            return new MinMaxYearScope(schema, epoch, segment);
+            return new MinMaxYearScope(epoch, segment);
         }
 
         /// <summary>
@@ -83,7 +82,7 @@ namespace Zorglub.Time.Hemerology.Scopes
             builder.SetMaxYear(maxYear);
             var segment = builder.BuildSegment();
 
-            return new MinMaxYearScope(schema, epoch, segment);
+            return new MinMaxYearScope(epoch, segment);
         }
 
         #endregion
