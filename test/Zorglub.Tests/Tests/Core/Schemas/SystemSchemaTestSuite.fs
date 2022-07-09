@@ -12,7 +12,6 @@ open Zorglub.Testing.Facts.Core
 
 open Zorglub.Time
 open Zorglub.Time.Core
-open Zorglub.Time.Core.Arithmetic
 open Zorglub.Time.Core.Intervals
 open Zorglub.Time.Core.Schemas
 open Zorglub.Time.Core.Validation
@@ -24,9 +23,6 @@ open Xunit
 let private verifyThatPreValidatorIs<'a> (sch: ICalendricalSchema) =
     sch.PreValidator |> is<'a>
 
-let private verifyThatArithmeticIs<'a> (sch: SystemSchema) =
-    sch.Arithmetic |> is<'a>
-
 [<Sealed>]
 type Coptic12Tests() =
     inherit SystemSchemaFacts<Coptic12DataSet>(syschemaOf<Coptic12Schema>())
@@ -35,7 +31,6 @@ type Coptic12Tests() =
     override x.PeriodicAdjustments_Prop() = x.SchemaUT.PeriodicAdjustments === CalendricalAdjustments.Days
     override x.Profile_Prop() = x.SchemaUT.Profile === CalendricalProfile.Solar12
     override x.PreValidator_Prop() = x.VerifyThatPreValidatorIs<Solar12PreValidator>()
-    override x.Arithmetic_Prop() = x.VerifyThatArithmeticIs<Solar12Arithmetic>()
     override x.IsRegular() = x.SchemaUT.IsRegular() === (true, 12)
 
     override x.SupportedYearsCore_Prop() =
@@ -56,7 +51,6 @@ type Coptic13Tests() =
     override x.PeriodicAdjustments_Prop() = x.SchemaUT.PeriodicAdjustments === CalendricalAdjustments.Days
     override x.Profile_Prop() = x.SchemaUT.Profile === CalendricalProfile.Other
     override x.PreValidator_Prop() = x.VerifyThatPreValidatorIs<PlainPreValidator>()
-    override x.Arithmetic_Prop() = x.VerifyThatArithmeticIs<PlainArithmetic>()
     override x.IsRegular() = x.SchemaUT.IsRegular() === (true, 13)
 
     override x.SupportedYearsCore_Prop() =
@@ -77,7 +71,6 @@ type Egyptian12Tests() =
     override x.PeriodicAdjustments_Prop() = x.SchemaUT.PeriodicAdjustments === CalendricalAdjustments.None
     override x.Profile_Prop() = x.SchemaUT.Profile === CalendricalProfile.Solar12
     override x.PreValidator_Prop() = x.VerifyThatPreValidatorIs<Solar12PreValidator>()
-    override x.Arithmetic_Prop() = x.VerifyThatArithmeticIs<Solar12Arithmetic>()
     override x.IsRegular() = x.SchemaUT.IsRegular() === (true, 12)
 
 [<Sealed>]
@@ -89,7 +82,6 @@ type Egyptian13Tests() =
     override x.PeriodicAdjustments_Prop() = x.SchemaUT.PeriodicAdjustments === CalendricalAdjustments.None
     override x.Profile_Prop() = x.SchemaUT.Profile === CalendricalProfile.Other
     override x.PreValidator_Prop() = x.VerifyThatPreValidatorIs<PlainPreValidator>()
-    override x.Arithmetic_Prop() = x.VerifyThatArithmeticIs<PlainArithmetic>()
     override x.IsRegular() = x.SchemaUT.IsRegular() === (true, 13)
 
 [<Sealed>]
@@ -101,7 +93,6 @@ type FrenchRepublican12Tests() =
     override x.PeriodicAdjustments_Prop() = x.SchemaUT.PeriodicAdjustments === CalendricalAdjustments.Days
     override x.Profile_Prop() = x.SchemaUT.Profile === CalendricalProfile.Solar12
     override x.PreValidator_Prop() = x.VerifyThatPreValidatorIs<Solar12PreValidator>()
-    override x.Arithmetic_Prop() = x.VerifyThatArithmeticIs<Solar12Arithmetic>()
     override x.IsRegular() = x.SchemaUT.IsRegular() === (true, 12)
 
 [<Sealed>]
@@ -113,7 +104,6 @@ type FrenchRepublican13Tests() =
     override x.PeriodicAdjustments_Prop() = x.SchemaUT.PeriodicAdjustments === CalendricalAdjustments.Days
     override x.Profile_Prop() = x.SchemaUT.Profile === CalendricalProfile.Other
     override x.PreValidator_Prop() = x.VerifyThatPreValidatorIs<PlainPreValidator>()
-    override x.Arithmetic_Prop() = x.VerifyThatArithmeticIs<PlainArithmetic>()
     override x.IsRegular() = x.SchemaUT.IsRegular() === (true, 13)
 
 [<Sealed>]
@@ -125,7 +115,6 @@ type GregorianTests() =
     override x.PeriodicAdjustments_Prop() = x.SchemaUT.PeriodicAdjustments === CalendricalAdjustments.Days
     override x.Profile_Prop() = x.SchemaUT.Profile === CalendricalProfile.Solar12
     override x.PreValidator_Prop() = x.VerifyThatPreValidatorIs<GregorianPreValidator>()
-    override x.Arithmetic_Prop() = x.VerifyThatArithmeticIs<GregorianArithmetic>()
     override x.IsRegular() = x.SchemaUT.IsRegular() === (true, 12)
 
 [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
@@ -148,9 +137,6 @@ module HebrewTests =
     let ``Property PreValidator`` () = verifyThatPreValidatorIs<LunisolarPreValidator>(sch)
 
     [<Fact>]
-    let ``Property Arithmetic`` () = verifyThatArithmeticIs<LunisolarArithmetic>(sch)
-
-    [<Fact>]
     let ``IsRegular()`` () = sch.IsRegular() === (false, 0)
 
 [<Sealed>]
@@ -162,7 +148,6 @@ type InternationalFixedTests() =
     override x.PeriodicAdjustments_Prop() = x.SchemaUT.PeriodicAdjustments === CalendricalAdjustments.Days
     override x.Profile_Prop() = x.SchemaUT.Profile === CalendricalProfile.Solar13
     override x.PreValidator_Prop() = x.VerifyThatPreValidatorIs<Solar13PreValidator>()
-    override x.Arithmetic_Prop() = x.VerifyThatArithmeticIs<Solar13Arithmetic>()
     override x.IsRegular() = x.SchemaUT.IsRegular() === (true, 13)
 
 [<Sealed>]
@@ -174,7 +159,6 @@ type JulianTests() =
     override x.PeriodicAdjustments_Prop() = x.SchemaUT.PeriodicAdjustments === CalendricalAdjustments.Days
     override x.Profile_Prop() = x.SchemaUT.Profile === CalendricalProfile.Solar12
     override x.PreValidator_Prop() = x.VerifyThatPreValidatorIs<JulianPreValidator>()
-    override x.Arithmetic_Prop() = x.VerifyThatArithmeticIs<Solar12Arithmetic>()
     override x.IsRegular() = x.SchemaUT.IsRegular() === (true, 12)
 
 [<Sealed>]
@@ -186,7 +170,6 @@ type LunisolarTests() =
     override x.PeriodicAdjustments_Prop() = x.SchemaUT.PeriodicAdjustments === CalendricalAdjustments.Months
     override x.Profile_Prop() = x.SchemaUT.Profile === CalendricalProfile.Lunisolar
     override x.PreValidator_Prop() = x.VerifyThatPreValidatorIs<LunisolarPreValidator>()
-    override x.Arithmetic_Prop() = x.VerifyThatArithmeticIs<LunisolarArithmetic>()
     override x.IsRegular() = x.SchemaUT.IsRegular() === (false, 0)
 
 [<Sealed>]
@@ -200,7 +183,6 @@ type PaxTests() as self =
     override x.Family_Prop() = x.SchemaUT.Family === CalendricalFamily.Other
     override x.PeriodicAdjustments_Prop() = x.SchemaUT.PeriodicAdjustments === CalendricalAdjustments.Weeks
     override x.PreValidator_Prop() = verifyThatPreValidatorIs<PlainPreValidator>(x.SchemaUT)
-    override x.Arithmetic_Prop() = verifyThatArithmeticIs<PlainArithmetic>(x.SchemaUT)
     override x.IsRegular() = x.SchemaUT.IsRegular() === (false, 0)
 
     override x.SupportedYears_Prop() =
@@ -219,7 +201,6 @@ type Persian2820Tests() =
     override x.PeriodicAdjustments_Prop() = x.SchemaUT.PeriodicAdjustments === CalendricalAdjustments.Days
     override x.Profile_Prop() = x.SchemaUT.Profile === CalendricalProfile.Solar12
     override x.PreValidator_Prop() = x.VerifyThatPreValidatorIs<Solar12PreValidator>()
-    override x.Arithmetic_Prop() = x.VerifyThatArithmeticIs<Solar12Arithmetic>()
     override x.IsRegular() = x.SchemaUT.IsRegular() === (true, 12)
 
     override x.SupportedYearsCore_Prop() =
@@ -248,7 +229,6 @@ type PositivistTests() =
     override x.PeriodicAdjustments_Prop() = x.SchemaUT.PeriodicAdjustments === CalendricalAdjustments.Days
     override x.Profile_Prop() = x.SchemaUT.Profile === CalendricalProfile.Solar13
     override x.PreValidator_Prop() = x.VerifyThatPreValidatorIs<Solar13PreValidator>()
-    override x.Arithmetic_Prop() = x.VerifyThatArithmeticIs<Solar13Arithmetic>()
     override x.IsRegular() = x.SchemaUT.IsRegular() === (true, 13)
 
 [<Sealed>]
@@ -262,7 +242,6 @@ type TabularIslamicTests() =
     override x.PeriodicAdjustments_Prop() = x.SchemaUT.PeriodicAdjustments === CalendricalAdjustments.Days
     override x.Profile_Prop() = x.SchemaUT.Profile === CalendricalProfile.Lunar
     override x.PreValidator_Prop() = x.VerifyThatPreValidatorIs<LunarPreValidator>()
-    override x.Arithmetic_Prop() = x.VerifyThatArithmeticIs<LunarArithmetic>()
     override x.IsRegular() = x.SchemaUT.IsRegular() === (true, 12)
 
     override x.SupportedYears_Prop() =
@@ -300,7 +279,6 @@ type TropicaliaTests() =
     override x.PeriodicAdjustments_Prop() = x.SchemaUT.PeriodicAdjustments === CalendricalAdjustments.Days
     override x.Profile_Prop() = x.SchemaUT.Profile === CalendricalProfile.Solar12
     override x.PreValidator_Prop() = x.VerifyThatPreValidatorIs<Solar12PreValidator>()
-    override x.Arithmetic_Prop() = x.VerifyThatArithmeticIs<Solar12Arithmetic>()
     override x.IsRegular() = x.SchemaUT.IsRegular() === (true, 12)
 
 [<Sealed>]
@@ -312,7 +290,6 @@ type Tropicalia3031Tests() =
     override x.PeriodicAdjustments_Prop() = x.SchemaUT.PeriodicAdjustments === CalendricalAdjustments.Days
     override x.Profile_Prop() = x.SchemaUT.Profile === CalendricalProfile.Solar12
     override x.PreValidator_Prop() = x.VerifyThatPreValidatorIs<Solar12PreValidator>()
-    override x.Arithmetic_Prop() = x.VerifyThatArithmeticIs<Solar12Arithmetic>()
     override x.IsRegular() = x.SchemaUT.IsRegular() === (true, 12)
 
 [<Sealed>]
@@ -324,7 +301,6 @@ type Tropicalia3130Tests() =
     override x.PeriodicAdjustments_Prop() = x.SchemaUT.PeriodicAdjustments === CalendricalAdjustments.Days
     override x.Profile_Prop() = x.SchemaUT.Profile === CalendricalProfile.Solar12
     override x.PreValidator_Prop() = x.VerifyThatPreValidatorIs<Solar12PreValidator>()
-    override x.Arithmetic_Prop() = x.VerifyThatArithmeticIs<Solar12Arithmetic>()
     override x.IsRegular() = x.SchemaUT.IsRegular() === (true, 12)
 
 [<Sealed>]
@@ -336,5 +312,4 @@ type WorldTests() =
     override x.PeriodicAdjustments_Prop() = x.SchemaUT.PeriodicAdjustments === CalendricalAdjustments.Days
     override x.Profile_Prop() = x.SchemaUT.Profile === CalendricalProfile.Solar12
     override x.PreValidator_Prop() = x.VerifyThatPreValidatorIs<Solar12PreValidator>()
-    override x.Arithmetic_Prop() = x.VerifyThatArithmeticIs<Solar12Arithmetic>()
     override x.IsRegular() = x.SchemaUT.IsRegular() === (true, 12)

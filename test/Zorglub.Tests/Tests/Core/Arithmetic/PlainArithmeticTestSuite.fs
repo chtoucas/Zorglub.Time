@@ -18,93 +18,95 @@ open Xunit
 // Since the Gregorian schema has the richest dataset, we use it as a default
 // model for testing.
 
-let private ariOf x = new PlainArithmetic(x) :> SystemArithmetic
+let private ariOf<'a when 'a :> SystemSchema and 'a :> IBoxable<'a>> () =
+    let sch = syschemaOf<'a>()
+    new PlainArithmetic(sch, sch.SupportedYears)
 
 [<Sealed>]
 [<RedundantTestBundle>]
 type Coptic12Tests() =
-    inherit SystemArithmeticFacts<Coptic12DataSet>(syschemaOf<Coptic12Schema>(), ariOf)
+    inherit SystemArithmeticFacts<Coptic12DataSet>(ariOf<Coptic12Schema>())
 
 // Already tested in ArithmeticTestSuite.
 [<Fact>]
 let ``Default arithmetic for Coptic13Schema is PlainArithmetic`` () =
-    schemaOf<Coptic13Schema>().Arithmetic |> is<PlainArithmetic>
+    SystemArithmetic.CreateDefault(schemaOf<Coptic13Schema>()) |> is<PlainArithmetic>
 
 [<Sealed>]
 [<RedundantTestBundle>]
 type Egyptian12Tests() =
-    inherit SystemArithmeticFacts<Egyptian12DataSet>(syschemaOf<Egyptian12Schema>(), ariOf)
+    inherit SystemArithmeticFacts<Egyptian12DataSet>(ariOf<Egyptian12Schema>())
 
 // Already tested in ArithmeticTestSuite.
 [<Fact>]
 let ``Default arithmetic for Egyptian13Schema is PlainArithmetic`` () =
-    schemaOf<Egyptian13Schema>().Arithmetic |> is<PlainArithmetic>
+    SystemArithmetic.CreateDefault(schemaOf<Egyptian13Schema>()) |> is<PlainArithmetic>
 
 [<Sealed>]
 [<RedundantTestBundle>]
 type FrenchRepublican12Tests() =
-    inherit SystemArithmeticFacts<FrenchRepublican12DataSet>(syschemaOf<FrenchRepublican12Schema>(), ariOf)
+    inherit SystemArithmeticFacts<FrenchRepublican12DataSet>(ariOf<FrenchRepublican12Schema>())
 
 // Already tested in ArithmeticTestSuite.
 [<Fact>]
 let ``Default arithmetic for FrenchRepublican13Schema is PlainArithmetic`` () =
-    schemaOf<FrenchRepublican13Schema>().Arithmetic |> is<PlainArithmetic>
+    SystemArithmetic.CreateDefault(schemaOf<FrenchRepublican13Schema>()) |> is<PlainArithmetic>
 
 [<Sealed>]
 type GregorianTests() =
-    inherit SystemArithmeticFacts<GregorianDataSet>(syschemaOf<GregorianSchema>(), ariOf)
+    inherit SystemArithmeticFacts<GregorianDataSet>(ariOf<GregorianSchema>())
 
 [<Sealed>]
 [<RedundantTestBundle>]
 type InternationalFixedTests() =
-    inherit SystemArithmeticFacts<InternationalFixedDataSet>(syschemaOf<InternationalFixedSchema>(), ariOf)
+    inherit SystemArithmeticFacts<InternationalFixedDataSet>(ariOf<InternationalFixedSchema>())
 
 [<Sealed>]
 [<RedundantTestBundle>]
 type JulianTests() =
-    inherit SystemArithmeticFacts<JulianDataSet>(syschemaOf<JulianSchema>(), ariOf)
+    inherit SystemArithmeticFacts<JulianDataSet>(ariOf<JulianSchema>())
 
 [<Sealed>]
 [<RedundantTestBundle>]
 type LunisolarTests() =
-    inherit SystemArithmeticFacts<LunisolarDataSet>(syschemaOf<LunisolarSchema>(), ariOf)
+    inherit SystemArithmeticFacts<LunisolarDataSet>(ariOf<LunisolarSchema>())
 
 // Already tested in ArithmeticTestSuite.
 [<Fact>]
 let ``Default arithmetic for PaxSchema is PlainArithmetic`` () =
-    schemaOf<PaxSchema>().Arithmetic |> is<PlainArithmetic>
+    SystemArithmetic.CreateDefault(schemaOf<PaxSchema>()) |> is<PlainArithmetic>
 
 [<Sealed>]
 [<RedundantTestBundle>]
 type Persian2820Tests() =
-    inherit SystemArithmeticFacts<Persian2820DataSet>(syschemaOf<Persian2820Schema>(), ariOf)
+    inherit SystemArithmeticFacts<Persian2820DataSet>(ariOf<Persian2820Schema>())
 
 [<Sealed>]
 [<RedundantTestBundle>]
 type PositivistTests() =
-    inherit SystemArithmeticFacts<PositivistDataSet>(syschemaOf<PositivistSchema>(), ariOf)
+    inherit SystemArithmeticFacts<PositivistDataSet>(ariOf<PositivistSchema>())
 
 [<Sealed>]
 [<RedundantTestBundle>]
 type TabularIslamicTests() =
-    inherit SystemArithmeticFacts<TabularIslamicDataSet>(syschemaOf<TabularIslamicSchema>(), ariOf)
+    inherit SystemArithmeticFacts<TabularIslamicDataSet>(ariOf<TabularIslamicSchema>())
 
 [<Sealed>]
 [<RedundantTestBundle>]
 type TropicaliaTests() =
-    inherit SystemArithmeticFacts<TropicaliaDataSet>(syschemaOf<TropicaliaSchema>(), ariOf)
+    inherit SystemArithmeticFacts<TropicaliaDataSet>(ariOf<TropicaliaSchema>())
 
 [<Sealed>]
 [<RedundantTestBundle>]
 type Tropicalia3031Tests() =
-    inherit SystemArithmeticFacts<Tropicalia3031DataSet>(syschemaOf<Tropicalia3031Schema>(), ariOf)
+    inherit SystemArithmeticFacts<Tropicalia3031DataSet>(ariOf<Tropicalia3031Schema>())
 
 [<Sealed>]
 [<RedundantTestBundle>]
 type Tropicalia3130Tests() =
-    inherit SystemArithmeticFacts<Tropicalia3130DataSet>(syschemaOf<Tropicalia3130Schema>(), ariOf)
+    inherit SystemArithmeticFacts<Tropicalia3130DataSet>(ariOf<Tropicalia3130Schema>())
 
 [<Sealed>]
 [<RedundantTestBundle>]
 type WorldTests() =
-    inherit SystemArithmeticFacts<WorldDataSet>(syschemaOf<WorldSchema>(), ariOf)
+    inherit SystemArithmeticFacts<WorldDataSet>(ariOf<WorldSchema>())

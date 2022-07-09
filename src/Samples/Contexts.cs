@@ -28,7 +28,7 @@ internal sealed class CalendarContext
         Scope = scope ?? throw new ArgumentNullException(nameof(scope));
 
         PartsFactory = new PartsFactory(scope);
-        Arithmetic = schema.Arithmetic.WithSupportedYears(scope.SupportedYears);
+        Arithmetic = SystemArithmetic.CreateDefault(schema, scope.SupportedYears);
     }
 
     public SystemSchema Schema { get; }
@@ -95,7 +95,7 @@ internal sealed class SystemContext
         Schema = schema ?? throw new ArgumentNullException(nameof(schema));
 
         // Temporary code.
-        Arithmetic = schema.Arithmetic.WithSupportedYears(supportedYears);
+        Arithmetic = SystemArithmetic.CreateDefault(schema, supportedYears);
         Segment = Arithmetic.Segment;
     }
 

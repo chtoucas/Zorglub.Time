@@ -283,10 +283,11 @@ public readonly record struct YemoPair(Yemo First, Yemo Second);
 public readonly record struct YemoPairAnd<T>(Yemo First, Yemo Second, T Value) where T : struct;
 
 #endregion
-#region
+#region Parts
 #pragma warning disable CA2225 // Operator overloads have named alternates
 
-public readonly record struct DatePartsPair(DateParts First, DateParts Second)
+// Too big to be a struct (24 bytes).
+public sealed record DatePartsPair(DateParts First, DateParts Second)
 {
     public static explicit operator DatePartsPair(YemodaPair pair)
     {
@@ -297,7 +298,8 @@ public readonly record struct DatePartsPair(DateParts First, DateParts Second)
         return new DatePartsPair(first, second);
     }
 }
-public readonly record struct DatePartsPairAnd<T>(DateParts First, DateParts Second, T Value) where T : struct
+// Too big to be a struct (28 bytes).
+public sealed record DatePartsPairAnd<T>(DateParts First, DateParts Second, T Value) where T : struct
 {
     public static explicit operator DatePartsPairAnd<T>(YemodaPairAnd<T> pair)
     {
@@ -320,7 +322,8 @@ public readonly record struct OrdinalPartsPair(OrdinalParts First, OrdinalParts 
         return new OrdinalPartsPair(first, second);
     }
 }
-public readonly record struct OrdinalPartsPairAnd<T>(OrdinalParts First, OrdinalParts Second, T Value) where T : struct
+// Too big to be a struct (20 bytes).
+public sealed record OrdinalPartsPairAnd<T>(OrdinalParts First, OrdinalParts Second, T Value) where T : struct
 {
     public static explicit operator OrdinalPartsPairAnd<T>(YedoyPairAnd<T> pair)
     {
@@ -343,7 +346,8 @@ public readonly record struct MonthPartsPair(MonthParts First, MonthParts Second
         return new MonthPartsPair(first, second);
     }
 }
-public readonly record struct MonthPartsPairAnd<T>(MonthParts First, MonthParts Second, T Value) where T : struct
+// Too big to be a struct (20 bytes).
+public sealed record MonthPartsPairAnd<T>(MonthParts First, MonthParts Second, T Value) where T : struct
 {
     public static explicit operator MonthPartsPairAnd<T>(YemoPairAnd<T> pair)
     {

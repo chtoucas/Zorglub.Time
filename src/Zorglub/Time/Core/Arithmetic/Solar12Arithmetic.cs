@@ -21,23 +21,17 @@ namespace Zorglub.Time.Core.Arithmetic
         /// specified schema.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
-        /// <exception cref="ArgumentException">The range of supported years by
-        /// <paramref name="schema"/> and <see cref="Yemoda"/> are disjoint.
-        /// </exception>
+        /// <exception cref="AoorException"><paramref name="supportedYears"/> is NOT a subinterval
+        /// of the range of supported years by <paramref name="schema"/>.</exception>
         /// <exception cref="ArgumentException"><paramref name="schema"/> does not have the expected
         /// profile <see cref="CalendricalProfile.Solar12"/>.</exception>
-        public Solar12Arithmetic(SystemSchema schema, Range<int>? supportedYears = null)
+        public Solar12Arithmetic(SystemSchema schema, Range<int> supportedYears)
             : base(schema, supportedYears)
         {
             Debug.Assert(schema != null);
 
             Requires.Profile(schema, CalendricalProfile.Solar12);
         }
-
-        /// <inheritdoc />
-        [Pure]
-        public override SystemArithmetic WithSupportedYears(Range<int> supportedYears) =>
-            new Solar12Arithmetic(Schema, supportedYears);
 
         //
         // Operations on Yemoda

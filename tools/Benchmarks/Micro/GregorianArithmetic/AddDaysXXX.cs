@@ -5,6 +5,7 @@ namespace Benchmarks.Micro;
 
 using Zorglub.Time.Core;
 using Zorglub.Time.Core.Arithmetic;
+using Zorglub.Time.Core.Schemas;
 
 // With short values of "days",
 //  1. AddDaysViaDayOfMonth()
@@ -15,7 +16,8 @@ using Zorglub.Time.Core.Arithmetic;
 
 public class GregorianArithmetic_AddDaysXXX : BenchmarkBase
 {
-    private static readonly GregorianArithmetic s_Arithmetic = new();
+    private static readonly GregorianSchema s_Schema = new();
+    private static readonly GregorianArithmetic s_Arithmetic = new(s_Schema, s_Schema.SupportedYears);
     private static readonly Yemoda s_StartOfMonth = new(1777, 1, 1);
     private static readonly Yemoda s_MiddleOfMonth = new(1777, 11, 22); // 22 + 7 > MinDaysInMonth
     private static readonly Yemoda s_EndOfMonth = new(1777, 11, 31);

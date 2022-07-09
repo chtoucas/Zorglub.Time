@@ -16,42 +16,44 @@ open Zorglub.Time.Core.Schemas
 // Since the Gregorian schema has the richest dataset, we use it as a default
 // model for testing.
 
-let private ariOf x = new RegularArithmetic(x) :> SystemArithmetic
+let private ariOf<'a when 'a :> SystemSchema and 'a :> IBoxable<'a>> () =
+    let sch = syschemaOf<'a>()
+    new RegularArithmetic(sch, sch.SupportedYears)
 
 [<Sealed>]
 [<RedundantTestBundle>]
 type Coptic12Tests() =
-    inherit SystemArithmeticFacts<Coptic12DataSet>(syschemaOf<Coptic12Schema>(), ariOf)
+    inherit SystemArithmeticFacts<Coptic12DataSet>(ariOf<Coptic12Schema>())
 
 // Coptic13 -> not compatible with RegularArithmetic.
 
 [<Sealed>]
 [<RedundantTestBundle>]
 type Egyptian12Tests() =
-    inherit SystemArithmeticFacts<Egyptian12DataSet>(syschemaOf<Egyptian12Schema>(), ariOf)
+    inherit SystemArithmeticFacts<Egyptian12DataSet>(ariOf<Egyptian12Schema>())
 
 // Egyptian13 -> not compatible with RegularArithmetic.
 
 [<Sealed>]
 [<RedundantTestBundle>]
 type FrenchRepublican12Tests() =
-    inherit SystemArithmeticFacts<FrenchRepublican12DataSet>(syschemaOf<FrenchRepublican12Schema>(), ariOf)
+    inherit SystemArithmeticFacts<FrenchRepublican12DataSet>(ariOf<FrenchRepublican12Schema>())
 
 // FrenchRepublican13 -> not compatible with RegularArithmetic.
 
 [<Sealed>]
 type GregorianTests() =
-    inherit SystemArithmeticFacts<GregorianDataSet>(syschemaOf<GregorianSchema>(), ariOf)
+    inherit SystemArithmeticFacts<GregorianDataSet>(ariOf<GregorianSchema>())
 
 [<Sealed>]
 [<RedundantTestBundle>]
 type InternationalFixedTests() =
-    inherit SystemArithmeticFacts<InternationalFixedDataSet>(syschemaOf<InternationalFixedSchema>(), ariOf)
+    inherit SystemArithmeticFacts<InternationalFixedDataSet>(ariOf<InternationalFixedSchema>())
 
 [<Sealed>]
 [<RedundantTestBundle>]
 type JulianTests() =
-    inherit SystemArithmeticFacts<JulianDataSet>(syschemaOf<JulianSchema>(), ariOf)
+    inherit SystemArithmeticFacts<JulianDataSet>(ariOf<JulianSchema>())
 
 // Lunisolar -> not compatible with RegularArithmetic.
 
@@ -60,34 +62,34 @@ type JulianTests() =
 [<Sealed>]
 [<RedundantTestBundle>]
 type Persian2820Tests() =
-    inherit SystemArithmeticFacts<Persian2820DataSet>(syschemaOf<Persian2820Schema>(), ariOf)
+    inherit SystemArithmeticFacts<Persian2820DataSet>(ariOf<Persian2820Schema>())
 
 [<Sealed>]
 [<RedundantTestBundle>]
 type PositivistTests() =
-    inherit SystemArithmeticFacts<PositivistDataSet>(syschemaOf<PositivistSchema>(), ariOf)
+    inherit SystemArithmeticFacts<PositivistDataSet>(ariOf<PositivistSchema>())
 
 [<Sealed>]
 [<RedundantTestBundle>]
 type TabularIslamicTests() =
-    inherit SystemArithmeticFacts<TabularIslamicDataSet>(syschemaOf<TabularIslamicSchema>(), ariOf)
+    inherit SystemArithmeticFacts<TabularIslamicDataSet>(ariOf<TabularIslamicSchema>())
 
 [<Sealed>]
 [<RedundantTestBundle>]
 type TropicaliaTests() =
-    inherit SystemArithmeticFacts<TropicaliaDataSet>(syschemaOf<TropicaliaSchema>(), ariOf)
+    inherit SystemArithmeticFacts<TropicaliaDataSet>(ariOf<TropicaliaSchema>())
 
 [<Sealed>]
 [<RedundantTestBundle>]
 type Tropicalia3031Tests() =
-    inherit SystemArithmeticFacts<Tropicalia3031DataSet>(syschemaOf<Tropicalia3031Schema>(), ariOf)
+    inherit SystemArithmeticFacts<Tropicalia3031DataSet>(ariOf<Tropicalia3031Schema>())
 
 [<Sealed>]
 [<RedundantTestBundle>]
 type Tropicalia3130Tests() =
-    inherit SystemArithmeticFacts<Tropicalia3130DataSet>(syschemaOf<Tropicalia3130Schema>(), ariOf)
+    inherit SystemArithmeticFacts<Tropicalia3130DataSet>(ariOf<Tropicalia3130Schema>())
 
 [<Sealed>]
 [<RedundantTestBundle>]
 type WorldTests() =
-    inherit SystemArithmeticFacts<WorldDataSet>(syschemaOf<WorldSchema>(), ariOf)
+    inherit SystemArithmeticFacts<WorldDataSet>(ariOf<WorldSchema>())

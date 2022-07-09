@@ -80,15 +80,13 @@ namespace Zorglub.Time.Core
         /// <see cref="SystemArithmetic"/> class.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
-        /// <exception cref="ArgumentException">The range of supported years by
-        /// <paramref name="schema"/> and <see cref="Yemoda"/> are disjoint.
-        /// </exception>
-        protected SystemArithmetic(SystemSchema schema, Range<int>? supportedYears)
+        /// <exception cref="AoorException"><paramref name="supportedYears"/> is NOT a subinterval
+        /// of the range of supported years by <paramref name="schema"/>.</exception>
+        protected SystemArithmetic(SystemSchema schema, Range<int> supportedYears)
         {
             Schema = schema ?? throw new ArgumentNullException(nameof(schema));
 
-            Segment = supportedYears is null ? SystemSegment.CreateMaximal(schema)
-                : SystemSegment.Create(schema, supportedYears.Value);
+            Segment = SystemSegment.Create(schema, supportedYears);
 
             (MinYear, MaxYear) = Segment.SupportedYears.Endpoints;
 
@@ -148,20 +146,33 @@ namespace Zorglub.Time.Core
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
         [Pure]
-        internal static SystemArithmetic CreateDefault(SystemSchema schema)
+        public static SystemArithmetic CreateDefault(SystemSchema schema)
         {
-            // Should only be used by SystemSchema.Arithmetic.
+            Requires.NotNull(schema);
 
+            return CreateDefault(schema, schema.SupportedYears);
+        }
+
+        /// <summary>
+        /// Creates the default arithmetic object for the specified schema and range of supported
+        /// years.
+        /// </summary>
+        /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
+        /// <exception cref="AoorException"><paramref name="supportedYears"/> is NOT a subinterval
+        /// of the range of supported years by <paramref name="schema"/>.</exception>
+        [Pure]
+        public static SystemArithmetic CreateDefault(SystemSchema schema, Range<int> supportedYears)
+        {
             Requires.NotNull(schema);
 
             return schema.Profile switch
             {
                 CalendricalProfile.Solar12 =>
-                    schema is GregorianSchema ? new GregorianArithmetic()
-                    : new Solar12Arithmetic(schema),
-                CalendricalProfile.Solar13 => new Solar13Arithmetic(schema),
-                CalendricalProfile.Lunar => new LunarArithmetic(schema),
-                CalendricalProfile.Lunisolar => new LunisolarArithmetic(schema),
+                    schema is GregorianSchema gr ? new GregorianArithmetic(gr, supportedYears)
+                    : new Solar12Arithmetic(schema, supportedYears),
+                CalendricalProfile.Solar13 => new Solar13Arithmetic(schema, supportedYears),
+                CalendricalProfile.Lunar => new LunarArithmetic(schema, supportedYears),
+                CalendricalProfile.Lunisolar => new LunisolarArithmetic(schema, supportedYears),
 
                 // (no longer true)
                 // NB: there is no real gain to expect in trying to improve the
@@ -169,16 +180,10 @@ namespace Zorglub.Time.Core
                 // Check the code, we only call CountMonthsInYear() in two
                 // corner cases.
                 _ => schema.MinDaysInMonth >= MinMinDaysInMonth && schema.IsRegular(out _)
-                    ? new RegularArithmetic(schema)
-                    : new PlainArithmetic(schema)
+                    ? new RegularArithmetic(schema, supportedYears)
+                    : new PlainArithmetic(schema, supportedYears)
             };
         }
-
-        /// <summary>
-        /// Creates a new arithmetic object using the same underlying schema but with the specified
-        /// range of supported years.
-        /// </summary>
-        [Pure] public abstract SystemArithmetic WithSupportedYears(Range<int> supportedYears);
     }
 
     public partial class SystemArithmetic // Standard operations

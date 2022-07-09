@@ -24,19 +24,14 @@ namespace Zorglub.Time.Core.Arithmetic
         /// <summary>
         /// Initializes a new instance of the <see cref="GregorianArithmetic"/> class.
         /// </summary>
-        public GregorianArithmetic(Range<int>? supportedYears = null)
-            : base(new GregorianSchema(), supportedYears)
+        public GregorianArithmetic(GregorianSchema schema, Range<int> supportedYears)
+            : base(schema, supportedYears)
         {
             Debug.Assert(MaxDaysViaDayOfMonth_ >= MinMinDaysInMonth);
 
             MaxDaysViaDayOfYear = MaxDaysViaDayOfYear_;
             MaxDaysViaDayOfMonth = MaxDaysViaDayOfMonth_;
         }
-
-        /// <inheritdoc />
-        [Pure]
-        public override SystemArithmetic WithSupportedYears(Range<int> supportedYears) =>
-            new GregorianArithmetic(supportedYears);
     }
 
     internal partial class GregorianArithmetic // Operations on Yemoda

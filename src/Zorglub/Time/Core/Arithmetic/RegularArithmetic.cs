@@ -17,14 +17,13 @@ namespace Zorglub.Time.Core.Arithmetic
         /// Initializes a new instance of the <see cref="RegularArithmetic"/> class.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
-        /// <exception cref="ArgumentException">The range of supported years by
-        /// <paramref name="schema"/> and <see cref="Yemoda"/> are disjoint.
-        /// </exception>
+        /// <exception cref="AoorException"><paramref name="supportedYears"/> is NOT a subinterval
+        /// of the range of supported years by <paramref name="schema"/>.</exception>
         /// <exception cref="ArgumentException"><paramref name="schema"/> contains at least one
         /// month whose length is strictly less than <see cref="SystemArithmetic.MinMinDaysInMonth"/>.
         /// </exception>
         /// <exception cref="ArgumentException"><paramref name="schema"/> is not regular.</exception>
-        public RegularArithmetic(SystemSchema schema, Range<int>? supportedYears = null)
+        public RegularArithmetic(SystemSchema schema, Range<int> supportedYears)
             : base(schema, supportedYears)
         {
             Debug.Assert(schema != null);
@@ -35,11 +34,6 @@ namespace Zorglub.Time.Core.Arithmetic
         }
 
         public int MonthsInYear { get; }
-
-        /// <inheritdoc />
-        [Pure]
-        public override SystemArithmetic WithSupportedYears(Range<int> supportedYears) =>
-            new RegularArithmetic(Schema, supportedYears);
     }
 
     internal partial class RegularArithmetic // Operations on Yemoda

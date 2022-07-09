@@ -49,18 +49,6 @@ module Prelude =
         validator2 === validator1
 
     [<Fact>]
-    let ``Property Arithmetic: default value, repeated`` () =
-        let sch = new FauxSystemSchema()
-
-        let arith1 = sch.Arithmetic
-        arith1 |> is<PlainArithmetic>
-
-        let arith2 = sch.Arithmetic
-        arith2 |> is<PlainArithmetic>
-
-        arith2 === arith1
-
-    [<Fact>]
     let ``Property Profile: default value, repeated`` () =
         let sch = new FauxCalendricalSchema()
 

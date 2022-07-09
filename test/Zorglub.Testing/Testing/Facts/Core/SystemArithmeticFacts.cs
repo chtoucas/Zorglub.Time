@@ -11,21 +11,11 @@ public abstract partial class SystemArithmeticFacts<TDataSet> :
     CalendricalDataConsumer<TDataSet>
     where TDataSet : ICalendricalDataSet, ISingleton<TDataSet>
 {
-    protected SystemArithmeticFacts(SystemSchema schema)
-        : this(schema, schema?.Arithmetic ?? throw new ArgumentNullException(nameof(schema))) { }
-
-    protected SystemArithmeticFacts(
-        SystemSchema schema,
-        Func<SystemSchema, SystemArithmetic> factory)
-        : this(schema, factory?.Invoke(schema) ?? throw new ArgumentNullException(nameof(factory))) { }
-
-    private SystemArithmeticFacts(SystemSchema schema, SystemArithmetic arithmetic)
+    protected SystemArithmeticFacts(SystemArithmetic arithmetic)
     {
-        Schema = schema ?? throw new ArgumentNullException(nameof(schema));
         ArithmeticUT = arithmetic ?? throw new ArgumentNullException(nameof(arithmetic));
     }
 
-    protected SystemSchema Schema { get; }
     protected SystemArithmetic ArithmeticUT { get; }
     protected SystemSegment Segment => ArithmeticUT.Segment;
 }

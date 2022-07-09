@@ -35,13 +35,14 @@ module Prelude =
 
     [<Fact>]
     let ``Constructor throws for null schema`` () =
-        //nullExn "schema" (fun () -> new BasicArithmetic(null))
-        nullExn "schema" (fun () -> new PlainArithmetic(null))
-        nullExn "schema" (fun () -> new RegularArithmetic(null))
-        nullExn "schema" (fun () -> new LunarArithmetic(null))
-        nullExn "schema" (fun () -> new LunisolarArithmetic(null))
-        nullExn "schema" (fun () -> new Solar12Arithmetic(null))
-        nullExn "schema" (fun () -> new Solar13Arithmetic(null))
+        let supportedYears = Range.Singleton(1)
+
+        nullExn "schema" (fun () -> new PlainArithmetic(null, supportedYears))
+        nullExn "schema" (fun () -> new RegularArithmetic(null, supportedYears))
+        nullExn "schema" (fun () -> new LunarArithmetic(null, supportedYears))
+        nullExn "schema" (fun () -> new LunisolarArithmetic(null, supportedYears))
+        nullExn "schema" (fun () -> new Solar12Arithmetic(null, supportedYears))
+        nullExn "schema" (fun () -> new Solar13Arithmetic(null, supportedYears))
 
     //[<Fact>]
     //let ``Constructor throws for schemas with bad range of supported years`` () =
@@ -58,19 +59,19 @@ module Prelude =
 
     [<Theory; MemberData(nameof(badLunarProfile))>]
     let ``LunarArithmetic constructor throws for non-lunar schema`` (sch) =
-        argExn "schema" (fun () -> new LunarArithmetic(sch))
+        argExn "schema" (fun () -> new LunarArithmetic(sch, sch.SupportedYears))
 
     [<Theory; MemberData(nameof(badLunisolarProfile))>]
     let ``LunisolarArithmetic constructor throws for non-lunisolar schema`` (sch) =
-        argExn "schema" (fun () -> new LunisolarArithmetic(sch))
+        argExn "schema" (fun () -> new LunisolarArithmetic(sch, sch.SupportedYears))
 
     [<Theory; MemberData(nameof(badSolar12Profile))>]
     let ``Solar12Arithmetic constructor throws for non-solar12 schema`` (sch) =
-        argExn "schema" (fun () -> new Solar12Arithmetic(sch))
+        argExn "schema" (fun () -> new Solar12Arithmetic(sch, sch.SupportedYears))
 
     [<Theory; MemberData(nameof(badSolar13Profile))>]
     let ``Solar13Arithmetic constructor throws for non-solar13 schema`` (sch) =
-        argExn "schema" (fun () -> new Solar13Arithmetic(sch))
+        argExn "schema" (fun () -> new Solar13Arithmetic(sch, sch.SupportedYears))
 
     [<Theory>]
     [<InlineData 1>]
@@ -82,7 +83,7 @@ module Prelude =
     let ``RegularArithmetic constructor throws when MinDaysInMonth < 7`` i =
         let sch = FauxSystemSchema.WithMinDaysInMonth(i)
 
-        argExn "schema" (fun () -> new RegularArithmetic(sch))
+        argExn "schema" (fun () -> new RegularArithmetic(sch, sch.SupportedYears))
 
 module Factories =
     [<Fact>]
@@ -110,7 +111,7 @@ module Factories =
 
 module PlainCase =
     let private sch = schemaOf<GregorianSchema>()
-    let private ari = new PlainArithmetic(sch)
+    let private ari = new PlainArithmetic(sch, sch.SupportedYears)
     let private wrapper = new ArithmeticWrapper(ari)
 
     let addDaysData = getAddDaysData ari
@@ -138,7 +139,7 @@ module PlainCase =
 
 module RegularCase =
     let private sch = schemaOf<GregorianSchema>()
-    let private ari = new RegularArithmetic(sch)
+    let private ari = new RegularArithmetic(sch, sch.SupportedYears)
     let private wrapper = new ArithmeticWrapper(ari)
 
     let addDaysData = getAddDaysData ari
@@ -165,7 +166,8 @@ module RegularCase =
         wrapper.AddDaysViaDayOfMonth(other, -days) === date
 
 module GregorianCase =
-    let private ari = new GregorianArithmetic()
+    let private sch = schemaOf<GregorianSchema>()
+    let private ari = new GregorianArithmetic(sch, sch.SupportedYears)
 
     [<Fact>]
     let ``Property MaxDaysViaDayOfYear`` () =
@@ -177,7 +179,7 @@ module GregorianCase =
 
 module LunarCase =
     let private sch = schemaOf<TabularIslamicSchema>()
-    let private ari = new LunarArithmetic(sch)
+    let private ari = new LunarArithmetic(sch, sch.SupportedYears)
 
     [<Fact>]
     let ``Property MaxDaysViaDayOfYear`` () =
@@ -189,7 +191,7 @@ module LunarCase =
 
 module LunisolarCase =
     let private sch = schemaOf<LunisolarSchema>()
-    let private ari = new LunisolarArithmetic(sch)
+    let private ari = new LunisolarArithmetic(sch, sch.SupportedYears)
 
     [<Fact>]
     let ``Property MaxDaysViaDayOfYear`` () =
@@ -201,7 +203,7 @@ module LunisolarCase =
 
 module Solar12Case =
     let private sch = schemaOf<GregorianSchema>()
-    let private ari = new Solar12Arithmetic(sch)
+    let private ari = new Solar12Arithmetic(sch, sch.SupportedYears)
 
     [<Fact>]
     let ``Property MaxDaysViaDayOfYear`` () =
@@ -213,7 +215,7 @@ module Solar12Case =
 
 module Solar13Case =
     let private sch = schemaOf<PositivistSchema>()
-    let private ari = new Solar13Arithmetic(sch)
+    let private ari = new Solar13Arithmetic(sch, sch.SupportedYears)
 
     [<Fact>]
     let ``Property MaxDaysViaDayOfYear`` () =

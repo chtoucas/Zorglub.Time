@@ -17,16 +17,10 @@ namespace Zorglub.Time.Core.Arithmetic
         /// <see cref="PlainArithmetic"/> class.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
-        /// <exception cref="ArgumentException">The range of supported years by
-        /// <paramref name="schema"/> and <see cref="Yemoda"/> are disjoint.
-        /// </exception>
-        public PlainArithmetic(SystemSchema schema, Range<int>? supportedYears = null)
+        /// <exception cref="AoorException"><paramref name="supportedYears"/> is NOT a subinterval
+        /// of the range of supported years by <paramref name="schema"/>.</exception>
+        public PlainArithmetic(SystemSchema schema, Range<int> supportedYears)
             : base(schema, supportedYears) { }
-
-        /// <inheritdoc />
-        [Pure]
-        public override SystemArithmetic WithSupportedYears(Range<int> supportedYears) =>
-            new PlainArithmetic(Schema, supportedYears);
     }
 
     internal partial class PlainArithmetic // Operations on Yemoda

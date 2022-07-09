@@ -147,15 +147,6 @@ namespace Zorglub.Time.Core
                 return false;
             }
         }
-
-        // Covariant return type does not work when a property (Arithmetic here),
-        // is a property from an interface or has a setter.
-
-        private SystemArithmetic? _arithmetic;
-        /// <summary>
-        /// Gets the arithmetic for this schema.
-        /// </summary>
-        public SystemArithmetic Arithmetic => _arithmetic ??= SystemArithmetic.CreateDefault(this);
     }
 
     public partial class SystemSchema // Conversions

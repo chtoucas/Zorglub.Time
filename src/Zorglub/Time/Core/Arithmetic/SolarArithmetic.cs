@@ -24,10 +24,9 @@ namespace Zorglub.Time.Core.Arithmetic
         /// <see cref="SolarArithmetic"/> class.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
-        /// <exception cref="ArgumentException">The range of supported years by
-        /// <paramref name="schema"/> and <see cref="Yemoda"/> are disjoint.
-        /// </exception>
-        protected SolarArithmetic(SystemSchema schema, Range<int>? supportedYears)
+        /// <exception cref="AoorException"><paramref name="supportedYears"/> is NOT a subinterval
+        /// of the range of supported years by <paramref name="schema"/>.</exception>
+        protected SolarArithmetic(SystemSchema schema, Range<int> supportedYears)
             : base(schema, supportedYears)
         {
             // Disabled, otherwise we cannot test the derived constructors.
