@@ -36,7 +36,7 @@ public readonly partial record struct GregorianRecord :
 public readonly partial record struct GregorianRecord
 {
     private static PartsAdapter PartsAdapter { get; } = new(Schema);
-    private static ICalendricalArithmetic Arithmetic { get; } = new BasicArithmetic(Schema, Segment);
+    private static ICalendricalArithmetic Arithmetic { get; } = new BasicArithmetic(Segment);
     private static ICalendricalPreValidator PreValidator => Schema.PreValidator;
     private static Range<int> Domain => Segment.Domain;
 

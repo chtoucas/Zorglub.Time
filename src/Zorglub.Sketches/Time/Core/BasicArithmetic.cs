@@ -26,19 +26,13 @@ namespace Zorglub.Time.Core
         /// <summary>
         /// Initializes a new instance of the <see cref="BasicArithmetic"/> class.
         /// </summary>
-        /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
-        /// <exception cref="ArgumentException">The range of supported years by
-        /// <paramref name="schema"/> and <see cref="Yemoda"/> are disjoint.
-        /// </exception>
-        public BasicArithmetic(ICalendricalSchema schema, CalendricalSegment segment)
+        /// <exception cref="ArgumentNullException"><paramref name="segment"/> is null.</exception>
+        public BasicArithmetic(CalendricalSegment segment)
         {
-            _schema = schema ?? throw new ArgumentNullException(nameof(schema));
+            Segment = segment ?? throw new ArgumentNullException(nameof(segment));
+            _schema = segment.Schema;
 
-            Requires.NotNull(segment);
-            if (ReferenceEquals(segment.Schema, schema) == false) Throw.Argument(nameof(segment));
-            Segment = segment;
-
-            _partsAdapter = new PartsAdapter(schema);
+            _partsAdapter = new PartsAdapter(_schema);
         }
 
         /// <inheritdoc/>
