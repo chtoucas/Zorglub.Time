@@ -36,7 +36,7 @@ module Prelude =
     [<Fact>]
     let ``Constructor throws for null segment`` () =
         nullExn "segment" (fun () -> new PlainArithmetic(null))
-        nullExn "segment" (fun () -> new RegularArithmetic(null))
+        nullExn "segment" (fun () -> new FastArithmetic(null))
         nullExn "segment" (fun () -> new LunarArithmetic(null))
         nullExn "segment" (fun () -> new LunisolarArithmetic(null))
         nullExn "segment" (fun () -> new Solar12Arithmetic(null))
@@ -73,11 +73,11 @@ module Prelude =
     [<InlineData 4>]
     [<InlineData 5>]
     [<InlineData 6>]
-    let ``RegularArithmetic constructor throws when MinDaysInMonth < 7`` i =
+    let ``FastArithmetic constructor throws when MinDaysInMonth < 7`` i =
         let sch = FauxSystemSchema.WithMinDaysInMonth(i)
         let seg = SystemSegment.Create(sch, sch.SupportedYears)
 
-        argExn "segment" (fun () -> new RegularArithmetic(seg))
+        argExn "segment" (fun () -> new FastArithmetic(seg))
 
 module Factories =
     [<Fact>]
@@ -101,7 +101,7 @@ module Factories =
         SystemArithmetic.CreateDefault(segmentOf<WorldSchema>())              |> is<Solar12Arithmetic>
 
 // We have to test AddDaysViaDayOfMonth() separately because PlainArithmetic
-// and RegularArithmetic do not use it internally.
+// and FastArithmetic do not use it internally.
 
 module PlainCase =
     let private seg = segmentOf<GregorianSchema>()
@@ -133,7 +133,7 @@ module PlainCase =
 
 module RegularCase =
     let private seg = segmentOf<GregorianSchema>()
-    let private ari = new RegularArithmetic(seg)
+    let private ari = new FastArithmetic(seg)
     let private wrapper = new ArithmeticWrapper(ari)
 
     let addDaysData = getAddDaysData ari
