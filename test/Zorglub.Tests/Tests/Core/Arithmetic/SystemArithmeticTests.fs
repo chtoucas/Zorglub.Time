@@ -82,29 +82,29 @@ module Prelude =
 module Factories =
     [<Fact>]
     let ``SystemArithmetic.CreateDefault()`` () =
-        SystemArithmetic.CreateDefault(segmentOf<Coptic12Schema>())           |> is<Solar12Arithmetic>
-        SystemArithmetic.CreateDefault(segmentOf<Coptic13Schema>())           |> is<PlainArithmetic>
-        SystemArithmetic.CreateDefault(segmentOf<Egyptian12Schema>())         |> is<Solar12Arithmetic>
-        SystemArithmetic.CreateDefault(segmentOf<Egyptian13Schema>())         |> is<PlainArithmetic>
-        SystemArithmetic.CreateDefault(segmentOf<FrenchRepublican12Schema>()) |> is<Solar12Arithmetic>
-        SystemArithmetic.CreateDefault(segmentOf<FrenchRepublican13Schema>()) |> is<PlainArithmetic>
-        SystemArithmetic.CreateDefault(segmentOf<GregorianSchema>())          |> is<GregorianArithmetic>
-        //SystemArithmetic.CreateDefault(segmentOf<HebrewSchema>())             |> is<LunisolarArithmetic>
-        SystemArithmetic.CreateDefault(segmentOf<InternationalFixedSchema>()) |> is<Solar13Arithmetic>
-        SystemArithmetic.CreateDefault(segmentOf<JulianSchema>())             |> is<Solar12Arithmetic>
-        SystemArithmetic.CreateDefault(segmentOf<Persian2820Schema>())        |> is<Solar12Arithmetic>
-        SystemArithmetic.CreateDefault(segmentOf<PositivistSchema>())         |> is<Solar13Arithmetic>
-        SystemArithmetic.CreateDefault(segmentOf<TabularIslamicSchema>())     |> is<LunarArithmetic>
-        SystemArithmetic.CreateDefault(segmentOf<TropicaliaSchema>())         |> is<Solar12Arithmetic>
-        SystemArithmetic.CreateDefault(segmentOf<Tropicalia3031Schema>())     |> is<Solar12Arithmetic>
-        SystemArithmetic.CreateDefault(segmentOf<Tropicalia3130Schema>())     |> is<Solar12Arithmetic>
-        SystemArithmetic.CreateDefault(segmentOf<WorldSchema>())              |> is<Solar12Arithmetic>
+        SystemArithmetic.CreateDefault(sysegmentOf<Coptic12Schema>())           |> is<Solar12Arithmetic>
+        SystemArithmetic.CreateDefault(sysegmentOf<Coptic13Schema>())           |> is<PlainArithmetic>
+        SystemArithmetic.CreateDefault(sysegmentOf<Egyptian12Schema>())         |> is<Solar12Arithmetic>
+        SystemArithmetic.CreateDefault(sysegmentOf<Egyptian13Schema>())         |> is<PlainArithmetic>
+        SystemArithmetic.CreateDefault(sysegmentOf<FrenchRepublican12Schema>()) |> is<Solar12Arithmetic>
+        SystemArithmetic.CreateDefault(sysegmentOf<FrenchRepublican13Schema>()) |> is<PlainArithmetic>
+        SystemArithmetic.CreateDefault(sysegmentOf<GregorianSchema>())          |> is<GregorianArithmetic>
+        //SystemArithmetic.CreateDefault(sysegmentOf<HebrewSchema>())             |> is<LunisolarArithmetic>
+        SystemArithmetic.CreateDefault(sysegmentOf<InternationalFixedSchema>()) |> is<Solar13Arithmetic>
+        SystemArithmetic.CreateDefault(sysegmentOf<JulianSchema>())             |> is<Solar12Arithmetic>
+        SystemArithmetic.CreateDefault(sysegmentOf<Persian2820Schema>())        |> is<Solar12Arithmetic>
+        SystemArithmetic.CreateDefault(sysegmentOf<PositivistSchema>())         |> is<Solar13Arithmetic>
+        SystemArithmetic.CreateDefault(sysegmentOf<TabularIslamicSchema>())     |> is<LunarArithmetic>
+        SystemArithmetic.CreateDefault(sysegmentOf<TropicaliaSchema>())         |> is<Solar12Arithmetic>
+        SystemArithmetic.CreateDefault(sysegmentOf<Tropicalia3031Schema>())     |> is<Solar12Arithmetic>
+        SystemArithmetic.CreateDefault(sysegmentOf<Tropicalia3130Schema>())     |> is<Solar12Arithmetic>
+        SystemArithmetic.CreateDefault(sysegmentOf<WorldSchema>())              |> is<Solar12Arithmetic>
 
 // We have to test AddDaysViaDayOfMonth() separately because PlainArithmetic
 // and FastArithmetic do not use it internally.
 
 module PlainCase =
-    let private seg = segmentOf<GregorianSchema>()
+    let private seg = sysegmentOf<GregorianSchema>()
     let private ari = new PlainArithmetic(seg)
     let private wrapper = new ArithmeticWrapper(ari)
 
@@ -132,7 +132,7 @@ module PlainCase =
         wrapper.AddDaysViaDayOfMonth(other, -days) === date
 
 module RegularCase =
-    let private seg = segmentOf<GregorianSchema>()
+    let private seg = sysegmentOf<GregorianSchema>()
     let private ari = new FastArithmetic(seg)
     let private wrapper = new ArithmeticWrapper(ari)
 
@@ -172,7 +172,7 @@ module GregorianCase =
         ari.MaxDaysViaDayOfMonth === CalendricalConstants.Solar.MinDaysInMonth
 
 module LunarCase =
-    let private seg = segmentOf<TabularIslamicSchema>()
+    let private seg = sysegmentOf<TabularIslamicSchema>()
     let private ari = new LunarArithmetic(seg)
 
     [<Fact>]
@@ -184,7 +184,7 @@ module LunarCase =
         ari.MaxDaysViaDayOfMonth === CalendricalConstants.Lunar.MinDaysInMonth
 
 module LunisolarCase =
-    let private seg = segmentOf<LunisolarSchema>()
+    let private seg = sysegmentOf<LunisolarSchema>()
     let private ari = new LunisolarArithmetic(seg)
 
     [<Fact>]
@@ -196,7 +196,7 @@ module LunisolarCase =
         ari.MaxDaysViaDayOfMonth === CalendricalConstants.Lunisolar.MinDaysInMonth
 
 module Solar12Case =
-    let private seg = segmentOf<GregorianSchema>()
+    let private seg = sysegmentOf<GregorianSchema>()
     let private ari = new Solar12Arithmetic(seg)
 
     [<Fact>]
@@ -208,7 +208,7 @@ module Solar12Case =
         ari.MaxDaysViaDayOfMonth === CalendricalConstants.Solar.MinDaysInMonth
 
 module Solar13Case =
-    let private seg = segmentOf<PositivistSchema>()
+    let private seg = sysegmentOf<PositivistSchema>()
     let private ari = new Solar13Arithmetic(seg)
 
     [<Fact>]

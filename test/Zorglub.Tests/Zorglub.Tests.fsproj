@@ -68,7 +68,7 @@
     <Compile Include="Tests\Core\Arithmetic\SystemArithmeticTests.fs" />
     <Compile Include="Tests\Core\Arithmetic\BasicArithmeticTestSuite.fs" />
     <Compile Include="Tests\Core\Arithmetic\PlainArithmeticTestSuite.fs" />
-    <Compile Include="Tests\Core\Arithmetic\RegularArithmeticTestSuite.fs" />
+    <Compile Include="Tests\Core\Arithmetic\FastArithmeticTestSuite.fs" />
     <Compile Include="Tests\Core\Arithmetic\ArithmeticTestSuite.fs" />
     <Compile Include="Tests\Core\PartsTests.fs" />
     <Compile Include="Tests\Core\PartsAdapterTests.fs" />

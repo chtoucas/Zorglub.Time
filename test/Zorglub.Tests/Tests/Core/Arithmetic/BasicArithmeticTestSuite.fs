@@ -18,7 +18,7 @@ open Zorglub.Time.Core.Schemas
 let private ariOf<'a when 'a :> ICalendricalSchema and 'a :> IBoxable<'a>> () =
     let sch = schemaOf<'a>()
     let seg = CalendricalSegment.CreateMaximal(sch)
-    new BasicArithmetic(sch, seg)
+    new BasicArithmetic(seg)
 
 [<Sealed>]
 [<RedundantTestBundle>]
