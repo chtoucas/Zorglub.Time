@@ -73,7 +73,7 @@
     <Compile Include="Tests\Core\PartsTests.fs" />
     <Compile Include="Tests\Core\PartsAdapterTests.fs" />
     <Compile Include="Tests\Core\SchemaAdapterTests.fs" />
-    <Compile Include="Tests\Core\MonthHelperTests.fs" />
+    <Compile Include="Tests\Core\MonthCalculatorTests.fs" />
     <Compile Include="Tests\Core\TemporalArithmeticTests.fs" />
     <Compile Include="Tests\Hemerology\Scopes\CalendarScopeTests.fs" />
     <Compile Include="Tests\Hemerology\Scopes\StandardScopeTests.fs" />

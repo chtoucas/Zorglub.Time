@@ -15,7 +15,7 @@ FIXME
   * Profile: OtherRegular, Other7 (MinDaysInMonth >= 7)?
   * Move standard ops (on CalendarMonth) from Math to Arithmetic.
     Problem: optimization of AddMonths() and Count...() depending on the profile.
-    For regular schema, it's fine, and for lunisolar schema?
+    For regular schema, it's fine, but for lunisolar schema?
   * PlainMath, tests for ordinal dates.
   * API for CalendarDay (PlusYears, PlusMonths?), humm no, use conversion to
     CalendarDate. We have the three forms of dates for that purpose.
