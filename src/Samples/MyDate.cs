@@ -25,10 +25,12 @@ public readonly partial struct MyDate :
     IMinMaxValue<MyDate>,
     ISubtractionOperators<MyDate, int, MyDate>
 {
-    private static readonly CalendarContext __ =
-        CalendarContext.WithYearsBetween1And9999<GregorianSchema>(DayZero.NewStyle);
+    private static readonly SystemCalendarContext __ =
+        SystemCalendarContext.WithYearsBetween1And9999<GregorianSchema>(DayZero.NewStyle);
+    private static readonly SystemSchema Schema = __.Schema;
+    private static readonly CalendarScope Scope = __.Scope;
 
-    internal static CalendarContext Context => __;
+    internal static SystemCalendarContext Context => __;
 
     [Pure]
     public override string ToString()
@@ -40,11 +42,10 @@ public readonly partial struct MyDate :
 
 public partial struct MyDate
 {
-    private static readonly SystemSchema Schema = __.Schema;
-    private static readonly CalendarScope Scope = __.Scope;
-    private static readonly PartsFactory PartsFactory = __.PartsFactory;
+    private static PartsFactory PartsFactory { get; } = new(Scope);
     private static readonly SystemArithmetic Arithmetic = __.Arithmetic;
-    private static readonly Range<DayNumber> Domain = __.Domain;
+
+    private static Range<DayNumber> Domain => Scope.Domain;
 
     private readonly Yemoda _bin;
 

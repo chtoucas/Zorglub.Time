@@ -35,8 +35,10 @@ public readonly partial struct DateTemplate :
     IMinMaxValue<DateTemplate>,
     ISubtractionOperators<DateTemplate, int, DateTemplate>
 {
-    private static readonly CalendarContext __ =
-        CalendarContext.WithYearsAfterZero<GregorianSchema>(DayZero.NewStyle);
+    private static readonly SystemCalendarContext __ =
+        SystemCalendarContext.WithYearsAfterZero<GregorianSchema>(DayZero.NewStyle);
+    private static readonly SystemSchema Schema = __.Schema;
+    private static readonly CalendarScope Scope = __.Scope;
 
     [Pure]
     public override string ToString()
@@ -48,11 +50,10 @@ public readonly partial struct DateTemplate :
 
 public partial struct DateTemplate
 {
-    private static readonly SystemSchema Schema = __.Schema;
-    private static readonly CalendarScope Scope = __.Scope;
-    private static readonly PartsFactory PartsFactory = __.PartsFactory;
+    private static PartsFactory PartsFactory { get; } = new(Scope);
     private static readonly SystemArithmetic Arithmetic = __.Arithmetic;
-    private static readonly Range<DayNumber> Domain = __.Domain;
+
+    private static Range<DayNumber> Domain => Scope.Domain;
 
     private readonly Yemoda _bin;
 
@@ -71,7 +72,7 @@ public partial struct DateTemplate
     public static DateTemplate MinValue { get; } = new(Schema.GetDatePartsAtStartOfYear(SupportedYears.Min));
     public static DateTemplate MaxValue { get; } = new(Schema.GetDatePartsAtEndOfYear(SupportedYears.Max));
 
-    private static int EpochDayOfWeek { get; } = (int)__.Epoch.DayOfWeek;
+    private static int EpochDayOfWeek { get; } = (int)Epoch.DayOfWeek;
 
     public Ord CenturyOfEra => Ord.FromInt32(Century);
     public int Century => YearNumbering.GetCentury(Year);

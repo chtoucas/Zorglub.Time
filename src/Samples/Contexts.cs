@@ -21,45 +21,72 @@ using static Zorglub.Time.Extensions.Unboxing;
 
 internal sealed class CalendarContext
 {
-    public CalendarContext(SystemSchema schema, DayNumber epoch, CalendarScope scope)
+    public CalendarContext(CalendricalSchema schema, CalendarScope scope)
     {
         Schema = schema ?? throw new ArgumentNullException(nameof(schema));
         Scope = scope ?? throw new ArgumentNullException(nameof(scope));
-
-        Epoch = epoch;
-        PartsFactory = new PartsFactory(scope);
-        Arithmetic = SystemArithmetic.CreateDefault(schema, scope.SupportedYears);
     }
 
-    public SystemSchema Schema { get; }
-    public DayNumber Epoch { get; }
+    public CalendricalSchema Schema { get; }
     public CalendarScope Scope { get; }
-
-    public PartsFactory PartsFactory { get; }
-    public SystemArithmetic Arithmetic { get; }
-
-    public Range<DayNumber> Domain => Scope.Domain;
 
     /// <summary>Dates on or after year 1.</summary>
     [Pure]
     public static CalendarContext WithYearsAfterZero<TSchema>(DayNumber epoch)
-        where TSchema : SystemSchema, IBoxable<TSchema>
+        where TSchema : CalendricalSchema, IBoxable<TSchema>
     {
         var sch = TSchema.GetInstance().Unbox();
         var scope = MinMaxYearScope.WithMinYear(sch, epoch, 1);
 
-        return new CalendarContext(sch, epoch, scope);
+        return new CalendarContext(sch, scope);
     }
 
     /// <summary>Dates between years 1 and 9999.</summary>
     [Pure]
     public static CalendarContext WithYearsBetween1And9999<TSchema>(DayNumber epoch)
+        where TSchema : CalendricalSchema, IBoxable<TSchema>
+    {
+        var sch = TSchema.GetInstance().Unbox();
+        var scope = new MinMaxYearScope(sch, epoch, 1, 9999);
+
+        return new CalendarContext(sch, scope);
+    }
+}
+
+internal sealed class SystemCalendarContext
+{
+    public SystemCalendarContext(SystemSchema schema, CalendarScope scope)
+    {
+        Schema = schema ?? throw new ArgumentNullException(nameof(schema));
+        Scope = scope ?? throw new ArgumentNullException(nameof(scope));
+
+        Arithmetic = SystemArithmetic.CreateDefault(schema, scope.SupportedYears);
+    }
+
+    public SystemSchema Schema { get; }
+    public CalendarScope Scope { get; }
+    public SystemArithmetic Arithmetic { get; }
+
+    /// <summary>Dates on or after year 1.</summary>
+    [Pure]
+    public static SystemCalendarContext WithYearsAfterZero<TSchema>(DayNumber epoch)
+        where TSchema : SystemSchema, IBoxable<TSchema>
+    {
+        var sch = TSchema.GetInstance().Unbox();
+        var scope = MinMaxYearScope.WithMinYear(sch, epoch, 1);
+
+        return new SystemCalendarContext(sch, scope);
+    }
+
+    /// <summary>Dates between years 1 and 9999.</summary>
+    [Pure]
+    public static SystemCalendarContext WithYearsBetween1And9999<TSchema>(DayNumber epoch)
         where TSchema : SystemSchema, IBoxable<TSchema>
     {
         var sch = TSchema.GetInstance().Unbox();
         var scope = new MinMaxYearScope(sch, epoch, 1, 9999);
 
-        return new CalendarContext(sch, epoch, scope);
+        return new SystemCalendarContext(sch, scope);
     }
 }
 
@@ -72,12 +99,10 @@ internal sealed class SchemaContext
 
         Schema = schema;
         Segment = segment;
-        Arithmetic = ICalendricalArithmetic.CreateDefault(schema, segment.SupportedYears);
     }
 
     public CalendricalSchema Schema { get; }
     public CalendricalSegment Segment { get; }
-    public ICalendricalArithmetic Arithmetic { get; }
 
     [Pure]
     public static SchemaContext Create<TSchema>()
@@ -95,14 +120,11 @@ internal sealed class SystemContext
     private SystemContext(SystemSchema schema, Range<int> supportedYears)
     {
         Schema = schema ?? throw new ArgumentNullException(nameof(schema));
-
         Segment = SystemSegment.Create(schema, supportedYears);
-        Arithmetic = SystemArithmetic.CreateDefault(Segment);
     }
 
     public SystemSchema Schema { get; }
     public SystemSegment Segment { get; }
-    public SystemArithmetic Arithmetic { get; }
 
     [Pure]
     public static SystemContext Create<TSchema>()

@@ -34,7 +34,6 @@ public readonly partial struct GregorianTriple :
     private static readonly SystemContext __ = SystemContext.Create<GregorianSchema>();
     private static readonly SystemSchema Schema = __.Schema;
     private static readonly SystemSegment Segment = __.Segment;
-    private static readonly SystemArithmetic Arithmetic = __.Arithmetic;
 
     [Pure]
     public override string ToString()
@@ -46,6 +45,7 @@ public readonly partial struct GregorianTriple :
 
 public partial struct GregorianTriple
 {
+    private static SystemArithmetic Arithmetic { get; } = SystemArithmetic.CreateDefault(Segment);
     private static PartsFactory PartsFactory { get; } = PartsFactory.Create(Schema);
     private static Range<int> Domain => Segment.Domain;
 

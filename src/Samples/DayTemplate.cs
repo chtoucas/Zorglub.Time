@@ -41,6 +41,8 @@ public readonly partial struct DayTemplate :
 {
     private static readonly CalendarContext __ =
         CalendarContext.WithYearsAfterZero<GregorianSchema>(DayZero.NewStyle);
+    private static readonly CalendricalSchema Schema = __.Schema;
+    private static readonly CalendarScope Scope = __.Scope;
 
     [Pure]
     public override string ToString()
@@ -52,9 +54,7 @@ public readonly partial struct DayTemplate :
 
 public partial struct DayTemplate
 {
-    private static readonly CalendricalSchema Schema = __.Schema;
-    private static readonly CalendarScope Scope = __.Scope;
-    private static readonly Range<DayNumber> Domain = __.Domain;
+    private static Range<DayNumber> Domain => Scope.Domain;
 
     private readonly int _daysSinceEpoch;
 
@@ -301,7 +301,7 @@ public partial struct DayTemplate // Math ops
         // The addition may also overflow...
         if (daysSinceEpoch < MinValue._daysSinceEpoch || daysSinceEpoch > MaxValue._daysSinceEpoch)
         {
-            throw new ArgumentOutOfRangeException(nameof(days));
+            throw new OverflowException(nameof(days));
         }
         return new(daysSinceEpoch);
     }
