@@ -4,7 +4,7 @@
 namespace Zorglub.Time.Core
 {
     /// <summary>
-    /// Provides methods you can use to create new calendrical parts.
+    /// Provides methods one can use to create new calendrical parts.
     /// <para>This class assumes that input parameters are valid for the underlying calendrical
     /// schema.</para>
     /// </summary>
