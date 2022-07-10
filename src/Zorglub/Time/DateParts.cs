@@ -3,11 +3,10 @@
 
 namespace Zorglub.Time
 {
-    // TODO(code): use a record struct? tests with negative values for m and d.
-    // ToString()
+    // TODO(code): test ToString() with negative values for m and d.
 
-    // Main difference w/ Yemoda: DateParts does not force y, m, d to be in a
-    // specific range; we don't even require m and d to be >= 1.
+    // Main difference w/ Yemoda: y, m, d are open values, we don't even require
+    // m and d to be >= 1.
 
     /// <summary>
     /// Represents a triple of a year, a month and a day.
@@ -46,7 +45,7 @@ namespace Zorglub.Time
         public int Day { get; }
 
         /// <summary>
-        /// Gets the month parts from this instance.
+        /// Gets the month parts of the current instance.
         /// </summary>
         public MonthParts MonthParts => new(Year, Month);
 

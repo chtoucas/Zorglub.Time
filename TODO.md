@@ -6,21 +6,11 @@ FIXME
 
 - Refactor CalendarCatalog, split into a registry and a registar.
   Currently, it's almost impossible to achieve full test coverage.
-- Schemas: Yemoda & co
-  * ICalendricalSchema v CalendricalSchema v SystemSchema.
-  * Naming: parts in Time or in Time.Core. PartsProvider, PartsFactory & co.
-    Segment & Section.
-  * CalendricalSegment
-  * PartsFactory & PartsCreator
-  * Remove things using a conversion (y, m, d) <-> (y, doy)?
-    - CountDaysInMonthBefore(y, doy)
-    - CountDaysInMonthAfter(y, doy)
-    - GetOrdinalPartsAtStartOfMonth(int y, int m)
-    - GetOrdinalPartsAtEndOfMonth(int y, int m)
-  * Remove Yemoda.AtStartOfYear() & co (kind of).
-  * Scopes: remove YearOverflowChecker and use Range<> extensions.
-    Simplify code and almost always use a pre-validator.
-    Update XML doc now that we use CalendricalSection.
+- Schemas, remove things using a conversion (y, m, d) <-> (y, doy)?
+  - CountDaysInMonthBefore(y, doy)
+  - CountDaysInMonthAfter(y, doy)
+  - GetOrdinalPartsAtStartOfMonth(int y, int m)
+  - GetOrdinalPartsAtEndOfMonth(int y, int m)
 - Math:
   * Profile: OtherRegular, Other7 (MinDaysInMonth >= 7)?
   * Move standard ops (on CalendarMonth) from Math to Arithmetic.
