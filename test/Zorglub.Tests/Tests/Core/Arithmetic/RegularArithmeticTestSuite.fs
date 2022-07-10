@@ -1,7 +1,7 @@
 ﻿// SPDX-License-Identifier: BSD-3-Clause
 // Copyright (c) 2020 Narvalo.Org. All rights reserved.
 
-module Zorglub.Tests.Core.Arithmetic.FastArithmeticTestSuite
+module Zorglub.Tests.Core.Arithmetic.RegularArithmeticTestSuite
 
 open Zorglub.Testing
 open Zorglub.Testing.Data.Schemas
@@ -19,28 +19,28 @@ open Zorglub.Time.Core.Schemas
 let private ariOf<'a when 'a :> SystemSchema and 'a :> IBoxable<'a>> () =
     let sch = syschemaOf<'a>()
     let seg = SystemSegment.Create(sch, sch.SupportedYears)
-    new FastArithmetic(seg)
+    new RegularArithmetic(seg)
 
 [<Sealed>]
 [<RedundantTestBundle>]
 type Coptic12Tests() =
     inherit SystemArithmeticFacts<Coptic12DataSet>(ariOf<Coptic12Schema>())
 
-// Coptic13 -> not compatible with FastArithmetic.
+// Coptic13 -> not compatible with RegularArithmetic.
 
 [<Sealed>]
 [<RedundantTestBundle>]
 type Egyptian12Tests() =
     inherit SystemArithmeticFacts<Egyptian12DataSet>(ariOf<Egyptian12Schema>())
 
-// Egyptian13 -> not compatible with FastArithmetic.
+// Egyptian13 -> not compatible with RegularArithmetic.
 
 [<Sealed>]
 [<RedundantTestBundle>]
 type FrenchRepublican12Tests() =
     inherit SystemArithmeticFacts<FrenchRepublican12DataSet>(ariOf<FrenchRepublican12Schema>())
 
-// FrenchRepublican13 -> not compatible with FastArithmetic.
+// FrenchRepublican13 -> not compatible with RegularArithmetic.
 
 [<Sealed>]
 type GregorianTests() =
@@ -56,9 +56,9 @@ type InternationalFixedTests() =
 type JulianTests() =
     inherit SystemArithmeticFacts<JulianDataSet>(ariOf<JulianSchema>())
 
-// Lunisolar -> not compatible with FastArithmetic.
+// Lunisolar -> not compatible with RegularArithmetic.
 
-// Pax -> not compatible with FastArithmetic.
+// Pax -> not compatible with RegularArithmetic.
 
 [<Sealed>]
 [<RedundantTestBundle>]

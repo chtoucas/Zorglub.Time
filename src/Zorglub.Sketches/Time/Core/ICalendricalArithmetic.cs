@@ -3,11 +3,29 @@
 
 namespace Zorglub.Time.Core
 {
+    using Zorglub.Time.Core.Intervals;
+
     /// <summary>
     /// Defines the standard calendrical arithmetic.
     /// </summary>
     public interface ICalendricalArithmetic
     {
+        /// <summary>
+        /// Creates the default arithmetic object for the specified schema and range of supported
+        /// years.
+        /// </summary>
+        /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
+        /// <exception cref="AoorException"><paramref name="supportedYears"/> is NOT a subinterval
+        /// of the range of supported years by <paramref name="schema"/>.</exception>
+        public static ICalendricalArithmetic CreateDefault(ICalendricalSchema schema, Range<int> supportedYears)
+        {
+            Requires.NotNull(schema);
+
+            return schema.MinDaysInMonth >= RegularArithmeticPlus.MinMinDaysInMonth && schema.IsRegular(out _)
+                ? new RegularArithmeticPlus(schema, supportedYears)
+                : new BasicArithmetic(schema, supportedYears);
+        }
+
         /// <summary>
         /// Gets the segment of supported days.
         /// </summary>

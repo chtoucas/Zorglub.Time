@@ -31,13 +31,12 @@ public readonly partial record struct GregorianRecord :
     private static readonly SchemaContext __ = SchemaContext.Create<GregorianSchema>();
     private static readonly CalendricalSchema Schema = __.Schema;
     private static readonly CalendricalSegment Segment = __.Segment;
+    private static readonly ICalendricalArithmetic Arithmetic = __.Arithmetic;
 }
 
 public readonly partial record struct GregorianRecord
 {
     private static PartsAdapter PartsAdapter { get; } = new(Schema);
-    //private static ICalendricalArithmetic Arithmetic { get; } = new BasicArithmetic(Segment);
-    private static ICalendricalArithmetic Arithmetic { get; } = new RegularArithmetic(Schema, Segment.SupportedYears);
     private static ICalendricalPreValidator PreValidator => Schema.PreValidator;
     private static Range<int> Domain => Segment.Domain;
 

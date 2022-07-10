@@ -72,14 +72,16 @@ internal sealed class SchemaContext
 
         Schema = schema;
         Segment = segment;
+        Arithmetic = ICalendricalArithmetic.CreateDefault(schema, segment.SupportedYears);
     }
 
     public CalendricalSchema Schema { get; }
     public CalendricalSegment Segment { get; }
+    public ICalendricalArithmetic Arithmetic { get; }
 
     [Pure]
     public static SchemaContext Create<TSchema>()
-        where TSchema : SystemSchema, IBoxable<TSchema>
+        where TSchema : CalendricalSchema, IBoxable<TSchema>
     {
         var sch = TSchema.GetInstance().Unbox();
         var seg = CalendricalSegment.CreateMaximal(sch);

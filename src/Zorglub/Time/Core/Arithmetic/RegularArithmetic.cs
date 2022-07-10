@@ -4,22 +4,23 @@
 namespace Zorglub.Time.Core.Arithmetic
 {
     /// <summary>
-    /// Provides a plain implementation for <see cref="SystemArithmetic"/>.
+    /// Provides a generic implementation for <see cref="SystemArithmetic"/> for when the schema is
+    /// regular.
     /// <para>The length of a month must be greater than or equal to
     /// <see cref="SystemArithmetic.MinMinDaysInMonth"/>.</para>
     /// <para>This class cannot be inherited.</para>
     /// </summary>
-    internal sealed partial class FastArithmetic : SystemArithmetic
+    internal sealed partial class RegularArithmetic : SystemArithmetic
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="FastArithmetic"/> class.
+        /// Initializes a new instance of the <see cref="RegularArithmetic"/> class.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="segment"/> is null.</exception>
         /// <exception cref="ArgumentException">The underlying schema contains at least one
         /// month whose length is strictly less than <see cref="SystemArithmetic.MinMinDaysInMonth"/>.
         /// </exception>
         /// <exception cref="ArgumentException">The underlying schema is not regular.</exception>
-        public FastArithmetic(SystemSegment segment) : base(segment)
+        public RegularArithmetic(SystemSegment segment) : base(segment)
         {
             if (Schema.MinDaysInMonth < MinMinDaysInMonth) Throw.Argument(nameof(segment));
             if (Schema.IsRegular(out int monthsInYear) == false) Throw.Argument(nameof(segment));
@@ -30,7 +31,7 @@ namespace Zorglub.Time.Core.Arithmetic
         public int MonthsInYear { get; }
     }
 
-    internal partial class FastArithmetic // Operations on Yemoda
+    internal partial class RegularArithmetic // Operations on Yemoda
     {
         /// <inheritdoc />
         [Pure]
@@ -152,7 +153,7 @@ namespace Zorglub.Time.Core.Arithmetic
         }
     }
 
-    internal partial class FastArithmetic // Operations on Yedoy
+    internal partial class RegularArithmetic // Operations on Yedoy
     {
         /// <inheritdoc />
         [Pure]
@@ -228,7 +229,7 @@ namespace Zorglub.Time.Core.Arithmetic
         }
     }
 
-    internal partial class FastArithmetic // Operations on Yemo
+    internal partial class RegularArithmetic // Operations on Yemo
     {
         /// <inheritdoc />
         [Pure]
@@ -255,7 +256,7 @@ namespace Zorglub.Time.Core.Arithmetic
         }
     }
 
-    internal partial class FastArithmetic // Non-standard operations
+    internal partial class RegularArithmetic // Non-standard operations
     {
         /// <inheritdoc />
         [Pure]

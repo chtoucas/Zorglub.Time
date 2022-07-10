@@ -7,14 +7,20 @@ namespace Zorglub.Time.Core
 
     // Complete years only!
 
-    public sealed partial class RegularArithmetic : ICalendricalArithmeticPlus
+    /// <summary>
+    /// Provides a generic implementation for <see cref="ICalendricalArithmeticPlus"/> for when the
+    /// schema is regular.
+    /// <para>The length of a month must be greater than or equal to 7.</para>
+    /// <para>This class cannot be inherited.</para>
+    /// </summary>
+    public sealed partial class RegularArithmeticPlus : ICalendricalArithmeticPlus
     {
         /// <summary>
         /// Represents the absolute minimum value admissible for the minimum total number of days
         /// there is at least in a month.
         /// <para>This field is a constant equal to 7.</para>
         /// </summary>
-        private const int MinMinDaysInMonth = 7;
+        internal const int MinMinDaysInMonth = 7;
 
         /// <summary>
         /// Represents the schema.
@@ -29,7 +35,7 @@ namespace Zorglub.Time.Core
         private readonly PartsAdapter _partsAdapter;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="RegularArithmetic"/> class.
+        /// Initializes a new instance of the <see cref="RegularArithmeticPlus"/> class.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
         /// <exception cref="ArgumentException"><paramref name="schema"/> contains at least one
@@ -38,7 +44,7 @@ namespace Zorglub.Time.Core
         /// <exception cref="ArgumentException"><paramref name="schema"/> is not regular.</exception>
         /// <exception cref="AoorException"><paramref name="supportedYears"/> is NOT a subinterval
         /// of the range of supported years by <paramref name="schema"/>.</exception>
-        public RegularArithmetic(ICalendricalSchema schema, Range<int> supportedYears)
+        public RegularArithmeticPlus(ICalendricalSchema schema, Range<int> supportedYears)
         {
             Requires.NotNull(schema);
             if (schema.MinDaysInMonth < MinMinDaysInMonth) Throw.Argument(nameof(schema));
@@ -89,7 +95,7 @@ namespace Zorglub.Time.Core
         public int MaxDaysViaDayOfMonth { get; init; }
     }
 
-    public partial class RegularArithmetic // Operations on DateParts
+    public partial class RegularArithmeticPlus // Operations on DateParts
     {
         /// <inheritdoc />
         [Pure]
@@ -99,13 +105,6 @@ namespace Zorglub.Time.Core
             var (y, m, d) = parts;
 
             // No change of month.
-            // In theory, the only thing we know at this point is that
-            // MaxDaysViaDayOfMonth >= 7 (= MinMinDaysInMonth), but in fact we
-            // know a bit more. Indeed, we know that the schema does not fit one
-            // of the standard profiles (see Create()) which most certainly
-            // means that there is at least one very short month, therefore I
-            // don't think that AddDaysViaDayOfMonth() is that interesting here.
-            // Notice the use of checked arithmetic here.
             int dom = checked(d + days);
             if (1 <= dom && (dom <= MaxDaysViaDayOfMonth || dom <= _schema.CountDaysInMonth(y, m)))
             {
@@ -133,13 +132,9 @@ namespace Zorglub.Time.Core
             var (y, m, d) = parts;
 
             return
-                // Same month, the day after.
                 d < MaxDaysViaDayOfMonth || d < _schema.CountDaysInMonth(y, m) ? new DateParts(y, m, d + 1)
-                // Same year, start of next month.
                 : m < MonthsInYear ? DateParts.AtStartOfMonth(y, m + 1)
-                // Start of next year...
                 : y < MaxYear ? DateParts.AtStartOfYear(y + 1)
-                // ... or overflow.
                 : Throw.DateOverflow<DateParts>();
         }
 
@@ -150,13 +145,9 @@ namespace Zorglub.Time.Core
             var (y, m, d) = parts;
 
             return
-                // Same month, the day before.
                 d > 1 ? new DateParts(y, m, d - 1)
-                // Same year, end of previous month.
                 : m > 1 ? _partsAdapter.GetDatePartsAtEndOfMonth(y, m - 1)
-                // End of previous year...
                 : y > MinYear ? _partsAdapter.GetDatePartsAtEndOfYear(y - 1)
-                // ... or overflow.
                 : Throw.DateOverflow<DateParts>();
         }
 
@@ -172,7 +163,7 @@ namespace Zorglub.Time.Core
         }
     }
 
-    public partial class RegularArithmetic // Operations on OrdinalParts
+    public partial class RegularArithmeticPlus // Operations on OrdinalParts
     {
         /// <inheritdoc />
         [Pure]
@@ -258,7 +249,7 @@ namespace Zorglub.Time.Core
         }
     }
 
-    public partial class RegularArithmetic // Operations on MonthParts
+    public partial class RegularArithmeticPlus // Operations on MonthParts
     {
         /// <inheritdoc />
         [Pure]
@@ -293,7 +284,7 @@ namespace Zorglub.Time.Core
         }
     }
 
-    public partial class RegularArithmetic // Non-standard operations
+    public partial class RegularArithmeticPlus // Non-standard operations
     {
         /// <inheritdoc />
         [Pure]
@@ -307,7 +298,6 @@ namespace Zorglub.Time.Core
 
             int daysInMonth = _schema.CountDaysInMonth(y, m);
             roundoff = Math.Max(0, d - daysInMonth);
-            // On retourne le dernier jour du mois si d > daysInMonth.
             return new DateParts(y, m, roundoff > 0 ? daysInMonth : d);
         }
 
@@ -317,7 +307,6 @@ namespace Zorglub.Time.Core
         {
             var (y, m, d) = parts;
 
-            // On retranche 1 à "m" pour le rendre algébrique.
             m = 1 + MathZ.Modulo(checked(m - 1 + months), MonthsInYear, out int y0);
             y += y0;
 

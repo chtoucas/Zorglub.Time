@@ -28,6 +28,19 @@ namespace Zorglub.Time.Core
         /// <summary>
         /// Initializes a new instance of the <see cref="BasicArithmetic"/> class.
         /// </summary>
+        /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
+        /// <exception cref="ArgumentException"><paramref name="schema"/> contains at least one
+        /// month whose length is strictly less than <see cref="MinMinDaysInMonth"/>.
+        /// </exception>
+        /// <exception cref="ArgumentException"><paramref name="schema"/> is not regular.</exception>
+        /// <exception cref="AoorException"><paramref name="supportedYears"/> is NOT a subinterval
+        /// of the range of supported years by <paramref name="schema"/>.</exception>
+        public BasicArithmetic(ICalendricalSchema schema, Range<int> supportedYears)
+            : this(CalendricalSegment.Create(schema, supportedYears)) { }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BasicArithmetic"/> class.
+        /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="segment"/> is null.</exception>
         public BasicArithmetic(CalendricalSegment segment)
         {
