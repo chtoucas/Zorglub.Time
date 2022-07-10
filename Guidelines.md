@@ -18,6 +18,8 @@ Our default is to seal the classes.
 Add the attr `[Pure]` to all methods returning something.
 Add the attr `[DoesNotReturn]` for methods that always throw.
 Static field vs static prop: for structs I prefer static readonly field.
+In a -public- sealed class use "override sealed" instead of "override" (this way
+we can spot overridable methods in the file PublicAPI).
 
 https://github.com/dotnet/runtime/blob/main/docs/coding-guidelines/framework-design-guidelines-digest.md
 
