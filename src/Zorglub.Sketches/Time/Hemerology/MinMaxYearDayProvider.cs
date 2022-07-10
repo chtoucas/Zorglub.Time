@@ -40,8 +40,8 @@ namespace Zorglub.Time.Hemerology
         {
             Scope = scope ?? throw new ArgumentNullException(nameof(scope));
 
-            _schema = scope.Schema;
             _epoch = scope.Epoch;
+            _schema = scope.Schema;
         }
 
         /// <summary>

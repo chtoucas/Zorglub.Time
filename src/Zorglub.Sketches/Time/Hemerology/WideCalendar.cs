@@ -153,7 +153,7 @@ namespace Zorglub.Time.Hemerology
         public CalendarScope Scope { get; }
 
         /// <summary>
-        /// Gets the underlying calendrical schema.
+        /// Gets the underlying schema.
         /// </summary>
         protected internal ICalendricalSchema Schema { get; }
 

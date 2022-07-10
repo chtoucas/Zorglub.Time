@@ -14,7 +14,7 @@ namespace Zorglub.Time.Core
     public sealed partial class BasicArithmetic : ICalendricalArithmetic
     {
         /// <summary>
-        /// Represents the schema.
+        /// Represents the underlying schema.
         /// <para>This field is read-only.</para>
         /// </summary>
         private readonly ICalendricalSchema _schema;
@@ -45,8 +45,8 @@ namespace Zorglub.Time.Core
         public BasicArithmetic(CalendricalSegment segment)
         {
             Segment = segment ?? throw new ArgumentNullException(nameof(segment));
-            _schema = segment.Schema;
 
+            _schema = segment.Schema;
             _partsAdapter = new PartsAdapter(_schema);
         }
 
