@@ -8,7 +8,7 @@ namespace Zorglub.Time.Hemerology.Scopes
     using Zorglub.Time.Core.Intervals;
 
     /// <summary>
-    /// Represents the scope of a calendar with dates within a given range of years.
+    /// Represents a scope for a calendar supporting <i>all</i> dates within a range of years.
     /// <para>This class cannot be inherited.</para>
     /// </summary>
     public sealed class MinMaxYearScope : CalendarScope

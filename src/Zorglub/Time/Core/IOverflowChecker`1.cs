@@ -5,21 +5,20 @@ namespace Zorglub.Time.Core
 {
     /// <summary>
     /// Defines helpers to check for overflows of a range.
-    /// <para>We use this interface for ranges with constant endpoints.</para>
     /// </summary>
     /// <typeparam name="T">The type of value to check for overflows.</typeparam>
     internal interface IOverflowChecker<T>
         where T : struct, IEquatable<T>, IComparable<T>
     {
         /// <summary>
-        /// Determines whether the specified value is outside the range of supported values or not.
+        /// Checks whether the specified value is outside the range of supported values or not.
         /// </summary>
         /// <exception cref="OverflowException">The value is outside the range of supported values.
         /// </exception>
         void Check(T value);
 
         /// <summary>
-        /// Determines whether the specified value is greater than the upper bound of the range of
+        /// Checks whether the specified value is greater than the upper bound of the range of
         /// supported values or not.
         /// </summary>
         /// <exception cref="OverflowException">The value is greater than the upper bound of the
@@ -27,7 +26,7 @@ namespace Zorglub.Time.Core
         void CheckUpperBound(T value);
 
         /// <summary>
-        /// Determines whether the specified value is less than the lower bound of the range of
+        /// Checks whether the specified value is less than the lower bound of the range of
         /// supported values or not.
         /// </summary>
         /// <exception cref="OverflowException">The value is less than the lower bound of the range

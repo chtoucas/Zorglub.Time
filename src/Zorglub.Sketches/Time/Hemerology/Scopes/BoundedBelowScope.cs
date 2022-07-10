@@ -7,8 +7,8 @@ namespace Zorglub.Time.Hemerology.Scopes
     using Zorglub.Time.Core;
 
     /// <summary>
-    /// Represents the scope of a calendar with dates on or after a given date,
-    /// but not the first day of a year.
+    /// Represents a scope for a calendar supporting <i>all</i> dates on or after a given date, but
+    /// not the first day of a year.
     /// <para>This class cannot be inherited.</para>
     /// </summary>
     public sealed class BoundedBelowScope : CalendarScope
@@ -20,19 +20,19 @@ namespace Zorglub.Time.Hemerology.Scopes
         private readonly int _minYear;
 
         /// <summary>
-        /// Represents the earliest supported "month".
+        /// Represents the earliest supported month parts.
         /// <para>This field is read-only.</para>
         /// </summary>
         private readonly MonthParts _minMonthParts;
 
         /// <summary>
-        /// Represents the earliest supported "date".
+        /// Represents the earliest supported date parts.
         /// <para>This field is read-only.</para>
         /// </summary>
         private readonly DateParts _minDateParts;
 
         /// <summary>
-        /// Represents the earliest supported ordinal "date".
+        /// Represents the earliest supported ordinal date parts.
         /// <para>This field is read-only.</para>
         /// </summary>
         private readonly OrdinalParts _minOrdinalParts;

@@ -7,8 +7,8 @@ namespace Zorglub.Time.Hemerology.Scopes
     using Zorglub.Time.Core.Intervals;
 
     /// <summary>
-    /// Represents the proleptic short scope of a calendar.
-    /// <para>A proleptic scope supports dates within the interval [-9998..9999] of years.</para>
+    /// Represents a scope for a calendar supporting <i>all</i> dates within the range [-9998..9999]
+    /// of years.
     /// <para>This class cannot be inherited.</para>
     /// </summary>
     /// <remarks>
@@ -52,13 +52,15 @@ namespace Zorglub.Time.Hemerology.Scopes
         /// <summary>
         /// Gets the checker for overflows of the range of years.
         /// </summary>
-        internal static IOverflowChecker<int> YearOverflowChecker { get; } = new YearOverflowChecker_();
+        internal static IOverflowChecker<int> YearOverflowChecker { get; } =
+            new YearOverflowChecker_();
 
-        ///// <inheritdoc />
-        //public new void ValidateYear(int year, string? paramName = null)
-        //{
-        //    if (year < MinYear || year > MaxYear) Throw.YearOutOfRange(year, paramName);
-        //}
+        /// <summary>
+        /// Gets the checker for overflows of the range of supported values for the number of
+        /// consecutive days since the epoch.
+        /// </summary>
+        internal IOverflowChecker<int> DaysSinceEpochOverflowChecker =>
+            new OverflowChecker(Segment.Domain);
 
         /// <inheritdoc />
         public sealed override void ValidateYearMonth(int year, int month, string? paramName = null)

@@ -633,9 +633,9 @@ namespace Zorglub.Time.Simple
         [Pure]
         public CalendarDay PlusDays(int days)
         {
-            var daysSinceEpoch = checked(DaysSinceEpoch + days);
+            int daysSinceEpoch = checked(DaysSinceEpoch + days);
             ref readonly var chr = ref CalendarRef;
-            chr.CheckOverflow(daysSinceEpoch);
+            chr.DaysSinceEpochOverflowChecker.Check(daysSinceEpoch);
             return new CalendarDay(daysSinceEpoch, Cuid);
         }
 
@@ -644,9 +644,9 @@ namespace Zorglub.Time.Simple
         public CalendarDay NextDay()
         {
             ref readonly var chr = ref CalendarRef;
-            return DaysSinceEpoch == chr.MaxDaysSinceEpoch
-                ? Throw.DateOverflow<CalendarDay>()
-                : new CalendarDay(DaysSinceEpoch + 1, Cuid);
+            int daysSinceEpoch = DaysSinceEpoch + 1;
+            chr.DaysSinceEpochOverflowChecker.CheckUpperBound(daysSinceEpoch);
+            return new CalendarDay(daysSinceEpoch, Cuid);
         }
 
         /// <inheritdoc />
@@ -654,9 +654,9 @@ namespace Zorglub.Time.Simple
         public CalendarDay PreviousDay()
         {
             ref readonly var chr = ref CalendarRef;
-            return DaysSinceEpoch == chr.MinDaysSinceEpoch
-                ? Throw.DateOverflow<CalendarDay>()
-                : new CalendarDay(DaysSinceEpoch - 1, Cuid);
+            int daysSinceEpoch = DaysSinceEpoch - 1;
+            chr.DaysSinceEpochOverflowChecker.CheckLowerBound(daysSinceEpoch);
+            return new CalendarDay(daysSinceEpoch, Cuid);
         }
     }
 }

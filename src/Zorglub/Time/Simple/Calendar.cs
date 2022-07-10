@@ -134,19 +134,21 @@ namespace Zorglub.Time.Simple
 
             if (proleptic)
             {
-                Scope = new ProlepticScope(schema, epoch);
+                var scope = new ProlepticScope(schema, epoch);
+                Scope = scope;
+                DaysSinceEpochOverflowChecker = scope.DaysSinceEpochOverflowChecker;
                 YearOverflowChecker = ProlepticScope.YearOverflowChecker;
             }
             else
             {
-                Scope = new StandardScope(schema, epoch);
+                var scope = new StandardScope(schema, epoch);
+                Scope = scope;
+                DaysSinceEpochOverflowChecker = scope.DaysSinceEpochOverflowChecker;
                 YearOverflowChecker = StandardScope.YearOverflowChecker;
             }
 
             SystemSegment = SystemSegment.Create(schema, Scope.SupportedYears);
             Arithmetic = SystemArithmetic.CreateDefault(SystemSegment);
-
-            (MinDaysSinceEpoch, MaxDaysSinceEpoch) = SystemSegment.Domain.Endpoints;
 
             // Keep this at the end of the constructor: before using "this",
             // all props should be initialized.
@@ -222,18 +224,6 @@ namespace Zorglub.Time.Simple
 
         /// <inheritdoc />
         public Range<int> SupportedYears => Scope.SupportedYears;
-
-        /// <summary>
-        /// Represents the minimum possible value for the number of consecutive days from the epoch.
-        /// <para>This field is read-only.</para>
-        /// </summary>
-        internal int MinDaysSinceEpoch { get; }
-
-        /// <summary>
-        /// Represents the maximum possible value for the number of consecutive days from the epoch.
-        /// <para>This field is read-only.</para>
-        /// </summary>
-        internal int MaxDaysSinceEpoch { get; }
 
         private OrderedPair<CalendarYear> _minMaxYear;
         /// <summary>
@@ -352,6 +342,12 @@ namespace Zorglub.Time.Simple
         /// Gets the checker for overflows of the range of years.
         /// </summary>
         internal IOverflowChecker<int> YearOverflowChecker { get; }
+
+        /// <summary>
+        /// Gets the checker for overflows of the range of supported values for the number of
+        /// consecutive days since the epoch.
+        /// </summary>
+        internal IOverflowChecker<int> DaysSinceEpochOverflowChecker { get; }
 
         /// <summary>
         /// Returns a culture-independent string representation of this calendar.
@@ -681,20 +677,6 @@ namespace Zorglub.Time.Simple
         // - GetDayNumber(...) tiny optimization to avoid having to look up the
         //   calendar multiple times.
         // - GetDayOfWeek(...) because of _epochDayOfWeek.
-
-        /// <summary>
-        /// Checks that the specified <paramref name="daysSinceEpoch"/> does not overflow the range
-        /// of supported values for the number of consecutive days since the epoch.
-        /// </summary>
-        /// <exception cref="OverflowException">The operation would overflow the range of supported
-        /// dates.</exception>
-        internal void CheckOverflow(int daysSinceEpoch)
-        {
-            if (daysSinceEpoch < MinDaysSinceEpoch || daysSinceEpoch > MaxDaysSinceEpoch)
-            {
-                Throw.DateOverflow();
-            }
-        }
 
         /// <summary>
         /// Validates the specified day of the month.
