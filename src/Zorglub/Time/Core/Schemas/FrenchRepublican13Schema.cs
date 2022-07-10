@@ -87,11 +87,11 @@ namespace Zorglub.Time.Core.Schemas
         /// <inheritdoc />
         [Pure]
         public sealed override int CountMonthsSinceEpoch(int y, int m) =>
-            MonthHelper.Regular13.CountMonthsSinceEpoch(y, m);
+            MonthCalculator.Regular13.CountMonthsSinceEpoch(y, m);
 
         /// <inheritdoc />
         public sealed override void GetMonthParts(int monthsSinceEpoch, out int y, out int m) =>
-            MonthHelper.Regular13.GetMonthParts(monthsSinceEpoch, out y, out m);
+            MonthCalculator.Regular13.GetMonthParts(monthsSinceEpoch, out y, out m);
 
         /// <inheritdoc />
         [Pure]

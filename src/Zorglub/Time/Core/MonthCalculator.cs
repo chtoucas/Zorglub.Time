@@ -3,13 +3,13 @@
 
 namespace Zorglub.Time.Core
 {
-    internal abstract class MonthHelper
+    internal abstract class MonthCalculator
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="MonthHelper"/> class.
+        /// Initializes a new instance of the <see cref="MonthCalculator"/> class.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
-        protected MonthHelper(ICalendricalSchema schema)
+        protected MonthCalculator(ICalendricalSchema schema)
         {
             Debug.Assert(schema != null);
 
@@ -18,7 +18,7 @@ namespace Zorglub.Time.Core
 
         protected ICalendricalSchema Schema { get; }
 
-        public static MonthHelper Create(ICalendricalSchema schema)
+        public static MonthCalculator Create(ICalendricalSchema schema)
         {
             Requires.NotNull(schema);
 
@@ -81,7 +81,7 @@ namespace Zorglub.Time.Core
             }
         }
 
-        private sealed class Regular12Case : MonthHelper
+        private sealed class Regular12Case : MonthCalculator
         {
             private const int MonthsInYear = 12;
 
@@ -94,7 +94,7 @@ namespace Zorglub.Time.Core
             public override int GetEndOfYear(int y) => MonthsInYear * y - 1;
         }
 
-        private sealed class Regular13Case : MonthHelper
+        private sealed class Regular13Case : MonthCalculator
         {
             private const int MonthsInYear = 13;
 
@@ -107,7 +107,7 @@ namespace Zorglub.Time.Core
             public override int GetEndOfYear(int y) => MonthsInYear * y - 1;
         }
 
-        private sealed class RegularCase : MonthHelper
+        private sealed class RegularCase : MonthCalculator
         {
             private readonly int _monthsInYear;
 
@@ -123,7 +123,7 @@ namespace Zorglub.Time.Core
             public override int GetEndOfYear(int y) => _monthsInYear * y - 1;
         }
 
-        private sealed class PlainCase : MonthHelper
+        private sealed class PlainCase : MonthCalculator
         {
             public PlainCase(ICalendricalSchema schema) : base(schema) { }
 
