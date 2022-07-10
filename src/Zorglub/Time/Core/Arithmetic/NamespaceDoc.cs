@@ -4,7 +4,7 @@
 namespace Zorglub.Time.Core.Arithmetic
 {
     /// <summary>
-    /// The <see cref="Arithmetic"/> namespace contains internal implementations for
+    /// The <see cref="Arithmetic"/> namespace contains internal classes derived from
     /// <see cref="SystemArithmetic"/>.
     /// </summary>
     [CompilerGenerated]

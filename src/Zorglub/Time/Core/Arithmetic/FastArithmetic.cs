@@ -3,8 +3,6 @@
 
 namespace Zorglub.Time.Core.Arithmetic
 {
-    using Zorglub.Time.Core.Intervals;
-
     /// <summary>
     /// Provides a plain implementation for <see cref="SystemArithmetic"/>.
     /// <para>The length of a month must be greater than or equal to

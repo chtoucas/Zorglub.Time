@@ -3,8 +3,6 @@
 
 namespace Zorglub.Time.Core.Arithmetic
 {
-    using Zorglub.Time.Core.Intervals;
-
     using __Solar = CalendricalConstants.Solar;
 
     /// <summary>
