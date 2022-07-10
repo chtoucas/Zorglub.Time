@@ -23,8 +23,9 @@ internal sealed class CalendarContext
 {
     public CalendarContext(CalendricalSchema schema, CalendarScope scope)
     {
-        Schema = schema ?? throw new ArgumentNullException(nameof(schema));
         Scope = scope ?? throw new ArgumentNullException(nameof(scope));
+        Schema = schema ?? throw new ArgumentNullException(nameof(schema));
+        //Schema = ((ISchemaBounded)scope).Schema;
     }
 
     public CalendricalSchema Schema { get; }
