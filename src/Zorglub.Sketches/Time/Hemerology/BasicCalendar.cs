@@ -18,19 +18,19 @@ namespace Zorglub.Time.Hemerology
         /// class.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="scope"/> is null.</exception>
-        protected BasicCalendar(CalendarScope scope)
+        protected BasicCalendar(string name, CalendarScope scope)
         {
+            Name = name ?? throw new ArgumentNullException(nameof(name));
             Scope = scope ?? throw new ArgumentNullException(nameof(scope));
-
-            Schema = scope.Schema;
-            Epoch = scope.Epoch;
-            SupportedYears = scope.SupportedYears;
-            Domain = scope.Domain;
-            PreValidator = Schema.PreValidator;
         }
 
+        /// <summary>
+        /// Gets the name of the calendar.
+        /// </summary>
+        public string Name { get; }
+
         /// <inheritdoc />
-        public DayNumber Epoch { get; }
+        public DayNumber Epoch => Scope.Epoch;
 
         /// <inheritdoc />
         public CalendricalAlgorithm Algorithm => Schema.Algorithm;
@@ -42,10 +42,10 @@ namespace Zorglub.Time.Hemerology
         public CalendricalAdjustments PeriodicAdjustments => Schema.PeriodicAdjustments;
 
         /// <inheritdoc />
-        public Range<int> SupportedYears { get; }
+        public Range<int> SupportedYears => Scope.SupportedYears;
 
         /// <inheritdoc />
-        public Range<DayNumber> Domain { get; }
+        public Range<DayNumber> Domain => Scope.Domain;
 
         /// <inheritdoc />
         public CalendarScope Scope { get; }
@@ -53,12 +53,18 @@ namespace Zorglub.Time.Hemerology
         /// <summary>
         /// Gets the underlying calendrical schema.
         /// </summary>
-        protected internal ICalendricalSchema Schema { get; }
+        protected internal ICalendricalSchema Schema => Scope.Schema;
 
         /// <summary>
         /// Gets the pre-validator.
         /// </summary>
-        protected internal ICalendricalPreValidator PreValidator { get; }
+        protected internal ICalendricalPreValidator PreValidator => Schema.PreValidator;
+
+        /// <summary>
+        /// Returns a string representation of the current instance.
+        /// </summary>
+        [Pure]
+        public override string ToString() => Name;
 
         /// <inheritdoc />
         [Pure]

@@ -23,7 +23,7 @@ public partial class CalendarZooTests
     {
         // Act
         var chr = CalendarZoo.GenuineGregorian;
-        var parts = chr.MinMaxDateParts.LowerValue;
+        var parts = chr.MinDateParts;
         // Assert
         Assert.NotNull(chr);
         Assert.Equal(1582, parts.Year);

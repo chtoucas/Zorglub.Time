@@ -20,24 +20,6 @@ namespace Zorglub.Time.Hemerology.Scopes
         private readonly int _minYear;
 
         /// <summary>
-        /// Represents the earliest supported month parts.
-        /// <para>This field is read-only.</para>
-        /// </summary>
-        private readonly MonthParts _minMonthParts;
-
-        /// <summary>
-        /// Represents the earliest supported date parts.
-        /// <para>This field is read-only.</para>
-        /// </summary>
-        private readonly DateParts _minDateParts;
-
-        /// <summary>
-        /// Represents the earliest supported ordinal date parts.
-        /// <para>This field is read-only.</para>
-        /// </summary>
-        private readonly OrdinalParts _minOrdinalParts;
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="BoundedBelowScope"/> class.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
@@ -53,12 +35,28 @@ namespace Zorglub.Time.Hemerology.Scopes
             int? maxYear)
             : base(epoch, CalendricalSegment.Create(schema, year, month, day, maxYear))
         {
+            _minYear = SupportedYears.Min;
+
             var seg = Segment;
-            _minYear = seg.SupportedYears.Min;
-            _minDateParts = seg.MinMaxDateParts.LowerValue;
-            _minOrdinalParts = seg.MinMaxOrdinalParts.LowerValue;
-            _minMonthParts = _minDateParts.MonthParts;
+            MinDateParts = seg.MinMaxDateParts.LowerValue;
+            MinOrdinalParts = seg.MinMaxOrdinalParts.LowerValue;
+            MinMonthParts = MinDateParts.MonthParts;
         }
+
+        /// <summary>
+        /// Gets the earliest supported month parts.
+        /// </summary>
+        public MonthParts MinMonthParts { get; }
+
+        /// <summary>
+        /// Gets the earliest supported date parts.
+        /// </summary>
+        public DateParts MinDateParts { get; }
+
+        /// <summary>
+        /// Gets the earliest supported ordinal date parts.
+        /// </summary>
+        public OrdinalParts MinOrdinalParts { get; }
 
         /// <inheritdoc />
         public sealed override void ValidateYearMonth(int year, int month, string? paramName = null)
@@ -67,7 +65,7 @@ namespace Zorglub.Time.Hemerology.Scopes
             PreValidator.ValidateMonth(year, month, paramName);
 
             // Tiny optimization: we first check "year".
-            if (year == _minYear && new MonthParts(year, month) < _minMonthParts)
+            if (year == _minYear && new MonthParts(year, month) < MinMonthParts)
             {
                 Throw.MonthOutOfRange(month, paramName);
             }
@@ -85,11 +83,11 @@ namespace Zorglub.Time.Hemerology.Scopes
                 // We check the month parts first even if it is not necessary.
                 // Reason: identify the guilty part.
                 var parts = new DateParts(year, month, day);
-                if (parts.MonthParts < _minMonthParts)
+                if (parts.MonthParts < MinMonthParts)
                 {
                     Throw.MonthOutOfRange(month, paramName);
                 }
-                else if (parts < _minDateParts)
+                else if (parts < MinDateParts)
                 {
                     Throw.DayOutOfRange(day, paramName);
                 }
@@ -103,7 +101,7 @@ namespace Zorglub.Time.Hemerology.Scopes
             PreValidator.ValidateDayOfYear(year, dayOfYear, paramName);
 
             // Tiny optimization: we first check "year".
-            if (year == _minYear && new OrdinalParts(year, dayOfYear) < _minOrdinalParts)
+            if (year == _minYear && new OrdinalParts(year, dayOfYear) < MinOrdinalParts)
             {
                 Throw.DayOfYearOutOfRange(dayOfYear, paramName);
             }

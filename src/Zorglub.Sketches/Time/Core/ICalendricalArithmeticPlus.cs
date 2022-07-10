@@ -15,7 +15,7 @@ namespace Zorglub.Time.Core
         /// day (resp. month).</returns>
         /// <exception cref="OverflowException">The calculation would overflow the range of
         /// supported values.</exception>
-        [Pure] DateParts AddYears(DateParts ymd, int years, out int roundoff);
+        [Pure] DateParts AddYears(DateParts parts, int years, out int roundoff);
 
         /// <summary>
         /// Adds a number of months to the specified date.
@@ -24,7 +24,7 @@ namespace Zorglub.Time.Core
         /// (roundoff > 0).</returns>
         /// <exception cref="OverflowException">The calculation would overflow the range of
         /// supported values.</exception>
-        [Pure] DateParts AddMonths(DateParts ymd, int months, out int roundoff);
+        [Pure] DateParts AddMonths(DateParts parts, int months, out int roundoff);
 
         /// <summary>
         /// Adds a number of years to the year field of the specified ordinal date.
@@ -33,7 +33,7 @@ namespace Zorglub.Time.Core
         /// (roundoff > 0).</returns>
         /// <exception cref="OverflowException">The calculation would overflow the range of
         /// supported values.</exception>
-        [Pure] OrdinalParts AddYears(OrdinalParts ydoy, int years, out int roundoff);
+        [Pure] OrdinalParts AddYears(OrdinalParts parts, int years, out int roundoff);
 
         /// <summary>
         /// Adds a number of years to the year field of the specified month.
@@ -42,6 +42,6 @@ namespace Zorglub.Time.Core
         /// (roundoff > 0).</returns>
         /// <exception cref="OverflowException">The calculation would overflow the range of
         /// supported values.</exception>
-        [Pure] MonthParts AddYears(MonthParts ym, int years, out int roundoff);
+        [Pure] MonthParts AddYears(MonthParts parts, int years, out int roundoff);
     }
 }

@@ -43,10 +43,9 @@ namespace Zorglub.Time.Hemerology
             DayProvider = new BoundedBelowDayProvider(scope);
 
             (MinYear, MaxYear) = scope.SupportedYears.Endpoints;
-
-            var seg = scope.Segment;
-            MinDateParts = seg.MinMaxDateParts.LowerValue;
-            MinOrdinalParts = seg.MinMaxOrdinalParts.LowerValue;
+            MinMonthParts = scope.MinMonthParts;
+            MinDateParts = scope.MinDateParts;
+            MinOrdinalParts = scope.MinOrdinalParts;
         }
 
         /// <summary>
@@ -65,14 +64,19 @@ namespace Zorglub.Time.Hemerology
         protected int MaxYear { get; }
 
         /// <summary>
-        /// Gets the earliest supported "date".
+        /// Gets the earliest supported month parts.
         /// </summary>
-        protected DateParts MinDateParts { get; }
+        protected internal MonthParts MinMonthParts { get; }
 
         /// <summary>
-        /// Gets the earliest supported ordinal "date".
+        /// Gets the earliest supported date parts.
         /// </summary>
-        protected OrdinalParts MinOrdinalParts { get; }
+        protected internal DateParts MinDateParts { get; }
+
+        /// <summary>
+        /// Gets the earliest supported ordinal date parts.
+        /// </summary>
+        protected internal OrdinalParts MinOrdinalParts { get; }
     }
 
     public partial class BoundedBelowCalendar // Year, month, day infos
@@ -110,7 +114,7 @@ namespace Zorglub.Time.Hemerology
         public sealed override int CountDaysInMonth(int year, int month)
         {
             Scope.ValidateYearMonth(year, month);
-            return new MonthParts(year, month) == MinDateParts.MonthParts
+            return new MonthParts(year, month) == MinMonthParts
                 ? CountDaysInFirstMonth()
                 : Schema.CountDaysInMonth(year, month);
         }
@@ -179,7 +183,7 @@ namespace Zorglub.Time.Hemerology
         public sealed override DateParts GetStartOfMonth(int year, int month)
         {
             Scope.ValidateYearMonth(year, month);
-            return new MonthParts(year, month) == MinDateParts.MonthParts
+            return new MonthParts(year, month) == MinMonthParts
                 ? Throw.ArgumentOutOfRange<DateParts>(nameof(month))
                 : DateParts.AtStartOfMonth(year, month);
         }

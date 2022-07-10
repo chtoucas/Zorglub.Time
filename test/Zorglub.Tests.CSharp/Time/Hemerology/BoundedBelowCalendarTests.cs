@@ -47,7 +47,7 @@ public static class BoundedBelowCalendarTests
         // Act
         var chr = CalendarZoo.GenuineGregorian;
         int daysInFirstMonth = 17;
-        var parts = chr.MinMaxDateParts.LowerValue;
+        var parts = chr.MinDateParts;
         // Assert
         Assert.Equal(daysInFirstMonth, chr.CountDaysInMonth(parts.Year, parts.Month));
         Assert.Equal(daysInFirstMonth, chr.CountDaysInFirstMonth());
@@ -85,8 +85,9 @@ public sealed class GregorianBoundedBelowCalendarTests
     public void MinDateParts_Prop()
     {
         var parts = new DateParts(FirstYear, FirstMonth, FirstDay);
+        var seg = CalendarUT.Scope.Segment;
         // Act
-        Assert.Equal(parts, CalendarUT.MinMaxDateParts.LowerValue);
+        Assert.Equal(parts, seg.MinMaxDateParts.LowerValue);
     }
 
 #if false

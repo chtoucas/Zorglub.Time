@@ -11,18 +11,6 @@ namespace Zorglub.Time.Hemerology
     public sealed class BoundedBelowDayProvider : IDayProvider<DayNumber>
     {
         /// <summary>
-        /// Represents the epoch of the scope.
-        /// <para>This field is read-only.</para>
-        /// </summary>
-        private readonly DayNumber _epoch;
-
-        /// <summary>
-        /// Represents the underlying calendrical schema.
-        /// <para>This field is read-only.</para>
-        /// </summary>
-        private readonly ICalendricalSchema _schema;
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="BoundedBelowDayProvider"/> class.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="scope"/> is null.</exception>
@@ -30,22 +18,24 @@ namespace Zorglub.Time.Hemerology
         {
             Scope = scope ?? throw new ArgumentNullException(nameof(scope));
 
-            _schema = scope.Schema;
-            _epoch = scope.Epoch;
-
             MinDayNumber = scope.Domain.Min;
-
             MinYear = scope.SupportedYears.Min;
-
-            var seg = scope.Segment;
-            MinDateParts = seg.MinMaxDateParts.LowerValue;
-            MinOrdinalParts = seg.MinMaxOrdinalParts.LowerValue;
         }
 
         /// <summary>
         /// Gets the calendrical scope, an object providing validation methods.
         /// </summary>
-        public CalendarScope Scope { get; }
+        public BoundedBelowScope Scope { get; }
+
+        /// <summary>
+        /// Gets the epoch of the scope.
+        /// </summary>
+        private DayNumber Epoch => Scope.Epoch;
+
+        /// <summary>
+        /// Gets the underlying calendrical schema.
+        /// </summary>
+        private ICalendricalSchema Schema => Scope.Schema;
 
         /// <summary>
         /// Gets the earliest supported <see cref="DayNumber"/>
@@ -58,14 +48,19 @@ namespace Zorglub.Time.Hemerology
         private int MinYear { get; }
 
         /// <summary>
+        /// Gets the earliest supported month parts.
+        /// </summary>
+        private MonthParts MinMonthParts => Scope.MinMonthParts;
+
+        /// <summary>
         /// Gets the earliest supported "date".
         /// </summary>
-        private DateParts MinDateParts { get; }
+        private DateParts MinDateParts => Scope.MinDateParts;
 
         /// <summary>
         /// Gets the earliest supported ordinal "date".
         /// </summary>
-        private OrdinalParts MinOrdinalParts { get; }
+        private OrdinalParts MinOrdinalParts => Scope.MinOrdinalParts;
 
         // TODO(code): shouldn't be here.
 
@@ -74,7 +69,7 @@ namespace Zorglub.Time.Hemerology
         /// </summary>
         [Pure]
         public int CountDaysInFirstYear() =>
-            _schema.CountDaysInYear(MinYear) - MinOrdinalParts.DayOfYear + 1;
+            Schema.CountDaysInYear(MinYear) - MinOrdinalParts.DayOfYear + 1;
 
         /// <summary>
         /// Obtains the number of days in the first supported month.
@@ -83,7 +78,7 @@ namespace Zorglub.Time.Hemerology
         public int CountDaysInFirstMonth()
         {
             var (y, m, d) = MinDateParts;
-            return _schema.CountDaysInMonth(y, m) - d + 1;
+            return Schema.CountDaysInMonth(y, m) - d + 1;
         }
 
         /// <inheritdoc />
@@ -94,13 +89,13 @@ namespace Zorglub.Time.Hemerology
             int startOfYear, daysInYear;
             if (year == MinYear)
             {
-                startOfYear = MinDayNumber - _epoch;
+                startOfYear = MinDayNumber - Epoch;
                 daysInYear = CountDaysInFirstYear();
             }
             else
             {
-                startOfYear = _schema.GetStartOfYear(year);
-                daysInYear = _schema.CountDaysInYear(year);
+                startOfYear = Schema.GetStartOfYear(year);
+                daysInYear = Schema.CountDaysInYear(year);
             }
 
             return Iterator();
@@ -109,7 +104,7 @@ namespace Zorglub.Time.Hemerology
             {
                 return from daysSinceEpoch
                        in Enumerable.Range(startOfYear, daysInYear)
-                       select _epoch + daysSinceEpoch;
+                       select Epoch + daysSinceEpoch;
             }
         }
 
@@ -119,15 +114,15 @@ namespace Zorglub.Time.Hemerology
         {
             Scope.ValidateYearMonth(year, month);
             int startOfMonth, daysInMonth;
-            if (new MonthParts(year, month) == MinDateParts.MonthParts)
+            if (new MonthParts(year, month) == MinMonthParts)
             {
-                startOfMonth = MinDayNumber - _epoch;
+                startOfMonth = MinDayNumber - Epoch;
                 daysInMonth = CountDaysInFirstMonth();
             }
             else
             {
-                startOfMonth = _schema.GetStartOfMonth(year, month);
-                daysInMonth = _schema.CountDaysInMonth(year, month);
+                startOfMonth = Schema.GetStartOfMonth(year, month);
+                daysInMonth = Schema.CountDaysInMonth(year, month);
             }
 
             return Iterator();
@@ -136,7 +131,7 @@ namespace Zorglub.Time.Hemerology
             {
                 return from daysSinceEpoch
                        in Enumerable.Range(startOfMonth, daysInMonth)
-                       select _epoch + daysSinceEpoch;
+                       select Epoch + daysSinceEpoch;
             }
         }
 
@@ -147,7 +142,7 @@ namespace Zorglub.Time.Hemerology
             Scope.ValidateYear(year);
             return year == MinYear
                 ? Throw.ArgumentOutOfRange<DayNumber>(nameof(year))
-                : _epoch + _schema.GetStartOfYear(year);
+                : Epoch + Schema.GetStartOfYear(year);
         }
 
         /// <inheritdoc />
@@ -155,7 +150,7 @@ namespace Zorglub.Time.Hemerology
         public DayNumber GetEndOfYear(int year)
         {
             Scope.ValidateYear(year);
-            return _epoch + _schema.GetEndOfYear(year);
+            return Epoch + Schema.GetEndOfYear(year);
         }
 
         /// <inheritdoc />
@@ -163,9 +158,9 @@ namespace Zorglub.Time.Hemerology
         public DayNumber GetStartOfMonth(int year, int month)
         {
             Scope.ValidateYearMonth(year, month);
-            return new MonthParts(year, month) == MinDateParts.MonthParts
+            return new MonthParts(year, month) == MinMonthParts
                 ? Throw.ArgumentOutOfRange<DayNumber>(nameof(month))
-                : _epoch + _schema.GetStartOfMonth(year, month);
+                : Epoch + Schema.GetStartOfMonth(year, month);
         }
 
         /// <inheritdoc />
@@ -173,7 +168,7 @@ namespace Zorglub.Time.Hemerology
         public DayNumber GetEndOfMonth(int year, int month)
         {
             Scope.ValidateYearMonth(year, month);
-            return _epoch + _schema.GetEndOfMonth(year, month);
+            return Epoch + Schema.GetEndOfMonth(year, month);
         }
     }
 }

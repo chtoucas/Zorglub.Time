@@ -6,8 +6,8 @@ namespace Zorglub.Time.Hemerology
     using Zorglub.Time.Core;
     using Zorglub.Time.Hemerology.Scopes;
 
-    // REVIEW(code): l'absence d'un objet date fait qu'on doit revalider les
-    // données à chaque fois.
+    // REVIEW(code): l'absence d'un objet date dédié fait qu'on doit revalider
+    // les données à chaque fois.
     // Add
     // - GetFirstMonth() -> MonthParts.
     // - GetMonthsInYear() -> MonthParts.
@@ -46,36 +46,17 @@ namespace Zorglub.Time.Hemerology
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="name"/> is null.</exception>
         /// <exception cref="ArgumentNullException"><paramref name="scope"/> is null.</exception>
-        protected NakedCalendar(string name, CalendarScope scope) : base(scope)
+        protected NakedCalendar(string name, CalendarScope scope) : base(name, scope)
         {
             Debug.Assert(scope != null);
 
-            Name = name ?? throw new ArgumentNullException(nameof(name));
-
-            MinMaxDateParts = scope.Segment.MinMaxDateParts;
             PartsAdapter = new PartsAdapter(Schema);
         }
-
-        /// <summary>
-        /// Gets the name of the calendar.
-        /// </summary>
-        public string Name { get; }
-
-        /// <summary>
-        /// Gets the earliest supported date parts.
-        /// </summary>
-        public OrderedPair<DateParts> MinMaxDateParts { get; }
 
         /// <summary>
         /// Gets the adapter for calendrical parts.
         /// </summary>
         protected PartsAdapter PartsAdapter { get; }
-
-        /// <summary>
-        /// Returns a string representation of the current instance.
-        /// </summary>
-        [Pure]
-        public override string ToString() => Name;
     }
 
     public partial class NakedCalendar // Factories
@@ -96,8 +77,7 @@ namespace Zorglub.Time.Hemerology
         public DateParts GetDateParts(DayNumber dayNumber)
         {
             Domain.Validate(dayNumber);
-            Schema.GetDateParts(dayNumber - Epoch, out int y, out int m, out int d);
-            return new DateParts(y, m, d);
+            return PartsAdapter.GetDateParts(dayNumber - Epoch);
         }
 
         /// <summary>
@@ -109,8 +89,7 @@ namespace Zorglub.Time.Hemerology
         public DateParts GetDateParts(int year, int dayOfYear)
         {
             Scope.ValidateOrdinal(year, dayOfYear);
-            int m = Schema.GetMonth(year, dayOfYear, out int d);
-            return new DateParts(year, m, d);
+            return PartsAdapter.GetDateParts(year, dayOfYear);
         }
 
         /// <summary>
@@ -122,8 +101,7 @@ namespace Zorglub.Time.Hemerology
         public OrdinalParts GetOrdinalParts(DayNumber dayNumber)
         {
             Domain.Validate(dayNumber);
-            int y = Schema.GetYear(dayNumber - Epoch, out int doy);
-            return new OrdinalParts(y, doy);
+            return PartsAdapter.GetOrdinalParts(dayNumber - Epoch);
         }
 
         /// <summary>
@@ -135,8 +113,7 @@ namespace Zorglub.Time.Hemerology
         public OrdinalParts GetOrdinalParts(int year, int month, int day)
         {
             Scope.ValidateYearMonthDay(year, month, day);
-            int doy = Schema.GetDayOfYear(year, month, day);
-            return new OrdinalParts(year, doy);
+            return PartsAdapter.GetOrdinalParts(year, month, day);
         }
     }
 

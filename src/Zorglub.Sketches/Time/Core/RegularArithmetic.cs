@@ -7,7 +7,7 @@ namespace Zorglub.Time.Core
 
     // Complete years only!
 
-    public sealed partial class RegularArithmetic : ICalendricalArithmetic
+    public sealed partial class RegularArithmetic : ICalendricalArithmeticPlus
     {
         /// <summary>
         /// Represents the absolute minimum value admissible for the minimum total number of days

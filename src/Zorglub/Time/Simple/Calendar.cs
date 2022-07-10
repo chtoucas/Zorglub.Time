@@ -329,7 +329,7 @@ namespace Zorglub.Time.Simple
         internal ICalendricalPreValidator PreValidator => Schema.PreValidator;
 
         /// <summary>
-        /// Gets the calendrical segment.
+        /// Gets the segment of supported days.
         /// </summary>
         internal SystemSegment SystemSegment { get; }
 
