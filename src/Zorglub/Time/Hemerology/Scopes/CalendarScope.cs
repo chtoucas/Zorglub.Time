@@ -17,8 +17,14 @@ namespace Zorglub.Time.Hemerology.Scopes
     /// Defines the scope of application of a calendar, an interval of days, and provides a base for
     /// derived classes.
     /// </summary>
-    public abstract partial class CalendarScope : ICalendricalValidator
+    public abstract partial class CalendarScope : ICalendricalValidator, ISchemaBounded
     {
+        /// <summary>
+        /// Represents the underlying schema.
+        /// <para>This field is read-only.</para>
+        /// </summary>
+        private readonly ICalendricalSchema _schema;
+
         /// <summary>
         /// Called from constructors in derived classes to initialize the <see cref="CalendarScope"/>
         /// class.
@@ -27,6 +33,8 @@ namespace Zorglub.Time.Hemerology.Scopes
         protected CalendarScope(DayNumber epoch, CalendricalSegment segment)
         {
             Segment = segment ?? throw new ArgumentNullException(nameof(segment));
+
+            _schema = ((ISchemaBounded)segment).Schema;
 
             Epoch = epoch;
             Domain = Range.FromEndpoints(segment.Domain.Endpoints.Select(x => epoch + x));
@@ -53,12 +61,14 @@ namespace Zorglub.Time.Hemerology.Scopes
         /// <summary>
         /// Gets the pre-validator.
         /// </summary>
-        protected ICalendricalPreValidator PreValidator => Schema.PreValidator;
+        protected ICalendricalPreValidator PreValidator => _schema.PreValidator;
 
         /// <summary>
         /// Gets the underlying schema.
         /// </summary>
-        protected internal ICalendricalSchema Schema => Segment.Schema;
+        protected internal ICalendricalSchema Schema => _schema;
+
+        ICalendricalSchema ISchemaBounded.Schema => _schema;
 
         /// <inheritdoc />
         public void ValidateYear(int year, string? paramName = null)

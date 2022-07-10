@@ -7,13 +7,21 @@ namespace Zorglub.Time.Core
 
     using Zorglub.Time.Core.Intervals;
 
+    // TODO(code): simple class, not a record.
+
     /// <summary>
     /// Provides informations on a range of days for a given schema.
     /// <para>This class cannot be inherited.</para>
     /// </summary>
-    public sealed record CalendricalSegment
+    public sealed record CalendricalSegment : ISchemaBounded
     {
         // No public ctor, see CalendricalSegmentBuilder.
+
+        /// <summary>
+        /// Represents the underlying schema.
+        /// <para>This field is read-only.</para>
+        /// </summary>
+        private readonly ICalendricalSchema _schema;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CalendricalSegment"/> class.
@@ -24,7 +32,7 @@ namespace Zorglub.Time.Core
             Debug.Assert(schema != null);
             Debug.Assert(start <= end);
 
-            Schema = schema;
+            _schema = schema;
 
             Domain = Range.Create(start.DaysSinceEpoch, end.DaysSinceEpoch);
             MinMaxDateParts = OrderedPair.FromOrderedValues(start.DateParts, end.DateParts);
@@ -39,7 +47,7 @@ namespace Zorglub.Time.Core
             int CountMonthsSinceEpoch(DateParts parts)
             {
                 var (y, m, _) = parts;
-                return Schema.CountMonthsSinceEpoch(y, m);
+                return schema.CountMonthsSinceEpoch(y, m);
             }
         }
 
@@ -86,9 +94,11 @@ namespace Zorglub.Time.Core
         public Range<int> SupportedYears { get; }
 
         /// <summary>
-        /// Gets the schema.
+        /// Gets the underlying schema.
         /// </summary>
-        internal ICalendricalSchema Schema { get; }
+        internal ICalendricalSchema Schema => _schema;
+
+        ICalendricalSchema ISchemaBounded.Schema => _schema;
 
         /// <summary>
         /// Creates the maximal segment for <paramref name="schema"/>.
