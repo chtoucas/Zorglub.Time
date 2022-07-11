@@ -3,6 +3,8 @@
 
 namespace Zorglub.Time.Core
 {
+    // Only meant to be implemented explicitely.
+
     public interface ISchemaBound
     {
         /// <summary>

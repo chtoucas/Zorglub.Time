@@ -675,7 +675,8 @@ namespace Zorglub.Time.Simple
     {
         // Internal helpers for use by the calendrical objects.
         // - GetDayNumber(...) tiny optimization to avoid having to look up the
-        //   calendar multiple times.
+        //   calendar multiple times. No longer useful? It was mainly used by
+        //   DateRange which has been obsoleted.
         // - GetDayOfWeek(...) because of _epochDayOfWeek.
 
         /// <summary>
