@@ -294,7 +294,7 @@ public partial class SystemArithmeticFacts<TDataSet> // Overflows
     [Fact]
     public void AddMonths﹍Yemo_Overflows()
     {
-        var (minMonthsSinceEpoch, maxMonthsSinceEpoch) = Segment.MonthDomain.Range.Endpoints;
+        var (minMonthsSinceEpoch, maxMonthsSinceEpoch) = Segment.SupportedMonths.Range.Endpoints;
         var epoch = new Yemo(1, 1);
         // Act & Assert
         Assert.Overflows(() => ArithmeticUT.AddMonths(epoch, minMonthsSinceEpoch - 1));

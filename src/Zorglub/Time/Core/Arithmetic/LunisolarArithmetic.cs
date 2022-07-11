@@ -223,7 +223,7 @@ namespace Zorglub.Time.Core.Arithmetic
             ym.Unpack(out int y, out int m);
 
             int monthsSinceEpoch = checked(Schema.CountMonthsSinceEpoch(y, m) + months);
-            MonthDomain.Check(monthsSinceEpoch);
+            SupportedMonths.Check(monthsSinceEpoch);
 
             return Schema.GetMonthParts(monthsSinceEpoch);
         }

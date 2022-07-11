@@ -135,7 +135,7 @@ namespace Zorglub.Time.Core
         /// </summary>
         /// <returns>The range from the first month of the first supported year to the last month of
         /// the last supported year.</returns>
-        Range<int> MonthDomain { get; }
+        Range<int> SupportedMonths { get; }
 
         /// <summary>
         /// Gets the pre-validator for this schema.

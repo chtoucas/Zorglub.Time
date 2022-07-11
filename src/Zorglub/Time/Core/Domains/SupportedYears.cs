@@ -7,6 +7,11 @@ namespace Zorglub.Time.Core.Domains
 {
     using Zorglub.Time.Core.Intervals;
 
+    /// <summary>
+    /// Represents a range of years, or more precisely the range of supported numbers of
+    /// consecutive years from the epoch.
+    /// <para>This class cannot be inherited.</para>
+    /// </summary>
     public sealed class SupportedYears : IDomain<int>
     {
         private readonly int _min;

@@ -231,10 +231,10 @@ namespace Zorglub.Time.Core
         public Range<int> Domain =>
             _domain ??= new Range<int>(SupportedYears.Endpoints.Select(GetStartOfYear, GetEndOfYear));
 
-        private Range<int>? _monthDomain;
+        private Range<int>? _supportedMonths;
         /// <inheritdoc />
-        public Range<int> MonthDomain =>
-            _monthDomain ??=
+        public Range<int> SupportedMonths =>
+            _supportedMonths ??=
             new Range<int>(SupportedYears.Endpoints.Select(GetStartOfYearInMonths, GetEndOfYearInMonths));
 
         /// <inheritdoc />

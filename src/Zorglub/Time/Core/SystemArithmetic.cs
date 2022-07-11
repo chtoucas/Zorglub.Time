@@ -94,7 +94,7 @@ namespace Zorglub.Time.Core
         /// <summary>
         /// Gets the range of supported months.
         /// </summary>
-        protected MonthDomain MonthDomain => Segment.MonthDomain;
+        protected SupportedMonths SupportedMonths => Segment.SupportedMonths;
 
         /// <summary>
         /// Gets the range of supported years.

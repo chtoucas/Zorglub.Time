@@ -42,7 +42,7 @@ namespace Zorglub.Time.Core
         public Range<int> Domain => Schema.Domain;
 
         /// <inheritdoc />
-        public Range<int> MonthDomain => Schema.MonthDomain;
+        public Range<int> SupportedMonths => Schema.SupportedMonths;
 
         /// <inheritdoc />
         public ICalendricalPreValidator PreValidator => Schema.PreValidator;
@@ -113,7 +113,7 @@ namespace Zorglub.Time.Core
                 _validator.ValidateOrdinal(y, doy);
 
             protected override void ValidateMonthsSinceEpoch(int monthsSinceEpoch) =>
-                _validator.Segment.MonthDomain.Validate(monthsSinceEpoch);
+                _validator.Segment.SupportedMonths.Validate(monthsSinceEpoch);
 
             protected override void ValidateDaysSinceEpoch(int daysSinceEpoch) =>
                 _validator.Segment.AffineDomain.Validate(daysSinceEpoch);

@@ -187,7 +187,7 @@ namespace Zorglub.Time.Core
 
         private Range<int>? _monthDomain;
         /// <inheritdoc />
-        public Range<int> MonthDomain =>
+        public Range<int> SupportedMonths =>
             _monthDomain ??=
             new Range<int>(
                 SupportedYears.Endpoints.Select(

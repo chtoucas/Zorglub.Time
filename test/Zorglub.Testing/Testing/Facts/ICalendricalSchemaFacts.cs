@@ -55,13 +55,13 @@ public partial class ICalendricalSchemaFacts<TSchema, TDataSet> // Properties
     }
 
     [Fact]
-    public void MonthDomain_Prop()
+    public void SupportedMonths_Prop()
     {
         var domain = new Range<int>(MinMonthsSinceEpoch, MaxMonthsSinceEpoch);
         // Act & Assert
-        Assert.Equal(domain, SchemaUT.MonthDomain);
+        Assert.Equal(domain, SchemaUT.SupportedMonths);
         // Lazy prop: we duplicate the test to ensure full test coverage.
-        Assert.Equal(domain, SchemaUT.MonthDomain);
+        Assert.Equal(domain, SchemaUT.SupportedMonths);
     }
 }
 

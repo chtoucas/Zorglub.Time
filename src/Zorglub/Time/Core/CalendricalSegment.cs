@@ -35,7 +35,7 @@ namespace Zorglub.Time.Core
             MinMaxDateParts = OrderedPair.FromOrderedValues(start.DateParts, end.DateParts);
             MinMaxOrdinalParts = OrderedPair.FromOrderedValues(start.OrdinalParts, end.OrdinalParts);
 
-            MonthDomain = new MonthDomain(
+            SupportedMonths = new SupportedMonths(
                 Range.FromEndpoints(MinMaxDateParts.Select(CountMonthsSinceEpoch, CountMonthsSinceEpoch)));
             MinMaxMonthParts = OrderedPair.FromOrderedValues(start.MonthParts, end.MonthParts);
 
@@ -68,7 +68,7 @@ namespace Zorglub.Time.Core
         /// </summary>
         /// <returns>The range from the first month of the first supported year to the last month of
         /// the last supported year.</returns>
-        public MonthDomain MonthDomain { get; }
+        public SupportedMonths SupportedMonths { get; }
 
         /// <summary>
         /// Gets the pair of earliest and latest supported date parts.

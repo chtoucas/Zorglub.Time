@@ -312,7 +312,7 @@ public partial class ICalendricalArithmeticFacts<TDataSet> // Overflows
     [Fact]
     public void AddMonths﹍MonthParts_Overflows()
     {
-        var (minMonthsSinceEpoch, maxMonthsSinceEpoch) = Segment.MonthDomain.Range.Endpoints;
+        var (minMonthsSinceEpoch, maxMonthsSinceEpoch) = Segment.SupportedMonths.Range.Endpoints;
         var epoch = new MonthParts(1, 1);
         // Act & Assert
         Assert.Overflows(() => ArithmeticUT.AddMonths(epoch, minMonthsSinceEpoch - 1));

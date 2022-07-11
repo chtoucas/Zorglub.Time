@@ -12,15 +12,15 @@ namespace Zorglub.Time.Core.Domains
     /// consecutive months from the epoch.
     /// <para>This class cannot be inherited.</para>
     /// </summary>
-    public sealed class MonthDomain : IDomain<int>
+    public sealed class SupportedMonths : IDomain<int>
     {
         private readonly int _min;
         private readonly int _max;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="MonthDomain"/> class.
+        /// Initializes a new instance of the <see cref="SupportedMonths"/> class.
         /// </summary>
-        public MonthDomain(Range<int> range)
+        public SupportedMonths(Range<int> range)
         {
             Range = range;
             (_min, _max) = range.Endpoints;

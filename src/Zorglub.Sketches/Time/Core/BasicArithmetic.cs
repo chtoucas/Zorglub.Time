@@ -62,7 +62,7 @@ namespace Zorglub.Time.Core
         /// <summary>
         /// Gets the range of supported months.
         /// </summary>
-        private MonthDomain MonthDomain => Segment.MonthDomain;
+        private SupportedMonths SupportedMonths => Segment.SupportedMonths;
     }
 
     public partial class BasicArithmetic // Operations on DateParts
@@ -137,7 +137,7 @@ namespace Zorglub.Time.Core
         {
             var (y, m) = parts;
             int monthsSinceEpoch = checked(_schema.CountMonthsSinceEpoch(y, m) + months);
-            MonthDomain.Check(monthsSinceEpoch);
+            SupportedMonths.Check(monthsSinceEpoch);
 
             return _partsAdapter.GetMonthParts(monthsSinceEpoch);
         }
