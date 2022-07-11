@@ -4,7 +4,6 @@
 namespace Zorglub.Testing.Facts.Hemerology;
 
 using Zorglub.Testing.Data;
-using Zorglub.Time.Hemerology;
 using Zorglub.Time.Hemerology.Scopes;
 
 /// <summary>
