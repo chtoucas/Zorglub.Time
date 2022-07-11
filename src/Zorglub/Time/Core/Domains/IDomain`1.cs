@@ -3,6 +3,8 @@
 
 namespace Zorglub.Time.Core.Domains
 {
+    using Zorglub.Time.Core.Intervals;
+
     /// <summary>
     /// Defines helpers to check for overflows of a range.
     /// </summary>
@@ -10,6 +12,11 @@ namespace Zorglub.Time.Core.Domains
     internal interface IDomain<T>
         where T : struct, IEquatable<T>, IComparable<T>
     {
+        /// <summary>
+        /// Gets the range of supported numbers of consecutive days from the epoch.
+        /// </summary>
+        Range<int> Range { get; }
+
         /// <summary>
         /// Validates the specified value.
         /// </summary>
