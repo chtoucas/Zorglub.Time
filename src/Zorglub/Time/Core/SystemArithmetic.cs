@@ -88,12 +88,12 @@ namespace Zorglub.Time.Core
         /// <summary>
         /// Gets the range of supported days.
         /// </summary>
-        protected Range<int> Domain => Segment.Domain;
+        protected CalendricalDomain Domain => Segment.Domain;
 
         /// <summary>
         /// Gets the range of supported months.
         /// </summary>
-        protected Range<int> MonthDomain => Segment.MonthDomain;
+        protected MonthDomain MonthDomain => Segment.MonthDomain;
 
         /// <summary>
         /// Gets the range of supported years.

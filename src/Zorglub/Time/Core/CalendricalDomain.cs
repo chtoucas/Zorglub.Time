@@ -6,21 +6,14 @@ namespace Zorglub.Time.Core
     using Zorglub.Time.Core.Intervals;
 
     /// <summary>
-    /// Defines a range of days or months.
+    /// Represents a range of days, or more precisely the range of supported numbers of consecutive
+    /// days from the epoch.
+    /// <para>This class cannot be inherited.</para>
     /// </summary>
     public sealed class CalendricalDomain
     {
-        /// <summary>
-        /// Represents the lower value.
-        /// <para>This field is read-only.</para>
-        /// </summary>
-        private readonly int _lowerValue;
-
-        /// <summary>
-        /// Represents the upper value.
-        /// <para>This field is read-only.</para>
-        /// </summary>
-        private readonly int _upperValue;
+        private readonly int _min;
+        private readonly int _max;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CalendricalDomain"/> class.
@@ -28,59 +21,64 @@ namespace Zorglub.Time.Core
         public CalendricalDomain(Range<int> range)
         {
             Range = range;
-            (_lowerValue, _upperValue) = range.Endpoints;
+            (_min, _max) = range.Endpoints;
         }
 
         /// <summary>
-        /// Gets the range of supported values.
+        /// Gets the range of supported numbers of consecutive days from the epoch.
         /// </summary>
         public Range<int> Range { get; }
 
-        ///// <summary>
-        ///// Returns true if the current domain contains the specified value; otherwise returns false.
-        ///// </summary>
-        //[Pure]
-        //public bool Contains(int value) => _lowerValue <= value && value <= _upperValue;
+        /// <summary>
+        /// Returns a culture-independent string representation of the current instance.
+        /// </summary>
+        [Pure]
+        public override string ToString() => Range.ToString();
 
         /// <summary>
-        /// Validates the specified value.
+        /// Validates the specified number of consecutive days from the epoch.
         /// </summary>
         /// <exception cref="AoorException">The validation failed.</exception>
-        public void Validate(int value)
+        public void Validate(int daysSinceEpoch)
         {
-            if (value < _lowerValue || value > _upperValue) Throw.ArgumentOutOfRange(nameof(value));
+            if (daysSinceEpoch < _min || daysSinceEpoch > _max)
+            {
+                Throw.ArgumentOutOfRange(nameof(daysSinceEpoch));
+            }
         }
 
         /// <summary>
-        /// Checks whether the specified value is outside the range of supported values or not.
+        /// Checks whether the specified number of consecutive days from the epoch is outside the
+        /// range of supported values or not.
         /// </summary>
-        /// <exception cref="OverflowException">The value is outside the range of supported values.
+        /// <exception cref="OverflowException"><paramref name="daysSinceEpoch"/> is outside the
+        /// range of supported values.
         /// </exception>
-        public void CheckOverflow(int value)
+        public void CheckOverflow(int daysSinceEpoch)
         {
-            if (value < _lowerValue || value > _upperValue) Throw.DateOverflow();
+            if (daysSinceEpoch < _min || daysSinceEpoch > _max) Throw.DateOverflow();
         }
 
         /// <summary>
-        /// Checks whether the specified value is greater than the upper bound of the range of
-        /// supported values or not.
+        /// Checks whether the specified number of consecutive days from the epoch is greater than
+        /// the upper bound of the range of supported values or not.
         /// </summary>
-        /// <exception cref="OverflowException">The value is greater than the upper bound of the
-        /// range of supported values.</exception>
-        public void CheckUpperBound(int value)
+        /// <exception cref="OverflowException"><paramref name="daysSinceEpoch"/> is greater than
+        /// the upper bound of the range of supported values.</exception>
+        public void CheckUpperBound(int daysSinceEpoch)
         {
-            if (value > _upperValue) Throw.DateOverflow();
+            if (daysSinceEpoch > _max) Throw.DateOverflow();
         }
 
         /// <summary>
-        /// Checks whether the specified value is less than the lower bound of the range of
-        /// supported values or not.
+        /// Checks whether the specified number of consecutive days from the epoch is less than the
+        /// lower bound of the range of supported values or not.
         /// </summary>
-        /// <exception cref="OverflowException">The value is less than the lower bound of the range
-        /// of supported values.</exception>
-        public void CheckLowerBound(int value)
+        /// <exception cref="OverflowException"><paramref name="daysSinceEpoch"/> is less than the
+        /// lower bound of the range of supported values.</exception>
+        public void CheckLowerBound(int daysSinceEpoch)
         {
-            if (value < _lowerValue) Throw.DateOverflow();
+            if (daysSinceEpoch < _min) Throw.DateOverflow();
         }
     }
 }

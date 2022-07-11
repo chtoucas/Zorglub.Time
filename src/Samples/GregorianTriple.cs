@@ -47,7 +47,7 @@ public partial struct GregorianTriple
 {
     private static SystemArithmetic Arithmetic { get; } = SystemArithmetic.CreateDefault(Segment);
     private static PartsFactory PartsFactory { get; } = PartsFactory.Create(Schema);
-    private static Range<int> Domain => Segment.Domain;
+    private static CalendricalDomain Domain => Segment.Domain;
 
     private readonly Yemoda _bin;
 
@@ -110,8 +110,7 @@ public partial struct GregorianTriple // Conversions, adjustments...
     [Pure]
     public static GregorianTriple FromDaysSinceEpoch(int daysSinceEpoch)
     {
-        if (Domain.Contains(daysSinceEpoch) == false) throw new ArgumentOutOfRangeException(nameof(daysSinceEpoch));
-
+        Domain.Validate(daysSinceEpoch);
         var ymd = Schema.GetDateParts(daysSinceEpoch);
         return new GregorianTriple(ymd);
     }

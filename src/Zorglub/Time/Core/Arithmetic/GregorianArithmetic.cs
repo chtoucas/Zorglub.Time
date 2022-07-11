@@ -66,7 +66,7 @@ namespace Zorglub.Time.Core.Arithmetic
 
             // Slow track.
             int daysSinceEpoch = checked(GregorianFormulae.CountDaysSinceEpoch(y, m, d) + days);
-            if (Domain.Contains(daysSinceEpoch) == false) Throw.DateOverflow();
+            Domain.CheckOverflow(daysSinceEpoch);
 
             return GregorianFormulae.GetDateParts(daysSinceEpoch);
         }
@@ -162,7 +162,7 @@ namespace Zorglub.Time.Core.Arithmetic
 
             // Slow track.
             int daysSinceEpoch = checked(Schema.CountDaysSinceEpoch(y, doy) + days);
-            if (Domain.Contains(daysSinceEpoch) == false) Throw.DateOverflow();
+            Domain.CheckOverflow(daysSinceEpoch);
 
             return GregorianFormulae.GetOrdinalParts(daysSinceEpoch);
         }

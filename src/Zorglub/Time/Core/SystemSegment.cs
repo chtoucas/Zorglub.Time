@@ -27,11 +27,12 @@ namespace Zorglub.Time.Core
 
             SupportedYears = Range.Create(start.Year, end.Year);
 
-            Domain = Range.Create(start.DaysSinceEpoch, end.DaysSinceEpoch);
+            Domain = new CalendricalDomain(Range.Create(start.DaysSinceEpoch, end.DaysSinceEpoch));
             MinMaxDateParts = OrderedPair.FromOrderedValues(start.DateParts, end.DateParts);
             MinMaxOrdinalParts = OrderedPair.FromOrderedValues(start.OrdinalParts, end.OrdinalParts);
 
-            MonthDomain = Range.FromEndpoints(MinMaxDateParts.Select(CountMonthsSinceEpoch, CountMonthsSinceEpoch));
+            MonthDomain = new MonthDomain(
+                Range.FromEndpoints(MinMaxDateParts.Select(CountMonthsSinceEpoch, CountMonthsSinceEpoch)));
             MinMaxMonthParts = OrderedPair.FromOrderedValues(start.MonthParts, end.MonthParts);
 
             [Pure]
@@ -53,7 +54,7 @@ namespace Zorglub.Time.Core
         /// </summary>
         /// <returns>The range from the first day of the first supported year to the last day of the
         /// last supported year.</returns>
-        public Range<int> Domain { get; }
+        public CalendricalDomain Domain { get; }
 
         /// <summary>
         /// Gets the pair of earliest and latest supported date parts.
@@ -75,7 +76,7 @@ namespace Zorglub.Time.Core
         /// </summary>
         /// <returns>The range from the first month of the first supported year to the last month of
         /// the last supported year.</returns>
-        public Range<int> MonthDomain { get; }
+        public MonthDomain MonthDomain { get; }
 
         /// <summary>
         /// Gets the pair of earliest and latest supported month parts.
