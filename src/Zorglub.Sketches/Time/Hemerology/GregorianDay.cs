@@ -7,6 +7,8 @@ namespace Zorglub.Time.Hemerology
     using Zorglub.Time.Core.Schemas;
     using Zorglub.Time.Hemerology.Scopes;
 
+    using static Zorglub.Time.Core.Domains.RangeExtensions;
+
     public readonly partial struct GregorianDay :
         IDate<GregorianDay>,
         IYearEndpointsProvider<GregorianDay>,

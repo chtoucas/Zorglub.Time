@@ -53,6 +53,7 @@
     <Compile Include="Tests\Core\Intervals\LowerRayTests.fs" />
     <Compile Include="Tests\Core\Intervals\UpperRayTests.fs" />
     <Compile Include="Tests\Core\Intervals\IntervalTests.fs" />
+    <Compile Include="Tests\Core\Domains\RangeExtensionsTests.fs" />
     <Compile Include="Tests\Core\Schemas\GregorianFormulaeTests.fs" />
     <Compile Include="Tests\Core\Schemas\JulianFormulaeTests.fs" />
     <Compile Include="Tests\Core\Schemas\CalendricalSchemaTests.fs" />
@@ -80,7 +81,6 @@
     <Compile Include="Tests\Hemerology\Scopes\ProlepticScopeTests.fs" />
     <Compile Include="Tests\Hemerology\Scopes\StandardScopeTestSuite.fs" />
     <Compile Include="Tests\Hemerology\Scopes\ProlepticScopeTestSuite.fs" />
-    <Compile Include="Tests\Hemerology\RangeExtensionsTests.fs" />
     <Compile Include="Tests\Hemerology\CalendarEpochTests.fs" />
     <Compile Include="Tests\Hemerology\YearNumberingTests.fs" />
     <Compile Include="Tests\Hemerology\CivilDateTests.fs" />

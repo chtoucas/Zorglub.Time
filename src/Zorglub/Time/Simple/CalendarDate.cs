@@ -8,6 +8,8 @@ namespace Zorglub.Time.Simple
     using Zorglub.Time.Hemerology;
     using Zorglub.Time.Hemerology.Scopes;
 
+    using static Zorglub.Time.Core.Domains.RangeExtensions;
+
     // Le seul constructeur publique ne permet que la création de dates dans le
     // calendrier grégorien. Pour les autres, on suit le procédé plus naturel
     // qui consiste à d'abord choisir un calendrier pour ensuite créer une date.

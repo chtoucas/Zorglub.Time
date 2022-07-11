@@ -6,6 +6,8 @@ namespace Zorglub.Time.Hemerology
     using Zorglub.Time.Core;
     using Zorglub.Time.Hemerology.Scopes;
 
+    using static Zorglub.Time.Core.Domains.RangeExtensions;
+
     // REVIEW(code): l'absence d'un objet date dédié fait qu'on doit revalider
     // les données à chaque fois.
     // Add

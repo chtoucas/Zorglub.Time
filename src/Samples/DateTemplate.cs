@@ -17,6 +17,8 @@ using Zorglub.Time.Core.Schemas;
 using Zorglub.Time.Hemerology;
 using Zorglub.Time.Hemerology.Scopes;
 
+using static Zorglub.Time.Core.Domains.RangeExtensions;
+
 // Exploring the idea of a date type without a companion calendar type.
 // Pros:
 // - Faster, no Calendar lookup, we are also free to add any local

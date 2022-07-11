@@ -7,7 +7,7 @@ namespace Zorglub.Time.Core.Domains
     /// Defines helpers to check for overflows of a range.
     /// </summary>
     /// <typeparam name="T">The type of value to check for overflows.</typeparam>
-    public interface IDomain<T>
+    internal interface IDomain<T>
         where T : struct, IEquatable<T>, IComparable<T>
     {
         /// <summary>

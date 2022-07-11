@@ -38,6 +38,8 @@ namespace Zorglub.Time.Hemerology
     using Zorglub.Time.Core.Intervals;
     using Zorglub.Time.Core.Schemas;
 
+    using static Zorglub.Time.Core.Domains.RangeExtensions;
+
     // TODO(code): use CivilFormulae and use unsigned int.
 
     /// <summary>

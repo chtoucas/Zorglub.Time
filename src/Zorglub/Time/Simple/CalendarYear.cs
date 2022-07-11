@@ -23,6 +23,8 @@ namespace Zorglub.Time.Simple
     using Zorglub.Time.Hemerology;
     using Zorglub.Time.Hemerology.Scopes;
 
+    using static Zorglub.Time.Core.Domains.RangeExtensions;
+
     /// <summary>
     /// Represents a calendar year.
     /// <para><see cref="CalendarYear"/> is an immutable struct.</para>

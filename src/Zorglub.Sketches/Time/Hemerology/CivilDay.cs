@@ -7,6 +7,8 @@ namespace Zorglub.Time.Hemerology
     using Zorglub.Time.Core.Schemas;
     using Zorglub.Time.Hemerology.Scopes;
 
+    using static Zorglub.Time.Core.Domains.RangeExtensions;
+
     // TODO(api): advanced math, we must finish CalendricalMath first.
 
     public readonly partial struct CivilDay :

@@ -7,6 +7,8 @@ namespace Zorglub.Time.Simple
     using Zorglub.Time.Hemerology;
     using Zorglub.Time.Hemerology.Scopes;
 
+    using static Zorglub.Time.Core.Domains.RangeExtensions;
+
     /// <summary>
     /// Represents a calendar day, that is a date within a calendar system.
     /// <para><see cref="CalendarDay"/> is an immutable struct.</para>

@@ -8,6 +8,8 @@ namespace Zorglub.Time.Simple
     using Zorglub.Time.Hemerology;
     using Zorglub.Time.Hemerology.Scopes;
 
+    using static Zorglub.Time.Core.Domains.RangeExtensions;
+
     /// <summary>
     /// Represents an ordinal date.
     /// <para><see cref="OrdinalDate"/> is an immutable struct.</para>
