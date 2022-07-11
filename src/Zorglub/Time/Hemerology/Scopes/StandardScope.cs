@@ -46,7 +46,10 @@ namespace Zorglub.Time.Hemerology.Scopes
             : base(epoch, CalendricalSegment.Create(schema, s_SupportedYears))
         {
             Debug.Assert(schema != null);
-            if (s_SupportedYears.IsSubsetOf(schema.SupportedYears) == false) Throw.Argument(nameof(schema));
+            if (s_SupportedYears.IsSubsetOf(schema.SupportedYears) == false)
+            {
+                Throw.Argument(nameof(schema));
+            }
         }
 
         /// <summary>
@@ -59,8 +62,7 @@ namespace Zorglub.Time.Hemerology.Scopes
         /// Gets the checker for overflows of the range of supported values for the number of
         /// consecutive days since the epoch.
         /// </summary>
-        internal IOverflowChecker<int> DaysSinceEpochOverflowChecker =>
-            new OverflowChecker(Segment.Domain);
+        internal OverflowChecker DaysSinceEpochOverflowChecker => new(Segment.Domain);
 
         /// <inheritdoc />
         public sealed override void ValidateYearMonth(int year, int month, string? paramName = null)

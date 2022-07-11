@@ -347,7 +347,7 @@ namespace Zorglub.Time.Simple
         /// Gets the checker for overflows of the range of supported values for the number of
         /// consecutive days since the epoch.
         /// </summary>
-        internal IOverflowChecker<int> DaysSinceEpochOverflowChecker { get; }
+        internal OverflowChecker DaysSinceEpochOverflowChecker { get; }
 
         /// <summary>
         /// Returns a culture-independent string representation of this calendar.
