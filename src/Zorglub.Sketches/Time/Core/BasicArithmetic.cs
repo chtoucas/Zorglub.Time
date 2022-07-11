@@ -56,12 +56,12 @@ namespace Zorglub.Time.Core
         /// <summary>
         /// Gets the range of supported days.
         /// </summary>
-        private Range<int> Domain => Segment.Domain;
+        private AffineDomain AffineDomain => Segment.AffineDomain;
 
         /// <summary>
         /// Gets the range of supported months.
         /// </summary>
-        private Range<int> MonthDomain => Segment.MonthDomain;
+        private MonthDomain MonthDomain => Segment.MonthDomain;
     }
 
     public partial class BasicArithmetic // Operations on DateParts
@@ -72,8 +72,7 @@ namespace Zorglub.Time.Core
         {
             var (y, m, d) = parts;
             int daysSinceEpoch = checked(_schema.CountDaysSinceEpoch(y, m, d) + days);
-
-            if (Domain.Contains(daysSinceEpoch) == false) Throw.DateOverflow();
+            AffineDomain.Check(daysSinceEpoch);
 
             return _partsAdapter.GetDateParts(daysSinceEpoch);
         }
@@ -105,8 +104,7 @@ namespace Zorglub.Time.Core
         {
             var (y, doy) = parts;
             int daysSinceEpoch = checked(_schema.CountDaysSinceEpoch(y, doy) + days);
-
-            if (Domain.Contains(daysSinceEpoch) == false) Throw.DateOverflow();
+            AffineDomain.Check(daysSinceEpoch);
 
             return _partsAdapter.GetOrdinalParts(daysSinceEpoch);
         }
@@ -138,8 +136,7 @@ namespace Zorglub.Time.Core
         {
             var (y, m) = parts;
             int monthsSinceEpoch = checked(_schema.CountMonthsSinceEpoch(y, m) + months);
-
-            if (MonthDomain.Contains(monthsSinceEpoch) == false) Throw.MonthOverflow();
+            MonthDomain.Check(monthsSinceEpoch);
 
             return _partsAdapter.GetMonthParts(monthsSinceEpoch);
         }

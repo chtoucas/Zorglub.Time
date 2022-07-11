@@ -37,7 +37,7 @@ namespace Zorglub.Time.Hemerology.Scopes
             _schema = segment.Schema;
 
             Epoch = epoch;
-            Domain = Range.FromEndpoints(segment.Domain.Endpoints.Select(x => epoch + x));
+            Domain = segment.AffineDomain.ToDomain(epoch);
         }
 
         /// <summary>

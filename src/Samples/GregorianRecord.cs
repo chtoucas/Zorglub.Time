@@ -38,7 +38,7 @@ public readonly partial record struct GregorianRecord
     private static ICalendricalArithmetic Arithmetic { get; } = ICalendricalArithmetic.CreateDefault(Schema, Segment.SupportedYears);
     private static PartsAdapter PartsAdapter { get; } = new(Schema);
     private static ICalendricalPreValidator PreValidator => Schema.PreValidator;
-    private static Range<int> Domain => Segment.Domain;
+    private static AffineDomain AffineDomain => Segment.AffineDomain;
 
     public GregorianRecord(int year, int month, int day)
     {
@@ -81,8 +81,7 @@ public partial record struct GregorianRecord // Conversions, adjustments...
     [Pure]
     public static GregorianRecord FromDaysSinceEpoch(int daysSinceEpoch)
     {
-        if (Domain.Contains(daysSinceEpoch) == false) throw new ArgumentOutOfRangeException(nameof(daysSinceEpoch));
-
+        AffineDomain.Validate(daysSinceEpoch);
         var parts = PartsAdapter.GetDateParts(daysSinceEpoch);
         return new GregorianRecord(parts);
     }

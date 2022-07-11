@@ -58,12 +58,6 @@ namespace Zorglub.Time.Hemerology.Scopes
         internal static IOverflowChecker<int> YearOverflowChecker { get; } =
             new YearOverflowChecker_();
 
-        /// <summary>
-        /// Gets the checker for overflows of the range of supported values for the number of
-        /// consecutive days since the epoch.
-        /// </summary>
-        internal OverflowChecker DaysSinceEpochOverflowChecker => new(Segment.Domain);
-
         /// <inheritdoc />
         public sealed override void ValidateYearMonth(int year, int month, string? paramName = null)
         {

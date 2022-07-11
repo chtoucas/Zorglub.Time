@@ -27,7 +27,7 @@ namespace Zorglub.Time.Core
 
             SupportedYears = Range.Create(start.Year, end.Year);
 
-            Domain = new CalendricalDomain(Range.Create(start.DaysSinceEpoch, end.DaysSinceEpoch));
+            AffineDomain = new AffineDomain(Range.Create(start.DaysSinceEpoch, end.DaysSinceEpoch));
             MinMaxDateParts = OrderedPair.FromOrderedValues(start.DateParts, end.DateParts);
             MinMaxOrdinalParts = OrderedPair.FromOrderedValues(start.OrdinalParts, end.OrdinalParts);
 
@@ -54,7 +54,7 @@ namespace Zorglub.Time.Core
         /// </summary>
         /// <returns>The range from the first day of the first supported year to the last day of the
         /// last supported year.</returns>
-        public CalendricalDomain Domain { get; }
+        public AffineDomain AffineDomain { get; }
 
         /// <summary>
         /// Gets the pair of earliest and latest supported date parts.

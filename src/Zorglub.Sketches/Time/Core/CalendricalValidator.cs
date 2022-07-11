@@ -31,16 +31,16 @@ namespace Zorglub.Time.Core
             _preValidator = schema.PreValidator;
 
             SupportedYears = supportedYears;
-            Domain = seg.Domain;
+            AffineDomain = seg.AffineDomain;
             MonthDomain = seg.MonthDomain;
         }
 
         /// <inheritdoc />
         public Range<int> SupportedYears { get; }
 
-        public Range<int> Domain { get; }
+        public AffineDomain AffineDomain { get; }
 
-        public Range<int> MonthDomain { get; }
+        public MonthDomain MonthDomain { get; }
 
         /// <inheritdoc />
         public void ValidateYear(int year, string? paramName = null)
@@ -67,30 +67,6 @@ namespace Zorglub.Time.Core
         {
             if (SupportedYears.Contains(year) == false) Throw.YearOutOfRange(year, paramName);
             _preValidator.ValidateDayOfYear(year, dayOfYear, paramName);
-        }
-
-        /// <summary>
-        /// Validates the specified number of consecutive months from the epoch.
-        /// </summary>
-        /// <exception cref="AoorException">The validation failed.</exception>
-        public void ValidateMonthsSinceEpoch(int monthsSinceEpoch)
-        {
-            if (MonthDomain.Contains(monthsSinceEpoch) == false)
-            {
-                Throw.ArgumentOutOfRange(nameof(monthsSinceEpoch));
-            }
-        }
-
-        /// <summary>
-        /// Validates the specified number of consecutive days from the epoch.
-        /// </summary>
-        /// <exception cref="AoorException">The validation failed.</exception>
-        public void ValidateDaysSinceEpoch(int daysSinceEpoch)
-        {
-            if (Domain.Contains(daysSinceEpoch) == false)
-            {
-                Throw.ArgumentOutOfRange(nameof(daysSinceEpoch));
-            }
         }
     }
 }

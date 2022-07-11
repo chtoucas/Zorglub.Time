@@ -631,7 +631,7 @@ namespace Zorglub.Time.Simple
         {
             int daysSinceEpoch = checked(DaysSinceEpoch + days);
             ref readonly var chr = ref CalendarRef;
-            chr.DaysSinceEpochOverflowChecker.Check(daysSinceEpoch);
+            chr.AffineDomain.Check(daysSinceEpoch);
             return new CalendarDay(daysSinceEpoch, Cuid);
         }
 
@@ -641,7 +641,7 @@ namespace Zorglub.Time.Simple
         {
             ref readonly var chr = ref CalendarRef;
             int daysSinceEpoch = DaysSinceEpoch + 1;
-            chr.DaysSinceEpochOverflowChecker.CheckUpperBound(daysSinceEpoch);
+            chr.AffineDomain.CheckUpperBound(daysSinceEpoch);
             return new CalendarDay(daysSinceEpoch, Cuid);
         }
 
@@ -651,7 +651,7 @@ namespace Zorglub.Time.Simple
         {
             ref readonly var chr = ref CalendarRef;
             int daysSinceEpoch = DaysSinceEpoch - 1;
-            chr.DaysSinceEpochOverflowChecker.CheckLowerBound(daysSinceEpoch);
+            chr.AffineDomain.CheckLowerBound(daysSinceEpoch);
             return new CalendarDay(daysSinceEpoch, Cuid);
         }
     }

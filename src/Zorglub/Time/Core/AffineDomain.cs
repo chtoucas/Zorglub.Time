@@ -10,15 +10,15 @@ namespace Zorglub.Time.Core
     /// days from the epoch.
     /// <para>This class cannot be inherited.</para>
     /// </summary>
-    public sealed class CalendricalDomain
+    public sealed class AffineDomain
     {
         private readonly int _min;
         private readonly int _max;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="CalendricalDomain"/> class.
+        /// Initializes a new instance of the <see cref="AffineDomain"/> class.
         /// </summary>
-        public CalendricalDomain(Range<int> range)
+        public AffineDomain(Range<int> range)
         {
             Range = range;
             (_min, _max) = range.Endpoints;
@@ -34,6 +34,13 @@ namespace Zorglub.Time.Core
         /// </summary>
         [Pure]
         public override string ToString() => Range.ToString();
+
+        /// <summary>
+        /// Converts the current instance to a domain, a range of day numbers.
+        /// </summary>
+        [Pure]
+        public Range<DayNumber> ToDomain(DayNumber epoch) =>
+            Intervals.Range.FromEndpoints(Range.Endpoints.Select(x => epoch + x));
 
         /// <summary>
         /// Validates the specified number of consecutive days from the epoch.

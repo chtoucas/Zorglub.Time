@@ -113,10 +113,10 @@ namespace Zorglub.Time.Core
                 _validator.ValidateOrdinal(y, doy);
 
             protected override void ValidateMonthsSinceEpoch(int monthsSinceEpoch) =>
-                _validator.ValidateMonthsSinceEpoch(monthsSinceEpoch);
+                _validator.MonthDomain.Validate(monthsSinceEpoch);
 
             protected override void ValidateDaysSinceEpoch(int daysSinceEpoch) =>
-                _validator.ValidateDaysSinceEpoch(daysSinceEpoch);
+                _validator.AffineDomain.Validate(daysSinceEpoch);
         }
     }
 

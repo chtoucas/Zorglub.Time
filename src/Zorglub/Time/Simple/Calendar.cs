@@ -136,14 +136,12 @@ namespace Zorglub.Time.Simple
             {
                 var scope = new ProlepticScope(schema, epoch);
                 Scope = scope;
-                DaysSinceEpochOverflowChecker = scope.DaysSinceEpochOverflowChecker;
                 YearOverflowChecker = ProlepticScope.YearOverflowChecker;
             }
             else
             {
                 var scope = new StandardScope(schema, epoch);
                 Scope = scope;
-                DaysSinceEpochOverflowChecker = scope.DaysSinceEpochOverflowChecker;
                 YearOverflowChecker = StandardScope.YearOverflowChecker;
             }
 
@@ -347,7 +345,7 @@ namespace Zorglub.Time.Simple
         /// Gets the checker for overflows of the range of supported values for the number of
         /// consecutive days since the epoch.
         /// </summary>
-        internal OverflowChecker DaysSinceEpochOverflowChecker { get; }
+        internal AffineDomain AffineDomain => SystemSegment.AffineDomain;
 
         /// <summary>
         /// Returns a culture-independent string representation of this calendar.
