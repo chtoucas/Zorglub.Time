@@ -18,7 +18,7 @@ namespace Zorglub.Time.Core.Domains
         private readonly int _max;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="AffineDomain"/> class.
+        /// Initializes a new instance of the <see cref="SupportedDays"/> class.
         /// </summary>
         public SupportedYears(Range<int> range)
         {

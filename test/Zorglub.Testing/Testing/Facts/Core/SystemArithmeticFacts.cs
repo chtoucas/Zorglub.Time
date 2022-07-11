@@ -230,7 +230,7 @@ public partial class SystemArithmeticFacts<TDataSet> // Overflows
     [Fact]
     public void AddDays﹍Yemoda_Overflows()
     {
-        var (minDaysSinceEpoch, maxDaysSinceEpoch) = Segment.AffineDomain.Range.Endpoints;
+        var (minDaysSinceEpoch, maxDaysSinceEpoch) = Segment.SupportedDays.Range.Endpoints;
         var epoch = new Yemoda(1, 1, 1);
         // Act & Assert
         Assert.Overflows(() => ArithmeticUT.AddDays(epoch, minDaysSinceEpoch - 1));
@@ -262,7 +262,7 @@ public partial class SystemArithmeticFacts<TDataSet> // Overflows
     [Fact]
     public void AddDays﹍Yedoy_Overflows()
     {
-        var (minDaysSinceEpoch, maxDaysSinceEpoch) = Segment.AffineDomain.Range.Endpoints;
+        var (minDaysSinceEpoch, maxDaysSinceEpoch) = Segment.SupportedDays.Range.Endpoints;
         var epoch = new Yedoy(1, 1);
         // Act & Assert
         Assert.Overflows(() => ArithmeticUT.AddDays(epoch, minDaysSinceEpoch - 1));

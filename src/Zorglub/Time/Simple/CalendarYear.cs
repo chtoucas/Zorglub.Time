@@ -23,7 +23,7 @@ namespace Zorglub.Time.Simple
     using Zorglub.Time.Hemerology;
     using Zorglub.Time.Hemerology.Scopes;
 
-    using static Zorglub.Time.Core.Domains.RangeExtensions;
+    using static Zorglub.Time.Core.Domains.DomainExtensions;
 
     /// <summary>
     /// Represents a calendar year.

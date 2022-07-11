@@ -6,10 +6,11 @@ namespace Zorglub.Time.Core.Domains
     using Zorglub.Time.Core.Intervals;
 
     /// <summary>
-    /// Provides extension methods for <see cref="Range{T}"/>.
+    /// Provides extension methods for <see cref="Range{T}"/> where <c>T</c> is a
+    /// <see cref="DayNumber"/>.
     /// <para>This class cannot be inherited.</para>
     /// </summary>
-    public static class RangeExtensions
+    public static class DomainExtensions
     {
         /// <summary>
         /// Validates the specified <see cref="DayNumber"/> value.

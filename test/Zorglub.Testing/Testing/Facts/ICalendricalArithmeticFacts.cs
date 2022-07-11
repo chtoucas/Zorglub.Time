@@ -248,7 +248,7 @@ public partial class ICalendricalArithmeticFacts<TDataSet> // Overflows
     [Fact]
     public void AddDays﹍DateParts_Overflows()
     {
-        var (minDaysSinceEpoch, maxDaysSinceEpoch) = Segment.AffineDomain.Range.Endpoints;
+        var (minDaysSinceEpoch, maxDaysSinceEpoch) = Segment.SupportedDays.Range.Endpoints;
         var epoch = new DateParts(1, 1, 1);
         // Act & Assert
         Assert.Overflows(() => ArithmeticUT.AddDays(epoch, minDaysSinceEpoch - 1));
@@ -280,7 +280,7 @@ public partial class ICalendricalArithmeticFacts<TDataSet> // Overflows
     [Fact]
     public void AddDays﹍OrdinalParts_Overflows()
     {
-        var (minDaysSinceEpoch, maxDaysSinceEpoch) = Segment.AffineDomain.Range.Endpoints;
+        var (minDaysSinceEpoch, maxDaysSinceEpoch) = Segment.SupportedDays.Range.Endpoints;
         var epoch = new OrdinalParts(1, 1);
         // Act & Assert
         Assert.Overflows(() => ArithmeticUT.AddDays(epoch, minDaysSinceEpoch - 1));

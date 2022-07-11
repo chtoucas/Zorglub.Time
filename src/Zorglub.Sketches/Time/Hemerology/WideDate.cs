@@ -6,7 +6,7 @@ namespace Zorglub.Time.Hemerology
     using Zorglub.Time.Core;
     using Zorglub.Time.Core.Schemas;
 
-    using static Zorglub.Time.Core.Domains.RangeExtensions;
+    using static Zorglub.Time.Core.Domains.DomainExtensions;
 
     // TODO(code): ordinal ctor, serialization, adjustments, non-standard arithmetic.
 

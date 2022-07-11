@@ -57,7 +57,7 @@ namespace Zorglub.Time.Core
         /// <summary>
         /// Gets the range of supported days.
         /// </summary>
-        private AffineDomain AffineDomain => Segment.AffineDomain;
+        private SupportedDays SupportedDays => Segment.SupportedDays;
 
         /// <summary>
         /// Gets the range of supported months.
@@ -73,7 +73,7 @@ namespace Zorglub.Time.Core
         {
             var (y, m, d) = parts;
             int daysSinceEpoch = checked(_schema.CountDaysSinceEpoch(y, m, d) + days);
-            AffineDomain.Check(daysSinceEpoch);
+            SupportedDays.Check(daysSinceEpoch);
 
             return _partsAdapter.GetDateParts(daysSinceEpoch);
         }
@@ -105,7 +105,7 @@ namespace Zorglub.Time.Core
         {
             var (y, doy) = parts;
             int daysSinceEpoch = checked(_schema.CountDaysSinceEpoch(y, doy) + days);
-            AffineDomain.Check(daysSinceEpoch);
+            SupportedDays.Check(daysSinceEpoch);
 
             return _partsAdapter.GetOrdinalParts(daysSinceEpoch);
         }

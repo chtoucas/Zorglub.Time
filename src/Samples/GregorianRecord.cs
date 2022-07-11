@@ -39,7 +39,7 @@ public readonly partial record struct GregorianRecord
     private static ICalendricalArithmetic Arithmetic { get; } = ICalendricalArithmetic.CreateDefault(Schema, Segment.SupportedYears);
     private static PartsAdapter PartsAdapter { get; } = new(Schema);
     private static ICalendricalPreValidator PreValidator => Schema.PreValidator;
-    private static AffineDomain AffineDomain => Segment.AffineDomain;
+    private static SupportedDays SupportedDays => Segment.SupportedDays;
 
     public GregorianRecord(int year, int month, int day)
     {
@@ -82,7 +82,7 @@ public partial record struct GregorianRecord // Conversions, adjustments...
     [Pure]
     public static GregorianRecord FromDaysSinceEpoch(int daysSinceEpoch)
     {
-        AffineDomain.Validate(daysSinceEpoch);
+        SupportedDays.Validate(daysSinceEpoch);
         var parts = PartsAdapter.GetDateParts(daysSinceEpoch);
         return new GregorianRecord(parts);
     }

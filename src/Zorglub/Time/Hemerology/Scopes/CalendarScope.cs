@@ -38,7 +38,7 @@ namespace Zorglub.Time.Hemerology.Scopes
 
             Epoch = epoch;
             SupportedYears = segment.SupportedYears;
-            Domain = segment.AffineDomain.ToDomain(epoch);
+            Domain = segment.SupportedDays.ToDomain(epoch);
         }
 
         /// <summary>

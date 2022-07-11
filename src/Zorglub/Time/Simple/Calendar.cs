@@ -346,7 +346,7 @@ namespace Zorglub.Time.Simple
         /// Gets the checker for overflows of the range of supported values for the number of
         /// consecutive days since the epoch.
         /// </summary>
-        internal AffineDomain AffineDomain => SystemSegment.AffineDomain;
+        internal SupportedDays SupportedDays => SystemSegment.SupportedDays;
 
         /// <summary>
         /// Returns a culture-independent string representation of this calendar.

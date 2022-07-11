@@ -53,7 +53,7 @@
     <Compile Include="Tests\Core\Intervals\LowerRayTests.fs" />
     <Compile Include="Tests\Core\Intervals\UpperRayTests.fs" />
     <Compile Include="Tests\Core\Intervals\IntervalTests.fs" />
-    <Compile Include="Tests\Core\Domains\RangeExtensionsTests.fs" />
+    <Compile Include="Tests\Core\Domains\DomainExtensionsTests.fs" />
     <Compile Include="Tests\Core\Schemas\GregorianFormulaeTests.fs" />
     <Compile Include="Tests\Core\Schemas\JulianFormulaeTests.fs" />
     <Compile Include="Tests\Core\Schemas\CalendricalSchemaTests.fs" />

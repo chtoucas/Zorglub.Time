@@ -89,7 +89,7 @@ namespace Zorglub.Time.Core
         /// <summary>
         /// Gets the range of supported days.
         /// </summary>
-        protected AffineDomain AffineDomain => Segment.AffineDomain;
+        protected SupportedDays SupportedDays => Segment.SupportedDays;
 
         /// <summary>
         /// Gets the range of supported months.

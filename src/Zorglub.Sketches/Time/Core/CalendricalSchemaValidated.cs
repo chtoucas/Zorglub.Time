@@ -116,7 +116,7 @@ namespace Zorglub.Time.Core
                 _validator.Segment.SupportedMonths.Validate(monthsSinceEpoch);
 
             protected override void ValidateDaysSinceEpoch(int daysSinceEpoch) =>
-                _validator.Segment.AffineDomain.Validate(daysSinceEpoch);
+                _validator.Segment.SupportedDays.Validate(daysSinceEpoch);
         }
     }
 

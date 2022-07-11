@@ -11,7 +11,7 @@ namespace Zorglub.Time.Hemerology
     using Zorglub.Time.Hemerology.Scopes;
 
     using static Zorglub.Time.Core.CalendricalConstants;
-    using static Zorglub.Time.Core.Domains.RangeExtensions;
+    using static Zorglub.Time.Core.Domains.DomainExtensions;
 
     // REVIEW(api): prop Name (get and init) with default value = Key.
     // Instead of a maximal range of days, use a custom range of days? Hum,

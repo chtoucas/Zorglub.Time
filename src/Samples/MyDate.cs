@@ -14,7 +14,7 @@ using Zorglub.Time.Core.Schemas;
 using Zorglub.Time.Hemerology;
 using Zorglub.Time.Hemerology.Scopes;
 
-using static Zorglub.Time.Core.Domains.RangeExtensions;
+using static Zorglub.Time.Core.Domains.DomainExtensions;
 
 // Verification that one can create a date type without having access to
 // the internals of the assembly Zorglub.

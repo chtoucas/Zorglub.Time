@@ -12,15 +12,15 @@ namespace Zorglub.Time.Core.Domains
     /// days from the epoch.
     /// <para>This class cannot be inherited.</para>
     /// </summary>
-    public sealed class AffineDomain : IDomain<int>
+    public sealed class SupportedDays : IDomain<int>
     {
         private readonly int _min;
         private readonly int _max;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="AffineDomain"/> class.
+        /// Initializes a new instance of the <see cref="SupportedDays"/> class.
         /// </summary>
-        public AffineDomain(Range<int> range)
+        public SupportedDays(Range<int> range)
         {
             Range = range;
             (_min, _max) = range.Endpoints;

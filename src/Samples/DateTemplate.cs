@@ -17,7 +17,7 @@ using Zorglub.Time.Core.Schemas;
 using Zorglub.Time.Hemerology;
 using Zorglub.Time.Hemerology.Scopes;
 
-using static Zorglub.Time.Core.Domains.RangeExtensions;
+using static Zorglub.Time.Core.Domains.DomainExtensions;
 
 // Exploring the idea of a date type without a companion calendar type.
 // Pros:

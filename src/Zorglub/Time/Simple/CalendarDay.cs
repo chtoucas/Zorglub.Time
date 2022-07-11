@@ -7,7 +7,7 @@ namespace Zorglub.Time.Simple
     using Zorglub.Time.Hemerology;
     using Zorglub.Time.Hemerology.Scopes;
 
-    using static Zorglub.Time.Core.Domains.RangeExtensions;
+    using static Zorglub.Time.Core.Domains.DomainExtensions;
 
     /// <summary>
     /// Represents a calendar day, that is a date within a calendar system.
@@ -633,7 +633,7 @@ namespace Zorglub.Time.Simple
         {
             int daysSinceEpoch = checked(DaysSinceEpoch + days);
             ref readonly var chr = ref CalendarRef;
-            chr.AffineDomain.Check(daysSinceEpoch);
+            chr.SupportedDays.Check(daysSinceEpoch);
             return new CalendarDay(daysSinceEpoch, Cuid);
         }
 
@@ -643,7 +643,7 @@ namespace Zorglub.Time.Simple
         {
             ref readonly var chr = ref CalendarRef;
             int daysSinceEpoch = DaysSinceEpoch + 1;
-            chr.AffineDomain.CheckUpperBound(daysSinceEpoch);
+            chr.SupportedDays.CheckUpperBound(daysSinceEpoch);
             return new CalendarDay(daysSinceEpoch, Cuid);
         }
 
@@ -653,7 +653,7 @@ namespace Zorglub.Time.Simple
         {
             ref readonly var chr = ref CalendarRef;
             int daysSinceEpoch = DaysSinceEpoch - 1;
-            chr.AffineDomain.CheckLowerBound(daysSinceEpoch);
+            chr.SupportedDays.CheckLowerBound(daysSinceEpoch);
             return new CalendarDay(daysSinceEpoch, Cuid);
         }
     }

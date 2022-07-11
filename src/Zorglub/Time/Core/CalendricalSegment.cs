@@ -31,7 +31,7 @@ namespace Zorglub.Time.Core
 
             _schema = schema;
 
-            AffineDomain = new AffineDomain(Range.Create(start.DaysSinceEpoch, end.DaysSinceEpoch));
+            SupportedDays = new SupportedDays(Range.Create(start.DaysSinceEpoch, end.DaysSinceEpoch));
             MinMaxDateParts = OrderedPair.FromOrderedValues(start.DateParts, end.DateParts);
             MinMaxOrdinalParts = OrderedPair.FromOrderedValues(start.OrdinalParts, end.OrdinalParts);
 
@@ -50,17 +50,12 @@ namespace Zorglub.Time.Core
         }
 
         /// <summary>
-        /// Gets the range of supported years.
-        /// </summary>
-        public Range<int> SupportedYears { get; }
-
-        /// <summary>
         /// Gets the range of supported days, or more precisely the range of supported numbers of
         /// consecutive days from the epoch.
         /// </summary>
         /// <returns>The range from the first day of the first supported year to the last day of the
         /// last supported year.</returns>
-        public AffineDomain AffineDomain { get; }
+        public SupportedDays SupportedDays { get; }
 
         /// <summary>
         /// Gets the range of supported months, or more precisely the range of supported numbers of
@@ -69,6 +64,11 @@ namespace Zorglub.Time.Core
         /// <returns>The range from the first month of the first supported year to the last month of
         /// the last supported year.</returns>
         public SupportedMonths SupportedMonths { get; }
+
+        /// <summary>
+        /// Gets the range of supported years.
+        /// </summary>
+        public Range<int> SupportedYears { get; }
 
         /// <summary>
         /// Gets the pair of earliest and latest supported date parts.
