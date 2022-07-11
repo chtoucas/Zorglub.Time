@@ -3,6 +3,7 @@
 
 namespace Zorglub.Time.Core
 {
+    using Zorglub.Time.Core.Domains;
     using Zorglub.Time.Core.Intervals;
 
     /// <summary>

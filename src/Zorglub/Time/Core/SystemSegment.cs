@@ -3,6 +3,7 @@
 
 namespace Zorglub.Time.Core
 {
+    using Zorglub.Time.Core.Domains;
     using Zorglub.Time.Core.Intervals;
 
     /// <summary>
@@ -23,7 +24,7 @@ namespace Zorglub.Time.Core
 
             Schema = schema;
 
-            SupportedYears = Range.Create(start.Year, end.Year);
+            SupportedYears = new SupportedYears(Range.Create(start.Year, end.Year));
 
             AffineDomain = new AffineDomain(Range.Create(start.DaysSinceEpoch, end.DaysSinceEpoch));
             MinMaxDateParts = OrderedPair.FromOrderedValues(start.DateParts, end.DateParts);
@@ -44,7 +45,7 @@ namespace Zorglub.Time.Core
         /// <summary>
         /// Gets the range of supported years.
         /// </summary>
-        public Range<int> SupportedYears { get; }
+        public SupportedYears SupportedYears { get; }
 
         /// <summary>
         /// Gets the range of supported days, or more precisely the range of supported numbers of

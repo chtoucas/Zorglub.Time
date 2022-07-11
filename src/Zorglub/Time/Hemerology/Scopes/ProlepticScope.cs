@@ -4,6 +4,7 @@
 namespace Zorglub.Time.Hemerology.Scopes
 {
     using Zorglub.Time.Core;
+    using Zorglub.Time.Core.Domains;
     using Zorglub.Time.Core.Intervals;
 
     /// <summary>
@@ -54,9 +55,9 @@ namespace Zorglub.Time.Hemerology.Scopes
 
         /// <summary>
         /// Gets the checker for overflows of the range of years.
+        /// <para>This static property is thread-safe.</para>
         /// </summary>
-        internal static IOverflowChecker<int> YearOverflowChecker { get; } =
-            new YearOverflowChecker_();
+        internal static IDomain<int> YearDomain { get; } = new YearDomain_();
 
         /// <inheritdoc />
         public sealed override void ValidateYearMonth(int year, int month, string? paramName = null)
@@ -79,8 +80,13 @@ namespace Zorglub.Time.Hemerology.Scopes
             PreValidator.ValidateDayOfYear(year, dayOfYear, paramName);
         }
 
-        private sealed class YearOverflowChecker_ : IOverflowChecker<int>
+        private sealed class YearDomain_ : IDomain<int>
         {
+            public void Validate(int year)
+            {
+                if (year < MinYear || year > MaxYear) Throw.ArgumentOutOfRange(nameof(year));
+            }
+
             public void Check(int year)
             {
                 if (year < MinYear || year > MaxYear) Throw.DateOverflow();

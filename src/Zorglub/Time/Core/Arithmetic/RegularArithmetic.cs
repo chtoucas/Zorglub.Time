@@ -239,8 +239,7 @@ namespace Zorglub.Time.Core.Arithmetic
 
             m = 1 + MathZ.Modulo(checked(m - 1 + months), MonthsInYear, out int y0);
             y += y0;
-
-            if (SupportedYears.Contains(y) == false) Throw.MonthOverflow();
+            SupportedYears.CheckForMonth(y);
 
             return new Yemo(y, m);
         }
@@ -265,8 +264,7 @@ namespace Zorglub.Time.Core.Arithmetic
             ymd.Unpack(out int y, out int m, out int d);
 
             y = checked(y + years);
-
-            if (SupportedYears.Contains(y) == false) Throw.DateOverflow();
+            SupportedYears.Check(y);
 
             int daysInMonth = Schema.CountDaysInMonth(y, m);
             roundoff = Math.Max(0, d - daysInMonth);
@@ -283,8 +281,7 @@ namespace Zorglub.Time.Core.Arithmetic
             // On retranche 1 à "m" pour le rendre algébrique.
             m = 1 + MathZ.Modulo(checked(m - 1 + months), MonthsInYear, out int y0);
             y += y0;
-
-            if (SupportedYears.Contains(y) == false) Throw.DateOverflow();
+            SupportedYears.Check(y);
 
             int daysInMonth = Schema.CountDaysInMonth(y, m);
             roundoff = Math.Max(0, d - daysInMonth);
@@ -298,8 +295,7 @@ namespace Zorglub.Time.Core.Arithmetic
             ydoy.Unpack(out int y, out int doy);
 
             y = checked(y + years);
-
-            if (SupportedYears.Contains(y) == false) Throw.DateOverflow();
+            SupportedYears.Check(y);
 
             int daysInYear = Schema.CountDaysInYear(y);
             roundoff = Math.Max(0, doy - daysInYear);
@@ -313,8 +309,7 @@ namespace Zorglub.Time.Core.Arithmetic
             ym.Unpack(out int y, out int m);
 
             y = checked(y + years);
-
-            if (SupportedYears.Contains(y) == false) Throw.MonthOverflow();
+            SupportedYears.CheckForMonth(y);
 
             roundoff = 0;
             return new Yemo(y, m);

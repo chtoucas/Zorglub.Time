@@ -728,7 +728,7 @@ namespace Zorglub.Time.Simple
         {
             int y = checked(Year + years);
             ref readonly var chr = ref CalendarRef;
-            chr.YearOverflowChecker.Check(y);
+            chr.YearDomain.Check(y);
             return new CalendarYear(y, Cuid);
         }
 

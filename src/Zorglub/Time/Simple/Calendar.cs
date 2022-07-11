@@ -4,6 +4,7 @@
 namespace Zorglub.Time.Simple
 {
     using Zorglub.Time.Core;
+    using Zorglub.Time.Core.Domains;
     using Zorglub.Time.Core.Intervals;
     using Zorglub.Time.Hemerology;
     using Zorglub.Time.Hemerology.Scopes;
@@ -136,13 +137,13 @@ namespace Zorglub.Time.Simple
             {
                 var scope = new ProlepticScope(schema, epoch);
                 Scope = scope;
-                YearOverflowChecker = ProlepticScope.YearOverflowChecker;
+                YearDomain = ProlepticScope.YearDomain;
             }
             else
             {
                 var scope = new StandardScope(schema, epoch);
                 Scope = scope;
-                YearOverflowChecker = StandardScope.YearOverflowChecker;
+                YearDomain = StandardScope.YearDomain;
             }
 
             SystemSegment = SystemSegment.Create(schema, Scope.SupportedYears);
@@ -339,7 +340,7 @@ namespace Zorglub.Time.Simple
         /// <summary>
         /// Gets the checker for overflows of the range of years.
         /// </summary>
-        internal IOverflowChecker<int> YearOverflowChecker { get; }
+        internal IDomain<int> YearDomain { get; }
 
         /// <summary>
         /// Gets the checker for overflows of the range of supported values for the number of

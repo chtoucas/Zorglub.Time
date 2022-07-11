@@ -3,10 +3,11 @@
 
 namespace Zorglub.Time.Core
 {
+    using Zorglub.Time.Core.Domains;
     using Zorglub.Time.Core.Intervals;
 
-    // There is another class named RegularArithmetic in the namespace
-    // Arithmetics but it is internal.
+    // There is another class named RegularArithmetic in the namespace Arithmetic
+    // but it is internal.
     // Complete years only!
 
     /// <summary>

@@ -1,14 +1,18 @@
 ﻿// SPDX-License-Identifier: BSD-3-Clause
 // Copyright (c) 2020 Narvalo.Org. All rights reserved.
 
-namespace Zorglub.Time.Core.Intervals
+#pragma warning disable CA1725 // Parameter names should match base declaration (Naming)
+
+namespace Zorglub.Time.Core.Domains
 {
+    using Zorglub.Time.Core.Intervals;
+
     /// <summary>
     /// Represents a range of days, or more precisely the range of supported numbers of consecutive
     /// days from the epoch.
     /// <para>This class cannot be inherited.</para>
     /// </summary>
-    public sealed class AffineDomain
+    public sealed class AffineDomain : IDomain<int>
     {
         private readonly int _min;
         private readonly int _max;

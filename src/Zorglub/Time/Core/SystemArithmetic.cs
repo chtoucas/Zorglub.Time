@@ -4,6 +4,7 @@
 namespace Zorglub.Time.Core
 {
     using Zorglub.Time.Core.Arithmetic;
+    using Zorglub.Time.Core.Domains;
     using Zorglub.Time.Core.Intervals;
     using Zorglub.Time.Core.Schemas;
 
@@ -75,7 +76,7 @@ namespace Zorglub.Time.Core
             Segment = segment ?? throw new ArgumentNullException(nameof(segment));
 
             Schema = segment.Schema;
-            (MinYear, MaxYear) = Segment.SupportedYears.Endpoints;
+            (MinYear, MaxYear) = Segment.SupportedYears.Range.Endpoints;
             MaxDaysViaDayOfYear = Schema.MinDaysInYear;
             MaxDaysViaDayOfMonth = Schema.MinDaysInMonth;
         }
@@ -98,7 +99,7 @@ namespace Zorglub.Time.Core
         /// <summary>
         /// Gets the range of supported years.
         /// </summary>
-        protected Range<int> SupportedYears => Segment.SupportedYears;
+        protected SupportedYears SupportedYears => Segment.SupportedYears;
 
         /// <summary>
         /// Gets the underlying schema.

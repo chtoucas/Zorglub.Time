@@ -4,6 +4,7 @@
 namespace Zorglub.Time.Simple
 {
     using Zorglub.Time.Core;
+    using Zorglub.Time.Core.Domains;
 
     // FIXME(code):
     // CountYearsBetween() overflow? Avec des années complètes, je ne pense pas.
@@ -24,7 +25,7 @@ namespace Zorglub.Time.Simple
     // and ordinal dates? and how could this be done? Hum no, use conversion from
     // date to ordinal repr.
     //
-    // Do we need stricter validation? or is YearOverflowChecker enough?
+    // Do we need stricter validation? or is YearDomain enough?
     // Années complètes : on doit juste vérifier l'année.
     // Par contrat, à partir du moment où l'année est dans la plage
     // d'années supportée par un schéma, on sait que les méthodes ne
@@ -78,14 +79,14 @@ namespace Zorglub.Time.Simple
 
             Cuid = calendar.Id;
             Schema = calendar.Schema;
-            YearOverflowChecker = calendar.YearOverflowChecker;
+            YearDomain = calendar.YearDomain;
         }
 
         /// <summary>
         /// Gets the calendar.
         /// </summary>
         // NB: do not remove this property. For instance, if internally we can
-        // use YearOverflowChecker, externally we cannot, but there is
+        // use YearDomain, externally we cannot, but there is
         // Calendar.SupportedYears instead. It's also useful if we want to be
         // able to create new date objects...
         public Calendar Calendar { get; }
@@ -98,7 +99,7 @@ namespace Zorglub.Time.Simple
         /// <summary>
         /// Gets the checker for overflows of the range of years.
         /// </summary>
-        private protected IOverflowChecker<int> YearOverflowChecker { get; }
+        private protected IDomain<int> YearDomain { get; }
 
         /// <summary>
         /// Gets the calendrical schema.
