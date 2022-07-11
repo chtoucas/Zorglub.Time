@@ -7,13 +7,13 @@ namespace Zorglub.Time.Core
 
     using Zorglub.Time.Core.Intervals;
 
-    // TODO(code): simple class, not a record.
+    // TODO(code): shouldn't be a record, simplify creation.
 
     /// <summary>
     /// Provides informations on a range of days for a given schema.
     /// <para>This class cannot be inherited.</para>
     /// </summary>
-    public sealed record CalendricalSegment : ISchemaBounded
+    public sealed record CalendricalSegment : ISchemaBound
     {
         // No public ctor, see CalendricalSegmentBuilder.
 
@@ -98,7 +98,7 @@ namespace Zorglub.Time.Core
         /// </summary>
         internal ICalendricalSchema Schema => _schema;
 
-        ICalendricalSchema ISchemaBounded.Schema => _schema;
+        ICalendricalSchema ISchemaBound.Schema => _schema;
 
         /// <summary>
         /// Creates the maximal segment for <paramref name="schema"/>.

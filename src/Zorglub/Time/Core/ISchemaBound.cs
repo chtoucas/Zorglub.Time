@@ -3,7 +3,7 @@
 
 namespace Zorglub.Time.Core
 {
-    public interface ISchemaBounded
+    public interface ISchemaBound
     {
         /// <summary>
         /// Gets the underlying schema.
