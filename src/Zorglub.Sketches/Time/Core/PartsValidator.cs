@@ -3,8 +3,6 @@
 
 namespace Zorglub.Time.Core
 {
-    using Zorglub.Time.Core.Intervals;
-
     /// <summary>
     /// Provides a validator for calendrical parts.
     /// <para>This class cannot be inherited.</para>
@@ -21,9 +19,6 @@ namespace Zorglub.Time.Core
         /// <para>This static property is thread-safe.</para>
         /// </summary>
         public static PartsValidator Instance { get; } = new();
-
-        /// <inheritdoc />
-        public Range<int> SupportedYears { get; } = new(Yemoda.MinYear, Yemoda.MaxYear);
 
         /// <inheritdoc />
         public void ValidateYear(int year, string? paramName = null)

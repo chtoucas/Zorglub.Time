@@ -33,10 +33,11 @@ namespace Zorglub.Time.Core
         {
             Requires.NotNull(validator);
             // Necessary condition to be able to use the Yemoda/Yedoy constructors.
-            if (validator.SupportedYears.IsSubsetOf(Yemoda.SupportedYears) == false)
-            {
-                Throw.Argument(nameof(validator));
-            }
+            // Necessary but not sufficient...
+            //if (validator.SupportedYears.IsSubsetOf(Yemoda.SupportedYears) == false)
+            //{
+            //    Throw.Argument(nameof(validator));
+            //}
 
             _validator = validator;
         }

@@ -11,11 +11,6 @@ namespace Zorglub.Time.Core
     public interface ICalendricalValidator
     {
         /// <summary>
-        /// Gets the range of supported years.
-        /// </summary>
-        Range<int> SupportedYears { get; }
-
-        /// <summary>
         /// Validates the specified year.
         /// </summary>
         /// <exception cref="AoorException">The validation failed.</exception>

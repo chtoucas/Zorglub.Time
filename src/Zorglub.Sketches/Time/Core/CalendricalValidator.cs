@@ -9,8 +9,14 @@ namespace Zorglub.Time.Core
     /// Provides a plain implementation for <see cref="ICalendricalValidator"/>.
     /// <para>This class cannot be inherited.</para>
     /// </summary>
-    public sealed class CalendricalValidator : ICalendricalValidator
+    public sealed class CalendricalValidator : ICalendricalValidator, ISchemaBound
     {
+        /// <summary>
+        /// Represents the underlying schema.
+        /// <para>This field is read-only.</para>
+        /// </summary>
+        private readonly ICalendricalSchema _schema;
+
         /// <summary>
         /// Represents the pre-validator.
         /// <para>This field is read-only.</para>
@@ -25,22 +31,35 @@ namespace Zorglub.Time.Core
         /// of the range of supported years by <paramref name="schema"/>.</exception>
         public CalendricalValidator(ICalendricalSchema schema, Range<int> supportedYears)
         {
-            var seg = CalendricalSegment.Create(schema, supportedYears);
+            _schema = schema ?? throw new ArgumentNullException(nameof(schema));
 
-            Debug.Assert(schema != null);
             _preValidator = schema.PreValidator;
 
             SupportedYears = supportedYears;
-            AffineDomain = seg.AffineDomain;
-            MonthDomain = seg.MonthDomain;
+            Segment = CalendricalSegment.Create(schema, supportedYears);
         }
 
-        /// <inheritdoc />
+        /// <summary>
+        /// Gets the range of supported years.
+        /// </summary>
         public Range<int> SupportedYears { get; }
 
-        public AffineDomain AffineDomain { get; }
+        /// <summary>
+        /// Gets the range of supported days.
+        /// </summary>
+        public AffineDomain AffineDomain => Segment.AffineDomain;
 
-        public MonthDomain MonthDomain { get; }
+        /// <summary>
+        /// Gets the range of supported months.
+        /// </summary>
+        public MonthDomain MonthDomain => Segment.MonthDomain;
+
+        /// <summary>
+        /// Gets the segment of supported days.
+        /// </summary>
+        public CalendricalSegment Segment { get; }
+
+        ICalendricalSchema ISchemaBound.Schema => _schema;
 
         /// <inheritdoc />
         public void ValidateYear(int year, string? paramName = null)

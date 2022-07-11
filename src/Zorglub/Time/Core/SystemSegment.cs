@@ -57,6 +57,14 @@ namespace Zorglub.Time.Core
         public AffineDomain AffineDomain { get; }
 
         /// <summary>
+        /// Gets the range of supported months, or more precisely the range of supported numbers of
+        /// consecutive months from the epoch.
+        /// </summary>
+        /// <returns>The range from the first month of the first supported year to the last month of
+        /// the last supported year.</returns>
+        public MonthDomain MonthDomain { get; }
+
+        /// <summary>
         /// Gets the pair of earliest and latest supported date parts.
         /// </summary>
         /// <returns>The pair of the first day of the first supported year and the last day of the
@@ -69,14 +77,6 @@ namespace Zorglub.Time.Core
         /// <returns>The pair of the first day of the first supported year and the last day of the
         /// last supported year.</returns>
         public OrderedPair<Yedoy> MinMaxOrdinalParts { get; }
-
-        /// <summary>
-        /// Gets the range of supported months, or more precisely the range of supported numbers of
-        /// consecutive months from the epoch.
-        /// </summary>
-        /// <returns>The range from the first month of the first supported year to the last month of
-        /// the last supported year.</returns>
-        public MonthDomain MonthDomain { get; }
 
         /// <summary>
         /// Gets the pair of earliest and latest supported month parts.

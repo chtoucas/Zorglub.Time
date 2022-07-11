@@ -23,16 +23,16 @@ namespace Zorglub.Time.Extensions
         /// Validates the current instance with the specified scope then converts it to a
         /// <see cref="Yemoda"/> value.
         /// </summary>
-        /// <exception cref="ArgumentNullException"><paramref name="scope"/> is null.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="validator"/> is null.</exception>
         /// <exception cref="AoorException">The current instance is not valid according to the
         /// specified scope.</exception>
         [Pure]
-        public static Yemoda ToYemoda(this DateParts @this, ICalendricalValidator scope)
+        public static Yemoda ToYemoda(this DateParts @this, ICalendricalValidator validator)
         {
-            Requires.NotNull(scope);
+            Requires.NotNull(validator);
 
             var (y, m, d) = @this;
-            scope.ValidateYearMonthDay(y, m, d);
+            validator.ValidateYearMonthDay(y, m, d);
             return new Yemoda(y, m, d);
         }
 
@@ -40,16 +40,16 @@ namespace Zorglub.Time.Extensions
         /// Validates the current instance with the specified scope then converts it to a
         /// <see cref="Yedoy"/> value.
         /// </summary>
-        /// <exception cref="ArgumentNullException"><paramref name="scope"/> is null.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="validator"/> is null.</exception>
         /// <exception cref="AoorException">The current instance is not valid according to the
         /// specified scope.</exception>
         [Pure]
-        public static Yedoy ToYedoy(this OrdinalParts @this, ICalendricalValidator scope)
+        public static Yedoy ToYedoy(this OrdinalParts @this, ICalendricalValidator validator)
         {
-            Requires.NotNull(scope);
+            Requires.NotNull(validator);
 
             var (y, doy) = @this;
-            scope.ValidateOrdinal(y, doy);
+            validator.ValidateOrdinal(y, doy);
             return new Yedoy(y, doy);
         }
 
@@ -57,16 +57,16 @@ namespace Zorglub.Time.Extensions
         /// Validates the current instance with the specified scope then converts it to a
         /// <see cref="Yemo"/> value.
         /// </summary>
-        /// <exception cref="ArgumentNullException"><paramref name="scope"/> is null.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="validator"/> is null.</exception>
         /// <exception cref="AoorException">The current instance is not valid according to the
         /// specified scope.</exception>
         [Pure]
-        public static Yemo ToYemo(this MonthParts @this, ICalendricalValidator scope)
+        public static Yemo ToYemo(this MonthParts @this, ICalendricalValidator validator)
         {
-            Requires.NotNull(scope);
+            Requires.NotNull(validator);
 
             var (y, m) = @this;
-            scope.ValidateYearMonth(y, m);
+            validator.ValidateYearMonth(y, m);
             return new Yemo(y, m);
         }
     }
@@ -77,16 +77,16 @@ namespace Zorglub.Time.Extensions
         /// Validates the current instance with the specified scope then converts it to a
         /// <see cref="Yemoda"/> value.
         /// </summary>
-        /// <exception cref="ArgumentNullException"><paramref name="scope"/> is null.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="validator"/> is null.</exception>
         /// <exception cref="AoorException">The current instance is not valid according to the
         /// specified scope.</exception>
         [Pure]
-        public static Yemoda ToYemoda(this DateFields @this, ICalendricalValidator scope)
+        public static Yemoda ToYemoda(this DateFields @this, ICalendricalValidator validator)
         {
-            Requires.NotNull(scope);
+            Requires.NotNull(validator);
 
             var (y, m, d) = @this;
-            scope.ValidateYearMonthDay(y, m, d);
+            validator.ValidateYearMonthDay(y, m, d);
             return new Yemoda(y, m, d);
         }
 
@@ -94,16 +94,16 @@ namespace Zorglub.Time.Extensions
         /// Validates the current instance with the specified scope then converts it to a
         /// <see cref="Yedoy"/> value.
         /// </summary>
-        /// <exception cref="ArgumentNullException"><paramref name="scope"/> is null.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="validator"/> is null.</exception>
         /// <exception cref="AoorException">The current instance is not valid according to the
         /// specified scope.</exception>
         [Pure]
-        public static Yedoy ToYedoy(this OrdinalFields @this, ICalendricalValidator scope)
+        public static Yedoy ToYedoy(this OrdinalFields @this, ICalendricalValidator validator)
         {
-            Requires.NotNull(scope);
+            Requires.NotNull(validator);
 
             var (y, doy) = @this;
-            scope.ValidateOrdinal(y, doy);
+            validator.ValidateOrdinal(y, doy);
             return new Yedoy(y, doy);
         }
 
@@ -111,16 +111,16 @@ namespace Zorglub.Time.Extensions
         /// Validates the current instance with the specified scope then converts it to a
         /// <see cref="Yemo"/> value.
         /// </summary>
-        /// <exception cref="ArgumentNullException"><paramref name="scope"/> is null.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="validator"/> is null.</exception>
         /// <exception cref="AoorException">The current instance is not valid according to the
         /// specified scope.</exception>
         [Pure]
-        public static Yemo ToYemo(this MonthFields @this, ICalendricalValidator scope)
+        public static Yemo ToYemo(this MonthFields @this, ICalendricalValidator validator)
         {
-            Requires.NotNull(scope);
+            Requires.NotNull(validator);
 
             var (y, m) = @this;
-            scope.ValidateYearMonth(y, m);
+            validator.ValidateYearMonth(y, m);
             return new Yemo(y, m);
         }
     }

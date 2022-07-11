@@ -51,12 +51,25 @@ namespace Zorglub.Time.Core
         }
 
         /// <summary>
+        /// Gets the range of supported years.
+        /// </summary>
+        public Range<int> SupportedYears { get; }
+
+        /// <summary>
         /// Gets the range of supported days, or more precisely the range of supported numbers of
         /// consecutive days from the epoch.
         /// </summary>
         /// <returns>The range from the first day of the first supported year to the last day of the
         /// last supported year.</returns>
         public AffineDomain AffineDomain { get; }
+
+        /// <summary>
+        /// Gets the range of supported months, or more precisely the range of supported numbers of
+        /// consecutive months from the epoch.
+        /// </summary>
+        /// <returns>The range from the first month of the first supported year to the last month of
+        /// the last supported year.</returns>
+        public MonthDomain MonthDomain { get; }
 
         /// <summary>
         /// Gets the pair of earliest and latest supported date parts.
@@ -73,24 +86,11 @@ namespace Zorglub.Time.Core
         public OrderedPair<OrdinalParts> MinMaxOrdinalParts { get; }
 
         /// <summary>
-        /// Gets the range of supported months, or more precisely the range of supported numbers of
-        /// consecutive months from the epoch.
-        /// </summary>
-        /// <returns>The range from the first month of the first supported year to the last month of
-        /// the last supported year.</returns>
-        public MonthDomain MonthDomain { get; }
-
-        /// <summary>
         /// Gets the pair of earliest and latest supported month parts.
         /// </summary>
         /// <returns>The pair of the first month of the first supported year and the last month of
         /// the last supported year.</returns>
         public OrderedPair<MonthParts> MinMaxMonthParts { get; }
-
-        /// <summary>
-        /// Gets the range of supported years.
-        /// </summary>
-        public Range<int> SupportedYears { get; }
 
         /// <summary>
         /// Gets the underlying schema.
