@@ -1,10 +1,8 @@
 ﻿// SPDX-License-Identifier: BSD-3-Clause
 // Copyright (c) 2020 Narvalo.Org. All rights reserved.
 
-namespace Zorglub.Time.Core
+namespace Zorglub.Time.Core.Intervals
 {
-    using Zorglub.Time.Core.Intervals;
-
     /// <summary>
     /// Represents a range of months, or more precisely the range of supported numbers of
     /// consecutive months from the epoch.
