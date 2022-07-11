@@ -7,8 +7,6 @@ namespace Zorglub.Time.Core
 
     using Zorglub.Time.Core.Intervals;
 
-    // TODO(code): shouldn't be a record, simplify creation.
-
     /// <summary>
     /// Provides informations on a range of days for a given schema.
     /// <para>This class cannot be inherited.</para>

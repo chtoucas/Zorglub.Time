@@ -14,8 +14,8 @@ namespace Zorglub.Time.Core
     // - GetOrdinalPartsAtStartOfMonth(int y, int m)
     // - GetOrdinalPartsAtEndOfMonth(int y, int m)
 
-    // WARNING: A schema should avoid public static methods, otherwise it
-    // would defeat our "box" principle; see below.
+    // WARNING: A schema should avoid public static methods, otherwise it would
+    // defeat our "box principle"; see below.
 
     #region Developer Notes
 

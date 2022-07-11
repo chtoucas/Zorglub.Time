@@ -417,41 +417,5 @@ namespace Zorglub.Time.Hemerology
                 Throw.DayOutOfRange(day, paramName);
             }
         }
-
-        /// <summary>
-        /// Validates the specified Gregorian date.
-        /// </summary>
-        /// <exception cref="AoorException">The validation failed.</exception>
-        [Obsolete("TO BE REMOVED")]
-        internal static void ValidateGregorianOrdinalParts(int year, int dayOfYear, string? paramName = null)
-        {
-            if (year < GregorianSchema.MinYear || year > GregorianSchema.MaxYear)
-            {
-                Throw.YearOutOfRange(year, paramName);
-            }
-            if (dayOfYear < 1
-                || (dayOfYear > Solar.MinDaysInYear
-                    && dayOfYear > GregorianFormulae.CountDaysInYear(year)))
-            {
-                Throw.DayOutOfRange(dayOfYear, paramName);
-            }
-        }
-
-        /// <summary>
-        /// Validates the specified day of the month.
-        /// <para>This method does NOT validate <paramref name="y"/>.</para>
-        /// <para>This method does NOT validate <paramref name="m"/>.</para>
-        /// </summary>
-        /// <exception cref="OverflowException">The operation overflows the
-        /// capacity of <see cref="Int32"/>.</exception>
-        /// <exception cref="AoorException">The validation failed.</exception>
-        [Obsolete("TO BE REMOVED")]
-        internal void ValidateDayOfMonth(int y, int m, int dayOfMonth, string? paramName = null)
-        {
-            if (dayOfMonth < 1 || dayOfMonth > Schema.CountDaysInMonth(y, m))
-            {
-                Throw.ArgumentOutOfRange(paramName ?? nameof(dayOfMonth));
-            }
-        }
     }
 }

@@ -7,6 +7,9 @@ namespace Zorglub.Time.Core
 
     using Zorglub.Time.Core.Intervals;
 
+    // TODO(code): shouldn't be a record, simplify creation.
+    // Also CalendricalSegment shouldn't be a record.
+
     /// <summary>
     /// Provides informations on a range of days for a given schema.
     /// <para>Only <i>complete</i> ranges of years are supported by this type.</para>
