@@ -5,6 +5,10 @@
 
 namespace Zorglub.Testing;
 
+using System.Diagnostics.Contracts;
+
+using Zorglub.Time;
+using Zorglub.Time.Core;
 using Zorglub.Time.Hemerology;
 
 // Equality should be structural: the object is a reference type but the

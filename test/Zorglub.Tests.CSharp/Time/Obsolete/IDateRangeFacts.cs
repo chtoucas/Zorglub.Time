@@ -4,6 +4,7 @@
 namespace Zorglub.Testing.Facts;
 
 using System.Collections;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
 using Zorglub.Testing.Data;

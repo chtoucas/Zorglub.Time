@@ -4,8 +4,13 @@
 namespace Zorglub.Time.Simple
 {
     using System.Collections;
+    using System.Diagnostics.CodeAnalysis;
+    using System.Diagnostics.Contracts;
 
+    using Zorglub.Time.Core.Utilities;
     using Zorglub.Time.Hemerology;
+
+    using Throw = Zorglub.Time.Core.Utilities.ThrowHelpers;
 
     /// <summary>
     /// Represents a range of consecutive days that is a finite and closed

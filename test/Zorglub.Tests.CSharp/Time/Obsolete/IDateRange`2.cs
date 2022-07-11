@@ -3,6 +3,9 @@
 
 namespace Zorglub.Time.Hemerology
 {
+    using System.Diagnostics.CodeAnalysis;
+    using System.Diagnostics.Contracts;
+
     /// <summary>
     /// Represents a range of consecutive days, that is a finite interval of days.
     /// <para>A type implementing this interface should follow the rules of structural equality.
