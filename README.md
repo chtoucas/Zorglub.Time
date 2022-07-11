@@ -6,7 +6,7 @@
 An experimental calendar library with a focus on calendrical calculations,
 extensibility and performance.
 
-__This project is heavily inspired by NodaTime and JodaTime.__
+_This project is heavily inspired by NodaTime and JodaTime._
 
 Features
 --------
