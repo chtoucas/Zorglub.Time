@@ -8,6 +8,11 @@ namespace Zorglub.Time.Core
     using static Zorglub.Time.Core.CalendricalConstants;
 
     // TODO(doc): XML doc, overflows (validator), no array lookup.
+    // Remove methods using a conversion (y, m, d) <-> (y, doy)?
+    // - CountDaysInMonthBefore(y, doy)
+    // - CountDaysInMonthAfter(y, doy)
+    // - GetOrdinalPartsAtStartOfMonth(int y, int m)
+    // - GetOrdinalPartsAtEndOfMonth(int y, int m)
 
     // WARNING: A schema should avoid public static methods, otherwise it
     // would defeat our "box" principle; see below.

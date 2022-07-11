@@ -352,10 +352,12 @@ namespace Zorglub.Time.Simple
         {
             Debug.Assert(cuid < s_CalendarsById.Length);
 
+            // Array bound elimination.
             // We can remove all array bound checks. The actual perf boost is
             // really tiny, nevertheless the generated code is much smaller.
             // WARNING: it removes array variance checks.
             // See https://github.com/CommunityToolkit/dotnet/blob/main/CommunityToolkit.HighPerformance/Extensions/ArrayExtensions.1D.cs
+            // and https://tooslowexception.com/getting-rid-of-array-bound-checks-ref-returns-and-net-5/
             ref Calendar chr = ref MemoryMarshal.GetArrayDataReference(s_CalendarsById);
             return ref Unsafe.Add(ref chr, (nint)(uint)cuid);
         }
