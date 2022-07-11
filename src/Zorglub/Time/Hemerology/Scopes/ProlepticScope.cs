@@ -57,7 +57,7 @@ namespace Zorglub.Time.Hemerology.Scopes
         /// Gets the checker for overflows of the range of years.
         /// <para>This static property is thread-safe.</para>
         /// </summary>
-        internal static IDomain<int> YearDomain { get; } = new YearDomain_();
+        internal static IDomain<int> YearDomain { get; } = new SupportedYears_();
 
         /// <inheritdoc />
         public sealed override void ValidateYearMonth(int year, int month, string? paramName = null)
@@ -80,8 +80,10 @@ namespace Zorglub.Time.Hemerology.Scopes
             PreValidator.ValidateDayOfYear(year, dayOfYear, paramName);
         }
 
-        private sealed class YearDomain_ : IDomain<int>
+        private sealed class SupportedYears_ : IDomain<int>
         {
+            public Range<int> Range => s_SupportedYears;
+
             public void Validate(int year, string? paramName = null)
             {
                 if (year < MinYear || year > MaxYear) Throw.YearOutOfRange(year, paramName);
