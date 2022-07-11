@@ -29,6 +29,7 @@ public readonly partial struct MyDate :
         SystemCalendarContext.WithYearsBetween1And9999<GregorianSchema>(DayZero.NewStyle);
     private static readonly SystemSchema Schema = __.Schema;
     private static readonly CalendarScope Scope = __.Scope;
+    private static readonly SystemArithmetic Arithmetic = __.Arithmetic;
 
     internal static SystemCalendarContext Context => __;
 
@@ -43,7 +44,6 @@ public readonly partial struct MyDate :
 public partial struct MyDate
 {
     private static PartsFactory PartsFactory { get; } = new(Scope);
-    private static readonly SystemArithmetic Arithmetic = __.Arithmetic;
 
     private static Range<DayNumber> Domain => Scope.Domain;
 
@@ -59,10 +59,10 @@ public partial struct MyDate
         _bin = bin;
     }
 
-    public static DayNumber Epoch => Scope.Epoch;
-    public static Range<int> SupportedYears => Scope.SupportedYears;
-    public static MyDate MinValue { get; } = new(Schema.GetDatePartsAtStartOfYear(Scope.SupportedYears.Min));
-    public static MyDate MaxValue { get; } = new(Schema.GetDatePartsAtEndOfYear(Scope.SupportedYears.Max));
+    public static DayNumber Epoch { get; } = Scope.Epoch;
+    public static Range<int> SupportedYears { get; } = Scope.Segment.SupportedYears;
+    public static MyDate MinValue { get; } = new(Schema.GetDatePartsAtStartOfYear(SupportedYears.Min));
+    public static MyDate MaxValue { get; } = new(Schema.GetDatePartsAtEndOfYear(SupportedYears.Max));
 
     public Ord CenturyOfEra => Ord.FromInt32(Century);
     public int Century => YearNumbering.GetCentury(Year);

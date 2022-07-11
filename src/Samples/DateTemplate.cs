@@ -39,6 +39,7 @@ public readonly partial struct DateTemplate :
         SystemCalendarContext.WithYearsAfterZero<GregorianSchema>(DayZero.NewStyle);
     private static readonly SystemSchema Schema = __.Schema;
     private static readonly CalendarScope Scope = __.Scope;
+    private static readonly SystemArithmetic Arithmetic = __.Arithmetic;
 
     [Pure]
     public override string ToString()
@@ -51,7 +52,6 @@ public readonly partial struct DateTemplate :
 public partial struct DateTemplate
 {
     private static PartsFactory PartsFactory { get; } = new(Scope);
-    private static readonly SystemArithmetic Arithmetic = __.Arithmetic;
 
     private static Range<DayNumber> Domain => Scope.Domain;
 
@@ -67,8 +67,8 @@ public partial struct DateTemplate
         _bin = bin;
     }
 
-    public static DayNumber Epoch => Scope.Epoch;
-    public static Range<int> SupportedYears => Scope.SupportedYears;
+    public static DayNumber Epoch { get; } = Scope.Epoch;
+    public static Range<int> SupportedYears { get; } = Scope.Segment.SupportedYears;
     public static DateTemplate MinValue { get; } = new(Schema.GetDatePartsAtStartOfYear(SupportedYears.Min));
     public static DateTemplate MaxValue { get; } = new(Schema.GetDatePartsAtEndOfYear(SupportedYears.Max));
 

@@ -68,7 +68,7 @@ module Prelude =
         let scope = new ProlepticScope(new FauxCalendricalSchema(), epoch)
         let range = Range.Create(ProlepticScope.MinYear, ProlepticScope.MaxYear)
 
-        scope.SupportedYears === range
+        scope.Segment.SupportedYears === range
 
 module YearOverflowChecker =
     let validYearData = ProlepticScopeFacts.ValidYearData

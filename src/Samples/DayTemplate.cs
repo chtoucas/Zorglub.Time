@@ -54,7 +54,7 @@ public readonly partial struct DayTemplate :
 
 public partial struct DayTemplate
 {
-    private static Range<DayNumber> Domain => Scope.Domain;
+    private static Range<DayNumber> Domain { get; } = Scope.Domain;
 
     private readonly int _daysSinceEpoch;
 
@@ -78,7 +78,7 @@ public partial struct DayTemplate
     }
 
     public static DayNumber Epoch => Scope.Epoch;
-    public static Range<int> SupportedYears => Scope.SupportedYears;
+    public static Range<int> SupportedYears => Scope.Segment.SupportedYears;
     public static DayTemplate MinValue { get; } = new(Domain.Min - Epoch);
     public static DayTemplate MaxValue { get; } = new(Domain.Max - Epoch);
 

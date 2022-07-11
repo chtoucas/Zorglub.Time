@@ -52,14 +52,14 @@ namespace Zorglub.Time.Hemerology.Scopes
         public Range<DayNumber> Domain { get; }
 
         /// <summary>
-        /// Gets the range of supported years.
-        /// </summary>
-        public Range<int> SupportedYears { get; }
-
-        /// <summary>
         /// Gets the segment of supported days.
         /// </summary>
         public CalendricalSegment Segment { get; }
+
+        /// <summary>
+        /// Gets the range of supported years.
+        /// </summary>
+        protected internal Range<int> SupportedYears { get; }
 
         /// <summary>
         /// Gets the pre-validator.

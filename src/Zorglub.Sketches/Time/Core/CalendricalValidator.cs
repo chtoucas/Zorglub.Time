@@ -24,6 +24,12 @@ namespace Zorglub.Time.Core
         private readonly ICalendricalPreValidator _preValidator;
 
         /// <summary>
+        /// Represents the range of supported years.
+        /// <para>This field is read-only.</para>
+        /// </summary>
+        private readonly Range<int> _supportedYears;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="CalendricalValidator"/> class.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
@@ -34,25 +40,9 @@ namespace Zorglub.Time.Core
             _schema = schema ?? throw new ArgumentNullException(nameof(schema));
 
             _preValidator = schema.PreValidator;
-
-            SupportedYears = supportedYears;
+            _supportedYears = supportedYears;
             Segment = CalendricalSegment.Create(schema, supportedYears);
         }
-
-        /// <summary>
-        /// Gets the range of supported years.
-        /// </summary>
-        public Range<int> SupportedYears { get; }
-
-        /// <summary>
-        /// Gets the range of supported days.
-        /// </summary>
-        public AffineDomain AffineDomain => Segment.AffineDomain;
-
-        /// <summary>
-        /// Gets the range of supported months.
-        /// </summary>
-        public MonthDomain MonthDomain => Segment.MonthDomain;
 
         /// <summary>
         /// Gets the segment of supported days.
@@ -64,27 +54,27 @@ namespace Zorglub.Time.Core
         /// <inheritdoc />
         public void ValidateYear(int year, string? paramName = null)
         {
-            if (SupportedYears.Contains(year) == false) Throw.YearOutOfRange(year, paramName);
+            if (_supportedYears.Contains(year) == false) Throw.YearOutOfRange(year, paramName);
         }
 
         /// <inheritdoc />
         public void ValidateYearMonth(int year, int month, string? paramName = null)
         {
-            if (SupportedYears.Contains(year) == false) Throw.YearOutOfRange(year, paramName);
+            if (_supportedYears.Contains(year) == false) Throw.YearOutOfRange(year, paramName);
             _preValidator.ValidateMonth(year, month, paramName);
         }
 
         /// <inheritdoc />
         public void ValidateYearMonthDay(int year, int month, int day, string? paramName = null)
         {
-            if (SupportedYears.Contains(year) == false) Throw.YearOutOfRange(year, paramName);
+            if (_supportedYears.Contains(year) == false) Throw.YearOutOfRange(year, paramName);
             _preValidator.ValidateMonthDay(year, month, day, paramName);
         }
 
         /// <inheritdoc />
         public void ValidateOrdinal(int year, int dayOfYear, string? paramName = null)
         {
-            if (SupportedYears.Contains(year) == false) Throw.YearOutOfRange(year, paramName);
+            if (_supportedYears.Contains(year) == false) Throw.YearOutOfRange(year, paramName);
             _preValidator.ValidateDayOfYear(year, dayOfYear, paramName);
         }
     }

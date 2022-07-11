@@ -61,7 +61,7 @@ internal sealed class SystemCalendarContext
         Schema = schema ?? throw new ArgumentNullException(nameof(schema));
         Scope = scope ?? throw new ArgumentNullException(nameof(scope));
 
-        Arithmetic = SystemArithmetic.CreateDefault(schema, scope.SupportedYears);
+        Arithmetic = SystemArithmetic.CreateDefault(schema, scope.Segment.SupportedYears);
     }
 
     public SystemSchema Schema { get; }

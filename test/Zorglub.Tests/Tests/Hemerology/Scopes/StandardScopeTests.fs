@@ -62,7 +62,7 @@ module Prelude =
         let scope = new StandardScope(new FauxCalendricalSchema(), epoch)
         let range = Range.Create(StandardScope.MinYear, StandardScope.MaxYear)
 
-        scope.SupportedYears === range
+        scope.Segment.SupportedYears === range
 
 module YearOverflowChecker =
     let validYearData = StandardScopeFacts.ValidYearData
