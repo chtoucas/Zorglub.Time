@@ -21,8 +21,8 @@ namespace Zorglub.Time.Core
         {
             Requires.NotNull(schema);
 
-            return schema.MinDaysInMonth >= RegularArithmeticPlus.MinMinDaysInMonth && schema.IsRegular(out _)
-                ? new RegularArithmeticPlus(schema, supportedYears)
+            return schema.MinDaysInMonth >= RegularArithmetic.MinMinDaysInMonth && schema.IsRegular(out _)
+                ? new RegularArithmetic(schema, supportedYears)
                 : new BasicArithmetic(schema, supportedYears);
         }
 

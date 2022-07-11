@@ -5,6 +5,8 @@ namespace Zorglub.Time.Core
 {
     using Zorglub.Time.Core.Intervals;
 
+    // There is another class named RegularArithmetic in the namespace
+    // Arithmetics but it is internal.
     // Complete years only!
 
     /// <summary>
@@ -13,7 +15,7 @@ namespace Zorglub.Time.Core
     /// <para>The length of a month must be greater than or equal to 7.</para>
     /// <para>This class cannot be inherited.</para>
     /// </summary>
-    public sealed partial class RegularArithmeticPlus : ICalendricalArithmeticPlus
+    public sealed partial class RegularArithmetic : ICalendricalArithmeticPlus
     {
         /// <summary>
         /// Represents the absolute minimum value admissible for the minimum total number of days
@@ -35,7 +37,7 @@ namespace Zorglub.Time.Core
         private readonly PartsAdapter _partsAdapter;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="RegularArithmeticPlus"/> class.
+        /// Initializes a new instance of the <see cref="RegularArithmetic"/> class.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
         /// <exception cref="ArgumentException"><paramref name="schema"/> contains at least one
@@ -44,7 +46,7 @@ namespace Zorglub.Time.Core
         /// <exception cref="ArgumentException"><paramref name="schema"/> is not regular.</exception>
         /// <exception cref="AoorException"><paramref name="supportedYears"/> is NOT a subinterval
         /// of the range of supported years by <paramref name="schema"/>.</exception>
-        public RegularArithmeticPlus(ICalendricalSchema schema, Range<int> supportedYears)
+        public RegularArithmetic(ICalendricalSchema schema, Range<int> supportedYears)
         {
             Requires.NotNull(schema);
             if (schema.MinDaysInMonth < MinMinDaysInMonth) Throw.Argument(nameof(schema));
@@ -95,7 +97,7 @@ namespace Zorglub.Time.Core
         public int MaxDaysViaDayOfMonth { get; init; }
     }
 
-    public partial class RegularArithmeticPlus // Operations on DateParts
+    public partial class RegularArithmetic // Operations on DateParts
     {
         /// <inheritdoc />
         [Pure]
@@ -163,7 +165,7 @@ namespace Zorglub.Time.Core
         }
     }
 
-    public partial class RegularArithmeticPlus // Operations on OrdinalParts
+    public partial class RegularArithmetic // Operations on OrdinalParts
     {
         /// <inheritdoc />
         [Pure]
@@ -249,7 +251,7 @@ namespace Zorglub.Time.Core
         }
     }
 
-    public partial class RegularArithmeticPlus // Operations on MonthParts
+    public partial class RegularArithmetic // Operations on MonthParts
     {
         /// <inheritdoc />
         [Pure]
@@ -284,7 +286,7 @@ namespace Zorglub.Time.Core
         }
     }
 
-    public partial class RegularArithmeticPlus // Non-standard operations
+    public partial class RegularArithmetic // Non-standard operations
     {
         /// <inheritdoc />
         [Pure]
