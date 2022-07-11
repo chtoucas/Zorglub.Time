@@ -145,11 +145,12 @@ namespace Zorglub.Time.Simple
 
     public partial struct CalendarWeek
     {
+        // TODO(api): use Range<CalendarWeekdate>.
+
         ///// <summary>
         ///// Converts the current instance to an interval of days.
         ///// </summary>
         //[Pure]
-        //[Obsolete("Use Range<CalendarWeekdate>.")]
         //public DateRange ToInterval() => DateRange.Create(GetStartOfWeek(), GetEndOfWeek());
 
         ///// <summary>
@@ -157,7 +158,6 @@ namespace Zorglub.Time.Simple
         ///// calendar.
         ///// </summary>
         //[Pure]
-        //[Obsolete("Use Range<CalendarWeekdate>.")]
         //public DateRange WithCalendar(Calendar newCalendar) =>
         //    ToInterval().WithCalendar(newCalendar);
 
