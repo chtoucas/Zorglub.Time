@@ -11,7 +11,7 @@ namespace Zorglub.Time.Core
     /// Provides informations on a range of days for a given schema.
     /// <para>This class cannot be inherited.</para>
     /// </summary>
-    public sealed record CalendricalSegment : ISchemaBound
+    public sealed class CalendricalSegment : ISchemaBound
     {
         // No public ctor, see CalendricalSegmentBuilder.
 
@@ -99,6 +99,12 @@ namespace Zorglub.Time.Core
         ICalendricalSchema ISchemaBound.Schema => _schema;
 
         /// <summary>
+        /// Returns a culture-independent string representation of the current instance.
+        /// </summary>
+        [Pure]
+        public override string ToString() => MinMaxDateParts.ToString();
+
+        /// <summary>
         /// Creates the maximal segment for <paramref name="schema"/>.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
@@ -154,30 +160,6 @@ namespace Zorglub.Time.Core
                 builder.UseMaxSupportedYear();
             }
             return builder.BuildSegment();
-        }
-
-        [SuppressMessage("CodeQuality", "IDE0051:Remove unused private members", Justification = "PrintMembers() for records.")]
-        private bool PrintMembers(StringBuilder builder)
-        {
-            builder.Append("Start = { ");
-
-            builder.Append(
-                FormattableString.Invariant(
-                    $"DaysSinceEpoch = {Domain.Min}, DateParts = {MinMaxDateParts.LowerValue}, OrdinalParts = {MinMaxOrdinalParts.LowerValue}"));
-            builder.Append(
-                FormattableString.Invariant(
-                    $"MonthsSinceEpoch = {MonthDomain.Min}, MonthParts = {MinMaxMonthParts.LowerValue}"));
-
-            builder.Append(" }, End = { ");
-            builder.Append(
-                FormattableString.Invariant(
-                    $"DaysSinceEpoch = {Domain.Max}, DateParts = {MinMaxDateParts.UpperValue}, OrdinalParts = {MinMaxOrdinalParts.UpperValue}"));
-            builder.Append(
-                FormattableString.Invariant(
-                    $"MonthsSinceEpoch = {MonthDomain.Max}, MonthParts = {MinMaxMonthParts.UpperValue}"));
-
-            builder.Append(" }");
-            return true;
         }
 
         // By keeping this record internal, we can ensure that the properties are
