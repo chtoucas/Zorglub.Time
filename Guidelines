@@ -1,15 +1,13 @@
 ﻿Coding Guidelines
 =================
 
-https://nietras.com/2021/06/14/csharp-10-record-struct/
-
 TODOs
 -----
 
 - FIXME
 - TODO
-- HACK
 - REVIEW
+
 
 Design
 ------
@@ -22,6 +20,7 @@ In a -public- sealed class use "override sealed" instead of "override" (this way
 we can spot overridable methods in the file PublicAPI).
 
 https://github.com/dotnet/runtime/blob/main/docs/coding-guidelines/framework-design-guidelines-digest.md
+
 
 Naming
 ------
@@ -37,6 +36,7 @@ Bool prop: prefix `Is`, sometines `Has`.
 Static class: if it ressembles an enum or a discriminated union, e.g. Dayzero or
 CalendarEpochs, use the singular; otherwise use the plural.
 
+
 Preview Features
 ----------------
 
@@ -45,6 +45,7 @@ We define two compiler constants:
   on the "static abstract" feature.
 
 We don't use the attr 'RequiresPreviewFeatures'.
+
 
 Style
 -----
@@ -56,12 +57,14 @@ write
 
 https://github.com/dotnet/runtime/blob/main/docs/coding-guidelines/coding-style.md
 
+
 XML doc
 -------
 
 Virtual methods (interfaces, abstract classes, etc.): no section <remarks>
 
 https://github.com/dotnet/dotnet-api-docs/wiki
+
 
 Structs
 -------
@@ -74,6 +77,7 @@ Check-list
 - IComparable?
 - ToString()
 - Deconstruct()?
+
 
 Nullable Reference Objects
 --------------------------
@@ -110,9 +114,11 @@ and if we ignore the output param(don't know why but anyway):
 > box.TryGetValue(out T _);
 ```
 
+
 Performance
 -----------
 
+https://docs.microsoft.com/en-us/dotnet/csharp/write-safe-efficient-code
 https://github.com/dotnet/docs/blob/main/docs/csharp/write-safe-efficient-code.md
 
 ### MethodImplOptions
@@ -133,10 +139,12 @@ Prefer unsigned division by a **constant** to signed division. This is really
 not something that we want to do everywhere as it makes the code much less
 readable.
 
+
 Recurring Tasks
 ---------------
 
 - Check #pragma and SuppressMessage
+
 
 Tests
 -----
