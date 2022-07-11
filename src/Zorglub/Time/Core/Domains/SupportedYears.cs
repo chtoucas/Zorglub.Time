@@ -41,9 +41,9 @@ namespace Zorglub.Time.Core.Domains
         /// Validates the specified year.
         /// </summary>
         /// <exception cref="AoorException">The validation failed.</exception>
-        public void Validate(int year)
+        public void Validate(int year, string? paramName = null)
         {
-            if (year < _min || year > _max) Throw.ArgumentOutOfRange(nameof(year));
+            if (year < _min || year > _max) Throw.YearOutOfRange(year, paramName);
         }
 
         /// <summary>

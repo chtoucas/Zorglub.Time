@@ -82,9 +82,9 @@ namespace Zorglub.Time.Hemerology.Scopes
 
         private sealed class YearDomain_ : IDomain<int>
         {
-            public void Validate(int year)
+            public void Validate(int year, string? paramName = null)
             {
-                if (year < MinYear || year > MaxYear) Throw.ArgumentOutOfRange(nameof(year));
+                if (year < MinYear || year > MaxYear) Throw.YearOutOfRange(year, paramName);
             }
 
             public void Check(int year)

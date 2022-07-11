@@ -41,11 +41,11 @@ namespace Zorglub.Time.Core.Domains
         /// Validates the specified number of consecutive months from the epoch.
         /// </summary>
         /// <exception cref="AoorException">The validation failed.</exception>
-        public void Validate(int monthsSinceEpoch)
+        public void Validate(int monthsSinceEpoch, string? paramName = null)
         {
             if (monthsSinceEpoch < _min || monthsSinceEpoch > _max)
             {
-                Throw.ArgumentOutOfRange(nameof(monthsSinceEpoch));
+                Throw.ArgumentOutOfRange(paramName ?? nameof(monthsSinceEpoch));
             }
         }
 

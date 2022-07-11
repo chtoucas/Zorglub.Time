@@ -48,11 +48,11 @@ namespace Zorglub.Time.Core.Domains
         /// Validates the specified number of consecutive days from the epoch.
         /// </summary>
         /// <exception cref="AoorException">The validation failed.</exception>
-        public void Validate(int daysSinceEpoch)
+        public void Validate(int daysSinceEpoch, string? paramName = null)
         {
             if (daysSinceEpoch < _min || daysSinceEpoch > _max)
             {
-                Throw.ArgumentOutOfRange(nameof(daysSinceEpoch));
+                Throw.ArgumentOutOfRange(paramName ?? nameof(daysSinceEpoch));
             }
         }
 

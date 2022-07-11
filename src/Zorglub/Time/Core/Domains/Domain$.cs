@@ -16,11 +16,11 @@ namespace Zorglub.Time.Core.Domains
         /// Validates the specified <see cref="DayNumber"/> value.
         /// </summary>
         /// <exception cref="AoorException">The validation failed.</exception>
-        public static void Validate(this Range<DayNumber> @this, DayNumber dayNumber)
+        public static void Validate(this Range<DayNumber> @this, DayNumber dayNumber, string? paramName = null)
         {
             if (dayNumber < @this.Min || dayNumber > @this.Max)
             {
-                Throw.ArgumentOutOfRange(nameof(dayNumber));
+                Throw.ArgumentOutOfRange(paramName ?? nameof(dayNumber));
             }
         }
 

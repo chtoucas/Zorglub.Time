@@ -14,7 +14,7 @@ namespace Zorglub.Time.Core.Domains
         /// Validates the specified value.
         /// </summary>
         /// <exception cref="AoorException">The validation failed.</exception>
-        void Validate(T value);
+        void Validate(T value, string? paramName = null);
 
         /// <summary>
         /// Checks whether the specified value is outside the range of supported values or not.
