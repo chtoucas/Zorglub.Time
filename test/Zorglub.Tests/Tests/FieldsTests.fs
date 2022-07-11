@@ -186,7 +186,7 @@ module DateFields =
         let ``ToYemoda(scope) throws when "scope" is null`` () =
             let fields = new DateFields(2021, 12, 3)
 
-            nullExn "scope" (fun () -> fields.ToYemoda(null))
+            nullExn "validator" (fun () -> fields.ToYemoda(null))
 
         [<Theory; ClassData(typeof<BadYearData>)>]
         let ``ToYemoda(scope) throws when the property Year is out of range`` y =
@@ -371,7 +371,7 @@ module MonthFields =
         let ``ToYemo(scope) throws when "scope" is null`` () =
             let fields = new MonthFields(2021, 12)
 
-            nullExn "scope" (fun () -> fields.ToYemo(null))
+            nullExn "validator" (fun () -> fields.ToYemo(null))
 
         [<Theory; ClassData(typeof<BadYearData>)>]
         let ``ToYemo(scope) throws when the property Year is out of range`` y =
@@ -543,7 +543,7 @@ module OrdinalFields =
         let ``ToYedoy(scope) throws when "scope" is null`` () =
             let fields = new OrdinalFields(2021, 255)
 
-            nullExn "scope" (fun () -> fields.ToYedoy(null))
+            nullExn "validator" (fun () -> fields.ToYedoy(null))
 
         [<Theory; ClassData(typeof<BadYearData>)>]
         let ``ToYedoy(scope) throws when the property Year is out of range`` y =
