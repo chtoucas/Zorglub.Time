@@ -3,8 +3,6 @@
 
 namespace Zorglub.Time.Core
 {
-    using System.Text;
-
     using Zorglub.Time.Core.Intervals;
 
     /// <summary>
