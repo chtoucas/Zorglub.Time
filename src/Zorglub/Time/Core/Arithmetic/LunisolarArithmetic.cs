@@ -58,7 +58,7 @@ namespace Zorglub.Time.Core.Arithmetic
 
             // Slow track.
             int daysSinceEpoch = checked(Schema.CountDaysSinceEpoch(y, m, d) + days);
-            Domain.CheckOverflow(daysSinceEpoch);
+            Domain.Check(daysSinceEpoch);
 
             return Schema.GetDateParts(daysSinceEpoch);
         }
@@ -154,7 +154,7 @@ namespace Zorglub.Time.Core.Arithmetic
 
             // Slow track.
             int daysSinceEpoch = checked(Schema.CountDaysSinceEpoch(y, doy) + days);
-            Domain.CheckOverflow(daysSinceEpoch);
+            Domain.Check(daysSinceEpoch);
 
             return Schema.GetOrdinalParts(daysSinceEpoch);
         }
@@ -223,7 +223,7 @@ namespace Zorglub.Time.Core.Arithmetic
             ym.Unpack(out int y, out int m);
 
             int monthsSinceEpoch = checked(Schema.CountMonthsSinceEpoch(y, m) + months);
-            MonthDomain.CheckOverflow(monthsSinceEpoch);
+            MonthDomain.Check(monthsSinceEpoch);
 
             return Schema.GetMonthParts(monthsSinceEpoch);
         }

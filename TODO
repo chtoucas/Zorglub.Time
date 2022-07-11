@@ -3,6 +3,7 @@
 
 - Refactor CalendarCatalog, split into a registry and a registar.
   Currently, it's almost impossible to achieve full test coverage.
+- CalendricalSegment -> SystemSegment
 - Overflow checking
   Pour le moment, c'est un peu éparpillé dans tous les sens. On doit pouvoir
   améliorer la situation. Créer une classe Domain?
@@ -63,7 +64,7 @@ Plan?
 - Horology
 
 ### Misc
-- Eras, an era is a named range of day numbers
+- Eras, an era is a named range of day numbers. Relation to scopes & calendars?
 - Day scales, moment, epoch
   Julian Day, Modified Julian Day
 - Time scales: TAI, TT, UTC

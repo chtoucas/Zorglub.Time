@@ -54,7 +54,7 @@ namespace Zorglub.Time.Core
         /// <exception cref="OverflowException"><paramref name="daysSinceEpoch"/> is outside the
         /// range of supported values.
         /// </exception>
-        public void CheckOverflow(int daysSinceEpoch)
+        public void Check(int daysSinceEpoch)
         {
             if (daysSinceEpoch < _min || daysSinceEpoch > _max) Throw.DateOverflow();
         }
