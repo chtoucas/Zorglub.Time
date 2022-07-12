@@ -93,7 +93,7 @@ namespace Zorglub.Time.Core
         /// Returns a culture-independent string representation of the current instance.
         /// </summary>
         [Pure]
-        public override string ToString() => SupportedYears.ToString();
+        public sealed override string ToString() => SupportedYears.ToString();
 
         /// <summary>
         /// Creates a new instance of the <see cref="SystemSegment"/> class from the specified range

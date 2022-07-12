@@ -136,6 +136,7 @@ const Zorglub.Time.Hemerology.Scopes.StandardScope.MaxYear = 9999 -> int
 const Zorglub.Time.Hemerology.Scopes.StandardScope.MinYear = 1 -> int
 const Zorglub.Time.Ord.MaxAlgebraicValue = 2147483647 -> int
 const Zorglub.Time.Ord.MinAlgebraicValue = -2147483646 -> int
+override sealed Zorglub.Time.Core.CalendricalSegment.ToString() -> string!
 override sealed Zorglub.Time.Core.Schemas.Coptic12Schema.CountDaysInMonth(int y, int m) -> int
 override sealed Zorglub.Time.Core.Schemas.Coptic12Schema.CountMonthsInYear(int y) -> int
 override sealed Zorglub.Time.Core.Schemas.Coptic12Schema.CountMonthsSinceEpoch(int y, int m) -> int
@@ -293,6 +294,10 @@ override sealed Zorglub.Time.Core.Schemas.TropicalistaSchema.IsLeapYear(int y) -
 override sealed Zorglub.Time.Core.Schemas.TropicalistaSchema.IsSupplementaryDay(int y, int m, int d) -> bool
 override sealed Zorglub.Time.Core.Schemas.TropicalistaSchema.PeriodicAdjustments.get -> Zorglub.Time.CalendricalAdjustments
 override sealed Zorglub.Time.Core.SystemSchema.IsRegular(out int monthsInYear) -> bool
+override sealed Zorglub.Time.Core.SystemSegment.ToString() -> string!
+override sealed Zorglub.Time.Core.Validation.SupportedDays.ToString() -> string!
+override sealed Zorglub.Time.Core.Validation.SupportedMonths.ToString() -> string!
+override sealed Zorglub.Time.Core.Validation.SupportedYears.ToString() -> string!
 override sealed Zorglub.Time.Hemerology.Scopes.ProlepticScope.ValidateOrdinal(int year, int dayOfYear, string? paramName = null) -> void
 override sealed Zorglub.Time.Hemerology.Scopes.ProlepticScope.ValidateYearMonth(int year, int month, string? paramName = null) -> void
 override sealed Zorglub.Time.Hemerology.Scopes.ProlepticScope.ValidateYearMonthDay(int year, int month, int day, string? paramName = null) -> void
@@ -300,7 +305,6 @@ override sealed Zorglub.Time.Hemerology.Scopes.StandardScope.ValidateOrdinal(int
 override sealed Zorglub.Time.Hemerology.Scopes.StandardScope.ValidateYearMonth(int year, int month, string? paramName = null) -> void
 override sealed Zorglub.Time.Hemerology.Scopes.StandardScope.ValidateYearMonthDay(int year, int month, int day, string? paramName = null) -> void
 override sealed Zorglub.Time.Simple.Calendar.ToString() -> string!
-override Zorglub.Time.Core.CalendricalSegment.ToString() -> string!
 override Zorglub.Time.Core.Intervals.LowerRay<T>.Equals(object? obj) -> bool
 override Zorglub.Time.Core.Intervals.LowerRay<T>.GetHashCode() -> int
 override Zorglub.Time.Core.Intervals.LowerRay<T>.ToString() -> string!
@@ -313,13 +317,9 @@ override Zorglub.Time.Core.Intervals.RangeSet<T>.ToString() -> string!
 override Zorglub.Time.Core.Intervals.UpperRay<T>.Equals(object? obj) -> bool
 override Zorglub.Time.Core.Intervals.UpperRay<T>.GetHashCode() -> int
 override Zorglub.Time.Core.Intervals.UpperRay<T>.ToString() -> string!
-override Zorglub.Time.Core.SystemSegment.ToString() -> string!
 override Zorglub.Time.Core.Utilities.OrderedPair<T>.Equals(object? obj) -> bool
 override Zorglub.Time.Core.Utilities.OrderedPair<T>.GetHashCode() -> int
 override Zorglub.Time.Core.Utilities.OrderedPair<T>.ToString() -> string!
-override Zorglub.Time.Core.Validation.SupportedDays.ToString() -> string!
-override Zorglub.Time.Core.Validation.SupportedMonths.ToString() -> string!
-override Zorglub.Time.Core.Validation.SupportedYears.ToString() -> string!
 override Zorglub.Time.Core.Yedoy.Equals(object? obj) -> bool
 override Zorglub.Time.Core.Yedoy.GetHashCode() -> int
 override Zorglub.Time.Core.Yedoy.ToString() -> string!
@@ -707,17 +707,6 @@ static Zorglub.Time.Simple.CalendarYear.operator ==(Zorglub.Time.Simple.Calendar
 static Zorglub.Time.Simple.CalendarYear.operator >(Zorglub.Time.Simple.CalendarYear left, Zorglub.Time.Simple.CalendarYear right) -> bool
 static Zorglub.Time.Simple.CalendarYear.operator >=(Zorglub.Time.Simple.CalendarYear left, Zorglub.Time.Simple.CalendarYear right) -> bool
 static Zorglub.Time.Simple.CopticCalendar.Instance.get -> Zorglub.Time.Simple.CopticCalendar!
-static Zorglub.Time.Simple.Difference.Between(Zorglub.Time.Simple.CalendarDate start, Zorglub.Time.Simple.CalendarDate end) -> (int Years, int Months, int Days)
-static Zorglub.Time.Simple.Difference.Between(Zorglub.Time.Simple.CalendarMonth start, Zorglub.Time.Simple.CalendarMonth end) -> (int Years, int Months)
-static Zorglub.Time.Simple.Difference.Between(Zorglub.Time.Simple.OrdinalDate start, Zorglub.Time.Simple.OrdinalDate end) -> (int Years, int Days)
-static Zorglub.Time.Simple.Difference.InDays(Zorglub.Time.Simple.CalendarDate start, Zorglub.Time.Simple.CalendarDate end) -> int
-static Zorglub.Time.Simple.Difference.InDays(Zorglub.Time.Simple.OrdinalDate start, Zorglub.Time.Simple.OrdinalDate end) -> int
-static Zorglub.Time.Simple.Difference.InMonths(Zorglub.Time.Simple.CalendarDate start, Zorglub.Time.Simple.CalendarDate end, out Zorglub.Time.Simple.CalendarDate newStart) -> int
-static Zorglub.Time.Simple.Difference.InMonths(Zorglub.Time.Simple.CalendarMonth start, Zorglub.Time.Simple.CalendarMonth end) -> int
-static Zorglub.Time.Simple.Difference.InYears(Zorglub.Time.Simple.CalendarDate start, Zorglub.Time.Simple.CalendarDate end, out Zorglub.Time.Simple.CalendarDate newStart) -> int
-static Zorglub.Time.Simple.Difference.InYears(Zorglub.Time.Simple.CalendarMonth start, Zorglub.Time.Simple.CalendarMonth end, out Zorglub.Time.Simple.CalendarMonth newStart) -> int
-static Zorglub.Time.Simple.Difference.InYears(Zorglub.Time.Simple.CalendarYear start, Zorglub.Time.Simple.CalendarYear end) -> int
-static Zorglub.Time.Simple.Difference.InYears(Zorglub.Time.Simple.OrdinalDate start, Zorglub.Time.Simple.OrdinalDate end, out Zorglub.Time.Simple.OrdinalDate newStart) -> int
 static Zorglub.Time.Simple.EthiopicCalendar.Instance.get -> Zorglub.Time.Simple.EthiopicCalendar!
 static Zorglub.Time.Simple.GregorianCalendar.Instance.get -> Zorglub.Time.Simple.GregorianCalendar!
 static Zorglub.Time.Simple.JulianCalendar.Instance.get -> Zorglub.Time.Simple.JulianCalendar!
@@ -1542,7 +1531,6 @@ Zorglub.Time.Simple.CalendarYear.YearOfCentury.get -> int
 Zorglub.Time.Simple.CalendarYear.YearOfEra.get -> Zorglub.Time.Ord
 Zorglub.Time.Simple.CopticCalendar
 Zorglub.Time.Simple.CopticCalendar.IsEpagomenalDay(Zorglub.Time.Simple.CalendarDate date, out int epagomenalNumber) -> bool
-Zorglub.Time.Simple.Difference
 Zorglub.Time.Simple.EthiopicCalendar
 Zorglub.Time.Simple.EthiopicCalendar.IsEpagomenalDay(Zorglub.Time.Simple.CalendarDate date, out int epagomenalNumber) -> bool
 Zorglub.Time.Simple.GregorianCalendar

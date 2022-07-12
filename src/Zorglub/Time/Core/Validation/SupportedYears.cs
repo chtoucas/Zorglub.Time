@@ -42,7 +42,7 @@ namespace Zorglub.Time.Core.Validation
         /// Returns a culture-independent string representation of the current instance.
         /// </summary>
         [Pure]
-        public override string ToString() => Range.ToString();
+        public sealed override string ToString() => Range.ToString();
 
         /// <summary>
         /// Validates the specified year.

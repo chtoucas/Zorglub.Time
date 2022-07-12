@@ -28,15 +28,21 @@ namespace Zorglub.Time.Core.Validation
         /// </summary>
         public Range<int> Range { get; }
 
+        /// <summary>
+        /// Gets the minimum number of consecutive days from the epoch.
+        /// </summary>
         public int MinDaysSinceEpoch { get; }
 
+        /// <summary>
+        /// Gets the maximum number of consecutive days from the epoch.
+        /// </summary>
         public int MaxDaysSinceEpoch { get; }
 
         /// <summary>
         /// Returns a culture-independent string representation of the current instance.
         /// </summary>
         [Pure]
-        public override string ToString() => Range.ToString();
+        public sealed override string ToString() => Range.ToString();
 
         /// <summary>
         /// Converts the current instance to a domain, a range of day numbers.

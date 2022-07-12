@@ -28,15 +28,21 @@ namespace Zorglub.Time.Core.Validation
         /// </summary>
         public Range<int> Range { get; }
 
+        /// <summary>
+        /// Gets the minimum number of consecutive months from the epoch.
+        /// </summary>
         public int MinMonthsSinceEpoch { get; }
 
+        /// <summary>
+        /// Gets the maximum number of consecutive months from the epoch.
+        /// </summary>
         public int MaxMonthsSinceEpoch { get; }
 
         /// <summary>
         /// Returns a culture-independent string representation of the current instance.
         /// </summary>
         [Pure]
-        public override string ToString() => Range.ToString();
+        public sealed override string ToString() => Range.ToString();
 
         /// <summary>
         /// Validates the specified number of consecutive months from the epoch.

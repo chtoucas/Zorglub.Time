@@ -102,7 +102,7 @@ namespace Zorglub.Time.Core
         /// Returns a culture-independent string representation of the current instance.
         /// </summary>
         [Pure]
-        public override string ToString() => MinMaxDateParts.ToString();
+        public sealed override string ToString() => MinMaxDateParts.ToString();
 
         /// <summary>
         /// Creates the maximal segment for <paramref name="schema"/>.
