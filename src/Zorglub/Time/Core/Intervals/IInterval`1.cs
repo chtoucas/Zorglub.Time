@@ -11,7 +11,7 @@ namespace Zorglub.Time.Core.Intervals
     /// purposes, we only need to know that intervals of integers or date-like types are discrete,
     /// while intervals of time-like types are not.</para>
     /// </summary>
-    /// <typeparam name="T">The type of the interval's elements.</typeparam>
+    /// <typeparam name="T">The type of the interval elements.</typeparam>
     public interface IInterval<T> : ISetMembership<T>
         where T : struct, IEquatable<T>, IComparable<T>
     {

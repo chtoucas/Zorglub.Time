@@ -6,14 +6,14 @@ namespace Zorglub.Time.Core.Validation
     using Zorglub.Time.Core.Intervals;
 
     /// <summary>
-    /// Defines helpers to check for overflows of a range.
+    /// Defines a range of calendrical values.
     /// </summary>
-    /// <typeparam name="T">The type of value to check for overflows.</typeparam>
+    /// <typeparam name="T">The type of the range elements.</typeparam>
     internal interface IDomain<T>
         where T : struct, IEquatable<T>, IComparable<T>
     {
         /// <summary>
-        /// Gets the range of supported numbers of consecutive days from the epoch.
+        /// Gets the raw range of values.
         /// </summary>
         Range<int> Range { get; }
 

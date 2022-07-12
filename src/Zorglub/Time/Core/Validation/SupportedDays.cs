@@ -8,8 +8,8 @@ namespace Zorglub.Time.Core.Validation
     using Zorglub.Time.Core.Intervals;
 
     /// <summary>
-    /// Represents a range of days, or more precisely the range of supported numbers of consecutive
-    /// days from the epoch.
+    /// Represents a range of days, that is the range of supported numbers of consecutive days from
+    /// the epoch.
     /// <para>This class cannot be inherited.</para>
     /// </summary>
     public sealed class SupportedDays : IDomain<int>
