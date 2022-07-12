@@ -18,13 +18,13 @@ Intel Core i7-4500U CPU 1.80GHz (Haswell), 1 CPU, 4 logical and 2 physical cores
 
 |              Method |      Mean |    Error |   StdDev | Ratio | RatioSD | Rank |
 |-------------------- |----------:|---------:|---------:|------:|--------:|-----:|
-|    'DayNumber     ' |  40.02 ns | 0.225 ns | 0.211 ns |  1.00 |    0.00 |    I |
-|  'CalendarDay     ' |  63.16 ns | 0.314 ns | 0.294 ns |  1.58 |    0.01 |   II |
-|     'DateTime *   ' |  80.97 ns | 0.246 ns | 0.192 ns |  2.02 |    0.01 |  III |
-|  'OrdinalDate  (O)' |  85.64 ns | 0.312 ns | 0.277 ns |  2.14 |    0.01 |   IV |
-| 'CalendarDate  (Y)' |  97.96 ns | 0.227 ns | 0.202 ns |  2.45 |    0.01 |    V |
-|     'WideDate  (Y)' | 119.30 ns | 0.803 ns | 0.751 ns |  2.98 |    0.03 |   VI |
-|    'LocalDate *(Y)' | 133.75 ns | 0.890 ns | 0.832 ns |  3.34 |    0.03 |  VII |
+|    'DayNumber     ' |  38.76 ns | 0.199 ns | 0.176 ns |  1.00 |    0.00 |    I |
+|  'CalendarDay     ' |  67.72 ns | 0.341 ns | 0.319 ns |  1.75 |    0.01 |   II |
+|     'WideDate  (Y)' |  75.50 ns | 0.357 ns | 0.316 ns |  1.95 |    0.01 |  III |
+|  'OrdinalDate  (O)' |  79.31 ns | 0.232 ns | 0.194 ns |  2.05 |    0.01 |   IV |
+|     'DateTime *   ' |  81.03 ns | 0.165 ns | 0.129 ns |  2.09 |    0.01 |    V |
+| 'CalendarDate  (Y)' |  97.09 ns | 0.370 ns | 0.328 ns |  2.50 |    0.01 |   VI |
+|    'LocalDate *(Y)' | 135.21 ns | 0.555 ns | 0.519 ns |  3.49 |    0.02 |  VII |
 
 BenchmarkDotNet=v0.13.1, OS=Windows 10.0.19042.1586 (20H2/October2020Update)
 Intel Core2 Duo CPU E8500 3.16GHz, 1 CPU, 2 logical and 2 physical cores
