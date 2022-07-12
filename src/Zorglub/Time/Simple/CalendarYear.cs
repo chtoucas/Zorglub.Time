@@ -20,10 +20,9 @@ namespace Zorglub.Time.Simple
     using Zorglub.Time.Core;
     using Zorglub.Time.Core.Intervals;
     using Zorglub.Time.Core.Schemas;
+    using Zorglub.Time.Core.Validation;
     using Zorglub.Time.Hemerology;
     using Zorglub.Time.Hemerology.Scopes;
-
-    using static Zorglub.Time.Core.Domains.DomainExtensions;
 
     /// <summary>
     /// Represents a calendar year.
@@ -550,7 +549,7 @@ namespace Zorglub.Time.Simple
             // calendar.
 
             ref readonly var chr = ref CalendarRef;
-            chr.Scope.ValidateYear(newYear, nameof(newYear));
+            chr.SupportedYearsImpl.Validate(newYear, nameof(newYear));
             return new CalendarYear(newYear, Cuid);
         }
 

@@ -3,8 +3,8 @@
 
 namespace Zorglub.Time.Core
 {
-    using Zorglub.Time.Core.Domains;
     using Zorglub.Time.Core.Intervals;
+    using Zorglub.Time.Core.Validation;
 
     /// <summary>
     /// Provides informations on a range of years for a given schema.

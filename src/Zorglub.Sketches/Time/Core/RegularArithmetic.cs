@@ -3,8 +3,8 @@
 
 namespace Zorglub.Time.Core
 {
-    using Zorglub.Time.Core.Domains;
     using Zorglub.Time.Core.Intervals;
+    using Zorglub.Time.Core.Validation;
 
     // There is another class named RegularArithmetic in the namespace Arithmetic
     // but it is internal.

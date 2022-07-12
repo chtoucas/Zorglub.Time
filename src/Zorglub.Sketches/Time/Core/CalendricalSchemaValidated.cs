@@ -4,6 +4,7 @@
 namespace Zorglub.Time.Core
 {
     using Zorglub.Time.Core.Intervals;
+    using Zorglub.Time.Core.Validation;
 
     // FIXME(code): que faire de la propriété Arithmetic?
 

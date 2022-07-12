@@ -4,8 +4,8 @@
 namespace Zorglub.Time.Simple
 {
     using Zorglub.Time.Core;
-    using Zorglub.Time.Core.Domains;
     using Zorglub.Time.Core.Intervals;
+    using Zorglub.Time.Core.Validation;
     using Zorglub.Time.Hemerology;
     using Zorglub.Time.Hemerology.Scopes;
 
@@ -379,7 +379,7 @@ namespace Zorglub.Time.Simple
         [SuppressMessage("Design", "CA1033:Interface methods should be callable by child types", Justification = "See CalendarYear.IsLeap.")]
         bool ICalendricalKernel.IsLeapYear(int year)
         {
-            Scope.ValidateYear(year);
+            SupportedYearsImpl.Validate(year);
             return Schema.IsLeapYear(year);
         }
 
@@ -419,7 +419,7 @@ namespace Zorglub.Time.Simple
         [SuppressMessage("Design", "CA1033:Interface methods should be callable by child types", Justification = "See CalendarYear.CountMonthsInYear().")]
         int ICalendricalKernel.CountMonthsInYear(int year)
         {
-            Scope.ValidateYear(year);
+            SupportedYearsImpl.Validate(year);
             return Schema.CountMonthsInYear(year);
         }
 
@@ -430,7 +430,7 @@ namespace Zorglub.Time.Simple
         [SuppressMessage("Design", "CA1033:Interface methods should be callable by child types", Justification = "See CalendarYear.CountDaysInYear().")]
         int ICalendricalKernel.CountDaysInYear(int year)
         {
-            Scope.ValidateYear(year);
+            SupportedYearsImpl.Validate(year);
             return Schema.CountDaysInYear(year);
         }
 
@@ -456,7 +456,7 @@ namespace Zorglub.Time.Simple
         [Pure]
         public CalendarYear GetCalendarYear(int year)
         {
-            Scope.ValidateYear(year);
+            SupportedYearsImpl.Validate(year);
             return new CalendarYear(year, Id);
         }
 

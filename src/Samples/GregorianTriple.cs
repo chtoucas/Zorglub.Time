@@ -9,9 +9,9 @@ using System.Diagnostics.Contracts;
 
 using Zorglub.Time;
 using Zorglub.Time.Core;
-using Zorglub.Time.Core.Domains;
 using Zorglub.Time.Core.Intervals;
 using Zorglub.Time.Core.Schemas;
+using Zorglub.Time.Core.Validation;
 using Zorglub.Time.Hemerology;
 
 // Demonstration that almost all operations only depend on the schema.

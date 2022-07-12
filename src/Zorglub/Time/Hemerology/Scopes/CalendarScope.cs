@@ -5,8 +5,8 @@ namespace Zorglub.Time.Hemerology.Scopes
 {
     using Zorglub.Time;
     using Zorglub.Time.Core;
-    using Zorglub.Time.Core.Domains;
     using Zorglub.Time.Core.Intervals;
+    using Zorglub.Time.Core.Validation;
 
     // Range of Supported Years
     // - ProlepticScope     [-9998..9999]
@@ -38,7 +38,6 @@ namespace Zorglub.Time.Hemerology.Scopes
             _schema = segment.Schema;
 
             Epoch = epoch;
-            SupportedYears = segment.SupportedYears;
             Domain = segment.SupportedDays.ToDomain(epoch);
         }
 
@@ -60,7 +59,7 @@ namespace Zorglub.Time.Hemerology.Scopes
         /// <summary>
         /// Gets the range of supported years.
         /// </summary>
-        protected SupportedYears SupportedYears { get; }
+        protected SupportedYears SupportedYears => Segment.SupportedYears;
 
         /// <summary>
         /// Gets the pre-validator.

@@ -3,8 +3,8 @@
 
 namespace Zorglub.Time.Core
 {
-    using Zorglub.Time.Core.Domains;
     using Zorglub.Time.Core.Intervals;
+    using Zorglub.Time.Core.Validation;
 
     // Works even if the boundary years are not complete.
 

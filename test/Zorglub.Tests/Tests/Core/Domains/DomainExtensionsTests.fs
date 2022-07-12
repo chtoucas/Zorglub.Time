@@ -6,12 +6,10 @@ module Zorglub.Tests.Core.Domains.DomainExtensionsTests
 open Zorglub.Testing
 
 open Zorglub.Time
-open Zorglub.Time.Core.Domains
 open Zorglub.Time.Core.Intervals
+open Zorglub.Time.Core.Validation
 
 open Xunit
-
-open type Zorglub.Time.Core.Domains.DomainExtensions
 
 [<Fact>]
 let ``Validate()`` () =

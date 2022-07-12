@@ -6,10 +6,9 @@ namespace Zorglub.Time.Simple
     using Zorglub.Time.Core;
     using Zorglub.Time.Core.Intervals;
     using Zorglub.Time.Core.Schemas;
+    using Zorglub.Time.Core.Validation;
     using Zorglub.Time.Hemerology;
     using Zorglub.Time.Hemerology.Scopes;
-
-    using static Zorglub.Time.Core.Domains.DomainExtensions;
 
     // To represent individual days within a month, the most natural type is
     // CalendarDate.

@@ -5,9 +5,8 @@ namespace Zorglub.Time.Hemerology
 {
     using Zorglub.Time.Core.Intervals;
     using Zorglub.Time.Core.Schemas;
+    using Zorglub.Time.Core.Validation;
     using Zorglub.Time.Hemerology.Scopes;
-
-    using static Zorglub.Time.Core.Domains.DomainExtensions;
 
     public readonly partial struct GregorianDay :
         IDate<GregorianDay>,

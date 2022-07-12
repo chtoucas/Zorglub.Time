@@ -11,10 +11,9 @@ using Zorglub.Time;
 using Zorglub.Time.Core;
 using Zorglub.Time.Core.Intervals;
 using Zorglub.Time.Core.Schemas;
+using Zorglub.Time.Core.Validation;
 using Zorglub.Time.Hemerology;
 using Zorglub.Time.Hemerology.Scopes;
-
-using static Zorglub.Time.Core.Domains.DomainExtensions;
 
 // Verification that one can create a date type without having access to
 // the internals of the assembly Zorglub.

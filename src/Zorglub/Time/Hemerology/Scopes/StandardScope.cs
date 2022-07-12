@@ -4,8 +4,8 @@
 namespace Zorglub.Time.Hemerology.Scopes
 {
     using Zorglub.Time.Core;
-    using Zorglub.Time.Core.Domains;
     using Zorglub.Time.Core.Intervals;
+    using Zorglub.Time.Core.Validation;
 
     /// <summary>
     /// Represents a scope for a calendar supporting <i>all</i> dates within the range [1..9999] of

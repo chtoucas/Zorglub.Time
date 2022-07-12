@@ -4,6 +4,7 @@
 namespace Zorglub.Time.Core
 {
     using Zorglub.Bulgroz.Archetypes;
+    using Zorglub.Time.Core.Validation;
 
     // TODO(code): the props Arithmetic and PreValidator are too simplistic.
     // Arithmetic:

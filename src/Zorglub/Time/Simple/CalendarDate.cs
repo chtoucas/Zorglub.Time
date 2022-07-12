@@ -5,10 +5,9 @@ namespace Zorglub.Time.Simple
 {
     using Zorglub.Time.Core;
     using Zorglub.Time.Core.Schemas;
+    using Zorglub.Time.Core.Validation;
     using Zorglub.Time.Hemerology;
     using Zorglub.Time.Hemerology.Scopes;
-
-    using static Zorglub.Time.Core.Domains.DomainExtensions;
 
     // Le seul constructeur publique ne permet que la création de dates dans le
     // calendrier grégorien. Pour les autres, on suit le procédé plus naturel

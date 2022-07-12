@@ -4,9 +4,9 @@
 namespace Zorglub.Time.Core
 {
     using Zorglub.Time.Core.Arithmetic;
-    using Zorglub.Time.Core.Domains;
     using Zorglub.Time.Core.Intervals;
     using Zorglub.Time.Core.Schemas;
+    using Zorglub.Time.Core.Validation;
 
     // TODO(doc): better explanation for the meaning of MinMinDaysInMonth and
     // MaxDaysViaDayOfMonth.

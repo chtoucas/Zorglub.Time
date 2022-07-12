@@ -4,7 +4,7 @@
 namespace Zorglub.Time.Simple
 {
     using Zorglub.Time.Core;
-    using Zorglub.Time.Core.Domains;
+    using Zorglub.Time.Core.Validation;
 
     // FIXME(code):
     // CountYearsBetween() overflow? Avec des années complètes, je ne pense pas.

@@ -8,10 +8,10 @@ namespace Zorglub.Time.Hemerology
     using Zorglub.Time.Core;
     using Zorglub.Time.Core.Intervals;
     using Zorglub.Time.Core.Schemas;
+    using Zorglub.Time.Core.Validation;
     using Zorglub.Time.Hemerology.Scopes;
 
     using static Zorglub.Time.Core.CalendricalConstants;
-    using static Zorglub.Time.Core.Domains.DomainExtensions;
 
     // REVIEW(api): prop Name (get and init) with default value = Key.
     // Instead of a maximal range of days, use a custom range of days? Hum,

@@ -3,7 +3,7 @@
 
 #pragma warning disable CA1725 // Parameter names should match base declaration (Naming)
 
-namespace Zorglub.Time.Core.Domains
+namespace Zorglub.Time.Core.Validation
 {
     using Zorglub.Time.Core.Intervals;
 
