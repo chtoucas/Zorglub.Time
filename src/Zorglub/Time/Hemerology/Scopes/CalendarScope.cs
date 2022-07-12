@@ -59,7 +59,7 @@ namespace Zorglub.Time.Hemerology.Scopes
         /// <summary>
         /// Gets the range of supported years.
         /// </summary>
-        protected internal Range<int> SupportedYears { get; }
+        protected Range<int> SupportedYears { get; }
 
         /// <summary>
         /// Gets the pre-validator.

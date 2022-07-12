@@ -137,16 +137,16 @@ namespace Zorglub.Time.Simple
             {
                 var scope = new ProlepticScope(schema, epoch);
                 Scope = scope;
-                YearDomain = ProlepticScope.YearDomain;
+                YearDomain = ProlepticScope.SupportedYearsImpl;
             }
             else
             {
                 var scope = new StandardScope(schema, epoch);
                 Scope = scope;
-                YearDomain = StandardScope.YearDomain;
+                YearDomain = StandardScope.SupportedYearsImpl;
             }
 
-            SystemSegment = SystemSegment.Create(schema, Scope.SupportedYears);
+            SystemSegment = SystemSegment.Create(schema, Scope.Segment.SupportedYears);
             Arithmetic = SystemArithmetic.CreateDefault(SystemSegment);
 
             // Keep this at the end of the constructor: before using "this",
@@ -222,7 +222,7 @@ namespace Zorglub.Time.Simple
         public Range<DayNumber> Domain => Scope.Domain;
 
         /// <inheritdoc />
-        public Range<int> SupportedYears => Scope.SupportedYears;
+        public Range<int> SupportedYears => Scope.Segment.SupportedYears;
 
         private OrderedPair<CalendarYear> _minMaxYear;
         /// <summary>

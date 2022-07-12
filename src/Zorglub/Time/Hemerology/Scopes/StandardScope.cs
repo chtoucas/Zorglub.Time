@@ -54,10 +54,10 @@ namespace Zorglub.Time.Hemerology.Scopes
         }
 
         /// <summary>
-        /// Gets the checker for overflows of the range of years.
+        /// Gets the range of supported years.
         /// <para>This static property is thread-safe.</para>
         /// </summary>
-        internal static IDomain<int> YearDomain { get; } = new SupportedYears_();
+        internal static IDomain<int> SupportedYearsImpl { get; } = new SupportedYears_();
 
         /// <inheritdoc />
         public sealed override void ValidateYearMonth(int year, int month, string? paramName = null)

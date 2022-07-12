@@ -42,7 +42,7 @@ namespace Zorglub.Time.Hemerology
         public CalendricalAdjustments PeriodicAdjustments => Schema.PeriodicAdjustments;
 
         /// <inheritdoc />
-        public Range<int> SupportedYears => Scope.SupportedYears;
+        public Range<int> SupportedYears => Scope.Segment.SupportedYears;
 
         /// <inheritdoc />
         public Range<DayNumber> Domain => Scope.Domain;

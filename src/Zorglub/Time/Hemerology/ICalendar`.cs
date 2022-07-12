@@ -119,7 +119,7 @@ namespace Zorglub.Time.Hemerology
         Range<DayNumber> Domain { get; }
 
         /// <summary>
-        /// Gets the calendrical scope, an object providing validation methods.
+        /// Gets the calendrical scope.
         /// </summary>
         CalendarScope Scope { get; }
 
