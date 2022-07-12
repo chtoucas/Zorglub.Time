@@ -1,13 +1,12 @@
 ﻿TODO
 ====
 
-Domains: SupportedYears, ValidateYear(), SupportedYearsTester
-Lot of cleanup to be done.
+Domains: SupportedYearsTester
 
 - Refactor CalendarCatalog, split into a registry and a registar.
   Currently, it's almost impossible to achieve full test coverage.
 - CalendricalSegment -> SystemSegment
-- Remove SupportedYears from most interfaces. Segment.IsIntegral
+- Segment.IsIntegral
 - Overflow checking (OK)
   - IOverflowChecker
   - Proleptic/StandardScope.YearOverflowChecker

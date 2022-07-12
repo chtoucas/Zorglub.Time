@@ -21,7 +21,7 @@ namespace Zorglub.Time.Hemerology
 
             MinDayNumber = scope.Domain.Min;
             SupportedYears = scope.Segment.SupportedYears;
-            MinYear = SupportedYears.Range.Min;
+            MinYear = SupportedYears.MinYear;
         }
 
         /// <summary>

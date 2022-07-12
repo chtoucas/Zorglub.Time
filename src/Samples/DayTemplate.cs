@@ -79,7 +79,6 @@ public partial struct DayTemplate
     }
 
     public static DayNumber Epoch { get; } = Scope.Epoch;
-    public static Range<int> SupportedYears { get; } = Scope.Segment.SupportedYears.Range;
     public static DayTemplate MinValue { get; } = new(Domain.Min - Epoch);
     public static DayTemplate MaxValue { get; } = new(Domain.Max - Epoch);
 

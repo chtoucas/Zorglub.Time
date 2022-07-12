@@ -43,7 +43,7 @@ namespace Zorglub.Time.Hemerology
         {
             DayProvider = new BoundedBelowDayProvider(scope);
 
-            (MinYear, MaxYear) = SupportedYears.Range.Endpoints;
+            MinYear = SupportedYears.MinYear;
             MinMonthParts = scope.MinMonthParts;
             MinDateParts = scope.MinDateParts;
             MinOrdinalParts = scope.MinOrdinalParts;
@@ -58,11 +58,6 @@ namespace Zorglub.Time.Hemerology
         /// Gets the earliest supported year.
         /// </summary>
         protected int MinYear { get; }
-
-        /// <summary>
-        /// Gets the latest supported year.
-        /// </summary>
-        protected int MaxYear { get; }
 
         /// <summary>
         /// Gets the earliest supported month parts.

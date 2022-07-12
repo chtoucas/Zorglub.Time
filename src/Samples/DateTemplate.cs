@@ -53,6 +53,7 @@ public readonly partial struct DateTemplate :
 public partial struct DateTemplate
 {
     private static PartsFactory PartsFactory { get; } = new(Scope);
+    private static SupportedYears SupportedYears { get; } = Scope.Segment.SupportedYears;
 
     private static Range<DayNumber> Domain => Scope.Domain;
 
@@ -69,9 +70,8 @@ public partial struct DateTemplate
     }
 
     public static DayNumber Epoch { get; } = Scope.Epoch;
-    public static Range<int> SupportedYears { get; } = Scope.Segment.SupportedYears.Range;
-    public static DateTemplate MinValue { get; } = new(Schema.GetDatePartsAtStartOfYear(SupportedYears.Min));
-    public static DateTemplate MaxValue { get; } = new(Schema.GetDatePartsAtEndOfYear(SupportedYears.Max));
+    public static DateTemplate MinValue { get; } = new(Schema.GetDatePartsAtStartOfYear(SupportedYears.MinYear));
+    public static DateTemplate MaxValue { get; } = new(Schema.GetDatePartsAtEndOfYear(SupportedYears.MaxYear));
 
     private static int EpochDayOfWeek { get; } = (int)Epoch.DayOfWeek;
 
