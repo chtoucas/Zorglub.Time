@@ -14,22 +14,23 @@ namespace Zorglub.Time.Core.Validation
     /// </summary>
     public sealed class SupportedDays : IDomain<int>
     {
-        private readonly int _min;
-        private readonly int _max;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="SupportedDays"/> class.
         /// </summary>
         public SupportedDays(Range<int> range)
         {
             Range = range;
-            (_min, _max) = range.Endpoints;
+            (MinDaysSinceEpoch, MaxDaysSinceEpoch) = range.Endpoints;
         }
 
         /// <summary>
         /// Gets the range of supported numbers of consecutive days from the epoch.
         /// </summary>
         public Range<int> Range { get; }
+
+        public int MinDaysSinceEpoch { get; }
+
+        public int MaxDaysSinceEpoch { get; }
 
         /// <summary>
         /// Returns a culture-independent string representation of the current instance.
@@ -50,7 +51,7 @@ namespace Zorglub.Time.Core.Validation
         /// <exception cref="AoorException">The validation failed.</exception>
         public void Validate(int daysSinceEpoch, string? paramName = null)
         {
-            if (daysSinceEpoch < _min || daysSinceEpoch > _max)
+            if (daysSinceEpoch < MinDaysSinceEpoch || daysSinceEpoch > MaxDaysSinceEpoch)
             {
                 Throw.ArgumentOutOfRange(paramName ?? nameof(daysSinceEpoch));
             }
@@ -65,7 +66,10 @@ namespace Zorglub.Time.Core.Validation
         /// </exception>
         public void Check(int daysSinceEpoch)
         {
-            if (daysSinceEpoch < _min || daysSinceEpoch > _max) Throw.DateOverflow();
+            if (daysSinceEpoch < MinDaysSinceEpoch || daysSinceEpoch > MaxDaysSinceEpoch)
+            {
+                Throw.DateOverflow();
+            }
         }
 
         /// <summary>
@@ -76,7 +80,7 @@ namespace Zorglub.Time.Core.Validation
         /// the upper bound of the range of supported values.</exception>
         public void CheckUpperBound(int daysSinceEpoch)
         {
-            if (daysSinceEpoch > _max) Throw.DateOverflow();
+            if (daysSinceEpoch > MaxDaysSinceEpoch) Throw.DateOverflow();
         }
 
         /// <summary>
@@ -87,7 +91,7 @@ namespace Zorglub.Time.Core.Validation
         /// lower bound of the range of supported values.</exception>
         public void CheckLowerBound(int daysSinceEpoch)
         {
-            if (daysSinceEpoch < _min) Throw.DateOverflow();
+            if (daysSinceEpoch < MinDaysSinceEpoch) Throw.DateOverflow();
         }
     }
 }

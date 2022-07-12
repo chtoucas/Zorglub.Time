@@ -137,13 +137,13 @@ namespace Zorglub.Time.Simple
             {
                 var scope = new ProlepticScope(schema, epoch);
                 Scope = scope;
-                SupportedYearsImpl = ProlepticScope.SupportedYearsImpl;
+                SupportedYears = ProlepticScope.SupportedYears;
             }
             else
             {
                 var scope = new StandardScope(schema, epoch);
                 Scope = scope;
-                SupportedYearsImpl = StandardScope.SupportedYearsImpl;
+                SupportedYears = StandardScope.SupportedYears;
             }
 
             SystemSegment = SystemSegment.Create(schema, Scope.Segment.SupportedYears.Range);
@@ -221,9 +221,6 @@ namespace Zorglub.Time.Simple
         /// <inheritdoc />
         public Range<DayNumber> Domain => Scope.Domain;
 
-        /// <inheritdoc />
-        public Range<int> SupportedYears => Scope.Segment.SupportedYears.Range;
-
         private OrderedPair<CalendarYear> _minMaxYear;
         /// <summary>
         /// Gets the pair of earliest and latest supported <see cref="CalendarYear"/>.
@@ -277,7 +274,7 @@ namespace Zorglub.Time.Simple
             if (_initialized) return;
 
             _minMaxYear =
-                from y in SupportedYears.Endpoints select new CalendarYear(y, Id);
+                from y in SupportedYears.Range.Endpoints select new CalendarYear(y, Id);
             _minMaxDay =
                 from dayNumber in Domain.Endpoints select new CalendarDay(dayNumber - Epoch, Id);
 
@@ -340,7 +337,10 @@ namespace Zorglub.Time.Simple
         /// <summary>
         /// Gets the range of supported years.
         /// </summary>
-        internal IDomain<int> SupportedYearsImpl { get; }
+        internal IDomain<int> SupportedYears { get; }
+
+        [Obsolete("Use SupportedYearsImpl instead.")]
+        public Range<int> SupportedYearsObsolete => Scope.Segment.SupportedYears.Range;
 
         /// <summary>
         /// Gets the checker for overflows of the range of supported values for the number of
@@ -379,7 +379,7 @@ namespace Zorglub.Time.Simple
         [SuppressMessage("Design", "CA1033:Interface methods should be callable by child types", Justification = "See CalendarYear.IsLeap.")]
         bool ICalendricalKernel.IsLeapYear(int year)
         {
-            SupportedYearsImpl.Validate(year);
+            SupportedYears.Validate(year);
             return Schema.IsLeapYear(year);
         }
 
@@ -419,7 +419,7 @@ namespace Zorglub.Time.Simple
         [SuppressMessage("Design", "CA1033:Interface methods should be callable by child types", Justification = "See CalendarYear.CountMonthsInYear().")]
         int ICalendricalKernel.CountMonthsInYear(int year)
         {
-            SupportedYearsImpl.Validate(year);
+            SupportedYears.Validate(year);
             return Schema.CountMonthsInYear(year);
         }
 
@@ -430,7 +430,7 @@ namespace Zorglub.Time.Simple
         [SuppressMessage("Design", "CA1033:Interface methods should be callable by child types", Justification = "See CalendarYear.CountDaysInYear().")]
         int ICalendricalKernel.CountDaysInYear(int year)
         {
-            SupportedYearsImpl.Validate(year);
+            SupportedYears.Validate(year);
             return Schema.CountDaysInYear(year);
         }
 
@@ -456,7 +456,7 @@ namespace Zorglub.Time.Simple
         [Pure]
         public CalendarYear GetCalendarYear(int year)
         {
-            SupportedYearsImpl.Validate(year);
+            SupportedYears.Validate(year);
             return new CalendarYear(year, Id);
         }
 

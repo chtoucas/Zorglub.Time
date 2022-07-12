@@ -25,7 +25,7 @@ namespace Zorglub.Time.Simple
     // and ordinal dates? and how could this be done? Hum no, use conversion from
     // date to ordinal repr.
     //
-    // Do we need stricter validation? or is YearDomain enough?
+    // Do we need stricter validation? or is SupportedYears enough?
     // Années complètes : on doit juste vérifier l'année.
     // Par contrat, à partir du moment où l'année est dans la plage
     // d'années supportée par un schéma, on sait que les méthodes ne
@@ -79,14 +79,14 @@ namespace Zorglub.Time.Simple
 
             Cuid = calendar.Id;
             Schema = calendar.Schema;
-            SupportedYears = calendar.SupportedYearsImpl;
+            SupportedYears = calendar.SupportedYears;
         }
 
         /// <summary>
         /// Gets the calendar.
         /// </summary>
         // NB: do not remove this property. For instance, if internally we can
-        // use YearDomain, externally we cannot, but there is
+        // use SupportedYears, externally we cannot, but there is
         // Calendar.SupportedYears instead. It's also useful if we want to be
         // able to create new date objects...
         public Calendar Calendar { get; }

@@ -14,22 +14,29 @@ namespace Zorglub.Time.Core.Validation
     /// </summary>
     public sealed class SupportedYears : IDomain<int>
     {
-        private readonly int _min;
-        private readonly int _max;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="SupportedYears"/> class.
         /// </summary>
         public SupportedYears(Range<int> range)
         {
             Range = range;
-            (_min, _max) = range.Endpoints;
+            (MinYear, MaxYear) = range.Endpoints;
         }
 
         /// <summary>
         /// Gets the range of supported years.
         /// </summary>
         public Range<int> Range { get; }
+
+        /// <summary>
+        /// Gets the ealiest supported year.
+        /// </summary>
+        public int MinYear { get; }
+
+        /// <summary>
+        /// Gets the latest supported year.
+        /// </summary>
+        public int MaxYear { get; }
 
         /// <summary>
         /// Returns a culture-independent string representation of the current instance.
@@ -43,7 +50,7 @@ namespace Zorglub.Time.Core.Validation
         /// <exception cref="AoorException">The validation failed.</exception>
         public void Validate(int year, string? paramName = null)
         {
-            if (year < _min || year > _max) Throw.YearOutOfRange(year, paramName);
+            if (year < MinYear || year > MaxYear) Throw.YearOutOfRange(year, paramName);
         }
 
         /// <summary>
@@ -53,7 +60,7 @@ namespace Zorglub.Time.Core.Validation
         /// supported values.</exception>
         public void Check(int year)
         {
-            if (year < _min || year > _max) Throw.DateOverflow();
+            if (year < MinYear || year > MaxYear) Throw.DateOverflow();
         }
 
         /// <summary>
@@ -63,7 +70,7 @@ namespace Zorglub.Time.Core.Validation
         /// supported values.</exception>
         public void CheckForMonth(int year)
         {
-            if (year < _min || year > _max) Throw.MonthOverflow();
+            if (year < MinYear || year > MaxYear) Throw.MonthOverflow();
         }
 
         /// <summary>
@@ -74,7 +81,7 @@ namespace Zorglub.Time.Core.Validation
         /// bound of the range of supported values.</exception>
         public void CheckUpperBound(int year)
         {
-            if (year > _max) Throw.DateOverflow();
+            if (year > MaxYear) Throw.DateOverflow();
         }
 
         /// <summary>
@@ -85,7 +92,7 @@ namespace Zorglub.Time.Core.Validation
         /// bound of the range of supported values.</exception>
         public void CheckLowerBound(int year)
         {
-            if (year < _max) Throw.DateOverflow();
+            if (year < MaxYear) Throw.DateOverflow();
         }
     }
 }

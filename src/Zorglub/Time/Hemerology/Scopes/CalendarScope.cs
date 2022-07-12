@@ -6,9 +6,8 @@ namespace Zorglub.Time.Hemerology.Scopes
     using Zorglub.Time;
     using Zorglub.Time.Core;
     using Zorglub.Time.Core.Intervals;
-    using Zorglub.Time.Core.Validation;
 
-    // Range of Supported Years
+    // Range of supported years
     // - ProlepticScope     [-9998..9999]
     // - StandardScope      [1..9999]
     // - MinMaxYearScope    [minYear..maxYear]
@@ -57,11 +56,6 @@ namespace Zorglub.Time.Hemerology.Scopes
         public CalendricalSegment Segment { get; }
 
         /// <summary>
-        /// Gets the range of supported years.
-        /// </summary>
-        protected SupportedYears SupportedYears => Segment.SupportedYears;
-
-        /// <summary>
         /// Gets the pre-validator.
         /// </summary>
         protected ICalendricalPreValidator PreValidator => _schema.PreValidator;
@@ -77,7 +71,7 @@ namespace Zorglub.Time.Hemerology.Scopes
 
         /// <inheritdoc />
         public void ValidateYear(int year, string? paramName = null) =>
-            SupportedYears.Validate(year, paramName);
+            Segment.SupportedYears.Validate(year, paramName);
 
         /// <inheritdoc />
         public abstract void ValidateYearMonth(int year, int month, string? paramName = null);

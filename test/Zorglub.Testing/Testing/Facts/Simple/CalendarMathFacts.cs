@@ -103,7 +103,7 @@ public partial class CalendarMathFacts<TDataSet> // CalendarDate
     [Fact]
     public void AddYears﹍CalendarDate_AtMinDate()
     {
-        int ys = Calendar.SupportedYears.Count() - 1;
+        int ys = Calendar.SupportedYears.Range.Count() - 1;
         // Act & Assert
         Assert.Overflows(() => MathUT.AddYears(MinDate, -1));
         Assert.Equal(MinDate, MathUT.AddYears(MinDate, 0));
@@ -119,7 +119,7 @@ public partial class CalendarMathFacts<TDataSet> // CalendarDate
     [Fact]
     public void AddYears﹍CalendarDate_AtMaxDate()
     {
-        int ys = Calendar.SupportedYears.Count() - 1;
+        int ys = Calendar.SupportedYears.Range.Count() - 1;
         // Act & Assert
         Assert.Overflows(() => MathUT.AddYears(MaxDate, -ys - 1));
         _ = MathUT.AddYears(MaxDate, -ys);
@@ -163,7 +163,7 @@ public partial class CalendarMathFacts<TDataSet> // CalendarDate
     [Fact]
     public void CountYearsBetween﹍CalendarDate_DoesNotOverflow()
     {
-        int ys = Calendar.SupportedYears.Count() - 1;
+        int ys = Calendar.SupportedYears.Range.Count() - 1;
         // Act & Assert
         Assert.Equal(ys, MathUT.CountYearsBetween(MinDate, MaxDate, out var newStart));
         Assert.Equal(MinDate.PlusYears(ys), newStart);
@@ -358,7 +358,7 @@ public partial class CalendarMathFacts<TDataSet> // OrdinalDate
     [Fact]
     public void AddYears﹍OrdinalDate_AtMinOrdinal()
     {
-        int ys = Calendar.SupportedYears.Count() - 1;
+        int ys = Calendar.SupportedYears.Range.Count() - 1;
         // Act & Assert
         Assert.Overflows(() => MathUT.AddYears(MinOrdinal, -1));
         Assert.Equal(MinOrdinal, MathUT.AddYears(MinOrdinal, 0));
@@ -374,7 +374,7 @@ public partial class CalendarMathFacts<TDataSet> // OrdinalDate
     [Fact]
     public void AddYears﹍OrdinalDate_AtMaxOrdinal()
     {
-        int ys = Calendar.SupportedYears.Count() - 1;
+        int ys = Calendar.SupportedYears.Range.Count() - 1;
         // Act & Assert
         Assert.Overflows(() => MathUT.AddYears(MaxOrdinal, -ys - 1));
         _ = MathUT.AddYears(MaxOrdinal, -ys);
@@ -418,7 +418,7 @@ public partial class CalendarMathFacts<TDataSet> // OrdinalDate
     [Fact]
     public void CountYearsBetween﹍OrdinalDate_DoesNotOverflow()
     {
-        int ys = Calendar.SupportedYears.Count() - 1;
+        int ys = Calendar.SupportedYears.Range.Count() - 1;
         // Act & Assert
         Assert.Equal(ys, MathUT.CountYearsBetween(MinOrdinal, MaxOrdinal, out var newStart));
         Assert.Equal(MinOrdinal.PlusYears(ys), newStart);
@@ -486,7 +486,7 @@ public partial class CalendarMathFacts<TDataSet> // CalendarMonth
     [Fact]
     public void AddYears﹍CalendarMonth_AtMinMonth()
     {
-        int ys = Calendar.SupportedYears.Count() - 1;
+        int ys = Calendar.SupportedYears.Range.Count() - 1;
         // Act & Assert
         Assert.Overflows(() => MathUT.AddYears(MinMonth, -1));
         Assert.Equal(MinMonth, MathUT.AddYears(MinMonth, 0));
@@ -502,7 +502,7 @@ public partial class CalendarMathFacts<TDataSet> // CalendarMonth
     [Fact]
     public void AddYears﹍CalendarMonth_AtMaxMonth()
     {
-        int ys = Calendar.SupportedYears.Count() - 1;
+        int ys = Calendar.SupportedYears.Range.Count() - 1;
         // Act & Assert
         Assert.Overflows(() => MathUT.AddYears(MaxMonth, -ys - 1));
         _ = MathUT.AddYears(MaxMonth, -ys);
@@ -564,7 +564,7 @@ public partial class CalendarMathFacts<TDataSet> // CalendarMonth
     [Fact]
     public void CountYearsBetween﹍CalendarMonth_DoesNotOverflow()
     {
-        int ys = Calendar.SupportedYears.Count() - 1;
+        int ys = Calendar.SupportedYears.Range.Count() - 1;
         // Act & Assert
         Assert.Equal(ys, MathUT.CountYearsBetween(MinMonth, MaxMonth, out var newStart));
         Assert.Equal(MinMonth.PlusYears(ys), newStart);
@@ -648,7 +648,7 @@ public partial class CalendarMathFacts<TDataSet> // CalendarMonth
     [Fact]
     public void AddMonths﹍CalendarMonth_WithLimitMonths()
     {
-        var supportedYears = Calendar.SupportedYears;
+        var supportedYears = Calendar.SupportedYearsImpl.Range;
         var month = GetSampleMonth();
         int minMs = MinMonth - month;
         int maxMs = MaxMonth - month;

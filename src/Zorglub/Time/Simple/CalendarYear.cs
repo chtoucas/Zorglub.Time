@@ -549,7 +549,7 @@ namespace Zorglub.Time.Simple
             // calendar.
 
             ref readonly var chr = ref CalendarRef;
-            chr.SupportedYearsImpl.Validate(newYear, nameof(newYear));
+            chr.SupportedYears.Validate(newYear, nameof(newYear));
             return new CalendarYear(newYear, Cuid);
         }
 
@@ -729,7 +729,7 @@ namespace Zorglub.Time.Simple
         {
             int y = checked(Year + years);
             ref readonly var chr = ref CalendarRef;
-            chr.SupportedYearsImpl.Check(y);
+            chr.SupportedYears.Check(y);
             return new CalendarYear(y, Cuid);
         }
 

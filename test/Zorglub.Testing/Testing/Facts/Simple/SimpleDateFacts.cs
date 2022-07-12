@@ -61,7 +61,7 @@ public abstract partial class SimpleDateFacts<TDate, TDataSet> :
         public static BaseCtorArgs Create(Calendar calendar)
         {
             Requires.NotNull(calendar);
-            return new BaseCtorArgs(calendar.SupportedYears, calendar.Domain);
+            return new BaseCtorArgs(calendar.SupportedYears.Range, calendar.Domain);
         }
     }
 }

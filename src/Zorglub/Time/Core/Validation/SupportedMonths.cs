@@ -14,22 +14,23 @@ namespace Zorglub.Time.Core.Validation
     /// </summary>
     public sealed class SupportedMonths : IDomain<int>
     {
-        private readonly int _min;
-        private readonly int _max;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="SupportedMonths"/> class.
         /// </summary>
         public SupportedMonths(Range<int> range)
         {
             Range = range;
-            (_min, _max) = range.Endpoints;
+            (MinMonthsSinceEpoch, MaxMonthsSinceEpoch) = range.Endpoints;
         }
 
         /// <summary>
         /// Gets the range of supported numbers of consecutive months from the epoch.
         /// </summary>
         public Range<int> Range { get; }
+
+        public int MinMonthsSinceEpoch { get; }
+
+        public int MaxMonthsSinceEpoch { get; }
 
         /// <summary>
         /// Returns a culture-independent string representation of the current instance.
@@ -43,7 +44,7 @@ namespace Zorglub.Time.Core.Validation
         /// <exception cref="AoorException">The validation failed.</exception>
         public void Validate(int monthsSinceEpoch, string? paramName = null)
         {
-            if (monthsSinceEpoch < _min || monthsSinceEpoch > _max)
+            if (monthsSinceEpoch < MinMonthsSinceEpoch || monthsSinceEpoch > MaxMonthsSinceEpoch)
             {
                 Throw.ArgumentOutOfRange(paramName ?? nameof(monthsSinceEpoch));
             }
@@ -58,7 +59,10 @@ namespace Zorglub.Time.Core.Validation
         /// </exception>
         public void Check(int monthsSinceEpoch)
         {
-            if (monthsSinceEpoch < _min || monthsSinceEpoch > _max) Throw.MonthOverflow();
+            if (monthsSinceEpoch < MinMonthsSinceEpoch || monthsSinceEpoch > MaxMonthsSinceEpoch)
+            {
+                Throw.MonthOverflow();
+            }
         }
 
         /// <summary>
@@ -69,7 +73,7 @@ namespace Zorglub.Time.Core.Validation
         /// the upper bound of the range of supported values.</exception>
         public void CheckUpperBound(int monthsSinceEpoch)
         {
-            if (monthsSinceEpoch > _max) Throw.MonthOverflow();
+            if (monthsSinceEpoch > MaxMonthsSinceEpoch) Throw.MonthOverflow();
         }
 
         /// <summary>
@@ -80,7 +84,7 @@ namespace Zorglub.Time.Core.Validation
         /// lower bound of the range of supported values.</exception>
         public void CheckLowerBound(int monthsSinceEpoch)
         {
-            if (monthsSinceEpoch < _min) Throw.MonthOverflow();
+            if (monthsSinceEpoch < MinMonthsSinceEpoch) Throw.MonthOverflow();
         }
     }
 }

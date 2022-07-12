@@ -36,7 +36,7 @@ public abstract partial class CalendarMonthFacts<TDataSet> :
         CalendarUT = calendar;
         OtherCalendar = otherCalendar;
 
-        SupportedYearsTester = new SupportedYearsTester(calendar.SupportedYears);
+        SupportedYearsTester = new SupportedYearsTester(calendar.SupportedYears.Range);
 
         (MinMonth, MaxMonth) = calendar.MinMaxMonth;
     }
@@ -731,7 +731,7 @@ public partial class CalendarMonthFacts<TDataSet> // Math
     [Fact]
     public void AddMonths_WithLimitMonths()
     {
-        var supportedYears = CalendarUT.SupportedYears;
+        var supportedYears = CalendarUT.SupportedYears.Range;
         var month = GetSampleMonth();
         int minMs = MinMonth - month;
         int maxMs = MaxMonth - month;

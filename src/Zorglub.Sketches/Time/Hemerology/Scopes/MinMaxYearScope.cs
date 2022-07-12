@@ -6,6 +6,7 @@ namespace Zorglub.Time.Hemerology.Scopes
     using Zorglub.Time;
     using Zorglub.Time.Core;
     using Zorglub.Time.Core.Intervals;
+    using Zorglub.Time.Core.Validation;
 
     /// <summary>
     /// Represents a scope for a calendar supporting <i>all</i> dates within a range of years.
@@ -13,6 +14,11 @@ namespace Zorglub.Time.Hemerology.Scopes
     /// </summary>
     public sealed class MinMaxYearScope : CalendarScope
     {
+        /// <summary>
+        /// Gets the range of supported years.
+        /// </summary>
+        private readonly SupportedYears _supportedYears;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="MinMaxYearScope"/> class.
         /// </summary>
@@ -23,14 +29,19 @@ namespace Zorglub.Time.Hemerology.Scopes
             : base(
                   epoch,
                   CalendricalSegment.Create(schema, Range.Create(minYear, maxYear)))
-        { }
+        {
+            _supportedYears = Segment.SupportedYears;
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MinMaxYearScope"/> class.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="segment"/> is null.</exception>
         private MinMaxYearScope(DayNumber epoch, CalendricalSegment segment)
-            : base(epoch, segment) { }
+            : base(epoch, segment)
+        {
+            _supportedYears = segment.SupportedYears;
+        }
 
         #region Factories
 
@@ -90,21 +101,21 @@ namespace Zorglub.Time.Hemerology.Scopes
         /// <inheritdoc />
         public sealed override void ValidateYearMonth(int year, int month, string? paramName = null)
         {
-            SupportedYears.Validate(year, paramName);
+            _supportedYears.Validate(year, paramName);
             PreValidator.ValidateMonth(year, month, paramName);
         }
 
         /// <inheritdoc />
         public sealed override void ValidateYearMonthDay(int year, int month, int day, string? paramName = null)
         {
-            SupportedYears.Validate(year, paramName);
+            _supportedYears.Validate(year, paramName);
             PreValidator.ValidateMonthDay(year, month, day, paramName);
         }
 
         /// <inheritdoc />
         public sealed override void ValidateOrdinal(int year, int dayOfYear, string? paramName = null)
         {
-            SupportedYears.Validate(year, paramName);
+            _supportedYears.Validate(year, paramName);
             PreValidator.ValidateDayOfYear(year, dayOfYear, paramName);
         }
     }

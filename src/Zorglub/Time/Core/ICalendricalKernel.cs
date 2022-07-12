@@ -34,11 +34,6 @@ namespace Zorglub.Time.Core
         CalendricalAdjustments PeriodicAdjustments { get; }
 
         /// <summary>
-        /// Gets the range of years for which the methods are known not to overflow.
-        /// </summary>
-        Range<int> SupportedYears { get; }
-
-        /// <summary>
         /// Returns true if this schema is regular; otherwise returns false.
         /// <para>The number of months is given in an output parameter; if this schema is not
         /// regular <paramref name="monthsInYear"/> is set to 0.</para>

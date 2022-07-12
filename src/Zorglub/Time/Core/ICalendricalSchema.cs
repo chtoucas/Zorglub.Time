@@ -138,6 +138,11 @@ namespace Zorglub.Time.Core
         Range<int> SupportedMonths { get; }
 
         /// <summary>
+        /// Gets the range of years for which the methods are known not to overflow.
+        /// </summary>
+        Range<int> SupportedYears { get; }
+
+        /// <summary>
         /// Gets the pre-validator for this schema.
         /// </summary>
         ICalendricalPreValidator PreValidator { get; }

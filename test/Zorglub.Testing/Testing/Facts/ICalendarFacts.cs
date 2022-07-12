@@ -31,7 +31,8 @@ public abstract partial class ICalendarFacts<TCalendar, TDataSet> :
 
         Domain = calendar.Domain;
 
-        SupportedYearsTester = new SupportedYearsTester(calendar.SupportedYears);
+        var supportedYears = calendar.Scope.Segment.SupportedYears.Range;
+        SupportedYearsTester = new SupportedYearsTester(supportedYears);
         DomainTester = new DomainTester(calendar.Domain);
     }
 

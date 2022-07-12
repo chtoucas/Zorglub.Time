@@ -64,11 +64,11 @@ module Prelude =
 
         scope.Segment.SupportedYears.Range === range
 
-module YearDomain =
+module SupportedYears =
     let validYearData = StandardScopeFacts.ValidYearData
     let invalidYearData = StandardScopeFacts.InvalidYearData
 
-    let supportedYears = StandardScope.SupportedYearsImpl
+    let supportedYears = StandardScope.SupportedYears
 
     [<Theory; MemberData(nameof(invalidYearData))>]
     let ``Check() overflows when "year" is out of range`` y =

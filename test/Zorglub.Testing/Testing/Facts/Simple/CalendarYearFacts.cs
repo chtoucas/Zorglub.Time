@@ -37,7 +37,7 @@ public abstract partial class CalendarYearFacts<TDataSet> :
         CalendarUT = calendar;
         OtherCalendar = otherCalendar;
 
-        SupportedYearsTester = new SupportedYearsTester(calendar.SupportedYears);
+        SupportedYearsTester = new SupportedYearsTester(calendar.SupportedYears.Range);
 
         (MinYear, MaxYear) = calendar.MinMaxYear;
     }
@@ -596,7 +596,7 @@ public partial class CalendarYearFacts<TDataSet> // Math
         // > int ys = MaxYear - MinYear;
         // but this is CountYearsSince() in disguise and I prefer to stick to
         // basic maths.
-        int ys = CalendarUT.SupportedYears.Count() - 1;
+        int ys = CalendarUT.SupportedYears.Range.Count() - 1;
         // Act & Assert
         Assert.Overflows(() => MinYear - 1);
         Assert.Equal(MinYear, MinYear - 0);
@@ -617,7 +617,7 @@ public partial class CalendarYearFacts<TDataSet> // Math
         // > int ys = MaxYear - MinYear;
         // but this is CountYearsSince() in disguise and I prefer to stick to
         // basic maths.
-        int ys = CalendarUT.SupportedYears.Count() - 1;
+        int ys = CalendarUT.SupportedYears.Range.Count() - 1;
         // Act & Assert
         Assert.Overflows(() => MaxYear - (ys + 1));
         Assert.Equal(MinYear, MaxYear - ys);

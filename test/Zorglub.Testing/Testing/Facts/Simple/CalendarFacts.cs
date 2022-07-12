@@ -50,7 +50,7 @@ public partial class CalendarFacts<TDataSet> // Properties
     {
         int minYear = CalendarUT.IsProleptic ? ProlepticScope.MinYear : StandardScope.MinYear;
         // Act
-        var supportedYears = CalendarUT.SupportedYears;
+        var supportedYears = CalendarUT.SupportedYears.Range;
         // Assert
         Assert.Equal(CalendarUT.Scope.Segment.SupportedYears.Range, supportedYears);
         Assert.Equal(minYear, supportedYears.Min);

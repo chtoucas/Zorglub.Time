@@ -41,8 +41,8 @@ namespace Zorglub.Time.Hemerology
         /// <inheritdoc />
         public CalendricalAdjustments PeriodicAdjustments => Schema.PeriodicAdjustments;
 
-        /// <inheritdoc />
-        public Range<int> SupportedYears => Scope.Segment.SupportedYears.Range;
+        [Obsolete("TO BE REMOVED")]
+        public Range<int> SupportedYearsObsolete => Scope.Segment.SupportedYears.Range;
 
         /// <inheritdoc />
         public Range<DayNumber> Domain => Scope.Domain;

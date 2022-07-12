@@ -70,11 +70,11 @@ module Prelude =
 
         scope.Segment.SupportedYears.Range === range
 
-module YearDomain =
+module SupportedYears =
     let validYearData = ProlepticScopeFacts.ValidYearData
     let invalidYearData = ProlepticScopeFacts.InvalidYearData
 
-    let supportedYears = ProlepticScope.SupportedYearsImpl
+    let supportedYears = ProlepticScope.SupportedYears
 
     [<Theory; MemberData(nameof(invalidYearData))>]
     let ``Check() overflows when "year" is out of range`` y =
