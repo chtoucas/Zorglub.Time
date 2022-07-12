@@ -60,7 +60,7 @@ namespace Zorglub.Time.Core
 
         /// <summary>
         /// Represents the interval [-999_998..999_999].
-        /// <para>It is the default value for <see cref="ICalendricalKernel.SupportedYears"/>.</para>
+        /// <para>It is the default value for <see cref="ICalendricalSchema.SupportedYears"/>.</para>
         /// <para>This field is read-only.</para>
         /// </summary>
         public static readonly Range<int> DefaultSupportedYears = new(DefaultMinYear, DefaultMaxYear);
@@ -68,7 +68,7 @@ namespace Zorglub.Time.Core
         /// <summary>
         /// Represents the interval [<see cref="Yemoda.MinYear"/>..<see cref="Yemoda.MaxYear"/>],
         /// that is [-2_097_152, 2_097_151].
-        /// <para>It is the maximum value for <see cref="ICalendricalKernel.SupportedYears"/>.</para>
+        /// <para>It is the maximum value for <see cref="ICalendricalSchema.SupportedYears"/>.</para>
         /// <para>It matches the value of <see cref="Yemoda.SupportedYears"/>.</para>
         /// <para>This field is read-only.</para>
         /// </summary>

@@ -9,7 +9,7 @@ namespace Zorglub.Time.Core.Validation
     /// Defines a range of calendrical values.
     /// </summary>
     /// <typeparam name="T">The type of the range elements.</typeparam>
-    internal interface IDomain<T>
+    internal interface ISupportedValues<T>
         where T : struct, IEquatable<T>, IComparable<T>
     {
         /// <summary>

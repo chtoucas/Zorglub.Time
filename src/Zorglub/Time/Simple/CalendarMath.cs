@@ -99,7 +99,7 @@ namespace Zorglub.Time.Simple
         /// <summary>
         /// Gets the range of supported years.
         /// </summary>
-        private protected IDomain<int> SupportedYears { get; }
+        private protected ISupportedValues<int> SupportedYears { get; }
 
         /// <summary>
         /// Gets the calendrical schema.

@@ -337,7 +337,7 @@ namespace Zorglub.Time.Simple
         /// <summary>
         /// Gets the range of supported years.
         /// </summary>
-        internal IDomain<int> SupportedYears { get; }
+        internal ISupportedValues<int> SupportedYears { get; }
 
         /// <summary>
         /// Gets the range of supported days.

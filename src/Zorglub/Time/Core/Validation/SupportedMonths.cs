@@ -12,7 +12,7 @@ namespace Zorglub.Time.Core.Validation
     /// from the epoch.
     /// <para>This class cannot be inherited.</para>
     /// </summary>
-    public sealed class SupportedMonths : IDomain<int>
+    public sealed class SupportedMonths : ISupportedValues<int>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="SupportedMonths"/> class.

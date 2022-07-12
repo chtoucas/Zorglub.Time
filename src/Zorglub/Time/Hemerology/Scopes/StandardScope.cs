@@ -57,7 +57,7 @@ namespace Zorglub.Time.Hemerology.Scopes
         /// Gets the range of supported years.
         /// <para>This static property is thread-safe.</para>
         /// </summary>
-        internal static IDomain<int> SupportedYears { get; } = new SupportedYears_();
+        internal static ISupportedValues<int> SupportedYears { get; } = new SupportedYears_();
 
         /// <inheritdoc />
         public sealed override void ValidateYearMonth(int year, int month, string? paramName = null)
@@ -80,7 +80,7 @@ namespace Zorglub.Time.Hemerology.Scopes
             PreValidator.ValidateDayOfYear(year, dayOfYear, paramName);
         }
 
-        private sealed class SupportedYears_ : IDomain<int>
+        private sealed class SupportedYears_ : ISupportedValues<int>
         {
             public Range<int> Range => s_SupportedYears;
 
