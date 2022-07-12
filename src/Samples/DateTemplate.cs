@@ -70,7 +70,7 @@ public partial struct DateTemplate
     }
 
     public static DayNumber Epoch { get; } = Scope.Epoch;
-    public static Range<int> SupportedYears { get; } = Scope.Segment.SupportedYears;
+    public static Range<int> SupportedYears { get; } = Scope.Segment.SupportedYears.Range;
     public static DateTemplate MinValue { get; } = new(Schema.GetDatePartsAtStartOfYear(SupportedYears.Min));
     public static DateTemplate MaxValue { get; } = new(Schema.GetDatePartsAtEndOfYear(SupportedYears.Max));
 

@@ -57,7 +57,7 @@ public partial class NakedCalendarFacts<TCalendar, TDataSet> // Properties
 
     [Fact]
     public sealed override void SupportedYears_Prop() =>
-        Assert.Equal(CalendarUT.Scope.Segment.SupportedYears, CalendarUT.SupportedYears);
+        Assert.Equal(CalendarUT.Scope.Segment.SupportedYears.Range, CalendarUT.SupportedYears);
 
     [Fact]
     public void ToString_ReturnsName() =>

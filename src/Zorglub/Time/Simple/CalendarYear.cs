@@ -730,7 +730,7 @@ namespace Zorglub.Time.Simple
         {
             int y = checked(Year + years);
             ref readonly var chr = ref CalendarRef;
-            chr.YearDomain.Check(y);
+            chr.SupportedYearsImpl.Check(y);
             return new CalendarYear(y, Cuid);
         }
 

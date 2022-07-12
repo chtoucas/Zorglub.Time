@@ -68,45 +68,45 @@ module Prelude =
         let scope = new ProlepticScope(new FauxCalendricalSchema(), epoch)
         let range = Range.Create(ProlepticScope.MinYear, ProlepticScope.MaxYear)
 
-        scope.Segment.SupportedYears === range
+        scope.Segment.SupportedYears.Range === range
 
 module YearDomain =
     let validYearData = ProlepticScopeFacts.ValidYearData
     let invalidYearData = ProlepticScopeFacts.InvalidYearData
 
-    let checker = ProlepticScope.YearDomain
+    let supportedYears = ProlepticScope.SupportedYearsImpl
 
     [<Theory; MemberData(nameof(invalidYearData))>]
     let ``Check() overflows when "year" is out of range`` y =
-        (fun () -> checker.Check(y)) |> overflows
+        (fun () -> supportedYears.Check(y)) |> overflows
 
     [<Theory; MemberData(nameof(validYearData))>]
     let ``Check() does not overflow for valid years`` y =
-        checker.Check(y)
+        supportedYears.Check(y)
 
     [<Fact>]
     let ``CheckLowerBound() overflows when "year" is out of range`` () =
-        (fun () -> checker.CheckLowerBound(Int32.MinValue)) |> overflows
-        (fun () -> checker.CheckLowerBound(ProlepticScope.MinYear - 1)) |> overflows
+        (fun () -> supportedYears.CheckLowerBound(Int32.MinValue)) |> overflows
+        (fun () -> supportedYears.CheckLowerBound(ProlepticScope.MinYear - 1)) |> overflows
 
     [<Fact>]
     let ``CheckLowerBound() does not overflow for valid years`` () =
-        checker.CheckLowerBound(ProlepticScope.MinYear)
-        checker.CheckLowerBound(ProlepticScope.MaxYear)
-        checker.CheckLowerBound(ProlepticScope.MaxYear + 1)
-        checker.CheckLowerBound(Int32.MaxValue)
+        supportedYears.CheckLowerBound(ProlepticScope.MinYear)
+        supportedYears.CheckLowerBound(ProlepticScope.MaxYear)
+        supportedYears.CheckLowerBound(ProlepticScope.MaxYear + 1)
+        supportedYears.CheckLowerBound(Int32.MaxValue)
 
     [<Fact>]
     let ``CheckUpperBound() overflows when "year" is out of range`` () =
-        (fun () -> checker.CheckUpperBound(ProlepticScope.MaxYear + 1)) |> overflows
-        (fun () -> checker.CheckUpperBound(Int32.MaxValue)) |> overflows
+        (fun () -> supportedYears.CheckUpperBound(ProlepticScope.MaxYear + 1)) |> overflows
+        (fun () -> supportedYears.CheckUpperBound(Int32.MaxValue)) |> overflows
 
     [<Fact>]
     let ``CheckUpperBound() does not overflow for valid years`` () =
-        checker.CheckUpperBound(Int32.MinValue)
-        checker.CheckUpperBound(ProlepticScope.MinYear - 1)
-        checker.CheckUpperBound(ProlepticScope.MinYear)
-        checker.CheckUpperBound(ProlepticScope.MaxYear)
+        supportedYears.CheckUpperBound(Int32.MinValue)
+        supportedYears.CheckUpperBound(ProlepticScope.MinYear - 1)
+        supportedYears.CheckUpperBound(ProlepticScope.MinYear)
+        supportedYears.CheckUpperBound(ProlepticScope.MaxYear)
 
 module GregorianCase =
     let private dataSet = GregorianDataSet.Instance

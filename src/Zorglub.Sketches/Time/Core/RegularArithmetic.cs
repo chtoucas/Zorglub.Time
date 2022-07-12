@@ -77,7 +77,7 @@ namespace Zorglub.Time.Core
         /// <summary>
         /// Gets the range of supported years.
         /// </summary>
-        private Range<int> SupportedYears => Segment.SupportedYears;
+        private SupportedYears SupportedYears => Segment.SupportedYears;
 
         /// <summary>
         /// Gets the earliest supported year.
@@ -262,8 +262,7 @@ namespace Zorglub.Time.Core
 
             m = 1 + MathZ.Modulo(checked(m - 1 + months), MonthsInYear, out int y0);
             y += y0;
-
-            if (SupportedYears.Contains(y) == false) Throw.MonthOverflow();
+            SupportedYears.CheckForMonth(y);
 
             return new MonthParts(y, m);
         }
@@ -296,8 +295,7 @@ namespace Zorglub.Time.Core
             var (y, m, d) = parts;
 
             y = checked(y + years);
-
-            if (SupportedYears.Contains(y) == false) Throw.DateOverflow();
+            SupportedYears.Check(y);
 
             int daysInMonth = _schema.CountDaysInMonth(y, m);
             roundoff = Math.Max(0, d - daysInMonth);
@@ -312,8 +310,7 @@ namespace Zorglub.Time.Core
 
             m = 1 + MathZ.Modulo(checked(m - 1 + months), MonthsInYear, out int y0);
             y += y0;
-
-            if (SupportedYears.Contains(y) == false) Throw.DateOverflow();
+            SupportedYears.Check(y);
 
             int daysInMonth = _schema.CountDaysInMonth(y, m);
             roundoff = Math.Max(0, d - daysInMonth);
@@ -327,8 +324,7 @@ namespace Zorglub.Time.Core
             var (y, doy) = parts;
 
             y = checked(y + years);
-
-            if (SupportedYears.Contains(y) == false) Throw.DateOverflow();
+            SupportedYears.Check(y);
 
             int daysInYear = _schema.CountDaysInYear(y);
             roundoff = Math.Max(0, doy - daysInYear);
@@ -342,8 +338,7 @@ namespace Zorglub.Time.Core
             var (y, m) = parts;
 
             y = checked(y + years);
-
-            if (SupportedYears.Contains(y) == false) Throw.MonthOverflow();
+            SupportedYears.CheckForMonth(y);
 
             roundoff = 0;
             return new MonthParts(y, m);

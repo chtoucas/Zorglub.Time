@@ -61,7 +61,7 @@ namespace Zorglub.Time.Hemerology.Scopes
         /// <inheritdoc />
         public sealed override void ValidateYearMonth(int year, int month, string? paramName = null)
         {
-            if (SupportedYears.Contains(year) == false) Throw.YearOutOfRange(year, paramName);
+            SupportedYears.Validate(year, paramName);
             PreValidator.ValidateMonth(year, month, paramName);
 
             // Tiny optimization: we first check "year".
@@ -74,7 +74,7 @@ namespace Zorglub.Time.Hemerology.Scopes
         /// <inheritdoc />
         public sealed override void ValidateYearMonthDay(int year, int month, int day, string? paramName = null)
         {
-            if (SupportedYears.Contains(year) == false) Throw.YearOutOfRange(year, paramName);
+            SupportedYears.Validate(year, paramName);
             PreValidator.ValidateMonthDay(year, month, day, paramName);
 
             // Tiny optimization: we first check "year".
@@ -97,7 +97,7 @@ namespace Zorglub.Time.Hemerology.Scopes
         /// <inheritdoc />
         public sealed override void ValidateOrdinal(int year, int dayOfYear, string? paramName = null)
         {
-            if (SupportedYears.Contains(year) == false) Throw.YearOutOfRange(year, paramName);
+            SupportedYears.Validate(year, paramName);
             PreValidator.ValidateDayOfYear(year, dayOfYear, paramName);
 
             // Tiny optimization: we first check "year".

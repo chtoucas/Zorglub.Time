@@ -39,7 +39,7 @@ namespace Zorglub.Time.Core
                 Range.FromEndpoints(MinMaxDateParts.Select(CountMonthsSinceEpoch, CountMonthsSinceEpoch)));
             MinMaxMonthParts = OrderedPair.FromOrderedValues(start.MonthParts, end.MonthParts);
 
-            SupportedYears = Range.Create(start.Year, end.Year);
+            SupportedYears = new SupportedYears(Range.Create(start.Year, end.Year));
 
             [Pure]
             int CountMonthsSinceEpoch(DateParts parts)
@@ -68,7 +68,7 @@ namespace Zorglub.Time.Core
         /// <summary>
         /// Gets the range of supported years.
         /// </summary>
-        public Range<int> SupportedYears { get; }
+        public SupportedYears SupportedYears { get; }
 
         /// <summary>
         /// Gets the pair of earliest and latest supported date parts.

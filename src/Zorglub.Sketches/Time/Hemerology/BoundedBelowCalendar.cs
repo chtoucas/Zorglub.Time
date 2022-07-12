@@ -42,7 +42,7 @@ namespace Zorglub.Time.Hemerology
         {
             DayProvider = new BoundedBelowDayProvider(scope);
 
-            (MinYear, MaxYear) = scope.Segment.SupportedYears.Endpoints;
+            (MinYear, MaxYear) = scope.Segment.SupportedYears.Range.Endpoints;
             MinMonthParts = scope.MinMonthParts;
             MinDateParts = scope.MinDateParts;
             MinOrdinalParts = scope.MinOrdinalParts;

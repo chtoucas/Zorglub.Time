@@ -36,7 +36,8 @@ public readonly partial record struct GregorianRecord :
 
 public readonly partial record struct GregorianRecord
 {
-    private static ICalendricalArithmetic Arithmetic { get; } = ICalendricalArithmetic.CreateDefault(Schema, Segment.SupportedYears);
+    private static ICalendricalArithmetic Arithmetic { get; } =
+        ICalendricalArithmetic.CreateDefault(Schema, Segment.SupportedYears.Range);
     private static PartsAdapter PartsAdapter { get; } = new(Schema);
     private static ICalendricalPreValidator PreValidator => Schema.PreValidator;
     private static SupportedDays SupportedDays => Segment.SupportedDays;
@@ -56,7 +57,7 @@ public readonly partial record struct GregorianRecord
         (Year, Month, Day) = parts;
     }
 
-    public static Range<int> SupportedYears => Segment.SupportedYears;
+    public static Range<int> SupportedYears => Segment.SupportedYears.Range;
     public static GregorianRecord MinValue { get; } = new(DateParts.AtStartOfYear(SupportedYears.Min));
     public static GregorianRecord MaxValue { get; } = new(PartsAdapter.GetDatePartsAtEndOfYear(SupportedYears.Max));
 

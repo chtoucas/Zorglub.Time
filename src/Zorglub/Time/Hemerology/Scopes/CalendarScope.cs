@@ -5,6 +5,7 @@ namespace Zorglub.Time.Hemerology.Scopes
 {
     using Zorglub.Time;
     using Zorglub.Time.Core;
+    using Zorglub.Time.Core.Domains;
     using Zorglub.Time.Core.Intervals;
 
     // Range of Supported Years
@@ -59,7 +60,7 @@ namespace Zorglub.Time.Hemerology.Scopes
         /// <summary>
         /// Gets the range of supported years.
         /// </summary>
-        protected Range<int> SupportedYears { get; }
+        protected SupportedYears SupportedYears { get; }
 
         /// <summary>
         /// Gets the pre-validator.
@@ -76,10 +77,8 @@ namespace Zorglub.Time.Hemerology.Scopes
         // TODO(api): remove ValidateYear()?
 
         /// <inheritdoc />
-        public void ValidateYear(int year, string? paramName = null)
-        {
-            if (SupportedYears.Contains(year) == false) Throw.YearOutOfRange(year, paramName);
-        }
+        public void ValidateYear(int year, string? paramName = null) =>
+            SupportedYears.Validate(year, paramName);
 
         /// <inheritdoc />
         public abstract void ValidateYearMonth(int year, int month, string? paramName = null);

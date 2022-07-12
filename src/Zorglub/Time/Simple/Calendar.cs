@@ -137,16 +137,16 @@ namespace Zorglub.Time.Simple
             {
                 var scope = new ProlepticScope(schema, epoch);
                 Scope = scope;
-                YearDomain = ProlepticScope.SupportedYearsImpl;
+                SupportedYearsImpl = ProlepticScope.SupportedYearsImpl;
             }
             else
             {
                 var scope = new StandardScope(schema, epoch);
                 Scope = scope;
-                YearDomain = StandardScope.SupportedYearsImpl;
+                SupportedYearsImpl = StandardScope.SupportedYearsImpl;
             }
 
-            SystemSegment = SystemSegment.Create(schema, Scope.Segment.SupportedYears);
+            SystemSegment = SystemSegment.Create(schema, Scope.Segment.SupportedYears.Range);
             Arithmetic = SystemArithmetic.CreateDefault(SystemSegment);
 
             // Keep this at the end of the constructor: before using "this",
@@ -222,7 +222,7 @@ namespace Zorglub.Time.Simple
         public Range<DayNumber> Domain => Scope.Domain;
 
         /// <inheritdoc />
-        public Range<int> SupportedYears => Scope.Segment.SupportedYears;
+        public Range<int> SupportedYears => Scope.Segment.SupportedYears.Range;
 
         private OrderedPair<CalendarYear> _minMaxYear;
         /// <summary>
@@ -338,9 +338,9 @@ namespace Zorglub.Time.Simple
         internal SystemArithmetic Arithmetic { get; }
 
         /// <summary>
-        /// Gets the checker for overflows of the range of years.
+        /// Gets the range of supported years.
         /// </summary>
-        internal IDomain<int> YearDomain { get; }
+        internal IDomain<int> SupportedYearsImpl { get; }
 
         /// <summary>
         /// Gets the checker for overflows of the range of supported values for the number of

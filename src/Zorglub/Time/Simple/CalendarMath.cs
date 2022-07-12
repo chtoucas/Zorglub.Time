@@ -79,7 +79,7 @@ namespace Zorglub.Time.Simple
 
             Cuid = calendar.Id;
             Schema = calendar.Schema;
-            YearDomain = calendar.YearDomain;
+            SupportedYears = calendar.SupportedYearsImpl;
         }
 
         /// <summary>
@@ -97,9 +97,9 @@ namespace Zorglub.Time.Simple
         public AdditionRuleset AdditionRuleset { get; }
 
         /// <summary>
-        /// Gets the checker for overflows of the range of years.
+        /// Gets the range of supported years.
         /// </summary>
-        private protected IDomain<int> YearDomain { get; }
+        private protected IDomain<int> SupportedYears { get; }
 
         /// <summary>
         /// Gets the calendrical schema.

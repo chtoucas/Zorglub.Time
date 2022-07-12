@@ -62,45 +62,45 @@ module Prelude =
         let scope = new StandardScope(new FauxCalendricalSchema(), epoch)
         let range = Range.Create(StandardScope.MinYear, StandardScope.MaxYear)
 
-        scope.Segment.SupportedYears === range
+        scope.Segment.SupportedYears.Range === range
 
 module YearDomain =
     let validYearData = StandardScopeFacts.ValidYearData
     let invalidYearData = StandardScopeFacts.InvalidYearData
 
-    let checker = StandardScope.YearDomain
+    let supportedYears = StandardScope.SupportedYearsImpl
 
     [<Theory; MemberData(nameof(invalidYearData))>]
     let ``Check() overflows when "year" is out of range`` y =
-        (fun () -> checker.Check(y)) |> overflows
+        (fun () -> supportedYears.Check(y)) |> overflows
 
     [<Theory; MemberData(nameof(validYearData))>]
     let ``Check() does not overflow for valid years`` y =
-        checker.Check(y)
+        supportedYears.Check(y)
 
     [<Fact>]
     let ``CheckLowerBound() overflows when "year" is out of range`` () =
-        (fun () -> checker.CheckLowerBound(Int32.MinValue)) |> overflows
-        (fun () -> checker.CheckLowerBound(StandardScope.MinYear - 1)) |> overflows
+        (fun () -> supportedYears.CheckLowerBound(Int32.MinValue)) |> overflows
+        (fun () -> supportedYears.CheckLowerBound(StandardScope.MinYear - 1)) |> overflows
 
     [<Fact>]
     let ``CheckLowerBound() does not overflow for valid years`` () =
-        checker.CheckLowerBound(StandardScope.MinYear)
-        checker.CheckLowerBound(StandardScope.MaxYear)
-        checker.CheckLowerBound(StandardScope.MaxYear + 1)
-        checker.CheckLowerBound(Int32.MaxValue)
+        supportedYears.CheckLowerBound(StandardScope.MinYear)
+        supportedYears.CheckLowerBound(StandardScope.MaxYear)
+        supportedYears.CheckLowerBound(StandardScope.MaxYear + 1)
+        supportedYears.CheckLowerBound(Int32.MaxValue)
 
     [<Fact>]
     let ``CheckUpperBound() overflows when "year" is out of range`` () =
-        (fun () -> checker.CheckUpperBound(StandardScope.MaxYear + 1)) |> overflows
-        (fun () -> checker.CheckUpperBound(Int32.MaxValue)) |> overflows
+        (fun () -> supportedYears.CheckUpperBound(StandardScope.MaxYear + 1)) |> overflows
+        (fun () -> supportedYears.CheckUpperBound(Int32.MaxValue)) |> overflows
 
     [<Fact>]
     let ``CheckUpperBound() does not overflow for valid years`` () =
-        checker.CheckUpperBound(Int32.MinValue)
-        checker.CheckUpperBound(StandardScope.MinYear - 1)
-        checker.CheckUpperBound(StandardScope.MinYear)
-        checker.CheckUpperBound(StandardScope.MaxYear)
+        supportedYears.CheckUpperBound(Int32.MinValue)
+        supportedYears.CheckUpperBound(StandardScope.MinYear - 1)
+        supportedYears.CheckUpperBound(StandardScope.MinYear)
+        supportedYears.CheckUpperBound(StandardScope.MaxYear)
 
 module GregorianCase =
     let private dataSet = GregorianDataSet.Instance

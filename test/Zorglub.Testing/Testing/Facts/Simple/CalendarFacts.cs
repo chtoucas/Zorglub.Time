@@ -52,7 +52,7 @@ public partial class CalendarFacts<TDataSet> // Properties
         // Act
         var supportedYears = CalendarUT.SupportedYears;
         // Assert
-        Assert.Equal(CalendarUT.Scope.Segment.SupportedYears, supportedYears);
+        Assert.Equal(CalendarUT.Scope.Segment.SupportedYears.Range, supportedYears);
         Assert.Equal(minYear, supportedYears.Min);
         Assert.Equal(ProlepticScope.MaxYear, supportedYears.Max);
     }

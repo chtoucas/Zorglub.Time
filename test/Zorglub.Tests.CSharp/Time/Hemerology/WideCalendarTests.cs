@@ -40,7 +40,7 @@ public partial class WideCalendarTests // Properties
     public sealed override void SupportedYears_Prop()
     {
         Assert.Equal(CalendarUT.Schema.SupportedYears, CalendarUT.SupportedYears);
-        Assert.Equal(CalendarUT.Scope.Segment.SupportedYears, CalendarUT.SupportedYears);
+        Assert.Equal(CalendarUT.Scope.Segment.SupportedYears.Range, CalendarUT.SupportedYears);
     }
 
     [Fact]

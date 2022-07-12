@@ -66,7 +66,7 @@ namespace Zorglub.Time.Hemerology
 
             Scope = scope;
             Epoch = scope.Epoch;
-            SupportedYears = scope.Segment.SupportedYears;
+            SupportedYears = scope.Segment.SupportedYears.Range;
             Domain = scope.Domain;
 
             MinMaxDate = from dayNumber in scope.Domain.Endpoints select new WideDate(dayNumber - Epoch, id);

@@ -62,7 +62,7 @@ public partial struct MyDate
     }
 
     public static DayNumber Epoch { get; } = Scope.Epoch;
-    public static Range<int> SupportedYears { get; } = Scope.Segment.SupportedYears;
+    public static Range<int> SupportedYears { get; } = Scope.Segment.SupportedYears.Range;
     public static MyDate MinValue { get; } = new(Schema.GetDatePartsAtStartOfYear(SupportedYears.Min));
     public static MyDate MaxValue { get; } = new(Schema.GetDatePartsAtEndOfYear(SupportedYears.Max));
 
