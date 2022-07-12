@@ -9,12 +9,6 @@ namespace Zorglub.Time.Core
     public interface ICalendricalValidator
     {
         /// <summary>
-        /// Validates the specified year.
-        /// </summary>
-        /// <exception cref="AoorException">The validation failed.</exception>
-        void ValidateYear(int year, string? paramName = null);
-
-        /// <summary>
         /// Validates the specified month.
         /// </summary>
         /// <exception cref="AoorException">The validation failed.</exception>

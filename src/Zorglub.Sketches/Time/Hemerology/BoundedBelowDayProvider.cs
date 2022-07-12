@@ -6,6 +6,7 @@ namespace Zorglub.Time.Hemerology
     using System.Linq;
 
     using Zorglub.Time.Core;
+    using Zorglub.Time.Core.Validation;
     using Zorglub.Time.Hemerology.Scopes;
 
     public sealed class BoundedBelowDayProvider : IDayProvider<DayNumber>
@@ -19,7 +20,8 @@ namespace Zorglub.Time.Hemerology
             Scope = scope ?? throw new ArgumentNullException(nameof(scope));
 
             MinDayNumber = scope.Domain.Min;
-            MinYear = scope.Segment.SupportedYears.Range.Min;
+            SupportedYears = scope.Segment.SupportedYears;
+            MinYear = SupportedYears.Range.Min;
         }
 
         /// <summary>
@@ -62,6 +64,11 @@ namespace Zorglub.Time.Hemerology
         /// </summary>
         private OrdinalParts MinOrdinalParts => Scope.MinOrdinalParts;
 
+        /// <summary>
+        /// Gets the range of supported years.
+        /// </summary>
+        private SupportedYears SupportedYears { get; }
+
         // TODO(code): shouldn't be here.
 
         /// <summary>
@@ -85,7 +92,7 @@ namespace Zorglub.Time.Hemerology
         [Pure]
         public IEnumerable<DayNumber> GetDaysInYear(int year)
         {
-            Scope.ValidateYear(year);
+            SupportedYears.Validate(year);
             int startOfYear, daysInYear;
             if (year == MinYear)
             {
@@ -139,7 +146,7 @@ namespace Zorglub.Time.Hemerology
         [Pure]
         public DayNumber GetStartOfYear(int year)
         {
-            Scope.ValidateYear(year);
+            SupportedYears.Validate(year);
             return year == MinYear
                 ? Throw.ArgumentOutOfRange<DayNumber>(nameof(year))
                 : Epoch + Schema.GetStartOfYear(year);
@@ -149,7 +156,7 @@ namespace Zorglub.Time.Hemerology
         [Pure]
         public DayNumber GetEndOfYear(int year)
         {
-            Scope.ValidateYear(year);
+            SupportedYears.Validate(year);
             return Epoch + Schema.GetEndOfYear(year);
         }
 

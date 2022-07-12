@@ -67,12 +67,6 @@ namespace Zorglub.Time.Hemerology.Scopes
 
         ICalendricalSchema ISchemaBound.Schema => _schema;
 
-        // TODO(api): remove ValidateYear()?
-
-        /// <inheritdoc />
-        public void ValidateYear(int year, string? paramName = null) =>
-            Segment.SupportedYears.Validate(year, paramName);
-
         /// <inheritdoc />
         public abstract void ValidateYearMonth(int year, int month, string? paramName = null);
 

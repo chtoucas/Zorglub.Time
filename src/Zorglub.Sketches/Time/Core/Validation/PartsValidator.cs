@@ -21,15 +21,6 @@ namespace Zorglub.Time.Core.Validation
         public static PartsValidator Instance { get; } = new();
 
         /// <inheritdoc />
-        public void ValidateYear(int year, string? paramName = null)
-        {
-            if (year < Yemoda.MinYear || year > Yemoda.MaxYear)
-            {
-                Throw.YearOutOfRange(year, paramName);
-            }
-        }
-
-        /// <inheritdoc />
         public void ValidateYearMonth(int year, int month, string? paramName = null)
         {
             if (year < Yemo.MinYear || year > Yemo.MaxYear)

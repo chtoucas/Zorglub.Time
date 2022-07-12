@@ -85,7 +85,7 @@ namespace Zorglub.Time.Hemerology
         [Pure]
         public bool IsLeapYear(int year)
         {
-            Scope.ValidateYear(year);
+            SupportedYears.Validate(year);
             return Schema.IsLeapYear(year);
         }
 

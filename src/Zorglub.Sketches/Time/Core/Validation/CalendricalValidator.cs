@@ -27,7 +27,7 @@ namespace Zorglub.Time.Core.Validation
         /// Represents the range of supported years.
         /// <para>This field is read-only.</para>
         /// </summary>
-        private readonly Range<int> _supportedYears;
+        private readonly SupportedYears _supportedYears;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CalendricalValidator"/> class.
@@ -40,8 +40,8 @@ namespace Zorglub.Time.Core.Validation
             _schema = schema ?? throw new ArgumentNullException(nameof(schema));
 
             _preValidator = schema.PreValidator;
-            _supportedYears = supportedYears;
             Segment = CalendricalSegment.Create(schema, supportedYears);
+            _supportedYears = Segment.SupportedYears;
         }
 
         /// <summary>
@@ -52,29 +52,23 @@ namespace Zorglub.Time.Core.Validation
         ICalendricalSchema ISchemaBound.Schema => _schema;
 
         /// <inheritdoc />
-        public void ValidateYear(int year, string? paramName = null)
-        {
-            if (_supportedYears.Contains(year) == false) Throw.YearOutOfRange(year, paramName);
-        }
-
-        /// <inheritdoc />
         public void ValidateYearMonth(int year, int month, string? paramName = null)
         {
-            if (_supportedYears.Contains(year) == false) Throw.YearOutOfRange(year, paramName);
+            _supportedYears.Validate(year, paramName);
             _preValidator.ValidateMonth(year, month, paramName);
         }
 
         /// <inheritdoc />
         public void ValidateYearMonthDay(int year, int month, int day, string? paramName = null)
         {
-            if (_supportedYears.Contains(year) == false) Throw.YearOutOfRange(year, paramName);
+            _supportedYears.Validate(year, paramName);
             _preValidator.ValidateMonthDay(year, month, day, paramName);
         }
 
         /// <inheritdoc />
         public void ValidateOrdinal(int year, int dayOfYear, string? paramName = null)
         {
-            if (_supportedYears.Contains(year) == false) Throw.YearOutOfRange(year, paramName);
+            _supportedYears.Validate(year, paramName);
             _preValidator.ValidateDayOfYear(year, dayOfYear, paramName);
         }
     }

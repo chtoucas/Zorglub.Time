@@ -26,8 +26,8 @@ internal abstract class CalendarScopeFacts<TScope, TDataSet> :
 
     #region ValidateYear()
 
-    [Theory] public abstract void ValidateYear_InvalidYear(int y);
-    [Theory] public abstract void ValidateYear(int y);
+    //[Theory] public abstract void ValidateYear_InvalidYear(int y);
+    //[Theory] public abstract void ValidateYear(int y);
 
     #endregion
     #region ValidateYearMonth()

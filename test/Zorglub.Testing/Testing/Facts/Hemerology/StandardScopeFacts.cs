@@ -49,15 +49,15 @@ internal abstract class StandardScopeFacts<TDataSet> :
     /// </summary>
     protected StandardScope StandardScopeView { get; }
 
-    [Theory, MemberData(nameof(ValidYearData))]
-    public sealed override void ValidateYear(int y) => StandardScopeView.ValidateYear(y);
+    //[Theory, MemberData(nameof(ValidYearData))]
+    //public sealed override void ValidateYear(int y) => StandardScopeView.ValidateYear(y);
 
-    [Theory, MemberData(nameof(InvalidYearData))]
-    public sealed override void ValidateYear_InvalidYear(int y)
-    {
-        Assert.ThrowsAoorexn("year", () => StandardScopeView.ValidateYear(y));
-        Assert.ThrowsAoorexn("y", () => StandardScopeView.ValidateYear(y, nameof(y)));
-    }
+    //[Theory, MemberData(nameof(InvalidYearData))]
+    //public sealed override void ValidateYear_InvalidYear(int y)
+    //{
+    //    Assert.ThrowsAoorexn("year", () => StandardScopeView.ValidateYear(y));
+    //    Assert.ThrowsAoorexn("y", () => StandardScopeView.ValidateYear(y, nameof(y)));
+    //}
 
     [Theory, MemberData(nameof(InvalidYearData))]
     public sealed override void ValidateYearMonth_InvalidYear(int y)

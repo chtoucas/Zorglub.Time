@@ -6,6 +6,7 @@ namespace Zorglub.Time.Hemerology
     using System.Linq;
 
     using Zorglub.Time.Core;
+    using Zorglub.Time.Core.Validation;
     using Zorglub.Time.Hemerology.Scopes;
 
     // REVIEW: Name? Today() -> move this to the scope?
@@ -42,6 +43,8 @@ namespace Zorglub.Time.Hemerology
 
             _epoch = scope.Epoch;
             _schema = scope.Schema;
+
+            SupportedYears = scope.Segment.SupportedYears;
         }
 
         /// <summary>
@@ -49,12 +52,17 @@ namespace Zorglub.Time.Hemerology
         /// </summary>
         public CalendarScope Scope { get; }
 
+        /// <summary>
+        /// Gets the range of supported years.
+        /// </summary>
+        private SupportedYears SupportedYears { get; }
+
         /// <inheritdoc />
         [Pure]
         public IEnumerable<DayNumber> GetDaysInYear(int year)
         {
             // Check arg eagerly.
-            Scope.ValidateYear(year);
+            SupportedYears.Validate(year);
 
             return Iterator();
 
@@ -93,7 +101,7 @@ namespace Zorglub.Time.Hemerology
         [Pure]
         public DayNumber GetStartOfYear(int year)
         {
-            Scope.ValidateYear(year);
+            SupportedYears.Validate(year);
             return _epoch + _schema.GetStartOfYear(year);
         }
 
@@ -101,7 +109,7 @@ namespace Zorglub.Time.Hemerology
         [Pure]
         public DayNumber GetEndOfYear(int year)
         {
-            Scope.ValidateYear(year);
+            SupportedYears.Validate(year);
             return _epoch + _schema.GetEndOfYear(year);
         }
 
