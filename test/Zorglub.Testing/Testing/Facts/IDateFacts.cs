@@ -28,12 +28,12 @@ public abstract partial class IDateFacts<TDate, TDataSet> :
     {
         Domain = domain;
 
-        SupportedYearsTester = new SupportedYearsTester(supportedYears);
+        //SupportedYearsTester = new SupportedYearsTester(supportedYears);
     }
 
     protected Range<DayNumber> Domain { get; }
 
-    protected SupportedYearsTester SupportedYearsTester { get; }
+    //protected SupportedYearsTester SupportedYearsTester { get; }
 
     protected abstract TDate MinDate { get; }
     protected abstract TDate MaxDate { get; }

@@ -4,6 +4,7 @@
 namespace Zorglub.Time.Hemerology
 {
     using Zorglub.Time.Core;
+    using Zorglub.Time.Core.Validation;
     using Zorglub.Time.Hemerology.Scopes;
 
     // FIXME(code): we no longer require that minDate != startOfYear and
@@ -42,7 +43,7 @@ namespace Zorglub.Time.Hemerology
         {
             DayProvider = new BoundedBelowDayProvider(scope);
 
-            (MinYear, MaxYear) = scope.Segment.SupportedYears.Range.Endpoints;
+            (MinYear, MaxYear) = SupportedYears.Range.Endpoints;
             MinMonthParts = scope.MinMonthParts;
             MinDateParts = scope.MinDateParts;
             MinOrdinalParts = scope.MinOrdinalParts;
@@ -93,7 +94,7 @@ namespace Zorglub.Time.Hemerology
         [Pure]
         public sealed override int CountMonthsInYear(int year)
         {
-            Scope.ValidateYear(year);
+            SupportedYears.Validate(year);
             return year == MinYear
                 ? CountMonthsInFirstYear()
                 : Schema.CountMonthsInYear(year);
@@ -103,7 +104,7 @@ namespace Zorglub.Time.Hemerology
         [Pure]
         public sealed override int CountDaysInYear(int year)
         {
-            Scope.ValidateYear(year);
+            SupportedYears.Validate(year);
             return year == MinYear
                 ? CountDaysInFirstYear()
                 : Schema.CountDaysInYear(year);
@@ -164,7 +165,7 @@ namespace Zorglub.Time.Hemerology
         [Pure]
         public sealed override DateParts GetStartOfYear(int year)
         {
-            Scope.ValidateYear(year);
+            SupportedYears.Validate(year);
             return year == MinYear
                 ? Throw.ArgumentOutOfRange<DateParts>(nameof(year))
                 : DateParts.AtStartOfYear(year);
@@ -174,7 +175,7 @@ namespace Zorglub.Time.Hemerology
         [Pure]
         public sealed override DateParts GetEndOfYear(int year)
         {
-            Scope.ValidateYear(year);
+            SupportedYears.Validate(year);
             return PartsAdapter.GetDatePartsAtEndOfYear(year);
         }
 

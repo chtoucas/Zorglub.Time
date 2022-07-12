@@ -24,9 +24,10 @@ public static class BoundedBelowCalendarTests
     {
         // Act
         var chr = CalendarZoo.GenuineGregorian;
+        int minYear = chr.MinDateParts.Year;
         int monthsInFirstYear = 3;
         // Assert
-        Assert.Equal(monthsInFirstYear, chr.CountMonthsInYear(chr.SupportedYearsObsolete.Min));
+        Assert.Equal(monthsInFirstYear, chr.CountMonthsInYear(minYear));
         Assert.Equal(monthsInFirstYear, chr.CountMonthsInFirstYear());
     }
 
@@ -35,9 +36,10 @@ public static class BoundedBelowCalendarTests
     {
         // Act
         var chr = CalendarZoo.GenuineGregorian;
+        int minYear = chr.MinDateParts.Year;
         int daysInFirstYear = 78;
         // Assert
-        Assert.Equal(daysInFirstYear, chr.CountDaysInYear(chr.SupportedYearsObsolete.Min));
+        Assert.Equal(daysInFirstYear, chr.CountDaysInYear(minYear));
         Assert.Equal(daysInFirstYear, chr.CountDaysInFirstYear());
     }
 
@@ -72,14 +74,6 @@ public sealed class GregorianBoundedBelowCalendarTests
             new GregorianSchema(),
             DayZero.NewStyle,
             FirstYear, FirstMonth, FirstDay);
-
-    [Fact]
-    public void MinYear_Prop() =>
-        Assert.Equal(FirstYear, CalendarUT.SupportedYearsObsolete.Min);
-
-    [Fact]
-    public void MaxYear_Prop() =>
-        Assert.Equal(CalendarUT.Schema.SupportedYears.Max, CalendarUT.SupportedYearsObsolete.Max);
 
     [Fact]
     public void MinDateParts_Prop()

@@ -34,6 +34,8 @@ namespace Zorglub.Time.Hemerology
         /// <exception cref="ArgumentNullException"><paramref name="scope"/> is null.</exception>
         public MinMaxYearCalendar(string name, MinMaxYearScope scope) : base(name, scope)
         {
+            Debug.Assert(scope != null);
+
             DayProvider = new MinMaxYearDayProvider(scope);
         }
 
@@ -84,7 +86,7 @@ namespace Zorglub.Time.Hemerology
         [Pure]
         public sealed override int CountMonthsInYear(int year)
         {
-            Scope.ValidateYear(year);
+            SupportedYears.Validate(year);
             return Schema.CountMonthsInYear(year);
         }
 
@@ -92,7 +94,7 @@ namespace Zorglub.Time.Hemerology
         [Pure]
         public sealed override int CountDaysInYear(int year)
         {
-            Scope.ValidateYear(year);
+            SupportedYears.Validate(year);
             return Schema.CountDaysInYear(year);
         }
 
@@ -112,7 +114,7 @@ namespace Zorglub.Time.Hemerology
         public sealed override IEnumerable<DateParts> GetDaysInYear(int year)
         {
             // Check arg eagerly.
-            Scope.ValidateYear(year);
+            SupportedYears.Validate(year);
 
             return Iterator();
 
@@ -156,7 +158,7 @@ namespace Zorglub.Time.Hemerology
         [Pure]
         public sealed override DateParts GetStartOfYear(int year)
         {
-            Scope.ValidateYear(year);
+            SupportedYears.Validate(year);
             return DateParts.AtStartOfYear(year);
         }
 
@@ -164,7 +166,7 @@ namespace Zorglub.Time.Hemerology
         [Pure]
         public sealed override DateParts GetEndOfYear(int year)
         {
-            Scope.ValidateYear(year);
+            SupportedYears.Validate(year);
             return PartsAdapter.GetDatePartsAtEndOfYear(year);
         }
 

@@ -5,6 +5,7 @@ namespace Zorglub.Time.Hemerology
 {
     using Zorglub.Time.Core;
     using Zorglub.Time.Core.Intervals;
+    using Zorglub.Time.Core.Validation;
     using Zorglub.Time.Hemerology.Scopes;
 
     /// <summary>
@@ -22,6 +23,8 @@ namespace Zorglub.Time.Hemerology
         {
             Name = name ?? throw new ArgumentNullException(nameof(name));
             Scope = scope ?? throw new ArgumentNullException(nameof(scope));
+
+            SupportedYears = scope.Segment.SupportedYears;
         }
 
         /// <summary>
@@ -40,10 +43,6 @@ namespace Zorglub.Time.Hemerology
 
         /// <inheritdoc />
         public CalendricalAdjustments PeriodicAdjustments => Schema.PeriodicAdjustments;
-
-        [Obsolete("TO BE REMOVED")]
-        public Range<int> SupportedYearsObsolete => Scope.Segment.SupportedYears.Range;
-
         /// <inheritdoc />
         public Range<DayNumber> Domain => Scope.Domain;
 
@@ -59,6 +58,11 @@ namespace Zorglub.Time.Hemerology
         /// Gets the pre-validator.
         /// </summary>
         protected internal ICalendricalPreValidator PreValidator => Schema.PreValidator;
+
+        /// <summary>
+        /// Gets the range of supported years.
+        /// </summary>
+        protected internal SupportedYears SupportedYears { get; }
 
         /// <summary>
         /// Returns a string representation of the current instance.

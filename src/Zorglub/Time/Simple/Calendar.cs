@@ -146,7 +146,7 @@ namespace Zorglub.Time.Simple
                 SupportedYears = StandardScope.SupportedYears;
             }
 
-            SystemSegment = SystemSegment.Create(schema, Scope.Segment.SupportedYears.Range);
+            SystemSegment = SystemSegment.Create(schema, SupportedYears.Range);
             Arithmetic = SystemArithmetic.CreateDefault(SystemSegment);
 
             // Keep this at the end of the constructor: before using "this",
@@ -339,12 +339,8 @@ namespace Zorglub.Time.Simple
         /// </summary>
         internal IDomain<int> SupportedYears { get; }
 
-        [Obsolete("Use SupportedYearsImpl instead.")]
-        public Range<int> SupportedYearsObsolete => Scope.Segment.SupportedYears.Range;
-
         /// <summary>
-        /// Gets the checker for overflows of the range of supported values for the number of
-        /// consecutive days since the epoch.
+        /// Gets the range of supported days.
         /// </summary>
         internal SupportedDays SupportedDays => SystemSegment.SupportedDays;
 

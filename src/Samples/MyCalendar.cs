@@ -37,14 +37,14 @@ public partial class MyCalendar // Year, month or day infos
     [Pure]
     public override int CountMonthsInYear(int year)
     {
-        Scope.ValidateYear(year);
+        SupportedYears.Validate(year);
         return Schema.CountMonthsInYear(year);
     }
 
     [Pure]
     public override int CountDaysInYear(int year)
     {
-        Scope.ValidateYear(year);
+        SupportedYears.Validate(year);
         return Schema.CountDaysInYear(year);
     }
 
@@ -68,7 +68,7 @@ public partial class MyCalendar // Dates in a given year or month
     public IEnumerable<MyDate> GetDaysInYear(int year)
     {
         // Check arg eagerly.
-        Scope.ValidateYear(year);
+        SupportedYears.Validate(year);
 
         return Iterator();
 
@@ -110,7 +110,7 @@ public partial class MyCalendar // Dates in a given year or month
     [Pure]
     public MyDate GetStartOfYear(int year)
     {
-        Scope.ValidateYear(year);
+        SupportedYears.Validate(year);
         var ymd = _schema.GetDatePartsAtStartOfYear(year);
         return new MyDate(ymd);
     }
@@ -118,7 +118,7 @@ public partial class MyCalendar // Dates in a given year or month
     [Pure]
     public MyDate GetEndOfYear(int year)
     {
-        Scope.ValidateYear(year);
+        SupportedYears.Validate(year);
         var ymd = _schema.GetDatePartsAtEndOfYear(year);
         return new MyDate(ymd);
     }

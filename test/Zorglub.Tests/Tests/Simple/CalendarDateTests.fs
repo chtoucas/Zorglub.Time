@@ -41,7 +41,7 @@ module GregorianCase =
 
     [<Fact>]
     let ``Constructor throws when "year" is out of range`` () =
-        let supportedYearsTester = new SupportedYearsTester(chr.SupportedYearsObsolete)
+        let supportedYearsTester = new SupportedYearsTester(chr.SupportedYears.Range)
 
         supportedYearsTester.TestInvalidYear(fun y -> new CalendarDate(y, 1, 1))
 

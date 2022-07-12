@@ -46,15 +46,16 @@ public partial class CalendarFacts<TDataSet> // Properties
         Assert.Equal(CalendarUT.Schema.PeriodicAdjustments, CalendarUT.PeriodicAdjustments);
 
     [Fact]
-    public sealed override void SupportedYears_Prop()
+    public void SupportedYears_Prop()
     {
-        int minYear = CalendarUT.IsProleptic ? ProlepticScope.MinYear : StandardScope.MinYear;
-        // Act
-        var supportedYears = CalendarUT.SupportedYears.Range;
-        // Assert
-        Assert.Equal(CalendarUT.Scope.Segment.SupportedYears.Range, supportedYears);
-        Assert.Equal(minYear, supportedYears.Min);
-        Assert.Equal(ProlepticScope.MaxYear, supportedYears.Max);
+        if (CalendarUT.IsProleptic)
+        {
+            Assert.Equal(ProlepticScope.SupportedYears, CalendarUT.SupportedYears);
+        }
+        else
+        {
+            Assert.Equal(StandardScope.SupportedYears, CalendarUT.SupportedYears);
+        }
     }
 
     [Fact]

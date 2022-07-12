@@ -66,8 +66,8 @@ namespace Zorglub.Time.Hemerology
 
             Scope = scope;
             Epoch = scope.Epoch;
-            SupportedYears = scope.Segment.SupportedYears.Range;
             Domain = scope.Domain;
+            SupportedYears = scope.Segment.SupportedYears;
 
             MinMaxDate = from dayNumber in scope.Domain.Endpoints select new WideDate(dayNumber - Epoch, id);
         }
@@ -147,13 +147,15 @@ namespace Zorglub.Time.Hemerology
         public CalendricalAdjustments PeriodicAdjustments => Schema.PeriodicAdjustments;
 
         /// <inheritdoc />
-        public Range<int> SupportedYears { get; }
-
-        /// <inheritdoc />
         public Range<DayNumber> Domain { get; }
 
         /// <inheritdoc />
         public CalendarScope Scope { get; }
+
+        /// <summary>
+        /// Gets the range of supported years.
+        /// </summary>
+        protected internal SupportedYears SupportedYears { get; }
 
         /// <summary>
         /// Gets the underlying schema.
@@ -186,7 +188,7 @@ namespace Zorglub.Time.Hemerology
         [Pure]
         public bool IsLeapYear(int year)
         {
-            Scope.ValidateYear(year);
+            SupportedYears.Validate(year);
             return Schema.IsLeapYear(year);
         }
 
@@ -226,7 +228,7 @@ namespace Zorglub.Time.Hemerology
         [Pure]
         public int CountMonthsInYear(int year)
         {
-            Scope.ValidateYear(year);
+            SupportedYears.Validate(year);
             return Schema.CountMonthsInYear(year);
         }
 
@@ -236,7 +238,7 @@ namespace Zorglub.Time.Hemerology
         [Pure]
         public int CountDaysInYear(int year)
         {
-            Scope.ValidateYear(year);
+            SupportedYears.Validate(year);
             return Schema.CountDaysInYear(year);
         }
 
@@ -321,7 +323,7 @@ namespace Zorglub.Time.Hemerology
         public IEnumerable<WideDate> GetDaysInYear(int year)
         {
             // Check arg eagerly.
-            Scope.ValidateYear(year);
+            SupportedYears.Validate(year);
 
             return Iterator();
 
@@ -364,7 +366,7 @@ namespace Zorglub.Time.Hemerology
         [Pure]
         public WideDate GetStartOfYear(int year)
         {
-            Scope.ValidateYear(year);
+            SupportedYears.Validate(year);
             int daysSinceEpoch = Schema.GetStartOfYear(year);
             return new WideDate(daysSinceEpoch, Id);
         }
@@ -373,7 +375,7 @@ namespace Zorglub.Time.Hemerology
         [Pure]
         public WideDate GetEndOfYear(int year)
         {
-            Scope.ValidateYear(year);
+            SupportedYears.Validate(year);
             int daysSinceEpoch = Schema.GetEndOfYear(year);
             return new WideDate(daysSinceEpoch, Id);
         }

@@ -48,7 +48,7 @@ public abstract partial class WideDateFacts<TDataSet> :
         public static BaseCtorArgs Create(WideCalendar calendar)
         {
             Requires.NotNull(calendar);
-            return new BaseCtorArgs(calendar.SupportedYears, calendar.Domain);
+            return new BaseCtorArgs(calendar.Scope.Segment.SupportedYears.Range, calendar.Domain);
         }
     }
 }

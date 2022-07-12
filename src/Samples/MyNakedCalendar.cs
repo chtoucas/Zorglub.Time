@@ -29,14 +29,14 @@ public partial class MyNakedCalendar // Year, month, day infos
     [Pure]
     public sealed override int CountMonthsInYear(int year)
     {
-        Scope.ValidateYear(year);
+        SupportedYears.Validate(year);
         return Schema.CountMonthsInYear(year);
     }
 
     [Pure]
     public sealed override int CountDaysInYear(int year)
     {
-        Scope.ValidateYear(year);
+        SupportedYears.Validate(year);
         return Schema.CountDaysInYear(year);
     }
 
@@ -67,14 +67,14 @@ public partial class MyNakedCalendar // Dates in a given year or month
     [Pure]
     public sealed override DateParts GetStartOfYear(int year)
     {
-        Scope.ValidateYear(year);
+        SupportedYears.Validate(year);
         return DateParts.AtStartOfYear(year);
     }
 
     [Pure]
     public sealed override DateParts GetEndOfYear(int year)
     {
-        Scope.ValidateYear(year);
+        SupportedYears.Validate(year);
         return PartsAdapter.GetDatePartsAtEndOfYear(year);
     }
 

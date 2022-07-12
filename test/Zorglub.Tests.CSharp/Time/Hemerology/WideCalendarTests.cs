@@ -37,13 +37,6 @@ public partial class WideCalendarTests // Properties
         Assert.Equal(CalendricalAdjustments.Days, CalendarUT.PeriodicAdjustments);
 
     [Fact]
-    public sealed override void SupportedYears_Prop()
-    {
-        Assert.Equal(CalendarUT.Schema.SupportedYears, CalendarUT.SupportedYears);
-        Assert.Equal(CalendarUT.Scope.Segment.SupportedYears.Range, CalendarUT.SupportedYears);
-    }
-
-    [Fact]
     public void ToString_ReturnsKey() =>
         Assert.Equal(CalendarUT.Key, CalendarUT.ToString());
 

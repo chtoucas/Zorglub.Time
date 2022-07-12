@@ -56,10 +56,6 @@ public partial class NakedCalendarFacts<TCalendar, TDataSet> // Properties
         Assert.Equal(CalendarUT.Schema.PeriodicAdjustments, CalendarUT.PeriodicAdjustments);
 
     [Fact]
-    public sealed override void SupportedYears_Prop() =>
-        Assert.Equal(CalendarUT.Scope.Segment.SupportedYears.Range, CalendarUT.SupportedYearsObsolete);
-
-    [Fact]
     public void ToString_ReturnsName() =>
         Assert.Equal(CalendarUT.Name, CalendarUT.ToString());
 }
