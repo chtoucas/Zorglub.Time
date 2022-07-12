@@ -179,7 +179,7 @@ namespace Zorglub.Time.Core
 
         private Range<int>? _domain;
         /// <inheritdoc />
-        public Range<int> Domain =>
+        public Range<int> SupportedDays =>
             _domain ??= new Range<int>(
                 SupportedYears.Endpoints.Select(
                     GetStartOfYear,

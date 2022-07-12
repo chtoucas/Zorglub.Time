@@ -45,13 +45,13 @@ public partial class ICalendricalSchemaFacts<TSchema, TDataSet> // Properties
         Assert.True(SchemaUT.MinDaysInMonth <= info.DaysInMonth);
 
     [Fact]
-    public void Domain_Prop()
+    public void SupportedDays_Prop()
     {
-        var domain = new Range<int>(MinDaysSinceEpoch, MaxDaysSinceEpoch);
+        var supportedDays = new Range<int>(MinDaysSinceEpoch, MaxDaysSinceEpoch);
         // Act & Assert
-        Assert.Equal(domain, SchemaUT.Domain);
+        Assert.Equal(supportedDays, SchemaUT.SupportedDays);
         // Lazy prop: we duplicate the test to ensure full test coverage.
-        Assert.Equal(domain, SchemaUT.Domain);
+        Assert.Equal(supportedDays, SchemaUT.SupportedDays);
     }
 
     [Fact]

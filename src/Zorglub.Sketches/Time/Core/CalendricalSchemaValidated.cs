@@ -39,7 +39,7 @@ namespace Zorglub.Time.Core
         public Range<int> SupportedYears => Schema.SupportedYears;
 
         /// <inheritdoc />
-        public Range<int> Domain => Schema.Domain;
+        public Range<int> SupportedDays => Schema.SupportedDays;
 
         /// <inheritdoc />
         public Range<int> SupportedMonths => Schema.SupportedMonths;

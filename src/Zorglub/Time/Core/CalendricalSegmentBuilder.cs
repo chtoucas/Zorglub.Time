@@ -100,7 +100,7 @@ namespace Zorglub.Time.Core
         /// <summary>
         /// Gets the range of supported values for the number of consecutive days from the epoch.
         /// </summary>
-        private Range<int> Domain => _schema.Domain;
+        private Range<int> SupportedDays => _schema.SupportedDays;
 
         /// <summary>
         /// Gets the pre-validator for this schema.
@@ -122,7 +122,7 @@ namespace Zorglub.Time.Core
         /// </summary>
         public void SetMinDaysSinceEpoch(int daysSinceEpoch)
         {
-            if (Domain.Contains(daysSinceEpoch) == false)
+            if (SupportedDays.Contains(daysSinceEpoch) == false)
             {
                 Throw.ArgumentOutOfRange(nameof(daysSinceEpoch));
             }
@@ -140,7 +140,7 @@ namespace Zorglub.Time.Core
         /// </summary>
         public void SetMaxDaysSinceEpoch(int daysSinceEpoch)
         {
-            if (Domain.Contains(daysSinceEpoch) == false)
+            if (SupportedDays.Contains(daysSinceEpoch) == false)
             {
                 Throw.ArgumentOutOfRange(nameof(daysSinceEpoch));
             }

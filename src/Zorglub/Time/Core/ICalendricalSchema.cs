@@ -122,16 +122,16 @@ namespace Zorglub.Time.Core
         int MinDaysInMonth { get; }
 
         /// <summary>
-        /// Gets the range of supported days, or more precisely the range of supported numbers of
-        /// consecutive days from the epoch.
+        /// Gets the range of supported days, that is the range of supported numbers of consecutive
+        /// days from the epoch for which the methods are known not to overflow.
         /// </summary>
         /// <returns>The range from the first day of the first supported year to the last day of the
         /// last supported year.</returns>
-        Range<int> Domain { get; }
+        Range<int> SupportedDays { get; }
 
         /// <summary>
-        /// Gets the range of supported months, or more precisely the range of supported numbers of
-        /// consecutive months from the epoch.
+        /// Gets the range of supported months, that is the range of supported numbers of consecutive
+        /// months from the epoch for which the methods are known not to overflow.
         /// </summary>
         /// <returns>The range from the first month of the first supported year to the last month of
         /// the last supported year.</returns>
