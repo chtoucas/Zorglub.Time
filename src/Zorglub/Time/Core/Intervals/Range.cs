@@ -117,7 +117,7 @@ namespace Zorglub.Time.Core.Intervals
         /// </para>
         /// <para>This field is read-only.</para>
         /// </summary>
-        internal static readonly Range<int> Maximal32 = CreateLeniently(Int32.MinValue, Int32.MaxValue);
+        internal static readonly Range<int> Maximal32 = Create(Int32.MinValue, Int32.MaxValue);
 
         /// <summary>
         /// Obtains the number of elements in the specified range.

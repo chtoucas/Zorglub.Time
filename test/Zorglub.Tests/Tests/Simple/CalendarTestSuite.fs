@@ -94,7 +94,7 @@ type UserGregorianTests() =
     override __.GetSingleton() = UserCalendars.Gregorian
     override x.Id() = x.CalendarUT.Id === UserCalendars.Gregorian.Id
     override x.Math() = x.CalendarUT.Math |> is<RegularMath>
-    override x.Scope() = x.CalendarUT.Scope |> is<GregorianStandardScope>
+    override x.Scope() = x.CalendarUT.Scope |> is<StandardScope>
 
 [<Sealed>]
 [<RedundantTestBundle>]

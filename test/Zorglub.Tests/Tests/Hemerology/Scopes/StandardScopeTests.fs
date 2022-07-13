@@ -130,22 +130,28 @@ module GregorianCase =
         let domain = GregorianStandardScope.DefaultDomain
         let minDaysSinceEpoch = domain.Min - epoch
         let maxDaysSinceEpoch = domain.Max - epoch
+        let supportedDays = GregorianStandardScope.SupportedDays
 
-        (fun () -> GregorianStandardScope.CheckOverflow(minDaysSinceEpoch - 1)) |> overflows
-        GregorianStandardScope.CheckOverflow(minDaysSinceEpoch)
-        GregorianStandardScope.CheckOverflow(maxDaysSinceEpoch)
-        (fun () -> GregorianStandardScope.CheckOverflow(maxDaysSinceEpoch + 1)) |> overflows
+        (fun () -> supportedDays.Check(minDaysSinceEpoch - 1)) |> overflows
+        supportedDays.Check(minDaysSinceEpoch)
+        supportedDays.Check(maxDaysSinceEpoch)
+        (fun () -> supportedDays.Check(maxDaysSinceEpoch + 1)) |> overflows
 
     // ValidateYear()
 
     [<Theory; MemberData(nameof(invalidYearData))>]
     let ``ValidateYear() throws when "year" is out of range`` y =
-        outOfRangeExn "year" (fun () -> GregorianStandardScope.ValidateYear(y))
-        outOfRangeExn "y" (fun () -> GregorianStandardScope.ValidateYear(y, nameof(y)))
+        let supportedYears = GregorianStandardScope.SupportedYears
+
+        outOfRangeExn "year" (fun () -> supportedYears.Validate(y))
+        outOfRangeExn "y" (fun () -> supportedYears.Validate(y, nameof(y)))
 
     [<Theory; MemberData(nameof(validYearData))>]
     let ``ValidateYear() does not throw when the input is valid`` y =
-        GregorianStandardScope.ValidateYear(y)
+        let supportedYears = GregorianStandardScope.SupportedYears
+
+        supportedYears.Validate(y)
+        supportedYears.Validate(y, nameof(y))
 
     // ValidateYearMonth()
 
@@ -163,7 +169,6 @@ module GregorianCase =
     let ``ValidateYearMonth() does not throw when the input is valid`` (x: MonthInfo) =
         let y, m = x.Yemo.Deconstruct()
         GregorianStandardScope.ValidateYearMonth(y, m)
-        GregorianStandardScope.ValidateYear(y, nameof(y))
 
     // ValidateYearMonthDay()
 

@@ -110,7 +110,7 @@ namespace Zorglub.Time
         /// Gets the range of supported Gregorian values for a <see cref="DayNumber"/>.
         /// </summary>
         public static Range<DayNumber> GregorianDomain =>
-            Range.CreateLeniently(s_MinGregorianValue, s_MaxGregorianValue);
+            Range.Create(s_MinGregorianValue, s_MaxGregorianValue);
 
         #endregion
         #region Julian
@@ -136,7 +136,7 @@ namespace Zorglub.Time
         /// Gets the range of supported Julian values for a <see cref="DayNumber"/>.
         /// </summary>
         public static Range<DayNumber> JulianDomain =>
-            Range.CreateLeniently(s_MinJulianValue, s_MaxJulianValue);
+            Range.Create(s_MinJulianValue, s_MaxJulianValue);
 
         #endregion
 

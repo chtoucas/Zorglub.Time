@@ -45,7 +45,7 @@ namespace Zorglub.Time
         private static readonly DayNumber64 s_MinGregorianValue = new(MinGregorianDaysSinceZero);
         private static readonly DayNumber64 s_MaxGregorianValue = new(MaxGregorianDaysSinceZero);
         public static Range<DayNumber64> GregorianDomain =>
-            Range.CreateLeniently(s_MinGregorianValue, s_MaxGregorianValue);
+            Range.Create(s_MinGregorianValue, s_MaxGregorianValue);
 
         #endregion
         #region Julian
@@ -56,7 +56,7 @@ namespace Zorglub.Time
         private static readonly DayNumber64 s_MinJulianValue = new(MinJulianDaysSinceZero);
         private static readonly DayNumber64 s_MaxJulianValue = new(MaxJulianDaysSinceZero);
         public static Range<DayNumber64> JulianDomain =>
-            Range.CreateLeniently(s_MinJulianValue, s_MaxJulianValue);
+            Range.Create(s_MinJulianValue, s_MaxJulianValue);
 
         #endregion
 

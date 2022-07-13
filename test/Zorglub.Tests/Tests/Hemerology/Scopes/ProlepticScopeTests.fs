@@ -136,23 +136,28 @@ module GregorianCase =
         let domain = GregorianProlepticScope.DefaultDomain
         let minDaysSinceEpoch = domain.Min - epoch
         let maxDaysSinceEpoch = domain.Max - epoch
+        let supportedDays = GregorianProlepticScope.SupportedDays
 
-        (fun () -> GregorianProlepticScope.CheckOverflow(minDaysSinceEpoch - 1)) |> overflows
-        GregorianProlepticScope.CheckOverflow(minDaysSinceEpoch)
-        GregorianProlepticScope.CheckOverflow(maxDaysSinceEpoch)
-        (fun () -> GregorianProlepticScope.CheckOverflow(maxDaysSinceEpoch + 1)) |> overflows
+        (fun () -> supportedDays.Check(minDaysSinceEpoch - 1)) |> overflows
+        supportedDays.Check(minDaysSinceEpoch)
+        supportedDays.Check(maxDaysSinceEpoch)
+        (fun () -> supportedDays.Check(maxDaysSinceEpoch + 1)) |> overflows
 
     // ValidateYear()
 
     [<Theory; MemberData(nameof(invalidYearData))>]
     let ``ValidateYear() throws when "dayOfYear" is out of range`` y =
-        outOfRangeExn "year" (fun () -> GregorianProlepticScope.ValidateYear(y))
-        outOfRangeExn "y" (fun () -> GregorianProlepticScope.ValidateYear(y, nameof(y)))
+        let supportedYears = GregorianProlepticScope.SupportedYears
+
+        outOfRangeExn "year" (fun () -> supportedYears.Validate(y))
+        outOfRangeExn "y" (fun () -> supportedYears.Validate(y, nameof(y)))
 
     [<Theory; MemberData(nameof(validYearData))>]
     let ``ValidateYear() does not throw when the input is valid`` y =
-        GregorianProlepticScope.ValidateYear(y)
-        GregorianProlepticScope.ValidateYear(y, nameof(y))
+        let supportedYears = GregorianProlepticScope.SupportedYears
+
+        supportedYears.Validate(y)
+        supportedYears.Validate(y, nameof(y))
 
     // ValidateYearMonth()
 
