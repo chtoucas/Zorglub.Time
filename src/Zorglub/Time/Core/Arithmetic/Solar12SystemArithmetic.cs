@@ -10,18 +10,18 @@ namespace Zorglub.Time.Core.Arithmetic
     /// <see cref="CalendricalProfile.Solar12"/>.
     /// <para>This class cannot be inherited.</para>
     /// </summary>
-    internal sealed class Solar12Arithmetic : SolarArithmetic
+    internal sealed class Solar12SystemArithmetic : SolarSystemArithmetic
     {
         private const int MonthsInYear = __Solar12.MonthsInYear;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Solar12Arithmetic"/> class with the
+        /// Initializes a new instance of the <see cref="Solar12SystemArithmetic"/> class with the
         /// specified schema.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="segment"/> is null.</exception>
         /// <exception cref="ArgumentException">The underlying schema does not have the expected
         /// profile <see cref="CalendricalProfile.Solar12"/>.</exception>
-        public Solar12Arithmetic(SystemSegment segment) : base(segment)
+        public Solar12SystemArithmetic(SystemSegment segment) : base(segment)
         {
             Requires.Profile(Schema, CalendricalProfile.Solar12, nameof(segment));
         }

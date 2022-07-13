@@ -10,7 +10,7 @@ namespace Zorglub.Time.Core.Arithmetic
     /// <see cref="CalendricalProfile.Lunisolar"/>.
     /// <para>This class cannot be inherited.</para>
     /// </summary>
-    internal sealed partial class LunisolarArithmetic : SystemArithmetic
+    internal sealed partial class LunisolarSystemArithmetic : SystemArithmetic
     {
         private const int MinDaysInYear = __Lunisolar.MinDaysInYear;
         private const int MinDaysInMonth = __Lunisolar.MinDaysInMonth;
@@ -18,14 +18,14 @@ namespace Zorglub.Time.Core.Arithmetic
         private const int MaxDaysViaDayOfMonth_ = MinDaysInMonth;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="LunisolarArithmetic"/> class with the
+        /// Initializes a new instance of the <see cref="LunisolarSystemArithmetic"/> class with the
         /// specified schema.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="segment"/> is null.</exception>
         /// <exception cref="ArgumentException">The underlying schema does not have the expected
         /// profile <see cref="CalendricalProfile.Lunisolar"/>.
         /// </exception>
-        public LunisolarArithmetic(SystemSegment segment) : base(segment)
+        public LunisolarSystemArithmetic(SystemSegment segment) : base(segment)
         {
             Debug.Assert(MaxDaysViaDayOfMonth_ >= MinMinDaysInMonth);
 
@@ -36,7 +36,7 @@ namespace Zorglub.Time.Core.Arithmetic
         }
     }
 
-    internal partial class LunisolarArithmetic // Operations on Yemoda
+    internal partial class LunisolarSystemArithmetic // Operations on Yemoda
     {
         /// <inheritdoc />
         [Pure]
@@ -138,7 +138,7 @@ namespace Zorglub.Time.Core.Arithmetic
         }
     }
 
-    internal partial class LunisolarArithmetic // Operations on Yedoy
+    internal partial class LunisolarSystemArithmetic // Operations on Yedoy
     {
         /// <inheritdoc />
         [Pure]
@@ -214,7 +214,7 @@ namespace Zorglub.Time.Core.Arithmetic
         }
     }
 
-    internal partial class LunisolarArithmetic // Operations on Yemo
+    internal partial class LunisolarSystemArithmetic // Operations on Yemo
     {
         /// <inheritdoc />
         [Pure]
@@ -239,7 +239,7 @@ namespace Zorglub.Time.Core.Arithmetic
         }
     }
 
-    internal partial class LunisolarArithmetic // Non-standard operations
+    internal partial class LunisolarSystemArithmetic // Non-standard operations
     {
         /// <inheritdoc />
         [Pure]

@@ -152,8 +152,8 @@ public partial class ICalendricalArithmeticFacts<TDataSet> // OrdinalParts
 
     // TODO(fact): should be marked as redundant but we need custom data
     // (AddDaysOrdinalData) for the following schemas:
-    // - LunarArithmetic
-    // - LunisolarArithmetic
+    // - LunarSystemArithmetic
+    // - LunisolarSystemArithmetic
     // See also AddDays﹍DateParts_ViaConsecutiveDays().
     //[RedundantTest]
     [Theory, MemberData(nameof(ConsecutiveDaysOrdinalData))]

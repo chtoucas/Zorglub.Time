@@ -7,10 +7,10 @@ using Zorglub.Time.Core;
 using Zorglub.Time.Core.Arithmetic;
 using Zorglub.Time.Core.Schemas;
 
-public class GregorianArithmetic_AddOrNextOrPrevious : BenchmarkBase
+public class GregorianSystemArithmetic_AddOrNextOrPrevious : BenchmarkBase
 {
     private static readonly GregorianSchema s_Schema = new();
-    private static readonly GregorianArithmetic s_Arithmetic = new(s_Schema, s_Schema.SupportedYears);
+    private static readonly GregorianSystemArithmetic s_Arithmetic = new(s_Schema, s_Schema.SupportedYears);
     private static readonly Yemoda s_StartOfMonth = new(1777, 1, 1);
     private static readonly Yemoda s_MiddleOfMonth = new(1777, 11, 22); // 22 + 7 > MinDaysInMonth
     private static readonly Yemoda s_EndOfMonth = new(1777, 11, 31);

@@ -9,7 +9,6 @@ open Zorglub.Testing.Data.Schemas
 
 open Zorglub.Time.Core
 open Zorglub.Time.Core.Arithmetic
-open Zorglub.Time.Core.Intervals
 open Zorglub.Time.Core.Schemas
 
 open Xunit
@@ -37,34 +36,34 @@ module Prelude =
     let ``Constructor throws for null segment`` () =
         nullExn "segment" (fun () -> new PlainSystemArithmetic(null))
         nullExn "segment" (fun () -> new RegularSystemArithmetic(null))
-        nullExn "segment" (fun () -> new LunarArithmetic(null))
-        nullExn "segment" (fun () -> new LunisolarArithmetic(null))
-        nullExn "segment" (fun () -> new Solar12Arithmetic(null))
-        nullExn "segment" (fun () -> new Solar13Arithmetic(null))
+        nullExn "segment" (fun () -> new LunarSystemArithmetic(null))
+        nullExn "segment" (fun () -> new LunisolarSystemArithmetic(null))
+        nullExn "segment" (fun () -> new Solar12SystemArithmetic(null))
+        nullExn "segment" (fun () -> new Solar13SystemArithmetic(null))
 
     [<Theory; MemberData(nameof(badLunarProfile))>]
-    let ``LunarArithmetic constructor throws for non-lunar schema`` (sch) =
+    let ``LunarSystemArithmetic constructor throws for non-lunar schema`` (sch) =
         let seg = SystemSegment.Create(sch, sch.SupportedYears)
 
-        argExn "segment" (fun () -> new LunarArithmetic(seg))
+        argExn "segment" (fun () -> new LunarSystemArithmetic(seg))
 
     [<Theory; MemberData(nameof(badLunisolarProfile))>]
-    let ``LunisolarArithmetic constructor throws for non-lunisolar schema`` (sch) =
+    let ``LunisolarSystemArithmetic constructor throws for non-lunisolar schema`` (sch) =
         let seg = SystemSegment.Create(sch, sch.SupportedYears)
 
-        argExn "segment" (fun () -> new LunisolarArithmetic(seg))
+        argExn "segment" (fun () -> new LunisolarSystemArithmetic(seg))
 
     [<Theory; MemberData(nameof(badSolar12Profile))>]
-    let ``Solar12Arithmetic constructor throws for non-solar12 schema`` (sch) =
+    let ``Solar12SystemArithmetic constructor throws for non-solar12 schema`` (sch) =
         let seg = SystemSegment.Create(sch, sch.SupportedYears)
 
-        argExn "segment" (fun () -> new Solar12Arithmetic(seg))
+        argExn "segment" (fun () -> new Solar12SystemArithmetic(seg))
 
     [<Theory; MemberData(nameof(badSolar13Profile))>]
-    let ``Solar13Arithmetic constructor throws for non-solar13 schema`` (sch) =
+    let ``Solar13SystemArithmetic constructor throws for non-solar13 schema`` (sch) =
         let seg = SystemSegment.Create(sch, sch.SupportedYears)
 
-        argExn "segment" (fun () -> new Solar13Arithmetic(seg))
+        argExn "segment" (fun () -> new Solar13SystemArithmetic(seg))
 
     [<Theory>]
     [<InlineData 1>]
@@ -82,23 +81,23 @@ module Prelude =
 module Factories =
     [<Fact>]
     let ``SystemArithmetic.CreateDefault()`` () =
-        SystemArithmetic.CreateDefault(sysegmentOf<Coptic12Schema>())           |> is<Solar12Arithmetic>
+        SystemArithmetic.CreateDefault(sysegmentOf<Coptic12Schema>())           |> is<Solar12SystemArithmetic>
         SystemArithmetic.CreateDefault(sysegmentOf<Coptic13Schema>())           |> is<PlainSystemArithmetic>
-        SystemArithmetic.CreateDefault(sysegmentOf<Egyptian12Schema>())         |> is<Solar12Arithmetic>
+        SystemArithmetic.CreateDefault(sysegmentOf<Egyptian12Schema>())         |> is<Solar12SystemArithmetic>
         SystemArithmetic.CreateDefault(sysegmentOf<Egyptian13Schema>())         |> is<PlainSystemArithmetic>
-        SystemArithmetic.CreateDefault(sysegmentOf<FrenchRepublican12Schema>()) |> is<Solar12Arithmetic>
+        SystemArithmetic.CreateDefault(sysegmentOf<FrenchRepublican12Schema>()) |> is<Solar12SystemArithmetic>
         SystemArithmetic.CreateDefault(sysegmentOf<FrenchRepublican13Schema>()) |> is<PlainSystemArithmetic>
-        SystemArithmetic.CreateDefault(sysegmentOf<GregorianSchema>())          |> is<GregorianArithmetic>
-        //SystemArithmetic.CreateDefault(sysegmentOf<HebrewSchema>())             |> is<LunisolarArithmetic>
-        SystemArithmetic.CreateDefault(sysegmentOf<InternationalFixedSchema>()) |> is<Solar13Arithmetic>
-        SystemArithmetic.CreateDefault(sysegmentOf<JulianSchema>())             |> is<Solar12Arithmetic>
-        SystemArithmetic.CreateDefault(sysegmentOf<Persian2820Schema>())        |> is<Solar12Arithmetic>
-        SystemArithmetic.CreateDefault(sysegmentOf<PositivistSchema>())         |> is<Solar13Arithmetic>
-        SystemArithmetic.CreateDefault(sysegmentOf<TabularIslamicSchema>())     |> is<LunarArithmetic>
-        SystemArithmetic.CreateDefault(sysegmentOf<TropicaliaSchema>())         |> is<Solar12Arithmetic>
-        SystemArithmetic.CreateDefault(sysegmentOf<Tropicalia3031Schema>())     |> is<Solar12Arithmetic>
-        SystemArithmetic.CreateDefault(sysegmentOf<Tropicalia3130Schema>())     |> is<Solar12Arithmetic>
-        SystemArithmetic.CreateDefault(sysegmentOf<WorldSchema>())              |> is<Solar12Arithmetic>
+        SystemArithmetic.CreateDefault(sysegmentOf<GregorianSchema>())          |> is<GregorianSystemArithmetic>
+        //SystemArithmetic.CreateDefault(sysegmentOf<HebrewSchema>())             |> is<LunisolarSystemArithmetic>
+        SystemArithmetic.CreateDefault(sysegmentOf<InternationalFixedSchema>()) |> is<Solar13SystemArithmetic>
+        SystemArithmetic.CreateDefault(sysegmentOf<JulianSchema>())             |> is<Solar12SystemArithmetic>
+        SystemArithmetic.CreateDefault(sysegmentOf<Persian2820Schema>())        |> is<Solar12SystemArithmetic>
+        SystemArithmetic.CreateDefault(sysegmentOf<PositivistSchema>())         |> is<Solar13SystemArithmetic>
+        SystemArithmetic.CreateDefault(sysegmentOf<TabularIslamicSchema>())     |> is<LunarSystemArithmetic>
+        SystemArithmetic.CreateDefault(sysegmentOf<TropicaliaSchema>())         |> is<Solar12SystemArithmetic>
+        SystemArithmetic.CreateDefault(sysegmentOf<Tropicalia3031Schema>())     |> is<Solar12SystemArithmetic>
+        SystemArithmetic.CreateDefault(sysegmentOf<Tropicalia3130Schema>())     |> is<Solar12SystemArithmetic>
+        SystemArithmetic.CreateDefault(sysegmentOf<WorldSchema>())              |> is<Solar12SystemArithmetic>
 
 // We have to test AddDaysViaDayOfMonth() separately because PlainSystemArithmetic
 // and RegularSystemArithmetic do not use it internally.
@@ -161,7 +160,7 @@ module RegularCase =
 
 module GregorianCase =
     let private sch = schemaOf<GregorianSchema>()
-    let private ari = new GregorianArithmetic(sch, sch.SupportedYears)
+    let private ari = new GregorianSystemArithmetic(sch, sch.SupportedYears)
 
     [<Fact>]
     let ``Property MaxDaysViaDayOfYear`` () =
@@ -173,7 +172,7 @@ module GregorianCase =
 
 module LunarCase =
     let private seg = sysegmentOf<TabularIslamicSchema>()
-    let private ari = new LunarArithmetic(seg)
+    let private ari = new LunarSystemArithmetic(seg)
 
     [<Fact>]
     let ``Property MaxDaysViaDayOfYear`` () =
@@ -185,7 +184,7 @@ module LunarCase =
 
 module LunisolarCase =
     let private seg = sysegmentOf<LunisolarSchema>()
-    let private ari = new LunisolarArithmetic(seg)
+    let private ari = new LunisolarSystemArithmetic(seg)
 
     [<Fact>]
     let ``Property MaxDaysViaDayOfYear`` () =
@@ -197,7 +196,7 @@ module LunisolarCase =
 
 module Solar12Case =
     let private seg = sysegmentOf<GregorianSchema>()
-    let private ari = new Solar12Arithmetic(seg)
+    let private ari = new Solar12SystemArithmetic(seg)
 
     [<Fact>]
     let ``Property MaxDaysViaDayOfYear`` () =
@@ -209,7 +208,7 @@ module Solar12Case =
 
 module Solar13Case =
     let private seg = sysegmentOf<PositivistSchema>()
-    let private ari = new Solar13Arithmetic(seg)
+    let private ari = new Solar13SystemArithmetic(seg)
 
     [<Fact>]
     let ``Property MaxDaysViaDayOfYear`` () =

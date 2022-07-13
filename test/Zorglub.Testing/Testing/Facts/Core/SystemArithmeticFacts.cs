@@ -141,8 +141,8 @@ public partial class SystemArithmeticFacts<TDataSet> // Yedoy
 
     // TODO(fact): should be marked as redundant but we need custom data
     // (AddDaysOrdinalData) for the following schemas:
-    // - LunarArithmetic
-    // - LunisolarArithmetic
+    // - LunarSystemArithmetic
+    // - LunisolarSystemArithmetic
     // See also AddDays﹍Yemoda_ViaConsecutiveDays().
     //[RedundantTest]
     [Theory, MemberData(nameof(ConsecutiveDaysOrdinalData))]

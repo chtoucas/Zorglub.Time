@@ -17,15 +17,15 @@ namespace Zorglub.Time.Core
     // Types Derived from SystemArithmetic
     // -----------------------------------
     //
-    // SystemArithmetic [A]  (CalendricalSchema)
-    // ├─ GregorianArithmetic     (GregorianSchema)
-    // ├─ LunarArithmetic         (-)
-    // ├─ LunisolarArithmetic     (-)
-    // ├─ PlainSystemArithmetic   (-)
-    // ├─ RegularSystemArithmetic (-)
-    // └─ SolarArithmetic [A]     (-)
-    //    ├─ Solar12Arithmetic    (-)
-    //    └─ Solar13Arithmetic    (-)
+    // SystemArithmetic [A]  (SystemSchema)
+    // ├─ GregorianSystemArithmetic     (GregorianSchema)
+    // ├─ LunarSystemArithmetic         (-)
+    // ├─ LunisolarSystemArithmetic     (-)
+    // ├─ PlainSystemArithmetic         (-)
+    // ├─ RegularSystemArithmetic       (-)
+    // └─ SolarSystemArithmetic [A]     (-)
+    //    ├─ Solar12SystemArithmetic    (-)
+    //    └─ Solar13SystemArithmetic    (-)
     //
     // Annotation: [A] = abstract
     //
@@ -152,15 +152,15 @@ namespace Zorglub.Time.Core
 
             if (sch is GregorianSchema)
             {
-                return new GregorianArithmetic(segment);
+                return new GregorianSystemArithmetic(segment);
             }
 
             return sch.Profile switch
             {
-                CalendricalProfile.Solar12 => new Solar12Arithmetic(segment),
-                CalendricalProfile.Solar13 => new Solar13Arithmetic(segment),
-                CalendricalProfile.Lunar => new LunarArithmetic(segment),
-                CalendricalProfile.Lunisolar => new LunisolarArithmetic(segment),
+                CalendricalProfile.Solar12 => new Solar12SystemArithmetic(segment),
+                CalendricalProfile.Solar13 => new Solar13SystemArithmetic(segment),
+                CalendricalProfile.Lunar => new LunarSystemArithmetic(segment),
+                CalendricalProfile.Lunisolar => new LunisolarSystemArithmetic(segment),
 
                 // (no longer true)
                 // NB: there is no real gain to expect in trying to improve the
@@ -266,7 +266,7 @@ namespace Zorglub.Time.Core
         [Pure]
         public abstract Yemo AddMonths(Yemo ym, int months);
 
-        // REVIEW(code): optimize Next/PreviousMonth(). See GregorianArithmetic.
+        // REVIEW(code): optimize Next/PreviousMonth(). See GregorianSystemArithmetic.
 
         /// <summary>
         /// Obtains the month after the specified month.

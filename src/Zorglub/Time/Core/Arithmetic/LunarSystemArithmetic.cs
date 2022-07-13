@@ -3,48 +3,40 @@
 
 namespace Zorglub.Time.Core.Arithmetic
 {
-    using Zorglub.Time.Core.Intervals;
-    using Zorglub.Time.Core.Schemas;
-
-    using __Solar = CalendricalConstants.Solar;
-    using __Solar12 = CalendricalConstants.Solar12;
+    using __Lunar = CalendricalConstants.Lunar;
 
     /// <summary>
-    /// Provides the core mathematical operations on dates within the Gregorian calendar.
+    /// Provides the core mathematical operations on dates for schemas with profile
+    /// <see cref="CalendricalProfile.Lunar"/>.
     /// <para>This class cannot be inherited.</para>
     /// </summary>
-    internal sealed partial class GregorianArithmetic : SystemArithmetic
+    internal sealed partial class LunarSystemArithmetic : SystemArithmetic
     {
-        private const int MonthsInYear = __Solar12.MonthsInYear;
-        private const int MinDaysInYear = __Solar.MinDaysInYear;
-        private const int MinDaysInMonth = __Solar.MinDaysInMonth;
+        private const int MonthsInYear = __Lunar.MonthsInYear;
+        private const int MinDaysInYear = __Lunar.MinDaysInYear;
+        private const int MinDaysInMonth = __Lunar.MinDaysInMonth;
         private const int MaxDaysViaDayOfYear_ = MinDaysInYear;
         private const int MaxDaysViaDayOfMonth_ = MinDaysInMonth;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="GregorianArithmetic"/> class.
-        /// </summary>
-        /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
-        /// <exception cref="AoorException"><paramref name="supportedYears"/> is NOT a subinterval
-        /// of the range of supported years by <paramref name="schema"/>.</exception>
-        public GregorianArithmetic(GregorianSchema schema, Range<int> supportedYears)
-            : this(SystemSegment.Create(schema, supportedYears)) { }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="GregorianArithmetic"/> class.
+        /// Initializes a new instance of the <see cref="LunarSystemArithmetic"/> class with the specified
+        /// schema.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="segment"/> is null.</exception>
-        internal GregorianArithmetic(SystemSegment segment) : base(segment)
+        /// <exception cref="ArgumentException">The underlying schema does not have the expected
+        /// profile <see cref="CalendricalProfile.Lunar"/>.</exception>
+        public LunarSystemArithmetic(SystemSegment segment) : base(segment)
         {
             Debug.Assert(MaxDaysViaDayOfMonth_ >= MinMinDaysInMonth);
-            Debug.Assert(Schema is GregorianSchema);
+
+            Requires.Profile(Schema, CalendricalProfile.Lunar, nameof(segment));
 
             MaxDaysViaDayOfYear = MaxDaysViaDayOfYear_;
             MaxDaysViaDayOfMonth = MaxDaysViaDayOfMonth_;
         }
     }
 
-    internal partial class GregorianArithmetic // Operations on Yemoda
+    internal partial class LunarSystemArithmetic // Operations on Yemoda
     {
         /// <inheritdoc />
         [Pure]
@@ -65,10 +57,10 @@ namespace Zorglub.Time.Core.Arithmetic
             }
 
             // Slow track.
-            int daysSinceEpoch = checked(GregorianFormulae.CountDaysSinceEpoch(y, m, d) + days);
+            int daysSinceEpoch = checked(Schema.CountDaysSinceEpoch(y, m, d) + days);
             SupportedDays.Check(daysSinceEpoch);
 
-            return GregorianFormulae.GetDateParts(daysSinceEpoch);
+            return Schema.GetDateParts(daysSinceEpoch);
         }
 
         /// <inheritdoc />
@@ -87,18 +79,18 @@ namespace Zorglub.Time.Core.Arithmetic
                 {
                     if (y == MinYear) Throw.DateOverflow();
                     y--;
-                    m = MonthsInYear;
-                    dom += 31;
+                    (_, m, int d0) = Schema.GetDatePartsAtEndOfYear(y);
+                    dom += d0;
                 }
                 else
                 {
                     m--;
-                    dom += GregorianFormulae.CountDaysInMonth(y, m);
+                    dom += Schema.CountDaysInMonth(y, m);
                 }
             }
             else if (dom > MinDaysInMonth)
             {
-                int daysInMonth = GregorianFormulae.CountDaysInMonth(y, m);
+                int daysInMonth = Schema.CountDaysInMonth(y, m);
                 if (dom > daysInMonth)
                 {
                     dom -= daysInMonth;
@@ -125,7 +117,7 @@ namespace Zorglub.Time.Core.Arithmetic
             ymd.Unpack(out int y, out int m, out int d);
 
             return
-                d < MinDaysInMonth || d < GregorianFormulae.CountDaysInMonth(y, m)
+                d < MinDaysInMonth || d < Schema.CountDaysInMonth(y, m)
                     ? new Yemoda(y, m, d + 1)
                 : m < MonthsInYear ? Yemoda.AtStartOfMonth(y, m + 1)
                 : y < MaxYear ? Yemoda.AtStartOfYear(y + 1)
@@ -146,7 +138,7 @@ namespace Zorglub.Time.Core.Arithmetic
         }
     }
 
-    internal partial class GregorianArithmetic // Operations on Yedoy
+    internal partial class LunarSystemArithmetic // Operations on Yedoy
     {
         /// <inheritdoc />
         [Pure]
@@ -164,7 +156,7 @@ namespace Zorglub.Time.Core.Arithmetic
             int daysSinceEpoch = checked(Schema.CountDaysSinceEpoch(y, doy) + days);
             SupportedDays.Check(daysSinceEpoch);
 
-            return GregorianFormulae.GetOrdinalParts(daysSinceEpoch);
+            return Schema.GetOrdinalParts(daysSinceEpoch);
         }
 
         /// <inheritdoc />
@@ -181,11 +173,11 @@ namespace Zorglub.Time.Core.Arithmetic
             {
                 if (y == MinYear) Throw.DateOverflow();
                 y--;
-                doy += GregorianFormulae.CountDaysInYear(y);
+                doy += Schema.CountDaysInYear(y);
             }
             else
             {
-                int daysInYear = GregorianFormulae.CountDaysInYear(y);
+                int daysInYear = Schema.CountDaysInYear(y);
                 if (doy > daysInYear)
                 {
                     if (y == MaxYear) Throw.DateOverflow();
@@ -204,7 +196,7 @@ namespace Zorglub.Time.Core.Arithmetic
             ydoy.Unpack(out int y, out int doy);
 
             return
-                doy < MinDaysInYear || doy < GregorianFormulae.CountDaysInYear(y)
+                doy < MinDaysInYear || doy < Schema.CountDaysInYear(y)
                     ? new Yedoy(y, doy + 1)
                 : y < MaxYear ? Yedoy.AtStartOfYear(y + 1)
                 : Throw.DateOverflow<Yedoy>();
@@ -222,7 +214,7 @@ namespace Zorglub.Time.Core.Arithmetic
         }
     }
 
-    internal partial class GregorianArithmetic // Operations on Yemo
+    internal partial class LunarSystemArithmetic // Operations on Yemo
     {
         /// <inheritdoc />
         [Pure]
@@ -237,31 +229,6 @@ namespace Zorglub.Time.Core.Arithmetic
             return new Yemo(y, m);
         }
 
-        // TODO(code): cleanup.
-        ///// <inheritdoc />
-        //[Pure]
-        //public override Yemo NextMonth(Yemo ym)
-        //{
-        //    ym.Unpack(out int y, out int m);
-
-        //    return
-        //        m < MonthsInYear ? new Yemo(y, m + 1)
-        //        : y < MaxYear ? Yemo.AtStartOfYear(y + 1)
-        //        : Throw.DateOverflow<Yemo>();
-        //}
-
-        ///// <inheritdoc />
-        //[Pure]
-        //public override Yemo PreviousMonth(Yemo ym)
-        //{
-        //    ym.Unpack(out int y, out int m);
-
-        //    return
-        //        m > 1 ? new Yemo(y, m - 1)
-        //        : y > MinYear ? Schema.GetMonthPartsAtEndOfYear(y - 1)
-        //        : Throw.DateOverflow<Yemo>();
-        //}
-
         /// <inheritdoc />
         [Pure]
         public override int CountMonthsBetween(Yemo start, Yemo end)
@@ -273,7 +240,7 @@ namespace Zorglub.Time.Core.Arithmetic
         }
     }
 
-    internal partial class GregorianArithmetic // Non-standard operations
+    internal partial class LunarSystemArithmetic // Non-standard operations
     {
         /// <inheritdoc />
         [Pure]
@@ -284,7 +251,7 @@ namespace Zorglub.Time.Core.Arithmetic
             y = checked(y + years);
             SupportedYears.Check(y);
 
-            int daysInMonth = GregorianFormulae.CountDaysInMonth(y, m);
+            int daysInMonth = Schema.CountDaysInMonth(y, m);
             roundoff = Math.Max(0, d - daysInMonth);
             // On retourne le dernier jour du mois si d > daysInMonth.
             return new Yemoda(y, m, roundoff > 0 ? daysInMonth : d);
@@ -301,7 +268,7 @@ namespace Zorglub.Time.Core.Arithmetic
             y += y0;
             SupportedYears.Check(y);
 
-            int daysInMonth = GregorianFormulae.CountDaysInMonth(y, m);
+            int daysInMonth = Schema.CountDaysInMonth(y, m);
             roundoff = Math.Max(0, d - daysInMonth);
             return new Yemoda(y, m, roundoff > 0 ? daysInMonth : d);
         }
@@ -315,7 +282,7 @@ namespace Zorglub.Time.Core.Arithmetic
             y = checked(y + years);
             SupportedYears.Check(y);
 
-            int daysInYear = GregorianFormulae.CountDaysInYear(y);
+            int daysInYear = Schema.CountDaysInYear(y);
             roundoff = Math.Max(0, doy - daysInYear);
             return new Yedoy(y, roundoff > 0 ? daysInYear : doy);
         }

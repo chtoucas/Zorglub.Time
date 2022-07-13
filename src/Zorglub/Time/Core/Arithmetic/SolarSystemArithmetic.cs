@@ -10,7 +10,7 @@ namespace Zorglub.Time.Core.Arithmetic
     /// <see cref="CalendricalProfile.Solar12"/> or <see cref="CalendricalProfile.Solar13"/>, and
     /// provides a base for derived classes.
     /// </summary>
-    internal abstract partial class SolarArithmetic : SystemArithmetic
+    internal abstract partial class SolarSystemArithmetic : SystemArithmetic
     {
         protected const int MinDaysInYear = __Solar.MinDaysInYear;
         protected const int MinDaysInMonth = __Solar.MinDaysInMonth;
@@ -19,10 +19,10 @@ namespace Zorglub.Time.Core.Arithmetic
 
         /// <summary>
         /// Called from constructors in derived classes to initialize the
-        /// <see cref="SolarArithmetic"/> class.
+        /// <see cref="SolarSystemArithmetic"/> class.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="segment"/> is null.</exception>
-        protected SolarArithmetic(SystemSegment segment) : base(segment)
+        protected SolarSystemArithmetic(SystemSegment segment) : base(segment)
         {
             // Disabled, otherwise we cannot test the derived constructors.
             // Not that important since this class is internal.
@@ -35,7 +35,7 @@ namespace Zorglub.Time.Core.Arithmetic
         }
     }
 
-    internal partial class SolarArithmetic // Operations on Yemoda
+    internal partial class SolarSystemArithmetic // Operations on Yemoda
     {
         /// <inheritdoc />
         [Pure]
@@ -76,7 +76,7 @@ namespace Zorglub.Time.Core.Arithmetic
         }
     }
 
-    internal partial class SolarArithmetic // Operations on Yedoy
+    internal partial class SolarSystemArithmetic // Operations on Yedoy
     {
         /// <inheritdoc />
         [Pure]
@@ -152,7 +152,7 @@ namespace Zorglub.Time.Core.Arithmetic
         }
     }
 
-    internal partial class SolarArithmetic // Non-standard operations
+    internal partial class SolarSystemArithmetic // Non-standard operations
     {
         /// <inheritdoc />
         [Pure]
