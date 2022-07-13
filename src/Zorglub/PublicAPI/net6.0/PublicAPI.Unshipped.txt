@@ -799,6 +799,7 @@ Zorglub.Time.Core.CalendricalSchema.SupportedDays.get -> Zorglub.Time.Core.Inter
 Zorglub.Time.Core.CalendricalSchema.SupportedMonths.get -> Zorglub.Time.Core.Intervals.Range<int>
 Zorglub.Time.Core.CalendricalSchema.SupportedYears.get -> Zorglub.Time.Core.Intervals.Range<int>
 Zorglub.Time.Core.CalendricalSegment
+Zorglub.Time.Core.CalendricalSegment.IsComplete.get -> bool
 Zorglub.Time.Core.CalendricalSegment.MinMaxDateParts.get -> Zorglub.Time.Core.Utilities.OrderedPair<Zorglub.Time.DateParts>
 Zorglub.Time.Core.CalendricalSegment.MinMaxMonthParts.get -> Zorglub.Time.Core.Utilities.OrderedPair<Zorglub.Time.MonthParts>
 Zorglub.Time.Core.CalendricalSegment.MinMaxOrdinalParts.get -> Zorglub.Time.Core.Utilities.OrderedPair<Zorglub.Time.OrdinalParts>
