@@ -3,8 +3,6 @@
 
 namespace Zorglub.Time.Core
 {
-    using Zorglub.Time.Core.Intervals;
-
     // La substantifique moelle d'un calendrier.
 
     /// <summary>
