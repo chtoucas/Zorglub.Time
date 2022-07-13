@@ -3,6 +3,7 @@
 
 namespace Zorglub.Time.Core
 {
+    using Zorglub.Time.Core.Intervals;
     using Zorglub.Time.Core.Validation;
 
     // FIXME(api): should only work with SystemSchema (because of Yemoda & co).
@@ -28,20 +29,9 @@ namespace Zorglub.Time.Core
         /// Initializes a new instance of the <see cref="PartsFactory"/> class.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="validator"/> is null.</exception>
-        /// <exception cref="ArgumentException">The range of supported years by
-        /// <paramref name="validator"/> is not a subinterval of <see cref="Yemoda.SupportedYears"/>.
-        /// </exception>
-        public PartsFactory(ICalendricalValidator validator)
+        private PartsFactory(ICalendricalValidator validator)
         {
-            Requires.NotNull(validator);
-            // Necessary condition to be able to use the Yemoda/Yedoy constructors.
-            // Necessary but not sufficient...
-            //if (validator.SupportedYears.IsSubsetOf(Yemoda.SupportedYears) == false)
-            //{
-            //    Throw.Argument(nameof(validator));
-            //}
-
-            _validator = validator;
+            _validator = validator ?? throw new ArgumentNullException(nameof(validator));
         }
 
         /// <summary>
@@ -55,6 +45,9 @@ namespace Zorglub.Time.Core
 
             return new(new CalendricalValidator(schema, schema.SupportedYears));
         }
+
+        public static PartsFactory Create(SystemSchema schema, Range<int> supportedYears) =>
+            new(new CalendricalValidator(schema, supportedYears));
 
         /// <summary>
         /// Validates the specified year, month and day then creates a new instance of

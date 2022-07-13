@@ -52,8 +52,8 @@ public readonly partial struct DateTemplate :
 
 public partial struct DateTemplate
 {
-    private static PartsFactory PartsFactory { get; } = new(Scope);
     private static SupportedYears SupportedYears { get; } = Scope.Segment.SupportedYears;
+    private static PartsFactory PartsFactory { get; } = PartsFactory.Create(Schema, SupportedYears.Range);
 
     private static Range<DayNumber> Domain => Scope.Domain;
 
