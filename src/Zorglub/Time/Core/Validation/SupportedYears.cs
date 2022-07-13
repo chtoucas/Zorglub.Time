@@ -19,6 +19,12 @@ namespace Zorglub.Time.Core.Validation
         /// <summary>
         /// Initializes a new instance of the <see cref="SupportedYears"/> class.
         /// </summary>
+        internal SupportedYears(int minYear, int maxYear)
+            : this(Intervals.Range.Create(minYear, maxYear)) { }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SupportedYears"/> class.
+        /// </summary>
         public SupportedYears(Range<int> range)
         {
             Range = range;

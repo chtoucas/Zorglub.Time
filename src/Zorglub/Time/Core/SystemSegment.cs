@@ -24,22 +24,14 @@ namespace Zorglub.Time.Core
 
             Schema = schema;
 
-            SupportedDays = new SupportedDays(Range.Create(start.DaysSinceEpoch, end.DaysSinceEpoch));
+            SupportedDays = new SupportedDays(start.DaysSinceEpoch, end.DaysSinceEpoch);
             MinMaxDateParts = OrderedPair.FromOrderedValues(start.DateParts, end.DateParts);
             MinMaxOrdinalParts = OrderedPair.FromOrderedValues(start.OrdinalParts, end.OrdinalParts);
 
-            SupportedMonths = new SupportedMonths(
-                Range.FromEndpoints(MinMaxDateParts.Select(CountMonthsSinceEpoch, CountMonthsSinceEpoch)));
+            SupportedMonths = new SupportedMonths(start.MonthsSinceEpoch, end.MonthsSinceEpoch);
             MinMaxMonthParts = OrderedPair.FromOrderedValues(start.MonthParts, end.MonthParts);
 
-            SupportedYears = new SupportedYears(Range.Create(start.Year, end.Year));
-
-            [Pure]
-            int CountMonthsSinceEpoch(Yemoda ymd)
-            {
-                var (y, m, _) = ymd;
-                return schema.CountMonthsSinceEpoch(y, m);
-            }
+            SupportedYears = new SupportedYears(start.Year, end.Year);
         }
 
         /// <summary>
@@ -112,13 +104,13 @@ namespace Zorglub.Time.Core
             }
 
             var (minYear, maxYear) = supportedYears.Endpoints;
-            var start = new Endpoint
+            var start = new Endpoint(schema)
             {
                 DaysSinceEpoch = schema.GetStartOfYear(minYear),
                 DateParts = Yemoda.AtStartOfYear(minYear),
                 OrdinalParts = Yedoy.AtStartOfYear(minYear),
             };
-            var end = new Endpoint
+            var end = new Endpoint(schema)
             {
                 DaysSinceEpoch = schema.GetEndOfYear(maxYear),
                 DateParts = schema.GetDatePartsAtEndOfYear(maxYear),
@@ -128,14 +120,31 @@ namespace Zorglub.Time.Core
             return new SystemSegment(schema, start, end);
         }
 
-        private sealed record Endpoint
+        private sealed class Endpoint
         {
+            private readonly SystemSchema _schema;
+
+            public Endpoint(SystemSchema schema)
+            {
+                Debug.Assert(schema != null);
+                _schema = schema;
+            }
+
             public int DaysSinceEpoch { get; init; }
             public Yemoda DateParts { get; init; }
             public Yedoy OrdinalParts { get; init; }
 
             public Yemo MonthParts => DateParts.Yemo;
             public int Year => DateParts.Year;
+
+            public int MonthsSinceEpoch
+            {
+                get
+                {
+                    var (y, m) = MonthParts;
+                    return _schema.CountMonthsSinceEpoch(y, m);
+                }
+            }
 
             public int CompareTo(Endpoint other)
             {

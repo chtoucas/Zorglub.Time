@@ -112,7 +112,14 @@ namespace Zorglub.Time.Core
         /// </summary>
         /// <exception cref="InvalidOperationException">The segment was not buildable.</exception>
         [Pure]
-        public CalendricalSegment BuildSegment() => new(_schema, Start, End);
+        public CalendricalSegment BuildSegment()
+        {
+            bool complete =
+                Start.OrdinalParts == OrdinalParts.AtStartOfYear(Start.Year)
+                && End.OrdinalParts == _partsAdapter.GetOrdinalPartsAtEndOfYear(End.Year);
+
+            return new CalendricalSegment(_schema, Start, End) { IsComplete = complete };
+        }
     }
 
     public partial class CalendricalSegmentBuilder // Builder methods
@@ -127,7 +134,7 @@ namespace Zorglub.Time.Core
                 Throw.ArgumentOutOfRange(nameof(daysSinceEpoch));
             }
 
-            Start = new Endpoint
+            Start = new Endpoint(_schema)
             {
                 DaysSinceEpoch = daysSinceEpoch,
                 DateParts = _partsAdapter.GetDateParts(daysSinceEpoch),
@@ -145,7 +152,7 @@ namespace Zorglub.Time.Core
                 Throw.ArgumentOutOfRange(nameof(daysSinceEpoch));
             }
 
-            End = new Endpoint
+            End = new Endpoint(_schema)
             {
                 DaysSinceEpoch = daysSinceEpoch,
                 DateParts = _partsAdapter.GetDateParts(daysSinceEpoch),
@@ -161,7 +168,7 @@ namespace Zorglub.Time.Core
             if (SupportedYears.Contains(year) == false) Throw.YearOutOfRange(year);
             PreValidator.ValidateMonthDay(year, month, day);
 
-            Start = new Endpoint
+            Start = new Endpoint(_schema)
             {
                 DaysSinceEpoch = _schema.CountDaysSinceEpoch(year, month, day),
                 DateParts = new DateParts(year, month, day),
@@ -177,7 +184,7 @@ namespace Zorglub.Time.Core
             if (SupportedYears.Contains(year) == false) Throw.YearOutOfRange(year);
             PreValidator.ValidateMonthDay(year, month, day);
 
-            End = new Endpoint
+            End = new Endpoint(_schema)
             {
                 DaysSinceEpoch = _schema.CountDaysSinceEpoch(year, month, day),
                 DateParts = new DateParts(year, month, day),
@@ -193,7 +200,7 @@ namespace Zorglub.Time.Core
             if (SupportedYears.Contains(year) == false) Throw.YearOutOfRange(year);
             PreValidator.ValidateDayOfYear(year, dayOfYear);
 
-            Start = new Endpoint
+            Start = new Endpoint(_schema)
             {
                 DaysSinceEpoch = _schema.CountDaysSinceEpoch(year, dayOfYear),
                 DateParts = _partsAdapter.GetDateParts(year, dayOfYear),
@@ -209,7 +216,7 @@ namespace Zorglub.Time.Core
             if (SupportedYears.Contains(year) == false) Throw.YearOutOfRange(year);
             PreValidator.ValidateDayOfYear(year, dayOfYear);
 
-            End = new Endpoint
+            End = new Endpoint(_schema)
             {
                 DaysSinceEpoch = _schema.CountDaysSinceEpoch(year, dayOfYear),
                 DateParts = _partsAdapter.GetDateParts(year, dayOfYear),
@@ -224,7 +231,7 @@ namespace Zorglub.Time.Core
         {
             if (SupportedYears.Contains(year) == false) Throw.YearOutOfRange(year);
 
-            Start = new Endpoint
+            Start = new Endpoint(_schema)
             {
                 DaysSinceEpoch = _schema.GetStartOfYear(year),
                 DateParts = DateParts.AtStartOfYear(year),
@@ -239,7 +246,7 @@ namespace Zorglub.Time.Core
         {
             if (SupportedYears.Contains(year) == false) Throw.YearOutOfRange(year);
 
-            End = new Endpoint
+            End = new Endpoint(_schema)
             {
                 DaysSinceEpoch = _schema.GetEndOfYear(year),
                 DateParts = _partsAdapter.GetDatePartsAtEndOfYear(year),

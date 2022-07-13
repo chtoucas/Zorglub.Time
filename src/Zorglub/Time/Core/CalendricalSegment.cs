@@ -24,30 +24,30 @@ namespace Zorglub.Time.Core
         /// Initializes a new instance of the <see cref="CalendricalSegment"/> class.
         /// <para>This constructor does NOT validate its parameters.</para>
         /// </summary>
-        internal CalendricalSegment(ICalendricalSchema schema, Endpoint start, Endpoint end)
+        internal CalendricalSegment(
+            ICalendricalSchema schema, Endpoint start, Endpoint end)
         {
             Debug.Assert(schema != null);
             Debug.Assert(start <= end);
 
             _schema = schema;
 
-            SupportedDays = new SupportedDays(Range.Create(start.DaysSinceEpoch, end.DaysSinceEpoch));
+            SupportedDays = new SupportedDays(start.DaysSinceEpoch, end.DaysSinceEpoch);
             MinMaxDateParts = OrderedPair.FromOrderedValues(start.DateParts, end.DateParts);
             MinMaxOrdinalParts = OrderedPair.FromOrderedValues(start.OrdinalParts, end.OrdinalParts);
 
-            SupportedMonths = new SupportedMonths(
-                Range.FromEndpoints(MinMaxDateParts.Select(CountMonthsSinceEpoch, CountMonthsSinceEpoch)));
+            SupportedMonths = new SupportedMonths(start.MonthsSinceEpoch, end.MonthsSinceEpoch);
             MinMaxMonthParts = OrderedPair.FromOrderedValues(start.MonthParts, end.MonthParts);
 
-            SupportedYears = new SupportedYears(Range.Create(start.Year, end.Year));
-
-            [Pure]
-            int CountMonthsSinceEpoch(DateParts parts)
-            {
-                var (y, m, _) = parts;
-                return schema.CountMonthsSinceEpoch(y, m);
-            }
+            SupportedYears = new SupportedYears(start.Year, end.Year);
         }
+
+        /// <summary>
+        /// Returns true if this segment is complete; otherwise returns false.
+        /// <para>A segment is said to be <i>complete</i> if it spans all days of a range of years.
+        /// </para>
+        /// </summary>
+        public bool IsComplete { get; internal init; }
 
         /// <summary>
         /// Gets the range of supported days, that is the range of supported numbers of consecutive
@@ -162,17 +162,31 @@ namespace Zorglub.Time.Core
             return builder.BuildSegment();
         }
 
-        // By keeping this record internal, we can ensure that the properties are
-        // coherent, ie that they represent the same day. Furthemore, an endpoint
-        // does not keep track of the schema, which makes it incomplete.
-        internal sealed record Endpoint
+        internal sealed class Endpoint
         {
+            private readonly ICalendricalSchema _schema;
+
+            public Endpoint(ICalendricalSchema schema)
+            {
+                Debug.Assert(schema != null);
+                _schema = schema;
+            }
+
             public int DaysSinceEpoch { get; init; }
             public DateParts DateParts { get; init; }
             public OrdinalParts OrdinalParts { get; init; }
 
             public MonthParts MonthParts => DateParts.MonthParts;
             public int Year => DateParts.Year;
+
+            public int MonthsSinceEpoch
+            {
+                get
+                {
+                    var (y, m) = MonthParts;
+                    return _schema.CountMonthsSinceEpoch(y, m);
+                }
+            }
 
             // Comparison w/ null always returns false, even null >= null and null <= null.
 

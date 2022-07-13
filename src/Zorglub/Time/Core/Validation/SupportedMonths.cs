@@ -17,6 +17,12 @@ namespace Zorglub.Time.Core.Validation
         /// <summary>
         /// Initializes a new instance of the <see cref="SupportedMonths"/> class.
         /// </summary>
+        internal SupportedMonths(int minMonthsSinceEpoch, int maxMonthsSinceEpoch)
+            : this(Intervals.Range.Create(minMonthsSinceEpoch, maxMonthsSinceEpoch)) { }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SupportedMonths"/> class.
+        /// </summary>
         public SupportedMonths(Range<int> range)
         {
             Range = range;
