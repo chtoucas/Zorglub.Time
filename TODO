@@ -5,8 +5,6 @@ Domains: SupportedYearsTester
 
 - Refactor CalendarCatalog, split into a registry and a registar.
   Currently, it's almost impossible to achieve full test coverage.
-- CalendricalSegment -> SystemSegment
-- Segment.IsIntegral
 - ISchemaBound
 - Math:
   * Profile: OtherRegular, Other7 (MinDaysInMonth >= 7)?
