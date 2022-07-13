@@ -119,7 +119,7 @@ namespace Zorglub.Time.Simple
         /// supported by the Gregorian calendar.</exception>
         public CalendarYear(int year)
         {
-            GregorianProlepticScope.ValidateYear(year);
+            GregorianProlepticScope.SupportedYears.Validate(year);
 
 #if CALENDARYEAR_EXPLICIT_LAYOUT
             _bin = 0;

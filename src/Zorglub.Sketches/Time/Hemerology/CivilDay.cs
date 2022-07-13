@@ -440,7 +440,7 @@ namespace Zorglub.Time.Hemerology
         public CivilDay PlusDays(int days)
         {
             int daysSinceEpoch = checked(_daysSinceEpoch + days);
-            GregorianStandardScope.CheckOverflow(daysSinceEpoch);
+            GregorianStandardScope.SupportedDays.Check(daysSinceEpoch);
             return new(daysSinceEpoch);
         }
 

@@ -5,6 +5,7 @@ namespace Zorglub.Time.Hemerology.Scopes
 {
     using Zorglub.Time.Core.Intervals;
     using Zorglub.Time.Core.Schemas;
+    using Zorglub.Time.Core.Validation;
 
     using static Zorglub.Time.Core.CalendricalConstants;
 
@@ -27,6 +28,12 @@ namespace Zorglub.Time.Hemerology.Scopes
         public const int MaxYear = StandardScope.MaxYear;
 
         /// <summary>
+        /// Represents the range of supported years.
+        /// <para>This field is read-only.</para>
+        /// </summary>
+        private static readonly Range<int> s_SupportedYears = Range.Create(MinYear, MaxYear);
+
+        /// <summary>
         /// Represents the minimum possible value for the number of consecutive days from the epoch.
         /// <para>This field is read-only.</para>
         /// </summary>
@@ -44,32 +51,22 @@ namespace Zorglub.Time.Hemerology.Scopes
         /// <para>This static propery is thread-safe.</para>
         /// </summary>
         public static Range<DayNumber> DefaultDomain { get; } =
-            Range.CreateLeniently(
+            Range.Create(
                 DayZero.NewStyle + s_MinDaysSinceEpoch,
                 DayZero.NewStyle + s_MaxDaysSinceEpoch);
 
         /// <summary>
-        /// Checks that the specified <paramref name="daysSinceEpoch"/> does not overflow the range
-        /// of supported values.
+        /// Gets the range of supported days.
+        /// <para>This static propery is thread-safe.</para>
         /// </summary>
-        /// <exception cref="OverflowException">The operation would overflow the range of supported
-        /// dates.</exception>
-        public static void CheckOverflow(int daysSinceEpoch)
-        {
-            if (daysSinceEpoch < s_MinDaysSinceEpoch || daysSinceEpoch > s_MaxDaysSinceEpoch)
-            {
-                Throw.DateOverflow();
-            }
-        }
+        public static SupportedDays SupportedDays { get; } =
+            new(Range.Create(s_MinDaysSinceEpoch, s_MaxDaysSinceEpoch));
 
         /// <summary>
-        /// Validates the specified year.
+        /// Gets the range of supported years.
+        /// <para>This static property is thread-safe.</para>
         /// </summary>
-        /// <exception cref="AoorException">The validation failed.</exception>
-        public static void ValidateYear(int year, string? paramName = null)
-        {
-            if (year < MinYear || year > MaxYear) Throw.YearOutOfRange(year, paramName);
-        }
+        public static ISupportedValues<int> SupportedYears { get; } = new SupportedYears_();
 
         /// <summary>
         /// Validates the specified month.
@@ -109,6 +106,31 @@ namespace Zorglub.Time.Hemerology.Scopes
                     && dayOfYear > GregorianFormulae.CountDaysInYear(year)))
             {
                 Throw.DayOfYearOutOfRange(dayOfYear, paramName);
+            }
+        }
+
+        private sealed class SupportedYears_ : ISupportedValues<int>
+        {
+            public Range<int> Range => s_SupportedYears;
+
+            public void Validate(int year, string? paramName = null)
+            {
+                if (year < MinYear || year > MaxYear) Throw.YearOutOfRange(year, paramName);
+            }
+
+            public void Check(int year)
+            {
+                if (year < MinYear || year > MaxYear) Throw.DateOverflow();
+            }
+
+            public void CheckUpperBound(int year)
+            {
+                if (year > MaxYear) Throw.DateOverflow();
+            }
+
+            public void CheckLowerBound(int year)
+            {
+                if (year < MinYear) Throw.DateOverflow();
             }
         }
     }
