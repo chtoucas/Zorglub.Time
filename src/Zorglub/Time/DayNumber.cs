@@ -103,14 +103,13 @@ namespace Zorglub.Time
         // https://github.com/dotnet/runtime/issues/11179
         // https://github.com/dotnet/roslyn/issues/10126#issuecomment-204471882
         // https://stackoverflow.com/questions/36222117/maybe-a-c-sharp-compiler-bug-in-visual-studio-2015/36337761#36337761
-        private static readonly DayNumber s_MinGregorianValue = new(MinGregorianDaysSinceZero);
-        private static readonly DayNumber s_MaxGregorianValue = new(MaxGregorianDaysSinceZero);
 
         /// <summary>
         /// Gets the range of supported Gregorian values for a <see cref="DayNumber"/>.
+        /// <para>This property is thread-safe.</para>
         /// </summary>
-        public static Range<DayNumber> GregorianDomain =>
-            Range.Create(s_MinGregorianValue, s_MaxGregorianValue);
+        public static Range<DayNumber> GregorianDomain { get; } =
+            new(new(MinGregorianDaysSinceZero), new(MaxGregorianDaysSinceZero));
 
         #endregion
         #region Julian
@@ -129,14 +128,12 @@ namespace Zorglub.Time
         /// </summary>
         private const int MaxJulianDaysSinceZero = 1_826_249_997;
 
-        private static readonly DayNumber s_MinJulianValue = new(MinJulianDaysSinceZero);
-        private static readonly DayNumber s_MaxJulianValue = new(MaxJulianDaysSinceZero);
-
         /// <summary>
         /// Gets the range of supported Julian values for a <see cref="DayNumber"/>.
+        /// <para>This property is thread-safe.</para>
         /// </summary>
-        public static Range<DayNumber> JulianDomain =>
-            Range.Create(s_MinJulianValue, s_MaxJulianValue);
+        public static Range<DayNumber> JulianDomain { get; } =
+            new(new(MinJulianDaysSinceZero), new(MaxJulianDaysSinceZero));
 
         #endregion
 
@@ -163,7 +160,7 @@ namespace Zorglub.Time
 
         /// <summary>
         /// Gets the smallest possible value of a <see cref="DayNumber"/>.
-        /// <para>This static property is thread-safe.</para>
+        /// <para>This field is read-only.</para>
         /// </summary>
         // The minimum value has been chosen such that its properties do not
         // overflow, e.g. DayNumber.MinValue.Ordinal = Ord.MinValue.
@@ -171,7 +168,7 @@ namespace Zorglub.Time
 
         /// <summary>
         /// Gets the largest possible value of a <see cref="DayNumber"/>.
-        /// <para>This static property is thread-safe.</para>
+        /// <para>This field is read-only.</para>
         /// </summary>
         // The maximum value has been chosen such that its properties do not
         // overflow, e.g. DayNumber.MaxValue.Ordinal = Ord.MaxValue.

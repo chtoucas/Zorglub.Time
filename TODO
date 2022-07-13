@@ -7,10 +7,6 @@ Domains: SupportedYearsTester
   Currently, it's almost impossible to achieve full test coverage.
 - CalendricalSegment -> SystemSegment
 - Segment.IsIntegral
-- Overflow checking (OK)
-  - IOverflowChecker
-  - Proleptic/StandardScope.YearOverflowChecker
-  - AffineDomain, MonthDomain and extensions for Range<DayNumber>
 - ISchemaBound
 - Math:
   * Profile: OtherRegular, Other7 (MinDaysInMonth >= 7)?

@@ -59,22 +59,6 @@ namespace Zorglub.Time.Core
         private protected const int DefaultMaxYear = 999_999;
 
         /// <summary>
-        /// Represents the interval [-999_998..999_999].
-        /// <para>It is the default value for <see cref="ICalendricalSchema.SupportedYears"/>.</para>
-        /// <para>This field is read-only.</para>
-        /// </summary>
-        public static readonly Range<int> DefaultSupportedYears = new(DefaultMinYear, DefaultMaxYear);
-
-        /// <summary>
-        /// Represents the interval [<see cref="Yemoda.MinYear"/>..<see cref="Yemoda.MaxYear"/>],
-        /// that is [-2_097_152, 2_097_151].
-        /// <para>It is the maximum value for <see cref="ICalendricalSchema.SupportedYears"/>.</para>
-        /// <para>It matches the value of <see cref="Yemoda.SupportedYears"/>.</para>
-        /// <para>This field is read-only.</para>
-        /// </summary>
-        public static readonly Range<int> MaxSupportedYears = Yemoda.SupportedYears;
-
-        /// <summary>
         /// Called from constructors in derived classes to initialize the
         /// <see cref="SystemSchema"/> class.
         /// </summary>
@@ -103,6 +87,22 @@ namespace Zorglub.Time.Core
                 Throw.ArgumentOutOfRange(nameof(supportedYears));
             }
         }
+
+        /// <summary>
+        /// Represents the interval [-999_998..999_999].
+        /// <para>It is the default value for <see cref="ICalendricalSchema.SupportedYears"/>.</para>
+        /// <para>This property is thread-safe.</para>
+        /// </summary>
+        public static Range<int> DefaultSupportedYears { get; } = new(DefaultMinYear, DefaultMaxYear);
+
+        /// <summary>
+        /// Represents the interval [<see cref="Yemoda.MinYear"/>..<see cref="Yemoda.MaxYear"/>],
+        /// that is [-2_097_152, 2_097_151].
+        /// <para>It is the maximum value for <see cref="ICalendricalSchema.SupportedYears"/>.</para>
+        /// <para>It matches the value of <see cref="Yemoda.SupportedYears"/>.</para>
+        /// <para>This property is thread-safe.</para>
+        /// </summary>
+        public static Range<int> MaxSupportedYears => Yemoda.SupportedYears;
     }
 
     public partial class SystemSchema // Properties

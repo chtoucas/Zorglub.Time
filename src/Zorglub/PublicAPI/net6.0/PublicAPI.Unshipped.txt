@@ -369,8 +369,6 @@ override Zorglub.Time.Simple.OrdinalDate.Equals(object? obj) -> bool
 override Zorglub.Time.Simple.OrdinalDate.GetHashCode() -> int
 override Zorglub.Time.Simple.OrdinalDate.ToString() -> string!
 static readonly Zorglub.Time.Core.Intervals.RangeSet<T>.Empty -> Zorglub.Time.Core.Intervals.RangeSet<T>
-static readonly Zorglub.Time.Core.SystemSchema.DefaultSupportedYears -> Zorglub.Time.Core.Intervals.Range<int>
-static readonly Zorglub.Time.Core.SystemSchema.MaxSupportedYears -> Zorglub.Time.Core.Intervals.Range<int>
 static readonly Zorglub.Time.Core.Yedoy.MaxValue -> Zorglub.Time.Core.Yedoy
 static readonly Zorglub.Time.Core.Yedoy.MinValue -> Zorglub.Time.Core.Yedoy
 static readonly Zorglub.Time.Core.Yedoyx.MaxValue -> Zorglub.Time.Core.Yedoyx
@@ -486,6 +484,8 @@ static Zorglub.Time.Core.Schemas.TabularIslamicSchema.GetInstance() -> Zorglub.T
 static Zorglub.Time.Core.Schemas.TropicaliaSchema.GetInstance() -> Zorglub.Time.Core.Utilities.Box<Zorglub.Time.Core.Schemas.TropicaliaSchema!>!
 static Zorglub.Time.Core.SystemArithmetic.CreateDefault(Zorglub.Time.Core.SystemSchema! schema, Zorglub.Time.Core.Intervals.Range<int> supportedYears) -> Zorglub.Time.Core.SystemArithmetic!
 static Zorglub.Time.Core.SystemArithmetic.CreateDefault(Zorglub.Time.Core.SystemSegment! segment) -> Zorglub.Time.Core.SystemArithmetic!
+static Zorglub.Time.Core.SystemSchema.DefaultSupportedYears.get -> Zorglub.Time.Core.Intervals.Range<int>
+static Zorglub.Time.Core.SystemSchema.MaxSupportedYears.get -> Zorglub.Time.Core.Intervals.Range<int>
 static Zorglub.Time.Core.SystemSegment.Create(Zorglub.Time.Core.SystemSchema! schema, Zorglub.Time.Core.Intervals.Range<int> supportedYears) -> Zorglub.Time.Core.SystemSegment!
 static Zorglub.Time.Core.Utilities.Box.Create<T>(T? obj) -> Zorglub.Time.Core.Utilities.Box<T!>!
 static Zorglub.Time.Core.Utilities.Box.Empty<T>() -> Zorglub.Time.Core.Utilities.Box<T!>!

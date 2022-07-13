@@ -34,8 +34,6 @@ namespace Zorglub.Time.Hemerology
         /// <exception cref="ArgumentNullException"><paramref name="scope"/> is null.</exception>
         public MinMaxYearCalendar(string name, MinMaxYearScope scope) : base(name, scope)
         {
-            Debug.Assert(scope != null);
-
             DayProvider = new MinMaxYearDayProvider(scope);
         }
 
