@@ -1,7 +1,7 @@
 ﻿// SPDX-License-Identifier: BSD-3-Clause
 // Copyright (c) 2020 Narvalo.Org. All rights reserved.
 
-module Zorglub.Tests.Core.Arithmetic.PlainArithmeticTestSuite
+module Zorglub.Tests.Core.Arithmetic.RegularSystemArithmeticTestSuite
 
 open Zorglub.Testing
 open Zorglub.Testing.Data.Schemas
@@ -11,7 +11,7 @@ open Zorglub.Time.Core
 open Zorglub.Time.Core.Arithmetic
 open Zorglub.Time.Core.Schemas
 
-// TODO(code): Hebrew (unfinished, no data), Pax (unfinished) and lunisolar (fake) schema.
+// TODO(code): Hebrew (unfinished, no data) and lunisolar (fake) schema.
 
 // Since the Gregorian schema has the richest dataset, we use it as a default
 // model for testing.
@@ -19,28 +19,28 @@ open Zorglub.Time.Core.Schemas
 let private ariOf<'a when 'a :> SystemSchema and 'a :> IBoxable<'a>> () =
     let sch = syschemaOf<'a>()
     let seg = SystemSegment.Create(sch, sch.SupportedYears)
-    new PlainArithmetic(seg)
+    new RegularSystemArithmetic(seg)
 
 [<Sealed>]
 [<RedundantTestBundle>]
 type Coptic12Tests() =
     inherit SystemArithmeticFacts<Coptic12DataSet>(ariOf<Coptic12Schema>())
 
-// Coptic13Schema -> already tested in ArithmeticTestSuite.
+// Coptic13 -> not compatible with RegularSystemArithmetic.
 
 [<Sealed>]
 [<RedundantTestBundle>]
 type Egyptian12Tests() =
     inherit SystemArithmeticFacts<Egyptian12DataSet>(ariOf<Egyptian12Schema>())
 
-// Egyptian13Schema -> already tested in ArithmeticTestSuite.
+// Egyptian13 -> not compatible with RegularSystemArithmetic.
 
 [<Sealed>]
 [<RedundantTestBundle>]
 type FrenchRepublican12Tests() =
     inherit SystemArithmeticFacts<FrenchRepublican12DataSet>(ariOf<FrenchRepublican12Schema>())
 
-// FrenchRepublican13Schema -> already tested in ArithmeticTestSuite.
+// FrenchRepublican13 -> not compatible with RegularSystemArithmetic.
 
 [<Sealed>]
 type GregorianTests() =
@@ -56,12 +56,9 @@ type InternationalFixedTests() =
 type JulianTests() =
     inherit SystemArithmeticFacts<JulianDataSet>(ariOf<JulianSchema>())
 
-[<Sealed>]
-[<RedundantTestBundle>]
-type LunisolarTests() =
-    inherit SystemArithmeticFacts<LunisolarDataSet>(ariOf<LunisolarSchema>())
+// Lunisolar -> not compatible with RegularSystemArithmetic.
 
-// PaxSchema -> already tested in ArithmeticTestSuite.
+// Pax -> not compatible with RegularSystemArithmetic.
 
 [<Sealed>]
 [<RedundantTestBundle>]

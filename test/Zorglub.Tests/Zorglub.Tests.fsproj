@@ -67,14 +67,14 @@
     <Compile Include="Tests\Core\Validation\PlainPreValidatorTestSuite.fs" />
     <Compile Include="Tests\Core\Validation\PreValidatorTestSuite.fs" />
     <Compile Include="Tests\Core\Arithmetic\SystemArithmeticTests.fs" />
-    <Compile Include="Tests\Core\Arithmetic\PlainArithmeticTestSuite.fs" />
-    <Compile Include="Tests\Core\Arithmetic\RegularArithmeticTestSuite.fs" />
+    <Compile Include="Tests\Core\Arithmetic\PlainSystemArithmeticTestSuite.fs" />
+    <Compile Include="Tests\Core\Arithmetic\RegularSystemArithmeticTestSuite.fs" />
     <Compile Include="Tests\Core\Arithmetic\ArithmeticTestSuite.fs" />
+    <Compile Include="Tests\Core\Arithmetic\BasicArithmeticTestSuite.fs" />
     <Compile Include="Tests\Core\PartsTests.fs" />
     <Compile Include="Tests\Core\PartsAdapterTests.fs" />
     <Compile Include="Tests\Core\SchemaAdapterTests.fs" />
     <Compile Include="Tests\Core\MonthCalculatorTests.fs" />
-    <Compile Include="Tests\Core\BasicArithmeticTestSuite.fs" />
     <Compile Include="Tests\Core\TemporalArithmeticTests.fs" />
     <Compile Include="Tests\Hemerology\Scopes\CalendarScopeTests.fs" />
     <Compile Include="Tests\Hemerology\Scopes\StandardScopeTests.fs" />

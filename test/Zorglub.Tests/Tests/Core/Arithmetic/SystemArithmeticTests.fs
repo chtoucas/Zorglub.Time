@@ -35,8 +35,8 @@ module Prelude =
 
     [<Fact>]
     let ``Constructor throws for null segment`` () =
-        nullExn "segment" (fun () -> new PlainArithmetic(null))
-        nullExn "segment" (fun () -> new RegularArithmetic(null))
+        nullExn "segment" (fun () -> new PlainSystemArithmetic(null))
+        nullExn "segment" (fun () -> new RegularSystemArithmetic(null))
         nullExn "segment" (fun () -> new LunarArithmetic(null))
         nullExn "segment" (fun () -> new LunisolarArithmetic(null))
         nullExn "segment" (fun () -> new Solar12Arithmetic(null))
@@ -73,21 +73,21 @@ module Prelude =
     [<InlineData 4>]
     [<InlineData 5>]
     [<InlineData 6>]
-    let ``RegularArithmetic constructor throws when MinDaysInMonth < 7`` i =
+    let ``RegularSystemArithmetic constructor throws when MinDaysInMonth < 7`` i =
         let sch = FauxSystemSchema.WithMinDaysInMonth(i)
         let seg = SystemSegment.Create(sch, sch.SupportedYears)
 
-        argExn "segment" (fun () -> new RegularArithmetic(seg))
+        argExn "segment" (fun () -> new RegularSystemArithmetic(seg))
 
 module Factories =
     [<Fact>]
     let ``SystemArithmetic.CreateDefault()`` () =
         SystemArithmetic.CreateDefault(sysegmentOf<Coptic12Schema>())           |> is<Solar12Arithmetic>
-        SystemArithmetic.CreateDefault(sysegmentOf<Coptic13Schema>())           |> is<PlainArithmetic>
+        SystemArithmetic.CreateDefault(sysegmentOf<Coptic13Schema>())           |> is<PlainSystemArithmetic>
         SystemArithmetic.CreateDefault(sysegmentOf<Egyptian12Schema>())         |> is<Solar12Arithmetic>
-        SystemArithmetic.CreateDefault(sysegmentOf<Egyptian13Schema>())         |> is<PlainArithmetic>
+        SystemArithmetic.CreateDefault(sysegmentOf<Egyptian13Schema>())         |> is<PlainSystemArithmetic>
         SystemArithmetic.CreateDefault(sysegmentOf<FrenchRepublican12Schema>()) |> is<Solar12Arithmetic>
-        SystemArithmetic.CreateDefault(sysegmentOf<FrenchRepublican13Schema>()) |> is<PlainArithmetic>
+        SystemArithmetic.CreateDefault(sysegmentOf<FrenchRepublican13Schema>()) |> is<PlainSystemArithmetic>
         SystemArithmetic.CreateDefault(sysegmentOf<GregorianSchema>())          |> is<GregorianArithmetic>
         //SystemArithmetic.CreateDefault(sysegmentOf<HebrewSchema>())             |> is<LunisolarArithmetic>
         SystemArithmetic.CreateDefault(sysegmentOf<InternationalFixedSchema>()) |> is<Solar13Arithmetic>
@@ -100,12 +100,12 @@ module Factories =
         SystemArithmetic.CreateDefault(sysegmentOf<Tropicalia3130Schema>())     |> is<Solar12Arithmetic>
         SystemArithmetic.CreateDefault(sysegmentOf<WorldSchema>())              |> is<Solar12Arithmetic>
 
-// We have to test AddDaysViaDayOfMonth() separately because PlainArithmetic
-// and RegularArithmetic do not use it internally.
+// We have to test AddDaysViaDayOfMonth() separately because PlainSystemArithmetic
+// and RegularSystemArithmetic do not use it internally.
 
 module PlainCase =
     let private seg = sysegmentOf<GregorianSchema>()
-    let private ari = new PlainArithmetic(seg)
+    let private ari = new PlainSystemArithmetic(seg)
     let private wrapper = new ArithmeticWrapper(ari)
 
     let addDaysData = getAddDaysData ari
@@ -133,7 +133,7 @@ module PlainCase =
 
 module RegularCase =
     let private seg = sysegmentOf<GregorianSchema>()
-    let private ari = new RegularArithmetic(seg)
+    let private ari = new RegularSystemArithmetic(seg)
     let private wrapper = new ArithmeticWrapper(ari)
 
     let addDaysData = getAddDaysData ari

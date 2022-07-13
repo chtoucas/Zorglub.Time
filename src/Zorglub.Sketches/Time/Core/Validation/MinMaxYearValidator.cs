@@ -6,10 +6,10 @@ namespace Zorglub.Time.Core.Validation
     using Zorglub.Time.Core.Intervals;
 
     /// <summary>
-    /// Provides a plain implementation for <see cref="ICalendricalValidator"/>.
+    /// Represents a validator for a calendar supporting <i>all</i> dates within a range of years.
     /// <para>This class cannot be inherited.</para>
     /// </summary>
-    public sealed class CalendricalValidator : ICalendricalValidator, ISchemaBound
+    public sealed class MinMaxYearValidator : ICalendricalValidator, ISchemaBound
     {
         /// <summary>
         /// Represents the underlying schema.
@@ -30,12 +30,12 @@ namespace Zorglub.Time.Core.Validation
         private readonly SupportedYears _supportedYears;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="CalendricalValidator"/> class.
+        /// Initializes a new instance of the <see cref="MinMaxYearValidator"/> class.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
         /// <exception cref="AoorException"><paramref name="supportedYears"/> is NOT a subinterval
         /// of the range of supported years by <paramref name="schema"/>.</exception>
-        public CalendricalValidator(ICalendricalSchema schema, Range<int> supportedYears)
+        public MinMaxYearValidator(ICalendricalSchema schema, Range<int> supportedYears)
         {
             _schema = schema ?? throw new ArgumentNullException(nameof(schema));
 

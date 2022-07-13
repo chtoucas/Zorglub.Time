@@ -21,8 +21,8 @@ namespace Zorglub.Time.Core
     // ├─ GregorianArithmetic     (GregorianSchema)
     // ├─ LunarArithmetic         (-)
     // ├─ LunisolarArithmetic     (-)
-    // ├─ PlainArithmetic         (-)
-    // ├─ RegularArithmetic       (-)
+    // ├─ PlainSystemArithmetic   (-)
+    // ├─ RegularSystemArithmetic (-)
     // └─ SolarArithmetic [A]     (-)
     //    ├─ Solar12Arithmetic    (-)
     //    └─ Solar13Arithmetic    (-)
@@ -168,8 +168,8 @@ namespace Zorglub.Time.Core
                 // Check the code, we only call CountMonthsInYear() in two
                 // corner cases.
                 _ => sch.MinDaysInMonth >= MinMinDaysInMonth && sch.IsRegular(out _)
-                    ? new RegularArithmetic(segment)
-                    : new PlainArithmetic(segment)
+                    ? new RegularSystemArithmetic(segment)
+                    : new PlainSystemArithmetic(segment)
             };
         }
     }

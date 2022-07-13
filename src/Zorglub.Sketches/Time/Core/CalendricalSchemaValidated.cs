@@ -92,13 +92,13 @@ namespace Zorglub.Time.Core
 
         private sealed class StrictlyValidated : CalendricalSchemaValidated
         {
-            private readonly CalendricalValidator _validator;
+            private readonly MinMaxYearValidator _validator;
 
             public StrictlyValidated(ICalendricalSchema schema) : base(schema)
             {
                 Debug.Assert(schema != null);
 
-                _validator = new CalendricalValidator(schema, schema.SupportedYears);
+                _validator = new MinMaxYearValidator(schema, schema.SupportedYears);
             }
 
             protected override void ValidateYear(int y) =>

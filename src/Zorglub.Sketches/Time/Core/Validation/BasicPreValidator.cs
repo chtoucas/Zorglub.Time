@@ -3,38 +3,28 @@
 
 namespace Zorglub.Time.Core.Validation
 {
-    #region Developer Notes
-
-    // _schema is an ICalendrical instead of an ICalendricalSchema to be able to
-    // check that we only rely on the core methods. The ctor could have required
-    // only an ICalendrical object but it would have been idea. We don't want
-    // for instance to initialize this class with a calendar (ICalendar), we
-    // really want a schema. As explained in ICalendricalPreValidator, a
-    // pre-validator is just a part of ICalendricalSchema that has been
-    // extracted for technical reasons only.
-
-    #endregion
-
     /// <summary>
     /// Provides a reference implementation for <see cref="ICalendricalPreValidator"/>.
     /// <para>This class cannot be inherited.</para>
     /// </summary>
-    public sealed class BasicPreValidator : ICalendricalPreValidator
+    public sealed class BasicPreValidator : ICalendricalPreValidator, ISchemaBound
     {
         /// <summary>
         /// Represents the schema.
         /// <para>This field is read-only.</para>
         /// </summary>
-        private readonly ICalendricalKernel _schema;
+        private readonly ICalendricalSchema _schema;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BasicPreValidator"/> class.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
-        public BasicPreValidator(ICalendricalKernel schema)
+        public BasicPreValidator(ICalendricalSchema schema)
         {
             _schema = schema ?? throw new ArgumentNullException(nameof(schema));
         }
+
+        ICalendricalSchema ISchemaBound.Schema => _schema;
 
         /// <inheritdoc />
         public void ValidateMonth(int y, int month, string? paramName = null)

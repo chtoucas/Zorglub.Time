@@ -38,13 +38,13 @@ type Solar12Tests() =
 type Coptic12Tests() =
     inherit SystemArithmeticFacts<Coptic12DataSet>(ariOf<Coptic12Schema>())
 
-// PlainArithmetic
+// PlainSystemArithmetic
 [<Sealed>]
 [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
 type Coptic13Tests() =
     inherit SystemArithmeticFacts<Coptic13DataSet>(ariOf<Coptic13Schema>())
 
-    member x.Arithmetic() = x.Arithmetic |> is<PlainArithmetic>
+    member x.Arithmetic() = x.Arithmetic |> is<PlainSystemArithmetic>
 
 [<Sealed>]
 [<RedundantTestBundle>]

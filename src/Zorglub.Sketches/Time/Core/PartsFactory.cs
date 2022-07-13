@@ -6,12 +6,18 @@ namespace Zorglub.Time.Core
     using Zorglub.Time.Core.Intervals;
     using Zorglub.Time.Core.Validation;
 
-    // FIXME(api): should only work with SystemSchema (because of Yemoda & co).
-    // Add supportedYears to ctor, add CreateYewe().
+    // FIXME(api): add supportedYears to ctor, add CreateYewe().
+    // I don't like the name: Parts is for Date/Month/OrdinalParts not for
+    // Yemoda & co.
+    // Factory with a CalendarScope (don't forget to check that the underlying
+    // schema is a system schema) <- if we do so, this type should be in Hemerology.
 
     // Public factory methods for calendrical parts (ctors are internal).
     // Methods useful to avoid a double validation (validator and Yemoda own
     // validation) when creating a new instance of Yemoda & co.
+    // It can only work with SystemSchema's. For other schemas, even if the
+    // validation succeeds, we cannot assert that the month and day parts are
+    // within the range of admissible values by Yemoda & co.
 
     /// <summary>
     /// Provides factory methods to create new calendrical objects.
@@ -31,7 +37,9 @@ namespace Zorglub.Time.Core
         /// <exception cref="ArgumentNullException"><paramref name="validator"/> is null.</exception>
         private PartsFactory(ICalendricalValidator validator)
         {
-            _validator = validator ?? throw new ArgumentNullException(nameof(validator));
+            Debug.Assert(validator != null);
+
+            _validator = validator;
         }
 
         /// <summary>
@@ -43,11 +51,11 @@ namespace Zorglub.Time.Core
         {
             Requires.NotNull(schema);
 
-            return new(new CalendricalValidator(schema, schema.SupportedYears));
+            return new(new MinMaxYearValidator(schema, schema.SupportedYears));
         }
 
         public static PartsFactory Create(SystemSchema schema, Range<int> supportedYears) =>
-            new(new CalendricalValidator(schema, supportedYears));
+            new(new MinMaxYearValidator(schema, supportedYears));
 
         /// <summary>
         /// Validates the specified year, month and day then creates a new instance of

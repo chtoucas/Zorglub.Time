@@ -9,7 +9,6 @@ open Zorglub.Testing
 open Zorglub.Testing.Data.Schemas
 open Zorglub.Testing.Facts
 
-open Zorglub.Time.Core
 open Zorglub.Time.Core.Schemas
 open Zorglub.Time.Core.Validation
 

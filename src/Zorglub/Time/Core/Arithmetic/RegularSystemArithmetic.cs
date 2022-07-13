@@ -4,29 +4,56 @@
 namespace Zorglub.Time.Core.Arithmetic
 {
     /// <summary>
-    /// Defines a plain implementation for <see cref="SystemArithmetic"/> and provides a base for
-    /// derived classes.
+    /// Provides a generic implementation for <see cref="SystemArithmetic"/> for when the schema is
+    /// regular.
+    /// <para>The length of a month must be greater than or equal to
+    /// <see cref="SystemArithmetic.MinMinDaysInMonth"/>.</para>
     /// <para>This class cannot be inherited.</para>
     /// </summary>
-    internal sealed partial class PlainArithmetic : SystemArithmetic
+    internal sealed partial class RegularSystemArithmetic : SystemArithmetic
     {
         /// <summary>
-        /// Called from constructors in derived classes to initialize the
-        /// <see cref="PlainArithmetic"/> class.
+        /// Initializes a new instance of the <see cref="RegularSystemArithmetic"/> class.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="segment"/> is null.</exception>
-        public PlainArithmetic(SystemSegment segment) : base(segment) { }
+        /// <exception cref="ArgumentException">The underlying schema contains at least one
+        /// month whose length is strictly less than <see cref="SystemArithmetic.MinMinDaysInMonth"/>.
+        /// </exception>
+        /// <exception cref="ArgumentException">The underlying schema is not regular.</exception>
+        public RegularSystemArithmetic(SystemSegment segment) : base(segment)
+        {
+            if (Schema.MinDaysInMonth < MinMinDaysInMonth) Throw.Argument(nameof(segment));
+            if (Schema.IsRegular(out int monthsInYear) == false) Throw.Argument(nameof(segment));
+
+            MonthsInYear = monthsInYear;
+        }
+
+        public int MonthsInYear { get; }
     }
 
-    internal partial class PlainArithmetic // Operations on Yemoda
+    internal partial class RegularSystemArithmetic // Operations on Yemoda
     {
         /// <inheritdoc />
         [Pure]
         public override Yemoda AddDays(Yemoda ymd, int days)
         {
+            // Fast tracks.
             ymd.Unpack(out int y, out int m, out int d);
 
-            // Fast track.
+            // No change of month.
+            // In theory, the only thing we know at this point is that
+            // MaxDaysViaDayOfMonth >= 7 (= MinMinDaysInMonth), but in fact we
+            // know a bit more. Indeed, we know that the schema does not fit one
+            // of the standard profiles (see Create()) which most certainly
+            // means that there is at least one very short month, therefore I
+            // don't think that AddDaysViaDayOfMonth() is that interesting here.
+            // Notice the use of checked arithmetic here.
+            int dom = checked(d + days);
+            if (1 <= dom && (dom <= MaxDaysViaDayOfMonth || dom <= Schema.CountDaysInMonth(y, m)))
+            {
+                return new Yemoda(y, m, dom);
+            }
+
             if (-MaxDaysViaDayOfYear <= days && days <= MaxDaysViaDayOfYear)
             {
                 int doy = Schema.GetDayOfYear(y, m, d);
@@ -43,8 +70,53 @@ namespace Zorglub.Time.Core.Arithmetic
 
         /// <inheritdoc />
         [Pure]
-        protected internal override Yemoda AddDaysViaDayOfMonth(Yemoda ymd, int days) =>
-            AddDays(ymd, days);
+        protected internal override Yemoda AddDaysViaDayOfMonth(Yemoda ymd, int days)
+        {
+            Debug.Assert(-MaxDaysViaDayOfMonth <= days);
+            Debug.Assert(days <= MaxDaysViaDayOfMonth);
+
+            ymd.Unpack(out int y, out int m, out int d);
+
+            // No need to use checked arithmetic here.
+            int dom = d + days;
+            if (dom < 1)
+            {
+                // Previous month.
+                if (m == 1)
+                {
+                    // Last month of previous year.
+                    if (y == MinYear) Throw.DateOverflow();
+                    y--;
+                    (_, m, int d0) = Schema.GetDatePartsAtEndOfYear(y);
+                    dom += d0;
+                }
+                else
+                {
+                    m--;
+                    dom += Schema.CountDaysInMonth(y, m);
+                }
+            }
+
+            int daysInMonth = Schema.CountDaysInMonth(y, m);
+            if (dom > daysInMonth)
+            {
+                // Next month.
+                dom -= daysInMonth;
+                if (m == MonthsInYear)
+                {
+                    // First month of next year.
+                    if (y == MaxYear) Throw.DateOverflow();
+                    y++;
+                    m = 1;
+                }
+                else
+                {
+                    m++;
+                }
+            }
+
+            return new Yemoda(y, m, dom);
+        }
 
         /// <inheritdoc />
         [Pure]
@@ -52,9 +124,14 @@ namespace Zorglub.Time.Core.Arithmetic
         {
             ymd.Unpack(out int y, out int m, out int d);
 
-            return d < Schema.CountDaysInMonth(y, m) ? new Yemoda(y, m, d + 1)
-                : m < Schema.CountMonthsInYear(y) ? Yemoda.AtStartOfMonth(y, m + 1)
+            return
+                // Same month, the day after.
+                d < MaxDaysViaDayOfMonth || d < Schema.CountDaysInMonth(y, m) ? new Yemoda(y, m, d + 1)
+                // Same year, start of next month.
+                : m < MonthsInYear ? Yemoda.AtStartOfMonth(y, m + 1)
+                // Start of next year...
                 : y < MaxYear ? Yemoda.AtStartOfYear(y + 1)
+                // ... or overflow.
                 : Throw.DateOverflow<Yemoda>();
         }
 
@@ -76,7 +153,7 @@ namespace Zorglub.Time.Core.Arithmetic
         }
     }
 
-    internal partial class PlainArithmetic // Operations on Yedoy
+    internal partial class RegularSystemArithmetic // Operations on Yedoy
     {
         /// <inheritdoc />
         [Pure]
@@ -152,7 +229,7 @@ namespace Zorglub.Time.Core.Arithmetic
         }
     }
 
-    internal partial class PlainArithmetic // Operations on Yemo
+    internal partial class RegularSystemArithmetic // Operations on Yemo
     {
         /// <inheritdoc />
         [Pure]
@@ -160,10 +237,11 @@ namespace Zorglub.Time.Core.Arithmetic
         {
             ym.Unpack(out int y, out int m);
 
-            int monthsSinceEpoch = checked(Schema.CountMonthsSinceEpoch(y, m) + months);
-            SupportedMonths.Check(monthsSinceEpoch);
+            m = 1 + MathZ.Modulo(checked(m - 1 + months), MonthsInYear, out int y0);
+            y += y0;
+            SupportedYears.CheckForMonth(y);
 
-            return Schema.GetMonthParts(monthsSinceEpoch);
+            return new Yemo(y, m);
         }
 
         /// <inheritdoc />
@@ -173,55 +251,36 @@ namespace Zorglub.Time.Core.Arithmetic
             start.Unpack(out int y0, out int m0);
             end.Unpack(out int y1, out int m1);
 
-            return Schema.CountMonthsSinceEpoch(y1, m1) - Schema.CountMonthsSinceEpoch(y0, m0);
+            return (y1 - y0) * MonthsInYear + m1 - m0;
         }
     }
 
-    internal partial class PlainArithmetic // Non-standard operations
+    internal partial class RegularSystemArithmetic // Non-standard operations
     {
         /// <inheritdoc />
         [Pure]
         public override Yemoda AddYears(Yemoda ymd, int years, out int roundoff)
         {
-            ymd.Unpack(out int y0, out int m, out int d);
+            ymd.Unpack(out int y, out int m, out int d);
 
-            int y = checked(y0 + years);
+            y = checked(y + years);
             SupportedYears.Check(y);
 
-            var sch = Schema;
-            int monthsInYear = sch.CountMonthsInYear(y);
-            if (m > monthsInYear)
-            {
-                // The target year y has less months than the year y0, we
-                // return the end of the target year.
-                // roundoff =
-                //   "days" after the end of (y0, monthsInYear) until (y0, m, d) included
-                //   + diff between end of (y0, monthsInYear) and (y, monthsInYear)
-                roundoff = d;
-                for (int i = monthsInYear + 1; i < m; i++)
-                {
-                    roundoff += sch.CountDaysInMonth(y0, i);
-                }
-                m = monthsInYear;
-                int daysInMonth = sch.CountDaysInMonth(y, m);
-                roundoff += Math.Max(0, d - daysInMonth);
-                return new Yemoda(y, m, roundoff > 0 ? daysInMonth : d);
-            }
-            else
-            {
-                int daysInMonth = sch.CountDaysInMonth(y, m);
-                roundoff = Math.Max(0, d - daysInMonth);
-                return new Yemoda(y, m, roundoff > 0 ? daysInMonth : d);
-            }
+            int daysInMonth = Schema.CountDaysInMonth(y, m);
+            roundoff = Math.Max(0, d - daysInMonth);
+            // On retourne le dernier jour du mois si d > daysInMonth.
+            return new Yemoda(y, m, roundoff > 0 ? daysInMonth : d);
         }
 
         /// <inheritdoc />
         [Pure]
         public override Yemoda AddMonths(Yemoda ymd, int months, out int roundoff)
         {
-            int d = ymd.Day;
+            ymd.Unpack(out int y, out int m, out int d);
 
-            var (y, m) = AddMonths(ymd.Yemo, months);
+            // On retranche 1 à "m" pour le rendre algébrique.
+            m = 1 + MathZ.Modulo(checked(m - 1 + months), MonthsInYear, out int y0);
+            y += y0;
             SupportedYears.Check(y);
 
             int daysInMonth = Schema.CountDaysInMonth(y, m);
@@ -252,9 +311,8 @@ namespace Zorglub.Time.Core.Arithmetic
             y = checked(y + years);
             SupportedYears.CheckForMonth(y);
 
-            int monthsInYear = Schema.CountMonthsInYear(y);
-            roundoff = Math.Max(0, m - monthsInYear);
-            return new Yemo(y, roundoff > 0 ? monthsInYear : m);
+            roundoff = 0;
+            return new Yemo(y, m);
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿// SPDX-License-Identifier: BSD-3-Clause
 // Copyright (c) 2020 Narvalo.Org. All rights reserved.
 
-namespace Zorglub.Time.Core
+namespace Zorglub.Time.Core.Arithmetic
 {
     using Zorglub.Time.Core.Intervals;
     using Zorglub.Time.Core.Validation;

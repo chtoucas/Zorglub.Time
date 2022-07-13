@@ -26,7 +26,7 @@ namespace Zorglub.Time.Core
         /// a virtual thirteen month shorter than usual (strictly less than 7 days) in which case
         /// trying to bypass CountDaysInMonth() won't actually bring any performance improvement,
         /// it might even be the opposite.</para>
-        /// <para>We must be careful with RegularArithmetic.AddDaysViaDayOfMonth().</para>
+        /// <para>We must be careful with RegularSystemArithmetic.AddDaysViaDayOfMonth().</para>
         /// </remarks>
         Other = 0,
 
