@@ -103,13 +103,15 @@ namespace Zorglub.Time
         // https://github.com/dotnet/runtime/issues/11179
         // https://github.com/dotnet/roslyn/issues/10126#issuecomment-204471882
         // https://stackoverflow.com/questions/36222117/maybe-a-c-sharp-compiler-bug-in-visual-studio-2015/36337761#36337761
+        private static readonly DayNumber s_MinGregorianValue = new(MinGregorianDaysSinceZero);
+        private static readonly DayNumber s_MaxGregorianValue = new(MaxGregorianDaysSinceZero);
 
         /// <summary>
         /// Gets the range of supported Gregorian values for a <see cref="DayNumber"/>.
         /// <para>This property is thread-safe.</para>
         /// </summary>
-        public static Range<DayNumber> GregorianDomain { get; } =
-            new(new(MinGregorianDaysSinceZero), new(MaxGregorianDaysSinceZero));
+        public static Range<DayNumber> GregorianDomain =>
+            Range.CreateLeniently(s_MinGregorianValue, s_MaxGregorianValue);
 
         #endregion
         #region Julian
@@ -128,12 +130,15 @@ namespace Zorglub.Time
         /// </summary>
         private const int MaxJulianDaysSinceZero = 1_826_249_997;
 
+        private static readonly DayNumber s_MinJulianValue = new(MinJulianDaysSinceZero);
+        private static readonly DayNumber s_MaxJulianValue = new(MaxJulianDaysSinceZero);
+
         /// <summary>
         /// Gets the range of supported Julian values for a <see cref="DayNumber"/>.
         /// <para>This property is thread-safe.</para>
         /// </summary>
-        public static Range<DayNumber> JulianDomain { get; } =
-            new(new(MinJulianDaysSinceZero), new(MaxJulianDaysSinceZero));
+        public static Range<DayNumber> JulianDomain =>
+            Range.CreateLeniently(s_MinJulianValue, s_MaxJulianValue);
 
         #endregion
 
