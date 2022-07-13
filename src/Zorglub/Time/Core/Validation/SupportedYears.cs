@@ -7,9 +7,11 @@ namespace Zorglub.Time.Core.Validation
 {
     using Zorglub.Time.Core.Intervals;
 
+    // WARNING: this is not the range of supported numbers of consecutive years
+    // from the epoch, YearsSinceEpoch = Year - 1.
+
     /// <summary>
-    /// Represents a range of years, that is the range of supported numbers of consecutive years
-    /// from the epoch.
+    /// Represents a range of years.
     /// <para>This class cannot be inherited.</para>
     /// </summary>
     public sealed class SupportedYears : ISupportedValues<int>
