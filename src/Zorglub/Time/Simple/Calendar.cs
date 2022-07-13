@@ -135,14 +135,12 @@ namespace Zorglub.Time.Simple
 
             if (proleptic)
             {
-                var scope = new ProlepticScope(schema, epoch);
-                Scope = scope;
+                Scope = new ProlepticScope(schema, epoch);
                 SupportedYears = ProlepticScope.SupportedYears;
             }
             else
             {
-                var scope = new StandardScope(schema, epoch);
-                Scope = scope;
+                Scope = new StandardScope(schema, epoch);
                 SupportedYears = StandardScope.SupportedYears;
             }
 

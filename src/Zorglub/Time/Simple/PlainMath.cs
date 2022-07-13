@@ -31,9 +31,10 @@ namespace Zorglub.Time.Simple
 
             SupportedYears.Check(y);
 
+            var sch = Schema;
             // NB: AdditionRule.Truncate.
-            m = Math.Min(m, Schema.CountMonthsInYear(y));
-            d = Math.Min(d, Schema.CountDaysInMonth(y, m));
+            m = Math.Min(m, sch.CountMonthsInYear(y));
+            d = Math.Min(d, sch.CountDaysInMonth(y, m));
             return new CalendarDate(new Yemoda(y, m, d), Cuid);
         }
 

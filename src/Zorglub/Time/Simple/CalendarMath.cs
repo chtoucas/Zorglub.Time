@@ -76,10 +76,6 @@ namespace Zorglub.Time.Simple
         {
             Calendar = calendar ?? throw new ArgumentNullException(nameof(calendar));
             AdditionRuleset = additionRuleset;
-
-            Cuid = calendar.Id;
-            Schema = calendar.Schema;
-            SupportedYears = calendar.SupportedYears;
         }
 
         /// <summary>
@@ -99,12 +95,12 @@ namespace Zorglub.Time.Simple
         /// <summary>
         /// Gets the range of supported years.
         /// </summary>
-        private protected ISupportedValues<int> SupportedYears { get; }
+        private protected ISupportedValues<int> SupportedYears => Calendar.SupportedYears;
 
         /// <summary>
         /// Gets the calendrical schema.
         /// </summary>
-        protected ICalendricalKernel Schema { get; }
+        protected ICalendricalKernel Schema => Calendar.Schema;
 
         /// <summary>
         /// Gets the calendrical arithmetic.
@@ -114,7 +110,7 @@ namespace Zorglub.Time.Simple
         /// <summary>
         /// Gets the ID of the underlying calendar.
         /// </summary>
-        internal Cuid Cuid { get; }
+        internal Cuid Cuid => Calendar.Id;
 
         /// <summary>
         /// Creates an instance of the <see cref="CalendarMath"/> class for the specified calendar

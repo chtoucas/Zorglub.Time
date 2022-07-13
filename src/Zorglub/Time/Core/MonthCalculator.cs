@@ -3,20 +3,27 @@
 
 namespace Zorglub.Time.Core
 {
-    internal abstract class MonthCalculator
+    internal abstract class MonthCalculator : ISchemaBound
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="MonthCalculator"/> class.
+        /// Represents the underlying schema.
+        /// <para>This field is read-only.</para>
         /// </summary>
-        /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
+        private readonly ICalendricalSchema _schema;
+
         protected MonthCalculator(ICalendricalSchema schema)
         {
             Debug.Assert(schema != null);
 
-            Schema = schema;
+            _schema = schema;
         }
 
-        protected ICalendricalSchema Schema { get; }
+        /// <summary>
+        /// Gets the calendrical schema.
+        /// </summary>
+        protected ICalendricalSchema Schema => _schema;
+
+        ICalendricalSchema ISchemaBound.Schema => _schema;
 
         public static MonthCalculator Create(ICalendricalSchema schema)
         {

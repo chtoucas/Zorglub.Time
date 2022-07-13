@@ -24,6 +24,7 @@ namespace Zorglub.Time.Hemerology
             Name = name ?? throw new ArgumentNullException(nameof(name));
             Scope = scope ?? throw new ArgumentNullException(nameof(scope));
 
+            Schema = scope.Schema;
             SupportedYears = scope.Segment.SupportedYears;
         }
 
@@ -43,6 +44,7 @@ namespace Zorglub.Time.Hemerology
 
         /// <inheritdoc />
         public CalendricalAdjustments PeriodicAdjustments => Schema.PeriodicAdjustments;
+
         /// <inheritdoc />
         public Range<DayNumber> Domain => Scope.Domain;
 
@@ -52,7 +54,7 @@ namespace Zorglub.Time.Hemerology
         /// <summary>
         /// Gets the underlying schema.
         /// </summary>
-        protected internal ICalendricalSchema Schema => Scope.Schema;
+        protected internal ICalendricalSchema Schema { get; }
 
         /// <summary>
         /// Gets the pre-validator.
