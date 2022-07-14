@@ -8,7 +8,7 @@ namespace Zorglub.Time.Hemerology
     using Zorglub.Time.Core.Validation;
     using Zorglub.Time.Hemerology.Scopes;
 
-    // TODO(api): advanced math, we must finish CalendricalMath first.
+    // TODO(api): non-standard math.
 
     public readonly partial struct CivilDay :
         IDate<CivilDay>,

@@ -3,7 +3,7 @@
 
 namespace Zorglub.Time
 {
-    // TODO(code): test ToString() with negative values for m and d.
+    // TODO(test): ToString() with negative values for m and d.
 
     // Main difference w/ Yemoda: y, m, d are open values, we don't even require
     // m and d to be >= 1.
