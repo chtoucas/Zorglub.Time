@@ -50,7 +50,6 @@ namespace Zorglub.Time.Core
 
         // Do NOT make MinValue & MaxValue public, it would give the impression
         // that all values in between are legal, which is not the case by far.
-        // The last 6 bits of _bin are ALWAYS equal to 0.
 
         /// <summary>
         /// Represents the smallest possible value of a <see cref="Yemox"/>.
