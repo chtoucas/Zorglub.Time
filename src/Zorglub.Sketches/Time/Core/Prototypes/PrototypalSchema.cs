@@ -1,7 +1,7 @@
 ﻿// SPDX-License-Identifier: BSD-3-Clause
 // Copyright (c) 2020 Narvalo.Org. All rights reserved.
 
-namespace Zorglub.Time.Core
+namespace Zorglub.Time.Core.Prototypes
 {
     using Zorglub.Time.Core.Intervals;
 
@@ -15,7 +15,7 @@ namespace Zorglub.Time.Core
     //
     // Usefulness? ICalendricalKernel is easy to implement and test (see for
     // instance GregorianKernel), which might not be the case of
-    // ICalendricalSchema. With ArchetypalSchema, we can then
+    // ICalendricalSchema. With PrototypalSchema, we can then
     // - quickly prototype a new schema
     // - validate test data independently
     // At the same time, it demonstrates that an ICalendricalKernel instance is
@@ -64,10 +64,10 @@ namespace Zorglub.Time.Core
     #endregion
 
     /// <summary>
-    /// Represents an archetypal implementation of the <see cref="ICalendricalSchemaPlus"/> interface
+    /// Represents a prototypal implementation of the <see cref="ICalendricalSchemaPlus"/> interface
     /// and provides a base for derived classes.
     /// </summary>
-    public abstract partial class ArchetypalSchema :
+    public abstract partial class PrototypalSchema :
         ICalendricalKernel,
         ICalendricalSchema,
         ICalendricalSchemaPlus
@@ -86,10 +86,10 @@ namespace Zorglub.Time.Core
 
         /// <summary>
         /// Called from constructors in derived classes to initialize the
-        /// <see cref="ArchetypalSchema"/> class.
+        /// <see cref="PrototypalSchema"/> class.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="kernel"/> is null.</exception>
-        protected ArchetypalSchema(ICalendricalKernel kernel)
+        protected PrototypalSchema(ICalendricalKernel kernel)
         {
             _kernel = kernel ?? throw new ArgumentNullException(nameof(kernel));
             _proxy = new SchemaProxy(this);
@@ -100,7 +100,7 @@ namespace Zorglub.Time.Core
         {
             private readonly ICalendricalSchema _this;
 
-            public SchemaProxy(ArchetypalSchema @this)
+            public SchemaProxy(PrototypalSchema @this)
             {
                 Debug.Assert(@this != null);
                 _this = @this;
@@ -122,7 +122,7 @@ namespace Zorglub.Time.Core
         }
     }
 
-    public partial class ArchetypalSchema // ICalendricalKernel
+    public partial class PrototypalSchema // ICalendricalKernel
     {
 #pragma warning disable CA1033 // Interface methods should be callable by child types (Design)
 
@@ -166,7 +166,7 @@ namespace Zorglub.Time.Core
         public bool IsSupplementaryDay(int y, int m, int d) => _kernel.IsSupplementaryDay(y, m, d);
     }
 
-    public partial class ArchetypalSchema // ICalendricalSchema (1)
+    public partial class PrototypalSchema // ICalendricalSchema (1)
     {
         // We limit the range of supported years because the default impl of
         // GetYear() and GetStartOfYear() are extremely slow if the values of
@@ -174,25 +174,25 @@ namespace Zorglub.Time.Core
         // Only override this property if both methods can handle big values
         // efficiently.
 
-        /// <inheritdoc />
-        public Range<int> SupportedYears { get; init; } = Range.Create(-9998, 9999);
-
-        private Range<int>? _domain;
+        private Range<int>? _supportedDays;
         /// <inheritdoc />
         public Range<int> SupportedDays =>
-            _domain ??= new Range<int>(
+            _supportedDays ??= new Range<int>(
                 SupportedYears.Endpoints.Select(
                     GetStartOfYear,
                     _proxy.GetEndOfYear));
 
-        private Range<int>? _monthDomain;
+        private Range<int>? _supportedMonths;
         /// <inheritdoc />
         public Range<int> SupportedMonths =>
-            _monthDomain ??=
+            _supportedMonths ??=
             new Range<int>(
                 SupportedYears.Endpoints.Select(
                     GetStartOfYearInMonths,
                     _proxy.GetEndOfYearInMonths));
+
+        /// <inheritdoc />
+        public Range<int> SupportedYears { get; init; } = Range.Create(-9998, 9999);
 
         /// <inheritdoc />
         [Pure]
@@ -258,7 +258,7 @@ namespace Zorglub.Time.Core
         {
             // Faster alternatives:
             // - Use a purely computational formula.
-            // - Start with an approximation of the result, see PrototypalSchema.
+            // - Start with an approximation of the result, see ArchetypalSchema.
 
             // Find the year for which (daysSinceEpoch - startOfYear) = d0y
             // has the smallest value >= 0.
@@ -302,7 +302,7 @@ namespace Zorglub.Time.Core
         {
             // Faster alternatives:
             // - Use a purely computational formula.
-            // - Start with an approximation of the result, see PrototypalSchema.
+            // - Start with an approximation of the result, see ArchetypalSchema.
 
             int m = 1;
             int daysInYearBeforeMonth = 0;
@@ -352,7 +352,7 @@ namespace Zorglub.Time.Core
         {
             // Faster alternatives:
             // - Use a purely computational formula.
-            // - Cache the result, see PrototypalSchema.
+            // - Cache the result, see ArchetypalSchema.
 
             int daysSinceEpoch = 0;
 
@@ -375,7 +375,7 @@ namespace Zorglub.Time.Core
         }
     }
 
-    public partial class ArchetypalSchema // ICalendricalSchema (2)
+    public partial class PrototypalSchema // ICalendricalSchema (2)
     {
         /// <inheritdoc />
         public abstract int MinDaysInYear { get; }
@@ -428,7 +428,7 @@ namespace Zorglub.Time.Core
 #pragma warning restore CA1033
     }
 
-    public partial class ArchetypalSchema // ICalendricalSchemaPlus
+    public partial class PrototypalSchema // ICalendricalSchemaPlus
     {
 #pragma warning disable CA1033 // Interface methods should be callable by child types (Design)
 

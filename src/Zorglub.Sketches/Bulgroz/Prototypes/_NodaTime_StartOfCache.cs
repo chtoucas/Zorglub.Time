@@ -6,7 +6,7 @@
 
 #endregion
 
-namespace Zorglub.Bulgroz.Archetypes;
+namespace Zorglub.Bulgroz.Prototypes;
 
 /// <summary>
 /// Type containing as much logic as possible for how the cache of "start of year" data works.

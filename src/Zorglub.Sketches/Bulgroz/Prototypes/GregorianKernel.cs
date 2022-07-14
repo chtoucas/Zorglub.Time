@@ -1,7 +1,7 @@
 ﻿// SPDX-License-Identifier: BSD-3-Clause
 // Copyright (c) 2020 Narvalo.Org. All rights reserved.
 
-namespace Zorglub.Bulgroz.Archetypes;
+namespace Zorglub.Bulgroz.Prototypes;
 
 using Zorglub.Time;
 using Zorglub.Time.Core;

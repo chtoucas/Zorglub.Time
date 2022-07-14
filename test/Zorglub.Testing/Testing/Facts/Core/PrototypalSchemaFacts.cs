@@ -5,16 +5,17 @@ namespace Zorglub.Testing.Facts.Core;
 
 using Zorglub.Testing.Data;
 using Zorglub.Time.Core.Intervals;
+using Zorglub.Time.Core.Prototypes;
 
 /// <summary>
-/// Provides facts about <see cref="ArchetypalSchema"/>.
+/// Provides facts about <see cref="PrototypalSchema"/>.
 /// </summary>
 [TestPerformance(TestPerformance.SlowBundle)]
-public abstract class ArchetypalSchemaFacts<TDataSet> :
-    ICalendricalSchemaPlusFacts<ArchetypalSchema, TDataSet>
+public abstract class PrototypalSchemaFacts<TDataSet> :
+    ICalendricalSchemaPlusFacts<PrototypalSchema, TDataSet>
     where TDataSet : ICalendricalDataSet, ISingleton<TDataSet>
 {
-    protected ArchetypalSchemaFacts(ArchetypalSchema schema) : base(schema) { }
+    protected PrototypalSchemaFacts(PrototypalSchema schema) : base(schema) { }
 
     // REVIEW(fact): at some point we should not bypass these tests.
     [Fact] public sealed override void Algorithm_Prop() { }

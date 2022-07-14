@@ -3,11 +3,11 @@
 
 #define USE_GREGORIAN_KERNEL_DATA
 
-namespace Zorglub.Bulgroz.Archetypes;
+namespace Zorglub.Bulgroz.Prototypes;
 
-using Zorglub.Time.Core;
+using Zorglub.Time.Core.Prototypes;
 
-public sealed partial class GregorianArchetype : PrototypalSchema
+public sealed partial class GregorianPrototype : ArchetypalSchema
 {
     // Index 0 is fake in order for the span index to match the month index.
     // Another option for DaysInMonthOfXXX is to use "span index = month - 1",
@@ -44,21 +44,21 @@ public sealed partial class GregorianArchetype : PrototypalSchema
 
     #region Initialization
 
-    private GregorianArchetype()
+    private GregorianPrototype()
         : base(
             GregorianKernel.Instance,
             minDaysInYear: 365,
             minDaysInMonth: 28)
     { }
 
-    internal static GregorianArchetype Instance { get; } = new();
+    internal static GregorianPrototype Instance { get; } = new();
 
-    public static Box<GregorianArchetype> GetInstance() => Box.Create(new GregorianArchetype());
+    public static Box<GregorianPrototype> GetInstance() => Box.Create(new GregorianPrototype());
 
     #endregion
 }
 
-public partial class GregorianArchetype // Overriden methods
+public partial class GregorianPrototype // Overriden methods
 {
     /// <inheritdoc />
     [Pure]

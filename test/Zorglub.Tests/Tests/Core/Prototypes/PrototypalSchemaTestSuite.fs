@@ -1,7 +1,7 @@
 ﻿// SPDX-License-Identifier: BSD-3-Clause
 // Copyright (c) 2020 Narvalo.Org. All rights reserved.
 
-module Zorglub.Tests.Core.Schemas.ArchetypalSchemaTestSuite
+module Zorglub.Tests.Core.Schemas.PrototypalSchemaTestSuite
 
 open Zorglub.Testing
 open Zorglub.Testing.Data.Schemas
@@ -13,113 +13,113 @@ open Zorglub.Time.Core.Schemas
 // TODO(code): Hebrew (unfinished, no data) and lunisolar (fake) schema.
 
 /// Creates a new instance of the schema archetype of type 'a.
-let private archetypeOf<'a when 'a : not struct and 'a :> ICalendricalSchema and 'a :> IBoxable<'a>> () =
+let private prototypeOf<'a when 'a : not struct and 'a :> ICalendricalSchema and 'a :> IBoxable<'a>> () =
     let sch = SchemaActivator.CreateInstance<'a>()
-    new SchemaArchetype(sch)
+    new SchemaPrototype(sch)
 
 [<Sealed>]
 [<TestPerformance(TestPerformance.SlowBundle)>]
 type Coptic12Tests() =
-    inherit ArchetypalSchemaFacts<Coptic12DataSet>(archetypeOf<Coptic12Schema>())
+    inherit PrototypalSchemaFacts<Coptic12DataSet>(prototypeOf<Coptic12Schema>())
 
 [<Sealed>]
 [<RedundantTestBundle>]
 [<TestPerformance(TestPerformance.SlowBundle)>]
 type Coptic13Tests() =
-    inherit ArchetypalSchemaFacts<Coptic13DataSet>(archetypeOf<Coptic13Schema>())
+    inherit PrototypalSchemaFacts<Coptic13DataSet>(prototypeOf<Coptic13Schema>())
 
 [<Sealed>]
 [<RedundantTestBundle>]
 [<TestPerformance(TestPerformance.SlowBundle)>]
 type Egyptian12Tests() =
-    inherit ArchetypalSchemaFacts<Egyptian12DataSet>(archetypeOf<Egyptian12Schema>())
+    inherit PrototypalSchemaFacts<Egyptian12DataSet>(prototypeOf<Egyptian12Schema>())
 
 [<Sealed>]
 [<RedundantTestBundle>]
 [<TestPerformance(TestPerformance.SlowBundle)>]
 type Egyptian13Tests() =
-    inherit ArchetypalSchemaFacts<Egyptian13DataSet>(archetypeOf<Egyptian13Schema>())
+    inherit PrototypalSchemaFacts<Egyptian13DataSet>(prototypeOf<Egyptian13Schema>())
 
 [<Sealed>]
 [<RedundantTestBundle>]
 [<TestPerformance(TestPerformance.SlowBundle)>]
 type FrenchRepublican12Tests() =
-    inherit ArchetypalSchemaFacts<FrenchRepublican12DataSet>(archetypeOf<FrenchRepublican12Schema>())
+    inherit PrototypalSchemaFacts<FrenchRepublican12DataSet>(prototypeOf<FrenchRepublican12Schema>())
 
 [<Sealed>]
 [<RedundantTestBundle>]
 [<TestPerformance(TestPerformance.SlowBundle)>]
 type FrenchRepublican13Tests() =
-    inherit ArchetypalSchemaFacts<FrenchRepublican13DataSet>(archetypeOf<FrenchRepublican13Schema>())
+    inherit PrototypalSchemaFacts<FrenchRepublican13DataSet>(prototypeOf<FrenchRepublican13Schema>())
 
 [<Sealed>]
 [<RedundantTestBundle>]
 [<TestPerformance(TestPerformance.SlowBundle)>]
 type GregorianTests() =
-    inherit ArchetypalSchemaFacts<GregorianDataSet>(archetypeOf<GregorianSchema>())
+    inherit PrototypalSchemaFacts<GregorianDataSet>(prototypeOf<GregorianSchema>())
 
 [<Sealed>]
 [<RedundantTestBundle>]
 [<TestPerformance(TestPerformance.SlowBundle)>]
 type InternationalFixedTests() =
-    inherit ArchetypalSchemaFacts<InternationalFixedDataSet>(archetypeOf<InternationalFixedSchema>())
+    inherit PrototypalSchemaFacts<InternationalFixedDataSet>(prototypeOf<InternationalFixedSchema>())
 
 [<Sealed>]
 [<RedundantTestBundle>]
 [<TestPerformance(TestPerformance.SlowBundle)>]
 type JulianTests() =
-    inherit ArchetypalSchemaFacts<JulianDataSet>(archetypeOf<JulianSchema>())
+    inherit PrototypalSchemaFacts<JulianDataSet>(prototypeOf<JulianSchema>())
 
 [<Sealed>]
 [<RedundantTestBundle>]
 [<TestPerformance(TestPerformance.SlowBundle)>]
 type LunisolarTests() =
-    inherit ArchetypalSchemaFacts<LunisolarDataSet>(archetypeOf<LunisolarSchema>())
+    inherit PrototypalSchemaFacts<LunisolarDataSet>(prototypeOf<LunisolarSchema>())
 
 [<Sealed>]
 [<RedundantTestBundle>]
 [<TestPerformance(TestPerformance.SlowBundle)>]
 type PaxTests() =
-    inherit ArchetypalSchemaFacts<PaxDataSet>(archetypeOf<PaxSchema>())
+    inherit PrototypalSchemaFacts<PaxDataSet>(prototypeOf<PaxSchema>())
 
 [<Sealed>]
 [<RedundantTestBundle>]
 [<TestPerformance(TestPerformance.SlowBundle)>]
 type Persian2820Tests() =
-    inherit ArchetypalSchemaFacts<Persian2820DataSet>(archetypeOf<Persian2820Schema>())
+    inherit PrototypalSchemaFacts<Persian2820DataSet>(prototypeOf<Persian2820Schema>())
 
 [<Sealed>]
 [<RedundantTestBundle>]
 [<TestPerformance(TestPerformance.SlowBundle)>]
 type PositivistTests() =
-    inherit ArchetypalSchemaFacts<PositivistDataSet>(archetypeOf<PositivistSchema>())
+    inherit PrototypalSchemaFacts<PositivistDataSet>(prototypeOf<PositivistSchema>())
 
 [<Sealed>]
 [<RedundantTestBundle>]
 [<TestPerformance(TestPerformance.SlowBundle)>]
 type TabularIslamicTests() =
-    inherit ArchetypalSchemaFacts<TabularIslamicDataSet>(archetypeOf<TabularIslamicSchema>())
+    inherit PrototypalSchemaFacts<TabularIslamicDataSet>(prototypeOf<TabularIslamicSchema>())
 
 [<Sealed>]
 [<RedundantTestBundle>]
 [<TestPerformance(TestPerformance.SlowBundle)>]
 type TropicaliaTests() =
-    inherit ArchetypalSchemaFacts<TropicaliaDataSet>(archetypeOf<TropicaliaSchema>())
+    inherit PrototypalSchemaFacts<TropicaliaDataSet>(prototypeOf<TropicaliaSchema>())
 
 [<Sealed>]
 [<RedundantTestBundle>]
 [<TestPerformance(TestPerformance.SlowBundle)>]
 type Tropicalia3031Tests() =
-    inherit ArchetypalSchemaFacts<Tropicalia3031DataSet>(archetypeOf<Tropicalia3031Schema>())
+    inherit PrototypalSchemaFacts<Tropicalia3031DataSet>(prototypeOf<Tropicalia3031Schema>())
 
 [<Sealed>]
 [<RedundantTestBundle>]
 [<TestPerformance(TestPerformance.SlowBundle)>]
 type Tropicalia3130Tests() =
-    inherit ArchetypalSchemaFacts<Tropicalia3130DataSet>(archetypeOf<Tropicalia3130Schema>())
+    inherit PrototypalSchemaFacts<Tropicalia3130DataSet>(prototypeOf<Tropicalia3130Schema>())
 
 [<Sealed>]
 [<RedundantTestBundle>]
 [<TestPerformance(TestPerformance.SlowBundle)>]
 type WorldTests() =
-    inherit ArchetypalSchemaFacts<WorldDataSet>(archetypeOf<WorldSchema>())
+    inherit PrototypalSchemaFacts<WorldDataSet>(prototypeOf<WorldSchema>())

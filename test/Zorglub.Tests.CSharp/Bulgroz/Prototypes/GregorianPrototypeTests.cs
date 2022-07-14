@@ -1,11 +1,11 @@
 ﻿// SPDX-License-Identifier: BSD-3-Clause
 // Copyright (c) 2020 Narvalo.Org. All rights reserved.
 
-namespace Zorglub.Bulgroz.Archetypes;
+namespace Zorglub.Bulgroz.Prototypes;
 
-public sealed class GregorianArchetypeTests : ArchetypalSchemaFacts<GregorianDataSet>
+public sealed class GregorianPrototypeTests : PrototypalSchemaFacts<GregorianDataSet>
 {
-    public GregorianArchetypeTests() : base(GregorianArchetype.Instance)
+    public GregorianPrototypeTests() : base(GregorianPrototype.Instance)
     {
         // CountDaysInMonths() and CountDaysInYearBeforeMonth() use an array lookup.
         MaxMonth = 12;
@@ -16,7 +16,7 @@ public sealed class GregorianArchetypeTests : ArchetypalSchemaFacts<GregorianDat
     {
         var expected = new byte[] { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
         // Act
-        var actual = GregorianArchetype.CountDaysInMonths(leapYear: false).ToArray();
+        var actual = GregorianPrototype.CountDaysInMonths(leapYear: false).ToArray();
         // Assert
         Assert.Equal(expected, actual);
     }
@@ -26,7 +26,7 @@ public sealed class GregorianArchetypeTests : ArchetypalSchemaFacts<GregorianDat
     {
         var expected = new byte[] { 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
         // Act
-        var actual = GregorianArchetype.CountDaysInMonths(leapYear: true).ToArray();
+        var actual = GregorianPrototype.CountDaysInMonths(leapYear: true).ToArray();
         // Assert
         Assert.Equal(expected, actual);
     }

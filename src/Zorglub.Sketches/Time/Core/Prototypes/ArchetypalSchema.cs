@@ -1,9 +1,10 @@
 ﻿// SPDX-License-Identifier: BSD-3-Clause
 // Copyright (c) 2020 Narvalo.Org. All rights reserved.
 
-namespace Zorglub.Time.Core
+namespace Zorglub.Time.Core.Prototypes
 {
-    using Zorglub.Bulgroz.Archetypes;
+    using Zorglub.Bulgroz.Prototypes;
+    using Zorglub.Time.Core;
     using Zorglub.Time.Core.Validation;
 
     // TODO(code): the props Arithmetic and PreValidator are too simplistic.
@@ -43,17 +44,17 @@ namespace Zorglub.Time.Core
     // For GetStartOfYear(), we could first check that there is a nearby year
     // already in the cache. Pre-compute the values at the start of each century.
     //
-    // Migrate WideCalendar to use the ICalendricalKernel and an
-    // archetype which includes some of the simple possible optimizations (see
-    // comments in ArchetypalSchema)?
+    // Migrate WideCalendar to use the ICalendricalKernel and a prototype which
+    // includes some of the simple possible optimizations (see comments in
+    // PrototypalSchema)?
     //
-    // GeometricArchetype, based on quasi-affine forms?
+    // GeometricPrototype, based on quasi-affine forms?
     // Minimal schema interface: is it doable with only forms?
 
     /// <summary>
-    /// Represents an prototypal implementation of the <see cref="ICalendricalSchemaPlus"/> interface.
+    /// Represents an archetypal implementation of the <see cref="ICalendricalSchemaPlus"/> interface.
     /// </summary>
-    public class PrototypalSchema : ArchetypalSchema
+    public class ArchetypalSchema : PrototypalSchema
     {
         /// <summary>
         /// Represents the cache for <see cref="GetStartOfYear(int)"/>.
@@ -62,10 +63,10 @@ namespace Zorglub.Time.Core
         private readonly StartOfYearCache[] _startOfYearCache = StartOfYearCache.Create();
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="PrototypalSchema"/> class.
+        /// Initializes a new instance of the <see cref="ArchetypalSchema"/> class.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="kernel"/> is null.</exception>
-        public PrototypalSchema(
+        public ArchetypalSchema(
             ICalendricalKernel kernel,
             int minDaysInYear,
             int minDaysInMonth)
@@ -99,7 +100,7 @@ namespace Zorglub.Time.Core
 
         /// <summary>
         /// Gets or sets a value indicating whether the overriden version of
-        /// <see cref="ArchetypalSchema.GetMonth(int, int, out int)"/> is disabled or not.
+        /// <see cref="PrototypalSchema.GetMonth(int, int, out int)"/> is disabled or not.
         /// <para>The default value is false.</para>
         /// </summary>
         public bool DisableCustomGetMonth { get; set; }
@@ -110,7 +111,7 @@ namespace Zorglub.Time.Core
         [Pure]
         public sealed override int GetYear(int daysSinceEpoch, out int doy)
         {
-            // It's very similar to what we do in ArchetypalSchema, but when we
+            // It's very similar to what we do in PrototypalSchema, but when we
             // start the loop we are much closer to the actual value of the year.
 
             // To get our first approximation of the value of the year, we pretend
@@ -120,7 +121,7 @@ namespace Zorglub.Time.Core
             int y = 1 + MathZ.Divide(daysSinceEpoch, MinDaysInYear);
             int startOfYear = GetStartOfYear(y);
 
-            // TODO(code): explain the algorithm, idem with ArchetypalSchema.
+            // TODO(code): explain the algorithm, idem with PrototypalSchema.
 
             if (daysSinceEpoch >= 0)
             {
