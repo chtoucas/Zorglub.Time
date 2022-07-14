@@ -20,7 +20,8 @@ namespace Zorglub.Time.Core
     [DebuggerDisplay("{" + nameof(DebuggerDisplay) + ",nq}")]
     public readonly partial struct Yedoy :
         ISerializable<Yedoy, int>,
-        IComparisonOperators<Yedoy, Yedoy>
+        IComparisonOperators<Yedoy, Yedoy>,
+        IMinMaxValue<Yedoy>
     {
         #region Bit settings
 
@@ -71,13 +72,13 @@ namespace Zorglub.Time.Core
         /// Represents the smallest possible value of a <see cref="Yedoy"/>.
         /// <para>This field is read-only.</para>
         /// </summary>
-        public static readonly Yedoy MinValue = new(MinYear, MinDayOfYear);
+        internal static readonly Yedoy MinValue = new(MinYear, MinDayOfYear);
 
         /// <summary>
         /// Represents the largest possible value of a <see cref="Yedoy"/>.
         /// <para>This field is read-only.</para>
         /// </summary>
-        public static readonly Yedoy MaxValue = new(MaxYear, MaxDayOfYear);
+        internal static readonly Yedoy MaxValue = new(MaxYear, MaxDayOfYear);
 
         /// <summary>
         /// Represents the binary data stored in this instance.
@@ -117,6 +118,9 @@ namespace Zorglub.Time.Core
         {
             _bin = bin;
         }
+
+        static Yedoy IMinMaxValue<Yedoy>.MinValue => MinValue;
+        static Yedoy IMinMaxValue<Yedoy>.MaxValue => MaxValue;
 
         /// <summary>
         /// Gets the year.

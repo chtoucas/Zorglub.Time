@@ -90,13 +90,7 @@ namespace Zorglub.Time.Core.Intervals
         /// <para>The empty range is both an intersection absorber and a span identity.</para>
         /// <para>This field is read-only.</para>
         /// </summary>
-        // I would have prefered to keep this internal. This way, there would
-        // have been only one way to create an empty range (not entirely true,
-        // since one can always use default(RangeSet<T>). Unfortunately, the
-        // compiler doesn't like it: either CS0649, or CA1805 if we initialize
-        // the field to suppress the compiler warning. I could just ignore the
-        // warning as this field is supposed to always have its default value.
-        public static readonly RangeSet<T> Empty;
+        internal static readonly RangeSet<T> Empty;
 
         // Default value = empty set, _isInhabited = false and _endpoints = (default(T), default(T)).
 

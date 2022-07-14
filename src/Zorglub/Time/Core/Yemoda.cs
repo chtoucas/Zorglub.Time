@@ -60,7 +60,8 @@ namespace Zorglub.Time.Core
     [DebuggerDisplay("{" + nameof(DebuggerDisplay) + ",nq}")]
     public readonly partial struct Yemoda :
         ISerializable<Yemoda, int>,
-        IComparisonOperators<Yemoda, Yemoda>
+        IComparisonOperators<Yemoda, Yemoda>,
+        IMinMaxValue<Yemoda>
     {
         #region Bit settings
 
@@ -167,26 +168,13 @@ namespace Zorglub.Time.Core
         /// Represents the smallest possible value of a <see cref="Yemoda"/>.
         /// <para>This field is read-only.</para>
         /// </summary>
-        public static readonly Yemoda MinValue = new(MinYear, MinMonth, MinDay);
+        internal static readonly Yemoda MinValue = new(MinYear, MinMonth, MinDay);
 
         /// <summary>
         /// Represents the largest possible value of a <see cref="Yemoda"/>.
         /// <para>This field is read-only.</para>
         /// </summary>
-        public static readonly Yemoda MaxValue = new(MaxYear, MaxMonth, MaxDay);
-
-        /// <summary>
-        /// Represents the value for the first day of the first month of the year 1, the theoretical
-        /// epoch.
-        /// <para>This field is read-only.</para>
-        /// </summary>
-        public static readonly Yemoda StartOfYear1 = new(1, MinMonth, MinDay);
-
-        /// <summary>
-        /// Represents the interval [<see cref="MinYear"/>..<see cref="MaxYear"/>].
-        /// <para>This field is read-only.</para>
-        /// </summary>
-        public static readonly Range<int> SupportedYears = new(MinYear, MaxYear);
+        internal static readonly Yemoda MaxValue = new(MaxYear, MaxMonth, MaxDay);
 
         /// <summary>
         /// Represents the binary data stored in this instance.
@@ -229,6 +217,21 @@ namespace Zorglub.Time.Core
         {
             _bin = bin;
         }
+
+        static Yemoda IMinMaxValue<Yemoda>.MinValue => MinValue;
+        static Yemoda IMinMaxValue<Yemoda>.MaxValue => MaxValue;
+
+        /// <summary>
+        /// Gets the value for the first day of the first month of the year 1, the theoretical epoch.
+        /// <para>This static property is thread-safe.</para>
+        /// </summary>
+        public static Yemoda StartOfYear1 { get; } = new(1, MinMonth, MinDay);
+
+        /// <summary>
+        /// Gets the interval [<see cref="MinYear"/>..<see cref="MaxYear"/>].
+        /// <para>This static property is thread-safe.</para>
+        /// </summary>
+        public static Range<int> SupportedYears { get; } = new(MinYear, MaxYear);
 
         /// <summary>
         /// Gets the algebraic year from this instance.

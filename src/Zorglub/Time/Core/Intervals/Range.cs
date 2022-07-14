@@ -112,12 +112,12 @@ namespace Zorglub.Time.Core.Intervals
         // A range of int's is finite and enumerable.
 
         /// <summary>
-        /// Represents the range {<see cref="Int32.MinValue"/>..<see cref="Int32.MaxValue"/>}.
+        /// Gets the range {<see cref="Int32.MinValue"/>..<see cref="Int32.MaxValue"/>}.
         /// <para>This is the largest range of 32-bit signed integers representable by the system.
         /// </para>
-        /// <para>This field is read-only.</para>
+        /// <para>This static property is thread-safe.</para>
         /// </summary>
-        internal static readonly Range<int> Maximal32 = Create(Int32.MinValue, Int32.MaxValue);
+        internal static Range<int> Maximal32 { get; } = Create(Int32.MinValue, Int32.MaxValue);
 
         /// <summary>
         /// Obtains the number of elements in the specified range.

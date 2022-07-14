@@ -41,18 +41,6 @@ namespace Zorglub.Time
         public const int MaxAlgebraicValue = Int32.MaxValue;
 
         /// <summary>
-        /// Represents the ordinal numeral zeroth.
-        /// <para>This field is read-only.</para>
-        /// </summary>
-        public static readonly Ord Zeroth = new(0);
-
-        /// <summary>
-        /// Represents the ordinal numeral first.
-        /// <para>This field is read-only.</para>
-        /// </summary>
-        public static readonly Ord First = new(1);
-
-        /// <summary>
         /// Represents the algebraic value of the current instance.
         /// <para>This field is in the range from <see cref="MinAlgebraicValue"/>
         /// to <see cref="MaxAlgebraicValue"/>.</para>
@@ -70,6 +58,18 @@ namespace Zorglub.Time
 
             _value = value;
         }
+
+        /// <summary>
+        /// Gets the ordinal numeral zeroth.
+        /// <para>This static property is thread-safe.</para>
+        /// </summary>
+        public static Ord Zeroth { get; }
+
+        /// <summary>
+        /// Gets the ordinal numeral first.
+        /// <para>This static property is thread-safe.</para>
+        /// </summary>
+        public static Ord First { get; } = new(1);
 
         /// <summary>
         /// Gets the smallest possible value of an <see cref="Ord"/>.

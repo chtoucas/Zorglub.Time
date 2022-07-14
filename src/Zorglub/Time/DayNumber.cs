@@ -39,14 +39,6 @@ namespace Zorglub.Time
         /// </summary>
         public const int MaxDaysSinceZero = Int32.MaxValue - 1;
 
-        /// <summary>
-        /// Represents the origin of the day numbering system.
-        /// <para>The Monday 1st of January, 1 CE within the Gregorian calendar.</para>
-        /// <para>This field is read-only.</para>
-        /// <para>See also <seealso cref="DayZero.NewStyle"/>.</para>
-        /// </summary>
-        public static readonly DayNumber Zero;
-
         #region Gregorian/Julian
         // We can go a bit further than JulianSchema.SupportedYears.
         // The current estimation for the age of the universe is ~14 billion
@@ -108,7 +100,7 @@ namespace Zorglub.Time
 
         /// <summary>
         /// Gets the range of supported Gregorian values for a <see cref="DayNumber"/>.
-        /// <para>This property is thread-safe.</para>
+        /// <para>This static property is thread-safe.</para>
         /// </summary>
         public static Range<DayNumber> GregorianDomain =>
             Range.CreateLeniently(s_MinGregorianValue, s_MaxGregorianValue);
@@ -135,7 +127,7 @@ namespace Zorglub.Time
 
         /// <summary>
         /// Gets the range of supported Julian values for a <see cref="DayNumber"/>.
-        /// <para>This property is thread-safe.</para>
+        /// <para>This static property is thread-safe.</para>
         /// </summary>
         public static Range<DayNumber> JulianDomain =>
             Range.CreateLeniently(s_MinJulianValue, s_MaxJulianValue);
@@ -164,8 +156,16 @@ namespace Zorglub.Time
         }
 
         /// <summary>
+        /// Gets the origin of the day numbering system.
+        /// <para>The Monday 1st of January, 1 CE within the Gregorian calendar.</para>
+        /// <para>This static property is thread-safe.</para>
+        /// <para>See also <seealso cref="DayZero.NewStyle"/>.</para>
+        /// </summary>
+        public static DayNumber Zero { get; }
+
+        /// <summary>
         /// Gets the smallest possible value of a <see cref="DayNumber"/>.
-        /// <para>This field is read-only.</para>
+        /// <para>This static property is thread-safe.</para>
         /// </summary>
         // The minimum value has been chosen such that its properties do not
         // overflow, e.g. DayNumber.MinValue.Ordinal = Ord.MinValue.
@@ -173,7 +173,7 @@ namespace Zorglub.Time
 
         /// <summary>
         /// Gets the largest possible value of a <see cref="DayNumber"/>.
-        /// <para>This field is read-only.</para>
+        /// <para>This static property is thread-safe.</para>
         /// </summary>
         // The maximum value has been chosen such that its properties do not
         // overflow, e.g. DayNumber.MaxValue.Ordinal = Ord.MaxValue.

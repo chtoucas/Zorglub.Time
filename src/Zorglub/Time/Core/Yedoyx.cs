@@ -11,7 +11,9 @@ namespace Zorglub.Time.Core
     /// <para><see cref="Yedoyx"/> is an immutable struct.</para>
     /// </summary>
     [DebuggerDisplay("{" + nameof(DebuggerDisplay) + ",nq}")]
-    public readonly partial struct Yedoyx : IEqualityOperators<Yedoyx, Yedoyx>
+    public readonly partial struct Yedoyx :
+        IEqualityOperators<Yedoyx, Yedoyx>,
+        IMinMaxValue<Yedoyx>
     {
         #region Bit settings
 
@@ -63,13 +65,13 @@ namespace Zorglub.Time.Core
         /// Represents the smallest possible value of a <see cref="Yedoyx"/>.
         /// <para>This field is read-only.</para>
         /// </summary>
-        public static readonly Yedoyx MinValue = new(MinYear, MinDayOfYear, MinExtra);
+        internal static readonly Yedoyx MinValue = new(MinYear, MinDayOfYear, MinExtra);
 
         /// <summary>
         /// Represents the largest possible value of a <see cref="Yedoyx"/>.
         /// <para>This field is read-only.</para>
         /// </summary>
-        public static readonly Yedoyx MaxValue = new(MaxYear, MaxDayOfYear, MaxExtra);
+        internal static readonly Yedoyx MaxValue = new(MaxYear, MaxDayOfYear, MaxExtra);
 
         /// <summary>
         /// Represents the binary data stored in this instance.
@@ -125,6 +127,9 @@ namespace Zorglub.Time.Core
         {
             _bin = bin;
         }
+
+        static Yedoyx IMinMaxValue<Yedoyx>.MinValue => MinValue;
+        static Yedoyx IMinMaxValue<Yedoyx>.MaxValue => MaxValue;
 
         /// <summary>
         /// Gets the year.

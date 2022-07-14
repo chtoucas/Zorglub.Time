@@ -89,18 +89,18 @@ namespace Zorglub.Time.Core
         }
 
         /// <summary>
-        /// Represents the interval [-999_998..999_999].
-        /// <para>It is the default value for <see cref="ICalendricalSchema.SupportedYears"/>.</para>
-        /// <para>This property is thread-safe.</para>
+        /// Gets the default value for <see cref="ICalendricalSchema.SupportedYears"/>, that is the
+        /// interval [-999_998..999_999].
+        /// <para>This static property is thread-safe.</para>
         /// </summary>
         public static Range<int> DefaultSupportedYears { get; } = new(DefaultMinYear, DefaultMaxYear);
 
         /// <summary>
-        /// Represents the interval [<see cref="Yemoda.MinYear"/>..<see cref="Yemoda.MaxYear"/>],
-        /// that is [-2_097_152, 2_097_151].
-        /// <para>It is the maximum value for <see cref="ICalendricalSchema.SupportedYears"/>.</para>
+        /// Gets the maximum value for <see cref="ICalendricalSchema.SupportedYears"/>, that is the
+        /// interval [<see cref="Yemoda.MinYear"/>..<see cref="Yemoda.MaxYear"/>] i.e.
+        /// [-2_097_152, 2_097_151].
         /// <para>It matches the value of <see cref="Yemoda.SupportedYears"/>.</para>
-        /// <para>This property is thread-safe.</para>
+        /// <para>This static property is thread-safe.</para>
         /// </summary>
         public static Range<int> MaxSupportedYears => Yemoda.SupportedYears;
     }

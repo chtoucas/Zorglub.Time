@@ -11,7 +11,9 @@ namespace Zorglub.Time.Core
     /// <para><see cref="Yemodax"/> is an immutable struct.</para>
     /// </summary>
     [DebuggerDisplay("{" + nameof(DebuggerDisplay) + ",nq}")]
-    public readonly partial struct Yemodax : IEqualityOperators<Yemodax, Yemodax>
+    public readonly partial struct Yemodax :
+        IEqualityOperators<Yemodax, Yemodax>,
+        IMinMaxValue<Yemodax>
     {
         #region Bit settings
 
@@ -107,13 +109,13 @@ namespace Zorglub.Time.Core
         /// Represents the smallest possible value of a <see cref="Yemodax"/>.
         /// <para>This field is read-only.</para>
         /// </summary>
-        public static readonly Yemodax MinValue = new(MinYear, MinMonth, MinDay, MinExtra);
+        internal static readonly Yemodax MinValue = new(MinYear, MinMonth, MinDay, MinExtra);
 
         /// <summary>
         /// Represents the largest possible value of a <see cref="Yemodax"/>.
         /// <para>This field is read-only.</para>
         /// </summary>
-        public static readonly Yemodax MaxValue = new(MaxYear, MaxMonth, MaxDay, MaxExtra);
+        internal static readonly Yemodax MaxValue = new(MaxYear, MaxMonth, MaxDay, MaxExtra);
 
         /// <summary>
         /// Represents the binary data stored in this instance.
@@ -171,6 +173,9 @@ namespace Zorglub.Time.Core
         {
             _bin = bin;
         }
+
+        static Yemodax IMinMaxValue<Yemodax>.MinValue => MinValue;
+        static Yemodax IMinMaxValue<Yemodax>.MaxValue => MaxValue;
 
         /// <summary>
         /// Gets the algebraic year from this instance.

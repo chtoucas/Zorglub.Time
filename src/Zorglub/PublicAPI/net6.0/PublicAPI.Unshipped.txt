@@ -368,24 +368,6 @@ override Zorglub.Time.Simple.CalendarYear.ToString() -> string!
 override Zorglub.Time.Simple.OrdinalDate.Equals(object? obj) -> bool
 override Zorglub.Time.Simple.OrdinalDate.GetHashCode() -> int
 override Zorglub.Time.Simple.OrdinalDate.ToString() -> string!
-static readonly Zorglub.Time.Core.Intervals.RangeSet<T>.Empty -> Zorglub.Time.Core.Intervals.RangeSet<T>
-static readonly Zorglub.Time.Core.Yedoy.MaxValue -> Zorglub.Time.Core.Yedoy
-static readonly Zorglub.Time.Core.Yedoy.MinValue -> Zorglub.Time.Core.Yedoy
-static readonly Zorglub.Time.Core.Yedoyx.MaxValue -> Zorglub.Time.Core.Yedoyx
-static readonly Zorglub.Time.Core.Yedoyx.MinValue -> Zorglub.Time.Core.Yedoyx
-static readonly Zorglub.Time.Core.Yemoda.MaxValue -> Zorglub.Time.Core.Yemoda
-static readonly Zorglub.Time.Core.Yemoda.MinValue -> Zorglub.Time.Core.Yemoda
-static readonly Zorglub.Time.Core.Yemoda.StartOfYear1 -> Zorglub.Time.Core.Yemoda
-static readonly Zorglub.Time.Core.Yemoda.SupportedYears -> Zorglub.Time.Core.Intervals.Range<int>
-static readonly Zorglub.Time.Core.Yemodax.MaxValue -> Zorglub.Time.Core.Yemodax
-static readonly Zorglub.Time.Core.Yemodax.MinValue -> Zorglub.Time.Core.Yemodax
-static readonly Zorglub.Time.DayNumber.Zero -> Zorglub.Time.DayNumber
-static readonly Zorglub.Time.DayZero.NewStyle -> Zorglub.Time.DayNumber
-static readonly Zorglub.Time.DayZero.OldStyle -> Zorglub.Time.DayNumber
-static readonly Zorglub.Time.DayZero.RataDie -> Zorglub.Time.DayNumber
-static readonly Zorglub.Time.Ord.First -> Zorglub.Time.Ord
-static readonly Zorglub.Time.Ord.Zeroth -> Zorglub.Time.Ord
-static readonly Zorglub.Time.Simple.CalendarCatalog.MaxNumberOfUserCalendars -> int
 static Zorglub.Time.Core.CalendricalSegment.Create(Zorglub.Time.Core.ICalendricalSchema! schema, Zorglub.Time.Core.Intervals.Range<int> supportedYears) -> Zorglub.Time.Core.CalendricalSegment!
 static Zorglub.Time.Core.CalendricalSegment.CreateMaximal(Zorglub.Time.Core.ICalendricalSchema! schema, bool onOrAfterEpoch = false) -> Zorglub.Time.Core.CalendricalSegment!
 static Zorglub.Time.Core.Intervals.Interval.Adjacent(Zorglub.Time.Core.Intervals.LowerRay<int> x, Zorglub.Time.Core.Intervals.UpperRay<int> y) -> bool
@@ -524,6 +506,8 @@ static Zorglub.Time.Core.Yemoda.operator <=(Zorglub.Time.Core.Yemoda left, Zorgl
 static Zorglub.Time.Core.Yemoda.operator ==(Zorglub.Time.Core.Yemoda left, Zorglub.Time.Core.Yemoda right) -> bool
 static Zorglub.Time.Core.Yemoda.operator >(Zorglub.Time.Core.Yemoda left, Zorglub.Time.Core.Yemoda right) -> bool
 static Zorglub.Time.Core.Yemoda.operator >=(Zorglub.Time.Core.Yemoda left, Zorglub.Time.Core.Yemoda right) -> bool
+static Zorglub.Time.Core.Yemoda.StartOfYear1.get -> Zorglub.Time.Core.Yemoda
+static Zorglub.Time.Core.Yemoda.SupportedYears.get -> Zorglub.Time.Core.Intervals.Range<int>
 static Zorglub.Time.Core.Yemodax.Create(int year, int month, int day, int extra) -> Zorglub.Time.Core.Yemodax
 static Zorglub.Time.Core.Yemodax.Create(Zorglub.Time.Core.Yemoda ymd, int extra) -> Zorglub.Time.Core.Yemodax
 static Zorglub.Time.Core.Yemodax.FromBinary(int data) -> Zorglub.Time.Core.Yemodax
@@ -565,6 +549,10 @@ static Zorglub.Time.DayNumber.operator >(Zorglub.Time.DayNumber left, Zorglub.Ti
 static Zorglub.Time.DayNumber.operator >=(Zorglub.Time.DayNumber left, Zorglub.Time.DayNumber right) -> bool
 static Zorglub.Time.DayNumber.Today() -> Zorglub.Time.DayNumber
 static Zorglub.Time.DayNumber.UtcToday() -> Zorglub.Time.DayNumber
+static Zorglub.Time.DayNumber.Zero.get -> Zorglub.Time.DayNumber
+static Zorglub.Time.DayZero.NewStyle.get -> Zorglub.Time.DayNumber
+static Zorglub.Time.DayZero.OldStyle.get -> Zorglub.Time.DayNumber
+static Zorglub.Time.DayZero.RataDie.get -> Zorglub.Time.DayNumber
 static Zorglub.Time.Extensions.DayOfWeekExtensions.ToIsoWeekday(this System.DayOfWeek this) -> int
 static Zorglub.Time.Extensions.Unboxing.TryUnbox<T>(this Zorglub.Time.Core.Utilities.Box<T!>! this, out T? obj) -> bool
 static Zorglub.Time.Extensions.Unboxing.Unbox<T>(this Zorglub.Time.Core.Utilities.Box<T!>! this) -> T!
@@ -602,6 +590,7 @@ static Zorglub.Time.MonthParts.operator ==(Zorglub.Time.MonthParts left, Zorglub
 static Zorglub.Time.MonthParts.operator >(Zorglub.Time.MonthParts left, Zorglub.Time.MonthParts right) -> bool
 static Zorglub.Time.MonthParts.operator >=(Zorglub.Time.MonthParts left, Zorglub.Time.MonthParts right) -> bool
 static Zorglub.Time.Ord.explicit operator int(Zorglub.Time.Ord ord) -> int
+static Zorglub.Time.Ord.First.get -> Zorglub.Time.Ord
 static Zorglub.Time.Ord.FromInt32(int value) -> Zorglub.Time.Ord
 static Zorglub.Time.Ord.FromRank(int rank) -> Zorglub.Time.Ord
 static Zorglub.Time.Ord.Max(Zorglub.Time.Ord left, Zorglub.Time.Ord right) -> Zorglub.Time.Ord
@@ -620,6 +609,7 @@ static Zorglub.Time.Ord.operator <=(Zorglub.Time.Ord left, Zorglub.Time.Ord righ
 static Zorglub.Time.Ord.operator ==(Zorglub.Time.Ord left, Zorglub.Time.Ord right) -> bool
 static Zorglub.Time.Ord.operator >(Zorglub.Time.Ord left, Zorglub.Time.Ord right) -> bool
 static Zorglub.Time.Ord.operator >=(Zorglub.Time.Ord left, Zorglub.Time.Ord right) -> bool
+static Zorglub.Time.Ord.Zeroth.get -> Zorglub.Time.Ord
 static Zorglub.Time.OrdinalParts.AtStartOfYear(int y) -> Zorglub.Time.OrdinalParts
 static Zorglub.Time.OrdinalParts.operator !=(Zorglub.Time.OrdinalParts left, Zorglub.Time.OrdinalParts right) -> bool
 static Zorglub.Time.OrdinalParts.operator <(Zorglub.Time.OrdinalParts left, Zorglub.Time.OrdinalParts right) -> bool
@@ -637,6 +627,7 @@ static Zorglub.Time.Simple.CalendarCatalog.GetCalendar(string! key) -> Zorglub.T
 static Zorglub.Time.Simple.CalendarCatalog.GetOrAdd(string! key, Zorglub.Time.Core.SystemSchema! schema, Zorglub.Time.DayNumber epoch, bool proleptic) -> Zorglub.Time.Simple.Calendar!
 static Zorglub.Time.Simple.CalendarCatalog.GetSystemCalendar(Zorglub.Time.CalendarId ident) -> Zorglub.Time.Simple.Calendar!
 static Zorglub.Time.Simple.CalendarCatalog.GetUserCalendars() -> System.Collections.Generic.IReadOnlyCollection<Zorglub.Time.Simple.Calendar!>!
+static Zorglub.Time.Simple.CalendarCatalog.MaxNumberOfUserCalendars.get -> int
 static Zorglub.Time.Simple.CalendarCatalog.ReservedKeys.get -> Zorglub.Time.Core.Utilities.ReadOnlySet<string!>!
 static Zorglub.Time.Simple.CalendarCatalog.SystemCalendars.get -> System.Collections.Generic.IReadOnlyCollection<Zorglub.Time.Simple.Calendar!>!
 static Zorglub.Time.Simple.CalendarCatalog.TakeSnapshot() -> System.Collections.Generic.IReadOnlyDictionary<string!, Zorglub.Time.Simple.Calendar!>!
