@@ -4,6 +4,7 @@
 namespace Zorglub.Time.Core
 {
     using Zorglub.Time.Core.Intervals;
+    using Zorglub.Time.Core.Validation;
 
     using Endpoint = CalendricalSegment.Endpoint;
 
@@ -30,10 +31,16 @@ namespace Zorglub.Time.Core
         private readonly PartsAdapter _partsAdapter;
 
         /// <summary>
-        /// Represents the earliest supported year &gt;= 1.
+        /// Represents the range of supported years.
         /// <para>This field is read-only.</para>
         /// </summary>
-        private readonly int? _minYearOnOrAfterYear1;
+        private readonly SupportedYears _supportedYears;
+
+        /// <summary>
+        /// Represents the range of supported values for the number of consecutive days from the epoch.
+        /// <para>This field is read-only.</para>
+        /// </summary>
+        private readonly SupportedDays _supportedDays;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CalendricalSegmentBuilder"/> class.
@@ -44,63 +51,52 @@ namespace Zorglub.Time.Core
             _schema = schema ?? throw new ArgumentNullException(nameof(schema));
 
             _partsAdapter = new PartsAdapter(schema);
-
-            var set = Interval.Intersect(schema.SupportedYears, Range.StartingAt(1));
-            _minYearOnOrAfterYear1 = set.IsEmpty ? null : set.Range.Min;
+            _supportedYears = new SupportedYears(schema.SupportedYears);
+            _supportedDays = new SupportedDays(schema.SupportedYears);
         }
 
         /// <summary>
-        /// Returns true if the start of the segment has been set; otherwise returns false.
+        /// Returns true if the minimum has been set; otherwise returns false.
         /// </summary>
-        public bool HasStart => _start != null;
+        public bool HasMin => _min != null;
 
         /// <summary>
-        /// Returns true if the end of the segment has been set; otherwise returns false.
+        /// Returns true if the maximum has been set; otherwise returns false.
         /// </summary>
-        public bool HasEnd => _end != null;
+        public bool HasMax => _max != null;
 
         /// <summary>
-        /// Returns true if both start and end have been set; otherwise returns false.
+        /// Returns true if both minimum and maximum have been set; otherwise returns false.
         /// </summary>
-        public bool IsBuildable => HasStart && HasEnd;
+        public bool IsBuildable => HasMin && HasMax;
 
-        private Endpoint? _start;
+        private Endpoint? _min;
         /// <summary>
-        /// Gets the start of the segment.
+        /// Gets the minimum of the segment.
         /// </summary>
-        internal Endpoint Start
+        private Endpoint Min
         {
-            get => _start ?? Throw.InvalidOperation<Endpoint>();
-            private set
+            get => _min ?? Throw.InvalidOperation<Endpoint>();
+            set
             {
-                if (value > _end) Throw.ArgumentOutOfRange(nameof(value));
-                _start = value;
+                if (value > _max) Throw.ArgumentOutOfRange(nameof(value));
+                _min = value;
             }
         }
 
-        private Endpoint? _end;
+        private Endpoint? _max;
         /// <summary>
-        /// Gets the end of the segment.
+        /// Gets the maximum of the segment.
         /// </summary>
-        internal Endpoint End
+        private Endpoint Max
         {
-            get => _end ?? Throw.InvalidOperation<Endpoint>();
-            private set
+            get => _max ?? Throw.InvalidOperation<Endpoint>();
+            set
             {
-                if (value < _start) Throw.ArgumentOutOfRange(nameof(value));
-                _end = value;
+                if (value < _min) Throw.ArgumentOutOfRange(nameof(value));
+                _max = value;
             }
         }
-
-        /// <summary>
-        /// Gets the range of supported years.
-        /// </summary>
-        private Range<int> SupportedYears => _schema.SupportedYears;
-
-        /// <summary>
-        /// Gets the range of supported values for the number of consecutive days from the epoch.
-        /// </summary>
-        private Range<int> SupportedDays => _schema.SupportedDays;
 
         /// <summary>
         /// Gets the pre-validator for this schema.
@@ -114,106 +110,118 @@ namespace Zorglub.Time.Core
         [Pure]
         public CalendricalSegment BuildSegment()
         {
-            bool complete =
-                Start.OrdinalParts == OrdinalParts.AtStartOfYear(Start.Year)
-                && End.OrdinalParts == _partsAdapter.GetOrdinalPartsAtEndOfYear(End.Year);
+            var min = FixEndpoint(Min);
+            var max = FixEndpoint(Max);
 
-            return new CalendricalSegment(_schema, Start, End) { IsComplete = complete };
+            bool complete =
+                min.OrdinalParts == OrdinalParts.AtStartOfYear(min.Year)
+                && max.OrdinalParts == _partsAdapter.GetOrdinalPartsAtEndOfYear(max.Year);
+
+            return new CalendricalSegment(_schema, min, max) { IsComplete = complete };
+
+            [Pure]
+            Endpoint FixEndpoint(Endpoint endpoint)
+            {
+                var (y, m) = endpoint.MonthParts;
+                endpoint.MonthsSinceEpoch = _schema.CountMonthsSinceEpoch(y, m);
+                return endpoint;
+            }
         }
     }
 
     public partial class CalendricalSegmentBuilder // Builder methods
     {
         /// <summary>
-        /// Sets the start of the segment to the specified number of consecutive days from the epoch.
+        /// Sets the minimum to the specified number of consecutive days from the epoch.
         /// </summary>
         public void SetMinDaysSinceEpoch(int daysSinceEpoch) =>
-            Start = GetEndpoint(daysSinceEpoch);
+            Min = GetEndpoint(daysSinceEpoch);
 
         /// <summary>
-        /// Sets the end of the segment to the specified number of consecutive days from the epoch.
+        /// Sets the maximum to the specified number of consecutive days from the epoch.
         /// </summary>
         public void SetMaxDaysSinceEpoch(int daysSinceEpoch) =>
-            End = GetEndpoint(daysSinceEpoch);
+            Max = GetEndpoint(daysSinceEpoch);
 
         /// <summary>
-        /// Sets the start of the segment to the specified date.
+        /// Sets the minimum to the specified date.
         /// </summary>
         public void SetMinDate(int year, int month, int day) =>
-            Start = GetEndpoint(year, month, day);
+            Min = GetEndpoint(year, month, day);
 
         /// <summary>
-        /// Sets the end of the segment to the specified date.
+        /// Sets the maximum to the specified date.
         /// </summary>
         public void SetMaxDate(int year, int month, int day) =>
-            End = GetEndpoint(year, month, day);
+            Max = GetEndpoint(year, month, day);
 
         /// <summary>
-        /// Sets the start of the segment to the specified ordinal date.
+        /// Sets the minimum to the specified ordinal date.
         /// </summary>
         public void SetMinOrdinal(int year, int dayOfYear) =>
-            Start = GetEndpoint(year, dayOfYear);
+            Min = GetEndpoint(year, dayOfYear);
 
         /// <summary>
-        /// Sets the end of the segment to the specified ordinal date.
+        /// Sets the maximum to the specified ordinal date.
         /// </summary>
         public void SetMaxOrdinal(int year, int dayOfYear) =>
-            End = GetEndpoint(year, dayOfYear);
+            Max = GetEndpoint(year, dayOfYear);
 
         /// <summary>
-        /// Sets the start of the segment to the start of the specified year.
+        /// Sets the minimum to the start of the specified year.
         /// </summary>
         public void SetMinYear(int year)
         {
-            if (SupportedYears.Contains(year) == false) Throw.YearOutOfRange(year);
+            _supportedYears.Validate(year);
 
-            var parts = DateParts.AtStartOfYear(year);
-
-            Start = new Endpoint
+            Min = new Endpoint
             {
-                MonthsSinceEpoch = _schema.CountMonthsSinceEpoch(parts.Year, parts.Month),
                 DaysSinceEpoch = _schema.GetStartOfYear(year),
-                DateParts = parts,
+                DateParts = DateParts.AtStartOfYear(year),
                 OrdinalParts = OrdinalParts.AtStartOfYear(year),
             };
         }
 
         /// <summary>
-        /// Sets the end of the segment to the end of the specified year.
+        /// Sets the maximum to the end of the specified year.
         /// </summary>
         public void SetMaxYear(int year)
         {
-            if (SupportedYears.Contains(year) == false) Throw.YearOutOfRange(year);
+            _supportedYears.Validate(year);
 
-            var parts = _partsAdapter.GetDatePartsAtEndOfYear(year);
-
-            End = new Endpoint
+            Max = new Endpoint
             {
-                MonthsSinceEpoch = _schema.CountMonthsSinceEpoch(parts.Year, parts.Month),
                 DaysSinceEpoch = _schema.GetEndOfYear(year),
-                DateParts = parts,
+                DateParts = _partsAdapter.GetDatePartsAtEndOfYear(year),
                 OrdinalParts = _partsAdapter.GetOrdinalPartsAtEndOfYear(year),
             };
         }
 
         /// <summary>
-        /// Sets the start of the segment to the start of the earliest supported year.
+        /// Sets the minimum to the start of the earliest supported year.
         /// </summary>
         /// <exception cref="ArgumentException">The range of supported years by the schema
         /// does not contain the year 1.</exception>
         public void UseMinSupportedYear(bool onOrAfterEpoch)
         {
-            int minYear =
-                onOrAfterEpoch
-                ? _minYearOnOrAfterYear1 ?? Throw.Argument<int>(nameof(onOrAfterEpoch))
-                : SupportedYears.Min;
-            SetMinYear(minYear);
+            if (onOrAfterEpoch)
+            {
+                // Compute the earliest supported year >= 1.
+                var set = Interval.Intersect(_schema.SupportedYears, Range.StartingAt(1));
+                if (set.IsEmpty) Throw.Argument(nameof(onOrAfterEpoch));
+
+                SetMinYear(set.Range.Min);
+            }
+            else
+            {
+                SetMinYear(_supportedYears.MinYear);
+            }
         }
 
         /// <summary>
-        /// Sets the end of the segment to the end of the latest supported year.
+        /// Sets the maximum to the end of the latest supported year.
         /// </summary>
-        public void UseMaxSupportedYear() => SetMaxYear(SupportedYears.Max);
+        public void UseMaxSupportedYear() => SetMaxYear(_supportedYears.MaxYear);
 
         internal void SetSupportedYears(Range<int> supportedYears)
         {
@@ -222,24 +230,18 @@ namespace Zorglub.Time.Core
         }
 
         //
-        // Helpers
+        // Private helpers
         //
 
         [Pure]
         private Endpoint GetEndpoint(int daysSinceEpoch)
         {
-            if (SupportedDays.Contains(daysSinceEpoch) == false)
-            {
-                Throw.ArgumentOutOfRange(nameof(daysSinceEpoch));
-            }
-
-            var parts = _partsAdapter.GetDateParts(daysSinceEpoch);
+            _supportedDays.Validate(daysSinceEpoch);
 
             return new Endpoint
             {
-                MonthsSinceEpoch = _schema.CountMonthsSinceEpoch(parts.Year, parts.Month),
                 DaysSinceEpoch = daysSinceEpoch,
-                DateParts = parts,
+                DateParts = _partsAdapter.GetDateParts(daysSinceEpoch),
                 OrdinalParts = _partsAdapter.GetOrdinalParts(daysSinceEpoch),
             };
         }
@@ -247,12 +249,11 @@ namespace Zorglub.Time.Core
         [Pure]
         private Endpoint GetEndpoint(int year, int month, int day)
         {
-            if (SupportedYears.Contains(year) == false) Throw.YearOutOfRange(year);
+            _supportedYears.Validate(year);
             PreValidator.ValidateMonthDay(year, month, day);
 
             return new Endpoint
             {
-                MonthsSinceEpoch = _schema.CountMonthsSinceEpoch(year, month),
                 DaysSinceEpoch = _schema.CountDaysSinceEpoch(year, month, day),
                 DateParts = new DateParts(year, month, day),
                 OrdinalParts = _partsAdapter.GetOrdinalParts(year, month, day),
@@ -262,16 +263,13 @@ namespace Zorglub.Time.Core
         [Pure]
         private Endpoint GetEndpoint(int year, int dayOfYear)
         {
-            if (SupportedYears.Contains(year) == false) Throw.YearOutOfRange(year);
+            _supportedYears.Validate(year);
             PreValidator.ValidateDayOfYear(year, dayOfYear);
-
-            var parts = _partsAdapter.GetDateParts(year, dayOfYear);
 
             return new Endpoint
             {
-                MonthsSinceEpoch = _schema.CountMonthsSinceEpoch(year, parts.Month),
                 DaysSinceEpoch = _schema.CountDaysSinceEpoch(year, dayOfYear),
-                DateParts = parts,
+                DateParts = _partsAdapter.GetDateParts(year, dayOfYear),
                 OrdinalParts = new OrdinalParts(year, dayOfYear),
             };
         }

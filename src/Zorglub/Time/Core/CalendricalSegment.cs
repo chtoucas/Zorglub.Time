@@ -24,22 +24,21 @@ namespace Zorglub.Time.Core
         /// Initializes a new instance of the <see cref="CalendricalSegment"/> class.
         /// <para>This constructor does NOT validate its parameters.</para>
         /// </summary>
-        internal CalendricalSegment(
-            ICalendricalSchema schema, Endpoint start, Endpoint end)
+        internal CalendricalSegment(ICalendricalSchema schema, Endpoint min, Endpoint max)
         {
             Debug.Assert(schema != null);
-            Debug.Assert(start <= end);
+            Debug.Assert(min <= max);
 
             _schema = schema;
 
-            SupportedDays = new SupportedDays(start.DaysSinceEpoch, end.DaysSinceEpoch);
-            MinMaxDateParts = OrderedPair.FromOrderedValues(start.DateParts, end.DateParts);
-            MinMaxOrdinalParts = OrderedPair.FromOrderedValues(start.OrdinalParts, end.OrdinalParts);
+            SupportedDays = new SupportedDays(min.DaysSinceEpoch, max.DaysSinceEpoch);
+            MinMaxDateParts = OrderedPair.FromOrderedValues(min.DateParts, max.DateParts);
+            MinMaxOrdinalParts = OrderedPair.FromOrderedValues(min.OrdinalParts, max.OrdinalParts);
 
-            SupportedMonths = new SupportedMonths(start.MonthsSinceEpoch, end.MonthsSinceEpoch);
-            MinMaxMonthParts = OrderedPair.FromOrderedValues(start.MonthParts, end.MonthParts);
+            SupportedMonths = new SupportedMonths(min.MonthsSinceEpoch, max.MonthsSinceEpoch);
+            MinMaxMonthParts = OrderedPair.FromOrderedValues(min.MonthParts, max.MonthParts);
 
-            SupportedYears = new SupportedYears(start.Year, end.Year);
+            SupportedYears = new SupportedYears(min.Year, max.Year);
         }
 
         /// <summary>
@@ -164,8 +163,9 @@ namespace Zorglub.Time.Core
 
         internal sealed class Endpoint
         {
-            public int MonthsSinceEpoch { get; init; }
+            public int MonthsSinceEpoch { get; internal set; }
             public int DaysSinceEpoch { get; init; }
+
             public DateParts DateParts { get; init; }
             public OrdinalParts OrdinalParts { get; init; }
 

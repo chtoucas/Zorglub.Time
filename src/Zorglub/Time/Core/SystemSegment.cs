@@ -16,22 +16,20 @@ namespace Zorglub.Time.Core
         /// Initializes a new instance of the <see cref="SystemSegment"/> class.
         /// <para>This constructor does NOT validate its parameters.</para>
         /// </summary>
-        private SystemSegment(SystemSchema schema, Endpoint start, Endpoint end)
+        private SystemSegment(SystemSchema schema, Endpoint min, Endpoint max)
         {
             Debug.Assert(schema != null);
-            Debug.Assert(start != null);
-            Debug.Assert(start.CompareTo(end) <= 0);
 
             Schema = schema;
 
-            SupportedDays = new SupportedDays(start.DaysSinceEpoch, end.DaysSinceEpoch);
-            MinMaxDateParts = OrderedPair.FromOrderedValues(start.DateParts, end.DateParts);
-            MinMaxOrdinalParts = OrderedPair.FromOrderedValues(start.OrdinalParts, end.OrdinalParts);
+            SupportedDays = new SupportedDays(min.DaysSinceEpoch, max.DaysSinceEpoch);
+            MinMaxDateParts = OrderedPair.FromOrderedValues(min.DateParts, max.DateParts);
+            MinMaxOrdinalParts = OrderedPair.FromOrderedValues(min.OrdinalParts, max.OrdinalParts);
 
-            SupportedMonths = new SupportedMonths(start.MonthsSinceEpoch, end.MonthsSinceEpoch);
-            MinMaxMonthParts = OrderedPair.FromOrderedValues(start.MonthParts, end.MonthParts);
+            SupportedMonths = new SupportedMonths(min.MonthsSinceEpoch, max.MonthsSinceEpoch);
+            MinMaxMonthParts = OrderedPair.FromOrderedValues(min.MonthParts, max.MonthParts);
 
-            SupportedYears = new SupportedYears(start.Year, end.Year);
+            SupportedYears = new SupportedYears(min.Year, max.Year);
         }
 
         /// <summary>
@@ -104,54 +102,40 @@ namespace Zorglub.Time.Core
             }
 
             var (minYear, maxYear) = supportedYears.Endpoints;
-            var start = Endpoint.FromMinYear(schema, minYear);
-            var end = Endpoint.FromMaxYear(schema, maxYear);
+            var min = FixEndpoint(new Endpoint
+            {
+                DaysSinceEpoch = schema.GetStartOfYear(minYear),
+                DateParts = Yemoda.AtStartOfYear(minYear),
+                OrdinalParts = Yedoy.AtStartOfYear(minYear),
+            });
+            var max = FixEndpoint(new Endpoint
+            {
+                DaysSinceEpoch = schema.GetEndOfYear(maxYear),
+                DateParts = schema.GetDatePartsAtEndOfYear(maxYear),
+                OrdinalParts = schema.GetOrdinalPartsAtEndOfYear(maxYear),
+            });
 
-            return new SystemSegment(schema, start, end);
+            return new SystemSegment(schema, min, max);
+
+            [Pure]
+            Endpoint FixEndpoint(Endpoint endpoint)
+            {
+                endpoint.DateParts.Unpack(out int y, out int m);
+                endpoint.MonthsSinceEpoch = schema.CountMonthsSinceEpoch(y, m);
+                return endpoint;
+            }
         }
 
         private sealed class Endpoint
         {
-            public int MonthsSinceEpoch { get; init; }
+            public int MonthsSinceEpoch { get; internal set; }
             public int DaysSinceEpoch { get; init; }
+
             public Yemoda DateParts { get; init; }
             public Yedoy OrdinalParts { get; init; }
 
             public Yemo MonthParts => DateParts.Yemo;
             public int Year => DateParts.Year;
-
-            public int CompareTo(Endpoint other)
-            {
-                Requires.NotNull(other);
-
-                return DaysSinceEpoch.CompareTo(other.DaysSinceEpoch);
-            }
-
-            public static Endpoint FromMinYear(SystemSchema schema, int minYear)
-            {
-                var parts = Yemoda.AtStartOfYear(minYear);
-
-                return new Endpoint
-                {
-                    MonthsSinceEpoch = schema.CountMonthsSinceEpoch(parts.Year, parts.Month),
-                    DaysSinceEpoch = schema.GetStartOfYear(minYear),
-                    DateParts = parts,
-                    OrdinalParts = Yedoy.AtStartOfYear(minYear),
-                };
-            }
-
-            public static Endpoint FromMaxYear(SystemSchema schema, int maxYear)
-            {
-                var parts = schema.GetDatePartsAtEndOfYear(maxYear);
-
-                return new Endpoint
-                {
-                    MonthsSinceEpoch = schema.CountMonthsSinceEpoch(parts.Year, parts.Month),
-                    DaysSinceEpoch = schema.GetEndOfYear(maxYear),
-                    DateParts = parts,
-                    OrdinalParts = schema.GetOrdinalPartsAtEndOfYear(maxYear),
-                };
-            }
         }
     }
 }
