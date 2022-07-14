@@ -164,29 +164,13 @@ namespace Zorglub.Time.Core
 
         internal sealed class Endpoint
         {
-            private readonly ICalendricalSchema _schema;
-
-            public Endpoint(ICalendricalSchema schema)
-            {
-                Debug.Assert(schema != null);
-                _schema = schema;
-            }
-
+            public int MonthsSinceEpoch { get; init; }
             public int DaysSinceEpoch { get; init; }
             public DateParts DateParts { get; init; }
             public OrdinalParts OrdinalParts { get; init; }
 
             public MonthParts MonthParts => DateParts.MonthParts;
             public int Year => DateParts.Year;
-
-            public int MonthsSinceEpoch
-            {
-                get
-                {
-                    var (y, m) = MonthParts;
-                    return _schema.CountMonthsSinceEpoch(y, m);
-                }
-            }
 
             // Comparison w/ null always returns false, even null >= null and null <= null.
 

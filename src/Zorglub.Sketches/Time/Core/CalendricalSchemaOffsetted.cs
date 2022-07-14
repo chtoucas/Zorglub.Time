@@ -50,15 +50,15 @@ namespace Zorglub.Time.Core
         /// <inheritdoc />
         public Range<int> SupportedYears => _schema.SupportedYears;
 
-        private Range<int>? _domain;
-        /// <inheritdoc />
-        public Range<int> SupportedDays =>
-            _domain ??= new Range<int>(SupportedYears.Endpoints.Select(GetStartOfYear, GetEndOfYear));
-
-        private Range<int>? _monthDomain;
+        private Range<int>? _supportedMonths;
         /// <inheritdoc />
         public Range<int> SupportedMonths =>
-            _monthDomain ??= new Range<int>(SupportedYears.Endpoints.Select(GetStartOfYearInMonths, GetEndOfYearInMonths));
+            _supportedMonths ??= new Range<int>(SupportedYears.Endpoints.Select(GetStartOfYearInMonths, GetEndOfYearInMonths));
+
+        private Range<int>? _supportedDays;
+        /// <inheritdoc />
+        public Range<int> SupportedDays =>
+            _supportedDays ??= new Range<int>(SupportedYears.Endpoints.Select(GetStartOfYear, GetEndOfYear));
 
         /// <inheritdoc />
         [Pure] public bool IsRegular(out int monthsInYear) => _schema.IsRegular(out monthsInYear);

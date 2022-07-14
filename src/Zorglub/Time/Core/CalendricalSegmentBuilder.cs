@@ -127,102 +127,38 @@ namespace Zorglub.Time.Core
         /// <summary>
         /// Sets the start of the segment to the specified number of consecutive days from the epoch.
         /// </summary>
-        public void SetMinDaysSinceEpoch(int daysSinceEpoch)
-        {
-            if (SupportedDays.Contains(daysSinceEpoch) == false)
-            {
-                Throw.ArgumentOutOfRange(nameof(daysSinceEpoch));
-            }
-
-            Start = new Endpoint(_schema)
-            {
-                DaysSinceEpoch = daysSinceEpoch,
-                DateParts = _partsAdapter.GetDateParts(daysSinceEpoch),
-                OrdinalParts = _partsAdapter.GetOrdinalParts(daysSinceEpoch),
-            };
-        }
+        public void SetMinDaysSinceEpoch(int daysSinceEpoch) =>
+            Start = GetEndpoint(daysSinceEpoch);
 
         /// <summary>
         /// Sets the end of the segment to the specified number of consecutive days from the epoch.
         /// </summary>
-        public void SetMaxDaysSinceEpoch(int daysSinceEpoch)
-        {
-            if (SupportedDays.Contains(daysSinceEpoch) == false)
-            {
-                Throw.ArgumentOutOfRange(nameof(daysSinceEpoch));
-            }
-
-            End = new Endpoint(_schema)
-            {
-                DaysSinceEpoch = daysSinceEpoch,
-                DateParts = _partsAdapter.GetDateParts(daysSinceEpoch),
-                OrdinalParts = _partsAdapter.GetOrdinalParts(daysSinceEpoch),
-            };
-        }
+        public void SetMaxDaysSinceEpoch(int daysSinceEpoch) =>
+            End = GetEndpoint(daysSinceEpoch);
 
         /// <summary>
         /// Sets the start of the segment to the specified date.
         /// </summary>
-        public void SetMinDate(int year, int month, int day)
-        {
-            if (SupportedYears.Contains(year) == false) Throw.YearOutOfRange(year);
-            PreValidator.ValidateMonthDay(year, month, day);
-
-            Start = new Endpoint(_schema)
-            {
-                DaysSinceEpoch = _schema.CountDaysSinceEpoch(year, month, day),
-                DateParts = new DateParts(year, month, day),
-                OrdinalParts = _partsAdapter.GetOrdinalParts(year, month, day),
-            };
-        }
+        public void SetMinDate(int year, int month, int day) =>
+            Start = GetEndpoint(year, month, day);
 
         /// <summary>
         /// Sets the end of the segment to the specified date.
         /// </summary>
-        public void SetMaxDate(int year, int month, int day)
-        {
-            if (SupportedYears.Contains(year) == false) Throw.YearOutOfRange(year);
-            PreValidator.ValidateMonthDay(year, month, day);
-
-            End = new Endpoint(_schema)
-            {
-                DaysSinceEpoch = _schema.CountDaysSinceEpoch(year, month, day),
-                DateParts = new DateParts(year, month, day),
-                OrdinalParts = _partsAdapter.GetOrdinalParts(year, month, day),
-            };
-        }
+        public void SetMaxDate(int year, int month, int day) =>
+            End = GetEndpoint(year, month, day);
 
         /// <summary>
         /// Sets the start of the segment to the specified ordinal date.
         /// </summary>
-        public void SetMinOrdinal(int year, int dayOfYear)
-        {
-            if (SupportedYears.Contains(year) == false) Throw.YearOutOfRange(year);
-            PreValidator.ValidateDayOfYear(year, dayOfYear);
-
-            Start = new Endpoint(_schema)
-            {
-                DaysSinceEpoch = _schema.CountDaysSinceEpoch(year, dayOfYear),
-                DateParts = _partsAdapter.GetDateParts(year, dayOfYear),
-                OrdinalParts = new OrdinalParts(year, dayOfYear),
-            };
-        }
+        public void SetMinOrdinal(int year, int dayOfYear) =>
+            Start = GetEndpoint(year, dayOfYear);
 
         /// <summary>
         /// Sets the end of the segment to the specified ordinal date.
         /// </summary>
-        public void SetMaxOrdinal(int year, int dayOfYear)
-        {
-            if (SupportedYears.Contains(year) == false) Throw.YearOutOfRange(year);
-            PreValidator.ValidateDayOfYear(year, dayOfYear);
-
-            End = new Endpoint(_schema)
-            {
-                DaysSinceEpoch = _schema.CountDaysSinceEpoch(year, dayOfYear),
-                DateParts = _partsAdapter.GetDateParts(year, dayOfYear),
-                OrdinalParts = new OrdinalParts(year, dayOfYear),
-            };
-        }
+        public void SetMaxOrdinal(int year, int dayOfYear) =>
+            End = GetEndpoint(year, dayOfYear);
 
         /// <summary>
         /// Sets the start of the segment to the start of the specified year.
@@ -231,10 +167,13 @@ namespace Zorglub.Time.Core
         {
             if (SupportedYears.Contains(year) == false) Throw.YearOutOfRange(year);
 
-            Start = new Endpoint(_schema)
+            var parts = DateParts.AtStartOfYear(year);
+
+            Start = new Endpoint
             {
+                MonthsSinceEpoch = _schema.CountMonthsSinceEpoch(parts.Year, parts.Month),
                 DaysSinceEpoch = _schema.GetStartOfYear(year),
-                DateParts = DateParts.AtStartOfYear(year),
+                DateParts = parts,
                 OrdinalParts = OrdinalParts.AtStartOfYear(year),
             };
         }
@@ -246,10 +185,13 @@ namespace Zorglub.Time.Core
         {
             if (SupportedYears.Contains(year) == false) Throw.YearOutOfRange(year);
 
-            End = new Endpoint(_schema)
+            var parts = _partsAdapter.GetDatePartsAtEndOfYear(year);
+
+            End = new Endpoint
             {
+                MonthsSinceEpoch = _schema.CountMonthsSinceEpoch(parts.Year, parts.Month),
                 DaysSinceEpoch = _schema.GetEndOfYear(year),
-                DateParts = _partsAdapter.GetDatePartsAtEndOfYear(year),
+                DateParts = parts,
                 OrdinalParts = _partsAdapter.GetOrdinalPartsAtEndOfYear(year),
             };
         }
@@ -277,6 +219,61 @@ namespace Zorglub.Time.Core
         {
             SetMinYear(supportedYears.Min);
             SetMaxYear(supportedYears.Max);
+        }
+
+        //
+        // Helpers
+        //
+
+        [Pure]
+        private Endpoint GetEndpoint(int daysSinceEpoch)
+        {
+            if (SupportedDays.Contains(daysSinceEpoch) == false)
+            {
+                Throw.ArgumentOutOfRange(nameof(daysSinceEpoch));
+            }
+
+            var parts = _partsAdapter.GetDateParts(daysSinceEpoch);
+
+            return new Endpoint
+            {
+                MonthsSinceEpoch = _schema.CountMonthsSinceEpoch(parts.Year, parts.Month),
+                DaysSinceEpoch = daysSinceEpoch,
+                DateParts = parts,
+                OrdinalParts = _partsAdapter.GetOrdinalParts(daysSinceEpoch),
+            };
+        }
+
+        [Pure]
+        private Endpoint GetEndpoint(int year, int month, int day)
+        {
+            if (SupportedYears.Contains(year) == false) Throw.YearOutOfRange(year);
+            PreValidator.ValidateMonthDay(year, month, day);
+
+            return new Endpoint
+            {
+                MonthsSinceEpoch = _schema.CountMonthsSinceEpoch(year, month),
+                DaysSinceEpoch = _schema.CountDaysSinceEpoch(year, month, day),
+                DateParts = new DateParts(year, month, day),
+                OrdinalParts = _partsAdapter.GetOrdinalParts(year, month, day),
+            };
+        }
+
+        [Pure]
+        private Endpoint GetEndpoint(int year, int dayOfYear)
+        {
+            if (SupportedYears.Contains(year) == false) Throw.YearOutOfRange(year);
+            PreValidator.ValidateDayOfYear(year, dayOfYear);
+
+            var parts = _partsAdapter.GetDateParts(year, dayOfYear);
+
+            return new Endpoint
+            {
+                MonthsSinceEpoch = _schema.CountMonthsSinceEpoch(year, parts.Month),
+                DaysSinceEpoch = _schema.CountDaysSinceEpoch(year, dayOfYear),
+                DateParts = parts,
+                OrdinalParts = new OrdinalParts(year, dayOfYear),
+            };
         }
     }
 }
