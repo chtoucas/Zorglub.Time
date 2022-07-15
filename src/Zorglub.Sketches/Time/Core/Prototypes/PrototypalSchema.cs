@@ -8,6 +8,7 @@ namespace Zorglub.Time.Core.Prototypes
     // REVIEW(perf): improve perf using hardware intrinsics. Does it even make
     // sense?
     // https://devblogs.microsoft.com/dotnet/hardware-intrinsics-in-net-core/
+    // https://github.com/dotnet/runtime/blob/6f13196cb096ef7c855fe1254214d25c578ad57e/src/libraries/System.Private.CoreLib/src/System/Math.cs#L175
 
     #region Developer Notes
 
