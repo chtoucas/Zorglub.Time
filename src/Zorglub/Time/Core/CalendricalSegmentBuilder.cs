@@ -79,7 +79,10 @@ namespace Zorglub.Time.Core
             get => _min ?? Throw.InvalidOperation<Endpoint>();
             set
             {
-                if (value > _max) Throw.ArgumentOutOfRange(nameof(value));
+                if (Endpoint.IsGreaterThan(value, _max))
+                {
+                    Throw.ArgumentOutOfRange(nameof(value));
+                }
                 _min = value;
             }
         }
@@ -93,7 +96,10 @@ namespace Zorglub.Time.Core
             get => _max ?? Throw.InvalidOperation<Endpoint>();
             set
             {
-                if (value < _min) Throw.ArgumentOutOfRange(nameof(value));
+                if (Endpoint.IsGreaterThan(_min, value))
+                {
+                    Throw.ArgumentOutOfRange(nameof(value));
+                }
                 _max = value;
             }
         }
@@ -113,18 +119,24 @@ namespace Zorglub.Time.Core
             var min = FixEndpoint(Min);
             var max = FixEndpoint(Max);
 
-            bool complete =
-                min.OrdinalParts == OrdinalParts.AtStartOfYear(min.Year)
-                && max.OrdinalParts == _partsAdapter.GetOrdinalPartsAtEndOfYear(max.Year);
+            bool complete = IsStartOfYear(min) && IsEndOfYear(max);
 
             return new CalendricalSegment(_schema, min, max) { IsComplete = complete };
 
             [Pure]
-            Endpoint FixEndpoint(Endpoint endpoint)
+            bool IsStartOfYear(Endpoint ep) =>
+                ep.OrdinalParts == OrdinalParts.AtStartOfYear(ep.Year);
+
+            [Pure]
+            bool IsEndOfYear(Endpoint ep) =>
+                ep.OrdinalParts == _partsAdapter.GetOrdinalPartsAtEndOfYear(ep.Year);
+
+            [Pure]
+            Endpoint FixEndpoint(Endpoint ep)
             {
-                var (y, m) = endpoint.MonthParts;
-                endpoint.MonthsSinceEpoch = _schema.CountMonthsSinceEpoch(y, m);
-                return endpoint;
+                var (y, m) = ep.MonthParts;
+                ep.MonthsSinceEpoch = _schema.CountMonthsSinceEpoch(y, m);
+                return ep;
             }
         }
     }

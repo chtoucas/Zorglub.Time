@@ -12,8 +12,6 @@ namespace Zorglub.Time.Core
     /// </summary>
     public sealed class CalendricalSegment : ISchemaBound
     {
-        // No public ctor, see CalendricalSegmentBuilder.
-
         /// <summary>
         /// Represents the underlying schema.
         /// <para>This field is read-only.</para>
@@ -26,9 +24,6 @@ namespace Zorglub.Time.Core
         /// </summary>
         internal CalendricalSegment(ICalendricalSchema schema, Endpoint min, Endpoint max)
         {
-            Debug.Assert(schema != null);
-            Debug.Assert(min <= max);
-
             _schema = schema;
 
             SupportedDays = new SupportedDays(min.DaysSinceEpoch, max.DaysSinceEpoch);
@@ -172,23 +167,37 @@ namespace Zorglub.Time.Core
             public MonthParts MonthParts => DateParts.MonthParts;
             public int Year => DateParts.Year;
 
-            // Comparison w/ null always returns false, even null >= null and null <= null.
+            /// <summary>
+            /// <c>left &gt; right</c>
+            /// <para><c>(null &gt; null)</c> evaluates to false</para>
+            /// </summary>
+            public static bool IsGreaterThan(Endpoint? left, Endpoint? right) =>
+                left is not null
+                && right is not null
+                && left.DaysSinceEpoch.CompareTo(right.DaysSinceEpoch) > 0;
 
-            public static bool operator <(Endpoint? left, Endpoint? right) =>
-                left is not null && right is not null && left.CompareTo(right) < 0;
-            public static bool operator <=(Endpoint? left, Endpoint? right) =>
-                left is not null && right is not null && left.CompareTo(right) <= 0;
-            public static bool operator >(Endpoint? left, Endpoint? right) =>
-                left is not null && right is not null && left.CompareTo(right) > 0;
-            public static bool operator >=(Endpoint? left, Endpoint? right) =>
-                left is not null && right is not null && left.CompareTo(right) >= 0;
+            // Using .NET comparison ops would have been nicer but, since this
+            // type is internal, it would have made full code coverage almost
+            // impossible to achieve.
+            //
+            // Comparison w/ null always returns false, even null >= null and
+            // null <= null.
 
-            public int CompareTo(Endpoint other)
-            {
-                Requires.NotNull(other);
+            //public static bool operator <(Endpoint? left, Endpoint? right) =>
+            //    left is not null && right is not null && left.CompareTo(right) < 0;
+            //public static bool operator <=(Endpoint? left, Endpoint? right) =>
+            //    left is not null && right is not null && left.CompareTo(right) <= 0;
+            //public static bool operator >(Endpoint? left, Endpoint? right) =>
+            //    left is not null && right is not null && left.CompareTo(right) > 0;
+            //public static bool operator >=(Endpoint? left, Endpoint? right) =>
+            //    left is not null && right is not null && left.CompareTo(right) >= 0;
 
-                return DaysSinceEpoch.CompareTo(other.DaysSinceEpoch);
-            }
+            //public int CompareTo(Endpoint other)
+            //{
+            //    Requires.NotNull(other);
+
+            //    return DaysSinceEpoch.CompareTo(other.DaysSinceEpoch);
+            //}
         }
     }
 }

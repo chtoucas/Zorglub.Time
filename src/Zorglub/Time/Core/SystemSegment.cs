@@ -7,20 +7,24 @@ namespace Zorglub.Time.Core
     using Zorglub.Time.Core.Validation;
 
     /// <summary>
-    /// Provides informations on a range of years for a given schema.
+    /// Provides informations on a range of years for a given system schema.
     /// <para>This class cannot be inherited.</para>
     /// </summary>
-    public sealed class SystemSegment
+    public sealed class SystemSegment : ISchemaBound<SystemSchema>
     {
+        /// <summary>
+        /// Represents the underlying schema.
+        /// <para>This field is read-only.</para>
+        /// </summary>
+        private readonly SystemSchema _schema;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="SystemSegment"/> class.
         /// <para>This constructor does NOT validate its parameters.</para>
         /// </summary>
         private SystemSegment(SystemSchema schema, Endpoint min, Endpoint max)
         {
-            Debug.Assert(schema != null);
-
-            Schema = schema;
+            _schema = schema;
 
             SupportedDays = new SupportedDays(min.DaysSinceEpoch, max.DaysSinceEpoch);
             MinMaxDateParts = OrderedPair.FromOrderedValues(min.DateParts, max.DateParts);
@@ -75,9 +79,11 @@ namespace Zorglub.Time.Core
         public OrderedPair<Yemo> MinMaxMonthParts { get; }
 
         /// <summary>
-        /// Gets the schema.
+        /// Gets the underlying system schema.
         /// </summary>
-        internal SystemSchema Schema { get; }
+        internal SystemSchema Schema => _schema;
+
+        SystemSchema ISchemaBound<SystemSchema>.Schema => _schema;
 
         /// <summary>
         /// Returns a culture-independent string representation of the current instance.
@@ -118,11 +124,11 @@ namespace Zorglub.Time.Core
             return new SystemSegment(schema, min, max);
 
             [Pure]
-            Endpoint FixEndpoint(Endpoint endpoint)
+            Endpoint FixEndpoint(Endpoint ep)
             {
-                endpoint.DateParts.Unpack(out int y, out int m);
-                endpoint.MonthsSinceEpoch = schema.CountMonthsSinceEpoch(y, m);
-                return endpoint;
+                ep.DateParts.Unpack(out int y, out int m);
+                ep.MonthsSinceEpoch = schema.CountMonthsSinceEpoch(y, m);
+                return ep;
             }
         }
 

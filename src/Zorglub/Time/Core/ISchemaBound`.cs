@@ -3,7 +3,7 @@
 
 namespace Zorglub.Time.Core
 {
-    // Only meant to be implemented explicitely.
+    // These interfaces are only meant to be implemented explicitely.
 
     public interface ISchemaBound
     {
@@ -11,5 +11,14 @@ namespace Zorglub.Time.Core
         /// Gets the underlying schema.
         /// </summary>
         public ICalendricalSchema Schema { get; }
+    }
+
+    public interface ISchemaBound<TSchema>
+        where TSchema : ICalendricalSchema
+    {
+        /// <summary>
+        /// Gets the underlying schema.
+        /// </summary>
+        public TSchema Schema { get; }
     }
 }
