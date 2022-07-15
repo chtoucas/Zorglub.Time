@@ -26,9 +26,8 @@ namespace Zorglub.Time.Hemerology
     public readonly partial struct ZDate :
         IDate<ZDate>,
         IYearEndpointsProvider<ZDate>,
-        IMonthEndpointsProvider<ZDate>,
+        IMonthEndpointsProvider<ZDate>
         //IAdjustableDate<ZDate>,
-        ISubtractionOperators<ZDate, int, ZDate>
     {
         /// <summary>
         /// Represents the count of days since the epoch of the calendar to which belongs the current
@@ -625,8 +624,7 @@ namespace Zorglub.Time.Hemerology
         /// <summary>
         /// Subtracts the two specified dates and returns the number of days between them.
         /// </summary>
-        public static int operator -(ZDate left, ZDate right) =>
-            left.CountDaysSince(right);
+        public static int operator -(ZDate left, ZDate right) => left.CountDaysSince(right);
 
         /// <summary>
         /// Adds a number of days to the specified date, yielding a new date.
