@@ -6,6 +6,8 @@ namespace Zorglub.Time
     using System.ComponentModel;
     using System.Globalization;
 
+    using Zorglub.Time.Core;
+
     // As with DayNumber, one can initialize an Ord as follows
     // > ord = Ord.Zeroth + i
     // where "i" is the algebraic value of the Ord, except that using "i" is
@@ -21,7 +23,7 @@ namespace Zorglub.Time
         // Arithmetic
         IAdditionOperators<Ord, int, Ord>,
         ISubtractionOperators<Ord, int, Ord>,
-        ISubtractionOperators<Ord, Ord, int>,
+        IDifferenceOperators<Ord, int>,
         IIncrementOperators<Ord>,
         IDecrementOperators<Ord>,
         IUnaryNegationOperators<Ord, Ord>,

@@ -38,7 +38,8 @@ namespace Zorglub.Time.Hemerology
         // Arithmetic
         IStandardArithmetic<TSelf>,
         IAdditionOperators<TSelf, int, TSelf>,
-        ISubtractionOperators<TSelf, TSelf, int>,
+        ISubtractionOperators<TSelf, int, TSelf>,
+        IDifferenceOperators<TSelf, int>,
         IIncrementOperators<TSelf>,
         IDecrementOperators<TSelf>
         where TSelf : IAffineDate<TSelf>

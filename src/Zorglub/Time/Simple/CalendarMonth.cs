@@ -22,7 +22,7 @@ namespace Zorglub.Time.Simple
         // Arithmetic
         IAdditionOperators<CalendarMonth, int, CalendarMonth>,
         ISubtractionOperators<CalendarMonth, int, CalendarMonth>,
-        ISubtractionOperators<CalendarMonth, CalendarMonth, int>,
+        IDifferenceOperators<CalendarMonth, int>,
         IIncrementOperators<CalendarMonth>,
         IDecrementOperators<CalendarMonth>,
         // Comparison

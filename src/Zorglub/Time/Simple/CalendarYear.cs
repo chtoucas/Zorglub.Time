@@ -36,7 +36,7 @@ namespace Zorglub.Time.Simple
         // Arithmetic
         IAdditionOperators<CalendarYear, int, CalendarYear>,
         ISubtractionOperators<CalendarYear, int, CalendarYear>,
-        ISubtractionOperators<CalendarYear, CalendarYear, int>,
+        IDifferenceOperators<CalendarYear, int>,
         IIncrementOperators<CalendarYear>,
         IDecrementOperators<CalendarYear>,
         // Comparison
