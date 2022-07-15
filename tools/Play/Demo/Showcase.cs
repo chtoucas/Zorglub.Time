@@ -43,7 +43,7 @@ public static class Showcase
         WriteLine();
         WriteLine("Gregorian-like calendars.");
         WriteLine($"    {GregorianCalendar.Instance.GetCalendarDateOn(today)}");
-        WriteLine($"    {WideCalendar.Gregorian.GetDate(today)}");
+        WriteLine($"    {ZCalendar.Gregorian.GetDate(today)}");
         WriteLine($"    {CalendarZoo.GenuineGregorian.GetDateParts(today)} ({CalendarZoo.GenuineGregorian})");
         WriteLine($"    {CalendarZoo.Minguo.GetDate(today)}");
         WriteLine($"    {CalendarZoo.Holocene.GetDate(today)}");

@@ -7,19 +7,19 @@ using Zorglub.Time.Core.Schemas;
 
 using static Zorglub.Time.Extensions.Unboxing;
 
-public static class WideCatalogTests
+public static class ZCatalogTests
 {
-    public const string GregorianKey = "Wide Gregorian";
-    public const string JulianKey = "Wide Julian";
+    public const string GregorianKey = "Zorglub Gregorian";
+    public const string JulianKey = "Zorglub Julian";
 
-    public static readonly WideCalendar Gregorian =
-        WideCatalog.Add(GregorianKey, new GregorianSchema(), DayZero.NewStyle, widest: true);
+    public static readonly ZCalendar Gregorian =
+        ZCatalog.Add(GregorianKey, new GregorianSchema(), DayZero.NewStyle, widest: true);
 
-    public static readonly WideCalendar Julian =
-        WideCatalog.Add(JulianKey, new JulianSchema(), DayZero.OldStyle, widest: true);
+    public static readonly ZCalendar Julian =
+        ZCatalog.Add(JulianKey, new JulianSchema(), DayZero.OldStyle, widest: true);
 
     // We want the two previous static fields to be initialized before anything else.
-    static WideCatalogTests() { }
+    static ZCatalogTests() { }
 
 #if false
     // Si on doit revenir en arrière, ne pas oublier de remplacer dans le projet
@@ -27,7 +27,7 @@ public static class WideCatalogTests
     // Idem avec CopticCalendar.
     //
     // Ne pas effacer. Peut-être bien qu'on devra faire qque chose de similaire
-    // pour pouvoir tester les calendriers "paresseux" de type WideCalendar.
+    // pour pouvoir tester les calendriers "paresseux" de type ZCalendar.
 
     private static readonly Calendar s_GetCalendarFirstCall;
     private static readonly Calendar s_GetCalendarSecondCall;
@@ -103,12 +103,12 @@ public static class WideCatalogTests
 
     [Fact]
     public static void CurrentKeys_DoesNotContainUnknownKey() =>
-        Assert.DoesNotContain("UnknownKey", WideCatalog.Keys);
+        Assert.DoesNotContain("UnknownKey", ZCatalog.Keys);
 
     [Theory]
     [InlineData(GregorianKey)]
     [InlineData(JulianKey)]
-    public static void CurrentKeys(string key) => Assert.Contains(key, WideCatalog.Keys);
+    public static void CurrentKeys(string key) => Assert.Contains(key, ZCatalog.Keys);
 
     #endregion
     #region Add()
@@ -116,12 +116,12 @@ public static class WideCatalogTests
     [Fact]
     public static void Add_NullKey() =>
         Assert.ThrowsAnexn("key",
-            () => WideCatalog.Add(null!, new GregorianSchema(), default, false));
+            () => ZCatalog.Add(null!, new GregorianSchema(), default, false));
 
     [Fact]
     public static void Add_KeyAlreadyExists() =>
         Assert.Throws<ArgumentException>("key",
-            () => WideCatalog.Add(GregorianKey, new GregorianSchema(), default, false));
+            () => ZCatalog.Add(GregorianKey, new GregorianSchema(), default, false));
 
     [Fact]
     public static void Add_InvalidSchema()
@@ -129,7 +129,7 @@ public static class WideCatalogTests
         string key = "key";
         // Act & Assert
         Assert.ThrowsAnexn("schema",
-            () => WideCatalog.Add(key, null!, default, false));
+            () => ZCatalog.Add(key, null!, default, false));
         OnKeyNotSet(key);
     }
 
@@ -139,7 +139,7 @@ public static class WideCatalogTests
         string key = "Add";
         var epoch = DayZero.NewStyle;
         // Act
-        var chr = WideCatalog.Add(key, new GregorianSchema(), epoch, false);
+        var chr = ZCatalog.Add(key, new GregorianSchema(), epoch, false);
         // Assert
         OnKeySet(key, epoch, chr);
     }
@@ -151,7 +151,7 @@ public static class WideCatalogTests
         var epoch = DayZero.NewStyle;
         // Act
         var chr = (from x in GregorianSchema.GetInstance()
-                   select WideCatalog.Add(key, x, epoch, false)
+                   select ZCatalog.Add(key, x, epoch, false)
                    ).Unbox();
         // Assert
         OnKeySet(key, epoch, chr);
@@ -163,7 +163,7 @@ public static class WideCatalogTests
     [Fact]
     public static void TryAdd_NullKey() =>
         Assert.ThrowsAnexn("key",
-            () => WideCatalog.TryAdd(
+            () => ZCatalog.TryAdd(
                 null!, new GregorianSchema(), default, false, out _));
 
     [Fact]
@@ -171,12 +171,12 @@ public static class WideCatalogTests
     {
         // Act
         // NB: on utilise volontairement une epoch et un schéma différents.
-        bool created = WideCatalog.TryAdd(
+        bool created = ZCatalog.TryAdd(
             GregorianKey,
             new JulianSchema(),
             DayZero.OldStyle,
             false,
-            out WideCalendar? calendar);
+            out ZCalendar? calendar);
         // Assert
         Assert.False(created);
         //Assert.Same(Gregorian, calendar);
@@ -189,7 +189,7 @@ public static class WideCatalogTests
         string key = "key";
         // Act & Assert
         Assert.ThrowsAnexn("schema",
-            () => WideCatalog.TryAdd(key, null!, default, false, out _));
+            () => ZCatalog.TryAdd(key, null!, default, false, out _));
         OnKeyNotSet(key);
     }
 
@@ -199,8 +199,8 @@ public static class WideCatalogTests
         string key = "TryAdd";
         var epoch = DayZero.NewStyle;
         // Act
-        bool created = WideCatalog.TryAdd(
-            key, new GregorianSchema(), epoch, false, out WideCalendar? calendar);
+        bool created = ZCatalog.TryAdd(
+            key, new GregorianSchema(), epoch, false, out ZCalendar? calendar);
         // Assert
         Assert.True(created);
         OnKeySet(key, epoch, calendar);
@@ -212,8 +212,8 @@ public static class WideCatalogTests
         string key = String.Empty;
         var epoch = DayZero.NewStyle;
         // Act
-        bool created = WideCatalog.TryAdd(
-            key, new GregorianSchema(), epoch, false, out WideCalendar? calendar);
+        bool created = ZCatalog.TryAdd(
+            key, new GregorianSchema(), epoch, false, out ZCalendar? calendar);
         // Assert
         Assert.True(created);
         OnKeySet(key, epoch, calendar);
@@ -231,9 +231,9 @@ public static class WideCatalogTests
         Assert.True(created);
         OnKeySet(key, epoch, calendar);
 
-        WideCalendar? TryAdd(GregorianSchema x)
+        ZCalendar? TryAdd(GregorianSchema x)
         {
-            created = WideCatalog.TryAdd(key, x, epoch, false, out var chr);
+            created = ZCatalog.TryAdd(key, x, epoch, false, out var chr);
 
             return chr;
         }
@@ -244,13 +244,13 @@ public static class WideCatalogTests
 
     [Fact]
     public static void GetCalendar_InvalidKey() =>
-        Assert.Throws<KeyNotFoundException>(() => WideCatalog.GetCalendar("UnknownKey"));
+        Assert.Throws<KeyNotFoundException>(() => ZCatalog.GetCalendar("UnknownKey"));
 
     [Fact]
     public static void GetCalendar()
     {
-        Assert.Same(Gregorian, WideCatalog.GetCalendar(GregorianKey));
-        Assert.Same(Julian, WideCatalog.GetCalendar(JulianKey));
+        Assert.Same(Gregorian, ZCatalog.GetCalendar(GregorianKey));
+        Assert.Same(Julian, ZCatalog.GetCalendar(JulianKey));
     }
 
     #endregion
@@ -258,33 +258,33 @@ public static class WideCatalogTests
 
     [Fact]
     public static void GetCalendarUnchecked_InvalidId() =>
-        Assert.Null(WideCatalog.GetCalendarUnchecked(Byte.MaxValue));
+        Assert.Null(ZCatalog.GetCalendarUnchecked(Byte.MaxValue));
 
     [Fact]
     public static void GetCalendarUnchecked_Zero() =>
-        Assert.Equal(WideCalendar.Gregorian, WideCatalog.GetCalendarUnchecked(0));
+        Assert.Equal(ZCalendar.Gregorian, ZCatalog.GetCalendarUnchecked(0));
 
     [Fact]
     public static void GetCalendarUnchecked()
     {
-        Assert.Same(Gregorian, WideCatalog.GetCalendarUnchecked(Gregorian.Id));
-        Assert.Same(Julian, WideCatalog.GetCalendarUnchecked(Julian.Id));
+        Assert.Same(Gregorian, ZCatalog.GetCalendarUnchecked(Gregorian.Id));
+        Assert.Same(Julian, ZCatalog.GetCalendarUnchecked(Julian.Id));
     }
 
     #endregion
 
     private static void OnKeyNotSet(string key)
     {
-        Assert.DoesNotContain(key, WideCatalog.Keys);
-        Assert.Throws<KeyNotFoundException>(() => WideCatalog.GetCalendar(key));
+        Assert.DoesNotContain(key, ZCatalog.Keys);
+        Assert.Throws<KeyNotFoundException>(() => ZCatalog.GetCalendar(key));
     }
 
-    private static void OnKeySet(string key, DayNumber epoch, WideCalendar? calendar)
+    private static void OnKeySet(string key, DayNumber epoch, ZCalendar? calendar)
     {
         Assert.NotNull(calendar);
         Assert.Equal(key, calendar!.Key);
         Assert.Equal(epoch, calendar.Epoch);
-        Assert.Contains(key, WideCatalog.Keys);
-        Assert.Same(calendar, WideCatalog.GetCalendar(key));
+        Assert.Contains(key, ZCatalog.Keys);
+        Assert.Same(calendar, ZCatalog.GetCalendar(key));
     }
 }

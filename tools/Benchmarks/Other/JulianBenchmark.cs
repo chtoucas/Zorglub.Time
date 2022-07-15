@@ -20,7 +20,7 @@ Intel Core i7-4500U CPU 1.80GHz (Haswell), 1 CPU, 4 logical and 2 physical cores
 |-------------------- |----------:|---------:|---------:|------:|--------:|-----:|
 |    'DayNumber     ' |  38.76 ns | 0.199 ns | 0.176 ns |  1.00 |    0.00 |    I |
 |  'CalendarDay     ' |  67.72 ns | 0.341 ns | 0.319 ns |  1.75 |    0.01 |   II |
-|     'WideDate  (Y)' |  75.50 ns | 0.357 ns | 0.316 ns |  1.95 |    0.01 |  III |
+|        'ZDate  (Y)' |  75.50 ns | 0.357 ns | 0.316 ns |  1.95 |    0.01 |  III |
 |  'OrdinalDate  (O)' |  79.31 ns | 0.232 ns | 0.194 ns |  2.05 |    0.01 |   IV |
 |     'DateTime *   ' |  81.03 ns | 0.165 ns | 0.129 ns |  2.09 |    0.01 |    V |
 | 'CalendarDate  (Y)' |  97.09 ns | 0.370 ns | 0.328 ns |  2.50 |    0.01 |   VI |
@@ -38,7 +38,7 @@ Intel Core2 Duo CPU E8500 3.16GHz, 1 CPU, 2 logical and 2 physical cores
 |  'CalendarDay     ' |  74.53 ns | 0.067 ns | 0.056 ns |  1.45 |    0.00 |   II |
 |  'OrdinalDate  (O)' | 104.87 ns | 0.065 ns | 0.057 ns |  2.03 |    0.00 |  III |
 | 'CalendarDate  (Y)' | 128.73 ns | 1.702 ns | 1.592 ns |  2.50 |    0.03 |   IV |
-|     'WideDate  (Y)' | 144.60 ns | 0.207 ns | 0.183 ns |  2.80 |    0.00 |    V |
+|        'ZDate  (Y)' | 144.60 ns | 0.207 ns | 0.183 ns |  2.80 |    0.00 |    V |
 |     'DateTime *   ' | 146.93 ns | 0.171 ns | 0.151 ns |  2.85 |    0.00 |   VI |
 |    'LocalDate *(Y)' | 161.88 ns | 0.096 ns | 0.090 ns |  3.14 |    0.00 |  VII |
  */
@@ -123,11 +123,11 @@ public class JulianBenchmark : BenchmarkBase
         Consume(in dayOfYear);
     }
 
-    [Benchmark(Description = "WideDate  (Y)")]
-    public void WithWideDate()
+    [Benchmark(Description = "ZDate  (Y)")]
+    public void WithZDate()
     {
-        WideDate start = WideCalendar.Julian.GetDate(Year, Month, Day);
-        WideDate end = start.NextDay().PlusDays(D7).PlusDays(D30).PlusDays(D401);
+        ZDate start = ZCalendar.Julian.GetDate(Year, Month, Day);
+        ZDate end = start.NextDay().PlusDays(D7).PlusDays(D30).PlusDays(D401);
 
         var (y, m, d) = end;
         DayOfWeek dayOfWeek = end.DayOfWeek;

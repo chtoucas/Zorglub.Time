@@ -9,7 +9,7 @@ namespace Zorglub.Time.Hemerology
 
     // TODO(code): ordinal ctor, serialization, adjustments, non-standard arithmetic.
 
-    // WideDate is modeled after CalendarDay, not CalendarDate.
+    // ZDate is modeled after CalendarDay, not CalendarDate.
     // - faster standard arithmetic
     // - no need for a custom arithmetic object which requires Yemoda & co
     // - faster adjustment of the day of the week
@@ -20,15 +20,15 @@ namespace Zorglub.Time.Hemerology
     // - non-standard arithmetic
 
     /// <summary>
-    /// Represents a date within a calendar system of type <see cref="WideCalendar"/>.
-    /// <para><see cref="WideDate"/> is an immutable struct.</para>
+    /// Represents a date within a calendar system of type <see cref="ZCalendar"/>.
+    /// <para><see cref="ZDate"/> is an immutable struct.</para>
     /// </summary>
-    public readonly partial struct WideDate :
-        IDate<WideDate>,
-        IYearEndpointsProvider<WideDate>,
-        IMonthEndpointsProvider<WideDate>,
-        //IAdjustableDate<WideDate>,
-        ISubtractionOperators<WideDate, int, WideDate>
+    public readonly partial struct ZDate :
+        IDate<ZDate>,
+        IYearEndpointsProvider<ZDate>,
+        IMonthEndpointsProvider<ZDate>,
+        //IAdjustableDate<ZDate>,
+        ISubtractionOperators<ZDate, int, ZDate>
     {
         /// <summary>
         /// Represents the count of days since the epoch of the calendar to which belongs the current
@@ -44,50 +44,50 @@ namespace Zorglub.Time.Hemerology
         private readonly int _cuid; // 4 bytes
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="WideDate"/> struct to the specified day
+        /// Initializes a new instance of the <see cref="ZDate"/> struct to the specified day
         /// number in the Gregorian calendar.
         /// <para>To create an instance for another calendar, see
-        /// <see cref="WideCalendar.GetDate(DayNumber)"/>.</para>
+        /// <see cref="ZCalendar.GetDate(DayNumber)"/>.</para>
         /// </summary>
         /// <exception cref="AoorException"><paramref name="dayNumber"/> is outside the range of
         /// values supported by the Gregorian calendar.</exception>
-        public WideDate(DayNumber dayNumber)
+        public ZDate(DayNumber dayNumber)
         {
-            WideCalendar.Gregorian.Domain.Validate(dayNumber);
+            ZCalendar.Gregorian.Domain.Validate(dayNumber);
 
             _daysSinceEpoch = dayNumber - DayZero.NewStyle;
             _cuid = (int)CalendarId.Gregorian;
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="WideDate"/> struct to the specified date
+        /// Initializes a new instance of the <see cref="ZDate"/> struct to the specified date
         /// parts in the Gregorian calendar.
         /// </summary>
-        public WideDate(int year, int month, int day)
+        public ZDate(int year, int month, int day)
         {
-            WideCalendar.ValidateGregorianParts(year, month, day);
+            ZCalendar.ValidateGregorianParts(year, month, day);
 
             _daysSinceEpoch = GregorianFormulae.CountDaysSinceEpoch(year, month, day);
             _cuid = (int)CalendarId.Gregorian;
         }
 
         ///// <summary>
-        ///// Initializes a new instance of the <see cref="WideDate"/> struct to the specified
+        ///// Initializes a new instance of the <see cref="ZDate"/> struct to the specified
         ///// ordinal date parts in the Gregorian calendar.
         ///// </summary>
-        //public WideDate(int year, int dayOfYear)
+        //public ZDate(int year, int dayOfYear)
         //{
-        //    WideCalendar.ValidateGregorianOrdinalParts(year, dayOfYear);
+        //    ZCalendar.ValidateGregorianOrdinalParts(year, dayOfYear);
 
         //    _daysSinceEpoch = GregorianFormulae.GetStartOfYear(year) + dayOfYear - 1;
         //    _cuid = (int)CalendarId.Gregorian;
         //}
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="WideDate"/> struct.
+        /// Initializes a new instance of the <see cref="ZDate"/> struct.
         /// <para>This constructor does NOT validate its parameters.</para>
         /// </summary>
-        internal WideDate(int daysSinceEpoch, int cuid)
+        internal ZDate(int daysSinceEpoch, int cuid)
         {
             _daysSinceEpoch = daysSinceEpoch;
             _cuid = cuid;
@@ -194,7 +194,7 @@ namespace Zorglub.Time.Hemerology
         /// <para>Performance tip: cache this property locally if used repeatedly within a code
         /// block.</para>
         /// </remarks>
-        public WideCalendar Calendar => WideCatalog.GetCalendarUnchecked(_cuid);
+        public ZCalendar Calendar => ZCatalog.GetCalendarUnchecked(_cuid);
 
         /// <summary>
         /// Gets the internal ID of the calendar to which belongs the current instance.
@@ -222,7 +222,7 @@ namespace Zorglub.Time.Hemerology
         }
     }
 
-    public partial struct WideDate // Conversions, adjustments...
+    public partial struct ZDate // Conversions, adjustments...
     {
         #region Binary serialization
         // TODO: peut faire mieux, en particulier pour vérifier qu'il s'agit
@@ -236,13 +236,13 @@ namespace Zorglub.Time.Hemerology
         ///// <exception cref="AoorException">The matching calendar is not a system calendar.
         ///// </exception>
         //[Pure]
-        //public static WideDate FromBinary(long data)
+        //public static ZDate FromBinary(long data)
         //{
         //    var bin = Yemoda.FromBinary(data, out uint extraData);
         //    bin.Deconstruct(out int y, out int m, out int d);
         //    if (extraData > Byte.MaxValue) Throw.ArgumentOutOfRange(nameof(data));
         //    var id = (CalendarId)extraData;
-        //    return WideCatalog.GetSystemCalendar(id).GetDate(y, m, d);
+        //    return ZCatalog.GetSystemCalendar(id).GetDate(y, m, d);
         //}
 
         ///// <summary>
@@ -264,14 +264,14 @@ namespace Zorglub.Time.Hemerology
         /// time, not UTC.
         /// </summary>
         [Pure]
-        public static WideDate Today() => new(DayNumber.Today());
+        public static ZDate Today() => new(DayNumber.Today());
 
         #endregion
         #region Conversions
 
         /// <inheritdoc />
         [Pure]
-        static WideDate IFixedDay<WideDate>.FromDayNumber(DayNumber dayNumber) => new(dayNumber);
+        static ZDate IFixedDay<ZDate>.FromDayNumber(DayNumber dayNumber) => new(dayNumber);
 
         /// <inheritdoc />
         [Pure]
@@ -290,7 +290,7 @@ namespace Zorglub.Time.Hemerology
         /// <exception cref="AoorException">The specified date cannot be converted into the new
         /// calendar, the resulting date would be outside its range of years.</exception>
         [Pure]
-        public WideDate WithCalendar(WideCalendar newCalendar)
+        public ZDate WithCalendar(ZCalendar newCalendar)
         {
             Requires.NotNull(newCalendar);
 
@@ -351,7 +351,7 @@ namespace Zorglub.Time.Hemerology
 
         /// <inheritdoc />
         [Pure]
-        public static WideDate GetStartOfYear(WideDate day)
+        public static ZDate GetStartOfYear(ZDate day)
         {
             var chr = day.Calendar;
             var sch = chr.Schema;
@@ -362,7 +362,7 @@ namespace Zorglub.Time.Hemerology
 
         /// <inheritdoc />
         [Pure]
-        public static WideDate GetEndOfYear(WideDate day)
+        public static ZDate GetEndOfYear(ZDate day)
         {
             var chr = day.Calendar;
             var sch = chr.Schema;
@@ -373,7 +373,7 @@ namespace Zorglub.Time.Hemerology
 
         /// <inheritdoc />
         [Pure]
-        public static WideDate GetStartOfMonth(WideDate day)
+        public static ZDate GetStartOfMonth(ZDate day)
         {
             var chr = day.Calendar;
             var sch = chr.Schema;
@@ -384,7 +384,7 @@ namespace Zorglub.Time.Hemerology
 
         /// <inheritdoc />
         [Pure]
-        public static WideDate GetEndOfMonth(WideDate day)
+        public static ZDate GetEndOfMonth(ZDate day)
         {
             var chr = day.Calendar;
             var sch = chr.Schema;
@@ -402,52 +402,52 @@ namespace Zorglub.Time.Hemerology
         /// <exception cref="AoorException"><paramref name="newDayNumber"/> is outside the range of
         /// supported values.</exception>
         [Pure]
-        public WideDate WithDayNumber(DayNumber newDayNumber)
+        public ZDate WithDayNumber(DayNumber newDayNumber)
         {
             var chr = Calendar;
             chr.Domain.Validate(newDayNumber);
-            return new WideDate(newDayNumber - chr.Epoch, Cuid);
+            return new ZDate(newDayNumber - chr.Epoch, Cuid);
         }
 
         ///// <inheritdoc/>
         //[Pure]
-        //public WideDate Adjust(Func<DateParts, DateParts> adjuster)
+        //public ZDate Adjust(Func<DateParts, DateParts> adjuster)
         //{
         //    Requires.NotNull(adjuster);
 
         //    var chr = Calendar;
         //    var ymd = adjuster.Invoke(new DateParts(Parts)).ToYemoda(chr.Scope);
-        //    return new WideDate(ymd, Cuid);
+        //    return new ZDate(ymd, Cuid);
         //}
 
         ///// <inheritdoc/>
         //[Pure]
-        //public WideDate WithYear(int newYear)
+        //public ZDate WithYear(int newYear)
         //{
         //    _bin.Unpack(out _, out int m, out int d);
         //    var chr = Calendar;
         //    chr.Scope.ValidateYearMonthDay(newYear, m, d, nameof(newYear));
-        //    return new WideDate(newYear, m, d, Cuid);
+        //    return new ZDate(newYear, m, d, Cuid);
         //}
 
         ///// <inheritdoc/>
         //[Pure]
-        //public WideDate WithMonth(int newMonth)
+        //public ZDate WithMonth(int newMonth)
         //{
         //    _bin.Unpack(out int y, out _, out int d);
         //    var chr = Calendar;
         //    chr.PreValidator.ValidateMonthDay(y, newMonth, d, nameof(newMonth));
-        //    return new WideDate(y, newMonth, d, Cuid);
+        //    return new ZDate(y, newMonth, d, Cuid);
         //}
 
         ///// <inheritdoc/>
         //[Pure]
-        //public WideDate WithDay(int newDay)
+        //public ZDate WithDay(int newDay)
         //{
         //    _bin.Unpack(out int y, out int m);
         //    var chr = Calendar;
         //    chr.ValidateDayOfMonth(y, m, newDay, nameof(newDay));
-        //    return new WideDate(y, m, newDay, Cuid);
+        //    return new ZDate(y, m, newDay, Cuid);
         //}
 
         //
@@ -456,7 +456,7 @@ namespace Zorglub.Time.Hemerology
 
         /// <inheritdoc />
         [Pure]
-        public WideDate Previous(DayOfWeek dayOfWeek)
+        public ZDate Previous(DayOfWeek dayOfWeek)
         {
             Requires.Defined(dayOfWeek);
 
@@ -466,7 +466,7 @@ namespace Zorglub.Time.Hemerology
 
         /// <inheritdoc />
         [Pure]
-        public WideDate PreviousOrSame(DayOfWeek dayOfWeek)
+        public ZDate PreviousOrSame(DayOfWeek dayOfWeek)
         {
             Requires.Defined(dayOfWeek);
 
@@ -476,7 +476,7 @@ namespace Zorglub.Time.Hemerology
 
         /// <inheritdoc />
         [Pure]
-        public WideDate Nearest(DayOfWeek dayOfWeek)
+        public ZDate Nearest(DayOfWeek dayOfWeek)
         {
             var chr = Calendar;
             var epoch = chr.Epoch;
@@ -488,7 +488,7 @@ namespace Zorglub.Time.Hemerology
 
         /// <inheritdoc />
         [Pure]
-        public WideDate NextOrSame(DayOfWeek dayOfWeek)
+        public ZDate NextOrSame(DayOfWeek dayOfWeek)
         {
             Requires.Defined(dayOfWeek);
 
@@ -498,7 +498,7 @@ namespace Zorglub.Time.Hemerology
 
         /// <inheritdoc />
         [Pure]
-        public WideDate Next(DayOfWeek dayOfWeek)
+        public ZDate Next(DayOfWeek dayOfWeek)
         {
             Requires.Defined(dayOfWeek);
 
@@ -509,70 +509,70 @@ namespace Zorglub.Time.Hemerology
         #endregion
     }
 
-    public partial struct WideDate // IEquatable
+    public partial struct ZDate // IEquatable
     {
         /// <summary>
-        /// Determines whether two specified instances of <see cref="WideDate"/> are equal.
+        /// Determines whether two specified instances of <see cref="ZDate"/> are equal.
         /// </summary>
-        public static bool operator ==(WideDate left, WideDate right) =>
+        public static bool operator ==(ZDate left, ZDate right) =>
             left._daysSinceEpoch == right._daysSinceEpoch && left._cuid == right._cuid;
 
         /// <summary>
-        /// Determines whether two specified instances of <see cref="WideDate"/> are not equal.
+        /// Determines whether two specified instances of <see cref="ZDate"/> are not equal.
         /// </summary>
-        public static bool operator !=(WideDate left, WideDate right) => !(left == right);
+        public static bool operator !=(ZDate left, ZDate right) => !(left == right);
 
         /// <inheritdoc />
         [Pure]
-        public bool Equals(WideDate other) => this == other;
+        public bool Equals(ZDate other) => this == other;
 
         /// <inheritdoc />
         [Pure]
         public override bool Equals([NotNullWhen(true)] object? obj) =>
-            obj is WideDate date && this == date;
+            obj is ZDate date && this == date;
 
         /// <inheritdoc />
         [Pure]
         public override int GetHashCode() => HashCode.Combine(_daysSinceEpoch, _cuid);
     }
 
-    public partial struct WideDate // IComparable
+    public partial struct ZDate // IComparable
     {
         /// <summary>
         /// Compares the two specified instances to see if the left one is strictly earlier than the
         /// right one.
         /// </summary>
-        public static bool operator <(WideDate left, WideDate right) => left.CompareTo(right) < 0;
+        public static bool operator <(ZDate left, ZDate right) => left.CompareTo(right) < 0;
 
         /// <summary>
         /// Compares the two specified instances to see if the left one is earlier than or equal to
         /// the right one.
         /// </summary>
-        public static bool operator <=(WideDate left, WideDate right) => left.CompareTo(right) <= 0;
+        public static bool operator <=(ZDate left, ZDate right) => left.CompareTo(right) <= 0;
 
         /// <summary>
         /// Compares the two specified instances to see if the left one is strictly later than the
         /// right one.
         /// </summary>
-        public static bool operator >(WideDate left, WideDate right) => left.CompareTo(right) > 0;
+        public static bool operator >(ZDate left, ZDate right) => left.CompareTo(right) > 0;
 
         /// <summary>
         /// Compares the two specified instances to see if the left one is later than or equal to
         /// the right one.
         /// </summary>
-        public static bool operator >=(WideDate left, WideDate right) => left.CompareTo(right) >= 0;
+        public static bool operator >=(ZDate left, ZDate right) => left.CompareTo(right) >= 0;
 
         /// <summary>
         /// Obtains the earlier date of two specified dates.
         /// </summary>
         [Pure]
-        public static WideDate Min(WideDate x, WideDate y) => x.CompareTo(y) < 0 ? x : y;
+        public static ZDate Min(ZDate x, ZDate y) => x.CompareTo(y) < 0 ? x : y;
 
         /// <summary>
         /// Obtains the later date of two specified dates.
         /// </summary>
         [Pure]
-        public static WideDate Max(WideDate x, WideDate y) => x.CompareTo(y) > 0 ? x : y;
+        public static ZDate Max(ZDate x, ZDate y) => x.CompareTo(y) > 0 ? x : y;
 
         /// <summary>
         /// Indicates whether this instance is earlier, later or the same as the specified one.
@@ -580,7 +580,7 @@ namespace Zorglub.Time.Hemerology
         /// <exception cref="ArgumentException"><paramref name="other"/> does not belong to the
         /// calendar of the current instance.</exception>
         [Pure]
-        public int CompareTo(WideDate other)
+        public int CompareTo(ZDate other)
         {
             if (other._cuid != _cuid) Throw.BadCuid(nameof(other), _cuid, other._cuid);
 
@@ -592,7 +592,7 @@ namespace Zorglub.Time.Hemerology
         /// <para>This method does NOT validate its parameter.</para>
         /// </summary>
         [Pure]
-        internal int CompareFast(WideDate other)
+        internal int CompareFast(ZDate other)
         {
             Debug.Assert(other._cuid == _cuid);
 
@@ -603,11 +603,11 @@ namespace Zorglub.Time.Hemerology
         [Pure]
         public int CompareTo(object? obj) =>
             obj is null ? 1
-            : obj is WideDate date ? CompareTo(date)
-            : Throw.NonComparable(typeof(WideDate), obj);
+            : obj is ZDate date ? CompareTo(date)
+            : Throw.NonComparable(typeof(ZDate), obj);
     }
 
-    public partial struct WideDate // Math ops
+    public partial struct ZDate // Math ops
     {
 #pragma warning disable CA2225 // Operator overloads have named alternates (Usage)
         // Friendly alternates do exist but use domain-specific names.
@@ -615,34 +615,34 @@ namespace Zorglub.Time.Hemerology
         /// <summary>
         /// Subtracts the two specified dates and returns the number of days between them.
         /// </summary>
-        public static int operator -(WideDate left, WideDate right) =>
+        public static int operator -(ZDate left, ZDate right) =>
             left.CountDaysSince(right);
 
         /// <summary>
         /// Adds a number of days to the specified date, yielding a new date.
         /// </summary>
-        public static WideDate operator +(WideDate value, int days) => value.PlusDays(days);
+        public static ZDate operator +(ZDate value, int days) => value.PlusDays(days);
 
         /// <summary>
         /// Subtracts a number of days to the specified date, yielding a new date.
         /// </summary>
-        public static WideDate operator -(WideDate value, int days) => value.PlusDays(-days);
+        public static ZDate operator -(ZDate value, int days) => value.PlusDays(-days);
 
         /// <summary>
         /// Adds one day to the specified date, yielding a new date.
         /// </summary>
-        public static WideDate operator ++(WideDate value) => value.NextDay();
+        public static ZDate operator ++(ZDate value) => value.NextDay();
 
         /// <summary>
         /// Subtracts one day to the specified date, yielding a new date.
         /// </summary>
-        public static WideDate operator --(WideDate value) => value.PreviousDay();
+        public static ZDate operator --(ZDate value) => value.PreviousDay();
 
 #pragma warning restore CA2225
 
         /// <inheritdoc />
         [Pure]
-        public int CountDaysSince(WideDate other)
+        public int CountDaysSince(ZDate other)
         {
             if (other._cuid != _cuid) Throw.BadCuid(nameof(other), _cuid, other._cuid);
 
@@ -651,32 +651,32 @@ namespace Zorglub.Time.Hemerology
 
         /// <inheritdoc />
         [Pure]
-        public WideDate PlusDays(int days)
+        public ZDate PlusDays(int days)
         {
             var daysSinceEpoch = checked(_daysSinceEpoch + days);
             var chr = Calendar;
             chr.Domain.CheckOverflow(chr.Epoch + daysSinceEpoch);
-            return new WideDate(daysSinceEpoch, Cuid);
+            return new ZDate(daysSinceEpoch, Cuid);
         }
 
         /// <inheritdoc />
         [Pure]
-        public WideDate NextDay()
+        public ZDate NextDay()
         {
             int daysSinceEpoch = _daysSinceEpoch + 1;
             var chr = Calendar;
             chr.Domain.CheckUpperBound(chr.Epoch + daysSinceEpoch);
-            return new WideDate(daysSinceEpoch, Cuid);
+            return new ZDate(daysSinceEpoch, Cuid);
         }
 
         /// <inheritdoc />
         [Pure]
-        public WideDate PreviousDay()
+        public ZDate PreviousDay()
         {
             int daysSinceEpoch = _daysSinceEpoch - 1;
             var chr = Calendar;
             chr.Domain.CheckLowerBound(chr.Epoch + daysSinceEpoch);
-            return new WideDate(daysSinceEpoch, Cuid);
+            return new ZDate(daysSinceEpoch, Cuid);
         }
     }
 }

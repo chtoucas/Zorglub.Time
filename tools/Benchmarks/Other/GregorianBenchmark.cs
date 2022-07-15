@@ -28,7 +28,7 @@ Intel Core i7-4500U CPU 1.80GHz (Haswell), 1 CPU, 4 logical and 2 physical cores
 |          'DateOnly *    ' |  52.96 ns | 0.197 ns | 0.184 ns |  1.30 |    0.01 |    V |
 |       'DayTemplate      ' |  58.84 ns | 0.229 ns | 0.203 ns |  1.44 |    0.01 |   VI |
 |       'CalendarDay      ' |  59.55 ns | 0.182 ns | 0.161 ns |  1.46 |    0.01 |   VI |
-|          'WideDate      ' |  63.53 ns | 0.284 ns | 0.252 ns |  1.56 |    0.01 |  VII |
+|             'ZDate      ' |  63.53 ns | 0.284 ns | 0.252 ns |  1.56 |    0.01 |  VII |
 |         'CivilDate  (Yg)' |  64.30 ns | 0.283 ns | 0.250 ns |  1.58 |    0.01 |  VII |
 | 'DayNumber (Naked)      ' |  70.76 ns | 0.419 ns | 0.391 ns |  1.74 |    0.01 | VIII |
 |       'OrdinalDate  (O) ' |  76.91 ns | 0.651 ns | 0.577 ns |  1.89 |    0.01 |   IX |
@@ -52,7 +52,7 @@ Intel Core2 Duo CPU E8500 3.16GHz, 1 CPU, 2 logical and 2 physical cores
 |         'DayNumber      ' |  67.26 ns | 0.045 ns | 0.040 ns |  1.31 |    0.00 |   IV |
 |       'DayTemplate      ' |  74.10 ns | 0.100 ns | 0.093 ns |  1.44 |    0.00 |    V |
 |       'CalendarDay      ' |  88.28 ns | 0.124 ns | 0.116 ns |  1.72 |    0.00 |   VI |
-|          'WideDate      ' |  90.75 ns | 0.472 ns | 0.442 ns |  1.77 |    0.01 |  VII |
+|             'ZDate      ' |  90.75 ns | 0.472 ns | 0.442 ns |  1.77 |    0.01 |  VII |
 |         'CivilDate  (Yg)' |  91.23 ns | 0.053 ns | 0.047 ns |  1.78 |    0.00 |  VII |
 | 'DayNumber (Naked)      ' |  91.79 ns | 0.124 ns | 0.116 ns |  1.79 |    0.00 |  VII |
 |   'GregorianTriple  (Y) ' |  97.14 ns | 0.154 ns | 0.144 ns |  1.89 |    0.00 | VIII |
@@ -141,11 +141,11 @@ public class GregorianBenchmark : BenchmarkBase
         Consume(in dayOfYear);
     }
 
-    [Benchmark(Description = "WideDate      ")]
-    public void WithWideDate()
+    [Benchmark(Description = "ZDate      ")]
+    public void WithZDate()
     {
-        WideDate start = new(Year, Month, Day);
-        WideDate end = start.NextDay().PlusDays(D7).PlusDays(D30).PlusDays(D401);
+        ZDate start = new(Year, Month, Day);
+        ZDate end = start.NextDay().PlusDays(D7).PlusDays(D30).PlusDays(D401);
 
         var (y, m, d) = end;
         DayOfWeek dayOfWeek = end.DayOfWeek;

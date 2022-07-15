@@ -101,9 +101,9 @@ public partial class CalendarZoo
              ).Unbox();
 }
 
-// Proleptic calendars of type Calendar or WideCalendar.
+// Proleptic calendars of type Calendar or ZCalendar.
 // - Tropicalia
-// - LongGregorian, see WideCalendar.Gregorian
+// - LongGregorian, see ZCalendar.Gregorian
 // - LongJulian
 // Lazy initialization using Interlocked.CompareExchange(), but we must be
 // careful when we create the calendar; see comments below.
@@ -156,16 +156,16 @@ public partial class CalendarZoo
     /// Gets the (long) proleptic Julian calendar.
     /// <para>This static property is thread-safe.</para>
     /// </summary>
-    public static WideCalendar LongJulian => s_LongJulian ??= InitLongJulian();
+    public static ZCalendar LongJulian => s_LongJulian ??= InitLongJulian();
 
-    private static volatile WideCalendar? s_LongJulian;
+    private static volatile ZCalendar? s_LongJulian;
     [Pure]
-    private static WideCalendar InitLongJulian()
+    private static ZCalendar InitLongJulian()
     {
         const string Key = "Long Julian";
 
         var sch = JulianSchema.GetInstance().Unbox();
-        var created = WideCatalog.TryAdd(
+        var created = ZCatalog.TryAdd(
             Key,
             sch,
             DayZero.OldStyle,
@@ -174,7 +174,7 @@ public partial class CalendarZoo
 
         if (created == false)
         {
-            return s_LongJulian ?? WideCatalog.GetCalendar(Key);
+            return s_LongJulian ?? ZCatalog.GetCalendar(Key);
         }
 
         Debug.Assert(chr != null);
@@ -293,7 +293,7 @@ public partial class CalendarZoo
     }
 }
 
-// Offset calendars of type WideCalendar.
+// Offset calendars of type ZCalendar.
 // - Holocene
 // - Minguo
 // - ThaiSolar
@@ -308,16 +308,16 @@ public partial class CalendarZoo
     /// The Holocene calendar differs from the Gregorian calendar only in
     /// the way years are numbered.
     /// </remarks>
-    public static WideCalendar Holocene => s_Holocene ??= InitHolocene();
+    public static ZCalendar Holocene => s_Holocene ??= InitHolocene();
 
-    private static volatile WideCalendar? s_Holocene;
+    private static volatile ZCalendar? s_Holocene;
     [Pure]
-    private static WideCalendar InitHolocene()
+    private static ZCalendar InitHolocene()
     {
         const string Key = "Holocene";
 
         var sch = CreateOffsettedGregorian(10_000);
-        var created = WideCatalog.TryAdd(
+        var created = ZCatalog.TryAdd(
             Key,
             sch,
             DayZero.NewStyle,
@@ -326,7 +326,7 @@ public partial class CalendarZoo
 
         if (created == false)
         {
-            return s_Holocene ?? WideCatalog.GetCalendar(Key);
+            return s_Holocene ?? ZCatalog.GetCalendar(Key);
         }
 
         Debug.Assert(chr != null);
@@ -342,16 +342,16 @@ public partial class CalendarZoo
     /// The Minguo calendar differs from the Gregorian calendar only in
     /// the way years are numbered.
     /// </remarks>
-    public static WideCalendar Minguo => s_Minguo ??= InitMinguo();
+    public static ZCalendar Minguo => s_Minguo ??= InitMinguo();
 
-    private static volatile WideCalendar? s_Minguo;
+    private static volatile ZCalendar? s_Minguo;
     [Pure]
-    private static WideCalendar InitMinguo()
+    private static ZCalendar InitMinguo()
     {
         const string Key = "Minguo";
 
         var sch = CreateOffsettedGregorian(-1911);
-        var created = WideCatalog.TryAdd(
+        var created = ZCatalog.TryAdd(
             Key,
             sch,
             DayZero.NewStyle,
@@ -360,7 +360,7 @@ public partial class CalendarZoo
 
         if (created == false)
         {
-            return s_Holocene ?? WideCatalog.GetCalendar(Key);
+            return s_Holocene ?? ZCatalog.GetCalendar(Key);
         }
 
         Debug.Assert(chr != null);
@@ -376,16 +376,16 @@ public partial class CalendarZoo
     /// The Minguo calendar differs from the Gregorian calendar only in
     /// the way years are numbered.
     /// </remarks>
-    public static WideCalendar ThaiSolar => s_ThaiSolar ??= InitThaiSolar();
+    public static ZCalendar ThaiSolar => s_ThaiSolar ??= InitThaiSolar();
 
-    private static volatile WideCalendar? s_ThaiSolar;
+    private static volatile ZCalendar? s_ThaiSolar;
     [Pure]
-    private static WideCalendar InitThaiSolar()
+    private static ZCalendar InitThaiSolar()
     {
         const string Key = "Thai Solar";
 
         var sch = CreateOffsettedGregorian(543);
-        var created = WideCatalog.TryAdd(
+        var created = ZCatalog.TryAdd(
             Key,
             sch,
             DayZero.NewStyle,
@@ -394,7 +394,7 @@ public partial class CalendarZoo
 
         if (created == false)
         {
-            return s_ThaiSolar ?? WideCatalog.GetCalendar(Key);
+            return s_ThaiSolar ?? ZCatalog.GetCalendar(Key);
         }
 
         Debug.Assert(chr != null);
@@ -409,18 +409,18 @@ public partial class CalendarZoo
     }
 }
 
-// Other calendars of type WideCalendar.
+// Other calendars of type ZCalendar.
 // - Pax (disabled)
 public partial class CalendarZoo
 {
 #if false // TODO(code): unfinished Pax schema. When finished, make the code thread-safe...
-    private static volatile WideCalendar? s_Pax;
+    private static volatile ZCalendar? s_Pax;
     /// <summary>
     /// Gets the Pax calendar.
     /// <para>This static property is thread-safe.</para>
     /// </summary>
-    public static WideCalendar Pax =>
-        s_Pax ??= WideCatalog.Add(
+    public static ZCalendar Pax =>
+        s_Pax ??= ZCatalog.Add(
             "Pax",
             new PaxSchema(),
             CalendarEpoch.SundayBeforeGregorian,

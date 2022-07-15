@@ -6,19 +6,19 @@ namespace Zorglub.Time.Hemerology;
 using Zorglub.Testing.Data.Unbounded;
 using Zorglub.Time.Simple;
 
-public sealed partial class WideCalendarTests :
-    ICalendarTFacts<WideDate, WideCalendar, UnboundedGregorianDataSet>
+public sealed partial class ZCalendarTests :
+    ICalendarTFacts<ZDate, ZCalendar, UnboundedGregorianDataSet>
 {
-    public WideCalendarTests() : this(WideCalendar.Gregorian) { }
+    public ZCalendarTests() : this(ZCalendar.Gregorian) { }
 
-    private WideCalendarTests(WideCalendar calendar) : base(calendar) { }
+    private ZCalendarTests(ZCalendar calendar) : base(calendar) { }
 
-    protected override WideDate GetDate(int y, int m, int d) => CalendarUT.GetDate(y, m, d);
-    protected override WideDate GetDate(int y, int doy) => CalendarUT.GetDate(y, doy);
-    protected override WideDate GetDate(DayNumber dayNumber) => CalendarUT.GetDate(dayNumber);
+    protected override ZDate GetDate(int y, int m, int d) => CalendarUT.GetDate(y, m, d);
+    protected override ZDate GetDate(int y, int doy) => CalendarUT.GetDate(y, doy);
+    protected override ZDate GetDate(DayNumber dayNumber) => CalendarUT.GetDate(dayNumber);
 }
 
-public partial class WideCalendarTests // Properties
+public partial class ZCalendarTests // Properties
 {
     [Fact]
     public void Key() =>
@@ -53,7 +53,7 @@ public partial class WideCalendarTests // Properties
     }
 }
 
-public partial class WideCalendarTests // Validation
+public partial class ZCalendarTests // Validation
 {
     [Fact]
     public void ValidateYearMonthDay_InvalidYear()
@@ -95,7 +95,7 @@ public partial class WideCalendarTests // Validation
     //}
 }
 
-public partial class WideCalendarTests // Conversions
+public partial class ZCalendarTests // Conversions
 {
     [Fact]
     public void CreationFromOrdinalDate_InvalidYear() =>

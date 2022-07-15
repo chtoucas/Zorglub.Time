@@ -19,7 +19,7 @@ namespace Zorglub.Time.Hemerology
 
     #region Developer Notes
 
-    // Comparison between Calendar and WideCalendar.
+    // Comparison between Calendar and ZCalendar.
     //
     // Calendar pros:
     // - Custom types for ordinal dates, calendar days, months and years.
@@ -28,11 +28,11 @@ namespace Zorglub.Time.Hemerology
     // - Custom methods specific to a calendar.
     // - Calendar has fixed boundaries (Min/MaxYear are constants) which,
     //   performance-wise, can help.
-    // - A Calendar has a permanent ID whereas a WideCalendar has a transient ID.
+    // - A Calendar has a permanent ID whereas a ZCalendar has a transient ID.
     // - Simple binary serialization.
     // - CalendarCatalog.GetSystemCalendar() uses a fast array lookup.
-    // WideCalendar pros:
-    // - WideCalendar accepts any type of schema.
+    // ZCalendar pros:
+    // - ZCalendar accepts any type of schema.
     // Common features:
     // - Set of pre-defined calendars.
 
@@ -41,14 +41,14 @@ namespace Zorglub.Time.Hemerology
     /// <summary>
     /// Represents a wide calendar.
     /// </summary>
-    public partial class WideCalendar : ICalendar<WideDate>
+    public partial class ZCalendar : ICalendar<ZDate>
     {
         /// <summary>
-        /// Initializes a new instance of <see cref="WideCalendar"/> class.
+        /// Initializes a new instance of <see cref="ZCalendar"/> class.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
         /// <exception cref="ArgumentNullException"><paramref name="key"/> is null.</exception>
-        internal WideCalendar(
+        internal ZCalendar(
             int id,
             string key,
             ICalendricalSchema schema,
@@ -69,7 +69,7 @@ namespace Zorglub.Time.Hemerology
             Domain = scope.Domain;
             SupportedYears = scope.Segment.SupportedYears;
 
-            MinMaxDate = from dayNumber in scope.Domain.Endpoints select new WideDate(dayNumber - Epoch, id);
+            MinMaxDate = from dayNumber in scope.Domain.Endpoints select new ZDate(dayNumber - Epoch, id);
         }
 
         #region System calendars
@@ -78,43 +78,43 @@ namespace Zorglub.Time.Hemerology
         /// Gets the proleptic Gregorian calendar.
         /// <para>This static property is thread-safe.</para>
         /// </summary>
-        public static WideCalendar Gregorian => WideCatalog.Gregorian;
+        public static ZCalendar Gregorian => ZCatalog.Gregorian;
 
         /// <summary>
         /// Gets the proleptic Julian calendar.
         /// <para>This static property is thread-safe.</para>
         /// </summary>
-        public static WideCalendar Julian => WideJulianCalendar.Instance;
+        public static ZCalendar Julian => JulianZCalendar.Instance;
 
         /// <summary>
         /// Gets the Armenian calendar.
         /// <para>This static property is thread-safe.</para>
         /// </summary>
-        public static WideCalendar Armenian => WideArmenianCalendar.Instance;
+        public static ZCalendar Armenian => ArmenianZCalendar.Instance;
 
         /// <summary>
         /// Gets the Coptic calendar.
         /// <para>This static property is thread-safe.</para>
         /// </summary>
-        public static WideCalendar Coptic => WideCopticCalendar.Instance;
+        public static ZCalendar Coptic => CopticZCalendar.Instance;
 
         /// <summary>
         /// Gets the Ethiopic calendar.
         /// <para>This static property is thread-safe.</para>
         /// </summary>
-        public static WideCalendar Ethiopic => WideEthiopicCalendar.Instance;
+        public static ZCalendar Ethiopic => EthiopicZCalendar.Instance;
 
         /// <summary>
         /// Gets the Tabular Islamic calendar.
         /// <para>This static property is thread-safe.</para>
         /// </summary>
-        public static WideCalendar TabularIslamic => WideTabularIslamicCalendar.Instance;
+        public static ZCalendar TabularIslamic => TabularIslamicZCalendar.Instance;
 
         /// <summary>
         /// Gets the Zoroastrian calendar.
         /// <para>This static property is thread-safe.</para>
         /// </summary>
-        public static WideCalendar Zoroastrian => WideZoroastrianCalendar.Instance;
+        public static ZCalendar Zoroastrian => ZoroastrianZCalendar.Instance;
 
         #endregion
 
@@ -130,9 +130,9 @@ namespace Zorglub.Time.Hemerology
         public bool IsUserDefined { get; }
 
         /// <summary>
-        /// Gets the pair of earliest and latest supported <see cref="WideDate"/>.
+        /// Gets the pair of earliest and latest supported <see cref="ZDate"/>.
         /// </summary>
-        public OrderedPair<WideDate> MinMaxDate { get; }
+        public OrderedPair<ZDate> MinMaxDate { get; }
 
         /// <inheritdoc />
         public DayNumber Epoch { get; }
@@ -178,7 +178,7 @@ namespace Zorglub.Time.Hemerology
         public bool IsRegular(out int monthsInYear) => Schema.IsRegular(out monthsInYear);
     }
 
-    public partial class WideCalendar // Year, month or day infos
+    public partial class ZCalendar // Year, month or day infos
     {
 #pragma warning disable CA1725 // Parameter names should match base declaration (Naming)
 
@@ -255,31 +255,31 @@ namespace Zorglub.Time.Hemerology
 #pragma warning restore CA1725 // Parameter names should match base declaration
     }
 
-    public partial class WideCalendar // Factories, conversions
+    public partial class ZCalendar // Factories, conversions
     {
         /// <summary>
-        /// Creates a new instance of the <see cref="WideDate"/> struct.
+        /// Creates a new instance of the <see cref="ZDate"/> struct.
         /// </summary>
         /// <exception cref="AoorException"><paramref name="dayNumber"/> is outside the range of
         /// values supported by this calendar.</exception>
         [Pure]
-        public WideDate GetDate(DayNumber dayNumber)
+        public ZDate GetDate(DayNumber dayNumber)
         {
             Domain.Validate(dayNumber);
-            return new WideDate(dayNumber - Epoch, Id);
+            return new ZDate(dayNumber - Epoch, Id);
         }
 
         /// <summary>
-        /// Creates a new instance of the <see cref="WideDate"/> struct.
+        /// Creates a new instance of the <see cref="ZDate"/> struct.
         /// </summary>
         /// <exception cref="AoorException">The date is either invalid or outside the range of
         /// supported dates.</exception>
         [Pure]
-        public WideDate GetDate(int year, int month, int day)
+        public ZDate GetDate(int year, int month, int day)
         {
             Scope.ValidateYearMonthDay(year, month, day);
             int daysSinceEpoch = Schema.CountDaysSinceEpoch(year, month, day);
-            return new WideDate(daysSinceEpoch, Id);
+            return new ZDate(daysSinceEpoch, Id);
         }
 
         /// <summary>
@@ -288,16 +288,16 @@ namespace Zorglub.Time.Hemerology
         /// <exception cref="AoorException">The ordinal date is either invalid or outside the range
         /// of supported dates.</exception>
         [Pure]
-        public WideDate GetDate(int year, int dayOfYear)
+        public ZDate GetDate(int year, int dayOfYear)
         {
             Scope.ValidateOrdinal(year, dayOfYear);
             int daysSinceEpoch = Schema.CountDaysSinceEpoch(year, dayOfYear);
-            return new WideDate(daysSinceEpoch, Id);
+            return new ZDate(daysSinceEpoch, Id);
         }
 
         /// <inheritdoc />
         [Pure]
-        public WideDate Today() => GetDate(DayNumber.Today());
+        public ZDate Today() => GetDate(DayNumber.Today());
 
         /// <inheritdoc />
         [Pure]
@@ -316,18 +316,18 @@ namespace Zorglub.Time.Hemerology
         }
     }
 
-    public partial class WideCalendar // Dates in a given year or month
+    public partial class ZCalendar // Dates in a given year or month
     {
         /// <inheritdoc />
         [Pure]
-        public IEnumerable<WideDate> GetDaysInYear(int year)
+        public IEnumerable<ZDate> GetDaysInYear(int year)
         {
             // Check arg eagerly.
             SupportedYears.Validate(year);
 
             return Iterator();
 
-            IEnumerable<WideDate> Iterator()
+            IEnumerable<ZDate> Iterator()
             {
                 int cuid = Id;
                 var sch = Schema;
@@ -336,20 +336,20 @@ namespace Zorglub.Time.Hemerology
 
                 return from daysSinceEpoch
                        in Enumerable.Range(startOfYear, daysInYear)
-                       select new WideDate(daysSinceEpoch, cuid);
+                       select new ZDate(daysSinceEpoch, cuid);
             }
         }
 
         /// <inheritdoc />
         [Pure]
-        public IEnumerable<WideDate> GetDaysInMonth(int year, int month)
+        public IEnumerable<ZDate> GetDaysInMonth(int year, int month)
         {
             // Check arg eagerly.
             Scope.ValidateYearMonth(year, month);
 
             return Iterator();
 
-            IEnumerable<WideDate> Iterator()
+            IEnumerable<ZDate> Iterator()
             {
                 var cuid = Id;
                 var sch = Schema;
@@ -358,48 +358,48 @@ namespace Zorglub.Time.Hemerology
 
                 return from daysSinceEpoch
                        in Enumerable.Range(startOfMonth, daysInMonth)
-                       select new WideDate(daysSinceEpoch, cuid);
+                       select new ZDate(daysSinceEpoch, cuid);
             }
         }
 
         /// <inheritdoc />
         [Pure]
-        public WideDate GetStartOfYear(int year)
+        public ZDate GetStartOfYear(int year)
         {
             SupportedYears.Validate(year);
             int daysSinceEpoch = Schema.GetStartOfYear(year);
-            return new WideDate(daysSinceEpoch, Id);
+            return new ZDate(daysSinceEpoch, Id);
         }
 
         /// <inheritdoc />
         [Pure]
-        public WideDate GetEndOfYear(int year)
+        public ZDate GetEndOfYear(int year)
         {
             SupportedYears.Validate(year);
             int daysSinceEpoch = Schema.GetEndOfYear(year);
-            return new WideDate(daysSinceEpoch, Id);
+            return new ZDate(daysSinceEpoch, Id);
         }
 
         /// <inheritdoc />
         [Pure]
-        public WideDate GetStartOfMonth(int year, int month)
+        public ZDate GetStartOfMonth(int year, int month)
         {
             Scope.ValidateYearMonth(year, month);
             int daysSinceEpoch = Schema.GetStartOfMonth(year, month);
-            return new WideDate(daysSinceEpoch, Id);
+            return new ZDate(daysSinceEpoch, Id);
         }
 
         /// <inheritdoc />
         [Pure]
-        public WideDate GetEndOfMonth(int year, int month)
+        public ZDate GetEndOfMonth(int year, int month)
         {
             Scope.ValidateYearMonth(year, month);
             int daysSinceEpoch = Schema.GetEndOfMonth(year, month);
-            return new WideDate(daysSinceEpoch, Id);
+            return new ZDate(daysSinceEpoch, Id);
         }
     }
 
-    public partial class WideCalendar // Internal helpers
+    public partial class ZCalendar // Internal helpers
     {
         /// <summary>
         /// Validates the specified Gregorian date.

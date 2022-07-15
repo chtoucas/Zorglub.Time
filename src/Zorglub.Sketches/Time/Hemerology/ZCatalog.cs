@@ -12,14 +12,14 @@ namespace Zorglub.Time.Hemerology
     using Zorglub.Time.Core;
     using Zorglub.Time.Simple;
 
-    // TODO(code): to be rewritten. WideDate._cuid is now a full int, MaxId?
+    // TODO(code): to be rewritten. ZDate._cuid is now a full int, MaxId?
 
     /// <summary>
     /// Provides static methods to initialize a calendar or lookup an already
     /// initialized calendar.
     /// <para>This class cannot be inherited.</para>
     /// </summary>
-    public static partial class WideCatalog
+    public static partial class ZCatalog
     {
         /// <summary>
         /// Represents the maximun value for the ident of a calendar.
@@ -38,7 +38,7 @@ namespace Zorglub.Time.Hemerology
 
         /// <summary>This field is initially set to 127.</summary>
         // IDs système : 0 à 63. On garantit la compatibilité avec Calendar en
-        // réservant aussi les IDs 64 à 127; voir ToWideCalendar() et
+        // réservant aussi les IDs 64 à 127; voir ToZCalendar() et
         // ToSimpleCalendar().
         private static int s_LastIdent = MinUserId - 1;
 
@@ -47,17 +47,17 @@ namespace Zorglub.Time.Hemerology
         /// their internal IDs.
         /// <para>This field is read-only.</para>
         /// </summary>
-        private static readonly WideCalendar?[] s_CalendarsById = new WideCalendar?[MaxId + 1];
+        private static readonly ZCalendar?[] s_CalendarsById = new ZCalendar?[MaxId + 1];
 
         /// <summary>
         /// Represents the proleptic Gregorian calendar.
         /// <para>This field is read-only.</para>
         /// </summary>
-        internal static readonly WideCalendar Gregorian =
+        internal static readonly ZCalendar Gregorian =
             // IMPORTANT: this property MUST stay after s_CalendarsById, indeed
             // InitSystemCalendar() uses it.
             //
-            // To ensure that default(WideDate) works properly, we must have a
+            // To ensure that default(ZDate) works properly, we must have a
             // calendar with ID equal to 0. This way date.Calendar does not throw
             // even if no calendar has been initialized by the user, it just
             // defaults to Gregorian.
@@ -67,7 +67,7 @@ namespace Zorglub.Time.Hemerology
         /// Represents the dictionary of (lazy) calendars, indexed by their keys.
         /// <para>This field is read-only.</para>
         /// </summary>
-        private static readonly ConcurrentDictionary<string, Lazy<WideCalendar>> s_CalendarsByKey =
+        private static readonly ConcurrentDictionary<string, Lazy<ZCalendar>> s_CalendarsByKey =
             InitCalendarsByKey();
 
         internal static ICollection<string> Keys => s_CalendarsByKey.Keys;
@@ -83,13 +83,13 @@ namespace Zorglub.Time.Hemerology
         /// automatically done when we initialize the dictionary.</para>
         /// </summary>
         [Pure]
-        internal static WideCalendar InitSystemCalendar(Calendar calendar)
+        internal static ZCalendar InitSystemCalendar(Calendar calendar)
         {
             Debug.Assert(!calendar.IsUserDefined);
 
             int id = (int)calendar.PermanentId;
             var key = calendar.Key;
-            var chr = new WideCalendar(
+            var chr = new ZCalendar(
                 id,
                 key,
                 calendar.Schema,
@@ -101,42 +101,42 @@ namespace Zorglub.Time.Hemerology
             return s_CalendarsById[id] = chr;
         }
 
-        private static ConcurrentDictionary<string, Lazy<WideCalendar>> InitCalendarsByKey()
+        private static ConcurrentDictionary<string, Lazy<ZCalendar>> InitCalendarsByKey()
         {
             // First prime number >= max count of calendars (256).
             const int Capacity = 257;
             Debug.Assert(Capacity >= MaxId + 1);
 
-            return new ConcurrentDictionary<string, Lazy<WideCalendar>>(
+            return new ConcurrentDictionary<string, Lazy<ZCalendar>>(
                 concurrencyLevel: Environment.ProcessorCount,
                 Capacity)
             {
                 // Except in the Gregorian case, all calendars are lazily initialized.
                 // Ensures that all system keys are taken.
                 [Gregorian.Key] = new(Gregorian),
-                [WideJulianCalendar.Key] = new(() => WideJulianCalendar.Instance),
-                [WideArmenianCalendar.Key] = new(() => WideArmenianCalendar.Instance),
-                [WideCopticCalendar.Key] = new(() => WideCopticCalendar.Instance),
-                [WideEthiopicCalendar.Key] = new(() => WideEthiopicCalendar.Instance),
-                [WideTabularIslamicCalendar.Key] = new(() => WideTabularIslamicCalendar.Instance),
-                [WideZoroastrianCalendar.Key] = new(() => WideZoroastrianCalendar.Instance),
+                [JulianZCalendar.Key] = new(() => JulianZCalendar.Instance),
+                [ArmenianZCalendar.Key] = new(() => ArmenianZCalendar.Instance),
+                [CopticZCalendar.Key] = new(() => CopticZCalendar.Instance),
+                [EthiopicZCalendar.Key] = new(() => EthiopicZCalendar.Instance),
+                [TabularIslamicZCalendar.Key] = new(() => TabularIslamicZCalendar.Instance),
+                [ZoroastrianZCalendar.Key] = new(() => ZoroastrianZCalendar.Instance),
             };
         }
 
         #endregion
     }
 
-    public partial class WideCatalog // Snapshots
+    public partial class ZCatalog // Snapshots
     {
         // FIXME: lazy calendars.
 
         // We ignore lazy calendars not yet initialized.
-        public static IEnumerable<WideCalendar> GetCurrentCalendars() =>
+        public static IEnumerable<ZCalendar> GetCurrentCalendars() =>
             from chr in s_CalendarsById where chr is not null select chr;
 
         // If "all" is false, we filter out (system) calendars that have not yet
         // been initialized.
-        public static IReadOnlyDictionary<string, WideCalendar> TakeSnapshot(bool all = false)
+        public static IReadOnlyDictionary<string, ZCalendar> TakeSnapshot(bool all = false)
         {
             var arr = s_CalendarsByKey.ToArray();
 
@@ -145,15 +145,15 @@ namespace Zorglub.Time.Hemerology
                     let chr = p.Value.Value
                     where chr is not TmpCalendar
                     select KeyValuePair.Create(p.Key, chr);
-            var dict = new Dictionary<string, WideCalendar>(q);
+            var dict = new Dictionary<string, ZCalendar>(q);
 
-            return new ReadOnlyDictionary<string, WideCalendar>(dict);
+            return new ReadOnlyDictionary<string, ZCalendar>(dict);
         }
     }
 
-    public partial class WideCatalog // WideCalendar <-> Calendar
+    public partial class ZCatalog // ZCalendar <-> Calendar
     {
-        public static Calendar ToCalendar(this WideCalendar @this)
+        public static Calendar ToCalendar(this ZCalendar @this)
         {
             Requires.NotNull(@this);
             if (@this.Id > CalendarCatalog.MaxId)
@@ -161,13 +161,13 @@ namespace Zorglub.Time.Hemerology
                 Throw.Argument(nameof(@this));
             }
 
-            // NB: un WideCalendar ayant un ID <= CalendarCatalog.MaxIdent
+            // NB: un ZCalendar ayant un ID <= CalendarCatalog.MaxIdent
             // provient obligatoirement d'un Calendar.
             return CalendarCatalog.GetCalendarUnchecked(@this.Id);
         }
 
-        // Converts a Calendar to a WideCalendar.
-        public static WideCalendar ToWideCalendar(this Calendar @this)
+        // Converts a Calendar to a ZCalendar.
+        public static ZCalendar ToZCalendar(this Calendar @this)
         {
             Requires.NotNull(@this);
 
@@ -175,13 +175,13 @@ namespace Zorglub.Time.Hemerology
                 : GetSystemCalendar(@this.PermanentId);
 
             [Pure]
-            static WideCalendar getOrAddUserCalendar(Calendar calendar)
+            static ZCalendar getOrAddUserCalendar(Calendar calendar)
             {
                 Debug.Assert(calendar.IsUserDefined);
 
                 var chr = s_CalendarsByKey.GetOrAdd(
                     calendar.Key,
-                    new Lazy<WideCalendar>(() => createUserCalendar(calendar))
+                    new Lazy<ZCalendar>(() => createUserCalendar(calendar))
                 ).Value;
 
                 // The only reliable way to verify that the result is the
@@ -196,11 +196,11 @@ namespace Zorglub.Time.Hemerology
             }
 
             [Pure]
-            static WideCalendar createUserCalendar(Calendar calendar)
+            static ZCalendar createUserCalendar(Calendar calendar)
             {
                 int cuid = (int)calendar.Id;
 
-                var chr = new WideCalendar(
+                var chr = new ZCalendar(
                     cuid,
                     calendar.Key, calendar.Schema, calendar.Epoch, calendar.IsProleptic,
                     userDefined: true);
@@ -211,25 +211,25 @@ namespace Zorglub.Time.Hemerology
         }
     }
 
-    public partial class WideCatalog // Lookup
+    public partial class ZCatalog // Lookup
     {
         [Pure]
-        public static WideCalendar GetCalendar(string key)
+        public static ZCalendar GetCalendar(string key)
         {
-            if (s_CalendarsByKey.TryGetValue(key, out Lazy<WideCalendar>? calendar))
+            if (s_CalendarsByKey.TryGetValue(key, out Lazy<ZCalendar>? calendar))
             {
                 var chr = calendar.Value;
-                return chr is TmpCalendar ? Throw.KeyNotFound<WideCalendar>(key) : chr;
+                return chr is TmpCalendar ? Throw.KeyNotFound<ZCalendar>(key) : chr;
             }
 
-            return Throw.KeyNotFound<WideCalendar>(key);
+            return Throw.KeyNotFound<ZCalendar>(key);
         }
 
         [Pure]
         public static bool TryGetCalendar(
-            string key, [NotNullWhen(true)] out WideCalendar? calendar)
+            string key, [NotNullWhen(true)] out ZCalendar? calendar)
         {
-            if (s_CalendarsByKey.TryGetValue(key, out Lazy<WideCalendar>? chr))
+            if (s_CalendarsByKey.TryGetValue(key, out Lazy<ZCalendar>? chr))
             {
                 var tmp = chr.Value;
                 if (tmp is TmpCalendar) { goto NOT_FOUND; }
@@ -242,9 +242,9 @@ namespace Zorglub.Time.Hemerology
             return false;
         }
 
-        // REVIEW: public? officially, a WideCalendar has no ID, only a key.
+        // REVIEW: public? officially, a ZCalendar has no ID, only a key.
         [Pure]
-        public static WideCalendar GetSystemCalendar(CalendarId ident)
+        public static ZCalendar GetSystemCalendar(CalendarId ident)
         {
             if (ident.IsInvalid()) Throw.ArgumentOutOfRange(nameof(ident));
 
@@ -254,15 +254,15 @@ namespace Zorglub.Time.Hemerology
 #nullable disable warnings
 
         [Pure]
-        internal static WideCalendar GetCalendarUnchecked(int cuid)
+        internal static ZCalendar GetCalendarUnchecked(int cuid)
         {
             Debug.Assert(cuid <= MaxId);
 
             // What happens if we request a "lazy" system calendar? Nothing
-            // bad hopefully. This method is only called by WideDate.Calendar,
-            // and to be constructed a WideDate requires a WideCalendar first.
+            // bad hopefully. This method is only called by ZDate.Calendar,
+            // and to be constructed a ZDate requires a ZCalendar first.
             // Of course, it will fail hard if we decide one day to add binary
-            // serialization to WideDate; nevertheless see GetSystemCalendar().
+            // serialization to ZDate; nevertheless see GetSystemCalendar().
 
             return s_CalendarsById[cuid];
         }
@@ -270,35 +270,35 @@ namespace Zorglub.Time.Hemerology
         [Pure]
         // CIL code size = 18 bytes <= 32 bytes.
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static ref readonly WideCalendar GetCalendarUnsafe(int cuid)
+        internal static ref readonly ZCalendar GetCalendarUnsafe(int cuid)
         {
             Debug.Assert(cuid < s_CalendarsById.Length);
 
-            ref WideCalendar chr = ref MemoryMarshal.GetArrayDataReference(s_CalendarsById);
+            ref ZCalendar chr = ref MemoryMarshal.GetArrayDataReference(s_CalendarsById);
             return ref Unsafe.Add(ref chr, (nint)(uint)cuid);
         }
 
 #nullable restore warnings
 
         [Pure]
-        internal static WideCalendar GetSystemCalendarUncached(CalendarId id) =>
+        internal static ZCalendar GetSystemCalendarUncached(CalendarId id) =>
             id switch
             {
                 CalendarId.Gregorian => Gregorian,
-                CalendarId.Julian => WideJulianCalendar.Instance,
-                CalendarId.Armenian => WideArmenianCalendar.Instance,
-                CalendarId.Coptic => WideCopticCalendar.Instance,
-                CalendarId.Ethiopic => WideEthiopicCalendar.Instance,
-                CalendarId.TabularIslamic => WideTabularIslamicCalendar.Instance,
-                CalendarId.Zoroastrian => WideZoroastrianCalendar.Instance,
-                _ => Throw.InvalidOperation<WideCalendar>(),
+                CalendarId.Julian => JulianZCalendar.Instance,
+                CalendarId.Armenian => ArmenianZCalendar.Instance,
+                CalendarId.Coptic => CopticZCalendar.Instance,
+                CalendarId.Ethiopic => EthiopicZCalendar.Instance,
+                CalendarId.TabularIslamic => TabularIslamicZCalendar.Instance,
+                CalendarId.Zoroastrian => ZoroastrianZCalendar.Instance,
+                _ => Throw.InvalidOperation<ZCalendar>(),
             };
     }
 
-    public partial class WideCatalog // Add
+    public partial class ZCatalog // Add
     {
         [Pure]
-        public static WideCalendar GetOrAdd(
+        public static ZCalendar GetOrAdd(
             string key, ICalendricalSchema schema, DayNumber epoch, bool widest)
         {
             if (s_LastIdent >= MaxId && !s_CalendarsByKey.ContainsKey(key))
@@ -308,7 +308,7 @@ namespace Zorglub.Time.Hemerology
 
             var tmp = new TmpCalendar(key, schema, epoch, widest);
 
-            var lazy = new Lazy<WideCalendar>(() => CreateCalendar(tmp));
+            var lazy = new Lazy<ZCalendar>(() => CreateCalendar(tmp));
             var lazy1 = s_CalendarsByKey.GetOrAdd(key, lazy);
 
             var chr = lazy1.Value;
@@ -326,14 +326,14 @@ namespace Zorglub.Time.Hemerology
         }
 
         [Pure]
-        public static WideCalendar Add(
+        public static ZCalendar Add(
             string key, ICalendricalSchema schema, DayNumber epoch, bool widest)
         {
             if (s_LastIdent >= MaxId) Throw.CatalogOverflow();
 
             var tmp = new TmpCalendar(key, schema, epoch, widest);
 
-            var lazy = new Lazy<WideCalendar>(() => CreateCalendar(tmp));
+            var lazy = new Lazy<ZCalendar>(() => CreateCalendar(tmp));
 
             if (s_CalendarsByKey.TryAdd(key, lazy) == false)
             {
@@ -354,7 +354,7 @@ namespace Zorglub.Time.Hemerology
         [Pure]
         public static bool TryAdd(
             string key, ICalendricalSchema schema, DayNumber epoch, bool widest,
-            [NotNullWhen(true)] out WideCalendar? calendar)
+            [NotNullWhen(true)] out ZCalendar? calendar)
         {
             if (s_LastIdent >= MaxId) { goto FAILED; }
 
@@ -365,7 +365,7 @@ namespace Zorglub.Time.Hemerology
             try { tmp = new TmpCalendar(key, schema, epoch, widest); }
             catch (ArgumentException) { goto FAILED; }
 
-            var lazy = new Lazy<WideCalendar>(() => CreateCalendar(tmp));
+            var lazy = new Lazy<ZCalendar>(() => CreateCalendar(tmp));
 
             if (s_CalendarsByKey.TryAdd(key, lazy))
             {
@@ -390,14 +390,14 @@ namespace Zorglub.Time.Hemerology
         #region Helpers
 
         [Pure]
-        private static WideCalendar CreateCalendar(TmpCalendar tmpCalendar)
+        private static ZCalendar CreateCalendar(TmpCalendar tmpCalendar)
         {
             Debug.Assert(tmpCalendar != null);
 
             int ident = Interlocked.Increment(ref s_LastIdent);
             if (ident > MaxId) { return tmpCalendar; }
 
-            var chr = new WideCalendar(
+            var chr = new ZCalendar(
                 ident,
                 tmpCalendar.Key,
                 tmpCalendar.Schema,
@@ -408,7 +408,7 @@ namespace Zorglub.Time.Hemerology
             return s_CalendarsById[ident] = chr;
         }
 
-        private sealed class TmpCalendar : WideCalendar
+        private sealed class TmpCalendar : ZCalendar
         {
             public TmpCalendar(
                 string key,

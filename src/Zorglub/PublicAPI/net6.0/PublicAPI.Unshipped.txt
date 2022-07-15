@@ -800,8 +800,8 @@ Zorglub.Time.Core.CalendricalSegment.SupportedYears.get -> Zorglub.Time.Core.Val
 Zorglub.Time.Core.CalendricalSegmentBuilder
 Zorglub.Time.Core.CalendricalSegmentBuilder.BuildSegment() -> Zorglub.Time.Core.CalendricalSegment!
 Zorglub.Time.Core.CalendricalSegmentBuilder.CalendricalSegmentBuilder(Zorglub.Time.Core.ICalendricalSchema! schema) -> void
-Zorglub.Time.Core.CalendricalSegmentBuilder.HasEnd.get -> bool
-Zorglub.Time.Core.CalendricalSegmentBuilder.HasStart.get -> bool
+Zorglub.Time.Core.CalendricalSegmentBuilder.HasMax.get -> bool
+Zorglub.Time.Core.CalendricalSegmentBuilder.HasMin.get -> bool
 Zorglub.Time.Core.CalendricalSegmentBuilder.IsBuildable.get -> bool
 Zorglub.Time.Core.CalendricalSegmentBuilder.SetMaxDate(int year, int month, int day) -> void
 Zorglub.Time.Core.CalendricalSegmentBuilder.SetMaxDaysSinceEpoch(int daysSinceEpoch) -> void
@@ -872,6 +872,8 @@ Zorglub.Time.Core.ICalendricalValidator
 Zorglub.Time.Core.ICalendricalValidator.ValidateOrdinal(int year, int dayOfYear, string? paramName = null) -> void
 Zorglub.Time.Core.ICalendricalValidator.ValidateYearMonth(int year, int month, string? paramName = null) -> void
 Zorglub.Time.Core.ICalendricalValidator.ValidateYearMonthDay(int year, int month, int day, string? paramName = null) -> void
+Zorglub.Time.Core.IDifferenceOperators<TSelf, TResult>
+Zorglub.Time.Core.IDifferenceOperators<TSelf, TResult>.operator -(TSelf left, TSelf right) -> TResult
 Zorglub.Time.Core.IEpagomenalFeaturette
 Zorglub.Time.Core.IEpagomenalFeaturette.IsEpagomenalDay(int y, int m, int d, out int epagomenalNumber) -> bool
 Zorglub.Time.Core.IMinMaxFunctions<TSelf>
@@ -953,6 +955,8 @@ Zorglub.Time.Core.IRegularSchema
 Zorglub.Time.Core.IRegularSchema.MonthsInYear.get -> int
 Zorglub.Time.Core.ISchemaBound
 Zorglub.Time.Core.ISchemaBound.Schema.get -> Zorglub.Time.Core.ICalendricalSchema!
+Zorglub.Time.Core.ISchemaBound<TSchema>
+Zorglub.Time.Core.ISchemaBound<TSchema>.Schema.get -> TSchema
 Zorglub.Time.Core.ISerializable<TBinary>
 Zorglub.Time.Core.ISerializable<TBinary>.ToBinary() -> TBinary
 Zorglub.Time.Core.ISerializable<TSelf, TBinary>
@@ -1259,7 +1263,6 @@ Zorglub.Time.Hemerology.IFixedDay<TSelf>.FromDayNumber(Zorglub.Time.DayNumber da
 Zorglub.Time.Hemerology.IFixedDay<TSelf>.Nearest(System.DayOfWeek dayOfWeek) -> TSelf
 Zorglub.Time.Hemerology.IFixedDay<TSelf>.Next(System.DayOfWeek dayOfWeek) -> TSelf
 Zorglub.Time.Hemerology.IFixedDay<TSelf>.NextOrSame(System.DayOfWeek dayOfWeek) -> TSelf
-Zorglub.Time.Hemerology.IFixedDay<TSelf>.operator -(TSelf left, int right) -> TSelf
 Zorglub.Time.Hemerology.IFixedDay<TSelf>.Previous(System.DayOfWeek dayOfWeek) -> TSelf
 Zorglub.Time.Hemerology.IFixedDay<TSelf>.PreviousOrSame(System.DayOfWeek dayOfWeek) -> TSelf
 Zorglub.Time.Hemerology.IFixedDay<TSelf>.Today() -> TSelf

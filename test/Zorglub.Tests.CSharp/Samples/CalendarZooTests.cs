@@ -90,7 +90,7 @@ public partial class CalendarZooTests
     public static void LongGregorian()
     {
         // Act
-        var chr = WideCalendar.Gregorian;
+        var chr = ZCalendar.Gregorian;
         var (minYear, maxYear) = chr.MinMaxDate.Select(x => x.Year);
         // Assert
         Assert.NotNull(chr);
@@ -100,7 +100,7 @@ public partial class CalendarZooTests
 
     [Fact]
     public static void LongGregorian_Repeated() =>
-        Assert.Equal(WideCalendar.Gregorian, WideCalendar.Gregorian);
+        Assert.Equal(ZCalendar.Gregorian, ZCalendar.Gregorian);
 
     [Fact]
     public static void LongJulian()

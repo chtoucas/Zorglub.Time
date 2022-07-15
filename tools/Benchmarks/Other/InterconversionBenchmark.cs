@@ -25,7 +25,7 @@ Intel Core2 Duo CPU E8500 3.16GHz, 1 CPU, 2 logical and 2 physical cores
 |    'DayNumber     ' | 49.71 ns | 0.024 ns | 0.023 ns |  1.05 |  III |
 |     'DateTime *   ' | 58.35 ns | 0.099 ns | 0.082 ns |  1.23 |   IV |
 |  'OrdinalDate  (O)' | 59.51 ns | 0.053 ns | 0.050 ns |  1.25 |    V |
-|     'WideDate  (Y)' | 62.27 ns | 0.045 ns | 0.042 ns |  1.31 |   VI |
+|        'ZDate  (Y)' | 62.27 ns | 0.045 ns | 0.042 ns |  1.31 |   VI |
 |    'LocalDate *(Y)' | 68.44 ns | 0.062 ns | 0.055 ns |  1.44 |  VII |
  */
 //
@@ -65,11 +65,11 @@ public class InterconversionBenchmark : BenchmarkBase
         return (y, m, d);
     }
 
-    [Benchmark(Description = "WideDate  (Y)")]
-    public (int, int, int) WithWideDate()
+    [Benchmark(Description = "ZDate  (Y)")]
+    public (int, int, int) WithZDate()
     {
-        WideDate start = WideCalendar.Gregorian.GetDate(Year, Month, Day);
-        var (y, m, d) = start.WithCalendar(WideCalendar.Julian);
+        ZDate start = ZCalendar.Gregorian.GetDate(Year, Month, Day);
+        var (y, m, d) = start.WithCalendar(ZCalendar.Julian);
         return (y, m, d);
     }
 

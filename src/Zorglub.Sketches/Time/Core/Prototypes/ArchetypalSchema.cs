@@ -44,7 +44,7 @@ namespace Zorglub.Time.Core.Prototypes
     // For GetStartOfYear(), we could first check that there is a nearby year
     // already in the cache. Pre-compute the values at the start of each century.
     //
-    // Migrate WideCalendar to use the ICalendricalKernel and a prototype which
+    // Migrate ZCalendar to use the ICalendricalKernel and a prototype which
     // includes some of the simple possible optimizations (see comments in
     // PrototypalSchema)?
     //

@@ -8,21 +8,21 @@ using Zorglub.Time.Core.Intervals;
 using Zorglub.Time.Hemerology;
 
 /// <summary>
-/// Provides facts about <see cref="WideDate"/>.
+/// Provides facts about <see cref="ZDate"/>.
 /// </summary>
-public abstract partial class WideDateFacts<TDataSet> :
-    IDateFacts<WideDate, TDataSet>
+public abstract partial class ZDateFacts<TDataSet> :
+    IDateFacts<ZDate, TDataSet>
     where TDataSet : ICalendarDataSet, ISingleton<TDataSet>
 {
-    protected WideDateFacts(WideCalendar calendar, WideCalendar otherCalendar)
+    protected ZDateFacts(ZCalendar calendar, ZCalendar otherCalendar)
         : this(calendar, otherCalendar, BaseCtorArgs.Create(calendar)) { }
 
-    private WideDateFacts(WideCalendar calendar, WideCalendar otherCalendar, BaseCtorArgs args)
+    private ZDateFacts(ZCalendar calendar, ZCalendar otherCalendar, BaseCtorArgs args)
         : base(args.SupportedYears, args.Domain)
     {
         Debug.Assert(calendar != null);
         Requires.NotNull(otherCalendar);
-        // NB: calendars of type WideCalendar are singletons.
+        // NB: calendars of type ZCalendar are singletons.
         if (ReferenceEquals(otherCalendar, calendar))
         {
             throw new ArgumentException(
@@ -35,17 +35,17 @@ public abstract partial class WideDateFacts<TDataSet> :
         (MinDate, MaxDate) = calendar.MinMaxDate;
     }
 
-    protected WideCalendar CalendarUT { get; }
-    protected WideCalendar OtherCalendar { get; }
+    protected ZCalendar CalendarUT { get; }
+    protected ZCalendar OtherCalendar { get; }
 
-    protected sealed override WideDate MinDate { get; }
-    protected sealed override WideDate MaxDate { get; }
+    protected sealed override ZDate MinDate { get; }
+    protected sealed override ZDate MaxDate { get; }
 
-    protected sealed override WideDate GetDate(int y, int m, int d) => CalendarUT.GetDate(y, m, d);
+    protected sealed override ZDate GetDate(int y, int m, int d) => CalendarUT.GetDate(y, m, d);
 
     private sealed record BaseCtorArgs(Range<int> SupportedYears, Range<DayNumber> Domain)
     {
-        public static BaseCtorArgs Create(WideCalendar calendar)
+        public static BaseCtorArgs Create(ZCalendar calendar)
         {
             Requires.NotNull(calendar);
             return new BaseCtorArgs(calendar.Scope.Segment.SupportedYears.Range, calendar.Domain);
@@ -53,7 +53,7 @@ public abstract partial class WideDateFacts<TDataSet> :
     }
 }
 
-public partial class WideDateFacts<TDataSet> // Prelude
+public partial class ZDateFacts<TDataSet> // Prelude
 {
     [Theory, MemberData(nameof(DateInfoData))]
     public void Deconstruct(DateInfo info)
@@ -80,7 +80,7 @@ public partial class WideDateFacts<TDataSet> // Prelude
     }
 }
 
-public partial class WideDateFacts<TDataSet> // Calendar mismatch
+public partial class ZDateFacts<TDataSet> // Calendar mismatch
 {
     [Fact]
     public void Equality_OtherCalendar()
@@ -120,7 +120,7 @@ public partial class WideDateFacts<TDataSet> // Calendar mismatch
     }
 }
 
-public partial class WideDateFacts<TDataSet> // Conversions
+public partial class ZDateFacts<TDataSet> // Conversions
 {
     [Fact]
     public void WithCalendar_NullCalendar()

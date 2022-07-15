@@ -18,7 +18,7 @@ namespace Zorglub.Time.Hemerology
     //   Calendar
     //   BasicCalendar
     //     (MyCalendar)
-    //     WideCalendar
+    //     ZCalendar
     // A   NakedCalendar
     //       BoundedBelowCalendar
     //       MinMaxYearCalendar
@@ -87,10 +87,10 @@ namespace Zorglub.Time.Hemerology
     // must also transform it before we can create the target object.
     // We did not include them in the interface because I GetDate() or
     // GetDateOn() feel too generic to me. For instance,
-    // WideCalendar has
-    // - GetWideDate(y, m, d)     -> WideDate
-    // - GetWideDateOn(y, doy)    -> WideDate
-    // - GetWideDateOn(dayNumber) -> WideDate
+    // ZCalendar has
+    // - GetDate(y, m, d)   -> ZDate
+    // - GetDate(y, doy)    -> ZDate
+    // - GetDate(dayNumber) -> ZDate
     // See also Calendar which offers several methods of this kind.
     //
     // Regarding min/max values, for exactly the same reason, we do not include

@@ -1,7 +1,7 @@
 ﻿// SPDX-License-Identifier: BSD-3-Clause
 // Copyright (c) 2020 Narvalo.Org. All rights reserved.
 
-module Zorglub.Tests.Hemerology.WideDateTests
+module Zorglub.Tests.Hemerology.ZDateTests
 
 open Zorglub.Testing
 open Zorglub.Testing.Data.Unbounded
@@ -13,24 +13,24 @@ open Zorglub.Time.Hemerology
 module Bundles =
     // NB: notice the use of UnboundedGregorianDataSet.
 
-    let private other = WideCalendar.Julian
+    let private other = ZCalendar.Julian
 
     [<Sealed>]
     [<TestExcludeFrom(TestExcludeFrom.Regular)>]
     type DateFacts() =
-        inherit WideDateFacts<UnboundedGregorianDataSet>(WideCalendar.Gregorian, other)
+        inherit ZDateFacts<UnboundedGregorianDataSet>(ZCalendar.Gregorian, other)
 
     // TODO(test): to be removed.
     //[<Sealed>]
     //[<TestExcludeFrom(TestExcludeFrom.Regular)>]
     //type AdjustableDateFacts() =
-    //    inherit IAdjustableDateFacts<WideDate, UnboundedGregorianDataSet>(WideCalendar.Gregorian.SupportedYears)
+    //    inherit IAdjustableDateFacts<ZDate, UnboundedGregorianDataSet>(ZCalendar.Gregorian.SupportedYears)
 
-    //    override __.GetDate(y, m, d) = WideCalendar.Gregorian.GetWideDate(y, m, d)
+    //    override __.GetDate(y, m, d) = ZCalendar.Gregorian.GetDate(y, m, d)
 
     [<Sealed>]
     [<TestExcludeFrom(TestExcludeFrom.Regular)>]
     type DayOfWeekFacts() =
-        inherit IDateDayOfWeekFacts<WideDate, UnboundedGregorianDataSet>()
+        inherit IDateDayOfWeekFacts<ZDate, UnboundedGregorianDataSet>()
 
-        override __.GetDate(y, m, d) = WideCalendar.Gregorian.GetDate(y, m, d)
+        override __.GetDate(y, m, d) = ZCalendar.Gregorian.GetDate(y, m, d)

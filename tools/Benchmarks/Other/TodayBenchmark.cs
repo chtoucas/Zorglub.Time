@@ -25,7 +25,7 @@ Intel Core2 Duo CPU E8500 3.16GHz, 1 CPU, 2 logical and 2 physical cores
 |  'CalendarDay     ' | 1.524 μs | 0.0076 μs | 0.0071 μs |  1.00 |    I |
 | 'CalendarDate  (Y)' | 1.535 μs | 0.0029 μs | 0.0027 μs |  1.01 |    I |
 |  'OrdinalDate  (O)' | 1.540 μs | 0.0015 μs | 0.0014 μs |  1.01 |    I |
-|     'WideDate  (Y)' | 1.543 μs | 0.0008 μs | 0.0007 μs |  1.01 |    I |
+|        'ZDate  (Y)' | 1.543 μs | 0.0008 μs | 0.0007 μs |  1.01 |    I |
 |    'DayNumber     ' | 1.545 μs | 0.0010 μs | 0.0009 μs |  1.01 |    I |
 |     'DateTime *   ' | 1.600 μs | 0.0131 μs | 0.0123 μs |  1.05 |   II |
  */
@@ -70,10 +70,10 @@ public class TodayBenchmark
         return (y, m, d, today.DayOfWeek);
     }
 
-    [Benchmark(Description = "WideDate (Y)")]
-    public (int, int, int, DayOfWeek) WithWideDate()
+    [Benchmark(Description = "ZDate (Y)")]
+    public (int, int, int, DayOfWeek) WithZDate()
     {
-        WideDate today = WideCalendar.Gregorian.Today();
+        ZDate today = ZCalendar.Gregorian.Today();
         var (y, m, d) = today;
 
         return (y, m, d, today.DayOfWeek);

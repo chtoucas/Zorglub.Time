@@ -105,7 +105,7 @@ module RuntimeSizes =
         Marshal.SizeOf(typedefof<CivilDay>) === 4
         Marshal.SizeOf(typedefof<CivilDate>) === 4
         Marshal.SizeOf(typedefof<GregorianDay>) === 4
-        Marshal.SizeOf(typedefof<WideDate>) === 8
+        Marshal.SizeOf(typedefof<ZDate>) === 8
 
     [<Fact>]
     let ``Types in Zorglub.Time.Horology`` () =
@@ -378,8 +378,8 @@ module DefaultValues =
         (y, m, d) === (1, 1, 1)
 
     [<Fact>]
-    let ``Default value of WideDate is 01/01/0000 (Gregorian)`` () =
-        let date = Unchecked.defaultof<WideDate>
+    let ``Default value of ZDate is 01/01/0000 (Gregorian)`` () =
+        let date = Unchecked.defaultof<ZDate>
         let y, m, d = date.Deconstruct()
 
         (y, m, d) === (1, 1, 1)
