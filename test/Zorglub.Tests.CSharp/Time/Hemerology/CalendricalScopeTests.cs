@@ -50,7 +50,7 @@ public static partial class CalendricalScopeTests
         // Act
         Assert.ThrowsAoorexn("year",
             () => new FauxCalendarScope(s_Schema, minYear, maxYear + 1));
-        Assert.ThrowsAoorexn("value",
+        Assert.ThrowsAoorexn("max",
             () => new FauxCalendarScope(s_Schema, 2, 1));
     }
 
