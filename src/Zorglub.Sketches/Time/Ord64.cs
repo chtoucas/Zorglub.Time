@@ -6,12 +6,24 @@ namespace Zorglub.Time
     using System.ComponentModel;
     using System.Globalization;
 
+    using Zorglub.Time.Core;
+
     /// <summary>
     /// Represents a 64-bit "signed" ordinal numeral.
     /// <para><see cref="Ord64"/> is an immutable struct.</para>
     /// </summary>
     [DebuggerDisplay("{" + nameof(DebuggerDisplay) + ",nq}")]
-    public readonly partial struct Ord64 : IEquatable<Ord64>, IComparable<Ord64>, IComparable
+    public readonly partial struct Ord64 :
+        IMinMaxValue<Ord64>,
+        // Arithmetic
+        IAdditionOperators<Ord64, long, Ord64>,
+        ISubtractionOperators<Ord64, long, Ord64>,
+        IDifferenceOperators<Ord64, long>,
+        IIncrementOperators<Ord64>,
+        IDecrementOperators<Ord64>,
+        IUnaryNegationOperators<Ord64, Ord64>,
+        // Comparison
+        IComparisonOperators<Ord64, Ord64>
     {
         /// <summary>
         /// Represents the smallest possible algebraic value.
@@ -24,30 +36,6 @@ namespace Zorglub.Time
         /// <para>This field is a constant equal to 9_223_372_036_854_775_807.</para>
         /// </summary>
         public const long MaxAlgebraicValue = Int64.MaxValue;
-
-        /// <summary>
-        /// Represents the ordinal numeral zeroth.
-        /// <para>This field is read-only.</para>
-        /// </summary>
-        public static readonly Ord64 Zeroth = new(0);
-
-        /// <summary>
-        /// Represents the ordinal numeral first.
-        /// <para>This field is read-only.</para>
-        /// </summary>
-        public static readonly Ord64 First = new(1);
-
-        /// <summary>
-        /// Represents the smallest possible value of an <see cref="Ord64"/>.
-        /// <para>This field is read-only.</para>
-        /// </summary>
-        public static readonly Ord64 MinValue = new(MinAlgebraicValue);
-
-        /// <summary>
-        /// Represents the largest possible value of an <see cref="Ord64"/>.
-        /// <para>This field is read-only.</para>
-        /// </summary>
-        public static readonly Ord64 MaxValue = new(MaxAlgebraicValue);
 
         /// <summary>
         /// Represents the algebraic value of the current instance.
@@ -67,6 +55,30 @@ namespace Zorglub.Time
 
             _value = value;
         }
+
+        /// <summary>
+        /// Gets the ordinal numeral zeroth.
+        /// <para>This static property is thread-safe.</para>
+        /// </summary>
+        public static Ord64 Zeroth { get; }
+
+        /// <summary>
+        /// Gets the ordinal numeral first.
+        /// <para>This static property is thread-safe.</para>
+        /// </summary>
+        public static Ord64 First { get; } = new(1);
+
+        /// <summary>
+        /// Gets the smallest possible value of an <see cref="Ord64"/>.
+        /// <para>This static property is thread-safe.</para>
+        /// </summary>
+        public static Ord64 MinValue { get; } = new(MinAlgebraicValue);
+
+        /// <summary>
+        /// Gets the largest possible value of an <see cref="Ord64"/>.
+        /// <para>This static property is thread-safe.</para>
+        /// </summary>
+        public static Ord64 MaxValue { get; } = new(MaxAlgebraicValue);
 
         /// <summary>
         /// Gets the (signed) rank of the current instance.
