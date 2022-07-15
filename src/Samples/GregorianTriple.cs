@@ -29,8 +29,7 @@ public readonly partial struct GregorianTriple :
     IAffineDate<GregorianTriple>,
     IYearEndpointsProvider<GregorianTriple>,
     IMonthEndpointsProvider<GregorianTriple>,
-    IMinMaxValue<GregorianTriple>,
-    ISubtractionOperators<GregorianTriple, int, GregorianTriple>
+    IMinMaxValue<GregorianTriple>
 {
     private static readonly SystemContext __ = SystemContext.Create<GregorianSchema>();
     private static readonly SystemSchema Schema = __.Schema;

@@ -51,8 +51,7 @@ namespace Zorglub.Time.Hemerology
         IAdjustableDate<CivilDate>,
         IYearEndpointsProvider<CivilDate>,
         IMonthEndpointsProvider<CivilDate>,
-        IMinMaxValue<CivilDate>,
-        ISubtractionOperators<CivilDate, int, CivilDate>
+        IMinMaxValue<CivilDate>
     {
         /// <summary>
         /// Represents the smallest possible value of the number of consecutive days since the epoch

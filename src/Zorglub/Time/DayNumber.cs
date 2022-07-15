@@ -18,8 +18,7 @@ namespace Zorglub.Time
     /// </summary>
     public readonly partial struct DayNumber :
         IFixedDay<DayNumber>,
-        IMinMaxValue<DayNumber>,
-        ISubtractionOperators<DayNumber, int, DayNumber>
+        IMinMaxValue<DayNumber>
     {
         // Since DaysSinceZero is public, we keep these two constants public too.
         // Another reason: constructing a day number requires a "daysSinceEpoch"

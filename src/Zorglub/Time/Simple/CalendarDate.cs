@@ -34,8 +34,7 @@ namespace Zorglub.Time.Simple
     /// </summary>
     public readonly partial struct CalendarDate :
         ISimpleDate<CalendarDate>,
-        IAdjustableDate<CalendarDate>,
-        ISubtractionOperators<CalendarDate, int, CalendarDate>
+        IAdjustableDate<CalendarDate>
     {
         /// <summary>
         /// Represents the internal binary representation.

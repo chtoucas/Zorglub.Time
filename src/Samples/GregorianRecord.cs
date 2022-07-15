@@ -25,8 +25,7 @@ public readonly partial record struct GregorianRecord :
     IAffineDate<GregorianRecord>,
     IYearEndpointsProvider<GregorianRecord>,
     IMonthEndpointsProvider<GregorianRecord>,
-    IMinMaxValue<GregorianRecord>,
-    ISubtractionOperators<GregorianRecord, int, GregorianRecord>
+    IMinMaxValue<GregorianRecord>
 {
     private static readonly SchemaContext __ = SchemaContext.Create<GregorianSchema>();
     private static readonly CalendricalSchema Schema = __.Schema;

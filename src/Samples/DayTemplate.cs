@@ -37,8 +37,7 @@ public readonly partial struct DayTemplate :
     IDate<DayTemplate>,
     IYearEndpointsProvider<DayTemplate>,
     IMonthEndpointsProvider<DayTemplate>,
-    IMinMaxValue<DayTemplate>,
-    ISubtractionOperators<DayTemplate, int, DayTemplate>
+    IMinMaxValue<DayTemplate>
 {
     private static readonly CalendarContext __ =
         CalendarContext.WithYearsAfterZero<GregorianSchema>(DayZero.NewStyle);

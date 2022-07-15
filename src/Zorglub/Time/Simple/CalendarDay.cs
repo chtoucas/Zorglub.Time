@@ -12,9 +12,7 @@ namespace Zorglub.Time.Simple
     /// Represents a calendar day, that is a date within a calendar system.
     /// <para><see cref="CalendarDay"/> is an immutable struct.</para>
     /// </summary>
-    public readonly partial struct CalendarDay :
-        ISimpleDate<CalendarDay>,
-        ISubtractionOperators<CalendarDay, int, CalendarDay>
+    public readonly partial struct CalendarDay : ISimpleDate<CalendarDay>
     {
         #region Bit settings
 

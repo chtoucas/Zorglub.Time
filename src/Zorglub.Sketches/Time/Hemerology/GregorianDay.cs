@@ -12,8 +12,7 @@ namespace Zorglub.Time.Hemerology
         IDate<GregorianDay>,
         IYearEndpointsProvider<GregorianDay>,
         IMonthEndpointsProvider<GregorianDay>,
-        IMinMaxValue<GregorianDay>,
-        ISubtractionOperators<GregorianDay, int, GregorianDay>
+        IMinMaxValue<GregorianDay>
     {
         /// <summary>
         /// Represents the earliest supported year.

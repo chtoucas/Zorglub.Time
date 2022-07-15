@@ -14,8 +14,7 @@ namespace Zorglub.Time.Hemerology
         IDate<CivilDay>,
         IYearEndpointsProvider<CivilDay>,
         IMonthEndpointsProvider<CivilDay>,
-        IMinMaxValue<CivilDay>,
-        ISubtractionOperators<CivilDay, int, CivilDay>
+        IMinMaxValue<CivilDay>
     {
         /// <summary>
         /// Represents the earliest supported year.

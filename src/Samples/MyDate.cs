@@ -23,8 +23,7 @@ public readonly partial struct MyDate :
     IDate<MyDate>,
     IYearEndpointsProvider<MyDate>,
     IMonthEndpointsProvider<MyDate>,
-    IMinMaxValue<MyDate>,
-    ISubtractionOperators<MyDate, int, MyDate>
+    IMinMaxValue<MyDate>
 {
     private static readonly SystemCalendarContext __ =
         SystemCalendarContext.WithYearsBetween1And9999<GregorianSchema>(DayZero.NewStyle);

@@ -15,8 +15,7 @@ namespace Zorglub.Time.Simple
     /// </summary>
     public readonly partial struct OrdinalDate :
         ISimpleDate<OrdinalDate>,
-        IAdjustableOrdinal<OrdinalDate>,
-        ISubtractionOperators<OrdinalDate, int, OrdinalDate>
+        IAdjustableOrdinal<OrdinalDate>
     {
         /// <summary>
         /// Represents the internal binary representation.
