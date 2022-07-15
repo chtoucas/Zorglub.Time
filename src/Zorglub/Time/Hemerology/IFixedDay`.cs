@@ -2,7 +2,6 @@
 // Copyright (c) 2020 Narvalo.Org. All rights reserved.
 
 #pragma warning disable CA1000 // Do not declare static members on generic types (Design) 👈 PreviewFeatures
-#pragma warning disable CA2225 // Operator overloads have named alternates (Usage) 👈 PreviewFeatures
 
 namespace Zorglub.Time.Hemerology
 {
@@ -171,24 +170,14 @@ namespace Zorglub.Time.Hemerology
         // Arithmetic
         IStandardArithmetic<TSelf>,
         IAdditionOperators<TSelf, int, TSelf>,
-        ISubtractionOperators<TSelf, TSelf, int>,
+        ISubtractionOperators<TSelf, int, TSelf>,
+        IDifferenceOperators<TSelf, int>,
         IIncrementOperators<TSelf>,
         IDecrementOperators<TSelf>
         where TSelf : IFixedDay<TSelf>
     {
-        // IMinMaxValue<TSelf>? no, because of types supporting multi-calendars.
-        // Specialized date types should implement this interface.
-        //
-        // TODO(code): add our own interfaces?
-        // Arithmetic operators
-        // 1) x - n = y and x - y = n
-        // 2) x + n = y and x - y = -n
-        // Error CS0695: we cannot have both
-        //   ISubtractionOperators<TSelf, TSelf, int>
-        //   ISubtractionOperators<TSelf, int, TSelf>
-        // I prefer the former to the later which can be easily "obtained" via
-        // the addition operator.
-        // Concrete types should implement ISubtractionOperators<TSelf, int, TSelf>.
+        // IMinMaxValue<TSelf>? no, because of types supporting multi-calendars,
+        // but specialized date types should implement this interface.
         //
         // We don't add the UTC version UtcToday(). I don't think that we need
         // such a level of precision, furthermore one can still do it manually
@@ -206,11 +195,6 @@ namespace Zorglub.Time.Hemerology
         /// specified day number.
         /// </summary>
         [Pure] static abstract TSelf FromDayNumber(DayNumber dayNumber);
-
-        /// <summary>
-        /// Subtracts a number of days to the specified date, yielding a new date.
-        /// </summary>
-        static abstract TSelf operator -(TSelf left, int right);
 
         //
         // Adjust the day of the week

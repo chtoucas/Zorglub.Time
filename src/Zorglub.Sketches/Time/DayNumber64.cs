@@ -439,12 +439,12 @@ namespace Zorglub.Time
 
         public static DayNumber64 operator --(DayNumber64 value) => value.PreviousDay();
 
-        static DayNumber64 IFixedDay<DayNumber64>.operator -(DayNumber64 left, int days) => left - days;
-
-        static int ISubtractionOperators<DayNumber64, DayNumber64, int>.operator -(DayNumber64 left, DayNumber64 right) =>
-            checked((int)(left - right));
-
         public static DayNumber64 operator +(DayNumber64 left, int right) => left + (long)right;
+
+        public static DayNumber64 operator -(DayNumber64 left, int right) => left - (long)right;
+
+        static int IDifferenceOperators<DayNumber64, int>.operator -(DayNumber64 left, DayNumber64 right) =>
+            checked((int)(left - right));
 
 #pragma warning restore CA2225
 

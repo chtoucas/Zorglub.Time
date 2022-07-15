@@ -54,11 +54,11 @@ public sealed partial class DateProxy<T> : IDate<T>
     }
 
     #region Operators
-    static T IFixedDay<T>.operator -(T left, int right) => throw new NotImplementedException();
     static T IMinMaxFunctions<T>.Max(T x, T y) => throw new NotImplementedException();
     static T IMinMaxFunctions<T>.Min(T x, T y) => throw new NotImplementedException();
     static T IAdditionOperators<T, int, T>.operator +(T left, int right) => throw new NotImplementedException();
-    static int ISubtractionOperators<T, T, int>.operator -(T left, T right) => throw new NotImplementedException();
+    static T ISubtractionOperators<T, int, T>.operator -(T left, int right) => throw new NotImplementedException();
+    static int IDifferenceOperators<T, int>.operator -(T left, T right) => throw new NotImplementedException();
     static T IIncrementOperators<T>.operator ++(T value) => throw new NotImplementedException();
     static T IDecrementOperators<T>.operator --(T value) => throw new NotImplementedException();
     static bool IEqualityOperators<T, T>.operator ==(T left, T right) => throw new NotImplementedException();
