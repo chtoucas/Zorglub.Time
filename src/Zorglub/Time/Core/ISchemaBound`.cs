@@ -3,6 +3,9 @@
 
 namespace Zorglub.Time.Core
 {
+    // REVIEW(api): do we really need ISchemaBound<TSchema>?
+    // Which type needs to implement ISchemaBound?
+
     // These interfaces are only meant to be implemented explicitely.
 
     public interface ISchemaBound

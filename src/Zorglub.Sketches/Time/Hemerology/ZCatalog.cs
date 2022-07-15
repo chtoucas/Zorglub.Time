@@ -171,17 +171,17 @@ namespace Zorglub.Time.Hemerology
         {
             Requires.NotNull(@this);
 
-            return @this.IsUserDefined ? getOrAddUserCalendar(@this)
+            return @this.IsUserDefined ? GetOrAddUserCalendar(@this)
                 : GetSystemCalendar(@this.PermanentId);
 
             [Pure]
-            static ZCalendar getOrAddUserCalendar(Calendar calendar)
+            static ZCalendar GetOrAddUserCalendar(Calendar calendar)
             {
                 Debug.Assert(calendar.IsUserDefined);
 
                 var chr = s_CalendarsByKey.GetOrAdd(
                     calendar.Key,
-                    new Lazy<ZCalendar>(() => createUserCalendar(calendar))
+                    new Lazy<ZCalendar>(() => CreateUserCalendar(calendar))
                 ).Value;
 
                 // The only reliable way to verify that the result is the
@@ -196,7 +196,7 @@ namespace Zorglub.Time.Hemerology
             }
 
             [Pure]
-            static ZCalendar createUserCalendar(Calendar calendar)
+            static ZCalendar CreateUserCalendar(Calendar calendar)
             {
                 int cuid = (int)calendar.Id;
 
@@ -260,7 +260,7 @@ namespace Zorglub.Time.Hemerology
 
             // What happens if we request a "lazy" system calendar? Nothing
             // bad hopefully. This method is only called by ZDate.Calendar,
-            // and to be constructed a ZDate requires a ZCalendar first.
+            // and, to be constructed, a ZDate requires a ZCalendar first.
             // Of course, it will fail hard if we decide one day to add binary
             // serialization to ZDate; nevertheless see GetSystemCalendar().
 

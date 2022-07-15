@@ -7,6 +7,8 @@ namespace Zorglub.Time.Hemerology.Scopes
     using Zorglub.Time.Core;
     using Zorglub.Time.Core.Intervals;
 
+    // TODO(api): add prop IsComplete.
+
     // Range of supported years
     // - ProlepticScope     [-9998..9999]
     // - StandardScope      [1..9999]

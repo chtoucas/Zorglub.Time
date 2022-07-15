@@ -60,9 +60,9 @@ namespace Zorglub.Time.Hemerology.Scopes
             //    : 1;
             // int maxYear = Math.Min(Yemoda.MaxYear, schema.MaxYear);
 
-            var segment = CalendricalSegment.CreateMaximal(schema, onOrAfterEpoch);
+            var seg = CalendricalSegment.CreateMaximal(schema, onOrAfterEpoch);
 
-            return new MinMaxYearScope(epoch, segment);
+            return new MinMaxYearScope(epoch, seg);
         }
 
         /// <summary>

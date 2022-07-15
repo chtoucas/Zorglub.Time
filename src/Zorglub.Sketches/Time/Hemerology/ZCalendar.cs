@@ -13,9 +13,12 @@ namespace Zorglub.Time.Hemerology
 
     using static Zorglub.Time.Core.CalendricalConstants;
 
-    // REVIEW(api): prop Name (get and init) with default value = Key.
+    // REVIEW(api): prop Name (get and init) with default value = Key with the
+    // ability to set it afterward.
     // Instead of a maximal range of days, use a custom range of days? Hum,
     // I'm not sure that it's possible here (see CalendarCatalog).
+    // Maybe use a scope? Complete scopes only?
+    // Derive from BasicCalendar?
 
     #region Developer Notes
 
