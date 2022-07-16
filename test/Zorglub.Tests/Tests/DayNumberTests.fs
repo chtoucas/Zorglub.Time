@@ -16,6 +16,7 @@ open Zorglub.Time.Core
 open Zorglub.Time.Core.Schemas
 open Zorglub.Time.Hemerology
 open Zorglub.Time.Simple
+open Zorglub.Time.Specialized
 
 open Xunit
 open FsCheck

@@ -16,6 +16,7 @@ open Zorglub.Time.Core.Utilities
 open Zorglub.Time.Hemerology
 open Zorglub.Time.Horology
 open Zorglub.Time.Simple
+open Zorglub.Time.Specialized
 
 open Xunit
 

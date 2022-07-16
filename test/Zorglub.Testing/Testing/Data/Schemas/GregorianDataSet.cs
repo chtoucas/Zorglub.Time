@@ -3,7 +3,7 @@
 
 namespace Zorglub.Testing.Data.Schemas;
 
-using Zorglub.Time.Hemerology;
+using Zorglub.Time.Specialized;
 
 /// <summary>
 /// Provides test data for <see cref="GregorianSchema"/>.

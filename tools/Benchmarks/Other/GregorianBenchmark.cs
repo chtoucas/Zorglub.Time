@@ -10,6 +10,7 @@ using Samples;
 using Zorglub.Time;
 using Zorglub.Time.Hemerology;
 using Zorglub.Time.Simple;
+using Zorglub.Time.Specialized;
 
 /*
 BenchmarkDotNet=v0.13.1, OS=Windows 10.0.19044.1766 (21H2)

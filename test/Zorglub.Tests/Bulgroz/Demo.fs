@@ -7,6 +7,7 @@ open Zorglub.Time
 open Zorglub.Time.Core.Schemas
 open Zorglub.Time.Hemerology
 open Zorglub.Time.Simple
+open Zorglub.Time.Specialized
 
 open type Zorglub.Time.Extensions.Unboxing
 open type Zorglub.Time.Extensions.SimpleDateExtensions

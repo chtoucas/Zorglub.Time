@@ -9,6 +9,7 @@ open Zorglub.Testing
 
 open Zorglub.Time
 open Zorglub.Time.Hemerology
+open Zorglub.Time.Specialized
 
 open Xunit
 

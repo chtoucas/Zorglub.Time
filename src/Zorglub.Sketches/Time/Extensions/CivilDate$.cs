@@ -6,7 +6,7 @@ namespace Zorglub.Time.Extensions
     using System.ComponentModel;
     using System.Text;
 
-    using Zorglub.Time.Hemerology;
+    using Zorglub.Time.Specialized;
 
     /// <summary>
     /// Provides extension methods for <see cref="CivilDate"/>.

@@ -3,7 +3,7 @@
 
 namespace Zorglub.Time.Horology
 {
-    using Zorglub.Time.Hemerology;
+    using Zorglub.Time.Specialized;
 
     /// <summary>
     /// Represents the system clock.

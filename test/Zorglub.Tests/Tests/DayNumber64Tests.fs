@@ -13,7 +13,7 @@ open Zorglub.Testing.Data.Unbounded
 
 open Zorglub.Time
 open Zorglub.Time.Core.Schemas
-open Zorglub.Time.Hemerology
+open Zorglub.Time.Specialized
 
 open Xunit
 open FsCheck

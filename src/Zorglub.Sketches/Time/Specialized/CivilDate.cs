@@ -31,13 +31,14 @@
 //   and [Doomsday rule](https://en.wikipedia.org/wiki/Doomsday_rule)
 // - https://en.wikipedia.org/wiki/Civil_calendar
 
-namespace Zorglub.Time.Hemerology
+namespace Zorglub.Time.Specialized
 {
     using System.ComponentModel;
 
     using Zorglub.Time.Core.Intervals;
     using Zorglub.Time.Core.Schemas;
     using Zorglub.Time.Core.Validation;
+    using Zorglub.Time.Hemerology;
 
     // TODO(code): use CivilFormulae and use unsigned int.
 
