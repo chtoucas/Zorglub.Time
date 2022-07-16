@@ -6,7 +6,6 @@ namespace Zorglub.Time.Hemerology
     using System.Linq;
 
     using Zorglub.Time.Core;
-    using Zorglub.Time.Core.Intervals;
     using Zorglub.Time.Core.Schemas;
     using Zorglub.Time.Core.Validation;
     using Zorglub.Time.Hemerology.Scopes;
@@ -18,7 +17,6 @@ namespace Zorglub.Time.Hemerology
     // Instead of a maximal range of days, use a custom range of days? Hum,
     // I'm not sure that it's possible here (see CalendarCatalog).
     // Maybe use a scope? Complete scopes only?
-    // Derive from BasicCalendar?
 
     #region Developer Notes
 
@@ -42,9 +40,9 @@ namespace Zorglub.Time.Hemerology
     #endregion
 
     /// <summary>
-    /// Represents a wide calendar.
+    /// Represents a calendar.
     /// </summary>
-    public partial class ZCalendar : ICalendar<ZDate>
+    public partial class ZCalendar : BasicCalendar, ICalendar<ZDate>
     {
         /// <summary>
         /// Initializes a new instance of <see cref="ZCalendar"/> class.
@@ -58,21 +56,16 @@ namespace Zorglub.Time.Hemerology
             DayNumber epoch,
             bool widest,
             bool userDefined)
+            : base(key, MinMaxYearScope.WithMaximalRange(schema, epoch, onOrAfterEpoch: !widest))
         {
-            Key = key ?? throw new ArgumentNullException(nameof(key));
-            Schema = schema ?? throw new ArgumentNullException(nameof(schema));
+            Debug.Assert(key != null);
+
+            Key = key;
 
             Id = id;
             IsUserDefined = userDefined;
 
-            var scope = MinMaxYearScope.WithMaximalRange(schema, epoch, onOrAfterEpoch: !widest);
-
-            Scope = scope;
-            Epoch = scope.Epoch;
-            Domain = scope.Domain;
-            SupportedYears = scope.Segment.SupportedYears;
-
-            MinMaxDate = from dayNumber in scope.Domain.Endpoints select new ZDate(dayNumber - Epoch, id);
+            MinMaxDate = from dayNumber in Scope.Domain.Endpoints select new ZDate(dayNumber - Epoch, id);
         }
 
         #region System calendars
@@ -137,34 +130,6 @@ namespace Zorglub.Time.Hemerology
         /// </summary>
         public OrderedPair<ZDate> MinMaxDate { get; }
 
-        /// <inheritdoc />
-        public DayNumber Epoch { get; }
-
-        /// <inheritdoc />
-        public CalendricalAlgorithm Algorithm => Schema.Algorithm;
-
-        /// <inheritdoc />
-        public CalendricalFamily Family => Schema.Family;
-
-        /// <inheritdoc />
-        public CalendricalAdjustments PeriodicAdjustments => Schema.PeriodicAdjustments;
-
-        /// <inheritdoc />
-        public Range<DayNumber> Domain { get; }
-
-        /// <inheritdoc />
-        public CalendarScope Scope { get; }
-
-        /// <summary>
-        /// Gets the range of supported years.
-        /// </summary>
-        protected internal SupportedYears SupportedYears { get; }
-
-        /// <summary>
-        /// Gets the underlying schema.
-        /// </summary>
-        protected internal ICalendricalSchema Schema { get; }
-
         /// <summary>
         /// Gets the ID of the current instance.
         /// </summary>
@@ -175,61 +140,15 @@ namespace Zorglub.Time.Hemerology
         /// </summary>
         [Pure]
         public override string ToString() => Key;
-
-        /// <inheritdoc />
-        [Pure]
-        public bool IsRegular(out int monthsInYear) => Schema.IsRegular(out monthsInYear);
     }
 
     public partial class ZCalendar // Year, month or day infos
     {
-#pragma warning disable CA1725 // Parameter names should match base declaration (Naming)
-
         /// <inheritdoc />
         /// <exception cref="AoorException">The year is outside the range of supported years.
         /// </exception>
         [Pure]
-        public bool IsLeapYear(int year)
-        {
-            SupportedYears.Validate(year);
-            return Schema.IsLeapYear(year);
-        }
-
-        /// <inheritdoc />
-        /// <exception cref="AoorException">The month is either invalid or outside the range of
-        /// supported months.</exception>
-        [Pure]
-        public bool IsIntercalaryMonth(int year, int month)
-        {
-            Scope.ValidateYearMonth(year, month);
-            return Schema.IsIntercalaryMonth(year, month);
-        }
-
-        /// <inheritdoc />
-        /// <exception cref="AoorException">The date is either invalid or outside the range of
-        /// supported dates.</exception>
-        [Pure]
-        public bool IsIntercalaryDay(int year, int month, int day)
-        {
-            Scope.ValidateYearMonthDay(year, month, day);
-            return Schema.IsIntercalaryDay(year, month, day);
-        }
-
-        /// <inheritdoc />
-        /// <exception cref="AoorException">The date is either invalid or outside the range of
-        /// supported dates.</exception>
-        [Pure]
-        public bool IsSupplementaryDay(int year, int month, int day)
-        {
-            Scope.ValidateYearMonthDay(year, month, day);
-            return Schema.IsSupplementaryDay(year, month, day);
-        }
-
-        /// <inheritdoc />
-        /// <exception cref="AoorException">The year is outside the range of supported years.
-        /// </exception>
-        [Pure]
-        public int CountMonthsInYear(int year)
+        public sealed override int CountMonthsInYear(int year)
         {
             SupportedYears.Validate(year);
             return Schema.CountMonthsInYear(year);
@@ -239,7 +158,7 @@ namespace Zorglub.Time.Hemerology
         /// <exception cref="AoorException">The year is outside the range of supported years.
         /// </exception>
         [Pure]
-        public int CountDaysInYear(int year)
+        public sealed override int CountDaysInYear(int year)
         {
             SupportedYears.Validate(year);
             return Schema.CountDaysInYear(year);
@@ -249,13 +168,11 @@ namespace Zorglub.Time.Hemerology
         /// <exception cref="AoorException">The month is either invalid or outside the range of
         /// supported months.</exception>
         [Pure]
-        public int CountDaysInMonth(int year, int month)
+        public sealed override int CountDaysInMonth(int year, int month)
         {
             Scope.ValidateYearMonth(year, month);
             return Schema.CountDaysInMonth(year, month);
         }
-
-#pragma warning restore CA1725 // Parameter names should match base declaration
     }
 
     public partial class ZCalendar // Factories, conversions
@@ -301,25 +218,9 @@ namespace Zorglub.Time.Hemerology
         /// <inheritdoc />
         [Pure]
         public ZDate Today() => GetDate(DayNumber.Today());
-
-        /// <inheritdoc />
-        [Pure]
-        public DayNumber GetDayNumberOn(int year, int month, int day)
-        {
-            Scope.ValidateYearMonthDay(year, month, day);
-            return Epoch + Schema.CountDaysSinceEpoch(year, month, day);
-        }
-
-        /// <inheritdoc />
-        [Pure]
-        public DayNumber GetDayNumberOn(int year, int dayOfYear)
-        {
-            Scope.ValidateOrdinal(year, dayOfYear);
-            return Epoch + Schema.CountDaysSinceEpoch(year, dayOfYear);
-        }
     }
 
-    public partial class ZCalendar // Dates in a given year or month
+    public partial class ZCalendar // IDayProvider
     {
         /// <inheritdoc />
         [Pure]

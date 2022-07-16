@@ -52,6 +52,11 @@ namespace Zorglub.Time.Hemerology
         public CalendarScope Scope { get; }
 
         /// <summary>
+        /// Gets the range of supported years.
+        /// </summary>
+        protected internal SupportedYears SupportedYears { get; }
+
+        /// <summary>
         /// Gets the underlying schema.
         /// </summary>
         protected internal ICalendricalSchema Schema { get; }
@@ -60,11 +65,6 @@ namespace Zorglub.Time.Hemerology
         /// Gets the pre-validator.
         /// </summary>
         protected internal ICalendricalPreValidator PreValidator => Schema.PreValidator;
-
-        /// <summary>
-        /// Gets the range of supported years.
-        /// </summary>
-        protected internal SupportedYears SupportedYears { get; }
 
         /// <summary>
         /// Returns a string representation of the current instance.
@@ -82,8 +82,8 @@ namespace Zorglub.Time.Hemerology
 #pragma warning disable CA1725 // Parameter names should match base declaration (Naming)
 
         /// <inheritdoc />
-        /// <exception cref="AoorException">The year is outside the range of supported years.
-        /// </exception>
+        /// <exception cref="AoorException"><paramref name="year"/> is outside the range of
+        /// supported years.</exception>
         [Pure]
         public bool IsLeapYear(int year)
         {

@@ -115,7 +115,7 @@ public static class ZCatalogTests
 
     [Fact]
     public static void Add_NullKey() =>
-        Assert.ThrowsAnexn("key",
+        Assert.ThrowsAnexn("name",
             () => ZCatalog.Add(null!, new GregorianSchema(), default, false));
 
     [Fact]
