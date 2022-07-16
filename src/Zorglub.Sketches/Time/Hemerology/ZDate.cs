@@ -23,11 +23,7 @@ namespace Zorglub.Time.Hemerology
     /// Represents a date within a calendar system of type <see cref="ZCalendar"/>.
     /// <para><see cref="ZDate"/> is an immutable struct.</para>
     /// </summary>
-    public readonly partial struct ZDate :
-        IDate<ZDate>,
-        IYearEndpointsProvider<ZDate>,
-        IMonthEndpointsProvider<ZDate>
-        //IAdjustableDate<ZDate>,
+    public readonly partial struct ZDate : IDate<ZDate>
     {
         /// <summary>
         /// Represents the count of days since the epoch of the calendar to which belongs the current
@@ -201,6 +197,12 @@ namespace Zorglub.Time.Hemerology
         internal int Cuid => _cuid;
 
         /// <summary>
+        /// Gets the count of days since the epoch of the calendar to which belongs the current
+        /// instance.
+        /// </summary>
+        internal int DaysSinceEpoch => _daysSinceEpoch;
+
+        /// <summary>
         /// Gets a read-only reference to the calendar to which belongs the current instance.
         /// </summary>
         internal ref readonly ZCalendar CalendarRef
@@ -231,12 +233,11 @@ namespace Zorglub.Time.Hemerology
         }
     }
 
-    public partial struct ZDate // Conversions, adjustments...
+    public partial struct ZDate // Factories, conversions, adjustments, etc.
     {
         #region Binary serialization
-        // TODO(code): peut faire mieux, en particulier pour vérifier qu'il s'agit
-        // d'un calendrier système ou lors de la conversion de extraData à
-        // CalendarId.
+        // Peut faire mieux, en particulier pour vérifier qu'il s'agit d'un
+        // calendrier système ou lors de la conversion de extraData à CalendarId.
 
         ///// <summary>
         ///// Deserializes a 32-bit binary value and recreates an original serialized
@@ -345,61 +346,6 @@ namespace Zorglub.Time.Hemerology
             var sch = chr.Schema;
             sch.GetDateParts(_daysSinceEpoch, out int y, out int m, out int d);
             return sch.CountDaysInMonth(y, m) - d;
-        }
-
-        #endregion
-        #region Year and month boundaries
-
-        // REVIEW(api): on a déjà Calendar.GetStartOfYear()
-        // Le seul avantage à avoir ces méthodes ici est qu'on n'a pas à
-        // revalider les paramètres.
-        // On pourrait rajouter
-        // > T GetStartOfYear(T)
-        // à l'API de ICalendar<T>. Cela nous permettrait de gérer le cas de
-        // DayNumber pour lequel on ne dispose pas de méthode équivalente.
-
-        /// <inheritdoc />
-        [Pure]
-        public static ZDate GetStartOfYear(ZDate day)
-        {
-            ref readonly var chr = ref day.CalendarRef;
-            var sch = chr.Schema;
-            int y = sch.GetYear(day._daysSinceEpoch, out _);
-            var startOfYear = sch.GetStartOfYear(y);
-            return new(startOfYear, day._cuid);
-        }
-
-        /// <inheritdoc />
-        [Pure]
-        public static ZDate GetEndOfYear(ZDate day)
-        {
-            ref readonly var chr = ref day.CalendarRef;
-            var sch = chr.Schema;
-            int y = sch.GetYear(day._daysSinceEpoch, out _);
-            var endOfYear = sch.GetEndOfYear(y);
-            return new(endOfYear, day._cuid);
-        }
-
-        /// <inheritdoc />
-        [Pure]
-        public static ZDate GetStartOfMonth(ZDate day)
-        {
-            ref readonly var chr = ref day.CalendarRef;
-            var sch = chr.Schema;
-            sch.GetDateParts(day._daysSinceEpoch, out int y, out int m, out _);
-            var startOfYear = sch.GetStartOfMonth(y, m);
-            return new(startOfYear, day._cuid);
-        }
-
-        /// <inheritdoc />
-        [Pure]
-        public static ZDate GetEndOfMonth(ZDate day)
-        {
-            ref readonly var chr = ref day.CalendarRef;
-            var sch = chr.Schema;
-            sch.GetDateParts(day._daysSinceEpoch, out int y, out int m, out _);
-            var startOfYear = sch.GetEndOfMonth(y, m);
-            return new(startOfYear, day._cuid);
         }
 
         #endregion
