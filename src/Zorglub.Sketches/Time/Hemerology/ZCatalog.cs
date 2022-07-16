@@ -156,10 +156,7 @@ namespace Zorglub.Time.Hemerology
         public static Calendar ToCalendar(this ZCalendar @this)
         {
             Requires.NotNull(@this);
-            if (@this.Id > CalendarCatalog.MaxId)
-            {
-                Throw.Argument(nameof(@this));
-            }
+            if (@this.Id > CalendarCatalog.MaxId) Throw.Argument(nameof(@this));
 
             // NB: un ZCalendar ayant un ID <= CalendarCatalog.MaxIdent
             // provient obligatoirement d'un Calendar.
@@ -387,7 +384,9 @@ namespace Zorglub.Time.Hemerology
             return false;
         }
 
-        #region Helpers
+        //
+        // Helpers
+        //
 
         [Pure]
         private static ZCalendar CreateCalendar(TmpCalendar tmpCalendar)
@@ -425,7 +424,5 @@ namespace Zorglub.Time.Hemerology
 
             public bool Widest { get; }
         }
-
-        #endregion
     }
 }

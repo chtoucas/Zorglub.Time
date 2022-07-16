@@ -5,10 +5,6 @@ namespace Zorglub.Time.Core
 {
     internal abstract class MonthCalculator : ISchemaBound
     {
-        /// <summary>
-        /// Represents the underlying schema.
-        /// <para>This field is read-only.</para>
-        /// </summary>
         private readonly ICalendricalSchema _schema;
 
         protected MonthCalculator(ICalendricalSchema schema)
@@ -18,9 +14,6 @@ namespace Zorglub.Time.Core
             _schema = schema;
         }
 
-        /// <summary>
-        /// Gets the calendrical schema.
-        /// </summary>
         protected ICalendricalSchema Schema => _schema;
 
         ICalendricalSchema ISchemaBound.Schema => _schema;

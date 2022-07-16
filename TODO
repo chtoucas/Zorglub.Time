@@ -2,6 +2,8 @@
 ====
 
 Domains: SupportedYearsTester
+ident, id, cuid
+Adjustable dates
 
 - Refactor CalendarCatalog, split into a registry and a registar.
   Currently, it's almost impossible to achieve full test coverage.

@@ -3,7 +3,14 @@
 
 #pragma warning disable CA1000 // Do not declare static members on generic types (Design) 👈 PreviewFeatures
 
-// TODO(api): I don't like these interfaces...
+// TODO(api): I don't like these interfaces... Replace by adjusters w/ DateParts & co.
+//
+// Le seul avantage à avoir ces méthodes sur un objet date est qu'on n'a pas à
+// revalider les paramètres.
+// On pourrait rajouter la méthode suivante à l'API de ICalendar<T>
+// > T GetStartOfYear(T)
+// Cela nous permettrait de gérer le cas de DayNumber pour lequel on ne dispose
+// pas de méthode équivalente.
 
 namespace Zorglub.Time.Hemerology
 {

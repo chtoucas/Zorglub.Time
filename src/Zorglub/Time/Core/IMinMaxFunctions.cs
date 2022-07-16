@@ -21,6 +21,5 @@ namespace Zorglub.Time.Core
         /// Obtains the maximum of two specified values.
         /// </summary>
         [Pure] static abstract TSelf Max(TSelf x, TSelf y);
-
     }
 }

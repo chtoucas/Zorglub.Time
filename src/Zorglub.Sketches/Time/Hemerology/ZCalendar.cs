@@ -27,7 +27,7 @@ namespace Zorglub.Time.Hemerology
     // Calendar pros:
     // - Custom types for ordinal dates, calendar days, months and years.
     // - More capable arithmetic: PlusMonths(), PlusYears(), etc.
-    // - Ability to define your own arithmetical operations.
+    // - Ability to define your own math operations.
     // - Custom methods specific to a calendar.
     // - Calendar has fixed boundaries (Min/MaxYear are constants) which,
     //   performance-wise, can help.
