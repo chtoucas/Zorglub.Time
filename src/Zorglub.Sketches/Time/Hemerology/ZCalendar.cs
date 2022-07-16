@@ -16,7 +16,10 @@ namespace Zorglub.Time.Hemerology
     // ability to set it afterward.
     // Instead of a maximal range of days, use a custom range of days? Hum,
     // I'm not sure that it's possible here (see CalendarCatalog).
-    // Maybe use a scope? Complete scopes only?
+    // Maybe use a complete scope?
+    // Complete scopes otherwise we have a problem with ZDateAdjusters,
+    // counting methods in ZDate, various methods here (infos, IDayProvider,
+    // ValidateGregorianParts()).
 
     #region Developer Notes
 
@@ -47,8 +50,8 @@ namespace Zorglub.Time.Hemerology
         /// <summary>
         /// Initializes a new instance of <see cref="ZCalendar"/> class.
         /// </summary>
-        /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
         /// <exception cref="ArgumentNullException"><paramref name="key"/> is null.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
         internal ZCalendar(
             int id,
             string key,
@@ -56,12 +59,24 @@ namespace Zorglub.Time.Hemerology
             DayNumber epoch,
             bool widest,
             bool userDefined)
-            : base(key, MinMaxYearScope.WithMaximalRange(schema, epoch, onOrAfterEpoch: !widest))
+            : this(
+                  id,
+                  key,
+                  MinMaxYearScope.WithMaximalRange(schema, epoch, onOrAfterEpoch: !widest),
+                  userDefined)
+        { }
+
+        /// <summary>
+        /// Initializes a new instance of <see cref="ZCalendar"/> class.
+        /// </summary>
+        /// <exception cref="ArgumentNullException"><paramref name="key"/> is null.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="scope"/> is null.</exception>
+        internal ZCalendar(int id, string key, MinMaxYearScope scope, bool userDefined)
+            : base(key, scope)
         {
             Debug.Assert(key != null);
 
             Key = key;
-
             Id = id;
             IsUserDefined = userDefined;
 
