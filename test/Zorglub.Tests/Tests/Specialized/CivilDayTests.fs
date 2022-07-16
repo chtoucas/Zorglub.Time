@@ -1,14 +1,14 @@
 ﻿// SPDX-License-Identifier: BSD-3-Clause
 // Copyright (c) 2020 Narvalo.Org. All rights reserved.
 
-module Zorglub.Tests.Hemerology.CivilDayTests
+module Zorglub.Tests.Specialized.CivilDayTests
 
 open Zorglub.Testing
 open Zorglub.Testing.Data.Bounded
 open Zorglub.Testing.Facts
 
 open Zorglub.Time.Core.Intervals
-open Zorglub.Time.Hemerology
+open Zorglub.Time.Specialized
 
 module Bundles =
     // NB: notice the use of StandardGregorianDataSet.

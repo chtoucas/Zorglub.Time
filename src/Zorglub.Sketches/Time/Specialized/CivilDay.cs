@@ -1,11 +1,12 @@
 ﻿// SPDX-License-Identifier: BSD-3-Clause
 // Copyright (c) 2020 Narvalo.Org. All rights reserved.
 
-namespace Zorglub.Time.Hemerology
+namespace Zorglub.Time.Specialized
 {
     using Zorglub.Time.Core.Intervals;
     using Zorglub.Time.Core.Schemas;
     using Zorglub.Time.Core.Validation;
+    using Zorglub.Time.Hemerology;
     using Zorglub.Time.Hemerology.Scopes;
 
     // TODO(api): non-standard math.

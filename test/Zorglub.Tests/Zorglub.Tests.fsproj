@@ -83,9 +83,6 @@
     <Compile Include="Tests\Hemerology\Scopes\ProlepticScopeTestSuite.fs" />
     <Compile Include="Tests\Hemerology\CalendarEpochTests.fs" />
     <Compile Include="Tests\Hemerology\YearNumberingTests.fs" />
-    <Compile Include="Tests\Hemerology\CivilDateTests.fs" />
-    <Compile Include="Tests\Hemerology\CivilDayTests.fs" />
-    <Compile Include="Tests\Hemerology\GregorianDayTests.fs" />
     <Compile Include="Tests\Hemerology\ZDateTests.fs" />
     <Compile Include="Tests\Simple\Specialized\GregorianReformTests.fs" />
     <Compile Include="Tests\Simple\Specialized\RomanKalendarTests.fs" />
@@ -110,6 +107,9 @@
     <Compile Include="Tests\Simple\DateDayOfWeekTestSuite.fs" />
     <Compile Include="Tests\Simple\CalendarMonthTestSuite.fs" />
     <Compile Include="Tests\Simple\CalendarYearTestSuite.fs" />
+    <Compile Include="Tests\Specialized\GregorianDayTests.fs" />
+    <Compile Include="Tests\Specialized\CivilDayTests.fs" />
+    <Compile Include="Tests\Specialized\CivilDateTests.fs" />
     <Compile Include="Tests\PartsTests.fs" />
     <Compile Include="Tests\FieldsTests.fs" />
     <Compile Include="Tests\CalendarIdTests.fs" />
