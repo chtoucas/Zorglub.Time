@@ -14,11 +14,10 @@ namespace Zorglub.Time.Hemerology
 
     // REVIEW(api): prop Name (get and init) with default value = Key with the
     // ability to set it afterward.
-    // Instead of a maximal range of days, use a custom range of days? No, but
-    // we can use a complete scope.
-    // Complete scopes otherwise we have a problem with ZDateAdjusters,
-    // counting methods in ZDate, and various methods here (infos, IDayProvider,
-    // ValidateGregorianParts()).
+
+    // We do not use any CalendarScope but a MinMaxYearScope, otherwise we have
+    // a problem with ZDateAdjusters, counting methods in ZDate, and various
+    // methods here (infos, IDayProvider, ValidateGregorianParts()).
 
     #region Developer Notes
 

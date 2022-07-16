@@ -90,7 +90,8 @@ namespace Zorglub.Time.Hemerology
 
             int id = (int)calendar.PermanentId;
 
-            // NB: we ignore the prop calendar.IsProleptic.
+            // NB: all system calendars are proleptic; we ignore the prop
+            // calendar.IsProleptic.
             var scope = MinMaxYearScope.WithMaximalRange(
                 calendar.Schema, calendar.Epoch, onOrAfterEpoch: false);
 

@@ -202,8 +202,8 @@ namespace Zorglub.Time.Simple
         public Calendar Calendar => CalendarCatalog.GetCalendarUnchecked(unchecked(_bin & CuidMask));
 
         /// <summary>
-        /// Gets the count of days since the epoch of the calendar to which belongs the current
-        /// instance.
+        /// Gets the count of consecutive days since the epoch of the calendar to which belongs the
+        /// current instance.
         /// </summary>
         internal int DaysSinceEpoch => unchecked(_bin >> DaysSinceEpochShift);
 

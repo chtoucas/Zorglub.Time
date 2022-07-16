@@ -72,8 +72,8 @@ Intel Core2 Duo CPU E8500 3.16GHz, 1 CPU, 2 logical and 2 physical cores
 //   various implementations of a Gregorian calendar which are usually over
 //   optimized. See JulianBenchmark for more realistic benchmarks.
 // - This is the worst possible scenario for a date object: arithmetic and
-//   DayOfWeek rely on the count of days since the epoch not on the Y/M/D
-//   representation, therefore DayNumber, DateTime and other types are
+//   DayOfWeek rely on the count of consecutive days since the epoch not on the
+//   Y/M/D representation, therefore DayNumber, DateTime and other types are
 //   favoured. By the way, these types have predictable performances,
 //   their results do not vary depending on the input.
 // - CivilDate and DateTime only deal with positive years (faster divisions).

@@ -3,7 +3,10 @@
 
 #pragma warning disable CA1000 // Do not declare static members on generic types (Design) 👈 PreviewFeatures
 
-// TODO(api): I don't like these interfaces... Replace by adjusters w/ DateParts & co.
+// TODO(api): I don't like these interfaces...
+// - use raw params ("year" not "day") to be implemented by "single" date types.
+// - create equivalent adjusters w/ DateParts & co to be used with an Adjust()
+//   method on a date type.
 //
 // Le seul avantage à avoir ces méthodes sur un objet date est qu'on n'a pas à
 // revalider les paramètres.

@@ -26,8 +26,8 @@ namespace Zorglub.Time.Hemerology
     public readonly partial struct ZDate : IDate<ZDate>
     {
         /// <summary>
-        /// Represents the count of days since the epoch of the calendar to which belongs the current
-        /// instance.
+        /// Represents the count of consecutive days since the epoch of the calendar to which
+        /// belongs the current instance.
         /// <para>This field is read-only.</para>
         /// </summary>
         private readonly int _daysSinceEpoch; // 4 bytes
@@ -197,8 +197,8 @@ namespace Zorglub.Time.Hemerology
         internal int Cuid => _cuid;
 
         /// <summary>
-        /// Gets the count of days since the epoch of the calendar to which belongs the current
-        /// instance.
+        /// Gets the count of consecutive days since the epoch of the calendar to which belongs the
+        /// current instance.
         /// </summary>
         internal int DaysSinceEpoch => _daysSinceEpoch;
 
