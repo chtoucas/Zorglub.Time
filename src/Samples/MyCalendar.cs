@@ -10,11 +10,12 @@ using System.Diagnostics.Contracts;
 using Zorglub.Time.Core;
 using Zorglub.Time.Core.Utilities;
 using Zorglub.Time.Hemerology;
+using Zorglub.Time.Hemerology.Scopes;
 
 // Verification that one can create a calendar type without having access to
 // the internals.
 
-public sealed partial class MyCalendar : BasicCalendar, ICalendar<MyDate>
+public sealed partial class MyCalendar : BasicCalendar<CalendarScope>, ICalendar<MyDate>
 {
     private readonly SystemSchema _schema;
 

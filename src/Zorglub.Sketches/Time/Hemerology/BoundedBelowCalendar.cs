@@ -16,7 +16,7 @@ namespace Zorglub.Time.Hemerology
     /// Represents a calendar with dates on or after a given date.
     /// <para>The aforementioned date can NOT be the start of a year.</para>
     /// </summary>
-    public partial class BoundedBelowCalendar : NakedCalendar
+    public partial class BoundedBelowCalendar : NakedCalendar<BoundedBelowScope>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="BoundedBelowCalendar"/> class.
@@ -44,9 +44,6 @@ namespace Zorglub.Time.Hemerology
             DayProvider = new BoundedBelowDayProvider(scope);
 
             MinYear = SupportedYears.MinYear;
-            MinMonthParts = scope.MinMonthParts;
-            MinDateParts = scope.MinDateParts;
-            MinOrdinalParts = scope.MinOrdinalParts;
         }
 
         /// <summary>
@@ -62,17 +59,17 @@ namespace Zorglub.Time.Hemerology
         /// <summary>
         /// Gets the earliest supported month parts.
         /// </summary>
-        protected internal MonthParts MinMonthParts { get; }
+        protected internal MonthParts MinMonthParts => Scope.MinMonthParts;
 
         /// <summary>
         /// Gets the earliest supported date parts.
         /// </summary>
-        protected internal DateParts MinDateParts { get; }
+        protected internal DateParts MinDateParts => Scope.MinDateParts;
 
         /// <summary>
         /// Gets the earliest supported ordinal date parts.
         /// </summary>
-        protected internal OrdinalParts MinOrdinalParts { get; }
+        protected internal OrdinalParts MinOrdinalParts => Scope.MinOrdinalParts;
     }
 
     public partial class BoundedBelowCalendar // Year, month, day infos

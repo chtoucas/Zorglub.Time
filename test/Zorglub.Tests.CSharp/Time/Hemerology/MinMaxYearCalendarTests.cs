@@ -7,6 +7,7 @@ using Zorglub.Testing.Data.Bounded;
 using Zorglub.Testing.Data.Unbounded;
 using Zorglub.Time.Core;
 using Zorglub.Time.Core.Schemas;
+using Zorglub.Time.Hemerology.Scopes;
 
 public static class MinMaxYearCalendarTests
 {
@@ -98,7 +99,7 @@ public class GregorianMinMaxYearCalendarDataSet :
 
 // TODO(code): à améliorer.
 public sealed class GregorianMinMaxYearCalendarTests :
-    NakedCalendarFacts<MinMaxYearCalendar, GregorianMinMaxYearCalendarDataSet>
+    NakedCalendarFacts<MinMaxYearCalendar, MinMaxYearScope, GregorianMinMaxYearCalendarDataSet>
 {
     // On triche un peu, les années de début et de fin ont été choisies de
     // telle sorte que les tests marchent... (cf. GregorianData).

@@ -15,7 +15,7 @@ using Zorglub.Time.Hemerology.Scopes;
 // Verification that one can create a calendar type without having access to
 // the internals of the assembly Zorglub.
 
-public partial class MyNakedCalendar : NakedCalendar
+public partial class MyNakedCalendar : NakedCalendar<MinMaxYearScope>
 {
     public MyNakedCalendar(string name, ICalendricalSchema schema, DayNumber epoch)
         : this(name, new MinMaxYearScope(schema, epoch, 1, 9999)) { }

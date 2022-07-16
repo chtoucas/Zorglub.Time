@@ -45,7 +45,7 @@ namespace Zorglub.Time.Hemerology
     /// <summary>
     /// Represents a calendar.
     /// </summary>
-    public partial class ZCalendar : BasicCalendar, ICalendar<ZDate>
+    public partial class ZCalendar : BasicCalendar<MinMaxYearScope>, ICalendar<ZDate>
     {
         /// <summary>
         /// Initializes a new instance of <see cref="ZCalendar"/> class.

@@ -9,6 +9,7 @@ using System.Linq;
 
 using Zorglub.Testing.Data;
 using Zorglub.Time.Hemerology;
+using Zorglub.Time.Hemerology.Scopes;
 
 // TODO(fact): should derive from ICalendarTFacts.
 
@@ -19,9 +20,10 @@ using Zorglub.Time.Hemerology;
 /// <summary>
 /// Provides facts about <see cref="NakedCalendar"/>.
 /// </summary>
-public abstract partial class NakedCalendarFacts<TCalendar, TDataSet> :
+public abstract partial class NakedCalendarFacts<TCalendar, TScope, TDataSet> :
     ICalendarFacts<TCalendar, TDataSet>
-    where TCalendar : NakedCalendar
+    where TCalendar : NakedCalendar<TScope>
+    where TScope : CalendarScope
     where TDataSet : ICalendarDataSet, ISingleton<TDataSet>
 {
     protected NakedCalendarFacts(TCalendar calendar) : base(calendar)
@@ -41,7 +43,7 @@ public abstract partial class NakedCalendarFacts<TCalendar, TDataSet> :
 #endif
 }
 
-public partial class NakedCalendarFacts<TCalendar, TDataSet> // Properties
+public partial class NakedCalendarFacts<TCalendar, TScope, TDataSet> // Properties
 {
     [Fact]
     public sealed override void Algorithm_Prop() =>
@@ -60,7 +62,7 @@ public partial class NakedCalendarFacts<TCalendar, TDataSet> // Properties
         Assert.Equal(CalendarUT.Name, CalendarUT.ToString());
 }
 
-public partial class NakedCalendarFacts<TCalendar, TDataSet> // Conversions
+public partial class NakedCalendarFacts<TCalendar, TScope, TDataSet> // Conversions
 {
     #region GetDateParts(DayNumber)
 
@@ -164,7 +166,7 @@ public partial class NakedCalendarFacts<TCalendar, TDataSet> // Conversions
 }
 
 // Dates in a given year or month.
-public partial class NakedCalendarFacts<TCalendar, TDataSet> // IDayProvider
+public partial class NakedCalendarFacts<TCalendar, TScope, TDataSet> // IDayProvider
 {
     //
     // ICalendar<DayNumber>.
@@ -374,7 +376,7 @@ public partial class NakedCalendarFacts<TCalendar, TDataSet> // IDayProvider
 }
 
 // Arithmetic.
-public partial class NakedCalendarFacts<TCalendar, TDataSet>
+public partial class NakedCalendarFacts<TCalendar, TScope, TDataSet>
 {
     #region AddDays(dayNumber, days)
 

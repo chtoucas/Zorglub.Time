@@ -11,6 +11,7 @@ using global::Samples;
 
 using Zorglub.Testing.Data.Unbounded;
 using Zorglub.Time.Core.Schemas;
+using Zorglub.Time.Hemerology.Scopes;
 
 // Cf. aussi GregorianBoundedBelowCalendarTests.
 public static class BoundedBelowCalendarTests
@@ -57,7 +58,7 @@ public static class BoundedBelowCalendarTests
 }
 
 public sealed class GregorianBoundedBelowCalendarTests
-    : NakedCalendarFacts<BoundedBelowCalendar, UnboundedGregorianDataSet>
+    : NakedCalendarFacts<BoundedBelowCalendar, BoundedBelowScope, UnboundedGregorianDataSet>
 {
     private const int FirstYear = -123_456;
     private const int FirstMonth = 4;
