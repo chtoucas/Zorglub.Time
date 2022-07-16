@@ -11,6 +11,7 @@ using Zorglub.Time;
 using Zorglub.Time.Core;
 using Zorglub.Time.Core.Schemas;
 using Zorglub.Time.Hemerology;
+using Zorglub.Time.Hemerology.Scopes;
 using Zorglub.Time.Simple;
 
 using static Zorglub.Time.Extensions.Unboxing;
@@ -165,14 +166,9 @@ public partial class CalendarZoo
         const string Key = "Long Julian";
 
         var sch = JulianSchema.GetInstance().Unbox();
-        var created = ZCatalog.TryAdd(
-            Key,
-            sch,
-            DayZero.OldStyle,
-            widest: true,
-            out var chr);
+        var scope = MinMaxYearScope.WithMaximalRange(sch, DayZero.OldStyle, onOrAfterEpoch: false);
 
-        if (created == false)
+        if (ZCatalog.TryAdd(Key, scope, out var chr) == false)
         {
             return s_LongJulian ?? ZCatalog.GetCalendar(Key);
         }
@@ -305,8 +301,7 @@ public partial class CalendarZoo
     /// <para>This static property is thread-safe.</para>
     /// </summary>
     /// <remarks>
-    /// The Holocene calendar differs from the Gregorian calendar only in
-    /// the way years are numbered.
+    /// The Holocene calendar differs from the Gregorian calendar only in the way years are numbered.
     /// </remarks>
     public static ZCalendar Holocene => s_Holocene ??= InitHolocene();
 
@@ -317,14 +312,9 @@ public partial class CalendarZoo
         const string Key = "Holocene";
 
         var sch = CreateOffsettedGregorian(10_000);
-        var created = ZCatalog.TryAdd(
-            Key,
-            sch,
-            DayZero.NewStyle,
-            widest: false,
-            out var chr);
+        var scope = MinMaxYearScope.WithMaximalRange(sch, DayZero.NewStyle, onOrAfterEpoch: true);
 
-        if (created == false)
+        if (ZCatalog.TryAdd(Key, scope, out var chr) == false)
         {
             return s_Holocene ?? ZCatalog.GetCalendar(Key);
         }
@@ -339,8 +329,7 @@ public partial class CalendarZoo
     /// <para>This static property is thread-safe.</para>
     /// </summary>
     /// <remarks>
-    /// The Minguo calendar differs from the Gregorian calendar only in
-    /// the way years are numbered.
+    /// The Minguo calendar differs from the Gregorian calendar only in the way years are numbered.
     /// </remarks>
     public static ZCalendar Minguo => s_Minguo ??= InitMinguo();
 
@@ -351,14 +340,9 @@ public partial class CalendarZoo
         const string Key = "Minguo";
 
         var sch = CreateOffsettedGregorian(-1911);
-        var created = ZCatalog.TryAdd(
-            Key,
-            sch,
-            DayZero.NewStyle,
-            widest: false,
-            out var chr);
+        var scope = MinMaxYearScope.WithMaximalRange(sch, DayZero.NewStyle, onOrAfterEpoch: true);
 
-        if (created == false)
+        if (ZCatalog.TryAdd(Key, scope, out var chr) == false)
         {
             return s_Holocene ?? ZCatalog.GetCalendar(Key);
         }
@@ -373,8 +357,7 @@ public partial class CalendarZoo
     /// <para>This static property is thread-safe.</para>
     /// </summary>
     /// <remarks>
-    /// The Minguo calendar differs from the Gregorian calendar only in
-    /// the way years are numbered.
+    /// The Minguo calendar differs from the Gregorian calendar only in the way years are numbered.
     /// </remarks>
     public static ZCalendar ThaiSolar => s_ThaiSolar ??= InitThaiSolar();
 
@@ -385,14 +368,9 @@ public partial class CalendarZoo
         const string Key = "Thai Solar";
 
         var sch = CreateOffsettedGregorian(543);
-        var created = ZCatalog.TryAdd(
-            Key,
-            sch,
-            DayZero.NewStyle,
-            widest: false,
-            out var chr);
+        var scope = MinMaxYearScope.WithMaximalRange(sch, DayZero.NewStyle, onOrAfterEpoch: true);
 
-        if (created == false)
+        if (ZCatalog.TryAdd(Key, scope, out var chr) == false)
         {
             return s_ThaiSolar ?? ZCatalog.GetCalendar(Key);
         }

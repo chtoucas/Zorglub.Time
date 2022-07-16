@@ -4,6 +4,7 @@
 namespace Zorglub.Time.Hemerology;
 
 using Zorglub.Time.Core.Schemas;
+using Zorglub.Time.Hemerology.Scopes;
 
 using static Zorglub.Time.Extensions.Unboxing;
 
@@ -13,10 +14,14 @@ public static class ZCatalogTests
     public const string JulianKey = "Zorglub Julian";
 
     public static readonly ZCalendar Gregorian =
-        ZCatalog.Add(GregorianKey, new GregorianSchema(), DayZero.NewStyle, widest: true);
+        ZCatalog.Add(
+            GregorianKey,
+            MinMaxYearScope.WithMaximalRange(new GregorianSchema(), DayZero.NewStyle, onOrAfterEpoch: false));
 
     public static readonly ZCalendar Julian =
-        ZCatalog.Add(JulianKey, new JulianSchema(), DayZero.OldStyle, widest: true);
+        ZCatalog.Add(
+            JulianKey,
+            MinMaxYearScope.WithMaximalRange(new JulianSchema(), DayZero.OldStyle, onOrAfterEpoch: true));
 
     // We want the two previous static fields to be initialized before anything else.
     static ZCatalogTests() { }
@@ -116,22 +121,22 @@ public static class ZCatalogTests
     [Fact]
     public static void Add_NullKey() =>
         Assert.ThrowsAnexn("name",
-            () => ZCatalog.Add(null!, new GregorianSchema(), default, false));
+            () => ZCatalog.Add(null!, MinMaxYearScope.WithMaximalRange(new GregorianSchema(), default, false)));
 
     [Fact]
     public static void Add_KeyAlreadyExists() =>
         Assert.Throws<ArgumentException>("key",
-            () => ZCatalog.Add(GregorianKey, new GregorianSchema(), default, false));
+            () => ZCatalog.Add(GregorianKey, MinMaxYearScope.WithMaximalRange(new GregorianSchema(), default, false)));
 
-    [Fact]
-    public static void Add_InvalidSchema()
-    {
-        string key = "key";
-        // Act & Assert
-        Assert.ThrowsAnexn("schema",
-            () => ZCatalog.Add(key, null!, default, false));
-        OnKeyNotSet(key);
-    }
+    //[Fact]
+    //public static void Add_InvalidSchema()
+    //{
+    //    string key = "key";
+    //    // Act & Assert
+    //    Assert.ThrowsAnexn("schema",
+    //        () => ZCatalog.Add(key, null!, default, false));
+    //    OnKeyNotSet(key);
+    //}
 
     [Fact]
     public static void Add()
@@ -139,7 +144,7 @@ public static class ZCatalogTests
         string key = "Add";
         var epoch = DayZero.NewStyle;
         // Act
-        var chr = ZCatalog.Add(key, new GregorianSchema(), epoch, false);
+        var chr = ZCatalog.Add(key, MinMaxYearScope.WithMaximalRange(new GregorianSchema(), epoch, false));
         // Assert
         OnKeySet(key, epoch, chr);
     }
@@ -151,7 +156,7 @@ public static class ZCatalogTests
         var epoch = DayZero.NewStyle;
         // Act
         var chr = (from x in GregorianSchema.GetInstance()
-                   select ZCatalog.Add(key, x, epoch, false)
+                   select ZCatalog.Add(key, MinMaxYearScope.WithMaximalRange(x, epoch, false))
                    ).Unbox();
         // Assert
         OnKeySet(key, epoch, chr);
@@ -164,7 +169,7 @@ public static class ZCatalogTests
     public static void TryAdd_NullKey() =>
         Assert.ThrowsAnexn("key",
             () => ZCatalog.TryAdd(
-                null!, new GregorianSchema(), default, false, out _));
+                null!, MinMaxYearScope.WithMaximalRange(new GregorianSchema(), default, false), out _));
 
     [Fact]
     public static void TryAdd_KeyAlreadyExists()
@@ -173,9 +178,7 @@ public static class ZCatalogTests
         // NB: on utilise volontairement une epoch et un schéma différents.
         bool created = ZCatalog.TryAdd(
             GregorianKey,
-            new JulianSchema(),
-            DayZero.OldStyle,
-            false,
+            MinMaxYearScope.WithMaximalRange(new JulianSchema(), DayZero.OldStyle, false),
             out ZCalendar? calendar);
         // Assert
         Assert.False(created);
@@ -183,15 +186,15 @@ public static class ZCatalogTests
         Assert.Null(calendar);
     }
 
-    [Fact]
-    public static void TryAdd_InvalidSchema()
-    {
-        string key = "key";
-        // Act & Assert
-        Assert.ThrowsAnexn("schema",
-            () => ZCatalog.TryAdd(key, null!, default, false, out _));
-        OnKeyNotSet(key);
-    }
+    //[Fact]
+    //public static void TryAdd_InvalidSchema()
+    //{
+    //    string key = "key";
+    //    // Act & Assert
+    //    Assert.ThrowsAnexn("schema",
+    //        () => ZCatalog.TryAdd(key, null!, default, false, out _));
+    //    OnKeyNotSet(key);
+    //}
 
     [Fact]
     public static void TryAdd()
@@ -200,7 +203,9 @@ public static class ZCatalogTests
         var epoch = DayZero.NewStyle;
         // Act
         bool created = ZCatalog.TryAdd(
-            key, new GregorianSchema(), epoch, false, out ZCalendar? calendar);
+            key,
+            MinMaxYearScope.WithMaximalRange(new GregorianSchema(), epoch, false),
+            out ZCalendar? calendar);
         // Assert
         Assert.True(created);
         OnKeySet(key, epoch, calendar);
@@ -213,7 +218,9 @@ public static class ZCatalogTests
         var epoch = DayZero.NewStyle;
         // Act
         bool created = ZCatalog.TryAdd(
-            key, new GregorianSchema(), epoch, false, out ZCalendar? calendar);
+            key,
+            MinMaxYearScope.WithMaximalRange(new GregorianSchema(), epoch, false),
+            out ZCalendar? calendar);
         // Assert
         Assert.True(created);
         OnKeySet(key, epoch, calendar);
@@ -233,7 +240,7 @@ public static class ZCatalogTests
 
         ZCalendar? TryAdd(GregorianSchema x)
         {
-            created = ZCatalog.TryAdd(key, x, epoch, false, out var chr);
+            created = ZCatalog.TryAdd(key, MinMaxYearScope.WithMaximalRange(x, epoch, false), out var chr);
 
             return chr;
         }

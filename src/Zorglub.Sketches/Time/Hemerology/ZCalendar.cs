@@ -14,11 +14,10 @@ namespace Zorglub.Time.Hemerology
 
     // REVIEW(api): prop Name (get and init) with default value = Key with the
     // ability to set it afterward.
-    // Instead of a maximal range of days, use a custom range of days? Hum,
-    // I'm not sure that it's possible here (see CalendarCatalog).
-    // Maybe use a complete scope?
+    // Instead of a maximal range of days, use a custom range of days? No, but
+    // we can use a complete scope.
     // Complete scopes otherwise we have a problem with ZDateAdjusters,
-    // counting methods in ZDate, various methods here (infos, IDayProvider,
+    // counting methods in ZDate, and various methods here (infos, IDayProvider,
     // ValidateGregorianParts()).
 
     #region Developer Notes
@@ -47,25 +46,6 @@ namespace Zorglub.Time.Hemerology
     /// </summary>
     public partial class ZCalendar : BasicCalendar<MinMaxYearScope>, ICalendar<ZDate>
     {
-        /// <summary>
-        /// Initializes a new instance of <see cref="ZCalendar"/> class.
-        /// </summary>
-        /// <exception cref="ArgumentNullException"><paramref name="key"/> is null.</exception>
-        /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
-        internal ZCalendar(
-            int id,
-            string key,
-            ICalendricalSchema schema,
-            DayNumber epoch,
-            bool widest,
-            bool userDefined)
-            : this(
-                  id,
-                  key,
-                  MinMaxYearScope.WithMaximalRange(schema, epoch, onOrAfterEpoch: !widest),
-                  userDefined)
-        { }
-
         /// <summary>
         /// Initializes a new instance of <see cref="ZCalendar"/> class.
         /// </summary>

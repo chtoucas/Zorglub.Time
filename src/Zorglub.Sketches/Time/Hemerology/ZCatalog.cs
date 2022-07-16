@@ -10,6 +10,7 @@ namespace Zorglub.Time.Hemerology
     using System.Threading;
 
     using Zorglub.Time.Core;
+    using Zorglub.Time.Hemerology.Scopes;
     using Zorglub.Time.Simple;
 
     // TODO(code): to be rewritten. ZDate._cuid is now a full int, MaxId?
@@ -88,15 +89,12 @@ namespace Zorglub.Time.Hemerology
             Debug.Assert(!calendar.IsUserDefined);
 
             int id = (int)calendar.PermanentId;
-            var key = calendar.Key;
-            var chr = new ZCalendar(
-                id,
-                key,
-                calendar.Schema,
-                calendar.Epoch,
-                // NB: we ignore the prop calendar.IsProleptic.
-                widest: true,
-                userDefined: false);
+
+            // NB: we ignore the prop calendar.IsProleptic.
+            var scope = MinMaxYearScope.WithMaximalRange(
+                calendar.Schema, calendar.Epoch, onOrAfterEpoch: false);
+
+            var chr = new ZCalendar(id, calendar.Key, scope, userDefined: false);
 
             return s_CalendarsById[id] = chr;
         }
@@ -197,10 +195,10 @@ namespace Zorglub.Time.Hemerology
             {
                 int cuid = (int)calendar.Id;
 
-                var chr = new ZCalendar(
-                    cuid,
-                    calendar.Key, calendar.Schema, calendar.Epoch, calendar.IsProleptic,
-                    userDefined: true);
+                var scope = MinMaxYearScope.WithMaximalRange(
+                    calendar.Schema, calendar.Epoch, onOrAfterEpoch: !calendar.IsProleptic);
+
+                var chr = new ZCalendar(cuid, calendar.Key, scope, userDefined: true);
                 s_CalendarsById[cuid] = chr;
 
                 return chr;
@@ -295,15 +293,14 @@ namespace Zorglub.Time.Hemerology
     public partial class ZCatalog // Add
     {
         [Pure]
-        public static ZCalendar GetOrAdd(
-            string key, ICalendricalSchema schema, DayNumber epoch, bool widest)
+        public static ZCalendar GetOrAdd(string key, MinMaxYearScope scope)
         {
             if (s_LastIdent >= MaxId && !s_CalendarsByKey.ContainsKey(key))
             {
                 Throw.CatalogOverflow();
             }
 
-            var tmp = new TmpCalendar(key, schema, epoch, widest);
+            var tmp = new TmpCalendar(key, scope);
 
             var lazy = new Lazy<ZCalendar>(() => CreateCalendar(tmp));
             var lazy1 = s_CalendarsByKey.GetOrAdd(key, lazy);
@@ -323,12 +320,11 @@ namespace Zorglub.Time.Hemerology
         }
 
         [Pure]
-        public static ZCalendar Add(
-            string key, ICalendricalSchema schema, DayNumber epoch, bool widest)
+        public static ZCalendar Add(string key, MinMaxYearScope scope)
         {
             if (s_LastIdent >= MaxId) Throw.CatalogOverflow();
 
-            var tmp = new TmpCalendar(key, schema, epoch, widest);
+            var tmp = new TmpCalendar(key, scope);
 
             var lazy = new Lazy<ZCalendar>(() => CreateCalendar(tmp));
 
@@ -350,16 +346,16 @@ namespace Zorglub.Time.Hemerology
 
         [Pure]
         public static bool TryAdd(
-            string key, ICalendricalSchema schema, DayNumber epoch, bool widest,
+            string key, MinMaxYearScope scope,
             [NotNullWhen(true)] out ZCalendar? calendar)
         {
             if (s_LastIdent >= MaxId) { goto FAILED; }
 
             Requires.NotNull(key);
-            Requires.NotNull(schema);
+            Requires.NotNull(scope);
 
             TmpCalendar tmp;
-            try { tmp = new TmpCalendar(key, schema, epoch, widest); }
+            try { tmp = new TmpCalendar(key, scope); }
             catch (ArgumentException) { goto FAILED; }
 
             var lazy = new Lazy<ZCalendar>(() => CreateCalendar(tmp));
@@ -399,9 +395,7 @@ namespace Zorglub.Time.Hemerology
             var chr = new ZCalendar(
                 ident,
                 tmpCalendar.Key,
-                tmpCalendar.Schema,
-                tmpCalendar.Epoch,
-                tmpCalendar.Widest,
+                tmpCalendar.Scope,
                 userDefined: true);
 
             return s_CalendarsById[ident] = chr;
@@ -409,20 +403,11 @@ namespace Zorglub.Time.Hemerology
 
         private sealed class TmpCalendar : ZCalendar
         {
-            public TmpCalendar(
-                string key,
-                ICalendricalSchema schema,
-                DayNumber epoch,
-                bool widest)
-                : base(Int32.MaxValue, key, schema, epoch, widest, userDefined: true)
-            {
-                Widest = widest;
-            }
+            public TmpCalendar(string key, MinMaxYearScope scope)
+                : base(Int32.MaxValue, key, scope, userDefined: true) { }
 
             [SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "Hides inherited member.")]
             internal new int Id => Throw.InvalidOperation<int>();
-
-            public bool Widest { get; }
         }
     }
 }
