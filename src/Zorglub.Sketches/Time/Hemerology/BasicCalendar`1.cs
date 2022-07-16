@@ -16,8 +16,8 @@ namespace Zorglub.Time.Hemerology
         where TScope : CalendarScope
     {
         /// <summary>
-        /// Called from constructors in derived classes to initialize the <see cref="BasicCalendar"/>
-        /// class.
+        /// Called from constructors in derived classes to initialize the
+        /// <see cref="BasicCalendar{TScope}"/> class.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="scope"/> is null.</exception>
         protected BasicCalendar(string name, TScope scope)

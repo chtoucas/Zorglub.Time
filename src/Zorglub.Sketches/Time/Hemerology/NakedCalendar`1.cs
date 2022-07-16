@@ -45,7 +45,7 @@ namespace Zorglub.Time.Hemerology
     {
         /// <summary>
         /// Called from constructors in derived classes to initialize the
-        /// <see cref="NakedCalendar"/> class.
+        /// <see cref="NakedCalendar{TScope}"/> class.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="name"/> is null.</exception>
         /// <exception cref="ArgumentNullException"><paramref name="scope"/> is null.</exception>
