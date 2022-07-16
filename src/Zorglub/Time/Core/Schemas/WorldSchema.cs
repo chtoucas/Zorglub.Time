@@ -3,14 +3,14 @@
 
 namespace Zorglub.Time.Core.Schemas
 {
-    // World calendar or Universal calendar, attempt to improve on the
-    // fixed calendars which themselves descents from the Positivist (Georgian)
+    // World calendar or Universal calendar, attempt to improve on the fixed
+    // calendars which themselves descents from the Positivist (Georgian)
     // calendar.
     // Four identical quarters: 91 = 31+30+30 days, 13 weeks, 3 months.
     // Each year begins on Sunday.
     // Each quarter begins on Sunday, ends on Saturday.
-    // Promoted by Camille Flammarion in France, and lobbied by Elisabeth Achelis
-    // to be adopted by the United Nations.
+    // Promoted by Camille Flammarion in France, and lobbied by Elisabeth
+    // Achelis to be adopted by the United Nations.
     // See http://myweb.ecu.edu/mccartyr/world-calendar.html
     //
     // Main flaws: blank-days, position of the intercalary day.
@@ -23,8 +23,7 @@ namespace Zorglub.Time.Core.Schemas
     /// <para>The two blank-days are the Leapyear Day following June on leap years, and the
     /// Worldsday following December.</para>
     /// <para>This class cannot be inherited.</para>
-    /// <para>This class can ONLY be initialized from within friend assemblies.
-    /// </para>
+    /// <para>This class can ONLY be initialized from within friend assemblies.</para>
     /// </summary>
     /// <remarks>
     /// <para>For technical reasons, the blank-days are attached to the month preceding them.</para>
@@ -46,7 +45,7 @@ namespace Zorglub.Time.Core.Schemas
         /// <para>This field is a constant equal to 146_097.</para>
         /// </summary>
         /// <remarks>
-        /// On average, a year is 365.2425 days long.
+        /// <para>On average, a year is 365.2425 days long.</para>
         /// </remarks>
         public const int DaysPer400YearCycle = GregorianSchema.DaysPer400YearCycle;
 

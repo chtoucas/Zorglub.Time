@@ -12,18 +12,16 @@ namespace Zorglub.Time.Core.Schemas
 
     /// <summary>
     /// Represents the Positivist schema proposed by Auguste Comte (1849).
-    /// <para>The Positivist calendar is a blank-day calendar using a 13-months
-    /// schema of identical length (28 days).</para>
-    /// <para>The blank-days are added after December: first "The Festival of
-    /// All the Dead" (la Fête universelle des MORTS), then "The Festival of
-    /// Holy Women" (la Fête générale des SAINTES FEMMES) on leap years.</para>
+    /// <para>The Positivist calendar is a blank-day calendar using a 13-months schema of identical
+    /// length (28 days).</para>
+    /// <para>The blank-days are added after December: first "The Festival of All the Dead" (la Fête
+    /// universelle des MORTS), then "The Festival of Holy Women" (la Fête générale des SAINTES
+    /// FEMMES) on leap years.</para>
     /// <para>This class cannot be inherited.</para>
-    /// <para>This class can ONLY be initialized from within friend assemblies.
-    /// </para>
+    /// <para>This class can ONLY be initialized from within friend assemblies.</para>
     /// </summary>
     /// <remarks>
-    /// For technical reasons, the blank-days are attached to the month
-    /// preceding them.
+    /// <para>For technical reasons, the blank-days are attached to the month preceding them.</para>
     /// </remarks>
     public sealed partial class PositivistSchema :
         SystemSchema,
@@ -42,7 +40,7 @@ namespace Zorglub.Time.Core.Schemas
         /// <para>This field is a constant equal to 146_097.</para>
         /// </summary>
         /// <remarks>
-        /// On average, a year is 365.2425 days long.
+        /// <para>On average, a year is 365.2425 days long.</para>
         /// </remarks>
         public const int DaysPer400YearCycle = GregorianSchema.DaysPer400YearCycle;
 
@@ -59,16 +57,15 @@ namespace Zorglub.Time.Core.Schemas
         public const int DaysInLeapYear = DaysInCommonYear + 1;
 
         /// <summary>
-        /// Represents the genuine number of days in a month (excluding the
-        /// blank days that are formally outside any month).
+        /// Represents the genuine number of days in a month (excluding the blank days that are
+        /// formally outside any month).
         /// <para>This field is constant equal to 28.</para>
         /// <para>See also <seealso cref="CountDaysInMonth(int, int)"/>.</para>
         /// </summary>
         public const int DaysInPositivistMonth = 28;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="PositivistSchema"/>
-        /// class.
+        /// Initializes a new instance of the <see cref="PositivistSchema"/> class.
         /// </summary>
         internal PositivistSchema() : base(DaysInCommonYear, 28) { }
 
@@ -82,8 +79,7 @@ namespace Zorglub.Time.Core.Schemas
         public int MonthsInYear => MonthsPerYear;
 
         /// <summary>
-        /// Creates a new (boxed) instance of the <see cref="PositivistSchema"/>
-        /// class.
+        /// Creates a new (boxed) instance of the <see cref="PositivistSchema"/> class.
         /// </summary>
         [Pure]
         public static Box<PositivistSchema> GetInstance() => Box.Create(new PositivistSchema());
@@ -104,9 +100,7 @@ namespace Zorglub.Time.Core.Schemas
         public sealed override bool IsIntercalaryMonth(int y, int m) => false;
 
         /// <inheritdoc />
-        //
-        // Il n'est pas nécessaire de vérifier le mois car c'est le seul
-        // jour numéroté 30.
+        // Il n'est pas nécessaire de vérifier le mois car c'est le seul jour numéroté 30.
         [Pure]
         public sealed override bool IsIntercalaryDay(int y, int m, int d) => d == 30;
 

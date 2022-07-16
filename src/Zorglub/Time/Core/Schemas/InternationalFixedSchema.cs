@@ -12,18 +12,16 @@ namespace Zorglub.Time.Core.Schemas
     // Main flaws: blank-days, 13 months, position of the intercalary day.
 
     /// <summary>
-    /// Represents the International Fixed schema proposed by Paul Delaporte and
-    /// Moses Bruine Cotsworth (1913-1914).
-    /// <para>The International Fixed calendar is a blank-day calendar using a
-    /// 13-months schema of identical length (28 days). The extra month, called
-    /// Sol, is inserted after June.</para>
-    /// <para>The two blank-days are the Leap Day following June on leap years,
-    /// and the Year Day following December (the thirteenth month).</para>
+    /// Represents the International Fixed schema proposed by Paul Delaporte and Moses Bruine
+    /// Cotsworth (1913-1914).
+    /// <para>The International Fixed calendar is a blank-day calendar using a 13-months schema of
+    /// identical length (28 days). The extra month, called Sol, is inserted after June.</para>
+    /// <para>The two blank-days are the Leap Day following June on leap years, and the Year Day
+    /// following December (the thirteenth month).</para>
     /// <para>This class cannot be inherited.</para>
     /// </summary>
     /// <remarks>
-    /// For technical reasons, the blank-days are attached to the month
-    /// preceding them.
+    /// <para>For technical reasons, the blank-days are attached to the month preceding them.</para>
     /// </remarks>
     public sealed partial class InternationalFixedSchema :
         SystemSchema,
@@ -43,7 +41,7 @@ namespace Zorglub.Time.Core.Schemas
         /// <para>This field is a constant equal to 146_097.</para>
         /// </summary>
         /// <remarks>
-        /// On average, a year is 365.2425 days long.
+        /// <para>On average, a year is 365.2425 days long.</para>
         /// </remarks>
         public const int DaysPer400YearCycle = GregorianSchema.DaysPer400YearCycle;
 
@@ -60,16 +58,15 @@ namespace Zorglub.Time.Core.Schemas
         public const int DaysInLeapYear = DaysInCommonYear + 1;
 
         /// <summary>
-        /// Represents the genuine number of days in a month (excluding the
-        /// blank days that are formally outside any month).
+        /// Represents the genuine number of days in a month (excluding the blank days that are
+        /// formally outside any month).
         /// <para>This field is constant equal to 28.</para>
         /// <para>See also <seealso cref="CountDaysInMonth(int, int)"/>.</para>
         /// </summary>
         public const int DaysInInternationalFixedMonth = 28;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="InternationalFixedSchema"/>
-        /// class.
+        /// Initializes a new instance of the <see cref="InternationalFixedSchema"/> class.
         /// </summary>
         internal InternationalFixedSchema() : base(DaysInCommonYear, 28) { }
 
@@ -83,8 +80,7 @@ namespace Zorglub.Time.Core.Schemas
         public int MonthsInYear => MonthsPerYear;
 
         /// <summary>
-        /// Creates a new (boxed) instance of the
-        /// <see cref="InternationalFixedSchema"/> class.
+        /// Creates a new (boxed) instance of the <see cref="InternationalFixedSchema"/> class.
         /// </summary>
         [Pure]
         public static Box<InternationalFixedSchema> GetInstance() =>
