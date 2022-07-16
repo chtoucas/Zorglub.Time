@@ -9,7 +9,6 @@ namespace Zorglub.Time.Hemerology
     using System.Runtime.InteropServices;
     using System.Threading;
 
-    using Zorglub.Time.Core;
     using Zorglub.Time.Hemerology.Scopes;
     using Zorglub.Time.Simple;
 
