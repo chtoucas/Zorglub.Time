@@ -16,7 +16,7 @@ namespace Zorglub.Time.Core
         public ICalendricalSchema Schema { get; }
     }
 
-    public interface ISchemaBound<TSchema>
+    public interface ISchemaBound<out TSchema>
         where TSchema : ICalendricalSchema
     {
         /// <summary>
