@@ -8,6 +8,7 @@ using System.Diagnostics;
 using System.Diagnostics.Contracts;
 
 using Zorglub.Time.Core;
+using Zorglub.Time.Core.Schemas;
 using Zorglub.Time.Core.Utilities;
 using Zorglub.Time.Hemerology;
 using Zorglub.Time.Hemerology.Scopes;
@@ -21,7 +22,7 @@ public sealed partial class MyCalendar : BasicCalendar<CalendarScope>, ICalendar
 
     public MyCalendar() : this(MyDate.Context) { }
 
-    private MyCalendar(SystemCalendarContext context) : base("MyCalendar", context.Scope)
+    private MyCalendar(CalendarScope<GregorianSchema> context) : base("MyCalendar", context.Scope)
     {
         Debug.Assert(context != null);
 

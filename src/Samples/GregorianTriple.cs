@@ -23,7 +23,7 @@ using Zorglub.Time.Hemerology;
 // We shall use it to compare performance between the various date types.
 
 /// <summary>
-/// Provides an affine Gregorian date as a struct.
+/// Provides an affine Gregorian date as a struct based on <see cref="Yemoda"/>.
 /// </summary>
 public readonly partial struct GregorianTriple :
     IAffineDate<GregorianTriple>,
@@ -31,9 +31,7 @@ public readonly partial struct GregorianTriple :
     IMonthEndpointsProvider<GregorianTriple>,
     IMinMaxValue<GregorianTriple>
 {
-    private static readonly SystemContext __ = SystemContext.Create<GregorianSchema>();
-    private static readonly SystemSchema Schema = __.Schema;
-    private static readonly SystemSegment Segment = __.Segment;
+    private static readonly SystemSchema Schema = SchemaActivator.CreateInstance<GregorianSchema>();
 
     [Pure]
     public override string ToString()
@@ -45,6 +43,7 @@ public readonly partial struct GregorianTriple :
 
 public partial struct GregorianTriple
 {
+    private static SystemSegment Segment { get; } = SystemSegment.Create(Schema, Schema.SupportedYears);
     private static SystemArithmetic Arithmetic { get; } = SystemArithmetic.CreateDefault(Segment);
     private static PartsFactory PartsFactory { get; } = PartsFactory.Create(Schema);
     private static SupportedDays SupportedDays => Segment.SupportedDays;

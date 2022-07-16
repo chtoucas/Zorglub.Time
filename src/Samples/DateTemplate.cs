@@ -27,7 +27,7 @@ using Zorglub.Time.Hemerology.Scopes;
 // - Puts more burden on the developer.
 
 /// <summary>
-/// Provides a Gregorian date.
+/// Provides a Gregorian date based on <see cref="Yemoda"/>.
 /// </summary>
 public readonly partial struct DateTemplate :
     IDate<DateTemplate>,
@@ -35,11 +35,10 @@ public readonly partial struct DateTemplate :
     IMonthEndpointsProvider<DateTemplate>,
     IMinMaxValue<DateTemplate>
 {
-    private static readonly SystemCalendarContext __ =
-        SystemCalendarContext.WithYearsAfterZero<GregorianSchema>(DayZero.NewStyle);
+    private static readonly CalendarScope<GregorianSchema> __ =
+        ScopeActivator.CreateStandard<GregorianSchema>(DayZero.NewStyle);
     private static readonly SystemSchema Schema = __.Schema;
     private static readonly CalendarScope Scope = __.Scope;
-    private static readonly SystemArithmetic Arithmetic = __.Arithmetic;
 
     [Pure]
     public override string ToString()
@@ -52,6 +51,7 @@ public readonly partial struct DateTemplate :
 public partial struct DateTemplate
 {
     private static SupportedYears SupportedYears { get; } = Scope.Segment.SupportedYears;
+    private static SystemArithmetic Arithmetic { get; } = SystemArithmetic.CreateDefault(Schema, SupportedYears.Range);
     private static PartsFactory PartsFactory { get; } = PartsFactory.Create(Schema, SupportedYears.Range);
 
     private static Range<DayNumber> Domain => Scope.Domain;

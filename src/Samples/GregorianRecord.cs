@@ -19,7 +19,7 @@ using Zorglub.Time.Hemerology;
 // - slower and bigger runtime size than the other types
 
 /// <summary>
-/// Provides an affine Gregorian date as a record struct.
+/// Provides an affine Gregorian date as a record struct (Year, Month, Day).
 /// </summary>
 public readonly partial record struct GregorianRecord :
     IAffineDate<GregorianRecord>,
@@ -27,13 +27,12 @@ public readonly partial record struct GregorianRecord :
     IMonthEndpointsProvider<GregorianRecord>,
     IMinMaxValue<GregorianRecord>
 {
-    private static readonly SchemaContext __ = SchemaContext.Create<GregorianSchema>();
-    private static readonly CalendricalSchema Schema = __.Schema;
-    private static readonly CalendricalSegment Segment = __.Segment;
+    private static readonly CalendricalSchema Schema = SchemaActivator.CreateInstance<GregorianSchema>();
 }
 
 public readonly partial record struct GregorianRecord
 {
+    private static CalendricalSegment Segment { get; } = CalendricalSegment.CreateMaximal(Schema);
     private static SupportedDays SupportedDays { get; } = Segment.SupportedDays;
     private static SupportedYears SupportedYears { get; } = Segment.SupportedYears;
     private static ICalendricalArithmetic Arithmetic { get; } =

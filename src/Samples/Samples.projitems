@@ -10,7 +10,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)CalendarZoo.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Contexts.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Activators.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DateTemplate.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DayTemplate.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Folklore.cs" />

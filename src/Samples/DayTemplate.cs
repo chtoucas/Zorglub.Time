@@ -31,7 +31,7 @@ using Zorglub.Time.Hemerology.Scopes;
 // See also GregorianDay which is an "optimized" version of this type.
 
 /// <summary>
-/// Provides a Gregorian day.
+/// Provides a Gregorian date based on the count of consecutive days since the Gregorian epoch.
 /// </summary>
 public readonly partial struct DayTemplate :
     IDate<DayTemplate>,
@@ -39,8 +39,8 @@ public readonly partial struct DayTemplate :
     IMonthEndpointsProvider<DayTemplate>,
     IMinMaxValue<DayTemplate>
 {
-    private static readonly CalendarContext __ =
-        CalendarContext.WithYearsAfterZero<GregorianSchema>(DayZero.NewStyle);
+    private static readonly CalendarScope<GregorianSchema> __ =
+        ScopeActivator.CreateStandard<GregorianSchema>(DayZero.NewStyle);
     private static readonly CalendricalSchema Schema = __.Schema;
     private static readonly CalendarScope Scope = __.Scope;
 

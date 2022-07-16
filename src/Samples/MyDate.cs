@@ -25,13 +25,12 @@ public readonly partial struct MyDate :
     IMonthEndpointsProvider<MyDate>,
     IMinMaxValue<MyDate>
 {
-    private static readonly SystemCalendarContext __ =
-        SystemCalendarContext.WithYearsBetween1And9999<GregorianSchema>(DayZero.NewStyle);
+    private static readonly CalendarScope<GregorianSchema> __ =
+        ScopeActivator.CreateStandard<GregorianSchema>(DayZero.NewStyle);
     private static readonly SystemSchema Schema = __.Schema;
     private static readonly CalendarScope Scope = __.Scope;
-    private static readonly SystemArithmetic Arithmetic = __.Arithmetic;
 
-    internal static SystemCalendarContext Context => __;
+    internal static CalendarScope<GregorianSchema> Context => __;
 
     [Pure]
     public override string ToString()
@@ -44,6 +43,7 @@ public readonly partial struct MyDate :
 public partial struct MyDate
 {
     private static SupportedYears SupportedYears { get; } = Scope.Segment.SupportedYears;
+    private static SystemArithmetic Arithmetic { get; } = SystemArithmetic.CreateDefault(Schema, SupportedYears.Range);
     private static PartsFactory PartsFactory { get; } = PartsFactory.Create(Schema, SupportedYears.Range);
 
     private static Range<DayNumber> Domain => Scope.Domain;
