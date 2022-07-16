@@ -19,6 +19,9 @@ namespace Zorglub.Time.Hemerology
 {
     using System;
 
+    // These interfaces are meant to be implemented by specialized date types,
+    // not by poly-calendar types.
+
     //
     // Year and month boundaries
     //

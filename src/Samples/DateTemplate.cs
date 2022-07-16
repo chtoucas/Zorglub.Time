@@ -196,30 +196,6 @@ public partial struct DateTemplate // Conversions, adjustments...
     }
 
     #endregion
-    #region Year and month boundaries
-
-    [Pure]
-    public static DateTemplate GetStartOfYear(DateTemplate day) => new(day._bin.StartOfYear);
-
-    [Pure]
-    public static DateTemplate GetEndOfYear(DateTemplate day)
-    {
-        var ymd = Schema.GetDatePartsAtEndOfYear(day.Year);
-        return new DateTemplate(ymd);
-    }
-
-    [Pure]
-    public static DateTemplate GetStartOfMonth(DateTemplate day) => new(day._bin.StartOfMonth);
-
-    [Pure]
-    public static DateTemplate GetEndOfMonth(DateTemplate day)
-    {
-        var (y, m, _) = day._bin;
-        var ymd = Schema.GetDatePartsAtEndOfMonth(y, m);
-        return new DateTemplate(ymd);
-    }
-
-    #endregion
     #region Adjust the day of the week
 
     [Pure]
@@ -283,6 +259,30 @@ public partial struct DateTemplate // Conversions, adjustments...
         int δ = dayOfWeek - DayOfWeek;
         return PlusDays(δ <= 0 ? δ + 7 : δ);
 #endif
+    }
+
+    #endregion
+    #region Year and month boundaries
+
+    [Pure]
+    public static DateTemplate GetStartOfYear(DateTemplate day) => new(day._bin.StartOfYear);
+
+    [Pure]
+    public static DateTemplate GetEndOfYear(DateTemplate day)
+    {
+        var ymd = Schema.GetDatePartsAtEndOfYear(day.Year);
+        return new DateTemplate(ymd);
+    }
+
+    [Pure]
+    public static DateTemplate GetStartOfMonth(DateTemplate day) => new(day._bin.StartOfMonth);
+
+    [Pure]
+    public static DateTemplate GetEndOfMonth(DateTemplate day)
+    {
+        var (y, m, _) = day._bin;
+        var ymd = Schema.GetDatePartsAtEndOfMonth(y, m);
+        return new DateTemplate(ymd);
     }
 
     #endregion

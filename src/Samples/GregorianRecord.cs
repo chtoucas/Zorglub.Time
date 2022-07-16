@@ -23,8 +23,6 @@ using Zorglub.Time.Hemerology;
 /// </summary>
 public readonly partial record struct GregorianRecord :
     IAffineDate<GregorianRecord>,
-    IYearEndpointsProvider<GregorianRecord>,
-    IMonthEndpointsProvider<GregorianRecord>,
     IMinMaxValue<GregorianRecord>
 {
     private static readonly CalendricalSchema Schema = SchemaActivator.CreateInstance<GregorianSchema>();
@@ -101,39 +99,6 @@ public partial record struct GregorianRecord // Conversions, adjustments...
 
     [Pure]
     public int CountRemainingDaysInMonth() => Schema.CountDaysInMonthAfter(Year, Month, Day);
-
-    #endregion
-    #region Year and month boundaries
-
-    [Pure]
-    public static GregorianRecord GetStartOfYear(GregorianRecord day)
-    {
-        var parts = PartsAdapter.GetDatePartsAtEndOfYear(day.Year);
-        return new GregorianRecord(parts);
-    }
-
-    [Pure]
-    public static GregorianRecord GetEndOfYear(GregorianRecord day)
-    {
-        var parts = PartsAdapter.GetDatePartsAtEndOfYear(day.Year);
-        return new GregorianRecord(parts);
-    }
-
-    [Pure]
-    public static GregorianRecord GetStartOfMonth(GregorianRecord day)
-    {
-        var (y, m, _) = day;
-        var parts = DateParts.AtStartOfMonth(y, m);
-        return new GregorianRecord(parts);
-    }
-
-    [Pure]
-    public static GregorianRecord GetEndOfMonth(GregorianRecord day)
-    {
-        var (y, m, _) = day;
-        var parts = PartsAdapter.GetDatePartsAtEndOfMonth(y, m);
-        return new GregorianRecord(parts);
-    }
 
     #endregion
 }

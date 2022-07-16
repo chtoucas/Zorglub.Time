@@ -3,6 +3,9 @@
 
 namespace Zorglub.Time.Hemerology
 {
+    // IDayProvider is meant to be implemented by poly-calendar types, not by
+    // specialized date types.
+
     /// <summary>
     /// Provides methods to obtain dates in a year or a month, the two subdivisions of time used by
     /// most calendar systems.

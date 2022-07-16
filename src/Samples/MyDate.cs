@@ -21,8 +21,6 @@ using Zorglub.Time.Hemerology.Scopes;
 
 public readonly partial struct MyDate :
     IDate<MyDate>,
-    IYearEndpointsProvider<MyDate>,
-    IMonthEndpointsProvider<MyDate>,
     IMinMaxValue<MyDate>
 {
     private static readonly CalendarScope<GregorianSchema> __ =
@@ -156,30 +154,6 @@ public partial struct MyDate // Conversions, adjustments...
     {
         var (y, m, d) = _bin;
         return Schema.CountDaysInMonthAfter(y, m, d);
-    }
-
-    #endregion
-    #region Year and month boundaries.
-
-    [Pure]
-    public static MyDate GetStartOfYear(MyDate day) => new(day._bin.StartOfYear);
-
-    [Pure]
-    public static MyDate GetEndOfYear(MyDate day)
-    {
-        var ymd = Schema.GetDatePartsAtEndOfYear(day.Year);
-        return new MyDate(ymd);
-    }
-
-    [Pure]
-    public static MyDate GetStartOfMonth(MyDate day) => new(day._bin.StartOfMonth);
-
-    [Pure]
-    public static MyDate GetEndOfMonth(MyDate day)
-    {
-        var (y, m, _) = day._bin;
-        var ymd = Schema.GetDatePartsAtEndOfMonth(y, m);
-        return new MyDate(ymd);
     }
 
     #endregion

@@ -27,8 +27,6 @@ using Zorglub.Time.Hemerology;
 /// </summary>
 public readonly partial struct GregorianTriple :
     IAffineDate<GregorianTriple>,
-    IYearEndpointsProvider<GregorianTriple>,
-    IMonthEndpointsProvider<GregorianTriple>,
     IMinMaxValue<GregorianTriple>
 {
     private static readonly SystemSchema Schema = SchemaActivator.CreateInstance<GregorianSchema>();
@@ -145,30 +143,6 @@ public partial struct GregorianTriple // Conversions, adjustments...
     {
         var (y, m, d) = _bin;
         return Schema.CountDaysInMonthAfter(y, m, d);
-    }
-
-    #endregion
-    #region Year and month boundaries
-
-    [Pure]
-    public static GregorianTriple GetStartOfYear(GregorianTriple day) => new(day._bin.StartOfYear);
-
-    [Pure]
-    public static GregorianTriple GetEndOfYear(GregorianTriple day)
-    {
-        var ymd = Schema.GetDatePartsAtEndOfYear(day.Year);
-        return new GregorianTriple(ymd);
-    }
-
-    [Pure]
-    public static GregorianTriple GetStartOfMonth(GregorianTriple day) => new(day._bin.StartOfMonth);
-
-    [Pure]
-    public static GregorianTriple GetEndOfMonth(GregorianTriple day)
-    {
-        var (y, m, _) = day;
-        var ymd = Schema.GetDatePartsAtEndOfMonth(y, m);
-        return new GregorianTriple(ymd);
     }
 
     #endregion
