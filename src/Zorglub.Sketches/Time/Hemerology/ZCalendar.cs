@@ -14,12 +14,11 @@ namespace Zorglub.Time.Hemerology
     // REVIEW(api): prop Name (get and init) with default value = Key with the
     // ability to set it afterward.
 
-    // We do not use any CalendarScope but a MinMaxYearScope, otherwise we have
-    // a problem with ZDateAdjusters, counting methods in ZDate, and various
-    // methods here (infos, IDayProvider, ValidateGregorianParts()).
-
     #region Developer Notes
 
+    // We use a CalendarScope, not a MinMaxYearScope to be able to use
+    // ProlepticScope and StandardScope.
+    //
     // Comparison between Calendar and ZCalendar.
     //
     // Calendar pros:
@@ -42,23 +41,31 @@ namespace Zorglub.Time.Hemerology
     /// <summary>
     /// Represents a calendar.
     /// </summary>
-    public partial class ZCalendar : BasicCalendar<MinMaxYearScope>, ICalendar<ZDate>
+    public partial class ZCalendar : BasicCalendar<CalendarScope>, ICalendar<ZDate>
     {
         /// <summary>
         /// Initializes a new instance of <see cref="ZCalendar"/> class.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="key"/> is null.</exception>
         /// <exception cref="ArgumentNullException"><paramref name="scope"/> is null.</exception>
-        internal ZCalendar(int id, string key, MinMaxYearScope scope, bool userDefined)
+        /// <exception cref="ArgumentException"><paramref name="scope"/> is NOT complete.</exception>
+        internal ZCalendar(int id, string key, CalendarScope scope, bool userDefined)
             : base(key, scope)
         {
             Debug.Assert(key != null);
+            Debug.Assert(scope != null);
+
+            // The scope MUST be complete, otherwise we have a problem with
+            // methods here (infos, IDayProvider, ValidateGregorianParts())n but
+            // also with counting methods in ZDate, and with  ZDateAdjusters.
+            if (scope.Segment.IsComplete == false) Throw.Argument(nameof(scope));
 
             Key = key;
             Id = id;
             IsUserDefined = userDefined;
 
-            MinMaxDate = from dayNumber in Scope.Domain.Endpoints select new ZDate(dayNumber - Epoch, id);
+            MinMaxDate = from dayNumber in scope.Domain.Endpoints
+                         select new ZDate(dayNumber - Epoch, id);
         }
 
         #region System calendars
