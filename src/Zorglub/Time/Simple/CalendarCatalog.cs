@@ -49,7 +49,7 @@ namespace Zorglub.Time.Simple
         /// Represents the minimum value for the ID of a user-defined calendar.
         /// <para>This field is a constant equal to 64.</para>
         /// </summary>
-        internal const int MinUserId = (int)Cuid.MinUser;
+        private const int MinUserId = (int)Cuid.MinUser;
 
         /// <summary>
         /// Gets the absolute maximun number of user-defined calendars.
@@ -389,7 +389,7 @@ namespace Zorglub.Time.Simple
         {
             // Fail fast. It also guards the method against brute-force attacks.
             // This should only be done when the key is not already taken.
-            if (s_LastIdent >= MaxId && !s_CalendarsByKey.ContainsKey(key))
+            if (s_LastIdent >= MaxId && s_CalendarsByKey.ContainsKey(key) == false)
             {
                 Throw.CatalogOverflow();
             }

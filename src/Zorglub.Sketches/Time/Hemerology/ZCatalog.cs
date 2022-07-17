@@ -19,7 +19,8 @@ namespace Zorglub.Time.Hemerology
     // ZDate._cuid is now a full int, MaxId? Because of s_CalendarsById, it's
     // not that straightforward to do: we might have to resize this array and it
     // should be done in a thread-safe manner. I guess we should use a
-    // concurrent list (ConcurrentBag?).
+    // concurrent list (ConcurrentBag?) but the usfeulness of s_CalendarsById is
+    // questionable (it was created to allow for fast lookup).
 
     /// <summary>
     /// Provides static methods to initialize a calendar or lookup an already initialized calendar.
@@ -31,9 +32,9 @@ namespace Zorglub.Time.Hemerology
         /// Represents the maximun value for the ident of a calendar.
         /// <para>This field is a constant equal to 255.</para>
         /// </summary>
-        internal const int MaxId = Byte.MaxValue;
+        private const int MaxId = Byte.MaxValue;
 
-        internal const int MinUserId = CalendarCatalog.MaxId + 1;
+        private const int MinUserId = CalendarCatalog.MaxId + 1;
 
         /// <summary>
         /// Represents the absolute maximun number of user-defined calendars without counting those
@@ -252,7 +253,7 @@ namespace Zorglub.Time.Hemerology
         [Pure]
         internal static ZCalendar GetCalendarUnchecked(int cuid)
         {
-            Debug.Assert(cuid <= MaxId);
+            Debug.Assert(cuid < s_CalendarsById.Length);
 
             // What happens if we request a "lazy" system calendar? Nothing
             // bad hopefully. This method is only called by ZDate.Calendar,
@@ -296,7 +297,7 @@ namespace Zorglub.Time.Hemerology
         [Pure]
         public static ZCalendar GetOrAdd(string key, MinMaxYearScope scope)
         {
-            if (s_LastIdent >= MaxId && !s_CalendarsByKey.ContainsKey(key))
+            if (s_LastIdent >= MaxId && s_CalendarsByKey.ContainsKey(key) == false)
             {
                 Throw.CatalogOverflow();
             }
