@@ -3,8 +3,6 @@
 
 namespace Zorglub.Time
 {
-    // TODO(test): ToString() with negative values for m and d.
-
     // Main difference w/ Yemoda: y, m, d are open values, we don't even require
     // m and d to be >= 1.
 
@@ -12,55 +10,20 @@ namespace Zorglub.Time
     /// Represents a triple of a year, a month and a day.
     /// <para><see cref="DateParts"/> is an immutable struct.</para>
     /// </summary>
+    /// <param name="Year">Algebraic year number.</param>
+    /// <param name="Month">Month of the year.</param>
+    /// <param name="Day">Day of the month.</param>
     /// <remarks>
     /// <para>This type uses the lexicographic order on triples (Year, Month, Day).</para>
-    /// <para>A <see cref="DateParts"/> does NOT represent a date.</para>
+    /// <para><see cref="DateParts"/> does NOT represent a date.</para>
     /// </remarks>
-    public readonly partial struct DateParts : IComparisonOperators<DateParts, DateParts>
+    public readonly record struct DateParts(int Year, int Month, int Day) :
+        IComparisonOperators<DateParts, DateParts>
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="DateParts"/> struct from the specified year,
-        /// month and day values.
-        /// </summary>
-        public DateParts(int year, int month, int day)
-        {
-            Year = year;
-            Month = month;
-            Day = day;
-        }
-
-        /// <summary>
-        /// Gets the (algebraic) year number.
-        /// </summary>
-        public int Year { get; }
-
-        /// <summary>
-        /// Gets the month of the year.
-        /// </summary>
-        public int Month { get; }
-
-        /// <summary>
-        /// Gets the day of the month.
-        /// </summary>
-        public int Day { get; }
-
         /// <summary>
         /// Gets the month parts of the current instance.
         /// </summary>
         public MonthParts MonthParts => new(Year, Month);
-
-        /// <summary>
-        /// Returns a culture-independent string representation of the current instance.
-        /// </summary>
-        [Pure]
-        public override string ToString() =>
-            FormattableString.Invariant($"{Day:D2}/{Month:D2}/{Year:D4}");
-
-        /// <summary>
-        /// Deconstructs the current instance into its components.
-        /// </summary>
-        public void Deconstruct(out int year, out int month, out int day) =>
-            (year, month, day) = (Year, Month, Day);
 
         /// <summary>
         /// Creates a new instance of <see cref="DateParts"/> representing the first day of the
@@ -75,34 +38,11 @@ namespace Zorglub.Time
         /// </summary>
         [Pure]
         public static DateParts AtStartOfMonth(int y, int m) => new(y, m, 1);
-    }
 
-    public partial struct DateParts // IEquatable
-    {
-        /// <summary>
-        /// Determines whether two specified instances of <see cref="DateParts"/> are equal.
-        /// </summary>
-        public static bool operator ==(DateParts left, DateParts right) =>
-            left.Year == right.Year && left.Month == right.Month && left.Day == right.Day;
+        //
+        // IComparable
+        //
 
-        /// <summary>
-        /// Determines whether two specified instances of <see cref="DateParts"/> are not equal.
-        /// </summary>
-        public static bool operator !=(DateParts left, DateParts right) => !(left == right);
-
-        /// <inheritdoc />
-        public bool Equals(DateParts other) => this == other;
-
-        /// <inheritdoc />
-        public override bool Equals([NotNullWhen(true)] object? obj) =>
-            obj is DateParts parts && this == parts;
-
-        /// <inheritdoc />
-        public override int GetHashCode() => HashCode.Combine(Year, Month, Day);
-    }
-
-    public partial struct DateParts // IComparable
-    {
         /// <summary>
         /// Compares the two specified instances to see if the left one is strictly earlier than the
         /// right one.

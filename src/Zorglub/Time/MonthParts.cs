@@ -7,76 +7,25 @@ namespace Zorglub.Time
     /// Represents a pair of a year and a month.
     /// <para><see cref="MonthParts"/> is an immutable struct.</para>
     /// </summary>
+    /// <param name="Year">Algebraic year number.</param>
+    /// <param name="Month">Month of the year.</param>
     /// <remarks>
-    /// <para>A <see cref="MonthParts"/> does NOT represent a month.</para>
+    /// <para><see cref="MonthParts"/> does NOT represent a month.</para>
     /// </remarks>
-    public readonly partial struct MonthParts : IComparisonOperators<MonthParts, MonthParts>
+    public readonly record struct MonthParts(int Year, int Month) :
+        IComparisonOperators<MonthParts, MonthParts>
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="MonthParts"/> struct from the specified
-        /// year and month values.
-        /// </summary>
-        public MonthParts(int year, int month)
-        {
-            Year = year;
-            Month = month;
-        }
-
-        /// <summary>
-        /// Gets the (algebraic) year number.
-        /// </summary>
-        public int Year { get; }
-
-        /// <summary>
-        /// Gets the month of the year.
-        /// </summary>
-        public int Month { get; }
-
-        /// <summary>
-        /// Returns a culture-independent string representation of the current instance.
-        /// </summary>
-        [Pure]
-        public override string ToString() => FormattableString.Invariant($"{Month:D2}/{Year:D4}");
-
-        /// <summary>
-        /// Deconstructs the current instance into its components.
-        /// </summary>
-        public void Deconstruct(out int year, out int month) => (year, month) = (Year, Month);
-
         /// <summary>
         /// Creates a new instance of <see cref="MonthParts"/> representing the first month of the
         /// specified year.
         /// </summary>
         [Pure]
         public static MonthParts AtStartOfYear(int y) => new(y, 1);
-    }
 
-    public partial struct MonthParts // IEquatable
-    {
-        /// <summary>
-        /// Determines whether two specified instances of <see cref="MonthParts"/> are equal.
-        /// </summary>
-        public static bool operator ==(MonthParts left, MonthParts right) =>
-            left.Year == right.Year && left.Month == right.Month;
+        //
+        // IComparable
+        //
 
-        /// <summary>
-        /// Determines whether two specified instances of <see cref="MonthParts"/> are not equal.
-        /// </summary>
-        public static bool operator !=(MonthParts left, MonthParts right) => !(left == right);
-
-        /// <inheritdoc />
-        public bool Equals(MonthParts other) => this == other;
-
-        /// <inheritdoc />
-        public override bool Equals([NotNullWhen(true)] object? obj) =>
-            obj is MonthParts fields && this == fields;
-
-        /// <inheritdoc />
-        public override int GetHashCode() => HashCode.Combine(Year, Month);
-    }
-
-    public partial struct MonthParts // IComparable
-    {
         /// <summary>
         /// Compares the two specified instances to see if the left one is strictly earlier than the
         /// right one.
@@ -125,11 +74,7 @@ namespace Zorglub.Time
         public int CompareTo(MonthParts other)
         {
             int c = Year.CompareTo(other.Year);
-            if (c == 0)
-            {
-                c = Month.CompareTo(other.Month);
-            }
-            return c;
+            return c == 0 ? Month.CompareTo(other.Month) : c;
         }
 
         /// <inheritdoc />
