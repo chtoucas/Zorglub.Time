@@ -21,7 +21,7 @@ public static class ZDateAdjusters
         var sch = chr.Schema;
         int y = sch.GetYear(date.DaysSinceEpoch, out _);
         var startOfYear = sch.GetStartOfYear(y);
-        return new(startOfYear, date.Cuid);
+        return new ZDate(startOfYear, date.ZIdent);
     }
 
     /// <summary>
@@ -34,7 +34,7 @@ public static class ZDateAdjusters
         var sch = chr.Schema;
         int y = sch.GetYear(date.DaysSinceEpoch, out _);
         var endOfYear = sch.GetEndOfYear(y);
-        return new(endOfYear, date.Cuid);
+        return new ZDate(endOfYear, date.ZIdent);
     }
 
     /// <summary>
@@ -47,7 +47,7 @@ public static class ZDateAdjusters
         var sch = chr.Schema;
         sch.GetDateParts(date.DaysSinceEpoch, out int y, out int m, out _);
         var startOfMonth = sch.GetStartOfMonth(y, m);
-        return new(startOfMonth, date.Cuid);
+        return new ZDate(startOfMonth, date.ZIdent);
     }
 
     /// <summary>
@@ -60,7 +60,7 @@ public static class ZDateAdjusters
         var sch = chr.Schema;
         sch.GetDateParts(date.DaysSinceEpoch, out int y, out int m, out _);
         var endOfMonth = sch.GetEndOfMonth(y, m);
-        return new(endOfMonth, date.Cuid);
+        return new ZDate(endOfMonth, date.ZIdent);
     }
 
 }

@@ -5,11 +5,8 @@ namespace Zorglub.Time.Hemerology
 {
     using System.Linq;
 
-    using Zorglub.Time.Core.Schemas;
     using Zorglub.Time.Core.Validation;
     using Zorglub.Time.Hemerology.Scopes;
-
-    using static Zorglub.Time.Core.CalendricalConstants;
 
     // REVIEW(api): prop Name (get and init) with default value = Key with the
     // ability to set it afterward.
@@ -49,7 +46,7 @@ namespace Zorglub.Time.Hemerology
         /// <exception cref="ArgumentNullException"><paramref name="key"/> is null.</exception>
         /// <exception cref="ArgumentNullException"><paramref name="scope"/> is null.</exception>
         /// <exception cref="ArgumentException"><paramref name="scope"/> is NOT complete.</exception>
-        internal ZCalendar(int id, string key, CalendarScope scope, bool userDefined)
+        internal ZCalendar(ZIdent id, string key, CalendarScope scope, bool userDefined)
             : base(key, scope)
         {
             Debug.Assert(key != null);
@@ -58,7 +55,7 @@ namespace Zorglub.Time.Hemerology
             // The scope MUST be complete, otherwise we have a problem with
             // methods here (infos, IDayProvider, ValidateGregorianParts())n but
             // also with counting methods in ZDate, and with  ZDateAdjusters.
-            if (scope.Segment.IsComplete == false) Throw.Argument(nameof(scope));
+            if (scope.IsComplete == false) Throw.Argument(nameof(scope));
 
             Key = key;
             Id = id;
@@ -133,7 +130,7 @@ namespace Zorglub.Time.Hemerology
         /// <summary>
         /// Gets the ID of the current instance.
         /// </summary>
-        internal int Id { get; }
+        internal ZIdent Id { get; }
 
         /// <summary>
         /// Returns a string representation of the current instance.
@@ -233,7 +230,7 @@ namespace Zorglub.Time.Hemerology
 
             IEnumerable<ZDate> Iterator()
             {
-                int cuid = Id;
+                var cuid = Id;
                 var sch = Schema;
                 int startOfYear = sch.GetStartOfYear(year);
                 int daysInYear = sch.CountDaysInYear(year);
@@ -300,31 +297,6 @@ namespace Zorglub.Time.Hemerology
             Scope.ValidateYearMonth(year, month);
             int daysSinceEpoch = Schema.GetEndOfMonth(year, month);
             return new ZDate(daysSinceEpoch, Id);
-        }
-    }
-
-    public partial class ZCalendar // Internal helpers
-    {
-        /// <summary>
-        /// Validates the specified Gregorian date.
-        /// </summary>
-        /// <exception cref="AoorException">The validation failed.</exception>
-        internal static void ValidateGregorianParts(int year, int month, int day, string? paramName = null)
-        {
-            if (year < GregorianSchema.MinYear || year > GregorianSchema.MaxYear)
-            {
-                Throw.YearOutOfRange(year, paramName);
-            }
-            if (month < 1 || month > Solar12.MonthsInYear)
-            {
-                Throw.MonthOutOfRange(month, paramName);
-            }
-            if (day < 1
-                || (day > Solar.MinDaysInMonth
-                    && day > GregorianFormulae.CountDaysInMonth(year, month)))
-            {
-                Throw.DayOutOfRange(day, paramName);
-            }
         }
     }
 }

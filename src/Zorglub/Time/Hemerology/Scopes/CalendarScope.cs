@@ -56,6 +56,13 @@ namespace Zorglub.Time.Hemerology.Scopes
         public CalendricalSegment Segment { get; }
 
         /// <summary>
+        /// Returns true if this scope is complete; otherwise returns false.
+        /// <para>A segment is said to be <i>complete</i> if it spans all days of a range of years.
+        /// </para>
+        /// </summary>
+        public bool IsComplete => Segment.IsComplete;
+
+        /// <summary>
         /// Gets the pre-validator.
         /// </summary>
         protected ICalendricalPreValidator PreValidator => _schema.PreValidator;

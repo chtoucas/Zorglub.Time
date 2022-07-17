@@ -151,11 +151,12 @@ namespace Zorglub.Time.Hemerology
         public static Calendar ToCalendar(this ZCalendar @this)
         {
             Requires.NotNull(@this);
-            if (@this.Id > CalendarCatalog.MaxId) Throw.Argument(nameof(@this));
+            int cuid = (int)@this.Id;
+            if (cuid > CalendarCatalog.MaxId) Throw.Argument(nameof(@this));
 
             // NB: un ZCalendar ayant un ID <= CalendarCatalog.MaxIdent
             // provient obligatoirement d'un Calendar.
-            return CalendarCatalog.GetCalendarUnchecked(@this.Id);
+            return CalendarCatalog.GetCalendarUnchecked(cuid);
         }
 
         // Converts a Calendar to a ZCalendar.
@@ -234,6 +235,8 @@ namespace Zorglub.Time.Hemerology
         {
             if (ident.IsInvalid()) Throw.ArgumentOutOfRange(nameof(ident));
 
+            // Except in the Gregorian case, system calendars are only added to
+            // s_CalendarsById on demand.
             return s_CalendarsById[(int)ident] ?? GetSystemCalendarUncached(ident);
         }
 
