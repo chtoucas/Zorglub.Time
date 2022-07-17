@@ -8,15 +8,13 @@ namespace Zorglub.Time
 
     /// <summary>
     /// Represents a triple of a year, a month and a day.
+    /// <para>This type uses the lexicographic order on triples (Year, Month, Day).</para>
+    /// <para><see cref="DateParts"/> does NOT represent a date.</para>
     /// <para><see cref="DateParts"/> is an immutable struct.</para>
     /// </summary>
     /// <param name="Year">Algebraic year number.</param>
     /// <param name="Month">Month of the year.</param>
     /// <param name="Day">Day of the month.</param>
-    /// <remarks>
-    /// <para>This type uses the lexicographic order on triples (Year, Month, Day).</para>
-    /// <para><see cref="DateParts"/> does NOT represent a date.</para>
-    /// </remarks>
     public readonly record struct DateParts(int Year, int Month, int Day) :
         IComparisonOperators<DateParts, DateParts>
     {
@@ -47,10 +45,6 @@ namespace Zorglub.Time
         /// Compares the two specified instances to see if the left one is strictly earlier than the
         /// right one.
         /// </summary>
-        /// <remarks>
-        /// <para>The comparison is done using the lexicographic order on triples (Year, Month, Day).
-        /// </para>
-        /// </remarks>
         public static bool operator <(DateParts left, DateParts right) =>
             left.CompareTo(right) < 0;
 
@@ -58,10 +52,6 @@ namespace Zorglub.Time
         /// Compares the two specified instances to see if the left one is earlier than or equal to
         /// the right one.
         /// </summary>
-        /// <remarks>
-        /// <para>The comparison is done using the lexicographic order on triples (Year, Month, Day).
-        /// </para>
-        /// </remarks>
         public static bool operator <=(DateParts left, DateParts right) =>
             left.CompareTo(right) <= 0;
 
@@ -69,10 +59,6 @@ namespace Zorglub.Time
         /// Compares the two specified instances to see if the left one is strictly later than the
         /// right one.
         /// </summary>
-        /// <remarks>
-        /// <para>The comparison is done using the lexicographic order on triples (Year, Month, Day).
-        /// </para>
-        /// </remarks>
         public static bool operator >(DateParts left, DateParts right) =>
             left.CompareTo(right) > 0;
 
@@ -80,18 +66,10 @@ namespace Zorglub.Time
         /// Compares the two specified instances to see if the left one is later than or equal to
         /// the right one.
         /// </summary>
-        /// <remarks>
-        /// <para>The comparison is done using the lexicographic order on triples (Year, Month, Day).
-        /// </para>
-        /// </remarks>
         public static bool operator >=(DateParts left, DateParts right) =>
             left.CompareTo(right) >= 0;
 
         /// <inheritdoc />
-        /// <remarks>
-        /// <para>The comparison is done using the lexicographic order on triples (Year, Month, Day).
-        /// </para>
-        /// </remarks>
         [Pure]
         public int CompareTo(DateParts other)
         {
