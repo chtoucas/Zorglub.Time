@@ -57,9 +57,8 @@ namespace Zorglub.Time.Simple
         /// <para>This static property is thread-safe.</para>
         /// </summary>
         /// <remarks>
-        /// <para>It's very unlikely that this number will ever change, but we
-        /// never know. Nevertheless, we guarantee that it will never be less
-        /// than 64.</para>
+        /// <para>It's very unlikely that this number will ever change, but we never know.
+        /// Nevertheless, we guarantee that it will never be less than 64.</para>
         /// </remarks>
         public static int MaxNumberOfUserCalendars { get; } = MaxId - MinUserId + 1;
 
@@ -67,17 +66,15 @@ namespace Zorglub.Time.Simple
         private static int s_LastIdent = MinUserId - 1;
 
         /// <summary>
-        /// Represents the (immutable) array of system calendars, indexed by
-        /// their internal IDs.
+        /// Represents the (immutable) array of system calendars, indexed by their internal IDs.
         /// <para>This field is read-only.</para>
         /// </summary>
         private static readonly Calendar[] s_SystemCalendars = InitSystemCalendars();
 
         /// <summary>
-        /// Represents the array of fully constructed calendars, indexed by
-        /// their internal IDs.
-        /// <para>A value is null if the calendar has not yet been fully
-        /// constructed (obviously).</para>
+        /// Represents the array of fully constructed calendars, indexed by their internal IDs.
+        /// <para>A value is null if the calendar has not yet been fully constructed (obviously).
+        /// </para>
         /// <para>This field is read-only.</para>
         /// </summary>
         private static readonly Calendar?[] s_CalendarsById = InitCalendarsById(s_SystemCalendars);
@@ -90,10 +87,9 @@ namespace Zorglub.Time.Simple
             InitCalendarsByKey(s_SystemCalendars);
 
         /// <summary>
-        /// Gets the list of keys of all fully constructed calendars at the time
-        /// of the request.
-        /// <para>This collection may also contain a few bad keys, those paired
-        /// with a calendar with ID <see cref="Cuid.Invalid"/>.</para>
+        /// Gets the list of keys of all fully constructed calendars at the time of the request.
+        /// <para>This collection may also contain a few bad keys, those paired with a calendar with
+        /// ID <see cref="Cuid.Invalid"/>.</para>
         /// </summary>
         internal static ICollection<string> Keys =>
             // We do not provide a public equivalent to this property.
@@ -193,8 +189,7 @@ namespace Zorglub.Time.Simple
         }
 
         /// <summary>
-        /// Obtains the collection of user-defined calendars at the time of the
-        /// request.
+        /// Obtains the collection of user-defined calendars at the time of the request.
         /// </summary>
         public static IReadOnlyCollection<Calendar> GetUserCalendars()
         {
@@ -240,8 +235,8 @@ namespace Zorglub.Time.Simple
         /// Looks up a calendar by its unique key.
         /// </summary>
         /// <remarks>
-        /// <para>Repeated calls to this method with the same parameter ALWAYS
-        /// return the same instance.</para>
+        /// <para>Repeated calls to this method with the same parameter ALWAYS return the same
+        /// instance.</para>
         /// <para>See also <seealso cref="TakeSnapshot"/>.</para>
         /// </remarks>
         /// <exception cref="KeyNotFoundException">A calendar with the specified
@@ -323,8 +318,8 @@ namespace Zorglub.Time.Simple
         /// <item>This method does NOT validate its parameter.</item>
         /// <item>This method only works with in-memory calendars .</item>
         /// </list>
-        /// <para>Repeated calls to this method with the same parameter ALWAYS
-        /// return the same instance.</para>
+        /// <para>Repeated calls to this method with the same parameter ALWAYS return the same
+        /// instance.</para>
         /// </remarks>
         [Pure]
         internal static Calendar GetCalendarUnchecked(int cuid)
@@ -369,28 +364,25 @@ namespace Zorglub.Time.Simple
     public partial class CalendarCatalog // Add
     {
         /// <summary>
-        /// Creates a calendar from a (unique) key, a reference epoch and a
-        /// calendrical schema, then adds it to the system.
+        /// Creates a calendar from a (unique) key, a reference epoch and a calendrical schema, then
+        /// adds it to the system.
         /// </summary>
         /// <remarks>
-        /// <para>If a calendar with the same key already exists, this method
-        /// ignores the other parameters and returns it, without changing the
-        /// internal state of this class. See also
+        /// <para>If a calendar with the same key already exists, this method ignores the other
+        /// parameters and returns it, without changing the internal state of this class. See also
         /// <seealso cref="ReservedKeys"/>.</para>
-        /// <para>There is a hard limit on the total number of calendars one can
-        /// create; see <see cref="MaxNumberOfUserCalendars"/>.</para>
-        /// <para>It is the duty of the caller to ensure that repeated calls to
-        /// this method are coherent.</para>
+        /// <para>There is a hard limit on the total number of calendars one can create; see
+        /// <see cref="MaxNumberOfUserCalendars"/>.</para>
+        /// <para>It is the duty of the caller to ensure that repeated calls to this method are
+        /// coherent.</para>
         /// <para>This method is thread-safe.</para>
         /// </remarks>
-        /// <exception cref="ArgumentNullException">One of the parameters is
-        /// null.</exception>
+        /// <exception cref="ArgumentNullException">One of the parameters is null.</exception>
         /// <exception cref="ArgumentException">The range of supported years by
-        /// <paramref name="schema"/> does not contain the interval [1..9999]
-        /// (non-proleptic case) or [-9998..9999] (proleptic case).</exception>
-        /// <exception cref="OverflowException">The key was not already taken
-        /// but the system already reached the maximum number of calendars it
-        /// can handle.</exception>
+        /// <paramref name="schema"/> does not contain the interval [1..9999] (non-proleptic case)
+        /// or [-9998..9999] (proleptic case).</exception>
+        /// <exception cref="OverflowException">The key was not already taken but the system already
+        /// reached the maximum number of calendars it can handle.</exception>
         [Pure]
         public static Calendar GetOrAdd(
             string key, SystemSchema schema, DayNumber epoch, bool proleptic)
@@ -438,25 +430,24 @@ namespace Zorglub.Time.Simple
         }
 
         /// <summary>
-        /// Creates a calendar from a (unique) key, a reference epoch and a
-        /// calendrical schema, then adds it to the system.
+        /// Creates a calendar from a (unique) key, a reference epoch and a calendrical schema, then
+        /// adds it to the system.
         /// </summary>
         /// <remarks>
-        /// <para>There is a hard limit on the total number of calendars one can
-        /// create; see <see cref="MaxNumberOfUserCalendars"/>.</para>
-        /// <para>It is the duty of the caller to ensure that repeated calls to
-        /// this method are coherent.</para>
+        /// <para>There is a hard limit on the total number of calendars one can create; see
+        /// <see cref="MaxNumberOfUserCalendars"/>.</para>
+        /// <para>It is the duty of the caller to ensure that repeated calls to this method are
+        /// coherent.</para>
         /// <para>This method is thread-safe.</para>
         /// </remarks>
-        /// <exception cref="ArgumentNullException">One of the parameters is
-        /// null.</exception>
-        /// <exception cref="ArgumentException">A calendar with the same key
-        /// already exists. See also <seealso cref="ReservedKeys"/>.</exception>
+        /// <exception cref="ArgumentNullException">One of the parameters is null.</exception>
+        /// <exception cref="ArgumentException">A calendar with the same key already exists. See
+        /// also <seealso cref="ReservedKeys"/>.</exception>
         /// <exception cref="ArgumentException">The range of supported years by
-        /// <paramref name="schema"/> does not contain the interval [1..9999]
-        /// (non-proleptic case) or [-9998..9999] (proleptic case).</exception>
-        /// <exception cref="OverflowException">The system already reached the
-        /// maximum number of calendars it can handle.</exception>
+        /// <paramref name="schema"/> does not contain the interval [1..9999] (non-proleptic case)
+        /// or [-9998..9999] (proleptic case).</exception>
+        /// <exception cref="OverflowException">The system already reached the maximum number of
+        /// calendars it can handle.</exception>
         [Pure]
         public static Calendar Add(
             string key, SystemSchema schema, DayNumber epoch, bool proleptic)
@@ -489,17 +480,16 @@ namespace Zorglub.Time.Simple
         }
 
         /// <summary>
-        /// Attempts to create a calendar from a (unique) key, a reference epoch
-        /// and a calendrical schema, then adds it to the system.
+        /// Attempts to create a calendar from a (unique) key, a reference epoch and a calendrical
+        /// schema, then adds it to the system.
         /// </summary>
         /// <remarks>
-        /// <para>If a calendar with the same key already exists, this method
-        /// returns null without changing the internal state of this class. See
-        /// also <seealso cref="ReservedKeys"/>.</para>
-        /// <para>There is a hard limit on the total number of calendars one can
-        /// create; see <see cref="MaxNumberOfUserCalendars"/>.</para>
-        /// <para>It is the duty of the caller to ensure that repeated calls to
-        /// this method are coherent.</para>
+        /// <para>If a calendar with the same key already exists, this method returns null without
+        /// changing the internal state of this class. See also <seealso cref="ReservedKeys"/>.</para>
+        /// <para>There is a hard limit on the total number of calendars one can create; see
+        /// <see cref="MaxNumberOfUserCalendars"/>.</para>
+        /// <para>It is the duty of the caller to ensure that repeated calls to this method are
+        /// coherent.</para>
         /// <para>This method is thread-safe.</para>
         /// </remarks>
         /// <exception cref="ArgumentNullException"><paramref name="key"/> is null.</exception>
@@ -568,11 +558,10 @@ namespace Zorglub.Time.Simple
         }
 
         /// <summary>
-        /// Creates a new <see cref="Calendar"/> instance from the specified
-        /// temporary calendar then add it to <see cref="s_CalendarsById"/>.
-        /// <para>Returns a calendar with ID <see cref="Cuid.Invalid"/> if
-        /// the system already reached the maximum number of calendars it can
-        /// handle.</para>
+        /// Creates a new <see cref="Calendar"/> instance from the specified temporary calendar then
+        /// add it to <see cref="s_CalendarsById"/>.
+        /// <para>Returns a calendar with ID <see cref="Cuid.Invalid"/> if the system already
+        /// reached the maximum number of calendars it can handle.</para>
         /// </summary>
         [Pure]
         private static Calendar CreateCalendar(Calendar tmpCalendar)

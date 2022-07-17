@@ -280,11 +280,11 @@ public static class ZCatalogTests
 
     #endregion
 
-    private static void OnKeyNotSet(string key)
-    {
-        Assert.DoesNotContain(key, ZCatalog.Keys);
-        Assert.Throws<KeyNotFoundException>(() => ZCatalog.GetCalendar(key));
-    }
+    //private static void OnKeyNotSet(string key)
+    //{
+    //    Assert.DoesNotContain(key, ZCatalog.Keys);
+    //    Assert.Throws<KeyNotFoundException>(() => ZCatalog.GetCalendar(key));
+    //}
 
     private static void OnKeySet(string key, DayNumber epoch, ZCalendar? calendar)
     {

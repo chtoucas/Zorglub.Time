@@ -12,11 +12,17 @@ namespace Zorglub.Time.Hemerology
     using Zorglub.Time.Hemerology.Scopes;
     using Zorglub.Time.Simple;
 
-    // TODO(code): to be rewritten. ZDate._cuid is now a full int, MaxId?
+    // FIXME(code): to be rewritten. Sync with Calendar.
+    // Snapshots: what about lazy calendars?
+    // GetSystemCalendar(CalendarId ident): public? officially, a ZCalendar has
+    // no ID, only a key.
+    // ZDate._cuid is now a full int, MaxId? Because of s_CalendarsById, it's
+    // not that straightforward to do: we might have to resize this array and it
+    // should be done in a thread-safe manner. I guess we should use a
+    // concurrent list (ConcurrentBag?).
 
     /// <summary>
-    /// Provides static methods to initialize a calendar or lookup an already
-    /// initialized calendar.
+    /// Provides static methods to initialize a calendar or lookup an already initialized calendar.
     /// <para>This class cannot be inherited.</para>
     /// </summary>
     public static partial class ZCatalog
@@ -30,21 +36,19 @@ namespace Zorglub.Time.Hemerology
         internal const int MinUserId = CalendarCatalog.MaxId + 1;
 
         /// <summary>
-        /// Represents the absolute maximun number of user-defined calendars
-        /// without counting those created from a <see cref="Calendar"/>.
+        /// Represents the absolute maximun number of user-defined calendars without counting those
+        /// created from a <see cref="Calendar"/>.
         /// <para>This field is a read-only field equal to 128.</para>
         /// </summary>
         public static readonly int MaxNumberOfUserCalendars = MaxId - MinUserId + 1;
 
         /// <summary>This field is initially set to 127.</summary>
         // IDs système : 0 à 63. On garantit la compatibilité avec Calendar en
-        // réservant aussi les IDs 64 à 127; voir ToZCalendar() et
-        // ToSimpleCalendar().
+        // réservant aussi les IDs 64 à 127; voir ToZCalendar() et ToCalendar().
         private static int s_LastIdent = MinUserId - 1;
 
         /// <summary>
-        /// Represents the array of fully constructed calendars, indexed by
-        /// their internal IDs.
+        /// Represents the array of fully constructed calendars, indexed by their internal IDs.
         /// <para>This field is read-only.</para>
         /// </summary>
         private static readonly ZCalendar?[] s_CalendarsById = new ZCalendar?[MaxId + 1];
@@ -78,9 +82,9 @@ namespace Zorglub.Time.Hemerology
 
         /// <summary>
         /// Initializes a system calendar.
-        /// <para>This method does not add the newly created (wide) calendar
-        /// to <see cref="s_CalendarsByKey"/>; this is something that is
-        /// automatically done when we initialize the dictionary.</para>
+        /// <para>This method does not add the newly created (wide) calendar to
+        /// <see cref="s_CalendarsByKey"/>; this is something that is automatically done when we
+        /// initialize the dictionary.</para>
         /// </summary>
         [Pure]
         internal static ZCalendar InitSystemCalendar(Calendar calendar)
@@ -126,8 +130,6 @@ namespace Zorglub.Time.Hemerology
 
     public partial class ZCatalog // Snapshots
     {
-        // FIXME: lazy calendars.
-
         // We ignore lazy calendars not yet initialized.
         public static IEnumerable<ZCalendar> GetCurrentCalendars() =>
             from chr in s_CalendarsById where chr is not null select chr;
@@ -237,7 +239,6 @@ namespace Zorglub.Time.Hemerology
             return false;
         }
 
-        // REVIEW: public? officially, a ZCalendar has no ID, only a key.
         [Pure]
         public static ZCalendar GetSystemCalendar(CalendarId ident)
         {
