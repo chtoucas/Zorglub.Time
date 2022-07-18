@@ -45,13 +45,6 @@ namespace Zorglub.Time.Core.Validation
         public sealed override string ToString() => Range.ToString();
 
         /// <summary>
-        /// Converts the current instance to a domain, a range of day numbers.
-        /// </summary>
-        [Pure]
-        public Range<DayNumber> ToDomain(DayNumber epoch) =>
-            Intervals.Range.FromEndpoints(Range.Endpoints.Select(x => epoch + x));
-
-        /// <summary>
         /// Validates the specified number of consecutive days from the epoch.
         /// </summary>
         /// <exception cref="AoorException">The validation failed.</exception>

@@ -43,7 +43,8 @@ namespace Zorglub.Time.Hemerology.Scopes
             MonthsValidator = new MonthsValidator(segment.SupportedMonths);
             YearsValidator = new YearsValidator(segment.SupportedYears);
 
-            Domain = DaysValidator.ToDomain(epoch);
+            Domain =
+                Range.FromEndpoints(segment.SupportedDays.Endpoints.Select(x => epoch + x));
         }
 
         /// <summary>
