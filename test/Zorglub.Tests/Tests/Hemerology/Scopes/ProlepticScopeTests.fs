@@ -68,13 +68,13 @@ module Prelude =
         let scope = new ProlepticScope(new FauxCalendricalSchema(), epoch)
         let range = Range.Create(ProlepticScope.MinYear, ProlepticScope.MaxYear)
 
-        scope.Segment.SupportedYears.Range === range
+        scope.Segment.SupportedYears === range
 
 module SupportedYears =
     let validYearData = ProlepticScopeFacts.ValidYearData
     let invalidYearData = ProlepticScopeFacts.InvalidYearData
 
-    let supportedYears = ProlepticScope.SupportedYears
+    let supportedYears = ProlepticScope.SupportedYearsImpl
 
     [<Theory; MemberData(nameof(invalidYearData))>]
     let ``Check() overflows when "year" is out of range`` y =

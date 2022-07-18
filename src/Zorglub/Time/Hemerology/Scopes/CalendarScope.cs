@@ -6,6 +6,7 @@ namespace Zorglub.Time.Hemerology.Scopes
     using Zorglub.Time;
     using Zorglub.Time.Core;
     using Zorglub.Time.Core.Intervals;
+    using Zorglub.Time.Core.Validation;
 
     // Range of supported years
     // - ProlepticScope     [-9998..9999]
@@ -37,7 +38,12 @@ namespace Zorglub.Time.Hemerology.Scopes
             _schema = segment.Schema;
 
             Epoch = epoch;
-            Domain = segment.SupportedDays.ToDomain(epoch);
+
+            SupportedDays = new SupportedDays(segment.SupportedDays);
+            SupportedMonths = new SupportedMonths(segment.SupportedMonths);
+            SupportedYears = new SupportedYears(segment.SupportedYears);
+
+            Domain = SupportedDays.ToDomain(epoch);
         }
 
         /// <summary>
@@ -54,6 +60,21 @@ namespace Zorglub.Time.Hemerology.Scopes
         /// Gets the segment of supported days.
         /// </summary>
         public CalendricalSegment Segment { get; }
+
+        /// <summary>
+        /// Gets the range of supported days.
+        /// </summary>
+        public SupportedDays SupportedDays { get; }
+
+        /// <summary>
+        /// Gets the range of supported months.
+        /// </summary>
+        public SupportedMonths SupportedMonths { get; }
+
+        /// <summary>
+        /// Gets the range of supported years.
+        /// </summary>
+        public SupportedYears SupportedYears { get; }
 
         /// <summary>
         /// Returns true if this scope is complete; otherwise returns false.

@@ -62,13 +62,13 @@ module Prelude =
         let scope = new StandardScope(new FauxCalendricalSchema(), epoch)
         let range = Range.Create(StandardScope.MinYear, StandardScope.MaxYear)
 
-        scope.Segment.SupportedYears.Range === range
+        scope.Segment.SupportedYears === range
 
 module SupportedYears =
     let validYearData = StandardScopeFacts.ValidYearData
     let invalidYearData = StandardScopeFacts.InvalidYearData
 
-    let supportedYears = StandardScope.SupportedYears
+    let supportedYears = StandardScope.SupportedYearsImpl
 
     [<Theory; MemberData(nameof(invalidYearData))>]
     let ``Check() overflows when "year" is out of range`` y =

@@ -17,12 +17,6 @@ namespace Zorglub.Time.Core.Validation
         /// <summary>
         /// Initializes a new instance of the <see cref="SupportedDays"/> class.
         /// </summary>
-        internal SupportedDays(int minDaysSinceEpoch, int maxDaysSinceEpoch)
-            : this(Intervals.Range.Create(minDaysSinceEpoch, maxDaysSinceEpoch)) { }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="SupportedDays"/> class.
-        /// </summary>
         public SupportedDays(Range<int> range)
         {
             Range = range;

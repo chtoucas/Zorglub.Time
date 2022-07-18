@@ -25,7 +25,7 @@ namespace Zorglub.Time.Hemerology
             Scope = scope ?? throw new ArgumentNullException(nameof(scope));
 
             Schema = scope.Schema;
-            SupportedYears = scope.Segment.SupportedYears;
+            SupportedYears = scope.SupportedYears;
         }
 
         /// <summary>

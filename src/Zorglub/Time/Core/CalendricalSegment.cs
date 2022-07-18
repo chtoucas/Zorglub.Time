@@ -26,14 +26,13 @@ namespace Zorglub.Time.Core
         {
             _schema = schema;
 
-            SupportedDays = new SupportedDays(min.DaysSinceEpoch, max.DaysSinceEpoch);
+            SupportedDays = Range.Create(min.DaysSinceEpoch, max.DaysSinceEpoch);
+            SupportedMonths = Range.Create(min.MonthsSinceEpoch, max.MonthsSinceEpoch);
+            SupportedYears = Range.Create(min.Year, max.Year);
+
             MinMaxDateParts = OrderedPair.FromOrderedValues(min.DateParts, max.DateParts);
             MinMaxOrdinalParts = OrderedPair.FromOrderedValues(min.OrdinalParts, max.OrdinalParts);
-
-            SupportedMonths = new SupportedMonths(min.MonthsSinceEpoch, max.MonthsSinceEpoch);
             MinMaxMonthParts = OrderedPair.FromOrderedValues(min.MonthParts, max.MonthParts);
-
-            SupportedYears = new SupportedYears(min.Year, max.Year);
         }
 
         /// <summary>
@@ -49,7 +48,7 @@ namespace Zorglub.Time.Core
         /// </summary>
         /// <returns>The range from the first day of the first supported year to the last day of the
         /// last supported year.</returns>
-        public SupportedDays SupportedDays { get; }
+        public Range<int> SupportedDays { get; }
 
         /// <summary>
         /// Gets the range of supported months, that is the range of supported numbers of consecutive
@@ -57,12 +56,12 @@ namespace Zorglub.Time.Core
         /// </summary>
         /// <returns>The range from the first month of the first supported year to the last month of
         /// the last supported year.</returns>
-        public SupportedMonths SupportedMonths { get; }
+        public Range<int> SupportedMonths { get; }
 
         /// <summary>
         /// Gets the range of supported years.
         /// </summary>
-        public SupportedYears SupportedYears { get; }
+        public Range<int> SupportedYears { get; }
 
         /// <summary>
         /// Gets the pair of earliest and latest supported date parts.

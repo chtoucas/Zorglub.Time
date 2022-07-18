@@ -61,8 +61,8 @@ public static partial class CalendricalScopeTests
         var scope = new FauxCalendarScope(s_Schema, 1, 2);
         // Assert
         Assert.NotNull(scope);
-        Assert.Equal(1, scope.Segment.SupportedYears.MinYear);
-        Assert.Equal(2, scope.Segment.SupportedYears.MaxYear);
+        Assert.Equal(1, scope.SupportedYears.MinYear);
+        Assert.Equal(2, scope.SupportedYears.MaxYear);
     }
 
     // FIXME

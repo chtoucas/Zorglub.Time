@@ -8,7 +8,7 @@ namespace Zorglub.Time.Core.Validation
     using Zorglub.Time.Core.Intervals;
 
     // WARNING: this is not the range of supported numbers of consecutive years
-    // from the epoch, YearsSinceEpoch = Year - 1.
+    // from the epoch, indeed YearsSinceEpoch = Year - 1.
 
     /// <summary>
     /// Represents a range of years.
@@ -16,12 +16,6 @@ namespace Zorglub.Time.Core.Validation
     /// </summary>
     public sealed class SupportedYears : ISupportedValues<int>
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="SupportedYears"/> class.
-        /// </summary>
-        internal SupportedYears(int minYear, int maxYear)
-            : this(Intervals.Range.Create(minYear, maxYear)) { }
-
         /// <summary>
         /// Initializes a new instance of the <see cref="SupportedYears"/> class.
         /// </summary>

@@ -44,7 +44,7 @@ namespace Zorglub.Time.Hemerology
             _epoch = scope.Epoch;
             _schema = scope.Schema;
 
-            SupportedYears = scope.Segment.SupportedYears;
+            SupportedYears = scope.SupportedYears;
         }
 
         /// <summary>

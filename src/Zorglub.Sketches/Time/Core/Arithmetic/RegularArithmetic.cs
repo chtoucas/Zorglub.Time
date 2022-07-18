@@ -52,7 +52,13 @@ namespace Zorglub.Time.Core.Arithmetic
             if (schema.IsRegular(out int monthsInYear) == false) Throw.Argument(nameof(schema));
             _schema = schema;
 
-            Segment = CalendricalSegment.Create(schema, supportedYears);
+            var seg = CalendricalSegment.Create(schema, supportedYears);
+
+            // FIXME(code): use MinMaxYearValidator.
+            Segment = seg;
+            SupportedDays = new SupportedDays(seg.SupportedDays);
+            //SupportedMonths = new SupportedMonths(seg.SupportedMonths);
+            SupportedYears = new SupportedYears(seg.SupportedYears);
 
             _partsAdapter = new PartsAdapter(_schema);
 
@@ -62,20 +68,25 @@ namespace Zorglub.Time.Core.Arithmetic
             MaxDaysViaDayOfMonth = _schema.MinDaysInMonth;
         }
 
+        public int MonthsInYear { get; }
+
         /// <inheritdoc/>
         public CalendricalSegment Segment { get; }
 
         /// <summary>
         /// Gets the range of supported days.
         /// </summary>
-        private SupportedDays SupportedDays => Segment.SupportedDays;
+        private SupportedDays SupportedDays { get; }
 
-        public int MonthsInYear { get; }
+        ///// <summary>
+        ///// Gets the range of supported months.
+        ///// </summary>
+        //private SupportedMonths SupportedMonths { get; }
 
         /// <summary>
         /// Gets the range of supported years.
         /// </summary>
-        private SupportedYears SupportedYears => Segment.SupportedYears;
+        private SupportedYears SupportedYears { get; }
 
         /// <summary>
         /// Gets the earliest supported year.

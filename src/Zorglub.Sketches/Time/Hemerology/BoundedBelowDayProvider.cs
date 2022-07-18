@@ -20,7 +20,7 @@ namespace Zorglub.Time.Hemerology
             Scope = scope ?? throw new ArgumentNullException(nameof(scope));
 
             MinDayNumber = scope.Domain.Min;
-            SupportedYears = scope.Segment.SupportedYears;
+            SupportedYears = scope.SupportedYears;
             MinYear = SupportedYears.MinYear;
         }
 

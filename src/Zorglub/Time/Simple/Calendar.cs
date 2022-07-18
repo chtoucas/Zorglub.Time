@@ -136,16 +136,18 @@ namespace Zorglub.Time.Simple
             if (proleptic)
             {
                 Scope = new ProlepticScope(schema, epoch);
-                SupportedYears = ProlepticScope.SupportedYears;
+                SupportedYears = ProlepticScope.SupportedYearsImpl;
             }
             else
             {
                 Scope = new StandardScope(schema, epoch);
-                SupportedYears = StandardScope.SupportedYears;
+                SupportedYears = StandardScope.SupportedYearsImpl;
             }
 
             SystemSegment = SystemSegment.Create(schema, SupportedYears.Range);
             Arithmetic = SystemArithmetic.CreateDefault(SystemSegment);
+
+            SupportedDays = new SupportedDays(SystemSegment.SupportedDays);
 
             // Keep this at the end of the constructor: before using "this",
             // all props should be initialized.
@@ -340,7 +342,7 @@ namespace Zorglub.Time.Simple
         /// <summary>
         /// Gets the range of supported days.
         /// </summary>
-        internal SupportedDays SupportedDays => SystemSegment.SupportedDays;
+        internal SupportedDays SupportedDays { get; }
 
         /// <summary>
         /// Returns a culture-independent string representation of this calendar.

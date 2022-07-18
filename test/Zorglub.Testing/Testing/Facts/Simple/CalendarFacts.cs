@@ -46,15 +46,15 @@ public partial class CalendarFacts<TDataSet> // Properties
         Assert.Equal(CalendarUT.Schema.PeriodicAdjustments, CalendarUT.PeriodicAdjustments);
 
     [Fact]
-    public void SupportedYears_Prop()
+    public void SupportedYearsImpl_Prop()
     {
         if (CalendarUT.IsProleptic)
         {
-            Assert.Equal(ProlepticScope.SupportedYears, CalendarUT.SupportedYears);
+            Assert.Equal(ProlepticScope.SupportedYearsImpl, CalendarUT.SupportedYears);
         }
         else
         {
-            Assert.Equal(StandardScope.SupportedYears, CalendarUT.SupportedYears);
+            Assert.Equal(StandardScope.SupportedYearsImpl, CalendarUT.SupportedYears);
         }
     }
 

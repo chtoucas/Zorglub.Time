@@ -15,12 +15,6 @@ namespace Zorglub.Time.Hemerology.Scopes
     public sealed class BoundedBelowScope : CalendarScope
     {
         /// <summary>
-        /// Gets the range of supported years.
-        /// <para>This field is read-only.</para>
-        /// </summary>
-        private readonly SupportedYears _supportedYears;
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="BoundedBelowScope"/> class.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
@@ -39,7 +33,6 @@ namespace Zorglub.Time.Hemerology.Scopes
             MinYear = year;
 
             var seg = Segment;
-            _supportedYears = seg.SupportedYears;
             MinDateParts = seg.MinMaxDateParts.LowerValue;
             MinOrdinalParts = seg.MinMaxOrdinalParts.LowerValue;
             MinMonthParts = MinDateParts.MonthParts;
@@ -68,7 +61,7 @@ namespace Zorglub.Time.Hemerology.Scopes
         /// <inheritdoc />
         public sealed override void ValidateYearMonth(int year, int month, string? paramName = null)
         {
-            _supportedYears.Validate(year, paramName);
+            SupportedYears.Validate(year, paramName);
             PreValidator.ValidateMonth(year, month, paramName);
 
             // Tiny optimization: we first check "year".
@@ -81,7 +74,7 @@ namespace Zorglub.Time.Hemerology.Scopes
         /// <inheritdoc />
         public sealed override void ValidateYearMonthDay(int year, int month, int day, string? paramName = null)
         {
-            _supportedYears.Validate(year, paramName);
+            SupportedYears.Validate(year, paramName);
             PreValidator.ValidateMonthDay(year, month, day, paramName);
 
             // Tiny optimization: we first check "year".
@@ -104,7 +97,7 @@ namespace Zorglub.Time.Hemerology.Scopes
         /// <inheritdoc />
         public sealed override void ValidateOrdinal(int year, int dayOfYear, string? paramName = null)
         {
-            _supportedYears.Validate(year, paramName);
+            SupportedYears.Validate(year, paramName);
             PreValidator.ValidateDayOfYear(year, dayOfYear, paramName);
 
             // Tiny optimization: we first check "year".

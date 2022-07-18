@@ -46,6 +46,10 @@ namespace Zorglub.Time.Core.Arithmetic
 
             _schema = segment.Schema;
             _partsAdapter = new PartsAdapter(_schema);
+
+            SupportedDays = new SupportedDays(segment.SupportedDays);
+            SupportedMonths = new SupportedMonths(segment.SupportedMonths);
+            //SupportedYears = new SupportedYears(segment.SupportedYears);
         }
 
         /// <inheritdoc/>
@@ -54,12 +58,17 @@ namespace Zorglub.Time.Core.Arithmetic
         /// <summary>
         /// Gets the range of supported days.
         /// </summary>
-        private SupportedDays SupportedDays => Segment.SupportedDays;
+        private SupportedDays SupportedDays { get; }
 
         /// <summary>
         /// Gets the range of supported months.
         /// </summary>
-        private SupportedMonths SupportedMonths => Segment.SupportedMonths;
+        private SupportedMonths SupportedMonths { get; }
+
+        ///// <summary>
+        ///// Gets the range of supported years.
+        ///// </summary>
+        //private SupportedYears SupportedYears { get; }
     }
 
     public partial class BasicArithmetic // Operations on DateParts

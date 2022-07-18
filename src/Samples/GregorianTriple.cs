@@ -44,7 +44,7 @@ public partial struct GregorianTriple
     private static SystemSegment Segment { get; } = SystemSegment.Create(Schema, Schema.SupportedYears);
     private static SystemArithmetic Arithmetic { get; } = SystemArithmetic.CreateDefault(Segment);
     private static PartsFactory PartsFactory { get; } = PartsFactory.Create(Schema);
-    private static SupportedDays SupportedDays => Segment.SupportedDays;
+    private static SupportedDays SupportedDays { get; } = new(Segment.SupportedDays);
 
     private readonly Yemoda _bin;
 

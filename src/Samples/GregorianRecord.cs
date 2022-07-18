@@ -31,8 +31,8 @@ public readonly partial record struct GregorianRecord :
 public readonly partial record struct GregorianRecord
 {
     private static CalendricalSegment Segment { get; } = CalendricalSegment.CreateMaximal(Schema);
-    private static SupportedDays SupportedDays { get; } = Segment.SupportedDays;
-    private static SupportedYears SupportedYears { get; } = Segment.SupportedYears;
+    private static SupportedDays SupportedDays { get; } = new(Segment.SupportedDays);
+    private static SupportedYears SupportedYears { get; } = new(Segment.SupportedYears);
     private static ICalendricalArithmetic Arithmetic { get; } =
         ICalendricalArithmetic.CreateDefault(Schema, SupportedYears.Range);
     private static PartsAdapter PartsAdapter { get; } = new(Schema);

@@ -50,7 +50,7 @@ public readonly partial struct DateTemplate :
 
 public partial struct DateTemplate
 {
-    private static SupportedYears SupportedYears { get; } = Scope.Segment.SupportedYears;
+    private static SupportedYears SupportedYears { get; } = Scope.SupportedYears;
     private static SystemArithmetic Arithmetic { get; } = SystemArithmetic.CreateDefault(Schema, SupportedYears.Range);
     private static PartsFactory PartsFactory { get; } = PartsFactory.Create(Schema, SupportedYears.Range);
 

@@ -48,7 +48,7 @@ public abstract partial class ZDateFacts<TDataSet> :
         public static BaseCtorArgs Create(ZCalendar calendar)
         {
             Requires.NotNull(calendar);
-            return new BaseCtorArgs(calendar.Scope.Segment.SupportedYears.Range, calendar.Domain);
+            return new BaseCtorArgs(calendar.Scope.Segment.SupportedYears, calendar.Domain);
         }
     }
 }
