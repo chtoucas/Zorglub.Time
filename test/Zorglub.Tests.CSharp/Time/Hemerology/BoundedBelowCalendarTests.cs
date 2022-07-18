@@ -25,7 +25,7 @@ public static class BoundedBelowCalendarTests
     {
         // Act
         var chr = CalendarZoo.GenuineGregorian;
-        int minYear = chr.MinDateParts.Year;
+        int minYear = chr.MinYear;
         int monthsInFirstYear = 3;
         // Assert
         Assert.Equal(monthsInFirstYear, chr.CountMonthsInYear(minYear));
@@ -37,7 +37,7 @@ public static class BoundedBelowCalendarTests
     {
         // Act
         var chr = CalendarZoo.GenuineGregorian;
-        int minYear = chr.MinDateParts.Year;
+        int minYear = chr.MinYear;
         int daysInFirstYear = 78;
         // Assert
         Assert.Equal(daysInFirstYear, chr.CountDaysInYear(minYear));
@@ -58,7 +58,7 @@ public static class BoundedBelowCalendarTests
 }
 
 public sealed class GregorianBoundedBelowCalendarTests
-    : NakedCalendarFacts<BoundedBelowCalendar, BoundedBelowScope, UnboundedGregorianDataSet>
+    : NakedCalendarFacts<BoundedBelowCalendar, UnboundedGregorianDataSet>
 {
     private const int FirstYear = -123_456;
     private const int FirstMonth = 4;

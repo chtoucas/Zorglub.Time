@@ -99,7 +99,7 @@ public class GregorianMinMaxYearCalendarDataSet :
 
 // TODO(code): à améliorer.
 public sealed class GregorianMinMaxYearCalendarTests :
-    NakedCalendarFacts<MinMaxYearCalendar, MinMaxYearScope, GregorianMinMaxYearCalendarDataSet>
+    NakedCalendarFacts<MinMaxYearCalendar, GregorianMinMaxYearCalendarDataSet>
 {
     // On triche un peu, les années de début et de fin ont été choisies de
     // telle sorte que les tests marchent... (cf. GregorianData).
@@ -112,10 +112,12 @@ public sealed class GregorianMinMaxYearCalendarTests :
         new("Gregorian", new GregorianSchema(), DayZero.NewStyle, FirstYear, LastYear);
 
     [Fact]
-    public void MinYear_Prop() =>
-        Assert.Equal(FirstYear, CalendarUT.SupportedYears.MinYear);
-
-    [Fact]
-    public void MaxYear_Prop() =>
-        Assert.Equal(LastYear, CalendarUT.SupportedYears.MaxYear);
+    public void SupportedYears_Prop()
+    {
+        // Act
+        var supportedYears = CalendarUT.SupportedYears;
+        // Assert
+        Assert.Equal(FirstYear, supportedYears.MinYear);
+        Assert.Equal(LastYear, supportedYears.MaxYear);
+    }
 }

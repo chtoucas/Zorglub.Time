@@ -39,17 +39,15 @@ namespace Zorglub.Time.Hemerology
     /// Represents a calendar without a companion date type and provides a base
     /// for derived classes.
     /// </summary>
-    public abstract partial class NakedCalendar<TScope> :
-        BasicCalendar<TScope>, ICalendar<DateParts>
-        where TScope : CalendarScope
+    public abstract partial class NakedCalendar : BasicCalendar, ICalendar<DateParts>
     {
         /// <summary>
         /// Called from constructors in derived classes to initialize the
-        /// <see cref="NakedCalendar{TScope}"/> class.
+        /// <see cref="NakedCalendar"/> class.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="name"/> is null.</exception>
         /// <exception cref="ArgumentNullException"><paramref name="scope"/> is null.</exception>
-        protected NakedCalendar(string name, TScope scope) : base(name, scope)
+        protected NakedCalendar(string name, CalendarScope scope) : base(name, scope)
         {
             Debug.Assert(scope != null);
 
@@ -62,14 +60,14 @@ namespace Zorglub.Time.Hemerology
         protected PartsAdapter PartsAdapter { get; }
     }
 
-    public partial class NakedCalendar<TScope> // Factories
+    public partial class NakedCalendar // Factories
     {
         /// <inheritdoc />
         [Pure]
         public DateParts Today() => GetDateParts(DayNumber.Today());
     }
 
-    public partial class NakedCalendar<TScope> // Conversions
+    public partial class NakedCalendar // Conversions
     {
         /// <summary>
         /// Obtains the date parts for the specified day number.
@@ -120,7 +118,7 @@ namespace Zorglub.Time.Hemerology
         }
     }
 
-    public partial class NakedCalendar<TScope> // Dates in a given year or month
+    public partial class NakedCalendar // Dates in a given year or month
     {
         /// <inheritdoc />
         [Pure] public abstract IEnumerable<DateParts> GetDaysInYear(int year);
@@ -141,7 +139,7 @@ namespace Zorglub.Time.Hemerology
         [Pure] public abstract DateParts GetEndOfMonth(int year, int month);
     }
 
-    public partial class NakedCalendar<TScope> // Arithmetic
+    public partial class NakedCalendar // Arithmetic
     {
         // REVIEW(api): supprimer AddDays().
 

@@ -12,15 +12,14 @@ namespace Zorglub.Time.Hemerology
     /// Represents a basic calendar and provides a base for derived classes.
     /// <para>This class only supports subintervals of <see cref="Yemoda.SupportedYears"/>.</para>
     /// </summary>
-    public abstract partial class BasicCalendar<TScope> : ICalendar
-        where TScope : CalendarScope
+    public abstract partial class BasicCalendar : ICalendar
     {
         /// <summary>
         /// Called from constructors in derived classes to initialize the
-        /// <see cref="BasicCalendar{TScope}"/> class.
+        /// <see cref="BasicCalendar"/> class.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="scope"/> is null.</exception>
-        protected BasicCalendar(string name, TScope scope)
+        protected BasicCalendar(string name, CalendarScope scope)
         {
             Name = name ?? throw new ArgumentNullException(nameof(name));
             Scope = scope ?? throw new ArgumentNullException(nameof(scope));
@@ -49,12 +48,8 @@ namespace Zorglub.Time.Hemerology
         /// <inheritdoc />
         public Range<DayNumber> Domain => Scope.Domain;
 
-        /// <summary>
-        /// Gets the calendar scope.
-        /// </summary>
-        public TScope Scope { get; }
-
-        CalendarScope ICalendar.Scope => Scope;
+        /// <inheritdoc />
+        public CalendarScope Scope { get; }
 
         /// <summary>
         /// Gets the range of supported years.
@@ -67,11 +62,6 @@ namespace Zorglub.Time.Hemerology
         protected internal ICalendricalSchema Schema { get; }
 
         /// <summary>
-        /// Gets the pre-validator.
-        /// </summary>
-        protected internal ICalendricalPreValidator PreValidator => Schema.PreValidator;
-
-        /// <summary>
         /// Returns a string representation of the current instance.
         /// </summary>
         [Pure]
@@ -82,7 +72,7 @@ namespace Zorglub.Time.Hemerology
         public bool IsRegular(out int monthsInYear) => Schema.IsRegular(out monthsInYear);
     }
 
-    public partial class BasicCalendar<TScope> // Year, month, day infos
+    public partial class BasicCalendar // Year, month, day infos
     {
 #pragma warning disable CA1725 // Parameter names should match base declaration (Naming)
 
@@ -144,7 +134,7 @@ namespace Zorglub.Time.Hemerology
 #pragma warning restore CA1725 // Parameter names should match base declaration
     }
 
-    public partial class BasicCalendar<TScope> // Conversions
+    public partial class BasicCalendar // Conversions
     {
         /// <inheritdoc />
         [Pure]

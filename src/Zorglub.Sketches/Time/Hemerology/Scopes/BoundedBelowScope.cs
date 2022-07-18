@@ -16,14 +16,9 @@ namespace Zorglub.Time.Hemerology.Scopes
     {
         /// <summary>
         /// Gets the range of supported years.
-        /// </summary>
-        private readonly SupportedYears _supportedYears;
-
-        /// <summary>
-        /// Represents the earliest supported year.
         /// <para>This field is read-only.</para>
         /// </summary>
-        private readonly int _minYear;
+        private readonly SupportedYears _supportedYears;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BoundedBelowScope"/> class.
@@ -41,7 +36,7 @@ namespace Zorglub.Time.Hemerology.Scopes
             int? maxYear)
             : base(epoch, CalendricalSegment.Create(schema, year, month, day, maxYear))
         {
-            _minYear = year;
+            MinYear = year;
 
             var seg = Segment;
             _supportedYears = seg.SupportedYears;
@@ -49,6 +44,11 @@ namespace Zorglub.Time.Hemerology.Scopes
             MinOrdinalParts = seg.MinMaxOrdinalParts.LowerValue;
             MinMonthParts = MinDateParts.MonthParts;
         }
+
+        /// <summary>
+        /// Gets the earliest supported year.
+        /// </summary>
+        public int MinYear { get; }
 
         /// <summary>
         /// Gets the earliest supported month parts.
@@ -72,7 +72,7 @@ namespace Zorglub.Time.Hemerology.Scopes
             PreValidator.ValidateMonth(year, month, paramName);
 
             // Tiny optimization: we first check "year".
-            if (year == _minYear && new MonthParts(year, month) < MinMonthParts)
+            if (year == MinYear && new MonthParts(year, month) < MinMonthParts)
             {
                 Throw.MonthOutOfRange(month, paramName);
             }
@@ -85,7 +85,7 @@ namespace Zorglub.Time.Hemerology.Scopes
             PreValidator.ValidateMonthDay(year, month, day, paramName);
 
             // Tiny optimization: we first check "year".
-            if (year == _minYear)
+            if (year == MinYear)
             {
                 // We check the month parts first even if it is not necessary.
                 // Reason: identify the guilty part.
@@ -108,7 +108,7 @@ namespace Zorglub.Time.Hemerology.Scopes
             PreValidator.ValidateDayOfYear(year, dayOfYear, paramName);
 
             // Tiny optimization: we first check "year".
-            if (year == _minYear && new OrdinalParts(year, dayOfYear) < MinOrdinalParts)
+            if (year == MinYear && new OrdinalParts(year, dayOfYear) < MinOrdinalParts)
             {
                 Throw.DayOfYearOutOfRange(dayOfYear, paramName);
             }

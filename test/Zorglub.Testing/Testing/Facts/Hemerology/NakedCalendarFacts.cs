@@ -20,10 +20,9 @@ using Zorglub.Time.Hemerology.Scopes;
 /// <summary>
 /// Provides facts about <see cref="NakedCalendar"/>.
 /// </summary>
-public abstract partial class NakedCalendarFacts<TCalendar, TScope, TDataSet> :
+public abstract partial class NakedCalendarFacts<TCalendar, TDataSet> :
     ICalendarFacts<TCalendar, TDataSet>
-    where TCalendar : NakedCalendar<TScope>
-    where TScope : CalendarScope
+    where TCalendar : NakedCalendar
     where TDataSet : ICalendarDataSet, ISingleton<TDataSet>
 {
     protected NakedCalendarFacts(TCalendar calendar) : base(calendar)
@@ -43,7 +42,7 @@ public abstract partial class NakedCalendarFacts<TCalendar, TScope, TDataSet> :
 #endif
 }
 
-public partial class NakedCalendarFacts<TCalendar, TScope, TDataSet> // Properties
+public partial class NakedCalendarFacts<TCalendar, TDataSet> // Properties
 {
     [Fact]
     public sealed override void Algorithm_Prop() =>
@@ -62,7 +61,7 @@ public partial class NakedCalendarFacts<TCalendar, TScope, TDataSet> // Properti
         Assert.Equal(CalendarUT.Name, CalendarUT.ToString());
 }
 
-public partial class NakedCalendarFacts<TCalendar, TScope, TDataSet> // Conversions
+public partial class NakedCalendarFacts<TCalendar, TDataSet> // Conversions
 {
     #region GetDateParts(DayNumber)
 
@@ -166,7 +165,7 @@ public partial class NakedCalendarFacts<TCalendar, TScope, TDataSet> // Conversi
 }
 
 // Dates in a given year or month.
-public partial class NakedCalendarFacts<TCalendar, TScope, TDataSet> // IDayProvider
+public partial class NakedCalendarFacts<TCalendar, TDataSet> // IDayProvider
 {
     //
     // ICalendar<DayNumber>.
@@ -376,7 +375,7 @@ public partial class NakedCalendarFacts<TCalendar, TScope, TDataSet> // IDayProv
 }
 
 // Arithmetic.
-public partial class NakedCalendarFacts<TCalendar, TScope, TDataSet>
+public partial class NakedCalendarFacts<TCalendar, TDataSet>
 {
     #region AddDays(dayNumber, days)
 
