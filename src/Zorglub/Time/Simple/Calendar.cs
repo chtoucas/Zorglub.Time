@@ -147,8 +147,6 @@ namespace Zorglub.Time.Simple
             SystemSegment = SystemSegment.Create(schema, YearsValidator.Range);
             Arithmetic = SystemArithmetic.CreateDefault(SystemSegment);
 
-            DaysValidator = new DaysValidator(SystemSegment.SupportedDays);
-
             // Keep this at the end of the constructor: before using "this",
             // all props should be initialized.
             _math = CalendarMath.CreateDefault(this);
@@ -342,7 +340,7 @@ namespace Zorglub.Time.Simple
         /// <summary>
         /// Gets the validator for the range of supported days.
         /// </summary>
-        internal DaysValidator DaysValidator { get; }
+        internal DaysValidator DaysValidator => Scope.DaysValidator;
 
         /// <summary>
         /// Returns a culture-independent string representation of this calendar.
