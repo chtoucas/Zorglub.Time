@@ -40,7 +40,7 @@ public readonly partial struct MyDate :
 
 public partial struct MyDate
 {
-    private static SupportedYears SupportedYears { get; } = Scope.SupportedYears;
+    private static YearsValidator SupportedYears { get; } = Scope.YearsValidator;
     private static SystemArithmetic Arithmetic { get; } = SystemArithmetic.CreateDefault(Schema, SupportedYears.Range);
     private static PartsFactory PartsFactory { get; } = PartsFactory.Create(Schema, SupportedYears.Range);
 

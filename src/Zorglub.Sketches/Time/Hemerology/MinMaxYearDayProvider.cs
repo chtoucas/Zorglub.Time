@@ -44,7 +44,7 @@ namespace Zorglub.Time.Hemerology
             _epoch = scope.Epoch;
             _schema = scope.Schema;
 
-            SupportedYears = scope.SupportedYears;
+            SupportedYears = scope.YearsValidator;
         }
 
         /// <summary>
@@ -55,7 +55,7 @@ namespace Zorglub.Time.Hemerology
         /// <summary>
         /// Gets the range of supported years.
         /// </summary>
-        private SupportedYears SupportedYears { get; }
+        private YearsValidator SupportedYears { get; }
 
         /// <inheritdoc />
         [Pure]

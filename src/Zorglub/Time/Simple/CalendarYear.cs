@@ -119,7 +119,7 @@ namespace Zorglub.Time.Simple
         /// supported by the Gregorian calendar.</exception>
         public CalendarYear(int year)
         {
-            GregorianProlepticScope.SupportedYears.Validate(year);
+            GregorianProlepticScope.YearsValidator.Validate(year);
 
 #if CALENDARYEAR_EXPLICIT_LAYOUT
             _bin = 0;
@@ -549,7 +549,7 @@ namespace Zorglub.Time.Simple
             // calendar.
 
             ref readonly var chr = ref CalendarRef;
-            chr.SupportedYears.Validate(newYear, nameof(newYear));
+            chr.YearsValidator.Validate(newYear, nameof(newYear));
             return new CalendarYear(newYear, Cuid);
         }
 
@@ -729,7 +729,7 @@ namespace Zorglub.Time.Simple
         {
             int y = checked(Year + years);
             ref readonly var chr = ref CalendarRef;
-            chr.SupportedYears.Check(y);
+            chr.YearsValidator.Check(y);
             return new CalendarYear(y, Cuid);
         }
 

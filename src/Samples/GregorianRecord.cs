@@ -31,16 +31,16 @@ public readonly partial record struct GregorianRecord :
 public readonly partial record struct GregorianRecord
 {
     private static CalendricalSegment Segment { get; } = CalendricalSegment.CreateMaximal(Schema);
-    private static SupportedDays SupportedDays { get; } = new(Segment.SupportedDays);
-    private static SupportedYears SupportedYears { get; } = new(Segment.SupportedYears);
+    private static DaysValidator DaysValidator { get; } = new(Segment.SupportedDays);
+    private static YearsValidator YearsValidator { get; } = new(Segment.SupportedYears);
     private static ICalendricalArithmetic Arithmetic { get; } =
-        ICalendricalArithmetic.CreateDefault(Schema, SupportedYears.Range);
+        ICalendricalArithmetic.CreateDefault(Schema, YearsValidator.Range);
     private static PartsAdapter PartsAdapter { get; } = new(Schema);
     private static ICalendricalPreValidator PreValidator { get; } = Schema.PreValidator;
 
     public GregorianRecord(int year, int month, int day)
     {
-        SupportedYears.Validate(year);
+        YearsValidator.Validate(year);
         PreValidator.ValidateMonthDay(year, month, day);
 
         Year = year;
@@ -53,8 +53,8 @@ public readonly partial record struct GregorianRecord
         (Year, Month, Day) = parts;
     }
 
-    public static GregorianRecord MinValue { get; } = new(DateParts.AtStartOfYear(SupportedYears.MinYear));
-    public static GregorianRecord MaxValue { get; } = new(PartsAdapter.GetDatePartsAtEndOfYear(SupportedYears.MaxYear));
+    public static GregorianRecord MinValue { get; } = new(DateParts.AtStartOfYear(YearsValidator.MinYear));
+    public static GregorianRecord MaxValue { get; } = new(PartsAdapter.GetDatePartsAtEndOfYear(YearsValidator.MaxYear));
 
     public Ord CenturyOfEra => Ord.FromInt32(Century);
     public int Century => YearNumbering.GetCentury(Year);
@@ -78,7 +78,7 @@ public partial record struct GregorianRecord // Conversions, adjustments...
     [Pure]
     public static GregorianRecord FromDaysSinceEpoch(int daysSinceEpoch)
     {
-        SupportedDays.Validate(daysSinceEpoch);
+        DaysValidator.Validate(daysSinceEpoch);
         var parts = PartsAdapter.GetDateParts(daysSinceEpoch);
         return new GregorianRecord(parts);
     }

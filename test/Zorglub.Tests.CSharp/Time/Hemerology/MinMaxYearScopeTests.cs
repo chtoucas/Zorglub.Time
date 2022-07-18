@@ -23,8 +23,8 @@ public static class MinMaxYearScopeTests
         var scope = MinMaxYearScope.WithMaxYear(s_Schema, DayZero.NewStyle, 100);
         // Assert
         Assert.NotNull(scope);
-        Assert.Equal(s_Schema.SupportedYears.Min, scope.SupportedYears.MinYear);
-        Assert.Equal(100, scope.SupportedYears.MaxYear);
+        Assert.Equal(s_Schema.SupportedYears.Min, scope.YearsValidator.MinYear);
+        Assert.Equal(100, scope.YearsValidator.MaxYear);
     }
 
     [Fact]
@@ -34,7 +34,7 @@ public static class MinMaxYearScopeTests
         var scope = MinMaxYearScope.WithMinYear(s_Schema, DayZero.NewStyle, 100);
         // Assert
         Assert.NotNull(scope);
-        Assert.Equal(100, scope.SupportedYears.MinYear);
-        Assert.Equal(s_Schema.SupportedYears.Max, scope.SupportedYears.MaxYear);
+        Assert.Equal(100, scope.YearsValidator.MinYear);
+        Assert.Equal(s_Schema.SupportedYears.Max, scope.YearsValidator.MaxYear);
     }
 }

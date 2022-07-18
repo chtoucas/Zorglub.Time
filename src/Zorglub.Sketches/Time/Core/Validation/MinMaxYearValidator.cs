@@ -38,9 +38,9 @@ namespace Zorglub.Time.Core.Validation
             var seg = CalendricalSegment.Create(schema, supportedYears);
 
             Segment = seg;
-            SupportedDays = new SupportedDays(seg.SupportedDays);
-            SupportedMonths = new SupportedMonths(seg.SupportedMonths);
-            SupportedYears = new SupportedYears(seg.SupportedYears);
+            DaysValidator = new DaysValidator(seg.SupportedDays);
+            MonthsValidator = new MonthsValidator(seg.SupportedMonths);
+            YearsValidator = new YearsValidator(seg.SupportedYears);
         }
 
         /// <summary>
@@ -49,40 +49,40 @@ namespace Zorglub.Time.Core.Validation
         public CalendricalSegment Segment { get; }
 
         /// <summary>
-        /// Gets the range of supported days.
+        /// Gets the validator for the range of supported days.
         /// </summary>
-        public SupportedDays SupportedDays { get; }
+        public DaysValidator DaysValidator { get; }
 
         /// <summary>
-        /// Gets the range of supported months.
+        /// Gets the validator for the range of supported months.
         /// </summary>
-        public SupportedMonths SupportedMonths { get; }
+        public MonthsValidator MonthsValidator { get; }
 
         /// <summary>
-        /// Gets the range of supported years.
+        /// Gets the validator for the range of supported years.
         /// </summary>
-        public SupportedYears SupportedYears { get; }
+        public YearsValidator YearsValidator { get; }
 
         ICalendricalSchema ISchemaBound.Schema => _schema;
 
         /// <inheritdoc />
         public void ValidateYearMonth(int year, int month, string? paramName = null)
         {
-            SupportedYears.Validate(year, paramName);
+            YearsValidator.Validate(year, paramName);
             _preValidator.ValidateMonth(year, month, paramName);
         }
 
         /// <inheritdoc />
         public void ValidateYearMonthDay(int year, int month, int day, string? paramName = null)
         {
-            SupportedYears.Validate(year, paramName);
+            YearsValidator.Validate(year, paramName);
             _preValidator.ValidateMonthDay(year, month, day, paramName);
         }
 
         /// <inheritdoc />
         public void ValidateOrdinal(int year, int dayOfYear, string? paramName = null)
         {
-            SupportedYears.Validate(year, paramName);
+            YearsValidator.Validate(year, paramName);
             _preValidator.ValidateDayOfYear(year, dayOfYear, paramName);
         }
     }

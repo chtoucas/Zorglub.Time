@@ -39,11 +39,11 @@ namespace Zorglub.Time.Hemerology.Scopes
 
             Epoch = epoch;
 
-            SupportedDays = new SupportedDays(segment.SupportedDays);
-            SupportedMonths = new SupportedMonths(segment.SupportedMonths);
-            SupportedYears = new SupportedYears(segment.SupportedYears);
+            DaysValidator = new DaysValidator(segment.SupportedDays);
+            MonthsValidator = new MonthsValidator(segment.SupportedMonths);
+            YearsValidator = new YearsValidator(segment.SupportedYears);
 
-            Domain = SupportedDays.ToDomain(epoch);
+            Domain = DaysValidator.ToDomain(epoch);
         }
 
         /// <summary>
@@ -62,19 +62,19 @@ namespace Zorglub.Time.Hemerology.Scopes
         public CalendricalSegment Segment { get; }
 
         /// <summary>
-        /// Gets the range of supported days.
+        /// Gets the validator for the range of supported days.
         /// </summary>
-        public SupportedDays SupportedDays { get; }
+        public DaysValidator DaysValidator { get; }
 
         /// <summary>
-        /// Gets the range of supported months.
+        /// Gets the validator for the range of supported months.
         /// </summary>
-        public SupportedMonths SupportedMonths { get; }
+        public MonthsValidator MonthsValidator { get; }
 
         /// <summary>
-        /// Gets the range of supported years.
+        /// Gets the validator for the range of supported years.
         /// </summary>
-        public SupportedYears SupportedYears { get; }
+        public YearsValidator YearsValidator { get; }
 
         /// <summary>
         /// Returns true if this scope is complete; otherwise returns false.

@@ -93,9 +93,9 @@ namespace Zorglub.Time.Simple
         public AdditionRuleset AdditionRuleset { get; }
 
         /// <summary>
-        /// Gets the range of supported years.
+        /// Gets the validator for the range of supported years.
         /// </summary>
-        private protected ISupportedValues<int> SupportedYears => Calendar.SupportedYears;
+        private protected IRangeValidator<int> YearsValidator => Calendar.YearsValidator;
 
         /// <summary>
         /// Gets the calendrical schema.

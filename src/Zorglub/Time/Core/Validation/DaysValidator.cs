@@ -8,16 +8,16 @@ namespace Zorglub.Time.Core.Validation
     using Zorglub.Time.Core.Intervals;
 
     /// <summary>
-    /// Represents a range of days, that is the range of supported numbers of consecutive days from
-    /// the epoch.
+    /// Represents a validator for a range of days, that is the range of supported numbers of
+    /// consecutive days from the epoch.
     /// <para>This class cannot be inherited.</para>
     /// </summary>
-    public sealed class SupportedDays : ISupportedValues<int>
+    public sealed class DaysValidator : IRangeValidator<int>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="SupportedDays"/> class.
+        /// Initializes a new instance of the <see cref="DaysValidator"/> class.
         /// </summary>
-        public SupportedDays(Range<int> range)
+        public DaysValidator(Range<int> range)
         {
             Range = range;
             (MinDaysSinceEpoch, MaxDaysSinceEpoch) = range.Endpoints;

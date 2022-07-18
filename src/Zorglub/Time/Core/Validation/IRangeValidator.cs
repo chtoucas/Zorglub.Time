@@ -6,10 +6,10 @@ namespace Zorglub.Time.Core.Validation
     using Zorglub.Time.Core.Intervals;
 
     /// <summary>
-    /// Defines a range of calendrical values.
+    /// Defines a validator for a range of values.
     /// </summary>
     /// <typeparam name="T">The type of the range elements.</typeparam>
-    internal interface ISupportedValues<T>
+    internal interface IRangeValidator<T>
         where T : struct, IEquatable<T>, IComparable<T>
     {
         /// <summary>

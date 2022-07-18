@@ -136,18 +136,18 @@ namespace Zorglub.Time.Simple
             if (proleptic)
             {
                 Scope = new ProlepticScope(schema, epoch);
-                SupportedYears = ProlepticScope.SupportedYearsImpl;
+                YearsValidator = ProlepticScope.YearsValidatorImpl;
             }
             else
             {
                 Scope = new StandardScope(schema, epoch);
-                SupportedYears = StandardScope.SupportedYearsImpl;
+                YearsValidator = StandardScope.YearsValidatorImpl;
             }
 
-            SystemSegment = SystemSegment.Create(schema, SupportedYears.Range);
+            SystemSegment = SystemSegment.Create(schema, YearsValidator.Range);
             Arithmetic = SystemArithmetic.CreateDefault(SystemSegment);
 
-            SupportedDays = new SupportedDays(SystemSegment.SupportedDays);
+            DaysValidator = new DaysValidator(SystemSegment.SupportedDays);
 
             // Keep this at the end of the constructor: before using "this",
             // all props should be initialized.
@@ -274,7 +274,7 @@ namespace Zorglub.Time.Simple
             if (_initialized) return;
 
             _minMaxYear =
-                from y in SupportedYears.Range.Endpoints select new CalendarYear(y, Id);
+                from y in YearsValidator.Range.Endpoints select new CalendarYear(y, Id);
             _minMaxDay =
                 from dayNumber in Domain.Endpoints select new CalendarDay(dayNumber - Epoch, Id);
 
@@ -335,14 +335,14 @@ namespace Zorglub.Time.Simple
         internal SystemArithmetic Arithmetic { get; }
 
         /// <summary>
-        /// Gets the range of supported years.
+        /// Gets the validator for the range of supported years.
         /// </summary>
-        internal ISupportedValues<int> SupportedYears { get; }
+        internal IRangeValidator<int> YearsValidator { get; }
 
         /// <summary>
-        /// Gets the range of supported days.
+        /// Gets the validator for the range of supported days.
         /// </summary>
-        internal SupportedDays SupportedDays { get; }
+        internal DaysValidator DaysValidator { get; }
 
         /// <summary>
         /// Returns a culture-independent string representation of this calendar.
@@ -375,7 +375,7 @@ namespace Zorglub.Time.Simple
         [SuppressMessage("Design", "CA1033:Interface methods should be callable by child types", Justification = "See CalendarYear.IsLeap.")]
         bool ICalendricalKernel.IsLeapYear(int year)
         {
-            SupportedYears.Validate(year);
+            YearsValidator.Validate(year);
             return Schema.IsLeapYear(year);
         }
 
@@ -415,7 +415,7 @@ namespace Zorglub.Time.Simple
         [SuppressMessage("Design", "CA1033:Interface methods should be callable by child types", Justification = "See CalendarYear.CountMonthsInYear().")]
         int ICalendricalKernel.CountMonthsInYear(int year)
         {
-            SupportedYears.Validate(year);
+            YearsValidator.Validate(year);
             return Schema.CountMonthsInYear(year);
         }
 
@@ -426,7 +426,7 @@ namespace Zorglub.Time.Simple
         [SuppressMessage("Design", "CA1033:Interface methods should be callable by child types", Justification = "See CalendarYear.CountDaysInYear().")]
         int ICalendricalKernel.CountDaysInYear(int year)
         {
-            SupportedYears.Validate(year);
+            YearsValidator.Validate(year);
             return Schema.CountDaysInYear(year);
         }
 
@@ -452,7 +452,7 @@ namespace Zorglub.Time.Simple
         [Pure]
         public CalendarYear GetCalendarYear(int year)
         {
-            SupportedYears.Validate(year);
+            YearsValidator.Validate(year);
             return new CalendarYear(year, Id);
         }
 

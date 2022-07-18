@@ -11,15 +11,15 @@ namespace Zorglub.Time.Core.Validation
     // from the epoch, indeed YearsSinceEpoch = Year - 1.
 
     /// <summary>
-    /// Represents a range of years.
+    /// Represents a validator for a range of years.
     /// <para>This class cannot be inherited.</para>
     /// </summary>
-    public sealed class SupportedYears : ISupportedValues<int>
+    public sealed class YearsValidator : IRangeValidator<int>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="SupportedYears"/> class.
+        /// Initializes a new instance of the <see cref="YearsValidator"/> class.
         /// </summary>
-        public SupportedYears(Range<int> range)
+        public YearsValidator(Range<int> range)
         {
             Range = range;
             (MinYear, MaxYear) = range.Endpoints;

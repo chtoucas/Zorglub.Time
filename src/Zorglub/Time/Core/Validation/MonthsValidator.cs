@@ -8,16 +8,16 @@ namespace Zorglub.Time.Core.Validation
     using Zorglub.Time.Core.Intervals;
 
     /// <summary>
-    /// Represents a range of months, that is the range of supported numbers of consecutive months
-    /// from the epoch.
+    /// Represents a validator for a range of months, that is the range of supported numbers of
+    /// consecutive months from the epoch.
     /// <para>This class cannot be inherited.</para>
     /// </summary>
-    public sealed class SupportedMonths : ISupportedValues<int>
+    public sealed class MonthsValidator : IRangeValidator<int>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="SupportedMonths"/> class.
+        /// Initializes a new instance of the <see cref="MonthsValidator"/> class.
         /// </summary>
-        public SupportedMonths(Range<int> range)
+        public MonthsValidator(Range<int> range)
         {
             Range = range;
             (MinMonthsSinceEpoch, MaxMonthsSinceEpoch) = range.Endpoints;

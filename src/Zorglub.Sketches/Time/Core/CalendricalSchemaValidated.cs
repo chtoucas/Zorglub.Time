@@ -102,7 +102,7 @@ namespace Zorglub.Time.Core
             }
 
             protected override void ValidateYear(int y) =>
-                _validator.SupportedYears.Validate(y);
+                _validator.YearsValidator.Validate(y);
 
             protected override void ValidateYearMonth(int y, int m) =>
                 _validator.ValidateYearMonth(y, m);
@@ -114,10 +114,10 @@ namespace Zorglub.Time.Core
                 _validator.ValidateOrdinal(y, doy);
 
             protected override void ValidateMonthsSinceEpoch(int monthsSinceEpoch) =>
-                _validator.SupportedMonths.Validate(monthsSinceEpoch);
+                _validator.MonthsValidator.Validate(monthsSinceEpoch);
 
             protected override void ValidateDaysSinceEpoch(int daysSinceEpoch) =>
-                _validator.SupportedDays.Validate(daysSinceEpoch);
+                _validator.DaysValidator.Validate(daysSinceEpoch);
         }
     }
 

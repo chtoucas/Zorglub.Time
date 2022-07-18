@@ -56,9 +56,9 @@ namespace Zorglub.Time.Core.Arithmetic
 
             // FIXME(code): use MinMaxYearValidator.
             Segment = seg;
-            SupportedDays = new SupportedDays(seg.SupportedDays);
-            //SupportedMonths = new SupportedMonths(seg.SupportedMonths);
-            SupportedYears = new SupportedYears(seg.SupportedYears);
+            DaysValidator = new DaysValidator(seg.SupportedDays);
+            //MonthsValidator = new MonthsValidator(seg.SupportedMonths);
+            YearsValidator = new YearsValidator(seg.SupportedYears);
 
             _partsAdapter = new PartsAdapter(_schema);
 
@@ -74,19 +74,19 @@ namespace Zorglub.Time.Core.Arithmetic
         public CalendricalSegment Segment { get; }
 
         /// <summary>
-        /// Gets the range of supported days.
+        /// Gets the validator for the range of supported days.
         /// </summary>
-        private SupportedDays SupportedDays { get; }
+        private DaysValidator DaysValidator { get; }
 
         ///// <summary>
-        ///// Gets the range of supported months.
+        ///// Gets the validator for the range of supported months.
         ///// </summary>
-        //private SupportedMonths SupportedMonths { get; }
+        //private MonthsValidator MonthsValidator { get; }
 
         /// <summary>
-        /// Gets the range of supported years.
+        /// Gets the validator for the range of supported years.
         /// </summary>
-        private SupportedYears SupportedYears { get; }
+        private YearsValidator YearsValidator { get; }
 
         /// <summary>
         /// Gets the earliest supported year.
@@ -132,7 +132,7 @@ namespace Zorglub.Time.Core.Arithmetic
 
             // Slow track.
             int daysSinceEpoch = checked(_schema.CountDaysSinceEpoch(y, m, d) + days);
-            SupportedDays.Check(daysSinceEpoch);
+            DaysValidator.Check(daysSinceEpoch);
 
             return _partsAdapter.GetDateParts(daysSinceEpoch);
         }
@@ -191,7 +191,7 @@ namespace Zorglub.Time.Core.Arithmetic
 
             // Slow track.
             int daysSinceEpoch = checked(_schema.CountDaysSinceEpoch(y, doy) + days);
-            SupportedDays.Check(daysSinceEpoch);
+            DaysValidator.Check(daysSinceEpoch);
 
             return _partsAdapter.GetOrdinalParts(daysSinceEpoch);
         }
@@ -271,7 +271,7 @@ namespace Zorglub.Time.Core.Arithmetic
 
             m = 1 + MathZ.Modulo(checked(m - 1 + months), MonthsInYear, out int y0);
             y += y0;
-            SupportedYears.CheckForMonth(y);
+            YearsValidator.CheckForMonth(y);
 
             return new MonthParts(y, m);
         }
@@ -304,7 +304,7 @@ namespace Zorglub.Time.Core.Arithmetic
             var (y, m, d) = parts;
 
             y = checked(y + years);
-            SupportedYears.Check(y);
+            YearsValidator.Check(y);
 
             int daysInMonth = _schema.CountDaysInMonth(y, m);
             roundoff = Math.Max(0, d - daysInMonth);
@@ -319,7 +319,7 @@ namespace Zorglub.Time.Core.Arithmetic
 
             m = 1 + MathZ.Modulo(checked(m - 1 + months), MonthsInYear, out int y0);
             y += y0;
-            SupportedYears.Check(y);
+            YearsValidator.Check(y);
 
             int daysInMonth = _schema.CountDaysInMonth(y, m);
             roundoff = Math.Max(0, d - daysInMonth);
@@ -333,7 +333,7 @@ namespace Zorglub.Time.Core.Arithmetic
             var (y, doy) = parts;
 
             y = checked(y + years);
-            SupportedYears.Check(y);
+            YearsValidator.Check(y);
 
             int daysInYear = _schema.CountDaysInYear(y);
             roundoff = Math.Max(0, doy - daysInYear);
@@ -347,7 +347,7 @@ namespace Zorglub.Time.Core.Arithmetic
             var (y, m) = parts;
 
             y = checked(y + years);
-            SupportedYears.CheckForMonth(y);
+            YearsValidator.CheckForMonth(y);
 
             roundoff = 0;
             return new MonthParts(y, m);

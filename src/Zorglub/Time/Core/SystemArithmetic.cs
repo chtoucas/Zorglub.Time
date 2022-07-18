@@ -77,9 +77,9 @@ namespace Zorglub.Time.Core
 
             Schema = segment.Schema;
 
-            SupportedDays = new SupportedDays(segment.SupportedDays);
-            SupportedMonths = new SupportedMonths(segment.SupportedMonths);
-            SupportedYears = new SupportedYears(segment.SupportedYears);
+            DaysValidator = new DaysValidator(segment.SupportedDays);
+            MonthsValidator = new MonthsValidator(segment.SupportedMonths);
+            YearsValidator = new YearsValidator(segment.SupportedYears);
 
             (MinYear, MaxYear) = segment.SupportedYears.Endpoints;
             MaxDaysViaDayOfYear = Schema.MinDaysInYear;
@@ -92,19 +92,19 @@ namespace Zorglub.Time.Core
         public SystemSegment Segment { get; }
 
         /// <summary>
-        /// Gets the range of supported days.
+        /// Gets the validator for the range of supported days.
         /// </summary>
-        protected SupportedDays SupportedDays { get; }
+        protected DaysValidator DaysValidator { get; }
 
         /// <summary>
-        /// Gets the range of supported months.
+        /// Gets the validator for the  range of supported months.
         /// </summary>
-        protected SupportedMonths SupportedMonths { get; }
+        protected MonthsValidator MonthsValidator { get; }
 
         /// <summary>
-        /// Gets the range of supported years.
+        /// Gets the validator for the  range of supported years.
         /// </summary>
-        protected SupportedYears SupportedYears { get; }
+        protected YearsValidator YearsValidator { get; }
 
         /// <summary>
         /// Gets the underlying schema.

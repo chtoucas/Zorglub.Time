@@ -25,7 +25,7 @@ namespace Zorglub.Time.Hemerology
             Scope = scope ?? throw new ArgumentNullException(nameof(scope));
 
             Schema = scope.Schema;
-            SupportedYears = scope.SupportedYears;
+            SupportedYears = scope.YearsValidator;
         }
 
         /// <summary>
@@ -54,7 +54,7 @@ namespace Zorglub.Time.Hemerology
         /// <summary>
         /// Gets the range of supported years.
         /// </summary>
-        protected internal SupportedYears SupportedYears { get; }
+        protected internal YearsValidator SupportedYears { get; }
 
         /// <summary>
         /// Gets the underlying schema.

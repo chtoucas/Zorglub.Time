@@ -56,17 +56,17 @@ namespace Zorglub.Time.Hemerology.Scopes
                 DayZero.NewStyle + s_MaxDaysSinceEpoch);
 
         /// <summary>
-        /// Gets the range of supported days.
+        /// Gets the validator for the range of supported days.
         /// <para>This static propery is thread-safe.</para>
         /// </summary>
-        public static SupportedDays SupportedDays { get; } =
+        public static DaysValidator DaysValidator { get; } =
             new(Range.Create(s_MinDaysSinceEpoch, s_MaxDaysSinceEpoch));
 
         /// <summary>
-        /// Gets the range of supported years.
+        /// Gets the validator for the range of supported years.
         /// <para>This static property is thread-safe.</para>
         /// </summary>
-        public static ISupportedValues<int> SupportedYears { get; } = new SupportedYears_();
+        public static IRangeValidator<int> YearsValidator { get; } = new YearsValidator_();
 
         /// <summary>
         /// Validates the specified month.
@@ -109,7 +109,7 @@ namespace Zorglub.Time.Hemerology.Scopes
             }
         }
 
-        private sealed class SupportedYears_ : ISupportedValues<int>
+        private sealed class YearsValidator_ : IRangeValidator<int>
         {
             public Range<int> Range => s_SupportedYears;
 

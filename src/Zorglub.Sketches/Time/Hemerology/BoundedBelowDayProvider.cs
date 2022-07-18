@@ -20,7 +20,7 @@ namespace Zorglub.Time.Hemerology
             Scope = scope ?? throw new ArgumentNullException(nameof(scope));
 
             MinDayNumber = scope.Domain.Min;
-            SupportedYears = scope.SupportedYears;
+            SupportedYears = scope.YearsValidator;
             MinYear = SupportedYears.MinYear;
         }
 
@@ -67,7 +67,7 @@ namespace Zorglub.Time.Hemerology
         /// <summary>
         /// Gets the range of supported years.
         /// </summary>
-        private SupportedYears SupportedYears { get; }
+        private YearsValidator SupportedYears { get; }
 
         // TODO(code): shouldn't be here.
 

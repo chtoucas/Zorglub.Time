@@ -58,7 +58,7 @@ namespace Zorglub.Time.Core.Arithmetic
 
             // Slow track.
             int daysSinceEpoch = checked(Schema.CountDaysSinceEpoch(y, m, d) + days);
-            SupportedDays.Check(daysSinceEpoch);
+            DaysValidator.Check(daysSinceEpoch);
 
             return Schema.GetDateParts(daysSinceEpoch);
         }
@@ -154,7 +154,7 @@ namespace Zorglub.Time.Core.Arithmetic
 
             // Slow track.
             int daysSinceEpoch = checked(Schema.CountDaysSinceEpoch(y, doy) + days);
-            SupportedDays.Check(daysSinceEpoch);
+            DaysValidator.Check(daysSinceEpoch);
 
             return Schema.GetOrdinalParts(daysSinceEpoch);
         }
@@ -223,7 +223,7 @@ namespace Zorglub.Time.Core.Arithmetic
             ym.Unpack(out int y, out int m);
 
             int monthsSinceEpoch = checked(Schema.CountMonthsSinceEpoch(y, m) + months);
-            SupportedMonths.Check(monthsSinceEpoch);
+            MonthsValidator.Check(monthsSinceEpoch);
 
             return Schema.GetMonthParts(monthsSinceEpoch);
         }
@@ -248,7 +248,7 @@ namespace Zorglub.Time.Core.Arithmetic
             ymd.Unpack(out int y0, out int m, out int d);
 
             int y = checked(y0 + years);
-            SupportedYears.Check(y);
+            YearsValidator.Check(y);
 
             var sch = Schema;
             int monthsInYear = sch.CountMonthsInYear(y);
@@ -284,7 +284,7 @@ namespace Zorglub.Time.Core.Arithmetic
             int d = ymd.Day;
 
             var (y, m) = AddMonths(ymd.Yemo, months);
-            SupportedYears.Check(y);
+            YearsValidator.Check(y);
 
             int daysInMonth = Schema.CountDaysInMonth(y, m);
             roundoff = Math.Max(0, d - daysInMonth);
@@ -298,7 +298,7 @@ namespace Zorglub.Time.Core.Arithmetic
             ydoy.Unpack(out int y, out int doy);
 
             y = checked(y + years);
-            SupportedYears.Check(y);
+            YearsValidator.Check(y);
 
             int daysInYear = Schema.CountDaysInYear(y);
             roundoff = Math.Max(0, doy - daysInYear);
@@ -312,7 +312,7 @@ namespace Zorglub.Time.Core.Arithmetic
             ym.Unpack(out int y, out int m);
 
             y = checked(y + years);
-            SupportedYears.CheckForMonth(y);
+            YearsValidator.CheckForMonth(y);
 
             int monthsInYear = Schema.CountMonthsInYear(y);
             roundoff = Math.Max(0, m - monthsInYear);

@@ -103,7 +103,7 @@ namespace Zorglub.Time.Core.Arithmetic
 
             m = 1 + MathZ.Modulo(checked(m - 1 + months), MonthsInYear, out int y0);
             y += y0;
-            SupportedYears.CheckForMonth(y);
+            YearsValidator.CheckForMonth(y);
 
             return new Yemo(y, m);
         }
@@ -131,7 +131,7 @@ namespace Zorglub.Time.Core.Arithmetic
             // On retranche 1 à "m" pour le rendre algébrique.
             m = 1 + MathZ.Modulo(checked(m - 1 + months), MonthsInYear, out int y0);
             y += y0;
-            SupportedYears.Check(y);
+            YearsValidator.Check(y);
 
             int daysInMonth = Schema.CountDaysInMonth(y, m);
             roundoff = Math.Max(0, d - daysInMonth);

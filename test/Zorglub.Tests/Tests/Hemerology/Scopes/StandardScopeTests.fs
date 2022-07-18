@@ -68,7 +68,7 @@ module SupportedYears =
     let validYearData = StandardScopeFacts.ValidYearData
     let invalidYearData = StandardScopeFacts.InvalidYearData
 
-    let supportedYears = StandardScope.SupportedYearsImpl
+    let supportedYears = StandardScope.YearsValidatorImpl
 
     [<Theory; MemberData(nameof(invalidYearData))>]
     let ``Check() overflows when "year" is out of range`` y =
@@ -130,7 +130,7 @@ module GregorianCase =
         let domain = GregorianStandardScope.DefaultDomain
         let minDaysSinceEpoch = domain.Min - epoch
         let maxDaysSinceEpoch = domain.Max - epoch
-        let supportedDays = GregorianStandardScope.SupportedDays
+        let supportedDays = GregorianStandardScope.DaysValidator
 
         (fun () -> supportedDays.Check(minDaysSinceEpoch - 1)) |> overflows
         supportedDays.Check(minDaysSinceEpoch)
@@ -141,14 +141,14 @@ module GregorianCase =
 
     [<Theory; MemberData(nameof(invalidYearData))>]
     let ``ValidateYear() throws when "year" is out of range`` y =
-        let supportedYears = GregorianStandardScope.SupportedYears
+        let supportedYears = GregorianStandardScope.YearsValidator
 
         outOfRangeExn "year" (fun () -> supportedYears.Validate(y))
         outOfRangeExn "y" (fun () -> supportedYears.Validate(y, nameof(y)))
 
     [<Theory; MemberData(nameof(validYearData))>]
     let ``ValidateYear() does not throw when the input is valid`` y =
-        let supportedYears = GregorianStandardScope.SupportedYears
+        let supportedYears = GregorianStandardScope.YearsValidator
 
         supportedYears.Validate(y)
         supportedYears.Validate(y, nameof(y))

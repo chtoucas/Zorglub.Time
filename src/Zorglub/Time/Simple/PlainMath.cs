@@ -29,7 +29,7 @@ namespace Zorglub.Time.Simple
             date.Parts.Unpack(out int y, out int m, out int d);
             y = checked(y + years);
 
-            SupportedYears.Check(y);
+            YearsValidator.Check(y);
 
             var sch = Schema;
             // NB: AdditionRule.Truncate.
@@ -60,7 +60,7 @@ namespace Zorglub.Time.Simple
             date.Parts.Unpack(out int y, out int doy);
             y = checked(y + years);
 
-            SupportedYears.Check(y);
+            YearsValidator.Check(y);
 
             // NB: AdditionRule.Truncate.
             doy = Math.Min(doy, Schema.CountDaysInYear(y));
@@ -76,7 +76,7 @@ namespace Zorglub.Time.Simple
             month.Parts.Unpack(out int y, out int m);
             y = checked(y + years);
 
-            SupportedYears.Check(y);
+            YearsValidator.Check(y);
 
             // NB: AdditionRule.Truncate.
             m = Math.Min(m, Schema.CountMonthsInYear(y));

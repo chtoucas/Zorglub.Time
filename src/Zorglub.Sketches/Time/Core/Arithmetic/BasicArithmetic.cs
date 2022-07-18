@@ -47,28 +47,28 @@ namespace Zorglub.Time.Core.Arithmetic
             _schema = segment.Schema;
             _partsAdapter = new PartsAdapter(_schema);
 
-            SupportedDays = new SupportedDays(segment.SupportedDays);
-            SupportedMonths = new SupportedMonths(segment.SupportedMonths);
-            //SupportedYears = new SupportedYears(segment.SupportedYears);
+            DaysValidator = new DaysValidator(segment.SupportedDays);
+            MonthsValidator = new MonthsValidator(segment.SupportedMonths);
+            //YearsValidator = new YearsValidator(segment.SupportedYears);
         }
 
         /// <inheritdoc/>
         public CalendricalSegment Segment { get; }
 
         /// <summary>
-        /// Gets the range of supported days.
+        /// Gets the validator for the range of supported days.
         /// </summary>
-        private SupportedDays SupportedDays { get; }
+        private DaysValidator DaysValidator { get; }
 
         /// <summary>
-        /// Gets the range of supported months.
+        /// Gets the validator for the range of supported months.
         /// </summary>
-        private SupportedMonths SupportedMonths { get; }
+        private MonthsValidator MonthsValidator { get; }
 
         ///// <summary>
-        ///// Gets the range of supported years.
+        ///// Gets the validator for the range of supported years.
         ///// </summary>
-        //private SupportedYears SupportedYears { get; }
+        //private YearsValidator YearsValidator { get; }
     }
 
     public partial class BasicArithmetic // Operations on DateParts
@@ -79,7 +79,7 @@ namespace Zorglub.Time.Core.Arithmetic
         {
             var (y, m, d) = parts;
             int daysSinceEpoch = checked(_schema.CountDaysSinceEpoch(y, m, d) + days);
-            SupportedDays.Check(daysSinceEpoch);
+            DaysValidator.Check(daysSinceEpoch);
 
             return _partsAdapter.GetDateParts(daysSinceEpoch);
         }
@@ -111,7 +111,7 @@ namespace Zorglub.Time.Core.Arithmetic
         {
             var (y, doy) = parts;
             int daysSinceEpoch = checked(_schema.CountDaysSinceEpoch(y, doy) + days);
-            SupportedDays.Check(daysSinceEpoch);
+            DaysValidator.Check(daysSinceEpoch);
 
             return _partsAdapter.GetOrdinalParts(daysSinceEpoch);
         }
@@ -143,7 +143,7 @@ namespace Zorglub.Time.Core.Arithmetic
         {
             var (y, m) = parts;
             int monthsSinceEpoch = checked(_schema.CountMonthsSinceEpoch(y, m) + months);
-            SupportedMonths.Check(monthsSinceEpoch);
+            MonthsValidator.Check(monthsSinceEpoch);
 
             return _partsAdapter.GetMonthParts(monthsSinceEpoch);
         }

@@ -12,7 +12,7 @@ public abstract partial class OrdinalDateAdjustmentFacts<TDataSet> :
     where TDataSet : ICalendarDataSet, ISingleton<TDataSet>
 {
     protected OrdinalDateAdjustmentFacts(Calendar calendar)
-        : base(calendar?.SupportedYears.Range ?? throw new ArgumentNullException(nameof(calendar)))
+        : base(calendar?.YearsValidator.Range ?? throw new ArgumentNullException(nameof(calendar)))
     {
         Debug.Assert(calendar != null);
 

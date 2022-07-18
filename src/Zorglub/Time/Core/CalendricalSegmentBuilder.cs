@@ -31,16 +31,17 @@ namespace Zorglub.Time.Core
         private readonly PartsAdapter _partsAdapter;
 
         /// <summary>
-        /// Represents the range of supported years.
+        /// Represents the validator for the range of supported years.
         /// <para>This field is read-only.</para>
         /// </summary>
-        private readonly SupportedYears _supportedYears;
+        private readonly YearsValidator _yearsValidator;
 
         /// <summary>
-        /// Represents the range of supported values for the number of consecutive days from the epoch.
+        /// Represents the validator for the range of supported values for the number of consecutive
+        /// days from the epoch.
         /// <para>This field is read-only.</para>
         /// </summary>
-        private readonly SupportedDays _supportedDays;
+        private readonly DaysValidator _daysValidator;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CalendricalSegmentBuilder"/> class.
@@ -51,8 +52,8 @@ namespace Zorglub.Time.Core
             _schema = schema ?? throw new ArgumentNullException(nameof(schema));
 
             _partsAdapter = new PartsAdapter(schema);
-            _supportedYears = new SupportedYears(schema.SupportedYears);
-            _supportedDays = new SupportedDays(schema.SupportedYears);
+            _yearsValidator = new YearsValidator(schema.SupportedYears);
+            _daysValidator = new DaysValidator(schema.SupportedYears);
         }
 
         /// <summary>
@@ -184,7 +185,7 @@ namespace Zorglub.Time.Core
         /// </summary>
         public void SetMinYear(int year)
         {
-            _supportedYears.Validate(year);
+            _yearsValidator.Validate(year);
 
             Min = new Endpoint
             {
@@ -199,7 +200,7 @@ namespace Zorglub.Time.Core
         /// </summary>
         public void SetMaxYear(int year)
         {
-            _supportedYears.Validate(year);
+            _yearsValidator.Validate(year);
 
             Max = new Endpoint
             {
@@ -226,14 +227,14 @@ namespace Zorglub.Time.Core
             }
             else
             {
-                SetMinYear(_supportedYears.MinYear);
+                SetMinYear(_yearsValidator.MinYear);
             }
         }
 
         /// <summary>
         /// Sets the maximum to the end of the latest supported year.
         /// </summary>
-        public void UseMaxSupportedYear() => SetMaxYear(_supportedYears.MaxYear);
+        public void UseMaxSupportedYear() => SetMaxYear(_yearsValidator.MaxYear);
 
         internal void SetSupportedYears(Range<int> supportedYears)
         {
@@ -248,7 +249,7 @@ namespace Zorglub.Time.Core
         [Pure]
         private Endpoint GetEndpoint(int daysSinceEpoch)
         {
-            _supportedDays.Validate(daysSinceEpoch);
+            _daysValidator.Validate(daysSinceEpoch);
 
             return new Endpoint
             {
@@ -261,7 +262,7 @@ namespace Zorglub.Time.Core
         [Pure]
         private Endpoint GetEndpoint(int year, int month, int day)
         {
-            _supportedYears.Validate(year);
+            _yearsValidator.Validate(year);
             PreValidator.ValidateMonthDay(year, month, day);
 
             return new Endpoint
@@ -275,7 +276,7 @@ namespace Zorglub.Time.Core
         [Pure]
         private Endpoint GetEndpoint(int year, int dayOfYear)
         {
-            _supportedYears.Validate(year);
+            _yearsValidator.Validate(year);
             PreValidator.ValidateDayOfYear(year, dayOfYear);
 
             return new Endpoint
