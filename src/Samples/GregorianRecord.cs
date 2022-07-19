@@ -8,6 +8,7 @@ using System.Diagnostics.Contracts;
 
 using Zorglub.Time;
 using Zorglub.Time.Core;
+using Zorglub.Time.Core.Arithmetic;
 using Zorglub.Time.Core.Schemas;
 using Zorglub.Time.Core.Validation;
 using Zorglub.Time.Hemerology;
@@ -36,8 +37,8 @@ public readonly partial record struct GregorianRecord
     private static DaysValidator DaysValidator { get; } = new(Segment.SupportedDays);
     private static YearsValidator YearsValidator { get; } = new(Segment.SupportedYears);
 
-    private static ICalendricalArithmetic Arithmetic { get; } =
-        ICalendricalArithmetic.CreateDefault(Schema, YearsValidator.Range);
+    private static PartsArithmetic PartsArithmetic { get; } =
+        PartsArithmetic.CreateDefault(Schema, YearsValidator.Range);
     private static PartsAdapter PartsAdapter { get; } = new(Schema);
 
     public GregorianRecord(int year, int month, int day)
@@ -144,17 +145,17 @@ public partial record struct GregorianRecord // Math ops
 
     [Pure]
     public int CountDaysSince(GregorianRecord other) =>
-        Arithmetic.CountDaysBetween(other.DateParts, DateParts);
+        PartsArithmetic.CountDaysBetween(other.DateParts, DateParts);
 
     [Pure]
     public GregorianRecord PlusDays(int days) =>
-        new(Arithmetic.AddDays(DateParts, days));
+        new(PartsArithmetic.AddDays(DateParts, days));
 
     [Pure]
     public GregorianRecord NextDay() =>
-        new(Arithmetic.NextDay(DateParts));
+        new(PartsArithmetic.NextDay(DateParts));
 
     [Pure]
     public GregorianRecord PreviousDay() =>
-        new(Arithmetic.PreviousDay(DateParts));
+        new(PartsArithmetic.PreviousDay(DateParts));
 }

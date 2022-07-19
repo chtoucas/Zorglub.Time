@@ -1,26 +1,27 @@
 ﻿// SPDX-License-Identifier: BSD-3-Clause
 // Copyright (c) 2020 Narvalo.Org. All rights reserved.
 
-namespace Zorglub.Testing.Facts;
+namespace Zorglub.Testing.Facts.Core;
 
 using Zorglub.Testing.Data;
+using Zorglub.Time.Core.Arithmetic;
 
 // Sync with SystemArithmeticFacts.
 
-public partial class ICalendricalArithmeticFacts<TDataSet> :
+public partial class PartsArithmeticFacts<TDataSet> :
     CalendricalDataConsumer<TDataSet>
     where TDataSet : ICalendricalDataSet, ISingleton<TDataSet>
 {
-    public ICalendricalArithmeticFacts(ICalendricalArithmetic arithmetic)
+    public PartsArithmeticFacts(PartsArithmetic arithmetic)
     {
         ArithmeticUT = arithmetic ?? throw new ArgumentNullException(nameof(arithmetic));
     }
 
-    protected ICalendricalArithmetic ArithmeticUT { get; }
+    protected PartsArithmetic ArithmeticUT { get; }
     protected CalendricalSegment Segment => ArithmeticUT.Segment;
 }
 
-public partial class ICalendricalArithmeticFacts<TDataSet> // DateParts
+public partial class PartsArithmeticFacts<TDataSet> // DateParts
 {
     [Theory, MemberData(nameof(AddDaysData))]
     public void AddDays﹍DateParts(YemodaPairAnd<int> p)
@@ -92,7 +93,7 @@ public partial class ICalendricalArithmeticFacts<TDataSet> // DateParts
     }
 }
 
-public partial class ICalendricalArithmeticFacts<TDataSet> // OrdinalParts
+public partial class PartsArithmeticFacts<TDataSet> // OrdinalParts
 {
     [Theory, MemberData(nameof(AddDaysOrdinalData))]
     public void AddDays﹍OrdinalParts(YedoyPairAnd<int> p)
@@ -168,7 +169,7 @@ public partial class ICalendricalArithmeticFacts<TDataSet> // OrdinalParts
     }
 }
 
-public partial class ICalendricalArithmeticFacts<TDataSet> // MonthParts
+public partial class PartsArithmeticFacts<TDataSet> // MonthParts
 {
     [Theory, MemberData(nameof(AddMonthsMonthData))]
     public void AddMonths﹍MonthParts(YemoPairAnd<int> p)
@@ -239,7 +240,7 @@ public partial class ICalendricalArithmeticFacts<TDataSet> // MonthParts
     }
 }
 
-public partial class ICalendricalArithmeticFacts<TDataSet> // Overflows
+public partial class PartsArithmeticFacts<TDataSet> // Overflows
 {
     //
     // DateParts

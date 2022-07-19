@@ -5,7 +5,7 @@ namespace Zorglub.Testing.Facts.Core;
 
 using Zorglub.Testing.Data;
 
-// Sync with ICalendricalArithmeticFacts.
+// Sync with PartsArithmeticFacts.
 
 public abstract partial class SystemArithmeticFacts<TDataSet> :
     CalendricalDataConsumer<TDataSet>

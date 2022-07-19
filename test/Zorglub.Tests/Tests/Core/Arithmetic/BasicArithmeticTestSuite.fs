@@ -5,7 +5,7 @@ module Zorglub.Tests.Core.Arithmetic.BasicArithmeticTestSuite
 
 open Zorglub.Testing
 open Zorglub.Testing.Data.Schemas
-open Zorglub.Testing.Facts
+open Zorglub.Testing.Facts.Core
 
 open Zorglub.Time.Core
 open Zorglub.Time.Core.Arithmetic
@@ -24,88 +24,88 @@ let private ariOf<'a when 'a :> ICalendricalSchema and 'a :> IBoxable<'a>> () =
 [<Sealed>]
 [<RedundantTestBundle>]
 type Coptic12Tests() =
-    inherit ICalendricalArithmeticFacts<Coptic12DataSet>(ariOf<Coptic12Schema>())
+    inherit PartsArithmeticFacts<Coptic12DataSet>(ariOf<Coptic12Schema>())
 
 [<Sealed>]
 [<RedundantTestBundle>]
 type Coptic13Tests() =
-    inherit ICalendricalArithmeticFacts<Coptic13DataSet>(ariOf<Coptic13Schema>())
+    inherit PartsArithmeticFacts<Coptic13DataSet>(ariOf<Coptic13Schema>())
 
 [<Sealed>]
 [<RedundantTestBundle>]
 type Egyptian12Tests() =
-    inherit ICalendricalArithmeticFacts<Egyptian12DataSet>(ariOf<Egyptian12Schema>())
+    inherit PartsArithmeticFacts<Egyptian12DataSet>(ariOf<Egyptian12Schema>())
 
 [<Sealed>]
 [<RedundantTestBundle>]
 type Egyptian13Tests() =
-    inherit ICalendricalArithmeticFacts<Egyptian13DataSet>(ariOf<Egyptian13Schema>())
+    inherit PartsArithmeticFacts<Egyptian13DataSet>(ariOf<Egyptian13Schema>())
 
 [<Sealed>]
 [<RedundantTestBundle>]
 type FrenchRepublican12Tests() =
-    inherit ICalendricalArithmeticFacts<FrenchRepublican12DataSet>(ariOf<FrenchRepublican12Schema>())
+    inherit PartsArithmeticFacts<FrenchRepublican12DataSet>(ariOf<FrenchRepublican12Schema>())
 
 [<Sealed>]
 [<RedundantTestBundle>]
 type FrenchRepublican13Tests() =
-    inherit ICalendricalArithmeticFacts<FrenchRepublican13DataSet>(ariOf<FrenchRepublican13Schema>())
+    inherit PartsArithmeticFacts<FrenchRepublican13DataSet>(ariOf<FrenchRepublican13Schema>())
 
 [<Sealed>]
 type GregorianTests() =
-    inherit ICalendricalArithmeticFacts<GregorianDataSet>(ariOf<GregorianSchema>())
+    inherit PartsArithmeticFacts<GregorianDataSet>(ariOf<GregorianSchema>())
 
 [<Sealed>]
 [<RedundantTestBundle>]
 type InternationalFixedTests() =
-    inherit ICalendricalArithmeticFacts<InternationalFixedDataSet>(ariOf<InternationalFixedSchema>())
+    inherit PartsArithmeticFacts<InternationalFixedDataSet>(ariOf<InternationalFixedSchema>())
 
 [<Sealed>]
 [<RedundantTestBundle>]
 type JulianTests() =
-    inherit ICalendricalArithmeticFacts<JulianDataSet>(ariOf<JulianSchema>())
+    inherit PartsArithmeticFacts<JulianDataSet>(ariOf<JulianSchema>())
 
 [<Sealed>]
 [<RedundantTestBundle>]
 type LunisolarTests() =
-    inherit ICalendricalArithmeticFacts<LunisolarDataSet>(ariOf<LunisolarSchema>())
+    inherit PartsArithmeticFacts<LunisolarDataSet>(ariOf<LunisolarSchema>())
 
 //[<Sealed>]
 //[<RedundantTestBundle>]
 //type PaxTests() =
-//    inherit ICalendricalArithmeticFacts<PaxDataSet>(ariOf<PaxSchema>())
+//    inherit PartsArithmeticFacts<PaxDataSet>(ariOf<PaxSchema>())
 
 [<Sealed>]
 [<RedundantTestBundle>]
 type Persian2820Tests() =
-    inherit ICalendricalArithmeticFacts<Persian2820DataSet>(ariOf<Persian2820Schema>())
+    inherit PartsArithmeticFacts<Persian2820DataSet>(ariOf<Persian2820Schema>())
 
 [<Sealed>]
 [<RedundantTestBundle>]
 type PositivistTests() =
-    inherit ICalendricalArithmeticFacts<PositivistDataSet>(ariOf<PositivistSchema>())
+    inherit PartsArithmeticFacts<PositivistDataSet>(ariOf<PositivistSchema>())
 
 [<Sealed>]
 [<RedundantTestBundle>]
 type TabularIslamicTests() =
-    inherit ICalendricalArithmeticFacts<TabularIslamicDataSet>(ariOf<TabularIslamicSchema>())
+    inherit PartsArithmeticFacts<TabularIslamicDataSet>(ariOf<TabularIslamicSchema>())
 
 [<Sealed>]
 [<RedundantTestBundle>]
 type TropicaliaTests() =
-    inherit ICalendricalArithmeticFacts<TropicaliaDataSet>(ariOf<TropicaliaSchema>())
+    inherit PartsArithmeticFacts<TropicaliaDataSet>(ariOf<TropicaliaSchema>())
 
 [<Sealed>]
 [<RedundantTestBundle>]
 type Tropicalia3031Tests() =
-    inherit ICalendricalArithmeticFacts<Tropicalia3031DataSet>(ariOf<Tropicalia3031Schema>())
+    inherit PartsArithmeticFacts<Tropicalia3031DataSet>(ariOf<Tropicalia3031Schema>())
 
 [<Sealed>]
 [<RedundantTestBundle>]
 type Tropicalia3130Tests() =
-    inherit ICalendricalArithmeticFacts<Tropicalia3130DataSet>(ariOf<Tropicalia3130Schema>())
+    inherit PartsArithmeticFacts<Tropicalia3130DataSet>(ariOf<Tropicalia3130Schema>())
 
 [<Sealed>]
 [<RedundantTestBundle>]
 type WorldTests() =
-    inherit ICalendricalArithmeticFacts<WorldDataSet>(ariOf<WorldSchema>())
+    inherit PartsArithmeticFacts<WorldDataSet>(ariOf<WorldSchema>())

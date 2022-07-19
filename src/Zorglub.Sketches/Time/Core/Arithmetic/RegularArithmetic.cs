@@ -6,87 +6,49 @@ namespace Zorglub.Time.Core.Arithmetic
     using Zorglub.Time.Core.Intervals;
     using Zorglub.Time.Core.Validation;
 
-    // Complete years only!
-
     /// <summary>
-    /// Provides a generic implementation for <see cref="ICalendricalArithmeticPlus"/> for when the
+    /// Provides a generic implementation for <see cref="PartsArithmetic"/> for when the underlying
     /// schema is regular.
     /// <para>The length of a month must be greater than or equal to 7.</para>
     /// <para>This class cannot be inherited.</para>
     /// </summary>
-    public sealed partial class RegularArithmetic : ICalendricalArithmeticPlus
+    public sealed partial class RegularArithmetic : PartsArithmetic
     {
         /// <summary>
         /// Represents the absolute minimum value admissible for the minimum total number of days
         /// there is at least in a month.
         /// <para>This field is a constant equal to 7.</para>
         /// </summary>
-        internal const int MinMinDaysInMonth = 7;
-
-        /// <summary>
-        /// Represents the schema.
-        /// <para>This field is read-only.</para>
-        /// </summary>
-        private readonly ICalendricalSchema _schema;
-
-        /// <summary>
-        /// Represents the adapter for calendrical parts.
-        /// <para>This field is read-only.</para>
-        /// </summary>
-        private readonly PartsAdapter _partsAdapter;
+        public const int MinMinDaysInMonth = 7;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RegularArithmetic"/> class.
         /// </summary>
-        /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
-        /// <exception cref="ArgumentException"><paramref name="schema"/> contains at least one
-        /// month whose length is strictly less than <see cref="MinMinDaysInMonth"/>.
+        /// <exception cref="ArgumentNullException"><paramref name="segment"/> is null.</exception>
+        /// <exception cref="ArgumentException"><paramref name="segment"/> is NOT complete.</exception>
+        /// <exception cref="ArgumentException">The underlying schema contains at least one month
+        /// whose length is strictly less than <see cref="MinMinDaysInMonth"/>.
         /// </exception>
-        /// <exception cref="ArgumentException"><paramref name="schema"/> is not regular.</exception>
-        /// <exception cref="AoorException"><paramref name="supportedYears"/> is NOT a subinterval
-        /// of the range of supported years by <paramref name="schema"/>.</exception>
-        public RegularArithmetic(ICalendricalSchema schema, Range<int> supportedYears)
+        /// <exception cref="ArgumentException">The underlying schema is NOT regular.</exception>
+        public RegularArithmetic(CalendricalSegment segment) : base(segment)
         {
-            Requires.NotNull(schema);
-            if (schema.MinDaysInMonth < MinMinDaysInMonth) Throw.Argument(nameof(schema));
-            if (schema.IsRegular(out int monthsInYear) == false) Throw.Argument(nameof(schema));
-            _schema = schema;
+            Debug.Assert(segment != null);
+            if (segment.IsComplete == false) Throw.Argument(nameof(segment));
 
-            var seg = CalendricalSegment.Create(schema, supportedYears);
+            if (Schema.MinDaysInMonth < MinMinDaysInMonth) Throw.Argument(nameof(segment));
+            if (Schema.IsRegular(out int monthsInYear) == false) Throw.Argument(nameof(segment));
 
-            // FIXME(code): use MinMaxYearValidator.
-            Segment = seg;
-            DaysValidator = new DaysValidator(seg.SupportedDays);
-            //MonthsValidator = new MonthsValidator(seg.SupportedMonths);
-            YearsValidator = new YearsValidator(seg.SupportedYears);
-
-            _partsAdapter = new PartsAdapter(_schema);
+            (MinYear, MaxYear) = segment.SupportedYears.Endpoints;
 
             MonthsInYear = monthsInYear;
-
-            MaxDaysViaDayOfYear = _schema.MinDaysInYear;
-            MaxDaysViaDayOfMonth = _schema.MinDaysInMonth;
+            MaxDaysViaDayOfYear = Schema.MinDaysInYear;
+            MaxDaysViaDayOfMonth = Schema.MinDaysInMonth;
         }
 
-        public int MonthsInYear { get; }
-
-        /// <inheritdoc/>
-        public CalendricalSegment Segment { get; }
-
         /// <summary>
-        /// Gets the validator for the range of supported days.
+        /// Gets the total number of months in a year.
         /// </summary>
-        private DaysValidator DaysValidator { get; }
-
-        ///// <summary>
-        ///// Gets the validator for the range of supported months.
-        ///// </summary>
-        //private MonthsValidator MonthsValidator { get; }
-
-        /// <summary>
-        /// Gets the validator for the range of supported years.
-        /// </summary>
-        private YearsValidator YearsValidator { get; }
+        private int MonthsInYear { get; }
 
         /// <summary>
         /// Gets the earliest supported year.
@@ -102,49 +64,49 @@ namespace Zorglub.Time.Core.Arithmetic
         /// Gets the maximum absolute value for a parameter "days" for the method
         /// <see cref="AddDaysViaDayOfYear(OrdinalParts, int)"/>.
         /// </summary>
-        public int MaxDaysViaDayOfYear { get; init; }
+        private int MaxDaysViaDayOfYear { get; init; }
 
-        public int MaxDaysViaDayOfMonth { get; init; }
+        private int MaxDaysViaDayOfMonth { get; init; }
     }
 
     public partial class RegularArithmetic // Operations on DateParts
     {
         /// <inheritdoc />
         [Pure]
-        public DateParts AddDays(DateParts parts, int days)
+        public sealed override DateParts AddDays(DateParts parts, int days)
         {
             // Fast tracks.
             var (y, m, d) = parts;
 
             // No change of month.
             int dom = checked(d + days);
-            if (1 <= dom && (dom <= MaxDaysViaDayOfMonth || dom <= _schema.CountDaysInMonth(y, m)))
+            if (1 <= dom && (dom <= MaxDaysViaDayOfMonth || dom <= Schema.CountDaysInMonth(y, m)))
             {
                 return new DateParts(y, m, dom);
             }
 
             if (-MaxDaysViaDayOfYear <= days && days <= MaxDaysViaDayOfYear)
             {
-                int doy = _schema.GetDayOfYear(y, m, d);
+                int doy = Schema.GetDayOfYear(y, m, d);
                 var (newY, newDoy) = AddDaysViaDayOfYear(new OrdinalParts(y, doy), days);
-                return _partsAdapter.GetDateParts(newY, newDoy);
+                return PartsAdapter.GetDateParts(newY, newDoy);
             }
 
             // Slow track.
-            int daysSinceEpoch = checked(_schema.CountDaysSinceEpoch(y, m, d) + days);
+            int daysSinceEpoch = checked(Schema.CountDaysSinceEpoch(y, m, d) + days);
             DaysValidator.Check(daysSinceEpoch);
 
-            return _partsAdapter.GetDateParts(daysSinceEpoch);
+            return PartsAdapter.GetDateParts(daysSinceEpoch);
         }
 
         /// <inheritdoc />
         [Pure]
-        public DateParts NextDay(DateParts parts)
+        public sealed override DateParts NextDay(DateParts parts)
         {
             var (y, m, d) = parts;
 
             return
-                d < MaxDaysViaDayOfMonth || d < _schema.CountDaysInMonth(y, m) ? new DateParts(y, m, d + 1)
+                d < MaxDaysViaDayOfMonth || d < Schema.CountDaysInMonth(y, m) ? new DateParts(y, m, d + 1)
                 : m < MonthsInYear ? DateParts.AtStartOfMonth(y, m + 1)
                 : y < MaxYear ? DateParts.AtStartOfYear(y + 1)
                 : Throw.DateOverflow<DateParts>();
@@ -152,26 +114,15 @@ namespace Zorglub.Time.Core.Arithmetic
 
         /// <inheritdoc />
         [Pure]
-        public DateParts PreviousDay(DateParts parts)
+        public sealed override DateParts PreviousDay(DateParts parts)
         {
             var (y, m, d) = parts;
 
             return
                 d > 1 ? new DateParts(y, m, d - 1)
-                : m > 1 ? _partsAdapter.GetDatePartsAtEndOfMonth(y, m - 1)
-                : y > MinYear ? _partsAdapter.GetDatePartsAtEndOfYear(y - 1)
+                : m > 1 ? PartsAdapter.GetDatePartsAtEndOfMonth(y, m - 1)
+                : y > MinYear ? PartsAdapter.GetDatePartsAtEndOfYear(y - 1)
                 : Throw.DateOverflow<DateParts>();
-        }
-
-        [Pure]
-        public int CountDaysBetween(DateParts start, DateParts end)
-        {
-            if (end.MonthParts == start.MonthParts) { return end.Day - start.Day; }
-
-            var (y0, m0, d0) = start;
-            var (y1, m1, d1) = end;
-
-            return _schema.CountDaysSinceEpoch(y1, m1, d1) - _schema.CountDaysSinceEpoch(y0, m0, d0);
         }
     }
 
@@ -179,7 +130,7 @@ namespace Zorglub.Time.Core.Arithmetic
     {
         /// <inheritdoc />
         [Pure]
-        public OrdinalParts AddDays(OrdinalParts parts, int days)
+        public sealed override OrdinalParts AddDays(OrdinalParts parts, int days)
         {
             // Fast track.
             if (-MaxDaysViaDayOfYear <= days && days <= MaxDaysViaDayOfYear)
@@ -190,10 +141,10 @@ namespace Zorglub.Time.Core.Arithmetic
             var (y, doy) = parts;
 
             // Slow track.
-            int daysSinceEpoch = checked(_schema.CountDaysSinceEpoch(y, doy) + days);
+            int daysSinceEpoch = checked(Schema.CountDaysSinceEpoch(y, doy) + days);
             DaysValidator.Check(daysSinceEpoch);
 
-            return _partsAdapter.GetOrdinalParts(daysSinceEpoch);
+            return PartsAdapter.GetOrdinalParts(daysSinceEpoch);
         }
 
         /// <inheritdoc />
@@ -211,11 +162,11 @@ namespace Zorglub.Time.Core.Arithmetic
             {
                 if (y == MinYear) Throw.DateOverflow();
                 y--;
-                doy += _schema.CountDaysInYear(y);
+                doy += Schema.CountDaysInYear(y);
             }
             else
             {
-                int daysInYear = _schema.CountDaysInYear(y);
+                int daysInYear = Schema.CountDaysInYear(y);
                 if (doy > daysInYear)
                 {
                     if (y == MaxYear) Throw.DateOverflow();
@@ -229,35 +180,25 @@ namespace Zorglub.Time.Core.Arithmetic
 
         /// <inheritdoc />
         [Pure]
-        public OrdinalParts NextDay(OrdinalParts parts)
+        public sealed override OrdinalParts NextDay(OrdinalParts parts)
         {
             var (y, doy) = parts;
 
             return
-                doy < MaxDaysViaDayOfYear || doy < _schema.CountDaysInYear(y) ? new OrdinalParts(y, doy + 1)
+                doy < MaxDaysViaDayOfYear || doy < Schema.CountDaysInYear(y) ? new OrdinalParts(y, doy + 1)
                 : y < MaxYear ? OrdinalParts.AtStartOfYear(y + 1)
                 : Throw.DateOverflow<OrdinalParts>();
         }
 
         /// <inheritdoc />
         [Pure]
-        public OrdinalParts PreviousDay(OrdinalParts parts)
+        public sealed override OrdinalParts PreviousDay(OrdinalParts parts)
         {
             var (y, doy) = parts;
 
             return doy > 1 ? new OrdinalParts(y, doy - 1)
-                : y > MinYear ? _partsAdapter.GetOrdinalPartsAtEndOfYear(y - 1)
+                : y > MinYear ? PartsAdapter.GetOrdinalPartsAtEndOfYear(y - 1)
                 : Throw.DateOverflow<OrdinalParts>();
-        }
-
-        /// <inheritdoc />
-        [Pure]
-        public int CountDaysBetween(OrdinalParts start, OrdinalParts end)
-        {
-            var (y0, doy0) = start;
-            var (y1, doy1) = end;
-
-            return _schema.CountDaysSinceEpoch(y1, doy1) - _schema.CountDaysSinceEpoch(y0, doy0);
         }
     }
 
@@ -265,7 +206,7 @@ namespace Zorglub.Time.Core.Arithmetic
     {
         /// <inheritdoc />
         [Pure]
-        public MonthParts AddMonths(MonthParts parts, int months)
+        public sealed override MonthParts AddMonths(MonthParts parts, int months)
         {
             var (y, m) = parts;
 
@@ -278,26 +219,22 @@ namespace Zorglub.Time.Core.Arithmetic
 
         /// <inheritdoc />
         [Pure]
-        public MonthParts NextMonth(MonthParts parts) => AddMonths(parts, 1);
+        public sealed override MonthParts NextMonth(MonthParts parts) => AddMonths(parts, 1);
 
         /// <inheritdoc />
         [Pure]
-        public MonthParts PreviousMonth(MonthParts parts) => AddMonths(parts, -1);
-
-        /// <inheritdoc />
-        [Pure]
-        public int CountMonthsBetween(MonthParts start, MonthParts end)
-        {
-            var (y0, m0) = start;
-            var (y1, m1) = end;
-
-            return (y1 - y0) * MonthsInYear + m1 - m0;
-        }
+        public sealed override MonthParts PreviousMonth(MonthParts parts) => AddMonths(parts, -1);
     }
 
     public partial class RegularArithmetic // Non-standard operations
     {
-        /// <inheritdoc />
+        /// <summary>
+        /// Adds a number of years to the year field of the specified date.
+        /// </summary>
+        /// <returns>The end of the target month (resp. year) when the naive result is not a valid
+        /// day (resp. month).</returns>
+        /// <exception cref="OverflowException">The calculation would overflow the range of
+        /// supported values.</exception>
         [Pure]
         public DateParts AddYears(DateParts parts, int years, out int roundoff)
         {
@@ -306,12 +243,18 @@ namespace Zorglub.Time.Core.Arithmetic
             y = checked(y + years);
             YearsValidator.Check(y);
 
-            int daysInMonth = _schema.CountDaysInMonth(y, m);
+            int daysInMonth = Schema.CountDaysInMonth(y, m);
             roundoff = Math.Max(0, d - daysInMonth);
             return new DateParts(y, m, roundoff > 0 ? daysInMonth : d);
         }
 
-        /// <inheritdoc />
+        /// <summary>
+        /// Adds a number of months to the specified date.
+        /// </summary>
+        /// <returns>The last day of the month when the naive result is not a valid day
+        /// (roundoff > 0).</returns>
+        /// <exception cref="OverflowException">The calculation would overflow the range of
+        /// supported values.</exception>
         [Pure]
         public DateParts AddMonths(DateParts parts, int months, out int roundoff)
         {
@@ -321,12 +264,18 @@ namespace Zorglub.Time.Core.Arithmetic
             y += y0;
             YearsValidator.Check(y);
 
-            int daysInMonth = _schema.CountDaysInMonth(y, m);
+            int daysInMonth = Schema.CountDaysInMonth(y, m);
             roundoff = Math.Max(0, d - daysInMonth);
             return new DateParts(y, m, roundoff > 0 ? daysInMonth : d);
         }
 
-        /// <inheritdoc />
+        /// <summary>
+        /// Adds a number of years to the year field of the specified ordinal date.
+        /// </summary>
+        /// <returns>The last day of the year when the naive result is not a valid day
+        /// (roundoff > 0).</returns>
+        /// <exception cref="OverflowException">The calculation would overflow the range of
+        /// supported values.</exception>
         [Pure]
         public OrdinalParts AddYears(OrdinalParts parts, int years, out int roundoff)
         {
@@ -335,12 +284,18 @@ namespace Zorglub.Time.Core.Arithmetic
             y = checked(y + years);
             YearsValidator.Check(y);
 
-            int daysInYear = _schema.CountDaysInYear(y);
+            int daysInYear = Schema.CountDaysInYear(y);
             roundoff = Math.Max(0, doy - daysInYear);
             return new OrdinalParts(y, roundoff > 0 ? daysInYear : doy);
         }
 
-        /// <inheritdoc />
+        /// <summary>
+        /// Adds a number of years to the year field of the specified month.
+        /// </summary>
+        /// <returns>The last month of the year when the naive result is not a valid month
+        /// (roundoff > 0).</returns>
+        /// <exception cref="OverflowException">The calculation would overflow the range of
+        /// supported values.</exception>
         [Pure]
         public MonthParts AddYears(MonthParts parts, int years, out int roundoff)
         {
