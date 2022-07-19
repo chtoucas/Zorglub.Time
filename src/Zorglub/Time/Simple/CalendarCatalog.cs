@@ -11,6 +11,9 @@ namespace Zorglub.Time.Simple
 
     using Zorglub.Time.Core;
 
+    // FIXME(code): split into a registry and a registar.
+    // Currently, it's almost impossible to achieve full code coverage.
+
     // All calendars are "apparent" singletons: whether a calendar has been fully
     // constructed or not before, a call to (Try)GetCalendar() ALWAYS returns
     // the same instance.

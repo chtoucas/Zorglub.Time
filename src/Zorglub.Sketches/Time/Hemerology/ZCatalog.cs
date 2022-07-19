@@ -22,7 +22,7 @@ namespace Zorglub.Time.Hemerology
     // ZDate._cuid is now a full int, MaxId? Because of s_CalendarsById, it's
     // not that straightforward to do: we might have to resize this array and it
     // should be done in a thread-safe manner. I guess we should use a
-    // concurrent list (ConcurrentBag?) but the usfeulness of s_CalendarsById is
+    // concurrent list (ConcurrentBag?) but the usefulness of s_CalendarsById is
     // questionable (it was created to allow for fast lookup).
 
     /// <summary>
@@ -45,18 +45,31 @@ namespace Zorglub.Time.Hemerology
         private const int MaxId = Byte.MaxValue;
 #endif
 
+        /// <summary>
+        /// Represents the minimum value for the ID of a user-defined calendar.
+        /// <para>This field is a constant equal to 128.</para>
+        /// </summary>
+        // IDs système : 0 à 63. On garantit la compatibilité avec Calendar en
+        // réservant aussi les IDs 64 à 127; voir ToZCalendar() et ToCalendar().
         private const int MinUserId = CalendarCatalog.MaxId + 1;
+
+        /// <summary>
+        /// Represents an invalid ID.
+        /// </summary>
+        private const int InvalidId = Int32.MaxValue;
 
         /// <summary>
         /// Represents the absolute maximun number of user-defined calendars without counting those
         /// created from a <see cref="Calendar"/>.
+#if ZCATALOG_BIG
+        /// <para>This field is a read-only field equal to 65_408.</para>
+#else
         /// <para>This field is a read-only field equal to 128.</para>
+#endif
         /// </summary>
         public static readonly int MaxNumberOfUserCalendars = MaxId - MinUserId + 1;
 
         /// <summary>This field is initially set to 127.</summary>
-        // IDs système : 0 à 63. On garantit la compatibilité avec Calendar en
-        // réservant aussi les IDs 64 à 127; voir ToZCalendar() et ToCalendar().
         private static int s_LastIdent = MinUserId - 1;
 
         /// <summary>
@@ -71,7 +84,9 @@ namespace Zorglub.Time.Hemerology
         /// </summary>
         internal static readonly ZCalendar Gregorian =
             // IMPORTANT: this property MUST stay after s_CalendarsById, indeed
-            // InitSystemCalendar() uses it.
+            // InitSystemCalendar() uses this array to initialize it.
+            // It MUST also be defined before s_CalendarsByKey because
+            // InitCalendarsByKey() uses it.
             //
             // To ensure that default(ZDate) works properly, we must have a
             // calendar with ID equal to 0. This way date.Calendar does not throw
@@ -421,7 +436,7 @@ namespace Zorglub.Time.Hemerology
         private sealed class TmpCalendar : ZCalendar
         {
             public TmpCalendar(string key, CalendarScope scope)
-                : base(Int32.MaxValue, key, scope, userDefined: true) { }
+                : base(InvalidId, key, scope, userDefined: true) { }
 
             [SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "Hides inherited member.")]
             internal new int Id => Throw.InvalidOperation<int>();
