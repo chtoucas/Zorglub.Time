@@ -36,8 +36,7 @@ namespace Zorglub.Time.Hemerology
     #endregion
 
     /// <summary>
-    /// Represents a calendar without a companion date type and provides a base
-    /// for derived classes.
+    /// Represents a calendar without a companion date type and provides a base for derived classes.
     /// </summary>
     public abstract partial class NakedCalendar : BasicCalendar, ICalendar<DateParts>
     {

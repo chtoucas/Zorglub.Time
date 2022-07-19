@@ -7,8 +7,6 @@ namespace Zorglub.Time.Core
     using Zorglub.Time.Core.Validation;
 
     // FIXME(api): add supportedYears to ctor, add CreateYewe().
-    // I don't like the name: Parts is for Date/Month/OrdinalParts not for
-    // Yemoda & co.
     // Factory with a CalendarScope (don't forget to check that the underlying
     // schema is a system schema) <- if we do so, this type should be in Hemerology.
 

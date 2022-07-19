@@ -9,7 +9,7 @@ namespace Zorglub.Time.Core.Arithmetic
     // Works even if the boundary years are not complete.
 
     /// <summary>
-    /// Defines the standard arithmetic on calendrical parts.
+    /// Defines the standard arithmetic on calendrical parts and provides a base for derived classes.
     /// <para>This class cannot be inherited.</para>
     /// </summary>
     public abstract partial class PartsArithmetic : ISchemaBound
