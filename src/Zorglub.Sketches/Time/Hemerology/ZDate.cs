@@ -26,19 +26,6 @@ namespace Zorglub.Time.Hemerology
     public readonly partial struct ZDate : IDate<ZDate>
     {
         /// <summary>
-        /// Represents the count of consecutive days since the epoch of the calendar to which
-        /// belongs the current instance.
-        /// <para>This field is read-only.</para>
-        /// </summary>
-        private readonly int _daysSinceEpoch; // 4 bytes
-
-        /// <summary>
-        /// Represents the internal identifier of the calendar to which belongs the current instance.
-        /// <para>This field is read-only.</para>
-        /// </summary>
-        private readonly int _cuid; // 4 bytes
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="ZDate"/> struct to the specified day
         /// number in the Gregorian calendar.
         /// <para>To create an instance for another calendar, see
@@ -52,8 +39,8 @@ namespace Zorglub.Time.Hemerology
             // other ctors.
             ZCalendar.Gregorian.Domain.Validate(dayNumber);
 
-            _daysSinceEpoch = dayNumber - DayZero.NewStyle;
-            _cuid = (int)CalendarId.Gregorian;
+            DaysSinceEpoch = dayNumber - DayZero.NewStyle;
+            Cuid = (int)CalendarId.Gregorian;
         }
 
         /// <summary>
@@ -64,8 +51,8 @@ namespace Zorglub.Time.Hemerology
         {
             ZCalendar.Gregorian.Scope.ValidateYearMonthDay(year, month, day);
 
-            _daysSinceEpoch = GregorianFormulae.CountDaysSinceEpoch(year, month, day);
-            _cuid = (int)CalendarId.Gregorian;
+            DaysSinceEpoch = GregorianFormulae.CountDaysSinceEpoch(year, month, day);
+            Cuid = (int)CalendarId.Gregorian;
         }
 
         ///// <summary>
@@ -76,8 +63,8 @@ namespace Zorglub.Time.Hemerology
         //{
         //    ZCalendar.Gregorian.Scope.ValidateOrdinal(year, dayOfYear);
 
-        //    _daysSinceEpoch = GregorianFormulae.GetStartOfYear(year) + dayOfYear - 1;
-        //    _cuid = (int)CalendarId.Gregorian;
+        //    DaysSinceEpoch = GregorianFormulae.GetStartOfYear(year) + dayOfYear - 1;
+        //    Cuid = (int)CalendarId.Gregorian;
         //}
 
         /// <summary>
@@ -86,8 +73,8 @@ namespace Zorglub.Time.Hemerology
         /// </summary>
         internal ZDate(int daysSinceEpoch, int cuid)
         {
-            _daysSinceEpoch = daysSinceEpoch;
-            _cuid = cuid;
+            DaysSinceEpoch = daysSinceEpoch;
+            Cuid = cuid;
         }
 
         /// <summary>
@@ -98,7 +85,7 @@ namespace Zorglub.Time.Hemerology
             get
             {
                 ref readonly var chr = ref CalendarRef;
-                return chr.Epoch + _daysSinceEpoch;
+                return chr.Epoch + DaysSinceEpoch;
             }
         }
 
@@ -120,7 +107,7 @@ namespace Zorglub.Time.Hemerology
             get
             {
                 ref readonly var chr = ref CalendarRef;
-                return chr.Schema.GetYear(_daysSinceEpoch, out _);
+                return chr.Schema.GetYear(DaysSinceEpoch, out _);
             }
         }
 
@@ -130,7 +117,7 @@ namespace Zorglub.Time.Hemerology
             get
             {
                 ref readonly var chr = ref CalendarRef;
-                chr.Schema.GetDateParts(_daysSinceEpoch, out _, out int m, out _);
+                chr.Schema.GetDateParts(DaysSinceEpoch, out _, out int m, out _);
                 return m;
             }
         }
@@ -141,7 +128,7 @@ namespace Zorglub.Time.Hemerology
             get
             {
                 ref readonly var chr = ref CalendarRef;
-                _ = chr.Schema.GetYear(_daysSinceEpoch, out int doy);
+                _ = chr.Schema.GetYear(DaysSinceEpoch, out int doy);
                 return doy;
             }
         }
@@ -152,7 +139,7 @@ namespace Zorglub.Time.Hemerology
             get
             {
                 ref readonly var chr = ref CalendarRef;
-                chr.Schema.GetDateParts(_daysSinceEpoch, out _, out _, out int d);
+                chr.Schema.GetDateParts(DaysSinceEpoch, out _, out _, out int d);
                 return d;
             }
         }
@@ -167,7 +154,7 @@ namespace Zorglub.Time.Hemerology
             {
                 ref readonly var chr = ref CalendarRef;
                 var sch = chr.Schema;
-                sch.GetDateParts(_daysSinceEpoch, out int y, out int m, out int d);
+                sch.GetDateParts(DaysSinceEpoch, out int y, out int m, out int d);
                 return sch.IsIntercalaryDay(y, m, d);
             }
         }
@@ -179,7 +166,7 @@ namespace Zorglub.Time.Hemerology
             {
                 ref readonly var chr = ref CalendarRef;
                 var sch = chr.Schema;
-                sch.GetDateParts(_daysSinceEpoch, out int y, out int m, out int d);
+                sch.GetDateParts(DaysSinceEpoch, out int y, out int m, out int d);
                 return sch.IsSupplementaryDay(y, m, d);
             }
         }
@@ -191,18 +178,18 @@ namespace Zorglub.Time.Hemerology
         /// <para>Performance tip: cache this property locally if used repeatedly within a code
         /// block.</para>
         /// </remarks>
-        public ZCalendar Calendar => ZCatalog.GetCalendarUnchecked(_cuid);
+        public ZCalendar Calendar => ZCatalog.GetCalendarUnchecked(Cuid);
 
         /// <summary>
         /// Gets the count of consecutive days since the epoch of the calendar to which belongs the
         /// current instance.
         /// </summary>
-        internal int DaysSinceEpoch => _daysSinceEpoch;
+        internal int DaysSinceEpoch { get; }
 
         /// <summary>
         /// Gets the ID of the calendar to which belongs the current instance.
         /// </summary>
-        internal int Cuid => _cuid;
+        internal int Cuid { get; }
 
         /// <summary>
         /// Gets a read-only reference to the calendar to which belongs the current instance.
@@ -211,7 +198,7 @@ namespace Zorglub.Time.Hemerology
         {
             // CIL code size = XXX bytes <= 32 bytes.
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => ref ZCatalog.GetCalendarUnsafe(_cuid);
+            get => ref ZCatalog.GetCalendarUnsafe(Cuid);
         }
 
         /// <summary>
@@ -221,7 +208,7 @@ namespace Zorglub.Time.Hemerology
         public override string ToString()
         {
             ref readonly var chr = ref CalendarRef;
-            chr.Schema.GetDateParts(_daysSinceEpoch, out int y, out int m, out int d);
+            chr.Schema.GetDateParts(DaysSinceEpoch, out int y, out int m, out int d);
             return FormattableString.Invariant($"{d:D2}/{m:D2}/{y:D4} ({chr})");
         }
 
@@ -231,7 +218,7 @@ namespace Zorglub.Time.Hemerology
         public void Deconstruct(out int year, out int month, out int day)
         {
             ref readonly var chr = ref CalendarRef;
-            chr.Schema.GetDateParts(_daysSinceEpoch, out year, out month, out day);
+            chr.Schema.GetDateParts(DaysSinceEpoch, out year, out month, out day);
         }
     }
 
@@ -265,8 +252,8 @@ namespace Zorglub.Time.Hemerology
         ///// belonging to a system calendar.</exception>
         //[Pure]
         //public long ToBinary() =>
-        //    _cuid > (int)CalendarId.Zoroastrian ? Throw.NotSupported<long>()
-        //        : _bin.ToBinary((uint)_cuid);
+        //    Cuid > (int)CalendarId.Zoroastrian ? Throw.NotSupported<long>()
+        //        : _bin.ToBinary((uint)Cuid);
 
         #endregion
         #region Factories
@@ -317,7 +304,7 @@ namespace Zorglub.Time.Hemerology
         public int CountElapsedDaysInYear()
         {
             ref readonly var chr = ref CalendarRef;
-            _ = chr.Schema.GetYear(_daysSinceEpoch, out int doy);
+            _ = chr.Schema.GetYear(DaysSinceEpoch, out int doy);
             return doy - 1;
         }
 
@@ -327,7 +314,7 @@ namespace Zorglub.Time.Hemerology
         {
             ref readonly var chr = ref CalendarRef;
             var sch = chr.Schema;
-            int y = sch.GetYear(_daysSinceEpoch, out int doy);
+            int y = sch.GetYear(DaysSinceEpoch, out int doy);
             return sch.CountDaysInYear(y) - doy;
         }
 
@@ -336,7 +323,7 @@ namespace Zorglub.Time.Hemerology
         public int CountElapsedDaysInMonth()
         {
             ref readonly var chr = ref CalendarRef;
-            chr.Schema.GetDateParts(_daysSinceEpoch, out _, out _, out int d);
+            chr.Schema.GetDateParts(DaysSinceEpoch, out _, out _, out int d);
             return d - 1;
         }
 
@@ -346,7 +333,7 @@ namespace Zorglub.Time.Hemerology
         {
             ref readonly var chr = ref CalendarRef;
             var sch = chr.Schema;
-            sch.GetDateParts(_daysSinceEpoch, out int y, out int m, out int d);
+            sch.GetDateParts(DaysSinceEpoch, out int y, out int m, out int d);
             return sch.CountDaysInMonth(y, m) - d;
         }
 
@@ -437,7 +424,7 @@ namespace Zorglub.Time.Hemerology
         {
             ref readonly var chr = ref CalendarRef;
             var epoch = chr.Epoch;
-            var dayNumber = epoch + _daysSinceEpoch;
+            var dayNumber = epoch + DaysSinceEpoch;
             var nearest = dayNumber.Nearest(dayOfWeek);
             chr.Domain.CheckOverflow(nearest);
             return new ZDate(nearest - epoch, Cuid);
@@ -472,7 +459,7 @@ namespace Zorglub.Time.Hemerology
         /// Determines whether two specified instances of <see cref="ZDate"/> are equal.
         /// </summary>
         public static bool operator ==(ZDate left, ZDate right) =>
-            left._daysSinceEpoch == right._daysSinceEpoch && left._cuid == right._cuid;
+            left.DaysSinceEpoch == right.DaysSinceEpoch && left.Cuid == right.Cuid;
 
         /// <summary>
         /// Determines whether two specified instances of <see cref="ZDate"/> are not equal.
@@ -490,7 +477,7 @@ namespace Zorglub.Time.Hemerology
 
         /// <inheritdoc />
         [Pure]
-        public override int GetHashCode() => HashCode.Combine(_daysSinceEpoch, _cuid);
+        public override int GetHashCode() => HashCode.Combine(DaysSinceEpoch, Cuid);
     }
 
     public partial struct ZDate // IComparable
@@ -539,9 +526,9 @@ namespace Zorglub.Time.Hemerology
         [Pure]
         public int CompareTo(ZDate other)
         {
-            if (other._cuid != _cuid) Throw.BadCuid(nameof(other), _cuid, other._cuid);
+            if (other.Cuid != Cuid) Throw.BadCuid(nameof(other), Cuid, other.Cuid);
 
-            return _daysSinceEpoch.CompareTo(other._daysSinceEpoch);
+            return DaysSinceEpoch.CompareTo(other.DaysSinceEpoch);
         }
 
         /// <summary>
@@ -551,9 +538,9 @@ namespace Zorglub.Time.Hemerology
         [Pure]
         internal int CompareFast(ZDate other)
         {
-            Debug.Assert(other._cuid == _cuid);
+            Debug.Assert(other.Cuid == Cuid);
 
-            return _daysSinceEpoch.CompareTo(other._daysSinceEpoch);
+            return DaysSinceEpoch.CompareTo(other.DaysSinceEpoch);
         }
 
         /// <inheritdoc />
@@ -600,16 +587,16 @@ namespace Zorglub.Time.Hemerology
         [Pure]
         public int CountDaysSince(ZDate other)
         {
-            if (other._cuid != _cuid) Throw.BadCuid(nameof(other), _cuid, other._cuid);
+            if (other.Cuid != Cuid) Throw.BadCuid(nameof(other), Cuid, other.Cuid);
 
-            return checked(_daysSinceEpoch - other._daysSinceEpoch);
+            return checked(DaysSinceEpoch - other.DaysSinceEpoch);
         }
 
         /// <inheritdoc />
         [Pure]
         public ZDate PlusDays(int days)
         {
-            var daysSinceEpoch = checked(_daysSinceEpoch + days);
+            var daysSinceEpoch = checked(DaysSinceEpoch + days);
             ref readonly var chr = ref CalendarRef;
             chr.Domain.CheckOverflow(chr.Epoch + daysSinceEpoch);
             return new ZDate(daysSinceEpoch, Cuid);
@@ -619,7 +606,7 @@ namespace Zorglub.Time.Hemerology
         [Pure]
         public ZDate NextDay()
         {
-            int daysSinceEpoch = _daysSinceEpoch + 1;
+            int daysSinceEpoch = DaysSinceEpoch + 1;
             ref readonly var chr = ref CalendarRef;
             chr.Domain.CheckUpperBound(chr.Epoch + daysSinceEpoch);
             return new ZDate(daysSinceEpoch, Cuid);
@@ -629,7 +616,7 @@ namespace Zorglub.Time.Hemerology
         [Pure]
         public ZDate PreviousDay()
         {
-            int daysSinceEpoch = _daysSinceEpoch - 1;
+            int daysSinceEpoch = DaysSinceEpoch - 1;
             ref readonly var chr = ref CalendarRef;
             chr.Domain.CheckLowerBound(chr.Epoch + daysSinceEpoch);
             return new ZDate(daysSinceEpoch, Cuid);
