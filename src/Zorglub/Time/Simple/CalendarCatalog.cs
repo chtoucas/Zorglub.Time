@@ -115,6 +115,7 @@ namespace Zorglub.Time.Simple
 
         #region Initializers
 
+        [Pure]
         private static Calendar[] InitSystemCalendars()
         {
             var arr = new Calendar[1 + (int)Cuid.MaxSystem];
@@ -132,6 +133,7 @@ namespace Zorglub.Time.Simple
             void Add(Calendar chr) => arr[(int)chr.PermanentId] = chr;
         }
 
+        [Pure]
         private static Calendar?[] InitCalendarsById(Calendar[] systemCalendars)
         {
             var arr = new Calendar?[MaxId + 1];
@@ -139,6 +141,7 @@ namespace Zorglub.Time.Simple
             return arr;
         }
 
+        [Pure]
         private static ConcurrentDictionary<string, Lazy<Calendar>>
             InitCalendarsByKey(Calendar[] systemCalendars)
         {
@@ -167,6 +170,7 @@ namespace Zorglub.Time.Simple
         /// <summary>
         /// Obtains the collection of all calendars at the time of the request.
         /// </summary>
+        [Pure]
         public static IReadOnlyCollection<Calendar> GetAllCalendars()
         {
             // Fast track.
@@ -191,6 +195,7 @@ namespace Zorglub.Time.Simple
         /// <summary>
         /// Obtains the collection of user-defined calendars at the time of the request.
         /// </summary>
+        [Pure]
         public static IReadOnlyCollection<Calendar> GetUserCalendars()
         {
             int usr = CountUserCalendars();
@@ -207,6 +212,7 @@ namespace Zorglub.Time.Simple
         /// <summary>
         /// Takes a snapshot of the collection of calendars indexed by their key.
         /// </summary>
+        [Pure]
         public static IReadOnlyDictionary<string, Calendar> TakeSnapshot()
         {
             // Take a snapshot of s_CalendarsByKey.
@@ -226,6 +232,7 @@ namespace Zorglub.Time.Simple
         /// <summary>
         /// Counts the number of user-defined calendars at the time of the request.
         /// </summary>
+        [Pure]
         private static int CountUserCalendars() => Math.Min(s_LastIdent, MaxId) - MinUserId + 1;
     }
 
@@ -544,6 +551,7 @@ namespace Zorglub.Time.Simple
         /// Pre-validates the parameters.
         /// </summary>
         /// <returns>A calendar with an ID <see cref="Cuid.Invalid"/>.</returns>
+        [Pure]
         private static Calendar ValidateParameters(
                 string key,
                 SystemSchema schema,
