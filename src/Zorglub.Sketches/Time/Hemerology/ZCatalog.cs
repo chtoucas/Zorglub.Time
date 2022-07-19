@@ -1,6 +1,9 @@
 ﻿// SPDX-License-Identifier: BSD-3-Clause
 // Copyright (c) 2020 Narvalo.Org. All rights reserved.
 
+// REVIEW(code): size of the Z-catalog.
+#define ZCATALOG_BIG
+
 namespace Zorglub.Time.Hemerology
 {
     using System.Collections.Concurrent;
@@ -28,11 +31,19 @@ namespace Zorglub.Time.Hemerology
     /// </summary>
     public static partial class ZCatalog
     {
+#if ZCATALOG_BIG
+        /// <summary>
+        /// Represents the maximun value for the ident of a calendar.
+        /// <para>This field is a constant equal to 65_535.</para>
+        /// </summary>
+        private const int MaxId = UInt16.MaxValue;
+#else
         /// <summary>
         /// Represents the maximun value for the ident of a calendar.
         /// <para>This field is a constant equal to 255.</para>
         /// </summary>
         private const int MaxId = Byte.MaxValue;
+#endif
 
         private const int MinUserId = CalendarCatalog.MaxId + 1;
 
@@ -90,7 +101,7 @@ namespace Zorglub.Time.Hemerology
         [Pure]
         internal static ZCalendar InitSystemCalendar(Calendar calendar)
         {
-            Debug.Assert(!calendar.IsUserDefined);
+            Debug.Assert(calendar.IsUserDefined == false);
 
             int id = (int)calendar.PermanentId;
             var chr = new ZCalendar(id, calendar.Key, calendar.Scope, userDefined: false);
@@ -98,10 +109,16 @@ namespace Zorglub.Time.Hemerology
             return s_CalendarsById[id] = chr;
         }
 
+        [Pure]
         private static ConcurrentDictionary<string, Lazy<ZCalendar>> InitCalendarsByKey()
         {
-            // First prime number >= max count of calendars (256).
+#if ZCATALOG_BIG
+            // First prime number >= MaxId + 1 = 65_536.
+            const int Capacity = 65_537;
+#else
+            // First prime number >= MaxId + 1 = 256.
             const int Capacity = 257;
+#endif
             Debug.Assert(Capacity >= MaxId + 1);
 
             return new ConcurrentDictionary<string, Lazy<ZCalendar>>(
@@ -126,11 +143,13 @@ namespace Zorglub.Time.Hemerology
     public partial class ZCatalog // Snapshots
     {
         // We ignore lazy calendars not yet initialized.
+        [Pure]
         public static IEnumerable<ZCalendar> GetCurrentCalendars() =>
             from chr in s_CalendarsById where chr is not null select chr;
 
         // If "all" is false, we filter out (system) calendars that have not yet
         // been initialized.
+        [Pure]
         public static IReadOnlyDictionary<string, ZCalendar> TakeSnapshot(bool all = false)
         {
             var arr = s_CalendarsByKey.ToArray();
@@ -148,6 +167,7 @@ namespace Zorglub.Time.Hemerology
 
     public partial class ZCatalog // ZCalendar <-> Calendar
     {
+        [Pure]
         public static Calendar ToCalendar(this ZCalendar @this)
         {
             Requires.NotNull(@this);
@@ -156,10 +176,13 @@ namespace Zorglub.Time.Hemerology
 
             // NB: un ZCalendar ayant un ID <= CalendarCatalog.MaxIdent
             // provient obligatoirement d'un Calendar.
+            // REVIEW(code): while what we just said is true, does it realy mean
+            // that this calendar does truely exist?
             return CalendarCatalog.GetCalendarUnchecked(cuid);
         }
 
         // Converts a Calendar to a ZCalendar.
+        [Pure]
         public static ZCalendar ToZCalendar(this Calendar @this)
         {
             Requires.NotNull(@this);

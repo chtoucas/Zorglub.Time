@@ -231,7 +231,7 @@ namespace Zorglub.Time.Hemerology
 
             IEnumerable<ZDate> Iterator()
             {
-                var id = Id;
+                int id = Id;
                 var sch = Schema;
                 int startOfYear = sch.GetStartOfYear(year);
                 int daysInYear = sch.CountDaysInYear(year);
@@ -253,7 +253,7 @@ namespace Zorglub.Time.Hemerology
 
             IEnumerable<ZDate> Iterator()
             {
-                var id = Id;
+                int id = Id;
                 var sch = Schema;
                 int startOfMonth = sch.GetStartOfMonth(year, month);
                 int daysInMonth = sch.CountDaysInMonth(year, month);
