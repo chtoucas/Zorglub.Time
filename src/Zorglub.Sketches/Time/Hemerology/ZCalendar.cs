@@ -37,6 +37,7 @@ namespace Zorglub.Time.Hemerology
 
     /// <summary>
     /// Represents a calendar.
+    /// <para>This class can ONLY be inherited from within friend assemblies.</para>
     /// </summary>
     public partial class ZCalendar : BasicCalendar, ICalendar<ZDate>
     {
@@ -46,14 +47,14 @@ namespace Zorglub.Time.Hemerology
         /// <exception cref="ArgumentNullException"><paramref name="key"/> is null.</exception>
         /// <exception cref="ArgumentNullException"><paramref name="scope"/> is null.</exception>
         /// <exception cref="ArgumentException"><paramref name="scope"/> is NOT complete.</exception>
-        internal ZCalendar(ZIdent id, string key, CalendarScope scope, bool userDefined)
+        internal ZCalendar(int id, string key, CalendarScope scope, bool userDefined)
             : base(key, scope)
         {
             Debug.Assert(key != null);
             Debug.Assert(scope != null);
 
             // The scope MUST be complete, otherwise we have a problem with
-            // methods here (infos, IDayProvider, ValidateGregorianParts())n but
+            // methods here (infos, IDayProvider, ValidateGregorianParts()) but
             // also with counting methods in ZDate, and with  ZDateAdjusters.
             if (scope.IsComplete == false) Throw.Argument(nameof(scope));
 
@@ -130,7 +131,7 @@ namespace Zorglub.Time.Hemerology
         /// <summary>
         /// Gets the ID of the current instance.
         /// </summary>
-        internal ZIdent Id { get; }
+        internal int Id { get; }
 
         /// <summary>
         /// Returns a string representation of the current instance.
@@ -230,14 +231,14 @@ namespace Zorglub.Time.Hemerology
 
             IEnumerable<ZDate> Iterator()
             {
-                var cuid = Id;
+                var id = Id;
                 var sch = Schema;
                 int startOfYear = sch.GetStartOfYear(year);
                 int daysInYear = sch.CountDaysInYear(year);
 
                 return from daysSinceEpoch
                        in Enumerable.Range(startOfYear, daysInYear)
-                       select new ZDate(daysSinceEpoch, cuid);
+                       select new ZDate(daysSinceEpoch, id);
             }
         }
 
@@ -252,14 +253,14 @@ namespace Zorglub.Time.Hemerology
 
             IEnumerable<ZDate> Iterator()
             {
-                var cuid = Id;
+                var id = Id;
                 var sch = Schema;
                 int startOfMonth = sch.GetStartOfMonth(year, month);
                 int daysInMonth = sch.CountDaysInMonth(year, month);
 
                 return from daysSinceEpoch
                        in Enumerable.Range(startOfMonth, daysInMonth)
-                       select new ZDate(daysSinceEpoch, cuid);
+                       select new ZDate(daysSinceEpoch, id);
             }
         }
 

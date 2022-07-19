@@ -151,7 +151,7 @@ namespace Zorglub.Time.Hemerology
         public static Calendar ToCalendar(this ZCalendar @this)
         {
             Requires.NotNull(@this);
-            int cuid = (int)@this.Id;
+            int cuid = @this.Id;
             if (cuid > CalendarCatalog.MaxId) Throw.Argument(nameof(@this));
 
             // NB: un ZCalendar ayant un ID <= CalendarCatalog.MaxIdent

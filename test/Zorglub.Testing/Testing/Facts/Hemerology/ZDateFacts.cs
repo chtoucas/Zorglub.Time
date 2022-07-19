@@ -76,7 +76,7 @@ public partial class ZDateFacts<TDataSet> // Prelude
         // Act & Assert
         Assert.Equal(CalendarUT, date.Calendar);
         // We also test the internal prop Cuid.
-        Assert.Equal(CalendarUT.Id, date.ZIdent);
+        Assert.Equal(CalendarUT.Id, date.Cuid);
     }
 }
 

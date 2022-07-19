@@ -274,8 +274,8 @@ public static class ZCatalogTests
     [Fact]
     public static void GetCalendarUnchecked()
     {
-        Assert.Same(Gregorian, ZCatalog.GetCalendarUnchecked(Gregorian.Id.Value));
-        Assert.Same(Julian, ZCatalog.GetCalendarUnchecked(Julian.Id.Value));
+        Assert.Same(Gregorian, ZCatalog.GetCalendarUnchecked(Gregorian.Id));
+        Assert.Same(Julian, ZCatalog.GetCalendarUnchecked(Julian.Id));
     }
 
     #endregion
