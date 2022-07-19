@@ -38,7 +38,7 @@ public readonly partial record struct GregorianRecord
     private static YearsValidator YearsValidator { get; } = new(Segment.SupportedYears);
 
     private static PartsArithmetic PartsArithmetic { get; } =
-        PartsArithmetic.CreateDefault(Schema, YearsValidator.Range);
+        PartsArithmetic.CreateDefault(Schema, Segment.SupportedYears);
     private static PartsAdapter PartsAdapter { get; } = new(Schema);
 
     public GregorianRecord(int year, int month, int day)

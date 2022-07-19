@@ -50,9 +50,10 @@ public readonly partial struct DateTemplate :
 
 public partial struct DateTemplate
 {
-    private static YearsValidator SupportedYears { get; } = Scope.YearsValidator;
-    private static SystemArithmetic Arithmetic { get; } = SystemArithmetic.CreateDefault(Schema, SupportedYears.Range);
-    private static SystemPartsFactory PartsFactory { get; } = SystemPartsFactory.Create(Schema, SupportedYears.Range);
+    private static CalendricalSegment Segment { get; } = Scope.Segment;
+    private static YearsValidator YearsValidator { get; } = Scope.YearsValidator;
+    private static SystemArithmetic Arithmetic { get; } = SystemArithmetic.CreateDefault(Schema, Segment.SupportedYears);
+    private static SystemPartsFactory PartsFactory { get; } = SystemPartsFactory.Create(Schema, Segment.SupportedYears);
 
     private static Range<DayNumber> Domain => Scope.Domain;
 
@@ -69,8 +70,8 @@ public partial struct DateTemplate
     }
 
     public static DayNumber Epoch { get; } = Scope.Epoch;
-    public static DateTemplate MinValue { get; } = new(Schema.GetDatePartsAtStartOfYear(SupportedYears.MinYear));
-    public static DateTemplate MaxValue { get; } = new(Schema.GetDatePartsAtEndOfYear(SupportedYears.MaxYear));
+    public static DateTemplate MinValue { get; } = new(Schema.GetDatePartsAtStartOfYear(YearsValidator.MinYear));
+    public static DateTemplate MaxValue { get; } = new(Schema.GetDatePartsAtEndOfYear(YearsValidator.MaxYear));
 
     private static int EpochDayOfWeek { get; } = (int)Epoch.DayOfWeek;
 
