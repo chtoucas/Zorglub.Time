@@ -31,12 +31,14 @@ public readonly partial record struct GregorianRecord :
 public readonly partial record struct GregorianRecord
 {
     private static CalendricalSegment Segment { get; } = CalendricalSegment.CreateMaximal(Schema);
+
+    private static ICalendricalPreValidator PreValidator { get; } = Schema.PreValidator;
     private static DaysValidator DaysValidator { get; } = new(Segment.SupportedDays);
     private static YearsValidator YearsValidator { get; } = new(Segment.SupportedYears);
+
     private static ICalendricalArithmetic Arithmetic { get; } =
         ICalendricalArithmetic.CreateDefault(Schema, YearsValidator.Range);
     private static PartsAdapter PartsAdapter { get; } = new(Schema);
-    private static ICalendricalPreValidator PreValidator { get; } = Schema.PreValidator;
 
     public GregorianRecord(int year, int month, int day)
     {

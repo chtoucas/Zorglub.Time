@@ -23,7 +23,7 @@ namespace Zorglub.Time.Core
     /// Provides factory methods to create new calendrical objects.
     /// <para>This class cannot be inherited.</para>
     /// </summary>
-    public sealed class PartsFactory
+    public sealed class SystemPartsFactory
     {
         /// <summary>
         /// Represents a calendrical validator.
@@ -32,10 +32,10 @@ namespace Zorglub.Time.Core
         private readonly ICalendricalValidator _validator;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="PartsFactory"/> class.
+        /// Initializes a new instance of the <see cref="SystemPartsFactory"/> class.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="validator"/> is null.</exception>
-        private PartsFactory(ICalendricalValidator validator)
+        private SystemPartsFactory(ICalendricalValidator validator)
         {
             Debug.Assert(validator != null);
 
@@ -43,18 +43,18 @@ namespace Zorglub.Time.Core
         }
 
         /// <summary>
-        /// Creates a new instance of the <see cref="PartsFactory"/> class for which the validator
+        /// Creates a new instance of the <see cref="SystemPartsFactory"/> class for which the validator
         /// allows all years within the range of supported years by <paramref name="schema"/>.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
-        public static PartsFactory Create(SystemSchema schema)
+        public static SystemPartsFactory Create(SystemSchema schema)
         {
             Requires.NotNull(schema);
 
             return new(new MinMaxYearValidator(schema, schema.SupportedYears));
         }
 
-        public static PartsFactory Create(SystemSchema schema, Range<int> supportedYears) =>
+        public static SystemPartsFactory Create(SystemSchema schema, Range<int> supportedYears) =>
             new(new MinMaxYearValidator(schema, supportedYears));
 
         /// <summary>

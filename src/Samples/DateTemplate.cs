@@ -52,7 +52,7 @@ public partial struct DateTemplate
 {
     private static YearsValidator SupportedYears { get; } = Scope.YearsValidator;
     private static SystemArithmetic Arithmetic { get; } = SystemArithmetic.CreateDefault(Schema, SupportedYears.Range);
-    private static PartsFactory PartsFactory { get; } = PartsFactory.Create(Schema, SupportedYears.Range);
+    private static SystemPartsFactory PartsFactory { get; } = SystemPartsFactory.Create(Schema, SupportedYears.Range);
 
     private static Range<DayNumber> Domain => Scope.Domain;
 

@@ -19,6 +19,9 @@ using Zorglub.Time.Hemerology.Scopes;
 // the internals of the assembly Zorglub.
 // The code is not meant to showcase good coding practices.
 
+/// <summary>
+/// Provides a Gregorian date based on <see cref="Yemoda"/>.
+/// </summary>
 public readonly partial struct MyDate :
     IDate<MyDate>,
     IMinMaxValue<MyDate>
@@ -42,7 +45,7 @@ public partial struct MyDate
 {
     private static YearsValidator SupportedYears { get; } = Scope.YearsValidator;
     private static SystemArithmetic Arithmetic { get; } = SystemArithmetic.CreateDefault(Schema, SupportedYears.Range);
-    private static PartsFactory PartsFactory { get; } = PartsFactory.Create(Schema, SupportedYears.Range);
+    private static SystemPartsFactory PartsFactory { get; } = SystemPartsFactory.Create(Schema, SupportedYears.Range);
 
     private static Range<DayNumber> Domain => Scope.Domain;
 
