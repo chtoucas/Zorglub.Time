@@ -1,0 +1,18 @@
+Samples
+=======
+
+CalendarZoo
+
+Date types
+- DayTemplate:     DaysSinceEpoch
+- GregorianRecord: "DateParts"
+- DateTemplate:    Yemoda (limited to SystemSchema)
+- GregorianTriple: Yemoda (limited to SystemSchema)
+- MyDate:          Yemoda (limited to SystemSchema)
+
+Calendar types
+- MyCalendar based on MyDate
+- MyNakedCalendar
+
+Folklore
+- unlucky friday

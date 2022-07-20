@@ -39,7 +39,7 @@ public readonly partial struct MyDate :
 
 public partial struct MyDate
 {
-    private static SystemSegment Segment { get; } = SystemSegment.Create(Scope.Segment);
+    private static SystemSegment Segment { get; } = SystemSegment.FromCalendricalSegment(Scope.Segment);
     private static Range<DayNumber> Domain => Scope.Domain;
 
     private static SystemPartsFactory PartsFactory { get; } = SystemPartsFactory.Create(Segment);
