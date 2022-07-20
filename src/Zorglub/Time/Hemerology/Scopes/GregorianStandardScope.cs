@@ -47,7 +47,7 @@ namespace Zorglub.Time.Hemerology.Scopes
 
         /// <summary>
         /// Gets the range of supported <see cref="DayNumber"/> values by the <i>Gregorian</i>
-        /// calendar.
+        /// calendar, the one using the default epoch i.e. <see cref="DayZero.NewStyle"/> .
         /// <para>This static propery is thread-safe.</para>
         /// </summary>
         public static Range<DayNumber> DefaultDomain { get; } =
