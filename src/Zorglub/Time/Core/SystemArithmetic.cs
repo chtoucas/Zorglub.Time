@@ -10,7 +10,7 @@ namespace Zorglub.Time.Core
 
     // TODO(doc): better explanation for the meaning of MinMinDaysInMonth and
     // MaxDaysViaDayOfMonth.
-    // Explain that we require complete years (SystemSegment).
+    // Explain why we require complete years (SystemSegment).
 
     #region Developer Notes
 
@@ -133,16 +133,16 @@ namespace Zorglub.Time.Core
         /// </summary>
         public int MaxDaysViaDayOfMonth { get; init; }
 
-        /// <summary>
-        /// Creates the default arithmetic object for the specified schema and range of supported
-        /// years.
-        /// </summary>
-        /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
-        /// <exception cref="AoorException"><paramref name="supportedYears"/> is NOT a subinterval
-        /// of the range of supported years by <paramref name="schema"/>.</exception>
-        [Pure]
-        public static SystemArithmetic CreateDefault(SystemSchema schema, Range<int> supportedYears) =>
-            CreateDefault(SystemSegment.Create(schema, supportedYears));
+        ///// <summary>
+        ///// Creates the default arithmetic object for the specified schema and range of supported
+        ///// years.
+        ///// </summary>
+        ///// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
+        ///// <exception cref="AoorException"><paramref name="supportedYears"/> is NOT a subinterval
+        ///// of the range of supported years by <paramref name="schema"/>.</exception>
+        //[Pure]
+        //public static SystemArithmetic CreateDefault(SystemSchema schema, Range<int> supportedYears) =>
+        //    CreateDefault(SystemSegment.Create(schema, supportedYears));
 
         /// <summary>
         /// Creates the default arithmetic object for the specified segment.
