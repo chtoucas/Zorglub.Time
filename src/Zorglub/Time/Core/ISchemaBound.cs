@@ -3,10 +3,10 @@
 
 namespace Zorglub.Time.Core
 {
-    // REVIEW(api): do we really need ISchemaBound<TSchema>?
-    // Which type needs to implement ISchemaBound? scopes, validators, segments.
+    // REVIEW(api): which type needs to implement ISchemaBound? segments,
+    // validators and scopes.
 
-    // These interfaces are only meant to be implemented explicitely.
+    // This interface is only meant to be implemented explicitely.
 
     public interface ISchemaBound
     {
@@ -14,14 +14,5 @@ namespace Zorglub.Time.Core
         /// Gets the underlying schema.
         /// </summary>
         public ICalendricalSchema Schema { get; }
-    }
-
-    public interface ISchemaBound<out TSchema>
-        where TSchema : ICalendricalSchema
-    {
-        /// <summary>
-        /// Gets the underlying schema.
-        /// </summary>
-        public TSchema Schema { get; }
     }
 }

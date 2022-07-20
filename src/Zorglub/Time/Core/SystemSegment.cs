@@ -10,7 +10,7 @@ namespace Zorglub.Time.Core
     /// Provides informations on a range of years for a given system schema.
     /// <para>This class cannot be inherited.</para>
     /// </summary>
-    public sealed class SystemSegment : ISchemaBound<SystemSchema>
+    public sealed class SystemSegment : ISchemaBound
     {
         /// <summary>
         /// Represents the underlying schema.
@@ -35,15 +35,13 @@ namespace Zorglub.Time.Core
             MinMaxMonthParts = OrderedPair.FromOrderedValues(min.MonthParts, max.MonthParts);
         }
 
-        private SystemSegment(SystemSchema schema) { _schema = schema; }
-
         /// <summary>
         /// Gets the range of supported days, that is the range of supported numbers of consecutive
         /// days from the epoch.
         /// </summary>
         /// <returns>The range from the first day of the first supported year to the last day of the
         /// last supported year.</returns>
-        public Range<int> SupportedDays { get; private init; }
+        public Range<int> SupportedDays { get; }
 
         /// <summary>
         /// Gets the range of supported months, that is the range of supported numbers of consecutive
@@ -51,65 +49,46 @@ namespace Zorglub.Time.Core
         /// </summary>
         /// <returns>The range from the first month of the first supported year to the last month of
         /// the last supported year.</returns>
-        public Range<int> SupportedMonths { get; private init; }
+        public Range<int> SupportedMonths { get; }
 
         /// <summary>
         /// Gets the range of supported years.
         /// </summary>
-        public Range<int> SupportedYears { get; private init; }
+        public Range<int> SupportedYears { get; }
 
         /// <summary>
         /// Gets the pair of earliest and latest supported date parts.
         /// </summary>
         /// <returns>The pair of the first day of the first supported year and the last day of the
         /// last supported year.</returns>
-        public OrderedPair<Yemoda> MinMaxDateParts { get; private init; }
+        public OrderedPair<Yemoda> MinMaxDateParts { get; }
 
         /// <summary>
         /// Gets the pair of earliest and latest supported ordinal date parts.
         /// </summary>
         /// <returns>The pair of the first day of the first supported year and the last day of the
         /// last supported year.</returns>
-        public OrderedPair<Yedoy> MinMaxOrdinalParts { get; private init; }
+        public OrderedPair<Yedoy> MinMaxOrdinalParts { get; }
 
         /// <summary>
         /// Gets the pair of earliest and latest supported month parts.
         /// </summary>
         /// <returns>The pair of the first month of the first supported year and the last month of
         /// the last supported year.</returns>
-        public OrderedPair<Yemo> MinMaxMonthParts { get; private init; }
+        public OrderedPair<Yemo> MinMaxMonthParts { get; }
 
         /// <summary>
         /// Gets the underlying system schema.
         /// </summary>
         internal SystemSchema Schema => _schema;
 
-        SystemSchema ISchemaBound<SystemSchema>.Schema => _schema;
+        ICalendricalSchema ISchemaBound.Schema => _schema;
 
         /// <summary>
         /// Returns a culture-independent string representation of the current instance.
         /// </summary>
         [Pure]
         public sealed override string ToString() => SupportedYears.ToString();
-
-        // TODO(code): à vérifier.
-        public static SystemSegment Create(CalendricalSegment segment)
-        {
-            Requires.NotNull(segment);
-
-            var sch = segment.Schema as SystemSchema;
-            if (sch is null) Throw.Argument(nameof(segment));
-
-            return new SystemSegment(sch)
-            {
-                SupportedDays = segment.SupportedDays,
-                SupportedMonths = segment.SupportedMonths,
-                SupportedYears = segment.SupportedYears,
-                MinMaxDateParts = segment.MinMaxDateParts.Select(x => new Yemoda(x.Year, x.Month, x.Day)),
-                MinMaxOrdinalParts = segment.MinMaxOrdinalParts.Select(x => new Yedoy(x.Year, x.DayOfYear)),
-                MinMaxMonthParts = segment.MinMaxMonthParts.Select(x => new Yemo(x.Year, x.Month))
-            };
-        }
 
         /// <summary>
         /// Creates a new instance of the <see cref="SystemSegment"/> class from the specified range
@@ -150,6 +129,68 @@ namespace Zorglub.Time.Core
                 ep.MonthsSinceEpoch = schema.CountMonthsSinceEpoch(y, m);
                 return ep;
             }
+        }
+
+        /// <summary>
+        /// Converts the specified <see cref="CalendricalSegment"/> instance to
+        /// <see cref="SystemSegment"/>.
+        /// </summary>
+        /// <exception cref="ArgumentNullException"><paramref name="segment"/> is null.</exception>
+        /// <exception cref="ArgumentException">The underlying schema is NOT a system schema.</exception>
+        public static SystemSegment FromCalendricalSegment(CalendricalSegment segment)
+        {
+            Requires.NotNull(segment);
+
+            var sch = segment.Schema as SystemSchema;
+            if (sch is null) Throw.Argument(nameof(segment));
+
+            var dateParts = segment.MinMaxDateParts.Select(x => new Yemoda(x.Year, x.Month, x.Day));
+            var ordinalParts = segment.MinMaxOrdinalParts.Select(x => new Yedoy(x.Year, x.DayOfYear));
+
+            var min = new Endpoint()
+            {
+                MonthsSinceEpoch = segment.SupportedMonths.Min,
+                DaysSinceEpoch = segment.SupportedDays.Min,
+                DateParts = dateParts.LowerValue,
+                OrdinalParts = ordinalParts.LowerValue,
+            };
+
+            var max = new Endpoint()
+            {
+                MonthsSinceEpoch = segment.SupportedMonths.Min,
+                DaysSinceEpoch = segment.SupportedDays.Min,
+                DateParts = dateParts.LowerValue,
+                OrdinalParts = ordinalParts.LowerValue,
+            };
+
+            return new SystemSegment(sch, min, max);
+        }
+
+        /// <summary>
+        /// Converts the current instance to <see cref="CalendricalSegment"/>.
+        /// </summary>
+        public CalendricalSegment ToCalendricalSegment()
+        {
+            var dateParts = MinMaxDateParts.Select(x => new DateParts(x.Year, x.Month, x.Day));
+            var ordinalParts = MinMaxOrdinalParts.Select(x => new OrdinalParts(x.Year, x.DayOfYear));
+
+            var min = new CalendricalSegment.Endpoint()
+            {
+                MonthsSinceEpoch = SupportedMonths.Min,
+                DaysSinceEpoch = SupportedDays.Min,
+                DateParts = dateParts.LowerValue,
+                OrdinalParts = ordinalParts.LowerValue,
+            };
+
+            var max = new CalendricalSegment.Endpoint()
+            {
+                MonthsSinceEpoch = SupportedMonths.Min,
+                DaysSinceEpoch = SupportedDays.Min,
+                DateParts = dateParts.LowerValue,
+                OrdinalParts = ordinalParts.LowerValue,
+            };
+
+            return new CalendricalSegment(Schema, min, max);
         }
 
         private sealed class Endpoint
