@@ -22,14 +22,16 @@ namespace Zorglub.Time.Hemerology
         /// <summary>
         /// Initializes a new instance of the <see cref="ZCatalogWriter"/> class.
         /// </summary>
+        /// <exception cref="ArgumentNullException"><paramref name="calendarsByKey"/> is null.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="calendarsById"/> is null.</exception>
         public ZCatalogWriter(
             ConcurrentDictionary<string, Lazy<ZCalendar>> calendarsByKey,
             ZCalendar?[] calendarsById,
             int startId)
         {
-            Debug.Assert(calendarsByKey != null);
-            Debug.Assert(calendarsById != null);
-            Debug.Assert(startId < InvalidId);
+            Requires.NotNull(calendarsByKey);
+            Requires.NotNull(calendarsById);
+            if (startId >= InvalidId) Throw.ArgumentOutOfRange(nameof(startId));
 
             CalendarsByKey = calendarsByKey;
             CalendarsById = calendarsById;

@@ -33,9 +33,11 @@ namespace Zorglub.Time.Hemerology
 #if ZCATALOG_BIG
         /// <summary>
         /// Represents the maximun value for the ident of a calendar.
-        /// <para>This field is a constant equal to 65_535.</para>
+        /// <para>This field is a constant equal to 508.</para>
         /// </summary>
-        private const int MaxId = UInt16.MaxValue;
+        // We choose MaxId so that (MaxId + 1) is a prime number;
+        // see InitCalendarsByKey().
+        private const int MaxId = 508;
 #else
         /// <summary>
         /// Represents the maximun value for the ident of a calendar.
@@ -56,16 +58,26 @@ namespace Zorglub.Time.Hemerology
         /// <summary>
         /// Represents the absolute maximun number of user-defined calendars without counting those
         /// created from a <see cref="Calendar"/>.
-        /// <para>This field is a read-only field equal to 65_408.</para>
+        /// <para>This static property ALWAYS returns 896.</para>
+        /// <para>This static property is thread-safe.</para>
         /// </summary>
+        /// <remarks>
+        /// <para>It's very unlikely that this number will ever change, but we never know.
+        /// Nevertheless, we guarantee that it will never be less than 128.</para>
+        /// </remarks>
 #else
         /// <summary>
         /// Represents the absolute maximun number of user-defined calendars without counting those
         /// created from a <see cref="Calendar"/>.
-        /// <para>This field is a read-only field equal to 128.</para>
+        /// <para>This static property ALWAYS returns 128.</para>
+        /// <para>This static property is thread-safe.</para>
         /// </summary>
+        /// <remarks>
+        /// <para>It's very unlikely that this number will ever change, but we never know.
+        /// Nevertheless, we guarantee that it will never be less than 128.</para>
+        /// </remarks>
 #endif
-        public static readonly int MaxNumberOfUserCalendars = MaxId - MinUserId + 1;
+        public static int MaxNumberOfUserCalendars { get; } = MaxId - MinUserId + 1;
 
         /// <summary>
         /// Represents the array of fully constructed calendars, indexed by their internal IDs.
@@ -129,8 +141,8 @@ namespace Zorglub.Time.Hemerology
         private static ConcurrentDictionary<string, Lazy<ZCalendar>> InitCalendarsByKey()
         {
 #if ZCATALOG_BIG
-            // First prime number >= MaxId + 1 = 65_536.
-            const int Capacity = 65_537;
+            // First prime number >= MaxId + 1 = 509.
+            const int Capacity = 509;
 #else
             // First prime number >= MaxId + 1 = 256.
             const int Capacity = 257;

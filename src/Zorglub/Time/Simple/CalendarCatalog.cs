@@ -51,15 +51,10 @@ namespace Zorglub.Time.Simple
         private const int MinUserIdent = (int)Cuid.MinUser;
 
         /// <summary>
-        /// Gets the absolute maximun number of user-defined calendars.
-        /// <para>This static property ALWAYS returns 64.</para>
-        /// <para>This static property is thread-safe.</para>
+        /// Represents the absolute maximun number of user-defined calendars.
+        /// <para>This field is a constant equal to 64.</para>
         /// </summary>
-        /// <remarks>
-        /// <para>It's very unlikely that this number will ever change, but we never know.
-        /// Nevertheless, we guarantee that it will never be less than 64.</para>
-        /// </remarks>
-        public static int MaxNumberOfUserCalendars { get; } = MaxIdent - MinUserIdent + 1;
+        public const int MaxNumberOfUserCalendars = MaxIdent - MinUserIdent + 1;
 
         /// <summary>
         /// Represents the (immutable) array of system calendars, indexed by their internal IDs.

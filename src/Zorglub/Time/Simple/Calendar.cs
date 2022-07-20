@@ -107,6 +107,7 @@ namespace Zorglub.Time.Simple
                   userDefined: true)
         {
             Debug.Assert(id >= Cuid.MinUser);
+            // TODO(code): we should treat an invalid id as a special case.
             Debug.Assert(id == Cuid.Invalid || id <= Cuid.Max);
         }
 

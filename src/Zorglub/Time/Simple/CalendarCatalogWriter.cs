@@ -16,14 +16,16 @@ namespace Zorglub.Time.Simple
         /// <summary>
         /// Initializes a new instance of the <see cref="CalendarCatalogWriter"/> class.
         /// </summary>
+        /// <exception cref="ArgumentNullException"><paramref name="calendarsByKey"/> is null.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="calendarsById"/> is null.</exception>
         public CalendarCatalogWriter(
             ConcurrentDictionary<string, Lazy<Calendar>> calendarsByKey,
             Calendar?[] calendarsById,
             int startIdent)
         {
-            Debug.Assert(calendarsByKey != null);
-            Debug.Assert(calendarsById != null);
-            Debug.Assert(startIdent < (int)Cuid.Invalid);
+            Requires.NotNull(calendarsByKey);
+            Requires.NotNull(calendarsById);
+            if (startIdent >= (int)Cuid.Invalid) Throw.ArgumentOutOfRange(nameof(startIdent));
 
             CalendarsByKey = calendarsByKey;
             CalendarsById = calendarsById;
