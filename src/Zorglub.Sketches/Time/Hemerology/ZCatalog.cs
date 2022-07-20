@@ -10,10 +10,11 @@ namespace Zorglub.Time.Hemerology
     using System.Collections.ObjectModel;
     using System.Linq;
     using System.Runtime.InteropServices;
-    using System.Threading;
 
     using Zorglub.Time.Hemerology.Scopes;
     using Zorglub.Time.Simple;
+
+    using TmpCalendar = ZCatalogWriter.TmpCalendar;
 
     // FIXME(code): to be rewritten. Sync with Calendar.
     // Snapshots: what about lazy calendars?
@@ -54,11 +55,6 @@ namespace Zorglub.Time.Hemerology
         private const int MinUserId = CalendarCatalog.MaxId + 1;
 
         /// <summary>
-        /// Represents an invalid ID.
-        /// </summary>
-        private const int InvalidId = Int32.MaxValue;
-
-        /// <summary>
         /// Represents the absolute maximun number of user-defined calendars without counting those
         /// created from a <see cref="Calendar"/>.
 #if ZCATALOG_BIG
@@ -68,9 +64,6 @@ namespace Zorglub.Time.Hemerology
 #endif
         /// </summary>
         public static readonly int MaxNumberOfUserCalendars = MaxId - MinUserId + 1;
-
-        /// <summary>This field is initially set to 127.</summary>
-        private static int s_LastIdent = MinUserId - 1;
 
         /// <summary>
         /// Represents the array of fully constructed calendars, indexed by their internal IDs.
@@ -104,6 +97,8 @@ namespace Zorglub.Time.Hemerology
         internal static ICollection<string> Keys => s_CalendarsByKey.Keys;
 
         public static ReadOnlySet<string> ReservedKeys => CalendarCatalog.ReservedKeys;
+
+        private static readonly ZCatalogWriter s_Writer = new(s_CalendarsByKey, s_CalendarsById, MinUserId);
 
         #region Initializers
 
@@ -205,6 +200,7 @@ namespace Zorglub.Time.Hemerology
             return @this.IsUserDefined ? GetOrAddUserCalendar(@this)
                 : GetSystemCalendar(@this.PermanentId);
 
+            // TODO(code): use GetOrAdd().
             [Pure]
             static ZCalendar GetOrAddUserCalendar(Calendar calendar)
             {
@@ -325,121 +321,17 @@ namespace Zorglub.Time.Hemerology
     public partial class ZCatalog // Add
     {
         [Pure]
-        public static ZCalendar GetOrAdd(string key, CalendarScope scope)
-        {
-            if (s_LastIdent >= MaxId && s_CalendarsByKey.ContainsKey(key) == false)
-            {
-                Throw.CatalogOverflow();
-            }
-
-            var tmp = new TmpCalendar(key, scope);
-
-            var lazy = new Lazy<ZCalendar>(() => CreateCalendar(tmp));
-            var lazy1 = s_CalendarsByKey.GetOrAdd(key, lazy);
-
-            var chr = lazy1.Value;
-            if (chr is TmpCalendar)
-            {
-                if (ReferenceEquals(lazy1, lazy))
-                {
-                    s_CalendarsByKey.TryRemove(key, out _);
-                }
-
-                Throw.CatalogOverflow();
-            }
-
-            return chr;
-        }
+        public static ZCalendar GetOrAdd(string key, CalendarScope scope) =>
+            s_Writer.GetOrAdd(key, scope);
 
         [Pure]
-        public static ZCalendar Add(string key, CalendarScope scope)
-        {
-            if (s_LastIdent >= MaxId) Throw.CatalogOverflow();
-
-            var tmp = new TmpCalendar(key, scope);
-
-            var lazy = new Lazy<ZCalendar>(() => CreateCalendar(tmp));
-
-            if (s_CalendarsByKey.TryAdd(key, lazy) == false)
-            {
-                Throw.KeyAlreadyExists(nameof(key), key);
-            }
-
-            var chr = lazy.Value;
-            if (chr is TmpCalendar)
-            {
-                s_CalendarsByKey.TryRemove(key, out _);
-
-                Throw.CatalogOverflow();
-            }
-
-            return chr;
-        }
+        public static ZCalendar Add(string key, CalendarScope scope) =>
+            s_Writer.Add(key, scope);
 
         [Pure]
         public static bool TryAdd(
             string key, CalendarScope scope,
-            [NotNullWhen(true)] out ZCalendar? calendar)
-        {
-            if (s_LastIdent >= MaxId) { goto FAILED; }
-
-            Requires.NotNull(key);
-            Requires.NotNull(scope);
-
-            TmpCalendar tmp;
-            try { tmp = new TmpCalendar(key, scope); }
-            catch (ArgumentException) { goto FAILED; }
-
-            var lazy = new Lazy<ZCalendar>(() => CreateCalendar(tmp));
-
-            if (s_CalendarsByKey.TryAdd(key, lazy))
-            {
-                var chr = lazy.Value;
-                if (chr is TmpCalendar)
-                {
-                    s_CalendarsByKey.TryRemove(key, out _);
-                    goto FAILED;
-                }
-                else
-                {
-                    calendar = chr;
-                    return true;
-                }
-            }
-
-        FAILED:
-            calendar = null;
-            return false;
-        }
-
-        //
-        // Helpers
-        //
-
-        [Pure]
-        private static ZCalendar CreateCalendar(TmpCalendar tmpCalendar)
-        {
-            Debug.Assert(tmpCalendar != null);
-
-            int ident = Interlocked.Increment(ref s_LastIdent);
-            if (ident > MaxId) { return tmpCalendar; }
-
-            var chr = new ZCalendar(
-                ident,
-                tmpCalendar.Key,
-                tmpCalendar.Scope,
-                userDefined: true);
-
-            return s_CalendarsById[ident] = chr;
-        }
-
-        private sealed class TmpCalendar : ZCalendar
-        {
-            public TmpCalendar(string key, CalendarScope scope)
-                : base(InvalidId, key, scope, userDefined: true) { }
-
-            [SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "Hides inherited member.")]
-            internal new int Id => Throw.InvalidOperation<int>();
-        }
+            [NotNullWhen(true)] out ZCalendar? calendar) =>
+            s_Writer.TryAdd(key, scope, out calendar);
     }
 }
