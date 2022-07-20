@@ -36,7 +36,8 @@ public static class Program
 
         //BenchmarkRunner.Run<Micro.CalendarScopeBenchmark>(config);
         //BenchmarkRunner.Run<Other.JulianBenchmark>(config);
-        BenchmarkRunner.Run<Other.GregorianBenchmark>(config);
+        //BenchmarkRunner.Run<Other.GregorianBenchmark>(config);
+        BenchmarkRunner.Run<Other.QuickBenchmark>(config);
     }
 #endif
 
