@@ -40,16 +40,23 @@ namespace Zorglub.Time.Core
             _validator = validator;
         }
 
-        /// <summary>
-        /// Creates a new instance of the <see cref="SystemPartsFactory"/> class for which the validator
-        /// allows all years within the range of supported years by <paramref name="schema"/>.
-        /// </summary>
-        /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
-        public static SystemPartsFactory Create(SystemSchema schema)
-        {
-            Requires.NotNull(schema);
+        ///// <summary>
+        ///// Creates a new instance of the <see cref="SystemPartsFactory"/> class for which the validator
+        ///// allows all years within the range of supported years by <paramref name="schema"/>.
+        ///// </summary>
+        ///// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
+        //public static SystemPartsFactory Create(SystemSchema schema)
+        //{
+        //    Requires.NotNull(schema);
 
-            return new(new MinMaxYearValidator(schema, schema.SupportedYears));
+        //    return new(new MinMaxYearValidator(schema, schema.SupportedYears));
+        //}
+
+        public static SystemPartsFactory Create(SystemSegment segment)
+        {
+            Requires.NotNull(segment);
+
+            return new(new MinMaxYearValidator(segment.Schema, segment.SupportedYears));
         }
 
         public static SystemPartsFactory Create(SystemSchema schema, Range<int> supportedYears) =>

@@ -35,13 +35,15 @@ namespace Zorglub.Time.Core
             MinMaxMonthParts = OrderedPair.FromOrderedValues(min.MonthParts, max.MonthParts);
         }
 
+        private SystemSegment(SystemSchema schema) { _schema = schema; }
+
         /// <summary>
         /// Gets the range of supported days, that is the range of supported numbers of consecutive
         /// days from the epoch.
         /// </summary>
         /// <returns>The range from the first day of the first supported year to the last day of the
         /// last supported year.</returns>
-        public Range<int> SupportedDays { get; }
+        public Range<int> SupportedDays { get; private init; }
 
         /// <summary>
         /// Gets the range of supported months, that is the range of supported numbers of consecutive
@@ -49,33 +51,33 @@ namespace Zorglub.Time.Core
         /// </summary>
         /// <returns>The range from the first month of the first supported year to the last month of
         /// the last supported year.</returns>
-        public Range<int> SupportedMonths { get; }
+        public Range<int> SupportedMonths { get; private init; }
 
         /// <summary>
         /// Gets the range of supported years.
         /// </summary>
-        public Range<int> SupportedYears { get; }
+        public Range<int> SupportedYears { get; private init; }
 
         /// <summary>
         /// Gets the pair of earliest and latest supported date parts.
         /// </summary>
         /// <returns>The pair of the first day of the first supported year and the last day of the
         /// last supported year.</returns>
-        public OrderedPair<Yemoda> MinMaxDateParts { get; }
+        public OrderedPair<Yemoda> MinMaxDateParts { get; private init; }
 
         /// <summary>
         /// Gets the pair of earliest and latest supported ordinal date parts.
         /// </summary>
         /// <returns>The pair of the first day of the first supported year and the last day of the
         /// last supported year.</returns>
-        public OrderedPair<Yedoy> MinMaxOrdinalParts { get; }
+        public OrderedPair<Yedoy> MinMaxOrdinalParts { get; private init; }
 
         /// <summary>
         /// Gets the pair of earliest and latest supported month parts.
         /// </summary>
         /// <returns>The pair of the first month of the first supported year and the last month of
         /// the last supported year.</returns>
-        public OrderedPair<Yemo> MinMaxMonthParts { get; }
+        public OrderedPair<Yemo> MinMaxMonthParts { get; private init; }
 
         /// <summary>
         /// Gets the underlying system schema.
@@ -89,6 +91,25 @@ namespace Zorglub.Time.Core
         /// </summary>
         [Pure]
         public sealed override string ToString() => SupportedYears.ToString();
+
+        // TODO(code): à vérifier.
+        public static SystemSegment Create(CalendricalSegment segment)
+        {
+            Requires.NotNull(segment);
+
+            var sch = segment.Schema as SystemSchema;
+            if (sch is null) Throw.Argument(nameof(segment));
+
+            return new SystemSegment(sch)
+            {
+                SupportedDays = segment.SupportedDays,
+                SupportedMonths = segment.SupportedMonths,
+                SupportedYears = segment.SupportedYears,
+                MinMaxDateParts = segment.MinMaxDateParts.Select(x => new Yemoda(x.Year, x.Month, x.Day)),
+                MinMaxOrdinalParts = segment.MinMaxOrdinalParts.Select(x => new Yedoy(x.Year, x.DayOfYear)),
+                MinMaxMonthParts = segment.MinMaxMonthParts.Select(x => new Yemo(x.Year, x.Month))
+            };
+        }
 
         /// <summary>
         /// Creates a new instance of the <see cref="SystemSegment"/> class from the specified range
