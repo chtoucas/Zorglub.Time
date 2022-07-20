@@ -104,7 +104,7 @@ public partial class CalendarZoo
 
 // Proleptic calendars of type Calendar or ZCalendar.
 // - Tropicalia
-// - LongGregorian, see ZCalendar.Gregorian
+// - LongGregorian
 // - LongJulian
 // Lazy initialization using Interlocked.CompareExchange(), but we must be
 // careful when we create the calendar; see comments below.
@@ -151,6 +151,31 @@ public partial class CalendarZoo
         // reference in case the process didn't initialize the field in the
         // previous line.
         return s_Tropicalia;
+    }
+
+    /// <summary>
+    /// Gets the (long) proleptic Gregorian calendar.
+    /// <para>This static property is thread-safe.</para>
+    /// </summary>
+    public static ZCalendar LongGregorian => s_LongGregorian ??= InitLongGregorian();
+
+    private static volatile ZCalendar? s_LongGregorian;
+    [Pure]
+    private static ZCalendar InitLongGregorian()
+    {
+        const string Key = "Long Gregorian";
+
+        var sch = GregorianSchema.GetInstance().Unbox();
+        var scope = MinMaxYearScope.WithMaximalRange(sch, DayZero.NewStyle, onOrAfterEpoch: false);
+
+        if (ZCatalog.TryAdd(Key, scope, out var chr) == false)
+        {
+            return s_LongGregorian ?? ZCatalog.GetCalendar(Key);
+        }
+
+        Debug.Assert(chr != null);
+        Interlocked.CompareExchange(ref s_LongGregorian, chr, null);
+        return s_LongGregorian;
     }
 
     /// <summary>

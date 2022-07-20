@@ -15,7 +15,8 @@ open Zorglub.Time.Core.Schemas
 
 let private ariOf<'a when 'a :> SystemSchema and 'a :> IBoxable<'a>> () =
     let sch = syschemaOf<'a>()
-    SystemArithmetic.CreateDefault(sch, sch.SupportedYears)
+    let seg = SystemSegment.Create(sch, sch.SupportedYears)
+    SystemArithmetic.CreateDefault(seg)
 
 // Solar12SystemArithmetic is not the default arithmetic for the Gregorian schema, but
 // we still use it because it's the schema has a the most data to offer.

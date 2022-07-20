@@ -14,7 +14,6 @@ public static class ZDateTests
     [InlineData(111, 3, 6, "06/03/0111 (Gregorian)")]
     [InlineData(2019, 1, 3, "03/01/2019 (Gregorian)")]
     [InlineData(9999, 12, 31, "31/12/9999 (Gregorian)")]
-    [InlineData(10_000, 12, 31, "31/12/10000 (Gregorian)")]
     public static void ToString_InvariantCulture(int y, int m, int d, string str)
     {
         var date = ZCalendar.Gregorian.GetDate(y, m, d);
