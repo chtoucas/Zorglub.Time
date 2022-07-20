@@ -83,6 +83,7 @@
     <Compile Include="Tests\Hemerology\Scopes\ProlepticScopeTestSuite.fs" />
     <Compile Include="Tests\Hemerology\CalendarEpochTests.fs" />
     <Compile Include="Tests\Hemerology\YearNumberingTests.fs" />
+    <Compile Include="Tests\Hemerology\ZCatalogWriterTests.fs" />
     <Compile Include="Tests\Hemerology\ZDateTests.fs" />
     <Compile Include="Tests\Simple\Specialized\GregorianReformTests.fs" />
     <Compile Include="Tests\Simple\Specialized\RomanKalendarTests.fs" />
