@@ -90,6 +90,8 @@ namespace Zorglub.Time.Core
         [Pure]
         public sealed override string ToString() => SupportedYears.ToString();
 
+        // TODO(api): add CreateMaximal().
+
         /// <summary>
         /// Creates a new instance of the <see cref="SystemSegment"/> class from the specified range
         /// of supported years.
