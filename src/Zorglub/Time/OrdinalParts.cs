@@ -14,6 +14,7 @@ namespace Zorglub.Time
     public readonly record struct OrdinalParts(int Year, int DayOfYear) :
         IComparisonOperators<OrdinalParts, OrdinalParts>
     {
+        /// <summary>
         /// Creates a new instance of <see cref="OrdinalParts"/> representing the first day of the
         /// specified year.
         /// </summary>

@@ -54,15 +54,19 @@ namespace Zorglub.Time.Hemerology
         // réservant aussi les IDs 64 à 127; voir ToZCalendar() et ToCalendar().
         private const int MinUserId = CalendarCatalog.MaxId + 1;
 
+#if ZCATALOG_BIG
         /// <summary>
         /// Represents the absolute maximun number of user-defined calendars without counting those
         /// created from a <see cref="Calendar"/>.
-#if ZCATALOG_BIG
         /// <para>This field is a read-only field equal to 65_408.</para>
-#else
-        /// <para>This field is a read-only field equal to 128.</para>
-#endif
         /// </summary>
+#else
+        /// <summary>
+        /// Represents the absolute maximun number of user-defined calendars without counting those
+        /// created from a <see cref="Calendar"/>.
+        /// <para>This field is a read-only field equal to 128.</para>
+        /// </summary>
+#endif
         public static readonly int MaxNumberOfUserCalendars = MaxId - MinUserId + 1;
 
         /// <summary>
