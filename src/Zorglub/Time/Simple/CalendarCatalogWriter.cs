@@ -29,27 +29,28 @@ namespace Zorglub.Time.Simple
             CalendarsById = calendarsById;
 
             MaxIdent = calendarsById.Length - 1;
+            StartIdent = startIdent;
             _lastIdent = startIdent - 1;
         }
-
-        internal int LastIdent => _lastIdent;
 
         /// <summary>
         /// Gets the array of fully constructed calendars, indexed by their internal IDs.
         /// <para>A value is null if the calendar has not yet been fully constructed (obviously).
         /// </para>
         /// </summary>
-        private Calendar?[] CalendarsById { get; }
+        internal Calendar?[] CalendarsById { get; }
 
         /// <summary>
         /// Gets the dictionary of (lazy) calendars, indexed by their keys.
         /// </summary>
-        private ConcurrentDictionary<string, Lazy<Calendar>> CalendarsByKey { get; }
+        internal ConcurrentDictionary<string, Lazy<Calendar>> CalendarsByKey { get; }
 
         /// <summary>
         /// Gets the absolute maximun value for the ID of a calendar.
         /// </summary>
-        private int MaxIdent { get; }
+        internal int MaxIdent { get; }
+
+        internal int StartIdent { get; }
 
         // Only for testing.
         internal ICollection<string> Keys => CalendarsByKey.Keys;
@@ -58,6 +59,12 @@ namespace Zorglub.Time.Simple
         [Pure]
         internal IEnumerable<Calendar> GetAllCalendars() =>
             from chr in CalendarsById where chr is not null select chr;
+
+        /// <summary>
+        /// Counts the number of user-defined calendars at the time of the request.
+        /// </summary>
+        [Pure]
+        internal int CountUserCalendars() => Math.Min(_lastIdent, MaxIdent) - StartIdent + 1;
 
         [Pure]
         public Calendar GetOrAdd(string key, SystemSchema schema, DayNumber epoch, bool proleptic)

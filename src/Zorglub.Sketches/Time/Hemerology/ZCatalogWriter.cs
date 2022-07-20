@@ -35,6 +35,7 @@ namespace Zorglub.Time.Hemerology
             CalendarsById = calendarsById;
 
             MaxId = calendarsById.Length - 1;
+            StartId = startId;
             _lastId = startId - 1;
         }
 
@@ -42,19 +43,21 @@ namespace Zorglub.Time.Hemerology
         /// Represents the array of fully constructed calendars, indexed by their internal IDs.
         /// <para>This field is read-only.</para>
         /// </summary>
-        private ZCalendar?[] CalendarsById { get; }
+        internal ZCalendar?[] CalendarsById { get; }
 
         /// <summary>
         /// Represents the dictionary of (lazy) calendars, indexed by their keys.
         /// <para>This field is read-only.</para>
         /// </summary>
-        private ConcurrentDictionary<string, Lazy<ZCalendar>> CalendarsByKey { get; }
+        internal ConcurrentDictionary<string, Lazy<ZCalendar>> CalendarsByKey { get; }
 
         /// <summary>
         /// Represents the maximun value for the ident of a calendar.
         /// <para>This field is read-only.</para>
         /// </summary>
-        private int MaxId { get; }
+        internal int MaxId { get; }
+
+        internal int StartId { get; }
 
         // Only for testing.
         internal ICollection<string> Keys => CalendarsByKey.Keys;

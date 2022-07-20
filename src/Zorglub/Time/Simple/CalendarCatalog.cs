@@ -172,10 +172,11 @@ namespace Zorglub.Time.Simple
         public static IReadOnlyCollection<Calendar> GetAllCalendars()
         {
             // Fast track.
-            if (s_Writer.LastIdent < MinUserIdent) { return SystemCalendars; }
+            int usr = s_Writer.CountUserCalendars();
+            if (usr == 0) { return SystemCalendars; }
+            //if (s_Writer.LastIdent < MinUserIdent) { return SystemCalendars; }
 
             int sys = s_SystemCalendars.Length;
-            int usr = CountUserCalendars();
 
             // Same as s_CalendarById but without the null's.
             // NB: the code works even if s_CalendarsById changed in the
@@ -196,7 +197,7 @@ namespace Zorglub.Time.Simple
         [Pure]
         public static IReadOnlyCollection<Calendar> GetUserCalendars()
         {
-            int usr = CountUserCalendars();
+            int usr = s_Writer.CountUserCalendars();
 
             // Fast track.
             if (usr == 0) { return Array.Empty<Calendar>(); }
@@ -226,12 +227,6 @@ namespace Zorglub.Time.Simple
 
             return new ReadOnlyDictionary<string, Calendar>(dict);
         }
-
-        /// <summary>
-        /// Counts the number of user-defined calendars at the time of the request.
-        /// </summary>
-        [Pure]
-        private static int CountUserCalendars() => Math.Min(s_Writer.LastIdent, MaxIdent) - MinUserIdent + 1;
     }
 
     public partial class CalendarCatalog // Lookup
