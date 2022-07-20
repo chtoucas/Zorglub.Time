@@ -8,22 +8,13 @@ namespace Zorglub.Time.Hemerology
 
     using Zorglub.Time.Hemerology.Scopes;
 
-    internal sealed partial class ZCatalogWriter
+    internal sealed class ZCatalogWriter
     {
         /// <summary>
         /// Represents an invalid ID.
         /// <para>This field is a constant equal to 2_147_483_647.</para>
         /// </summary>
         private const int InvalidId = Int32.MaxValue;
-
-        /// <summary>
-        /// Represents the maximun value for the ident of a calendar.
-        /// <para>This field is read-only.</para>
-        /// </summary>
-        private readonly int _maxId;
-
-        /// <summary>This field is initially set to 127.</summary>
-        private int _lastId;
 
         /// <summary>
         /// Represents the array of fully constructed calendars, indexed by their internal IDs.
@@ -37,6 +28,17 @@ namespace Zorglub.Time.Hemerology
         /// </summary>
         private readonly ConcurrentDictionary<string, Lazy<ZCalendar>> _calendarsByKey;
 
+        /// <summary>
+        /// Represents the maximun value for the ident of a calendar.
+        /// <para>This field is read-only.</para>
+        /// </summary>
+        private readonly int _maxId;
+
+        private int _lastId;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ZCatalogWriter"/> class.
+        /// </summary>
         public ZCatalogWriter(
             ConcurrentDictionary<string, Lazy<ZCalendar>> calendarsByKey,
             ZCalendar?[] calendarsById,
@@ -52,10 +54,7 @@ namespace Zorglub.Time.Hemerology
             _maxId = calendarsById.Length - 1;
             _lastId = startId - 1;
         }
-    }
 
-    internal partial class ZCatalogWriter
-    {
         [Pure]
         public ZCalendar GetOrAdd(string key, CalendarScope scope)
         {

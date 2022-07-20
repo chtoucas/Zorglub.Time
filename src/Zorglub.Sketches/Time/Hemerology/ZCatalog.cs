@@ -50,7 +50,7 @@ namespace Zorglub.Time.Hemerology
         /// </summary>
         // IDs système : 0 à 63. On garantit la compatibilité avec Calendar en
         // réservant aussi les IDs 64 à 127; voir ToZCalendar() et ToCalendar().
-        private const int MinUserId = CalendarCatalog.MaxId + 1;
+        private const int MinUserId = CalendarCatalog.MaxIdent + 1;
 
 #if ZCATALOG_BIG
         /// <summary>
@@ -96,11 +96,11 @@ namespace Zorglub.Time.Hemerology
         private static readonly ConcurrentDictionary<string, Lazy<ZCalendar>> s_CalendarsByKey =
             InitCalendarsByKey();
 
+        private static readonly ZCatalogWriter s_Writer = new(s_CalendarsByKey, s_CalendarsById, MinUserId);
+
         internal static ICollection<string> Keys => s_CalendarsByKey.Keys;
 
         public static ReadOnlySet<string> ReservedKeys => CalendarCatalog.ReservedKeys;
-
-        private static readonly ZCatalogWriter s_Writer = new(s_CalendarsByKey, s_CalendarsById, MinUserId);
 
         #region Initializers
 
@@ -116,6 +116,9 @@ namespace Zorglub.Time.Hemerology
             Debug.Assert(calendar.IsUserDefined == false);
 
             int id = (int)calendar.PermanentId;
+            // NB: for ZDate to work properly, the Gregorian calendar must use
+            // a scope equivalent to GregorianProlepticScope (see the ctor)
+            // which is the case with calendar.Scope.
             var chr = new ZCalendar(id, calendar.Key, calendar.Scope, userDefined: false);
 
             return s_CalendarsById[id] = chr;
@@ -184,7 +187,7 @@ namespace Zorglub.Time.Hemerology
         {
             Requires.NotNull(@this);
             int cuid = @this.Id;
-            if (cuid > CalendarCatalog.MaxId) Throw.Argument(nameof(@this));
+            if (cuid > CalendarCatalog.MaxIdent) Throw.Argument(nameof(@this));
 
             // NB: un ZCalendar ayant un ID <= CalendarCatalog.MaxIdent
             // provient obligatoirement d'un Calendar.
