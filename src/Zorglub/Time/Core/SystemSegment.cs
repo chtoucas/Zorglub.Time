@@ -159,10 +159,10 @@ namespace Zorglub.Time.Core
 
             var max = new Endpoint()
             {
-                MonthsSinceEpoch = segment.SupportedMonths.Min,
-                DaysSinceEpoch = segment.SupportedDays.Min,
-                DateParts = dateParts.LowerValue,
-                OrdinalParts = ordinalParts.LowerValue,
+                MonthsSinceEpoch = segment.SupportedMonths.Max,
+                DaysSinceEpoch = segment.SupportedDays.Max,
+                DateParts = dateParts.UpperValue,
+                OrdinalParts = ordinalParts.UpperValue,
             };
 
             return new SystemSegment(sch, min, max);
@@ -186,10 +186,10 @@ namespace Zorglub.Time.Core
 
             var max = new CalendricalSegment.Endpoint()
             {
-                MonthsSinceEpoch = SupportedMonths.Min,
-                DaysSinceEpoch = SupportedDays.Min,
-                DateParts = dateParts.LowerValue,
-                OrdinalParts = ordinalParts.LowerValue,
+                MonthsSinceEpoch = SupportedMonths.Max,
+                DaysSinceEpoch = SupportedDays.Max,
+                DateParts = dateParts.UpperValue,
+                OrdinalParts = ordinalParts.UpperValue,
             };
 
             return new CalendricalSegment(Schema, min, max);
