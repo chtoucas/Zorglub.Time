@@ -35,10 +35,8 @@ public readonly partial struct DateTemplate :
     IMonthEndpointsProvider<DateTemplate>,
     IMinMaxValue<DateTemplate>
 {
-    private static readonly CalendarScope<GregorianSchema> __ =
-        ScopeActivator.CreateStandard<GregorianSchema>(DayZero.NewStyle);
-    private static readonly SystemSchema Schema = __.Schema;
-    private static readonly CalendarScope Scope = __.Scope;
+    private static readonly SystemSchema Schema = SchemaActivator.CreateInstance<GregorianSchema>();
+    private static readonly CalendarScope Scope = new StandardScope(Schema, DayZero.NewStyle);
 
     [Pure]
     public override string ToString()
@@ -50,12 +48,11 @@ public readonly partial struct DateTemplate :
 
 public partial struct DateTemplate
 {
-    private static CalendricalSegment Segment { get; } = Scope.Segment;
-    private static YearsValidator YearsValidator { get; } = Scope.YearsValidator;
-    private static SystemArithmetic Arithmetic { get; } = SystemArithmetic.CreateDefault(Schema, Segment.SupportedYears);
-    private static SystemPartsFactory PartsFactory { get; } = SystemPartsFactory.Create(Schema, Segment.SupportedYears);
-
+    private static SystemSegment Segment { get; } = SystemSegment.Create(Scope.Segment);
     private static Range<DayNumber> Domain => Scope.Domain;
+
+    private static SystemPartsFactory PartsFactory { get; } = SystemPartsFactory.Create(Segment);
+    private static SystemArithmetic Arithmetic { get; } = SystemArithmetic.CreateDefault(Segment);
 
     private readonly Yemoda _bin;
 
@@ -70,8 +67,8 @@ public partial struct DateTemplate
     }
 
     public static DayNumber Epoch { get; } = Scope.Epoch;
-    public static DateTemplate MinValue { get; } = new(Schema.GetDatePartsAtStartOfYear(YearsValidator.MinYear));
-    public static DateTemplate MaxValue { get; } = new(Schema.GetDatePartsAtEndOfYear(YearsValidator.MaxYear));
+    public static DateTemplate MinValue { get; } = new(Segment.MinMaxDateParts.LowerValue);
+    public static DateTemplate MaxValue { get; } = new(Segment.MinMaxDateParts.UpperValue);
 
     private static int EpochDayOfWeek { get; } = (int)Epoch.DayOfWeek;
 

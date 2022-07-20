@@ -30,6 +30,7 @@ public readonly partial struct GregorianTriple :
     IMinMaxValue<GregorianTriple>
 {
     private static readonly SystemSchema Schema = SchemaActivator.CreateInstance<GregorianSchema>();
+    private static readonly SystemSegment Segment = SystemSegment.Create(Schema, Schema.SupportedYears);
 
     [Pure]
     public override string ToString()
@@ -41,10 +42,10 @@ public readonly partial struct GregorianTriple :
 
 public partial struct GregorianTriple
 {
-    private static SystemSegment Segment { get; } = SystemSegment.Create(Schema, Schema.SupportedYears);
-    private static SystemArithmetic Arithmetic { get; } = SystemArithmetic.CreateDefault(Segment);
-    private static SystemPartsFactory PartsFactory { get; } = SystemPartsFactory.Create(Schema);
     private static DaysValidator DaysValidator { get; } = new(Segment.SupportedDays);
+
+    private static SystemPartsFactory PartsFactory { get; } = SystemPartsFactory.Create(Segment);
+    private static SystemArithmetic Arithmetic { get; } = SystemArithmetic.CreateDefault(Segment);
 
     private readonly Yemoda _bin;
 
@@ -58,9 +59,8 @@ public partial struct GregorianTriple
         _bin = bin;
     }
 
-    public static Range<int> SupportedYears => Schema.SupportedYears;
-    public static GregorianTriple MinValue { get; } = new(Schema.GetDatePartsAtStartOfYear(SupportedYears.Min));
-    public static GregorianTriple MaxValue { get; } = new(Schema.GetDatePartsAtEndOfYear(SupportedYears.Max));
+    public static GregorianTriple MinValue { get; } = new(Segment.MinMaxDateParts.LowerValue);
+    public static GregorianTriple MaxValue { get; } = new(Segment.MinMaxDateParts.UpperValue);
 
     public Ord CenturyOfEra => Ord.FromInt32(Century);
     public int Century => YearNumbering.GetCentury(Year);

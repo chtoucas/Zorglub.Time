@@ -27,19 +27,17 @@ public readonly partial record struct GregorianRecord :
     IMinMaxValue<GregorianRecord>
 {
     private static readonly CalendricalSchema Schema = SchemaActivator.CreateInstance<GregorianSchema>();
+    private static readonly CalendricalSegment Segment = CalendricalSegment.CreateMaximal(Schema);
 }
 
 public readonly partial record struct GregorianRecord
 {
-    private static CalendricalSegment Segment { get; } = CalendricalSegment.CreateMaximal(Schema);
-
     private static ICalendricalPreValidator PreValidator { get; } = Schema.PreValidator;
     private static DaysValidator DaysValidator { get; } = new(Segment.SupportedDays);
     private static YearsValidator YearsValidator { get; } = new(Segment.SupportedYears);
 
-    private static PartsArithmetic PartsArithmetic { get; } =
-        PartsArithmetic.CreateDefault(Schema, Segment.SupportedYears);
     private static PartsAdapter PartsAdapter { get; } = new(Schema);
+    private static PartsArithmetic PartsArithmetic { get; } = PartsArithmetic.CreateDefault(Schema, Segment.SupportedYears);
 
     public GregorianRecord(int year, int month, int day)
     {
@@ -56,8 +54,8 @@ public readonly partial record struct GregorianRecord
         (Year, Month, Day) = parts;
     }
 
-    public static GregorianRecord MinValue { get; } = new(DateParts.AtStartOfYear(YearsValidator.MinYear));
-    public static GregorianRecord MaxValue { get; } = new(PartsAdapter.GetDatePartsAtEndOfYear(YearsValidator.MaxYear));
+    public static GregorianRecord MinValue { get; } = new(Segment.MinMaxDateParts.LowerValue);
+    public static GregorianRecord MaxValue { get; } = new(Segment.MinMaxDateParts.UpperValue);
 
     public Ord CenturyOfEra => Ord.FromInt32(Century);
     public int Century => YearNumbering.GetCentury(Year);

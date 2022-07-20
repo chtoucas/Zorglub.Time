@@ -39,10 +39,8 @@ public readonly partial struct DayTemplate :
     IMonthEndpointsProvider<DayTemplate>,
     IMinMaxValue<DayTemplate>
 {
-    private static readonly CalendarScope<GregorianSchema> __ =
-        ScopeActivator.CreateStandard<GregorianSchema>(DayZero.NewStyle);
-    private static readonly CalendricalSchema Schema = __.Schema;
-    private static readonly CalendarScope Scope = __.Scope;
+    private static readonly SystemSchema Schema = SchemaActivator.CreateInstance<GregorianSchema>();
+    private static readonly CalendarScope Scope = new StandardScope(Schema, DayZero.NewStyle);
 
     [Pure]
     public override string ToString()
@@ -54,7 +52,8 @@ public readonly partial struct DayTemplate :
 
 public partial struct DayTemplate
 {
-    private static Range<DayNumber> Domain { get; } = Scope.Domain;
+    private static CalendricalSegment Segment => Scope.Segment;
+    private static Range<DayNumber> Domain => Scope.Domain;
 
     private readonly int _daysSinceEpoch;
 
@@ -78,8 +77,8 @@ public partial struct DayTemplate
     }
 
     public static DayNumber Epoch { get; } = Scope.Epoch;
-    public static DayTemplate MinValue { get; } = new(Domain.Min - Epoch);
-    public static DayTemplate MaxValue { get; } = new(Domain.Max - Epoch);
+    public static DayTemplate MinValue { get; } = new(Segment.SupportedDays.Min);
+    public static DayTemplate MaxValue { get; } = new(Segment.SupportedDays.Max);
 
     public DayNumber DayNumber => Epoch + _daysSinceEpoch;
 

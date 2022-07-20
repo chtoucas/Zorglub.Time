@@ -3,12 +3,12 @@
 
 namespace Samples;
 
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.Contracts;
 
 using Zorglub.Time.Core;
-using Zorglub.Time.Core.Schemas;
 using Zorglub.Time.Core.Utilities;
 using Zorglub.Time.Hemerology;
 using Zorglub.Time.Hemerology.Scopes;
@@ -20,13 +20,15 @@ public sealed partial class MyCalendar : BasicCalendar, ICalendar<MyDate>
 {
     private readonly SystemSchema _schema;
 
-    public MyCalendar() : this(MyDate.Context) { }
+    public MyCalendar() : this(MyDate.Scope) { }
 
-    private MyCalendar(CalendarScope<GregorianSchema> context) : base("MyCalendar", context.Scope)
+    private MyCalendar(CalendarScope scope) : base("MyCalendar", scope)
     {
-        Debug.Assert(context != null);
+        Debug.Assert(scope != null);
 
-        _schema = context.Schema;
+        // Simpler: use MyDate.Schema...
+        var sch = ((ISchemaBound)scope).Schema;
+        _schema = sch is SystemSchema sys ? sys : throw new ArgumentException("XXX", nameof(scope));
 
         MinMaxDate = Domain.Endpoints.Select(MyDate.FromDayNumber);
     }
