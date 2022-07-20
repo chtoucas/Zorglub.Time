@@ -7,12 +7,8 @@ namespace Zorglub.Time.Simple
     using System.Collections.ObjectModel;
     using System.Linq;
     using System.Runtime.InteropServices;
-    using System.Threading;
 
     using Zorglub.Time.Core;
-
-    // FIXME(code): split into a registry and a registar.
-    // Currently, it's almost impossible to achieve full code coverage.
 
     // All calendars are "apparent" singletons: whether a calendar has been fully
     // constructed or not before, a call to (Try)GetCalendar() ALWAYS returns
@@ -46,13 +42,13 @@ namespace Zorglub.Time.Simple
         /// Represents the absolute maximun value for the ID of a calendar.
         /// <para>This field is a constant equal to 127.</para>
         /// </summary>
-        internal const int MaxId = (int)Cuid.Max;
+        internal const int MaxIdent = (int)Cuid.Max;
 
         /// <summary>
         /// Represents the minimum value for the ID of a user-defined calendar.
         /// <para>This field is a constant equal to 64.</para>
         /// </summary>
-        private const int MinUserId = (int)Cuid.MinUser;
+        private const int MinUserIdent = (int)Cuid.MinUser;
 
         /// <summary>
         /// Gets the absolute maximun number of user-defined calendars.
@@ -63,10 +59,7 @@ namespace Zorglub.Time.Simple
         /// <para>It's very unlikely that this number will ever change, but we never know.
         /// Nevertheless, we guarantee that it will never be less than 64.</para>
         /// </remarks>
-        public static int MaxNumberOfUserCalendars { get; } = MaxId - MinUserId + 1;
-
-        /// <summary>This field is initially set to 63.</summary>
-        private static int s_LastIdent = MinUserId - 1;
+        public static int MaxNumberOfUserCalendars { get; } = MaxIdent - MinUserIdent + 1;
 
         /// <summary>
         /// Represents the (immutable) array of system calendars, indexed by their internal IDs.
@@ -88,6 +81,8 @@ namespace Zorglub.Time.Simple
         /// </summary>
         private static readonly ConcurrentDictionary<string, Lazy<Calendar>> s_CalendarsByKey =
             InitCalendarsByKey(s_SystemCalendars);
+
+        private static readonly CalendarCatalogWriter s_Writer = new(s_CalendarsByKey, s_CalendarsById, MinUserIdent);
 
         /// <summary>
         /// Gets the list of keys of all fully constructed calendars at the time of the request.
@@ -139,7 +134,7 @@ namespace Zorglub.Time.Simple
         [Pure]
         private static Calendar?[] InitCalendarsById(Calendar[] systemCalendars)
         {
-            var arr = new Calendar?[MaxId + 1];
+            var arr = new Calendar?[MaxIdent + 1];
             Array.Copy(systemCalendars, arr, systemCalendars.Length);
             return arr;
         }
@@ -150,7 +145,7 @@ namespace Zorglub.Time.Simple
         {
             // First prime number >= max nbr of calendars (128 = MaxId + 1).
             const int Capacity = 131;
-            Debug.Assert(Capacity > MaxId);
+            Debug.Assert(Capacity > MaxIdent);
 
             var dict = new ConcurrentDictionary<string, Lazy<Calendar>>(
                 // If I'm not mistaken, this is the default concurrency level.
@@ -177,7 +172,7 @@ namespace Zorglub.Time.Simple
         public static IReadOnlyCollection<Calendar> GetAllCalendars()
         {
             // Fast track.
-            if (s_LastIdent < MinUserId) { return SystemCalendars; }
+            if (s_Writer.LastIdent < MinUserIdent) { return SystemCalendars; }
 
             int sys = s_SystemCalendars.Length;
             int usr = CountUserCalendars();
@@ -190,7 +185,7 @@ namespace Zorglub.Time.Simple
             // Copy system calendars.
             Array.Copy(s_CalendarsById, arr, sys);
             // Copy user-defined calendars.
-            Array.Copy(s_CalendarsById, MinUserId, arr, sys, usr);
+            Array.Copy(s_CalendarsById, MinUserIdent, arr, sys, usr);
 
             return Array.AsReadOnly(arr);
         }
@@ -207,7 +202,7 @@ namespace Zorglub.Time.Simple
             if (usr == 0) { return Array.Empty<Calendar>(); }
 
             var arr = new Calendar[usr];
-            Array.Copy(s_CalendarsById, MinUserId, arr, 0, usr);
+            Array.Copy(s_CalendarsById, MinUserIdent, arr, 0, usr);
 
             return Array.AsReadOnly(arr);
         }
@@ -236,7 +231,7 @@ namespace Zorglub.Time.Simple
         /// Counts the number of user-defined calendars at the time of the request.
         /// </summary>
         [Pure]
-        private static int CountUserCalendars() => Math.Min(s_LastIdent, MaxId) - MinUserId + 1;
+        private static int CountUserCalendars() => Math.Min(s_Writer.LastIdent, MaxIdent) - MinUserIdent + 1;
     }
 
     public partial class CalendarCatalog // Lookup
@@ -395,49 +390,8 @@ namespace Zorglub.Time.Simple
         /// reached the maximum number of calendars it can handle.</exception>
         [Pure]
         public static Calendar GetOrAdd(
-            string key, SystemSchema schema, DayNumber epoch, bool proleptic)
-        {
-            // Fail fast. It also guards the method against brute-force attacks.
-            // This should only be done when the key is not already taken.
-            if (s_LastIdent >= MaxId && s_CalendarsByKey.ContainsKey(key) == false)
-            {
-                Throw.CatalogOverflow();
-            }
-
-            Calendar tmp = ValidateParameters(key, schema, epoch, proleptic);
-
-            // The callback won't be executed until we query Value.
-            var lazy = new Lazy<Calendar>(() => CreateCalendar(tmp));
-
-            var lazy1 = s_CalendarsByKey.GetOrAdd(key, lazy);
-
-            // If the key is already taken, obviously lazy1.Value returns the
-            // pre-existing calendar, but the important point here is that
-            // CreateCalendar() was not called and therefore s_LastIdent did
-            // NOT change. Beware, below this is NOT equivalent to lazy.Value.
-            var chr = lazy1.Value;
-
-            if (chr.Id == Cuid.Invalid)
-            {
-                // Clean up.
-                // Beware, it is possible to end up here even if lazy1.Value
-                // returned a pre-existing calendar. Indeed, there is a very
-                // short window of time during which a TmpCalendar is still
-                // referenced by s_CalendarsByKey.
-                // The next check ensures that we only try to unlist the local
-                // instance of TmpCalendar.
-                // Actually, this is not mandatory, we could try to remove the
-                // same key twice...
-                if (ReferenceEquals(lazy1, lazy))
-                {
-                    s_CalendarsByKey.TryRemove(key, out _);
-                }
-
-                Throw.CatalogOverflow();
-            }
-
-            return chr;
-        }
+            string key, SystemSchema schema, DayNumber epoch, bool proleptic) =>
+            s_Writer.GetOrAdd(key, schema, epoch, proleptic);
 
         /// <summary>
         /// Creates a calendar from a (unique) key, a reference epoch and a calendrical schema, then
@@ -460,34 +414,8 @@ namespace Zorglub.Time.Simple
         /// calendars it can handle.</exception>
         [Pure]
         public static Calendar Add(
-            string key, SystemSchema schema, DayNumber epoch, bool proleptic)
-        {
-            // Fail fast. It also guards the method against brute-force attacks.
-            if (s_LastIdent >= MaxId) Throw.CatalogOverflow();
-
-            Calendar tmp = ValidateParameters(key, schema, epoch, proleptic);
-
-            // The callback won't be executed until we query Value.
-            var lazy = new Lazy<Calendar>(() => CreateCalendar(tmp));
-
-            if (s_CalendarsByKey.TryAdd(key, lazy) == false)
-            {
-                Throw.KeyAlreadyExists(nameof(key), key);
-            }
-
-            // NB: CreateCalendar() is only called NOW.
-            var chr = lazy.Value;
-
-            if (chr.Id == Cuid.Invalid)
-            {
-                // Clean up.
-                s_CalendarsByKey.TryRemove(key, out _);
-
-                Throw.CatalogOverflow();
-            }
-
-            return chr;
-        }
+            string key, SystemSchema schema, DayNumber epoch, bool proleptic) =>
+            s_Writer.Add(key, schema, epoch, proleptic);
 
         /// <summary>
         /// Attempts to create a calendar from a (unique) key, a reference epoch and a calendrical
@@ -507,114 +435,7 @@ namespace Zorglub.Time.Simple
         [Pure]
         public static bool TryAdd(
             string key, SystemSchema schema, DayNumber epoch, bool proleptic,
-            [NotNullWhen(true)] out Calendar? calendar)
-        {
-            // Fail fast. It also guards the method against brute-force attacks.
-            if (s_LastIdent >= MaxId) { goto FAILED; }
-
-            // Null parameters validation.
-            Requires.NotNull(key);
-            Requires.NotNull(schema);
-
-            // Other parameters validation (exceptions catched).
-            Calendar tmp;
-            try { tmp = ValidateParameters(key, schema, epoch, proleptic); }
-            catch (ArgumentException) { goto FAILED; }
-
-            // The callback won't be executed until we query Value.
-            var lazy = new Lazy<Calendar>(() => CreateCalendar(tmp));
-
-            if (s_CalendarsByKey.TryAdd(key, lazy))
-            {
-                // NB: CreateCalendar() is only called NOW.
-                var chr = lazy.Value;
-
-                if (chr.Id == Cuid.Invalid)
-                {
-                    // Clean up.
-                    s_CalendarsByKey.TryRemove(key, out _);
-
-                    goto FAILED;
-                }
-                else
-                {
-                    calendar = chr;
-                    return true;
-                }
-            }
-
-        FAILED:
-            calendar = null;
-            return false;
-        }
-
-        #region Helpers
-
-        /// <summary>
-        /// Pre-validates the parameters.
-        /// </summary>
-        /// <returns>A calendar with an ID <see cref="Cuid.Invalid"/>.</returns>
-        [Pure]
-        private static Calendar ValidateParameters(
-                string key,
-                SystemSchema schema,
-                DayNumber epoch,
-                bool proleptic)
-        {
-            // FIXME(code): Invalid was a bad idea. If the Calendar ctor check
-            // the value, it will fail hard. It would be the case if for
-            // instance we initialized a date,
-            // > var date = new CalendarDate(..., id);
-            return new Calendar(Cuid.Invalid, key, schema, epoch, proleptic);
-        }
-
-        /// <summary>
-        /// Creates a new <see cref="Calendar"/> instance from the specified temporary calendar then
-        /// add it to <see cref="s_CalendarsById"/>.
-        /// <para>Returns a calendar with ID <see cref="Cuid.Invalid"/> if the system already
-        /// reached the maximum number of calendars it can handle.</para>
-        /// </summary>
-        [Pure]
-        private static Calendar CreateCalendar(Calendar tmpCalendar)
-        {
-            Debug.Assert(tmpCalendar != null);
-
-            // Lazy<T> :
-            //   Quelque soit le nombre de fils d'exécution en cours,
-            //   CreateCalendar() est exécutée en différé et au plus une fois
-            //   (pour une même clé), et ce quand on demande la prop Value.
-            //   En conséquence, s_LastIdent ne sera incrémenté qu'une fois.
-            //   Bien entendu, avec deux clés différentes, le problème ne se
-            //   pose pas.
-            int ident = Interlocked.Increment(ref s_LastIdent);
-            if (ident > MaxId)
-            {
-                // We don't throw an OverflowException yet.
-                // This will give the caller the opportunity to do some cleanup.
-                // Objects of this type only exist for a very short period of
-                // time within <see cref="s_CalendarsByKey"/> and MUST be
-                // filtered out anytime we query a value from this dictionary.
-                return tmpCalendar;
-            }
-
-            Debug.Assert(ident <= Byte.MaxValue);
-
-            // Notes:
-            // - the cast to Cuid should always succeed.
-            // - the ctor won't throw since we already validated the params
-            //   when we created tmpCalendar.
-            var chr = new Calendar(
-                (Cuid)ident,
-                tmpCalendar.Key,
-                tmpCalendar.Schema,
-                tmpCalendar.Epoch,
-                tmpCalendar.IsProleptic);
-
-            Debug.Assert(ident < s_CalendarsById.Length);
-
-            return s_CalendarsById[ident] = chr;
-        }
-
-        #endregion
+            [NotNullWhen(true)] out Calendar? calendar) =>
+            s_Writer.TryAdd(key, schema, epoch, proleptic, out calendar);
     }
 }
