@@ -5,6 +5,7 @@
 module Zorglub.Testing.XunitModule
 
 open System
+open System.Collections.Generic
 
 open Zorglub.Time.Core.Utilities
 
@@ -50,6 +51,10 @@ let inline nullExn paramName (testCode: unit -> obj) =
 /// Verifies that an ArgumentOutOfRangeException is thrown and that it has the given parameter name.
 let inline outOfRangeExn paramName (testCode: unit -> obj) =
     Assert.Throws<ArgumentOutOfRangeException>(paramName, testCode) |> ignore
+
+/// Verifies that an KeyNotFoundException is thrown.
+let inline keyNotFoundExn (testCode: unit -> obj) =
+    Assert.Throws<KeyNotFoundException>(testCode) |> ignore
 
 ///// Verifies that an OverflowException is thrown.
 //let inline overflows (testCode: unit -> obj) = Assert.Throws<OverflowException>(testCode) |> ignore

@@ -17,6 +17,18 @@ namespace Zorglub.Time.Hemerology
         /// </summary>
         private const int InvalidId = Int32.MaxValue;
 
+        /// <summary>
+        /// Represents the array of fully constructed calendars, indexed by their internal IDs.
+        /// <para>This field is read-only.</para>
+        /// </summary>
+        private readonly ZCalendar?[] _calendarsById;
+
+        /// <summary>
+        /// Represents the dictionary of (lazy) calendars, indexed by their keys.
+        /// <para>This field is read-only.</para>
+        /// </summary>
+        private readonly ConcurrentDictionary<string, Lazy<ZCalendar>> _calendarsByKey;
+
         private int _lastId;
 
         /// <summary>
@@ -27,52 +39,55 @@ namespace Zorglub.Time.Hemerology
         public ZCatalogWriter(
             ConcurrentDictionary<string, Lazy<ZCalendar>> calendarsByKey,
             ZCalendar?[] calendarsById,
-            int startId)
+            int minUserId)
         {
             Requires.NotNull(calendarsByKey);
             Requires.NotNull(calendarsById);
-            if (startId >= InvalidId) Throw.ArgumentOutOfRange(nameof(startId));
-
-            CalendarsByKey = calendarsByKey;
-            CalendarsById = calendarsById;
 
             MaxId = calendarsById.Length - 1;
-            StartId = startId;
-            _lastId = startId - 1;
+            // We could have used an equality (InvalidId = Int32.MaxValue), but
+            // an inequality is better because it will continue to work even if
+            // we change the value of InvalidId.
+            if (MaxId >= InvalidId) Throw.Argument(nameof(calendarsById));
+            if (minUserId > MaxId) Throw.ArgumentOutOfRange(nameof(minUserId));
+
+            _calendarsByKey = calendarsByKey;
+            _calendarsById = calendarsById;
+
+            MinUserId = minUserId;
+            _lastId = minUserId - 1;
         }
 
         /// <summary>
-        /// Represents the array of fully constructed calendars, indexed by their internal IDs.
-        /// <para>This field is read-only.</para>
+        /// Gets the minimum value for the ID of a user-defined calendar.
         /// </summary>
-        internal ZCalendar?[] CalendarsById { get; }
+        public int MinUserId { get; }
 
         /// <summary>
-        /// Represents the dictionary of (lazy) calendars, indexed by their keys.
-        /// <para>This field is read-only.</para>
+        /// Gets the maximun value for the ID of a calendar.
         /// </summary>
-        internal ConcurrentDictionary<string, Lazy<ZCalendar>> CalendarsByKey { get; }
-
-        /// <summary>
-        /// Represents the maximun value for the ident of a calendar.
-        /// <para>This field is read-only.</para>
-        /// </summary>
-        internal int MaxId { get; }
-
-        internal int StartId { get; }
+        public int MaxId { get; }
 
         // Only for testing.
-        internal ICollection<string> Keys => CalendarsByKey.Keys;
+        public ICollection<string> Keys => _calendarsByKey.Keys;
 
         // Only for testing.
         [Pure]
-        internal IEnumerable<ZCalendar> GetAllCalendars() =>
-            from chr in CalendarsById where chr is not null select chr;
+        public IEnumerable<ZCalendar> GetCurrentCalendars() =>
+            from chr in _calendarsById where chr is not null select chr;
+
+        /// <summary>
+        /// Counts the number of user-defined calendars at the time of the request.
+        /// </summary>
+        // We use Math.Min() because CreateCalendar() might increment _lastId
+        // one step too far.
+        [Pure]
+        public int CountUserCalendars() => Math.Min(_lastId, MaxId) - MinUserId + 1;
 
         [Pure]
         public ZCalendar GetOrAdd(string key, CalendarScope scope)
         {
-            if (_lastId >= MaxId && CalendarsByKey.ContainsKey(key) == false)
+            if (_lastId >= MaxId && _calendarsByKey.ContainsKey(key) == false)
             {
                 Throw.CatalogOverflow();
             }
@@ -80,14 +95,14 @@ namespace Zorglub.Time.Hemerology
             var tmp = new TmpCalendar(key, scope);
 
             var lazy = new Lazy<ZCalendar>(() => CreateCalendar(tmp));
-            var lazy1 = CalendarsByKey.GetOrAdd(key, lazy);
+            var lazy1 = _calendarsByKey.GetOrAdd(key, lazy);
 
             var chr = lazy1.Value;
             if (chr is TmpCalendar)
             {
                 if (ReferenceEquals(lazy1, lazy))
                 {
-                    CalendarsByKey.TryRemove(key, out _);
+                    _calendarsByKey.TryRemove(key, out _);
                 }
 
                 Throw.CatalogOverflow();
@@ -105,7 +120,7 @@ namespace Zorglub.Time.Hemerology
 
             var lazy = new Lazy<ZCalendar>(() => CreateCalendar(tmp));
 
-            if (CalendarsByKey.TryAdd(key, lazy) == false)
+            if (_calendarsByKey.TryAdd(key, lazy) == false)
             {
                 Throw.KeyAlreadyExists(nameof(key), key);
             }
@@ -113,7 +128,7 @@ namespace Zorglub.Time.Hemerology
             var chr = lazy.Value;
             if (chr is TmpCalendar)
             {
-                CalendarsByKey.TryRemove(key, out _);
+                _calendarsByKey.TryRemove(key, out _);
 
                 Throw.CatalogOverflow();
             }
@@ -137,12 +152,12 @@ namespace Zorglub.Time.Hemerology
 
             var lazy = new Lazy<ZCalendar>(() => CreateCalendar(tmp));
 
-            if (CalendarsByKey.TryAdd(key, lazy))
+            if (_calendarsByKey.TryAdd(key, lazy))
             {
                 var chr = lazy.Value;
                 if (chr is TmpCalendar)
                 {
-                    CalendarsByKey.TryRemove(key, out _);
+                    _calendarsByKey.TryRemove(key, out _);
                     goto FAILED;
                 }
                 else
@@ -175,7 +190,7 @@ namespace Zorglub.Time.Hemerology
                 tmpCalendar.Scope,
                 userDefined: true);
 
-            return CalendarsById[id] = chr;
+            return _calendarsById[id] = chr;
         }
 
         internal sealed class TmpCalendar : ZCalendar

@@ -7,7 +7,10 @@ open System
 open System.Collections.Concurrent
 
 open Zorglub.Testing
+open Zorglub.Time
+open Zorglub.Time.Core.Schemas
 open Zorglub.Time.Hemerology
+open Zorglub.Time.Hemerology.Scopes
 
 open Xunit
 
@@ -25,22 +28,59 @@ module Prelude =
         nullExn "calendarsById" (fun () -> new ZCatalogWriter(calendarsByKey, null, 1))
 
     [<Fact>]
-    let ``Constructor throws for invalid startId = Int32.MaxValue`` () =
-        let calendarsByKey = new ConcurrentDictionary<string, Lazy<ZCalendar>>()
-        let calendarsById = Array.zeroCreate<ZCalendar>(1)
-
-        outOfRangeExn "startId" (fun () -> new ZCatalogWriter(calendarsByKey, calendarsById, Int32.MaxValue))
-
-    [<Fact>]
-    let ``Constructor`` () =
-        let startId = 128
-        let count = 255
+    let ``Constructor throws when minUserId > maxId`` () =
+        let count = 256
+        let maxId = count - 1
         let calendarsByKey = new ConcurrentDictionary<string, Lazy<ZCalendar>>()
         let calendarsById = Array.zeroCreate<ZCalendar>(count)
 
-        let writer = new ZCatalogWriter(calendarsByKey, calendarsById, startId)
+        outOfRangeExn "minUserId" (fun () -> new ZCatalogWriter(calendarsByKey, calendarsById, maxId + 1))
 
-        writer.CalendarsByKey ==& calendarsByKey
-        writer.CalendarsById  ==& calendarsById
-        writer.StartId        === startId
-        writer.MaxId          === count - 1
+    [<Fact>]
+    let ``Constructor does not throw when minUserId = maxId`` () =
+        let count = 256
+        let maxId = count - 1
+        let calendarsByKey = new ConcurrentDictionary<string, Lazy<ZCalendar>>()
+        let calendarsById = Array.zeroCreate<ZCalendar>(count)
+
+        new ZCatalogWriter(calendarsByKey, calendarsById, maxId) |> ignore
+
+    [<Fact>]
+    let ``Constructor`` () =
+        let count = 256
+        let maxId = count - 1
+        let calendarsByKey = new ConcurrentDictionary<string, Lazy<ZCalendar>>()
+        let calendarsById = Array.zeroCreate<ZCalendar>(count)
+        let minUserId = 128
+
+        let writer = new ZCatalogWriter(calendarsByKey, calendarsById, minUserId)
+
+        writer.MinUserId === minUserId
+        writer.MaxId     === maxId
+        writer.CountUserCalendars() === 0
+
+module Write =
+    let private emptyWriter  =
+        let calendarsByKey = new ConcurrentDictionary<string, Lazy<ZCalendar>>()
+        let calendarsById = Array.zeroCreate<ZCalendar>(256)
+        new ZCatalogWriter(calendarsByKey, calendarsById, 0)
+
+    //let private newWriter  =
+    //    let calendarsByKey = new ConcurrentDictionary<string, Lazy<ZCalendar>>()
+    //    let calendarsById = Array.zeroCreate<ZCalendar>(256)
+    //    new ZCatalogWriter(calendarsByKey, calendarsById, 0)
+
+    let onKeyNotSet (writer: ZCatalogWriter) key =
+        Assert.DoesNotContain(key, writer.Keys)
+        //keyNotFoundExn (() -> writer.GetCalendar(key))
+
+    let private scope = new StandardScope(new GregorianSchema(), DayZero.NewStyle)
+
+    [<Fact>]
+    let ``Add() throws when key is null`` () =
+        let writer = emptyWriter
+
+        // FIXME(api): "name" vs "key".
+        nullExn "name" (fun () -> writer.Add(null, scope))
+
+        writer.CountUserCalendars() === 0
