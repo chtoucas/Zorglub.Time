@@ -16,15 +16,13 @@ namespace Zorglub.Time.Hemerology
 
     using TmpCalendar = ZCatalogWriter.TmpCalendar;
 
-    // FIXME(code): to be rewritten. Sync with Calendar.
+    // FIXME(code): sync with Calendar.
     // Snapshots: what about lazy calendars?
     // GetSystemCalendar(CalendarId ident): public? officially, a ZCalendar has
     // no ID, only a key.
     // ZDate._cuid is now a full int, MaxId? Because of s_CalendarsById, it's
     // not that straightforward to do: we might have to resize this array and it
-    // should be done in a thread-safe manner. I guess we should use a
-    // concurrent list (ConcurrentBag?) but the usefulness of s_CalendarsById is
-    // questionable (it was created to allow for fast lookup).
+    // should be done in a thread-safe manner.
 
     /// <summary>
     /// Provides static methods to initialize a calendar or lookup an already initialized calendar.

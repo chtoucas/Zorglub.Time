@@ -44,6 +44,7 @@ namespace Zorglub.Time.Hemerology
         {
             Debug.Assert(calendarsByKey != null);
             Debug.Assert(calendarsById != null);
+            Debug.Assert(startId < InvalidId);
 
             _calendarsByKey = calendarsByKey;
             _calendarsById = calendarsById;
