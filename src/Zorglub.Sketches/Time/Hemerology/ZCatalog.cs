@@ -98,6 +98,7 @@ namespace Zorglub.Time.Hemerology
 
         private static readonly ZCatalogWriter s_Writer = new(s_CalendarsByKey, s_CalendarsById, MinUserId);
 
+        // We ignore lazy calendars not yet initialized.
         internal static ICollection<string> Keys => s_CalendarsByKey.Keys;
 
         public static ReadOnlySet<string> ReservedKeys => CalendarCatalog.ReservedKeys;

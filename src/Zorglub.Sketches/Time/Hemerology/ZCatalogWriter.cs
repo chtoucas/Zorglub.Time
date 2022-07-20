@@ -4,6 +4,7 @@
 namespace Zorglub.Time.Hemerology
 {
     using System.Collections.Concurrent;
+    using System.Linq;
     using System.Threading;
 
     using Zorglub.Time.Hemerology.Scopes;
@@ -15,24 +16,6 @@ namespace Zorglub.Time.Hemerology
         /// <para>This field is a constant equal to 2_147_483_647.</para>
         /// </summary>
         private const int InvalidId = Int32.MaxValue;
-
-        /// <summary>
-        /// Represents the array of fully constructed calendars, indexed by their internal IDs.
-        /// <para>This field is read-only.</para>
-        /// </summary>
-        private readonly ZCalendar?[] _calendarsById;
-
-        /// <summary>
-        /// Represents the dictionary of (lazy) calendars, indexed by their keys.
-        /// <para>This field is read-only.</para>
-        /// </summary>
-        private readonly ConcurrentDictionary<string, Lazy<ZCalendar>> _calendarsByKey;
-
-        /// <summary>
-        /// Represents the maximun value for the ident of a calendar.
-        /// <para>This field is read-only.</para>
-        /// </summary>
-        private readonly int _maxId;
 
         private int _lastId;
 
@@ -48,17 +31,43 @@ namespace Zorglub.Time.Hemerology
             Debug.Assert(calendarsById != null);
             Debug.Assert(startId < InvalidId);
 
-            _calendarsByKey = calendarsByKey;
-            _calendarsById = calendarsById;
+            CalendarsByKey = calendarsByKey;
+            CalendarsById = calendarsById;
 
-            _maxId = calendarsById.Length - 1;
+            MaxId = calendarsById.Length - 1;
             _lastId = startId - 1;
         }
+
+        /// <summary>
+        /// Represents the array of fully constructed calendars, indexed by their internal IDs.
+        /// <para>This field is read-only.</para>
+        /// </summary>
+        private ZCalendar?[] CalendarsById { get; }
+
+        /// <summary>
+        /// Represents the dictionary of (lazy) calendars, indexed by their keys.
+        /// <para>This field is read-only.</para>
+        /// </summary>
+        private ConcurrentDictionary<string, Lazy<ZCalendar>> CalendarsByKey { get; }
+
+        /// <summary>
+        /// Represents the maximun value for the ident of a calendar.
+        /// <para>This field is read-only.</para>
+        /// </summary>
+        private int MaxId { get; }
+
+        // Only for testing.
+        internal ICollection<string> Keys => CalendarsByKey.Keys;
+
+        // Only for testing.
+        [Pure]
+        internal IEnumerable<ZCalendar> GetAllCalendars() =>
+            from chr in CalendarsById where chr is not null select chr;
 
         [Pure]
         public ZCalendar GetOrAdd(string key, CalendarScope scope)
         {
-            if (_lastId >= _maxId && _calendarsByKey.ContainsKey(key) == false)
+            if (_lastId >= MaxId && CalendarsByKey.ContainsKey(key) == false)
             {
                 Throw.CatalogOverflow();
             }
@@ -66,14 +75,14 @@ namespace Zorglub.Time.Hemerology
             var tmp = new TmpCalendar(key, scope);
 
             var lazy = new Lazy<ZCalendar>(() => CreateCalendar(tmp));
-            var lazy1 = _calendarsByKey.GetOrAdd(key, lazy);
+            var lazy1 = CalendarsByKey.GetOrAdd(key, lazy);
 
             var chr = lazy1.Value;
             if (chr is TmpCalendar)
             {
                 if (ReferenceEquals(lazy1, lazy))
                 {
-                    _calendarsByKey.TryRemove(key, out _);
+                    CalendarsByKey.TryRemove(key, out _);
                 }
 
                 Throw.CatalogOverflow();
@@ -85,13 +94,13 @@ namespace Zorglub.Time.Hemerology
         [Pure]
         public ZCalendar Add(string key, CalendarScope scope)
         {
-            if (_lastId >= _maxId) Throw.CatalogOverflow();
+            if (_lastId >= MaxId) Throw.CatalogOverflow();
 
             var tmp = new TmpCalendar(key, scope);
 
             var lazy = new Lazy<ZCalendar>(() => CreateCalendar(tmp));
 
-            if (_calendarsByKey.TryAdd(key, lazy) == false)
+            if (CalendarsByKey.TryAdd(key, lazy) == false)
             {
                 Throw.KeyAlreadyExists(nameof(key), key);
             }
@@ -99,7 +108,7 @@ namespace Zorglub.Time.Hemerology
             var chr = lazy.Value;
             if (chr is TmpCalendar)
             {
-                _calendarsByKey.TryRemove(key, out _);
+                CalendarsByKey.TryRemove(key, out _);
 
                 Throw.CatalogOverflow();
             }
@@ -112,7 +121,7 @@ namespace Zorglub.Time.Hemerology
             string key, CalendarScope scope,
             [NotNullWhen(true)] out ZCalendar? calendar)
         {
-            if (_lastId >= _maxId) { goto FAILED; }
+            if (_lastId >= MaxId) { goto FAILED; }
 
             Requires.NotNull(key);
             Requires.NotNull(scope);
@@ -123,12 +132,12 @@ namespace Zorglub.Time.Hemerology
 
             var lazy = new Lazy<ZCalendar>(() => CreateCalendar(tmp));
 
-            if (_calendarsByKey.TryAdd(key, lazy))
+            if (CalendarsByKey.TryAdd(key, lazy))
             {
                 var chr = lazy.Value;
                 if (chr is TmpCalendar)
                 {
-                    _calendarsByKey.TryRemove(key, out _);
+                    CalendarsByKey.TryRemove(key, out _);
                     goto FAILED;
                 }
                 else
@@ -153,7 +162,7 @@ namespace Zorglub.Time.Hemerology
             Debug.Assert(tmpCalendar != null);
 
             int id = Interlocked.Increment(ref _lastId);
-            if (id > _maxId) { return tmpCalendar; }
+            if (id > MaxId) { return tmpCalendar; }
 
             var chr = new ZCalendar(
                 id,
@@ -161,7 +170,7 @@ namespace Zorglub.Time.Hemerology
                 tmpCalendar.Scope,
                 userDefined: true);
 
-            return _calendarsById[id] = chr;
+            return CalendarsById[id] = chr;
         }
 
         internal sealed class TmpCalendar : ZCalendar

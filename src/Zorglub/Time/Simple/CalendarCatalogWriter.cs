@@ -4,32 +4,13 @@
 namespace Zorglub.Time.Simple
 {
     using System.Collections.Concurrent;
+    using System.Linq;
     using System.Threading;
 
     using Zorglub.Time.Core;
 
     internal sealed class CalendarCatalogWriter
     {
-        /// <summary>
-        /// Represents the array of fully constructed calendars, indexed by their internal IDs.
-        /// <para>A value is null if the calendar has not yet been fully constructed (obviously).
-        /// </para>
-        /// <para>This field is read-only.</para>
-        /// </summary>
-        private readonly Calendar?[] _calendarsById;
-
-        /// <summary>
-        /// Represents the dictionary of (lazy) calendars, indexed by their keys.
-        /// <para>This field is read-only.</para>
-        /// </summary>
-        private readonly ConcurrentDictionary<string, Lazy<Calendar>> _calendarsByKey;
-
-        /// <summary>
-        /// Represents the absolute maximun value for the ID of a calendar.
-        /// <para>This field is read-only.</para>
-        /// </summary>
-        private readonly int _maxIdent;
-
         private int _lastIdent;
 
         /// <summary>
@@ -44,21 +25,46 @@ namespace Zorglub.Time.Simple
             Debug.Assert(calendarsById != null);
             Debug.Assert(startIdent < (int)Cuid.Invalid);
 
-            _calendarsByKey = calendarsByKey;
-            _calendarsById = calendarsById;
+            CalendarsByKey = calendarsByKey;
+            CalendarsById = calendarsById;
 
-            _maxIdent = calendarsById.Length - 1;
+            MaxIdent = calendarsById.Length - 1;
             _lastIdent = startIdent - 1;
         }
 
-        public int LastIdent => _lastIdent;
+        internal int LastIdent => _lastIdent;
+
+        /// <summary>
+        /// Gets the array of fully constructed calendars, indexed by their internal IDs.
+        /// <para>A value is null if the calendar has not yet been fully constructed (obviously).
+        /// </para>
+        /// </summary>
+        private Calendar?[] CalendarsById { get; }
+
+        /// <summary>
+        /// Gets the dictionary of (lazy) calendars, indexed by their keys.
+        /// </summary>
+        private ConcurrentDictionary<string, Lazy<Calendar>> CalendarsByKey { get; }
+
+        /// <summary>
+        /// Gets the absolute maximun value for the ID of a calendar.
+        /// </summary>
+        private int MaxIdent { get; }
+
+        // Only for testing.
+        internal ICollection<string> Keys => CalendarsByKey.Keys;
+
+        // Only for testing.
+        [Pure]
+        internal IEnumerable<Calendar> GetAllCalendars() =>
+            from chr in CalendarsById where chr is not null select chr;
 
         [Pure]
         public Calendar GetOrAdd(string key, SystemSchema schema, DayNumber epoch, bool proleptic)
         {
             // Fail fast. It also guards the method against brute-force attacks.
             // This should only be done when the key is not already taken.
-            if (_lastIdent >= _maxIdent && _calendarsByKey.ContainsKey(key) == false)
+            if (_lastIdent >= MaxIdent && CalendarsByKey.ContainsKey(key) == false)
             {
                 Throw.CatalogOverflow();
             }
@@ -68,7 +74,7 @@ namespace Zorglub.Time.Simple
             // The callback won't be executed until we query Value.
             var lazy = new Lazy<Calendar>(() => CreateCalendar(tmp));
 
-            var lazy1 = _calendarsByKey.GetOrAdd(key, lazy);
+            var lazy1 = CalendarsByKey.GetOrAdd(key, lazy);
 
             // If the key is already taken, obviously lazy1.Value returns the
             // pre-existing calendar, but the important point here is that
@@ -89,7 +95,7 @@ namespace Zorglub.Time.Simple
                 // same key twice...
                 if (ReferenceEquals(lazy1, lazy))
                 {
-                    _calendarsByKey.TryRemove(key, out _);
+                    CalendarsByKey.TryRemove(key, out _);
                 }
 
                 Throw.CatalogOverflow();
@@ -102,14 +108,14 @@ namespace Zorglub.Time.Simple
         public Calendar Add(string key, SystemSchema schema, DayNumber epoch, bool proleptic)
         {
             // Fail fast. It also guards the method against brute-force attacks.
-            if (_lastIdent >= _maxIdent) Throw.CatalogOverflow();
+            if (_lastIdent >= MaxIdent) Throw.CatalogOverflow();
 
             Calendar tmp = ValidateParameters(key, schema, epoch, proleptic);
 
             // The callback won't be executed until we query Value.
             var lazy = new Lazy<Calendar>(() => CreateCalendar(tmp));
 
-            if (_calendarsByKey.TryAdd(key, lazy) == false)
+            if (CalendarsByKey.TryAdd(key, lazy) == false)
             {
                 Throw.KeyAlreadyExists(nameof(key), key);
             }
@@ -120,7 +126,7 @@ namespace Zorglub.Time.Simple
             if (chr.Id == Cuid.Invalid)
             {
                 // Clean up.
-                _calendarsByKey.TryRemove(key, out _);
+                CalendarsByKey.TryRemove(key, out _);
 
                 Throw.CatalogOverflow();
             }
@@ -134,7 +140,7 @@ namespace Zorglub.Time.Simple
             [NotNullWhen(true)] out Calendar? calendar)
         {
             // Fail fast. It also guards the method against brute-force attacks.
-            if (_lastIdent >= _maxIdent) { goto FAILED; }
+            if (_lastIdent >= MaxIdent) { goto FAILED; }
 
             // Null parameters validation.
             Requires.NotNull(key);
@@ -148,7 +154,7 @@ namespace Zorglub.Time.Simple
             // The callback won't be executed until we query Value.
             var lazy = new Lazy<Calendar>(() => CreateCalendar(tmp));
 
-            if (_calendarsByKey.TryAdd(key, lazy))
+            if (CalendarsByKey.TryAdd(key, lazy))
             {
                 // NB: CreateCalendar() is only called NOW.
                 var chr = lazy.Value;
@@ -156,7 +162,7 @@ namespace Zorglub.Time.Simple
                 if (chr.Id == Cuid.Invalid)
                 {
                     // Clean up.
-                    _calendarsByKey.TryRemove(key, out _);
+                    CalendarsByKey.TryRemove(key, out _);
 
                     goto FAILED;
                 }
@@ -196,7 +202,7 @@ namespace Zorglub.Time.Simple
 
         /// <summary>
         /// Creates a new <see cref="Calendar"/> instance from the specified temporary calendar then
-        /// add it to <see cref="_calendarsById"/>.
+        /// add it to <see cref="CalendarsById"/>.
         /// <para>Returns a calendar with ID <see cref="Cuid.Invalid"/> if the system already
         /// reached the maximum number of calendars it can handle.</para>
         /// </summary>
@@ -213,7 +219,7 @@ namespace Zorglub.Time.Simple
             //   Bien entendu, avec deux clés différentes, le problème ne se
             //   pose pas.
             int ident = Interlocked.Increment(ref _lastIdent);
-            if (ident > _maxIdent)
+            if (ident > MaxIdent)
             {
                 // We don't throw an OverflowException yet.
                 // This will give the caller the opportunity to do some cleanup.
@@ -236,9 +242,9 @@ namespace Zorglub.Time.Simple
                 tmpCalendar.Epoch,
                 tmpCalendar.IsProleptic);
 
-            Debug.Assert(ident < _calendarsById.Length);
+            Debug.Assert(ident < CalendarsById.Length);
 
-            return _calendarsById[ident] = chr;
+            return CalendarsById[ident] = chr;
         }
     }
 }
