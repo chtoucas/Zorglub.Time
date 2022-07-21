@@ -88,7 +88,7 @@
     <Compile Include="Tests\Simple\Specialized\RomanKalendarTests.fs" />
     <Compile Include="Tests\Simple\CuidTests.fs" />
     <Compile Include="Tests\Simple\CalendarTests.fs" />
-    <Compile Include="Tests\Simple\CalendarCatalogKernelTests.fs" />
+    <Compile Include="Tests\Simple\CalendarRegistryTests.fs" />
     <Compile Include="Tests\Simple\CalendarCatalogTests.fs" />
     <Compile Include="Tests\Simple\BoxExtensionsTests.fs" />
     <Compile Include="Tests\Simple\CalendarMathTests.fs" />

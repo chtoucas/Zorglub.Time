@@ -9,7 +9,7 @@ namespace Zorglub.Time.Hemerology
 
     using Zorglub.Time.Hemerology.Scopes;
 
-    internal sealed class ZCatalogWriter
+    internal sealed class ZRegistry
     {
         /// <summary>
         /// Represents an invalid ID.
@@ -32,11 +32,11 @@ namespace Zorglub.Time.Hemerology
         private int _lastId;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ZCatalogWriter"/> class.
+        /// Initializes a new instance of the <see cref="ZRegistry"/> class.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="calendarsByKey"/> is null.</exception>
         /// <exception cref="ArgumentNullException"><paramref name="calendarsById"/> is null.</exception>
-        public ZCatalogWriter(
+        public ZRegistry(
             ConcurrentDictionary<string, Lazy<ZCalendar>> calendarsByKey,
             ZCalendar?[] calendarsById,
             int minUserId)

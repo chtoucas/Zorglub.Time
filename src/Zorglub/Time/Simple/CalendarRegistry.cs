@@ -9,7 +9,7 @@ namespace Zorglub.Time.Simple
 
     using Zorglub.Time.Core;
 
-    internal sealed partial class CalendarCatalogKernel
+    internal sealed partial class CalendarRegistry
     {
         /// <summary>
         /// Represents the absolute maximum value for <see cref="MaxId"/>.
@@ -46,7 +46,7 @@ namespace Zorglub.Time.Simple
         private int _lastId;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="CalendarCatalogKernel"/> class.
+        /// Initializes a new instance of the <see cref="CalendarRegistry"/> class.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="calendarsByKey"/> is null.</exception>
         /// <exception cref="ArgumentNullException"><paramref name="calendarsById"/> is null.</exception>
@@ -54,7 +54,7 @@ namespace Zorglub.Time.Simple
         /// within the range [(1 + <see cref="MinMinUserId"/>)..(1 + <see cref="MaxMaxId"/>)].</exception>
         /// <exception cref="AoorException"><paramref name="minUserId"/> is not
         /// within the range [<see cref="MinMinUserId"/>..<see cref="MaxId"/>].</exception>
-        public CalendarCatalogKernel(
+        public CalendarRegistry(
             ConcurrentDictionary<string, Lazy<Calendar>> calendarsByKey,
             Calendar?[] calendarsById,
             int minUserId)
@@ -113,7 +113,7 @@ namespace Zorglub.Time.Simple
         public int CountUserCalendars() => Math.Min(_lastId, MaxId) - MinUserId + 1;
     }
 
-    internal sealed partial class CalendarCatalogKernel // Lookup
+    internal sealed partial class CalendarRegistry // Lookup
     {
         [Pure]
         public Calendar GetCalendarByKey(string key)
@@ -128,7 +128,7 @@ namespace Zorglub.Time.Simple
         }
     }
 
-    internal sealed partial class CalendarCatalogKernel
+    internal sealed partial class CalendarRegistry
     {
         [Pure]
         public Calendar GetOrAdd(string key, SystemSchema schema, DayNumber epoch, bool proleptic)

@@ -14,7 +14,7 @@ namespace Zorglub.Time.Hemerology
     using Zorglub.Time.Hemerology.Scopes;
     using Zorglub.Time.Simple;
 
-    using TmpCalendar = ZCatalogWriter.TmpCalendar;
+    using TmpCalendar = ZRegistry.TmpCalendar;
 
     // FIXME(code): sync with Calendar.
     // Snapshots: what about lazy calendars?
@@ -108,7 +108,7 @@ namespace Zorglub.Time.Hemerology
         private static readonly ConcurrentDictionary<string, Lazy<ZCalendar>> s_CalendarsByKey =
             InitCalendarsByKey();
 
-        private static readonly ZCatalogWriter s_Writer = new(s_CalendarsByKey, s_CalendarsById, MinUserId);
+        private static readonly ZRegistry s_Writer = new(s_CalendarsByKey, s_CalendarsById, MinUserId);
 
         // We ignore lazy calendars not yet initialized.
         internal static ICollection<string> Keys => s_CalendarsByKey.Keys;

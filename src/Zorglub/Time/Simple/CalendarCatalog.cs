@@ -77,7 +77,7 @@ namespace Zorglub.Time.Simple
         private static readonly ConcurrentDictionary<string, Lazy<Calendar>> s_CalendarsByKey =
             InitCalendarsByKey(s_SystemCalendars);
 
-        private static readonly CalendarCatalogKernel s_Kernel =
+        private static readonly CalendarRegistry s_Registry =
             new(s_CalendarsByKey, s_CalendarsById, MinUserId);
 
         /// <summary>
@@ -167,7 +167,7 @@ namespace Zorglub.Time.Simple
         [Pure]
         public static IReadOnlyCollection<Calendar> GetAllCalendars()
         {
-            int usr = s_Kernel.CountUserCalendars();
+            int usr = s_Registry.CountUserCalendars();
 
             // Fast track.
             if (usr == 0) { return SystemCalendars; }
@@ -193,7 +193,7 @@ namespace Zorglub.Time.Simple
         [Pure]
         public static IReadOnlyCollection<Calendar> GetUserCalendars()
         {
-            int usr = s_Kernel.CountUserCalendars();
+            int usr = s_Registry.CountUserCalendars();
 
             // Fast track.
             if (usr == 0) { return Array.Empty<Calendar>(); }
@@ -382,7 +382,7 @@ namespace Zorglub.Time.Simple
         [Pure]
         public static Calendar GetOrAdd(
             string key, SystemSchema schema, DayNumber epoch, bool proleptic) =>
-            s_Kernel.GetOrAdd(key, schema, epoch, proleptic);
+            s_Registry.GetOrAdd(key, schema, epoch, proleptic);
 
         /// <summary>
         /// Creates a calendar from a (unique) key, a reference epoch and a calendrical schema, then
@@ -406,7 +406,7 @@ namespace Zorglub.Time.Simple
         [Pure]
         public static Calendar Add(
             string key, SystemSchema schema, DayNumber epoch, bool proleptic) =>
-            s_Kernel.Add(key, schema, epoch, proleptic);
+            s_Registry.Add(key, schema, epoch, proleptic);
 
         /// <summary>
         /// Attempts to create a calendar from a (unique) key, a reference epoch and a calendrical
@@ -427,6 +427,6 @@ namespace Zorglub.Time.Simple
         public static bool TryAdd(
             string key, SystemSchema schema, DayNumber epoch, bool proleptic,
             [NotNullWhen(true)] out Calendar? calendar) =>
-            s_Kernel.TryAdd(key, schema, epoch, proleptic, out calendar);
+            s_Registry.TryAdd(key, schema, epoch, proleptic, out calendar);
     }
 }
