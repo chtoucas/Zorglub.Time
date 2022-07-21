@@ -13,160 +13,290 @@ open Zorglub.Time.Simple
 
 open Xunit
 
+/// 64
+let private defaultMinUserId = CalendarCatalogKernel.MinMinUserId
+
+/// Creates a new empty "calendarsById" with max size = 255.
+let private initCalendarsById () =
+    let maxsize = 1 + CalendarCatalogKernel.MaxMaxId
+    Array.zeroCreate<Calendar>(maxsize)
+
+/// Creates a new empty "calendarsByKey".
+let private initCalendarsByKey () = new ConcurrentDictionary<string, Lazy<Calendar>>()
+
 module TestCommon =
-    let onKeyNotSet (writer: CalendarCatalogKernel) key count =
-        Assert.DoesNotContain(key, writer.Keys)
+    let onKeyNotSet (kern: CalendarCatalogKernel) key count =
+        Assert.DoesNotContain(key, kern.Keys)
 
-        keyNotFoundExn (fun () -> writer.GetCalendarByKey(key))
-        writer.CountUserCalendars() === count
+        keyNotFoundExn (fun () -> kern.GetCalendarByKey(key))
+        kern.CountUserCalendars() === count
 
-    let onKeySet (writer: CalendarCatalogKernel) key epoch (chr: Calendar) proleptic count =
+    let onKeySet (kern: CalendarCatalogKernel) key epoch (chr: Calendar) proleptic count =
         chr |> isnotnull
 
         chr.Key         === key
         chr.Epoch       === epoch
         chr.IsProleptic === proleptic
 
-        Assert.Contains(key, writer.Keys)
+        Assert.Contains(key, kern.Keys)
 
-        writer.GetCalendarByKey(key) ==& chr
-        writer.CountUserCalendars() === count
+        kern.GetCalendarByKey(key) ==& chr
+        kern.CountUserCalendars() === count
 
 module Prelude =
     [<Fact>]
-    let ``Constructor throws for null calendarsByKey`` () =
-        let calendarsById = Array.zeroCreate<Calendar>(1)
+    let ``Constructor throws when "calendarsByKey" is null`` () =
+        let calendarsById = initCalendarsById()
 
-        nullExn "calendarsByKey" (fun () -> new CalendarCatalogKernel(null, calendarsById, 1))
-
-    [<Fact>]
-    let ``Constructor throws for null calendarsById`` () =
-        let calendarsByKey = new ConcurrentDictionary<string, Lazy<Calendar>>()
-
-        nullExn "calendarsById" (fun () -> new CalendarCatalogKernel(calendarsByKey, null, 1))
+        nullExn "calendarsByKey" (fun () -> new CalendarCatalogKernel(null, calendarsById, defaultMinUserId))
 
     [<Fact>]
-    let ``Constructor throws when minUserId > maxId`` () =
-        let count = 255
-        let maxId = count - 1
-        let calendarsByKey = new ConcurrentDictionary<string, Lazy<Calendar>>()
+    let ``Constructor throws when "calendarsById" is null`` () =
+        let calendarsByKey = initCalendarsByKey()
+
+        nullExn "calendarsById" (fun () -> new CalendarCatalogKernel(calendarsByKey, null, defaultMinUserId))
+
+    [<Fact>]
+    let ``Constructor throws when calendarsById.Length < MinMinUserId + 1`` () =
+        let count = CalendarCatalogKernel.MinMinUserId
+        let calendarsByKey = initCalendarsByKey()
         let calendarsById = Array.zeroCreate<Calendar>(count)
+
+        argExn "calendarsById" (fun () -> new CalendarCatalogKernel(calendarsByKey, calendarsById, defaultMinUserId))
+
+    [<Fact>]
+    let ``Constructor does not throw when calendarsById.Length = MinMinUserId + 1`` () =
+        let count = CalendarCatalogKernel.MinMinUserId + 1
+        let calendarsByKey = initCalendarsByKey()
+        let calendarsById = Array.zeroCreate<Calendar>(count)
+
+        new CalendarCatalogKernel(calendarsByKey, calendarsById, defaultMinUserId) |> ignore
+
+    [<Fact>]
+    let ``Constructor throws when calendarsById.Length > MaxMaxId + 1`` () =
+        let count = CalendarCatalogKernel.MaxMaxId + 2
+        let calendarsByKey = initCalendarsByKey()
+        let calendarsById = Array.zeroCreate<Calendar>(count)
+
+        argExn "calendarsById" (fun () -> new CalendarCatalogKernel(calendarsByKey, calendarsById, defaultMinUserId))
+
+    [<Fact>]
+    let ``Constructor does not throw when calendarsById.Length = MaxMaxId + 1`` () =
+        let count = CalendarCatalogKernel.MaxMaxId + 1
+        let calendarsByKey = initCalendarsByKey()
+        let calendarsById = Array.zeroCreate<Calendar>(count)
+
+        new CalendarCatalogKernel(calendarsByKey, calendarsById, defaultMinUserId) |> ignore
+
+    [<Fact>]
+    let ``Constructor throws when minUserId < MinMinUserId`` () =
+        let calendarsByKey = initCalendarsByKey()
+        let calendarsById = initCalendarsById()
+        let minUserId = CalendarCatalogKernel.MinMinUserId - 1
+
+        outOfRangeExn "minUserId" (fun () -> new CalendarCatalogKernel(calendarsByKey, calendarsById, minUserId))
+
+    [<Fact>]
+    let ``Constructor does not throw when minUserId = MinMinUserId`` () =
+        let calendarsByKey = initCalendarsByKey()
+        let calendarsById = initCalendarsById()
+        let minUserId = CalendarCatalogKernel.MinMinUserId
+
+        new CalendarCatalogKernel(calendarsByKey, calendarsById, minUserId) |> ignore
+
+    [<Fact>]
+    let ``Constructor throws when minUserId > MaxId`` () =
+        let calendarsByKey = initCalendarsByKey()
+        let calendarsById = initCalendarsById()
+        let maxId = calendarsById.Length - 1
 
         outOfRangeExn "minUserId" (fun () -> new CalendarCatalogKernel(calendarsByKey, calendarsById, maxId + 1))
 
     [<Fact>]
-    let ``Constructor does not throw when minUserId = maxId`` () =
-        let count = 255
-        let maxId = count - 1
-        let calendarsByKey = new ConcurrentDictionary<string, Lazy<Calendar>>()
-        let calendarsById = Array.zeroCreate<Calendar>(count)
+    let ``Constructor does not throw when minUserId = MaxId`` () =
+        let calendarsByKey = initCalendarsByKey()
+        let calendarsById = initCalendarsById()
+        let maxId = calendarsById.Length - 1
 
         new CalendarCatalogKernel(calendarsByKey, calendarsById, maxId) |> ignore
 
     [<Fact>]
-    let ``Constructor`` () =
-        let count = 255
-        let maxId = count - 1
-        let calendarsByKey = new ConcurrentDictionary<string, Lazy<Calendar>>()
-        let calendarsById = Array.zeroCreate<Calendar>(count)
-        let minUserId = 128
+    let ``Constructor (default size)`` () =
+        let maxId = CalendarCatalog.MaxId
+        let calendarsByKey = initCalendarsByKey()
+        let calendarsById = Array.zeroCreate<Calendar>(maxId + 1)
+        let minUserId = CalendarCatalog.MinUserId
 
-        let writer = new CalendarCatalogKernel(calendarsByKey, calendarsById, minUserId)
+        let kern = new CalendarCatalogKernel(calendarsByKey, calendarsById, minUserId)
 
-        writer.MinUserId === minUserId
-        writer.MaxId     === maxId
-        writer.CountUserCalendars() === 0
+        kern.MinUserId === minUserId
+        kern.MaxId     === maxId
+
+        kern.MaxNumberOfUserCalendars === 64
+        kern.CountUserCalendars() === 0
+
+    [<Fact>]
+    let ``Constructor (largest size)`` () =
+        let maxId = CalendarCatalogKernel.MaxMaxId
+        let calendarsByKey = initCalendarsByKey()
+        let calendarsById = Array.zeroCreate<Calendar>(maxId + 1)
+        let minUserId = CalendarCatalogKernel.MinMinUserId
+
+        let kern = new CalendarCatalogKernel(calendarsByKey, calendarsById, minUserId)
+
+        kern.MinUserId === minUserId
+        kern.MaxId     === maxId
+
+        kern.MaxNumberOfUserCalendars === 191
+        kern.CountUserCalendars() === 0
+
+    [<Fact>]
+    let ``Constructor (smallest size)`` () =
+        let minUserId = CalendarCatalogKernel.MinMinUserId
+        let maxId = minUserId
+        let calendarsByKey = initCalendarsByKey()
+        let calendarsById = Array.zeroCreate<Calendar>(maxId + 1)
+
+        let kern = new CalendarCatalogKernel(calendarsByKey, calendarsById, minUserId)
+
+        kern.MinUserId === minUserId
+        kern.MaxId     === maxId
+
+        kern.MaxNumberOfUserCalendars === 1
+        kern.CountUserCalendars() === 0
 
 module AddOps =
     open TestCommon
 
     let private gregorian = GregorianCalendar.Instance
 
-    let private newEmptyWriter () =
-        let calendarsByKey = new ConcurrentDictionary<string, Lazy<Calendar>>()
-        let calendarsById = Array.zeroCreate<Calendar>(255)
-        new CalendarCatalogKernel(calendarsByKey, calendarsById, 0)
+    let private newEmptyKernel () =
+        let calendarsByKey = initCalendarsByKey()
+        let calendarsById = initCalendarsById()
+        new CalendarCatalogKernel(calendarsByKey, calendarsById, defaultMinUserId)
 
-    let private newWriter (chr: Calendar) =
-        let calendarsByKey = new ConcurrentDictionary<string, Lazy<Calendar>>()
-        let calendarsById = Array.zeroCreate<Calendar>(255)
+    let private newKernel (chr: Calendar) =
+        let calendarsByKey = initCalendarsByKey()
+        let calendarsById = initCalendarsById()
 
         calendarsByKey.[chr.Key] <- new Lazy<Calendar>(chr)
         calendarsById.[0] <- chr
 
-        new CalendarCatalogKernel(calendarsByKey, calendarsById, 1)
+        new CalendarCatalogKernel(calendarsByKey, calendarsById, defaultMinUserId)
 
     //
-    // GetOrAdd() --- failure
+    // GetOrAdd()
     //
 
     [<Fact>]
     let ``GetOrAdd() throws for null key`` () =
-        let writer = newEmptyWriter()
+        let kern = newEmptyKernel()
 
-        nullExn "key" (fun () -> writer.GetOrAdd(null, new JulianSchema(), DayZero.OldStyle, false))
+        nullExn "key" (fun () -> kern.GetOrAdd(null, new JulianSchema(), DayZero.OldStyle, false))
 
     [<Fact>]
     let ``GetOrAdd() throws for null schema`` () =
-        let writer = newEmptyWriter()
+        let kern = newEmptyKernel()
         let key = "key"
 
-        nullExn "schema" (fun () -> writer.GetOrAdd(key, null, DayZero.OldStyle, false))
-        onKeyNotSet writer key 0
+        nullExn "schema" (fun () -> kern.GetOrAdd(key, null, DayZero.OldStyle, false))
+        onKeyNotSet kern key 0
 
     [<Fact>]
     let ``GetOrAdd() when the key is already taken`` () =
-        let writer = newWriter gregorian
-        let chr = writer.GetOrAdd(gregorian.Key, new JulianSchema(), DayZero.OldStyle, false)
+        let kern = newKernel gregorian
+        let chr = kern.GetOrAdd(gregorian.Key, new JulianSchema(), DayZero.OldStyle, false)
 
         chr ==& gregorian
 
+    [<Fact>]
+    let ``GetOrAdd()`` () =
+        let kern = newKernel gregorian
+        let key = "CalendarCatalogKernelTests.GetOrAdd"
+        let epoch = DayNumber.Zero + 1234
+        let proleptic = false
+        let chr = kern.GetOrAdd(key, new GregorianSchema(), epoch, proleptic)
+
+        onKeySet kern key epoch chr proleptic 1
+
     //
-    // Add() --- failure
+    // Add()
     //
 
     [<Fact>]
     let ``Add() throws for null key`` () =
-        let writer = newEmptyWriter()
+        let kern = newEmptyKernel()
 
-        nullExn "key" (fun () -> writer.Add(null, new JulianSchema(), DayZero.OldStyle, false))
+        nullExn "key" (fun () -> kern.Add(null, new JulianSchema(), DayZero.OldStyle, false))
 
     [<Fact>]
     let ``Add() throws for null schema`` () =
-        let writer = newEmptyWriter()
+        let kern = newEmptyKernel()
         let key = "key"
 
-        nullExn "schema" (fun () -> writer.Add(key, null, DayZero.OldStyle, false))
-        onKeyNotSet writer key 0
+        nullExn "schema" (fun () -> kern.Add(key, null, DayZero.OldStyle, false))
+        onKeyNotSet kern key 0
 
     [<Fact>]
     let ``Add() throws when the key is already taken`` () =
-        let writer = newWriter gregorian
+        let kern = newKernel gregorian
 
-        argExn "key" (fun () -> writer.Add(gregorian.Key, new JulianSchema(), DayZero.OldStyle, false))
+        argExn "key" (fun () -> kern.Add(gregorian.Key, new JulianSchema(), DayZero.OldStyle, false))
+
+    [<Fact>]
+    let ``Add()`` () =
+        let kern = newKernel gregorian
+        let key = "CalendarCatalogKernelTests.Add"
+        let epoch = DayNumber.Zero + 1234
+        let proleptic = true
+        let chr = kern.Add(key, new GregorianSchema(), epoch, proleptic)
+
+        onKeySet kern key epoch chr proleptic 1
 
     //
-    // TryAdd() --- failure
+    // TryAdd()
     //
 
     [<Fact>]
     let ``TryAdd() throws for null key`` () =
-        let writer = newEmptyWriter()
+        let kern = newEmptyKernel()
 
-        nullExn "key" (fun () -> writer.TryAdd(null, new JulianSchema(), DayZero.OldStyle, false))
+        nullExn "key" (fun () -> kern.TryAdd(null, new JulianSchema(), DayZero.OldStyle, false))
 
     [<Fact>]
     let ``TryAdd() throws for null schema`` () =
-        let writer = newEmptyWriter()
+        let kern = newEmptyKernel()
         let key = "key"
 
-        nullExn "schema" (fun () -> writer.TryAdd(key, null, DayZero.OldStyle, false))
-        onKeyNotSet writer key 0
+        nullExn "schema" (fun () -> kern.TryAdd(key, null, DayZero.OldStyle, false))
+        onKeyNotSet kern key 0
 
     [<Fact>]
     let ``TryAdd() when the key is already taken`` () =
-        let writer = newWriter gregorian
-        let succeed, chr = writer.TryAdd(gregorian.Key, new JulianSchema(), DayZero.OldStyle, false)
+        let kern = newKernel gregorian
+        let succeed, chr = kern.TryAdd(gregorian.Key, new JulianSchema(), DayZero.OldStyle, false)
 
         succeed |> nok
         chr     |> isnull
+
+    [<Fact>]
+    let ``TryAdd()`` () =
+        let kern = newKernel gregorian
+        let key = "CalendarCatalogKernelTests.TryAdd"
+        let epoch = DayNumber.Zero + 1234
+        let proleptic = false
+        let succeed, chr = kern.TryAdd(key, new GregorianSchema(), epoch, proleptic)
+
+        succeed |> ok
+        onKeySet kern key epoch chr proleptic 1
+
+    [<Fact>]
+    let ``TryAdd() when the key is empty`` () =
+        let kern = newKernel gregorian
+        let key = ""
+        let epoch = DayNumber.Zero + 1234
+        let proleptic = true
+        let succeed, chr = kern.TryAdd(key, new GregorianSchema(), epoch, proleptic)
+
+        succeed |> ok
+        onKeySet kern key epoch chr proleptic 1

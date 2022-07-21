@@ -12,7 +12,27 @@ namespace Zorglub.Time.Simple
     internal sealed partial class CalendarCatalogKernel
     {
         /// <summary>
-        /// Represents the array of fully constructed calendars, indexed by their internal IDs.
+        /// Represents the absolute maximun value for <see cref="MaxId"/>.
+        /// <para>This field is a constant equal to 254.</para>
+        /// </summary>
+        /// <remarks>
+        /// This upper limit exists to ensure that a calendar with ID = Cuid.Invalid cannot be added
+        /// to the array of calendars (calendarsById).
+        /// </remarks>
+        public const int MaxMaxId = (int)Cuid.Invalid - 1;
+
+        /// <summary>
+        /// Represents the minimum value for <see cref="MinUserId"/>.
+        /// <para>This field is a constant equal to 64.</para>
+        /// </summary>
+        /// <remarks>
+        /// This lower limit exists to ensure that a user-defined calendar with a system ID cannot
+        /// be added to the array of calendars (calendarsById).
+        /// </remarks>
+        public const int MinMinUserId = (int)Cuid.MinUser;
+
+        /// <summary>
+        /// Represents the array of fully constructed calendars, indexed by their IDs.
         /// <para>This field is read-only.</para>
         /// </summary>
         private readonly Calendar?[] _calendarsById;
@@ -30,6 +50,10 @@ namespace Zorglub.Time.Simple
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="calendarsByKey"/> is null.</exception>
         /// <exception cref="ArgumentNullException"><paramref name="calendarsById"/> is null.</exception>
+        /// <exception cref="ArgumentException">The size of <paramref name="calendarsById"/> is not
+        /// within the range [(1 + <see cref="MinMinUserId"/>)..(1 + <see cref="MaxMaxId"/>)].</exception>
+        /// <exception cref="AoorException"><paramref name="minUserId"/> is not
+        /// within the range [<see cref="MinMinUserId"/>..<see cref="MaxId"/>].</exception>
         public CalendarCatalogKernel(
             ConcurrentDictionary<string, Lazy<Calendar>> calendarsByKey,
             Calendar?[] calendarsById,
@@ -38,14 +62,16 @@ namespace Zorglub.Time.Simple
             Requires.NotNull(calendarsByKey);
             Requires.NotNull(calendarsById);
 
-            MaxId = calendarsById.Length - 1;
-            if (MaxId >= (int)Cuid.Invalid) Throw.Argument(nameof(calendarsById));
-            if (minUserId > MaxId) Throw.ArgumentOutOfRange(nameof(minUserId));
+            int size = calendarsById.Length;
+            if (size < 1 + MinMinUserId || size > 1 + MaxMaxId) Throw.Argument(nameof(calendarsById));
+            MaxId = size - 1;
+
+            if (minUserId < MinMinUserId || minUserId > MaxId) Throw.ArgumentOutOfRange(nameof(minUserId));
+            MinUserId = minUserId;
 
             _calendarsByKey = calendarsByKey;
             _calendarsById = calendarsById;
 
-            MinUserId = minUserId;
             _lastId = minUserId - 1;
         }
 
@@ -64,7 +90,17 @@ namespace Zorglub.Time.Simple
         /// </summary>
         public bool Is => _lastId < MinUserId;
 
+        /// <summary>
+        /// Gets the list of keys of all fully constructed calendars at the time of the request.
+        /// <para>This collection may also contain a few bad keys, those paired with a calendar with
+        /// an ID equal to <see cref="Cuid.Invalid"/>.</para>
+        /// </summary>
         public ICollection<string> Keys => _calendarsByKey.Keys;
+
+        /// <summary>
+        /// Gets the absolute maximun number of user-defined calendars.
+        /// </summary>
+        public int MaxNumberOfUserCalendars => MaxId - MinUserId + 1;
 
         /// <summary>
         /// Counts the number of user-defined calendars at the time of the request.

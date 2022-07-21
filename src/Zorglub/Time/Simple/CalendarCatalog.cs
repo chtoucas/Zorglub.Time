@@ -48,7 +48,7 @@ namespace Zorglub.Time.Simple
         /// Represents the minimum value for the ID of a user-defined calendar.
         /// <para>This field is a constant equal to 64.</para>
         /// </summary>
-        private const int MinUserId = (int)Cuid.MinUser;
+        internal const int MinUserId = (int)Cuid.MinUser;
 
         /// <summary>
         /// Represents the absolute maximun number of user-defined calendars.
@@ -83,7 +83,7 @@ namespace Zorglub.Time.Simple
         /// <summary>
         /// Gets the list of keys of all fully constructed calendars at the time of the request.
         /// <para>This collection may also contain a few bad keys, those paired with a calendar with
-        /// ID <see cref="Cuid.Invalid"/>.</para>
+        /// an ID equal to <see cref="Cuid.Invalid"/>.</para>
         /// </summary>
         internal static ICollection<string> Keys =>
             // We do not provide a public equivalent to this property.
