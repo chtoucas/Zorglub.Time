@@ -297,14 +297,14 @@ module Lookup =
         chr3 ==& userGregorian
         chr4 ==& userGregorian
 
-module NoWrite =
+module AddOps =
     open TestCommon
 
     // NB: quand on essaie d'ajouter un calendrier avec une clé qui est déjà
     // prise, on utilise volontairement une epoch et un schéma différents.
 
     //
-    // GetOrAdd()
+    // GetOrAdd() --- failure
     //
 
     [<Fact>]
@@ -326,13 +326,13 @@ module NoWrite =
         chr ==& sys
 
     [<Fact>]
-    let ``GetOrAdd() when the key already exists`` () =
+    let ``GetOrAdd() when the key is already taken`` () =
         let chr = CalendarCatalog.GetOrAdd(userGregorian.Key, new JulianSchema(), DayZero.OldStyle, false)
 
         chr ==& userGregorian
 
     //
-    // Add()
+    // Add() --- failure
     //
 
     [<Fact>]
@@ -347,17 +347,17 @@ module NoWrite =
         onKeyNotSet key
 
     [<Fact>]
-    let ``Add() when the key is a system key`` () =
+    let ``Add() throws when the key is a system key`` () =
         let sys = GregorianCalendar.Instance
 
         argExn "key" (fun () -> CalendarCatalog.Add(sys.Key, new JulianSchema(), DayZero.OldStyle, false))
 
     [<Fact>]
-    let ``Add() when the key already exists`` () =
+    let ``Add() throws when the key is already taken`` () =
         argExn "key" (fun () -> CalendarCatalog.Add(userGregorian.Key, new JulianSchema(), DayZero.OldStyle, false))
 
     //
-    // TryAdd()
+    // TryAdd() --- failure
     //
 
     [<Fact>]
@@ -380,14 +380,15 @@ module NoWrite =
         chr     |> isnull
 
     [<Fact>]
-    let ``TryAdd() when the key already exists`` () =
+    let ``TryAdd() when the key is already taken`` () =
         let succeed, chr = CalendarCatalog.TryAdd(userGregorian.Key, new JulianSchema(), DayZero.OldStyle, false)
 
         succeed |> nok
         chr     |> isnull
 
-module Write =
-    open TestCommon
+    //
+    // Successful ops
+    //
 
     // NB: we keep together all the tests that actually modify the state of
     // the catalog to keep track of all used keys.

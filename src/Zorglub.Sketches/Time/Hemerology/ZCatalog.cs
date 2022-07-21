@@ -52,7 +52,7 @@ namespace Zorglub.Time.Hemerology
         /// </summary>
         // IDs système : 0 à 63. On garantit la compatibilité avec Calendar en
         // réservant aussi les IDs 64 à 127; voir ToZCalendar() et ToCalendar().
-        private const int MinUserId = CalendarCatalog.MaxIdent + 1;
+        private const int MinUserId = CalendarCatalog.MaxId + 1;
 
 #if ZCATALOG_BIG
         /// <summary>
@@ -200,11 +200,11 @@ namespace Zorglub.Time.Hemerology
         {
             Requires.NotNull(@this);
             int cuid = @this.Id;
-            if (cuid > CalendarCatalog.MaxIdent) Throw.Argument(nameof(@this));
+            if (cuid > CalendarCatalog.MaxId) Throw.Argument(nameof(@this));
 
-            // NB: un ZCalendar ayant un ID <= CalendarCatalog.MaxIdent
+            // NB: un ZCalendar ayant un ID <= CalendarCatalog.MaxId
             // provient obligatoirement d'un Calendar.
-            // REVIEW(code): while what we just said is true, does it realy mean
+            // REVIEW(code): while what we just said is true, does it really mean
             // that this calendar does truely exist?
             return CalendarCatalog.GetCalendarUnchecked(cuid);
         }

@@ -42,19 +42,19 @@ namespace Zorglub.Time.Simple
         /// Represents the absolute maximun value for the ID of a calendar.
         /// <para>This field is a constant equal to 127.</para>
         /// </summary>
-        internal const int MaxIdent = (int)Cuid.Max;
+        internal const int MaxId = (int)Cuid.Max;
 
         /// <summary>
         /// Represents the minimum value for the ID of a user-defined calendar.
         /// <para>This field is a constant equal to 64.</para>
         /// </summary>
-        private const int MinUserIdent = (int)Cuid.MinUser;
+        private const int MinUserId = (int)Cuid.MinUser;
 
         /// <summary>
         /// Represents the absolute maximun number of user-defined calendars.
         /// <para>This field is a constant equal to 64.</para>
         /// </summary>
-        public const int MaxNumberOfUserCalendars = MaxIdent - MinUserIdent + 1;
+        public const int MaxNumberOfUserCalendars = MaxId - MinUserId + 1;
 
         /// <summary>
         /// Represents the (immutable) array of system calendars, indexed by their internal IDs.
@@ -77,7 +77,8 @@ namespace Zorglub.Time.Simple
         private static readonly ConcurrentDictionary<string, Lazy<Calendar>> s_CalendarsByKey =
             InitCalendarsByKey(s_SystemCalendars);
 
-        private static readonly CalendarCatalogWriter s_Writer = new(s_CalendarsByKey, s_CalendarsById, MinUserIdent);
+        private static readonly CalendarCatalogKernel s_Kernel =
+            new(s_CalendarsByKey, s_CalendarsById, MinUserId);
 
         /// <summary>
         /// Gets the list of keys of all fully constructed calendars at the time of the request.
@@ -129,7 +130,7 @@ namespace Zorglub.Time.Simple
         [Pure]
         private static Calendar?[] InitCalendarsById(Calendar[] systemCalendars)
         {
-            var arr = new Calendar?[MaxIdent + 1];
+            var arr = new Calendar?[MaxId + 1];
             Array.Copy(systemCalendars, arr, systemCalendars.Length);
             return arr;
         }
@@ -140,7 +141,7 @@ namespace Zorglub.Time.Simple
         {
             // First prime number >= max nbr of calendars (128 = MaxId + 1).
             const int Capacity = 131;
-            Debug.Assert(Capacity > MaxIdent);
+            Debug.Assert(Capacity > MaxId);
 
             var dict = new ConcurrentDictionary<string, Lazy<Calendar>>(
                 // If I'm not mistaken, this is the default concurrency level.
@@ -166,10 +167,10 @@ namespace Zorglub.Time.Simple
         [Pure]
         public static IReadOnlyCollection<Calendar> GetAllCalendars()
         {
+            int usr = s_Kernel.CountUserCalendars();
+
             // Fast track.
-            int usr = s_Writer.CountUserCalendars();
             if (usr == 0) { return SystemCalendars; }
-            //if (s_Writer.LastIdent < MinUserIdent) { return SystemCalendars; }
 
             int sys = s_SystemCalendars.Length;
 
@@ -181,7 +182,7 @@ namespace Zorglub.Time.Simple
             // Copy system calendars.
             Array.Copy(s_CalendarsById, arr, sys);
             // Copy user-defined calendars.
-            Array.Copy(s_CalendarsById, MinUserIdent, arr, sys, usr);
+            Array.Copy(s_CalendarsById, MinUserId, arr, sys, usr);
 
             return Array.AsReadOnly(arr);
         }
@@ -192,13 +193,13 @@ namespace Zorglub.Time.Simple
         [Pure]
         public static IReadOnlyCollection<Calendar> GetUserCalendars()
         {
-            int usr = s_Writer.CountUserCalendars();
+            int usr = s_Kernel.CountUserCalendars();
 
             // Fast track.
             if (usr == 0) { return Array.Empty<Calendar>(); }
 
             var arr = new Calendar[usr];
-            Array.Copy(s_CalendarsById, MinUserIdent, arr, 0, usr);
+            Array.Copy(s_CalendarsById, MinUserId, arr, 0, usr);
 
             return Array.AsReadOnly(arr);
         }
@@ -381,7 +382,7 @@ namespace Zorglub.Time.Simple
         [Pure]
         public static Calendar GetOrAdd(
             string key, SystemSchema schema, DayNumber epoch, bool proleptic) =>
-            s_Writer.GetOrAdd(key, schema, epoch, proleptic);
+            s_Kernel.GetOrAdd(key, schema, epoch, proleptic);
 
         /// <summary>
         /// Creates a calendar from a (unique) key, a reference epoch and a calendrical schema, then
@@ -405,7 +406,7 @@ namespace Zorglub.Time.Simple
         [Pure]
         public static Calendar Add(
             string key, SystemSchema schema, DayNumber epoch, bool proleptic) =>
-            s_Writer.Add(key, schema, epoch, proleptic);
+            s_Kernel.Add(key, schema, epoch, proleptic);
 
         /// <summary>
         /// Attempts to create a calendar from a (unique) key, a reference epoch and a calendrical
@@ -426,6 +427,6 @@ namespace Zorglub.Time.Simple
         public static bool TryAdd(
             string key, SystemSchema schema, DayNumber epoch, bool proleptic,
             [NotNullWhen(true)] out Calendar? calendar) =>
-            s_Writer.TryAdd(key, schema, epoch, proleptic, out calendar);
+            s_Kernel.TryAdd(key, schema, epoch, proleptic, out calendar);
     }
 }

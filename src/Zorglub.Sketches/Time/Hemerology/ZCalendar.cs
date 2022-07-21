@@ -8,8 +8,9 @@ namespace Zorglub.Time.Hemerology
     using Zorglub.Time.Core.Validation;
     using Zorglub.Time.Hemerology.Scopes;
 
-    // REVIEW(api): prop Name (get and init) with default value = Key with the
+    // FIXME(api): prop Name (get and init) with default value = Key with the
     // ability to set it afterward.
+    // Constructor throws "name" vs "key".
 
     #region Developer Notes
 
