@@ -397,7 +397,7 @@ namespace Zorglub.Time.Core.Utilities
         [DoesNotReturn, Pure]
         public static T OrdOverflow<T>() => throw GetOrdOverflowExn();
 
-        /// <summary>The operation would overflow the maximun number of calendars supported by the
+        /// <summary>The operation would overflow the maximum number of calendars supported by the
         /// system.</summary>
         /// <exception cref="OverflowException"/>
         [DoesNotReturn, Pure]
@@ -423,7 +423,7 @@ namespace Zorglub.Time.Core.Utilities
 
         [MethodImpl(MethodImplOptions.NoInlining)]
         private static OverflowException GetCatalogOverflowExn() =>
-            new("The operation would overflow the maximun number of calendars supported by the system.");
+            new("The operation would overflow the maximum number of calendars supported by the system.");
 
         #endregion
     }

@@ -39,7 +39,7 @@ namespace Zorglub.Time.Simple
     public static partial class CalendarCatalog
     {
         /// <summary>
-        /// Represents the absolute maximun value for the ID of a calendar.
+        /// Represents the absolute maximum value for the ID of a calendar.
         /// <para>This field is a constant equal to 127.</para>
         /// </summary>
         internal const int MaxId = (int)Cuid.Max;
@@ -51,7 +51,7 @@ namespace Zorglub.Time.Simple
         internal const int MinUserId = (int)Cuid.MinUser;
 
         /// <summary>
-        /// Represents the absolute maximun number of user-defined calendars.
+        /// Represents the absolute maximum number of user-defined calendars.
         /// <para>This field is a constant equal to 64.</para>
         /// </summary>
         public const int MaxNumberOfUserCalendars = MaxId - MinUserId + 1;

@@ -64,7 +64,7 @@ namespace Zorglub.Time.Hemerology
         public int MinUserId { get; }
 
         /// <summary>
-        /// Gets the maximun value for the ID of a calendar.
+        /// Gets the maximum value for the ID of a calendar.
         /// </summary>
         public int MaxId { get; }
 

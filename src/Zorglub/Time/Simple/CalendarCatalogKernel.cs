@@ -12,7 +12,7 @@ namespace Zorglub.Time.Simple
     internal sealed partial class CalendarCatalogKernel
     {
         /// <summary>
-        /// Represents the absolute maximun value for <see cref="MaxId"/>.
+        /// Represents the absolute maximum value for <see cref="MaxId"/>.
         /// <para>This field is a constant equal to 254.</para>
         /// </summary>
         /// <remarks>
@@ -81,7 +81,7 @@ namespace Zorglub.Time.Simple
         public int MinUserId { get; }
 
         /// <summary>
-        /// Gets the absolute maximun value for the ID of a calendar.
+        /// Gets the absolute maximum value for the ID of a calendar.
         /// </summary>
         public int MaxId { get; }
 
@@ -89,6 +89,8 @@ namespace Zorglub.Time.Simple
         ///// Returns true if XXX; otherwise returns false.
         ///// </summary>
         //public bool Is => _lastId < MinUserId;
+
+        public bool CanAdd => _lastId < MaxId;
 
         /// <summary>
         /// Gets the list of keys of all fully constructed calendars at the time of the request.
@@ -98,7 +100,7 @@ namespace Zorglub.Time.Simple
         public ICollection<string> Keys => _calendarsByKey.Keys;
 
         /// <summary>
-        /// Gets the absolute maximun number of user-defined calendars.
+        /// Gets the absolute maximum number of user-defined calendars.
         /// </summary>
         public int MaxNumberOfUserCalendars => MaxId - MinUserId + 1;
 

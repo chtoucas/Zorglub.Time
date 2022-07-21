@@ -32,7 +32,7 @@ namespace Zorglub.Time.Hemerology
     {
 #if ZCATALOG_BIG
         /// <summary>
-        /// Represents the maximun value for the ident of a calendar.
+        /// Represents the maximum value for the ident of a calendar.
         /// <para>This field is a constant equal to 508.</para>
         /// </summary>
         // We choose MaxId so that (MaxId + 1) is a prime number;
@@ -40,7 +40,7 @@ namespace Zorglub.Time.Hemerology
         private const int MaxId = 508;
 #else
         /// <summary>
-        /// Represents the maximun value for the ident of a calendar.
+        /// Represents the maximum value for the ident of a calendar.
         /// <para>This field is a constant equal to 255.</para>
         /// </summary>
         private const int MaxId = Byte.MaxValue;
@@ -56,7 +56,7 @@ namespace Zorglub.Time.Hemerology
 
 #if ZCATALOG_BIG
         /// <summary>
-        /// Represents the absolute maximun number of user-defined calendars without counting those
+        /// Represents the absolute maximum number of user-defined calendars without counting those
         /// created from a <see cref="Calendar"/>.
         /// <para>This static property ALWAYS returns 896.</para>
         /// <para>This static property is thread-safe.</para>
@@ -67,7 +67,7 @@ namespace Zorglub.Time.Hemerology
         /// </remarks>
 #else
         /// <summary>
-        /// Represents the absolute maximun number of user-defined calendars without counting those
+        /// Represents the absolute maximum number of user-defined calendars without counting those
         /// created from a <see cref="Calendar"/>.
         /// <para>This static property ALWAYS returns 128.</para>
         /// <para>This static property is thread-safe.</para>
