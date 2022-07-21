@@ -90,7 +90,13 @@ namespace Zorglub.Time.Simple
         ///// </summary>
         //public bool Is => _lastId < MinUserId;
 
-        public bool CanAdd => _lastId < MaxId;
+        // Disable fast track. Only for testing.
+        public bool ForceCanAdd { get; set; }
+
+        public bool CanAdd
+        {
+            get => ForceCanAdd || _lastId < MaxId;
+        }
 
         /// <summary>
         /// Gets the list of keys of all fully constructed calendars at the time of the request.
@@ -294,10 +300,10 @@ namespace Zorglub.Time.Simple
         /// <returns>A calendar with an ID <see cref="Cuid.Invalid"/>.</returns>
         [Pure]
         private static Calendar ValidateParameters(
-                string key,
-                SystemSchema schema,
-                DayNumber epoch,
-                bool proleptic)
+            string key,
+            SystemSchema schema,
+            DayNumber epoch,
+            bool proleptic)
         {
             // FIXME(code): Invalid was a bad idea. If the Calendar ctor check
             // the value, it will fail hard. It would be the case if for

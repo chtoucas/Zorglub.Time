@@ -67,7 +67,8 @@ namespace Zorglub.Time.Simple
         /// Represents the registry.
         /// <para>This field is read-only.</para>
         /// </summary>
-        private static readonly CalendarRegistry s_Registry = InitRegistry(s_CalendarsById);
+        private static readonly CalendarRegistry s_Registry =
+            InitRegistry(s_SystemCalendars, s_CalendarsById);
 
         /// <summary>
         /// Gets the absolute maximum number of user-defined calendars.
@@ -131,16 +132,16 @@ namespace Zorglub.Time.Simple
         }
 
         [Pure]
-        private static CalendarRegistry InitRegistry(Calendar?[] calendarsById)
+        private static CalendarRegistry InitRegistry(
+            Calendar[] systemCalendars, Calendar?[] calendarsById)
         {
             // Dictionary of (lazy) calendars, indexed by their keys.
-            var calendarsByKey = CreateCalendarsByKey(s_SystemCalendars);
+            var calendarsByKey = CreateCalendarsByKey(systemCalendars);
 
             return new(calendarsByKey, calendarsById, MinUserId);
 
             [Pure]
-            static ConcurrentDictionary<string, Lazy<Calendar>>
-                CreateCalendarsByKey(Calendar[] systemCalendars)
+            static ConcurrentDictionary<string, Lazy<Calendar>> CreateCalendarsByKey(Calendar[] arr)
             {
                 // First prime number >= max nbr of calendars (128 = MaxId + 1).
                 const int Capacity = 131;
@@ -151,7 +152,7 @@ namespace Zorglub.Time.Simple
                     concurrencyLevel: Environment.ProcessorCount,
                     Capacity);
 
-                foreach (var chr in systemCalendars)
+                foreach (var chr in arr)
                 {
                     // Indexer instead of TryAdd(): unconditional add.
                     dict[chr.Key] = new Lazy<Calendar>(chr);

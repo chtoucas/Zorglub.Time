@@ -340,14 +340,19 @@ module AddLimits =
         // Now, the registry is full.
         //
 
-        // Using a new key.
-        overflows (fun () -> reg.GetOrAdd("newKey", new GregorianSchema(), epoch, proleptic))
-        onKeyNotSet reg "newKey"  2
-
         // Using an old key.
         let chr2 = reg.GetOrAdd("key", new GregorianSchema(), epoch, proleptic)
         chr2 ==& chr
         reg.CountUserCalendars() === 2
+
+        // Using a new key.
+        overflows (fun () -> reg.GetOrAdd("newKey", new GregorianSchema(), epoch, proleptic))
+        onKeyNotSet reg "newKey"  2
+
+        reg.ForceCanAdd <- true
+
+        overflows (fun () -> reg.GetOrAdd("newKey", new GregorianSchema(), epoch, proleptic))
+        onKeyNotSet reg "newKey"  2
 
     [<Fact>]
     let ``Add()`` () =
@@ -372,13 +377,18 @@ module AddLimits =
         // Now, the registry is full.
         //
 
+        // Using an old key.
+        overflows (fun () -> reg.Add("key", new GregorianSchema(), epoch, proleptic))
+        reg.CountUserCalendars() === 2
+
         // Using a new key.
         overflows (fun () -> reg.Add("newKey", new GregorianSchema(), epoch, proleptic))
         onKeyNotSet reg "newKey" 2
 
-        // Using an old key.
-        overflows (fun () -> reg.Add("key", new GregorianSchema(), epoch, proleptic))
-        reg.CountUserCalendars() === 2
+        reg.ForceCanAdd <- true
+
+        overflows (fun () -> reg.Add("newKey", new GregorianSchema(), epoch, proleptic))
+        onKeyNotSet reg "newKey" 2
 
     [<Fact>]
     let ``TryAdd()`` () =
@@ -411,14 +421,21 @@ module AddLimits =
         // Now, the registry is full.
         //
 
-        // Using a new key.
-        let (succeed2, chr2) = reg.TryAdd("newKey", new GregorianSchema(), epoch, proleptic)
+        // Using an old key.
+        let (succeed2, chr2) = reg.TryAdd("key", new GregorianSchema(), epoch, proleptic)
         succeed2 |> nok
         chr2     |> isnull
-        onKeyNotSet reg "newKey" 2
+        reg.CountUserCalendars() === 2
 
-        // Using an old key.
-        let (succeed3, chr3) = reg.TryAdd("key", new GregorianSchema(), epoch, proleptic)
+        // Using a new key.
+        let (succeed3, chr3) = reg.TryAdd("newKey", new GregorianSchema(), epoch, proleptic)
         succeed3 |> nok
         chr3     |> isnull
-        reg.CountUserCalendars() === 2
+        onKeyNotSet reg "newKey" 2
+
+        reg.ForceCanAdd <- true
+
+        let (succeed4, chr4) = reg.TryAdd("newKey", new GregorianSchema(), epoch, proleptic)
+        succeed4 |> nok
+        chr4     |> isnull
+        onKeyNotSet reg "newKey" 2
