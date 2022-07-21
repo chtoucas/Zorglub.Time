@@ -173,6 +173,7 @@ module AddOps =
     let private newEmptyKernel () =
         let calendarsByKey = initCalendarsByKey()
         let calendarsById = initCalendarsById()
+
         new CalendarCatalogKernel(calendarsByKey, calendarsById, defaultMinUserId)
 
     let private newKernel (chr: Calendar) =
@@ -212,7 +213,7 @@ module AddOps =
     [<Fact>]
     let ``GetOrAdd()`` () =
         let kern = newKernel gregorian
-        let key = "CalendarCatalogKernelTests.GetOrAdd"
+        let key = "key"
         let epoch = DayNumber.Zero + 1234
         let proleptic = false
         let chr = kern.GetOrAdd(key, new GregorianSchema(), epoch, proleptic)
@@ -246,7 +247,7 @@ module AddOps =
     [<Fact>]
     let ``Add()`` () =
         let kern = newKernel gregorian
-        let key = "CalendarCatalogKernelTests.Add"
+        let key = "key"
         let epoch = DayNumber.Zero + 1234
         let proleptic = true
         let chr = kern.Add(key, new GregorianSchema(), epoch, proleptic)
@@ -282,7 +283,7 @@ module AddOps =
     [<Fact>]
     let ``TryAdd()`` () =
         let kern = newKernel gregorian
-        let key = "CalendarCatalogKernelTests.TryAdd"
+        let key = "key"
         let epoch = DayNumber.Zero + 1234
         let proleptic = false
         let succeed, chr = kern.TryAdd(key, new GregorianSchema(), epoch, proleptic)
@@ -300,3 +301,97 @@ module AddOps =
 
         succeed |> ok
         onKeySet kern key epoch chr proleptic 1
+
+module AddLimits =
+    open TestCommon
+
+    // TODO(code): we need more than one user-defined calendar.
+    let private newMiniKernel () =
+        let minUserId = CalendarCatalogKernel.MinMinUserId
+        let maxId = minUserId
+        let calendarsByKey = initCalendarsByKey()
+        let calendarsById = Array.zeroCreate<Calendar>(maxId + 1)
+
+        new CalendarCatalogKernel(calendarsByKey, calendarsById, minUserId)
+
+    //
+    // Limit cases
+    //
+
+    // TODO(test): use different params.
+
+    [<Fact>]
+    let ``GetOrAdd() when full`` () =
+        let kern = newMiniKernel()
+        let key = "key"
+        let epoch = DayNumber.Zero + 1234
+        let proleptic = false
+
+        kern.MaxNumberOfUserCalendars === 1
+        kern.CountUserCalendars() === 0
+
+        let chr = kern.GetOrAdd(key, new GregorianSchema(), epoch, proleptic)
+        onKeySet kern key epoch chr proleptic 1
+
+        // Using the same key.
+        let chr1 = kern.GetOrAdd(key, new GregorianSchema(), epoch, proleptic)
+        chr1 ==& chr
+        kern.CountUserCalendars() === 1
+
+        // Using a different key.
+        overflows (fun () -> kern.GetOrAdd("otherKey", new GregorianSchema(), epoch, proleptic))
+        onKeyNotSet kern "otherKey" 1
+
+        // Using the same key.
+        let chr2 = kern.GetOrAdd(key, new GregorianSchema(), epoch, proleptic)
+        chr2 ==& chr
+        kern.CountUserCalendars() === 1
+
+    [<Fact>]
+    let ``Add() when full`` () =
+        let kern = newMiniKernel()
+        let key = "key"
+        let epoch = DayNumber.Zero + 1234
+        let proleptic = false
+
+        kern.MaxNumberOfUserCalendars === 1
+        kern.CountUserCalendars() === 0
+
+        let chr = kern.Add(key, new GregorianSchema(), epoch, proleptic)
+        onKeySet kern key epoch chr proleptic 1
+
+        // Using the same key.
+        //argExn "key" (fun () -> kern.Add(key, new GregorianSchema(), epoch, proleptic))
+        overflows (fun () -> kern.Add(key, new GregorianSchema(), epoch, proleptic))
+        kern.CountUserCalendars() === 1
+
+        // Using a different key.
+        overflows (fun () -> kern.Add("otherKey", new GregorianSchema(), epoch, proleptic))
+        onKeyNotSet kern "otherKey" 1
+
+    [<Fact>]
+    let ``TryAdd() when full`` () =
+        let kern = newMiniKernel()
+        let key = "key"
+        let epoch = DayNumber.Zero + 1234
+        let proleptic = false
+
+        kern.MaxNumberOfUserCalendars === 1
+        kern.CountUserCalendars() === 0
+
+        let (succeed, chr) = kern.TryAdd(key, new GregorianSchema(), epoch, proleptic)
+        succeed |> ok
+        chr     |> isnotnull
+        onKeySet kern key epoch chr proleptic 1
+
+        // Using the same key.
+        let (succeed1, chr1) = kern.TryAdd(key, new GregorianSchema(), epoch, proleptic)
+        succeed1 |> nok
+        chr1     |> isnull
+        kern.CountUserCalendars() === 1
+
+        // Using a different key.
+        let (succeed2, chr2) = kern.TryAdd("otherKey", new GregorianSchema(), epoch, proleptic)
+        succeed2 |> nok
+        chr2     |> isnull
+        onKeyNotSet kern "otherKey" 1

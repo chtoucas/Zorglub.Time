@@ -85,10 +85,10 @@ namespace Zorglub.Time.Simple
         /// </summary>
         public int MaxId { get; }
 
-        /// <summary>
-        /// Returns true if XXX; otherwise returns false.
-        /// </summary>
-        public bool Is => _lastId < MinUserId;
+        ///// <summary>
+        ///// Returns true if XXX; otherwise returns false.
+        ///// </summary>
+        //public bool Is => _lastId < MinUserId;
 
         /// <summary>
         /// Gets the list of keys of all fully constructed calendars at the time of the request.
@@ -132,7 +132,8 @@ namespace Zorglub.Time.Simple
         public Calendar GetOrAdd(string key, SystemSchema schema, DayNumber epoch, bool proleptic)
         {
             // Fail fast. It also guards the method against brute-force attacks.
-            // This should only be done when the key is not already taken.
+            // This should only be done when the key is not already taken, in
+            // which case we return the calendar having this key.
             if (_lastId >= MaxId && _calendarsByKey.ContainsKey(key) == false)
             {
                 Throw.CatalogOverflow();
