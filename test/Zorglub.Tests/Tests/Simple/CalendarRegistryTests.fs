@@ -28,10 +28,10 @@ module TestCommon =
     let onKeyNotSet (reg: CalendarRegistry) key count =
         Assert.DoesNotContain(key, reg.Keys)
 
-        keyNotFoundExn (fun () -> reg.GetCalendarByKey(key))
+        keyNotFoundExn (fun () -> reg.GetCalendar(key))
         reg.CountUserCalendars() === count
 
-    let onKeySet (reg: CalendarRegistry) key epoch (chr: Calendar) proleptic count =
+    let onKeySet (reg: CalendarRegistry) key epoch proleptic (chr: Calendar)  count =
         chr |> isnotnull
 
         chr.Key         === key
@@ -40,7 +40,7 @@ module TestCommon =
 
         Assert.Contains(key, reg.Keys)
 
-        reg.GetCalendarByKey(key) ==& chr
+        reg.GetCalendar(key) ==& chr
         reg.CountUserCalendars() === count
 
 module Prelude =
@@ -218,7 +218,7 @@ module AddOps =
         let proleptic = false
         let chr = reg.GetOrAdd(key, new GregorianSchema(), epoch, proleptic)
 
-        onKeySet reg key epoch chr proleptic 1
+        onKeySet reg key epoch proleptic chr 1
 
     //
     // Add()
@@ -252,7 +252,7 @@ module AddOps =
         let proleptic = true
         let chr = reg.Add(key, new GregorianSchema(), epoch, proleptic)
 
-        onKeySet reg key epoch chr proleptic 1
+        onKeySet reg key epoch proleptic chr 1
 
     //
     // TryAdd()
@@ -289,7 +289,7 @@ module AddOps =
         let succeed, chr = reg.TryAdd(key, new GregorianSchema(), epoch, proleptic)
 
         succeed |> ok
-        onKeySet reg key epoch chr proleptic 1
+        onKeySet reg key epoch proleptic chr 1
 
     [<Fact>]
     let ``TryAdd() when the key is empty`` () =
@@ -300,89 +300,100 @@ module AddOps =
         let succeed, chr = reg.TryAdd(key, new GregorianSchema(), epoch, proleptic)
 
         succeed |> ok
-        onKeySet reg key epoch chr proleptic 1
+        onKeySet reg key epoch proleptic chr 1
 
 module AddLimits =
     open TestCommon
 
-    // TODO(code): we need more than one user-defined calendar.
-    let private newMiniRegistry () =
+    let private newMiniRegistry size =
         let minUserId = CalendarRegistry.MinMinUserId
-        let maxId = minUserId
+        let maxId = minUserId + (size - 1)
         let calendarsByKey = initCalendarsByKey()
         let calendarsById = Array.zeroCreate<Calendar>(maxId + 1)
 
         new CalendarRegistry(calendarsByKey, calendarsById, minUserId)
 
-    //
-    // Limit cases
-    //
-
     // TODO(test): use different params.
 
     [<Fact>]
-    let ``GetOrAdd() when full`` () =
-        let reg = newMiniRegistry()
-        let key = "key"
+    let ``GetOrAdd()`` () =
+        let reg = newMiniRegistry 2
         let epoch = DayNumber.Zero + 1234
         let proleptic = false
 
-        reg.MaxNumberOfUserCalendars === 1
+        reg.MaxNumberOfUserCalendars === 2
         reg.CountUserCalendars() === 0
 
-        let chr = reg.GetOrAdd(key, new GregorianSchema(), epoch, proleptic)
-        onKeySet reg key epoch chr proleptic 1
+        let chr = reg.GetOrAdd("key", new GregorianSchema(), epoch, proleptic)
+        onKeySet reg "key" epoch proleptic chr 1
 
-        // Using the same key.
-        let chr1 = reg.GetOrAdd(key, new GregorianSchema(), epoch, proleptic)
+        // Using the same key, we obtain the same calendar.
+        let chr1 = reg.GetOrAdd("key", new GregorianSchema(), epoch, proleptic)
         chr1 ==& chr
         reg.CountUserCalendars() === 1
 
-        // Using a different key.
-        overflows (fun () -> reg.GetOrAdd("otherKey", new GregorianSchema(), epoch, proleptic))
-        onKeyNotSet reg "otherKey" 1
+        // Using a different key, we create a new calendar.
+        let otherChr = reg.GetOrAdd("otherKey", new GregorianSchema(), epoch, proleptic)
+        onKeySet reg "otherKey" epoch proleptic otherChr 2
 
-        // Using the same key.
-        let chr2 = reg.GetOrAdd(key, new GregorianSchema(), epoch, proleptic)
+        //
+        // Now, the registry is full.
+        //
+
+        // Using a new key.
+        overflows (fun () -> reg.GetOrAdd("newKey", new GregorianSchema(), epoch, proleptic))
+        onKeyNotSet reg "newKey"  2
+
+        // Using an old key.
+        let chr2 = reg.GetOrAdd("key", new GregorianSchema(), epoch, proleptic)
         chr2 ==& chr
-        reg.CountUserCalendars() === 1
+        reg.CountUserCalendars() === 2
 
     [<Fact>]
-    let ``Add() when full`` () =
-        let reg = newMiniRegistry()
-        let key = "key"
+    let ``Add()`` () =
+        let reg = newMiniRegistry 2
         let epoch = DayNumber.Zero + 1234
         let proleptic = false
 
-        reg.MaxNumberOfUserCalendars === 1
+        reg.MaxNumberOfUserCalendars === 2
         reg.CountUserCalendars() === 0
 
-        let chr = reg.Add(key, new GregorianSchema(), epoch, proleptic)
-        onKeySet reg key epoch chr proleptic 1
+        let chr = reg.Add("key", new GregorianSchema(), epoch, proleptic)
+        onKeySet reg "key" epoch proleptic chr 1
 
         // Using the same key.
-        //argExn "key" (fun () -> reg.Add(key, new GregorianSchema(), epoch, proleptic))
-        overflows (fun () -> reg.Add(key, new GregorianSchema(), epoch, proleptic))
-        reg.CountUserCalendars() === 1
+        argExn "key" (fun () -> reg.Add("key", new GregorianSchema(), epoch, proleptic))
 
-        // Using a different key.
-        overflows (fun () -> reg.Add("otherKey", new GregorianSchema(), epoch, proleptic))
-        onKeyNotSet reg "otherKey" 1
+        // Using a different key, we create a new calendar.
+        let otherChr = reg.Add("otherKey", new GregorianSchema(), epoch, proleptic)
+        onKeySet reg "otherKey" epoch proleptic otherChr 2
+
+        //
+        // Now, the registry is full.
+        //
+
+        // Using a new key.
+        overflows (fun () -> reg.Add("newKey", new GregorianSchema(), epoch, proleptic))
+        onKeyNotSet reg "newKey" 2
+
+        // Using an old key.
+        overflows (fun () -> reg.Add("key", new GregorianSchema(), epoch, proleptic))
+        reg.CountUserCalendars() === 2
 
     [<Fact>]
-    let ``TryAdd() when full`` () =
-        let reg = newMiniRegistry()
+    let ``TryAdd()`` () =
+        let reg = newMiniRegistry 2
         let key = "key"
         let epoch = DayNumber.Zero + 1234
         let proleptic = false
 
-        reg.MaxNumberOfUserCalendars === 1
+        reg.MaxNumberOfUserCalendars === 2
         reg.CountUserCalendars() === 0
 
         let (succeed, chr) = reg.TryAdd(key, new GregorianSchema(), epoch, proleptic)
         succeed |> ok
         chr     |> isnotnull
-        onKeySet reg key epoch chr proleptic 1
+        onKeySet reg key epoch proleptic chr 1
 
         // Using the same key.
         let (succeed1, chr1) = reg.TryAdd(key, new GregorianSchema(), epoch, proleptic)
@@ -390,8 +401,24 @@ module AddLimits =
         chr1     |> isnull
         reg.CountUserCalendars() === 1
 
-        // Using a different key.
-        let (succeed2, chr2) = reg.TryAdd("otherKey", new GregorianSchema(), epoch, proleptic)
+        // Using a different key, we create a new calendar.
+        let (otherSucceed, otherChr) = reg.TryAdd("otherKey", new GregorianSchema(), epoch, proleptic)
+        otherSucceed |> ok
+        otherChr     |> isnotnull
+        onKeySet reg key epoch proleptic chr 2
+
+        //
+        // Now, the registry is full.
+        //
+
+        // Using a new key.
+        let (succeed2, chr2) = reg.TryAdd("newKey", new GregorianSchema(), epoch, proleptic)
         succeed2 |> nok
         chr2     |> isnull
-        onKeyNotSet reg "otherKey" 1
+        onKeyNotSet reg "newKey" 2
+
+        // Using an old key.
+        let (succeed3, chr3) = reg.TryAdd("key", new GregorianSchema(), epoch, proleptic)
+        succeed3 |> nok
+        chr3     |> isnull
+        reg.CountUserCalendars() === 2

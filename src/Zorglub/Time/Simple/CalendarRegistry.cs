@@ -4,7 +4,7 @@
 namespace Zorglub.Time.Simple
 {
     using System.Collections.Concurrent;
-    using System.Linq;
+    using System.Collections.ObjectModel;
     using System.Threading;
 
     using Zorglub.Time.Core;
@@ -116,7 +116,24 @@ namespace Zorglub.Time.Simple
     internal sealed partial class CalendarRegistry // Lookup
     {
         [Pure]
-        public Calendar GetCalendarByKey(string key)
+        public IReadOnlyDictionary<string, Calendar> TakeSnapshot()
+        {
+            // Take a snapshot of s_CalendarsByKey.
+            var arr = _calendarsByKey.ToArray();
+
+            var dict = new Dictionary<string, Calendar>(arr.Length);
+            foreach (var x in arr)
+            {
+                var chr = x.Value.Value;
+                if (chr.Id == Cuid.Invalid) { continue; }
+                dict.Add(x.Key, chr);
+            }
+
+            return new ReadOnlyDictionary<string, Calendar>(dict);
+        }
+
+        [Pure]
+        public Calendar GetCalendar(string key)
         {
             if (_calendarsByKey.TryGetValue(key, out Lazy<Calendar>? calendar))
             {
@@ -125,6 +142,22 @@ namespace Zorglub.Time.Simple
             }
 
             return Throw.KeyNotFound<Calendar>(key);
+        }
+
+        [Pure]
+        public bool TryGetCalendar(string key, [NotNullWhen(true)] out Calendar? calendar)
+        {
+            if (_calendarsByKey.TryGetValue(key, out Lazy<Calendar>? chr))
+            {
+                var tmp = chr.Value;
+                if (tmp.Id == Cuid.Invalid) { goto NOT_FOUND; }
+                calendar = tmp;
+                return true;
+            }
+
+        NOT_FOUND:
+            calendar = null;
+            return false;
         }
     }
 
@@ -136,11 +169,12 @@ namespace Zorglub.Time.Simple
             // Fail fast. It also guards the method against brute-force attacks.
             // This should only be done when the key is not already taken, in
             // which case we return the calendar having this key.
-            if (_lastId >= MaxId && _calendarsByKey.ContainsKey(key) == false)
+            if (CanAdd == false && _calendarsByKey.ContainsKey(key) == false)
             {
                 Throw.CatalogOverflow();
             }
 
+            // We validate the params even if the key is already taken.
             Calendar tmp = ValidateParameters(key, schema, epoch, proleptic);
 
             // The callback won't be executed until we query Value.
@@ -180,7 +214,7 @@ namespace Zorglub.Time.Simple
         public Calendar Add(string key, SystemSchema schema, DayNumber epoch, bool proleptic)
         {
             // Fail fast. It also guards the method against brute-force attacks.
-            if (_lastId >= MaxId) Throw.CatalogOverflow();
+            if (CanAdd == false) Throw.CatalogOverflow();
 
             Calendar tmp = ValidateParameters(key, schema, epoch, proleptic);
 
@@ -212,7 +246,7 @@ namespace Zorglub.Time.Simple
             [NotNullWhen(true)] out Calendar? calendar)
         {
             // Fail fast. It also guards the method against brute-force attacks.
-            if (_lastId >= MaxId) { goto FAILED; }
+            if (CanAdd == false) { goto FAILED; }
 
             // Null parameters validation.
             Requires.NotNull(key);

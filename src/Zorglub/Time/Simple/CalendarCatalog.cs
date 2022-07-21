@@ -4,7 +4,6 @@
 namespace Zorglub.Time.Simple
 {
     using System.Collections.Concurrent;
-    using System.Collections.ObjectModel;
     using System.Linq;
     using System.Runtime.InteropServices;
 
@@ -51,12 +50,6 @@ namespace Zorglub.Time.Simple
         internal const int MinUserId = (int)Cuid.MinUser;
 
         /// <summary>
-        /// Represents the absolute maximum number of user-defined calendars.
-        /// <para>This field is a constant equal to 64.</para>
-        /// </summary>
-        public const int MaxNumberOfUserCalendars = MaxId - MinUserId + 1;
-
-        /// <summary>
         /// Represents the (immutable) array of system calendars, indexed by their internal IDs.
         /// <para>This field is read-only.</para>
         /// </summary>
@@ -71,14 +64,16 @@ namespace Zorglub.Time.Simple
         private static readonly Calendar?[] s_CalendarsById = InitCalendarsById(s_SystemCalendars);
 
         /// <summary>
-        /// Represents the dictionary of (lazy) calendars, indexed by their keys.
+        /// Represents the registry.
         /// <para>This field is read-only.</para>
         /// </summary>
-        private static readonly ConcurrentDictionary<string, Lazy<Calendar>> s_CalendarsByKey =
-            InitCalendarsByKey(s_SystemCalendars);
+        private static readonly CalendarRegistry s_Registry = InitRegistry(s_CalendarsById);
 
-        private static readonly CalendarRegistry s_Registry =
-            new(s_CalendarsByKey, s_CalendarsById, MinUserId);
+        /// <summary>
+        /// Gets the absolute maximum number of user-defined calendars.
+        /// <para>This property ALWAYS returns 64.</para>
+        /// </summary>
+        public static int MaxNumberOfUserCalendars => s_Registry.MaxNumberOfUserCalendars;
 
         /// <summary>
         /// Gets the list of keys of all fully constructed calendars at the time of the request.
@@ -91,9 +86,9 @@ namespace Zorglub.Time.Simple
             // Second, ConcurrentDictionary.Keys (and therefore Keys) returns a
             // snapshot of the collection of keys which might be surprising as
             // collection properties are expected to return live collection.
-            // Furthermore it kind of disclose the internal implementation.
-            // Third, we have an indirect but better(?) alternative: TakeSnapshot().
-            s_CalendarsByKey.Keys;
+            // Furthermore it kind of discloses the internal implementation.
+            // Third, we have an indirect (better?) alternative: TakeSnapshot().
+            s_Registry.Keys;
 
         /// <summary>
         /// Gets the collection of reserved keys.
@@ -136,24 +131,33 @@ namespace Zorglub.Time.Simple
         }
 
         [Pure]
-        private static ConcurrentDictionary<string, Lazy<Calendar>>
-            InitCalendarsByKey(Calendar[] systemCalendars)
+        private static CalendarRegistry InitRegistry(Calendar?[] calendarsById)
         {
-            // First prime number >= max nbr of calendars (128 = MaxId + 1).
-            const int Capacity = 131;
-            Debug.Assert(Capacity > MaxId);
+            // Dictionary of (lazy) calendars, indexed by their keys.
+            var calendarsByKey = CreateCalendarsByKey(s_SystemCalendars);
 
-            var dict = new ConcurrentDictionary<string, Lazy<Calendar>>(
-                // If I'm not mistaken, this is the default concurrency level.
-                concurrencyLevel: Environment.ProcessorCount,
-                Capacity);
+            return new(calendarsByKey, calendarsById, MinUserId);
 
-            foreach (var chr in systemCalendars)
+            [Pure]
+            static ConcurrentDictionary<string, Lazy<Calendar>>
+                CreateCalendarsByKey(Calendar[] systemCalendars)
             {
-                // Indexer instead of TryAdd(): unconditional add.
-                dict[chr.Key] = new Lazy<Calendar>(chr);
+                // First prime number >= max nbr of calendars (128 = MaxId + 1).
+                const int Capacity = 131;
+                Debug.Assert(Capacity > MaxId);
+
+                var dict = new ConcurrentDictionary<string, Lazy<Calendar>>(
+                    // If I'm not mistaken, this is the default concurrency level.
+                    concurrencyLevel: Environment.ProcessorCount,
+                    Capacity);
+
+                foreach (var chr in systemCalendars)
+                {
+                    // Indexer instead of TryAdd(): unconditional add.
+                    dict[chr.Key] = new Lazy<Calendar>(chr);
+                }
+                return dict;
             }
-            return dict;
         }
 
         #endregion
@@ -208,21 +212,8 @@ namespace Zorglub.Time.Simple
         /// Takes a snapshot of the collection of calendars indexed by their key.
         /// </summary>
         [Pure]
-        public static IReadOnlyDictionary<string, Calendar> TakeSnapshot()
-        {
-            // Take a snapshot of s_CalendarsByKey.
-            var arr = s_CalendarsByKey.ToArray();
-
-            var dict = new Dictionary<string, Calendar>(arr.Length);
-            foreach (var x in arr)
-            {
-                var chr = x.Value.Value;
-                if (chr.Id == Cuid.Invalid) { continue; }
-                dict.Add(x.Key, chr);
-            }
-
-            return new ReadOnlyDictionary<string, Calendar>(dict);
-        }
+        public static IReadOnlyDictionary<string, Calendar> TakeSnapshot() =>
+            s_Registry.TakeSnapshot();
     }
 
     public partial class CalendarCatalog // Lookup
@@ -238,16 +229,7 @@ namespace Zorglub.Time.Simple
         /// <exception cref="KeyNotFoundException">A calendar with the specified
         /// <paramref name="key"/> could not be found.</exception>
         [Pure]
-        public static Calendar GetCalendar(string key)
-        {
-            if (s_CalendarsByKey.TryGetValue(key, out Lazy<Calendar>? calendar))
-            {
-                var chr = calendar.Value;
-                return chr.Id == Cuid.Invalid ? Throw.KeyNotFound<Calendar>(key) : chr;
-            }
-
-            return Throw.KeyNotFound<Calendar>(key);
-        }
+        public static Calendar GetCalendar(string key) => s_Registry.GetCalendar(key);
 
         /// <summary>
         /// Attempts to look up a calendar by its unique key.
@@ -256,20 +238,8 @@ namespace Zorglub.Time.Simple
         /// <para>See also <seealso cref="TakeSnapshot"/>.</para>
         /// </remarks>
         [Pure]
-        public static bool TryGetCalendar(string key, [NotNullWhen(true)] out Calendar? calendar)
-        {
-            if (s_CalendarsByKey.TryGetValue(key, out Lazy<Calendar>? chr))
-            {
-                var tmp = chr.Value;
-                if (tmp.Id == Cuid.Invalid) { goto NOT_FOUND; }
-                calendar = tmp;
-                return true;
-            }
-
-        NOT_FOUND:
-            calendar = null;
-            return false;
-        }
+        public static bool TryGetCalendar(string key, [NotNullWhen(true)] out Calendar? calendar) =>
+            s_Registry.TryGetCalendar(key, out calendar);
 
         /// <summary>
         /// Looks up a <i>system</i> calendar by its unique identifier.
