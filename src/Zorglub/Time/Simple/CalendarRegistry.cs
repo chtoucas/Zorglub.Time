@@ -9,6 +9,8 @@ namespace Zorglub.Time.Simple
 
     using Zorglub.Time.Core;
 
+    // TODO(code): remove _calendarsById entirely _here_.
+
     internal sealed partial class CalendarRegistry
     {
         /// <summary>
@@ -93,10 +95,7 @@ namespace Zorglub.Time.Simple
         // Disable fast track. Only for testing.
         public bool ForceCanAdd { get; set; }
 
-        public bool CanAdd
-        {
-            get => ForceCanAdd || _lastId < MaxId;
-        }
+        public bool CanAdd => ForceCanAdd || _lastId < MaxId;
 
         /// <summary>
         /// Gets the list of keys of all fully constructed calendars at the time of the request.
@@ -181,6 +180,8 @@ namespace Zorglub.Time.Simple
             }
 
             // We validate the params even if the key is already taken.
+            // Reason: the params might be different and we wish to apply strict
+            // validation rules.
             Calendar tmp = ValidateParameters(key, schema, epoch, proleptic);
 
             // The callback won't be executed until we query Value.

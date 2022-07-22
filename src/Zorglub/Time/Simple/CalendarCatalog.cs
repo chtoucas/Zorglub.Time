@@ -344,7 +344,8 @@ namespace Zorglub.Time.Simple
         /// coherent.</para>
         /// <para>This method is thread-safe.</para>
         /// </remarks>
-        /// <exception cref="ArgumentNullException">One of the parameters is null.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="key"/> is null.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
         /// <exception cref="ArgumentException">The range of supported years by
         /// <paramref name="schema"/> does not contain the interval [1..9999] (non-proleptic case)
         /// or [-9998..9999] (proleptic case).</exception>
@@ -366,7 +367,8 @@ namespace Zorglub.Time.Simple
         /// coherent.</para>
         /// <para>This method is thread-safe.</para>
         /// </remarks>
-        /// <exception cref="ArgumentNullException">One of the parameters is null.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="key"/> is null.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
         /// <exception cref="ArgumentException">A calendar with the same key already exists. See
         /// also <seealso cref="ReservedKeys"/>.</exception>
         /// <exception cref="ArgumentException">The range of supported years by
