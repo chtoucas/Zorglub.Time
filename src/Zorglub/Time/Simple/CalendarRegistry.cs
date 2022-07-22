@@ -14,7 +14,8 @@ namespace Zorglub.Time.Simple
     // instance we initialized a date,
     // > var date = new CalendarDate(..., id);
     // Improve CalendarCreated: use the standard event pattern? Async?
-    // How to add a calendar with a dirty key?
+    // How to add a calendar with a dirty key? use AddOrUpdate()
+    // Exception neutral code?
 
     internal sealed partial class CalendarRegistry
     {
@@ -51,31 +52,6 @@ namespace Zorglub.Time.Simple
         /// <summary>
         /// Initializes a new instance of the <see cref="CalendarRegistry"/> class.
         /// </summary>
-        /// <exception cref="ArgumentNullException"><paramref name="calendarsByKey"/> is null.</exception>
-        /// <exception cref="AoorException"><paramref name="minId"/> is not
-        /// within the range [<see cref="MinMinId"/>..<see cref="MaxMaxId"/>].</exception>
-        /// <exception cref="AoorException"><paramref name="maxId"/> is not
-        /// within the range [<see cref="minId"/>..<see cref="MaxMaxId"/>].</exception>
-        public CalendarRegistry(
-            ConcurrentDictionary<string, Lazy<Calendar>> calendarsByKey,
-            int minId,
-            int maxId)
-        {
-            Requires.NotNull(calendarsByKey);
-            if (minId < MinMinId || minId > MaxMaxId) Throw.ArgumentOutOfRange(nameof(minId));
-            if (maxId < minId || maxId > MaxMaxId) Throw.ArgumentOutOfRange(nameof(maxId));
-
-            MinId = minId;
-            MaxId = maxId;
-
-            _calendarsByKey = calendarsByKey;
-
-            _lastId = minId - 1;
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="CalendarRegistry"/> class.
-        /// </summary>
         /// <exception cref="AoorException"><paramref name="minId"/> is not
         /// within the range [<see cref="MinMinId"/>..<see cref="MaxMaxId"/>].</exception>
         /// <exception cref="AoorException"><paramref name="maxId"/> is not
@@ -97,6 +73,34 @@ namespace Zorglub.Time.Simple
                 // If I'm not mistaken, this is the default concurrency level.
                 concurrencyLevel: Environment.ProcessorCount,
                 Capacity);
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CalendarRegistry"/> class.
+        /// </summary>
+        /// <exception cref="ArgumentNullException"><paramref name="calendars"/> is null.</exception>
+        /// <exception cref="ArgumentException"><paramref name="calendars"/> contains more than
+        /// <see cref="MinMinId"/> elements -or- contains a user-defined calendar.</exception>
+        /// <exception cref="AoorException"><paramref name="minId"/> is not
+        /// within the range [<see cref="MinMinId"/>..<see cref="MaxMaxId"/>].</exception>
+        /// <exception cref="AoorException"><paramref name="maxId"/> is not
+        /// within the range [<see cref="minId"/>..<see cref="MaxMaxId"/>].</exception>
+        public CalendarRegistry(int minId, int maxId, Calendar[] calendars) : this(minId, maxId)
+        {
+            Requires.NotNull(calendars);
+
+            int count = calendars.Length;
+            if (count > MinMinId) Throw.Argument(nameof(calendars));
+            NumberOfSystemCalendars = count;
+
+            foreach (var chr in calendars)
+            {
+                if (chr.IsUserDefined) Throw.Argument(nameof(calendars));
+                //if (chr.Id >= Cuid.MinUser) Throw.Argument(nameof(calendars));
+
+                // Indexer instead of TryAdd(): unconditional add.
+                _calendarsByKey[chr.Key] = new Lazy<Calendar>(chr);
+            }
         }
 
         /// <summary>
@@ -138,18 +142,6 @@ namespace Zorglub.Time.Simple
         /// </summary>
         public ICollection<string> Keys => _calendarsByKey.Keys;
 
-        // Some parts of these comments are going to be obsoleted.
-        // It's not easy to obtain the number of calendars (not counting dirty
-        // calendars). We cannot use _calendarsByKey.Count because it also
-        // includes the dirty calendars.
-        //   _calendarsByKey.Count >= actual number of calendars (not counting
-        //   dirty calendars).
-        // Naively, we could use the initial size of the dictionary when this
-        // class was created and CountUserCalendars(), but it does not work.
-        // Indeed, one can still update _calendarsByKey outside this class, this
-        // class doesn't own the dictionary. For the same reason, we cannot
-        // obtain the absolute maximum number of calendars.
-
         /// <summary>
         /// Gets the absolute maximum number of calendars.
         /// </summary>
@@ -157,25 +149,27 @@ namespace Zorglub.Time.Simple
 
         /// <summary>
         /// Gets the absolute maximum number of user-defined calendars.
-        /// <para>A user-defined calendar is a calendar added via one of the registration methods
-        /// offered by this class. It does not account for calendars added by other means to the
-        /// backing dictionary.</para>
         /// </summary>
         public int MaxNumberOfUserCalendars => MaxId - MinId + 1;
 
         /// <summary>
-        /// Gets the number of calendars in the current instance.
-        /// <para>This property is NOT thread-safe.</para>
-        /// <para>The only thread-safe way to obtain the number of calendars is to use
-        /// <see cref="TakeSnapshot()"/> and then count the number of elements in the result.</para>
+        /// Gets the number of system calendars in the current instance.
         /// </summary>
-        public int Count => _calendarsByKey.Count;
+        public int NumberOfSystemCalendars { get; }
+
+        /// <summary>
+        /// Counts the number of calendars.
+        /// <para>This method returns a number lesser than or equal to the actual number of
+        /// user-defined calendars.</para>
+        /// </summary>
+        public int Count() =>
+            // We must be careful, we cannot use _calendarsByKey.Count because
+            // it also includes the dirty calendars, therefore
+            //   _calendarsByKey.Count >= actual number of calendars
+            NumberOfSystemCalendars + CountUserCalendars();
 
         /// <summary>
         /// Counts the number of user-defined calendars.
-        /// <para>A user-defined calendar is a calendar added via one of the registration methods
-        /// offered by this class. It does not account for calendars added by other means to the
-        /// backing dictionary.</para>
         /// <para>This method returns a number lesser than or equal to the actual number of
         /// user-defined calendars.</para>
         /// </summary>
@@ -191,19 +185,6 @@ namespace Zorglub.Time.Simple
             // We use Math.Min() because CreateCalendar() will eventually
             // increment _lastId to (1 + MaxId).
             Math.Min(_lastId, MaxId) - MinId + 1;
-
-        [Pure]
-        public void Initialize(Calendar[] calendars)
-        {
-            foreach (var chr in calendars)
-            {
-                //if (chr.IsUserDefined) Throw.Argument(nameof(calendars));
-                if (chr.Id >= Cuid.MinUser) Throw.Argument(nameof(calendars));
-
-                // Indexer instead of TryAdd(): unconditional add.
-                _calendarsByKey[chr.Key] = new Lazy<Calendar>(chr);
-            }
-        }
     }
 
     internal sealed partial class CalendarRegistry // Lookup

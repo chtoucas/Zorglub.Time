@@ -52,7 +52,7 @@ namespace Zorglub.Time.Simple
         /// Represents the (immutable) array of system calendars, indexed by their internal IDs.
         /// <para>This field is read-only.</para>
         /// </summary>
-        private static readonly Calendar[] s_SystemCalendars = InitializeSystemCalendars();
+        private static readonly Calendar[] s_SystemCalendars = CreateSystemCalendars();
 
         /// <summary>
         /// Represents the array of fully constructed calendars, indexed by their internal IDs.
@@ -60,13 +60,17 @@ namespace Zorglub.Time.Simple
         /// </para>
         /// <para>This field is read-only.</para>
         /// </summary>
-        private static readonly Calendar?[] s_CalendarsById = InitializeCalendarsById(s_SystemCalendars);
+        private static readonly Calendar?[] s_CalendarsById = CreateCalendarsById(s_SystemCalendars);
 
         /// <summary>
         /// Represents the registry.
         /// <para>This field is read-only.</para>
         /// </summary>
-        private static readonly CalendarRegistry s_Registry = InitializeRegistry(s_SystemCalendars);
+        private static readonly CalendarRegistry s_Registry =
+            new(MinUserId, MaxId, s_SystemCalendars)
+            {
+                CalendarCreated = x => s_CalendarsById[(int)x.Id] = x,
+            };
 
         /// <summary>
         /// Gets the absolute maximum number of user-defined calendars.
@@ -104,7 +108,7 @@ namespace Zorglub.Time.Simple
         #region Initializers
 
         [Pure]
-        private static Calendar[] InitializeSystemCalendars()
+        private static Calendar[] CreateSystemCalendars()
         {
             var arr = new Calendar[1 + (int)Cuid.MaxSystem];
 
@@ -122,23 +126,11 @@ namespace Zorglub.Time.Simple
         }
 
         [Pure]
-        private static Calendar?[] InitializeCalendarsById(Calendar[] systemCalendars)
+        private static Calendar?[] CreateCalendarsById(Calendar[] systemCalendars)
         {
             var arr = new Calendar?[MaxId + 1];
             Array.Copy(systemCalendars, arr, systemCalendars.Length);
             return arr;
-        }
-
-        [Pure]
-        private static CalendarRegistry InitializeRegistry(Calendar[] systemCalendars)
-        {
-            var reg = new CalendarRegistry(MinUserId, MaxId)
-            {
-                CalendarCreated = x => s_CalendarsById[(int)x.Id] = x,
-            };
-            reg.Initialize(systemCalendars);
-
-            return reg;
         }
 
         #endregion
@@ -152,8 +144,6 @@ namespace Zorglub.Time.Simple
         [Pure]
         public static IReadOnlyCollection<Calendar> GetAllCalendars()
         {
-            // FIXME(code): don't use s_Registry.CountUserCalendars(); see comments over
-            // there. In fact, we shouldn't rely on s_Registry at all.
             int usr = s_Registry.CountUserCalendars();
 
             // Fast track.
@@ -180,9 +170,6 @@ namespace Zorglub.Time.Simple
         [Pure]
         public static IReadOnlyCollection<Calendar> GetUserCalendars()
         {
-            //int size = s_CalendarsById.Length;
-            //int sys = s_SystemCalendars.Length;
-            //int usr = size - sys; WRONG
             int usr = s_Registry.CountUserCalendars();
 
             // Fast track.
