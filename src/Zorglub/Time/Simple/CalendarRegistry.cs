@@ -191,6 +191,19 @@ namespace Zorglub.Time.Simple
             // We use Math.Min() because CreateCalendar() will eventually
             // increment _lastId to (1 + MaxId).
             Math.Min(_lastId, MaxId) - MinId + 1;
+
+        [Pure]
+        public void Initialize(Calendar[] calendars)
+        {
+            foreach (var chr in calendars)
+            {
+                //if (chr.IsUserDefined) Throw.Argument(nameof(calendars));
+                if (chr.Id >= Cuid.MinUser) Throw.Argument(nameof(calendars));
+
+                // Indexer instead of TryAdd(): unconditional add.
+                _calendarsByKey[chr.Key] = new Lazy<Calendar>(chr);
+            }
+        }
     }
 
     internal sealed partial class CalendarRegistry // Lookup

@@ -3,7 +3,6 @@
 
 namespace Zorglub.Time.Simple
 {
-    using System.Collections.Concurrent;
     using System.Linq;
     using System.Runtime.InteropServices;
 
@@ -133,34 +132,13 @@ namespace Zorglub.Time.Simple
         [Pure]
         private static CalendarRegistry InitializeRegistry(Calendar[] systemCalendars)
         {
-            // Dictionary of (lazy) calendars, indexed by their keys.
-            var calendarsByKey = CreateCalendarsByKey(systemCalendars);
-
-            return new CalendarRegistry(calendarsByKey, MinUserId, MaxId)
+            var reg = new CalendarRegistry(MinUserId, MaxId)
             {
                 CalendarCreated = x => s_CalendarsById[(int)x.Id] = x,
             };
+            reg.Initialize(systemCalendars);
 
-            [Pure]
-            static ConcurrentDictionary<string, Lazy<Calendar>> CreateCalendarsByKey(Calendar[] arr)
-            {
-                // First prime number >= max nbr of calendars (128 = MaxId + 1).
-                const int Capacity = 131;
-                Debug.Assert(Capacity > MaxId);
-
-                var dict = new ConcurrentDictionary<string, Lazy<Calendar>>(
-                    // If I'm not mistaken, this is the default concurrency level.
-                    concurrencyLevel: Environment.ProcessorCount,
-                    Capacity);
-
-                foreach (var chr in arr)
-                {
-                    // Indexer instead of TryAdd(): unconditional add.
-                    dict[chr.Key] = new Lazy<Calendar>(chr);
-                }
-
-                return dict;
-            }
+            return reg;
         }
 
         #endregion
