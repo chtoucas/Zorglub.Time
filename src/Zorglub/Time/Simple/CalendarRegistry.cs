@@ -13,7 +13,7 @@ namespace Zorglub.Time.Simple
     // the value, it will fail hard. It would be the case if for
     // instance we initialized a date,
     // > var date = new CalendarDate(..., id);
-    // Improve CalendarCreated event.
+    // Improve CalendarCreated: use the standard (async?) event pattern?
 
     internal sealed partial class CalendarRegistry
     {
@@ -90,7 +90,12 @@ namespace Zorglub.Time.Simple
         // Disable fast track. Only for testing.
         public bool ForceCanAdd { get; set; }
 
-        public bool CanAdd => ForceCanAdd || _lastId < MaxId;
+        // Fast track? Only use this property to check if the registry is full,
+        // that is if (CanAdd == false).
+        // Indeed, _lastId is incremented very late in the process which means
+        // that CanAdd may return true even if, in the end, it's not truely the
+        // case.
+        private bool CanAdd => ForceCanAdd || _lastId < MaxId;
 
         public Action<Calendar>? CalendarCreated { get; init; }
 
@@ -102,17 +107,36 @@ namespace Zorglub.Time.Simple
         public ICollection<string> Keys => _calendarsByKey.Keys;
 
         /// <summary>
+        /// Gets the absolute maximum number of calendars.
+        /// </summary>
+        public int MaxNumberOfCalendars => MaxId + 1;
+
+        /// <summary>
         /// Gets the absolute maximum number of user-defined calendars.
         /// </summary>
         public int MaxNumberOfUserCalendars => MaxId - MinId + 1;
 
         /// <summary>
-        /// Counts the number of user-defined calendars at the time of the request.
+        /// Gets the number of calendars in the current instance.
+        /// <para>This property is NOT thread-safe.</para>
+        /// <para>The only thread-safe way to obtain the number of calendars is to use
+        /// <see cref="TakeSnapshot()"/> and then count the number of elements in the result.</para>
         /// </summary>
-        // We use Math.Min() because CreateCalendar() might increment _lastId
-        // one step too far.
+        public int Count => _calendarsByKey.Count;
+
+        /// <summary>
+        /// Counts the number of user-defined calendars.
+        /// <para>This method is NOT thread-safe.</para>
+        /// </summary>
         [Pure]
-        public int CountUserCalendars() => Math.Min(_lastId, MaxId) - MinId + 1;
+        public int CountUserCalendars() =>
+            // We use Math.Min() because CreateCalendar() will eventually
+            // increment _lastId to (1 + MaxId).
+            // When one register a new calendar, we first reserve the key, and
+            // only after this operation succeeds do we increment _lastId.
+            // What does it mean is that, during a very short window of time,
+            // this property will return a value less than the actual value.
+            Math.Min(_lastId, MaxId) - MinId + 1;
     }
 
     internal sealed partial class CalendarRegistry // Lookup
@@ -120,13 +144,14 @@ namespace Zorglub.Time.Simple
         [Pure]
         public IReadOnlyDictionary<string, Calendar> TakeSnapshot()
         {
-            // Take a snapshot of s_CalendarsByKey.
+            // Freeze _calendarsByKey.
             var arr = _calendarsByKey.ToArray();
 
             var dict = new Dictionary<string, Calendar>(arr.Length);
             foreach (var x in arr)
             {
                 var chr = x.Value.Value;
+                // Filter out bad calendars; see comments in "Add" methods.
                 if (chr.Id == Cuid.Invalid) { continue; }
                 dict.Add(x.Key, chr);
             }
@@ -140,6 +165,7 @@ namespace Zorglub.Time.Simple
             if (_calendarsByKey.TryGetValue(key, out Lazy<Calendar>? calendar))
             {
                 var chr = calendar.Value;
+                // Filter out bad calendars; see comments in "Add" methods.
                 return chr.Id == Cuid.Invalid ? Throw.KeyNotFound<Calendar>(key) : chr;
             }
 
@@ -152,6 +178,7 @@ namespace Zorglub.Time.Simple
             if (_calendarsByKey.TryGetValue(key, out Lazy<Calendar>? chr))
             {
                 var tmp = chr.Value;
+                // Filter out bad calendars; see comments in "Add" methods.
                 if (tmp.Id == Cuid.Invalid) { goto NOT_FOUND; }
                 calendar = tmp;
                 return true;
@@ -195,16 +222,19 @@ namespace Zorglub.Time.Simple
             if (chr.Id == Cuid.Invalid)
             {
                 // Clean up.
-                // Beware, it is possible to end up here even if lazy1.Value
-                // returned a pre-existing calendar. Indeed, there is a very
-                // short window of time during which a TmpCalendar is still
-                // referenced by s_CalendarsByKey.
+                // It's possible to end up here even if lazy1.Value returned a
+                // pre-existing calendar. Indeed, there is a very short window
+                // of time during which a temp Calendar is still referenced by
+                // _calendarsByKey.
                 // The next check ensures that we only try to unlist the local
-                // instance of TmpCalendar.
+                // instance of temp Calendar.
                 // Actually, this is not mandatory, we could try to remove the
                 // same key twice...
                 if (ReferenceEquals(lazy1, lazy))
                 {
+                    // We don't verify whether the following op is successful or
+                    // not, therefore we MUST filter out the bad calendars
+                    // whenever we call a "Lookup" method.
                     _calendarsByKey.TryRemove(key, out _);
                 }
 
@@ -236,6 +266,9 @@ namespace Zorglub.Time.Simple
             if (chr.Id == Cuid.Invalid)
             {
                 // Clean up.
+                // We don't verify whether the following op is successful or not,
+                // therefore we MUST filter out the bad calendars whenever we
+                // call a "Lookup" method.
                 _calendarsByKey.TryRemove(key, out _);
 
                 Throw.CatalogOverflow();
@@ -272,6 +305,9 @@ namespace Zorglub.Time.Simple
                 if (chr.Id == Cuid.Invalid)
                 {
                     // Clean up.
+                    // We don't verify whether the following op is successful or
+                    // not, therefore we MUST filter out the bad calendars
+                    // whenever we call a "Lookup" method.
                     _calendarsByKey.TryRemove(key, out _);
 
                     goto FAILED;
@@ -330,8 +366,8 @@ namespace Zorglub.Time.Simple
                 // We don't throw an OverflowException yet.
                 // This will give the caller the opportunity to do some cleanup.
                 // Objects of this type only exist for a very short period of
-                // time within <see cref="s_CalendarsByKey"/> and MUST be
-                // filtered out anytime we query a value from this dictionary.
+                // time in _calendarsByKey and MUST be filtered out anytime we
+                // query a value from this dictionary.
                 return tmpCalendar;
             }
 

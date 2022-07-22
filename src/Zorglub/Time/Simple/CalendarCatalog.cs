@@ -158,6 +158,7 @@ namespace Zorglub.Time.Simple
                     // Indexer instead of TryAdd(): unconditional add.
                     dict[chr.Key] = new Lazy<Calendar>(chr);
                 }
+
                 return dict;
             }
         }
@@ -173,6 +174,8 @@ namespace Zorglub.Time.Simple
         [Pure]
         public static IReadOnlyCollection<Calendar> GetAllCalendars()
         {
+            // FIXME(code): we shouldn't use CountUserCalendars(). See comments
+            // over there.
             int usr = s_Registry.CountUserCalendars();
 
             // Fast track.
