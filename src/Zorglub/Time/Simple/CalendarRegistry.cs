@@ -9,6 +9,12 @@ namespace Zorglub.Time.Simple
 
     using Zorglub.Time.Core;
 
+    // FIXME(code): Invalid was a bad idea. If the Calendar ctor check
+    // the value, it will fail hard. It would be the case if for
+    // instance we initialized a date,
+    // > var date = new CalendarDate(..., id);
+    // Improve CalendarCreated event.
+
     internal sealed partial class CalendarRegistry
     {
         /// <summary>
@@ -23,13 +29,15 @@ namespace Zorglub.Time.Simple
 
         /// <summary>
         /// Represents the absolute maximum value for <see cref="MaxId"/>.
-        /// <para>This field is a constant equal to 254.</para>
+        /// <para>This field is a constant equal to 127.</para>
         /// </summary>
         /// <remarks>
-        /// This upper limit exists to ensure that a calendar with ID = Cuid.Invalid won't be added
-        /// to the array of calendars (see CalendarCatalog).
+        /// <para>This upper limit exists to ensure that the ID of a user-defined calendar is valid.
+        /// </para>
+        /// <para>In particular, a calendar with ID = Cuid.Invalid cannot be added to the array of
+        /// calendars (see CalendarCatalog).</para>
         /// </remarks>
-        public const int MaxMaxId = (int)Cuid.Invalid - 1;
+        public const int MaxMaxId = (int)Cuid.Max;
 
         /// <summary>
         /// Represents the dictionary of (lazy) calendars, indexed by their keys.
@@ -53,7 +61,6 @@ namespace Zorglub.Time.Simple
             int maxId)
         {
             Requires.NotNull(calendarsByKey);
-
             if (minId < MinMinId || minId > MaxMaxId) Throw.ArgumentOutOfRange(nameof(minId));
             if (maxId < minId || maxId > MaxMaxId) Throw.ArgumentOutOfRange(nameof(maxId));
 
@@ -296,10 +303,6 @@ namespace Zorglub.Time.Simple
             DayNumber epoch,
             bool proleptic)
         {
-            // FIXME(code): Invalid was a bad idea. If the Calendar ctor check
-            // the value, it will fail hard. It would be the case if for
-            // instance we initialized a date,
-            // > var date = new CalendarDate(..., id);
             return new Calendar(Cuid.Invalid, key, schema, epoch, proleptic);
         }
 

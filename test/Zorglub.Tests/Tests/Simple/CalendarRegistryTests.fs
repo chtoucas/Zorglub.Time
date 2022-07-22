@@ -15,7 +15,7 @@ open Xunit
 
 /// 64
 let private defaultMinId = CalendarRegistry.MinMinId
-/// 254
+/// 127
 let private defaultMaxId = CalendarRegistry.MaxMaxId
 
 /// Creates a new empty "calendarsByKey".
@@ -100,20 +100,6 @@ module Prelude =
         new CalendarRegistry(calendarsByKey, defaultMinId, maxId) |> ignore
 
     [<Fact>]
-    let ``Constructor (default size)`` () =
-        let minId = CalendarCatalog.MinUserId
-        let maxId = CalendarCatalog.MaxId
-        let calendarsByKey = initCalendarsByKey()
-
-        let reg = new CalendarRegistry(calendarsByKey, minId, maxId)
-
-        reg.MinId === minId
-        reg.MaxId === maxId
-
-        reg.MaxNumberOfUserCalendars === 64
-        reg.CountUserCalendars() === 0
-
-    [<Fact>]
     let ``Constructor (largest size)`` () =
         let minId = CalendarRegistry.MinMinId
         let maxId = CalendarRegistry.MaxMaxId
@@ -124,7 +110,7 @@ module Prelude =
         reg.MinId === minId
         reg.MaxId === maxId
 
-        reg.MaxNumberOfUserCalendars === 191
+        reg.MaxNumberOfUserCalendars === 64
         reg.CountUserCalendars() === 0
 
     [<Fact>]
