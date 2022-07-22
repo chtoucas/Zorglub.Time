@@ -67,8 +67,7 @@ namespace Zorglub.Time.Simple
         /// Represents the registry.
         /// <para>This field is read-only.</para>
         /// </summary>
-        private static readonly CalendarRegistry s_Registry =
-            InitRegistry(s_SystemCalendars, s_CalendarsById);
+        private static readonly CalendarRegistry s_Registry = InitRegistry(s_SystemCalendars);
 
         /// <summary>
         /// Gets the absolute maximum number of user-defined calendars.
@@ -132,13 +131,15 @@ namespace Zorglub.Time.Simple
         }
 
         [Pure]
-        private static CalendarRegistry InitRegistry(
-            Calendar[] systemCalendars, Calendar?[] calendarsById)
+        private static CalendarRegistry InitRegistry(Calendar[] systemCalendars)
         {
             // Dictionary of (lazy) calendars, indexed by their keys.
             var calendarsByKey = CreateCalendarsByKey(systemCalendars);
 
-            return new(calendarsByKey, calendarsById, MinUserId);
+            return new CalendarRegistry(calendarsByKey, MinUserId, MaxId)
+            {
+                CalendarCreated = x => s_CalendarsById[(int)x.Id] = x,
+            };
 
             [Pure]
             static ConcurrentDictionary<string, Lazy<Calendar>> CreateCalendarsByKey(Calendar[] arr)

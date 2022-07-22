@@ -9,35 +9,27 @@ namespace Zorglub.Time.Simple
 
     using Zorglub.Time.Core;
 
-    // TODO(code): remove _calendarsById entirely _here_.
-
     internal sealed partial class CalendarRegistry
     {
+        /// <summary>
+        /// Represents the minimum value for <see cref="MinId"/>.
+        /// <para>This field is a constant equal to 64.</para>
+        /// </summary>
+        /// <remarks>
+        /// This lower limit exists to ensure that a user-defined calendar with a system ID won't
+        /// be added to the array of calendars (see CalendarCatalog).
+        /// </remarks>
+        public const int MinMinId = (int)Cuid.MinUser;
+
         /// <summary>
         /// Represents the absolute maximum value for <see cref="MaxId"/>.
         /// <para>This field is a constant equal to 254.</para>
         /// </summary>
         /// <remarks>
-        /// This upper limit exists to ensure that a calendar with ID = Cuid.Invalid cannot be added
-        /// to the array of calendars (calendarsById).
+        /// This upper limit exists to ensure that a calendar with ID = Cuid.Invalid won't be added
+        /// to the array of calendars (see CalendarCatalog).
         /// </remarks>
         public const int MaxMaxId = (int)Cuid.Invalid - 1;
-
-        /// <summary>
-        /// Represents the minimum value for <see cref="MinUserId"/>.
-        /// <para>This field is a constant equal to 64.</para>
-        /// </summary>
-        /// <remarks>
-        /// This lower limit exists to ensure that a user-defined calendar with a system ID cannot
-        /// be added to the array of calendars (calendarsById).
-        /// </remarks>
-        public const int MinMinUserId = (int)Cuid.MinUser;
-
-        /// <summary>
-        /// Represents the array of fully constructed calendars, indexed by their IDs.
-        /// <para>This field is read-only.</para>
-        /// </summary>
-        private readonly Calendar?[] _calendarsById;
 
         /// <summary>
         /// Represents the dictionary of (lazy) calendars, indexed by their keys.
@@ -51,36 +43,32 @@ namespace Zorglub.Time.Simple
         /// Initializes a new instance of the <see cref="CalendarRegistry"/> class.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="calendarsByKey"/> is null.</exception>
-        /// <exception cref="ArgumentNullException"><paramref name="calendarsById"/> is null.</exception>
-        /// <exception cref="ArgumentException">The size of <paramref name="calendarsById"/> is not
-        /// within the range [(1 + <see cref="MinMinUserId"/>)..(1 + <see cref="MaxMaxId"/>)].</exception>
-        /// <exception cref="AoorException"><paramref name="minUserId"/> is not
-        /// within the range [<see cref="MinMinUserId"/>..<see cref="MaxId"/>].</exception>
+        /// <exception cref="AoorException"><paramref name="minId"/> is not
+        /// within the range [<see cref="MinMinId"/>..<see cref="MaxMaxId"/>].</exception>
+        /// <exception cref="AoorException"><paramref name="maxId"/> is not
+        /// within the range [<see cref="minId"/>..<see cref="MaxMaxId"/>].</exception>
         public CalendarRegistry(
             ConcurrentDictionary<string, Lazy<Calendar>> calendarsByKey,
-            Calendar?[] calendarsById,
-            int minUserId)
+            int minId,
+            int maxId)
         {
             Requires.NotNull(calendarsByKey);
-            Requires.NotNull(calendarsById);
 
-            int size = calendarsById.Length;
-            if (size < 1 + MinMinUserId || size > 1 + MaxMaxId) Throw.Argument(nameof(calendarsById));
-            MaxId = size - 1;
+            if (minId < MinMinId || minId > MaxMaxId) Throw.ArgumentOutOfRange(nameof(minId));
+            if (maxId < minId || maxId > MaxMaxId) Throw.ArgumentOutOfRange(nameof(maxId));
 
-            if (minUserId < MinMinUserId || minUserId > MaxId) Throw.ArgumentOutOfRange(nameof(minUserId));
-            MinUserId = minUserId;
+            MinId = minId;
+            MaxId = maxId;
 
             _calendarsByKey = calendarsByKey;
-            _calendarsById = calendarsById;
 
-            _lastId = minUserId - 1;
+            _lastId = minId - 1;
         }
 
         /// <summary>
         /// Gets the minimum value for the ID of a user-defined calendar.
         /// </summary>
-        public int MinUserId { get; }
+        public int MinId { get; }
 
         /// <summary>
         /// Gets the absolute maximum value for the ID of a calendar.
@@ -97,6 +85,8 @@ namespace Zorglub.Time.Simple
 
         public bool CanAdd => ForceCanAdd || _lastId < MaxId;
 
+        public Action<Calendar>? CalendarCreated { get; init; }
+
         /// <summary>
         /// Gets the list of keys of all fully constructed calendars at the time of the request.
         /// <para>This collection may also contain a few bad keys, those paired with a calendar with
@@ -107,7 +97,7 @@ namespace Zorglub.Time.Simple
         /// <summary>
         /// Gets the absolute maximum number of user-defined calendars.
         /// </summary>
-        public int MaxNumberOfUserCalendars => MaxId - MinUserId + 1;
+        public int MaxNumberOfUserCalendars => MaxId - MinId + 1;
 
         /// <summary>
         /// Counts the number of user-defined calendars at the time of the request.
@@ -115,7 +105,7 @@ namespace Zorglub.Time.Simple
         // We use Math.Min() because CreateCalendar() might increment _lastId
         // one step too far.
         [Pure]
-        public int CountUserCalendars() => Math.Min(_lastId, MaxId) - MinUserId + 1;
+        public int CountUserCalendars() => Math.Min(_lastId, MaxId) - MinId + 1;
     }
 
     internal sealed partial class CalendarRegistry // Lookup
@@ -315,7 +305,7 @@ namespace Zorglub.Time.Simple
 
         /// <summary>
         /// Creates a new <see cref="Calendar"/> instance from the specified temporary calendar then
-        /// add it to <see cref="_calendarsById"/>.
+        /// call <see cref="CalendarCreated"/>.
         /// <para>Returns a calendar with ID <see cref="Cuid.Invalid"/> if the system already
         /// reached the maximum number of calendars it can handle.</para>
         /// </summary>
@@ -345,7 +335,7 @@ namespace Zorglub.Time.Simple
             Debug.Assert(id <= (int)Cuid.Max);
 
             // Notes:
-            // - the cast to Cuid should always succeed.
+            // - the cast to Cuid always succeed.
             // - the ctor won't throw since we already validated the params
             //   when we created tmpCalendar.
             var chr = new Calendar(
@@ -355,9 +345,9 @@ namespace Zorglub.Time.Simple
                 tmpCalendar.Epoch,
                 tmpCalendar.IsProleptic);
 
-            Debug.Assert(id < _calendarsById.Length);
+            CalendarCreated?.Invoke(chr);
 
-            return _calendarsById[id] = chr;
+            return chr;
         }
     }
 }

@@ -14,12 +14,9 @@ open Zorglub.Time.Simple
 open Xunit
 
 /// 64
-let private defaultMinUserId = CalendarRegistry.MinMinUserId
-
-/// Creates a new empty "calendarsById" with max size = 255.
-let private initCalendarsById () =
-    let maxsize = 1 + CalendarRegistry.MaxMaxId
-    Array.zeroCreate<Calendar>(maxsize)
+let private defaultMinId = CalendarRegistry.MinMinId
+/// 254
+let private defaultMaxId = CalendarRegistry.MaxMaxId
 
 /// Creates a new empty "calendarsByKey".
 let private initCalendarsByKey () = new ConcurrentDictionary<string, Lazy<Calendar>>()
@@ -46,121 +43,100 @@ module TestCommon =
 module Prelude =
     [<Fact>]
     let ``Constructor throws when "calendarsByKey" is null`` () =
-        let calendarsById = initCalendarsById()
-
-        nullExn "calendarsByKey" (fun () -> new CalendarRegistry(null, calendarsById, defaultMinUserId))
+        nullExn "calendarsByKey" (fun () -> new CalendarRegistry(null, defaultMinId, defaultMaxId))
 
     [<Fact>]
-    let ``Constructor throws when "calendarsById" is null`` () =
+    let ``Constructor throws when minId < MinMinId`` () =
+        let minId = CalendarRegistry.MinMinId - 1
         let calendarsByKey = initCalendarsByKey()
 
-        nullExn "calendarsById" (fun () -> new CalendarRegistry(calendarsByKey, null, defaultMinUserId))
+        outOfRangeExn "minId" (fun () -> new CalendarRegistry(calendarsByKey, minId - 1, defaultMaxId))
 
     [<Fact>]
-    let ``Constructor throws when calendarsById.Length < MinMinUserId + 1`` () =
-        let count = CalendarRegistry.MinMinUserId
+    let ``Constructor does not throw when minId = MinMinId`` () =
+        let minId = CalendarRegistry.MinMinId
         let calendarsByKey = initCalendarsByKey()
-        let calendarsById = Array.zeroCreate<Calendar>(count)
 
-        argExn "calendarsById" (fun () -> new CalendarRegistry(calendarsByKey, calendarsById, defaultMinUserId))
+        new CalendarRegistry(calendarsByKey, minId, defaultMaxId) |> ignore
 
     [<Fact>]
-    let ``Constructor does not throw when calendarsById.Length = MinMinUserId + 1`` () =
-        let count = CalendarRegistry.MinMinUserId + 1
+    let ``Constructor throws when minId > MaxMaxId`` () =
+        let minId = CalendarRegistry.MaxMaxId + 1
         let calendarsByKey = initCalendarsByKey()
-        let calendarsById = Array.zeroCreate<Calendar>(count)
 
-        new CalendarRegistry(calendarsByKey, calendarsById, defaultMinUserId) |> ignore
+        outOfRangeExn "minId" (fun () -> new CalendarRegistry(calendarsByKey, minId, defaultMaxId))
 
     [<Fact>]
-    let ``Constructor throws when calendarsById.Length > MaxMaxId + 1`` () =
-        let count = CalendarRegistry.MaxMaxId + 2
+    let ``Constructor does not throw when minId = MaxMaxId`` () =
+        let minId = CalendarRegistry.MaxMaxId
         let calendarsByKey = initCalendarsByKey()
-        let calendarsById = Array.zeroCreate<Calendar>(count)
 
-        argExn "calendarsById" (fun () -> new CalendarRegistry(calendarsByKey, calendarsById, defaultMinUserId))
+        new CalendarRegistry(calendarsByKey, minId, defaultMaxId) |> ignore
 
     [<Fact>]
-    let ``Constructor does not throw when calendarsById.Length = MaxMaxId + 1`` () =
-        let count = CalendarRegistry.MaxMaxId + 1
+    let ``Constructor throws when maxId < minId`` () =
         let calendarsByKey = initCalendarsByKey()
-        let calendarsById = Array.zeroCreate<Calendar>(count)
 
-        new CalendarRegistry(calendarsByKey, calendarsById, defaultMinUserId) |> ignore
+        outOfRangeExn "maxId" (fun () -> new CalendarRegistry(calendarsByKey, defaultMinId, defaultMinId - 1))
 
     [<Fact>]
-    let ``Constructor throws when minUserId < MinMinUserId`` () =
+    let ``Constructor does not throw when maxId = minId`` () =
         let calendarsByKey = initCalendarsByKey()
-        let calendarsById = initCalendarsById()
-        let minUserId = CalendarRegistry.MinMinUserId - 1
 
-        outOfRangeExn "minUserId" (fun () -> new CalendarRegistry(calendarsByKey, calendarsById, minUserId))
+        new CalendarRegistry(calendarsByKey, defaultMinId, defaultMinId) |> ignore
 
     [<Fact>]
-    let ``Constructor does not throw when minUserId = MinMinUserId`` () =
+    let ``Constructor throws when maxId > MaxMaxId`` () =
+        let maxId = CalendarRegistry.MaxMaxId + 1
         let calendarsByKey = initCalendarsByKey()
-        let calendarsById = initCalendarsById()
-        let minUserId = CalendarRegistry.MinMinUserId
 
-        new CalendarRegistry(calendarsByKey, calendarsById, minUserId) |> ignore
+        outOfRangeExn "maxId" (fun () -> new CalendarRegistry(calendarsByKey, defaultMinId, maxId))
 
     [<Fact>]
-    let ``Constructor throws when minUserId > MaxId`` () =
+    let ``Constructor does not throw when maxId = MaxMaxId`` () =
+        let maxId = CalendarRegistry.MaxMaxId
         let calendarsByKey = initCalendarsByKey()
-        let calendarsById = initCalendarsById()
-        let maxId = calendarsById.Length - 1
 
-        outOfRangeExn "minUserId" (fun () -> new CalendarRegistry(calendarsByKey, calendarsById, maxId + 1))
-
-    [<Fact>]
-    let ``Constructor does not throw when minUserId = MaxId`` () =
-        let calendarsByKey = initCalendarsByKey()
-        let calendarsById = initCalendarsById()
-        let maxId = calendarsById.Length - 1
-
-        new CalendarRegistry(calendarsByKey, calendarsById, maxId) |> ignore
+        new CalendarRegistry(calendarsByKey, defaultMinId, maxId) |> ignore
 
     [<Fact>]
     let ``Constructor (default size)`` () =
+        let minId = CalendarCatalog.MinUserId
         let maxId = CalendarCatalog.MaxId
         let calendarsByKey = initCalendarsByKey()
-        let calendarsById = Array.zeroCreate<Calendar>(maxId + 1)
-        let minUserId = CalendarCatalog.MinUserId
 
-        let reg = new CalendarRegistry(calendarsByKey, calendarsById, minUserId)
+        let reg = new CalendarRegistry(calendarsByKey, minId, maxId)
 
-        reg.MinUserId === minUserId
-        reg.MaxId     === maxId
+        reg.MinId === minId
+        reg.MaxId === maxId
 
         reg.MaxNumberOfUserCalendars === 64
         reg.CountUserCalendars() === 0
 
     [<Fact>]
     let ``Constructor (largest size)`` () =
+        let minId = CalendarRegistry.MinMinId
         let maxId = CalendarRegistry.MaxMaxId
         let calendarsByKey = initCalendarsByKey()
-        let calendarsById = Array.zeroCreate<Calendar>(maxId + 1)
-        let minUserId = CalendarRegistry.MinMinUserId
 
-        let reg = new CalendarRegistry(calendarsByKey, calendarsById, minUserId)
+        let reg = new CalendarRegistry(calendarsByKey, minId, maxId)
 
-        reg.MinUserId === minUserId
-        reg.MaxId     === maxId
+        reg.MinId === minId
+        reg.MaxId === maxId
 
         reg.MaxNumberOfUserCalendars === 191
         reg.CountUserCalendars() === 0
 
     [<Fact>]
     let ``Constructor (smallest size)`` () =
-        let minUserId = CalendarRegistry.MinMinUserId
-        let maxId = minUserId
+        let minId = CalendarRegistry.MinMinId
+        let maxId = minId
         let calendarsByKey = initCalendarsByKey()
-        let calendarsById = Array.zeroCreate<Calendar>(maxId + 1)
 
-        let reg = new CalendarRegistry(calendarsByKey, calendarsById, minUserId)
+        let reg = new CalendarRegistry(calendarsByKey, minId, maxId)
 
-        reg.MinUserId === minUserId
-        reg.MaxId     === maxId
+        reg.MinId === minId
+        reg.MaxId === maxId
 
         reg.MaxNumberOfUserCalendars === 1
         reg.CountUserCalendars() === 0
@@ -172,18 +148,15 @@ module AddOps =
 
     let private newEmptyRegistry () =
         let calendarsByKey = initCalendarsByKey()
-        let calendarsById = initCalendarsById()
 
-        new CalendarRegistry(calendarsByKey, calendarsById, defaultMinUserId)
+        new CalendarRegistry(calendarsByKey, defaultMinId, defaultMaxId)
 
     let private newRegistry (chr: Calendar) =
         let calendarsByKey = initCalendarsByKey()
-        let calendarsById = initCalendarsById()
 
         calendarsByKey.[chr.Key] <- new Lazy<Calendar>(chr)
-        calendarsById.[0] <- chr
 
-        new CalendarRegistry(calendarsByKey, calendarsById, defaultMinUserId)
+        new CalendarRegistry(calendarsByKey, defaultMinId, defaultMaxId)
 
     //
     // GetOrAdd()
@@ -306,12 +279,11 @@ module AddLimits =
     open TestCommon
 
     let private newMiniRegistry size =
-        let minUserId = CalendarRegistry.MinMinUserId
-        let maxId = minUserId + (size - 1)
+        let minId = CalendarRegistry.MinMinId
+        let maxId = minId + (size - 1)
         let calendarsByKey = initCalendarsByKey()
-        let calendarsById = Array.zeroCreate<Calendar>(maxId + 1)
 
-        new CalendarRegistry(calendarsByKey, calendarsById, minUserId)
+        new CalendarRegistry(calendarsByKey, minId, maxId)
 
     // TODO(test): use different params.
 
