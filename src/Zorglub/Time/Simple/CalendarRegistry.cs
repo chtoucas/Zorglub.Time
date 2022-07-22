@@ -90,6 +90,11 @@ namespace Zorglub.Time.Simple
         // Disable fast track. Only for testing.
         public bool ForceCanAdd { get; set; }
 
+        /// <summary>
+        /// Returns false if the registry cannot add a new calendar to the current instance;
+        /// otherwise returns true BUT one cannot assert that the registry is not full.
+        /// <para>This property is NOT thread-safe.</para>
+        /// </summary>
         // Fast track? Only use this property to check if the registry is full,
         // that is if (CanAdd == false).
         // Indeed, _lastId is incremented very late in the process which means

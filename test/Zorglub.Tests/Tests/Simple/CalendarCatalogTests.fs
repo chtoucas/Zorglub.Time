@@ -102,8 +102,8 @@ module Snapshots =
 
         Assert.Contains(userGregorian, calendars)
         Assert.Contains(userJulian, calendars)
-        // TODO(code): we should that the code works even of someone added a new
-        // calendar in the meantime; idem for TakeSnapshot().
+        // TODO(code): we should verify that the code works even of someone added
+        // a new calendar in the meantime; idem for TakeSnapshot().
 
     [<Fact>]
     let ``GetUserCalendars() contains the user-defined calendars`` () =
