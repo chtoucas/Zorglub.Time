@@ -174,20 +174,22 @@ namespace Zorglub.Time.Simple
         [Pure]
         public static IReadOnlyCollection<Calendar> GetAllCalendars()
         {
-            // FIXME(code): we shouldn't use CountUserCalendars(). See comments
-            // over there.
+            // FIXME(code): don't use s_Registry.CountUserCalendars(); see comments over
+            // there. In fact, we shouldn't rely on s_Registry at all.
+            //int size = s_CalendarsById.Length;
+            int sys = s_SystemCalendars.Length;
+            //int usr = size - sys; WRONG
             int usr = s_Registry.CountUserCalendars();
+            int size = sys + usr;
 
             // Fast track.
             if (usr == 0) { return SystemCalendars; }
 
-            int sys = s_SystemCalendars.Length;
-
             // Same as s_CalendarById but without the null's.
             // NB: the code works even if s_CalendarsById changed in the
             // meantime. We return a snapshot of s_CalendarsById at the point
-            // of time when we called CountUserCalendars().
-            var arr = new Calendar[sys + usr];
+            // of time when we compute "usr".
+            var arr = new Calendar[size];
             // Copy system calendars.
             Array.Copy(s_CalendarsById, arr, sys);
             // Copy user-defined calendars.
@@ -202,6 +204,9 @@ namespace Zorglub.Time.Simple
         [Pure]
         public static IReadOnlyCollection<Calendar> GetUserCalendars()
         {
+            //int size = s_CalendarsById.Length;
+            //int sys = s_SystemCalendars.Length;
+            //int usr = size - sys; WRONG
             int usr = s_Registry.CountUserCalendars();
 
             // Fast track.
