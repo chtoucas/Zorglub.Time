@@ -13,7 +13,8 @@ namespace Zorglub.Time.Simple
     // the value, it will fail hard. It would be the case if for
     // instance we initialized a date,
     // > var date = new CalendarDate(..., id);
-    // Improve CalendarCreated: use the standard (async?) event pattern?
+    // Improve CalendarCreated: use the standard event pattern? Async?
+    // How to add a calendar with a dirty key?
 
     internal sealed partial class CalendarRegistry
     {
@@ -73,6 +74,32 @@ namespace Zorglub.Time.Simple
         }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="CalendarRegistry"/> class.
+        /// </summary>
+        /// <exception cref="AoorException"><paramref name="minId"/> is not
+        /// within the range [<see cref="MinMinId"/>..<see cref="MaxMaxId"/>].</exception>
+        /// <exception cref="AoorException"><paramref name="maxId"/> is not
+        /// within the range [<see cref="minId"/>..<see cref="MaxMaxId"/>].</exception>
+        public CalendarRegistry(int minId, int maxId)
+        {
+            // First prime number >= max nbr of calendars (128 = MaxMaxId + 1).
+            const int Capacity = 131;
+            Debug.Assert(Capacity > MaxMaxId);
+
+            if (minId < MinMinId || minId > MaxMaxId) Throw.ArgumentOutOfRange(nameof(minId));
+            if (maxId < minId || maxId > MaxMaxId) Throw.ArgumentOutOfRange(nameof(maxId));
+
+            MinId = minId;
+            MaxId = maxId;
+            _lastId = minId - 1;
+
+            _calendarsByKey = new ConcurrentDictionary<string, Lazy<Calendar>>(
+                // If I'm not mistaken, this is the default concurrency level.
+                concurrencyLevel: Environment.ProcessorCount,
+                Capacity);
+        }
+
+        /// <summary>
         /// Gets the minimum value for the ID of a user-defined calendar.
         /// </summary>
         public int MinId { get; }
@@ -106,10 +133,22 @@ namespace Zorglub.Time.Simple
 
         /// <summary>
         /// Gets the list of keys of all fully constructed calendars at the time of the request.
-        /// <para>This collection may also contain a few bad keys, those paired with a calendar with
-        /// an ID equal to <see cref="Cuid.Invalid"/>.</para>
+        /// <para>This collection may also contain a few dirty keys, those paired with a calendar
+        /// with an ID equal to <see cref="Cuid.Invalid"/>.</para>
         /// </summary>
         public ICollection<string> Keys => _calendarsByKey.Keys;
+
+        // Some parts of these comments are going to be obsoleted.
+        // It's not easy to obtain the number of calendars (not counting dirty
+        // calendars). We cannot use _calendarsByKey.Count because it also
+        // includes the dirty calendars.
+        //   _calendarsByKey.Count >= actual number of calendars (not counting
+        //   dirty calendars).
+        // Naively, we could use the initial size of the dictionary when this
+        // class was created and CountUserCalendars(), but it does not work.
+        // Indeed, one can still update _calendarsByKey outside this class, this
+        // class doesn't own the dictionary. For the same reason, we cannot
+        // obtain the absolute maximum number of calendars.
 
         /// <summary>
         /// Gets the absolute maximum number of calendars.
@@ -118,6 +157,9 @@ namespace Zorglub.Time.Simple
 
         /// <summary>
         /// Gets the absolute maximum number of user-defined calendars.
+        /// <para>A user-defined calendar is a calendar added via one of the registration methods
+        /// offered by this class. It does not account for calendars added by other means to the
+        /// backing dictionary.</para>
         /// </summary>
         public int MaxNumberOfUserCalendars => MaxId - MinId + 1;
 
@@ -131,16 +173,23 @@ namespace Zorglub.Time.Simple
 
         /// <summary>
         /// Counts the number of user-defined calendars.
-        /// <para>This method is NOT thread-safe.</para>
+        /// <para>A user-defined calendar is a calendar added via one of the registration methods
+        /// offered by this class. It does not account for calendars added by other means to the
+        /// backing dictionary.</para>
+        /// <para>This method returns a number lesser than or equal to the actual number of
+        /// user-defined calendars.</para>
         /// </summary>
         [Pure]
         public int CountUserCalendars() =>
-            // We use Math.Min() because CreateCalendar() will eventually
-            // increment _lastId to (1 + MaxId).
-            // When one register a new calendar, we first reserve the key, and
-            // only after this operation succeeds do we increment _lastId.
+            // CountUserCalendars() <= number of user-defined calendars added to
+            // _calendarsByKey.
+            // When one registers a new calendar, we first reserve the key, and
+            // only after do we increment _lastId.
             // What does it mean is that, during a very short window of time,
             // this property will return a value less than the actual value.
+            //
+            // We use Math.Min() because CreateCalendar() will eventually
+            // increment _lastId to (1 + MaxId).
             Math.Min(_lastId, MaxId) - MinId + 1;
     }
 
@@ -156,7 +205,7 @@ namespace Zorglub.Time.Simple
             foreach (var x in arr)
             {
                 var chr = x.Value.Value;
-                // Filter out bad calendars; see comments in "Add" methods.
+                // Filter out dirty calendars; see comments in "Add" methods.
                 if (chr.Id == Cuid.Invalid) { continue; }
                 dict.Add(x.Key, chr);
             }
@@ -170,7 +219,7 @@ namespace Zorglub.Time.Simple
             if (_calendarsByKey.TryGetValue(key, out Lazy<Calendar>? calendar))
             {
                 var chr = calendar.Value;
-                // Filter out bad calendars; see comments in "Add" methods.
+                // Filter out dirty calendars; see comments in "Add" methods.
                 return chr.Id == Cuid.Invalid ? Throw.KeyNotFound<Calendar>(key) : chr;
             }
 
@@ -183,7 +232,7 @@ namespace Zorglub.Time.Simple
             if (_calendarsByKey.TryGetValue(key, out Lazy<Calendar>? chr))
             {
                 var tmp = chr.Value;
-                // Filter out bad calendars; see comments in "Add" methods.
+                // Filter out dirty calendars; see comments in "Add" methods.
                 if (tmp.Id == Cuid.Invalid) { goto NOT_FOUND; }
                 calendar = tmp;
                 return true;
@@ -238,7 +287,7 @@ namespace Zorglub.Time.Simple
                 if (ReferenceEquals(lazy1, lazy))
                 {
                     // We don't verify whether the following op is successful or
-                    // not, therefore we MUST filter out the bad calendars
+                    // not, therefore we MUST filter out the dirty calendars
                     // whenever we call a "Lookup" method.
                     _calendarsByKey.TryRemove(key, out _);
                 }
@@ -272,7 +321,7 @@ namespace Zorglub.Time.Simple
             {
                 // Clean up.
                 // We don't verify whether the following op is successful or not,
-                // therefore we MUST filter out the bad calendars whenever we
+                // therefore we MUST filter out the dirty calendars whenever we
                 // call a "Lookup" method.
                 _calendarsByKey.TryRemove(key, out _);
 
@@ -311,7 +360,7 @@ namespace Zorglub.Time.Simple
                 {
                     // Clean up.
                     // We don't verify whether the following op is successful or
-                    // not, therefore we MUST filter out the bad calendars
+                    // not, therefore we MUST filter out the dirty calendars
                     // whenever we call a "Lookup" method.
                     _calendarsByKey.TryRemove(key, out _);
 
