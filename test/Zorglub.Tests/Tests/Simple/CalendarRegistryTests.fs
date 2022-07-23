@@ -35,27 +35,19 @@ module TestCommon =
 module Prelude =
     [<Fact>]
     let ``Constructor throws when minId < MinMinId`` () =
-        let minId = CalendarRegistry.MinMinId - 1
-
-        outOfRangeExn "minId" (fun () -> new CalendarRegistry(minId - 1, defaultMaxId))
+        outOfRangeExn "minId" (fun () -> new CalendarRegistry(CalendarRegistry.MinMinId - 1, defaultMaxId))
 
     [<Fact>]
     let ``Constructor does not throw when minId = MinMinId`` () =
-        let minId = CalendarRegistry.MinMinId
-
-        new CalendarRegistry(minId, defaultMaxId) |> ignore
+        new CalendarRegistry(CalendarRegistry.MinMinId, defaultMaxId) |> ignore
 
     [<Fact>]
     let ``Constructor throws when minId > MaxMaxId`` () =
-        let minId = CalendarRegistry.MaxMaxId + 1
-
-        outOfRangeExn "minId" (fun () -> new CalendarRegistry(minId, defaultMaxId))
+        outOfRangeExn "minId" (fun () -> new CalendarRegistry(CalendarRegistry.MaxMaxId + 1, defaultMaxId))
 
     [<Fact>]
     let ``Constructor does not throw when minId = MaxMaxId`` () =
-        let minId = CalendarRegistry.MaxMaxId
-
-        new CalendarRegistry(minId, defaultMaxId) |> ignore
+        new CalendarRegistry(CalendarRegistry.MaxMaxId, defaultMaxId) |> ignore
 
     [<Fact>]
     let ``Constructor throws when maxId < minId`` () =
@@ -63,20 +55,15 @@ module Prelude =
 
     [<Fact>]
     let ``Constructor does not throw when maxId = minId`` () =
-
         new CalendarRegistry(defaultMinId, defaultMinId) |> ignore
 
     [<Fact>]
     let ``Constructor throws when maxId > MaxMaxId`` () =
-        let maxId = CalendarRegistry.MaxMaxId + 1
-
-        outOfRangeExn "maxId" (fun () -> new CalendarRegistry(defaultMinId, maxId))
+        outOfRangeExn "maxId" (fun () -> new CalendarRegistry(defaultMinId, CalendarRegistry.MaxMaxId + 1))
 
     [<Fact>]
     let ``Constructor does not throw when maxId = MaxMaxId`` () =
-        let maxId = CalendarRegistry.MaxMaxId
-
-        new CalendarRegistry(defaultMinId, maxId) |> ignore
+        new CalendarRegistry(defaultMinId, CalendarRegistry.MaxMaxId) |> ignore
 
     [<Fact>]
     let ``Constructor (largest size)`` () =
@@ -91,7 +78,7 @@ module Prelude =
         reg.NumberOfSystemCalendars === 0
 
         reg.MaxNumberOfCalendars === maxId + 1
-        reg.Count() === 0
+        reg.CountCalendars() === 0
 
         reg.MaxNumberOfUserCalendars === 64
         reg.CountUserCalendars() === 0
@@ -109,7 +96,7 @@ module Prelude =
         reg.NumberOfSystemCalendars === 0
 
         reg.MaxNumberOfCalendars === maxId + 1
-        reg.Count() === 0
+        reg.CountCalendars() === 0
 
         reg.MaxNumberOfUserCalendars === 1
         reg.CountUserCalendars() === 0
@@ -143,7 +130,7 @@ module AddOps =
 
         nullExn "schema" (fun () -> reg.GetOrAdd(key, null, DayZero.OldStyle, false))
         onKeyNotSet reg key
-        reg.Count() === 0
+        reg.CountCalendars() === 0
         reg.CountUserCalendars() === 0
 
     [<Fact>]
@@ -160,13 +147,13 @@ module AddOps =
         let epoch = DayNumber.Zero + 1234
         let proleptic = false
 
-        reg.Count() === 1
+        reg.CountCalendars() === 1
         reg.CountUserCalendars() === 0
 
         let chr = reg.GetOrAdd(key, new GregorianSchema(), epoch, proleptic)
 
         onKeySet reg key epoch proleptic chr
-        reg.Count() === 2
+        reg.CountCalendars() === 2
         reg.CountUserCalendars() === 1
 
     //
@@ -186,7 +173,7 @@ module AddOps =
 
         nullExn "schema" (fun () -> reg.Add(key, null, DayZero.OldStyle, false))
         onKeyNotSet reg key
-        reg.Count() === 0
+        reg.CountCalendars() === 0
         reg.CountUserCalendars() === 0
 
     [<Fact>]
@@ -202,13 +189,13 @@ module AddOps =
         let epoch = DayNumber.Zero + 1234
         let proleptic = true
 
-        reg.Count() === 1
+        reg.CountCalendars() === 1
         reg.CountUserCalendars() === 0
 
         let chr = reg.Add(key, new GregorianSchema(), epoch, proleptic)
 
         onKeySet reg key epoch proleptic chr
-        reg.Count() === 2
+        reg.CountCalendars() === 2
         reg.CountUserCalendars() === 1
 
     //
@@ -228,7 +215,7 @@ module AddOps =
 
         nullExn "schema" (fun () -> reg.TryAdd(key, null, DayZero.OldStyle, false))
         onKeyNotSet reg key
-        reg.Count() === 0
+        reg.CountCalendars() === 0
         reg.CountUserCalendars() === 0
 
     [<Fact>]
@@ -247,14 +234,14 @@ module AddOps =
         let epoch = DayNumber.Zero + 1234
         let proleptic = false
 
-        reg.Count() === 1
+        reg.CountCalendars() === 1
         reg.CountUserCalendars() === 0
 
         let succeed, chr = reg.TryAdd(key, new GregorianSchema(), epoch, proleptic)
 
         succeed |> ok
         onKeySet reg key epoch proleptic chr
-        reg.Count() === 2
+        reg.CountCalendars() === 2
         reg.CountUserCalendars() === 1
 
     [<Fact>]
@@ -268,7 +255,7 @@ module AddOps =
 
         succeed |> ok
         onKeySet reg key epoch proleptic chr
-        reg.Count() === 2
+        reg.CountCalendars() === 2
         reg.CountUserCalendars() === 1
 
 module AddLimits =
@@ -289,24 +276,24 @@ module AddLimits =
         let proleptic = false
 
         reg.MaxNumberOfUserCalendars === 2
-        reg.Count() === 0
+        reg.CountCalendars() === 0
         reg.CountUserCalendars() === 0
 
         let chr = reg.GetOrAdd("key", new GregorianSchema(), epoch, proleptic)
         onKeySet reg "key" epoch proleptic chr
-        reg.Count() === 1
+        reg.CountCalendars() === 1
         reg.CountUserCalendars() === 1
 
         // Using the same key, we obtain the same calendar.
         let chr1 = reg.GetOrAdd("key", new GregorianSchema(), epoch, proleptic)
         chr1 ==& chr
-        reg.Count() === 1
+        reg.CountCalendars() === 1
         reg.CountUserCalendars() === 1
 
         // Using a different key, we create a new calendar.
         let otherChr = reg.GetOrAdd("otherKey", new GregorianSchema(), epoch, proleptic)
         onKeySet reg "otherKey" epoch proleptic otherChr
-        reg.Count() === 2
+        reg.CountCalendars() === 2
         reg.CountUserCalendars() === 2
 
         //
@@ -316,20 +303,20 @@ module AddLimits =
         // Using an old key.
         let chr2 = reg.GetOrAdd("key", new GregorianSchema(), epoch, proleptic)
         chr2 ==& chr
-        reg.Count() === 2
+        reg.CountCalendars() === 2
         reg.CountUserCalendars() === 2
 
         // Using a new key.
         overflows (fun () -> reg.GetOrAdd("newKey", new GregorianSchema(), epoch, proleptic))
         onKeyNotSet reg "newKey"
-        reg.Count() === 2
+        reg.CountCalendars() === 2
         reg.CountUserCalendars() === 2
 
         reg.ForceCanAdd <- true
 
         overflows (fun () -> reg.GetOrAdd("newKey", new GregorianSchema(), epoch, proleptic))
         onKeyNotSet reg "newKey"
-        reg.Count() === 2
+        reg.CountCalendars() === 2
         reg.CountUserCalendars() === 2
 
     [<Fact>]
@@ -339,12 +326,12 @@ module AddLimits =
         let proleptic = false
 
         reg.MaxNumberOfUserCalendars === 2
-        reg.Count() === 0
+        reg.CountCalendars() === 0
         reg.CountUserCalendars() === 0
 
         let chr = reg.Add("key", new GregorianSchema(), epoch, proleptic)
         onKeySet reg "key" epoch proleptic chr
-        reg.Count() === 1
+        reg.CountCalendars() === 1
         reg.CountUserCalendars() === 1
 
         // Using the same key.
@@ -353,7 +340,7 @@ module AddLimits =
         // Using a different key, we create a new calendar.
         let otherChr = reg.Add("otherKey", new GregorianSchema(), epoch, proleptic)
         onKeySet reg "otherKey" epoch proleptic otherChr
-        reg.Count() === 2
+        reg.CountCalendars() === 2
         reg.CountUserCalendars() === 2
 
         //
@@ -362,20 +349,20 @@ module AddLimits =
 
         // Using an old key.
         overflows (fun () -> reg.Add("key", new GregorianSchema(), epoch, proleptic))
-        reg.Count() === 2
+        reg.CountCalendars() === 2
         reg.CountUserCalendars() === 2
 
         // Using a new key.
         overflows (fun () -> reg.Add("newKey", new GregorianSchema(), epoch, proleptic))
         onKeyNotSet reg "newKey"
-        reg.Count() === 2
+        reg.CountCalendars() === 2
         reg.CountUserCalendars() === 2
 
         reg.ForceCanAdd <- true
 
         overflows (fun () -> reg.Add("newKey", new GregorianSchema(), epoch, proleptic))
         onKeyNotSet reg "newKey"
-        reg.Count() === 2
+        reg.CountCalendars() === 2
         reg.CountUserCalendars() === 2
 
     [<Fact>]
@@ -386,21 +373,21 @@ module AddLimits =
         let proleptic = false
 
         reg.MaxNumberOfUserCalendars === 2
-        reg.Count() === 0
+        reg.CountCalendars() === 0
         reg.CountUserCalendars() === 0
 
         let (succeed, chr) = reg.TryAdd(key, new GregorianSchema(), epoch, proleptic)
         succeed |> ok
         chr     |> isnotnull
         onKeySet reg key epoch proleptic chr
-        reg.Count() === 1
+        reg.CountCalendars() === 1
         reg.CountUserCalendars() === 1
 
         // Using the same key.
         let (succeed1, chr1) = reg.TryAdd(key, new GregorianSchema(), epoch, proleptic)
         succeed1 |> nok
         chr1     |> isnull
-        reg.Count() === 1
+        reg.CountCalendars() === 1
         reg.CountUserCalendars() === 1
 
         // Using a different key, we create a new calendar.
@@ -408,7 +395,7 @@ module AddLimits =
         otherSucceed |> ok
         otherChr     |> isnotnull
         onKeySet reg key epoch proleptic chr
-        reg.Count() === 2
+        reg.CountCalendars() === 2
         reg.CountUserCalendars() === 2
 
         //
@@ -419,7 +406,7 @@ module AddLimits =
         let (succeed2, chr2) = reg.TryAdd("key", new GregorianSchema(), epoch, proleptic)
         succeed2 |> nok
         chr2     |> isnull
-        reg.Count() === 2
+        reg.CountCalendars() === 2
         reg.CountUserCalendars() === 2
 
         // Using a new key.
@@ -427,7 +414,7 @@ module AddLimits =
         succeed3 |> nok
         chr3     |> isnull
         onKeyNotSet reg "newKey"
-        reg.Count() === 2
+        reg.CountCalendars() === 2
         reg.CountUserCalendars() === 2
 
         reg.ForceCanAdd <- true
@@ -436,5 +423,5 @@ module AddLimits =
         succeed4 |> nok
         chr4     |> isnull
         onKeyNotSet reg "newKey"
-        reg.Count() === 2
+        reg.CountCalendars() === 2
         reg.CountUserCalendars() === 2

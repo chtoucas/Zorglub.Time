@@ -80,12 +80,12 @@ namespace Zorglub.Time.Simple
 
         /// <summary>
         /// Gets the list of keys of all fully constructed calendars at the time of the request.
-        /// <para>This collection may also contain a few bad keys, those paired with a calendar with
-        /// an ID equal to <see cref="Cuid.Invalid"/>.</para>
+        /// <para>This collection may contain dirty keys, those paired with a calendar with an ID
+        /// equal to <see cref="Cuid.Invalid"/>.</para>
         /// </summary>
         internal static ICollection<string> Keys =>
             // We do not provide a public equivalent to this property.
-            // First, it may contain keys paired with an "invalid" calendar.
+            // First, it may contain dirty keys.
             // Second, ConcurrentDictionary.Keys (and therefore Keys) returns a
             // snapshot of the collection of keys which might be surprising as
             // collection properties are expected to return live collection.
@@ -144,17 +144,15 @@ namespace Zorglub.Time.Simple
         [Pure]
         public static IReadOnlyCollection<Calendar> GetAllCalendars()
         {
-            int usr = s_Registry.CountUserCalendars();
-
             // Fast track.
-            if (usr == 0) { return SystemCalendars; }
-
-            int sys = s_SystemCalendars.Length;
+            if (s_Registry.IsPristine) { return SystemCalendars; }
 
             // Same as s_CalendarById but without the null's.
             // NB: the code works even if s_CalendarsById changed in the
             // meantime. We return a snapshot of s_CalendarsById at the point
             // of time when we compute "usr".
+            int usr = s_Registry.CountUserCalendars();
+            int sys = s_SystemCalendars.Length;
             var arr = new Calendar[sys + usr];
             // Copy system calendars.
             Array.Copy(s_CalendarsById, arr, sys);
@@ -170,11 +168,10 @@ namespace Zorglub.Time.Simple
         [Pure]
         public static IReadOnlyCollection<Calendar> GetUserCalendars()
         {
-            int usr = s_Registry.CountUserCalendars();
-
             // Fast track.
-            if (usr == 0) { return Array.Empty<Calendar>(); }
+            if (s_Registry.IsPristine) { return Array.Empty<Calendar>(); }
 
+            int usr = s_Registry.CountUserCalendars();
             var arr = new Calendar[usr];
             Array.Copy(s_CalendarsById, MinUserId, arr, 0, usr);
 

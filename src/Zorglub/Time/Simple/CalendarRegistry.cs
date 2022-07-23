@@ -16,6 +16,7 @@ namespace Zorglub.Time.Simple
     // Improve CalendarCreated: use the standard event pattern? Async?
     // How to add a calendar with a dirty key? use AddOrUpdate()
     // Exception neutral code?
+    // Dirty prop.
 
     internal sealed partial class CalendarRegistry
     {
@@ -25,7 +26,7 @@ namespace Zorglub.Time.Simple
         /// </summary>
         /// <remarks>
         /// This lower limit exists to ensure that a user-defined calendar with a system ID won't
-        /// be added to the array of calendars (see CalendarCatalog).
+        /// be added to the array of calendars (see CalendarCatalog.s_CalendarsById).
         /// </remarks>
         public const int MinMinId = (int)Cuid.MinUser;
 
@@ -34,10 +35,9 @@ namespace Zorglub.Time.Simple
         /// <para>This field is a constant equal to 127.</para>
         /// </summary>
         /// <remarks>
-        /// <para>This upper limit exists to ensure that the ID of a user-defined calendar is valid.
-        /// </para>
-        /// <para>In particular, a calendar with ID = Cuid.Invalid cannot be added to the array of
-        /// calendars (see CalendarCatalog).</para>
+        /// This upper limit exists to ensure that the ID of a user-defined calendar is valid.
+        /// In particular, a calendar with ID = Cuid.Invalid cannot be added to the array of
+        /// calendars (see CalendarCatalog.s_CalendarsById).
         /// </remarks>
         public const int MaxMaxId = (int)Cuid.Max;
 
@@ -60,7 +60,6 @@ namespace Zorglub.Time.Simple
         {
             // First prime number >= max nbr of calendars (128 = MaxMaxId + 1).
             const int Capacity = 131;
-            Debug.Assert(Capacity > MaxMaxId);
 
             if (minId < MinMinId || minId > MaxMaxId) Throw.ArgumentOutOfRange(nameof(minId));
             if (maxId < minId || maxId > MaxMaxId) Throw.ArgumentOutOfRange(nameof(maxId));
@@ -69,6 +68,7 @@ namespace Zorglub.Time.Simple
             MaxId = maxId;
             _lastId = minId - 1;
 
+            Debug.Assert(Capacity > MaxMaxId);
             _calendarsByKey = new ConcurrentDictionary<string, Lazy<Calendar>>(
                 // If I'm not mistaken, this is the default concurrency level.
                 concurrencyLevel: Environment.ProcessorCount,
@@ -113,10 +113,10 @@ namespace Zorglub.Time.Simple
         /// </summary>
         public int MaxId { get; }
 
-        ///// <summary>
-        ///// Returns true if XXX; otherwise returns false.
-        ///// </summary>
-        //public bool Is => _lastId < MinUserId;
+        /// <summary>
+        /// Returns true if the registry is in its pristine state; otherwise returns false.
+        /// </summary>
+        public bool IsPristine => _lastId < MinId;
 
         // Disable fast track. Only for testing.
         public bool ForceCanAdd { get; set; }
@@ -124,7 +124,6 @@ namespace Zorglub.Time.Simple
         /// <summary>
         /// Returns false if the registry cannot add a new calendar to the current instance;
         /// otherwise returns true BUT one cannot assert that the registry is not full.
-        /// <para>This property is NOT thread-safe.</para>
         /// </summary>
         // Fast track? Only use this property to check if the registry is full,
         // that is if (CanAdd == false).
@@ -145,42 +144,51 @@ namespace Zorglub.Time.Simple
         /// <summary>
         /// Gets the absolute maximum number of calendars.
         /// </summary>
-        public int MaxNumberOfCalendars => MaxId + 1;
+        public int MaxNumberOfCalendars => MaxId + 1; // <= 128
 
         /// <summary>
         /// Gets the absolute maximum number of user-defined calendars.
         /// </summary>
-        public int MaxNumberOfUserCalendars => MaxId - MinId + 1;
+        public int MaxNumberOfUserCalendars => MaxId - MinId + 1; // <= 64
 
         /// <summary>
-        /// Gets the number of system calendars in the current instance.
+        /// Gets the number of system calendars.
         /// </summary>
-        public int NumberOfSystemCalendars { get; }
+        public int NumberOfSystemCalendars { get; } // <= 64
+
+        /// <summary>
+        /// Gets the number of calendars, including dirty calendars.
+        /// </summary>
+        public int Count => _calendarsByKey.Count;
 
         /// <summary>
         /// Counts the number of calendars.
-        /// <para>This method returns a number lesser than or equal to the actual number of
-        /// user-defined calendars.</para>
         /// </summary>
-        public int Count() =>
-            // We must be careful, we cannot use _calendarsByKey.Count because
-            // it also includes the dirty calendars, therefore
-            //   _calendarsByKey.Count >= actual number of calendars
+        [Pure]
+        public int CountCalendars() =>
+            // Beware, we cannot use _calendarsByKey.Count because it also
+            // includes the dirty calendars. The correct formula is given by:
+            // > _calendarsByKey.Where(x => x.Value.Value.Id != Cuid.Invalid).Count()
+            // We prefer the faster formula:
             NumberOfSystemCalendars + CountUserCalendars();
 
         /// <summary>
         /// Counts the number of user-defined calendars.
-        /// <para>This method returns a number lesser than or equal to the actual number of
-        /// user-defined calendars.</para>
         /// </summary>
         [Pure]
         public int CountUserCalendars() =>
-            // CountUserCalendars() <= number of user-defined calendars added to
+            // The result is <= number of user-defined calendars found in
             // _calendarsByKey.
             // When one registers a new calendar, we first reserve the key, and
-            // only after do we increment _lastId.
-            // What does it mean is that, during a very short window of time,
-            // this property will return a value less than the actual value.
+            // only after do we increment _lastId. What does it mean is that,
+            // during a very short window of time, this property will return a
+            // value less than the number of user-defined calendars found in the
+            // dictionary _calendarsByKey. At the same time, we can say that a
+            // calendar should not be counted until it is fully constructed,
+            // that is until CreateCalendar() completes.
+            // TODO(doc): we don't really count fully constructed calendars
+            // because _lastId is incremented before the calendar's constructor
+            // is called.
             //
             // We use Math.Min() because CreateCalendar() will eventually
             // increment _lastId to (1 + MaxId).
@@ -192,7 +200,7 @@ namespace Zorglub.Time.Simple
         [Pure]
         public IReadOnlyDictionary<string, Calendar> TakeSnapshot()
         {
-            // Freeze _calendarsByKey.
+            // Freeze the backing store.
             var arr = _calendarsByKey.ToArray();
 
             var dict = new Dictionary<string, Calendar>(arr.Length);
@@ -275,9 +283,8 @@ namespace Zorglub.Time.Simple
                 // of time during which a temp Calendar is still referenced by
                 // _calendarsByKey.
                 // The next check ensures that we only try to unlist the local
-                // instance of temp Calendar.
-                // Actually, this is not mandatory, we could try to remove the
-                // same key twice...
+                // instance of temp Calendar. Actually, this is not mandatory,
+                // we could try to remove the same key twice...
                 if (ReferenceEquals(lazy1, lazy))
                 {
                     // We don't verify whether the following op is successful or
@@ -337,12 +344,12 @@ namespace Zorglub.Time.Simple
             Requires.NotNull(key);
             Requires.NotNull(schema);
 
-            // Other parameters validation (exceptions catched).
+            // Other parameters validation.
             Calendar tmp;
             try { tmp = ValidateParameters(key, schema, epoch, proleptic); }
             catch (ArgumentException) { goto FAILED; }
 
-            // The callback won't be executed until we query Value.
+            // The callback won't be executed until we query lazy.Value.
             var lazy = new Lazy<Calendar>(() => CreateCalendar(tmp));
 
             if (_calendarsByKey.TryAdd(key, lazy))
