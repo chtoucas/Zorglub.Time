@@ -221,24 +221,28 @@ namespace Zorglub.Time.Simple
             Math.Min(_lastId, MaxId) - MinId + 1;
 
         /// <summary>
-        /// Add a user-defined calendar to the current instance.
-        /// <para>WARNING: <paramref name="calendar"/> won't be counted by
+        /// Add a calendar to the current instance.
+        /// <para><i>For testing purposes only</i>.</para>
+        /// <para>One SHOULD use this method to add a user-defined calendar with an invalid ID.</para>
+        /// <para>Beware, a user-defined calendar will be ignored by
         /// <see cref="CountCalendars()"/> and
-        /// <see cref="CountUserCalendars()"/>.</para>
-        /// <para><i>Only for testing.</i></para>
+        /// <see cref="CountUserCalendars()"/>, and a system calendar will be ignored by
+        /// <see cref="NumberOfSystemCalendars"/>.</para>
         /// </summary>
         public void Add(Calendar calendar)
         {
             Requires.NotNull(calendar);
-            if (calendar.IsUserDefined == false) Throw.Argument(nameof(calendar));
-            if (calendar.Id != Cuid.Invalid) Throw.Argument(nameof(calendar));
 
             _calendarsByKey[calendar.Key] = new Lazy<Calendar>(calendar);
         }
     }
 
-    internal sealed partial class CalendarRegistry // Lookup
+    internal sealed partial class CalendarRegistry // Snapshot & lookup
     {
+        // We don't verify whether the removal of a dirty calendar (see the
+        // "Add"-methods) is successful or not, therefore we MUST filter them
+        // out.
+
         [Pure]
         public IReadOnlyDictionary<string, Calendar> TakeSnapshot()
         {
@@ -249,7 +253,7 @@ namespace Zorglub.Time.Simple
             foreach (var x in arr)
             {
                 var chr = x.Value.Value;
-                // Filter out dirty calendars; see comments in "Add" methods.
+                // Filter out dirty calendars.
                 if (chr.Id == Cuid.Invalid) { continue; }
                 dict.Add(x.Key, chr);
             }
@@ -263,7 +267,7 @@ namespace Zorglub.Time.Simple
             if (_calendarsByKey.TryGetValue(key, out Lazy<Calendar>? calendar))
             {
                 var chr = calendar.Value;
-                // Filter out dirty calendars; see comments in "Add" methods.
+                // Filter out dirty calendars.
                 return chr.Id == Cuid.Invalid ? Throw.KeyNotFound<Calendar>(key) : chr;
             }
 
@@ -276,7 +280,7 @@ namespace Zorglub.Time.Simple
             if (_calendarsByKey.TryGetValue(key, out Lazy<Calendar>? chr))
             {
                 var tmp = chr.Value;
-                // Filter out dirty calendars; see comments in "Add" methods.
+                // Filter out dirty calendars.
                 if (tmp.Id == Cuid.Invalid) { goto NOT_FOUND; }
                 calendar = tmp;
                 return true;
@@ -329,9 +333,6 @@ namespace Zorglub.Time.Simple
                 // we could try to remove the same key twice...
                 if (ReferenceEquals(lazy1, lazy))
                 {
-                    // We don't verify whether the following op is successful or
-                    // not, therefore we MUST filter out the dirty calendars
-                    // whenever we call a "Lookup" method.
                     _calendarsByKey.TryRemove(key, out _);
                 }
 
@@ -363,9 +364,6 @@ namespace Zorglub.Time.Simple
             if (chr.Id == Cuid.Invalid)
             {
                 // Clean up.
-                // We don't verify whether the following op is successful or not,
-                // therefore we MUST filter out the dirty calendars whenever we
-                // call a "Lookup" method.
                 _calendarsByKey.TryRemove(key, out _);
 
                 Throw.CatalogOverflow();
@@ -402,9 +400,6 @@ namespace Zorglub.Time.Simple
                 if (chr.Id == Cuid.Invalid)
                 {
                     // Clean up.
-                    // We don't verify whether the following op is successful or
-                    // not, therefore we MUST filter out the dirty calendars
-                    // whenever we call a "Lookup" method.
                     _calendarsByKey.TryRemove(key, out _);
 
                     goto FAILED;
