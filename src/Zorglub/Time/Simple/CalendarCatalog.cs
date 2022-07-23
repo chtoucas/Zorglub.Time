@@ -18,9 +18,9 @@ namespace Zorglub.Time.Simple
     // - s_Registry: all calendars indexed by their key.
     //   Not the fastest, but enforces the unicity of keys -and- ensures that
     //   ops are thread-safe.
-    // - s_CalendarsById: all calendars indexed by their ID.
+    // - s_Calendars: all calendars indexed by their ID.
     // - s_SystemCalendars: system calendars indexed by their ID.
-    //   Immutable part of s_CalendarsById.
+    //   Immutable part of s_Calendars.
     //
     // WARNING: a call to a method/prop from this class CAN NOT appear during
     // the initialization (static or instance) of a pre-defined Calendar,
@@ -36,23 +36,13 @@ namespace Zorglub.Time.Simple
     /// </summary>
     public static partial class CalendarCatalog
     {
-        /// <summary>
-        /// Represents the absolute maximum value for the ID of a calendar.
-        /// <para>This field is a constant equal to 127.</para>
-        /// </summary>
-        internal const int MaxId = (int)Cuid.Max;
-
-        /// <summary>
-        /// Represents the minimum value for the ID of a user-defined calendar.
-        /// <para>This field is a constant equal to 64.</para>
-        /// </summary>
-        internal const int MinUserId = (int)Cuid.MinUser;
+        // WARNING: the order of the static fields matters.
 
         /// <summary>
         /// Represents the (immutable) array of system calendars, indexed by their internal IDs.
         /// <para>This field is read-only.</para>
         /// </summary>
-        private static readonly Calendar[] s_SystemCalendars = CreateSystemCalendars();
+        private static readonly Calendar[] s_SystemCalendars = InitializeSystemCalendars();
 
         /// <summary>
         /// Represents the array of fully constructed calendars, indexed by their internal IDs.
@@ -60,17 +50,43 @@ namespace Zorglub.Time.Simple
         /// </para>
         /// <para>This field is read-only.</para>
         /// </summary>
-        private static readonly Calendar?[] s_CalendarsById = CreateCalendarsById(s_SystemCalendars);
+        private static readonly Calendar?[] s_Calendars = InitializeCalendars(s_SystemCalendars);
 
         /// <summary>
         /// Represents the registry.
         /// <para>This field is read-only.</para>
         /// </summary>
         private static readonly CalendarRegistry s_Registry =
-            new(MinUserId, MaxId, s_SystemCalendars)
+            new(s_SystemCalendars)
             {
-                CalendarCreated = x => s_CalendarsById[(int)x.Id] = x,
+                CalendarCreated = chr => s_Calendars[(int)chr.Id] = chr,
             };
+
+        /// <summary>
+        /// Gets the minimum value for the ID of a user-defined calendar.
+        /// <para>This property ALWAYS returns 64.</para>
+        /// </summary>
+        internal static int MinUserId
+        {
+            get
+            {
+                Debug.Assert(s_Registry.MinId == (int)Cuid.MinUser);
+                return s_Registry.MinId;
+            }
+        }
+
+        /// <summary>
+        /// Gets the absolute maximum value for the ID of a calendar.
+        /// <para>This property ALWAYS returns 127.</para>
+        /// </summary>
+        internal static int MaxId
+        {
+            get
+            {
+                Debug.Assert(s_Registry.MaxId == (int)Cuid.Max);
+                return s_Registry.MaxId;
+            }
+        }
 
         /// <summary>
         /// Gets the absolute maximum number of user-defined calendars.
@@ -95,20 +111,20 @@ namespace Zorglub.Time.Simple
 
         /// <summary>
         /// Gets the collection of reserved keys.
+        /// <para>This static property is thread-safe.</para>
         /// </summary>
         public static ReadOnlySet<string> ReservedKeys { get; } =
             new ReadOnlySet<string>(from chr in s_SystemCalendars select chr.Key);
 
         /// <summary>
         /// Gets the collection of system calendars.
+        /// <para>This static property is thread-safe.</para>
         /// </summary>
         public static IReadOnlyCollection<Calendar> SystemCalendars { get; } =
             Array.AsReadOnly(s_SystemCalendars);
 
-        #region Initializers
-
         [Pure]
-        private static Calendar[] CreateSystemCalendars()
+        private static Calendar[] InitializeSystemCalendars()
         {
             var arr = new Calendar[1 + (int)Cuid.MaxSystem];
 
@@ -126,14 +142,12 @@ namespace Zorglub.Time.Simple
         }
 
         [Pure]
-        private static Calendar?[] CreateCalendarsById(Calendar[] systemCalendars)
+        private static Calendar?[] InitializeCalendars(Calendar[] systemCalendars)
         {
-            var arr = new Calendar?[MaxId + 1];
+            var arr = new Calendar?[1 + (int)Cuid.Max];
             Array.Copy(systemCalendars, arr, systemCalendars.Length);
             return arr;
         }
-
-        #endregion
     }
 
     public partial class CalendarCatalog // Snapshots
@@ -148,16 +162,16 @@ namespace Zorglub.Time.Simple
             if (s_Registry.IsPristine) { return SystemCalendars; }
 
             // Same as s_CalendarById but without the null's.
-            // NB: the code works even if s_CalendarsById changed in the
-            // meantime. We return a snapshot of s_CalendarsById at the point
+            // NB: the code works even if s_Calendars changed in the
+            // meantime. We return a snapshot of s_Calendars at the point
             // of time when we compute "usr".
             int usr = s_Registry.CountUserCalendars();
             int sys = s_SystemCalendars.Length;
             var arr = new Calendar[sys + usr];
             // Copy system calendars.
-            Array.Copy(s_CalendarsById, arr, sys);
+            Array.Copy(s_Calendars, arr, sys);
             // Copy user-defined calendars.
-            Array.Copy(s_CalendarsById, MinUserId, arr, sys, usr);
+            Array.Copy(s_Calendars, MinUserId, arr, sys, usr);
 
             return Array.AsReadOnly(arr);
         }
@@ -173,7 +187,7 @@ namespace Zorglub.Time.Simple
 
             int usr = s_Registry.CountUserCalendars();
             var arr = new Calendar[usr];
-            Array.Copy(s_CalendarsById, MinUserId, arr, 0, usr);
+            Array.Copy(s_Calendars, MinUserId, arr, 0, usr);
 
             return Array.AsReadOnly(arr);
         }
@@ -260,9 +274,9 @@ namespace Zorglub.Time.Simple
         [Pure]
         internal static Calendar GetCalendarUnchecked(int cuid)
         {
-            Debug.Assert(cuid < s_CalendarsById.Length);
+            Debug.Assert(cuid < s_Calendars.Length);
 
-            return s_CalendarsById[cuid];
+            return s_Calendars[cuid];
         }
 
         /// <summary>
@@ -282,7 +296,7 @@ namespace Zorglub.Time.Simple
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static ref readonly Calendar GetCalendarUnsafe(int cuid)
         {
-            Debug.Assert(cuid < s_CalendarsById.Length);
+            Debug.Assert(cuid < s_Calendars.Length);
 
             // Array bound elimination.
             // We can remove all array bound checks. The actual perf boost is
@@ -290,7 +304,7 @@ namespace Zorglub.Time.Simple
             // WARNING: it removes array variance checks.
             // See https://github.com/CommunityToolkit/dotnet/blob/main/CommunityToolkit.HighPerformance/Extensions/ArrayExtensions.1D.cs
             // and https://tooslowexception.com/getting-rid-of-array-bound-checks-ref-returns-and-net-5/
-            ref Calendar chr = ref MemoryMarshal.GetArrayDataReference(s_CalendarsById);
+            ref Calendar chr = ref MemoryMarshal.GetArrayDataReference(s_Calendars);
             return ref Unsafe.Add(ref chr, (nint)(uint)cuid);
         }
 

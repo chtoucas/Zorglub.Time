@@ -10,11 +10,6 @@ open Zorglub.Time.Simple
 
 open Xunit
 
-/// 64
-let private defaultMinId = CalendarRegistry.MinMinId
-/// 127
-let private defaultMaxId = CalendarRegistry.MaxMaxId
-
 module TestCommon =
     let checkState (reg: CalendarRegistry) count countUsers =
         reg.CountCalendars() === count
@@ -42,6 +37,13 @@ module TestCommon =
         reg.GetCalendar(key) ==& chr
 
 module Prelude =
+    /// 64
+    [<Literal>]
+    let private defaultMinId = CalendarRegistry.MinMinId
+    /// 127
+    [<Literal>]
+    let private defaultMaxId = CalendarRegistry.MaxMaxId
+
     [<Fact>]
     let ``Constructor throws when minId < MinMinId`` () =
         outOfRangeExn "minId" (fun () -> new CalendarRegistry(CalendarRegistry.MinMinId - 1, defaultMaxId))
@@ -75,27 +77,42 @@ module Prelude =
         new CalendarRegistry(defaultMinId, CalendarRegistry.MaxMaxId) |> ignore
 
     [<Fact>]
-    let ``Constructor (largest size)`` () =
-        let minId = CalendarRegistry.MinMinId
-        let maxId = CalendarRegistry.MaxMaxId
+    let ``Constructor`` () =
+        let reg = new CalendarRegistry()
 
-        let reg = new CalendarRegistry(minId, maxId)
-
-        reg.MinId === minId
-        reg.MaxId === maxId
+        reg.MinId === defaultMinId
+        reg.MaxId === defaultMaxId
 
         reg.IsPristine |> ok
         reg.NumberOfSystemCalendars === 0
+        reg.Count === 0
 
-        reg.MaxNumberOfCalendars === maxId + 1
+        reg.MaxNumberOfCalendars === defaultMaxId + 1
         reg.CountCalendars() === 0
 
         reg.MaxNumberOfUserCalendars === 64
         reg.CountUserCalendars() === 0
 
     [<Fact>]
-    let ``Constructor (smallest size)`` () =
-        let minId = CalendarRegistry.MinMinId
+    let ``Constructor with one system calendar`` () =
+        let reg = new CalendarRegistry([| GregorianCalendar.Instance |])
+
+        reg.MinId === defaultMinId
+        reg.MaxId === defaultMaxId
+
+        reg.IsPristine |> ok
+        reg.NumberOfSystemCalendars === 1
+        reg.Count === 1
+
+        reg.MaxNumberOfCalendars === defaultMaxId + 1
+        reg.CountCalendars() === 1
+
+        reg.MaxNumberOfUserCalendars === 64
+        reg.CountUserCalendars() === 0
+
+    [<Fact>]
+    let ``Constructor (smallest size, no system calendar)`` () =
+        let minId = defaultMinId
         let maxId = minId
 
         let reg = new CalendarRegistry(minId, maxId)
@@ -105,6 +122,7 @@ module Prelude =
 
         reg.IsPristine |> ok
         reg.NumberOfSystemCalendars === 0
+        reg.Count === 0
 
         reg.MaxNumberOfCalendars === maxId + 1
         reg.CountCalendars() === 0
@@ -112,36 +130,8 @@ module Prelude =
         reg.MaxNumberOfUserCalendars === 1
         reg.CountUserCalendars() === 0
 
-    [<Fact>]
-    let ``Constructor with calendars`` () =
-        let minId = CalendarRegistry.MinMinId
-        let maxId = CalendarRegistry.MaxMaxId
-
-        let reg = new CalendarRegistry(minId, maxId, [| GregorianCalendar.Instance |])
-
-        reg.MinId === minId
-        reg.MaxId === maxId
-
-        reg.IsPristine |> ok
-        reg.NumberOfSystemCalendars === 1
-
-        reg.MaxNumberOfCalendars === maxId + 1
-        reg.CountCalendars() === 1
-
-        reg.MaxNumberOfUserCalendars === 64
-        reg.CountUserCalendars() === 0
-
 module AddOps =
     open TestCommon
-
-    let private gregorian = GregorianCalendar.Instance
-
-    let private newEmptyRegistry () =
-        new CalendarRegistry(defaultMinId, defaultMaxId)
-
-    /// Creates a new registry with one system calendar.
-    let private newRegistry (chr: Calendar) =
-        new CalendarRegistry(defaultMinId, defaultMaxId, [| chr |])
 
     //
     // GetOrAdd()
@@ -149,13 +139,13 @@ module AddOps =
 
     [<Fact>]
     let ``GetOrAdd() throws for null key`` () =
-        let reg = newEmptyRegistry()
+        let reg = new CalendarRegistry()
 
         nullExn "key" (fun () -> reg.GetOrAdd(null, new JulianSchema(), DayZero.OldStyle, false))
 
     [<Fact>]
     let ``GetOrAdd() throws for null schema`` () =
-        let reg = newEmptyRegistry()
+        let reg = new CalendarRegistry()
         let key = "key"
 
         nullExn "schema" (fun () -> reg.GetOrAdd(key, null, DayZero.OldStyle, false))
@@ -164,14 +154,16 @@ module AddOps =
 
     [<Fact>]
     let ``GetOrAdd() when the key is already taken`` () =
-        let reg = newRegistry gregorian
-        let chr = reg.GetOrAdd(gregorian.Key, new JulianSchema(), DayZero.OldStyle, false)
+        let gr = GregorianCalendar.Instance
+        let reg = new CalendarRegistry([| gr |])
+        let chr = reg.GetOrAdd(gr.Key, new JulianSchema(), DayZero.OldStyle, false)
 
-        chr ==& gregorian
+        chr ==& gr
 
     [<Fact>]
     let ``GetOrAdd()`` () =
-        let reg = newRegistry gregorian
+        let gr = GregorianCalendar.Instance
+        let reg = new CalendarRegistry([| gr |])
         let key = "key"
         let epoch = DayNumber.Zero + 1234
         let proleptic = false
@@ -189,13 +181,13 @@ module AddOps =
 
     [<Fact>]
     let ``Add() throws for null key`` () =
-        let reg = newEmptyRegistry()
+        let reg = new CalendarRegistry()
 
         nullExn "key" (fun () -> reg.Add(null, new JulianSchema(), DayZero.OldStyle, false))
 
     [<Fact>]
     let ``Add() throws for null schema`` () =
-        let reg = newEmptyRegistry()
+        let reg = new CalendarRegistry()
         let key = "key"
 
         nullExn "schema" (fun () -> reg.Add(key, null, DayZero.OldStyle, false))
@@ -204,13 +196,15 @@ module AddOps =
 
     [<Fact>]
     let ``Add() throws when the key is already taken`` () =
-        let reg = newRegistry gregorian
+        let gr = GregorianCalendar.Instance
+        let reg = new CalendarRegistry([| gr |])
 
-        argExn "key" (fun () -> reg.Add(gregorian.Key, new JulianSchema(), DayZero.OldStyle, false))
+        argExn "key" (fun () -> reg.Add(gr.Key, new JulianSchema(), DayZero.OldStyle, false))
 
     [<Fact>]
     let ``Add()`` () =
-        let reg = newRegistry gregorian
+        let gr = GregorianCalendar.Instance
+        let reg = new CalendarRegistry([| gr |])
         let key = "key"
         let epoch = DayNumber.Zero + 1234
         let proleptic = true
@@ -228,13 +222,13 @@ module AddOps =
 
     [<Fact>]
     let ``TryAdd() throws for null key`` () =
-        let reg = newEmptyRegistry()
+        let reg = new CalendarRegistry()
 
         nullExn "key" (fun () -> reg.TryAdd(null, new JulianSchema(), DayZero.OldStyle, false))
 
     [<Fact>]
     let ``TryAdd() throws for null schema`` () =
-        let reg = newEmptyRegistry()
+        let reg = new CalendarRegistry()
         let key = "key"
 
         nullExn "schema" (fun () -> reg.TryAdd(key, null, DayZero.OldStyle, false))
@@ -243,16 +237,18 @@ module AddOps =
 
     [<Fact>]
     let ``TryAdd() when the key is already taken`` () =
-        let reg = newRegistry gregorian
+        let gr = GregorianCalendar.Instance
+        let reg = new CalendarRegistry([| gr |])
 
-        let succeed, chr = reg.TryAdd(gregorian.Key, new JulianSchema(), DayZero.OldStyle, false)
+        let succeed, chr = reg.TryAdd(gr.Key, new JulianSchema(), DayZero.OldStyle, false)
 
         succeed |> nok
         chr     |> isnull
 
     [<Fact>]
     let ``TryAdd()`` () =
-        let reg = newRegistry gregorian
+        let gr = GregorianCalendar.Instance
+        let reg = new CalendarRegistry([| gr |])
         let key = "key"
         let epoch = DayNumber.Zero + 1234
         let proleptic = false
@@ -267,7 +263,8 @@ module AddOps =
 
     [<Fact>]
     let ``TryAdd() when the key is empty`` () =
-        let reg = newRegistry gregorian
+        let gr = GregorianCalendar.Instance
+        let reg = new CalendarRegistry([| gr |])
         let key = ""
         let epoch = DayNumber.Zero + 1234
         let proleptic = true

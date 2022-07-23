@@ -48,11 +48,11 @@ namespace Zorglub.Time.Hemerology
 
         /// <summary>
         /// Represents the minimum value for the ID of a user-defined calendar.
-        /// <para>This field is a constant equal to 128.</para>
+        /// <para>This field is equal to 128.</para>
         /// </summary>
         // IDs système : 0 à 63. On garantit la compatibilité avec Calendar en
         // réservant aussi les IDs 64 à 127; voir ToZCalendar() et ToCalendar().
-        private const int MinUserId = CalendarCatalog.MaxId + 1;
+        private static readonly int MinUserId = CalendarCatalog.MaxId + 1;
 
 #if ZCATALOG_BIG
         /// <summary>

@@ -21,24 +21,17 @@ namespace Zorglub.Time.Simple
     internal sealed partial class CalendarRegistry
     {
         /// <summary>
-        /// Represents the minimum value for <see cref="MinId"/>.
+        /// Represents the minimum value for the ID of a user-defined calendar.
+        /// <para>It is also the absolute minimum value for <see cref="MinId"/>.</para>
         /// <para>This field is a constant equal to 64.</para>
         /// </summary>
-        /// <remarks>
-        /// This lower limit exists to ensure that a user-defined calendar with a system ID won't
-        /// be added to the array of calendars (see CalendarCatalog.s_CalendarsById).
-        /// </remarks>
         public const int MinMinId = (int)Cuid.MinUser;
 
         /// <summary>
-        /// Represents the absolute maximum value for <see cref="MaxId"/>.
+        /// Represents the maximum value for the ID of a user-defined calendar.
+        /// <para>It is also the absolute maximum value for <see cref="MaxId"/>.</para>
         /// <para>This field is a constant equal to 127.</para>
         /// </summary>
-        /// <remarks>
-        /// This upper limit exists to ensure that the ID of a user-defined calendar is valid.
-        /// In particular, a calendar with ID = Cuid.Invalid cannot be added to the array of
-        /// calendars (see CalendarCatalog.s_CalendarsById).
-        /// </remarks>
         public const int MaxMaxId = (int)Cuid.Max;
 
         /// <summary>
@@ -48,6 +41,50 @@ namespace Zorglub.Time.Simple
         private readonly ConcurrentDictionary<string, Lazy<Calendar>> _calendarsByKey;
 
         private int _lastId;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CalendarRegistry"/> class.
+        /// </summary>
+        public CalendarRegistry() : this(MinMinId, MaxMaxId) { }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CalendarRegistry"/> class.
+        /// </summary>
+        /// <exception cref="ArgumentNullException"><paramref name="calendars"/> is null.</exception>
+        /// <exception cref="ArgumentException"><paramref name="calendars"/> contains more than
+        /// <see cref="MinMinId"/> elements -or- contains a user-defined calendar.</exception>
+        public CalendarRegistry(Calendar[] calendars) : this(MinMinId, MaxMaxId)
+        {
+            Requires.NotNull(calendars);
+
+            int count = calendars.Length;
+            NumberOfSystemCalendars =
+                count <= MinMinId ? count
+                : Throw.Argument<int>(nameof(calendars));
+
+            InitializeSystemCalendars(calendars);
+        }
+
+        private void InitializeSystemCalendars(Calendar[] calendars)
+        {
+            // We keep this routine outside the ctor, in case we decide to add a new
+            // ctor with params (minId, maxId, calendars).
+            // Only call this method from a ctor and ensure that NumberOfSystemCalendars
+            // is in sync with "calendars".
+
+            Debug.Assert(calendars != null);
+
+            // NB: we don't call the callback CalendarCreated, we assume that
+            // the caller has already taken care of it. It makes sense since the
+            // callback is called CalendarCreated, not CalendarAdded
+            foreach (var chr in calendars)
+            {
+                if (chr.IsUserDefined) Throw.Argument(nameof(calendars));
+
+                // Indexer instead of TryAdd(): unconditional add.
+                _calendarsByKey[chr.Key] = new Lazy<Calendar>(chr);
+            }
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CalendarRegistry"/> class.
@@ -73,34 +110,6 @@ namespace Zorglub.Time.Simple
                 // If I'm not mistaken, this is the default concurrency level.
                 concurrencyLevel: Environment.ProcessorCount,
                 Capacity);
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="CalendarRegistry"/> class.
-        /// </summary>
-        /// <exception cref="ArgumentNullException"><paramref name="calendars"/> is null.</exception>
-        /// <exception cref="ArgumentException"><paramref name="calendars"/> contains more than
-        /// <see cref="MinMinId"/> elements -or- contains a user-defined calendar.</exception>
-        /// <exception cref="AoorException"><paramref name="minId"/> is not
-        /// within the range [<see cref="MinMinId"/>..<see cref="MaxMaxId"/>].</exception>
-        /// <exception cref="AoorException"><paramref name="maxId"/> is not
-        /// within the range [<see cref="minId"/>..<see cref="MaxMaxId"/>].</exception>
-        public CalendarRegistry(int minId, int maxId, Calendar[] calendars) : this(minId, maxId)
-        {
-            Requires.NotNull(calendars);
-
-            int count = calendars.Length;
-            if (count > MinMinId) Throw.Argument(nameof(calendars));
-            NumberOfSystemCalendars = count;
-
-            foreach (var chr in calendars)
-            {
-                if (chr.IsUserDefined) Throw.Argument(nameof(calendars));
-                //if (chr.Id >= Cuid.MinUser) Throw.Argument(nameof(calendars));
-
-                // Indexer instead of TryAdd(): unconditional add.
-                _calendarsByKey[chr.Key] = new Lazy<Calendar>(chr);
-            }
         }
 
         /// <summary>
@@ -157,7 +166,7 @@ namespace Zorglub.Time.Simple
         public int NumberOfSystemCalendars { get; } // <= 64
 
         /// <summary>
-        /// Gets the number of calendars, including dirty calendars.
+        /// Gets the number of calendars, including <i>dirty</i> calendars.
         /// </summary>
         public int Count => _calendarsByKey.Count;
 
