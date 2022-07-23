@@ -88,10 +88,11 @@ namespace Zorglub.Time.Simple
         /// Initializes a new instance of the <see cref="Calendar"/> class.
         /// <para>Constructor for user-defined calendars.</para>
         /// </summary>
-        /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
         /// <exception cref="ArgumentNullException"><paramref name="key"/> is null.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
         /// <exception cref="ArgumentException">The range of supported years by
-        /// <paramref name="schema"/> does not contain the interval [-9998..9999].</exception>
+        /// <paramref name="schema"/> does not contain the interval [-9998..9999] in the proleptic
+        /// case -or- the interval [1..9999] in the standard.</exception>
         internal Calendar(
             Cuid id,
             string key,
@@ -116,6 +117,9 @@ namespace Zorglub.Time.Simple
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="key"/> is null.</exception>
         /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
+        /// <exception cref="ArgumentException">The range of supported years by
+        /// <paramref name="schema"/> does not contain the interval [-9998..9999] in the proleptic
+        /// case -or- the interval [1..9999] in the standard.</exception>
         private Calendar(
             Cuid id,
             string key,

@@ -49,6 +49,8 @@ namespace Zorglub.Time.Simple
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CalendarRegistry"/> class.
+        /// <para>It's the duty of the caller to ensure that the same system calendar does not appear
+        /// twice within <paramref name="calendars"/>.</para>
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="calendars"/> is null.</exception>
         /// <exception cref="ArgumentException"><paramref name="calendars"/> contains more than
@@ -67,10 +69,10 @@ namespace Zorglub.Time.Simple
 
         private void InitializeSystemCalendars(Calendar[] calendars)
         {
-            // We keep this routine outside the ctor, in case we decide to add a new
-            // ctor with params (minId, maxId, calendars).
-            // Only call this method from a ctor and ensure that NumberOfSystemCalendars
-            // is in sync with "calendars".
+            // Only call this method from a ctor and ensure that
+            // NumberOfSystemCalendars is in sync with "calendars".
+            // We keep this routine outside the ctor, in case we decide to add a
+            // new ctor with params (minId, maxId, calendars).
 
             Debug.Assert(calendars != null);
 
