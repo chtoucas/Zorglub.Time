@@ -95,6 +95,11 @@ namespace Zorglub.Time.Simple
         public static int MaxNumberOfUserCalendars => s_Registry.MaxNumberOfUserCalendars;
 
         /// <summary>
+        /// Returns true if the catalog is full; otherwise returns false.
+        /// </summary>
+        public static bool IsFull => s_Registry.IsFull;
+
+        /// <summary>
         /// Gets the list of keys of all fully constructed calendars at the time of the request.
         /// <para>This collection may contain dirty keys, those paired with a calendar with an ID
         /// equal to <see cref="Cuid.Invalid"/>.</para>

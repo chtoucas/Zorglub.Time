@@ -144,19 +144,18 @@ namespace Zorglub.Time.Simple
         /// </summary>
         public bool IsPristine => _lastId < MinId;
 
-        // Disable fast track. Only for testing.
-        public bool ForceCanAdd { get; set; }
-
         /// <summary>
-        /// Returns false if the registry cannot add a new calendar to the current instance;
-        /// otherwise returns true BUT one cannot assert that the registry is not full.
+        /// Returns true if the registry is full; otherwise returns false.
         /// </summary>
-        // Fast track? Only use this property to check if the registry is full,
-        // that is if (CanAdd == false).
-        // Indeed, _lastId is incremented very late in the process which means
-        // that CanAdd may return true even if, in the end, it's not truely the
+        // _lastId is incremented very late in the process which means
+        // that IsFull may return false even if, in the end, it's not truely the
         // case.
-        private bool CanAdd => ForceCanAdd || _lastId < MaxId;
+        public bool IsFull => _lastId >= MaxId;
+
+        // Disable fail fast. Only for testing.
+        public bool DisableFailFast { get; set; }
+
+        private bool CanAdd => DisableFailFast || _lastId < MaxId;
 
         public Action<Calendar>? CalendarCreated { get; init; }
 
@@ -183,9 +182,9 @@ namespace Zorglub.Time.Simple
         public int NumberOfSystemCalendars { get; private set; } // <= 64
 
         /// <summary>
-        /// Gets the number of calendars, including <i>dirty</i> calendars.
+        /// Gets the raw number of calendars, including <i>dirty</i> calendars.
         /// </summary>
-        public int Count => _calendarsByKey.Count;
+        public int RawCount => _calendarsByKey.Count;
 
         /// <summary>
         /// Counts the number of calendars.
@@ -219,22 +218,6 @@ namespace Zorglub.Time.Simple
             // We use Math.Min() because CreateCalendar() will eventually
             // increment _lastId to (1 + MaxId).
             Math.Min(_lastId, MaxId) - MinId + 1;
-
-        /// <summary>
-        /// Add a calendar to the current instance.
-        /// <para><i>For testing purposes only</i>.</para>
-        /// <para>One SHOULD use this method to add a user-defined calendar with an invalid ID.</para>
-        /// <para>Beware, a user-defined calendar will be ignored by
-        /// <see cref="CountCalendars()"/> and
-        /// <see cref="CountUserCalendars()"/>, and a system calendar will be ignored by
-        /// <see cref="NumberOfSystemCalendars"/>.</para>
-        /// </summary>
-        public void Add(Calendar calendar)
-        {
-            Requires.NotNull(calendar);
-
-            _calendarsByKey[calendar.Key] = new Lazy<Calendar>(calendar);
-        }
     }
 
     internal sealed partial class CalendarRegistry // Snapshot & lookup
@@ -294,6 +277,22 @@ namespace Zorglub.Time.Simple
 
     internal sealed partial class CalendarRegistry // Add
     {
+        /// <summary>
+        /// Add a calendar to the current instance.
+        /// <para><i>For testing purposes only</i>.</para>
+        /// <para>One SHOULD use this method to add a user-defined calendar with an invalid ID.</para>
+        /// <para>Beware, a user-defined calendar will be ignored by
+        /// <see cref="CountCalendars()"/> and
+        /// <see cref="CountUserCalendars()"/>, and a system calendar will be ignored by
+        /// <see cref="NumberOfSystemCalendars"/>.</para>
+        /// </summary>
+        public void AddRaw(Calendar calendar)
+        {
+            Requires.NotNull(calendar);
+
+            _calendarsByKey[calendar.Key] = new Lazy<Calendar>(calendar);
+        }
+
         [Pure]
         public Calendar GetOrAdd(string key, SystemSchema schema, DayNumber epoch, bool proleptic)
         {

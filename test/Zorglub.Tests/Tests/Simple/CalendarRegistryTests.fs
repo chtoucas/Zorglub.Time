@@ -124,8 +124,9 @@ module Prelude =
         reg.MaxId === defaultMaxId
 
         reg.IsPristine |> ok
+        reg.IsFull |> nok
         reg.NumberOfSystemCalendars === 0
-        reg.Count === 0
+        reg.RawCount === 0
 
         reg.MaxNumberOfCalendars === defaultMaxId + 1
         reg.CountCalendars() === 0
@@ -142,8 +143,9 @@ module Prelude =
         reg.MaxId === defaultMaxId
 
         reg.IsPristine |> ok
+        reg.IsFull |> nok
         reg.NumberOfSystemCalendars === 1
-        reg.Count === 1
+        reg.RawCount === 1
 
         reg.MaxNumberOfCalendars === defaultMaxId + 1
         reg.CountCalendars() === 1
@@ -166,8 +168,9 @@ module Prelude =
         reg.MaxId === defaultMaxId
 
         reg.IsPristine |> ok
+        reg.IsFull |> nok
         reg.NumberOfSystemCalendars === 3
-        reg.Count === 3
+        reg.RawCount === 3
 
         reg.MaxNumberOfCalendars === defaultMaxId + 1
         reg.CountCalendars() === 3
@@ -186,8 +189,9 @@ module Prelude =
         reg.MaxId === maxId
 
         reg.IsPristine |> ok
+        reg.IsFull |> nok
         reg.NumberOfSystemCalendars === 0
-        reg.Count === 0
+        reg.RawCount === 0
 
         reg.MaxNumberOfCalendars === maxId + 1
         reg.CountCalendars() === 0
@@ -223,7 +227,7 @@ module Lookup =
     [<Fact>]
     let ``TakeSnapshot() when the registry contains a dirty key`` () =
         let reg = newRegistry
-        reg.Add(dirtyGregorian)
+        reg.AddRaw(dirtyGregorian)
 
         let dict = reg.TakeSnapshot()
         let userGregorian = reg.GetCalendar(userKey)
@@ -266,7 +270,7 @@ module Lookup =
     [<Fact>]
     let ``GetCalendar(dirty key)`` () =
         let reg = newRegistry
-        reg.Add(dirtyGregorian)
+        reg.AddRaw(dirtyGregorian)
 
         throws<KeyNotFoundException> (fun () -> reg.GetCalendar(dirtyKey))
 
@@ -309,7 +313,7 @@ module Lookup =
     [<Fact>]
     let ``TryGetCalendar(dirty key)`` () =
         let reg = newRegistry
-        reg.Add(dirtyGregorian)
+        reg.AddRaw(dirtyGregorian)
 
         let succeed, chr = reg.TryGetCalendar(dirtyKey)
 
@@ -320,55 +324,55 @@ module AddOps =
     open TestCommon
 
     //
-    // Add(Calendar)
+    // AddRaw()
     //
 
     [<Fact>]
-    let ``Add(Calendar)`` () =
+    let ``AddRaw()`` () =
         let reg = new CalendarRegistry([| GregorianCalendar.Instance |])
         let chr = reg.Add("key", new GregorianSchema(), DayZero.NewStyle, true)
 
-        reg.Count === 2
+        reg.RawCount === 2
         reg.NumberOfSystemCalendars === 1
         reg.CountCalendars() === 2
         reg.CountUserCalendars() === 1
 
         // Adding an already included system calendar.
-        reg.Add(GregorianCalendar.Instance)
+        reg.AddRaw(GregorianCalendar.Instance)
 
-        reg.Count === 2
+        reg.RawCount === 2
         reg.NumberOfSystemCalendars === 1
         reg.CountCalendars() === 2
         reg.CountUserCalendars() === 1
 
         // Adding an already included user-defined calendar.
-        reg.Add(chr)
+        reg.AddRaw(chr)
 
-        reg.Count === 2
+        reg.RawCount === 2
         reg.NumberOfSystemCalendars === 1
         reg.CountCalendars() === 2
         reg.CountUserCalendars() === 1
 
         // Adding a system calendar.
-        reg.Add(JulianCalendar.Instance)
+        reg.AddRaw(JulianCalendar.Instance)
 
-        reg.Count === 3 // Count increased by 1
+        reg.RawCount === 3 // Count increased by 1
         reg.NumberOfSystemCalendars === 1
         reg.CountCalendars() === 2
         reg.CountUserCalendars() === 1
 
         // Adding a user-defined calendar.
-        reg.Add(new Calendar(Cuid.MinUser, "User Key", new GregorianSchema(), DayZero.NewStyle, true))
+        reg.AddRaw(new Calendar(Cuid.MinUser, "User Key", new GregorianSchema(), DayZero.NewStyle, true))
 
-        reg.Count === 4 // Count increased by 1
+        reg.RawCount === 4 // Count increased by 1
         reg.NumberOfSystemCalendars === 1
         reg.CountCalendars() === 2
         reg.CountUserCalendars() === 1
 
         // Adding a dirty calendar.
-        reg.Add(new Calendar(Cuid.Invalid, "Dirty Key", new GregorianSchema(), DayZero.NewStyle, true))
+        reg.AddRaw(new Calendar(Cuid.Invalid, "Dirty Key", new GregorianSchema(), DayZero.NewStyle, true))
 
-        reg.Count === 5 // Count increased by 1
+        reg.RawCount === 5 // Count increased by 1
         reg.NumberOfSystemCalendars === 1
         reg.CountCalendars() === 2
         reg.CountUserCalendars() === 1
@@ -583,6 +587,8 @@ module AddLimits =
         // Now, the registry is full.
         //
 
+        reg.IsFull |> ok
+
         // Using an old key.
         let chr2 = reg.GetOrAdd("key", new GregorianSchema(), epoch, proleptic)
         chr2 ==& chr
@@ -593,7 +599,7 @@ module AddLimits =
         onKeyNotSet reg "newKey"
         checkState reg 2 2
 
-        reg.ForceCanAdd <- true
+        reg.DisableFailFast <- true
 
         overflows (fun () -> reg.GetOrAdd("newKey", new GregorianSchema(), epoch, proleptic))
         onKeyNotSet reg "newKey"
@@ -624,6 +630,8 @@ module AddLimits =
         // Now, the registry is full.
         //
 
+        reg.IsFull |> ok
+
         // Using an old key.
         overflows (fun () -> reg.Add("key", new GregorianSchema(), epoch, proleptic))
         checkState reg 2 2
@@ -633,7 +641,7 @@ module AddLimits =
         onKeyNotSet reg "newKey"
         checkState reg 2 2
 
-        reg.ForceCanAdd <- true
+        reg.DisableFailFast <- true
 
         overflows (fun () -> reg.Add("newKey", new GregorianSchema(), epoch, proleptic))
         onKeyNotSet reg "newKey"
@@ -672,6 +680,8 @@ module AddLimits =
         // Now, the registry is full.
         //
 
+        reg.IsFull |> ok
+
         // Using an old key.
         let (succeed2, chr2) = reg.TryAdd("key", new GregorianSchema(), epoch, proleptic)
         succeed2 |> nok
@@ -685,7 +695,7 @@ module AddLimits =
         onKeyNotSet reg "newKey"
         checkState reg 2 2
 
-        reg.ForceCanAdd <- true
+        reg.DisableFailFast <- true
 
         let (succeed4, chr4) = reg.TryAdd("newKey", new GregorianSchema(), epoch, proleptic)
         succeed4 |> nok
