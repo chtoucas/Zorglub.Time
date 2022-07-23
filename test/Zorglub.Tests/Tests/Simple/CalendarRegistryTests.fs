@@ -56,22 +56,31 @@ module Prelude =
 
     [<Fact>]
     let ``Constructor throws when "calendars" contains a user-defined calendar`` () =
+        // The order is not arbitrary, we MUST ensure that the index of a calendar
+        // in "calendars" is given by its ID, but here the construction will fail
+        // on the third calendar because it's a user-defined calendar, not
+        // because it has a wrong index.
         let calendars = [|
+            GregorianCalendar.Instance :> Calendar;
             JulianCalendar.Instance :> Calendar;
             UserCalendars.Gregorian;
-            CopticCalendar.Instance :> Calendar
         |]
 
         argExn "calendars" (fun () -> new CalendarRegistry(calendars))
 
     [<Fact>]
-    let ``Constructor does not throw when "calendars" contains the same system calendar twice`` () =
+    let ``Constructor throws when "calendars" contains the same system calendar twice`` () =
+        // The order is not arbitrary, we MUST ensure that the index of a calendar
+        // in "calendars" is given by its ID. Threfore, technically, the
+        // construction will  fail on the second Julian instance because it has
+        // a wrong index.
         let calendars = [|
+            GregorianCalendar.Instance :> Calendar;
             JulianCalendar.Instance :> Calendar;
             JulianCalendar.Instance :> Calendar
         |]
 
-        new CalendarRegistry(calendars) |> ignore
+        argExn "calendars" (fun () -> new CalendarRegistry(calendars))
 
     [<Fact>]
     let ``Constructor throws when minId < MinMinId`` () =
@@ -142,10 +151,12 @@ module Prelude =
 
     [<Fact>]
     let ``Constructor with three system calendars`` () =
+        // The order is not arbitrary, we MUST ensure that the index of a calendar
+        // in "calendars" is its ID.
         let calendars = [|
             GregorianCalendar.Instance :> Calendar;
             JulianCalendar.Instance :> Calendar;
-            CopticCalendar.Instance :> Calendar
+            ArmenianCalendar.Instance :> Calendar
         |]
         let reg = new CalendarRegistry(calendars)
 

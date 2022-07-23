@@ -9,11 +9,11 @@ namespace Zorglub.Time.Simple
 
     using Zorglub.Time.Core;
 
-    // FIXME(code): Invalid was a bad idea. If the Calendar ctor check
-    // the value, it will fail hard. It would be the case if for
+    // FIXME(code): Invalid might have been a bad idea. If the Calendar ctor
+    // checks the value, it will fail hard. It would be the case if for
     // instance we initialized a date,
     // > var date = new CalendarDate(..., id);
-    // Improve CalendarCreated: use the standard event pattern? Async?
+    // Improve CalendarCreated: use the standard event pattern. Async? <- no.
     // How to add a calendar with a dirty key? use AddOrUpdate()
     // Exception neutral code?
     // Dirty prop.
@@ -49,8 +49,6 @@ namespace Zorglub.Time.Simple
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CalendarRegistry"/> class.
-        /// <para>It's the duty of the caller to ensure that the same system calendar does not appear
-        /// twice within <paramref name="calendars"/>.</para>
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="calendars"/> is null.</exception>
         /// <exception cref="ArgumentException"><paramref name="calendars"/> contains more than
@@ -60,8 +58,17 @@ namespace Zorglub.Time.Simple
             Requires.NotNull(calendars);
 
             int count = calendars.Length;
+            // We assume that the index of a calendar in "calendars" is given by
+            // its ID.
+            // The ID of the first created user-defined calendar is MinId.
+            // If "count" is > MinId, MinId is de facto a valid ID for a system
+            // calendars, therefore we will have at least two calendars with
+            // the same ID. In fact, it's not possible to create a system
+            // calendar with an ID >= MinMinId, but we don't know here what's
+            // inside "calendars", we will have to wait for
+            // InitializeSystemCalendars() for that.
             NumberOfSystemCalendars =
-                count <= MinMinId ? count
+                count <= MinId ? count
                 : Throw.Argument<int>(nameof(calendars));
 
             InitializeSystemCalendars(calendars);
@@ -79,9 +86,18 @@ namespace Zorglub.Time.Simple
             // NB: we don't call the callback CalendarCreated, we assume that
             // the caller has already taken care of it. It makes sense since the
             // callback is called CalendarCreated, not CalendarAdded
-            foreach (var chr in calendars)
+            for (int id = 0; id < calendars.Length; id++)
             {
-                if (chr.IsUserDefined) Throw.Argument(nameof(calendars));
+                var chr = calendars[id];
+                // The tests below ensure that the calendars array does not
+                // contain any user-defined calendar and that the index of a
+                // calendar in "calendars" is given by its ID.
+                // As a side effect, a calendar cannot appear twice. In fact,
+                // it would not matter if it was the case, as it does not
+                // change the result, it is just a "waste" of resources.
+                // WARNING: do not change the order of the checks below,
+                // otherwise it's harder to achieve full code coverage.
+                if (chr.IsUserDefined || (int)chr.Id != id) Throw.Argument(nameof(calendars));
 
                 // Indexer instead of TryAdd(): unconditional add.
                 _calendarsByKey[chr.Key] = new Lazy<Calendar>(chr);

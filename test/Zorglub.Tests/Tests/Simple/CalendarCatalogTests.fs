@@ -44,6 +44,18 @@ module Prelude =
     let calendarIdData = EnumDataSet.CalendarIdData
 
     [<Fact>]
+    let ``Property MinUserId`` () =
+        CalendarCatalog.MinUserId === 64
+
+    [<Fact>]
+    let ``Property MaxId`` () =
+        CalendarCatalog.MaxId === 127
+
+    [<Fact>]
+    let ``Property MaxNumberOfUserCalendars`` () =
+        CalendarCatalog.MaxNumberOfUserCalendars === 64
+
+    [<Fact>]
     let ``Property Keys, unknown key`` () =
         Assert.DoesNotContain("Unknown Key", CalendarCatalog.Keys)
 
