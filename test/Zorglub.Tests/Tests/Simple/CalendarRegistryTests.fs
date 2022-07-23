@@ -3,6 +3,8 @@
 
 module Zorglub.Tests.Simple.CalendarRegistryTests
 
+open System.Collections.Generic
+
 open Zorglub.Testing
 open Zorglub.Time
 open Zorglub.Time.Core
@@ -193,8 +195,183 @@ module Prelude =
         reg.MaxNumberOfUserCalendars === 1
         reg.CountUserCalendars() === 0
 
+module Lookup =
+    let private userKey = "User Key"
+    let private dirtyKey = "Dirty Key"
+    let private dirtyGregorian =
+        new Calendar(Cuid.Invalid, dirtyKey, new GregorianSchema(), DayZero.NewStyle, true)
+    let private systemGregorian = GregorianCalendar.Instance
+    let private systemKey = systemGregorian.Key
+    let private newRegistry  =
+        let reg = new CalendarRegistry([| systemGregorian |])
+        reg.Add(userKey, new GregorianSchema(), DayZero.NewStyle, true) |> ignore
+        reg
+
+    //
+    // TakeSnapshot()
+    //
+
+    [<Fact>]
+    let ``TakeSnapshot()`` () =
+        let reg = newRegistry
+        let dict = reg.TakeSnapshot()
+        let userGregorian = reg.GetCalendar(userKey)
+
+        dict.[systemKey] ==& systemGregorian
+        dict.[userKey]   ==& userGregorian
+
+    [<Fact>]
+    let ``TakeSnapshot() when the registry contains a dirty key`` () =
+        let reg = newRegistry
+        reg.Add(dirtyGregorian)
+
+        let dict = reg.TakeSnapshot()
+        let userGregorian = reg.GetCalendar(userKey)
+
+        dict.ContainsKey(dirtyKey) |> nok
+
+        dict.[systemKey] ==& systemGregorian
+        dict.[userKey]   ==& userGregorian
+
+    //
+    // GetCalendar()
+    //
+
+    [<Fact>]
+    let ``GetCalendar(unknown key)`` () =
+        let reg = newRegistry
+
+        throws<KeyNotFoundException> (fun () -> reg.GetCalendar("Unknown Key"))
+
+    [<Fact>]
+    let ``GetCalendar(system key) is not null and always returns the same reference`` () =
+        let reg = newRegistry
+        let chr1 = reg.GetCalendar(systemKey)
+        let chr2 = reg.GetCalendar(systemKey)
+
+        chr1 |> isnotnull
+        chr1.Key === systemKey
+        chr1 ==& chr2
+
+    [<Fact>]
+    let ``GetCalendar(user key) is not null and always returns the same reference`` () =
+        let reg = newRegistry
+        let chr1 = reg.GetCalendar(userKey)
+        let chr2 = reg.GetCalendar(userKey)
+
+        chr1 |> isnotnull
+        chr1.Key === userKey
+        chr1 ==& chr2
+
+    [<Fact>]
+    let ``GetCalendar(dirty key)`` () =
+        let reg = newRegistry
+        reg.Add(dirtyGregorian)
+
+        throws<KeyNotFoundException> (fun () -> reg.GetCalendar(dirtyKey))
+
+    //
+    // TryGetCalendar()
+    //
+
+    [<Fact>]
+    let ``TryGetCalendar(unknown key)`` () =
+        let reg = newRegistry
+        let succeed, chr = reg.TryGetCalendar("Unknown Key")
+
+        succeed |> nok
+        chr     |> isnull
+
+    [<Fact>]
+    let ``TryGetCalendar(system key) succeeds and always returns the same reference`` () =
+        let reg = newRegistry
+        let succeed1, chr1 = reg.TryGetCalendar(systemKey)
+        let succeed2, chr2 = reg.TryGetCalendar(systemKey)
+
+        succeed1 |> ok
+        succeed2 |> ok
+        chr1     |> isnotnull
+        chr1.Key === systemKey
+        chr1 ==& chr2
+
+    [<Fact>]
+    let ``TryGetCalendar(user key) succeeds and always returns the same reference`` () =
+        let reg = newRegistry
+        let succeed1, chr1 = reg.TryGetCalendar(userKey)
+        let succeed2, chr2 = reg.TryGetCalendar(userKey)
+
+        succeed1 |> ok
+        succeed2 |> ok
+        chr1     |> isnotnull
+        chr1.Key === userKey
+        chr1 ==& chr2
+
+    [<Fact>]
+    let ``TryGetCalendar(dirty key)`` () =
+        let reg = newRegistry
+        reg.Add(dirtyGregorian)
+
+        let succeed, chr = reg.TryGetCalendar(dirtyKey)
+
+        succeed |> nok
+        chr     |> isnull
+
 module AddOps =
     open TestCommon
+
+    //
+    // Add(Calendar)
+    //
+
+    [<Fact>]
+    let ``Add(Calendar)`` () =
+        let reg = new CalendarRegistry([| GregorianCalendar.Instance |])
+        let chr = reg.Add("key", new GregorianSchema(), DayZero.NewStyle, true)
+
+        reg.Count === 2
+        reg.NumberOfSystemCalendars === 1
+        reg.CountCalendars() === 2
+        reg.CountUserCalendars() === 1
+
+        // Adding an already included system calendar.
+        reg.Add(GregorianCalendar.Instance)
+
+        reg.Count === 2
+        reg.NumberOfSystemCalendars === 1
+        reg.CountCalendars() === 2
+        reg.CountUserCalendars() === 1
+
+        // Adding an already included user-defined calendar.
+        reg.Add(chr)
+
+        reg.Count === 2
+        reg.NumberOfSystemCalendars === 1
+        reg.CountCalendars() === 2
+        reg.CountUserCalendars() === 1
+
+        // Adding a system calendar.
+        reg.Add(JulianCalendar.Instance)
+
+        reg.Count === 3 // Count increased by 1
+        reg.NumberOfSystemCalendars === 1
+        reg.CountCalendars() === 2
+        reg.CountUserCalendars() === 1
+
+        // Adding a user-defined calendar.
+        reg.Add(new Calendar(Cuid.MinUser, "User Key", new GregorianSchema(), DayZero.NewStyle, true))
+
+        reg.Count === 4 // Count increased by 1
+        reg.NumberOfSystemCalendars === 1
+        reg.CountCalendars() === 2
+        reg.CountUserCalendars() === 1
+
+        // Adding a dirty calendar.
+        reg.Add(new Calendar(Cuid.Invalid, "Dirty Key", new GregorianSchema(), DayZero.NewStyle, true))
+
+        reg.Count === 5 // Count increased by 1
+        reg.NumberOfSystemCalendars === 1
+        reg.CountCalendars() === 2
+        reg.CountUserCalendars() === 1
 
     //
     // GetOrAdd()

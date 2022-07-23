@@ -158,6 +158,7 @@ module Lookup =
         let chr2 = CalendarCatalog.GetCalendar(key)
 
         chr1 |> isnotnull
+        chr1.Key === key
         chr1 ==& chr2
 
     [<Fact>]
@@ -167,6 +168,7 @@ module Lookup =
         let chr2 = CalendarCatalog.GetCalendar(key)
 
         chr1 |> isnotnull
+        chr1.Key === key
         chr1 ==& chr2
 
     //
@@ -189,6 +191,7 @@ module Lookup =
         succeed1 |> ok
         succeed2 |> ok
         chr1     |> isnotnull
+        chr1.Key === key
         chr1 ==& chr2
 
     [<Fact>]
@@ -200,6 +203,7 @@ module Lookup =
         succeed1 |> ok
         succeed2 |> ok
         chr1     |> isnotnull
+        chr1.Key === key
         chr1 ==& chr2
 
     //
