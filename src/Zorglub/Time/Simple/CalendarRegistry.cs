@@ -14,9 +14,9 @@ namespace Zorglub.Time.Simple
     // instance we initialized a date,
     // > var date = new CalendarDate(..., id);
     // Improve CalendarCreated: use the standard event pattern. Async? <- no.
-    // How to add a calendar with a dirty key? use AddOrUpdate()
+    // How to add a calendar with a dirty key? in fact, this is not a problem
+    // because it means that we reached the max number of user-defined calendars.
     // Exception neutral code?
-    // Dirty prop.
 
     internal sealed partial class CalendarRegistry
     {
@@ -55,11 +55,19 @@ namespace Zorglub.Time.Simple
         /// <see cref="MinMinId"/> elements -or- contains a user-defined calendar.</exception>
         public CalendarRegistry(Calendar[] calendars) : this(MinMinId, MaxMaxId)
         {
-            Requires.NotNull(calendars);
+            InitializeSystemCalendars(calendars);
+        }
 
-            int count = calendars.Length;
-            // We assume that the index of a calendar in "calendars" is given by
-            // its ID.
+        private void InitializeSystemCalendars(Calendar[] calendars)
+        {
+            // Only call this method from a ctor and only once.
+            // We keep this routine outside the ctor, in case we decide to add a
+            // new ctor with params (minId, maxId, calendars).
+
+            Requires.NotNull(calendars);
+            // TODO(doc): clean up.
+            // While not strictly necessary, we shall verify that the index of a
+            // calendar in "calendars" equals its ID.
             // The ID of the first created user-defined calendar is MinId.
             // If "count" is > MinId, MinId is de facto a valid ID for a system
             // calendars, therefore we will have at least two calendars with
@@ -67,21 +75,7 @@ namespace Zorglub.Time.Simple
             // calendar with an ID >= MinMinId, but we don't know here what's
             // inside "calendars", we will have to wait for
             // InitializeSystemCalendars() for that.
-            NumberOfSystemCalendars =
-                count <= MinId ? count
-                : Throw.Argument<int>(nameof(calendars));
-
-            InitializeSystemCalendars(calendars);
-        }
-
-        private void InitializeSystemCalendars(Calendar[] calendars)
-        {
-            // Only call this method from a ctor and ensure that
-            // NumberOfSystemCalendars is in sync with "calendars".
-            // We keep this routine outside the ctor, in case we decide to add a
-            // new ctor with params (minId, maxId, calendars).
-
-            Debug.Assert(calendars != null);
+            if (calendars.Length > MinMinId) Throw.Argument(nameof(calendars));
 
             // NB: we don't call the callback CalendarCreated, we assume that
             // the caller has already taken care of it. It makes sense since the
@@ -97,10 +91,15 @@ namespace Zorglub.Time.Simple
                 // change the result, it is just a "waste" of resources.
                 // WARNING: do not change the order of the checks below,
                 // otherwise it's harder to achieve full code coverage.
-                if (chr.IsUserDefined || (int)chr.Id != id) Throw.Argument(nameof(calendars));
+                // Indeed, a user-defined calendar has an ID >= MinMinId
+                // which therefore cannot match the index of an array whose
+                // last index is < MinMinId.
+                if (chr.IsUserDefined) Throw.Argument(nameof(calendars));
+                if ((int)chr.Id != id) Throw.Argument(nameof(calendars));
 
                 // Indexer instead of TryAdd(): unconditional add.
                 _calendarsByKey[chr.Key] = new Lazy<Calendar>(chr);
+                NumberOfSystemCalendars++;
             }
         }
 
@@ -179,9 +178,9 @@ namespace Zorglub.Time.Simple
         public int MaxNumberOfUserCalendars => MaxId - MinId + 1; // <= 64
 
         /// <summary>
-        /// Gets the number of system calendars.
+        /// Gets or sets the number of system calendars.
         /// </summary>
-        public int NumberOfSystemCalendars { get; } // <= 64
+        public int NumberOfSystemCalendars { get; private set; } // <= 64
 
         /// <summary>
         /// Gets the number of calendars, including <i>dirty</i> calendars.
@@ -220,6 +219,22 @@ namespace Zorglub.Time.Simple
             // We use Math.Min() because CreateCalendar() will eventually
             // increment _lastId to (1 + MaxId).
             Math.Min(_lastId, MaxId) - MinId + 1;
+
+        /// <summary>
+        /// Add a user-defined calendar to the current instance.
+        /// <para>WARNING: <paramref name="calendar"/> won't be counted by
+        /// <see cref="CountCalendars()"/> and
+        /// <see cref="CountUserCalendars()"/>.</para>
+        /// <para><i>Only for testing.</i></para>
+        /// </summary>
+        public void Add(Calendar calendar)
+        {
+            Requires.NotNull(calendar);
+            if (calendar.IsUserDefined == false) Throw.Argument(nameof(calendar));
+            if (calendar.Id != Cuid.Invalid) Throw.Argument(nameof(calendar));
+
+            _calendarsByKey[calendar.Key] = new Lazy<Calendar>(calendar);
+        }
     }
 
     internal sealed partial class CalendarRegistry // Lookup
@@ -273,7 +288,7 @@ namespace Zorglub.Time.Simple
         }
     }
 
-    internal sealed partial class CalendarRegistry
+    internal sealed partial class CalendarRegistry // Add
     {
         [Pure]
         public Calendar GetOrAdd(string key, SystemSchema schema, DayNumber epoch, bool proleptic)
