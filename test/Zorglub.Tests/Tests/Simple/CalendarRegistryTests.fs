@@ -41,13 +41,6 @@ module TestCommon =
         reg.GetCalendar(key) ==& chr
 
 module Prelude =
-    /// 64
-    [<Literal>]
-    let private defaultMinId = CalendarRegistry.MinMinId
-    /// 127
-    [<Literal>]
-    let private defaultMaxId = CalendarRegistry.MaxMaxId
-
     [<Fact>]
     let ``Constructor throws when "calendars" is too large`` () =
         // Here we can use an array of nulls because the ctor will throw before
@@ -58,10 +51,8 @@ module Prelude =
 
     [<Fact>]
     let ``Constructor throws when "calendars" contains a user-defined calendar`` () =
-        // The order is not arbitrary, we MUST ensure that the index of a calendar
-        // in "calendars" is given by its ID, but here the construction will fail
-        // on the third calendar because it's a user-defined calendar, not
-        // because it has a wrong index.
+        // The order is not arbitrary, we MUST ensure that the index of a system
+        // calendar in "calendars" is given by its ID.
         let calendars = [|
             GregorianCalendar.Instance :> Calendar;
             JulianCalendar.Instance :> Calendar;
@@ -72,10 +63,8 @@ module Prelude =
 
     [<Fact>]
     let ``Constructor throws when "calendars" contains the same system calendar twice`` () =
-        // The order is not arbitrary, we MUST ensure that the index of a calendar
-        // in "calendars" is given by its ID. Threfore, technically, the
-        // construction will  fail on the second Julian instance because it has
-        // a wrong index.
+        // The order is not arbitrary, we MUST ensure that the index of a system
+        // calendar in "calendars" is given by its ID.
         let calendars = [|
             GregorianCalendar.Instance :> Calendar;
             JulianCalendar.Instance :> Calendar;
@@ -86,49 +75,41 @@ module Prelude =
 
     [<Fact>]
     let ``Constructor throws when minId < MinMinId`` () =
-        outOfRangeExn "minId" (fun () -> new CalendarRegistry(CalendarRegistry.MinMinId - 1, defaultMaxId))
-
-    [<Fact>]
-    let ``Constructor does not throw when minId = MinMinId`` () =
-        new CalendarRegistry(CalendarRegistry.MinMinId, defaultMaxId) |> ignore
+        outOfRangeExn "minId" (fun () -> new CalendarRegistry(CalendarRegistry.MinMinId - 1, CalendarRegistry.MaxMaxId))
 
     [<Fact>]
     let ``Constructor throws when minId > MaxMaxId`` () =
-        outOfRangeExn "minId" (fun () -> new CalendarRegistry(CalendarRegistry.MaxMaxId + 1, defaultMaxId))
-
-    [<Fact>]
-    let ``Constructor does not throw when minId = MaxMaxId`` () =
-        new CalendarRegistry(CalendarRegistry.MaxMaxId, defaultMaxId) |> ignore
+        outOfRangeExn "minId" (fun () -> new CalendarRegistry(CalendarRegistry.MaxMaxId + 1, CalendarRegistry.MaxMaxId))
 
     [<Fact>]
     let ``Constructor throws when maxId < minId`` () =
-        outOfRangeExn "maxId" (fun () -> new CalendarRegistry(defaultMinId, defaultMinId - 1))
-
-    [<Fact>]
-    let ``Constructor does not throw when maxId = minId`` () =
-        new CalendarRegistry(defaultMinId, defaultMinId) |> ignore
+        outOfRangeExn "maxId" (fun () -> new CalendarRegistry(CalendarRegistry.MinMinId, CalendarRegistry.MinMinId - 1))
 
     [<Fact>]
     let ``Constructor throws when maxId > MaxMaxId`` () =
-        outOfRangeExn "maxId" (fun () -> new CalendarRegistry(defaultMinId, CalendarRegistry.MaxMaxId + 1))
+        outOfRangeExn "maxId" (fun () -> new CalendarRegistry(CalendarRegistry.MinMinId, CalendarRegistry.MaxMaxId + 1))
 
     [<Fact>]
-    let ``Constructor does not throw when maxId = MaxMaxId`` () =
-        new CalendarRegistry(defaultMinId, CalendarRegistry.MaxMaxId) |> ignore
+    let ``Constructor does not throw when maxId = minId`` () =
+        new CalendarRegistry(CalendarRegistry.MinMinId, CalendarRegistry.MinMinId) |> ignore
+
+    [<Fact>]
+    let ``Constructor does not throw when minId = MaxMaxId`` () =
+        new CalendarRegistry(CalendarRegistry.MaxMaxId, CalendarRegistry.MaxMaxId) |> ignore
 
     [<Fact>]
     let ``Constructor`` () =
         let reg = new CalendarRegistry()
 
-        reg.MinId === defaultMinId
-        reg.MaxId === defaultMaxId
+        reg.MinId === CalendarRegistry.MinMinId
+        reg.MaxId === CalendarRegistry.MaxMaxId
 
         reg.IsPristine |> ok
         reg.IsFull |> nok
         reg.NumberOfSystemCalendars === 0
         reg.RawCount === 0
 
-        reg.MaxNumberOfCalendars === defaultMaxId + 1
+        reg.MaxNumberOfCalendars === CalendarRegistry.MaxMaxId + 1
         reg.CountCalendars() === 0
 
         reg.MaxNumberOfUserCalendars === 64
@@ -139,15 +120,15 @@ module Prelude =
         let calendars = [| GregorianCalendar.Instance :> Calendar |]
         let reg = new CalendarRegistry(calendars)
 
-        reg.MinId === defaultMinId
-        reg.MaxId === defaultMaxId
+        reg.MinId === CalendarRegistry.MinMinId
+        reg.MaxId === CalendarRegistry.MaxMaxId
 
         reg.IsPristine |> ok
         reg.IsFull |> nok
         reg.NumberOfSystemCalendars === 1
         reg.RawCount === 1
 
-        reg.MaxNumberOfCalendars === defaultMaxId + 1
+        reg.MaxNumberOfCalendars === CalendarRegistry.MaxMaxId + 1
         reg.CountCalendars() === 1
 
         reg.MaxNumberOfUserCalendars === 64
@@ -164,15 +145,15 @@ module Prelude =
         |]
         let reg = new CalendarRegistry(calendars)
 
-        reg.MinId === defaultMinId
-        reg.MaxId === defaultMaxId
+        reg.MinId === CalendarRegistry.MinMinId
+        reg.MaxId === CalendarRegistry.MaxMaxId
 
         reg.IsPristine |> ok
         reg.IsFull |> nok
         reg.NumberOfSystemCalendars === 3
         reg.RawCount === 3
 
-        reg.MaxNumberOfCalendars === defaultMaxId + 1
+        reg.MaxNumberOfCalendars === CalendarRegistry.MaxMaxId + 1
         reg.CountCalendars() === 3
 
         reg.MaxNumberOfUserCalendars === 64
@@ -180,24 +161,49 @@ module Prelude =
 
     [<Fact>]
     let ``Constructor (smallest size, no system calendar)`` () =
-        let minId = defaultMinId
-        let maxId = minId
+        let reg = new CalendarRegistry(CalendarRegistry.MinMinId, CalendarRegistry.MinMinId)
 
-        let reg = new CalendarRegistry(minId, maxId)
-
-        reg.MinId === minId
-        reg.MaxId === maxId
+        reg.MinId === CalendarRegistry.MinMinId
+        reg.MaxId === CalendarRegistry.MinMinId
 
         reg.IsPristine |> ok
         reg.IsFull |> nok
         reg.NumberOfSystemCalendars === 0
         reg.RawCount === 0
 
-        reg.MaxNumberOfCalendars === maxId + 1
+        reg.MaxNumberOfCalendars === CalendarRegistry.MinMinId + 1
         reg.CountCalendars() === 0
 
         reg.MaxNumberOfUserCalendars === 1
         reg.CountUserCalendars() === 0
+
+module Snapshot =
+    [<Fact>]
+    let ``TakeSnapshot()`` () =
+        let sys = GregorianCalendar.Instance
+        let reg = new CalendarRegistry([| sys |])
+        let usr = reg.Add("User Key", new GregorianSchema(), DayZero.NewStyle, true)
+
+        let dict = reg.TakeSnapshot()
+
+        dict.[sys.Key] ==& sys
+        dict.[usr.Key] ==& usr
+
+    [<Fact>]
+    let ``TakeSnapshot() when the registry contains a dirty key`` () =
+        let sys = GregorianCalendar.Instance
+        let reg = new CalendarRegistry([| sys |])
+        let usr = reg.Add("User Key", new GregorianSchema(), DayZero.NewStyle, true)
+
+        let dirty = new Calendar(Cuid.Invalid, "Dirty Key", new GregorianSchema(), DayZero.NewStyle, true)
+        reg.AddRaw(dirty)
+
+        let dict = reg.TakeSnapshot()
+
+        dict.ContainsKey(dirty.Key) |> nok
+
+        dict.[sys.Key] ==& sys
+        dict.[usr.Key] ==& usr
 
 module Lookup =
     let private userKey = "User Key"
@@ -210,32 +216,6 @@ module Lookup =
         let reg = new CalendarRegistry([| systemGregorian |])
         reg.Add(userKey, new GregorianSchema(), DayZero.NewStyle, true) |> ignore
         reg
-
-    //
-    // TakeSnapshot()
-    //
-
-    [<Fact>]
-    let ``TakeSnapshot()`` () =
-        let reg = newRegistry
-        let dict = reg.TakeSnapshot()
-        let userGregorian = reg.GetCalendar(userKey)
-
-        dict.[systemKey] ==& systemGregorian
-        dict.[userKey]   ==& userGregorian
-
-    [<Fact>]
-    let ``TakeSnapshot() when the registry contains a dirty key`` () =
-        let reg = newRegistry
-        reg.AddRaw(dirtyGregorian)
-
-        let dict = reg.TakeSnapshot()
-        let userGregorian = reg.GetCalendar(userKey)
-
-        dict.ContainsKey(dirtyKey) |> nok
-
-        dict.[systemKey] ==& systemGregorian
-        dict.[userKey]   ==& userGregorian
 
     //
     // GetCalendar()

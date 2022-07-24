@@ -11,16 +11,13 @@ namespace Zorglub.Time.Simple
     // All calendars are "apparent" singletons: whether a calendar has been fully
     // constructed or not before, a call to (Try)GetCalendar() ALWAYS returns
     // the same instance.
-    // More or less, CalendarCatalog behaves like a concurrent keyed collection
-    // whose keys are readable and writable but not updatable.
     //
     // Internally, we use three collections:
-    // - s_Registry: all calendars indexed by their key.
-    //   Not the fastest, but enforces the unicity of keys -and- ensures that
-    //   ops are thread-safe.
+    // - s_Registry: all calendars indexed by their key. Not the fastest, but
+    //   enforces the unicity of keys -and- ensures that ops are thread-safe.
     // - s_Calendars: all calendars indexed by their ID.
-    // - s_SystemCalendars: system calendars indexed by their ID.
-    //   Immutable part of s_Calendars.
+    // - s_SystemCalendars: system calendars indexed by their ID, i.e. the
+    //   immutable part of s_Calendars.
     //
     // WARNING: a call to a method/prop from this class CAN NOT appear during
     // the initialization (static or instance) of a pre-defined Calendar,
@@ -90,12 +87,13 @@ namespace Zorglub.Time.Simple
 
         /// <summary>
         /// Gets the absolute maximum number of user-defined calendars.
-        /// <para>This property ALWAYS returns 64.</para>
+        /// <para>This static property ALWAYS returns 64.</para>
         /// </summary>
         public static int MaxNumberOfUserCalendars => s_Registry.MaxNumberOfUserCalendars;
 
         /// <summary>
         /// Returns true if the catalog is full; otherwise returns false.
+        /// <para>This static property is thread-safe.</para>
         /// </summary>
         public static bool IsFull => s_Registry.IsFull;
 
@@ -103,6 +101,7 @@ namespace Zorglub.Time.Simple
         /// Gets the list of keys of all fully constructed calendars at the time of the request.
         /// <para>This collection may contain dirty keys, those paired with a calendar with an ID
         /// equal to <see cref="Cuid.Invalid"/>.</para>
+        /// <para>This static property is thread-safe.</para>
         /// </summary>
         internal static ICollection<string> Keys =>
             // We do not provide a public equivalent to this property.

@@ -18,6 +18,9 @@ namespace Zorglub.Time.Simple
     // because it means that we reached the max number of user-defined calendars.
     // Exception neutral code?
 
+    // More or less, CalendarRegistry behaves like a concurrent keyed collection
+    // whose keys are readable and writable but not updatable.
+
     internal sealed partial class CalendarRegistry
     {
         /// <summary>
@@ -51,19 +54,71 @@ namespace Zorglub.Time.Simple
         /// Initializes a new instance of the <see cref="CalendarRegistry"/> class.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="calendars"/> is null.</exception>
-        /// <exception cref="ArgumentException"><paramref name="calendars"/> contains more than
-        /// <see cref="MinMinId"/> elements -or- contains a user-defined calendar.</exception>
+        /// <exception cref="ArgumentException"><paramref name="calendars"/> contains a user-defined
+        /// calendar -or- the index of a (system) calendar in the array is NOT given by its ID.
+        /// </exception>
         public CalendarRegistry(Calendar[] calendars) : this(MinMinId, MaxMaxId)
         {
-            InitializeSystemCalendars(calendars);
+            InitializeFromSystemCalendars(calendars);
+        }
+
+        private void InitializeFromSystemCalendars(Calendar[] calendars)
+        {
+            // See comments in InitializeFromArray().
+            Requires.NotNull(calendars);
+
+            if (calendars.Length > MinMinId) Throw.Argument(nameof(calendars));
+
+            for (int id = 0; id < calendars.Length; id++)
+            {
+                var chr = calendars[id];
+                if ((int)chr.Id != id) Throw.Argument(nameof(calendars));
+
+                _calendarsByKey[chr.Key] = new Lazy<Calendar>(chr);
+                NumberOfSystemCalendars++;
+            }
+        }
+
+#if false
+        private void InitializeFromArray(Calendar[] calendars)
+        {
+            // Only call this method from a ctor and only once.
+            // If called twice, this method may mess up NumberOfSystemCalendars.
+            // For the same reason, a system calendar cannot appear twice.
+
+            Requires.NotNull(calendars);
+
+            // First requirement.
+            // For _lastId to work properly, all IDs >= MinId must stay free,
+            // therefore a calendar in "calendars" MUST satisfy the
+            // condition chr.Id < MinId:
+            // - system calendars, their IDs being in [0, MinMinId - 1],
+            //   they always satisfy the condition.
+            // - user-defined calendars with an ID in [MinMinId, MinId] are
+            //   also permitted.
+            // NB: if MinId = MinMinId, then the condition is equivalent to:
+            // no user-defined calendar is allowed.
+            //
+            // Second requirement.
+            // A system calendar cannot appear more than one time, otherwise
+            // NumberOfSystemCalendars will be wrong. A simple way to enforce
+            // this is to require that the index of a system calendar in
+            // "calendars" is given by its ID.
+            for (int id = 0; id < calendars.Length; id++)
+            {
+                var chr = calendars[id];
+                int cuid = (int)chr.Id;
+                if (cuid >= MinId) Throw.Argument(nameof(calendars));
+                if (chr.IsUserDefined == false && cuid != id) Throw.Argument(nameof(calendars));
+
+                // Indexer instead of TryAdd(): unconditional add.
+                _calendarsByKey[chr.Key] = new Lazy<Calendar>(chr);
+                if (chr.IsUserDefined == false) NumberOfSystemCalendars++;
+            }
         }
 
         private void InitializeSystemCalendars(Calendar[] calendars)
         {
-            // Only call this method from a ctor and only once.
-            // We keep this routine outside the ctor, in case we decide to add a
-            // new ctor with params (minId, maxId, calendars).
-
             Requires.NotNull(calendars);
             // TODO(doc): clean up.
             // While not strictly necessary, we shall verify that the index of a
@@ -102,6 +157,7 @@ namespace Zorglub.Time.Simple
                 NumberOfSystemCalendars++;
             }
         }
+#endif
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CalendarRegistry"/> class.
@@ -220,11 +276,10 @@ namespace Zorglub.Time.Simple
             Math.Min(_lastId, MaxId) - MinId + 1;
     }
 
-    internal sealed partial class CalendarRegistry // Snapshot & lookup
+    internal sealed partial class CalendarRegistry // Snapshots & Lookup
     {
-        // We don't verify whether the removal of a dirty calendar (see the
-        // "Add"-methods) is successful or not, therefore we MUST filter them
-        // out.
+        // We don't verify whether the removal of a dirty calendar is successful
+        // or not (see the "Add"-methods), therefore we MUST filter them out.
 
         [Pure]
         public IReadOnlyDictionary<string, Calendar> TakeSnapshot()
