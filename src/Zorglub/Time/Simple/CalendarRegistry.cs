@@ -110,13 +110,13 @@ namespace Zorglub.Time.Simple
         // Disable fail fast. Only for testing.
         internal bool DisableFailFast { get; set; }
 
-        // _lastId is incremented very late in the registration process which
-        // means that CanAdd may return true even if, in the end, it's not
+        // _lastId is incremented very late during the registration process,
+        // which means that CanAdd may return true even if, in the end, it's not
         // truely the case. The upper limit has been reached but the process
-        // has not yet completed. What's important is that any attempt to register
-        // a new calendar will correctly fail. In a multi-threaded environment,
-        // it is to be expected. In a single-threaded environment, the problem
-        // does not exist.
+        // has not yet completed. What's important is that any further attempt
+        // to register a new calendar will correctly fail. In a multi-threaded
+        // environment, it is to be expected. In a single-threaded environment,
+        // the problem does not exist.
         private bool CanAdd => DisableFailFast || _lastId < MaxId;
 
         public Action<Calendar>? CalendarCreated { get; init; }
@@ -224,8 +224,8 @@ namespace Zorglub.Time.Simple
 
             // First requirement.
             // For _lastId to work properly, all IDs >= MinId must stay free,
-            // therefore a calendar in "calendars" MUST satisfy the
-            // condition chr.Id < MinId:
+            // therefore a calendar in "calendars" MUST satisfy the condition
+            // chr.Id < MinId:
             // - system calendars, their IDs being in [0, MinMinId - 1],
             //   they always satisfy the condition.
             // - user-defined calendars with an ID in [MinMinId, MinId] are
@@ -234,8 +234,8 @@ namespace Zorglub.Time.Simple
             // no user-defined calendar is allowed.
             //
             // Second requirement.
-            // A system calendar cannot appear more than one time, otherwise
-            // NumberOfSystemCalendars will be wrong. A simple way to enforce
+            // A system calendar cannot appear twice, otherwise
+            // NumberOfSystemCalendars will end up wrong. A simple way to enforce
             // this is to require that the index of a system calendar in
             // "calendars" is given by its ID.
             for (int id = 0; id < calendars.Length; id++)
@@ -259,9 +259,7 @@ namespace Zorglub.Time.Simple
     {
         // We MUST filter out dirty calendars because we don't verify whether
         // the removal of a dirty calendar is successful or not; see the section
-        // "Clean up" in the "Add"-methods. In any case, a dirty calendar may
-        // only be referenced by _calendarsByKey if the registry overflowed at
-        // one point.
+        // "Clean up" in the "Add"-methods.
 
         [Pure]
         public IReadOnlyDictionary<string, Calendar> TakeSnapshot()
@@ -340,9 +338,10 @@ namespace Zorglub.Time.Simple
         [Pure]
         public Calendar GetOrAdd(string key, SystemSchema schema, DayNumber epoch, bool proleptic)
         {
-            // Fail fast. It also guards the method against brute-force attacks.
-            // This should only be done when the key is not already taken, in
-            // which case we return the calendar having this key.
+            // Fail fast.
+            // We should only fail fast when the registry is full and the key is
+            // not already taken, the only case for which we know that
+            // GetOrAdd(key, ...) will always fail.
             if (CanAdd == false && _calendarsByKey.ContainsKey(key) == false)
             {
                 Throw.CatalogOverflow();
@@ -350,7 +349,8 @@ namespace Zorglub.Time.Simple
 
             // We validate the params even if the key is already taken.
             // Reason: the params might be different and we wish to apply strict
-            // validation rules.
+            // validation rules. This being said, fail fast takes precedence and
+            // we overflow before any validation happens.
             Calendar tmp = ValidateParameters(key, schema, epoch, proleptic);
 
             // The callback won't be executed until we query Value.
@@ -396,7 +396,7 @@ namespace Zorglub.Time.Simple
         [Pure]
         public Calendar Add(string key, SystemSchema schema, DayNumber epoch, bool proleptic)
         {
-            // Fail fast. It also guards the method against brute-force attacks.
+            // Fail fast.
             if (CanAdd == false) Throw.CatalogOverflow();
 
             Calendar tmp = ValidateParameters(key, schema, epoch, proleptic);
@@ -429,7 +429,7 @@ namespace Zorglub.Time.Simple
             string key, SystemSchema schema, DayNumber epoch, bool proleptic,
             [NotNullWhen(true)] out Calendar? calendar)
         {
-            // Fail fast. It also guards the method against brute-force attacks.
+            // Fail fast.
             if (CanAdd == false) { goto FAILED; }
 
             // Null parameters validation.

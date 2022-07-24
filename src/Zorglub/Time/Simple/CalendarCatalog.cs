@@ -56,7 +56,13 @@ namespace Zorglub.Time.Simple
         private static readonly CalendarRegistry s_Registry =
             new(s_SystemCalendars)
             {
-                CalendarCreated = chr => s_Calendars[(int)chr.Id] = chr,
+                CalendarCreated = chr =>
+                {
+                    Debug.Assert(chr.IsUserDefined);
+                    Debug.Assert(chr.Id >= Cuid.MinUser);
+
+                    s_Calendars[(int)chr.Id] = chr;
+                }
             };
 
         /// <summary>
@@ -93,7 +99,8 @@ namespace Zorglub.Time.Simple
 
         /// <summary>
         /// Returns true if the catalog is full; otherwise returns false.
-        /// <para>When full, one cannot add a new calendar to the catalog.</para>
+        /// <para>Once this property is true, the catalog enters a read-only state and one cannot
+        /// add a new calendar any more.</para>
         /// <para>This static property is thread-safe.</para>
         /// </summary>
         public static bool IsFull => s_Registry.IsFull;
@@ -115,17 +122,17 @@ namespace Zorglub.Time.Simple
             s_Registry.Keys;
 
         /// <summary>
-        /// Gets the collection of reserved keys.
+        /// Gets a read-only view of the collection of reserved keys.
         /// <para>This static property is thread-safe.</para>
         /// </summary>
-        public static ReadOnlySet<string> ReservedKeys { get; } =
-            new ReadOnlySet<string>(from chr in s_SystemCalendars select chr.Key);
+        public static ReadOnlySet<string> ReservedKeys =>
+            new(from chr in s_SystemCalendars select chr.Key);
 
         /// <summary>
-        /// Gets the collection of system calendars.
+        /// Gets a read-only view of the collection of system calendars.
         /// <para>This static property is thread-safe.</para>
         /// </summary>
-        public static IReadOnlyCollection<Calendar> SystemCalendars { get; } =
+        public static IReadOnlyCollection<Calendar> SystemCalendars =>
             Array.AsReadOnly(s_SystemCalendars);
 
         [Pure]
@@ -241,7 +248,6 @@ namespace Zorglub.Time.Simple
         [Pure]
         public static Calendar GetSystemCalendar(CalendarId ident)
         {
-            // REVIEW(code): just use ident.IsInvalid()?
             int index = (int)ident;
             if (index < 0 || (uint)index >= (uint)s_SystemCalendars.Length)
             {
