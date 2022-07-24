@@ -93,6 +93,7 @@ namespace Zorglub.Time.Simple
 
         /// <summary>
         /// Returns true if the catalog is full; otherwise returns false.
+        /// <para>When full, one cannot add a new calendar to the catalog.</para>
         /// <para>This static property is thread-safe.</para>
         /// </summary>
         public static bool IsFull => s_Registry.IsFull;

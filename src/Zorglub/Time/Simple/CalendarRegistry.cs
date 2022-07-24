@@ -62,103 +62,6 @@ namespace Zorglub.Time.Simple
             InitializeFromSystemCalendars(calendars);
         }
 
-        private void InitializeFromSystemCalendars(Calendar[] calendars)
-        {
-            // See comments in InitializeFromArray().
-            Requires.NotNull(calendars);
-
-            if (calendars.Length > MinMinId) Throw.Argument(nameof(calendars));
-
-            for (int id = 0; id < calendars.Length; id++)
-            {
-                var chr = calendars[id];
-                if ((int)chr.Id != id) Throw.Argument(nameof(calendars));
-
-                _calendarsByKey[chr.Key] = new Lazy<Calendar>(chr);
-                NumberOfSystemCalendars++;
-            }
-        }
-
-#if false
-        private void InitializeFromArray(Calendar[] calendars)
-        {
-            // Only call this method from a ctor and only once.
-            // If called twice, this method may mess up NumberOfSystemCalendars.
-            // For the same reason, a system calendar cannot appear twice.
-
-            Requires.NotNull(calendars);
-
-            // First requirement.
-            // For _lastId to work properly, all IDs >= MinId must stay free,
-            // therefore a calendar in "calendars" MUST satisfy the
-            // condition chr.Id < MinId:
-            // - system calendars, their IDs being in [0, MinMinId - 1],
-            //   they always satisfy the condition.
-            // - user-defined calendars with an ID in [MinMinId, MinId] are
-            //   also permitted.
-            // NB: if MinId = MinMinId, then the condition is equivalent to:
-            // no user-defined calendar is allowed.
-            //
-            // Second requirement.
-            // A system calendar cannot appear more than one time, otherwise
-            // NumberOfSystemCalendars will be wrong. A simple way to enforce
-            // this is to require that the index of a system calendar in
-            // "calendars" is given by its ID.
-            for (int id = 0; id < calendars.Length; id++)
-            {
-                var chr = calendars[id];
-                int cuid = (int)chr.Id;
-                if (cuid >= MinId) Throw.Argument(nameof(calendars));
-                if (chr.IsUserDefined == false && cuid != id) Throw.Argument(nameof(calendars));
-
-                // Indexer instead of TryAdd(): unconditional add.
-                _calendarsByKey[chr.Key] = new Lazy<Calendar>(chr);
-                if (chr.IsUserDefined == false) NumberOfSystemCalendars++;
-            }
-        }
-
-        private void InitializeSystemCalendars(Calendar[] calendars)
-        {
-            Requires.NotNull(calendars);
-            // TODO(doc): clean up.
-            // While not strictly necessary, we shall verify that the index of a
-            // calendar in "calendars" equals its ID.
-            // The ID of the first created user-defined calendar is MinId.
-            // If "count" is > MinId, MinId is de facto a valid ID for a system
-            // calendars, therefore we will have at least two calendars with
-            // the same ID. In fact, it's not possible to create a system
-            // calendar with an ID >= MinMinId, but we don't know here what's
-            // inside "calendars", we will have to wait for
-            // InitializeSystemCalendars() for that.
-            if (calendars.Length > MinMinId) Throw.Argument(nameof(calendars));
-
-            // NB: we don't call the callback CalendarCreated, we assume that
-            // the caller has already taken care of it. It makes sense since the
-            // callback is called CalendarCreated, not CalendarAdded
-            for (int id = 0; id < calendars.Length; id++)
-            {
-                var chr = calendars[id];
-                // The tests below ensure that the calendars array does not
-                // contain any user-defined calendar and that the index of a
-                // calendar in "calendars" is given by its ID.
-                // As a side effect, a calendar cannot appear twice. In fact,
-                // it would not matter if it was the case, as it does not
-                // change the result, it is just a "waste" of resources.
-                // WARNING: do not change the order of the checks below,
-                // otherwise it's harder to achieve full code coverage.
-                // Indeed, a user-defined calendar has an ID >= MinMinId
-                // which therefore cannot match the index of an array whose
-                // last index is < MinMinId.
-                if (chr.IsUserDefined) Throw.Argument(nameof(calendars));
-                if ((int)chr.Id != id) Throw.Argument(nameof(calendars));
-
-                // Indexer instead of TryAdd(): unconditional add.
-                _calendarsByKey[chr.Key] = new Lazy<Calendar>(chr);
-                NumberOfSystemCalendars++;
-            }
-        }
-#endif
-
         /// <summary>
         /// Initializes a new instance of the <see cref="CalendarRegistry"/> class.
         /// </summary>
@@ -203,14 +106,18 @@ namespace Zorglub.Time.Simple
         /// <summary>
         /// Returns true if the registry is full; otherwise returns false.
         /// </summary>
-        // _lastId is incremented very late in the process which means
-        // that IsFull may return false even if, in the end, it's not truely the
-        // case.
         public bool IsFull => _lastId >= MaxId;
 
         // Disable fail fast. Only for testing.
         public bool DisableFailFast { get; set; }
 
+        // _lastId is incremented very late in the registration process which
+        // means that CanAdd may return true even if, in the end, it's not
+        // truely the case. The upper limit has been reached but the process
+        // has not yet completed. What's important is that any attempt to register
+        // a new calendar will correctly fail. In a multi-threaded environment,
+        // it is to be expected. In a single-threaded environment, the problem
+        // does not exist.
         private bool CanAdd => DisableFailFast || _lastId < MaxId;
 
         public Action<Calendar>? CalendarCreated { get; init; }
@@ -274,12 +181,125 @@ namespace Zorglub.Time.Simple
             // We use Math.Min() because CreateCalendar() will eventually
             // increment _lastId to (1 + MaxId).
             Math.Min(_lastId, MaxId) - MinId + 1;
+
+        #region Initialization
+
+        // It's the duty of CalendarCatalog to ensure that the members
+        // of "calendars" are added to s_SystemCalendars and to s_Calendars.
+        // In particular, we don't call CalendarCreated for user-defined calendars.
+        // It makes sense since the callback is called CalendarCreated, not
+        // CalendarAdded.
+        //
+        // Only call these methods from a ctor and only once.
+        // If called twice, an initializer may mess up NumberOfSystemCalendars.
+        // For the same reason, a system calendar cannot appear twice.
+
+        private void InitializeFromSystemCalendars(Calendar[] calendars)
+        {
+            // In fact, it's the context in which this method is used
+            // (minId = MinMinId) that implies that "calendars" can only contain
+            // system calendars; be sure to read the comments in InitializeFromArray().
+            Requires.NotNull(calendars);
+
+            // In InitializeFromArray(), we check that chr.Id < MinId within the
+            // loop. The following check does it once and for all, the reason
+            // being that the index of a calendar in "calendars" is given by its ID.
+            if (calendars.Length > MinMinId) Throw.Argument(nameof(calendars));
+
+            for (int id = 0; id < calendars.Length; id++)
+            {
+                var chr = calendars[id];
+                if ((int)chr.Id != id) Throw.Argument(nameof(calendars));
+
+                _calendarsByKey[chr.Key] = new Lazy<Calendar>(chr);
+                NumberOfSystemCalendars++;
+            }
+        }
+
+#if false
+        // FIXME(code): CountUserCalendars() will be wrong if "calendars"
+        // contains user-defined calendars.
+        private void InitializeFromArray(Calendar[] calendars)
+        {
+            Requires.NotNull(calendars);
+
+            // First requirement.
+            // For _lastId to work properly, all IDs >= MinId must stay free,
+            // therefore a calendar in "calendars" MUST satisfy the
+            // condition chr.Id < MinId:
+            // - system calendars, their IDs being in [0, MinMinId - 1],
+            //   they always satisfy the condition.
+            // - user-defined calendars with an ID in [MinMinId, MinId] are
+            //   also permitted.
+            // NB: if MinId = MinMinId, then the condition is equivalent to:
+            // no user-defined calendar is allowed.
+            //
+            // Second requirement.
+            // A system calendar cannot appear more than one time, otherwise
+            // NumberOfSystemCalendars will be wrong. A simple way to enforce
+            // this is to require that the index of a system calendar in
+            // "calendars" is given by its ID.
+            for (int id = 0; id < calendars.Length; id++)
+            {
+                var chr = calendars[id];
+                int cuid = (int)chr.Id;
+                if (cuid >= MinId) Throw.Argument(nameof(calendars));
+                if (chr.IsUserDefined == false && cuid != id) Throw.Argument(nameof(calendars));
+
+                // Indexer instead of TryAdd(): unconditional add.
+                _calendarsByKey[chr.Key] = new Lazy<Calendar>(chr);
+                if (chr.IsUserDefined == false) NumberOfSystemCalendars++;
+            }
+        }
+
+        // TODO(code): clean up.
+        //private void InitializeSystemCalendars(Calendar[] calendars)
+        //{
+        //    Requires.NotNull(calendars);
+        //    // While not strictly necessary, we shall verify that the index of a
+        //    // calendar in "calendars" equals its ID.
+        //    // The ID of the first created user-defined calendar is MinId.
+        //    // If "count" is > MinId, MinId is de facto a valid ID for a system
+        //    // calendars, therefore we will have at least two calendars with
+        //    // the same ID. In fact, it's not possible to create a system
+        //    // calendar with an ID >= MinMinId, but we don't know here what's
+        //    // inside "calendars", we will have to wait for
+        //    // InitializeSystemCalendars() for that.
+        //    if (calendars.Length > MinMinId) Throw.Argument(nameof(calendars));
+
+        //    for (int id = 0; id < calendars.Length; id++)
+        //    {
+        //        var chr = calendars[id];
+        //        // The tests below ensure that the calendars array does not
+        //        // contain any user-defined calendar and that the index of a
+        //        // calendar in "calendars" is given by its ID.
+        //        // As a side effect, a calendar cannot appear twice. In fact,
+        //        // it would not matter if it was the case, as it does not
+        //        // change the result, it is just a "waste" of resources.
+        //        // WARNING: do not change the order of the checks below,
+        //        // otherwise it's harder to achieve full code coverage.
+        //        // Indeed, a user-defined calendar has an ID >= MinMinId
+        //        // which therefore cannot match the index of an array whose
+        //        // last index is < MinMinId.
+        //        if (chr.IsUserDefined) Throw.Argument(nameof(calendars));
+        //        if ((int)chr.Id != id) Throw.Argument(nameof(calendars));
+
+        //        // Indexer instead of TryAdd(): unconditional add.
+        //        _calendarsByKey[chr.Key] = new Lazy<Calendar>(chr);
+        //        NumberOfSystemCalendars++;
+        //    }
+        //}
+#endif
+
+        #endregion
     }
 
     internal sealed partial class CalendarRegistry // Snapshots & Lookup
     {
-        // We don't verify whether the removal of a dirty calendar is successful
-        // or not (see the "Add"-methods), therefore we MUST filter them out.
+        // We MUST filter out dirty calendars. As explained in CreateCalendar(),
+        // a dirty calendar may always be referenced in _calendarsByKey.
+        // Furthermore, we don't verify whether the removal of a dirty calendar
+        // is successful or not; see the section "Clean up" in the "Add"-methods.
 
         [Pure]
         public IReadOnlyDictionary<string, Calendar> TakeSnapshot()
@@ -333,18 +353,25 @@ namespace Zorglub.Time.Simple
     internal sealed partial class CalendarRegistry // Add
     {
         /// <summary>
-        /// Add a calendar to the current instance.
+        /// Adds a calendar to the current instance.
         /// <para><i>For testing purposes only</i>.</para>
-        /// <para>One SHOULD use this method to add a user-defined calendar with an invalid ID.</para>
-        /// <para>Beware, a user-defined calendar will be ignored by
-        /// <see cref="CountCalendars()"/> and
-        /// <see cref="CountUserCalendars()"/>, and a system calendar will be ignored by
-        /// <see cref="NumberOfSystemCalendars"/>.</para>
+        /// <para>This method will unconditionally override an existing key.</para>
+        /// <para>Beware, if you decide to use this method, you SHOULD NOT call a counting method
+        /// afterwards. Only <see cref="RawCount"/> will continue to work properly.</para>
         /// </summary>
         public void AddRaw(Calendar calendar)
         {
+            // Currently, we only use this method to add a user-defined calendar
+            // with an invalid ID in order to be able to achieve full code coverage.
+
             Requires.NotNull(calendar);
 
+            // After having called this method, counting methods no longer works.
+            // For CountCalendars() and CountUserCalendars(), there is nothing
+            // we can do about it. Don't try to fix NumberOfSystemCalendars either.
+            // To do it would mean that we first check that the specified (system)
+            // calendar is not already registered, something which is not that
+            // straightforward to do in a thread-safe way.
             _calendarsByKey[calendar.Key] = new Lazy<Calendar>(calendar);
         }
 

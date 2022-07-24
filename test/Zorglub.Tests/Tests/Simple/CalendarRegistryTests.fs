@@ -15,11 +15,11 @@ open Zorglub.Time.Simple
 open Xunit
 
 module TestCommon =
-    let checkState (reg: CalendarRegistry) count countUsers =
+    let checkState (reg: CalendarRegistry) count usersCount =
         reg.CountCalendars() === count
-        reg.CountUserCalendars() === countUsers
+        reg.CountUserCalendars() === usersCount
 
-        if countUsers = 0 then
+        if usersCount = 0 then
             reg.IsPristine |> ok
         else
             reg.IsPristine |> nok
@@ -106,14 +106,14 @@ module Prelude =
 
         reg.IsPristine |> ok
         reg.IsFull |> nok
+
         reg.NumberOfSystemCalendars === 0
-        reg.RawCount === 0
-
-        reg.MaxNumberOfCalendars === CalendarRegistry.MaxMaxId + 1
-        reg.CountCalendars() === 0
-
         reg.MaxNumberOfUserCalendars === 64
+        reg.MaxNumberOfCalendars === 128
+
         reg.CountUserCalendars() === 0
+        reg.CountCalendars() === 0
+        reg.RawCount === 0
 
     [<Fact>]
     let ``Constructor with one system calendar`` () =
@@ -125,14 +125,14 @@ module Prelude =
 
         reg.IsPristine |> ok
         reg.IsFull |> nok
+
         reg.NumberOfSystemCalendars === 1
-        reg.RawCount === 1
-
-        reg.MaxNumberOfCalendars === CalendarRegistry.MaxMaxId + 1
-        reg.CountCalendars() === 1
-
         reg.MaxNumberOfUserCalendars === 64
+        reg.MaxNumberOfCalendars === 128
+
         reg.CountUserCalendars() === 0
+        reg.CountCalendars() === 1
+        reg.RawCount === 1
 
     [<Fact>]
     let ``Constructor with three system calendars`` () =
@@ -150,14 +150,15 @@ module Prelude =
 
         reg.IsPristine |> ok
         reg.IsFull |> nok
+
         reg.NumberOfSystemCalendars === 3
+        reg.MaxNumberOfUserCalendars === 64
+        reg.MaxNumberOfCalendars === 128
+
+        reg.CountUserCalendars() === 0
+        reg.CountCalendars() === 3
         reg.RawCount === 3
 
-        reg.MaxNumberOfCalendars === CalendarRegistry.MaxMaxId + 1
-        reg.CountCalendars() === 3
-
-        reg.MaxNumberOfUserCalendars === 64
-        reg.CountUserCalendars() === 0
 
     [<Fact>]
     let ``Constructor (smallest size, no system calendar)`` () =
@@ -168,14 +169,14 @@ module Prelude =
 
         reg.IsPristine |> ok
         reg.IsFull |> nok
+
         reg.NumberOfSystemCalendars === 0
-        reg.RawCount === 0
-
-        reg.MaxNumberOfCalendars === CalendarRegistry.MinMinId + 1
-        reg.CountCalendars() === 0
-
         reg.MaxNumberOfUserCalendars === 1
+        reg.MaxNumberOfCalendars === 65
+
         reg.CountUserCalendars() === 0
+        reg.CountCalendars() === 0
+        reg.RawCount === 0
 
 module Snapshot =
     [<Fact>]
@@ -308,7 +309,7 @@ module AddOps =
     //
 
     [<Fact>]
-    let ``AddRaw()`` () =
+    let ``AddRaw() breaks the counting methods`` () =
         let reg = new CalendarRegistry([| GregorianCalendar.Instance |])
         let chr = reg.Add("key", new GregorianSchema(), DayZero.NewStyle, true)
 
