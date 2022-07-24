@@ -147,7 +147,6 @@ const Zorglub.Time.Hemerology.Scopes.StandardScope.MaxYear = 9999 -> int
 const Zorglub.Time.Hemerology.Scopes.StandardScope.MinYear = 1 -> int
 const Zorglub.Time.Ord.MaxAlgebraicValue = 2147483647 -> int
 const Zorglub.Time.Ord.MinAlgebraicValue = -2147483646 -> int
-const Zorglub.Time.Simple.CalendarCatalog.MaxNumberOfUserCalendars = 64 -> int
 override sealed Zorglub.Time.Core.CalendricalSegment.ToString() -> string!
 override sealed Zorglub.Time.Core.Schemas.Coptic12Schema.CountDaysInMonth(int y, int m) -> int
 override sealed Zorglub.Time.Core.Schemas.Coptic12Schema.CountMonthsInYear(int y) -> int
@@ -697,6 +696,8 @@ static Zorglub.Time.Simple.CalendarCatalog.GetCalendar(string! key) -> Zorglub.T
 static Zorglub.Time.Simple.CalendarCatalog.GetOrAdd(string! key, Zorglub.Time.Core.SystemSchema! schema, Zorglub.Time.DayNumber epoch, bool proleptic) -> Zorglub.Time.Simple.Calendar!
 static Zorglub.Time.Simple.CalendarCatalog.GetSystemCalendar(Zorglub.Time.CalendarId ident) -> Zorglub.Time.Simple.Calendar!
 static Zorglub.Time.Simple.CalendarCatalog.GetUserCalendars() -> System.Collections.Generic.IReadOnlyCollection<Zorglub.Time.Simple.Calendar!>!
+static Zorglub.Time.Simple.CalendarCatalog.IsFull.get -> bool
+static Zorglub.Time.Simple.CalendarCatalog.MaxNumberOfUserCalendars.get -> int
 static Zorglub.Time.Simple.CalendarCatalog.ReservedKeys.get -> Zorglub.Time.Core.Utilities.ReadOnlySet<string!>!
 static Zorglub.Time.Simple.CalendarCatalog.SystemCalendars.get -> System.Collections.Generic.IReadOnlyCollection<Zorglub.Time.Simple.Calendar!>!
 static Zorglub.Time.Simple.CalendarCatalog.TakeSnapshot() -> System.Collections.Generic.IReadOnlyDictionary<string!, Zorglub.Time.Simple.Calendar!>!

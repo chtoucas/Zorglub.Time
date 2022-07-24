@@ -9,8 +9,7 @@ namespace Zorglub.Time.Simple
 
     using Zorglub.Time.Core;
 
-    // REVIEW(code): GetOrAdd(), CanAdd and dirty calendars.
-    // Cuid.Invalid might have been a bad idea. If the Calendar
+    // REVIEW(code): Cuid.Invalid might have been a bad idea. If the Calendar
     // ctor checks the value, it will fail hard. It would be the case if for
     // instance we initialized a date,
     // > var date = new CalendarDate(..., id);
@@ -67,7 +66,7 @@ namespace Zorglub.Time.Simple
         /// <exception cref="AoorException"><paramref name="minId"/> is not
         /// within the range [<see cref="MinMinId"/>..<see cref="MaxMaxId"/>].</exception>
         /// <exception cref="AoorException"><paramref name="maxId"/> is not
-        /// within the range [<see cref="minId"/>..<see cref="MaxMaxId"/>].</exception>
+        /// within the range [<paramref name="minId"/>..<see cref="MaxMaxId"/>].</exception>
         public CalendarRegistry(int minId, int maxId)
         {
             // First prime number >= max nbr of calendars (128 = MaxMaxId + 1).
