@@ -9,13 +9,12 @@ namespace Zorglub.Time.Simple
 
     using Zorglub.Time.Core;
 
-    // FIXME(code): Invalid might have been a bad idea. If the Calendar ctor
-    // checks the value, it will fail hard. It would be the case if for
+    // REVIEW(code): GetOrAdd(), CanAdd and dirty calendars.
+    // Cuid.Invalid might have been a bad idea. If the Calendar
+    // ctor checks the value, it will fail hard. It would be the case if for
     // instance we initialized a date,
     // > var date = new CalendarDate(..., id);
     // Improve CalendarCreated: use the standard event pattern. Async? <- no.
-    // How to add a calendar with a dirty key? in fact, this is not a problem
-    // because it means that we reached the max number of user-defined calendars.
     // Exception neutral code?
 
     // More or less, CalendarRegistry behaves like a concurrent keyed collection
@@ -109,7 +108,7 @@ namespace Zorglub.Time.Simple
         public bool IsFull => _lastId >= MaxId;
 
         // Disable fail fast. Only for testing.
-        public bool DisableFailFast { get; set; }
+        internal bool DisableFailFast { get; set; }
 
         // _lastId is incremented very late in the registration process which
         // means that CanAdd may return true even if, in the end, it's not
@@ -127,27 +126,27 @@ namespace Zorglub.Time.Simple
         /// <para>This collection may also contain a few dirty keys, those paired with a calendar
         /// with an ID equal to <see cref="Cuid.Invalid"/>.</para>
         /// </summary>
-        public ICollection<string> Keys => _calendarsByKey.Keys;
+        internal ICollection<string> Keys => _calendarsByKey.Keys;
 
         /// <summary>
-        /// Gets the absolute maximum number of calendars.
+        /// Gets the maximum number of calendars that this instance may contain.
         /// </summary>
-        public int MaxNumberOfCalendars => MaxId + 1; // <= 128
+        public int MaxNumberOfCalendars => MaxId + 1; // <= 128 and >= 1
 
         /// <summary>
-        /// Gets the absolute maximum number of user-defined calendars.
+        /// Gets the maximum number of user-defined calendars that this instance may contain.
         /// </summary>
-        public int MaxNumberOfUserCalendars => MaxId - MinId + 1; // <= 64
+        public int MaxNumberOfUserCalendars => MaxId - MinId + 1; // <= 64 and >= 1
 
         /// <summary>
-        /// Gets or sets the number of system calendars.
+        /// Gets the number of system calendars.
         /// </summary>
-        public int NumberOfSystemCalendars { get; private set; } // <= 64
+        public int NumberOfSystemCalendars { get; private set; } // <= 64 and >= 0
 
         /// <summary>
         /// Gets the raw number of calendars, including <i>dirty</i> calendars.
         /// </summary>
-        public int RawCount => _calendarsByKey.Count;
+        internal int RawCount => _calendarsByKey.Count;
 
         /// <summary>
         /// Counts the number of calendars.
@@ -157,7 +156,7 @@ namespace Zorglub.Time.Simple
             // Beware, we cannot use _calendarsByKey.Count because it also
             // includes the dirty calendars. The correct formula is given by:
             // > _calendarsByKey.Where(x => x.Value.Value.Id != Cuid.Invalid).Count()
-            // We prefer the faster formula:
+            // but we prefer the faster formula:
             NumberOfSystemCalendars + CountUserCalendars();
 
         /// <summary>
@@ -165,8 +164,8 @@ namespace Zorglub.Time.Simple
         /// </summary>
         [Pure]
         public int CountUserCalendars() =>
-            // The result is <= number of user-defined calendars found in
-            // _calendarsByKey.
+            // The result is <= the actual number of user-defined calendars
+            // found in _calendarsByKey, even if we don't count dirty calendars.
             // When one registers a new calendar, we first reserve the key, and
             // only after do we increment _lastId. What does it mean is that,
             // during a very short window of time, this property will return a
@@ -174,9 +173,6 @@ namespace Zorglub.Time.Simple
             // dictionary _calendarsByKey. At the same time, we can say that a
             // calendar should not be counted until it is fully constructed,
             // that is until CreateCalendar() completes.
-            // TODO(doc): we don't really count fully constructed calendars
-            // because _lastId is incremented before the calendar's constructor
-            // is called.
             //
             // We use Math.Min() because CreateCalendar() will eventually
             // increment _lastId to (1 + MaxId).
@@ -217,8 +213,11 @@ namespace Zorglub.Time.Simple
         }
 
 #if false
-        // FIXME(code): CountUserCalendars() will be wrong if "calendars"
-        // contains user-defined calendars.
+        // Disabled because we don't need it and, more importantly, because
+        // CountUserCalendars() will be wrong if "calendars" contains
+        // user-defined calendars. The only way to fix this is to maintain a
+        // separate counter (e.g. NumberOfInitialUserCalendars) for user-defined
+        // calendars added via this method.
         private void InitializeFromArray(Calendar[] calendars)
         {
             Requires.NotNull(calendars);
@@ -251,44 +250,6 @@ namespace Zorglub.Time.Simple
                 if (chr.IsUserDefined == false) NumberOfSystemCalendars++;
             }
         }
-
-        // TODO(code): clean up.
-        //private void InitializeSystemCalendars(Calendar[] calendars)
-        //{
-        //    Requires.NotNull(calendars);
-        //    // While not strictly necessary, we shall verify that the index of a
-        //    // calendar in "calendars" equals its ID.
-        //    // The ID of the first created user-defined calendar is MinId.
-        //    // If "count" is > MinId, MinId is de facto a valid ID for a system
-        //    // calendars, therefore we will have at least two calendars with
-        //    // the same ID. In fact, it's not possible to create a system
-        //    // calendar with an ID >= MinMinId, but we don't know here what's
-        //    // inside "calendars", we will have to wait for
-        //    // InitializeSystemCalendars() for that.
-        //    if (calendars.Length > MinMinId) Throw.Argument(nameof(calendars));
-
-        //    for (int id = 0; id < calendars.Length; id++)
-        //    {
-        //        var chr = calendars[id];
-        //        // The tests below ensure that the calendars array does not
-        //        // contain any user-defined calendar and that the index of a
-        //        // calendar in "calendars" is given by its ID.
-        //        // As a side effect, a calendar cannot appear twice. In fact,
-        //        // it would not matter if it was the case, as it does not
-        //        // change the result, it is just a "waste" of resources.
-        //        // WARNING: do not change the order of the checks below,
-        //        // otherwise it's harder to achieve full code coverage.
-        //        // Indeed, a user-defined calendar has an ID >= MinMinId
-        //        // which therefore cannot match the index of an array whose
-        //        // last index is < MinMinId.
-        //        if (chr.IsUserDefined) Throw.Argument(nameof(calendars));
-        //        if ((int)chr.Id != id) Throw.Argument(nameof(calendars));
-
-        //        // Indexer instead of TryAdd(): unconditional add.
-        //        _calendarsByKey[chr.Key] = new Lazy<Calendar>(chr);
-        //        NumberOfSystemCalendars++;
-        //    }
-        //}
 #endif
 
         #endregion
@@ -296,10 +257,11 @@ namespace Zorglub.Time.Simple
 
     internal sealed partial class CalendarRegistry // Snapshots & Lookup
     {
-        // We MUST filter out dirty calendars. As explained in CreateCalendar(),
-        // a dirty calendar may always be referenced in _calendarsByKey.
-        // Furthermore, we don't verify whether the removal of a dirty calendar
-        // is successful or not; see the section "Clean up" in the "Add"-methods.
+        // We MUST filter out dirty calendars because we don't verify whether
+        // the removal of a dirty calendar is successful or not; see the section
+        // "Clean up" in the "Add"-methods. In any case, a dirty calendar may
+        // only be referenced by _calendarsByKey if the registry overflowed at
+        // one point.
 
         [Pure]
         public IReadOnlyDictionary<string, Calendar> TakeSnapshot()
@@ -359,7 +321,7 @@ namespace Zorglub.Time.Simple
         /// <para>Beware, if you decide to use this method, you SHOULD NOT call a counting method
         /// afterwards. Only <see cref="RawCount"/> will continue to work properly.</para>
         /// </summary>
-        public void AddRaw(Calendar calendar)
+        internal void AddRaw(Calendar calendar)
         {
             // Currently, we only use this method to add a user-defined calendar
             // with an invalid ID in order to be able to achieve full code coverage.
@@ -414,6 +376,14 @@ namespace Zorglub.Time.Simple
                 // we could try to remove the same key twice...
                 if (ReferenceEquals(lazy1, lazy))
                 {
+                    // It does not matter if the following call fails.
+                    // We end up here only when the registry is full which means
+                    // that any attempt to register the key afterwards will fail
+                    // anyway. The only drawback is that we keep a dirty
+                    // calendar in the registry. Under normal circumstances
+                    // (DisableFailFast is not set to true), this will happen
+                    // only once --- because when the registry is full we exit
+                    // the method right away.
                     _calendarsByKey.TryRemove(key, out _);
                 }
 
@@ -445,6 +415,7 @@ namespace Zorglub.Time.Simple
             if (chr.Id == Cuid.Invalid)
             {
                 // Clean up.
+                // Be sure to read the comments in GetOrAdd().
                 _calendarsByKey.TryRemove(key, out _);
 
                 Throw.CatalogOverflow();
@@ -481,6 +452,7 @@ namespace Zorglub.Time.Simple
                 if (chr.Id == Cuid.Invalid)
                 {
                     // Clean up.
+                    // Be sure to read the comments in GetOrAdd().
                     _calendarsByKey.TryRemove(key, out _);
 
                     goto FAILED;
