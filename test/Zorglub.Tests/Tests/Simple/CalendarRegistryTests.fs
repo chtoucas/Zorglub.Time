@@ -3,7 +3,9 @@
 
 module Zorglub.Tests.Simple.CalendarRegistryTests
 
+open System.Linq
 open System.Collections.Generic
+open System.Threading.Tasks
 
 open Zorglub.Testing
 open Zorglub.Time
@@ -15,7 +17,7 @@ open Zorglub.Time.Simple
 open Xunit
 
 module TestCommon =
-    let checkState (reg: CalendarRegistry) count usersCount =
+    let checkCounts (reg: CalendarRegistry) count usersCount =
         reg.CountCalendars() === count
         reg.CountUserCalendars() === usersCount
 
@@ -29,6 +31,10 @@ module TestCommon =
 
         keyNotFoundExn (fun () -> reg.GetCalendar(key))
 
+        let succeed, cal = reg.TryGetCalendar(key)
+        succeed |> nok
+        cal     |> isnull
+
     let onKeySet (reg: CalendarRegistry) key epoch proleptic (chr: Calendar) =
         chr |> isnotnull
 
@@ -39,6 +45,10 @@ module TestCommon =
         Assert.Contains(key, reg.Keys)
 
         reg.GetCalendar(key) ==& chr
+
+        let succeed, cal = reg.TryGetCalendar(key)
+        succeed |> ok
+        cal ==& chr
 
 module Prelude =
     [<Fact>]
@@ -183,7 +193,7 @@ module Snapshot =
     let ``TakeSnapshot()`` () =
         let sys = GregorianCalendar.Instance
         let reg = new CalendarRegistry([| sys |])
-        let usr = reg.Add("User Key", new GregorianSchema(), DayZero.NewStyle, true)
+        let usr = reg.Add("User Gregorian", new GregorianSchema(), DayZero.NewStyle, false)
 
         let dict = reg.TakeSnapshot()
 
@@ -194,9 +204,9 @@ module Snapshot =
     let ``TakeSnapshot() when the registry contains a dirty key`` () =
         let sys = GregorianCalendar.Instance
         let reg = new CalendarRegistry([| sys |])
-        let usr = reg.Add("User Key", new GregorianSchema(), DayZero.NewStyle, true)
+        let usr = reg.Add("User Gregorian", new GregorianSchema(), DayZero.NewStyle, false)
 
-        let dirty = new Calendar(Cuid.Invalid, "Dirty Key", new GregorianSchema(), DayZero.NewStyle, true)
+        let dirty = new Calendar(Cuid.Invalid, "Dirty Gregorian", new GregorianSchema(), DayZero.NewStyle, false)
         reg.AddRaw(dirty)
 
         let dict = reg.TakeSnapshot()
@@ -207,16 +217,11 @@ module Snapshot =
         dict.[usr.Key] ==& usr
 
 module Lookup =
-    let private userKey = "User Key"
-    let private dirtyKey = "Dirty Key"
-    let private dirtyGregorian =
-        new Calendar(Cuid.Invalid, dirtyKey, new GregorianSchema(), DayZero.NewStyle, true)
-    let private systemGregorian = GregorianCalendar.Instance
-    let private systemKey = systemGregorian.Key
     let private newRegistry  =
-        let reg = new CalendarRegistry([| systemGregorian |])
-        reg.Add(userKey, new GregorianSchema(), DayZero.NewStyle, true) |> ignore
-        reg
+        let sys = GregorianCalendar.Instance
+        let reg = new CalendarRegistry([| sys |])
+        let usr = reg.Add("User Gregorian", new GregorianSchema(), DayZero.NewStyle, false)
+        reg, sys, usr
 
     //
     // GetCalendar()
@@ -224,36 +229,37 @@ module Lookup =
 
     [<Fact>]
     let ``GetCalendar(unknown key)`` () =
-        let reg = newRegistry
+        let reg, _, _ = newRegistry
 
         throws<KeyNotFoundException> (fun () -> reg.GetCalendar("Unknown Key"))
 
     [<Fact>]
     let ``GetCalendar(system key) is not null and always returns the same reference`` () =
-        let reg = newRegistry
-        let chr1 = reg.GetCalendar(systemKey)
-        let chr2 = reg.GetCalendar(systemKey)
+        let reg, sys, _ = newRegistry
+        let chr1 = reg.GetCalendar(sys.Key)
+        let chr2 = reg.GetCalendar(sys.Key)
 
         chr1 |> isnotnull
-        chr1.Key === systemKey
-        chr1 ==& chr2
+        chr1.Key === sys.Key
+        chr2 ==& chr1
 
     [<Fact>]
     let ``GetCalendar(user key) is not null and always returns the same reference`` () =
-        let reg = newRegistry
-        let chr1 = reg.GetCalendar(userKey)
-        let chr2 = reg.GetCalendar(userKey)
+        let reg, _, usr = newRegistry
+        let chr1 = reg.GetCalendar(usr.Key)
+        let chr2 = reg.GetCalendar(usr.Key)
 
         chr1 |> isnotnull
-        chr1.Key === userKey
-        chr1 ==& chr2
+        chr1.Key === usr.Key
+        chr2 ==& chr1
 
     [<Fact>]
     let ``GetCalendar(dirty key)`` () =
-        let reg = newRegistry
-        reg.AddRaw(dirtyGregorian)
+        let reg, _, _ = newRegistry
+        let dirty = new Calendar(Cuid.Invalid, "Dirty Gregorian", new GregorianSchema(), DayZero.NewStyle, false)
+        reg.AddRaw(dirty)
 
-        throws<KeyNotFoundException> (fun () -> reg.GetCalendar(dirtyKey))
+        throws<KeyNotFoundException> (fun () -> reg.GetCalendar(dirty.Key))
 
     //
     // TryGetCalendar()
@@ -261,45 +267,46 @@ module Lookup =
 
     [<Fact>]
     let ``TryGetCalendar(unknown key)`` () =
-        let reg = newRegistry
-        let succeed, chr = reg.TryGetCalendar("Unknown Key")
+        let reg, _, _ = newRegistry
+        let succeed, cal = reg.TryGetCalendar("Unknown Key")
 
         succeed |> nok
-        chr     |> isnull
+        cal |> isnull
 
     [<Fact>]
     let ``TryGetCalendar(system key) succeeds and always returns the same reference`` () =
-        let reg = newRegistry
-        let succeed1, chr1 = reg.TryGetCalendar(systemKey)
-        let succeed2, chr2 = reg.TryGetCalendar(systemKey)
+        let reg, sys, _ = newRegistry
+        let succeed1, cal1 = reg.TryGetCalendar(sys.Key)
+        let succeed2, cal2 = reg.TryGetCalendar(sys.Key)
 
         succeed1 |> ok
         succeed2 |> ok
-        chr1     |> isnotnull
-        chr1.Key === systemKey
-        chr1 ==& chr2
+        cal1 |> isnotnull
+        cal1.Key === sys.Key
+        cal2 ==& cal1
 
     [<Fact>]
     let ``TryGetCalendar(user key) succeeds and always returns the same reference`` () =
-        let reg = newRegistry
-        let succeed1, chr1 = reg.TryGetCalendar(userKey)
-        let succeed2, chr2 = reg.TryGetCalendar(userKey)
+        let reg, _, usr = newRegistry
+        let succeed1, cal1 = reg.TryGetCalendar(usr.Key)
+        let succeed2, cal2 = reg.TryGetCalendar(usr.Key)
 
         succeed1 |> ok
         succeed2 |> ok
-        chr1     |> isnotnull
-        chr1.Key === userKey
-        chr1 ==& chr2
+        cal1 |> isnotnull
+        cal1.Key === usr.Key
+        cal2 ==& cal1
 
     [<Fact>]
     let ``TryGetCalendar(dirty key)`` () =
-        let reg = newRegistry
-        reg.AddRaw(dirtyGregorian)
+        let reg, _, _ = newRegistry
+        let dirty = new Calendar(Cuid.Invalid, "Dirty Gregorian", new GregorianSchema(), DayZero.NewStyle, false)
+        reg.AddRaw(dirty)
 
-        let succeed, chr = reg.TryGetCalendar(dirtyKey)
+        let succeed, cal = reg.TryGetCalendar(dirty.Key)
 
         succeed |> nok
-        chr     |> isnull
+        cal |> isnull
 
 module AddOps =
     open TestCommon
@@ -311,7 +318,7 @@ module AddOps =
     [<Fact>]
     let ``AddRaw() breaks the counting methods`` () =
         let reg = new CalendarRegistry([| GregorianCalendar.Instance |])
-        let chr = reg.Add("key", new GregorianSchema(), DayZero.NewStyle, true)
+        let chr = reg.Add("Key", new GregorianSchema(), DayZero.NewStyle, false)
 
         reg.RawCount === 2
         reg.NumberOfSystemCalendars === 1
@@ -343,7 +350,7 @@ module AddOps =
         reg.CountUserCalendars() === 1
 
         // Adding a user-defined calendar.
-        reg.AddRaw(new Calendar(Cuid.MinUser, "User Key", new GregorianSchema(), DayZero.NewStyle, true))
+        reg.AddRaw(new Calendar(Cuid.MinUser, "User Gregorian", new GregorianSchema(), DayZero.NewStyle, false))
 
         reg.RawCount === 4 // Count increased by 1
         reg.NumberOfSystemCalendars === 1
@@ -351,7 +358,7 @@ module AddOps =
         reg.CountUserCalendars() === 1
 
         // Adding a dirty calendar.
-        reg.AddRaw(new Calendar(Cuid.Invalid, "Dirty Key", new GregorianSchema(), DayZero.NewStyle, true))
+        reg.AddRaw(new Calendar(Cuid.Invalid, "Dirty Gregorian", new GregorianSchema(), DayZero.NewStyle, false))
 
         reg.RawCount === 5 // Count increased by 1
         reg.NumberOfSystemCalendars === 1
@@ -366,47 +373,50 @@ module AddOps =
     let ``GetOrAdd() throws for null key`` () =
         let reg = new CalendarRegistry()
 
-        nullExn "key" (fun () -> reg.GetOrAdd(null, new JulianSchema(), DayZero.OldStyle, false))
+        nullExn "key" (fun () -> reg.GetOrAdd(null, new GregorianSchema(), DayZero.NewStyle, false))
 
     [<Fact>]
     let ``GetOrAdd() throws for null schema`` () =
         let reg = new CalendarRegistry()
 
-        nullExn "schema" (fun () -> reg.GetOrAdd("key", null, DayZero.OldStyle, false))
-        onKeyNotSet reg "key"
-        checkState reg 0 0
+        nullExn "schema" (fun () -> reg.GetOrAdd("Key", null, DayZero.NewStyle, false))
+        checkCounts reg 0 0
+
+        onKeyNotSet reg "Key"
 
     [<Fact>]
     let ``GetOrAdd() throws for unsupported schema`` () =
         let reg = new CalendarRegistry()
         let sch = new FauxSystemSchema(Range.Create(-2, -1))
 
-        outOfRangeExn "year" (fun () -> reg.GetOrAdd("key", sch, DayZero.OldStyle, false))
-        onKeyNotSet reg "key"
-        checkState reg 0 0
+        outOfRangeExn "year" (fun () -> reg.GetOrAdd("Key", sch, DayZero.NewStyle, false))
+        checkCounts reg 0 0
+
+        onKeyNotSet reg "Key"
 
     [<Fact>]
     let ``GetOrAdd() when the key is already taken`` () =
-        let gr = GregorianCalendar.Instance
-        let reg = new CalendarRegistry([| gr |])
-        let chr = reg.GetOrAdd(gr.Key, new JulianSchema(), DayZero.OldStyle, false)
+        let sys = GregorianCalendar.Instance
+        let reg = new CalendarRegistry([| sys |])
 
-        chr ==& gr
-        checkState reg 1 0
+        checkCounts reg 1 0
+        let chr = reg.GetOrAdd(sys.Key, new JulianSchema(), DayZero.OldStyle, true)
+        checkCounts reg 1 0
+
+        chr ==& sys
 
     [<Fact>]
     let ``GetOrAdd()`` () =
-        let gr = GregorianCalendar.Instance
-        let reg = new CalendarRegistry([| gr |])
-        let epoch = DayNumber.Zero + 1234
+        let sys = GregorianCalendar.Instance
+        let reg = new CalendarRegistry([| sys |])
+        let epoch = DayZero.NewStyle
         let proleptic = false
 
-        checkState reg 1 0
+        checkCounts reg 1 0
+        let chr = reg.GetOrAdd("Key", new GregorianSchema(), epoch, proleptic)
+        checkCounts reg 2 1
 
-        let chr = reg.GetOrAdd("key", new GregorianSchema(), epoch, proleptic)
-
-        onKeySet reg "key" epoch proleptic chr
-        checkState reg 2 1
+        onKeySet reg "Key" epoch proleptic chr
 
     //
     // Add()
@@ -416,46 +426,48 @@ module AddOps =
     let ``Add() throws for null key`` () =
         let reg = new CalendarRegistry()
 
-        nullExn "key" (fun () -> reg.Add(null, new JulianSchema(), DayZero.OldStyle, false))
+        nullExn "key" (fun () -> reg.Add(null, new GregorianSchema(), DayZero.NewStyle, false))
 
     [<Fact>]
     let ``Add() throws for null schema`` () =
         let reg = new CalendarRegistry()
 
-        nullExn "schema" (fun () -> reg.Add("key", null, DayZero.OldStyle, false))
-        onKeyNotSet reg "key"
-        checkState reg 0 0
+        nullExn "schema" (fun () -> reg.Add("Key", null, DayZero.NewStyle, false))
+        checkCounts reg 0 0
+
+        onKeyNotSet reg "Key"
 
     [<Fact>]
     let ``Add() throws for unsupported schema`` () =
         let reg = new CalendarRegistry()
         let sch = new FauxSystemSchema(Range.Create(-2, -1))
 
-        outOfRangeExn "year" (fun () -> reg.Add("key", sch, DayZero.OldStyle, false))
-        onKeyNotSet reg "key"
-        checkState reg 0 0
+        outOfRangeExn "year" (fun () -> reg.Add("Key", sch, DayZero.NewStyle, false))
+        checkCounts reg 0 0
+
+        onKeyNotSet reg "Key"
 
     [<Fact>]
     let ``Add() throws when the key is already taken`` () =
-        let gr = GregorianCalendar.Instance
-        let reg = new CalendarRegistry([| gr |])
+        let sys = GregorianCalendar.Instance
+        let reg = new CalendarRegistry([| sys |])
 
-        argExn "key" (fun () -> reg.Add(gr.Key, new JulianSchema(), DayZero.OldStyle, false))
-        checkState reg 1 0
+        checkCounts reg 1 0
+        argExn "key" (fun () -> reg.Add(sys.Key, new JulianSchema(), DayZero.OldStyle, true))
+        checkCounts reg 1 0
 
     [<Fact>]
     let ``Add()`` () =
-        let gr = GregorianCalendar.Instance
-        let reg = new CalendarRegistry([| gr |])
-        let epoch = DayNumber.Zero + 1234
-        let proleptic = true
+        let sys = GregorianCalendar.Instance
+        let reg = new CalendarRegistry([| sys |])
+        let epoch = DayZero.NewStyle
+        let proleptic = false
 
-        checkState reg 1 0
+        checkCounts reg 1 0
+        let chr = reg.Add("Key", new GregorianSchema(), epoch, proleptic)
+        checkCounts reg 2 1
 
-        let chr = reg.Add("key", new GregorianSchema(), epoch, proleptic)
-
-        onKeySet reg "key" epoch proleptic chr
-        checkState reg 2 1
+        onKeySet reg "Key" epoch proleptic chr
 
     //
     // TryAdd()
@@ -465,70 +477,68 @@ module AddOps =
     let ``TryAdd() throws for null key`` () =
         let reg = new CalendarRegistry()
 
-        nullExn "key" (fun () -> reg.TryAdd(null, new JulianSchema(), DayZero.OldStyle, false))
+        nullExn "key" (fun () -> reg.TryAdd(null, new JulianSchema(), DayZero.OldStyle, true))
 
     [<Fact>]
     let ``TryAdd() throws for null schema`` () =
         let reg = new CalendarRegistry()
 
-        nullExn "schema" (fun () -> reg.TryAdd("key", null, DayZero.OldStyle, false))
-        onKeyNotSet reg "key"
-        checkState reg 0 0
+        nullExn "schema" (fun () -> reg.TryAdd("Key", null, DayZero.OldStyle, false))
+        checkCounts reg 0 0
+
+        onKeyNotSet reg "Key"
 
     [<Fact>]
     let ``TryAdd() for unsupported schema`` () =
         let reg = new CalendarRegistry()
         let sch = new FauxSystemSchema(Range.Create(-2, -1))
 
-        let succeed, chr = reg.TryAdd("key", sch, DayZero.OldStyle, false)
+        let succeed, chr = reg.TryAdd("Key", sch, DayZero.OldStyle, false)
+        checkCounts reg 0 0
 
         succeed |> nok
         chr     |> isnull
-        onKeyNotSet reg "key"
-        checkState reg 0 0
+        onKeyNotSet reg "Key"
 
     [<Fact>]
     let ``TryAdd() when the key is already taken`` () =
-        let gr = GregorianCalendar.Instance
-        let reg = new CalendarRegistry([| gr |])
+        let sys = GregorianCalendar.Instance
+        let reg = new CalendarRegistry([| sys |])
 
-        checkState reg 1 0
-
-        let succeed, chr = reg.TryAdd(gr.Key, new JulianSchema(), DayZero.OldStyle, false)
+        checkCounts reg 1 0
+        let succeed, chr = reg.TryAdd(sys.Key, new JulianSchema(), DayZero.OldStyle, true)
+        checkCounts reg 1 0
 
         succeed |> nok
         chr     |> isnull
-        checkState reg 1 0
 
     [<Fact>]
     let ``TryAdd()`` () =
-        let gr = GregorianCalendar.Instance
-        let reg = new CalendarRegistry([| gr |])
-        let epoch = DayNumber.Zero + 1234
+        let sys = GregorianCalendar.Instance
+        let reg = new CalendarRegistry([| sys |])
+        let epoch = DayZero.NewStyle
         let proleptic = false
 
-        checkState reg 1 0
-
-        let succeed, chr = reg.TryAdd("key", new GregorianSchema(), epoch, proleptic)
+        checkCounts reg 1 0
+        let succeed, chr = reg.TryAdd("Key", new GregorianSchema(), epoch, proleptic)
+        checkCounts reg 2 1
 
         succeed |> ok
-        onKeySet reg "key" epoch proleptic chr
-        checkState reg 2 1
+        onKeySet reg "Key" epoch proleptic chr
 
     [<Fact>]
     let ``TryAdd() when the key is empty`` () =
-        let gr = GregorianCalendar.Instance
-        let reg = new CalendarRegistry([| gr |])
-        let epoch = DayNumber.Zero + 1234
-        let proleptic = true
+        let sys = GregorianCalendar.Instance
+        let reg = new CalendarRegistry([| sys |])
+        let epoch = DayZero.NewStyle
+        let proleptic = false
 
-        checkState reg 1 0
-
-        let succeed, chr = reg.TryAdd("key", new GregorianSchema(), epoch, proleptic)
+        checkCounts reg 1 0
+        let succeed, chr = reg.TryAdd("Key", new GregorianSchema(), epoch, proleptic)
+        checkCounts reg 2 1
 
         succeed |> ok
-        onKeySet reg "key" epoch proleptic chr
-        checkState reg 2 1
+        onKeySet reg "Key" epoch proleptic chr
 
 module AddLimits =
     open TestCommon
@@ -539,30 +549,30 @@ module AddLimits =
 
         new CalendarRegistry(minId, maxId)
 
-    // TODO(test): use different params.
-
     [<Fact>]
     let ``GetOrAdd()`` () =
         let reg = newMiniRegistry 2
-        let epoch = DayNumber.Zero + 1234
+        let epoch = DayZero.NewStyle
         let proleptic = false
 
-        reg.MaxNumberOfUserCalendars === 2
-        checkState reg 0 0
+        reg.IsFull |> nok
 
-        let chr = reg.GetOrAdd("key", new GregorianSchema(), epoch, proleptic)
-        onKeySet reg "key" epoch proleptic chr
-        checkState reg 1 1
+        reg.MaxNumberOfUserCalendars === 2
+        checkCounts reg 0 0
+
+        let chr = reg.GetOrAdd("Key", new GregorianSchema(), epoch, proleptic)
+        onKeySet reg "Key" epoch proleptic chr
+        checkCounts reg 1 1
 
         // Using the same key, we obtain the same calendar.
-        let chr1 = reg.GetOrAdd("key", new GregorianSchema(), epoch, proleptic)
+        let chr1 = reg.GetOrAdd("Key", new JulianSchema(), DayZero.OldStyle, true)
         chr1 ==& chr
-        checkState reg 1 1
+        checkCounts reg 1 1
 
         // Using a different key, we create a new calendar.
-        let otherChr = reg.GetOrAdd("otherKey", new GregorianSchema(), epoch, proleptic)
-        onKeySet reg "otherKey" epoch proleptic otherChr
-        checkState reg 2 2
+        let otherChr = reg.GetOrAdd("Another Key", new GregorianSchema(), DayZero.NewStyle, false)
+        onKeySet reg "Another Key" epoch proleptic otherChr
+        checkCounts reg 2 2
 
         //
         // Now, the registry is full.
@@ -571,41 +581,43 @@ module AddLimits =
         reg.IsFull |> ok
 
         // Using an old key.
-        let chr2 = reg.GetOrAdd("key", new GregorianSchema(), epoch, proleptic)
+        let chr2 = reg.GetOrAdd("Key", new JulianSchema(), DayZero.OldStyle, true)
         chr2 ==& chr
-        checkState reg 2 2
+        checkCounts reg 2 2
 
         // Using a new key.
-        overflows (fun () -> reg.GetOrAdd("newKey", new GregorianSchema(), epoch, proleptic))
-        onKeyNotSet reg "newKey"
-        checkState reg 2 2
+        overflows (fun () -> reg.GetOrAdd("New Key", new JulianSchema(), DayZero.OldStyle, true))
+        onKeyNotSet reg "New Key"
+        checkCounts reg 2 2
 
         reg.DisableFailFast <- true
 
-        overflows (fun () -> reg.GetOrAdd("newKey", new GregorianSchema(), epoch, proleptic))
-        onKeyNotSet reg "newKey"
-        checkState reg 2 2
+        overflows (fun () -> reg.GetOrAdd("New Key", new JulianSchema(), DayZero.OldStyle, true))
+        onKeyNotSet reg "New Key"
+        checkCounts reg 2 2
 
     [<Fact>]
     let ``Add()`` () =
         let reg = newMiniRegistry 2
-        let epoch = DayNumber.Zero + 1234
+        let epoch = DayZero.NewStyle
         let proleptic = false
 
-        reg.MaxNumberOfUserCalendars === 2
-        checkState reg 0 0
+        reg.IsFull |> nok
 
-        let chr = reg.Add("key", new GregorianSchema(), epoch, proleptic)
-        onKeySet reg "key" epoch proleptic chr
-        checkState reg 1 1
+        reg.MaxNumberOfUserCalendars === 2
+        checkCounts reg 0 0
+
+        let chr = reg.Add("Key", new GregorianSchema(), epoch, proleptic)
+        onKeySet reg "Key" epoch proleptic chr
+        checkCounts reg 1 1
 
         // Using the same key.
-        argExn "key" (fun () -> reg.Add("key", new GregorianSchema(), epoch, proleptic))
+        argExn "key" (fun () -> reg.Add("Key", new JulianSchema(), DayZero.OldStyle, true))
 
         // Using a different key, we create a new calendar.
-        let otherChr = reg.Add("otherKey", new GregorianSchema(), epoch, proleptic)
-        onKeySet reg "otherKey" epoch proleptic otherChr
-        checkState reg 2 2
+        let otherChr = reg.Add("Another Key", new GregorianSchema(), DayZero.NewStyle, false)
+        onKeySet reg "Another Key" epoch proleptic otherChr
+        checkCounts reg 2 2
 
         //
         // Now, the registry is full.
@@ -614,48 +626,50 @@ module AddLimits =
         reg.IsFull |> ok
 
         // Using an old key.
-        overflows (fun () -> reg.Add("key", new GregorianSchema(), epoch, proleptic))
-        checkState reg 2 2
+        overflows (fun () -> reg.Add("Key", new JulianSchema(), DayZero.OldStyle, true))
+        checkCounts reg 2 2
 
         // Using a new key.
-        overflows (fun () -> reg.Add("newKey", new GregorianSchema(), epoch, proleptic))
-        onKeyNotSet reg "newKey"
-        checkState reg 2 2
+        overflows (fun () -> reg.Add("New Key", new JulianSchema(), DayZero.OldStyle, true))
+        onKeyNotSet reg "New Key"
+        checkCounts reg 2 2
 
         reg.DisableFailFast <- true
 
-        overflows (fun () -> reg.Add("newKey", new GregorianSchema(), epoch, proleptic))
-        onKeyNotSet reg "newKey"
-        checkState reg 2 2
+        overflows (fun () -> reg.Add("New Key", new JulianSchema(), DayZero.OldStyle, true))
+        onKeyNotSet reg "New Key"
+        checkCounts reg 2 2
 
     [<Fact>]
     let ``TryAdd()`` () =
         let reg = newMiniRegistry 2
-        let key = "key"
-        let epoch = DayNumber.Zero + 1234
-        let proleptic = false
+        let key = "Key"
+        let epoch = DayZero.NewStyle
+        let proleptic = true
+
+        reg.IsFull |> nok
 
         reg.MaxNumberOfUserCalendars === 2
-        checkState reg 0 0
+        checkCounts reg 0 0
 
         let (succeed, chr) = reg.TryAdd(key, new GregorianSchema(), epoch, proleptic)
         succeed |> ok
         chr     |> isnotnull
         onKeySet reg key epoch proleptic chr
-        checkState reg 1 1
+        checkCounts reg 1 1
 
         // Using the same key.
-        let (succeed1, chr1) = reg.TryAdd(key, new GregorianSchema(), epoch, proleptic)
+        let (succeed1, chr1) = reg.TryAdd(key, new JulianSchema(), DayZero.OldStyle, true)
         succeed1 |> nok
         chr1     |> isnull
-        checkState reg 1 1
+        checkCounts reg 1 1
 
         // Using a different key, we create a new calendar.
-        let (otherSucceed, otherChr) = reg.TryAdd("otherKey", new GregorianSchema(), epoch, proleptic)
+        let (otherSucceed, otherChr) = reg.TryAdd("Another Key", new GregorianSchema(), DayZero.NewStyle, false)
         otherSucceed |> ok
         otherChr     |> isnotnull
         onKeySet reg key epoch proleptic chr
-        checkState reg 2 2
+        checkCounts reg 2 2
 
         //
         // Now, the registry is full.
@@ -664,22 +678,87 @@ module AddLimits =
         reg.IsFull |> ok
 
         // Using an old key.
-        let (succeed2, chr2) = reg.TryAdd("key", new GregorianSchema(), epoch, proleptic)
+        let (succeed2, chr2) = reg.TryAdd("Key", new JulianSchema(), DayZero.OldStyle, true)
         succeed2 |> nok
         chr2     |> isnull
-        checkState reg 2 2
+        checkCounts reg 2 2
 
         // Using a new key.
-        let (succeed3, chr3) = reg.TryAdd("newKey", new GregorianSchema(), epoch, proleptic)
+        let (succeed3, chr3) = reg.TryAdd("New Key", new JulianSchema(), DayZero.OldStyle, true)
         succeed3 |> nok
         chr3     |> isnull
-        onKeyNotSet reg "newKey"
-        checkState reg 2 2
+        onKeyNotSet reg "New Key"
+        checkCounts reg 2 2
 
         reg.DisableFailFast <- true
 
-        let (succeed4, chr4) = reg.TryAdd("newKey", new GregorianSchema(), epoch, proleptic)
+        let (succeed4, chr4) = reg.TryAdd("New Key", new JulianSchema(), DayZero.OldStyle, true)
         succeed4 |> nok
         chr4     |> isnull
-        onKeyNotSet reg "newKey"
-        checkState reg 2 2
+        onKeyNotSet reg "New Key"
+        checkCounts reg 2 2
+
+    //
+    // Parallel
+    //
+
+    [<Fact>]
+    let ``GetOrAdd() parallel`` () =
+        let reg = new CalendarRegistry()
+        let epoch = DayZero.NewStyle;
+        let proleptic = false
+
+        reg.CountCalendars() === 0
+
+        Parallel.ForEach(
+            Enumerable.Range(0, reg.MaxNumberOfUserCalendars),
+            fun i ->
+                let key = $"Key {i}";
+                let chr = reg.GetOrAdd(key, new GregorianSchema(), epoch, proleptic)
+
+                onKeySet reg key epoch proleptic chr
+        ) |> ignore
+
+        reg.IsFull |> ok
+        reg.CountCalendars() === reg.MaxNumberOfUserCalendars
+
+    [<Fact>]
+    let ``Add() parallel`` () =
+        let reg = new CalendarRegistry()
+        let epoch = DayZero.NewStyle;
+        let proleptic = false
+
+        reg.CountCalendars() === 0
+
+        Parallel.ForEach(
+            Enumerable.Range(0, reg.MaxNumberOfUserCalendars),
+            fun i ->
+                let key = $"Key {i}";
+                let chr = reg.Add(key, new GregorianSchema(), epoch, proleptic)
+
+                onKeySet reg key epoch proleptic chr
+        ) |> ignore
+
+        reg.IsFull |> ok
+        reg.CountCalendars() === reg.MaxNumberOfUserCalendars
+
+    [<Fact>]
+    let ``TryAdd() parallel`` () =
+        let reg = new CalendarRegistry()
+        let epoch = DayZero.NewStyle;
+        let proleptic = false
+
+        reg.CountCalendars() === 0
+
+        Parallel.ForEach(
+            Enumerable.Range(0, reg.MaxNumberOfUserCalendars),
+            fun i ->
+                let key = $"Key {i}";
+                let succeed, chr = reg.TryAdd(key, new GregorianSchema(), epoch, proleptic)
+
+                succeed |> ok
+                onKeySet reg key epoch proleptic chr
+        ) |> ignore
+
+        reg.IsFull |> ok
+        reg.CountCalendars() === reg.MaxNumberOfUserCalendars
