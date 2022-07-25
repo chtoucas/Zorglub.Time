@@ -56,6 +56,10 @@ module Prelude =
         CalendarCatalog.MaxNumberOfUserCalendars === 64
 
     [<Fact>]
+    let ``Property IsFull`` () =
+        CalendarCatalog.IsFull |> nok
+
+    [<Fact>]
     let ``Property Keys, unknown key`` () =
         Assert.DoesNotContain("Unknown Key", CalendarCatalog.Keys)
 
@@ -114,8 +118,6 @@ module Snapshots =
 
         Assert.Contains(userGregorian, calendars)
         Assert.Contains(userJulian, calendars)
-        // TODO(code): we should verify that the code works even of someone added
-        // a new calendar in the meantime; idem for TakeSnapshot().
 
     [<Fact>]
     let ``GetUserCalendars() contains the user-defined calendars`` () =
@@ -159,7 +161,7 @@ module Lookup =
 
         chr1 |> isnotnull
         chr1.Key === key
-        chr1 ==& chr2
+        chr2 ==& chr1
 
     [<Fact>]
     let ``GetCalendar(user key) is not null and always returns the same reference`` () =
@@ -169,7 +171,7 @@ module Lookup =
 
         chr1 |> isnotnull
         chr1.Key === key
-        chr1 ==& chr2
+        chr2 ==& chr1
 
     //
     // TryGetCalendar()
@@ -192,7 +194,7 @@ module Lookup =
         succeed2 |> ok
         chr1     |> isnotnull
         chr1.Key === key
-        chr1 ==& chr2
+        chr2 ==& chr1
 
     [<Fact>]
     let ``TryGetCalendar(user key) succeeds and always returns the same reference`` () =
@@ -204,7 +206,7 @@ module Lookup =
         succeed2 |> ok
         chr1     |> isnotnull
         chr1.Key === key
-        chr1 ==& chr2
+        chr2 ==& chr1
 
     //
     // GetSystemCalendar()
@@ -216,7 +218,8 @@ module Lookup =
         let chr2 = CalendarCatalog.GetSystemCalendar(ident)
 
         chr1 |> isnotnull
-        chr1 ==& chr2
+        chr1.PermanentId === ident
+        chr2 ==& chr1
 
     [<Theory; MemberData(nameof(invalidCalendarIdData))>]
     let ``GetSystemCalendar() throws for invalid id`` (ident: CalendarId) =
@@ -239,7 +242,8 @@ module Lookup =
         let chr2 = CalendarCatalog.GetCalendarUnchecked(cuid)
 
         chr1 |> isnotnull
-        chr1 ==& chr2
+        chr1.PermanentId === id
+        chr2 ==& chr1
 
     [<Fact>]
     let ``GetCalendarUnchecked(user id) is not null and always returns the same reference`` () =
@@ -248,7 +252,8 @@ module Lookup =
         let chr2 = CalendarCatalog.GetCalendarUnchecked(cuid)
 
         chr1 |> isnotnull
-        chr1 ==& chr2
+        chr1.Id === userGregorian.Id
+        chr2 ==& chr1
 
     //
     // GetCalendarUnsafe()
@@ -262,7 +267,8 @@ module Lookup =
         let chr2 = CalendarCatalog.GetCalendarUnsafe(cuid)
 
         chr1 |> isnotnull
-        chr1 ==& chr2
+        chr1.PermanentId === id
+        chr2 ==& chr1
 
     [<Fact>]
     let ``GetCalendarUnsafe(user id) is not null and always returns the same reference`` () =
@@ -271,7 +277,8 @@ module Lookup =
         let chr2 = CalendarCatalog.GetCalendarUnsafe(cuid)
 
         chr1 |> isnotnull
-        chr1 ==& chr2
+        chr1.Id === userGregorian.Id
+        chr2 ==& chr1
 
     //
     //

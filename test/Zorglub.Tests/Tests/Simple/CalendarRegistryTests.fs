@@ -90,11 +90,11 @@ module Prelude =
         outOfRangeExn "maxId" (fun () -> new CalendarRegistry(CalendarRegistry.MinMinId, CalendarRegistry.MaxMaxId + 1))
 
     [<Fact>]
-    let ``Constructor does not throw when maxId = minId`` () =
+    let ``Constructor does not throw when maxId = minId = MinMinId`` () =
         new CalendarRegistry(CalendarRegistry.MinMinId, CalendarRegistry.MinMinId) |> ignore
 
     [<Fact>]
-    let ``Constructor does not throw when minId = MaxMaxId`` () =
+    let ``Constructor does not throw when maxId = minId = MaxMaxId`` () =
         new CalendarRegistry(CalendarRegistry.MaxMaxId, CalendarRegistry.MaxMaxId) |> ignore
 
     [<Fact>]

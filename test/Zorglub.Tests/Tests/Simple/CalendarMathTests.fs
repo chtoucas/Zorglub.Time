@@ -43,36 +43,58 @@ module Prelude =
 
 module Factories =
     [<Fact>]
-    let ``CreateDefault() -> RegularMath when Regular12`` () =
+    let ``Create() & CreateDefault() -> RegularMath when Regular12`` () =
         let sch = FauxSystemSchema.Regular12
         let chr = new FauxSystemCalendar(sch)
-        let math = CalendarMath.CreateDefault(chr)
+        let ruleset = new AdditionRuleset()
+        let math1 = CalendarMath.CreateDefault(chr)
+        let math2 = CalendarMath.Create(chr, ruleset)
 
-        math |> is<RegularMath>
+        math1 |> is<RegularMath>
+        math2 |> is<RegularMath>
 
     [<Fact>]
-    let ``CreateDefault() -> RegularMath when Regular13`` () =
+    let ``Create() & CreateDefault() -> RegularMath when Regular13`` () =
         let sch = FauxSystemSchema.Regular13
         let chr = new FauxSystemCalendar(sch)
-        let math = CalendarMath.CreateDefault(chr)
+        let ruleset = new AdditionRuleset()
+        let math1 = CalendarMath.CreateDefault(chr)
+        let math2 = CalendarMath.Create(chr, ruleset)
 
-        math |> is<RegularMath>
+        math1 |> is<RegularMath>
+        math2 |> is<RegularMath>
 
     [<Fact>]
-    let ``CreateDefault() -> RegularMath when Regular14`` () =
+    let ``Create() & CreateDefault() -> RegularMath when Regular14`` () =
         let sch = FauxSystemSchema.Regular14
         let chr = new FauxSystemCalendar(sch)
-        let math = CalendarMath.CreateDefault(chr)
+        let ruleset = new AdditionRuleset()
+        let math1 = CalendarMath.CreateDefault(chr)
+        let math2 = CalendarMath.Create(chr, ruleset)
 
-        math |> is<RegularMath>
+        math1 |> is<RegularMath>
+        math2 |> is<RegularMath>
 
     [<Fact>]
-    let ``CreateDefault() -> PlainMath when not regular`` () =
+    let ``Create() & CreateDefault() -> PlainMath when not regular`` () =
         let sch = new FauxSystemSchema()
         let chr = new FauxSystemCalendar(sch)
-        let math = CalendarMath.CreateDefault(chr)
+        let ruleset = new AdditionRuleset()
+        let math1 = CalendarMath.CreateDefault(chr)
+        let math2 = CalendarMath.Create(chr, ruleset)
 
-        math |> is<PlainMath>
+        math1 |> is<PlainMath>
+        math2 |> is<PlainMath>
+
+    [<Fact>]
+    let ``Create()`` () =
+        let sch = new FauxSystemSchema()
+        let chr = new FauxSystemCalendar(sch)
+        let ruleset = new AdditionRuleset(AdditionRule.Overspill, AdditionRule.Exact, AdditionRule.Throw)
+        let math = CalendarMath.Create(chr, ruleset)
+
+        math |> is<PowerMath>
+        math.AdditionRuleset === ruleset
 
 module Validation =
     let private chr = GregorianCalendar.Instance
