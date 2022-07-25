@@ -44,14 +44,7 @@ namespace Zorglub.Time.Hemerology.Scopes
         /// <exception cref="AoorException">The range of supported years by
         /// <paramref name="schema"/> does not contain the interval [-9998..9999].</exception>
         public ProlepticScope(ICalendricalSchema schema, DayNumber epoch)
-            : base(epoch, CalendricalSegment.Create(schema, s_SupportedYears))
-        {
-            Debug.Assert(schema != null);
-            if (s_SupportedYears.IsSubsetOf(schema.SupportedYears) == false)
-            {
-                Throw.Argument(nameof(schema));
-            }
-        }
+            : base(epoch, CalendricalSegment.Create(schema, s_SupportedYears)) { }
 
         /// <summary>
         /// Gets the validator for the range of supported years.
