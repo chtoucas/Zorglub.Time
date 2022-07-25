@@ -440,7 +440,7 @@ namespace Zorglub.Time.Specialized
         public CivilDay PlusDays(int days)
         {
             int daysSinceEpoch = checked(_daysSinceEpoch + days);
-            GregorianStandardScope.DaysValidator.Check(daysSinceEpoch);
+            GregorianStandardScope.DaysValidator.CheckOverflow(daysSinceEpoch);
             return new(daysSinceEpoch);
         }
 

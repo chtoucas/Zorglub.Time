@@ -28,7 +28,7 @@ namespace Zorglub.Time.Core.Validation
         /// </summary>
         /// <exception cref="OverflowException"><paramref name="value"/> is outside the range of
         /// supported values.</exception>
-        void Check(T value);
+        void CheckOverflow(T value);
 
         /// <summary>
         /// Checks whether the specified value is greater than the upper bound of the range of

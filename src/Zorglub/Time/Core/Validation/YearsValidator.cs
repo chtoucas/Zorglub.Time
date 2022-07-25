@@ -60,7 +60,7 @@ namespace Zorglub.Time.Core.Validation
         /// </summary>
         /// <exception cref="OverflowException"><paramref name="year"/> is outside the range of
         /// supported values.</exception>
-        public void Check(int year)
+        public void CheckOverflow(int year)
         {
             if (year < MinYear || year > MaxYear) Throw.DateOverflow();
         }
@@ -94,7 +94,7 @@ namespace Zorglub.Time.Core.Validation
         /// bound of the range of supported values.</exception>
         public void CheckLowerBound(int year)
         {
-            if (year < MaxYear) Throw.DateOverflow();
+            if (year < MinYear) Throw.DateOverflow();
         }
     }
 }

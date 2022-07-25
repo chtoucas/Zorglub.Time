@@ -630,7 +630,7 @@ namespace Zorglub.Time.Simple
         {
             int daysSinceEpoch = checked(DaysSinceEpoch + days);
             ref readonly var chr = ref CalendarRef;
-            chr.DaysValidator.Check(daysSinceEpoch);
+            chr.DaysValidator.CheckOverflow(daysSinceEpoch);
             return new CalendarDay(daysSinceEpoch, Cuid);
         }
 

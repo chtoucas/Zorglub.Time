@@ -29,7 +29,7 @@ namespace Zorglub.Time.Core.Validation
         /// </summary>
         /// <exception cref="OverflowException"><paramref name="dayNumber"/> would overflow the
         /// range of supported values.</exception>
-        internal static void CheckOverflow(this Range<DayNumber> @this, DayNumber dayNumber)
+        public static void CheckOverflow(this Range<DayNumber> @this, DayNumber dayNumber)
         {
             if (dayNumber < @this.Min || dayNumber > @this.Max) Throw.DateOverflow();
         }
@@ -40,7 +40,7 @@ namespace Zorglub.Time.Core.Validation
         /// </summary>
         /// <exception cref="OverflowException">The value is greater than the upper bound of the
         /// range of supported values.</exception>
-        internal static void CheckUpperBound(this Range<DayNumber> @this, DayNumber dayNumber)
+        public static void CheckUpperBound(this Range<DayNumber> @this, DayNumber dayNumber)
         {
             if (dayNumber > @this.Max) Throw.DateOverflow();
         }
@@ -51,7 +51,7 @@ namespace Zorglub.Time.Core.Validation
         /// </summary>
         /// <exception cref="OverflowException">The value is less than the lower bound of the range
         /// of supported values.</exception>
-        internal static void CheckLowerBound(this Range<DayNumber> @this, DayNumber dayNumber)
+        public static void CheckLowerBound(this Range<DayNumber> @this, DayNumber dayNumber)
         {
             if (dayNumber < @this.Min) Throw.DateOverflow();
         }

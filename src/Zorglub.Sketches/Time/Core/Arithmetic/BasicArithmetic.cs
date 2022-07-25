@@ -27,7 +27,7 @@ namespace Zorglub.Time.Core.Arithmetic
         {
             var (y, m, d) = parts;
             int daysSinceEpoch = checked(Schema.CountDaysSinceEpoch(y, m, d) + days);
-            DaysValidator.Check(daysSinceEpoch);
+            DaysValidator.CheckOverflow(daysSinceEpoch);
 
             return PartsAdapter.GetDateParts(daysSinceEpoch);
         }
@@ -49,7 +49,7 @@ namespace Zorglub.Time.Core.Arithmetic
         {
             var (y, doy) = parts;
             int daysSinceEpoch = checked(Schema.CountDaysSinceEpoch(y, doy) + days);
-            DaysValidator.Check(daysSinceEpoch);
+            DaysValidator.CheckOverflow(daysSinceEpoch);
 
             return PartsAdapter.GetOrdinalParts(daysSinceEpoch);
         }
@@ -71,7 +71,7 @@ namespace Zorglub.Time.Core.Arithmetic
         {
             var (y, m) = parts;
             int monthsSinceEpoch = checked(Schema.CountMonthsSinceEpoch(y, m) + months);
-            MonthsValidator.Check(monthsSinceEpoch);
+            MonthsValidator.CheckOverflow(monthsSinceEpoch);
 
             return PartsAdapter.GetMonthParts(monthsSinceEpoch);
         }

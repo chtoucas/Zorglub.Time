@@ -41,7 +41,7 @@ namespace Zorglub.Time.Simple
             date.Parts.Unpack(out int y, out int m, out int d);
             y = checked(y + years);
 
-            YearsValidator.Check(y);
+            YearsValidator.CheckOverflow(y);
 
             // NB: AdditionRule.Truncate.
             d = Math.Min(d, Schema.CountDaysInMonth(y, m));
@@ -70,7 +70,7 @@ namespace Zorglub.Time.Simple
             date.Parts.Unpack(out int y, out int doy);
             y = checked(y + years);
 
-            YearsValidator.Check(y);
+            YearsValidator.CheckOverflow(y);
 
             // NB: AdditionRule.Truncate.
             doy = Math.Min(doy, Schema.CountDaysInYear(y));
@@ -86,7 +86,7 @@ namespace Zorglub.Time.Simple
             month.Parts.Unpack(out int y, out int m);
             y = checked(y + years);
 
-            YearsValidator.Check(y);
+            YearsValidator.CheckOverflow(y);
 
             // NB: AdditionRule.Truncate.
             // The operation is always exact, and it's compatible with "EndOfYear".

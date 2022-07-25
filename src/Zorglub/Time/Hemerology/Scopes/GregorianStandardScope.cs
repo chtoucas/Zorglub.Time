@@ -118,7 +118,7 @@ namespace Zorglub.Time.Hemerology.Scopes
                 if (year < MinYear || year > MaxYear) Throw.YearOutOfRange(year, paramName);
             }
 
-            public void Check(int year)
+            public void CheckOverflow(int year)
             {
                 if (year < MinYear || year > MaxYear) Throw.DateOverflow();
             }

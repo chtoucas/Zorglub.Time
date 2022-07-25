@@ -58,7 +58,7 @@ namespace Zorglub.Time.Core.Arithmetic
 
             // Slow track.
             int daysSinceEpoch = checked(Schema.CountDaysSinceEpoch(y, m, d) + days);
-            DaysValidator.Check(daysSinceEpoch);
+            DaysValidator.CheckOverflow(daysSinceEpoch);
 
             return Schema.GetDateParts(daysSinceEpoch);
         }
@@ -154,7 +154,7 @@ namespace Zorglub.Time.Core.Arithmetic
 
             // Slow track.
             int daysSinceEpoch = checked(Schema.CountDaysSinceEpoch(y, doy) + days);
-            DaysValidator.Check(daysSinceEpoch);
+            DaysValidator.CheckOverflow(daysSinceEpoch);
 
             return Schema.GetOrdinalParts(daysSinceEpoch);
         }
@@ -223,7 +223,7 @@ namespace Zorglub.Time.Core.Arithmetic
             ym.Unpack(out int y, out int m);
 
             int monthsSinceEpoch = checked(Schema.CountMonthsSinceEpoch(y, m) + months);
-            MonthsValidator.Check(monthsSinceEpoch);
+            MonthsValidator.CheckOverflow(monthsSinceEpoch);
 
             return Schema.GetMonthParts(monthsSinceEpoch);
         }
@@ -248,7 +248,7 @@ namespace Zorglub.Time.Core.Arithmetic
             ymd.Unpack(out int y0, out int m, out int d);
 
             int y = checked(y0 + years);
-            YearsValidator.Check(y);
+            YearsValidator.CheckOverflow(y);
 
             var sch = Schema;
             int monthsInYear = sch.CountMonthsInYear(y);
@@ -284,7 +284,7 @@ namespace Zorglub.Time.Core.Arithmetic
             int d = ymd.Day;
 
             var (y, m) = AddMonths(ymd.Yemo, months);
-            YearsValidator.Check(y);
+            YearsValidator.CheckOverflow(y);
 
             int daysInMonth = Schema.CountDaysInMonth(y, m);
             roundoff = Math.Max(0, d - daysInMonth);
@@ -298,7 +298,7 @@ namespace Zorglub.Time.Core.Arithmetic
             ydoy.Unpack(out int y, out int doy);
 
             y = checked(y + years);
-            YearsValidator.Check(y);
+            YearsValidator.CheckOverflow(y);
 
             int daysInYear = Schema.CountDaysInYear(y);
             roundoff = Math.Max(0, doy - daysInYear);

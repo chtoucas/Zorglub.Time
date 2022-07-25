@@ -63,7 +63,7 @@ namespace Zorglub.Time.Core.Validation
         /// <exception cref="OverflowException"><paramref name="daysSinceEpoch"/> is outside the
         /// range of supported values.
         /// </exception>
-        public void Check(int daysSinceEpoch)
+        public void CheckOverflow(int daysSinceEpoch)
         {
             if (daysSinceEpoch < MinDaysSinceEpoch || daysSinceEpoch > MaxDaysSinceEpoch)
             {

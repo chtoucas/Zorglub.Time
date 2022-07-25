@@ -57,7 +57,7 @@ namespace Zorglub.Time.Core.Arithmetic
 
             // Slow track.
             int daysSinceEpoch = checked(Schema.CountDaysSinceEpoch(y, m, d) + days);
-            DaysValidator.Check(daysSinceEpoch);
+            DaysValidator.CheckOverflow(daysSinceEpoch);
 
             return Schema.GetDateParts(daysSinceEpoch);
         }
@@ -92,7 +92,7 @@ namespace Zorglub.Time.Core.Arithmetic
 
             // Slow track.
             int daysSinceEpoch = checked(Schema.CountDaysSinceEpoch(y, doy) + days);
-            DaysValidator.Check(daysSinceEpoch);
+            DaysValidator.CheckOverflow(daysSinceEpoch);
 
             return Schema.GetOrdinalParts(daysSinceEpoch);
         }
@@ -161,7 +161,7 @@ namespace Zorglub.Time.Core.Arithmetic
             ymd.Unpack(out int y, out int m, out int d);
 
             y = checked(y + years);
-            YearsValidator.Check(y);
+            YearsValidator.CheckOverflow(y);
 
             int daysInMonth = Schema.CountDaysInMonth(y, m);
             roundoff = Math.Max(0, d - daysInMonth);
@@ -176,7 +176,7 @@ namespace Zorglub.Time.Core.Arithmetic
             ydoy.Unpack(out int y, out int doy);
 
             y = checked(y + years);
-            YearsValidator.Check(y);
+            YearsValidator.CheckOverflow(y);
 
             int daysInYear = Schema.CountDaysInYear(y);
             roundoff = Math.Max(0, doy - daysInYear);

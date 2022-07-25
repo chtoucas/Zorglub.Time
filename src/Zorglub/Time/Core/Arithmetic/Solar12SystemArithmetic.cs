@@ -131,7 +131,7 @@ namespace Zorglub.Time.Core.Arithmetic
             // On retranche 1 à "m" pour le rendre algébrique.
             m = 1 + MathZ.Modulo(checked(m - 1 + months), MonthsInYear, out int y0);
             y += y0;
-            YearsValidator.Check(y);
+            YearsValidator.CheckOverflow(y);
 
             int daysInMonth = Schema.CountDaysInMonth(y, m);
             roundoff = Math.Max(0, d - daysInMonth);

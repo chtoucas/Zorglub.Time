@@ -62,6 +62,7 @@
     <Compile Include="Tests\Core\Prototypes\PrototypalSchemaTestSuite.fs" />
     <Compile Include="Tests\Core\Prototypes\ArchetypalSchemaTestSuite.fs" />
     <Compile Include="Tests\Core\Validation\DomainExtensionsTests.fs" />
+    <Compile Include="Tests\Core\Validation\RangeValidatorTests.fs" />
     <Compile Include="Tests\Core\Validation\PreValidatorTests.fs" />
     <Compile Include="Tests\Core\Validation\BasicPreValidatorTestSuite.fs" />
     <Compile Include="Tests\Core\Validation\PlainPreValidatorTestSuite.fs" />
