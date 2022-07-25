@@ -553,6 +553,8 @@ static Zorglub.Time.Core.Utilities.OrderedPair<T>.operator ==(Zorglub.Time.Core.
 static Zorglub.Time.Core.Validation.DomainExtensions.Validate(this Zorglub.Time.Core.Intervals.Range<Zorglub.Time.DayNumber> this, Zorglub.Time.DayNumber dayNumber, string? paramName = null) -> void
 static Zorglub.Time.Core.Yedoy.Create(int year, int dayOfYear) -> Zorglub.Time.Core.Yedoy
 static Zorglub.Time.Core.Yedoy.FromBinary(int data) -> Zorglub.Time.Core.Yedoy
+static Zorglub.Time.Core.Yedoy.MaxValue.get -> Zorglub.Time.Core.Yedoy
+static Zorglub.Time.Core.Yedoy.MinValue.get -> Zorglub.Time.Core.Yedoy
 static Zorglub.Time.Core.Yedoy.operator !=(Zorglub.Time.Core.Yedoy left, Zorglub.Time.Core.Yedoy right) -> bool
 static Zorglub.Time.Core.Yedoy.operator <(Zorglub.Time.Core.Yedoy left, Zorglub.Time.Core.Yedoy right) -> bool
 static Zorglub.Time.Core.Yedoy.operator <=(Zorglub.Time.Core.Yedoy left, Zorglub.Time.Core.Yedoy right) -> bool
@@ -562,6 +564,8 @@ static Zorglub.Time.Core.Yedoy.operator >=(Zorglub.Time.Core.Yedoy left, Zorglub
 static Zorglub.Time.Core.Yedoyx.Create(int year, int dayOfYear, int extra) -> Zorglub.Time.Core.Yedoyx
 static Zorglub.Time.Core.Yedoyx.Create(Zorglub.Time.Core.Yedoy ydoy, int extra) -> Zorglub.Time.Core.Yedoyx
 static Zorglub.Time.Core.Yedoyx.FromBinary(int data) -> Zorglub.Time.Core.Yedoyx
+static Zorglub.Time.Core.Yedoyx.MaxValue.get -> Zorglub.Time.Core.Yedoyx
+static Zorglub.Time.Core.Yedoyx.MinValue.get -> Zorglub.Time.Core.Yedoyx
 static Zorglub.Time.Core.Yedoyx.operator !=(Zorglub.Time.Core.Yedoyx left, Zorglub.Time.Core.Yedoyx right) -> bool
 static Zorglub.Time.Core.Yedoyx.operator ==(Zorglub.Time.Core.Yedoyx left, Zorglub.Time.Core.Yedoyx right) -> bool
 static Zorglub.Time.Core.Yemo.Create(int year, int month) -> Zorglub.Time.Core.Yemo
@@ -575,6 +579,8 @@ static Zorglub.Time.Core.Yemo.operator >=(Zorglub.Time.Core.Yemo left, Zorglub.T
 static Zorglub.Time.Core.Yemoda.Create(int year, int month, int day) -> Zorglub.Time.Core.Yemoda
 static Zorglub.Time.Core.Yemoda.FromBinary(int data) -> Zorglub.Time.Core.Yemoda
 static Zorglub.Time.Core.Yemoda.FromBinary(long data, out uint extraData) -> Zorglub.Time.Core.Yemoda
+static Zorglub.Time.Core.Yemoda.MaxValue.get -> Zorglub.Time.Core.Yemoda
+static Zorglub.Time.Core.Yemoda.MinValue.get -> Zorglub.Time.Core.Yemoda
 static Zorglub.Time.Core.Yemoda.operator !=(Zorglub.Time.Core.Yemoda left, Zorglub.Time.Core.Yemoda right) -> bool
 static Zorglub.Time.Core.Yemoda.operator <(Zorglub.Time.Core.Yemoda left, Zorglub.Time.Core.Yemoda right) -> bool
 static Zorglub.Time.Core.Yemoda.operator <=(Zorglub.Time.Core.Yemoda left, Zorglub.Time.Core.Yemoda right) -> bool
@@ -586,6 +592,8 @@ static Zorglub.Time.Core.Yemoda.SupportedYears.get -> Zorglub.Time.Core.Interval
 static Zorglub.Time.Core.Yemodax.Create(int year, int month, int day, int extra) -> Zorglub.Time.Core.Yemodax
 static Zorglub.Time.Core.Yemodax.Create(Zorglub.Time.Core.Yemoda ymd, int extra) -> Zorglub.Time.Core.Yemodax
 static Zorglub.Time.Core.Yemodax.FromBinary(int data) -> Zorglub.Time.Core.Yemodax
+static Zorglub.Time.Core.Yemodax.MaxValue.get -> Zorglub.Time.Core.Yemodax
+static Zorglub.Time.Core.Yemodax.MinValue.get -> Zorglub.Time.Core.Yemodax
 static Zorglub.Time.Core.Yemodax.operator !=(Zorglub.Time.Core.Yemodax left, Zorglub.Time.Core.Yemodax right) -> bool
 static Zorglub.Time.Core.Yemodax.operator ==(Zorglub.Time.Core.Yemodax left, Zorglub.Time.Core.Yemodax right) -> bool
 static Zorglub.Time.Core.Yemox.Create(int year, int month, int extra) -> Zorglub.Time.Core.Yemox
