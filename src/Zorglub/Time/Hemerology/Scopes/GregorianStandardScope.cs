@@ -28,12 +28,6 @@ namespace Zorglub.Time.Hemerology.Scopes
         public const int MaxYear = StandardScope.MaxYear;
 
         /// <summary>
-        /// Represents the range of supported years.
-        /// <para>This field is read-only.</para>
-        /// </summary>
-        private static readonly Range<int> s_SupportedYears = Range.Create(MinYear, MaxYear);
-
-        /// <summary>
         /// Represents the minimum possible value for the number of consecutive days from the epoch.
         /// <para>This field is read-only.</para>
         /// </summary>
@@ -66,7 +60,7 @@ namespace Zorglub.Time.Hemerology.Scopes
         /// Gets the validator for the range of supported years.
         /// <para>This static property is thread-safe.</para>
         /// </summary>
-        public static IRangeValidator<int> YearsValidator { get; } = new YearsValidator_();
+        public static IRangeValidator<int> YearsValidator => StandardScope.YearsValidatorImpl;
 
         /// <summary>
         /// Validates the specified month.
@@ -106,31 +100,6 @@ namespace Zorglub.Time.Hemerology.Scopes
                     && dayOfYear > GregorianFormulae.CountDaysInYear(year)))
             {
                 Throw.DayOfYearOutOfRange(dayOfYear, paramName);
-            }
-        }
-
-        private sealed class YearsValidator_ : IRangeValidator<int>
-        {
-            public Range<int> Range => s_SupportedYears;
-
-            public void Validate(int year, string? paramName = null)
-            {
-                if (year < MinYear || year > MaxYear) Throw.YearOutOfRange(year, paramName);
-            }
-
-            public void CheckOverflow(int year)
-            {
-                if (year < MinYear || year > MaxYear) Throw.DateOverflow();
-            }
-
-            public void CheckUpperBound(int year)
-            {
-                if (year > MaxYear) Throw.DateOverflow();
-            }
-
-            public void CheckLowerBound(int year)
-            {
-                if (year < MinYear) Throw.DateOverflow();
             }
         }
     }

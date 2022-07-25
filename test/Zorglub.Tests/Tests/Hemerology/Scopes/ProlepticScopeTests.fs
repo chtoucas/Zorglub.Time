@@ -70,43 +70,57 @@ module Prelude =
 
         scope.Segment.SupportedYears === range
 
-module SupportedYears =
+module YearsValidatorImpl =
     let validYearData = ProlepticScopeFacts.ValidYearData
     let invalidYearData = ProlepticScopeFacts.InvalidYearData
 
-    let supportedYears = ProlepticScope.YearsValidatorImpl
+    let private validator = ProlepticScope.YearsValidatorImpl
+
+    [<Fact>]
+    let ``Property Range`` () =
+        validator.Range === Range.Create(ProlepticScope.MinYear, ProlepticScope.MaxYear)
+
+    [<Theory; MemberData(nameof(invalidYearData))>]
+    let ``Validate() throws when "year" is out of range`` y =
+        outOfRangeExn "year" (fun () -> validator.Validate(y))
+        outOfRangeExn "y" (fun () -> validator.Validate(y, nameof(y)))
+
+    [<Theory; MemberData(nameof(validYearData))>]
+    let ``Validate() does not throw when the input is valid`` y =
+        validator.Validate(y)
+        validator.Validate(y, nameof(y))
 
     [<Theory; MemberData(nameof(invalidYearData))>]
     let ``CheckOverflow() overflows when "year" is out of range`` y =
-        (fun () -> supportedYears.CheckOverflow(y)) |> overflows
+        (fun () -> validator.CheckOverflow(y)) |> overflows
 
     [<Theory; MemberData(nameof(validYearData))>]
     let ``CheckOverflow() does not overflow for valid years`` y =
-        supportedYears.CheckOverflow(y)
+        validator.CheckOverflow(y)
 
     [<Fact>]
     let ``CheckLowerBound() overflows when "year" is out of range`` () =
-        (fun () -> supportedYears.CheckLowerBound(Int32.MinValue)) |> overflows
-        (fun () -> supportedYears.CheckLowerBound(ProlepticScope.MinYear - 1)) |> overflows
+        (fun () -> validator.CheckLowerBound(Int32.MinValue)) |> overflows
+        (fun () -> validator.CheckLowerBound(ProlepticScope.MinYear - 1)) |> overflows
 
     [<Fact>]
     let ``CheckLowerBound() does not overflow for valid years`` () =
-        supportedYears.CheckLowerBound(ProlepticScope.MinYear)
-        supportedYears.CheckLowerBound(ProlepticScope.MaxYear)
-        supportedYears.CheckLowerBound(ProlepticScope.MaxYear + 1)
-        supportedYears.CheckLowerBound(Int32.MaxValue)
+        validator.CheckLowerBound(ProlepticScope.MinYear)
+        validator.CheckLowerBound(ProlepticScope.MaxYear)
+        validator.CheckLowerBound(ProlepticScope.MaxYear + 1)
+        validator.CheckLowerBound(Int32.MaxValue)
 
     [<Fact>]
     let ``CheckUpperBound() overflows when "year" is out of range`` () =
-        (fun () -> supportedYears.CheckUpperBound(ProlepticScope.MaxYear + 1)) |> overflows
-        (fun () -> supportedYears.CheckUpperBound(Int32.MaxValue)) |> overflows
+        (fun () -> validator.CheckUpperBound(ProlepticScope.MaxYear + 1)) |> overflows
+        (fun () -> validator.CheckUpperBound(Int32.MaxValue)) |> overflows
 
     [<Fact>]
     let ``CheckUpperBound() does not overflow for valid years`` () =
-        supportedYears.CheckUpperBound(Int32.MinValue)
-        supportedYears.CheckUpperBound(ProlepticScope.MinYear - 1)
-        supportedYears.CheckUpperBound(ProlepticScope.MinYear)
-        supportedYears.CheckUpperBound(ProlepticScope.MaxYear)
+        validator.CheckUpperBound(Int32.MinValue)
+        validator.CheckUpperBound(ProlepticScope.MinYear - 1)
+        validator.CheckUpperBound(ProlepticScope.MinYear)
+        validator.CheckUpperBound(ProlepticScope.MaxYear)
 
 module GregorianCase =
     let private dataSet = GregorianDataSet.Instance
@@ -131,33 +145,21 @@ module GregorianCase =
         GregorianProlepticScope.DefaultDomain === range
 
     [<Fact>]
-    let ``CheckOverflow()`` () =
+    let ``Static property YearsValidator`` () =
+        GregorianProlepticScope.YearsValidator ==& ProlepticScope.YearsValidatorImpl
+
+    [<Fact>]
+    let ``Static property DaysValidator`` () =
         let epoch = DayZero.NewStyle
         let domain = GregorianProlepticScope.DefaultDomain
         let minDaysSinceEpoch = domain.Min - epoch
         let maxDaysSinceEpoch = domain.Max - epoch
-        let supportedDays = GregorianProlepticScope.DaysValidator
+        let validator = GregorianProlepticScope.DaysValidator
 
-        (fun () -> supportedDays.CheckOverflow(minDaysSinceEpoch - 1)) |> overflows
-        supportedDays.CheckOverflow(minDaysSinceEpoch)
-        supportedDays.CheckOverflow(maxDaysSinceEpoch)
-        (fun () -> supportedDays.CheckOverflow(maxDaysSinceEpoch + 1)) |> overflows
-
-    // ValidateYear()
-
-    [<Theory; MemberData(nameof(invalidYearData))>]
-    let ``ValidateYear() throws when "dayOfYear" is out of range`` y =
-        let supportedYears = GregorianProlepticScope.YearsValidator
-
-        outOfRangeExn "year" (fun () -> supportedYears.Validate(y))
-        outOfRangeExn "y" (fun () -> supportedYears.Validate(y, nameof(y)))
-
-    [<Theory; MemberData(nameof(validYearData))>]
-    let ``ValidateYear() does not throw when the input is valid`` y =
-        let supportedYears = GregorianProlepticScope.YearsValidator
-
-        supportedYears.Validate(y)
-        supportedYears.Validate(y, nameof(y))
+        (fun () -> validator.CheckOverflow(minDaysSinceEpoch - 1)) |> overflows
+        validator.CheckOverflow(minDaysSinceEpoch)
+        validator.CheckOverflow(maxDaysSinceEpoch)
+        (fun () -> validator.CheckOverflow(maxDaysSinceEpoch + 1)) |> overflows
 
     // ValidateYearMonth()
 

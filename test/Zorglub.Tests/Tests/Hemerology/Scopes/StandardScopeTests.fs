@@ -18,26 +18,24 @@ open Zorglub.Time.Hemerology.Scopes
 
 open Xunit
 
-let private epoch = DayZero.OldStyle
-
 module Prelude =
     [<Fact>]
     let ``Constructor throws when "schema" is null`` () =
-        nullExn "schema" (fun () -> new StandardScope(null, epoch))
+        nullExn "schema" (fun () -> new StandardScope(null, DayZero.OldStyle))
 
     [<Fact>]
     let ``Constructor throws when schema.MinYear > minYear`` () =
         let range = Range.Create(StandardScope.MinYear + 1, StandardScope.MaxYear)
         let sch = new FauxCalendricalSchema(range)
 
-        outOfRangeExn "year" (fun () -> new StandardScope(sch, epoch))
+        outOfRangeExn "year" (fun () -> new StandardScope(sch, DayZero.OldStyle))
 
     [<Fact>]
     let ``Constructor throws when schema.MaxYear < 9999`` () =
         let range = Range.Create(1, StandardScope.MaxYear - 1)
         let sch = new FauxCalendricalSchema(range)
 
-        outOfRangeExn "year" (fun () -> new StandardScope(sch, epoch))
+        outOfRangeExn "year" (fun () -> new StandardScope(sch, DayZero.OldStyle))
 
     [<Fact>]
     let ``Property Epoch`` () =
@@ -59,48 +57,62 @@ module Prelude =
 
     [<Fact>]
     let ``Property SupportedYears`` () =
-        let scope = new StandardScope(new FauxCalendricalSchema(), epoch)
+        let scope = new StandardScope(new FauxCalendricalSchema(), DayZero.OldStyle)
         let range = Range.Create(StandardScope.MinYear, StandardScope.MaxYear)
 
         scope.Segment.SupportedYears === range
 
-module SupportedYears =
+module YearsValidatorImpl =
     let validYearData = StandardScopeFacts.ValidYearData
     let invalidYearData = StandardScopeFacts.InvalidYearData
 
-    let supportedYears = StandardScope.YearsValidatorImpl
+    let private validator = StandardScope.YearsValidatorImpl
+
+    [<Fact>]
+    let ``Property Range`` () =
+        validator.Range === Range.Create(StandardScope.MinYear, StandardScope.MaxYear)
+
+    [<Theory; MemberData(nameof(invalidYearData))>]
+    let ``Validate() throws when "year" is out of range`` y =
+        outOfRangeExn "year" (fun () -> validator.Validate(y))
+        outOfRangeExn "y" (fun () -> validator.Validate(y, nameof(y)))
+
+    [<Theory; MemberData(nameof(validYearData))>]
+    let ``Validate() does not throw when the input is valid`` y =
+        validator.Validate(y)
+        validator.Validate(y, nameof(y))
 
     [<Theory; MemberData(nameof(invalidYearData))>]
     let ``CheckOverflow() overflows when "year" is out of range`` y =
-        (fun () -> supportedYears.CheckOverflow(y)) |> overflows
+        (fun () -> validator.CheckOverflow(y)) |> overflows
 
     [<Theory; MemberData(nameof(validYearData))>]
     let ``CheckOverflow() does not overflow for valid years`` y =
-        supportedYears.CheckOverflow(y)
+        validator.CheckOverflow(y)
 
     [<Fact>]
     let ``CheckLowerBound() overflows when "year" is out of range`` () =
-        (fun () -> supportedYears.CheckLowerBound(Int32.MinValue)) |> overflows
-        (fun () -> supportedYears.CheckLowerBound(StandardScope.MinYear - 1)) |> overflows
+        (fun () -> validator.CheckLowerBound(Int32.MinValue)) |> overflows
+        (fun () -> validator.CheckLowerBound(StandardScope.MinYear - 1)) |> overflows
 
     [<Fact>]
     let ``CheckLowerBound() does not overflow for valid years`` () =
-        supportedYears.CheckLowerBound(StandardScope.MinYear)
-        supportedYears.CheckLowerBound(StandardScope.MaxYear)
-        supportedYears.CheckLowerBound(StandardScope.MaxYear + 1)
-        supportedYears.CheckLowerBound(Int32.MaxValue)
+        validator.CheckLowerBound(StandardScope.MinYear)
+        validator.CheckLowerBound(StandardScope.MaxYear)
+        validator.CheckLowerBound(StandardScope.MaxYear + 1)
+        validator.CheckLowerBound(Int32.MaxValue)
 
     [<Fact>]
     let ``CheckUpperBound() overflows when "year" is out of range`` () =
-        (fun () -> supportedYears.CheckUpperBound(StandardScope.MaxYear + 1)) |> overflows
-        (fun () -> supportedYears.CheckUpperBound(Int32.MaxValue)) |> overflows
+        (fun () -> validator.CheckUpperBound(StandardScope.MaxYear + 1)) |> overflows
+        (fun () -> validator.CheckUpperBound(Int32.MaxValue)) |> overflows
 
     [<Fact>]
     let ``CheckUpperBound() does not overflow for valid years`` () =
-        supportedYears.CheckUpperBound(Int32.MinValue)
-        supportedYears.CheckUpperBound(StandardScope.MinYear - 1)
-        supportedYears.CheckUpperBound(StandardScope.MinYear)
-        supportedYears.CheckUpperBound(StandardScope.MaxYear)
+        validator.CheckUpperBound(Int32.MinValue)
+        validator.CheckUpperBound(StandardScope.MinYear - 1)
+        validator.CheckUpperBound(StandardScope.MinYear)
+        validator.CheckUpperBound(StandardScope.MaxYear)
 
 module GregorianCase =
     let private dataSet = GregorianDataSet.Instance
@@ -125,33 +137,21 @@ module GregorianCase =
         GregorianStandardScope.DefaultDomain === range
 
     [<Fact>]
-    let ``CheckOverflow()`` () =
+    let ``Static property YearsValidator`` () =
+        GregorianStandardScope.YearsValidator ==& StandardScope.YearsValidatorImpl
+
+    [<Fact>]
+    let ``Static property DaysValidator`` () =
         let epoch = DayZero.NewStyle
         let domain = GregorianStandardScope.DefaultDomain
         let minDaysSinceEpoch = domain.Min - epoch
         let maxDaysSinceEpoch = domain.Max - epoch
-        let supportedDays = GregorianStandardScope.DaysValidator
+        let validator = GregorianStandardScope.DaysValidator
 
-        (fun () -> supportedDays.CheckOverflow(minDaysSinceEpoch - 1)) |> overflows
-        supportedDays.CheckOverflow(minDaysSinceEpoch)
-        supportedDays.CheckOverflow(maxDaysSinceEpoch)
-        (fun () -> supportedDays.CheckOverflow(maxDaysSinceEpoch + 1)) |> overflows
-
-    // ValidateYear()
-
-    [<Theory; MemberData(nameof(invalidYearData))>]
-    let ``ValidateYear() throws when "year" is out of range`` y =
-        let supportedYears = GregorianStandardScope.YearsValidator
-
-        outOfRangeExn "year" (fun () -> supportedYears.Validate(y))
-        outOfRangeExn "y" (fun () -> supportedYears.Validate(y, nameof(y)))
-
-    [<Theory; MemberData(nameof(validYearData))>]
-    let ``ValidateYear() does not throw when the input is valid`` y =
-        let supportedYears = GregorianStandardScope.YearsValidator
-
-        supportedYears.Validate(y)
-        supportedYears.Validate(y, nameof(y))
+        (fun () -> validator.CheckOverflow(minDaysSinceEpoch - 1)) |> overflows
+        validator.CheckOverflow(minDaysSinceEpoch)
+        validator.CheckOverflow(maxDaysSinceEpoch)
+        (fun () -> validator.CheckOverflow(maxDaysSinceEpoch + 1)) |> overflows
 
     // ValidateYearMonth()
 
