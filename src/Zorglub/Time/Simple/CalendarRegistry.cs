@@ -9,11 +9,7 @@ namespace Zorglub.Time.Simple
 
     using Zorglub.Time.Core;
 
-    // REVIEW(code): Cuid.Invalid might have been a bad idea. If the Calendar
-    // ctor checks the value, it will fail hard. It would be the case if for
-    // instance we initialized a date,
-    // > var date = new CalendarDate(..., id);
-    // Improve CalendarCreated: use the standard event pattern. Async? <- no.
+    // REVIEW(code): use the standard event pattern w/ CalendarCreated?
     // Exception neutral code?
 
     // More or less, CalendarRegistry behaves like a concurrent keyed collection
@@ -103,20 +99,17 @@ namespace Zorglub.Time.Simple
 
         /// <summary>
         /// Returns true if the registry is full; otherwise returns false.
+        /// <para>Once this property becomes true, the registry enters a read-only state, i.e. any
+        /// further attempt to add a new calendar will fail.</para>
         /// </summary>
         public bool IsFull => _lastId >= MaxId;
 
-        // Disable fail fast. Only for testing.
+        /// <summary>
+        /// Determines whether "fail fast" is disabled or not.
+        /// <para>The default behaviour is to enable fail fast.</para>
+        /// <para><i>For testing purposes only</i>.</para>
+        /// </summary>
         internal bool DisableFailFast { get; set; }
-
-        // _lastId is incremented very late during the registration process,
-        // which means that CanAdd may return true even if, in the end, it's not
-        // truely the case. The upper limit has been reached but the process
-        // has not yet completed. What's important is that any further attempt
-        // to register a new calendar will correctly fail. In a multi-threaded
-        // environment, it is to be expected. In a single-threaded environment,
-        // the problem does not exist.
-        private bool CanAdd => DisableFailFast || _lastId < MaxId;
 
         public Action<Calendar>? CalendarCreated { get; init; }
 
@@ -179,9 +172,9 @@ namespace Zorglub.Time.Simple
 
         #region Initialization
 
-        // It's the duty of CalendarCatalog to ensure that the members
-        // of "calendars" are added to s_SystemCalendars and to s_Calendars.
-        // In particular, we don't call CalendarCreated for user-defined calendars.
+        // It's the duty of CalendarCatalog to ensure that the members of
+        // "calendars" are added to s_SystemCalendars and to s_Calendars. In
+        // particular, we don't call CalendarCreated for user-defined calendars.
         // It makes sense since the callback is called CalendarCreated, not
         // CalendarAdded.
         //
@@ -214,7 +207,7 @@ namespace Zorglub.Time.Simple
 #if false
         // Disabled because we don't need it and, more importantly, because
         // CountUserCalendars() will be wrong if "calendars" contains
-        // user-defined calendars. The only way to fix this is to maintain a
+        // user-defined calendars. A simple way to fix this is to maintain a
         // separate counter (e.g. NumberOfInitialUserCalendars) for user-defined
         // calendars added via this method.
         private void InitializeFromArray(Calendar[] calendars)
@@ -259,6 +252,9 @@ namespace Zorglub.Time.Simple
         // We MUST filter out dirty calendars because we don't verify whether
         // the removal of a dirty calendar is successful or not; see the section
         // "Clean up" in the "Add"-methods.
+        // If we failed to do so, it would then be possible to create date
+        // objects (via the Calendar methods) with an invalid Cuid which means
+        // for instance that CalendarDate.CalendarRef would be null.
 
         [Pure]
         public IReadOnlyDictionary<string, Calendar> TakeSnapshot()
@@ -316,7 +312,7 @@ namespace Zorglub.Time.Simple
         /// <para><i>For testing purposes only</i>.</para>
         /// <para>This method will unconditionally override an existing key.</para>
         /// <para>Beware, if you decide to use this method, you SHOULD NOT call a counting method
-        /// afterwards. Only <see cref="RawCount"/> will continue to work properly.</para>
+        /// afterwards; only <see cref="RawCount"/> will continue to work properly.</para>
         /// </summary>
         internal void AddRaw(Calendar calendar)
         {
@@ -341,7 +337,7 @@ namespace Zorglub.Time.Simple
             // We should only fail fast when the registry is full and the key is
             // not already taken, the only case for which we know that
             // GetOrAdd(key, ...) will always fail.
-            if (CanAdd == false && _calendarsByKey.ContainsKey(key) == false)
+            if (DisableFailFast == false && IsFull && _calendarsByKey.ContainsKey(key) == false)
             {
                 Throw.CatalogOverflow();
             }
@@ -357,6 +353,7 @@ namespace Zorglub.Time.Simple
 
             var lazy1 = _calendarsByKey.GetOrAdd(key, lazy);
 
+            // NB: CreateCalendar() is only called NOW.
             // If the key is already taken, obviously lazy1.Value returns the
             // pre-existing calendar, but the important point here is that
             // CreateCalendar() was not called and therefore _lastId did
@@ -396,7 +393,7 @@ namespace Zorglub.Time.Simple
         public Calendar Add(string key, SystemSchema schema, DayNumber epoch, bool proleptic)
         {
             // Fail fast.
-            if (CanAdd == false) Throw.CatalogOverflow();
+            if (DisableFailFast == false && IsFull) Throw.CatalogOverflow();
 
             Calendar tmp = ValidateParameters(key, schema, epoch, proleptic);
 
@@ -413,8 +410,7 @@ namespace Zorglub.Time.Simple
 
             if (chr.Id == Cuid.Invalid)
             {
-                // Clean up.
-                // Be sure to read the comments in GetOrAdd().
+                // Clean up. Be sure to read the comments in GetOrAdd().
                 _calendarsByKey.TryRemove(key, out _);
 
                 Throw.CatalogOverflow();
@@ -429,7 +425,7 @@ namespace Zorglub.Time.Simple
             [NotNullWhen(true)] out Calendar? calendar)
         {
             // Fail fast.
-            if (CanAdd == false) { goto FAILED; }
+            if (DisableFailFast == false && IsFull) { goto FAILED; }
 
             // Null parameters validation.
             Requires.NotNull(key);
@@ -450,8 +446,7 @@ namespace Zorglub.Time.Simple
 
                 if (chr.Id == Cuid.Invalid)
                 {
-                    // Clean up.
-                    // Be sure to read the comments in GetOrAdd().
+                    // Clean up. Be sure to read the comments in GetOrAdd().
                     _calendarsByKey.TryRemove(key, out _);
 
                     goto FAILED;

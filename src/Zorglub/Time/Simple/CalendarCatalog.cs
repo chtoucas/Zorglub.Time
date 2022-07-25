@@ -10,7 +10,7 @@ namespace Zorglub.Time.Simple
 
     // All calendars are "apparent" singletons: whether a calendar has been fully
     // constructed or not before, a call to (Try)GetCalendar() ALWAYS returns
-    // the same instance.
+    // the same instance. System calendars are true singletons.
     //
     // Internally, we use three collections:
     // - s_Registry: all calendars indexed by their key. Not the fastest, but
@@ -99,8 +99,8 @@ namespace Zorglub.Time.Simple
 
         /// <summary>
         /// Returns true if the catalog is full; otherwise returns false.
-        /// <para>Once this property is true, the catalog enters a read-only state and one cannot
-        /// add a new calendar any more.</para>
+        /// <para>Once this property becomes true, the catalog enters a read-only state, i.e. any
+        /// further attempt to add a new calendar will fail.</para>
         /// <para>This static property is thread-safe.</para>
         /// </summary>
         public static bool IsFull => s_Registry.IsFull;
@@ -170,8 +170,10 @@ namespace Zorglub.Time.Simple
         [Pure]
         public static IReadOnlyCollection<Calendar> GetAllCalendars()
         {
+            // REVIEW(code): disabled because it's impossible to unit test; idem
+            // with GetUserCalendars().
             // Fast track.
-            if (s_Registry.IsPristine) { return SystemCalendars; }
+            //if (s_Registry.IsPristine) { return SystemCalendars; }
 
             // Same as s_CalendarById but without the null's.
             // NB: the code works even if s_Calendars changed in the
@@ -195,7 +197,7 @@ namespace Zorglub.Time.Simple
         public static IReadOnlyCollection<Calendar> GetUserCalendars()
         {
             // Fast track.
-            if (s_Registry.IsPristine) { return Array.Empty<Calendar>(); }
+            //if (s_Registry.IsPristine) { return Array.Empty<Calendar>(); }
 
             int usr = s_Registry.CountUserCalendars();
             var arr = new Calendar[usr];
