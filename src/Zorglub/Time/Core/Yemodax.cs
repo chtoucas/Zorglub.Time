@@ -106,18 +106,6 @@ namespace Zorglub.Time.Core
         public const int MaxExtra = (1 << ExtraBits) - 1;
 
         /// <summary>
-        /// Represents the smallest possible value of a <see cref="Yemodax"/>.
-        /// <para>This field is read-only.</para>
-        /// </summary>
-        internal static readonly Yemodax MinValue = new(MinYear, MinMonth, MinDay, MinExtra);
-
-        /// <summary>
-        /// Represents the largest possible value of a <see cref="Yemodax"/>.
-        /// <para>This field is read-only.</para>
-        /// </summary>
-        internal static readonly Yemodax MaxValue = new(MaxYear, MaxMonth, MaxDay, MaxExtra);
-
-        /// <summary>
         /// Represents the binary data stored in this instance.
         /// </summary>
         /// <remarks>
@@ -174,8 +162,17 @@ namespace Zorglub.Time.Core
             _bin = bin;
         }
 
-        static Yemodax IMinMaxValue<Yemodax>.MinValue => MinValue;
-        static Yemodax IMinMaxValue<Yemodax>.MaxValue => MaxValue;
+        /// <summary>
+        /// Gets the smallest possible value of a <see cref="Yemodax"/>.
+        /// <para>This static property is thread-safe.</para>
+        /// </summary>
+        public static Yemodax MinValue { get; } = new(MinYear, MinMonth, MinDay, MinExtra);
+
+        /// <summary>
+        /// Gets the largest possible value of a <see cref="Yemodax"/>.
+        /// <para>This static property is thread-safe.</para>
+        /// </summary>
+        public static Yemodax MaxValue { get; } = new(MaxYear, MaxMonth, MaxDay, MaxExtra);
 
         /// <summary>
         /// Gets the algebraic year from this instance.

@@ -62,18 +62,6 @@ namespace Zorglub.Time.Core
         public const int MaxExtra = Yemodax.MaxExtra;
 
         /// <summary>
-        /// Represents the smallest possible value of a <see cref="Yedoyx"/>.
-        /// <para>This field is read-only.</para>
-        /// </summary>
-        internal static readonly Yedoyx MinValue = new(MinYear, MinDayOfYear, MinExtra);
-
-        /// <summary>
-        /// Represents the largest possible value of a <see cref="Yedoyx"/>.
-        /// <para>This field is read-only.</para>
-        /// </summary>
-        internal static readonly Yedoyx MaxValue = new(MaxYear, MaxDayOfYear, MaxExtra);
-
-        /// <summary>
         /// Represents the binary data stored in this instance.
         /// </summary>
         /// <remarks>
@@ -128,8 +116,17 @@ namespace Zorglub.Time.Core
             _bin = bin;
         }
 
-        static Yedoyx IMinMaxValue<Yedoyx>.MinValue => MinValue;
-        static Yedoyx IMinMaxValue<Yedoyx>.MaxValue => MaxValue;
+        /// <summary>
+        /// Gets the smallest possible value of a <see cref="Yedoyx"/>.
+        /// <para>This static property is thread-safe.</para>
+        /// </summary>
+        public static Yedoyx MinValue { get; } = new(MinYear, MinDayOfYear, MinExtra);
+
+        /// <summary>
+        /// Gets the largest possible value of a <see cref="Yedoyx"/>.
+        /// <para>This static property is thread-safe.</para>
+        /// </summary>
+        public static Yedoyx MaxValue { get; } = new(MaxYear, MaxDayOfYear, MaxExtra);
 
         /// <summary>
         /// Gets the year.

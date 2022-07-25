@@ -69,18 +69,6 @@ namespace Zorglub.Time.Core
         public const int MaxDayOfYear = 1 << DayOfYearBits;
 
         /// <summary>
-        /// Represents the smallest possible value of a <see cref="Yedoy"/>.
-        /// <para>This field is read-only.</para>
-        /// </summary>
-        internal static readonly Yedoy MinValue = new(MinYear, MinDayOfYear);
-
-        /// <summary>
-        /// Represents the largest possible value of a <see cref="Yedoy"/>.
-        /// <para>This field is read-only.</para>
-        /// </summary>
-        internal static readonly Yedoy MaxValue = new(MaxYear, MaxDayOfYear);
-
-        /// <summary>
         /// Represents the binary data stored in this instance.
         /// </summary>
         /// <remarks>
@@ -119,8 +107,17 @@ namespace Zorglub.Time.Core
             _bin = bin;
         }
 
-        static Yedoy IMinMaxValue<Yedoy>.MinValue => MinValue;
-        static Yedoy IMinMaxValue<Yedoy>.MaxValue => MaxValue;
+        /// <summary>
+        /// Gets the smallest possible value of a <see cref="Yedoy"/>.
+        /// <para>This static property is thread-safe.</para>
+        /// </summary>
+        public static Yedoy MinValue { get; } = new(MinYear, MinDayOfYear);
+
+        /// <summary>
+        /// Gets the largest possible value of a <see cref="Yedoy"/>.
+        /// <para>This static property is thread-safe.</para>
+        /// </summary>
+        public static Yedoy MaxValue { get; } = new(MaxYear, MaxDayOfYear);
 
         /// <summary>
         /// Gets the year.
