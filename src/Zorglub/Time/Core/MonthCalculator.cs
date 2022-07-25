@@ -81,11 +81,17 @@ namespace Zorglub.Time.Core
             }
         }
 
-        private sealed class Regular12Case : MonthCalculator
+        // The following classes are internal for testing.
+
+        internal sealed class Regular12Case : MonthCalculator
         {
             private const int MonthsInYear = 12;
 
-            public Regular12Case(ICalendricalSchema schema) : base(schema) { }
+            public Regular12Case(ICalendricalSchema schema) : base(schema)
+            {
+                Debug.Assert(schema.IsRegular(out int monthsInYear));
+                Debug.Assert(monthsInYear == MonthsInYear);
+            }
 
             [Pure]
             public override int GetStartOfYear(int y) => MonthsInYear * (y - 1);
@@ -94,11 +100,15 @@ namespace Zorglub.Time.Core
             public override int GetEndOfYear(int y) => MonthsInYear * y - 1;
         }
 
-        private sealed class Regular13Case : MonthCalculator
+        internal sealed class Regular13Case : MonthCalculator
         {
             private const int MonthsInYear = 13;
 
-            public Regular13Case(ICalendricalSchema schema) : base(schema) { }
+            public Regular13Case(ICalendricalSchema schema) : base(schema)
+            {
+                Debug.Assert(schema.IsRegular(out int monthsInYear));
+                Debug.Assert(monthsInYear == MonthsInYear);
+            }
 
             [Pure]
             public override int GetStartOfYear(int y) => MonthsInYear * (y - 1);
@@ -107,12 +117,14 @@ namespace Zorglub.Time.Core
             public override int GetEndOfYear(int y) => MonthsInYear * y - 1;
         }
 
-        private sealed class RegularCase : MonthCalculator
+        internal sealed class RegularCase : MonthCalculator
         {
             private readonly int _monthsInYear;
 
             public RegularCase(ICalendricalSchema schema, int monthsInYear) : base(schema)
             {
+                Debug.Assert(schema.IsRegular(out int monthsInYear_));
+                Debug.Assert(monthsInYear_ == monthsInYear);
                 _monthsInYear = monthsInYear;
             }
 
@@ -123,7 +135,7 @@ namespace Zorglub.Time.Core
             public override int GetEndOfYear(int y) => _monthsInYear * y - 1;
         }
 
-        private sealed class PlainCase : MonthCalculator
+        internal sealed class PlainCase : MonthCalculator
         {
             public PlainCase(ICalendricalSchema schema) : base(schema) { }
 

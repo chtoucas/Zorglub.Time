@@ -8,6 +8,7 @@ open Zorglub.Testing.Data.Bounded
 open Zorglub.Testing.Data.Schemas
 open Zorglub.Testing.Facts.Simple
 
+open Zorglub.Time
 open Zorglub.Time.Simple
 
 // TODO(code): WIP.
@@ -84,6 +85,33 @@ module MathAdvancedCase =
     [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
     type GregorianRegular12Tests() =
         inherit CalendarMathAdvancedFacts<GregorianMathDataSetCutOff>(new RegularMath(GregorianCalendar.Instance))
+
+module PowerMathCase =
+    let ruleset = new AdditionRuleset()
+
+    [<Sealed>]
+    [<RedundantTestBundle>]
+    type Coptic13Tests() =
+        inherit CalendarMathFacts<StandardCoptic13DataSet>(
+            new PowerMath(UserCalendars.Coptic13, ruleset))
+
+    [<Sealed>]
+    [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
+    type GregorianTests() =
+        inherit CalendarMathFacts<ProlepticGregorianDataSet>(
+            new PowerMath(GregorianCalendar.Instance, ruleset))
+
+    [<Sealed>]
+    [<RedundantTestBundle>]
+    type PositivistTests() =
+        inherit CalendarMathFacts<StandardPositivistDataSet>(
+            new PowerMath(UserCalendars.Positivist, ruleset))
+
+    [<Sealed>]
+    [<RedundantTestBundle>]
+    type TabularIslamicTests() =
+        inherit CalendarMathFacts<StandardTabularIslamicDataSet>(
+            new PowerMath(TabularIslamicCalendar.Instance, ruleset))
 
 //
 // Default Math
