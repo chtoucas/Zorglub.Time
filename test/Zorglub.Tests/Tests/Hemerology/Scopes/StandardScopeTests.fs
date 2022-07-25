@@ -146,12 +146,10 @@ module GregorianCase =
         let domain = GregorianStandardScope.DefaultDomain
         let minDaysSinceEpoch = domain.Min - epoch
         let maxDaysSinceEpoch = domain.Max - epoch
+        let range = Range.Create(minDaysSinceEpoch, maxDaysSinceEpoch)
         let validator = GregorianStandardScope.DaysValidator
 
-        (fun () -> validator.CheckOverflow(minDaysSinceEpoch - 1)) |> overflows
-        validator.CheckOverflow(minDaysSinceEpoch)
-        validator.CheckOverflow(maxDaysSinceEpoch)
-        (fun () -> validator.CheckOverflow(maxDaysSinceEpoch + 1)) |> overflows
+        validator.Range === range
 
     // ValidateYearMonth()
 
