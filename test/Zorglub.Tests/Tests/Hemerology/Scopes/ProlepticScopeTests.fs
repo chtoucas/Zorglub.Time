@@ -18,32 +18,30 @@ open Zorglub.Time.Hemerology.Scopes
 
 open Xunit
 
-let private epoch = DayZero.OldStyle
-
 module Prelude =
     [<Fact>]
     let ``Constructor throws when "schema" is null`` () =
-        nullExn "schema" (fun () -> new ProlepticScope(null, epoch))
+        nullExn "schema" (fun () -> new ProlepticScope(null, DayZero.OldStyle))
 
     [<Fact>]
-    let ``Constructor throws when schema.MinYear > minYear`` () =
+    let ``Constructor throws when schema.MinYear > -9997`` () =
         let range = Range.Create(ProlepticScope.MinYear + 1, ProlepticScope.MaxYear)
         let sch = new FauxCalendricalSchema(range)
 
-        outOfRangeExn "year" (fun () -> new ProlepticScope(sch, epoch))
+        outOfRangeExn "year" (fun () -> new ProlepticScope(sch, DayZero.OldStyle))
 
     [<Fact>]
     let ``Constructor throws when schema.MaxYear < 9999`` () =
         let range = Range.Create(1, ProlepticScope.MaxYear - 1)
         let sch = new FauxCalendricalSchema(range)
 
-        outOfRangeExn "year" (fun () -> new ProlepticScope(sch, epoch))
+        outOfRangeExn "year" (fun () -> new ProlepticScope(sch, DayZero.OldStyle))
 
     [<Fact>]
     let ``Constructor throws for PaxSchema`` () =
         let sch = SchemaActivator.CreateInstance<PaxSchema>()
 
-        outOfRangeExn "year" (fun () -> new ProlepticScope(sch, epoch)) // PaxSchema.MinYear = 1 > -9999.
+        outOfRangeExn "year" (fun () -> new ProlepticScope(sch, DayZero.OldStyle)) // PaxSchema.MinYear = 1 > -9999.
 
     [<Fact>]
     let ``Property Epoch`` () =
@@ -65,7 +63,7 @@ module Prelude =
 
     [<Fact>]
     let ``Property SupportedYears`` () =
-        let scope = new ProlepticScope(new FauxCalendricalSchema(), epoch)
+        let scope = new ProlepticScope(new FauxCalendricalSchema(), DayZero.OldStyle)
         let range = Range.Create(ProlepticScope.MinYear, ProlepticScope.MaxYear)
 
         scope.Segment.SupportedYears === range

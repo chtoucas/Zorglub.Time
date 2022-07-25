@@ -24,7 +24,7 @@ module Prelude =
         nullExn "schema" (fun () -> new StandardScope(null, DayZero.OldStyle))
 
     [<Fact>]
-    let ``Constructor throws when schema.MinYear > minYear`` () =
+    let ``Constructor throws when schema.MinYear > 1`` () =
         let range = Range.Create(StandardScope.MinYear + 1, StandardScope.MaxYear)
         let sch = new FauxCalendricalSchema(range)
 
@@ -131,7 +131,7 @@ module GregorianCase =
         let scope = new StandardScope(new GregorianSchema(), DayZero.NewStyle)
 
         GregorianStandardScope.DefaultDomain === scope.Domain
-        GregorianStandardScope.YearsValidator ==& ProlepticScope.YearsValidatorImpl
+        GregorianStandardScope.YearsValidator ==& StandardScope.YearsValidatorImpl
         // It's enough to check the property Range.
         GregorianStandardScope.DaysValidator.Range === scope.DaysValidator.Range
 

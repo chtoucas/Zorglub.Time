@@ -41,12 +41,17 @@ module Prelude =
         scope.Domain === range
 
     [<Fact>]
-    let ``Property Segment`` () =
+    let ``Property Segment and related properties`` () =
         let sch = new GregorianSchema()
         let seg = CalendricalSegment.Create(sch, Range.Create(1, 4))
         let scope = new FauxCalendarScope(seg)
 
         scope.Segment ==& seg
+        scope.IsComplete === seg.IsComplete
+        // It's enough to check the property Range.
+        scope.DaysValidator.Range === seg.SupportedDays
+        scope.MonthsValidator.Range === seg.SupportedMonths
+        scope.YearsValidator.Range === seg.SupportedYears
 
     [<Fact>]
     let ``Property Schema`` () =
