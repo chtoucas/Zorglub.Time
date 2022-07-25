@@ -550,6 +550,9 @@ static Zorglub.Time.Core.Utilities.Box.Flatten<T>(this Zorglub.Time.Core.Utiliti
 static Zorglub.Time.Core.Utilities.OrderedPair.Create<T>(T x, T y) -> Zorglub.Time.Core.Utilities.OrderedPair<T>
 static Zorglub.Time.Core.Utilities.OrderedPair<T>.operator !=(Zorglub.Time.Core.Utilities.OrderedPair<T> left, Zorglub.Time.Core.Utilities.OrderedPair<T> right) -> bool
 static Zorglub.Time.Core.Utilities.OrderedPair<T>.operator ==(Zorglub.Time.Core.Utilities.OrderedPair<T> left, Zorglub.Time.Core.Utilities.OrderedPair<T> right) -> bool
+static Zorglub.Time.Core.Validation.DomainExtensions.CheckLowerBound(this Zorglub.Time.Core.Intervals.Range<Zorglub.Time.DayNumber> this, Zorglub.Time.DayNumber dayNumber) -> void
+static Zorglub.Time.Core.Validation.DomainExtensions.CheckOverflow(this Zorglub.Time.Core.Intervals.Range<Zorglub.Time.DayNumber> this, Zorglub.Time.DayNumber dayNumber) -> void
+static Zorglub.Time.Core.Validation.DomainExtensions.CheckUpperBound(this Zorglub.Time.Core.Intervals.Range<Zorglub.Time.DayNumber> this, Zorglub.Time.DayNumber dayNumber) -> void
 static Zorglub.Time.Core.Validation.DomainExtensions.Validate(this Zorglub.Time.Core.Intervals.Range<Zorglub.Time.DayNumber> this, Zorglub.Time.DayNumber dayNumber, string? paramName = null) -> void
 static Zorglub.Time.Core.Yedoy.Create(int year, int dayOfYear) -> Zorglub.Time.Core.Yedoy
 static Zorglub.Time.Core.Yedoy.FromBinary(int data) -> Zorglub.Time.Core.Yedoy
@@ -1162,8 +1165,8 @@ Zorglub.Time.Core.Utilities.ReadOnlySet<T>.ReadOnlySet(System.Collections.Generi
 Zorglub.Time.Core.Utilities.ReadOnlySet<T>.ReadOnlySet(System.Collections.Generic.IEnumerable<T>! collection) -> void
 Zorglub.Time.Core.Utilities.ReadOnlySet<T>.SetEquals(System.Collections.Generic.IEnumerable<T>! other) -> bool
 Zorglub.Time.Core.Validation.DaysValidator
-Zorglub.Time.Core.Validation.DaysValidator.Check(int daysSinceEpoch) -> void
 Zorglub.Time.Core.Validation.DaysValidator.CheckLowerBound(int daysSinceEpoch) -> void
+Zorglub.Time.Core.Validation.DaysValidator.CheckOverflow(int daysSinceEpoch) -> void
 Zorglub.Time.Core.Validation.DaysValidator.CheckUpperBound(int daysSinceEpoch) -> void
 Zorglub.Time.Core.Validation.DaysValidator.DaysValidator(Zorglub.Time.Core.Intervals.Range<int> range) -> void
 Zorglub.Time.Core.Validation.DaysValidator.MaxDaysSinceEpoch.get -> int
@@ -1172,8 +1175,8 @@ Zorglub.Time.Core.Validation.DaysValidator.Range.get -> Zorglub.Time.Core.Interv
 Zorglub.Time.Core.Validation.DaysValidator.Validate(int daysSinceEpoch, string? paramName = null) -> void
 Zorglub.Time.Core.Validation.DomainExtensions
 Zorglub.Time.Core.Validation.MonthsValidator
-Zorglub.Time.Core.Validation.MonthsValidator.Check(int monthsSinceEpoch) -> void
 Zorglub.Time.Core.Validation.MonthsValidator.CheckLowerBound(int monthsSinceEpoch) -> void
+Zorglub.Time.Core.Validation.MonthsValidator.CheckOverflow(int monthsSinceEpoch) -> void
 Zorglub.Time.Core.Validation.MonthsValidator.CheckUpperBound(int monthsSinceEpoch) -> void
 Zorglub.Time.Core.Validation.MonthsValidator.MaxMonthsSinceEpoch.get -> int
 Zorglub.Time.Core.Validation.MonthsValidator.MinMonthsSinceEpoch.get -> int
@@ -1181,9 +1184,9 @@ Zorglub.Time.Core.Validation.MonthsValidator.MonthsValidator(Zorglub.Time.Core.I
 Zorglub.Time.Core.Validation.MonthsValidator.Range.get -> Zorglub.Time.Core.Intervals.Range<int>
 Zorglub.Time.Core.Validation.MonthsValidator.Validate(int monthsSinceEpoch, string? paramName = null) -> void
 Zorglub.Time.Core.Validation.YearsValidator
-Zorglub.Time.Core.Validation.YearsValidator.Check(int year) -> void
 Zorglub.Time.Core.Validation.YearsValidator.CheckForMonth(int year) -> void
 Zorglub.Time.Core.Validation.YearsValidator.CheckLowerBound(int year) -> void
+Zorglub.Time.Core.Validation.YearsValidator.CheckOverflow(int year) -> void
 Zorglub.Time.Core.Validation.YearsValidator.CheckUpperBound(int year) -> void
 Zorglub.Time.Core.Validation.YearsValidator.MaxYear.get -> int
 Zorglub.Time.Core.Validation.YearsValidator.MinYear.get -> int
