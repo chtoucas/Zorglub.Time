@@ -39,40 +39,61 @@ module Factories =
     [<Fact>]
     let ``CreateMaximal() throws for null schema`` () =
         nullExn "schema" (fun () -> CalendricalSegment.CreateMaximal(null))
+        nullExn "schema" (fun () -> CalendricalSegment.CreateMaximal(null, true))
 
     [<Fact>]
-    let ``CreateMaximal() may throw when the schema only supports years <= 0`` () =
+    let ``CreateMaximal() does not throw when the schema only supports years <= 0`` () =
         let range = Range.Create(-10, 0)
         let seg = CalendricalSegment.CreateMaximal(new FauxSystemSchema(range))
 
         seg.IsComplete |> ok
-
         seg.SupportedYears === range
+
+    [<Fact>]
+    let ``CreateMaximal() may throw when the schema only supports years <= 0 and onOrAfterEpoch = true`` () =
+        let range = Range.Create(-10, 0)
+
         argExn "onOrAfterEpoch" (fun () -> CalendricalSegment.CreateMaximal(new FauxSystemSchema(range), true))
 
     [<Fact>]
     let ``CreateMaximal()`` () =
         let range = Range.Create(-10, 10)
-        let seg1 = CalendricalSegment.CreateMaximal(new FauxSystemSchema(range))
-        let seg2 = CalendricalSegment.CreateMaximal(new FauxSystemSchema(range), true)
+        let seg = CalendricalSegment.CreateMaximal(new FauxSystemSchema(range))
 
-        seg1.IsComplete |> ok
-        seg2.IsComplete |> ok
+        seg.IsComplete |> ok
+        seg.SupportedYears === range
 
-        seg1.SupportedYears === range
-        seg2.SupportedYears === Range.Create(1, 10)
+    [<Fact>]
+    let ``CreateMaximal() when onOrAfterEpoch = true`` () =
+        let range = Range.Create(-10, 10)
+        let seg = CalendricalSegment.CreateMaximal(new FauxSystemSchema(range), true)
+
+        seg.IsComplete |> ok
+        seg.SupportedYears === Range.Create(1, 10)
 
     [<Fact>]
     let ``CreateMaximal() when the schema only supports years > 0`` () =
         let range = Range.Create(5, 10)
-        let seg1 = CalendricalSegment.CreateMaximal(new FauxSystemSchema(range))
-        let seg2 = CalendricalSegment.CreateMaximal(new FauxSystemSchema(range), true)
+        let seg = CalendricalSegment.CreateMaximal(new FauxSystemSchema(range))
 
-        seg1.IsComplete |> ok
-        seg2.IsComplete |> ok
+        seg.IsComplete |> ok
+        seg.SupportedYears === range
 
-        seg1.SupportedYears === range
-        seg2.SupportedYears === range
+    [<Fact>]
+    let ``CreateMaximal() when the schema only supports years > 0 when onOrAfterEpoch = true`` () =
+        let range = Range.Create(5, 10)
+        let seg = CalendricalSegment.CreateMaximal(new FauxSystemSchema(range), true)
+
+        seg.IsComplete |> ok
+        seg.SupportedYears === range
+
+    [<Fact>]
+    let ``CreateMaximal() when the schema only supports years <= 0`` () =
+        let range = Range.Create(-10, 0)
+        let seg = CalendricalSegment.CreateMaximal(new FauxSystemSchema(range))
+
+        seg.IsComplete |> ok
+        seg.SupportedYears === range
 
     [<Fact>]
     let ``Create(range) throws for null schema`` () =

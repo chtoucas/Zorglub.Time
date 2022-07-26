@@ -1,19 +1,19 @@
 ﻿Summary
-  Generated on: 23/07/2022 - 20:22:32
+  Generated on: 26/07/2022 - 16:57:06
   Parser: OpenCover
   Assemblies: 1
   Classes: 118
   Files: 110
-  Line coverage: 92.3%
-  Covered lines: 5808
-  Uncovered lines: 484
-  Coverable lines: 6292
-  Total lines: 23372
+  Line coverage: 96.4%
+  Covered lines: 6046
+  Uncovered lines: 225
+  Coverable lines: 6271
+  Total lines: 23365
 
-Zorglub.Time                                               92.3%
+Zorglub.Time                                               96.4%
   Zorglub.Time.AdditionRuleset                            100.0%
   Zorglub.Time.CalendarIdExtensions                       100.0%
-  Zorglub.Time.Core.Arithmetic.GregorianSystemArithmetic   80.7%
+  Zorglub.Time.Core.Arithmetic.GregorianSystemArithmetic  100.0%
   Zorglub.Time.Core.Arithmetic.LunarSystemArithmetic       80.6%
   Zorglub.Time.Core.Arithmetic.LunisolarSystemArithmetic   74.1%
   Zorglub.Time.Core.Arithmetic.PlainSystemArithmetic       65.4%
@@ -21,9 +21,9 @@ Zorglub.Time                                               92.3%
   Zorglub.Time.Core.Arithmetic.Solar12SystemArithmetic     87.5%
   Zorglub.Time.Core.Arithmetic.Solar13SystemArithmetic     87.5%
   Zorglub.Time.Core.Arithmetic.SolarSystemArithmetic       76.0%
-  Zorglub.Time.Core.CalendricalSchema                      96.1%
-  Zorglub.Time.Core.CalendricalSegment                     73.0%
-  Zorglub.Time.Core.CalendricalSegmentBuilder              55.1%
+  Zorglub.Time.Core.CalendricalSchema                     100.0%
+  Zorglub.Time.Core.CalendricalSegment                    100.0%
+  Zorglub.Time.Core.CalendricalSegmentBuilder             100.0%
   Zorglub.Time.Core.DoomsdayRule                          100.0%
   Zorglub.Time.Core.ICalendricalPreValidator              100.0%
   Zorglub.Time.Core.Intervals.Interval                    100.0%
@@ -35,7 +35,7 @@ Zorglub.Time                                               92.3%
   Zorglub.Time.Core.Intervals.RangeSet<T>                 100.0%
   Zorglub.Time.Core.Intervals.UpperRay                    100.0%
   Zorglub.Time.Core.Intervals.UpperRay<T>                 100.0%
-  Zorglub.Time.Core.MonthCalculator                        81.3%
+  Zorglub.Time.Core.MonthsCalculator                      100.0%
   Zorglub.Time.Core.PartsAdapter                          100.0%
   Zorglub.Time.Core.Schemas.Coptic12Schema                100.0%
   Zorglub.Time.Core.Schemas.Coptic13Schema                100.0%
@@ -63,7 +63,7 @@ Zorglub.Time                                               92.3%
   Zorglub.Time.Core.Schemas.WorldSchema                   100.0%
   Zorglub.Time.Core.SystemArithmetic                      100.0%
   Zorglub.Time.Core.SystemSchema                          100.0%
-  Zorglub.Time.Core.SystemSegment                          50.5%
+  Zorglub.Time.Core.SystemSegment                         100.0%
   Zorglub.Time.Core.TemporalArithmetic                    100.0%
   Zorglub.Time.Core.Utilities.Box                         100.0%
   Zorglub.Time.Core.Utilities.Box<T>                      100.0%
@@ -76,22 +76,22 @@ Zorglub.Time                                               92.3%
   Zorglub.Time.Core.Utilities.ReadOnlySet<T>              100.0%
   Zorglub.Time.Core.Utilities.Requires                    100.0%
   Zorglub.Time.Core.Utilities.ThrowHelpers                100.0%
-  Zorglub.Time.Core.Validation.DaysValidator               72.0%
-  Zorglub.Time.Core.Validation.DomainExtensions            57.1%
+  Zorglub.Time.Core.Validation.DaysValidator              100.0%
+  Zorglub.Time.Core.Validation.DomainExtensions           100.0%
   Zorglub.Time.Core.Validation.GregorianPreValidator      100.0%
   Zorglub.Time.Core.Validation.JulianPreValidator         100.0%
   Zorglub.Time.Core.Validation.LunarPreValidator          100.0%
   Zorglub.Time.Core.Validation.LunisolarPreValidator      100.0%
-  Zorglub.Time.Core.Validation.MonthsValidator             48.0%
+  Zorglub.Time.Core.Validation.MonthsValidator            100.0%
   Zorglub.Time.Core.Validation.PlainPreValidator          100.0%
   Zorglub.Time.Core.Validation.Solar12PreValidator        100.0%
   Zorglub.Time.Core.Validation.Solar13PreValidator        100.0%
-  Zorglub.Time.Core.Validation.YearsValidator              54.1%
-  Zorglub.Time.Core.Yedoy                                  96.7%
-  Zorglub.Time.Core.Yedoyx                                 97.1%
+  Zorglub.Time.Core.Validation.YearsValidator             100.0%
+  Zorglub.Time.Core.Yedoy                                 100.0%
+  Zorglub.Time.Core.Yedoyx                                100.0%
   Zorglub.Time.Core.Yemo                                  100.0%
-  Zorglub.Time.Core.Yemoda                                 97.9%
-  Zorglub.Time.Core.Yemodax                                97.6%
+  Zorglub.Time.Core.Yemoda                                100.0%
+  Zorglub.Time.Core.Yemodax                               100.0%
   Zorglub.Time.Core.Yemox                                 100.0%
   Zorglub.Time.DateParts                                  100.0%
   Zorglub.Time.DayNumber                                  100.0%
@@ -99,11 +99,11 @@ Zorglub.Time                                               92.3%
   Zorglub.Time.Extensions.DayOfWeekExtensions             100.0%
   Zorglub.Time.Extensions.Unboxing                        100.0%
   Zorglub.Time.Hemerology.CalendarEpoch                   100.0%
-  Zorglub.Time.Hemerology.Scopes.CalendarScope             95.2%
-  Zorglub.Time.Hemerology.Scopes.GregorianProlepticScope   77.2%
-  Zorglub.Time.Hemerology.Scopes.GregorianStandardScope    77.2%
-  Zorglub.Time.Hemerology.Scopes.ProlepticScope            94.1%
-  Zorglub.Time.Hemerology.Scopes.StandardScope             94.1%
+  Zorglub.Time.Hemerology.Scopes.CalendarScope            100.0%
+  Zorglub.Time.Hemerology.Scopes.GregorianProlepticScope  100.0%
+  Zorglub.Time.Hemerology.Scopes.GregorianStandardScope   100.0%
+  Zorglub.Time.Hemerology.Scopes.ProlepticScope           100.0%
+  Zorglub.Time.Hemerology.Scopes.StandardScope            100.0%
   Zorglub.Time.Hemerology.YearNumbering                   100.0%
   Zorglub.Time.MonthParts                                 100.0%
   Zorglub.Time.Ord                                        100.0%
@@ -114,7 +114,7 @@ Zorglub.Time                                               92.3%
   Zorglub.Time.Simple.CalendarCatalog                     100.0%
   Zorglub.Time.Simple.CalendarDate                        100.0%
   Zorglub.Time.Simple.CalendarDay                         100.0%
-  Zorglub.Time.Simple.CalendarMath                         96.5%
+  Zorglub.Time.Simple.CalendarMath                        100.0%
   Zorglub.Time.Simple.CalendarMonth                       100.0%
   Zorglub.Time.Simple.CalendarRegistry                    100.0%
   Zorglub.Time.Simple.CalendarYear                        100.0%
@@ -125,7 +125,7 @@ Zorglub.Time                                               92.3%
   Zorglub.Time.Simple.JulianCalendar                      100.0%
   Zorglub.Time.Simple.OrdinalDate                         100.0%
   Zorglub.Time.Simple.PlainMath                           100.0%
-  Zorglub.Time.Simple.PowerMath                             0.0%
+  Zorglub.Time.Simple.PowerMath                            54.0%
   Zorglub.Time.Simple.RegularMath                         100.0%
   Zorglub.Time.Simple.TabularIslamicCalendar              100.0%
   Zorglub.Time.Simple.ZoroastrianCalendar                 100.0%

@@ -10,7 +10,6 @@ open Zorglub.Testing.Data
 open Zorglub.Testing.Data.Schemas
 
 open Zorglub.Time.Core
-open Zorglub.Time.Core.Arithmetic
 open Zorglub.Time.Core.Intervals
 open Zorglub.Time.Core.Schemas
 open Zorglub.Time.Core.Validation
@@ -46,7 +45,19 @@ module Prelude =
         let validator2 = sch.PreValidator
         validator2 |> is<PlainPreValidator>
 
-        validator2 === validator1
+        validator2 ==& validator1
+
+    [<Fact>]
+    let ``Property PreValidator: setter throws for null value`` () =
+        let factory _ = null :> ICalendricalPreValidator
+        nullExn "value" (fun () -> FauxCalendricalSchema.WithPreValidator(factory))
+
+    [<Fact>]
+    let ``Property PreValidator: setter`` () =
+        let factory (x: CalendricalSchema) = new Solar12PreValidator(x) :> ICalendricalPreValidator
+        let sch = FauxCalendricalSchema.WithPreValidator(factory)
+
+        sch.PreValidator |> is<Solar12PreValidator>
 
     [<Fact>]
     let ``Property Profile: default value, repeated`` () =

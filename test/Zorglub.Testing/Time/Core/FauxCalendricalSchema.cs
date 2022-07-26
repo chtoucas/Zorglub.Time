@@ -35,6 +35,12 @@ public partial class FauxCalendricalSchema : CalendricalSchema
     public static FauxCalendricalSchema Regular13 => new FauxRegularSchema(13);
     public static FauxCalendricalSchema Regular14 => new FauxRegularSchema(14);
 
+    // Constructor to be able to test the setter for PreValidator.
+    [Pure]
+    public static FauxCalendricalSchema
+        WithPreValidator(Func<CalendricalSchema, ICalendricalPreValidator> preValidator) =>
+        new FauxRegularSchema(preValidator);
+
     [Pure]
     public static FauxCalendricalSchema WithMinDaysInYear(int minDaysInYear) =>
         new(minDaysInYear, DefaultMinDaysInMonth);
@@ -45,6 +51,15 @@ public partial class FauxCalendricalSchema : CalendricalSchema
 
     private sealed class FauxRegularSchema : FauxCalendricalSchema, IRegularSchema
     {
+        public FauxRegularSchema(Func<CalendricalSchema, ICalendricalPreValidator> preValidator)
+            : this(12)
+        {
+            Requires.NotNull(preValidator);
+
+            // NB: it will only works with Solar12PreValidator...
+            PreValidator = preValidator.Invoke(this);
+        }
+
         public FauxRegularSchema(int monthsInYear)
             : this(monthsInYear, DefaultMinDaysInYear, DefaultMinDaysInMonth) { }
 
