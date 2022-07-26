@@ -3,6 +3,8 @@
 
 namespace Zorglub.Time.Core.Schemas
 {
+    using Zorglub.Time.Core.Intervals;
+
     /// <summary>
     /// Provides a base for the Gregorian and Julian schemas.
     /// <para>This class can ONLY be inherited from within friend assemblies.</para>
@@ -38,10 +40,13 @@ namespace Zorglub.Time.Core.Schemas
         public const int DaysInYearAfterFebruary = 306;
 
         /// <summary>
-        /// Called from constructors in derived classes to initialize the
-        /// <see cref="GJSchema"/> class.
+        /// Called from constructors in derived classes to initialize the <see cref="GJSchema"/>
+        /// class.
         /// </summary>
-        private protected GJSchema() : base(DaysInCommonYear, 28) { }
+        private protected GJSchema(Range<int> supportedYears) : base(supportedYears, DaysInCommonYear, 28)
+        {
+            Debug.Assert(supportedYears.IsSubsetOf(DefaultSupportedYears));
+        }
 
         /// <inheritdoc />
         public sealed override CalendricalFamily Family => CalendricalFamily.Solar;

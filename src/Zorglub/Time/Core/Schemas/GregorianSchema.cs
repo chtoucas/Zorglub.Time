@@ -49,7 +49,7 @@ namespace Zorglub.Time.Core.Schemas
         /// <summary>
         /// Initializes a new instance of the <see cref="GregorianSchema"/> class.
         /// </summary>
-        internal GregorianSchema() { }
+        internal GregorianSchema() : base(DefaultSupportedYears) { }
 
         /// <summary>
         /// Creates a new (boxed) instance of the <see cref="GregorianSchema"/> class.

@@ -23,7 +23,7 @@ namespace Zorglub.Time.Core.Schemas
         /// <summary>
         /// Initializes a new instance of the <see cref="JulianSchema"/> class.
         /// </summary>
-        internal JulianSchema() { }
+        internal JulianSchema() : base(DefaultSupportedYears) { }
 
         /// <summary>
         /// Creates a new (boxed) instance of the <see cref="JulianSchema"/> class.
