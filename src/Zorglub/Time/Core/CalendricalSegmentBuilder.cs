@@ -187,12 +187,7 @@ namespace Zorglub.Time.Core
         {
             _yearsValidator.Validate(year);
 
-            Min = new Endpoint
-            {
-                DaysSinceEpoch = _schema.GetStartOfYear(year),
-                DateParts = DateParts.AtStartOfYear(year),
-                OrdinalParts = OrdinalParts.AtStartOfYear(year),
-            };
+            SetMinYearCore(year);
         }
 
         /// <summary>
@@ -202,12 +197,7 @@ namespace Zorglub.Time.Core
         {
             _yearsValidator.Validate(year);
 
-            Max = new Endpoint
-            {
-                DaysSinceEpoch = _schema.GetEndOfYear(year),
-                DateParts = _partsAdapter.GetDatePartsAtEndOfYear(year),
-                OrdinalParts = _partsAdapter.GetOrdinalPartsAtEndOfYear(year),
-            };
+            SetMaxYearCore(year);
         }
 
         /// <summary>
@@ -223,28 +213,60 @@ namespace Zorglub.Time.Core
                 var set = Interval.Intersect(_schema.SupportedYears, Range.StartingAt(1));
                 if (set.IsEmpty) Throw.Argument(nameof(onOrAfterEpoch));
 
-                SetMinYear(set.Range.Min);
+                SetMinYearCore(set.Range.Min);
             }
             else
             {
-                SetMinYear(_yearsValidator.MinYear);
+                SetMinYearCore(_yearsValidator.MinYear);
             }
         }
 
         /// <summary>
         /// Sets the maximum to the end of the latest supported year.
         /// </summary>
-        public void UseMaxSupportedYear() => SetMaxYear(_yearsValidator.MaxYear);
+        public void UseMaxSupportedYear() => SetMaxYearCore(_yearsValidator.MaxYear);
 
         internal void SetSupportedYears(Range<int> supportedYears)
         {
-            SetMinYear(supportedYears.Min);
-            SetMaxYear(supportedYears.Max);
+            if (supportedYears.IsSubsetOf(_schema.SupportedYears) == false)
+            {
+                Throw.Argument(nameof(supportedYears));
+            }
+
+            SetMinYearCore(supportedYears.Min);
+            SetMaxYearCore(supportedYears.Max);
         }
 
         //
         // Private helpers
         //
+
+        [Conditional("DEBUG")]
+        private void __ValidateYear(int year) => _yearsValidator.Validate(year);
+
+        private void SetMinYearCore(int year)
+        {
+            __ValidateYear(year);
+
+            Min = new Endpoint
+            {
+                DaysSinceEpoch = _schema.GetStartOfYear(year),
+                DateParts = DateParts.AtStartOfYear(year),
+                OrdinalParts = OrdinalParts.AtStartOfYear(year),
+            };
+        }
+
+        private void SetMaxYearCore(int year)
+        {
+            __ValidateYear(year);
+
+            Max = new Endpoint
+            {
+                DaysSinceEpoch = _schema.GetEndOfYear(year),
+                DateParts = _partsAdapter.GetDatePartsAtEndOfYear(year),
+                OrdinalParts = _partsAdapter.GetOrdinalPartsAtEndOfYear(year),
+            };
+        }
 
         [Pure]
         private Endpoint GetEndpoint(int daysSinceEpoch)

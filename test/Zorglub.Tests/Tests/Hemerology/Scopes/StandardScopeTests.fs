@@ -28,14 +28,14 @@ module Prelude =
         let range = Range.Create(StandardScope.MinYear + 1, StandardScope.MaxYear)
         let sch = new FauxCalendricalSchema(range)
 
-        outOfRangeExn "year" (fun () -> new StandardScope(sch, DayZero.OldStyle))
+        argExn "supportedYears" (fun () -> new StandardScope(sch, DayZero.OldStyle))
 
     [<Fact>]
     let ``Constructor throws when schema.MaxYear < 9999`` () =
         let range = Range.Create(1, StandardScope.MaxYear - 1)
         let sch = new FauxCalendricalSchema(range)
 
-        outOfRangeExn "year" (fun () -> new StandardScope(sch, DayZero.OldStyle))
+        argExn "supportedYears" (fun () -> new StandardScope(sch, DayZero.OldStyle))
 
     [<Fact>]
     let ``Property Epoch`` () =

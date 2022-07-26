@@ -90,22 +90,20 @@ namespace Zorglub.Time.Core
         [Pure]
         public sealed override string ToString() => SupportedYears.ToString();
 
-        // TODO(api): add CreateMaximal().
-
         /// <summary>
         /// Creates a new instance of the <see cref="SystemSegment"/> class from the specified range
         /// of supported years.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
-        /// <exception cref="AoorException"><paramref name="supportedYears"/> is NOT a subinterval
-        /// of the range of supported years by <paramref name="schema"/>.</exception>
+        /// <exception cref="ArgumentException"><paramref name="supportedYears"/> is NOT a
+        /// subinterval of the range of supported years by <paramref name="schema"/>.</exception>
         [Pure]
         public static SystemSegment Create(SystemSchema schema, Range<int> supportedYears)
         {
             Requires.NotNull(schema);
             if (supportedYears.IsSubsetOf(schema.SupportedYears) == false)
             {
-                Throw.ArgumentOutOfRange(nameof(supportedYears));
+                Throw.Argument(nameof(supportedYears));
             }
 
             var (minYear, maxYear) = supportedYears.Endpoints;

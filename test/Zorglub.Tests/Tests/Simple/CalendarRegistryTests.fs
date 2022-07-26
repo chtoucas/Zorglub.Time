@@ -389,7 +389,7 @@ module AddOps =
         let reg = new CalendarRegistry()
         let sch = new FauxSystemSchema(Range.Create(-2, -1))
 
-        outOfRangeExn "year" (fun () -> reg.GetOrAdd("Key", sch, DayZero.NewStyle, false))
+        argExn "supportedYears" (fun () -> reg.GetOrAdd("Key", sch, DayZero.NewStyle, false))
         checkCounts reg 0 0
 
         onKeyNotSet reg "Key"
@@ -442,7 +442,7 @@ module AddOps =
         let reg = new CalendarRegistry()
         let sch = new FauxSystemSchema(Range.Create(-2, -1))
 
-        outOfRangeExn "year" (fun () -> reg.Add("Key", sch, DayZero.NewStyle, false))
+        argExn "supportedYears" (fun () -> reg.Add("Key", sch, DayZero.NewStyle, false))
         checkCounts reg 0 0
 
         onKeyNotSet reg "Key"
