@@ -124,7 +124,7 @@ namespace Zorglub.Time.Core
     /// </summary>
     public abstract partial class CalendricalSchema : ICalendricalSchemaPlus
     {
-        private readonly MonthCalculator _monthCalculator;
+        private readonly MonthsCalculator _monthsCalculator;
 
         /// <summary>
         /// Called from constructors in derived classes to initialize the
@@ -141,7 +141,7 @@ namespace Zorglub.Time.Core
             MinDaysInYear = minDaysInYear;
             MinDaysInMonth = minDaysInMonth;
 
-            _monthCalculator = MonthCalculator.Create(this);
+            _monthsCalculator = MonthsCalculator.Create(this);
         }
 
         private CalendricalProfile? _profile;
@@ -539,11 +539,11 @@ namespace Zorglub.Time.Core
     {
         /// <inheritdoc />
         [Pure]
-        public int GetStartOfYearInMonths(int y) => _monthCalculator.GetStartOfYear(y);
+        public int GetStartOfYearInMonths(int y) => _monthsCalculator.GetStartOfYear(y);
 
         /// <inheritdoc />
         [Pure]
-        public int GetEndOfYearInMonths(int y) => _monthCalculator.GetEndOfYear(y);
+        public int GetEndOfYearInMonths(int y) => _monthsCalculator.GetEndOfYear(y);
 
         /// <inheritdoc />
         // Even if it is just CountDaysSinceEpoch(y, 1, 1), this method MUST

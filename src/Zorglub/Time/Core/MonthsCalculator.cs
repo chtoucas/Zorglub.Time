@@ -3,11 +3,11 @@
 
 namespace Zorglub.Time.Core
 {
-    internal abstract class MonthCalculator : ISchemaBound
+    internal abstract class MonthsCalculator : ISchemaBound
     {
         private readonly ICalendricalSchema _schema;
 
-        protected MonthCalculator(ICalendricalSchema schema)
+        protected MonthsCalculator(ICalendricalSchema schema)
         {
             Debug.Assert(schema != null);
 
@@ -18,7 +18,7 @@ namespace Zorglub.Time.Core
 
         ICalendricalSchema ISchemaBound.Schema => _schema;
 
-        public static MonthCalculator Create(ICalendricalSchema schema)
+        public static MonthsCalculator Create(ICalendricalSchema schema)
         {
             Requires.NotNull(schema);
 
@@ -26,10 +26,10 @@ namespace Zorglub.Time.Core
 
             return monthsInYear switch
             {
-                12 => new Regular12Case(schema),
-                13 => new Regular13Case(schema),
-                > 0 => new RegularCase(schema, monthsInYear),
-                _ => new PlainCase(schema)
+                12 => new Regular12(schema),
+                13 => new Regular13(schema),
+                > 0 => new Regular(schema, monthsInYear),
+                _ => new Plain(schema)
             };
         }
 
@@ -45,9 +45,15 @@ namespace Zorglub.Time.Core
         /// </summary>
         [Pure] public abstract int GetEndOfYear(int y);
 
-        public static class Regular12
+        internal sealed class Regular12 : MonthsCalculator
         {
             private const int MonthsInYear = 12;
+
+            public Regular12(ICalendricalSchema schema) : base(schema)
+            {
+                Debug.Assert(schema.IsRegular(out int monthsInYear));
+                Debug.Assert(monthsInYear == MonthsInYear);
+            }
 
             [Pure]
             // CIL code size = 11 bytes <= 32 bytes.
@@ -61,11 +67,23 @@ namespace Zorglub.Time.Core
                 y = 1 + MathZ.Divide(monthsSinceEpoch, MonthsInYear, out int m0);
                 m = 1 + m0;
             }
+
+            [Pure]
+            public override int GetStartOfYear(int y) => MonthsInYear * (y - 1);
+
+            [Pure]
+            public override int GetEndOfYear(int y) => MonthsInYear * y - 1;
         }
 
-        public static class Regular13
+        internal sealed class Regular13 : MonthsCalculator
         {
             private const int MonthsInYear = 13;
+
+            public Regular13(ICalendricalSchema schema) : base(schema)
+            {
+                Debug.Assert(schema.IsRegular(out int monthsInYear));
+                Debug.Assert(monthsInYear == MonthsInYear);
+            }
 
             [Pure]
             // CIL code size = 11 bytes <= 32 bytes.
@@ -79,19 +97,6 @@ namespace Zorglub.Time.Core
                 y = 1 + MathZ.Divide(monthsSinceEpoch, MonthsInYear, out int m0);
                 m = 1 + m0;
             }
-        }
-
-        // The following classes are internal for testing.
-
-        internal sealed class Regular12Case : MonthCalculator
-        {
-            private const int MonthsInYear = 12;
-
-            public Regular12Case(ICalendricalSchema schema) : base(schema)
-            {
-                Debug.Assert(schema.IsRegular(out int monthsInYear));
-                Debug.Assert(monthsInYear == MonthsInYear);
-            }
 
             [Pure]
             public override int GetStartOfYear(int y) => MonthsInYear * (y - 1);
@@ -100,31 +105,15 @@ namespace Zorglub.Time.Core
             public override int GetEndOfYear(int y) => MonthsInYear * y - 1;
         }
 
-        internal sealed class Regular13Case : MonthCalculator
-        {
-            private const int MonthsInYear = 13;
-
-            public Regular13Case(ICalendricalSchema schema) : base(schema)
-            {
-                Debug.Assert(schema.IsRegular(out int monthsInYear));
-                Debug.Assert(monthsInYear == MonthsInYear);
-            }
-
-            [Pure]
-            public override int GetStartOfYear(int y) => MonthsInYear * (y - 1);
-
-            [Pure]
-            public override int GetEndOfYear(int y) => MonthsInYear * y - 1;
-        }
-
-        internal sealed class RegularCase : MonthCalculator
+        internal sealed class Regular : MonthsCalculator
         {
             private readonly int _monthsInYear;
 
-            public RegularCase(ICalendricalSchema schema, int monthsInYear) : base(schema)
+            public Regular(ICalendricalSchema schema, int monthsInYear) : base(schema)
             {
                 Debug.Assert(schema.IsRegular(out int monthsInYear_));
                 Debug.Assert(monthsInYear_ == monthsInYear);
+
                 _monthsInYear = monthsInYear;
             }
 
@@ -135,9 +124,9 @@ namespace Zorglub.Time.Core
             public override int GetEndOfYear(int y) => _monthsInYear * y - 1;
         }
 
-        internal sealed class PlainCase : MonthCalculator
+        internal sealed class Plain : MonthsCalculator
         {
-            public PlainCase(ICalendricalSchema schema) : base(schema) { }
+            public Plain(ICalendricalSchema schema) : base(schema) { }
 
             [Pure]
             public override int GetStartOfYear(int y) => Schema.CountMonthsSinceEpoch(y, 1);

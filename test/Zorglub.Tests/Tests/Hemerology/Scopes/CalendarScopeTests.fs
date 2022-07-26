@@ -13,8 +13,6 @@ open Zorglub.Time.Hemerology
 
 open Xunit
 
-// TODO(test): test scope.Schema (protected internal).
-
 module Prelude =
     [<Fact>]
     let ``Constructor throws when "segment" is null`` () =
