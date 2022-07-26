@@ -11,7 +11,6 @@ using global::Samples;
 
 using Zorglub.Testing.Data.Unbounded;
 using Zorglub.Time.Core.Schemas;
-using Zorglub.Time.Hemerology.Scopes;
 
 // Cf. aussi GregorianBoundedBelowCalendarTests.
 public static class BoundedBelowCalendarTests

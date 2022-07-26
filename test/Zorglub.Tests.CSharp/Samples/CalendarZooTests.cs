@@ -6,7 +6,6 @@ namespace Zorglub.Samples;
 using global::Samples;
 
 using Zorglub.Time.Core;
-using Zorglub.Time.Hemerology;
 using Zorglub.Time.Hemerology.Scopes;
 
 public static partial class CalendarZooTests

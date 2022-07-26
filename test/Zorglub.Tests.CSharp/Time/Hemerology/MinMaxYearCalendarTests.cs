@@ -7,7 +7,6 @@ using Zorglub.Testing.Data.Bounded;
 using Zorglub.Testing.Data.Unbounded;
 using Zorglub.Time.Core;
 using Zorglub.Time.Core.Schemas;
-using Zorglub.Time.Hemerology.Scopes;
 
 public static class MinMaxYearCalendarTests
 {
