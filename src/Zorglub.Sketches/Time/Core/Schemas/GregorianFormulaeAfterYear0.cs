@@ -46,7 +46,7 @@ namespace Zorglub.Time.Core.Schemas
 
             daysSinceEpoch += GJSchema.DaysInYearAfterFebruary;
 
-            int C = ((daysSinceEpoch << 2) + 3) / GregorianSchema.DaysPer400YearCycle;
+            int C = (int)((uint)((daysSinceEpoch << 2) + 3) / GregorianSchema.DaysPer400YearCycle);
             int D = daysSinceEpoch - (GregorianSchema.DaysPer400YearCycle * C >> 2);
 
             int Y = (int)((uint)((D << 2) + 3) / GregorianSchema.DaysPer4YearSubcycle);
@@ -90,7 +90,7 @@ namespace Zorglub.Time.Core.Schemas
             Debug.Assert(daysSinceEpoch >= 0);
 
             // Int64 to prevent overflows.
-            int y = (int)(400L * (daysSinceEpoch + 2)) / GregorianSchema.DaysPer400YearCycle;
+            int y = (int)(400L * (daysSinceEpoch + 2) / GregorianSchema.DaysPer400YearCycle);
             int c = y / 100;
             int startOfYearAfter = GJSchema.DaysInCommonYear * y + (y >> 2) - c + (c >> 2);
 
