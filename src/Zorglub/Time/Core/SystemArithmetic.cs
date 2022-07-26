@@ -4,7 +4,6 @@
 namespace Zorglub.Time.Core
 {
     using Zorglub.Time.Core.Arithmetic;
-    using Zorglub.Time.Core.Intervals;
     using Zorglub.Time.Core.Schemas;
     using Zorglub.Time.Core.Validation;
 
@@ -271,7 +270,7 @@ namespace Zorglub.Time.Core
         [Pure]
         public abstract Yemo AddMonths(Yemo ym, int months);
 
-        // REVIEW(code): optimize Next/PreviousMonth(). See GregorianSystemArithmetic.
+        // REVIEW(perf): optimize Next/PreviousMonth(). See GregorianSystemArithmetic.
 
         /// <summary>
         /// Obtains the month after the specified month.

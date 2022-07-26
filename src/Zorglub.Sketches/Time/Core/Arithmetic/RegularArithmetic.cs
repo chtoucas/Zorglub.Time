@@ -3,7 +3,6 @@
 
 namespace Zorglub.Time.Core.Arithmetic
 {
-    using Zorglub.Time.Core.Intervals;
     using Zorglub.Time.Core.Validation;
 
     /// <summary>

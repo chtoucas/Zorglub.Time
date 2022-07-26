@@ -3,7 +3,7 @@
 
 namespace Zorglub.Time.Core
 {
-    // TODO: blank-days should be kept outside the week cycle, review all
+    // TODO(code): blank-days should be kept outside the week cycle, review all
     // methods that compute the days of the week.
 
     // The use of blank-days can be traced back to Rev. Hugh Jones (1745) and

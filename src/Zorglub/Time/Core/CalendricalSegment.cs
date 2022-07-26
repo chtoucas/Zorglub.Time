@@ -4,7 +4,6 @@
 namespace Zorglub.Time.Core
 {
     using Zorglub.Time.Core.Intervals;
-    using Zorglub.Time.Core.Validation;
 
     /// <summary>
     /// Provides informations on a range of days for a given schema.
