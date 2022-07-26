@@ -40,7 +40,7 @@ let ``Gregorian calendar`` () =
 let ``Gregorian calendar w/ dates after 15/10/1582`` () =
     let sch = GregorianSchema.GetInstance()
     let q = sch.Select(
-        fun x -> new BoundedBelowCalendar("Genuine Gregorian", x, DayZero.NewStyle, 1582, 10, 15))
+        fun x -> new BoundedBelowCalendar("Genuine Gregorian", x, DayZero.NewStyle, new DateParts(1582, 10, 15)))
     let chr = q.Unbox()
     let parts = chr.GetDateParts(DayNumber.Today())
     let y, m, d = parts.Deconstruct()

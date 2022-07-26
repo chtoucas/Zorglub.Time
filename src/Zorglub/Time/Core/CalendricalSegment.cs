@@ -132,20 +132,18 @@ namespace Zorglub.Time.Core
         /// Creates a new instance of the <see cref="CalendricalSegment"/> class.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
-        /// <exception cref="AoorException">The min date is invalid or outside the range of dates
-        /// supported by <paramref name="schema"/>.</exception>
+        /// <exception cref="AoorException"><paramref name="minDateParts"/> is invalid or outside
+        /// the range of dates supported by <paramref name="schema"/>.</exception>
         /// <exception cref="AoorException"><paramref name="maxYear"/> is outside range of supported
         /// years by <paramref name="schema"/>.</exception>
         [Pure]
         internal static CalendricalSegment Create(
             ICalendricalSchema schema,
-            int year,
-            int month,
-            int day,
+            DateParts minDateParts,
             int? maxYear)
         {
             var builder = new CalendricalSegmentBuilder(schema);
-            builder.SetMinDate(year, month, day);
+            builder.SetMinDateParts(minDateParts);
             if (maxYear.HasValue)
             {
                 builder.SetMaxYear(maxYear.Value);

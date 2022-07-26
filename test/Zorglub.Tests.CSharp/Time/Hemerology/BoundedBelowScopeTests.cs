@@ -21,36 +21,36 @@ public sealed partial class BoundedBelowScopeTests : CalendricalDataConsumer<Gre
     [Fact]
     public static void Create_NullSchema() =>
         Assert.ThrowsAnexn("schema",
-            () => new BoundedBelowScope(null!, DayZero.NewStyle, 3, 4, 5, 9999));
+            () => new BoundedBelowScope(null!, DayZero.NewStyle, new(3, 4, 5), 9999));
 
     [Fact]
     public static void Create_InvalidMinYear() =>
         Assert.Throws<ArgumentOutOfRangeException>(
             () => new BoundedBelowScope(
-                s_Schema, DayZero.NewStyle, s_Schema.SupportedYears.Min - 1, 1, 1, 9999));
+                s_Schema, DayZero.NewStyle, new(s_Schema.SupportedYears.Min - 1, 1, 1), 9999));
 
     [Fact]
     public static void Create_InvalidMaxYear() =>
         Assert.Throws<ArgumentOutOfRangeException>(
             () => new BoundedBelowScope(
-                s_Schema, DayZero.NewStyle, s_Schema.SupportedYears.Max + 1, 1, 1, 9999));
+                s_Schema, DayZero.NewStyle, new(s_Schema.SupportedYears.Max + 1, 1, 1), 9999));
 
     [Theory, MemberData(nameof(InvalidMonthFieldData))]
     public static void Create_InvalidMonth(int y, int m) =>
         Assert.Throws<ArgumentOutOfRangeException>(
-            () => new BoundedBelowScope(s_Schema, DayZero.NewStyle, y, m, 1, 9999));
+            () => new BoundedBelowScope(s_Schema, DayZero.NewStyle, new(y, m, 1), 9999));
 
     [Theory, MemberData(nameof(InvalidDayFieldData))]
     public static void Create_InvalidDay(int y, int m, int d) =>
         Assert.Throws<ArgumentOutOfRangeException>(
-            () => new BoundedBelowScope(s_Schema, DayZero.NewStyle, y, m, d, 9999));
+            () => new BoundedBelowScope(s_Schema, DayZero.NewStyle, new(y, m, d), 9999));
 
     [Theory, MemberData(nameof(DateInfoData))]
     public void Create(DateInfo info)
     {
         var (y, m, d, doy) = info;
         // Act
-        var scope = new BoundedBelowScope(s_Schema, DayZero.NewStyle, y, m, d, 9999);
+        var scope = new BoundedBelowScope(s_Schema, DayZero.NewStyle, new(y, m, d), 9999);
         var minDate = scope.Segment.MinMaxDateParts.LowerValue;
         var minOrdinalDate = scope.Segment.MinMaxOrdinalParts.LowerValue;
         // Assert
@@ -67,7 +67,7 @@ public sealed partial class BoundedBelowScopeTests : CalendricalDataConsumer<Gre
     public static void ValidateYearMonth()
     {
         var scope = new BoundedBelowScope(
-            s_Schema, DayZero.NewStyle, FirstYear, FirstMonth, FirstDay, 9999);
+            s_Schema, DayZero.NewStyle, new(FirstYear, FirstMonth, FirstDay), 9999);
         // Act
         scope.ValidateYearMonth(FirstYear, FirstMonth);
         Assert.ThrowsAoorexn("month", () => scope.ValidateYearMonth(FirstYear, FirstMonth - 1));
@@ -77,7 +77,7 @@ public sealed partial class BoundedBelowScopeTests : CalendricalDataConsumer<Gre
     public static void ValidateYearMonthDay()
     {
         var scope = new BoundedBelowScope(
-            s_Schema, DayZero.NewStyle, FirstYear, FirstMonth, FirstDay, 9999);
+            s_Schema, DayZero.NewStyle, new(FirstYear, FirstMonth, FirstDay), 9999);
         // Act
         scope.ValidateYearMonthDay(FirstYear, FirstMonth, FirstDay);
         scope.ValidateYearMonthDay(FirstYear, FirstMonth, FirstDay + 1);
@@ -91,7 +91,7 @@ public sealed partial class BoundedBelowScopeTests : CalendricalDataConsumer<Gre
     {
         int firstDayOfYear = s_Schema.CountDaysInYearBeforeMonth(FirstYear, FirstMonth) + FirstDay;
         var scope = new BoundedBelowScope(
-            s_Schema, DayZero.NewStyle, FirstYear, FirstMonth, FirstDay, 9999);
+            s_Schema, DayZero.NewStyle, new(FirstYear, FirstMonth, FirstDay), 9999);
         // Act
         scope.ValidateOrdinal(FirstYear, firstDayOfYear);
         Assert.ThrowsAoorexn("dayOfYear", () => scope.ValidateOrdinal(FirstYear, firstDayOfYear - 1));

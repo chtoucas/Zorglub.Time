@@ -8,9 +8,6 @@ namespace Zorglub.Time.Core
 
     using Endpoint = CalendricalSegment.Endpoint;
 
-    // REVIEW(code): use DateParts instead?
-    // Test CalendricalSegment & CalendricalSegmentBuilder factories using SystemSegment
-
     // We validate before and after calling a method from the method:
     // - before, to respect the schema layout (_supportedYears)
     // - after, to stay within the limits of Yemoda/Yedoy (_partsFactory)
@@ -162,26 +159,26 @@ namespace Zorglub.Time.Core
         /// <summary>
         /// Sets the minimum to the specified date.
         /// </summary>
-        public void SetMinDate(int year, int month, int day) =>
-            Min = GetEndpoint(year, month, day);
+        public void SetMinDateParts(DateParts parts) =>
+            Min = GetEndpoint(parts);
 
         /// <summary>
         /// Sets the maximum to the specified date.
         /// </summary>
-        public void SetMaxDate(int year, int month, int day) =>
-            Max = GetEndpoint(year, month, day);
+        public void SetMaxDateParts(DateParts parts) =>
+            Max = GetEndpoint(parts);
 
         /// <summary>
         /// Sets the minimum to the specified ordinal date.
         /// </summary>
-        public void SetMinOrdinal(int year, int dayOfYear) =>
-            Min = GetEndpoint(year, dayOfYear);
+        public void SetMinOrdinalParts(OrdinalParts parts) =>
+            Min = GetEndpoint(parts);
 
         /// <summary>
         /// Sets the maximum to the specified ordinal date.
         /// </summary>
-        public void SetMaxOrdinal(int year, int dayOfYear) =>
-            Max = GetEndpoint(year, dayOfYear);
+        public void SetMaxOrdinalParts(OrdinalParts parts) =>
+            Max = GetEndpoint(parts);
 
         /// <summary>
         /// Sets the minimum to the start of the specified year.
@@ -285,30 +282,32 @@ namespace Zorglub.Time.Core
         }
 
         [Pure]
-        private Endpoint GetEndpoint(int year, int month, int day)
+        private Endpoint GetEndpoint(DateParts parts)
         {
-            _yearsValidator.Validate(year);
-            PreValidator.ValidateMonthDay(year, month, day);
+            var (y, m, d) = parts;
+            _yearsValidator.Validate(y, nameof(parts));
+            PreValidator.ValidateMonthDay(y, m, d, nameof(parts));
 
             return new Endpoint
             {
-                DaysSinceEpoch = _schema.CountDaysSinceEpoch(year, month, day),
-                DateParts = new DateParts(year, month, day),
-                OrdinalParts = _partsAdapter.GetOrdinalParts(year, month, day),
+                DaysSinceEpoch = _schema.CountDaysSinceEpoch(y, m, d),
+                DateParts = parts,
+                OrdinalParts = _partsAdapter.GetOrdinalParts(y, m, d),
             };
         }
 
         [Pure]
-        private Endpoint GetEndpoint(int year, int dayOfYear)
+        private Endpoint GetEndpoint(OrdinalParts parts)
         {
-            _yearsValidator.Validate(year);
-            PreValidator.ValidateDayOfYear(year, dayOfYear);
+            var (y, doy) = parts;
+            _yearsValidator.Validate(y, nameof(parts));
+            PreValidator.ValidateDayOfYear(y, doy, nameof(parts));
 
             return new Endpoint
             {
-                DaysSinceEpoch = _schema.CountDaysSinceEpoch(year, dayOfYear),
-                DateParts = _partsAdapter.GetDateParts(year, dayOfYear),
-                OrdinalParts = new OrdinalParts(year, dayOfYear),
+                DaysSinceEpoch = _schema.CountDaysSinceEpoch(y, doy),
+                DateParts = _partsAdapter.GetDateParts(y, doy),
+                OrdinalParts = new OrdinalParts(y, doy),
             };
         }
     }

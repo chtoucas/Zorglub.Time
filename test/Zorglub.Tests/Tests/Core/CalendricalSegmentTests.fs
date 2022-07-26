@@ -25,12 +25,12 @@ module Prelude =
 
     [<Fact>]
     let ``ToString()`` () =
-        let pair = OrderedPair.Create(
-            new DateParts(5, 7, 11),
-            new DateParts(13, 5, 3))
+        let min = new DateParts(5, 7, 11)
+        let max = new DateParts(13, 5, 3)
+        let pair = OrderedPair.Create(min, max)
         let builder = new CalendricalSegmentBuilder(new GregorianSchema())
-        builder.SetMinDate(5, 7, 11)
-        builder.SetMaxDate(13, 5, 3)
+        builder.SetMinDateParts(min)
+        builder.SetMaxDateParts(max)
         let seg = builder.BuildSegment()
 
         seg.ToString() === pair.ToString()
@@ -119,26 +119,26 @@ module Factories =
 
     [<Fact>]
     let ``Create() throws for null schema`` () =
-        nullExn "schema" (fun () -> CalendricalSegment.Create(null, 1, 1, 1, 2))
+        nullExn "schema" (fun () -> CalendricalSegment.Create(null, new DateParts(1, 1, 1), 2))
 
     [<Fact>]
     let ``Create() throws for an invalid date`` () =
         let sch = new GregorianSchema()
 
-        outOfRangeExn "year" (fun () -> CalendricalSegment.Create(sch, GregorianSchema.MinYear - 1, 12, 1, GregorianSchema.MaxYear))
-        outOfRangeExn "year" (fun () -> CalendricalSegment.Create(sch, GregorianSchema.MaxYear + 1, 12, 1, GregorianSchema.MaxYear))
-        outOfRangeExn "month" (fun () -> CalendricalSegment.Create(sch, 1, 0, 1, 2))
-        outOfRangeExn "month" (fun () -> CalendricalSegment.Create(sch, 1, 13, 1, 2))
-        outOfRangeExn "day" (fun () -> CalendricalSegment.Create(sch, 1, 1, 0, 2))
-        outOfRangeExn "day" (fun () -> CalendricalSegment.Create(sch, 1, 1, 32, 2))
+        outOfRangeExn "parts" (fun () -> CalendricalSegment.Create(sch, new DateParts(GregorianSchema.MinYear - 1, 12, 1), GregorianSchema.MaxYear))
+        outOfRangeExn "parts" (fun () -> CalendricalSegment.Create(sch, new DateParts(GregorianSchema.MaxYear + 1, 12, 1), GregorianSchema.MaxYear))
+        outOfRangeExn "parts" (fun () -> CalendricalSegment.Create(sch, new DateParts(1, 0, 1), 2))
+        outOfRangeExn "parts" (fun () -> CalendricalSegment.Create(sch, new DateParts(1, 13, 1), 2))
+        outOfRangeExn "parts" (fun () -> CalendricalSegment.Create(sch, new DateParts(1, 1, 0), 2))
+        outOfRangeExn "parts" (fun () -> CalendricalSegment.Create(sch, new DateParts(1, 1, 32), 2))
 
     [<Fact>]
     let ``Create() throws for an invalid max year`` () =
-        outOfRangeExn "year" (fun () -> CalendricalSegment.Create(new GregorianSchema(), 1, 12, 1, GregorianSchema.MaxYear + 1))
+        outOfRangeExn "year" (fun () -> CalendricalSegment.Create(new GregorianSchema(), new DateParts(1, 12, 1), GregorianSchema.MaxYear + 1))
 
     [<Fact>]
     let ``Create() when max year is null`` () =
-        let seg = CalendricalSegment.Create(new GregorianSchema(), 1, 12, 1, Nullable())
+        let seg = CalendricalSegment.Create(new GregorianSchema(), new DateParts(1, 12, 1), Nullable())
 
         seg.IsComplete |> nok
 
@@ -148,8 +148,7 @@ module Factories =
     let ``Create()`` () =
         let parts = new DateParts(5, 3, 13)
         let maxYear = 15
-        let seg = CalendricalSegment.Create(
-            new GregorianSchema(), parts.Year, parts.Month, parts.Day, maxYear)
+        let seg = CalendricalSegment.Create(new GregorianSchema(), parts, maxYear)
 
         seg.IsComplete |> nok
 
@@ -161,8 +160,7 @@ module Factories =
     let ``Create() when the min date is the start of a year`` () =
         let parts = new DateParts(5, 1, 1)
         let maxYear = 15
-        let seg = CalendricalSegment.Create(
-            new GregorianSchema(), parts.Year, parts.Month, parts.Day, maxYear)
+        let seg = CalendricalSegment.Create(new GregorianSchema(), parts, maxYear)
 
         seg.IsComplete |> ok
 

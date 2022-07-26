@@ -18,19 +18,18 @@ namespace Zorglub.Time.Hemerology.Scopes
         /// Initializes a new instance of the <see cref="BoundedBelowScope"/> class.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
-        /// <exception cref="AoorException"><paramref name="year"/> or <paramref name="maxYear"/> is
-        /// outside the range of years supported by <paramref name="schema"/>.
-        /// </exception>
+        /// <exception cref="AoorException"><paramref name="minDateParts"/> is invalid or outside
+        /// the range of dates supported by <paramref name="schema"/>.</exception>
+        /// <exception cref="AoorException"><paramref name="maxYear"/> is outside the range of years
+        /// supported by <paramref name="schema"/>.</exception>
         public BoundedBelowScope(
             ICalendricalSchema schema,
             DayNumber epoch,
-            int year,
-            int month,
-            int day,
+            DateParts minDateParts,
             int? maxYear)
-            : base(epoch, CalendricalSegment.Create(schema, year, month, day, maxYear))
+            : base(epoch, CalendricalSegment.Create(schema, minDateParts, maxYear))
         {
-            MinYear = year;
+            MinYear = minDateParts.Year;
 
             var seg = Segment;
             MinDateParts = seg.MinMaxDateParts.LowerValue;

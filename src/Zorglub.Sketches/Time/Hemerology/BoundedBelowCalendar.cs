@@ -21,17 +21,20 @@ namespace Zorglub.Time.Hemerology
         /// <summary>
         /// Initializes a new instance of the <see cref="BoundedBelowCalendar"/> class.
         /// </summary>
+        /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
+        /// <exception cref="AoorException"><paramref name="minDateParts"/> is invalid or outside
+        /// the range of dates supported by <paramref name="schema"/>.</exception>
+        /// <exception cref="AoorException"><paramref name="maxYear"/> is outside the range of years
+        /// supported by <paramref name="schema"/>.</exception>
         public BoundedBelowCalendar(
             string name,
             ICalendricalSchema schema,
             DayNumber epoch,
-            int year,
-            int month,
-            int day,
+            DateParts minDateParts,
             int? maxYear = null)
             : this(
                 name,
-                new BoundedBelowScope(schema, epoch, year, month, day, maxYear))
+                new BoundedBelowScope(schema, epoch, minDateParts, maxYear))
         { }
 
         /// <summary>

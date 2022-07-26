@@ -55,7 +55,7 @@ public partial class CalendarZoo
                  "Genuine Gregorian",
                  x,
                  DayZero.NewStyle,
-                 1582, 10, 15)
+                 new DateParts(1582, 10, 15))
              ).Unbox();
 
     private static MinMaxYearCalendar? s_GenuineJulian;

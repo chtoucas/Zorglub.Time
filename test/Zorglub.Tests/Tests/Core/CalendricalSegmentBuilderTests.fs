@@ -7,6 +7,7 @@ open System
 
 open Zorglub.Testing
 
+open Zorglub.Time
 open Zorglub.Time.Core
 open Zorglub.Time.Core.Schemas
 
@@ -79,33 +80,33 @@ module Setters =
     let ``SetMin/MaxDate() throws when the date is invalid`` () =
         let builder = new CalendricalSegmentBuilder(new GregorianSchema())
 
-        outOfRangeExn "year" (fun () -> builder.SetMinDate(GregorianSchema.MinYear - 1, 12, 1))
-        outOfRangeExn "year" (fun () -> builder.SetMinDate(GregorianSchema.MaxYear + 1, 12, 1))
-        outOfRangeExn "month" (fun () -> builder.SetMinDate(1, 0, 1))
-        outOfRangeExn "month" (fun () -> builder.SetMinDate(1, 13, 1))
-        outOfRangeExn "day" (fun () -> builder.SetMinDate(1, 1, 0))
-        outOfRangeExn "day" (fun () -> builder.SetMinDate(1, 1, 32))
+        outOfRangeExn "parts" (fun () -> builder.SetMinDateParts(new DateParts(GregorianSchema.MinYear - 1, 12, 1)))
+        outOfRangeExn "parts" (fun () -> builder.SetMinDateParts(new DateParts(GregorianSchema.MaxYear + 1, 12, 1)))
+        outOfRangeExn "parts" (fun () -> builder.SetMinDateParts(new DateParts(1, 0, 1)))
+        outOfRangeExn "parts" (fun () -> builder.SetMinDateParts(new DateParts(1, 13, 1)))
+        outOfRangeExn "parts" (fun () -> builder.SetMinDateParts(new DateParts(1, 1, 0)))
+        outOfRangeExn "parts" (fun () -> builder.SetMinDateParts(new DateParts(1, 1, 32)))
 
-        outOfRangeExn "year" (fun () -> builder.SetMaxDate(GregorianSchema.MinYear - 1, 12, 1))
-        outOfRangeExn "year" (fun () -> builder.SetMaxDate(GregorianSchema.MaxYear + 1, 12, 1))
-        outOfRangeExn "month" (fun () -> builder.SetMaxDate(1, 0, 1))
-        outOfRangeExn "month" (fun () -> builder.SetMaxDate(1, 13, 1))
-        outOfRangeExn "day" (fun () -> builder.SetMaxDate(1, 1, 0))
-        outOfRangeExn "day" (fun () -> builder.SetMaxDate(1, 1, 32))
+        outOfRangeExn "parts" (fun () -> builder.SetMaxDateParts(new DateParts(GregorianSchema.MinYear - 1, 12, 1)))
+        outOfRangeExn "parts" (fun () -> builder.SetMaxDateParts(new DateParts(GregorianSchema.MaxYear + 1, 12, 1)))
+        outOfRangeExn "parts" (fun () -> builder.SetMaxDateParts(new DateParts(1, 0, 1)))
+        outOfRangeExn "parts" (fun () -> builder.SetMaxDateParts(new DateParts(1, 13, 1)))
+        outOfRangeExn "parts" (fun () -> builder.SetMaxDateParts(new DateParts(1, 1, 0)))
+        outOfRangeExn "parts" (fun () -> builder.SetMaxDateParts(new DateParts(1, 1, 32)))
 
     [<Fact>]
     let ``SetMin/MaxOrdinal() throws when the date is invalid`` () =
         let builder = new CalendricalSegmentBuilder(new GregorianSchema())
 
-        outOfRangeExn "year" (fun () -> builder.SetMinOrdinal(GregorianSchema.MinYear - 1, 1))
-        outOfRangeExn "year" (fun () -> builder.SetMinOrdinal(GregorianSchema.MaxYear + 1, 1))
-        outOfRangeExn "dayOfYear" (fun () -> builder.SetMinOrdinal(1, 0))
-        outOfRangeExn "dayOfYear" (fun () -> builder.SetMinOrdinal(1, 367))
+        outOfRangeExn "parts" (fun () -> builder.SetMinOrdinalParts(new OrdinalParts(GregorianSchema.MinYear - 1, 1)))
+        outOfRangeExn "parts" (fun () -> builder.SetMinOrdinalParts(new OrdinalParts(GregorianSchema.MaxYear + 1, 1)))
+        outOfRangeExn "parts" (fun () -> builder.SetMinOrdinalParts(new OrdinalParts(1, 0)))
+        outOfRangeExn "parts" (fun () -> builder.SetMinOrdinalParts(new OrdinalParts(1, 367)))
 
-        outOfRangeExn "year" (fun () -> builder.SetMaxOrdinal(GregorianSchema.MinYear - 1, 1))
-        outOfRangeExn "year" (fun () -> builder.SetMaxOrdinal(GregorianSchema.MaxYear + 1, 1))
-        outOfRangeExn "dayOfYear" (fun () -> builder.SetMaxOrdinal(1, 0))
-        outOfRangeExn "dayOfYear" (fun () -> builder.SetMaxOrdinal(1, 367))
+        outOfRangeExn "parts" (fun () -> builder.SetMaxOrdinalParts(new OrdinalParts(GregorianSchema.MinYear - 1, 1)))
+        outOfRangeExn "parts" (fun () -> builder.SetMaxOrdinalParts(new OrdinalParts(GregorianSchema.MaxYear + 1, 1)))
+        outOfRangeExn "parts" (fun () -> builder.SetMaxOrdinalParts(new OrdinalParts(1, 0)))
+        outOfRangeExn "parts" (fun () -> builder.SetMaxOrdinalParts(new OrdinalParts(1, 367)))
 
     [<Fact>]
     let ``SetMin/MaxYear() throws when the year is out of range`` () =

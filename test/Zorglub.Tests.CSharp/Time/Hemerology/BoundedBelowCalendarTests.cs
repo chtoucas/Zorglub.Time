@@ -74,7 +74,7 @@ public sealed class GregorianBoundedBelowCalendarTests
             "Gregorian",
             new GregorianSchema(),
             DayZero.NewStyle,
-            FirstYear, FirstMonth, FirstDay);
+            new DateParts(FirstYear, FirstMonth, FirstDay));
 
     [Fact]
     public void MinDateParts_Prop()
