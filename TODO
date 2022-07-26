@@ -6,6 +6,7 @@ ident, id, cuid
 Adjustable dates
 
 - Math:
+  * Optimize div in N
   * Profile: OtherRegular, Other7 (MinDaysInMonth >= 7)?
   * Move standard ops (on CalendarMonth) from Math to Arithmetic.
     Problem: optimization of AddMonths() and Count...() depending on the profile.

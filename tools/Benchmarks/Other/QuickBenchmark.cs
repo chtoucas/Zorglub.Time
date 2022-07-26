@@ -50,7 +50,7 @@ public class QuickBenchmark : BenchmarkBase
         Consume(in dayOfYear);
     }
 
-    [Benchmark(Description = "DayTemplate      ")]
+    [Benchmark(Description = "DayTemplate      ", Baseline = true)]
     public void WithDayTemplate()
     {
         DayTemplate start = new(Year, Month, Day);
