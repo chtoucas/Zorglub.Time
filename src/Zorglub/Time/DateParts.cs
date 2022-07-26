@@ -3,6 +3,9 @@
 
 namespace Zorglub.Time
 {
+    using System.Globalization;
+    using System.Text;
+
     // Main difference w/ Yemoda: y, m, d are open values, we don't even require
     // m and d to be >= 1.
 
@@ -22,6 +25,12 @@ namespace Zorglub.Time
         /// Gets the month parts of the current instance.
         /// </summary>
         public MonthParts MonthParts => new(Year, Month);
+
+        private bool PrintMembers(StringBuilder builder)
+        {
+            builder.Append(CultureInfo.InvariantCulture, $"Year = {Year}, Month = {Month}, Day = {Day}");
+            return true;
+        }
 
         /// <summary>
         /// Creates a new instance of <see cref="DateParts"/> representing the first day of the
