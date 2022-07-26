@@ -24,26 +24,16 @@ module Prelude =
         seg.Schema ==& sch
 
     [<Fact>]
-    let ``ToString() when complete`` () =
-        let range = Range.Create(1, 4)
-        let minMaxDateParts = OrderedPair.Create(
-            new DateParts(range.Min, 1, 1),
-            new DateParts(range.Max, 12, 31))
-        let seg = CalendricalSegment.Create(new GregorianSchema(), range)
-
-        seg.ToString() === minMaxDateParts.ToString()
-
-    [<Fact>]
-    let ``ToString() when not complete`` () =
-        let min = new DateParts(5, 7, 11)
-        let max = new DateParts(13, 5, 3)
-        let minMaxDateParts = OrderedPair.Create(min, max)
+    let ``ToString()`` () =
+        let pair = OrderedPair.Create(
+            new DateParts(5, 7, 11),
+            new DateParts(13, 5, 3))
         let builder = new CalendricalSegmentBuilder(new GregorianSchema())
         builder.SetMinDate(5, 7, 11)
         builder.SetMaxDate(13, 5, 3)
         let seg = builder.BuildSegment()
 
-        seg.ToString() === minMaxDateParts.ToString()
+        seg.ToString() === pair.ToString()
 
 module Factories =
     [<Fact>]
@@ -135,9 +125,11 @@ module Factories =
     let ``Create() throws for an invalid date`` () =
         let sch = new GregorianSchema()
 
-        outOfRangeExn "year" (fun () -> CalendricalSegment.Create(sch, GregorianSchema.MinYear - 1, 13, 1, GregorianSchema.MaxYear))
-        outOfRangeExn "year" (fun () -> CalendricalSegment.Create(sch, GregorianSchema.MaxYear + 1, 13, 1, GregorianSchema.MaxYear))
+        outOfRangeExn "year" (fun () -> CalendricalSegment.Create(sch, GregorianSchema.MinYear - 1, 12, 1, GregorianSchema.MaxYear))
+        outOfRangeExn "year" (fun () -> CalendricalSegment.Create(sch, GregorianSchema.MaxYear + 1, 12, 1, GregorianSchema.MaxYear))
+        outOfRangeExn "month" (fun () -> CalendricalSegment.Create(sch, 1, 0, 1, 2))
         outOfRangeExn "month" (fun () -> CalendricalSegment.Create(sch, 1, 13, 1, 2))
+        outOfRangeExn "day" (fun () -> CalendricalSegment.Create(sch, 1, 1, 0, 2))
         outOfRangeExn "day" (fun () -> CalendricalSegment.Create(sch, 1, 1, 32, 2))
 
     [<Fact>]
