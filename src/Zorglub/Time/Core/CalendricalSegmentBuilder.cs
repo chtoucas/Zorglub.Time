@@ -8,6 +8,9 @@ namespace Zorglub.Time.Core
 
     using Endpoint = CalendricalSegment.Endpoint;
 
+    // REVIEW(code): use DateParts instead?
+    // Test CalendricalSegment & CalendricalSegmentBuilder factories using SystemSegment
+
     // We validate before and after calling a method from the method:
     // - before, to respect the schema layout (_supportedYears)
     // - after, to stay within the limits of Yemoda/Yedoy (_partsFactory)
@@ -53,7 +56,7 @@ namespace Zorglub.Time.Core
 
             _partsAdapter = new PartsAdapter(schema);
             _yearsValidator = new YearsValidator(schema.SupportedYears);
-            _daysValidator = new DaysValidator(schema.SupportedYears);
+            _daysValidator = new DaysValidator(schema.SupportedDays);
         }
 
         /// <summary>
@@ -122,7 +125,7 @@ namespace Zorglub.Time.Core
 
             bool complete = IsStartOfYear(min) && IsEndOfYear(max);
 
-            return new CalendricalSegment(_schema, min, max) { IsComplete = complete };
+            return new CalendricalSegment(_schema, min, max, complete);
 
             [Pure]
             bool IsStartOfYear(Endpoint ep) =>
