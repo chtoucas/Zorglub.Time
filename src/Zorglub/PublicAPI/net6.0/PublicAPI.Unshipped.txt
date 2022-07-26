@@ -884,13 +884,13 @@ Zorglub.Time.Core.CalendricalSegmentBuilder.CalendricalSegmentBuilder(Zorglub.Ti
 Zorglub.Time.Core.CalendricalSegmentBuilder.HasMax.get -> bool
 Zorglub.Time.Core.CalendricalSegmentBuilder.HasMin.get -> bool
 Zorglub.Time.Core.CalendricalSegmentBuilder.IsBuildable.get -> bool
-Zorglub.Time.Core.CalendricalSegmentBuilder.SetMaxDate(int year, int month, int day) -> void
+Zorglub.Time.Core.CalendricalSegmentBuilder.SetMaxDateParts(Zorglub.Time.DateParts parts) -> void
 Zorglub.Time.Core.CalendricalSegmentBuilder.SetMaxDaysSinceEpoch(int daysSinceEpoch) -> void
-Zorglub.Time.Core.CalendricalSegmentBuilder.SetMaxOrdinal(int year, int dayOfYear) -> void
+Zorglub.Time.Core.CalendricalSegmentBuilder.SetMaxOrdinalParts(Zorglub.Time.OrdinalParts parts) -> void
 Zorglub.Time.Core.CalendricalSegmentBuilder.SetMaxYear(int year) -> void
-Zorglub.Time.Core.CalendricalSegmentBuilder.SetMinDate(int year, int month, int day) -> void
+Zorglub.Time.Core.CalendricalSegmentBuilder.SetMinDateParts(Zorglub.Time.DateParts parts) -> void
 Zorglub.Time.Core.CalendricalSegmentBuilder.SetMinDaysSinceEpoch(int daysSinceEpoch) -> void
-Zorglub.Time.Core.CalendricalSegmentBuilder.SetMinOrdinal(int year, int dayOfYear) -> void
+Zorglub.Time.Core.CalendricalSegmentBuilder.SetMinOrdinalParts(Zorglub.Time.OrdinalParts parts) -> void
 Zorglub.Time.Core.CalendricalSegmentBuilder.SetMinYear(int year) -> void
 Zorglub.Time.Core.CalendricalSegmentBuilder.UseMaxSupportedYear() -> void
 Zorglub.Time.Core.CalendricalSegmentBuilder.UseMinSupportedYear(bool onOrAfterEpoch) -> void
