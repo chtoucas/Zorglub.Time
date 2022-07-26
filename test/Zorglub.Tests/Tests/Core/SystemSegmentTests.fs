@@ -44,13 +44,10 @@ module Factories =
         argExn "supportedYears" (fun () -> SystemSegment.Create(sch, Range.Create(10, 12)))
         argExn "supportedYears" (fun () -> SystemSegment.Create(sch, Range.Create(11, 12)))
 
-module Conversions =
-    let private sch = new GregorianSchema()
-    let private range = Range.Create(1, 2)
-
     [<Fact>]
-    let ``FromCalendricalSegment()`` () =
-        let seg = SystemSegment.FromCalendricalSegment(CalendricalSegment.Create(sch, range))
+    let ``Create()`` () =
+        let range = Range.Create(1, 2)
+        let seg = SystemSegment.Create(new GregorianSchema(), range)
 
         let minMaxDateParts = OrderedPair.Create(
             new Yemoda(range.Min, 1, 1),
@@ -72,8 +69,32 @@ module Conversions =
         seg.MinMaxOrdinalParts === minMaxOrdinalParts
         seg.MinMaxMonthParts   === minMaxMonthParts
 
+module Conversions =
+    [<Fact>]
+    let ``FromCalendricalSegment() throws when the schema is not a system schema`` () =
+        let seg = CalendricalSegment.Create(new FauxCalendricalSchema(), Range.Create(1, 4))
+
+        argExn "segment" (fun () -> SystemSegment.FromCalendricalSegment(seg))
+
+    [<Fact>]
+    let ``FromCalendricalSegment()`` () =
+        let sch = new GregorianSchema()
+        let range = Range.Create(1, 2)
+        let sys = SystemSegment.Create(sch, range)
+        let seg = SystemSegment.FromCalendricalSegment(CalendricalSegment.Create(sch, range))
+
+        seg.SupportedDays   === sys.SupportedDays
+        seg.SupportedMonths === sys.SupportedMonths
+        seg.SupportedYears  === sys.SupportedYears
+
+        seg.MinMaxDateParts    === sys.MinMaxDateParts
+        seg.MinMaxOrdinalParts === sys.MinMaxOrdinalParts
+        seg.MinMaxMonthParts   === sys.MinMaxMonthParts
+
     [<Fact>]
     let ``ToCalendricalSegment()`` () =
+        let sch = new GregorianSchema()
+        let range = Range.Create(1, 2)
         let seg = SystemSegment.Create(sch, range).ToCalendricalSegment()
 
         let minMaxDateParts = OrderedPair.Create(
@@ -87,6 +108,8 @@ module Conversions =
         let minMaxMonthParts = OrderedPair.Create(
             new MonthParts(range.Min, 1),
             new MonthParts(range.Max, 12))
+
+        seg.IsComplete |> ok
 
         seg.SupportedDays   === Range.Create(0, 729)
         seg.SupportedMonths === Range.Create(0, 23)

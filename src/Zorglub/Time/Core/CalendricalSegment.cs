@@ -130,8 +130,8 @@ namespace Zorglub.Time.Core
         /// Creates a new instance of the <see cref="CalendricalSegment"/> class.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
-        /// <exception cref="AoorException">The min date is outside the range of dates supported by
-        /// <paramref name="schema"/>.</exception>
+        /// <exception cref="AoorException">The min date is invalid or outside the range of dates
+        /// supported by <paramref name="schema"/>.</exception>
         /// <exception cref="AoorException"><paramref name="maxYear"/> is outside range of supported
         /// years by <paramref name="schema"/>.</exception>
         [Pure]

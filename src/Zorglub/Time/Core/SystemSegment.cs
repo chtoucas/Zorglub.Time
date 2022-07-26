@@ -190,7 +190,7 @@ namespace Zorglub.Time.Core
                 OrdinalParts = ordinalParts.UpperValue,
             };
 
-            return new CalendricalSegment(Schema, min, max);
+            return new CalendricalSegment(Schema, min, max) { IsComplete = true };
         }
 
         private sealed class Endpoint
