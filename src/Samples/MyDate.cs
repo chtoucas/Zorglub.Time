@@ -26,7 +26,7 @@ public readonly partial struct MyDate :
     IDate<MyDate>,
     IMinMaxValue<MyDate>
 {
-    internal static readonly SystemSchema Schema = SchemaActivator.CreateInstance<GregorianSchema>();
+    internal static readonly SystemSchema Schema = SchemaActivator.CreateInstance<GregorianStandardSchema>();
     internal static readonly CalendarScope Scope = new StandardScope(Schema, DayZero.NewStyle);
 
     [Pure]

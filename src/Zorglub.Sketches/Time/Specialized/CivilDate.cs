@@ -105,14 +105,8 @@ namespace Zorglub.Time.Specialized
         /// date within the Common Era on or before year 9999.</exception>
         public CivilDate(int year, int month, int day)
         {
-            if (year < MinYear || year > MaxYear)
-            {
-                Throw.ArgumentOutOfRange(nameof(year));
-            }
-            if (month < 1 || month > 12)
-            {
-                Throw.ArgumentOutOfRange(nameof(month));
-            }
+            if (year < MinYear || year > MaxYear) Throw.ArgumentOutOfRange(nameof(year));
+            if (month < 1 || month > 12) Throw.ArgumentOutOfRange(nameof(month));
             // In the vast majority of cases, we can avoid the computation of
             // the exact number of days in the month.
             if (day < 1
@@ -277,7 +271,7 @@ namespace Zorglub.Time.Specialized
             get
             {
                 Unpack(out int y, out int m, out int d);
-                return GregorianFormulaeAfterYear0.CountDaysSinceEpoch(y, m, d);
+                return GregorianStandardFormulae.CountDaysSinceEpoch(y, m, d);
             }
         }
 
@@ -345,10 +339,7 @@ namespace Zorglub.Time.Specialized
         [Pure]
         public static CivilDate FromOrdinalDate(int year, int dayOfYear)
         {
-            if (year < MinYear || year > MaxYear)
-            {
-                Throw.ArgumentOutOfRange(nameof(year));
-            }
+            if (year < MinYear || year > MaxYear) Throw.ArgumentOutOfRange(nameof(year));
             if (dayOfYear < 1
                 || (dayOfYear > MinDaysInYear
                     && dayOfYear > GregorianFormulae.CountDaysInYear(year)))
@@ -367,7 +358,7 @@ namespace Zorglub.Time.Specialized
         [Pure]
         internal static CivilDate FromDaysSinceEpoch(int daysSinceEpoch)
         {
-            GregorianFormulaeAfterYear0.GetDateParts(daysSinceEpoch, out int y, out int m, out int d);
+            GregorianStandardFormulae.GetDateParts(daysSinceEpoch, out int y, out int m, out int d);
             return new(Pack(y, m, d));
         }
 

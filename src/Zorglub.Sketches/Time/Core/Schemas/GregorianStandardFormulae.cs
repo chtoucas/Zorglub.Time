@@ -5,10 +5,10 @@ namespace Zorglub.Time.Core.Schemas
 {
     /// <summary>
     /// Provides static formulae for the Gregorian schema (year > 0).
-    /// <para>See also <seealso cref="GregorianSchema"/>.</para>
+    /// <para>See also <seealso cref="GregorianFormulae"/>.</para>
     /// <para>This class cannot be inherited.</para>
     /// </summary>
-    internal static class GregorianFormulaeAfterYear0
+    internal static class GregorianStandardFormulae
     {
         /// <summary>
         /// Counts the number of consecutive days from the epoch to the specified date.

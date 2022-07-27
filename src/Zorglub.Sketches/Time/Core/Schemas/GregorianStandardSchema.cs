@@ -6,11 +6,11 @@ namespace Zorglub.Time.Core.Schemas
     using Zorglub.Time.Core.Intervals;
 
     /// <summary>
-    /// Represents the Gregorian schema.
+    /// Represents the Gregorian schema (year > 0).
     /// <para>This class cannot be inherited.</para>
     /// <para>This class can ONLY be initialized from within friend assemblies.</para>
     /// </summary>
-    public sealed partial class GregorianSchemaAfterYear0 : GJSchema, IBoxable<GregorianSchemaAfterYear0>
+    public sealed partial class GregorianStandardSchema : GJSchema, IBoxable<GregorianStandardSchema>
     {
         /// <summary>
         /// Represents the earliest supported year.
@@ -25,18 +25,18 @@ namespace Zorglub.Time.Core.Schemas
         internal const int MaxYear = DefaultMaxYear;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="GregorianSchemaAfterYear0"/> class.
+        /// Initializes a new instance of the <see cref="GregorianStandardSchema"/> class.
         /// </summary>
-        internal GregorianSchemaAfterYear0() : base(Range.Create(1, DefaultMaxYear)) { }
+        internal GregorianStandardSchema() : base(Range.Create(1, DefaultMaxYear)) { }
 
         /// <summary>
-        /// Creates a new (boxed) instance of the <see cref="GregorianSchemaAfterYear0"/> class.
+        /// Creates a new (boxed) instance of the <see cref="GregorianStandardSchema"/> class.
         /// </summary>
         [Pure]
-        public static Box<GregorianSchemaAfterYear0> GetInstance() => Box.Create(new GregorianSchemaAfterYear0());
+        public static Box<GregorianStandardSchema> GetInstance() => Box.Create(new GregorianStandardSchema());
     }
 
-    public partial class GregorianSchemaAfterYear0 // Year, month or day infos
+    public partial class GregorianStandardSchema // Year, month or day infos
     {
         /// <inheritdoc />
         [Pure]
@@ -44,7 +44,7 @@ namespace Zorglub.Time.Core.Schemas
             (y & 3) == 0 && (y % 100 != 0 || y % 400 == 0);
     }
 
-    public partial class GregorianSchemaAfterYear0 // Conversions
+    public partial class GregorianStandardSchema // Conversions
     {
         /// <inheritdoc />
         [Pure]
@@ -107,7 +107,7 @@ namespace Zorglub.Time.Core.Schemas
         }
     }
 
-    public partial class GregorianSchemaAfterYear0 // Dates in a given year or month
+    public partial class GregorianStandardSchema // Dates in a given year or month
     {
         /// <inheritdoc />
         [Pure]
