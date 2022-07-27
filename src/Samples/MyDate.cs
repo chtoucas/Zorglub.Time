@@ -17,77 +17,91 @@ using Zorglub.Time.Hemerology.Scopes;
 
 // Verification that one can create a date type without having access to
 // the internals of the assembly Zorglub.
-// The code is not meant to showcase good coding practices.
 
 /// <summary>
-/// Provides a Gregorian date based on <see cref="Yemoda"/>.
-/// <para>Years in [1, 9999]</para>
+/// Provides a Gregorian date based on the count of consecutive days since the Gregorian epoch.
+/// <para>Suppoted years = [1, 9999]</para>
 /// </summary>
 public readonly partial struct MyDate :
     IDate<MyDate>,
     IMinMaxValue<MyDate>
 {
-    internal static readonly SystemSchema Schema = SchemaActivator.CreateInstance<CivilSchema>();
-    internal static readonly CalendarScope Scope = new StandardScope(Schema, DayZero.NewStyle);
+    private static readonly CivilSchema s_Schema = SchemaActivator.CreateInstance<CivilSchema>();
+    private static readonly MyCalendar s_Calendar = new(s_Schema);
 
-    [Pure]
-    public override string ToString()
-    {
-        var (y, m, d) = _bin;
-        return FormattableString.Invariant($"{d:D2}/{m:D2}/{y:D4} (Gregorian)");
-    }
-}
+    private static CalendarScope Scope { get; } = s_Calendar.Scope;
 
-public partial struct MyDate
-{
-    private static SystemSegment Segment { get; } = SystemSegment.FromCalendricalSegment(Scope.Segment);
+    private static CalendricalSegment Segment => Scope.Segment;
     private static Range<DayNumber> Domain => Scope.Domain;
 
-    private static SystemPartsFactory PartsFactory { get; } = SystemPartsFactory.Create(Segment);
-    private static SystemArithmetic Arithmetic { get; } = SystemArithmetic.CreateDefault(Segment);
-
-    private readonly Yemoda _bin;
+    private readonly int _daysSinceEpoch;
 
     public MyDate(int year, int month, int day)
     {
-        _bin = PartsFactory.CreateYemoda(year, month, day);
+        Scope.ValidateYearMonthDay(year, month, day);
+
+        _daysSinceEpoch = s_Schema.CountDaysSinceEpoch(year, month, day);
     }
 
-    internal MyDate(Yemoda bin)
+    public MyDate(DayNumber dayNumber)
     {
-        _bin = bin;
+        Domain.Validate(dayNumber);
+
+        _daysSinceEpoch = dayNumber - Epoch;
+    }
+
+    internal MyDate(int daysSinceEpoch)
+    {
+        _daysSinceEpoch = daysSinceEpoch;
     }
 
     public static DayNumber Epoch { get; } = Scope.Epoch;
-    public static MyDate MinValue { get; } = new(Segment.MinMaxDateParts.LowerValue);
-    public static MyDate MaxValue { get; } = new(Segment.MinMaxDateParts.UpperValue);
+    public static MyDate MinValue { get; } = new(Segment.SupportedDays.Min);
+    public static MyDate MaxValue { get; } = new(Segment.SupportedDays.Max);
+
+    public DayNumber DayNumber => Epoch + _daysSinceEpoch;
 
     public Ord CenturyOfEra => Ord.FromInt32(Century);
     public int Century => YearNumbering.GetCentury(Year);
     public Ord YearOfEra => Ord.FromInt32(Year);
     public int YearOfCentury => YearNumbering.GetYearOfCentury(Year);
-    public int Year => _bin.Year;
-    public int Month => _bin.Month;
+    public int Year => s_Schema.GetYear(_daysSinceEpoch);
+
+    public int Month
+    {
+        get
+        {
+            s_Schema.GetDateParts(_daysSinceEpoch, out _, out int m, out _);
+            return m;
+        }
+    }
 
     public int DayOfYear
     {
         get
         {
-            var (y, m, d) = _bin;
-            return Schema.GetDayOfYear(y, m, d);
+            _ = s_Schema.GetYear(_daysSinceEpoch, out int doy);
+            return doy;
         }
     }
 
-    public int Day => _bin.Day;
+    public int Day
+    {
+        get
+        {
+            s_Schema.GetDateParts(_daysSinceEpoch, out _, out _, out int d);
+            return d;
+        }
+    }
 
-    public DayOfWeek DayOfWeek => ToDayNumber().DayOfWeek;
+    public DayOfWeek DayOfWeek => DayNumber.DayOfWeek;
 
     public bool IsIntercalary
     {
         get
         {
-            var (y, m, d) = _bin;
-            return Schema.IsIntercalaryDay(y, m, d);
+            s_Schema.GetDateParts(_daysSinceEpoch, out int y, out int m, out int d);
+            return s_Schema.IsIntercalaryDay(y, m, d);
         }
     }
 
@@ -95,13 +109,20 @@ public partial struct MyDate
     {
         get
         {
-            var (y, m, d) = _bin;
-            return Schema.IsSupplementaryDay(y, m, d);
+            s_Schema.GetDateParts(_daysSinceEpoch, out int y, out int m, out int d);
+            return s_Schema.IsSupplementaryDay(y, m, d);
         }
     }
 
     public void Deconstruct(out int year, out int month, out int day) =>
-        (year, month, day) = _bin;
+        s_Schema.GetDateParts(_daysSinceEpoch, out year, out month, out day);
+
+    [Pure]
+    public override string ToString()
+    {
+        s_Schema.GetDateParts(_daysSinceEpoch, out int y, out int m, out int d);
+        return FormattableString.Invariant($"{d:D2}/{m:D2}/{y:D4} ({s_Calendar})");
+    }
 }
 
 public partial struct MyDate // Conversions, adjustments...
@@ -109,150 +130,103 @@ public partial struct MyDate // Conversions, adjustments...
     #region Factories
 
     [Pure]
-    public static MyDate Today() => FromDayNumber(DayNumber.Today());
+    public static MyDate Today() => new(DayNumber.Today());
 
     #endregion
     #region Conversions
 
     [Pure]
-    public static MyDate FromDayNumber(DayNumber dayNumber)
-    {
-        Domain.Validate(dayNumber);
-        var ymd = Schema.GetDateParts(dayNumber - Epoch);
-        return new MyDate(ymd);
-    }
+    static MyDate IFixedDay<MyDate>.FromDayNumber(DayNumber dayNumber) =>
+        new(dayNumber);
 
     [Pure]
-    public DayNumber ToDayNumber()
-    {
-        var (y, m, d) = _bin;
-        return Epoch + Schema.CountDaysSinceEpoch(y, m, d);
-    }
+    DayNumber IFixedDay.ToDayNumber() => DayNumber;
 
     #endregion
     #region Counting
 
     [Pure]
-    public int CountElapsedDaysInYear()
-    {
-        var (y, m, d) = _bin;
-        return Schema.CountDaysInYearBefore(y, m, d);
-    }
+    public int CountElapsedDaysInYear() =>
+        s_Schema.CountDaysInYearBefore(_daysSinceEpoch);
 
     [Pure]
-    public int CountRemainingDaysInYear()
-    {
-        var (y, m, d) = _bin;
-        return Schema.CountDaysInYearAfter(y, m, d);
-    }
+    public int CountRemainingDaysInYear() =>
+        s_Schema.CountDaysInYearAfter(_daysSinceEpoch);
 
     [Pure]
-    public int CountElapsedDaysInMonth() => Day - 1;
+    public int CountElapsedDaysInMonth() =>
+        s_Schema.CountDaysInMonthBefore(_daysSinceEpoch);
 
     [Pure]
-    public int CountRemainingDaysInMonth()
-    {
-        var (y, m, d) = _bin;
-        return Schema.CountDaysInMonthAfter(y, m, d);
-    }
+    public int CountRemainingDaysInMonth() =>
+        s_Schema.CountDaysInMonthAfter(_daysSinceEpoch);
 
     #endregion
     #region Adjust the day of the week
 
     [Pure]
-    public MyDate Previous(DayOfWeek dayOfWeek)
-    {
-        if (dayOfWeek < DayOfWeek.Sunday || dayOfWeek > DayOfWeek.Saturday)
-        {
-            throw new ArgumentOutOfRangeException(nameof(dayOfWeek));
-        }
-
-        int δ = dayOfWeek - DayOfWeek;
-        return PlusDays(δ >= 0 ? δ - 7 : δ);
-    }
+    public MyDate Previous(DayOfWeek dayOfWeek) => new(DayNumber.Previous(dayOfWeek));
 
     [Pure]
-    public MyDate PreviousOrSame(DayOfWeek dayOfWeek)
-    {
-        if (dayOfWeek < DayOfWeek.Sunday || dayOfWeek > DayOfWeek.Saturday)
-        {
-            throw new ArgumentOutOfRangeException(nameof(dayOfWeek));
-        }
-
-        int δ = dayOfWeek - DayOfWeek;
-        return δ == 0 ? this : PlusDays(δ > 0 ? δ - 7 : δ);
-    }
+    public MyDate PreviousOrSame(DayOfWeek dayOfWeek) => new(DayNumber.PreviousOrSame(dayOfWeek));
 
     [Pure]
-    public MyDate Nearest(DayOfWeek dayOfWeek)
-    {
-        DayNumber nearest = ToDayNumber().Nearest(dayOfWeek);
-        return FromDayNumber(nearest);
-    }
+    public MyDate Nearest(DayOfWeek dayOfWeek) => new(DayNumber.Nearest(dayOfWeek));
 
     [Pure]
-    public MyDate NextOrSame(DayOfWeek dayOfWeek)
-    {
-        if (dayOfWeek < DayOfWeek.Sunday || dayOfWeek > DayOfWeek.Saturday)
-        {
-            throw new ArgumentOutOfRangeException(nameof(dayOfWeek));
-        }
-
-        int δ = dayOfWeek - DayOfWeek;
-        return δ == 0 ? this : PlusDays(δ < 0 ? δ + 7 : δ);
-    }
+    public MyDate NextOrSame(DayOfWeek dayOfWeek) => new(DayNumber.NextOrSame(dayOfWeek));
 
     [Pure]
-    public MyDate Next(DayOfWeek dayOfWeek)
-    {
-        if (dayOfWeek < DayOfWeek.Sunday || dayOfWeek > DayOfWeek.Saturday)
-        {
-            throw new ArgumentOutOfRangeException(nameof(dayOfWeek));
-        }
-
-        int δ = dayOfWeek - DayOfWeek;
-        return PlusDays(δ <= 0 ? δ + 7 : δ);
-    }
+    public MyDate Next(DayOfWeek dayOfWeek) => new(DayNumber.Next(dayOfWeek));
 
     #endregion
 }
 
 public partial struct MyDate // IEquatable
 {
-    public static bool operator ==(MyDate left, MyDate right) => left._bin == right._bin;
-    public static bool operator !=(MyDate left, MyDate right) => left._bin != right._bin;
+    public static bool operator ==(MyDate left, MyDate right) =>
+        left._daysSinceEpoch == right._daysSinceEpoch;
+    public static bool operator !=(MyDate left, MyDate right) =>
+        left._daysSinceEpoch != right._daysSinceEpoch;
 
     [Pure]
-    public bool Equals(MyDate other) => _bin == other._bin;
+    public bool Equals(MyDate other) => _daysSinceEpoch == other._daysSinceEpoch;
 
     [Pure]
-    public override bool Equals([NotNullWhen(true)] object? obj) => obj is MyDate date && Equals(date);
+    public override bool Equals([NotNullWhen(true)] object? obj) =>
+        obj is MyDate date && Equals(date);
 
     [Pure]
-    public override int GetHashCode() => _bin.GetHashCode();
+    public override int GetHashCode() => _daysSinceEpoch;
 }
 
 public partial struct MyDate // IComparable
 {
-    public static bool operator <(MyDate left, MyDate right) => left.CompareTo(right) < 0;
-    public static bool operator <=(MyDate left, MyDate right) => left.CompareTo(right) <= 0;
-    public static bool operator >(MyDate left, MyDate right) => left.CompareTo(right) > 0;
-    public static bool operator >=(MyDate left, MyDate right) => left.CompareTo(right) >= 0;
+    public static bool operator <(MyDate left, MyDate right) =>
+        left._daysSinceEpoch < right._daysSinceEpoch;
+    public static bool operator <=(MyDate left, MyDate right) =>
+        left._daysSinceEpoch <= right._daysSinceEpoch;
+    public static bool operator >(MyDate left, MyDate right) =>
+        left._daysSinceEpoch > right._daysSinceEpoch;
+    public static bool operator >=(MyDate left, MyDate right) =>
+        left._daysSinceEpoch >= right._daysSinceEpoch;
 
     [Pure]
-    public static MyDate Min(MyDate x, MyDate y) => x.CompareTo(y) < 0 ? x : y;
+    public static MyDate Min(MyDate x, MyDate y) => x < y ? x : y;
 
     [Pure]
-    public static MyDate Max(MyDate x, MyDate y) => x.CompareTo(y) > 0 ? x : y;
+    public static MyDate Max(MyDate x, MyDate y) => x > y ? x : y;
 
     [Pure]
-    public int CompareTo(MyDate other) => _bin.CompareTo(other._bin);
+    public int CompareTo(MyDate other) => _daysSinceEpoch.CompareTo(other._daysSinceEpoch);
 
     [Pure]
     public int CompareTo(object? obj) =>
         obj is null ? 1
         : obj is MyDate date ? CompareTo(date)
-        : throw new ArgumentException(null, nameof(obj));
+        : throw new ArgumentException(
+            $"The object should be of type {nameof(obj)} but it is of type {typeof(MyDate).GetType()}.",
+            nameof(obj));
 }
 
 public partial struct MyDate // Math ops
@@ -269,17 +243,27 @@ public partial struct MyDate // Math ops
 
     [Pure]
     public int CountDaysSince(MyDate other) =>
-        Arithmetic.CountDaysBetween(other._bin, _bin);
+        checked(_daysSinceEpoch - other._daysSinceEpoch);
 
     [Pure]
-    public MyDate PlusDays(int days) =>
-        new(Arithmetic.AddDays(_bin, days));
+    public MyDate PlusDays(int days)
+    {
+        int daysSinceEpoch = checked(_daysSinceEpoch + days);
+        // We don't write:
+        // > Domain.CheckOverflow(Epoch + daysSinceEpoch);
+        // The addition may also overflow...
+        if (daysSinceEpoch < MinValue._daysSinceEpoch || daysSinceEpoch > MaxValue._daysSinceEpoch)
+        {
+            throw new OverflowException(nameof(days));
+        }
+        return new(daysSinceEpoch);
+    }
 
     [Pure]
     public MyDate NextDay() =>
-        new(Arithmetic.NextDay(_bin));
+        this == MaxValue ? throw new OverflowException() : new MyDate(_daysSinceEpoch + 1);
 
     [Pure]
     public MyDate PreviousDay() =>
-        new(Arithmetic.PreviousDay(_bin));
+        this == MinValue ? throw new OverflowException() : new MyDate(_daysSinceEpoch - 1);
 }
