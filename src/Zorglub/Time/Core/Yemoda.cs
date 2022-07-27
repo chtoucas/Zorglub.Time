@@ -130,15 +130,15 @@ namespace Zorglub.Time.Core
 
         /// <summary>
         /// Represents the absolute minimum value for <see cref="Year"/>.
-        /// <para>This field is a constant equal to -2_097_152 (= -2^21).</para>
+        /// <para>This field is a constant equal to -2_097_151 (= 1 - 2^21).</para>
         /// </summary>
-        public const int MinYear = -(1 << (YearBits - 1));
+        public const int MinYear = 1 - (1 << (YearBits - 1));
 
         /// <summary>
         /// Represents the absolute maximum value for <see cref="Year"/>.
-        /// <para>This field is a constant equal to 2_097_151 (= 2^21 - 1).</para>
+        /// <para>This field is a constant equal to 2_097_152 (= 2^21).</para>
         /// </summary>
-        public const int MaxYear = (1 << (YearBits - 1)) - 1;
+        public const int MaxYear = 1 << (YearBits - 1);
 
         /// <summary>
         /// Represents the absolute minimum value for <see cref="Month"/>.
@@ -219,12 +219,6 @@ namespace Zorglub.Time.Core
         public static Yemoda MaxValue { get; } = new(MaxYear, MaxMonth, MaxDay);
 
         /// <summary>
-        /// Gets the value for the first day of the first month of the year 1, the theoretical epoch.
-        /// <para>This static property is thread-safe.</para>
-        /// </summary>
-        public static Yemoda StartOfYear1 { get; } = new(1, MinMonth, MinDay);
-
-        /// <summary>
         /// Gets the interval [<see cref="MinYear"/>..<see cref="MaxYear"/>].
         /// <para>This static property is thread-safe.</para>
         /// </summary>
@@ -233,7 +227,7 @@ namespace Zorglub.Time.Core
         /// <summary>
         /// Gets the algebraic year from this instance.
         /// </summary>
-        public int Year => unchecked(_bin >> YearShift);
+        public int Year => unchecked(1 + (_bin >> YearShift));
 
         /// <summary>
         /// Gets the month of the year from this instance.
@@ -292,18 +286,9 @@ namespace Zorglub.Time.Core
         [Pure]
         public static Yemoda Create(int year, int month, int day)
         {
-            if (year < MinYear || year > MaxYear)
-            {
-                Throw.YearOutOfRange(year);
-            }
-            if (month < MinMonth || month > MaxMonth)
-            {
-                Throw.MonthOutOfRange(month);
-            }
-            if (day < MinDay || day > MaxDay)
-            {
-                Throw.DayOutOfRange(day);
-            }
+            if (year < MinYear || year > MaxYear) Throw.YearOutOfRange(year);
+            if (month < MinMonth || month > MaxMonth) Throw.MonthOutOfRange(month);
+            if (day < MinDay || day > MaxDay) Throw.DayOutOfRange(day);
 
             return new Yemoda(Pack(year, month, day));
         }
@@ -314,14 +299,14 @@ namespace Zorglub.Time.Core
         /// <para>This method does NOT validate its parameter.</para>
         /// </summary>
         [Pure]
-        // CIL code size = XXX bytes <= 32 bytes.
+        // CIL code size = 12 bytes <= 32 bytes.
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static Yemoda AtStartOfYear(int y)
         {
             Debug.Assert(MinYear <= y);
             Debug.Assert(y <= MaxYear);
 
-            return new Yemoda(unchecked(y << YearShift));
+            return new Yemoda(unchecked((y - 1) << YearShift));
         }
 
         /// <summary>
@@ -330,7 +315,7 @@ namespace Zorglub.Time.Core
         /// <para>This method does NOT validate its parameters.</para>
         /// </summary>
         [Pure]
-        // CIL code size = XXX bytes <= 32 bytes.
+        // CIL code size = 18 bytes <= 32 bytes.
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static Yemoda AtStartOfMonth(int y, int m)
         {
@@ -339,7 +324,7 @@ namespace Zorglub.Time.Core
             Debug.Assert(MinMonth <= m);
             Debug.Assert(m <= MaxMonth);
 
-            return new Yemoda(unchecked((y << YearShift) | ((m - 1) << MonthShift)));
+            return new Yemoda(unchecked(((y - 1) << YearShift) | ((m - 1) << MonthShift)));
         }
     }
 
@@ -395,7 +380,7 @@ namespace Zorglub.Time.Core
         /// Packs the specified date parts into a single 32-bit word.
         /// </summary>
         [Pure]
-        // CIL code size = 15 bytes <= 32 bytes.
+        // CIL code size = 17 bytes <= 32 bytes.
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static int Pack(int y, int m, int d)
         {
@@ -413,14 +398,14 @@ namespace Zorglub.Time.Core
                 // this project being proleptic, I stick with default(Yemoda) =
                 // 01/01/0000. See CivilDate for an example where the year 0 is
                 // not legal.
-                return (y << YearShift) | ((m - 1) << MonthShift) | (d - 1);
+                return ((y - 1) << YearShift) | ((m - 1) << MonthShift) | (d - 1);
             }
         }
 
         /// <summary>
         /// Unpacks the binary data.
         /// </summary>
-        // CIL code size = 32 bytes <= 32 bytes.
+        // CIL code size = 34 bytes > 32 bytes.
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal void Unpack(out int y, out int m, out int d)
         {
@@ -429,7 +414,7 @@ namespace Zorglub.Time.Core
 
             unchecked
             {
-                y = bin >> YearShift;
+                y = 1 + (bin >> YearShift);
                 m = 1 + ((bin >> MonthShift) & MonthMask);
                 d = 1 + (bin & DayMask);
             }
@@ -438,7 +423,7 @@ namespace Zorglub.Time.Core
         /// <summary>
         /// Unpacks the binary data.
         /// </summary>
-        // CIL code size = 24 bytes <= 32 bytes.
+        // CIL code size = 26 bytes <= 32 bytes.
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal void Unpack(out int y, out int m)
         {
@@ -447,7 +432,7 @@ namespace Zorglub.Time.Core
 
             unchecked
             {
-                y = bin >> YearShift;
+                y = 1 + (bin >> YearShift);
                 m = 1 + ((bin >> MonthShift) & MonthMask);
             }
         }

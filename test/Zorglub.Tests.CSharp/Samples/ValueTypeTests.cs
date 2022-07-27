@@ -26,7 +26,7 @@ public static class ValueTypeTests
         // Act
         var date = default(DateTemplate);
         // Assert
-        Assert.Equal(0, date.Year);
+        Assert.Equal(1, date.Year);
         Assert.Equal(1, date.Month);
         Assert.Equal(1, date.Day);
     }
@@ -59,7 +59,7 @@ public static class ValueTypeTests
         // Act
         var date = default(CivilTriple);
         // Assert
-        Assert.Equal(0, date.Year);
+        Assert.Equal(1, date.Year);
         Assert.Equal(1, date.Month);
         Assert.Equal(1, date.Day);
     }
@@ -70,7 +70,7 @@ public static class ValueTypeTests
         // Act
         var date = default(MyDate);
         // Assert
-        Assert.Equal(0, date.Year);
+        Assert.Equal(1, date.Year);
         Assert.Equal(1, date.Month);
         Assert.Equal(1, date.Day);
     }

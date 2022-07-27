@@ -59,15 +59,15 @@ namespace Zorglub.Time.Core
 
         /// <summary>
         /// Represents the absolute minimum value for <see cref="Year"/>.
-        /// <para>This field is a constant equal to -16_384 (= -2^14).</para>
+        /// <para>This field is a constant equal to -16_383 (= 1 - 2^14).</para>
         /// </summary>
-        public const int MinYear = -(1 << (YearBits - 1));
+        public const int MinYear = 1 - (1 << (YearBits - 1));
 
         /// <summary>
         /// Represents the absolute maximum value for <see cref="Year"/>.
-        /// <para>This field is a constant equal to 16_383 (= 2^14 - 1).</para>
+        /// <para>This field is a constant equal to 16_384 (= 2^14).</para>
         /// </summary>
-        public const int MaxYear = (1 << (YearBits - 1)) - 1;
+        public const int MaxYear = 1 << (YearBits - 1);
 
         /// <summary>
         /// Represents the absolute minimum value for <see cref="Month"/>.
@@ -112,7 +112,7 @@ namespace Zorglub.Time.Core
         /// <para>
         /// The data is organised as follows:
         /// <code><![CDATA[
-        ///   Year      bbbb bbbb bbbb bbb
+        ///   Year - 1  bbbb bbbb bbbb bbb
         ///   Month - 1                   b bbb
         ///   Day - 1                          b bbbb b
         ///   Extra                                    bbb bbbb
@@ -177,7 +177,7 @@ namespace Zorglub.Time.Core
         /// <summary>
         /// Gets the algebraic year from this instance.
         /// </summary>
-        public int Year => unchecked(_bin >> YearShift);
+        public int Year => unchecked(1 + (_bin >> YearShift));
 
         /// <summary>
         /// Gets the month of the year from this instance.
@@ -232,7 +232,7 @@ namespace Zorglub.Time.Core
 
             unchecked
             {
-                year = bin >> YearShift;
+                year = 1 + (bin >> YearShift);
                 month = 1 + ((bin >> MonthShift) & MonthMask);
                 day = 1 + ((bin >> DayShift) & DayMask);
             }
@@ -246,22 +246,10 @@ namespace Zorglub.Time.Core
         [Pure]
         public static Yemodax Create(int year, int month, int day, int extra)
         {
-            if (year < MinYear || year > MaxYear)
-            {
-                Throw.YearOutOfRange(year);
-            }
-            if (month < MinMonth || month > MaxMonth)
-            {
-                Throw.MonthOutOfRange(month);
-            }
-            if (day < MinDay || day > MaxDay)
-            {
-                Throw.DayOutOfRange(day);
-            }
-            if (extra < MinExtra || extra > MaxExtra)
-            {
-                Throw.ArgumentOutOfRange(nameof(extra));
-            }
+            if (year < MinYear || year > MaxYear) Throw.YearOutOfRange(year);
+            if (month < MinMonth || month > MaxMonth) Throw.MonthOutOfRange(month);
+            if (day < MinDay || day > MaxDay) Throw.DayOutOfRange(day);
+            if (extra < MinExtra || extra > MaxExtra) Throw.ArgumentOutOfRange(nameof(extra));
 
             return new Yemodax(Pack(year, month, day, extra));
         }
@@ -274,14 +262,8 @@ namespace Zorglub.Time.Core
         [Pure]
         public static Yemodax Create(Yemoda ymd, int extra)
         {
-            if (ymd.Year < MinYear || ymd.Year > MaxYear)
-            {
-                Throw.YearOutOfRange(ymd.Year, nameof(ymd));
-            }
-            if (extra < MinExtra || extra > MaxExtra)
-            {
-                Throw.ArgumentOutOfRange(nameof(extra));
-            }
+            if (ymd.Year < MinYear || ymd.Year > MaxYear) Throw.YearOutOfRange(ymd.Year, nameof(ymd));
+            if (extra < MinExtra || extra > MaxExtra) Throw.ArgumentOutOfRange(nameof(extra));
 
             return new Yemodax(ymd, extra);
         }
@@ -307,13 +289,13 @@ namespace Zorglub.Time.Core
         /// Packs the specified time parts into a single 32-bit word.
         /// </summary>
         [Pure]
-        // CIL code size = 20 bytes <= 32 bytes.
+        // CIL code size = 22 bytes <= 32 bytes.
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static int Pack(int y, int m, int d, int x)
         {
             unchecked
             {
-                return (y << YearShift) | ((m - 1) << MonthShift) | ((d - 1) << DayShift) | x;
+                return ((y - 1) << YearShift) | ((m - 1) << MonthShift) | ((d - 1) << DayShift) | x;
             }
         }
 
@@ -322,7 +304,7 @@ namespace Zorglub.Time.Core
         /// <summary>
         /// Unpacks the binary data.
         /// </summary>
-        // CIL code size = 25 bytes <= 32 bytes.
+        // CIL code size = 27 bytes <= 32 bytes.
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal void Unpack(out int y, out int m)
         {
@@ -331,7 +313,7 @@ namespace Zorglub.Time.Core
 
             unchecked
             {
-                y = bin >> YearShift;
+                y = 1 + (bin >> YearShift);
                 m = 1 + ((bin >> MonthShift) & MonthMask);
             }
         }

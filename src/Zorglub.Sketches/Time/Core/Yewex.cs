@@ -24,13 +24,13 @@ namespace Zorglub.Time.Core
 
         /// <summary>
         /// Represents the absolute minimum value for <see cref="Year"/>.
-        /// <para>This field is a constant equal to -16_384.</para>
+        /// <para>This field is a constant equal to -16_383.</para>
         /// </summary>
         public const int MinYear = Yemodax.MinYear;
 
         /// <summary>
         /// Represents the absolute maximum value for <see cref="Year"/>.
-        /// <para>This field is a constant equal to 16_383.</para>
+        /// <para>This field is a constant equal to 16_384.</para>
         /// </summary>
         public const int MaxYear = Yemodax.MaxYear;
 
@@ -128,7 +128,7 @@ namespace Zorglub.Time.Core
         /// <summary>
         /// Gets the year.
         /// </summary>
-        public int Year => unchecked(_bin >> YearShift);
+        public int Year => unchecked(1 + (_bin >> YearShift));
 
         /// <summary>
         /// Gets the week of the year.
@@ -241,7 +241,7 @@ namespace Zorglub.Time.Core
         {
             unchecked
             {
-                return (y << YearShift) | ((w - 1) << WeekOfYearShift) | x;
+                return ((y - 1) << YearShift) | ((w - 1) << WeekOfYearShift) | x;
             }
         }
 
@@ -257,7 +257,7 @@ namespace Zorglub.Time.Core
 
             unchecked
             {
-                y = bin >> YearShift;
+                y = 1 + (bin >> YearShift);
                 w = 1 + ((bin >> WeekOfYearShift) & Yewe.WeekOfYearMask);
             }
         }

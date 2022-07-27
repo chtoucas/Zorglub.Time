@@ -16,8 +16,8 @@ using Zorglub.Time.Hemerology;
 using ZRange = Zorglub.Time.Core.Intervals.Range;
 
 // Using a record struct is not a great choice. Main drawbacks:
-// - bad default value: 0/0/0, year, month and day should be > 0 (but of course
-//   we could change that)
+// - invalid default value: 0/0/0, year, month and day should be > 0 (but of
+//   course we could change that)
 // - ToString() outputs all props (but of course we could change that)
 // - slower and bigger runtime size than the other types
 

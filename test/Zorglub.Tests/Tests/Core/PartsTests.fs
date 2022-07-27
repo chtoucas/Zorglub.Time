@@ -206,7 +206,7 @@ module Yemoda =
             let ymd = Unchecked.defaultof<Yemoda>
             let y, m, d = ymd.Deconstruct()
 
-            (y, m, d) === (0, 1, 1)
+            (y, m, d) === (1, 1, 1)
 
         [<Property>]
         let Constructor (YearField y) (MonthField m) (DayField d) =
@@ -239,9 +239,9 @@ module Yemoda =
             (a, b) = (y, m)
 
         [<Theory>]
-        [<InlineData(-2_097_152, 1, 1, "01/01/-2097152")>] // MinValue
-        [<InlineData(0, 1, 1, "01/01/0000")>]              // Default
-        [<InlineData(2_097_151, 16, 64, "64/16/2097151")>] // MaxValue
+        [<InlineData(-2_097_151, 1, 1, "01/01/-2097151")>] // MinValue
+        [<InlineData(1, 1, 1, "01/01/0001")>]              // Default
+        [<InlineData(2_097_152, 16, 64, "64/16/2097152")>] // MaxValue
         [<InlineData(7, 5, 3, "03/05/0007")>]
         [<InlineData(-7, 5, 3, "03/05/-0007")>]
         [<InlineData(2019, 13, 47, "47/13/2019")>]
@@ -270,14 +270,6 @@ module Yemoda =
             v.Year  === Yemoda.MaxYear
             v.Month === Yemoda.MaxMonth
             v.Day   === Yemoda.MaxDay
-
-        [<Fact>]
-        let ``Static property StarOfYear1`` () =
-            let v = Yemoda.StartOfYear1
-
-            v.Year  === 1
-            v.Month === 1
-            v.Day   === 1
 
         [<Property>]
         let ``Property StarOfYear`` (x: Yemoda) =
@@ -370,50 +362,50 @@ module Yemoda =
         //
 
         [<Fact>]
-        let ``Int32.MinValue -> 01/01/-2_097_152`` () =
+        let ``Int32.MinValue -> 01/01/-2_097_151`` () =
             let ymd = Yemoda.FromBinary(Int32.MinValue)
 
             ymd.ToBinary() === Int32.MinValue
             ymd === Yemoda.MinValue
 
         [<Fact>]
-        let ``Int32.MaxValue -> 64/16/2_097_151`` () =
+        let ``Int32.MaxValue -> 64/16/2_097_152`` () =
             let ymd = Yemoda.FromBinary(Int32.MaxValue)
 
             ymd.ToBinary() === Int32.MaxValue
             ymd === Yemoda.MaxValue
 
         [<Fact>]
-        let ``0 -> 01/01/0000`` () =
+        let ``0 -> 01/01/0001`` () =
             let ymd = Yemoda.FromBinary(0)
 
             ymd.ToBinary() === 0
             ymd === Unchecked.defaultof<Yemoda>
 
         [<Fact>]
-        let ``-1 -> 64/16/-0001, the theoretical end of year 2 BC`` () =
+        let ``-1 -> 64/16/-0000, the theoretical end of year 1 BC`` () =
             let ymd = Yemoda.FromBinary(-1)
 
             ymd.ToBinary() === -1
-            ymd.Year  === -1
+            ymd.Year  === 0
             ymd.Month === Yemoda.MaxMonth
             ymd.Day   === Yemoda.MaxDay
 
         [<Fact>]
-        let ``1 -> 02/01/0000`` () =
+        let ``1 -> 02/01/0001`` () =
             let ymd = Yemoda.FromBinary(1)
 
             ymd.ToBinary() === 1
-            ymd.Year  === 0
+            ymd.Year  === 1
             ymd.Month === 1
             ymd.Day   === 2
 
         [<Fact>]
-        let ``64 -> 01/02/0000`` () =
+        let ``64 -> 01/02/0001`` () =
             let ymd = Yemoda.FromBinary(64)
 
             ymd.ToBinary() === 64
-            ymd.Year  === 0
+            ymd.Year  === 1
             ymd.Month === 2
             ymd.Day   === 1
 
@@ -422,7 +414,7 @@ module Yemoda =
             let ymd = Yemoda.FromBinary(1024)
 
             ymd.ToBinary() === 1024
-            ymd.Year  === 1
+            ymd.Year  === 2
             ymd.Month === 1
             ymd.Day   === 1
 
@@ -527,7 +519,7 @@ module Yemo =
             let ym = Unchecked.defaultof<Yemo>
             let y, m = ym.Deconstruct()
 
-            (y, m) === (0, 1)
+            (y, m) === (1, 1)
 
         [<Property>]
         let Constructor (YearField y) (MonthField m)  =
@@ -552,9 +544,9 @@ module Yemo =
             (a, b) = (y, m)
 
         [<Theory>]
-        [<InlineData(-2_097_152, 1, "01/-2097152")>]   // MinValue
-        [<InlineData(0, 1, "01/0000")>]               // Default
-        [<InlineData(2_097_151, 16, "16/2097151")>]  // MaxValue
+        [<InlineData(-2_097_151, 1, "01/-2097151")>]   // MinValue
+        [<InlineData(1, 1, "01/0001")>]               // Default
+        [<InlineData(2_097_152, 16, "16/2097152")>]  // MaxValue
         [<InlineData(7, 5, "05/0007")>]
         [<InlineData(-7, 5, "05/-0007")>]
         [<InlineData(2019, 13, "13/2019")>]
@@ -685,21 +677,21 @@ module Yemo =
         //
 
         [<Fact>]
-        let ``Int32.MinValue -> 01/-2_097_152`` () =
+        let ``Int32.MinValue -> 01/-2_097_151`` () =
             let ym = Yemo.FromBinary(Int32.MinValue)
 
             ym.ToBinary() === Int32.MinValue
             ym === Yemo.MinValue
 
         [<Fact>]
-        let ``2_147_483_584 (max) -> 16/2_097_151`` () =
+        let ``2_147_483_584 (max) -> 16/2_097_152`` () =
             let ym = Yemo.FromBinary(maxBin)
 
             ym.ToBinary() === maxBin
             ym === Yemo.MaxValue
 
         [<Fact>]
-        let ``0 -> 01/0000`` () =
+        let ``0 -> 01/0001`` () =
             let ym = Yemo.FromBinary(0)
 
             ym.ToBinary() === 0
@@ -806,7 +798,7 @@ module Yedoy =
             let ydoy = Unchecked.defaultof<Yedoy>
             let y, doy = ydoy.Deconstruct()
 
-            (y, doy) === (0, 1)
+            (y, doy) === (1, 1)
 
         [<Property>]
         let Constructor (YearField y) (DayOfYearField doy)  =
@@ -831,9 +823,9 @@ module Yedoy =
             (a, b) = (y, doy)
 
         [<Theory>]
-        [<InlineData(-2_097_152, 1, "001/-2097152")>]   // MinValue
-        [<InlineData(0, 1, "001/0000")>]                // Default
-        [<InlineData(2_097_151, 1024, "1024/2097151")>] // MaxValue
+        [<InlineData(-2_097_151, 1, "001/-2097151")>]   // MinValue
+        [<InlineData(1, 1, "001/0001")>]                // Default
+        [<InlineData(2_097_152, 1024, "1024/2097152")>] // MaxValue
         [<InlineData(7, 5, "005/0007")>]
         [<InlineData(-7, 5, "005/-0007")>]
         [<InlineData(2019, 133, "133/2019")>]
@@ -900,21 +892,21 @@ module Yedoy =
         //
 
         [<Fact>]
-        let ``Int32.MinValue -> 001/-2_097_152`` () =
+        let ``Int32.MinValue -> 001/-2_097_151`` () =
             let ydoy = Yedoy.FromBinary(Int32.MinValue)
 
             ydoy.ToBinary() === Int32.MinValue
             ydoy === Yedoy.MinValue
 
         [<Fact>]
-        let ``Int32.MaxValue -> 1024/2_097_151`` () =
+        let ``Int32.MaxValue -> 1024/2_097_152`` () =
             let ydoy = Yedoy.FromBinary(Int32.MaxValue)
 
             ydoy.ToBinary() === Int32.MaxValue
             ydoy === Yedoy.MaxValue
 
         [<Fact>]
-        let ``0 -> 001/0000`` () =
+        let ``0 -> 001/0001`` () =
             let ydoy = Yedoy.FromBinary(0)
 
             ydoy.ToBinary() === 0
@@ -1012,7 +1004,7 @@ module Yemodax =
             let ymdx = Unchecked.defaultof<Yemodax>
             let y, m, d = ymdx.Deconstruct()
 
-            (y, m, d, ymdx.Extra) === (0, 1, 1, 0)
+            (y, m, d, ymdx.Extra) === (1, 1, 1, 0)
 
         [<Property>]
         let Constructor (ShortYearField y) (MonthField m) (DayField d) (ExtraField x) =
@@ -1050,9 +1042,9 @@ module Yemodax =
             (a, b) = (y, m)
 
         [<Theory>]
-        [<InlineData(-16_384, 1, 1, "01/01/-16384")>]   // MinValue
-        [<InlineData(0, 1, 1, "01/01/0000")>]           // Default
-        [<InlineData(16_383, 16, 64, "64/16/16383")>]   // MaxValue
+        [<InlineData(-16_383, 1, 1, "01/01/-16383")>]   // MinValue
+        [<InlineData(1, 1, 1, "01/01/0001")>]           // Default
+        [<InlineData(16_384, 16, 64, "64/16/16384")>]   // MaxValue
         [<InlineData(7, 5, 3, "03/05/0007")>]
         [<InlineData(-7, 5, 3, "03/05/-0007")>]
         [<InlineData(2019, 13, 47, "47/13/2019")>]
@@ -1153,21 +1145,21 @@ module Yemodax =
         //
 
         [<Fact>]
-        let ``Int32.MinValue -> 01/01/-16_384 + 0`` () =
+        let ``Int32.MinValue -> 01/01/-16_383 + 0`` () =
             let ymdx = Yemodax.FromBinary(Int32.MinValue)
 
             ymdx.ToBinary() === Int32.MinValue
             ymdx === Yemodax.MinValue
 
         [<Fact>]
-        let ``Int32.MaxValue -> 64/16/16_383 + 127`` () =
+        let ``Int32.MaxValue -> 64/16/16_384 + 127`` () =
             let ymdx = Yemodax.FromBinary(Int32.MaxValue)
 
             ymdx.ToBinary() === Int32.MaxValue
             ymdx === Yemodax.MaxValue
 
         [<Fact>]
-        let ``0 -> 01/01/0000 + 0`` () =
+        let ``0 -> 01/01/0001 + 0`` () =
             let ymdx = Yemodax.FromBinary(0)
 
             ymdx.ToBinary() === 0
@@ -1234,7 +1226,7 @@ module Yemox =
             let ymx = Unchecked.defaultof<Yemox>
             let y, m = ymx.Deconstruct()
 
-            (y, m, ymx.Extra) === (0, 1,  0)
+            (y, m, ymx.Extra) === (1, 1, 0)
 
         [<Property>]
         let Constructor (ShortYearField y) (MonthField m) (ExtraField x) =
@@ -1270,9 +1262,9 @@ module Yemox =
             (a, b) = (y, m)
 
         [<Theory>]
-        [<InlineData(-16_384, 1, "01/-16384")>] // MinValue
-        [<InlineData(0, 1, "01/0000")>]         // Default
-        [<InlineData(16_383, 16, "16/16383")>]  // MaxValue
+        [<InlineData(-16_383, 1, "01/-16383")>] // MinValue
+        [<InlineData(1, 1, "01/0001")>]         // Default
+        [<InlineData(16_384, 16, "16/16384")>]  // MaxValue
         [<InlineData(7, 5, "05/0007")>]
         [<InlineData(-7, 5, "05/-0007")>]
         [<InlineData(2019, 13, "13/2019")>]
@@ -1376,21 +1368,21 @@ module Yemox =
         //
 
         [<Fact>]
-        let ``Int32.MinValue -> 01/-16_384 + 0`` () =
+        let ``Int32.MinValue -> 01/-16_383 + 0`` () =
             let ymx = Yemox.FromBinary(Int32.MinValue)
 
             ymx.ToBinary() === Int32.MinValue
             ymx === Yemox.MinValue
 
         [<Fact>]
-        let ``2_147_475_583 (max) -> 16/16_383 + 127`` () =
+        let ``2_147_475_583 (max) -> 16/16_384 + 127`` () =
             let ymx = Yemox.FromBinary(maxBin)
 
             ymx.ToBinary() === maxBin
             ymx === Yemox.MaxValue
 
         [<Fact>]
-        let ``0 -> 01/0000 + 0`` () =
+        let ``0 -> 01/0001 + 0`` () =
             let ymx = Yemox.FromBinary(0)
 
             ymx.ToBinary() === 0
@@ -1453,7 +1445,7 @@ module Yedoyx =
             let ydoyx = Unchecked.defaultof<Yedoyx>
             let y, doy = ydoyx.Deconstruct()
 
-            (y, doy, ydoyx.Extra) === (0, 1,  0)
+            (y, doy, ydoyx.Extra) === (1, 1, 0)
 
         [<Property>]
         let Constructor (ShortYearField y) (DayOfYearField doy) (ExtraField x) =
@@ -1489,9 +1481,9 @@ module Yedoyx =
             (a, b) = (y, doy)
 
         [<Theory>]
-        [<InlineData(-16_384, 1, "001/-16384")>]    // MinValue
-        [<InlineData(0, 1, "001/0000")>]            // Default
-        [<InlineData(16_383, 1024, "1024/16383")>]  // MaxValue
+        [<InlineData(-16_383, 1, "001/-16383")>]    // MinValue
+        [<InlineData(1, 1, "001/0001")>]            // Default
+        [<InlineData(16_384, 1024, "1024/16384")>]  // MaxValue
         [<InlineData(7, 5, "005/0007")>]
         [<InlineData(-7, 5, "005/-0007")>]
         [<InlineData(2019, 133, "133/2019")>]
@@ -1579,21 +1571,21 @@ module Yedoyx =
         //
 
         [<Fact>]
-        let ``Int32.MinValue -> 001/-16_384 + 0`` () =
+        let ``Int32.MinValue -> 001/-16_383 + 0`` () =
             let ydoyx = Yedoyx.FromBinary(Int32.MinValue)
 
             ydoyx.ToBinary() === Int32.MinValue
             ydoyx === Yedoyx.MinValue
 
         [<Fact>]
-        let ``Int32.MaxValue -> 1024/16_383 + 127`` () =
+        let ``Int32.MaxValue -> 1024/16_384 + 127`` () =
             let ydoyx = Yedoyx.FromBinary(Int32.MaxValue)
 
             ydoyx.ToBinary() === Int32.MaxValue
             ydoyx === Yedoyx.MaxValue
 
         [<Fact>]
-        let ``0 -> 001/0000 + 0`` () =
+        let ``0 -> 001/0001 + 0`` () =
             let ydoyx = Yedoyx.FromBinary(0)
 
             ydoyx.ToBinary() === 0

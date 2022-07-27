@@ -98,7 +98,7 @@ namespace Zorglub.Time.Core
         /// <summary>
         /// Gets the maximum value for <see cref="ICalendricalSchema.SupportedYears"/>, that is the
         /// interval [<see cref="Yemoda.MinYear"/>..<see cref="Yemoda.MaxYear"/>] i.e.
-        /// [-2_097_152, 2_097_151].
+        /// [-2_097_151, 2_097_152].
         /// <para>It matches the value of <see cref="Yemoda.SupportedYears"/>.</para>
         /// <para>This static property is thread-safe.</para>
         /// </summary>
@@ -190,7 +190,7 @@ namespace Zorglub.Time.Core
         /// <seealso cref="ICalendricalSchema.GetYear(int, out int)"/>.</para>
         /// </remarks>
         [Pure]
-        // CIL code size = 19 bytes <= 32 bytes.
+        // CIL code size = 16 bytes <= 32 bytes.
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Yedoy GetOrdinalParts(int daysSinceEpoch)
         {
@@ -206,7 +206,7 @@ namespace Zorglub.Time.Core
         /// <seealso cref="ICalendricalSchema.GetMonth(int, int, out int)"/>.</para>
         /// </remarks>
         [Pure]
-        // CIL code size = 21 bytes <= 32 bytes.
+        // CIL code size = 20 bytes <= 32 bytes.
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Yemoda GetDateParts(int y, int doy)
         {

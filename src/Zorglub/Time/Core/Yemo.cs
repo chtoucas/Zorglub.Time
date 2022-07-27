@@ -28,13 +28,13 @@ namespace Zorglub.Time.Core
     {
         /// <summary>
         /// Represents the absolute minimum value for <see cref="Year"/>.
-        /// <para>This field is a constant equal to -2_097_152.</para>
+        /// <para>This field is a constant equal to -2_097_151.</para>
         /// </summary>
         public const int MinYear = Yemoda.MinYear;
 
         /// <summary>
         /// Represents the absolute maximum value for <see cref="Year"/>.
-        /// <para>This field is a constant equal to 2_097_151.</para>
+        /// <para>This field is a constant equal to 2_097_152.</para>
         /// </summary>
         public const int MaxYear = Yemoda.MaxYear;
 
@@ -73,7 +73,7 @@ namespace Zorglub.Time.Core
         /// <para>
         /// The data is organised as follows:
         /// <code><![CDATA[
-        ///   Year      bbbb bbbb bbbb bbbb bbbb bb
+        ///   Year - 1  bbbb bbbb bbbb bbbb bbbb bb
         ///   Month - 1                            bb bb
         ///   (Day - 1)                                  00 0000
         /// ]]></code>
@@ -111,7 +111,7 @@ namespace Zorglub.Time.Core
         /// <summary>
         /// Gets the algebraic year from this instance.
         /// </summary>
-        public int Year => unchecked(_bin >> Yemoda.YearShift);
+        public int Year => unchecked(1 + (_bin >> Yemoda.YearShift));
 
         /// <summary>
         /// Gets the month of the year from this instance.
@@ -159,14 +159,8 @@ namespace Zorglub.Time.Core
         [Pure]
         public static Yemo Create(int year, int month)
         {
-            if (year < MinYear || year > MaxYear)
-            {
-                Throw.YearOutOfRange(year);
-            }
-            if (month < MinMonth || month > MaxMonth)
-            {
-                Throw.MonthOutOfRange(month);
-            }
+            if (year < MinYear || year > MaxYear) Throw.YearOutOfRange(year);
+            if (month < MinMonth || month > MaxMonth) Throw.MonthOutOfRange(month);
 
             return new Yemo(Pack(year, month));
         }
@@ -177,14 +171,14 @@ namespace Zorglub.Time.Core
         /// <para>This method does NOT validate its parameter.</para>
         /// </summary>
         [Pure]
-        // CIL code size = XXX bytes <= 32 bytes.
+        // CIL code size = 12 bytes <= 32 bytes.
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal static Yemo AtStartOfYear(int y)
         {
             Debug.Assert(MinYear <= y);
             Debug.Assert(y <= MaxYear);
 
-            return new Yemo(unchecked(y << Yemoda.YearShift));
+            return new Yemo(unchecked((y - 1) << Yemoda.YearShift));
         }
 
         // We don't call this method GetDayOfMonth() to stress that it might not
@@ -197,10 +191,7 @@ namespace Zorglub.Time.Core
         [Pure]
         public Yemoda GetYemodaAt(int day)
         {
-            if (day < Yemoda.MinDay || day > Yemoda.MaxDay)
-            {
-                Throw.DayOutOfRange(day);
-            }
+            if (day < Yemoda.MinDay || day > Yemoda.MaxDay) Throw.DayOutOfRange(day);
 
             return new Yemoda(unchecked(_bin | (day - 1)));
         }
@@ -245,20 +236,20 @@ namespace Zorglub.Time.Core
         /// Packs the specified month parts into a single 32-bit word.
         /// </summary>
         [Pure]
-        // CIL code size = 11 bytes <= 32 bytes.
+        // CIL code size = 13 bytes <= 32 bytes.
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static int Pack(int y, int m)
         {
             unchecked
             {
-                return (y << Yemoda.YearShift) | ((m - 1) << Yemoda.MonthShift);
+                return ((y - 1) << Yemoda.YearShift) | ((m - 1) << Yemoda.MonthShift);
             }
         }
 
         /// <summary>
         /// Unpacks the binary data.
         /// </summary>
-        // CIL code size = 24 bytes <= 32 bytes.
+        // CIL code size = 26 bytes <= 32 bytes.
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal void Unpack(out int y, out int m)
         {
@@ -266,7 +257,7 @@ namespace Zorglub.Time.Core
 
             unchecked
             {
-                y = bin >> Yemoda.YearShift;
+                y = 1 + (bin >> Yemoda.YearShift);
                 m = 1 + ((bin >> Yemoda.MonthShift) & Yemoda.MonthMask);
             }
         }

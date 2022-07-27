@@ -14,7 +14,7 @@ namespace Zorglub.Time.Geometry.Forms
     /// </summary>
     public record CalendricalForm
     {
-        public static readonly Yemoda Epoch = Yemoda.StartOfYear1;
+        public static readonly Yemoda Epoch;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CalendricalForm"/>

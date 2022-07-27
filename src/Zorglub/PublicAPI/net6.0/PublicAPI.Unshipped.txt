@@ -104,39 +104,39 @@ const Zorglub.Time.Core.TemporalConstants.TicksPerHour = 36000000000 -> long
 const Zorglub.Time.Core.TemporalConstants.TicksPerMinute = 600000000 -> int
 const Zorglub.Time.Core.TemporalConstants.TicksPerSecond = 10000000 -> int
 const Zorglub.Time.Core.Yedoy.MaxDayOfYear = 1024 -> int
-const Zorglub.Time.Core.Yedoy.MaxYear = 2097151 -> int
+const Zorglub.Time.Core.Yedoy.MaxYear = 2097152 -> int
 const Zorglub.Time.Core.Yedoy.MinDayOfYear = 1 -> int
-const Zorglub.Time.Core.Yedoy.MinYear = -2097152 -> int
+const Zorglub.Time.Core.Yedoy.MinYear = -2097151 -> int
 const Zorglub.Time.Core.Yedoyx.MaxDayOfYear = 1024 -> int
 const Zorglub.Time.Core.Yedoyx.MaxExtra = 127 -> int
-const Zorglub.Time.Core.Yedoyx.MaxYear = 16383 -> int
+const Zorglub.Time.Core.Yedoyx.MaxYear = 16384 -> int
 const Zorglub.Time.Core.Yedoyx.MinDayOfYear = 1 -> int
 const Zorglub.Time.Core.Yedoyx.MinExtra = 0 -> int
-const Zorglub.Time.Core.Yedoyx.MinYear = -16384 -> int
+const Zorglub.Time.Core.Yedoyx.MinYear = -16383 -> int
 const Zorglub.Time.Core.Yemo.MaxMonth = 16 -> int
-const Zorglub.Time.Core.Yemo.MaxYear = 2097151 -> int
+const Zorglub.Time.Core.Yemo.MaxYear = 2097152 -> int
 const Zorglub.Time.Core.Yemo.MinMonth = 1 -> int
-const Zorglub.Time.Core.Yemo.MinYear = -2097152 -> int
+const Zorglub.Time.Core.Yemo.MinYear = -2097151 -> int
 const Zorglub.Time.Core.Yemoda.MaxDay = 64 -> int
 const Zorglub.Time.Core.Yemoda.MaxMonth = 16 -> int
-const Zorglub.Time.Core.Yemoda.MaxYear = 2097151 -> int
+const Zorglub.Time.Core.Yemoda.MaxYear = 2097152 -> int
 const Zorglub.Time.Core.Yemoda.MinDay = 1 -> int
 const Zorglub.Time.Core.Yemoda.MinMonth = 1 -> int
-const Zorglub.Time.Core.Yemoda.MinYear = -2097152 -> int
+const Zorglub.Time.Core.Yemoda.MinYear = -2097151 -> int
 const Zorglub.Time.Core.Yemodax.MaxDay = 64 -> int
 const Zorglub.Time.Core.Yemodax.MaxExtra = 127 -> int
 const Zorglub.Time.Core.Yemodax.MaxMonth = 16 -> int
-const Zorglub.Time.Core.Yemodax.MaxYear = 16383 -> int
+const Zorglub.Time.Core.Yemodax.MaxYear = 16384 -> int
 const Zorglub.Time.Core.Yemodax.MinDay = 1 -> int
 const Zorglub.Time.Core.Yemodax.MinExtra = 0 -> int
 const Zorglub.Time.Core.Yemodax.MinMonth = 1 -> int
-const Zorglub.Time.Core.Yemodax.MinYear = -16384 -> int
+const Zorglub.Time.Core.Yemodax.MinYear = -16383 -> int
 const Zorglub.Time.Core.Yemox.MaxExtra = 127 -> int
 const Zorglub.Time.Core.Yemox.MaxMonth = 16 -> int
-const Zorglub.Time.Core.Yemox.MaxYear = 16383 -> int
+const Zorglub.Time.Core.Yemox.MaxYear = 16384 -> int
 const Zorglub.Time.Core.Yemox.MinExtra = 0 -> int
 const Zorglub.Time.Core.Yemox.MinMonth = 1 -> int
-const Zorglub.Time.Core.Yemox.MinYear = -16384 -> int
+const Zorglub.Time.Core.Yemox.MinYear = -16383 -> int
 const Zorglub.Time.DayNumber.MaxDaysSinceZero = 2147483646 -> int
 const Zorglub.Time.DayNumber.MaxSupportedYear = 5000000 -> int
 const Zorglub.Time.DayNumber.MinDaysSinceZero = -2147483647 -> int
@@ -590,7 +590,6 @@ static Zorglub.Time.Core.Yemoda.operator <=(Zorglub.Time.Core.Yemoda left, Zorgl
 static Zorglub.Time.Core.Yemoda.operator ==(Zorglub.Time.Core.Yemoda left, Zorglub.Time.Core.Yemoda right) -> bool
 static Zorglub.Time.Core.Yemoda.operator >(Zorglub.Time.Core.Yemoda left, Zorglub.Time.Core.Yemoda right) -> bool
 static Zorglub.Time.Core.Yemoda.operator >=(Zorglub.Time.Core.Yemoda left, Zorglub.Time.Core.Yemoda right) -> bool
-static Zorglub.Time.Core.Yemoda.StartOfYear1.get -> Zorglub.Time.Core.Yemoda
 static Zorglub.Time.Core.Yemoda.SupportedYears.get -> Zorglub.Time.Core.Intervals.Range<int>
 static Zorglub.Time.Core.Yemodax.Create(int year, int month, int day, int extra) -> Zorglub.Time.Core.Yemodax
 static Zorglub.Time.Core.Yemodax.Create(Zorglub.Time.Core.Yemoda ymd, int extra) -> Zorglub.Time.Core.Yemodax

@@ -163,10 +163,7 @@ module RuntimeSizes =
         Marshal.SizeOf(typedefof<MonthPartsPair>) === 16
 
 module DefaultValues =
-    // Date types built upon DayNumber: 01/01/0001 (year 1)
-    // Date types built upon Yemoda:    01/01/0000 (algebraic year 0 ie 1 BC)
-    //   See the comments in Yemoda.Pack() to understand why we did it so and
-    //   why it does not really matter.
+    // Date types built upon DayNumber or Yemoda: 01/01/0001 (year 1)
     // For types not attached to a specific calendar, we always default to Gregorian.
 
     //
@@ -243,63 +240,63 @@ module DefaultValues =
     //
 
     [<Fact>]
-    let ``Default value of Yemoda is 01/01/0000`` () =
+    let ``Default value of Yemoda is 01/01/0001`` () =
         let parts = Unchecked.defaultof<Yemoda>
         let y, m, d = parts.Deconstruct()
 
-        (y, m, d) === (0, 1, 1)
+        (y, m, d) === (1, 1, 1)
 
     [<Fact>]
-    let ``Default value of Yemodax is 01/01/0000 (0)`` () =
+    let ``Default value of Yemodax is 01/01/0001 (0)`` () =
         let parts = Unchecked.defaultof<Yemodax>
         let y, m, d = parts.Deconstruct()
 
-        (y, m, d) === (0, 1, 1)
+        (y, m, d) === (1, 1, 1)
         parts.Extra === 0
 
     [<Fact>]
-    let ``Default value of Yemo is 01/0000`` () =
+    let ``Default value of Yemo is 01/0001`` () =
         let parts = Unchecked.defaultof<Yemo>
         let y, m = parts.Deconstruct()
 
-        (y, m) === (0, 1)
+        (y, m) === (1, 1)
 
     [<Fact>]
-    let ``Default value of Yemox is 01/0000 (0)`` () =
+    let ``Default value of Yemox is 01/0001 (0)`` () =
         let parts = Unchecked.defaultof<Yemox>
         let y, m = parts.Deconstruct()
 
-        (y, m) === (0, 1)
+        (y, m) === (1, 1)
         parts.Extra === 0
 
     [<Fact>]
-    let ``Default value of Yedoy is 001/0000`` () =
+    let ``Default value of Yedoy is 001/0001`` () =
         let parts = Unchecked.defaultof<Yedoy>
         let y, doy = parts.Deconstruct()
 
-        (y, doy) === (0, 1)
+        (y, doy) === (1, 1)
 
     [<Fact>]
-    let ``Default value of Yedoyx is 001/0000 (0)`` () =
+    let ``Default value of Yedoyx is 001/0001 (0)`` () =
         let parts = Unchecked.defaultof<Yedoyx>
         let y, doy = parts.Deconstruct()
 
-        (y, doy) === (0, 1)
+        (y, doy) === (1, 1)
         parts.Extra === 0
 
     [<Fact>]
-    let ``Default value of Yewe is 001/0000`` () =
+    let ``Default value of Yewe is 001/0001`` () =
         let parts = Unchecked.defaultof<Yewe>
         let y, woy = parts.Deconstruct()
 
-        (y, woy) === (0, 1)
+        (y, woy) === (1, 1)
 
     [<Fact>]
-    let ``Default value of Yewex is 001/0000 (0)`` () =
+    let ``Default value of Yewex is 001/0001 (0)`` () =
         let parts = Unchecked.defaultof<Yewex>
         let y, woy = parts.Deconstruct()
 
-        (y, woy) === (0, 1)
+        (y, woy) === (1, 1)
         parts.Extra === 0
 
     //
@@ -315,35 +312,35 @@ module DefaultValues =
         date.Calendar.PermanentId === CalendarId.Gregorian
 
     [<Fact>]
-    let ``Default value of CalendarDate is 01/01/0000 (Gregorian)`` () =
+    let ``Default value of CalendarDate is 01/01/0001 (Gregorian)`` () =
         let date = Unchecked.defaultof<CalendarDate>
         let y, m, d = date.Deconstruct()
 
-        (y, m, d) === (0, 1, 1)
+        (y, m, d) === (1, 1, 1)
         date.Calendar.PermanentId === CalendarId.Gregorian
 
     [<Fact>]
-    let ``Default value of OrdinalDate is 001/0000 (Gregorian)`` () =
+    let ``Default value of OrdinalDate is 001/0001 (Gregorian)`` () =
         let date = Unchecked.defaultof<OrdinalDate>
         let y, doy = date.Deconstruct()
 
-        (y, doy) === (0, 1)
+        (y, doy) === (1, 1)
         date.Calendar.PermanentId === CalendarId.Gregorian
 
     [<Fact>]
-    let ``Default value of CalendarWeek is 001/0000 (Gregorian)`` () =
+    let ``Default value of CalendarWeek is 001/0001 (Gregorian)`` () =
         let week = Unchecked.defaultof<CalendarWeek>
         let y, woy = week.Deconstruct()
 
-        (y, woy) === (0, 1)
+        (y, woy) === (1, 1)
         week.Calendar.PermanentId === CalendarId.Gregorian
 
     [<Fact>]
-    let ``Default value of CalendarMonth is 01/0000 (Gregorian)`` () =
+    let ``Default value of CalendarMonth is 01/0001 (Gregorian)`` () =
         let month = Unchecked.defaultof<CalendarMonth>
         let y, m = month.Deconstruct()
 
-        (y, m) === (0, 1)
+        (y, m) === (1, 1)
         month.Calendar.PermanentId === CalendarId.Gregorian
 
     [<Fact>]
@@ -379,7 +376,7 @@ module DefaultValues =
         (y, m, d) === (1, 1, 1)
 
     [<Fact>]
-    let ``Default value of ZDate is 01/01/0000 (Gregorian)`` () =
+    let ``Default value of ZDate is 01/01/0001 (Gregorian)`` () =
         let date = Unchecked.defaultof<ZDate>
         let y, m, d = date.Deconstruct()
 

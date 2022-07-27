@@ -14,13 +14,13 @@ namespace Zorglub.Time.Core
     {
         /// <summary>
         /// Represents the absolute minimum value for <see cref="Year"/>.
-        /// <para>This field is a constant equal to -16_384.</para>
+        /// <para>This field is a constant equal to -16_383.</para>
         /// </summary>
         public const int MinYear = Yemodax.MinYear;
 
         /// <summary>
         /// Represents the absolute maximum value for <see cref="Year"/>.
-        /// <para>This field is a constant equal to 16_383.</para>
+        /// <para>This field is a constant equal to 16_384.</para>
         /// </summary>
         public const int MaxYear = Yemodax.MaxYear;
 
@@ -70,7 +70,7 @@ namespace Zorglub.Time.Core
         /// <para>
         /// The data is organised as follows:
         /// <code><![CDATA[
-        ///   Year      bbbb bbbb bbbb bbb
+        ///   Year - 1  bbbb bbbb bbbb bbb
         ///   Month - 1                   b bbb
         ///   (Day - 1)                        0 0000 0
         ///   Extra                                    bbb bbbb
@@ -124,7 +124,7 @@ namespace Zorglub.Time.Core
         /// <summary>
         /// Gets the algebraic year from this instance.
         /// </summary>
-        public int Year => unchecked(_bin >> Yemodax.YearShift);
+        public int Year => unchecked(1 + (_bin >> Yemodax.YearShift));
 
         /// <summary>
         /// Gets the month of the year from this instance.
@@ -172,18 +172,9 @@ namespace Zorglub.Time.Core
         [Pure]
         public static Yemox Create(int year, int month, int extra)
         {
-            if (year < MinYear || year > MaxYear)
-            {
-                Throw.YearOutOfRange(year);
-            }
-            if (month < MinMonth || month > MaxMonth)
-            {
-                Throw.MonthOutOfRange(month);
-            }
-            if (extra < MinExtra || extra > MaxExtra)
-            {
-                Throw.ArgumentOutOfRange(nameof(extra));
-            }
+            if (year < MinYear || year > MaxYear) Throw.YearOutOfRange(year);
+            if (month < MinMonth || month > MaxMonth) Throw.MonthOutOfRange(month);
+            if (extra < MinExtra || extra > MaxExtra) Throw.ArgumentOutOfRange(nameof(extra));
 
             return new Yemox(Pack(year, month, extra));
         }
@@ -196,14 +187,8 @@ namespace Zorglub.Time.Core
         [Pure]
         public static Yemox Create(Yemo ym, int extra)
         {
-            if (ym.Year < MinYear || ym.Year > MaxYear)
-            {
-                Throw.YearOutOfRange(ym.Year, nameof(ym));
-            }
-            if (extra < MinExtra || extra > MaxExtra)
-            {
-                Throw.ArgumentOutOfRange(nameof(extra));
-            }
+            if (ym.Year < MinYear || ym.Year > MaxYear) Throw.YearOutOfRange(ym.Year, nameof(ym));
+            if (extra < MinExtra || extra > MaxExtra) Throw.ArgumentOutOfRange(nameof(extra));
 
             return new Yemox(ym, extra);
         }
@@ -234,20 +219,20 @@ namespace Zorglub.Time.Core
         /// Packs the specified month parts into a single 32-bit word.
         /// </summary>
         [Pure]
-        // CIL code size = 14 bytes <= 32 bytes.
+        // CIL code size = 16 bytes <= 32 bytes.
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static int Pack(int y, int m, int x)
         {
             unchecked
             {
-                return (y << Yemodax.YearShift) | ((m - 1) << Yemodax.MonthShift) | x;
+                return ((y - 1) << Yemodax.YearShift) | ((m - 1) << Yemodax.MonthShift) | x;
             }
         }
 
         /// <summary>
         /// Unpacks the binary data.
         /// </summary>
-        // CIL code size = 25 bytes <= 32 bytes.
+        // CIL code size = 27 bytes <= 32 bytes.
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal void Unpack(out int y, out int m)
         {
@@ -256,7 +241,7 @@ namespace Zorglub.Time.Core
 
             unchecked
             {
-                y = bin >> Yemodax.YearShift;
+                y = 1 + (bin >> Yemodax.YearShift);
                 m = 1 + ((bin >> Yemodax.MonthShift) & Yemodax.MonthMask);
             }
         }

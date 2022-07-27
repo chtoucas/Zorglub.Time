@@ -27,13 +27,13 @@ namespace Zorglub.Time.Core
 
         /// <summary>
         /// Represents the absolute minimum value for <see cref="Year"/>.
-        /// <para>This field is a constant equal to -16_384.</para>
+        /// <para>This field is a constant equal to -16_383.</para>
         /// </summary>
         public const int MinYear = Yemodax.MinYear;
 
         /// <summary>
         /// Represents the absolute maximum value for <see cref="Year"/>.
-        /// <para>This field is a constant equal to 16_383.</para>
+        /// <para>This field is a constant equal to 16_384.</para>
         /// </summary>
         public const int MaxYear = Yemodax.MaxYear;
 
@@ -68,7 +68,7 @@ namespace Zorglub.Time.Core
         /// <para>
         /// The data is organised as follows:
         /// <code><![CDATA[
-        ///   Year          bbbb bbbb bbbb bbb
+        ///   Year - 1      bbbb bbbb bbbb bbb
         ///   DayOfYear - 1                   b bbbb bbbb b
         ///   Extra                                        bbb bbbb
         /// ]]></code>
@@ -131,7 +131,7 @@ namespace Zorglub.Time.Core
         /// <summary>
         /// Gets the year.
         /// </summary>
-        public int Year => unchecked(_bin >> YearShift);
+        public int Year => unchecked(1 + (_bin >> YearShift));
 
         /// <summary>
         /// Gets the day of the year.
@@ -235,20 +235,20 @@ namespace Zorglub.Time.Core
         /// Packs the specified ordinal date parts into a single 32-bit word.
         /// </summary>
         [Pure]
-        // CIL code size = 13 bytes <= 32 bytes.
+        // CIL code size = 15 bytes <= 32 bytes.
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static int Pack(int y, int doy, int x)
         {
             unchecked
             {
-                return (y << YearShift) | ((doy - 1) << DayOfYearShift) | x;
+                return ((y - 1) << YearShift) | ((doy - 1) << DayOfYearShift) | x;
             }
         }
 
         /// <summary>
         /// Unpacks the binary data.
         /// </summary>
-        // CIL code size = 27 bytes <= 32 bytes.
+        // CIL code size = 29 bytes <= 32 bytes.
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         internal void Unpack(out int y, out int doy)
         {
@@ -257,7 +257,7 @@ namespace Zorglub.Time.Core
 
             unchecked
             {
-                y = bin >> YearShift;
+                y = 1 + (bin >> YearShift);
                 doy = 1 + ((bin >> DayOfYearShift) & Yedoy.DayOfYearMask);
             }
         }
