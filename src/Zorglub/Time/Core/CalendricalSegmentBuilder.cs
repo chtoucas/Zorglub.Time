@@ -307,7 +307,7 @@ namespace Zorglub.Time.Core
             {
                 DaysSinceEpoch = _schema.CountDaysSinceEpoch(y, doy),
                 DateParts = _partsAdapter.GetDateParts(y, doy),
-                OrdinalParts = new OrdinalParts(y, doy),
+                OrdinalParts = parts,
             };
         }
     }
