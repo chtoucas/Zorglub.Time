@@ -8,7 +8,7 @@ namespace Zorglub.Time.Core.Schemas
     /// <para>See also <seealso cref="GregorianFormulae"/>.</para>
     /// <para>This class cannot be inherited.</para>
     /// </summary>
-    internal static class GregorianStandardFormulae
+    internal static class CivilFormulae
     {
         /// <summary>
         /// Counts the number of consecutive days from the epoch to the specified date.

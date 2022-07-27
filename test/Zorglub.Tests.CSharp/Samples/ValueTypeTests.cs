@@ -15,9 +15,9 @@ public static class ValueTypeTests
     {
         Assert.Equal(4, Marshal.SizeOf(typeof(DateTemplate)));
         Assert.Equal(4, Marshal.SizeOf(typeof(DayTemplate)));
-        Assert.Equal(4, Marshal.SizeOf(typeof(GregorianTriple)));
+        Assert.Equal(4, Marshal.SizeOf(typeof(CivilTriple)));
         Assert.Equal(4, Marshal.SizeOf(typeof(MyDate)));
-        Assert.Equal(12, Marshal.SizeOf(typeof(GregorianRecord)));
+        Assert.Equal(12, Marshal.SizeOf(typeof(CivilParts)));
     }
 
     [Fact]
@@ -43,10 +43,10 @@ public static class ValueTypeTests
     }
 
     [Fact]
-    public static void GregorianRecord_DefaultValue()
+    public static void CivilParts_DefaultValue()
     {
         // Act
-        var date = default(GregorianRecord);
+        var date = default(CivilParts);
         // Assert
         Assert.Equal(0, date.Year);
         Assert.Equal(0, date.Month);
@@ -54,10 +54,10 @@ public static class ValueTypeTests
     }
 
     [Fact]
-    public static void GregorianTriple_DefaultValue()
+    public static void CivilTriple_DefaultValue()
     {
         // Act
-        var date = default(GregorianTriple);
+        var date = default(CivilTriple);
         // Assert
         Assert.Equal(0, date.Year);
         Assert.Equal(1, date.Month);

@@ -5,38 +5,30 @@ namespace Zorglub.Time.Core.Schemas
 {
     using Zorglub.Time.Core.Intervals;
 
+    // REVIEW(perf): seems to be slower than GregorianSchema when using a y/m/d repr.
+
+    // year > 0 but SupportedYearsCore is still equal to Maximal32.
+
     /// <summary>
     /// Represents the Gregorian schema (year > 0).
     /// <para>This class cannot be inherited.</para>
     /// <para>This class can ONLY be initialized from within friend assemblies.</para>
     /// </summary>
-    public sealed partial class GregorianStandardSchema : GJSchema, IBoxable<GregorianStandardSchema>
+    public sealed partial class CivilSchema : GJSchema, IBoxable<CivilSchema>
     {
         /// <summary>
-        /// Represents the earliest supported year.
-        /// <para>This field is a constant equal to 1.</para>
+        /// Initializes a new instance of the <see cref="CivilSchema"/> class.
         /// </summary>
-        internal const int MinYear = 1;
+        internal CivilSchema() : base(Range.Create(1, DefaultMaxYear)) { }
 
         /// <summary>
-        /// Represents the latest supported year.
-        /// <para>This field is a constant equal to 999_999.</para>
-        /// </summary>
-        internal const int MaxYear = DefaultMaxYear;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="GregorianStandardSchema"/> class.
-        /// </summary>
-        internal GregorianStandardSchema() : base(Range.Create(1, DefaultMaxYear)) { }
-
-        /// <summary>
-        /// Creates a new (boxed) instance of the <see cref="GregorianStandardSchema"/> class.
+        /// Creates a new (boxed) instance of the <see cref="CivilSchema"/> class.
         /// </summary>
         [Pure]
-        public static Box<GregorianStandardSchema> GetInstance() => Box.Create(new GregorianStandardSchema());
+        public static Box<CivilSchema> GetInstance() => Box.Create(new CivilSchema());
     }
 
-    public partial class GregorianStandardSchema // Year, month or day infos
+    public partial class CivilSchema // Year, month or day infos
     {
         /// <inheritdoc />
         [Pure]
@@ -44,7 +36,7 @@ namespace Zorglub.Time.Core.Schemas
             (y & 3) == 0 && (y % 100 != 0 || y % 400 == 0);
     }
 
-    public partial class GregorianStandardSchema // Conversions
+    public partial class CivilSchema // Conversions
     {
         /// <inheritdoc />
         [Pure]
@@ -107,7 +99,7 @@ namespace Zorglub.Time.Core.Schemas
         }
     }
 
-    public partial class GregorianStandardSchema // Dates in a given year or month
+    public partial class CivilSchema // Dates in a given year or month
     {
         /// <inheritdoc />
         [Pure]

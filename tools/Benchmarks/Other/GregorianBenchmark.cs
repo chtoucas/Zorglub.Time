@@ -22,9 +22,9 @@ Intel Core i7-4500U CPU 1.80GHz (Haswell), 1 CPU, 4 logical and 2 physical cores
 |                    Method |      Mean |    Error |   StdDev | Ratio | RatioSD | Rank |
 |-------------------------- |----------:|---------:|---------:|------:|--------:|-----:|
 |          'CivilDay   (g)' |  39.59 ns | 0.173 ns | 0.162 ns |  1.00 |    0.00 |    I |
-|       'DayNumber64      ' |  42.06 ns | 0.196 ns | 0.183 ns |  1.06 |    0.01 |   II |
+|       'DayNumber64   (g)' |  42.06 ns | 0.196 ns | 0.183 ns |  1.06 |    0.01 |   II |
 |      'GregorianDay   (g)' |  44.82 ns | 0.285 ns | 0.223 ns |  1.13 |    0.01 |  III |
-|         'DayNumber      ' |  47.30 ns | 0.185 ns | 0.154 ns |  1.20 |    0.01 |   IV |
+|         'DayNumber   (g)' |  47.30 ns | 0.185 ns | 0.154 ns |  1.20 |    0.01 |   IV |
 |          'DateTime *    ' |  51.04 ns | 0.249 ns | 0.233 ns |  1.29 |    0.01 |    V |
 |          'DateOnly *    ' |  53.43 ns | 0.144 ns | 0.128 ns |  1.35 |    0.01 |   VI |
 |       'DayTemplate      ' |  53.51 ns | 0.321 ns | 0.300 ns |  1.35 |    0.01 |   VI |
@@ -39,49 +39,50 @@ Intel Core i7-4500U CPU 1.80GHz (Haswell), 1 CPU, 4 logical and 2 physical cores
 |   'GregorianRecord  (Y) ' | 108.26 ns | 0.338 ns | 0.300 ns |  2.74 |    0.01 | XIII |
 |         'LocalDate *(Y) ' | 117.87 ns | 0.837 ns | 0.783 ns |  2.98 |    0.02 |  XIV |
 
-BenchmarkDotNet=v0.13.1, OS=Windows 10.0.19044.1766 (21H2)
+BenchmarkDotNet=v0.13.1, OS=Windows 10.0.19044.1826 (21H2)
 Intel Core2 Duo CPU E8500 3.16GHz, 1 CPU, 2 logical and 2 physical cores
-.NET SDK=6.0.301
-  [Host]     : .NET 6.0.6 (6.0.622.26707), X64 RyuJIT
-  DefaultJob : .NET 6.0.6 (6.0.622.26707), X64 RyuJIT
+.NET SDK=6.0.302
+  [Host]     : .NET 6.0.7 (6.0.722.32202), X64 RyuJIT
+  DefaultJob : .NET 6.0.7 (6.0.722.32202), X64 RyuJIT
 
-|                    Method |      Mean |    Error |   StdDev | Ratio | RatioSD | Rank |
-|-------------------------- |----------:|---------:|---------:|------:|--------:|-----:|
-|          'CivilDay   (g)' |  51.36 ns | 0.022 ns | 0.017 ns |  1.00 |    0.00 |    I |
-|      'GregorianDay   (g)' |  58.11 ns | 0.101 ns | 0.095 ns |  1.13 |    0.00 |   II |
-|       'DayNumber64      ' |  60.11 ns | 0.078 ns | 0.069 ns |  1.17 |    0.00 |  III |
-|         'DayNumber      ' |  67.26 ns | 0.045 ns | 0.040 ns |  1.31 |    0.00 |   IV |
-|       'DayTemplate      ' |  74.10 ns | 0.100 ns | 0.093 ns |  1.44 |    0.00 |    V |
-|       'CalendarDay      ' |  88.28 ns | 0.124 ns | 0.116 ns |  1.72 |    0.00 |   VI |
-|             'ZDate      ' |  90.75 ns | 0.472 ns | 0.442 ns |  1.77 |    0.01 |  VII |
-|         'CivilDate  (Yg)' |  91.23 ns | 0.053 ns | 0.047 ns |  1.78 |    0.00 |  VII |
-| 'DayNumber (Naked)      ' |  91.79 ns | 0.124 ns | 0.116 ns |  1.79 |    0.00 |  VII |
-|   'GregorianTriple  (Y) ' |  97.14 ns | 0.154 ns | 0.144 ns |  1.89 |    0.00 | VIII |
-|      'DateTemplate  (Y) ' | 102.32 ns | 0.091 ns | 0.080 ns |  1.99 |    0.00 |   IX |
-|       'OrdinalDate  (O) ' | 105.60 ns | 0.251 ns | 0.235 ns |  2.06 |    0.00 |    X |
-|      'CalendarDate  (Y) ' | 112.38 ns | 0.309 ns | 0.274 ns |  2.19 |    0.01 |   XI |
-|          'DateTime *    ' | 128.70 ns | 2.558 ns | 3.502 ns |  2.50 |    0.08 |  XII |
-|         'LocalDate *(Y) ' | 138.55 ns | 0.204 ns | 0.191 ns |  2.70 |    0.00 | XIII |
-|   'GregorianRecord  (Y) ' | 138.60 ns | 0.139 ns | 0.116 ns |  2.70 |    0.00 | XIII |
-|          'DateOnly *    ' | 139.56 ns | 2.716 ns | 2.667 ns |  2.71 |    0.06 | XIII |
+|                   Method |      Mean |    Error |   StdDev | Ratio | RatioSD | Rank |
+|------------------------- |----------:|---------:|---------:|------:|--------:|-----:|
+|        'CivilDay   (g)+' |  53.74 ns | 0.128 ns | 0.120 ns |  1.00 |    0.00 |    I |
+|    'GregorianDay   (g) ' |  57.85 ns | 0.078 ns | 0.073 ns |  1.08 |    0.00 |   II |
+|     'DayNumber64   (g) ' |  61.96 ns | 0.057 ns | 0.051 ns |  1.15 |    0.00 |  III |
+|       'DayNumber   (g) ' |  67.33 ns | 0.191 ns | 0.169 ns |  1.25 |    0.00 |   IV |
+|     'DayTemplate      +' |  69.61 ns | 1.393 ns | 1.761 ns |  1.29 |    0.03 |    V |
+|     'CalendarDay       ' |  85.83 ns | 0.134 ns | 0.126 ns |  1.60 |    0.00 |   VI |
+| 'Naked DayNumber      +' |  89.28 ns | 0.135 ns | 0.126 ns |  1.66 |    0.00 |  VII |
+|           'ZDate       ' |  90.00 ns | 0.874 ns | 0.730 ns |  1.67 |    0.01 |  VII |
+|       'CivilDate  (Yg)+' |  90.41 ns | 0.113 ns | 0.106 ns |  1.68 |    0.00 |  VII |
+|     'OrdinalDate  (O)  ' | 100.13 ns | 0.106 ns | 0.099 ns |  1.86 |    0.00 | VIII |
+|    'DateTemplate  (Y) +' | 107.69 ns | 0.085 ns | 0.075 ns |  2.00 |    0.00 |   IX |
+|     'CivilTriple  (Y) +' | 109.88 ns | 0.138 ns | 0.129 ns |  2.04 |    0.01 |    X |
+|    'CalendarDate  (Y)  ' | 114.10 ns | 0.092 ns | 0.086 ns |  2.12 |    0.00 |   XI |
+|        'DateTime *    +' | 126.88 ns | 2.592 ns | 4.931 ns |  2.38 |    0.09 |  XII |
+|      'CivilParts  (Y) +' | 132.78 ns | 0.337 ns | 0.315 ns |  2.47 |    0.01 | XIII |
+|       'LocalDate *(Y)  ' | 136.31 ns | 0.302 ns | 0.267 ns |  2.54 |    0.01 |  XIV |
+|        'DateOnly *    +' | 148.53 ns | 2.991 ns | 5.394 ns |  2.77 |    0.13 |   XV |
  */
 //
-// * = external, Y = Y/M/D repr., O = ord. repr., g = Gregorian-only
+// * = external, Y = Y/M/D repr., O = ord. repr., g = Gregorian-optimized, + = year > 0
 //
 // Comments:
 // - Here, we do not really test the overall design, we only test the
-//   various implementations of a Gregorian calendar which are usually over
+//   various implementations of a Gregorian calendar which are usually over-
 //   optimized. See JulianBenchmark for more realistic benchmarks.
 // - This is the worst possible scenario for a date object: arithmetic and
 //   DayOfWeek rely on the count of consecutive days since the epoch not on the
 //   Y/M/D representation, therefore DayNumber, DateTime and other types are
 //   favoured. By the way, these types have predictable performances,
 //   their results do not vary depending on the input.
-// - CivilDate and DateTime only deal with positive years (faster divisions).
+// - CivilDate, CivilDay, DayTemplate, DateTemplate, DateOnly and DateTime only
+//   deal with positive years (faster divisions).
 // - LocalDate caches the start of the year.
 // - DateTime is a time object, not a date object.
 // - With DayNumber and DayNumber64, we only validate the result twice (at
-//   the start and end) to mimic the behaviour of other date types.
+//   the start and at the end) to mimic the behaviour of other date types.
 
 public class GregorianBenchmark : BenchmarkBase
 {
@@ -91,7 +92,7 @@ public class GregorianBenchmark : BenchmarkBase
 
     public GregorianBenchmark() { Option = BenchmarkOption.Fixed; }
 
-    [Benchmark(Description = "CalendarDate  (Y) ")]
+    [Benchmark(Description = "CalendarDate  (Y)  ")]
     public void WithCalendarDate()
     {
         CalendarDate start = new(Year, Month, Day);
@@ -108,7 +109,7 @@ public class GregorianBenchmark : BenchmarkBase
         Consume(in dayOfYear);
     }
 
-    [Benchmark(Description = "CalendarDay      ")]
+    [Benchmark(Description = "CalendarDay       ")]
     public void WithCalendarDay()
     {
         CalendarDay start = new CalendarDate(Year, Month, Day).ToCalendarDay();
@@ -125,7 +126,7 @@ public class GregorianBenchmark : BenchmarkBase
         Consume(in dayOfYear);
     }
 
-    [Benchmark(Description = "OrdinalDate  (O) ")]
+    [Benchmark(Description = "OrdinalDate  (O)  ")]
     public void WithOrdinalDate()
     {
         OrdinalDate start = new CalendarDate(Year, Month, Day).ToOrdinalDate();
@@ -142,7 +143,7 @@ public class GregorianBenchmark : BenchmarkBase
         Consume(in dayOfYear);
     }
 
-    [Benchmark(Description = "ZDate      ")]
+    [Benchmark(Description = "ZDate       ")]
     public void WithZDate()
     {
         ZDate start = new(Year, Month, Day);
@@ -161,7 +162,7 @@ public class GregorianBenchmark : BenchmarkBase
 
     #region DayNumber
 
-    [Benchmark(Description = "DayNumber      ")]
+    [Benchmark(Description = "DayNumber   (g) ")]
     public void WithDayNumber()
     {
         DayNumber start = DayNumber.FromGregorianParts(Year, Month, Day);
@@ -180,7 +181,7 @@ public class GregorianBenchmark : BenchmarkBase
         Consume(in dayOfYear);
     }
 
-    [Benchmark(Description = "DayNumber64      ")]
+    [Benchmark(Description = "DayNumber64   (g) ")]
     public void WithDayNumber64()
     {
         DayNumber64 start = DayNumber64.FromGregorianParts(Year, Month, Day);
@@ -197,7 +198,7 @@ public class GregorianBenchmark : BenchmarkBase
         Consume(in dayOfYear);
     }
 
-    [Benchmark(Description = "DayNumber (Naked)      ")]
+    [Benchmark(Description = "Naked DayNumber      +")]
     public void WithDayNumberNaked()
     {
         var chr = My.NakedGregorian;
@@ -220,11 +221,11 @@ public class GregorianBenchmark : BenchmarkBase
     #endregion
     #region Affine date types
 
-    [Benchmark(Description = "GregorianRecord  (Y) ")]
-    public void WithGregorianRecord()
+    [Benchmark(Description = "CivilParts  (Y) +")]
+    public void WithCivilParts()
     {
-        GregorianRecord start = new(Year, Month, Day);
-        GregorianRecord end = start.NextDay().PlusDays(D7).PlusDays(D30).PlusDays(D401);
+        CivilParts start = new(Year, Month, Day);
+        CivilParts end = start.NextDay().PlusDays(D7).PlusDays(D30).PlusDays(D401);
         var dayNumber = DayZero.NewStyle + end.CountDaysSinceEpoch();
 
         var (y, m, d) = end;
@@ -238,11 +239,11 @@ public class GregorianBenchmark : BenchmarkBase
         Consume(in dayOfYear);
     }
 
-    [Benchmark(Description = "GregorianTriple  (Y) ")]
-    public void WithGregorianTriple()
+    [Benchmark(Description = "CivilTriple  (Y) +")]
+    public void WithCivilTriple()
     {
-        GregorianTriple start = new(Year, Month, Day);
-        GregorianTriple end = start.NextDay().PlusDays(D7).PlusDays(D30).PlusDays(D401);
+        CivilTriple start = new(Year, Month, Day);
+        CivilTriple end = start.NextDay().PlusDays(D7).PlusDays(D30).PlusDays(D401);
         var dayNumber = DayZero.NewStyle + end.CountDaysSinceEpoch();
 
         var (y, m, d) = end;
@@ -259,7 +260,7 @@ public class GregorianBenchmark : BenchmarkBase
     #endregion
     #region Specialized date types
 
-    [Benchmark(Description = "CivilDate  (Yg)")]
+    [Benchmark(Description = "CivilDate  (Yg)+")]
     public void WithCivilDate()
     {
         CivilDate start = new(Year, Month, Day);
@@ -276,7 +277,7 @@ public class GregorianBenchmark : BenchmarkBase
         Consume(in dayOfYear);
     }
 
-    [Benchmark(Description = "CivilDay   (g)", Baseline = true)]
+    [Benchmark(Description = "CivilDay   (g)+", Baseline = true)]
     public void WithCivilDay()
     {
         CivilDay start = new(Year, Month, Day);
@@ -293,7 +294,7 @@ public class GregorianBenchmark : BenchmarkBase
         Consume(in dayOfYear);
     }
 
-    [Benchmark(Description = "GregorianDay   (g)")]
+    [Benchmark(Description = "GregorianDay   (g) ")]
     public void WithGregorianDay()
     {
         GregorianDay start = new(Year, Month, Day);
@@ -313,7 +314,7 @@ public class GregorianBenchmark : BenchmarkBase
     #endregion
     #region Templates
 
-    [Benchmark(Description = "DateTemplate  (Y) ")]
+    [Benchmark(Description = "DateTemplate  (Y) +")]
     public void WithDateTemplate()
     {
         DateTemplate start = new(Year, Month, Day);
@@ -330,7 +331,7 @@ public class GregorianBenchmark : BenchmarkBase
         Consume(in dayOfYear);
     }
 
-    [Benchmark(Description = "DayTemplate      ")]
+    [Benchmark(Description = "DayTemplate      +")]
     public void WithDayTemplate()
     {
         DayTemplate start = new(Year, Month, Day);
@@ -350,7 +351,7 @@ public class GregorianBenchmark : BenchmarkBase
     #endregion
     #region External date types
 
-    [Benchmark(Description = "LocalDate *(Y) ")]
+    [Benchmark(Description = "LocalDate *(Y)  ")]
     public void WithLocalDate()
     {
         LocalDate start = new(Year, Month, Day);
@@ -367,7 +368,7 @@ public class GregorianBenchmark : BenchmarkBase
         Consume(in dayOfYear);
     }
 
-    [Benchmark(Description = "DateOnly *    ")]
+    [Benchmark(Description = "DateOnly *    +")]
     public void WithDateOnly()
     {
         DateOnly start = new(Year, Month, Day);
@@ -386,7 +387,7 @@ public class GregorianBenchmark : BenchmarkBase
         Consume(in dayOfYear);
     }
 
-    [Benchmark(Description = "DateTime *    ")]
+    [Benchmark(Description = "DateTime *    +")]
     public void WithDateTime()
     {
         DateTime start = new(Year, Month, Day);

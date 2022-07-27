@@ -50,7 +50,7 @@ public partial class CalendarZoo
     /// </summary>
     public static BoundedBelowCalendar GenuineGregorian =>
         s_GenuineGregorian ??=
-            (from x in GregorianSchema.GetInstance()
+            (from x in CivilSchema.GetInstance()
              select new BoundedBelowCalendar(
                  "Genuine Gregorian",
                  x,
@@ -336,7 +336,7 @@ public partial class CalendarZoo
     {
         const string Key = "Holocene";
 
-        var sch = CreateOffsettedGregorian(10_000);
+        var sch = CreateOffsettedCivilSchema(10_000);
         var scope = MinMaxYearScope.WithMaximalRange(sch, DayZero.NewStyle, onOrAfterEpoch: true);
 
         if (ZCatalog.TryAdd(Key, scope, out var chr) == false)
@@ -364,7 +364,7 @@ public partial class CalendarZoo
     {
         const string Key = "Minguo";
 
-        var sch = CreateOffsettedGregorian(-1911);
+        var sch = CreateOffsettedCivilSchema(-1911);
         var scope = MinMaxYearScope.WithMaximalRange(sch, DayZero.NewStyle, onOrAfterEpoch: true);
 
         if (ZCatalog.TryAdd(Key, scope, out var chr) == false)
@@ -392,7 +392,7 @@ public partial class CalendarZoo
     {
         const string Key = "Thai Solar";
 
-        var sch = CreateOffsettedGregorian(543);
+        var sch = CreateOffsettedCivilSchema(543);
         var scope = MinMaxYearScope.WithMaximalRange(sch, DayZero.NewStyle, onOrAfterEpoch: true);
 
         if (ZCatalog.TryAdd(Key, scope, out var chr) == false)
@@ -405,9 +405,9 @@ public partial class CalendarZoo
         return s_ThaiSolar;
     }
 
-    private static CalendricalSchemaOffsetted CreateOffsettedGregorian(int offset)
+    private static CalendricalSchemaOffsetted CreateOffsettedCivilSchema(int offset)
     {
-        var sch = GregorianSchema.GetInstance().Unbox();
+        var sch = CivilSchema.GetInstance().Unbox();
         return new CalendricalSchemaOffsetted(sch, offset);
     }
 }

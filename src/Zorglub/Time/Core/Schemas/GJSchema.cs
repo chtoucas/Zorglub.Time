@@ -5,6 +5,8 @@ namespace Zorglub.Time.Core.Schemas
 {
     using Zorglub.Time.Core.Intervals;
 
+    // The computations here are strictly identical whether the year is >= 0 or < 0.
+
     /// <summary>
     /// Provides a base for the Gregorian and Julian schemas.
     /// <para>This class can ONLY be inherited from within friend assemblies.</para>

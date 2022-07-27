@@ -39,7 +39,7 @@ public readonly partial struct DayTemplate :
     IMonthEndpointsProvider<DayTemplate>,
     IMinMaxValue<DayTemplate>
 {
-    private static readonly CalendricalSchema Schema = SchemaActivator.CreateInstance<GregorianStandardSchema>();
+    private static readonly CalendricalSchema Schema = SchemaActivator.CreateInstance<CivilSchema>();
     private static readonly CalendarScope Scope = new StandardScope(Schema, DayZero.NewStyle);
 
     [Pure]

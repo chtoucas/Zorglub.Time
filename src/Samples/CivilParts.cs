@@ -13,6 +13,8 @@ using Zorglub.Time.Core.Schemas;
 using Zorglub.Time.Core.Validation;
 using Zorglub.Time.Hemerology;
 
+using ZRange = Zorglub.Time.Core.Intervals.Range;
+
 // Using a record struct is not a great choice. Main drawbacks:
 // - bad default value: 0/0/0, month and day should be > 0 (but of course we
 //   could change that)
@@ -22,15 +24,15 @@ using Zorglub.Time.Hemerology;
 /// <summary>
 /// Provides an affine Gregorian date as a record struct (Year, Month, Day).
 /// </summary>
-public readonly partial record struct GregorianRecord :
-    IAffineDate<GregorianRecord>,
-    IMinMaxValue<GregorianRecord>
+public readonly partial record struct CivilParts :
+    IAffineDate<CivilParts>,
+    IMinMaxValue<CivilParts>
 {
-    private static readonly CalendricalSchema Schema = SchemaActivator.CreateInstance<GregorianSchema>();
-    private static readonly CalendricalSegment Segment = CalendricalSegment.CreateMaximal(Schema);
+    private static readonly CalendricalSchema Schema = SchemaActivator.CreateInstance<CivilSchema>();
+    private static readonly CalendricalSegment Segment = CalendricalSegment.Create(Schema, ZRange.Create(1, 9999));
 }
 
-public readonly partial record struct GregorianRecord
+public readonly partial record struct CivilParts
 {
     private static ICalendricalPreValidator PreValidator { get; } = Schema.PreValidator;
     private static DaysValidator DaysValidator { get; } = new(Segment.SupportedDays);
@@ -39,7 +41,7 @@ public readonly partial record struct GregorianRecord
     private static PartsAdapter PartsAdapter { get; } = new(Schema);
     private static PartsArithmetic PartsArithmetic { get; } = PartsArithmetic.CreateDefault(Schema, Segment.SupportedYears);
 
-    public GregorianRecord(int year, int month, int day)
+    public CivilParts(int year, int month, int day)
     {
         YearsValidator.Validate(year);
         PreValidator.ValidateMonthDay(year, month, day);
@@ -49,13 +51,13 @@ public readonly partial record struct GregorianRecord
         Day = day;
     }
 
-    private GregorianRecord(DateParts parts)
+    private CivilParts(DateParts parts)
     {
         (Year, Month, Day) = parts;
     }
 
-    public static GregorianRecord MinValue { get; } = new(Segment.MinMaxDateParts.LowerValue);
-    public static GregorianRecord MaxValue { get; } = new(Segment.MinMaxDateParts.UpperValue);
+    public static CivilParts MinValue { get; } = new(Segment.MinMaxDateParts.LowerValue);
+    public static CivilParts MaxValue { get; } = new(Segment.MinMaxDateParts.UpperValue);
 
     public Ord CenturyOfEra => Ord.FromInt32(Century);
     public int Century => YearNumbering.GetCentury(Year);
@@ -74,14 +76,14 @@ public readonly partial record struct GregorianRecord
         (year, month, day) = (Year, Month, Day);
 }
 
-public partial record struct GregorianRecord // Conversions, adjustments...
+public partial record struct CivilParts // Conversions, adjustments...
 {
     [Pure]
-    public static GregorianRecord FromDaysSinceEpoch(int daysSinceEpoch)
+    public static CivilParts FromDaysSinceEpoch(int daysSinceEpoch)
     {
         DaysValidator.Validate(daysSinceEpoch);
         var parts = PartsAdapter.GetDateParts(daysSinceEpoch);
-        return new GregorianRecord(parts);
+        return new CivilParts(parts);
     }
 
     [Pure]
@@ -104,56 +106,56 @@ public partial record struct GregorianRecord // Conversions, adjustments...
     #endregion
 }
 
-public partial record struct GregorianRecord // IComparable
+public partial record struct CivilParts // IComparable
 {
-    public static bool operator <(GregorianRecord left, GregorianRecord right) => left.CompareTo(right) < 0;
-    public static bool operator <=(GregorianRecord left, GregorianRecord right) => left.CompareTo(right) <= 0;
-    public static bool operator >(GregorianRecord left, GregorianRecord right) => left.CompareTo(right) > 0;
-    public static bool operator >=(GregorianRecord left, GregorianRecord right) => left.CompareTo(right) >= 0;
+    public static bool operator <(CivilParts left, CivilParts right) => left.CompareTo(right) < 0;
+    public static bool operator <=(CivilParts left, CivilParts right) => left.CompareTo(right) <= 0;
+    public static bool operator >(CivilParts left, CivilParts right) => left.CompareTo(right) > 0;
+    public static bool operator >=(CivilParts left, CivilParts right) => left.CompareTo(right) >= 0;
 
     [Pure]
-    public static GregorianRecord Min(GregorianRecord x, GregorianRecord y) => x.CompareTo(y) < 0 ? x : y;
+    public static CivilParts Min(CivilParts x, CivilParts y) => x.CompareTo(y) < 0 ? x : y;
 
     [Pure]
-    public static GregorianRecord Max(GregorianRecord x, GregorianRecord y) => x.CompareTo(y) > 0 ? x : y;
+    public static CivilParts Max(CivilParts x, CivilParts y) => x.CompareTo(y) > 0 ? x : y;
 
     [Pure]
-    public int CompareTo(GregorianRecord other) => DateParts.CompareTo(other.DateParts);
+    public int CompareTo(CivilParts other) => DateParts.CompareTo(other.DateParts);
 
     [Pure]
     public int CompareTo(object? obj) =>
         obj is null ? 1
-        : obj is GregorianRecord date ? CompareTo(date)
+        : obj is CivilParts date ? CompareTo(date)
         : throw new ArgumentException(
-            $"The object should be of type {nameof(obj)} but it is of type {typeof(GregorianRecord).GetType()}.",
+            $"The object should be of type {nameof(obj)} but it is of type {typeof(CivilParts).GetType()}.",
             nameof(obj));
 }
 
-public partial record struct GregorianRecord // Math ops
+public partial record struct CivilParts // Math ops
 {
 #pragma warning disable CA2225 // Operator overloads have named alternates (Usage)
 
-    public static int operator -(GregorianRecord left, GregorianRecord right) => left.CountDaysSince(right);
-    public static GregorianRecord operator +(GregorianRecord value, int days) => value.PlusDays(days);
-    public static GregorianRecord operator -(GregorianRecord value, int days) => value.PlusDays(-days);
-    public static GregorianRecord operator ++(GregorianRecord value) => value.NextDay();
-    public static GregorianRecord operator --(GregorianRecord value) => value.PreviousDay();
+    public static int operator -(CivilParts left, CivilParts right) => left.CountDaysSince(right);
+    public static CivilParts operator +(CivilParts value, int days) => value.PlusDays(days);
+    public static CivilParts operator -(CivilParts value, int days) => value.PlusDays(-days);
+    public static CivilParts operator ++(CivilParts value) => value.NextDay();
+    public static CivilParts operator --(CivilParts value) => value.PreviousDay();
 
 #pragma warning restore CA2225
 
     [Pure]
-    public int CountDaysSince(GregorianRecord other) =>
+    public int CountDaysSince(CivilParts other) =>
         PartsArithmetic.CountDaysBetween(other.DateParts, DateParts);
 
     [Pure]
-    public GregorianRecord PlusDays(int days) =>
+    public CivilParts PlusDays(int days) =>
         new(PartsArithmetic.AddDays(DateParts, days));
 
     [Pure]
-    public GregorianRecord NextDay() =>
+    public CivilParts NextDay() =>
         new(PartsArithmetic.NextDay(DateParts));
 
     [Pure]
-    public GregorianRecord PreviousDay() =>
+    public CivilParts PreviousDay() =>
         new(PartsArithmetic.PreviousDay(DateParts));
 }

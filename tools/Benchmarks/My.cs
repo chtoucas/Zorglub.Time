@@ -13,7 +13,7 @@ using static Zorglub.Time.Extensions.Unboxing;
 internal static class My
 {
     public static readonly Calendar Tropicalia = TropicaliaSchema.GetInstance()
-        .CreateCalendar("Tropicália", DayZero.NewStyle, proleptic: true);
+        .CreateCalendar("Tropicália", DayZero.NewStyle);
 
     public static readonly Calendar Tropicalia3031 = Tropicalia3031Schema.GetInstance()
         .CreateCalendar("Tropicália 30-31", DayZero.NewStyle);
@@ -26,7 +26,7 @@ internal static class My
     //
 
     public static readonly MinMaxYearCalendar NakedGregorian =
-        (from x in GregorianSchema.GetInstance()
+        (from x in CivilSchema.GetInstance()
          select MinMaxYearCalendar.WithMinYear("Gregorian", x, DayZero.NewStyle, 1)
          ).Unbox();
 

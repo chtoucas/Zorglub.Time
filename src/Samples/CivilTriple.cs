@@ -9,9 +9,12 @@ using System.Diagnostics.Contracts;
 
 using Zorglub.Time;
 using Zorglub.Time.Core;
+using Zorglub.Time.Core.Intervals;
 using Zorglub.Time.Core.Schemas;
 using Zorglub.Time.Core.Validation;
 using Zorglub.Time.Hemerology;
+
+using ZRange = Zorglub.Time.Core.Intervals.Range;
 
 // Demonstration that almost all operations only depend on the schema.
 //
@@ -24,12 +27,12 @@ using Zorglub.Time.Hemerology;
 /// <summary>
 /// Provides an affine Gregorian date as a struct based on <see cref="Yemoda"/>.
 /// </summary>
-public readonly partial struct GregorianTriple :
-    IAffineDate<GregorianTriple>,
-    IMinMaxValue<GregorianTriple>
+public readonly partial struct CivilTriple :
+    IAffineDate<CivilTriple>,
+    IMinMaxValue<CivilTriple>
 {
-    private static readonly SystemSchema Schema = SchemaActivator.CreateInstance<GregorianSchema>();
-    private static readonly SystemSegment Segment = SystemSegment.Create(Schema, Schema.SupportedYears);
+    private static readonly SystemSchema Schema = SchemaActivator.CreateInstance<CivilSchema>();
+    private static readonly SystemSegment Segment = SystemSegment.Create(Schema, ZRange.Create(1, 9999));
 
     [Pure]
     public override string ToString()
@@ -39,7 +42,7 @@ public readonly partial struct GregorianTriple :
     }
 }
 
-public partial struct GregorianTriple
+public partial struct CivilTriple
 {
     private static DaysValidator DaysValidator { get; } = new(Segment.SupportedDays);
 
@@ -48,18 +51,18 @@ public partial struct GregorianTriple
 
     private readonly Yemoda _bin;
 
-    public GregorianTriple(int year, int month, int day)
+    public CivilTriple(int year, int month, int day)
     {
         _bin = PartsFactory.CreateYemoda(year, month, day);
     }
 
-    private GregorianTriple(Yemoda bin)
+    private CivilTriple(Yemoda bin)
     {
         _bin = bin;
     }
 
-    public static GregorianTriple MinValue { get; } = new(Segment.MinMaxDateParts.LowerValue);
-    public static GregorianTriple MaxValue { get; } = new(Segment.MinMaxDateParts.UpperValue);
+    public static CivilTriple MinValue { get; } = new(Segment.MinMaxDateParts.LowerValue);
+    public static CivilTriple MaxValue { get; } = new(Segment.MinMaxDateParts.UpperValue);
 
     public Ord CenturyOfEra => Ord.FromInt32(Century);
     public int Century => YearNumbering.GetCentury(Year);
@@ -101,14 +104,14 @@ public partial struct GregorianTriple
         (year, month, day) = _bin;
 }
 
-public partial struct GregorianTriple // Conversions, adjustments...
+public partial struct CivilTriple // Conversions, adjustments...
 {
     [Pure]
-    public static GregorianTriple FromDaysSinceEpoch(int daysSinceEpoch)
+    public static CivilTriple FromDaysSinceEpoch(int daysSinceEpoch)
     {
         DaysValidator.Validate(daysSinceEpoch);
         var ymd = Schema.GetDateParts(daysSinceEpoch);
-        return new GregorianTriple(ymd);
+        return new CivilTriple(ymd);
     }
 
     [Pure]
@@ -147,72 +150,72 @@ public partial struct GregorianTriple // Conversions, adjustments...
     #endregion
 }
 
-public partial struct GregorianTriple // IEquatable
+public partial struct CivilTriple // IEquatable
 {
-    public static bool operator ==(GregorianTriple left, GregorianTriple right) => left._bin == right._bin;
-    public static bool operator !=(GregorianTriple left, GregorianTriple right) => left._bin != right._bin;
+    public static bool operator ==(CivilTriple left, CivilTriple right) => left._bin == right._bin;
+    public static bool operator !=(CivilTriple left, CivilTriple right) => left._bin != right._bin;
 
     [Pure]
-    public bool Equals(GregorianTriple other) => _bin == other._bin;
+    public bool Equals(CivilTriple other) => _bin == other._bin;
 
     [Pure]
     public override bool Equals([NotNullWhen(true)] object? obj) =>
-        obj is GregorianTriple date && Equals(date);
+        obj is CivilTriple date && Equals(date);
 
     [Pure]
     public override int GetHashCode() => _bin.GetHashCode();
 }
 
-public partial struct GregorianTriple // IComparable
+public partial struct CivilTriple // IComparable
 {
-    public static bool operator <(GregorianTriple left, GregorianTriple right) => left._bin < right._bin;
-    public static bool operator <=(GregorianTriple left, GregorianTriple right) => left._bin <= right._bin;
-    public static bool operator >(GregorianTriple left, GregorianTriple right) => left._bin > right._bin;
-    public static bool operator >=(GregorianTriple left, GregorianTriple right) => left._bin >= right._bin;
+    public static bool operator <(CivilTriple left, CivilTriple right) => left._bin < right._bin;
+    public static bool operator <=(CivilTriple left, CivilTriple right) => left._bin <= right._bin;
+    public static bool operator >(CivilTriple left, CivilTriple right) => left._bin > right._bin;
+    public static bool operator >=(CivilTriple left, CivilTriple right) => left._bin >= right._bin;
 
     [Pure]
-    public static GregorianTriple Min(GregorianTriple x, GregorianTriple y) => x.CompareTo(y) < 0 ? x : y;
+    public static CivilTriple Min(CivilTriple x, CivilTriple y) => x.CompareTo(y) < 0 ? x : y;
 
     [Pure]
-    public static GregorianTriple Max(GregorianTriple x, GregorianTriple y) => x.CompareTo(y) > 0 ? x : y;
+    public static CivilTriple Max(CivilTriple x, CivilTriple y) => x.CompareTo(y) > 0 ? x : y;
 
     [Pure]
-    public int CompareTo(GregorianTriple other) => _bin.CompareTo(other._bin);
+    public int CompareTo(CivilTriple other) => _bin.CompareTo(other._bin);
 
     [Pure]
     public int CompareTo(object? obj) =>
         obj is null ? 1
-        : obj is GregorianTriple date ? CompareTo(date)
+        : obj is CivilTriple date ? CompareTo(date)
         : throw new ArgumentException(
-            $"The object should be of type {nameof(obj)} but it is of type {typeof(GregorianTriple).GetType()}.",
+            $"The object should be of type {nameof(obj)} but it is of type {typeof(CivilTriple).GetType()}.",
             nameof(obj));
 }
 
-public partial struct GregorianTriple // Math ops
+public partial struct CivilTriple // Math ops
 {
 #pragma warning disable CA2225 // Operator overloads have named alternates (Usage)
 
-    public static int operator -(GregorianTriple left, GregorianTriple right) => left.CountDaysSince(right);
-    public static GregorianTriple operator +(GregorianTriple value, int days) => value.PlusDays(days);
-    public static GregorianTriple operator -(GregorianTriple value, int days) => value.PlusDays(-days);
-    public static GregorianTriple operator ++(GregorianTriple value) => value.NextDay();
-    public static GregorianTriple operator --(GregorianTriple value) => value.PreviousDay();
+    public static int operator -(CivilTriple left, CivilTriple right) => left.CountDaysSince(right);
+    public static CivilTriple operator +(CivilTriple value, int days) => value.PlusDays(days);
+    public static CivilTriple operator -(CivilTriple value, int days) => value.PlusDays(-days);
+    public static CivilTriple operator ++(CivilTriple value) => value.NextDay();
+    public static CivilTriple operator --(CivilTriple value) => value.PreviousDay();
 
 #pragma warning restore CA2225
 
     [Pure]
-    public int CountDaysSince(GregorianTriple other) =>
+    public int CountDaysSince(CivilTriple other) =>
         Arithmetic.CountDaysBetween(other._bin, _bin);
 
     [Pure]
-    public GregorianTriple PlusDays(int days) =>
+    public CivilTriple PlusDays(int days) =>
         new(Arithmetic.AddDays(_bin, days));
 
     [Pure]
-    public GregorianTriple NextDay() =>
+    public CivilTriple NextDay() =>
         new(Arithmetic.NextDay(_bin));
 
     [Pure]
-    public GregorianTriple PreviousDay() =>
+    public CivilTriple PreviousDay() =>
         new(Arithmetic.PreviousDay(_bin));
 }

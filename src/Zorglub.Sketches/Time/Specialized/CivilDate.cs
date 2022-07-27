@@ -271,7 +271,7 @@ namespace Zorglub.Time.Specialized
             get
             {
                 Unpack(out int y, out int m, out int d);
-                return GregorianStandardFormulae.CountDaysSinceEpoch(y, m, d);
+                return CivilFormulae.CountDaysSinceEpoch(y, m, d);
             }
         }
 
@@ -358,7 +358,7 @@ namespace Zorglub.Time.Specialized
         [Pure]
         internal static CivilDate FromDaysSinceEpoch(int daysSinceEpoch)
         {
-            GregorianStandardFormulae.GetDateParts(daysSinceEpoch, out int y, out int m, out int d);
+            CivilFormulae.GetDateParts(daysSinceEpoch, out int y, out int m, out int d);
             return new(Pack(y, m, d));
         }
 

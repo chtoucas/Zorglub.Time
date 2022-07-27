@@ -43,7 +43,7 @@ namespace Zorglub.Time.Specialized
         {
             GregorianStandardScope.ValidateYearMonthDay(year, month, day);
 
-            _daysSinceEpoch = GregorianStandardFormulae.CountDaysSinceEpoch(year, month, day);
+            _daysSinceEpoch = CivilFormulae.CountDaysSinceEpoch(year, month, day);
         }
 
         /// <summary>
@@ -114,14 +114,14 @@ namespace Zorglub.Time.Specialized
         public int YearOfCentury => YearNumbering.GetYearOfCentury(Year);
 
         /// <inheritdoc />
-        public int Year => GregorianStandardFormulae.GetYear(_daysSinceEpoch);
+        public int Year => CivilFormulae.GetYear(_daysSinceEpoch);
 
         /// <inheritdoc />
         public int Month
         {
             get
             {
-                GregorianStandardFormulae.GetDateParts(_daysSinceEpoch, out _, out int m, out _);
+                CivilFormulae.GetDateParts(_daysSinceEpoch, out _, out int m, out _);
                 return m;
             }
         }
@@ -131,7 +131,7 @@ namespace Zorglub.Time.Specialized
         {
             get
             {
-                _ = GregorianStandardFormulae.GetYear(_daysSinceEpoch, out int doy);
+                _ = CivilFormulae.GetYear(_daysSinceEpoch, out int doy);
                 return doy;
             }
         }
@@ -141,7 +141,7 @@ namespace Zorglub.Time.Specialized
         {
             get
             {
-                GregorianStandardFormulae.GetDateParts(_daysSinceEpoch, out _, out _, out int d);
+                CivilFormulae.GetDateParts(_daysSinceEpoch, out _, out _, out int d);
                 return d;
             }
         }
@@ -154,7 +154,7 @@ namespace Zorglub.Time.Specialized
         {
             get
             {
-                GregorianStandardFormulae.GetDateParts(_daysSinceEpoch, out _, out int m, out int d);
+                CivilFormulae.GetDateParts(_daysSinceEpoch, out _, out int m, out int d);
                 return GregorianFormulae.IsIntercalaryDay(m, d);
             }
         }
@@ -168,7 +168,7 @@ namespace Zorglub.Time.Specialized
         [Pure]
         public override string ToString()
         {
-            GregorianStandardFormulae.GetDateParts(_daysSinceEpoch, out int y, out int m, out int d);
+            CivilFormulae.GetDateParts(_daysSinceEpoch, out int y, out int m, out int d);
             return FormattableString.Invariant($"{d:D2}/{m:D2}/{y:D4} (Gregorian)");
         }
 
@@ -176,7 +176,7 @@ namespace Zorglub.Time.Specialized
         /// Deconstructs the current instance into its components.
         /// </summary>
         public void Deconstruct(out int year, out int month, out int day) =>
-            GregorianStandardFormulae.GetDateParts(_daysSinceEpoch, out year, out month, out day);
+            CivilFormulae.GetDateParts(_daysSinceEpoch, out year, out month, out day);
     }
 
     public partial struct CivilDay // Conversions, adjustments...
@@ -225,7 +225,7 @@ namespace Zorglub.Time.Specialized
         [Pure]
         public static CivilDay GetStartOfYear(CivilDay day)
         {
-            int daysSinceEpoch = GregorianStandardFormulae.GetStartOfYear(day.Year);
+            int daysSinceEpoch = CivilFormulae.GetStartOfYear(day.Year);
             return new CivilDay(daysSinceEpoch);
         }
 
@@ -241,7 +241,7 @@ namespace Zorglub.Time.Specialized
         [Pure]
         public static CivilDay GetStartOfMonth(CivilDay day)
         {
-            GregorianStandardFormulae.GetDateParts(day._daysSinceEpoch, out int y, out int m, out _);
+            CivilFormulae.GetDateParts(day._daysSinceEpoch, out int y, out int m, out _);
             int daysSinceEpoch = s_Schema.GetStartOfMonth(y, m);
             return new CivilDay(daysSinceEpoch);
         }
@@ -250,7 +250,7 @@ namespace Zorglub.Time.Specialized
         [Pure]
         public static CivilDay GetEndOfMonth(CivilDay day)
         {
-            GregorianStandardFormulae.GetDateParts(day._daysSinceEpoch, out int y, out int m, out _);
+            CivilFormulae.GetDateParts(day._daysSinceEpoch, out int y, out int m, out _);
             int daysSinceEpoch = s_Schema.GetEndOfMonth(y, m);
             return new CivilDay(daysSinceEpoch);
         }
