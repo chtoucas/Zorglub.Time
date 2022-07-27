@@ -10,7 +10,7 @@ namespace Zorglub.Time.Core.Intervals
     // Name conflict with BCL System.Range: use an alias, either
     // > using BclRange = System.Range;
     // or
-    // > using NRange = Zorglub.Time.Core.Intervals.Range;
+    // > using ZRange = Zorglub.Time.Core.Intervals.Range;
     //
     // Enumerable:
     // - ToEnumerable() for structs
@@ -112,7 +112,7 @@ namespace Zorglub.Time.Core.Intervals
         // A range of int's is finite and enumerable.
 
         /// <summary>
-        /// Gets the range {<see cref="Int32.MinValue"/>..<see cref="Int32.MaxValue"/>}.
+        /// Gets the range [<see cref="Int32.MinValue"/>..<see cref="Int32.MaxValue"/>].
         /// <para>This is the largest range of 32-bit signed integers representable by the system.
         /// </para>
         /// <para>This static property is thread-safe.</para>
