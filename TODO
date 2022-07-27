@@ -1,8 +1,8 @@
 ﻿TODO
 ====
 
-Domains: SupportedYearsTester
-ident, id, cuid
+SupportedYearsTester
+Naming: ident, id, cuid
 Adjustable dates
 
 - Math:
