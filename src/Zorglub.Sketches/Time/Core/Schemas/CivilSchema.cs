@@ -19,7 +19,7 @@ namespace Zorglub.Time.Core.Schemas
         /// <summary>
         /// Initializes a new instance of the <see cref="CivilSchema"/> class.
         /// </summary>
-        internal CivilSchema() : base(Range.Create(1, DefaultMaxYear)) { }
+        internal CivilSchema() : base(DefaultSupportedYears.WithMin(1)) { }
 
         /// <summary>
         /// Creates a new (boxed) instance of the <see cref="CivilSchema"/> class.
