@@ -32,6 +32,7 @@ using Zorglub.Time.Hemerology.Scopes;
 
 /// <summary>
 /// Provides a Gregorian date based on the count of consecutive days since the Gregorian epoch.
+/// <para>Years in [1, 9999]</para>
 /// </summary>
 public readonly partial struct DayTemplate :
     IDate<DayTemplate>,

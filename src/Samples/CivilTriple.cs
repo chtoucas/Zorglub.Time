@@ -26,6 +26,7 @@ using ZRange = Zorglub.Time.Core.Intervals.Range;
 
 /// <summary>
 /// Provides an affine Gregorian date as a struct based on <see cref="Yemoda"/>.
+/// <para>Years in [1, 9999]</para>
 /// </summary>
 public readonly partial struct CivilTriple :
     IAffineDate<CivilTriple>,

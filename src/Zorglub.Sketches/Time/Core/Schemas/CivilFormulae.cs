@@ -4,7 +4,7 @@
 namespace Zorglub.Time.Core.Schemas
 {
     /// <summary>
-    /// Provides static formulae for the Gregorian schema (year > 0).
+    /// Provides static formulae for the Gregorian schema (year >= 0).
     /// <para>See also <seealso cref="GregorianFormulae"/>.</para>
     /// <para>This class cannot be inherited.</para>
     /// </summary>

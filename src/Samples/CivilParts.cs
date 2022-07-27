@@ -16,13 +16,14 @@ using Zorglub.Time.Hemerology;
 using ZRange = Zorglub.Time.Core.Intervals.Range;
 
 // Using a record struct is not a great choice. Main drawbacks:
-// - bad default value: 0/0/0, month and day should be > 0 (but of course we
-//   could change that)
+// - bad default value: 0/0/0, year, month and day should be > 0 (but of course
+//   we could change that)
 // - ToString() outputs all props (but of course we could change that)
 // - slower and bigger runtime size than the other types
 
 /// <summary>
 /// Provides an affine Gregorian date as a record struct (Year, Month, Day).
+/// <para>Years in [1, 9999]</para>
 /// </summary>
 public readonly partial record struct CivilParts :
     IAffineDate<CivilParts>,

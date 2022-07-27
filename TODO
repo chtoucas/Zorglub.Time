@@ -5,6 +5,9 @@ SupportedYearsTester
 Naming: ident, id, cuid
 Adjustable dates
 
+- Yemoda as a binary repr for a date type when the later does not want to
+  support y = 0 which is the default value of Yemoda.
+  Change to default year = 1.
 - Math:
   * Optimize div in N
   * Profile: OtherRegular, Other7 (MinDaysInMonth >= 7)?
@@ -15,8 +18,6 @@ Adjustable dates
   * API for CalendarDay (PlusYears, PlusMonths?), humm no, use conversion to
     CalendarDate. We have the three forms of dates for that purpose.
 - Tests should not perform any conversion, e.g. CalendarDate -> OrdinalDate.
-- Yemoda as a binary repr for a date type when the later does not want to
-  support y = 0 which is the default value of Yemoda
 
 - Packaging: version numbering (timestamp).
 - Publication: GitHub & NuGet (for NuGet only when reach 1.0.0).
