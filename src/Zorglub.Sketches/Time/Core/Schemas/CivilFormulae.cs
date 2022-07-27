@@ -47,6 +47,30 @@ namespace Zorglub.Time.Core.Schemas
         {
             Debug.Assert(daysSinceEpoch >= 0);
 
+#if true
+            uint daysSinceEpoch1 = (uint)daysSinceEpoch + GJSchema.DaysInYearAfterFebruary;
+
+            uint C = ((daysSinceEpoch1 << 2) + 3) / GregorianSchema.DaysPer400YearCycle;
+            uint D = daysSinceEpoch1 - (GregorianSchema.DaysPer400YearCycle * C >> 2);
+
+            uint Y = ((D << 2) + 3) / GregorianSchema.DaysPer4YearSubcycle;
+            uint d0y = D - (GregorianSchema.DaysPer4YearSubcycle * Y >> 2);
+
+            m = (int)((5 * d0y + 2) / 153);
+            d = (int)(1 + d0y - (uint)(153 * m + 2) / 5);
+
+            if (m > 9)
+            {
+                Y++;
+                m -= 9;
+            }
+            else
+            {
+                m += 3;
+            }
+
+            y = (int)(100 * C + Y);
+#else
             daysSinceEpoch += GJSchema.DaysInYearAfterFebruary;
 
             int C = (int)((uint)((daysSinceEpoch << 2) + 3) / GregorianSchema.DaysPer400YearCycle);
@@ -69,6 +93,7 @@ namespace Zorglub.Time.Core.Schemas
             }
 
             y = 100 * C + Y;
+#endif
         }
 
         /// <summary>
