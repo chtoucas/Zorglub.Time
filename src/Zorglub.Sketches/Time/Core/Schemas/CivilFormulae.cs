@@ -3,8 +3,11 @@
 
 namespace Zorglub.Time.Core.Schemas
 {
+    // In fact, the formulae should work with year >= 0, nevertheless since
+    // daysSinceEpoch < 0 when year = 0, it's better to ignore that.
+
     /// <summary>
-    /// Provides static formulae for the Gregorian schema (year >= 0).
+    /// Provides static formulae for the Gregorian schema (year > 0).
     /// <para>See also <seealso cref="GregorianFormulae"/>.</para>
     /// <para>This class cannot be inherited.</para>
     /// </summary>
