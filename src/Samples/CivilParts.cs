@@ -23,7 +23,7 @@ using ZRange = Zorglub.Time.Core.Intervals.Range;
 
 /// <summary>
 /// Provides an affine Gregorian date as a record struct (Year, Month, Day).
-/// <para>Years in [1, 9999]</para>
+/// <para>Suppoted years = [1, 9999]</para>
 /// </summary>
 public readonly partial record struct CivilParts :
     IAffineDate<CivilParts>,

@@ -32,7 +32,7 @@ using Zorglub.Time.Hemerology.Scopes;
 
 /// <summary>
 /// Provides a Gregorian date based on the count of consecutive days since the Gregorian epoch.
-/// <para>Years in [1, 9999]</para>
+/// <para>Suppoted years = [1, 9999]</para>
 /// </summary>
 public readonly partial struct DayTemplate :
     IDate<DayTemplate>,
@@ -237,13 +237,15 @@ public partial struct DayTemplate // IEquatable
     public static bool operator !=(DayTemplate left, DayTemplate right) =>
         left._daysSinceEpoch != right._daysSinceEpoch;
 
-    [Pure] public bool Equals(DayTemplate other) => _daysSinceEpoch == other._daysSinceEpoch;
+    [Pure]
+    public bool Equals(DayTemplate other) => _daysSinceEpoch == other._daysSinceEpoch;
 
     [Pure]
     public override bool Equals([NotNullWhen(true)] object? obj) =>
         obj is DayTemplate date && Equals(date);
 
-    [Pure] public override int GetHashCode() => _daysSinceEpoch;
+    [Pure]
+    public override int GetHashCode() => _daysSinceEpoch;
 }
 
 public partial struct DayTemplate // IComparable

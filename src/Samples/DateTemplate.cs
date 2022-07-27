@@ -28,7 +28,7 @@ using Zorglub.Time.Hemerology.Scopes;
 
 /// <summary>
 /// Provides a Gregorian date based on <see cref="Yemoda"/>.
-/// <para>Years in [1, 9999]</para>
+/// <para>Suppoted years = [1, 9999]</para>
 /// </summary>
 public readonly partial struct DateTemplate :
     IDate<DateTemplate>,
