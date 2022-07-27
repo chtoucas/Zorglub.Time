@@ -181,15 +181,12 @@ namespace Zorglub.Time.Core
             return new Yemo(unchecked((y - 1) << Yemoda.YearShift));
         }
 
-        // We don't call this method GetDayOfMonth() to stress that it might not
-        // be a valid day of the month.
-
         /// <summary>
         /// Obtains the date parts for the specified day of the month to which belongs this instance.
         /// <para>See also <see cref="StartOfMonth"/>.</para>
         /// </summary>
         [Pure]
-        public Yemoda GetYemodaAt(int day)
+        public Yemoda GetDayOfMonth(int day)
         {
             if (day < Yemoda.MinDay || day > Yemoda.MaxDay) Throw.DayOutOfRange(day);
 
@@ -202,7 +199,7 @@ namespace Zorglub.Time.Core
         /// <para>See also <see cref="StartOfMonth"/>.</para>
         /// </summary>
         [Pure]
-        internal Yemoda GetYemodaAtUnchecked(int d)
+        internal Yemoda GetDayOfMonthUnchecked(int d)
         {
             Debug.Assert(Yemoda.MinDay <= d);
             Debug.Assert(d <= Yemoda.MaxDay);

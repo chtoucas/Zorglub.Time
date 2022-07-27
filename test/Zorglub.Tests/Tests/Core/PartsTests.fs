@@ -383,7 +383,7 @@ module Yemoda =
             ymd === Unchecked.defaultof<Yemoda>
 
         [<Fact>]
-        let ``-1 -> 64/16/-0000, the theoretical end of year 1 BC`` () =
+        let ``-1 -> 64/16/0000, the theoretical end of year 1 BC`` () =
             let ymd = Yemoda.FromBinary(-1)
 
             ymd.ToBinary() === -1
@@ -611,24 +611,24 @@ module Yemo =
             ym = startOfYear
 
         [<Theory; ClassData(typeof<BadDayData>)>]
-        let ``GetYemodaAt() throws when "day" is out of range`` d =
+        let ``GetDayOfMonth() throws when "day" is out of range`` d =
             let ym = Yemo.Create(1, 1)
 
-            outOfRangeExn "day" (fun () -> ym.GetYemodaAt(d))
+            outOfRangeExn "day" (fun () -> ym.GetDayOfMonth(d))
 
         [<Property>]
-        let ``GetYemodaAt()`` (YearField y) (MonthField m) (DayField d) =
+        let ``GetDayOfMonth()`` (YearField y) (MonthField m) (DayField d) =
             let ym = Yemo.Create(y, m)
             let ymd = Yemoda.Create(y, m, d)
 
-            ym.GetYemodaAt(d) === ymd
+            ym.GetDayOfMonth(d) === ymd
 
         [<Property>]
-        let ``GetYemodaAtUnchecked()`` (YearField y) (MonthField m) (DayField d) =
+        let ``GetDayOfMonthUnchecked()`` (YearField y) (MonthField m) (DayField d) =
             let ym = Yemo.Create(y, m)
             let ymd = Yemoda.Create(y, m, d)
 
-            ym.GetYemodaAtUnchecked(d) === ymd
+            ym.GetDayOfMonthUnchecked(d) === ymd
 
     module Serialization =
         // We rely on the fact that the prop Yemo unset the day bits.

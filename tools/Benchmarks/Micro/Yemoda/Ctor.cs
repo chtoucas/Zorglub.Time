@@ -22,16 +22,16 @@ public class Yemoda_Ctor : BenchmarkBase
     }
 
     [Benchmark]
-    public void Yemo_GetYemodaAtUnchecked()
+    public void Yemo_GetDayOfMonthUnchecked()
     {
-        var ymd = Ym.GetYemodaAtUnchecked(Day);
+        var ymd = Ym.GetDayOfMonthUnchecked(Day);
         Consume(in ymd);
     }
 
     [Benchmark]
-    public void Yemo_GetYemodaAt()
+    public void Yemo_GetDayOfMonth()
     {
-        var ymd = Ym.GetYemodaAt(Day);
+        var ymd = Ym.GetDayOfMonth(Day);
         Consume(in ymd);
     }
 }

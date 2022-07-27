@@ -1216,7 +1216,7 @@ Zorglub.Time.Core.Yemo.CompareTo(object? obj) -> int
 Zorglub.Time.Core.Yemo.CompareTo(Zorglub.Time.Core.Yemo other) -> int
 Zorglub.Time.Core.Yemo.Deconstruct(out int year, out int month) -> void
 Zorglub.Time.Core.Yemo.Equals(Zorglub.Time.Core.Yemo other) -> bool
-Zorglub.Time.Core.Yemo.GetYemodaAt(int day) -> Zorglub.Time.Core.Yemoda
+Zorglub.Time.Core.Yemo.GetDayOfMonth(int day) -> Zorglub.Time.Core.Yemoda
 Zorglub.Time.Core.Yemo.Month.get -> int
 Zorglub.Time.Core.Yemo.StartOfMonth.get -> Zorglub.Time.Core.Yemoda
 Zorglub.Time.Core.Yemo.StartOfYear.get -> Zorglub.Time.Core.Yemoda

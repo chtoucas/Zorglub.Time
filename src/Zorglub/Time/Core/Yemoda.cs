@@ -7,6 +7,13 @@ namespace Zorglub.Time.Core
 
     using Zorglub.Time.Core.Intervals;
 
+    // TODO(doc): to be updated, default value and IMinMaxValue<>.
+    // Default value: when used as a binary repr for a struct date type, one
+    // would expect that default(Yemoda) = epoch that is 01/01/0001.
+    // With default(Yemoda) = 01/01/0000, Yemoda can no longer be used with
+    // a calendar supporting only dates >= epoch. In other words, it puts an
+    // unusual constraint on the calendar scope.
+
     #region Developer Notes
 
     // Yemoda = YEar-MOnth-DAy
@@ -40,6 +47,19 @@ namespace Zorglub.Time.Core
     // year 0 is not valid. The binary value of the theoretical zero (01/01/0001,
     // see StartOfYear1) is not equal to zero but to (1 << 11) = 2048. Read also
     // the comments further below; see the method Pack().
+    //
+    // WARNING: do not use (y - 1) to ensure that default(Yemoda) =
+    // 01/01/0001. This will increase the code size of Unpack() and
+    // reduces the chances for it to be inlined. Anyway, even if
+    // 01/01/0001 has a special meaning, it is no better than
+    // 01/01/0000 as a default value --- the epoch is not even
+    // considered valid in some calendars, it marks a theoretical
+    // origin, not the first genuine date from which the calendar
+    // has been in use. This would have been a different
+    // story if the year zero was not legal, but most calendars in
+    // this project being proleptic, I stick with default(Yemoda) =
+    // 01/01/0000. See CivilDate for an example where the year 0 is
+    // not legal.
     //
     // We do NOT inherit IMinMaxValue<>: comparison is not calendrical which
     // means that most values are invalid in the context they are meant to be
@@ -386,18 +406,6 @@ namespace Zorglub.Time.Core
         {
             unchecked
             {
-                // WARNING: do not use (y - 1) to ensure that default(Yemoda) =
-                // 01/01/0001. This will increase the code size of Unpack() and
-                // reduces the chances for it to be inlined. Anyway, even if
-                // 01/01/0001 has a special meaning, it is no better than
-                // 01/01/0000 as a default value --- the epoch is not even
-                // considered valid in some calendars, it marks a theoretical
-                // origin, not the first genuine date from which the calendar
-                // has been in use. This would have been a different
-                // story if the year zero was not legal, but most calendars in
-                // this project being proleptic, I stick with default(Yemoda) =
-                // 01/01/0000. See CivilDate for an example where the year 0 is
-                // not legal.
                 return ((y - 1) << YearShift) | ((m - 1) << MonthShift) | (d - 1);
             }
         }
