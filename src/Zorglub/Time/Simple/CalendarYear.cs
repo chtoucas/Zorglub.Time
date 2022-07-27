@@ -2,11 +2,16 @@
 // Copyright (c) 2020 Narvalo.Org. All rights reserved.
 
 // Explicit layout or not? Beware, both options are not binary compatible.
-// Answer: yes. Less error-prone (no bit manip), the binary format is very
-// easy to understand (we don't even need to explain it).
-// REVIEW(code): pack size.
+// Answer: no.
+// Pros: less error-prone (no bit manip), the binary format is very easy to
+// understand (we don't even need to explain it).
+// Cons: different from the other types in this project.
+//
+// WARNING: If we decide to enable CALENDARYEAR_EXPLICIT_LAYOUT
+// then we MUST update the code so that default value for year is 1,
+// I'm also not sure about the pack size.
 // https://docs.microsoft.com/en-us/dotnet/api/system.runtime.interopservices.structlayoutattribute.pack?view=net-6.0
-#define CALENDARYEAR_EXPLICIT_LAYOUT
+//#define CALENDARYEAR_EXPLICIT_LAYOUT
 
 // To represent individual days within a year, the most natural type is
 // OrdinalDate.
@@ -189,7 +194,7 @@ namespace Zorglub.Time.Simple
 #if CALENDARYEAR_EXPLICIT_LAYOUT
         public int Year => _year;
 #else
-        public int Year => unchecked(_bin >> YearShift);
+        public int Year => unchecked(1 + (_bin >> YearShift));
 #endif
 
         /// <summary>
@@ -267,7 +272,7 @@ namespace Zorglub.Time.Simple
         {
             // CIL code size = 12 bytes <= 32 bytes.
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => ref CalendarCatalog.GetCalendarUnsafe((int)_cuid);
+            get => ref CalendarCatalog.GetCalendarUnsafe((int)Cuid);
         }
 
         /// <summary>
@@ -286,7 +291,7 @@ namespace Zorglub.Time.Simple
         /// Packs the specified month parts into a single 32-bit word.
         /// </summary>
         [Pure]
-        // CIL code size = 6 bytes <= 32 bytes.
+        // CIL code size = XXX bytes <= 32 bytes.
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static int Pack(int y, byte cuid)
         {
@@ -295,7 +300,7 @@ namespace Zorglub.Time.Simple
 
             unchecked
             {
-                return (y << YearShift) | cuid;
+                return ((y - 1) << YearShift) | cuid;
             }
         }
 
@@ -314,21 +319,21 @@ namespace Zorglub.Time.Simple
         [Pure]
         public static CalendarYear FromBinary(int data)
         {
-#if CALENDARYEAR_EXPLICIT_LAYOUT
-            // Intermediate variable just to get our hands on Cuid and Year.
-            // We still have to validate the input.
-            var yo = new CalendarYear(data, true);
-            int y = yo.Year;
-            var ident = (CalendarId)yo.Cuid;
-#else
             unchecked
             {
-                int y = data >> YearShift;
+#if CALENDARYEAR_EXPLICIT_LAYOUT
+                // Intermediate variable just to get our hands on Cuid and Year.
+                // We still have to validate the input.
+                var year = new CalendarYear(data, true);
+                int y = year.Year;
+                var ident = (CalendarId)year.Cuid;
+#else
+                int y = 1 + (data >> YearShift);
                 var ident = (CalendarId)(data & CuidMask);
-            }
 #endif
 
-            return CalendarCatalog.GetSystemCalendar(ident).GetCalendarYear(y);
+                return CalendarCatalog.GetSystemCalendar(ident).GetCalendarYear(y);
+            }
         }
 
         /// <summary>

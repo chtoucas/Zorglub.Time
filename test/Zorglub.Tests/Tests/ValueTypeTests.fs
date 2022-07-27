@@ -344,10 +344,10 @@ module DefaultValues =
         month.Calendar.PermanentId === CalendarId.Gregorian
 
     [<Fact>]
-    let ``Default value of CalendarYear is 0000 (Gregorian)`` () =
+    let ``Default value of CalendarYear is 0001 (Gregorian)`` () =
         let year = Unchecked.defaultof<CalendarYear>
 
-        year.Year === 0
+        year.Year === 1
         year.Calendar.PermanentId === CalendarId.Gregorian
 
     //

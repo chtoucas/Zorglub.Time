@@ -5,16 +5,8 @@ SupportedYearsTester
 Naming: ident, id, cuid
 Adjustable dates
 
-- Yemoda as a binary repr for a date type when the later does not want to
-  support y = 0 which is the default value of Yemoda. Explain: default value
-  for a struct date type must be a valid date => put constraint on the scope.
-  XML doc Min/MaxValue. Doc for default and IMinMaxValue<>.
-  Comments in Yemoda.Pack()
-  Yemo.GetYemodaAt() -> Yemo.GetDayOfMonth()
-  CalendarYear default
-
 - Math:
-  * Optimize div in N
+  * Optimize div in N / uint in enum comp
   * Profile: OtherRegular, Other7 (MinDaysInMonth >= 7)?
   * Move standard ops (on CalendarMonth) from Math to Arithmetic.
     Problem: optimization of AddMonths() and Count...() depending on the profile.
