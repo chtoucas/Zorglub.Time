@@ -5,9 +5,9 @@ namespace Zorglub.Time;
 
 using Zorglub.Time.Hemerology;
 
-public static partial class CSharpTests { }
+public static partial class CSharpOnlyTests { }
 
-public partial class CSharpTests // DayNumber
+public partial class CSharpOnlyTests // DayNumber
 {
     [Fact]
     public static void DayNumber_FromDayNumber()
@@ -65,7 +65,7 @@ public partial class CSharpTests // DayNumber
     }
 }
 
-public partial class CSharpTests // Ord
+public partial class CSharpOnlyTests // Ord
 {
     //
     // Math operators
