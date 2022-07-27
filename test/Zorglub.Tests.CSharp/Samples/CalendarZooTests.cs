@@ -5,6 +5,7 @@ namespace Zorglub.Samples;
 
 using global::Samples;
 
+using Zorglub.Time;
 using Zorglub.Time.Core;
 using Zorglub.Time.Hemerology.Scopes;
 
@@ -25,15 +26,13 @@ public partial class CalendarZooTests
         var parts = chr.MinDateParts;
         // Assert
         Assert.NotNull(chr);
-        Assert.Equal(1582, parts.Year);
-        Assert.Equal(10, parts.Month);
-        Assert.Equal(15, parts.Day);
+        Assert.Equal(new DateParts(1582, 10, 15), parts);
         Assert.Equal(DefaultMaxYear, chr.SupportedYears.MaxYear);
     }
 
     [Fact]
     public static void GenuineGregorian_Repeated() =>
-        Assert.Equal(CalendarZoo.GenuineGregorian, CalendarZoo.GenuineGregorian);
+        Assert.Same(CalendarZoo.GenuineGregorian, CalendarZoo.GenuineGregorian);
 
     [Fact]
     public static void GenuineJulian()
@@ -48,7 +47,7 @@ public partial class CalendarZooTests
 
     [Fact]
     public static void GenuineJulian_Repeated() =>
-        Assert.Equal(CalendarZoo.GenuineJulian, CalendarZoo.GenuineJulian);
+        Assert.Same(CalendarZoo.GenuineJulian, CalendarZoo.GenuineJulian);
 
     [Fact]
     public static void FrenchRevolutionary()
@@ -63,7 +62,7 @@ public partial class CalendarZooTests
 
     [Fact]
     public static void FrenchRevolutionary_Repeated() =>
-        Assert.Equal(CalendarZoo.FrenchRevolutionary, CalendarZoo.FrenchRevolutionary);
+        Assert.Same(CalendarZoo.FrenchRevolutionary, CalendarZoo.FrenchRevolutionary);
 }
 
 // Proleptic calendars.
@@ -83,7 +82,7 @@ public partial class CalendarZooTests
 
     [Fact]
     public static void Tropicalia_Repeated() =>
-        Assert.Equal(CalendarZoo.Tropicalia, CalendarZoo.Tropicalia);
+        Assert.Same(CalendarZoo.Tropicalia, CalendarZoo.Tropicalia);
 
     [Fact]
     public static void LongGregorian()
@@ -99,7 +98,7 @@ public partial class CalendarZooTests
 
     [Fact]
     public static void LongGregorian_Repeated() =>
-        Assert.Equal(CalendarZoo.LongGregorian, CalendarZoo.LongGregorian);
+        Assert.Same(CalendarZoo.LongGregorian, CalendarZoo.LongGregorian);
 
     [Fact]
     public static void LongJulian()
@@ -115,7 +114,7 @@ public partial class CalendarZooTests
 
     [Fact]
     public static void LongJulian_Repeated() =>
-        Assert.Equal(CalendarZoo.LongJulian, CalendarZoo.LongJulian);
+        Assert.Same(CalendarZoo.LongJulian, CalendarZoo.LongJulian);
 }
 
 // Retropolated calendars.
@@ -135,7 +134,7 @@ public partial class CalendarZooTests
 
     [Fact]
     public static void Egyptian_Repeated() =>
-        Assert.Equal(CalendarZoo.Egyptian, CalendarZoo.Egyptian);
+        Assert.Same(CalendarZoo.Egyptian, CalendarZoo.Egyptian);
 
     [Fact]
     public static void FrenchRepublican()
@@ -151,7 +150,7 @@ public partial class CalendarZooTests
 
     [Fact]
     public static void FrenchRepublican_Repeated() =>
-        Assert.Equal(CalendarZoo.FrenchRepublican, CalendarZoo.FrenchRepublican);
+        Assert.Same(CalendarZoo.FrenchRepublican, CalendarZoo.FrenchRepublican);
 
     [Fact]
     public static void InternationalFixed()
@@ -167,7 +166,7 @@ public partial class CalendarZooTests
 
     [Fact]
     public static void InternationalFixed_Repeated() =>
-        Assert.Equal(CalendarZoo.InternationalFixed, CalendarZoo.InternationalFixed);
+        Assert.Same(CalendarZoo.InternationalFixed, CalendarZoo.InternationalFixed);
 
     [Fact]
     public static void Persian2820()
@@ -183,7 +182,7 @@ public partial class CalendarZooTests
 
     [Fact]
     public static void Persian2820_Repeated() =>
-        Assert.Equal(CalendarZoo.Persian2820, CalendarZoo.Persian2820);
+        Assert.Same(CalendarZoo.Persian2820, CalendarZoo.Persian2820);
 
     [Fact]
     public static void Positivist()
@@ -199,7 +198,7 @@ public partial class CalendarZooTests
 
     [Fact]
     public static void Positivist_Repeated() =>
-        Assert.Equal(CalendarZoo.Positivist, CalendarZoo.Positivist);
+        Assert.Same(CalendarZoo.Positivist, CalendarZoo.Positivist);
 
     [Fact]
     public static void RevisedWorld()
@@ -215,7 +214,7 @@ public partial class CalendarZooTests
 
     [Fact]
     public static void RevisedWorld_Repeated() =>
-        Assert.Equal(CalendarZoo.RevisedWorld, CalendarZoo.RevisedWorld);
+        Assert.Same(CalendarZoo.RevisedWorld, CalendarZoo.RevisedWorld);
 
     [Fact]
     public static void World()
@@ -231,7 +230,7 @@ public partial class CalendarZooTests
 
     [Fact]
     public static void World_Repeated() =>
-        Assert.Equal(CalendarZoo.World, CalendarZoo.World);
+        Assert.Same(CalendarZoo.World, CalendarZoo.World);
 }
 
 // Offset calendars.
@@ -251,7 +250,7 @@ public partial class CalendarZooTests
 
     [Fact]
     public static void Holocene_Repeated() =>
-        Assert.Equal(CalendarZoo.Holocene, CalendarZoo.Holocene);
+        Assert.Same(CalendarZoo.Holocene, CalendarZoo.Holocene);
 
     [Fact]
     public static void Minguo()
@@ -267,7 +266,7 @@ public partial class CalendarZooTests
 
     [Fact]
     public static void Minguo_Repeated() =>
-        Assert.Equal(CalendarZoo.Minguo, CalendarZoo.Minguo);
+        Assert.Same(CalendarZoo.Minguo, CalendarZoo.Minguo);
 
     [Fact]
     public static void ThaiSolar()
@@ -283,7 +282,7 @@ public partial class CalendarZooTests
 
     [Fact]
     public static void ThaiSolar_Repeated() =>
-        Assert.Equal(CalendarZoo.ThaiSolar, CalendarZoo.ThaiSolar);
+        Assert.Same(CalendarZoo.ThaiSolar, CalendarZoo.ThaiSolar);
 }
 
 // Other wide calendars.
@@ -303,6 +302,6 @@ public partial class CalendarZooTests
 
     [Fact]
     public static void Pax_Repeated() =>
-        Assert.Equal(CalendarZoo.Pax, CalendarZoo.Pax);
+        Assert.Same(CalendarZoo.Pax, CalendarZoo.Pax);
 #endif
 }
