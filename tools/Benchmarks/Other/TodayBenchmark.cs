@@ -13,6 +13,22 @@ using Zorglub.Time.Simple;
 // REVIEW: what makes LocalDate faster? why is DateTime slower?
 
 /*
+BenchmarkDotNet=v0.13.1, OS=Windows 10.0.19044.1826 (21H2)
+Intel Core i7-4500U CPU 1.80GHz (Haswell), 1 CPU, 4 logical and 2 physical cores
+.NET SDK=6.0.302
+  [Host]     : .NET 6.0.7 (6.0.722.32202), X64 RyuJIT
+  DefaultJob : .NET 6.0.7 (6.0.722.32202), X64 RyuJIT
+
+|              Method |     Mean |   Error |  StdDev | Ratio | Rank |
+|-------------------- |---------:|--------:|--------:|------:|-----:|
+|    'LocalDate *(Y)' | 171.7 ns | 0.89 ns | 0.74 ns |  0.99 |    I |
+|  'CalendarDay     ' | 173.4 ns | 1.23 ns | 1.15 ns |  1.00 |    I |
+|    'DayNumber     ' | 174.7 ns | 0.67 ns | 0.63 ns |  1.01 |    I |
+|     'DateTime *   ' | 181.6 ns | 1.00 ns | 0.94 ns |  1.05 |   II |
+| 'CalendarDate  (Y)' | 181.7 ns | 0.92 ns | 0.86 ns |  1.05 |   II |
+|         'ZDate (Y)' | 182.6 ns | 0.68 ns | 0.64 ns |  1.05 |   II |
+|  'OrdinalDate  (O)' | 193.1 ns | 0.82 ns | 0.77 ns |  1.11 |  III |
+
 BenchmarkDotNet=v0.13.1, OS=Windows 10.0.19042.1348 (20H2/October2020Update)
 Intel Core2 Duo CPU E8500 3.16GHz, 1 CPU, 2 logical and 2 physical cores
 .NET SDK=6.0.100
