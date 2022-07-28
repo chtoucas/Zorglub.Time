@@ -152,20 +152,22 @@ namespace Zorglub.Time.Simple
 #endif
         }
 
+#if CALENDARYEAR_EXPLICIT_LAYOUT
+
         /// <summary>
         /// Initializes a new instance of the <see cref="CalendarYear"/> struct.
         /// <para>This constructor does NOT validate its parameters.</para>
         /// <para>This constructor should only be used by <see cref="FromBinary(int)"/>.</para>
         /// </summary>
-        internal CalendarYear(int bin, bool _)
+        private CalendarYear(int bin, bool _)
         {
-#if CALENDARYEAR_EXPLICIT_LAYOUT
             _year = 0;
             _cuid = 0;
             _zero = 0;
-#endif
             _bin = bin;
         }
+
+#endif
 
         /// <summary>
         /// Gets the century of the era.
