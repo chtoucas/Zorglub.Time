@@ -5,8 +5,6 @@ namespace Benchmarks.Other;
 
 using Samples;
 
-using Zorglub.Time.Hemerology;
-using Zorglub.Time.Simple;
 using Zorglub.Time.Specialized;
 
 public class QuickBenchmark : BenchmarkBase
@@ -16,40 +14,6 @@ public class QuickBenchmark : BenchmarkBase
     private const int D401 = 401;    // "Slow-track".
 
     public QuickBenchmark() { Option = BenchmarkOption.Fixed; }
-
-    [Benchmark(Description = "CalendarDay       ")]
-    public void WithCalendarDay()
-    {
-        CalendarDay start = new CalendarDate(Year, Month, Day).ToCalendarDay();
-        CalendarDay end = start.NextDay().PlusDays(D7).PlusDays(D30).PlusDays(D401);
-
-        var (y, m, d) = end;
-        DayOfWeek dayOfWeek = end.DayOfWeek;
-        int dayOfYear = end.DayOfYear;
-
-        Consume(in y);
-        Consume(in m);
-        Consume(in d);
-        Consume(in dayOfWeek);
-        Consume(in dayOfYear);
-    }
-
-    [Benchmark(Description = "ZDate       ")]
-    public void WithZDate()
-    {
-        ZDate start = new(Year, Month, Day);
-        ZDate end = start.NextDay().PlusDays(D7).PlusDays(D30).PlusDays(D401);
-
-        var (y, m, d) = end;
-        DayOfWeek dayOfWeek = end.DayOfWeek;
-        int dayOfYear = end.DayOfYear;
-
-        Consume(in y);
-        Consume(in m);
-        Consume(in d);
-        Consume(in dayOfWeek);
-        Consume(in dayOfYear);
-    }
 
     [Benchmark(Description = "CivilDate   (g)+", Baseline = true)]
     public void WithCivilDate()
@@ -73,6 +37,23 @@ public class QuickBenchmark : BenchmarkBase
     {
         MyCivilDate start = new(Year, Month, Day);
         MyCivilDate end = start.NextDay().PlusDays(D7).PlusDays(D30).PlusDays(D401);
+
+        var (y, m, d) = end;
+        DayOfWeek dayOfWeek = end.DayOfWeek;
+        int dayOfYear = end.DayOfYear;
+
+        Consume(in y);
+        Consume(in m);
+        Consume(in d);
+        Consume(in dayOfWeek);
+        Consume(in dayOfYear);
+    }
+
+    [Benchmark(Description = "GregorianDate   (g) ")]
+    public void WithGregorianDate()
+    {
+        GregorianDate start = new(Year, Month, Day);
+        GregorianDate end = start.NextDay().PlusDays(D7).PlusDays(D30).PlusDays(D401);
 
         var (y, m, d) = end;
         DayOfWeek dayOfWeek = end.DayOfWeek;

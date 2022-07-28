@@ -47,23 +47,24 @@ Intel Core2 Duo CPU E8500 3.16GHz, 1 CPU, 2 logical and 2 physical cores
 
 |                   Method |      Mean |    Error |   StdDev | Ratio | RatioSD | Rank |
 |------------------------- |----------:|---------:|---------:|------:|--------:|-----:|
-|        'CivilDay   (g)+' |  53.55 ns | 0.068 ns | 0.063 ns |  1.00 |    0.00 |    I |
-|    'GregorianDay   (g) ' |  57.17 ns | 0.038 ns | 0.032 ns |  1.07 |    0.00 |   II |
-|     'DayNumber64   (g) ' |  62.26 ns | 0.072 ns | 0.068 ns |  1.16 |    0.00 |  III |
-|     'DayTemplate      +' |  67.08 ns | 0.079 ns | 0.074 ns |  1.25 |    0.00 |   IV |
-|       'DayNumber   (g) ' |  67.23 ns | 0.050 ns | 0.042 ns |  1.26 |    0.00 |   IV |
-|     'CalendarDay       ' |  85.75 ns | 0.095 ns | 0.084 ns |  1.60 |    0.00 |    V |
-| 'Naked DayNumber      +' |  87.07 ns | 0.059 ns | 0.049 ns |  1.63 |    0.00 |   VI |
-|           'ZDate       ' |  90.26 ns | 0.398 ns | 0.372 ns |  1.69 |    0.01 |  VII |
-|       'CivilDate  (Yg)+' |  90.42 ns | 0.112 ns | 0.105 ns |  1.69 |    0.00 |  VII |
-|     'OrdinalDate  (O)  ' |  99.55 ns | 0.123 ns | 0.109 ns |  1.86 |    0.00 | VIII |
-|     'CivilTriple  (Y) +' | 106.09 ns | 0.117 ns | 0.109 ns |  1.98 |    0.00 |   IX |
-|    'DateTemplate  (Y) +' | 107.92 ns | 0.064 ns | 0.060 ns |  2.02 |    0.00 |    X |
-|    'CalendarDate  (Y)  ' | 114.08 ns | 0.136 ns | 0.127 ns |  2.13 |    0.00 |   XI |
-|        'DateOnly *    +' | 128.91 ns | 2.772 ns | 8.172 ns |  2.44 |    0.10 |  XII |
-|        'DateTime *    +' | 130.70 ns | 2.497 ns | 2.336 ns |  2.44 |    0.04 |  XII |
-|      'CivilParts  (Y) +' | 131.75 ns | 0.296 ns | 0.277 ns |  2.46 |    0.01 |  XII |
-|       'LocalDate *(Y)  ' | 136.11 ns | 0.109 ns | 0.091 ns |  2.54 |    0.00 | XIII |
+|       'CivilDate   (g)+' |  56.07 ns | 0.072 ns | 0.067 ns |  1.00 |    0.00 |    I |
+|   'GregorianDate   (g) ' |  59.18 ns | 0.049 ns | 0.044 ns |  1.06 |    0.00 |   II |
+|     'DayNumber64   (g) ' |  63.40 ns | 0.425 ns | 0.397 ns |  1.13 |    0.01 |  III |
+|     'MyCivilDate      +' |  64.87 ns | 0.032 ns | 0.025 ns |  1.16 |    0.00 |   IV |
+|     'DayTemplate      +' |  66.16 ns | 0.415 ns | 0.388 ns |  1.18 |    0.01 |    V |
+|       'DayNumber   (g) ' |  66.63 ns | 0.026 ns | 0.020 ns |  1.19 |    0.00 |    V |
+|     'CalendarDay       ' |  85.37 ns | 0.151 ns | 0.142 ns |  1.52 |    0.00 |   VI |
+|  'CivilPrototype  (Yg)+' |  86.92 ns | 0.172 ns | 0.161 ns |  1.55 |    0.00 |  VII |
+| 'Naked DayNumber      +' |  87.12 ns | 0.075 ns | 0.070 ns |  1.55 |    0.00 |  VII |
+|           'ZDate       ' |  91.32 ns | 0.631 ns | 0.590 ns |  1.63 |    0.01 | VIII |
+|     'OrdinalDate  (O)  ' | 104.29 ns | 0.079 ns | 0.074 ns |  1.86 |    0.00 |   IX |
+|     'CivilTriple  (Y) +' | 105.15 ns | 0.130 ns | 0.122 ns |  1.88 |    0.00 |   IX |
+|    'DateTemplate  (Y) +' | 107.84 ns | 0.136 ns | 0.127 ns |  1.92 |    0.00 |    X |
+|    'CalendarDate  (Y)  ' | 114.11 ns | 0.099 ns | 0.093 ns |  2.04 |    0.00 |   XI |
+|        'DateOnly *    +' | 118.96 ns | 2.403 ns | 6.457 ns |  2.12 |    0.13 |  XII |
+|        'DateTime *    +' | 126.58 ns | 2.533 ns | 4.503 ns |  2.24 |    0.08 | XIII |
+|      'CivilParts  (Y) +' | 132.92 ns | 0.200 ns | 0.187 ns |  2.37 |    0.00 |  XIV |
+|       'LocalDate *(Y)  ' | 136.54 ns | 0.117 ns | 0.109 ns |  2.44 |    0.00 |   XV |
  */
 //
 // * = external, Y = Y/M/D repr., O = ord. repr., g = Gregorian-optimized, + = year > 0
@@ -282,6 +283,23 @@ public class GregorianBenchmark : BenchmarkBase
     {
         CivilDate start = new(Year, Month, Day);
         CivilDate end = start.NextDay().PlusDays(D7).PlusDays(D30).PlusDays(D401);
+
+        var (y, m, d) = end;
+        DayOfWeek dayOfWeek = end.DayOfWeek;
+        int dayOfYear = end.DayOfYear;
+
+        Consume(in y);
+        Consume(in m);
+        Consume(in d);
+        Consume(in dayOfWeek);
+        Consume(in dayOfYear);
+    }
+
+    [Benchmark(Description = "MyCivilDate      +")]
+    public void WithMyCivilDate()
+    {
+        MyCivilDate start = new(Year, Month, Day);
+        MyCivilDate end = start.NextDay().PlusDays(D7).PlusDays(D30).PlusDays(D401);
 
         var (y, m, d) = end;
         DayOfWeek dayOfWeek = end.DayOfWeek;
