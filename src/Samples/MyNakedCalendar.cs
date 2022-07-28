@@ -3,7 +3,6 @@
 
 namespace Samples;
 
-using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 
@@ -15,17 +14,18 @@ using Zorglub.Time.Hemerology.Scopes;
 // Verification that one can create a calendar type without having access to
 // the internals of the assembly Zorglub.
 
-public partial class MyNakedCalendar : NakedCalendar
+public class MyNakedCalendar : NakedCalendar
 {
     public MyNakedCalendar(string name, ICalendricalSchema schema, DayNumber epoch)
         : this(name, new MinMaxYearScope(schema, epoch, 1, 9999)) { }
 
     public MyNakedCalendar(string name, MinMaxYearScope scope)
         : base(name, scope) { }
-}
 
-public partial class MyNakedCalendar // Year, month, day infos
-{
+    //
+    // Year, month, day infos
+    //
+
     [Pure]
     public sealed override int CountMonthsInYear(int year)
     {
@@ -46,22 +46,52 @@ public partial class MyNakedCalendar // Year, month, day infos
         Scope.ValidateYearMonth(year, month);
         return Schema.CountDaysInMonth(year, month);
     }
-}
 
-public partial class MyNakedCalendar // Dates in a given year or month
-{
-    /// <inheritdoc />
+    //
+    // Dates in a given year or month
+    //
+
     [Pure]
     public sealed override IEnumerable<DateParts> GetDaysInYear(int year)
     {
-        throw new NotImplementedException();
+        // Check arg eagerly.
+        SupportedYears.Validate(year);
+
+        return Iterator();
+
+        IEnumerable<DateParts> Iterator()
+        {
+            int monthsInYear = Schema.CountMonthsInYear(year);
+
+            for (int m = 1; m <= monthsInYear; m++)
+            {
+                int daysInMonth = Schema.CountDaysInMonth(year, m);
+
+                for (int d = 1; d <= daysInMonth; d++)
+                {
+                    yield return new DateParts(year, m, d);
+                }
+            }
+        }
     }
 
-    /// <inheritdoc />
     [Pure]
     public sealed override IEnumerable<DateParts> GetDaysInMonth(int year, int month)
     {
-        throw new NotImplementedException();
+        // Check arg eagerly.
+        Scope.ValidateYearMonth(year, month);
+
+        return Iterator();
+
+        IEnumerable<DateParts> Iterator()
+        {
+            int daysInMonth = Schema.CountDaysInMonth(year, month);
+
+            for (int d = 1; d <= daysInMonth; d++)
+            {
+                yield return new DateParts(year, month, d);
+            }
+        }
     }
 
     [Pure]
