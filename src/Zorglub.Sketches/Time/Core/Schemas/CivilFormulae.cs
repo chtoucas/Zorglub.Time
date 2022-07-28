@@ -3,6 +3,8 @@
 
 namespace Zorglub.Time.Core.Schemas
 {
+    // REVIEW(perf): seems to be slower than GregorianSchema when using a y/m/d repr.
+
     // In fact, the formulae should work with year >= 0, nevertheless since
     // daysSinceEpoch < 0 when year = 0, it's better to ignore that.
 
@@ -47,7 +49,7 @@ namespace Zorglub.Time.Core.Schemas
         {
             Debug.Assert(daysSinceEpoch >= 0);
 
-#if true
+#if false
             uint daysSinceEpoch1 = (uint)daysSinceEpoch + GJSchema.DaysInYearAfterFebruary;
 
             uint C = ((daysSinceEpoch1 << 2) + 3) / GregorianSchema.DaysPer400YearCycle;

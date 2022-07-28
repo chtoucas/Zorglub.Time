@@ -7,6 +7,7 @@ using Samples;
 
 using Zorglub.Time.Hemerology;
 using Zorglub.Time.Simple;
+using Zorglub.Time.Specialized;
 
 public class QuickBenchmark : BenchmarkBase
 {
@@ -16,7 +17,7 @@ public class QuickBenchmark : BenchmarkBase
 
     public QuickBenchmark() { Option = BenchmarkOption.Fixed; }
 
-    [Benchmark(Description = "CalendarDay      ")]
+    [Benchmark(Description = "CalendarDay       ")]
     public void WithCalendarDay()
     {
         CalendarDay start = new CalendarDate(Year, Month, Day).ToCalendarDay();
@@ -33,7 +34,7 @@ public class QuickBenchmark : BenchmarkBase
         Consume(in dayOfYear);
     }
 
-    [Benchmark(Description = "ZDate      ")]
+    [Benchmark(Description = "ZDate       ")]
     public void WithZDate()
     {
         ZDate start = new(Year, Month, Day);
@@ -50,7 +51,41 @@ public class QuickBenchmark : BenchmarkBase
         Consume(in dayOfYear);
     }
 
-    [Benchmark(Description = "DayTemplate      ", Baseline = true)]
+    [Benchmark(Description = "CivilDay   (g)+", Baseline = true)]
+    public void WithCivilDay()
+    {
+        CivilDay start = new(Year, Month, Day);
+        CivilDay end = start.NextDay().PlusDays(D7).PlusDays(D30).PlusDays(D401);
+
+        var (y, m, d) = end;
+        DayOfWeek dayOfWeek = end.DayOfWeek;
+        int dayOfYear = end.DayOfYear;
+
+        Consume(in y);
+        Consume(in m);
+        Consume(in d);
+        Consume(in dayOfWeek);
+        Consume(in dayOfYear);
+    }
+
+    [Benchmark(Description = "MyCivilDate      +")]
+    public void WithMyCivilDate()
+    {
+        MyCivilDate start = new(Year, Month, Day);
+        MyCivilDate end = start.NextDay().PlusDays(D7).PlusDays(D30).PlusDays(D401);
+
+        var (y, m, d) = end;
+        DayOfWeek dayOfWeek = end.DayOfWeek;
+        int dayOfYear = end.DayOfYear;
+
+        Consume(in y);
+        Consume(in m);
+        Consume(in d);
+        Consume(in dayOfWeek);
+        Consume(in dayOfYear);
+    }
+
+    [Benchmark(Description = "DayTemplate      +")]
     public void WithDayTemplate()
     {
         DayTemplate start = new(Year, Month, Day);

@@ -9,7 +9,7 @@ namespace Zorglub.Time.Specialized
     using Zorglub.Time.Hemerology;
     using Zorglub.Time.Hemerology.Scopes;
 
-    // TODO(api): non-standard math, providers; idem with GregorianDay.
+    // TODO(api): non-standard math, providers; idem with GregorianDate.
 
     public readonly partial struct CivilDay :
         IDate<CivilDay>,

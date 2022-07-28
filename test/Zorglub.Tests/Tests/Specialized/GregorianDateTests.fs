@@ -1,7 +1,7 @@
 ﻿// SPDX-License-Identifier: BSD-3-Clause
 // Copyright (c) 2020 Narvalo.Org. All rights reserved.
 
-module Zorglub.Tests.Specialized.GregorianDayTests
+module Zorglub.Tests.Specialized.GregorianDateTests
 
 open Zorglub.Testing
 open Zorglub.Testing.Data.Bounded
@@ -17,16 +17,16 @@ module Bundles =
     [<Sealed>]
     [<TestExcludeFrom(TestExcludeFrom.Regular)>]
     type DateFacts() =
-        inherit IDateFacts<GregorianDay, ProlepticGregorianDataSet>(chr.SupportedYears.Range, chr.Domain)
+        inherit IDateFacts<GregorianDate, ProlepticGregorianDataSet>(chr.SupportedYears.Range, chr.Domain)
 
-        override __.MinDate = GregorianDay.MinValue
-        override __.MaxDate = GregorianDay.MaxValue
+        override __.MinDate = GregorianDate.MinValue
+        override __.MaxDate = GregorianDate.MaxValue
 
-        override __.GetDate(y, m, d) = new GregorianDay(y, m, d)
+        override __.GetDate(y, m, d) = new GregorianDate(y, m, d)
 
     [<Sealed>]
     [<TestExcludeFrom(TestExcludeFrom.Regular)>]
     type DayOfWeekFacts() =
-        inherit IDateDayOfWeekFacts<GregorianDay, ProlepticGregorianDataSet>()
+        inherit IDateDayOfWeekFacts<GregorianDate, ProlepticGregorianDataSet>()
 
-        override __.GetDate(y, m, d) = new GregorianDay(y, m, d)
+        override __.GetDate(y, m, d) = new GregorianDate(y, m, d)

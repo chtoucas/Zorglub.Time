@@ -294,11 +294,11 @@ public class GregorianBenchmark : BenchmarkBase
         Consume(in dayOfYear);
     }
 
-    [Benchmark(Description = "GregorianDay   (g) ")]
-    public void WithGregorianDay()
+    [Benchmark(Description = "GregorianDate   (g) ")]
+    public void WithGregorianDate()
     {
-        GregorianDay start = new(Year, Month, Day);
-        GregorianDay end = start.NextDay().PlusDays(D7).PlusDays(D30).PlusDays(D401);
+        GregorianDate start = new(Year, Month, Day);
+        GregorianDate end = start.NextDay().PlusDays(D7).PlusDays(D30).PlusDays(D401);
 
         var (y, m, d) = end;
         DayOfWeek dayOfWeek = end.DayOfWeek;

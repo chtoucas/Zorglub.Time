@@ -16,13 +16,13 @@ using Zorglub.Time.Hemerology.Scopes;
 
 using static Zorglub.Time.Extensions.Unboxing;
 
-// MyCivilDay is like DayTemplate but with a companion calendar.
+// MyCivilDate is like DayTemplate but with a companion calendar.
 
 /// <summary>
 /// Provides a Gregorian date based on the count of consecutive days since the Gregorian epoch.
 /// <para>Suppoted years = [1, 9999]</para>
 /// </summary>
-public readonly partial struct MyCivilDay : IDate<MyCivilDay>, IMinMaxValue<MyCivilDay>
+public readonly partial struct MyCivilDate : IDate<MyCivilDate>, IMinMaxValue<MyCivilDate>
 {
     private static readonly CivilSchema s_Schema = CivilSchema.GetInstance().Unbox();
     private static readonly MyCivilCalendar s_Calendar = new(s_Schema);
@@ -33,27 +33,27 @@ public readonly partial struct MyCivilDay : IDate<MyCivilDay>, IMinMaxValue<MyCi
 
     private readonly int _daysSinceEpoch;
 
-    public MyCivilDay(int year, int month, int day)
+    public MyCivilDate(int year, int month, int day)
     {
         s_Scope.ValidateYearMonthDay(year, month, day);
 
         _daysSinceEpoch = s_Schema.CountDaysSinceEpoch(year, month, day);
     }
 
-    public MyCivilDay(DayNumber dayNumber)
+    public MyCivilDate(DayNumber dayNumber)
     {
         s_Domain.Validate(dayNumber);
 
         _daysSinceEpoch = dayNumber - s_Epoch;
     }
 
-    internal MyCivilDay(int daysSinceEpoch)
+    internal MyCivilDate(int daysSinceEpoch)
     {
         _daysSinceEpoch = daysSinceEpoch;
     }
 
-    public static MyCivilDay MinValue { get; } = new(s_Domain.Min - s_Epoch);
-    public static MyCivilDay MaxValue { get; } = new(s_Domain.Max - s_Epoch);
+    public static MyCivilDate MinValue { get; } = new(s_Domain.Min - s_Epoch);
+    public static MyCivilDate MaxValue { get; } = new(s_Domain.Max - s_Epoch);
 
     public DayNumber DayNumber => s_Epoch + _daysSinceEpoch;
 
@@ -121,18 +121,18 @@ public readonly partial struct MyCivilDay : IDate<MyCivilDay>, IMinMaxValue<MyCi
         s_Schema.GetDateParts(_daysSinceEpoch, out year, out month, out day);
 }
 
-public partial struct MyCivilDay // Conversions, adjustments...
+public partial struct MyCivilDate // Conversions, adjustments...
 {
     #region Factories
 
     [Pure]
-    public static MyCivilDay Today() => new(DayNumber.Today() - s_Epoch);
+    public static MyCivilDate Today() => new(DayNumber.Today() - s_Epoch);
 
     #endregion
     #region Conversions
 
     [Pure]
-    static MyCivilDay IFixedDay<MyCivilDay>.FromDayNumber(DayNumber dayNumber) =>
+    static MyCivilDate IFixedDay<MyCivilDate>.FromDayNumber(DayNumber dayNumber) =>
         new(dayNumber);
 
     [Pure]
@@ -157,114 +157,114 @@ public partial struct MyCivilDay // Conversions, adjustments...
     #region Adjust the day of the week
 
     [Pure]
-    public MyCivilDay Previous(DayOfWeek dayOfWeek)
+    public MyCivilDate Previous(DayOfWeek dayOfWeek)
     {
         var dayNumber = DayNumber.Previous(dayOfWeek);
         if (s_Domain.Contains(dayNumber) == false) { throw new OverflowException(); }
-        return new MyCivilDay(dayNumber - s_Epoch);
+        return new MyCivilDate(dayNumber - s_Epoch);
     }
 
     [Pure]
-    public MyCivilDay PreviousOrSame(DayOfWeek dayOfWeek)
+    public MyCivilDate PreviousOrSame(DayOfWeek dayOfWeek)
     {
         var dayNumber = DayNumber.PreviousOrSame(dayOfWeek);
         if (s_Domain.Contains(dayNumber) == false) { throw new OverflowException(); }
-        return new MyCivilDay(dayNumber - s_Epoch);
+        return new MyCivilDate(dayNumber - s_Epoch);
     }
 
     [Pure]
-    public MyCivilDay Nearest(DayOfWeek dayOfWeek)
+    public MyCivilDate Nearest(DayOfWeek dayOfWeek)
     {
         var dayNumber = DayNumber.Nearest(dayOfWeek);
         if (s_Domain.Contains(dayNumber) == false) { throw new OverflowException(); }
-        return new MyCivilDay(dayNumber - s_Epoch);
+        return new MyCivilDate(dayNumber - s_Epoch);
     }
 
     [Pure]
-    public MyCivilDay NextOrSame(DayOfWeek dayOfWeek)
+    public MyCivilDate NextOrSame(DayOfWeek dayOfWeek)
     {
         var dayNumber = DayNumber.NextOrSame(dayOfWeek);
         if (s_Domain.Contains(dayNumber) == false) { throw new OverflowException(); }
-        return new MyCivilDay(dayNumber - s_Epoch);
+        return new MyCivilDate(dayNumber - s_Epoch);
     }
 
     [Pure]
-    public MyCivilDay Next(DayOfWeek dayOfWeek)
+    public MyCivilDate Next(DayOfWeek dayOfWeek)
     {
         var dayNumber = DayNumber.Next(dayOfWeek);
         if (s_Domain.Contains(dayNumber) == false) { throw new OverflowException(); }
-        return new MyCivilDay(dayNumber - s_Epoch);
+        return new MyCivilDate(dayNumber - s_Epoch);
     }
 
     #endregion
 }
 
-public partial struct MyCivilDay // IEquatable
+public partial struct MyCivilDate // IEquatable
 {
-    public static bool operator ==(MyCivilDay left, MyCivilDay right) =>
+    public static bool operator ==(MyCivilDate left, MyCivilDate right) =>
         left._daysSinceEpoch == right._daysSinceEpoch;
-    public static bool operator !=(MyCivilDay left, MyCivilDay right) =>
+    public static bool operator !=(MyCivilDate left, MyCivilDate right) =>
         left._daysSinceEpoch != right._daysSinceEpoch;
 
     [Pure]
-    public bool Equals(MyCivilDay other) => _daysSinceEpoch == other._daysSinceEpoch;
+    public bool Equals(MyCivilDate other) => _daysSinceEpoch == other._daysSinceEpoch;
 
     [Pure]
     public override bool Equals([NotNullWhen(true)] object? obj) =>
-        obj is MyCivilDay date && Equals(date);
+        obj is MyCivilDate date && Equals(date);
 
     [Pure]
     public override int GetHashCode() => _daysSinceEpoch;
 }
 
-public partial struct MyCivilDay // IComparable
+public partial struct MyCivilDate // IComparable
 {
-    public static bool operator <(MyCivilDay left, MyCivilDay right) =>
+    public static bool operator <(MyCivilDate left, MyCivilDate right) =>
         left._daysSinceEpoch < right._daysSinceEpoch;
-    public static bool operator <=(MyCivilDay left, MyCivilDay right) =>
+    public static bool operator <=(MyCivilDate left, MyCivilDate right) =>
         left._daysSinceEpoch <= right._daysSinceEpoch;
-    public static bool operator >(MyCivilDay left, MyCivilDay right) =>
+    public static bool operator >(MyCivilDate left, MyCivilDate right) =>
         left._daysSinceEpoch > right._daysSinceEpoch;
-    public static bool operator >=(MyCivilDay left, MyCivilDay right) =>
+    public static bool operator >=(MyCivilDate left, MyCivilDate right) =>
         left._daysSinceEpoch >= right._daysSinceEpoch;
 
     [Pure]
-    public static MyCivilDay Min(MyCivilDay x, MyCivilDay y) => x < y ? x : y;
+    public static MyCivilDate Min(MyCivilDate x, MyCivilDate y) => x < y ? x : y;
 
     [Pure]
-    public static MyCivilDay Max(MyCivilDay x, MyCivilDay y) => x > y ? x : y;
+    public static MyCivilDate Max(MyCivilDate x, MyCivilDate y) => x > y ? x : y;
 
     [Pure]
-    public int CompareTo(MyCivilDay other) => _daysSinceEpoch.CompareTo(other._daysSinceEpoch);
+    public int CompareTo(MyCivilDate other) => _daysSinceEpoch.CompareTo(other._daysSinceEpoch);
 
     [Pure]
     public int CompareTo(object? obj) =>
         obj is null ? 1
-        : obj is MyCivilDay date ? CompareTo(date)
+        : obj is MyCivilDate date ? CompareTo(date)
         : throw new ArgumentException(
-            $"The object should be of type {nameof(obj)} but it is of type {typeof(MyCivilDay).GetType()}.",
+            $"The object should be of type {nameof(obj)} but it is of type {typeof(MyCivilDate).GetType()}.",
             nameof(obj));
 }
 
-public partial struct MyCivilDay // Math ops
+public partial struct MyCivilDate // Math ops
 {
 #pragma warning disable CA2225 // Operator overloads have named alternates (Usage)
 
-    public static int operator -(MyCivilDay left, MyCivilDay right) => left.CountDaysSince(right);
-    public static MyCivilDay operator +(MyCivilDay value, int days) => value.PlusDays(days);
-    public static MyCivilDay operator -(MyCivilDay value, int days) => value.PlusDays(-days);
-    public static MyCivilDay operator ++(MyCivilDay value) => value.NextDay();
-    public static MyCivilDay operator --(MyCivilDay value) => value.PreviousDay();
+    public static int operator -(MyCivilDate left, MyCivilDate right) => left.CountDaysSince(right);
+    public static MyCivilDate operator +(MyCivilDate value, int days) => value.PlusDays(days);
+    public static MyCivilDate operator -(MyCivilDate value, int days) => value.PlusDays(-days);
+    public static MyCivilDate operator ++(MyCivilDate value) => value.NextDay();
+    public static MyCivilDate operator --(MyCivilDate value) => value.PreviousDay();
 
 #pragma warning restore CA2225
 
     [Pure]
-    public int CountDaysSince(MyCivilDay other) =>
+    public int CountDaysSince(MyCivilDate other) =>
         // No need to use a checked context here.
         _daysSinceEpoch - other._daysSinceEpoch;
 
     [Pure]
-    public MyCivilDay PlusDays(int days)
+    public MyCivilDate PlusDays(int days)
     {
         int daysSinceEpoch = checked(_daysSinceEpoch + days);
         // We don't write:
@@ -279,10 +279,10 @@ public partial struct MyCivilDay // Math ops
     }
 
     [Pure]
-    public MyCivilDay NextDay() =>
-        this == MaxValue ? throw new OverflowException() : new MyCivilDay(_daysSinceEpoch + 1);
+    public MyCivilDate NextDay() =>
+        this == MaxValue ? throw new OverflowException() : new MyCivilDate(_daysSinceEpoch + 1);
 
     [Pure]
-    public MyCivilDay PreviousDay() =>
-        this == MinValue ? throw new OverflowException() : new MyCivilDay(_daysSinceEpoch - 1);
+    public MyCivilDate PreviousDay() =>
+        this == MinValue ? throw new OverflowException() : new MyCivilDate(_daysSinceEpoch - 1);
 }

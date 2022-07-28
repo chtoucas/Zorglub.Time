@@ -105,7 +105,7 @@ module RuntimeSizes =
         // Zorglub.Sketches
         Marshal.SizeOf(typedefof<CivilDay>) === 4
         Marshal.SizeOf(typedefof<CivilDate>) === 4
-        Marshal.SizeOf(typedefof<GregorianDay>) === 4
+        Marshal.SizeOf(typedefof<GregorianDate>) === 4
         Marshal.SizeOf(typedefof<ZDate>) === 8
 
     [<Fact>]
@@ -369,8 +369,8 @@ module DefaultValues =
         (y, m, d) === (1, 1, 1)
 
     [<Fact>]
-    let ``Default value of GregorianDay is 01/01/0001 (Gregorian-only)`` () =
-        let date = Unchecked.defaultof<GregorianDay>
+    let ``Default value of GregorianDate is 01/01/0001 (Gregorian-only)`` () =
+        let date = Unchecked.defaultof<GregorianDate>
         let y, m, d = date.Deconstruct()
 
         (y, m, d) === (1, 1, 1)

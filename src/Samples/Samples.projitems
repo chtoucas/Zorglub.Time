@@ -17,7 +17,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)CivilParts.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CivilTriple.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MyCivilCalendar.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)MyCivilDay.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MyCivilDate.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MyNakedCalendar.cs" />
   </ItemGroup>
 </Project>
