@@ -9,10 +9,11 @@ using System.Diagnostics.Contracts;
 
 using Zorglub.Time;
 using Zorglub.Time.Core;
-using Zorglub.Time.Core.Intervals;
 using Zorglub.Time.Core.Schemas;
 using Zorglub.Time.Core.Validation;
 using Zorglub.Time.Hemerology;
+
+using static Zorglub.Time.Extensions.Unboxing;
 
 using ZRange = Zorglub.Time.Core.Intervals.Range;
 
@@ -32,7 +33,7 @@ public readonly partial struct CivilTriple :
     IAffineDate<CivilTriple>,
     IMinMaxValue<CivilTriple>
 {
-    private static readonly SystemSchema Schema = SchemaActivator.CreateInstance<CivilSchema>();
+    private static readonly SystemSchema Schema = CivilSchema.GetInstance().Unbox();
     private static readonly SystemSegment Segment = SystemSegment.Create(Schema, ZRange.Create(1, 9999));
 
     [Pure]

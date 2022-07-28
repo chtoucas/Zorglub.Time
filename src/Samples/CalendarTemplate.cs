@@ -17,11 +17,11 @@ using static Zorglub.Time.Extensions.Unboxing;
 // Verification that one can create a calendar type without having access to
 // the internals.
 
-public sealed class MyCivilCalendar : BasicCalendar, ICalendar<MyCivilDate>
+public sealed class CalendarTemplate : BasicCalendar, ICalendar<DateTemplate>
 {
-    public MyCivilCalendar() : this(GetCivilSchema()) { }
+    public CalendarTemplate() : this(GetCivilSchema()) { }
 
-    public MyCivilCalendar(CivilSchema schema)
+    public CalendarTemplate(CivilSchema schema)
         : base("Gregorian", new StandardScope(schema, DayZero.NewStyle)) { }
 
     private static CivilSchema GetCivilSchema() => CivilSchema.GetInstance().Unbox();
@@ -56,67 +56,67 @@ public sealed class MyCivilCalendar : BasicCalendar, ICalendar<MyCivilDate>
     //
 
     [Pure]
-    MyCivilDate ICalendar<MyCivilDate>.Today() => MyCivilDate.Today();
+    DateTemplate ICalendar<DateTemplate>.Today() => DateTemplate.Today();
 
     //
     // Dates in a given year or month
     //
 
     [Pure]
-    public IEnumerable<MyCivilDate> GetDaysInYear(int year)
+    public IEnumerable<DateTemplate> GetDaysInYear(int year)
     {
         SupportedYears.Validate(year);
 
         int startOfYear = Schema.GetStartOfYear(year);
         int daysInYear = Schema.CountDaysInYear(year);
 
-        return from daysSinceZero
+        return from daysSinceEpoch
                in Enumerable.Range(startOfYear, daysInYear)
-               select new MyCivilDate(daysSinceZero);
+               select new DateTemplate(daysSinceEpoch);
     }
 
     [Pure]
-    public IEnumerable<MyCivilDate> GetDaysInMonth(int year, int month)
+    public IEnumerable<DateTemplate> GetDaysInMonth(int year, int month)
     {
         Scope.ValidateYearMonth(year, month);
 
         int startOfMonth = Schema.GetStartOfMonth(year, month);
         int daysInMonth = Schema.CountDaysInMonth(year, month);
 
-        return from daysSinceZero
+        return from daysSinceEpoch
                in Enumerable.Range(startOfMonth, daysInMonth)
-               select new MyCivilDate(daysSinceZero);
+               select new DateTemplate(daysSinceEpoch);
     }
 
     [Pure]
-    public MyCivilDate GetStartOfYear(int year)
+    public DateTemplate GetStartOfYear(int year)
     {
         SupportedYears.Validate(year);
-        int daysSinceZero = Schema.GetStartOfYear(year);
-        return new MyCivilDate(daysSinceZero);
+        int daysSinceEpoch = Schema.GetStartOfYear(year);
+        return new DateTemplate(daysSinceEpoch);
     }
 
     [Pure]
-    public MyCivilDate GetEndOfYear(int year)
+    public DateTemplate GetEndOfYear(int year)
     {
         SupportedYears.Validate(year);
-        int daysSinceZero = Schema.GetEndOfYear(year);
-        return new MyCivilDate(daysSinceZero);
+        int daysSinceEpoch = Schema.GetEndOfYear(year);
+        return new DateTemplate(daysSinceEpoch);
     }
 
     [Pure]
-    public MyCivilDate GetStartOfMonth(int year, int month)
+    public DateTemplate GetStartOfMonth(int year, int month)
     {
         Scope.ValidateYearMonth(year, month);
-        int daysSinceZero = Schema.GetStartOfMonth(year, month);
-        return new MyCivilDate(daysSinceZero);
+        int daysSinceEpoch = Schema.GetStartOfMonth(year, month);
+        return new DateTemplate(daysSinceEpoch);
     }
 
     [Pure]
-    public MyCivilDate GetEndOfMonth(int year, int month)
+    public DateTemplate GetEndOfMonth(int year, int month)
     {
         Scope.ValidateYearMonth(year, month);
-        int daysSinceZero = Schema.GetEndOfMonth(year, month);
-        return new MyCivilDate(daysSinceZero);
+        int daysSinceEpoch = Schema.GetEndOfMonth(year, month);
+        return new DateTemplate(daysSinceEpoch);
     }
 }

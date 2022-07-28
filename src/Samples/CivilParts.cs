@@ -13,6 +13,8 @@ using Zorglub.Time.Core.Schemas;
 using Zorglub.Time.Core.Validation;
 using Zorglub.Time.Hemerology;
 
+using static Zorglub.Time.Extensions.Unboxing;
+
 using ZRange = Zorglub.Time.Core.Intervals.Range;
 
 // Using a record struct is not a great choice. Main drawbacks:
@@ -29,7 +31,7 @@ public readonly partial record struct CivilParts :
     IAffineDate<CivilParts>,
     IMinMaxValue<CivilParts>
 {
-    private static readonly CalendricalSchema Schema = SchemaActivator.CreateInstance<CivilSchema>();
+    private static readonly CalendricalSchema Schema = CivilSchema.GetInstance().Unbox();
     private static readonly CalendricalSegment Segment = CalendricalSegment.Create(Schema, ZRange.Create(1, 9999));
 }
 
