@@ -9,6 +9,7 @@ using NodaTime.Extensions;
 using Zorglub.Time;
 using Zorglub.Time.Hemerology;
 using Zorglub.Time.Simple;
+using Zorglub.Time.Specialized;
 
 // REVIEW: what makes LocalDate faster? why is DateTime slower?
 
@@ -21,13 +22,14 @@ Intel Core i7-4500U CPU 1.80GHz (Haswell), 1 CPU, 4 logical and 2 physical cores
 
 |              Method |     Mean |   Error |  StdDev | Ratio | Rank |
 |-------------------- |---------:|--------:|--------:|------:|-----:|
-|    'LocalDate *(Y)' | 171.7 ns | 0.89 ns | 0.74 ns |  0.99 |    I |
-|  'CalendarDay     ' | 173.4 ns | 1.23 ns | 1.15 ns |  1.00 |    I |
-|    'DayNumber     ' | 174.7 ns | 0.67 ns | 0.63 ns |  1.01 |    I |
-|     'DateTime *   ' | 181.6 ns | 1.00 ns | 0.94 ns |  1.05 |   II |
-| 'CalendarDate  (Y)' | 181.7 ns | 0.92 ns | 0.86 ns |  1.05 |   II |
-|         'ZDate (Y)' | 182.6 ns | 0.68 ns | 0.64 ns |  1.05 |   II |
-|  'OrdinalDate  (O)' | 193.1 ns | 0.82 ns | 0.77 ns |  1.11 |  III |
+|    'CivilDate     ' | 162.8 ns | 0.84 ns | 0.78 ns |  0.85 |    I |
+|    'LocalDate *(Y)' | 170.1 ns | 0.85 ns | 0.79 ns |  0.89 |   II |
+|    'DayNumber     ' | 174.8 ns | 1.05 ns | 0.93 ns |  0.92 |  III |
+|        'ZDate     ' | 179.8 ns | 0.49 ns | 0.43 ns |  0.94 |   IV |
+| 'CalendarDate  (Y)' | 179.9 ns | 0.68 ns | 0.64 ns |  0.94 |   IV |
+|     'DateTime *   ' | 182.2 ns | 1.32 ns | 1.24 ns |  0.96 |   IV |
+|  'OrdinalDate  (O)' | 184.2 ns | 0.74 ns | 0.69 ns |  0.97 |   IV |
+|  'CalendarDay     ' | 190.7 ns | 1.60 ns | 1.25 ns |  1.00 |    V |
 
 BenchmarkDotNet=v0.13.1, OS=Windows 10.0.19042.1348 (20H2/October2020Update)
 Intel Core2 Duo CPU E8500 3.16GHz, 1 CPU, 2 logical and 2 physical cores
@@ -50,6 +52,15 @@ Intel Core2 Duo CPU E8500 3.16GHz, 1 CPU, 2 logical and 2 physical cores
 
 public class TodayBenchmark
 {
+    [Benchmark(Description = "CivilDate     ")]
+    public (int, int, int, DayOfWeek) WithCivilDate()
+    {
+        CivilDate today = CivilDate.Today();
+        var (y, m, d) = today;
+
+        return (y, m, d, today.DayOfWeek);
+    }
+
     [Benchmark(Description = "CalendarDate  (Y)")]
     public (int, int, int, DayOfWeek) WithCalendarDate()
     {
@@ -86,7 +97,7 @@ public class TodayBenchmark
         return (y, m, d, today.DayOfWeek);
     }
 
-    [Benchmark(Description = "ZDate (Y)")]
+    [Benchmark(Description = "ZDate     ")]
     public (int, int, int, DayOfWeek) WithZDate()
     {
         ZDate today = ZCalendar.Gregorian.Today();
