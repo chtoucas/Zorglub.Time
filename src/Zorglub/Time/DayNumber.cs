@@ -146,7 +146,7 @@ namespace Zorglub.Time
         /// count of consecutive days since <see cref="Zero"/>.
         /// <para>This constructor does NOT validate its parameter.</para>
         /// </summary>
-        private DayNumber(int daysSinceZero)
+        internal DayNumber(int daysSinceZero)
         {
             Debug.Assert(daysSinceZero >= MinDaysSinceZero);
             Debug.Assert(daysSinceZero <= MaxDaysSinceZero);

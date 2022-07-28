@@ -252,7 +252,7 @@ namespace Zorglub.Time.Simple
         [Pure]
         public static CalendarDate Today()
         {
-            var ymd = GregorianFormulae.GetDateParts(DayNumber.Today() - DayZero.NewStyle);
+            var ymd = GregorianFormulae.GetDateParts(DayNumber.Today().DaysSinceZero);
             return new CalendarDate(ymd, Cuid.Gregorian);
         }
 

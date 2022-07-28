@@ -315,8 +315,7 @@ namespace Zorglub.Time.Simple
         /// <see cref="Calendar.GetCurrentDay()"/>.</para>
         /// </summary>
         [Pure]
-        public static CalendarDay Today() =>
-            new(DayNumber.Today() - DayZero.NewStyle, Cuid.Gregorian);
+        public static CalendarDay Today() => new(DayNumber.Today().DaysSinceZero, Cuid.Gregorian);
 
         #endregion
         #region Conversions

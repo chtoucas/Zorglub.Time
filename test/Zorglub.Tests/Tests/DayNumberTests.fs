@@ -158,13 +158,13 @@ module Prelude =
 module Factories =
     [<Fact>]
     let ``Today()`` () =
-        let today = CivilPrototype.Today().ToDayNumber()
+        let today = CivilDate.Today().DayNumber
 
         DayNumber.Today() === today
 
     [<Fact>]
     let ``UtcToday()`` () =
-        let today = CivilPrototype.UtcToday().ToDayNumber()
+        let today = CivilDate.UtcToday().DayNumber
 
         DayNumber.UtcToday() === today
 

@@ -313,7 +313,7 @@ namespace Zorglub.Time.Specialized
             Unpack(out year, out month, out day);
 
         /// <summary>
-        /// Obtains the current date on this computer, expressed in local time, not UTC.
+        /// Obtains the current date on this machine, expressed in local time, not UTC.
         /// </summary>
         [Pure]
         public static CivilPrototype Today()
@@ -323,7 +323,7 @@ namespace Zorglub.Time.Specialized
         }
 
         /// <summary>
-        /// Obtains the current date on this computer, expressed as UTC.
+        /// Obtains the current date on this machine, expressed as UTC.
         /// </summary>
         [Pure]
         public static CivilPrototype UtcToday()

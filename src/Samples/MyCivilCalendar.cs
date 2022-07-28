@@ -70,9 +70,9 @@ public sealed class MyCivilCalendar : BasicCalendar, ICalendar<MyCivilDate>
         int startOfYear = Schema.GetStartOfYear(year);
         int daysInYear = Schema.CountDaysInYear(year);
 
-        return from daysSinceEpoch
+        return from daysSinceZero
                in Enumerable.Range(startOfYear, daysInYear)
-               select new MyCivilDate(daysSinceEpoch);
+               select new MyCivilDate(daysSinceZero);
     }
 
     [Pure]
@@ -83,40 +83,40 @@ public sealed class MyCivilCalendar : BasicCalendar, ICalendar<MyCivilDate>
         int startOfMonth = Schema.GetStartOfMonth(year, month);
         int daysInMonth = Schema.CountDaysInMonth(year, month);
 
-        return from daysSinceEpoch
+        return from daysSinceZero
                in Enumerable.Range(startOfMonth, daysInMonth)
-               select new MyCivilDate(daysSinceEpoch);
+               select new MyCivilDate(daysSinceZero);
     }
 
     [Pure]
     public MyCivilDate GetStartOfYear(int year)
     {
         SupportedYears.Validate(year);
-        int daysSinceEpoch = Schema.GetStartOfYear(year);
-        return new MyCivilDate(daysSinceEpoch);
+        int daysSinceZero = Schema.GetStartOfYear(year);
+        return new MyCivilDate(daysSinceZero);
     }
 
     [Pure]
     public MyCivilDate GetEndOfYear(int year)
     {
         SupportedYears.Validate(year);
-        int daysSinceEpoch = Schema.GetEndOfYear(year);
-        return new MyCivilDate(daysSinceEpoch);
+        int daysSinceZero = Schema.GetEndOfYear(year);
+        return new MyCivilDate(daysSinceZero);
     }
 
     [Pure]
     public MyCivilDate GetStartOfMonth(int year, int month)
     {
         Scope.ValidateYearMonth(year, month);
-        int daysSinceEpoch = Schema.GetStartOfMonth(year, month);
-        return new MyCivilDate(daysSinceEpoch);
+        int daysSinceZero = Schema.GetStartOfMonth(year, month);
+        return new MyCivilDate(daysSinceZero);
     }
 
     [Pure]
     public MyCivilDate GetEndOfMonth(int year, int month)
     {
         Scope.ValidateYearMonth(year, month);
-        int daysSinceEpoch = Schema.GetEndOfMonth(year, month);
-        return new MyCivilDate(daysSinceEpoch);
+        int daysSinceZero = Schema.GetEndOfMonth(year, month);
+        return new MyCivilDate(daysSinceZero);
     }
 }

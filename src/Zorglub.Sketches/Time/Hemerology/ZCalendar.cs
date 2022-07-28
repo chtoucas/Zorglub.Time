@@ -216,7 +216,7 @@ namespace Zorglub.Time.Hemerology
 
         /// <inheritdoc />
         [Pure]
-        public ZDate Today() => GetDate(DayNumber.Today());
+        public ZDate Today() => new(DayNumber.Today().DaysSinceZero, (int)CalendarId.Gregorian);
     }
 
     public partial class ZCalendar // IDayProvider

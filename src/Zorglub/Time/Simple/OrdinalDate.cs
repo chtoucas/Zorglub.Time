@@ -231,7 +231,7 @@ namespace Zorglub.Time.Simple
         [Pure]
         public static OrdinalDate Today()
         {
-            var ydoy = GregorianFormulae.GetOrdinalParts(DayNumber.Today() - DayZero.NewStyle);
+            var ydoy = GregorianFormulae.GetOrdinalParts(DayNumber.Today().DaysSinceZero);
             return new OrdinalDate(ydoy, Cuid.Gregorian);
         }
 

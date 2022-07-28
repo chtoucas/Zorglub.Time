@@ -358,7 +358,7 @@ namespace Zorglub.Time.Simple
         [Pure]
         public static CalendarYear GetCurrentYear()
         {
-            int y = GregorianFormulae.GetYear(DayNumber.Today() - DayZero.NewStyle);
+            int y = GregorianFormulae.GetYear(DayNumber.Today().DaysSinceZero);
             return new CalendarYear(y, Cuid.Gregorian);
         }
 

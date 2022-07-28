@@ -68,9 +68,9 @@ namespace Zorglub.Time.Specialized
             int startOfYear = Schema.GetStartOfYear(year);
             int daysInYear = Schema.CountDaysInYear(year);
 
-            return from daysSinceEpoch
+            return from daysSinceZero
                    in Enumerable.Range(startOfYear, daysInYear)
-                   select new CivilDate(daysSinceEpoch);
+                   select new CivilDate(daysSinceZero);
         }
 
         /// <inheritdoc/>
@@ -82,9 +82,9 @@ namespace Zorglub.Time.Specialized
             int startOfMonth = Schema.GetStartOfMonth(year, month);
             int daysInMonth = Schema.CountDaysInMonth(year, month);
 
-            return from daysSinceEpoch
+            return from daysSinceZero
                    in Enumerable.Range(startOfMonth, daysInMonth)
-                   select new CivilDate(daysSinceEpoch);
+                   select new CivilDate(daysSinceZero);
         }
 
         /// <inheritdoc/>
@@ -92,8 +92,8 @@ namespace Zorglub.Time.Specialized
         public CivilDate GetStartOfYear(int year)
         {
             SupportedYears.Validate(year);
-            int daysSinceEpoch = Schema.GetStartOfYear(year);
-            return new CivilDate(daysSinceEpoch);
+            int daysSinceZero = Schema.GetStartOfYear(year);
+            return new CivilDate(daysSinceZero);
         }
 
         /// <inheritdoc/>
@@ -101,8 +101,8 @@ namespace Zorglub.Time.Specialized
         public CivilDate GetEndOfYear(int year)
         {
             SupportedYears.Validate(year);
-            int daysSinceEpoch = Schema.GetEndOfYear(year);
-            return new CivilDate(daysSinceEpoch);
+            int daysSinceZero = Schema.GetEndOfYear(year);
+            return new CivilDate(daysSinceZero);
         }
 
         /// <inheritdoc/>
@@ -110,8 +110,8 @@ namespace Zorglub.Time.Specialized
         public CivilDate GetStartOfMonth(int year, int month)
         {
             Scope.ValidateYearMonth(year, month);
-            int daysSinceEpoch = Schema.GetStartOfMonth(year, month);
-            return new CivilDate(daysSinceEpoch);
+            int daysSinceZero = Schema.GetStartOfMonth(year, month);
+            return new CivilDate(daysSinceZero);
         }
 
         /// <inheritdoc/>
@@ -119,8 +119,8 @@ namespace Zorglub.Time.Specialized
         public CivilDate GetEndOfMonth(int year, int month)
         {
             Scope.ValidateYearMonth(year, month);
-            int daysSinceEpoch = Schema.GetEndOfMonth(year, month);
-            return new CivilDate(daysSinceEpoch);
+            int daysSinceZero = Schema.GetEndOfMonth(year, month);
+            return new CivilDate(daysSinceZero);
         }
     }
 }

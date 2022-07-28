@@ -220,7 +220,7 @@ namespace Zorglub.Time.Simple
         [Pure]
         public static CalendarMonth GetCurrentMonth()
         {
-            var ymd = GregorianFormulae.GetDateParts(DayNumber.Today() - DayZero.NewStyle);
+            var ymd = GregorianFormulae.GetDateParts(DayNumber.Today().DaysSinceZero);
             return new CalendarMonth(ymd.Yemo, Cuid.Gregorian);
         }
 

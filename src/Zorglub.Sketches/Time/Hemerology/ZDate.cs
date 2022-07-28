@@ -279,7 +279,7 @@ namespace Zorglub.Time.Hemerology
         /// time, not UTC.
         /// </summary>
         [Pure]
-        public static ZDate Today() => new(DayNumber.Today());
+        public static ZDate Today() => new(DayNumber.Today().DaysSinceZero, (int)CalendarId.Gregorian);
 
         #endregion
         #region Conversions

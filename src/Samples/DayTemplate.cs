@@ -140,7 +140,7 @@ public partial struct DayTemplate // Conversions, adjustments...
     #region Factories
 
     [Pure]
-    public static DayTemplate Today() => new(DayNumber.Today());
+    public static DayTemplate Today() => new(DayNumber.Today().DaysSinceZero);
 
     #endregion
     #region Conversions
