@@ -6,7 +6,8 @@ namespace Zorglub.Time
     /// <summary>
     /// Represents a pair of a year and a day of the year.
     /// <para>This type uses the lexicographic order on pairs (Year, DayOfYear).</para>
-    /// <para><see cref="OrdinalParts"/> does NOT represent an ordinal date.</para>
+    /// <para><see cref="OrdinalParts"/> does NOT represent an ordinal date, its default value is
+    /// not even a valid ordinal date.</para>
     /// <para><see cref="OrdinalParts"/> is an immutable struct.</para>
     /// </summary>
     /// <param name="Year">Algebraic year number.</param>

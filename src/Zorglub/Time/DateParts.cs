@@ -12,7 +12,8 @@ namespace Zorglub.Time
     /// <summary>
     /// Represents a triple of a year, a month and a day.
     /// <para>This type uses the lexicographic order on triples (Year, Month, Day).</para>
-    /// <para><see cref="DateParts"/> does NOT represent a date.</para>
+    /// <para><see cref="DateParts"/> does NOT represent a date, its default value is not even a
+    /// valid date.</para>
     /// <para><see cref="DateParts"/> is an immutable struct.</para>
     /// </summary>
     /// <param name="Year">Algebraic year number.</param>
