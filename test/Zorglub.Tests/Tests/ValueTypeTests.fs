@@ -103,7 +103,7 @@ module RuntimeSizes =
     [<Fact>]
     let ``Types in Zorglub.Time.Hemerology`` () =
         // Zorglub.Sketches
-        Marshal.SizeOf(typedefof<CivilDay>) === 4
+        Marshal.SizeOf(typedefof<CivilDate>) === 4
         Marshal.SizeOf(typedefof<CivilPrototype>) === 4
         Marshal.SizeOf(typedefof<GregorianDate>) === 4
         Marshal.SizeOf(typedefof<ZDate>) === 8
@@ -355,8 +355,8 @@ module DefaultValues =
     //
 
     [<Fact>]
-    let ``Default value of CivilDay is 01/01/0001 (Gregorian-only)`` () =
-        let date = Unchecked.defaultof<CivilDay>
+    let ``Default value of CivilDate is 01/01/0001 (Gregorian-only)`` () =
+        let date = Unchecked.defaultof<CivilDate>
         let y, m, d = date.Deconstruct()
 
         (y, m, d) === (1, 1, 1)

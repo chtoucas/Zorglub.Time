@@ -31,11 +31,11 @@ open type Zorglub.Time.Extensions.DayNumberExtensions
 /// Convert one (Gregorian) Yemoda to a DayNumber.
 /// This function does NOT verify that x represents a valid Gregorian triple.
 let private toDayNumber (x: Yemoda) =
-    // CalendarDate or CivilDay? The latter is faster and more natural here
+    // CalendarDate or CivilDate? The latter is faster and more natural here
     // (day number) BUT we may need support for negative years. Moreover, the
     // speed argument is not really valid here as we construct a new CalendarDate
     // instance using the internal ctor which does not perform any validation,
-    // something we cannot do with CivilDay.
+    // something we cannot do with CivilDate.
     let v = new CalendarDate(x, Cuid.Gregorian)
     v.ToDayNumber()
 

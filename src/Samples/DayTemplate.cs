@@ -27,7 +27,7 @@ using Zorglub.Time.Hemerology.Scopes;
 // - Slower for methods linked to the y/m/d concept, the most obvious one
 //   being the construction of a new date object.
 //
-// See also CivilDay which is an "optimized" version of this type.
+// See also CivilDate which is an "optimized" version of this type.
 
 /// <summary>
 /// Provides a Gregorian date based on the count of consecutive days since the Gregorian epoch.

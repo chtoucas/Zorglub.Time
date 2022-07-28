@@ -4,6 +4,7 @@
 SupportedYearsTester
 Naming: ident, id, cuid
 Adjustable dates
+Replace CivilPrototype by CivilDate
 
 - Math:
   * Optimize div in N / uint in enum comp

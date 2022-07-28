@@ -12,7 +12,7 @@ namespace Zorglub.Time.Specialized
     using Zorglub.Time.Hemerology;
     using Zorglub.Time.Hemerology.Scopes;
 
-    public sealed class CivilCalendar : BasicCalendar, ICalendar<CivilDay>
+    public sealed class CivilCalendar : BasicCalendar, ICalendar<CivilDate>
     {
         public CivilCalendar() : this(new CivilSchema()) { }
 
@@ -53,7 +53,7 @@ namespace Zorglub.Time.Specialized
 
         /// <inheritdoc/>
         [Pure]
-        CivilDay ICalendar<CivilDay>.Today() => CivilDay.Today();
+        CivilDate ICalendar<CivilDate>.Today() => CivilDate.Today();
 
         //
         // Dates in a given year or month
@@ -61,7 +61,7 @@ namespace Zorglub.Time.Specialized
 
         /// <inheritdoc/>
         [Pure]
-        public IEnumerable<CivilDay> GetDaysInYear(int year)
+        public IEnumerable<CivilDate> GetDaysInYear(int year)
         {
             SupportedYears.Validate(year);
 
@@ -70,12 +70,12 @@ namespace Zorglub.Time.Specialized
 
             return from daysSinceEpoch
                    in Enumerable.Range(startOfYear, daysInYear)
-                   select new CivilDay(daysSinceEpoch);
+                   select new CivilDate(daysSinceEpoch);
         }
 
         /// <inheritdoc/>
         [Pure]
-        public IEnumerable<CivilDay> GetDaysInMonth(int year, int month)
+        public IEnumerable<CivilDate> GetDaysInMonth(int year, int month)
         {
             Scope.ValidateYearMonth(year, month);
 
@@ -84,43 +84,43 @@ namespace Zorglub.Time.Specialized
 
             return from daysSinceEpoch
                    in Enumerable.Range(startOfMonth, daysInMonth)
-                   select new CivilDay(daysSinceEpoch);
+                   select new CivilDate(daysSinceEpoch);
         }
 
         /// <inheritdoc/>
         [Pure]
-        public CivilDay GetStartOfYear(int year)
+        public CivilDate GetStartOfYear(int year)
         {
             SupportedYears.Validate(year);
             int daysSinceEpoch = Schema.GetStartOfYear(year);
-            return new CivilDay(daysSinceEpoch);
+            return new CivilDate(daysSinceEpoch);
         }
 
         /// <inheritdoc/>
         [Pure]
-        public CivilDay GetEndOfYear(int year)
+        public CivilDate GetEndOfYear(int year)
         {
             SupportedYears.Validate(year);
             int daysSinceEpoch = Schema.GetEndOfYear(year);
-            return new CivilDay(daysSinceEpoch);
+            return new CivilDate(daysSinceEpoch);
         }
 
         /// <inheritdoc/>
         [Pure]
-        public CivilDay GetStartOfMonth(int year, int month)
+        public CivilDate GetStartOfMonth(int year, int month)
         {
             Scope.ValidateYearMonth(year, month);
             int daysSinceEpoch = Schema.GetStartOfMonth(year, month);
-            return new CivilDay(daysSinceEpoch);
+            return new CivilDate(daysSinceEpoch);
         }
 
         /// <inheritdoc/>
         [Pure]
-        public CivilDay GetEndOfMonth(int year, int month)
+        public CivilDate GetEndOfMonth(int year, int month)
         {
             Scope.ValidateYearMonth(year, month);
             int daysSinceEpoch = Schema.GetEndOfMonth(year, month);
-            return new CivilDay(daysSinceEpoch);
+            return new CivilDate(daysSinceEpoch);
         }
     }
 }

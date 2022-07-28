@@ -1,7 +1,7 @@
 ﻿// SPDX-License-Identifier: BSD-3-Clause
 // Copyright (c) 2020 Narvalo.Org. All rights reserved.
 
-module Zorglub.Tests.Specialized.CivilDayTests
+module Zorglub.Tests.Specialized.CivilDateTests
 
 open Zorglub.Testing
 open Zorglub.Testing.Data.Bounded
@@ -17,16 +17,16 @@ module Bundles =
     [<Sealed>]
     [<TestExcludeFrom(TestExcludeFrom.Regular)>]
     type DateFacts() =
-        inherit IDateFacts<CivilDay, StandardGregorianDataSet>(chr.SupportedYears.Range, chr.Domain)
+        inherit IDateFacts<CivilDate, StandardGregorianDataSet>(chr.SupportedYears.Range, chr.Domain)
 
-        override __.MinDate = CivilDay.MinValue
-        override __.MaxDate = CivilDay.MaxValue
+        override __.MinDate = CivilDate.MinValue
+        override __.MaxDate = CivilDate.MaxValue
 
-        override __.GetDate(y, m, d) = new CivilDay(y, m, d)
+        override __.GetDate(y, m, d) = new CivilDate(y, m, d)
 
     [<Sealed>]
     [<TestExcludeFrom(TestExcludeFrom.Regular)>]
     type DayOfWeekFacts() =
-        inherit IDateDayOfWeekFacts<CivilDay, StandardGregorianDataSet>()
+        inherit IDateDayOfWeekFacts<CivilDate, StandardGregorianDataSet>()
 
-        override __.GetDate(y, m, d) = new CivilDay(y, m, d)
+        override __.GetDate(y, m, d) = new CivilDate(y, m, d)
