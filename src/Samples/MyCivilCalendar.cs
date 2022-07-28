@@ -4,29 +4,32 @@
 namespace Samples;
 
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.Linq;
 
 using Zorglub.Time;
-using Zorglub.Time.Core;
 using Zorglub.Time.Core.Schemas;
 using Zorglub.Time.Hemerology;
 using Zorglub.Time.Hemerology.Scopes;
 
+using static Zorglub.Time.Extensions.Unboxing;
+
 // Verification that one can create a calendar type without having access to
 // the internals.
 
-public sealed partial class MyCalendar : BasicCalendar, ICalendar<MyDate>
+public sealed class MyCivilCalendar : BasicCalendar, ICalendar<MyCivilDay>
 {
-    public MyCalendar() : this(SchemaActivator.CreateInstance<CivilSchema>()) { }
+    public MyCivilCalendar() : this(GetCivilSchema()) { }
 
-    public MyCalendar(CivilSchema schema)
-        : base("MyCalendar", new StandardScope(schema, DayZero.NewStyle)) { }
-}
+    public MyCivilCalendar(CivilSchema schema)
+        : base("Gregorian", new StandardScope(schema, DayZero.NewStyle)) { }
 
-public partial class MyCalendar // Year, month or day infos
-{
+    private static CivilSchema GetCivilSchema() => CivilSchema.GetInstance().Unbox();
+
+    //
+    // Year, month or day infos
+    //
+
     [Pure]
     public override int CountMonthsInYear(int year)
     {
@@ -47,18 +50,20 @@ public partial class MyCalendar // Year, month or day infos
         Scope.ValidateYearMonth(year, month);
         return Schema.CountDaysInMonth(year, month);
     }
-}
 
-public partial class MyCalendar // Factories
-{
-    [Pure]
-    MyDate ICalendar<MyDate>.Today() => MyDate.Today();
-}
+    //
+    // Factories
+    //
 
-public partial class MyCalendar // Dates in a given year or month
-{
     [Pure]
-    public IEnumerable<MyDate> GetDaysInYear(int year)
+    MyCivilDay ICalendar<MyCivilDay>.Today() => MyCivilDay.Today();
+
+    //
+    // Dates in a given year or month
+    //
+
+    [Pure]
+    public IEnumerable<MyCivilDay> GetDaysInYear(int year)
     {
         SupportedYears.Validate(year);
 
@@ -67,11 +72,11 @@ public partial class MyCalendar // Dates in a given year or month
 
         return from daysSinceEpoch
                in Enumerable.Range(startOfYear, daysInYear)
-               select new MyDate(daysSinceEpoch);
+               select new MyCivilDay(daysSinceEpoch);
     }
 
     [Pure]
-    public IEnumerable<MyDate> GetDaysInMonth(int year, int month)
+    public IEnumerable<MyCivilDay> GetDaysInMonth(int year, int month)
     {
         Scope.ValidateYearMonth(year, month);
 
@@ -80,38 +85,38 @@ public partial class MyCalendar // Dates in a given year or month
 
         return from daysSinceEpoch
                in Enumerable.Range(startOfMonth, daysInMonth)
-               select new MyDate(daysSinceEpoch);
+               select new MyCivilDay(daysSinceEpoch);
     }
 
     [Pure]
-    public MyDate GetStartOfYear(int year)
+    public MyCivilDay GetStartOfYear(int year)
     {
         SupportedYears.Validate(year);
         int daysSinceEpoch = Schema.GetStartOfYear(year);
-        return new MyDate(daysSinceEpoch);
+        return new MyCivilDay(daysSinceEpoch);
     }
 
     [Pure]
-    public MyDate GetEndOfYear(int year)
+    public MyCivilDay GetEndOfYear(int year)
     {
         SupportedYears.Validate(year);
         int daysSinceEpoch = Schema.GetEndOfYear(year);
-        return new MyDate(daysSinceEpoch);
+        return new MyCivilDay(daysSinceEpoch);
     }
 
     [Pure]
-    public MyDate GetStartOfMonth(int year, int month)
+    public MyCivilDay GetStartOfMonth(int year, int month)
     {
         Scope.ValidateYearMonth(year, month);
         int daysSinceEpoch = Schema.GetStartOfMonth(year, month);
-        return new MyDate(daysSinceEpoch);
+        return new MyCivilDay(daysSinceEpoch);
     }
 
     [Pure]
-    public MyDate GetEndOfMonth(int year, int month)
+    public MyCivilDay GetEndOfMonth(int year, int month)
     {
         Scope.ValidateYearMonth(year, month);
         int daysSinceEpoch = Schema.GetEndOfMonth(year, month);
-        return new MyDate(daysSinceEpoch);
+        return new MyCivilDay(daysSinceEpoch);
     }
 }

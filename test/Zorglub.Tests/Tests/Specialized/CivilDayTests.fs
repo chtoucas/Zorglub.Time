@@ -7,18 +7,17 @@ open Zorglub.Testing
 open Zorglub.Testing.Data.Bounded
 open Zorglub.Testing.Facts
 
-open Zorglub.Time.Core.Intervals
 open Zorglub.Time.Specialized
 
 module Bundles =
     // NB: notice the use of StandardGregorianDataSet.
 
-    let private supportedYears = Range.Create(CivilDay.MinYear, CivilDay.MaxYear)
+    let private chr = new CivilCalendar()
 
     [<Sealed>]
     [<TestExcludeFrom(TestExcludeFrom.Regular)>]
     type DateFacts() =
-        inherit IDateFacts<CivilDay, StandardGregorianDataSet>(supportedYears, CivilDay.Domain)
+        inherit IDateFacts<CivilDay, StandardGregorianDataSet>(chr.SupportedYears.Range, chr.Domain)
 
         override __.MinDate = CivilDay.MinValue
         override __.MaxDate = CivilDay.MaxValue

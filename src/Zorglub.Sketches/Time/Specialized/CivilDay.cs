@@ -9,25 +9,37 @@ namespace Zorglub.Time.Specialized
     using Zorglub.Time.Hemerology;
     using Zorglub.Time.Hemerology.Scopes;
 
-    // TODO(api): non-standard math. Create CivilCalendar.
+    // TODO(api): non-standard math, providers; idem with GregorianDay.
 
     public readonly partial struct CivilDay :
         IDate<CivilDay>,
-        IYearEndpointsProvider<CivilDay>,
-        IMonthEndpointsProvider<CivilDay>,
+        //IYearEndpointsProvider<CivilDay>,
+        //IMonthEndpointsProvider<CivilDay>,
         IMinMaxValue<CivilDay>
     {
         /// <summary>
-        /// Represents the earliest supported year.
-        /// <para>This field is a constant equal to 1.</para>
+        /// Represents the Gregorian schema.
+        /// <para>This field is read-only.</para>
         /// </summary>
-        public const int MinYear = StandardScope.MinYear;
+        private static readonly CivilSchema s_Schema = new();
 
         /// <summary>
-        /// Represents the latest supported year.
-        /// <para>This field is a constant equal to 9999.</para>
+        /// Represents the Gregorian calendar.
+        /// <para>This field is read-only.</para>
         /// </summary>
-        public const int MaxYear = StandardScope.MaxYear;
+        private static readonly CivilCalendar s_Calendar = new(s_Schema);
+
+        /// <summary>
+        /// Represents the epoch.
+        /// <para>This field is read-only.</para>
+        /// </summary>
+        private static readonly DayNumber s_Epoch = s_Calendar.Epoch;
+
+        /// <summary>
+        /// Represents the domain, the interval of supported <see cref="DayNumber"/>.
+        /// <para>This field is read-only.</para>
+        /// </summary>
+        private static readonly Range<DayNumber> s_Domain = s_Calendar.Domain;
 
         /// <summary>
         /// Represents the count of days since the Gregorian epoch.
@@ -39,8 +51,12 @@ namespace Zorglub.Time.Specialized
         /// Initializes a new instance of the <see cref="CivilDay"/> struct to the specified
         /// date parts.
         /// </summary>
+        /// <exception cref="AoorException">The specified components do not form a valid date or
+        /// <paramref name="year"/> is outside the range of years supported by
+        /// <see cref="CivilCalendar"/>.</exception>
         public CivilDay(int year, int month, int day)
         {
+            // s_Calendar.Scope "=" GregorianStandardScope.
             GregorianStandardScope.ValidateYearMonthDay(year, month, day);
 
             _daysSinceEpoch = CivilFormulae.CountDaysSinceEpoch(year, month, day);
@@ -53,53 +69,36 @@ namespace Zorglub.Time.Specialized
         /// supported values.</exception>
         public CivilDay(DayNumber dayNumber)
         {
-            Domain.Validate(dayNumber);
+            s_Domain.Validate(dayNumber);
 
-            _daysSinceEpoch = dayNumber - Epoch;
+            _daysSinceEpoch = dayNumber - s_Epoch;
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CivilDay"/> struct.
         /// <para>This method does NOT validate its parameter.</para>
         /// </summary>
-        private CivilDay(int daysSinceEpoch)
+        internal CivilDay(int daysSinceEpoch)
         {
             _daysSinceEpoch = daysSinceEpoch;
         }
 
         /// <summary>
-        /// Gets the epoch.
-        /// <para>This static property is thread-safe.</para>
-        /// </summary>
-        public static DayNumber Epoch { get; } = DayZero.NewStyle;
-
-        /// <summary>
-        /// Gets the domain, the interval of supported <see cref="DayNumber"/>.
-        /// <para>This static property is thread-safe.</para>
-        /// </summary>
-        public static Range<DayNumber> Domain { get; } = GregorianStandardScope.DefaultDomain;
-
-        /// <summary>
         /// Gets the smallest possible value of a <see cref="CivilDay"/>.
         /// <para>This static property is thread-safe.</para>
         /// </summary>
-        public static CivilDay MinValue { get; } = new(Domain.Min - Epoch);
+        public static CivilDay MinValue { get; } = new(s_Domain.Min - s_Epoch);
 
         /// <summary>
         /// Gets the largest possible value of a <see cref="CivilDay"/>.
         /// <para>This static property is thread-safe.</para>
         /// </summary>
-        public static CivilDay MaxValue { get; } = new(Domain.Max - Epoch);
-
-        /// <summary>
-        /// Gets the Gregorian schema.
-        /// </summary>
-        private static readonly GregorianSchema s_Schema = new();
+        public static CivilDay MaxValue { get; } = new(s_Domain.Max - s_Epoch);
 
         /// <summary>
         /// Gets the day number.
         /// </summary>
-        public DayNumber DayNumber => Epoch + _daysSinceEpoch;
+        public DayNumber DayNumber => s_Epoch + _daysSinceEpoch;
 
         /// <inheritdoc />
         public Ord CenturyOfEra => Ord.FromInt32(Century);
@@ -169,7 +168,7 @@ namespace Zorglub.Time.Specialized
         public override string ToString()
         {
             CivilFormulae.GetDateParts(_daysSinceEpoch, out int y, out int m, out int d);
-            return FormattableString.Invariant($"{d:D2}/{m:D2}/{y:D4} (Gregorian)");
+            return FormattableString.Invariant($"{d:D2}/{m:D2}/{y:D4} ({s_Calendar})");
         }
 
         /// <summary>
@@ -188,7 +187,7 @@ namespace Zorglub.Time.Specialized
         /// expressed in local time, not UTC.
         /// </summary>
         [Pure]
-        public static CivilDay Today() => new(DayNumber.Today() - Epoch);
+        public static CivilDay Today() => new(DayNumber.Today() - s_Epoch);
 
         #endregion
         #region Conversions
@@ -221,39 +220,39 @@ namespace Zorglub.Time.Specialized
         #endregion
         #region Year and month boundaries
 
-        /// <inheritdoc />
-        [Pure]
-        public static CivilDay GetStartOfYear(CivilDay day)
-        {
-            int daysSinceEpoch = CivilFormulae.GetStartOfYear(day.Year);
-            return new CivilDay(daysSinceEpoch);
-        }
+        ///// <inheritdoc />
+        //[Pure]
+        //public static CivilDay GetStartOfYear(CivilDay day)
+        //{
+        //    int daysSinceEpoch = CivilFormulae.GetStartOfYear(day.Year);
+        //    return new CivilDay(daysSinceEpoch);
+        //}
 
-        /// <inheritdoc />
-        [Pure]
-        public static CivilDay GetEndOfYear(CivilDay day)
-        {
-            int daysSinceEpoch = s_Schema.GetEndOfYear(day.Year);
-            return new CivilDay(daysSinceEpoch);
-        }
+        ///// <inheritdoc />
+        //[Pure]
+        //public static CivilDay GetEndOfYear(CivilDay day)
+        //{
+        //    int daysSinceEpoch = s_Schema.GetEndOfYear(day.Year);
+        //    return new CivilDay(daysSinceEpoch);
+        //}
 
-        /// <inheritdoc />
-        [Pure]
-        public static CivilDay GetStartOfMonth(CivilDay day)
-        {
-            CivilFormulae.GetDateParts(day._daysSinceEpoch, out int y, out int m, out _);
-            int daysSinceEpoch = s_Schema.GetStartOfMonth(y, m);
-            return new CivilDay(daysSinceEpoch);
-        }
+        ///// <inheritdoc />
+        //[Pure]
+        //public static CivilDay GetStartOfMonth(CivilDay day)
+        //{
+        //    CivilFormulae.GetDateParts(day._daysSinceEpoch, out int y, out int m, out _);
+        //    int daysSinceEpoch = s_Schema.GetStartOfMonth(y, m);
+        //    return new CivilDay(daysSinceEpoch);
+        //}
 
-        /// <inheritdoc />
-        [Pure]
-        public static CivilDay GetEndOfMonth(CivilDay day)
-        {
-            CivilFormulae.GetDateParts(day._daysSinceEpoch, out int y, out int m, out _);
-            int daysSinceEpoch = s_Schema.GetEndOfMonth(y, m);
-            return new CivilDay(daysSinceEpoch);
-        }
+        ///// <inheritdoc />
+        //[Pure]
+        //public static CivilDay GetEndOfMonth(CivilDay day)
+        //{
+        //    CivilFormulae.GetDateParts(day._daysSinceEpoch, out int y, out int m, out _);
+        //    int daysSinceEpoch = s_Schema.GetEndOfMonth(y, m);
+        //    return new CivilDay(daysSinceEpoch);
+        //}
 
         #endregion
         #region Adjust the day of the week
@@ -263,8 +262,8 @@ namespace Zorglub.Time.Specialized
         public CivilDay Previous(DayOfWeek dayOfWeek)
         {
             var dayNumber = DayNumber.Previous(dayOfWeek);
-            if (Domain.Contains(dayNumber) == false) { Throw.DateOverflow(); }
-            return new CivilDay(dayNumber - Epoch);
+            if (s_Domain.Contains(dayNumber) == false) { Throw.DateOverflow(); }
+            return new CivilDay(dayNumber - s_Epoch);
         }
 
         /// <inheritdoc />
@@ -272,8 +271,8 @@ namespace Zorglub.Time.Specialized
         public CivilDay PreviousOrSame(DayOfWeek dayOfWeek)
         {
             var dayNumber = DayNumber.PreviousOrSame(dayOfWeek);
-            if (Domain.Contains(dayNumber) == false) { Throw.DateOverflow(); }
-            return new CivilDay(dayNumber - Epoch);
+            if (s_Domain.Contains(dayNumber) == false) { Throw.DateOverflow(); }
+            return new CivilDay(dayNumber - s_Epoch);
         }
 
         /// <inheritdoc />
@@ -281,8 +280,8 @@ namespace Zorglub.Time.Specialized
         public CivilDay Nearest(DayOfWeek dayOfWeek)
         {
             var dayNumber = DayNumber.Nearest(dayOfWeek);
-            if (Domain.Contains(dayNumber) == false) { Throw.DateOverflow(); }
-            return new CivilDay(dayNumber - Epoch);
+            if (s_Domain.Contains(dayNumber) == false) { Throw.DateOverflow(); }
+            return new CivilDay(dayNumber - s_Epoch);
         }
 
         /// <inheritdoc />
@@ -290,8 +289,8 @@ namespace Zorglub.Time.Specialized
         public CivilDay NextOrSame(DayOfWeek dayOfWeek)
         {
             var dayNumber = DayNumber.NextOrSame(dayOfWeek);
-            if (Domain.Contains(dayNumber) == false) { Throw.DateOverflow(); }
-            return new CivilDay(dayNumber - Epoch);
+            if (s_Domain.Contains(dayNumber) == false) { Throw.DateOverflow(); }
+            return new CivilDay(dayNumber - s_Epoch);
         }
 
         /// <inheritdoc />
@@ -299,8 +298,8 @@ namespace Zorglub.Time.Specialized
         public CivilDay Next(DayOfWeek dayOfWeek)
         {
             var dayNumber = DayNumber.Next(dayOfWeek);
-            if (Domain.Contains(dayNumber) == false) { Throw.DateOverflow(); }
-            return new CivilDay(dayNumber - Epoch);
+            if (s_Domain.Contains(dayNumber) == false) { Throw.DateOverflow(); }
+            return new CivilDay(dayNumber - s_Epoch);
         }
 
         #endregion

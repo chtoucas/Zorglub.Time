@@ -4,6 +4,7 @@
 //#define CIVILDATE_PLAIN_DAYOFWEEK
 
 // Optimised Gregorian date type. Useful for performance testing.
+// !!! DO NOT USE otherwise !!!
 
 // We restrict dates to years in the range from 1 to 9999, nevertheless all
 // formulae give a meaningful result even for years less than 0, but only if we

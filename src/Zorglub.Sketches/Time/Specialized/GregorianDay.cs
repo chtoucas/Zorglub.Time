@@ -11,21 +11,33 @@ namespace Zorglub.Time.Specialized
 
     public readonly partial struct GregorianDay :
         IDate<GregorianDay>,
-        IYearEndpointsProvider<GregorianDay>,
-        IMonthEndpointsProvider<GregorianDay>,
+        //IYearEndpointsProvider<GregorianDay>,
+        //IMonthEndpointsProvider<GregorianDay>,
         IMinMaxValue<GregorianDay>
     {
         /// <summary>
-        /// Represents the earliest supported year.
-        /// <para>This field is a constant equal to -9998.</para>
+        /// Represents the Gregorian schema.
+        /// <para>This field is read-only.</para>
         /// </summary>
-        public const int MinYear = ProlepticScope.MinYear;
+        private static readonly GregorianSchema s_Schema = new();
 
         /// <summary>
-        /// Represents the latest supported year.
-        /// <para>This field is a constant equal to 9999.</para>
+        /// Represents the Gregorian calendar.
+        /// <para>This field is read-only.</para>
         /// </summary>
-        public const int MaxYear = ProlepticScope.MaxYear;
+        private static readonly GregorianCalendar s_Calendar = new(s_Schema);
+
+        /// <summary>
+        /// Gets the epoch.
+        /// <para>This field is read-only.</para>
+        /// </summary>
+        private static readonly DayNumber s_Epoch = s_Calendar.Epoch;
+
+        /// <summary>
+        /// Gets the domain, the interval of supported <see cref="DayNumber"/>.
+        /// <para>This field is read-only.</para>
+        /// </summary>
+        private static readonly Range<DayNumber> s_Domain = s_Calendar.Domain;
 
         /// <summary>
         /// Represents the count of days since the Gregorian epoch.
@@ -37,8 +49,12 @@ namespace Zorglub.Time.Specialized
         /// Initializes a new instance of the <see cref="GregorianDay"/> struct to the specified
         /// date parts.
         /// </summary>
+        /// <exception cref="AoorException">The specified components do not form a valid date or
+        /// <paramref name="year"/> is outside the range of years supported by
+        /// <see cref="GregorianCalendar"/>.</exception>
         public GregorianDay(int year, int month, int day)
         {
+            // s_Calendar.Scope "=" GregorianProlepticScope.
             GregorianProlepticScope.ValidateYearMonthDay(year, month, day);
 
             _daysSinceEpoch = GregorianFormulae.CountDaysSinceEpoch(year, month, day);
@@ -51,9 +67,9 @@ namespace Zorglub.Time.Specialized
         /// supported values.</exception>
         public GregorianDay(DayNumber dayNumber)
         {
-            Domain.Validate(dayNumber);
+            s_Domain.Validate(dayNumber);
 
-            _daysSinceEpoch = dayNumber - Epoch;
+            _daysSinceEpoch = dayNumber - s_Epoch;
         }
 
         /// <summary>
@@ -66,38 +82,21 @@ namespace Zorglub.Time.Specialized
         }
 
         /// <summary>
-        /// Gets the epoch.
-        /// <para>This static property is thread-safe.</para>
-        /// </summary>
-        public static DayNumber Epoch { get; } = DayZero.NewStyle;
-
-        /// <summary>
-        /// Gets the domain, the interval of supported <see cref="DayNumber"/>.
-        /// <para>This static property is thread-safe.</para>
-        /// </summary>
-        public static Range<DayNumber> Domain { get; } = GregorianProlepticScope.DefaultDomain;
-
-        /// <summary>
         /// Gets the smallest possible value of a <see cref="GregorianDay"/>.
         /// <para>This static property is thread-safe.</para>
         /// </summary>
-        public static GregorianDay MinValue { get; } = new(Domain.Min - Epoch);
+        public static GregorianDay MinValue { get; } = new(s_Domain.Min - s_Epoch);
 
         /// <summary>
         /// Gets the largest possible value of a <see cref="GregorianDay"/>.
         /// <para>This static property is thread-safe.</para>
         /// </summary>
-        public static GregorianDay MaxValue { get; } = new(Domain.Max - Epoch);
-
-        /// <summary>
-        /// Gets the Gregorian schema.
-        /// </summary>
-        private static readonly GregorianSchema s_Schema = new();
+        public static GregorianDay MaxValue { get; } = new(s_Domain.Max - s_Epoch);
 
         /// <summary>
         /// Gets the day number.
         /// </summary>
-        public DayNumber DayNumber => Epoch + _daysSinceEpoch;
+        public DayNumber DayNumber => s_Epoch + _daysSinceEpoch;
 
         /// <inheritdoc />
         public Ord CenturyOfEra => Ord.FromInt32(Century);
@@ -167,7 +166,7 @@ namespace Zorglub.Time.Specialized
         public override string ToString()
         {
             GregorianFormulae.GetDateParts(_daysSinceEpoch, out int y, out int m, out int d);
-            return FormattableString.Invariant($"{d:D2}/{m:D2}/{y:D4} (Gregorian)");
+            return FormattableString.Invariant($"{d:D2}/{m:D2}/{y:D4} ({s_Calendar})");
         }
 
         /// <summary>
@@ -186,7 +185,7 @@ namespace Zorglub.Time.Specialized
         /// expressed in local time, not UTC.
         /// </summary>
         [Pure]
-        public static GregorianDay Today() => new(DayNumber.Today() - Epoch);
+        public static GregorianDay Today() => new(DayNumber.Today() - s_Epoch);
 
         #endregion
         #region Conversions
@@ -220,39 +219,39 @@ namespace Zorglub.Time.Specialized
         #endregion
         #region Year and month boundaries
 
-        /// <inheritdoc />
-        [Pure]
-        public static GregorianDay GetStartOfYear(GregorianDay day)
-        {
-            int daysSinceEpoch = GregorianFormulae.GetStartOfYear(day.Year);
-            return new GregorianDay(daysSinceEpoch);
-        }
+        ///// <inheritdoc />
+        //[Pure]
+        //public static GregorianDay GetStartOfYear(GregorianDay day)
+        //{
+        //    int daysSinceEpoch = GregorianFormulae.GetStartOfYear(day.Year);
+        //    return new GregorianDay(daysSinceEpoch);
+        //}
 
-        /// <inheritdoc />
-        [Pure]
-        public static GregorianDay GetEndOfYear(GregorianDay day)
-        {
-            int daysSinceEpoch = s_Schema.GetEndOfYear(day.Year);
-            return new GregorianDay(daysSinceEpoch);
-        }
+        ///// <inheritdoc />
+        //[Pure]
+        //public static GregorianDay GetEndOfYear(GregorianDay day)
+        //{
+        //    int daysSinceEpoch = s_Schema.GetEndOfYear(day.Year);
+        //    return new GregorianDay(daysSinceEpoch);
+        //}
 
-        /// <inheritdoc />
-        [Pure]
-        public static GregorianDay GetStartOfMonth(GregorianDay day)
-        {
-            GregorianFormulae.GetDateParts(day._daysSinceEpoch, out int y, out int m, out _);
-            int daysSinceEpoch = s_Schema.GetStartOfMonth(y, m);
-            return new GregorianDay(daysSinceEpoch);
-        }
+        ///// <inheritdoc />
+        //[Pure]
+        //public static GregorianDay GetStartOfMonth(GregorianDay day)
+        //{
+        //    GregorianFormulae.GetDateParts(day._daysSinceEpoch, out int y, out int m, out _);
+        //    int daysSinceEpoch = s_Schema.GetStartOfMonth(y, m);
+        //    return new GregorianDay(daysSinceEpoch);
+        //}
 
-        /// <inheritdoc />
-        [Pure]
-        public static GregorianDay GetEndOfMonth(GregorianDay day)
-        {
-            GregorianFormulae.GetDateParts(day._daysSinceEpoch, out int y, out int m, out _);
-            int daysSinceEpoch = s_Schema.GetEndOfMonth(y, m);
-            return new GregorianDay(daysSinceEpoch);
-        }
+        ///// <inheritdoc />
+        //[Pure]
+        //public static GregorianDay GetEndOfMonth(GregorianDay day)
+        //{
+        //    GregorianFormulae.GetDateParts(day._daysSinceEpoch, out int y, out int m, out _);
+        //    int daysSinceEpoch = s_Schema.GetEndOfMonth(y, m);
+        //    return new GregorianDay(daysSinceEpoch);
+        //}
 
         #endregion
         #region Adjust the day of the week
@@ -262,8 +261,8 @@ namespace Zorglub.Time.Specialized
         public GregorianDay Previous(DayOfWeek dayOfWeek)
         {
             var dayNumber = DayNumber.Previous(dayOfWeek);
-            if (Domain.Contains(dayNumber) == false) { Throw.DateOverflow(); }
-            return new GregorianDay(dayNumber - Epoch);
+            if (s_Domain.Contains(dayNumber) == false) { Throw.DateOverflow(); }
+            return new GregorianDay(dayNumber - s_Epoch);
         }
 
         /// <inheritdoc />
@@ -271,8 +270,8 @@ namespace Zorglub.Time.Specialized
         public GregorianDay PreviousOrSame(DayOfWeek dayOfWeek)
         {
             var dayNumber = DayNumber.PreviousOrSame(dayOfWeek);
-            if (Domain.Contains(dayNumber) == false) { Throw.DateOverflow(); }
-            return new GregorianDay(dayNumber - Epoch);
+            if (s_Domain.Contains(dayNumber) == false) { Throw.DateOverflow(); }
+            return new GregorianDay(dayNumber - s_Epoch);
         }
 
         /// <inheritdoc />
@@ -280,8 +279,8 @@ namespace Zorglub.Time.Specialized
         public GregorianDay Nearest(DayOfWeek dayOfWeek)
         {
             var dayNumber = DayNumber.Nearest(dayOfWeek);
-            if (Domain.Contains(dayNumber) == false) { Throw.DateOverflow(); }
-            return new GregorianDay(dayNumber - Epoch);
+            if (s_Domain.Contains(dayNumber) == false) { Throw.DateOverflow(); }
+            return new GregorianDay(dayNumber - s_Epoch);
         }
 
         /// <inheritdoc />
@@ -289,8 +288,8 @@ namespace Zorglub.Time.Specialized
         public GregorianDay NextOrSame(DayOfWeek dayOfWeek)
         {
             var dayNumber = DayNumber.NextOrSame(dayOfWeek);
-            if (Domain.Contains(dayNumber) == false) { Throw.DateOverflow(); }
-            return new GregorianDay(dayNumber - Epoch);
+            if (s_Domain.Contains(dayNumber) == false) { Throw.DateOverflow(); }
+            return new GregorianDay(dayNumber - s_Epoch);
         }
 
         /// <inheritdoc />
@@ -298,8 +297,8 @@ namespace Zorglub.Time.Specialized
         public GregorianDay Next(DayOfWeek dayOfWeek)
         {
             var dayNumber = DayNumber.Next(dayOfWeek);
-            if (Domain.Contains(dayNumber) == false) { Throw.DateOverflow(); }
-            return new GregorianDay(dayNumber - Epoch);
+            if (s_Domain.Contains(dayNumber) == false) { Throw.DateOverflow(); }
+            return new GregorianDay(dayNumber - s_Epoch);
         }
 
         #endregion
