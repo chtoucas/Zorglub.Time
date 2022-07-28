@@ -58,7 +58,7 @@ namespace Zorglub.Time.Core
     // has been in use. This would have been a different
     // story if the year zero was not legal, but most calendars in
     // this project being proleptic, I stick with default(Yemoda) =
-    // 01/01/0000. See CivilDate for an example where the year 0 is
+    // 01/01/0000. See CivilPrototype for an example where the year 0 is
     // not legal.
     //
     // We do NOT inherit IMinMaxValue<>: comparison is not calendrical which

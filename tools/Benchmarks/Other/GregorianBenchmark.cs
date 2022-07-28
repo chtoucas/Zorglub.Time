@@ -77,8 +77,8 @@ Intel Core2 Duo CPU E8500 3.16GHz, 1 CPU, 2 logical and 2 physical cores
 //   Y/M/D representation, therefore DayNumber, DateTime and other types are
 //   favoured. By the way, these types have predictable performances,
 //   their results do not vary depending on the input.
-// - CivilDate, CivilDay, DayTemplate, DateTemplate, DateOnly and DateTime only
-//   deal with positive years (faster divisions).
+// - CivilDate, CivilPrototype, DayTemplate, DateTemplate, DateOnly and DateTime
+//   only deal with positive years (faster divisions).
 // - LocalDate caches the start of the year.
 // - DateTime is a time object, not a date object.
 // - With DayNumber and DayNumber64, we only validate the result twice (at
@@ -260,11 +260,11 @@ public class GregorianBenchmark : BenchmarkBase
     #endregion
     #region Specialized date types
 
-    [Benchmark(Description = "CivilDate  (Yg)+")]
-    public void WithCivilDate()
+    [Benchmark(Description = "CivilPrototype  (Yg)+")]
+    public void WithCivilPrototype()
     {
-        CivilDate start = new(Year, Month, Day);
-        CivilDate end = start.NextDay().PlusDays(D7).PlusDays(D30).PlusDays(D401);
+        CivilPrototype start = new(Year, Month, Day);
+        CivilPrototype end = start.NextDay().PlusDays(D7).PlusDays(D30).PlusDays(D401);
 
         var (y, m, d) = end;
         DayOfWeek dayOfWeek = end.DayOfWeek;

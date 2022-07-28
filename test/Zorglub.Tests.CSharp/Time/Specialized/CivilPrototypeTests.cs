@@ -11,26 +11,26 @@ using Zorglub.Testing.Data.Bounded;
 using Zorglub.Time.Core;
 using Zorglub.Time.Core.Intervals;
 
-using static Zorglub.Time.Extensions.CivilDateExtensions;
+using static Zorglub.Time.Extensions.CivilPrototypeExtensions;
 using static Zorglub.Time.Extensions.DayOfWeekExtensions2;
 
-// NB: We use StandardGregorianDataSet which has the same limits as CivilDate.
+// NB: We use StandardGregorianDataSet which has the same limits as CivilPrototype.
 
-public sealed partial class CivilDateTests : CalendarDataConsumer<StandardGregorianDataSet>
+public sealed partial class CivilPrototypeTests : CalendarDataConsumer<StandardGregorianDataSet>
 {
-    public CivilDateTests()
+    public CivilPrototypeTests()
     {
-        var supportedYears = Range.Create(CivilDate.MinYear, CivilDate.MaxYear);
+        var supportedYears = Range.Create(CivilPrototype.MinYear, CivilPrototype.MaxYear);
         SupportedYearsTester = new SupportedYearsTester(supportedYears);
     }
 
     private SupportedYearsTester SupportedYearsTester { get; }
 
     [Pure]
-    private static CivilDate CreateDate(Yemoda ymd)
+    private static CivilPrototype CreateDate(Yemoda ymd)
     {
         var (y, m, d) = ymd;
-        return new CivilDate(y, m, d);
+        return new CivilPrototype(y, m, d);
     }
 
     // TODO(code): filter data.
@@ -52,26 +52,26 @@ public sealed partial class CivilDateTests : CalendarDataConsumer<StandardGregor
     public static DataGroup<YemodaPairAnd<DayOfWeek>> DayOfWeek_After_Data => DataSet.DayOfWeek_After_Data;
 }
 
-public partial class CivilDateTests
+public partial class CivilPrototypeTests
 {
     [Fact]
     public void Constructor_InvalidYear() =>
-        SupportedYearsTester.TestInvalidYear(y => new CivilDate(y, 1, 1));
+        SupportedYearsTester.TestInvalidYear(y => new CivilPrototype(y, 1, 1));
 
     [Theory, MemberData(nameof(InvalidMonthFieldData))]
     public void Constructor_InvalidMonth(int y, int m) =>
-        Assert.ThrowsAoorexn("month", () => new CivilDate(y, m, 1));
+        Assert.ThrowsAoorexn("month", () => new CivilPrototype(y, m, 1));
 
     [Theory, MemberData(nameof(InvalidDayFieldData))]
     public void Constructor_InvalidDay(int y, int m, int d) =>
-        Assert.ThrowsAoorexn("day", () => new CivilDate(y, m, d));
+        Assert.ThrowsAoorexn("day", () => new CivilPrototype(y, m, d));
 
     [Theory, MemberData(nameof(DateInfoData))]
     public void Constructor(DateInfo info)
     {
         var (y, m, d) = info.Yemoda;
         // Act
-        var date = new CivilDate(y, m, d);
+        var date = new CivilPrototype(y, m, d);
         // Assert
         Assert.Equal(y, date.Year);
         Assert.Equal(m, date.Month);
@@ -83,7 +83,7 @@ public partial class CivilDateTests
     {
         var (y, m, d, doy) = info;
         // Act
-        var date = new CivilDate(y, m, d);
+        var date = new CivilPrototype(y, m, d);
         var (year, month, day) = date;
 
         // Assert
@@ -104,7 +104,7 @@ public partial class CivilDateTests
     {
         var (y, m, d) = info.Yemoda;
         // Act
-        var date = new CivilDate(y, m, d);
+        var date = new CivilPrototype(y, m, d);
         var (year, month, day) = date;
         // Assert
         Assert.Equal(y, year);
@@ -117,7 +117,7 @@ public partial class CivilDateTests
     {
         var (y, m, d) = info.Yemoda;
         // Act
-        var date = new CivilDate(y, m, d);
+        var date = new CivilPrototype(y, m, d);
         var (year, month, day) = date;
         // Assert
         Assert.Equal(y, year);
@@ -134,31 +134,31 @@ public partial class CivilDateTests
     [InlineData(9999, 12, 31, "9999-12-31")]
     public static void ToString_InvariantCulture(int y, int m, int d, string asString)
     {
-        var date = new CivilDate(y, m, d);
+        var date = new CivilPrototype(y, m, d);
         // Act & Assert
         Assert.Equal(asString, date.ToString());
     }
 }
 
-public partial class CivilDateTests // Properties
+public partial class CivilPrototypeTests // Properties
 {
     [Fact]
     public static void MinValue()
     {
-        Assert.Equal(CivilDate.Domain.Min, CivilDate.MinValue.ToDayNumber());
-        Assert.Equal(DayZero.NewStyle, CivilDate.MinValue.ToDayNumber());
+        Assert.Equal(CivilPrototype.Domain.Min, CivilPrototype.MinValue.ToDayNumber());
+        Assert.Equal(DayZero.NewStyle, CivilPrototype.MinValue.ToDayNumber());
     }
 
     [Fact]
     public static void MaxValue() =>
-        Assert.Equal(CivilDate.Domain.Max, CivilDate.MaxValue.ToDayNumber());
+        Assert.Equal(CivilPrototype.Domain.Max, CivilPrototype.MaxValue.ToDayNumber());
 
     [Fact]
     public static void Today()
     {
         var exp = DateTime.Now;
         // Act
-        var today = CivilDate.Today();
+        var today = CivilPrototype.Today();
         // Assert
         Assert.Equal(exp.Year, today.Year);
         Assert.Equal(exp.Month, today.Month);
@@ -169,7 +169,7 @@ public partial class CivilDateTests // Properties
     public void IsoDayOfWeek(YemodaAnd<DayOfWeek> info)
     {
         var (y, m, d, dayOfWeek) = info;
-        var date = new CivilDate(y, m, d);
+        var date = new CivilPrototype(y, m, d);
         var dow = dayOfWeek.ToIsoDayOfWeek();
         // Act & Assert
         Assert.Equal(dow, date.IsoDayOfWeek);
@@ -183,7 +183,7 @@ public partial class CivilDateTests // Properties
         // TODO(code): we should be stricter and use the domain.
         if (dayNumber < DayZero.NewStyle) { return; }
 
-        var date = CivilDate.FromDayNumber(dayNumber);
+        var date = CivilPrototype.FromDayNumber(dayNumber);
         var dow = dayOfWeek.ToIsoDayOfWeek();
         // Act & Assert
         Assert.Equal(dow, date.IsoDayOfWeek);
@@ -250,7 +250,7 @@ public partial class CivilDateTests // Properties
     [InlineData(2012, 12, 31, 54)]
     public static void WeekOfYear(int y, int m, int d, int weekOfYear)
     {
-        var date = new CivilDate(y, m, d);
+        var date = new CivilPrototype(y, m, d);
         // Act & Assert
         Assert.Equal(weekOfYear, date.WeekOfYear);
     }
@@ -313,22 +313,22 @@ public partial class CivilDateTests // Properties
     [InlineData(2012, 12, 31, 53)] // 👈 wrong
     public static void GetIsoWeekOfYear(int y, int m, int d, int weekOfYear)
     {
-        var date = new CivilDate(y, m, d);
+        var date = new CivilPrototype(y, m, d);
         // Act & Assert
         Assert.Equal(weekOfYear, date.GetIsoWeekOfYear());
     }
 }
 
-public partial class CivilDateTests // Binary data
+public partial class CivilPrototypeTests // Binary data
 {
     [Theory, MemberData(nameof(DateInfoData))]
     public static void FromBinary_InvalidData(DateInfo info)
     {
         var (y, m, d) = info.Yemoda;
-        int bin = new CivilDate(y, m, d).ToBinary();
+        int bin = new CivilPrototype(y, m, d).ToBinary();
         // Act & Assert
-        Assert.Throws<ArgumentException>("data", () => CivilDate.FromBinary(-1 | bin));
-        Assert.Throws<ArgumentException>("data", () => CivilDate.FromBinary((1 << 23) | bin));
+        Assert.Throws<ArgumentException>("data", () => CivilPrototype.FromBinary(-1 | bin));
+        Assert.Throws<ArgumentException>("data", () => CivilPrototype.FromBinary((1 << 23) | bin));
     }
 
     [Theory]
@@ -340,17 +340,17 @@ public partial class CivilDateTests // Binary data
     [InlineData(-1 << 4)]
     [InlineData(-1 << 5)]
     public static void FromBinary_InvalidData2(int bindata) =>
-        Assert.Throws<ArgumentException>("data", () => CivilDate.FromBinary(bindata));
+        Assert.Throws<ArgumentException>("data", () => CivilPrototype.FromBinary(bindata));
 
     // We cannot use the prop InvalidYears because of Int32.MinValue (in the
     // code below we map y to (y - 1).
     [Theory]
-    [InlineData(CivilDate.MinYear - 1)]
-    [InlineData(CivilDate.MaxYear + 1)]
+    [InlineData(CivilPrototype.MinYear - 1)]
+    [InlineData(CivilPrototype.MaxYear + 1)]
     public void FromBinary_InvalidYear(int y)
     {
         int bin = ((y - 1) << 9) | ((6 - 1) << 5) | (15 - 1);
-        Assert.Throws<ArgumentException>("data", () => CivilDate.FromBinary(bin));
+        Assert.Throws<ArgumentException>("data", () => CivilPrototype.FromBinary(bin));
     }
 
     [Theory, MemberData(nameof(InvalidMonthFieldData))]
@@ -358,7 +358,7 @@ public partial class CivilDateTests // Binary data
     {
         int bin = ((y - 1) << 9) | ((m - 1) << 5) | (15 - 1);
         // Act & Assert
-        Assert.Throws<ArgumentException>("data", () => CivilDate.FromBinary(bin));
+        Assert.Throws<ArgumentException>("data", () => CivilPrototype.FromBinary(bin));
     }
 
     [Theory, MemberData(nameof(InvalidDayFieldData))]
@@ -366,33 +366,33 @@ public partial class CivilDateTests // Binary data
     {
         int bin = ((y - 1) << 9) | ((m - 1) << 5) | (d - 1);
         // Act & Assert
-        Assert.Throws<ArgumentException>("data", () => CivilDate.FromBinary(bin));
+        Assert.Throws<ArgumentException>("data", () => CivilPrototype.FromBinary(bin));
     }
 
     [Theory, MemberData(nameof(DateInfoData))]
     public static void FromBinary_AfterToBinary(DateInfo info)
     {
         var (y, m, d) = info.Yemoda;
-        var date = new CivilDate(y, m, d);
+        var date = new CivilPrototype(y, m, d);
         // Act
-        var actual = CivilDate.FromBinary((int)date.ToBinary());
+        var actual = CivilPrototype.FromBinary((int)date.ToBinary());
         // Assert
         Assert.Equal(date, actual);
     }
 }
 
-public partial class CivilDateTests // Conversions
+public partial class CivilPrototypeTests // Conversions
 {
     //[Fact]
     //public void FromDayNumber_InvalidDayNumber() =>
-    //    TestInvalidDayNumber(CivilDate.FromDayNumber);
+    //    TestInvalidDayNumber(CivilPrototype.FromDayNumber);
 
     //[Theory, MemberData(nameof(DayInfoData))]
     //public void FromDayNumber(DayInfo info)
     //{
     //    var (dayNumber, y, m, d) = info;
     //    // Act
-    //    var date = CivilDate.FromDayNumber(dayNumber);
+    //    var date = CivilPrototype.FromDayNumber(dayNumber);
     //    // Assert
     //    Assert.Equal(y, date.Year);
     //    Assert.Equal(m, date.Month);
@@ -403,19 +403,19 @@ public partial class CivilDateTests // Conversions
 
     [Fact]
     public void FromOrdinalDate_InvalidYear() =>
-        SupportedYearsTester.TestInvalidYear(y => CivilDate.FromOrdinalDate(y, 1));
+        SupportedYearsTester.TestInvalidYear(y => CivilPrototype.FromOrdinalDate(y, 1));
 
     [Theory, MemberData(nameof(InvalidDayOfYearFieldData))]
     public static void FromOrdinalDate_InvalidDayOfYear(int y, int doy) =>
         Assert.ThrowsAoorexn("dayOfYear",
-            () => CivilDate.FromOrdinalDate(y, doy));
+            () => CivilPrototype.FromOrdinalDate(y, doy));
 
     [Theory, MemberData(nameof(DateInfoData))]
     public static void FromOrdinalDate(DateInfo info)
     {
         var (y, m, d, doy) = info;
         // Act
-        var date = CivilDate.FromOrdinalDate(y, doy);
+        var date = CivilPrototype.FromOrdinalDate(y, doy);
 
         // Assert
         Assert.Equal(y, date.Year);
@@ -432,9 +432,9 @@ public partial class CivilDateTests // Conversions
     {
         var (y, m, d) = info.Yemoda;
         var time = new DateTime(y, m, d);
-        var date = new CivilDate(y, m, d);
+        var date = new CivilPrototype(y, m, d);
         // Act
-        var actual = CivilDate.FromDateTime(time);
+        var actual = CivilPrototype.FromDateTime(time);
         // Assert
         Assert.Equal(date, actual);
     }
@@ -444,7 +444,7 @@ public partial class CivilDateTests // Conversions
     {
         var (y, m, d) = info.Yemoda;
         var time = new DateTime(y, m, d);
-        var date = new CivilDate(y, m, d);
+        var date = new CivilPrototype(y, m, d);
         // Act
         var actual = date.ToDateTime();
         // Assert
@@ -452,42 +452,42 @@ public partial class CivilDateTests // Conversions
     }
 }
 
-public partial class CivilDateTests // Enumerate days
+public partial class CivilPrototypeTests // Enumerate days
 {
     [Fact]
     public void GetDaysInYear_InvalidYear() =>
-        SupportedYearsTester.TestInvalidYear(CivilDate.GetDaysInYear);
+        SupportedYearsTester.TestInvalidYear(CivilPrototype.GetDaysInYear);
 
     [Theory, MemberData(nameof(YearInfoData))]
     public void GetDaysInYear(YearInfo info)
     {
         int y = info.Year;
-        IEnumerable<CivilDate> list
+        IEnumerable<CivilPrototype> list
             = from i in Enumerable.Range(1, info.DaysInYear)
-              select CivilDate.FromOrdinalDate(y, i);
+              select CivilPrototype.FromOrdinalDate(y, i);
         // Act
-        IEnumerable<CivilDate> actual = CivilDate.GetDaysInYear(y);
+        IEnumerable<CivilPrototype> actual = CivilPrototype.GetDaysInYear(y);
         // Assert
         Assert.Equal(list, actual);
     }
 
     [Fact]
     public void GetDaysInMonth_InvalidYear() =>
-        SupportedYearsTester.TestInvalidYear(y => CivilDate.GetDaysInMonth(y, 1));
+        SupportedYearsTester.TestInvalidYear(y => CivilPrototype.GetDaysInMonth(y, 1));
 
     [Theory, MemberData(nameof(InvalidMonthFieldData))]
     public static void GetDaysInMonth_InvalidMonth(int y, int m) =>
-        Assert.ThrowsAoorexn("month", () => CivilDate.GetDaysInMonth(y, m));
+        Assert.ThrowsAoorexn("month", () => CivilPrototype.GetDaysInMonth(y, m));
 
     [Theory, MemberData(nameof(MonthInfoData))]
     public static void GetDaysInMonth(MonthInfo info)
     {
         var (y, m) = info.Yemo;
-        IEnumerable<CivilDate> list =
+        IEnumerable<CivilPrototype> list =
             from i in Enumerable.Range(1, info.DaysInMonth)
-            select new CivilDate(y, m, i);
+            select new CivilPrototype(y, m, i);
         // Act
-        IEnumerable<CivilDate> actual = CivilDate.GetDaysInMonth(y, m);
+        IEnumerable<CivilPrototype> actual = CivilPrototype.GetDaysInMonth(y, m);
         // Assert
         Assert.Equal(list, actual);
     }

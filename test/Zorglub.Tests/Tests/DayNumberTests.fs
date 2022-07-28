@@ -26,7 +26,7 @@ open type Zorglub.Time.Extensions.DayNumberExtensions
 
 // SYNC WITH DayNumber64Tests.
 
-// TODO(code): we use both CivilDate and CalendarDate, we should should between the two!
+// TODO(code): we use both CivilPrototype and CalendarDate, we should should between the two!
 
 /// Convert one (Gregorian) Yemoda to a DayNumber.
 /// This function does NOT verify that x represents a valid Gregorian triple.
@@ -158,13 +158,13 @@ module Prelude =
 module Factories =
     [<Fact>]
     let ``Today()`` () =
-        let today = CivilDate.Today().ToDayNumber()
+        let today = CivilPrototype.Today().ToDayNumber()
 
         DayNumber.Today() === today
 
     [<Fact>]
     let ``UtcToday()`` () =
-        let today = CivilDate.UtcToday().ToDayNumber()
+        let today = CivilPrototype.UtcToday().ToDayNumber()
 
         DayNumber.UtcToday() === today
 
@@ -889,7 +889,7 @@ module Math =
 
 module Postlude =
     /// Compare the core properties.
-    let rec private compareTypes (dayNumber: DayNumber) (date: CivilDate) =
+    let rec private compareTypes (dayNumber: DayNumber) (date: CivilPrototype) =
         let ymd = dayNumber.GetGregorianParts()
         let y, m, d = ymd.Deconstruct()
         let passed =
@@ -899,7 +899,7 @@ module Postlude =
             && dayNumber.DayOfWeek = date.DayOfWeek
 
         if passed then
-            if dayNumber.DaysSinceZero = CivilDate.MaxDaysSinceEpoch then
+            if dayNumber.DaysSinceZero = CivilPrototype.MaxDaysSinceEpoch then
                 (true, "OK")
             else
                 compareTypes (dayNumber.NextDay()) (date.NextDay())
@@ -909,6 +909,6 @@ module Postlude =
     [<Fact>]
     [<TestPerformance(TestPerformance.SlowUnit)>]
     [<TestExcludeFrom(TestExcludeFrom.CodeCoverage)>]
-    let ``Deep comparison between DayNumber and CivilDate`` () =
+    let ``Deep comparison between DayNumber and CivilPrototype`` () =
         // NB: both start on Monday January 1, 1 (CE).
-        compareTypes DayNumber.Zero CivilDate.MinValue |> Assert.True
+        compareTypes DayNumber.Zero CivilPrototype.MinValue |> Assert.True

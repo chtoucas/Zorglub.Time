@@ -105,14 +105,14 @@ module Prelude =
 module Factories =
     [<Fact>]
     let ``Today()`` () =
-        let today32 = CivilDate.Today().ToDayNumber()
+        let today32 = CivilPrototype.Today().ToDayNumber()
         let today = DayNumber64.FromDayNumber(today32)
 
         DayNumber64.Today() === today
 
     [<Fact>]
     let ``UtcToday()`` () =
-        let today32 = CivilDate.UtcToday().ToDayNumber()
+        let today32 = CivilPrototype.UtcToday().ToDayNumber()
         let today = DayNumber64.FromDayNumber(today32)
 
         DayNumber64.UtcToday() === today
@@ -697,7 +697,7 @@ module Postlude =
     //
 
     /// Compare the core properties.
-    let rec private compareTypes (dayNumber: DayNumber64) (date: CivilDate) =
+    let rec private compareTypes (dayNumber: DayNumber64) (date: CivilPrototype) =
         let y, m, d = dayNumber.GetGregorianParts()
         let passed =
             int y = date.Year
@@ -707,7 +707,7 @@ module Postlude =
             && dayNumber.IsoDayOfWeek = date.IsoDayOfWeek
 
         if passed then
-            if dayNumber.DaysSinceZero = CivilDate.MaxDaysSinceEpoch then
+            if dayNumber.DaysSinceZero = CivilPrototype.MaxDaysSinceEpoch then
                 (true, "OK")
             else
                 compareTypes (dayNumber.NextDay()) (date.NextDay())
@@ -717,6 +717,6 @@ module Postlude =
     [<Fact>]
     [<TestPerformance(TestPerformance.SlowUnit)>]
     [<TestExcludeFrom(TestExcludeFrom.CodeCoverage)>]
-    let ``Deep comparison between DayNumber64 and CivilDate`` () =
+    let ``Deep comparison between DayNumber64 and CivilPrototype`` () =
         // NB: both start on Monday January 1, 1 (CE).
-        compareTypes DayNumber64.Zero CivilDate.MinValue |> Assert.True
+        compareTypes DayNumber64.Zero CivilPrototype.MinValue |> Assert.True

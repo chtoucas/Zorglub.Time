@@ -9,7 +9,7 @@ namespace Zorglub.Time.Horology
     /// Represents the system clock.
     /// <para>This class cannot be inherited.</para>
     /// </summary>
-    public sealed class SystemTimepiece : ITimepiece<CivilDate>
+    public sealed class SystemTimepiece : ITimepiece<CivilPrototype>
     {
         /// <inheritdoc />
         public long Now() =>
@@ -18,10 +18,10 @@ namespace Zorglub.Time.Horology
             100 * DateTime.UtcNow.Ticks;
 
         /// <inheritdoc />
-        public CivilDate Today()
+        public CivilPrototype Today()
         {
             var time = DateTime.UtcNow;
-            return new CivilDate(time.Year, time.Month, time.Day);
+            return new CivilPrototype(time.Year, time.Month, time.Day);
         }
     }
 }

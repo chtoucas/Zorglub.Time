@@ -3,14 +3,14 @@
 
 namespace Zorglub.Time.Specialized;
 
-using static Zorglub.Time.Extensions.CivilDateExtensions;
+using static Zorglub.Time.Extensions.CivilPrototypeExtensions;
 
-public partial class CivilDateTests
+public partial class CivilPrototypeTests
 {
     [Theory, MemberData(nameof(EnumDataSet.InvalidDayOfWeekData), MemberType = typeof(EnumDataSet))]
     public static void NearestSafe_InvalidDayOfWeek(DayOfWeek dayOfWeek)
     {
-        var date = new CivilDate(3, 4, 5);
+        var date = new CivilPrototype(3, 4, 5);
         // Act & Assert
         Assert.ThrowsAoorexn("dayOfWeek", () => date.NearestSafe(dayOfWeek));
     }
@@ -18,17 +18,17 @@ public partial class CivilDateTests
     [Fact]
     public static void NearestSafe_NearMinValue()
     {
-        var mon = CivilDate.MinValue;
-        var tue = CivilDate.MinValue + 1;
-        var wed = CivilDate.MinValue + 2;
-        var thu = CivilDate.MinValue + 3;
-        var fri = CivilDate.MinValue + 4;
-        var sat = CivilDate.MinValue + 5;
-        var sun = CivilDate.MinValue + 6;
+        var mon = CivilPrototype.MinValue;
+        var tue = CivilPrototype.MinValue + 1;
+        var wed = CivilPrototype.MinValue + 2;
+        var thu = CivilPrototype.MinValue + 3;
+        var fri = CivilPrototype.MinValue + 4;
+        var sat = CivilPrototype.MinValue + 5;
+        var sun = CivilPrototype.MinValue + 6;
 
-        var mon1 = CivilDate.MinValue + 7;
-        var tue1 = CivilDate.MinValue + 8;
-        var wed1 = CivilDate.MinValue + 9;
+        var mon1 = CivilPrototype.MinValue + 7;
+        var tue1 = CivilPrototype.MinValue + 8;
+        var wed1 = CivilPrototype.MinValue + 9;
 
         // Act & Assert
 
@@ -99,17 +99,17 @@ public partial class CivilDateTests
     [Fact]
     public static void NearestSafe_NearMaxValue()
     {
-        var wed0 = CivilDate.MaxValue - 9;
-        var thu0 = CivilDate.MaxValue - 8;
-        var fri0 = CivilDate.MaxValue - 7;
+        var wed0 = CivilPrototype.MaxValue - 9;
+        var thu0 = CivilPrototype.MaxValue - 8;
+        var fri0 = CivilPrototype.MaxValue - 7;
 
-        var sat = CivilDate.MaxValue - 6;
-        var sun = CivilDate.MaxValue - 5;
-        var mon = CivilDate.MaxValue - 4;
-        var tue = CivilDate.MaxValue - 3;
-        var wed = CivilDate.MaxValue - 2;
-        var thu = CivilDate.MaxValue - 1;
-        var fri = CivilDate.MaxValue;
+        var sat = CivilPrototype.MaxValue - 6;
+        var sun = CivilPrototype.MaxValue - 5;
+        var mon = CivilPrototype.MaxValue - 4;
+        var tue = CivilPrototype.MaxValue - 3;
+        var wed = CivilPrototype.MaxValue - 2;
+        var thu = CivilPrototype.MaxValue - 1;
+        var fri = CivilPrototype.MaxValue;
 
         // Act & Assert
 

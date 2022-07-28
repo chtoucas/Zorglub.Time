@@ -35,8 +35,8 @@ public partial class GregorianDataSet // Infos
     public override DataGroup<DateInfo> DateInfoData { get; } = new()
     {
         // First & last dates.
-        new(CivilDate.MinYear, 1, 1, 1, false, false),
-        new(CivilDate.MaxYear, 12, 31, 365, false, false),
+        new(CivilPrototype.MinYear, 1, 1, 1, false, false),
+        new(CivilPrototype.MaxYear, 12, 31, 365, false, false),
         // Common year.
         new(CommonYear, 1, 1, 1, false, false),
         new(CommonYear, 1, 15, 15, false, false),

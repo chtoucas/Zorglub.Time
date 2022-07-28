@@ -8,7 +8,7 @@ namespace Zorglub.Testing.Facts;
 // - See also IDateableFacts.
 
 // TODO(fact): for simple date objects the constructor is tested in
-// CalendarFacts (Factories). For the others, copy this code: CivilDate
+// CalendarFacts (Factories). For the others, copy this code: CivilPrototype
 // and ZDate. See also CalendarDateTests.
 // DayOfWeek via DayNumber. Pre-filter CalCalDataSet.DayOfWeekData.
 

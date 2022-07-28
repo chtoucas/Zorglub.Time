@@ -13,9 +13,9 @@ open type Zorglub.Time.Extensions.Unboxing
 open type Zorglub.Time.Extensions.SimpleDateExtensions
 
 let ``Gregorian date`` () =
-    let today = CivilDate.Today()
+    let today = CivilPrototype.Today()
 
-    printfn "CivilDate today"
+    printfn "CivilPrototype today"
     printfn "%O, %O" today.DayOfWeek today
     printfn "  IsIntercalary    = %b" today.IsIntercalary
     printfn "  DayOfYear        = %i" today.DayOfYear

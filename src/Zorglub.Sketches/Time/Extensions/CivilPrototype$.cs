@@ -9,19 +9,19 @@ namespace Zorglub.Time.Extensions
     using Zorglub.Time.Specialized;
 
     /// <summary>
-    /// Provides extension methods for <see cref="CivilDate"/>.
+    /// Provides extension methods for <see cref="CivilPrototype"/>.
     /// <para>This class cannot be inherited.</para>
     /// </summary>
-    public static partial class CivilDateExtensions { }
+    public static partial class CivilPrototypeExtensions { }
 
-    public partial class CivilDateExtensions
+    public partial class CivilPrototypeExtensions
     {
         [Pure]
-        public static bool IsUnluckyFriday(this CivilDate @this) =>
+        public static bool IsUnluckyFriday(this CivilPrototype @this) =>
             @this.Day == 13 && @this.DayOfWeek == DayOfWeek.Friday;
     }
 
-    public partial class CivilDateExtensions
+    public partial class CivilPrototypeExtensions
     {
         /// <summary>
         /// Gets the ISO week of the year.
@@ -29,7 +29,7 @@ namespace Zorglub.Time.Extensions
         /// previous ISO year.</para>
         /// </summary>
         [Pure]
-        public static int GetIsoWeekOfYear(this CivilDate @this)
+        public static int GetIsoWeekOfYear(this CivilPrototype @this)
         {
             // TODO: dates near the end of the year. Which number to return
             // when we are near the boundary of a year and the week does not
@@ -39,7 +39,7 @@ namespace Zorglub.Time.Extensions
             // When done, make it a property then make the method
             // GetIsoDayOfWeekAtStartOfYear() private.
 
-            uint dow = CivilDate.GetIsoDayOfWeekAtStartOfYear(@this.Year);
+            uint dow = CivilPrototype.GetIsoDayOfWeekAtStartOfYear(@this.Year);
             uint weekOfYear = ((uint)@this.DayOfYear + 5 + dow) / 7;
             // The first week must have at least 4 days.
             return (int)(dow > 4 ? weekOfYear - 1 : weekOfYear);
@@ -49,12 +49,12 @@ namespace Zorglub.Time.Extensions
         /// Obtains the nearest date that falls on the specified day of the week.
         /// <para>Near the calendar boundaries, we do NOT throw an overflow
         /// exception, we return the nearest date within the calendar boundaries.</para>
-        /// <para>See also <seealso cref="CivilDate.Nearest(DayOfWeek)"/>.</para>
+        /// <para>See also <seealso cref="CivilPrototype.Nearest(DayOfWeek)"/>.</para>
         /// </summary>
         /// <exception cref="AoorException"><paramref name="dayOfWeek"/> is not
         /// a valid day of the week.</exception>
         [Pure]
-        public static CivilDate NearestSafe(this CivilDate @this, DayOfWeek dayOfWeek)
+        public static CivilPrototype NearestSafe(this CivilPrototype @this, DayOfWeek dayOfWeek)
         {
             // Quand on aura décidé quoi faire de cette méthode, repasser en
             // "private" les éléments  suivants : DaysSinceEpoch,
@@ -66,20 +66,20 @@ namespace Zorglub.Time.Extensions
             // REVIEW: voir si les tests correspondent à ce que j'avance...
             int daysSinceEpoch = @this.DaysSinceEpoch + 3;
             daysSinceEpoch -= MathZ.Modulo(daysSinceEpoch + (DayOfWeek.Monday - dayOfWeek), 7);
-            if (daysSinceEpoch > CivilDate.MaxDaysSinceEpoch)
+            if (daysSinceEpoch > CivilPrototype.MaxDaysSinceEpoch)
             {
                 daysSinceEpoch -= 7;
             }
-            else if (daysSinceEpoch < CivilDate.MinDaysSinceEpoch)
+            else if (daysSinceEpoch < CivilPrototype.MinDaysSinceEpoch)
             {
                 daysSinceEpoch += 7;
             }
 
-            return CivilDate.FromDaysSinceEpoch(daysSinceEpoch);
+            return CivilPrototype.FromDaysSinceEpoch(daysSinceEpoch);
         }
     }
 
-    public partial class CivilDateExtensions
+    public partial class CivilPrototypeExtensions
     {
         /// <summary>
         /// Gets a nicely formatted string representation of the binary data
@@ -88,7 +88,7 @@ namespace Zorglub.Time.Extensions
         [Pure]
         [ExcludeFromCodeCoverage]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public static string FormatBinary(this CivilDate @this)
+        public static string FormatBinary(this CivilPrototype @this)
         {
             int bin = @this.ToBinary();
             char[] c = Convert.ToString(bin, 2).ToCharArray();
