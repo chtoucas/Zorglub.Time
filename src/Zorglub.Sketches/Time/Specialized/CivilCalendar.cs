@@ -48,14 +48,6 @@ namespace Zorglub.Time.Specialized
         }
 
         //
-        // Factories
-        //
-
-        /// <inheritdoc/>
-        [Pure]
-        CivilDate ICalendar<CivilDate>.Today() => CivilDate.Today();
-
-        //
         // Dates in a given year or month
         //
 

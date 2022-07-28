@@ -214,7 +214,10 @@ namespace Zorglub.Time.Hemerology
             return new ZDate(daysSinceEpoch, Id);
         }
 
-        /// <inheritdoc />
+        /// <summary>
+        /// Obtains the current date on this machine.
+        /// </summary>
+        /// <exception cref="AoorException">Today is not within the calendar boundaries.</exception>
         [Pure]
         public ZDate Today() => new(DayNumber.Today());
     }

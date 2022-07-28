@@ -52,13 +52,6 @@ public sealed class CalendarTemplate : BasicCalendar, ICalendar<DateTemplate>
     }
 
     //
-    // Factories
-    //
-
-    [Pure]
-    DateTemplate ICalendar<DateTemplate>.Today() => DateTemplate.Today();
-
-    //
     // Dates in a given year or month
     //
 

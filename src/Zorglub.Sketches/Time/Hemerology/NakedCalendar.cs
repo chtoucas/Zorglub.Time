@@ -61,7 +61,10 @@ namespace Zorglub.Time.Hemerology
 
     public partial class NakedCalendar // Factories
     {
-        /// <inheritdoc />
+        /// <summary>
+        /// Obtains the current date on this machine.
+        /// </summary>
+        /// <exception cref="AoorException">Today is not within the calendar boundaries.</exception>
         [Pure]
         public DateParts Today() => GetDateParts(DayNumber.Today());
     }

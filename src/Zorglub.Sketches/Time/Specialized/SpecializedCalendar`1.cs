@@ -7,17 +7,19 @@ namespace Zorglub.Time.Specialized
     using System.Diagnostics.Contracts;
     using System.Linq;
 
-    using Zorglub.Time;
-    using Zorglub.Time.Core.Schemas;
     using Zorglub.Time.Hemerology;
     using Zorglub.Time.Hemerology.Scopes;
 
-    public sealed class GregorianCalendar : BasicCalendar, ICalendar<CivilDate>
-    {
-        public GregorianCalendar() : this(new GregorianSchema()) { }
+    // TODO(code): each time we call TDate.FromDayNumber() we re-validate the
+    // input, which is very unefficient.
 
-        public GregorianCalendar(GregorianSchema schema)
-            : base("Gregorian", new ProlepticScope(schema, DayZero.NewStyle)) { }
+    public class SpecializedCalendar<TDate> : BasicCalendar, ICalendar<TDate>
+        where TDate : IFixedDay<TDate>
+    {
+        public SpecializedCalendar(string name, CalendarScope scope) : base(name, scope)
+        {
+            if (scope.IsComplete == false) Throw.Argument(nameof(scope));
+        }
 
         //
         // Year, month or day infos
@@ -25,7 +27,7 @@ namespace Zorglub.Time.Specialized
 
         /// <inheritdoc/>
         [Pure]
-        public override int CountMonthsInYear(int year)
+        public sealed override int CountMonthsInYear(int year)
         {
             SupportedYears.Validate(year);
             return Schema.CountMonthsInYear(year);
@@ -33,7 +35,7 @@ namespace Zorglub.Time.Specialized
 
         /// <inheritdoc/>
         [Pure]
-        public override int CountDaysInYear(int year)
+        public sealed override int CountDaysInYear(int year)
         {
             SupportedYears.Validate(year);
             return Schema.CountDaysInYear(year);
@@ -41,7 +43,7 @@ namespace Zorglub.Time.Specialized
 
         /// <inheritdoc/>
         [Pure]
-        public override int CountDaysInMonth(int year, int month)
+        public sealed override int CountDaysInMonth(int year, int month)
         {
             Scope.ValidateYearMonth(year, month);
             return Schema.CountDaysInMonth(year, month);
@@ -53,66 +55,68 @@ namespace Zorglub.Time.Specialized
 
         /// <inheritdoc/>
         [Pure]
-        public IEnumerable<CivilDate> GetDaysInYear(int year)
+        public IEnumerable<TDate> GetDaysInYear(int year)
         {
             SupportedYears.Validate(year);
 
+            var epoch = Epoch;
             int startOfYear = Schema.GetStartOfYear(year);
             int daysInYear = Schema.CountDaysInYear(year);
 
-            return from daysSinceZero
+            return from daysSinceEpoch
                    in Enumerable.Range(startOfYear, daysInYear)
-                   select new CivilDate(daysSinceZero);
+                   select TDate.FromDayNumber(epoch + daysSinceEpoch);
         }
 
         /// <inheritdoc/>
         [Pure]
-        public IEnumerable<CivilDate> GetDaysInMonth(int year, int month)
+        public IEnumerable<TDate> GetDaysInMonth(int year, int month)
         {
             Scope.ValidateYearMonth(year, month);
 
+            var epoch = Epoch;
             int startOfMonth = Schema.GetStartOfMonth(year, month);
             int daysInMonth = Schema.CountDaysInMonth(year, month);
 
-            return from daysSinceZero
+            return from daysSinceEpoch
                    in Enumerable.Range(startOfMonth, daysInMonth)
-                   select new CivilDate(daysSinceZero);
+                   select TDate.FromDayNumber(epoch + daysSinceEpoch);
         }
 
         /// <inheritdoc/>
         [Pure]
-        public CivilDate GetStartOfYear(int year)
+        public TDate GetStartOfYear(int year)
         {
             SupportedYears.Validate(year);
-            int daysSinceZero = Schema.GetStartOfYear(year);
-            return new CivilDate(daysSinceZero);
+            int daysSinceEpoch = Schema.GetStartOfYear(year);
+            return TDate.FromDayNumber(Epoch + daysSinceEpoch);
         }
 
         /// <inheritdoc/>
         [Pure]
-        public CivilDate GetEndOfYear(int year)
+        public TDate GetEndOfYear(int year)
         {
             SupportedYears.Validate(year);
-            int daysSinceZero = Schema.GetEndOfYear(year);
-            return new CivilDate(daysSinceZero);
+            int daysSinceEpoch = Schema.GetEndOfYear(year);
+            return TDate.FromDayNumber(Epoch + daysSinceEpoch);
         }
 
         /// <inheritdoc/>
         [Pure]
-        public CivilDate GetStartOfMonth(int year, int month)
+        public TDate GetStartOfMonth(int year, int month)
         {
             Scope.ValidateYearMonth(year, month);
-            int daysSinceZero = Schema.GetStartOfMonth(year, month);
-            return new CivilDate(daysSinceZero);
+            int daysSinceEpoch = Schema.GetStartOfMonth(year, month);
+            return TDate.FromDayNumber(Epoch + daysSinceEpoch);
         }
 
         /// <inheritdoc/>
         [Pure]
-        public CivilDate GetEndOfMonth(int year, int month)
+        public TDate GetEndOfMonth(int year, int month)
         {
             Scope.ValidateYearMonth(year, month);
-            int daysSinceZero = Schema.GetEndOfMonth(year, month);
-            return new CivilDate(daysSinceZero);
+            int daysSinceEpoch = Schema.GetEndOfMonth(year, month);
+            return TDate.FromDayNumber(Epoch + daysSinceEpoch);
         }
     }
 }
