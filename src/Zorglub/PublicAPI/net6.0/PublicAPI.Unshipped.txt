@@ -1317,7 +1317,6 @@ Zorglub.Time.Hemerology.ICalendar.GetDayNumberOn(int year, int dayOfYear) -> Zor
 Zorglub.Time.Hemerology.ICalendar.GetDayNumberOn(int year, int month, int day) -> Zorglub.Time.DayNumber
 Zorglub.Time.Hemerology.ICalendar.Scope.get -> Zorglub.Time.Hemerology.Scopes.CalendarScope!
 Zorglub.Time.Hemerology.ICalendar<TDate>
-Zorglub.Time.Hemerology.ICalendar<TDate>.Today() -> TDate
 Zorglub.Time.Hemerology.IDate
 Zorglub.Time.Hemerology.IDate<TSelf>
 Zorglub.Time.Hemerology.IDateable
