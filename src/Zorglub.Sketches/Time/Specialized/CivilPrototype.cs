@@ -1,7 +1,7 @@
 ﻿// SPDX-License-Identifier: BSD-3-Clause
 // Copyright (c) 2020 Narvalo.Org. All rights reserved.
 
-//#define CIVILDATE_PLAIN_DAYOFWEEK
+//#define CIVILPROTOTYPE_PLAIN_DAYOFWEEK
 
 // Optimised Gregorian date type. Useful for performance testing.
 // !!! DO NOT USE otherwise !!!
@@ -206,7 +206,7 @@ namespace Zorglub.Time.Specialized
         {
             get
             {
-#if CIVILDATE_PLAIN_DAYOFWEEK
+#if CIVILPROTOTYPE_PLAIN_DAYOFWEEK
                 // The epoch of the Gregorian calendar is a Monday.
                 return (DayOfWeek)((uint)((int)DayOfWeek.Monday + DaysSinceEpoch) % 7);
 #else
@@ -224,7 +224,7 @@ namespace Zorglub.Time.Specialized
         {
             get
             {
-#if CIVILDATE_PLAIN_DAYOFWEEK
+#if CIVILPROTOTYPE_PLAIN_DAYOFWEEK
                 return (IsoDayOfWeek)MathN.AdjustedModulo((int)DayOfWeek.Monday + DaysSinceEpoch, 7);
 #else
                 Unpack(out int y, out int m, out int d);
@@ -521,7 +521,7 @@ namespace Zorglub.Time.Specialized
         [Pure]
         internal static uint GetIsoDayOfWeekAtStartOfYear(int y)
         {
-#if CIVILDATE_PLAIN_DAYOFWEEK
+#if CIVILPROTOTYPE_PLAIN_DAYOFWEEK
             var startOfYear = new CivilPrototype((y << 9) | __StartOfYear);
             return (uint)startOfYear.IsoDayOfWeek;
 #else
@@ -740,10 +740,10 @@ namespace Zorglub.Time.Specialized
         #endregion
         #region Adjust the day of the week
 
-        // With CIVILDATE_PLAIN_DAYOFWEEK, we do not use the math op Plus()
+        // With CIVILPROTOTYPE_PLAIN_DAYOFWEEK, we do not use the math op Plus()
         //   first we must compute DaysSinceEpoch, shift it, then convert the
         //   result back to a (y, m, d).
-        // Without CIVILDATE_PLAIN_DAYOFWEEK (default),
+        // Without CIVILPROTOTYPE_PLAIN_DAYOFWEEK (default),
         //   we only need DayOfWeek which, thanks to the Doosmday rule, is
         //   slightly faster to compute than DaysSinceEpoch, then use Plus()
         //   which is rather optimised for this type of situation.
@@ -754,7 +754,7 @@ namespace Zorglub.Time.Specialized
         /// <inheritdoc />
         [Pure]
         public CivilPrototype Previous(DayOfWeek dayOfWeek)
-#if CIVILDATE_PLAIN_DAYOFWEEK
+#if CIVILPROTOTYPE_PLAIN_DAYOFWEEK
             => NextOrSameCore(dayOfWeek, -7);
 #else
         {
@@ -768,7 +768,7 @@ namespace Zorglub.Time.Specialized
         /// <inheritdoc />
         [Pure]
         public CivilPrototype PreviousOrSame(DayOfWeek dayOfWeek)
-#if CIVILDATE_PLAIN_DAYOFWEEK
+#if CIVILPROTOTYPE_PLAIN_DAYOFWEEK
             => NextOrSameCore(dayOfWeek, -6);
 #else
         {
@@ -790,7 +790,7 @@ namespace Zorglub.Time.Specialized
         /// <inheritdoc />
         [Pure]
         public CivilPrototype NextOrSame(DayOfWeek dayOfWeek)
-#if CIVILDATE_PLAIN_DAYOFWEEK
+#if CIVILPROTOTYPE_PLAIN_DAYOFWEEK
             => PreviousOrSameCore(dayOfWeek, 6);
 #else
         {
@@ -804,7 +804,7 @@ namespace Zorglub.Time.Specialized
         /// <inheritdoc />
         [Pure]
         public CivilPrototype Next(DayOfWeek dayOfWeek)
-#if CIVILDATE_PLAIN_DAYOFWEEK
+#if CIVILPROTOTYPE_PLAIN_DAYOFWEEK
             => PreviousOrSameCore(dayOfWeek, 7);
 #else
         {
