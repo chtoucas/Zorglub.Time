@@ -70,6 +70,21 @@ namespace Zorglub.Time.Specialized
         }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="CivilDate"/> struct to the specified
+        /// ordinal date parts.
+        /// </summary>
+        /// <exception cref="AoorException">The specified components do not form a valid ordinal
+        /// date or <paramref name="year"/> is outside the range of years supported by
+        /// <see cref="CivilCalendar"/>.</exception>
+        public CivilDate(int year, int dayOfYear)
+        {
+            // s_Calendar.Scope "=" GregorianStandardScope.
+            GregorianStandardScope.ValidateOrdinal(year, dayOfYear);
+
+            _daysSinceZero = s_Schema.CountDaysSinceEpoch(year, dayOfYear);
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="CivilDate"/> struct.
         /// </summary>
         /// <exception cref="AoorException"><paramref name="dayNumber"/> is outside the range of

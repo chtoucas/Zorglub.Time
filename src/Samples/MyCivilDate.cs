@@ -62,6 +62,13 @@ public readonly partial struct MyCivilDate :
         _daysSinceEpoch = s_Schema.CountDaysSinceEpoch(year, month, day);
     }
 
+    public MyCivilDate(int year, int dayOfYear)
+    {
+        s_Scope.ValidateOrdinal(year, dayOfYear);
+
+        _daysSinceEpoch = s_Schema.CountDaysSinceEpoch(year, dayOfYear);
+    }
+
     public MyCivilDate(DayNumber dayNumber)
     {
         s_Domain.Validate(dayNumber);
@@ -298,13 +305,7 @@ public partial struct MyCivilDate // Math ops
     public MyCivilDate PlusDays(int days)
     {
         int daysSinceEpoch = checked(_daysSinceEpoch + days);
-        // We don't write:
-        // > Domain.CheckOverflow(Epoch + daysSinceEpoch);
-        // The addition may also overflow...
-        if (daysSinceEpoch < s_MinValue._daysSinceEpoch || daysSinceEpoch > s_MaxValue._daysSinceEpoch)
-        {
-            throw new OverflowException(nameof(days));
-        }
+        s_Scope.DaysValidator.CheckOverflow(daysSinceEpoch);
         return new(daysSinceEpoch);
     }
 
