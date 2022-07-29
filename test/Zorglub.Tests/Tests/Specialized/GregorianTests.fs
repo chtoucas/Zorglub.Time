@@ -1,18 +1,31 @@
 ﻿// SPDX-License-Identifier: BSD-3-Clause
 // Copyright (c) 2020 Narvalo.Org. All rights reserved.
 
-module Zorglub.Tests.Specialized.GregorianDateTests
+module Zorglub.Tests.Specialized.GregorianTests
 
 open Zorglub.Testing
 open Zorglub.Testing.Data.Bounded
 open Zorglub.Testing.Facts
 
+open Zorglub.Time
 open Zorglub.Time.Specialized
 
 module Bundles =
     // NB: notice the use of ProlepticGregorianDataSet.
 
     let private chr = new GregorianCalendar()
+
+    [<Sealed>]
+    type CalendaTests() =
+        inherit ICalendarTFacts<GregorianDate, GregorianCalendar, ProlepticGregorianDataSet>(chr)
+
+        override x.Algorithm_Prop() = x.CalendarUT.Algorithm === CalendricalAlgorithm.Arithmetical
+        override x.Family_Prop() = x.CalendarUT.Family === CalendricalFamily.Solar
+        override x.PeriodicAdjustments_Prop() = x.CalendarUT.PeriodicAdjustments === CalendricalAdjustments.Days
+
+        override x.GetDate(y, m, d) = new GregorianDate(y, m, d);
+        override x.GetDate(y, doy) = new GregorianDate(y, doy);
+        override x.GetDate(dayNumber) = new GregorianDate(dayNumber);
 
     [<Sealed>]
     [<TestExcludeFrom(TestExcludeFrom.Regular)>]

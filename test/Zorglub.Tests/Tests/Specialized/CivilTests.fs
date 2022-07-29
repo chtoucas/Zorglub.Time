@@ -1,18 +1,31 @@
 ﻿// SPDX-License-Identifier: BSD-3-Clause
 // Copyright (c) 2020 Narvalo.Org. All rights reserved.
 
-module Zorglub.Tests.Specialized.CivilDateTests
+module Zorglub.Tests.Specialized.CivilTests
 
 open Zorglub.Testing
 open Zorglub.Testing.Data.Bounded
 open Zorglub.Testing.Facts
 
+open Zorglub.Time
 open Zorglub.Time.Specialized
 
 module Bundles =
     // NB: notice the use of StandardGregorianDataSet.
 
     let private chr = new CivilCalendar()
+
+    [<Sealed>]
+    type CalendaTests() =
+        inherit ICalendarTFacts<CivilDate, CivilCalendar, StandardGregorianDataSet>(chr)
+
+        override x.Algorithm_Prop() = x.CalendarUT.Algorithm === CalendricalAlgorithm.Arithmetical
+        override x.Family_Prop() = x.CalendarUT.Family === CalendricalFamily.Solar
+        override x.PeriodicAdjustments_Prop() = x.CalendarUT.PeriodicAdjustments === CalendricalAdjustments.Days
+
+        override x.GetDate(y, m, d) = new CivilDate(y, m, d);
+        override x.GetDate(y, doy) = new CivilDate(y, doy);
+        override x.GetDate(dayNumber) = new CivilDate(dayNumber);
 
     [<Sealed>]
     [<TestExcludeFrom(TestExcludeFrom.Regular)>]

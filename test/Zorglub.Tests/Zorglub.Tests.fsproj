@@ -113,8 +113,9 @@
     <Compile Include="Tests\Simple\DateDayOfWeekTestSuite.fs" />
     <Compile Include="Tests\Simple\CalendarMonthTestSuite.fs" />
     <Compile Include="Tests\Simple\CalendarYearTestSuite.fs" />
-    <Compile Include="Tests\Specialized\GregorianDateTests.fs" />
-    <Compile Include="Tests\Specialized\CivilDateTests.fs" />
+    <Compile Include="Tests\Specialized\CivilTests.fs" />
+    <Compile Include="Tests\Specialized\GregorianTests.fs" />
+    <Compile Include="Tests\Specialized\JulianTests.fs" />
     <Compile Include="Tests\PartsTests.fs" />
     <Compile Include="Tests\FieldsTests.fs" />
     <Compile Include="Tests\CalendarIdTests.fs" />

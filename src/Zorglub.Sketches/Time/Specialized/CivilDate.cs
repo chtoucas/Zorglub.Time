@@ -30,6 +30,12 @@ namespace Zorglub.Time.Specialized
         private static readonly CivilCalendar s_Calendar = new(s_Schema);
 
         /// <summary>
+        /// Represents the scope.
+        /// <para>This field is read-only.</para>
+        /// </summary>
+        private static readonly CalendarScope s_Scope = s_Calendar.Scope;
+
+        /// <summary>
         /// Represents the domain, the interval of supported <see cref="DayNumber"/>.
         /// <para>This field is read-only.</para>
         /// </summary>
@@ -63,8 +69,7 @@ namespace Zorglub.Time.Specialized
         /// <see cref="CivilCalendar"/>.</exception>
         public CivilDate(int year, int month, int day)
         {
-            // s_Calendar.Scope "=" GregorianStandardScope.
-            GregorianStandardScope.ValidateYearMonthDay(year, month, day);
+            s_Scope.ValidateYearMonthDay(year, month, day);
 
             _daysSinceZero = CivilFormulae.CountDaysSinceEpoch(year, month, day);
         }
@@ -78,8 +83,7 @@ namespace Zorglub.Time.Specialized
         /// <see cref="CivilCalendar"/>.</exception>
         public CivilDate(int year, int dayOfYear)
         {
-            // s_Calendar.Scope "=" GregorianStandardScope.
-            GregorianStandardScope.ValidateOrdinal(year, dayOfYear);
+            s_Scope.ValidateOrdinal(year, dayOfYear);
 
             _daysSinceZero = s_Schema.CountDaysSinceEpoch(year, dayOfYear);
         }
@@ -475,7 +479,7 @@ namespace Zorglub.Time.Specialized
         public CivilDate PlusDays(int days)
         {
             int daysSinceZero = checked(_daysSinceZero + days);
-            GregorianStandardScope.DaysValidator.CheckOverflow(daysSinceZero);
+            s_Scope.DaysValidator.CheckOverflow(daysSinceZero);
             return new(daysSinceZero);
         }
 

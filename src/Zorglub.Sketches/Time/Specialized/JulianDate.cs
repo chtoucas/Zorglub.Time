@@ -9,9 +9,9 @@ namespace Zorglub.Time.Specialized
     using Zorglub.Time.Hemerology;
     using Zorglub.Time.Hemerology.Scopes;
 
-    // FIXME(code): some test are failing. Use JulianFormulae?
+    // FIXME(code): some test are failing.
+    // Use JulianFormulae?
     // CountDaysSince(JulianDate other) checked context or not?
-    // Add ctor for (y, doy)
 
     public readonly partial struct JulianDate :
         IDate<JulianDate>,
