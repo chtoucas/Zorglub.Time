@@ -19,25 +19,25 @@ Intel Core i7-4500U CPU 1.80GHz (Haswell), 1 CPU, 4 logical and 2 physical cores
   [Host]     : .NET 6.0.7 (6.0.722.32202), X64 RyuJIT
   DefaultJob : .NET 6.0.7 (6.0.722.32202), X64 RyuJIT
 
-|                   Method |      Mean |    Error |   StdDev | Ratio | RatioSD | Rank |
-|------------------------- |----------:|---------:|---------:|------:|--------:|-----:|
-|       'CivilDate   (g)+' |  37.36 ns | 0.343 ns | 0.321 ns |  1.00 |    0.00 |    I |
-|   'GregorianDate   (g) ' |  42.34 ns | 0.207 ns | 0.184 ns |  1.13 |    0.01 |   II |
-|     'DayNumber64   (g) ' |  42.82 ns | 0.228 ns | 0.214 ns |  1.15 |    0.01 |   II |
-|       'DayNumber   (g) ' |  47.11 ns | 0.182 ns | 0.171 ns |  1.26 |    0.01 |   IV |
-|        'DateTime *    +' |  51.15 ns | 0.186 ns | 0.165 ns |  1.37 |    0.01 |    V |
-|        'DateOnly *    +' |  52.93 ns | 0.183 ns | 0.171 ns |  1.42 |    0.01 |   VI |
-|     'MyCivilDate      +' |  53.12 ns | 0.235 ns | 0.220 ns |  1.42 |    0.02 |   VI |
-|     'CalendarDay       ' |  61.93 ns | 0.266 ns | 0.236 ns |  1.66 |    0.01 |  VII |
-|           'ZDate       ' |  62.39 ns | 0.432 ns | 0.404 ns |  1.67 |    0.02 |  VII |
-|  'CivilPrototype  (Yg)+' |  63.98 ns | 0.261 ns | 0.245 ns |  1.71 |    0.01 | VIII |
-|     'Naked Civil      +' |  67.32 ns | 0.711 ns | 0.594 ns |  1.80 |    0.01 |   IX |
-|     'OrdinalDate  (O)  ' |  76.93 ns | 0.336 ns | 0.314 ns |  2.06 |    0.02 |    X |
-|     'CivilTriple  (Y) +' |  87.64 ns | 0.341 ns | 0.319 ns |  2.35 |    0.02 |   XI |
-|    'CalendarDate  (Y)  ' |  88.94 ns | 0.440 ns | 0.390 ns |  2.38 |    0.02 |  XII |
-|          'MyDate  (Y) +' |  90.27 ns | 0.566 ns | 0.530 ns |  2.42 |    0.03 | XIII |
-|      'CivilParts  (Y) +' | 108.27 ns | 0.502 ns | 0.470 ns |  2.90 |    0.02 |  XIV |
-|       'LocalDate *(Y)  ' | 117.49 ns | 0.537 ns | 0.502 ns |  3.14 |    0.03 |   XV |
+|                  Method |      Mean |    Error |   StdDev | Ratio | RatioSD | Rank |
+|------------------------ |----------:|---------:|---------:|------:|--------:|-----:|
+|      'CivilDate   (g)+' |  36.87 ns | 0.175 ns | 0.155 ns |  1.00 |    0.00 |    I |
+|    'DayNumber64   (g) ' |  42.08 ns | 0.189 ns | 0.168 ns |  1.14 |    0.01 |   II |
+|  'GregorianDate   (g) ' |  43.01 ns | 0.222 ns | 0.208 ns |  1.17 |    0.01 |  III |
+|      'DayNumber   (g) ' |  45.59 ns | 0.158 ns | 0.132 ns |  1.24 |    0.01 |   IV |
+|       'DateTime *    +' |  52.06 ns | 0.183 ns | 0.162 ns |  1.41 |    0.01 |    V |
+|       'DateOnly *    +' |  54.34 ns | 0.086 ns | 0.081 ns |  1.47 |    0.01 |   VI |
+|    'MyCivilDate      +' |  57.18 ns | 0.182 ns | 0.170 ns |  1.55 |    0.01 |  VII |
+|    'CalendarDay       ' |  61.52 ns | 0.217 ns | 0.169 ns |  1.67 |    0.01 | VIII |
+|          'ZDate       ' |  61.54 ns | 0.237 ns | 0.210 ns |  1.67 |    0.01 | VIII |
+| 'CivilPrototype  (Yg)+' |  64.52 ns | 0.390 ns | 0.365 ns |  1.75 |    0.01 |   IX |
+|    'Naked Civil      +' |  64.93 ns | 0.618 ns | 0.483 ns |  1.76 |    0.02 |   IX |
+|    'OrdinalDate  (O)  ' |  76.96 ns | 0.168 ns | 0.131 ns |  2.09 |    0.01 |    X |
+|    'CivilTriple  (Y) +' |  86.50 ns | 0.469 ns | 0.438 ns |  2.35 |    0.02 |   XI |
+|   'CalendarDate  (Y)  ' |  88.43 ns | 0.417 ns | 0.390 ns |  2.40 |    0.01 |  XII |
+|         'MyDate  (Y) +' |  89.28 ns | 0.381 ns | 0.356 ns |  2.42 |    0.01 |  XII |
+|     'CivilParts  (Y) +' |  98.45 ns | 0.448 ns | 0.419 ns |  2.67 |    0.01 | XIII |
+|      'LocalDate *(Y)  ' | 117.72 ns | 0.712 ns | 0.666 ns |  3.19 |    0.02 |  XIV |
 
 BenchmarkDotNet=v0.13.1, OS=Windows 10.0.19044.1826 (21H2)
 Intel Core2 Duo CPU E8500 3.16GHz, 1 CPU, 2 logical and 2 physical cores

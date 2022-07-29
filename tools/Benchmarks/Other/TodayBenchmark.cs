@@ -11,7 +11,7 @@ using Zorglub.Time.Hemerology;
 using Zorglub.Time.Simple;
 using Zorglub.Time.Specialized;
 
-// REVIEW: what makes LocalDate faster? why is DateTime slower?
+// REVIEW(perf): what makes LocalDate faster? why is DateTime slower?
 
 /*
 BenchmarkDotNet=v0.13.1, OS=Windows 10.0.19044.1826 (21H2)
@@ -22,14 +22,14 @@ Intel Core i7-4500U CPU 1.80GHz (Haswell), 1 CPU, 4 logical and 2 physical cores
 
 |              Method |     Mean |   Error |  StdDev | Ratio | Rank |
 |-------------------- |---------:|--------:|--------:|------:|-----:|
-|    'CivilDate     ' | 162.8 ns | 0.84 ns | 0.78 ns |  0.85 |    I |
-|    'LocalDate *(Y)' | 170.1 ns | 0.85 ns | 0.79 ns |  0.89 |   II |
-|    'DayNumber     ' | 174.8 ns | 1.05 ns | 0.93 ns |  0.92 |  III |
-|        'ZDate     ' | 179.8 ns | 0.49 ns | 0.43 ns |  0.94 |   IV |
-| 'CalendarDate  (Y)' | 179.9 ns | 0.68 ns | 0.64 ns |  0.94 |   IV |
-|     'DateTime *   ' | 182.2 ns | 1.32 ns | 1.24 ns |  0.96 |   IV |
-|  'OrdinalDate  (O)' | 184.2 ns | 0.74 ns | 0.69 ns |  0.97 |   IV |
-|  'CalendarDay     ' | 190.7 ns | 1.60 ns | 1.25 ns |  1.00 |    V |
+|    'CivilDate     ' | 163.1 ns | 2.36 ns | 2.32 ns |  0.95 |    I |
+|  'CalendarDay     ' | 170.9 ns | 0.86 ns | 0.81 ns |  1.00 |   II |
+|    'DayNumber     ' | 172.6 ns | 0.81 ns | 0.76 ns |  1.01 |   II |
+|    'LocalDate *(Y)' | 175.1 ns | 0.77 ns | 0.68 ns |  1.02 |  III |
+| 'CalendarDate  (Y)' | 176.3 ns | 0.80 ns | 0.75 ns |  1.03 |  III |
+|     'DateTime *   ' | 179.8 ns | 0.62 ns | 0.55 ns |  1.05 |   IV |
+|        'ZDate     ' | 181.0 ns | 0.53 ns | 0.50 ns |  1.06 |   IV |
+|  'OrdinalDate  (O)' | 185.0 ns | 0.52 ns | 0.46 ns |  1.08 |    V |
 
 BenchmarkDotNet=v0.13.1, OS=Windows 10.0.19044.1826 (21H2)
 Intel Core2 Duo CPU E8500 3.16GHz, 1 CPU, 2 logical and 2 physical cores
@@ -93,7 +93,7 @@ public class TodayBenchmark
     public (int, int, int, DayOfWeek) WithDayNumber()
     {
         DayNumber today = DayNumber.Today();
-        var (y, m, d) = My.NakedCivil.GetDateParts(today);
+        var (y, m, d) = today.GetGregorianParts();
 
         return (y, m, d, today.DayOfWeek);
     }
