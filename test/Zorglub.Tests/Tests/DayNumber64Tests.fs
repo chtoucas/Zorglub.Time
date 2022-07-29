@@ -697,17 +697,17 @@ module Postlude =
     //
 
     /// Compare the core properties.
-    let rec private compareTypes (dayNumber: DayNumber64) (date: CivilPrototype) =
+    let rec private compareTypes (dayNumber: DayNumber64) (date: CivilDate) =
         let y, m, d = dayNumber.GetGregorianParts()
         let passed =
             int y = date.Year
             && m = date.Month
             && d = date.Day
             && dayNumber.DayOfWeek = date.DayOfWeek
-            && dayNumber.IsoDayOfWeek = date.IsoDayOfWeek
+            //&& dayNumber.IsoDayOfWeek = date.IsoDayOfWeek
 
         if passed then
-            if dayNumber.DaysSinceZero = CivilPrototype.MaxDaysSinceEpoch then
+            if date = CivilDate.MaxValue then
                 (true, "OK")
             else
                 compareTypes (dayNumber.NextDay()) (date.NextDay())
@@ -719,4 +719,4 @@ module Postlude =
     [<TestExcludeFrom(TestExcludeFrom.CodeCoverage)>]
     let ``Deep comparison between DayNumber64 and CivilPrototype`` () =
         // NB: both start on Monday January 1, 1 (CE).
-        compareTypes DayNumber64.Zero CivilPrototype.MinValue |> Assert.True
+        compareTypes DayNumber64.Zero CivilDate.MinValue |> Assert.True

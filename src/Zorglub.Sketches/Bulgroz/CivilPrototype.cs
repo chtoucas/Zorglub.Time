@@ -32,10 +32,11 @@
 //   and [Doomsday rule](https://en.wikipedia.org/wiki/Doomsday_rule)
 // - https://en.wikipedia.org/wiki/Civil_calendar
 
-namespace Zorglub.Time.Specialized
+namespace Zorglub.Bulgroz
 {
     using System.ComponentModel;
 
+    using Zorglub.Time;
     using Zorglub.Time.Core.Intervals;
     using Zorglub.Time.Core.Schemas;
     using Zorglub.Time.Core.Validation;

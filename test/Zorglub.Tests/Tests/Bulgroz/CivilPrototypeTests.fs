@@ -1,7 +1,7 @@
 ﻿// SPDX-License-Identifier: BSD-3-Clause
 // Copyright (c) 2020 Narvalo.Org. All rights reserved.
 
-module Zorglub.Tests.Specialized.CivilPrototypeTests
+module Zorglub.Tests.Bulgroz.CivilPrototypeTests
 
 open System
 
@@ -10,9 +10,9 @@ open Zorglub.Testing.Data.Bounded
 open Zorglub.Testing.Facts
 open Zorglub.Testing.Facts.Hemerology
 
+open Zorglub.Bulgroz
 open Zorglub.Time
 open Zorglub.Time.Core.Intervals
-open Zorglub.Time.Specialized
 
 open Xunit
 

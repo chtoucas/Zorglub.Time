@@ -3,8 +3,6 @@
 
 namespace Zorglub.Testing.Data.Schemas;
 
-using Zorglub.Time.Specialized;
-
 /// <summary>
 /// Provides test data for <see cref="GregorianSchema"/>.
 /// </summary>
@@ -34,9 +32,6 @@ public partial class GregorianDataSet // Infos
 
     public override DataGroup<DateInfo> DateInfoData { get; } = new()
     {
-        // First & last dates.
-        new(CivilPrototype.MinYear, 1, 1, 1, false, false),
-        new(CivilPrototype.MaxYear, 12, 31, 365, false, false),
         // Common year.
         new(CommonYear, 1, 1, 1, false, false),
         new(CommonYear, 1, 15, 15, false, false),

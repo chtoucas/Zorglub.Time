@@ -1,27 +1,25 @@
 ﻿// SPDX-License-Identifier: BSD-3-Clause
 // Copyright (c) 2020 Narvalo.Org. All rights reserved.
 
-namespace Zorglub.Time.Extensions
+namespace Zorglub.Bulgroz
 {
     using System.ComponentModel;
     using System.Text;
-
-    using Zorglub.Time.Specialized;
 
     /// <summary>
     /// Provides extension methods for <see cref="CivilPrototype"/>.
     /// <para>This class cannot be inherited.</para>
     /// </summary>
-    public static partial class CivilPrototypeExtensions { }
+    public static partial class CivilDateExtensions { }
 
-    public partial class CivilPrototypeExtensions
+    public partial class CivilDateExtensions
     {
         [Pure]
         public static bool IsUnluckyFriday(this CivilPrototype @this) =>
             @this.Day == 13 && @this.DayOfWeek == DayOfWeek.Friday;
     }
 
-    public partial class CivilPrototypeExtensions
+    public partial class CivilDateExtensions
     {
         /// <summary>
         /// Gets the ISO week of the year.
@@ -79,7 +77,7 @@ namespace Zorglub.Time.Extensions
         }
     }
 
-    public partial class CivilPrototypeExtensions
+    public partial class CivilDateExtensions
     {
         /// <summary>
         /// Gets a nicely formatted string representation of the binary data

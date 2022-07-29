@@ -1,9 +1,9 @@
 ﻿// SPDX-License-Identifier: BSD-3-Clause
 // Copyright (c) 2020 Narvalo.Org. All rights reserved.
 
-namespace Zorglub.Time.Specialized;
+namespace Zorglub.Bulgroz;
 
-using static Zorglub.Time.Extensions.CivilPrototypeExtensions;
+using static Zorglub.Bulgroz.CivilDateExtensions;
 
 public partial class CivilPrototypeTests
 {

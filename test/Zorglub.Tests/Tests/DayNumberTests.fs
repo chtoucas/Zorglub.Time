@@ -889,7 +889,7 @@ module Math =
 
 module Postlude =
     /// Compare the core properties.
-    let rec private compareTypes (dayNumber: DayNumber) (date: CivilPrototype) =
+    let rec private compareTypes (dayNumber: DayNumber) (date: CivilDate) =
         let ymd = dayNumber.GetGregorianParts()
         let y, m, d = ymd.Deconstruct()
         let passed =
@@ -899,7 +899,7 @@ module Postlude =
             && dayNumber.DayOfWeek = date.DayOfWeek
 
         if passed then
-            if dayNumber.DaysSinceZero = CivilPrototype.MaxDaysSinceEpoch then
+            if date = CivilDate.MaxValue then
                 (true, "OK")
             else
                 compareTypes (dayNumber.NextDay()) (date.NextDay())
@@ -911,4 +911,4 @@ module Postlude =
     [<TestExcludeFrom(TestExcludeFrom.CodeCoverage)>]
     let ``Deep comparison between DayNumber and CivilPrototype`` () =
         // NB: both start on Monday January 1, 1 (CE).
-        compareTypes DayNumber.Zero CivilPrototype.MinValue |> Assert.True
+        compareTypes DayNumber.Zero CivilDate.MinValue |> Assert.True

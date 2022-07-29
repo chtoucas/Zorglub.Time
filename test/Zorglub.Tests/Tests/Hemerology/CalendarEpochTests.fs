@@ -72,8 +72,9 @@ module More =
     [<Fact>]
     let ``Static property Tropicalia`` () =
         let epoch = CalendarEpoch2.Tropicalia
-        let date = CivilPrototype.FromDayNumber(epoch)
-        let startOfYear = CivilPrototype.GetStartOfYear(date)
+        let date = new CivilDate(epoch)
+        let chr = new CivilCalendar()
+        let startOfYear = chr.GetStartOfYear(date.Year)
 
         date === startOfYear
         epoch.DayOfWeek === date.DayOfWeek
