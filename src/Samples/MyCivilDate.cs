@@ -41,10 +41,11 @@ public readonly partial struct MyCivilDate :
     //IMonthEndpointsProvider<MyDate>,
     IMinMaxValue<MyCivilDate>
 {
+    // NB: the order in which the static fields are written is important.
+
     private static readonly CivilSchema s_Schema = CivilSchema.GetInstance().Unbox();
     private static readonly MyCivilCalendar s_Calendar = new(s_Schema);
 
-    private static readonly CalendarScope s_Scope = s_Calendar.Scope;
     private static readonly DayNumber s_Epoch = s_Calendar.Epoch;
     private static readonly Range<DayNumber> s_Domain = s_Calendar.Domain;
 
@@ -52,7 +53,7 @@ public readonly partial struct MyCivilDate :
 
     public MyCivilDate(int year, int month, int day)
     {
-        s_Scope.ValidateYearMonthDay(year, month, day);
+        Scope.ValidateYearMonthDay(year, month, day);
 
         _daysSinceEpoch = s_Schema.CountDaysSinceEpoch(year, month, day);
     }
@@ -72,6 +73,8 @@ public readonly partial struct MyCivilDate :
     public static MyCivilDate MinValue { get; } = new(s_Domain.Min - s_Epoch);
     public static MyCivilDate MaxValue { get; } = new(s_Domain.Max - s_Epoch);
     public static MyCivilCalendar Calendar => s_Calendar;
+
+    private static CalendarScope Scope => s_Calendar.Scope;
 
     public DayNumber DayNumber => s_Epoch + _daysSinceEpoch;
 

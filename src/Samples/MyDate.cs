@@ -38,21 +38,26 @@ public readonly partial struct MyDate :
     //IMonthEndpointsProvider<MyDate>,
     IMinMaxValue<MyDate>
 {
+    // NB: the order in which the static fields are written is important.
     // Being based on Yemoda, the schema should derived from SystemSchema.
+
     private static readonly SystemSchema s_Schema = CivilSchema.GetInstance().Unbox();
     private static readonly CalendarScope s_Scope = new StandardScope(s_Schema, DayZero.NewStyle);
 
-    private static SystemSegment Segment { get; } = SystemSegment.FromCalendricalSegment(s_Scope.Segment);
-    private static Range<DayNumber> Domain => s_Scope.Domain;
+    private static readonly DayNumber s_Epoch = s_Scope.Epoch;
+    private static readonly Range<DayNumber> s_Domain = s_Scope.Domain;
+    private static readonly int EpochDayOfWeek = (int)s_Epoch.DayOfWeek;
 
-    private static SystemPartsFactory PartsFactory { get; } = SystemPartsFactory.Create(Segment);
-    private static SystemArithmetic Arithmetic { get; } = SystemArithmetic.CreateDefault(Segment);
+    private static readonly SystemSegment s_Segment = SystemSegment.FromCalendricalSegment(s_Scope.Segment);
+
+    private static readonly SystemPartsFactory s_PartsFactory = SystemPartsFactory.Create(s_Segment);
+    private static readonly SystemArithmetic s_Arithmetic = SystemArithmetic.CreateDefault(s_Segment);
 
     private readonly Yemoda _bin;
 
     public MyDate(int year, int month, int day)
     {
-        _bin = PartsFactory.CreateYemoda(year, month, day);
+        _bin = s_PartsFactory.CreateYemoda(year, month, day);
     }
 
     private MyDate(Yemoda bin)
@@ -60,11 +65,8 @@ public readonly partial struct MyDate :
         _bin = bin;
     }
 
-    public static DayNumber Epoch { get; } = s_Scope.Epoch;
-    public static MyDate MinValue { get; } = new(Segment.MinMaxDateParts.LowerValue);
-    public static MyDate MaxValue { get; } = new(Segment.MinMaxDateParts.UpperValue);
-
-    private static int EpochDayOfWeek { get; } = (int)Epoch.DayOfWeek;
+    public static MyDate MinValue { get; } = new(s_Segment.MinMaxDateParts.LowerValue);
+    public static MyDate MaxValue { get; } = new(s_Segment.MinMaxDateParts.UpperValue);
 
     public Ord CenturyOfEra => Ord.FromInt32(Century);
     public int Century => YearNumbering.GetCentury(Year);
@@ -155,8 +157,8 @@ public partial struct MyDate // Conversions, adjustments...
     [Pure]
     public static MyDate FromDayNumber(DayNumber dayNumber)
     {
-        Domain.Validate(dayNumber);
-        var ymd = s_Schema.GetDateParts(dayNumber - Epoch);
+        s_Domain.Validate(dayNumber);
+        var ymd = s_Schema.GetDateParts(dayNumber - s_Epoch);
         return new MyDate(ymd);
     }
 
@@ -164,7 +166,7 @@ public partial struct MyDate // Conversions, adjustments...
     public DayNumber ToDayNumber()
     {
         var (y, m, d) = _bin;
-        return Epoch + s_Schema.CountDaysSinceEpoch(y, m, d);
+        return s_Epoch + s_Schema.CountDaysSinceEpoch(y, m, d);
     }
 
     #endregion
@@ -339,14 +341,14 @@ public partial struct MyDate // Math ops
 #pragma warning restore CA2225
 
     [Pure]
-    public int CountDaysSince(MyDate other) => Arithmetic.CountDaysBetween(other._bin, _bin);
+    public int CountDaysSince(MyDate other) => s_Arithmetic.CountDaysBetween(other._bin, _bin);
 
     [Pure]
-    public MyDate PlusDays(int days) => new(Arithmetic.AddDays(_bin, days));
+    public MyDate PlusDays(int days) => new(s_Arithmetic.AddDays(_bin, days));
 
     [Pure]
-    public MyDate NextDay() => new(Arithmetic.NextDay(_bin));
+    public MyDate NextDay() => new(s_Arithmetic.NextDay(_bin));
 
     [Pure]
-    public MyDate PreviousDay() => new(Arithmetic.PreviousDay(_bin));
+    public MyDate PreviousDay() => new(s_Arithmetic.PreviousDay(_bin));
 }

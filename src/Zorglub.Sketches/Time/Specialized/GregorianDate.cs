@@ -15,6 +15,8 @@ namespace Zorglub.Time.Specialized
         //IMonthEndpointsProvider<GregorianDate>,
         IMinMaxValue<GregorianDate>
     {
+        // NB: the order in which the static fields are written is important.
+
         /// <summary>
         /// Represents the Gregorian schema.
         /// <para>This field is read-only.</para>
@@ -28,7 +30,7 @@ namespace Zorglub.Time.Specialized
         private static readonly GregorianCalendar s_Calendar = new(s_Schema);
 
         /// <summary>
-        /// Gets the domain, the interval of supported <see cref="DayNumber"/>.
+        /// Represents the domain, the interval of supported <see cref="DayNumber"/>.
         /// <para>This field is read-only.</para>
         /// </summary>
         private static readonly Range<DayNumber> s_Domain = s_Calendar.Domain;
@@ -72,7 +74,7 @@ namespace Zorglub.Time.Specialized
         /// Initializes a new instance of the <see cref="GregorianDate"/> struct.
         /// <para>This method does NOT validate its parameter.</para>
         /// </summary>
-        private GregorianDate(int daysSinceZero)
+        internal GregorianDate(int daysSinceZero)
         {
             _daysSinceZero = daysSinceZero;
         }

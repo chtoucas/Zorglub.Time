@@ -33,20 +33,22 @@ public readonly partial struct CivilTriple :
     IAffineDate<CivilTriple>,
     IMinMaxValue<CivilTriple>
 {
+    // NB: the order in which the static fields are written is important.
     // Being based on Yemoda, the schema should derived from SystemSchema.
+
     private static readonly SystemSchema s_Schema = CivilSchema.GetInstance().Unbox();
     private static readonly SystemSegment s_Segment = SystemSegment.Create(s_Schema, ZRange.Create(1, 9999));
 
-    private static DaysValidator DaysValidator { get; } = new(s_Segment.SupportedDays);
+    private static readonly DaysValidator s_DaysValidator = new(s_Segment.SupportedDays);
 
-    private static SystemPartsFactory PartsFactory { get; } = SystemPartsFactory.Create(s_Segment);
-    private static SystemArithmetic Arithmetic { get; } = SystemArithmetic.CreateDefault(s_Segment);
+    private static readonly SystemPartsFactory s_PartsFactory = SystemPartsFactory.Create(s_Segment);
+    private static readonly SystemArithmetic s_Arithmetic = SystemArithmetic.CreateDefault(s_Segment);
 
     private readonly Yemoda _bin;
 
     public CivilTriple(int year, int month, int day)
     {
-        _bin = PartsFactory.CreateYemoda(year, month, day);
+        _bin = s_PartsFactory.CreateYemoda(year, month, day);
     }
 
     private CivilTriple(Yemoda bin)
@@ -109,7 +111,7 @@ public partial struct CivilTriple // Conversions, adjustments...
     [Pure]
     public static CivilTriple FromDaysSinceEpoch(int daysSinceEpoch)
     {
-        DaysValidator.Validate(daysSinceEpoch);
+        s_DaysValidator.Validate(daysSinceEpoch);
         var ymd = s_Schema.GetDateParts(daysSinceEpoch);
         return new CivilTriple(ymd);
     }
@@ -204,14 +206,14 @@ public partial struct CivilTriple // Math ops
 #pragma warning restore CA2225
 
     [Pure]
-    public int CountDaysSince(CivilTriple other) => Arithmetic.CountDaysBetween(other._bin, _bin);
+    public int CountDaysSince(CivilTriple other) => s_Arithmetic.CountDaysBetween(other._bin, _bin);
 
     [Pure]
-    public CivilTriple PlusDays(int days) => new(Arithmetic.AddDays(_bin, days));
+    public CivilTriple PlusDays(int days) => new(s_Arithmetic.AddDays(_bin, days));
 
     [Pure]
-    public CivilTriple NextDay() => new(Arithmetic.NextDay(_bin));
+    public CivilTriple NextDay() => new(s_Arithmetic.NextDay(_bin));
 
     [Pure]
-    public CivilTriple PreviousDay() => new(Arithmetic.PreviousDay(_bin));
+    public CivilTriple PreviousDay() => new(s_Arithmetic.PreviousDay(_bin));
 }

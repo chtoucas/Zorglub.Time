@@ -32,20 +32,22 @@ public readonly partial record struct CivilParts :
     IAffineDate<CivilParts>,
     IMinMaxValue<CivilParts>
 {
+    // NB: the order in which the static fields are written is important.
+
     private static readonly CalendricalSchema s_Schema = CivilSchema.GetInstance().Unbox();
     private static readonly CalendricalSegment s_Segment = CalendricalSegment.Create(s_Schema, ZRange.Create(1, 9999));
 
-    private static ICalendricalPreValidator PreValidator => s_Schema.PreValidator;
-    private static DaysValidator DaysValidator { get; } = new(s_Segment.SupportedDays);
-    private static YearsValidator YearsValidator { get; } = new(s_Segment.SupportedYears);
+    private static readonly ICalendricalPreValidator s_PreValidator = s_Schema.PreValidator;
+    private static readonly DaysValidator s_DaysValidator = new(s_Segment.SupportedDays);
+    private static readonly YearsValidator s_YearsValidator = new(s_Segment.SupportedYears);
 
-    private static PartsAdapter PartsAdapter { get; } = new(s_Schema);
-    private static PartsArithmetic PartsArithmetic { get; } = PartsArithmetic.CreateDefault(s_Schema, s_Segment.SupportedYears);
+    private static readonly PartsAdapter s_PartsAdapter = new(s_Schema);
+    private static readonly PartsArithmetic s_PartsArithmetic = PartsArithmetic.CreateDefault(s_Schema, s_Segment.SupportedYears);
 
     public CivilParts(int year, int month, int day)
     {
-        YearsValidator.Validate(year);
-        PreValidator.ValidateMonthDay(year, month, day);
+        s_YearsValidator.Validate(year);
+        s_PreValidator.ValidateMonthDay(year, month, day);
 
         Year = year;
         Month = month;
@@ -88,8 +90,8 @@ public partial record struct CivilParts // Conversions, adjustments...
     [Pure]
     public static CivilParts FromDaysSinceEpoch(int daysSinceEpoch)
     {
-        DaysValidator.Validate(daysSinceEpoch);
-        var parts = PartsAdapter.GetDateParts(daysSinceEpoch);
+        s_DaysValidator.Validate(daysSinceEpoch);
+        var parts = s_PartsAdapter.GetDateParts(daysSinceEpoch);
         return new CivilParts(parts);
     }
 
@@ -152,17 +154,17 @@ public partial record struct CivilParts // Math ops
 
     [Pure]
     public int CountDaysSince(CivilParts other) =>
-        PartsArithmetic.CountDaysBetween(other.DateParts, DateParts);
+        s_PartsArithmetic.CountDaysBetween(other.DateParts, DateParts);
 
     [Pure]
     public CivilParts PlusDays(int days) =>
-        new(PartsArithmetic.AddDays(DateParts, days));
+        new(s_PartsArithmetic.AddDays(DateParts, days));
 
     [Pure]
     public CivilParts NextDay() =>
-        new(PartsArithmetic.NextDay(DateParts));
+        new(s_PartsArithmetic.NextDay(DateParts));
 
     [Pure]
     public CivilParts PreviousDay() =>
-        new(PartsArithmetic.PreviousDay(DateParts));
+        new(s_PartsArithmetic.PreviousDay(DateParts));
 }

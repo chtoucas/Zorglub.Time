@@ -9,7 +9,7 @@ namespace Zorglub.Testing.Data;
 public abstract class CalendricalDataConsumer<TDataSet>
     where TDataSet : ICalendricalDataSet, ISingleton<TDataSet>
 {
-    // NB: the order of fields is important.
+    // NB: the order in which the static fields are written is important.
     private static readonly TDataSet s_DataSet = TDataSet.Instance;
     private static readonly DataSetAdapter s_Adapter = new(s_DataSet);
 
