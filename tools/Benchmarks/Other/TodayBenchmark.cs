@@ -31,21 +31,22 @@ Intel Core i7-4500U CPU 1.80GHz (Haswell), 1 CPU, 4 logical and 2 physical cores
 |  'OrdinalDate  (O)' | 184.2 ns | 0.74 ns | 0.69 ns |  0.97 |   IV |
 |  'CalendarDay     ' | 190.7 ns | 1.60 ns | 1.25 ns |  1.00 |    V |
 
-BenchmarkDotNet=v0.13.1, OS=Windows 10.0.19042.1348 (20H2/October2020Update)
+BenchmarkDotNet=v0.13.1, OS=Windows 10.0.19044.1826 (21H2)
 Intel Core2 Duo CPU E8500 3.16GHz, 1 CPU, 2 logical and 2 physical cores
-.NET SDK=6.0.100
-  [Host]     : .NET 6.0.0 (6.0.21.52210), X64 RyuJIT
-  DefaultJob : .NET 6.0.0 (6.0.21.52210), X64 RyuJIT
+.NET SDK=6.0.302
+  [Host]     : .NET 6.0.7 (6.0.722.32202), X64 RyuJIT
+  DefaultJob : .NET 6.0.7 (6.0.722.32202), X64 RyuJIT
 
 |              Method |     Mean |     Error |    StdDev | Ratio | Rank |
 |-------------------- |---------:|----------:|----------:|------:|-----:|
-|    'LocalDate *(Y)' | 1.504 μs | 0.0012 μs | 0.0010 μs |  0.99 |    I |
-|  'CalendarDay     ' | 1.524 μs | 0.0076 μs | 0.0071 μs |  1.00 |    I |
-| 'CalendarDate  (Y)' | 1.535 μs | 0.0029 μs | 0.0027 μs |  1.01 |    I |
-|  'OrdinalDate  (O)' | 1.540 μs | 0.0015 μs | 0.0014 μs |  1.01 |    I |
-|        'ZDate  (Y)' | 1.543 μs | 0.0008 μs | 0.0007 μs |  1.01 |    I |
-|    'DayNumber     ' | 1.545 μs | 0.0010 μs | 0.0009 μs |  1.01 |    I |
-|     'DateTime *   ' | 1.600 μs | 0.0131 μs | 0.0123 μs |  1.05 |   II |
+|    'LocalDate *(Y)' | 1.500 μs | 0.0019 μs | 0.0017 μs |  0.97 |    I |
+|    'CivilDate     ' | 1.548 μs | 0.0017 μs | 0.0015 μs |  1.00 |   II |
+|  'CalendarDay     ' | 1.548 μs | 0.0014 μs | 0.0013 μs |  1.00 |   II |
+|    'DayNumber     ' | 1.549 μs | 0.0022 μs | 0.0021 μs |  1.00 |   II |
+|        'ZDate     ' | 1.551 μs | 0.0013 μs | 0.0012 μs |  1.00 |   II |
+|  'OrdinalDate  (O)' | 1.557 μs | 0.0013 μs | 0.0012 μs |  1.01 |   II |
+| 'CalendarDate  (Y)' | 1.559 μs | 0.0081 μs | 0.0076 μs |  1.01 |   II |
+|     'DateTime *   ' | 1.626 μs | 0.0049 μs | 0.0046 μs |  1.05 |  III |
  */
 //
 // * = external, Y = Y/M/D repr., O = ord. repr.

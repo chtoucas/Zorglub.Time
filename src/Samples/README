@@ -4,14 +4,13 @@ Samples
 CalendarZoo
 
 Date types
-- DayTemplate:     DaysSinceEpoch
-- GregorianRecord: "DateParts"
-- DateTemplate:    Yemoda (limited to SystemSchema)
-- GregorianTriple: Yemoda (limited to SystemSchema)
+- CivilParts:      plain record struct
+- CivilTriple:     Yemoda (limited to SystemSchema)
+- MyCivilDate:     DaysSinceEpoch
 - MyDate:          Yemoda (limited to SystemSchema)
 
 Calendar types
-- MyCalendar based on MyDate
+- MyCivilCalendar designed to work with MyCivilDate
 - MyNakedCalendar
 
 Folklore
