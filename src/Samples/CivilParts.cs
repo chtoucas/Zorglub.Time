@@ -44,6 +44,9 @@ public readonly partial record struct CivilParts :
     private static readonly PartsAdapter s_PartsAdapter = new(s_Schema);
     private static readonly PartsArithmetic s_PartsArithmetic = PartsArithmetic.CreateDefault(s_Schema, s_Segment.SupportedYears);
 
+    private static readonly CivilParts s_MinValue = new(s_Segment.MinMaxDateParts.LowerValue);
+    private static readonly CivilParts s_MaxValue = new(s_Segment.MinMaxDateParts.UpperValue);
+
     public CivilParts(int year, int month, int day)
     {
         s_YearsValidator.Validate(year);
@@ -59,8 +62,8 @@ public readonly partial record struct CivilParts :
         (Year, Month, Day) = parts;
     }
 
-    public static CivilParts MinValue { get; } = new(s_Segment.MinMaxDateParts.LowerValue);
-    public static CivilParts MaxValue { get; } = new(s_Segment.MinMaxDateParts.UpperValue);
+    public static CivilParts MinValue => s_MinValue;
+    public static CivilParts MaxValue => s_MaxValue;
 
     public Ord CenturyOfEra => Ord.FromInt32(Century);
     public int Century => YearNumbering.GetCentury(Year);

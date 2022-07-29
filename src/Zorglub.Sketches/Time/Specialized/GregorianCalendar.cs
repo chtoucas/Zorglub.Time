@@ -18,7 +18,7 @@ namespace Zorglub.Time.Specialized
 
         // Constructor for GregorianDate.
         internal GregorianCalendar(GregorianSchema schema)
-            : base("Gregorian", new ProlepticScope(schema, DayZero.NewStyle)) { }
+            : base("Gregorian", MinMaxYearScope.WithMaximalRange(schema, DayZero.NewStyle)) { }
 
         //
         // Year, month or day infos

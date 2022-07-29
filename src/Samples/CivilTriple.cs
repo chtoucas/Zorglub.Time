@@ -44,6 +44,9 @@ public readonly partial struct CivilTriple :
     private static readonly SystemPartsFactory s_PartsFactory = SystemPartsFactory.Create(s_Segment);
     private static readonly SystemArithmetic s_Arithmetic = SystemArithmetic.CreateDefault(s_Segment);
 
+    private static readonly CivilTriple s_MinValue = new(s_Segment.MinMaxDateParts.LowerValue);
+    private static readonly CivilTriple s_MaxValue = new(s_Segment.MinMaxDateParts.UpperValue);
+
     private readonly Yemoda _bin;
 
     public CivilTriple(int year, int month, int day)
@@ -56,8 +59,8 @@ public readonly partial struct CivilTriple :
         _bin = bin;
     }
 
-    public static CivilTriple MinValue { get; } = new(s_Segment.MinMaxDateParts.LowerValue);
-    public static CivilTriple MaxValue { get; } = new(s_Segment.MinMaxDateParts.UpperValue);
+    public static CivilTriple MinValue => s_MinValue;
+    public static CivilTriple MaxValue => s_MaxValue;
 
     public Ord CenturyOfEra => Ord.FromInt32(Century);
     public int Century => YearNumbering.GetCentury(Year);

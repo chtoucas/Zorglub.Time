@@ -53,6 +53,9 @@ public readonly partial struct MyDate :
     private static readonly SystemPartsFactory s_PartsFactory = SystemPartsFactory.Create(s_Segment);
     private static readonly SystemArithmetic s_Arithmetic = SystemArithmetic.CreateDefault(s_Segment);
 
+    private static readonly MyDate s_MinValue = new(s_Segment.MinMaxDateParts.LowerValue);
+    private static readonly MyDate s_MaxValue = new(s_Segment.MinMaxDateParts.UpperValue);
+
     private readonly Yemoda _bin;
 
     public MyDate(int year, int month, int day)
@@ -65,8 +68,8 @@ public readonly partial struct MyDate :
         _bin = bin;
     }
 
-    public static MyDate MinValue { get; } = new(s_Segment.MinMaxDateParts.LowerValue);
-    public static MyDate MaxValue { get; } = new(s_Segment.MinMaxDateParts.UpperValue);
+    public static MyDate MinValue => s_MinValue;
+    public static MyDate MaxValue => s_MaxValue;
 
     public Ord CenturyOfEra => Ord.FromInt32(Century);
     public int Century => YearNumbering.GetCentury(Year);

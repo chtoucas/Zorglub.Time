@@ -24,7 +24,7 @@ namespace Zorglub.Time.Specialized
 
         // Constructor for CivilDate.
         internal CivilCalendar(CivilSchema schema)
-            : base("Gregorian", new StandardScope(schema, DayZero.NewStyle)) { }
+            : base("Gregorian", MinMaxYearScope.WithMinYear(schema, DayZero.NewStyle, 1)) { }
 
         //
         // Year, month or day infos

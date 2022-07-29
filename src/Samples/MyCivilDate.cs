@@ -46,14 +46,18 @@ public readonly partial struct MyCivilDate :
     private static readonly CivilSchema s_Schema = CivilSchema.GetInstance().Unbox();
     private static readonly MyCivilCalendar s_Calendar = new(s_Schema);
 
+    private static readonly CalendarScope s_Scope = s_Calendar.Scope;
     private static readonly DayNumber s_Epoch = s_Calendar.Epoch;
     private static readonly Range<DayNumber> s_Domain = s_Calendar.Domain;
+
+    public static readonly MyCivilDate s_MinValue = new(s_Domain.Min - s_Epoch);
+    public static readonly MyCivilDate s_MaxValue = new(s_Domain.Max - s_Epoch);
 
     private readonly int _daysSinceEpoch;
 
     public MyCivilDate(int year, int month, int day)
     {
-        Scope.ValidateYearMonthDay(year, month, day);
+        s_Scope.ValidateYearMonthDay(year, month, day);
 
         _daysSinceEpoch = s_Schema.CountDaysSinceEpoch(year, month, day);
     }
@@ -70,11 +74,9 @@ public readonly partial struct MyCivilDate :
         _daysSinceEpoch = daysSinceEpoch;
     }
 
-    public static MyCivilDate MinValue { get; } = new(s_Domain.Min - s_Epoch);
-    public static MyCivilDate MaxValue { get; } = new(s_Domain.Max - s_Epoch);
+    public static MyCivilDate MinValue => s_MinValue;
+    public static MyCivilDate MaxValue => s_MaxValue;
     public static MyCivilCalendar Calendar => s_Calendar;
-
-    private static CalendarScope Scope => s_Calendar.Scope;
 
     public DayNumber DayNumber => s_Epoch + _daysSinceEpoch;
 
@@ -299,7 +301,7 @@ public partial struct MyCivilDate // Math ops
         // We don't write:
         // > Domain.CheckOverflow(Epoch + daysSinceEpoch);
         // The addition may also overflow...
-        if (daysSinceEpoch < MinValue._daysSinceEpoch || daysSinceEpoch > MaxValue._daysSinceEpoch)
+        if (daysSinceEpoch < s_MinValue._daysSinceEpoch || daysSinceEpoch > s_MaxValue._daysSinceEpoch)
         {
             throw new OverflowException(nameof(days));
         }
@@ -308,9 +310,9 @@ public partial struct MyCivilDate // Math ops
 
     [Pure]
     public MyCivilDate NextDay() =>
-        this == MaxValue ? throw new OverflowException() : new MyCivilDate(_daysSinceEpoch + 1);
+        this == s_MaxValue ? throw new OverflowException() : new MyCivilDate(_daysSinceEpoch + 1);
 
     [Pure]
     public MyCivilDate PreviousDay() =>
-        this == MinValue ? throw new OverflowException() : new MyCivilDate(_daysSinceEpoch - 1);
+        this == s_MinValue ? throw new OverflowException() : new MyCivilDate(_daysSinceEpoch - 1);
 }

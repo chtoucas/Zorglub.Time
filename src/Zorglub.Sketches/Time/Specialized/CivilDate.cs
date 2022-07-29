@@ -36,6 +36,19 @@ namespace Zorglub.Time.Specialized
         private static readonly Range<DayNumber> s_Domain = s_Calendar.Domain;
 
         /// <summary>
+        /// Represents the smallest possible value of a <see cref="CivilDate"/>.
+        /// <para>This is also the default value for <see cref="CivilDate"/>.</para>
+        /// <para>This field is read-only.</para>
+        /// </summary>
+        private static readonly CivilDate s_MinValue = new(s_Domain.Min.DaysSinceZero);
+
+        /// <summary>
+        /// Represents the largest possible value of a <see cref="CivilDate"/>.
+        /// <para>This field is read-only.</para>
+        /// </summary>
+        private static readonly CivilDate s_MaxValue = new(s_Domain.Max.DaysSinceZero);
+
+        /// <summary>
         /// Represents the count of days since the Gregorian epoch.
         /// <para>This field is read-only.</para>
         /// </summary>
@@ -83,13 +96,13 @@ namespace Zorglub.Time.Specialized
         /// Gets the smallest possible value of a <see cref="CivilDate"/>.
         /// <para>This static property is thread-safe.</para>
         /// </summary>
-        public static CivilDate MinValue { get; } = new(s_Domain.Min.DaysSinceZero);
+        public static CivilDate MinValue => s_MinValue;
 
         /// <summary>
         /// Gets the largest possible value of a <see cref="CivilDate"/>.
         /// <para>This static property is thread-safe.</para>
         /// </summary>
-        public static CivilDate MaxValue { get; } = new(s_Domain.Max.DaysSinceZero);
+        public static CivilDate MaxValue => s_MaxValue;
 
         /// <summary>
         /// Gets the calendar to which belongs the current instance.
@@ -454,11 +467,11 @@ namespace Zorglub.Time.Specialized
         /// <inheritdoc />
         [Pure]
         public CivilDate NextDay() =>
-            this == MaxValue ? Throw.DateOverflow<CivilDate>() : new CivilDate(_daysSinceZero + 1);
+            this == s_MaxValue ? Throw.DateOverflow<CivilDate>() : new CivilDate(_daysSinceZero + 1);
 
         /// <inheritdoc />
         [Pure]
         public CivilDate PreviousDay() =>
-            this == MinValue ? Throw.DateOverflow<CivilDate>() : new CivilDate(_daysSinceZero - 1);
+            this == s_MinValue ? Throw.DateOverflow<CivilDate>() : new CivilDate(_daysSinceZero - 1);
     }
 }

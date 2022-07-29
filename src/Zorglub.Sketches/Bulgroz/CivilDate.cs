@@ -84,14 +84,41 @@ namespace Zorglub.Bulgroz
         public const int MaxYear = 9999;
 
         /// <summary>
-        /// Gets the minimum total number of days there is at least in a year.
+        /// Represents the minimum total number of days there is at least in a year.
+        /// <para>This field is a constant equal to 365.</para>
         /// </summary>
         private const int MinDaysInYear = GJSchema.DaysInCommonYear;
 
         /// <summary>
-        /// Gets the minimum total number of days there is at least in a month.
+        /// Represents the minimum total number of days there is at least in a month.
+        /// <para>This field is a constant equal to 28.</para>
         /// </summary>
         private const int MinDaysInMonth = 28;
+
+        /// <summary>
+        /// Represents the epoch.
+        /// <para>This field is read-only.</para>
+        /// </summary>
+        private static readonly DayNumber s_Epoch = DayZero.NewStyle;
+
+        /// <summary>
+        /// Represents the domain, the interval of supported <see cref="DayNumber"/>.
+        /// <para>This field is read-only.</para>
+        /// </summary>
+        private static readonly Range<DayNumber> s_Domain =
+            Range.Create(s_Epoch + MinDaysSinceEpoch, s_Epoch + MaxDaysSinceEpoch);
+
+        /// <summary>
+        /// Represents the smallest possible value of a <see cref="CivilDate"/>.
+        /// <para>This field is read-only.</para>
+        /// </summary>
+        private static readonly CivilDate s_MinValue = new(MinYear, 1, 1);
+
+        /// <summary>
+        /// Represents the largest possible value of a <see cref="CivilDate"/>.
+        /// <para>This field is read-only.</para>
+        /// </summary>
+        private static readonly CivilDate s_MaxValue = new(MaxYear, 12, 31);
 
         /// <summary>
         /// Represents the binary data stored in the current instance.
@@ -132,31 +159,24 @@ namespace Zorglub.Bulgroz
         }
 
         /// <summary>
-        /// Gets the epoch.
-        /// <para>This static property is thread-safe.</para>
-        /// </summary>
-        public static DayNumber Epoch => DayZero.NewStyle;
-
-        /// <summary>
         /// Gets the domain, the interval of supported <see cref="DayNumber"/>.
         /// <para>This static property is thread-safe.</para>
         /// </summary>
-        public static Range<DayNumber> Domain { get; } =
-            Range.Create(Epoch + MinDaysSinceEpoch, Epoch + MaxDaysSinceEpoch);
+        public static  Range<DayNumber> Domain => s_Domain;
 
         /// <summary>
         /// Gets the earliest date supported by the <see cref="CivilDate"/> type: Monday, January
         /// 1st, 1 CE.
         /// <para>This static property is thread-safe.</para>
         /// </summary>
-        public static CivilDate MinValue { get; } = new(MinYear, 1, 1);
+        public static CivilDate MinValue => s_MinValue;
 
         /// <summary>
         /// Gets the latest date supported by the <see cref="CivilDate"/> type: Friday, December 31,
         /// 9999 CE.
         /// <para>This static property is thread-safe.</para>
         /// </summary>
-        public static CivilDate MaxValue { get; } = new(MaxYear, 12, 31);
+        public static CivilDate MaxValue => s_MaxValue;
 
         /// <inheritdoc />
         public Ord CenturyOfEra => Ord.FromInt32(Century);
@@ -567,13 +587,13 @@ namespace Zorglub.Bulgroz
         [Pure]
         public static CivilDate FromDayNumber(DayNumber dayNumber)
         {
-            Domain.Validate(dayNumber);
-            return FromDaysSinceEpoch(dayNumber - Epoch);
+            s_Domain.Validate(dayNumber);
+            return FromDaysSinceEpoch(dayNumber - s_Epoch);
         }
 
         /// <inheritdoc />
         [Pure]
-        public DayNumber ToDayNumber() => Epoch + DaysSinceEpoch;
+        public DayNumber ToDayNumber() => s_Epoch + DaysSinceEpoch;
 
         /// <summary>
         /// Creates a new instance of <see cref="CivilDate"/> from the
@@ -749,7 +769,7 @@ namespace Zorglub.Bulgroz
         //   which is rather optimised for this type of situation.
         // See comments in DayNumberX.
 
-        private static readonly CivilDate s_ThreeDaysBeforeMaxValue = MaxValue - 3;
+        private static readonly CivilDate s_ThreeDaysBeforeMaxValue = s_MinValue - 3;
 
         /// <inheritdoc />
         [Pure]
