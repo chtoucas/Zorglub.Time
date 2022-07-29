@@ -219,7 +219,12 @@ namespace Zorglub.Time.Hemerology
         /// </summary>
         /// <exception cref="AoorException">Today is not within the calendar boundaries.</exception>
         [Pure]
-        public ZDate Today() => new(DayNumber.Today());
+        public ZDate Today()
+        {
+            var today = DayNumber.Today();
+            if (IsUserDefined) { Domain.Validate(today); }
+            return new(today - Epoch, Id);
+        }
     }
 
     public partial class ZCalendar // IDayProvider
@@ -228,44 +233,28 @@ namespace Zorglub.Time.Hemerology
         [Pure]
         public IEnumerable<ZDate> GetDaysInYear(int year)
         {
-            // Check arg eagerly.
             SupportedYears.Validate(year);
 
-            return Iterator();
+            int startOfYear = Schema.GetStartOfYear(year);
+            int daysInYear = Schema.CountDaysInYear(year);
 
-            IEnumerable<ZDate> Iterator()
-            {
-                int id = Id;
-                var sch = Schema;
-                int startOfYear = sch.GetStartOfYear(year);
-                int daysInYear = sch.CountDaysInYear(year);
-
-                return from daysSinceEpoch
-                       in Enumerable.Range(startOfYear, daysInYear)
-                       select new ZDate(daysSinceEpoch, id);
-            }
+            return from daysSinceEpoch
+                   in Enumerable.Range(startOfYear, daysInYear)
+                   select new ZDate(daysSinceEpoch, Id);
         }
 
         /// <inheritdoc />
         [Pure]
         public IEnumerable<ZDate> GetDaysInMonth(int year, int month)
         {
-            // Check arg eagerly.
             Scope.ValidateYearMonth(year, month);
 
-            return Iterator();
+            int startOfMonth = Schema.GetStartOfMonth(year, month);
+            int daysInMonth = Schema.CountDaysInMonth(year, month);
 
-            IEnumerable<ZDate> Iterator()
-            {
-                int id = Id;
-                var sch = Schema;
-                int startOfMonth = sch.GetStartOfMonth(year, month);
-                int daysInMonth = sch.CountDaysInMonth(year, month);
-
-                return from daysSinceEpoch
-                       in Enumerable.Range(startOfMonth, daysInMonth)
-                       select new ZDate(daysSinceEpoch, id);
-            }
+            return from daysSinceEpoch
+                   in Enumerable.Range(startOfMonth, daysInMonth)
+                   select new ZDate(daysSinceEpoch, Id);
         }
 
         /// <inheritdoc />
