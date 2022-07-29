@@ -92,7 +92,7 @@ public class TodayBenchmark
     public (int, int, int, DayOfWeek) WithDayNumber()
     {
         DayNumber today = DayNumber.Today();
-        var (y, m, d) = My.NakedGregorian.GetDateParts(today);
+        var (y, m, d) = My.NakedCivil.GetDateParts(today);
 
         return (y, m, d, today.DayOfWeek);
     }

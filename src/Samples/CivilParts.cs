@@ -5,6 +5,8 @@ namespace Samples;
 
 using System;
 using System.Diagnostics.Contracts;
+using System.Globalization;
+using System.Text;
 
 using Zorglub.Time;
 using Zorglub.Time.Core;
@@ -20,29 +22,25 @@ using ZRange = Zorglub.Time.Core.Intervals.Range;
 // Using a record struct is not a great choice. Main drawbacks:
 // - invalid default value: 0/0/0, year, month and day should be > 0 (but of
 //   course we could change that)
-// - ToString() outputs all props (but of course we could change that)
 // - slower and bigger runtime size than the other types
 
 /// <summary>
-/// Provides an affine Gregorian date as a record struct (Year, Month, Day).
+/// Provides an <i>affine</i> Gregorian date as a record struct (Year, Month, Day).
 /// <para>Suppoted years = [1, 9999]</para>
 /// </summary>
 public readonly partial record struct CivilParts :
     IAffineDate<CivilParts>,
     IMinMaxValue<CivilParts>
 {
-    private static readonly CalendricalSchema Schema = CivilSchema.GetInstance().Unbox();
-    private static readonly CalendricalSegment Segment = CalendricalSegment.Create(Schema, ZRange.Create(1, 9999));
-}
+    private static readonly CalendricalSchema s_Schema = CivilSchema.GetInstance().Unbox();
+    private static readonly CalendricalSegment s_Segment = CalendricalSegment.Create(s_Schema, ZRange.Create(1, 9999));
 
-public readonly partial record struct CivilParts
-{
-    private static ICalendricalPreValidator PreValidator { get; } = Schema.PreValidator;
-    private static DaysValidator DaysValidator { get; } = new(Segment.SupportedDays);
-    private static YearsValidator YearsValidator { get; } = new(Segment.SupportedYears);
+    private static ICalendricalPreValidator PreValidator => s_Schema.PreValidator;
+    private static DaysValidator DaysValidator { get; } = new(s_Segment.SupportedDays);
+    private static YearsValidator YearsValidator { get; } = new(s_Segment.SupportedYears);
 
-    private static PartsAdapter PartsAdapter { get; } = new(Schema);
-    private static PartsArithmetic PartsArithmetic { get; } = PartsArithmetic.CreateDefault(Schema, Segment.SupportedYears);
+    private static PartsAdapter PartsAdapter { get; } = new(s_Schema);
+    private static PartsArithmetic PartsArithmetic { get; } = PartsArithmetic.CreateDefault(s_Schema, s_Segment.SupportedYears);
 
     public CivilParts(int year, int month, int day)
     {
@@ -59,8 +57,8 @@ public readonly partial record struct CivilParts
         (Year, Month, Day) = parts;
     }
 
-    public static CivilParts MinValue { get; } = new(Segment.MinMaxDateParts.LowerValue);
-    public static CivilParts MaxValue { get; } = new(Segment.MinMaxDateParts.UpperValue);
+    public static CivilParts MinValue { get; } = new(s_Segment.MinMaxDateParts.LowerValue);
+    public static CivilParts MaxValue { get; } = new(s_Segment.MinMaxDateParts.UpperValue);
 
     public Ord CenturyOfEra => Ord.FromInt32(Century);
     public int Century => YearNumbering.GetCentury(Year);
@@ -68,12 +66,18 @@ public readonly partial record struct CivilParts
     public int YearOfCentury => YearNumbering.GetYearOfCentury(Year);
     public int Year { get; }
     public int Month { get; }
-    public int DayOfYear => Schema.GetDayOfYear(Year, Month, Day);
+    public int DayOfYear => s_Schema.GetDayOfYear(Year, Month, Day);
     public int Day { get; }
-    public bool IsIntercalary => Schema.IsIntercalaryDay(Year, Month, Day);
-    public bool IsSupplementary => Schema.IsSupplementaryDay(Year, Month, Day);
+    public bool IsIntercalary => s_Schema.IsIntercalaryDay(Year, Month, Day);
+    public bool IsSupplementary => s_Schema.IsSupplementaryDay(Year, Month, Day);
 
     private DateParts DateParts => new(Year, Month, Day);
+
+    private bool PrintMembers(StringBuilder builder)
+    {
+        builder.Append(CultureInfo.InvariantCulture, $"Year = {Year}, Month = {Month}, Day = {Day}");
+        return true;
+    }
 
     public void Deconstruct(out int year, out int month, out int day) =>
         (year, month, day) = (Year, Month, Day);
@@ -90,21 +94,21 @@ public partial record struct CivilParts // Conversions, adjustments...
     }
 
     [Pure]
-    public int CountDaysSinceEpoch() => Schema.CountDaysSinceEpoch(Year, Month, Day);
+    public int CountDaysSinceEpoch() => s_Schema.CountDaysSinceEpoch(Year, Month, Day);
 
     #region Counting
 
     [Pure]
-    public int CountElapsedDaysInYear() => Schema.CountDaysInYearBefore(Year, Month, Day);
+    public int CountElapsedDaysInYear() => s_Schema.CountDaysInYearBefore(Year, Month, Day);
 
     [Pure]
-    public int CountRemainingDaysInYear() => Schema.CountDaysInYearAfter(Year, Month, Day);
+    public int CountRemainingDaysInYear() => s_Schema.CountDaysInYearAfter(Year, Month, Day);
 
     [Pure]
     public int CountElapsedDaysInMonth() => Day - 1;
 
     [Pure]
-    public int CountRemainingDaysInMonth() => Schema.CountDaysInMonthAfter(Year, Month, Day);
+    public int CountRemainingDaysInMonth() => s_Schema.CountDaysInMonthAfter(Year, Month, Day);
 
     #endregion
 }

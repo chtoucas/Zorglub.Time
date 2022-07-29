@@ -35,14 +35,14 @@ using static Zorglub.Time.Extensions.Unboxing;
 /// Provides a Gregorian date based on the count of consecutive days since the Gregorian epoch.
 /// <para>Suppoted years = [1, 9999]</para>
 /// </summary>
-public readonly partial struct DateTemplate :
-    IDate<DateTemplate>,
-    IYearEndpointsProvider<DateTemplate>,
-    IMonthEndpointsProvider<DateTemplate>,
-    IMinMaxValue<DateTemplate>
+public readonly partial struct MyCivilDate :
+    IDate<MyCivilDate>,
+    //IYearEndpointsProvider<MyDate>,
+    //IMonthEndpointsProvider<MyDate>,
+    IMinMaxValue<MyCivilDate>
 {
     private static readonly CivilSchema s_Schema = CivilSchema.GetInstance().Unbox();
-    private static readonly CalendarTemplate s_Calendar = new(s_Schema);
+    private static readonly MyCivilCalendar s_Calendar = new(s_Schema);
 
     private static readonly CalendarScope s_Scope = s_Calendar.Scope;
     private static readonly DayNumber s_Epoch = s_Calendar.Epoch;
@@ -50,27 +50,27 @@ public readonly partial struct DateTemplate :
 
     private readonly int _daysSinceEpoch;
 
-    public DateTemplate(int year, int month, int day)
+    public MyCivilDate(int year, int month, int day)
     {
         s_Scope.ValidateYearMonthDay(year, month, day);
 
         _daysSinceEpoch = s_Schema.CountDaysSinceEpoch(year, month, day);
     }
 
-    public DateTemplate(DayNumber dayNumber)
+    public MyCivilDate(DayNumber dayNumber)
     {
         s_Domain.Validate(dayNumber);
 
         _daysSinceEpoch = dayNumber - s_Epoch;
     }
 
-    internal DateTemplate(int daysSinceEpoch)
+    internal MyCivilDate(int daysSinceEpoch)
     {
         _daysSinceEpoch = daysSinceEpoch;
     }
 
-    public static DateTemplate MinValue { get; } = new(s_Domain.Min - s_Epoch);
-    public static DateTemplate MaxValue { get; } = new(s_Domain.Max - s_Epoch);
+    public static MyCivilDate MinValue { get; } = new(s_Domain.Min - s_Epoch);
+    public static MyCivilDate MaxValue { get; } = new(s_Domain.Max - s_Epoch);
 
     public DayNumber DayNumber => s_Epoch + _daysSinceEpoch;
 
@@ -138,18 +138,18 @@ public readonly partial struct DateTemplate :
         s_Schema.GetDateParts(_daysSinceEpoch, out year, out month, out day);
 }
 
-public partial struct DateTemplate // Conversions, adjustments...
+public partial struct MyCivilDate // Conversions, adjustments...
 {
     #region Factories
 
     [Pure]
-    public static DateTemplate Today() => new(DayNumber.Today() - s_Epoch);
+    public static MyCivilDate Today() => new(DayNumber.Today());
 
     #endregion
     #region Conversions
 
     [Pure]
-    static DateTemplate IFixedDay<DateTemplate>.FromDayNumber(DayNumber dayNumber) =>
+    static MyCivilDate IFixedDay<MyCivilDate>.FromDayNumber(DayNumber dayNumber) =>
         new(dayNumber);
 
     [Pure]
@@ -173,122 +173,122 @@ public partial struct DateTemplate // Conversions, adjustments...
     #endregion
     #region Year and month boundaries
 
-    [Pure]
-    public static DateTemplate GetStartOfYear(DateTemplate day)
-    {
-        int daysSinceEpoch = s_Schema.GetStartOfYear(day.Year);
-        return new DateTemplate(daysSinceEpoch);
-    }
+    //[Pure]
+    //public static MyDate GetStartOfYear(MyDate day)
+    //{
+    //    int daysSinceEpoch = s_Schema.GetStartOfYear(day.Year);
+    //    return new MyDate(daysSinceEpoch);
+    //}
 
-    [Pure]
-    public static DateTemplate GetEndOfYear(DateTemplate day)
-    {
-        int daysSinceEpoch = s_Schema.GetEndOfYear(day.Year);
-        return new DateTemplate(daysSinceEpoch);
-    }
+    //[Pure]
+    //public static MyDate GetEndOfYear(MyDate day)
+    //{
+    //    int daysSinceEpoch = s_Schema.GetEndOfYear(day.Year);
+    //    return new MyDate(daysSinceEpoch);
+    //}
 
-    [Pure]
-    public static DateTemplate GetStartOfMonth(DateTemplate day)
-    {
-        s_Schema.GetDateParts(day._daysSinceEpoch, out int y, out int m, out _);
-        int daysSinceEpoch = s_Schema.GetStartOfMonth(y, m);
-        return new DateTemplate(daysSinceEpoch);
-    }
+    //[Pure]
+    //public static MyDate GetStartOfMonth(MyDate day)
+    //{
+    //    s_Schema.GetDateParts(day._daysSinceEpoch, out int y, out int m, out _);
+    //    int daysSinceEpoch = s_Schema.GetStartOfMonth(y, m);
+    //    return new MyDate(daysSinceEpoch);
+    //}
 
-    [Pure]
-    public static DateTemplate GetEndOfMonth(DateTemplate day)
-    {
-        s_Schema.GetDateParts(day._daysSinceEpoch, out int y, out int m, out _);
-        int daysSinceEpoch = s_Schema.GetEndOfMonth(y, m);
-        return new DateTemplate(daysSinceEpoch);
-    }
+    //[Pure]
+    //public static MyDate GetEndOfMonth(MyDate day)
+    //{
+    //    s_Schema.GetDateParts(day._daysSinceEpoch, out int y, out int m, out _);
+    //    int daysSinceEpoch = s_Schema.GetEndOfMonth(y, m);
+    //    return new MyDate(daysSinceEpoch);
+    //}
 
     #endregion
     #region Adjust the day of the week
 
     [Pure]
-    public DateTemplate Previous(DayOfWeek dayOfWeek) => new(DayNumber.Previous(dayOfWeek));
+    public MyCivilDate Previous(DayOfWeek dayOfWeek) => new(DayNumber.Previous(dayOfWeek));
 
     [Pure]
-    public DateTemplate PreviousOrSame(DayOfWeek dayOfWeek) => new(DayNumber.PreviousOrSame(dayOfWeek));
+    public MyCivilDate PreviousOrSame(DayOfWeek dayOfWeek) => new(DayNumber.PreviousOrSame(dayOfWeek));
 
     [Pure]
-    public DateTemplate Nearest(DayOfWeek dayOfWeek) => new(DayNumber.Nearest(dayOfWeek));
+    public MyCivilDate Nearest(DayOfWeek dayOfWeek) => new(DayNumber.Nearest(dayOfWeek));
 
     [Pure]
-    public DateTemplate NextOrSame(DayOfWeek dayOfWeek) => new(DayNumber.NextOrSame(dayOfWeek));
+    public MyCivilDate NextOrSame(DayOfWeek dayOfWeek) => new(DayNumber.NextOrSame(dayOfWeek));
 
     [Pure]
-    public DateTemplate Next(DayOfWeek dayOfWeek) => new(DayNumber.Next(dayOfWeek));
+    public MyCivilDate Next(DayOfWeek dayOfWeek) => new(DayNumber.Next(dayOfWeek));
 
     #endregion
 }
 
-public partial struct DateTemplate // IEquatable
+public partial struct MyCivilDate // IEquatable
 {
-    public static bool operator ==(DateTemplate left, DateTemplate right) =>
+    public static bool operator ==(MyCivilDate left, MyCivilDate right) =>
         left._daysSinceEpoch == right._daysSinceEpoch;
-    public static bool operator !=(DateTemplate left, DateTemplate right) =>
+    public static bool operator !=(MyCivilDate left, MyCivilDate right) =>
         left._daysSinceEpoch != right._daysSinceEpoch;
 
     [Pure]
-    public bool Equals(DateTemplate other) => _daysSinceEpoch == other._daysSinceEpoch;
+    public bool Equals(MyCivilDate other) => _daysSinceEpoch == other._daysSinceEpoch;
 
     [Pure]
     public override bool Equals([NotNullWhen(true)] object? obj) =>
-        obj is DateTemplate date && Equals(date);
+        obj is MyCivilDate date && Equals(date);
 
     [Pure]
     public override int GetHashCode() => _daysSinceEpoch;
 }
 
-public partial struct DateTemplate // IComparable
+public partial struct MyCivilDate // IComparable
 {
-    public static bool operator <(DateTemplate left, DateTemplate right) =>
+    public static bool operator <(MyCivilDate left, MyCivilDate right) =>
         left._daysSinceEpoch < right._daysSinceEpoch;
-    public static bool operator <=(DateTemplate left, DateTemplate right) =>
+    public static bool operator <=(MyCivilDate left, MyCivilDate right) =>
         left._daysSinceEpoch <= right._daysSinceEpoch;
-    public static bool operator >(DateTemplate left, DateTemplate right) =>
+    public static bool operator >(MyCivilDate left, MyCivilDate right) =>
         left._daysSinceEpoch > right._daysSinceEpoch;
-    public static bool operator >=(DateTemplate left, DateTemplate right) =>
+    public static bool operator >=(MyCivilDate left, MyCivilDate right) =>
         left._daysSinceEpoch >= right._daysSinceEpoch;
 
     [Pure]
-    public static DateTemplate Min(DateTemplate x, DateTemplate y) => x < y ? x : y;
+    public static MyCivilDate Min(MyCivilDate x, MyCivilDate y) => x < y ? x : y;
 
     [Pure]
-    public static DateTemplate Max(DateTemplate x, DateTemplate y) => x > y ? x : y;
+    public static MyCivilDate Max(MyCivilDate x, MyCivilDate y) => x > y ? x : y;
 
     [Pure]
-    public int CompareTo(DateTemplate other) => _daysSinceEpoch.CompareTo(other._daysSinceEpoch);
+    public int CompareTo(MyCivilDate other) => _daysSinceEpoch.CompareTo(other._daysSinceEpoch);
 
     [Pure]
     public int CompareTo(object? obj) =>
         obj is null ? 1
-        : obj is DateTemplate date ? CompareTo(date)
+        : obj is MyCivilDate date ? CompareTo(date)
         : throw new ArgumentException(
-            $"The object should be of type {nameof(obj)} but it is of type {typeof(DateTemplate).GetType()}.",
+            $"The object should be of type {nameof(obj)} but it is of type {typeof(MyCivilDate).GetType()}.",
             nameof(obj));
 }
 
-public partial struct DateTemplate // Math ops
+public partial struct MyCivilDate // Math ops
 {
 #pragma warning disable CA2225 // Operator overloads have named alternates (Usage)
 
-    public static int operator -(DateTemplate left, DateTemplate right) => left.CountDaysSince(right);
-    public static DateTemplate operator +(DateTemplate value, int days) => value.PlusDays(days);
-    public static DateTemplate operator -(DateTemplate value, int days) => value.PlusDays(-days);
-    public static DateTemplate operator ++(DateTemplate value) => value.NextDay();
-    public static DateTemplate operator --(DateTemplate value) => value.PreviousDay();
+    public static int operator -(MyCivilDate left, MyCivilDate right) => left.CountDaysSince(right);
+    public static MyCivilDate operator +(MyCivilDate value, int days) => value.PlusDays(days);
+    public static MyCivilDate operator -(MyCivilDate value, int days) => value.PlusDays(-days);
+    public static MyCivilDate operator ++(MyCivilDate value) => value.NextDay();
+    public static MyCivilDate operator --(MyCivilDate value) => value.PreviousDay();
 
 #pragma warning restore CA2225
 
     [Pure]
-    public int CountDaysSince(DateTemplate other) =>
+    public int CountDaysSince(MyCivilDate other) =>
         checked(_daysSinceEpoch - other._daysSinceEpoch);
 
     [Pure]
-    public DateTemplate PlusDays(int days)
+    public MyCivilDate PlusDays(int days)
     {
         int daysSinceEpoch = checked(_daysSinceEpoch + days);
         // We don't write:
@@ -302,10 +302,10 @@ public partial struct DateTemplate // Math ops
     }
 
     [Pure]
-    public DateTemplate NextDay() =>
-        this == MaxValue ? throw new OverflowException() : new DateTemplate(_daysSinceEpoch + 1);
+    public MyCivilDate NextDay() =>
+        this == MaxValue ? throw new OverflowException() : new MyCivilDate(_daysSinceEpoch + 1);
 
     [Pure]
-    public DateTemplate PreviousDay() =>
-        this == MinValue ? throw new OverflowException() : new DateTemplate(_daysSinceEpoch - 1);
+    public MyCivilDate PreviousDay() =>
+        this == MinValue ? throw new OverflowException() : new MyCivilDate(_daysSinceEpoch - 1);
 }

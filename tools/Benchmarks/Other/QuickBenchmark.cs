@@ -49,11 +49,11 @@ public class QuickBenchmark : BenchmarkBase
         Consume(in dayOfYear);
     }
 
-    [Benchmark(Description = "DateTemplate      +")]
-    public void WithDateTemplate()
+    [Benchmark(Description = "MyCivilDate      +")]
+    public void WithMyCivilDate()
     {
-        DateTemplate start = new(Year, Month, Day);
-        DateTemplate end = start.NextDay().PlusDays(D7).PlusDays(D30).PlusDays(D401);
+        MyCivilDate start = new(Year, Month, Day);
+        MyCivilDate end = start.NextDay().PlusDays(D7).PlusDays(D30).PlusDays(D401);
 
         var (y, m, d) = end;
         DayOfWeek dayOfWeek = end.DayOfWeek;

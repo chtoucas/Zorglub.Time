@@ -32,46 +32,37 @@ using static Zorglub.Time.Extensions.Unboxing;
 /// Provides a Gregorian date based on <see cref="Yemoda"/>.
 /// <para>Suppoted years = [1, 9999]</para>
 /// </summary>
-public readonly partial struct DateTriple :
-    IDate<DateTriple>,
-    IYearEndpointsProvider<DateTriple>,
-    IMonthEndpointsProvider<DateTriple>,
-    IMinMaxValue<DateTriple>
+public readonly partial struct MyDate :
+    IDate<MyDate>,
+    //IYearEndpointsProvider<MyDate>,
+    //IMonthEndpointsProvider<MyDate>,
+    IMinMaxValue<MyDate>
 {
-    private static readonly SystemSchema Schema = CivilSchema.GetInstance().Unbox();
-    private static readonly CalendarScope Scope = new StandardScope(Schema, DayZero.NewStyle);
+    // Being based on Yemoda, the schema should derived from SystemSchema.
+    private static readonly SystemSchema s_Schema = CivilSchema.GetInstance().Unbox();
+    private static readonly CalendarScope s_Scope = new StandardScope(s_Schema, DayZero.NewStyle);
 
-    [Pure]
-    public override string ToString()
-    {
-        var (y, m, d) = _bin;
-        return FormattableString.Invariant($"{d:D2}/{m:D2}/{y:D4} (Gregorian)");
-    }
-}
-
-public partial struct DateTriple
-{
-    private static SystemSegment Segment { get; } = SystemSegment.FromCalendricalSegment(Scope.Segment);
-    private static Range<DayNumber> Domain => Scope.Domain;
+    private static SystemSegment Segment { get; } = SystemSegment.FromCalendricalSegment(s_Scope.Segment);
+    private static Range<DayNumber> Domain => s_Scope.Domain;
 
     private static SystemPartsFactory PartsFactory { get; } = SystemPartsFactory.Create(Segment);
     private static SystemArithmetic Arithmetic { get; } = SystemArithmetic.CreateDefault(Segment);
 
     private readonly Yemoda _bin;
 
-    public DateTriple(int year, int month, int day)
+    public MyDate(int year, int month, int day)
     {
         _bin = PartsFactory.CreateYemoda(year, month, day);
     }
 
-    private DateTriple(Yemoda bin)
+    private MyDate(Yemoda bin)
     {
         _bin = bin;
     }
 
-    public static DayNumber Epoch { get; } = Scope.Epoch;
-    public static DateTriple MinValue { get; } = new(Segment.MinMaxDateParts.LowerValue);
-    public static DateTriple MaxValue { get; } = new(Segment.MinMaxDateParts.UpperValue);
+    public static DayNumber Epoch { get; } = s_Scope.Epoch;
+    public static MyDate MinValue { get; } = new(Segment.MinMaxDateParts.LowerValue);
+    public static MyDate MaxValue { get; } = new(Segment.MinMaxDateParts.UpperValue);
 
     private static int EpochDayOfWeek { get; } = (int)Epoch.DayOfWeek;
 
@@ -87,7 +78,7 @@ public partial struct DateTriple
         get
         {
             var (y, m, d) = _bin;
-            return Schema.GetDayOfYear(y, m, d);
+            return s_Schema.GetDayOfYear(y, m, d);
         }
     }
 
@@ -98,7 +89,7 @@ public partial struct DateTriple
         get
         {
             var (y, m, d) = _bin;
-            int daysSinceEpoch = Schema.CountDaysSinceEpoch(y, m, d);
+            int daysSinceEpoch = s_Schema.CountDaysSinceEpoch(y, m, d);
             return (DayOfWeek)Modulo(
                 checked(EpochDayOfWeek + daysSinceEpoch),
                 CalendricalConstants.DaysInWeek);
@@ -110,7 +101,7 @@ public partial struct DateTriple
         get
         {
             var (y, m, d) = _bin;
-            return Schema.IsIntercalaryDay(y, m, d);
+            return s_Schema.IsIntercalaryDay(y, m, d);
         }
     }
 
@@ -119,8 +110,15 @@ public partial struct DateTriple
         get
         {
             var (y, m, d) = _bin;
-            return Schema.IsSupplementaryDay(y, m, d);
+            return s_Schema.IsSupplementaryDay(y, m, d);
         }
+    }
+
+    [Pure]
+    public override string ToString()
+    {
+        var (y, m, d) = _bin;
+        return FormattableString.Invariant($"{d:D2}/{m:D2}/{y:D4} (Gregorian)");
     }
 
     public void Deconstruct(out int year, out int month, out int day) =>
@@ -144,29 +142,29 @@ public partial struct DateTriple
 #endif
 }
 
-public partial struct DateTriple // Conversions, adjustments...
+public partial struct MyDate // Conversions, adjustments...
 {
     #region Factories
 
     [Pure]
-    public static DateTriple Today() => FromDayNumber(DayNumber.Today());
+    public static MyDate Today() => FromDayNumber(DayNumber.Today());
 
     #endregion
     #region Conversions
 
     [Pure]
-    public static DateTriple FromDayNumber(DayNumber dayNumber)
+    public static MyDate FromDayNumber(DayNumber dayNumber)
     {
         Domain.Validate(dayNumber);
-        var ymd = Schema.GetDateParts(dayNumber - Epoch);
-        return new DateTriple(ymd);
+        var ymd = s_Schema.GetDateParts(dayNumber - Epoch);
+        return new MyDate(ymd);
     }
 
     [Pure]
     public DayNumber ToDayNumber()
     {
         var (y, m, d) = _bin;
-        return Epoch + Schema.CountDaysSinceEpoch(y, m, d);
+        return Epoch + s_Schema.CountDaysSinceEpoch(y, m, d);
     }
 
     #endregion
@@ -176,14 +174,14 @@ public partial struct DateTriple // Conversions, adjustments...
     public int CountElapsedDaysInYear()
     {
         var (y, m, d) = _bin;
-        return Schema.CountDaysInYearBefore(y, m, d);
+        return s_Schema.CountDaysInYearBefore(y, m, d);
     }
 
     [Pure]
     public int CountRemainingDaysInYear()
     {
         var (y, m, d) = _bin;
-        return Schema.CountDaysInYearAfter(y, m, d);
+        return s_Schema.CountDaysInYearAfter(y, m, d);
     }
 
     [Pure]
@@ -193,14 +191,38 @@ public partial struct DateTriple // Conversions, adjustments...
     public int CountRemainingDaysInMonth()
     {
         var (y, m, d) = _bin;
-        return Schema.CountDaysInMonthAfter(y, m, d);
+        return s_Schema.CountDaysInMonthAfter(y, m, d);
     }
+
+    #endregion
+    #region Year and month boundaries
+
+    //[Pure]
+    //public static MyDate GetStartOfYear(MyDate day) => new(day._bin.StartOfYear);
+
+    //[Pure]
+    //public static MyDate GetEndOfYear(MyDate day)
+    //{
+    //    var ymd = s_Schema.GetDatePartsAtEndOfYear(day.Year);
+    //    return new MyDate(ymd);
+    //}
+
+    //[Pure]
+    //public static MyDate GetStartOfMonth(MyDate day) => new(day._bin.StartOfMonth);
+
+    //[Pure]
+    //public static MyDate GetEndOfMonth(MyDate day)
+    //{
+    //    var (y, m, _) = day._bin;
+    //    var ymd = s_Schema.GetDatePartsAtEndOfMonth(y, m);
+    //    return new MyDate(ymd);
+    //}
 
     #endregion
     #region Adjust the day of the week
 
     [Pure]
-    public DateTriple Previous(DayOfWeek dayOfWeek)
+    public MyDate Previous(DayOfWeek dayOfWeek)
     {
 #if USE_ADJUSTER
         return DayOfWeekAdjusters.Previous(this, dayOfWeek);
@@ -213,7 +235,7 @@ public partial struct DateTriple // Conversions, adjustments...
     }
 
     [Pure]
-    public DateTriple PreviousOrSame(DayOfWeek dayOfWeek)
+    public MyDate PreviousOrSame(DayOfWeek dayOfWeek)
     {
 #if USE_ADJUSTER
         return DayOfWeekAdjusters.PreviousOrSame(this, dayOfWeek);
@@ -226,7 +248,7 @@ public partial struct DateTriple // Conversions, adjustments...
     }
 
     [Pure]
-    public DateTriple Nearest(DayOfWeek dayOfWeek)
+    public MyDate Nearest(DayOfWeek dayOfWeek)
     {
 #if USE_ADJUSTER
         return DayOfWeekAdjusters.Nearest(this, dayOfWeek);
@@ -237,7 +259,7 @@ public partial struct DateTriple // Conversions, adjustments...
     }
 
     [Pure]
-    public DateTriple NextOrSame(DayOfWeek dayOfWeek)
+    public MyDate NextOrSame(DayOfWeek dayOfWeek)
     {
 #if USE_ADJUSTER
         return DayOfWeekAdjusters.NextOrSame(this, dayOfWeek);
@@ -250,7 +272,7 @@ public partial struct DateTriple // Conversions, adjustments...
     }
 
     [Pure]
-    public DateTriple Next(DayOfWeek dayOfWeek)
+    public MyDate Next(DayOfWeek dayOfWeek)
     {
 #if USE_ADJUSTER
         return DayOfWeekAdjusters.Next(this, dayOfWeek);
@@ -263,92 +285,68 @@ public partial struct DateTriple // Conversions, adjustments...
     }
 
     #endregion
-    #region Year and month boundaries
-
-    [Pure]
-    public static DateTriple GetStartOfYear(DateTriple day) => new(day._bin.StartOfYear);
-
-    [Pure]
-    public static DateTriple GetEndOfYear(DateTriple day)
-    {
-        var ymd = Schema.GetDatePartsAtEndOfYear(day.Year);
-        return new DateTriple(ymd);
-    }
-
-    [Pure]
-    public static DateTriple GetStartOfMonth(DateTriple day) => new(day._bin.StartOfMonth);
-
-    [Pure]
-    public static DateTriple GetEndOfMonth(DateTriple day)
-    {
-        var (y, m, _) = day._bin;
-        var ymd = Schema.GetDatePartsAtEndOfMonth(y, m);
-        return new DateTriple(ymd);
-    }
-
-    #endregion
 }
 
-public partial struct DateTriple // IEquatable
+public partial struct MyDate // IEquatable
 {
-    public static bool operator ==(DateTriple left, DateTriple right) => left._bin == right._bin;
-    public static bool operator !=(DateTriple left, DateTriple right) => left._bin != right._bin;
+    public static bool operator ==(MyDate left, MyDate right) => left._bin == right._bin;
+    public static bool operator !=(MyDate left, MyDate right) => left._bin != right._bin;
 
-    [Pure] public bool Equals(DateTriple other) => _bin == other._bin;
+    [Pure] public bool Equals(MyDate other) => _bin == other._bin;
 
     [Pure]
     public override bool Equals([NotNullWhen(true)] object? obj) =>
-        obj is DateTriple date && Equals(date);
+        obj is MyDate date && Equals(date);
 
     [Pure] public override int GetHashCode() => _bin.GetHashCode();
 }
 
-public partial struct DateTriple // IComparable
+public partial struct MyDate // IComparable
 {
-    public static bool operator <(DateTriple left, DateTriple right) => left._bin < right._bin;
-    public static bool operator <=(DateTriple left, DateTriple right) => left._bin <= right._bin;
-    public static bool operator >(DateTriple left, DateTriple right) => left._bin > right._bin;
-    public static bool operator >=(DateTriple left, DateTriple right) => left._bin >= right._bin;
+    public static bool operator <(MyDate left, MyDate right) => left._bin < right._bin;
+    public static bool operator <=(MyDate left, MyDate right) => left._bin <= right._bin;
+    public static bool operator >(MyDate left, MyDate right) => left._bin > right._bin;
+    public static bool operator >=(MyDate left, MyDate right) => left._bin >= right._bin;
 
     [Pure]
-    public static DateTriple Min(DateTriple x, DateTriple y) => x < y ? x : y;
+    public static MyDate Min(MyDate x, MyDate y) => x < y ? x : y;
 
     [Pure]
-    public static DateTriple Max(DateTriple x, DateTriple y) => x > y ? x : y;
+    public static MyDate Max(MyDate x, MyDate y) => x > y ? x : y;
 
     [Pure]
-    public int CompareTo(DateTriple other) => _bin.CompareTo(other._bin);
+    public int CompareTo(MyDate other) => _bin.CompareTo(other._bin);
 
     [Pure]
     public int CompareTo(object? obj) =>
         obj is null ? 1
-        : obj is DateTriple date ? CompareTo(date)
+        : obj is MyDate date ? CompareTo(date)
         : throw new ArgumentException(
-            $"The object should be of type {nameof(obj)} but it is of type {typeof(DateTriple).GetType()}.",
+            $"The object should be of type {nameof(obj)} but it is of type {typeof(MyDate).GetType()}.",
             nameof(obj));
 }
 
-public partial struct DateTriple // Math ops
+public partial struct MyDate // Math ops
 {
 #pragma warning disable CA2225 // Operator overloads have named alternates (Usage)
 
-    public static int operator -(DateTriple left, DateTriple right) => left.CountDaysSince(right);
-    public static DateTriple operator +(DateTriple value, int days) => value.PlusDays(days);
-    public static DateTriple operator -(DateTriple value, int days) => value.PlusDays(-days);
-    public static DateTriple operator ++(DateTriple value) => value.NextDay();
-    public static DateTriple operator --(DateTriple value) => value.PreviousDay();
+    public static int operator -(MyDate left, MyDate right) => left.CountDaysSince(right);
+    public static MyDate operator +(MyDate value, int days) => value.PlusDays(days);
+    public static MyDate operator -(MyDate value, int days) => value.PlusDays(-days);
+    public static MyDate operator ++(MyDate value) => value.NextDay();
+    public static MyDate operator --(MyDate value) => value.PreviousDay();
 
 #pragma warning restore CA2225
 
     [Pure]
-    public int CountDaysSince(DateTriple other) => Arithmetic.CountDaysBetween(other._bin, _bin);
+    public int CountDaysSince(MyDate other) => Arithmetic.CountDaysBetween(other._bin, _bin);
 
     [Pure]
-    public DateTriple PlusDays(int days) => new(Arithmetic.AddDays(_bin, days));
+    public MyDate PlusDays(int days) => new(Arithmetic.AddDays(_bin, days));
 
     [Pure]
-    public DateTriple NextDay() => new(Arithmetic.NextDay(_bin));
+    public MyDate NextDay() => new(Arithmetic.NextDay(_bin));
 
     [Pure]
-    public DateTriple PreviousDay() => new(Arithmetic.PreviousDay(_bin));
+    public MyDate PreviousDay() => new(Arithmetic.PreviousDay(_bin));
 }

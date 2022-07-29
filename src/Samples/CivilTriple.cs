@@ -26,30 +26,21 @@ using ZRange = Zorglub.Time.Core.Intervals.Range;
 // We shall use it to compare performance between the various date types.
 
 /// <summary>
-/// Provides an affine Gregorian date as a struct based on <see cref="Yemoda"/>.
+/// Provides an <i>affine</i> Gregorian date as a struct based on <see cref="Yemoda"/>.
 /// <para>Suppoted years = [1, 9999]</para>
 /// </summary>
 public readonly partial struct CivilTriple :
     IAffineDate<CivilTriple>,
     IMinMaxValue<CivilTriple>
 {
-    private static readonly SystemSchema Schema = CivilSchema.GetInstance().Unbox();
-    private static readonly SystemSegment Segment = SystemSegment.Create(Schema, ZRange.Create(1, 9999));
+    // Being based on Yemoda, the schema should derived from SystemSchema.
+    private static readonly SystemSchema s_Schema = CivilSchema.GetInstance().Unbox();
+    private static readonly SystemSegment s_Segment = SystemSegment.Create(s_Schema, ZRange.Create(1, 9999));
 
-    [Pure]
-    public override string ToString()
-    {
-        var (y, m, d) = _bin;
-        return FormattableString.Invariant($"{d:D2}/{m:D2}/{y:D4} (Gregorian)");
-    }
-}
+    private static DaysValidator DaysValidator { get; } = new(s_Segment.SupportedDays);
 
-public partial struct CivilTriple
-{
-    private static DaysValidator DaysValidator { get; } = new(Segment.SupportedDays);
-
-    private static SystemPartsFactory PartsFactory { get; } = SystemPartsFactory.Create(Segment);
-    private static SystemArithmetic Arithmetic { get; } = SystemArithmetic.CreateDefault(Segment);
+    private static SystemPartsFactory PartsFactory { get; } = SystemPartsFactory.Create(s_Segment);
+    private static SystemArithmetic Arithmetic { get; } = SystemArithmetic.CreateDefault(s_Segment);
 
     private readonly Yemoda _bin;
 
@@ -63,8 +54,8 @@ public partial struct CivilTriple
         _bin = bin;
     }
 
-    public static CivilTriple MinValue { get; } = new(Segment.MinMaxDateParts.LowerValue);
-    public static CivilTriple MaxValue { get; } = new(Segment.MinMaxDateParts.UpperValue);
+    public static CivilTriple MinValue { get; } = new(s_Segment.MinMaxDateParts.LowerValue);
+    public static CivilTriple MaxValue { get; } = new(s_Segment.MinMaxDateParts.UpperValue);
 
     public Ord CenturyOfEra => Ord.FromInt32(Century);
     public int Century => YearNumbering.GetCentury(Year);
@@ -78,7 +69,7 @@ public partial struct CivilTriple
         get
         {
             var (y, m, d) = _bin;
-            return Schema.GetDayOfYear(y, m, d);
+            return s_Schema.GetDayOfYear(y, m, d);
         }
     }
 
@@ -89,7 +80,7 @@ public partial struct CivilTriple
         get
         {
             var (y, m, d) = _bin;
-            return Schema.IsIntercalaryDay(y, m, d);
+            return s_Schema.IsIntercalaryDay(y, m, d);
         }
     }
 
@@ -98,8 +89,15 @@ public partial struct CivilTriple
         get
         {
             var (y, m, d) = _bin;
-            return Schema.IsSupplementaryDay(y, m, d);
+            return s_Schema.IsSupplementaryDay(y, m, d);
         }
+    }
+
+    [Pure]
+    public override string ToString()
+    {
+        var (y, m, d) = _bin;
+        return FormattableString.Invariant($"{d:D2}/{m:D2}/{y:D4} (Gregorian)");
     }
 
     public void Deconstruct(out int year, out int month, out int day) =>
@@ -112,7 +110,7 @@ public partial struct CivilTriple // Conversions, adjustments...
     public static CivilTriple FromDaysSinceEpoch(int daysSinceEpoch)
     {
         DaysValidator.Validate(daysSinceEpoch);
-        var ymd = Schema.GetDateParts(daysSinceEpoch);
+        var ymd = s_Schema.GetDateParts(daysSinceEpoch);
         return new CivilTriple(ymd);
     }
 
@@ -120,7 +118,7 @@ public partial struct CivilTriple // Conversions, adjustments...
     public int CountDaysSinceEpoch()
     {
         var (y, m, d) = _bin;
-        return Schema.CountDaysSinceEpoch(y, m, d);
+        return s_Schema.CountDaysSinceEpoch(y, m, d);
     }
 
     #region Counting
@@ -129,14 +127,14 @@ public partial struct CivilTriple // Conversions, adjustments...
     public int CountElapsedDaysInYear()
     {
         var (y, m, d) = _bin;
-        return Schema.CountDaysInYearBefore(y, m, d);
+        return s_Schema.CountDaysInYearBefore(y, m, d);
     }
 
     [Pure]
     public int CountRemainingDaysInYear()
     {
         var (y, m, d) = _bin;
-        return Schema.CountDaysInYearAfter(y, m, d);
+        return s_Schema.CountDaysInYearAfter(y, m, d);
     }
 
     [Pure]
@@ -146,7 +144,7 @@ public partial struct CivilTriple // Conversions, adjustments...
     public int CountRemainingDaysInMonth()
     {
         var (y, m, d) = _bin;
-        return Schema.CountDaysInMonthAfter(y, m, d);
+        return s_Schema.CountDaysInMonthAfter(y, m, d);
     }
 
     #endregion
@@ -206,18 +204,14 @@ public partial struct CivilTriple // Math ops
 #pragma warning restore CA2225
 
     [Pure]
-    public int CountDaysSince(CivilTriple other) =>
-        Arithmetic.CountDaysBetween(other._bin, _bin);
+    public int CountDaysSince(CivilTriple other) => Arithmetic.CountDaysBetween(other._bin, _bin);
 
     [Pure]
-    public CivilTriple PlusDays(int days) =>
-        new(Arithmetic.AddDays(_bin, days));
+    public CivilTriple PlusDays(int days) => new(Arithmetic.AddDays(_bin, days));
 
     [Pure]
-    public CivilTriple NextDay() =>
-        new(Arithmetic.NextDay(_bin));
+    public CivilTriple NextDay() => new(Arithmetic.NextDay(_bin));
 
     [Pure]
-    public CivilTriple PreviousDay() =>
-        new(Arithmetic.PreviousDay(_bin));
+    public CivilTriple PreviousDay() => new(Arithmetic.PreviousDay(_bin));
 }

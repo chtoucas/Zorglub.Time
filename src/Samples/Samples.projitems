@@ -10,12 +10,12 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)CalendarZoo.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)DateTriple.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)DateTemplate.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MyDate.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MyCivilDate.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Folklore.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CivilParts.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CivilTriple.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)CalendarTemplate.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MyCivilCalendar.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MyNakedCalendar.cs" />
   </ItemGroup>
 </Project>

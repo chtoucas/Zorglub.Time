@@ -25,7 +25,7 @@ internal static class My
     // MinMaxYear calendars.
     //
 
-    public static readonly MinMaxYearCalendar NakedGregorian =
+    public static readonly MinMaxYearCalendar NakedCivil =
         (from x in CivilSchema.GetInstance()
          select MinMaxYearCalendar.WithMinYear("Gregorian", x, DayZero.NewStyle, 1)
          ).Unbox();

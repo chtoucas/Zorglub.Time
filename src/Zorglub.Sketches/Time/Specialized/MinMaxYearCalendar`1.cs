@@ -10,13 +10,13 @@ namespace Zorglub.Time.Specialized
     using Zorglub.Time.Hemerology;
     using Zorglub.Time.Hemerology.Scopes;
 
-    // TODO(code): each time we call TDate.FromDayNumber() we re-validate the
-    // input, which is very unefficient.
+    // REVIEW(code): each time we call TDate.FromDayNumber() we re-validate the
+    // input, which is very unefficient. Can we change that?
 
-    public class SpecializedCalendar<TDate> : BasicCalendar, ICalendar<TDate>
+    public class MinMaxYearCalendar<TDate> : BasicCalendar, ICalendar<TDate>
         where TDate : IFixedDay<TDate>
     {
-        public SpecializedCalendar(string name, CalendarScope scope) : base(name, scope)
+        public MinMaxYearCalendar(string name, CalendarScope scope) : base(name, scope)
         {
             if (scope.IsComplete == false) Throw.Argument(nameof(scope));
         }
@@ -59,13 +59,12 @@ namespace Zorglub.Time.Specialized
         {
             SupportedYears.Validate(year);
 
-            var epoch = Epoch;
             int startOfYear = Schema.GetStartOfYear(year);
             int daysInYear = Schema.CountDaysInYear(year);
 
             return from daysSinceEpoch
                    in Enumerable.Range(startOfYear, daysInYear)
-                   select TDate.FromDayNumber(epoch + daysSinceEpoch);
+                   select TDate.FromDayNumber(Epoch + daysSinceEpoch);
         }
 
         /// <inheritdoc/>
@@ -74,13 +73,12 @@ namespace Zorglub.Time.Specialized
         {
             Scope.ValidateYearMonth(year, month);
 
-            var epoch = Epoch;
             int startOfMonth = Schema.GetStartOfMonth(year, month);
             int daysInMonth = Schema.CountDaysInMonth(year, month);
 
             return from daysSinceEpoch
                    in Enumerable.Range(startOfMonth, daysInMonth)
-                   select TDate.FromDayNumber(epoch + daysSinceEpoch);
+                   select TDate.FromDayNumber(Epoch + daysSinceEpoch);
         }
 
         /// <inheritdoc/>
