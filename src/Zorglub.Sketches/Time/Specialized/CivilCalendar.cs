@@ -22,7 +22,8 @@ namespace Zorglub.Time.Specialized
     {
         public CivilCalendar() : this(new CivilSchema()) { }
 
-        public CivilCalendar(CivilSchema schema)
+        // Constructor for CivilDate.
+        internal CivilCalendar(CivilSchema schema)
             : base("Gregorian", new StandardScope(schema, DayZero.NewStyle)) { }
 
         //
