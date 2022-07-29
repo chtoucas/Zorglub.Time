@@ -6,6 +6,8 @@ Naming: ident, id, cuid
 Adjustable dates
 Replace CivilPrototype by CivilDate
 Today and UtcToday <- time provider
+Calendar<TDate> & Date: Min/MaxXXX and new prop Epoch (as a Date not a DayNumber,
+maybe use Origin to avoid confusion).
 
 - Math:
   * Optimize div in N / uint in enum comp / ulong?
