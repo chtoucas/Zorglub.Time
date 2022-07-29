@@ -17,6 +17,8 @@ namespace Zorglub.Time.Hemerology
     {
         public MinMaxYearCalendar(string name, CalendarScope scope) : base(name, scope)
         {
+            Debug.Assert(scope != null);
+
             if (scope.IsComplete == false) Throw.Argument(nameof(scope));
         }
 

@@ -12,10 +12,20 @@ namespace Zorglub.Time.Specialized
     using Zorglub.Time.Hemerology;
     using Zorglub.Time.Hemerology.Scopes;
 
+    /// <summary>
+    /// Represents the Julian calendar.
+    /// <para>This class cannot be inherited.</para>
+    /// </summary>
     public sealed class JulianCalendar : BasicCalendar, ICalendar<JulianDate>
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="JulianCalendar"/> class.
+        /// </summary>
         public JulianCalendar() : this(new JulianSchema()) { }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="JulianCalendar"/> class.
+        /// </summary>
         // Constructor for JulianDate.
         internal JulianCalendar(JulianSchema schema)
             : base("Julian", MinMaxYearScope.WithMaximalRange(schema, DayZero.OldStyle)) { }

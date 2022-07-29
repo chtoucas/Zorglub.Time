@@ -13,6 +13,10 @@ namespace Zorglub.Time.Specialized
     // Use JulianFormulae?
     // CountDaysSince(JulianDate other) checked context or not?
 
+    /// <summary>
+    /// Represents the Julian date.
+    /// <para><see cref="JulianDate"/> is an immutable struct.</para>
+    /// </summary>
     public readonly partial struct JulianDate :
         IDate<JulianDate>,
         //IYearEndpointsProvider<JulianDate>,
