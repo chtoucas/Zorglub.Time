@@ -100,7 +100,7 @@ public class TodayBenchmark
     [Benchmark(Description = "ZDate     ")]
     public (int, int, int, DayOfWeek) WithZDate()
     {
-        ZDate today = ZCalendar.Gregorian.Today();
+        ZDate today = ZDate.Today();
         var (y, m, d) = today;
 
         return (y, m, d, today.DayOfWeek);

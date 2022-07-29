@@ -5,7 +5,6 @@ SupportedYearsTester
 Naming: ident, id, cuid
 Adjustable dates
 Replace CivilPrototype by CivilDate
-When Epoch = DayZero.NewStyle, we don't need to subtract Epoch.
 Today and UtcToday <- time provider
 
 - Math:

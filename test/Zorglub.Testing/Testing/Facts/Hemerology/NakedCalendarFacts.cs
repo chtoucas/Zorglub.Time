@@ -8,7 +8,7 @@ using System.Linq;
 #endif
 
 using Zorglub.Testing.Data;
-using Zorglub.Time.Hemerology;
+using Zorglub.Time.Hemerology.Naked;
 
 // TODO(fact): should derive from ICalendarTFacts.
 

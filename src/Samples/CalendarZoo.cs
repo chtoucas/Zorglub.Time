@@ -11,6 +11,7 @@ using Zorglub.Time;
 using Zorglub.Time.Core;
 using Zorglub.Time.Core.Schemas;
 using Zorglub.Time.Hemerology;
+using Zorglub.Time.Hemerology.Naked;
 using Zorglub.Time.Hemerology.Scopes;
 using Zorglub.Time.Simple;
 
@@ -306,7 +307,7 @@ public partial class CalendarZoo
     }
 }
 
-// Offset calendars of type ZCalendar.
+// Offseted calendars of type ZCalendar.
 // - Holocene
 // - Minguo
 // - ThaiSolar

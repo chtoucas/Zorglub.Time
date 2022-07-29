@@ -1,13 +1,12 @@
 ﻿// SPDX-License-Identifier: BSD-3-Clause
 // Copyright (c) 2020 Narvalo.Org. All rights reserved.
 
-namespace Zorglub.Time.Specialized
+namespace Zorglub.Time.Hemerology
 {
     using System.Collections.Generic;
     using System.Diagnostics.Contracts;
     using System.Linq;
 
-    using Zorglub.Time.Hemerology;
     using Zorglub.Time.Hemerology.Scopes;
 
     // REVIEW(code): each time we call TDate.FromDayNumber() we re-validate the
