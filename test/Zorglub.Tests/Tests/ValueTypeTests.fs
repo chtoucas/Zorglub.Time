@@ -9,7 +9,6 @@ open System.Runtime.InteropServices
 open Zorglub.Testing
 open Zorglub.Testing.Data
 
-open Zorglub.Bulgroz
 open Zorglub.Time
 open Zorglub.Time.Core
 open Zorglub.Time.Core.Intervals
@@ -105,7 +104,6 @@ module RuntimeSizes =
     let ``Types in Zorglub.Time.Hemerology`` () =
         // Zorglub.Sketches
         Marshal.SizeOf(typedefof<CivilDate>) === 4
-        Marshal.SizeOf(typedefof<CivilPrototype>) === 4
         Marshal.SizeOf(typedefof<GregorianDate>) === 4
         Marshal.SizeOf(typedefof<ZDate>) === 8
 
@@ -124,6 +122,11 @@ module RuntimeSizes =
         Marshal.SizeOf(typedefof<OrdinalDate>) === 4
         // Zorglub.Sketches
         Marshal.SizeOf(typedefof<CalendarWeek>) === 4
+
+    [<Fact>]
+    let ``Types in Zorglub.Bulgroz`` () =
+        // Zorglub.Sketches
+        Marshal.SizeOf(typedefof<Zorglub.Bulgroz.CivilDate>) === 4
 
     // TODO(code): add tests for the data types defined within THIS project.
     [<Fact>]
@@ -363,13 +366,6 @@ module DefaultValues =
         (y, m, d) === (1, 1, 1)
 
     [<Fact>]
-    let ``Default value of CivilPrototype is 01/01/0001 (Gregorian-only)`` () =
-        let date = Unchecked.defaultof<CivilPrototype>
-        let y, m, d = date.Deconstruct()
-
-        (y, m, d) === (1, 1, 1)
-
-    [<Fact>]
     let ``Default value of GregorianDate is 01/01/0001 (Gregorian-only)`` () =
         let date = Unchecked.defaultof<GregorianDate>
         let y, m, d = date.Deconstruct()
@@ -404,3 +400,14 @@ module DefaultValues =
         time === TimeOfDay64.Midnight
         (h, m, s, ms) === (0, 0, 0, 0)
         time.Nanosecond === 0
+
+    //
+    // Date types found in Zorglub.Bulgroz
+    //
+
+    [<Fact>]
+    let ``Default value of Zorglub.Bulgroz.CivilDate is 01/01/0001 (Gregorian-only)`` () =
+        let date = Unchecked.defaultof<Zorglub.Bulgroz.CivilDate>
+        let y, m, d = date.Deconstruct()
+
+        (y, m, d) === (1, 1, 1)

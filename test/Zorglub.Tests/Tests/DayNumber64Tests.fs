@@ -717,6 +717,6 @@ module Postlude =
     [<Fact>]
     [<TestPerformance(TestPerformance.SlowUnit)>]
     [<TestExcludeFrom(TestExcludeFrom.CodeCoverage)>]
-    let ``Deep comparison between DayNumber64 and CivilPrototype`` () =
+    let ``Deep comparison between DayNumber64 and CivilDate`` () =
         // NB: both start on Monday January 1, 1 (CE).
         compareTypes DayNumber64.Zero CivilDate.MinValue |> Assert.True

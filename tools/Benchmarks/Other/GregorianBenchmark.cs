@@ -7,7 +7,6 @@ using NodaTime;
 
 using Samples;
 
-using Zorglub.Bulgroz;
 using Zorglub.Time;
 using Zorglub.Time.Hemerology;
 using Zorglub.Time.Simple;
@@ -31,7 +30,7 @@ Intel Core i7-4500U CPU 1.80GHz (Haswell), 1 CPU, 4 logical and 2 physical cores
 |    'MyCivilDate      +' |  57.18 ns | 0.182 ns | 0.170 ns |  1.55 |    0.01 |  VII |
 |    'CalendarDay       ' |  61.52 ns | 0.217 ns | 0.169 ns |  1.67 |    0.01 | VIII |
 |          'ZDate       ' |  61.54 ns | 0.237 ns | 0.210 ns |  1.67 |    0.01 | VIII |
-| 'CivilPrototype  (Yg)+' |  64.52 ns | 0.390 ns | 0.365 ns |  1.75 |    0.01 |   IX |
+|      'CivilDate  (Yg)+' |  64.52 ns | 0.390 ns | 0.365 ns |  1.75 |    0.01 |   IX |
 |    'Naked Civil      +' |  64.93 ns | 0.618 ns | 0.483 ns |  1.76 |    0.02 |   IX |
 |    'OrdinalDate  (O)  ' |  76.96 ns | 0.168 ns | 0.131 ns |  2.09 |    0.01 |    X |
 |    'CivilTriple  (Y) +' |  86.50 ns | 0.469 ns | 0.438 ns |  2.35 |    0.02 |   XI |
@@ -54,7 +53,7 @@ Intel Core2 Duo CPU E8500 3.16GHz, 1 CPU, 2 logical and 2 physical cores
 |     'MyCivilDate      +' |  66.16 ns | 0.415 ns | 0.388 ns |  1.18 |    0.01 |    V |
 |       'DayNumber   (g) ' |  66.63 ns | 0.026 ns | 0.020 ns |  1.19 |    0.00 |    V |
 |     'CalendarDay       ' |  85.37 ns | 0.151 ns | 0.142 ns |  1.52 |    0.00 |   VI |
-|  'CivilPrototype  (Yg)+' |  86.92 ns | 0.172 ns | 0.161 ns |  1.55 |    0.00 |  VII |
+|       'CivilDate  (Yg)+' |  86.92 ns | 0.172 ns | 0.161 ns |  1.55 |    0.00 |  VII |
 |     'Naked Civil      +' |  87.12 ns | 0.075 ns | 0.070 ns |  1.55 |    0.00 |  VII |
 |           'ZDate       ' |  91.32 ns | 0.631 ns | 0.590 ns |  1.63 |    0.01 | VIII |
 |     'OrdinalDate  (O)  ' | 104.29 ns | 0.079 ns | 0.074 ns |  1.86 |    0.00 |   IX |
@@ -78,8 +77,8 @@ Intel Core2 Duo CPU E8500 3.16GHz, 1 CPU, 2 logical and 2 physical cores
 //   Y/M/D representation, therefore DayNumber, DateTime and other types are
 //   favoured. By the way, these types have predictable performances,
 //   their results do not vary depending on the input.
-// - CivilDate, CivilPrototype, MyCivilDate, MyDate, DateOnly and DateTime only
-//   deal with positive years (faster divisions).
+// - CivilDate, MyCivilDate, MyDate, DateOnly and DateTime only deal with
+//   positive years (faster divisions).
 // - LocalDate caches the start of the year.
 // - DateTime is a time object, not a date object.
 // - With DayNumber and DayNumber64, we only validate the result twice (at
@@ -261,11 +260,11 @@ public class GregorianBenchmark : BenchmarkBase
     #endregion
     #region Specialized date types
 
-    [Benchmark(Description = "CivilPrototype  (Yg)+")]
-    public void WithCivilPrototype()
+    [Benchmark(Description = "CivilDate  (Yg)+")]
+    public void WithBulgrozCivilDate()
     {
-        CivilPrototype start = new(Year, Month, Day);
-        CivilPrototype end = start.NextDay().PlusDays(D7).PlusDays(D30).PlusDays(D401);
+        Zorglub.Bulgroz.CivilDate start = new(Year, Month, Day);
+        Zorglub.Bulgroz.CivilDate end = start.NextDay().PlusDays(D7).PlusDays(D30).PlusDays(D401);
 
         var (y, m, d) = end;
         DayOfWeek dayOfWeek = end.DayOfWeek;

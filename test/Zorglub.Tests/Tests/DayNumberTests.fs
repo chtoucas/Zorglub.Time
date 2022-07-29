@@ -26,7 +26,7 @@ open type Zorglub.Time.Extensions.DayNumberExtensions
 
 // SYNC WITH DayNumber64Tests.
 
-// TODO(code): we use both CivilPrototype and CalendarDate, we should should between the two!
+// TODO(code): we use both CivilDate and CalendarDate, we should should between the two!
 
 /// Convert one (Gregorian) Yemoda to a DayNumber.
 /// This function does NOT verify that x represents a valid Gregorian triple.
@@ -909,6 +909,6 @@ module Postlude =
     [<Fact>]
     [<TestPerformance(TestPerformance.SlowUnit)>]
     [<TestExcludeFrom(TestExcludeFrom.CodeCoverage)>]
-    let ``Deep comparison between DayNumber and CivilPrototype`` () =
+    let ``Deep comparison between DayNumber and CivilDate`` () =
         // NB: both start on Monday January 1, 1 (CE).
         compareTypes DayNumber.Zero CivilDate.MinValue |> Assert.True

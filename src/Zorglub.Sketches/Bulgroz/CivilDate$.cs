@@ -7,7 +7,7 @@ namespace Zorglub.Bulgroz
     using System.Text;
 
     /// <summary>
-    /// Provides extension methods for <see cref="CivilPrototype"/>.
+    /// Provides extension methods for <see cref="CivilDate"/>.
     /// <para>This class cannot be inherited.</para>
     /// </summary>
     public static partial class CivilDateExtensions { }
@@ -15,7 +15,7 @@ namespace Zorglub.Bulgroz
     public partial class CivilDateExtensions
     {
         [Pure]
-        public static bool IsUnluckyFriday(this CivilPrototype @this) =>
+        public static bool IsUnluckyFriday(this CivilDate @this) =>
             @this.Day == 13 && @this.DayOfWeek == DayOfWeek.Friday;
     }
 
@@ -27,7 +27,7 @@ namespace Zorglub.Bulgroz
         /// previous ISO year.</para>
         /// </summary>
         [Pure]
-        public static int GetIsoWeekOfYear(this CivilPrototype @this)
+        public static int GetIsoWeekOfYear(this CivilDate @this)
         {
             // TODO: dates near the end of the year. Which number to return
             // when we are near the boundary of a year and the week does not
@@ -37,7 +37,7 @@ namespace Zorglub.Bulgroz
             // When done, make it a property then make the method
             // GetIsoDayOfWeekAtStartOfYear() private.
 
-            uint dow = CivilPrototype.GetIsoDayOfWeekAtStartOfYear(@this.Year);
+            uint dow = CivilDate.GetIsoDayOfWeekAtStartOfYear(@this.Year);
             uint weekOfYear = ((uint)@this.DayOfYear + 5 + dow) / 7;
             // The first week must have at least 4 days.
             return (int)(dow > 4 ? weekOfYear - 1 : weekOfYear);
@@ -47,12 +47,12 @@ namespace Zorglub.Bulgroz
         /// Obtains the nearest date that falls on the specified day of the week.
         /// <para>Near the calendar boundaries, we do NOT throw an overflow
         /// exception, we return the nearest date within the calendar boundaries.</para>
-        /// <para>See also <seealso cref="CivilPrototype.Nearest(DayOfWeek)"/>.</para>
+        /// <para>See also <seealso cref="CivilDate.Nearest(DayOfWeek)"/>.</para>
         /// </summary>
         /// <exception cref="AoorException"><paramref name="dayOfWeek"/> is not
         /// a valid day of the week.</exception>
         [Pure]
-        public static CivilPrototype NearestSafe(this CivilPrototype @this, DayOfWeek dayOfWeek)
+        public static CivilDate NearestSafe(this CivilDate @this, DayOfWeek dayOfWeek)
         {
             // Quand on aura décidé quoi faire de cette méthode, repasser en
             // "private" les éléments  suivants : DaysSinceEpoch,
@@ -64,16 +64,16 @@ namespace Zorglub.Bulgroz
             // REVIEW: voir si les tests correspondent à ce que j'avance...
             int daysSinceEpoch = @this.DaysSinceEpoch + 3;
             daysSinceEpoch -= MathZ.Modulo(daysSinceEpoch + (DayOfWeek.Monday - dayOfWeek), 7);
-            if (daysSinceEpoch > CivilPrototype.MaxDaysSinceEpoch)
+            if (daysSinceEpoch > CivilDate.MaxDaysSinceEpoch)
             {
                 daysSinceEpoch -= 7;
             }
-            else if (daysSinceEpoch < CivilPrototype.MinDaysSinceEpoch)
+            else if (daysSinceEpoch < CivilDate.MinDaysSinceEpoch)
             {
                 daysSinceEpoch += 7;
             }
 
-            return CivilPrototype.FromDaysSinceEpoch(daysSinceEpoch);
+            return CivilDate.FromDaysSinceEpoch(daysSinceEpoch);
         }
     }
 
@@ -86,7 +86,7 @@ namespace Zorglub.Bulgroz
         [Pure]
         [ExcludeFromCodeCoverage]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public static string FormatBinary(this CivilPrototype @this)
+        public static string FormatBinary(this CivilDate @this)
         {
             int bin = @this.ToBinary();
             char[] c = Convert.ToString(bin, 2).ToCharArray();

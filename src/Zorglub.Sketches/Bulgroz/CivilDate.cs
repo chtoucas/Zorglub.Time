@@ -4,7 +4,6 @@
 //#define CIVILPROTOTYPE_PLAIN_DAYOFWEEK
 
 // Optimised Gregorian date type. Useful for performance testing.
-// !!! DO NOT USE otherwise !!!
 
 // We restrict dates to years in the range from 1 to 9999, nevertheless all
 // formulae give a meaningful result even for years less than 0, but only if we
@@ -46,15 +45,15 @@ namespace Zorglub.Bulgroz
 
     /// <summary>
     /// Represents a date within the non-proleptic (but retropolated) Gregorian calendar.
-    /// <para><see cref="CivilPrototype"/> is an immutable struct.</para>
+    /// <para><see cref="CivilDate"/> is an immutable struct.</para>
     /// </summary>
     [DebuggerDisplay("{" + nameof(DebuggerDisplay) + ",nq}")]
-    public readonly partial struct CivilPrototype :
-        IDate<CivilPrototype>,
-        IAdjustableDate<CivilPrototype>,
-        IYearEndpointsProvider<CivilPrototype>,
-        IMonthEndpointsProvider<CivilPrototype>,
-        IMinMaxValue<CivilPrototype>
+    public readonly partial struct CivilDate :
+        IDate<CivilDate>,
+        IAdjustableDate<CivilDate>,
+        IYearEndpointsProvider<CivilDate>,
+        IMonthEndpointsProvider<CivilDate>,
+        IMinMaxValue<CivilDate>
     {
         /// <summary>
         /// Represents the smallest possible value of the number of consecutive days since the epoch
@@ -100,12 +99,12 @@ namespace Zorglub.Bulgroz
         private readonly int _bin;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="CivilPrototype"/> struct from the specified year,
+        /// Initializes a new instance of the <see cref="CivilDate"/> struct from the specified year,
         /// month and day.
         /// </summary>
         /// <exception cref="AoorException">The specified date parts do not form a valid Gregorian
         /// date within the Common Era on or before year 9999.</exception>
-        public CivilPrototype(int year, int month, int day)
+        public CivilDate(int year, int month, int day)
         {
             if (year < MinYear || year > MaxYear) Throw.ArgumentOutOfRange(nameof(year));
             if (month < 1 || month > 12) Throw.ArgumentOutOfRange(nameof(month));
@@ -121,12 +120,12 @@ namespace Zorglub.Bulgroz
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="CivilPrototype"/> struct directly from the
+        /// Initializes a new instance of the <see cref="CivilDate"/> struct directly from the
         /// specified binary data.
         /// <para>This constructor does NOT validate its parameter.</para>
         /// <para>See also <seealso cref="Pack(int, int, int)"/>.</para>
         /// </summary>
-        private CivilPrototype(int bin)
+        private CivilDate(int bin)
         {
             DebugCheckBinaryData(bin);
             _bin = bin;
@@ -146,18 +145,18 @@ namespace Zorglub.Bulgroz
             Range.Create(Epoch + MinDaysSinceEpoch, Epoch + MaxDaysSinceEpoch);
 
         /// <summary>
-        /// Gets the earliest date supported by the <see cref="CivilPrototype"/> type: Monday, January
+        /// Gets the earliest date supported by the <see cref="CivilDate"/> type: Monday, January
         /// 1st, 1 CE.
         /// <para>This static property is thread-safe.</para>
         /// </summary>
-        public static CivilPrototype MinValue { get; } = new(MinYear, 1, 1);
+        public static CivilDate MinValue { get; } = new(MinYear, 1, 1);
 
         /// <summary>
-        /// Gets the latest date supported by the <see cref="CivilPrototype"/> type: Friday, December 31,
+        /// Gets the latest date supported by the <see cref="CivilDate"/> type: Friday, December 31,
         /// 9999 CE.
         /// <para>This static property is thread-safe.</para>
         /// </summary>
-        public static CivilPrototype MaxValue { get; } = new(MaxYear, 12, 31);
+        public static CivilDate MaxValue { get; } = new(MaxYear, 12, 31);
 
         /// <inheritdoc />
         public Ord CenturyOfEra => Ord.FromInt32(Century);
@@ -317,29 +316,29 @@ namespace Zorglub.Bulgroz
         /// Obtains the current date on this machine, expressed in local time, not UTC.
         /// </summary>
         [Pure]
-        public static CivilPrototype Today()
+        public static CivilDate Today()
         {
             var now = DateTime.Now;
-            return new CivilPrototype(Pack(now.Year, now.Month, now.Day));
+            return new CivilDate(Pack(now.Year, now.Month, now.Day));
         }
 
         /// <summary>
         /// Obtains the current date on this machine, expressed as UTC.
         /// </summary>
         [Pure]
-        public static CivilPrototype UtcToday()
+        public static CivilDate UtcToday()
         {
             var now = DateTime.UtcNow;
-            return new CivilPrototype(Pack(now.Year, now.Month, now.Day));
+            return new CivilDate(Pack(now.Year, now.Month, now.Day));
         }
 
         /// <summary>
-        /// Creates a new instance of <see cref="CivilPrototype"/> from the specified ordinal date.
+        /// Creates a new instance of <see cref="CivilDate"/> from the specified ordinal date.
         /// </summary>
         /// <exception cref="AoorException">The specified ordinal date parts do not form a valid
         /// Gregorian date within the Common Era on or before year 9999.</exception>
         [Pure]
-        public static CivilPrototype FromOrdinalDate(int year, int dayOfYear)
+        public static CivilDate FromOrdinalDate(int year, int dayOfYear)
         {
             if (year < MinYear || year > MaxYear) Throw.ArgumentOutOfRange(nameof(year));
             if (dayOfYear < 1
@@ -353,23 +352,23 @@ namespace Zorglub.Bulgroz
         }
 
         /// <summary>
-        /// Creates a new instance of <see cref="CivilPrototype"/> from the specified number of
+        /// Creates a new instance of <see cref="CivilDate"/> from the specified number of
         /// consecutive days since the epoch of the Gregorian calendar.
         /// <para>This method does NOT validate its parameter.</para>
         /// </summary>
         [Pure]
-        internal static CivilPrototype FromDaysSinceEpoch(int daysSinceEpoch)
+        internal static CivilDate FromDaysSinceEpoch(int daysSinceEpoch)
         {
             CivilFormulae.GetDateParts(daysSinceEpoch, out int y, out int m, out int d);
             return new(Pack(y, m, d));
         }
 
         /// <summary>
-        /// Creates a new instance of <see cref="CivilPrototype"/> from the specified ordinal date.
+        /// Creates a new instance of <see cref="CivilDate"/> from the specified ordinal date.
         /// <para>This method does NOT validate its parameter.</para>
         /// </summary>
         [Pure]
-        private static CivilPrototype FromOrdinalDateImpl(int y, int doy)
+        private static CivilDate FromOrdinalDateImpl(int y, int doy)
         {
             if (doy < 60)
             {
@@ -394,7 +393,7 @@ namespace Zorglub.Bulgroz
         }
     }
 
-    public partial struct CivilPrototype // Binary data helpers
+    public partial struct CivilDate // Binary data helpers
     {
         private const int MonthMask = (1 << 4) - 1;
         private const int DayMask = (1 << 5) - 1;
@@ -408,12 +407,12 @@ namespace Zorglub.Bulgroz
 
         /// <summary>
         /// Deserializes a 32-bit binary value and recreates the original
-        /// serialized <see cref="CivilPrototype"/> object.
+        /// serialized <see cref="CivilDate"/> object.
         /// </summary>
         /// <exception cref="ArgumentException">The specified binary data is
         /// not well-formed.</exception>
         [Pure]
-        public static CivilPrototype FromBinary(int data)
+        public static CivilDate FromBinary(int data)
         {
             ValidateBinaryData(data);
             return new(data);
@@ -425,7 +424,7 @@ namespace Zorglub.Bulgroz
 
         /// <summary>
         /// Serializes the current instance to a 32-bit binary value that
-        /// subsequently can be used to recreate the <see cref="CivilPrototype"/>
+        /// subsequently can be used to recreate the <see cref="CivilDate"/>
         /// object using <see cref="FromBinary(int)"/>.
         /// </summary>
         [Pure]
@@ -513,7 +512,7 @@ namespace Zorglub.Bulgroz
 
     // NB: All static methods taken from GregorianSchema do work "optimally"
     // with positive years.
-    public partial struct CivilPrototype // Static helpers
+    public partial struct CivilDate // Static helpers
     {
         /// <summary>
         /// Obtains the ISO day of the week of the first day of the specified
@@ -523,7 +522,7 @@ namespace Zorglub.Bulgroz
         internal static uint GetIsoDayOfWeekAtStartOfYear(int y)
         {
 #if CIVILPROTOTYPE_PLAIN_DAYOFWEEK
-            var startOfYear = new CivilPrototype((y << 9) | __StartOfYear);
+            var startOfYear = new CivilDate((y << 9) | __StartOfYear);
             return (uint)startOfYear.IsoDayOfWeek;
 #else
             // Calculation of IsoDayOfWeek with m = d = 1.
@@ -557,16 +556,16 @@ namespace Zorglub.Bulgroz
         }
     }
 
-    public partial struct CivilPrototype // Conversions, adjustments...
+    public partial struct CivilDate // Conversions, adjustments...
     {
         /// <summary>
-        /// Creates a new instance of <see cref="CivilPrototype"/> from the
+        /// Creates a new instance of <see cref="CivilDate"/> from the
         /// specified day number.
         /// </summary>
         /// <exception cref="AoorException"><paramref name="dayNumber"/> is outside the range of
         /// supported values.</exception>
         [Pure]
-        public static CivilPrototype FromDayNumber(DayNumber dayNumber)
+        public static CivilDate FromDayNumber(DayNumber dayNumber)
         {
             Domain.Validate(dayNumber);
             return FromDaysSinceEpoch(dayNumber - Epoch);
@@ -577,11 +576,11 @@ namespace Zorglub.Bulgroz
         public DayNumber ToDayNumber() => Epoch + DaysSinceEpoch;
 
         /// <summary>
-        /// Creates a new instance of <see cref="CivilPrototype"/> from the
+        /// Creates a new instance of <see cref="CivilDate"/> from the
         /// specified <see cref="DateTime"/> object.
         /// </summary>
         [Pure]
-        public static CivilPrototype FromDateTime(DateTime date) =>
+        public static CivilDate FromDateTime(DateTime date) =>
             new(date.Year, date.Month, date.Day);
 
         /// <summary>
@@ -626,22 +625,22 @@ namespace Zorglub.Bulgroz
         #region Year and month boundaries
 
         [Pure]
-        public static CivilPrototype GetStartOfYear(CivilPrototype day) =>
+        public static CivilDate GetStartOfYear(CivilDate day) =>
             new(((day.Year - 1) << 9) | __StartOfYear);
 
         [Pure]
-        public static CivilPrototype GetEndOfYear(CivilPrototype day) =>
+        public static CivilDate GetEndOfYear(CivilDate day) =>
             new(((day.Year - 1) << 9) | __EndOfYear);
 
         [Pure]
-        public static CivilPrototype GetStartOfMonth(CivilPrototype day)
+        public static CivilDate GetStartOfMonth(CivilDate day)
         {
             day.Unpack(out int y, out int m, out _);
             return new(Pack(y, m, 1));
         }
 
         [Pure]
-        public static CivilPrototype GetEndOfMonth(CivilPrototype day)
+        public static CivilDate GetEndOfMonth(CivilDate day)
         {
             day.Unpack(out int y, out int m, out _);
             int d = GregorianFormulae.CountDaysInMonth(y, m);
@@ -653,13 +652,13 @@ namespace Zorglub.Bulgroz
 
         /// <inheritdoc/>
         [Pure]
-        public CivilPrototype Adjust(Func<DateParts, DateParts> adjuster)
+        public CivilDate Adjust(Func<DateParts, DateParts> adjuster)
         {
             Requires.NotNull(adjuster);
 
             Unpack(out int y, out int m, out int d);
             var (y1, m1, d1) = adjuster.Invoke(new DateParts(y, m, d));
-            return new CivilPrototype(y1, m1, d1);
+            return new CivilDate(y1, m1, d1);
         }
 
         /// <summary>
@@ -670,7 +669,7 @@ namespace Zorglub.Bulgroz
         /// Gregorian date within the Common Era on or before year 9999.
         /// </exception>
         [Pure]
-        public CivilPrototype WithYear(int newYear)
+        public CivilDate WithYear(int newYear)
         {
             if (newYear < MinYear || newYear > MaxYear)
             {
@@ -694,7 +693,7 @@ namespace Zorglub.Bulgroz
         /// Gregorian date within the Common Era on or before year 9999.
         /// </exception>
         [Pure]
-        public CivilPrototype WithMonth(int newMonth)
+        public CivilDate WithMonth(int newMonth)
         {
             if (newMonth < 1 || newMonth > 12)
             {
@@ -720,7 +719,7 @@ namespace Zorglub.Bulgroz
         /// Gregorian date within the Common Era on or before year 9999.
         /// </exception>
         [Pure]
-        public CivilPrototype WithDay(int newDay)
+        public CivilDate WithDay(int newDay)
         {
             if (newDay < 1)
             {
@@ -750,11 +749,11 @@ namespace Zorglub.Bulgroz
         //   which is rather optimised for this type of situation.
         // See comments in DayNumberX.
 
-        private static readonly CivilPrototype s_ThreeDaysBeforeMaxValue = MaxValue - 3;
+        private static readonly CivilDate s_ThreeDaysBeforeMaxValue = MaxValue - 3;
 
         /// <inheritdoc />
         [Pure]
-        public CivilPrototype Previous(DayOfWeek dayOfWeek)
+        public CivilDate Previous(DayOfWeek dayOfWeek)
 #if CIVILPROTOTYPE_PLAIN_DAYOFWEEK
             => NextOrSameCore(dayOfWeek, -7);
 #else
@@ -768,7 +767,7 @@ namespace Zorglub.Bulgroz
 
         /// <inheritdoc />
         [Pure]
-        public CivilPrototype PreviousOrSame(DayOfWeek dayOfWeek)
+        public CivilDate PreviousOrSame(DayOfWeek dayOfWeek)
 #if CIVILPROTOTYPE_PLAIN_DAYOFWEEK
             => NextOrSameCore(dayOfWeek, -6);
 #else
@@ -782,7 +781,7 @@ namespace Zorglub.Bulgroz
 
         /// <inheritdoc />
         [Pure]
-        public CivilPrototype Nearest(DayOfWeek dayOfWeek) =>
+        public CivilDate Nearest(DayOfWeek dayOfWeek) =>
             // REVIEW: On convertit en un DayNumber et on utilise la méthode Nearest() ?
             this > s_ThreeDaysBeforeMaxValue
             ? NextOrSameCore(dayOfWeek, -3)
@@ -790,7 +789,7 @@ namespace Zorglub.Bulgroz
 
         /// <inheritdoc />
         [Pure]
-        public CivilPrototype NextOrSame(DayOfWeek dayOfWeek)
+        public CivilDate NextOrSame(DayOfWeek dayOfWeek)
 #if CIVILPROTOTYPE_PLAIN_DAYOFWEEK
             => PreviousOrSameCore(dayOfWeek, 6);
 #else
@@ -804,7 +803,7 @@ namespace Zorglub.Bulgroz
 
         /// <inheritdoc />
         [Pure]
-        public CivilPrototype Next(DayOfWeek dayOfWeek)
+        public CivilDate Next(DayOfWeek dayOfWeek)
 #if CIVILPROTOTYPE_PLAIN_DAYOFWEEK
             => PreviousOrSameCore(dayOfWeek, 7);
 #else
@@ -817,7 +816,7 @@ namespace Zorglub.Bulgroz
 #endif
 
         [Pure]
-        private CivilPrototype PreviousOrSameCore(DayOfWeek dayOfWeek, int dayShift)
+        private CivilDate PreviousOrSameCore(DayOfWeek dayOfWeek, int dayShift)
         {
             Debug.Assert(dayShift >= 3);
             Requires.Defined(dayOfWeek);
@@ -833,7 +832,7 @@ namespace Zorglub.Bulgroz
         }
 
         [Pure]
-        private CivilPrototype NextOrSameCore(DayOfWeek dayOfWeek, int dayShift)
+        private CivilDate NextOrSameCore(DayOfWeek dayOfWeek, int dayShift)
         {
             Debug.Assert(dayShift <= -3);
             Requires.Defined(dayOfWeek);
@@ -851,7 +850,7 @@ namespace Zorglub.Bulgroz
         #endregion
     }
 
-    public partial struct CivilPrototype // Enumerate days in a month or a year
+    public partial struct CivilDate // Enumerate days in a month or a year
     {
         /// <summary>
         /// Obtains the collection of all dates in the specified year.
@@ -859,7 +858,7 @@ namespace Zorglub.Bulgroz
         /// <exception cref="AoorException">The specified year is not in the
         /// range from 1 to 9999.</exception>
         [Pure]
-        public static IEnumerable<CivilPrototype> GetDaysInYear(int year)
+        public static IEnumerable<CivilDate> GetDaysInYear(int year)
         {
             // Check arg eagerly.
             if (year < MinYear || year > MaxYear)
@@ -869,7 +868,7 @@ namespace Zorglub.Bulgroz
 
             return Iterator();
 
-            IEnumerable<CivilPrototype> Iterator()
+            IEnumerable<CivilDate> Iterator()
             {
                 int bY = (year - 1) << 9;
 
@@ -894,7 +893,7 @@ namespace Zorglub.Bulgroz
         /// <exception cref="AoorException">The specified month is not in the
         /// range from 1 to 12.</exception>
         [Pure]
-        public static IEnumerable<CivilPrototype> GetDaysInMonth(int year, int month)
+        public static IEnumerable<CivilDate> GetDaysInMonth(int year, int month)
         {
             // Check args eagerly.
             if (year < MinYear || year > MaxYear)
@@ -908,7 +907,7 @@ namespace Zorglub.Bulgroz
 
             return Iterator();
 
-            IEnumerable<CivilPrototype> Iterator()
+            IEnumerable<CivilDate> Iterator()
             {
                 int bYM = ((year - 1) << 9) | ((month - 1) << 5);
 
@@ -921,94 +920,94 @@ namespace Zorglub.Bulgroz
         }
     }
 
-    public partial struct CivilPrototype // IEquatable
+    public partial struct CivilDate // IEquatable
     {
         /// <summary>
-        /// Determines whether two specified instances of <see cref="CivilPrototype"/>
+        /// Determines whether two specified instances of <see cref="CivilDate"/>
         /// are equal.
         /// </summary>
-        public static bool operator ==(CivilPrototype left, CivilPrototype right) =>
+        public static bool operator ==(CivilDate left, CivilDate right) =>
             left._bin == right._bin;
 
         /// <summary>
-        /// Determines whether two specified instances of <see cref="CivilPrototype"/>
+        /// Determines whether two specified instances of <see cref="CivilDate"/>
         /// are not equal.
         /// </summary>
-        public static bool operator !=(CivilPrototype left, CivilPrototype right) =>
+        public static bool operator !=(CivilDate left, CivilDate right) =>
             left._bin != right._bin;
 
         /// <inheritdoc />
         [Pure]
-        public bool Equals(CivilPrototype other) => _bin == other._bin;
+        public bool Equals(CivilDate other) => _bin == other._bin;
 
         /// <inheritdoc />
         [Pure]
         public override bool Equals([NotNullWhen(true)] object? obj) =>
-            obj is CivilPrototype date && Equals(date);
+            obj is CivilDate date && Equals(date);
 
         /// <inheritdoc />
         [Pure]
         public override int GetHashCode() => _bin;
     }
 
-    public partial struct CivilPrototype // IComparable
+    public partial struct CivilDate // IComparable
     {
         /// <summary>
         /// Compares the two specified date instances to see if the left one is
         /// strictly earlier than the right one.
         /// </summary>
-        public static bool operator <(CivilPrototype left, CivilPrototype right) =>
+        public static bool operator <(CivilDate left, CivilDate right) =>
             left._bin < right._bin;
 
         /// <summary>
         /// Compares the two specified date instances to see if the left one is
         /// earlier than or equal to the right one.
         /// </summary>
-        public static bool operator <=(CivilPrototype left, CivilPrototype right) =>
+        public static bool operator <=(CivilDate left, CivilDate right) =>
             left._bin <= right._bin;
 
         /// <summary>
         /// Compares the two specified date instances to see if the left one is
         /// strictly later than the right one.
         /// </summary>
-        public static bool operator >(CivilPrototype left, CivilPrototype right) =>
+        public static bool operator >(CivilDate left, CivilDate right) =>
             left._bin > right._bin;
 
         /// <summary>
         /// Compares the two specified date instances to see if the left one is
         /// later than or equal to the right one.
         /// </summary>
-        public static bool operator >=(CivilPrototype left, CivilPrototype right) =>
+        public static bool operator >=(CivilDate left, CivilDate right) =>
             left._bin >= right._bin;
 
         /// <summary>
         /// Obtains the earlier date of two specified dates.
         /// </summary>
         [Pure]
-        public static CivilPrototype Min(CivilPrototype x, CivilPrototype y) => x < y ? x : y;
+        public static CivilDate Min(CivilDate x, CivilDate y) => x < y ? x : y;
 
         /// <summary>
         /// Obtains the later date of two specified dates.
         /// </summary>
         [Pure]
-        public static CivilPrototype Max(CivilPrototype x, CivilPrototype y) => x > y ? x : y;
+        public static CivilDate Max(CivilDate x, CivilDate y) => x > y ? x : y;
 
         /// <summary>
         /// Indicates whether this date instance is earlier, later or the same
         /// as the specified one.
         /// </summary>
         [Pure]
-        public int CompareTo(CivilPrototype other) => _bin.CompareTo(other._bin);
+        public int CompareTo(CivilDate other) => _bin.CompareTo(other._bin);
 
         /// <inheritdoc />
         public int CompareTo(object? obj) =>
             obj is null ? 1
-            : obj is CivilPrototype date ? _bin.CompareTo(date._bin)
-            : Throw.NonComparable(typeof(CivilPrototype), obj);
+            : obj is CivilDate date ? _bin.CompareTo(date._bin)
+            : Throw.NonComparable(typeof(CivilDate), obj);
     }
 
     // Standard math ops, those based on the day, the base unit of a calendar.
-    public partial struct CivilPrototype // Standard math ops
+    public partial struct CivilDate // Standard math ops
     {
 #pragma warning disable CA2225 // Operator overloads have named alternates (Usage)
 
@@ -1016,7 +1015,7 @@ namespace Zorglub.Bulgroz
         /// Subtracts the two specified dates and returns the number of days
         /// between them at midnight (0h).
         /// </summary>
-        public static int operator -(CivilPrototype left, CivilPrototype right) =>
+        public static int operator -(CivilDate left, CivilDate right) =>
             left.CountDaysSince(right);
 
         /// <summary>
@@ -1024,7 +1023,7 @@ namespace Zorglub.Bulgroz
         /// </summary>
         /// <exception cref="OverflowException">The operation would overflow the range of supported
         /// dates.</exception>
-        public static CivilPrototype operator +(CivilPrototype value, int days) =>
+        public static CivilDate operator +(CivilDate value, int days) =>
             value.PlusDays(days);
 
         /// <summary>
@@ -1032,7 +1031,7 @@ namespace Zorglub.Bulgroz
         /// </summary>
         /// <exception cref="OverflowException">The operation would overflow the range of supported
         /// dates.</exception>
-        public static CivilPrototype operator -(CivilPrototype value, int days) =>
+        public static CivilDate operator -(CivilDate value, int days) =>
             value.PlusDays(-days);
 
         /// <summary>
@@ -1040,26 +1039,26 @@ namespace Zorglub.Bulgroz
         /// </summary>
         /// <exception cref="OverflowException">The operation would overflow the
         /// latest supported date.</exception>
-        public static CivilPrototype operator ++(CivilPrototype value) => value.NextDay();
+        public static CivilDate operator ++(CivilDate value) => value.NextDay();
 
         /// <summary>
         /// Subtracts one day to the specified date, yielding a new date.
         /// </summary>
         /// <exception cref="OverflowException">The operation would overflow
         /// the earliest supported date.</exception>
-        public static CivilPrototype operator --(CivilPrototype value) => value.PreviousDay();
+        public static CivilDate operator --(CivilDate value) => value.PreviousDay();
 
 #pragma warning restore CA2225
 
         /// <inheritdoc />
         [Pure]
-        public int CountDaysSince(CivilPrototype other) =>
+        public int CountDaysSince(CivilDate other) =>
             ObYearMonth == other.ObYearMonth ? Day - other.Day
             : DaysSinceEpoch - other.DaysSinceEpoch;
 
         /// <inheritdoc />
         [Pure]
-        public CivilPrototype PlusDays(int days)
+        public CivilDate PlusDays(int days)
         {
             // Fast tracks.
             if (-MinDaysInMonth <= days && days <= MinDaysInMonth)
@@ -1084,7 +1083,7 @@ namespace Zorglub.Bulgroz
 
         /// <inheritdoc />
         [Pure]
-        public CivilPrototype NextDay()
+        public CivilDate NextDay()
         {
             Unpack(out int y, out int m, out int d);
 
@@ -1093,23 +1092,23 @@ namespace Zorglub.Bulgroz
                 ? new(Pack(y, m, d + 1))
                 : m < 12 ? new(Pack(y, m + 1, 1))
                 : y < MaxYear ? new((y << 9) | __StartOfYear) // read (y + 1) - 1
-                : Throw.DateOverflow<CivilPrototype>();
+                : Throw.DateOverflow<CivilDate>();
         }
 
         /// <inheritdoc />
         [Pure]
-        public CivilPrototype PreviousDay()
+        public CivilDate PreviousDay()
         {
             Unpack(out int y, out int m, out int d);
 
             return d > 1 ? new(Pack(y, m, d - 1))
                 : m > 1 ? new(Pack(y, m - 1, GregorianFormulae.CountDaysInMonth(y, m - 1)))
                 : y > MinYear ? new(((y - 2) << 9) | __EndOfYear) // read (y - 1) - 1
-                : Throw.DateOverflow<CivilPrototype>();
+                : Throw.DateOverflow<CivilDate>();
         }
 
         [Pure]
-        private CivilPrototype AddDaysViaDayOfMonth(int days)
+        private CivilDate AddDaysViaDayOfMonth(int days)
         {
             Debug.Assert(-MinDaysInMonth <= days);
             Debug.Assert(days <= MinDaysInMonth);
@@ -1151,11 +1150,11 @@ namespace Zorglub.Bulgroz
                 }
             }
 
-            return new CivilPrototype(Pack(y, m, dom));
+            return new CivilDate(Pack(y, m, dom));
         }
 
         [Pure]
-        private CivilPrototype AddDaysViaDayOfYear(int days)
+        private CivilDate AddDaysViaDayOfYear(int days)
         {
             Debug.Assert(days >= -MinDaysInYear);
             Debug.Assert(days <= MinDaysInYear);
@@ -1185,7 +1184,7 @@ namespace Zorglub.Bulgroz
         }
     }
 
-    public partial struct CivilPrototype // More math ops
+    public partial struct CivilDate // More math ops
     {
         /// <summary>
         /// Subtracts the two specified dates and returns the number of years,
@@ -1193,7 +1192,7 @@ namespace Zorglub.Bulgroz
         /// </summary>
         [Pure]
         public static (int Years, int Months, int Days) Subtract(
-            CivilPrototype left, CivilPrototype right)
+            CivilDate left, CivilDate right)
         {
             // At first, I counted the years, then the months and finally the days
             // but this is WRONG because doing so we lose information on the way,
@@ -1251,7 +1250,7 @@ namespace Zorglub.Bulgroz
         /// <exception cref="OverflowException">The operation would overflow either the capacity of
         /// <see cref="Int32"/> or the range of supported dates.</exception>
         [Pure]
-        public static CivilPrototype AddYears(CivilPrototype date, int years, out int cutoff)
+        public static CivilDate AddYears(CivilDate date, int years, out int cutoff)
         {
             int y = checked(date.Year + years);
 
@@ -1268,7 +1267,7 @@ namespace Zorglub.Bulgroz
                 cutoff = 0;
             }
 
-            return new CivilPrototype(((y - 1) << 9) | bMD);
+            return new CivilDate(((y - 1) << 9) | bMD);
         }
 
         /// <summary>
@@ -1283,7 +1282,7 @@ namespace Zorglub.Bulgroz
         /// </code>
         /// </remarks>
         [Pure]
-        public int CountYearsSince(CivilPrototype other)
+        public int CountYearsSince(CivilDate other)
         {
             int y = Year;
             int y0 = other.Year;
@@ -1344,7 +1343,7 @@ namespace Zorglub.Bulgroz
         /// <exception cref="OverflowException">The operation would overflow either the capacity of
         /// <see cref="Int32"/> or the range of supported dates.</exception>
         [Pure]
-        public CivilPrototype PlusYears(int years)
+        public CivilDate PlusYears(int years)
         {
             int y = checked(Year + years);
 
@@ -1356,7 +1355,7 @@ namespace Zorglub.Bulgroz
                 bMD = __EndOfFebruary;
             }
 
-            return new CivilPrototype(((y - 1) << 9) | bMD);
+            return new CivilDate(((y - 1) << 9) | bMD);
         }
 
         #endregion
@@ -1371,7 +1370,7 @@ namespace Zorglub.Bulgroz
         /// <exception cref="OverflowException">The operation would overflow either the capacity of
         /// <see cref="Int32"/> or the range of supported dates.</exception>
         [Pure]
-        public static CivilPrototype AddMonths(CivilPrototype date, int months, out int cutoff)
+        public static CivilDate AddMonths(CivilDate date, int months, out int cutoff)
         {
             date.Unpack(out int y, out int m, out int d);
 
@@ -1398,7 +1397,7 @@ namespace Zorglub.Bulgroz
         /// </code>
         /// </remarks>
         [Pure]
-        public int CountMonthsSince(CivilPrototype other)
+        public int CountMonthsSince(CivilDate other)
         {
             Unpack(out int y, out int m, out int d);
             other.Unpack(out int y0, out int m0, out int d0);
@@ -1446,7 +1445,7 @@ namespace Zorglub.Bulgroz
         /// <exception cref="OverflowException">The operation would overflow either the capacity of
         /// <see cref="Int32"/> or the range of supported dates.</exception>
         [Pure]
-        public CivilPrototype PlusMonths(int months)
+        public CivilDate PlusMonths(int months)
         {
             Unpack(out int y, out int m, out int d);
 

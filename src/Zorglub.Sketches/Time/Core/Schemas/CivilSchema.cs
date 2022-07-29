@@ -3,8 +3,6 @@
 
 namespace Zorglub.Time.Core.Schemas
 {
-    using Zorglub.Time.Core.Intervals;
-
     // year > 0 but SupportedYearsCore is still equal to Maximal32.
 
     /// <summary>
