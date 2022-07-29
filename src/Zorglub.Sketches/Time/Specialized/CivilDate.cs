@@ -30,6 +30,12 @@ namespace Zorglub.Time.Specialized
         private static readonly CivilCalendar s_Calendar = new(s_Schema);
 
         /// <summary>
+        /// Represents the domain, the interval of supported <see cref="DayNumber"/>.
+        /// <para>This field is read-only.</para>
+        /// </summary>
+        private static readonly Range<DayNumber> s_Domain = s_Calendar.Domain;
+
+        /// <summary>
         /// Represents the count of days since the Gregorian epoch.
         /// <para>This field is read-only.</para>
         /// </summary>
@@ -59,7 +65,7 @@ namespace Zorglub.Time.Specialized
         {
             Debug.Assert(s_Calendar.Epoch == DayZero.NewStyle);
 
-            Domain.Validate(dayNumber);
+            s_Domain.Validate(dayNumber);
 
             _daysSinceZero = dayNumber.DaysSinceZero;
         }
@@ -77,19 +83,19 @@ namespace Zorglub.Time.Specialized
         /// Gets the smallest possible value of a <see cref="CivilDate"/>.
         /// <para>This static property is thread-safe.</para>
         /// </summary>
-        public static CivilDate MinValue { get; } = new(Domain.Min.DaysSinceZero);
+        public static CivilDate MinValue { get; } = new(s_Domain.Min.DaysSinceZero);
 
         /// <summary>
         /// Gets the largest possible value of a <see cref="CivilDate"/>.
         /// <para>This static property is thread-safe.</para>
         /// </summary>
-        public static CivilDate MaxValue { get; } = new(Domain.Max.DaysSinceZero);
+        public static CivilDate MaxValue { get; } = new(s_Domain.Max.DaysSinceZero);
 
         /// <summary>
-        /// Gets the domain, the interval of supported <see cref="DayNumber"/>.
+        /// Gets the calendar to which belongs the current instance.
         /// <para>This static property is thread-safe.</para>
         /// </summary>
-        private static Range<DayNumber> Domain => s_Calendar.Domain;
+        public static CivilCalendar Calendar => s_Calendar;
 
         /// <summary>
         /// Gets the day number.
@@ -264,7 +270,7 @@ namespace Zorglub.Time.Specialized
         public CivilDate Previous(DayOfWeek dayOfWeek)
         {
             var dayNumber = DayNumber.Previous(dayOfWeek);
-            if (Domain.Contains(dayNumber) == false) { Throw.DateOverflow(); }
+            if (s_Domain.Contains(dayNumber) == false) { Throw.DateOverflow(); }
             return new CivilDate(dayNumber.DaysSinceZero);
         }
 
@@ -273,7 +279,7 @@ namespace Zorglub.Time.Specialized
         public CivilDate PreviousOrSame(DayOfWeek dayOfWeek)
         {
             var dayNumber = DayNumber.PreviousOrSame(dayOfWeek);
-            if (Domain.Contains(dayNumber) == false) { Throw.DateOverflow(); }
+            if (s_Domain.Contains(dayNumber) == false) { Throw.DateOverflow(); }
             return new CivilDate(dayNumber.DaysSinceZero);
         }
 
@@ -282,7 +288,7 @@ namespace Zorglub.Time.Specialized
         public CivilDate Nearest(DayOfWeek dayOfWeek)
         {
             var dayNumber = DayNumber.Nearest(dayOfWeek);
-            if (Domain.Contains(dayNumber) == false) { Throw.DateOverflow(); }
+            if (s_Domain.Contains(dayNumber) == false) { Throw.DateOverflow(); }
             return new CivilDate(dayNumber.DaysSinceZero);
         }
 
@@ -291,7 +297,7 @@ namespace Zorglub.Time.Specialized
         public CivilDate NextOrSame(DayOfWeek dayOfWeek)
         {
             var dayNumber = DayNumber.NextOrSame(dayOfWeek);
-            if (Domain.Contains(dayNumber) == false) { Throw.DateOverflow(); }
+            if (s_Domain.Contains(dayNumber) == false) { Throw.DateOverflow(); }
             return new CivilDate(dayNumber.DaysSinceZero);
         }
 
@@ -300,7 +306,7 @@ namespace Zorglub.Time.Specialized
         public CivilDate Next(DayOfWeek dayOfWeek)
         {
             var dayNumber = DayNumber.Next(dayOfWeek);
-            if (Domain.Contains(dayNumber) == false) { Throw.DateOverflow(); }
+            if (s_Domain.Contains(dayNumber) == false) { Throw.DateOverflow(); }
             return new CivilDate(dayNumber.DaysSinceZero);
         }
 

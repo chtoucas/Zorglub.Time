@@ -71,6 +71,7 @@ public readonly partial struct MyCivilDate :
 
     public static MyCivilDate MinValue { get; } = new(s_Domain.Min - s_Epoch);
     public static MyCivilDate MaxValue { get; } = new(s_Domain.Max - s_Epoch);
+    public static MyCivilCalendar Calendar => s_Calendar;
 
     public DayNumber DayNumber => s_Epoch + _daysSinceEpoch;
 
@@ -285,6 +286,7 @@ public partial struct MyCivilDate // Math ops
 
     [Pure]
     public int CountDaysSince(MyCivilDate other) =>
+        // For most date types, one can remove the checked context.
         checked(_daysSinceEpoch - other._daysSinceEpoch);
 
     [Pure]

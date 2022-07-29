@@ -28,6 +28,12 @@ namespace Zorglub.Time.Specialized
         private static readonly GregorianCalendar s_Calendar = new(s_Schema);
 
         /// <summary>
+        /// Gets the domain, the interval of supported <see cref="DayNumber"/>.
+        /// <para>This field is read-only.</para>
+        /// </summary>
+        private static readonly Range<DayNumber> s_Domain = s_Calendar.Domain;
+
+        /// <summary>
         /// Represents the count of days since the Gregorian epoch.
         /// <para>This field is read-only.</para>
         /// </summary>
@@ -57,7 +63,7 @@ namespace Zorglub.Time.Specialized
         {
             Debug.Assert(s_Calendar.Epoch == DayZero.NewStyle);
 
-            Domain.Validate(dayNumber);
+            s_Domain.Validate(dayNumber);
 
             _daysSinceZero = dayNumber.DaysSinceZero;
         }
@@ -75,19 +81,19 @@ namespace Zorglub.Time.Specialized
         /// Gets the smallest possible value of a <see cref="GregorianDate"/>.
         /// <para>This static property is thread-safe.</para>
         /// </summary>
-        public static GregorianDate MinValue { get; } = new(Domain.Min.DaysSinceZero);
+        public static GregorianDate MinValue { get; } = new(s_Domain.Min.DaysSinceZero);
 
         /// <summary>
         /// Gets the largest possible value of a <see cref="GregorianDate"/>.
         /// <para>This static property is thread-safe.</para>
         /// </summary>
-        public static GregorianDate MaxValue { get; } = new(Domain.Max.DaysSinceZero);
+        public static GregorianDate MaxValue { get; } = new(s_Domain.Max.DaysSinceZero);
 
         /// <summary>
-        /// Gets the domain, the interval of supported <see cref="DayNumber"/>.
+        /// Gets the calendar to which belongs the current instance.
         /// <para>This static property is thread-safe.</para>
         /// </summary>
-        private static Range<DayNumber> Domain => s_Calendar.Domain;
+        public static GregorianCalendar Calendar => s_Calendar;
 
         /// <summary>
         /// Gets the day number.
@@ -257,7 +263,7 @@ namespace Zorglub.Time.Specialized
         public GregorianDate Previous(DayOfWeek dayOfWeek)
         {
             var dayNumber = DayNumber.Previous(dayOfWeek);
-            if (Domain.Contains(dayNumber) == false) { Throw.DateOverflow(); }
+            if (s_Domain.Contains(dayNumber) == false) { Throw.DateOverflow(); }
             return new GregorianDate(dayNumber.DaysSinceZero);
         }
 
@@ -266,7 +272,7 @@ namespace Zorglub.Time.Specialized
         public GregorianDate PreviousOrSame(DayOfWeek dayOfWeek)
         {
             var dayNumber = DayNumber.PreviousOrSame(dayOfWeek);
-            if (Domain.Contains(dayNumber) == false) { Throw.DateOverflow(); }
+            if (s_Domain.Contains(dayNumber) == false) { Throw.DateOverflow(); }
             return new GregorianDate(dayNumber.DaysSinceZero);
         }
 
@@ -275,7 +281,7 @@ namespace Zorglub.Time.Specialized
         public GregorianDate Nearest(DayOfWeek dayOfWeek)
         {
             var dayNumber = DayNumber.Nearest(dayOfWeek);
-            if (Domain.Contains(dayNumber) == false) { Throw.DateOverflow(); }
+            if (s_Domain.Contains(dayNumber) == false) { Throw.DateOverflow(); }
             return new GregorianDate(dayNumber.DaysSinceZero);
         }
 
@@ -284,7 +290,7 @@ namespace Zorglub.Time.Specialized
         public GregorianDate NextOrSame(DayOfWeek dayOfWeek)
         {
             var dayNumber = DayNumber.NextOrSame(dayOfWeek);
-            if (Domain.Contains(dayNumber) == false) { Throw.DateOverflow(); }
+            if (s_Domain.Contains(dayNumber) == false) { Throw.DateOverflow(); }
             return new GregorianDate(dayNumber.DaysSinceZero);
         }
 
@@ -293,7 +299,7 @@ namespace Zorglub.Time.Specialized
         public GregorianDate Next(DayOfWeek dayOfWeek)
         {
             var dayNumber = DayNumber.Next(dayOfWeek);
-            if (Domain.Contains(dayNumber) == false) { Throw.DateOverflow(); }
+            if (s_Domain.Contains(dayNumber) == false) { Throw.DateOverflow(); }
             return new GregorianDate(dayNumber.DaysSinceZero);
         }
 
