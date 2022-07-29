@@ -28,7 +28,6 @@ module Bundles =
         override x.GetDate(dayNumber) = new GregorianDate(dayNumber);
 
     [<Sealed>]
-    [<TestExcludeFrom(TestExcludeFrom.Regular)>]
     type DateFacts() =
         inherit IDateFacts<GregorianDate, ProlepticGregorianDataSet>(chr.SupportedYears.Range, chr.Domain)
 
@@ -38,7 +37,6 @@ module Bundles =
         override __.GetDate(y, m, d) = new GregorianDate(y, m, d)
 
     [<Sealed>]
-    [<TestExcludeFrom(TestExcludeFrom.Regular)>]
     type DayOfWeekFacts() =
         inherit IDateDayOfWeekFacts<GregorianDate, ProlepticGregorianDataSet>()
 

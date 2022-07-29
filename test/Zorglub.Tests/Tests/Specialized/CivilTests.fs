@@ -28,7 +28,6 @@ module Bundles =
         override x.GetDate(dayNumber) = new CivilDate(dayNumber);
 
     [<Sealed>]
-    [<TestExcludeFrom(TestExcludeFrom.Regular)>]
     type DateFacts() =
         inherit IDateFacts<CivilDate, StandardGregorianDataSet>(chr.SupportedYears.Range, chr.Domain)
 
@@ -38,7 +37,6 @@ module Bundles =
         override __.GetDate(y, m, d) = new CivilDate(y, m, d)
 
     [<Sealed>]
-    [<TestExcludeFrom(TestExcludeFrom.Regular)>]
     type DayOfWeekFacts() =
         inherit IDateDayOfWeekFacts<CivilDate, StandardGregorianDataSet>()
 

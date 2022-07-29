@@ -9,6 +9,10 @@ namespace Zorglub.Time.Specialized
     using Zorglub.Time.Hemerology;
     using Zorglub.Time.Hemerology.Scopes;
 
+    /// <summary>
+    /// Represents the Gregorian date.
+    /// <para><see cref="GregorianDate"/> is an immutable struct.</para>
+    /// </summary>
     public readonly partial struct GregorianDate :
         IDate<GregorianDate>,
         //IYearEndpointsProvider<GregorianDate>,
@@ -49,7 +53,7 @@ namespace Zorglub.Time.Specialized
         private static readonly GregorianDate s_MinValue = new(s_Domain.Min.DaysSinceZero);
 
         /// <summary>
-        /// Represents the largest possible value of a <see cref="CivilDate"/>.
+        /// Represents the largest possible value of a <see cref="GregorianDate"/>.
         /// <para>This field is read-only.</para>
         /// </summary>
         private static readonly GregorianDate s_MaxValue = new(s_Domain.Max.DaysSinceZero);
@@ -80,7 +84,7 @@ namespace Zorglub.Time.Specialized
         /// </summary>
         /// <exception cref="AoorException">The specified components do not form a valid ordinal
         /// date or <paramref name="year"/> is outside the range of years supported by
-        /// <see cref="CivilCalendar"/>.</exception>
+        /// <see cref="GregorianCalendar"/>.</exception>
         public GregorianDate(int year, int dayOfYear)
         {
             s_Scope.ValidateOrdinal(year, dayOfYear);

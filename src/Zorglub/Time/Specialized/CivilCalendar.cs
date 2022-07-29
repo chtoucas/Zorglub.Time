@@ -12,13 +12,29 @@ namespace Zorglub.Time.Specialized
     using Zorglub.Time.Hemerology;
     using Zorglub.Time.Hemerology.Scopes;
 
-    public sealed class GregorianCalendar : BasicCalendar, ICalendar<GregorianDate>
-    {
-        public GregorianCalendar() : this(new GregorianSchema()) { }
+    // REVIEW(code): derive from MinMaxYearCalendar<>? Why it doesn't right now
+    // is explained in MinMaxYearCalendar<>. Even simpler:
+    // > CivilDate {
+    // >   public static ICalendar<CivilDate> Calendar { get; } = new MinMaxYearCalendar<CivilDate>(...)
+    // > }
 
-        // Constructor for GregorianDate.
-        internal GregorianCalendar(GregorianSchema schema)
-            : base("Gregorian", MinMaxYearScope.WithMaximalRange(schema, DayZero.NewStyle)) { }
+    /// <summary>
+    /// Represents the Civil calendar.
+    /// <para>This class cannot be inherited.</para>
+    /// </summary>
+    public sealed class CivilCalendar : BasicCalendar, ICalendar<CivilDate>
+    {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CivilCalendar"/> class.
+        /// </summary>
+        public CivilCalendar() : this(new CivilSchema()) { }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CivilCalendar"/> class.
+        /// </summary>
+        // Constructor for CivilDate.
+        internal CivilCalendar(CivilSchema schema)
+            : base("Gregorian", new StandardScope(schema, DayZero.NewStyle)) { }
 
         //
         // Year, month or day infos
@@ -54,7 +70,7 @@ namespace Zorglub.Time.Specialized
 
         /// <inheritdoc/>
         [Pure]
-        public IEnumerable<GregorianDate> GetDaysInYear(int year)
+        public IEnumerable<CivilDate> GetDaysInYear(int year)
         {
             SupportedYears.Validate(year);
 
@@ -63,12 +79,12 @@ namespace Zorglub.Time.Specialized
 
             return from daysSinceZero
                    in Enumerable.Range(startOfYear, daysInYear)
-                   select new GregorianDate(daysSinceZero);
+                   select new CivilDate(daysSinceZero);
         }
 
         /// <inheritdoc/>
         [Pure]
-        public IEnumerable<GregorianDate> GetDaysInMonth(int year, int month)
+        public IEnumerable<CivilDate> GetDaysInMonth(int year, int month)
         {
             Scope.ValidateYearMonth(year, month);
 
@@ -77,43 +93,43 @@ namespace Zorglub.Time.Specialized
 
             return from daysSinceZero
                    in Enumerable.Range(startOfMonth, daysInMonth)
-                   select new GregorianDate(daysSinceZero);
+                   select new CivilDate(daysSinceZero);
         }
 
         /// <inheritdoc/>
         [Pure]
-        public GregorianDate GetStartOfYear(int year)
+        public CivilDate GetStartOfYear(int year)
         {
             SupportedYears.Validate(year);
             int daysSinceZero = Schema.GetStartOfYear(year);
-            return new GregorianDate(daysSinceZero);
+            return new CivilDate(daysSinceZero);
         }
 
         /// <inheritdoc/>
         [Pure]
-        public GregorianDate GetEndOfYear(int year)
+        public CivilDate GetEndOfYear(int year)
         {
             SupportedYears.Validate(year);
             int daysSinceZero = Schema.GetEndOfYear(year);
-            return new GregorianDate(daysSinceZero);
+            return new CivilDate(daysSinceZero);
         }
 
         /// <inheritdoc/>
         [Pure]
-        public GregorianDate GetStartOfMonth(int year, int month)
+        public CivilDate GetStartOfMonth(int year, int month)
         {
             Scope.ValidateYearMonth(year, month);
             int daysSinceZero = Schema.GetStartOfMonth(year, month);
-            return new GregorianDate(daysSinceZero);
+            return new CivilDate(daysSinceZero);
         }
 
         /// <inheritdoc/>
         [Pure]
-        public GregorianDate GetEndOfMonth(int year, int month)
+        public CivilDate GetEndOfMonth(int year, int month)
         {
             Scope.ValidateYearMonth(year, month);
             int daysSinceZero = Schema.GetEndOfMonth(year, month);
-            return new GregorianDate(daysSinceZero);
+            return new CivilDate(daysSinceZero);
         }
     }
 }
