@@ -9,9 +9,10 @@ namespace Zorglub.Time.Specialized
     using Zorglub.Time.Hemerology;
     using Zorglub.Time.Hemerology.Scopes;
 
-    // FIXME(code): some test are failing.
+    // FIXME(api): some test are failing.
+    // Non-standard math. Providers. Idem with the other date types.
+    // CountDaysSince(XXXDate other) checked context or not?
     // Use JulianFormulae?
-    // CountDaysSince(JulianDate other) checked context or not?
 
     /// <summary>
     /// Represents the Julian date.
@@ -479,7 +480,7 @@ namespace Zorglub.Time.Specialized
         /// <inheritdoc />
         [Pure]
         public int CountDaysSince(JulianDate other) =>
-            // REVIEW(code): no need to use a checked context here?
+            // No need to use a checked context here?
             _daysSinceEpoch - other._daysSinceEpoch;
 
         /// <inheritdoc />

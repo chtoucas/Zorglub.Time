@@ -9,7 +9,10 @@ namespace Zorglub.Time.Specialized
     using Zorglub.Time.Hemerology;
     using Zorglub.Time.Hemerology.Scopes;
 
-    // TODO(api): non-standard math, providers; idem with the other date types.
+    // We use GregorianStandardScope instead of s_Calendar.Scope because they
+    // are strictly equivalent.
+    // We use daysSinceZero instead of daysSinceEpoch because s_Calendar.Epoch
+    // is equal to DayNumber.Zero.
 
     /// <summary>
     /// Represents the Civil date.
@@ -67,7 +70,6 @@ namespace Zorglub.Time.Specialized
         /// <see cref="CivilCalendar"/>.</exception>
         public CivilDate(int year, int month, int day)
         {
-            // s_Calendar.Scope "=" GregorianStandardScope.
             GregorianStandardScope.ValidateYearMonthDay(year, month, day);
 
             _daysSinceZero = CivilFormulae.CountDaysSinceEpoch(year, month, day);
@@ -82,7 +84,6 @@ namespace Zorglub.Time.Specialized
         /// <see cref="CivilCalendar"/>.</exception>
         public CivilDate(int year, int dayOfYear)
         {
-            // s_Calendar.Scope "=" GregorianStandardScope.
             GregorianStandardScope.ValidateOrdinal(year, dayOfYear);
 
             _daysSinceZero = s_Schema.CountDaysSinceEpoch(year, dayOfYear);
@@ -95,8 +96,6 @@ namespace Zorglub.Time.Specialized
         /// supported values.</exception>
         public CivilDate(DayNumber dayNumber)
         {
-            Debug.Assert(s_Calendar.Epoch == DayZero.NewStyle);
-
             s_Domain.Validate(dayNumber);
 
             _daysSinceZero = dayNumber.DaysSinceZero;
@@ -479,7 +478,6 @@ namespace Zorglub.Time.Specialized
         public CivilDate PlusDays(int days)
         {
             int daysSinceZero = checked(_daysSinceZero + days);
-            // s_Calendar.Scope "=" GregorianStandardScope.
             GregorianStandardScope.DaysValidator.CheckOverflow(daysSinceZero);
             return new(daysSinceZero);
         }

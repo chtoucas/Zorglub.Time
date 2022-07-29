@@ -12,11 +12,12 @@ namespace Zorglub.Time.Specialized
     using Zorglub.Time.Hemerology;
     using Zorglub.Time.Hemerology.Scopes;
 
-    // REVIEW(code): derive from MinMaxYearCalendar<>? Why it doesn't right now
-    // is explained in MinMaxYearCalendar<>. Even simpler:
+    // REVIEW(code): derive from MinMaxYearCalendar<>? Why it doesn't work right
+    // now is explained in MinMaxYearCalendar<>. Even simpler?
     // > CivilDate {
     // >   public static ICalendar<CivilDate> Calendar { get; } = new MinMaxYearCalendar<CivilDate>(...)
     // > }
+    // but then we lose access to custom methods from CivilCalendar.
 
     /// <summary>
     /// Represents the Civil calendar.

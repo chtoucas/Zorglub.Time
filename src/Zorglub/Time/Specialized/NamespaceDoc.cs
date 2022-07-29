@@ -4,7 +4,7 @@
 namespace Zorglub.Time.Specialized
 {
     /// <summary>
-    /// The <see cref="Specialized"/> namespace contains specialized date types.
+    /// The <see cref="Specialized"/> namespace contains specialized calendar and date types.
     /// </summary>
     [CompilerGenerated]
     internal static class NamespaceDoc { }

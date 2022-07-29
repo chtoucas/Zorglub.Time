@@ -9,6 +9,9 @@ namespace Zorglub.Time.Specialized
     using Zorglub.Time.Hemerology;
     using Zorglub.Time.Hemerology.Scopes;
 
+    // We use daysSinceZero instead of daysSinceEpoch because s_Calendar.Epoch
+    // is equal to DayNumber.Zero.
+
     /// <summary>
     /// Represents the Gregorian date.
     /// <para><see cref="GregorianDate"/> is an immutable struct.</para>
@@ -99,8 +102,6 @@ namespace Zorglub.Time.Specialized
         /// supported values.</exception>
         public GregorianDate(DayNumber dayNumber)
         {
-            Debug.Assert(s_Calendar.Epoch == DayZero.NewStyle);
-
             s_Domain.Validate(dayNumber);
 
             _daysSinceZero = dayNumber.DaysSinceZero;

@@ -1,7 +1,7 @@
 ﻿// SPDX-License-Identifier: BSD-3-Clause
 // Copyright (c) 2020 Narvalo.Org. All rights reserved.
 
-namespace Zorglub.Time.Simple.Specialized
+namespace Zorglub.Time.Specialized
 {
     // TODO(api): épacte, lettre dominicale, indiction, cycle solaire, etc.
     // Algorithmes alternatifs. Nom : RomanLiturgicalYear ?
@@ -50,73 +50,73 @@ namespace Zorglub.Time.Simple.Specialized
         // le 9 janvier qui n'est pas dans la période du 2 au 8 janvier.
 
         // L'Épiphanie, le 6 janvier.
-        public CalendarDate Epiphany => new(_year, 1, 6);
+        public GregorianDate Epiphany => new(_year, 1, 6);
 
         // La Chandeleur, le 2 février.
-        public CalendarDate Candlemas => new(_year, 2, 2);
+        public GregorianDate Candlemas => new(_year, 2, 2);
 
         // L'Annonciation, le 25 mars.
-        public CalendarDate Annunciation => new(_year, 3, 25);
+        public GregorianDate Annunciation => new(_year, 3, 25);
 
         // L'Assomption de Marie, le 15 août.
         // La Dormition de Marie pour les orthodoxes.
-        public CalendarDate AssumptionOfMary => new(_year, 8, 15);
+        public GregorianDate AssumptionOfMary => new(_year, 8, 15);
 
         // L'Immaculée Conception, le 8 décembre.
-        public CalendarDate ImmaculateConception => new(_year, 12, 8);
+        public GregorianDate ImmaculateConception => new(_year, 12, 8);
 
         // Noël, le 25 décembre.
-        public CalendarDate Christmas => new(_year, 12, 25);
+        public GregorianDate Christmas => new(_year, 12, 25);
     }
 
     public partial class RomanKalendar // Fêtes mobiles
     {
         // Le 1er dimanche de janvier sauf si ce dimanche tombe le jour de l'an.
-        public CalendarDate EpiphanySunday =>
-            new CalendarDate(_year, 1, 1).Next(DayOfWeek.Sunday);
+        public GregorianDate EpiphanySunday =>
+            new GregorianDate(_year, 1, 1).Next(DayOfWeek.Sunday);
 
         // Premier dimanche de l'Avent, 1er jour de l'année liturgique romaine.
         // Dimanche le plus proche du 30 novembre (4ème dimanche avant Noël).
         // Premier jour de l'année liturgique, entre le 27 novembre et, au plus
         // tard, le 3 décembre.
         // "First Sunday of Advent" ou "First Advent Sunday".
-        public CalendarDate AdventSunday =>
-            new CalendarDate(_year, 11, 30).Nearest(DayOfWeek.Sunday);
+        public GregorianDate AdventSunday =>
+            new GregorianDate(_year, 11, 30).Nearest(DayOfWeek.Sunday);
 
         // Pâques catholique ou protestante.
         // Au plus tôt le 22 mars, au plus tard le 25 avril.
-        private CalendarDate? _easter;
-        public CalendarDate Easter => _easter ??= InitEaster(_year);
+        private GregorianDate? _easter;
+        public GregorianDate Easter => _easter ??= InitEaster(_year);
 
         // Mardi gras (Shrove Tuesday), précède le mercredi des cendres.
         // Pâques - 6 semaines - 5 jours -> mardi.
-        public CalendarDate FatTuesday => Easter - 47;
+        public GregorianDate FatTuesday => Easter - 47;
 
         // Mercredi des cendres, 46 jours avant Pâques.
         // Pâques - 6 semaines - 4 jours -> mercredi.
-        public CalendarDate AshWednesday => Easter - 46;
+        public GregorianDate AshWednesday => Easter - 46;
 
         // Dimanche des Rameaux, dernier dimanche avant Pâques.
-        public CalendarDate PalmSunday => Easter - 7;
+        public GregorianDate PalmSunday => Easter - 7;
 
         // Jeudi saint, jeudi précédent Pâques.
-        public CalendarDate MaundyThursday => Easter - 3;
+        public GregorianDate MaundyThursday => Easter - 3;
 
         // Vendredi saint, vendredi précédent Pâques.
         // Pâques - 2 jours -> vendredi.
-        public CalendarDate GoodFriday => Easter - 2;
+        public GregorianDate GoodFriday => Easter - 2;
 
         // Ascension, 39 jours après Pâques.
         // Pâques + 5 semaines + 4 jours -> jeudi.
-        public CalendarDate AscensionThursday => Easter + 39;
+        public GregorianDate AscensionThursday => Easter + 39;
 
         // Pentecôte, 49 jours après Pâques.
         // Pâques + 7 semaines -> dimanche.
-        public CalendarDate Pentecost => Easter + 49;
+        public GregorianDate Pentecost => Easter + 49;
 
         // Lune ecclésiastique ou lune pascale.
-        private CalendarDate? _paschalMoon;
-        public CalendarDate PaschalMoon => _paschalMoon ??= InitPaschalMoon(_year);
+        private GregorianDate? _paschalMoon;
+        public GregorianDate PaschalMoon => _paschalMoon ??= InitPaschalMoon(_year);
     }
 
     public partial class RomanKalendar // Comput ecclésiastique
@@ -126,14 +126,14 @@ namespace Zorglub.Time.Simple.Specialized
         // D.&.R (8.3) p. 117, easter()
 
         [Pure]
-        private static CalendarDate InitPaschalMoon(int year)
+        private static GregorianDate InitPaschalMoon(int year)
         {
             int epact = GetEpact(year);
-            return new CalendarDate(year, 4, 19) - epact;
+            return new GregorianDate(year, 4, 19) - epact;
         }
 
         [Pure]
-        private static CalendarDate InitEaster(int year)
+        private static GregorianDate InitEaster(int year)
         {
             var paschalMoon = InitPaschalMoon(year);
             return paschalMoon.Next(DayOfWeek.Sunday);

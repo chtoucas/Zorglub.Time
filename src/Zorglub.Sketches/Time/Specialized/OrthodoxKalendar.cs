@@ -1,7 +1,7 @@
 ﻿// SPDX-License-Identifier: BSD-3-Clause
 // Copyright (c) 2020 Narvalo.Org. All rights reserved.
 
-namespace Zorglub.Time.Simple.Specialized
+namespace Zorglub.Time.Specialized
 {
     // Calendrier liturgique orthodoxe.
     //
@@ -20,26 +20,26 @@ namespace Zorglub.Time.Simple.Specialized
             _year = year;
         }
 
-        private CalendarDate? _easter;
-        public CalendarDate Easter => _easter ??= InitEaster(_year);
+        private JulianDate? _easter;
+        public JulianDate Easter => _easter ??= InitEaster(_year);
 
-        private CalendarDate? _paschalMoon;
-        public CalendarDate PaschalMoon => _paschalMoon ??= InitPaschalMoon(_year);
+        private JulianDate? _paschalMoon;
+        public JulianDate PaschalMoon => _paschalMoon ??= InitPaschalMoon(_year);
 
         // GetPaschal ???
         // D.&.R (8.1) p.115, orthodox-easter()
         [Pure]
-        private static CalendarDate InitEaster(int year)
+        private static JulianDate InitEaster(int year)
         {
             var paschalMoon = InitPaschalMoon(year);
             return paschalMoon.Next(DayOfWeek.Sunday);
         }
 
         [Pure]
-        private static CalendarDate InitPaschalMoon(int year)
+        private static JulianDate InitPaschalMoon(int year)
         {
             int epact = GetEpact(year);
-            return JulianCalendar.Instance.GetCalendarDate(year, 4, 19) - epact;
+            return new JulianDate(year, 4, 19) - epact;
         }
 
         [Pure]

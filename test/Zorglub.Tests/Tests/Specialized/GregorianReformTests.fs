@@ -1,11 +1,11 @@
 ﻿// SPDX-License-Identifier: BSD-3-Clause
 // Copyright (c) 2020 Narvalo.Org. All rights reserved.
 
-module Zorglub.Tests.Simple.Specialized.GregorianReformTests
+module Zorglub.Tests.Specialized.GregorianReformTests
 
 open Zorglub.Testing
 
-open Zorglub.Time.Simple.Specialized
+open Zorglub.Time.Specialized
 
 open Xunit
 
@@ -15,13 +15,14 @@ let ``Property Official.SecularShift`` () =
 
 [<Fact>]
 let ``Property Official (from last Julian date)`` () =
-    let reform = GregorianReform.FromLastJulianDate(1582, 10, 4)
+    let date = new JulianDate(1582, 10, 4)
+    let reform = GregorianReform.FromLastJulianDate(date)
 
     GregorianReform.Official === reform
 
 [<Fact>]
 let ``Property Official (from first Gregorian date)`` () =
-    let reform = GregorianReform.FromFirstGregorianDate(1582, 10, 15)
+    let date = new GregorianDate(1582, 10, 15)
+    let reform = GregorianReform.FromFirstGregorianDate(date)
 
     GregorianReform.Official === reform
-

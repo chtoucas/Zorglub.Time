@@ -1,15 +1,14 @@
 ﻿// SPDX-License-Identifier: BSD-3-Clause
 // Copyright (c) 2020 Narvalo.Org. All rights reserved.
 
-module Zorglub.Tests.Simple.Specialized.RomanKalendarTests
+module Zorglub.Tests.Specialized.RomanKalendarTests
 
 open System
 
 open Zorglub.Testing
 open Zorglub.Testing.Data
 
-open Zorglub.Time.Simple
-open Zorglub.Time.Simple.Specialized
+open Zorglub.Time.Specialized
 
 open Xunit
 
@@ -19,7 +18,7 @@ let paschalMoonData = RomanKalendarDataSet.PaschalMoonData
 
 [<Theory; MemberData(nameof(epiphanyData))>]
 let ``Property EpiphanySunday`` y d =
-    let epiphanySunday = new CalendarDate(y, 1, d)
+    let epiphanySunday = new GregorianDate(y, 1, d)
     let kalendar = new RomanKalendar(y)
 
     epiphanySunday.DayOfWeek === DayOfWeek.Sunday
@@ -27,7 +26,7 @@ let ``Property EpiphanySunday`` y d =
 
 [<Theory; MemberData(nameof(easterData))>]
 let ``Property Easter`` y m d =
-    let easter = new CalendarDate(y, m, d)
+    let easter = new GregorianDate(y, m, d)
     let kalendar = new RomanKalendar(y)
 
     easter.DayOfWeek === DayOfWeek.Sunday
@@ -36,7 +35,7 @@ let ``Property Easter`` y m d =
 [<TestExcludeFrom(TestExcludeFrom.Regular)>]
 [<Theory(Skip = "D&R data does not match our definition of the Paschal Moon?"); MemberData(nameof(paschalMoonData))>]
 let ``Property PaschalMoon`` y m d =
-    let moon = new CalendarDate(y, m, d)
+    let moon = new GregorianDate(y, m, d)
     let kalendar = new RomanKalendar(y)
 
     kalendar.PaschalMoon === moon

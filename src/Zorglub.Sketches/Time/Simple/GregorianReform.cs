@@ -1,7 +1,7 @@
 ﻿// SPDX-License-Identifier: BSD-3-Clause
 // Copyright (c) 2020 Narvalo.Org. All rights reserved.
 
-namespace Zorglub.Time.Simple.Specialized
+namespace Zorglub.Time.Simple
 {
     using Zorglub.Time.Hemerology;
 
@@ -63,10 +63,7 @@ namespace Zorglub.Time.Simple.Specialized
         public static GregorianReform FromLastJulianDate(int year, int month, int day)
         {
             var lastJulianDate = JulianCalendar.Instance.GetCalendarDate(year, month, day);
-            if (lastJulianDate < Official.LastJulianDate)
-            {
-                Throw.ArgumentOutOfRange(nameof(year));
-            }
+            if (lastJulianDate < Official.LastJulianDate) Throw.YearOutOfRange(year);
 
             var switchover = lastJulianDate.ToDayNumber() + 1;
             var firstGregorianDate = CalendarDate.FromDayNumber(switchover);
@@ -78,10 +75,7 @@ namespace Zorglub.Time.Simple.Specialized
         public static GregorianReform FromFirstGregorianDate(int year, int month, int day)
         {
             var firstGregorianDate = new CalendarDate(year, month, day);
-            if (firstGregorianDate < Official.FirstGregorianDate)
-            {
-                Throw.ArgumentOutOfRange(nameof(year));
-            }
+            if (firstGregorianDate < Official.FirstGregorianDate) Throw.YearOutOfRange(year);
 
             var switchover = firstGregorianDate.ToDayNumber();
             var lastJulianDate = JulianCalendar.Instance.GetCalendarDateOn(switchover - 1);
