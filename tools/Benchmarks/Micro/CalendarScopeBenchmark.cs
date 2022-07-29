@@ -48,7 +48,7 @@ public class CalendarScopeBenchmark : BenchmarkBase
         new(new GregorianSchema(), DayZero.NewStyle);
 
     private static readonly MinMaxYearScope s_MinMaxYearScope =
-        MinMaxYearScope.WithMaximalRange(new GregorianSchema(), DayZero.NewStyle, onOrAfterEpoch: false);
+        MinMaxYearScope.WithMaximalRange(new GregorianSchema(), DayZero.NewStyle);
 
     public CalendarScopeBenchmark()
     {

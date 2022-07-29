@@ -436,7 +436,7 @@ override Zorglub.Time.Simple.OrdinalDate.Equals(object? obj) -> bool
 override Zorglub.Time.Simple.OrdinalDate.GetHashCode() -> int
 override Zorglub.Time.Simple.OrdinalDate.ToString() -> string!
 static Zorglub.Time.Core.CalendricalSegment.Create(Zorglub.Time.Core.ICalendricalSchema! schema, Zorglub.Time.Core.Intervals.Range<int> supportedYears) -> Zorglub.Time.Core.CalendricalSegment!
-static Zorglub.Time.Core.CalendricalSegment.CreateMaximal(Zorglub.Time.Core.ICalendricalSchema! schema, bool onOrAfterEpoch = false) -> Zorglub.Time.Core.CalendricalSegment!
+static Zorglub.Time.Core.CalendricalSegment.CreateMaximal(Zorglub.Time.Core.ICalendricalSchema! schema, bool onOrAfterEpoch) -> Zorglub.Time.Core.CalendricalSegment!
 static Zorglub.Time.Core.Intervals.Interval.Adjacent(Zorglub.Time.Core.Intervals.LowerRay<int> x, Zorglub.Time.Core.Intervals.UpperRay<int> y) -> bool
 static Zorglub.Time.Core.Intervals.Interval.Adjacent(Zorglub.Time.Core.Intervals.LowerRay<Zorglub.Time.DayNumber> x, Zorglub.Time.Core.Intervals.UpperRay<Zorglub.Time.DayNumber> y) -> bool
 static Zorglub.Time.Core.Intervals.Interval.Adjacent(Zorglub.Time.Core.Intervals.Range<int> x, Zorglub.Time.Core.Intervals.LowerRay<int> y) -> bool

@@ -167,7 +167,7 @@ public partial class CalendarZoo
         const string Key = "Long Gregorian";
 
         var sch = GregorianSchema.GetInstance().Unbox();
-        var scope = MinMaxYearScope.WithMaximalRange(sch, DayZero.NewStyle, onOrAfterEpoch: false);
+        var scope = MinMaxYearScope.WithMaximalRange(sch, DayZero.NewStyle);
         var chr = ZCatalog.GetOrAdd(Key, scope);
 
         Debug.Assert(chr != null);
@@ -188,7 +188,7 @@ public partial class CalendarZoo
         const string Key = "Long Julian";
 
         var sch = JulianSchema.GetInstance().Unbox();
-        var scope = MinMaxYearScope.WithMaximalRange(sch, DayZero.OldStyle, onOrAfterEpoch: false);
+        var scope = MinMaxYearScope.WithMaximalRange(sch, DayZero.OldStyle);
         var chr = ZCatalog.GetOrAdd(Key, scope);
 
         Debug.Assert(chr != null);

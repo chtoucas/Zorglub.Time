@@ -105,7 +105,7 @@ namespace Zorglub.Time.Core
         /// <exception cref="ArgumentException">The range of supported years by the schema
         /// does not contain the year 1.</exception>
         [Pure]
-        public static CalendricalSegment CreateMaximal(ICalendricalSchema schema, bool onOrAfterEpoch = false)
+        public static CalendricalSegment CreateMaximal(ICalendricalSchema schema, bool onOrAfterEpoch)
         {
             var builder = new CalendricalSegmentBuilder(schema);
             builder.UseMinSupportedYear(onOrAfterEpoch);
