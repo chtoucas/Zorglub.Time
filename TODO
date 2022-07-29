@@ -7,7 +7,11 @@ Adjustable dates
 Replace CivilPrototype by CivilDate
 Today and UtcToday <- time provider
 Calendar<TDate> & Date: Min/MaxXXX and new prop Epoch (as a Date not a DayNumber,
-maybe use Origin to avoid confusion).
+maybe use Origin to avoid confusion). Remove IMinMaxValue
+Mono-date: which props? epoch, domain
+Explain the lesson learned so far: daysSinceEpoch is better than y/doy which is
+better than y/m/d, poly-calendar is not such a good idea. Proleptic is only a
+bit slower than Standard.
 
 - Math:
   * Optimize div in N / uint in enum comp / ulong?
