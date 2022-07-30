@@ -38,8 +38,6 @@
     <Compile Include="Tests\Bulgroz\Obsolete\SchemaAdapterTests.fs" />
     <Compile Include="Tests\Bulgroz\MiscTests.fs" />
     <Compile Include="Tests\Bulgroz\BitTwiddlingTests.fs" />
-    <Compile Include="Tests\Extensions\DayOfWeek%24Tests.fs" />
-    <Compile Include="Tests\Extensions\UnboxingTests.fs" />
     <Compile Include="Tests\Core\Utilities\ThrowHelpersTests.fs" />
     <Compile Include="Tests\Core\Utilities\RequiresTests.fs" />
     <Compile Include="Tests\Core\Utilities\MathNTests.fs" />
@@ -88,7 +86,6 @@
     <Compile Include="Tests\Hemerology\Scopes\ProlepticScopeTestSuite.fs" />
     <Compile Include="Tests\Hemerology\CalendarEpochTests.fs" />
     <Compile Include="Tests\Hemerology\YearNumberingTests.fs" />
-    <Compile Include="Tests\Hemerology\ZDateTests.fs" />
     <Compile Include="Tests\Simple\CuidTests.fs" />
     <Compile Include="Tests\Simple\CalendarTests.fs" />
     <Compile Include="Tests\Simple\CalendarRegistryTests.fs" />
@@ -114,7 +111,10 @@
     <Compile Include="Tests\Specialized\CivilTests.fs" />
     <Compile Include="Tests\Specialized\GregorianTests.fs" />
     <Compile Include="Tests\Specialized\JulianTests.fs" />
-    <Compile Include="Tests\Extras\CivilDateTests.fs" />
+    <Compile Include="Tests\Extensions\DayOfWeek%24Tests.fs" />
+    <Compile Include="Tests\Extensions\UnboxingTests.fs" />
+    <Compile Include="Tests\Extras\XCivilDateTests.fs" />
+    <Compile Include="Tests\Extras\ZDateTests.fs" />
     <Compile Include="Tests\Extras\GregorianReformTests.fs" />
     <Compile Include="Tests\Extras\RomanKalendarTests.fs" />
     <Compile Include="Tests\PartsTests.fs" />

@@ -45,15 +45,15 @@ namespace Zorglub.Time.Extras
 
     /// <summary>
     /// Represents a date within the non-proleptic (but retropolated) Gregorian calendar.
-    /// <para><see cref="CivilDate"/> is an immutable struct.</para>
+    /// <para><see cref="XCivilDate"/> is an immutable struct.</para>
     /// </summary>
     [DebuggerDisplay("{" + nameof(DebuggerDisplay) + ",nq}")]
-    public readonly partial struct CivilDate :
-        IDate<CivilDate>,
-        IAdjustableDate<CivilDate>,
-        IYearEndpointsProvider<CivilDate>,
-        IMonthEndpointsProvider<CivilDate>,
-        IMinMaxValue<CivilDate>
+    public readonly partial struct XCivilDate :
+        IDate<XCivilDate>,
+        IAdjustableDate<XCivilDate>,
+        IYearEndpointsProvider<XCivilDate>,
+        IMonthEndpointsProvider<XCivilDate>,
+        IMinMaxValue<XCivilDate>
     {
         /// <summary>
         /// Represents the smallest possible value of the number of consecutive days since the epoch
@@ -109,16 +109,16 @@ namespace Zorglub.Time.Extras
             Range.Create(s_Epoch + MinDaysSinceEpoch, s_Epoch + MaxDaysSinceEpoch);
 
         /// <summary>
-        /// Represents the smallest possible value of a <see cref="CivilDate"/>.
+        /// Represents the smallest possible value of a <see cref="XCivilDate"/>.
         /// <para>This field is read-only.</para>
         /// </summary>
-        private static readonly CivilDate s_MinValue = new(MinYear, 1, 1);
+        private static readonly XCivilDate s_MinValue = new(MinYear, 1, 1);
 
         /// <summary>
-        /// Represents the largest possible value of a <see cref="CivilDate"/>.
+        /// Represents the largest possible value of a <see cref="XCivilDate"/>.
         /// <para>This field is read-only.</para>
         /// </summary>
-        private static readonly CivilDate s_MaxValue = new(MaxYear, 12, 31);
+        private static readonly XCivilDate s_MaxValue = new(MaxYear, 12, 31);
 
         /// <summary>
         /// Represents the binary data stored in the current instance.
@@ -126,12 +126,12 @@ namespace Zorglub.Time.Extras
         private readonly int _bin;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="CivilDate"/> struct from the specified year,
+        /// Initializes a new instance of the <see cref="XCivilDate"/> struct from the specified year,
         /// month and day.
         /// </summary>
         /// <exception cref="AoorException">The specified date parts do not form a valid Gregorian
         /// date within the Common Era on or before year 9999.</exception>
-        public CivilDate(int year, int month, int day)
+        public XCivilDate(int year, int month, int day)
         {
             if (year < MinYear || year > MaxYear) Throw.ArgumentOutOfRange(nameof(year));
             if (month < 1 || month > 12) Throw.ArgumentOutOfRange(nameof(month));
@@ -147,12 +147,12 @@ namespace Zorglub.Time.Extras
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="CivilDate"/> struct directly from the
+        /// Initializes a new instance of the <see cref="XCivilDate"/> struct directly from the
         /// specified binary data.
         /// <para>This constructor does NOT validate its parameter.</para>
         /// <para>See also <seealso cref="Pack(int, int, int)"/>.</para>
         /// </summary>
-        private CivilDate(int bin)
+        private XCivilDate(int bin)
         {
             DebugCheckBinaryData(bin);
             _bin = bin;
@@ -165,18 +165,18 @@ namespace Zorglub.Time.Extras
         public static  Range<DayNumber> Domain => s_Domain;
 
         /// <summary>
-        /// Gets the earliest date supported by the <see cref="CivilDate"/> type: Monday, January
+        /// Gets the earliest date supported by the <see cref="XCivilDate"/> type: Monday, January
         /// 1st, 1 CE.
         /// <para>This static property is thread-safe.</para>
         /// </summary>
-        public static CivilDate MinValue => s_MinValue;
+        public static XCivilDate MinValue => s_MinValue;
 
         /// <summary>
-        /// Gets the latest date supported by the <see cref="CivilDate"/> type: Friday, December 31,
+        /// Gets the latest date supported by the <see cref="XCivilDate"/> type: Friday, December 31,
         /// 9999 CE.
         /// <para>This static property is thread-safe.</para>
         /// </summary>
-        public static CivilDate MaxValue => s_MaxValue;
+        public static XCivilDate MaxValue => s_MaxValue;
 
         /// <inheritdoc />
         public Ord CenturyOfEra => Ord.FromInt32(Century);
@@ -336,29 +336,29 @@ namespace Zorglub.Time.Extras
         /// Obtains the current date on this machine, expressed in local time, not UTC.
         /// </summary>
         [Pure]
-        public static CivilDate Today()
+        public static XCivilDate Today()
         {
             var now = DateTime.Now;
-            return new CivilDate(Pack(now.Year, now.Month, now.Day));
+            return new XCivilDate(Pack(now.Year, now.Month, now.Day));
         }
 
         /// <summary>
         /// Obtains the current date on this machine, expressed as UTC.
         /// </summary>
         [Pure]
-        public static CivilDate UtcToday()
+        public static XCivilDate UtcToday()
         {
             var now = DateTime.UtcNow;
-            return new CivilDate(Pack(now.Year, now.Month, now.Day));
+            return new XCivilDate(Pack(now.Year, now.Month, now.Day));
         }
 
         /// <summary>
-        /// Creates a new instance of <see cref="CivilDate"/> from the specified ordinal date.
+        /// Creates a new instance of <see cref="XCivilDate"/> from the specified ordinal date.
         /// </summary>
         /// <exception cref="AoorException">The specified ordinal date parts do not form a valid
         /// Gregorian date within the Common Era on or before year 9999.</exception>
         [Pure]
-        public static CivilDate FromOrdinalDate(int year, int dayOfYear)
+        public static XCivilDate FromOrdinalDate(int year, int dayOfYear)
         {
             if (year < MinYear || year > MaxYear) Throw.ArgumentOutOfRange(nameof(year));
             if (dayOfYear < 1
@@ -372,23 +372,23 @@ namespace Zorglub.Time.Extras
         }
 
         /// <summary>
-        /// Creates a new instance of <see cref="CivilDate"/> from the specified number of
+        /// Creates a new instance of <see cref="XCivilDate"/> from the specified number of
         /// consecutive days since the epoch of the Gregorian calendar.
         /// <para>This method does NOT validate its parameter.</para>
         /// </summary>
         [Pure]
-        internal static CivilDate FromDaysSinceEpoch(int daysSinceEpoch)
+        internal static XCivilDate FromDaysSinceEpoch(int daysSinceEpoch)
         {
             CivilFormulae.GetDateParts(daysSinceEpoch, out int y, out int m, out int d);
             return new(Pack(y, m, d));
         }
 
         /// <summary>
-        /// Creates a new instance of <see cref="CivilDate"/> from the specified ordinal date.
+        /// Creates a new instance of <see cref="XCivilDate"/> from the specified ordinal date.
         /// <para>This method does NOT validate its parameter.</para>
         /// </summary>
         [Pure]
-        private static CivilDate FromOrdinalDateImpl(int y, int doy)
+        private static XCivilDate FromOrdinalDateImpl(int y, int doy)
         {
             if (doy < 60)
             {
@@ -413,7 +413,7 @@ namespace Zorglub.Time.Extras
         }
     }
 
-    public partial struct CivilDate // Binary data helpers
+    public partial struct XCivilDate // Binary data helpers
     {
         private const int MonthMask = (1 << 4) - 1;
         private const int DayMask = (1 << 5) - 1;
@@ -427,12 +427,12 @@ namespace Zorglub.Time.Extras
 
         /// <summary>
         /// Deserializes a 32-bit binary value and recreates the original
-        /// serialized <see cref="CivilDate"/> object.
+        /// serialized <see cref="XCivilDate"/> object.
         /// </summary>
         /// <exception cref="ArgumentException">The specified binary data is
         /// not well-formed.</exception>
         [Pure]
-        public static CivilDate FromBinary(int data)
+        public static XCivilDate FromBinary(int data)
         {
             ValidateBinaryData(data);
             return new(data);
@@ -444,7 +444,7 @@ namespace Zorglub.Time.Extras
 
         /// <summary>
         /// Serializes the current instance to a 32-bit binary value that
-        /// subsequently can be used to recreate the <see cref="CivilDate"/>
+        /// subsequently can be used to recreate the <see cref="XCivilDate"/>
         /// object using <see cref="FromBinary(int)"/>.
         /// </summary>
         [Pure]
@@ -532,7 +532,7 @@ namespace Zorglub.Time.Extras
 
     // NB: All static methods taken from GregorianSchema do work "optimally"
     // with positive years.
-    public partial struct CivilDate // Static helpers
+    public partial struct XCivilDate // Static helpers
     {
         /// <summary>
         /// Obtains the ISO day of the week of the first day of the specified
@@ -576,16 +576,16 @@ namespace Zorglub.Time.Extras
         }
     }
 
-    public partial struct CivilDate // Conversions, adjustments...
+    public partial struct XCivilDate // Conversions, adjustments...
     {
         /// <summary>
-        /// Creates a new instance of <see cref="CivilDate"/> from the
+        /// Creates a new instance of <see cref="XCivilDate"/> from the
         /// specified day number.
         /// </summary>
         /// <exception cref="AoorException"><paramref name="dayNumber"/> is outside the range of
         /// supported values.</exception>
         [Pure]
-        public static CivilDate FromDayNumber(DayNumber dayNumber)
+        public static XCivilDate FromDayNumber(DayNumber dayNumber)
         {
             s_Domain.Validate(dayNumber);
             return FromDaysSinceEpoch(dayNumber - s_Epoch);
@@ -596,11 +596,11 @@ namespace Zorglub.Time.Extras
         public DayNumber ToDayNumber() => s_Epoch + DaysSinceEpoch;
 
         /// <summary>
-        /// Creates a new instance of <see cref="CivilDate"/> from the
+        /// Creates a new instance of <see cref="XCivilDate"/> from the
         /// specified <see cref="DateTime"/> object.
         /// </summary>
         [Pure]
-        public static CivilDate FromDateTime(DateTime date) =>
+        public static XCivilDate FromDateTime(DateTime date) =>
             new(date.Year, date.Month, date.Day);
 
         /// <summary>
@@ -645,22 +645,22 @@ namespace Zorglub.Time.Extras
         #region Year and month boundaries
 
         [Pure]
-        public static CivilDate GetStartOfYear(CivilDate day) =>
+        public static XCivilDate GetStartOfYear(XCivilDate day) =>
             new(((day.Year - 1) << 9) | __StartOfYear);
 
         [Pure]
-        public static CivilDate GetEndOfYear(CivilDate day) =>
+        public static XCivilDate GetEndOfYear(XCivilDate day) =>
             new(((day.Year - 1) << 9) | __EndOfYear);
 
         [Pure]
-        public static CivilDate GetStartOfMonth(CivilDate day)
+        public static XCivilDate GetStartOfMonth(XCivilDate day)
         {
             day.Unpack(out int y, out int m, out _);
             return new(Pack(y, m, 1));
         }
 
         [Pure]
-        public static CivilDate GetEndOfMonth(CivilDate day)
+        public static XCivilDate GetEndOfMonth(XCivilDate day)
         {
             day.Unpack(out int y, out int m, out _);
             int d = GregorianFormulae.CountDaysInMonth(y, m);
@@ -672,13 +672,13 @@ namespace Zorglub.Time.Extras
 
         /// <inheritdoc/>
         [Pure]
-        public CivilDate Adjust(Func<DateParts, DateParts> adjuster)
+        public XCivilDate Adjust(Func<DateParts, DateParts> adjuster)
         {
             Requires.NotNull(adjuster);
 
             Unpack(out int y, out int m, out int d);
             var (y1, m1, d1) = adjuster.Invoke(new DateParts(y, m, d));
-            return new CivilDate(y1, m1, d1);
+            return new XCivilDate(y1, m1, d1);
         }
 
         /// <summary>
@@ -689,7 +689,7 @@ namespace Zorglub.Time.Extras
         /// Gregorian date within the Common Era on or before year 9999.
         /// </exception>
         [Pure]
-        public CivilDate WithYear(int newYear)
+        public XCivilDate WithYear(int newYear)
         {
             if (newYear < MinYear || newYear > MaxYear)
             {
@@ -713,7 +713,7 @@ namespace Zorglub.Time.Extras
         /// Gregorian date within the Common Era on or before year 9999.
         /// </exception>
         [Pure]
-        public CivilDate WithMonth(int newMonth)
+        public XCivilDate WithMonth(int newMonth)
         {
             if (newMonth < 1 || newMonth > 12)
             {
@@ -739,7 +739,7 @@ namespace Zorglub.Time.Extras
         /// Gregorian date within the Common Era on or before year 9999.
         /// </exception>
         [Pure]
-        public CivilDate WithDay(int newDay)
+        public XCivilDate WithDay(int newDay)
         {
             if (newDay < 1)
             {
@@ -769,11 +769,11 @@ namespace Zorglub.Time.Extras
         //   which is rather optimised for this type of situation.
         // See comments in DayNumberX.
 
-        private static readonly CivilDate s_ThreeDaysBeforeMaxValue = s_MinValue - 3;
+        private static readonly XCivilDate s_ThreeDaysBeforeMaxValue = s_MinValue - 3;
 
         /// <inheritdoc />
         [Pure]
-        public CivilDate Previous(DayOfWeek dayOfWeek)
+        public XCivilDate Previous(DayOfWeek dayOfWeek)
 #if CIVILDATE_PLAIN_DAYOFWEEK
             => NextOrSameCore(dayOfWeek, -7);
 #else
@@ -787,7 +787,7 @@ namespace Zorglub.Time.Extras
 
         /// <inheritdoc />
         [Pure]
-        public CivilDate PreviousOrSame(DayOfWeek dayOfWeek)
+        public XCivilDate PreviousOrSame(DayOfWeek dayOfWeek)
 #if CIVILDATE_PLAIN_DAYOFWEEK
             => NextOrSameCore(dayOfWeek, -6);
 #else
@@ -801,7 +801,7 @@ namespace Zorglub.Time.Extras
 
         /// <inheritdoc />
         [Pure]
-        public CivilDate Nearest(DayOfWeek dayOfWeek) =>
+        public XCivilDate Nearest(DayOfWeek dayOfWeek) =>
             // REVIEW: On convertit en un DayNumber et on utilise la méthode Nearest() ?
             this > s_ThreeDaysBeforeMaxValue
             ? NextOrSameCore(dayOfWeek, -3)
@@ -809,7 +809,7 @@ namespace Zorglub.Time.Extras
 
         /// <inheritdoc />
         [Pure]
-        public CivilDate NextOrSame(DayOfWeek dayOfWeek)
+        public XCivilDate NextOrSame(DayOfWeek dayOfWeek)
 #if CIVILDATE_PLAIN_DAYOFWEEK
             => PreviousOrSameCore(dayOfWeek, 6);
 #else
@@ -823,7 +823,7 @@ namespace Zorglub.Time.Extras
 
         /// <inheritdoc />
         [Pure]
-        public CivilDate Next(DayOfWeek dayOfWeek)
+        public XCivilDate Next(DayOfWeek dayOfWeek)
 #if CIVILDATE_PLAIN_DAYOFWEEK
             => PreviousOrSameCore(dayOfWeek, 7);
 #else
@@ -836,7 +836,7 @@ namespace Zorglub.Time.Extras
 #endif
 
         [Pure]
-        private CivilDate PreviousOrSameCore(DayOfWeek dayOfWeek, int dayShift)
+        private XCivilDate PreviousOrSameCore(DayOfWeek dayOfWeek, int dayShift)
         {
             Debug.Assert(dayShift >= 3);
             Requires.Defined(dayOfWeek);
@@ -852,7 +852,7 @@ namespace Zorglub.Time.Extras
         }
 
         [Pure]
-        private CivilDate NextOrSameCore(DayOfWeek dayOfWeek, int dayShift)
+        private XCivilDate NextOrSameCore(DayOfWeek dayOfWeek, int dayShift)
         {
             Debug.Assert(dayShift <= -3);
             Requires.Defined(dayOfWeek);
@@ -870,7 +870,7 @@ namespace Zorglub.Time.Extras
         #endregion
     }
 
-    public partial struct CivilDate // Enumerate days in a month or a year
+    public partial struct XCivilDate // Enumerate days in a month or a year
     {
         /// <summary>
         /// Obtains the collection of all dates in the specified year.
@@ -878,7 +878,7 @@ namespace Zorglub.Time.Extras
         /// <exception cref="AoorException">The specified year is not in the
         /// range from 1 to 9999.</exception>
         [Pure]
-        public static IEnumerable<CivilDate> GetDaysInYear(int year)
+        public static IEnumerable<XCivilDate> GetDaysInYear(int year)
         {
             // Check arg eagerly.
             if (year < MinYear || year > MaxYear)
@@ -888,7 +888,7 @@ namespace Zorglub.Time.Extras
 
             return Iterator();
 
-            IEnumerable<CivilDate> Iterator()
+            IEnumerable<XCivilDate> Iterator()
             {
                 int bY = (year - 1) << 9;
 
@@ -913,7 +913,7 @@ namespace Zorglub.Time.Extras
         /// <exception cref="AoorException">The specified month is not in the
         /// range from 1 to 12.</exception>
         [Pure]
-        public static IEnumerable<CivilDate> GetDaysInMonth(int year, int month)
+        public static IEnumerable<XCivilDate> GetDaysInMonth(int year, int month)
         {
             // Check args eagerly.
             if (year < MinYear || year > MaxYear)
@@ -927,7 +927,7 @@ namespace Zorglub.Time.Extras
 
             return Iterator();
 
-            IEnumerable<CivilDate> Iterator()
+            IEnumerable<XCivilDate> Iterator()
             {
                 int bYM = ((year - 1) << 9) | ((month - 1) << 5);
 
@@ -940,94 +940,94 @@ namespace Zorglub.Time.Extras
         }
     }
 
-    public partial struct CivilDate // IEquatable
+    public partial struct XCivilDate // IEquatable
     {
         /// <summary>
-        /// Determines whether two specified instances of <see cref="CivilDate"/>
+        /// Determines whether two specified instances of <see cref="XCivilDate"/>
         /// are equal.
         /// </summary>
-        public static bool operator ==(CivilDate left, CivilDate right) =>
+        public static bool operator ==(XCivilDate left, XCivilDate right) =>
             left._bin == right._bin;
 
         /// <summary>
-        /// Determines whether two specified instances of <see cref="CivilDate"/>
+        /// Determines whether two specified instances of <see cref="XCivilDate"/>
         /// are not equal.
         /// </summary>
-        public static bool operator !=(CivilDate left, CivilDate right) =>
+        public static bool operator !=(XCivilDate left, XCivilDate right) =>
             left._bin != right._bin;
 
         /// <inheritdoc />
         [Pure]
-        public bool Equals(CivilDate other) => _bin == other._bin;
+        public bool Equals(XCivilDate other) => _bin == other._bin;
 
         /// <inheritdoc />
         [Pure]
         public override bool Equals([NotNullWhen(true)] object? obj) =>
-            obj is CivilDate date && Equals(date);
+            obj is XCivilDate date && Equals(date);
 
         /// <inheritdoc />
         [Pure]
         public override int GetHashCode() => _bin;
     }
 
-    public partial struct CivilDate // IComparable
+    public partial struct XCivilDate // IComparable
     {
         /// <summary>
         /// Compares the two specified date instances to see if the left one is
         /// strictly earlier than the right one.
         /// </summary>
-        public static bool operator <(CivilDate left, CivilDate right) =>
+        public static bool operator <(XCivilDate left, XCivilDate right) =>
             left._bin < right._bin;
 
         /// <summary>
         /// Compares the two specified date instances to see if the left one is
         /// earlier than or equal to the right one.
         /// </summary>
-        public static bool operator <=(CivilDate left, CivilDate right) =>
+        public static bool operator <=(XCivilDate left, XCivilDate right) =>
             left._bin <= right._bin;
 
         /// <summary>
         /// Compares the two specified date instances to see if the left one is
         /// strictly later than the right one.
         /// </summary>
-        public static bool operator >(CivilDate left, CivilDate right) =>
+        public static bool operator >(XCivilDate left, XCivilDate right) =>
             left._bin > right._bin;
 
         /// <summary>
         /// Compares the two specified date instances to see if the left one is
         /// later than or equal to the right one.
         /// </summary>
-        public static bool operator >=(CivilDate left, CivilDate right) =>
+        public static bool operator >=(XCivilDate left, XCivilDate right) =>
             left._bin >= right._bin;
 
         /// <summary>
         /// Obtains the earlier date of two specified dates.
         /// </summary>
         [Pure]
-        public static CivilDate Min(CivilDate x, CivilDate y) => x < y ? x : y;
+        public static XCivilDate Min(XCivilDate x, XCivilDate y) => x < y ? x : y;
 
         /// <summary>
         /// Obtains the later date of two specified dates.
         /// </summary>
         [Pure]
-        public static CivilDate Max(CivilDate x, CivilDate y) => x > y ? x : y;
+        public static XCivilDate Max(XCivilDate x, XCivilDate y) => x > y ? x : y;
 
         /// <summary>
         /// Indicates whether this date instance is earlier, later or the same
         /// as the specified one.
         /// </summary>
         [Pure]
-        public int CompareTo(CivilDate other) => _bin.CompareTo(other._bin);
+        public int CompareTo(XCivilDate other) => _bin.CompareTo(other._bin);
 
         /// <inheritdoc />
         public int CompareTo(object? obj) =>
             obj is null ? 1
-            : obj is CivilDate date ? _bin.CompareTo(date._bin)
-            : Throw.NonComparable(typeof(CivilDate), obj);
+            : obj is XCivilDate date ? _bin.CompareTo(date._bin)
+            : Throw.NonComparable(typeof(XCivilDate), obj);
     }
 
     // Standard math ops, those based on the day, the base unit of a calendar.
-    public partial struct CivilDate // Standard math ops
+    public partial struct XCivilDate // Standard math ops
     {
 #pragma warning disable CA2225 // Operator overloads have named alternates (Usage)
 
@@ -1035,7 +1035,7 @@ namespace Zorglub.Time.Extras
         /// Subtracts the two specified dates and returns the number of days
         /// between them at midnight (0h).
         /// </summary>
-        public static int operator -(CivilDate left, CivilDate right) =>
+        public static int operator -(XCivilDate left, XCivilDate right) =>
             left.CountDaysSince(right);
 
         /// <summary>
@@ -1043,7 +1043,7 @@ namespace Zorglub.Time.Extras
         /// </summary>
         /// <exception cref="OverflowException">The operation would overflow the range of supported
         /// dates.</exception>
-        public static CivilDate operator +(CivilDate value, int days) =>
+        public static XCivilDate operator +(XCivilDate value, int days) =>
             value.PlusDays(days);
 
         /// <summary>
@@ -1051,7 +1051,7 @@ namespace Zorglub.Time.Extras
         /// </summary>
         /// <exception cref="OverflowException">The operation would overflow the range of supported
         /// dates.</exception>
-        public static CivilDate operator -(CivilDate value, int days) =>
+        public static XCivilDate operator -(XCivilDate value, int days) =>
             value.PlusDays(-days);
 
         /// <summary>
@@ -1059,26 +1059,26 @@ namespace Zorglub.Time.Extras
         /// </summary>
         /// <exception cref="OverflowException">The operation would overflow the
         /// latest supported date.</exception>
-        public static CivilDate operator ++(CivilDate value) => value.NextDay();
+        public static XCivilDate operator ++(XCivilDate value) => value.NextDay();
 
         /// <summary>
         /// Subtracts one day to the specified date, yielding a new date.
         /// </summary>
         /// <exception cref="OverflowException">The operation would overflow
         /// the earliest supported date.</exception>
-        public static CivilDate operator --(CivilDate value) => value.PreviousDay();
+        public static XCivilDate operator --(XCivilDate value) => value.PreviousDay();
 
 #pragma warning restore CA2225
 
         /// <inheritdoc />
         [Pure]
-        public int CountDaysSince(CivilDate other) =>
+        public int CountDaysSince(XCivilDate other) =>
             ObYearMonth == other.ObYearMonth ? Day - other.Day
             : DaysSinceEpoch - other.DaysSinceEpoch;
 
         /// <inheritdoc />
         [Pure]
-        public CivilDate PlusDays(int days)
+        public XCivilDate PlusDays(int days)
         {
             // Fast tracks.
             if (-MinDaysInMonth <= days && days <= MinDaysInMonth)
@@ -1103,7 +1103,7 @@ namespace Zorglub.Time.Extras
 
         /// <inheritdoc />
         [Pure]
-        public CivilDate NextDay()
+        public XCivilDate NextDay()
         {
             Unpack(out int y, out int m, out int d);
 
@@ -1112,23 +1112,23 @@ namespace Zorglub.Time.Extras
                 ? new(Pack(y, m, d + 1))
                 : m < 12 ? new(Pack(y, m + 1, 1))
                 : y < MaxYear ? new((y << 9) | __StartOfYear) // read (y + 1) - 1
-                : Throw.DateOverflow<CivilDate>();
+                : Throw.DateOverflow<XCivilDate>();
         }
 
         /// <inheritdoc />
         [Pure]
-        public CivilDate PreviousDay()
+        public XCivilDate PreviousDay()
         {
             Unpack(out int y, out int m, out int d);
 
             return d > 1 ? new(Pack(y, m, d - 1))
                 : m > 1 ? new(Pack(y, m - 1, GregorianFormulae.CountDaysInMonth(y, m - 1)))
                 : y > MinYear ? new(((y - 2) << 9) | __EndOfYear) // read (y - 1) - 1
-                : Throw.DateOverflow<CivilDate>();
+                : Throw.DateOverflow<XCivilDate>();
         }
 
         [Pure]
-        private CivilDate AddDaysViaDayOfMonth(int days)
+        private XCivilDate AddDaysViaDayOfMonth(int days)
         {
             Debug.Assert(-MinDaysInMonth <= days);
             Debug.Assert(days <= MinDaysInMonth);
@@ -1170,11 +1170,11 @@ namespace Zorglub.Time.Extras
                 }
             }
 
-            return new CivilDate(Pack(y, m, dom));
+            return new XCivilDate(Pack(y, m, dom));
         }
 
         [Pure]
-        private CivilDate AddDaysViaDayOfYear(int days)
+        private XCivilDate AddDaysViaDayOfYear(int days)
         {
             Debug.Assert(days >= -MinDaysInYear);
             Debug.Assert(days <= MinDaysInYear);
@@ -1204,7 +1204,7 @@ namespace Zorglub.Time.Extras
         }
     }
 
-    public partial struct CivilDate // More math ops
+    public partial struct XCivilDate // More math ops
     {
         /// <summary>
         /// Subtracts the two specified dates and returns the number of years,
@@ -1212,7 +1212,7 @@ namespace Zorglub.Time.Extras
         /// </summary>
         [Pure]
         public static (int Years, int Months, int Days) Subtract(
-            CivilDate left, CivilDate right)
+            XCivilDate left, XCivilDate right)
         {
             // At first, I counted the years, then the months and finally the days
             // but this is WRONG because doing so we lose information on the way,
@@ -1270,7 +1270,7 @@ namespace Zorglub.Time.Extras
         /// <exception cref="OverflowException">The operation would overflow either the capacity of
         /// <see cref="Int32"/> or the range of supported dates.</exception>
         [Pure]
-        public static CivilDate AddYears(CivilDate date, int years, out int cutoff)
+        public static XCivilDate AddYears(XCivilDate date, int years, out int cutoff)
         {
             int y = checked(date.Year + years);
 
@@ -1287,7 +1287,7 @@ namespace Zorglub.Time.Extras
                 cutoff = 0;
             }
 
-            return new CivilDate(((y - 1) << 9) | bMD);
+            return new XCivilDate(((y - 1) << 9) | bMD);
         }
 
         /// <summary>
@@ -1302,7 +1302,7 @@ namespace Zorglub.Time.Extras
         /// </code>
         /// </remarks>
         [Pure]
-        public int CountYearsSince(CivilDate other)
+        public int CountYearsSince(XCivilDate other)
         {
             int y = Year;
             int y0 = other.Year;
@@ -1363,7 +1363,7 @@ namespace Zorglub.Time.Extras
         /// <exception cref="OverflowException">The operation would overflow either the capacity of
         /// <see cref="Int32"/> or the range of supported dates.</exception>
         [Pure]
-        public CivilDate PlusYears(int years)
+        public XCivilDate PlusYears(int years)
         {
             int y = checked(Year + years);
 
@@ -1375,7 +1375,7 @@ namespace Zorglub.Time.Extras
                 bMD = __EndOfFebruary;
             }
 
-            return new CivilDate(((y - 1) << 9) | bMD);
+            return new XCivilDate(((y - 1) << 9) | bMD);
         }
 
         #endregion
@@ -1390,7 +1390,7 @@ namespace Zorglub.Time.Extras
         /// <exception cref="OverflowException">The operation would overflow either the capacity of
         /// <see cref="Int32"/> or the range of supported dates.</exception>
         [Pure]
-        public static CivilDate AddMonths(CivilDate date, int months, out int cutoff)
+        public static XCivilDate AddMonths(XCivilDate date, int months, out int cutoff)
         {
             date.Unpack(out int y, out int m, out int d);
 
@@ -1417,7 +1417,7 @@ namespace Zorglub.Time.Extras
         /// </code>
         /// </remarks>
         [Pure]
-        public int CountMonthsSince(CivilDate other)
+        public int CountMonthsSince(XCivilDate other)
         {
             Unpack(out int y, out int m, out int d);
             other.Unpack(out int y0, out int m0, out int d0);
@@ -1465,7 +1465,7 @@ namespace Zorglub.Time.Extras
         /// <exception cref="OverflowException">The operation would overflow either the capacity of
         /// <see cref="Int32"/> or the range of supported dates.</exception>
         [Pure]
-        public CivilDate PlusMonths(int months)
+        public XCivilDate PlusMonths(int months)
         {
             Unpack(out int y, out int m, out int d);
 

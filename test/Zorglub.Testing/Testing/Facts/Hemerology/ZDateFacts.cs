@@ -5,6 +5,7 @@ namespace Zorglub.Testing.Facts.Hemerology;
 
 using Zorglub.Testing.Data;
 using Zorglub.Time.Core.Intervals;
+using Zorglub.Time.Extras;
 using Zorglub.Time.Hemerology;
 
 /// <summary>

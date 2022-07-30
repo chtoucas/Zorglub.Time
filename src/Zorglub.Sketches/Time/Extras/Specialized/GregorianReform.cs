@@ -1,11 +1,9 @@
 ﻿// SPDX-License-Identifier: BSD-3-Clause
 // Copyright (c) 2020 Narvalo.Org. All rights reserved.
 
-namespace Zorglub.Time.Extras
+namespace Zorglub.Time.Extras.Specialized
 {
     using Zorglub.Time.Specialized;
-
-    // See Zorglub.Time.Simple.GregorianReform
 
     public sealed record GregorianReform
     {

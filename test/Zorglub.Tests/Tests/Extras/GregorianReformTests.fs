@@ -8,7 +8,7 @@ open Zorglub.Testing
 open Xunit
 
 module Specialized =
-    open Zorglub.Time.Extras
+    open Zorglub.Time.Extras.Specialized
     open Zorglub.Time.Specialized
 
     [<Fact>]
@@ -32,7 +32,7 @@ module Specialized =
         GregorianReform.Official === reform
 
 module Simple =
-    open Zorglub.Time.Simple
+    open Zorglub.Time.Extras.Simple
 
     [<Fact>]
     let ``Property Official.SecularShift`` () =

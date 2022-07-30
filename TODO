@@ -6,6 +6,7 @@ Struct fields instead of auto-props
 Adjustable dates, providers <- à refaire
 Today and UtcToday <- time provider
 SupportedYearsTester
+Hide XXXCalendar.Instance? and use Calendar.XXX instead
 
 Calendar<TDate> & Date: Min/MaxXXX and new prop Epoch (as a Date not a DayNumber,
 maybe use Origin to avoid confusion). Remove IMinMaxValue

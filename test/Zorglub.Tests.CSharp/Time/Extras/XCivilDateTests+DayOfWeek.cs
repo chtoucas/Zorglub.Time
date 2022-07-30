@@ -3,12 +3,12 @@
 
 namespace Zorglub.Time.Extras;
 
-public partial class CivilDateTests
+public partial class XCivilDateTests
 {
     [Theory, MemberData(nameof(EnumDataSet.InvalidDayOfWeekData), MemberType = typeof(EnumDataSet))]
     public static void NearestSafe_InvalidDayOfWeek(DayOfWeek dayOfWeek)
     {
-        var date = new CivilDate(3, 4, 5);
+        var date = new XCivilDate(3, 4, 5);
         // Act & Assert
         Assert.ThrowsAoorexn("dayOfWeek", () => date.NearestSafe(dayOfWeek));
     }
@@ -16,17 +16,17 @@ public partial class CivilDateTests
     [Fact]
     public static void NearestSafe_NearMinValue()
     {
-        var mon = CivilDate.MinValue;
-        var tue = CivilDate.MinValue + 1;
-        var wed = CivilDate.MinValue + 2;
-        var thu = CivilDate.MinValue + 3;
-        var fri = CivilDate.MinValue + 4;
-        var sat = CivilDate.MinValue + 5;
-        var sun = CivilDate.MinValue + 6;
+        var mon = XCivilDate.MinValue;
+        var tue = XCivilDate.MinValue + 1;
+        var wed = XCivilDate.MinValue + 2;
+        var thu = XCivilDate.MinValue + 3;
+        var fri = XCivilDate.MinValue + 4;
+        var sat = XCivilDate.MinValue + 5;
+        var sun = XCivilDate.MinValue + 6;
 
-        var mon1 = CivilDate.MinValue + 7;
-        var tue1 = CivilDate.MinValue + 8;
-        var wed1 = CivilDate.MinValue + 9;
+        var mon1 = XCivilDate.MinValue + 7;
+        var tue1 = XCivilDate.MinValue + 8;
+        var wed1 = XCivilDate.MinValue + 9;
 
         // Act & Assert
 
@@ -97,17 +97,17 @@ public partial class CivilDateTests
     [Fact]
     public static void NearestSafe_NearMaxValue()
     {
-        var wed0 = CivilDate.MaxValue - 9;
-        var thu0 = CivilDate.MaxValue - 8;
-        var fri0 = CivilDate.MaxValue - 7;
+        var wed0 = XCivilDate.MaxValue - 9;
+        var thu0 = XCivilDate.MaxValue - 8;
+        var fri0 = XCivilDate.MaxValue - 7;
 
-        var sat = CivilDate.MaxValue - 6;
-        var sun = CivilDate.MaxValue - 5;
-        var mon = CivilDate.MaxValue - 4;
-        var tue = CivilDate.MaxValue - 3;
-        var wed = CivilDate.MaxValue - 2;
-        var thu = CivilDate.MaxValue - 1;
-        var fri = CivilDate.MaxValue;
+        var sat = XCivilDate.MaxValue - 6;
+        var sun = XCivilDate.MaxValue - 5;
+        var mon = XCivilDate.MaxValue - 4;
+        var tue = XCivilDate.MaxValue - 3;
+        var wed = XCivilDate.MaxValue - 2;
+        var thu = XCivilDate.MaxValue - 1;
+        var fri = XCivilDate.MaxValue;
 
         // Act & Assert
 

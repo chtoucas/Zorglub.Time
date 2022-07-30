@@ -3,27 +3,27 @@
 
 namespace Zorglub.Time.Extras;
 
-public partial class CivilDateTests // CountDaysSince()
+public partial class XCivilDateTests // CountDaysSince()
 {
     [Theory, MemberData(nameof(DayNumberInfoData))]
     public void CountDaysSince_Epoch(DayNumberInfo info)
     {
         var (dayNumber, y, m, d) = info;
-        var date = new CivilDate(y, m, d);
+        var date = new XCivilDate(y, m, d);
         // Act
         // NB: Bulgroz.MinValue.DayNumber = GregorianCalendar.Epoch.
-        var actual = DayZero.NewStyle + date.CountDaysSince(CivilDate.MinValue);
+        var actual = DayZero.NewStyle + date.CountDaysSince(XCivilDate.MinValue);
         // Act & Assert
         Assert.Equal(dayNumber, actual);
     }
 }
 
-public partial class CivilDateTests // PlusYears(), CountYearsSince()
+public partial class XCivilDateTests // PlusYears(), CountYearsSince()
 {
     [Fact]
     public static void PlusYears_OverflowOrUnderflow()
     {
-        var date = new CivilDate(3, 4, 5);
+        var date = new XCivilDate(3, 4, 5);
         // Act & Assert
         Assert.Overflows(() => date.PlusYears(Int32.MinValue));
         Assert.Overflows(() => date.PlusYears(Int32.MaxValue));
@@ -32,9 +32,9 @@ public partial class CivilDateTests // PlusYears(), CountYearsSince()
     [Fact]
     public static void PlusYears_WithLimitValues_AtMinValue()
     {
-        var min = CivilDate.MinValue;
-        int years = CivilDate.MaxYear - CivilDate.MinYear;
-        var exp = new CivilDate(CivilDate.MaxYear, 1, 1);
+        var min = XCivilDate.MinValue;
+        int years = XCivilDate.MaxYear - XCivilDate.MinYear;
+        var exp = new XCivilDate(XCivilDate.MaxYear, 1, 1);
         // Act & Assert
         Assert.Overflows(() => min.PlusYears(-1));
         Assert.Equal(min, min.PlusYears(0));
@@ -45,9 +45,9 @@ public partial class CivilDateTests // PlusYears(), CountYearsSince()
     [Fact]
     public static void PlusYears_WithLimitValues_AtMaxValue()
     {
-        var max = CivilDate.MaxValue;
-        int years = CivilDate.MaxYear - CivilDate.MinYear;
-        var exp = new CivilDate(CivilDate.MinYear, 12, 31);
+        var max = XCivilDate.MaxValue;
+        int years = XCivilDate.MaxYear - XCivilDate.MinYear;
+        var exp = new XCivilDate(XCivilDate.MinYear, 12, 31);
         // Act & Assert
         Assert.Overflows(() => max.PlusYears(-years - 1));
         Assert.Equal(exp, max.PlusYears(-years));
@@ -58,11 +58,11 @@ public partial class CivilDateTests // PlusYears(), CountYearsSince()
     [Fact]
     public static void PlusYears_WithLimitValues()
     {
-        var date = new CivilDate(3, 4, 5);
-        int minYears = CivilDate.MinYear - date.Year;
-        int maxYears = CivilDate.MaxYear - date.Year;
-        var earliest = new CivilDate(CivilDate.MinYear, 4, 5);
-        var latest = new CivilDate(CivilDate.MaxYear, 4, 5);
+        var date = new XCivilDate(3, 4, 5);
+        int minYears = XCivilDate.MinYear - date.Year;
+        int maxYears = XCivilDate.MaxYear - date.Year;
+        var earliest = new XCivilDate(XCivilDate.MinYear, 4, 5);
+        var latest = new XCivilDate(XCivilDate.MaxYear, 4, 5);
         // Act & Assert
         Assert.Overflows(() => date.PlusYears(minYears - 1));
         Assert.Equal(earliest, date.PlusYears(minYears));
@@ -73,9 +73,9 @@ public partial class CivilDateTests // PlusYears(), CountYearsSince()
     [Fact]
     public static void CountYearsSince_DoesNotOverflow()
     {
-        var min = CivilDate.MinValue;
-        var max = CivilDate.MaxValue;
-        int years = CivilDate.MaxYear - CivilDate.MinYear;
+        var min = XCivilDate.MinValue;
+        var max = XCivilDate.MaxValue;
+        int years = XCivilDate.MaxYear - XCivilDate.MinYear;
         // Act & Assert
         Assert.Equal(years, max.CountYearsSince(min));
         Assert.Equal(-years, min.CountYearsSince(max));
@@ -133,7 +133,7 @@ public partial class CivilDateTests // PlusYears(), CountYearsSince()
     public static void PlusYears_ZeroIsNeutral(DateInfo info)
     {
         var (y, m, d) = info.Yemoda;
-        var date = new CivilDate(y, m, d);
+        var date = new XCivilDate(y, m, d);
         // Act & Assert
         Assert.Equal(date, date.PlusYears(0));
         Assert.Equal(0, date.CountYearsSince(date));
@@ -154,11 +154,11 @@ public partial class CivilDateTests // PlusYears(), CountYearsSince()
 
         // Now, we verify the contract of the method.
         // We filter out test data that could underflow or underflow.
-        if (years > 0 && start.Year + years + 1 <= CivilDate.MaxYear)
+        if (years > 0 && start.Year + years + 1 <= XCivilDate.MaxYear)
         {
             Assert.True(start.PlusYears(years + 1) > end);
         }
-        else if (years < 0 && start.Year + years - 1 >= CivilDate.MinYear)
+        else if (years < 0 && start.Year + years - 1 >= XCivilDate.MinYear)
         {
             Assert.True(start.PlusYears(years - 1) < end);
         }
@@ -167,36 +167,36 @@ public partial class CivilDateTests // PlusYears(), CountYearsSince()
     [Fact]
     public static void AddYears_IntegerOverflow()
     {
-        var date = new CivilDate(3, 4, 5);
+        var date = new XCivilDate(3, 4, 5);
         // Act & Assert
         // There is no integer underflow, only integer overflow.
-        Assert.Overflows(() => CivilDate.AddYears((CivilDate)date, Int32.MaxValue, out _));
+        Assert.Overflows(() => XCivilDate.AddYears((XCivilDate)date, Int32.MaxValue, out _));
     }
 
     [Fact]
     public static void AddYears_WithLimitValues_AtMinValue()
     {
-        var min = CivilDate.MinValue;
-        int years = CivilDate.MaxYear - CivilDate.MinYear;
-        var exp = new CivilDate(CivilDate.MaxYear, 1, 1);
+        var min = XCivilDate.MinValue;
+        int years = XCivilDate.MaxYear - XCivilDate.MinYear;
+        var exp = new XCivilDate(XCivilDate.MaxYear, 1, 1);
         // Act & Assert
-        Assert.Overflows(() => CivilDate.AddYears(min, -1, out _));
-        Assert.Equal(min, CivilDate.AddYears(min, 0, out _));
-        Assert.Equal(exp, CivilDate.AddYears(min, years, out _));
-        Assert.Overflows(() => CivilDate.AddYears(min, years + 1, out _));
+        Assert.Overflows(() => XCivilDate.AddYears(min, -1, out _));
+        Assert.Equal(min, XCivilDate.AddYears(min, 0, out _));
+        Assert.Equal(exp, XCivilDate.AddYears(min, years, out _));
+        Assert.Overflows(() => XCivilDate.AddYears(min, years + 1, out _));
     }
 
     [Fact]
     public static void AddYears_WithLimitValues_AtMaxValue()
     {
-        var max = CivilDate.MaxValue;
-        int years = CivilDate.MaxYear - CivilDate.MinYear;
-        var exp = new CivilDate(CivilDate.MinYear, 12, 31);
+        var max = XCivilDate.MaxValue;
+        int years = XCivilDate.MaxYear - XCivilDate.MinYear;
+        var exp = new XCivilDate(XCivilDate.MinYear, 12, 31);
         // Act & Assert
-        Assert.Overflows(() => CivilDate.AddYears(max, -years - 1, out _));
-        Assert.Equal(exp, CivilDate.AddYears(max, -years, out _));
-        Assert.Equal(max, CivilDate.AddYears(max, 0, out _));
-        Assert.Overflows(() => CivilDate.AddYears(max, 1, out _));
+        Assert.Overflows(() => XCivilDate.AddYears(max, -years - 1, out _));
+        Assert.Equal(exp, XCivilDate.AddYears(max, -years, out _));
+        Assert.Equal(max, XCivilDate.AddYears(max, 0, out _));
+        Assert.Overflows(() => XCivilDate.AddYears(max, 1, out _));
     }
 
     [Theory, MemberData(nameof(AddYearsData))]
@@ -207,11 +207,11 @@ public partial class CivilDateTests // PlusYears(), CountYearsSince()
         var other = CreateDate(xother);
         // Act & Assert
         // 1) date + years -> other.
-        Assert.Equal(other, CivilDate.AddYears(date, years, out int cutoff));
+        Assert.Equal(other, XCivilDate.AddYears(date, years, out int cutoff));
         Assert.Equal(0, cutoff);
 
         // 2) other - years -> date.
-        Assert.Equal(date, CivilDate.AddYears(other, -years, out cutoff));
+        Assert.Equal(date, XCivilDate.AddYears(other, -years, out cutoff));
         Assert.Equal(0, cutoff);
     }
 
@@ -225,21 +225,21 @@ public partial class CivilDateTests // PlusYears(), CountYearsSince()
 
         // Act & Assert
         // 1) date + years -> other.
-        Assert.Equal(other, CivilDate.AddYears(date, years, out int cutoff));
+        Assert.Equal(other, XCivilDate.AddYears(date, years, out int cutoff));
         Assert.Equal(1, cutoff);
 
         // 2) other - years does NOT return date but dateBefore.
-        Assert.Equal(dateBefore, CivilDate.AddYears(other, -years, out cutoff));
+        Assert.Equal(dateBefore, XCivilDate.AddYears(other, -years, out cutoff));
         Assert.Equal(0, cutoff);
     }
 }
 
-public partial class CivilDateTests // PlusMonths(), CountMonthsSince()
+public partial class XCivilDateTests // PlusMonths(), CountMonthsSince()
 {
     [Fact]
     public static void PlusMonths_OverflowOrUnderflow()
     {
-        var date = new CivilDate(3, 4, 5);
+        var date = new XCivilDate(3, 4, 5);
         // Act & Assert
         Assert.Overflows(() => date.PlusMonths(Int32.MinValue));
         Assert.Overflows(() => date.PlusMonths(Int32.MaxValue));
@@ -248,9 +248,9 @@ public partial class CivilDateTests // PlusMonths(), CountMonthsSince()
     [Fact]
     public static void PlusMonths_WithLimitValues_AtMinValue()
     {
-        var min = CivilDate.MinValue;
-        int months = 11 + 12 * (CivilDate.MaxYear - CivilDate.MinYear);
-        var exp = new CivilDate(CivilDate.MaxYear, 12, 1);
+        var min = XCivilDate.MinValue;
+        int months = 11 + 12 * (XCivilDate.MaxYear - XCivilDate.MinYear);
+        var exp = new XCivilDate(XCivilDate.MaxYear, 12, 1);
         // Act & Assert
         Assert.Overflows(() => min.PlusMonths(-1));
         Assert.Equal(min, min.PlusMonths(0));
@@ -261,9 +261,9 @@ public partial class CivilDateTests // PlusMonths(), CountMonthsSince()
     [Fact]
     public static void PlusMonths_WithLimitValues_AtMaxValue()
     {
-        var max = CivilDate.MaxValue;
-        int months = 11 + 12 * (CivilDate.MaxYear - CivilDate.MinYear);
-        var exp = new CivilDate(CivilDate.MinYear, 1, 31);
+        var max = XCivilDate.MaxValue;
+        int months = 11 + 12 * (XCivilDate.MaxYear - XCivilDate.MinYear);
+        var exp = new XCivilDate(XCivilDate.MinYear, 1, 31);
         // Act & Assert
         Assert.Overflows(() => max.PlusMonths(-months - 1));
         Assert.Equal(exp, max.PlusMonths(-months));
@@ -274,11 +274,11 @@ public partial class CivilDateTests // PlusMonths(), CountMonthsSince()
     [Fact]
     public static void PlusMonths_WithLimitValues()
     {
-        var date = new CivilDate(3, 4, 5);
-        int minMonths = CivilDate.MinValue.CountMonthsSince((CivilDate)date);
-        int maxMonths = CivilDate.MaxValue.CountMonthsSince((CivilDate)date);
-        var earliest = new CivilDate(CivilDate.MinYear, 1, 5);
-        var latest = new CivilDate(CivilDate.MaxYear, 12, 5);
+        var date = new XCivilDate(3, 4, 5);
+        int minMonths = XCivilDate.MinValue.CountMonthsSince((XCivilDate)date);
+        int maxMonths = XCivilDate.MaxValue.CountMonthsSince((XCivilDate)date);
+        var earliest = new XCivilDate(XCivilDate.MinYear, 1, 5);
+        var latest = new XCivilDate(XCivilDate.MaxYear, 12, 5);
         // Act & Assert
         Assert.Overflows(() => date.PlusMonths(minMonths - 1));
         Assert.Equal(earliest, date.PlusMonths(minMonths));
@@ -289,9 +289,9 @@ public partial class CivilDateTests // PlusMonths(), CountMonthsSince()
     [Fact]
     public static void CountMonthsSince_DoesNotOverflow()
     {
-        var min = CivilDate.MinValue;
-        var max = CivilDate.MaxValue;
-        int months = 11 + 12 * (CivilDate.MaxYear - CivilDate.MinYear);
+        var min = XCivilDate.MinValue;
+        var max = XCivilDate.MaxValue;
+        int months = 11 + 12 * (XCivilDate.MaxYear - XCivilDate.MinYear);
         // Act & Assert
         Assert.Equal(months, max.CountMonthsSince(min));
         Assert.Equal(-months, min.CountMonthsSince(max));
@@ -343,7 +343,7 @@ public partial class CivilDateTests // PlusMonths(), CountMonthsSince()
     public static void PlusMonths_ZeroIsNeutral(DateInfo info)
     {
         var (y, m, d) = info.Yemoda;
-        var date = new CivilDate(y, m, d);
+        var date = new XCivilDate(y, m, d);
         // Act & Assert
         Assert.Equal(date, date.PlusMonths(0));
         Assert.Equal(0, date.CountMonthsSince(date));
@@ -365,11 +365,11 @@ public partial class CivilDateTests // PlusMonths(), CountMonthsSince()
 
         // Now, we verify the contract of the method.
         // We do not bother with strict limits.
-        if (months > 0 && end.Year < CivilDate.MaxYear)
+        if (months > 0 && end.Year < XCivilDate.MaxYear)
         {
             Assert.True(start.PlusMonths(months + 1) > end);
         }
-        else if (months < 0 && end.Year > CivilDate.MinYear)
+        else if (months < 0 && end.Year > XCivilDate.MinYear)
         {
             Assert.True(start.PlusMonths(months - 1) < end);
         }
@@ -378,36 +378,36 @@ public partial class CivilDateTests // PlusMonths(), CountMonthsSince()
     [Fact]
     public static void AddMonths_IntegerOverflow()
     {
-        var date = new CivilDate(3, 4, 5);
+        var date = new XCivilDate(3, 4, 5);
         // Act & Assert
         // There is no integer underflow, only integer overflow.
-        Assert.Overflows(() => CivilDate.AddMonths((CivilDate)date, Int32.MaxValue, out _));
+        Assert.Overflows(() => XCivilDate.AddMonths((XCivilDate)date, Int32.MaxValue, out _));
     }
 
     [Fact]
     public static void AddMonths_WithLimitValues_AtMinValue()
     {
-        var min = CivilDate.MinValue;
-        int months = 11 + 12 * (CivilDate.MaxYear - CivilDate.MinYear);
-        var exp = new CivilDate(CivilDate.MaxYear, 12, 1);
+        var min = XCivilDate.MinValue;
+        int months = 11 + 12 * (XCivilDate.MaxYear - XCivilDate.MinYear);
+        var exp = new XCivilDate(XCivilDate.MaxYear, 12, 1);
         // Act & Assert
-        Assert.Overflows(() => CivilDate.AddMonths(min, -1, out _));
-        Assert.Equal(min, CivilDate.AddMonths(min, 0, out _));
-        Assert.Equal(exp, CivilDate.AddMonths(min, months, out _));
-        Assert.Overflows(() => CivilDate.AddMonths(min, months + 1, out _));
+        Assert.Overflows(() => XCivilDate.AddMonths(min, -1, out _));
+        Assert.Equal(min, XCivilDate.AddMonths(min, 0, out _));
+        Assert.Equal(exp, XCivilDate.AddMonths(min, months, out _));
+        Assert.Overflows(() => XCivilDate.AddMonths(min, months + 1, out _));
     }
 
     [Fact]
     public static void AddMonths_WithLimitValues_AtMaxValue()
     {
-        var max = CivilDate.MaxValue;
-        int months = 11 + 12 * (CivilDate.MaxYear - CivilDate.MinYear);
-        var exp = new CivilDate(CivilDate.MinYear, 1, 31);
+        var max = XCivilDate.MaxValue;
+        int months = 11 + 12 * (XCivilDate.MaxYear - XCivilDate.MinYear);
+        var exp = new XCivilDate(XCivilDate.MinYear, 1, 31);
         // Act & Assert
-        Assert.Overflows(() => CivilDate.AddMonths(max, -months - 1, out _));
-        Assert.Equal(exp, CivilDate.AddMonths(max, -months, out _));
-        Assert.Equal(max, CivilDate.AddMonths(max, 0, out _));
-        Assert.Overflows(() => CivilDate.AddMonths(max, 1, out _));
+        Assert.Overflows(() => XCivilDate.AddMonths(max, -months - 1, out _));
+        Assert.Equal(exp, XCivilDate.AddMonths(max, -months, out _));
+        Assert.Equal(max, XCivilDate.AddMonths(max, 0, out _));
+        Assert.Overflows(() => XCivilDate.AddMonths(max, 1, out _));
     }
 
     [Theory, MemberData(nameof(AddMonthsData))]
@@ -418,11 +418,11 @@ public partial class CivilDateTests // PlusMonths(), CountMonthsSince()
         var other = CreateDate(xother);
         // Act & Assert
         // 1) date + months -> other.
-        Assert.Equal(other, CivilDate.AddMonths(date, months, out int cutoff));
+        Assert.Equal(other, XCivilDate.AddMonths(date, months, out int cutoff));
         Assert.Equal(0, cutoff);
 
         // 2) other - months -> date.
-        Assert.Equal(date, CivilDate.AddMonths(other, -months, out cutoff));
+        Assert.Equal(date, XCivilDate.AddMonths(other, -months, out cutoff));
         Assert.Equal(0, cutoff);
     }
 
@@ -437,16 +437,16 @@ public partial class CivilDateTests // PlusMonths(), CountMonthsSince()
 
         // Act & Assert
         // 1) date + months -> other.
-        Assert.Equal(other, CivilDate.AddMonths(date, months, out int cutoff));
+        Assert.Equal(other, XCivilDate.AddMonths(date, months, out int cutoff));
         Assert.Equal(err, cutoff);
 
         // 2) other - months does NOT return date but a cut-off date.
-        Assert.Equal(cutoffDate, CivilDate.AddMonths(other, -months, out cutoff));
+        Assert.Equal(cutoffDate, XCivilDate.AddMonths(other, -months, out cutoff));
         Assert.Equal(0, cutoff);
     }
 }
 
-public partial class CivilDateTests // Subtract()
+public partial class XCivilDateTests // Subtract()
 {
     [Theory, MemberData(nameof(DateDiffData))]
     public static void Subtract(DateDiff info)
@@ -455,7 +455,7 @@ public partial class CivilDateTests // Subtract()
         var start = CreateDate(xstart);
         var end = CreateDate(xend);
         // Act & Assert
-        var (ys, ms, ds) = CivilDate.Subtract(end, start);
+        var (ys, ms, ds) = XCivilDate.Subtract(end, start);
         Assert.Equal(years, ys);
         Assert.Equal(months, ms);
         Assert.Equal(days, ds);
@@ -471,7 +471,7 @@ public partial class CivilDateTests // Subtract()
         var start = CreateDate(xstart);
         var end = CreateDate(xend);
         // Act & Assert
-        var (ys, ms, ds) = CivilDate.Subtract(end, start);
+        var (ys, ms, ds) = XCivilDate.Subtract(end, start);
         Assert.Equal(years, ys);
         Assert.Equal(months, ms);
         Assert.Equal(days, ds);
@@ -484,9 +484,9 @@ public partial class CivilDateTests // Subtract()
     public static void Subtract_WithIdenticalDates(DateInfo info)
     {
         var (y, m, d) = info.Yemoda;
-        var date = new CivilDate(y, m, d);
+        var date = new XCivilDate(y, m, d);
         // Act
-        var (y0, m0, d0) = CivilDate.Subtract((CivilDate)date, (CivilDate)date);
+        var (y0, m0, d0) = XCivilDate.Subtract((XCivilDate)date, (XCivilDate)date);
         // Assert
         Assert.Equal(0, y0);
         Assert.Equal(0, m0);

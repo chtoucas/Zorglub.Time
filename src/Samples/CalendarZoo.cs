@@ -10,6 +10,7 @@ using System.Threading;
 using Zorglub.Time;
 using Zorglub.Time.Core;
 using Zorglub.Time.Core.Schemas;
+using Zorglub.Time.Extras;
 using Zorglub.Time.Hemerology;
 using Zorglub.Time.Hemerology.Scopes;
 using Zorglub.Time.Simple;

@@ -3,6 +3,10 @@
 
 namespace Zorglub.Time
 {
+    // We have two calendar systems, one in Simple and the other in Extras.
+    // Calendars with the same ID SHOULD be functionally equivalent, i.e. they
+    // should use equivalent scopes.
+
     /// <summary>
     /// Specifies the permanent unique identifier of a calendar.
     /// <para>This is a feature only available to system calendars.</para>
@@ -10,12 +14,12 @@ namespace Zorglub.Time
     public enum CalendarId
     {
         /// <summary>
-        /// The permanent identifier of the Gregorian calendar.
+        /// The permanent identifier of the proleptic Gregorian calendar.
         /// </summary>
         Gregorian = 0,
 
         /// <summary>
-        /// The permanent identifier of the Julian calendar.
+        /// The permanent identifier of the proleptic Julian calendar.
         /// </summary>
         Julian,
 

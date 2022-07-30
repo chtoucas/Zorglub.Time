@@ -7,7 +7,7 @@ using NodaTime;
 using NodaTime.Extensions;
 
 using Zorglub.Time;
-using Zorglub.Time.Hemerology;
+using Zorglub.Time.Extras;
 using Zorglub.Time.Simple;
 using Zorglub.Time.Specialized;
 

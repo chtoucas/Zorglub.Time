@@ -14,7 +14,7 @@ open Zorglub.Time
 open Zorglub.Time.Core
 open Zorglub.Time.Core.Intervals
 open Zorglub.Time.Core.Utilities
-open Zorglub.Time.Hemerology
+open Zorglub.Time.Extras
 open Zorglub.Time.Horology
 open Zorglub.Time.Simple
 open Zorglub.Time.Specialized
@@ -101,14 +101,14 @@ module RuntimeSizes =
     [<Fact>]
     let ``Types in Zorglub.Time.Extras`` () =
         // Zorglub.Sketches
-        Marshal.SizeOf(typedefof<Zorglub.Time.Extras.CivilDate>) === 4
+        Marshal.SizeOf(typedefof<ZDate>) === 8
+        Marshal.SizeOf(typedefof<XCivilDate>) === 4
 
     [<Fact>]
     let ``Types in Zorglub.Time.Hemerology`` () =
         // Zorglub.Sketches
         Marshal.SizeOf(typedefof<CivilDate>) === 4
         Marshal.SizeOf(typedefof<GregorianDate>) === 4
-        Marshal.SizeOf(typedefof<ZDate>) === 8
 
     [<Fact>]
     let ``Types in Zorglub.Time.Horology`` () =
@@ -364,8 +364,16 @@ module DefaultValues =
     //
 
     [<Fact>]
-    let ``Default value of Zorglub.Time.Extras.CivilDate is 01/01/0001 (Gregorian-only)`` () =
-        let date = Unchecked.defaultof<Zorglub.Time.Extras.CivilDate>
+    let ``Default value of ZDate is 01/01/0001 (Gregorian)`` () =
+        let date = Unchecked.defaultof<ZDate>
+        let y, m, d = date.Deconstruct()
+
+        (y, m, d) === (1, 1, 1)
+        date.Calendar.Key === "Gregorian"
+
+    [<Fact>]
+    let ``Default value of XCivilDate is 01/01/0001 (Gregorian-only)`` () =
+        let date = Unchecked.defaultof<XCivilDate>
         let y, m, d = date.Deconstruct()
 
         (y, m, d) === (1, 1, 1)
@@ -387,14 +395,6 @@ module DefaultValues =
         let y, m, d = date.Deconstruct()
 
         (y, m, d) === (1, 1, 1)
-
-    [<Fact>]
-    let ``Default value of ZDate is 01/01/0001 (Gregorian)`` () =
-        let date = Unchecked.defaultof<ZDate>
-        let y, m, d = date.Deconstruct()
-
-        (y, m, d) === (1, 1, 1)
-        date.Calendar.Key === "Gregorian"
 
     //
     // Time parts found in Zorglub.Time.Horology
