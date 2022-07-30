@@ -1,8 +1,10 @@
 ﻿// SPDX-License-Identifier: BSD-3-Clause
 // Copyright (c) 2020 Narvalo.Org. All rights reserved.
 
-namespace Zorglub.Time.Specialized
+namespace Zorglub.Bulgroz.Extras
 {
+    using Zorglub.Time.Specialized;
+
     // Calendrier liturgique orthodoxe.
     //
     // Références :

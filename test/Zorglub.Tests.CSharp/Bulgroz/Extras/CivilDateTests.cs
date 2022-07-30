@@ -1,7 +1,7 @@
 ﻿// SPDX-License-Identifier: BSD-3-Clause
 // Copyright (c) 2020 Narvalo.Org. All rights reserved.
 
-namespace Zorglub.Bulgroz;
+namespace Zorglub.Bulgroz.Extras;
 
 using System.Diagnostics.Contracts;
 using System.Linq;

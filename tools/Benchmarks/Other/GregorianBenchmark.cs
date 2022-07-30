@@ -12,6 +12,8 @@ using Zorglub.Time.Hemerology;
 using Zorglub.Time.Simple;
 using Zorglub.Time.Specialized;
 
+using XCivilDate = Zorglub.Bulgroz.Extras.CivilDate;
+
 /*
 BenchmarkDotNet=v0.13.1, OS=Windows 10.0.19044.1826 (21H2)
 Intel Core i7-4500U CPU 1.80GHz (Haswell), 1 CPU, 4 logical and 2 physical cores
@@ -261,10 +263,10 @@ public class GregorianBenchmark : BenchmarkBase
     #region Specialized date types
 
     [Benchmark(Description = "CivilDate  (Yg)+")]
-    public void WithBulgrozCivilDate()
+    public void WithCivilDateFromExtras()
     {
-        Zorglub.Bulgroz.CivilDate start = new(Year, Month, Day);
-        Zorglub.Bulgroz.CivilDate end = start.NextDay().PlusDays(D7).PlusDays(D30).PlusDays(D401);
+        XCivilDate start = new(Year, Month, Day);
+        XCivilDate end = start.NextDay().PlusDays(D7).PlusDays(D30).PlusDays(D401);
 
         var (y, m, d) = end;
         DayOfWeek dayOfWeek = end.DayOfWeek;

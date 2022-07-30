@@ -1,18 +1,20 @@
 ﻿TODO
 ====
 
-SupportedYearsTester
-Naming: ident, id, cuid
-Adjustable dates
-Replace CivilPrototype by CivilDate
+Naming: ident, id, cuid <- harmoniser
+Struct fields instead of auto-props
+Adjustable dates, providers <- à refaire
 Today and UtcToday <- time provider
+SupportedYearsTester
+
 Calendar<TDate> & Date: Min/MaxXXX and new prop Epoch (as a Date not a DayNumber,
 maybe use Origin to avoid confusion). Remove IMinMaxValue
 Mono-date: which props? epoch, domain
-Explain the lesson learned so far: daysSinceEpoch is better than y/doy which is
+
+Explain the lessons learned so far: daysSinceEpoch is better than y/doy which is
 better than y/m/d, poly-calendar is not such a good idea (JulianDate/Calendar
 contains the name of the calendar, we can add specific methods). Proleptic is
-only a bit slower than Standard.
+only a bit slower than Standard (> 0).
 
 - Math:
   * Optimize div in N / uint in enum comp / ulong?
@@ -29,12 +31,12 @@ only a bit slower than Standard.
 - Publication: GitHub & NuGet (for NuGet only when reach 1.0.0).
 - When .NET 7 is out:
   D.B.targets: disable preview features.
-  Clean up unnecessary "#pragma warning disable".
-  Generic math: using System.Numerics.
+  Clean up unnecessary `#pragma warning disable`.
+  Generic math: `using System.Numerics`.
   Github action: test on Ubuntu and MacOS.
 - Clean up compiler symbols.
 - CLSCompliant
-- Exception messages: use ThrowHelpers.
+- Exception messages: use ThrowHelpers everywhere.
   Only use OverflowException for truely arithmetic overflows?
   XML doc: "would", "was"
 - Era type as a range of DayNumber's.

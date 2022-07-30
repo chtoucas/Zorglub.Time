@@ -126,7 +126,7 @@ module RuntimeSizes =
     [<Fact>]
     let ``Types in Zorglub.Bulgroz`` () =
         // Zorglub.Sketches
-        Marshal.SizeOf(typedefof<Zorglub.Bulgroz.CivilDate>) === 4
+        Marshal.SizeOf(typedefof<Zorglub.Bulgroz.Extras.CivilDate>) === 4
 
     // TODO(code): add tests for the data types defined within THIS project.
     [<Fact>]
@@ -407,7 +407,7 @@ module DefaultValues =
 
     [<Fact>]
     let ``Default value of Zorglub.Bulgroz.CivilDate is 01/01/0001 (Gregorian-only)`` () =
-        let date = Unchecked.defaultof<Zorglub.Bulgroz.CivilDate>
+        let date = Unchecked.defaultof<Zorglub.Bulgroz.Extras.CivilDate>
         let y, m, d = date.Deconstruct()
 
         (y, m, d) === (1, 1, 1)

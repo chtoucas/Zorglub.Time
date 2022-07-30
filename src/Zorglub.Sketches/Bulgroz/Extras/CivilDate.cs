@@ -1,7 +1,7 @@
 ﻿// SPDX-License-Identifier: BSD-3-Clause
 // Copyright (c) 2020 Narvalo.Org. All rights reserved.
 
-//#define CIVILPROTOTYPE_PLAIN_DAYOFWEEK
+//#define CIVILDATE_PLAIN_DAYOFWEEK
 
 // Optimised Gregorian date type. Useful for performance testing.
 
@@ -31,7 +31,7 @@
 //   and [Doomsday rule](https://en.wikipedia.org/wiki/Doomsday_rule)
 // - https://en.wikipedia.org/wiki/Civil_calendar
 
-namespace Zorglub.Bulgroz
+namespace Zorglub.Bulgroz.Extras
 {
     using System.ComponentModel;
 
@@ -226,7 +226,7 @@ namespace Zorglub.Bulgroz
         {
             get
             {
-#if CIVILPROTOTYPE_PLAIN_DAYOFWEEK
+#if CIVILDATE_PLAIN_DAYOFWEEK
                 // The epoch of the Gregorian calendar is a Monday.
                 return (DayOfWeek)((uint)((int)DayOfWeek.Monday + DaysSinceEpoch) % 7);
 #else
@@ -244,7 +244,7 @@ namespace Zorglub.Bulgroz
         {
             get
             {
-#if CIVILPROTOTYPE_PLAIN_DAYOFWEEK
+#if CIVILDATE_PLAIN_DAYOFWEEK
                 return (IsoDayOfWeek)MathN.AdjustedModulo((int)DayOfWeek.Monday + DaysSinceEpoch, 7);
 #else
                 Unpack(out int y, out int m, out int d);
@@ -541,7 +541,7 @@ namespace Zorglub.Bulgroz
         [Pure]
         internal static uint GetIsoDayOfWeekAtStartOfYear(int y)
         {
-#if CIVILPROTOTYPE_PLAIN_DAYOFWEEK
+#if CIVILDATE_PLAIN_DAYOFWEEK
             var startOfYear = new CivilDate((y << 9) | __StartOfYear);
             return (uint)startOfYear.IsoDayOfWeek;
 #else
@@ -760,10 +760,10 @@ namespace Zorglub.Bulgroz
         #endregion
         #region Adjust the day of the week
 
-        // With CIVILPROTOTYPE_PLAIN_DAYOFWEEK, we do not use the math op Plus()
+        // With CIVILDATE_PLAIN_DAYOFWEEK, we do not use the math op Plus()
         //   first we must compute DaysSinceEpoch, shift it, then convert the
         //   result back to a (y, m, d).
-        // Without CIVILPROTOTYPE_PLAIN_DAYOFWEEK (default),
+        // Without CIVILDATE_PLAIN_DAYOFWEEK (default),
         //   we only need DayOfWeek which, thanks to the Doosmday rule, is
         //   slightly faster to compute than DaysSinceEpoch, then use Plus()
         //   which is rather optimised for this type of situation.
@@ -774,7 +774,7 @@ namespace Zorglub.Bulgroz
         /// <inheritdoc />
         [Pure]
         public CivilDate Previous(DayOfWeek dayOfWeek)
-#if CIVILPROTOTYPE_PLAIN_DAYOFWEEK
+#if CIVILDATE_PLAIN_DAYOFWEEK
             => NextOrSameCore(dayOfWeek, -7);
 #else
         {
@@ -788,7 +788,7 @@ namespace Zorglub.Bulgroz
         /// <inheritdoc />
         [Pure]
         public CivilDate PreviousOrSame(DayOfWeek dayOfWeek)
-#if CIVILPROTOTYPE_PLAIN_DAYOFWEEK
+#if CIVILDATE_PLAIN_DAYOFWEEK
             => NextOrSameCore(dayOfWeek, -6);
 #else
         {
@@ -810,7 +810,7 @@ namespace Zorglub.Bulgroz
         /// <inheritdoc />
         [Pure]
         public CivilDate NextOrSame(DayOfWeek dayOfWeek)
-#if CIVILPROTOTYPE_PLAIN_DAYOFWEEK
+#if CIVILDATE_PLAIN_DAYOFWEEK
             => PreviousOrSameCore(dayOfWeek, 6);
 #else
         {
@@ -824,7 +824,7 @@ namespace Zorglub.Bulgroz
         /// <inheritdoc />
         [Pure]
         public CivilDate Next(DayOfWeek dayOfWeek)
-#if CIVILPROTOTYPE_PLAIN_DAYOFWEEK
+#if CIVILDATE_PLAIN_DAYOFWEEK
             => PreviousOrSameCore(dayOfWeek, 7);
 #else
         {

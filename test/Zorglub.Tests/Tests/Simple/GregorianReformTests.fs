@@ -13,13 +13,13 @@ open Xunit
 let ``Property Official.SecularShift`` () =
     GregorianReform.Official.SecularShift === 10
 
-[<Fact>]
+[<Fact(Skip = "???")>]
 let ``Property Official (from last Julian date)`` () =
     let reform = GregorianReform.FromLastJulianDate(1582, 10, 4)
 
     GregorianReform.Official === reform
 
-[<Fact>]
+[<Fact(Skip = "???")>]
 let ``Property Official (from first Gregorian date)`` () =
     let reform = GregorianReform.FromFirstGregorianDate(1582, 10, 15)
 
