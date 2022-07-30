@@ -13,11 +13,11 @@ open Zorglub.Time.Specialized
 module Bundles =
     // NB: notice the use of StandardGregorianDataSet.
 
-    let private chr = new CivilCalendar()
+    let private chr = new CivilSystem()
 
     [<Sealed>]
     type CalendaTests() =
-        inherit ICalendarTFacts<CivilDate, CivilCalendar, StandardGregorianDataSet>(chr)
+        inherit ICalendarTFacts<CivilDate, CivilSystem, StandardGregorianDataSet>(chr)
 
         override x.Algorithm_Prop() = x.CalendarUT.Algorithm === CalendricalAlgorithm.Arithmetical
         override x.Family_Prop() = x.CalendarUT.Family === CalendricalFamily.Solar

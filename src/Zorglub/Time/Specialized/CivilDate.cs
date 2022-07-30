@@ -25,16 +25,16 @@ namespace Zorglub.Time.Specialized
         IMinMaxValue<CivilDate>
     {
         /// <summary>
-        /// Represents the Gregorian schema.
+        /// Represents the Civil schema.
         /// <para>This field is read-only.</para>
         /// </summary>
         private static readonly CivilSchema s_Schema = new();
 
         /// <summary>
-        /// Represents the Gregorian calendar.
+        /// Represents the Civil calendar system.
         /// <para>This field is read-only.</para>
         /// </summary>
-        private static readonly CivilCalendar s_Calendar = new(s_Schema);
+        private static readonly CivilSystem s_Calendar = new(s_Schema);
 
         /// <summary>
         /// Represents the domain, the interval of supported <see cref="DayNumber"/>.
@@ -67,7 +67,7 @@ namespace Zorglub.Time.Specialized
         /// </summary>
         /// <exception cref="AoorException">The specified components do not form a valid date or
         /// <paramref name="year"/> is outside the range of years supported by
-        /// <see cref="CivilCalendar"/>.</exception>
+        /// <see cref="CivilSystem"/>.</exception>
         public CivilDate(int year, int month, int day)
         {
             GregorianStandardScope.ValidateYearMonthDay(year, month, day);
@@ -81,7 +81,7 @@ namespace Zorglub.Time.Specialized
         /// </summary>
         /// <exception cref="AoorException">The specified components do not form a valid ordinal
         /// date or <paramref name="year"/> is outside the range of years supported by
-        /// <see cref="CivilCalendar"/>.</exception>
+        /// <see cref="CivilSystem"/>.</exception>
         public CivilDate(int year, int dayOfYear)
         {
             GregorianStandardScope.ValidateOrdinal(year, dayOfYear);
@@ -126,7 +126,7 @@ namespace Zorglub.Time.Specialized
         /// Gets the calendar to which belongs the current instance.
         /// <para>This static property is thread-safe.</para>
         /// </summary>
-        public static CivilCalendar Calendar => s_Calendar;
+        public static CivilSystem Calendar => s_Calendar;
 
         /// <summary>
         /// Gets the day number.

@@ -20,21 +20,21 @@ namespace Zorglub.Time.Specialized
     // but then we lose access to custom methods from CivilCalendar.
 
     /// <summary>
-    /// Represents the Civil calendar.
+    /// Represents the Civil calendar system.
     /// <para>This class cannot be inherited.</para>
     /// </summary>
-    public sealed class CivilCalendar : BasicCalendar, ICalendar<CivilDate>
+    public sealed class CivilSystem : BasicCalendar, ICalendar<CivilDate>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="CivilCalendar"/> class.
+        /// Initializes a new instance of the <see cref="CivilSystem"/> class.
         /// </summary>
-        public CivilCalendar() : this(new CivilSchema()) { }
+        public CivilSystem() : this(new CivilSchema()) { }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="CivilCalendar"/> class.
+        /// Initializes a new instance of the <see cref="CivilSystem"/> class.
         /// </summary>
         // Constructor for CivilDate.
-        internal CivilCalendar(CivilSchema schema)
+        internal CivilSystem(CivilSchema schema)
             : base("Gregorian", new StandardScope(schema, DayZero.NewStyle)) { }
 
         //
