@@ -13,21 +13,21 @@ namespace Zorglub.Time.Specialized
     using Zorglub.Time.Hemerology.Scopes;
 
     /// <summary>
-    /// Represents the Gregorian calendar.
+    /// Represents the Gregorian calendar system.
     /// <para>This class cannot be inherited.</para>
     /// </summary>
-    public sealed class GregorianCalendar : BasicCalendar, ICalendar<GregorianDate>
+    public sealed class GregorianSystem : BasicCalendar, ICalendar<GregorianDate>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="GregorianCalendar"/> class.
+        /// Initializes a new instance of the <see cref="GregorianSystem"/> class.
         /// </summary>
-        public GregorianCalendar() : this(new GregorianSchema()) { }
+        public GregorianSystem() : this(new GregorianSchema()) { }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="GregorianCalendar"/> class.
+        /// Initializes a new instance of the <see cref="GregorianSystem"/> class.
         /// </summary>
         // Constructor for GregorianDate.
-        internal GregorianCalendar(GregorianSchema schema)
+        internal GregorianSystem(GregorianSchema schema)
             : base("Gregorian", MinMaxYearScope.WithMaximalRange(schema, DayZero.NewStyle)) { }
 
         //

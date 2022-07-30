@@ -31,10 +31,10 @@ namespace Zorglub.Time.Specialized
         private static readonly GregorianSchema s_Schema = new();
 
         /// <summary>
-        /// Represents the Gregorian calendar.
+        /// Represents the Gregorian calendar system.
         /// <para>This field is read-only.</para>
         /// </summary>
-        private static readonly GregorianCalendar s_Calendar = new(s_Schema);
+        private static readonly GregorianSystem s_Calendar = new(s_Schema);
 
         /// <summary>
         /// Represents the scope.
@@ -73,7 +73,7 @@ namespace Zorglub.Time.Specialized
         /// </summary>
         /// <exception cref="AoorException">The specified components do not form a valid date or
         /// <paramref name="year"/> is outside the range of years supported by
-        /// <see cref="GregorianCalendar"/>.</exception>
+        /// <see cref="GregorianSystem"/>.</exception>
         public GregorianDate(int year, int month, int day)
         {
             s_Scope.ValidateYearMonthDay(year, month, day);
@@ -87,7 +87,7 @@ namespace Zorglub.Time.Specialized
         /// </summary>
         /// <exception cref="AoorException">The specified components do not form a valid ordinal
         /// date or <paramref name="year"/> is outside the range of years supported by
-        /// <see cref="GregorianCalendar"/>.</exception>
+        /// <see cref="GregorianSystem"/>.</exception>
         public GregorianDate(int year, int dayOfYear)
         {
             s_Scope.ValidateOrdinal(year, dayOfYear);
@@ -129,10 +129,10 @@ namespace Zorglub.Time.Specialized
         public static GregorianDate MaxValue => s_MaxValue;
 
         /// <summary>
-        /// Gets the calendar to which belongs the current instance.
+        /// Gets the calendar system to which belongs the current instance.
         /// <para>This static property is thread-safe.</para>
         /// </summary>
-        public static GregorianCalendar Calendar => s_Calendar;
+        public static GregorianSystem Calendar => s_Calendar;
 
         /// <summary>
         /// Gets the day number.
