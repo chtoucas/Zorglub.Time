@@ -7,6 +7,7 @@ using Samples;
 
 using Zorglub.Time;
 using Zorglub.Time.Core.Schemas;
+using Zorglub.Time.Extras;
 using Zorglub.Time.Hemerology;
 using Zorglub.Time.Simple;
 
@@ -43,7 +44,7 @@ public static class Showcase
         WriteLine();
         WriteLine("Gregorian-like calendars.");
         WriteLine($"    {GregorianCalendar.Instance.GetCalendarDateOn(today)}");
-        WriteLine($"    {Zorglub.Time.Extras.ZCalendar.Gregorian.GetDate(today)}");
+        WriteLine($"    {ZCalendar.Gregorian.GetDate(today)}");
         WriteLine($"    {CalendarZoo.GenuineGregorian.GetDateParts(today)} ({CalendarZoo.GenuineGregorian})");
         WriteLine($"    {CalendarZoo.Minguo.GetDate(today)}");
         WriteLine($"    {CalendarZoo.Holocene.GetDate(today)}");
