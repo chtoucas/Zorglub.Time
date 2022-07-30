@@ -162,7 +162,7 @@ namespace Zorglub.Time.Extras
         /// Gets the domain, the interval of supported <see cref="DayNumber"/>.
         /// <para>This static property is thread-safe.</para>
         /// </summary>
-        public static  Range<DayNumber> Domain => s_Domain;
+        public static Range<DayNumber> Domain => s_Domain;
 
         /// <summary>
         /// Gets the earliest date supported by the <see cref="XCivilDate"/> type: Monday, January

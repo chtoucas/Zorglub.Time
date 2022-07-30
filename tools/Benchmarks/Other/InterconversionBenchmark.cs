@@ -7,7 +7,6 @@ using NodaTime;
 
 using Zorglub.Time;
 using Zorglub.Time.Extras;
-using Zorglub.Time.Hemerology;
 using Zorglub.Time.Simple;
 
 // REVIEW: CalendarDay should be faster than CalendarDate, no?
