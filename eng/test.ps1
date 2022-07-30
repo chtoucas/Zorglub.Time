@@ -63,14 +63,14 @@ Examples
 > test.ps1 more                 # Comprehensive test suite (Debug)
 
 Rough numbers.
-> test.ps1 smoke                # ~26 thousand tests (FAST)
-> test.ps1 regular              # ~60 thousand tests
-> test.ps1 more                 # ~70 thousand tests
-> test.ps1 most                 # ~246 thousand tests (SLOW)
+> test.ps1 smoke                # ~36 thousand tests (FAST)
+> test.ps1 regular              # ~83 thousand tests
+> test.ps1 more                 # ~90 thousand tests
+> test.ps1 most                 # ~288 thousand tests (SLOW)
 Extra plans.
-> test.ps1 redundant-slow       # ~66 thousand tests
-> test.ps1 redundant-not-slow   # ~110 thousand tests
-> test.ps1 redundant            # ~176 thousand tests (SLOW)
+> test.ps1 redundant-slow       # ~83 thousand tests
+> test.ps1 redundant-not-slow   # ~115 thousand tests
+> test.ps1 redundant            # ~198 thousand tests (SLOW)
 
 "@
 }
