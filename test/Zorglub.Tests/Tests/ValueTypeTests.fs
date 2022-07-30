@@ -101,14 +101,8 @@ module RuntimeSizes =
     [<Fact>]
     let ``Types in Zorglub.Time.Extras`` () =
         // Zorglub.Sketches
-        Marshal.SizeOf(typedefof<ZDate>) === 8
         Marshal.SizeOf(typedefof<XCivilDate>) === 4
-
-    [<Fact>]
-    let ``Types in Zorglub.Time.Hemerology`` () =
-        // Zorglub.Sketches
-        Marshal.SizeOf(typedefof<CivilDate>) === 4
-        Marshal.SizeOf(typedefof<GregorianDate>) === 4
+        Marshal.SizeOf(typedefof<ZDate>) === 8
 
     [<Fact>]
     let ``Types in Zorglub.Time.Horology`` () =
@@ -125,6 +119,13 @@ module RuntimeSizes =
         Marshal.SizeOf(typedefof<OrdinalDate>) === 4
         // Zorglub.Sketches
         Marshal.SizeOf(typedefof<CalendarWeek>) === 4
+
+    [<Fact>]
+    let ``Types in Zorglub.Time.Specialized`` () =
+        // Zorglub.Sketches
+        Marshal.SizeOf(typedefof<CivilDate>) === 4
+        Marshal.SizeOf(typedefof<GregorianDate>) === 4
+        Marshal.SizeOf(typedefof<JulianDate>) === 4
 
     [<Fact>]
     let ``Types in Zorglub.Bulgroz`` () =
@@ -176,7 +177,7 @@ module DefaultValues =
     // For types not attached to a specific calendar, we always default to Gregorian.
 
     //
-    // Universal date types found in Zorglub.Time
+    // Types found in Zorglub.Time
     //
 
     [<Fact>]
@@ -193,10 +194,6 @@ module DefaultValues =
         let y, m, d = dayNumber64.GetGregorianParts()
 
         (y, m, d) === (1L, 1, 1)
-
-    //
-    // Calendrical parts found in Zorglub.Time
-    //
 
     [<Fact>]
     let ``Default value of DateParts is 00/00/0000`` () =
@@ -218,31 +215,6 @@ module DefaultValues =
         let y, doy = parts.Deconstruct()
 
         (y, doy) === (0, 0)
-
-    //
-    // Calendrical fields
-    //
-
-    [<Fact>]
-    let ``Default value of DateFields is 01/01/0000`` () =
-        let fields = Unchecked.defaultof<DateFields>
-        let y, m, d = fields.Deconstruct()
-
-        (y, m, d) === (0, 1, 1)
-
-    [<Fact>]
-    let ``Default value of MonthFields is 01/0000`` () =
-        let fields = Unchecked.defaultof<MonthFields>
-        let y, m = fields.Deconstruct()
-
-        (y, m) === (0, 1)
-
-    [<Fact>]
-    let ``Default value of OrdinalFields is 01/0000`` () =
-        let fields = Unchecked.defaultof<OrdinalFields>
-        let y, doy = fields.Deconstruct()
-
-        (y, doy) === (0, 1)
 
     //
     // Calendrical parts found in Zorglub.Time.core
@@ -364,37 +336,19 @@ module DefaultValues =
     //
 
     [<Fact>]
-    let ``Default value of ZDate is 01/01/0001 (Gregorian)`` () =
-        let date = Unchecked.defaultof<ZDate>
-        let y, m, d = date.Deconstruct()
-
-        (y, m, d) === (1, 1, 1)
-        date.Calendar.Key === "Gregorian"
-
-    [<Fact>]
     let ``Default value of XCivilDate is 01/01/0001 (Gregorian-only)`` () =
         let date = Unchecked.defaultof<XCivilDate>
         let y, m, d = date.Deconstruct()
 
         (y, m, d) === (1, 1, 1)
 
-    //
-    // Date types found in Zorglub.Time.Hemerology
-    //
-
     [<Fact>]
-    let ``Default value of CivilDate is 01/01/0001 (Gregorian-only)`` () =
-        let date = Unchecked.defaultof<CivilDate>
+    let ``Default value of ZDate is 01/01/0001 (Gregorian)`` () =
+        let date = Unchecked.defaultof<ZDate>
         let y, m, d = date.Deconstruct()
 
         (y, m, d) === (1, 1, 1)
-
-    [<Fact>]
-    let ``Default value of GregorianDate is 01/01/0001 (Gregorian-only)`` () =
-        let date = Unchecked.defaultof<GregorianDate>
-        let y, m, d = date.Deconstruct()
-
-        (y, m, d) === (1, 1, 1)
+        date.Calendar.Key === "Gregorian"
 
     //
     // Time parts found in Zorglub.Time.Horology
@@ -416,3 +370,53 @@ module DefaultValues =
         time === TimeOfDay64.Midnight
         (h, m, s, ms) === (0, 0, 0, 0)
         time.Nanosecond === 0
+
+    //
+    // Date types found in Zorglub.Time.Specialized
+    //
+
+    [<Fact>]
+    let ``Default value of CivilDate is 01/01/0001 (Gregorian-only)`` () =
+        let date = Unchecked.defaultof<CivilDate>
+        let y, m, d = date.Deconstruct()
+
+        (y, m, d) === (1, 1, 1)
+
+    [<Fact>]
+    let ``Default value of GregorianDate is 01/01/0001 (Gregorian-only)`` () =
+        let date = Unchecked.defaultof<GregorianDate>
+        let y, m, d = date.Deconstruct()
+
+        (y, m, d) === (1, 1, 1)
+
+    [<Fact>]
+    let ``Default value of JulianDate is 01/01/0001 (Julian-only)`` () =
+        let date = Unchecked.defaultof<JulianDate>
+        let y, m, d = date.Deconstruct()
+
+        (y, m, d) === (1, 1, 1)
+
+    //
+    // Types found in Zorglub.Bulgroz
+    //
+
+    [<Fact>]
+    let ``Default value of DateFields is 01/01/0000`` () =
+        let fields = Unchecked.defaultof<DateFields>
+        let y, m, d = fields.Deconstruct()
+
+        (y, m, d) === (0, 1, 1)
+
+    [<Fact>]
+    let ``Default value of MonthFields is 01/0000`` () =
+        let fields = Unchecked.defaultof<MonthFields>
+        let y, m = fields.Deconstruct()
+
+        (y, m) === (0, 1)
+
+    [<Fact>]
+    let ``Default value of OrdinalFields is 01/0000`` () =
+        let fields = Unchecked.defaultof<OrdinalFields>
+        let y, doy = fields.Deconstruct()
+
+        (y, doy) === (0, 1)
