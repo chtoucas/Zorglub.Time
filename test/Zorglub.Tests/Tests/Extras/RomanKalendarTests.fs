@@ -18,6 +18,7 @@ let easterData = RomanKalendarDataSet.EasterData
 let paschalMoonData = RomanKalendarDataSet.PaschalMoonData
 
 [<Theory; MemberData(nameof(epiphanyData))>]
+[<TestExcludeFrom(TestExcludeFrom.Regular)>]
 let ``Property EpiphanySunday`` y d =
     let epiphanySunday = new GregorianDate(y, 1, d)
     let kalendar = new RomanKalendar(y)
@@ -26,6 +27,7 @@ let ``Property EpiphanySunday`` y d =
     kalendar.EpiphanySunday  === epiphanySunday
 
 [<Theory; MemberData(nameof(easterData))>]
+[<TestExcludeFrom(TestExcludeFrom.Regular)>]
 let ``Property Easter`` y m d =
     let easter = new GregorianDate(y, m, d)
     let kalendar = new RomanKalendar(y)
@@ -33,8 +35,8 @@ let ``Property Easter`` y m d =
     easter.DayOfWeek === DayOfWeek.Sunday
     kalendar.Easter  === easter
 
-[<TestExcludeFrom(TestExcludeFrom.Regular)>]
 [<Theory(Skip = "D&R data does not match our definition of the Paschal Moon?"); MemberData(nameof(paschalMoonData))>]
+[<TestExcludeFrom(TestExcludeFrom.Regular)>]
 let ``Property PaschalMoon`` y m d =
     let moon = new GregorianDate(y, m, d)
     let kalendar = new RomanKalendar(y)

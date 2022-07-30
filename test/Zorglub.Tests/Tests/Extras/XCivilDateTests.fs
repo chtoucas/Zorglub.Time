@@ -47,6 +47,7 @@ module Bundles =
 
 module Adjustments =
     [<Fact>]
+    [<TestExcludeFrom(TestExcludeFrom.Regular)>]
     let ``WithYear() invalid result`` () =
         // Intercalary day mapped to a common year.
         let date = new XCivilDate(4, 2, 29)
@@ -54,6 +55,7 @@ module Adjustments =
         outOfRangeExn "newYear" (fun () -> date.WithYear(3))
 
     [<Fact>]
+    [<TestExcludeFrom(TestExcludeFrom.Regular)>]
     let ``WithYear() valid result`` () =
         // Intercalary day mapped to another leap year.
         let date = new XCivilDate(4, 2, 29)

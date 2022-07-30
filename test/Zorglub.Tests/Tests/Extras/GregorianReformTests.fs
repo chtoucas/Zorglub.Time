@@ -12,6 +12,7 @@ module Specialized =
     open Zorglub.Time.Specialized
 
     [<Fact>]
+    [<TestExcludeFrom(TestExcludeFrom.Regular)>]
     let ``Property Official`` () =
         let official = GregorianReform.Official
 
@@ -20,6 +21,7 @@ module Specialized =
         official.SecularShift       === 10
 
     [<Fact>]
+    [<TestExcludeFrom(TestExcludeFrom.Regular)>]
     let ``Property Official (from last Julian date)`` () =
         let date = new JulianDate(1582, 10, 4)
         let reform = GregorianReform.FromLastJulianDate(date)
@@ -27,6 +29,7 @@ module Specialized =
         reform === GregorianReform.Official
 
     [<Fact>]
+    [<TestExcludeFrom(TestExcludeFrom.Regular)>]
     let ``Property Official (from first Gregorian date)`` () =
         let date = new GregorianDate(1582, 10, 15)
         let reform = GregorianReform.FromFirstGregorianDate(date)
@@ -38,6 +41,7 @@ module Simple =
     open Zorglub.Time.Simple
 
     [<Fact>]
+    [<TestExcludeFrom(TestExcludeFrom.Regular)>]
     let ``Property Official`` () =
         let official = GregorianReform.Official
 
@@ -46,12 +50,14 @@ module Simple =
         official.SecularShift       === 10
 
     [<Fact>]
+    [<TestExcludeFrom(TestExcludeFrom.Regular)>]
     let ``Property Official (from last Julian date)`` () =
         let reform = GregorianReform.FromLastJulianDate(1582, 10, 4)
 
         reform === GregorianReform.Official
 
     [<Fact>]
+    [<TestExcludeFrom(TestExcludeFrom.Regular)>]
     let ``Property Official (from first Gregorian date)`` () =
         let reform = GregorianReform.FromFirstGregorianDate(1582, 10, 15)
 
