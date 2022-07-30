@@ -11,9 +11,9 @@ namespace Zorglub.Time.Extras.Specialized
 
         private GregorianReform()
             : this(
-                  new JulianDate(1582, 10, 4),
-                  new GregorianDate(1582, 10, 15),
-                 null)
+                new JulianDate(1582, 10, 4),
+                new GregorianDate(1582, 10, 15),
+                null)
         { }
 
         private GregorianReform(

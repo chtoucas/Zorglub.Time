@@ -24,9 +24,9 @@ namespace Zorglub.Time.Extras.Simple
         // 5 octobre 1582 (julien).
         private GregorianReform()
             : this(
-                  JulianCalendar.Instance.GetCalendarDate(1582, 10, 4),
-                  new CalendarDate(1582, 10, 15),
-                 null)
+                JulianCalendar.Instance.GetCalendarDate(1582, 10, 4),
+                new CalendarDate(1582, 10, 15),
+                null)
         { }
 
         private GregorianReform(
