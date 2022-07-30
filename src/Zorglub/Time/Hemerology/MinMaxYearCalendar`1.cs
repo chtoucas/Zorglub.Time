@@ -9,6 +9,8 @@ namespace Zorglub.Time.Hemerology
 
     using Zorglub.Time.Hemerology.Scopes;
 
+    // This class works best with date types based on daysSinceEpoch.
+
     /// <summary>
     /// Represents a calendar with dates within a range of years.
     /// </summary>

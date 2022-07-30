@@ -3,8 +3,6 @@
 
 namespace Zorglub.Time.Extras
 {
-    using System.Linq;
-
     using Zorglub.Time.Core.Validation;
     using Zorglub.Time.Hemerology;
     using Zorglub.Time.Hemerology.Scopes;
@@ -41,7 +39,7 @@ namespace Zorglub.Time.Extras
     /// Represents a calendar.
     /// <para>This class can ONLY be inherited from within friend assemblies.</para>
     /// </summary>
-    public partial class ZCalendar : MinMaxYearCalendar, ICalendar<ZDate>
+    public partial class ZCalendar : MinMaxYearCalendar<ZDate>
     {
         /// <summary>
         /// Initializes a new instance of <see cref="ZCalendar"/> class.
@@ -140,6 +138,10 @@ namespace Zorglub.Time.Extras
         /// </summary>
         [Pure]
         public override string ToString() => Key;
+
+        /// <inheritdoc/>
+        [Pure]
+        protected sealed override ZDate GetDateOn(int daysSinceEpoch) => new(daysSinceEpoch, Id);
     }
 
     public partial class ZCalendar // Factories, conversions
@@ -192,73 +194,6 @@ namespace Zorglub.Time.Extras
             var today = DayNumber.Today();
             if (IsUserDefined) { Domain.Validate(today); }
             return new(today - Epoch, Id);
-        }
-    }
-
-    public partial class ZCalendar // IDayProvider
-    {
-        /// <inheritdoc />
-        [Pure]
-        public IEnumerable<ZDate> GetDaysInYear(int year)
-        {
-            SupportedYears.Validate(year);
-
-            int startOfYear = Schema.GetStartOfYear(year);
-            int daysInYear = Schema.CountDaysInYear(year);
-
-            return from daysSinceEpoch
-                   in Enumerable.Range(startOfYear, daysInYear)
-                   select new ZDate(daysSinceEpoch, Id);
-        }
-
-        /// <inheritdoc />
-        [Pure]
-        public IEnumerable<ZDate> GetDaysInMonth(int year, int month)
-        {
-            Scope.ValidateYearMonth(year, month);
-
-            int startOfMonth = Schema.GetStartOfMonth(year, month);
-            int daysInMonth = Schema.CountDaysInMonth(year, month);
-
-            return from daysSinceEpoch
-                   in Enumerable.Range(startOfMonth, daysInMonth)
-                   select new ZDate(daysSinceEpoch, Id);
-        }
-
-        /// <inheritdoc />
-        [Pure]
-        public ZDate GetStartOfYear(int year)
-        {
-            SupportedYears.Validate(year);
-            int daysSinceEpoch = Schema.GetStartOfYear(year);
-            return new ZDate(daysSinceEpoch, Id);
-        }
-
-        /// <inheritdoc />
-        [Pure]
-        public ZDate GetEndOfYear(int year)
-        {
-            SupportedYears.Validate(year);
-            int daysSinceEpoch = Schema.GetEndOfYear(year);
-            return new ZDate(daysSinceEpoch, Id);
-        }
-
-        /// <inheritdoc />
-        [Pure]
-        public ZDate GetStartOfMonth(int year, int month)
-        {
-            Scope.ValidateYearMonth(year, month);
-            int daysSinceEpoch = Schema.GetStartOfMonth(year, month);
-            return new ZDate(daysSinceEpoch, Id);
-        }
-
-        /// <inheritdoc />
-        [Pure]
-        public ZDate GetEndOfMonth(int year, int month)
-        {
-            Scope.ValidateYearMonth(year, month);
-            int daysSinceEpoch = Schema.GetEndOfMonth(year, month);
-            return new ZDate(daysSinceEpoch, Id);
         }
     }
 }

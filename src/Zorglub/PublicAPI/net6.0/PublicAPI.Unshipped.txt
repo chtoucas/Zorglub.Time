@@ -382,6 +382,9 @@ override sealed Zorglub.Time.Core.SystemSegment.ToString() -> string!
 override sealed Zorglub.Time.Core.Validation.DaysValidator.ToString() -> string!
 override sealed Zorglub.Time.Core.Validation.MonthsValidator.ToString() -> string!
 override sealed Zorglub.Time.Core.Validation.YearsValidator.ToString() -> string!
+override sealed Zorglub.Time.Hemerology.MinMaxYearCalendar.CountDaysInMonth(int year, int month) -> int
+override sealed Zorglub.Time.Hemerology.MinMaxYearCalendar.CountDaysInYear(int year) -> int
+override sealed Zorglub.Time.Hemerology.MinMaxYearCalendar.CountMonthsInYear(int year) -> int
 override sealed Zorglub.Time.Hemerology.Scopes.MinMaxYearScope.ValidateOrdinal(int year, int dayOfYear, string? paramName = null) -> void
 override sealed Zorglub.Time.Hemerology.Scopes.MinMaxYearScope.ValidateYearMonth(int year, int month, string? paramName = null) -> void
 override sealed Zorglub.Time.Hemerology.Scopes.MinMaxYearScope.ValidateYearMonthDay(int year, int month, int day, string? paramName = null) -> void
@@ -450,21 +453,12 @@ override Zorglub.Time.Simple.OrdinalDate.ToString() -> string!
 override Zorglub.Time.Specialized.CivilDate.Equals(object? obj) -> bool
 override Zorglub.Time.Specialized.CivilDate.GetHashCode() -> int
 override Zorglub.Time.Specialized.CivilDate.ToString() -> string!
-override Zorglub.Time.Specialized.CivilSystem.CountDaysInMonth(int year, int month) -> int
-override Zorglub.Time.Specialized.CivilSystem.CountDaysInYear(int year) -> int
-override Zorglub.Time.Specialized.CivilSystem.CountMonthsInYear(int year) -> int
 override Zorglub.Time.Specialized.GregorianDate.Equals(object? obj) -> bool
 override Zorglub.Time.Specialized.GregorianDate.GetHashCode() -> int
 override Zorglub.Time.Specialized.GregorianDate.ToString() -> string!
-override Zorglub.Time.Specialized.GregorianSystem.CountDaysInMonth(int year, int month) -> int
-override Zorglub.Time.Specialized.GregorianSystem.CountDaysInYear(int year) -> int
-override Zorglub.Time.Specialized.GregorianSystem.CountMonthsInYear(int year) -> int
 override Zorglub.Time.Specialized.JulianDate.Equals(object? obj) -> bool
 override Zorglub.Time.Specialized.JulianDate.GetHashCode() -> int
 override Zorglub.Time.Specialized.JulianDate.ToString() -> string!
-override Zorglub.Time.Specialized.JulianSystem.CountDaysInMonth(int year, int month) -> int
-override Zorglub.Time.Specialized.JulianSystem.CountDaysInYear(int year) -> int
-override Zorglub.Time.Specialized.JulianSystem.CountMonthsInYear(int year) -> int
 static Zorglub.Time.Core.CalendricalSegment.Create(Zorglub.Time.Core.ICalendricalSchema! schema, Zorglub.Time.Core.Intervals.Range<int> supportedYears) -> Zorglub.Time.Core.CalendricalSegment!
 static Zorglub.Time.Core.CalendricalSegment.CreateMaximal(Zorglub.Time.Core.ICalendricalSchema! schema, bool onOrAfterEpoch) -> Zorglub.Time.Core.CalendricalSegment!
 static Zorglub.Time.Core.Intervals.Interval.Adjacent(Zorglub.Time.Core.Intervals.LowerRay<int> x, Zorglub.Time.Core.Intervals.UpperRay<int> y) -> bool
@@ -888,6 +882,7 @@ static Zorglub.Time.Specialized.JulianDate.Today() -> Zorglub.Time.Specialized.J
 virtual Zorglub.Time.Core.CalendricalSchema.CountDaysSinceEpoch(int y, int m, int d) -> int
 virtual Zorglub.Time.Core.CalendricalSchema.GetDateParts(int daysSinceEpoch, out int y, out int m, out int d) -> void
 virtual Zorglub.Time.Core.CalendricalSchema.GetYear(int daysSinceEpoch, out int doy) -> int
+virtual Zorglub.Time.Hemerology.MinMaxYearCalendar<TDate>.GetDateOn(int daysSinceEpoch) -> TDate
 Zorglub.Time.AdditionRule
 Zorglub.Time.AdditionRule.Exact = 2 -> Zorglub.Time.AdditionRule
 Zorglub.Time.AdditionRule.Overspill = 1 -> Zorglub.Time.AdditionRule
@@ -1464,6 +1459,16 @@ Zorglub.Time.Hemerology.IStandardArithmetic<TSelf>.CountDaysSince(TSelf other) -
 Zorglub.Time.Hemerology.IStandardArithmetic<TSelf>.NextDay() -> TSelf
 Zorglub.Time.Hemerology.IStandardArithmetic<TSelf>.PlusDays(int days) -> TSelf
 Zorglub.Time.Hemerology.IStandardArithmetic<TSelf>.PreviousDay() -> TSelf
+Zorglub.Time.Hemerology.MinMaxYearCalendar
+Zorglub.Time.Hemerology.MinMaxYearCalendar.MinMaxYearCalendar(string! name, Zorglub.Time.Hemerology.Scopes.CalendarScope! scope) -> void
+Zorglub.Time.Hemerology.MinMaxYearCalendar<TDate>
+Zorglub.Time.Hemerology.MinMaxYearCalendar<TDate>.GetDaysInMonth(int year, int month) -> System.Collections.Generic.IEnumerable<TDate>!
+Zorglub.Time.Hemerology.MinMaxYearCalendar<TDate>.GetDaysInYear(int year) -> System.Collections.Generic.IEnumerable<TDate>!
+Zorglub.Time.Hemerology.MinMaxYearCalendar<TDate>.GetEndOfMonth(int year, int month) -> TDate
+Zorglub.Time.Hemerology.MinMaxYearCalendar<TDate>.GetEndOfYear(int year) -> TDate
+Zorglub.Time.Hemerology.MinMaxYearCalendar<TDate>.GetStartOfMonth(int year, int month) -> TDate
+Zorglub.Time.Hemerology.MinMaxYearCalendar<TDate>.GetStartOfYear(int year) -> TDate
+Zorglub.Time.Hemerology.MinMaxYearCalendar<TDate>.MinMaxYearCalendar(string! name, Zorglub.Time.Hemerology.Scopes.CalendarScope! scope) -> void
 Zorglub.Time.Hemerology.Scopes.CalendarScope
 Zorglub.Time.Hemerology.Scopes.CalendarScope.CalendarScope(Zorglub.Time.DayNumber epoch, Zorglub.Time.Core.CalendricalSegment! segment) -> void
 Zorglub.Time.Hemerology.Scopes.CalendarScope.DaysValidator.get -> Zorglub.Time.Core.Validation.DaysValidator!
@@ -1824,12 +1829,6 @@ Zorglub.Time.Specialized.CivilDate.YearOfCentury.get -> int
 Zorglub.Time.Specialized.CivilDate.YearOfEra.get -> Zorglub.Time.Ord
 Zorglub.Time.Specialized.CivilSystem
 Zorglub.Time.Specialized.CivilSystem.CivilSystem() -> void
-Zorglub.Time.Specialized.CivilSystem.GetDaysInMonth(int year, int month) -> System.Collections.Generic.IEnumerable<Zorglub.Time.Specialized.CivilDate>!
-Zorglub.Time.Specialized.CivilSystem.GetDaysInYear(int year) -> System.Collections.Generic.IEnumerable<Zorglub.Time.Specialized.CivilDate>!
-Zorglub.Time.Specialized.CivilSystem.GetEndOfMonth(int year, int month) -> Zorglub.Time.Specialized.CivilDate
-Zorglub.Time.Specialized.CivilSystem.GetEndOfYear(int year) -> Zorglub.Time.Specialized.CivilDate
-Zorglub.Time.Specialized.CivilSystem.GetStartOfMonth(int year, int month) -> Zorglub.Time.Specialized.CivilDate
-Zorglub.Time.Specialized.CivilSystem.GetStartOfYear(int year) -> Zorglub.Time.Specialized.CivilDate
 Zorglub.Time.Specialized.GregorianDate
 Zorglub.Time.Specialized.GregorianDate.Century.get -> int
 Zorglub.Time.Specialized.GregorianDate.CenturyOfEra.get -> Zorglub.Time.Ord
@@ -1865,12 +1864,6 @@ Zorglub.Time.Specialized.GregorianDate.Year.get -> int
 Zorglub.Time.Specialized.GregorianDate.YearOfCentury.get -> int
 Zorglub.Time.Specialized.GregorianDate.YearOfEra.get -> Zorglub.Time.Ord
 Zorglub.Time.Specialized.GregorianSystem
-Zorglub.Time.Specialized.GregorianSystem.GetDaysInMonth(int year, int month) -> System.Collections.Generic.IEnumerable<Zorglub.Time.Specialized.GregorianDate>!
-Zorglub.Time.Specialized.GregorianSystem.GetDaysInYear(int year) -> System.Collections.Generic.IEnumerable<Zorglub.Time.Specialized.GregorianDate>!
-Zorglub.Time.Specialized.GregorianSystem.GetEndOfMonth(int year, int month) -> Zorglub.Time.Specialized.GregorianDate
-Zorglub.Time.Specialized.GregorianSystem.GetEndOfYear(int year) -> Zorglub.Time.Specialized.GregorianDate
-Zorglub.Time.Specialized.GregorianSystem.GetStartOfMonth(int year, int month) -> Zorglub.Time.Specialized.GregorianDate
-Zorglub.Time.Specialized.GregorianSystem.GetStartOfYear(int year) -> Zorglub.Time.Specialized.GregorianDate
 Zorglub.Time.Specialized.GregorianSystem.GregorianSystem() -> void
 Zorglub.Time.Specialized.JulianDate
 Zorglub.Time.Specialized.JulianDate.Century.get -> int
@@ -1907,10 +1900,4 @@ Zorglub.Time.Specialized.JulianDate.Year.get -> int
 Zorglub.Time.Specialized.JulianDate.YearOfCentury.get -> int
 Zorglub.Time.Specialized.JulianDate.YearOfEra.get -> Zorglub.Time.Ord
 Zorglub.Time.Specialized.JulianSystem
-Zorglub.Time.Specialized.JulianSystem.GetDaysInMonth(int year, int month) -> System.Collections.Generic.IEnumerable<Zorglub.Time.Specialized.JulianDate>!
-Zorglub.Time.Specialized.JulianSystem.GetDaysInYear(int year) -> System.Collections.Generic.IEnumerable<Zorglub.Time.Specialized.JulianDate>!
-Zorglub.Time.Specialized.JulianSystem.GetEndOfMonth(int year, int month) -> Zorglub.Time.Specialized.JulianDate
-Zorglub.Time.Specialized.JulianSystem.GetEndOfYear(int year) -> Zorglub.Time.Specialized.JulianDate
-Zorglub.Time.Specialized.JulianSystem.GetStartOfMonth(int year, int month) -> Zorglub.Time.Specialized.JulianDate
-Zorglub.Time.Specialized.JulianSystem.GetStartOfYear(int year) -> Zorglub.Time.Specialized.JulianDate
 Zorglub.Time.Specialized.JulianSystem.JulianSystem() -> void
