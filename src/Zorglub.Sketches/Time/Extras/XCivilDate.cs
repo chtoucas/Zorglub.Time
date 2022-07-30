@@ -41,7 +41,7 @@ namespace Zorglub.Time.Extras
     using Zorglub.Time.Core.Validation;
     using Zorglub.Time.Hemerology;
 
-    // TODO(code): use CivilFormulae and use unsigned int.
+    // TODO(code): use CivilFormulae and unsigned int.
 
     /// <summary>
     /// Represents a date within the non-proleptic (but retropolated) Gregorian calendar.
@@ -769,7 +769,7 @@ namespace Zorglub.Time.Extras
         //   which is rather optimised for this type of situation.
         // See comments in DayNumberX.
 
-        private static readonly XCivilDate s_ThreeDaysBeforeMaxValue = s_MinValue - 3;
+        private static readonly XCivilDate s_ThreeDaysBeforeMaxValue = s_MaxValue - 3;
 
         /// <inheritdoc />
         [Pure]

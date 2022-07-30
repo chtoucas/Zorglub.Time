@@ -13,7 +13,7 @@ using Zorglub.Time.Core.Intervals;
 
 using static Zorglub.Time.Extensions.DayOfWeekExtensions2;
 
-// NB: We use StandardGregorianDataSet which has the same limits as CivilDate.
+// NB: we use StandardGregorianDataSet which has the same limits as XCivilDate.
 
 public sealed partial class XCivilDateTests : CalendarDataConsumer<StandardGregorianDataSet>
 {
