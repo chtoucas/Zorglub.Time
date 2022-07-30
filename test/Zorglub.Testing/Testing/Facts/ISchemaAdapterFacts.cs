@@ -1,8 +1,9 @@
 ﻿// SPDX-License-Identifier: BSD-3-Clause
 // Copyright (c) 2020 Narvalo.Org. All rights reserved.
 
-namespace Zorglub.Testing.Facts.Core;
+namespace Zorglub.Testing.Facts;
 
+using Zorglub.Bulgroz.Obsolete;
 using Zorglub.Testing.Data;
 
 // Sync with SystemSchemaFacts.

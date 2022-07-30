@@ -1,14 +1,15 @@
 ﻿// SPDX-License-Identifier: BSD-3-Clause
 // Copyright (c) 2020 Narvalo.Org. All rights reserved.
 
-module Zorglub.Tests.Core.SchemaAdapterTests
+module Zorglub.Tests.Bulgroz.Obsolete.SchemaAdapterTests
 
 open System
 
 open Zorglub.Testing
 open Zorglub.Testing.Data.Schemas
-open Zorglub.Testing.Facts.Core
+open Zorglub.Testing.Facts
 
+open Zorglub.Bulgroz.Obsolete
 open Zorglub.Time.Core
 open Zorglub.Time.Core.Schemas
 

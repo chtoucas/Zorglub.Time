@@ -35,6 +35,7 @@
     <Compile Include="Tests\Testing\FsCheckTests.fs" />
     <Compile Include="Tests\Testing\EnumDataSetTests.fs" />
     <Compile Include="Tests\Bulgroz\Obsolete\FieldsTests.fs" />
+    <Compile Include="Tests\Bulgroz\Obsolete\SchemaAdapterTests.fs" />
     <Compile Include="Tests\Bulgroz\MiscTests.fs" />
     <Compile Include="Tests\Bulgroz\BitTwiddlingTests.fs" />
     <Compile Include="Tests\Extensions\DayOfWeek%24Tests.fs" />
@@ -75,7 +76,6 @@
     <Compile Include="Tests\Core\Arithmetic\BasicArithmeticTestSuite.fs" />
     <Compile Include="Tests\Core\PartsTests.fs" />
     <Compile Include="Tests\Core\PartsAdapterTests.fs" />
-    <Compile Include="Tests\Core\SchemaAdapterTests.fs" />
     <Compile Include="Tests\Core\MonthsCalculatorTests.fs" />
     <Compile Include="Tests\Core\SystemSegmentTests.fs" />
     <Compile Include="Tests\Core\CalendricalSegmentBuilderTests.fs" />
