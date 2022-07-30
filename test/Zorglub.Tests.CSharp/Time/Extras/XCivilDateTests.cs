@@ -12,6 +12,7 @@ using Zorglub.Time.Core;
 using Zorglub.Time.Core.Intervals;
 
 using static Zorglub.Time.Extensions.DayOfWeekExtensions2;
+using static Zorglub.Time.Extras.Extensions.XCivilDateExtensions;
 
 // NB: we use StandardGregorianDataSet which has the same limits as XCivilDate.
 

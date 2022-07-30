@@ -3,6 +3,8 @@
 
 namespace Zorglub.Time.Extras;
 
+using static Zorglub.Time.Extras.Extensions.XCivilDateExtensions;
+
 public partial class XCivilDateTests
 {
     [Theory, MemberData(nameof(EnumDataSet.InvalidDayOfWeekData), MemberType = typeof(EnumDataSet))]

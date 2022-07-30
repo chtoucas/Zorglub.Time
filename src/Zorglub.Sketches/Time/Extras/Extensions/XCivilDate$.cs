@@ -1,7 +1,7 @@
 ﻿// SPDX-License-Identifier: BSD-3-Clause
 // Copyright (c) 2020 Narvalo.Org. All rights reserved.
 
-namespace Zorglub.Time.Extras
+namespace Zorglub.Time.Extras.Extensions
 {
     using System.ComponentModel;
     using System.Text;
@@ -10,16 +10,16 @@ namespace Zorglub.Time.Extras
     /// Provides extension methods for <see cref="XCivilDate"/>.
     /// <para>This class cannot be inherited.</para>
     /// </summary>
-    public static partial class CivilDateExtensions { }
+    public static partial class XCivilDateExtensions { }
 
-    public partial class CivilDateExtensions
+    public partial class XCivilDateExtensions
     {
         [Pure]
         public static bool IsUnluckyFriday(this XCivilDate @this) =>
             @this.Day == 13 && @this.DayOfWeek == DayOfWeek.Friday;
     }
 
-    public partial class CivilDateExtensions
+    public partial class XCivilDateExtensions
     {
         /// <summary>
         /// Gets the ISO week of the year.
@@ -76,7 +76,7 @@ namespace Zorglub.Time.Extras
         }
     }
 
-    public partial class CivilDateExtensions
+    public partial class XCivilDateExtensions
     {
         /// <summary>
         /// Gets a nicely formatted string representation of the binary data stored in the specified
