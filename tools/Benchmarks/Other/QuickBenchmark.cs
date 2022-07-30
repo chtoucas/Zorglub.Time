@@ -7,6 +7,19 @@ using Samples;
 
 using Zorglub.Time.Specialized;
 
+/*
+BenchmarkDotNet=v0.13.1, OS=Windows 10.0.19044.1826 (21H2)
+Intel Core i7-4500U CPU 1.80GHz (Haswell), 1 CPU, 4 logical and 2 physical cores
+.NET SDK=6.0.302
+  [Host]     : .NET 6.0.7 (6.0.722.32202), X64 RyuJIT
+  DefaultJob : .NET 6.0.7 (6.0.722.32202), X64 RyuJIT
+
+|                 Method |     Mean |    Error |   StdDev | Ratio | Rank |
+|----------------------- |---------:|---------:|---------:|------:|-----:|
+|     'CivilDate   (g)+' | 37.48 ns | 0.308 ns | 0.288 ns |  1.00 |    I |
+| 'GregorianDate   (g) ' | 46.68 ns | 0.183 ns | 0.162 ns |  1.25 |   II |
+|   'MyCivilDate      +' | 47.89 ns | 0.216 ns | 0.202 ns |  1.28 |  III |
+ */
 public class QuickBenchmark : BenchmarkBase
 {
     private const int D7 = 7;        // No change of month.

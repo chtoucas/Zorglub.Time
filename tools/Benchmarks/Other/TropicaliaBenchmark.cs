@@ -6,18 +6,18 @@ namespace Benchmarks.Other;
 using Zorglub.Time.Simple;
 
 /*
-BenchmarkDotNet=v0.13.1, OS=Windows 10.0.19044.1586 (21H2)
+BenchmarkDotNet=v0.13.1, OS=Windows 10.0.19044.1826 (21H2)
 Intel Core i7-4500U CPU 1.80GHz (Haswell), 1 CPU, 4 logical and 2 physical cores
-.NET SDK=6.0.201
-  [Host]     : .NET 6.0.3 (6.0.322.12309), X64 RyuJIT
-  DefaultJob : .NET 6.0.3 (6.0.322.12309), X64 RyuJIT
+.NET SDK=6.0.302
+  [Host]     : .NET 6.0.7 (6.0.722.32202), X64 RyuJIT
+  DefaultJob : .NET 6.0.7 (6.0.722.32202), X64 RyuJIT
 
 |             Method |      Mean |    Error |   StdDev | Ratio | Rank |
 |------------------- |----------:|---------:|---------:|------:|-----:|
-| 'Tropicália 31-30' |  95.54 ns | 0.304 ns | 0.270 ns |  1.00 |    I |
-|          Gregorian |  95.85 ns | 0.163 ns | 0.136 ns |  1.00 |    I |
-| 'Tropicália 30-31' |  99.92 ns | 0.438 ns | 0.410 ns |  1.04 |   II |
-|         Tropicália | 106.74 ns | 0.539 ns | 0.478 ns |  1.11 |  III |
+|          Gregorian |  89.04 ns | 0.379 ns | 0.354 ns |  1.00 |    I |
+| 'Tropicália 31-30' |  95.21 ns | 0.653 ns | 0.578 ns |  1.07 |   II |
+| 'Tropicália 30-31' |  96.27 ns | 0.548 ns | 0.485 ns |  1.08 |   II |
+|         Tropicália | 108.74 ns | 0.254 ns | 0.212 ns |  1.22 |  III |
 
 BenchmarkDotNet=v0.13.1, OS=Windows 10.0.19042.1586 (20H2/October2020Update)
 Intel Core2 Duo CPU E8500 3.16GHz, 1 CPU, 2 logical and 2 physical cores

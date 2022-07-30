@@ -29,7 +29,7 @@ Intel Core i7-4500U CPU 1.80GHz (Haswell), 1 CPU, 4 logical and 2 physical cores
 |      'DateTime *    +' |  52.09 ns | 0.203 ns | 0.190 ns |  1.39 |    0.01 |   VI |
 |      'DateOnly *    +' |  53.11 ns | 0.231 ns | 0.216 ns |  1.41 |    0.01 |  VII |
 |   'CalendarDay       ' |  61.71 ns | 0.178 ns | 0.148 ns |  1.64 |    0.01 | VIII |
-|     'CivilDate  (Yg)+' |  63.24 ns | 0.237 ns | 0.222 ns |  1.68 |    0.01 |   IX |
+|    'XCivilDate  (Yg)+' |  63.24 ns | 0.237 ns | 0.222 ns |  1.68 |    0.01 |   IX |
 |         'ZDate       ' |  63.90 ns | 0.360 ns | 0.319 ns |  1.70 |    0.01 |   IX |
 |   'Naked Civil      +' |  65.72 ns | 0.365 ns | 0.305 ns |  1.75 |    0.01 |    X |
 |   'OrdinalDate  (O)  ' |  77.91 ns | 0.340 ns | 0.302 ns |  2.07 |    0.01 |   XI |
@@ -53,7 +53,7 @@ Intel Core2 Duo CPU E8500 3.16GHz, 1 CPU, 2 logical and 2 physical cores
 |     'MyCivilDate      +' |  66.16 ns | 0.415 ns | 0.388 ns |  1.18 |    0.01 |    V |
 |       'DayNumber   (g) ' |  66.63 ns | 0.026 ns | 0.020 ns |  1.19 |    0.00 |    V |
 |     'CalendarDay       ' |  85.37 ns | 0.151 ns | 0.142 ns |  1.52 |    0.00 |   VI |
-|       'CivilDate  (Yg)+' |  86.92 ns | 0.172 ns | 0.161 ns |  1.55 |    0.00 |  VII |
+|      'XCivilDate  (Yg)+' |  86.92 ns | 0.172 ns | 0.161 ns |  1.55 |    0.00 |  VII |
 |     'Naked Civil      +' |  87.12 ns | 0.075 ns | 0.070 ns |  1.55 |    0.00 |  VII |
 |           'ZDate       ' |  91.32 ns | 0.631 ns | 0.590 ns |  1.63 |    0.01 | VIII |
 |     'OrdinalDate  (O)  ' | 104.29 ns | 0.079 ns | 0.074 ns |  1.86 |    0.00 |   IX |
@@ -260,7 +260,7 @@ public class GregorianBenchmark : BenchmarkBase
     #endregion
     #region Specialized date types
 
-    [Benchmark(Description = "CivilDate  (Yg)+")]
+    [Benchmark(Description = "XCivilDate  (Yg)+")]
     public void WithCivilDateFromExtras()
     {
         XCivilDate start = new(Year, Month, Day);
