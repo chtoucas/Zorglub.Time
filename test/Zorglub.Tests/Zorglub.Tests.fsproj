@@ -34,6 +34,7 @@
     <Compile Include="Testing\TestHelpers.fs" />
     <Compile Include="Tests\Testing\FsCheckTests.fs" />
     <Compile Include="Tests\Testing\EnumDataSetTests.fs" />
+    <Compile Include="Tests\Bulgroz\Obsolete\FieldsTests.fs" />
     <Compile Include="Tests\Bulgroz\MiscTests.fs" />
     <Compile Include="Tests\Bulgroz\BitTwiddlingTests.fs" />
     <Compile Include="Tests\Extensions\DayOfWeek%24Tests.fs" />
@@ -117,7 +118,6 @@
     <Compile Include="Tests\Extras\GregorianReformTests.fs" />
     <Compile Include="Tests\Extras\RomanKalendarTests.fs" />
     <Compile Include="Tests\PartsTests.fs" />
-    <Compile Include="Tests\FieldsTests.fs" />
     <Compile Include="Tests\CalendarIdTests.fs" />
     <Compile Include="Tests\OrdTests.fs" />
     <Compile Include="Tests\DayNumberTests.fs" />

@@ -1,8 +1,9 @@
 ﻿// SPDX-License-Identifier: BSD-3-Clause
 // Copyright (c) 2020 Narvalo.Org. All rights reserved.
 
-namespace Zorglub.Time
+namespace Zorglub.Bulgroz.Obsolete
 {
+    using Zorglub.Time;
     using Zorglub.Time.Core;
     using Zorglub.Time.Hemerology;
 

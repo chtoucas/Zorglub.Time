@@ -7,6 +7,7 @@ module Zorglub.Testing.FsCheckModule
 open System
 open System.Runtime.CompilerServices
 
+open Zorglub.Bulgroz.Obsolete
 open Zorglub.Time
 open Zorglub.Time.Core
 open Zorglub.Time.Core.Intervals

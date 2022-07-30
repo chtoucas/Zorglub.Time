@@ -1,7 +1,7 @@
 ﻿// SPDX-License-Identifier: BSD-3-Clause
 // Copyright (c) 2020 Narvalo.Org. All rights reserved.
 
-module Zorglub.Tests.FieldsTests
+module Zorglub.Tests.Bulgroz.Obsolete.FieldsTests
 
 open System
 open System.Runtime.CompilerServices
@@ -11,6 +11,7 @@ open Zorglub.Testing.Data
 open Zorglub.Testing.Data.Schemas
 open Zorglub.Testing.Data.Unbounded
 
+open Zorglub.Bulgroz.Obsolete
 open Zorglub.Time
 open Zorglub.Time.Core
 open Zorglub.Time.Core.Schemas
@@ -20,7 +21,7 @@ open Xunit
 open FsCheck
 open FsCheck.Xunit
 
-open type Zorglub.Time.Extensions.PartsExtensions
+open type Zorglub.Bulgroz.Obsolete.FieldsExtensions
 
 // TODO(code): test ToYemoda() & co, when the fields cannot be converted.
 

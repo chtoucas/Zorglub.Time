@@ -9,6 +9,7 @@ open System.Runtime.InteropServices
 open Zorglub.Testing
 open Zorglub.Testing.Data
 
+open Zorglub.Bulgroz.Obsolete
 open Zorglub.Time
 open Zorglub.Time.Core
 open Zorglub.Time.Core.Intervals
@@ -83,9 +84,6 @@ module RuntimeSizes =
         // Zorglub.Sketches
         Marshal.SizeOf(typedefof<Ord64>) === 8
         Marshal.SizeOf(typedefof<DayNumber64>) === 8
-        Marshal.SizeOf(typedefof<DateFields>) === 12
-        Marshal.SizeOf(typedefof<MonthFields>) === 8
-        Marshal.SizeOf(typedefof<OrdinalFields>) === 8
 
     [<Fact>]
     let ``Types in Zorglub.Time.Core`` () =
@@ -99,6 +97,11 @@ module RuntimeSizes =
         Marshal.SizeOf(typedefof<Unit>) === 1
         Marshal.SizeOf(typedefof<Yewe>) === 4
         Marshal.SizeOf(typedefof<Yewex>) === 4
+
+    [<Fact>]
+    let ``Types in Zorglub.Time.Extras`` () =
+        // Zorglub.Sketches
+        Marshal.SizeOf(typedefof<Zorglub.Time.Extras.CivilDate>) === 4
 
     [<Fact>]
     let ``Types in Zorglub.Time.Hemerology`` () =
@@ -126,7 +129,9 @@ module RuntimeSizes =
     [<Fact>]
     let ``Types in Zorglub.Bulgroz`` () =
         // Zorglub.Sketches
-        Marshal.SizeOf(typedefof<Zorglub.Time.Extras.CivilDate>) === 4
+        Marshal.SizeOf(typedefof<DateFields>) === 12
+        Marshal.SizeOf(typedefof<MonthFields>) === 8
+        Marshal.SizeOf(typedefof<OrdinalFields>) === 8
 
     // TODO(code): add tests for the data types defined within THIS project.
     [<Fact>]
@@ -355,6 +360,17 @@ module DefaultValues =
         year.Calendar.PermanentId === CalendarId.Gregorian
 
     //
+    // Date types found in Zorglub.Time.Extras
+    //
+
+    [<Fact>]
+    let ``Default value of Zorglub.Time.Extras.CivilDate is 01/01/0001 (Gregorian-only)`` () =
+        let date = Unchecked.defaultof<Zorglub.Time.Extras.CivilDate>
+        let y, m, d = date.Deconstruct()
+
+        (y, m, d) === (1, 1, 1)
+
+    //
     // Date types found in Zorglub.Time.Hemerology
     //
 
@@ -400,14 +416,3 @@ module DefaultValues =
         time === TimeOfDay64.Midnight
         (h, m, s, ms) === (0, 0, 0, 0)
         time.Nanosecond === 0
-
-    //
-    // Date types found in Zorglub.Time.Extras
-    //
-
-    [<Fact>]
-    let ``Default value of Zorglub.Time.Extras.CivilDate is 01/01/0001 (Gregorian-only)`` () =
-        let date = Unchecked.defaultof<Zorglub.Time.Extras.CivilDate>
-        let y, m, d = date.Deconstruct()
-
-        (y, m, d) === (1, 1, 1)
