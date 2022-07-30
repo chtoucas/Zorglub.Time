@@ -10,16 +10,7 @@ namespace Zorglub.Time.Extras.Extensions
     /// Provides extension methods for <see cref="XCivilDate"/>.
     /// <para>This class cannot be inherited.</para>
     /// </summary>
-    public static partial class XCivilDateExtensions { }
-
-    public partial class XCivilDateExtensions
-    {
-        [Pure]
-        public static bool IsUnluckyFriday(this XCivilDate @this) =>
-            @this.Day == 13 && @this.DayOfWeek == DayOfWeek.Friday;
-    }
-
-    public partial class XCivilDateExtensions
+    public static class XCivilDateExtensions
     {
         /// <summary>
         /// Gets the ISO week of the year.
@@ -74,10 +65,7 @@ namespace Zorglub.Time.Extras.Extensions
 
             return XCivilDate.FromDaysSinceEpoch(daysSinceEpoch);
         }
-    }
 
-    public partial class XCivilDateExtensions
-    {
         /// <summary>
         /// Gets a nicely formatted string representation of the binary data stored in the specified
         /// Gregorian date.
