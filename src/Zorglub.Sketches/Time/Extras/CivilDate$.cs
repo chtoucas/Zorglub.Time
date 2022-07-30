@@ -1,7 +1,7 @@
 ﻿// SPDX-License-Identifier: BSD-3-Clause
 // Copyright (c) 2020 Narvalo.Org. All rights reserved.
 
-namespace Zorglub.Bulgroz.Extras
+namespace Zorglub.Time.Extras
 {
     using System.ComponentModel;
     using System.Text;
@@ -23,8 +23,7 @@ namespace Zorglub.Bulgroz.Extras
     {
         /// <summary>
         /// Gets the ISO week of the year.
-        /// <para>Returns zero if the day belongs to the last week of the
-        /// previous ISO year.</para>
+        /// <para>Returns zero if the day belongs to the last week of the previous ISO year.</para>
         /// </summary>
         [Pure]
         public static int GetIsoWeekOfYear(this CivilDate @this)
@@ -45,12 +44,12 @@ namespace Zorglub.Bulgroz.Extras
 
         /// <summary>
         /// Obtains the nearest date that falls on the specified day of the week.
-        /// <para>Near the calendar boundaries, we do NOT throw an overflow
-        /// exception, we return the nearest date within the calendar boundaries.</para>
+        /// <para>Near the calendar boundaries, we do NOT throw an overflow exception, we return the
+        /// nearest date within the calendar boundaries.</para>
         /// <para>See also <seealso cref="CivilDate.Nearest(DayOfWeek)"/>.</para>
         /// </summary>
-        /// <exception cref="AoorException"><paramref name="dayOfWeek"/> is not
-        /// a valid day of the week.</exception>
+        /// <exception cref="AoorException"><paramref name="dayOfWeek"/> is not a valid day of the
+        /// week.</exception>
         [Pure]
         public static CivilDate NearestSafe(this CivilDate @this, DayOfWeek dayOfWeek)
         {
@@ -80,8 +79,8 @@ namespace Zorglub.Bulgroz.Extras
     public partial class CivilDateExtensions
     {
         /// <summary>
-        /// Gets a nicely formatted string representation of the binary data
-        /// stored in the specified Gregorian date.
+        /// Gets a nicely formatted string representation of the binary data stored in the specified
+        /// Gregorian date.
         /// </summary>
         [Pure]
         [ExcludeFromCodeCoverage]

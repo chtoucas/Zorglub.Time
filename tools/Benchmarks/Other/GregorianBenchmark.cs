@@ -12,7 +12,7 @@ using Zorglub.Time.Hemerology;
 using Zorglub.Time.Simple;
 using Zorglub.Time.Specialized;
 
-using XCivilDate = Zorglub.Bulgroz.Extras.CivilDate;
+using XCivilDate = Zorglub.Time.Extras.CivilDate;
 
 /*
 BenchmarkDotNet=v0.13.1, OS=Windows 10.0.19044.1826 (21H2)

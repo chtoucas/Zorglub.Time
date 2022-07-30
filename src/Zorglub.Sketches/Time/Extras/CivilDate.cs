@@ -31,7 +31,7 @@
 //   and [Doomsday rule](https://en.wikipedia.org/wiki/Doomsday_rule)
 // - https://en.wikipedia.org/wiki/Civil_calendar
 
-namespace Zorglub.Bulgroz.Extras
+namespace Zorglub.Time.Extras
 {
     using System.ComponentModel;
 

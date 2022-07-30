@@ -1,9 +1,7 @@
 ﻿// SPDX-License-Identifier: BSD-3-Clause
 // Copyright (c) 2020 Narvalo.Org. All rights reserved.
 
-namespace Zorglub.Bulgroz.Extras;
-
-using Zorglub.Time;
+namespace Zorglub.Time.Extras;
 
 public partial class CivilDateTests // CountDaysSince()
 {
