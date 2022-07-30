@@ -123,7 +123,7 @@ namespace Zorglub.Time.Specialized
         public static CivilDate MaxValue => s_MaxValue;
 
         /// <summary>
-        /// Gets the calendar to which belongs the current instance.
+        /// Gets the calendar system to which belongs the current instance.
         /// <para>This static property is thread-safe.</para>
         /// </summary>
         public static CivilSystem Calendar => s_Calendar;
