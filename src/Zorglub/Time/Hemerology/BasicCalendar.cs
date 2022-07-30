@@ -10,7 +10,6 @@ namespace Zorglub.Time.Hemerology
 
     /// <summary>
     /// Represents a basic calendar and provides a base for derived classes.
-    /// <para>This class only supports subintervals of <see cref="Yemoda.SupportedYears"/>.</para>
     /// </summary>
     public abstract partial class BasicCalendar : ICalendar
     {

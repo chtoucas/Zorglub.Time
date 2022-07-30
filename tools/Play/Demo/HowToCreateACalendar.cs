@@ -53,9 +53,9 @@ public static class HowToCreateACalendar
     #endregion
 
     // Pre-defined calendar.
-    public static MinMaxYearCalendar CreateMinMaxYearCalendar() =>
+    public static MinMaxYearNakedCalendar CreateMinMaxYearNakedCalendar() =>
          (from x in GregorianSchema.GetInstance()
-          select new MinMaxYearCalendar("CreateMinMaxYearCalendar", x, DayZero.NewStyle, 1, 9999)
+          select new MinMaxYearNakedCalendar("CreateMinMaxYearNakedCalendar", x, DayZero.NewStyle, 1, 9999)
           ).Unbox();
 
     // User-defined calendar.

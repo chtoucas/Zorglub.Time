@@ -10,7 +10,7 @@ namespace Zorglub.Time.Hemerology
     #region Developer Notes
 
     // Standard calendar: year/month/day subdivision of time, a single era,
-    // properly defined on an interval of days.
+    // that is an interval of days.
     //
     // Types implementing ICalendar or ICalendar<T>
     // --------------------------------------------
@@ -20,8 +20,8 @@ namespace Zorglub.Time.Hemerology
     //     (MyCalendar)
     //     ZCalendar
     // A   NakedCalendar
-    //       BoundedBelowCalendar
-    //       MinMaxYearCalendar
+    //       BoundedBelowNakedCalendar
+    //       MinMaxYearNakedCalendar
     //       (MyNakedCalendar)
     //
     // Annotation: A = abstract
@@ -97,6 +97,8 @@ namespace Zorglub.Time.Hemerology
     // them here but end calendars should have them, e.g. Min/MaxDate or a
     // single MinMaxDate. For instance, I prefer Min/MaxDateParts to Min/MaxDate
     // with NakedCalendar, but it could be also Min/MaxDay or Min/MaxOrdinalDate.
+    // Furthermore, for mono-system of calendars, we expect TDate to implement
+    // IMinMaxValue<TDate>.
 
     #endregion
 
@@ -146,5 +148,5 @@ namespace Zorglub.Time.Hemerology
     /// Defines a calendar with a companion date type.
     /// </summary>
     /// <typeparam name="TDate">The type of date object to return.</typeparam>
-    public interface ICalendar<out TDate> : ICalendar, IDayProvider<TDate> { }
+    public interface ICalendar<TDate> : ICalendar, IDayProvider<TDate> { }
 }

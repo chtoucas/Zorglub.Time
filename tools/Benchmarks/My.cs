@@ -25,13 +25,13 @@ internal static class My
     // MinMaxYear calendars.
     //
 
-    public static readonly MinMaxYearCalendar NakedCivil =
+    public static readonly MinMaxYearNakedCalendar NakedCivil =
         (from x in CivilSchema.GetInstance()
-         select MinMaxYearCalendar.WithMinYear("Gregorian", x, DayZero.NewStyle, 1)
+         select MinMaxYearNakedCalendar.WithMinYear("Gregorian", x, DayZero.NewStyle, 1)
          ).Unbox();
 
-    public static readonly MinMaxYearCalendar NakedJulian =
+    public static readonly MinMaxYearNakedCalendar NakedJulian =
         (from x in JulianSchema.GetInstance()
-         select MinMaxYearCalendar.WithMinYear("Julian", x, DayZero.OldStyle, 1)
+         select MinMaxYearNakedCalendar.WithMinYear("Julian", x, DayZero.OldStyle, 1)
          ).Unbox();
 }

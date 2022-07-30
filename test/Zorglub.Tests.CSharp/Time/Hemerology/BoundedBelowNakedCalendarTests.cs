@@ -12,8 +12,8 @@ using global::Samples;
 using Zorglub.Testing.Data.Unbounded;
 using Zorglub.Time.Core.Schemas;
 
-// Cf. aussi GregorianBoundedBelowCalendarTests.
-public static class BoundedBelowCalendarTests
+// Cf. aussi GregorianBoundedBelowNakedCalendarTests.
+public static class BoundedBelowNakedCalendarTests
 {
     // Exemple du calendrier grégorien qui débute officiellement le 15/10/1582.
     // En 1582, 3 mois, octobre à décembre.
@@ -56,19 +56,19 @@ public static class BoundedBelowCalendarTests
     }
 }
 
-public sealed class GregorianBoundedBelowCalendarTests
-    : NakedCalendarFacts<BoundedBelowCalendar, UnboundedGregorianDataSet>
+public sealed class GregorianBoundedBelowNakedCalendarTests
+    : NakedCalendarFacts<BoundedBelowNakedCalendar, UnboundedGregorianDataSet>
 {
     private const int FirstYear = -123_456;
     private const int FirstMonth = 4;
     private const int FirstDay = 5;
 
-    public GregorianBoundedBelowCalendarTests()
+    public GregorianBoundedBelowNakedCalendarTests()
         : base(MakeCalendar()) { }
 
     // On triche un peu, la date de début a été choisie de telle sorte que
     // les tests marchent... (cf. GregorianData).
-    private static BoundedBelowCalendar MakeCalendar() =>
+    private static BoundedBelowNakedCalendar MakeCalendar() =>
         new(
             "Gregorian",
             new GregorianSchema(),

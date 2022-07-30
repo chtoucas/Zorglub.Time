@@ -594,7 +594,7 @@ namespace Zorglub.Time.Simple
     public partial class Calendar // Conversions
     {
         /// <summary>
-        /// Obtains the day number on the specified calendar year.
+        /// Obtains the calendar year on the specified day number.
         /// </summary>
         /// <exception cref="AoorException"><paramref name="dayNumber"/> is outside the range of
         /// values supported by this calendar.</exception>
@@ -607,7 +607,7 @@ namespace Zorglub.Time.Simple
         }
 
         /// <summary>
-        /// Obtains the day number on the specified calendar month.
+        /// Obtains the calendar month on the specified day number.
         /// </summary>
         /// <exception cref="AoorException"><paramref name="dayNumber"/> is outside the range of
         /// values supported by this calendar.</exception>
@@ -620,7 +620,7 @@ namespace Zorglub.Time.Simple
         }
 
         /// <summary>
-        /// Obtains the day number on the specified calendar date.
+        /// Obtains the calendar date on the specified day number.
         /// </summary>
         /// <exception cref="AoorException"><paramref name="dayNumber"/> is outside the range of
         /// values supported by this calendar.</exception>
@@ -633,7 +633,7 @@ namespace Zorglub.Time.Simple
         }
 
         /// <summary>
-        /// Obtains the day number on the specified ordinal date.
+        /// Obtains the ordinal date on the specified day number.
         /// </summary>
         /// <exception cref="AoorException"><paramref name="dayNumber"/> is outside the range of
         /// values supported by this calendar.</exception>

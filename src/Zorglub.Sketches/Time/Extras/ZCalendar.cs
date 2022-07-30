@@ -41,7 +41,7 @@ namespace Zorglub.Time.Extras
     /// Represents a calendar.
     /// <para>This class can ONLY be inherited from within friend assemblies.</para>
     /// </summary>
-    public partial class ZCalendar : BasicCalendar, ICalendar<ZDate>
+    public partial class ZCalendar : MinMaxYearCalendar, ICalendar<ZDate>
     {
         /// <summary>
         /// Initializes a new instance of <see cref="ZCalendar"/> class.
@@ -140,39 +140,6 @@ namespace Zorglub.Time.Extras
         /// </summary>
         [Pure]
         public override string ToString() => Key;
-    }
-
-    public partial class ZCalendar // Year, month or day infos
-    {
-        /// <inheritdoc />
-        /// <exception cref="AoorException">The year is outside the range of supported years.
-        /// </exception>
-        [Pure]
-        public sealed override int CountMonthsInYear(int year)
-        {
-            SupportedYears.Validate(year);
-            return Schema.CountMonthsInYear(year);
-        }
-
-        /// <inheritdoc />
-        /// <exception cref="AoorException">The year is outside the range of supported years.
-        /// </exception>
-        [Pure]
-        public sealed override int CountDaysInYear(int year)
-        {
-            SupportedYears.Validate(year);
-            return Schema.CountDaysInYear(year);
-        }
-
-        /// <inheritdoc />
-        /// <exception cref="AoorException">The month is either invalid or outside the range of
-        /// supported months.</exception>
-        [Pure]
-        public sealed override int CountDaysInMonth(int year, int month)
-        {
-            Scope.ValidateYearMonth(year, month);
-            return Schema.CountDaysInMonth(year, month);
-        }
     }
 
     public partial class ZCalendar // Factories, conversions

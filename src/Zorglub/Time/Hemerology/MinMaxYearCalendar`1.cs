@@ -9,50 +9,20 @@ namespace Zorglub.Time.Hemerology
 
     using Zorglub.Time.Hemerology.Scopes;
 
-    // REVIEW(code): each time we call TDate.FromDayNumber() we re-validate the
-    // input, which is very unefficient. Can we change that?
-
-    public class MinMaxYearCalendar<TDate> : BasicCalendar, ICalendar<TDate>
+    /// <summary>
+    /// Represents a calendar with dates within a range of years.
+    /// </summary>
+    public class MinMaxYearCalendar<TDate> : MinMaxYearCalendar, ICalendar<TDate>
         where TDate : IFixedDay<TDate>
     {
-        public MinMaxYearCalendar(string name, CalendarScope scope) : base(name, scope)
-        {
-            Debug.Assert(scope != null);
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MinMaxYearCalendar{TDate}"/> class.
+        /// </summary>
+        public MinMaxYearCalendar(string name, CalendarScope scope) : base(name, scope) { }
 
-            if (scope.IsComplete == false) Throw.Argument(nameof(scope));
-        }
-
-        //
-        // Year, month or day infos
-        //
-
-        /// <inheritdoc/>
         [Pure]
-        public sealed override int CountMonthsInYear(int year)
-        {
-            SupportedYears.Validate(year);
-            return Schema.CountMonthsInYear(year);
-        }
-
-        /// <inheritdoc/>
-        [Pure]
-        public sealed override int CountDaysInYear(int year)
-        {
-            SupportedYears.Validate(year);
-            return Schema.CountDaysInYear(year);
-        }
-
-        /// <inheritdoc/>
-        [Pure]
-        public sealed override int CountDaysInMonth(int year, int month)
-        {
-            Scope.ValidateYearMonth(year, month);
-            return Schema.CountDaysInMonth(year, month);
-        }
-
-        //
-        // Dates in a given year or month
-        //
+        protected virtual TDate GetDateOn(int daysSinceEpoch) =>
+            TDate.FromDayNumber(Epoch + daysSinceEpoch);
 
         /// <inheritdoc/>
         [Pure]

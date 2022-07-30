@@ -43,44 +43,44 @@ public static partial class CalendarZoo { }
 // time we might receive different references (these are not singleton calendars).
 public partial class CalendarZoo
 {
-    private static BoundedBelowCalendar? s_GenuineGregorian;
+    private static BoundedBelowNakedCalendar? s_GenuineGregorian;
     /// <summary>
     /// Gets the Gregorian calendar with dates on or after the 15th of
     /// October 1582 CE.
     /// <para>This static property is thread-safe.</para>
     /// </summary>
-    public static BoundedBelowCalendar GenuineGregorian =>
+    public static BoundedBelowNakedCalendar GenuineGregorian =>
         s_GenuineGregorian ??=
             (from x in CivilSchema.GetInstance()
-             select new BoundedBelowCalendar(
+             select new BoundedBelowNakedCalendar(
                  "Genuine Gregorian",
                  x,
                  DayZero.NewStyle,
                  new DateParts(1582, 10, 15))
              ).Unbox();
 
-    private static MinMaxYearCalendar? s_GenuineJulian;
+    private static MinMaxYearNakedCalendar? s_GenuineJulian;
     /// <summary>
     /// Gets the Julian calendar with dates on or after the year 8.
     /// <para>This static property is thread-safe.</para>
     /// </summary>
-    public static MinMaxYearCalendar GenuineJulian =>
+    public static MinMaxYearNakedCalendar GenuineJulian =>
         s_GenuineJulian ??=
             (from x in JulianSchema.GetInstance()
-             select MinMaxYearCalendar.WithMinYear(
+             select MinMaxYearNakedCalendar.WithMinYear(
                 "Genuine Julian",
                 x,
                 DayZero.OldStyle,
                 8)
              ).Unbox();
 
-    private static MinMaxYearCalendar? s_FrenchRevolutionary;
+    private static MinMaxYearNakedCalendar? s_FrenchRevolutionary;
     /// <summary>
     /// Gets the French Revolutionary calendar with dates in the range from
     /// year I to year XIV.
     /// <para>This static property is thread-safe.</para>
     /// </summary>
-    public static MinMaxYearCalendar FrenchRevolutionary =>
+    public static MinMaxYearNakedCalendar FrenchRevolutionary =>
         // Il s'agit d'une arithmétisation du calendrier révolutionnaire :
         // correspond à la réalité pour les années I à XIV, mais peut
         // diverger ensuite car on n'utilise pas la règle astronomique pour
@@ -94,7 +94,7 @@ public partial class CalendarZoo
         // décembre 1805 (grégorien).
         s_FrenchRevolutionary ??=
             (from x in Coptic12Schema.GetInstance()
-             select new MinMaxYearCalendar(
+             select new MinMaxYearNakedCalendar(
                 "French Revolutionary",
                 x,
                 CalendarEpoch.FrenchRepublican,

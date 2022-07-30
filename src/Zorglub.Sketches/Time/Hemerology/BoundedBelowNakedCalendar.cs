@@ -8,24 +8,24 @@ namespace Zorglub.Time.Hemerology
 
     // FIXME(code): we no longer require that minDate != startOfYear and
     // maxDate != endOfYear when building a scope.
-    // Without that the behaviour of BoundedBelowCalendar.GetStartOfYear()
+    // Without that the behaviour of BoundedBelowNakedCalendar.GetStartOfYear()
     // is broken.
 
     /// <summary>
     /// Represents a calendar with dates on or after a given date.
     /// <para>The aforementioned date can NOT be the start of a year.</para>
     /// </summary>
-    public partial class BoundedBelowCalendar : NakedCalendar
+    public partial class BoundedBelowNakedCalendar : NakedCalendar
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="BoundedBelowCalendar"/> class.
+        /// Initializes a new instance of the <see cref="BoundedBelowNakedCalendar"/> class.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
         /// <exception cref="AoorException"><paramref name="minDateParts"/> is invalid or outside
         /// the range of dates supported by <paramref name="schema"/>.</exception>
         /// <exception cref="AoorException"><paramref name="maxYear"/> is outside the range of years
         /// supported by <paramref name="schema"/>.</exception>
-        public BoundedBelowCalendar(
+        public BoundedBelowNakedCalendar(
             string name,
             ICalendricalSchema schema,
             DayNumber epoch,
@@ -37,11 +37,11 @@ namespace Zorglub.Time.Hemerology
         { }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="BoundedBelowCalendar"/> class.
+        /// Initializes a new instance of the <see cref="BoundedBelowNakedCalendar"/> class.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="name"/> is null.</exception>
         /// <exception cref="ArgumentNullException"><paramref name="scope"/> is null.</exception>
-        public BoundedBelowCalendar(string name, BoundedBelowScope scope) : base(name, scope)
+        public BoundedBelowNakedCalendar(string name, BoundedBelowScope scope) : base(name, scope)
         {
             DayProvider = new BoundedBelowDayProvider(scope);
 
@@ -77,7 +77,7 @@ namespace Zorglub.Time.Hemerology
         public OrdinalParts MinOrdinalParts { get; }
     }
 
-    public partial class BoundedBelowCalendar // Year, month, day infos
+    public partial class BoundedBelowNakedCalendar // Year, month, day infos
     {
         // NB : pour opimtiser les choses on pourrait traiter d'abord le cas
         // limite (première année ou premier mois) puis le cas général.
@@ -142,7 +142,7 @@ namespace Zorglub.Time.Hemerology
         }
     }
 
-    public partial class BoundedBelowCalendar // Dates in a given year or month
+    public partial class BoundedBelowNakedCalendar // Dates in a given year or month
     {
         /// <inheritdoc />
         [Pure]
