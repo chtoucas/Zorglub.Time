@@ -1,7 +1,7 @@
 ﻿// SPDX-License-Identifier: BSD-3-Clause
 // Copyright (c) 2020 Narvalo.Org. All rights reserved.
 
-module Zorglub.Tests.Time.Extras.RomanKalendarTests
+module Zorglub.Tests.Extras.RomanKalendarTests
 
 open System
 

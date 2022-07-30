@@ -1,7 +1,7 @@
 ﻿// SPDX-License-Identifier: BSD-3-Clause
 // Copyright (c) 2020 Narvalo.Org. All rights reserved.
 
-module Zorglub.Tests.Time.Extras.GregorianReformTests
+module Zorglub.Tests.Extras.GregorianReformTests
 
 open Zorglub.Testing
 
