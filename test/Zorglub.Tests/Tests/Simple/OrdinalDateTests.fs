@@ -140,7 +140,7 @@ module Conversions =
     let ``WithCalendar() throws when the result is out of range`` () =
         let chr = JulianCalendar.Instance
         // Julian.MinDayNumber < Gregorian.MinDayNumber.
-        let date = chr.GetOrdinalDateOn(chr.Domain.Min)
+        let date = chr.GetOrdinalDate(chr.Domain.Min)
 
         outOfRangeExn "dayNumber" (fun () -> date.WithCalendar(GregorianCalendar.Instance))
 

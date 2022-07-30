@@ -882,7 +882,7 @@ static Zorglub.Time.Specialized.JulianDate.Today() -> Zorglub.Time.Specialized.J
 virtual Zorglub.Time.Core.CalendricalSchema.CountDaysSinceEpoch(int y, int m, int d) -> int
 virtual Zorglub.Time.Core.CalendricalSchema.GetDateParts(int daysSinceEpoch, out int y, out int m, out int d) -> void
 virtual Zorglub.Time.Core.CalendricalSchema.GetYear(int daysSinceEpoch, out int doy) -> int
-virtual Zorglub.Time.Hemerology.MinMaxYearCalendar<TDate>.GetDateOn(int daysSinceEpoch) -> TDate
+virtual Zorglub.Time.Hemerology.MinMaxYearCalendar<TDate>.GetDate(int daysSinceEpoch) -> TDate
 Zorglub.Time.AdditionRule
 Zorglub.Time.AdditionRule.Exact = 2 -> Zorglub.Time.AdditionRule
 Zorglub.Time.AdditionRule.Overspill = 1 -> Zorglub.Time.AdditionRule
@@ -1383,8 +1383,8 @@ Zorglub.Time.Hemerology.BasicCalendar.BasicCalendar(string! name, Zorglub.Time.H
 Zorglub.Time.Hemerology.BasicCalendar.Domain.get -> Zorglub.Time.Core.Intervals.Range<Zorglub.Time.DayNumber>
 Zorglub.Time.Hemerology.BasicCalendar.Epoch.get -> Zorglub.Time.DayNumber
 Zorglub.Time.Hemerology.BasicCalendar.Family.get -> Zorglub.Time.CalendricalFamily
-Zorglub.Time.Hemerology.BasicCalendar.GetDayNumberOn(int year, int dayOfYear) -> Zorglub.Time.DayNumber
-Zorglub.Time.Hemerology.BasicCalendar.GetDayNumberOn(int year, int month, int day) -> Zorglub.Time.DayNumber
+Zorglub.Time.Hemerology.BasicCalendar.GetDayNumber(int year, int dayOfYear) -> Zorglub.Time.DayNumber
+Zorglub.Time.Hemerology.BasicCalendar.GetDayNumber(int year, int month, int day) -> Zorglub.Time.DayNumber
 Zorglub.Time.Hemerology.BasicCalendar.IsIntercalaryDay(int year, int month, int day) -> bool
 Zorglub.Time.Hemerology.BasicCalendar.IsIntercalaryMonth(int year, int month) -> bool
 Zorglub.Time.Hemerology.BasicCalendar.IsLeapYear(int year) -> bool
@@ -1413,8 +1413,8 @@ Zorglub.Time.Hemerology.IAffineDate<TSelf>.operator -(TSelf left, int right) -> 
 Zorglub.Time.Hemerology.ICalendar
 Zorglub.Time.Hemerology.ICalendar.Domain.get -> Zorglub.Time.Core.Intervals.Range<Zorglub.Time.DayNumber>
 Zorglub.Time.Hemerology.ICalendar.Epoch.get -> Zorglub.Time.DayNumber
-Zorglub.Time.Hemerology.ICalendar.GetDayNumberOn(int year, int dayOfYear) -> Zorglub.Time.DayNumber
-Zorglub.Time.Hemerology.ICalendar.GetDayNumberOn(int year, int month, int day) -> Zorglub.Time.DayNumber
+Zorglub.Time.Hemerology.ICalendar.GetDayNumber(int year, int dayOfYear) -> Zorglub.Time.DayNumber
+Zorglub.Time.Hemerology.ICalendar.GetDayNumber(int year, int month, int day) -> Zorglub.Time.DayNumber
 Zorglub.Time.Hemerology.ICalendar.Scope.get -> Zorglub.Time.Hemerology.Scopes.CalendarScope!
 Zorglub.Time.Hemerology.ICalendar<TDate>
 Zorglub.Time.Hemerology.IDate
@@ -1527,19 +1527,19 @@ Zorglub.Time.Simple.Calendar.Domain.get -> Zorglub.Time.Core.Intervals.Range<Zor
 Zorglub.Time.Simple.Calendar.Epoch.get -> Zorglub.Time.DayNumber
 Zorglub.Time.Simple.Calendar.Family.get -> Zorglub.Time.CalendricalFamily
 Zorglub.Time.Simple.Calendar.GetCalendarDate(int year, int month, int day) -> Zorglub.Time.Simple.CalendarDate
-Zorglub.Time.Simple.Calendar.GetCalendarDateOn(Zorglub.Time.DayNumber dayNumber) -> Zorglub.Time.Simple.CalendarDate
+Zorglub.Time.Simple.Calendar.GetCalendarDate(Zorglub.Time.DayNumber dayNumber) -> Zorglub.Time.Simple.CalendarDate
 Zorglub.Time.Simple.Calendar.GetCalendarDay(Zorglub.Time.DayNumber dayNumber) -> Zorglub.Time.Simple.CalendarDay
 Zorglub.Time.Simple.Calendar.GetCalendarMonth(int year, int month) -> Zorglub.Time.Simple.CalendarMonth
-Zorglub.Time.Simple.Calendar.GetCalendarMonthOn(Zorglub.Time.DayNumber dayNumber) -> Zorglub.Time.Simple.CalendarMonth
+Zorglub.Time.Simple.Calendar.GetCalendarMonth(Zorglub.Time.DayNumber dayNumber) -> Zorglub.Time.Simple.CalendarMonth
 Zorglub.Time.Simple.Calendar.GetCalendarYear(int year) -> Zorglub.Time.Simple.CalendarYear
-Zorglub.Time.Simple.Calendar.GetCalendarYearOn(Zorglub.Time.DayNumber dayNumber) -> Zorglub.Time.Simple.CalendarYear
+Zorglub.Time.Simple.Calendar.GetCalendarYear(Zorglub.Time.DayNumber dayNumber) -> Zorglub.Time.Simple.CalendarYear
 Zorglub.Time.Simple.Calendar.GetCurrentDate() -> Zorglub.Time.Simple.CalendarDate
 Zorglub.Time.Simple.Calendar.GetCurrentDay() -> Zorglub.Time.Simple.CalendarDay
 Zorglub.Time.Simple.Calendar.GetCurrentMonth() -> Zorglub.Time.Simple.CalendarMonth
 Zorglub.Time.Simple.Calendar.GetCurrentOrdinal() -> Zorglub.Time.Simple.OrdinalDate
 Zorglub.Time.Simple.Calendar.GetCurrentYear() -> Zorglub.Time.Simple.CalendarYear
 Zorglub.Time.Simple.Calendar.GetOrdinalDate(int year, int dayOfYear) -> Zorglub.Time.Simple.OrdinalDate
-Zorglub.Time.Simple.Calendar.GetOrdinalDateOn(Zorglub.Time.DayNumber dayNumber) -> Zorglub.Time.Simple.OrdinalDate
+Zorglub.Time.Simple.Calendar.GetOrdinalDate(Zorglub.Time.DayNumber dayNumber) -> Zorglub.Time.Simple.OrdinalDate
 Zorglub.Time.Simple.Calendar.IsProleptic.get -> bool
 Zorglub.Time.Simple.Calendar.IsRegular(out int monthsInYear) -> bool
 Zorglub.Time.Simple.Calendar.IsUserDefined.get -> bool

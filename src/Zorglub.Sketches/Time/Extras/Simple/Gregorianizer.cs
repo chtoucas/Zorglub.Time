@@ -28,8 +28,8 @@ namespace Zorglub.Time.Extras.Simple
 
         public CalendarDate Gregorianize(DayNumber dayNumber) =>
             dayNumber < Reform.Switchover
-            ? JulianCalendar.Instance.GetCalendarDateOn(dayNumber)
-            : GregorianCalendar.Instance.GetCalendarDateOn(dayNumber);
+            ? JulianCalendar.Instance.GetCalendarDate(dayNumber)
+            : GregorianCalendar.Instance.GetCalendarDate(dayNumber);
 
         public CalendarDay Gregorianize(CalendarDay date) =>
             date.Cuid switch

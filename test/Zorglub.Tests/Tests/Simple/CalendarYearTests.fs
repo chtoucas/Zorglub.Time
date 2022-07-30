@@ -54,7 +54,7 @@ module GregorianCase =
     [<InlineData(111, "0111 (Gregorian)")>]
     [<InlineData(2019, "2019 (Gregorian)")>]
     [<InlineData(9999, "9999 (Gregorian)")>]
-    let ``ToString()`` y str =
+    let ``ToString()`` (y: int) str =
         let year = chr.GetCalendarYear(y)
 
         year.ToString() === str

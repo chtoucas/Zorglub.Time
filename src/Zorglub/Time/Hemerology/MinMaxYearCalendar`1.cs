@@ -23,7 +23,7 @@ namespace Zorglub.Time.Hemerology
         public MinMaxYearCalendar(string name, CalendarScope scope) : base(name, scope) { }
 
         [Pure]
-        protected virtual TDate GetDateOn(int daysSinceEpoch) =>
+        protected virtual TDate GetDate(int daysSinceEpoch) =>
             TDate.FromDayNumber(Epoch + daysSinceEpoch);
 
         /// <inheritdoc/>

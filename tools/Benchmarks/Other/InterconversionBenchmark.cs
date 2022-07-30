@@ -60,7 +60,7 @@ public class InterconversionBenchmark : BenchmarkBase
     [Benchmark(Description = "DayNumber     ")]
     public (int, int, int) WithDayNumber()
     {
-        DayNumber start = My.NakedJulian.GetDayNumberOn(Year, Month, Day);
+        DayNumber start = My.NakedJulian.GetDayNumber(Year, Month, Day);
         var (y, m, d) = My.NakedCivil.GetDateParts(start);
         return (y, m, d);
     }

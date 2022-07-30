@@ -599,7 +599,7 @@ namespace Zorglub.Time.Simple
         /// <exception cref="AoorException"><paramref name="dayNumber"/> is outside the range of
         /// values supported by this calendar.</exception>
         [Pure]
-        public CalendarYear GetCalendarYearOn(DayNumber dayNumber)
+        public CalendarYear GetCalendarYear(DayNumber dayNumber)
         {
             Domain.Validate(dayNumber);
             int y = Schema.GetYear(dayNumber - Epoch);
@@ -612,7 +612,7 @@ namespace Zorglub.Time.Simple
         /// <exception cref="AoorException"><paramref name="dayNumber"/> is outside the range of
         /// values supported by this calendar.</exception>
         [Pure]
-        public CalendarMonth GetCalendarMonthOn(DayNumber dayNumber)
+        public CalendarMonth GetCalendarMonth(DayNumber dayNumber)
         {
             Domain.Validate(dayNumber);
             var ymd = Schema.GetDateParts(dayNumber - Epoch);
@@ -625,7 +625,7 @@ namespace Zorglub.Time.Simple
         /// <exception cref="AoorException"><paramref name="dayNumber"/> is outside the range of
         /// values supported by this calendar.</exception>
         [Pure]
-        public CalendarDate GetCalendarDateOn(DayNumber dayNumber)
+        public CalendarDate GetCalendarDate(DayNumber dayNumber)
         {
             Domain.Validate(dayNumber);
             var ymd = Schema.GetDateParts(dayNumber - Epoch);
@@ -638,7 +638,7 @@ namespace Zorglub.Time.Simple
         /// <exception cref="AoorException"><paramref name="dayNumber"/> is outside the range of
         /// values supported by this calendar.</exception>
         [Pure]
-        public OrdinalDate GetOrdinalDateOn(DayNumber dayNumber)
+        public OrdinalDate GetOrdinalDate(DayNumber dayNumber)
         {
             Domain.Validate(dayNumber);
             var ydoy = Schema.GetOrdinalParts(dayNumber - Epoch);
@@ -647,7 +647,7 @@ namespace Zorglub.Time.Simple
 
         [Pure]
         [SuppressMessage("Design", "CA1033:Interface methods should be callable by child types", Justification = "Use GetCalendarDate() then ToDayNumber() or better ToCalendarDay().")]
-        DayNumber ICalendar.GetDayNumberOn(int year, int month, int day)
+        DayNumber ICalendar.GetDayNumber(int year, int month, int day)
         {
             // Hidden since we have a custom day object (CalendarDay).
             // The idea is that one should always create an object using its
@@ -658,7 +658,7 @@ namespace Zorglub.Time.Simple
 
         [Pure]
         [SuppressMessage("Design", "CA1033:Interface methods should be callable by child types", Justification = "Use GetOrdinalDate() then ToDayNumber() or better ToCalendarDay().")]
-        DayNumber ICalendar.GetDayNumberOn(int year, int dayOfYear)
+        DayNumber ICalendar.GetDayNumber(int year, int dayOfYear)
         {
             // Hidden since we have a custom day object (CalendarDay).
             // The idea is that one should always create an object using its

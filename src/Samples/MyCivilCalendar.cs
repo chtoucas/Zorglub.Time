@@ -23,5 +23,5 @@ public sealed class MyCivilCalendar : MinMaxYearCalendar<MyCivilDate>
     private static CivilSchema GetCivilSchema() => CivilSchema.GetInstance().Unbox();
 
     [Pure]
-    protected sealed override MyCivilDate GetDateOn(int daysSinceEpoch) => new(daysSinceEpoch);
+    protected sealed override MyCivilDate GetDate(int daysSinceEpoch) => new(daysSinceEpoch);
 }

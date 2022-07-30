@@ -202,7 +202,7 @@ public class GregorianBenchmark : BenchmarkBase
     public void WithDayNumberNaked()
     {
         var chr = My.NakedCivil;
-        DayNumber start = chr.GetDayNumberOn(Year, Month, Day);
+        DayNumber start = chr.GetDayNumber(Year, Month, Day);
         DayNumber end = start.NextDay().PlusDays(D7).PlusDays(D30).PlusDays(D401);
         var parts = chr.GetDateParts(end);
         var oparts = chr.GetOrdinalParts(end);

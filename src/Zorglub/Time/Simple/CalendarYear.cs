@@ -366,7 +366,7 @@ namespace Zorglub.Time.Simple
         /// Obtains a new <see cref="CalendarYear"/> in the Gregorian calendar from the specified
         /// day number.
         /// <para>To create an instance in another calendar, see
-        /// <see cref="Calendar.GetCalendarYearOn(DayNumber)"/>.</para>
+        /// <see cref="Calendar.GetCalendarYear(DayNumber)"/>.</para>
         /// </summary>
         /// <exception cref="AoorException"><paramref name="dayNumber"/> is outside the range of
         /// values supported by the Gregorian calendar.</exception>

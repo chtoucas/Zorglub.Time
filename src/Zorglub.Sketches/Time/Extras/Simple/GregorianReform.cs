@@ -79,7 +79,7 @@ namespace Zorglub.Time.Extras.Simple
             if (firstGregorianDate < Official.FirstGregorianDate) Throw.YearOutOfRange(year);
 
             var switchover = firstGregorianDate.ToDayNumber();
-            var lastJulianDate = JulianCalendar.Instance.GetCalendarDateOn(switchover - 1);
+            var lastJulianDate = JulianCalendar.Instance.GetCalendarDate(switchover - 1);
 
             return new GregorianReform(lastJulianDate, firstGregorianDate, switchover);
         }
@@ -90,7 +90,7 @@ namespace Zorglub.Time.Extras.Simple
         {
             // REVIEW(code): et si Switchover ou LastJulian est bissextile?
             var (y, m, d) = FirstGregorianDate;
-            var dayNumber = ((ICalendar)JulianCalendar.Instance).GetDayNumberOn(y, m, d);
+            var dayNumber = ((ICalendar)JulianCalendar.Instance).GetDayNumber(y, m, d);
             return dayNumber - Switchover;
         }
 

@@ -85,7 +85,7 @@ public partial class NakedCalendarFacts<TCalendar, TDataSet> // Conversions
     public void GetDateParts﹍DayNumber_ViaDateInfo(DateInfo info)
     {
         var (y, m, d) = info.Yemoda;
-        var dayNumber = CalendarUT.GetDayNumberOn(y, m, d);
+        var dayNumber = CalendarUT.GetDayNumber(y, m, d);
         var exp = new DateParts(y, m, d);
         // Act
         var actual = CalendarUT.GetDateParts(dayNumber);
@@ -126,7 +126,7 @@ public partial class NakedCalendarFacts<TCalendar, TDataSet> // Conversions
     public void GetOrdinalParts﹍DayNumber_UsingDateInfo(DateInfo info)
     {
         var (y, m, d, doy) = info;
-        var dayNumber = CalendarUT.GetDayNumberOn(y, m, d);
+        var dayNumber = CalendarUT.GetDayNumber(y, m, d);
         var exp = new OrdinalParts(y, doy);
         // Act
         var actual = CalendarUT.GetOrdinalParts(dayNumber);
@@ -246,7 +246,7 @@ public partial class NakedCalendarFacts<TCalendar, TDataSet> // IDayProvider
     public void GetEndOfYear_DayNumber(Yemoda xdate)
     {
         var (y, m, d) = xdate;
-        var endOfYear = DayCalendarUT.GetDayNumberOn(y, m, d);
+        var endOfYear = DayCalendarUT.GetDayNumber(y, m, d);
         // Act
         var actual = DayCalendarUT.GetEndOfYear(y);
         // Assert
@@ -267,7 +267,7 @@ public partial class NakedCalendarFacts<TCalendar, TDataSet> // IDayProvider
     [Theory, MemberData(nameof(MonthInfoData))]
     public void GetStartOfMonth_DayNumber(int y, int m, int _3, int _4, bool _5)
     {
-        var startOfMonth = DayCalendarUT.GetDayNumberOn(y, m, 1);
+        var startOfMonth = DayCalendarUT.GetDayNumber(y, m, 1);
         // Act & Assert
         Assert.Equal(startOfMonth, DayCalendarUT.GetStartOfMonth(y, m));
     }
@@ -286,7 +286,7 @@ public partial class NakedCalendarFacts<TCalendar, TDataSet> // IDayProvider
     [Theory, MemberData(nameof(MonthInfoData))]
     public void GetEndOfMonth_DayNumber(int y, int m, int daysInMonth, int _4, bool _5)
     {
-        var endOfMonth = DayCalendarUT.GetDayNumberOn(y, m, daysInMonth);
+        var endOfMonth = DayCalendarUT.GetDayNumber(y, m, daysInMonth);
         // Act & Assert
         Assert.Equal(endOfMonth, DayCalendarUT.GetEndOfMonth(y, m));
     }

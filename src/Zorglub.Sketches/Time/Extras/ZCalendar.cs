@@ -141,7 +141,7 @@ namespace Zorglub.Time.Extras
 
         /// <inheritdoc/>
         [Pure]
-        protected sealed override ZDate GetDateOn(int daysSinceEpoch) => new(daysSinceEpoch, Id);
+        protected sealed override ZDate GetDate(int daysSinceEpoch) => new(daysSinceEpoch, Id);
     }
 
     public partial class ZCalendar // Factories, conversions

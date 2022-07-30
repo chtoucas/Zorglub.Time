@@ -183,74 +183,74 @@ public partial class CalendarFacts<TDataSet> // Factories
 
 public partial class CalendarFacts<TDataSet> // Conversions
 {
-    #region GetCalendarYearOn()
+    #region GetCalendarYear()
 
     [Fact]
-    public void GetCalendarYearOn_InvalidDayNumber() =>
-        DomainTester.TestInvalidDayNumber(CalendarUT.GetCalendarYearOn);
+    public void GetCalendarYear﹍DayNumber_InvalidDayNumber() =>
+        DomainTester.TestInvalidDayNumber(CalendarUT.GetCalendarYear);
 
     [Theory, MemberData(nameof(DayNumberInfoData))]
-    public void GetCalendarYearOn(DayNumberInfo info)
+    public void GetCalendarYear﹍DayNumber(DayNumberInfo info)
     {
         var exp = CalendarUT.GetCalendarYear(info.Yemoda.Year);
         // Act
-        var year = CalendarUT.GetCalendarYearOn(info.DayNumber);
+        var year = CalendarUT.GetCalendarYear(info.DayNumber);
         // Assert
         Assert.Equal(exp, year);
     }
 
     #endregion
-    #region GetCalendarMonthOn()
+    #region GetCalendarMonth()
 
     [Fact]
-    public void GetCalendarMonthOn_InvalidDayNumber() =>
-        DomainTester.TestInvalidDayNumber(CalendarUT.GetCalendarMonthOn);
+    public void GetCalendarMonthOn﹍DayNumber_InvalidDayNumber() =>
+        DomainTester.TestInvalidDayNumber(CalendarUT.GetCalendarMonth);
 
     [Theory, MemberData(nameof(DayNumberInfoData))]
-    public void GetCalendarMonthOn(DayNumberInfo info)
+    public void GetCalendarMonth﹍DayNumber(DayNumberInfo info)
     {
         var (dayNumber, y, m, _) = info;
         var exp = CalendarUT.GetCalendarMonth(y, m);
         // Act
-        var month = CalendarUT.GetCalendarMonthOn(dayNumber);
+        var month = CalendarUT.GetCalendarMonth(dayNumber);
         // Assert
         Assert.Equal(exp, month);
     }
 
     #endregion
-    #region GetCalendarDateOn()
+    #region GetCalendarDate()
 
     [Fact]
-    public void GetCalendarDateOn_InvalidDayNumber() =>
-        DomainTester.TestInvalidDayNumber(CalendarUT.GetCalendarDateOn);
+    public void GetCalendarDate﹍DayNumber_InvalidDayNumber() =>
+        DomainTester.TestInvalidDayNumber(CalendarUT.GetCalendarDate);
 
     [Theory, MemberData(nameof(DateInfoData))]
-    public void GetCalendarDateOn(DateInfo info)
+    public void GetCalendarDate﹍DayNumber(DateInfo info)
     {
         var (y, m, d) = info.Yemoda;
-        var dayNumber = ((ICalendar)CalendarUT).GetDayNumberOn(y, m, d);
+        var dayNumber = ((ICalendar)CalendarUT).GetDayNumber(y, m, d);
         var exp = CalendarUT.GetCalendarDate(y, m, d);
         // Act
-        var date = CalendarUT.GetCalendarDateOn(dayNumber);
+        var date = CalendarUT.GetCalendarDate(dayNumber);
         // Assert
         Assert.Equal(exp, date);
     }
 
     #endregion
-    #region GetOrdinalDateOn()
+    #region GetOrdinalDate()
 
     [Fact]
-    public void GetOrdinalDateOn_InvalidDayNumber() =>
-        DomainTester.TestInvalidDayNumber(CalendarUT.GetOrdinalDateOn);
+    public void GetOrdinalDate﹍DayNumber_InvalidDayNumber() =>
+        DomainTester.TestInvalidDayNumber(CalendarUT.GetOrdinalDate);
 
     [Theory, MemberData(nameof(DateInfoData))]
-    public void GetOrdinalDateOn(DateInfo info)
+    public void GetOrdinalDate﹍DayNumber(DateInfo info)
     {
         var (y, m, d, doy) = info;
-        var dayNumber = ((ICalendar)CalendarUT).GetDayNumberOn(y, m, d);
+        var dayNumber = ((ICalendar)CalendarUT).GetDayNumber(y, m, d);
         var exp = CalendarUT.GetOrdinalDate(y, doy);
         // Act
-        var ordate = CalendarUT.GetOrdinalDateOn(dayNumber);
+        var ordate = CalendarUT.GetOrdinalDate(dayNumber);
         // Assert
         Assert.Equal(exp, ordate);
     }
@@ -303,7 +303,7 @@ public partial class CalendarFacts<TDataSet> // Internal helpers
     //public void GetDayOfWeek(DayNumber dayNumber, DayOfWeek dayOfWeek)
     //{
     //    if (Domain.Contains(dayNumber) == false) { return; }
-    //    var date = CalendarUT.GetCalendarDateOn(dayNumber);
+    //    var date = CalendarUT.GetCalendarDate(dayNumber);
     //    // Act & Assert
     //    Assert.Equal(dayOfWeek, CalendarUT.GetDayOfWeek(date));
     //}
@@ -312,7 +312,7 @@ public partial class CalendarFacts<TDataSet> // Internal helpers
     //public void GetDayOfWeek﹍Ordinal(DayNumber dayNumber, DayOfWeek dayOfWeek)
     //{
     //    if (Domain.Contains(dayNumber) == false) { return; }
-    //    var date = CalendarUT.GetOrdinalDateOn(dayNumber);
+    //    var date = CalendarUT.GetOrdinalDate(dayNumber);
     //    // Act & Assert
     //    Assert.Equal(dayOfWeek, CalendarUT.GetDayOfWeek(date));
     //}

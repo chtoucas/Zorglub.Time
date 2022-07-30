@@ -214,48 +214,48 @@ public partial class ICalendarFacts<TCalendar, TDataSet> // ICalendar
     [Fact]
     public void Epoch_Prop() => Assert.Equal(Epoch, CalendarUT.Epoch);
 
-    #region GetDayNumberOn﹍DateParts()
+    #region GetDayNumber﹍DateParts()
 
     [Fact]
-    public void GetDayNumberOn﹍DateParts_InvalidYear() =>
-        SupportedYearsTester.TestInvalidYear(y => CalendarUT.GetDayNumberOn(y, 1, 1));
+    public void GetDayNumber﹍DateParts_InvalidYear() =>
+        SupportedYearsTester.TestInvalidYear(y => CalendarUT.GetDayNumber(y, 1, 1));
 
     [Theory, MemberData(nameof(InvalidMonthFieldData))]
-    public void GetDayNumberOn﹍DateParts_InvalidMonth(int y, int m) =>
-        Assert.ThrowsAoorexn("month", () => CalendarUT.GetDayNumberOn(y, m, 1));
+    public void GetDayNumber﹍DateParts_InvalidMonth(int y, int m) =>
+        Assert.ThrowsAoorexn("month", () => CalendarUT.GetDayNumber(y, m, 1));
 
     [Theory, MemberData(nameof(InvalidDayFieldData))]
-    public void GetDayNumberOn﹍DateParts_InvalidDay(int y, int m, int d) =>
-        Assert.ThrowsAoorexn("day", () => CalendarUT.GetDayNumberOn(y, m, d));
+    public void GetDayNumber﹍DateParts_InvalidDay(int y, int m, int d) =>
+        Assert.ThrowsAoorexn("day", () => CalendarUT.GetDayNumber(y, m, d));
 
     [Theory, MemberData(nameof(DayNumberInfoData))]
-    public void GetDayNumberOn﹍DateParts(DayNumberInfo info)
+    public void GetDayNumber﹍DateParts(DayNumberInfo info)
     {
         var (dayNumber, y, m, d) = info;
         // Act
-        var actual = CalendarUT.GetDayNumberOn(y, m, d);
+        var actual = CalendarUT.GetDayNumber(y, m, d);
         // Assert
         Assert.Equal(dayNumber, actual);
     }
 
     #endregion
-    #region GetDayNumberOn﹍OrdinalParts()
+    #region GetDayNumber﹍OrdinalParts()
 
     [Fact]
-    public void GetDayNumberOn﹍OrdinalParts_InvalidYear() =>
-        SupportedYearsTester.TestInvalidYear(y => CalendarUT.GetDayNumberOn(y, 1));
+    public void GetDayNumber﹍OrdinalParts_InvalidYear() =>
+        SupportedYearsTester.TestInvalidYear(y => CalendarUT.GetDayNumber(y, 1));
 
     [Theory, MemberData(nameof(InvalidDayOfYearFieldData))]
-    public void GetDayNumberOn﹍OrdinalParts_InvalidDayOfYear(int y, int doy) =>
-        Assert.ThrowsAoorexn("dayOfYear", () => CalendarUT.GetDayNumberOn(y, doy));
+    public void GetDayNumber﹍OrdinalParts_InvalidDayOfYear(int y, int doy) =>
+        Assert.ThrowsAoorexn("dayOfYear", () => CalendarUT.GetDayNumber(y, doy));
 
     [Theory, MemberData(nameof(DateInfoData))]
-    public void GetDayNumberOn﹍OrdinalParts(DateInfo info)
+    public void GetDayNumber﹍OrdinalParts(DateInfo info)
     {
         var (y, m, d, doy) = info;
-        var dayNumber = CalendarUT.GetDayNumberOn(y, m, d);
+        var dayNumber = CalendarUT.GetDayNumber(y, m, d);
         // Act
-        var actual = CalendarUT.GetDayNumberOn(y, doy);
+        var actual = CalendarUT.GetDayNumber(y, doy);
         // Assert
         Assert.Equal(dayNumber, actual);
     }

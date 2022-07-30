@@ -81,12 +81,12 @@ namespace Zorglub.Time.Hemerology
     // - A type constructor, a factory,
     //     GetXXX(repr) -> TDate
     // - Conversion ops from the other date repr. to TDate
-    //     GetXXXOn(other repr) -> TDate
+    //     GetXXX(other repr) -> TDate
     // where XXX is the name of the date type.
     // With conversion ops, not only do we have to validate the input but we
     // must also transform it before we can create the target object.
-    // We did not include them in the interface because I GetDate() or
-    // GetDateOn() feel too generic to me. For instance,
+    // We did not include them in the interface because GetDate() feel too
+    // generic to me. For instance,
     // ZCalendar has
     // - GetDate(y, m, d)   -> ZDate
     // - GetDate(y, doy)    -> ZDate
@@ -134,14 +134,14 @@ namespace Zorglub.Time.Hemerology
         /// </summary>
         /// <exception cref="AoorException">The date is not within the calendar boundaries.
         /// </exception>
-        [Pure] DayNumber GetDayNumberOn(int year, int month, int day);
+        [Pure] DayNumber GetDayNumber(int year, int month, int day);
 
         /// <summary>
         /// Obtains the day number on the specified ordinal date.
         /// </summary>
         /// <exception cref="AoorException">The ordinal date is not within the calendar boundaries.
         /// </exception>
-        [Pure] DayNumber GetDayNumberOn(int year, int dayOfYear);
+        [Pure] DayNumber GetDayNumber(int year, int dayOfYear);
     }
 
     /// <summary>

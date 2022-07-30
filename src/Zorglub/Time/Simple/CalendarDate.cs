@@ -265,7 +265,7 @@ namespace Zorglub.Time.Simple
         /// </summary>
         /// <remarks>
         /// <para>To create from a day number an instance in another calendar, see
-        /// <see cref="Calendar.GetCalendarDateOn(DayNumber)"/>. A less direct way is first to
+        /// <see cref="Calendar.GetCalendarDate(DayNumber)"/>. A less direct way is first to
         /// create a <see cref="CalendarDay"/> and then to convert the result to a
         /// <see cref="CalendarDate"/>.</para>
         /// </remarks>
@@ -316,7 +316,7 @@ namespace Zorglub.Time.Simple
         {
             Requires.NotNull(newCalendar);
 
-            return newCalendar.GetCalendarDateOn(ToDayNumber());
+            return newCalendar.GetCalendarDate(ToDayNumber());
         }
 
         #endregion

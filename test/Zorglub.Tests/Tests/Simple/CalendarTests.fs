@@ -413,14 +413,14 @@ module GregorianCase =
     [<RedundantTest>]
     [<Theory; MemberData(nameof(dayNumberToDayOfWeekData))>]
     let ``GetDayOfWeek(CalendarDate) via DayNumber`` (dayNumber: DayNumber) (dayOfWeek: DayOfWeek) =
-        let date = chr.GetCalendarDateOn(dayNumber)
+        let date = chr.GetCalendarDate(dayNumber)
 
         chr.GetDayOfWeek(date) === dayOfWeek
 
     [<RedundantTest>]
     [<Theory; MemberData(nameof(dayNumberToDayOfWeekData))>]
     let ``GetDayOfWeek(OrdinalDate) via DayNumber`` (dayNumber: DayNumber) (dayOfWeek: DayOfWeek) =
-        let date = chr.GetOrdinalDateOn(dayNumber)
+        let date = chr.GetOrdinalDate(dayNumber)
 
         chr.GetDayOfWeek(date) === dayOfWeek
 
@@ -432,13 +432,13 @@ module JulianCase =
 
     [<Theory; MemberData(nameof(dayNumberToDayOfWeekData))>]
     let ``GetDayOfWeek(CalendarDate) via DayNumber`` (dayNumber: DayNumber) (dayOfWeek: DayOfWeek) =
-        let date = chr.GetCalendarDateOn(dayNumber)
+        let date = chr.GetCalendarDate(dayNumber)
 
         chr.GetDayOfWeek(date) === dayOfWeek
 
     [<Theory; MemberData(nameof(dayNumberToDayOfWeekData))>]
     let ``GetDayOfWeek(OrdinalDate) via DayNumber`` (dayNumber: DayNumber) (dayOfWeek: DayOfWeek) =
-        let date = chr.GetOrdinalDateOn(dayNumber)
+        let date = chr.GetOrdinalDate(dayNumber)
 
         chr.GetDayOfWeek(date) === dayOfWeek
 
@@ -453,12 +453,12 @@ module UserJulianCase =
 
     [<Theory; MemberData(nameof(dayNumberToDayOfWeekData))>]
     let ``GetDayOfWeek(CalendarDate) via DayNumber`` (dayNumber: DayNumber) (dayOfWeek: DayOfWeek) =
-        let date = chr.GetCalendarDateOn(dayNumber)
+        let date = chr.GetCalendarDate(dayNumber)
 
         chr.GetDayOfWeek(date) === dayOfWeek
 
     [<Theory; MemberData(nameof(dayNumberToDayOfWeekData))>]
     let ``GetDayOfWeek(OrdinalDate) via DayNumber`` (dayNumber: DayNumber) (dayOfWeek: DayOfWeek) =
-        let date = chr.GetOrdinalDateOn(dayNumber)
+        let date = chr.GetOrdinalDate(dayNumber)
 
         chr.GetDayOfWeek(date) === dayOfWeek

@@ -172,7 +172,7 @@ public partial class CalendarDateFacts<TDataSet> // Conversions
     public void WithCalendar_Invariance(DayNumberInfo info)
     {
         var dayNumber = info.DayNumber;
-        var date = CalendarUT.GetCalendarDateOn(dayNumber);
+        var date = CalendarUT.GetCalendarDate(dayNumber);
         // Act & Assert
         Assert.Equal(date, date.WithCalendar(CalendarUT));
     }
@@ -182,8 +182,8 @@ public partial class CalendarDateFacts<TDataSet> // Conversions
     {
         var dayNumber = info.DayNumber;
         if (OtherCalendar.Domain.Contains(dayNumber) == false) { return; }
-        var date = CalendarUT.GetCalendarDateOn(dayNumber);
-        var other = OtherCalendar.GetCalendarDateOn(dayNumber);
+        var date = CalendarUT.GetCalendarDate(dayNumber);
+        var other = OtherCalendar.GetCalendarDate(dayNumber);
         // Act & Assert
         Assert.Equal(other, date.WithCalendar(OtherCalendar));
         Assert.Equal(date, other.WithCalendar(CalendarUT));

@@ -137,7 +137,7 @@ namespace Zorglub.Time.Hemerology
     {
         /// <inheritdoc />
         [Pure]
-        public DayNumber GetDayNumberOn(int year, int month, int day)
+        public DayNumber GetDayNumber(int year, int month, int day)
         {
             Scope.ValidateYearMonthDay(year, month, day);
             return Epoch + Schema.CountDaysSinceEpoch(year, month, day);
@@ -145,7 +145,7 @@ namespace Zorglub.Time.Hemerology
 
         /// <inheritdoc />
         [Pure]
-        public DayNumber GetDayNumberOn(int year, int dayOfYear)
+        public DayNumber GetDayNumber(int year, int dayOfYear)
         {
             Scope.ValidateOrdinal(year, dayOfYear);
             return Epoch + Schema.CountDaysSinceEpoch(year, dayOfYear);
