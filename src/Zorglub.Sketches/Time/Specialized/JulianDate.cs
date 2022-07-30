@@ -33,10 +33,10 @@ namespace Zorglub.Time.Specialized
         private static readonly JulianSchema s_Schema = new();
 
         /// <summary>
-        /// Represents the Julian calendar.
+        /// Represents the Julian calendar system.
         /// <para>This field is read-only.</para>
         /// </summary>
-        private static readonly JulianCalendar s_Calendar = new(s_Schema);
+        private static readonly JulianSystem s_Calendar = new(s_Schema);
 
         /// <summary>
         /// Represents the scope.
@@ -64,7 +64,7 @@ namespace Zorglub.Time.Specialized
         private static readonly JulianDate s_MinValue = new(s_Domain.Min - s_Epoch);
 
         /// <summary>
-        /// Represents the largest possible value of a <see cref="CivilDate"/>.
+        /// Represents the largest possible value of a <see cref="JulianDate"/>.
         /// <para>This field is read-only.</para>
         /// </summary>
         private static readonly JulianDate s_MaxValue = new(s_Domain.Max - s_Epoch);
@@ -81,7 +81,7 @@ namespace Zorglub.Time.Specialized
         /// </summary>
         /// <exception cref="AoorException">The specified components do not form a valid date or
         /// <paramref name="year"/> is outside the range of years supported by
-        /// <see cref="JulianCalendar"/>.</exception>
+        /// <see cref="JulianSystem"/>.</exception>
         public JulianDate(int year, int month, int day)
         {
             s_Scope.ValidateYearMonthDay(year, month, day);
@@ -95,7 +95,7 @@ namespace Zorglub.Time.Specialized
         /// </summary>
         /// <exception cref="AoorException">The specified components do not form a valid ordinal
         /// date or <paramref name="year"/> is outside the range of years supported by
-        /// <see cref="CivilCalendar"/>.</exception>
+        /// <see cref="JulianSystem"/>.</exception>
         public JulianDate(int year, int dayOfYear)
         {
             s_Scope.ValidateOrdinal(year, dayOfYear);
@@ -140,7 +140,7 @@ namespace Zorglub.Time.Specialized
         /// Gets the calendar to which belongs the current instance.
         /// <para>This static property is thread-safe.</para>
         /// </summary>
-        public static JulianCalendar Calendar => s_Calendar;
+        public static JulianSystem Calendar => s_Calendar;
 
         /// <summary>
         /// Gets the day number.
