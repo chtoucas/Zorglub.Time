@@ -199,7 +199,7 @@ public class GregorianBenchmark : BenchmarkBase
     }
 
     [Benchmark(Description = "Naked Civil      +")]
-    public void WithDayNumberNaked()
+    public void WithNakedCivil()
     {
         var chr = My.NakedCivil;
         DayNumber start = chr.GetDayNumber(Year, Month, Day);

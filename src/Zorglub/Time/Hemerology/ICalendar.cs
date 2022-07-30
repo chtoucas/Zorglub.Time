@@ -148,5 +148,5 @@ namespace Zorglub.Time.Hemerology
     /// Defines a calendar with a companion date type.
     /// </summary>
     /// <typeparam name="TDate">The type of date object to return.</typeparam>
-    public interface ICalendar<TDate> : ICalendar, IDayProvider<TDate> { }
+    public interface ICalendar<out TDate> : ICalendar, IDayProvider<TDate> { }
 }

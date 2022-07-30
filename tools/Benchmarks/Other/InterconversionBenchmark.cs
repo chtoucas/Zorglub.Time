@@ -22,7 +22,7 @@ Intel Core2 Duo CPU E8500 3.16GHz, 1 CPU, 2 logical and 2 physical cores
 |-------------------- |---------:|---------:|---------:|------:|-----:|
 | 'CalendarDate  (Y)' | 45.51 ns | 0.056 ns | 0.047 ns |  0.96 |    I |
 |  'CalendarDay     ' | 47.51 ns | 0.025 ns | 0.024 ns |  1.00 |   II |
-|    'DayNumber     ' | 49.71 ns | 0.024 ns | 0.023 ns |  1.05 |  III |
+|        'Naked     ' | 49.71 ns | 0.024 ns | 0.023 ns |  1.05 |  III |
 |     'DateTime *   ' | 58.35 ns | 0.099 ns | 0.082 ns |  1.23 |   IV |
 |  'OrdinalDate  (O)' | 59.51 ns | 0.053 ns | 0.050 ns |  1.25 |    V |
 |        'ZDate  (Y)' | 62.27 ns | 0.045 ns | 0.042 ns |  1.31 |   VI |
@@ -57,7 +57,7 @@ public class InterconversionBenchmark : BenchmarkBase
         return (y, m, d);
     }
 
-    [Benchmark(Description = "DayNumber     ")]
+    [Benchmark(Description = "Naked     ")]
     public (int, int, int) WithDayNumber()
     {
         DayNumber start = My.NakedJulian.GetDayNumber(Year, Month, Day);
