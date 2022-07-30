@@ -24,14 +24,13 @@ namespace Zorglub.Time.Extras.Specialized
             LastJulianDate = lastJulianDate;
             FirstGregorianDate = firstGregorianDate;
             Switchover = switchover ?? FirstGregorianDate.DayNumber;
+            SecularShift = InitSecularShift();
         }
 
         public JulianDate LastJulianDate { get; }
         public GregorianDate FirstGregorianDate { get; }
         public DayNumber Switchover { get; }
-
-        private int? _secularShift;
-        public int SecularShift => _secularShift ??= InitSecularShift();
+        public int SecularShift { get; }
 
         [Pure]
         public static GregorianReform FromLastJulianDate(JulianDate date)
@@ -56,7 +55,7 @@ namespace Zorglub.Time.Extras.Specialized
         }
 
         [Pure]
-        public int InitSecularShift()
+        private int InitSecularShift()
         {
             var (y, m, d) = FirstGregorianDate;
             var dayNumber = new JulianDate(y, m, d).DayNumber;

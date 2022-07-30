@@ -12,42 +12,47 @@ module Specialized =
     open Zorglub.Time.Specialized
 
     [<Fact>]
-    let ``Property Official.SecularShift`` () =
-        GregorianReform.Official.SecularShift === 10
+    let ``Property Official`` () =
+        let official = GregorianReform.Official
+
+        official.FirstGregorianDate === new GregorianDate(1582, 10, 15)
+        official.LastJulianDate     === new JulianDate(1582, 10, 4)
+        official.SecularShift       === 10
 
     [<Fact>]
-    [<TestExcludeFrom(TestExcludeFrom.Regular)>]
     let ``Property Official (from last Julian date)`` () =
         let date = new JulianDate(1582, 10, 4)
         let reform = GregorianReform.FromLastJulianDate(date)
 
-        GregorianReform.Official === reform
+        reform === GregorianReform.Official
 
     [<Fact>]
-    [<TestExcludeFrom(TestExcludeFrom.Regular)>]
     let ``Property Official (from first Gregorian date)`` () =
         let date = new GregorianDate(1582, 10, 15)
         let reform = GregorianReform.FromFirstGregorianDate(date)
 
-        GregorianReform.Official === reform
+        reform === GregorianReform.Official
 
 module Simple =
     open Zorglub.Time.Extras.Simple
+    open Zorglub.Time.Simple
 
     [<Fact>]
-    let ``Property Official.SecularShift`` () =
-        GregorianReform.Official.SecularShift === 10
+    let ``Property Official`` () =
+        let official = GregorianReform.Official
+
+        official.FirstGregorianDate === new CalendarDate(1582, 10, 15)
+        official.LastJulianDate     === JulianCalendar.Instance.GetCalendarDate(1582, 10, 4)
+        official.SecularShift       === 10
 
     [<Fact>]
-    [<TestExcludeFrom(TestExcludeFrom.Regular)>]
     let ``Property Official (from last Julian date)`` () =
         let reform = GregorianReform.FromLastJulianDate(1582, 10, 4)
 
-        GregorianReform.Official === reform
+        reform === GregorianReform.Official
 
     [<Fact>]
-    [<TestExcludeFrom(TestExcludeFrom.Regular)>]
     let ``Property Official (from first Gregorian date)`` () =
         let reform = GregorianReform.FromFirstGregorianDate(1582, 10, 15)
 
-        GregorianReform.Official === reform
+        reform === GregorianReform.Official

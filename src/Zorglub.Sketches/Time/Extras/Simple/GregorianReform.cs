@@ -37,6 +37,7 @@ namespace Zorglub.Time.Extras.Simple
             LastJulianDate = lastJulianDate;
             FirstGregorianDate = firstGregorianDate;
             Switchover = switchover ?? FirstGregorianDate.ToDayNumber();
+            SecularShift = InitSecularShift();
         }
 
         /// <summary>
@@ -54,11 +55,10 @@ namespace Zorglub.Time.Extras.Simple
         /// </summary>
         public DayNumber Switchover { get; }
 
-        private int? _secularShift;
         /// <summary>
         /// Gets the initial secular shift.
         /// </summary>
-        public int SecularShift => _secularShift ??= InitSecularShift();
+        public int SecularShift { get; }
 
         [Pure]
         public static GregorianReform FromLastJulianDate(int year, int month, int day)
@@ -86,7 +86,7 @@ namespace Zorglub.Time.Extras.Simple
 
         // Calcul du décalage séculaire initial.
         [Pure]
-        public int InitSecularShift()
+        private int InitSecularShift()
         {
             // REVIEW(code): et si Switchover ou LastJulian est bissextile?
             var (y, m, d) = FirstGregorianDate;
@@ -94,28 +94,28 @@ namespace Zorglub.Time.Extras.Simple
             return dayNumber - Switchover;
         }
 
-        // Calcul du décalage séculaire initial.
-        [Pure]
-        public int InitSecularShift1()
-        {
-            // Le calendrier grégorien comporte moins d'années bissextiles.
-            // Le nombre d'années bissextiles depuis l'an 1 est :
-            // - grégorien : [y/4] - [y/100] + [y/400]
-            // - julien : [y/4]
-            // Le décalage entre les deux calendriers est donc : [y/100] - [y/400].
-            // En 1582, année de la réforme, ce décalage est égal à
-            // 395 - 383 = 12 jours. Cependant, on doit encore retrancher 2 au
-            // décalage calculé précédemment (origines différentes, voir DayZero).
-            // On peut effectuer tous les calculs dans N car
-            // Switchover >= MinSwitchover.
-            var (y, m, d) = FirstGregorianDate;
-            int c = y / 100;
-            int secularShift = c - (c >> 2) - 2;
-            // Avant le 28 février d'une année séculaire commune dans
-            // le calendrier grégorien, le décalage n'a pas encore lieu.
-            return m <= 2 && d <= 28 && y % 100 == 0 && (c & 3) != 0
-                ? secularShift - 1
-                : secularShift;
-        }
+        //// Calcul du décalage séculaire initial.
+        //[Pure]
+        //public int InitSecularShift1()
+        //{
+        //    // Le calendrier grégorien comporte moins d'années bissextiles.
+        //    // Le nombre d'années bissextiles depuis l'an 1 est :
+        //    // - grégorien : [y/4] - [y/100] + [y/400]
+        //    // - julien : [y/4]
+        //    // Le décalage entre les deux calendriers est donc : [y/100] - [y/400].
+        //    // En 1582, année de la réforme, ce décalage est égal à
+        //    // 395 - 383 = 12 jours. Cependant, on doit encore retrancher 2 au
+        //    // décalage calculé précédemment (origines différentes, voir DayZero).
+        //    // On peut effectuer tous les calculs dans N car
+        //    // Switchover >= MinSwitchover.
+        //    var (y, m, d) = FirstGregorianDate;
+        //    int c = y / 100;
+        //    int secularShift = c - (c >> 2) - 2;
+        //    // Avant le 28 février d'une année séculaire commune dans
+        //    // le calendrier grégorien, le décalage n'a pas encore lieu.
+        //    return m <= 2 && d <= 28 && y % 100 == 0 && (c & 3) != 0
+        //        ? secularShift - 1
+        //        : secularShift;
+        //}
     }
 }
