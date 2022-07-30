@@ -113,10 +113,10 @@
     <Compile Include="Tests\Specialized\JulianTests.fs" />
     <Compile Include="Tests\Extensions\DayOfWeek%24Tests.fs" />
     <Compile Include="Tests\Extensions\UnboxingTests.fs" />
-    <Compile Include="Tests\Extras\XCivilDateTests.fs" />
     <Compile Include="Tests\Extras\ZDateTests.fs" />
-    <Compile Include="Tests\Extras\GregorianReformTests.fs" />
+    <Compile Include="Tests\Extras\XCivilDateTests.fs" />
     <Compile Include="Tests\Extras\RomanKalendarTests.fs" />
+    <Compile Include="Tests\Extras\GregorianReformTests.fs" />
     <Compile Include="Tests\PartsTests.fs" />
     <Compile Include="Tests\CalendarIdTests.fs" />
     <Compile Include="Tests\OrdTests.fs" />

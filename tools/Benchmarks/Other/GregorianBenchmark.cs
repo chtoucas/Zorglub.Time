@@ -261,7 +261,7 @@ public class GregorianBenchmark : BenchmarkBase
     #region Specialized date types
 
     [Benchmark(Description = "XCivilDate  (Yg)+")]
-    public void WithCivilDateFromExtras()
+    public void WithXCivilDate()
     {
         XCivilDate start = new(Year, Month, Day);
         XCivilDate end = start.NextDay().PlusDays(D7).PlusDays(D30).PlusDays(D401);

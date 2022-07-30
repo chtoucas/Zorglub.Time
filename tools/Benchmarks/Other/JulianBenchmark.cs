@@ -8,8 +8,7 @@ using NodaTime;
 using Zorglub.Time;
 using Zorglub.Time.Extras;
 using Zorglub.Time.Simple;
-
-using JulianDate = Zorglub.Time.Specialized.JulianDate;
+using Zorglub.Time.Specialized;
 
 /*
 BenchmarkDotNet=v0.13.1, OS=Windows 10.0.19044.1826 (21H2)
