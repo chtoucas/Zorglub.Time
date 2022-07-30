@@ -14,6 +14,29 @@ namespace Zorglub.Time.Specialized
     // Use JulianFormulae?
 
     /// <summary>
+    /// Represents the Julian calendar system.
+    /// <para>This class cannot be inherited.</para>
+    /// </summary>
+    public sealed class JulianSystem : MinMaxYearCalendar<JulianDate>
+    {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="JulianSystem"/> class.
+        /// </summary>
+        public JulianSystem() : this(new JulianSchema()) { }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="JulianSystem"/> class.
+        /// </summary>
+        // Constructor for JulianDate.
+        internal JulianSystem(JulianSchema schema)
+            : base("Julian", MinMaxYearScope.WithMaximalRange(schema, DayZero.OldStyle)) { }
+
+        /// <inheritdoc/>
+        [Pure]
+        protected sealed override JulianDate GetDate(int daysSinceEpoch) => new(daysSinceEpoch);
+    }
+
+    /// <summary>
     /// Represents the Julian date.
     /// <para><see cref="JulianDate"/> is an immutable struct.</para>
     /// </summary>

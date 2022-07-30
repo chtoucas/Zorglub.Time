@@ -15,6 +15,29 @@ namespace Zorglub.Time.Specialized
     // is equal to DayNumber.Zero.
 
     /// <summary>
+    /// Represents the Civil calendar system.
+    /// <para>This class cannot be inherited.</para>
+    /// </summary>
+    public sealed class CivilSystem : MinMaxYearCalendar<CivilDate>
+    {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CivilSystem"/> class.
+        /// </summary>
+        public CivilSystem() : this(new CivilSchema()) { }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CivilSystem"/> class.
+        /// </summary>
+        // Constructor for CivilDate.
+        internal CivilSystem(CivilSchema schema)
+            : base("Gregorian", new StandardScope(schema, DayZero.NewStyle)) { }
+
+        /// <inheritdoc/>
+        [Pure]
+        protected sealed override CivilDate GetDate(int daysSinceEpoch) => new(daysSinceEpoch);
+    }
+
+    /// <summary>
     /// Represents the Civil date.
     /// <para><see cref="CivilDate"/> is an immutable struct.</para>
     /// </summary>

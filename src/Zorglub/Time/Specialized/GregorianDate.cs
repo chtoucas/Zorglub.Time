@@ -13,6 +13,29 @@ namespace Zorglub.Time.Specialized
     // is equal to DayNumber.Zero.
 
     /// <summary>
+    /// Represents the Gregorian calendar system.
+    /// <para>This class cannot be inherited.</para>
+    /// </summary>
+    public sealed class GregorianSystem : MinMaxYearCalendar<GregorianDate>
+    {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="GregorianSystem"/> class.
+        /// </summary>
+        public GregorianSystem() : this(new GregorianSchema()) { }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="GregorianSystem"/> class.
+        /// </summary>
+        // Constructor for GregorianDate.
+        internal GregorianSystem(GregorianSchema schema)
+            : base("Gregorian", MinMaxYearScope.WithMaximalRange(schema, DayZero.NewStyle)) { }
+
+        /// <inheritdoc/>
+        [Pure]
+        protected sealed override GregorianDate GetDate(int daysSinceEpoch) => new(daysSinceEpoch);
+    }
+
+    /// <summary>
     /// Represents the Gregorian date.
     /// <para><see cref="GregorianDate"/> is an immutable struct.</para>
     /// </summary>
