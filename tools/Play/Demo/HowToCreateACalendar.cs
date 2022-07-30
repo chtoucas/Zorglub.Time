@@ -12,8 +12,8 @@ using Zorglub.Time.Hemerology;
 using Zorglub.Time.Hemerology.Scopes;
 using Zorglub.Time.Simple;
 
-using static Zorglub.Time.Extensions.BoxExtensions;
 using static Zorglub.Time.Extensions.Unboxing;
+using static Zorglub.Time.Extras.Extensions.BoxExtensions;
 
 public static class HowToCreateACalendar
 {
