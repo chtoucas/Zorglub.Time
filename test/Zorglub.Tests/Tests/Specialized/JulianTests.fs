@@ -28,7 +28,6 @@ module Bundles =
         override x.GetDate(dayNumber) = new JulianDate(dayNumber);
 
     [<Sealed>]
-    [<TestExcludeFrom(TestExcludeFrom.Regular)>]
     type DateFacts() =
         inherit IDateFacts<JulianDate, ProlepticJulianDataSet>(chr.SupportedYears.Range, chr.Domain)
 

@@ -9,9 +9,8 @@ namespace Zorglub.Time.Specialized
     using Zorglub.Time.Hemerology;
     using Zorglub.Time.Hemerology.Scopes;
 
-    // FIXME(api): some test are failing.
-    // Non-standard math. Providers. Idem with the other date types.
-    // CountDaysSince(XXXDate other) checked context or not?
+    // TODO(api): non-standard math. Providers. Idem with the other date types.
+    // CountDaysSince(XXXDate other) checked context or not? do we test it?
     // Use JulianFormulae?
 
     /// <summary>
@@ -234,7 +233,7 @@ namespace Zorglub.Time.Specialized
         /// expressed in local time, not UTC.
         /// </summary>
         [Pure]
-        public static JulianDate Today() => new(DayNumber.Today().DaysSinceZero);
+        public static JulianDate Today() => new(DayNumber.Today() - s_Epoch);
 
         #endregion
         #region Conversions
@@ -311,7 +310,7 @@ namespace Zorglub.Time.Specialized
         {
             var dayNumber = DayNumber.Previous(dayOfWeek);
             if (s_Domain.Contains(dayNumber) == false) { Throw.DateOverflow(); }
-            return new JulianDate(dayNumber.DaysSinceZero);
+            return new JulianDate(dayNumber - s_Epoch);
         }
 
         /// <inheritdoc />
@@ -320,7 +319,7 @@ namespace Zorglub.Time.Specialized
         {
             var dayNumber = DayNumber.PreviousOrSame(dayOfWeek);
             if (s_Domain.Contains(dayNumber) == false) { Throw.DateOverflow(); }
-            return new JulianDate(dayNumber.DaysSinceZero);
+            return new JulianDate(dayNumber - s_Epoch);
         }
 
         /// <inheritdoc />
@@ -329,7 +328,7 @@ namespace Zorglub.Time.Specialized
         {
             var dayNumber = DayNumber.Nearest(dayOfWeek);
             if (s_Domain.Contains(dayNumber) == false) { Throw.DateOverflow(); }
-            return new JulianDate(dayNumber.DaysSinceZero);
+            return new JulianDate(dayNumber - s_Epoch);
         }
 
         /// <inheritdoc />
@@ -338,7 +337,7 @@ namespace Zorglub.Time.Specialized
         {
             var dayNumber = DayNumber.NextOrSame(dayOfWeek);
             if (s_Domain.Contains(dayNumber) == false) { Throw.DateOverflow(); }
-            return new JulianDate(dayNumber.DaysSinceZero);
+            return new JulianDate(dayNumber - s_Epoch);
         }
 
         /// <inheritdoc />
@@ -347,7 +346,7 @@ namespace Zorglub.Time.Specialized
         {
             var dayNumber = DayNumber.Next(dayOfWeek);
             if (s_Domain.Contains(dayNumber) == false) { Throw.DateOverflow(); }
-            return new JulianDate(dayNumber.DaysSinceZero);
+            return new JulianDate(dayNumber - s_Epoch);
         }
 
         #endregion

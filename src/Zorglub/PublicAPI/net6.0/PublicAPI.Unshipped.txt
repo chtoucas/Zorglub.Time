@@ -459,6 +459,12 @@ override Zorglub.Time.Specialized.GregorianDate.ToString() -> string!
 override Zorglub.Time.Specialized.GregorianSystem.CountDaysInMonth(int year, int month) -> int
 override Zorglub.Time.Specialized.GregorianSystem.CountDaysInYear(int year) -> int
 override Zorglub.Time.Specialized.GregorianSystem.CountMonthsInYear(int year) -> int
+override Zorglub.Time.Specialized.JulianDate.Equals(object? obj) -> bool
+override Zorglub.Time.Specialized.JulianDate.GetHashCode() -> int
+override Zorglub.Time.Specialized.JulianDate.ToString() -> string!
+override Zorglub.Time.Specialized.JulianSystem.CountDaysInMonth(int year, int month) -> int
+override Zorglub.Time.Specialized.JulianSystem.CountDaysInYear(int year) -> int
+override Zorglub.Time.Specialized.JulianSystem.CountMonthsInYear(int year) -> int
 static Zorglub.Time.Core.CalendricalSegment.Create(Zorglub.Time.Core.ICalendricalSchema! schema, Zorglub.Time.Core.Intervals.Range<int> supportedYears) -> Zorglub.Time.Core.CalendricalSegment!
 static Zorglub.Time.Core.CalendricalSegment.CreateMaximal(Zorglub.Time.Core.ICalendricalSchema! schema, bool onOrAfterEpoch) -> Zorglub.Time.Core.CalendricalSegment!
 static Zorglub.Time.Core.Intervals.Interval.Adjacent(Zorglub.Time.Core.Intervals.LowerRay<int> x, Zorglub.Time.Core.Intervals.UpperRay<int> y) -> bool
@@ -862,6 +868,23 @@ static Zorglub.Time.Specialized.GregorianDate.operator ==(Zorglub.Time.Specializ
 static Zorglub.Time.Specialized.GregorianDate.operator >(Zorglub.Time.Specialized.GregorianDate left, Zorglub.Time.Specialized.GregorianDate right) -> bool
 static Zorglub.Time.Specialized.GregorianDate.operator >=(Zorglub.Time.Specialized.GregorianDate left, Zorglub.Time.Specialized.GregorianDate right) -> bool
 static Zorglub.Time.Specialized.GregorianDate.Today() -> Zorglub.Time.Specialized.GregorianDate
+static Zorglub.Time.Specialized.JulianDate.Calendar.get -> Zorglub.Time.Specialized.JulianSystem!
+static Zorglub.Time.Specialized.JulianDate.Max(Zorglub.Time.Specialized.JulianDate x, Zorglub.Time.Specialized.JulianDate y) -> Zorglub.Time.Specialized.JulianDate
+static Zorglub.Time.Specialized.JulianDate.MaxValue.get -> Zorglub.Time.Specialized.JulianDate
+static Zorglub.Time.Specialized.JulianDate.Min(Zorglub.Time.Specialized.JulianDate x, Zorglub.Time.Specialized.JulianDate y) -> Zorglub.Time.Specialized.JulianDate
+static Zorglub.Time.Specialized.JulianDate.MinValue.get -> Zorglub.Time.Specialized.JulianDate
+static Zorglub.Time.Specialized.JulianDate.operator !=(Zorglub.Time.Specialized.JulianDate left, Zorglub.Time.Specialized.JulianDate right) -> bool
+static Zorglub.Time.Specialized.JulianDate.operator +(Zorglub.Time.Specialized.JulianDate value, int days) -> Zorglub.Time.Specialized.JulianDate
+static Zorglub.Time.Specialized.JulianDate.operator ++(Zorglub.Time.Specialized.JulianDate value) -> Zorglub.Time.Specialized.JulianDate
+static Zorglub.Time.Specialized.JulianDate.operator -(Zorglub.Time.Specialized.JulianDate left, Zorglub.Time.Specialized.JulianDate right) -> int
+static Zorglub.Time.Specialized.JulianDate.operator -(Zorglub.Time.Specialized.JulianDate value, int days) -> Zorglub.Time.Specialized.JulianDate
+static Zorglub.Time.Specialized.JulianDate.operator --(Zorglub.Time.Specialized.JulianDate value) -> Zorglub.Time.Specialized.JulianDate
+static Zorglub.Time.Specialized.JulianDate.operator <(Zorglub.Time.Specialized.JulianDate left, Zorglub.Time.Specialized.JulianDate right) -> bool
+static Zorglub.Time.Specialized.JulianDate.operator <=(Zorglub.Time.Specialized.JulianDate left, Zorglub.Time.Specialized.JulianDate right) -> bool
+static Zorglub.Time.Specialized.JulianDate.operator ==(Zorglub.Time.Specialized.JulianDate left, Zorglub.Time.Specialized.JulianDate right) -> bool
+static Zorglub.Time.Specialized.JulianDate.operator >(Zorglub.Time.Specialized.JulianDate left, Zorglub.Time.Specialized.JulianDate right) -> bool
+static Zorglub.Time.Specialized.JulianDate.operator >=(Zorglub.Time.Specialized.JulianDate left, Zorglub.Time.Specialized.JulianDate right) -> bool
+static Zorglub.Time.Specialized.JulianDate.Today() -> Zorglub.Time.Specialized.JulianDate
 virtual Zorglub.Time.Core.CalendricalSchema.CountDaysSinceEpoch(int y, int m, int d) -> int
 virtual Zorglub.Time.Core.CalendricalSchema.GetDateParts(int daysSinceEpoch, out int y, out int m, out int d) -> void
 virtual Zorglub.Time.Core.CalendricalSchema.GetYear(int daysSinceEpoch, out int doy) -> int
@@ -1849,3 +1872,45 @@ Zorglub.Time.Specialized.GregorianSystem.GetEndOfYear(int year) -> Zorglub.Time.
 Zorglub.Time.Specialized.GregorianSystem.GetStartOfMonth(int year, int month) -> Zorglub.Time.Specialized.GregorianDate
 Zorglub.Time.Specialized.GregorianSystem.GetStartOfYear(int year) -> Zorglub.Time.Specialized.GregorianDate
 Zorglub.Time.Specialized.GregorianSystem.GregorianSystem() -> void
+Zorglub.Time.Specialized.JulianDate
+Zorglub.Time.Specialized.JulianDate.Century.get -> int
+Zorglub.Time.Specialized.JulianDate.CenturyOfEra.get -> Zorglub.Time.Ord
+Zorglub.Time.Specialized.JulianDate.CompareTo(object? obj) -> int
+Zorglub.Time.Specialized.JulianDate.CompareTo(Zorglub.Time.Specialized.JulianDate other) -> int
+Zorglub.Time.Specialized.JulianDate.CountDaysSince(Zorglub.Time.Specialized.JulianDate other) -> int
+Zorglub.Time.Specialized.JulianDate.CountElapsedDaysInMonth() -> int
+Zorglub.Time.Specialized.JulianDate.CountElapsedDaysInYear() -> int
+Zorglub.Time.Specialized.JulianDate.CountRemainingDaysInMonth() -> int
+Zorglub.Time.Specialized.JulianDate.CountRemainingDaysInYear() -> int
+Zorglub.Time.Specialized.JulianDate.Day.get -> int
+Zorglub.Time.Specialized.JulianDate.DayNumber.get -> Zorglub.Time.DayNumber
+Zorglub.Time.Specialized.JulianDate.DayOfWeek.get -> System.DayOfWeek
+Zorglub.Time.Specialized.JulianDate.DayOfYear.get -> int
+Zorglub.Time.Specialized.JulianDate.Deconstruct(out int year, out int month, out int day) -> void
+Zorglub.Time.Specialized.JulianDate.Equals(Zorglub.Time.Specialized.JulianDate other) -> bool
+Zorglub.Time.Specialized.JulianDate.IsIntercalary.get -> bool
+Zorglub.Time.Specialized.JulianDate.IsSupplementary.get -> bool
+Zorglub.Time.Specialized.JulianDate.JulianDate() -> void
+Zorglub.Time.Specialized.JulianDate.JulianDate(int year, int dayOfYear) -> void
+Zorglub.Time.Specialized.JulianDate.JulianDate(int year, int month, int day) -> void
+Zorglub.Time.Specialized.JulianDate.JulianDate(Zorglub.Time.DayNumber dayNumber) -> void
+Zorglub.Time.Specialized.JulianDate.Month.get -> int
+Zorglub.Time.Specialized.JulianDate.Nearest(System.DayOfWeek dayOfWeek) -> Zorglub.Time.Specialized.JulianDate
+Zorglub.Time.Specialized.JulianDate.Next(System.DayOfWeek dayOfWeek) -> Zorglub.Time.Specialized.JulianDate
+Zorglub.Time.Specialized.JulianDate.NextDay() -> Zorglub.Time.Specialized.JulianDate
+Zorglub.Time.Specialized.JulianDate.NextOrSame(System.DayOfWeek dayOfWeek) -> Zorglub.Time.Specialized.JulianDate
+Zorglub.Time.Specialized.JulianDate.PlusDays(int days) -> Zorglub.Time.Specialized.JulianDate
+Zorglub.Time.Specialized.JulianDate.Previous(System.DayOfWeek dayOfWeek) -> Zorglub.Time.Specialized.JulianDate
+Zorglub.Time.Specialized.JulianDate.PreviousDay() -> Zorglub.Time.Specialized.JulianDate
+Zorglub.Time.Specialized.JulianDate.PreviousOrSame(System.DayOfWeek dayOfWeek) -> Zorglub.Time.Specialized.JulianDate
+Zorglub.Time.Specialized.JulianDate.Year.get -> int
+Zorglub.Time.Specialized.JulianDate.YearOfCentury.get -> int
+Zorglub.Time.Specialized.JulianDate.YearOfEra.get -> Zorglub.Time.Ord
+Zorglub.Time.Specialized.JulianSystem
+Zorglub.Time.Specialized.JulianSystem.GetDaysInMonth(int year, int month) -> System.Collections.Generic.IEnumerable<Zorglub.Time.Specialized.JulianDate>!
+Zorglub.Time.Specialized.JulianSystem.GetDaysInYear(int year) -> System.Collections.Generic.IEnumerable<Zorglub.Time.Specialized.JulianDate>!
+Zorglub.Time.Specialized.JulianSystem.GetEndOfMonth(int year, int month) -> Zorglub.Time.Specialized.JulianDate
+Zorglub.Time.Specialized.JulianSystem.GetEndOfYear(int year) -> Zorglub.Time.Specialized.JulianDate
+Zorglub.Time.Specialized.JulianSystem.GetStartOfMonth(int year, int month) -> Zorglub.Time.Specialized.JulianDate
+Zorglub.Time.Specialized.JulianSystem.GetStartOfYear(int year) -> Zorglub.Time.Specialized.JulianDate
+Zorglub.Time.Specialized.JulianSystem.JulianSystem() -> void
