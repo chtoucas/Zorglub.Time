@@ -10,20 +10,23 @@ namespace Zorglub.Time.Hemerology
     using Zorglub.Time.Core.Validation;
     using Zorglub.Time.Hemerology.Scopes;
 
-    public sealed class BoundedBelowDayProvider : IDayProvider<DayNumber>
+    public sealed class BoundedBelowDayCalendar
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="BoundedBelowDayProvider"/> class.
+        /// Initializes a new instance of the <see cref="BoundedBelowDayCalendar"/> class.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="scope"/> is null.</exception>
-        public BoundedBelowDayProvider(BoundedBelowScope scope)
+        public BoundedBelowDayCalendar(string name, BoundedBelowScope scope)
         {
+            Name = name ?? throw new ArgumentNullException(nameof(name));
             Scope = scope ?? throw new ArgumentNullException(nameof(scope));
 
             MinDayNumber = scope.Domain.Min;
             SupportedYears = scope.YearsValidator;
             MinYear = SupportedYears.MinYear;
         }
+
+        public string Name { get; }
 
         /// <summary>
         /// Gets the calendrical scope, an object providing validation methods.
@@ -89,7 +92,11 @@ namespace Zorglub.Time.Hemerology
             return Schema.CountDaysInMonth(y, m) - d + 1;
         }
 
-        /// <inheritdoc />
+        /// <summary>
+        /// Enumerates the days in the specified year.
+        /// </summary>
+        /// <exception cref="AoorException">The year is not within the calendar boundaries.
+        /// </exception>
         [Pure]
         public IEnumerable<DayNumber> GetDaysInYear(int year)
         {
@@ -116,7 +123,11 @@ namespace Zorglub.Time.Hemerology
             }
         }
 
-        /// <inheritdoc />
+        /// <summary>
+        /// Enumerates the days in the specified month.
+        /// </summary>
+        /// <exception cref="AoorException">The month is not within the calendar boundaries.
+        /// </exception>
         [Pure]
         public IEnumerable<DayNumber> GetDaysInMonth(int year, int month)
         {
@@ -143,7 +154,11 @@ namespace Zorglub.Time.Hemerology
             }
         }
 
-        /// <inheritdoc />
+        /// <summary>
+        /// Obtains the date for the first supported day of the specified year.
+        /// </summary>
+        /// <exception cref="AoorException">The year is not within the calendar boundaries.
+        /// </exception>
         [Pure]
         public DayNumber GetStartOfYear(int year)
         {
@@ -153,7 +168,11 @@ namespace Zorglub.Time.Hemerology
                 : Epoch + Schema.GetStartOfYear(year);
         }
 
-        /// <inheritdoc />
+        /// <summary>
+        /// Obtains the date for the last supported day of the specified year.
+        /// </summary>
+        /// <exception cref="AoorException">The year is not within the calendar boundaries.
+        /// </exception>
         [Pure]
         public DayNumber GetEndOfYear(int year)
         {
@@ -161,7 +180,11 @@ namespace Zorglub.Time.Hemerology
             return Epoch + Schema.GetEndOfYear(year);
         }
 
-        /// <inheritdoc />
+        /// <summary>
+        /// Obtains the date for the first supported day of the specified month.
+        /// </summary>
+        /// <exception cref="AoorException">The month is not within the calendar boundaries.
+        /// </exception>
         [Pure]
         public DayNumber GetStartOfMonth(int year, int month)
         {
@@ -171,7 +194,11 @@ namespace Zorglub.Time.Hemerology
                 : Epoch + Schema.GetStartOfMonth(year, month);
         }
 
-        /// <inheritdoc />
+        /// <summary>
+        /// Obtains the date for the last supported day of the specified month.
+        /// </summary>
+        /// <exception cref="AoorException">The month is not within the calendar boundaries.
+        /// </exception>
         [Pure]
         public DayNumber GetEndOfMonth(int year, int month)
         {

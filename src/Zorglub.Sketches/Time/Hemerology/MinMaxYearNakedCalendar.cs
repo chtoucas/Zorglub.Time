@@ -32,15 +32,16 @@ namespace Zorglub.Time.Hemerology
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="name"/> is null.</exception>
         /// <exception cref="ArgumentNullException"><paramref name="scope"/> is null.</exception>
-        public MinMaxYearNakedCalendar(string name, MinMaxYearScope scope) : base(name, scope)
+        /// <exception cref="ArgumentException"><paramref name="scope"/> is not complete.</exception>
+        public MinMaxYearNakedCalendar(string name, CalendarScope scope) : base(name, scope)
         {
-            DayProvider = new MinMaxYearDayProvider(scope);
+            DayCalendar = new MinMaxYearDayCalendar(name, scope);
         }
 
         /// <summary>
         /// Gets a provider for day numbers in a year or a month.
         /// </summary>
-        public IDayProvider<DayNumber> DayProvider { get; }
+        public MinMaxYearDayCalendar DayCalendar { get; }
 
         /// <summary>
         /// Creates a new instance of the <see cref="MinMaxYearNakedCalendar"/> class with dates on or

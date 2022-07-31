@@ -12,6 +12,12 @@ namespace Zorglub.Time.Hemerology
     /// </summary>
     public class MinMaxYearCalendar : BasicCalendar
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MinMaxYearCalendar"/> class.
+        /// </summary>
+        /// <exception cref="ArgumentNullException"><paramref name="name"/> is null.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="scope"/> is null.</exception>
+        /// <exception cref="ArgumentException"><paramref name="scope"/> is not complete.</exception>
         public MinMaxYearCalendar(string name, CalendarScope scope) : base(name, scope)
         {
             Debug.Assert(scope != null);

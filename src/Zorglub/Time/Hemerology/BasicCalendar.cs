@@ -17,6 +17,7 @@ namespace Zorglub.Time.Hemerology
         /// Called from constructors in derived classes to initialize the
         /// <see cref="BasicCalendar"/> class.
         /// </summary>
+        /// <exception cref="ArgumentNullException"><paramref name="name"/> is null.</exception>
         /// <exception cref="ArgumentNullException"><paramref name="scope"/> is null.</exception>
         protected BasicCalendar(string name, CalendarScope scope)
         {

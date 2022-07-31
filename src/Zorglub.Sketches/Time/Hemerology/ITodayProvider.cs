@@ -5,7 +5,7 @@
 
 namespace Zorglub.Time.Hemerology
 {
-    // TODO(api): Today(zone).
+    // TODO(api): Today(zone). UtcToday()
     // Static or not?
     // - if static, add to IFixedDay<TSelf>?
     // - if not static, add to ICalendar<TDate> or IDateProvider<TDate>?

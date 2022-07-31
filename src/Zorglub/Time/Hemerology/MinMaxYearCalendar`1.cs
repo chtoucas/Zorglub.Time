@@ -9,10 +9,10 @@ namespace Zorglub.Time.Hemerology
 
     using Zorglub.Time.Hemerology.Scopes;
 
-    // This class works best with date types based on daysSinceEpoch.
-
     /// <summary>
     /// Represents a calendar with dates within a range of years.
+    /// <para>This class works best when <typeparamref name="TDate"/> is based on the count of
+    /// consecutive days since the epoch.</para>
     /// </summary>
     public class MinMaxYearCalendar<TDate> : MinMaxYearCalendar, ICalendar<TDate>
         where TDate : IFixedDay<TDate>
@@ -20,6 +20,9 @@ namespace Zorglub.Time.Hemerology
         /// <summary>
         /// Initializes a new instance of the <see cref="MinMaxYearCalendar{TDate}"/> class.
         /// </summary>
+        /// <exception cref="ArgumentNullException"><paramref name="name"/> is null.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="scope"/> is null.</exception>
+        /// <exception cref="ArgumentException"><paramref name="scope"/> is not complete.</exception>
         public MinMaxYearCalendar(string name, CalendarScope scope) : base(name, scope) { }
 
         [Pure]

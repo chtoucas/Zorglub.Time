@@ -43,7 +43,7 @@ namespace Zorglub.Time.Hemerology
         /// <exception cref="ArgumentNullException"><paramref name="scope"/> is null.</exception>
         public BoundedBelowNakedCalendar(string name, BoundedBelowScope scope) : base(name, scope)
         {
-            DayProvider = new BoundedBelowDayProvider(scope);
+            DayCalendar = new BoundedBelowDayCalendar(name, scope);
 
             MinYear = scope.MinYear;
             MinDateParts = scope.MinDateParts;
@@ -54,7 +54,7 @@ namespace Zorglub.Time.Hemerology
         /// <summary>
         /// Gets a provider for day numbers in a year or a month.
         /// </summary>
-        public IDayProvider<DayNumber> DayProvider { get; }
+        public BoundedBelowDayCalendar DayCalendar { get; }
 
         /// <summary>
         /// Gets the earliest supported year.
