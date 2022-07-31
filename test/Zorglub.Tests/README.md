@@ -19,7 +19,7 @@ TODO
 
 ### Xunit
 
-- `AssemblyFixture` (see Xunit samples) for easier testing of `CalendarCatalog`.
+- `AssemblyFixture` (see Xunit samples) for easier testing of `SimpleCatalog`.
 - Theory, see this [blog](https://andrewlock.net/)
 
 #### Skippable facts

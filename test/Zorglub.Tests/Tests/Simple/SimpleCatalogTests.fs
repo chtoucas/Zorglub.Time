@@ -1,7 +1,7 @@
 ﻿// SPDX-License-Identifier: BSD-3-Clause
 // Copyright (c) 2020 Narvalo.Org. All rights reserved.
 
-module Zorglub.Tests.Simple.CalendarCatalogTests
+module Zorglub.Tests.Simple.SimpleCatalogTests
 
 open System
 open System.Collections.Generic
@@ -26,8 +26,8 @@ let private userJulian = UserCalendars.Julian
 
 module TestCommon =
     let onKeyNotSet key =
-        Assert.DoesNotContain(key, CalendarCatalog.Keys)
-        throws<KeyNotFoundException> (fun () -> CalendarCatalog.GetCalendar(key))
+        Assert.DoesNotContain(key, SimpleCatalog.Keys)
+        throws<KeyNotFoundException> (fun () -> SimpleCatalog.GetCalendar(key))
 
     let onKeySet key epoch (chr: SimpleCalendar) proleptic =
         chr |> isnotnull
@@ -36,49 +36,49 @@ module TestCommon =
         chr.Epoch       === epoch
         chr.IsProleptic === proleptic
 
-        Assert.Contains(key, CalendarCatalog.Keys)
+        Assert.Contains(key, SimpleCatalog.Keys)
 
-        CalendarCatalog.GetCalendar(key) ==& chr
+        SimpleCatalog.GetCalendar(key) ==& chr
 
 module Prelude =
     let calendarIdData = EnumDataSet.CalendarIdData
 
     [<Fact>]
     let ``Property MinUserId`` () =
-        CalendarCatalog.MinUserId === 64
+        SimpleCatalog.MinUserId === 64
 
     [<Fact>]
     let ``Property MaxId`` () =
-        CalendarCatalog.MaxId === 127
+        SimpleCatalog.MaxId === 127
 
     [<Fact>]
     let ``Property MaxNumberOfUserCalendars`` () =
-        CalendarCatalog.MaxNumberOfUserCalendars === 64
+        SimpleCatalog.MaxNumberOfUserCalendars === 64
 
     [<Fact>]
     let ``Property IsFull`` () =
-        CalendarCatalog.IsFull |> nok
+        SimpleCatalog.IsFull |> nok
 
     [<Fact>]
     let ``Property Keys, unknown key`` () =
-        Assert.DoesNotContain("Unknown Key", CalendarCatalog.Keys)
+        Assert.DoesNotContain("Unknown Key", SimpleCatalog.Keys)
 
     [<Theory; MemberData(nameof(calendarIdData))>]
     let ``Property Keys, system key`` (id: CalendarId) =
         let key = toCalendarKey(id)
 
-        Assert.Contains(key, CalendarCatalog.Keys)
+        Assert.Contains(key, SimpleCatalog.Keys)
 
     [<Fact>]
     let ``Property Keys, user key`` () =
         let key = userGregorian.Key
 
-        Assert.Contains(key, CalendarCatalog.Keys)
+        Assert.Contains(key, SimpleCatalog.Keys)
 
     [<Fact>]
     let ``Property ReservedKeys is exhaustive`` () =
         let count = Enum.GetValues(typeof<CalendarId>).Length
-        let keys = CalendarCatalog.ReservedKeys
+        let keys = SimpleCatalog.ReservedKeys
 
         keys.Count === count
 
@@ -86,19 +86,19 @@ module Prelude =
     let ``Property ReservedKeys`` (id: CalendarId) =
         let key = toCalendarKey(id)
 
-        Assert.Contains(key, CalendarCatalog.ReservedKeys)
+        Assert.Contains(key, SimpleCatalog.ReservedKeys)
 
     [<Fact>]
     let ``Property SystemCalendars is exhaustive`` () =
         let count = Enum.GetValues(typeof<CalendarId>).Length
-        let calendars = CalendarCatalog.SystemCalendars
+        let calendars = SimpleCatalog.SystemCalendars
 
         calendars.Count === count
 
     [<Theory; MemberData(nameof(calendarIdData))>]
     let ``Property SystemCalendars`` (ident: CalendarId) =
-        let calendars = CalendarCatalog.SystemCalendars
-        let chr = CalendarCatalog.GetSystemCalendar(ident)
+        let calendars = SimpleCatalog.SystemCalendars
+        let chr = SimpleCatalog.GetSystemCalendar(ident)
 
         Assert.Contains(chr, calendars)
 
@@ -107,21 +107,21 @@ module Snapshots =
 
     [<Theory; MemberData(nameof(calendarIdData))>]
     let ``GetAllCalendars() contains all system calendars`` (ident: CalendarId) =
-        let calendars = CalendarCatalog.GetAllCalendars()
-        let chr = CalendarCatalog.GetSystemCalendar(ident)
+        let calendars = SimpleCatalog.GetAllCalendars()
+        let chr = SimpleCatalog.GetSystemCalendar(ident)
 
         Assert.Contains(chr, calendars)
 
     [<Fact>]
     let ``GetAllCalendars() contains the user-defined calendars`` () =
-        let calendars = CalendarCatalog.GetAllCalendars()
+        let calendars = SimpleCatalog.GetAllCalendars()
 
         Assert.Contains(userGregorian, calendars)
         Assert.Contains(userJulian, calendars)
 
     [<Fact>]
     let ``GetUserCalendars() contains the user-defined calendars`` () =
-        let calendars = CalendarCatalog.GetUserCalendars()
+        let calendars = SimpleCatalog.GetUserCalendars()
 
         Assert.Contains(userGregorian, calendars)
         Assert.Contains(userJulian, calendars)
@@ -129,14 +129,14 @@ module Snapshots =
     [<Theory; MemberData(nameof(calendarIdData))>]
     let ``TakeSnapshot() contains all system calendars`` (ident: CalendarId) =
         let key = toCalendarKey(ident)
-        let dict = CalendarCatalog.TakeSnapshot()
-        let chr = CalendarCatalog.GetSystemCalendar(ident)
+        let dict = SimpleCatalog.TakeSnapshot()
+        let chr = SimpleCatalog.GetSystemCalendar(ident)
 
         dict.[key] ==& chr
 
     [<Fact>]
     let ``TakeSnapshot() contains the user-defined calendars`` () =
-        let dict = CalendarCatalog.TakeSnapshot()
+        let dict = SimpleCatalog.TakeSnapshot()
 
         dict.[userGregorian.Key] ==& userGregorian
         dict.[userJulian.Key]    ==& userJulian
@@ -151,13 +151,13 @@ module Lookup =
 
     [<Fact>]
     let ``GetCalendar(unknown key)`` () =
-        throws<KeyNotFoundException> (fun () -> CalendarCatalog.GetCalendar("Unknown Key"))
+        throws<KeyNotFoundException> (fun () -> SimpleCatalog.GetCalendar("Unknown Key"))
 
     [<Theory; MemberData(nameof(calendarIdData))>]
     let ``GetCalendar(system key) is not null and always returns the same reference`` (id: CalendarId) =
         let key = toCalendarKey(id)
-        let chr1 = CalendarCatalog.GetCalendar(key)
-        let chr2 = CalendarCatalog.GetCalendar(key)
+        let chr1 = SimpleCatalog.GetCalendar(key)
+        let chr2 = SimpleCatalog.GetCalendar(key)
 
         chr1 |> isnotnull
         chr1.Key === key
@@ -166,8 +166,8 @@ module Lookup =
     [<Fact>]
     let ``GetCalendar(user key) is not null and always returns the same reference`` () =
         let key = userGregorian.Key
-        let chr1 = CalendarCatalog.GetCalendar(key)
-        let chr2 = CalendarCatalog.GetCalendar(key)
+        let chr1 = SimpleCatalog.GetCalendar(key)
+        let chr2 = SimpleCatalog.GetCalendar(key)
 
         chr1 |> isnotnull
         chr1.Key === key
@@ -179,7 +179,7 @@ module Lookup =
 
     [<Fact>]
     let ``TryGetCalendar(unknown key)`` () =
-        let succeed, chr = CalendarCatalog.TryGetCalendar("Unknown Key")
+        let succeed, chr = SimpleCatalog.TryGetCalendar("Unknown Key")
 
         succeed |> nok
         chr     |> isnull
@@ -187,8 +187,8 @@ module Lookup =
     [<Theory; MemberData(nameof(calendarIdData))>]
     let ``TryGetCalendar(system key) succeeds and always returns the same reference`` (id: CalendarId) =
         let key = toCalendarKey(id)
-        let succeed1, chr1 = CalendarCatalog.TryGetCalendar(key)
-        let succeed2, chr2 = CalendarCatalog.TryGetCalendar(key)
+        let succeed1, chr1 = SimpleCatalog.TryGetCalendar(key)
+        let succeed2, chr2 = SimpleCatalog.TryGetCalendar(key)
 
         succeed1 |> ok
         succeed2 |> ok
@@ -199,8 +199,8 @@ module Lookup =
     [<Fact>]
     let ``TryGetCalendar(user key) succeeds and always returns the same reference`` () =
         let key = userGregorian.Key
-        let succeed1, chr1 = CalendarCatalog.TryGetCalendar(key)
-        let succeed2, chr2 = CalendarCatalog.TryGetCalendar(key)
+        let succeed1, chr1 = SimpleCatalog.TryGetCalendar(key)
+        let succeed2, chr2 = SimpleCatalog.TryGetCalendar(key)
 
         succeed1 |> ok
         succeed2 |> ok
@@ -214,8 +214,8 @@ module Lookup =
 
     [<Theory; MemberData(nameof(calendarIdData))>]
     let ``GetSystemCalendar() is not null and always returns the same reference`` (ident: CalendarId) =
-        let chr1 = CalendarCatalog.GetSystemCalendar(ident)
-        let chr2 = CalendarCatalog.GetSystemCalendar(ident)
+        let chr1 = SimpleCatalog.GetSystemCalendar(ident)
+        let chr2 = SimpleCatalog.GetSystemCalendar(ident)
 
         chr1 |> isnotnull
         chr1.PermanentId === ident
@@ -223,13 +223,13 @@ module Lookup =
 
     [<Theory; MemberData(nameof(invalidCalendarIdData))>]
     let ``GetSystemCalendar() throws for invalid id`` (ident: CalendarId) =
-        outOfRangeExn "ident" (fun () -> CalendarCatalog.GetSystemCalendar(ident))
+        outOfRangeExn "ident" (fun () -> SimpleCatalog.GetSystemCalendar(ident))
 
     [<Fact>]
     let ``GetSystemCalendar(user id) throws`` () =
         let ident: CalendarId = enum <| int(userGregorian.Id)
 
-        outOfRangeExn "ident" (fun () -> CalendarCatalog.GetSystemCalendar(ident))
+        outOfRangeExn "ident" (fun () -> SimpleCatalog.GetSystemCalendar(ident))
 
     //
     // GetCalendarUnchecked()
@@ -238,8 +238,8 @@ module Lookup =
     [<Theory; MemberData(nameof(calendarIdData))>]
     let ``GetCalendarUnchecked(system id) is not null and always returns the same reference`` (id: CalendarId) =
         let cuid = int(id)
-        let chr1 = CalendarCatalog.GetCalendarUnchecked(cuid)
-        let chr2 = CalendarCatalog.GetCalendarUnchecked(cuid)
+        let chr1 = SimpleCatalog.GetCalendarUnchecked(cuid)
+        let chr2 = SimpleCatalog.GetCalendarUnchecked(cuid)
 
         chr1 |> isnotnull
         chr1.PermanentId === id
@@ -248,8 +248,8 @@ module Lookup =
     [<Fact>]
     let ``GetCalendarUnchecked(user id) is not null and always returns the same reference`` () =
         let cuid = int(userGregorian.Id)
-        let chr1 = CalendarCatalog.GetCalendarUnchecked(cuid)
-        let chr2 = CalendarCatalog.GetCalendarUnchecked(cuid)
+        let chr1 = SimpleCatalog.GetCalendarUnchecked(cuid)
+        let chr2 = SimpleCatalog.GetCalendarUnchecked(cuid)
 
         chr1 |> isnotnull
         chr1.Id === userGregorian.Id
@@ -263,8 +263,8 @@ module Lookup =
     [<Theory; MemberData(nameof(calendarIdData))>]
     let ``GetCalendarUnsafe(system id) is not null and always returns the same reference`` (id: CalendarId) =
         let cuid = int(id)
-        let chr1 = CalendarCatalog.GetCalendarUnsafe(cuid)
-        let chr2 = CalendarCatalog.GetCalendarUnsafe(cuid)
+        let chr1 = SimpleCatalog.GetCalendarUnsafe(cuid)
+        let chr2 = SimpleCatalog.GetCalendarUnsafe(cuid)
 
         chr1 |> isnotnull
         chr1.PermanentId === id
@@ -273,8 +273,8 @@ module Lookup =
     [<Fact>]
     let ``GetCalendarUnsafe(user id) is not null and always returns the same reference`` () =
         let cuid = int(userGregorian.Id)
-        let chr1 = CalendarCatalog.GetCalendarUnsafe(cuid)
-        let chr2 = CalendarCatalog.GetCalendarUnsafe(cuid)
+        let chr1 = SimpleCatalog.GetCalendarUnsafe(cuid)
+        let chr2 = SimpleCatalog.GetCalendarUnsafe(cuid)
 
         chr1 |> isnotnull
         chr1.Id === userGregorian.Id
@@ -286,16 +286,16 @@ module Lookup =
 
     [<Fact>]
     let ``All lookup methods return the same reference for system calendars`` () =
-        for sys in CalendarCatalog.SystemCalendars do
+        for sys in SimpleCatalog.SystemCalendars do
             let key = sys.Key
             let ident = sys.PermanentId
             let cuid = int(ident)
 
-            let chr = CalendarCatalog.GetSystemCalendar(ident)
-            let chr1 = CalendarCatalog.GetCalendar(key)
-            let chr2 = CalendarCatalog.GetCalendarUnchecked(cuid)
-            let chr3 = CalendarCatalog.GetCalendarUnsafe(cuid)
-            let succeed, chr4 = CalendarCatalog.TryGetCalendar(key)
+            let chr = SimpleCatalog.GetSystemCalendar(ident)
+            let chr1 = SimpleCatalog.GetCalendar(key)
+            let chr2 = SimpleCatalog.GetCalendarUnchecked(cuid)
+            let chr3 = SimpleCatalog.GetCalendarUnsafe(cuid)
+            let succeed, chr4 = SimpleCatalog.TryGetCalendar(key)
 
             succeed |> ok
             chr  ==& sys
@@ -309,10 +309,10 @@ module Lookup =
         let key = userGregorian.Key
         let cuid = int(userGregorian.Id)
 
-        let chr1 = CalendarCatalog.GetCalendar(key)
-        let chr2 = CalendarCatalog.GetCalendarUnchecked(cuid)
-        let chr3 = CalendarCatalog.GetCalendarUnsafe(cuid)
-        let succeed, chr4 = CalendarCatalog.TryGetCalendar(key)
+        let chr1 = SimpleCatalog.GetCalendar(key)
+        let chr2 = SimpleCatalog.GetCalendarUnchecked(cuid)
+        let chr3 = SimpleCatalog.GetCalendarUnsafe(cuid)
+        let succeed, chr4 = SimpleCatalog.TryGetCalendar(key)
 
         succeed |> ok
         chr1 ==& userGregorian
@@ -332,25 +332,25 @@ module AddOps =
 
     [<Fact>]
     let ``GetOrAdd() throws for null key`` () =
-        nullExn "key" (fun () -> CalendarCatalog.GetOrAdd(null, new JulianSchema(), DayZero.OldStyle, false))
+        nullExn "key" (fun () -> SimpleCatalog.GetOrAdd(null, new JulianSchema(), DayZero.OldStyle, false))
 
     [<Fact>]
     let ``GetOrAdd() throws for null schema`` () =
         let key = "key"
 
-        nullExn "schema" (fun () -> CalendarCatalog.GetOrAdd(key, null, DayZero.OldStyle, false))
+        nullExn "schema" (fun () -> SimpleCatalog.GetOrAdd(key, null, DayZero.OldStyle, false))
         onKeyNotSet key
 
     [<Fact>]
     let ``GetOrAdd() when the key is a system key`` () =
         let sys = SimpleGregorian.Instance
-        let chr = CalendarCatalog.GetOrAdd(sys.Key, new JulianSchema(), DayZero.OldStyle, false)
+        let chr = SimpleCatalog.GetOrAdd(sys.Key, new JulianSchema(), DayZero.OldStyle, false)
 
         chr ==& sys
 
     [<Fact>]
     let ``GetOrAdd() when the key is already taken`` () =
-        let chr = CalendarCatalog.GetOrAdd(userGregorian.Key, new JulianSchema(), DayZero.OldStyle, false)
+        let chr = SimpleCatalog.GetOrAdd(userGregorian.Key, new JulianSchema(), DayZero.OldStyle, false)
 
         chr ==& userGregorian
 
@@ -360,24 +360,24 @@ module AddOps =
 
     [<Fact>]
     let ``Add() throws for null key`` () =
-        nullExn "key" (fun () -> CalendarCatalog.Add(null, new JulianSchema(), DayZero.OldStyle, false))
+        nullExn "key" (fun () -> SimpleCatalog.Add(null, new JulianSchema(), DayZero.OldStyle, false))
 
     [<Fact>]
     let ``Add() throws for null schema`` () =
         let key = "key"
 
-        nullExn "schema" (fun () -> CalendarCatalog.Add(key, null, DayZero.OldStyle, false))
+        nullExn "schema" (fun () -> SimpleCatalog.Add(key, null, DayZero.OldStyle, false))
         onKeyNotSet key
 
     [<Fact>]
     let ``Add() throws when the key is a system key`` () =
         let sys = SimpleGregorian.Instance
 
-        argExn "key" (fun () -> CalendarCatalog.Add(sys.Key, new JulianSchema(), DayZero.OldStyle, false))
+        argExn "key" (fun () -> SimpleCatalog.Add(sys.Key, new JulianSchema(), DayZero.OldStyle, false))
 
     [<Fact>]
     let ``Add() throws when the key is already taken`` () =
-        argExn "key" (fun () -> CalendarCatalog.Add(userGregorian.Key, new JulianSchema(), DayZero.OldStyle, false))
+        argExn "key" (fun () -> SimpleCatalog.Add(userGregorian.Key, new JulianSchema(), DayZero.OldStyle, false))
 
     //
     // TryAdd() --- failure
@@ -385,26 +385,26 @@ module AddOps =
 
     [<Fact>]
     let ``TryAdd() throws for null key`` () =
-        nullExn "key" (fun () -> CalendarCatalog.TryAdd(null, new JulianSchema(), DayZero.OldStyle, false))
+        nullExn "key" (fun () -> SimpleCatalog.TryAdd(null, new JulianSchema(), DayZero.OldStyle, false))
 
     [<Fact>]
     let ``TryAdd() throws for null schema`` () =
         let key = "key"
 
-        nullExn "schema" (fun () -> CalendarCatalog.TryAdd(key, null, DayZero.OldStyle, false))
+        nullExn "schema" (fun () -> SimpleCatalog.TryAdd(key, null, DayZero.OldStyle, false))
         onKeyNotSet key
 
     [<Fact>]
     let ``TryAdd() when the key is a system key`` () =
         let sys = SimpleGregorian.Instance
-        let succeed, chr = CalendarCatalog.TryAdd(sys.Key, new JulianSchema(), DayZero.OldStyle, false)
+        let succeed, chr = SimpleCatalog.TryAdd(sys.Key, new JulianSchema(), DayZero.OldStyle, false)
 
         succeed |> nok
         chr     |> isnull
 
     [<Fact>]
     let ``TryAdd() when the key is already taken`` () =
-        let succeed, chr = CalendarCatalog.TryAdd(userGregorian.Key, new JulianSchema(), DayZero.OldStyle, false)
+        let succeed, chr = SimpleCatalog.TryAdd(userGregorian.Key, new JulianSchema(), DayZero.OldStyle, false)
 
         succeed |> nok
         chr     |> isnull
@@ -418,28 +418,28 @@ module AddOps =
 
     [<Fact>]
     let ``GetOrAdd()`` () =
-        let key = "CalendarCatalogTests.GetOrAdd"
+        let key = "SimpleCatalogTests.GetOrAdd"
         let epoch = DayNumber.Zero + 1234
         let proleptic = false
-        let chr = CalendarCatalog.GetOrAdd(key, new GregorianSchema(), epoch, proleptic)
+        let chr = SimpleCatalog.GetOrAdd(key, new GregorianSchema(), epoch, proleptic)
 
         onKeySet key epoch chr proleptic
 
     [<Fact>]
     let ``Add()`` () =
-        let key = "CalendarCatalogTests.Add"
+        let key = "SimpleCatalogTests.Add"
         let epoch = DayNumber.Zero + 1234
         let proleptic = true
-        let chr = CalendarCatalog.Add(key, new GregorianSchema(), epoch, proleptic)
+        let chr = SimpleCatalog.Add(key, new GregorianSchema(), epoch, proleptic)
 
         onKeySet key epoch chr proleptic
 
     [<Fact>]
     let ``TryAdd()`` () =
-        let key = "CalendarCatalogTests.TryAdd"
+        let key = "SimpleCatalogTests.TryAdd"
         let epoch = DayNumber.Zero + 1234
         let proleptic = false
-        let succeed, chr = CalendarCatalog.TryAdd(key, new GregorianSchema(), epoch, proleptic)
+        let succeed, chr = SimpleCatalog.TryAdd(key, new GregorianSchema(), epoch, proleptic)
 
         succeed |> ok
         onKeySet key epoch chr proleptic
@@ -449,7 +449,7 @@ module AddOps =
         let key = ""
         let epoch = DayNumber.Zero + 1234
         let proleptic = true
-        let succeed, chr = CalendarCatalog.TryAdd(key, new GregorianSchema(), epoch, proleptic)
+        let succeed, chr = SimpleCatalog.TryAdd(key, new GregorianSchema(), epoch, proleptic)
 
         succeed |> ok
         onKeySet key epoch chr proleptic

@@ -143,7 +143,7 @@ public partial class CalendarZoo
             // A calendar with the same key already exists, nevertheless
             // s_Tropicalia can still be null if the other process that reserved
             // the key in the catalog has not yet updated the field.
-            return s_Tropicalia ?? CalendarCatalog.GetCalendar(Key);
+            return s_Tropicalia ?? SimpleCatalog.GetCalendar(Key);
         }
 
         Debug.Assert(chr != null);

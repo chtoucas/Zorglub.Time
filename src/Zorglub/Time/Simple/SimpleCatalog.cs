@@ -28,10 +28,10 @@ namespace Zorglub.Time.Simple
 
     /// <summary>
     /// Provides static methods to initialize or lookup singleton instances of
-    /// <see cref="Calendar"/>.
+    /// <see cref="SimpleCalendar"/>.
     /// <para>This class cannot be inherited.</para>
     /// </summary>
-    public static partial class CalendarCatalog
+    public static partial class SimpleCatalog
     {
         // WARNING: the order of the static fields matters.
 
@@ -53,7 +53,7 @@ namespace Zorglub.Time.Simple
         /// Represents the registry.
         /// <para>This field is read-only.</para>
         /// </summary>
-        private static readonly CalendarRegistry s_Registry =
+        private static readonly SimpleRegistry s_Registry =
             new(s_SystemCalendars)
             {
                 CalendarCreated = chr =>
@@ -162,7 +162,7 @@ namespace Zorglub.Time.Simple
         }
     }
 
-    public partial class CalendarCatalog // Snapshots
+    public partial class SimpleCatalog // Snapshots
     {
         /// <summary>
         /// Obtains the collection of all calendars at the time of the request.
@@ -214,7 +214,7 @@ namespace Zorglub.Time.Simple
             s_Registry.TakeSnapshot();
     }
 
-    public partial class CalendarCatalog // Lookup
+    public partial class SimpleCatalog // Lookup
     {
         /// <summary>
         /// Looks up a calendar by its unique key.
@@ -324,7 +324,7 @@ namespace Zorglub.Time.Simple
 #nullable restore warnings
     }
 
-    public partial class CalendarCatalog // Add
+    public partial class SimpleCatalog // Add
     {
         /// <summary>
         /// Creates a calendar from a (unique) key, a reference epoch and a calendrical schema, then

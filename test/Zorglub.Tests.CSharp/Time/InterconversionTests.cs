@@ -15,7 +15,7 @@ public static class InterconversionTests
     [Fact]
     public static void Epoch_ToGregorian()
     {
-        foreach (var chr in CalendarCatalog.SystemCalendars)
+        foreach (var chr in SimpleCatalog.SystemCalendars)
         {
             var date = chr.GetCalendarDate(chr.Epoch);
             try
@@ -36,7 +36,7 @@ public static class InterconversionTests
     {
         var year = SimpleGregorian.Instance.GetCalendarYear(1);
         var date = year.FirstDay;
-        foreach (var chr in CalendarCatalog.SystemCalendars)
+        foreach (var chr in SimpleCatalog.SystemCalendars)
         {
             if (chr.Epoch > DayZero.NewStyle) { continue; }
             try
@@ -58,7 +58,7 @@ public static class InterconversionTests
         var gr = SimpleGregorian.Instance;
         var start = gr.GetCalendarYear(1582).FirstDay; // Gregorian reform
         var end = gr.GetCalendarYear(3000).LastDay;
-        foreach (var chr in CalendarCatalog.SystemCalendars)
+        foreach (var chr in SimpleCatalog.SystemCalendars)
         {
             try
             {
@@ -80,11 +80,11 @@ public static class InterconversionTests
 
     private static void TestMutualInterconversion(int y, bool startOfYear)
     {
-        foreach (var chr in CalendarCatalog.SystemCalendars)
+        foreach (var chr in SimpleCatalog.SystemCalendars)
         {
             var year = chr.GetCalendarYear(y);
             var date = startOfYear ? year.FirstDay : year.LastDay;
-            foreach (var other in CalendarCatalog.SystemCalendars)
+            foreach (var other in SimpleCatalog.SystemCalendars)
             {
                 try
                 {

@@ -141,7 +141,7 @@ namespace Zorglub.Time.Simple
         }
 
         /// <inheritdoc />
-        public SimpleCalendar Calendar => CalendarCatalog.GetCalendarUnchecked(_bin.Extra);
+        public SimpleCalendar Calendar => SimpleCatalog.GetCalendarUnchecked(_bin.Extra);
 
         /// <inheritdoc />
         public CalendarYear CalendarYear => new(Year, Cuid);
@@ -166,7 +166,7 @@ namespace Zorglub.Time.Simple
         {
             // CIL code size = 17 bytes <= 32 bytes.
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => ref CalendarCatalog.GetCalendarUnsafe(_bin.Extra);
+            get => ref SimpleCatalog.GetCalendarUnsafe(_bin.Extra);
         }
 
         /// <summary>
@@ -209,7 +209,7 @@ namespace Zorglub.Time.Simple
         // transparente, alors que pour pouvoir restaurer l'objet il est
         // nécessaire que tous les acteurs se soient accordés quant aux IDs de
         // tous les calendriers volatiles ; c'est bien trop demander.
-        // De plus, il nous faudrait utiliser CalendarCatalog.GetCalendar(cuid)
+        // De plus, il nous faudrait utiliser SimpleCatalog.GetCalendar(cuid)
         // qui retournerait null si le calendrier correspondant n'est pas déjà
         // chargé en mémoire.
 
@@ -228,7 +228,7 @@ namespace Zorglub.Time.Simple
             var bin = new Yemodax(data);
             bin.Deconstruct(out int y, out int m, out int d);
             var ident = (CalendarId)bin.Extra;
-            return CalendarCatalog.GetSystemCalendar(ident).GetCalendarDate(y, m, d);
+            return SimpleCatalog.GetSystemCalendar(ident).GetCalendarDate(y, m, d);
         }
 
         /// <summary>

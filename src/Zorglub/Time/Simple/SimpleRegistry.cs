@@ -12,10 +12,10 @@ namespace Zorglub.Time.Simple
     // REVIEW(code): use the standard event pattern w/ CalendarCreated?
     // Exception neutral code?
 
-    // More or less, CalendarRegistry behaves like a concurrent keyed collection
+    // More or less, SimpleRegistry behaves like a concurrent keyed collection
     // whose keys are readable and writable but not updatable.
 
-    internal sealed partial class CalendarRegistry
+    internal sealed partial class SimpleRegistry
     {
         /// <summary>
         /// Represents the minimum value for the ID of a user-defined calendar.
@@ -40,30 +40,30 @@ namespace Zorglub.Time.Simple
         private int _lastId;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="CalendarRegistry"/> class.
+        /// Initializes a new instance of the <see cref="SimpleRegistry"/> class.
         /// </summary>
-        public CalendarRegistry() : this(MinMinId, MaxMaxId) { }
+        public SimpleRegistry() : this(MinMinId, MaxMaxId) { }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="CalendarRegistry"/> class.
+        /// Initializes a new instance of the <see cref="SimpleRegistry"/> class.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="calendars"/> is null.</exception>
         /// <exception cref="ArgumentException"><paramref name="calendars"/> contains a user-defined
         /// calendar -or- the index of a (system) calendar in the array is NOT given by its ID.
         /// </exception>
-        public CalendarRegistry(SimpleCalendar[] calendars) : this(MinMinId, MaxMaxId)
+        public SimpleRegistry(SimpleCalendar[] calendars) : this(MinMinId, MaxMaxId)
         {
             InitializeFromSystemCalendars(calendars);
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="CalendarRegistry"/> class.
+        /// Initializes a new instance of the <see cref="SimpleRegistry"/> class.
         /// </summary>
         /// <exception cref="AoorException"><paramref name="minId"/> is not
         /// within the range [<see cref="MinMinId"/>..<see cref="MaxMaxId"/>].</exception>
         /// <exception cref="AoorException"><paramref name="maxId"/> is not
         /// within the range [<paramref name="minId"/>..<see cref="MaxMaxId"/>].</exception>
-        public CalendarRegistry(int minId, int maxId)
+        public SimpleRegistry(int minId, int maxId)
         {
             // First prime number >= max nbr of calendars (128 = MaxMaxId + 1).
             const int Capacity = 131;
@@ -172,7 +172,7 @@ namespace Zorglub.Time.Simple
 
         #region Initialization
 
-        // It's the duty of CalendarCatalog to ensure that the members of
+        // It's the duty of SimpleCatalog to ensure that the members of
         // "calendars" are added to s_SystemCalendars and to s_Calendars. In
         // particular, we don't call CalendarCreated for user-defined calendars.
         // It makes sense since the callback is called CalendarCreated, not
@@ -247,7 +247,7 @@ namespace Zorglub.Time.Simple
         #endregion
     }
 
-    internal sealed partial class CalendarRegistry // Snapshots & Lookup
+    internal sealed partial class SimpleRegistry // Snapshots & Lookup
     {
         // We MUST filter out dirty calendars because we don't verify whether
         // the removal of a dirty calendar is successful or not; see the section
@@ -305,7 +305,7 @@ namespace Zorglub.Time.Simple
         }
     }
 
-    internal sealed partial class CalendarRegistry // Add
+    internal sealed partial class SimpleRegistry // Add
     {
         /// <summary>
         /// Adds a calendar to the current instance.

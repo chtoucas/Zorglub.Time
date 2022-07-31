@@ -27,7 +27,7 @@ namespace Zorglub.Time.Extras
     //   performance-wise, can help.
     // - A Calendar has a permanent ID whereas a ZCalendar has a transient ID.
     // - Simple binary serialization.
-    // - CalendarCatalog.GetSystemCalendar() uses a fast array lookup.
+    // - SimpleCatalog.GetSystemCalendar() uses a fast array lookup.
     // ZCalendar pros:
     // - ZCalendar accepts any type of schema.
     // Common features:

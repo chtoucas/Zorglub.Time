@@ -199,7 +199,7 @@ namespace Zorglub.Time.Simple
         }
 
         /// <inheritdoc />
-        public SimpleCalendar Calendar => CalendarCatalog.GetCalendarUnchecked(unchecked(_bin & CuidMask));
+        public SimpleCalendar Calendar => SimpleCatalog.GetCalendarUnchecked(unchecked(_bin & CuidMask));
 
         /// <summary>
         /// Gets the count of consecutive days since the epoch of the calendar to which belongs the
@@ -219,7 +219,7 @@ namespace Zorglub.Time.Simple
         {
             // CIL code size = 15 bytes <= 32 bytes.
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => ref CalendarCatalog.GetCalendarUnsafe(unchecked(_bin & CuidMask));
+            get => ref SimpleCatalog.GetCalendarUnsafe(unchecked(_bin & CuidMask));
         }
 
         /// <summary>
@@ -291,7 +291,7 @@ namespace Zorglub.Time.Simple
             {
                 int daysSinceEpoch = data >> DaysSinceEpochShift;
                 var ident = (CalendarId)(data & CuidMask);
-                var chr = CalendarCatalog.GetSystemCalendar(ident);
+                var chr = SimpleCatalog.GetSystemCalendar(ident);
                 return chr.GetCalendarDay(chr.Epoch + daysSinceEpoch);
             }
         }

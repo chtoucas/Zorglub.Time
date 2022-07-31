@@ -88,8 +88,8 @@
     <Compile Include="Tests\Hemerology\YearNumberingTests.fs" />
     <Compile Include="Tests\Simple\CuidTests.fs" />
     <Compile Include="Tests\Simple\SimpleCalendarTests.fs" />
-    <Compile Include="Tests\Simple\CalendarRegistryTests.fs" />
-    <Compile Include="Tests\Simple\CalendarCatalogTests.fs" />
+    <Compile Include="Tests\Simple\SimpleRegistryTests.fs" />
+    <Compile Include="Tests\Simple\SimpleCatalogTests.fs" />
     <Compile Include="Tests\Simple\BoxExtensionsTests.fs" />
     <Compile Include="Tests\Simple\CalendarMathTests.fs" />
     <Compile Include="Tests\Simple\CalendarDateTests.fs" />

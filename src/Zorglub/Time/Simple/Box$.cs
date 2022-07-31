@@ -23,10 +23,10 @@ namespace Zorglub.Time.Simple
         /// </summary>
         /// <exception cref="ArgumentNullException">One of the parameters is null.</exception>
         /// <exception cref="ArgumentException"><paramref name="this"/> is empty but see also
-        /// <see cref="CalendarCatalog.GetOrAdd(string, SystemSchema, DayNumber, bool)"/>.
+        /// <see cref="SimpleCatalog.GetOrAdd(string, SystemSchema, DayNumber, bool)"/>.
         /// </exception>
         /// <exception cref="OverflowException">For details, see
-        /// <see cref="CalendarCatalog.GetOrAdd(string, SystemSchema, DayNumber, bool)"/>.
+        /// <see cref="SimpleCatalog.GetOrAdd(string, SystemSchema, DayNumber, bool)"/>.
         /// </exception>
         [Pure]
         public static SimpleCalendar GetOrCreateCalendar<TSchema>(
@@ -36,7 +36,7 @@ namespace Zorglub.Time.Simple
             Requires.NotNull(@this);
 
             var q = from schema in @this
-                    select CalendarCatalog.GetOrAdd(key, schema, epoch, proleptic);
+                    select SimpleCatalog.GetOrAdd(key, schema, epoch, proleptic);
             return q.TryUnbox(out var chr) ? chr : Throw.BadBox<SimpleCalendar>(nameof(@this));
         }
 
@@ -45,10 +45,10 @@ namespace Zorglub.Time.Simple
         /// </summary>
         /// <exception cref="ArgumentNullException">One of the parameters is null.</exception>
         /// <exception cref="ArgumentException"><paramref name="this"/> is empty but see also
-        /// <see cref="CalendarCatalog.Add(string, SystemSchema, DayNumber, bool)"/>.
+        /// <see cref="SimpleCatalog.Add(string, SystemSchema, DayNumber, bool)"/>.
         /// </exception>
         /// <exception cref="OverflowException">For details, see
-        /// <see cref="CalendarCatalog.Add(string, SystemSchema, DayNumber, bool)"/>.
+        /// <see cref="SimpleCatalog.Add(string, SystemSchema, DayNumber, bool)"/>.
         /// </exception>
         [Pure]
         public static SimpleCalendar CreateCalendar<TSchema>(
@@ -58,7 +58,7 @@ namespace Zorglub.Time.Simple
             Requires.NotNull(@this);
 
             var q = from schema in @this
-                    select CalendarCatalog.Add(key, schema, epoch, proleptic);
+                    select SimpleCatalog.Add(key, schema, epoch, proleptic);
             return q.TryUnbox(out var chr) ? chr : Throw.BadBox<SimpleCalendar>(nameof(@this));
         }
 
@@ -80,7 +80,7 @@ namespace Zorglub.Time.Simple
 
             if (@this.TryUnbox(out var sch))
             {
-                return CalendarCatalog.TryAdd(key, sch, epoch, proleptic, out calendar);
+                return SimpleCatalog.TryAdd(key, sch, epoch, proleptic, out calendar);
             }
             else
             {

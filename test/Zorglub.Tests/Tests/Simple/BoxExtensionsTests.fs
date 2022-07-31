@@ -12,9 +12,9 @@ open Zorglub.Time.Simple
 
 open Xunit
 
-open CalendarCatalogTests.TestCommon
+open SimpleCatalogTests.TestCommon
 
-// Sync with CalendarCatalogTests
+// Sync with SimpleCatalogTests
 
 // Tests setup.
 // We MUST initialize the user-defined calendar very early on, otherwise the

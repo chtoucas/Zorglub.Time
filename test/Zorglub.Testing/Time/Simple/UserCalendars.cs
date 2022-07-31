@@ -18,28 +18,28 @@ public static class UserCalendars
     /// <para>This static property is thread-safe.</para>
     /// </summary>
     public static SimpleCalendar Gregorian { get; } =
-        CalendarCatalog.Add("User Gregorian", new GregorianSchema(), DayZero.NewStyle, proleptic: false);
+        SimpleCatalog.Add("User Gregorian", new GregorianSchema(), DayZero.NewStyle, proleptic: false);
 
     /// <summary>
     /// Gets the <i>proleptic</i> user-defined Julian calendar.
     /// <para>This static property is thread-safe.</para>
     /// </summary>
     public static SimpleCalendar Julian { get; } =
-        CalendarCatalog.Add("User Julian", new JulianSchema(), DayZero.OldStyle, proleptic: true);
+        SimpleCatalog.Add("User Julian", new JulianSchema(), DayZero.OldStyle, proleptic: true);
 
     /// <summary>
     /// Gets the <i>non-proleptic</i> user-defined Positivist calendar.
     /// <para>This static property is thread-safe.</para>
     /// </summary>
     public static SimpleCalendar Positivist { get; } =
-        CalendarCatalog.Add("User Positivist", new PositivistSchema(), CalendarEpoch.Positivist, proleptic: false);
+        SimpleCatalog.Add("User Positivist", new PositivistSchema(), CalendarEpoch.Positivist, proleptic: false);
 
     /// <summary>
     /// Gets the <i>non-proleptic</i> user-defined Coptic13 calendar.
     /// <para>This static property is thread-safe.</para>
     /// </summary>
     public static SimpleCalendar Coptic13 { get; } =
-        CalendarCatalog.Add("User Coptic13", new Coptic13Schema(), CalendarEpoch.Coptic, proleptic: false);
+        SimpleCatalog.Add("User Coptic13", new Coptic13Schema(), CalendarEpoch.Coptic, proleptic: false);
 
     public static readonly DayNumber LunisolarEpoch = DayZero.NewStyle;
 
@@ -48,5 +48,5 @@ public static class UserCalendars
     /// <para>This static property is thread-safe.</para>
     /// </summary>
     public static SimpleCalendar Lunisolar { get; } =
-        CalendarCatalog.Add("User Lunisolar", new LunisolarSchema(), LunisolarEpoch, proleptic: false);
+        SimpleCatalog.Add("User Lunisolar", new LunisolarSchema(), LunisolarEpoch, proleptic: false);
 }

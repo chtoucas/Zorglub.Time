@@ -135,7 +135,7 @@ namespace Zorglub.Time.Simple
         }
 
         /// <inheritdoc />
-        public SimpleCalendar Calendar => CalendarCatalog.GetCalendarUnchecked(_bin.Extra);
+        public SimpleCalendar Calendar => SimpleCatalog.GetCalendarUnchecked(_bin.Extra);
 
         /// <inheritdoc />
         public CalendarYear CalendarYear => new(Year, Cuid);
@@ -160,7 +160,7 @@ namespace Zorglub.Time.Simple
         {
             // CIL code size = 17 bytes <= 32 bytes.
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => ref CalendarCatalog.GetCalendarUnsafe(_bin.Extra);
+            get => ref SimpleCatalog.GetCalendarUnsafe(_bin.Extra);
         }
 
         /// <summary>
@@ -207,7 +207,7 @@ namespace Zorglub.Time.Simple
             var bin = new Yedoyx(data);
             bin.Unpack(out int y, out int doy);
             var ident = (CalendarId)bin.Extra;
-            return CalendarCatalog.GetSystemCalendar(ident).GetOrdinalDate(y, doy);
+            return SimpleCatalog.GetSystemCalendar(ident).GetOrdinalDate(y, doy);
         }
 
         /// <summary>

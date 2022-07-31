@@ -26,7 +26,7 @@ public static class HowToCreateACalendar
     // Hand-written version.
     public static SimpleCalendar CreateSimpleCalendar_Plain() =>
         (from x in GregorianSchema.GetInstance()
-         select CalendarCatalog.Add("CreateCalendar_HWV", x, DayZero.NewStyle, proleptic: true)
+         select SimpleCatalog.Add("CreateCalendar_HWV", x, DayZero.NewStyle, proleptic: true)
          ).Unbox();
 
     #endregion
@@ -43,7 +43,7 @@ public static class HowToCreateACalendar
 
         static SimpleCalendar? TryAdd(GregorianSchema schema)
         {
-            _ = CalendarCatalog.TryAdd(
+            _ = SimpleCatalog.TryAdd(
                 "TryCreateCalendar_HWV", schema, DayZero.NewStyle, proleptic: true, out var chr);
 
             return chr;

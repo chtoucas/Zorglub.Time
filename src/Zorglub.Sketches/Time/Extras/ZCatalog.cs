@@ -52,7 +52,7 @@ namespace Zorglub.Time.Extras
         /// </summary>
         // IDs système : 0 à 63. On garantit la compatibilité avec Calendar en
         // réservant aussi les IDs 64 à 127; voir ToZCalendar() et ToCalendar().
-        private static readonly int MinUserId = CalendarCatalog.MaxId + 1;
+        private static readonly int MinUserId = SimpleCatalog.MaxId + 1;
 
 #if ZCATALOG_BIG
         /// <summary>
@@ -113,7 +113,7 @@ namespace Zorglub.Time.Extras
         // We ignore lazy calendars not yet initialized.
         internal static ICollection<string> Keys => s_CalendarsByKey.Keys;
 
-        public static ReadOnlySet<string> ReservedKeys => CalendarCatalog.ReservedKeys;
+        public static ReadOnlySet<string> ReservedKeys => SimpleCatalog.ReservedKeys;
 
         #region Initializers
 
@@ -200,13 +200,13 @@ namespace Zorglub.Time.Extras
         {
             Requires.NotNull(@this);
             int cuid = @this.Id;
-            if (cuid > CalendarCatalog.MaxId) Throw.Argument(nameof(@this));
+            if (cuid > SimpleCatalog.MaxId) Throw.Argument(nameof(@this));
 
-            // NB: un ZCalendar ayant un ID <= CalendarCatalog.MaxId
+            // NB: un ZCalendar ayant un ID <= SimpleCatalog.MaxId
             // provient obligatoirement d'un Calendar.
             // REVIEW(code): while what we just said is true, does it really mean
             // that this calendar does truely exist?
-            return CalendarCatalog.GetCalendarUnchecked(cuid);
+            return SimpleCatalog.GetCalendarUnchecked(cuid);
         }
 
         // Converts a Calendar to a ZCalendar.

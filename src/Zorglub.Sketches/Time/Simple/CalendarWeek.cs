@@ -16,7 +16,7 @@ namespace Zorglub.Time.Simple
     //      s'inspirer de Yemoda.
     //   Leap-week calendars may drop the subdivision of a year in months.
     // - validate Cuid.
-    // - custom CalendarRegistry.FindXXX() and SchemaProvider.
+    // - custom SimpleRegistry.FindXXX() and SchemaProvider.
     // - math ops.
 
     /// <summary>
@@ -96,7 +96,7 @@ namespace Zorglub.Time.Simple
         /// <remarks>
         /// <para>Performance: cache this property locally if necessary.</para>
         /// </remarks>
-        public SimpleCalendar Calendar => CalendarCatalog.GetCalendarUnchecked(_bin.Extra);
+        public SimpleCalendar Calendar => SimpleCatalog.GetCalendarUnchecked(_bin.Extra);
 
         /// <summary>
         /// Gets the date parts of current instance.
@@ -116,7 +116,7 @@ namespace Zorglub.Time.Simple
         {
             // CIL code size = 17 bytes <= 32 bytes.
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => ref CalendarCatalog.GetCalendarUnsafe(_bin.Extra);
+            get => ref SimpleCatalog.GetCalendarUnsafe(_bin.Extra);
         }
 
         /// <summary>

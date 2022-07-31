@@ -118,7 +118,7 @@ namespace Zorglub.Time.Simple
         /// <remarks>
         /// <para>Performance: cache this property locally if necessary.</para>
         /// </remarks>
-        public SimpleCalendar Calendar => CalendarCatalog.GetCalendarUnchecked(_bin.Extra);
+        public SimpleCalendar Calendar => SimpleCatalog.GetCalendarUnchecked(_bin.Extra);
 
         /// <summary>
         /// Gets the calendar year.
@@ -161,7 +161,7 @@ namespace Zorglub.Time.Simple
         {
             // CIL code size = 17 bytes <= 32 bytes.
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => ref CalendarCatalog.GetCalendarUnsafe(_bin.Extra);
+            get => ref SimpleCatalog.GetCalendarUnsafe(_bin.Extra);
         }
 
         /// <summary>
@@ -197,7 +197,7 @@ namespace Zorglub.Time.Simple
             var bin = new Yemox(data);
             bin.Unpack(out int y, out int m);
             var ident = (CalendarId)bin.Extra;
-            return CalendarCatalog.GetSystemCalendar(ident).GetCalendarMonth(y, m);
+            return SimpleCatalog.GetSystemCalendar(ident).GetCalendarMonth(y, m);
         }
 
         /// <summary>

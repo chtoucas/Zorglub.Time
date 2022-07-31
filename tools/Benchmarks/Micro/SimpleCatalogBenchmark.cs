@@ -35,35 +35,35 @@ Intel Core2 Duo CPU E8500 3.16GHz, 1 CPU, 2 logical and 2 physical cores
  */
 
 [DisassemblyDiagnoser]
-public class CalendarCatalogBenchmark : BenchmarkBase
+public class SimpleCatalogBenchmark : BenchmarkBase
 {
     private const int Id = (int)CalendarId.Gregorian;
 
     [Benchmark]
     public string GetCalendar()
     {
-        var chr = CalendarCatalog.GetCalendar("Gregorian");
+        var chr = SimpleCatalog.GetCalendar("Gregorian");
         return chr.Key;
     }
 
     [Benchmark]
     public string GetSystemCalendar()
     {
-        var chr = CalendarCatalog.GetSystemCalendar(CalendarId.Gregorian);
+        var chr = SimpleCatalog.GetSystemCalendar(CalendarId.Gregorian);
         return chr.Key;
     }
 
     [Benchmark]
     public string GetCalendarUnsafe()
     {
-        ref readonly SimpleCalendar chr = ref CalendarCatalog.GetCalendarUnsafe(Id);
+        ref readonly SimpleCalendar chr = ref SimpleCatalog.GetCalendarUnsafe(Id);
         return chr.Key;
     }
 
     [Benchmark(Baseline = true)]
     public string GetCalendarUnchecked()
     {
-        var chr = CalendarCatalog.GetCalendarUnchecked(Id);
+        var chr = SimpleCatalog.GetCalendarUnchecked(Id);
         return chr.Key;
     }
 }

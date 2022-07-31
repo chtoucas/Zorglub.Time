@@ -253,9 +253,9 @@ namespace Zorglub.Time.Simple
         /// <para>Performance: cache this property locally if necessary.</para>
         /// </remarks>
 #if CALENDARYEAR_EXPLICIT_LAYOUT
-        public Calendar Calendar => CalendarCatalog.GetCalendarUnchecked((int)_cuid);
+        public Calendar Calendar => SimpleCatalog.GetCalendarUnchecked((int)_cuid);
 #else
-        public SimpleCalendar Calendar => CalendarCatalog.GetCalendarUnchecked(unchecked(_bin & CuidMask));
+        public SimpleCalendar Calendar => SimpleCatalog.GetCalendarUnchecked(unchecked(_bin & CuidMask));
 #endif
 
         /// <summary>
@@ -274,7 +274,7 @@ namespace Zorglub.Time.Simple
         {
             // CIL code size = 12 bytes <= 32 bytes.
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => ref CalendarCatalog.GetCalendarUnsafe((int)Cuid);
+            get => ref SimpleCatalog.GetCalendarUnsafe((int)Cuid);
         }
 
         /// <summary>
@@ -334,7 +334,7 @@ namespace Zorglub.Time.Simple
                 var ident = (CalendarId)(data & CuidMask);
 #endif
 
-                return CalendarCatalog.GetSystemCalendar(ident).GetCalendarYear(y);
+                return SimpleCatalog.GetSystemCalendar(ident).GetCalendarYear(y);
             }
         }
 
