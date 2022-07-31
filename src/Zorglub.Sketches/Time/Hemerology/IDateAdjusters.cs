@@ -35,7 +35,7 @@ namespace Zorglub.Time.Hemerology
         /// <summary>
         /// Obtains the last day of the year to which belongs the specified day.
         /// </summary>
-        /// <exception cref="ArgumentNullException"><paramref name="day"/> is null.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="date"/> is null.</exception>
         [SuppressMessage("Naming", "CA1716:Identifiers should not match keywords.", MessageId = "end", Justification = "F# & VB.NET End statement.")]
         [Pure] TDate GetEndOfYear(TDate date);
     }

@@ -33,7 +33,7 @@ namespace Zorglub.Time.Hemerology
         private readonly DayNumber _epoch;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="DateAdjusters"/> class.
+        /// Initializes a new instance of the <see cref="DateAdjusters{TDate}"/> class.
         /// </summary>
         public DateAdjusters(DayNumber epoch, JulianSchema schema)
         {
