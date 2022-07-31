@@ -14,6 +14,7 @@ namespace Zorglub.Time.Hemerology
     /// <para>This class works best when <typeparamref name="TDate"/> is based on the count of
     /// consecutive days since the epoch.</para>
     /// </summary>
+    /// <typeparam name="TDate">The type of date object.</typeparam>
     public class MinMaxYearCalendar<TDate> : MinMaxYearCalendar, ICalendar<TDate>
         where TDate : IFixedDay<TDate>
     {
@@ -25,6 +26,10 @@ namespace Zorglub.Time.Hemerology
         /// <exception cref="ArgumentException"><paramref name="scope"/> is not complete.</exception>
         public MinMaxYearCalendar(string name, CalendarScope scope) : base(name, scope) { }
 
+        /// <summary>
+        /// Creates a new instance of <typeparamref name="TDate"/> from the specified count of
+        /// consecutive days since the epoch.
+        /// </summary>
         [Pure]
         protected virtual TDate GetDate(int daysSinceEpoch) =>
             TDate.FromDayNumber(Epoch + daysSinceEpoch);
@@ -40,7 +45,7 @@ namespace Zorglub.Time.Hemerology
 
             return from daysSinceEpoch
                    in Enumerable.Range(startOfYear, daysInYear)
-                   select TDate.FromDayNumber(Epoch + daysSinceEpoch);
+                   select GetDate(daysSinceEpoch);
         }
 
         /// <inheritdoc/>
@@ -54,7 +59,7 @@ namespace Zorglub.Time.Hemerology
 
             return from daysSinceEpoch
                    in Enumerable.Range(startOfMonth, daysInMonth)
-                   select TDate.FromDayNumber(Epoch + daysSinceEpoch);
+                   select GetDate(daysSinceEpoch);
         }
 
         /// <inheritdoc/>
@@ -63,7 +68,7 @@ namespace Zorglub.Time.Hemerology
         {
             SupportedYears.Validate(year);
             int daysSinceEpoch = Schema.GetStartOfYear(year);
-            return TDate.FromDayNumber(Epoch + daysSinceEpoch);
+            return GetDate(daysSinceEpoch);
         }
 
         /// <inheritdoc/>
@@ -72,7 +77,7 @@ namespace Zorglub.Time.Hemerology
         {
             SupportedYears.Validate(year);
             int daysSinceEpoch = Schema.GetEndOfYear(year);
-            return TDate.FromDayNumber(Epoch + daysSinceEpoch);
+            return GetDate(daysSinceEpoch);
         }
 
         /// <inheritdoc/>
@@ -81,7 +86,7 @@ namespace Zorglub.Time.Hemerology
         {
             Scope.ValidateYearMonth(year, month);
             int daysSinceEpoch = Schema.GetStartOfMonth(year, month);
-            return TDate.FromDayNumber(Epoch + daysSinceEpoch);
+            return GetDate(daysSinceEpoch);
         }
 
         /// <inheritdoc/>
@@ -90,7 +95,7 @@ namespace Zorglub.Time.Hemerology
         {
             Scope.ValidateYearMonth(year, month);
             int daysSinceEpoch = Schema.GetEndOfMonth(year, month);
-            return TDate.FromDayNumber(Epoch + daysSinceEpoch);
+            return GetDate(daysSinceEpoch);
         }
     }
 }
