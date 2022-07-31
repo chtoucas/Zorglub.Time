@@ -41,8 +41,6 @@ namespace Zorglub.Time.Specialized
     /// </summary>
     public readonly partial struct GregorianDate :
         IDate<GregorianDate>,
-        //IYearEndpointsProvider<GregorianDate>,
-        //IMonthEndpointsProvider<GregorianDate>,
         IMinMaxValue<GregorianDate>
     {
         // NB: the order in which the static fields are written is important.
@@ -224,6 +222,11 @@ namespace Zorglub.Time.Specialized
         public bool IsSupplementary => false;
 
         /// <summary>
+        /// Gets the count of days since the Gregorian epoch.
+        /// </summary>
+        internal int DaysSinceZero => _daysSinceZero;
+
+        /// <summary>
         /// Returns a culture-independent string representation of the current instance.
         /// </summary>
         [Pure]
@@ -279,43 +282,6 @@ namespace Zorglub.Time.Specialized
         /// <inheritdoc />
         [Pure]
         public int CountRemainingDaysInMonth() => s_Schema.CountDaysInMonthAfter(_daysSinceZero);
-
-        #endregion
-        #region Year and month boundaries
-
-        ///// <inheritdoc />
-        //[Pure]
-        //public static GregorianDate GetStartOfYear(GregorianDate day)
-        //{
-        //    int daysSinceZero = GregorianFormulae.GetStartOfYear(day.Year);
-        //    return new GregorianDate(daysSinceZero);
-        //}
-
-        ///// <inheritdoc />
-        //[Pure]
-        //public static GregorianDate GetEndOfYear(GregorianDate day)
-        //{
-        //    int daysSinceZero = s_Schema.GetEndOfYear(day.Year);
-        //    return new GregorianDate(daysSinceZero);
-        //}
-
-        ///// <inheritdoc />
-        //[Pure]
-        //public static GregorianDate GetStartOfMonth(GregorianDate day)
-        //{
-        //    GregorianFormulae.GetDateParts(day._daysSinceZero, out int y, out int m, out _);
-        //    int daysSinceZero = s_Schema.GetStartOfMonth(y, m);
-        //    return new GregorianDate(daysSinceZero);
-        //}
-
-        ///// <inheritdoc />
-        //[Pure]
-        //public static GregorianDate GetEndOfMonth(GregorianDate day)
-        //{
-        //    GregorianFormulae.GetDateParts(day._daysSinceZero, out int y, out int m, out _);
-        //    int daysSinceZero = s_Schema.GetEndOfMonth(y, m);
-        //    return new GregorianDate(daysSinceZero);
-        //}
 
         #endregion
         #region Adjust the day of the week

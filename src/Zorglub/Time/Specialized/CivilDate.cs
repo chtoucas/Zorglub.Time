@@ -43,8 +43,6 @@ namespace Zorglub.Time.Specialized
     /// </summary>
     public readonly partial struct CivilDate :
         IDate<CivilDate>,
-        //IYearEndpointsProvider<CivilDate>,
-        //IMonthEndpointsProvider<CivilDate>,
         IMinMaxValue<CivilDate>
     {
         /// <summary>
@@ -218,6 +216,11 @@ namespace Zorglub.Time.Specialized
         public bool IsSupplementary => false;
 
         /// <summary>
+        /// Gets the count of days since the Gregorian epoch.
+        /// </summary>
+        internal int DaysSinceZero => _daysSinceZero;
+
+        /// <summary>
         /// Returns a culture-independent string representation of the current instance.
         /// </summary>
         [Pure]
@@ -278,43 +281,6 @@ namespace Zorglub.Time.Specialized
         /// <inheritdoc />
         [Pure]
         public int CountRemainingDaysInMonth() => s_Schema.CountDaysInMonthAfter(_daysSinceZero);
-
-        #endregion
-        #region Year and month boundaries
-
-        ///// <inheritdoc />
-        //[Pure]
-        //public static CivilDate GetStartOfYear(CivilDate day)
-        //{
-        //    int daysSinceZero = CivilFormulae.GetStartOfYear(day.Year);
-        //    return new CivilDate(daysSinceZero);
-        //}
-
-        ///// <inheritdoc />
-        //[Pure]
-        //public static CivilDate GetEndOfYear(CivilDate day)
-        //{
-        //    int daysSinceZero = s_Schema.GetEndOfYear(day.Year);
-        //    return new CivilDate(daysSinceZero);
-        //}
-
-        ///// <inheritdoc />
-        //[Pure]
-        //public static CivilDate GetStartOfMonth(CivilDate day)
-        //{
-        //    CivilFormulae.GetDateParts(day._daysSinceZero, out int y, out int m, out _);
-        //    int daysSinceZero = s_Schema.GetStartOfMonth(y, m);
-        //    return new CivilDate(daysSinceZero);
-        //}
-
-        ///// <inheritdoc />
-        //[Pure]
-        //public static CivilDate GetEndOfMonth(CivilDate day)
-        //{
-        //    CivilFormulae.GetDateParts(day._daysSinceZero, out int y, out int m, out _);
-        //    int daysSinceZero = s_Schema.GetEndOfMonth(y, m);
-        //    return new CivilDate(daysSinceZero);
-        //}
 
         #endregion
         #region Adjust the day of the week

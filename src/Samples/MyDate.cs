@@ -34,8 +34,6 @@ using static Zorglub.Time.Extensions.Unboxing;
 /// </summary>
 public readonly partial struct MyDate :
     IDate<MyDate>,
-    //IYearEndpointsProvider<MyDate>,
-    //IMonthEndpointsProvider<MyDate>,
     IMinMaxValue<MyDate>
 {
     // NB: the order in which the static fields are written is important.
@@ -200,28 +198,28 @@ public partial struct MyDate // Conversions, adjustments...
     }
 
     #endregion
-    #region Year and month boundaries
+    #region Adjusters
 
-    //[Pure]
-    //public static MyDate GetStartOfYear(MyDate day) => new(day._bin.StartOfYear);
+    [Pure]
+    public static MyDate GetStartOfYear(MyDate date) => new(date._bin.StartOfYear);
 
-    //[Pure]
-    //public static MyDate GetEndOfYear(MyDate day)
-    //{
-    //    var ymd = s_Schema.GetDatePartsAtEndOfYear(day.Year);
-    //    return new MyDate(ymd);
-    //}
+    [Pure]
+    public static MyDate GetEndOfYear(MyDate date)
+    {
+        var ymd = s_Schema.GetDatePartsAtEndOfYear(date.Year);
+        return new MyDate(ymd);
+    }
 
-    //[Pure]
-    //public static MyDate GetStartOfMonth(MyDate day) => new(day._bin.StartOfMonth);
+    [Pure]
+    public static MyDate GetStartOfMonth(MyDate date) => new(date._bin.StartOfMonth);
 
-    //[Pure]
-    //public static MyDate GetEndOfMonth(MyDate day)
-    //{
-    //    var (y, m, _) = day._bin;
-    //    var ymd = s_Schema.GetDatePartsAtEndOfMonth(y, m);
-    //    return new MyDate(ymd);
-    //}
+    [Pure]
+    public static MyDate GetEndOfMonth(MyDate date)
+    {
+        var (y, m, _) = date._bin;
+        var ymd = s_Schema.GetDatePartsAtEndOfMonth(y, m);
+        return new MyDate(ymd);
+    }
 
     #endregion
     #region Adjust the day of the week

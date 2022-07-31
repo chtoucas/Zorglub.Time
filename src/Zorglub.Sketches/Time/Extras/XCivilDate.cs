@@ -51,8 +51,6 @@ namespace Zorglub.Time.Extras
     public readonly partial struct XCivilDate :
         IDate<XCivilDate>,
         IAdjustableDate<XCivilDate>,
-        IYearEndpointsProvider<XCivilDate>,
-        IMonthEndpointsProvider<XCivilDate>,
         IMinMaxValue<XCivilDate>
     {
         /// <summary>
@@ -642,33 +640,49 @@ namespace Zorglub.Time.Extras
             return GregorianFormulae.CountDaysInMonth(y, m) - d;
         }
 
-        #region Year and month boundaries
+        #region Adjusters
 
+        /// <summary>
+        /// Obtains the first day of the year to which belongs the specified day.
+        /// </summary>
+        /// <exception cref="ArgumentNullException"><paramref name="date"/> is null.</exception>
         [Pure]
-        public static XCivilDate GetStartOfYear(XCivilDate day) =>
-            new(((day.Year - 1) << 9) | __StartOfYear);
+        public static XCivilDate GetStartOfYear(XCivilDate date) =>
+            new(((date.Year - 1) << 9) | __StartOfYear);
 
+        /// <summary>
+        /// Obtains the last day of the year to which belongs the specified day.
+        /// </summary>
+        /// <exception cref="ArgumentNullException"><paramref name="date"/> is null.</exception>
         [Pure]
-        public static XCivilDate GetEndOfYear(XCivilDate day) =>
-            new(((day.Year - 1) << 9) | __EndOfYear);
+        public static XCivilDate GetEndOfYear(XCivilDate date) =>
+            new(((date.Year - 1) << 9) | __EndOfYear);
 
+        /// <summary>
+        /// Obtains the first day of the month to which belongs the specified day.
+        /// </summary>
+        /// <exception cref="ArgumentNullException"><paramref name="date"/> is null.</exception>
         [Pure]
-        public static XCivilDate GetStartOfMonth(XCivilDate day)
+        public static XCivilDate GetStartOfMonth(XCivilDate date)
         {
-            day.Unpack(out int y, out int m, out _);
+            date.Unpack(out int y, out int m, out _);
             return new(Pack(y, m, 1));
         }
 
+        /// <summary>
+        /// Obtains the last day of the month to which belongs the specified day.
+        /// </summary>
+        /// <exception cref="ArgumentNullException"><paramref name="date"/> is null.</exception>
         [Pure]
-        public static XCivilDate GetEndOfMonth(XCivilDate day)
+        public static XCivilDate GetEndOfMonth(XCivilDate date)
         {
-            day.Unpack(out int y, out int m, out _);
+            date.Unpack(out int y, out int m, out _);
             int d = GregorianFormulae.CountDaysInMonth(y, m);
             return new(Pack(y, m, d));
         }
 
         #endregion
-        #region Adjust a single field
+        #region Adjustments
 
         /// <inheritdoc/>
         [Pure]

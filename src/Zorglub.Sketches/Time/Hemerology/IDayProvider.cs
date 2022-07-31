@@ -34,6 +34,7 @@ namespace Zorglub.Time.Hemerology
     // on va aussi opter pour une méthode, même si utiliser une propriété
     // aurait été plus appropriée.
 
+    [Obsolete("TO BE REMOVED")]
     public interface IMonthEndpointsProvider<TDate>
     {
         /// <summary>
@@ -49,6 +50,7 @@ namespace Zorglub.Time.Hemerology
         [Pure] static abstract TDate GetEndOfMonth(TDate day);
     }
 
+    [Obsolete("TO BE REMOVED")]
     public interface IYearEndpointsProvider<TDate>
     {
         /// <summary>

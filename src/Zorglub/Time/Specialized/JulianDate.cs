@@ -12,6 +12,7 @@ namespace Zorglub.Time.Specialized
     // TODO(api): non-standard math. Providers. Idem with the other date types.
     // CountDaysSince(XXXDate other) checked context or not? do we test it?
     // Use JulianFormulae?
+    // Add method Adjust(Func<CivilDate, CivilDate>).
 
     /// <summary>
     /// Represents the Julian calendar system.
@@ -42,8 +43,6 @@ namespace Zorglub.Time.Specialized
     /// </summary>
     public readonly partial struct JulianDate :
         IDate<JulianDate>,
-        //IYearEndpointsProvider<JulianDate>,
-        //IMonthEndpointsProvider<JulianDate>,
         IMinMaxValue<JulianDate>
     {
         // NB: the order in which the static fields are written is important.
@@ -231,6 +230,11 @@ namespace Zorglub.Time.Specialized
         public bool IsSupplementary => false;
 
         /// <summary>
+        /// Gets the count of days since the Julian epoch.
+        /// </summary>
+        internal int DaysSinceEpoch => _daysSinceEpoch;
+
+        /// <summary>
         /// Returns a culture-independent string representation of the current instance.
         /// </summary>
         [Pure]
@@ -286,43 +290,6 @@ namespace Zorglub.Time.Specialized
         /// <inheritdoc />
         [Pure]
         public int CountRemainingDaysInMonth() => s_Schema.CountDaysInMonthAfter(_daysSinceEpoch);
-
-        #endregion
-        #region Year and month boundaries
-
-        ///// <inheritdoc />
-        //[Pure]
-        //public static JulianDate GetStartOfYear(JulianDate day)
-        //{
-        //    int daysSinceEpoch = s_Schema.GetStartOfYear(day.Year);
-        //    return new JulianDate(daysSinceEpoch);
-        //}
-
-        ///// <inheritdoc />
-        //[Pure]
-        //public static JulianDate GetEndOfYear(JulianDate day)
-        //{
-        //    int daysSinceEpoch = s_Schema.GetEndOfYear(day.Year);
-        //    return new JulianDate(daysSinceEpoch);
-        //}
-
-        ///// <inheritdoc />
-        //[Pure]
-        //public static JulianDate GetStartOfMonth(JulianDate day)
-        //{
-        //    s_Schema.GetDateParts(day._daysSinceEpoch, out int y, out int m, out _);
-        //    int daysSinceEpoch = s_Schema.GetStartOfMonth(y, m);
-        //    return new JulianDate(daysSinceEpoch);
-        //}
-
-        ///// <inheritdoc />
-        //[Pure]
-        //public static JulianDate GetEndOfMonth(JulianDate day)
-        //{
-        //    s_Schema.GetDateParts(day._daysSinceEpoch, out int y, out int m, out _);
-        //    int daysSinceEpoch = s_Schema.GetEndOfMonth(y, m);
-        //    return new JulianDate(daysSinceEpoch);
-        //}
 
         #endregion
         #region Adjust the day of the week

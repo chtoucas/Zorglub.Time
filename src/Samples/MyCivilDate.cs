@@ -37,8 +37,6 @@ using static Zorglub.Time.Extensions.Unboxing;
 /// </summary>
 public readonly partial struct MyCivilDate :
     IDate<MyCivilDate>,
-    //IYearEndpointsProvider<MyDate>,
-    //IMonthEndpointsProvider<MyDate>,
     IMinMaxValue<MyCivilDate>
 {
     // NB: the order in which the static fields are written is important.
@@ -182,39 +180,6 @@ public partial struct MyCivilDate // Conversions, adjustments...
 
     [Pure]
     public int CountRemainingDaysInMonth() => s_Schema.CountDaysInMonthAfter(_daysSinceEpoch);
-
-    #endregion
-    #region Year and month boundaries
-
-    //[Pure]
-    //public static MyDate GetStartOfYear(MyDate day)
-    //{
-    //    int daysSinceEpoch = s_Schema.GetStartOfYear(day.Year);
-    //    return new MyDate(daysSinceEpoch);
-    //}
-
-    //[Pure]
-    //public static MyDate GetEndOfYear(MyDate day)
-    //{
-    //    int daysSinceEpoch = s_Schema.GetEndOfYear(day.Year);
-    //    return new MyDate(daysSinceEpoch);
-    //}
-
-    //[Pure]
-    //public static MyDate GetStartOfMonth(MyDate day)
-    //{
-    //    s_Schema.GetDateParts(day._daysSinceEpoch, out int y, out int m, out _);
-    //    int daysSinceEpoch = s_Schema.GetStartOfMonth(y, m);
-    //    return new MyDate(daysSinceEpoch);
-    //}
-
-    //[Pure]
-    //public static MyDate GetEndOfMonth(MyDate day)
-    //{
-    //    s_Schema.GetDateParts(day._daysSinceEpoch, out int y, out int m, out _);
-    //    int daysSinceEpoch = s_Schema.GetEndOfMonth(y, m);
-    //    return new MyDate(daysSinceEpoch);
-    //}
 
     #endregion
     #region Adjust the day of the week
