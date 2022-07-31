@@ -9,7 +9,7 @@ open Zorglub.Testing.Facts.Simple
 
 open Zorglub.Time.Simple
 
-let other = GregorianCalendar.Instance
+let other = SimpleGregorian.Instance
 
 // Since the Gregorian calendar has the richest dataset, we use it as a default
 // model for testing.
@@ -17,36 +17,36 @@ let other = GregorianCalendar.Instance
 [<Sealed>]
 [<RedundantTestBundle>]
 type ArmenianTests() =
-    inherit CalendarDateFacts<StandardArmenian12DataSet>(ArmenianCalendar.Instance, other)
+    inherit CalendarDateFacts<StandardArmenian12DataSet>(SimpleArmenian.Instance, other)
 
 [<Sealed>]
 [<RedundantTestBundle>]
 type CopticTests() =
-    inherit CalendarDateFacts<StandardCoptic12DataSet>(CopticCalendar.Instance, other)
+    inherit CalendarDateFacts<StandardCoptic12DataSet>(SimpleCoptic.Instance, other)
 
 [<Sealed>]
 [<RedundantTestBundle>]
 type EthiopicTests() =
-    inherit CalendarDateFacts<StandardEthiopic12DataSet>(EthiopicCalendar.Instance, other)
+    inherit CalendarDateFacts<StandardEthiopic12DataSet>(SimpleEthiopic.Instance, other)
 
 [<Sealed>]
 type GregorianTests() =
-    inherit CalendarDateFacts<ProlepticGregorianDataSet>(GregorianCalendar.Instance, JulianCalendar.Instance)
+    inherit CalendarDateFacts<ProlepticGregorianDataSet>(SimpleGregorian.Instance, SimpleJulian.Instance)
 
 [<Sealed>]
 [<RedundantTestBundle>]
 type JulianTests() =
-    inherit CalendarDateFacts<ProlepticJulianDataSet>(JulianCalendar.Instance, other)
+    inherit CalendarDateFacts<ProlepticJulianDataSet>(SimpleJulian.Instance, other)
 
 [<Sealed>]
 [<RedundantTestBundle>]
 type TabularIslamicTests() =
-    inherit CalendarDateFacts<StandardTabularIslamicDataSet>(TabularIslamicCalendar.Instance, other)
+    inherit CalendarDateFacts<StandardTabularIslamicDataSet>(SimpleTabularIslamic.Instance, other)
 
 [<Sealed>]
 [<RedundantTestBundle>]
 type ZoroastrianTests() =
-    inherit CalendarDateFacts<StandardZoroastrian12DataSet>(ZoroastrianCalendar.Instance, other)
+    inherit CalendarDateFacts<StandardZoroastrian12DataSet>(SimpleZoroastrian.Instance, other)
 
 //
 // User-defined calendars

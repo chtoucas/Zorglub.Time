@@ -25,7 +25,7 @@ module UserCase =
         throws<NotSupportedException> (fun () -> year.ToBinary())
 
 module GregorianCase =
-    let private chr = GregorianCalendar.Instance
+    let private chr = SimpleGregorian.Instance
     let private dataSet = ProlepticGregorianDataSet.Instance
     let private domainTester = new DomainTester(chr.Domain)
 

@@ -9,7 +9,7 @@ open Zorglub.Testing.Facts.Simple
 
 open Zorglub.Time.Simple
 
-let other = GregorianCalendar.Instance
+let other = SimpleGregorian.Instance
 
 // Since the Gregorian calendar has the richest dataset, we use it as a default
 // model for testing.
@@ -17,36 +17,36 @@ let other = GregorianCalendar.Instance
 [<Sealed>]
 [<RedundantTestBundle>]
 type ArmenianTests() =
-    inherit OrdinalDateFacts<StandardArmenian12DataSet>(ArmenianCalendar.Instance, other)
+    inherit OrdinalDateFacts<StandardArmenian12DataSet>(SimpleArmenian.Instance, other)
 
 [<Sealed>]
 [<RedundantTestBundle>]
 type CopticTests() =
-    inherit OrdinalDateFacts<StandardCoptic12DataSet>(CopticCalendar.Instance, other)
+    inherit OrdinalDateFacts<StandardCoptic12DataSet>(SimpleCoptic.Instance, other)
 
 [<Sealed>]
 [<RedundantTestBundle>]
 type EthiopicTests() =
-    inherit OrdinalDateFacts<StandardEthiopic12DataSet>(EthiopicCalendar.Instance, other)
+    inherit OrdinalDateFacts<StandardEthiopic12DataSet>(SimpleEthiopic.Instance, other)
 
 [<Sealed>]
 type GregorianTests() =
-    inherit OrdinalDateFacts<ProlepticGregorianDataSet>(GregorianCalendar.Instance, JulianCalendar.Instance)
+    inherit OrdinalDateFacts<ProlepticGregorianDataSet>(SimpleGregorian.Instance, SimpleJulian.Instance)
 
 [<Sealed>]
 [<RedundantTestBundle>]
 type JulianTests() =
-    inherit OrdinalDateFacts<ProlepticJulianDataSet>(JulianCalendar.Instance, other)
+    inherit OrdinalDateFacts<ProlepticJulianDataSet>(SimpleJulian.Instance, other)
 
 [<Sealed>]
 [<RedundantTestBundle>]
 type TabularIslamicTests() =
-    inherit OrdinalDateFacts<StandardTabularIslamicDataSet>(TabularIslamicCalendar.Instance, other)
+    inherit OrdinalDateFacts<StandardTabularIslamicDataSet>(SimpleTabularIslamic.Instance, other)
 
 [<Sealed>]
 [<RedundantTestBundle>]
 type ZoroastrianTests() =
-    inherit OrdinalDateFacts<StandardZoroastrian12DataSet>(ZoroastrianCalendar.Instance, other)
+    inherit OrdinalDateFacts<StandardZoroastrian12DataSet>(SimpleZoroastrian.Instance, other)
 
 //
 // User-defined calendars

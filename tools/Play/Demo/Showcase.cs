@@ -32,18 +32,18 @@ public static class Showcase
 
         WriteLine("Egyptian-like calendars.");
         WriteLine($"    {CalendarZoo.Egyptian.GetCalendarDate(today)}");
-        WriteLine($"    {ArmenianCalendar.Instance.GetCalendarDate(today)}");
-        WriteLine($"    {ZoroastrianCalendar.Instance.GetCalendarDate(today)}");
+        WriteLine($"    {SimpleArmenian.Instance.GetCalendarDate(today)}");
+        WriteLine($"    {SimpleZoroastrian.Instance.GetCalendarDate(today)}");
 
         WriteLine();
         WriteLine("Coptic-like calendars.");
-        WriteLine($"    {EthiopicCalendar.Instance.GetCalendarDate(today)}");
-        WriteLine($"    {CopticCalendar.Instance.GetCalendarDate(today)}");
+        WriteLine($"    {SimpleEthiopic.Instance.GetCalendarDate(today)}");
+        WriteLine($"    {SimpleCoptic.Instance.GetCalendarDate(today)}");
         WriteLine($"    {CalendarZoo.FrenchRepublican.GetCalendarDate(today)}");
 
         WriteLine();
         WriteLine("Gregorian-like calendars.");
-        WriteLine($"    {GregorianCalendar.Instance.GetCalendarDate(today)}");
+        WriteLine($"    {SimpleGregorian.Instance.GetCalendarDate(today)}");
         WriteLine($"    {ZCalendar.Gregorian.GetDate(today)}");
         WriteLine($"    {CalendarZoo.GenuineGregorian.GetDateParts(today)} ({CalendarZoo.GenuineGregorian})");
         WriteLine($"    {CalendarZoo.Minguo.GetDate(today)}");
@@ -59,10 +59,10 @@ public static class Showcase
 
         WriteLine();
         WriteLine("Other calendars.");
-        WriteLine($"    {JulianCalendar.Instance.GetCalendarDate(today)}");
+        WriteLine($"    {SimpleJulian.Instance.GetCalendarDate(today)}");
         WriteLine($"    {CalendarZoo.LongJulian.GetDate(today)}");
         WriteLine($"    {CalendarZoo.GenuineJulian.GetDateParts(today)} ({CalendarZoo.GenuineJulian})");
-        WriteLine($"    {TabularIslamicCalendar.Instance.GetCalendarDate(today)}");
+        WriteLine($"    {SimpleTabularIslamic.Instance.GetCalendarDate(today)}");
         WriteLine($"    {CalendarZoo.Persian2820.GetCalendarDate(today)}");
 
         WriteLine();

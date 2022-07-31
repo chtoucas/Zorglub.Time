@@ -16,9 +16,9 @@ open Zorglub.Time.Simple
 [<Sealed>]
 [<RedundantTestBundle>]
 type ArmenianTests() =
-    inherit SimpleCalendarFacts<StandardArmenian12DataSet>(ArmenianCalendar.Instance)
+    inherit SimpleCalendarFacts<StandardArmenian12DataSet>(SimpleArmenian.Instance)
 
-    override __.GetSingleton() = ArmenianCalendar.Instance
+    override __.GetSingleton() = SimpleArmenian.Instance
     override x.Id() = x.CalendarUT.Id === Cuid.Armenian
     override x.Math() = x.CalendarUT.Math |> is<RegularMath>
     override x.Scope() = x.CalendarUT.Scope |> is<StandardScope>
@@ -26,9 +26,9 @@ type ArmenianTests() =
 [<Sealed>]
 [<RedundantTestBundle>]
 type CopticTests() =
-    inherit SimpleCalendarFacts<StandardCoptic12DataSet>(CopticCalendar.Instance)
+    inherit SimpleCalendarFacts<StandardCoptic12DataSet>(SimpleCoptic.Instance)
 
-    override __.GetSingleton() = CopticCalendar.Instance
+    override __.GetSingleton() = SimpleCoptic.Instance
     override x.Id() = x.CalendarUT.Id === Cuid.Coptic
     override x.Math() = x.CalendarUT.Math |> is<RegularMath>
     override x.Scope() = x.CalendarUT.Scope |> is<StandardScope>
@@ -36,18 +36,18 @@ type CopticTests() =
 [<Sealed>]
 [<RedundantTestBundle>]
 type EthiopicTests() =
-    inherit SimpleCalendarFacts<StandardEthiopic12DataSet>(EthiopicCalendar.Instance)
+    inherit SimpleCalendarFacts<StandardEthiopic12DataSet>(SimpleEthiopic.Instance)
 
-    override __.GetSingleton() = EthiopicCalendar.Instance
+    override __.GetSingleton() = SimpleEthiopic.Instance
     override x.Id() = x.CalendarUT.Id === Cuid.Ethiopic
     override x.Math() = x.CalendarUT.Math |> is<RegularMath>
     override x.Scope() = x.CalendarUT.Scope |> is<StandardScope>
 
 [<Sealed>]
 type GregorianTests() =
-    inherit SimpleCalendarFacts<ProlepticGregorianDataSet>(GregorianCalendar.Instance)
+    inherit SimpleCalendarFacts<ProlepticGregorianDataSet>(SimpleGregorian.Instance)
 
-    override __.GetSingleton() = GregorianCalendar.Instance
+    override __.GetSingleton() = SimpleGregorian.Instance
     override x.Id() = x.CalendarUT.Id === Cuid.Gregorian
     override x.Math() = x.CalendarUT.Math |> is<RegularMath>
     override x.Scope() = x.CalendarUT.Scope |> is<ProlepticScope>
@@ -55,9 +55,9 @@ type GregorianTests() =
 [<Sealed>]
 [<RedundantTestBundle>]
 type JulianTests() =
-    inherit SimpleCalendarFacts<ProlepticJulianDataSet>(JulianCalendar.Instance)
+    inherit SimpleCalendarFacts<ProlepticJulianDataSet>(SimpleJulian.Instance)
 
-    override __.GetSingleton() = JulianCalendar.Instance
+    override __.GetSingleton() = SimpleJulian.Instance
     override x.Id() = x.CalendarUT.Id === Cuid.Julian
     override x.Math() = x.CalendarUT.Math |> is<RegularMath>
     override x.Scope() = x.CalendarUT.Scope |> is<ProlepticScope>
@@ -65,9 +65,9 @@ type JulianTests() =
 [<Sealed>]
 [<RedundantTestBundle>]
 type TabularIslamicTests() =
-    inherit SimpleCalendarFacts<StandardTabularIslamicDataSet>(TabularIslamicCalendar.Instance)
+    inherit SimpleCalendarFacts<StandardTabularIslamicDataSet>(SimpleTabularIslamic.Instance)
 
-    override __.GetSingleton() = TabularIslamicCalendar.Instance
+    override __.GetSingleton() = SimpleTabularIslamic.Instance
     override x.Id() = x.CalendarUT.Id === Cuid.TabularIslamic
     override x.Math() = x.CalendarUT.Math |> is<RegularMath>
     override x.Scope() = x.CalendarUT.Scope |> is<StandardScope>
@@ -75,9 +75,9 @@ type TabularIslamicTests() =
 [<Sealed>]
 [<RedundantTestBundle>]
 type ZoroastrianTests() =
-    inherit SimpleCalendarFacts<StandardZoroastrian12DataSet>(ZoroastrianCalendar.Instance)
+    inherit SimpleCalendarFacts<StandardZoroastrian12DataSet>(SimpleZoroastrian.Instance)
 
-    override __.GetSingleton() = ZoroastrianCalendar.Instance
+    override __.GetSingleton() = SimpleZoroastrian.Instance
     override x.Id() = x.CalendarUT.Id === Cuid.Zoroastrian
     override x.Math() = x.CalendarUT.Math |> is<RegularMath>
     override x.Scope() = x.CalendarUT.Scope |> is<StandardScope>

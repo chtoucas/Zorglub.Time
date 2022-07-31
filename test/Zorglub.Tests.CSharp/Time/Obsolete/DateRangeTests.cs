@@ -11,7 +11,7 @@ using Zorglub.Time.Simple;
 public sealed class GregorianDateRangeTests : DateRangeFacts<ProlepticGregorianDataSet>
 {
     public GregorianDateRangeTests()
-        : base(GregorianCalendar.Instance, JulianCalendar.Instance) { }
+        : base(SimpleGregorian.Instance, SimpleJulian.Instance) { }
 
     [Fact]
     public void WithCalendar()
@@ -31,7 +31,7 @@ public sealed class GregorianDateRangeTests : DateRangeFacts<ProlepticGregorianD
 public sealed class JulianDateRangeTests : DateRangeFacts<ProlepticJulianDataSet>
 {
     public JulianDateRangeTests()
-        : base(JulianCalendar.Instance, GregorianCalendar.Instance) { }
+        : base(SimpleJulian.Instance, SimpleGregorian.Instance) { }
 
     [Fact]
     public void WithCalendar()
@@ -50,9 +50,9 @@ public sealed class JulianDateRangeTests : DateRangeFacts<ProlepticJulianDataSet
 [Obsolete("DateRange is obsolete.")]
 public sealed class DateRangeYearTests : CalendarDataConsumer<ProlepticGregorianDataSet>
 {
-    private static readonly JulianCalendar s_Julian = JulianCalendar.Instance;
+    private static readonly SimpleJulian s_Julian = SimpleJulian.Instance;
 
-    private static GregorianCalendar CalendarUT => GregorianCalendar.Instance;
+    private static SimpleGregorian CalendarUT => SimpleGregorian.Instance;
 
     [Fact]
     public void WithCalendar()
@@ -169,9 +169,9 @@ public sealed class DateRangeYearTests : CalendarDataConsumer<ProlepticGregorian
 [Obsolete("DateRange is obsolete.")]
 public sealed class DateRangeMonthTests : CalendarDataConsumer<ProlepticGregorianDataSet>
 {
-    private static readonly JulianCalendar s_Julian = JulianCalendar.Instance;
+    private static readonly SimpleJulian s_Julian = SimpleJulian.Instance;
 
-    private static GregorianCalendar CalendarUT => GregorianCalendar.Instance;
+    private static SimpleGregorian CalendarUT => SimpleGregorian.Instance;
 
     [Fact]
     public void WithCalendar()

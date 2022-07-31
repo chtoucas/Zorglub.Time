@@ -9,24 +9,24 @@ open Zorglub.Testing.Facts.Simple
 
 open Zorglub.Time.Simple
 
-let private other = GregorianCalendar.Instance
+let private other = SimpleGregorian.Instance
 
 module EpagomenalDay =
     [<Sealed>]
     type ArmenianTests() =
-        inherit IEpagomenalCalendarFacts<ArmenianCalendar, StandardArmenian12DataSet>(ArmenianCalendar.Instance, other)
+        inherit IEpagomenalCalendarFacts<SimpleArmenian, StandardArmenian12DataSet>(SimpleArmenian.Instance, other)
 
     [<Sealed>]
     [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
     type CopticTests() =
-        inherit IEpagomenalCalendarFacts<CopticCalendar, StandardCoptic12DataSet>(CopticCalendar.Instance, other)
+        inherit IEpagomenalCalendarFacts<SimpleCoptic, StandardCoptic12DataSet>(SimpleCoptic.Instance, other)
 
     [<Sealed>]
     [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
     type EthiopicTests() =
-        inherit IEpagomenalCalendarFacts<EthiopicCalendar, StandardEthiopic12DataSet>(EthiopicCalendar.Instance, other)
+        inherit IEpagomenalCalendarFacts<SimpleEthiopic, StandardEthiopic12DataSet>(SimpleEthiopic.Instance, other)
 
     [<Sealed>]
     [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
     type ZoroastrianTests() =
-        inherit IEpagomenalCalendarFacts<ZoroastrianCalendar, StandardZoroastrian12DataSet>(ZoroastrianCalendar.Instance, other)
+        inherit IEpagomenalCalendarFacts<SimpleZoroastrian, StandardZoroastrian12DataSet>(SimpleZoroastrian.Instance, other)

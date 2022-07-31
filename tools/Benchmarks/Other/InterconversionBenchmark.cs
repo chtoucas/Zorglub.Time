@@ -36,24 +36,24 @@ public class InterconversionBenchmark : BenchmarkBase
     [Benchmark(Description = "CalendarDate  (Y)")]
     public (int, int, int) WithCalendarDate()
     {
-        CalendarDate start = JulianCalendar.Instance.GetCalendarDate(Year, Month, Day);
-        var (y, m, d) = start.WithCalendar(GregorianCalendar.Instance);
+        CalendarDate start = SimpleJulian.Instance.GetCalendarDate(Year, Month, Day);
+        var (y, m, d) = start.WithCalendar(SimpleGregorian.Instance);
         return (y, m, d);
     }
 
     [Benchmark(Description = "CalendarDay     ", Baseline = true)]
     public (int, int, int) WithCalendarDay()
     {
-        CalendarDay start = JulianCalendar.Instance.GetCalendarDate(Year, Month, Day).ToCalendarDay();
-        var (y, m, d) = start.WithCalendar(GregorianCalendar.Instance);
+        CalendarDay start = SimpleJulian.Instance.GetCalendarDate(Year, Month, Day).ToCalendarDay();
+        var (y, m, d) = start.WithCalendar(SimpleGregorian.Instance);
         return (y, m, d);
     }
 
     [Benchmark(Description = "OrdinalDate  (O)")]
     public (int, int, int) WithOrdinalDate()
     {
-        OrdinalDate start = JulianCalendar.Instance.GetCalendarDate(Year, Month, Day).ToOrdinalDate();
-        (int y, int m, int d) = start.WithCalendar(GregorianCalendar.Instance);
+        OrdinalDate start = SimpleJulian.Instance.GetCalendarDate(Year, Month, Day).ToOrdinalDate();
+        (int y, int m, int d) = start.WithCalendar(SimpleGregorian.Instance);
         return (y, m, d);
     }
 

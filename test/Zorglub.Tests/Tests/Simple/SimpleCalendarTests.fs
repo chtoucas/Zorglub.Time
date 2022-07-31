@@ -176,7 +176,7 @@ module Prelude =
 
     [<Fact>]
     let ``Property Math setter (sys) throws for a null value`` () =
-        let chr = GregorianCalendar.Instance
+        let chr = SimpleGregorian.Instance
 
         nullExn "value" (fun () -> chr.Math <- null; true)
 
@@ -188,15 +188,15 @@ module Prelude =
 
     [<Fact>]
     let ``Property Math setter (sys) throws for an invalid value`` () =
-        let chr = GregorianCalendar.Instance
-        let math = new FauxCalendarMath(JulianCalendar.Instance)
+        let chr = SimpleGregorian.Instance
+        let math = new FauxCalendarMath(SimpleJulian.Instance)
 
         argExn "value" (fun () -> chr.Math <- math; true)
 
     [<Fact>]
     let ``Property Math setter (usr) throws for an invalid value`` () =
         let chr = new FauxUserCalendar()
-        let math = new FauxCalendarMath(ZoroastrianCalendar.Instance)
+        let math = new FauxCalendarMath(SimpleZoroastrian.Instance)
 
         argExn "value" (fun () -> chr.Math <- math; true)
 
@@ -312,7 +312,7 @@ module Misc =
         argExn paramName (fun () -> chr.ValidateCuidDisclosed(Cuid.MinUser, paramName))
 
 module GregorianCase =
-    let private chr = GregorianCalendar.Instance
+    let private chr = SimpleGregorian.Instance
     let private domain = chr.Domain
     // fauxCalendar is constructed such that today is not within the range of
     // supported days.
@@ -425,7 +425,7 @@ module GregorianCase =
         chr.GetDayOfWeek(date) === dayOfWeek
 
 module JulianCase =
-    let private chr = JulianCalendar.Instance
+    let private chr = SimpleJulian.Instance
     let private domain = chr.Domain
 
     let dayNumberToDayOfWeekData = CalCalDataSet.GetDayNumberToDayOfWeekData(domain)

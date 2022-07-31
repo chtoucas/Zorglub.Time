@@ -9,7 +9,7 @@ open Zorglub.Testing.Facts.Simple
 
 open Zorglub.Time.Simple
 
-let other = GregorianCalendar.Instance
+let other = SimpleGregorian.Instance
 
 // Since the Gregorian calendar has the richest dataset, we use it as a default
 // model for testing.
@@ -17,36 +17,36 @@ let other = GregorianCalendar.Instance
 [<Sealed>]
 [<RedundantTestBundle>]
 type ArmenianTests() =
-    inherit CalendarMonthFacts<StandardArmenian12DataSet>(ArmenianCalendar.Instance, other)
+    inherit CalendarMonthFacts<StandardArmenian12DataSet>(SimpleArmenian.Instance, other)
 
 [<Sealed>]
 [<RedundantTestBundle>]
 type CopticTests() =
-    inherit CalendarMonthFacts<StandardCoptic12DataSet>(CopticCalendar.Instance, other)
+    inherit CalendarMonthFacts<StandardCoptic12DataSet>(SimpleCoptic.Instance, other)
 
 [<Sealed>]
 [<RedundantTestBundle>]
 type EthiopicTests() =
-    inherit CalendarMonthFacts<StandardEthiopic12DataSet>(EthiopicCalendar.Instance, other)
+    inherit CalendarMonthFacts<StandardEthiopic12DataSet>(SimpleEthiopic.Instance, other)
 
 [<Sealed>]
 type GregorianTests() =
-    inherit CalendarMonthFacts<ProlepticGregorianDataSet>(GregorianCalendar.Instance, JulianCalendar.Instance)
+    inherit CalendarMonthFacts<ProlepticGregorianDataSet>(SimpleGregorian.Instance, SimpleJulian.Instance)
 
 [<Sealed>]
 [<RedundantTestBundle>]
 type JulianTests() =
-    inherit CalendarMonthFacts<ProlepticJulianDataSet>(JulianCalendar.Instance, other)
+    inherit CalendarMonthFacts<ProlepticJulianDataSet>(SimpleJulian.Instance, other)
 
 [<Sealed>]
 [<RedundantTestBundle>]
 type TabularIslamicTests() =
-    inherit CalendarMonthFacts<StandardTabularIslamicDataSet>(TabularIslamicCalendar.Instance, other)
+    inherit CalendarMonthFacts<StandardTabularIslamicDataSet>(SimpleTabularIslamic.Instance, other)
 
 [<Sealed>]
 [<RedundantTestBundle>]
 type ZoroastrianTests() =
-    inherit CalendarMonthFacts<StandardZoroastrian12DataSet>(ZoroastrianCalendar.Instance, other)
+    inherit CalendarMonthFacts<StandardZoroastrian12DataSet>(SimpleZoroastrian.Instance, other)
 
 //
 // User-defined calendars

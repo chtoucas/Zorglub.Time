@@ -7,49 +7,49 @@ namespace Zorglub.Time.Extras
 
     internal static class JulianZCalendar
     {
-        public static string Key => JulianCalendar.Instance.Key;
+        public static string Key => SimpleJulian.Instance.Key;
 
         public static readonly ZCalendar Instance =
-            ZCatalog.InitSystemCalendar(JulianCalendar.Instance);
+            ZCatalog.InitSystemCalendar(SimpleJulian.Instance);
     }
 
     internal static class ArmenianZCalendar
     {
-        public static string Key => ArmenianCalendar.Instance.Key;
+        public static string Key => SimpleArmenian.Instance.Key;
 
         public static readonly ZCalendar Instance =
-            ZCatalog.InitSystemCalendar(ArmenianCalendar.Instance);
+            ZCatalog.InitSystemCalendar(SimpleArmenian.Instance);
     }
 
     internal static class CopticZCalendar
     {
-        public static string Key => CopticCalendar.Instance.Key;
+        public static string Key => SimpleCoptic.Instance.Key;
 
         public static readonly ZCalendar Instance =
-            ZCatalog.InitSystemCalendar(CopticCalendar.Instance);
+            ZCatalog.InitSystemCalendar(SimpleCoptic.Instance);
     }
 
     internal static class EthiopicZCalendar
     {
-        public static string Key => EthiopicCalendar.Instance.Key;
+        public static string Key => SimpleEthiopic.Instance.Key;
 
         public static readonly ZCalendar Instance =
-            ZCatalog.InitSystemCalendar(EthiopicCalendar.Instance);
+            ZCatalog.InitSystemCalendar(SimpleEthiopic.Instance);
     }
 
     internal static class TabularIslamicZCalendar
     {
-        public static string Key => TabularIslamicCalendar.Instance.Key;
+        public static string Key => SimpleTabularIslamic.Instance.Key;
 
         public static readonly ZCalendar Instance =
-            ZCatalog.InitSystemCalendar(TabularIslamicCalendar.Instance);
+            ZCatalog.InitSystemCalendar(SimpleTabularIslamic.Instance);
     }
 
     internal static class ZoroastrianZCalendar
     {
-        public static string Key => ZoroastrianCalendar.Instance.Key;
+        public static string Key => SimpleZoroastrian.Instance.Key;
 
         public static readonly ZCalendar Instance =
-            ZCatalog.InitSystemCalendar(ZoroastrianCalendar.Instance);
+            ZCatalog.InitSystemCalendar(SimpleZoroastrian.Instance);
     }
 }

@@ -99,7 +99,7 @@ namespace Zorglub.Time.Extras
             // calendar with ID equal to 0. This way date.Calendar does not throw
             // even if no calendar has been initialized by the user, it just
             // defaults to Gregorian.
-            InitSystemCalendar(GregorianCalendar.Instance);
+            InitSystemCalendar(SimpleGregorian.Instance);
 
         /// <summary>
         /// Represents the dictionary of (lazy) calendars, indexed by their keys.

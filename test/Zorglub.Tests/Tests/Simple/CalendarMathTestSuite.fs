@@ -29,7 +29,7 @@ module PlainMathCase =
 
     [<Sealed>]
     type GregorianTests() =
-        inherit CalendarMathFacts<ProlepticGregorianDataSet>(new PlainMath(GregorianCalendar.Instance))
+        inherit CalendarMathFacts<ProlepticGregorianDataSet>(new PlainMath(SimpleGregorian.Instance))
 
     //[<Sealed>]
     //[<TestExcludeFrom(TestExcludeFrom.Smoke)>]
@@ -44,7 +44,7 @@ module PlainMathCase =
     [<Sealed>]
     [<RedundantTestBundle>]
     type TabularIslamicTests() =
-        inherit CalendarMathFacts<StandardTabularIslamicDataSet>(new PlainMath(TabularIslamicCalendar.Instance))
+        inherit CalendarMathFacts<StandardTabularIslamicDataSet>(new PlainMath(SimpleTabularIslamic.Instance))
 
 module RegularMathCase =
     [<Sealed>]
@@ -55,7 +55,7 @@ module RegularMathCase =
     [<Sealed>]
     [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
     type GregorianTests() =
-        inherit CalendarMathFacts<ProlepticGregorianDataSet>(new RegularMath(GregorianCalendar.Instance))
+        inherit CalendarMathFacts<ProlepticGregorianDataSet>(new RegularMath(SimpleGregorian.Instance))
 
     [<Sealed>]
     [<RedundantTestBundle>]
@@ -65,26 +65,26 @@ module RegularMathCase =
     [<Sealed>]
     [<RedundantTestBundle>]
     type TabularIslamicTests() =
-        inherit CalendarMathFacts<StandardTabularIslamicDataSet>(new RegularMath(TabularIslamicCalendar.Instance))
+        inherit CalendarMathFacts<StandardTabularIslamicDataSet>(new RegularMath(SimpleTabularIslamic.Instance))
 
 module MathAdvancedCase =
     //// PlainMath (not yet fully implemented).
     //[<Sealed>]
     //[<TestExcludeFrom(TestExcludeFrom.Smoke)>]
     //type GregorianPlainTests() =
-    //    inherit CalendarMathAdvancedFacts<GregorianMathDataSetCutOff>(new PlainMath(GregorianCalendar.Instance))
+    //    inherit CalendarMathAdvancedFacts<GregorianMathDataSetCutOff>(new PlainMath(SimpleGregorian.Instance))
 
     // RegularMath
     [<Sealed>]
     [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
     type GregorianRegularTests() =
-        inherit CalendarMathAdvancedFacts<GregorianMathDataSetCutOff>(new RegularMath(GregorianCalendar.Instance))
+        inherit CalendarMathAdvancedFacts<GregorianMathDataSetCutOff>(new RegularMath(SimpleGregorian.Instance))
 
     // RegularMath
     [<Sealed>]
     [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
     type GregorianRegular12Tests() =
-        inherit CalendarMathAdvancedFacts<GregorianMathDataSetCutOff>(new RegularMath(GregorianCalendar.Instance))
+        inherit CalendarMathAdvancedFacts<GregorianMathDataSetCutOff>(new RegularMath(SimpleGregorian.Instance))
 
 module PowerMathCase =
     let ruleset = new AdditionRuleset()
@@ -99,7 +99,7 @@ module PowerMathCase =
     [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
     type GregorianTests() =
         inherit CalendarMathFacts<ProlepticGregorianDataSet>(
-            new PowerMath(GregorianCalendar.Instance, ruleset))
+            new PowerMath(SimpleGregorian.Instance, ruleset))
 
     [<Sealed>]
     [<RedundantTestBundle>]
@@ -111,7 +111,7 @@ module PowerMathCase =
     [<RedundantTestBundle>]
     type TabularIslamicTests() =
         inherit CalendarMathFacts<StandardTabularIslamicDataSet>(
-            new PowerMath(TabularIslamicCalendar.Instance, ruleset))
+            new PowerMath(SimpleTabularIslamic.Instance, ruleset))
 
 //
 // Default Math
@@ -120,34 +120,34 @@ module PowerMathCase =
 [<Sealed>]
 [<RedundantTestBundle>]
 type ArmenianTests() =
-    inherit CalendarMathFacts<StandardArmenian12DataSet>(ArmenianCalendar.Instance)
+    inherit CalendarMathFacts<StandardArmenian12DataSet>(SimpleArmenian.Instance)
 
 [<Sealed>]
 [<RedundantTestBundle>]
 type CopticTests() =
-    inherit CalendarMathFacts<StandardCoptic12DataSet>(CopticCalendar.Instance)
+    inherit CalendarMathFacts<StandardCoptic12DataSet>(SimpleCoptic.Instance)
 
 [<Sealed>]
 [<RedundantTestBundle>]
 type EthiopicTests() =
-    inherit CalendarMathFacts<StandardEthiopic12DataSet>(EthiopicCalendar.Instance)
+    inherit CalendarMathFacts<StandardEthiopic12DataSet>(SimpleEthiopic.Instance)
 
 // RegularMath
 [<Sealed>]
 type GregorianTests() =
-    inherit CalendarMathFacts<ProlepticGregorianDataSet>(GregorianCalendar.Instance)
+    inherit CalendarMathFacts<ProlepticGregorianDataSet>(SimpleGregorian.Instance)
 
 [<Sealed>]
 [<RedundantTestBundle>]
 type JulianTests() =
-    inherit CalendarMathFacts<ProlepticJulianDataSet>(JulianCalendar.Instance)
+    inherit CalendarMathFacts<ProlepticJulianDataSet>(SimpleJulian.Instance)
 
 [<Sealed>]
 [<RedundantTestBundle>]
 type TabularIslamicTests() =
-    inherit CalendarMathFacts<StandardTabularIslamicDataSet>(TabularIslamicCalendar.Instance)
+    inherit CalendarMathFacts<StandardTabularIslamicDataSet>(SimpleTabularIslamic.Instance)
 
 [<Sealed>]
 [<RedundantTestBundle>]
 type ZoroastrianTests() =
-    inherit CalendarMathFacts<StandardZoroastrian12DataSet>(ZoroastrianCalendar.Instance)
+    inherit CalendarMathFacts<StandardZoroastrian12DataSet>(SimpleZoroastrian.Instance)
