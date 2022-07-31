@@ -55,7 +55,7 @@ namespace Zorglub.Time.Simple
         /// Initializes a new instance of the <see cref="CalendarDay"/> struct to the specified day
         /// number in the Gregorian calendar.
         /// <para>To create an instance for another calendar, see
-        /// <see cref="Calendar.GetCalendarDay(DayNumber)"/>.</para>
+        /// <see cref="SimpleCalendar.GetCalendarDay(DayNumber)"/>.</para>
         /// </summary>
         /// <exception cref="AoorException"><paramref name="dayNumber"/> is outside the range of
         /// values supported by the Gregorian calendar.</exception>
@@ -199,7 +199,7 @@ namespace Zorglub.Time.Simple
         }
 
         /// <inheritdoc />
-        public Calendar Calendar => CalendarCatalog.GetCalendarUnchecked(unchecked(_bin & CuidMask));
+        public SimpleCalendar Calendar => CalendarCatalog.GetCalendarUnchecked(unchecked(_bin & CuidMask));
 
         /// <summary>
         /// Gets the count of consecutive days since the epoch of the calendar to which belongs the
@@ -215,7 +215,7 @@ namespace Zorglub.Time.Simple
         /// <summary>
         /// Gets a read-only reference to the calendar to which belongs the current instance.
         /// </summary>
-        internal ref readonly Calendar CalendarRef
+        internal ref readonly SimpleCalendar CalendarRef
         {
             // CIL code size = 15 bytes <= 32 bytes.
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -270,7 +270,7 @@ namespace Zorglub.Time.Simple
         /// </summary>
         // CIL code size = 22 bytes <= 32 bytes.
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal void Unpack(Calendar chr, out int year, out int month, out int day) =>
+        internal void Unpack(SimpleCalendar chr, out int year, out int month, out int day) =>
             chr.Schema.GetDateParts(DaysSinceEpoch, out year, out month, out day);
     }
 
@@ -312,7 +312,7 @@ namespace Zorglub.Time.Simple
         /// Obtains the current date in the Gregorian calendar on this machine, expressed in local
         /// time, not UTC.
         /// <para>To obtain the current date in another calendar, see
-        /// <see cref="Calendar.GetCurrentDay()"/>.</para>
+        /// <see cref="SimpleCalendar.GetCurrentDay()"/>.</para>
         /// </summary>
         [Pure]
         public static CalendarDay Today() => new(DayNumber.Today().DaysSinceZero, Cuid.Gregorian);
@@ -350,7 +350,7 @@ namespace Zorglub.Time.Simple
 
         /// <inheritdoc />
         [Pure]
-        public CalendarDay WithCalendar(Calendar newCalendar)
+        public CalendarDay WithCalendar(SimpleCalendar newCalendar)
         {
             Requires.NotNull(newCalendar);
 

@@ -17,7 +17,7 @@ public abstract partial class CalendarMonthFacts<TDataSet> :
     CalendarDataConsumer<TDataSet>
     where TDataSet : ICalendarDataSet, ISingleton<TDataSet>
 {
-    protected CalendarMonthFacts(Calendar calendar, Calendar otherCalendar)
+    protected CalendarMonthFacts(SimpleCalendar calendar, SimpleCalendar otherCalendar)
     {
         Requires.NotNull(calendar);
         Requires.NotNull(otherCalendar);
@@ -41,8 +41,8 @@ public abstract partial class CalendarMonthFacts<TDataSet> :
         (MinMonth, MaxMonth) = calendar.MinMaxMonth;
     }
 
-    protected Calendar CalendarUT { get; }
-    protected Calendar OtherCalendar { get; }
+    protected SimpleCalendar CalendarUT { get; }
+    protected SimpleCalendar OtherCalendar { get; }
 
     protected SupportedYearsTester SupportedYearsTester { get; }
 

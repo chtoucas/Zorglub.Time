@@ -1,7 +1,7 @@
 ﻿// SPDX-License-Identifier: BSD-3-Clause
 // Copyright (c) 2020 Narvalo.Org. All rights reserved.
 
-module Zorglub.Tests.Simple.CalendarTests
+module Zorglub.Tests.Simple.SimpleCalendarTests
 
 open System
 
@@ -318,7 +318,7 @@ module GregorianCase =
     // supported days.
     let private startOfYear3000 = DayNumber.FromGregorianParts(3000, 1, 1)
     let private fauxCalendar =
-        new Calendar(
+        new SimpleCalendar(
             FauxUserCalendar.DefaultCuid, FauxUserCalendar.DefaultKey, new GregorianSchema(), startOfYear3000, false)
 
     let private calendarDataSet = ProlepticGregorianDataSet.Instance

@@ -13,7 +13,7 @@ namespace Zorglub.Time.Simple
         /// Initializes a new instance of the <see cref="PowerMath"/> class.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="calendar"/> is null.</exception>
-        public PowerMath(Calendar calendar, AdditionRuleset additionRuleset)
+        public PowerMath(SimpleCalendar calendar, AdditionRuleset additionRuleset)
             : base(calendar, additionRuleset) { }
 
         /// <inheritdoc/>

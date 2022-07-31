@@ -39,7 +39,7 @@ namespace Zorglub.Time.Simple
         /// Represents the (immutable) array of system calendars, indexed by their internal IDs.
         /// <para>This field is read-only.</para>
         /// </summary>
-        private static readonly Calendar[] s_SystemCalendars = InitializeSystemCalendars();
+        private static readonly SimpleCalendar[] s_SystemCalendars = InitializeSystemCalendars();
 
         /// <summary>
         /// Represents the array of fully constructed calendars, indexed by their internal IDs.
@@ -47,7 +47,7 @@ namespace Zorglub.Time.Simple
         /// </para>
         /// <para>This field is read-only.</para>
         /// </summary>
-        private static readonly Calendar?[] s_Calendars = InitializeCalendars(s_SystemCalendars);
+        private static readonly SimpleCalendar?[] s_Calendars = InitializeCalendars(s_SystemCalendars);
 
         /// <summary>
         /// Represents the registry.
@@ -132,13 +132,13 @@ namespace Zorglub.Time.Simple
         /// Gets a read-only view of the collection of system calendars.
         /// <para>This static property is thread-safe.</para>
         /// </summary>
-        public static IReadOnlyCollection<Calendar> SystemCalendars =>
+        public static IReadOnlyCollection<SimpleCalendar> SystemCalendars =>
             Array.AsReadOnly(s_SystemCalendars);
 
         [Pure]
-        private static Calendar[] InitializeSystemCalendars()
+        private static SimpleCalendar[] InitializeSystemCalendars()
         {
-            var arr = new Calendar[1 + (int)Cuid.MaxSystem];
+            var arr = new SimpleCalendar[1 + (int)Cuid.MaxSystem];
 
             Add(GregorianCalendar.Instance);
             Add(JulianCalendar.Instance);
@@ -150,13 +150,13 @@ namespace Zorglub.Time.Simple
 
             return arr;
 
-            void Add(Calendar chr) => arr[(int)chr.PermanentId] = chr;
+            void Add(SimpleCalendar chr) => arr[(int)chr.PermanentId] = chr;
         }
 
         [Pure]
-        private static Calendar?[] InitializeCalendars(Calendar[] systemCalendars)
+        private static SimpleCalendar?[] InitializeCalendars(SimpleCalendar[] systemCalendars)
         {
-            var arr = new Calendar?[1 + (int)Cuid.Max];
+            var arr = new SimpleCalendar?[1 + (int)Cuid.Max];
             Array.Copy(systemCalendars, arr, systemCalendars.Length);
             return arr;
         }
@@ -168,7 +168,7 @@ namespace Zorglub.Time.Simple
         /// Obtains the collection of all calendars at the time of the request.
         /// </summary>
         [Pure]
-        public static IReadOnlyCollection<Calendar> GetAllCalendars()
+        public static IReadOnlyCollection<SimpleCalendar> GetAllCalendars()
         {
             // REVIEW(code): disabled because it's impossible to unit test; idem
             // with GetUserCalendars().
@@ -181,7 +181,7 @@ namespace Zorglub.Time.Simple
             // of time when we compute "usr".
             int usr = s_Registry.CountUserCalendars();
             int sys = s_SystemCalendars.Length;
-            var arr = new Calendar[sys + usr];
+            var arr = new SimpleCalendar[sys + usr];
             // Copy system calendars.
             Array.Copy(s_Calendars, arr, sys);
             // Copy user-defined calendars.
@@ -194,13 +194,13 @@ namespace Zorglub.Time.Simple
         /// Obtains the collection of user-defined calendars at the time of the request.
         /// </summary>
         [Pure]
-        public static IReadOnlyCollection<Calendar> GetUserCalendars()
+        public static IReadOnlyCollection<SimpleCalendar> GetUserCalendars()
         {
             // Fast track.
             //if (s_Registry.IsPristine) { return Array.Empty<Calendar>(); }
 
             int usr = s_Registry.CountUserCalendars();
-            var arr = new Calendar[usr];
+            var arr = new SimpleCalendar[usr];
             Array.Copy(s_Calendars, MinUserId, arr, 0, usr);
 
             return Array.AsReadOnly(arr);
@@ -210,7 +210,7 @@ namespace Zorglub.Time.Simple
         /// Takes a snapshot of the collection of calendars indexed by their key.
         /// </summary>
         [Pure]
-        public static IReadOnlyDictionary<string, Calendar> TakeSnapshot() =>
+        public static IReadOnlyDictionary<string, SimpleCalendar> TakeSnapshot() =>
             s_Registry.TakeSnapshot();
     }
 
@@ -227,7 +227,7 @@ namespace Zorglub.Time.Simple
         /// <exception cref="KeyNotFoundException">A calendar with the specified
         /// <paramref name="key"/> could not be found.</exception>
         [Pure]
-        public static Calendar GetCalendar(string key) => s_Registry.GetCalendar(key);
+        public static SimpleCalendar GetCalendar(string key) => s_Registry.GetCalendar(key);
 
         /// <summary>
         /// Attempts to look up a calendar by its unique key.
@@ -236,7 +236,7 @@ namespace Zorglub.Time.Simple
         /// <para>See also <seealso cref="TakeSnapshot"/>.</para>
         /// </remarks>
         [Pure]
-        public static bool TryGetCalendar(string key, [NotNullWhen(true)] out Calendar? calendar) =>
+        public static bool TryGetCalendar(string key, [NotNullWhen(true)] out SimpleCalendar? calendar) =>
             s_Registry.TryGetCalendar(key, out calendar);
 
         /// <summary>
@@ -248,7 +248,7 @@ namespace Zorglub.Time.Simple
         /// instance.</para>
         /// </remarks>
         [Pure]
-        public static Calendar GetSystemCalendar(CalendarId ident)
+        public static SimpleCalendar GetSystemCalendar(CalendarId ident)
         {
             int index = (int)ident;
             if (index < 0 || (uint)index >= (uint)s_SystemCalendars.Length)
@@ -285,7 +285,7 @@ namespace Zorglub.Time.Simple
         /// instance.</para>
         /// </remarks>
         [Pure]
-        internal static Calendar GetCalendarUnchecked(int cuid)
+        internal static SimpleCalendar GetCalendarUnchecked(int cuid)
         {
             Debug.Assert(cuid < s_Calendars.Length);
 
@@ -307,7 +307,7 @@ namespace Zorglub.Time.Simple
         [Pure]
         // CIL code size = 18 bytes <= 32 bytes.
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        internal static ref readonly Calendar GetCalendarUnsafe(int cuid)
+        internal static ref readonly SimpleCalendar GetCalendarUnsafe(int cuid)
         {
             Debug.Assert(cuid < s_Calendars.Length);
 
@@ -317,7 +317,7 @@ namespace Zorglub.Time.Simple
             // WARNING: it removes array variance checks.
             // See https://github.com/CommunityToolkit/dotnet/blob/main/CommunityToolkit.HighPerformance/Extensions/ArrayExtensions.1D.cs
             // and https://tooslowexception.com/getting-rid-of-array-bound-checks-ref-returns-and-net-5/
-            ref Calendar chr = ref MemoryMarshal.GetArrayDataReference(s_Calendars);
+            ref SimpleCalendar chr = ref MemoryMarshal.GetArrayDataReference(s_Calendars);
             return ref Unsafe.Add(ref chr, (nint)(uint)cuid);
         }
 
@@ -348,7 +348,7 @@ namespace Zorglub.Time.Simple
         /// <exception cref="OverflowException">The key was not already taken but the system already
         /// reached the maximum number of calendars it can handle.</exception>
         [Pure]
-        public static Calendar GetOrAdd(
+        public static SimpleCalendar GetOrAdd(
             string key, SystemSchema schema, DayNumber epoch, bool proleptic) =>
             s_Registry.GetOrAdd(key, schema, epoch, proleptic);
 
@@ -373,7 +373,7 @@ namespace Zorglub.Time.Simple
         /// <exception cref="OverflowException">The system already reached the maximum number of
         /// calendars it can handle.</exception>
         [Pure]
-        public static Calendar Add(
+        public static SimpleCalendar Add(
             string key, SystemSchema schema, DayNumber epoch, bool proleptic) =>
             s_Registry.Add(key, schema, epoch, proleptic);
 
@@ -395,7 +395,7 @@ namespace Zorglub.Time.Simple
         [Pure]
         public static bool TryAdd(
             string key, SystemSchema schema, DayNumber epoch, bool proleptic,
-            [NotNullWhen(true)] out Calendar? calendar) =>
+            [NotNullWhen(true)] out SimpleCalendar? calendar) =>
             s_Registry.TryAdd(key, schema, epoch, proleptic, out calendar);
     }
 }

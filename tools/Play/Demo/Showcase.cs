@@ -15,13 +15,13 @@ using static System.Console;
 
 public static class Showcase
 {
-    private static readonly Calendar s_Tropicalia3031 =
+    private static readonly SimpleCalendar s_Tropicalia3031 =
         Tropicalia3031Schema.GetInstance().CreateCalendar("Tropicália 30-31", DayZero.NewStyle);
 
-    private static readonly Calendar s_Tropicalia3130 =
+    private static readonly SimpleCalendar s_Tropicalia3130 =
         Tropicalia3130Schema.GetInstance().CreateCalendar("Tropicália 31-30", DayZero.NewStyle);
 
-    private static readonly Calendar s_Tropicalia3130TE =
+    private static readonly SimpleCalendar s_Tropicalia3130TE =
         Tropicalia3130Schema.GetInstance().CreateCalendar("Tropicália 31-30 TE", CalendarEpoch2.Tropicalia);
 
     public static void Run()

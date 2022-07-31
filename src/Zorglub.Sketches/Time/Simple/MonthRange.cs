@@ -32,7 +32,7 @@ namespace Zorglub.Time.Simple
         /// Obtains the calendar to which belongs the specified range.
         /// </summary>
         [Pure]
-        public static Calendar GetCalendar(this Range<CalendarMonth> @this) => @this.Min.Calendar;
+        public static SimpleCalendar GetCalendar(this Range<CalendarMonth> @this) => @this.Min.Calendar;
 
         /// <summary>
         /// Obtains the number of months in the specified range.

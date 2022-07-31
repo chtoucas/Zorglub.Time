@@ -13,7 +13,7 @@ namespace Zorglub.Time.Hemerology.Scopes
     /// <para>This class cannot be inherited.</para>
     /// </summary>
     /// <remarks>
-    /// <para>This is the scope used by <see cref="Simple.Calendar"/>, except in the Gregorian and
+    /// <para>This is the scope used by <see cref="Simple.SimpleCalendar"/>, except in the Gregorian and
     /// Julian cases.</para>
     /// </remarks>
     public sealed class StandardScope : CalendarScope

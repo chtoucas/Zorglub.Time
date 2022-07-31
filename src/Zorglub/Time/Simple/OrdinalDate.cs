@@ -27,7 +27,7 @@ namespace Zorglub.Time.Simple
         /// Initializes a new instance of the <see cref="OrdinalDate"/> struct to the specified date
         /// parts in the Gregorian calendar.
         /// <para>To create an instance for another calendar, see
-        /// <see cref="Calendar.GetOrdinalDate(int, int)"/>.</para>
+        /// <see cref="SimpleCalendar.GetOrdinalDate(int, int)"/>.</para>
         /// </summary>
         /// <exception cref="AoorException">The specified components do not form a valid date or
         /// <paramref name="year"/> is outside the range of years supported by the Gregorian
@@ -135,7 +135,7 @@ namespace Zorglub.Time.Simple
         }
 
         /// <inheritdoc />
-        public Calendar Calendar => CalendarCatalog.GetCalendarUnchecked(_bin.Extra);
+        public SimpleCalendar Calendar => CalendarCatalog.GetCalendarUnchecked(_bin.Extra);
 
         /// <inheritdoc />
         public CalendarYear CalendarYear => new(Year, Cuid);
@@ -156,7 +156,7 @@ namespace Zorglub.Time.Simple
         /// <summary>
         /// Gets a read-only reference to the calendar to which belongs the current instance.
         /// </summary>
-        internal ref readonly Calendar CalendarRef
+        internal ref readonly SimpleCalendar CalendarRef
         {
             // CIL code size = 17 bytes <= 32 bytes.
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -226,7 +226,7 @@ namespace Zorglub.Time.Simple
         /// Obtains the current date in the Gregorian calendar on this machine, expressed in local
         /// time, not UTC.
         /// <para>To obtain the current date in another calendar, see
-        /// <see cref="Calendar.GetCurrentOrdinal()"/>.</para>
+        /// <see cref="SimpleCalendar.GetCurrentOrdinal()"/>.</para>
         /// </summary>
         [Pure]
         public static OrdinalDate Today()
@@ -244,7 +244,7 @@ namespace Zorglub.Time.Simple
         /// </summary>
         /// <remarks>
         /// <para>To create from a day number an instance in another calendar, see
-        /// <see cref="Calendar.GetOrdinalDate(DayNumber)"/>. A less direct way is first to create
+        /// <see cref="SimpleCalendar.GetOrdinalDate(DayNumber)"/>. A less direct way is first to create
         /// a <see cref="CalendarDay"/> and then to convert the result to a
         /// <see cref="OrdinalDate"/>.</para>
         /// </remarks>
@@ -292,7 +292,7 @@ namespace Zorglub.Time.Simple
 
         /// <inheritdoc />
         [Pure]
-        public OrdinalDate WithCalendar(Calendar newCalendar)
+        public OrdinalDate WithCalendar(SimpleCalendar newCalendar)
         {
             Requires.NotNull(newCalendar);
 

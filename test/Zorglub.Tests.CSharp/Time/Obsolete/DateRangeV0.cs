@@ -55,7 +55,7 @@ public partial class DateRangeV0 :
     /// <summary>
     /// Gets the calendar to which belongs the current instance.
     /// </summary>
-    public Calendar Calendar { get; }
+    public SimpleCalendar Calendar { get; }
 
     /// <summary>
     /// Gets the ID of the calendar to which belongs the current
@@ -261,7 +261,7 @@ public partial class DateRangeV0 // Other set ops, conversions
     /// <exception cref="ArgumentNullException"><paramref name="newCalendar"/> is null.
     /// </exception>
     [Pure]
-    public DateRangeV0 WithCalendar(Calendar newCalendar)
+    public DateRangeV0 WithCalendar(SimpleCalendar newCalendar)
     {
         Requires.NotNull(newCalendar);
 

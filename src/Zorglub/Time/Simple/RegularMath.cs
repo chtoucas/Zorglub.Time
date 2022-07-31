@@ -18,7 +18,7 @@ namespace Zorglub.Time.Simple
         /// <exception cref="ArgumentNullException"><paramref name="calendar"/> is null.</exception>
         /// <exception cref="ArgumentException"><paramref name="calendar"/> is not regular.
         /// </exception>
-        public RegularMath(Calendar calendar)
+        public RegularMath(SimpleCalendar calendar)
             : base(
                   calendar,
                   // Regular calendar => month addition is NOT ambiguous.

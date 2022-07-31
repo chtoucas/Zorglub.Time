@@ -19,12 +19,12 @@ public static class HowToCreateACalendar
 {
     #region Create a simple calendar
 
-    public static Calendar CreateCalendar() =>
+    public static SimpleCalendar CreateSimpleCalendar() =>
         GregorianSchema.GetInstance()
             .CreateCalendar("CreateCalendar", DayZero.NewStyle, proleptic: true);
 
     // Hand-written version.
-    public static Calendar CreateCalendar_Plain() =>
+    public static SimpleCalendar CreateSimpleCalendar_Plain() =>
         (from x in GregorianSchema.GetInstance()
          select CalendarCatalog.Add("CreateCalendar_HWV", x, DayZero.NewStyle, proleptic: true)
          ).Unbox();
@@ -32,16 +32,16 @@ public static class HowToCreateACalendar
     #endregion
     #region Try create a simple calendar
 
-    public static bool TryCreateCalendar(out Calendar? calendar) =>
+    public static bool TryCreateSimpleCalendar(out SimpleCalendar? calendar) =>
         GregorianSchema.GetInstance()
             .TryCreateCalendar("TryCreateCalendar", DayZero.NewStyle, out calendar, proleptic: true);
 
     // Hand-written version.
-    public static Calendar TryCreateCalendar_Plain()
+    public static SimpleCalendar TryCreateSimpleCalendar_Plain()
     {
         return GregorianSchema.GetInstance().Select(TryAdd).Unbox();
 
-        static Calendar? TryAdd(GregorianSchema schema)
+        static SimpleCalendar? TryAdd(GregorianSchema schema)
         {
             _ = CalendarCatalog.TryAdd(
                 "TryCreateCalendar_HWV", schema, DayZero.NewStyle, proleptic: true, out var chr);

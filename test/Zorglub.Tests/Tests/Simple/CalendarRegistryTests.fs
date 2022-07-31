@@ -35,7 +35,7 @@ module TestCommon =
         succeed |> nok
         cal     |> isnull
 
-    let onKeySet (reg: CalendarRegistry) key epoch proleptic (chr: Calendar) =
+    let onKeySet (reg: CalendarRegistry) key epoch proleptic (chr: SimpleCalendar) =
         chr |> isnotnull
 
         chr.Key         === key
@@ -55,7 +55,7 @@ module Prelude =
     let ``Constructor throws when "calendars" is too large`` () =
         // Here we can use an array of nulls because the ctor will throw before
         // accessing any element.
-        let calendars = Array.zeroCreate<Calendar>(1 + CalendarRegistry.MinMinId)
+        let calendars = Array.zeroCreate<SimpleCalendar>(1 + CalendarRegistry.MinMinId)
 
         argExn "calendars" (fun () -> new CalendarRegistry(calendars))
 
@@ -64,8 +64,8 @@ module Prelude =
         // The order is not arbitrary, we MUST ensure that the index of a system
         // calendar in "calendars" is given by its ID.
         let calendars = [|
-            GregorianCalendar.Instance :> Calendar;
-            JulianCalendar.Instance :> Calendar;
+            GregorianCalendar.Instance :> SimpleCalendar;
+            JulianCalendar.Instance :> SimpleCalendar;
             UserCalendars.Gregorian;
         |]
 
@@ -76,9 +76,9 @@ module Prelude =
         // The order is not arbitrary, we MUST ensure that the index of a system
         // calendar in "calendars" is given by its ID.
         let calendars = [|
-            GregorianCalendar.Instance :> Calendar;
-            JulianCalendar.Instance :> Calendar;
-            JulianCalendar.Instance :> Calendar
+            GregorianCalendar.Instance :> SimpleCalendar;
+            JulianCalendar.Instance :> SimpleCalendar;
+            JulianCalendar.Instance :> SimpleCalendar
         |]
 
         argExn "calendars" (fun () -> new CalendarRegistry(calendars))
@@ -127,7 +127,7 @@ module Prelude =
 
     [<Fact>]
     let ``Constructor with one system calendar`` () =
-        let calendars = [| GregorianCalendar.Instance :> Calendar |]
+        let calendars = [| GregorianCalendar.Instance :> SimpleCalendar |]
         let reg = new CalendarRegistry(calendars)
 
         reg.MinId === CalendarRegistry.MinMinId
@@ -149,9 +149,9 @@ module Prelude =
         // The order is not arbitrary, we MUST ensure that the index of a calendar
         // in "calendars" is its ID.
         let calendars = [|
-            GregorianCalendar.Instance :> Calendar;
-            JulianCalendar.Instance :> Calendar;
-            ArmenianCalendar.Instance :> Calendar
+            GregorianCalendar.Instance :> SimpleCalendar;
+            JulianCalendar.Instance :> SimpleCalendar;
+            ArmenianCalendar.Instance :> SimpleCalendar
         |]
         let reg = new CalendarRegistry(calendars)
 
@@ -206,7 +206,7 @@ module Snapshot =
         let reg = new CalendarRegistry([| sys |])
         let usr = reg.Add("User Gregorian", new GregorianSchema(), DayZero.NewStyle, false)
 
-        let dirty = new Calendar(Cuid.Invalid, "Dirty Gregorian", new GregorianSchema(), DayZero.NewStyle, false)
+        let dirty = new SimpleCalendar(Cuid.Invalid, "Dirty Gregorian", new GregorianSchema(), DayZero.NewStyle, false)
         reg.AddRaw(dirty)
 
         let dict = reg.TakeSnapshot()
@@ -256,7 +256,7 @@ module Lookup =
     [<Fact>]
     let ``GetCalendar(dirty key)`` () =
         let reg, _, _ = newRegistry
-        let dirty = new Calendar(Cuid.Invalid, "Dirty Gregorian", new GregorianSchema(), DayZero.NewStyle, false)
+        let dirty = new SimpleCalendar(Cuid.Invalid, "Dirty Gregorian", new GregorianSchema(), DayZero.NewStyle, false)
         reg.AddRaw(dirty)
 
         throws<KeyNotFoundException> (fun () -> reg.GetCalendar(dirty.Key))
@@ -300,7 +300,7 @@ module Lookup =
     [<Fact>]
     let ``TryGetCalendar(dirty key)`` () =
         let reg, _, _ = newRegistry
-        let dirty = new Calendar(Cuid.Invalid, "Dirty Gregorian", new GregorianSchema(), DayZero.NewStyle, false)
+        let dirty = new SimpleCalendar(Cuid.Invalid, "Dirty Gregorian", new GregorianSchema(), DayZero.NewStyle, false)
         reg.AddRaw(dirty)
 
         let succeed, cal = reg.TryGetCalendar(dirty.Key)
@@ -350,7 +350,7 @@ module AddOps =
         reg.CountUserCalendars() === 1
 
         // Adding a user-defined calendar.
-        reg.AddRaw(new Calendar(Cuid.MinUser, "User Gregorian", new GregorianSchema(), DayZero.NewStyle, false))
+        reg.AddRaw(new SimpleCalendar(Cuid.MinUser, "User Gregorian", new GregorianSchema(), DayZero.NewStyle, false))
 
         reg.RawCount === 4 // Count increased by 1
         reg.NumberOfSystemCalendars === 1
@@ -358,7 +358,7 @@ module AddOps =
         reg.CountUserCalendars() === 1
 
         // Adding a dirty calendar.
-        reg.AddRaw(new Calendar(Cuid.Invalid, "Dirty Gregorian", new GregorianSchema(), DayZero.NewStyle, false))
+        reg.AddRaw(new SimpleCalendar(Cuid.Invalid, "Dirty Gregorian", new GregorianSchema(), DayZero.NewStyle, false))
 
         reg.RawCount === 5 // Count increased by 1
         reg.NumberOfSystemCalendars === 1

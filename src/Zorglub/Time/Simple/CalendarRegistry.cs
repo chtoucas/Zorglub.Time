@@ -35,7 +35,7 @@ namespace Zorglub.Time.Simple
         /// Represents the dictionary of (lazy) calendars, indexed by their keys.
         /// <para>This field is read-only.</para>
         /// </summary>
-        private readonly ConcurrentDictionary<string, Lazy<Calendar>> _calendarsByKey;
+        private readonly ConcurrentDictionary<string, Lazy<SimpleCalendar>> _calendarsByKey;
 
         private int _lastId;
 
@@ -51,7 +51,7 @@ namespace Zorglub.Time.Simple
         /// <exception cref="ArgumentException"><paramref name="calendars"/> contains a user-defined
         /// calendar -or- the index of a (system) calendar in the array is NOT given by its ID.
         /// </exception>
-        public CalendarRegistry(Calendar[] calendars) : this(MinMinId, MaxMaxId)
+        public CalendarRegistry(SimpleCalendar[] calendars) : this(MinMinId, MaxMaxId)
         {
             InitializeFromSystemCalendars(calendars);
         }
@@ -76,7 +76,7 @@ namespace Zorglub.Time.Simple
             _lastId = minId - 1;
 
             Debug.Assert(Capacity > MaxMaxId);
-            _calendarsByKey = new ConcurrentDictionary<string, Lazy<Calendar>>(
+            _calendarsByKey = new ConcurrentDictionary<string, Lazy<SimpleCalendar>>(
                 // If I'm not mistaken, this is the default concurrency level.
                 concurrencyLevel: Environment.ProcessorCount,
                 Capacity);
@@ -111,7 +111,7 @@ namespace Zorglub.Time.Simple
         /// </summary>
         internal bool DisableFailFast { get; set; }
 
-        public Action<Calendar>? CalendarCreated { get; init; }
+        public Action<SimpleCalendar>? CalendarCreated { get; init; }
 
         /// <summary>
         /// Gets the list of keys of all fully constructed calendars at the time of the request.
@@ -182,7 +182,7 @@ namespace Zorglub.Time.Simple
         // If called twice, an initializer may mess up NumberOfSystemCalendars.
         // For the same reason, a system calendar cannot appear twice.
 
-        private void InitializeFromSystemCalendars(Calendar[] calendars)
+        private void InitializeFromSystemCalendars(SimpleCalendar[] calendars)
         {
             // In fact, it's the context in which this method is used
             // (minId = MinMinId) that implies that "calendars" can only contain
@@ -199,7 +199,7 @@ namespace Zorglub.Time.Simple
                 var chr = calendars[id];
                 if ((int)chr.Id != id) Throw.Argument(nameof(calendars));
 
-                _calendarsByKey[chr.Key] = new Lazy<Calendar>(chr);
+                _calendarsByKey[chr.Key] = new Lazy<SimpleCalendar>(chr);
                 NumberOfSystemCalendars++;
             }
         }
@@ -257,12 +257,12 @@ namespace Zorglub.Time.Simple
         // for instance that CalendarDate.CalendarRef would be null.
 
         [Pure]
-        public IReadOnlyDictionary<string, Calendar> TakeSnapshot()
+        public IReadOnlyDictionary<string, SimpleCalendar> TakeSnapshot()
         {
             // Freeze the backing store.
             var arr = _calendarsByKey.ToArray();
 
-            var dict = new Dictionary<string, Calendar>(arr.Length);
+            var dict = new Dictionary<string, SimpleCalendar>(arr.Length);
             foreach (var x in arr)
             {
                 var chr = x.Value.Value;
@@ -271,26 +271,26 @@ namespace Zorglub.Time.Simple
                 dict.Add(x.Key, chr);
             }
 
-            return new ReadOnlyDictionary<string, Calendar>(dict);
+            return new ReadOnlyDictionary<string, SimpleCalendar>(dict);
         }
 
         [Pure]
-        public Calendar GetCalendar(string key)
+        public SimpleCalendar GetCalendar(string key)
         {
-            if (_calendarsByKey.TryGetValue(key, out Lazy<Calendar>? calendar))
+            if (_calendarsByKey.TryGetValue(key, out Lazy<SimpleCalendar>? calendar))
             {
                 var chr = calendar.Value;
                 // Filter out dirty calendars.
-                return chr.Id == Cuid.Invalid ? Throw.KeyNotFound<Calendar>(key) : chr;
+                return chr.Id == Cuid.Invalid ? Throw.KeyNotFound<SimpleCalendar>(key) : chr;
             }
 
-            return Throw.KeyNotFound<Calendar>(key);
+            return Throw.KeyNotFound<SimpleCalendar>(key);
         }
 
         [Pure]
-        public bool TryGetCalendar(string key, [NotNullWhen(true)] out Calendar? calendar)
+        public bool TryGetCalendar(string key, [NotNullWhen(true)] out SimpleCalendar? calendar)
         {
-            if (_calendarsByKey.TryGetValue(key, out Lazy<Calendar>? chr))
+            if (_calendarsByKey.TryGetValue(key, out Lazy<SimpleCalendar>? chr))
             {
                 var tmp = chr.Value;
                 // Filter out dirty calendars.
@@ -314,7 +314,7 @@ namespace Zorglub.Time.Simple
         /// <para>Beware, if you decide to use this method, you SHOULD NOT call a counting method
         /// afterwards; only <see cref="RawCount"/> will continue to work properly.</para>
         /// </summary>
-        internal void AddRaw(Calendar calendar)
+        internal void AddRaw(SimpleCalendar calendar)
         {
             // Currently, we only use this method to add a user-defined calendar
             // with an invalid ID in order to be able to achieve full code coverage.
@@ -327,11 +327,11 @@ namespace Zorglub.Time.Simple
             // To do it would mean that we first check that the specified (system)
             // calendar is not already registered, something which is not that
             // straightforward to do in a thread-safe way.
-            _calendarsByKey[calendar.Key] = new Lazy<Calendar>(calendar);
+            _calendarsByKey[calendar.Key] = new Lazy<SimpleCalendar>(calendar);
         }
 
         [Pure]
-        public Calendar GetOrAdd(string key, SystemSchema schema, DayNumber epoch, bool proleptic)
+        public SimpleCalendar GetOrAdd(string key, SystemSchema schema, DayNumber epoch, bool proleptic)
         {
             // Fail fast.
             // We should only fail fast when the registry is full and the key is
@@ -346,10 +346,10 @@ namespace Zorglub.Time.Simple
             // Reason: the params might be different and we wish to apply strict
             // validation rules. This being said, fail fast takes precedence and
             // we overflow before any validation happens.
-            Calendar tmp = ValidateParameters(key, schema, epoch, proleptic);
+            SimpleCalendar tmp = ValidateParameters(key, schema, epoch, proleptic);
 
             // The callback won't be executed until we query Value.
-            var lazy = new Lazy<Calendar>(() => CreateCalendar(tmp));
+            var lazy = new Lazy<SimpleCalendar>(() => CreateCalendar(tmp));
 
             var lazy1 = _calendarsByKey.GetOrAdd(key, lazy);
 
@@ -390,15 +390,15 @@ namespace Zorglub.Time.Simple
         }
 
         [Pure]
-        public Calendar Add(string key, SystemSchema schema, DayNumber epoch, bool proleptic)
+        public SimpleCalendar Add(string key, SystemSchema schema, DayNumber epoch, bool proleptic)
         {
             // Fail fast.
             if (DisableFailFast == false && IsFull) Throw.CatalogOverflow();
 
-            Calendar tmp = ValidateParameters(key, schema, epoch, proleptic);
+            SimpleCalendar tmp = ValidateParameters(key, schema, epoch, proleptic);
 
             // The callback won't be executed until we query Value.
-            var lazy = new Lazy<Calendar>(() => CreateCalendar(tmp));
+            var lazy = new Lazy<SimpleCalendar>(() => CreateCalendar(tmp));
 
             if (_calendarsByKey.TryAdd(key, lazy) == false)
             {
@@ -422,7 +422,7 @@ namespace Zorglub.Time.Simple
         [Pure]
         public bool TryAdd(
             string key, SystemSchema schema, DayNumber epoch, bool proleptic,
-            [NotNullWhen(true)] out Calendar? calendar)
+            [NotNullWhen(true)] out SimpleCalendar? calendar)
         {
             // Fail fast.
             if (DisableFailFast == false && IsFull) { goto FAILED; }
@@ -432,12 +432,12 @@ namespace Zorglub.Time.Simple
             Requires.NotNull(schema);
 
             // Other parameters validation.
-            Calendar tmp;
+            SimpleCalendar tmp;
             try { tmp = ValidateParameters(key, schema, epoch, proleptic); }
             catch (ArgumentException) { goto FAILED; }
 
             // The callback won't be executed until we query lazy.Value.
-            var lazy = new Lazy<Calendar>(() => CreateCalendar(tmp));
+            var lazy = new Lazy<SimpleCalendar>(() => CreateCalendar(tmp));
 
             if (_calendarsByKey.TryAdd(key, lazy))
             {
@@ -472,23 +472,23 @@ namespace Zorglub.Time.Simple
         /// </summary>
         /// <returns>A calendar with an ID <see cref="Cuid.Invalid"/>.</returns>
         [Pure]
-        private static Calendar ValidateParameters(
+        private static SimpleCalendar ValidateParameters(
             string key,
             SystemSchema schema,
             DayNumber epoch,
             bool proleptic)
         {
-            return new Calendar(Cuid.Invalid, key, schema, epoch, proleptic);
+            return new SimpleCalendar(Cuid.Invalid, key, schema, epoch, proleptic);
         }
 
         /// <summary>
-        /// Creates a new <see cref="Calendar"/> instance from the specified temporary calendar then
+        /// Creates a new <see cref="SimpleCalendar"/> instance from the specified temporary calendar then
         /// call <see cref="CalendarCreated"/>.
         /// <para>Returns a calendar with ID <see cref="Cuid.Invalid"/> if the system already
         /// reached the maximum number of calendars it can handle.</para>
         /// </summary>
         [Pure]
-        private Calendar CreateCalendar(Calendar tmpCalendar)
+        private SimpleCalendar CreateCalendar(SimpleCalendar tmpCalendar)
         {
             Debug.Assert(tmpCalendar != null);
 
@@ -516,7 +516,7 @@ namespace Zorglub.Time.Simple
             // - the cast to Cuid always succeed.
             // - the ctor won't throw since we already validated the params
             //   when we created tmpCalendar.
-            var chr = new Calendar(
+            var chr = new SimpleCalendar(
                 (Cuid)id,
                 tmpCalendar.Key,
                 tmpCalendar.Schema,

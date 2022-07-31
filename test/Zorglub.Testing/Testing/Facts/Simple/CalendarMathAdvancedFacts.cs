@@ -18,7 +18,7 @@ using Zorglub.Time.Simple;
 public abstract partial class CalendarMathAdvancedFacts<TDataSet>
     where TDataSet : IAdvancedMathDataSet, ISingleton<TDataSet>
 {
-    protected CalendarMathAdvancedFacts(Calendar calendar)
+    protected CalendarMathAdvancedFacts(SimpleCalendar calendar)
         : this(calendar?.Math ?? throw new ArgumentNullException(nameof(calendar))) { }
 
     protected CalendarMathAdvancedFacts(CalendarMath math)
@@ -38,7 +38,7 @@ public abstract partial class CalendarMathAdvancedFacts<TDataSet>
     public static DataGroup<YedoyPairAnd<int>> AddYearsOrdinalData => DataSet.AddYearsOrdinalData;
 
     protected CalendarMath MathUT { get; }
-    protected Calendar Calendar { get; }
+    protected SimpleCalendar Calendar { get; }
 
     // When the calendar is regular, CalendarMonth.AddYears() and CalendarMonth.CountYearsBetween()
     // are unambiguous.

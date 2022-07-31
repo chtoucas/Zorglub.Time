@@ -71,7 +71,7 @@ namespace Zorglub.Time.Simple
         /// class.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="calendar"/> is null.</exception>
-        protected CalendarMath(Calendar calendar, AdditionRuleset additionRuleset)
+        protected CalendarMath(SimpleCalendar calendar, AdditionRuleset additionRuleset)
         {
             Calendar = calendar ?? throw new ArgumentNullException(nameof(calendar));
             AdditionRuleset = additionRuleset;
@@ -84,7 +84,7 @@ namespace Zorglub.Time.Simple
         // use SupportedYears, externally we cannot, but there is
         // Calendar.SupportedYears instead. It's also useful if we want to be
         // able to create new date objects...
-        public Calendar Calendar { get; }
+        public SimpleCalendar Calendar { get; }
 
         /// <summary>
         /// Gets the strategy employed to resolve ambiguities.
@@ -117,7 +117,7 @@ namespace Zorglub.Time.Simple
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="calendar"/> is null.</exception>
         [Pure]
-        public static CalendarMath Create(Calendar calendar, AdditionRuleset additionRuleset)
+        public static CalendarMath Create(SimpleCalendar calendar, AdditionRuleset additionRuleset)
         {
             Requires.NotNull(calendar);
 
@@ -131,7 +131,7 @@ namespace Zorglub.Time.Simple
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="calendar"/> is null.</exception>
         [Pure]
-        internal static CalendarMath CreateDefault(Calendar calendar)
+        internal static CalendarMath CreateDefault(SimpleCalendar calendar)
         {
             Requires.NotNull(calendar);
 

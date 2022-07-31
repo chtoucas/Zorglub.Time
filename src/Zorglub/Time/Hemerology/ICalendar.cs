@@ -122,7 +122,8 @@ namespace Zorglub.Time.Hemerology
     //
     // Mono-calendar with a companion date type, e.g. MinMaxYearCalendar<TDate>.
     // All methods/props are on the date.
-    // The date type implements IMinMaxValue<TDate>
+    // The date type should implement IMinMaxValue<TDate> and provide a property
+    // Calendar.
     //
     // Special case of a mono-calendar with TDate = DayNumber.
     // - today is the only method missing
@@ -130,8 +131,9 @@ namespace Zorglub.Time.Hemerology
     // - conversions, none
     // - min/max values are provided by Calendar.Domain
     //
-    // Poly-calendar with a companion date type, e.g. ZCalendar or Simple.Calendar.
+    // Poly-calendar with a companion date type, e.g. ZCalendar or SimpleCalendar.
     // All methods/props are on the calendar.
+    // The date type should provide a property Calendar.
 
     #endregion
 

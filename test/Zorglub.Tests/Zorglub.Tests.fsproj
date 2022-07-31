@@ -87,7 +87,7 @@
     <Compile Include="Tests\Hemerology\CalendarEpochTests.fs" />
     <Compile Include="Tests\Hemerology\YearNumberingTests.fs" />
     <Compile Include="Tests\Simple\CuidTests.fs" />
-    <Compile Include="Tests\Simple\CalendarTests.fs" />
+    <Compile Include="Tests\Simple\SimpleCalendarTests.fs" />
     <Compile Include="Tests\Simple\CalendarRegistryTests.fs" />
     <Compile Include="Tests\Simple\CalendarCatalogTests.fs" />
     <Compile Include="Tests\Simple\BoxExtensionsTests.fs" />
@@ -97,7 +97,7 @@
     <Compile Include="Tests\Simple\CalendarDayTests.fs" />
     <Compile Include="Tests\Simple\CalendarMonthTests.fs" />
     <Compile Include="Tests\Simple\CalendarYearTests.fs" />
-    <Compile Include="Tests\Simple\CalendarTestSuite.fs" />
+    <Compile Include="Tests\Simple\SimpleCalendarTestSuite.fs" />
     <Compile Include="Tests\Simple\FeaturetteTestSuite.fs" />
     <Compile Include="Tests\Simple\CalendarMathTestSuite.fs" />
     <Compile Include="Tests\Simple\CalendarDateTestSuite.fs" />

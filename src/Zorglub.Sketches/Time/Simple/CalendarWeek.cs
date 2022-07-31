@@ -96,7 +96,7 @@ namespace Zorglub.Time.Simple
         /// <remarks>
         /// <para>Performance: cache this property locally if necessary.</para>
         /// </remarks>
-        public Calendar Calendar => CalendarCatalog.GetCalendarUnchecked(_bin.Extra);
+        public SimpleCalendar Calendar => CalendarCatalog.GetCalendarUnchecked(_bin.Extra);
 
         /// <summary>
         /// Gets the date parts of current instance.
@@ -112,7 +112,7 @@ namespace Zorglub.Time.Simple
         /// Gets a read-only reference to the calendar to which belongs the
         /// current instance.
         /// </summary>
-        internal ref readonly Calendar CalendarRef
+        internal ref readonly SimpleCalendar CalendarRef
         {
             // CIL code size = 17 bytes <= 32 bytes.
             [MethodImpl(MethodImplOptions.AggressiveInlining)]

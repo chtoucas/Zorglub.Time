@@ -1417,6 +1417,12 @@ Zorglub.Time.Hemerology.ICalendar.GetDayNumber(int year, int dayOfYear) -> Zorgl
 Zorglub.Time.Hemerology.ICalendar.GetDayNumber(int year, int month, int day) -> Zorglub.Time.DayNumber
 Zorglub.Time.Hemerology.ICalendar.Scope.get -> Zorglub.Time.Hemerology.Scopes.CalendarScope!
 Zorglub.Time.Hemerology.ICalendar<TDate>
+Zorglub.Time.Hemerology.ICalendar<TDate>.GetDaysInMonth(int year, int month) -> System.Collections.Generic.IEnumerable<TDate>!
+Zorglub.Time.Hemerology.ICalendar<TDate>.GetDaysInYear(int year) -> System.Collections.Generic.IEnumerable<TDate>!
+Zorglub.Time.Hemerology.ICalendar<TDate>.GetEndOfMonth(int year, int month) -> TDate
+Zorglub.Time.Hemerology.ICalendar<TDate>.GetEndOfYear(int year) -> TDate
+Zorglub.Time.Hemerology.ICalendar<TDate>.GetStartOfMonth(int year, int month) -> TDate
+Zorglub.Time.Hemerology.ICalendar<TDate>.GetStartOfYear(int year) -> TDate
 Zorglub.Time.Hemerology.IDate
 Zorglub.Time.Hemerology.IDate<TSelf>
 Zorglub.Time.Hemerology.IDateable
@@ -1434,13 +1440,6 @@ Zorglub.Time.Hemerology.IDateable.Month.get -> int
 Zorglub.Time.Hemerology.IDateable.Year.get -> int
 Zorglub.Time.Hemerology.IDateable.YearOfCentury.get -> int
 Zorglub.Time.Hemerology.IDateable.YearOfEra.get -> Zorglub.Time.Ord
-Zorglub.Time.Hemerology.IDayProvider<TDate>
-Zorglub.Time.Hemerology.IDayProvider<TDate>.GetDaysInMonth(int year, int month) -> System.Collections.Generic.IEnumerable<TDate>!
-Zorglub.Time.Hemerology.IDayProvider<TDate>.GetDaysInYear(int year) -> System.Collections.Generic.IEnumerable<TDate>!
-Zorglub.Time.Hemerology.IDayProvider<TDate>.GetEndOfMonth(int year, int month) -> TDate
-Zorglub.Time.Hemerology.IDayProvider<TDate>.GetEndOfYear(int year) -> TDate
-Zorglub.Time.Hemerology.IDayProvider<TDate>.GetStartOfMonth(int year, int month) -> TDate
-Zorglub.Time.Hemerology.IDayProvider<TDate>.GetStartOfYear(int year) -> TDate
 Zorglub.Time.Hemerology.IEpagomenalCalendar<TDate>
 Zorglub.Time.Hemerology.IEpagomenalCalendar<TDate>.IsEpagomenalDay(TDate date, out int epagomenalNumber) -> bool
 Zorglub.Time.Hemerology.IFixedDay

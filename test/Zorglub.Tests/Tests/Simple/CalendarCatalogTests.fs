@@ -29,7 +29,7 @@ module TestCommon =
         Assert.DoesNotContain(key, CalendarCatalog.Keys)
         throws<KeyNotFoundException> (fun () -> CalendarCatalog.GetCalendar(key))
 
-    let onKeySet key epoch (chr: Calendar) proleptic =
+    let onKeySet key epoch (chr: SimpleCalendar) proleptic =
         chr |> isnotnull
 
         chr.Key         === key

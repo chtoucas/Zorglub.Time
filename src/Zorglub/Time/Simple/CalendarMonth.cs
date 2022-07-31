@@ -38,7 +38,7 @@ namespace Zorglub.Time.Simple
         /// Initializes a new instance of the <see cref="CalendarMonth"/> struct to the specified
         /// components in the Gregorian calendar.
         /// <para>To create an instance for another calendar, see
-        /// <see cref="Calendar.GetCalendarMonth(int, int)"/>.</para>
+        /// <see cref="SimpleCalendar.GetCalendarMonth(int, int)"/>.</para>
         /// </summary>
         /// <exception cref="AoorException">The specified components do not form a valid month or
         /// <paramref name="year"/> is outside the range of years supported by the Gregorian
@@ -118,7 +118,7 @@ namespace Zorglub.Time.Simple
         /// <remarks>
         /// <para>Performance: cache this property locally if necessary.</para>
         /// </remarks>
-        public Calendar Calendar => CalendarCatalog.GetCalendarUnchecked(_bin.Extra);
+        public SimpleCalendar Calendar => CalendarCatalog.GetCalendarUnchecked(_bin.Extra);
 
         /// <summary>
         /// Gets the calendar year.
@@ -157,7 +157,7 @@ namespace Zorglub.Time.Simple
         /// <summary>
         /// Gets a read-only reference to the calendar to which belongs the current instance.
         /// </summary>
-        internal ref readonly Calendar CalendarRef
+        internal ref readonly SimpleCalendar CalendarRef
         {
             // CIL code size = 17 bytes <= 32 bytes.
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -215,7 +215,7 @@ namespace Zorglub.Time.Simple
         /// <summary>
         /// Obtains the current month in the Gregorian calendar on this machine.
         /// <para>To obtain the current year in another calendar, see
-        /// <see cref="Calendar.GetCurrentMonth()"/>.</para>
+        /// <see cref="SimpleCalendar.GetCurrentMonth()"/>.</para>
         /// </summary>
         [Pure]
         public static CalendarMonth GetCurrentMonth()
@@ -228,7 +228,7 @@ namespace Zorglub.Time.Simple
         /// Obtains a new <see cref="CalendarMonth"/> in the Gregorian calendar from the specified
         /// day number.
         /// <para>To create an instance in another calendar, see
-        /// <see cref="Calendar.GetCalendarMonth(DayNumber)"/>.</para>
+        /// <see cref="SimpleCalendar.GetCalendarMonth(DayNumber)"/>.</para>
         /// </summary>
         /// <exception cref="AoorException"><paramref name="dayNumber"/> is outside the range of
         /// values supported by the Gregorian calendar.</exception>
@@ -255,7 +255,7 @@ namespace Zorglub.Time.Simple
         /// <exception cref="ArgumentNullException"><paramref name="newCalendar"/> is null.
         /// </exception>
         [Pure]
-        public Range<CalendarDate> WithCalendar(Calendar newCalendar)
+        public Range<CalendarDate> WithCalendar(SimpleCalendar newCalendar)
         {
             var min = FirstDay.WithCalendar(newCalendar);
             var max = LastDay.WithCalendar(newCalendar);

@@ -11,7 +11,7 @@ public abstract partial class CalendarDateAdjustmentFacts<TDataSet> :
     IAdjustableDateFacts<CalendarDate, TDataSet>
     where TDataSet : ICalendarDataSet, ISingleton<TDataSet>
 {
-    protected CalendarDateAdjustmentFacts(Calendar calendar)
+    protected CalendarDateAdjustmentFacts(SimpleCalendar calendar)
         : base(calendar?.YearsValidator.Range ?? throw new ArgumentNullException(nameof(calendar)))
     {
         Debug.Assert(calendar != null);
@@ -19,7 +19,7 @@ public abstract partial class CalendarDateAdjustmentFacts<TDataSet> :
         CalendarUT = calendar;
     }
 
-    protected Calendar CalendarUT { get; }
+    protected SimpleCalendar CalendarUT { get; }
 
     protected override CalendarDate GetDate(int y, int m, int d) => CalendarUT.GetCalendarDate(y, m, d);
 }

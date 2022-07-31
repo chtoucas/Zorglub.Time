@@ -3,7 +3,7 @@
 
 namespace Zorglub.Time.Simple;
 
-public sealed class FauxSystemCalendar : Calendar
+public sealed class FauxSystemCalendar : SimpleCalendar
 {
     // On ne peut pas utiliser un ID quelconque ici car la clé sera obtenue
     // en utilisant FauxCalendarId.ToCalendarKey().

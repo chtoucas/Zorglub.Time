@@ -26,7 +26,7 @@ public abstract partial class CalendarMathFacts<TDataSet> :
     CalendarDataConsumer<TDataSet>
     where TDataSet : ICalendarDataSet, ISingleton<TDataSet>
 {
-    protected CalendarMathFacts(Calendar calendar)
+    protected CalendarMathFacts(SimpleCalendar calendar)
         : this(calendar?.Math ?? throw new ArgumentNullException(nameof(calendar))) { }
 
     protected CalendarMathFacts(CalendarMath math)
@@ -40,7 +40,7 @@ public abstract partial class CalendarMathFacts<TDataSet> :
     }
 
     protected CalendarMath MathUT { get; }
-    protected Calendar Calendar { get; }
+    protected SimpleCalendar Calendar { get; }
 
     protected CalendarDate MinDate { get; }
     protected CalendarDate MaxDate { get; }

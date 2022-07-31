@@ -57,7 +57,7 @@ namespace Zorglub.Time.Extras
 #if ZCATALOG_BIG
         /// <summary>
         /// Represents the absolute maximum number of user-defined calendars without counting those
-        /// created from a <see cref="Calendar"/>.
+        /// created from a <see cref="SimpleCalendar"/>.
         /// <para>This static property ALWAYS returns 896.</para>
         /// <para>This static property is thread-safe.</para>
         /// </summary>
@@ -124,7 +124,7 @@ namespace Zorglub.Time.Extras
         /// initialize the dictionary.</para>
         /// </summary>
         [Pure]
-        internal static ZCalendar InitSystemCalendar(Calendar calendar)
+        internal static ZCalendar InitSystemCalendar(SimpleCalendar calendar)
         {
             Debug.Assert(calendar.IsUserDefined == false);
 
@@ -196,7 +196,7 @@ namespace Zorglub.Time.Extras
     public partial class ZCatalog // ZCalendar <-> Calendar
     {
         [Pure]
-        public static Calendar ToCalendar(this ZCalendar @this)
+        public static SimpleCalendar ToCalendar(this ZCalendar @this)
         {
             Requires.NotNull(@this);
             int cuid = @this.Id;
@@ -211,7 +211,7 @@ namespace Zorglub.Time.Extras
 
         // Converts a Calendar to a ZCalendar.
         [Pure]
-        public static ZCalendar ToZCalendar(this Calendar @this)
+        public static ZCalendar ToZCalendar(this SimpleCalendar @this)
         {
             Requires.NotNull(@this);
 
@@ -220,7 +220,7 @@ namespace Zorglub.Time.Extras
 
             // TODO(code): use GetOrAdd().
             [Pure]
-            static ZCalendar GetOrAddUserCalendar(Calendar calendar)
+            static ZCalendar GetOrAddUserCalendar(SimpleCalendar calendar)
             {
                 Debug.Assert(calendar.IsUserDefined);
 
@@ -241,7 +241,7 @@ namespace Zorglub.Time.Extras
             }
 
             [Pure]
-            static ZCalendar CreateUserCalendar(Calendar calendar)
+            static ZCalendar CreateUserCalendar(SimpleCalendar calendar)
             {
                 int cuid = (int)calendar.Id;
                 var chr = new ZCalendar(cuid, calendar.Key, calendar.Scope, userDefined: true);

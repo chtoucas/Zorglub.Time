@@ -29,7 +29,7 @@ namespace Zorglub.Time.Simple
         /// <see cref="CalendarCatalog.GetOrAdd(string, SystemSchema, DayNumber, bool)"/>.
         /// </exception>
         [Pure]
-        public static Calendar GetOrCreateCalendar<TSchema>(
+        public static SimpleCalendar GetOrCreateCalendar<TSchema>(
             this Box<TSchema> @this, string key, DayNumber epoch, bool proleptic = false)
             where TSchema : SystemSchema
         {
@@ -37,7 +37,7 @@ namespace Zorglub.Time.Simple
 
             var q = from schema in @this
                     select CalendarCatalog.GetOrAdd(key, schema, epoch, proleptic);
-            return q.TryUnbox(out var chr) ? chr : Throw.BadBox<Calendar>(nameof(@this));
+            return q.TryUnbox(out var chr) ? chr : Throw.BadBox<SimpleCalendar>(nameof(@this));
         }
 
         /// <summary>
@@ -51,7 +51,7 @@ namespace Zorglub.Time.Simple
         /// <see cref="CalendarCatalog.Add(string, SystemSchema, DayNumber, bool)"/>.
         /// </exception>
         [Pure]
-        public static Calendar CreateCalendar<TSchema>(
+        public static SimpleCalendar CreateCalendar<TSchema>(
             this Box<TSchema> @this, string key, DayNumber epoch, bool proleptic = false)
             where TSchema : SystemSchema
         {
@@ -59,7 +59,7 @@ namespace Zorglub.Time.Simple
 
             var q = from schema in @this
                     select CalendarCatalog.Add(key, schema, epoch, proleptic);
-            return q.TryUnbox(out var chr) ? chr : Throw.BadBox<Calendar>(nameof(@this));
+            return q.TryUnbox(out var chr) ? chr : Throw.BadBox<SimpleCalendar>(nameof(@this));
         }
 
         /// <summary>
@@ -72,7 +72,7 @@ namespace Zorglub.Time.Simple
             this Box<TSchema> @this,
             string key,
             DayNumber epoch,
-            [NotNullWhen(true)] out Calendar? calendar,
+            [NotNullWhen(true)] out SimpleCalendar? calendar,
             bool proleptic = false)
             where TSchema : SystemSchema
         {

@@ -49,7 +49,7 @@ namespace Zorglub.Time.Simple
     /// classes.
     /// <para>This class can ONLY be inherited from within friend assemblies.</para>
     /// </summary>
-    public partial class Calendar : ICalendar
+    public partial class SimpleCalendar : ICalendar
     {
         /// <summary>
         /// Represents the integer value of the day of the week of the epoch of the calendar.
@@ -63,12 +63,12 @@ namespace Zorglub.Time.Simple
         private CalendarMath _math;
 
         /// <summary>
-        /// Called from constructors in derived classes to initialize the <see cref="Calendar"/>
+        /// Called from constructors in derived classes to initialize the <see cref="SimpleCalendar"/>
         /// class.
         /// <para>Constructor for (built-in) system calendars.</para>
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
-        private protected Calendar(
+        private protected SimpleCalendar(
             CalendarId ident,
             SystemSchema schema,
             DayNumber epoch,
@@ -85,7 +85,7 @@ namespace Zorglub.Time.Simple
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Calendar"/> class.
+        /// Initializes a new instance of the <see cref="SimpleCalendar"/> class.
         /// <para>Constructor for user-defined calendars.</para>
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="key"/> is null.</exception>
@@ -93,7 +93,7 @@ namespace Zorglub.Time.Simple
         /// <exception cref="ArgumentException">The range of supported years by
         /// <paramref name="schema"/> does not contain the interval [-9998..9999] in the proleptic
         /// case -or- the interval [1..9999] in the standard.</exception>
-        internal Calendar(
+        internal SimpleCalendar(
             Cuid id,
             string key,
             SystemSchema schema,
@@ -112,14 +112,14 @@ namespace Zorglub.Time.Simple
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Calendar"/> class.
+        /// Initializes a new instance of the <see cref="SimpleCalendar"/> class.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="key"/> is null.</exception>
         /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
         /// <exception cref="ArgumentException">The range of supported years by
         /// <paramref name="schema"/> does not contain the interval [-9998..9999] in the proleptic
         /// case -or- the interval [1..9999] in the standard.</exception>
-        private Calendar(
+        private SimpleCalendar(
             Cuid id,
             string key,
             SystemSchema schema,
@@ -366,7 +366,7 @@ namespace Zorglub.Time.Simple
         }
     }
 
-    public partial class Calendar // Year or month infos
+    public partial class SimpleCalendar // Year or month infos
     {
         // Hidden, we have "better" alternatives.
 
@@ -444,7 +444,7 @@ namespace Zorglub.Time.Simple
         }
     }
 
-    public partial class Calendar // Factories
+    public partial class SimpleCalendar // Factories
     {
         /// <summary>
         /// Creates a new instance of the <see cref="CalendarYear"/> struct from its components.
@@ -591,7 +591,7 @@ namespace Zorglub.Time.Simple
         #endregion
     }
 
-    public partial class Calendar // Conversions
+    public partial class SimpleCalendar // Conversions
     {
         /// <summary>
         /// Obtains the calendar year on the specified day number.
@@ -668,7 +668,7 @@ namespace Zorglub.Time.Simple
         }
     }
 
-    public partial class Calendar // Internal helpers
+    public partial class SimpleCalendar // Internal helpers
     {
         // Internal helpers for use by the calendrical objects.
         // - GetDayNumber(...) tiny optimization to avoid having to look up the

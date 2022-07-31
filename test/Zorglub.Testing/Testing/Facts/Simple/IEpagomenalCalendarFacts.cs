@@ -9,13 +9,13 @@ using Zorglub.Time.Simple;
 
 public abstract class IEpagomenalCalendarFacts<TCalendar, TDataSet> :
     CalendarDataConsumer<TDataSet>
-    where TCalendar : Calendar, IEpagomenalCalendar<CalendarDate>
+    where TCalendar : SimpleCalendar, IEpagomenalCalendar<CalendarDate>
     where TDataSet : ICalendarDataSet, IEpagomenalDataSet, ISingleton<TDataSet>
 {
     private readonly TCalendar _calendar;
-    private readonly Calendar _otherCalendar;
+    private readonly SimpleCalendar _otherCalendar;
 
-    protected IEpagomenalCalendarFacts(TCalendar calendar, Calendar otherCalendar)
+    protected IEpagomenalCalendarFacts(TCalendar calendar, SimpleCalendar otherCalendar)
     {
         _calendar = calendar ?? throw new ArgumentNullException(nameof(calendar));
         _otherCalendar = otherCalendar ?? throw new ArgumentNullException(nameof(otherCalendar));

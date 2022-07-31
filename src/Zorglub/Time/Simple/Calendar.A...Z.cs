@@ -22,7 +22,7 @@ namespace Zorglub.Time.Simple
     /// Represents the Armenian calendar.
     /// <para>This class cannot be inherited.</para>
     /// </summary>
-    public sealed class ArmenianCalendar : Calendar, IEpagomenalCalendar<CalendarDate>
+    public sealed class ArmenianCalendar : SimpleCalendar, IEpagomenalCalendar<CalendarDate>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ArmenianCalendar"/>
@@ -61,7 +61,7 @@ namespace Zorglub.Time.Simple
     /// Represents the Coptic calendar.
     /// <para>This class cannot be inherited.</para>
     /// </summary>
-    public sealed class CopticCalendar : Calendar, IEpagomenalCalendar<CalendarDate>
+    public sealed class CopticCalendar : SimpleCalendar, IEpagomenalCalendar<CalendarDate>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="CopticCalendar"/> class.
@@ -99,7 +99,7 @@ namespace Zorglub.Time.Simple
     /// Represents the Ethiopic calendar.
     /// <para>This class cannot be inherited.</para>
     /// </summary>
-    public sealed class EthiopicCalendar : Calendar, IEpagomenalCalendar<CalendarDate>
+    public sealed class EthiopicCalendar : SimpleCalendar, IEpagomenalCalendar<CalendarDate>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="EthiopicCalendar"/>
@@ -138,7 +138,7 @@ namespace Zorglub.Time.Simple
     /// Represents the proleptic Gregorian calendar.
     /// <para>This class cannot be inherited.</para>
     /// </summary>
-    public sealed class GregorianCalendar : Calendar
+    public sealed class GregorianCalendar : SimpleCalendar
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="GregorianCalendar"/>
@@ -189,7 +189,7 @@ namespace Zorglub.Time.Simple
     /// Represents the proleptic Julian calendar.
     /// <para>This class cannot be inherited.</para>
     /// </summary>
-    public sealed class JulianCalendar : Calendar
+    public sealed class JulianCalendar : SimpleCalendar
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="JulianCalendar"/> class.
@@ -239,7 +239,7 @@ namespace Zorglub.Time.Simple
     /// Represents the Tabular Islamic calendar.
     /// <para>This class cannot be inherited.</para>
     /// </summary>
-    public sealed class TabularIslamicCalendar : Calendar
+    public sealed class TabularIslamicCalendar : SimpleCalendar
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="TabularIslamicCalendar"/>
@@ -264,7 +264,7 @@ namespace Zorglub.Time.Simple
     /// Represents the Zoroastrian calendar.
     /// <para>This class cannot be inherited.</para>
     /// </summary>
-    public sealed class ZoroastrianCalendar : Calendar, IEpagomenalCalendar<CalendarDate>
+    public sealed class ZoroastrianCalendar : SimpleCalendar, IEpagomenalCalendar<CalendarDate>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ZoroastrianCalendar"/>

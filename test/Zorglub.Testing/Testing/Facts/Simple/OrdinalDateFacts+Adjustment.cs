@@ -11,7 +11,7 @@ public abstract partial class OrdinalDateAdjustmentFacts<TDataSet> :
     IAdjustableOrdinalFacts<OrdinalDate, TDataSet>
     where TDataSet : ICalendarDataSet, ISingleton<TDataSet>
 {
-    protected OrdinalDateAdjustmentFacts(Calendar calendar)
+    protected OrdinalDateAdjustmentFacts(SimpleCalendar calendar)
         : base(calendar?.YearsValidator.Range ?? throw new ArgumentNullException(nameof(calendar)))
     {
         Debug.Assert(calendar != null);
@@ -19,7 +19,7 @@ public abstract partial class OrdinalDateAdjustmentFacts<TDataSet> :
         CalendarUT = calendar;
     }
 
-    protected Calendar CalendarUT { get; }
+    protected SimpleCalendar CalendarUT { get; }
 
     protected override OrdinalDate GetDate(int y, int doy) => CalendarUT.GetOrdinalDate(y, doy);
 }

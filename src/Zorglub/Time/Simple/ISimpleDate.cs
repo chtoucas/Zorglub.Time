@@ -29,7 +29,7 @@ namespace Zorglub.Time.Simple
         /// <para>Performance tip: cache this property locally if used repeatedly within a code
         /// block.</para>
         /// </remarks>
-        Calendar Calendar { get; }
+        SimpleCalendar Calendar { get; }
 
         /// <summary>
         /// Gets the calendar year to which belongs the current instance.
@@ -88,6 +88,6 @@ namespace Zorglub.Time.Simple
         /// </exception>
         /// <exception cref="AoorException">The specified date cannot be converted into the new
         /// calendar, the resulting date would be outside its range of years.</exception>
-        [Pure] TSelf WithCalendar(Calendar newCalendar);
+        [Pure] TSelf WithCalendar(SimpleCalendar newCalendar);
     }
 }

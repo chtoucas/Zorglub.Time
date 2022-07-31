@@ -9,22 +9,22 @@ using Zorglub.Time.Hemerology.Scopes;
 using Zorglub.Time.Simple;
 
 /// <summary>
-/// Provides facts about <see cref="Calendar"/>.
+/// Provides facts about <see cref="SimpleCalendar"/>.
 /// </summary>
-public abstract partial class CalendarFacts<TDataSet> :
-    ICalendarFacts<Calendar, TDataSet>
+public abstract partial class SimpleCalendarFacts<TDataSet> :
+    ICalendarFacts<SimpleCalendar, TDataSet>
     where TDataSet : ICalendarDataSet, ISingleton<TDataSet>
 {
-    protected CalendarFacts(Calendar calendar) : base(calendar) { }
+    protected SimpleCalendarFacts(SimpleCalendar calendar) : base(calendar) { }
 
-    protected abstract Calendar GetSingleton();
+    protected abstract SimpleCalendar GetSingleton();
 
     [Fact] public abstract void Id();
     [Fact] public abstract void Math();
     [Fact] public abstract void Scope();
 }
 
-public partial class CalendarFacts<TDataSet> // Properties
+public partial class SimpleCalendarFacts<TDataSet> // Properties
 {
     [Fact]
     public void Singleton()
@@ -69,7 +69,7 @@ public partial class CalendarFacts<TDataSet> // Properties
     }
 }
 
-public partial class CalendarFacts<TDataSet> // Factories
+public partial class SimpleCalendarFacts<TDataSet> // Factories
 {
     #region GetCalendarYear()
 
@@ -181,7 +181,7 @@ public partial class CalendarFacts<TDataSet> // Factories
     #endregion
 }
 
-public partial class CalendarFacts<TDataSet> // Conversions
+public partial class SimpleCalendarFacts<TDataSet> // Conversions
 {
     #region GetCalendarYear()
 
@@ -258,7 +258,7 @@ public partial class CalendarFacts<TDataSet> // Conversions
     #endregion
 }
 
-public partial class CalendarFacts<TDataSet> // Internal helpers
+public partial class SimpleCalendarFacts<TDataSet> // Internal helpers
 {
     #region ValidateDayOfMonth()
 

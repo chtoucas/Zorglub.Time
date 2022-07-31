@@ -19,10 +19,10 @@ public abstract partial class SimpleDateFacts<TDate, TDataSet> :
     where TDate : struct, ISimpleDate<TDate>
     where TDataSet : ICalendarDataSet, ISingleton<TDataSet>
 {
-    protected SimpleDateFacts(Calendar calendar, Calendar otherCalendar)
+    protected SimpleDateFacts(SimpleCalendar calendar, SimpleCalendar otherCalendar)
         : this(calendar, otherCalendar, BaseCtorArgs.Create(calendar)) { }
 
-    private SimpleDateFacts(Calendar calendar, Calendar otherCalendar, BaseCtorArgs args)
+    private SimpleDateFacts(SimpleCalendar calendar, SimpleCalendar otherCalendar, BaseCtorArgs args)
         : base(args.SupportedYears, args.Domain)
     {
         Debug.Assert(calendar != null);
@@ -45,8 +45,8 @@ public abstract partial class SimpleDateFacts<TDate, TDataSet> :
         OtherCalendar = otherCalendar;
     }
 
-    protected Calendar CalendarUT { get; }
-    protected Calendar OtherCalendar { get; }
+    protected SimpleCalendar CalendarUT { get; }
+    protected SimpleCalendar OtherCalendar { get; }
 
     protected abstract TDate GetDate(int y, int doy);
 
@@ -58,7 +58,7 @@ public abstract partial class SimpleDateFacts<TDate, TDataSet> :
 
     private sealed record BaseCtorArgs(Range<int> SupportedYears, Range<DayNumber> Domain)
     {
-        public static BaseCtorArgs Create(Calendar calendar)
+        public static BaseCtorArgs Create(SimpleCalendar calendar)
         {
             Requires.NotNull(calendar);
             return new BaseCtorArgs(calendar.YearsValidator.Range, calendar.Domain);

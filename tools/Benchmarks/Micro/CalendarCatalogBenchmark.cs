@@ -56,7 +56,7 @@ public class CalendarCatalogBenchmark : BenchmarkBase
     [Benchmark]
     public string GetCalendarUnsafe()
     {
-        ref readonly Calendar chr = ref CalendarCatalog.GetCalendarUnsafe(Id);
+        ref readonly SimpleCalendar chr = ref CalendarCatalog.GetCalendarUnsafe(Id);
         return chr.Key;
     }
 

@@ -13,7 +13,7 @@ public abstract partial class CalendarDayFacts<TDataSet> :
     SimpleDateFacts<CalendarDay, TDataSet>
     where TDataSet : ICalendarDataSet, ISingleton<TDataSet>
 {
-    protected CalendarDayFacts(Calendar calendar, Calendar otherCalendar)
+    protected CalendarDayFacts(SimpleCalendar calendar, SimpleCalendar otherCalendar)
         : base(calendar, otherCalendar)
     {
         Debug.Assert(calendar != null);

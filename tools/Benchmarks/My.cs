@@ -12,13 +12,13 @@ using static Zorglub.Time.Extensions.Unboxing;
 
 internal static class My
 {
-    public static readonly Calendar Tropicalia = TropicaliaSchema.GetInstance()
+    public static readonly SimpleCalendar Tropicalia = TropicaliaSchema.GetInstance()
         .CreateCalendar("Tropicália", DayZero.NewStyle);
 
-    public static readonly Calendar Tropicalia3031 = Tropicalia3031Schema.GetInstance()
+    public static readonly SimpleCalendar Tropicalia3031 = Tropicalia3031Schema.GetInstance()
         .CreateCalendar("Tropicália 30-31", DayZero.NewStyle);
 
-    public static readonly Calendar Tropicalia3130 = Tropicalia3130Schema.GetInstance()
+    public static readonly SimpleCalendar Tropicalia3130 = Tropicalia3130Schema.GetInstance()
         .CreateCalendar("Tropicália 31-30", DayZero.NewStyle);
 
     //

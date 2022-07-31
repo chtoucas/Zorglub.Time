@@ -33,7 +33,7 @@ namespace Zorglub.Time.Simple
         /// Obtains the calendar to which belongs the specified range.
         /// </summary>
         [Pure]
-        public static Calendar GetCalendar(this Range<CalendarDate> @this) => @this.Min.Calendar;
+        public static SimpleCalendar GetCalendar(this Range<CalendarDate> @this) => @this.Min.Calendar;
 
         /// <summary>
         /// Obtains the number of days in the specified range.
@@ -77,7 +77,7 @@ namespace Zorglub.Time.Simple
         /// <exception cref="ArgumentNullException"><paramref name="newCalendar"/> is null.
         /// </exception>
         [Pure]
-        public static Range<CalendarDate> WithCalendar(this Range<CalendarDate> @this, Calendar newCalendar)
+        public static Range<CalendarDate> WithCalendar(this Range<CalendarDate> @this, SimpleCalendar newCalendar)
         {
             Requires.NotNull(newCalendar);
 
@@ -106,7 +106,7 @@ namespace Zorglub.Time.Simple
         /// Obtains the calendar to which belongs the specified range.
         /// </summary>
         [Pure]
-        public static Calendar GetCalendar(this Range<CalendarDay> @this) => @this.Min.Calendar;
+        public static SimpleCalendar GetCalendar(this Range<CalendarDay> @this) => @this.Min.Calendar;
 
         /// <summary>
         /// Obtains the number of days in the specified range.
@@ -135,7 +135,7 @@ namespace Zorglub.Time.Simple
         /// <exception cref="ArgumentNullException"><paramref name="newCalendar"/> is null.
         /// </exception>
         [Pure]
-        public static Range<CalendarDay> WithCalendar(this Range<CalendarDay> @this, Calendar newCalendar)
+        public static Range<CalendarDay> WithCalendar(this Range<CalendarDay> @this, SimpleCalendar newCalendar)
         {
             Requires.NotNull(newCalendar);
 
@@ -162,7 +162,7 @@ namespace Zorglub.Time.Simple
         /// Obtains the calendar to which belongs the specified range.
         /// </summary>
         [Pure]
-        public static Calendar GetCalendar(this Range<OrdinalDate> @this) => @this.Min.Calendar;
+        public static SimpleCalendar GetCalendar(this Range<OrdinalDate> @this) => @this.Min.Calendar;
 
         /// <summary>
         /// Obtains the number of days in the specified range.
@@ -191,7 +191,7 @@ namespace Zorglub.Time.Simple
         /// <exception cref="ArgumentNullException"><paramref name="newCalendar"/> is null.
         /// </exception>
         [Pure]
-        public static Range<OrdinalDate> WithCalendar(this Range<OrdinalDate> @this, Calendar newCalendar)
+        public static Range<OrdinalDate> WithCalendar(this Range<OrdinalDate> @this, SimpleCalendar newCalendar)
         {
             Requires.NotNull(newCalendar);
 

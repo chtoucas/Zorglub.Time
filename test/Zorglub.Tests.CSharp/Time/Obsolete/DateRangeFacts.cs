@@ -16,7 +16,7 @@ public abstract partial class DateRangeFacts<TDataSet> :
     IDateRangeFacts<CalendarDate, DateRangeV0, TDataSet>
     where TDataSet : ICalendarDataSet, ISingleton<TDataSet>
 {
-    protected DateRangeFacts(Calendar calendar, Calendar otherCalendar)
+    protected DateRangeFacts(SimpleCalendar calendar, SimpleCalendar otherCalendar)
     {
         Requires.NotNull(calendar);
         Requires.NotNull(otherCalendar);
@@ -34,9 +34,9 @@ public abstract partial class DateRangeFacts<TDataSet> :
     /// <summary>
     /// Gets the calendar under test.
     /// </summary>
-    protected Calendar CalendarUT { get; }
+    protected SimpleCalendar CalendarUT { get; }
 
-    protected Calendar OtherCalendar { get; }
+    protected SimpleCalendar OtherCalendar { get; }
 
     protected sealed override CalendarDate GetDate(int y, int m, int d) =>
         CalendarUT.GetCalendarDate(y, m, d);

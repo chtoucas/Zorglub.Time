@@ -103,7 +103,7 @@ public partial class CalendarZoo
              ).Unbox();
 }
 
-// Proleptic calendars of type Calendar or ZCalendar.
+// Proleptic calendars of type SimpleCalendar or ZCalendar.
 // - Tropicalia
 // - LongGregorian
 // - LongJulian
@@ -121,11 +121,11 @@ public partial class CalendarZoo
     /// Gets the proleptic Tropicália calendar.
     /// <para>This static property is thread-safe.</para>
     /// </summary>
-    public static Calendar Tropicalia => s_Tropicalia ?? InitTropicalia();
+    public static SimpleCalendar Tropicalia => s_Tropicalia ?? InitTropicalia();
 
-    private static volatile Calendar? s_Tropicalia;
+    private static volatile SimpleCalendar? s_Tropicalia;
     [Pure]
-    private static Calendar InitTropicalia()
+    private static SimpleCalendar InitTropicalia()
     {
         const string Key = "Tropicália";
 
@@ -197,7 +197,7 @@ public partial class CalendarZoo
     }
 }
 
-// Retropolated calendars of type Calendar.
+// Retropolated calendars of type SimpleCalendar.
 // - Egyptian
 // - FrenchRepublican
 // - InternationalFixed
@@ -212,43 +212,43 @@ public partial class CalendarZoo
     /// Gets the Egyptian calendar.
     /// <para>This static property is thread-safe.</para>
     /// </summary>
-    public static Calendar Egyptian => RetropolatedCalendars.Egyptian;
+    public static SimpleCalendar Egyptian => RetropolatedCalendars.Egyptian;
 
     /// <summary>
     /// Gets the French Republican calendar.
     /// <para>This static property is thread-safe.</para>
     /// </summary>
-    public static Calendar FrenchRepublican => RetropolatedCalendars.FrenchRepublican;
+    public static SimpleCalendar FrenchRepublican => RetropolatedCalendars.FrenchRepublican;
 
     /// <summary>
     /// Gets the International Fixed calendar.
     /// <para>This static property is thread-safe.</para>
     /// </summary>
-    public static Calendar InternationalFixed => RetropolatedCalendars.InternationalFixed;
+    public static SimpleCalendar InternationalFixed => RetropolatedCalendars.InternationalFixed;
 
     /// <summary>
     /// Gets the Persian calendar (proposed arithmetical form).
     /// <para>This static property is thread-safe.</para>
     /// </summary>
-    public static Calendar Persian2820 => RetropolatedCalendars.Persian2820;
+    public static SimpleCalendar Persian2820 => RetropolatedCalendars.Persian2820;
 
     /// <summary>
     /// Gets the Positivist calendar.
     /// <para>This static property is thread-safe.</para>
     /// </summary>
-    public static Calendar Positivist => RetropolatedCalendars.Positivist;
+    public static SimpleCalendar Positivist => RetropolatedCalendars.Positivist;
 
     /// <summary>
     /// Gets the revised World calendar.
     /// <para>This static property is thread-safe.</para>
     /// </summary>
-    public static Calendar RevisedWorld => RetropolatedCalendars.RevisedWorld;
+    public static SimpleCalendar RevisedWorld => RetropolatedCalendars.RevisedWorld;
 
     /// <summary>
     /// Gets the World calendar.
     /// <para>This static property is thread-safe.</para>
     /// </summary>
-    public static Calendar World => RetropolatedCalendars.World;
+    public static SimpleCalendar World => RetropolatedCalendars.World;
 
     private class RetropolatedCalendars
     {
@@ -261,45 +261,45 @@ public partial class CalendarZoo
         // before any member on the class is touched.
         static RetropolatedCalendars() { }
 
-        internal static readonly Calendar Egyptian =
+        internal static readonly SimpleCalendar Egyptian =
             Egyptian12Schema.GetInstance().CreateCalendar(
                 "Egyptian",
                 CalendarEpoch.Egyptian,
                 proleptic: false);
 
-        internal static Calendar FrenchRepublican =
+        internal static SimpleCalendar FrenchRepublican =
             FrenchRepublican12Schema.GetInstance().CreateCalendar(
                 "French Republican",
                 CalendarEpoch.FrenchRepublican,
                 proleptic: false);
 
-        internal static Calendar InternationalFixed =
+        internal static SimpleCalendar InternationalFixed =
             // The International Fixed calendar re-uses the Gregorian epoch.
             InternationalFixedSchema.GetInstance().CreateCalendar(
                 "International Fixed",
                 DayZero.NewStyle,
                 proleptic: false);
 
-        internal static Calendar Persian2820 =
+        internal static SimpleCalendar Persian2820 =
             Persian2820Schema.GetInstance().CreateCalendar(
                 "Tabular Persian",
                 CalendarEpoch.Persian,
                 proleptic: false);
 
-        internal static Calendar Positivist =
+        internal static SimpleCalendar Positivist =
             PositivistSchema.GetInstance().CreateCalendar(
                 "Positivist",
                 CalendarEpoch.Positivist,
                 proleptic: false);
 
-        internal static Calendar RevisedWorld =
+        internal static SimpleCalendar RevisedWorld =
             // The Revised World calendar re-uses the Gregorian epoch.
             WorldSchema.GetInstance().CreateCalendar(
                 "Revised World",
                 DayZero.NewStyle,
                 proleptic: false);
 
-        internal static Calendar World =
+        internal static SimpleCalendar World =
             WorldSchema.GetInstance().CreateCalendar(
                 "World",
                 CalendarEpoch.SundayBeforeGregorian,

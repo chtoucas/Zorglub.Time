@@ -15,7 +15,7 @@ public abstract partial class SimpleRangeFacts<TDataSet> :
     CalendarDataConsumer<TDataSet>
     where TDataSet : ICalendarDataSet, ISingleton<TDataSet>
 {
-    protected SimpleRangeFacts(Calendar calendar, Calendar otherCalendar)
+    protected SimpleRangeFacts(SimpleCalendar calendar, SimpleCalendar otherCalendar)
     {
         Requires.NotNull(calendar);
         Requires.NotNull(otherCalendar);
@@ -30,8 +30,8 @@ public abstract partial class SimpleRangeFacts<TDataSet> :
         OtherCalendar = otherCalendar;
     }
 
-    protected Calendar CalendarUT { get; }
-    protected Calendar OtherCalendar { get; }
+    protected SimpleCalendar CalendarUT { get; }
+    protected SimpleCalendar OtherCalendar { get; }
 }
 
 public abstract partial class SimpleRangeFacts<TDataSet> // CalendarDate
