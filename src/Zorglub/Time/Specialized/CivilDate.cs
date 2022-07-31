@@ -15,21 +15,21 @@ namespace Zorglub.Time.Specialized
     // is equal to DayNumber.Zero.
 
     /// <summary>
-    /// Represents the Civil calendar system.
+    /// Represents the Civil calendar.
     /// <para>This class cannot be inherited.</para>
     /// </summary>
-    public sealed class CivilSystem : MinMaxYearCalendar<CivilDate>
+    public sealed class CivilCalendar : MinMaxYearCalendar<CivilDate>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="CivilSystem"/> class.
+        /// Initializes a new instance of the <see cref="CivilCalendar"/> class.
         /// </summary>
-        public CivilSystem() : this(new CivilSchema()) { }
+        public CivilCalendar() : this(new CivilSchema()) { }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="CivilSystem"/> class.
+        /// Initializes a new instance of the <see cref="CivilCalendar"/> class.
         /// </summary>
         // Constructor for CivilDate.
-        internal CivilSystem(CivilSchema schema)
+        internal CivilCalendar(CivilSchema schema)
             : base("Gregorian", new StandardScope(schema, DayZero.NewStyle)) { }
 
         /// <inheritdoc/>
@@ -52,10 +52,10 @@ namespace Zorglub.Time.Specialized
         private static readonly CivilSchema s_Schema = new();
 
         /// <summary>
-        /// Represents the Civil calendar system.
+        /// Represents the Civil calendar.
         /// <para>This field is read-only.</para>
         /// </summary>
-        private static readonly CivilSystem s_Calendar = new(s_Schema);
+        private static readonly CivilCalendar s_Calendar = new(s_Schema);
 
         /// <summary>
         /// Represents the domain, the interval of supported <see cref="DayNumber"/>.
@@ -88,7 +88,7 @@ namespace Zorglub.Time.Specialized
         /// </summary>
         /// <exception cref="AoorException">The specified components do not form a valid date or
         /// <paramref name="year"/> is outside the range of years supported by
-        /// <see cref="CivilSystem"/>.</exception>
+        /// <see cref="CivilCalendar"/>.</exception>
         public CivilDate(int year, int month, int day)
         {
             GregorianStandardScope.ValidateYearMonthDay(year, month, day);
@@ -102,7 +102,7 @@ namespace Zorglub.Time.Specialized
         /// </summary>
         /// <exception cref="AoorException">The specified components do not form a valid ordinal
         /// date or <paramref name="year"/> is outside the range of years supported by
-        /// <see cref="CivilSystem"/>.</exception>
+        /// <see cref="CivilCalendar"/>.</exception>
         public CivilDate(int year, int dayOfYear)
         {
             GregorianStandardScope.ValidateOrdinal(year, dayOfYear);
@@ -144,10 +144,10 @@ namespace Zorglub.Time.Specialized
         public static CivilDate MaxValue => s_MaxValue;
 
         /// <summary>
-        /// Gets the calendar system to which belongs the current instance.
+        /// Gets the calendar to which belongs the current instance.
         /// <para>This static property is thread-safe.</para>
         /// </summary>
-        public static CivilSystem Calendar => s_Calendar;
+        public static CivilCalendar Calendar => s_Calendar;
 
         /// <summary>
         /// Gets the day number.

@@ -13,11 +13,11 @@ open Zorglub.Time.Specialized
 module Bundles =
     // NB: notice the use of ProlepticGregorianDataSet.
 
-    let private chr = new GregorianSystem()
+    let private chr = new GregorianCalendar()
 
     [<Sealed>]
     type CalendaTests() =
-        inherit ICalendarTFacts<GregorianDate, GregorianSystem, ProlepticGregorianDataSet>(chr)
+        inherit ICalendarTFacts<GregorianDate, GregorianCalendar, ProlepticGregorianDataSet>(chr)
 
         override x.Algorithm_Prop() = x.CalendarUT.Algorithm === CalendricalAlgorithm.Arithmetical
         override x.Family_Prop() = x.CalendarUT.Family === CalendricalFamily.Solar

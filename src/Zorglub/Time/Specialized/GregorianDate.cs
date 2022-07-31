@@ -13,21 +13,21 @@ namespace Zorglub.Time.Specialized
     // is equal to DayNumber.Zero.
 
     /// <summary>
-    /// Represents the Gregorian calendar system.
+    /// Represents the Gregorian calendar.
     /// <para>This class cannot be inherited.</para>
     /// </summary>
-    public sealed class GregorianSystem : MinMaxYearCalendar<GregorianDate>
+    public sealed class GregorianCalendar : MinMaxYearCalendar<GregorianDate>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="GregorianSystem"/> class.
+        /// Initializes a new instance of the <see cref="GregorianCalendar"/> class.
         /// </summary>
-        public GregorianSystem() : this(new GregorianSchema()) { }
+        public GregorianCalendar() : this(new GregorianSchema()) { }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="GregorianSystem"/> class.
+        /// Initializes a new instance of the <see cref="GregorianCalendar"/> class.
         /// </summary>
         // Constructor for GregorianDate.
-        internal GregorianSystem(GregorianSchema schema)
+        internal GregorianCalendar(GregorianSchema schema)
             : base("Gregorian", MinMaxYearScope.WithMaximalRange(schema, DayZero.NewStyle)) { }
 
         /// <inheritdoc/>
@@ -52,10 +52,10 @@ namespace Zorglub.Time.Specialized
         private static readonly GregorianSchema s_Schema = new();
 
         /// <summary>
-        /// Represents the Gregorian calendar system.
+        /// Represents the Gregorian calendar.
         /// <para>This field is read-only.</para>
         /// </summary>
-        private static readonly GregorianSystem s_Calendar = new(s_Schema);
+        private static readonly GregorianCalendar s_Calendar = new(s_Schema);
 
         /// <summary>
         /// Represents the scope.
@@ -94,7 +94,7 @@ namespace Zorglub.Time.Specialized
         /// </summary>
         /// <exception cref="AoorException">The specified components do not form a valid date or
         /// <paramref name="year"/> is outside the range of years supported by
-        /// <see cref="GregorianSystem"/>.</exception>
+        /// <see cref="GregorianCalendar"/>.</exception>
         public GregorianDate(int year, int month, int day)
         {
             s_Scope.ValidateYearMonthDay(year, month, day);
@@ -108,7 +108,7 @@ namespace Zorglub.Time.Specialized
         /// </summary>
         /// <exception cref="AoorException">The specified components do not form a valid ordinal
         /// date or <paramref name="year"/> is outside the range of years supported by
-        /// <see cref="GregorianSystem"/>.</exception>
+        /// <see cref="GregorianCalendar"/>.</exception>
         public GregorianDate(int year, int dayOfYear)
         {
             s_Scope.ValidateOrdinal(year, dayOfYear);
@@ -150,10 +150,10 @@ namespace Zorglub.Time.Specialized
         public static GregorianDate MaxValue => s_MaxValue;
 
         /// <summary>
-        /// Gets the calendar system to which belongs the current instance.
+        /// Gets the calendar to which belongs the current instance.
         /// <para>This static property is thread-safe.</para>
         /// </summary>
-        public static GregorianSystem Calendar => s_Calendar;
+        public static GregorianCalendar Calendar => s_Calendar;
 
         /// <summary>
         /// Gets the day number.

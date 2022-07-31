@@ -13,11 +13,11 @@ open Zorglub.Time.Specialized
 module Bundles =
     // NB: notice the use of ProlepticJulianDataSet.
 
-    let private chr = new JulianSystem()
+    let private chr = new JulianCalendar()
 
     [<Sealed>]
     type CalendaTests() =
-        inherit ICalendarTFacts<JulianDate, JulianSystem, ProlepticJulianDataSet>(chr)
+        inherit ICalendarTFacts<JulianDate, JulianCalendar, ProlepticJulianDataSet>(chr)
 
         override x.Algorithm_Prop() = x.CalendarUT.Algorithm === CalendricalAlgorithm.Arithmetical
         override x.Family_Prop() = x.CalendarUT.Family === CalendricalFamily.Solar

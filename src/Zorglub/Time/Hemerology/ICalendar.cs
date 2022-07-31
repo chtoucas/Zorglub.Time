@@ -15,7 +15,8 @@ namespace Zorglub.Time.Hemerology
     // Types implementing ICalendar or ICalendar<T>
     // --------------------------------------------
     //
-    //   Calendar                               CalendarDate, OrdinalDate, etc.
+    //   SimpleCalendar                         CalendarDate, OrdinalDate, etc.
+    //     SimpleGregorian & co
     //   BasicCalendar
     //     BoundedBelowCalendar
     //       BoundedBelowCalendar<TDate>        TDate
@@ -24,10 +25,11 @@ namespace Zorglub.Time.Hemerology
     //       MinMaxYearCalendar<TDate>          TDate
     //         MinMaxYearDayCalendar            DayNumber
     //         ZCalendar                        ZDate
+    //           GregorianZCalendar & co
     //         # Specialized calendars
-    //         CivilSystem                      CivilDate
-    //         GregorianSystem                  GregorianDate
-    //         JulianSystem                     JulianDate
+    //         CivilCalendar                    CivilDate
+    //         GregorianCalendar                GregorianDate
+    //         JulianCalendar                   JulianDate
     //         (MyCivilCalendar)                MyCivilDate
     // A   NakedCalendar
     //       BoundedBelowNakedCalendar

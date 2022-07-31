@@ -15,21 +15,21 @@ namespace Zorglub.Time.Specialized
     // Add method Adjust(Func<CivilDate, CivilDate>).
 
     /// <summary>
-    /// Represents the Julian calendar system.
+    /// Represents the Julian calendar.
     /// <para>This class cannot be inherited.</para>
     /// </summary>
-    public sealed class JulianSystem : MinMaxYearCalendar<JulianDate>
+    public sealed class JulianCalendar : MinMaxYearCalendar<JulianDate>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="JulianSystem"/> class.
+        /// Initializes a new instance of the <see cref="JulianCalendar"/> class.
         /// </summary>
-        public JulianSystem() : this(new JulianSchema()) { }
+        public JulianCalendar() : this(new JulianSchema()) { }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="JulianSystem"/> class.
+        /// Initializes a new instance of the <see cref="JulianCalendar"/> class.
         /// </summary>
         // Constructor for JulianDate.
-        internal JulianSystem(JulianSchema schema)
+        internal JulianCalendar(JulianSchema schema)
             : base("Julian", MinMaxYearScope.WithMaximalRange(schema, DayZero.OldStyle)) { }
 
         /// <inheritdoc/>
@@ -54,10 +54,10 @@ namespace Zorglub.Time.Specialized
         private static readonly JulianSchema s_Schema = new();
 
         /// <summary>
-        /// Represents the Julian calendar system.
+        /// Represents the Julian calendar.
         /// <para>This field is read-only.</para>
         /// </summary>
-        private static readonly JulianSystem s_Calendar = new(s_Schema);
+        private static readonly JulianCalendar s_Calendar = new(s_Schema);
 
         /// <summary>
         /// Represents the scope.
@@ -102,7 +102,7 @@ namespace Zorglub.Time.Specialized
         /// </summary>
         /// <exception cref="AoorException">The specified components do not form a valid date or
         /// <paramref name="year"/> is outside the range of years supported by
-        /// <see cref="JulianSystem"/>.</exception>
+        /// <see cref="JulianCalendar"/>.</exception>
         public JulianDate(int year, int month, int day)
         {
             s_Scope.ValidateYearMonthDay(year, month, day);
@@ -116,7 +116,7 @@ namespace Zorglub.Time.Specialized
         /// </summary>
         /// <exception cref="AoorException">The specified components do not form a valid ordinal
         /// date or <paramref name="year"/> is outside the range of years supported by
-        /// <see cref="JulianSystem"/>.</exception>
+        /// <see cref="JulianCalendar"/>.</exception>
         public JulianDate(int year, int dayOfYear)
         {
             s_Scope.ValidateOrdinal(year, dayOfYear);
@@ -158,10 +158,10 @@ namespace Zorglub.Time.Specialized
         public static JulianDate MaxValue => s_MaxValue;
 
         /// <summary>
-        /// Gets the calendar system to which belongs the current instance.
+        /// Gets the calendar to which belongs the current instance.
         /// <para>This static property is thread-safe.</para>
         /// </summary>
-        public static JulianSystem Calendar => s_Calendar;
+        public static JulianCalendar Calendar => s_Calendar;
 
         /// <summary>
         /// Gets the day number.
