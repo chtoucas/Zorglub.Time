@@ -7,7 +7,7 @@ namespace Zorglub.Time.Simple
     using Zorglub.Time.Core.Schemas;
     using Zorglub.Time.Hemerology;
 
-    // FIXME(api): internal, remove IEpagomenalCalendar<>.
+    // FIXME(api): remove IEpagomenalCalendar<>.
 
     #region Developer Notes
 
@@ -24,15 +24,15 @@ namespace Zorglub.Time.Simple
     /// Represents the Armenian calendar.
     /// <para>This class cannot be inherited.</para>
     /// </summary>
-    public sealed class SimpleArmenian : SimpleCalendar, IEpagomenalCalendar<CalendarDate>
+    internal sealed class ArmenianSimpleCalendar : SimpleCalendar, IEpagomenalCalendar<CalendarDate>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="SimpleArmenian"/>
+        /// Initializes a new instance of the <see cref="ArmenianSimpleCalendar"/>
         /// class.
         /// </summary>
-        private SimpleArmenian() : this(new Egyptian12Schema()) { }
+        private ArmenianSimpleCalendar() : this(new Egyptian12Schema()) { }
 
-        private SimpleArmenian(Egyptian12Schema schema)
+        private ArmenianSimpleCalendar(Egyptian12Schema schema)
             : base(
                   CalendarId.Armenian,
                   schema,
@@ -44,7 +44,7 @@ namespace Zorglub.Time.Simple
         /// Gets a singleton instance of the Armenian calendar.
         /// <para>This static property is thread-safe.</para>
         /// </summary>
-        public static SimpleArmenian Instance { get; } = new SimpleArmenian();
+        public static ArmenianSimpleCalendar Instance { get; } = new ArmenianSimpleCalendar();
 
         /// <summary>
         /// Determines whether the specified date is an epagomenal day or not.
@@ -63,14 +63,14 @@ namespace Zorglub.Time.Simple
     /// Represents the Coptic calendar.
     /// <para>This class cannot be inherited.</para>
     /// </summary>
-    public sealed class SimpleCoptic : SimpleCalendar, IEpagomenalCalendar<CalendarDate>
+    internal sealed class CopticSimpleCalendar : SimpleCalendar, IEpagomenalCalendar<CalendarDate>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="SimpleCoptic"/> class.
+        /// Initializes a new instance of the <see cref="CopticSimpleCalendar"/> class.
         /// </summary>
-        private SimpleCoptic() : this(new Coptic12Schema()) { }
+        private CopticSimpleCalendar() : this(new Coptic12Schema()) { }
 
-        private SimpleCoptic(Coptic12Schema schema)
+        private CopticSimpleCalendar(Coptic12Schema schema)
             : base(
                   CalendarId.Coptic,
                   schema,
@@ -82,7 +82,7 @@ namespace Zorglub.Time.Simple
         /// Gets a singleton instance of the Coptic calendar.
         /// <para>This static property is thread-safe.</para>
         /// </summary>
-        public static SimpleCoptic Instance { get; } = new SimpleCoptic();
+        public static CopticSimpleCalendar Instance { get; } = new CopticSimpleCalendar();
 
         /// <summary>
         /// Determines whether the specified date is an epagomenal day or not.
@@ -101,15 +101,15 @@ namespace Zorglub.Time.Simple
     /// Represents the Ethiopic calendar.
     /// <para>This class cannot be inherited.</para>
     /// </summary>
-    public sealed class SimpleEthiopic : SimpleCalendar, IEpagomenalCalendar<CalendarDate>
+    internal sealed class EthiopicSimpleCalendar : SimpleCalendar, IEpagomenalCalendar<CalendarDate>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="SimpleEthiopic"/>
+        /// Initializes a new instance of the <see cref="EthiopicSimpleCalendar"/>
         /// class.
         /// </summary>
-        private SimpleEthiopic() : this(new Coptic12Schema()) { }
+        private EthiopicSimpleCalendar() : this(new Coptic12Schema()) { }
 
-        private SimpleEthiopic(Coptic12Schema schema)
+        private EthiopicSimpleCalendar(Coptic12Schema schema)
             : base(
                   CalendarId.Ethiopic,
                   schema,
@@ -121,7 +121,7 @@ namespace Zorglub.Time.Simple
         /// Gets a singleton instance of the Ethiopic calendar.
         /// <para>This static property is thread-safe.</para>
         /// </summary>
-        public static SimpleEthiopic Instance { get; } = new SimpleEthiopic();
+        public static EthiopicSimpleCalendar Instance { get; } = new EthiopicSimpleCalendar();
 
         /// <summary>
         /// Determines whether the specified date is an epagomenal day or not.
@@ -140,13 +140,13 @@ namespace Zorglub.Time.Simple
     /// Represents the proleptic Gregorian calendar.
     /// <para>This class cannot be inherited.</para>
     /// </summary>
-    public sealed class SimpleGregorian : SimpleCalendar
+    internal sealed class GregorianSimpleCalendar : SimpleCalendar
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="SimpleGregorian"/>
+        /// Initializes a new instance of the <see cref="GregorianSimpleCalendar"/>
         /// class.
         /// </summary>
-        private SimpleGregorian()
+        private GregorianSimpleCalendar()
             : base(
                   CalendarId.Gregorian,
                   new GregorianSchema(),
@@ -158,7 +158,7 @@ namespace Zorglub.Time.Simple
         /// Gets a singleton instance of the proleptic Gregorian calendar.
         /// <para>This static property is thread-safe.</para>
         /// </summary>
-        public static SimpleGregorian Instance { get; } = new SimpleGregorian();
+        public static GregorianSimpleCalendar Instance { get; } = new GregorianSimpleCalendar();
 
         /// <inheritdoc />
         [Pure]
@@ -191,12 +191,12 @@ namespace Zorglub.Time.Simple
     /// Represents the proleptic Julian calendar.
     /// <para>This class cannot be inherited.</para>
     /// </summary>
-    public sealed class SimpleJulian : SimpleCalendar
+    internal sealed class JulianSimpleCalendar : SimpleCalendar
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="SimpleJulian"/> class.
+        /// Initializes a new instance of the <see cref="JulianSimpleCalendar"/> class.
         /// </summary>
-        private SimpleJulian()
+        private JulianSimpleCalendar()
             : base(
                   CalendarId.Julian,
                   new JulianSchema(),
@@ -208,7 +208,7 @@ namespace Zorglub.Time.Simple
         /// Gets a singleton instance of the proleptic Julian calendar.
         /// <para>This static property is thread-safe.</para>
         /// </summary>
-        public static SimpleJulian Instance { get; } = new SimpleJulian();
+        public static JulianSimpleCalendar Instance { get; } = new JulianSimpleCalendar();
 
         /// <inheritdoc />
         [Pure]
@@ -241,13 +241,13 @@ namespace Zorglub.Time.Simple
     /// Represents the Tabular Islamic calendar.
     /// <para>This class cannot be inherited.</para>
     /// </summary>
-    public sealed class SimpleTabularIslamic : SimpleCalendar
+    internal sealed class TabularIslamicSimpleCalendar : SimpleCalendar
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="SimpleTabularIslamic"/>
+        /// Initializes a new instance of the <see cref="TabularIslamicSimpleCalendar"/>
         /// class.
         /// </summary>
-        private SimpleTabularIslamic()
+        private TabularIslamicSimpleCalendar()
             : base(
                   CalendarId.TabularIslamic,
                   new TabularIslamicSchema(),
@@ -259,22 +259,22 @@ namespace Zorglub.Time.Simple
         /// Gets a singleton instance of the Tabular Islamic calendar.
         /// <para>This static property is thread-safe.</para>
         /// </summary>
-        public static SimpleTabularIslamic Instance { get; } = new SimpleTabularIslamic();
+        public static TabularIslamicSimpleCalendar Instance { get; } = new TabularIslamicSimpleCalendar();
     }
 
     /// <summary>
     /// Represents the Zoroastrian calendar.
     /// <para>This class cannot be inherited.</para>
     /// </summary>
-    public sealed class SimpleZoroastrian : SimpleCalendar, IEpagomenalCalendar<CalendarDate>
+    internal sealed class ZoroastrianSimpleCalendar : SimpleCalendar, IEpagomenalCalendar<CalendarDate>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="SimpleZoroastrian"/>
+        /// Initializes a new instance of the <see cref="ZoroastrianSimpleCalendar"/>
         /// class.
         /// </summary>
-        private SimpleZoroastrian() : this(new Egyptian12Schema()) { }
+        private ZoroastrianSimpleCalendar() : this(new Egyptian12Schema()) { }
 
-        private SimpleZoroastrian(Egyptian12Schema schema)
+        private ZoroastrianSimpleCalendar(Egyptian12Schema schema)
             : base(
                   CalendarId.Zoroastrian,
                   schema,
@@ -286,7 +286,7 @@ namespace Zorglub.Time.Simple
         /// Gets a singleton instance of the Zoroastrian calendar.
         /// <para>This static property is thread-safe.</para>
         /// </summary>
-        public static SimpleZoroastrian Instance { get; } = new SimpleZoroastrian();
+        public static ZoroastrianSimpleCalendar Instance { get; } = new ZoroastrianSimpleCalendar();
 
         /// <summary>
         /// Determines whether the specified date is an epagomenal day or not.

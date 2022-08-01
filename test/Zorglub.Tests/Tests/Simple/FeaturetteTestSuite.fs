@@ -14,19 +14,19 @@ let private other = SimpleCalendar.Gregorian
 module EpagomenalDay =
     [<Sealed>]
     type ArmenianTests() =
-        inherit IEpagomenalCalendarFacts<SimpleArmenian, StandardArmenian12DataSet>(SimpleArmenian.Instance, other)
+        inherit IEpagomenalCalendarFacts<ArmenianSimpleCalendar, StandardArmenian12DataSet>(ArmenianSimpleCalendar.Instance, other)
 
     [<Sealed>]
     [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
     type CopticTests() =
-        inherit IEpagomenalCalendarFacts<SimpleCoptic, StandardCoptic12DataSet>(SimpleCoptic.Instance, other)
+        inherit IEpagomenalCalendarFacts<CopticSimpleCalendar, StandardCoptic12DataSet>(CopticSimpleCalendar.Instance, other)
 
     [<Sealed>]
     [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
     type EthiopicTests() =
-        inherit IEpagomenalCalendarFacts<SimpleEthiopic, StandardEthiopic12DataSet>(SimpleEthiopic.Instance, other)
+        inherit IEpagomenalCalendarFacts<EthiopicSimpleCalendar, StandardEthiopic12DataSet>(EthiopicSimpleCalendar.Instance, other)
 
     [<Sealed>]
     [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
     type ZoroastrianTests() =
-        inherit IEpagomenalCalendarFacts<SimpleZoroastrian, StandardZoroastrian12DataSet>(SimpleZoroastrian.Instance, other)
+        inherit IEpagomenalCalendarFacts<ZoroastrianSimpleCalendar, StandardZoroastrian12DataSet>(ZoroastrianSimpleCalendar.Instance, other)

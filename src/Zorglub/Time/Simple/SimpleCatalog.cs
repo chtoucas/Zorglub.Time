@@ -140,13 +140,13 @@ namespace Zorglub.Time.Simple
         {
             var arr = new SimpleCalendar[1 + (int)Cuid.MaxSystem];
 
-            Add(SimpleGregorian.Instance);
-            Add(SimpleJulian.Instance);
-            Add(SimpleArmenian.Instance);
-            Add(SimpleCoptic.Instance);
-            Add(SimpleEthiopic.Instance);
-            Add(SimpleTabularIslamic.Instance);
-            Add(SimpleZoroastrian.Instance);
+            Add(GregorianSimpleCalendar.Instance);
+            Add(JulianSimpleCalendar.Instance);
+            Add(ArmenianSimpleCalendar.Instance);
+            Add(CopticSimpleCalendar.Instance);
+            Add(EthiopicSimpleCalendar.Instance);
+            Add(TabularIslamicSimpleCalendar.Instance);
+            Add(ZoroastrianSimpleCalendar.Instance);
 
             return arr;
 

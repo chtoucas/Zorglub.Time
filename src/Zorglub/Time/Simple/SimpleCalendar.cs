@@ -162,43 +162,43 @@ namespace Zorglub.Time.Simple
         /// Gets the proleptic Gregorian calendar.
         /// <para>This static property is thread-safe.</para>
         /// </summary>
-        public static SimpleCalendar Gregorian => SimpleGregorian.Instance;
+        public static SimpleCalendar Gregorian => GregorianSimpleCalendar.Instance;
 
         /// <summary>
         /// Gets the proleptic Julian calendar.
         /// <para>This static property is thread-safe.</para>
         /// </summary>
-        public static SimpleCalendar Julian => SimpleJulian.Instance;
+        public static SimpleCalendar Julian => JulianSimpleCalendar.Instance;
 
         /// <summary>
         /// Gets the Armenian calendar.
         /// <para>This static property is thread-safe.</para>
         /// </summary>
-        public static SimpleCalendar Armenian => SimpleArmenian.Instance;
+        public static SimpleCalendar Armenian => ArmenianSimpleCalendar.Instance;
 
         /// <summary>
         /// Gets the Coptic calendar.
         /// <para>This static property is thread-safe.</para>
         /// </summary>
-        public static SimpleCalendar Coptic => SimpleCoptic.Instance;
+        public static SimpleCalendar Coptic => CopticSimpleCalendar.Instance;
 
         /// <summary>
         /// Gets the Ethiopic calendar.
         /// <para>This static property is thread-safe.</para>
         /// </summary>
-        public static SimpleCalendar Ethiopic => SimpleEthiopic.Instance;
+        public static SimpleCalendar Ethiopic => EthiopicSimpleCalendar.Instance;
 
         /// <summary>
         /// Gets the Tabular Islamic calendar.
         /// <para>This static property is thread-safe.</para>
         /// </summary>
-        public static SimpleCalendar TabularIslamic => SimpleTabularIslamic.Instance;
+        public static SimpleCalendar TabularIslamic => TabularIslamicSimpleCalendar.Instance;
 
         /// <summary>
         /// Gets the Zoroastrian calendar.
         /// <para>This static property is thread-safe.</para>
         /// </summary>
-        public static SimpleCalendar Zoroastrian => SimpleZoroastrian.Instance;
+        public static SimpleCalendar Zoroastrian => ZoroastrianSimpleCalendar.Instance;
 
         #endregion
 
