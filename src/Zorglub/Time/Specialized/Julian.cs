@@ -26,7 +26,7 @@ namespace Zorglub.Time.Specialized
     //
     // CountDaysSince(XXXDate other) checked context or not? do we test it?
     // Add method Adjust(Func<CivilDate, CivilDate>) + adjusters in Sketches.
-    // Other date types?
+    // Other date types? See CalendarZoo.
 
     /// <summary>
     /// Represents the Julian calendar.
