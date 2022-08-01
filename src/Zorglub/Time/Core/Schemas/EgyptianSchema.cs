@@ -7,7 +7,7 @@ namespace Zorglub.Time.Core.Schemas
     /// Represents an Egyptian schema and provides a base for derived classes.
     /// <para>This class can ONLY be inherited from within friend assemblies.</para>
     /// </summary>
-    public abstract partial class EgyptianSchema : SystemSchema, IRegularSchema
+    public abstract partial class EgyptianSchema : SystemSchema, IRegularFeaturette
     {
         /// <summary>
         /// Represents the number of days in a year.

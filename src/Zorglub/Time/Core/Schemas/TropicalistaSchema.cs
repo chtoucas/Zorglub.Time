@@ -7,7 +7,7 @@ namespace Zorglub.Time.Core.Schemas
     /// Provides a base for the "Tropicália" schemas.
     /// <para>This class can ONLY be initialized from within friend assemblies.</para>
     /// </summary>
-    public abstract partial class TropicalistaSchema : SystemSchema, IRegularSchema
+    public abstract partial class TropicalistaSchema : SystemSchema, IRegularFeaturette
     {
         /// <summary>
         /// Represents the number of months in a year.

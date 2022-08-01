@@ -66,7 +66,7 @@ public static class ApiTests
     public static void Schema_MonthsInYear()
     {
         var schemaTypes = s_DefinedTypes
-            .Where(t => !t.IsAbstract && typeof(IRegularSchema).IsAssignableFrom(t));
+            .Where(t => !t.IsAbstract && typeof(IRegularFeaturette).IsAssignableFrom(t));
 
         Assert.NotEmpty(schemaTypes);
 
@@ -84,7 +84,7 @@ public static class ApiTests
                 continue;
             }
 
-            var sch = (IRegularSchema)emptyCtor.Invoke(null);
+            var sch = (IRegularFeaturette)emptyCtor.Invoke(null);
             // Act & Assert
             Assert.True(sch.MonthsInYear > 0);
         }

@@ -25,7 +25,7 @@ namespace Zorglub.Time.Core.Schemas
     /// </remarks>
     public sealed partial class InternationalFixedSchema :
         SystemSchema,
-        IRegularSchema,
+        IRegularFeaturette,
         IBlankDayFeaturette,
         IDaysInMonthDistribution,
         IBoxable<InternationalFixedSchema>

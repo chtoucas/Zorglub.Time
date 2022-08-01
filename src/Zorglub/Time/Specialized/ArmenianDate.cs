@@ -3,6 +3,7 @@
 
 namespace Zorglub.Time.Specialized
 {
+    using Zorglub.Time.Core;
     using Zorglub.Time.Core.Intervals;
     using Zorglub.Time.Core.Schemas;
     using Zorglub.Time.Core.Validation;
@@ -13,7 +14,9 @@ namespace Zorglub.Time.Specialized
     /// Represents the Armenian calendar.
     /// <para>This class cannot be inherited.</para>
     /// </summary>
-    public sealed class ArmenianCalendar : MinMaxYearCalendar<ArmenianDate>
+    public sealed class ArmenianCalendar :
+        MinMaxYearCalendar<ArmenianDate>,
+        IRegularFeaturette
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ArmenianCalendar"/> class.
@@ -23,9 +26,14 @@ namespace Zorglub.Time.Specialized
         /// <summary>
         /// Initializes a new instance of the <see cref="ArmenianCalendar"/> class.
         /// </summary>
-        // Constructor for Armenian12Date.
         internal ArmenianCalendar(Egyptian12Schema schema)
-            : base("Armenian", new StandardScope(schema, CalendarEpoch.Armenian)) { }
+            : base("Armenian", new StandardScope(schema, CalendarEpoch.Armenian))
+        {
+            MonthsInYear = schema.MonthsInYear;
+        }
+
+        /// <inheritdoc/>
+        public int MonthsInYear { get; }
 
         /// <inheritdoc/>
         [Pure]
@@ -44,13 +52,13 @@ namespace Zorglub.Time.Specialized
         // NB: the order in which the static fields are written is important.
 
         /// <summary>
-        /// Represents the Egyptian12 schema.
+        /// Represents the schema.
         /// <para>This field is read-only.</para>
         /// </summary>
         private static readonly Egyptian12Schema s_Schema = new();
 
         /// <summary>
-        /// Represents the Armenian calendar.
+        /// Represents the calendar.
         /// <para>This field is read-only.</para>
         /// </summary>
         private static readonly ArmenianCalendar s_Calendar = new(s_Schema);

@@ -38,6 +38,25 @@ public sealed class StandardArmenian12DataSet :
 }
 
 /// <summary>
+/// Provides test data for the Armenian13 calendar with years within the range [1..9999].
+/// </summary>
+public sealed class StandardArmenian13DataSet :
+    StandardCalendarDataSet<UnboundedArmenian13DataSet>, IEpagomenalDataSet, ISingleton<StandardArmenian13DataSet>
+{
+    private StandardArmenian13DataSet() : base(UnboundedArmenian13DataSet.Instance) { }
+
+    public static StandardArmenian13DataSet Instance => Singleton.Instance;
+
+    private static class Singleton
+    {
+        internal static readonly StandardArmenian13DataSet Instance = new();
+        static Singleton() { }
+    }
+
+    public DataGroup<YemodaAnd<int>> EpagomenalDayInfoData => Unbounded.EpagomenalDayInfoData.WhereT(DataFilter.Filter);
+}
+
+/// <summary>
 /// Provides test data for the Coptic calendar with years within the range [1..9999].
 /// </summary>
 public sealed class StandardCoptic12DataSet :
@@ -88,6 +107,25 @@ public sealed class StandardEthiopic12DataSet :
     private static class Singleton
     {
         internal static readonly StandardEthiopic12DataSet Instance = new();
+        static Singleton() { }
+    }
+
+    public DataGroup<YemodaAnd<int>> EpagomenalDayInfoData => Unbounded.EpagomenalDayInfoData.WhereT(DataFilter.Filter);
+}
+
+/// <summary>
+/// Provides test data for the Ethiopic13 calendar with years within the range [1..9999].
+/// </summary>
+public sealed class StandardEthiopic13DataSet :
+    StandardCalendarDataSet<UnboundedEthiopic13DataSet>, IEpagomenalDataSet, ISingleton<StandardEthiopic13DataSet>
+{
+    private StandardEthiopic13DataSet() : base(UnboundedEthiopic13DataSet.Instance) { }
+
+    public static StandardEthiopic13DataSet Instance => Singleton.Instance;
+
+    private static class Singleton
+    {
+        internal static readonly StandardEthiopic13DataSet Instance = new();
         static Singleton() { }
     }
 
@@ -185,6 +223,25 @@ public sealed class StandardZoroastrian12DataSet :
     private static class Singleton
     {
         internal static readonly StandardZoroastrian12DataSet Instance = new();
+        static Singleton() { }
+    }
+
+    public DataGroup<YemodaAnd<int>> EpagomenalDayInfoData => Unbounded.EpagomenalDayInfoData.WhereT(DataFilter.Filter);
+}
+
+/// <summary>
+/// Provides test data for the Zoroastrian13 calendar with years within the range [1..9999].
+/// </summary>
+public sealed class StandardZoroastrian13DataSet :
+    StandardCalendarDataSet<UnboundedZoroastrian13DataSet>, IEpagomenalDataSet, ISingleton<StandardZoroastrian13DataSet>
+{
+    private StandardZoroastrian13DataSet() : base(UnboundedZoroastrian13DataSet.Instance) { }
+
+    public static StandardZoroastrian13DataSet Instance => Singleton.Instance;
+
+    private static class Singleton
+    {
+        internal static readonly StandardZoroastrian13DataSet Instance = new();
         static Singleton() { }
     }
 

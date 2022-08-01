@@ -3,6 +3,7 @@
 
 namespace Zorglub.Time.Specialized
 {
+    using Zorglub.Time.Core;
     using Zorglub.Time.Core.Intervals;
     using Zorglub.Time.Core.Schemas;
     using Zorglub.Time.Core.Validation;
@@ -13,7 +14,9 @@ namespace Zorglub.Time.Specialized
     /// Represents the Tabular Islamic calendar.
     /// <para>This class cannot be inherited.</para>
     /// </summary>
-    public sealed class TabularIslamicCalendar : MinMaxYearCalendar<TabularIslamicDate>
+    public sealed class TabularIslamicCalendar :
+        MinMaxYearCalendar<TabularIslamicDate>,
+        IRegularFeaturette
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="TabularIslamicCalendar"/> class.
@@ -23,9 +26,14 @@ namespace Zorglub.Time.Specialized
         /// <summary>
         /// Initializes a new instance of the <see cref="TabularIslamicCalendar"/> class.
         /// </summary>
-        // Constructor for TabularIslamicDate.
         internal TabularIslamicCalendar(TabularIslamicSchema schema)
-            : base("Tabular Islamic", new StandardScope(schema, CalendarEpoch.TabularIslamic)) { }
+            : base("Tabular Islamic", new StandardScope(schema, CalendarEpoch.TabularIslamic))
+        {
+            MonthsInYear = schema.MonthsInYear;
+        }
+
+        /// <inheritdoc/>
+        public int MonthsInYear { get; }
 
         /// <inheritdoc/>
         [Pure]
@@ -43,13 +51,13 @@ namespace Zorglub.Time.Specialized
         // NB: the order in which the static fields are written is important.
 
         /// <summary>
-        /// Represents the Tabular Islamic schema.
+        /// Represents the schema.
         /// <para>This field is read-only.</para>
         /// </summary>
         private static readonly TabularIslamicSchema s_Schema = new();
 
         /// <summary>
-        /// Represents the Tabular Islamic calendar.
+        /// Represents the calendar.
         /// <para>This field is read-only.</para>
         /// </summary>
         private static readonly TabularIslamicCalendar s_Calendar = new(s_Schema);

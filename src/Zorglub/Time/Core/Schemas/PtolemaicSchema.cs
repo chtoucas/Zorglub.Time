@@ -19,7 +19,7 @@ namespace Zorglub.Time.Core.Schemas
     /// </remarks>
     public abstract partial class PtolemaicSchema :
         SystemSchema,
-        IRegularSchema
+        IRegularFeaturette
     {
         /// <summary>
         /// Represents the number of days in a common year.

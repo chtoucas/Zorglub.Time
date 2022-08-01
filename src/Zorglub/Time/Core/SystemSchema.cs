@@ -136,7 +136,7 @@ namespace Zorglub.Time.Core
         [Pure]
         public sealed override bool IsRegular(out int monthsInYear)
         {
-            if (this is IRegularSchema sch)
+            if (this is IRegularFeaturette sch)
             {
                 monthsInYear = sch.MonthsInYear;
                 return true;

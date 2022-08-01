@@ -14,7 +14,7 @@ namespace Zorglub.Time.Core.Schemas
     /// </summary>
     public abstract partial class GJSchema :
         SystemSchema,
-        IRegularSchema,
+        IRegularFeaturette,
         IDaysInMonthDistribution
     {
         /// <summary>

@@ -10,6 +10,8 @@ open Zorglub.Testing.Facts
 open Zorglub.Time
 open Zorglub.Time.Specialized
 
+open Xunit
+
 module Bundles =
     // NB: notice the use of ProlepticGregorianDataSet.
 
@@ -26,6 +28,9 @@ module Bundles =
         override __.GetDate(y, m, d) = new GregorianDate(y, m, d);
         override __.GetDate(y, doy) = new GregorianDate(y, doy);
         override __.GetDate(dayNumber) = new GregorianDate(dayNumber);
+
+        [<Fact>]
+        member x.MonthsInYear_Prop() = x.CalendarUT.MonthsInYear === 12
 
     [<Sealed>]
     [<TestExcludeFrom(TestExcludeFrom.Smoke)>]

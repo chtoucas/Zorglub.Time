@@ -3,16 +3,14 @@
 
 namespace Zorglub.Time.Core
 {
-    // REVIEW(api): static or instance property?
-
     /// <summary>
-    /// Defines a schema with a virtual month.
+    /// Defines a calendrical schema or a calendar with a virtual month.
     /// </summary>
-    public interface IVirtualMonthFeaturette
+    public interface IVirtualMonthFeaturette : ICalendricalKernel
     {
         /// <summary>
         /// Gets the virtual month.
         /// </summary>
-        static abstract int VirtualMonth { get; }
+        int VirtualMonth { get; }
     }
 }

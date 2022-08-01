@@ -126,17 +126,23 @@ module SystemSchemaPrelude =
 module Coptic13Case =
     [<Fact>]
     let ``Property VirtualMonth`` () =
-        Coptic13Schema.VirtualMonth === 13
+        let sch = new Coptic13Schema()
+
+        sch.VirtualMonth === 13
 
 module Egyptian13Case =
     [<Fact>]
     let ``Property VirtualMonth`` () =
-        Egyptian13Schema.VirtualMonth === 13
+        let sch = new Egyptian13Schema()
+
+        sch.VirtualMonth === 13
 
 module FrenchRepublican13Case =
     [<Fact>]
     let ``Property VirtualMonth`` () =
-        FrenchRepublican13Schema.VirtualMonth === 13
+        let sch = new FrenchRepublican13Schema()
+
+        sch.VirtualMonth === 13
 
 module GregorianCase =
     let private dataSet = GregorianDataSet.Instance

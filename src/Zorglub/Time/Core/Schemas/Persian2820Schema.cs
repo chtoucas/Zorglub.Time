@@ -42,7 +42,7 @@ namespace Zorglub.Time.Core.Schemas
     /// </remarks>
     public sealed partial class Persian2820Schema :
         SystemSchema,
-        IRegularSchema,
+        IRegularFeaturette,
         IDaysInMonthDistribution,
         IBoxable<Persian2820Schema>
     {

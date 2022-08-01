@@ -4,13 +4,13 @@
 namespace Zorglub.Time.Core
 {
     /// <summary>
-    /// Defines a calendrical schema with a fixed number of months in a year.
-    /// <para>We say that the schema is <i>regular</i>.</para>
+    /// Defines a calendrical schema or a calendar with a fixed number of months in a year.
+    /// <para>We say that the schema/calendar is <i>regular</i>.</para>
     /// </summary>
     /// <remarks>
-    /// <para>Most system calendars implement this interface.</para>
+    /// <para>Most calendars implement this interface.</para>
     /// </remarks>
-    public interface IRegularSchema : ICalendricalKernel
+    public interface IRegularFeaturette : ICalendricalKernel
     {
         /// <summary>
         /// Gets the total number of months in a year.

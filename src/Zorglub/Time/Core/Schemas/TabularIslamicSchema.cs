@@ -13,7 +13,7 @@ namespace Zorglub.Time.Core.Schemas
     /// </summary>
     public sealed partial class TabularIslamicSchema :
         SystemSchema,
-        IRegularSchema,
+        IRegularFeaturette,
         IDaysInMonthDistribution,
         IBoxable<TabularIslamicSchema>
     {

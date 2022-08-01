@@ -25,7 +25,7 @@ namespace Zorglub.Time.Core
     /// <para>Blank-day calendars belong to the larger family of perennial
     /// calendars.</para>
     /// </remarks>
-    public interface IBlankDayFeaturette
+    public interface IBlankDayFeaturette : ICalendricalKernel
     {
         /// <summary>
         /// Determines whether the specified date is a blank day or not.

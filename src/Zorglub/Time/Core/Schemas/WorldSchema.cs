@@ -30,7 +30,7 @@ namespace Zorglub.Time.Core.Schemas
     /// </remarks>
     public sealed partial class WorldSchema :
         SystemSchema,
-        IRegularSchema,
+        IRegularFeaturette,
         IBlankDayFeaturette,
         IBoxable<WorldSchema>
     {

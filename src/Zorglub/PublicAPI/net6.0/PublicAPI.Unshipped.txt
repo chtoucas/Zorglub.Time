@@ -553,13 +553,10 @@ static Zorglub.Time.Core.Intervals.UpperRay<T>.operator ==(Zorglub.Time.Core.Int
 static Zorglub.Time.Core.Schemas.CivilSchema.GetInstance() -> Zorglub.Time.Core.Utilities.Box<Zorglub.Time.Core.Schemas.CivilSchema!>!
 static Zorglub.Time.Core.Schemas.Coptic12Schema.GetInstance() -> Zorglub.Time.Core.Utilities.Box<Zorglub.Time.Core.Schemas.Coptic12Schema!>!
 static Zorglub.Time.Core.Schemas.Coptic13Schema.GetInstance() -> Zorglub.Time.Core.Utilities.Box<Zorglub.Time.Core.Schemas.Coptic13Schema!>!
-static Zorglub.Time.Core.Schemas.Coptic13Schema.VirtualMonth.get -> int
 static Zorglub.Time.Core.Schemas.Egyptian12Schema.GetInstance() -> Zorglub.Time.Core.Utilities.Box<Zorglub.Time.Core.Schemas.Egyptian12Schema!>!
 static Zorglub.Time.Core.Schemas.Egyptian13Schema.GetInstance() -> Zorglub.Time.Core.Utilities.Box<Zorglub.Time.Core.Schemas.Egyptian13Schema!>!
-static Zorglub.Time.Core.Schemas.Egyptian13Schema.VirtualMonth.get -> int
 static Zorglub.Time.Core.Schemas.FrenchRepublican12Schema.GetInstance() -> Zorglub.Time.Core.Utilities.Box<Zorglub.Time.Core.Schemas.FrenchRepublican12Schema!>!
 static Zorglub.Time.Core.Schemas.FrenchRepublican13Schema.GetInstance() -> Zorglub.Time.Core.Utilities.Box<Zorglub.Time.Core.Schemas.FrenchRepublican13Schema!>!
-static Zorglub.Time.Core.Schemas.FrenchRepublican13Schema.VirtualMonth.get -> int
 static Zorglub.Time.Core.Schemas.GregorianSchema.GetInstance() -> Zorglub.Time.Core.Utilities.Box<Zorglub.Time.Core.Schemas.GregorianSchema!>!
 static Zorglub.Time.Core.Schemas.InternationalFixedSchema.GetInstance() -> Zorglub.Time.Core.Utilities.Box<Zorglub.Time.Core.Schemas.InternationalFixedSchema!>!
 static Zorglub.Time.Core.Schemas.JulianSchema.GetInstance() -> Zorglub.Time.Core.Utilities.Box<Zorglub.Time.Core.Schemas.JulianSchema!>!
@@ -1205,8 +1202,8 @@ Zorglub.Time.Core.Intervals.UpperRay<T>.Min.get -> T
 Zorglub.Time.Core.Intervals.UpperRay<T>.SetEquals(Zorglub.Time.Core.Intervals.UpperRay<T> other) -> bool
 Zorglub.Time.Core.Intervals.UpperRay<T>.UpperRay() -> void
 Zorglub.Time.Core.Intervals.UpperRay<T>.UpperRay(T min) -> void
-Zorglub.Time.Core.IRegularSchema
-Zorglub.Time.Core.IRegularSchema.MonthsInYear.get -> int
+Zorglub.Time.Core.IRegularFeaturette
+Zorglub.Time.Core.IRegularFeaturette.MonthsInYear.get -> int
 Zorglub.Time.Core.ISchemaBound
 Zorglub.Time.Core.ISchemaBound.Schema.get -> Zorglub.Time.Core.ICalendricalSchema!
 Zorglub.Time.Core.ISerializable<TBinary>
@@ -1243,16 +1240,19 @@ Zorglub.Time.Core.Schemas.Coptic12Schema
 Zorglub.Time.Core.Schemas.Coptic12Schema.IsEpagomenalDay(int y, int m, int d, out int epagomenalNumber) -> bool
 Zorglub.Time.Core.Schemas.Coptic13Schema
 Zorglub.Time.Core.Schemas.Coptic13Schema.IsEpagomenalDay(int y, int m, int d, out int epagomenalNumber) -> bool
+Zorglub.Time.Core.Schemas.Coptic13Schema.VirtualMonth.get -> int
 Zorglub.Time.Core.Schemas.CopticSchema
 Zorglub.Time.Core.Schemas.Egyptian12Schema
 Zorglub.Time.Core.Schemas.Egyptian12Schema.IsEpagomenalDay(int y, int m, int d, out int epagomenalNumber) -> bool
 Zorglub.Time.Core.Schemas.Egyptian13Schema
 Zorglub.Time.Core.Schemas.Egyptian13Schema.IsEpagomenalDay(int y, int m, int d, out int epagomenalNumber) -> bool
+Zorglub.Time.Core.Schemas.Egyptian13Schema.VirtualMonth.get -> int
 Zorglub.Time.Core.Schemas.EgyptianSchema
 Zorglub.Time.Core.Schemas.FrenchRepublican12Schema
 Zorglub.Time.Core.Schemas.FrenchRepublican12Schema.IsEpagomenalDay(int y, int m, int d, out int epagomenalNumber) -> bool
 Zorglub.Time.Core.Schemas.FrenchRepublican13Schema
 Zorglub.Time.Core.Schemas.FrenchRepublican13Schema.IsEpagomenalDay(int y, int m, int d, out int epagomenalNumber) -> bool
+Zorglub.Time.Core.Schemas.FrenchRepublican13Schema.VirtualMonth.get -> int
 Zorglub.Time.Core.Schemas.FrenchRepublicanSchema
 Zorglub.Time.Core.Schemas.GJSchema
 Zorglub.Time.Core.Schemas.GJSchema.MonthsInYear.get -> int
@@ -1885,6 +1885,7 @@ Zorglub.Time.Simple.SimpleCalendar.Scope.get -> Zorglub.Time.Hemerology.Scopes.C
 Zorglub.Time.Simple.SimpleCatalog
 Zorglub.Time.Specialized.ArmenianCalendar
 Zorglub.Time.Specialized.ArmenianCalendar.ArmenianCalendar() -> void
+Zorglub.Time.Specialized.ArmenianCalendar.MonthsInYear.get -> int
 Zorglub.Time.Specialized.ArmenianDate
 Zorglub.Time.Specialized.ArmenianDate.ArmenianDate() -> void
 Zorglub.Time.Specialized.ArmenianDate.ArmenianDate(int year, int dayOfYear) -> void
@@ -1922,6 +1923,7 @@ Zorglub.Time.Specialized.ArmenianDate.YearOfCentury.get -> int
 Zorglub.Time.Specialized.ArmenianDate.YearOfEra.get -> Zorglub.Time.Ord
 Zorglub.Time.Specialized.CivilCalendar
 Zorglub.Time.Specialized.CivilCalendar.CivilCalendar() -> void
+Zorglub.Time.Specialized.CivilCalendar.MonthsInYear.get -> int
 Zorglub.Time.Specialized.CivilDate
 Zorglub.Time.Specialized.CivilDate.Century.get -> int
 Zorglub.Time.Specialized.CivilDate.CenturyOfEra.get -> Zorglub.Time.Ord
@@ -1958,6 +1960,7 @@ Zorglub.Time.Specialized.CivilDate.YearOfCentury.get -> int
 Zorglub.Time.Specialized.CivilDate.YearOfEra.get -> Zorglub.Time.Ord
 Zorglub.Time.Specialized.CopticCalendar
 Zorglub.Time.Specialized.CopticCalendar.CopticCalendar() -> void
+Zorglub.Time.Specialized.CopticCalendar.MonthsInYear.get -> int
 Zorglub.Time.Specialized.CopticDate
 Zorglub.Time.Specialized.CopticDate.Century.get -> int
 Zorglub.Time.Specialized.CopticDate.CenturyOfEra.get -> Zorglub.Time.Ord
@@ -1995,6 +1998,7 @@ Zorglub.Time.Specialized.CopticDate.YearOfCentury.get -> int
 Zorglub.Time.Specialized.CopticDate.YearOfEra.get -> Zorglub.Time.Ord
 Zorglub.Time.Specialized.EthiopicCalendar
 Zorglub.Time.Specialized.EthiopicCalendar.EthiopicCalendar() -> void
+Zorglub.Time.Specialized.EthiopicCalendar.MonthsInYear.get -> int
 Zorglub.Time.Specialized.EthiopicDate
 Zorglub.Time.Specialized.EthiopicDate.Century.get -> int
 Zorglub.Time.Specialized.EthiopicDate.CenturyOfEra.get -> Zorglub.Time.Ord
@@ -2032,6 +2036,7 @@ Zorglub.Time.Specialized.EthiopicDate.YearOfCentury.get -> int
 Zorglub.Time.Specialized.EthiopicDate.YearOfEra.get -> Zorglub.Time.Ord
 Zorglub.Time.Specialized.GregorianCalendar
 Zorglub.Time.Specialized.GregorianCalendar.GregorianCalendar() -> void
+Zorglub.Time.Specialized.GregorianCalendar.MonthsInYear.get -> int
 Zorglub.Time.Specialized.GregorianDate
 Zorglub.Time.Specialized.GregorianDate.Century.get -> int
 Zorglub.Time.Specialized.GregorianDate.CenturyOfEra.get -> Zorglub.Time.Ord
@@ -2068,6 +2073,7 @@ Zorglub.Time.Specialized.GregorianDate.YearOfCentury.get -> int
 Zorglub.Time.Specialized.GregorianDate.YearOfEra.get -> Zorglub.Time.Ord
 Zorglub.Time.Specialized.JulianCalendar
 Zorglub.Time.Specialized.JulianCalendar.JulianCalendar() -> void
+Zorglub.Time.Specialized.JulianCalendar.MonthsInYear.get -> int
 Zorglub.Time.Specialized.JulianDate
 Zorglub.Time.Specialized.JulianDate.Century.get -> int
 Zorglub.Time.Specialized.JulianDate.CenturyOfEra.get -> Zorglub.Time.Ord
@@ -2103,6 +2109,7 @@ Zorglub.Time.Specialized.JulianDate.Year.get -> int
 Zorglub.Time.Specialized.JulianDate.YearOfCentury.get -> int
 Zorglub.Time.Specialized.JulianDate.YearOfEra.get -> Zorglub.Time.Ord
 Zorglub.Time.Specialized.TabularIslamicCalendar
+Zorglub.Time.Specialized.TabularIslamicCalendar.MonthsInYear.get -> int
 Zorglub.Time.Specialized.TabularIslamicCalendar.TabularIslamicCalendar() -> void
 Zorglub.Time.Specialized.TabularIslamicDate
 Zorglub.Time.Specialized.TabularIslamicDate.Century.get -> int
@@ -2139,6 +2146,7 @@ Zorglub.Time.Specialized.TabularIslamicDate.Year.get -> int
 Zorglub.Time.Specialized.TabularIslamicDate.YearOfCentury.get -> int
 Zorglub.Time.Specialized.TabularIslamicDate.YearOfEra.get -> Zorglub.Time.Ord
 Zorglub.Time.Specialized.ZoroastrianCalendar
+Zorglub.Time.Specialized.ZoroastrianCalendar.MonthsInYear.get -> int
 Zorglub.Time.Specialized.ZoroastrianCalendar.ZoroastrianCalendar() -> void
 Zorglub.Time.Specialized.ZoroastrianDate
 Zorglub.Time.Specialized.ZoroastrianDate.Century.get -> int

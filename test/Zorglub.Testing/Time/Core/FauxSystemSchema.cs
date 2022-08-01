@@ -46,7 +46,7 @@ public partial class FauxSystemSchema : SystemSchema
     public static FauxSystemSchema WithMinDaysInMonth(int minDaysInMonth) =>
         new(DefaultMinDaysInYear, minDaysInMonth);
 
-    private sealed class FauxRegularSchema : FauxSystemSchema, IRegularSchema
+    private sealed class FauxRegularSchema : FauxSystemSchema, IRegularFeaturette
     {
         public FauxRegularSchema(int monthsInYear)
             : this(monthsInYear, DefaultMinDaysInYear, DefaultMinDaysInMonth) { }

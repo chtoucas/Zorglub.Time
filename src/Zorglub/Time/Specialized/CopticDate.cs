@@ -3,6 +3,7 @@
 
 namespace Zorglub.Time.Specialized
 {
+    using Zorglub.Time.Core;
     using Zorglub.Time.Core.Intervals;
     using Zorglub.Time.Core.Schemas;
     using Zorglub.Time.Core.Validation;
@@ -13,7 +14,9 @@ namespace Zorglub.Time.Specialized
     /// Represents the Coptic calendar.
     /// <para>This class cannot be inherited.</para>
     /// </summary>
-    public sealed class CopticCalendar : MinMaxYearCalendar<CopticDate>
+    public sealed class CopticCalendar :
+        MinMaxYearCalendar<CopticDate>,
+        IRegularFeaturette
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="CopticCalendar"/> class.
@@ -23,9 +26,14 @@ namespace Zorglub.Time.Specialized
         /// <summary>
         /// Initializes a new instance of the <see cref="CopticCalendar"/> class.
         /// </summary>
-        // Constructor for Coptic12Date.
         internal CopticCalendar(Coptic12Schema schema)
-            : base("Coptic", new StandardScope(schema, CalendarEpoch.Coptic)) { }
+            : base("Coptic", new StandardScope(schema, CalendarEpoch.Coptic))
+        {
+            MonthsInYear = schema.MonthsInYear;
+        }
+
+        /// <inheritdoc/>
+        public int MonthsInYear { get; }
 
         /// <inheritdoc/>
         [Pure]
@@ -44,13 +52,13 @@ namespace Zorglub.Time.Specialized
         // NB: the order in which the static fields are written is important.
 
         /// <summary>
-        /// Represents the Egyptian12 schema.
+        /// Represents the schema.
         /// <para>This field is read-only.</para>
         /// </summary>
         private static readonly Coptic12Schema s_Schema = new();
 
         /// <summary>
-        /// Represents the Coptic calendar.
+        /// Represents the calendar.
         /// <para>This field is read-only.</para>
         /// </summary>
         private static readonly CopticCalendar s_Calendar = new(s_Schema);

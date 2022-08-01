@@ -25,7 +25,7 @@ namespace Zorglub.Time.Core.Schemas
     /// </remarks>
     public sealed partial class PositivistSchema :
         SystemSchema,
-        IRegularSchema,
+        IRegularFeaturette,
         IBlankDayFeaturette,
         IBoxable<PositivistSchema>
     {

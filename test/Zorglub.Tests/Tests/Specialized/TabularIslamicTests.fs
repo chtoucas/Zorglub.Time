@@ -10,6 +10,8 @@ open Zorglub.Testing.Facts
 open Zorglub.Time
 open Zorglub.Time.Specialized
 
+open Xunit
+
 module Bundles =
     let private chr = new TabularIslamicCalendar()
 
@@ -24,6 +26,9 @@ module Bundles =
         override __.GetDate(y, m, d) = new TabularIslamicDate(y, m, d);
         override __.GetDate(y, doy) = new TabularIslamicDate(y, doy);
         override __.GetDate(dayNumber) = new TabularIslamicDate(dayNumber);
+
+        [<Fact>]
+        member x.MonthsInYear_Prop() = x.CalendarUT.MonthsInYear === 12
 
     [<Sealed>]
     [<TestExcludeFrom(TestExcludeFrom.Smoke)>]

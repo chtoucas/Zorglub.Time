@@ -34,7 +34,7 @@ namespace Zorglub.Time.Core.Schemas
         public sealed override int MonthsInYear => MonthsPerYear;
 
         /// <inheritdoc />
-        public static int VirtualMonth => 13;
+        public int VirtualMonth => 13;
 
         /// <summary>
         /// Creates a new (boxed) instance of the

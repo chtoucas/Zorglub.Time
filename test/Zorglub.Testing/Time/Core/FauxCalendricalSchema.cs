@@ -49,7 +49,7 @@ public partial class FauxCalendricalSchema : CalendricalSchema
     public static FauxCalendricalSchema WithMinDaysInMonth(int minDaysInMonth) =>
         new(DefaultMinDaysInYear, minDaysInMonth);
 
-    private sealed class FauxRegularSchema : FauxCalendricalSchema, IRegularSchema
+    private sealed class FauxRegularSchema : FauxCalendricalSchema, IRegularFeaturette
     {
         public FauxRegularSchema(Func<CalendricalSchema, ICalendricalPreValidator> preValidator)
             : this(12)
@@ -81,7 +81,7 @@ public partial class FauxCalendricalSchema // Props & methods
     [Pure]
     public override bool IsRegular(out int monthsInYear)
     {
-        if (this is IRegularSchema sch)
+        if (this is IRegularFeaturette sch)
         {
             monthsInYear = sch.MonthsInYear;
             return true;

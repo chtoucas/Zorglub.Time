@@ -3,6 +3,7 @@
 
 namespace Zorglub.Time.Specialized
 {
+    using Zorglub.Time.Core;
     using Zorglub.Time.Core.Intervals;
     using Zorglub.Time.Core.Schemas;
     using Zorglub.Time.Core.Validation;
@@ -18,7 +19,9 @@ namespace Zorglub.Time.Specialized
     /// Represents the Civil calendar.
     /// <para>This class cannot be inherited.</para>
     /// </summary>
-    public sealed class CivilCalendar : MinMaxYearCalendar<CivilDate>
+    public sealed class CivilCalendar :
+        MinMaxYearCalendar<CivilDate>,
+        IRegularFeaturette
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="CivilCalendar"/> class.
@@ -28,9 +31,14 @@ namespace Zorglub.Time.Specialized
         /// <summary>
         /// Initializes a new instance of the <see cref="CivilCalendar"/> class.
         /// </summary>
-        // Constructor for CivilDate.
         internal CivilCalendar(CivilSchema schema)
-            : base("Gregorian", new StandardScope(schema, DayZero.NewStyle)) { }
+            : base("Gregorian", new StandardScope(schema, DayZero.NewStyle))
+        {
+            MonthsInYear = schema.MonthsInYear;
+        }
+
+        /// <inheritdoc/>
+        public int MonthsInYear { get; }
 
         /// <inheritdoc/>
         [Pure]
@@ -46,13 +54,13 @@ namespace Zorglub.Time.Specialized
         IMinMaxValue<CivilDate>
     {
         /// <summary>
-        /// Represents the Civil schema.
+        /// Represents the schema.
         /// <para>This field is read-only.</para>
         /// </summary>
         private static readonly CivilSchema s_Schema = new();
 
         /// <summary>
-        /// Represents the Civil calendar.
+        /// Represents the calendar.
         /// <para>This field is read-only.</para>
         /// </summary>
         private static readonly CivilCalendar s_Calendar = new(s_Schema);

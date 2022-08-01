@@ -3,6 +3,7 @@
 
 namespace Zorglub.Time.Specialized
 {
+    using Zorglub.Time.Core;
     using Zorglub.Time.Core.Intervals;
     using Zorglub.Time.Core.Schemas;
     using Zorglub.Time.Core.Validation;
@@ -16,7 +17,9 @@ namespace Zorglub.Time.Specialized
     /// Represents the Gregorian calendar.
     /// <para>This class cannot be inherited.</para>
     /// </summary>
-    public sealed class GregorianCalendar : MinMaxYearCalendar<GregorianDate>
+    public sealed class GregorianCalendar :
+        MinMaxYearCalendar<GregorianDate>,
+        IRegularFeaturette
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="GregorianCalendar"/> class.
@@ -26,9 +29,14 @@ namespace Zorglub.Time.Specialized
         /// <summary>
         /// Initializes a new instance of the <see cref="GregorianCalendar"/> class.
         /// </summary>
-        // Constructor for GregorianDate.
         internal GregorianCalendar(GregorianSchema schema)
-            : base("Gregorian", MinMaxYearScope.WithMaximalRange(schema, DayZero.NewStyle)) { }
+            : base("Gregorian", MinMaxYearScope.WithMaximalRange(schema, DayZero.NewStyle))
+        {
+            MonthsInYear = schema.MonthsInYear;
+        }
+
+        /// <inheritdoc/>
+        public int MonthsInYear { get; }
 
         /// <inheritdoc/>
         [Pure]
@@ -46,13 +54,13 @@ namespace Zorglub.Time.Specialized
         // NB: the order in which the static fields are written is important.
 
         /// <summary>
-        /// Represents the Gregorian schema.
+        /// Represents the schema.
         /// <para>This field is read-only.</para>
         /// </summary>
         private static readonly GregorianSchema s_Schema = new();
 
         /// <summary>
-        /// Represents the Gregorian calendar.
+        /// Represents the calendar.
         /// <para>This field is read-only.</para>
         /// </summary>
         private static readonly GregorianCalendar s_Calendar = new(s_Schema);
