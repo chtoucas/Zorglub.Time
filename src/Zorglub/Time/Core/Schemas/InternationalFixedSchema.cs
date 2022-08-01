@@ -98,7 +98,7 @@ namespace Zorglub.Time.Core.Schemas
     {
         /// <inheritdoc />
         [Pure]
-        public static bool IsBlankDay(int y, int m, int d) => d > 28;
+        public bool IsBlankDay(int y, int m, int d) => d > 28;
 
         /// <inheritdoc />
         [Pure]

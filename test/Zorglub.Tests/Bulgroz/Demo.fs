@@ -73,7 +73,7 @@ let ``Armenian calendar`` () =
     printfn "  Ordinal date     = %O" <| day.ToOrdinalDate()
 
     let mutable epanum = 0
-    printfn "  Epagomenal day?  = %b" <| day.IsEpagomenalDay(&epanum)
+    printfn "  Epagomenal day?  = %b" <| day.IsEpagomenal(&epanum)
     printfn "             num   = %i" epanum
 
     printfn "  End of month     = %O" <| month.LastDay

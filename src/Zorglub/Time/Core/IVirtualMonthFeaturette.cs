@@ -3,6 +3,8 @@
 
 namespace Zorglub.Time.Core
 {
+    // REVIEW(api): static property or not?
+
     /// <summary>
     /// Defines a schema with a virtual month.
     /// </summary>

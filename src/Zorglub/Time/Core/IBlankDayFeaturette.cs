@@ -30,6 +30,6 @@ namespace Zorglub.Time.Core
         /// <summary>
         /// Determines whether the specified date is a blank day or not.
         /// </summary>
-        [Pure] static abstract bool IsBlankDay(int y, int m, int d);
+        [Pure] bool IsBlankDay(int y, int m, int d);
     }
 }

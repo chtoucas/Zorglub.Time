@@ -12,17 +12,17 @@ open Zorglub.Time.Core.Schemas
 module BlankDay =
     [<Sealed>]
     type InternationalFixedTests() =
-        inherit IBlankDayFeaturetteFacts<InternationalFixedSchema, InternationalFixedDataSet>()
+        inherit IBlankDayFeaturetteFacts<InternationalFixedSchema, InternationalFixedDataSet>(schemaOf<InternationalFixedSchema>())
 
     [<Sealed>]
     [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
     type PositivistTests() =
-        inherit IBlankDayFeaturetteFacts<PositivistSchema, PositivistDataSet>()
+        inherit IBlankDayFeaturetteFacts<PositivistSchema, PositivistDataSet>(schemaOf<PositivistSchema>())
 
     [<Sealed>]
     [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
     type WorldTests() =
-        inherit IBlankDayFeaturetteFacts<WorldSchema, WorldDataSet>()
+        inherit IBlankDayFeaturetteFacts<WorldSchema, WorldDataSet>(schemaOf<WorldSchema>())
 
 module EpagomenalDay =
     [<Sealed>]

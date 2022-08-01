@@ -4,24 +4,21 @@
 namespace Zorglub.Time.Extras.Extensions
 {
     using Zorglub.Time.Core;
-    using Zorglub.Time.Hemerology;
     using Zorglub.Time.Simple;
-
-    // REVIEW(api): IsEpagomenalDay() for the other date types.
-    // We use conversion but Calendar could inherit IEpagomenalCalendar<CalendarDay>,
-    // not the case right now, but why not?
 
     /// <summary>
     /// Provides extension methods for <see cref="CalendarDate"/>.
     /// <para>This class cannot be inherited.</para>
     /// </summary>
-    public static class SimpleDateExtensions
+    public static partial class SimpleDateExtensions { }
+
+    public partial class SimpleDateExtensions // IEpagomenalFeaturette
     {
         /// <summary>
         /// Determines whether the specified date is an epagomenal day or not.
         /// </summary>
         [Pure]
-        public static bool IsEpagomenalDay(this CalendarDate @this, out int epagomenalNumber)
+        public static bool IsEpagomenal(this CalendarDate @this, out int epagomenalNumber)
         {
             if (@this.Calendar.Schema is IEpagomenalFeaturette sch)
             {
@@ -36,17 +33,37 @@ namespace Zorglub.Time.Extras.Extensions
         }
 
         [Pure]
-        public static bool IsEpagomenalDay(this CalendarDay @this, out int epagomenalNumber)
+        public static bool IsEpagomenal(this CalendarDay @this, out int epagomenalNumber) =>
+            IsEpagomenal(@this.ToCalendarDate(), out epagomenalNumber);
+
+        [Pure]
+        public static bool IsEpagomenal(this OrdinalDate @this, out int epagomenalNumber) =>
+            IsEpagomenal(@this.ToCalendarDate(), out epagomenalNumber);
+    }
+
+    public partial class SimpleDateExtensions // IBlankDayFeaturette
+    {
+        /// <summary>
+        /// Determines whether the specified date is an epagomenal day or not.
+        /// </summary>
+        [Pure]
+        public static bool IsBlank(this CalendarDate @this)
         {
-            var date = @this.ToCalendarDate();
-            return IsEpagomenalDay(date, out epagomenalNumber);
+            if (@this.Calendar.Schema is IBlankDayFeaturette sch)
+            {
+                @this.Parts.Unpack(out int y, out int m, out int d);
+                return sch.IsBlankDay(y, m, d);
+            }
+            else
+            {
+                return false;
+            }
         }
 
         [Pure]
-        public static bool IsEpagomenalDay(this OrdinalDate @this, out int epagomenalNumber)
-        {
-            var date = @this.ToCalendarDate();
-            return IsEpagomenalDay(date, out epagomenalNumber);
-        }
+        public static bool IsBlank(this CalendarDay @this) => IsBlank(@this.ToCalendarDate());
+
+        [Pure]
+        public static bool IsBlank(this OrdinalDate @this) => IsBlank(@this.ToCalendarDate());
     }
 }

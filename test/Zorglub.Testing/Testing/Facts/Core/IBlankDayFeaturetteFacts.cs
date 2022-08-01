@@ -5,22 +5,25 @@ namespace Zorglub.Testing.Facts.Core;
 
 using Zorglub.Testing.Data;
 
-// WARNING: formally the test methods could be static, but then the tests won't
-// be run by Xunit.
-
-public abstract class IBlankDayFeaturetteFacts<T, TDataSet> :
+public abstract class IBlankDayFeaturetteFacts<TSchema, TDataSet> :
     CalendricalDataConsumer<TDataSet>
-    where T : IBlankDayFeaturette
+    where TSchema : IBlankDayFeaturette
     where TDataSet : ICalendricalDataSet, ISingleton<TDataSet>
 {
-    protected IBlankDayFeaturetteFacts() { }
+    private readonly TSchema _schema;
+
+    protected IBlankDayFeaturetteFacts(TSchema schema)
+    {
+        Requires.NotNull(schema);
+        _schema = schema;
+    }
 
     [Theory, MemberData(nameof(DateInfoData))]
     public void IsBlankDay(DateInfo info)
     {
         var (y, m, d) = info.Yemoda;
         // Act
-        bool actual = T.IsBlankDay(y, m, d);
+        bool actual = _schema.IsBlankDay(y, m, d);
         // Assert
         Assert.Equal(info.IsSupplementary, actual);
     }
