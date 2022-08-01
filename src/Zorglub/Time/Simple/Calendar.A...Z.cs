@@ -7,7 +7,7 @@ namespace Zorglub.Time.Simple
     using Zorglub.Time.Core.Schemas;
     using Zorglub.Time.Hemerology;
 
-    // FIXME(api): remove IEpagomenalCalendar<>.
+    // FIXME(api): remove IEpagomenalCalendar<>, interface and in ZoroastrianSimpleCalendar.
 
     #region Developer Notes
 
@@ -24,7 +24,7 @@ namespace Zorglub.Time.Simple
     /// Represents the Armenian calendar.
     /// <para>This class cannot be inherited.</para>
     /// </summary>
-    internal sealed class ArmenianSimpleCalendar : SimpleCalendar, IEpagomenalCalendar<CalendarDate>
+    internal sealed class ArmenianSimpleCalendar : SimpleCalendar
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ArmenianSimpleCalendar"/>
@@ -45,25 +45,13 @@ namespace Zorglub.Time.Simple
         /// <para>This static property is thread-safe.</para>
         /// </summary>
         public static ArmenianSimpleCalendar Instance { get; } = new ArmenianSimpleCalendar();
-
-        /// <summary>
-        /// Determines whether the specified date is an epagomenal day or not.
-        /// </summary>
-        [Pure]
-        public bool IsEpagomenalDay(CalendarDate date, out int epagomenalNumber)
-        {
-            ValidateCuid(date.Cuid, nameof(date));
-
-            date.Parts.Unpack(out int y, out int m, out int d);
-            return Egyptian12Schema.IsEpagomenalDay(y, m, d, out epagomenalNumber);
-        }
     }
 
     /// <summary>
     /// Represents the Coptic calendar.
     /// <para>This class cannot be inherited.</para>
     /// </summary>
-    internal sealed class CopticSimpleCalendar : SimpleCalendar, IEpagomenalCalendar<CalendarDate>
+    internal sealed class CopticSimpleCalendar : SimpleCalendar
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="CopticSimpleCalendar"/> class.
@@ -83,25 +71,13 @@ namespace Zorglub.Time.Simple
         /// <para>This static property is thread-safe.</para>
         /// </summary>
         public static CopticSimpleCalendar Instance { get; } = new CopticSimpleCalendar();
-
-        /// <summary>
-        /// Determines whether the specified date is an epagomenal day or not.
-        /// </summary>
-        [Pure]
-        public bool IsEpagomenalDay(CalendarDate date, out int epagomenalNumber)
-        {
-            ValidateCuid(date.Cuid, nameof(date));
-
-            date.Parts.Unpack(out int y, out int m, out int d);
-            return Coptic12Schema.IsEpagomenalDay(y, m, d, out epagomenalNumber);
-        }
     }
 
     /// <summary>
     /// Represents the Ethiopic calendar.
     /// <para>This class cannot be inherited.</para>
     /// </summary>
-    internal sealed class EthiopicSimpleCalendar : SimpleCalendar, IEpagomenalCalendar<CalendarDate>
+    internal sealed class EthiopicSimpleCalendar : SimpleCalendar
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="EthiopicSimpleCalendar"/>
@@ -122,18 +98,6 @@ namespace Zorglub.Time.Simple
         /// <para>This static property is thread-safe.</para>
         /// </summary>
         public static EthiopicSimpleCalendar Instance { get; } = new EthiopicSimpleCalendar();
-
-        /// <summary>
-        /// Determines whether the specified date is an epagomenal day or not.
-        /// </summary>
-        [Pure]
-        public bool IsEpagomenalDay(CalendarDate date, out int epagomenalNumber)
-        {
-            ValidateCuid(date.Cuid, nameof(date));
-
-            date.Parts.Unpack(out int y, out int m, out int d);
-            return Coptic12Schema.IsEpagomenalDay(y, m, d, out epagomenalNumber);
-        }
     }
 
     /// <summary>
