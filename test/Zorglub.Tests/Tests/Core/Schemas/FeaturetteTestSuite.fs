@@ -27,29 +27,29 @@ module BlankDay =
 module EpagomenalDay =
     [<Sealed>]
     type Coptic12Tests() =
-        inherit IEpagomenalFeaturetteFacts<Coptic12Schema, Coptic12DataSet>(schemaOf<Coptic12Schema>())
+        inherit IEpagomenalDayFeaturetteFacts<Coptic12Schema, Coptic12DataSet>(schemaOf<Coptic12Schema>())
 
     [<Sealed>]
     [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
     type Coptic13Tests() =
-        inherit IEpagomenalFeaturetteFacts<Coptic13Schema, Coptic13DataSet>(schemaOf<Coptic13Schema>())
+        inherit IEpagomenalDayFeaturetteFacts<Coptic13Schema, Coptic13DataSet>(schemaOf<Coptic13Schema>())
 
     [<Sealed>]
     [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
     type Egyptian12Tests() =
-        inherit IEpagomenalFeaturetteFacts<Egyptian12Schema, Egyptian12DataSet>(schemaOf<Egyptian12Schema>())
+        inherit IEpagomenalDayFeaturetteFacts<Egyptian12Schema, Egyptian12DataSet>(schemaOf<Egyptian12Schema>())
 
     [<Sealed>]
     [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
     type Egyptian13Tests() =
-        inherit IEpagomenalFeaturetteFacts<Egyptian13Schema, Egyptian13DataSet>(schemaOf<Egyptian13Schema>())
+        inherit IEpagomenalDayFeaturetteFacts<Egyptian13Schema, Egyptian13DataSet>(schemaOf<Egyptian13Schema>())
 
     [<Sealed>]
     [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
     type FrenchRepublican12Tests() =
-        inherit IEpagomenalFeaturetteFacts<FrenchRepublican12Schema, FrenchRepublican12DataSet>(schemaOf<FrenchRepublican12Schema>())
+        inherit IEpagomenalDayFeaturetteFacts<FrenchRepublican12Schema, FrenchRepublican12DataSet>(schemaOf<FrenchRepublican12Schema>())
 
     [<Sealed>]
     [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
     type FrenchRepublican13Tests() =
-        inherit IEpagomenalFeaturetteFacts<FrenchRepublican13Schema, FrenchRepublican13DataSet>(schemaOf<FrenchRepublican13Schema>())
+        inherit IEpagomenalDayFeaturetteFacts<FrenchRepublican13Schema, FrenchRepublican13DataSet>(schemaOf<FrenchRepublican13Schema>())

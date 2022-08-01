@@ -12,7 +12,7 @@ namespace Zorglub.Time.Core.Schemas
     /// </summary>
     public sealed partial class Coptic13Schema :
         CopticSchema,
-        IEpagomenalFeaturette,
+        IEpagomenalDayFeaturette,
         IVirtualMonthFeaturette,
         IDaysInMonthDistribution,
         IBoxable<Coptic13Schema>

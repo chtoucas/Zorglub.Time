@@ -7,7 +7,7 @@ namespace Zorglub.Time.Hemerology
     /// Defines methods specific to calendars featuring epagomenal days.
     /// <para>The epagomenal days are usually found in descendants of the Egyptian calendar.</para>
     /// </summary>
-    public interface IEpagomenalDay<TSelf> : IDateable where TSelf : IEpagomenalDay<TSelf>
+    public interface IEpagomenalDay : IDateable
     {
         /// <summary>
         /// Determines whether the current instance is an epagomenal day or not, and also returns the

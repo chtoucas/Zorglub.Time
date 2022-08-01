@@ -8,7 +8,7 @@ using Zorglub.Time.Hemerology;
 
 public abstract class IEpagomenalDayFacts<TDate, TDataSet> :
     CalendarDataConsumer<TDataSet>
-    where TDate : IEpagomenalDay<TDate>
+    where TDate : IEpagomenalDay
     where TDataSet : ICalendarDataSet, IEpagomenalDataSet, ISingleton<TDataSet>
 {
     protected IEpagomenalDayFacts() { }

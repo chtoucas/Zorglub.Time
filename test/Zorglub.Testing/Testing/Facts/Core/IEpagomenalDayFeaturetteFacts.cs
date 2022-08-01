@@ -5,14 +5,14 @@ namespace Zorglub.Testing.Facts.Core;
 
 using Zorglub.Testing.Data;
 
-public abstract class IEpagomenalFeaturetteFacts<TSchema, TDataSet> :
+public abstract class IEpagomenalDayFeaturetteFacts<TSchema, TDataSet> :
     CalendricalDataConsumer<TDataSet>
-    where TSchema : IEpagomenalFeaturette
+    where TSchema : IEpagomenalDayFeaturette
     where TDataSet : ICalendricalDataSet, IEpagomenalDataSet, ISingleton<TDataSet>
 {
     private readonly TSchema _schema;
 
-    protected IEpagomenalFeaturetteFacts(TSchema schema)
+    protected IEpagomenalDayFeaturetteFacts(TSchema schema)
     {
         Requires.NotNull(schema);
         _schema = schema;

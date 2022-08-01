@@ -1128,8 +1128,8 @@ Zorglub.Time.Core.ICalendricalValidator.ValidateYearMonth(int year, int month, s
 Zorglub.Time.Core.ICalendricalValidator.ValidateYearMonthDay(int year, int month, int day, string? paramName = null) -> void
 Zorglub.Time.Core.IDifferenceOperators<TSelf, TResult>
 Zorglub.Time.Core.IDifferenceOperators<TSelf, TResult>.operator -(TSelf left, TSelf right) -> TResult
-Zorglub.Time.Core.IEpagomenalFeaturette
-Zorglub.Time.Core.IEpagomenalFeaturette.IsEpagomenalDay(int y, int m, int d, out int epagomenalNumber) -> bool
+Zorglub.Time.Core.IEpagomenalDayFeaturette
+Zorglub.Time.Core.IEpagomenalDayFeaturette.IsEpagomenalDay(int y, int m, int d, out int epagomenalNumber) -> bool
 Zorglub.Time.Core.IMinMaxFunctions<TSelf>
 Zorglub.Time.Core.IMinMaxFunctions<TSelf>.Max(TSelf x, TSelf y) -> TSelf
 Zorglub.Time.Core.IMinMaxFunctions<TSelf>.Min(TSelf x, TSelf y) -> TSelf
@@ -1510,8 +1510,8 @@ Zorglub.Time.Hemerology.IAffineDate.CountDaysSinceEpoch() -> int
 Zorglub.Time.Hemerology.IAffineDate<TSelf>
 Zorglub.Time.Hemerology.IAffineDate<TSelf>.FromDaysSinceEpoch(int daysSinceEpoch) -> TSelf
 Zorglub.Time.Hemerology.IAffineDate<TSelf>.operator -(TSelf left, int right) -> TSelf
-Zorglub.Time.Hemerology.IBlankDay<TSelf>
-Zorglub.Time.Hemerology.IBlankDay<TSelf>.IsBlank.get -> bool
+Zorglub.Time.Hemerology.IBlankDay
+Zorglub.Time.Hemerology.IBlankDay.IsBlank.get -> bool
 Zorglub.Time.Hemerology.ICalendar
 Zorglub.Time.Hemerology.ICalendar.Domain.get -> Zorglub.Time.Core.Intervals.Range<Zorglub.Time.DayNumber>
 Zorglub.Time.Hemerology.ICalendar.Epoch.get -> Zorglub.Time.DayNumber
@@ -1542,8 +1542,8 @@ Zorglub.Time.Hemerology.IDateable.Month.get -> int
 Zorglub.Time.Hemerology.IDateable.Year.get -> int
 Zorglub.Time.Hemerology.IDateable.YearOfCentury.get -> int
 Zorglub.Time.Hemerology.IDateable.YearOfEra.get -> Zorglub.Time.Ord
-Zorglub.Time.Hemerology.IEpagomenalDay<TSelf>
-Zorglub.Time.Hemerology.IEpagomenalDay<TSelf>.IsEpagomenal(out int epagomenalNumber) -> bool
+Zorglub.Time.Hemerology.IEpagomenalDay
+Zorglub.Time.Hemerology.IEpagomenalDay.IsEpagomenal(out int epagomenalNumber) -> bool
 Zorglub.Time.Hemerology.IFixedDay
 Zorglub.Time.Hemerology.IFixedDay.DayOfWeek.get -> System.DayOfWeek
 Zorglub.Time.Hemerology.IFixedDay.ToDayNumber() -> Zorglub.Time.DayNumber

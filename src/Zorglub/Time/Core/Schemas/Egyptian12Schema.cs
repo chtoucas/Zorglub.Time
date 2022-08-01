@@ -17,7 +17,7 @@ namespace Zorglub.Time.Core.Schemas
     /// </remarks>
     public sealed partial class Egyptian12Schema :
         EgyptianSchema,
-        IEpagomenalFeaturette,
+        IEpagomenalDayFeaturette,
         IDaysInMonthDistribution,
         IBoxable<Egyptian12Schema>
     {

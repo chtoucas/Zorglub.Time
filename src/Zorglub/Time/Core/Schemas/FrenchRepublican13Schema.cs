@@ -13,7 +13,7 @@ namespace Zorglub.Time.Core.Schemas
     /// </summary>
     public sealed partial class FrenchRepublican13Schema :
         FrenchRepublicanSchema,
-        IEpagomenalFeaturette,
+        IEpagomenalDayFeaturette,
         IVirtualMonthFeaturette,
         IDaysInMonthDistribution,
         IBoxable<FrenchRepublican13Schema>

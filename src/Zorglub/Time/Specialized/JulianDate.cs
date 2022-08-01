@@ -12,7 +12,12 @@ namespace Zorglub.Time.Specialized
     // TODO(api): non-standard math. Providers. Idem with the other date types.
     // Use JulianFormulae?
     //
-    // Custom methods.
+    // Custom methods:
+    // - IRegularSchema           -> IRegularCalendar
+    // - IVirtualMonthFeaturette  ->
+    // - IBlankDayFeaturette      -> IBlankDay
+    // - IEpagomenalDayFeaturette -> IEpagomenalDay
+    // - Other methods specific to a single schema.
     // CountDaysSince(XXXDate other) checked context or not? do we test it?
     // Add method Adjust(Func<CivilDate, CivilDate>) + adjusters in Sketches.
     // Other date types?

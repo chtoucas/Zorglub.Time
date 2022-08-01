@@ -38,8 +38,8 @@ namespace Zorglub.Time.Specialized
     /// </summary>
     public readonly partial struct EthiopicDate :
         IDate<EthiopicDate>,
-        IEpagomenalDay<EthiopicDate>,
-        IMinMaxValue<EthiopicDate>
+        IMinMaxValue<EthiopicDate>,
+        IEpagomenalDay
     {
         // NB: the order in which the static fields are written is important.
 

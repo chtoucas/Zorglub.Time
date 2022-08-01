@@ -20,7 +20,7 @@ namespace Zorglub.Time.Extras.Extensions
         [Pure]
         public static bool IsEpagomenal(this CalendarDate @this, out int epagomenalNumber)
         {
-            if (@this.Calendar.Schema is IEpagomenalFeaturette sch)
+            if (@this.Calendar.Schema is IEpagomenalDayFeaturette sch)
             {
                 @this.Parts.Unpack(out int y, out int m, out int d);
                 return sch.IsEpagomenalDay(y, m, d, out epagomenalNumber);
