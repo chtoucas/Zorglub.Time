@@ -4,7 +4,7 @@
 module Zorglub.Tests.Specialized.GregorianTests
 
 open Zorglub.Testing
-open Zorglub.Testing.Data.Bounded
+open Zorglub.Testing.Data.Unbounded
 open Zorglub.Testing.Facts
 
 open Zorglub.Time
@@ -17,7 +17,7 @@ module Bundles =
 
     [<Sealed>]
     type CalendaTests() =
-        inherit ICalendarTFacts<GregorianDate, GregorianCalendar, ProlepticGregorianDataSet>(chr)
+        inherit ICalendarTFacts<GregorianDate, GregorianCalendar, UnboundedGregorianDataSet>(chr)
 
         override x.Algorithm_Prop() = x.CalendarUT.Algorithm === CalendricalAlgorithm.Arithmetical
         override x.Family_Prop() = x.CalendarUT.Family === CalendricalFamily.Solar
@@ -29,7 +29,7 @@ module Bundles =
 
     [<Sealed>]
     type DateFacts() =
-        inherit IDateFacts<GregorianDate, ProlepticGregorianDataSet>(chr.Domain)
+        inherit IDateFacts<GregorianDate, UnboundedGregorianDataSet>(chr.Domain)
 
         override __.MinDate = GregorianDate.MinValue
         override __.MaxDate = GregorianDate.MaxValue
@@ -38,6 +38,6 @@ module Bundles =
 
     [<Sealed>]
     type DayOfWeekFacts() =
-        inherit IDateDayOfWeekFacts<GregorianDate, ProlepticGregorianDataSet>()
+        inherit IDateDayOfWeekFacts<GregorianDate, UnboundedGregorianDataSet>()
 
         override __.GetDate(y, m, d) = new GregorianDate(y, m, d)

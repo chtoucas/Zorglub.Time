@@ -4,7 +4,7 @@
 module Zorglub.Tests.Specialized.JulianTests
 
 open Zorglub.Testing
-open Zorglub.Testing.Data.Bounded
+open Zorglub.Testing.Data.Unbounded
 open Zorglub.Testing.Facts
 
 open Zorglub.Time
@@ -17,7 +17,7 @@ module Bundles =
 
     [<Sealed>]
     type CalendaTests() =
-        inherit ICalendarTFacts<JulianDate, JulianCalendar, ProlepticJulianDataSet>(chr)
+        inherit ICalendarTFacts<JulianDate, JulianCalendar, UnboundedJulianDataSet>(chr)
 
         override x.Algorithm_Prop() = x.CalendarUT.Algorithm === CalendricalAlgorithm.Arithmetical
         override x.Family_Prop() = x.CalendarUT.Family === CalendricalFamily.Solar
@@ -29,7 +29,7 @@ module Bundles =
 
     [<Sealed>]
     type DateFacts() =
-        inherit IDateFacts<JulianDate, ProlepticJulianDataSet>(chr.Domain)
+        inherit IDateFacts<JulianDate, UnboundedJulianDataSet>(chr.Domain)
 
         override __.MinDate = JulianDate.MinValue
         override __.MaxDate = JulianDate.MaxValue
