@@ -5,15 +5,18 @@ namespace Zorglub.Testing.Facts.Core;
 
 using Zorglub.Testing.Data;
 
-// WARNING: formally the test methods could be static, but then the tests won't
-// be run by Xunit.
-
-public abstract class IEpagomenalFeaturetteFacts<T, TDataSet> :
+public abstract class IEpagomenalFeaturetteFacts<TSchema, TDataSet> :
     CalendricalDataConsumer<TDataSet>
-    where T : IEpagomenalFeaturette
+    where TSchema : IEpagomenalFeaturette
     where TDataSet : ICalendricalDataSet, IEpagomenalDataSet, ISingleton<TDataSet>
 {
-    protected IEpagomenalFeaturetteFacts() { }
+    private readonly TSchema _schema;
+
+    protected IEpagomenalFeaturetteFacts(TSchema schema)
+    {
+        Requires.NotNull(schema);
+        _schema = schema;
+    }
 
     public static DataGroup<YemodaAnd<int>> EpagomenalDayInfoData => DataSet.EpagomenalDayInfoData;
 
@@ -22,7 +25,7 @@ public abstract class IEpagomenalFeaturetteFacts<T, TDataSet> :
     {
         var (y, m, d) = info.Yemoda;
         // Act
-        bool isEpagomenal = T.IsEpagomenalDay(y, m, d, out int epanum);
+        bool isEpagomenal = _schema.IsEpagomenalDay(y, m, d, out int epanum);
         // Assert
         Assert.Equal(info.IsSupplementary, isEpagomenal);
         if (isEpagomenal)
@@ -40,7 +43,7 @@ public abstract class IEpagomenalFeaturetteFacts<T, TDataSet> :
     {
         var (y, m, d, epanum) = info;
         // Act
-        bool isEpagomenal = T.IsEpagomenalDay(y, m, d, out int epanumA);
+        bool isEpagomenal = _schema.IsEpagomenalDay(y, m, d, out int epanumA);
         // Assert
         Assert.True(isEpagomenal);
         Assert.Equal(epanum, epanumA);

@@ -4,7 +4,7 @@ We call _test bundle_ a class of facts.
 Test bundles:
 - A test bundle MUST be abstract.
 - Its methods MUST have distinct names (parameters do not count).
-- Its methods MUST NOT be static.
+- Its methods MUST NOT be static, otherwise these methods won't be run by Xunit.
 - A test bundle providing DDT SHOULD derive from either CalendricalDataConsumer 
   or CalendarDataConsumer, even when it's not necessary. This is mostly important
   when testing calendars and related date types which have a bounded scopes.

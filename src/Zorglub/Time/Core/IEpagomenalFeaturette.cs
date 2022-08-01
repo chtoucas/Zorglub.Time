@@ -21,6 +21,6 @@ namespace Zorglub.Time.Core
         /// epagomenal number of the day in an output parameter, zero if the date is not an
         /// epagomenal day.
         /// </summary>
-        [Pure] static abstract bool IsEpagomenalDay(int y, int m, int d, out int epagomenalNumber);
+        [Pure] bool IsEpagomenalDay(int y, int m, int d, out int epagomenalNumber);
     }
 }

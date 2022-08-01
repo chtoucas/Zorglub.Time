@@ -3,7 +3,7 @@
 
 MinMaxYearScope -> use CalendarScope
 BoundedBelowCalendar -> faire comme avec MinMaxYearCalendar
-Specialized -> more date types
+Tests for "snapshots" of SimpleCatalog.
 Naming: ident, id, cuid <- harmoniser
 Struct fields instead of auto-props
 Adjustable dates, providers <- à refaire

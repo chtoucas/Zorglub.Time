@@ -260,7 +260,7 @@ namespace Zorglub.Time.Specialized
         public bool IsEpagomenal(out int epagomenalNumber)
         {
             s_Schema.GetDateParts(_daysSinceEpoch, out int y, out int m, out int d);
-            return Coptic12Schema.IsEpagomenalDay(y, m, d, out epagomenalNumber);
+            return s_Schema.IsEpagomenalDay(y, m, d, out epagomenalNumber);
         }
     }
 

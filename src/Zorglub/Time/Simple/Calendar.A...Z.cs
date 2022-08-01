@@ -7,19 +7,6 @@ namespace Zorglub.Time.Simple
     using Zorglub.Time.Core.Schemas;
     using Zorglub.Time.Hemerology;
 
-    // FIXME(api): remove IEpagomenalCalendar<>, interface and in ZoroastrianSimpleCalendar.
-
-    #region Developer Notes
-
-    // Calendars could "implement" IEpagomenalFeaturette, but they don't.
-    // The rationale is that the method sould be on the date type, not on the
-    // calendar. We already encounters this in the base class with
-    // ICalendricalKernel.
-    // IEpagomenalFeaturette.IsEpagomenalDay() is also static and the scope is
-    // not, so too "much" work to do for little benefit.
-
-    #endregion
-
     /// <summary>
     /// Represents the Armenian calendar.
     /// <para>This class cannot be inherited.</para>
@@ -230,7 +217,7 @@ namespace Zorglub.Time.Simple
     /// Represents the Zoroastrian calendar.
     /// <para>This class cannot be inherited.</para>
     /// </summary>
-    internal sealed class ZoroastrianSimpleCalendar : SimpleCalendar, IEpagomenalCalendar<CalendarDate>
+    internal sealed class ZoroastrianSimpleCalendar : SimpleCalendar
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ZoroastrianSimpleCalendar"/>
@@ -251,17 +238,5 @@ namespace Zorglub.Time.Simple
         /// <para>This static property is thread-safe.</para>
         /// </summary>
         public static ZoroastrianSimpleCalendar Instance { get; } = new ZoroastrianSimpleCalendar();
-
-        /// <summary>
-        /// Determines whether the specified date is an epagomenal day or not.
-        /// </summary>
-        [Pure]
-        public bool IsEpagomenalDay(CalendarDate date, out int epagomenalNumber)
-        {
-            ValidateCuid(date.Cuid, nameof(date));
-
-            date.Parts.Unpack(out int y, out int m, out int d);
-            return Egyptian12Schema.IsEpagomenalDay(y, m, d, out epagomenalNumber);
-        }
     }
 }

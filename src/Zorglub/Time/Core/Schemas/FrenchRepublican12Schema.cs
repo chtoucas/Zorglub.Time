@@ -51,7 +51,7 @@ namespace Zorglub.Time.Core.Schemas
     {
         /// <inheritdoc />
         [Pure]
-        public static bool IsEpagomenalDay(int y, int m, int d, out int epagomenalNumber) =>
+        public bool IsEpagomenalDay(int y, int m, int d, out int epagomenalNumber) =>
             Twelve.IsEpagomenalDay(d, out epagomenalNumber);
 
         /// <inheritdoc />

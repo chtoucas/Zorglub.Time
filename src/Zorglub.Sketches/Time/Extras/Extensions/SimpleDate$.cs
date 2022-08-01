@@ -1,8 +1,9 @@
 ﻿// SPDX-License-Identifier: BSD-3-Clause
 // Copyright (c) 2020 Narvalo.Org. All rights reserved.
 
-namespace Zorglub.Time.Extensions
+namespace Zorglub.Time.Extras.Extensions
 {
+    using Zorglub.Time.Core;
     using Zorglub.Time.Hemerology;
     using Zorglub.Time.Simple;
 
@@ -16,12 +17,16 @@ namespace Zorglub.Time.Extensions
     /// </summary>
     public static class SimpleDateExtensions
     {
+        /// <summary>
+        /// Determines whether the specified date is an epagomenal day or not.
+        /// </summary>
         [Pure]
         public static bool IsEpagomenalDay(this CalendarDate @this, out int epagomenalNumber)
         {
-            if (@this.Calendar is IEpagomenalCalendar<CalendarDate> chr)
+            if (@this.Calendar.Schema is IEpagomenalFeaturette sch)
             {
-                return chr.IsEpagomenalDay(@this, out epagomenalNumber);
+                @this.Parts.Unpack(out int y, out int m, out int d);
+                return sch.IsEpagomenalDay(y, m, d, out epagomenalNumber);
             }
             else
             {
@@ -43,23 +48,5 @@ namespace Zorglub.Time.Extensions
             var date = @this.ToCalendarDate();
             return IsEpagomenalDay(date, out epagomenalNumber);
         }
-
-        ///// <summary>
-        ///// Determines whether the specified date is an epagomenal day or not.
-        ///// </summary>
-        //[Pure]
-        //public static bool IsEpagomenalDay(this CalendarDate @this, out int epagomenalNumber)
-        //{
-        //    if (@this.Calendar.Schema is IEpagomenalFeaturette sch)
-        //    {
-        //        @this.Parts.Unpack(out int y, out int m, out int d);
-        //        return sch.IsEpagomenalDay(y, m, d, out epagomenalNumber);
-        //    }
-        //    else
-        //    {
-        //        epagomenalNumber = 0;
-        //        return false;
-        //    }
-        //}
     }
 }

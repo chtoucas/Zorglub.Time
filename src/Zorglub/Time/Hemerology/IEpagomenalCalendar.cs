@@ -3,6 +3,19 @@
 
 namespace Zorglub.Time.Hemerology
 {
+    // FIXME(api): remove IEpagomenalCalendar<>, interface and in ZoroastrianSimpleCalendar.
+    // Replace IEpagomenalCalendar by IEpagomenalDate
+    // Replace IEpagomenalCalendarFacts by IEpagomenalDateFacts
+    // Test the specialized date types
+    // Remove SimpleDateExtensions?
+
+    // Calendars could "implement" IEpagomenalFeaturette, but they don't.
+    // The rationale is that the method sould be on the date type, not on the
+    // calendar. We already encounters this in the base class with
+    // ICalendricalKernel.
+    // IEpagomenalFeaturette.IsEpagomenalDay() is also static and the scope is
+    // not, so too "much" work to do for little benefit.
+
     // IEpagomenalCalendar does not inherit ICalendar<T> on purpose.
     // See for instance Simple.Calendar.
     // If a calendar does not have a companion date type, one should use
