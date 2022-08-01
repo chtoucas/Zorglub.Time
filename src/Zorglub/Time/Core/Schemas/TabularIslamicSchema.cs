@@ -62,7 +62,8 @@ namespace Zorglub.Time.Core.Schemas
         public sealed override CalendricalFamily Family => CalendricalFamily.Lunar;
 
         /// <inheritdoc />
-        public sealed override CalendricalAdjustments PeriodicAdjustments => CalendricalAdjustments.Days;
+        public sealed override CalendricalAdjustments PeriodicAdjustments =>
+            CalendricalAdjustments.Days;
 
         /// <inheritdoc />
         public int MonthsInYear => MonthsPerYear;
@@ -74,6 +75,7 @@ namespace Zorglub.Time.Core.Schemas
         [Pure]
         public static Box<TabularIslamicSchema> GetInstance() =>
             Box.Create(new TabularIslamicSchema());
+
         /// <inheritdoc />
         [Pure]
         static ReadOnlySpan<byte> IDaysInMonthDistribution.GetDaysInMonthDistribution(bool leap) =>

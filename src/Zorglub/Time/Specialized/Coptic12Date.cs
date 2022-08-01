@@ -23,7 +23,7 @@ namespace Zorglub.Time.Specialized
         /// <summary>
         /// Initializes a new instance of the <see cref="Coptic12Calendar"/> class.
         /// </summary>
-        // Constructor for CopticDate.
+        // Constructor for Coptic12Date.
         internal Coptic12Calendar(Coptic12Schema schema)
             : base("Coptic", new StandardScope(schema, CalendarEpoch.Coptic)) { }
 

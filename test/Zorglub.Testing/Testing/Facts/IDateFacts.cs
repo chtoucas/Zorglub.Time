@@ -6,6 +6,7 @@ namespace Zorglub.Testing.Facts;
 // Hypothesis:
 // - TDate is a value type.
 // - See also IDateableFacts.
+// - TDateSet only provides dates compatible with Yemoda.
 
 // TODO(fact): for simple date objects the constructor is tested in
 // CalendarFacts (Factories). For the others, copy this code: CivilDate
@@ -24,16 +25,14 @@ public abstract partial class IDateFacts<TDate, TDataSet> :
     where TDate : struct, IDate<TDate>
     where TDataSet : ICalendarDataSet, ISingleton<TDataSet>
 {
-    protected IDateFacts(Range<int> supportedYears, Range<DayNumber> domain)
+    protected IDateFacts(Range<DayNumber> domain)
     {
         Domain = domain;
-
-        //SupportedYearsTester = new SupportedYearsTester(supportedYears);
     }
 
-    protected Range<DayNumber> Domain { get; }
+    protected IDateFacts(Range<int> supportedYears, Range<DayNumber> domain) : this(domain) { }
 
-    //protected SupportedYearsTester SupportedYearsTester { get; }
+    protected Range<DayNumber> Domain { get; }
 
     protected abstract TDate MinDate { get; }
     protected abstract TDate MaxDate { get; }

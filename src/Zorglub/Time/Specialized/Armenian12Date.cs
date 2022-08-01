@@ -23,7 +23,7 @@ namespace Zorglub.Time.Specialized
         /// <summary>
         /// Initializes a new instance of the <see cref="Armenian12Calendar"/> class.
         /// </summary>
-        // Constructor for ArmenianDate.
+        // Constructor for Armenian12Date.
         internal Armenian12Calendar(Egyptian12Schema schema)
             : base("Armenian", new StandardScope(schema, CalendarEpoch.Armenian)) { }
 

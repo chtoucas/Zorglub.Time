@@ -27,7 +27,7 @@ module Bundles =
 
     [<Sealed>]
     type DateFacts() =
-        inherit IDateFacts<Armenian12Date, StandardArmenian12DataSet>(chr.SupportedYears.Range, chr.Domain)
+        inherit IDateFacts<Armenian12Date, StandardArmenian12DataSet>(chr.Domain)
 
         override __.MinDate = Armenian12Date.MinValue
         override __.MaxDate = Armenian12Date.MaxValue

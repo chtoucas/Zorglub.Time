@@ -29,7 +29,7 @@ module Bundles =
 
     [<Sealed>]
     type DateFacts() =
-        inherit IDateFacts<CivilDate, StandardGregorianDataSet>(chr.SupportedYears.Range, chr.Domain)
+        inherit IDateFacts<CivilDate, StandardGregorianDataSet>(chr.Domain)
 
         override __.MinDate = CivilDate.MinValue
         override __.MaxDate = CivilDate.MaxValue

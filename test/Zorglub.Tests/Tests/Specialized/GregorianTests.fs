@@ -29,7 +29,7 @@ module Bundles =
 
     [<Sealed>]
     type DateFacts() =
-        inherit IDateFacts<GregorianDate, ProlepticGregorianDataSet>(chr.SupportedYears.Range, chr.Domain)
+        inherit IDateFacts<GregorianDate, ProlepticGregorianDataSet>(chr.Domain)
 
         override __.MinDate = GregorianDate.MinValue
         override __.MaxDate = GregorianDate.MaxValue

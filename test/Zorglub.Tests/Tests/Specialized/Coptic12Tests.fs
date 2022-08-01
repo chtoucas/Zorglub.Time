@@ -27,7 +27,7 @@ module Bundles =
 
     [<Sealed>]
     type DateFacts() =
-        inherit IDateFacts<Coptic12Date, StandardCoptic12DataSet>(chr.SupportedYears.Range, chr.Domain)
+        inherit IDateFacts<Coptic12Date, StandardCoptic12DataSet>(chr.Domain)
 
         override __.MinDate = Coptic12Date.MinValue
         override __.MaxDate = Coptic12Date.MaxValue
