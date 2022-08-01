@@ -5,6 +5,8 @@ namespace Zorglub.Time.Extras
 {
     using Zorglub.Time.Simple;
 
+    // The Gregorian calendar is initialized in ZCatalog.
+
     internal static class JulianZCalendar
     {
         public static string Key => SimpleJulian.Instance.Key;

@@ -33,7 +33,7 @@ namespace Zorglub.Time.Simple
     /// </summary>
     public static partial class SimpleCatalog
     {
-        // WARNING: the order of the static fields matters.
+        // WARNING: the order in which the static fields are written matters.
 
         /// <summary>
         /// Represents the (immutable) array of system calendars, indexed by their internal IDs.

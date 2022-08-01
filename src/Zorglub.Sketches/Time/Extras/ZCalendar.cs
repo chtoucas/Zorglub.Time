@@ -16,22 +16,27 @@ namespace Zorglub.Time.Extras
     // We use a CalendarScope, not a MinMaxYearScope to be able to use
     // ProlepticScope and StandardScope.
     //
-    // Comparison between Calendar and ZCalendar.
+    // Comparison between SimpleCalendar and ZCalendar.
     //
-    // Calendar pros:
+    // SimpleCalendar pros:
     // - Custom types for ordinal dates, calendar days, months and years.
+    // - SimpleCalendar has fixed boundaries (Min/MaxYear are constants) which,
+    //   performance-wise, can help.
     // - More capable arithmetic: PlusMonths(), PlusYears(), etc.
     // - Ability to define your own math operations.
-    // - Custom methods specific to a calendar.
-    // - Calendar has fixed boundaries (Min/MaxYear are constants) which,
-    //   performance-wise, can help.
-    // - A Calendar has a permanent ID whereas a ZCalendar has a transient ID.
     // - Simple binary serialization.
-    // - SimpleCatalog.GetSystemCalendar() uses a fast array lookup.
     // ZCalendar pros:
     // - ZCalendar accepts any type of schema.
+    // - Min/MaxYear are not fixed.
+    // - Not limited to 64 user-defined calendars.
     // Common features:
     // - Set of pre-defined calendars.
+    // Common features to both types:
+    // - System calendars have a permanent ID.
+    // - User-defined calendars have a transient ID.
+    // - GetSystemCalendar() uses a fast array lookup.
+    // Missing features for both types:
+    // - Custom methods specific to a calendar.
 
     #endregion
 
