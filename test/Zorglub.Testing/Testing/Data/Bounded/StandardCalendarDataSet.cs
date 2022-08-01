@@ -247,3 +247,20 @@ public sealed class StandardZoroastrian13DataSet :
 
     public DataGroup<YemodaAnd<int>> EpagomenalDayInfoData => Unbounded.EpagomenalDayInfoData.WhereT(DataFilter.Filter);
 }
+
+/// <summary>
+/// Provides test data for the World calendar with years within the range [1..9999].
+/// </summary>
+public sealed class StandardWorldDataSet :
+    StandardCalendarDataSet<UnboundedWorldDataSet>, ISingleton<StandardWorldDataSet>
+{
+    private StandardWorldDataSet() : base(UnboundedWorldDataSet.Instance) { }
+
+    public static StandardWorldDataSet Instance => Singleton.Instance;
+
+    private static class Singleton
+    {
+        internal static readonly StandardWorldDataSet Instance = new();
+        static Singleton() { }
+    }
+}

@@ -10,44 +10,26 @@ namespace Zorglub.Time.Specialized
     using Zorglub.Time.Hemerology;
     using Zorglub.Time.Hemerology.Scopes;
 
-    // TODO(api): non-standard math. Providers. Idem with the other date types.
-    // Use JulianFormulae?
-    //
-    // Custom methods on calendars:
-    // - IRegularFeaturette       -> idem, optimization using MonthsPerYear
-    // - IVirtualMonthFeaturette  -> idem, optimization using a constant
-    // Custom methods on dates:
-    // - IBlankDayFeaturette      -> IBlankDay
-    // - IEpagomenalDayFeaturette -> IEpagomenalDay
-    // Other methods specific to a single schema. See WorldCalendar.
-    //
-    // Featurettes: only if C# supported "static abstract" methods, we could
-    // define static properties instead of instance props.
-    //
-    // CountDaysSince(XXXDate other) checked context or not? do we test it?
-    // Add method Adjust(Func<CivilDate, CivilDate>) + adjusters in Sketches.
-    //
-    // Other date types? yes but only for calendars currently in use or for
-    // proposed reforms. See CalendarZoo.
+    // TODO(api): CountDaysInWorldMonth().
 
     /// <summary>
-    /// Represents the Julian calendar.
+    /// Represents the World calendar.
     /// <para>This class cannot be inherited.</para>
     /// </summary>
-    public sealed class JulianCalendar :
-        MinMaxYearCalendar<JulianDate>,
+    public sealed class WorldCalendar :
+        MinMaxYearCalendar<WorldDate>,
         IRegularFeaturette
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="JulianCalendar"/> class.
+        /// Initializes a new instance of the <see cref="WorldCalendar"/> class.
         /// </summary>
-        public JulianCalendar() : this(new JulianSchema()) { }
+        public WorldCalendar() : this(new WorldSchema()) { }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="JulianCalendar"/> class.
+        /// Initializes a new instance of the <see cref="WorldCalendar"/> class.
         /// </summary>
-        internal JulianCalendar(JulianSchema schema)
-            : base("Julian", MinMaxYearScope.WithMaximalRange(schema, DayZero.OldStyle))
+        internal WorldCalendar(WorldSchema schema)
+            : base("World", new StandardScope(schema, CalendarEpoch.SundayBeforeGregorian))
         {
             MonthsInYear = schema.MonthsInYear;
         }
@@ -57,16 +39,29 @@ namespace Zorglub.Time.Specialized
 
         /// <inheritdoc/>
         [Pure]
-        protected sealed override JulianDate GetDate(int daysSinceEpoch) => new(daysSinceEpoch);
+        protected sealed override WorldDate GetDate(int daysSinceEpoch) => new(daysSinceEpoch);
+
+        /// <summary>
+        /// Obtains the genuine number of days in a month (excluding the blank days that are
+        /// formally outside any month).
+        /// <para>See also <seealso cref="MinMaxYearCalendar.CountDaysInMonth(int, int)"/>.</para>
+        /// </summary>
+        [Pure]
+        public int CountDaysInWorldMonth(int year, int month)
+        {
+            Scope.ValidateYearMonth(year, month);
+            return WorldSchema.CountDaysInWorldMonth(month);
+        }
     }
 
     /// <summary>
-    /// Represents the Julian date.
-    /// <para><see cref="JulianDate"/> is an immutable struct.</para>
+    /// Represents the World date.
+    /// <para><see cref="WorldDate"/> is an immutable struct.</para>
     /// </summary>
-    public readonly partial struct JulianDate :
-        IDate<JulianDate>,
-        IMinMaxValue<JulianDate>
+    public readonly partial struct WorldDate :
+        IDate<WorldDate>,
+        IMinMaxValue<WorldDate>,
+        IBlankDay
     {
         // NB: the order in which the static fields are written is important.
 
@@ -74,13 +69,13 @@ namespace Zorglub.Time.Specialized
         /// Represents the schema.
         /// <para>This field is read-only.</para>
         /// </summary>
-        private static readonly JulianSchema s_Schema = new();
+        private static readonly WorldSchema s_Schema = new();
 
         /// <summary>
         /// Represents the calendar.
         /// <para>This field is read-only.</para>
         /// </summary>
-        private static readonly JulianCalendar s_Calendar = new(s_Schema);
+        private static readonly WorldCalendar s_Calendar = new(s_Schema);
 
         /// <summary>
         /// Represents the scope.
@@ -101,32 +96,32 @@ namespace Zorglub.Time.Specialized
         private static readonly Range<DayNumber> s_Domain = s_Calendar.Domain;
 
         /// <summary>
-        /// Represents the smallest possible value of a <see cref="JulianDate"/>.
-        /// <para>This is also the default value for <see cref="JulianDate"/>.</para>
+        /// Represents the smallest possible value of a <see cref="WorldDate"/>.
+        /// <para>This is also the default value for <see cref="WorldDate"/>.</para>
         /// <para>This field is read-only.</para>
         /// </summary>
-        private static readonly JulianDate s_MinValue = new(s_Domain.Min - s_Epoch);
+        private static readonly WorldDate s_MinValue = new(s_Domain.Min - s_Epoch);
 
         /// <summary>
-        /// Represents the largest possible value of a <see cref="JulianDate"/>.
+        /// Represents the largest possible value of a <see cref="WorldDate"/>.
         /// <para>This field is read-only.</para>
         /// </summary>
-        private static readonly JulianDate s_MaxValue = new(s_Domain.Max - s_Epoch);
+        private static readonly WorldDate s_MaxValue = new(s_Domain.Max - s_Epoch);
 
         /// <summary>
-        /// Represents the count of days since the Julian epoch.
+        /// Represents the count of days since the World epoch.
         /// <para>This field is read-only.</para>
         /// </summary>
         private readonly int _daysSinceEpoch;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="JulianDate"/> struct to the specified
+        /// Initializes a new instance of the <see cref="WorldDate"/> struct to the specified
         /// date parts.
         /// </summary>
         /// <exception cref="AoorException">The specified components do not form a valid date or
         /// <paramref name="year"/> is outside the range of years supported by
-        /// <see cref="JulianCalendar"/>.</exception>
-        public JulianDate(int year, int month, int day)
+        /// <see cref="WorldCalendar"/>.</exception>
+        public WorldDate(int year, int month, int day)
         {
             s_Scope.ValidateYearMonthDay(year, month, day);
 
@@ -134,13 +129,13 @@ namespace Zorglub.Time.Specialized
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="JulianDate"/> struct to the specified
+        /// Initializes a new instance of the <see cref="WorldDate"/> struct to the specified
         /// ordinal date parts.
         /// </summary>
         /// <exception cref="AoorException">The specified components do not form a valid ordinal
         /// date or <paramref name="year"/> is outside the range of years supported by
-        /// <see cref="JulianCalendar"/>.</exception>
-        public JulianDate(int year, int dayOfYear)
+        /// <see cref="WorldCalendar"/>.</exception>
+        public WorldDate(int year, int dayOfYear)
         {
             s_Scope.ValidateOrdinal(year, dayOfYear);
 
@@ -148,11 +143,11 @@ namespace Zorglub.Time.Specialized
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="JulianDate"/> struct.
+        /// Initializes a new instance of the <see cref="WorldDate"/> struct.
         /// </summary>
         /// <exception cref="AoorException"><paramref name="dayNumber"/> is outside the range of
         /// supported values.</exception>
-        public JulianDate(DayNumber dayNumber)
+        public WorldDate(DayNumber dayNumber)
         {
             s_Domain.Validate(dayNumber);
 
@@ -160,31 +155,31 @@ namespace Zorglub.Time.Specialized
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="JulianDate"/> struct.
+        /// Initializes a new instance of the <see cref="WorldDate"/> struct.
         /// <para>This method does NOT validate its parameter.</para>
         /// </summary>
-        internal JulianDate(int daysSinceEpoch)
+        internal WorldDate(int daysSinceEpoch)
         {
             _daysSinceEpoch = daysSinceEpoch;
         }
 
         /// <summary>
-        /// Gets the smallest possible value of a <see cref="JulianDate"/>.
+        /// Gets the smallest possible value of a <see cref="WorldDate"/>.
         /// <para>This static property is thread-safe.</para>
         /// </summary>
-        public static JulianDate MinValue => s_MinValue;
+        public static WorldDate MinValue => s_MinValue;
 
         /// <summary>
-        /// Gets the largest possible value of a <see cref="JulianDate"/>.
+        /// Gets the largest possible value of a <see cref="WorldDate"/>.
         /// <para>This static property is thread-safe.</para>
         /// </summary>
-        public static JulianDate MaxValue => s_MaxValue;
+        public static WorldDate MaxValue => s_MaxValue;
 
         /// <summary>
         /// Gets the calendar to which belongs the current instance.
         /// <para>This static property is thread-safe.</para>
         /// </summary>
-        public static JulianCalendar Calendar => s_Calendar;
+        public static WorldCalendar Calendar => s_Calendar;
 
         /// <summary>
         /// Gets the day number.
@@ -250,10 +245,27 @@ namespace Zorglub.Time.Specialized
         }
 
         /// <inheritdoc />
-        public bool IsSupplementary => false;
+        public bool IsSupplementary
+        {
+            get
+            {
+                s_Schema.GetDateParts(_daysSinceEpoch, out int y, out int m, out int d);
+                return s_Schema.IsSupplementaryDay(y, m, d);
+            }
+        }
+
+        /// <inheritdoc />
+        public bool IsBlank
+        {
+            get
+            {
+                s_Schema.GetDateParts(_daysSinceEpoch, out int y, out int m, out int d);
+                return s_Schema.IsBlankDay(y, m, d);
+            }
+        }
 
         /// <summary>
-        /// Gets the count of days since the Julian epoch.
+        /// Gets the count of days since the World epoch.
         /// </summary>
         internal int DaysSinceEpoch => _daysSinceEpoch;
 
@@ -274,22 +286,22 @@ namespace Zorglub.Time.Specialized
             s_Schema.GetDateParts(_daysSinceEpoch, out year, out month, out day);
     }
 
-    public partial struct JulianDate // Conversions, adjustments...
+    public partial struct WorldDate // Conversions, adjustments...
     {
         #region Factories
 
         /// <summary>
-        /// Obtains the current date in the Julian calendar on this machine,
+        /// Obtains the current date in the World calendar on this machine,
         /// expressed in local time, not UTC.
         /// </summary>
         [Pure]
-        public static JulianDate Today() => new(DayNumber.Today() - s_Epoch);
+        public static WorldDate Today() => new(DayNumber.Today() - s_Epoch);
 
         #endregion
         #region Conversions
 
         [Pure]
-        static JulianDate IFixedDay<JulianDate>.FromDayNumber(DayNumber dayNumber) =>
+        static WorldDate IFixedDay<WorldDate>.FromDayNumber(DayNumber dayNumber) =>
             new(dayNumber);
 
         [Pure]
@@ -319,144 +331,144 @@ namespace Zorglub.Time.Specialized
 
         /// <inheritdoc />
         [Pure]
-        public JulianDate Previous(DayOfWeek dayOfWeek)
+        public WorldDate Previous(DayOfWeek dayOfWeek)
         {
             var dayNumber = DayNumber.Previous(dayOfWeek);
             if (s_Domain.Contains(dayNumber) == false) { Throw.DateOverflow(); }
-            return new JulianDate(dayNumber - s_Epoch);
+            return new WorldDate(dayNumber - s_Epoch);
         }
 
         /// <inheritdoc />
         [Pure]
-        public JulianDate PreviousOrSame(DayOfWeek dayOfWeek)
+        public WorldDate PreviousOrSame(DayOfWeek dayOfWeek)
         {
             var dayNumber = DayNumber.PreviousOrSame(dayOfWeek);
             if (s_Domain.Contains(dayNumber) == false) { Throw.DateOverflow(); }
-            return new JulianDate(dayNumber - s_Epoch);
+            return new WorldDate(dayNumber - s_Epoch);
         }
 
         /// <inheritdoc />
         [Pure]
-        public JulianDate Nearest(DayOfWeek dayOfWeek)
+        public WorldDate Nearest(DayOfWeek dayOfWeek)
         {
             var dayNumber = DayNumber.Nearest(dayOfWeek);
             if (s_Domain.Contains(dayNumber) == false) { Throw.DateOverflow(); }
-            return new JulianDate(dayNumber - s_Epoch);
+            return new WorldDate(dayNumber - s_Epoch);
         }
 
         /// <inheritdoc />
         [Pure]
-        public JulianDate NextOrSame(DayOfWeek dayOfWeek)
+        public WorldDate NextOrSame(DayOfWeek dayOfWeek)
         {
             var dayNumber = DayNumber.NextOrSame(dayOfWeek);
             if (s_Domain.Contains(dayNumber) == false) { Throw.DateOverflow(); }
-            return new JulianDate(dayNumber - s_Epoch);
+            return new WorldDate(dayNumber - s_Epoch);
         }
 
         /// <inheritdoc />
         [Pure]
-        public JulianDate Next(DayOfWeek dayOfWeek)
+        public WorldDate Next(DayOfWeek dayOfWeek)
         {
             var dayNumber = DayNumber.Next(dayOfWeek);
             if (s_Domain.Contains(dayNumber) == false) { Throw.DateOverflow(); }
-            return new JulianDate(dayNumber - s_Epoch);
+            return new WorldDate(dayNumber - s_Epoch);
         }
 
         #endregion
     }
 
-    public partial struct JulianDate // IEquatable
+    public partial struct WorldDate // IEquatable
     {
         /// <summary>
-        /// Determines whether two specified instances of <see cref="JulianDate"/> are equal.
+        /// Determines whether two specified instances of <see cref="WorldDate"/> are equal.
         /// </summary>
-        public static bool operator ==(JulianDate left, JulianDate right) =>
+        public static bool operator ==(WorldDate left, WorldDate right) =>
             left._daysSinceEpoch == right._daysSinceEpoch;
 
         /// <summary>
-        /// Determines whether two specified instances of <see cref="JulianDate"/> are not equal.
+        /// Determines whether two specified instances of <see cref="WorldDate"/> are not equal.
         /// </summary>
-        public static bool operator !=(JulianDate left, JulianDate right) =>
+        public static bool operator !=(WorldDate left, WorldDate right) =>
             left._daysSinceEpoch != right._daysSinceEpoch;
 
         /// <inheritdoc />
         [Pure]
-        public bool Equals(JulianDate other) => _daysSinceEpoch == other._daysSinceEpoch;
+        public bool Equals(WorldDate other) => _daysSinceEpoch == other._daysSinceEpoch;
 
         /// <inheritdoc />
         [Pure]
         public override bool Equals([NotNullWhen(true)] object? obj) =>
-            obj is JulianDate date && Equals(date);
+            obj is WorldDate date && Equals(date);
 
         /// <inheritdoc />
         [Pure]
         public override int GetHashCode() => _daysSinceEpoch;
     }
 
-    public partial struct JulianDate // IComparable
+    public partial struct WorldDate // IComparable
     {
         /// <summary>
         /// Compares the two specified instances to see if the left one is strictly earlier than the
         /// right one.
         /// </summary>
-        public static bool operator <(JulianDate left, JulianDate right) =>
+        public static bool operator <(WorldDate left, WorldDate right) =>
             left._daysSinceEpoch < right._daysSinceEpoch;
 
         /// <summary>
         /// Compares the two specified instances to see if the left one is earlier than or equal to
         /// the right one.
         /// </summary>
-        public static bool operator <=(JulianDate left, JulianDate right) =>
+        public static bool operator <=(WorldDate left, WorldDate right) =>
             left._daysSinceEpoch <= right._daysSinceEpoch;
 
         /// <summary>
         /// Compares the two specified instances to see if the left one is strictly later than the
         /// right one.
         /// </summary>
-        public static bool operator >(JulianDate left, JulianDate right) =>
+        public static bool operator >(WorldDate left, WorldDate right) =>
             left._daysSinceEpoch > right._daysSinceEpoch;
 
         /// <summary>
         /// Compares the two specified instances to see if the left one is later than or equal to
         /// the right one.
         /// </summary>
-        public static bool operator >=(JulianDate left, JulianDate right) =>
+        public static bool operator >=(WorldDate left, WorldDate right) =>
             left._daysSinceEpoch >= right._daysSinceEpoch;
 
         /// <summary>
         /// Obtains the earlier date of two specified dates.
         /// </summary>
         [Pure]
-        public static JulianDate Min(JulianDate x, JulianDate y) => x < y ? x : y;
+        public static WorldDate Min(WorldDate x, WorldDate y) => x < y ? x : y;
 
         /// <summary>
         /// Obtains the later date of two specified dates.
         /// </summary>
         [Pure]
-        public static JulianDate Max(JulianDate x, JulianDate y) => x > y ? x : y;
+        public static WorldDate Max(WorldDate x, WorldDate y) => x > y ? x : y;
 
         /// <summary>
         /// Indicates whether this instance is earlier, later or the same as the specified one.
         /// </summary>
         [Pure]
-        public int CompareTo(JulianDate other) => _daysSinceEpoch.CompareTo(other._daysSinceEpoch);
+        public int CompareTo(WorldDate other) => _daysSinceEpoch.CompareTo(other._daysSinceEpoch);
 
         /// <inheritdoc />
         [Pure]
         public int CompareTo(object? obj) =>
             obj is null ? 1
-            : obj is JulianDate date ? CompareTo(date)
-            : Throw.NonComparable(typeof(JulianDate), obj);
+            : obj is WorldDate date ? CompareTo(date)
+            : Throw.NonComparable(typeof(WorldDate), obj);
     }
 
-    public partial struct JulianDate // Math ops
+    public partial struct WorldDate // Math ops
     {
 #pragma warning disable CA2225 // Operator overloads have named alternates (Usage)
 
         /// <summary>
         /// Subtracts the two specified dates and returns the number of days between them.
         /// </summary>
-        public static int operator -(JulianDate left, JulianDate right) =>
+        public static int operator -(WorldDate left, WorldDate right) =>
             left.CountDaysSince(right);
 
         /// <summary>
@@ -464,40 +476,40 @@ namespace Zorglub.Time.Specialized
         /// </summary>
         /// <exception cref="OverflowException">The operation would overflow either the capacity of
         /// <see cref="Int32"/> or the range of supported dates.</exception>
-        public static JulianDate operator +(JulianDate value, int days) => value.PlusDays(days);
+        public static WorldDate operator +(WorldDate value, int days) => value.PlusDays(days);
 
         /// <summary>
         /// Subtracts a number of days to the specified date, yielding a new date.
         /// </summary>
         /// <exception cref="OverflowException">The operation would overflow either the capacity of
         /// <see cref="Int32"/> or the range of supported dates.</exception>
-        public static JulianDate operator -(JulianDate value, int days) => value.PlusDays(-days);
+        public static WorldDate operator -(WorldDate value, int days) => value.PlusDays(-days);
 
         /// <summary>
         /// Adds one day to the specified date, yielding a new date.
         /// </summary>
         /// <exception cref="OverflowException">The operation would overflow the latest supported
         /// date.</exception>
-        public static JulianDate operator ++(JulianDate value) => value.NextDay();
+        public static WorldDate operator ++(WorldDate value) => value.NextDay();
 
         /// <summary>
         /// Subtracts one day to the specified date, yielding a new date.
         /// </summary>
         /// <exception cref="OverflowException">The operation would overflow the earliest supported
         /// date.</exception>
-        public static JulianDate operator --(JulianDate value) => value.PreviousDay();
+        public static WorldDate operator --(WorldDate value) => value.PreviousDay();
 
 #pragma warning restore CA2225
 
         /// <inheritdoc />
         [Pure]
-        public int CountDaysSince(JulianDate other) =>
+        public int CountDaysSince(WorldDate other) =>
             // No need to use a checked context here.
             _daysSinceEpoch - other._daysSinceEpoch;
 
         /// <inheritdoc />
         [Pure]
-        public JulianDate PlusDays(int days)
+        public WorldDate PlusDays(int days)
         {
             int daysSinceEpoch = checked(_daysSinceEpoch + days);
             s_Scope.DaysValidator.CheckOverflow(daysSinceEpoch);
@@ -506,12 +518,12 @@ namespace Zorglub.Time.Specialized
 
         /// <inheritdoc />
         [Pure]
-        public JulianDate NextDay() =>
-            this == s_MaxValue ? Throw.DateOverflow<JulianDate>() : new JulianDate(_daysSinceEpoch + 1);
+        public WorldDate NextDay() =>
+            this == s_MaxValue ? Throw.DateOverflow<WorldDate>() : new WorldDate(_daysSinceEpoch + 1);
 
         /// <inheritdoc />
         [Pure]
-        public JulianDate PreviousDay() =>
-            this == s_MinValue ? Throw.DateOverflow<JulianDate>() : new JulianDate(_daysSinceEpoch - 1);
+        public WorldDate PreviousDay() =>
+            this == s_MinValue ? Throw.DateOverflow<WorldDate>() : new WorldDate(_daysSinceEpoch - 1);
     }
 }
