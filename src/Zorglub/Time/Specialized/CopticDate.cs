@@ -13,33 +13,33 @@ namespace Zorglub.Time.Specialized
     /// Represents the Coptic calendar.
     /// <para>This class cannot be inherited.</para>
     /// </summary>
-    public sealed class Coptic12Calendar : MinMaxYearCalendar<Coptic12Date>
+    public sealed class CopticCalendar : MinMaxYearCalendar<CopticDate>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="Coptic12Calendar"/> class.
+        /// Initializes a new instance of the <see cref="CopticCalendar"/> class.
         /// </summary>
-        public Coptic12Calendar() : this(new Coptic12Schema()) { }
+        public CopticCalendar() : this(new Coptic12Schema()) { }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Coptic12Calendar"/> class.
+        /// Initializes a new instance of the <see cref="CopticCalendar"/> class.
         /// </summary>
         // Constructor for Coptic12Date.
-        internal Coptic12Calendar(Coptic12Schema schema)
+        internal CopticCalendar(Coptic12Schema schema)
             : base("Coptic", new StandardScope(schema, CalendarEpoch.Coptic)) { }
 
         /// <inheritdoc/>
         [Pure]
-        protected sealed override Coptic12Date GetDate(int daysSinceEpoch) => new(daysSinceEpoch);
+        protected sealed override CopticDate GetDate(int daysSinceEpoch) => new(daysSinceEpoch);
     }
 
     /// <summary>
     /// Represents the Coptic date.
-    /// <para><see cref="Coptic12Date"/> is an immutable struct.</para>
+    /// <para><see cref="CopticDate"/> is an immutable struct.</para>
     /// </summary>
-    public readonly partial struct Coptic12Date :
-        IDate<Coptic12Date>,
-        IEpagomenalDay<Coptic12Date>,
-        IMinMaxValue<Coptic12Date>
+    public readonly partial struct CopticDate :
+        IDate<CopticDate>,
+        IEpagomenalDay<CopticDate>,
+        IMinMaxValue<CopticDate>
     {
         // NB: the order in which the static fields are written is important.
 
@@ -53,7 +53,7 @@ namespace Zorglub.Time.Specialized
         /// Represents the Coptic calendar.
         /// <para>This field is read-only.</para>
         /// </summary>
-        private static readonly Coptic12Calendar s_Calendar = new(s_Schema);
+        private static readonly CopticCalendar s_Calendar = new(s_Schema);
 
         /// <summary>
         /// Represents the scope.
@@ -74,17 +74,17 @@ namespace Zorglub.Time.Specialized
         private static readonly Range<DayNumber> s_Domain = s_Calendar.Domain;
 
         /// <summary>
-        /// Represents the smallest possible value of a <see cref="Coptic12Date"/>.
-        /// <para>This is also the default value for <see cref="Coptic12Date"/>.</para>
+        /// Represents the smallest possible value of a <see cref="CopticDate"/>.
+        /// <para>This is also the default value for <see cref="CopticDate"/>.</para>
         /// <para>This field is read-only.</para>
         /// </summary>
-        private static readonly Coptic12Date s_MinValue = new(s_Domain.Min - s_Epoch);
+        private static readonly CopticDate s_MinValue = new(s_Domain.Min - s_Epoch);
 
         /// <summary>
-        /// Represents the largest possible value of a <see cref="Coptic12Date"/>.
+        /// Represents the largest possible value of a <see cref="CopticDate"/>.
         /// <para>This field is read-only.</para>
         /// </summary>
-        private static readonly Coptic12Date s_MaxValue = new(s_Domain.Max - s_Epoch);
+        private static readonly CopticDate s_MaxValue = new(s_Domain.Max - s_Epoch);
 
         /// <summary>
         /// Represents the count of days since the Coptic epoch.
@@ -93,13 +93,13 @@ namespace Zorglub.Time.Specialized
         private readonly int _daysSinceEpoch;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Coptic12Date"/> struct to the specified
+        /// Initializes a new instance of the <see cref="CopticDate"/> struct to the specified
         /// date parts.
         /// </summary>
         /// <exception cref="AoorException">The specified components do not form a valid date or
         /// <paramref name="year"/> is outside the range of years supported by
-        /// <see cref="Coptic12Calendar"/>.</exception>
-        public Coptic12Date(int year, int month, int day)
+        /// <see cref="CopticCalendar"/>.</exception>
+        public CopticDate(int year, int month, int day)
         {
             s_Scope.ValidateYearMonthDay(year, month, day);
 
@@ -107,13 +107,13 @@ namespace Zorglub.Time.Specialized
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Coptic12Date"/> struct to the specified
+        /// Initializes a new instance of the <see cref="CopticDate"/> struct to the specified
         /// ordinal date parts.
         /// </summary>
         /// <exception cref="AoorException">The specified components do not form a valid ordinal
         /// date or <paramref name="year"/> is outside the range of years supported by
-        /// <see cref="Coptic12Calendar"/>.</exception>
-        public Coptic12Date(int year, int dayOfYear)
+        /// <see cref="CopticCalendar"/>.</exception>
+        public CopticDate(int year, int dayOfYear)
         {
             s_Scope.ValidateOrdinal(year, dayOfYear);
 
@@ -121,11 +121,11 @@ namespace Zorglub.Time.Specialized
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Coptic12Date"/> struct.
+        /// Initializes a new instance of the <see cref="CopticDate"/> struct.
         /// </summary>
         /// <exception cref="AoorException"><paramref name="dayNumber"/> is outside the range of
         /// supported values.</exception>
-        public Coptic12Date(DayNumber dayNumber)
+        public CopticDate(DayNumber dayNumber)
         {
             s_Domain.Validate(dayNumber);
 
@@ -133,31 +133,31 @@ namespace Zorglub.Time.Specialized
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Coptic12Date"/> struct.
+        /// Initializes a new instance of the <see cref="CopticDate"/> struct.
         /// <para>This method does NOT validate its parameter.</para>
         /// </summary>
-        internal Coptic12Date(int daysSinceEpoch)
+        internal CopticDate(int daysSinceEpoch)
         {
             _daysSinceEpoch = daysSinceEpoch;
         }
 
         /// <summary>
-        /// Gets the smallest possible value of a <see cref="Coptic12Date"/>.
+        /// Gets the smallest possible value of a <see cref="CopticDate"/>.
         /// <para>This static property is thread-safe.</para>
         /// </summary>
-        public static Coptic12Date MinValue => s_MinValue;
+        public static CopticDate MinValue => s_MinValue;
 
         /// <summary>
-        /// Gets the largest possible value of a <see cref="Coptic12Date"/>.
+        /// Gets the largest possible value of a <see cref="CopticDate"/>.
         /// <para>This static property is thread-safe.</para>
         /// </summary>
-        public static Coptic12Date MaxValue => s_MaxValue;
+        public static CopticDate MaxValue => s_MaxValue;
 
         /// <summary>
         /// Gets the calendar to which belongs the current instance.
         /// <para>This static property is thread-safe.</para>
         /// </summary>
-        public static Coptic12Calendar Calendar => s_Calendar;
+        public static CopticCalendar Calendar => s_Calendar;
 
         /// <summary>
         /// Gets the day number.
@@ -262,7 +262,7 @@ namespace Zorglub.Time.Specialized
         }
     }
 
-    public partial struct Coptic12Date // Conversions, adjustments...
+    public partial struct CopticDate // Conversions, adjustments...
     {
         #region Factories
 
@@ -271,13 +271,13 @@ namespace Zorglub.Time.Specialized
         /// expressed in local time, not UTC.
         /// </summary>
         [Pure]
-        public static Coptic12Date Today() => new(DayNumber.Today() - s_Epoch);
+        public static CopticDate Today() => new(DayNumber.Today() - s_Epoch);
 
         #endregion
         #region Conversions
 
         [Pure]
-        static Coptic12Date IFixedDay<Coptic12Date>.FromDayNumber(DayNumber dayNumber) =>
+        static CopticDate IFixedDay<CopticDate>.FromDayNumber(DayNumber dayNumber) =>
             new(dayNumber);
 
         [Pure]
@@ -307,144 +307,144 @@ namespace Zorglub.Time.Specialized
 
         /// <inheritdoc />
         [Pure]
-        public Coptic12Date Previous(DayOfWeek dayOfWeek)
+        public CopticDate Previous(DayOfWeek dayOfWeek)
         {
             var dayNumber = DayNumber.Previous(dayOfWeek);
             if (s_Domain.Contains(dayNumber) == false) { Throw.DateOverflow(); }
-            return new Coptic12Date(dayNumber - s_Epoch);
+            return new CopticDate(dayNumber - s_Epoch);
         }
 
         /// <inheritdoc />
         [Pure]
-        public Coptic12Date PreviousOrSame(DayOfWeek dayOfWeek)
+        public CopticDate PreviousOrSame(DayOfWeek dayOfWeek)
         {
             var dayNumber = DayNumber.PreviousOrSame(dayOfWeek);
             if (s_Domain.Contains(dayNumber) == false) { Throw.DateOverflow(); }
-            return new Coptic12Date(dayNumber - s_Epoch);
+            return new CopticDate(dayNumber - s_Epoch);
         }
 
         /// <inheritdoc />
         [Pure]
-        public Coptic12Date Nearest(DayOfWeek dayOfWeek)
+        public CopticDate Nearest(DayOfWeek dayOfWeek)
         {
             var dayNumber = DayNumber.Nearest(dayOfWeek);
             if (s_Domain.Contains(dayNumber) == false) { Throw.DateOverflow(); }
-            return new Coptic12Date(dayNumber - s_Epoch);
+            return new CopticDate(dayNumber - s_Epoch);
         }
 
         /// <inheritdoc />
         [Pure]
-        public Coptic12Date NextOrSame(DayOfWeek dayOfWeek)
+        public CopticDate NextOrSame(DayOfWeek dayOfWeek)
         {
             var dayNumber = DayNumber.NextOrSame(dayOfWeek);
             if (s_Domain.Contains(dayNumber) == false) { Throw.DateOverflow(); }
-            return new Coptic12Date(dayNumber - s_Epoch);
+            return new CopticDate(dayNumber - s_Epoch);
         }
 
         /// <inheritdoc />
         [Pure]
-        public Coptic12Date Next(DayOfWeek dayOfWeek)
+        public CopticDate Next(DayOfWeek dayOfWeek)
         {
             var dayNumber = DayNumber.Next(dayOfWeek);
             if (s_Domain.Contains(dayNumber) == false) { Throw.DateOverflow(); }
-            return new Coptic12Date(dayNumber - s_Epoch);
+            return new CopticDate(dayNumber - s_Epoch);
         }
 
         #endregion
     }
 
-    public partial struct Coptic12Date // IEquatable
+    public partial struct CopticDate // IEquatable
     {
         /// <summary>
-        /// Determines whether two specified instances of <see cref="Coptic12Date"/> are equal.
+        /// Determines whether two specified instances of <see cref="CopticDate"/> are equal.
         /// </summary>
-        public static bool operator ==(Coptic12Date left, Coptic12Date right) =>
+        public static bool operator ==(CopticDate left, CopticDate right) =>
             left._daysSinceEpoch == right._daysSinceEpoch;
 
         /// <summary>
-        /// Determines whether two specified instances of <see cref="Coptic12Date"/> are not equal.
+        /// Determines whether two specified instances of <see cref="CopticDate"/> are not equal.
         /// </summary>
-        public static bool operator !=(Coptic12Date left, Coptic12Date right) =>
+        public static bool operator !=(CopticDate left, CopticDate right) =>
             left._daysSinceEpoch != right._daysSinceEpoch;
 
         /// <inheritdoc />
         [Pure]
-        public bool Equals(Coptic12Date other) => _daysSinceEpoch == other._daysSinceEpoch;
+        public bool Equals(CopticDate other) => _daysSinceEpoch == other._daysSinceEpoch;
 
         /// <inheritdoc />
         [Pure]
         public override bool Equals([NotNullWhen(true)] object? obj) =>
-            obj is Coptic12Date date && Equals(date);
+            obj is CopticDate date && Equals(date);
 
         /// <inheritdoc />
         [Pure]
         public override int GetHashCode() => _daysSinceEpoch;
     }
 
-    public partial struct Coptic12Date // IComparable
+    public partial struct CopticDate // IComparable
     {
         /// <summary>
         /// Compares the two specified instances to see if the left one is strictly earlier than the
         /// right one.
         /// </summary>
-        public static bool operator <(Coptic12Date left, Coptic12Date right) =>
+        public static bool operator <(CopticDate left, CopticDate right) =>
             left._daysSinceEpoch < right._daysSinceEpoch;
 
         /// <summary>
         /// Compares the two specified instances to see if the left one is earlier than or equal to
         /// the right one.
         /// </summary>
-        public static bool operator <=(Coptic12Date left, Coptic12Date right) =>
+        public static bool operator <=(CopticDate left, CopticDate right) =>
             left._daysSinceEpoch <= right._daysSinceEpoch;
 
         /// <summary>
         /// Compares the two specified instances to see if the left one is strictly later than the
         /// right one.
         /// </summary>
-        public static bool operator >(Coptic12Date left, Coptic12Date right) =>
+        public static bool operator >(CopticDate left, CopticDate right) =>
             left._daysSinceEpoch > right._daysSinceEpoch;
 
         /// <summary>
         /// Compares the two specified instances to see if the left one is later than or equal to
         /// the right one.
         /// </summary>
-        public static bool operator >=(Coptic12Date left, Coptic12Date right) =>
+        public static bool operator >=(CopticDate left, CopticDate right) =>
             left._daysSinceEpoch >= right._daysSinceEpoch;
 
         /// <summary>
         /// Obtains the earlier date of two specified dates.
         /// </summary>
         [Pure]
-        public static Coptic12Date Min(Coptic12Date x, Coptic12Date y) => x < y ? x : y;
+        public static CopticDate Min(CopticDate x, CopticDate y) => x < y ? x : y;
 
         /// <summary>
         /// Obtains the later date of two specified dates.
         /// </summary>
         [Pure]
-        public static Coptic12Date Max(Coptic12Date x, Coptic12Date y) => x > y ? x : y;
+        public static CopticDate Max(CopticDate x, CopticDate y) => x > y ? x : y;
 
         /// <summary>
         /// Indicates whether this instance is earlier, later or the same as the specified one.
         /// </summary>
         [Pure]
-        public int CompareTo(Coptic12Date other) => _daysSinceEpoch.CompareTo(other._daysSinceEpoch);
+        public int CompareTo(CopticDate other) => _daysSinceEpoch.CompareTo(other._daysSinceEpoch);
 
         /// <inheritdoc />
         [Pure]
         public int CompareTo(object? obj) =>
             obj is null ? 1
-            : obj is Coptic12Date date ? CompareTo(date)
-            : Throw.NonComparable(typeof(Coptic12Date), obj);
+            : obj is CopticDate date ? CompareTo(date)
+            : Throw.NonComparable(typeof(CopticDate), obj);
     }
 
-    public partial struct Coptic12Date // Math ops
+    public partial struct CopticDate // Math ops
     {
 #pragma warning disable CA2225 // Operator overloads have named alternates (Usage)
 
         /// <summary>
         /// Subtracts the two specified dates and returns the number of days between them.
         /// </summary>
-        public static int operator -(Coptic12Date left, Coptic12Date right) =>
+        public static int operator -(CopticDate left, CopticDate right) =>
             left.CountDaysSince(right);
 
         /// <summary>
@@ -452,40 +452,40 @@ namespace Zorglub.Time.Specialized
         /// </summary>
         /// <exception cref="OverflowException">The operation would overflow either the capacity of
         /// <see cref="Int32"/> or the range of supported dates.</exception>
-        public static Coptic12Date operator +(Coptic12Date value, int days) => value.PlusDays(days);
+        public static CopticDate operator +(CopticDate value, int days) => value.PlusDays(days);
 
         /// <summary>
         /// Subtracts a number of days to the specified date, yielding a new date.
         /// </summary>
         /// <exception cref="OverflowException">The operation would overflow either the capacity of
         /// <see cref="Int32"/> or the range of supported dates.</exception>
-        public static Coptic12Date operator -(Coptic12Date value, int days) => value.PlusDays(-days);
+        public static CopticDate operator -(CopticDate value, int days) => value.PlusDays(-days);
 
         /// <summary>
         /// Adds one day to the specified date, yielding a new date.
         /// </summary>
         /// <exception cref="OverflowException">The operation would overflow the latest supported
         /// date.</exception>
-        public static Coptic12Date operator ++(Coptic12Date value) => value.NextDay();
+        public static CopticDate operator ++(CopticDate value) => value.NextDay();
 
         /// <summary>
         /// Subtracts one day to the specified date, yielding a new date.
         /// </summary>
         /// <exception cref="OverflowException">The operation would overflow the earliest supported
         /// date.</exception>
-        public static Coptic12Date operator --(Coptic12Date value) => value.PreviousDay();
+        public static CopticDate operator --(CopticDate value) => value.PreviousDay();
 
 #pragma warning restore CA2225
 
         /// <inheritdoc />
         [Pure]
-        public int CountDaysSince(Coptic12Date other) =>
+        public int CountDaysSince(CopticDate other) =>
             // No need to use a checked context here.
             _daysSinceEpoch - other._daysSinceEpoch;
 
         /// <inheritdoc />
         [Pure]
-        public Coptic12Date PlusDays(int days)
+        public CopticDate PlusDays(int days)
         {
             int daysSinceEpoch = checked(_daysSinceEpoch + days);
             s_Scope.DaysValidator.CheckOverflow(daysSinceEpoch);
@@ -494,12 +494,12 @@ namespace Zorglub.Time.Specialized
 
         /// <inheritdoc />
         [Pure]
-        public Coptic12Date NextDay() =>
-            this == s_MaxValue ? Throw.DateOverflow<Coptic12Date>() : new Coptic12Date(_daysSinceEpoch + 1);
+        public CopticDate NextDay() =>
+            this == s_MaxValue ? Throw.DateOverflow<CopticDate>() : new CopticDate(_daysSinceEpoch + 1);
 
         /// <inheritdoc />
         [Pure]
-        public Coptic12Date PreviousDay() =>
-            this == s_MinValue ? Throw.DateOverflow<Coptic12Date>() : new Coptic12Date(_daysSinceEpoch - 1);
+        public CopticDate PreviousDay() =>
+            this == s_MinValue ? Throw.DateOverflow<CopticDate>() : new CopticDate(_daysSinceEpoch - 1);
     }
 }

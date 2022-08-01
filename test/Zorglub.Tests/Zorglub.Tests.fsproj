@@ -110,11 +110,11 @@
     <Compile Include="Tests\Specialized\CivilTests.fs" />
     <Compile Include="Tests\Specialized\GregorianTests.fs" />
     <Compile Include="Tests\Specialized\JulianTests.fs" />
-    <Compile Include="Tests\Specialized\Armenian12Tests.fs" />
-    <Compile Include="Tests\Specialized\Coptic12Tests.fs" />
-    <Compile Include="Tests\Specialized\Ethiopic12Tests.fs" />
+    <Compile Include="Tests\Specialized\ArmenianTests.fs" />
+    <Compile Include="Tests\Specialized\CopticTests.fs" />
+    <Compile Include="Tests\Specialized\EthiopicTests.fs" />
     <Compile Include="Tests\Specialized\TabularIslamicTests.fs" />
-    <Compile Include="Tests\Specialized\Zoroastrian12Tests.fs" />
+    <Compile Include="Tests\Specialized\ZoroastrianTests.fs" />
     <Compile Include="Tests\Extensions\DayOfWeek%24Tests.fs" />
     <Compile Include="Tests\Extensions\UnboxingTests.fs" />
     <Compile Include="Tests\Extras\ZDateTests.fs" />

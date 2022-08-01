@@ -10,36 +10,36 @@ namespace Zorglub.Time.Specialized
     using Zorglub.Time.Hemerology.Scopes;
 
     /// <summary>
-    /// Represents the Armenian calendar.
+    /// Represents the Ethiopic calendar.
     /// <para>This class cannot be inherited.</para>
     /// </summary>
-    public sealed class Armenian12Calendar : MinMaxYearCalendar<Armenian12Date>
+    public sealed class EthiopicCalendar : MinMaxYearCalendar<EthiopicDate>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="Armenian12Calendar"/> class.
+        /// Initializes a new instance of the <see cref="EthiopicCalendar"/> class.
         /// </summary>
-        public Armenian12Calendar() : this(new Egyptian12Schema()) { }
+        public EthiopicCalendar() : this(new Coptic12Schema()) { }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Armenian12Calendar"/> class.
+        /// Initializes a new instance of the <see cref="EthiopicCalendar"/> class.
         /// </summary>
-        // Constructor for Armenian12Date.
-        internal Armenian12Calendar(Egyptian12Schema schema)
-            : base("Armenian", new StandardScope(schema, CalendarEpoch.Armenian)) { }
+        // Constructor for Ethiopic12Date.
+        internal EthiopicCalendar(Coptic12Schema schema)
+            : base("Ethiopic", new StandardScope(schema, CalendarEpoch.Ethiopic)) { }
 
         /// <inheritdoc/>
         [Pure]
-        protected sealed override Armenian12Date GetDate(int daysSinceEpoch) => new(daysSinceEpoch);
+        protected sealed override EthiopicDate GetDate(int daysSinceEpoch) => new(daysSinceEpoch);
     }
 
     /// <summary>
-    /// Represents the Armenian date.
-    /// <para><see cref="Armenian12Date"/> is an immutable struct.</para>
+    /// Represents the Ethiopic date.
+    /// <para><see cref="EthiopicDate"/> is an immutable struct.</para>
     /// </summary>
-    public readonly partial struct Armenian12Date :
-        IDate<Armenian12Date>,
-        IEpagomenalDay<Armenian12Date>,
-        IMinMaxValue<Armenian12Date>
+    public readonly partial struct EthiopicDate :
+        IDate<EthiopicDate>,
+        IEpagomenalDay<EthiopicDate>,
+        IMinMaxValue<EthiopicDate>
     {
         // NB: the order in which the static fields are written is important.
 
@@ -47,13 +47,13 @@ namespace Zorglub.Time.Specialized
         /// Represents the Egyptian12 schema.
         /// <para>This field is read-only.</para>
         /// </summary>
-        private static readonly Egyptian12Schema s_Schema = new();
+        private static readonly Coptic12Schema s_Schema = new();
 
         /// <summary>
-        /// Represents the Armenian calendar.
+        /// Represents the Ethiopic calendar.
         /// <para>This field is read-only.</para>
         /// </summary>
-        private static readonly Armenian12Calendar s_Calendar = new(s_Schema);
+        private static readonly EthiopicCalendar s_Calendar = new(s_Schema);
 
         /// <summary>
         /// Represents the scope.
@@ -74,32 +74,32 @@ namespace Zorglub.Time.Specialized
         private static readonly Range<DayNumber> s_Domain = s_Calendar.Domain;
 
         /// <summary>
-        /// Represents the smallest possible value of a <see cref="Armenian12Date"/>.
-        /// <para>This is also the default value for <see cref="Armenian12Date"/>.</para>
+        /// Represents the smallest possible value of a <see cref="EthiopicDate"/>.
+        /// <para>This is also the default value for <see cref="EthiopicDate"/>.</para>
         /// <para>This field is read-only.</para>
         /// </summary>
-        private static readonly Armenian12Date s_MinValue = new(s_Domain.Min - s_Epoch);
+        private static readonly EthiopicDate s_MinValue = new(s_Domain.Min - s_Epoch);
 
         /// <summary>
-        /// Represents the largest possible value of a <see cref="Armenian12Date"/>.
+        /// Represents the largest possible value of a <see cref="EthiopicDate"/>.
         /// <para>This field is read-only.</para>
         /// </summary>
-        private static readonly Armenian12Date s_MaxValue = new(s_Domain.Max - s_Epoch);
+        private static readonly EthiopicDate s_MaxValue = new(s_Domain.Max - s_Epoch);
 
         /// <summary>
-        /// Represents the count of days since the Armenian epoch.
+        /// Represents the count of days since the Ethiopic epoch.
         /// <para>This field is read-only.</para>
         /// </summary>
         private readonly int _daysSinceEpoch;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Armenian12Date"/> struct to the specified
+        /// Initializes a new instance of the <see cref="EthiopicDate"/> struct to the specified
         /// date parts.
         /// </summary>
         /// <exception cref="AoorException">The specified components do not form a valid date or
         /// <paramref name="year"/> is outside the range of years supported by
-        /// <see cref="Armenian12Calendar"/>.</exception>
-        public Armenian12Date(int year, int month, int day)
+        /// <see cref="EthiopicCalendar"/>.</exception>
+        public EthiopicDate(int year, int month, int day)
         {
             s_Scope.ValidateYearMonthDay(year, month, day);
 
@@ -107,13 +107,13 @@ namespace Zorglub.Time.Specialized
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Armenian12Date"/> struct to the specified
+        /// Initializes a new instance of the <see cref="EthiopicDate"/> struct to the specified
         /// ordinal date parts.
         /// </summary>
         /// <exception cref="AoorException">The specified components do not form a valid ordinal
         /// date or <paramref name="year"/> is outside the range of years supported by
-        /// <see cref="Armenian12Calendar"/>.</exception>
-        public Armenian12Date(int year, int dayOfYear)
+        /// <see cref="EthiopicCalendar"/>.</exception>
+        public EthiopicDate(int year, int dayOfYear)
         {
             s_Scope.ValidateOrdinal(year, dayOfYear);
 
@@ -121,11 +121,11 @@ namespace Zorglub.Time.Specialized
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Armenian12Date"/> struct.
+        /// Initializes a new instance of the <see cref="EthiopicDate"/> struct.
         /// </summary>
         /// <exception cref="AoorException"><paramref name="dayNumber"/> is outside the range of
         /// supported values.</exception>
-        public Armenian12Date(DayNumber dayNumber)
+        public EthiopicDate(DayNumber dayNumber)
         {
             s_Domain.Validate(dayNumber);
 
@@ -133,31 +133,31 @@ namespace Zorglub.Time.Specialized
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Armenian12Date"/> struct.
+        /// Initializes a new instance of the <see cref="EthiopicDate"/> struct.
         /// <para>This method does NOT validate its parameter.</para>
         /// </summary>
-        internal Armenian12Date(int daysSinceEpoch)
+        internal EthiopicDate(int daysSinceEpoch)
         {
             _daysSinceEpoch = daysSinceEpoch;
         }
 
         /// <summary>
-        /// Gets the smallest possible value of a <see cref="Armenian12Date"/>.
+        /// Gets the smallest possible value of a <see cref="EthiopicDate"/>.
         /// <para>This static property is thread-safe.</para>
         /// </summary>
-        public static Armenian12Date MinValue => s_MinValue;
+        public static EthiopicDate MinValue => s_MinValue;
 
         /// <summary>
-        /// Gets the largest possible value of a <see cref="Armenian12Date"/>.
+        /// Gets the largest possible value of a <see cref="EthiopicDate"/>.
         /// <para>This static property is thread-safe.</para>
         /// </summary>
-        public static Armenian12Date MaxValue => s_MaxValue;
+        public static EthiopicDate MaxValue => s_MaxValue;
 
         /// <summary>
         /// Gets the calendar to which belongs the current instance.
         /// <para>This static property is thread-safe.</para>
         /// </summary>
-        public static Armenian12Calendar Calendar => s_Calendar;
+        public static EthiopicCalendar Calendar => s_Calendar;
 
         /// <summary>
         /// Gets the day number.
@@ -233,7 +233,7 @@ namespace Zorglub.Time.Specialized
         }
 
         /// <summary>
-        /// Gets the count of days since the Armenian epoch.
+        /// Gets the count of days since the Ethiopic epoch.
         /// </summary>
         internal int DaysSinceEpoch => _daysSinceEpoch;
 
@@ -262,22 +262,22 @@ namespace Zorglub.Time.Specialized
         }
     }
 
-    public partial struct Armenian12Date // Conversions, adjustments...
+    public partial struct EthiopicDate // Conversions, adjustments...
     {
         #region Factories
 
         /// <summary>
-        /// Obtains the current date in the Armenian calendar on this machine,
+        /// Obtains the current date in the Ethiopic calendar on this machine,
         /// expressed in local time, not UTC.
         /// </summary>
         [Pure]
-        public static Armenian12Date Today() => new(DayNumber.Today() - s_Epoch);
+        public static EthiopicDate Today() => new(DayNumber.Today() - s_Epoch);
 
         #endregion
         #region Conversions
 
         [Pure]
-        static Armenian12Date IFixedDay<Armenian12Date>.FromDayNumber(DayNumber dayNumber) =>
+        static EthiopicDate IFixedDay<EthiopicDate>.FromDayNumber(DayNumber dayNumber) =>
             new(dayNumber);
 
         [Pure]
@@ -307,144 +307,144 @@ namespace Zorglub.Time.Specialized
 
         /// <inheritdoc />
         [Pure]
-        public Armenian12Date Previous(DayOfWeek dayOfWeek)
+        public EthiopicDate Previous(DayOfWeek dayOfWeek)
         {
             var dayNumber = DayNumber.Previous(dayOfWeek);
             if (s_Domain.Contains(dayNumber) == false) { Throw.DateOverflow(); }
-            return new Armenian12Date(dayNumber - s_Epoch);
+            return new EthiopicDate(dayNumber - s_Epoch);
         }
 
         /// <inheritdoc />
         [Pure]
-        public Armenian12Date PreviousOrSame(DayOfWeek dayOfWeek)
+        public EthiopicDate PreviousOrSame(DayOfWeek dayOfWeek)
         {
             var dayNumber = DayNumber.PreviousOrSame(dayOfWeek);
             if (s_Domain.Contains(dayNumber) == false) { Throw.DateOverflow(); }
-            return new Armenian12Date(dayNumber - s_Epoch);
+            return new EthiopicDate(dayNumber - s_Epoch);
         }
 
         /// <inheritdoc />
         [Pure]
-        public Armenian12Date Nearest(DayOfWeek dayOfWeek)
+        public EthiopicDate Nearest(DayOfWeek dayOfWeek)
         {
             var dayNumber = DayNumber.Nearest(dayOfWeek);
             if (s_Domain.Contains(dayNumber) == false) { Throw.DateOverflow(); }
-            return new Armenian12Date(dayNumber - s_Epoch);
+            return new EthiopicDate(dayNumber - s_Epoch);
         }
 
         /// <inheritdoc />
         [Pure]
-        public Armenian12Date NextOrSame(DayOfWeek dayOfWeek)
+        public EthiopicDate NextOrSame(DayOfWeek dayOfWeek)
         {
             var dayNumber = DayNumber.NextOrSame(dayOfWeek);
             if (s_Domain.Contains(dayNumber) == false) { Throw.DateOverflow(); }
-            return new Armenian12Date(dayNumber - s_Epoch);
+            return new EthiopicDate(dayNumber - s_Epoch);
         }
 
         /// <inheritdoc />
         [Pure]
-        public Armenian12Date Next(DayOfWeek dayOfWeek)
+        public EthiopicDate Next(DayOfWeek dayOfWeek)
         {
             var dayNumber = DayNumber.Next(dayOfWeek);
             if (s_Domain.Contains(dayNumber) == false) { Throw.DateOverflow(); }
-            return new Armenian12Date(dayNumber - s_Epoch);
+            return new EthiopicDate(dayNumber - s_Epoch);
         }
 
         #endregion
     }
 
-    public partial struct Armenian12Date // IEquatable
+    public partial struct EthiopicDate // IEquatable
     {
         /// <summary>
-        /// Determines whether two specified instances of <see cref="Armenian12Date"/> are equal.
+        /// Determines whether two specified instances of <see cref="EthiopicDate"/> are equal.
         /// </summary>
-        public static bool operator ==(Armenian12Date left, Armenian12Date right) =>
+        public static bool operator ==(EthiopicDate left, EthiopicDate right) =>
             left._daysSinceEpoch == right._daysSinceEpoch;
 
         /// <summary>
-        /// Determines whether two specified instances of <see cref="Armenian12Date"/> are not equal.
+        /// Determines whether two specified instances of <see cref="EthiopicDate"/> are not equal.
         /// </summary>
-        public static bool operator !=(Armenian12Date left, Armenian12Date right) =>
+        public static bool operator !=(EthiopicDate left, EthiopicDate right) =>
             left._daysSinceEpoch != right._daysSinceEpoch;
 
         /// <inheritdoc />
         [Pure]
-        public bool Equals(Armenian12Date other) => _daysSinceEpoch == other._daysSinceEpoch;
+        public bool Equals(EthiopicDate other) => _daysSinceEpoch == other._daysSinceEpoch;
 
         /// <inheritdoc />
         [Pure]
         public override bool Equals([NotNullWhen(true)] object? obj) =>
-            obj is Armenian12Date date && Equals(date);
+            obj is EthiopicDate date && Equals(date);
 
         /// <inheritdoc />
         [Pure]
         public override int GetHashCode() => _daysSinceEpoch;
     }
 
-    public partial struct Armenian12Date // IComparable
+    public partial struct EthiopicDate // IComparable
     {
         /// <summary>
         /// Compares the two specified instances to see if the left one is strictly earlier than the
         /// right one.
         /// </summary>
-        public static bool operator <(Armenian12Date left, Armenian12Date right) =>
+        public static bool operator <(EthiopicDate left, EthiopicDate right) =>
             left._daysSinceEpoch < right._daysSinceEpoch;
 
         /// <summary>
         /// Compares the two specified instances to see if the left one is earlier than or equal to
         /// the right one.
         /// </summary>
-        public static bool operator <=(Armenian12Date left, Armenian12Date right) =>
+        public static bool operator <=(EthiopicDate left, EthiopicDate right) =>
             left._daysSinceEpoch <= right._daysSinceEpoch;
 
         /// <summary>
         /// Compares the two specified instances to see if the left one is strictly later than the
         /// right one.
         /// </summary>
-        public static bool operator >(Armenian12Date left, Armenian12Date right) =>
+        public static bool operator >(EthiopicDate left, EthiopicDate right) =>
             left._daysSinceEpoch > right._daysSinceEpoch;
 
         /// <summary>
         /// Compares the two specified instances to see if the left one is later than or equal to
         /// the right one.
         /// </summary>
-        public static bool operator >=(Armenian12Date left, Armenian12Date right) =>
+        public static bool operator >=(EthiopicDate left, EthiopicDate right) =>
             left._daysSinceEpoch >= right._daysSinceEpoch;
 
         /// <summary>
         /// Obtains the earlier date of two specified dates.
         /// </summary>
         [Pure]
-        public static Armenian12Date Min(Armenian12Date x, Armenian12Date y) => x < y ? x : y;
+        public static EthiopicDate Min(EthiopicDate x, EthiopicDate y) => x < y ? x : y;
 
         /// <summary>
         /// Obtains the later date of two specified dates.
         /// </summary>
         [Pure]
-        public static Armenian12Date Max(Armenian12Date x, Armenian12Date y) => x > y ? x : y;
+        public static EthiopicDate Max(EthiopicDate x, EthiopicDate y) => x > y ? x : y;
 
         /// <summary>
         /// Indicates whether this instance is earlier, later or the same as the specified one.
         /// </summary>
         [Pure]
-        public int CompareTo(Armenian12Date other) => _daysSinceEpoch.CompareTo(other._daysSinceEpoch);
+        public int CompareTo(EthiopicDate other) => _daysSinceEpoch.CompareTo(other._daysSinceEpoch);
 
         /// <inheritdoc />
         [Pure]
         public int CompareTo(object? obj) =>
             obj is null ? 1
-            : obj is Armenian12Date date ? CompareTo(date)
-            : Throw.NonComparable(typeof(Armenian12Date), obj);
+            : obj is EthiopicDate date ? CompareTo(date)
+            : Throw.NonComparable(typeof(EthiopicDate), obj);
     }
 
-    public partial struct Armenian12Date // Math ops
+    public partial struct EthiopicDate // Math ops
     {
 #pragma warning disable CA2225 // Operator overloads have named alternates (Usage)
 
         /// <summary>
         /// Subtracts the two specified dates and returns the number of days between them.
         /// </summary>
-        public static int operator -(Armenian12Date left, Armenian12Date right) =>
+        public static int operator -(EthiopicDate left, EthiopicDate right) =>
             left.CountDaysSince(right);
 
         /// <summary>
@@ -452,40 +452,40 @@ namespace Zorglub.Time.Specialized
         /// </summary>
         /// <exception cref="OverflowException">The operation would overflow either the capacity of
         /// <see cref="Int32"/> or the range of supported dates.</exception>
-        public static Armenian12Date operator +(Armenian12Date value, int days) => value.PlusDays(days);
+        public static EthiopicDate operator +(EthiopicDate value, int days) => value.PlusDays(days);
 
         /// <summary>
         /// Subtracts a number of days to the specified date, yielding a new date.
         /// </summary>
         /// <exception cref="OverflowException">The operation would overflow either the capacity of
         /// <see cref="Int32"/> or the range of supported dates.</exception>
-        public static Armenian12Date operator -(Armenian12Date value, int days) => value.PlusDays(-days);
+        public static EthiopicDate operator -(EthiopicDate value, int days) => value.PlusDays(-days);
 
         /// <summary>
         /// Adds one day to the specified date, yielding a new date.
         /// </summary>
         /// <exception cref="OverflowException">The operation would overflow the latest supported
         /// date.</exception>
-        public static Armenian12Date operator ++(Armenian12Date value) => value.NextDay();
+        public static EthiopicDate operator ++(EthiopicDate value) => value.NextDay();
 
         /// <summary>
         /// Subtracts one day to the specified date, yielding a new date.
         /// </summary>
         /// <exception cref="OverflowException">The operation would overflow the earliest supported
         /// date.</exception>
-        public static Armenian12Date operator --(Armenian12Date value) => value.PreviousDay();
+        public static EthiopicDate operator --(EthiopicDate value) => value.PreviousDay();
 
 #pragma warning restore CA2225
 
         /// <inheritdoc />
         [Pure]
-        public int CountDaysSince(Armenian12Date other) =>
+        public int CountDaysSince(EthiopicDate other) =>
             // No need to use a checked context here.
             _daysSinceEpoch - other._daysSinceEpoch;
 
         /// <inheritdoc />
         [Pure]
-        public Armenian12Date PlusDays(int days)
+        public EthiopicDate PlusDays(int days)
         {
             int daysSinceEpoch = checked(_daysSinceEpoch + days);
             s_Scope.DaysValidator.CheckOverflow(daysSinceEpoch);
@@ -494,12 +494,12 @@ namespace Zorglub.Time.Specialized
 
         /// <inheritdoc />
         [Pure]
-        public Armenian12Date NextDay() =>
-            this == s_MaxValue ? Throw.DateOverflow<Armenian12Date>() : new Armenian12Date(_daysSinceEpoch + 1);
+        public EthiopicDate NextDay() =>
+            this == s_MaxValue ? Throw.DateOverflow<EthiopicDate>() : new EthiopicDate(_daysSinceEpoch + 1);
 
         /// <inheritdoc />
         [Pure]
-        public Armenian12Date PreviousDay() =>
-            this == s_MinValue ? Throw.DateOverflow<Armenian12Date>() : new Armenian12Date(_daysSinceEpoch - 1);
+        public EthiopicDate PreviousDay() =>
+            this == s_MinValue ? Throw.DateOverflow<EthiopicDate>() : new EthiopicDate(_daysSinceEpoch - 1);
     }
 }
