@@ -9,7 +9,7 @@ open Zorglub.Testing.Facts.Simple
 
 open Zorglub.Time.Simple
 
-let other = SimpleGregorian.Instance
+let other = SimpleCalendar.Gregorian
 
 // Since the Gregorian calendar has the richest dataset, we use it as a default
 // model for testing.
@@ -17,36 +17,36 @@ let other = SimpleGregorian.Instance
 [<Sealed>]
 [<RedundantTestBundle>]
 type ArmenianTests() =
-    inherit CalendarYearFacts<StandardArmenian12DataSet>(SimpleArmenian.Instance, other)
+    inherit CalendarYearFacts<StandardArmenian12DataSet>(SimpleCalendar.Armenian, other)
 
 [<Sealed>]
 [<RedundantTestBundle>]
 type CopticTests() =
-    inherit CalendarYearFacts<StandardCoptic12DataSet>(SimpleCoptic.Instance, other)
+    inherit CalendarYearFacts<StandardCoptic12DataSet>(SimpleCalendar.Coptic, other)
 
 [<Sealed>]
 [<RedundantTestBundle>]
 type EthiopicTests() =
-    inherit CalendarYearFacts<StandardEthiopic12DataSet>(SimpleEthiopic.Instance, other)
+    inherit CalendarYearFacts<StandardEthiopic12DataSet>(SimpleCalendar.Ethiopic, other)
 
 [<Sealed>]
 type GregorianTests() =
-    inherit CalendarYearFacts<ProlepticGregorianDataSet>(SimpleGregorian.Instance, SimpleJulian.Instance)
+    inherit CalendarYearFacts<ProlepticGregorianDataSet>(SimpleCalendar.Gregorian, SimpleCalendar.Julian)
 
 [<Sealed>]
 [<RedundantTestBundle>]
 type JulianTests() =
-    inherit CalendarYearFacts<ProlepticJulianDataSet>(SimpleJulian.Instance, other)
+    inherit CalendarYearFacts<ProlepticJulianDataSet>(SimpleCalendar.Julian, other)
 
 [<Sealed>]
 [<RedundantTestBundle>]
 type TabularIslamicTests() =
-    inherit CalendarYearFacts<StandardTabularIslamicDataSet>(SimpleTabularIslamic.Instance, other)
+    inherit CalendarYearFacts<StandardTabularIslamicDataSet>(SimpleCalendar.TabularIslamic, other)
 
 [<Sealed>]
 [<RedundantTestBundle>]
 type ZoroastrianTests() =
-    inherit CalendarYearFacts<StandardZoroastrian12DataSet>(SimpleZoroastrian.Instance, other)
+    inherit CalendarYearFacts<StandardZoroastrian12DataSet>(SimpleCalendar.Zoroastrian, other)
 
 //
 // User-defined calendars

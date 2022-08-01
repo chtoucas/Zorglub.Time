@@ -9,7 +9,7 @@ open Zorglub.Testing.Facts.Simple
 
 open Zorglub.Time.Simple
 
-let other = SimpleGregorian.Instance
+let other = SimpleCalendar.Gregorian
 
 // Since the Gregorian calendar has the richest dataset, we use it as a default
 // model for testing.
@@ -17,36 +17,36 @@ let other = SimpleGregorian.Instance
 [<Sealed>]
 [<RedundantTestBundle>]
 type ArmenianTests() =
-    inherit OrdinalDateFacts<StandardArmenian12DataSet>(SimpleArmenian.Instance, other)
+    inherit OrdinalDateFacts<StandardArmenian12DataSet>(SimpleCalendar.Armenian, other)
 
 [<Sealed>]
 [<RedundantTestBundle>]
 type CopticTests() =
-    inherit OrdinalDateFacts<StandardCoptic12DataSet>(SimpleCoptic.Instance, other)
+    inherit OrdinalDateFacts<StandardCoptic12DataSet>(SimpleCalendar.Coptic, other)
 
 [<Sealed>]
 [<RedundantTestBundle>]
 type EthiopicTests() =
-    inherit OrdinalDateFacts<StandardEthiopic12DataSet>(SimpleEthiopic.Instance, other)
+    inherit OrdinalDateFacts<StandardEthiopic12DataSet>(SimpleCalendar.Ethiopic, other)
 
 [<Sealed>]
 type GregorianTests() =
-    inherit OrdinalDateFacts<ProlepticGregorianDataSet>(SimpleGregorian.Instance, SimpleJulian.Instance)
+    inherit OrdinalDateFacts<ProlepticGregorianDataSet>(SimpleCalendar.Gregorian, SimpleCalendar.Julian)
 
 [<Sealed>]
 [<RedundantTestBundle>]
 type JulianTests() =
-    inherit OrdinalDateFacts<ProlepticJulianDataSet>(SimpleJulian.Instance, other)
+    inherit OrdinalDateFacts<ProlepticJulianDataSet>(SimpleCalendar.Julian, other)
 
 [<Sealed>]
 [<RedundantTestBundle>]
 type TabularIslamicTests() =
-    inherit OrdinalDateFacts<StandardTabularIslamicDataSet>(SimpleTabularIslamic.Instance, other)
+    inherit OrdinalDateFacts<StandardTabularIslamicDataSet>(SimpleCalendar.TabularIslamic, other)
 
 [<Sealed>]
 [<RedundantTestBundle>]
 type ZoroastrianTests() =
-    inherit OrdinalDateFacts<StandardZoroastrian12DataSet>(SimpleZoroastrian.Instance, other)
+    inherit OrdinalDateFacts<StandardZoroastrian12DataSet>(SimpleCalendar.Zoroastrian, other)
 
 //
 // User-defined calendars

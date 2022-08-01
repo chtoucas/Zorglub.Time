@@ -43,7 +43,7 @@ module NoWrite =
 
     [<Fact>]
     let ``GetOrCreateCalendar() when the key is a system key`` () =
-        let sys = SimpleGregorian.Instance
+        let sys = SimpleCalendar.Gregorian
         let sch = JulianSchema.GetInstance()
         let chr = sch.GetOrCreateCalendar(sys.Key, DayZero.OldStyle, false)
 
@@ -76,7 +76,7 @@ module NoWrite =
 
     [<Fact>]
     let ``CreateCalendar() when the key is a system key`` () =
-        let sys = SimpleGregorian.Instance
+        let sys = SimpleCalendar.Gregorian
         let sch = JulianSchema.GetInstance()
 
         argExn "key" (fun () -> sch.CreateCalendar(sys.Key, DayZero.OldStyle, false))
@@ -109,7 +109,7 @@ module NoWrite =
 
     [<Fact>]
     let ``TryCreateCalendar() when the key is a system key`` () =
-        let sys = SimpleGregorian.Instance
+        let sys = SimpleCalendar.Gregorian
         let sch = JulianSchema.GetInstance()
         let succeed, chr = sch.TryCreateCalendar(sys.Key, DayZero.OldStyle)
 

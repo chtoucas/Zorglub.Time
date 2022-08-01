@@ -32,18 +32,18 @@ public static class Showcase
 
         WriteLine("Egyptian-like calendars.");
         WriteLine($"    {CalendarZoo.Egyptian.GetCalendarDate(today)}");
-        WriteLine($"    {SimpleArmenian.Instance.GetCalendarDate(today)}");
-        WriteLine($"    {SimpleZoroastrian.Instance.GetCalendarDate(today)}");
+        WriteLine($"    {SimpleCalendar.Armenian.GetCalendarDate(today)}");
+        WriteLine($"    {SimpleCalendar.Zoroastrian.GetCalendarDate(today)}");
 
         WriteLine();
         WriteLine("Coptic-like calendars.");
-        WriteLine($"    {SimpleEthiopic.Instance.GetCalendarDate(today)}");
-        WriteLine($"    {SimpleCoptic.Instance.GetCalendarDate(today)}");
+        WriteLine($"    {SimpleCalendar.Ethiopic.GetCalendarDate(today)}");
+        WriteLine($"    {SimpleCalendar.Coptic.GetCalendarDate(today)}");
         WriteLine($"    {CalendarZoo.FrenchRepublican.GetCalendarDate(today)}");
 
         WriteLine();
         WriteLine("Gregorian-like calendars.");
-        WriteLine($"    {SimpleGregorian.Instance.GetCalendarDate(today)}");
+        WriteLine($"    {SimpleCalendar.Gregorian.GetCalendarDate(today)}");
         WriteLine($"    {ZCalendar.Gregorian.GetDate(today)}");
         WriteLine($"    {CalendarZoo.GenuineGregorian.GetDateParts(today)} ({CalendarZoo.GenuineGregorian})");
         WriteLine($"    {CalendarZoo.Minguo.GetDate(today)}");
@@ -59,10 +59,10 @@ public static class Showcase
 
         WriteLine();
         WriteLine("Other calendars.");
-        WriteLine($"    {SimpleJulian.Instance.GetCalendarDate(today)}");
+        WriteLine($"    {SimpleCalendar.Julian.GetCalendarDate(today)}");
         WriteLine($"    {CalendarZoo.LongJulian.GetDate(today)}");
         WriteLine($"    {CalendarZoo.GenuineJulian.GetDateParts(today)} ({CalendarZoo.GenuineJulian})");
-        WriteLine($"    {SimpleTabularIslamic.Instance.GetCalendarDate(today)}");
+        WriteLine($"    {SimpleCalendar.TabularIslamic.GetCalendarDate(today)}");
         WriteLine($"    {CalendarZoo.Persian2820.GetCalendarDate(today)}");
 
         WriteLine();

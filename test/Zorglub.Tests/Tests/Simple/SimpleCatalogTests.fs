@@ -343,7 +343,7 @@ module AddOps =
 
     [<Fact>]
     let ``GetOrAdd() when the key is a system key`` () =
-        let sys = SimpleGregorian.Instance
+        let sys = SimpleCalendar.Gregorian
         let chr = SimpleCatalog.GetOrAdd(sys.Key, new JulianSchema(), DayZero.OldStyle, false)
 
         chr ==& sys
@@ -371,7 +371,7 @@ module AddOps =
 
     [<Fact>]
     let ``Add() throws when the key is a system key`` () =
-        let sys = SimpleGregorian.Instance
+        let sys = SimpleCalendar.Gregorian
 
         argExn "key" (fun () -> SimpleCatalog.Add(sys.Key, new JulianSchema(), DayZero.OldStyle, false))
 
@@ -396,7 +396,7 @@ module AddOps =
 
     [<Fact>]
     let ``TryAdd() when the key is a system key`` () =
-        let sys = SimpleGregorian.Instance
+        let sys = SimpleCalendar.Gregorian
         let succeed, chr = SimpleCatalog.TryAdd(sys.Key, new JulianSchema(), DayZero.OldStyle, false)
 
         succeed |> nok

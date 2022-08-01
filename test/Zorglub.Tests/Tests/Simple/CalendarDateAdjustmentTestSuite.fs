@@ -15,36 +15,36 @@ open Zorglub.Time.Simple
 [<Sealed>]
 [<RedundantTestBundle>]
 type ArmenianTests() =
-    inherit CalendarDateAdjustmentFacts<StandardArmenian12DataSet>(SimpleArmenian.Instance)
+    inherit CalendarDateAdjustmentFacts<StandardArmenian12DataSet>(SimpleCalendar.Armenian)
 
 [<Sealed>]
 [<RedundantTestBundle>]
 type CopticTests() =
-    inherit CalendarDateAdjustmentFacts<StandardCoptic12DataSet>(SimpleCoptic.Instance)
+    inherit CalendarDateAdjustmentFacts<StandardCoptic12DataSet>(SimpleCalendar.Coptic)
 
 [<Sealed>]
 [<RedundantTestBundle>]
 type EthiopicTests() =
-    inherit CalendarDateAdjustmentFacts<StandardEthiopic12DataSet>(SimpleEthiopic.Instance)
+    inherit CalendarDateAdjustmentFacts<StandardEthiopic12DataSet>(SimpleCalendar.Ethiopic)
 
 [<Sealed>]
 type GregorianTests() =
-    inherit CalendarDateAdjustmentFacts<ProlepticGregorianDataSet>(SimpleGregorian.Instance)
+    inherit CalendarDateAdjustmentFacts<ProlepticGregorianDataSet>(SimpleCalendar.Gregorian)
 
 [<Sealed>]
 [<RedundantTestBundle>]
 type JulianTests() =
-    inherit CalendarDateAdjustmentFacts<ProlepticJulianDataSet>(SimpleJulian.Instance)
+    inherit CalendarDateAdjustmentFacts<ProlepticJulianDataSet>(SimpleCalendar.Julian)
 
 [<Sealed>]
 [<RedundantTestBundle>]
 type TabularIslamicTests() =
-    inherit CalendarDateAdjustmentFacts<StandardTabularIslamicDataSet>(SimpleTabularIslamic.Instance)
+    inherit CalendarDateAdjustmentFacts<StandardTabularIslamicDataSet>(SimpleCalendar.TabularIslamic)
 
 [<Sealed>]
 [<RedundantTestBundle>]
 type ZoroastrianTests() =
-    inherit CalendarDateAdjustmentFacts<StandardZoroastrian12DataSet>(SimpleZoroastrian.Instance)
+    inherit CalendarDateAdjustmentFacts<StandardZoroastrian12DataSet>(SimpleCalendar.Zoroastrian)
 
 //
 // User-defined calendars

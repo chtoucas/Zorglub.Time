@@ -17,7 +17,8 @@ namespace Zorglub.Time.Extras
     using TmpCalendar = ZRegistry.TmpCalendar;
 
     // FIXME(code): sync with Calendar.
-    // Snapshots: what about lazy calendars?
+    // Snapshots: what about lazy calendars? Alos ensure that everything works
+    // with lazy calendars (other types initialization).
     // GetSystemCalendar(CalendarId ident): public? officially, a ZCalendar has
     // no ID, only a key.
     // ZDate._cuid is now a full int, MaxId? Because of s_CalendarsById, it's
@@ -99,7 +100,7 @@ namespace Zorglub.Time.Extras
             // calendar with ID equal to 0. This way date.Calendar does not throw
             // even if no calendar has been initialized by the user, it just
             // defaults to Gregorian.
-            InitSystemCalendar(SimpleGregorian.Instance);
+            InitSystemCalendar(SimpleCalendar.Gregorian);
 
         /// <summary>
         /// Represents the dictionary of (lazy) calendars, indexed by their keys.

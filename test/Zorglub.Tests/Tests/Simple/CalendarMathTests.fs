@@ -36,7 +36,7 @@ module Prelude =
 
     [<Fact>]
     let ``Property Cuid`` () =
-        let chr = SimpleGregorian.Instance
+        let chr = SimpleCalendar.Gregorian
         let math = new FauxCalendarMath(chr)
 
         math.Cuid === chr.Id
@@ -97,7 +97,7 @@ module Factories =
         math.AdditionRuleset === ruleset
 
 module Validation =
-    let private chr = SimpleGregorian.Instance
+    let private chr = SimpleCalendar.Gregorian
     let private math = new FauxCalendarMath(chr)
 
     let private date = new CalendarDate(1, 1, 1, chr.Id)
@@ -157,7 +157,7 @@ module Validation =
         argExn "start" (fun () -> math.CountYearsBetween(invalidMonth, month))
 
 module Core =
-    let private chr = SimpleGregorian.Instance
+    let private chr = SimpleCalendar.Gregorian
     let private math = new FauxCalendarMath(chr)
 
     let private date = new CalendarDate(1, 1, 1, chr.Id)

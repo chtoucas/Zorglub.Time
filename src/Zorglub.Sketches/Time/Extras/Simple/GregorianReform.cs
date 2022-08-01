@@ -24,7 +24,7 @@ namespace Zorglub.Time.Extras.Simple
         // 5 octobre 1582 (julien).
         private GregorianReform()
             : this(
-                SimpleJulian.Instance.GetCalendarDate(1582, 10, 4),
+                SimpleCalendar.Julian.GetCalendarDate(1582, 10, 4),
                 new CalendarDate(1582, 10, 15),
                 null)
         { }
@@ -63,7 +63,7 @@ namespace Zorglub.Time.Extras.Simple
         [Pure]
         public static GregorianReform FromLastJulianDate(int year, int month, int day)
         {
-            var lastJulianDate = SimpleJulian.Instance.GetCalendarDate(year, month, day);
+            var lastJulianDate = SimpleCalendar.Julian.GetCalendarDate(year, month, day);
             if (lastJulianDate < Official.LastJulianDate) Throw.YearOutOfRange(year);
 
             var switchover = lastJulianDate.ToDayNumber() + 1;
@@ -79,7 +79,7 @@ namespace Zorglub.Time.Extras.Simple
             if (firstGregorianDate < Official.FirstGregorianDate) Throw.YearOutOfRange(year);
 
             var switchover = firstGregorianDate.ToDayNumber();
-            var lastJulianDate = SimpleJulian.Instance.GetCalendarDate(switchover - 1);
+            var lastJulianDate = SimpleCalendar.Julian.GetCalendarDate(switchover - 1);
 
             return new GregorianReform(lastJulianDate, firstGregorianDate, switchover);
         }
@@ -90,7 +90,7 @@ namespace Zorglub.Time.Extras.Simple
         {
             // REVIEW(code): et si Switchover ou LastJulian est bissextile?
             var (y, m, d) = FirstGregorianDate;
-            var dayNumber = ((ICalendar)SimpleJulian.Instance).GetDayNumber(y, m, d);
+            var dayNumber = ((ICalendar)SimpleCalendar.Julian).GetDayNumber(y, m, d);
             return dayNumber - Switchover;
         }
 

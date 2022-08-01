@@ -64,8 +64,8 @@ module Prelude =
         // The order is not arbitrary, we MUST ensure that the index of a system
         // calendar in "calendars" is given by its ID.
         let calendars = [|
-            SimpleGregorian.Instance :> SimpleCalendar;
-            SimpleJulian.Instance :> SimpleCalendar;
+            SimpleCalendar.Gregorian;
+            SimpleCalendar.Julian;
             UserCalendars.Gregorian;
         |]
 
@@ -76,9 +76,9 @@ module Prelude =
         // The order is not arbitrary, we MUST ensure that the index of a system
         // calendar in "calendars" is given by its ID.
         let calendars = [|
-            SimpleGregorian.Instance :> SimpleCalendar;
-            SimpleJulian.Instance :> SimpleCalendar;
-            SimpleJulian.Instance :> SimpleCalendar
+            SimpleCalendar.Gregorian;
+            SimpleCalendar.Julian;
+            SimpleCalendar.Julian
         |]
 
         argExn "calendars" (fun () -> new SimpleRegistry(calendars))
@@ -127,7 +127,7 @@ module Prelude =
 
     [<Fact>]
     let ``Constructor with one system calendar`` () =
-        let calendars = [| SimpleGregorian.Instance :> SimpleCalendar |]
+        let calendars = [| SimpleCalendar.Gregorian |]
         let reg = new SimpleRegistry(calendars)
 
         reg.MinId === SimpleRegistry.MinMinId
@@ -149,9 +149,9 @@ module Prelude =
         // The order is not arbitrary, we MUST ensure that the index of a calendar
         // in "calendars" is its ID.
         let calendars = [|
-            SimpleGregorian.Instance :> SimpleCalendar;
-            SimpleJulian.Instance :> SimpleCalendar;
-            SimpleArmenian.Instance :> SimpleCalendar
+            SimpleCalendar.Gregorian;
+            SimpleCalendar.Julian;
+            SimpleCalendar.Armenian
         |]
         let reg = new SimpleRegistry(calendars)
 
@@ -191,7 +191,7 @@ module Prelude =
 module Snapshot =
     [<Fact>]
     let ``TakeSnapshot()`` () =
-        let sys = SimpleGregorian.Instance
+        let sys = SimpleCalendar.Gregorian
         let reg = new SimpleRegistry([| sys |])
         let usr = reg.Add("User Gregorian", new GregorianSchema(), DayZero.NewStyle, false)
 
@@ -202,7 +202,7 @@ module Snapshot =
 
     [<Fact>]
     let ``TakeSnapshot() when the registry contains a dirty key`` () =
-        let sys = SimpleGregorian.Instance
+        let sys = SimpleCalendar.Gregorian
         let reg = new SimpleRegistry([| sys |])
         let usr = reg.Add("User Gregorian", new GregorianSchema(), DayZero.NewStyle, false)
 
@@ -218,7 +218,7 @@ module Snapshot =
 
 module Lookup =
     let private newRegistry  =
-        let sys = SimpleGregorian.Instance
+        let sys = SimpleCalendar.Gregorian
         let reg = new SimpleRegistry([| sys |])
         let usr = reg.Add("User Gregorian", new GregorianSchema(), DayZero.NewStyle, false)
         reg, sys, usr
@@ -317,7 +317,7 @@ module AddOps =
 
     [<Fact>]
     let ``AddRaw() breaks the counting methods`` () =
-        let reg = new SimpleRegistry([| SimpleGregorian.Instance |])
+        let reg = new SimpleRegistry([| SimpleCalendar.Gregorian |])
         let chr = reg.Add("Key", new GregorianSchema(), DayZero.NewStyle, false)
 
         reg.RawCount === 2
@@ -326,7 +326,7 @@ module AddOps =
         reg.CountUserCalendars() === 1
 
         // Adding an already included system calendar.
-        reg.AddRaw(SimpleGregorian.Instance)
+        reg.AddRaw(SimpleCalendar.Gregorian)
 
         reg.RawCount === 2
         reg.NumberOfSystemCalendars === 1
@@ -342,7 +342,7 @@ module AddOps =
         reg.CountUserCalendars() === 1
 
         // Adding a system calendar.
-        reg.AddRaw(SimpleJulian.Instance)
+        reg.AddRaw(SimpleCalendar.Julian)
 
         reg.RawCount === 3 // Count increased by 1
         reg.NumberOfSystemCalendars === 1
@@ -396,7 +396,7 @@ module AddOps =
 
     [<Fact>]
     let ``GetOrAdd() when the key is already taken`` () =
-        let sys = SimpleGregorian.Instance
+        let sys = SimpleCalendar.Gregorian
         let reg = new SimpleRegistry([| sys |])
 
         checkCounts reg 1 0
@@ -407,7 +407,7 @@ module AddOps =
 
     [<Fact>]
     let ``GetOrAdd()`` () =
-        let sys = SimpleGregorian.Instance
+        let sys = SimpleCalendar.Gregorian
         let reg = new SimpleRegistry([| sys |])
         let epoch = DayZero.NewStyle
         let proleptic = false
@@ -449,7 +449,7 @@ module AddOps =
 
     [<Fact>]
     let ``Add() throws when the key is already taken`` () =
-        let sys = SimpleGregorian.Instance
+        let sys = SimpleCalendar.Gregorian
         let reg = new SimpleRegistry([| sys |])
 
         checkCounts reg 1 0
@@ -458,7 +458,7 @@ module AddOps =
 
     [<Fact>]
     let ``Add()`` () =
-        let sys = SimpleGregorian.Instance
+        let sys = SimpleCalendar.Gregorian
         let reg = new SimpleRegistry([| sys |])
         let epoch = DayZero.NewStyle
         let proleptic = false
@@ -502,7 +502,7 @@ module AddOps =
 
     [<Fact>]
     let ``TryAdd() when the key is already taken`` () =
-        let sys = SimpleGregorian.Instance
+        let sys = SimpleCalendar.Gregorian
         let reg = new SimpleRegistry([| sys |])
 
         checkCounts reg 1 0
@@ -514,7 +514,7 @@ module AddOps =
 
     [<Fact>]
     let ``TryAdd()`` () =
-        let sys = SimpleGregorian.Instance
+        let sys = SimpleCalendar.Gregorian
         let reg = new SimpleRegistry([| sys |])
         let epoch = DayZero.NewStyle
         let proleptic = false
@@ -528,7 +528,7 @@ module AddOps =
 
     [<Fact>]
     let ``TryAdd() when the key is empty`` () =
-        let sys = SimpleGregorian.Instance
+        let sys = SimpleCalendar.Gregorian
         let reg = new SimpleRegistry([| sys |])
         let epoch = DayZero.NewStyle
         let proleptic = false

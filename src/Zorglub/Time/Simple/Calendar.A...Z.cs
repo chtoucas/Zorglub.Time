@@ -7,6 +7,8 @@ namespace Zorglub.Time.Simple
     using Zorglub.Time.Core.Schemas;
     using Zorglub.Time.Hemerology;
 
+    // FIXME(api): internal, remove IEpagomenalCalendar<>.
+
     #region Developer Notes
 
     // Calendars could "implement" IEpagomenalFeaturette, but they don't.

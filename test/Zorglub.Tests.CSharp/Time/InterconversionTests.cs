@@ -20,7 +20,7 @@ public static class InterconversionTests
             var date = chr.GetCalendarDate(chr.Epoch);
             try
             {
-                _ = date.WithCalendar(SimpleGregorian.Instance);
+                _ = date.WithCalendar(SimpleCalendar.Gregorian);
             }
             catch (ArgumentOutOfRangeException)
             {
@@ -34,7 +34,7 @@ public static class InterconversionTests
     [Fact]
     public static void StartOfGregorianYear1_ToAny()
     {
-        var year = SimpleGregorian.Instance.GetCalendarYear(1);
+        var year = SimpleCalendar.Gregorian.GetCalendarYear(1);
         var date = year.FirstDay;
         foreach (var chr in SimpleCatalog.SystemCalendars)
         {
@@ -55,7 +55,7 @@ public static class InterconversionTests
     [Fact]
     public static void GregorianYear1582To3000_ToAny()
     {
-        var gr = SimpleGregorian.Instance;
+        var gr = SimpleCalendar.Gregorian;
         var start = gr.GetCalendarYear(1582).FirstDay; // Gregorian reform
         var end = gr.GetCalendarYear(3000).LastDay;
         foreach (var chr in SimpleCatalog.SystemCalendars)

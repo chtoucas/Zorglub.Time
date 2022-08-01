@@ -28,19 +28,19 @@ namespace Zorglub.Time.Extras.Simple
 
         public CalendarDate Gregorianize(DayNumber dayNumber) =>
             dayNumber < Reform.Switchover
-            ? SimpleJulian.Instance.GetCalendarDate(dayNumber)
-            : SimpleGregorian.Instance.GetCalendarDate(dayNumber);
+            ? SimpleCalendar.Julian.GetCalendarDate(dayNumber)
+            : SimpleCalendar.Gregorian.GetCalendarDate(dayNumber);
 
         public CalendarDay Gregorianize(CalendarDay date) =>
             date.Cuid switch
             {
                 Cuid.Gregorian =>
                     date.DayNumber >= Reform.Switchover ? date
-                        : date.WithCalendar(SimpleJulian.Instance),
+                        : date.WithCalendar(SimpleCalendar.Julian),
 
                 Cuid.Julian =>
                     date.DayNumber < Reform.Switchover ? date
-                        : date.WithCalendar(SimpleGregorian.Instance),
+                        : date.WithCalendar(SimpleCalendar.Gregorian),
 
                 _ => Throw.Argument<CalendarDay>(nameof(date)),
             };
@@ -50,11 +50,11 @@ namespace Zorglub.Time.Extras.Simple
             {
                 Cuid.Gregorian =>
                     date >= Reform.FirstGregorianDate ? date
-                        : date.WithCalendar(SimpleJulian.Instance),
+                        : date.WithCalendar(SimpleCalendar.Julian),
 
                 Cuid.Julian =>
                     date <= Reform.LastJulianDate ? date
-                        : date.WithCalendar(SimpleGregorian.Instance),
+                        : date.WithCalendar(SimpleCalendar.Gregorian),
 
                 _ => Throw.Argument<CalendarDate>(nameof(date)),
             };
@@ -64,11 +64,11 @@ namespace Zorglub.Time.Extras.Simple
             {
                 Cuid.Gregorian =>
                     date >= _firstGregorianOrdinal ? date
-                        : date.WithCalendar(SimpleJulian.Instance),
+                        : date.WithCalendar(SimpleCalendar.Julian),
 
                 Cuid.Julian =>
                     date <= _lastJulianOrdinal ? date
-                        : date.WithCalendar(SimpleGregorian.Instance),
+                        : date.WithCalendar(SimpleCalendar.Gregorian),
 
                 _ => Throw.Argument<OrdinalDate>(nameof(date)),
             };

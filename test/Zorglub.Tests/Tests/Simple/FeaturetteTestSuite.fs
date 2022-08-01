@@ -9,7 +9,7 @@ open Zorglub.Testing.Facts.Simple
 
 open Zorglub.Time.Simple
 
-let private other = SimpleGregorian.Instance
+let private other = SimpleCalendar.Gregorian
 
 module EpagomenalDay =
     [<Sealed>]

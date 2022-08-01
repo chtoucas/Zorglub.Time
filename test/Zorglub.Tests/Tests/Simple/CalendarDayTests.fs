@@ -26,7 +26,7 @@ module UserCase =
         throws<NotSupportedException> (fun () -> date.ToBinary())
 
 module GregorianCase =
-    let private chr = SimpleGregorian.Instance
+    let private chr = SimpleCalendar.Gregorian
     let private dataSet = ProlepticGregorianDataSet.Instance
 
     let dayNumberInfoData = dataSet.DayNumberInfoData
@@ -75,7 +75,7 @@ module GregorianCase =
         today.Day   === now.Day
 
 module JulianCase =
-    let private chr = SimpleJulian.Instance
+    let private chr = SimpleCalendar.Julian
     let private dataSet = ProlepticJulianDataSet.Instance
 
     let dayNumberInfoData = dataSet.DayNumberInfoData
@@ -90,17 +90,17 @@ module Conversions =
     let data = CalCalDataSet.GregorianToJulianData
 
     let ``WithCalendar() throws when the result is out of range`` () =
-        let chr = SimpleJulian.Instance
+        let chr = SimpleCalendar.Julian
         // Julian.MinDayNumber < Gregorian.MinDayNumber.
         let date = chr.GetCalendarDay(chr.Domain.Min)
 
-        outOfRangeExn "dayNumber" (fun () -> date.WithCalendar(SimpleGregorian.Instance))
+        outOfRangeExn "dayNumber" (fun () -> date.WithCalendar(SimpleCalendar.Gregorian))
 
     [<Theory; MemberData(nameof(data))>]
     let ``WithCalendar() Gregorian <-> Julian`` (pair: YemodaPair) =
         let (g, j) = pair.Deconstruct()
-        let gdate = SimpleGregorian.Instance.GetCalendarDate(g.Year, g.Month, g.Day).ToCalendarDay()
-        let jdate = SimpleJulian.Instance.GetCalendarDate(j.Year, j.Month, j.Day).ToCalendarDay()
+        let gdate = SimpleCalendar.Gregorian.GetCalendarDate(g.Year, g.Month, g.Day).ToCalendarDay()
+        let jdate = SimpleCalendar.Julian.GetCalendarDate(j.Year, j.Month, j.Day).ToCalendarDay()
 
-        gdate.WithCalendar(SimpleJulian.Instance)    === jdate
-        jdate.WithCalendar(SimpleGregorian.Instance) === gdate
+        gdate.WithCalendar(SimpleCalendar.Julian)    === jdate
+        jdate.WithCalendar(SimpleCalendar.Gregorian) === gdate

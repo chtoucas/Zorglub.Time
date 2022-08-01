@@ -156,6 +156,52 @@ namespace Zorglub.Time.Simple
             _math = CalendarMath.CreateDefault(this);
         }
 
+        #region System calendars
+
+        /// <summary>
+        /// Gets the proleptic Gregorian calendar.
+        /// <para>This static property is thread-safe.</para>
+        /// </summary>
+        public static SimpleCalendar Gregorian => SimpleGregorian.Instance;
+
+        /// <summary>
+        /// Gets the proleptic Julian calendar.
+        /// <para>This static property is thread-safe.</para>
+        /// </summary>
+        public static SimpleCalendar Julian => SimpleJulian.Instance;
+
+        /// <summary>
+        /// Gets the Armenian calendar.
+        /// <para>This static property is thread-safe.</para>
+        /// </summary>
+        public static SimpleCalendar Armenian => SimpleArmenian.Instance;
+
+        /// <summary>
+        /// Gets the Coptic calendar.
+        /// <para>This static property is thread-safe.</para>
+        /// </summary>
+        public static SimpleCalendar Coptic => SimpleCoptic.Instance;
+
+        /// <summary>
+        /// Gets the Ethiopic calendar.
+        /// <para>This static property is thread-safe.</para>
+        /// </summary>
+        public static SimpleCalendar Ethiopic => SimpleEthiopic.Instance;
+
+        /// <summary>
+        /// Gets the Tabular Islamic calendar.
+        /// <para>This static property is thread-safe.</para>
+        /// </summary>
+        public static SimpleCalendar TabularIslamic => SimpleTabularIslamic.Instance;
+
+        /// <summary>
+        /// Gets the Zoroastrian calendar.
+        /// <para>This static property is thread-safe.</para>
+        /// </summary>
+        public static SimpleCalendar Zoroastrian => SimpleZoroastrian.Instance;
+
+        #endregion
+
         /// <summary>
         /// Gets the unique key of the current instance.
         /// </summary>

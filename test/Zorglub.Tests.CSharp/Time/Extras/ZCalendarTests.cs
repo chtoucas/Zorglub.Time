@@ -22,7 +22,7 @@ public partial class ZCalendarTests // Properties
 {
     [Fact]
     public void Key() =>
-        Assert.Equal(SimpleGregorian.Instance.Key, CalendarUT.Key);
+        Assert.Equal(SimpleCalendar.Gregorian.Key, CalendarUT.Key);
 
     [Fact]
     public sealed override void Algorithm_Prop() =>
