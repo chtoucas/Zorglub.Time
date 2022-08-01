@@ -37,6 +37,6 @@ module Bundles =
 
     [<Sealed>]
     type EpagomenalDateFacts() =
-        inherit IEpagomenalDateFacts<Coptic12Date, StandardCoptic12DataSet>()
+        inherit IEpagomenalDayFacts<Coptic12Date, StandardCoptic12DataSet>()
 
         override __.GetDate(y, m, d) = new Coptic12Date(y, m, d)

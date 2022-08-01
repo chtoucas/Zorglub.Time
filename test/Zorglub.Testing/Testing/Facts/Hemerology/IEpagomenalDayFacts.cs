@@ -6,12 +6,12 @@ namespace Zorglub.Testing.Facts.Hemerology;
 using Zorglub.Testing.Data;
 using Zorglub.Time.Hemerology;
 
-public abstract class IEpagomenalDateFacts<TDate, TDataSet> :
+public abstract class IEpagomenalDayFacts<TDate, TDataSet> :
     CalendarDataConsumer<TDataSet>
-    where TDate : IEpagomenalDate<TDate>
+    where TDate : IEpagomenalDay<TDate>
     where TDataSet : ICalendarDataSet, IEpagomenalDataSet, ISingleton<TDataSet>
 {
-    protected IEpagomenalDateFacts() { }
+    protected IEpagomenalDayFacts() { }
 
     protected abstract TDate GetDate(int y, int m, int d);
 

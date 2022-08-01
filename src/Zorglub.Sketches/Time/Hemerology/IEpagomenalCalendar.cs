@@ -3,11 +3,7 @@
 
 namespace Zorglub.Time.Hemerology
 {
-    // FIXME(api): remove IEpagomenalCalendar<>, interface and in ZoroastrianSimpleCalendar.
-    // Replace IEpagomenalCalendar by IEpagomenalDate
-    // Replace IEpagomenalCalendarFacts by IEpagomenalDateFacts
-    // Test the specialized date types
-    // Remove SimpleDateExtensions?
+    // TODO(test): test SimpleDateExtensions?
 
     // Calendars could "implement" IEpagomenalFeaturette, but they don't.
     // The rationale is that the method sould be on the date type, not on the
@@ -25,21 +21,8 @@ namespace Zorglub.Time.Hemerology
     /// Defines methods specific to calendars featuring epagomenal days.
     /// <para>The epagomenal days are usually found in descendants of the Egyptian calendar.</para>
     /// </summary>
-    public interface IEpagomenalDate<TSelf> : IDateable where TSelf : IEpagomenalDate<TSelf>
-    {
-        /// <summary>
-        /// Determines whether the current instance is an epagomenal day or not, and also returns the
-        /// epagomenal number of the day in an output parameter, zero if the date is not an
-        /// epagomenal day.
-        /// </summary>
-        [Pure] bool IsEpagomenal(out int epagomenalNumber);
-    }
-
-    /// <summary>
-    /// Defines methods specific to calendars featuring epagomenal days.
-    /// <para>The epagomenal days are usually found in descendants of the Egyptian calendar.</para>
-    /// </summary>
-    public interface IEpagomenalCalendar<TDate> : ICalendar where TDate : IDate
+    [Obsolete("TO BE REMOVED")]
+    internal interface IEpagomenalCalendar<TDate> : ICalendar where TDate : IDate
     {
         /// <summary>
         /// Determines whether the specified date is an epagomenal day or not, and also returns the
@@ -47,7 +30,6 @@ namespace Zorglub.Time.Hemerology
         /// epagomenal day.
         /// </summary>
         [Pure]
-        [SuppressMessage("Naming", "CA1716:Identifiers should not match keywords", Justification = "VB.NET Date")]
         bool IsEpagomenalDay(TDate date, out int epagomenalNumber);
     }
 }

@@ -37,6 +37,6 @@ module Bundles =
 
     [<Sealed>]
     type EpagomenalDateFacts() =
-        inherit IEpagomenalDateFacts<Armenian12Date, StandardArmenian12DataSet>()
+        inherit IEpagomenalDayFacts<Armenian12Date, StandardArmenian12DataSet>()
 
         override __.GetDate(y, m, d) = new Armenian12Date(y, m, d)

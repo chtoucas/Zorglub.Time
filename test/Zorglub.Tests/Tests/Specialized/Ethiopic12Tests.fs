@@ -37,6 +37,6 @@ module Bundles =
 
     [<Sealed>]
     type EpagomenalDateFacts() =
-        inherit IEpagomenalDateFacts<Ethiopic12Date, StandardEthiopic12DataSet>()
+        inherit IEpagomenalDayFacts<Ethiopic12Date, StandardEthiopic12DataSet>()
 
         override __.GetDate(y, m, d) = new Ethiopic12Date(y, m, d)

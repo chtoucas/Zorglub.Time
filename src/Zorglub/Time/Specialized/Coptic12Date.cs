@@ -38,7 +38,7 @@ namespace Zorglub.Time.Specialized
     /// </summary>
     public readonly partial struct Coptic12Date :
         IDate<Coptic12Date>,
-        IEpagomenalDate<Coptic12Date>,
+        IEpagomenalDay<Coptic12Date>,
         IMinMaxValue<Coptic12Date>
     {
         // NB: the order in which the static fields are written is important.

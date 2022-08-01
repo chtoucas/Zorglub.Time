@@ -37,7 +37,7 @@ module Bundles =
 
     [<Sealed>]
     type EpagomenalDateFacts() =
-        inherit IEpagomenalDateFacts<Zoroastrian12Date, StandardZoroastrian12DataSet>()
+        inherit IEpagomenalDayFacts<Zoroastrian12Date, StandardZoroastrian12DataSet>()
 
         override __.GetDate(y, m, d) = new Zoroastrian12Date(y, m, d)
 
