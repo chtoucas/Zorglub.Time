@@ -6,6 +6,7 @@ module Zorglub.Tests.Specialized.Ethiopic12Tests
 open Zorglub.Testing
 open Zorglub.Testing.Data.Bounded
 open Zorglub.Testing.Facts
+open Zorglub.Testing.Facts.Hemerology
 
 open Zorglub.Time
 open Zorglub.Time.Specialized
@@ -31,5 +32,11 @@ module Bundles =
 
         override __.MinDate = Ethiopic12Date.MinValue
         override __.MaxDate = Ethiopic12Date.MaxValue
+
+        override __.GetDate(y, m, d) = new Ethiopic12Date(y, m, d)
+
+    [<Sealed>]
+    type EpagomenalDateFacts() =
+        inherit IEpagomenalDateFacts<Ethiopic12Date, StandardEthiopic12DataSet>()
 
         override __.GetDate(y, m, d) = new Ethiopic12Date(y, m, d)

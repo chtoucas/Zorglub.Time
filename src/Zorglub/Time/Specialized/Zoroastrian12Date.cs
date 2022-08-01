@@ -38,6 +38,7 @@ namespace Zorglub.Time.Specialized
     /// </summary>
     public readonly partial struct Zoroastrian12Date :
         IDate<Zoroastrian12Date>,
+        IEpagomenalDate<Zoroastrian12Date>,
         IMinMaxValue<Zoroastrian12Date>
     {
         // NB: the order in which the static fields are written is important.
@@ -252,10 +253,7 @@ namespace Zorglub.Time.Specialized
         public void Deconstruct(out int year, out int month, out int day) =>
             s_Schema.GetDateParts(_daysSinceEpoch, out year, out month, out day);
 
-        /// <summary>
-        /// Determines whether the current instance is an epagomenal day or not; the epagomenal
-        /// number is given in an output parameter.
-        /// </summary>
+        /// <inheritdoc />
         [Pure]
         public bool IsEpagomenal(out int epagomenalNumber)
         {

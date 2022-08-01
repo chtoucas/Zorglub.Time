@@ -6,6 +6,7 @@ module Zorglub.Tests.Specialized.Zoroastrian12Tests
 open Zorglub.Testing
 open Zorglub.Testing.Data.Bounded
 open Zorglub.Testing.Facts
+open Zorglub.Testing.Facts.Hemerology
 
 open Zorglub.Time
 open Zorglub.Time.Specialized
@@ -33,3 +34,10 @@ module Bundles =
         override __.MaxDate = Zoroastrian12Date.MaxValue
 
         override __.GetDate(y, m, d) = new Zoroastrian12Date(y, m, d)
+
+    [<Sealed>]
+    type EpagomenalDateFacts() =
+        inherit IEpagomenalDateFacts<Zoroastrian12Date, StandardZoroastrian12DataSet>()
+
+        override __.GetDate(y, m, d) = new Zoroastrian12Date(y, m, d)
+

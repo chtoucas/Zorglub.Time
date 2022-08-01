@@ -6,6 +6,7 @@ module Zorglub.Tests.Specialized.Coptic12Tests
 open Zorglub.Testing
 open Zorglub.Testing.Data.Bounded
 open Zorglub.Testing.Facts
+open Zorglub.Testing.Facts.Hemerology
 
 open Zorglub.Time
 open Zorglub.Time.Specialized
@@ -31,5 +32,11 @@ module Bundles =
 
         override __.MinDate = Coptic12Date.MinValue
         override __.MaxDate = Coptic12Date.MaxValue
+
+        override __.GetDate(y, m, d) = new Coptic12Date(y, m, d)
+
+    [<Sealed>]
+    type EpagomenalDateFacts() =
+        inherit IEpagomenalDateFacts<Coptic12Date, StandardCoptic12DataSet>()
 
         override __.GetDate(y, m, d) = new Coptic12Date(y, m, d)
