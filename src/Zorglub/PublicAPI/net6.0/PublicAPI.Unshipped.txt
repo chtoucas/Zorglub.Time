@@ -1510,6 +1510,8 @@ Zorglub.Time.Hemerology.IAffineDate.CountDaysSinceEpoch() -> int
 Zorglub.Time.Hemerology.IAffineDate<TSelf>
 Zorglub.Time.Hemerology.IAffineDate<TSelf>.FromDaysSinceEpoch(int daysSinceEpoch) -> TSelf
 Zorglub.Time.Hemerology.IAffineDate<TSelf>.operator -(TSelf left, int right) -> TSelf
+Zorglub.Time.Hemerology.IBlankDay<TSelf>
+Zorglub.Time.Hemerology.IBlankDay<TSelf>.IsBlank.get -> bool
 Zorglub.Time.Hemerology.ICalendar
 Zorglub.Time.Hemerology.ICalendar.Domain.get -> Zorglub.Time.Core.Intervals.Range<Zorglub.Time.DayNumber>
 Zorglub.Time.Hemerology.ICalendar.Epoch.get -> Zorglub.Time.DayNumber
