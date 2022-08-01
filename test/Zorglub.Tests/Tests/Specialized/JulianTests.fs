@@ -23,11 +23,12 @@ module Bundles =
         override x.Family_Prop() = x.CalendarUT.Family === CalendricalFamily.Solar
         override x.PeriodicAdjustments_Prop() = x.CalendarUT.PeriodicAdjustments === CalendricalAdjustments.Days
 
-        override x.GetDate(y, m, d) = new JulianDate(y, m, d);
-        override x.GetDate(y, doy) = new JulianDate(y, doy);
-        override x.GetDate(dayNumber) = new JulianDate(dayNumber);
+        override __.GetDate(y, m, d) = new JulianDate(y, m, d);
+        override __.GetDate(y, doy) = new JulianDate(y, doy);
+        override __.GetDate(dayNumber) = new JulianDate(dayNumber);
 
     [<Sealed>]
+    [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
     type DateFacts() =
         inherit IDateFacts<JulianDate, UnboundedJulianDataSet>(chr.Domain)
 

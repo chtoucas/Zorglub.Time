@@ -22,11 +22,12 @@ module Bundles =
         override x.Family_Prop() = x.CalendarUT.Family === CalendricalFamily.Solar
         override x.PeriodicAdjustments_Prop() = x.CalendarUT.PeriodicAdjustments === CalendricalAdjustments.Days
 
-        override x.GetDate(y, m, d) = new Ethiopic12Date(y, m, d);
-        override x.GetDate(y, doy) = new Ethiopic12Date(y, doy);
-        override x.GetDate(dayNumber) = new Ethiopic12Date(dayNumber);
+        override __.GetDate(y, m, d) = new Ethiopic12Date(y, m, d);
+        override __.GetDate(y, doy) = new Ethiopic12Date(y, doy);
+        override __.GetDate(dayNumber) = new Ethiopic12Date(dayNumber);
 
     [<Sealed>]
+    [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
     type DateFacts() =
         inherit IDateFacts<Ethiopic12Date, StandardEthiopic12DataSet>(chr.Domain)
 
@@ -36,6 +37,7 @@ module Bundles =
         override __.GetDate(y, m, d) = new Ethiopic12Date(y, m, d)
 
     [<Sealed>]
+    [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
     type EpagomenalDateFacts() =
         inherit IEpagomenalDayFacts<Ethiopic12Date, StandardEthiopic12DataSet>()
 

@@ -23,11 +23,12 @@ module Bundles =
         override x.Family_Prop() = x.CalendarUT.Family === CalendricalFamily.Solar
         override x.PeriodicAdjustments_Prop() = x.CalendarUT.PeriodicAdjustments === CalendricalAdjustments.Days
 
-        override x.GetDate(y, m, d) = new GregorianDate(y, m, d);
-        override x.GetDate(y, doy) = new GregorianDate(y, doy);
-        override x.GetDate(dayNumber) = new GregorianDate(dayNumber);
+        override __.GetDate(y, m, d) = new GregorianDate(y, m, d);
+        override __.GetDate(y, doy) = new GregorianDate(y, doy);
+        override __.GetDate(dayNumber) = new GregorianDate(dayNumber);
 
     [<Sealed>]
+    [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
     type DateFacts() =
         inherit IDateFacts<GregorianDate, UnboundedGregorianDataSet>(chr.Domain)
 
@@ -37,6 +38,7 @@ module Bundles =
         override __.GetDate(y, m, d) = new GregorianDate(y, m, d)
 
     [<Sealed>]
+    [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
     type DayOfWeekFacts() =
         inherit IDateDayOfWeekFacts<GregorianDate, UnboundedGregorianDataSet>()
 

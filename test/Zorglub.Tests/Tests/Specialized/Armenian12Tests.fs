@@ -22,11 +22,12 @@ module Bundles =
         override x.Family_Prop() = x.CalendarUT.Family === CalendricalFamily.AnnusVagus
         override x.PeriodicAdjustments_Prop() = x.CalendarUT.PeriodicAdjustments === CalendricalAdjustments.None
 
-        override x.GetDate(y, m, d) = new Armenian12Date(y, m, d);
-        override x.GetDate(y, doy) = new Armenian12Date(y, doy);
-        override x.GetDate(dayNumber) = new Armenian12Date(dayNumber);
+        override __.GetDate(y, m, d) = new Armenian12Date(y, m, d);
+        override __.GetDate(y, doy) = new Armenian12Date(y, doy);
+        override __.GetDate(dayNumber) = new Armenian12Date(dayNumber);
 
     [<Sealed>]
+    [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
     type DateFacts() =
         inherit IDateFacts<Armenian12Date, StandardArmenian12DataSet>(chr.Domain)
 
@@ -36,6 +37,7 @@ module Bundles =
         override __.GetDate(y, m, d) = new Armenian12Date(y, m, d)
 
     [<Sealed>]
+    [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
     type EpagomenalDateFacts() =
         inherit IEpagomenalDayFacts<Armenian12Date, StandardArmenian12DataSet>()
 
