@@ -13,6 +13,7 @@ namespace Zorglub.Time.Specialized
     // CountDaysSince(XXXDate other) checked context or not? do we test it?
     // Use JulianFormulae?
     // Add method Adjust(Func<CivilDate, CivilDate>).
+    // Other types: Coptic, Ethiopic, Tabular Islamic, Zoroastrian, etc.
 
     /// <summary>
     /// Represents the Julian calendar.
@@ -469,7 +470,7 @@ namespace Zorglub.Time.Specialized
         /// <inheritdoc />
         [Pure]
         public int CountDaysSince(JulianDate other) =>
-            // No need to use a checked context here?
+            // No need to use a checked context here.
             _daysSinceEpoch - other._daysSinceEpoch;
 
         /// <inheritdoc />
