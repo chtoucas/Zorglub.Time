@@ -2,7 +2,7 @@
 // Copyright (c) 2020 Narvalo.Org. All rights reserved.
 
 // REVIEW(code): size of the Z-catalog.
-#define ZCATALOG_BIG
+#define ZCATALOG_BIGGER
 
 namespace Zorglub.Time.Extras
 {
@@ -30,7 +30,7 @@ namespace Zorglub.Time.Extras
     /// </summary>
     public static partial class ZCatalog
     {
-#if ZCATALOG_BIG
+#if ZCATALOG_BIGGER
         /// <summary>
         /// Represents the maximum value for the ident of a calendar.
         /// <para>This field is a constant equal to 508.</para>
@@ -54,7 +54,7 @@ namespace Zorglub.Time.Extras
         // réservant aussi les IDs 64 à 127; voir ToZCalendar() et ToCalendar().
         private static readonly int MinUserId = SimpleCatalog.MaxId + 1;
 
-#if ZCATALOG_BIG
+#if ZCATALOG_BIGGER
         /// <summary>
         /// Represents the absolute maximum number of user-defined calendars without counting those
         /// created from a <see cref="SimpleCalendar"/>.
@@ -108,7 +108,7 @@ namespace Zorglub.Time.Extras
         private static readonly ConcurrentDictionary<string, Lazy<ZCalendar>> s_CalendarsByKey =
             InitCalendarsByKey();
 
-        private static readonly ZRegistry s_Writer = new(s_CalendarsByKey, s_CalendarsById, MinUserId);
+        private static readonly ZRegistry s_Registry = new(s_CalendarsByKey, s_CalendarsById, MinUserId);
 
         // We ignore lazy calendars not yet initialized.
         internal static ICollection<string> Keys => s_CalendarsByKey.Keys;
@@ -119,7 +119,7 @@ namespace Zorglub.Time.Extras
 
         /// <summary>
         /// Initializes a system calendar.
-        /// <para>This method does not add the newly created (wide) calendar to
+        /// <para>This method does not add the newly created calendar to
         /// <see cref="s_CalendarsByKey"/>; this is something that is automatically done when we
         /// initialize the dictionary.</para>
         /// </summary>
@@ -140,7 +140,7 @@ namespace Zorglub.Time.Extras
         [Pure]
         private static ConcurrentDictionary<string, Lazy<ZCalendar>> InitCalendarsByKey()
         {
-#if ZCATALOG_BIG
+#if ZCATALOG_BIGGER
             // First prime number >= MaxId + 1 = 509.
             const int Capacity = 509;
 #else
@@ -340,16 +340,16 @@ namespace Zorglub.Time.Extras
     {
         [Pure]
         public static ZCalendar GetOrAdd(string key, CalendarScope scope) =>
-            s_Writer.GetOrAdd(key, scope);
+            s_Registry.GetOrAdd(key, scope);
 
         [Pure]
         public static ZCalendar Add(string key, CalendarScope scope) =>
-            s_Writer.Add(key, scope);
+            s_Registry.Add(key, scope);
 
         [Pure]
         public static bool TryAdd(
             string key, CalendarScope scope,
             [NotNullWhen(true)] out ZCalendar? calendar) =>
-            s_Writer.TryAdd(key, scope, out calendar);
+            s_Registry.TryAdd(key, scope, out calendar);
     }
 }
