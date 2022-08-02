@@ -20,5 +20,16 @@ namespace Zorglub.Time.Extensions
 
             return @this == DayOfWeek.Sunday ? 7 : (int)@this;
         }
+
+        /// <summary>
+        /// Converts the value of the specified day of the week to the equivalent ISO day of the week.
+        /// </summary>
+        [Pure]
+        public static IsoDayOfWeek ToIsoDayOfWeek(this DayOfWeek @this)
+        {
+            Requires.Defined(@this);
+
+            return @this == DayOfWeek.Sunday ? IsoDayOfWeek.Sunday : (IsoDayOfWeek)@this;
+        }
     }
 }
