@@ -17,7 +17,8 @@ namespace Zorglub.Time.Specialized
     public sealed class Zoroastrian13Calendar :
         MinMaxYearCalendar<Zoroastrian13Date>,
         IRegularFeaturette,
-        IVirtualMonthFeaturette
+        IVirtualMonthFeaturette,
+        INamedCalendar
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Zoroastrian13Calendar"/> class.

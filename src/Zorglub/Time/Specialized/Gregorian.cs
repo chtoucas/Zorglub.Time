@@ -19,7 +19,8 @@ namespace Zorglub.Time.Specialized
     /// </summary>
     public sealed class GregorianCalendar :
         MinMaxYearCalendar<GregorianDate>,
-        IRegularFeaturette
+        IRegularFeaturette,
+        INamedCalendar
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="GregorianCalendar"/> class.

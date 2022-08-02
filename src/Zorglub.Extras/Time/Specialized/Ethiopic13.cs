@@ -17,7 +17,8 @@ namespace Zorglub.Time.Specialized
     public sealed class Ethiopic13Calendar :
         MinMaxYearCalendar<Ethiopic13Date>,
         IRegularFeaturette,
-        IVirtualMonthFeaturette
+        IVirtualMonthFeaturette,
+        INamedCalendar
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Ethiopic13Calendar"/> class.
