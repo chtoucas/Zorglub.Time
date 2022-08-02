@@ -4,6 +4,7 @@
 namespace Zorglub.Time.Hemerology;
 
 using Zorglub.Time.Core;
+using Zorglub.Time.Core.Intervals;
 using Zorglub.Time.Core.Schemas;
 using Zorglub.Time.Hemerology.Scopes;
 
@@ -14,7 +15,7 @@ public static class MinMaxYearScopeTests
     [Fact]
     public static void Create_NullSchema() =>
         Assert.ThrowsAnexn("schema",
-            () => new MinMaxYearScope(null!, DayZero.NewStyle, 1, 100));
+            () => new MinMaxYearScope(null!, DayZero.NewStyle, Range.Create(1, 100)));
 
     [Fact]
     public static void WithMaxYear()

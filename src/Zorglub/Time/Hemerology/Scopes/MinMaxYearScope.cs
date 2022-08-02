@@ -18,15 +18,10 @@ namespace Zorglub.Time.Hemerology.Scopes
         /// Initializes a new instance of the <see cref="MinMaxYearScope"/> class.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
-        /// <exception cref="AoorException"><paramref name="minYear"/> or <paramref name="maxYear"/>
-        /// is outside the range of supported years by <paramref name="schema"/>.</exception>
-        // REVIEW(api): use Range<int> supportedYears instead of min/maxYear.
-        // Idem with MinMaxYearNakedCalendar.
-        public MinMaxYearScope(ICalendricalSchema schema, DayNumber epoch, int minYear, int maxYear)
-            : base(
-                  epoch,
-                  CalendricalSegment.Create(schema, Range.Create(minYear, maxYear)))
-        { }
+        /// <exception cref="ArgumentException"><paramref name="supportedYears"/> is NOT a
+        /// subinterval of the range of supported years by <paramref name="schema"/>.</exception>
+        public MinMaxYearScope(ICalendricalSchema schema, DayNumber epoch, Range<int> supportedYears)
+            : base(epoch, CalendricalSegment.Create(schema, supportedYears)) { }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MinMaxYearScope"/> class.

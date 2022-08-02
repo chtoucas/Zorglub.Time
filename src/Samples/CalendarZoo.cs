@@ -9,6 +9,7 @@ using System.Threading;
 
 using Zorglub.Time;
 using Zorglub.Time.Core;
+using Zorglub.Time.Core.Intervals;
 using Zorglub.Time.Core.Schemas;
 using Zorglub.Time.Hemerology;
 using Zorglub.Time.Hemerology.Scopes;
@@ -97,8 +98,7 @@ public partial class CalendarZoo
                 "French Revolutionary",
                 x,
                 CalendarEpoch.FrenchRepublican,
-                1,
-                14)
+                Range.Create(1, 14))
              ).Unbox();
 }
 

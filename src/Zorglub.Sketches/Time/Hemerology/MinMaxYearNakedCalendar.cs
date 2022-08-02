@@ -4,6 +4,7 @@
 namespace Zorglub.Time.Hemerology
 {
     using Zorglub.Time.Core;
+    using Zorglub.Time.Core.Intervals;
     using Zorglub.Time.Hemerology.Scopes;
 
     /// <summary>
@@ -16,16 +17,14 @@ namespace Zorglub.Time.Hemerology
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="name"/> is null.</exception>
         /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
-        /// <exception cref="AoorException"><paramref name="minYear"/> or <paramref name="maxYear"/>
-        /// is outside the range of supported years by <paramref name="schema"/> or
-        /// <see cref="Yemoda"/>.</exception>
+        /// <exception cref="ArgumentException"><paramref name="supportedYears"/> is NOT a
+        /// subinterval of the range of supported years by <paramref name="schema"/>.</exception>
         public MinMaxYearNakedCalendar(
             string name,
             ICalendricalSchema schema,
             DayNumber epoch,
-            int minYear,
-            int maxYear)
-            : this(name, new MinMaxYearScope(schema, epoch, minYear, maxYear)) { }
+            Range<int> supportedYears)
+            : this(name, new MinMaxYearScope(schema, epoch, supportedYears)) { }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MinMaxYearNakedCalendar"/> class.
@@ -58,7 +57,9 @@ namespace Zorglub.Time.Hemerology
         {
             Requires.NotNull(schema);
 
-            return new MinMaxYearNakedCalendar(name, schema, epoch, minYear, schema.SupportedYears.Max);
+            var range = Range.Create(minYear, schema.SupportedYears.Max);
+
+            return new MinMaxYearNakedCalendar(name, schema, epoch, range);
         }
 
         /// <summary>
@@ -75,7 +76,9 @@ namespace Zorglub.Time.Hemerology
         {
             Requires.NotNull(schema);
 
-            return new MinMaxYearNakedCalendar(name, schema, epoch, schema.SupportedYears.Min, maxYear);
+            var range = Range.Create(schema.SupportedYears.Min, maxYear);
+
+            return new MinMaxYearNakedCalendar(name, schema, epoch, range);
         }
     }
 
