@@ -10,6 +10,7 @@ param(
 
                  [switch] $Smoke,
 
+                 [switch] $NoExtras,
                  [switch] $NoBuild,
                  [switch] $NoTest,
                  [switch] $NoReport,
@@ -51,17 +52,25 @@ try {
     pushd $RootDir
 
     $assemblyName = 'Zorglub.Time'
+    $extrasAssemblyName = 'Zorglub.Time.Extras'
     $format   = 'opencover'
 
-    $outName  = "tests-Zorglub-$configuration"
+    $outName  = "cover-Zorglub"
+    if (-not $NoExtras) { $outName += "-extras" }
     if ($Smoke) { $outName += "-smoke" }
+    $outName += "-$configuration"
     $outDir   = Join-Path $ArtifactsDir $outName.ToLowerInvariant()
     $output   = Join-Path $outDir "$format.xml"
     $rgInput  = Join-Path $outDir "$format.*xml"
     $rgOutput = Join-Path $outDir 'html'
+
     # Filters: https://github.com/Microsoft/vstest-docs/blob/main/docs/filter.md
     $includes = @("[$assemblyName]*")
     $excludes = @("[$assemblyName]System.*")
+    if (-not $NoExtras) {
+        $includes += "[$extrasAssemblyName]*"
+        $excludes += "[$extrasAssemblyName]System.*"
+    }
     $include  = '"' + ($includes -join '%2c') + '"'
     $exclude  = '"' + ($excludes -join '%2c') + '"'
 
