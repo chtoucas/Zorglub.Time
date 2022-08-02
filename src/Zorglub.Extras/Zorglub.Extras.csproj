@@ -4,6 +4,8 @@
     <TargetFrameworks>$(MyLibraryFrameworks)</TargetFrameworks>
     <AssemblyName>Zorglub.Time.Extras</AssemblyName>
 
+    <DefineConstants Condition=" '$(HideInternals)' != 'true' ">$(DefineConstants);VISIBLE_INTERNALS</DefineConstants>
+
     <!-- IDE0004  Remove unnecessary cast -->
     <WarningsAsErrors>$(WarningsAsErrors);IDE0004</WarningsAsErrors>
   </PropertyGroup>
