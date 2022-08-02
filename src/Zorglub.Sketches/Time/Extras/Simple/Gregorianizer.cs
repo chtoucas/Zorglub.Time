@@ -1,10 +1,8 @@
 ﻿// SPDX-License-Identifier: BSD-3-Clause
 // Copyright (c) 2020 Narvalo.Org. All rights reserved.
 
-namespace Zorglub.Time.Extras.Simple
+namespace Zorglub.Time.Simple
 {
-    using Zorglub.Time.Simple;
-
     // Version minimaliste de la chronologie julienne réformée.
     public sealed class Gregorianizer
     {

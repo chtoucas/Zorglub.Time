@@ -1,9 +1,9 @@
 ﻿// SPDX-License-Identifier: BSD-3-Clause
 // Copyright (c) 2020 Narvalo.Org. All rights reserved.
 
-namespace Zorglub.Time.Extras;
+namespace Zorglub.Time;
 
-using static Zorglub.Time.Extras.Extensions.XCivilDateExtensions;
+using static Zorglub.Time.Extensions.XCivilDateExtensions;
 
 public partial class XCivilDateTests
 {

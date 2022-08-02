@@ -4,7 +4,7 @@
 // REVIEW(code): size of the Z-catalog.
 #define ZCATALOG_BIGGER
 
-namespace Zorglub.Time.Extras
+namespace Zorglub.Time
 {
     using System.Collections.Concurrent;
     using System.Collections.ObjectModel;

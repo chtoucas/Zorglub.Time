@@ -8,7 +8,6 @@ using NodaTime;
 using Samples;
 
 using Zorglub.Time;
-using Zorglub.Time.Extras;
 using Zorglub.Time.Simple;
 using Zorglub.Time.Specialized;
 

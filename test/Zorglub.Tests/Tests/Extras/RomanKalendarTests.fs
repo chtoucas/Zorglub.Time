@@ -8,7 +8,6 @@ open System
 open Zorglub.Testing
 open Zorglub.Testing.Data
 
-open Zorglub.Time.Extras.Specialized
 open Zorglub.Time.Specialized
 
 open Xunit

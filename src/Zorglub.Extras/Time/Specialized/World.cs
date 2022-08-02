@@ -10,8 +10,6 @@ namespace Zorglub.Time.Specialized
     using Zorglub.Time.Hemerology;
     using Zorglub.Time.Hemerology.Scopes;
 
-    // TODO(api): CountDaysInWorldMonth().
-
     /// <summary>
     /// Represents the World calendar.
     /// <para>This class cannot be inherited.</para>

@@ -8,7 +8,6 @@ open Zorglub.Testing
 open Xunit
 
 module Specialized =
-    open Zorglub.Time.Extras.Specialized
     open Zorglub.Time.Specialized
 
     [<Fact>]
@@ -37,7 +36,6 @@ module Specialized =
         reform === GregorianReform.Official
 
 module Simple =
-    open Zorglub.Time.Extras.Simple
     open Zorglub.Time.Simple
 
     [<Fact>]

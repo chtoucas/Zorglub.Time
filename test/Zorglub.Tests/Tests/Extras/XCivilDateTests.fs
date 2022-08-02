@@ -12,7 +12,6 @@ open Zorglub.Testing.Facts.Hemerology
 
 open Zorglub.Time
 open Zorglub.Time.Core.Intervals
-open Zorglub.Time.Extras
 
 open Xunit
 

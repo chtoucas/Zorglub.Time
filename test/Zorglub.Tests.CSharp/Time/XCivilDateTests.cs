@@ -1,7 +1,7 @@
 ﻿// SPDX-License-Identifier: BSD-3-Clause
 // Copyright (c) 2020 Narvalo.Org. All rights reserved.
 
-namespace Zorglub.Time.Extras;
+namespace Zorglub.Time;
 
 using System.Diagnostics.Contracts;
 using System.Linq;
@@ -12,7 +12,7 @@ using Zorglub.Time.Core;
 using Zorglub.Time.Core.Intervals;
 
 using static Zorglub.Time.Extensions.DayOfWeekExtensions2;
-using static Zorglub.Time.Extras.Extensions.XCivilDateExtensions;
+using static Zorglub.Time.Extensions.XCivilDateExtensions;
 
 // NB: we use StandardGregorianDataSet which has the same limits as XCivilDate.
 

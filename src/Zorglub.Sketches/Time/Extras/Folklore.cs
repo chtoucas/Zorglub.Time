@@ -1,14 +1,13 @@
 ﻿// SPDX-License-Identifier: BSD-3-Clause
 // Copyright (c) 2020 Narvalo.Org. All rights reserved.
 
-namespace Zorglub.Time.Extras
+namespace Zorglub.Time
 {
     using System;
     using System.Collections.Generic;
     using System.Diagnostics.Contracts;
     using System.Linq;
 
-    using Zorglub.Time;
     using Zorglub.Time.Core.Intervals;
     using Zorglub.Time.Simple;
     using Zorglub.Time.Specialized;

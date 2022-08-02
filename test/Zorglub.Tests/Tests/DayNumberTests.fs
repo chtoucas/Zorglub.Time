@@ -22,7 +22,7 @@ open Xunit
 open FsCheck
 open FsCheck.Xunit
 
-open type Zorglub.Time.Extras.Extensions.DayNumberExtensions
+open type Zorglub.Time.Extensions.DayNumberExtensions
 
 // SYNC WITH DayNumber64Tests.
 

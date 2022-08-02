@@ -4,8 +4,8 @@
 namespace Zorglub.Testing.Facts.Hemerology;
 
 using Zorglub.Testing.Data;
+using Zorglub.Time;
 using Zorglub.Time.Core.Intervals;
-using Zorglub.Time.Extras;
 
 /// <summary>
 /// Provides facts about <see cref="ZDate"/>.

@@ -8,7 +8,7 @@ open Zorglub.Testing.Data.Unbounded
 open Zorglub.Testing.Facts
 open Zorglub.Testing.Facts.Hemerology
 
-open Zorglub.Time.Extras
+open Zorglub.Time
 
 module Bundles =
     // NB: notice the use of UnboundedGregorianDataSet.
