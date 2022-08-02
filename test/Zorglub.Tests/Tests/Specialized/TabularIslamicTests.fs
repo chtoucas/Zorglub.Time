@@ -16,6 +16,7 @@ module Bundles =
     let private chr = new TabularIslamicCalendar()
 
     [<Sealed>]
+    [<TestExtrasAssembly>]
     type CalendaTests() =
         inherit ICalendarTFacts<TabularIslamicDate, TabularIslamicCalendar, StandardTabularIslamicDataSet>(chr)
 
@@ -31,7 +32,7 @@ module Bundles =
         member x.MonthsInYear_Prop() = x.CalendarUT.MonthsInYear === 12
 
     [<Sealed>]
-    [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
+    [<TestExtrasAssembly>]
     type DateFacts() =
         inherit ISpecializedDateFacts<TabularIslamicDate, TabularIslamicCalendar, StandardTabularIslamicDataSet>(chr)
 

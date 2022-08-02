@@ -9,6 +9,7 @@ using Xunit.Sdk;
 #region Developer Notes
 
 // Traits:
+// - TestExtrasAssembly     => exclude from Smoke
 // - RedundantTest          => exclude from Smoke, CodeCoverage and Regular
 // - RedundantTestBundle    => exclude from Smoke, CodeCoverage and Regular
 // - TestPerfomance
@@ -32,6 +33,7 @@ internal static class XunitTraits
 {
     // All traits have a single property: we use the same string for both name
     // and value of a trait.
+    public const string ExtrasAssembly = "ExtrasAssembly";
     public const string ExcludeFrom = "ExcludeFrom";
     public const string Performance = "Performance";
     public const string Redundant = "Redundant";
@@ -84,6 +86,14 @@ public static class TestExcludeFromValues
     public static readonly string Smoke = TestExcludeFrom.Smoke.ToString();
     public static readonly string CodeCoverage = TestExcludeFrom.CodeCoverage.ToString();
     public static readonly string Regular = TestExcludeFrom.Regular.ToString();
+}
+
+// We use this trait to mark tests for Zorglub.Time.Extras.
+[TraitDiscoverer(XunitTraitAssembly.TypePrefix + nameof(ExtrasAssemblyTraitDiscoverer), XunitTraitAssembly.Name)]
+[AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = false)]
+public sealed class TestExtrasAssemblyAttribute : Attribute, ITraitAttribute
+{
+    public TestExtrasAssemblyAttribute() { }
 }
 
 // We use this trait to exclude redundant test units.
@@ -177,6 +187,18 @@ public sealed class RedundantTraitDiscoverer : ITraitDiscoverer
         yield return new KeyValuePair<string, string>(XunitTraits.ExcludeFrom, TestExcludeFromValues.Smoke);
         yield return new KeyValuePair<string, string>(XunitTraits.ExcludeFrom, TestExcludeFromValues.CodeCoverage);
         yield return new KeyValuePair<string, string>(XunitTraits.ExcludeFrom, TestExcludeFromValues.Regular);
+    }
+}
+
+public sealed class ExtrasAssemblyTraitDiscoverer : ITraitDiscoverer
+{
+    public IEnumerable<KeyValuePair<string, string>> GetTraits(IAttributeInfo traitAttribute)
+    {
+        Requires.NotNull(traitAttribute);
+
+        yield return new KeyValuePair<string, string>(XunitTraits.ExtrasAssembly, "true");
+        // We automatically exclude the test(s) from the following plans.
+        yield return new KeyValuePair<string, string>(XunitTraits.ExcludeFrom, TestExcludeFromValues.Smoke);
     }
 }
 

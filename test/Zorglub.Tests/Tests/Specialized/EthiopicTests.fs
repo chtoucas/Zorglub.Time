@@ -17,6 +17,7 @@ module Bundles =
     let private chr = new EthiopicCalendar()
 
     [<Sealed>]
+    [<TestExtrasAssembly>]
     type CalendaTests() =
         inherit ICalendarTFacts<EthiopicDate, EthiopicCalendar, StandardEthiopic12DataSet>(chr)
 
@@ -32,7 +33,7 @@ module Bundles =
         member x.MonthsInYear_Prop() = x.CalendarUT.MonthsInYear === 12
 
     [<Sealed>]
-    [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
+    [<TestExtrasAssembly>]
     type DateFacts() =
         inherit ISpecializedDateFacts<EthiopicDate, EthiopicCalendar, StandardEthiopic12DataSet>(chr)
 
@@ -42,7 +43,7 @@ module Bundles =
         override __.GetDate(y, m, d) = new EthiopicDate(y, m, d)
 
     [<Sealed>]
-    [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
+    [<TestExtrasAssembly>]
     type EpagomenalDateFacts() =
         inherit IEpagomenalDayFacts<EthiopicDate, StandardEthiopic12DataSet>()
 
@@ -52,6 +53,7 @@ module Bundles13 =
     let private chr = new Ethiopic13Calendar()
 
     [<Sealed>]
+    [<TestExtrasAssembly>]
     type CalendaTests() =
         inherit ICalendarTFacts<Ethiopic13Date, Ethiopic13Calendar, StandardEthiopic13DataSet>(chr)
 
@@ -70,7 +72,7 @@ module Bundles13 =
         member x.VirtualMonth_Prop() = x.CalendarUT.VirtualMonth === 13
 
     [<Sealed>]
-    [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
+    [<TestExtrasAssembly>]
     type DateFacts() =
         inherit ISpecializedDateFacts<Ethiopic13Date, Ethiopic13Calendar, StandardEthiopic13DataSet>(chr)
 
@@ -80,7 +82,7 @@ module Bundles13 =
         override __.GetDate(y, m, d) = new Ethiopic13Date(y, m, d)
 
     [<Sealed>]
-    [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
+    [<TestExtrasAssembly>]
     type EpagomenalDateFacts() =
         inherit IEpagomenalDayFacts<Ethiopic13Date, StandardEthiopic13DataSet>()
 

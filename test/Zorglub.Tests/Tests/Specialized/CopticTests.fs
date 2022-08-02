@@ -17,6 +17,7 @@ module Bundles =
     let private chr = new CopticCalendar()
 
     [<Sealed>]
+    [<TestExtrasAssembly>]
     type CalendaTests() =
         inherit ICalendarTFacts<CopticDate, CopticCalendar, StandardCoptic12DataSet>(chr)
 
@@ -32,7 +33,7 @@ module Bundles =
         member x.MonthsInYear() = x.CalendarUT.MonthsInYear === 12
 
     [<Sealed>]
-    [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
+    [<TestExtrasAssembly>]
     type DateFacts() =
         inherit ISpecializedDateFacts<CopticDate, CopticCalendar, StandardCoptic12DataSet>(chr)
 
@@ -42,7 +43,7 @@ module Bundles =
         override __.GetDate(y, m, d) = new CopticDate(y, m, d)
 
     [<Sealed>]
-    [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
+    [<TestExtrasAssembly>]
     type EpagomenalDateFacts() =
         inherit IEpagomenalDayFacts<CopticDate, StandardCoptic12DataSet>()
 
@@ -52,6 +53,7 @@ module Bundles13 =
     let private chr = new Coptic13Calendar()
 
     [<Sealed>]
+    [<TestExtrasAssembly>]
     type CalendaTests() =
         inherit ICalendarTFacts<Coptic13Date, Coptic13Calendar, StandardCoptic13DataSet>(chr)
 
@@ -70,7 +72,7 @@ module Bundles13 =
         member x.VirtualMonth_Prop() = x.CalendarUT.VirtualMonth === 13
 
     [<Sealed>]
-    [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
+    [<TestExtrasAssembly>]
     type DateFacts() =
         inherit ISpecializedDateFacts<Coptic13Date, Coptic13Calendar, StandardCoptic13DataSet>(chr)
 
@@ -80,7 +82,7 @@ module Bundles13 =
         override __.GetDate(y, m, d) = new Coptic13Date(y, m, d)
 
     [<Sealed>]
-    [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
+    [<TestExtrasAssembly>]
     type EpagomenalDateFacts() =
         inherit IEpagomenalDayFacts<Coptic13Date, StandardCoptic13DataSet>()
 

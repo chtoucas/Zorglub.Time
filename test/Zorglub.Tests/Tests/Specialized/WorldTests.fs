@@ -20,6 +20,7 @@ module Methods =
     let dateInfoData = WorldDataSet.Instance.DateInfoData
     let moreMonthInfoData = WorldDataSet.MoreMonthInfoData
 
+    [<TestExtrasAssembly>]
     [<Theory; MemberData(nameof(dateInfoData))>]
     let IsBlank_Prop (info: DateInfo) =
         let (y, m, d) = info.Yemoda.Deconstruct()
@@ -27,6 +28,7 @@ module Methods =
 
         date.IsBlank === date.IsSupplementary
 
+    [<TestExtrasAssembly>]
     [<Theory; MemberData(nameof(moreMonthInfoData))>]
     let CountDaysInWorldMonth (info: YemoAnd<int>) =
         let (y, m, daysInMonth) = info.Deconstruct()
@@ -37,6 +39,7 @@ module Bundles =
     // NB: notice the use of ProlepticJulianDataSet.
 
     [<Sealed>]
+    [<TestExtrasAssembly>]
     type CalendaTests() =
         inherit ICalendarTFacts<WorldDate, WorldCalendar, StandardWorldDataSet>(chr)
 
@@ -52,7 +55,7 @@ module Bundles =
         member x.MonthsInYear_Prop() = x.CalendarUT.MonthsInYear === 12
 
     [<Sealed>]
-    [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
+    [<TestExtrasAssembly>]
     type DateFacts() =
         inherit ISpecializedDateFacts<WorldDate, WorldCalendar, StandardWorldDataSet>(chr)
 

@@ -17,6 +17,7 @@ module Bundles =
     let private chr = new ZoroastrianCalendar()
 
     [<Sealed>]
+    [<TestExtrasAssembly>]
     type CalendaTests() =
         inherit ICalendarTFacts<ZoroastrianDate, ZoroastrianCalendar, StandardZoroastrian12DataSet>(chr)
 
@@ -32,7 +33,7 @@ module Bundles =
         member x.MonthsInYear_Prop() = x.CalendarUT.MonthsInYear === 12
 
     [<Sealed>]
-    [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
+    [<TestExtrasAssembly>]
     type DateFacts() =
         inherit ISpecializedDateFacts<ZoroastrianDate, ZoroastrianCalendar, StandardZoroastrian12DataSet>(chr)
 
@@ -42,7 +43,7 @@ module Bundles =
         override __.GetDate(y, m, d) = new ZoroastrianDate(y, m, d)
 
     [<Sealed>]
-    [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
+    [<TestExtrasAssembly>]
     type EpagomenalDateFacts() =
         inherit IEpagomenalDayFacts<ZoroastrianDate, StandardZoroastrian12DataSet>()
 
@@ -52,6 +53,7 @@ module Bundles13 =
     let private chr = new Zoroastrian13Calendar()
 
     [<Sealed>]
+    [<TestExtrasAssembly>]
     type CalendaTests() =
         inherit ICalendarTFacts<Zoroastrian13Date, Zoroastrian13Calendar, StandardZoroastrian13DataSet>(chr)
 
@@ -70,7 +72,7 @@ module Bundles13 =
         member x.VirtualMonth_Prop() = x.CalendarUT.VirtualMonth === 13
 
     [<Sealed>]
-    [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
+    [<TestExtrasAssembly>]
     type DateFacts() =
         inherit ISpecializedDateFacts<Zoroastrian13Date, Zoroastrian13Calendar, StandardZoroastrian13DataSet>(chr)
 
@@ -80,7 +82,7 @@ module Bundles13 =
         override __.GetDate(y, m, d) = new Zoroastrian13Date(y, m, d)
 
     [<Sealed>]
-    [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
+    [<TestExtrasAssembly>]
     type EpagomenalDateFacts() =
         inherit IEpagomenalDayFacts<Zoroastrian13Date, StandardZoroastrian13DataSet>()
 

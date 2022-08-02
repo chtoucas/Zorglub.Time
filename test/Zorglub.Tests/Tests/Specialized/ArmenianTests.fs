@@ -17,6 +17,7 @@ module Bundles =
     let private chr = new ArmenianCalendar()
 
     [<Sealed>]
+    [<TestExtrasAssembly>]
     type CalendaTests() =
         inherit ICalendarTFacts<ArmenianDate, ArmenianCalendar, StandardArmenian12DataSet>(chr)
 
@@ -32,7 +33,7 @@ module Bundles =
         member x.MonthsInYear_Prop() = x.CalendarUT.MonthsInYear === 12
 
     [<Sealed>]
-    [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
+    [<TestExtrasAssembly>]
     type DateFacts() =
         inherit ISpecializedDateFacts<ArmenianDate, ArmenianCalendar, StandardArmenian12DataSet>(chr)
 
@@ -42,7 +43,7 @@ module Bundles =
         override __.GetDate(y, m, d) = new ArmenianDate(y, m, d)
 
     [<Sealed>]
-    [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
+    [<TestExtrasAssembly>]
     type EpagomenalDateFacts() =
         inherit IEpagomenalDayFacts<ArmenianDate, StandardArmenian12DataSet>()
 
@@ -53,6 +54,7 @@ module Bundles13 =
     let private chr = new Armenian13Calendar()
 
     [<Sealed>]
+    [<TestExtrasAssembly>]
     type CalendaTests() =
         inherit ICalendarTFacts<Armenian13Date, Armenian13Calendar, StandardArmenian13DataSet>(chr)
 
@@ -71,7 +73,7 @@ module Bundles13 =
         member x.VirtualMonth_Prop() = x.CalendarUT.VirtualMonth === 13
 
     [<Sealed>]
-    [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
+    [<TestExtrasAssembly>]
     type DateFacts() =
         inherit ISpecializedDateFacts<Armenian13Date, Armenian13Calendar, StandardArmenian13DataSet>(chr)
 
@@ -81,7 +83,7 @@ module Bundles13 =
         override __.GetDate(y, m, d) = new Armenian13Date(y, m, d)
 
     [<Sealed>]
-    [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
+    [<TestExtrasAssembly>]
     type EpagomenalDateFacts() =
         inherit IEpagomenalDayFacts<Armenian13Date, StandardArmenian13DataSet>()
 
