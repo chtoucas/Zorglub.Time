@@ -18,25 +18,27 @@ open Xunit
 module Prelude =
     [<Fact>]
     let ``Constructor throws when "name" is null`` () =
-        let name: string = null
         let scope = new StandardScope(new GregorianSchema(), DayZero.NewStyle)
 
-        nullExn "name" (fun () -> new MinMaxYearCalendar(name, scope))
+        nullExn "name" (fun () -> new MinMaxYearCalendar(null, scope))
+        nullExn "name" (fun () -> new MinMaxYearCalendar<GregorianDate>(null, scope))
 
     [<Fact>]
     let ``Constructor throws when "scope" is null`` () =
-        let scope: CalendarScope = null
+        nullExn "scope" (fun () -> new MinMaxYearCalendar("Name", (null: CalendarScope)))
+        nullExn "scope" (fun () -> new MinMaxYearCalendar("Name", (null: MinMaxYearScope)))
+        nullExn "scope" (fun () -> new MinMaxYearCalendar<GregorianDate>("Name", (null: CalendarScope)))
+        nullExn "scope" (fun () -> new MinMaxYearCalendar<GregorianDate>("Name", (null: MinMaxYearScope)))
 
-        nullExn "scope" (fun () -> new MinMaxYearCalendar("Name", scope))
-
-    [<Fact(Skip = "To be fixed")>]
+    [<Fact>]
     let ``Constructor throws when "scope" is not complete`` () =
-        let min = new DateParts(2, 1, 1)
+        let min = new DateParts(1, 1, 2)
         let scope = new BoundedBelowScope(new GregorianSchema(), DayZero.NewStyle, min, 2)
 
         scope.IsComplete |> nok
 
         argExn "scope" (fun () -> new MinMaxYearCalendar("Name", scope))
+        argExn "scope" (fun () -> new MinMaxYearCalendar<GregorianDate>("Name", scope))
 
 
 module Bundles =
