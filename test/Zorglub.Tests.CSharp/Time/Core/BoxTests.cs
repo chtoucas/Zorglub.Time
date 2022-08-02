@@ -5,7 +5,7 @@ namespace Zorglub.Time.Core;
 
 using Zorglub.Time.Core.Utilities;
 
-using static Zorglub.Time.Extras.Extensions.BoxExtensions;
+using static Zorglub.Time.Extensions.BoxExtensions;
 
 // We keep these tests to test the QEP.
 
