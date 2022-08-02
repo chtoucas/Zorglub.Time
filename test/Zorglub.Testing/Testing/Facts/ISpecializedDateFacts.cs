@@ -4,7 +4,6 @@
 namespace Zorglub.Testing.Facts;
 
 using Zorglub.Testing.Data;
-using Zorglub.Time.Core.Intervals;
 using Zorglub.Time.Hemerology;
 using Zorglub.Time.Specialized;
 
@@ -22,13 +21,6 @@ public abstract partial class ISpecializedDateFacts<TDate, TCalendar, TDataSet> 
     where TDataSet : ICalendarDataSet, ISingleton<TDataSet>
 {
     protected ISpecializedDateFacts(TCalendar calendar) : base(GetDomain(calendar)) { }
-
-    private static Range<DayNumber> GetDomain(TCalendar calendar)
-    {
-        Requires.NotNull(calendar);
-
-        return calendar.Domain;
-    }
 
     [Fact]
     public void Calendar_Prop() => Assert.NotNull(TDate.Calendar);
@@ -55,14 +47,11 @@ public abstract partial class ISpecializedDateFacts<TDate, TCalendar, TDataSet> 
         Assert.Equal(d, d1);
     }
 
-    [Theory]
-    [InlineData(1, 1, 1, "01/01/0001 ({Calendar})")]
-    public void ToString_InvariantCulture(int y, int m, int d, string format)
+    [Fact]
+    public void ToString_InvariantCulture()
     {
-        Debug.Assert(format != null);
-
-        var date = GetDate(y, m, d);
-        var str = format.Replace("{Calendar}", TDate.Calendar.Name, StringComparison.InvariantCulture);
+        var date = GetDate(1, 1, 1);
+        var str = FormattableString.Invariant($"01/01/0001 ({TDate.Calendar.Name})");
         // Act & Assert
         Assert.Equal(str, date.ToString());
     }

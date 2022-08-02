@@ -4,7 +4,6 @@
 namespace Zorglub.Testing.Facts.Simple;
 
 using Zorglub.Testing.Data;
-using Zorglub.Time.Core.Intervals;
 using Zorglub.Time.Simple;
 
 // TODO(fact): move math tests to IDateFacts. Prerequesite: ordinal factory.
@@ -20,10 +19,7 @@ public abstract partial class SimpleDateFacts<TDate, TDataSet> :
     where TDataSet : ICalendarDataSet, ISingleton<TDataSet>
 {
     protected SimpleDateFacts(SimpleCalendar calendar, SimpleCalendar otherCalendar)
-        : this(calendar, otherCalendar, BaseCtorArgs.Create(calendar)) { }
-
-    private SimpleDateFacts(SimpleCalendar calendar, SimpleCalendar otherCalendar, BaseCtorArgs args)
-        : base(args.SupportedYears, args.Domain)
+        : base(GetDomain(calendar))
     {
         Debug.Assert(calendar != null);
         Requires.NotNull(otherCalendar);
@@ -54,15 +50,6 @@ public abstract partial class SimpleDateFacts<TDate, TDataSet> :
     {
         var (y, doy) = ydoy;
         return GetDate(y, doy);
-    }
-
-    private sealed record BaseCtorArgs(Range<int> SupportedYears, Range<DayNumber> Domain)
-    {
-        public static BaseCtorArgs Create(SimpleCalendar calendar)
-        {
-            Requires.NotNull(calendar);
-            return new BaseCtorArgs(calendar.YearsValidator.Range, calendar.Domain);
-        }
     }
 }
 

@@ -5,7 +5,6 @@ namespace Zorglub.Testing.Facts.Hemerology;
 
 using Zorglub.Testing.Data;
 using Zorglub.Time;
-using Zorglub.Time.Core.Intervals;
 
 /// <summary>
 /// Provides facts about <see cref="ZDate"/>.
@@ -14,11 +13,7 @@ public abstract partial class ZDateFacts<TDataSet> :
     IDateFacts<ZDate, TDataSet>
     where TDataSet : ICalendarDataSet, ISingleton<TDataSet>
 {
-    protected ZDateFacts(ZCalendar calendar, ZCalendar otherCalendar)
-        : this(calendar, otherCalendar, BaseCtorArgs.Create(calendar)) { }
-
-    private ZDateFacts(ZCalendar calendar, ZCalendar otherCalendar, BaseCtorArgs args)
-        : base(args.SupportedYears, args.Domain)
+    protected ZDateFacts(ZCalendar calendar, ZCalendar otherCalendar) : base(GetDomain(calendar))
     {
         Debug.Assert(calendar != null);
         Requires.NotNull(otherCalendar);
@@ -42,15 +37,6 @@ public abstract partial class ZDateFacts<TDataSet> :
     protected sealed override ZDate MaxDate { get; }
 
     protected sealed override ZDate GetDate(int y, int m, int d) => CalendarUT.GetDate(y, m, d);
-
-    private sealed record BaseCtorArgs(Range<int> SupportedYears, Range<DayNumber> Domain)
-    {
-        public static BaseCtorArgs Create(ZCalendar calendar)
-        {
-            Requires.NotNull(calendar);
-            return new BaseCtorArgs(calendar.Scope.Segment.SupportedYears, calendar.Domain);
-        }
-    }
 }
 
 public partial class ZDateFacts<TDataSet> // Prelude
