@@ -247,6 +247,19 @@ namespace Zorglub.Time.Core
         /// </summary>
         public void UseMaxSupportedYear() => Max = GetEndpointFromMaxYearCore(_yearsValidator.MaxYear);
 
+        // This method throw an ArgumentException not an AoorException, therefore
+        // it's not equivalent to set Min and Max separately.
+        internal void SetSupportedYears(Range<int> supportedYears)
+        {
+            if (supportedYears.IsSubsetOf(_schema.SupportedYears) == false)
+            {
+                Throw.Argument(nameof(supportedYears));
+            }
+
+            Min = GetEndpointFromMinYearCore(supportedYears.Min);
+            Max = GetEndpointFromMaxYearCore(supportedYears.Max);
+        }
+
         //
         // Private helpers
         //

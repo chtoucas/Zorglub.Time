@@ -108,6 +108,12 @@ namespace Zorglub.Time.Core
         [Pure]
         public static CalendricalSegment CreateMaximal(ICalendricalSchema schema, bool onOrAfterEpoch)
         {
+            // NB: onOrAfterEpoch = false does not necessary mean "proleptic".
+            // int minYear = !onOrAfterEpoch || schema.MinYear > 1
+            //    ? Math.Max(schema.MinYear, Yemoda.MinYear)
+            //    : 1;
+            // int maxYear = Math.Min(Yemoda.MaxYear, schema.MaxYear);
+
             var builder = new CalendricalSegmentBuilder(schema);
             builder.UseMinSupportedYear(onOrAfterEpoch);
             builder.UseMaxSupportedYear();
@@ -123,11 +129,8 @@ namespace Zorglub.Time.Core
         [Pure]
         public static CalendricalSegment Create(ICalendricalSchema schema, Range<int> supportedYears)
         {
-            var builder = new CalendricalSegmentBuilder(schema)
-            {
-                MinYear = supportedYears.Min,
-                MaxYear = supportedYears.Max
-            };
+            var builder = new CalendricalSegmentBuilder(schema);
+            builder.SetSupportedYears(supportedYears);
             return builder.BuildSegment();
         }
 

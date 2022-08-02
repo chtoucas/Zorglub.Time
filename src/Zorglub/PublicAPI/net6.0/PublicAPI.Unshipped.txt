@@ -773,14 +773,14 @@ Zorglub.Time.Core.CalendricalSegmentBuilder.CalendricalSegmentBuilder(Zorglub.Ti
 Zorglub.Time.Core.CalendricalSegmentBuilder.HasMax.get -> bool
 Zorglub.Time.Core.CalendricalSegmentBuilder.HasMin.get -> bool
 Zorglub.Time.Core.CalendricalSegmentBuilder.IsBuildable.get -> bool
-Zorglub.Time.Core.CalendricalSegmentBuilder.SetMaxDateParts(Zorglub.Time.DateParts parts) -> void
-Zorglub.Time.Core.CalendricalSegmentBuilder.SetMaxDaysSinceEpoch(int daysSinceEpoch) -> void
-Zorglub.Time.Core.CalendricalSegmentBuilder.SetMaxOrdinalParts(Zorglub.Time.OrdinalParts parts) -> void
-Zorglub.Time.Core.CalendricalSegmentBuilder.SetMaxYear(int year) -> void
-Zorglub.Time.Core.CalendricalSegmentBuilder.SetMinDateParts(Zorglub.Time.DateParts parts) -> void
-Zorglub.Time.Core.CalendricalSegmentBuilder.SetMinDaysSinceEpoch(int daysSinceEpoch) -> void
-Zorglub.Time.Core.CalendricalSegmentBuilder.SetMinOrdinalParts(Zorglub.Time.OrdinalParts parts) -> void
-Zorglub.Time.Core.CalendricalSegmentBuilder.SetMinYear(int year) -> void
+Zorglub.Time.Core.CalendricalSegmentBuilder.MaxDateParts.set -> void
+Zorglub.Time.Core.CalendricalSegmentBuilder.MaxDaysSinceEpoch.set -> void
+Zorglub.Time.Core.CalendricalSegmentBuilder.MaxOrdinalParts.set -> void
+Zorglub.Time.Core.CalendricalSegmentBuilder.MaxYear.set -> void
+Zorglub.Time.Core.CalendricalSegmentBuilder.MinDateParts.set -> void
+Zorglub.Time.Core.CalendricalSegmentBuilder.MinDaysSinceEpoch.set -> void
+Zorglub.Time.Core.CalendricalSegmentBuilder.MinOrdinalParts.set -> void
+Zorglub.Time.Core.CalendricalSegmentBuilder.MinYear.set -> void
 Zorglub.Time.Core.CalendricalSegmentBuilder.UseMaxSupportedYear() -> void
 Zorglub.Time.Core.CalendricalSegmentBuilder.UseMinSupportedYear(bool onOrAfterEpoch) -> void
 Zorglub.Time.Core.IBlankDayFeaturette
@@ -1254,6 +1254,7 @@ Zorglub.Time.Hemerology.IStandardArithmetic<TSelf>.PlusDays(int days) -> TSelf
 Zorglub.Time.Hemerology.IStandardArithmetic<TSelf>.PreviousDay() -> TSelf
 Zorglub.Time.Hemerology.MinMaxYearCalendar
 Zorglub.Time.Hemerology.MinMaxYearCalendar.MinMaxYearCalendar(string! name, Zorglub.Time.Hemerology.Scopes.CalendarScope! scope) -> void
+Zorglub.Time.Hemerology.MinMaxYearCalendar.MinMaxYearCalendar(string! name, Zorglub.Time.Hemerology.Scopes.MinMaxYearScope! scope) -> void
 Zorglub.Time.Hemerology.MinMaxYearCalendar<TDate>
 Zorglub.Time.Hemerology.MinMaxYearCalendar<TDate>.GetDaysInMonth(int year, int month) -> System.Collections.Generic.IEnumerable<TDate>!
 Zorglub.Time.Hemerology.MinMaxYearCalendar<TDate>.GetDaysInYear(int year) -> System.Collections.Generic.IEnumerable<TDate>!
@@ -1262,6 +1263,7 @@ Zorglub.Time.Hemerology.MinMaxYearCalendar<TDate>.GetEndOfYear(int year) -> TDat
 Zorglub.Time.Hemerology.MinMaxYearCalendar<TDate>.GetStartOfMonth(int year, int month) -> TDate
 Zorglub.Time.Hemerology.MinMaxYearCalendar<TDate>.GetStartOfYear(int year) -> TDate
 Zorglub.Time.Hemerology.MinMaxYearCalendar<TDate>.MinMaxYearCalendar(string! name, Zorglub.Time.Hemerology.Scopes.CalendarScope! scope) -> void
+Zorglub.Time.Hemerology.MinMaxYearCalendar<TDate>.MinMaxYearCalendar(string! name, Zorglub.Time.Hemerology.Scopes.MinMaxYearScope! scope) -> void
 Zorglub.Time.Hemerology.Scopes.CalendarScope
 Zorglub.Time.Hemerology.Scopes.CalendarScope.CalendarScope(Zorglub.Time.DayNumber epoch, Zorglub.Time.Core.CalendricalSegment! segment) -> void
 Zorglub.Time.Hemerology.Scopes.CalendarScope.DaysValidator.get -> Zorglub.Time.Core.Validation.DaysValidator!
@@ -1274,7 +1276,7 @@ Zorglub.Time.Hemerology.Scopes.CalendarScope.Schema.get -> Zorglub.Time.Core.ICa
 Zorglub.Time.Hemerology.Scopes.CalendarScope.Segment.get -> Zorglub.Time.Core.CalendricalSegment!
 Zorglub.Time.Hemerology.Scopes.CalendarScope.YearsValidator.get -> Zorglub.Time.Core.Validation.YearsValidator!
 Zorglub.Time.Hemerology.Scopes.MinMaxYearScope
-Zorglub.Time.Hemerology.Scopes.MinMaxYearScope.MinMaxYearScope(Zorglub.Time.Core.ICalendricalSchema! schema, Zorglub.Time.DayNumber epoch, int minYear, int maxYear) -> void
+Zorglub.Time.Hemerology.Scopes.MinMaxYearScope.MinMaxYearScope(Zorglub.Time.Core.ICalendricalSchema! schema, Zorglub.Time.DayNumber epoch, Zorglub.Time.Core.Intervals.Range<int> supportedYears) -> void
 Zorglub.Time.Hemerology.Scopes.ProlepticScope
 Zorglub.Time.Hemerology.Scopes.ProlepticScope.ProlepticScope(Zorglub.Time.Core.ICalendricalSchema! schema, Zorglub.Time.DayNumber epoch) -> void
 Zorglub.Time.Hemerology.Scopes.StandardScope
