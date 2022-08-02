@@ -34,7 +34,7 @@ module Bundles =
     [<Sealed>]
     [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
     type DateFacts() =
-        inherit IDateFacts<CopticDate, StandardCoptic12DataSet>(chr.Domain)
+        inherit ISpecializedDateFacts<CopticDate, CopticCalendar, StandardCoptic12DataSet>(chr)
 
         override __.MinDate = CopticDate.MinValue
         override __.MaxDate = CopticDate.MaxValue
@@ -72,7 +72,7 @@ module Bundles13 =
     [<Sealed>]
     [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
     type DateFacts() =
-        inherit IDateFacts<Coptic13Date, StandardCoptic13DataSet>(chr.Domain)
+        inherit ISpecializedDateFacts<Coptic13Date, Coptic13Calendar, StandardCoptic13DataSet>(chr)
 
         override __.MinDate = Coptic13Date.MinValue
         override __.MaxDate = Coptic13Date.MaxValue

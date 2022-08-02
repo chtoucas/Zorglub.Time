@@ -33,7 +33,7 @@ module Bundles =
     [<Sealed>]
     [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
     type DateFacts() =
-        inherit IDateFacts<TabularIslamicDate, StandardTabularIslamicDataSet>(chr.Domain)
+        inherit ISpecializedDateFacts<TabularIslamicDate, TabularIslamicCalendar, StandardTabularIslamicDataSet>(chr)
 
         override __.MinDate = TabularIslamicDate.MinValue
         override __.MaxDate = TabularIslamicDate.MaxValue

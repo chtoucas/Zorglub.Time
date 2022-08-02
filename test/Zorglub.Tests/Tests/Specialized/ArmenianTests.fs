@@ -34,7 +34,7 @@ module Bundles =
     [<Sealed>]
     [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
     type DateFacts() =
-        inherit IDateFacts<ArmenianDate, StandardArmenian12DataSet>(chr.Domain)
+        inherit ISpecializedDateFacts<ArmenianDate, ArmenianCalendar, StandardArmenian12DataSet>(chr)
 
         override __.MinDate = ArmenianDate.MinValue
         override __.MaxDate = ArmenianDate.MaxValue
@@ -73,7 +73,7 @@ module Bundles13 =
     [<Sealed>]
     [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
     type DateFacts() =
-        inherit IDateFacts<Armenian13Date, StandardArmenian13DataSet>(chr.Domain)
+        inherit ISpecializedDateFacts<Armenian13Date, Armenian13Calendar, StandardArmenian13DataSet>(chr)
 
         override __.MinDate = Armenian13Date.MinValue
         override __.MaxDate = Armenian13Date.MaxValue

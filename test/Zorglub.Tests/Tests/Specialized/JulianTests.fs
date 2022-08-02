@@ -35,7 +35,7 @@ module Bundles =
     [<Sealed>]
     [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
     type DateFacts() =
-        inherit IDateFacts<JulianDate, UnboundedJulianDataSet>(chr.Domain)
+        inherit ISpecializedDateFacts<JulianDate, JulianCalendar, UnboundedJulianDataSet>(chr)
 
         override __.MinDate = JulianDate.MinValue
         override __.MaxDate = JulianDate.MaxValue

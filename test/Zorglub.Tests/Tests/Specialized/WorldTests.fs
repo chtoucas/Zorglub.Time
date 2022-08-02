@@ -35,7 +35,7 @@ module Bundles =
     [<Sealed>]
     [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
     type DateFacts() =
-        inherit IDateFacts<WorldDate, StandardWorldDataSet>(chr.Domain)
+        inherit ISpecializedDateFacts<WorldDate, WorldCalendar, StandardWorldDataSet>(chr)
 
         override __.MinDate = WorldDate.MinValue
         override __.MaxDate = WorldDate.MaxValue
