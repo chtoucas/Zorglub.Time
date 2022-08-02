@@ -185,19 +185,44 @@ public partial struct MyCivilDate // Conversions, adjustments...
     #region Adjust the day of the week
 
     [Pure]
-    public MyCivilDate Previous(DayOfWeek dayOfWeek) => new(DayNumber.Previous(dayOfWeek));
+    public MyCivilDate Previous(DayOfWeek dayOfWeek)
+    {
+        var dayNumber = DayNumber.Previous(dayOfWeek);
+        if (s_Domain.Contains(dayNumber) == false) { throw new OverflowException(); }
+        return new MyCivilDate(dayNumber - s_Epoch);
+    }
 
     [Pure]
-    public MyCivilDate PreviousOrSame(DayOfWeek dayOfWeek) => new(DayNumber.PreviousOrSame(dayOfWeek));
+    public MyCivilDate PreviousOrSame(DayOfWeek dayOfWeek)
+    {
+        var dayNumber = DayNumber.PreviousOrSame(dayOfWeek);
+        if (s_Domain.Contains(dayNumber) == false) { throw new OverflowException(); }
+        return new MyCivilDate(dayNumber - s_Epoch);
+    }
 
     [Pure]
-    public MyCivilDate Nearest(DayOfWeek dayOfWeek) => new(DayNumber.Nearest(dayOfWeek));
+    public MyCivilDate Nearest(DayOfWeek dayOfWeek)
+    {
+        var dayNumber = DayNumber.Nearest(dayOfWeek);
+        if (s_Domain.Contains(dayNumber) == false) { throw new OverflowException(); }
+        return new MyCivilDate(dayNumber - s_Epoch);
+    }
 
     [Pure]
-    public MyCivilDate NextOrSame(DayOfWeek dayOfWeek) => new(DayNumber.NextOrSame(dayOfWeek));
+    public MyCivilDate NextOrSame(DayOfWeek dayOfWeek)
+    {
+        var dayNumber = DayNumber.NextOrSame(dayOfWeek);
+        if (s_Domain.Contains(dayNumber) == false) { throw new OverflowException(); }
+        return new MyCivilDate(dayNumber - s_Epoch);
+    }
 
     [Pure]
-    public MyCivilDate Next(DayOfWeek dayOfWeek) => new(DayNumber.Next(dayOfWeek));
+    public MyCivilDate Next(DayOfWeek dayOfWeek)
+    {
+        var dayNumber = DayNumber.Next(dayOfWeek);
+        if (s_Domain.Contains(dayNumber) == false) { throw new OverflowException(); }
+        return new MyCivilDate(dayNumber - s_Epoch);
+    }
 
     #endregion
 }
