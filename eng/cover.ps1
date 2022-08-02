@@ -31,6 +31,7 @@ Code coverage script.
 Usage: cover.ps1 [arguments]
   -c|-Configuration  the configuration to test the solution for. Default = "Debug".
      -Smoke          use the test plan "smoke"
+     -NoExtras       do NOT include Zorglub.Time.Extras in the reports?
      -NoBuild        do NOT build the test suite?
      -NoTest         do NOT execute the test suite? Implies -NoBuild
      -NoReport       do NOT run ReportGenerator?

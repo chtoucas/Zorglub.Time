@@ -112,14 +112,14 @@ module Snapshots =
 
         Assert.Contains(chr, calendars)
 
-    [<Fact(Skip = "Echecs intermittants")>]
+    [<Fact(Skip = "Échecs intermittants")>]
     let ``GetAllCalendars() contains the user-defined calendars`` () =
         let calendars = SimpleCatalog.GetAllCalendars()
 
         Assert.Contains(userGregorian, calendars)
         Assert.Contains(userJulian, calendars)
 
-    [<Fact>]
+    [<Fact(Skip = "Échecs intermittants")>]
     let ``GetUserCalendars() contains the user-defined calendars`` () =
         let calendars = SimpleCatalog.GetUserCalendars()
 
@@ -134,7 +134,7 @@ module Snapshots =
 
         dict.[key] ==& chr
 
-    [<Fact>]
+    [<Fact(Skip = "Échecs intermittants")>]
     let ``TakeSnapshot() contains the user-defined calendars`` () =
         let dict = SimpleCatalog.TakeSnapshot()
 
