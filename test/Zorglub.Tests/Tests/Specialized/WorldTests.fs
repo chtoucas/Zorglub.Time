@@ -4,7 +4,9 @@
 module Zorglub.Tests.Specialized.WorldTests
 
 open Zorglub.Testing
+open Zorglub.Testing.Data
 open Zorglub.Testing.Data.Bounded
+open Zorglub.Testing.Data.Schemas
 open Zorglub.Testing.Facts
 
 open Zorglub.Time
@@ -12,10 +14,27 @@ open Zorglub.Time.Specialized
 
 open Xunit
 
+let private chr = new WorldCalendar()
+
+module Methods =
+    let dateInfoData = WorldDataSet.Instance.DateInfoData
+    let moreMonthInfoData = WorldDataSet.MoreMonthInfoData
+
+    [<Theory; MemberData(nameof(dateInfoData))>]
+    let IsBlank_Prop (info: DateInfo) =
+        let (y, m, d) = info.Yemoda.Deconstruct()
+        let date = new WorldDate(y, m, d)
+
+        date.IsBlank === date.IsSupplementary
+
+    [<Theory; MemberData(nameof(moreMonthInfoData))>]
+    let CountDaysInWorldMonth (info: YemoAnd<int>) =
+        let (y, m, daysInMonth) = info.Deconstruct()
+
+        chr.CountDaysInWorldMonth(y, m) === daysInMonth
+
 module Bundles =
     // NB: notice the use of ProlepticJulianDataSet.
-
-    let private chr = new WorldCalendar()
 
     [<Sealed>]
     type CalendaTests() =
