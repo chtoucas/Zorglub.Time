@@ -7,7 +7,8 @@ namespace Zorglub.Time.Extras.Extensions
     using Zorglub.Time.Simple;
 
     /// <summary>
-    /// Provides extension methods for <see cref="CalendarDate"/>.
+    /// Provides extension methods for <see cref="CalendarDate"/>, <see cref="CalendarDay"/> and
+    /// <see cref="OrdinalDate"/>.
     /// <para>This class cannot be inherited.</para>
     /// </summary>
     public static partial class SimpleDateExtensions { }
@@ -32,10 +33,16 @@ namespace Zorglub.Time.Extras.Extensions
             }
         }
 
+        /// <summary>
+        /// Determines whether the specified date is an epagomenal day or not.
+        /// </summary>
         [Pure]
         public static bool IsEpagomenal(this CalendarDay @this, out int epagomenalNumber) =>
             IsEpagomenal(@this.ToCalendarDate(), out epagomenalNumber);
 
+        /// <summary>
+        /// Determines whether the specified date is an epagomenal day or not.
+        /// </summary>
         [Pure]
         public static bool IsEpagomenal(this OrdinalDate @this, out int epagomenalNumber) =>
             IsEpagomenal(@this.ToCalendarDate(), out epagomenalNumber);
@@ -44,7 +51,7 @@ namespace Zorglub.Time.Extras.Extensions
     public partial class SimpleDateExtensions // IBlankDayFeaturette
     {
         /// <summary>
-        /// Determines whether the specified date is an epagomenal day or not.
+        /// Determines whether the specified date is a blank day or not.
         /// </summary>
         [Pure]
         public static bool IsBlank(this CalendarDate @this)
@@ -60,9 +67,15 @@ namespace Zorglub.Time.Extras.Extensions
             }
         }
 
+        /// <summary>
+        /// Determines whether the specified date is a blank day or not.
+        /// </summary>
         [Pure]
         public static bool IsBlank(this CalendarDay @this) => IsBlank(@this.ToCalendarDate());
 
+        /// <summary>
+        /// Determines whether the specified date is a blank day or not.
+        /// </summary>
         [Pure]
         public static bool IsBlank(this OrdinalDate @this) => IsBlank(@this.ToCalendarDate());
     }
