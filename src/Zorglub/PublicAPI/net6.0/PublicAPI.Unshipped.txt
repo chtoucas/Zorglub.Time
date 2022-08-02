@@ -284,9 +284,6 @@ override Zorglub.Time.Simple.CalendarYear.ToString() -> string!
 override Zorglub.Time.Simple.OrdinalDate.Equals(object? obj) -> bool
 override Zorglub.Time.Simple.OrdinalDate.GetHashCode() -> int
 override Zorglub.Time.Simple.OrdinalDate.ToString() -> string!
-override Zorglub.Time.Specialized.ArmenianDate.Equals(object? obj) -> bool
-override Zorglub.Time.Specialized.ArmenianDate.GetHashCode() -> int
-override Zorglub.Time.Specialized.ArmenianDate.ToString() -> string!
 override Zorglub.Time.Specialized.CivilDate.Equals(object? obj) -> bool
 override Zorglub.Time.Specialized.CivilDate.GetHashCode() -> int
 override Zorglub.Time.Specialized.CivilDate.ToString() -> string!
@@ -640,23 +637,6 @@ static Zorglub.Time.Simple.SimpleCatalog.SystemCalendars.get -> System.Collectio
 static Zorglub.Time.Simple.SimpleCatalog.TakeSnapshot() -> System.Collections.Generic.IReadOnlyDictionary<string!, Zorglub.Time.Simple.SimpleCalendar!>!
 static Zorglub.Time.Simple.SimpleCatalog.TryAdd(string! key, Zorglub.Time.Core.SystemSchema! schema, Zorglub.Time.DayNumber epoch, bool proleptic, out Zorglub.Time.Simple.SimpleCalendar? calendar) -> bool
 static Zorglub.Time.Simple.SimpleCatalog.TryGetCalendar(string! key, out Zorglub.Time.Simple.SimpleCalendar? calendar) -> bool
-static Zorglub.Time.Specialized.ArmenianDate.Calendar.get -> Zorglub.Time.Specialized.ArmenianCalendar!
-static Zorglub.Time.Specialized.ArmenianDate.Max(Zorglub.Time.Specialized.ArmenianDate x, Zorglub.Time.Specialized.ArmenianDate y) -> Zorglub.Time.Specialized.ArmenianDate
-static Zorglub.Time.Specialized.ArmenianDate.MaxValue.get -> Zorglub.Time.Specialized.ArmenianDate
-static Zorglub.Time.Specialized.ArmenianDate.Min(Zorglub.Time.Specialized.ArmenianDate x, Zorglub.Time.Specialized.ArmenianDate y) -> Zorglub.Time.Specialized.ArmenianDate
-static Zorglub.Time.Specialized.ArmenianDate.MinValue.get -> Zorglub.Time.Specialized.ArmenianDate
-static Zorglub.Time.Specialized.ArmenianDate.operator !=(Zorglub.Time.Specialized.ArmenianDate left, Zorglub.Time.Specialized.ArmenianDate right) -> bool
-static Zorglub.Time.Specialized.ArmenianDate.operator +(Zorglub.Time.Specialized.ArmenianDate value, int days) -> Zorglub.Time.Specialized.ArmenianDate
-static Zorglub.Time.Specialized.ArmenianDate.operator ++(Zorglub.Time.Specialized.ArmenianDate value) -> Zorglub.Time.Specialized.ArmenianDate
-static Zorglub.Time.Specialized.ArmenianDate.operator -(Zorglub.Time.Specialized.ArmenianDate left, Zorglub.Time.Specialized.ArmenianDate right) -> int
-static Zorglub.Time.Specialized.ArmenianDate.operator -(Zorglub.Time.Specialized.ArmenianDate value, int days) -> Zorglub.Time.Specialized.ArmenianDate
-static Zorglub.Time.Specialized.ArmenianDate.operator --(Zorglub.Time.Specialized.ArmenianDate value) -> Zorglub.Time.Specialized.ArmenianDate
-static Zorglub.Time.Specialized.ArmenianDate.operator <(Zorglub.Time.Specialized.ArmenianDate left, Zorglub.Time.Specialized.ArmenianDate right) -> bool
-static Zorglub.Time.Specialized.ArmenianDate.operator <=(Zorglub.Time.Specialized.ArmenianDate left, Zorglub.Time.Specialized.ArmenianDate right) -> bool
-static Zorglub.Time.Specialized.ArmenianDate.operator ==(Zorglub.Time.Specialized.ArmenianDate left, Zorglub.Time.Specialized.ArmenianDate right) -> bool
-static Zorglub.Time.Specialized.ArmenianDate.operator >(Zorglub.Time.Specialized.ArmenianDate left, Zorglub.Time.Specialized.ArmenianDate right) -> bool
-static Zorglub.Time.Specialized.ArmenianDate.operator >=(Zorglub.Time.Specialized.ArmenianDate left, Zorglub.Time.Specialized.ArmenianDate right) -> bool
-static Zorglub.Time.Specialized.ArmenianDate.Today() -> Zorglub.Time.Specialized.ArmenianDate
 static Zorglub.Time.Specialized.CivilDate.Calendar.get -> Zorglub.Time.Specialized.CivilCalendar!
 static Zorglub.Time.Specialized.CivilDate.Max(Zorglub.Time.Specialized.CivilDate x, Zorglub.Time.Specialized.CivilDate y) -> Zorglub.Time.Specialized.CivilDate
 static Zorglub.Time.Specialized.CivilDate.MaxValue.get -> Zorglub.Time.Specialized.CivilDate
@@ -1596,44 +1576,6 @@ Zorglub.Time.Simple.SimpleCalendar.PeriodicAdjustments.get -> Zorglub.Time.Calen
 Zorglub.Time.Simple.SimpleCalendar.PermanentId.get -> Zorglub.Time.CalendarId
 Zorglub.Time.Simple.SimpleCalendar.Scope.get -> Zorglub.Time.Hemerology.Scopes.CalendarScope!
 Zorglub.Time.Simple.SimpleCatalog
-Zorglub.Time.Specialized.ArmenianCalendar
-Zorglub.Time.Specialized.ArmenianCalendar.ArmenianCalendar() -> void
-Zorglub.Time.Specialized.ArmenianCalendar.MonthsInYear.get -> int
-Zorglub.Time.Specialized.ArmenianDate
-Zorglub.Time.Specialized.ArmenianDate.ArmenianDate() -> void
-Zorglub.Time.Specialized.ArmenianDate.ArmenianDate(int year, int dayOfYear) -> void
-Zorglub.Time.Specialized.ArmenianDate.ArmenianDate(int year, int month, int day) -> void
-Zorglub.Time.Specialized.ArmenianDate.ArmenianDate(Zorglub.Time.DayNumber dayNumber) -> void
-Zorglub.Time.Specialized.ArmenianDate.Century.get -> int
-Zorglub.Time.Specialized.ArmenianDate.CenturyOfEra.get -> Zorglub.Time.Ord
-Zorglub.Time.Specialized.ArmenianDate.CompareTo(object? obj) -> int
-Zorglub.Time.Specialized.ArmenianDate.CompareTo(Zorglub.Time.Specialized.ArmenianDate other) -> int
-Zorglub.Time.Specialized.ArmenianDate.CountDaysSince(Zorglub.Time.Specialized.ArmenianDate other) -> int
-Zorglub.Time.Specialized.ArmenianDate.CountElapsedDaysInMonth() -> int
-Zorglub.Time.Specialized.ArmenianDate.CountElapsedDaysInYear() -> int
-Zorglub.Time.Specialized.ArmenianDate.CountRemainingDaysInMonth() -> int
-Zorglub.Time.Specialized.ArmenianDate.CountRemainingDaysInYear() -> int
-Zorglub.Time.Specialized.ArmenianDate.Day.get -> int
-Zorglub.Time.Specialized.ArmenianDate.DayNumber.get -> Zorglub.Time.DayNumber
-Zorglub.Time.Specialized.ArmenianDate.DayOfWeek.get -> System.DayOfWeek
-Zorglub.Time.Specialized.ArmenianDate.DayOfYear.get -> int
-Zorglub.Time.Specialized.ArmenianDate.Deconstruct(out int year, out int month, out int day) -> void
-Zorglub.Time.Specialized.ArmenianDate.Equals(Zorglub.Time.Specialized.ArmenianDate other) -> bool
-Zorglub.Time.Specialized.ArmenianDate.IsEpagomenal(out int epagomenalNumber) -> bool
-Zorglub.Time.Specialized.ArmenianDate.IsIntercalary.get -> bool
-Zorglub.Time.Specialized.ArmenianDate.IsSupplementary.get -> bool
-Zorglub.Time.Specialized.ArmenianDate.Month.get -> int
-Zorglub.Time.Specialized.ArmenianDate.Nearest(System.DayOfWeek dayOfWeek) -> Zorglub.Time.Specialized.ArmenianDate
-Zorglub.Time.Specialized.ArmenianDate.Next(System.DayOfWeek dayOfWeek) -> Zorglub.Time.Specialized.ArmenianDate
-Zorglub.Time.Specialized.ArmenianDate.NextDay() -> Zorglub.Time.Specialized.ArmenianDate
-Zorglub.Time.Specialized.ArmenianDate.NextOrSame(System.DayOfWeek dayOfWeek) -> Zorglub.Time.Specialized.ArmenianDate
-Zorglub.Time.Specialized.ArmenianDate.PlusDays(int days) -> Zorglub.Time.Specialized.ArmenianDate
-Zorglub.Time.Specialized.ArmenianDate.Previous(System.DayOfWeek dayOfWeek) -> Zorglub.Time.Specialized.ArmenianDate
-Zorglub.Time.Specialized.ArmenianDate.PreviousDay() -> Zorglub.Time.Specialized.ArmenianDate
-Zorglub.Time.Specialized.ArmenianDate.PreviousOrSame(System.DayOfWeek dayOfWeek) -> Zorglub.Time.Specialized.ArmenianDate
-Zorglub.Time.Specialized.ArmenianDate.Year.get -> int
-Zorglub.Time.Specialized.ArmenianDate.YearOfCentury.get -> int
-Zorglub.Time.Specialized.ArmenianDate.YearOfEra.get -> Zorglub.Time.Ord
 Zorglub.Time.Specialized.CivilCalendar
 Zorglub.Time.Specialized.CivilCalendar.CivilCalendar() -> void
 Zorglub.Time.Specialized.CivilCalendar.MonthsInYear.get -> int

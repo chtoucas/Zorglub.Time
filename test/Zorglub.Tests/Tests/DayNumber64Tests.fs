@@ -105,14 +105,14 @@ module Prelude =
 module Factories =
     [<Fact>]
     let ``Today()`` () =
-        let today32 = CivilDate.Today().DayNumber
+        let today32 = XCivilDate.Today().ToDayNumber()
         let today = DayNumber64.FromDayNumber(today32)
 
         DayNumber64.Today() === today
 
     [<Fact>]
     let ``UtcToday()`` () =
-        let today32 = CivilDate.UtcToday().DayNumber
+        let today32 = XCivilDate.UtcToday().ToDayNumber()
         let today = DayNumber64.FromDayNumber(today32)
 
         DayNumber64.UtcToday() === today

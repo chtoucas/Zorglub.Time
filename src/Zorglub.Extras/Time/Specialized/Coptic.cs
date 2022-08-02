@@ -45,7 +45,7 @@ namespace Zorglub.Time.Specialized
     /// <para><see cref="CopticDate"/> is an immutable struct.</para>
     /// </summary>
     public readonly partial struct CopticDate :
-        IDate<CopticDate>,
+        ISpecializedDate<CopticDate, CopticCalendar>,
         IMinMaxValue<CopticDate>,
         IEpagomenalDay
     {
@@ -161,15 +161,10 @@ namespace Zorglub.Time.Specialized
         /// </summary>
         public static CopticDate MaxValue => s_MaxValue;
 
-        /// <summary>
-        /// Gets the calendar to which belongs the current instance.
-        /// <para>This static property is thread-safe.</para>
-        /// </summary>
+        /// <inheritdoc />
         public static CopticCalendar Calendar => s_Calendar;
 
-        /// <summary>
-        /// Gets the day number.
-        /// </summary>
+        /// <inheritdoc />
         public DayNumber DayNumber => s_Epoch + _daysSinceEpoch;
 
         /// <inheritdoc />
@@ -255,9 +250,7 @@ namespace Zorglub.Time.Specialized
             return FormattableString.Invariant($"{d:D2}/{m:D2}/{y:D4} ({s_Calendar})");
         }
 
-        /// <summary>
-        /// Deconstructs the current instance into its components.
-        /// </summary>
+        /// <inheritdoc />
         public void Deconstruct(out int year, out int month, out int day) =>
             s_Schema.GetDateParts(_daysSinceEpoch, out year, out month, out day);
 

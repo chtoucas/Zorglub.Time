@@ -48,7 +48,7 @@ namespace Zorglub.Time.Specialized
     /// <para><see cref="GregorianDate"/> is an immutable struct.</para>
     /// </summary>
     public readonly partial struct GregorianDate :
-        IDate<GregorianDate>,
+        ISpecializedDate<GregorianDate, GregorianCalendar>,
         IMinMaxValue<GregorianDate>
     {
         // NB: the order in which the static fields are written is important.
@@ -157,15 +157,10 @@ namespace Zorglub.Time.Specialized
         /// </summary>
         public static GregorianDate MaxValue => s_MaxValue;
 
-        /// <summary>
-        /// Gets the calendar to which belongs the current instance.
-        /// <para>This static property is thread-safe.</para>
-        /// </summary>
+        /// <inheritdoc />
         public static GregorianCalendar Calendar => s_Calendar;
 
-        /// <summary>
-        /// Gets the day number.
-        /// </summary>
+        /// <inheritdoc />
         public DayNumber DayNumber => new(_daysSinceZero);
 
         /// <inheritdoc />
@@ -244,9 +239,7 @@ namespace Zorglub.Time.Specialized
             return FormattableString.Invariant($"{d:D2}/{m:D2}/{y:D4} ({s_Calendar})");
         }
 
-        /// <summary>
-        /// Deconstructs the current instance into its components.
-        /// </summary>
+        /// <inheritdoc />
         public void Deconstruct(out int year, out int month, out int day) =>
             GregorianFormulae.GetDateParts(_daysSinceZero, out year, out month, out day);
     }

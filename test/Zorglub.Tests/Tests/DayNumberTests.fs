@@ -156,15 +156,18 @@ module Prelude =
         DayZero.RataDie.Ordinal === Ord.First - 1
 
 module Factories =
+    // REVIEW(test): we should test these props without using XCivilDate.
+    // Idem with DayNumber64.
+
     [<Fact>]
     let ``Today()`` () =
-        let today = CivilDate.Today().DayNumber
+        let today = XCivilDate.Today().ToDayNumber()
 
         DayNumber.Today() === today
 
     [<Fact>]
     let ``UtcToday()`` () =
-        let today = CivilDate.UtcToday().DayNumber
+        let today = XCivilDate.UtcToday().ToDayNumber()
 
         DayNumber.UtcToday() === today
 

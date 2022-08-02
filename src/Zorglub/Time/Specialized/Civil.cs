@@ -50,7 +50,7 @@ namespace Zorglub.Time.Specialized
     /// <para><see cref="CivilDate"/> is an immutable struct.</para>
     /// </summary>
     public readonly partial struct CivilDate :
-        IDate<CivilDate>,
+        ISpecializedDate<CivilDate, CivilCalendar>,
         IMinMaxValue<CivilDate>
     {
         /// <summary>
@@ -151,15 +151,10 @@ namespace Zorglub.Time.Specialized
         /// </summary>
         public static CivilDate MaxValue => s_MaxValue;
 
-        /// <summary>
-        /// Gets the calendar to which belongs the current instance.
-        /// <para>This static property is thread-safe.</para>
-        /// </summary>
+        /// <inheritdoc />
         public static CivilCalendar Calendar => s_Calendar;
 
-        /// <summary>
-        /// Gets the day number.
-        /// </summary>
+        /// <inheritdoc />
         public DayNumber DayNumber => new(_daysSinceZero);
 
         /// <inheritdoc />
@@ -238,9 +233,7 @@ namespace Zorglub.Time.Specialized
             return FormattableString.Invariant($"{d:D2}/{m:D2}/{y:D4} ({s_Calendar})");
         }
 
-        /// <summary>
-        /// Deconstructs the current instance into its components.
-        /// </summary>
+        /// <inheritdoc />
         public void Deconstruct(out int year, out int month, out int day) =>
             CivilFormulae.GetDateParts(_daysSinceZero, out year, out month, out day);
     }
@@ -255,12 +248,6 @@ namespace Zorglub.Time.Specialized
         /// </summary>
         [Pure]
         public static CivilDate Today() => new(DayNumber.Today().DaysSinceZero);
-
-        /// <summary>
-        /// Obtains the current date in the Gregorian calendar on this machine, expressed as UTC.
-        /// </summary>
-        [Pure]
-        public static CivilDate UtcToday() => new(DayNumber.UtcToday().DaysSinceZero);
 
         #endregion
         #region Conversions
