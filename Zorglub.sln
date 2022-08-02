@@ -76,7 +76,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zorglub.Testing", "test\Zor
 EndProject
 Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "Zorglub.Tests", "test\Zorglub.Tests\Zorglub.Tests.fsproj", "{C5C64E4B-7CEB-4B7A-963B-81027C8568A3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zorglub.Extras", "src\Zorglub.Extras\Zorglub.Extras.csproj", "{3A5FD0E4-2671-4489-9146-DC108E1087BC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zorglub.Extras", "src\Zorglub.Extras\Zorglub.Extras.csproj", "{3A5FD0E4-2671-4489-9146-DC108E1087BC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

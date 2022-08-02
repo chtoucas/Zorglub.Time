@@ -29,7 +29,7 @@ namespace Zorglub.Time.Hemerology
         }
 
         /// <summary>
-        /// Gets the name of the calendar.
+        /// Gets the culture-invariant name of the calendar.
         /// </summary>
         public string Name { get; }
 
