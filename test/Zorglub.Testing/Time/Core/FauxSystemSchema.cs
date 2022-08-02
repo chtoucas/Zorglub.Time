@@ -25,7 +25,7 @@ public partial class FauxSystemSchema : SystemSchema
     public FauxSystemSchema(Range<int> supportedYears)
         : base(supportedYears, DefaultMinDaysInYear, DefaultMinDaysInMonth) { }
 
-    // Constructor to test the properties.
+    // Constructors to test the properties.
     public FauxSystemSchema(CalendricalFamily family)
         : this() { Family = family; }
     public FauxSystemSchema(CalendricalAdjustments adjustments)

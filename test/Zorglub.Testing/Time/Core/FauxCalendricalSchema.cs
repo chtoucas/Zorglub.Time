@@ -24,7 +24,7 @@ public partial class FauxCalendricalSchema : CalendricalSchema
     protected FauxCalendricalSchema(Range<int> supportedYears, int minDaysInYear, int minDaysInMonth)
         : base(supportedYears, minDaysInYear, minDaysInMonth) { }
 
-    // Constructor to be able to test the base constructors; see also WithMinDaysInXXX().
+    // Constructors to be able to test the base constructors; see also WithMinDaysInXXX().
     public FauxCalendricalSchema(Range<int> supportedYears)
         : base(supportedYears, DefaultMinDaysInYear, DefaultMinDaysInMonth) { }
     private FauxCalendricalSchema(int minDaysInYear, int minDaysInMonth)
