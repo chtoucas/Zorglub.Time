@@ -4,7 +4,7 @@
 namespace Zorglub.Time.Core.Schemas
 {
     /// <summary>
-    /// Represents the Coptic schema; see also <seealso cref="Coptic13Schema"/>.
+    /// Represents the Coptic schema.
     /// <para>This class cannot be inherited.</para>
     /// <para>This class can ONLY be initialized from within friend assemblies.
     /// </para>

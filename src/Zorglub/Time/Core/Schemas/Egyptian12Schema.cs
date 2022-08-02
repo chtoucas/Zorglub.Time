@@ -6,7 +6,7 @@ namespace Zorglub.Time.Core.Schemas
     using Ptolemaic12 = PtolemaicSchema.Twelve;
 
     /// <summary>
-    /// Represents the Egyptian schema; see also <seealso cref="Egyptian13Schema"/>.
+    /// Represents the Egyptian schema.
     /// <para>This class cannot be inherited.</para>
     /// <para>This class can ONLY be initialized from within friend assemblies.</para>
     /// </summary>

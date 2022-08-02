@@ -30,6 +30,7 @@ namespace Zorglub.Time.Hemerology
     //         CivilCalendar                    CivilDate
     //         GregorianCalendar                GregorianDate
     //         JulianCalendar                   JulianDate
+    //         etc.
     //         (MyCivilCalendar)                MyCivilDate
     // A   NakedCalendar
     //       BoundedBelowNakedCalendar
