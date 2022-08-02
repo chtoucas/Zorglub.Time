@@ -144,67 +144,88 @@ namespace Zorglub.Time.Core
 
     public partial class CalendricalSegmentBuilder // Builder methods
     {
-        /// <summary>
-        /// Sets the minimum to the specified number of consecutive days from the epoch.
-        /// </summary>
-        public void SetMinDaysSinceEpoch(int daysSinceEpoch) =>
-            Min = GetEndpoint(daysSinceEpoch);
+#pragma warning disable CA1044 // Properties should not be write only (Design)
 
         /// <summary>
-        /// Sets the maximum to the specified number of consecutive days from the epoch.
+        /// Set the minimum to the specified number of consecutive days from the epoch.
         /// </summary>
-        public void SetMaxDaysSinceEpoch(int daysSinceEpoch) =>
-            Max = GetEndpoint(daysSinceEpoch);
+        /// <exception cref="AoorException"><paramref name="value"/> is outside the range of
+        /// supported values by the schema.</exception>
+        public int MinDaysSinceEpoch { set { Min = GetEndpointFromDaysSinceEpoch(value); } }
 
         /// <summary>
-        /// Sets the minimum to the specified date.
+        /// Set the maximum to the specified number of consecutive days from the epoch.
         /// </summary>
-        public void SetMinDateParts(DateParts parts) =>
-            Min = GetEndpoint(parts);
+        /// <exception cref="AoorException"><paramref name="value"/> is outside the range of
+        /// supported values by the schema.</exception>
+        public int MaxDaysSinceEpoch { set { Max = GetEndpointFromDaysSinceEpoch(value); } }
 
         /// <summary>
-        /// Sets the maximum to the specified date.
+        /// Set the minimum to the specified date.
         /// </summary>
-        public void SetMaxDateParts(DateParts parts) =>
-            Max = GetEndpoint(parts);
+        /// <exception cref="AoorException"><paramref name="value"/> is invalid or outside the range
+        /// of supported values by the schema.</exception>
+        public DateParts MinDateParts { set { Min = GetEndpoint(value); } }
 
         /// <summary>
-        /// Sets the minimum to the specified ordinal date.
+        /// Set the maximum to the specified date.
         /// </summary>
-        public void SetMinOrdinalParts(OrdinalParts parts) =>
-            Min = GetEndpoint(parts);
+        /// <exception cref="AoorException"><paramref name="value"/> is invalid or outside the range
+        /// of supported values by the schema.</exception>
+        public DateParts MaxDateParts { set { Max = GetEndpoint(value); } }
 
         /// <summary>
-        /// Sets the maximum to the specified ordinal date.
+        /// Set the minimum to the specified ordinal date.
         /// </summary>
-        public void SetMaxOrdinalParts(OrdinalParts parts) =>
-            Max = GetEndpoint(parts);
+        /// <exception cref="AoorException"><paramref name="value"/> is invalid or outside the range
+        /// of supported values by the schema.</exception>
+        public OrdinalParts MinOrdinalParts { set { Min = GetEndpoint(value); } }
 
         /// <summary>
-        /// Sets the minimum to the start of the specified year.
+        /// Set the maximum to the specified ordinal date.
         /// </summary>
-        public void SetMinYear(int year)
+        /// <exception cref="AoorException"><paramref name="value"/> is invalid or outside the range
+        /// of supported values by the schema.</exception>
+        public OrdinalParts MaxOrdinalParts { set { Max = GetEndpoint(value); } }
+
+        /// <summary>
+        /// Set the minimum to the start of the specified year.
+        /// </summary>
+        /// <exception cref="AoorException"><paramref name="value"/> is outside the range of
+        /// supported values by the schema.</exception>
+        public int MinYear
         {
-            _yearsValidator.Validate(year);
+            set
+            {
+                _yearsValidator.Validate(value);
 
-            SetMinYearCore(year);
+                Min = GetEndpointFromMinYearCore(value);
+            }
         }
 
         /// <summary>
-        /// Sets the maximum to the end of the specified year.
+        /// Set the maximum to the end of the specified year.
         /// </summary>
-        public void SetMaxYear(int year)
+        /// <exception cref="AoorException"><paramref name="value"/> is outside the range of
+        /// supported values by the schema.</exception>
+        public int MaxYear
         {
-            _yearsValidator.Validate(year);
+            set
+            {
+                _yearsValidator.Validate(value);
 
-            SetMaxYearCore(year);
+                Max = GetEndpointFromMaxYearCore(value);
+            }
         }
 
+#pragma warning restore CA1044
+
         /// <summary>
-        /// Sets the minimum to the start of the earliest supported year.
+        /// Set the minimum to the start of the earliest supported year.
         /// </summary>
         /// <exception cref="ArgumentException">The range of supported years by the schema
-        /// does not contain the year 1.</exception>
+        /// does not contain the year 1 and <paramref name="onOrAfterEpoch"/> is equal to true.
+        /// </exception>
         public void UseMinSupportedYear(bool onOrAfterEpoch)
         {
             if (onOrAfterEpoch)
@@ -213,29 +234,18 @@ namespace Zorglub.Time.Core
                 var set = Interval.Intersect(_schema.SupportedYears, Range.StartingAt(1));
                 if (set.IsEmpty) Throw.Argument(nameof(onOrAfterEpoch));
 
-                SetMinYearCore(set.Range.Min);
+                Min = GetEndpointFromMinYearCore(set.Range.Min);
             }
             else
             {
-                SetMinYearCore(_yearsValidator.MinYear);
+                Min = GetEndpointFromMinYearCore(_yearsValidator.MinYear);
             }
         }
 
         /// <summary>
-        /// Sets the maximum to the end of the latest supported year.
+        /// Set the maximum to the end of the latest supported year.
         /// </summary>
-        public void UseMaxSupportedYear() => SetMaxYearCore(_yearsValidator.MaxYear);
-
-        internal void SetSupportedYears(Range<int> supportedYears)
-        {
-            if (supportedYears.IsSubsetOf(_schema.SupportedYears) == false)
-            {
-                Throw.Argument(nameof(supportedYears));
-            }
-
-            SetMinYearCore(supportedYears.Min);
-            SetMaxYearCore(supportedYears.Max);
-        }
+        public void UseMaxSupportedYear() => Max = GetEndpointFromMaxYearCore(_yearsValidator.MaxYear);
 
         //
         // Private helpers
@@ -244,11 +254,12 @@ namespace Zorglub.Time.Core
         [Conditional("DEBUG")]
         private void __ValidateYear(int year) => _yearsValidator.Validate(year);
 
-        private void SetMinYearCore(int year)
+        [Pure]
+        private Endpoint GetEndpointFromMinYearCore(int year)
         {
             __ValidateYear(year);
 
-            Min = new Endpoint
+            return new Endpoint
             {
                 DaysSinceEpoch = _schema.GetStartOfYear(year),
                 DateParts = DateParts.AtStartOfYear(year),
@@ -256,11 +267,12 @@ namespace Zorglub.Time.Core
             };
         }
 
-        private void SetMaxYearCore(int year)
+        [Pure]
+        private Endpoint GetEndpointFromMaxYearCore(int year)
         {
             __ValidateYear(year);
 
-            Max = new Endpoint
+            return new Endpoint
             {
                 DaysSinceEpoch = _schema.GetEndOfYear(year),
                 DateParts = _partsAdapter.GetDatePartsAtEndOfYear(year),
@@ -269,7 +281,7 @@ namespace Zorglub.Time.Core
         }
 
         [Pure]
-        private Endpoint GetEndpoint(int daysSinceEpoch)
+        private Endpoint GetEndpointFromDaysSinceEpoch(int daysSinceEpoch)
         {
             _daysValidator.Validate(daysSinceEpoch);
 

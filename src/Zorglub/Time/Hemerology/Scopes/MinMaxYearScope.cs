@@ -28,8 +28,7 @@ namespace Zorglub.Time.Hemerology.Scopes
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="segment"/> is null.</exception>
         private MinMaxYearScope(DayNumber epoch, CalendricalSegment segment)
-            : base(epoch, segment)
-        { }
+            : base(epoch, segment) { }
 
         #region Factories
 
@@ -63,8 +62,7 @@ namespace Zorglub.Time.Hemerology.Scopes
         public static MinMaxYearScope WithMinYear(
             ICalendricalSchema schema, DayNumber epoch, int minYear)
         {
-            var builder = new CalendricalSegmentBuilder(schema);
-            builder.SetMinYear(minYear);
+            var builder = new CalendricalSegmentBuilder(schema) { MinYear = minYear };
             builder.UseMaxSupportedYear();
             var segment = builder.BuildSegment();
 
@@ -79,9 +77,8 @@ namespace Zorglub.Time.Hemerology.Scopes
         public static MinMaxYearScope WithMaxYear(
             ICalendricalSchema schema, DayNumber epoch, int maxYear)
         {
-            var builder = new CalendricalSegmentBuilder(schema);
+            var builder = new CalendricalSegmentBuilder(schema) { MaxYear = maxYear };
             builder.UseMinSupportedYear(onOrAfterEpoch: false);
-            builder.SetMaxYear(maxYear);
             var segment = builder.BuildSegment();
 
             return new MinMaxYearScope(epoch, segment);

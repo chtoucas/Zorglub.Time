@@ -131,7 +131,7 @@ namespace Zorglub.Time.Hemerology
         /// supported months.</exception>
         [Pure] public abstract int CountDaysInMonth(int year, int month);
 
-#pragma warning restore CA1725 // Parameter names should match base declaration
+#pragma warning restore CA1725
     }
 
     public partial class BasicCalendar // Conversions

@@ -27,7 +27,7 @@ namespace Zorglub.Time.Hemerology.Scopes
             DayNumber epoch,
             DateParts minDateParts,
             int? maxYear)
-            : base(epoch, CalendricalSegment.Create(schema, minDateParts, maxYear))
+            : base(epoch, CreateSegment(schema, minDateParts, maxYear))
         {
             MinYear = minDateParts.Year;
 
@@ -35,6 +35,24 @@ namespace Zorglub.Time.Hemerology.Scopes
             MinDateParts = seg.MinMaxDateParts.LowerValue;
             MinOrdinalParts = seg.MinMaxOrdinalParts.LowerValue;
             MinMonthParts = MinDateParts.MonthParts;
+        }
+
+        [Pure]
+        private static CalendricalSegment CreateSegment(
+            ICalendricalSchema schema,
+            DateParts minDateParts,
+            int? maxYear)
+        {
+            var builder = new CalendricalSegmentBuilder(schema) { MinDateParts = minDateParts };
+            if (maxYear.HasValue)
+            {
+                builder.MaxYear = maxYear.Value;
+            }
+            else
+            {
+                builder.UseMaxSupportedYear();
+            }
+            return builder.BuildSegment();
         }
 
         /// <summary>
