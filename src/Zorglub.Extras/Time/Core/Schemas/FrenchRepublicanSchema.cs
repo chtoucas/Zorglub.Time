@@ -8,8 +8,7 @@ namespace Zorglub.Time.Core.Schemas
     // entendu de ne considérer que des puissances de 2.
 
     /// <summary>
-    /// Represents a French Republican schema and provides a base for derived
-    /// classes.
+    /// Represents the French Republican schema and provides a base for derived classes.
     /// <para>This class can ONLY be inherited from within friend assemblies.</para>
     /// </summary>
     public abstract partial class FrenchRepublicanSchema : PtolemaicSchema
