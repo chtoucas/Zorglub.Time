@@ -33,6 +33,7 @@ only a bit slower than Standard (> 0).
 - Tests should not perform any conversion, e.g. CalendarDate -> OrdinalDate.
 
 - Packaging: version numbering (timestamp).
+- Script freeze-api.ps1
 - Publication: GitHub & NuGet (for NuGet only when reach 1.0.0).
 - When .NET 7 is out:
   D.B.targets: disable preview features.

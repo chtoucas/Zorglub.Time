@@ -6,7 +6,7 @@ namespace Zorglub.Testing.Facts;
 // Hypothesis:
 // - TDate is a value type.
 // - See also IDateableFacts.
-// - TDateSet only provides dates compatible with Yemoda.
+// - TDateSet only provides dates compatible with the Yemoda range.
 
 // TODO(fact): for simple date objects the constructor is tested in
 // CalendarFacts (Factories). For the others, copy this code: CivilDate
