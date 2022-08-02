@@ -48,8 +48,7 @@ namespace Zorglub.Time.Specialized
     /// <para><see cref="GregorianDate"/> is an immutable struct.</para>
     /// </summary>
     public readonly partial struct GregorianDate :
-        ISpecializedDate<GregorianDate, GregorianCalendar>,
-        IMinMaxValue<GregorianDate>
+        ISpecializedDate<GregorianDate, GregorianCalendar>
     {
         // NB: the order in which the static fields are written is important.
 

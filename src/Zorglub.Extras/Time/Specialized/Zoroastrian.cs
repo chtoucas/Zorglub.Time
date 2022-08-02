@@ -46,7 +46,6 @@ namespace Zorglub.Time.Specialized
     /// </summary>
     public readonly partial struct ZoroastrianDate :
         ISpecializedDate<ZoroastrianDate, ZoroastrianCalendar>,
-        IMinMaxValue<ZoroastrianDate>,
         IEpagomenalDay
     {
         // NB: the order in which the static fields are written is important.

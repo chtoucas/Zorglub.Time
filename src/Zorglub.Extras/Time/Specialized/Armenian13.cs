@@ -51,7 +51,6 @@ namespace Zorglub.Time.Specialized
     /// </summary>
     public readonly partial struct Armenian13Date :
         ISpecializedDate<Armenian13Date, Armenian13Calendar>,
-        IMinMaxValue<Armenian13Date>,
         IEpagomenalDay
     {
         // NB: the order in which the static fields are written is important.

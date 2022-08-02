@@ -45,8 +45,7 @@ namespace Zorglub.Time.Specialized
     /// <para><see cref="TabularIslamicDate"/> is an immutable struct.</para>
     /// </summary>
     public readonly partial struct TabularIslamicDate :
-        ISpecializedDate<TabularIslamicDate, TabularIslamicCalendar>,
-        IMinMaxValue<TabularIslamicDate>
+        ISpecializedDate<TabularIslamicDate, TabularIslamicCalendar>
     {
         // NB: the order in which the static fields are written is important.
 

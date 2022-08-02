@@ -58,7 +58,6 @@ namespace Zorglub.Time.Specialized
     /// </summary>
     public readonly partial struct WorldDate :
         ISpecializedDate<WorldDate, WorldCalendar>,
-        IMinMaxValue<WorldDate>,
         IBlankDay
     {
         // NB: the order in which the static fields are written is important.

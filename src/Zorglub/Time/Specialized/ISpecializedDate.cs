@@ -27,9 +27,11 @@ namespace Zorglub.Time.Specialized
     /// Defines a "specialized" date type.
     /// </summary>
     /// <typeparam name="TSelf">The type that implements this interface.</typeparam>
+    /// <typeparam name="TCalendar">The companion calendar type.</typeparam>
     public interface ISpecializedDate<TSelf, TCalendar> :
         ISpecializedDate,
-        IDate<TSelf>
+        IDate<TSelf>,
+        IMinMaxValue<TSelf>
         where TCalendar : ICalendar<TSelf>
         where TSelf : ISpecializedDate<TSelf, TCalendar>
     {
