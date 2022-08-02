@@ -23,7 +23,7 @@ module Bundles =
     [<Sealed>]
     [<TestExcludeFrom(TestExcludeFrom.Regular)>]
     type DateFacts() =
-        inherit IDateFacts<XCivilDate, StandardGregorianDataSet>(supportedYears, XCivilDate.Domain)
+        inherit IDateFacts<XCivilDate, StandardGregorianDataSet>(XCivilDate.Domain)
 
         override __.MinDate = XCivilDate.MinValue
         override __.MaxDate = XCivilDate.MaxValue
