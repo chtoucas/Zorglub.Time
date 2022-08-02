@@ -103,7 +103,8 @@ namespace Zorglub.Time.Core
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
         /// <exception cref="ArgumentException">The range of supported years by the schema
-        /// does not contain the year 1.</exception>
+        /// does not contain the year 1 and <paramref name="onOrAfterEpoch"/> is equal to true.
+        /// </exception>
         [Pure]
         public static CalendricalSegment CreateMaximal(ICalendricalSchema schema, bool onOrAfterEpoch)
         {

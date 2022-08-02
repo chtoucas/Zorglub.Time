@@ -14,8 +14,8 @@ namespace Zorglub.Time.Hemerology
     public abstract partial class BasicCalendar : ICalendar
     {
         /// <summary>
-        /// Called from constructors in derived classes to initialize the
-        /// <see cref="BasicCalendar"/> class.
+        /// Called from constructors in derived classes to initialize the <see cref="BasicCalendar"/>
+        /// class.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="name"/> is null.</exception>
         /// <exception cref="ArgumentNullException"><paramref name="scope"/> is null.</exception>
