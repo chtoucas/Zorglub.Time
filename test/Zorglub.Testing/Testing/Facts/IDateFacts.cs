@@ -3,6 +3,10 @@
 
 namespace Zorglub.Testing.Facts;
 
+using Zorglub.Testing.Data;
+using Zorglub.Time.Core.Intervals;
+using Zorglub.Time.Hemerology;
+
 // Hypothesis:
 // - TDate is a value type.
 // - See also IDateableFacts.
@@ -12,10 +16,6 @@ namespace Zorglub.Testing.Facts;
 // CalendarFacts (Factories). For the others, copy this code: CivilDate
 // and ZDate. See also CalendarDateTests.
 // DayOfWeek via DayNumber. Pre-filter CalCalDataSet.DayOfWeekData.
-
-using Zorglub.Testing.Data;
-using Zorglub.Time.Core.Intervals;
-using Zorglub.Time.Hemerology;
 
 /// <summary>
 /// Provides facts about <see cref="IDate{TSelf}"/>.
@@ -61,6 +61,15 @@ public partial class IDateFacts<TDate, TDataSet> // Prelude
 
 public partial class IDateFacts<TDate, TDataSet> // Conversions
 {
+    [Theory, MemberData(nameof(DayNumberInfoData))]
+    public void FromDayNumber(DayNumberInfo info)
+    {
+        var (dayNumber, y, m, d) = info;
+        var date = GetDate(y, m, d);
+        // Act & Assert
+        Assert.Equal(date, TDate.FromDayNumber(dayNumber));
+    }
+
     [Theory, MemberData(nameof(DayNumberInfoData))]
     public void ToDayNumber(DayNumberInfo info)
     {
