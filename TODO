@@ -7,7 +7,7 @@ Tests for "snapshots" of SimpleCatalog.
 Naming: ident, id, cuid <- harmoniser
 Struct fields instead of auto-props
 Adjustable dates, providers <- à refaire
-Today and UtcToday <- time provider
+Today and UtcToday <- time provider, update all tests related to "Today".
 SupportedYearsTester
 Hide XXXCalendar.Instance? and use Calendar.XXX instead
 DayProviders -> remove and use adjusters.

@@ -30,6 +30,7 @@ public abstract partial class IDateFacts<TDate, TDataSet> :
         Domain = domain;
     }
 
+    [Obsolete("TO BE REMOVED")]
     protected IDateFacts(Range<int> supportedYears, Range<DayNumber> domain) : this(domain) { }
 
     protected Range<DayNumber> Domain { get; }
@@ -57,6 +58,17 @@ public partial class IDateFacts<TDate, TDataSet> // Prelude
     //    // Act & Assert
     //    Assert.Equal(dayOfWeek, date.DayOfWeek);
     //}
+}
+
+public partial class IDateFacts<TDate, TDataSet> // Factories
+{
+    [Fact]
+    public void Today()
+    {
+        var today = DayNumber.Today();
+        // Act & Assert
+        Assert.Equal(today, TDate.Today().ToDayNumber());
+    }
 }
 
 public partial class IDateFacts<TDate, TDataSet> // Conversions

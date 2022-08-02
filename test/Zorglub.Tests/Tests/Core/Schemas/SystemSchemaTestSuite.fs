@@ -6,6 +6,7 @@ module Zorglub.Tests.Core.Schemas.SystemSchemaTestSuite
 open System
 
 open Zorglub.Testing
+open Zorglub.Testing.Data.Bounded
 open Zorglub.Testing.Data.Schemas
 open Zorglub.Testing.Facts
 open Zorglub.Testing.Facts.Core
@@ -24,6 +25,21 @@ let private verifyThatPreValidatorIs<'a> (sch: ICalendricalSchema) =
     sch.PreValidator |> is<'a>
 
 [<Sealed>]
+type CivilTests() =
+    inherit SystemSchemaFacts<StandardGregorianDataSet>(syschemaOf<CivilSchema>())
+
+    override x.Family_Prop() = x.SchemaUT.Family === CalendricalFamily.Solar
+    override x.PeriodicAdjustments_Prop() = x.SchemaUT.PeriodicAdjustments === CalendricalAdjustments.Days
+    override x.Profile_Prop() = x.SchemaUT.Profile === CalendricalProfile.Solar12
+    override x.PreValidator_Prop() = x.VerifyThatPreValidatorIs<Solar12PreValidator>()
+    override x.IsRegular() = x.SchemaUT.IsRegular() === (true, 12)
+
+    override x.SupportedYears_Prop() =
+        let range = SystemSchema.DefaultSupportedYears.WithMin(1)
+        x.SchemaUT.SupportedYears === range
+
+[<Sealed>]
+[<TestExcludeFrom(TestExcludeFrom.Smoke)>]
 type Coptic12Tests() =
     inherit SystemSchemaFacts<Coptic12DataSet>(syschemaOf<Coptic12Schema>())
 

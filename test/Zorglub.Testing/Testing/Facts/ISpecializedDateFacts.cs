@@ -8,12 +8,15 @@ using Zorglub.Time.Core.Intervals;
 using Zorglub.Time.Hemerology;
 using Zorglub.Time.Specialized;
 
+// TODO(fact): Calendar_Prop() un peu léger comme test...
+// Améliorer ToString().
+
 /// <summary>
 /// Provides facts about <see cref="ISpecializedDate{TSelf, TCalendar}"/>.
 /// </summary>
 public abstract partial class ISpecializedDateFacts<TDate, TCalendar, TDataSet> :
     IDateFacts<TDate, TDataSet>
-    where TCalendar : ICalendar<TDate>
+    where TCalendar : ICalendar<TDate>, INamedCalendar
     where TDate : struct, ISpecializedDate<TDate, TCalendar>
     where TDataSet : ICalendarDataSet, ISingleton<TDataSet>
 {
@@ -26,7 +29,6 @@ public abstract partial class ISpecializedDateFacts<TDate, TCalendar, TDataSet> 
         return calendar.Domain;
     }
 
-    // REVIEW(fact): un peu léger comme test...
     [Fact]
     public void Calendar_Prop() => Assert.NotNull(TDate.Calendar);
 
@@ -50,5 +52,17 @@ public abstract partial class ISpecializedDateFacts<TDate, TCalendar, TDataSet> 
         Assert.Equal(y, y1);
         Assert.Equal(m, m1);
         Assert.Equal(d, d1);
+    }
+
+    [Theory]
+    [InlineData(1, 1, 1, "01/01/0001 ({Calendar})")]
+    public void ToString_InvariantCulture(int y, int m, int d, string format)
+    {
+        Debug.Assert(format != null);
+
+        var date = GetDate(y, m, d);
+        var str = format.Replace("{Calendar}", TDate.Calendar.Name, StringComparison.InvariantCulture);
+        // Act & Assert
+        Assert.Equal(str, date.ToString());
     }
 }
