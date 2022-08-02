@@ -43,12 +43,6 @@ namespace Zorglub.Time.Hemerology.Scopes
         public static MinMaxYearScope WithMaximalRange(
             ICalendricalSchema schema, DayNumber epoch, bool onOrAfterEpoch = false)
         {
-            // NB: onOrAfterEpoch = false does not necessary mean "proleptic".
-            // int minYear = !onOrAfterEpoch || schema.MinYear > 1
-            //    ? Math.Max(schema.MinYear, Yemoda.MinYear)
-            //    : 1;
-            // int maxYear = Math.Min(Yemoda.MaxYear, schema.MaxYear);
-
             var seg = CalendricalSegment.CreateMaximal(schema, onOrAfterEpoch);
 
             return new MinMaxYearScope(epoch, seg);
