@@ -16,7 +16,8 @@ using Zorglub.Time.Specialized;
 /// </summary>
 public abstract partial class ISpecializedDateFacts<TDate, TCalendar, TDataSet> :
     IDateFacts<TDate, TDataSet>
-    where TCalendar : ICalendar<TDate>, INamedCalendar
+    // BasicCalendar for the prop Name.
+    where TCalendar : BasicCalendar, ICalendar<TDate>
     where TDate : struct, ISpecializedDate<TDate, TCalendar>
     where TDataSet : ICalendarDataSet, ISingleton<TDataSet>
 {

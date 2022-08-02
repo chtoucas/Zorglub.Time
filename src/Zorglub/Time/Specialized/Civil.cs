@@ -21,8 +21,7 @@ namespace Zorglub.Time.Specialized
     /// </summary>
     public sealed class CivilCalendar :
         MinMaxYearCalendar<CivilDate>,
-        IRegularFeaturette,
-        INamedCalendar
+        IRegularFeaturette
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="CivilCalendar"/> class.

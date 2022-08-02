@@ -17,8 +17,7 @@ namespace Zorglub.Time.Specialized
     public sealed class Coptic13Calendar :
         MinMaxYearCalendar<Coptic13Date>,
         IRegularFeaturette,
-        IVirtualMonthFeaturette,
-        INamedCalendar
+        IVirtualMonthFeaturette
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Coptic13Calendar"/> class.

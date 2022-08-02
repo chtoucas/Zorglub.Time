@@ -36,8 +36,7 @@ namespace Zorglub.Time.Specialized
     /// </summary>
     public sealed class JulianCalendar :
         MinMaxYearCalendar<JulianDate>,
-        IRegularFeaturette,
-        INamedCalendar
+        IRegularFeaturette
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="JulianCalendar"/> class.

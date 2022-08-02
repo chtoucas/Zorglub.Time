@@ -16,8 +16,7 @@ namespace Zorglub.Time.Specialized
     /// </summary>
     public sealed class ArmenianCalendar :
         MinMaxYearCalendar<ArmenianDate>,
-        IRegularFeaturette,
-        INamedCalendar
+        IRegularFeaturette
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ArmenianCalendar"/> class.
