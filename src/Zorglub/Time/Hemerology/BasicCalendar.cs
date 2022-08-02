@@ -29,7 +29,7 @@ namespace Zorglub.Time.Hemerology
         }
 
         /// <summary>
-        /// Gets the culture-invariant name of the calendar.
+        /// Gets the culture-independent name of the calendar.
         /// </summary>
         public string Name { get; }
 
@@ -62,7 +62,7 @@ namespace Zorglub.Time.Hemerology
         protected internal ICalendricalSchema Schema { get; }
 
         /// <summary>
-        /// Returns a string representation of the current instance.
+        /// Returns a culture-independent string representation of the current instance.
         /// </summary>
         [Pure]
         public override string ToString() => Name;

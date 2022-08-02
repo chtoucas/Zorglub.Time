@@ -31,6 +31,8 @@ namespace Zorglub.Time.Core
         /// </summary>
         CalendricalAdjustments PeriodicAdjustments { get; }
 
+        // REVIEW(api): move this to ICalendricalSchema? Change calendars too.
+
         /// <summary>
         /// Returns true if this schema is regular; otherwise returns false.
         /// <para>The number of months is given in an output parameter; if this schema is not
