@@ -48,16 +48,6 @@ internal abstract class ProlepticScopeFacts<TDataSet> :
     /// </summary>
     protected ProlepticScope ProlepticScopeView { get; }
 
-    //[Theory, MemberData(nameof(ValidYearData))]
-    //public sealed override void ValidateYear(int y) => ProlepticScopeView.ValidateYear(y);
-
-    //[Theory, MemberData(nameof(InvalidYearData))]
-    //public sealed override void ValidateYear_InvalidYear(int y)
-    //{
-    //    Assert.ThrowsAoorexn("year", () => ProlepticScopeView.ValidateYear(y));
-    //    Assert.ThrowsAoorexn("y", () => ProlepticScopeView.ValidateYear(y, nameof(y)));
-    //}
-
     [Theory, MemberData(nameof(InvalidYearData))]
     public sealed override void ValidateYearMonth_InvalidYear(int y)
     {

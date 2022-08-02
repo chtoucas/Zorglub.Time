@@ -16,7 +16,11 @@ internal abstract class CalendarScopeFacts<TScope, TDataSet> :
 {
     protected CalendarScopeFacts(TScope scope)
     {
-        ScopeUT = scope ?? throw new ArgumentNullException(nameof(scope));
+        if (scope is null) throw new ArgumentNullException(nameof(scope));
+        // Right now, all datasets only work for a range of years.
+        if (scope.IsComplete == false) throw new ArgumentException("", nameof(scope));
+
+        ScopeUT = scope;
     }
 
     /// <summary>
@@ -24,12 +28,6 @@ internal abstract class CalendarScopeFacts<TScope, TDataSet> :
     /// </summary>
     protected TScope ScopeUT { get; }
 
-    #region ValidateYear()
-
-    //[Theory] public abstract void ValidateYear_InvalidYear(int y);
-    //[Theory] public abstract void ValidateYear(int y);
-
-    #endregion
     #region ValidateYearMonth()
 
     [Theory] public abstract void ValidateYearMonth_InvalidYear(int y);
