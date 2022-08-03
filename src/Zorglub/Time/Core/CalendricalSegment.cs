@@ -115,13 +115,16 @@ namespace Zorglub.Time.Core
         /// Creates the maximal segment for <paramref name="schema"/>.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
-        /// <exception cref="ArgumentException">The range of supported years by the schema does not
-        /// contain the year 1.</exception>
+        /// <exception cref="ArgumentException">The range of supported years by
+        /// <paramref name="schema"/> does not contain the year 1.</exception>
         [Pure]
         public static CalendricalSegment CreateMaximalOnOrAfterYear1(ICalendricalSchema schema)
         {
             var builder = new CalendricalSegmentBuilder(schema);
-            builder.SetMinToStartOfMinSupportedYearOnOrAfterYear1();
+            if (builder.TrySetMinToStartOfMinSupportedYearOnOrAfterYear1() == false)
+            {
+                Throw.Argument(nameof(schema));
+            }
             builder.SetMaxToEndOfMaxSupportedYear();
             return builder.BuildSegment();
         }

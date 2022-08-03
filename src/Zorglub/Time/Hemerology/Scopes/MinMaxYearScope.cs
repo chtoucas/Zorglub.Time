@@ -53,8 +53,8 @@ namespace Zorglub.Time.Hemerology.Scopes
         /// Creates the default maximal scope for the specified schema and epoch.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
-        /// <exception cref="ArgumentException">The range of supported years by the schema does not
-        /// contain the year 1.</exception>
+        /// <exception cref="ArgumentException">The range of supported years by
+        /// <paramref name="schema"/> does not contain the year 1.</exception>
         [Pure]
         public static MinMaxYearScope CreateMaximalOnOrAfterYear1(ICalendricalSchema schema, DayNumber epoch)
         {

@@ -70,7 +70,7 @@ module Factories =
     let ``CreateMaximalOnOrAfterYear1() throws when the schema only supports years <= 0`` () =
         let range = Range.Create(-10, 0)
 
-        argExn "onOrAfterEpoch" (fun () -> CalendricalSegment.CreateMaximalOnOrAfterYear1(new FauxSystemSchema(range)))
+        argExn "schema" (fun () -> CalendricalSegment.CreateMaximalOnOrAfterYear1(new FauxSystemSchema(range)))
 
     [<Fact>]
     let ``CreateMaximalOnOrAfterYear1()`` () =

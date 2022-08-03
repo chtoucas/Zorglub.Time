@@ -75,6 +75,7 @@ namespace Zorglub.Time.Core
         /// <summary>
         /// Gets the minimum of the segment.
         /// </summary>
+        /// <exception cref="InvalidOperationException">The minimum is not set.</exception>
         private Endpoint Min
         {
             get => _min ?? Throw.InvalidOperation<Endpoint>();
@@ -92,6 +93,7 @@ namespace Zorglub.Time.Core
         /// <summary>
         /// Gets the maximum of the segment.
         /// </summary>
+        /// <exception cref="InvalidOperationException">The maximum is not set.</exception>
         private Endpoint Max
         {
             get => _max ?? Throw.InvalidOperation<Endpoint>();
@@ -145,13 +147,14 @@ namespace Zorglub.Time.Core
     public partial class CalendricalSegmentBuilder // Builder methods
     {
         /// <summary>
-        /// Get or set the minimum.
+        /// Gets or sets the minimum.
         /// <para>The setter automatically update <see cref="MinDateParts"/> and
         /// <see cref="MinOrdinalParts"/>.</para>
         /// </summary>
         /// <value>The number of consecutive days from the epoch.</value>
-        /// <exception cref="AoorException">The specified number of consecutive days from the epoch
-        /// is outside the range of supported values by the schema.</exception>
+        /// <exception cref="InvalidOperationException">(Getter) The minimum is not set.</exception>
+        /// <exception cref="AoorException">(Setter) The specified number of consecutive days from
+        /// the epoch is outside the range of supported values by the schema.</exception>
         public int MinDaysSinceEpoch
         {
             get => Min.DaysSinceEpoch;
@@ -159,13 +162,14 @@ namespace Zorglub.Time.Core
         }
 
         /// <summary>
-        /// Get or set the maximum.
+        /// Gets or sets the maximum.
         /// <para>The setter automatically update <see cref="MaxDateParts"/> and
         /// <see cref="MaxOrdinalParts"/>.</para>
         /// </summary>
         /// <value>The number of consecutive days from the epoch.</value>
-        /// <exception cref="AoorException">The specified number of consecutive days from the epoch
-        /// is outside the range of supported values by the schema.</exception>
+        /// <exception cref="InvalidOperationException">(Getter) The maximum is not set.</exception>
+        /// <exception cref="AoorException">(Setter) The specified number of consecutive days from
+        /// the epoch is outside the range of supported values by the schema.</exception>
         public int MaxDaysSinceEpoch
         {
             get => Max.DaysSinceEpoch;
@@ -173,13 +177,14 @@ namespace Zorglub.Time.Core
         }
 
         /// <summary>
-        /// Get or set the minimum.
+        /// Gets or sets the minimum.
         /// <para>The setter automatically update <see cref="MinDaysSinceEpoch"/> and
         /// <see cref="MinOrdinalParts"/>.</para>
         /// </summary>
         /// <value>The date parts.</value>
-        /// <exception cref="AoorException">The specified date parts are invalid or outside the
-        /// range of supported values by the schema.</exception>
+        /// <exception cref="InvalidOperationException">(Getter) The minimum is not set.</exception>
+        /// <exception cref="AoorException">(Setter) The specified date parts are invalid or outside
+        /// the range of supported values by the schema.</exception>
         public DateParts MinDateParts
         {
             get => Min.DateParts;
@@ -187,13 +192,14 @@ namespace Zorglub.Time.Core
         }
 
         /// <summary>
-        /// Get or set the maximum.
+        /// Gets or sets the maximum.
         /// <para>The setter automatically update <see cref="MaxDaysSinceEpoch"/> and
         /// <see cref="MaxOrdinalParts"/>.</para>
         /// </summary>
         /// <value>The date parts.</value>
-        /// <exception cref="AoorException">The specified date parts are invalid or outside the
-        /// range of supported values by the schema.</exception>
+        /// <exception cref="InvalidOperationException">(Getter) The maximum is not set.</exception>
+        /// <exception cref="AoorException">(Setter) The specified date parts are invalid or outside
+        /// the range of supported values by the schema.</exception>
         public DateParts MaxDateParts
         {
             get => Max.DateParts;
@@ -201,13 +207,14 @@ namespace Zorglub.Time.Core
         }
 
         /// <summary>
-        /// Get or set the minimum.
+        /// Gets or sets the minimum.
         /// <para>The setter automatically update <see cref="MinDaysSinceEpoch"/> and
         /// <see cref="MinDateParts"/>.</para>
         /// </summary>
         /// <value>The ordinal date parts.</value>
-        /// <exception cref="AoorException">The specified ordinal date parts are invalid or outside
-        /// the range of supported values by the schema.</exception>
+        /// <exception cref="InvalidOperationException">(Getter) The minimum is not set.</exception>
+        /// <exception cref="AoorException">(Setter) The specified ordinal date parts are invalid or
+        /// outside the range of supported values by the schema.</exception>
         public OrdinalParts MinOrdinalParts
         {
             get => Min.OrdinalParts;
@@ -215,13 +222,14 @@ namespace Zorglub.Time.Core
         }
 
         /// <summary>
-        /// Get or set the maximum.
+        /// Gets or sets the maximum.
         /// <para>The setter automatically update <see cref="MaxDaysSinceEpoch"/> and
         /// <see cref="MaxDateParts"/>.</para>
         /// </summary>
         /// <value>The ordinal date parts.</value>
-        /// <exception cref="AoorException">The specified ordinal date parts are invalid or outside
-        /// the range of supported values by the schema.</exception>
+        /// <exception cref="InvalidOperationException">(Getter) The maximum is not set.</exception>
+        /// <exception cref="AoorException">(Setter) The specified ordinal date parts are invalid or
+        /// outside the range of supported values by the schema.</exception>
         public OrdinalParts MaxOrdinalParts
         {
             get => Max.OrdinalParts;
@@ -229,7 +237,7 @@ namespace Zorglub.Time.Core
         }
 
         /// <summary>
-        /// Set the minimum to the start of the specified year.
+        /// Sets the minimum to the start of the specified year.
         /// </summary>
         /// <exception cref="AoorException"><paramref name="year"/> is outside the range of
         /// supported values by the schema.</exception>
@@ -241,28 +249,26 @@ namespace Zorglub.Time.Core
         }
 
         /// <summary>
-        /// Set the minimum to the start of the earliest supported year.
+        /// Sets the minimum to the start of the earliest supported year.
         /// </summary>
         public void SetMinToStartOfMinSupportedYear() =>
             Min = GetEndpointAtStartOfYear(_yearsValidator.MinYear);
 
         /// <summary>
-        /// Set the minimum to the start of the earliest supported year &gt;= 1.
+        /// Attempts to set the minimum to the start of the earliest supported year &gt;= 1.
         /// </summary>
-        /// <exception cref="NotSupportedException">The range of supported years by the schema
-        /// does not contain the year 1.</exception>
-        public void SetMinToStartOfMinSupportedYearOnOrAfterYear1()
+        [Pure]
+        public bool TrySetMinToStartOfMinSupportedYearOnOrAfterYear1()
         {
-            // Compute the earliest supported year >= 1.
             var set = Interval.Intersect(_schema.SupportedYears, Range.StartingAt(1));
-            // FIXME(code): type of exception.
-            if (set.IsEmpty) throw new NotSupportedException();
+            if (set.IsEmpty) return false;
 
             Min = GetEndpointAtStartOfYear(set.Range.Min);
+            return true;
         }
 
         /// <summary>
-        /// Set the maximum to the end of the specified year.
+        /// Sets the maximum to the end of the specified year.
         /// </summary>
         /// <exception cref="AoorException"><paramref name="year"/> is outside the range of
         /// supported values by the schema.</exception>
@@ -274,7 +280,7 @@ namespace Zorglub.Time.Core
         }
 
         /// <summary>
-        /// Set the maximum to the end of the latest supported year.
+        /// Sets the maximum to the end of the latest supported year.
         /// </summary>
         public void SetMaxToEndOfMaxSupportedYear() =>
             Max = GetEndpointAtEndOfYear(_yearsValidator.MaxYear);
