@@ -53,7 +53,7 @@ namespace Zorglub.Time.Specialized
     }
 
     /// <summary>
-    /// Represents the common adjusters for <see cref="WorldDate"/>.
+    /// Provides common adjusters for <see cref="WorldDate"/>.
     /// </summary>
     public sealed class WorldAdjusters : DateAdjusters<WorldDate>
     {

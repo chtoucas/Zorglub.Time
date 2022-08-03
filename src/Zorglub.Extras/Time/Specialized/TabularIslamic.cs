@@ -41,7 +41,7 @@ namespace Zorglub.Time.Specialized
     }
 
     /// <summary>
-    /// Represents the common adjusters for <see cref="TabularIslamicDate"/>.
+    /// Provides common adjusters for <see cref="TabularIslamicDate"/>.
     /// </summary>
     public sealed class TabularIslamicAdjusters : DateAdjusters<TabularIslamicDate>
     {
