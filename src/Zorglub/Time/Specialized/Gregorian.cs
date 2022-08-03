@@ -44,6 +44,68 @@ namespace Zorglub.Time.Specialized
     }
 
     /// <summary>
+    /// Provides common adjusters for <see cref="GregorianDate"/>.
+    /// <para>This class cannot be inherited.</para>
+    /// </summary>
+    public sealed class GregorianAdjusters : IDateAdjusters<GregorianDate>
+    {
+        /// <summary>
+        /// Represents the Gregorian schema.
+        /// <para>This field is read-only.</para>
+        /// </summary>
+        private readonly GregorianSchema _schema;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="GregorianAdjusters"/> class.
+        /// </summary>
+        public GregorianAdjusters() : this(new GregorianSchema()) { }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="GregorianAdjusters"/> class.
+        /// </summary>
+        internal GregorianAdjusters(GregorianSchema schema)
+        {
+            Requires.NotNull(schema);
+
+            _schema = schema;
+        }
+
+        /// <inheritdoc />
+        [Pure]
+        public GregorianDate GetStartOfYear(GregorianDate date)
+        {
+            int daysSinceZero = GregorianFormulae.GetStartOfYear(date.Year);
+            return new GregorianDate(daysSinceZero);
+        }
+
+        /// <inheritdoc />
+        [Pure]
+        public GregorianDate GetEndOfYear(GregorianDate date)
+        {
+            int daysSinceZero = _schema.GetEndOfYear(date.Year);
+            return new GregorianDate(daysSinceZero);
+        }
+
+        /// <inheritdoc />
+        [Pure]
+        public GregorianDate GetStartOfMonth(GregorianDate date)
+        {
+            GregorianFormulae.GetDateParts(date.DaysSinceZero, out int y, out int m, out _);
+            int daysSinceZero = _schema.GetStartOfMonth(y, m);
+            return new GregorianDate(daysSinceZero);
+        }
+
+        /// <inheritdoc />
+        [Pure]
+        public GregorianDate GetEndOfMonth(GregorianDate date)
+        {
+            GregorianFormulae.GetDateParts(date.DaysSinceZero, out int y, out int m, out _);
+            int daysSinceZero = _schema.GetEndOfMonth(y, m);
+            return new GregorianDate(daysSinceZero);
+        }
+    }
+
+    /// <summary>
     /// Represents the Gregorian date.
     /// <para><see cref="GregorianDate"/> is an immutable struct.</para>
     /// </summary>
@@ -75,6 +137,12 @@ namespace Zorglub.Time.Specialized
         /// <para>This field is read-only.</para>
         /// </summary>
         private static readonly Range<DayNumber> s_Domain = s_Calendar.Domain;
+
+        /// <summary>
+        /// Represents the date adjusters.
+        /// <para>This field is read-only.</para>
+        /// </summary>
+        private static readonly GregorianAdjusters s_Adjusters = new(s_Schema);
 
         /// <summary>
         /// Represents the smallest possible value of a <see cref="GregorianDate"/>.
@@ -155,6 +223,12 @@ namespace Zorglub.Time.Specialized
         /// <para>This static property is thread-safe.</para>
         /// </summary>
         public static GregorianDate MaxValue => s_MaxValue;
+
+        /// <summary>
+        /// Gets the date adjusters.
+        /// <para>This static property is thread-safe.</para>
+        /// </summary>
+        public static GregorianAdjusters Adjusters => s_Adjusters;
 
         /// <inheritdoc />
         public static GregorianCalendar Calendar => s_Calendar;

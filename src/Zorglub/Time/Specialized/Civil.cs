@@ -46,6 +46,68 @@ namespace Zorglub.Time.Specialized
     }
 
     /// <summary>
+    /// Provides common adjusters for <see cref="CivilDate"/>.
+    /// <para>This class cannot be inherited.</para>
+    /// </summary>
+    public sealed class CivilAdjusters : IDateAdjusters<CivilDate>
+    {
+        /// <summary>
+        /// Represents the Civil schema.
+        /// <para>This field is read-only.</para>
+        /// </summary>
+        private readonly CivilSchema _schema;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CivilAdjusters"/> class.
+        /// </summary>
+        public CivilAdjusters() : this(new CivilSchema()) { }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CivilAdjusters"/> class.
+        /// </summary>
+        internal CivilAdjusters(CivilSchema schema)
+        {
+            Requires.NotNull(schema);
+
+            _schema = schema;
+        }
+
+        /// <inheritdoc />
+        [Pure]
+        public CivilDate GetStartOfYear(CivilDate date)
+        {
+            int daysSinceZero = CivilFormulae.GetStartOfYear(date.Year);
+            return new CivilDate(daysSinceZero);
+        }
+
+        /// <inheritdoc />
+        [Pure]
+        public CivilDate GetEndOfYear(CivilDate date)
+        {
+            int daysSinceZero = _schema.GetEndOfYear(date.Year);
+            return new CivilDate(daysSinceZero);
+        }
+
+        /// <inheritdoc />
+        [Pure]
+        public CivilDate GetStartOfMonth(CivilDate date)
+        {
+            CivilFormulae.GetDateParts(date.DaysSinceZero, out int y, out int m, out _);
+            int daysSinceZero = _schema.GetStartOfMonth(y, m);
+            return new CivilDate(daysSinceZero);
+        }
+
+        /// <inheritdoc />
+        [Pure]
+        public CivilDate GetEndOfMonth(CivilDate date)
+        {
+            CivilFormulae.GetDateParts(date.DaysSinceZero, out int y, out int m, out _);
+            int daysSinceZero = _schema.GetEndOfMonth(y, m);
+            return new CivilDate(daysSinceZero);
+        }
+    }
+
+    /// <summary>
     /// Represents the Civil date.
     /// <para><see cref="CivilDate"/> is an immutable struct.</para>
     /// </summary>
@@ -68,6 +130,12 @@ namespace Zorglub.Time.Specialized
         /// <para>This field is read-only.</para>
         /// </summary>
         private static readonly Range<DayNumber> s_Domain = s_Calendar.Domain;
+
+        /// <summary>
+        /// Represents the adjusters.
+        /// <para>This field is read-only.</para>
+        /// </summary>
+        private static readonly CivilAdjusters s_Adjusters = new(s_Schema);
 
         /// <summary>
         /// Represents the smallest possible value of a <see cref="CivilDate"/>.
@@ -148,6 +216,12 @@ namespace Zorglub.Time.Specialized
         /// <para>This static property is thread-safe.</para>
         /// </summary>
         public static CivilDate MaxValue => s_MaxValue;
+
+        /// <summary>
+        /// Gets the date adjusters.
+        /// <para>This static property is thread-safe.</para>
+        /// </summary>
+        public static CivilAdjusters Adjusters => s_Adjusters;
 
         /// <inheritdoc />
         public static CivilCalendar Calendar => s_Calendar;

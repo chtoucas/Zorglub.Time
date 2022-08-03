@@ -118,6 +118,7 @@ namespace Zorglub.Time.Hemerology
     //
     // Missing methods/props:
     // - factories, today, conversions
+    // - adjusters
     // - min/max values
     //
     // Mono-calendar without a companion date type, e.g. NakedCalendar.

@@ -46,6 +46,6 @@ module Bundles =
     [<Sealed>]
     [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
     type DateAdjustersFacts() =
-        inherit IDateAdjustersFacts<JulianDate, JulianAdjusters, UnboundedJulianDataSet>(new JulianAdjusters())
+        inherit IDateAdjustersFacts<JulianDate, JulianAdjusters, UnboundedJulianDataSet>(JulianDate.Adjusters)
 
         override __.GetDate(y, m, d) = new JulianDate(y, m, d)

@@ -61,6 +61,68 @@ namespace Zorglub.Time.Specialized
     }
 
     /// <summary>
+    /// Provides common adjusters for <see cref="JulianDate"/>.
+    /// <para>This class cannot be inherited.</para>
+    /// </summary>
+    public sealed class JulianAdjusters : IDateAdjusters<JulianDate>
+    {
+        /// <summary>
+        /// Represents the Julian schema.
+        /// <para>This field is read-only.</para>
+        /// </summary>
+        private readonly JulianSchema _schema;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="JulianAdjusters"/> class.
+        /// </summary>
+        public JulianAdjusters() : this(new JulianSchema()) { }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="JulianAdjusters"/> class.
+        /// </summary>
+        internal JulianAdjusters(JulianSchema schema)
+        {
+            Requires.NotNull(schema);
+
+            _schema = schema;
+        }
+
+        /// <inheritdoc />
+        [Pure]
+        public JulianDate GetStartOfYear(JulianDate date)
+        {
+            int daysSinceEpoch = JulianFormulae.GetStartOfYear(date.Year);
+            return new JulianDate(daysSinceEpoch);
+        }
+
+        /// <inheritdoc />
+        [Pure]
+        public JulianDate GetEndOfYear(JulianDate date)
+        {
+            int daysSinceEpoch = _schema.GetEndOfYear(date.Year);
+            return new JulianDate(daysSinceEpoch);
+        }
+
+        /// <inheritdoc />
+        [Pure]
+        public JulianDate GetStartOfMonth(JulianDate date)
+        {
+            _schema.GetDateParts(date.DaysSinceEpoch, out int y, out int m, out _);
+            int daysSinceEpoch = _schema.GetStartOfMonth(y, m);
+            return new JulianDate(daysSinceEpoch);
+        }
+
+        /// <inheritdoc />
+        [Pure]
+        public JulianDate GetEndOfMonth(JulianDate date)
+        {
+            _schema.GetDateParts(date.DaysSinceEpoch, out int y, out int m, out _);
+            int daysSinceEpoch = _schema.GetEndOfMonth(y, m);
+            return new JulianDate(daysSinceEpoch);
+        }
+    }
+
+    /// <summary>
     /// Represents the Julian date.
     /// <para><see cref="JulianDate"/> is an immutable struct.</para>
     /// </summary>
@@ -97,6 +159,12 @@ namespace Zorglub.Time.Specialized
         /// <para>This field is read-only.</para>
         /// </summary>
         private static readonly Range<DayNumber> s_Domain = s_Calendar.Domain;
+
+        /// <summary>
+        /// Represents the date adjusters.
+        /// <para>This field is read-only.</para>
+        /// </summary>
+        private static readonly JulianAdjusters s_Adjusters = new(s_Schema);
 
         /// <summary>
         /// Represents the smallest possible value of a <see cref="JulianDate"/>.
@@ -177,6 +245,12 @@ namespace Zorglub.Time.Specialized
         /// <para>This static property is thread-safe.</para>
         /// </summary>
         public static JulianDate MaxValue => s_MaxValue;
+
+        /// <summary>
+        /// Gets the date adjusters.
+        /// <para>This static property is thread-safe.</para>
+        /// </summary>
+        public static JulianAdjusters Adjusters => s_Adjusters;
 
         /// <inheritdoc />
         public static JulianCalendar Calendar => s_Calendar;
