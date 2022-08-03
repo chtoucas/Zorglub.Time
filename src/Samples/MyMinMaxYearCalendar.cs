@@ -15,10 +15,9 @@ using Zorglub.Time.Hemerology.Scopes;
 // Verification that one can create a calendar type without having access to
 // the internals of the assembly Zorglub.
 
-public class MyNakedCalendar : NakedCalendar
+public class MyMinMaxYearCalendar : NakedCalendar
 {
-    public MyNakedCalendar(string name, MinMaxYearScope scope)
-        : base(name, scope) { }
+    public MyMinMaxYearCalendar(string name, MinMaxYearScope scope) : base(name, scope) { }
 
     //
     // Year, month, day infos

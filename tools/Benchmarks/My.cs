@@ -6,6 +6,7 @@ namespace Benchmarks;
 using Zorglub.Time;
 using Zorglub.Time.Core.Schemas;
 using Zorglub.Time.Hemerology;
+using Zorglub.Time.Hemerology.Scopes;
 using Zorglub.Time.Simple;
 
 using static Zorglub.Time.Extensions.Unboxing;
@@ -27,11 +28,11 @@ internal static class My
 
     public static readonly MinMaxYearNakedCalendar NakedCivil =
         (from x in CivilSchema.GetInstance()
-         select MinMaxYearNakedCalendar.WithMinYear("Gregorian", x, DayZero.NewStyle, 1)
+         select new MinMaxYearNakedCalendar("Gregorian", MinMaxYearScope.StartingAt(x, DayZero.NewStyle, 1))
          ).Unbox();
 
     public static readonly MinMaxYearNakedCalendar NakedJulian =
         (from x in JulianSchema.GetInstance()
-         select MinMaxYearNakedCalendar.WithMinYear("Julian", x, DayZero.OldStyle, 1)
+         select new MinMaxYearNakedCalendar("Julian", MinMaxYearScope.StartingAt(x, DayZero.OldStyle, 1))
          ).Unbox();
 }

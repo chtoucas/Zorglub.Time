@@ -4,7 +4,6 @@
 namespace Zorglub.Time.Hemerology
 {
     using Zorglub.Time.Core;
-    using Zorglub.Time.Core.Intervals;
     using Zorglub.Time.Hemerology.Scopes;
 
     /// <summary>
@@ -12,6 +11,16 @@ namespace Zorglub.Time.Hemerology
     /// </summary>
     public partial class MinMaxYearNakedCalendar : NakedCalendar
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MinMaxYearCalendar"/> class.
+        /// </summary>
+        /// <exception cref="ArgumentNullException"><paramref name="name"/> is null.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="scope"/> is null.</exception>
+        public MinMaxYearNakedCalendar(string name, MinMaxYearScope scope) : base(name, scope)
+        {
+            DayCalendar = new MinMaxYearDayCalendar(name, scope);
+        }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="MinMaxYearNakedCalendar"/> class.
         /// </summary>
@@ -27,47 +36,6 @@ namespace Zorglub.Time.Hemerology
         /// Gets a provider for day numbers in a year or a month.
         /// </summary>
         public MinMaxYearDayCalendar DayCalendar { get; }
-
-        /// <summary>
-        /// Creates a new instance of the <see cref="MinMaxYearNakedCalendar"/> class with dates on or
-        /// after the specified year.
-        /// </summary>
-        /// <exception cref="ArgumentNullException"><paramref name="name"/> is null.</exception>
-        /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
-        /// <exception cref="AoorException"><paramref name="minYear"/> is outside the range of
-        /// supported years by <paramref name="schema"/> or
-        /// <see cref="Yemoda"/>.</exception>
-        [Pure]
-        public static MinMaxYearNakedCalendar WithMinYear(
-            string name, ICalendricalSchema schema, DayNumber epoch, int minYear)
-        {
-            Requires.NotNull(schema);
-
-            var range = Range.Create(minYear, schema.SupportedYears.Max);
-            var scope = MinMaxYearScope.Create(schema, epoch, range);
-
-            return new MinMaxYearNakedCalendar(name, scope);
-        }
-
-        /// <summary>
-        /// Creates a new instance of the <see cref="MinMaxYearNakedCalendar"/> class with dates on or
-        /// before the specified year.
-        /// </summary>
-        /// <exception cref="ArgumentNullException"><paramref name="name"/> is null.</exception>
-        /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
-        /// <exception cref="AoorException"><paramref name="maxYear"/> is outside the range of
-        /// supported years by <paramref name="schema"/> or <see cref="Yemoda"/>.</exception>
-        [Pure]
-        public static MinMaxYearNakedCalendar WithMaxYear(
-            string name, ICalendricalSchema schema, DayNumber epoch, int maxYear)
-        {
-            Requires.NotNull(schema);
-
-            var range = Range.Create(schema.SupportedYears.Min, maxYear);
-            var scope = MinMaxYearScope.Create(schema, epoch, range);
-
-            return new MinMaxYearNakedCalendar(name, scope);
-        }
     }
 
     public partial class MinMaxYearNakedCalendar // Year, month, day infos

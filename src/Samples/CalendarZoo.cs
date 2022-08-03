@@ -65,11 +65,9 @@ public partial class CalendarZoo
     public static MinMaxYearNakedCalendar GenuineJulian =>
         s_GenuineJulian ??=
             (from x in JulianSchema.GetInstance()
-             select MinMaxYearNakedCalendar.WithMinYear(
+             select new MinMaxYearNakedCalendar(
                 "Genuine Julian",
-                x,
-                DayZero.OldStyle,
-                8)
+                MinMaxYearScope.StartingAt(x, DayZero.OldStyle, 8))
              ).Unbox();
 
     private static MinMaxYearNakedCalendar? s_FrenchRevolutionary;

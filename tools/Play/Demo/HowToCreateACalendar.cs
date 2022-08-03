@@ -3,8 +3,6 @@
 
 namespace Play.Demo;
 
-using Samples;
-
 using Zorglub.Time;
 using Zorglub.Time.Core.Intervals;
 using Zorglub.Time.Core.Schemas;
@@ -52,23 +50,6 @@ public static class HowToCreateACalendar
     }
 
     #endregion
-
-    // Pre-defined calendar.
-    public static MinMaxYearNakedCalendar CreateMinMaxYearNakedCalendar() =>
-         (from x in GregorianSchema.GetInstance()
-          select new MinMaxYearNakedCalendar(
-              "CreateMinMaxYearNakedCalendar",
-              MinMaxYearScope.Create(x, DayZero.NewStyle, Range.Create(1, 9999)))
-          ).Unbox();
-
-    // User-defined calendar.
-    public static MyNakedCalendar CreateNakedCalendar() =>
-        (from x in GregorianSchema.GetInstance()
-         select new MyNakedCalendar(
-             "CreateNakedCalendar",
-             MinMaxYearScope.Create(x, DayZero.NewStyle, Range.Create(1, 9999)))
-         ).Unbox();
-
     #region Scopes
 
     public static Box<MinMaxYearScope> GetScope() =>
@@ -86,10 +67,10 @@ public static class HowToCreateACalendar
 
     // Ways to construct the same calendar.
 
-    public static MyNakedCalendar Select_QEP() =>
+    public static MinMaxYearNakedCalendar Select_QEP() =>
         (from x in GregorianSchema.GetInstance()
          let y = MinMaxYearScope.Create(x, DayZero.NewStyle, Range.Create(1, 9999))
-         select new MyNakedCalendar("Select_QEP", y)
+         select new MinMaxYearNakedCalendar("Select_QEP", y)
          ).Unbox();
 
     // Versions below are here to demonstrate ZipWith() and SelectMany(),
@@ -97,26 +78,26 @@ public static class HowToCreateACalendar
     // Box<MinMaxYearScope> is unnecessary.
     // Prerequisite: BoxExtensions from Zorglub.Sketches.
 
-    public static MyNakedCalendar ZipWith()
+    public static MinMaxYearNakedCalendar ZipWith()
     {
         Box<GregorianSchema> schema = GregorianSchema.GetInstance();
         Box<MinMaxYearScope> scope = GetScope(schema);
 
-        return schema.ZipWith(scope, (x, y) => new MyNakedCalendar("ZipWith", y)).Unbox();
+        return schema.ZipWith(scope, (x, y) => new MinMaxYearNakedCalendar("ZipWith", y)).Unbox();
     }
 
-    public static MyNakedCalendar SelectMany_QEP()
+    public static MinMaxYearNakedCalendar SelectMany_QEP()
     {
         Box<GregorianSchema> schema = GregorianSchema.GetInstance();
         Box<MinMaxYearScope> scope = GetScope(schema);
 
         return (from x in scope
-                select new MyNakedCalendar("SelectMany_QEP", x)
+                select new MinMaxYearNakedCalendar("SelectMany_QEP", x)
                 ).Unbox();
     }
 
     // Abscons.
-    public static MyNakedCalendar SelectMany()
+    public static MinMaxYearNakedCalendar SelectMany()
     {
         Box<GregorianSchema> schema = GregorianSchema.GetInstance();
         Box<MinMaxYearScope> scope = GetScope(schema);
@@ -124,7 +105,7 @@ public static class HowToCreateACalendar
         return schema
             .SelectMany(
                 _ => scope,
-                (x, y) => new MyNakedCalendar("SelectMany", y))
+                (x, y) => new MinMaxYearNakedCalendar("SelectMany", y))
             .Unbox();
     }
 }

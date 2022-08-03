@@ -21,7 +21,7 @@ public static class MinMaxYearScopeTests
     public static void StartingAtYear()
     {
         // Act
-        var scope = MinMaxYearScope.StartingAtYear(s_Schema, DayZero.NewStyle, 100);
+        var scope = MinMaxYearScope.StartingAt(s_Schema, DayZero.NewStyle, 100);
         // Assert
         Assert.NotNull(scope);
         Assert.Equal(100, scope.YearsValidator.MinYear);
@@ -32,7 +32,7 @@ public static class MinMaxYearScopeTests
     public static void EndingAtYear()
     {
         // Act
-        var scope = MinMaxYearScope.EndingAtYear(s_Schema, DayZero.NewStyle, 100);
+        var scope = MinMaxYearScope.EndingAt(s_Schema, DayZero.NewStyle, 100);
         // Assert
         Assert.NotNull(scope);
         Assert.Equal(s_Schema.SupportedYears.Min, scope.YearsValidator.MinYear);

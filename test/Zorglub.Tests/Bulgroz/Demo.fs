@@ -40,10 +40,10 @@ let ``Gregorian calendar`` () =
 
 let ``Gregorian calendar w/ dates after 15/10/1582`` () =
     let sch = GregorianSchema.GetInstance()
-    let q = sch.Select(
-        fun x -> new BoundedBelowNakedCalendar(
-            "Genuine Gregorian",
-            BoundedBelowScope.StartingAt(x, DayZero.NewStyle, new DateParts(1582, 10, 15))))
+    let q = sch.Select(fun x ->
+        BoundedBelowScope.StartingAt(x, DayZero.NewStyle, new DateParts(1582, 10, 15))).Select(fun x ->
+        new BoundedBelowNakedCalendar("Genuine Gregorian", x))
+
     let chr = q.Unbox()
     let parts = chr.GetDateParts(DayNumber.Today())
     let y, m, d = parts.Deconstruct()
@@ -53,8 +53,10 @@ let ``Gregorian calendar w/ dates after 15/10/1582`` () =
 
 let ``Gregorian calendar w/ dates after 1/1/1`` () =
     let sch = GregorianSchema.GetInstance()
-    let q = sch.Select(
-        fun x -> MinMaxYearNakedCalendar.WithMinYear("Gregorian", x, DayZero.NewStyle, 1))
+    let q = sch.Select(fun x ->
+        MinMaxYearScope.StartingAt(x, DayZero.NewStyle, 1)).Select(fun x ->
+        new MinMaxYearNakedCalendar("Gregorian", x))
+
     let chr = q.Unbox()
 
     let parts = chr.GetDateParts(DayNumber.Today())
