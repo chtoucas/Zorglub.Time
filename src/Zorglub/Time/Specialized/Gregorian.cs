@@ -233,7 +233,9 @@ namespace Zorglub.Time.Specialized
         /// <inheritdoc />
         public static GregorianCalendar Calendar => s_Calendar;
 
-        /// <inheritdoc />
+        /// <summary>
+        /// Gets the day number.
+        /// </summary>
         public DayNumber DayNumber => new(_daysSinceZero);
 
         /// <inheritdoc />

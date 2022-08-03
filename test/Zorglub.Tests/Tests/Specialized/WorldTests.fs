@@ -61,7 +61,7 @@ module Bundles =
     [<Sealed>]
     [<TestExtrasAssembly>]
     type DateFacts() =
-        inherit ISpecializedDateFacts<WorldDate, WorldCalendar, StandardWorldDataSet>(chr)
+        inherit IDateFacts<WorldDate, WorldCalendar, StandardWorldDataSet>(chr)
 
         override __.MinDate = WorldDate.MinValue
         override __.MaxDate = WorldDate.MaxValue

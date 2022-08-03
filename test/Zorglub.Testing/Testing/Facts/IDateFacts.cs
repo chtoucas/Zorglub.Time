@@ -87,6 +87,7 @@ public partial class IDateFacts<TDate, TDataSet> // Conversions
         Assert.Equal(date, TDate.FromDayNumber(dayNumber));
     }
 
+    // Normally, this also tests the prop DayNumber if there is one.
     [Theory, MemberData(nameof(DayNumberInfoData))]
     public void ToDayNumber(DayNumberInfo info)
     {

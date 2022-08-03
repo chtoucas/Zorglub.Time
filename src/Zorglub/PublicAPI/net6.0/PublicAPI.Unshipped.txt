@@ -1239,7 +1239,6 @@ Zorglub.Time.Hemerology.ICalendar<TDate>.GetStartOfYear(int year) -> TDate
 Zorglub.Time.Hemerology.IDate
 Zorglub.Time.Hemerology.IDate<TSelf, TCalendar>
 Zorglub.Time.Hemerology.IDate<TSelf, TCalendar>.Calendar.get -> TCalendar
-Zorglub.Time.Hemerology.IDate<TSelf, TCalendar>.DayNumber.get -> Zorglub.Time.DayNumber
 Zorglub.Time.Hemerology.IDate<TSelf>
 Zorglub.Time.Hemerology.IDateable
 Zorglub.Time.Hemerology.IDateable.Century.get -> int

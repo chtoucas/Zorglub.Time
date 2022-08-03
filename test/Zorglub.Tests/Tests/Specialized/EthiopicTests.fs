@@ -35,7 +35,7 @@ module Bundles =
     [<Sealed>]
     [<TestExtrasAssembly>]
     type DateFacts() =
-        inherit ISpecializedDateFacts<EthiopicDate, EthiopicCalendar, StandardEthiopic12DataSet>(chr)
+        inherit IDateFacts<EthiopicDate, EthiopicCalendar, StandardEthiopic12DataSet>(chr)
 
         override __.MinDate = EthiopicDate.MinValue
         override __.MaxDate = EthiopicDate.MaxValue
@@ -87,7 +87,7 @@ module Bundles13 =
     [<Sealed>]
     [<TestExtrasAssembly>]
     type DateFacts() =
-        inherit ISpecializedDateFacts<Ethiopic13Date, Ethiopic13Calendar, StandardEthiopic13DataSet>(chr)
+        inherit IDateFacts<Ethiopic13Date, Ethiopic13Calendar, StandardEthiopic13DataSet>(chr)
 
         override __.MinDate = Ethiopic13Date.MinValue
         override __.MaxDate = Ethiopic13Date.MaxValue

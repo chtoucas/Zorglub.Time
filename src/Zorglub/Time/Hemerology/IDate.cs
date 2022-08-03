@@ -34,12 +34,5 @@ namespace Zorglub.Time.Hemerology
         /// <para>This static property is thread-safe.</para>
         /// </summary>
         static abstract TCalendar Calendar { get; }
-
-        // TODO(api): property DayNumber (CalendarDay and specialized date types).
-
-        /// <summary>
-        /// Gets the day number.
-        /// </summary>
-        DayNumber DayNumber { get; }
     }
 }

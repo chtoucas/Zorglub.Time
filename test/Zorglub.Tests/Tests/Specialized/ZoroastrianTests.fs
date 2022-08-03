@@ -35,7 +35,7 @@ module Bundles =
     [<Sealed>]
     [<TestExtrasAssembly>]
     type DateFacts() =
-        inherit ISpecializedDateFacts<ZoroastrianDate, ZoroastrianCalendar, StandardZoroastrian12DataSet>(chr)
+        inherit IDateFacts<ZoroastrianDate, ZoroastrianCalendar, StandardZoroastrian12DataSet>(chr)
 
         override __.MinDate = ZoroastrianDate.MinValue
         override __.MaxDate = ZoroastrianDate.MaxValue
@@ -87,7 +87,7 @@ module Bundles13 =
     [<Sealed>]
     [<TestExtrasAssembly>]
     type DateFacts() =
-        inherit ISpecializedDateFacts<Zoroastrian13Date, Zoroastrian13Calendar, StandardZoroastrian13DataSet>(chr)
+        inherit IDateFacts<Zoroastrian13Date, Zoroastrian13Calendar, StandardZoroastrian13DataSet>(chr)
 
         override __.MinDate = Zoroastrian13Date.MinValue
         override __.MaxDate = Zoroastrian13Date.MaxValue

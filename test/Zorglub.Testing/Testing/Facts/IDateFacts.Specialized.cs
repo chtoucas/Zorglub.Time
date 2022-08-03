@@ -5,30 +5,20 @@ namespace Zorglub.Testing.Facts;
 
 using Zorglub.Testing.Data;
 using Zorglub.Time.Hemerology;
-using Zorglub.Time.Specialized;
 
 // TODO(fact): améliorer ToString().
 
 /// <summary>
 /// Provides facts about <see cref="IDate{TSelf, TCalendar}"/>.
 /// </summary>
-public abstract partial class ISpecializedDateFacts<TDate, TCalendar, TDataSet> :
+public abstract partial class IDateFacts<TDate, TCalendar, TDataSet> :
     IDateFacts<TDate, TDataSet>
     // BasicCalendar for the prop Name.
     where TCalendar : BasicCalendar, ICalendar<TDate>
     where TDate : struct, IDate<TDate, TCalendar>
     where TDataSet : ICalendarDataSet, ISingleton<TDataSet>
 {
-    protected ISpecializedDateFacts(TCalendar calendar) : base(GetDomain(calendar)) { }
-
-    [Theory, MemberData(nameof(DayNumberInfoData))]
-    public void DayNumber_Prop(DayNumberInfo info)
-    {
-        var (dayNumber, y, m, d) = info;
-        var date = GetDate(y, m, d);
-        // Act & Assert
-        Assert.Equal(dayNumber, date.DayNumber);
-    }
+    protected IDateFacts(TCalendar calendar) : base(GetDomain(calendar)) { }
 
     [Fact]
     public void ToString_InvariantCulture()

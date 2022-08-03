@@ -35,7 +35,7 @@ module Bundles =
     [<Sealed>]
     [<TestExtrasAssembly>]
     type DateFacts() =
-        inherit ISpecializedDateFacts<CopticDate, CopticCalendar, StandardCoptic12DataSet>(chr)
+        inherit IDateFacts<CopticDate, CopticCalendar, StandardCoptic12DataSet>(chr)
 
         override __.MinDate = CopticDate.MinValue
         override __.MaxDate = CopticDate.MaxValue
@@ -87,7 +87,7 @@ module Bundles13 =
     [<Sealed>]
     [<TestExtrasAssembly>]
     type DateFacts() =
-        inherit ISpecializedDateFacts<Coptic13Date, Coptic13Calendar, StandardCoptic13DataSet>(chr)
+        inherit IDateFacts<Coptic13Date, Coptic13Calendar, StandardCoptic13DataSet>(chr)
 
         override __.MinDate = Coptic13Date.MinValue
         override __.MaxDate = Coptic13Date.MaxValue

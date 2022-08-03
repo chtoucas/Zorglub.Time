@@ -191,7 +191,9 @@ namespace Zorglub.Time.Specialized
         /// <inheritdoc />
         public static TabularIslamicCalendar Calendar => s_Calendar;
 
-        /// <inheritdoc />
+        /// <summary>
+        /// Gets the day number.
+        /// </summary>
         public DayNumber DayNumber => s_Epoch + _daysSinceEpoch;
 
         /// <inheritdoc />
