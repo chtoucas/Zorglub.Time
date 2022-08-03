@@ -121,6 +121,7 @@
     <Compile Include="Tests\Specialized\WorldTests.fs" />
     <Compile Include="Tests\Specialized\ZoroastrianTests.fs" />
     <Compile Include="Tests\Extensions\DayOfWeek%24Tests.fs" />
+    <Compile Include="Tests\Extensions\IsoDayOfWeek%24Tests.fs" />
     <Compile Include="Tests\Extensions\UnboxingTests.fs" />
     <Compile Include="Tests\Extras\ZDateTests.fs" />
     <Compile Include="Tests\Extras\XCivilDateTests.fs" />

@@ -58,31 +58,4 @@ namespace Zorglub.Time
         /// </summary>
         Sunday = 7
     }
-
-    /// <summary>
-    /// Provides extension methods for <see cref="IsoDayOfWeek"/>.
-    /// <para>This class cannot be inherited.</para>
-    /// </summary>
-    public static class IsoDayOfWeekExtensions
-    {
-        /// <summary>
-        /// Returns true if the specified ISO day of the week is invalid;
-        /// otherwise returns false.
-        /// </summary>
-        // FIXME(code): replace by a Requires.Defined().
-        internal static bool IsInvalid(this IsoDayOfWeek @this) =>
-            @this < IsoDayOfWeek.Monday || @this > IsoDayOfWeek.Sunday;
-
-        /// <summary>
-        /// Converts the specified ISO day of the week to the equivalent
-        /// <see cref="DayOfWeek"/> value.
-        /// </summary>
-        [Pure]
-        public static DayOfWeek ToDayOfWeek(this IsoDayOfWeek @this)
-        {
-            if (@this.IsInvalid()) Throw.ArgumentOutOfRange(nameof(@this));
-
-            return (DayOfWeek)((int)@this % 7);
-        }
-    }
 }

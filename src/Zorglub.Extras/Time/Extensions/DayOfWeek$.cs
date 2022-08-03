@@ -22,7 +22,8 @@ namespace Zorglub.Time.Extensions
         }
 
         /// <summary>
-        /// Converts the value of the specified day of the week to the equivalent ISO day of the week.
+        /// Converts the value of the specified day of the week to the equivalent
+        /// <see cref="IsoDayOfWeek"/>.
         /// </summary>
         [Pure]
         public static IsoDayOfWeek ToIsoDayOfWeek(this DayOfWeek @this)

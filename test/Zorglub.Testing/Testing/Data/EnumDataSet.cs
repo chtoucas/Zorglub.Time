@@ -13,6 +13,12 @@ public static class EnumDataSet
         (DayOfWeek)7
     };
 
+    public static TheoryData<IsoDayOfWeek> InvalidIsoDayOfWeekData { get; } = new()
+    {
+        0,
+        (IsoDayOfWeek)8
+    };
+
     public static TheoryData<DayOfWeek> DayOfWeekData { get; } = new()
     {
         DayOfWeek.Monday,

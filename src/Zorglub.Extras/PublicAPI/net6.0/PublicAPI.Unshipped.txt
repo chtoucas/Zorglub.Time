@@ -222,7 +222,8 @@ static Zorglub.Time.Extensions.DayNumberExtensions.OnOrBefore(this Zorglub.Time.
 static Zorglub.Time.Extensions.DayNumberExtensions.OnOrBefore(this Zorglub.Time.DayNumber this, System.DayOfWeek dayOfWeek, int num) -> Zorglub.Time.DayNumber
 static Zorglub.Time.Extensions.DayOfWeekExtensions.ToIsoDayOfWeek(this System.DayOfWeek this) -> Zorglub.Time.IsoDayOfWeek
 static Zorglub.Time.Extensions.DayOfWeekExtensions.ToIsoWeekday(this System.DayOfWeek this) -> int
-static Zorglub.Time.IsoDayOfWeekExtensions.ToDayOfWeek(this Zorglub.Time.IsoDayOfWeek this) -> System.DayOfWeek
+static Zorglub.Time.Extensions.IsoDayOfWeekExtensions.ToDayOfWeek(this Zorglub.Time.IsoDayOfWeek this) -> System.DayOfWeek
+static Zorglub.Time.Extensions.IsoDayOfWeekExtensions.ToIsoWeekday(this Zorglub.Time.IsoDayOfWeek this) -> int
 static Zorglub.Time.Specialized.Armenian13Date.Calendar.get -> Zorglub.Time.Specialized.Armenian13Calendar!
 static Zorglub.Time.Specialized.Armenian13Date.Max(Zorglub.Time.Specialized.Armenian13Date x, Zorglub.Time.Specialized.Armenian13Date y) -> Zorglub.Time.Specialized.Armenian13Date
 static Zorglub.Time.Specialized.Armenian13Date.MaxValue.get -> Zorglub.Time.Specialized.Armenian13Date
@@ -424,6 +425,7 @@ Zorglub.Time.Core.Schemas.WorldSchema.MonthsInYear.get -> int
 Zorglub.Time.Extensions.BoxExtensions
 Zorglub.Time.Extensions.DayNumberExtensions
 Zorglub.Time.Extensions.DayOfWeekExtensions
+Zorglub.Time.Extensions.IsoDayOfWeekExtensions
 Zorglub.Time.IsoDayOfWeek
 Zorglub.Time.IsoDayOfWeek.Friday = 5 -> Zorglub.Time.IsoDayOfWeek
 Zorglub.Time.IsoDayOfWeek.Monday = 1 -> Zorglub.Time.IsoDayOfWeek
@@ -433,7 +435,6 @@ Zorglub.Time.IsoDayOfWeek.Sunday = 7 -> Zorglub.Time.IsoDayOfWeek
 Zorglub.Time.IsoDayOfWeek.Thursday = 4 -> Zorglub.Time.IsoDayOfWeek
 Zorglub.Time.IsoDayOfWeek.Tuesday = 2 -> Zorglub.Time.IsoDayOfWeek
 Zorglub.Time.IsoDayOfWeek.Wednesday = 3 -> Zorglub.Time.IsoDayOfWeek
-Zorglub.Time.IsoDayOfWeekExtensions
 Zorglub.Time.Specialized.Armenian13Calendar
 Zorglub.Time.Specialized.Armenian13Calendar.Armenian13Calendar() -> void
 Zorglub.Time.Specialized.Armenian13Calendar.MonthsInYear.get -> int

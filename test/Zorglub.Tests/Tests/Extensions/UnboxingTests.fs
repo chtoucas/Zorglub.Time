@@ -8,11 +8,12 @@ open System
 open Zorglub.Testing
 
 open Zorglub.Time.Core.Utilities
-open Zorglub.Time.Extensions
 
 open Xunit
 open FsCheck
 open FsCheck.Xunit
+
+open type Zorglub.Time.Extensions.Unboxing
 
 [<Fact>]
 let ``Unbox() throws when the box is empty`` () =
