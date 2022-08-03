@@ -31,6 +31,27 @@ namespace Zorglub.Time.Hemerology
         /// </summary>
         private readonly DayNumber _epoch;
 
+        // FIXME(api): ctor should use a calendar ICalendar<TDate>.
+        // The code works because we use TDate.FromDayNumber() that validates
+        // the dayNumber, but it also makes the code unefficient when the
+        // calendar is complete (the validation is unnecessary); see
+        // MinMaxYearCalendar<T>. Maybe we could restrict ourselves to complete
+        // calendars.
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DateAdjusters{TDate}"/> class.
+        /// </summary>
+        public DateAdjusters(ICalendar<TDate> calendar)
+        {
+            Requires.NotNull(calendar);
+
+            var chr = calendar as ISchemaBound;
+            if (chr is null) Throw.Argument(nameof(calendar));
+            _schema = chr.Schema;
+
+            _epoch = calendar.Epoch;
+        }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="DateAdjusters{TDate}"/> class.
         /// </summary>
