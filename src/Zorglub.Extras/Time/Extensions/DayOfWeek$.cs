@@ -10,18 +10,6 @@ namespace Zorglub.Time.Extensions
     public static class DayOfWeekExtensions
     {
         /// <summary>
-        /// Obtains the value of the specified day of the week as an ISO weekday number.
-        /// </summary>
-        /// <exception cref="AoorException">The specified day of the week is not valid.</exception>
-        [Pure]
-        public static int ToIsoWeekday(this DayOfWeek @this)
-        {
-            Requires.Defined(@this);
-
-            return @this == DayOfWeek.Sunday ? 7 : (int)@this;
-        }
-
-        /// <summary>
         /// Converts the value of the specified day of the week to the equivalent
         /// <see cref="IsoDayOfWeek"/>.
         /// </summary>

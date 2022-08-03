@@ -3,12 +3,10 @@
 
 namespace Zorglub.Time
 {
-    // REVIEW(api): avoir une valeur par défaut illégale ne me plaît pas.
-    // De plus, comme on a déjà DayOfWeek à notre disposition, cela me semble
-    // inutile d'ajouter un nouveau type qui remplit exactement le même rôle.
-    // Enfin, on peut toujours utiliser DayOfWeek.ToWeekday().
-    // Quant au nom, j'hésite toujours entre IsoDayOfWeek et IsoWeekday.
-    // En même temps, j'imagine un autre usage à Weekday (CalendarWeekday).
+    // REVIEW(api): avoir une valeur par défaut illégale ne me plaît pas des masses.
+
+    // Nom: IsoDayOfWeek ou IsoWeekday ? En fait, j'imagine un autre usage à
+    // Weekday (CalendarWeekday).
 
     /// <summary>
     /// Specifies the ISO day of the week.

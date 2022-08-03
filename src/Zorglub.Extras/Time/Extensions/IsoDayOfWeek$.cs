@@ -9,24 +9,15 @@ namespace Zorglub.Time.Extensions
     /// </summary>
     public static class IsoDayOfWeekExtensions
     {
+        // REVIEW(code): replace IsInvalid() by a Requires.Defined(). Not
+        // "possible" right now since Requires is defined in the main assembly
+        // which does not know anything about IsoDayOfWeek.
+
         /// <summary>
         /// Returns true if the specified ISO day of the week is invalid; otherwise returns false.
         /// </summary>
-        // FIXME(code): replace by a Requires.Defined().
         internal static bool IsInvalid(this IsoDayOfWeek @this) =>
             @this < IsoDayOfWeek.Monday || @this > IsoDayOfWeek.Sunday;
-
-        /// <summary>
-        /// Obtains the value of the specified <see cref="IsoDayOfWeek"/> as an ISO weekday number.
-        /// </summary>
-        /// <exception cref="AoorException">The specified day of the week is not valid.</exception>
-        [Pure]
-        public static int ToIsoWeekday(this IsoDayOfWeek @this)
-        {
-            if (@this.IsInvalid()) Throw.ArgumentOutOfRange(nameof(@this));
-
-            return @this == IsoDayOfWeek.Sunday ? 7 : (int)@this;
-        }
 
         /// <summary>
         /// Converts the value of the specified <see cref="IsoDayOfWeek"/> to the equivalent

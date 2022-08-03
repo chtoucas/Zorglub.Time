@@ -221,9 +221,7 @@ static Zorglub.Time.Extensions.DayNumberExtensions.OnOrAfter(this Zorglub.Time.D
 static Zorglub.Time.Extensions.DayNumberExtensions.OnOrBefore(this Zorglub.Time.DayNumber this, System.DayOfWeek dayOfWeek) -> Zorglub.Time.DayNumber
 static Zorglub.Time.Extensions.DayNumberExtensions.OnOrBefore(this Zorglub.Time.DayNumber this, System.DayOfWeek dayOfWeek, int num) -> Zorglub.Time.DayNumber
 static Zorglub.Time.Extensions.DayOfWeekExtensions.ToIsoDayOfWeek(this System.DayOfWeek this) -> Zorglub.Time.IsoDayOfWeek
-static Zorglub.Time.Extensions.DayOfWeekExtensions.ToIsoWeekday(this System.DayOfWeek this) -> int
 static Zorglub.Time.Extensions.IsoDayOfWeekExtensions.ToDayOfWeek(this Zorglub.Time.IsoDayOfWeek this) -> System.DayOfWeek
-static Zorglub.Time.Extensions.IsoDayOfWeekExtensions.ToIsoWeekday(this Zorglub.Time.IsoDayOfWeek this) -> int
 static Zorglub.Time.Specialized.Armenian13Date.Calendar.get -> Zorglub.Time.Specialized.Armenian13Calendar!
 static Zorglub.Time.Specialized.Armenian13Date.Max(Zorglub.Time.Specialized.Armenian13Date x, Zorglub.Time.Specialized.Armenian13Date y) -> Zorglub.Time.Specialized.Armenian13Date
 static Zorglub.Time.Specialized.Armenian13Date.MaxValue.get -> Zorglub.Time.Specialized.Armenian13Date

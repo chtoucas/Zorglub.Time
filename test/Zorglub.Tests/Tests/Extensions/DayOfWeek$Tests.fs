@@ -16,25 +16,12 @@ open type Zorglub.Time.Extensions.DayOfWeekExtensions
 
 let invalidDayOfWeekData  = EnumDataSet.InvalidDayOfWeekData
 
-[<Theory; MemberData(nameof(invalidDayOfWeekData))>]
-let ``ToIsoWeekday() throws when the value of DayOfWeek is out of range`` (dayOfWeek: DayOfWeek) =
-     outOfRangeExn "@this" (fun () -> dayOfWeek.ToIsoWeekday())
-
-[<Theory>]
-[<InlineData(DayOfWeek.Monday,    1)>]
-[<InlineData(DayOfWeek.Tuesday,   2)>]
-[<InlineData(DayOfWeek.Wednesday, 3)>]
-[<InlineData(DayOfWeek.Thursday,  4)>]
-[<InlineData(DayOfWeek.Friday,    5)>]
-[<InlineData(DayOfWeek.Saturday,  6)>]
-[<InlineData(DayOfWeek.Sunday,    7)>]
-let ``ToIsoWeekday()`` (dayOfWeek: DayOfWeek) iso =
-    dayOfWeek.ToIsoWeekday() === iso
-
+[<TestExtrasAssembly>]
 [<Theory; MemberData(nameof(invalidDayOfWeekData))>]
 let ``ToIsoDayOfWeek() throws when the value of DayOfWeek is out of range`` (dayOfWeek: DayOfWeek) =
      outOfRangeExn "@this" (fun () -> dayOfWeek.ToIsoDayOfWeek())
 
+[<TestExtrasAssembly>]
 [<Theory>]
 [<InlineData(DayOfWeek.Monday,    IsoDayOfWeek.Monday)>]
 [<InlineData(DayOfWeek.Tuesday,   IsoDayOfWeek.Tuesday)>]
