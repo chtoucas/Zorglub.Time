@@ -6,6 +6,7 @@ module Zorglub.Tests.Specialized.CivilTests
 open Zorglub.Testing
 open Zorglub.Testing.Data.Bounded
 open Zorglub.Testing.Facts
+open Zorglub.Testing.Facts.Hemerology
 
 open Zorglub.Time
 open Zorglub.Time.Specialized
@@ -39,6 +40,13 @@ module Bundles =
 
         override __.MinDate = CivilDate.MinValue
         override __.MaxDate = CivilDate.MaxValue
+
+        override __.GetDate(y, m, d) = new CivilDate(y, m, d)
+
+    [<Sealed>]
+    [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
+    type DateAdjustersFacts() =
+        inherit IDateAdjustersFacts<CivilDate, CivilAdjusters, StandardGregorianDataSet>(new CivilAdjusters())
 
         override __.GetDate(y, m, d) = new CivilDate(y, m, d)
 

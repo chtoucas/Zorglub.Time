@@ -44,6 +44,13 @@ module Bundles =
 
     [<Sealed>]
     [<TestExtrasAssembly>]
+    type DateAdjustersFacts() =
+        inherit IDateAdjustersFacts<ZoroastrianDate, ZoroastrianAdjusters, StandardZoroastrian12DataSet>(new ZoroastrianAdjusters())
+
+        override __.GetDate(y, m, d) = new ZoroastrianDate(y, m, d)
+
+    [<Sealed>]
+    [<TestExtrasAssembly>]
     type EpagomenalDateFacts() =
         inherit IEpagomenalDayFacts<ZoroastrianDate, StandardZoroastrian12DataSet>()
 
@@ -78,6 +85,13 @@ module Bundles13 =
 
         override __.MinDate = Zoroastrian13Date.MinValue
         override __.MaxDate = Zoroastrian13Date.MaxValue
+
+        override __.GetDate(y, m, d) = new Zoroastrian13Date(y, m, d)
+
+    [<Sealed>]
+    [<TestExtrasAssembly>]
+    type DateAdjustersFacts() =
+        inherit IDateAdjustersFacts<Zoroastrian13Date, Zoroastrian13Adjusters, StandardZoroastrian13DataSet>(new Zoroastrian13Adjusters())
 
         override __.GetDate(y, m, d) = new Zoroastrian13Date(y, m, d)
 

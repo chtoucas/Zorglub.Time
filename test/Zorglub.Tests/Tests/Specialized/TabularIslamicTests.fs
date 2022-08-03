@@ -6,6 +6,7 @@ module Zorglub.Tests.Specialized.TabularIslamicTests
 open Zorglub.Testing
 open Zorglub.Testing.Data.Bounded
 open Zorglub.Testing.Facts
+open Zorglub.Testing.Facts.Hemerology
 
 open Zorglub.Time
 open Zorglub.Time.Specialized
@@ -38,5 +39,12 @@ module Bundles =
 
         override __.MinDate = TabularIslamicDate.MinValue
         override __.MaxDate = TabularIslamicDate.MaxValue
+
+        override __.GetDate(y, m, d) = new TabularIslamicDate(y, m, d)
+
+    [<Sealed>]
+    [<TestExtrasAssembly>]
+    type DateAdjustersFacts() =
+        inherit IDateAdjustersFacts<TabularIslamicDate, TabularIslamicAdjusters, StandardTabularIslamicDataSet>(new TabularIslamicAdjusters())
 
         override __.GetDate(y, m, d) = new TabularIslamicDate(y, m, d)

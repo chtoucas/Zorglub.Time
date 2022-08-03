@@ -33,6 +33,8 @@ namespace Zorglub.Time.Hemerology
         /// <exception cref="ArgumentException"><paramref name="scope"/> is not complete.</exception>
         public MinMaxYearCalendar(string name, CalendarScope scope) : base(name, scope) { }
 
+        // REVIEW(api): I have serious doubts about GetDate().
+
         /// <summary>
         /// Creates a new instance of <typeparamref name="TDate"/> from the specified count of
         /// consecutive days since the epoch.

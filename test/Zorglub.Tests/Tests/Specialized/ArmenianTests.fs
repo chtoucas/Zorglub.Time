@@ -44,6 +44,13 @@ module Bundles =
 
     [<Sealed>]
     [<TestExtrasAssembly>]
+    type DateAdjustersFacts() =
+        inherit IDateAdjustersFacts<ArmenianDate, ArmenianAdjusters, StandardArmenian12DataSet>(new ArmenianAdjusters())
+
+        override __.GetDate(y, m, d) = new ArmenianDate(y, m, d)
+
+    [<Sealed>]
+    [<TestExtrasAssembly>]
     type EpagomenalDateFacts() =
         inherit IEpagomenalDayFacts<ArmenianDate, StandardArmenian12DataSet>()
 
@@ -79,6 +86,13 @@ module Bundles13 =
 
         override __.MinDate = Armenian13Date.MinValue
         override __.MaxDate = Armenian13Date.MaxValue
+
+        override __.GetDate(y, m, d) = new Armenian13Date(y, m, d)
+
+    [<Sealed>]
+    [<TestExtrasAssembly>]
+    type DateAdjustersFacts() =
+        inherit IDateAdjustersFacts<Armenian13Date, Armenian13Adjusters, StandardArmenian13DataSet>(new Armenian13Adjusters())
 
         override __.GetDate(y, m, d) = new Armenian13Date(y, m, d)
 

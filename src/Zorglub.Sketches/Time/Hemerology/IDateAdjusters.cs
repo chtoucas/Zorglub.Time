@@ -9,7 +9,7 @@ namespace Zorglub.Time.Hemerology
     /// Defines the common adjusters for <typeparamref name="TDate"/>.
     /// </summary>
     /// <typeparam name="TDate">The type of date object.</typeparam>
-    public interface IDateAdjusters<TDate>
+    public interface IDateAdjusters<TDate> where TDate : IDateable
     {
         /// <summary>
         /// Obtains the first day of the month to which belongs the specified day.

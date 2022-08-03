@@ -21,6 +21,11 @@ namespace Zorglub.Time.Specialized
         /// <summary>
         /// Initializes a new instance of the <see cref="CivilAdjusters"/> class.
         /// </summary>
+        public CivilAdjusters() : this(new CivilSchema()) { }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CivilAdjusters"/> class.
+        /// </summary>
         public CivilAdjusters(CivilSchema schema)
         {
             Requires.NotNull(schema);

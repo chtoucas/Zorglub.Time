@@ -44,6 +44,13 @@ module Bundles =
 
     [<Sealed>]
     [<TestExtrasAssembly>]
+    type DateAdjustersFacts() =
+        inherit IDateAdjustersFacts<EthiopicDate, EthiopicAdjusters, StandardEthiopic12DataSet>(new EthiopicAdjusters())
+
+        override __.GetDate(y, m, d) = new EthiopicDate(y, m, d)
+
+    [<Sealed>]
+    [<TestExtrasAssembly>]
     type EpagomenalDateFacts() =
         inherit IEpagomenalDayFacts<EthiopicDate, StandardEthiopic12DataSet>()
 
@@ -78,6 +85,13 @@ module Bundles13 =
 
         override __.MinDate = Ethiopic13Date.MinValue
         override __.MaxDate = Ethiopic13Date.MaxValue
+
+        override __.GetDate(y, m, d) = new Ethiopic13Date(y, m, d)
+
+    [<Sealed>]
+    [<TestExtrasAssembly>]
+    type DateAdjustersFacts() =
+        inherit IDateAdjustersFacts<Ethiopic13Date, Ethiopic13Adjusters, StandardEthiopic13DataSet>(new Ethiopic13Adjusters())
 
         override __.GetDate(y, m, d) = new Ethiopic13Date(y, m, d)
 

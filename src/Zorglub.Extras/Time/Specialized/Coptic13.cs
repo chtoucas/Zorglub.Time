@@ -240,11 +240,6 @@ namespace Zorglub.Time.Specialized
         }
 
         /// <summary>
-        /// Gets the count of days since the Coptic epoch.
-        /// </summary>
-        internal int DaysSinceEpoch => _daysSinceEpoch;
-
-        /// <summary>
         /// Returns a culture-independent string representation of the current instance.
         /// </summary>
         [Pure]

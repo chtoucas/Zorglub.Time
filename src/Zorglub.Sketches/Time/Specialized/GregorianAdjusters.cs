@@ -21,6 +21,11 @@ namespace Zorglub.Time.Specialized
         /// <summary>
         /// Initializes a new instance of the <see cref="GregorianAdjusters"/> class.
         /// </summary>
+        public GregorianAdjusters() : this(new GregorianSchema()) { }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="GregorianAdjusters"/> class.
+        /// </summary>
         public GregorianAdjusters(GregorianSchema schema)
         {
             Requires.NotNull(schema);

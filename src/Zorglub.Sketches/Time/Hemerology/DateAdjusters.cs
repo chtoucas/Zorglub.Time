@@ -10,6 +10,9 @@ namespace Zorglub.Time.Hemerology
     // there is a better way to implement IDateAdjusters; see for instance
     // MyDate.
 
+    // REVIEW(api): use prop DaysSinceEpoch? not yet possible.
+    // I have serious doubts about GetDate(); see also MinMaxYearCalendar<>.
+
     /// <summary>
     /// Provides a default implementation for <see cref="IDateAdjusters{TDate}"/>.
     /// <para>This class works best when <typeparamref name="TDate"/> is based on the count of
@@ -17,14 +20,14 @@ namespace Zorglub.Time.Hemerology
     /// <para>This class cannot be inherited.</para>
     /// </summary>
     /// <typeparam name="TDate">The type of date object.</typeparam>
-    public sealed class DateAdjusters<TDate> : IDateAdjusters<TDate>
+    public class DateAdjusters<TDate> : IDateAdjusters<TDate>
         where TDate : IDate<TDate>
     {
         /// <summary>
         /// Represents the Julian schema.
         /// <para>This field is read-only.</para>
         /// </summary>
-        private readonly CalendricalSchema _schema;
+        private readonly ICalendricalSchema _schema;
 
         /// <summary>
         /// Represents the epoch.
@@ -35,7 +38,7 @@ namespace Zorglub.Time.Hemerology
         /// <summary>
         /// Initializes a new instance of the <see cref="DateAdjusters{TDate}"/> class.
         /// </summary>
-        public DateAdjusters(DayNumber epoch, JulianSchema schema)
+        public DateAdjusters(DayNumber epoch, ICalendricalSchema schema)
         {
             Requires.NotNull(schema);
 
@@ -43,12 +46,20 @@ namespace Zorglub.Time.Hemerology
             _schema = schema;
         }
 
+        /// <summary>
+        /// Creates a new instance of <typeparamref name="TDate"/> from the specified count of
+        /// consecutive days since the epoch.
+        /// </summary>
+        [Pure]
+        protected virtual TDate GetDate(int daysSinceEpoch) =>
+            TDate.FromDayNumber(_epoch + daysSinceEpoch);
+
         /// <inheritdoc />
         [Pure]
         public TDate GetStartOfYear(TDate date)
         {
             int daysSinceEpoch = _schema.GetStartOfYear(date.Year);
-            return TDate.FromDayNumber(_epoch + daysSinceEpoch);
+            return GetDate(daysSinceEpoch);
         }
 
         /// <inheritdoc />
@@ -56,7 +67,7 @@ namespace Zorglub.Time.Hemerology
         public TDate GetEndOfYear(TDate date)
         {
             int daysSinceEpoch = _schema.GetEndOfYear(date.Year);
-            return TDate.FromDayNumber(_epoch + daysSinceEpoch);
+            return GetDate(daysSinceEpoch);
         }
 
         /// <inheritdoc />
@@ -66,7 +77,7 @@ namespace Zorglub.Time.Hemerology
             var dayNumber = date.ToDayNumber();
             _schema.GetDateParts(dayNumber - _epoch, out int y, out int m, out _);
             int daysSinceEpoch = _schema.GetStartOfMonth(y, m);
-            return TDate.FromDayNumber(_epoch + daysSinceEpoch);
+            return GetDate(daysSinceEpoch);
         }
 
         /// <inheritdoc />
@@ -76,7 +87,7 @@ namespace Zorglub.Time.Hemerology
             var dayNumber = date.ToDayNumber();
             _schema.GetDateParts(dayNumber - _epoch, out int y, out int m, out _);
             int daysSinceEpoch = _schema.GetEndOfMonth(y, m);
-            return TDate.FromDayNumber(_epoch + daysSinceEpoch);
+            return GetDate(daysSinceEpoch);
         }
     }
 }

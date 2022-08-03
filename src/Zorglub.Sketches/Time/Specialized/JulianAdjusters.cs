@@ -21,6 +21,11 @@ namespace Zorglub.Time.Specialized
         /// <summary>
         /// Initializes a new instance of the <see cref="JulianAdjusters"/> class.
         /// </summary>
+        public JulianAdjusters() : this(new JulianSchema()) { }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="JulianAdjusters"/> class.
+        /// </summary>
         public JulianAdjusters(JulianSchema schema)
         {
             Requires.NotNull(schema);

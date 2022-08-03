@@ -6,6 +6,7 @@ module Zorglub.Tests.Specialized.GregorianTests
 open Zorglub.Testing
 open Zorglub.Testing.Data.Unbounded
 open Zorglub.Testing.Facts
+open Zorglub.Testing.Facts.Hemerology
 
 open Zorglub.Time
 open Zorglub.Time.Specialized
@@ -39,6 +40,13 @@ module Bundles =
 
         override __.MinDate = GregorianDate.MinValue
         override __.MaxDate = GregorianDate.MaxValue
+
+        override __.GetDate(y, m, d) = new GregorianDate(y, m, d)
+
+    [<Sealed>]
+    [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
+    type DateAdjustersFacts() =
+        inherit IDateAdjustersFacts<GregorianDate, GregorianAdjusters, UnboundedGregorianDataSet>(new GregorianAdjusters())
 
         override __.GetDate(y, m, d) = new GregorianDate(y, m, d)
 

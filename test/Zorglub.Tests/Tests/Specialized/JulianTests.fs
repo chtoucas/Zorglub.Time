@@ -6,6 +6,7 @@ module Zorglub.Tests.Specialized.JulianTests
 open Zorglub.Testing
 open Zorglub.Testing.Data.Unbounded
 open Zorglub.Testing.Facts
+open Zorglub.Testing.Facts.Hemerology
 
 open Zorglub.Time
 open Zorglub.Time.Specialized
@@ -39,5 +40,12 @@ module Bundles =
 
         override __.MinDate = JulianDate.MinValue
         override __.MaxDate = JulianDate.MaxValue
+
+        override __.GetDate(y, m, d) = new JulianDate(y, m, d)
+
+    [<Sealed>]
+    [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
+    type DateAdjustersFacts() =
+        inherit IDateAdjustersFacts<JulianDate, JulianAdjusters, UnboundedJulianDataSet>(new JulianAdjusters())
 
         override __.GetDate(y, m, d) = new JulianDate(y, m, d)

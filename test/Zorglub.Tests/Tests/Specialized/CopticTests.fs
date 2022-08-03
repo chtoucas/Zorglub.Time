@@ -44,6 +44,13 @@ module Bundles =
 
     [<Sealed>]
     [<TestExtrasAssembly>]
+    type DateAdjustersFacts() =
+        inherit IDateAdjustersFacts<CopticDate, CopticAdjusters, StandardCoptic12DataSet>(new CopticAdjusters())
+
+        override __.GetDate(y, m, d) = new CopticDate(y, m, d)
+
+    [<Sealed>]
+    [<TestExtrasAssembly>]
     type EpagomenalDateFacts() =
         inherit IEpagomenalDayFacts<CopticDate, StandardCoptic12DataSet>()
 
@@ -78,6 +85,13 @@ module Bundles13 =
 
         override __.MinDate = Coptic13Date.MinValue
         override __.MaxDate = Coptic13Date.MaxValue
+
+        override __.GetDate(y, m, d) = new Coptic13Date(y, m, d)
+
+    [<Sealed>]
+    [<TestExtrasAssembly>]
+    type DateAdjustersFacts() =
+        inherit IDateAdjustersFacts<Coptic13Date, Coptic13Adjusters, StandardCoptic13DataSet>(new Coptic13Adjusters())
 
         override __.GetDate(y, m, d) = new Coptic13Date(y, m, d)
 

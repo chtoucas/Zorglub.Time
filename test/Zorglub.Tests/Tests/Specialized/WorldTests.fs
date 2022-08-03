@@ -8,6 +8,7 @@ open Zorglub.Testing.Data
 open Zorglub.Testing.Data.Bounded
 open Zorglub.Testing.Data.Schemas
 open Zorglub.Testing.Facts
+open Zorglub.Testing.Facts.Hemerology
 
 open Zorglub.Time
 open Zorglub.Time.Specialized
@@ -61,6 +62,13 @@ module Bundles =
 
         override __.MinDate = WorldDate.MinValue
         override __.MaxDate = WorldDate.MaxValue
+
+        override __.GetDate(y, m, d) = new WorldDate(y, m, d)
+
+    [<Sealed>]
+    [<TestExtrasAssembly>]
+    type DateAdjustersFacts() =
+        inherit IDateAdjustersFacts<WorldDate, WorldAdjusters, StandardWorldDataSet>(new WorldAdjusters())
 
         override __.GetDate(y, m, d) = new WorldDate(y, m, d)
 
