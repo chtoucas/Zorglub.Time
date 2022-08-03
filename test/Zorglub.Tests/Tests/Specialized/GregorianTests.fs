@@ -43,10 +43,13 @@ module Bundles =
 
         override __.GetDate(y, m, d) = new GregorianDate(y, m, d)
 
+        [<Fact>]
+        static member Adjusters_Prop() = GregorianDate.Adjusters |> isnotnull
+
     [<Sealed>]
     [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
     type DateAdjustersFacts() =
-        inherit IDateAdjustersFacts<GregorianDate, GregorianAdjusters, UnboundedGregorianDataSet>(GregorianDate.Adjusters)
+        inherit IDateAdjustersFacts<GregorianDate, GregorianAdjusters, UnboundedGregorianDataSet>(new GregorianAdjusters())
 
         override __.GetDate(y, m, d) = new GregorianDate(y, m, d)
 

@@ -43,10 +43,13 @@ module Bundles =
 
         override __.GetDate(y, m, d) = new CivilDate(y, m, d)
 
+        [<Fact>]
+        static member Adjusters_Prop() = CivilDate.Adjusters |> isnotnull
+
     [<Sealed>]
     [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
     type DateAdjustersFacts() =
-        inherit IDateAdjustersFacts<CivilDate, CivilAdjusters, StandardGregorianDataSet>(CivilDate.Adjusters)
+        inherit IDateAdjustersFacts<CivilDate, CivilAdjusters, StandardGregorianDataSet>(new CivilAdjusters())
 
         override __.GetDate(y, m, d) = new CivilDate(y, m, d)
 

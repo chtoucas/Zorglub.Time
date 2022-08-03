@@ -41,6 +41,27 @@ namespace Zorglub.Time.Specialized
     }
 
     /// <summary>
+    /// Represents the common adjusters for <typeparamref name="CopticDate"/>.
+    /// </summary>
+    public sealed class CopticAdjusters : SpecializedAdjusters<CopticDate>
+    {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CopticAdjusters"/> class.
+        /// </summary>
+        public CopticAdjusters() : this(CopticDate.Calendar) { }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CopticAdjusters"/> class.
+        /// </summary>
+        internal CopticAdjusters(CopticCalendar calendar)
+            : base(calendar.Epoch, calendar.Schema) { }
+
+        /// <inheritdoc />
+        [Pure]
+        protected sealed override CopticDate GetDate(int daysSinceEpoch) => new(daysSinceEpoch);
+    }
+
+    /// <summary>
     /// Represents the Coptic date.
     /// <para><see cref="CopticDate"/> is an immutable struct.</para>
     /// </summary>
@@ -79,6 +100,12 @@ namespace Zorglub.Time.Specialized
         /// <para>This field is read-only.</para>
         /// </summary>
         private static readonly Range<DayNumber> s_Domain = s_Calendar.Domain;
+
+        /// <summary>
+        /// Represents the date adjusters.
+        /// <para>This field is read-only.</para>
+        /// </summary>
+        private static readonly CopticAdjusters s_Adjusters = new(s_Calendar);
 
         /// <summary>
         /// Represents the smallest possible value of a <see cref="CopticDate"/>.
@@ -159,6 +186,12 @@ namespace Zorglub.Time.Specialized
         /// <para>This static property is thread-safe.</para>
         /// </summary>
         public static CopticDate MaxValue => s_MaxValue;
+
+        /// <summary>
+        /// Gets the date adjusters.
+        /// <para>This static property is thread-safe.</para>
+        /// </summary>
+        public static CopticAdjusters Adjusters => s_Adjusters;
 
         /// <inheritdoc />
         public static CopticCalendar Calendar => s_Calendar;

@@ -46,6 +46,27 @@ namespace Zorglub.Time.Specialized
     }
 
     /// <summary>
+    /// Represents the common adjusters for <typeparamref name="Armenian13Date"/>.
+    /// </summary>
+    public sealed class Armenian13Adjusters : SpecializedAdjusters<Armenian13Date>
+    {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Armenian13Adjusters"/> class.
+        /// </summary>
+        public Armenian13Adjusters() : this(Armenian13Date.Calendar) { }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Armenian13Adjusters"/> class.
+        /// </summary>
+        internal Armenian13Adjusters(Armenian13Calendar calendar)
+            : base(calendar.Epoch, calendar.Schema) { }
+
+        /// <inheritdoc />
+        [Pure]
+        protected sealed override Armenian13Date GetDate(int daysSinceEpoch) => new(daysSinceEpoch);
+    }
+
+    /// <summary>
     /// Represents the Armenian date.
     /// <para><see cref="Armenian13Date"/> is an immutable struct.</para>
     /// </summary>
@@ -84,6 +105,12 @@ namespace Zorglub.Time.Specialized
         /// <para>This field is read-only.</para>
         /// </summary>
         private static readonly Range<DayNumber> s_Domain = s_Calendar.Domain;
+
+        /// <summary>
+        /// Represents the date adjusters.
+        /// <para>This field is read-only.</para>
+        /// </summary>
+        private static readonly Armenian13Adjusters s_Adjusters = new(s_Calendar);
 
         /// <summary>
         /// Represents the smallest possible value of a <see cref="Armenian13Date"/>.
@@ -164,6 +191,12 @@ namespace Zorglub.Time.Specialized
         /// <para>This static property is thread-safe.</para>
         /// </summary>
         public static Armenian13Date MaxValue => s_MaxValue;
+
+        /// <summary>
+        /// Gets the date adjusters.
+        /// <para>This static property is thread-safe.</para>
+        /// </summary>
+        public static Armenian13Adjusters Adjusters => s_Adjusters;
 
         /// <inheritdoc />
         public static Armenian13Calendar Calendar => s_Calendar;

@@ -41,6 +41,27 @@ namespace Zorglub.Time.Specialized
     }
 
     /// <summary>
+    /// Represents the common adjusters for <typeparamref name="EthiopicDate"/>.
+    /// </summary>
+    public sealed class EthiopicAdjusters : SpecializedAdjusters<EthiopicDate>
+    {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="EthiopicAdjusters"/> class.
+        /// </summary>
+        public EthiopicAdjusters() : this(EthiopicDate.Calendar) { }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="EthiopicAdjusters"/> class.
+        /// </summary>
+        internal EthiopicAdjusters(EthiopicCalendar calendar)
+            : base(calendar.Epoch, calendar.Schema) { }
+
+        /// <inheritdoc />
+        [Pure]
+        protected sealed override EthiopicDate GetDate(int daysSinceEpoch) => new(daysSinceEpoch);
+    }
+
+    /// <summary>
     /// Represents the Ethiopic date.
     /// <para><see cref="EthiopicDate"/> is an immutable struct.</para>
     /// </summary>
@@ -79,6 +100,12 @@ namespace Zorglub.Time.Specialized
         /// <para>This field is read-only.</para>
         /// </summary>
         private static readonly Range<DayNumber> s_Domain = s_Calendar.Domain;
+
+        /// <summary>
+        /// Represents the date adjusters.
+        /// <para>This field is read-only.</para>
+        /// </summary>
+        private static readonly EthiopicAdjusters s_Adjusters = new(s_Calendar);
 
         /// <summary>
         /// Represents the smallest possible value of a <see cref="EthiopicDate"/>.
@@ -159,6 +186,12 @@ namespace Zorglub.Time.Specialized
         /// <para>This static property is thread-safe.</para>
         /// </summary>
         public static EthiopicDate MaxValue => s_MaxValue;
+
+        /// <summary>
+        /// Gets the date adjusters.
+        /// <para>This static property is thread-safe.</para>
+        /// </summary>
+        public static EthiopicAdjusters Adjusters => s_Adjusters;
 
         /// <inheritdoc />
         public static EthiopicCalendar Calendar => s_Calendar;

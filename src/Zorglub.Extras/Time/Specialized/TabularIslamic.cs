@@ -41,6 +41,27 @@ namespace Zorglub.Time.Specialized
     }
 
     /// <summary>
+    /// Represents the common adjusters for <typeparamref name="TabularIslamicDate"/>.
+    /// </summary>
+    public sealed class TabularIslamicAdjusters : SpecializedAdjusters<TabularIslamicDate>
+    {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TabularIslamicAdjusters"/> class.
+        /// </summary>
+        public TabularIslamicAdjusters() : this(TabularIslamicDate.Calendar) { }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TabularIslamicAdjusters"/> class.
+        /// </summary>
+        internal TabularIslamicAdjusters(TabularIslamicCalendar calendar)
+            : base(calendar.Epoch, calendar.Schema) { }
+
+        /// <inheritdoc />
+        [Pure]
+        protected sealed override TabularIslamicDate GetDate(int daysSinceEpoch) => new(daysSinceEpoch);
+    }
+
+    /// <summary>
     /// Represents the Tabular Islamic date.
     /// <para><see cref="TabularIslamicDate"/> is an immutable struct.</para>
     /// </summary>
@@ -78,6 +99,12 @@ namespace Zorglub.Time.Specialized
         /// <para>This field is read-only.</para>
         /// </summary>
         private static readonly Range<DayNumber> s_Domain = s_Calendar.Domain;
+
+        /// <summary>
+        /// Represents the date adjusters.
+        /// <para>This field is read-only.</para>
+        /// </summary>
+        private static readonly TabularIslamicAdjusters s_Adjusters = new(s_Calendar);
 
         /// <summary>
         /// Represents the smallest possible value of a <see cref="TabularIslamicDate"/>.
@@ -158,6 +185,12 @@ namespace Zorglub.Time.Specialized
         /// <para>This static property is thread-safe.</para>
         /// </summary>
         public static TabularIslamicDate MaxValue => s_MaxValue;
+
+        /// <summary>
+        /// Gets the date adjusters.
+        /// <para>This static property is thread-safe.</para>
+        /// </summary>
+        public static TabularIslamicAdjusters Adjusters => s_Adjusters;
 
         /// <inheritdoc />
         public static TabularIslamicCalendar Calendar => s_Calendar;

@@ -42,6 +42,9 @@ module Bundles =
 
         override __.GetDate(y, m, d) = new ArmenianDate(y, m, d)
 
+        [<Fact>]
+        static member Adjusters_Prop() = ArmenianDate.Adjusters |> isnotnull
+
     [<Sealed>]
     [<TestExtrasAssembly>]
     type DateAdjustersFacts() =
@@ -88,6 +91,9 @@ module Bundles13 =
         override __.MaxDate = Armenian13Date.MaxValue
 
         override __.GetDate(y, m, d) = new Armenian13Date(y, m, d)
+
+        [<Fact>]
+        static member Adjusters_Prop() = Armenian13Date.Adjusters |> isnotnull
 
     [<Sealed>]
     [<TestExtrasAssembly>]

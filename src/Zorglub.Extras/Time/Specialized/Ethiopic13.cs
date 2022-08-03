@@ -46,6 +46,27 @@ namespace Zorglub.Time.Specialized
     }
 
     /// <summary>
+    /// Represents the common adjusters for <typeparamref name="Ethiopic13Date"/>.
+    /// </summary>
+    public sealed class Ethiopic13Adjusters : SpecializedAdjusters<Ethiopic13Date>
+    {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Ethiopic13Adjusters"/> class.
+        /// </summary>
+        public Ethiopic13Adjusters() : this(Ethiopic13Date.Calendar) { }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Ethiopic13Adjusters"/> class.
+        /// </summary>
+        internal Ethiopic13Adjusters(Ethiopic13Calendar calendar)
+            : base(calendar.Epoch, calendar.Schema) { }
+
+        /// <inheritdoc />
+        [Pure]
+        protected sealed override Ethiopic13Date GetDate(int daysSinceEpoch) => new(daysSinceEpoch);
+    }
+
+    /// <summary>
     /// Represents the Ethiopic date.
     /// <para><see cref="Ethiopic13Date"/> is an immutable struct.</para>
     /// </summary>
@@ -84,6 +105,12 @@ namespace Zorglub.Time.Specialized
         /// <para>This field is read-only.</para>
         /// </summary>
         private static readonly Range<DayNumber> s_Domain = s_Calendar.Domain;
+
+        /// <summary>
+        /// Represents the date adjusters.
+        /// <para>This field is read-only.</para>
+        /// </summary>
+        private static readonly Ethiopic13Adjusters s_Adjusters = new(s_Calendar);
 
         /// <summary>
         /// Represents the smallest possible value of a <see cref="Ethiopic13Date"/>.
@@ -164,6 +191,12 @@ namespace Zorglub.Time.Specialized
         /// <para>This static property is thread-safe.</para>
         /// </summary>
         public static Ethiopic13Date MaxValue => s_MaxValue;
+
+        /// <summary>
+        /// Gets the date adjusters.
+        /// <para>This static property is thread-safe.</para>
+        /// </summary>
+        public static Ethiopic13Adjusters Adjusters => s_Adjusters;
 
         /// <inheritdoc />
         public static Ethiopic13Calendar Calendar => s_Calendar;

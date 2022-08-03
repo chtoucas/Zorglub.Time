@@ -42,6 +42,9 @@ module Bundles =
 
         override __.GetDate(y, m, d) = new CopticDate(y, m, d)
 
+        [<Fact>]
+        static member Adjusters_Prop() = CopticDate.Adjusters |> isnotnull
+
     [<Sealed>]
     [<TestExtrasAssembly>]
     type DateAdjustersFacts() =
@@ -87,6 +90,9 @@ module Bundles13 =
         override __.MaxDate = Coptic13Date.MaxValue
 
         override __.GetDate(y, m, d) = new Coptic13Date(y, m, d)
+
+        [<Fact>]
+        static member Adjusters_Prop() = Coptic13Date.Adjusters |> isnotnull
 
     [<Sealed>]
     [<TestExtrasAssembly>]

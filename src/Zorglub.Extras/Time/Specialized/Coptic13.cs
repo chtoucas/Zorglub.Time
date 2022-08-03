@@ -46,6 +46,27 @@ namespace Zorglub.Time.Specialized
     }
 
     /// <summary>
+    /// Represents the common adjusters for <typeparamref name="Coptic13Date"/>.
+    /// </summary>
+    public sealed class Coptic13Adjusters : SpecializedAdjusters<Coptic13Date>
+    {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Coptic13Adjusters"/> class.
+        /// </summary>
+        public Coptic13Adjusters() : this(Coptic13Date.Calendar) { }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Coptic13Adjusters"/> class.
+        /// </summary>
+        internal Coptic13Adjusters(Coptic13Calendar calendar)
+            : base(calendar.Epoch, calendar.Schema) { }
+
+        /// <inheritdoc />
+        [Pure]
+        protected sealed override Coptic13Date GetDate(int daysSinceEpoch) => new(daysSinceEpoch);
+    }
+
+    /// <summary>
     /// Represents the Coptic date.
     /// <para><see cref="Coptic13Date"/> is an immutable struct.</para>
     /// </summary>
@@ -84,6 +105,12 @@ namespace Zorglub.Time.Specialized
         /// <para>This field is read-only.</para>
         /// </summary>
         private static readonly Range<DayNumber> s_Domain = s_Calendar.Domain;
+
+        /// <summary>
+        /// Represents the date adjusters.
+        /// <para>This field is read-only.</para>
+        /// </summary>
+        private static readonly Coptic13Adjusters s_Adjusters = new(s_Calendar);
 
         /// <summary>
         /// Represents the smallest possible value of a <see cref="Coptic13Date"/>.
@@ -164,6 +191,12 @@ namespace Zorglub.Time.Specialized
         /// <para>This static property is thread-safe.</para>
         /// </summary>
         public static Coptic13Date MaxValue => s_MaxValue;
+
+        /// <summary>
+        /// Gets the date adjusters.
+        /// <para>This static property is thread-safe.</para>
+        /// </summary>
+        public static Coptic13Adjusters Adjusters => s_Adjusters;
 
         /// <inheritdoc />
         public static Coptic13Calendar Calendar => s_Calendar;

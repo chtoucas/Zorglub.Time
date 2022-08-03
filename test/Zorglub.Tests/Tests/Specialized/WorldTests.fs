@@ -39,6 +39,9 @@ module Methods =
 module Bundles =
     // NB: notice the use of ProlepticJulianDataSet.
 
+    let dateInfoData = WorldDataSet.Instance.DateInfoData
+    let moreMonthInfoData = WorldDataSet.MoreMonthInfoData
+
     [<Sealed>]
     [<TestExtrasAssembly>]
     type CalendaTests() =
@@ -64,6 +67,9 @@ module Bundles =
         override __.MaxDate = WorldDate.MaxValue
 
         override __.GetDate(y, m, d) = new WorldDate(y, m, d)
+
+        [<Fact>]
+        static member Adjusters_Prop() = WorldDate.Adjusters |> isnotnull
 
     [<Sealed>]
     [<TestExtrasAssembly>]

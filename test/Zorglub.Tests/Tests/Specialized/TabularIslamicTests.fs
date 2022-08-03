@@ -42,6 +42,9 @@ module Bundles =
 
         override __.GetDate(y, m, d) = new TabularIslamicDate(y, m, d)
 
+        [<Fact>]
+        static member Adjusters_Prop() = TabularIslamicDate.Adjusters |> isnotnull
+
     [<Sealed>]
     [<TestExtrasAssembly>]
     type DateAdjustersFacts() =

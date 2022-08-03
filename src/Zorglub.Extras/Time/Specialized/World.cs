@@ -53,6 +53,27 @@ namespace Zorglub.Time.Specialized
     }
 
     /// <summary>
+    /// Represents the common adjusters for <typeparamref name="WorldDate"/>.
+    /// </summary>
+    public sealed class WorldAdjusters : SpecializedAdjusters<WorldDate>
+    {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WorldAdjusters"/> class.
+        /// </summary>
+        public WorldAdjusters() : this(WorldDate.Calendar) { }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WorldAdjusters"/> class.
+        /// </summary>
+        internal WorldAdjusters(WorldCalendar calendar)
+            : base(calendar.Epoch, calendar.Schema) { }
+
+        /// <inheritdoc />
+        [Pure]
+        protected sealed override WorldDate GetDate(int daysSinceEpoch) => new(daysSinceEpoch);
+    }
+
+    /// <summary>
     /// Represents the World date.
     /// <para><see cref="WorldDate"/> is an immutable struct.</para>
     /// </summary>
@@ -91,6 +112,12 @@ namespace Zorglub.Time.Specialized
         /// <para>This field is read-only.</para>
         /// </summary>
         private static readonly Range<DayNumber> s_Domain = s_Calendar.Domain;
+
+        /// <summary>
+        /// Represents the date adjusters.
+        /// <para>This field is read-only.</para>
+        /// </summary>
+        private static readonly WorldAdjusters s_Adjusters = new(s_Calendar);
 
         /// <summary>
         /// Represents the smallest possible value of a <see cref="WorldDate"/>.
@@ -171,6 +198,12 @@ namespace Zorglub.Time.Specialized
         /// <para>This static property is thread-safe.</para>
         /// </summary>
         public static WorldDate MaxValue => s_MaxValue;
+
+        /// <summary>
+        /// Gets the date adjusters.
+        /// <para>This static property is thread-safe.</para>
+        /// </summary>
+        public static WorldAdjusters Adjusters => s_Adjusters;
 
         /// <inheritdoc />
         public static WorldCalendar Calendar => s_Calendar;

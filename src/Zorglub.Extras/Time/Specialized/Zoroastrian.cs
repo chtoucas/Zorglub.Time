@@ -41,6 +41,27 @@ namespace Zorglub.Time.Specialized
     }
 
     /// <summary>
+    /// Represents the common adjusters for <typeparamref name="ZoroastrianDate"/>.
+    /// </summary>
+    public sealed class ZoroastrianAdjusters : SpecializedAdjusters<ZoroastrianDate>
+    {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ZoroastrianAdjusters"/> class.
+        /// </summary>
+        public ZoroastrianAdjusters() : this(ZoroastrianDate.Calendar) { }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ZoroastrianAdjusters"/> class.
+        /// </summary>
+        internal ZoroastrianAdjusters(ZoroastrianCalendar calendar)
+            : base(calendar.Epoch, calendar.Schema) { }
+
+        /// <inheritdoc />
+        [Pure]
+        protected sealed override ZoroastrianDate GetDate(int daysSinceEpoch) => new(daysSinceEpoch);
+    }
+
+    /// <summary>
     /// Represents the Zoroastrian date.
     /// <para><see cref="ZoroastrianDate"/> is an immutable struct.</para>
     /// </summary>
@@ -79,6 +100,12 @@ namespace Zorglub.Time.Specialized
         /// <para>This field is read-only.</para>
         /// </summary>
         private static readonly Range<DayNumber> s_Domain = s_Calendar.Domain;
+
+        /// <summary>
+        /// Represents the date adjusters.
+        /// <para>This field is read-only.</para>
+        /// </summary>
+        private static readonly ZoroastrianAdjusters s_Adjusters = new(s_Calendar);
 
         /// <summary>
         /// Represents the smallest possible value of a <see cref="ZoroastrianDate"/>.
@@ -159,6 +186,12 @@ namespace Zorglub.Time.Specialized
         /// <para>This static property is thread-safe.</para>
         /// </summary>
         public static ZoroastrianDate MaxValue => s_MaxValue;
+
+        /// <summary>
+        /// Gets the date adjusters.
+        /// <para>This static property is thread-safe.</para>
+        /// </summary>
+        public static ZoroastrianAdjusters Adjusters => s_Adjusters;
 
         /// <inheritdoc />
         public static ZoroastrianCalendar Calendar => s_Calendar;

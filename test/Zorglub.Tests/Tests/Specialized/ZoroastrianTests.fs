@@ -42,6 +42,9 @@ module Bundles =
 
         override __.GetDate(y, m, d) = new ZoroastrianDate(y, m, d)
 
+        [<Fact>]
+        static member Adjusters_Prop() = ZoroastrianDate.Adjusters |> isnotnull
+
     [<Sealed>]
     [<TestExtrasAssembly>]
     type DateAdjustersFacts() =
@@ -87,6 +90,9 @@ module Bundles13 =
         override __.MaxDate = Zoroastrian13Date.MaxValue
 
         override __.GetDate(y, m, d) = new Zoroastrian13Date(y, m, d)
+
+        [<Fact>]
+        static member Adjusters_Prop() = Zoroastrian13Date.Adjusters |> isnotnull
 
     [<Sealed>]
     [<TestExtrasAssembly>]

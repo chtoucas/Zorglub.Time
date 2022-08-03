@@ -42,6 +42,9 @@ module Bundles =
 
         override __.GetDate(y, m, d) = new EthiopicDate(y, m, d)
 
+        [<Fact>]
+        static member Adjusters_Prop() = EthiopicDate.Adjusters |> isnotnull
+
     [<Sealed>]
     [<TestExtrasAssembly>]
     type DateAdjustersFacts() =
@@ -87,6 +90,9 @@ module Bundles13 =
         override __.MaxDate = Ethiopic13Date.MaxValue
 
         override __.GetDate(y, m, d) = new Ethiopic13Date(y, m, d)
+
+        [<Fact>]
+        static member Adjusters_Prop() = Ethiopic13Date.Adjusters |> isnotnull
 
     [<Sealed>]
     [<TestExtrasAssembly>]

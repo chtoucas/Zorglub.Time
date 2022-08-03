@@ -41,6 +41,27 @@ namespace Zorglub.Time.Specialized
     }
 
     /// <summary>
+    /// Represents the common adjusters for <typeparamref name="ArmenianDate"/>.
+    /// </summary>
+    public sealed class ArmenianAdjusters : SpecializedAdjusters<ArmenianDate>
+    {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ArmenianAdjusters"/> class.
+        /// </summary>
+        public ArmenianAdjusters() : this(ArmenianDate.Calendar) { }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ArmenianAdjusters"/> class.
+        /// </summary>
+        internal ArmenianAdjusters(ArmenianCalendar calendar)
+            : base(calendar.Epoch, calendar.Schema) { }
+
+        /// <inheritdoc />
+        [Pure]
+        protected sealed override ArmenianDate GetDate(int daysSinceEpoch) => new(daysSinceEpoch);
+    }
+
+    /// <summary>
     /// Represents the Armenian date.
     /// <para><see cref="ArmenianDate"/> is an immutable struct.</para>
     /// </summary>
@@ -79,6 +100,12 @@ namespace Zorglub.Time.Specialized
         /// <para>This field is read-only.</para>
         /// </summary>
         private static readonly Range<DayNumber> s_Domain = s_Calendar.Domain;
+
+        /// <summary>
+        /// Represents the date adjusters.
+        /// <para>This field is read-only.</para>
+        /// </summary>
+        private static readonly ArmenianAdjusters s_Adjusters = new(s_Calendar);
 
         /// <summary>
         /// Represents the smallest possible value of a <see cref="ArmenianDate"/>.
@@ -159,6 +186,12 @@ namespace Zorglub.Time.Specialized
         /// <para>This static property is thread-safe.</para>
         /// </summary>
         public static ArmenianDate MaxValue => s_MaxValue;
+
+        /// <summary>
+        /// Gets the date adjusters.
+        /// <para>This static property is thread-safe.</para>
+        /// </summary>
+        public static ArmenianAdjusters Adjusters => s_Adjusters;
 
         /// <inheritdoc />
         public static ArmenianCalendar Calendar => s_Calendar;
