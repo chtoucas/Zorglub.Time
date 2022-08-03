@@ -99,6 +99,20 @@ namespace Zorglub.Time.Core
         public sealed override string ToString() => MinMaxDateParts.ToString();
 
         /// <summary>
+        /// Creates a new instance of the <see cref="CalendricalSegment"/> class.
+        /// </summary>
+        /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
+        /// <exception cref="ArgumentException"><paramref name="supportedYears"/> is NOT a
+        /// subinterval of the range of supported years by <paramref name="schema"/>.</exception>
+        [Pure]
+        public static CalendricalSegment Create(ICalendricalSchema schema, Range<int> supportedYears)
+        {
+            var builder = new CalendricalSegmentBuilder(schema);
+            builder.SetSupportedYears(supportedYears);
+            return builder.BuildSegment();
+        }
+
+        /// <summary>
         /// Creates the maximal segment for <paramref name="schema"/>.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
@@ -126,20 +140,6 @@ namespace Zorglub.Time.Core
                 Throw.Argument(nameof(schema));
             }
             builder.SetMaxToEndOfMaxSupportedYear();
-            return builder.BuildSegment();
-        }
-
-        /// <summary>
-        /// Creates a new instance of the <see cref="CalendricalSegment"/> class.
-        /// </summary>
-        /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
-        /// <exception cref="ArgumentException"><paramref name="supportedYears"/> is NOT a
-        /// subinterval of the range of supported years by <paramref name="schema"/>.</exception>
-        [Pure]
-        public static CalendricalSegment Create(ICalendricalSchema schema, Range<int> supportedYears)
-        {
-            var builder = new CalendricalSegmentBuilder(schema);
-            builder.SetSupportedYears(supportedYears);
             return builder.BuildSegment();
         }
 

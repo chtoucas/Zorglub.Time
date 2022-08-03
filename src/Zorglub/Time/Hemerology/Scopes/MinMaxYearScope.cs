@@ -67,6 +67,8 @@ namespace Zorglub.Time.Hemerology.Scopes
         /// Creates a new instance of the <see cref="MinMaxYearScope"/> class with dates on or after
         /// the specified year.
         /// </summary>
+        /// <exception cref="AoorException"><paramref name="year"/> is outside the range of
+        /// supported values by the schema.</exception>
         [Pure]
         public static MinMaxYearScope StartingAt(ICalendricalSchema schema, DayNumber epoch, int year)
         {
@@ -82,6 +84,8 @@ namespace Zorglub.Time.Hemerology.Scopes
         /// Creates a new instance of the <see cref="MinMaxYearScope"/> class with dates on or
         /// before the specified year.
         /// </summary>
+        /// <exception cref="AoorException"><paramref name="year"/> is outside the range of
+        /// supported values by the schema.</exception>
         [Pure]
         public static MinMaxYearScope EndingAt(ICalendricalSchema schema, DayNumber epoch, int year)
         {
