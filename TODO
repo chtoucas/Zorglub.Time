@@ -1,15 +1,12 @@
 ﻿TODO
 ====
 
-MinMaxYearScope -> use CalendarScope
 BoundedBelowCalendar -> faire comme avec MinMaxYearCalendar
-Tests for "snapshots" of SimpleCatalog.
 Naming: ident, id, cuid <- harmoniser
 Struct fields instead of auto-props
 Adjustable dates, providers <- à refaire
 Today and UtcToday <- time provider, update all tests related to "Today".
 SupportedYearsTester
-Hide XXXCalendar.Instance? and use Calendar.XXX instead
 DayProviders -> remove and use adjusters.
 
 Calendar<TDate> & Date: Min/MaxXXX and new prop Epoch (as a Date not a DayNumber,
