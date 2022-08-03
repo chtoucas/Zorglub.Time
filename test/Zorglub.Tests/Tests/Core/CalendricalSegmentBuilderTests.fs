@@ -27,7 +27,7 @@ module Prelude =
     [<Fact>]
     let ``Properties (half-buildable)`` () =
         let builder = new CalendricalSegmentBuilder(new GregorianSchema())
-        builder.MinYear <- 1
+        builder.SetMinToStartOfYear(1)
 
         builder.HasMin |> ok
         builder.HasMax |> nok
@@ -36,8 +36,8 @@ module Prelude =
     [<Fact>]
     let ``Properties (buildable)`` () =
         let builder = new CalendricalSegmentBuilder(new GregorianSchema())
-        builder.MinYear <- 1
-        builder.MaxYear <- 2
+        builder.SetMinToStartOfYear(1)
+        builder.SetMaxToEndOfYear(2)
 
         builder.HasMin |> ok
         builder.HasMax |> ok
@@ -49,15 +49,15 @@ module Prelude =
 
         throws<InvalidOperationException> (fun () -> builder.BuildSegment())
 
-        builder.MinYear <- 1
+        builder.SetMinToStartOfYear(1)
         throws<InvalidOperationException> (fun () -> builder.BuildSegment())
 
-        builder.MaxYear <- 2
+        builder.SetMaxToEndOfYear(2)
         builder.BuildSegment() |> ignore
 
 module Setters =
     [<Fact>]
-    let ``SetMinDaysSinceEpoch() throws when daysSinceEpoch is out of range`` () =
+    let ``MinDaysSinceEpoch throws when daysSinceEpoch is out of range`` () =
         let sch = new GregorianSchema()
         let sys = SystemSegment.Create(sch, sch.SupportedYears)
         let builder = new CalendricalSegmentBuilder(sch)
@@ -68,7 +68,7 @@ module Setters =
         outOfRangeExn "daysSinceEpoch" (fun () -> builder.MinDaysSinceEpoch <- sys.SupportedDays.Max + 1; builder)
 
     [<Fact>]
-    let ``SetMaxDaysSinceEpoch() throws when daysSinceEpoch is out of range`` () =
+    let ``MaxDaysSinceEpoch throws when daysSinceEpoch is out of range`` () =
         let sch = new GregorianSchema()
         let sys = SystemSegment.Create(sch, sch.SupportedYears)
         let builder = new CalendricalSegmentBuilder(sch)
@@ -79,29 +79,29 @@ module Setters =
         outOfRangeExn "daysSinceEpoch" (fun () -> builder.MaxDaysSinceEpoch <- sys.SupportedDays.Max + 1; builder)
 
     [<Fact>]
-    let ``SetMinYear() throws when the year is out of range`` () =
+    let ``SetMinToStartOfYear() throws when the year is out of range`` () =
         let sch = new GregorianSchema()
         let sys = SystemSegment.Create(sch, sch.SupportedYears)
         let builder = new CalendricalSegmentBuilder(sch)
 
-        outOfRangeExn "year" (fun () -> builder.MinYear <- sys.SupportedYears.Min - 1; builder)
-        builder.MinYear <- sys.SupportedYears.Min
-        builder.MinYear <- sys.SupportedYears.Max
-        outOfRangeExn "year" (fun () -> builder.MinYear <- sys.SupportedYears.Max + 1; builder)
+        outOfRangeExn "year" (fun () -> builder.SetMinToStartOfYear(sys.SupportedYears.Min - 1))
+        builder.SetMinToStartOfYear(sys.SupportedYears.Min)
+        builder.SetMinToStartOfYear(sys.SupportedYears.Max)
+        outOfRangeExn "year" (fun () -> builder.SetMinToStartOfYear(sys.SupportedYears.Max + 1))
 
     [<Fact>]
-    let ``SetMaxYear() throws when the year is out of range`` () =
+    let ``SetMaxToEndOfYear() throws when the year is out of range`` () =
         let sch = new GregorianSchema()
         let sys = SystemSegment.Create(sch, sch.SupportedYears)
         let builder = new CalendricalSegmentBuilder(sch)
 
-        outOfRangeExn "year" (fun () -> builder.MaxYear <- sys.SupportedYears.Min - 1; builder)
-        builder.MaxYear <- sys.SupportedYears.Min
-        builder.MaxYear <- sys.SupportedYears.Max
-        outOfRangeExn "year" (fun () -> builder.MaxYear <- sys.SupportedYears.Max + 1; builder)
+        outOfRangeExn "year" (fun () -> builder.SetMaxToEndOfYear(sys.SupportedYears.Min - 1))
+        builder.SetMaxToEndOfYear(sys.SupportedYears.Min)
+        builder.SetMaxToEndOfYear(sys.SupportedYears.Max)
+        outOfRangeExn "year" (fun () -> builder.SetMaxToEndOfYear(sys.SupportedYears.Max + 1))
 
     [<Fact>]
-    let ``SetMin/MaxDate() throws when the date is invalid`` () =
+    let ``MinDateParts throws when the date is invalid`` () =
         let builder = new CalendricalSegmentBuilder(new GregorianSchema())
 
         outOfRangeExn "parts" (fun () -> builder.MinDateParts <- new DateParts(GregorianSchema.MinYear - 1, 12, 1); builder)
@@ -111,6 +111,10 @@ module Setters =
         outOfRangeExn "parts" (fun () -> builder.MinDateParts <- new DateParts(1, 1, 0); builder)
         outOfRangeExn "parts" (fun () -> builder.MinDateParts <- new DateParts(1, 1, 32); builder)
 
+    [<Fact>]
+    let ``MaxDateParts throws when the date is invalid`` () =
+        let builder = new CalendricalSegmentBuilder(new GregorianSchema())
+
         outOfRangeExn "parts" (fun () -> builder.MaxDateParts <- new DateParts(GregorianSchema.MinYear - 1, 12, 1); builder)
         outOfRangeExn "parts" (fun () -> builder.MaxDateParts <- new DateParts(GregorianSchema.MaxYear + 1, 12, 1); builder)
         outOfRangeExn "parts" (fun () -> builder.MaxDateParts <- new DateParts(1, 0, 1); builder)
@@ -119,13 +123,17 @@ module Setters =
         outOfRangeExn "parts" (fun () -> builder.MaxDateParts <- new DateParts(1, 1, 32); builder)
 
     [<Fact>]
-    let ``SetMin/MaxOrdinal() throws when the date is invalid`` () =
+    let ``MinOrdinalParts throws when the date is invalid`` () =
         let builder = new CalendricalSegmentBuilder(new GregorianSchema())
 
         outOfRangeExn "parts" (fun () -> builder.MinOrdinalParts <- new OrdinalParts(GregorianSchema.MinYear - 1, 1); builder)
         outOfRangeExn "parts" (fun () -> builder.MinOrdinalParts <- new OrdinalParts(GregorianSchema.MaxYear + 1, 1); builder)
         outOfRangeExn "parts" (fun () -> builder.MinOrdinalParts <- new OrdinalParts(1, 0); builder)
         outOfRangeExn "parts" (fun () -> builder.MinOrdinalParts <- new OrdinalParts(1, 367); builder)
+
+    [<Fact>]
+    let ``MaxOrdinalParts throws when the date is invalid`` () =
+        let builder = new CalendricalSegmentBuilder(new GregorianSchema())
 
         outOfRangeExn "parts" (fun () -> builder.MaxOrdinalParts <- new OrdinalParts(GregorianSchema.MinYear - 1, 1); builder)
         outOfRangeExn "parts" (fun () -> builder.MaxOrdinalParts <- new OrdinalParts(GregorianSchema.MaxYear + 1, 1); builder)
@@ -197,7 +205,7 @@ module Setters =
         let min = new DateParts(range.Min, 2, 1)
         let max = new OrdinalParts(range.Max, 364)
         let builder = new CalendricalSegmentBuilder(sch)
-        builder.MinDateParts <- min
+        builder.MinDateParts    <- min
         builder.MaxOrdinalParts <- max
         let seg = builder.BuildSegment()
 
@@ -231,7 +239,7 @@ module Setters =
         let max = new DateParts(range.Max, 12, 30)
         let builder = new CalendricalSegmentBuilder(sch)
         builder.MinOrdinalParts <- min
-        builder.MaxDateParts <- max
+        builder.MaxDateParts    <- max
         let seg = builder.BuildSegment()
 
         let minMaxDateParts = OrderedPair.Create(

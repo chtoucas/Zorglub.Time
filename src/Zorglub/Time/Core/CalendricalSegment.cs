@@ -115,8 +115,15 @@ namespace Zorglub.Time.Core
             // int maxYear = Math.Min(Yemoda.MaxYear, schema.MaxYear);
 
             var builder = new CalendricalSegmentBuilder(schema);
-            builder.UseMinSupportedYear(onOrAfterEpoch);
-            builder.UseMaxSupportedYear();
+            if (onOrAfterEpoch)
+            {
+                builder.SetMinToStartOfMinSupportedYearOnOrAfterYear1();
+            }
+            else
+            {
+                builder.SetMinToStartOfMinSupportedYear();
+            }
+            builder.SetMaxToEndOfMaxSupportedYear();
             return builder.BuildSegment();
         }
 

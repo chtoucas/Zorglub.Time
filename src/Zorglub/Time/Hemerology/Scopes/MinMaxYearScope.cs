@@ -56,8 +56,9 @@ namespace Zorglub.Time.Hemerology.Scopes
         public static MinMaxYearScope WithMinYear(
             ICalendricalSchema schema, DayNumber epoch, int minYear)
         {
-            var builder = new CalendricalSegmentBuilder(schema) { MinYear = minYear };
-            builder.UseMaxSupportedYear();
+            var builder = new CalendricalSegmentBuilder(schema);
+            builder.SetMinToStartOfYear(minYear);
+            builder.SetMaxToEndOfMaxSupportedYear();
             var segment = builder.BuildSegment();
 
             return new MinMaxYearScope(epoch, segment);
@@ -71,8 +72,9 @@ namespace Zorglub.Time.Hemerology.Scopes
         public static MinMaxYearScope WithMaxYear(
             ICalendricalSchema schema, DayNumber epoch, int maxYear)
         {
-            var builder = new CalendricalSegmentBuilder(schema) { MaxYear = maxYear };
-            builder.UseMinSupportedYear(onOrAfterEpoch: false);
+            var builder = new CalendricalSegmentBuilder(schema);
+            builder.SetMinToStartOfMinSupportedYear();
+            builder.SetMaxToEndOfYear(maxYear);
             var segment = builder.BuildSegment();
 
             return new MinMaxYearScope(epoch, segment);

@@ -46,11 +46,11 @@ namespace Zorglub.Time.Hemerology.Scopes
             var builder = new CalendricalSegmentBuilder(schema) { MinDateParts = minDateParts };
             if (maxYear.HasValue)
             {
-                builder.MaxYear = maxYear.Value;
+                builder.SetMaxToEndOfYear(maxYear.Value);
             }
             else
             {
-                builder.UseMaxSupportedYear();
+                builder.SetMaxToEndOfMaxSupportedYear();
             }
             return builder.BuildSegment();
         }
