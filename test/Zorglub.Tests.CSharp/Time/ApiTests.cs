@@ -73,14 +73,14 @@ public static class ApiTests
         foreach (var type in schemaTypes)
         {
             var emptyCtor = type.GetConstructor(
-                BindingFlags.NonPublic | BindingFlags.Instance,
+                BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance,
                 null,
                 Type.EmptyTypes,
                 null);
 
             if (emptyCtor is null)
             {
-                Assert.Fails($"Private parameterless ctor not found for {type}.");
+                Assert.Fails($"Parameterless ctor not found for {type}.");
                 continue;
             }
 

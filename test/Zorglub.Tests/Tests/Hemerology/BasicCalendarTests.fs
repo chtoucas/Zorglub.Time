@@ -34,3 +34,25 @@ module Prelude =
 
         chr.Name  === name
         chr.Scope ==& scope
+
+    [<Fact>]
+    let ``IsRegular() when the calendar is regular`` () =
+        let name = "My Name"
+        let scope = new StandardScope(new GregorianSchema(), DayZero.NewStyle)
+        let chr = new FauxBasicCalendar(name, scope)
+
+        let (regular, monthsInYear) = chr.IsRegular()
+
+        regular |> ok
+        monthsInYear === 12
+
+    [<Fact>]
+    let ``IsRegular() when the calendar is not regular`` () =
+        let name = "My Name"
+        let scope = new StandardScope(new LunisolarSchema(), DayZero.NewStyle)
+        let chr = new FauxBasicCalendar(name, scope)
+
+        let (regular, monthsInYear) = chr.IsRegular()
+
+        regular |> nok
+        monthsInYear === 0
