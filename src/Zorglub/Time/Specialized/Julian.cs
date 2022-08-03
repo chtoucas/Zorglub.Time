@@ -126,7 +126,7 @@ namespace Zorglub.Time.Specialized
     /// Represents the Julian date.
     /// <para><see cref="JulianDate"/> is an immutable struct.</para>
     /// </summary>
-    public readonly partial struct JulianDate : ISpecializedDate<JulianDate, JulianCalendar>
+    public readonly partial struct JulianDate : IDate<JulianDate, JulianCalendar>
     {
         // NB: the order in which the static fields are written is important.
 

@@ -1,6 +1,8 @@
 ﻿// SPDX-License-Identifier: BSD-3-Clause
 // Copyright (c) 2020 Narvalo.Org. All rights reserved.
 
+#pragma warning disable CA1000 // Do not declare static members on generic types (Design) 👈 PreviewFeatures
+
 namespace Zorglub.Time.Hemerology
 {
     /// <summary>
@@ -15,4 +17,32 @@ namespace Zorglub.Time.Hemerology
     public interface IDate<TSelf> : IDate, IFixedDay<TSelf>
         where TSelf : IDate<TSelf>
     { }
+
+    /// <summary>
+    /// Defines a date type with a companion calendar.
+    /// </summary>
+    /// <typeparam name="TSelf">The type that implements this interface.</typeparam>
+    /// <typeparam name="TCalendar">The companion calendar type.</typeparam>
+    public interface IDate<TSelf, TCalendar> :
+        IDate<TSelf>,
+        IMinMaxValue<TSelf>
+        where TCalendar : ICalendar<TSelf>
+        where TSelf : IDate<TSelf, TCalendar>
+    {
+        /// <summary>
+        /// Gets the calendar to which belongs the current instance.
+        /// <para>This static property is thread-safe.</para>
+        /// </summary>
+        static abstract TCalendar Calendar { get; }
+
+        /// <summary>
+        /// Gets the day number.
+        /// </summary>
+        DayNumber DayNumber { get; }
+
+        /// <summary>
+        /// Deconstructs the current instance into its components.
+        /// </summary>
+        void Deconstruct(out int year, out int month, out int day);
+    }
 }

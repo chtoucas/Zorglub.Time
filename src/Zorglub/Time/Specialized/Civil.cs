@@ -111,7 +111,7 @@ namespace Zorglub.Time.Specialized
     /// Represents the Civil date.
     /// <para><see cref="CivilDate"/> is an immutable struct.</para>
     /// </summary>
-    public readonly partial struct CivilDate : ISpecializedDate<CivilDate, CivilCalendar>
+    public readonly partial struct CivilDate : IDate<CivilDate, CivilCalendar>
     {
         /// <summary>
         /// Represents the schema.

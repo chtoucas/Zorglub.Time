@@ -43,7 +43,7 @@ namespace Zorglub.Time.Specialized
     /// <summary>
     /// Represents the common adjusters for <see cref="EthiopicDate"/>.
     /// </summary>
-    public sealed class EthiopicAdjusters : SpecializedAdjusters<EthiopicDate>
+    public sealed class EthiopicAdjusters : DateAdjusters<EthiopicDate>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="EthiopicAdjusters"/> class.
@@ -55,10 +55,6 @@ namespace Zorglub.Time.Specialized
         /// </summary>
         internal EthiopicAdjusters(EthiopicCalendar calendar)
             : base(calendar.Epoch, calendar.Schema) { }
-
-        /// <inheritdoc />
-        [Pure]
-        protected sealed override EthiopicDate GetDate(int daysSinceEpoch) => new(daysSinceEpoch);
     }
 
     /// <summary>
@@ -66,7 +62,7 @@ namespace Zorglub.Time.Specialized
     /// <para><see cref="EthiopicDate"/> is an immutable struct.</para>
     /// </summary>
     public readonly partial struct EthiopicDate :
-        ISpecializedDate<EthiopicDate, EthiopicCalendar>,
+        IDate<EthiopicDate, EthiopicCalendar>,
         IEpagomenalDay
     {
         // NB: the order in which the static fields are written is important.

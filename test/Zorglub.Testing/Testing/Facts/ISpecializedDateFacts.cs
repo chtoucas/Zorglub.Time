@@ -7,23 +7,19 @@ using Zorglub.Testing.Data;
 using Zorglub.Time.Hemerology;
 using Zorglub.Time.Specialized;
 
-// TODO(fact): Calendar_Prop() un peu léger comme test...
-// Améliorer ToString().
+// TODO(fact): améliorer ToString().
 
 /// <summary>
-/// Provides facts about <see cref="ISpecializedDate{TSelf, TCalendar}"/>.
+/// Provides facts about <see cref="IDate{TSelf, TCalendar}"/>.
 /// </summary>
 public abstract partial class ISpecializedDateFacts<TDate, TCalendar, TDataSet> :
     IDateFacts<TDate, TDataSet>
     // BasicCalendar for the prop Name.
     where TCalendar : BasicCalendar, ICalendar<TDate>
-    where TDate : struct, ISpecializedDate<TDate, TCalendar>
+    where TDate : struct, IDate<TDate, TCalendar>
     where TDataSet : ICalendarDataSet, ISingleton<TDataSet>
 {
     protected ISpecializedDateFacts(TCalendar calendar) : base(GetDomain(calendar)) { }
-
-    [Fact]
-    public void Calendar_Prop() => Assert.NotNull(TDate.Calendar);
 
     [Theory, MemberData(nameof(DayNumberInfoData))]
     public void DayNumber_Prop(DayNumberInfo info)

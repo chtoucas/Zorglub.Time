@@ -6,13 +6,12 @@ namespace Zorglub.Testing.Facts.Hemerology;
 using Zorglub.Testing.Data;
 using Zorglub.Time.Hemerology;
 
-public abstract partial class IDateAdjustersFacts<TDate, TAdjuster, TDataSet> :
+public abstract partial class IDateAdjustersFacts<TDate, TDataSet> :
     CalendarDataConsumer<TDataSet>
     where TDate : IDateable
-    where TAdjuster : IDateAdjusters<TDate>
     where TDataSet : ICalendarDataSet, ISingleton<TDataSet>
 {
-    protected IDateAdjustersFacts(TAdjuster adjuster)
+    protected IDateAdjustersFacts(IDateAdjusters<TDate> adjuster)
     {
         AdjusterUT = adjuster ?? throw new ArgumentNullException(nameof(adjuster));
     }
@@ -20,12 +19,12 @@ public abstract partial class IDateAdjustersFacts<TDate, TAdjuster, TDataSet> :
     /// <summary>
     /// Gets the calendar under test.
     /// </summary>
-    protected TAdjuster AdjusterUT { get; }
+    protected IDateAdjusters<TDate> AdjusterUT { get; }
 
     protected abstract TDate GetDate(int y, int m, int d);
 }
 
-public partial class IDateAdjustersFacts<TDate, TAdjuster, TDataSet>
+public partial class IDateAdjustersFacts<TDate, TDataSet>
 {
     [Theory, MemberData(nameof(DateInfoData))]
     public void DateAdjusters_GetStartOfYear(DateInfo info)

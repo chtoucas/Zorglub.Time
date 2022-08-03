@@ -43,7 +43,7 @@ namespace Zorglub.Time.Specialized
     /// <summary>
     /// Represents the common adjusters for <see cref="CopticDate"/>.
     /// </summary>
-    public sealed class CopticAdjusters : SpecializedAdjusters<CopticDate>
+    public sealed class CopticAdjusters : DateAdjusters<CopticDate>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="CopticAdjusters"/> class.
@@ -55,10 +55,6 @@ namespace Zorglub.Time.Specialized
         /// </summary>
         internal CopticAdjusters(CopticCalendar calendar)
             : base(calendar.Epoch, calendar.Schema) { }
-
-        /// <inheritdoc />
-        [Pure]
-        protected sealed override CopticDate GetDate(int daysSinceEpoch) => new(daysSinceEpoch);
     }
 
     /// <summary>
@@ -66,7 +62,7 @@ namespace Zorglub.Time.Specialized
     /// <para><see cref="CopticDate"/> is an immutable struct.</para>
     /// </summary>
     public readonly partial struct CopticDate :
-        ISpecializedDate<CopticDate, CopticCalendar>,
+        IDate<CopticDate, CopticCalendar>,
         IEpagomenalDay
     {
         // NB: the order in which the static fields are written is important.

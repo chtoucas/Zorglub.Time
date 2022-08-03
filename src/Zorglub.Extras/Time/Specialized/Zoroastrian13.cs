@@ -48,7 +48,7 @@ namespace Zorglub.Time.Specialized
     /// <summary>
     /// Represents the common adjusters for <see cref="Zoroastrian13Date"/>.
     /// </summary>
-    public sealed class Zoroastrian13Adjusters : SpecializedAdjusters<Zoroastrian13Date>
+    public sealed class Zoroastrian13Adjusters : DateAdjusters<Zoroastrian13Date>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Zoroastrian13Adjusters"/> class.
@@ -60,10 +60,6 @@ namespace Zorglub.Time.Specialized
         /// </summary>
         internal Zoroastrian13Adjusters(Zoroastrian13Calendar calendar)
             : base(calendar.Epoch, calendar.Schema) { }
-
-        /// <inheritdoc />
-        [Pure]
-        protected sealed override Zoroastrian13Date GetDate(int daysSinceEpoch) => new(daysSinceEpoch);
     }
 
     /// <summary>
@@ -71,7 +67,7 @@ namespace Zorglub.Time.Specialized
     /// <para><see cref="Zoroastrian13Date"/> is an immutable struct.</para>
     /// </summary>
     public readonly partial struct Zoroastrian13Date :
-        ISpecializedDate<Zoroastrian13Date, Zoroastrian13Calendar>,
+        IDate<Zoroastrian13Date, Zoroastrian13Calendar>,
         IEpagomenalDay
     {
         // NB: the order in which the static fields are written is important.

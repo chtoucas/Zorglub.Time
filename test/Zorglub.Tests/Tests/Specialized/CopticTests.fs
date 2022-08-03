@@ -43,12 +43,15 @@ module Bundles =
         override __.GetDate(y, m, d) = new CopticDate(y, m, d)
 
         [<Fact>]
+        static member Calendar_Prop() = CopticDate.Calendar |> isnotnull
+
+        [<Fact>]
         static member Adjusters_Prop() = CopticDate.Adjusters |> isnotnull
 
     [<Sealed>]
     [<TestExtrasAssembly>]
     type DateAdjustersFacts() =
-        inherit IDateAdjustersFacts<CopticDate, CopticAdjusters, StandardCoptic12DataSet>(new CopticAdjusters())
+        inherit IDateAdjustersFacts<CopticDate, StandardCoptic12DataSet>(new CopticAdjusters())
 
         override __.GetDate(y, m, d) = new CopticDate(y, m, d)
 
@@ -92,12 +95,15 @@ module Bundles13 =
         override __.GetDate(y, m, d) = new Coptic13Date(y, m, d)
 
         [<Fact>]
+        static member Calendar_Prop() = Coptic13Date.Calendar |> isnotnull
+
+        [<Fact>]
         static member Adjusters_Prop() = Coptic13Date.Adjusters |> isnotnull
 
     [<Sealed>]
     [<TestExtrasAssembly>]
     type DateAdjustersFacts() =
-        inherit IDateAdjustersFacts<Coptic13Date, Coptic13Adjusters, StandardCoptic13DataSet>(new Coptic13Adjusters())
+        inherit IDateAdjustersFacts<Coptic13Date, StandardCoptic13DataSet>(new Coptic13Adjusters())
 
         override __.GetDate(y, m, d) = new Coptic13Date(y, m, d)
 

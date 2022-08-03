@@ -55,7 +55,7 @@ namespace Zorglub.Time.Specialized
     /// <summary>
     /// Represents the common adjusters for <see cref="WorldDate"/>.
     /// </summary>
-    public sealed class WorldAdjusters : SpecializedAdjusters<WorldDate>
+    public sealed class WorldAdjusters : DateAdjusters<WorldDate>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="WorldAdjusters"/> class.
@@ -67,10 +67,6 @@ namespace Zorglub.Time.Specialized
         /// </summary>
         internal WorldAdjusters(WorldCalendar calendar)
             : base(calendar.Epoch, calendar.Schema) { }
-
-        /// <inheritdoc />
-        [Pure]
-        protected sealed override WorldDate GetDate(int daysSinceEpoch) => new(daysSinceEpoch);
     }
 
     /// <summary>
@@ -78,7 +74,7 @@ namespace Zorglub.Time.Specialized
     /// <para><see cref="WorldDate"/> is an immutable struct.</para>
     /// </summary>
     public readonly partial struct WorldDate :
-        ISpecializedDate<WorldDate, WorldCalendar>,
+        IDate<WorldDate, WorldCalendar>,
         IBlankDay
     {
         // NB: the order in which the static fields are written is important.

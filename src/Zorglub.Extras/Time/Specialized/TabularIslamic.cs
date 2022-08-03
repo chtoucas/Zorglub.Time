@@ -43,7 +43,7 @@ namespace Zorglub.Time.Specialized
     /// <summary>
     /// Represents the common adjusters for <see cref="TabularIslamicDate"/>.
     /// </summary>
-    public sealed class TabularIslamicAdjusters : SpecializedAdjusters<TabularIslamicDate>
+    public sealed class TabularIslamicAdjusters : DateAdjusters<TabularIslamicDate>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="TabularIslamicAdjusters"/> class.
@@ -55,10 +55,6 @@ namespace Zorglub.Time.Specialized
         /// </summary>
         internal TabularIslamicAdjusters(TabularIslamicCalendar calendar)
             : base(calendar.Epoch, calendar.Schema) { }
-
-        /// <inheritdoc />
-        [Pure]
-        protected sealed override TabularIslamicDate GetDate(int daysSinceEpoch) => new(daysSinceEpoch);
     }
 
     /// <summary>
@@ -66,7 +62,7 @@ namespace Zorglub.Time.Specialized
     /// <para><see cref="TabularIslamicDate"/> is an immutable struct.</para>
     /// </summary>
     public readonly partial struct TabularIslamicDate :
-        ISpecializedDate<TabularIslamicDate, TabularIslamicCalendar>
+        IDate<TabularIslamicDate, TabularIslamicCalendar>
     {
         // NB: the order in which the static fields are written is important.
 

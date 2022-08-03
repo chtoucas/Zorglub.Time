@@ -402,7 +402,6 @@ static Zorglub.Time.Specialized.ZoroastrianDate.operator ==(Zorglub.Time.Special
 static Zorglub.Time.Specialized.ZoroastrianDate.operator >(Zorglub.Time.Specialized.ZoroastrianDate left, Zorglub.Time.Specialized.ZoroastrianDate right) -> bool
 static Zorglub.Time.Specialized.ZoroastrianDate.operator >=(Zorglub.Time.Specialized.ZoroastrianDate left, Zorglub.Time.Specialized.ZoroastrianDate right) -> bool
 static Zorglub.Time.Specialized.ZoroastrianDate.Today() -> Zorglub.Time.Specialized.ZoroastrianDate
-virtual Zorglub.Time.Specialized.SpecializedAdjusters<TDate>.GetDate(int daysSinceEpoch) -> TDate
 Zorglub.Time.Core.Schemas.Coptic13Schema
 Zorglub.Time.Core.Schemas.Coptic13Schema.IsEpagomenalDay(int y, int m, int d, out int epagomenalNumber) -> bool
 Zorglub.Time.Core.Schemas.Coptic13Schema.VirtualMonth.get -> int
@@ -687,12 +686,6 @@ Zorglub.Time.Specialized.EthiopicDate.PreviousOrSame(System.DayOfWeek dayOfWeek)
 Zorglub.Time.Specialized.EthiopicDate.Year.get -> int
 Zorglub.Time.Specialized.EthiopicDate.YearOfCentury.get -> int
 Zorglub.Time.Specialized.EthiopicDate.YearOfEra.get -> Zorglub.Time.Ord
-Zorglub.Time.Specialized.SpecializedAdjusters<TDate>
-Zorglub.Time.Specialized.SpecializedAdjusters<TDate>.GetEndOfMonth(TDate date) -> TDate
-Zorglub.Time.Specialized.SpecializedAdjusters<TDate>.GetEndOfYear(TDate date) -> TDate
-Zorglub.Time.Specialized.SpecializedAdjusters<TDate>.GetStartOfMonth(TDate date) -> TDate
-Zorglub.Time.Specialized.SpecializedAdjusters<TDate>.GetStartOfYear(TDate date) -> TDate
-Zorglub.Time.Specialized.SpecializedAdjusters<TDate>.SpecializedAdjusters(Zorglub.Time.DayNumber epoch, Zorglub.Time.Core.ICalendricalSchema! schema) -> void
 Zorglub.Time.Specialized.TabularIslamicAdjusters
 Zorglub.Time.Specialized.TabularIslamicAdjusters.TabularIslamicAdjusters() -> void
 Zorglub.Time.Specialized.TabularIslamicCalendar

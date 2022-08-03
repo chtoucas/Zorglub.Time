@@ -43,12 +43,15 @@ module Bundles =
         override __.GetDate(y, m, d) = new ArmenianDate(y, m, d)
 
         [<Fact>]
+        static member Calendar_Prop() = ArmenianDate.Calendar |> isnotnull
+
+        [<Fact>]
         static member Adjusters_Prop() = ArmenianDate.Adjusters |> isnotnull
 
     [<Sealed>]
     [<TestExtrasAssembly>]
     type DateAdjustersFacts() =
-        inherit IDateAdjustersFacts<ArmenianDate, ArmenianAdjusters, StandardArmenian12DataSet>(new ArmenianAdjusters())
+        inherit IDateAdjustersFacts<ArmenianDate, StandardArmenian12DataSet>(new ArmenianAdjusters())
 
         override __.GetDate(y, m, d) = new ArmenianDate(y, m, d)
 
@@ -93,12 +96,15 @@ module Bundles13 =
         override __.GetDate(y, m, d) = new Armenian13Date(y, m, d)
 
         [<Fact>]
+        static member Calendar_Prop() = Armenian13Date.Calendar |> isnotnull
+
+        [<Fact>]
         static member Adjusters_Prop() = Armenian13Date.Adjusters |> isnotnull
 
     [<Sealed>]
     [<TestExtrasAssembly>]
     type DateAdjustersFacts() =
-        inherit IDateAdjustersFacts<Armenian13Date, Armenian13Adjusters, StandardArmenian13DataSet>(new Armenian13Adjusters())
+        inherit IDateAdjustersFacts<Armenian13Date, StandardArmenian13DataSet>(new Armenian13Adjusters())
 
         override __.GetDate(y, m, d) = new Armenian13Date(y, m, d)
 

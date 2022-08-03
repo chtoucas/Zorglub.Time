@@ -43,7 +43,7 @@ namespace Zorglub.Time.Specialized
     /// <summary>
     /// Represents the common adjusters for <see cref="ArmenianDate"/>.
     /// </summary>
-    public sealed class ArmenianAdjusters : SpecializedAdjusters<ArmenianDate>
+    public sealed class ArmenianAdjusters : DateAdjusters<ArmenianDate>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ArmenianAdjusters"/> class.
@@ -55,10 +55,6 @@ namespace Zorglub.Time.Specialized
         /// </summary>
         internal ArmenianAdjusters(ArmenianCalendar calendar)
             : base(calendar.Epoch, calendar.Schema) { }
-
-        /// <inheritdoc />
-        [Pure]
-        protected sealed override ArmenianDate GetDate(int daysSinceEpoch) => new(daysSinceEpoch);
     }
 
     /// <summary>
@@ -66,7 +62,7 @@ namespace Zorglub.Time.Specialized
     /// <para><see cref="ArmenianDate"/> is an immutable struct.</para>
     /// </summary>
     public readonly partial struct ArmenianDate :
-        ISpecializedDate<ArmenianDate, ArmenianCalendar>,
+        IDate<ArmenianDate, ArmenianCalendar>,
         IEpagomenalDay
     {
         // NB: the order in which the static fields are written is important.
