@@ -54,9 +54,7 @@ public partial class CalendarZoo
             (from x in CivilSchema.GetInstance()
              select new BoundedBelowNakedCalendar(
                  "Genuine Gregorian",
-                 x,
-                 DayZero.NewStyle,
-                 new DateParts(1582, 10, 15))
+                 BoundedBelowScope.StartingAt(x, DayZero.NewStyle, new DateParts(1582, 10, 15)))
              ).Unbox();
 
     private static MinMaxYearNakedCalendar? s_GenuineJulian;
@@ -96,9 +94,7 @@ public partial class CalendarZoo
             (from x in Coptic12Schema.GetInstance()
              select new MinMaxYearNakedCalendar(
                 "French Revolutionary",
-                x,
-                CalendarEpoch.FrenchRepublican,
-                Range.Create(1, 14))
+                MinMaxYearScope.Create(x, CalendarEpoch.FrenchRepublican, Range.Create(1, 14)))
              ).Unbox();
 }
 
@@ -166,7 +162,7 @@ public partial class CalendarZoo
         const string Key = "Long Gregorian";
 
         var sch = GregorianSchema.GetInstance().Unbox();
-        var scope = MinMaxYearScope.WithMaximalRange(sch, DayZero.NewStyle);
+        var scope = MinMaxYearScope.CreateMaximal(sch, DayZero.NewStyle);
         var chr = ZCatalog.GetOrAdd(Key, scope);
 
         Debug.Assert(chr != null);
@@ -187,7 +183,7 @@ public partial class CalendarZoo
         const string Key = "Long Julian";
 
         var sch = JulianSchema.GetInstance().Unbox();
-        var scope = MinMaxYearScope.WithMaximalRange(sch, DayZero.OldStyle);
+        var scope = MinMaxYearScope.CreateMaximal(sch, DayZero.OldStyle);
         var chr = ZCatalog.GetOrAdd(Key, scope);
 
         Debug.Assert(chr != null);
@@ -329,7 +325,7 @@ public partial class CalendarZoo
         const string Key = "Holocene";
 
         var sch = CreateOffsettedCivilSchema(10_000);
-        var scope = MinMaxYearScope.WithMaximalRange(sch, DayZero.NewStyle, onOrAfterEpoch: true);
+        var scope = MinMaxYearScope.CreateMaximalOnOrAfterYear1(sch, DayZero.NewStyle);
         var chr = ZCatalog.GetOrAdd(Key, scope);
 
         Debug.Assert(chr != null);
@@ -353,7 +349,7 @@ public partial class CalendarZoo
         const string Key = "Minguo";
 
         var sch = CreateOffsettedCivilSchema(-1911);
-        var scope = MinMaxYearScope.WithMaximalRange(sch, DayZero.NewStyle, onOrAfterEpoch: true);
+        var scope = MinMaxYearScope.CreateMaximalOnOrAfterYear1(sch, DayZero.NewStyle);
         var chr = ZCatalog.GetOrAdd(Key, scope);
 
         Debug.Assert(chr != null);
@@ -377,7 +373,7 @@ public partial class CalendarZoo
         const string Key = "Thai Solar";
 
         var sch = CreateOffsettedCivilSchema(543);
-        var scope = MinMaxYearScope.WithMaximalRange(sch, DayZero.NewStyle, onOrAfterEpoch: true);
+        var scope = MinMaxYearScope.CreateMaximalOnOrAfterYear1(sch, DayZero.NewStyle);
         var chr = ZCatalog.GetOrAdd(Key, scope);
 
         Debug.Assert(chr != null);

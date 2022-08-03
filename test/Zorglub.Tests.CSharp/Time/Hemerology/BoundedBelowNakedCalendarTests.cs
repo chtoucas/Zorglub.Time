@@ -11,6 +11,7 @@ using global::Samples;
 
 using Zorglub.Testing.Data.Unbounded;
 using Zorglub.Time.Core.Schemas;
+using Zorglub.Time.Hemerology.Scopes;
 
 // Cf. aussi GregorianBoundedBelowNakedCalendarTests.
 public static class BoundedBelowNakedCalendarTests
@@ -71,9 +72,10 @@ public sealed class GregorianBoundedBelowNakedCalendarTests
     private static BoundedBelowNakedCalendar MakeCalendar() =>
         new(
             "Gregorian",
-            new GregorianSchema(),
-            DayZero.NewStyle,
-            new DateParts(FirstYear, FirstMonth, FirstDay));
+            BoundedBelowScope.StartingAt(
+                new GregorianSchema(),
+                DayZero.NewStyle,
+                new DateParts(FirstYear, FirstMonth, FirstDay)));
 
     [Fact]
     public void MinDateParts_Prop()

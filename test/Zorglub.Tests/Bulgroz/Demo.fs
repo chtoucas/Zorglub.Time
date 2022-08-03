@@ -6,6 +6,7 @@ module Zorglub.Bulgroz.Demo
 open Zorglub.Time
 open Zorglub.Time.Core.Schemas
 open Zorglub.Time.Hemerology
+open Zorglub.Time.Hemerology.Scopes
 open Zorglub.Time.Simple
 open Zorglub.Time.Specialized
 
@@ -40,7 +41,9 @@ let ``Gregorian calendar`` () =
 let ``Gregorian calendar w/ dates after 15/10/1582`` () =
     let sch = GregorianSchema.GetInstance()
     let q = sch.Select(
-        fun x -> new BoundedBelowNakedCalendar("Genuine Gregorian", x, DayZero.NewStyle, new DateParts(1582, 10, 15)))
+        fun x -> new BoundedBelowNakedCalendar(
+            "Genuine Gregorian",
+            BoundedBelowScope.StartingAt(x, DayZero.NewStyle, new DateParts(1582, 10, 15))))
     let chr = q.Unbox()
     let parts = chr.GetDateParts(DayNumber.Today())
     let y, m, d = parts.Deconstruct()

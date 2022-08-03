@@ -102,27 +102,26 @@ namespace Zorglub.Time.Core
         /// Creates the maximal segment for <paramref name="schema"/>.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
-        /// <exception cref="ArgumentException">The range of supported years by the schema
-        /// does not contain the year 1 and <paramref name="onOrAfterEpoch"/> is equal to true.
-        /// </exception>
         [Pure]
-        public static CalendricalSegment CreateMaximal(ICalendricalSchema schema, bool onOrAfterEpoch)
+        public static CalendricalSegment CreateMaximal(ICalendricalSchema schema)
         {
-            // NB: onOrAfterEpoch = false does not necessary mean "proleptic".
-            // int minYear = !onOrAfterEpoch || schema.MinYear > 1
-            //    ? Math.Max(schema.MinYear, Yemoda.MinYear)
-            //    : 1;
-            // int maxYear = Math.Min(Yemoda.MaxYear, schema.MaxYear);
-
             var builder = new CalendricalSegmentBuilder(schema);
-            if (onOrAfterEpoch)
-            {
-                builder.SetMinToStartOfMinSupportedYearOnOrAfterYear1();
-            }
-            else
-            {
-                builder.SetMinToStartOfMinSupportedYear();
-            }
+            builder.SetMinToStartOfMinSupportedYear();
+            builder.SetMaxToEndOfMaxSupportedYear();
+            return builder.BuildSegment();
+        }
+
+        /// <summary>
+        /// Creates the maximal segment for <paramref name="schema"/>.
+        /// </summary>
+        /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
+        /// <exception cref="ArgumentException">The range of supported years by the schema does not
+        /// contain the year 1.</exception>
+        [Pure]
+        public static CalendricalSegment CreateMaximalOnOrAfterYear1(ICalendricalSchema schema)
+        {
+            var builder = new CalendricalSegmentBuilder(schema);
+            builder.SetMinToStartOfMinSupportedYearOnOrAfterYear1();
             builder.SetMaxToEndOfMaxSupportedYear();
             return builder.BuildSegment();
         }

@@ -89,6 +89,9 @@ namespace Zorglub.Time.Core
         [Pure]
         public sealed override string ToString() => SupportedYears.ToString();
 
+        // Contrary to CalendricalSegment, we don't add CreateMaximal() because
+        // we simply don't need it.
+
         /// <summary>
         /// Creates a new instance of the <see cref="SystemSegment"/> class from the specified range
         /// of supported years.

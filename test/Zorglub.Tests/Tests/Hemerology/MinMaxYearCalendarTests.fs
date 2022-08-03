@@ -33,7 +33,7 @@ module Prelude =
     [<Fact>]
     let ``Constructor throws when "scope" is not complete`` () =
         let min = new DateParts(1, 1, 2)
-        let scope = new BoundedBelowScope(new GregorianSchema(), DayZero.NewStyle, min, 2)
+        let scope = BoundedBelowScope.StartingAt(new GregorianSchema(), DayZero.NewStyle, min)
 
         scope.IsComplete |> nok
 

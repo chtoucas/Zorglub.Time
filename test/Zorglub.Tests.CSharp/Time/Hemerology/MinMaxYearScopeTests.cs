@@ -15,27 +15,27 @@ public static class MinMaxYearScopeTests
     [Fact]
     public static void Create_NullSchema() =>
         Assert.ThrowsAnexn("schema",
-            () => new MinMaxYearScope(null!, DayZero.NewStyle, Range.Create(1, 100)));
+            () => MinMaxYearScope.Create(null!, DayZero.NewStyle, Range.Create(1, 100)));
 
     [Fact]
-    public static void WithMaxYear()
+    public static void StartingAtYear()
     {
         // Act
-        var scope = MinMaxYearScope.WithMaxYear(s_Schema, DayZero.NewStyle, 100);
-        // Assert
-        Assert.NotNull(scope);
-        Assert.Equal(s_Schema.SupportedYears.Min, scope.YearsValidator.MinYear);
-        Assert.Equal(100, scope.YearsValidator.MaxYear);
-    }
-
-    [Fact]
-    public static void WithMinYear()
-    {
-        // Act
-        var scope = MinMaxYearScope.WithMinYear(s_Schema, DayZero.NewStyle, 100);
+        var scope = MinMaxYearScope.StartingAtYear(s_Schema, DayZero.NewStyle, 100);
         // Assert
         Assert.NotNull(scope);
         Assert.Equal(100, scope.YearsValidator.MinYear);
         Assert.Equal(s_Schema.SupportedYears.Max, scope.YearsValidator.MaxYear);
+    }
+
+    [Fact]
+    public static void EndingAtYear()
+    {
+        // Act
+        var scope = MinMaxYearScope.EndingAtYear(s_Schema, DayZero.NewStyle, 100);
+        // Assert
+        Assert.NotNull(scope);
+        Assert.Equal(s_Schema.SupportedYears.Min, scope.YearsValidator.MinYear);
+        Assert.Equal(100, scope.YearsValidator.MaxYear);
     }
 }

@@ -8,6 +8,7 @@ using Zorglub.Testing.Data.Unbounded;
 using Zorglub.Time.Core;
 using Zorglub.Time.Core.Intervals;
 using Zorglub.Time.Core.Schemas;
+using Zorglub.Time.Hemerology.Scopes;
 
 public static class MinMaxYearNakedCalendarTests
 {
@@ -19,8 +20,9 @@ public static class MinMaxYearNakedCalendarTests
         string name = "name";
         var epoch = DayZero.NewStyle + 123456789;
         var range = Range.Create(3, 5);
+        var scope = MinMaxYearScope.Create(s_Schema, epoch, range);
         // Act
-        var chr = new MinMaxYearNakedCalendar(name, s_Schema, epoch, range);
+        var chr = new MinMaxYearNakedCalendar(name, scope);
         // Assert
         Assert.Equal(name, chr.Name);
         Assert.Equal(epoch, chr.Epoch);
@@ -107,7 +109,9 @@ public sealed class GregorianMinMaxYearNakedCalendarTests :
     public GregorianMinMaxYearNakedCalendarTests() : base(MakeCalendar()) { }
 
     private static MinMaxYearNakedCalendar MakeCalendar() =>
-        new("Gregorian", new GregorianSchema(), DayZero.NewStyle, Range.Create(FirstYear, LastYear));
+        new(
+            "Gregorian",
+            MinMaxYearScope.Create(new GregorianSchema(), DayZero.NewStyle, Range.Create(FirstYear, LastYear)));
 
     [Fact]
     public void SupportedYears_Prop()

@@ -17,15 +17,6 @@ namespace Zorglub.Time.Hemerology.Scopes
         /// <summary>
         /// Initializes a new instance of the <see cref="MinMaxYearScope"/> class.
         /// </summary>
-        /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
-        /// <exception cref="ArgumentException"><paramref name="supportedYears"/> is NOT a
-        /// subinterval of the range of supported years by <paramref name="schema"/>.</exception>
-        public MinMaxYearScope(ICalendricalSchema schema, DayNumber epoch, Range<int> supportedYears)
-            : base(epoch, CalendricalSegment.Create(schema, supportedYears)) { }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="MinMaxYearScope"/> class.
-        /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="segment"/> is null.</exception>
         private MinMaxYearScope(DayNumber epoch, CalendricalSegment segment)
             : base(epoch, segment) { }
@@ -36,14 +27,38 @@ namespace Zorglub.Time.Hemerology.Scopes
         /// Creates the default maximal scope for the specified schema and epoch.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
-        /// <exception cref="ArgumentException">The range of supported years by the schema
-        /// does not contain the year 1 and <paramref name="onOrAfterEpoch"/> is equal to true.
-        /// </exception>
+        /// <exception cref="ArgumentException"><paramref name="supportedYears"/> is NOT a
+        /// subinterval of the range of supported years by <paramref name="schema"/>.</exception>
         [Pure]
-        public static MinMaxYearScope WithMaximalRange(
-            ICalendricalSchema schema, DayNumber epoch, bool onOrAfterEpoch = false)
+        public static MinMaxYearScope Create(ICalendricalSchema schema, DayNumber epoch, Range<int> supportedYears)
         {
-            var seg = CalendricalSegment.CreateMaximal(schema, onOrAfterEpoch);
+            var seg = CalendricalSegment.Create(schema, supportedYears);
+
+            return new MinMaxYearScope(epoch, seg);
+        }
+
+        /// <summary>
+        /// Creates the default maximal scope for the specified schema and epoch.
+        /// </summary>
+        /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
+        [Pure]
+        public static MinMaxYearScope CreateMaximal(ICalendricalSchema schema, DayNumber epoch)
+        {
+            var seg = CalendricalSegment.CreateMaximal(schema);
+
+            return new MinMaxYearScope(epoch, seg);
+        }
+
+        /// <summary>
+        /// Creates the default maximal scope for the specified schema and epoch.
+        /// </summary>
+        /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
+        /// <exception cref="ArgumentException">The range of supported years by the schema does not
+        /// contain the year 1.</exception>
+        [Pure]
+        public static MinMaxYearScope CreateMaximalOnOrAfterYear1(ICalendricalSchema schema, DayNumber epoch)
+        {
+            var seg = CalendricalSegment.CreateMaximalOnOrAfterYear1(schema);
 
             return new MinMaxYearScope(epoch, seg);
         }
@@ -53,11 +68,11 @@ namespace Zorglub.Time.Hemerology.Scopes
         /// the specified year.
         /// </summary>
         [Pure]
-        public static MinMaxYearScope WithMinYear(
-            ICalendricalSchema schema, DayNumber epoch, int minYear)
+        public static MinMaxYearScope StartingAtYear(
+            ICalendricalSchema schema, DayNumber epoch, int year)
         {
             var builder = new CalendricalSegmentBuilder(schema);
-            builder.SetMinToStartOfYear(minYear);
+            builder.SetMinToStartOfYear(year);
             builder.SetMaxToEndOfMaxSupportedYear();
             var segment = builder.BuildSegment();
 
@@ -69,12 +84,12 @@ namespace Zorglub.Time.Hemerology.Scopes
         /// before the specified year.
         /// </summary>
         [Pure]
-        public static MinMaxYearScope WithMaxYear(
-            ICalendricalSchema schema, DayNumber epoch, int maxYear)
+        public static MinMaxYearScope EndingAtYear(
+            ICalendricalSchema schema, DayNumber epoch, int year)
         {
             var builder = new CalendricalSegmentBuilder(schema);
             builder.SetMinToStartOfMinSupportedYear();
-            builder.SetMaxToEndOfYear(maxYear);
+            builder.SetMaxToEndOfYear(year);
             var segment = builder.BuildSegment();
 
             return new MinMaxYearScope(epoch, segment);

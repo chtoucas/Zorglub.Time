@@ -17,9 +17,6 @@ using Zorglub.Time.Hemerology.Scopes;
 
 public class MyNakedCalendar : NakedCalendar
 {
-    public MyNakedCalendar(string name, ICalendricalSchema schema, DayNumber epoch)
-        : this(name, new MinMaxYearScope(schema, epoch, Range.Create(1, 9999))) { }
-
     public MyNakedCalendar(string name, MinMaxYearScope scope)
         : base(name, scope) { }
 

@@ -47,7 +47,7 @@ namespace Zorglub.Time.Specialized
         /// Initializes a new instance of the <see cref="JulianCalendar"/> class.
         /// </summary>
         internal JulianCalendar(JulianSchema schema)
-            : base("Julian", MinMaxYearScope.WithMaximalRange(schema, DayZero.OldStyle))
+            : base("Julian", MinMaxYearScope.CreateMaximal(schema, DayZero.OldStyle))
         {
             MonthsInYear = schema.MonthsInYear;
         }

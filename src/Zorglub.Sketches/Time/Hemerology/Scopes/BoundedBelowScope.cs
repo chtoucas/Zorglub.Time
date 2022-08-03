@@ -17,42 +17,45 @@ namespace Zorglub.Time.Hemerology.Scopes
         /// <summary>
         /// Initializes a new instance of the <see cref="BoundedBelowScope"/> class.
         /// </summary>
-        /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
-        /// <exception cref="AoorException"><paramref name="minDateParts"/> is invalid or outside
-        /// the range of dates supported by <paramref name="schema"/>.</exception>
-        /// <exception cref="AoorException"><paramref name="maxYear"/> is outside the range of years
-        /// supported by <paramref name="schema"/>.</exception>
-        public BoundedBelowScope(
-            ICalendricalSchema schema,
-            DayNumber epoch,
-            DateParts minDateParts,
-            int? maxYear)
-            : base(epoch, CreateSegment(schema, minDateParts, maxYear))
+        /// <exception cref="ArgumentNullException"><paramref name="segment"/> is null.</exception>
+        private BoundedBelowScope(DayNumber epoch, CalendricalSegment segment)
+            : base(epoch, segment)
         {
-            MinYear = minDateParts.Year;
-
             var seg = Segment;
+            MinYear = seg.SupportedYears.Min;
             MinDateParts = seg.MinMaxDateParts.LowerValue;
             MinOrdinalParts = seg.MinMaxOrdinalParts.LowerValue;
             MinMonthParts = MinDateParts.MonthParts;
         }
 
+        /// <summary>
+        /// Creates a new instance of the <see cref="BoundedBelowScope"/> class.
+        /// </summary>
+        /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
+        /// <exception cref="AoorException"><paramref name="minDateParts"/> is invalid or outside
+        /// the range of dates supported by <paramref name="schema"/>.</exception>
+        /// <exception cref="AoorException"><paramref name="maxYear"/> is outside the range of years
+        /// supported by <paramref name="schema"/>.</exception>
         [Pure]
-        private static CalendricalSegment CreateSegment(
-            ICalendricalSchema schema,
-            DateParts minDateParts,
-            int? maxYear)
+        public static BoundedBelowScope Create(
+            ICalendricalSchema schema, DayNumber epoch, DateParts minDateParts, int maxYear)
         {
             var builder = new CalendricalSegmentBuilder(schema) { MinDateParts = minDateParts };
-            if (maxYear.HasValue)
-            {
-                builder.SetMaxToEndOfYear(maxYear.Value);
-            }
-            else
-            {
-                builder.SetMaxToEndOfMaxSupportedYear();
-            }
-            return builder.BuildSegment();
+            builder.SetMaxToEndOfYear(maxYear);
+            var seg = builder.BuildSegment();
+
+            return new BoundedBelowScope(epoch, seg);
+        }
+
+        [Pure]
+        public static BoundedBelowScope StartingAt(
+            ICalendricalSchema schema, DayNumber epoch, DateParts minDateParts)
+        {
+            var builder = new CalendricalSegmentBuilder(schema) { MinDateParts = minDateParts };
+            builder.SetMaxToEndOfMaxSupportedYear();
+            var seg = builder.BuildSegment();
+
+            return new BoundedBelowScope(epoch, seg);
         }
 
         /// <summary>

@@ -262,29 +262,6 @@ namespace Zorglub.Time.Core
         }
 
         /// <summary>
-        /// Set the minimum to the start of the earliest supported year.
-        /// </summary>
-        /// <exception cref="ArgumentException">The range of supported years by the schema
-        /// does not contain the year 1 and <paramref name="onOrAfterEpoch"/> is equal to true.
-        /// </exception>
-        [Obsolete("Use SetMinToStartOfMinSupportedYear...() instead.")]
-        public void SetMinToStartOfMinSupportedYear(bool onOrAfterEpoch)
-        {
-            if (onOrAfterEpoch)
-            {
-                // Compute the earliest supported year >= 1.
-                var set = Interval.Intersect(_schema.SupportedYears, Range.StartingAt(1));
-                if (set.IsEmpty) Throw.Argument(nameof(onOrAfterEpoch));
-
-                Min = GetEndpointAtStartOfYear(set.Range.Min);
-            }
-            else
-            {
-                Min = GetEndpointAtStartOfYear(_yearsValidator.MinYear);
-            }
-        }
-
-        /// <summary>
         /// Set the maximum to the end of the specified year.
         /// </summary>
         /// <exception cref="AoorException"><paramref name="year"/> is outside the range of

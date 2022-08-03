@@ -30,7 +30,7 @@ namespace Zorglub.Time.Specialized
         /// Initializes a new instance of the <see cref="GregorianCalendar"/> class.
         /// </summary>
         internal GregorianCalendar(GregorianSchema schema)
-            : base("Gregorian", MinMaxYearScope.WithMaximalRange(schema, DayZero.NewStyle))
+            : base("Gregorian", MinMaxYearScope.CreateMaximal(schema, DayZero.NewStyle))
         {
             MonthsInYear = schema.MonthsInYear;
         }

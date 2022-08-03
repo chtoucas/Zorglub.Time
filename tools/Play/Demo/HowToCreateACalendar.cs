@@ -57,27 +57,30 @@ public static class HowToCreateACalendar
     public static MinMaxYearNakedCalendar CreateMinMaxYearNakedCalendar() =>
          (from x in GregorianSchema.GetInstance()
           select new MinMaxYearNakedCalendar(
-              "CreateMinMaxYearNakedCalendar", x, DayZero.NewStyle, Range.Create(1, 9999))
+              "CreateMinMaxYearNakedCalendar",
+              MinMaxYearScope.Create(x, DayZero.NewStyle, Range.Create(1, 9999)))
           ).Unbox();
 
     // User-defined calendar.
     public static MyNakedCalendar CreateNakedCalendar() =>
         (from x in GregorianSchema.GetInstance()
-         select new MyNakedCalendar("CreateNakedCalendar", x, DayZero.NewStyle)
+         select new MyNakedCalendar(
+             "CreateNakedCalendar",
+             MinMaxYearScope.Create(x, DayZero.NewStyle, Range.Create(1, 9999)))
          ).Unbox();
 
     #region Scopes
 
     public static Box<MinMaxYearScope> GetScope() =>
         GregorianSchema.GetInstance()
-            .Select(x => new MinMaxYearScope(x, DayZero.NewStyle, Range.Create(1, 9999)));
+            .Select(x => MinMaxYearScope.Create(x, DayZero.NewStyle, Range.Create(1, 9999)));
 
     public static Box<MinMaxYearScope> GetScope_QEP() =>
         from x in GregorianSchema.GetInstance()
-        select new MinMaxYearScope(x, DayZero.NewStyle, Range.Create(1, 9999));
+        select MinMaxYearScope.Create(x, DayZero.NewStyle, Range.Create(1, 9999));
 
     private static Box<MinMaxYearScope> GetScope(Box<GregorianSchema> schema) =>
-        schema.Select(x => new MinMaxYearScope(x, DayZero.NewStyle, Range.Create(1, 9999)));
+        schema.Select(x => MinMaxYearScope.Create(x, DayZero.NewStyle, Range.Create(1, 9999)));
 
     #endregion
 
@@ -85,7 +88,7 @@ public static class HowToCreateACalendar
 
     public static MyNakedCalendar Select_QEP() =>
         (from x in GregorianSchema.GetInstance()
-         let y = new MinMaxYearScope(x, DayZero.NewStyle, Range.Create(1, 9999))
+         let y = MinMaxYearScope.Create(x, DayZero.NewStyle, Range.Create(1, 9999))
          select new MyNakedCalendar("Select_QEP", y)
          ).Unbox();
 
