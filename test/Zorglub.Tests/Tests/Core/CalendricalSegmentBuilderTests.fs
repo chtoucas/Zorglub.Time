@@ -24,14 +24,47 @@ module Prelude =
         builder.HasMax |> nok
         builder.IsBuildable |> nok
 
+        throws<InvalidOperationException> (fun () -> builder.MinDaysSinceEpoch)
+        throws<InvalidOperationException> (fun () -> builder.MinDateParts)
+        throws<InvalidOperationException> (fun () -> builder.MinOrdinalParts)
+
+        throws<InvalidOperationException> (fun () -> builder.MaxDaysSinceEpoch)
+        throws<InvalidOperationException> (fun () -> builder.MaxDateParts)
+        throws<InvalidOperationException> (fun () -> builder.MaxOrdinalParts)
+
     [<Fact>]
-    let ``Properties (half-buildable)`` () =
+    let ``Properties (half-buildable, only the minimum is set)`` () =
         let builder = new CalendricalSegmentBuilder(new GregorianSchema())
         builder.SetMinToStartOfYear(1)
 
         builder.HasMin |> ok
         builder.HasMax |> nok
         builder.IsBuildable |> nok
+
+        builder.MinDaysSinceEpoch |> ignore
+        builder.MinDateParts |> ignore
+        builder.MinOrdinalParts |> ignore
+
+        throws<InvalidOperationException> (fun () -> builder.MaxDaysSinceEpoch)
+        throws<InvalidOperationException> (fun () -> builder.MaxDateParts)
+        throws<InvalidOperationException> (fun () -> builder.MaxOrdinalParts)
+
+    [<Fact>]
+    let ``Properties (half-buildable, only the maximum is set)`` () =
+        let builder = new CalendricalSegmentBuilder(new GregorianSchema())
+        builder.SetMaxToEndOfYear(2)
+
+        builder.HasMin |> nok
+        builder.HasMax |> ok
+        builder.IsBuildable |> nok
+
+        throws<InvalidOperationException> (fun () -> builder.MinDaysSinceEpoch)
+        throws<InvalidOperationException> (fun () -> builder.MinDateParts)
+        throws<InvalidOperationException> (fun () -> builder.MinOrdinalParts)
+
+        builder.MaxDaysSinceEpoch |> ignore
+        builder.MaxDateParts |> ignore
+        builder.MaxOrdinalParts |> ignore
 
     [<Fact>]
     let ``Properties (buildable)`` () =
@@ -42,6 +75,14 @@ module Prelude =
         builder.HasMin |> ok
         builder.HasMax |> ok
         builder.IsBuildable |> ok
+
+        builder.MinDaysSinceEpoch |> ignore
+        builder.MinDateParts |> ignore
+        builder.MinOrdinalParts |> ignore
+
+        builder.MaxDaysSinceEpoch |> ignore
+        builder.MaxDateParts |> ignore
+        builder.MaxOrdinalParts |> ignore
 
     [<Fact>]
     let ``BuildSegment() throws when not buildable`` () =
@@ -172,8 +213,13 @@ module Setters =
     let ``Build a segment using Min/MaxDaysSinceEpoch`` () =
         let sch = new GregorianSchema()
         let builder = new CalendricalSegmentBuilder(sch)
+
         builder.MinDaysSinceEpoch <- 0
+        builder.MinDaysSinceEpoch === 0
+
         builder.MaxDaysSinceEpoch <- 31
+        builder.MaxDaysSinceEpoch === 31
+
         let seg = builder.BuildSegment()
 
         let minMaxDateParts = OrderedPair.Create(
@@ -205,8 +251,13 @@ module Setters =
         let min = new DateParts(range.Min, 2, 1)
         let max = new OrdinalParts(range.Max, 364)
         let builder = new CalendricalSegmentBuilder(sch)
-        builder.MinDateParts    <- min
+
+        builder.MinDateParts <- min
+        builder.MinDateParts === min
+
         builder.MaxOrdinalParts <- max
+        builder.MaxOrdinalParts === max
+
         let seg = builder.BuildSegment()
 
         let minMaxDateParts = OrderedPair.Create(
@@ -238,8 +289,13 @@ module Setters =
         let min = new OrdinalParts(range.Min, 32)
         let max = new DateParts(range.Max, 12, 30)
         let builder = new CalendricalSegmentBuilder(sch)
+
         builder.MinOrdinalParts <- min
-        builder.MaxDateParts    <- max
+        builder.MinOrdinalParts === min
+
+        builder.MaxDateParts <- max
+        builder.MaxDateParts === max
+
         let seg = builder.BuildSegment()
 
         let minMaxDateParts = OrderedPair.Create(
