@@ -283,6 +283,10 @@ namespace Zorglub.Time.Specialized
             s_Schema.GetDateParts(_daysSinceEpoch, out year, out month, out day);
 
         /// <inheritdoc />
+        public void Deconstruct(out int year, out int dayOfYear) =>
+            year = s_Schema.GetYear(_daysSinceEpoch, out dayOfYear);
+
+        /// <inheritdoc />
         [Pure]
         public bool IsEpagomenal(out int epagomenalNumber)
         {

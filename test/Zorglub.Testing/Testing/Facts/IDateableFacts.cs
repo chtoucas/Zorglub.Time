@@ -23,6 +23,31 @@ public abstract partial class IDateableFacts<TDate, TDataSet> :
 
 public partial class IDateableFacts<TDate, TDataSet> // Prelude
 {
+    [Theory, MemberData(nameof(DateInfoData))]
+    public void Deconstructor(DateInfo info)
+    {
+        var (y, m, d) = info.Yemoda;
+        var date = GetDate(y, m, d);
+        // Act
+        var (year, month, day) = date;
+        // Assert
+        Assert.Equal(y, year);
+        Assert.Equal(m, month);
+        Assert.Equal(d, day);
+    }
+
+    [Theory, MemberData(nameof(DateInfoData))]
+    public void Deconstructor﹍Ordinal(DateInfo info)
+    {
+        var (y, m, d, doy) = info;
+        var date = GetDate(y, m, d);
+        // Act
+        var (year, dayOfYear) = date;
+        // Assert
+        Assert.Equal(y, year);
+        Assert.Equal(doy, dayOfYear);
+    }
+
     [Theory, MemberData(nameof(CenturyInfoData))]
     public void CenturyOfEra_Prop(CenturyInfo info)
     {

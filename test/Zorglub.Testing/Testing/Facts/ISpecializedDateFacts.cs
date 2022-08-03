@@ -30,19 +30,6 @@ public abstract partial class ISpecializedDateFacts<TDate, TCalendar, TDataSet> 
         Assert.Equal(dayNumber, date.DayNumber);
     }
 
-    [Theory, MemberData(nameof(DateInfoData))]
-    public void Deconstructor(DateInfo info)
-    {
-        var (y, m, d) = info.Yemoda;
-        var date = GetDate(y, m, d);
-        // Act
-        var (y1, m1, d1) = date;
-        // Assert
-        Assert.Equal(y, y1);
-        Assert.Equal(m, m1);
-        Assert.Equal(d, d1);
-    }
-
     [Fact]
     public void ToString_InvariantCulture()
     {

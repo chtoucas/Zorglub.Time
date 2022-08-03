@@ -337,6 +337,10 @@ namespace Zorglub.Time.Specialized
         /// <inheritdoc />
         public void Deconstruct(out int year, out int month, out int day) =>
             s_Schema.GetDateParts(_daysSinceEpoch, out year, out month, out day);
+
+        /// <inheritdoc />
+        public void Deconstruct(out int year, out int dayOfYear) =>
+            year = s_Schema.GetYear(_daysSinceEpoch, out dayOfYear);
     }
 
     public partial struct JulianDate // Conversions, adjustments...

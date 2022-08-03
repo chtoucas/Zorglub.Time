@@ -36,34 +36,30 @@ public abstract partial class CalendarDayFacts<TDataSet> :
 
 public partial class CalendarDayFacts<TDataSet> // Prelude
 {
-    [Theory, MemberData(nameof(DayNumberInfoData))]
-    public void Deconstructor(DayNumberInfo info)
-    {
-        var (dayNumber, y, m, d) = info;
-        var date = CalendarUT.GetCalendarDay(dayNumber);
-        // Act
-        var (year, month, day) = date;
-        // Assert
-        Assert.Equal(y, year);
-        Assert.Equal(m, month);
-        Assert.Equal(d, day);
-    }
+    //[Theory, MemberData(nameof(DayNumberInfoData))]
+    //public void Deconstructor_DayNumber(DayNumberInfo info)
+    //{
+    //    var (dayNumber, y, m, d) = info;
+    //    var date = CalendarUT.GetCalendarDay(dayNumber);
+    //    // Act
+    //    var (year, month, day) = date;
+    //    // Assert
+    //    Assert.Equal(y, year);
+    //    Assert.Equal(m, month);
+    //    Assert.Equal(d, day);
+    //}
 
-    [Theory, MemberData(nameof(DayNumberInfoData))]
-    public void Deconstructor﹍Ordinal(DayNumberInfo info)
-    {
-        int y = info.Yemoda.Year;
-        var date = CalendarUT.GetCalendarDay(info.DayNumber);
-        // Act
-        var (year, dayOfYear) = date;
-        // Assert
-        Assert.Equal(y, year);
-        Assert.Equal(date.DayOfYear, dayOfYear);
-    }
-
-    //
-    // Properties
-    //
+    //[Theory, MemberData(nameof(DayNumberInfoData))]
+    //public void Deconstructor﹍Ordinal_DayNumber(DayNumberInfo info)
+    //{
+    //    int y = info.Yemoda.Year;
+    //    var date = CalendarUT.GetCalendarDay(info.DayNumber);
+    //    // Act
+    //    var (year, dayOfYear) = date;
+    //    // Assert
+    //    Assert.Equal(y, year);
+    //    Assert.Equal(date.DayOfYear, dayOfYear);
+    //}
 
     [Fact]
     public void Cuid_Prop()

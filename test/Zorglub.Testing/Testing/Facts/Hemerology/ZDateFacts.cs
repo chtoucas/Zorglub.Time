@@ -42,19 +42,6 @@ public abstract partial class ZDateFacts<TDataSet> :
 public partial class ZDateFacts<TDataSet> // Prelude
 {
     [Theory, MemberData(nameof(DateInfoData))]
-    public void Deconstruct(DateInfo info)
-    {
-        var (y, m, d) = info.Yemoda;
-        var date = CalendarUT.GetDate(y, m, d);
-        // Act
-        var (year, month, day) = date;
-        // Assert
-        Assert.Equal(y, year);
-        Assert.Equal(m, month);
-        Assert.Equal(d, day);
-    }
-
-    [Theory, MemberData(nameof(DateInfoData))]
     public void Calendar_Prop(DateInfo info)
     {
         var (y, m, d) = info.Yemoda;

@@ -35,14 +35,11 @@ namespace Zorglub.Time.Hemerology
         /// </summary>
         static abstract TCalendar Calendar { get; }
 
+        // TODO(api): property DayNumber (CalendarDay and specialized date types).
+
         /// <summary>
         /// Gets the day number.
         /// </summary>
         DayNumber DayNumber { get; }
-
-        /// <summary>
-        /// Deconstructs the current instance into its components.
-        /// </summary>
-        void Deconstruct(out int year, out int month, out int day);
     }
 }

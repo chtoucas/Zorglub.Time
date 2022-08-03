@@ -112,6 +112,11 @@ public partial class DateProxy<T> // IDate
     public bool IsIntercalary => _subject.IsIntercalary;
     public bool IsSupplementary => _subject.IsSupplementary;
 
+    public void Deconstruct(out int year, out int month, out int day) =>
+        _subject.Deconstruct(out year, out month, out day);
+    public void Deconstruct(out int year, out int dayOfYear) =>
+        _subject.Deconstruct(out year, out dayOfYear);
+
     [Pure] public int CountElapsedDaysInYear() => _subject.CountElapsedDaysInYear();
     [Pure] public int CountRemainingDaysInYear() => _subject.CountRemainingDaysInYear();
     [Pure] public int CountElapsedDaysInMonth() => _subject.CountElapsedDaysInMonth();

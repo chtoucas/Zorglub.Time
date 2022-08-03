@@ -33,35 +33,6 @@ public abstract partial class CalendarDateFacts<TDataSet> :
 
 public partial class CalendarDateFacts<TDataSet> // Prelude
 {
-    [Theory, MemberData(nameof(DateInfoData))]
-    public void Deconstructor﹍Date(DateInfo info)
-    {
-        var (y, m, d) = info.Yemoda;
-        var date = CalendarUT.GetCalendarDate(y, m, d);
-        // Act
-        var (year, month, day) = date;
-        // Assert
-        Assert.Equal(y, year);
-        Assert.Equal(m, month);
-        Assert.Equal(d, day);
-    }
-
-    [Theory, MemberData(nameof(DateInfoData))]
-    public void Deconstructor﹍Ordinal(DateInfo info)
-    {
-        var (y, m, d, doy) = info;
-        var date = CalendarUT.GetCalendarDate(y, m, d);
-        // Act
-        var (year, dayOfYear) = date;
-        // Assert
-        Assert.Equal(y, year);
-        Assert.Equal(doy, dayOfYear);
-    }
-
-    //
-    // Properties
-    //
-
     [Fact]
     public void Cuid_Prop()
     {

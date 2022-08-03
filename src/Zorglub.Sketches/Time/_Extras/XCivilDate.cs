@@ -324,11 +324,13 @@ namespace Zorglub.Time
             return FormattableString.Invariant($"{y:D4}-{m:D2}-{d:D2}");
         }
 
-        /// <summary>
-        /// Deconstructs the current instance into its components.
-        /// </summary>
+        /// <inheritdoc />
         public void Deconstruct(out int year, out int month, out int day) =>
             Unpack(out year, out month, out day);
+
+        /// <inheritdoc />
+        public void Deconstruct(out int year, out int dayOfYear) =>
+            year = CivilFormulae.GetYear(DaysSinceEpoch, out dayOfYear);
 
         /// <summary>
         /// Obtains the current date on this machine, expressed in local time, not UTC.

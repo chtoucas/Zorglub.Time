@@ -467,6 +467,7 @@ Zorglub.Time.Specialized.Armenian13Date.Day.get -> int
 Zorglub.Time.Specialized.Armenian13Date.DayNumber.get -> Zorglub.Time.DayNumber
 Zorglub.Time.Specialized.Armenian13Date.DayOfWeek.get -> System.DayOfWeek
 Zorglub.Time.Specialized.Armenian13Date.DayOfYear.get -> int
+Zorglub.Time.Specialized.Armenian13Date.Deconstruct(out int year, out int dayOfYear) -> void
 Zorglub.Time.Specialized.Armenian13Date.Deconstruct(out int year, out int month, out int day) -> void
 Zorglub.Time.Specialized.Armenian13Date.Equals(Zorglub.Time.Specialized.Armenian13Date other) -> bool
 Zorglub.Time.Specialized.Armenian13Date.IsEpagomenal(out int epagomenalNumber) -> bool
@@ -507,6 +508,7 @@ Zorglub.Time.Specialized.ArmenianDate.Day.get -> int
 Zorglub.Time.Specialized.ArmenianDate.DayNumber.get -> Zorglub.Time.DayNumber
 Zorglub.Time.Specialized.ArmenianDate.DayOfWeek.get -> System.DayOfWeek
 Zorglub.Time.Specialized.ArmenianDate.DayOfYear.get -> int
+Zorglub.Time.Specialized.ArmenianDate.Deconstruct(out int year, out int dayOfYear) -> void
 Zorglub.Time.Specialized.ArmenianDate.Deconstruct(out int year, out int month, out int day) -> void
 Zorglub.Time.Specialized.ArmenianDate.Equals(Zorglub.Time.Specialized.ArmenianDate other) -> bool
 Zorglub.Time.Specialized.ArmenianDate.IsEpagomenal(out int epagomenalNumber) -> bool
@@ -548,6 +550,7 @@ Zorglub.Time.Specialized.Coptic13Date.Day.get -> int
 Zorglub.Time.Specialized.Coptic13Date.DayNumber.get -> Zorglub.Time.DayNumber
 Zorglub.Time.Specialized.Coptic13Date.DayOfWeek.get -> System.DayOfWeek
 Zorglub.Time.Specialized.Coptic13Date.DayOfYear.get -> int
+Zorglub.Time.Specialized.Coptic13Date.Deconstruct(out int year, out int dayOfYear) -> void
 Zorglub.Time.Specialized.Coptic13Date.Deconstruct(out int year, out int month, out int day) -> void
 Zorglub.Time.Specialized.Coptic13Date.Equals(Zorglub.Time.Specialized.Coptic13Date other) -> bool
 Zorglub.Time.Specialized.Coptic13Date.IsEpagomenal(out int epagomenalNumber) -> bool
@@ -588,6 +591,7 @@ Zorglub.Time.Specialized.CopticDate.Day.get -> int
 Zorglub.Time.Specialized.CopticDate.DayNumber.get -> Zorglub.Time.DayNumber
 Zorglub.Time.Specialized.CopticDate.DayOfWeek.get -> System.DayOfWeek
 Zorglub.Time.Specialized.CopticDate.DayOfYear.get -> int
+Zorglub.Time.Specialized.CopticDate.Deconstruct(out int year, out int dayOfYear) -> void
 Zorglub.Time.Specialized.CopticDate.Deconstruct(out int year, out int month, out int day) -> void
 Zorglub.Time.Specialized.CopticDate.Equals(Zorglub.Time.Specialized.CopticDate other) -> bool
 Zorglub.Time.Specialized.CopticDate.IsEpagomenal(out int epagomenalNumber) -> bool
@@ -625,6 +629,7 @@ Zorglub.Time.Specialized.Ethiopic13Date.Day.get -> int
 Zorglub.Time.Specialized.Ethiopic13Date.DayNumber.get -> Zorglub.Time.DayNumber
 Zorglub.Time.Specialized.Ethiopic13Date.DayOfWeek.get -> System.DayOfWeek
 Zorglub.Time.Specialized.Ethiopic13Date.DayOfYear.get -> int
+Zorglub.Time.Specialized.Ethiopic13Date.Deconstruct(out int year, out int dayOfYear) -> void
 Zorglub.Time.Specialized.Ethiopic13Date.Deconstruct(out int year, out int month, out int day) -> void
 Zorglub.Time.Specialized.Ethiopic13Date.Equals(Zorglub.Time.Specialized.Ethiopic13Date other) -> bool
 Zorglub.Time.Specialized.Ethiopic13Date.Ethiopic13Date() -> void
@@ -665,6 +670,7 @@ Zorglub.Time.Specialized.EthiopicDate.Day.get -> int
 Zorglub.Time.Specialized.EthiopicDate.DayNumber.get -> Zorglub.Time.DayNumber
 Zorglub.Time.Specialized.EthiopicDate.DayOfWeek.get -> System.DayOfWeek
 Zorglub.Time.Specialized.EthiopicDate.DayOfYear.get -> int
+Zorglub.Time.Specialized.EthiopicDate.Deconstruct(out int year, out int dayOfYear) -> void
 Zorglub.Time.Specialized.EthiopicDate.Deconstruct(out int year, out int month, out int day) -> void
 Zorglub.Time.Specialized.EthiopicDate.Equals(Zorglub.Time.Specialized.EthiopicDate other) -> bool
 Zorglub.Time.Specialized.EthiopicDate.EthiopicDate() -> void
@@ -705,6 +711,7 @@ Zorglub.Time.Specialized.TabularIslamicDate.Day.get -> int
 Zorglub.Time.Specialized.TabularIslamicDate.DayNumber.get -> Zorglub.Time.DayNumber
 Zorglub.Time.Specialized.TabularIslamicDate.DayOfWeek.get -> System.DayOfWeek
 Zorglub.Time.Specialized.TabularIslamicDate.DayOfYear.get -> int
+Zorglub.Time.Specialized.TabularIslamicDate.Deconstruct(out int year, out int dayOfYear) -> void
 Zorglub.Time.Specialized.TabularIslamicDate.Deconstruct(out int year, out int month, out int day) -> void
 Zorglub.Time.Specialized.TabularIslamicDate.Equals(Zorglub.Time.Specialized.TabularIslamicDate other) -> bool
 Zorglub.Time.Specialized.TabularIslamicDate.IsIntercalary.get -> bool
@@ -745,6 +752,7 @@ Zorglub.Time.Specialized.WorldDate.Day.get -> int
 Zorglub.Time.Specialized.WorldDate.DayNumber.get -> Zorglub.Time.DayNumber
 Zorglub.Time.Specialized.WorldDate.DayOfWeek.get -> System.DayOfWeek
 Zorglub.Time.Specialized.WorldDate.DayOfYear.get -> int
+Zorglub.Time.Specialized.WorldDate.Deconstruct(out int year, out int dayOfYear) -> void
 Zorglub.Time.Specialized.WorldDate.Deconstruct(out int year, out int month, out int day) -> void
 Zorglub.Time.Specialized.WorldDate.Equals(Zorglub.Time.Specialized.WorldDate other) -> bool
 Zorglub.Time.Specialized.WorldDate.IsBlank.get -> bool
@@ -786,6 +794,7 @@ Zorglub.Time.Specialized.Zoroastrian13Date.Day.get -> int
 Zorglub.Time.Specialized.Zoroastrian13Date.DayNumber.get -> Zorglub.Time.DayNumber
 Zorglub.Time.Specialized.Zoroastrian13Date.DayOfWeek.get -> System.DayOfWeek
 Zorglub.Time.Specialized.Zoroastrian13Date.DayOfYear.get -> int
+Zorglub.Time.Specialized.Zoroastrian13Date.Deconstruct(out int year, out int dayOfYear) -> void
 Zorglub.Time.Specialized.Zoroastrian13Date.Deconstruct(out int year, out int month, out int day) -> void
 Zorglub.Time.Specialized.Zoroastrian13Date.Equals(Zorglub.Time.Specialized.Zoroastrian13Date other) -> bool
 Zorglub.Time.Specialized.Zoroastrian13Date.IsEpagomenal(out int epagomenalNumber) -> bool
@@ -826,6 +835,7 @@ Zorglub.Time.Specialized.ZoroastrianDate.Day.get -> int
 Zorglub.Time.Specialized.ZoroastrianDate.DayNumber.get -> Zorglub.Time.DayNumber
 Zorglub.Time.Specialized.ZoroastrianDate.DayOfWeek.get -> System.DayOfWeek
 Zorglub.Time.Specialized.ZoroastrianDate.DayOfYear.get -> int
+Zorglub.Time.Specialized.ZoroastrianDate.Deconstruct(out int year, out int dayOfYear) -> void
 Zorglub.Time.Specialized.ZoroastrianDate.Deconstruct(out int year, out int month, out int day) -> void
 Zorglub.Time.Specialized.ZoroastrianDate.Equals(Zorglub.Time.Specialized.ZoroastrianDate other) -> bool
 Zorglub.Time.Specialized.ZoroastrianDate.IsEpagomenal(out int epagomenalNumber) -> bool

@@ -86,6 +86,12 @@ public readonly partial record struct CivilParts :
 
     public void Deconstruct(out int year, out int month, out int day) =>
         (year, month, day) = (Year, Month, Day);
+
+    public void Deconstruct(out int year, out int dayOfYear)
+    {
+        year = Year;
+        dayOfYear = s_Schema.GetDayOfYear(year, Month, Day);
+    }
 }
 
 public partial record struct CivilParts // Conversions, adjustments...

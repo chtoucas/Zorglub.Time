@@ -233,18 +233,14 @@ namespace Zorglub.Time.Simple
             return FormattableString.Invariant($"{d:D2}/{m:D2}/{y:D4} ({chr})");
         }
 
-        /// <summary>
-        /// Deconstructs the current instance into its components.
-        /// </summary>
+        /// <inheritdoc />
         public void Deconstruct(out int year, out int month, out int day)
         {
             ref readonly var chr = ref CalendarRef;
             chr.Schema.GetDateParts(DaysSinceEpoch, out year, out month, out day);
         }
 
-        /// <summary>
-        /// Deconstructs the current instance into its components.
-        /// </summary>
+        /// <inheritdoc />
         public void Deconstruct(out int year, out int dayOfYear)
         {
             ref readonly var chr = ref CalendarRef;

@@ -1240,7 +1240,6 @@ Zorglub.Time.Hemerology.IDate
 Zorglub.Time.Hemerology.IDate<TSelf, TCalendar>
 Zorglub.Time.Hemerology.IDate<TSelf, TCalendar>.Calendar.get -> TCalendar
 Zorglub.Time.Hemerology.IDate<TSelf, TCalendar>.DayNumber.get -> Zorglub.Time.DayNumber
-Zorglub.Time.Hemerology.IDate<TSelf, TCalendar>.Deconstruct(out int year, out int month, out int day) -> void
 Zorglub.Time.Hemerology.IDate<TSelf>
 Zorglub.Time.Hemerology.IDateable
 Zorglub.Time.Hemerology.IDateable.Century.get -> int
@@ -1251,6 +1250,8 @@ Zorglub.Time.Hemerology.IDateable.CountRemainingDaysInMonth() -> int
 Zorglub.Time.Hemerology.IDateable.CountRemainingDaysInYear() -> int
 Zorglub.Time.Hemerology.IDateable.Day.get -> int
 Zorglub.Time.Hemerology.IDateable.DayOfYear.get -> int
+Zorglub.Time.Hemerology.IDateable.Deconstruct(out int year, out int dayOfYear) -> void
+Zorglub.Time.Hemerology.IDateable.Deconstruct(out int year, out int month, out int day) -> void
 Zorglub.Time.Hemerology.IDateable.IsIntercalary.get -> bool
 Zorglub.Time.Hemerology.IDateable.IsSupplementary.get -> bool
 Zorglub.Time.Hemerology.IDateable.Month.get -> int
@@ -1631,6 +1632,7 @@ Zorglub.Time.Specialized.CivilDate.Day.get -> int
 Zorglub.Time.Specialized.CivilDate.DayNumber.get -> Zorglub.Time.DayNumber
 Zorglub.Time.Specialized.CivilDate.DayOfWeek.get -> System.DayOfWeek
 Zorglub.Time.Specialized.CivilDate.DayOfYear.get -> int
+Zorglub.Time.Specialized.CivilDate.Deconstruct(out int year, out int dayOfYear) -> void
 Zorglub.Time.Specialized.CivilDate.Deconstruct(out int year, out int month, out int day) -> void
 Zorglub.Time.Specialized.CivilDate.Equals(Zorglub.Time.Specialized.CivilDate other) -> bool
 Zorglub.Time.Specialized.CivilDate.IsIntercalary.get -> bool
@@ -1670,6 +1672,7 @@ Zorglub.Time.Specialized.GregorianDate.Day.get -> int
 Zorglub.Time.Specialized.GregorianDate.DayNumber.get -> Zorglub.Time.DayNumber
 Zorglub.Time.Specialized.GregorianDate.DayOfWeek.get -> System.DayOfWeek
 Zorglub.Time.Specialized.GregorianDate.DayOfYear.get -> int
+Zorglub.Time.Specialized.GregorianDate.Deconstruct(out int year, out int dayOfYear) -> void
 Zorglub.Time.Specialized.GregorianDate.Deconstruct(out int year, out int month, out int day) -> void
 Zorglub.Time.Specialized.GregorianDate.Equals(Zorglub.Time.Specialized.GregorianDate other) -> bool
 Zorglub.Time.Specialized.GregorianDate.GregorianDate() -> void
@@ -1713,6 +1716,7 @@ Zorglub.Time.Specialized.JulianDate.Day.get -> int
 Zorglub.Time.Specialized.JulianDate.DayNumber.get -> Zorglub.Time.DayNumber
 Zorglub.Time.Specialized.JulianDate.DayOfWeek.get -> System.DayOfWeek
 Zorglub.Time.Specialized.JulianDate.DayOfYear.get -> int
+Zorglub.Time.Specialized.JulianDate.Deconstruct(out int year, out int dayOfYear) -> void
 Zorglub.Time.Specialized.JulianDate.Deconstruct(out int year, out int month, out int day) -> void
 Zorglub.Time.Specialized.JulianDate.Equals(Zorglub.Time.Specialized.JulianDate other) -> bool
 Zorglub.Time.Specialized.JulianDate.IsIntercalary.get -> bool

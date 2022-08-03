@@ -107,6 +107,12 @@ public readonly partial struct CivilTriple :
 
     public void Deconstruct(out int year, out int month, out int day) =>
         (year, month, day) = _bin;
+
+    public void Deconstruct(out int year, out int dayOfYear)
+    {
+        (year, var m, var d) = _bin;
+        dayOfYear = s_Schema.GetDayOfYear(year, m, d);
+    }
 }
 
 public partial struct CivilTriple // Conversions, adjustments...

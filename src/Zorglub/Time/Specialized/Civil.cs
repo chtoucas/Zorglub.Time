@@ -308,6 +308,10 @@ namespace Zorglub.Time.Specialized
         /// <inheritdoc />
         public void Deconstruct(out int year, out int month, out int day) =>
             CivilFormulae.GetDateParts(_daysSinceZero, out year, out month, out day);
+
+        /// <inheritdoc />
+        public void Deconstruct(out int year, out int dayOfYear) =>
+            year = CivilFormulae.GetYear(_daysSinceZero, out dayOfYear);
     }
 
     public partial struct CivilDate // Conversions, adjustments...

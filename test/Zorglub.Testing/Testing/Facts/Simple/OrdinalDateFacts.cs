@@ -33,34 +33,18 @@ public abstract partial class OrdinalDateFacts<TDataSet> :
 
 public partial class OrdinalDateFacts<TDataSet> // Prelude
 {
-    [Theory, MemberData(nameof(DateInfoData))]
-    public void Deconstructor(DateInfo info)
-    {
-        var (y, m, d, doy) = info;
-        var date = CalendarUT.GetOrdinalDate(y, doy);
-        // Act
-        var (year, month, day) = date;
-        // Assert
-        Assert.Equal(y, year);
-        Assert.Equal(m, month);
-        Assert.Equal(d, day);
-    }
-
-    [Theory, MemberData(nameof(DateInfoData))]
-    public void Deconstructor﹍Ordinal(DateInfo info)
-    {
-        var (y, doy) = info.Yedoy;
-        var date = CalendarUT.GetOrdinalDate(y, doy);
-        // Act
-        var (year, dayOfYear) = date;
-        // Assert
-        Assert.Equal(y, year);
-        Assert.Equal(doy, dayOfYear);
-    }
-
-    //
-    // Properties
-    //
+    //[Theory, MemberData(nameof(DateInfoData))]
+    //public void Deconstructor_Ordinal(DateInfo info)
+    //{
+    //    var (y, m, d, doy) = info;
+    //    var date = CalendarUT.GetOrdinalDate(y, doy);
+    //    // Act
+    //    var (year, month, day) = date;
+    //    // Assert
+    //    Assert.Equal(y, year);
+    //    Assert.Equal(m, month);
+    //    Assert.Equal(d, day);
+    //}
 
     [Fact]
     public void Cuid_Prop()

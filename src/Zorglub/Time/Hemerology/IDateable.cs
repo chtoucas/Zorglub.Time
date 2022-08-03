@@ -87,6 +87,16 @@ namespace Zorglub.Time.Hemerology
         /// </summary>
         bool IsSupplementary { get; }
 
+        /// <summary>
+        /// Deconstructs the current instance into its components.
+        /// </summary>
+        void Deconstruct(out int year, out int month, out int day);
+
+        /// <summary>
+        /// Deconstructs the current instance into its components.
+        /// </summary>
+        void Deconstruct(out int year, out int dayOfYear);
+
         //
         // Counting
         //

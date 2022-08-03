@@ -174,9 +174,7 @@ namespace Zorglub.Time.Simple
             return FormattableString.Invariant($"{doy:D3}/{y:D4} ({chr})");
         }
 
-        /// <summary>
-        /// Deconstructs the current instance into its components.
-        /// </summary>
+        /// <inheritdoc />
         public void Deconstruct(out int year, out int month, out int day)
         {
             _bin.Unpack(out year, out int doy);
@@ -184,9 +182,7 @@ namespace Zorglub.Time.Simple
             month = chr.Schema.GetMonth(year, doy, out day);
         }
 
-        /// <summary>
-        /// Deconstructs the current instance into its components.
-        /// </summary>
+        /// <inheritdoc />
         public void Deconstruct(out int year, out int dayOfYear) =>
             _bin.Unpack(out year, out dayOfYear);
     }
