@@ -41,7 +41,7 @@ namespace Zorglub.Time.Specialized
     }
 
     /// <summary>
-    /// Represents the common adjusters for <typeparamref name="CopticDate"/>.
+    /// Represents the common adjusters for <see cref="CopticDate"/>.
     /// </summary>
     public sealed class CopticAdjusters : SpecializedAdjusters<CopticDate>
     {

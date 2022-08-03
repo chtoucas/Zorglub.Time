@@ -41,7 +41,7 @@ namespace Zorglub.Time.Specialized
     }
 
     /// <summary>
-    /// Represents the common adjusters for <typeparamref name="ArmenianDate"/>.
+    /// Represents the common adjusters for <see cref="ArmenianDate"/>.
     /// </summary>
     public sealed class ArmenianAdjusters : SpecializedAdjusters<ArmenianDate>
     {
