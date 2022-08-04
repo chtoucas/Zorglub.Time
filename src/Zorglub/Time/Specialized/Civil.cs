@@ -139,7 +139,6 @@ namespace Zorglub.Time.Specialized
 
         /// <summary>
         /// Represents the smallest possible value of a <see cref="CivilDate"/>.
-        /// <para>This is also the default value for <see cref="CivilDate"/>.</para>
         /// <para>This field is read-only.</para>
         /// </summary>
         private static readonly CivilDate s_MinValue = new(s_Domain.Min.DaysSinceZero);

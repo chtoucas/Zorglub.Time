@@ -26,6 +26,7 @@ namespace Zorglub.Time.Specialized
         /// <summary>
         /// Initializes a new instance of the <see cref="ArmenianCalendar"/> class.
         /// </summary>
+        /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
         internal ArmenianCalendar(Egyptian12Schema schema)
             : base("Armenian", new StandardScope(schema, CalendarEpoch.Armenian))
         {
@@ -43,7 +44,7 @@ namespace Zorglub.Time.Specialized
     /// <summary>
     /// Provides common adjusters for <see cref="ArmenianDate"/>.
     /// </summary>
-    public sealed class ArmenianAdjusters : DateAdjusters<ArmenianDate>
+    public sealed class ArmenianAdjusters : MinMaxYearDateAdjusters<ArmenianDate>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ArmenianAdjusters"/> class.
@@ -53,7 +54,12 @@ namespace Zorglub.Time.Specialized
         /// <summary>
         /// Initializes a new instance of the <see cref="ArmenianAdjusters"/> class.
         /// </summary>
+        /// <exception cref="ArgumentNullException"><paramref name="calendar"/> is null.</exception>
         internal ArmenianAdjusters(ArmenianCalendar calendar) : base(calendar) { }
+
+        /// <inheritdoc/>
+        [Pure]
+        protected sealed override ArmenianDate GetDate(int daysSinceEpoch) => new(daysSinceEpoch);
     }
 
     /// <summary>
@@ -104,7 +110,6 @@ namespace Zorglub.Time.Specialized
 
         /// <summary>
         /// Represents the smallest possible value of a <see cref="ArmenianDate"/>.
-        /// <para>This is also the default value for <see cref="ArmenianDate"/>.</para>
         /// <para>This field is read-only.</para>
         /// </summary>
         private static readonly ArmenianDate s_MinValue = new(s_Domain.Min - s_Epoch);

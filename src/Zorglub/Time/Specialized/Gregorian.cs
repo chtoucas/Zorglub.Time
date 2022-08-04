@@ -146,7 +146,6 @@ namespace Zorglub.Time.Specialized
 
         /// <summary>
         /// Represents the smallest possible value of a <see cref="GregorianDate"/>.
-        /// <para>This is also the default value for <see cref="GregorianDate"/>.</para>
         /// <para>This field is read-only.</para>
         /// </summary>
         private static readonly GregorianDate s_MinValue = new(s_Domain.Min.DaysSinceZero);

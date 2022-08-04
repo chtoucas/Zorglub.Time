@@ -168,7 +168,6 @@ namespace Zorglub.Time.Specialized
 
         /// <summary>
         /// Represents the smallest possible value of a <see cref="JulianDate"/>.
-        /// <para>This is also the default value for <see cref="JulianDate"/>.</para>
         /// <para>This field is read-only.</para>
         /// </summary>
         private static readonly JulianDate s_MinValue = new(s_Domain.Min - s_Epoch);

@@ -27,6 +27,7 @@ namespace Zorglub.Time.Specialized
         /// <summary>
         /// Initializes a new instance of the <see cref="Coptic13Calendar"/> class.
         /// </summary>
+        /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
         internal Coptic13Calendar(Coptic13Schema schema)
             : base("Coptic", new StandardScope(schema, CalendarEpoch.Coptic))
         {
@@ -48,7 +49,7 @@ namespace Zorglub.Time.Specialized
     /// <summary>
     /// Provides common adjusters for <see cref="Coptic13Date"/>.
     /// </summary>
-    public sealed class Coptic13Adjusters : DateAdjusters<Coptic13Date>
+    public sealed class Coptic13Adjusters : MinMaxYearDateAdjusters<Coptic13Date>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Coptic13Adjusters"/> class.
@@ -58,7 +59,12 @@ namespace Zorglub.Time.Specialized
         /// <summary>
         /// Initializes a new instance of the <see cref="Coptic13Adjusters"/> class.
         /// </summary>
+        /// <exception cref="ArgumentNullException"><paramref name="calendar"/> is null.</exception>
         internal Coptic13Adjusters(Coptic13Calendar calendar) : base(calendar) { }
+
+        /// <inheritdoc/>
+        [Pure]
+        protected sealed override Coptic13Date GetDate(int daysSinceEpoch) => new(daysSinceEpoch);
     }
 
     /// <summary>
@@ -109,7 +115,6 @@ namespace Zorglub.Time.Specialized
 
         /// <summary>
         /// Represents the smallest possible value of a <see cref="Coptic13Date"/>.
-        /// <para>This is also the default value for <see cref="Coptic13Date"/>.</para>
         /// <para>This field is read-only.</para>
         /// </summary>
         private static readonly Coptic13Date s_MinValue = new(s_Domain.Min - s_Epoch);

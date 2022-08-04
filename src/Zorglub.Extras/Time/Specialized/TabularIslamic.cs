@@ -26,6 +26,7 @@ namespace Zorglub.Time.Specialized
         /// <summary>
         /// Initializes a new instance of the <see cref="TabularIslamicCalendar"/> class.
         /// </summary>
+        /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
         internal TabularIslamicCalendar(TabularIslamicSchema schema)
             : base("Tabular Islamic", new StandardScope(schema, CalendarEpoch.TabularIslamic))
         {
@@ -43,7 +44,7 @@ namespace Zorglub.Time.Specialized
     /// <summary>
     /// Provides common adjusters for <see cref="TabularIslamicDate"/>.
     /// </summary>
-    public sealed class TabularIslamicAdjusters : DateAdjusters<TabularIslamicDate>
+    public sealed class TabularIslamicAdjusters : MinMaxYearDateAdjusters<TabularIslamicDate>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="TabularIslamicAdjusters"/> class.
@@ -53,7 +54,12 @@ namespace Zorglub.Time.Specialized
         /// <summary>
         /// Initializes a new instance of the <see cref="TabularIslamicAdjusters"/> class.
         /// </summary>
+        /// <exception cref="ArgumentNullException"><paramref name="calendar"/> is null.</exception>
         internal TabularIslamicAdjusters(TabularIslamicCalendar calendar) : base(calendar) { }
+
+        /// <inheritdoc/>
+        [Pure]
+        protected sealed override TabularIslamicDate GetDate(int daysSinceEpoch) => new(daysSinceEpoch);
     }
 
     /// <summary>
@@ -103,7 +109,6 @@ namespace Zorglub.Time.Specialized
 
         /// <summary>
         /// Represents the smallest possible value of a <see cref="TabularIslamicDate"/>.
-        /// <para>This is also the default value for <see cref="TabularIslamicDate"/>.</para>
         /// <para>This field is read-only.</para>
         /// </summary>
         private static readonly TabularIslamicDate s_MinValue = new(s_Domain.Min - s_Epoch);

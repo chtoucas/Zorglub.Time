@@ -3,92 +3,49 @@
 
 namespace Zorglub.Time.Hemerology
 {
-    using Zorglub.Time.Core;
-    using Zorglub.Time.Hemerology;
-    using Zorglub.Time.Hemerology.Scopes;
-
-    // Do not use this class for date types based on a y/m/d repr. For them,
-    // there is a better way to implement IDateAdjusters; see for instance
-    // MyDate.
-
     /// <summary>
     /// Provides a default implementation for <see cref="IDateAdjusters{TDate}"/>.
-    /// <para>This class works best when <typeparamref name="TDate"/> is based on the count of
-    /// consecutive days since the epoch.</para>
-    /// <para>This class cannot be inherited.</para>
     /// </summary>
     /// <typeparam name="TDate">The type of date object.</typeparam>
-    public class DateAdjusters<TDate> : IDateAdjusters<TDate>
-        where TDate : IDate<TDate>
+    public class DateAdjusters<TDate> : IDateAdjusters<TDate> where TDate : IDateable
     {
         /// <summary>
-        /// Represents the schema.
+        /// Represents the calendar.
         /// <para>This field is read-only.</para>
         /// </summary>
-        private readonly ICalendricalSchema _schema;
-
-        /// <summary>
-        /// Represents the epoch.
-        /// <para>This field is read-only.</para>
-        /// </summary>
-        private readonly DayNumber _epoch;
+        private readonly ICalendar<TDate> _calendar;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DateAdjusters{TDate}"/> class.
         /// </summary>
-        public DateAdjusters(ICalendar<TDate> calendar) : this(calendar?.Scope) { }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="DateAdjusters{TDate}"/> class.
-        /// </summary>
-        private DateAdjusters(CalendarScope? scope)
+        /// <exception cref="ArgumentNullException"><paramref name="calendar"/> is null.</exception>
+        public DateAdjusters(ICalendar<TDate> calendar)
         {
-            Requires.NotNull(scope);
-
-            _epoch = scope.Epoch;
-            _schema = scope.Schema;
-        }
-
-        // REVIEW(perf):the code works because we use TDate.FromDayNumber()
-        // which validates the dayNumber, but it also makes the code unefficient
-        // when the calendar is complete (the validation is unnecessary); see
-        // MinMaxYearCalendar<T>. Maybe we could restrict ourselves to complete
-        // calendars.
-
-        /// <inheritdoc />
-        [Pure]
-        public TDate GetStartOfYear(TDate date)
-        {
-            int daysSinceEpoch = _schema.GetStartOfYear(date.Year);
-            return TDate.FromDayNumber(_epoch + daysSinceEpoch);
+            _calendar = calendar ?? throw new ArgumentNullException(nameof(calendar));
         }
 
         /// <inheritdoc />
         [Pure]
-        public TDate GetEndOfYear(TDate date)
-        {
-            int daysSinceEpoch = _schema.GetEndOfYear(date.Year);
-            return TDate.FromDayNumber(_epoch + daysSinceEpoch);
-        }
+        public TDate GetStartOfYear(TDate date) => _calendar.GetStartOfYear(date.Year);
+
+        /// <inheritdoc />
+        [Pure]
+        public TDate GetEndOfYear(TDate date) => _calendar.GetEndOfYear(date.Year);
 
         /// <inheritdoc />
         [Pure]
         public TDate GetStartOfMonth(TDate date)
         {
-            var dayNumber = date.ToDayNumber();
-            _schema.GetDateParts(dayNumber - _epoch, out int y, out int m, out _);
-            int daysSinceEpoch = _schema.GetStartOfMonth(y, m);
-            return TDate.FromDayNumber(_epoch + daysSinceEpoch);
+            var (y, m, _) = date;
+            return _calendar.GetStartOfMonth(y, m);
         }
 
         /// <inheritdoc />
         [Pure]
         public TDate GetEndOfMonth(TDate date)
         {
-            var dayNumber = date.ToDayNumber();
-            _schema.GetDateParts(dayNumber - _epoch, out int y, out int m, out _);
-            int daysSinceEpoch = _schema.GetEndOfMonth(y, m);
-            return TDate.FromDayNumber(_epoch + daysSinceEpoch);
+            var (y, m, _) = date;
+            return _calendar.GetEndOfMonth(y, m);
         }
     }
 }

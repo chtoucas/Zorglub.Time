@@ -26,6 +26,7 @@ namespace Zorglub.Time.Specialized
         /// <summary>
         /// Initializes a new instance of the <see cref="ZoroastrianCalendar"/> class.
         /// </summary>
+        /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
         internal ZoroastrianCalendar(Egyptian12Schema schema)
             : base("Zoroastrian", new StandardScope(schema, CalendarEpoch.Zoroastrian))
         {
@@ -43,7 +44,7 @@ namespace Zorglub.Time.Specialized
     /// <summary>
     /// Provides common adjusters for <see cref="ZoroastrianDate"/>.
     /// </summary>
-    public sealed class ZoroastrianAdjusters : DateAdjusters<ZoroastrianDate>
+    public sealed class ZoroastrianAdjusters : MinMaxYearDateAdjusters<ZoroastrianDate>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ZoroastrianAdjusters"/> class.
@@ -53,7 +54,12 @@ namespace Zorglub.Time.Specialized
         /// <summary>
         /// Initializes a new instance of the <see cref="ZoroastrianAdjusters"/> class.
         /// </summary>
+        /// <exception cref="ArgumentNullException"><paramref name="calendar"/> is null.</exception>
         internal ZoroastrianAdjusters(ZoroastrianCalendar calendar) : base(calendar) { }
+
+        /// <inheritdoc/>
+        [Pure]
+        protected sealed override ZoroastrianDate GetDate(int daysSinceEpoch) => new(daysSinceEpoch);
     }
 
     /// <summary>
@@ -104,7 +110,6 @@ namespace Zorglub.Time.Specialized
 
         /// <summary>
         /// Represents the smallest possible value of a <see cref="ZoroastrianDate"/>.
-        /// <para>This is also the default value for <see cref="ZoroastrianDate"/>.</para>
         /// <para>This field is read-only.</para>
         /// </summary>
         private static readonly ZoroastrianDate s_MinValue = new(s_Domain.Min - s_Epoch);

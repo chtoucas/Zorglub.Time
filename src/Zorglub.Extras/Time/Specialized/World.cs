@@ -26,6 +26,7 @@ namespace Zorglub.Time.Specialized
         /// <summary>
         /// Initializes a new instance of the <see cref="WorldCalendar"/> class.
         /// </summary>
+        /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
         internal WorldCalendar(WorldSchema schema)
             : base("World", new StandardScope(schema, CalendarEpoch.SundayBeforeGregorian))
         {
@@ -55,7 +56,7 @@ namespace Zorglub.Time.Specialized
     /// <summary>
     /// Provides common adjusters for <see cref="WorldDate"/>.
     /// </summary>
-    public sealed class WorldAdjusters : DateAdjusters<WorldDate>
+    public sealed class WorldAdjusters : MinMaxYearDateAdjusters<WorldDate>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="WorldAdjusters"/> class.
@@ -65,7 +66,12 @@ namespace Zorglub.Time.Specialized
         /// <summary>
         /// Initializes a new instance of the <see cref="WorldAdjusters"/> class.
         /// </summary>
+        /// <exception cref="ArgumentNullException"><paramref name="calendar"/> is null.</exception>
         internal WorldAdjusters(WorldCalendar calendar) : base(calendar) { }
+
+        /// <inheritdoc/>
+        [Pure]
+        protected sealed override WorldDate GetDate(int daysSinceEpoch) => new(daysSinceEpoch);
     }
 
     /// <summary>
@@ -116,7 +122,6 @@ namespace Zorglub.Time.Specialized
 
         /// <summary>
         /// Represents the smallest possible value of a <see cref="WorldDate"/>.
-        /// <para>This is also the default value for <see cref="WorldDate"/>.</para>
         /// <para>This field is read-only.</para>
         /// </summary>
         private static readonly WorldDate s_MinValue = new(s_Domain.Min - s_Epoch);
