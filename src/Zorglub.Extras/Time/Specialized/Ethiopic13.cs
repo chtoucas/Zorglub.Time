@@ -58,8 +58,7 @@ namespace Zorglub.Time.Specialized
         /// <summary>
         /// Initializes a new instance of the <see cref="Ethiopic13Adjusters"/> class.
         /// </summary>
-        internal Ethiopic13Adjusters(Ethiopic13Calendar calendar)
-            : base(calendar.Epoch, calendar.Schema) { }
+        internal Ethiopic13Adjusters(Ethiopic13Calendar calendar) : base(calendar) { }
     }
 
     /// <summary>

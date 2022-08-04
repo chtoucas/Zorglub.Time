@@ -58,8 +58,7 @@ namespace Zorglub.Time.Specialized
         /// <summary>
         /// Initializes a new instance of the <see cref="Coptic13Adjusters"/> class.
         /// </summary>
-        internal Coptic13Adjusters(Coptic13Calendar calendar)
-            : base(calendar.Epoch, calendar.Schema) { }
+        internal Coptic13Adjusters(Coptic13Calendar calendar) : base(calendar) { }
     }
 
     /// <summary>

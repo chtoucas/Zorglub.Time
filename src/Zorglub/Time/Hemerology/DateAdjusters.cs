@@ -4,6 +4,8 @@
 namespace Zorglub.Time.Hemerology
 {
     using Zorglub.Time.Core;
+    using Zorglub.Time.Hemerology;
+    using Zorglub.Time.Hemerology.Scopes;
 
     // Do not use this class for date types based on a y/m/d repr. For them,
     // there is a better way to implement IDateAdjusters; see for instance
@@ -31,37 +33,27 @@ namespace Zorglub.Time.Hemerology
         /// </summary>
         private readonly DayNumber _epoch;
 
-        // FIXME(api): ctor should use a calendar ICalendar<TDate>.
-        // The code works because we use TDate.FromDayNumber() that validates
-        // the dayNumber, but it also makes the code unefficient when the
-        // calendar is complete (the validation is unnecessary); see
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DateAdjusters{TDate}"/> class.
+        /// </summary>
+        public DateAdjusters(ICalendar<TDate> calendar) : this(calendar?.Scope) { }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DateAdjusters{TDate}"/> class.
+        /// </summary>
+        private DateAdjusters(CalendarScope? scope)
+        {
+            Requires.NotNull(scope);
+
+            _epoch = scope.Epoch;
+            _schema = scope.Schema;
+        }
+
+        // REVIEW(perf):the code works because we use TDate.FromDayNumber()
+        // which validates the dayNumber, but it also makes the code unefficient
+        // when the calendar is complete (the validation is unnecessary); see
         // MinMaxYearCalendar<T>. Maybe we could restrict ourselves to complete
         // calendars.
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="DateAdjusters{TDate}"/> class.
-        /// </summary>
-        public DateAdjusters(ICalendar<TDate> calendar)
-        {
-            Requires.NotNull(calendar);
-
-            var chr = calendar as ISchemaBound;
-            if (chr is null) Throw.Argument(nameof(calendar));
-            _schema = chr.Schema;
-
-            _epoch = calendar.Epoch;
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="DateAdjusters{TDate}"/> class.
-        /// </summary>
-        public DateAdjusters(DayNumber epoch, ICalendricalSchema schema)
-        {
-            Requires.NotNull(schema);
-
-            _epoch = epoch;
-            _schema = schema;
-        }
 
         /// <inheritdoc />
         [Pure]

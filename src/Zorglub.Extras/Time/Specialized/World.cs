@@ -65,8 +65,7 @@ namespace Zorglub.Time.Specialized
         /// <summary>
         /// Initializes a new instance of the <see cref="WorldAdjusters"/> class.
         /// </summary>
-        internal WorldAdjusters(WorldCalendar calendar)
-            : base(calendar.Epoch, calendar.Schema) { }
+        internal WorldAdjusters(WorldCalendar calendar) : base(calendar) { }
     }
 
     /// <summary>

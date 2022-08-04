@@ -53,8 +53,7 @@ namespace Zorglub.Time.Specialized
         /// <summary>
         /// Initializes a new instance of the <see cref="TabularIslamicAdjusters"/> class.
         /// </summary>
-        internal TabularIslamicAdjusters(TabularIslamicCalendar calendar)
-            : base(calendar.Epoch, calendar.Schema) { }
+        internal TabularIslamicAdjusters(TabularIslamicCalendar calendar) : base(calendar) { }
     }
 
     /// <summary>

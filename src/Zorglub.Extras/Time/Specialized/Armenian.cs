@@ -53,8 +53,7 @@ namespace Zorglub.Time.Specialized
         /// <summary>
         /// Initializes a new instance of the <see cref="ArmenianAdjusters"/> class.
         /// </summary>
-        internal ArmenianAdjusters(ArmenianCalendar calendar)
-            : base(calendar.Epoch, calendar.Schema) { }
+        internal ArmenianAdjusters(ArmenianCalendar calendar) : base(calendar) { }
     }
 
     /// <summary>

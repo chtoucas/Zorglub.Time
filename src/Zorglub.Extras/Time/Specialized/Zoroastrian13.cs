@@ -58,8 +58,7 @@ namespace Zorglub.Time.Specialized
         /// <summary>
         /// Initializes a new instance of the <see cref="Zoroastrian13Adjusters"/> class.
         /// </summary>
-        internal Zoroastrian13Adjusters(Zoroastrian13Calendar calendar)
-            : base(calendar.Epoch, calendar.Schema) { }
+        internal Zoroastrian13Adjusters(Zoroastrian13Calendar calendar) : base(calendar) { }
     }
 
     /// <summary>
