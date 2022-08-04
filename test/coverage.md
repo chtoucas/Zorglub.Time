@@ -1,26 +1,26 @@
 ﻿# Summary
 |||
 |:---|:---|
-| Generated on: | 03/08/2022 - 11:54:45 |
+| Generated on: | 04/08/2022 - 11:29:34 |
 | Parser: | OpenCover |
 | Assemblies: | 2 |
-| Classes: | 153 |
-| Files: | 132 |
-| Covered lines: | 7884 |
-| Uncovered lines: | 318 |
-| Coverable lines: | 8202 |
-| Total lines: | 31197 |
-| Line coverage: | 96.1% (7884 of 8202) |
-| Covered branches: | 2165 |
-| Total branches: | 2271 |
-| Branch coverage: | 95.3% (2165 of 2271) |
-| Covered methods: | 2652 |
-| Total methods: | 2691 |
-| Method coverage: | 98.5% (2652 of 2691) |
+| Classes: | 169 |
+| Files: | 135 |
+| Covered lines: | 8129 |
+| Uncovered lines: | 309 |
+| Coverable lines: | 8438 |
+| Total lines: | 32048 |
+| Line coverage: | 96.3% (8129 of 8438) |
+| Covered branches: | 2173 |
+| Total branches: | 2273 |
+| Branch coverage: | 95.6% (2173 of 2273) |
+| Covered methods: | 2750 |
+| Total methods: | 2786 |
+| Method coverage: | 98.7% (2750 of 2786) |
 
 |**Name**|**Covered**|**Uncovered**|**Coverable**|**Total**|**Line coverage**|**Covered**|**Total**|**Branch coverage**|**Covered**|**Total**|**Method coverage**|
 |:---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
-|**Zorglub.Time**|**6159**|**231**|**6390**|**27140**|**96.3%**|**1771**|**1839**|**96.3%**|**1841**|**1865**|**98.7%**|
+|**Zorglub.Time**|**6339**|**231**|**6570**|**29614**|**96.4%**|**1775**|**1843**|**96.3%**|**1887**|**1911**|**98.7%**|
 |Zorglub.Time.AdditionRuleset|14|0|14|121|100%|12|12|100%|4|4|100%|
 |Zorglub.Time.CalendarIdExtensions|12|0|12|86|100%|10|10|100%|2|2|100%|
 |Zorglub.Time.Core.Arithmetic.GregorianSystemArithmetic|166|0|166|336|100%|62|64|96.8%|16|16|100%|
@@ -98,8 +98,10 @@
 |Zorglub.Time.Extensions.Unboxing|14|0|14|58|100%|4|4|100%|2|2|100%|
 |Zorglub.Time.Hemerology.BasicCalendar|42|0|42|155|100%|4|4|100%|18|18|100%|
 |Zorglub.Time.Hemerology.CalendarEpoch|12|0|12|123|100%|0|0||12|12|100%|
+|Zorglub.Time.Hemerology.DateAdjusters`1|14|0|14|51|100%|2|2|100%|5|5|100%|
 |Zorglub.Time.Hemerology.MinMaxYearCalendar|18|0|18|59|100%|2|2|100%|5|5|100%|
 |Zorglub.Time.Hemerology.MinMaxYearCalendar`1|39|0|39|110|100%|0|0||9|9|100%|
+|Zorglub.Time.Hemerology.MinMaxYearDateAdjusters`1|28|0|28|102|100%|2|2|100%|5|5|100%|
 |Zorglub.Time.Hemerology.Scopes.CalendarScope|21|0|21|108|100%|2|2|100%|11|11|100%|
 |Zorglub.Time.Hemerology.Scopes.GregorianProlepticScope|30|0|30|106|100%|32|32|100%|7|7|100%|
 |Zorglub.Time.Hemerology.Scopes.GregorianStandardScope|30|0|30|106|100%|32|32|100%|7|7|100%|
@@ -112,17 +114,18 @@
 |Zorglub.Time.OrdinalParts|13|0|13|72|100%|6|6|100%|8|8|100%|
 |Zorglub.Time.Simple.ArmenianSimpleCalendar|8|0|8|242|100%|0|0||3|3|100%|
 |Zorglub.Time.Simple.BoxExtensions|21|0|21|92|100%|6|6|100%|3|3|100%|
-|Zorglub.Time.Simple.CalendarDate|233|0|233|722|100%|32|32|100%|72|72|100%|
-|Zorglub.Time.Simple.CalendarDay|193|0|193|656|100%|28|28|100%|66|66|100%|
+|Zorglub.Time.Simple.CalendarDate|233|0|233|718|100%|32|32|100%|72|72|100%|
+|Zorglub.Time.Simple.CalendarDay|193|0|193|652|100%|28|28|100%|66|66|100%|
 |Zorglub.Time.Simple.CalendarMath|147|0|147|443|100%|32|32|100%|22|22|100%|
 |Zorglub.Time.Simple.CalendarMonth|166|0|166|680|100%|20|20|100%|58|58|100%|
 |Zorglub.Time.Simple.CalendarYear|138|0|138|759|100%|20|20|100%|52|52|100%|
 |Zorglub.Time.Simple.CopticSimpleCalendar|8|0|8|242|100%|0|0||3|3|100%|
 |Zorglub.Time.Simple.CuidExtensions|1|0|1|108|100%|0|0||1|1|100%|
+|Zorglub.Time.Simple.DateAdjusters|57|0|57|148|100%|0|0||12|12|100%|
 |Zorglub.Time.Simple.EthiopicSimpleCalendar|8|0|8|242|100%|0|0||3|3|100%|
 |Zorglub.Time.Simple.GregorianSimpleCalendar|19|0|19|242|100%|0|0||4|4|100%|
 |Zorglub.Time.Simple.JulianSimpleCalendar|19|0|19|242|100%|0|0||4|4|100%|
-|Zorglub.Time.Simple.OrdinalDate|227|0|227|660|100%|30|30|100%|69|69|100%|
+|Zorglub.Time.Simple.OrdinalDate|227|0|227|656|100%|30|30|100%|69|69|100%|
 |Zorglub.Time.Simple.PlainMath|33|0|33|86|100%|0|0||5|5|100%|
 |Zorglub.Time.Simple.PowerMath|33|28|61|129|54%|6|23|26%|6|8|75%|
 |Zorglub.Time.Simple.RegularMath|41|0|41|96|100%|2|2|100%|5|5|100%|
@@ -131,13 +134,16 @@
 |Zorglub.Time.Simple.SimpleRegistry|146|0|146|531|100%|56|56|100%|26|26|100%|
 |Zorglub.Time.Simple.TabularIslamicSimpleCalendar|7|0|7|242|100%|0|0||2|2|100%|
 |Zorglub.Time.Simple.ZoroastrianSimpleCalendar|8|0|8|242|100%|0|0||3|3|100%|
-|Zorglub.Time.Specialized.CivilCalendar|7|0|7|477|100%|0|0||4|4|100%|
-|Zorglub.Time.Specialized.CivilDate|113|0|113|477|100%|24|24|100%|57|57|100%|
-|Zorglub.Time.Specialized.GregorianCalendar|7|0|7|489|100%|0|0||4|4|100%|
-|Zorglub.Time.Specialized.GregorianDate|114|0|114|489|100%|24|24|100%|57|57|100%|
-|Zorglub.Time.Specialized.JulianCalendar|7|0|7|508|100%|0|0||4|4|100%|
-|Zorglub.Time.Specialized.JulianDate|115|0|115|508|100%|24|24|100%|57|57|100%|
-|**Zorglub.Time.Extras**|**1725**|**87**|**1812**|**12537**|**95.1%**|**394**|**432**|**91.2%**|**811**|**826**|**98.1%**|
+|Zorglub.Time.Specialized.CivilAdjusters|24|0|24|556|100%|0|0||6|6|100%|
+|Zorglub.Time.Specialized.CivilCalendar|7|0|7|556|100%|0|0||4|4|100%|
+|Zorglub.Time.Specialized.CivilDate|116|0|116|556|100%|24|24|100%|59|59|100%|
+|Zorglub.Time.Specialized.GregorianAdjusters|24|0|24|568|100%|0|0||6|6|100%|
+|Zorglub.Time.Specialized.GregorianCalendar|7|0|7|568|100%|0|0||4|4|100%|
+|Zorglub.Time.Specialized.GregorianDate|117|0|117|568|100%|24|24|100%|59|59|100%|
+|Zorglub.Time.Specialized.JulianAdjusters|24|0|24|587|100%|0|0||6|6|100%|
+|Zorglub.Time.Specialized.JulianCalendar|7|0|7|587|100%|0|0||4|4|100%|
+|Zorglub.Time.Specialized.JulianDate|118|0|118|587|100%|24|24|100%|59|59|100%|
+|**Zorglub.Time.Extras**|**1790**|**78**|**1868**|**18667**|**95.8%**|**398**|**430**|**92.5%**|**863**|**875**|**98.6%**|
 |Zorglub.Time.Core.Schemas.Coptic13Schema|20|0|20|112|100%|2|2|100%|15|15|100%|
 |Zorglub.Time.Core.Schemas.Egyptian13Schema|19|0|19|112|100%|2|2|100%|14|14|100%|
 |Zorglub.Time.Core.Schemas.FrenchRepublican12Schema|19|0|19|107|100%|2|2|100%|14|14|100%|
@@ -153,25 +159,35 @@
 |Zorglub.Time.Core.Schemas.WorldSchema|53|0|53|221|100%|34|34|100%|22|22|100%|
 |Zorglub.Time.Extensions.BoxExtensions|0|62|62|316|0%|0|24|0%|0|8|0%|
 |Zorglub.Time.Extensions.DayNumberExtensions|4|16|20|177|20%|0|8|0%|4|8|50%|
-|Zorglub.Time.Extensions.DayOfWeekExtensions|4|4|8|35|50%|2|4|50%|1|2|50%|
-|Zorglub.Time.IsoDayOfWeekExtensions|0|5|5|88|0%|0|4|0%|0|2|0%|
-|Zorglub.Time.Specialized.Armenian13Calendar|9|0|9|505|100%|0|0||5|5|100%|
-|Zorglub.Time.Specialized.Armenian13Date|121|0|121|505|100%|24|24|100%|57|57|100%|
-|Zorglub.Time.Specialized.ArmenianCalendar|7|0|7|500|100%|0|0||4|4|100%|
-|Zorglub.Time.Specialized.ArmenianDate|121|0|121|500|100%|24|24|100%|57|57|100%|
-|Zorglub.Time.Specialized.Coptic13Calendar|9|0|9|505|100%|0|0||5|5|100%|
-|Zorglub.Time.Specialized.Coptic13Date|121|0|121|505|100%|24|24|100%|57|57|100%|
-|Zorglub.Time.Specialized.CopticCalendar|7|0|7|500|100%|0|0||4|4|100%|
-|Zorglub.Time.Specialized.CopticDate|121|0|121|500|100%|24|24|100%|57|57|100%|
-|Zorglub.Time.Specialized.Ethiopic13Calendar|9|0|9|505|100%|0|0||5|5|100%|
-|Zorglub.Time.Specialized.Ethiopic13Date|121|0|121|505|100%|24|24|100%|57|57|100%|
-|Zorglub.Time.Specialized.EthiopicCalendar|7|0|7|500|100%|0|0||4|4|100%|
-|Zorglub.Time.Specialized.EthiopicDate|121|0|121|500|100%|24|24|100%|57|57|100%|
-|Zorglub.Time.Specialized.TabularIslamicCalendar|7|0|7|491|100%|0|0||4|4|100%|
-|Zorglub.Time.Specialized.TabularIslamicDate|117|0|117|491|100%|24|24|100%|56|56|100%|
-|Zorglub.Time.Specialized.WorldCalendar|11|0|11|514|100%|0|0||5|5|100%|
-|Zorglub.Time.Specialized.WorldDate|121|0|121|514|100%|24|24|100%|57|57|100%|
-|Zorglub.Time.Specialized.Zoroastrian13Calendar|9|0|9|505|100%|0|0||5|5|100%|
-|Zorglub.Time.Specialized.Zoroastrian13Date|121|0|121|505|100%|24|24|100%|57|57|100%|
-|Zorglub.Time.Specialized.ZoroastrianCalendar|7|0|7|500|100%|0|0||4|4|100%|
-|Zorglub.Time.Specialized.ZoroastrianDate|121|0|121|500|100%|24|24|100%|57|57|100%|
+|Zorglub.Time.Extensions.DayOfWeekExtensions|4|0|4|24|100%|2|2|100%|1|1|100%|
+|Zorglub.Time.Extensions.IsoDayOfWeekExtensions|5|0|5|34|100%|4|4|100%|2|2|100%|
+|Zorglub.Time.Specialized.Armenian13Adjusters|3|0|3|544|100%|0|0||3|3|100%|
+|Zorglub.Time.Specialized.Armenian13Calendar|9|0|9|544|100%|0|0||5|5|100%|
+|Zorglub.Time.Specialized.Armenian13Date|124|0|124|544|100%|24|24|100%|59|59|100%|
+|Zorglub.Time.Specialized.ArmenianAdjusters|3|0|3|539|100%|0|0||3|3|100%|
+|Zorglub.Time.Specialized.ArmenianCalendar|7|0|7|539|100%|0|0||4|4|100%|
+|Zorglub.Time.Specialized.ArmenianDate|124|0|124|539|100%|24|24|100%|59|59|100%|
+|Zorglub.Time.Specialized.Coptic13Adjusters|3|0|3|544|100%|0|0||3|3|100%|
+|Zorglub.Time.Specialized.Coptic13Calendar|9|0|9|544|100%|0|0||5|5|100%|
+|Zorglub.Time.Specialized.Coptic13Date|124|0|124|544|100%|24|24|100%|59|59|100%|
+|Zorglub.Time.Specialized.CopticAdjusters|3|0|3|539|100%|0|0||3|3|100%|
+|Zorglub.Time.Specialized.CopticCalendar|7|0|7|539|100%|0|0||4|4|100%|
+|Zorglub.Time.Specialized.CopticDate|124|0|124|539|100%|24|24|100%|59|59|100%|
+|Zorglub.Time.Specialized.Ethiopic13Adjusters|3|0|3|544|100%|0|0||3|3|100%|
+|Zorglub.Time.Specialized.Ethiopic13Calendar|9|0|9|544|100%|0|0||5|5|100%|
+|Zorglub.Time.Specialized.Ethiopic13Date|124|0|124|544|100%|24|24|100%|59|59|100%|
+|Zorglub.Time.Specialized.EthiopicAdjusters|3|0|3|539|100%|0|0||3|3|100%|
+|Zorglub.Time.Specialized.EthiopicCalendar|7|0|7|539|100%|0|0||4|4|100%|
+|Zorglub.Time.Specialized.EthiopicDate|124|0|124|539|100%|24|24|100%|59|59|100%|
+|Zorglub.Time.Specialized.TabularIslamicAdjusters|3|0|3|530|100%|0|0||3|3|100%|
+|Zorglub.Time.Specialized.TabularIslamicCalendar|7|0|7|530|100%|0|0||4|4|100%|
+|Zorglub.Time.Specialized.TabularIslamicDate|120|0|120|530|100%|24|24|100%|58|58|100%|
+|Zorglub.Time.Specialized.WorldAdjusters|3|0|3|553|100%|0|0||3|3|100%|
+|Zorglub.Time.Specialized.WorldCalendar|11|0|11|553|100%|0|0||5|5|100%|
+|Zorglub.Time.Specialized.WorldDate|124|0|124|553|100%|24|24|100%|59|59|100%|
+|Zorglub.Time.Specialized.Zoroastrian13Adjusters|3|0|3|544|100%|0|0||3|3|100%|
+|Zorglub.Time.Specialized.Zoroastrian13Calendar|9|0|9|544|100%|0|0||5|5|100%|
+|Zorglub.Time.Specialized.Zoroastrian13Date|124|0|124|544|100%|24|24|100%|59|59|100%|
+|Zorglub.Time.Specialized.ZoroastrianAdjusters|3|0|3|539|100%|0|0||3|3|100%|
+|Zorglub.Time.Specialized.ZoroastrianCalendar|7|0|7|539|100%|0|0||4|4|100%|
+|Zorglub.Time.Specialized.ZoroastrianDate|124|0|124|539|100%|24|24|100%|59|59|100%|

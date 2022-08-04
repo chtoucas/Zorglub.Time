@@ -1,16 +1,16 @@
 ﻿Summary
-  Generated on: 03/08/2022 - 11:54:45
+  Generated on: 04/08/2022 - 11:29:34
   Parser: OpenCover
   Assemblies: 2
-  Classes: 153
-  Files: 132
-  Line coverage: 96.1%
-  Covered lines: 7884
-  Uncovered lines: 318
-  Coverable lines: 8202
-  Total lines: 31197
+  Classes: 169
+  Files: 135
+  Line coverage: 96.3%
+  Covered lines: 8129
+  Uncovered lines: 309
+  Coverable lines: 8438
+  Total lines: 32048
 
-Zorglub.Time                                               96.3%
+Zorglub.Time                                               96.4%
   Zorglub.Time.AdditionRuleset                            100.0%
   Zorglub.Time.CalendarIdExtensions                       100.0%
   Zorglub.Time.Core.Arithmetic.GregorianSystemArithmetic  100.0%
@@ -88,8 +88,10 @@ Zorglub.Time                                               96.3%
   Zorglub.Time.Extensions.Unboxing                        100.0%
   Zorglub.Time.Hemerology.BasicCalendar                   100.0%
   Zorglub.Time.Hemerology.CalendarEpoch                   100.0%
+  Zorglub.Time.Hemerology.DateAdjusters<T>                100.0%
   Zorglub.Time.Hemerology.MinMaxYearCalendar              100.0%
   Zorglub.Time.Hemerology.MinMaxYearCalendar<T>           100.0%
+  Zorglub.Time.Hemerology.MinMaxYearDateAdjusters<T>      100.0%
   Zorglub.Time.Hemerology.Scopes.CalendarScope            100.0%
   Zorglub.Time.Hemerology.Scopes.GregorianProlepticScope  100.0%
   Zorglub.Time.Hemerology.Scopes.GregorianStandardScope   100.0%
@@ -109,6 +111,7 @@ Zorglub.Time                                               96.3%
   Zorglub.Time.Simple.CalendarYear                        100.0%
   Zorglub.Time.Simple.CopticSimpleCalendar                100.0%
   Zorglub.Time.Simple.CuidExtensions                      100.0%
+  Zorglub.Time.Simple.DateAdjusters                       100.0%
   Zorglub.Time.Simple.EthiopicSimpleCalendar              100.0%
   Zorglub.Time.Simple.GregorianSimpleCalendar             100.0%
   Zorglub.Time.Simple.JulianSimpleCalendar                100.0%
@@ -121,14 +124,17 @@ Zorglub.Time                                               96.3%
   Zorglub.Time.Simple.SimpleRegistry                      100.0%
   Zorglub.Time.Simple.TabularIslamicSimpleCalendar        100.0%
   Zorglub.Time.Simple.ZoroastrianSimpleCalendar           100.0%
+  Zorglub.Time.Specialized.CivilAdjusters                 100.0%
   Zorglub.Time.Specialized.CivilCalendar                  100.0%
   Zorglub.Time.Specialized.CivilDate                      100.0%
+  Zorglub.Time.Specialized.GregorianAdjusters             100.0%
   Zorglub.Time.Specialized.GregorianCalendar              100.0%
   Zorglub.Time.Specialized.GregorianDate                  100.0%
+  Zorglub.Time.Specialized.JulianAdjusters                100.0%
   Zorglub.Time.Specialized.JulianCalendar                 100.0%
   Zorglub.Time.Specialized.JulianDate                     100.0%
 
-Zorglub.Time.Extras                                        95.1%
+Zorglub.Time.Extras                                        95.8%
   Zorglub.Time.Core.Schemas.Coptic13Schema                100.0%
   Zorglub.Time.Core.Schemas.Egyptian13Schema              100.0%
   Zorglub.Time.Core.Schemas.FrenchRepublican12Schema      100.0%
@@ -144,25 +150,35 @@ Zorglub.Time.Extras                                        95.1%
   Zorglub.Time.Core.Schemas.WorldSchema                   100.0%
   Zorglub.Time.Extensions.BoxExtensions                     0.0%
   Zorglub.Time.Extensions.DayNumberExtensions              20.0%
-  Zorglub.Time.Extensions.DayOfWeekExtensions              50.0%
-  Zorglub.Time.IsoDayOfWeekExtensions                       0.0%
+  Zorglub.Time.Extensions.DayOfWeekExtensions             100.0%
+  Zorglub.Time.Extensions.IsoDayOfWeekExtensions          100.0%
+  Zorglub.Time.Specialized.Armenian13Adjusters            100.0%
   Zorglub.Time.Specialized.Armenian13Calendar             100.0%
   Zorglub.Time.Specialized.Armenian13Date                 100.0%
+  Zorglub.Time.Specialized.ArmenianAdjusters              100.0%
   Zorglub.Time.Specialized.ArmenianCalendar               100.0%
   Zorglub.Time.Specialized.ArmenianDate                   100.0%
+  Zorglub.Time.Specialized.Coptic13Adjusters              100.0%
   Zorglub.Time.Specialized.Coptic13Calendar               100.0%
   Zorglub.Time.Specialized.Coptic13Date                   100.0%
+  Zorglub.Time.Specialized.CopticAdjusters                100.0%
   Zorglub.Time.Specialized.CopticCalendar                 100.0%
   Zorglub.Time.Specialized.CopticDate                     100.0%
+  Zorglub.Time.Specialized.Ethiopic13Adjusters            100.0%
   Zorglub.Time.Specialized.Ethiopic13Calendar             100.0%
   Zorglub.Time.Specialized.Ethiopic13Date                 100.0%
+  Zorglub.Time.Specialized.EthiopicAdjusters              100.0%
   Zorglub.Time.Specialized.EthiopicCalendar               100.0%
   Zorglub.Time.Specialized.EthiopicDate                   100.0%
+  Zorglub.Time.Specialized.TabularIslamicAdjusters        100.0%
   Zorglub.Time.Specialized.TabularIslamicCalendar         100.0%
   Zorglub.Time.Specialized.TabularIslamicDate             100.0%
+  Zorglub.Time.Specialized.WorldAdjusters                 100.0%
   Zorglub.Time.Specialized.WorldCalendar                  100.0%
   Zorglub.Time.Specialized.WorldDate                      100.0%
+  Zorglub.Time.Specialized.Zoroastrian13Adjusters         100.0%
   Zorglub.Time.Specialized.Zoroastrian13Calendar          100.0%
   Zorglub.Time.Specialized.Zoroastrian13Date              100.0%
+  Zorglub.Time.Specialized.ZoroastrianAdjusters           100.0%
   Zorglub.Time.Specialized.ZoroastrianCalendar            100.0%
   Zorglub.Time.Specialized.ZoroastrianDate                100.0%

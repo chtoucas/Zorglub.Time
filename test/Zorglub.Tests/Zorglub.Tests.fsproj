@@ -90,6 +90,7 @@
     <Compile Include="Tests\Hemerology\YearNumberingTests.fs" />
     <Compile Include="Tests\Hemerology\BasicCalendarTests.fs" />
     <Compile Include="Tests\Hemerology\MinMaxYearCalendarTests.fs" />
+    <Compile Include="Tests\Hemerology\DateAdjustersTests.fs" />
     <Compile Include="Tests\Simple\CuidTests.fs" />
     <Compile Include="Tests\Simple\SimpleCalendarTests.fs" />
     <Compile Include="Tests\Simple\SimpleRegistryTests.fs" />

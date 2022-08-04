@@ -5,9 +5,9 @@ BoundedBelowCalendar -> faire comme avec MinMaxYearCalendar
 Naming: ident, id, cuid <- harmoniser
 Struct fields instead of auto-props
 Adjustable dates, providers <- à refaire
+DayProviders -> remove and use adjusters.
 Today and UtcToday <- time provider, update all tests related to "Today".
 SupportedYearsTester
-DayProviders -> remove and use adjusters.
 
 Calendar<TDate> & Date: Min/MaxXXX and new prop Epoch (as a Date not a DayNumber,
 maybe use Origin to avoid confusion). Remove IMinMaxValue

@@ -204,7 +204,50 @@ public partial class CalendarDayFacts<TDataSet> // Adjustments
 // Tests for related classes.
 //
 
-// TODO(fact): DateAdjusters.
+public partial class CalendarDayFacts<TDataSet> // DateAdjusters
+{
+    [Theory, MemberData(nameof(DateInfoData))]
+    public void DateAdjusters_GetStartOfYear(DateInfo info)
+    {
+        var (y, m, d) = info.Yemoda;
+        var date = CalendarUT.GetCalendarDate(y, m, d).ToCalendarDay();
+        var startOfYear = CalendarUT.GetCalendarDate(y, 1, 1).ToCalendarDay();
+        // Act & Assert
+        Assert.Equal(startOfYear, DateAdjusters.GetStartOfYear(date));
+    }
+
+    [Theory, MemberData(nameof(YearInfoData))]
+    public void DateAdjusters_GetEndOfYear(YearInfo info)
+    {
+        int y = info.Year;
+        var date = CalendarUT.GetCalendarDate(y, 1, 1).ToCalendarDay();
+        // Act
+        var endOfYear = DateAdjusters.GetEndOfYear(date);
+        // Assert
+        Assert.Equal(y, endOfYear.Year);
+        Assert.Equal(info.DaysInYear, endOfYear.DayOfYear);
+    }
+
+    [Theory, MemberData(nameof(DateInfoData))]
+    public void DateAdjusters_GetStartOfMonth(DateInfo info)
+    {
+        var (y, m, d) = info.Yemoda;
+        var date = CalendarUT.GetCalendarDate(y, m, d).ToCalendarDay();
+        var startOfMonth = CalendarUT.GetCalendarDate(y, m, 1).ToCalendarDay();
+        // Act & Assert
+        Assert.Equal(startOfMonth, DateAdjusters.GetStartOfMonth(date));
+    }
+
+    [Theory, MemberData(nameof(MonthInfoData))]
+    public void DateAdjusters_GetEndOfMonth(MonthInfo info)
+    {
+        var (y, m) = info.Yemo;
+        var date = CalendarUT.GetCalendarDate(y, m, 1).ToCalendarDay();
+        var endOfMonth = CalendarUT.GetCalendarDate(y, m, info.DaysInMonth).ToCalendarDay();
+        // Act & Assert
+        Assert.Equal(endOfMonth, DateAdjusters.GetEndOfMonth(date));
+    }
+}
 
 public partial class CalendarDayFacts<TDataSet> // CalendarDayProvider
 {
