@@ -26,6 +26,9 @@ namespace Zorglub.Time.Hemerology
         /// </summary>
         private readonly DayNumber _epoch;
 
+        // "private protected" because the abstract method GetDate() does NOT
+        // validate its parameter.
+
         /// <summary>
         /// Initializes a new instance of the <see cref="DateAdjusters{TDate}"/> class.
         /// </summary>

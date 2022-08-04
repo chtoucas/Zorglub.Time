@@ -1214,7 +1214,7 @@ Zorglub.Time.Hemerology.BasicCalendar.Scope.get -> Zorglub.Time.Hemerology.Scope
 Zorglub.Time.Hemerology.BasicCalendar.SupportedYears.get -> Zorglub.Time.Core.Validation.YearsValidator!
 Zorglub.Time.Hemerology.CalendarEpoch
 Zorglub.Time.Hemerology.DateAdjusters<TDate>
-Zorglub.Time.Hemerology.DateAdjusters<TDate>.DateAdjusters(Zorglub.Time.DayNumber epoch, Zorglub.Time.Core.ICalendricalSchema! schema) -> void
+Zorglub.Time.Hemerology.DateAdjusters<TDate>.DateAdjusters(Zorglub.Time.Hemerology.ICalendar<TDate>! calendar) -> void
 Zorglub.Time.Hemerology.DateAdjusters<TDate>.GetEndOfMonth(TDate date) -> TDate
 Zorglub.Time.Hemerology.DateAdjusters<TDate>.GetEndOfYear(TDate date) -> TDate
 Zorglub.Time.Hemerology.DateAdjusters<TDate>.GetStartOfMonth(TDate date) -> TDate
@@ -1304,6 +1304,11 @@ Zorglub.Time.Hemerology.MinMaxYearCalendar<TDate>.GetStartOfMonth(int year, int 
 Zorglub.Time.Hemerology.MinMaxYearCalendar<TDate>.GetStartOfYear(int year) -> TDate
 Zorglub.Time.Hemerology.MinMaxYearCalendar<TDate>.MinMaxYearCalendar(string! name, Zorglub.Time.Hemerology.Scopes.CalendarScope! scope) -> void
 Zorglub.Time.Hemerology.MinMaxYearCalendar<TDate>.MinMaxYearCalendar(string! name, Zorglub.Time.Hemerology.Scopes.MinMaxYearScope! scope) -> void
+Zorglub.Time.Hemerology.MinMaxYearDateAdjusters<TDate>
+Zorglub.Time.Hemerology.MinMaxYearDateAdjusters<TDate>.GetEndOfMonth(TDate date) -> TDate
+Zorglub.Time.Hemerology.MinMaxYearDateAdjusters<TDate>.GetEndOfYear(TDate date) -> TDate
+Zorglub.Time.Hemerology.MinMaxYearDateAdjusters<TDate>.GetStartOfMonth(TDate date) -> TDate
+Zorglub.Time.Hemerology.MinMaxYearDateAdjusters<TDate>.GetStartOfYear(TDate date) -> TDate
 Zorglub.Time.Hemerology.Scopes.CalendarScope
 Zorglub.Time.Hemerology.Scopes.CalendarScope.CalendarScope(Zorglub.Time.DayNumber epoch, Zorglub.Time.Core.CalendricalSegment! segment) -> void
 Zorglub.Time.Hemerology.Scopes.CalendarScope.DaysValidator.get -> Zorglub.Time.Core.Validation.DaysValidator!
