@@ -82,7 +82,7 @@ namespace Zorglub.Time.Specialized
         [Pure]
         public GregorianDate GetEndOfYear(GregorianDate date)
         {
-            int daysSinceZero = _schema.GetEndOfYear(date.Year);
+            int daysSinceZero = GregorianFormulae.GetEndOfYear(date.Year);
             return new GregorianDate(daysSinceZero);
         }
 

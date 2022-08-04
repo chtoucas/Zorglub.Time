@@ -8,7 +8,7 @@ using System.Diagnostics.Contracts;
 // There is only one advantage to have these methods: data is already validated.
 // Notice that it's true because years are complete which means, for instance,
 // that GetStartOfYear() is always valid.
-[Obsolete("ZDate is part of the ZCalendar system which implements IDayProvider.")]
+
 public static class ZDateAdjusters
 {
     /// <summary>

@@ -4,7 +4,7 @@
 namespace Zorglub.Time.Simple
 {
     /// <summary>
-    /// Provides common adjusters for the simple date types.
+    /// Provides common adjusters for the "simple" date types.
     /// </summary>
     public static partial class DateAdjusters { }
 

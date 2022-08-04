@@ -20,6 +20,8 @@ namespace Zorglub.Time.Hemerology
 
     /// <summary>
     /// Defines a date type with a companion calendar.
+    /// <para>This interface SHOULD NOT be implemented by date types participating in a
+    /// poly-calendar system.</para>
     /// </summary>
     /// <typeparam name="TSelf">The type that implements this interface.</typeparam>
     /// <typeparam name="TCalendar">The companion calendar type.</typeparam>

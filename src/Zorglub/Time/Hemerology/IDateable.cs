@@ -93,7 +93,7 @@ namespace Zorglub.Time.Hemerology
         void Deconstruct(out int year, out int month, out int day);
 
         /// <summary>
-        /// Deconstructs the current instance into its components.
+        /// Deconstructs the current instance into its ordinal components.
         /// </summary>
         void Deconstruct(out int year, out int dayOfYear);
 
