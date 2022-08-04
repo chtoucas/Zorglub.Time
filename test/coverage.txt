@@ -1,14 +1,14 @@
 ﻿Summary
-  Generated on: 04/08/2022 - 11:29:34
+  Generated on: 05/08/2022 - 00:14:46
   Parser: OpenCover
   Assemblies: 2
-  Classes: 169
-  Files: 135
-  Line coverage: 96.3%
-  Covered lines: 8129
-  Uncovered lines: 309
-  Coverable lines: 8438
-  Total lines: 32048
+  Classes: 167
+  Files: 133
+  Line coverage: 97.2%
+  Covered lines: 8125
+  Uncovered lines: 231
+  Coverable lines: 8356
+  Total lines: 31555
 
 Zorglub.Time                                               96.4%
   Zorglub.Time.AdditionRuleset                            100.0%
@@ -134,7 +134,7 @@ Zorglub.Time                                               96.4%
   Zorglub.Time.Specialized.JulianCalendar                 100.0%
   Zorglub.Time.Specialized.JulianDate                     100.0%
 
-Zorglub.Time.Extras                                        95.8%
+Zorglub.Time.Extras                                       100.0%
   Zorglub.Time.Core.Schemas.Coptic13Schema                100.0%
   Zorglub.Time.Core.Schemas.Egyptian13Schema              100.0%
   Zorglub.Time.Core.Schemas.FrenchRepublican12Schema      100.0%
@@ -148,8 +148,6 @@ Zorglub.Time.Extras                                        95.8%
   Zorglub.Time.Core.Schemas.TropicaliaSchema              100.0%
   Zorglub.Time.Core.Schemas.TropicalistaSchema            100.0%
   Zorglub.Time.Core.Schemas.WorldSchema                   100.0%
-  Zorglub.Time.Extensions.BoxExtensions                     0.0%
-  Zorglub.Time.Extensions.DayNumberExtensions              20.0%
   Zorglub.Time.Extensions.DayOfWeekExtensions             100.0%
   Zorglub.Time.Extensions.IsoDayOfWeekExtensions          100.0%
   Zorglub.Time.Specialized.Armenian13Adjusters            100.0%

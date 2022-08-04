@@ -205,21 +205,6 @@ static Zorglub.Time.Core.Schemas.Tropicalia3031Schema.GetInstance() -> Zorglub.T
 static Zorglub.Time.Core.Schemas.Tropicalia3130Schema.GetInstance() -> Zorglub.Time.Core.Utilities.Box<Zorglub.Time.Core.Schemas.Tropicalia3130Schema!>!
 static Zorglub.Time.Core.Schemas.TropicaliaSchema.GetInstance() -> Zorglub.Time.Core.Utilities.Box<Zorglub.Time.Core.Schemas.TropicaliaSchema!>!
 static Zorglub.Time.Core.Schemas.WorldSchema.GetInstance() -> Zorglub.Time.Core.Utilities.Box<Zorglub.Time.Core.Schemas.WorldSchema!>!
-static Zorglub.Time.Extensions.BoxExtensions.Bind<TSource, TResult>(this Zorglub.Time.Core.Utilities.Box<TSource!>! this, System.Func<TSource!, Zorglub.Time.Core.Utilities.Box<TResult!>!>! binder) -> Zorglub.Time.Core.Utilities.Box<TResult!>!
-static Zorglub.Time.Extensions.BoxExtensions.Join<TOuter, TInner, TKey, TResult>(this Zorglub.Time.Core.Utilities.Box<TOuter!>! outer, Zorglub.Time.Core.Utilities.Box<TInner!>! inner, System.Func<TOuter!, TKey>! outerSelector, System.Func<TInner!, TKey>! innerSelector, System.Func<TOuter!, TInner!, TResult?>! resultSelector) -> Zorglub.Time.Core.Utilities.Box<TResult!>!
-static Zorglub.Time.Extensions.BoxExtensions.Join<TOuter, TInner, TKey, TResult>(this Zorglub.Time.Core.Utilities.Box<TOuter!>! outer, Zorglub.Time.Core.Utilities.Box<TInner!>! inner, System.Func<TOuter!, TKey>! outerSelector, System.Func<TInner!, TKey>! innerSelector, System.Func<TOuter!, TInner!, TResult?>! resultSelector, System.Collections.Generic.IEqualityComparer<TKey>? comparer) -> Zorglub.Time.Core.Utilities.Box<TResult!>!
-static Zorglub.Time.Extensions.BoxExtensions.Otherwise<T>(this Zorglub.Time.Core.Utilities.Box<T!>! this, Zorglub.Time.Core.Utilities.Box<T!>? other) -> Zorglub.Time.Core.Utilities.Box<T!>?
-static Zorglub.Time.Extensions.BoxExtensions.SelectMany<TSource, TMiddle, TResult>(this Zorglub.Time.Core.Utilities.Box<TSource!>! this, System.Func<TSource!, Zorglub.Time.Core.Utilities.Box<TMiddle!>!>! binder, System.Func<TSource!, TMiddle!, TResult?>! zipper) -> Zorglub.Time.Core.Utilities.Box<TResult!>!
-static Zorglub.Time.Extensions.BoxExtensions.Where<T>(this Zorglub.Time.Core.Utilities.Box<T!>! this, System.Func<T!, bool>! predicate) -> Zorglub.Time.Core.Utilities.Box<T!>!
-static Zorglub.Time.Extensions.BoxExtensions.ZipWith<TSource, TOther, TResult>(this Zorglub.Time.Core.Utilities.Box<TSource!>! this, Zorglub.Time.Core.Utilities.Box<TOther!>! other, System.Func<TSource!, TOther!, TResult?>! zipper) -> Zorglub.Time.Core.Utilities.Box<TResult!>!
-static Zorglub.Time.Extensions.DayNumberExtensions.After(this Zorglub.Time.DayNumber this, System.DayOfWeek dayOfWeek) -> Zorglub.Time.DayNumber
-static Zorglub.Time.Extensions.DayNumberExtensions.After(this Zorglub.Time.DayNumber this, System.DayOfWeek dayOfWeek, int num) -> Zorglub.Time.DayNumber
-static Zorglub.Time.Extensions.DayNumberExtensions.Before(this Zorglub.Time.DayNumber this, System.DayOfWeek dayOfWeek) -> Zorglub.Time.DayNumber
-static Zorglub.Time.Extensions.DayNumberExtensions.Before(this Zorglub.Time.DayNumber this, System.DayOfWeek dayOfWeek, int num) -> Zorglub.Time.DayNumber
-static Zorglub.Time.Extensions.DayNumberExtensions.OnOrAfter(this Zorglub.Time.DayNumber this, System.DayOfWeek dayOfWeek) -> Zorglub.Time.DayNumber
-static Zorglub.Time.Extensions.DayNumberExtensions.OnOrAfter(this Zorglub.Time.DayNumber this, System.DayOfWeek dayOfWeek, int num) -> Zorglub.Time.DayNumber
-static Zorglub.Time.Extensions.DayNumberExtensions.OnOrBefore(this Zorglub.Time.DayNumber this, System.DayOfWeek dayOfWeek) -> Zorglub.Time.DayNumber
-static Zorglub.Time.Extensions.DayNumberExtensions.OnOrBefore(this Zorglub.Time.DayNumber this, System.DayOfWeek dayOfWeek, int num) -> Zorglub.Time.DayNumber
 static Zorglub.Time.Extensions.DayOfWeekExtensions.ToIsoDayOfWeek(this System.DayOfWeek this) -> Zorglub.Time.IsoDayOfWeek
 static Zorglub.Time.Extensions.IsoDayOfWeekExtensions.ToDayOfWeek(this Zorglub.Time.IsoDayOfWeek this) -> System.DayOfWeek
 static Zorglub.Time.Specialized.Armenian13Date.Adjusters.get -> Zorglub.Time.Specialized.Armenian13Adjusters!
@@ -430,8 +415,6 @@ Zorglub.Time.Core.Schemas.TropicalistaSchema.MonthsInYear.get -> int
 Zorglub.Time.Core.Schemas.WorldSchema
 Zorglub.Time.Core.Schemas.WorldSchema.IsBlankDay(int y, int m, int d) -> bool
 Zorglub.Time.Core.Schemas.WorldSchema.MonthsInYear.get -> int
-Zorglub.Time.Extensions.BoxExtensions
-Zorglub.Time.Extensions.DayNumberExtensions
 Zorglub.Time.Extensions.DayOfWeekExtensions
 Zorglub.Time.Extensions.IsoDayOfWeekExtensions
 Zorglub.Time.IsoDayOfWeek

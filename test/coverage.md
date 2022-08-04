@@ -1,22 +1,22 @@
 ﻿# Summary
 |||
 |:---|:---|
-| Generated on: | 04/08/2022 - 11:29:34 |
+| Generated on: | 05/08/2022 - 00:14:46 |
 | Parser: | OpenCover |
 | Assemblies: | 2 |
-| Classes: | 169 |
-| Files: | 135 |
-| Covered lines: | 8129 |
-| Uncovered lines: | 309 |
-| Coverable lines: | 8438 |
-| Total lines: | 32048 |
-| Line coverage: | 96.3% (8129 of 8438) |
+| Classes: | 167 |
+| Files: | 133 |
+| Covered lines: | 8125 |
+| Uncovered lines: | 231 |
+| Coverable lines: | 8356 |
+| Total lines: | 31555 |
+| Line coverage: | 97.2% (8125 of 8356) |
 | Covered branches: | 2173 |
-| Total branches: | 2273 |
-| Branch coverage: | 95.6% (2173 of 2273) |
-| Covered methods: | 2750 |
-| Total methods: | 2786 |
-| Method coverage: | 98.7% (2750 of 2786) |
+| Total branches: | 2241 |
+| Branch coverage: | 96.9% (2173 of 2241) |
+| Covered methods: | 2746 |
+| Total methods: | 2770 |
+| Method coverage: | 99.1% (2746 of 2770) |
 
 |**Name**|**Covered**|**Uncovered**|**Coverable**|**Total**|**Line coverage**|**Covered**|**Total**|**Branch coverage**|**Covered**|**Total**|**Method coverage**|
 |:---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
@@ -143,7 +143,7 @@
 |Zorglub.Time.Specialized.JulianAdjusters|24|0|24|587|100%|0|0||6|6|100%|
 |Zorglub.Time.Specialized.JulianCalendar|7|0|7|587|100%|0|0||4|4|100%|
 |Zorglub.Time.Specialized.JulianDate|118|0|118|587|100%|24|24|100%|59|59|100%|
-|**Zorglub.Time.Extras**|**1790**|**78**|**1868**|**18667**|**95.8%**|**398**|**430**|**92.5%**|**863**|**875**|**98.6%**|
+|**Zorglub.Time.Extras**|**1786**|**0**|**1786**|**18174**|**100%**|**398**|**398**|**100%**|**859**|**859**|**100%**|
 |Zorglub.Time.Core.Schemas.Coptic13Schema|20|0|20|112|100%|2|2|100%|15|15|100%|
 |Zorglub.Time.Core.Schemas.Egyptian13Schema|19|0|19|112|100%|2|2|100%|14|14|100%|
 |Zorglub.Time.Core.Schemas.FrenchRepublican12Schema|19|0|19|107|100%|2|2|100%|14|14|100%|
@@ -157,8 +157,6 @@
 |Zorglub.Time.Core.Schemas.TropicaliaSchema|50|0|50|135|100%|22|22|100%|9|9|100%|
 |Zorglub.Time.Core.Schemas.TropicalistaSchema|20|0|20|131|100%|4|4|100%|14|14|100%|
 |Zorglub.Time.Core.Schemas.WorldSchema|53|0|53|221|100%|34|34|100%|22|22|100%|
-|Zorglub.Time.Extensions.BoxExtensions|0|62|62|316|0%|0|24|0%|0|8|0%|
-|Zorglub.Time.Extensions.DayNumberExtensions|4|16|20|177|20%|0|8|0%|4|8|50%|
 |Zorglub.Time.Extensions.DayOfWeekExtensions|4|0|4|24|100%|2|2|100%|1|1|100%|
 |Zorglub.Time.Extensions.IsoDayOfWeekExtensions|5|0|5|34|100%|4|4|100%|2|2|100%|
 |Zorglub.Time.Specialized.Armenian13Adjusters|3|0|3|544|100%|0|0||3|3|100%|
