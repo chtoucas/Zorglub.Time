@@ -5,11 +5,14 @@ namespace Zorglub.Time.Hemerology
 {
     using System;
 
+    // It would be natural to constraint TDate to IDateable, but we currently
+    // intent to impl this interface with fixed date types like DayNumber.
+
     /// <summary>
     /// Defines the common adjusters for <typeparamref name="TDate"/>.
     /// </summary>
     /// <typeparam name="TDate">The type of date object.</typeparam>
-    public interface IDateAdjusters<TDate> where TDate : IDateable
+    public interface IDateAdjusters<TDate>
     {
         /// <summary>
         /// Obtains the first day of the month to which belongs the specified day.
