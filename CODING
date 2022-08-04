@@ -70,8 +70,8 @@ Structs
 -------
 
 I prefer fields to properties, this way we can see clearly its size.
-In fact, to achieve optimal perf, it's better to use fields (instance or static)
-over auto-properties.
+In fact, to achieve optimal perf, it seems better to use fields (instance or
+static) over auto-properties.
 
 Check-list
 - readonly?

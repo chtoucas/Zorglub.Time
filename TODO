@@ -151,9 +151,6 @@ the calendar to midnight of the current instance.
 
 https://nietras.com/2021/06/14/csharp-10-record-struct/
 
-Covariant return type does not work when a property (Arithmetic here),
-is a property from an interface or has a setter.
-
 abstract override
 https://ericlippert.com/2011/02/07/strange-but-legal/
 
