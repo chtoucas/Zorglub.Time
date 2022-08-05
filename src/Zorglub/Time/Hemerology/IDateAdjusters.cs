@@ -25,24 +25,6 @@ namespace Zorglub.Time.Hemerology
     public interface IDateAdjusters<TDate>
     {
         /// <summary>
-        /// Obtains the first day of the month to which belongs the specified day.
-        /// </summary>
-        /// <exception cref="ArgumentNullException"><paramref name="date"/> is null.</exception>
-        /// <exception cref="AoorException">The result would overflow the range of supported dates.
-        /// </exception>
-        [SuppressMessage("Naming", "CA1716:Identifiers should not match keywords.", MessageId = "end", Justification = "F# & VB.NET End statement.")]
-        [Pure] TDate GetStartOfMonth(TDate date);
-
-        /// <summary>
-        /// Obtains the last day of the month to which belongs the specified day.
-        /// </summary>
-        /// <exception cref="ArgumentNullException"><paramref name="date"/> is null.</exception>
-        /// <exception cref="AoorException">The result would overflow the range of supported dates.
-        /// </exception>
-        [SuppressMessage("Naming", "CA1716:Identifiers should not match keywords.", MessageId = "end", Justification = "F# & VB.NET End statement.")]
-        [Pure] TDate GetEndOfMonth(TDate date);
-
-        /// <summary>
         /// Obtains the first day of the year to which belongs the specified day.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="date"/> is null.</exception>
@@ -59,5 +41,23 @@ namespace Zorglub.Time.Hemerology
         /// </exception>
         [SuppressMessage("Naming", "CA1716:Identifiers should not match keywords.", MessageId = "end", Justification = "F# & VB.NET End statement.")]
         [Pure] TDate GetEndOfYear(TDate date);
+
+        /// <summary>
+        /// Obtains the first day of the month to which belongs the specified day.
+        /// </summary>
+        /// <exception cref="ArgumentNullException"><paramref name="date"/> is null.</exception>
+        /// <exception cref="AoorException">The result would overflow the range of supported dates.
+        /// </exception>
+        [SuppressMessage("Naming", "CA1716:Identifiers should not match keywords.", MessageId = "end", Justification = "F# & VB.NET End statement.")]
+        [Pure] TDate GetStartOfMonth(TDate date);
+
+        /// <summary>
+        /// Obtains the last day of the month to which belongs the specified day.
+        /// </summary>
+        /// <exception cref="ArgumentNullException"><paramref name="date"/> is null.</exception>
+        /// <exception cref="AoorException">The result would overflow the range of supported dates.
+        /// </exception>
+        [SuppressMessage("Naming", "CA1716:Identifiers should not match keywords.", MessageId = "end", Justification = "F# & VB.NET End statement.")]
+        [Pure] TDate GetEndOfMonth(TDate date);
     }
 }

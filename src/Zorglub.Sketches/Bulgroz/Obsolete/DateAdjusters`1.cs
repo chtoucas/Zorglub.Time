@@ -12,7 +12,7 @@ namespace Zorglub.Bulgroz.Obsolete
     // the dayNumber, but it also makes the code unefficient when the
     // calendar is complete (the validation is unnecessary).
     //
-    // Do NOT use, this class does nothing more than DateAdjusters.
+    // Do NOT use, this class does nothing more than Hemerology.DateAdjusters.
     // Maybe it's a bit more efficient when the calendar is not complete
     // (see the validation in BoundedBelowNakedCalendar).
     // Furthemore, for date types based on a y/m/d repr, there is a better way
@@ -78,8 +78,7 @@ namespace Zorglub.Bulgroz.Obsolete
         [Pure]
         public TDate GetStartOfMonth(TDate date)
         {
-            var dayNumber = date.ToDayNumber();
-            _schema.GetDateParts(dayNumber - _epoch, out int y, out int m, out _);
+            var (y, m, _) = date;
             int daysSinceEpoch = _schema.GetStartOfMonth(y, m);
             return TDate.FromDayNumber(_epoch + daysSinceEpoch);
         }
@@ -88,8 +87,7 @@ namespace Zorglub.Bulgroz.Obsolete
         [Pure]
         public TDate GetEndOfMonth(TDate date)
         {
-            var dayNumber = date.ToDayNumber();
-            _schema.GetDateParts(dayNumber - _epoch, out int y, out int m, out _);
+            var (y, m, _) = date;
             int daysSinceEpoch = _schema.GetEndOfMonth(y, m);
             return TDate.FromDayNumber(_epoch + daysSinceEpoch);
         }
