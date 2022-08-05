@@ -109,6 +109,10 @@ namespace Zorglub.Time.Hemerology
             return GetDate(daysSinceEpoch);
         }
 
+        //
+        // Adjust indivual components
+        //
+
         /// <summary>
         /// Adjusts the year field to the specified value, yielding a new date.
         /// </summary>
@@ -118,6 +122,7 @@ namespace Zorglub.Time.Hemerology
         {
             var dayNumber = date.ToDayNumber();
             Schema.GetDateParts(dayNumber - Epoch, out _, out int m, out int d);
+            // We MUST re-validate the entire date.
             Scope.ValidateYearMonthDay(newYear, m, d, nameof(newYear));
 
             int daysSinceEpoch = Schema.CountDaysSinceEpoch(newYear, m, d);
@@ -133,6 +138,7 @@ namespace Zorglub.Time.Hemerology
         {
             var dayNumber = date.ToDayNumber();
             Schema.GetDateParts(dayNumber - Epoch, out int y, out _, out int d);
+            // We only need to validate "newMonth" and "d".
             Schema.PreValidator.ValidateMonthDay(y, newMonth, d, nameof(newMonth));
 
             int daysSinceEpoch = Schema.CountDaysSinceEpoch(y, newMonth, d);
@@ -164,6 +170,7 @@ namespace Zorglub.Time.Hemerology
         {
             var dayNumber = date.ToDayNumber();
             int y = Schema.GetYear(dayNumber - Epoch, out _);
+            // We only need to validate "newDayOfYear".
             Schema.PreValidator.ValidateDayOfYear(y, newDayOfYear, nameof(newDayOfYear));
 
             int daysSinceEpoch = Schema.CountDaysSinceEpoch(y, newDayOfYear);
@@ -188,4 +195,5 @@ namespace Zorglub.Time.Hemerology
             }
         }
     }
+
 }

@@ -5,6 +5,21 @@ namespace Zorglub.Time.Hemerology
 {
     using System;
 
+    // TODO(api): adjusters.
+    // Remove IAdjustableOrdinal.
+    // Merge IAdjustableDate w/ IDate? Hum no because we have also IAffineDate.
+    // Le seul avantage à avoir ces méthodes sur un objet date est qu'on peut ne
+    // pas pas avoir à revalider les paramètres.
+    //
+    // Static or not? If not static, property or not?
+    // On utilise non pas des propriétés mais des méthodes car en général on
+    // ne peut pas dire si le résultat est dans les limites du calendrier
+    // sous-jacent, on peut donc être amené à lever une exception.
+    // De plus, GetEndOfYear() n'est pas une opération totalement
+    // élémentaire. Quant à GetStartOfYear(), pour des questions de symétrie
+    // on va aussi opter pour une méthode, même si utiliser une propriété
+    // aurait été plus appropriée.
+
     // IDateAdjusters<TDate> provides a different API for the part of
     // ICalendar<TDate> dealing with the creation of new (single) TDate instances.
     //

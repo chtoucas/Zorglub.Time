@@ -20,6 +20,13 @@ namespace Zorglub.Time.Hemerology
         where TSelf : IAdjustableDate<TSelf>
     {
         /// <summary>
+        /// Adjusts the current instance using the specified adjuster.
+        /// <para>If the adjuster throws, this method will propagate the exception.</para>
+        /// </summary>
+        /// <exception cref="ArgumentNullException"><paramref name="adjuster"/> is null.</exception>
+        [Pure] TSelf Adjust(Func<TSelf, TSelf> adjuster);
+
+        /// <summary>
         /// Adjusts the year field to the specified value, yielding a new date.
         /// </summary>
         /// <exception cref="AoorException">The resulting date would be invalid.</exception>
@@ -36,5 +43,32 @@ namespace Zorglub.Time.Hemerology
         /// </summary>
         /// <exception cref="AoorException">The resulting date would be invalid.</exception>
         [Pure] TSelf WithDay(int newDay);
+
+        ///// <summary>
+        ///// Adjusts the day of the year field to the specified value, yielding a new date.
+        ///// </summary>
+        ///// <exception cref="AoorException">The resulting date would be invalid.</exception>
+        //[Pure] TSelf WithDayOfYear(int newDayOfYear);
+    }
+
+    /// <summary>
+    /// Defines an adjustable date type.
+    /// </summary>
+    /// <typeparam name="TSelf">The type that implements this interface.</typeparam>
+    [Obsolete("Use IAdjustableDate instead.")]
+    public interface IAdjustableOrdinal<TSelf> : IDateable
+        where TSelf : IAdjustableOrdinal<TSelf>
+    {
+        /// <summary>
+        /// Adjusts the year field to the specified value, yielding a new date.
+        /// </summary>
+        /// <exception cref="AoorException">The resulting date would be invalid.</exception>
+        [Pure] TSelf WithYear(int newYear);
+
+        /// <summary>
+        /// Adjusts the day of the year field to the specified value, yielding a new date.
+        /// </summary>
+        /// <exception cref="AoorException">The resulting date would be invalid.</exception>
+        [Pure] TSelf WithDayOfYear(int newDayOfYear);
     }
 }
