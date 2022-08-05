@@ -28,6 +28,12 @@ namespace Zorglub.Time.Hemerology
 
         // "private protected" because the abstract method GetDate() does NOT
         // validate its parameter.
+        //
+        // For this class to work, an ICalendar is enough but it seems more
+        // natural to use an ICalendar<TDate>, this way we emphasize that the
+        // class works for a specific type of date. In fact, we only need a
+        // complete scope but it would only make sense to have a ctor with just
+        // a scope if we added the ctor with an ICalendar.
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DateAdjusters{TDate}"/> class.

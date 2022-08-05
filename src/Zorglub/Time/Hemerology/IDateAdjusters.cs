@@ -5,8 +5,19 @@ namespace Zorglub.Time.Hemerology
 {
     using System;
 
+    // IDateAdjusters<TDate> provides a different API to the part of
+    // ICalendar<TDate> dealing with the creation of new TDate instances.
+    //
     // It would be natural to constraint TDate to IDateable, but we currently
-    // intent to impl this interface with fixed date types like DayNumber.
+    // intent to impl this interface with (fixed) date types like DayNumber.
+    // This is also in sync with ICalendar<TDate> which does not constraint
+    // the date type.
+    //
+    // For a default implementation of IDateAdjusters, see DateAdjusters.
+    // A custom implementation should only be done when we can avoid the
+    // validation of the result; see for instance MinMaxYearDateAdjusters where
+    // we know that the result is guaranteed to be within the calendar
+    // boundaries.
 
     /// <summary>
     /// Defines the common adjusters for <typeparamref name="TDate"/>.
@@ -18,6 +29,8 @@ namespace Zorglub.Time.Hemerology
         /// Obtains the first day of the month to which belongs the specified day.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="date"/> is null.</exception>
+        /// <exception cref="AoorException">The result would overflow the range of supported dates.
+        /// </exception>
         [SuppressMessage("Naming", "CA1716:Identifiers should not match keywords.", MessageId = "end", Justification = "F# & VB.NET End statement.")]
         [Pure] TDate GetStartOfMonth(TDate date);
 
@@ -25,6 +38,8 @@ namespace Zorglub.Time.Hemerology
         /// Obtains the last day of the month to which belongs the specified day.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="date"/> is null.</exception>
+        /// <exception cref="AoorException">The result would overflow the range of supported dates.
+        /// </exception>
         [SuppressMessage("Naming", "CA1716:Identifiers should not match keywords.", MessageId = "end", Justification = "F# & VB.NET End statement.")]
         [Pure] TDate GetEndOfMonth(TDate date);
 
@@ -32,6 +47,8 @@ namespace Zorglub.Time.Hemerology
         /// Obtains the first day of the year to which belongs the specified day.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="date"/> is null.</exception>
+        /// <exception cref="AoorException">The result would overflow the range of supported dates.
+        /// </exception>
         [SuppressMessage("Naming", "CA1716:Identifiers should not match keywords.", MessageId = "end", Justification = "F# & VB.NET End statement.")]
         [Pure] TDate GetStartOfYear(TDate date);
 
@@ -39,6 +56,8 @@ namespace Zorglub.Time.Hemerology
         /// Obtains the last day of the year to which belongs the specified day.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="date"/> is null.</exception>
+        /// <exception cref="AoorException">The result would overflow the range of supported dates.
+        /// </exception>
         [SuppressMessage("Naming", "CA1716:Identifiers should not match keywords.", MessageId = "end", Justification = "F# & VB.NET End statement.")]
         [Pure] TDate GetEndOfYear(TDate date);
     }

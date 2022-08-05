@@ -17,11 +17,6 @@ namespace Zorglub.Bulgroz.Obsolete
     // (see the validation in BoundedBelowNakedCalendar).
     // Furthemore, for date types based on a y/m/d repr, there is a better way
     // to implement IDateAdjusters; see for instance MyDate.
-    //
-    // Summary:
-    // - for a generic implementation of IDateAdjusters, see DateAdjusters
-    // - a non-generic implementation should only be done when we can avoid the
-    //   validation. See for instance MinMaxYearDateAdjusters.
 
     /// <summary>
     /// Provides a default implementation for <see cref="IDateAdjusters{TDate}"/>.
@@ -43,10 +38,6 @@ namespace Zorglub.Bulgroz.Obsolete
         /// <para>This field is read-only.</para>
         /// </summary>
         private readonly DayNumber _epoch;
-
-        // Constructor: ICalendar is enough but it seems more natural to use an
-        // ICalendar<TDate>. Public ctor with scope? maybe yes if we allowed the
-        // ctor to work with an ICalendar.
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DateAdjusters{TDate}"/> class.

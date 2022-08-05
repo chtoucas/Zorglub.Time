@@ -20,7 +20,7 @@ namespace Zorglub.Time.Hemerology
 
     // REVIEW(api): "covariant return type" ne marche pas pour une propriété
     // provenant d'une interface ou ayant un "setter". Si c'était possible
-    // j'aurais bien aimer rajouter la propriété suivante:
+    // j'aurais bien aimé rajouter la propriété suivante:
     // > static abstract IDateAdjusters<TDate> Adjuters { get; }
     // Dans l'état actuel des choses, il faudrait donc rajouter encore un
     // paramètre générique (TAdjusters : IDateAdjusters<TDate>), ce qui ne me
@@ -28,9 +28,12 @@ namespace Zorglub.Time.Hemerology
     // ne fournit pas plus de fonctionnalités que l'interface, ce qui est le cas
     // pour le moment, mais cela devrait changer et puis même je ne souhaite pas
     // être coincer dans le future avec une interface bancale.
+    // https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/proposals/csharp-9.0/covariant-returns
 
     // L'interface suivante est prévue pour les dates ne fonctionnant qu'avec un
     // seul calendrier, d'où le fait d'avoir choisi une propriété __statique__.
+    // Voir ISimpleCalendar pour un type date fonctionnant avec un calendrier
+    // "pluriel".
 
     /// <summary>
     /// Defines a date type with a companion calendar.
