@@ -7,6 +7,12 @@ namespace Zorglub.Time.Simple
 
     // TODO(code): use a custom exn when using the rule AdditionRule.Throw.
 
+    /// <summary>
+    /// Provides non-standard mathematical operations suitable for use with a given calendar.
+    /// <para>This class allows to customize the <see cref="AdditionRuleset"/> used to resolve
+    /// ambiguities.</para>
+    /// <para>This class cannot be inherited.</para>
+    /// </summary>
     public sealed class PowerMath : CalendarMath
     {
         /// <summary>

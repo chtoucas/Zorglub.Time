@@ -35,7 +35,7 @@ only a bit slower than Standard (> 0).
 - When .NET 7 is out:
   D.B.targets: disable preview features.
   Clean up unnecessary `#pragma warning disable`.
-  Generic math: `using System.Numerics`.
+  Generic math: `using System.Numerics`, checked ops.
   Github action: test on Ubuntu and MacOS.
 - Clean up compiler symbols.
 - CLSCompliant

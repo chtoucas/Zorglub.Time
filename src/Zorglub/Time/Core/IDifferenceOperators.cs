@@ -21,9 +21,17 @@ namespace Zorglub.Time.Core
     // IDifferenceOperators<TSelf, TResult> is just
     // ISubtractionOperators<TSelf, TSelf, TResult>.
 
+    /// <summary>
+    /// Defines a mechanism for computing the difference of two values of the same type.
+    /// </summary>
+    /// <typeparam name="TSelf">The type that implements this interface.</typeparam>
+    /// <typeparam name="TResult">The type that contains the difference of two values.</typeparam>
     public interface IDifferenceOperators<TSelf, TResult>
         where TSelf : IDifferenceOperators<TSelf, TResult>
     {
+        /// <summary>
+        /// Subtracts two values to compute their difference.
+        /// </summary>
         public static abstract TResult operator -(TSelf left, TSelf right);
     }
 }
