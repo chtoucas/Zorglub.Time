@@ -684,15 +684,17 @@ namespace Zorglub.Time
         #endregion
         #region Adjustments
 
-        /// <inheritdoc/>
+        /// <summary>
+        /// Adjusts the current instance using the specified adjuster.
+        /// <para>If the adjuster throws, this method will propagate the exception.</para>
+        /// </summary>
+        /// <exception cref="ArgumentNullException"><paramref name="adjuster"/> is null.</exception>
         [Pure]
-        public XCivilDate Adjust(Func<DateParts, DateParts> adjuster)
+        public XCivilDate Adjust(Func<XCivilDate, XCivilDate> adjuster)
         {
             Requires.NotNull(adjuster);
 
-            Unpack(out int y, out int m, out int d);
-            var (y1, m1, d1) = adjuster.Invoke(new DateParts(y, m, d));
-            return new XCivilDate(y1, m1, d1);
+            return adjuster.Invoke(this);
         }
 
         /// <summary>

@@ -9,14 +9,7 @@ using Zorglub.Time.Hemerology.Scopes;
 public sealed class FauxMinMaxYearDateAdjusters<TDate> : MinMaxYearDateAdjusters<TDate>
     where TDate : IDate<TDate>
 {
-    public FauxMinMaxYearDateAdjusters(ICalendar<TDate> calendar) : base(calendar)
-    {
-        Debug.Assert(calendar != null);
-
-        Epoch = calendar.Epoch;
-    }
-
-    public DayNumber Epoch { get; }
+    public FauxMinMaxYearDateAdjusters(ICalendar<TDate> calendar) : base(calendar) { }
 
     protected override TDate GetDate(int daysSinceEpoch) =>
         TDate.FromDayNumber(Epoch + daysSinceEpoch);

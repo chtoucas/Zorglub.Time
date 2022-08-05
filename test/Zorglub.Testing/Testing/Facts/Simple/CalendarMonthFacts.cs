@@ -359,10 +359,10 @@ public partial class CalendarMonthFacts<TDataSet> // Adjustments
         // Act & Assert
         foreach (var invalidYear in SupportedYearsTester.InvalidYears)
         {
-            var adjuster = (MonthParts parts) =>
+            var adjuster = (CalendarMonth month) =>
             {
-                var (y, m) = parts;
-                return new MonthParts(invalidYear, m);
+                var (y, m) = month;
+                return new CalendarMonth(invalidYear, m);
             };
             // Act & Assert
             Assert.ThrowsAoorexn("year", () => month.Adjust(adjuster));
@@ -374,10 +374,10 @@ public partial class CalendarMonthFacts<TDataSet> // Adjustments
     {
         var month = CalendarUT.GetCalendarMonth(y, 1);
         // Act & Assert
-        var adjuster = (MonthParts parts) =>
+        var adjuster = (CalendarMonth month) =>
         {
-            var (y, m) = parts;
-            return new MonthParts(y, newMonth);
+            var (y, m) = month;
+            return new CalendarMonth(y, newMonth);
         };
         Assert.ThrowsAoorexn("month", () => month.Adjust(adjuster));
     }
@@ -397,7 +397,7 @@ public partial class CalendarMonthFacts<TDataSet> // Adjustments
         var (y, m) = info.Yemo;
         var month = CalendarUT.GetCalendarMonth(1, 1);
         var exp = CalendarUT.GetCalendarMonth(y, m);
-        var adjuster = (MonthParts _) => new MonthParts(y, m);
+        var adjuster = (CalendarMonth _) => new CalendarMonth(y, m);
         // Act & Assert
         Assert.Equal(exp, month.Adjust(adjuster));
     }

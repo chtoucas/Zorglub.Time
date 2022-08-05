@@ -25,7 +25,7 @@ namespace Zorglub.Time.Specialized
     // define static properties instead of instance props.
     //
     // CountDaysSince(XXXDate other) checked context or not? do we test it?
-    // Add method Adjust(Func<CivilDate, CivilDate>) + adjusters in Sketches.
+    // Add method Adjust(Func<TDate, TDate>).
     //
     // Other date types? yes but only for calendars currently in use or for
     // proposed reforms. See CalendarZoo.

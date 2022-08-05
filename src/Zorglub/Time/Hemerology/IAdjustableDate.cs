@@ -20,13 +20,6 @@ namespace Zorglub.Time.Hemerology
         where TSelf : IAdjustableDate<TSelf>
     {
         /// <summary>
-        /// Adjusts the date fields to the specified values, yielding a new date.
-        /// </summary>
-        /// <exception cref="ArgumentNullException"><paramref name="adjuster"/> is null.</exception>
-        /// <exception cref="AoorException">The resulting date would be invalid.</exception>
-        [Pure] TSelf Adjust(Func<DateParts, DateParts> adjuster);
-
-        /// <summary>
         /// Adjusts the year field to the specified value, yielding a new date.
         /// </summary>
         /// <exception cref="AoorException">The resulting date would be invalid.</exception>

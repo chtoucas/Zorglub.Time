@@ -4,6 +4,9 @@
 namespace Zorglub.Time.Hemerology
 {
     using Zorglub.Time.Core;
+    using Zorglub.Time.Hemerology.Scopes;
+
+    // This type works best with date types based on "daysSinceEpoch".
 
     /// <summary>
     /// Provides common adjusters for <typeparamref name="TDate"/>.
@@ -13,18 +16,6 @@ namespace Zorglub.Time.Hemerology
     public abstract class MinMaxYearDateAdjusters<TDate> : IDateAdjusters<TDate>
         where TDate : IDate<TDate>
     {
-        /// <summary>
-        /// Represents the schema.
-        /// <para>This field is read-only.</para>
-        /// </summary>
-        private readonly ICalendricalSchema _schema;
-
-        /// <summary>
-        /// Represents the epoch.
-        /// <para>This field is read-only.</para>
-        /// </summary>
-        private readonly DayNumber _epoch;
-
         // "private protected" because the abstract method GetDate() does NOT
         // validate its parameter.
         //
@@ -50,9 +41,23 @@ namespace Zorglub.Time.Hemerology
             // scope is complete.
             if (scope.IsComplete == false) Throw.Argument(nameof(calendar));
 
-            _epoch = scope.Epoch;
-            _schema = scope.Schema;
+            Scope = scope;
         }
+
+        /// <summary>
+        /// Gets the scope.
+        /// </summary>
+        protected CalendarScope Scope { get; }
+
+        /// <summary>
+        /// Gets the epoch.
+        /// </summary>
+        protected DayNumber Epoch => Scope.Epoch;
+
+        /// <summary>
+        /// Gets the schema.
+        /// </summary>
+        protected ICalendricalSchema Schema => Scope.Schema;
 
         /// <summary>
         /// Creates a new instance of <typeparamref name="TDate"/> from the specified count of
@@ -72,7 +77,7 @@ namespace Zorglub.Time.Hemerology
         [Pure]
         public TDate GetStartOfYear(TDate date)
         {
-            int daysSinceEpoch = _schema.GetStartOfYear(date.Year);
+            int daysSinceEpoch = Schema.GetStartOfYear(date.Year);
             return GetDate(daysSinceEpoch);
         }
 
@@ -80,7 +85,7 @@ namespace Zorglub.Time.Hemerology
         [Pure]
         public TDate GetEndOfYear(TDate date)
         {
-            int daysSinceEpoch = _schema.GetEndOfYear(date.Year);
+            int daysSinceEpoch = Schema.GetEndOfYear(date.Year);
             return GetDate(daysSinceEpoch);
         }
 
@@ -89,8 +94,8 @@ namespace Zorglub.Time.Hemerology
         public TDate GetStartOfMonth(TDate date)
         {
             var dayNumber = date.ToDayNumber();
-            _schema.GetDateParts(dayNumber - _epoch, out int y, out int m, out _);
-            int daysSinceEpoch = _schema.GetStartOfMonth(y, m);
+            Schema.GetDateParts(dayNumber - Epoch, out int y, out int m, out _);
+            int daysSinceEpoch = Schema.GetStartOfMonth(y, m);
             return GetDate(daysSinceEpoch);
         }
 
@@ -99,9 +104,88 @@ namespace Zorglub.Time.Hemerology
         public TDate GetEndOfMonth(TDate date)
         {
             var dayNumber = date.ToDayNumber();
-            _schema.GetDateParts(dayNumber - _epoch, out int y, out int m, out _);
-            int daysSinceEpoch = _schema.GetEndOfMonth(y, m);
+            Schema.GetDateParts(dayNumber - Epoch, out int y, out int m, out _);
+            int daysSinceEpoch = Schema.GetEndOfMonth(y, m);
             return GetDate(daysSinceEpoch);
+        }
+
+        /// <summary>
+        /// Adjusts the year field to the specified value, yielding a new date.
+        /// </summary>
+        /// <exception cref="AoorException">The resulting date would be invalid.</exception>
+        [Pure]
+        public TDate AdjustYear(TDate date, int newYear)
+        {
+            var dayNumber = date.ToDayNumber();
+            Schema.GetDateParts(dayNumber - Epoch, out _, out int m, out int d);
+            Scope.ValidateYearMonthDay(newYear, m, d, nameof(newYear));
+
+            int daysSinceEpoch = Schema.CountDaysSinceEpoch(newYear, m, d);
+            return GetDate(daysSinceEpoch);
+        }
+
+        /// <summary>
+        /// Adjusts the month field to the specified value, yielding a new date.
+        /// </summary>
+        /// <exception cref="AoorException">The resulting date would be invalid.</exception>
+        [Pure]
+        public TDate AdjustMonth(TDate date, int newMonth)
+        {
+            var dayNumber = date.ToDayNumber();
+            Schema.GetDateParts(dayNumber - Epoch, out int y, out _, out int d);
+            Schema.PreValidator.ValidateMonthDay(y, newMonth, d, nameof(newMonth));
+
+            int daysSinceEpoch = Schema.CountDaysSinceEpoch(y, newMonth, d);
+            return GetDate(daysSinceEpoch);
+        }
+
+        /// <summary>
+        /// Adjusts the day of the month field to the specified value, yielding a new date.
+        /// </summary>
+        /// <exception cref="AoorException">The resulting date would be invalid.</exception>
+        [Pure]
+        public TDate AdjustDay(TDate date, int newDay)
+        {
+            var dayNumber = date.ToDayNumber();
+            Schema.GetDateParts(dayNumber - Epoch, out int y, out int m, out _);
+            // We only need to validate "newDay".
+            ValidateDayOfMonth(y, m, newDay, nameof(newDay));
+
+            int daysSinceEpoch = Schema.CountDaysSinceEpoch(y, m, newDay);
+            return GetDate(daysSinceEpoch);
+        }
+
+        /// <summary>
+        /// Adjusts the day of the year field to the specified value, yielding a new date.
+        /// </summary>
+        /// <exception cref="AoorException">The resulting date would be invalid.</exception>
+        [Pure]
+        public TDate AdjustDayOfYear(TDate date, int newDayOfYear)
+        {
+            var dayNumber = date.ToDayNumber();
+            int y = Schema.GetYear(dayNumber - Epoch, out _);
+            Schema.PreValidator.ValidateDayOfYear(y, newDayOfYear, nameof(newDayOfYear));
+
+            int daysSinceEpoch = Schema.CountDaysSinceEpoch(y, newDayOfYear);
+            return GetDate(daysSinceEpoch);
+        }
+
+        /// <summary>
+        /// Validates the specified day of the month.
+        /// <para>This method does NOT validate <paramref name="y"/>.</para>
+        /// <para>This method does NOT validate <paramref name="m"/>.</para>
+        /// </summary>
+        /// <exception cref="OverflowException">The operation would overflow the capacity of
+        /// <see cref="Int32"/>.</exception>
+        /// <exception cref="AoorException">The validation failed.</exception>
+        private void ValidateDayOfMonth(int y, int m, int dayOfMonth, string? paramName = null)
+        {
+            if (dayOfMonth < 1
+                || (dayOfMonth > Schema.MinDaysInMonth
+                    && dayOfMonth > Schema.CountDaysInMonth(y, m)))
+            {
+                Throw.ArgumentOutOfRange(paramName ?? nameof(dayOfMonth));
+            }
         }
     }
 }

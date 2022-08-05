@@ -18,6 +18,19 @@ namespace Zorglub.Bulgroz.Obsolete
     // Furthemore, for date types based on a y/m/d repr, there is a better way
     // to implement IDateAdjusters; see for instance MyDate.
 
+    public static class DateAdjusters
+    {
+        /// <summary>
+        /// Creates a new instance of the <see cref="DateAdjusters{TDate}"/> class.
+        /// </summary>
+        /// <exception cref="ArgumentNullException"><paramref name="calendar"/> is null.</exception>
+        public static DateAdjusters<TDate> Create<TDate>(ICalendar<TDate> calendar)
+            where TDate : IDate<TDate>
+        {
+            return new(calendar?.Scope!);
+        }
+    }
+
     /// <summary>
     /// Provides a default implementation for <see cref="IDateAdjusters{TDate}"/>.
     /// <para>This class works best when <typeparamref name="TDate"/> is based on the count of
@@ -42,15 +55,8 @@ namespace Zorglub.Bulgroz.Obsolete
         /// <summary>
         /// Initializes a new instance of the <see cref="DateAdjusters{TDate}"/> class.
         /// </summary>
-        /// <exception cref="ArgumentNullException"><paramref name="calendar"/> is null.</exception>
-        public DateAdjusters(ICalendar<TDate> calendar)
-            : this(calendar?.Scope ?? throw new ArgumentNullException(nameof(calendar))) { }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="DateAdjusters{TDate}"/> class.
-        /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="scope"/> is null.</exception>
-        private DateAdjusters(CalendarScope scope)
+        public DateAdjusters(CalendarScope scope)
         {
             Requires.NotNull(scope);
 

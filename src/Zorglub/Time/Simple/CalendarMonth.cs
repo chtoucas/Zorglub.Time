@@ -391,14 +391,11 @@ namespace Zorglub.Time.Simple
         /// <exception cref="ArgumentNullException"><paramref name="adjuster"/> is null.</exception>
         /// <exception cref="AoorException">The resulting month would be invalid.</exception>
         [Pure]
-        public CalendarMonth Adjust(Func<MonthParts, MonthParts> adjuster)
+        public CalendarMonth Adjust(Func<CalendarMonth, CalendarMonth> adjuster)
         {
             Requires.NotNull(adjuster);
 
-            Parts.Unpack(out int y, out int m);
-            ref readonly var chr = ref CalendarRef;
-            (y, m) = adjuster.Invoke(new MonthParts(y, m));
-            return chr.GetCalendarMonth(y, m);
+            return adjuster.Invoke(this);
         }
 
         /// <summary>

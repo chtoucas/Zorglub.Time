@@ -352,16 +352,17 @@ namespace Zorglub.Time.Simple
         #endregion
         #region Adjustments
 
-        /// <inheritdoc/>
+        /// <summary>
+        /// Adjusts the current instance using the specified adjuster.
+        /// <para>If the adjuster throws, this method will propagate the exception.</para>
+        /// </summary>
+        /// <exception cref="ArgumentNullException"><paramref name="adjuster"/> is null.</exception>
         [Pure]
-        public CalendarDate Adjust(Func<DateParts, DateParts> adjuster)
+        public CalendarDate Adjust(Func<CalendarDate, CalendarDate> adjuster)
         {
             Requires.NotNull(adjuster);
 
-            Parts.Unpack(out int y, out int m, out int d);
-            ref readonly var chr = ref CalendarRef;
-            (y, m, d) = adjuster.Invoke(new DateParts(y, m, d));
-            return chr.GetCalendarDate(y, m, d);
+            return adjuster.Invoke(this);
         }
 
         /// <inheritdoc/>

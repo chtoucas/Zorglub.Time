@@ -377,13 +377,11 @@ namespace Zorglub.Time
 
         ///// <inheritdoc/>
         //[Pure]
-        //public ZDate Adjust(Func<DateParts, DateParts> adjuster)
+        //public ZDate Adjust(Func<ZDate, ZDate> adjuster)
         //{
         //    Requires.NotNull(adjuster);
 
-        //    var chr = Calendar;
-        //    var ymd = adjuster.Invoke(new DateParts(Parts)).ToYemoda(chr.Scope);
-        //    return new ZDate(ymd, _cuid);
+        //    return adjuster.Invoke(this);
         //}
 
         ///// <inheritdoc/>
