@@ -205,8 +205,6 @@ static Zorglub.Time.Core.Schemas.Tropicalia3031Schema.GetInstance() -> Zorglub.T
 static Zorglub.Time.Core.Schemas.Tropicalia3130Schema.GetInstance() -> Zorglub.Time.Core.Utilities.Box<Zorglub.Time.Core.Schemas.Tropicalia3130Schema!>!
 static Zorglub.Time.Core.Schemas.TropicaliaSchema.GetInstance() -> Zorglub.Time.Core.Utilities.Box<Zorglub.Time.Core.Schemas.TropicaliaSchema!>!
 static Zorglub.Time.Core.Schemas.WorldSchema.GetInstance() -> Zorglub.Time.Core.Utilities.Box<Zorglub.Time.Core.Schemas.WorldSchema!>!
-static Zorglub.Time.Extensions.DayOfWeekExtensions.ToIsoDayOfWeek(this System.DayOfWeek this) -> Zorglub.Time.IsoDayOfWeek
-static Zorglub.Time.Extensions.IsoDayOfWeekExtensions.ToDayOfWeek(this Zorglub.Time.IsoDayOfWeek this) -> System.DayOfWeek
 static Zorglub.Time.Specialized.Armenian13Date.Adjusters.get -> Zorglub.Time.Specialized.Armenian13Adjusters!
 static Zorglub.Time.Specialized.Armenian13Date.Calendar.get -> Zorglub.Time.Specialized.Armenian13Calendar!
 static Zorglub.Time.Specialized.Armenian13Date.Max(Zorglub.Time.Specialized.Armenian13Date x, Zorglub.Time.Specialized.Armenian13Date y) -> Zorglub.Time.Specialized.Armenian13Date
@@ -415,17 +413,6 @@ Zorglub.Time.Core.Schemas.TropicalistaSchema.MonthsInYear.get -> int
 Zorglub.Time.Core.Schemas.WorldSchema
 Zorglub.Time.Core.Schemas.WorldSchema.IsBlankDay(int y, int m, int d) -> bool
 Zorglub.Time.Core.Schemas.WorldSchema.MonthsInYear.get -> int
-Zorglub.Time.Extensions.DayOfWeekExtensions
-Zorglub.Time.Extensions.IsoDayOfWeekExtensions
-Zorglub.Time.IsoDayOfWeek
-Zorglub.Time.IsoDayOfWeek.Friday = 5 -> Zorglub.Time.IsoDayOfWeek
-Zorglub.Time.IsoDayOfWeek.Monday = 1 -> Zorglub.Time.IsoDayOfWeek
-Zorglub.Time.IsoDayOfWeek.None = 0 -> Zorglub.Time.IsoDayOfWeek
-Zorglub.Time.IsoDayOfWeek.Saturday = 6 -> Zorglub.Time.IsoDayOfWeek
-Zorglub.Time.IsoDayOfWeek.Sunday = 7 -> Zorglub.Time.IsoDayOfWeek
-Zorglub.Time.IsoDayOfWeek.Thursday = 4 -> Zorglub.Time.IsoDayOfWeek
-Zorglub.Time.IsoDayOfWeek.Tuesday = 2 -> Zorglub.Time.IsoDayOfWeek
-Zorglub.Time.IsoDayOfWeek.Wednesday = 3 -> Zorglub.Time.IsoDayOfWeek
 Zorglub.Time.Specialized.Armenian13Adjusters
 Zorglub.Time.Specialized.Armenian13Adjusters.Armenian13Adjusters() -> void
 Zorglub.Time.Specialized.Armenian13Calendar

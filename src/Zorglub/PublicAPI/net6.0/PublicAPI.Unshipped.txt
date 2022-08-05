@@ -506,6 +506,8 @@ static Zorglub.Time.Hemerology.YearNumbering.GetYearFromIsoDecade(int decade, in
 static Zorglub.Time.Hemerology.YearNumbering.GetYearFromIsoMillennium(int millennium, int yearOfMillennium) -> int
 static Zorglub.Time.Hemerology.YearNumbering.GetYearFromMillennium(int millennium, int yearOfMillennium) -> int
 static Zorglub.Time.Hemerology.YearNumbering.GetYearOfCentury(int year) -> int
+static Zorglub.Time.IsoWeekdayExtensions.ToDayOfWeek(this Zorglub.Time.IsoWeekday this) -> System.DayOfWeek
+static Zorglub.Time.IsoWeekdayExtensions.ToIsoWeekday(this System.DayOfWeek this) -> Zorglub.Time.IsoWeekday
 static Zorglub.Time.MonthParts.AtStartOfYear(int y) -> Zorglub.Time.MonthParts
 static Zorglub.Time.MonthParts.operator <(Zorglub.Time.MonthParts left, Zorglub.Time.MonthParts right) -> bool
 static Zorglub.Time.MonthParts.operator <=(Zorglub.Time.MonthParts left, Zorglub.Time.MonthParts right) -> bool
@@ -1326,6 +1328,16 @@ Zorglub.Time.Hemerology.Scopes.ProlepticScope.ProlepticScope(Zorglub.Time.Core.I
 Zorglub.Time.Hemerology.Scopes.StandardScope
 Zorglub.Time.Hemerology.Scopes.StandardScope.StandardScope(Zorglub.Time.Core.ICalendricalSchema! schema, Zorglub.Time.DayNumber epoch) -> void
 Zorglub.Time.Hemerology.YearNumbering
+Zorglub.Time.IsoWeekday
+Zorglub.Time.IsoWeekday.Friday = 5 -> Zorglub.Time.IsoWeekday
+Zorglub.Time.IsoWeekday.Monday = 1 -> Zorglub.Time.IsoWeekday
+Zorglub.Time.IsoWeekday.None = 0 -> Zorglub.Time.IsoWeekday
+Zorglub.Time.IsoWeekday.Saturday = 6 -> Zorglub.Time.IsoWeekday
+Zorglub.Time.IsoWeekday.Sunday = 7 -> Zorglub.Time.IsoWeekday
+Zorglub.Time.IsoWeekday.Thursday = 4 -> Zorglub.Time.IsoWeekday
+Zorglub.Time.IsoWeekday.Tuesday = 2 -> Zorglub.Time.IsoWeekday
+Zorglub.Time.IsoWeekday.Wednesday = 3 -> Zorglub.Time.IsoWeekday
+Zorglub.Time.IsoWeekdayExtensions
 Zorglub.Time.MonthParts
 Zorglub.Time.MonthParts.CompareTo(object? obj) -> int
 Zorglub.Time.MonthParts.CompareTo(Zorglub.Time.MonthParts other) -> int
