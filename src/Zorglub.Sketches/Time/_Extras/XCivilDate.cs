@@ -35,7 +35,6 @@ namespace Zorglub.Time
 {
     using System.ComponentModel;
 
-    using Zorglub.Time;
     using Zorglub.Time.Core.Intervals;
     using Zorglub.Time.Core.Schemas;
     using Zorglub.Time.Core.Validation;

@@ -4,7 +4,6 @@
 namespace Zorglub.Time.Hemerology
 {
     using Zorglub.Time.Core;
-    using Zorglub.Time.Hemerology.Scopes;
 
     /// <summary>
     /// Provides common adjusters for <typeparamref name="TDate"/>.
