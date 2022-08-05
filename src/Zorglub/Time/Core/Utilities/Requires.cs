@@ -35,8 +35,8 @@ namespace Zorglub.Time.Core.Utilities
         /// <summary>
         /// Validates that the specified value is a member of the enum <see cref="DayOfWeek"/>.
         /// </summary>
-        /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="dayOfWeek"/> was not
-        /// a known member of the enum <see cref="DayOfWeek"/>.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="dayOfWeek"/> was
+        /// not a known member of the enum <see cref="DayOfWeek"/>.</exception>
         // CIL code size = 16 bytes <= 32 bytes.
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void Defined(
@@ -46,6 +46,22 @@ namespace Zorglub.Time.Core.Utilities
             if (DayOfWeek.Sunday <= dayOfWeek && dayOfWeek <= DayOfWeek.Saturday) return;
 
             Throw.DayOfWeekOutOfRange(dayOfWeek, paramName);
+        }
+
+        /// <summary>
+        /// Validates that the specified value is a member of the enum <see cref="IsoWeekday"/>.
+        /// </summary>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="weekday"/> was
+        /// not a known member of the enum <see cref="IsoWeekday"/>.</exception>
+        // CIL code size = XXX bytes <= 32 bytes.
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void Defined(
+            IsoWeekday weekday,
+            [CallerArgumentExpression("weekday")] string paramName = "")
+        {
+            if (IsoWeekday.Monday <= weekday && weekday <= IsoWeekday.Sunday) return;
+
+            Throw.IsoWeekdayOutOfRange(weekday, paramName);
         }
 
         /// <summary>

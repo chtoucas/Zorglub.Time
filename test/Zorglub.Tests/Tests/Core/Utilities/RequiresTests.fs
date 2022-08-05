@@ -8,6 +8,7 @@ open System
 open Zorglub.Testing
 open Zorglub.Testing.Data
 
+open Zorglub.Time
 open Zorglub.Time.Core.Utilities
 
 open Xunit
@@ -17,7 +18,9 @@ open Xunit
 let private paramName = "paramName"
 
 let dayOfWeekData  = EnumDataSet.DayOfWeekData
+let isoWeekdayData  = EnumDataSet.IsoWeekdayData
 let invalidDayOfWeekData  = EnumDataSet.InvalidDayOfWeekData
+let invalidIsoWeekdayData  = EnumDataSet.InvalidIsoWeekdayData
 
 [<Fact>]
 let ``NotNull(obj) does not throw when "obj" is not null`` () =
@@ -51,3 +54,17 @@ let ``Defined(dayOfWeek) throws when "dayOfWeek" is not a valid value (without p
 [<Theory; MemberData(nameof(invalidDayOfWeekData))>]
 let ``Defined(dayOfWeek) throws when "dayOfWeek" is not a valid value (with paramName)`` (dayOfWeek: DayOfWeek) =
     outOfRangeExn paramName (fun () -> Requires.Defined(dayOfWeek, paramName))
+
+[<Theory; MemberData(nameof(isoWeekdayData))>]
+let ``Defined(weekday) does not throw when "weekday" is a valid value`` (weekday: IsoWeekday) =
+    Requires.Defined(weekday)
+    Requires.Defined(weekday, paramName)
+
+[<Theory; MemberData(nameof(invalidIsoWeekdayData))>]
+let ``Defined(weekday) throws when "weekday" is not a valid value (without paramName)`` (weekday: IsoWeekday) =
+    //outOfRangeExn "weekday" (fun () -> Requires.Defined(weekday))
+    outOfRangeExn "" (fun () -> Requires.Defined(weekday))
+
+[<Theory; MemberData(nameof(invalidIsoWeekdayData))>]
+let ``Defined(weekday) throws when "weekday" is not a valid value (with paramName)`` (weekday: IsoWeekday) =
+    outOfRangeExn paramName (fun () -> Requires.Defined(weekday, paramName))

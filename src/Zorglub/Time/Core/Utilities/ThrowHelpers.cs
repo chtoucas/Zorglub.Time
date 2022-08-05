@@ -244,6 +244,12 @@ namespace Zorglub.Time.Core.Utilities
         public static void DayOfWeekOutOfRange(DayOfWeek dayOfWeek, string? paramName) =>
             throw GetDayOfWeekOutOfRangeExn(paramName, dayOfWeek);
 
+        /// <summary>The value of the ISO weekday was out of range.</summary>
+        /// <exception cref="ArgumentOutOfRangeException"/>
+        [DoesNotReturn]
+        public static void IsoWeekdayOutOfRange(IsoWeekday weekday, string? paramName) =>
+            throw GetIsoWeekdayOutOfRangeExn(paramName, weekday);
+
         #region Factories
 
         [MethodImpl(MethodImplOptions.NoInlining)]
@@ -281,6 +287,12 @@ namespace Zorglub.Time.Core.Utilities
              new(paramName ?? nameof(dayOfWeek),
                  dayOfWeek,
                  $"The value of the day of the week must be in the range 0 through 6; value = {dayOfWeek}.");
+
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        private static ArgumentOutOfRangeException GetIsoWeekdayOutOfRangeExn(string? paramName, IsoWeekday weekday) =>
+             new(paramName ?? nameof(weekday),
+                 weekday,
+                 $"The value of the ISO weekday must be in the range 0 through 6; value = {weekday}.");
 
         #endregion
     }

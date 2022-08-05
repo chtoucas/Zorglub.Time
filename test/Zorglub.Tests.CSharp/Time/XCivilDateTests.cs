@@ -11,7 +11,6 @@ using Zorglub.Testing.Data.Bounded;
 using Zorglub.Time.Core;
 using Zorglub.Time.Core.Intervals;
 
-using static Zorglub.Time.Extensions.DayOfWeekExtensions;
 using static Zorglub.Time.Extensions.XCivilDateExtensions;
 
 // NB: we use StandardGregorianDataSet which has the same limits as XCivilDate.
@@ -166,27 +165,27 @@ public partial class XCivilDateTests // Properties
     }
 
     [Theory, MemberData(nameof(DayOfWeekData))]
-    public void IsoDayOfWeek(YemodaAnd<DayOfWeek> info)
+    public void IsoWeekday(YemodaAnd<DayOfWeek> info)
     {
         var (y, m, d, dayOfWeek) = info;
         var date = new XCivilDate(y, m, d);
-        var dow = dayOfWeek.ToIsoDayOfWeek();
+        var dow = dayOfWeek.ToIsoWeekday();
         // Act & Assert
-        Assert.Equal(dow, date.IsoDayOfWeek);
+        Assert.Equal(dow, date.IsoWeekday);
     }
 
     // TODO(fact): filter data.
     [Theory, MemberData(nameof(CalCalDataSet.DayNumberToDayOfWeekData), MemberType = typeof(CalCalDataSet))]
-    public static void IsoDayOfWeek_ViaDayNumbers(DayNumber dayNumber, DayOfWeek dayOfWeek)
+    public static void IsoWeekday_ViaDayNumbers(DayNumber dayNumber, DayOfWeek dayOfWeek)
     {
         // We filter out ordinals before the epoch.
         // TODO(code): we should be stricter and use the domain.
         if (dayNumber < DayZero.NewStyle) { return; }
 
         var date = XCivilDate.FromDayNumber(dayNumber);
-        var dow = dayOfWeek.ToIsoDayOfWeek();
+        var dow = dayOfWeek.ToIsoWeekday();
         // Act & Assert
-        Assert.Equal(dow, date.IsoDayOfWeek);
+        Assert.Equal(dow, date.IsoWeekday);
     }
 
     // TODO: update data after we decide what to do w/ IsoWeekOfYear near

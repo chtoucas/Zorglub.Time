@@ -236,18 +236,18 @@ namespace Zorglub.Time
         }
 
         /// <summary>
-        /// Gets the ISO day of the week.
+        /// Gets the ISO weekday.
         /// </summary>
-        public IsoDayOfWeek IsoDayOfWeek
+        public IsoWeekday IsoWeekday
         {
             get
             {
 #if CIVILDATE_PLAIN_DAYOFWEEK
-                return (IsoDayOfWeek)MathN.AdjustedModulo((int)DayOfWeek.Monday + DaysSinceEpoch, 7);
+                return (IsoWeekday)MathN.AdjustedModulo((int)DayOfWeek.Monday + DaysSinceEpoch, 7);
 #else
                 Unpack(out int y, out int m, out int d);
                 uint doomsday = GetDoomsday(y, m);
-                return (IsoDayOfWeek)MathU.AdjustedModulo(doomsday + (uint)d, 7);
+                return (IsoWeekday)MathU.AdjustedModulo(doomsday + (uint)d, 7);
 #endif
             }
         }
@@ -269,7 +269,7 @@ namespace Zorglub.Time
         {
             get
             {
-                uint dow = GetIsoDayOfWeekAtStartOfYear(Year);
+                uint dow = GetIsoWeekdayAtStartOfYear(Year);
                 return (int)(((uint)DayOfYear + 5 + dow) / 7);
             }
         }
@@ -535,17 +535,16 @@ namespace Zorglub.Time
     public partial struct XCivilDate // Static helpers
     {
         /// <summary>
-        /// Obtains the ISO day of the week of the first day of the specified
-        /// year.
+        /// Obtains the ISO weekday of the first day of the specified year.
         /// </summary>
         [Pure]
-        internal static uint GetIsoDayOfWeekAtStartOfYear(int y)
+        internal static uint GetIsoWeekdayAtStartOfYear(int y)
         {
 #if CIVILDATE_PLAIN_DAYOFWEEK
             var startOfYear = new CivilDate((y << 9) | __StartOfYear);
-            return (uint)startOfYear.IsoDayOfWeek;
+            return (uint)startOfYear.IsoWeekday;
 #else
-            // Calculation of IsoDayOfWeek with m = d = 1.
+            // Calculation of IsoWeekday with m = d = 1.
             uint uy = (uint)y; // y >= 1
             uy--;
             uint c = uy / 100;

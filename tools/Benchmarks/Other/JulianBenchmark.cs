@@ -165,7 +165,7 @@ public class JulianBenchmark : BenchmarkBase
         LocalDate end = start.PlusDays(1).PlusDays(D7).PlusDays(D30).PlusDays(D401);
 
         var (y, m, d) = end;
-        NodaTime.IsoDayOfWeek dayOfWeek = end.DayOfWeek;
+        IsoDayOfWeek dayOfWeek = end.DayOfWeek;
         int dayOfYear = end.DayOfYear;
 
         Consume(in y);

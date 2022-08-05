@@ -13,12 +13,6 @@ public static class EnumDataSet
         (DayOfWeek)7
     };
 
-    public static TheoryData<IsoDayOfWeek> InvalidIsoDayOfWeekData { get; } = new()
-    {
-        0,
-        (IsoDayOfWeek)8
-    };
-
     public static TheoryData<DayOfWeek> DayOfWeekData { get; } = new()
     {
         DayOfWeek.Monday,
@@ -28,6 +22,23 @@ public static class EnumDataSet
         DayOfWeek.Friday,
         DayOfWeek.Saturday,
         DayOfWeek.Sunday,
+    };
+
+    public static TheoryData<IsoWeekday> InvalidIsoWeekdayData { get; } = new()
+    {
+        0,
+        (IsoWeekday)8
+    };
+
+    public static TheoryData<IsoWeekday> IsoWeekdayData { get; } = new()
+    {
+        IsoWeekday.Monday,
+        IsoWeekday.Tuesday,
+        IsoWeekday.Wednesday,
+        IsoWeekday.Thursday,
+        IsoWeekday.Friday,
+        IsoWeekday.Saturday,
+        IsoWeekday.Sunday,
     };
 
     //

@@ -81,8 +81,8 @@ namespace Zorglub.Time
                 (long)DayOfWeek.Monday + _daysSinceZero,
                 CalendricalConstants.DaysInWeek);
 
-        public IsoDayOfWeek IsoDayOfWeek =>
-            (IsoDayOfWeek)MathZ.AdjustedModulo(
+        public IsoWeekday IsoWeekday =>
+            (IsoWeekday)MathZ.AdjustedModulo(
                 (long)DayOfWeek.Monday + _daysSinceZero,
                 CalendricalConstants.DaysInWeek);
 

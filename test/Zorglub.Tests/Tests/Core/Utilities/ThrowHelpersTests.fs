@@ -8,6 +8,7 @@ open System.Collections.Generic
 
 open Zorglub.Testing
 
+open Zorglub.Time
 open Zorglub.Time.Core.Utilities
 open Zorglub.Time.Simple
 
@@ -87,6 +88,11 @@ module ArgumentOutOfRangeExns =
     let DayOfWeekOutOfRange () =
         outOfRangeExn "dayOfWeek" (fun () -> ThrowHelpers.DayOfWeekOutOfRange(DayOfWeek.Monday, null))
         outOfRangeExn paramName (fun () -> ThrowHelpers.DayOfWeekOutOfRange(DayOfWeek.Monday, paramName))
+
+    [<Fact>]
+    let IsoWeekdayOutOfRange () =
+        outOfRangeExn "weekday" (fun () -> ThrowHelpers.IsoWeekdayOutOfRange(IsoWeekday.Monday, null))
+        outOfRangeExn paramName (fun () -> ThrowHelpers.IsoWeekdayOutOfRange(IsoWeekday.Monday, paramName))
 
 module ArgumentExns =
     [<Fact>]

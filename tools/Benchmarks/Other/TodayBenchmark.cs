@@ -107,7 +107,7 @@ public class TodayBenchmark
     }
 
     [Benchmark(Description = "LocalDate *(Y)")]
-    public (int, int, int, NodaTime.IsoDayOfWeek) WithLocalDate()
+    public (int, int, int, IsoDayOfWeek) WithLocalDate()
     {
         var zonedClock = SystemClock.Instance.InBclSystemDefaultZone();
 

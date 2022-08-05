@@ -9,6 +9,8 @@ using System.Security.Cryptography;
 using Zorglub.Time;
 using Zorglub.Time.Core;
 
+using NodaTime;
+
 public abstract class BenchmarkBase
 {
     protected BenchmarkBase() { }
@@ -173,7 +175,10 @@ public abstract class BenchmarkBase
     protected static void Consume(in DayOfWeek _) { }
 
     [MethodImpl(MethodImplOptions.NoInlining)]
-    protected static void Consume(in NodaTime.IsoDayOfWeek _) { }
+    protected static void Consume(in IsoWeekday _) { }
+
+    [MethodImpl(MethodImplOptions.NoInlining)]
+    protected static void Consume(in IsoDayOfWeek _) { }
 
     [MethodImpl(MethodImplOptions.NoInlining)]
     protected static void Consume(in Yemoda _) { }

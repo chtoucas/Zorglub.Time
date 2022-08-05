@@ -25,9 +25,9 @@ namespace Zorglub.Time.Extensions
             // (week-of-year, year). We keep this property internal until we
             // reach a final decision.
             // When done, make it a property then make the method
-            // GetIsoDayOfWeekAtStartOfYear() private.
+            // GetIsoWeekdayAtStartOfYear() private.
 
-            uint dow = XCivilDate.GetIsoDayOfWeekAtStartOfYear(@this.Year);
+            uint dow = XCivilDate.GetIsoWeekdayAtStartOfYear(@this.Year);
             uint weekOfYear = ((uint)@this.DayOfYear + 5 + dow) / 7;
             // The first week must have at least 4 days.
             return (int)(dow > 4 ? weekOfYear - 1 : weekOfYear);

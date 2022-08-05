@@ -704,7 +704,7 @@ module Postlude =
             && m = date.Month
             && d = date.Day
             && dayNumber.DayOfWeek = date.DayOfWeek
-            //&& dayNumber.IsoDayOfWeek = date.IsoDayOfWeek
+            //&& dayNumber.IsoWeekday = date.IsoWeekday
 
         if passed then
             if date = CivilDate.MaxValue then
