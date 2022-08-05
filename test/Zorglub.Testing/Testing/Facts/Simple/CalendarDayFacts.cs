@@ -204,7 +204,7 @@ public partial class CalendarDayFacts<TDataSet> // Adjustments
 // Tests for related classes.
 //
 
-public partial class CalendarDayFacts<TDataSet> // DateAdjusters
+public partial class CalendarDayFacts<TDataSet> // CalendarDayAdjusters
 {
     [Theory, MemberData(nameof(DateInfoData))]
     public void DateAdjusters_GetStartOfYear(DateInfo info)
@@ -213,7 +213,7 @@ public partial class CalendarDayFacts<TDataSet> // DateAdjusters
         var date = CalendarUT.GetCalendarDate(y, m, d).ToCalendarDay();
         var startOfYear = CalendarUT.GetCalendarDate(y, 1, 1).ToCalendarDay();
         // Act & Assert
-        Assert.Equal(startOfYear, DateAdjusters.GetStartOfYear(date));
+        Assert.Equal(startOfYear, CalendarDayAdjusters.GetStartOfYear(date));
     }
 
     [Theory, MemberData(nameof(YearInfoData))]
@@ -222,7 +222,7 @@ public partial class CalendarDayFacts<TDataSet> // DateAdjusters
         int y = info.Year;
         var date = CalendarUT.GetCalendarDate(y, 1, 1).ToCalendarDay();
         // Act
-        var endOfYear = DateAdjusters.GetEndOfYear(date);
+        var endOfYear = CalendarDayAdjusters.GetEndOfYear(date);
         // Assert
         Assert.Equal(y, endOfYear.Year);
         Assert.Equal(info.DaysInYear, endOfYear.DayOfYear);
@@ -235,7 +235,7 @@ public partial class CalendarDayFacts<TDataSet> // DateAdjusters
         var date = CalendarUT.GetCalendarDate(y, m, d).ToCalendarDay();
         var startOfMonth = CalendarUT.GetCalendarDate(y, m, 1).ToCalendarDay();
         // Act & Assert
-        Assert.Equal(startOfMonth, DateAdjusters.GetStartOfMonth(date));
+        Assert.Equal(startOfMonth, CalendarDayAdjusters.GetStartOfMonth(date));
     }
 
     [Theory, MemberData(nameof(MonthInfoData))]
@@ -245,7 +245,7 @@ public partial class CalendarDayFacts<TDataSet> // DateAdjusters
         var date = CalendarUT.GetCalendarDate(y, m, 1).ToCalendarDay();
         var endOfMonth = CalendarUT.GetCalendarDate(y, m, info.DaysInMonth).ToCalendarDay();
         // Act & Assert
-        Assert.Equal(endOfMonth, DateAdjusters.GetEndOfMonth(date));
+        Assert.Equal(endOfMonth, CalendarDayAdjusters.GetEndOfMonth(date));
     }
 }
 

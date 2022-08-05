@@ -193,7 +193,7 @@ public partial class OrdinalDateFacts<TDataSet> // Comparison
 // Tests for related classes
 //
 
-public partial class OrdinalDateFacts<TDataSet> // DateAdjusters
+public partial class OrdinalDateFacts<TDataSet> // OrdinalDateAdjusters
 {
     [Theory, MemberData(nameof(DateInfoData))]
     public void DateAdjusters_GetStartOfYear(DateInfo info)
@@ -202,7 +202,7 @@ public partial class OrdinalDateFacts<TDataSet> // DateAdjusters
         var date = CalendarUT.GetOrdinalDate(y, doy);
         var startOfYear = CalendarUT.GetOrdinalDate(y, 1);
         // Act & Assert
-        Assert.Equal(startOfYear, DateAdjusters.GetStartOfYear(date));
+        Assert.Equal(startOfYear, OrdinalDateAdjusters.GetStartOfYear(date));
     }
 
     [Theory, MemberData(nameof(YearInfoData))]
@@ -211,7 +211,7 @@ public partial class OrdinalDateFacts<TDataSet> // DateAdjusters
         int y = info.Year;
         var date = CalendarUT.GetOrdinalDate(y, 1);
         // Act
-        var endOfYear = DateAdjusters.GetEndOfYear(date);
+        var endOfYear = OrdinalDateAdjusters.GetEndOfYear(date);
         // Assert
         Assert.Equal(y, endOfYear.Year);
         Assert.Equal(info.DaysInYear, endOfYear.DayOfYear);
@@ -224,7 +224,7 @@ public partial class OrdinalDateFacts<TDataSet> // DateAdjusters
         var date = CalendarUT.GetOrdinalDate(y, doy);
         var startOfMonth = CalendarUT.GetCalendarDate(y, m, 1).ToOrdinalDate();
         // Act & Assert
-        Assert.Equal(startOfMonth, DateAdjusters.GetStartOfMonth(date));
+        Assert.Equal(startOfMonth, OrdinalDateAdjusters.GetStartOfMonth(date));
     }
 
     [Theory, MemberData(nameof(MonthInfoData))]
@@ -234,7 +234,7 @@ public partial class OrdinalDateFacts<TDataSet> // DateAdjusters
         var date = CalendarUT.GetCalendarDate(y, m, 1).ToOrdinalDate();
         var endOfMonth = CalendarUT.GetCalendarDate(y, m, info.DaysInMonth).ToOrdinalDate();
         // Act & Assert
-        Assert.Equal(endOfMonth, DateAdjusters.GetEndOfMonth(date));
+        Assert.Equal(endOfMonth, OrdinalDateAdjusters.GetEndOfMonth(date));
     }
 }
 

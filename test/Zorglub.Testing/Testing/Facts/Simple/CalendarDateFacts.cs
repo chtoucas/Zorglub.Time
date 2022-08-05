@@ -190,7 +190,7 @@ public partial class CalendarDateFacts<TDataSet> // Comparison
 // Tests for related classes
 //
 
-public partial class CalendarDateFacts<TDataSet> // DateAdjusters
+public partial class CalendarDateFacts<TDataSet> // CalendarDateAdjusters
 {
     [Theory, MemberData(nameof(DateInfoData))]
     public void DateAdjusters_GetStartOfYear(DateInfo info)
@@ -199,7 +199,7 @@ public partial class CalendarDateFacts<TDataSet> // DateAdjusters
         var date = CalendarUT.GetCalendarDate(y, m, d);
         var startOfYear = CalendarUT.GetCalendarDate(y, 1, 1);
         // Act & Assert
-        Assert.Equal(startOfYear, DateAdjusters.GetStartOfYear(date));
+        Assert.Equal(startOfYear, CalendarDateAdjusters.GetStartOfYear(date));
     }
 
     [Theory, MemberData(nameof(YearInfoData))]
@@ -208,7 +208,7 @@ public partial class CalendarDateFacts<TDataSet> // DateAdjusters
         int y = info.Year;
         var date = CalendarUT.GetCalendarDate(y, 1, 1);
         // Act
-        var endOfYear = DateAdjusters.GetEndOfYear(date);
+        var endOfYear = CalendarDateAdjusters.GetEndOfYear(date);
         // Assert
         Assert.Equal(y, endOfYear.Year);
         Assert.Equal(info.DaysInYear, endOfYear.DayOfYear);
@@ -221,7 +221,7 @@ public partial class CalendarDateFacts<TDataSet> // DateAdjusters
         var date = CalendarUT.GetCalendarDate(y, m, d);
         var startOfMonth = CalendarUT.GetCalendarDate(y, m, 1);
         // Act & Assert
-        Assert.Equal(startOfMonth, DateAdjusters.GetStartOfMonth(date));
+        Assert.Equal(startOfMonth, CalendarDateAdjusters.GetStartOfMonth(date));
     }
 
     [Theory, MemberData(nameof(MonthInfoData))]
@@ -231,7 +231,7 @@ public partial class CalendarDateFacts<TDataSet> // DateAdjusters
         var date = CalendarUT.GetCalendarDate(y, m, 1);
         var endOfMonth = CalendarUT.GetCalendarDate(y, m, info.DaysInMonth);
         // Act & Assert
-        Assert.Equal(endOfMonth, DateAdjusters.GetEndOfMonth(date));
+        Assert.Equal(endOfMonth, CalendarDateAdjusters.GetEndOfMonth(date));
     }
 }
 
