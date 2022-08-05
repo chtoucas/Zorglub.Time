@@ -13,8 +13,7 @@ using Zorglub.Time.Hemerology;
 /// </summary>
 public abstract partial class IDateFacts<TDate, TCalendar, TDataSet> :
     IDateFacts<TDate, TDataSet>
-    // BasicCalendar for the prop Name.
-    where TCalendar : BasicCalendar, ICalendar<TDate>
+    where TCalendar : ICalendar<TDate>
     where TDate : struct, IDate<TDate, TCalendar>
     where TDataSet : ICalendarDataSet, ISingleton<TDataSet>
 {
@@ -24,7 +23,7 @@ public abstract partial class IDateFacts<TDate, TCalendar, TDataSet> :
     public void ToString_InvariantCulture()
     {
         var date = GetDate(1, 1, 1);
-        var str = FormattableString.Invariant($"01/01/0001 ({TDate.Calendar.Name})");
+        var str = FormattableString.Invariant($"01/01/0001 ({TDate.Calendar})");
         // Act & Assert
         Assert.Equal(str, date.ToString());
     }
