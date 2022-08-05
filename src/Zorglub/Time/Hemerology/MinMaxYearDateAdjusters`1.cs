@@ -61,7 +61,7 @@ namespace Zorglub.Time.Hemerology
         /// </summary>
         // A default implementation is straightforward:
         // > TDate.FromDayNumber(_epoch + daysSinceEpoch);
-        // but we force a derived class to provide its own implementation.
+        // but we force a derived class to provide its own version.
         // The idea is that it should not perform any validation; otherwise
         // there is no reason at all to use MinMaxYearDateAdjusters instead of
         // the default impl DateAdjusters.

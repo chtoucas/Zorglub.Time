@@ -8,6 +8,10 @@ namespace Zorglub.Time.Hemerology
     // IDateAdjusters<TDate> provides a different API for the part of
     // ICalendar<TDate> dealing with the creation of new (single) TDate instances.
     //
+    // We don't include GetDayOfMonth(TDate, dayOfMonth), GetDayOfYear(TDate, dayOfYear)
+    // and other related methods, they should be methods on TDate itself, e.g.
+    // WithDayOfMonth(), WithDayOfYear(), etc.
+    //
     // It would be natural to constraint TDate to IDateable, but we currently
     // intent to impl this interface with (fixed) date types like DayNumber.
     // This is also in sync with ICalendar<TDate> which does put any constraint
