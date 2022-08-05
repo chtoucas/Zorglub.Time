@@ -5,7 +5,7 @@ namespace Zorglub.Time.Hemerology
 {
     using System;
 
-    // IDateAdjusters<TDate> provides a different API to the part of
+    // IDateAdjusters<TDate> provides a different API for the part of
     // ICalendar<TDate> dealing with the creation of new (single) TDate instances.
     //
     // It would be natural to constraint TDate to IDateable, but we currently

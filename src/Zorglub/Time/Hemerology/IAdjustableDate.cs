@@ -9,7 +9,7 @@ namespace Zorglub.Time.Hemerology
     // WithDayOfYear(), and to change the month, first we convert the ordinal
     // date to a CalendarDate, then call WithMonth() on the result.
     //
-    // For a date type avalable in a single form, we should implement this
+    // For a date type available in a single form, we should implement this
     // interface plus the other adjuster(s) if there is any.
 
     /// <summary>
