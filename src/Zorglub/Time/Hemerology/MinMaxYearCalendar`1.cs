@@ -16,7 +16,7 @@ namespace Zorglub.Time.Hemerology
     /// </summary>
     /// <typeparam name="TDate">The type of date object.</typeparam>
     public class MinMaxYearCalendar<TDate> : MinMaxYearCalendar, ICalendar<TDate>
-        where TDate : IFixedDay<TDate>
+        where TDate : IFixedDate<TDate>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="MinMaxYearCalendar{TDate}"/> class.

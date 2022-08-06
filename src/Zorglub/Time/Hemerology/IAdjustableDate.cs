@@ -49,7 +49,7 @@ namespace Zorglub.Time.Hemerology
     /// Defines an adjustable date type.
     /// </summary>
     /// <typeparam name="TSelf">The type that implements this interface.</typeparam>
-    [Obsolete("Use IAdjustableDate instead.")]
+    // FIXME(api): [Obsolete("Use IAdjustableDate instead.")]
     public interface IAdjustableOrdinal<TSelf> : IDateable
         where TSelf : IAdjustableOrdinal<TSelf>
     {

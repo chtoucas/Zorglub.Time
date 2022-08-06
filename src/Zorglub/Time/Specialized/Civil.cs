@@ -113,7 +113,7 @@ namespace Zorglub.Time.Specialized
     /// </summary>
     public readonly partial struct CivilDate :
         IDate<CivilDate, CivilCalendar>,
-        IFixedDateable
+        IDateableOrdinally
     {
         /// <summary>
         /// Represents the schema.
@@ -291,7 +291,7 @@ namespace Zorglub.Time.Specialized
         /// <inheritdoc />
         public bool IsSupplementary => false;
 
-        int IFixedDateable.DaysSinceEpoch => _daysSinceZero;
+        int IDateableOrdinally.DaysSinceEpoch => _daysSinceZero;
 
         /// <summary>
         /// Gets the count of days since the Gregorian epoch.
@@ -332,10 +332,10 @@ namespace Zorglub.Time.Specialized
         #region Conversions
 
         [Pure]
-        static CivilDate IFixedDay<CivilDate>.FromDayNumber(DayNumber dayNumber) => new(dayNumber);
+        static CivilDate IFixedDate<CivilDate>.FromDayNumber(DayNumber dayNumber) => new(dayNumber);
 
         [Pure]
-        DayNumber IFixedDay.ToDayNumber() => DayNumber;
+        DayNumber IFixedDate.ToDayNumber() => DayNumber;
 
         #endregion
         #region Counting

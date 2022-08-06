@@ -15,7 +15,7 @@ namespace Zorglub.Bulgroz.Obsolete
     /// </summary>
     /// <typeparam name="TDate">The type of date object.</typeparam>
     public class FixedDayAdjusters<TDate> : IDateAdjusters<TDate>
-        where TDate : IFixedDay<TDate>
+        where TDate : IFixedDate<TDate>
     {
         /// <summary>
         /// Represents the schema.

@@ -127,7 +127,7 @@ namespace Zorglub.Time.Specialized
     /// </summary>
     public readonly partial struct JulianDate :
         IDate<JulianDate, JulianCalendar>,
-        IFixedDateable
+        IDateableOrdinally
     {
         // NB: the order in which the static fields are written is important.
 
@@ -356,11 +356,11 @@ namespace Zorglub.Time.Specialized
         #region Conversions
 
         [Pure]
-        static JulianDate IFixedDay<JulianDate>.FromDayNumber(DayNumber dayNumber) =>
+        static JulianDate IFixedDate<JulianDate>.FromDayNumber(DayNumber dayNumber) =>
             new(dayNumber);
 
         [Pure]
-        DayNumber IFixedDay.ToDayNumber() => DayNumber;
+        DayNumber IFixedDate.ToDayNumber() => DayNumber;
 
         #endregion
         #region Counting

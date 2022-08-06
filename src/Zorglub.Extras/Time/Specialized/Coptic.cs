@@ -68,7 +68,7 @@ namespace Zorglub.Time.Specialized
     /// </summary>
     public readonly partial struct CopticDate :
         IDate<CopticDate, CopticCalendar>,
-        IFixedDateable,
+        IDateableOrdinally,
         IEpagomenalDay
     {
         // NB: the order in which the static fields are written is important.
@@ -313,11 +313,11 @@ namespace Zorglub.Time.Specialized
         #region Conversions
 
         [Pure]
-        static CopticDate IFixedDay<CopticDate>.FromDayNumber(DayNumber dayNumber) =>
+        static CopticDate IFixedDate<CopticDate>.FromDayNumber(DayNumber dayNumber) =>
             new(dayNumber);
 
         [Pure]
-        DayNumber IFixedDay.ToDayNumber() => DayNumber;
+        DayNumber IFixedDate.ToDayNumber() => DayNumber;
 
         #endregion
         #region Counting

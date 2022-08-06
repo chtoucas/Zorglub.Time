@@ -73,7 +73,7 @@ namespace Zorglub.Time.Specialized
     /// </summary>
     public readonly partial struct Zoroastrian13Date :
         IDate<Zoroastrian13Date, Zoroastrian13Calendar>,
-        IFixedDateable,
+        IDateableOrdinally,
         IEpagomenalDay
     {
         // NB: the order in which the static fields are written is important.
@@ -318,11 +318,11 @@ namespace Zorglub.Time.Specialized
         #region Conversions
 
         [Pure]
-        static Zoroastrian13Date IFixedDay<Zoroastrian13Date>.FromDayNumber(DayNumber dayNumber) =>
+        static Zoroastrian13Date IFixedDate<Zoroastrian13Date>.FromDayNumber(DayNumber dayNumber) =>
             new(dayNumber);
 
         [Pure]
-        DayNumber IFixedDay.ToDayNumber() => DayNumber;
+        DayNumber IFixedDate.ToDayNumber() => DayNumber;
 
         #endregion
         #region Counting

@@ -73,7 +73,7 @@ namespace Zorglub.Time.Specialized
     /// </summary>
     public readonly partial struct Ethiopic13Date :
         IDate<Ethiopic13Date, Ethiopic13Calendar>,
-        IFixedDateable,
+        IDateableOrdinally,
         IEpagomenalDay
     {
         // NB: the order in which the static fields are written is important.
@@ -318,11 +318,11 @@ namespace Zorglub.Time.Specialized
         #region Conversions
 
         [Pure]
-        static Ethiopic13Date IFixedDay<Ethiopic13Date>.FromDayNumber(DayNumber dayNumber) =>
+        static Ethiopic13Date IFixedDate<Ethiopic13Date>.FromDayNumber(DayNumber dayNumber) =>
             new(dayNumber);
 
         [Pure]
-        DayNumber IFixedDay.ToDayNumber() => DayNumber;
+        DayNumber IFixedDate.ToDayNumber() => DayNumber;
 
         #endregion
         #region Counting

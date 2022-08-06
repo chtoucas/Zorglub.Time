@@ -141,11 +141,11 @@ namespace Zorglub.Time.Hemerology
     #endregion
 
     /// <summary>
-    /// Defines a fixed day.
+    /// Defines a fixed date.
     /// <para>A date is said to be <i>fixed</i> if it's attached to a timeline. In this project, it
     /// means that it's convertible to a <see cref="DayNumber"/>.</para>
     /// </summary>
-    public interface IFixedDay
+    public interface IFixedDate
     {
         /// <summary>
         /// Gets the day of the week.
@@ -159,11 +159,11 @@ namespace Zorglub.Time.Hemerology
     }
 
     /// <summary>
-    /// Defines a fixed day type.
+    /// Defines a fixed date type.
     /// </summary>
     /// <typeparam name="TSelf">The type that implements this interface.</typeparam>
-    public interface IFixedDay<TSelf> :
-        IFixedDay,
+    public interface IFixedDate<TSelf> :
+        IFixedDate,
         // Comparison
         IComparisonOperators<TSelf, TSelf>,
         IMinMaxFunctions<TSelf>,
@@ -174,7 +174,7 @@ namespace Zorglub.Time.Hemerology
         IDifferenceOperators<TSelf, int>,
         IIncrementOperators<TSelf>,
         IDecrementOperators<TSelf>
-        where TSelf : IFixedDay<TSelf>
+        where TSelf : IFixedDate<TSelf>
     {
         // IMinMaxValue<TSelf>? no, because of types linked to multi-calendars,
         // but specialized date types should implement this interface.

@@ -292,11 +292,11 @@ namespace Zorglub.Time
 
         /// <inheritdoc />
         [Pure]
-        static ZDate IFixedDay<ZDate>.FromDayNumber(DayNumber dayNumber) => new(dayNumber);
+        static ZDate IFixedDate<ZDate>.FromDayNumber(DayNumber dayNumber) => new(dayNumber);
 
         /// <inheritdoc />
         [Pure]
-        DayNumber IFixedDay.ToDayNumber() => DayNumber;
+        DayNumber IFixedDate.ToDayNumber() => DayNumber;
 
         /// <summary>
         /// Interconverts the current instance to a date within a different calendar.

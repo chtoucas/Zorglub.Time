@@ -174,7 +174,7 @@ module Factories =
 module Conversions =
     [<Property>]
     let ``ToDayNumber()`` (x: DayNumber) =
-        (x :> IFixedDay).ToDayNumber() = x
+        (x :> IFixedDate).ToDayNumber() = x
 
 module GregorianConversion =
     let private dataSet = GregorianDataSet.Instance

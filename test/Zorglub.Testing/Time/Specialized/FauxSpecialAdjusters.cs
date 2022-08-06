@@ -6,7 +6,7 @@ namespace Zorglub.Time.Specialized;
 using Zorglub.Time.Hemerology;
 
 public sealed class FauxSpecialAdjusters<TDate> : SpecialAdjusters<TDate>
-    where TDate : IFixedDay<TDate>, IFixedDateable
+    where TDate : IDate<TDate>, IDateableOrdinally
 {
     public FauxSpecialAdjusters(ICalendar<TDate> calendar) : base(calendar) { }
 

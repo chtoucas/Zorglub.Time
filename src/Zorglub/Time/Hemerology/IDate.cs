@@ -8,13 +8,13 @@ namespace Zorglub.Time.Hemerology
     /// <summary>
     /// Defines a date.
     /// </summary>
-    public interface IDate : IFixedDay, IDateable { }
+    public interface IDate : IFixedDate, IDateable { }
 
     /// <summary>
     /// Defines a date type.
     /// </summary>
     /// <typeparam name="TSelf">The type that implements this interface.</typeparam>
-    public interface IDate<TSelf> : IDate, IFixedDay<TSelf>
+    public interface IDate<TSelf> : IDate, IFixedDate<TSelf>
         where TSelf : IDate<TSelf>
     { }
 

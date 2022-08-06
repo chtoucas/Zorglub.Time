@@ -111,7 +111,7 @@ namespace Zorglub.Time.Specialized
     /// </summary>
     public readonly partial struct GregorianDate :
         IDate<GregorianDate, GregorianCalendar>,
-        IFixedDateable
+        IDateableOrdinally
     {
         // NB: the order in which the static fields are written is important.
 
@@ -297,7 +297,7 @@ namespace Zorglub.Time.Specialized
         /// <inheritdoc />
         public bool IsSupplementary => false;
 
-        int IFixedDateable.DaysSinceEpoch => _daysSinceZero;
+        int IDateableOrdinally.DaysSinceEpoch => _daysSinceZero;
 
         /// <summary>
         /// Gets the count of days since the Gregorian epoch.
@@ -338,11 +338,11 @@ namespace Zorglub.Time.Specialized
         #region Conversions
 
         [Pure]
-        static GregorianDate IFixedDay<GregorianDate>.FromDayNumber(DayNumber dayNumber) =>
+        static GregorianDate IFixedDate<GregorianDate>.FromDayNumber(DayNumber dayNumber) =>
             new(dayNumber);
 
         [Pure]
-        DayNumber IFixedDay.ToDayNumber() => DayNumber;
+        DayNumber IFixedDate.ToDayNumber() => DayNumber;
 
         #endregion
         #region Counting

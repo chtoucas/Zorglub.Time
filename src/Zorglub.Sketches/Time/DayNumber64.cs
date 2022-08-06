@@ -17,7 +17,7 @@ namespace Zorglub.Time
     /// <para><see cref="DayNumber64"/> is an immutable struct.</para>
     /// </summary>
     public readonly partial struct DayNumber64 :
-        IFixedDay<DayNumber64>,
+        IFixedDate<DayNumber64>,
         IMinMaxValue<DayNumber64>
     {
         public const long MinDaysSinceZero = Int64.MinValue + 1;

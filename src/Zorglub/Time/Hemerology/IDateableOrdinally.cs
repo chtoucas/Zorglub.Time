@@ -3,10 +3,7 @@
 
 namespace Zorglub.Time.Hemerology
 {
-    // FIXME(api): name, purpose.
-    // CalendarDay should implement this interface.
-
-    public interface IFixedDateable : IDateable
+    public interface IDateableOrdinally
     {
         /// <summary>
         /// Gets the day number.
@@ -14,7 +11,8 @@ namespace Zorglub.Time.Hemerology
         DayNumber DayNumber { get; }
 
         /// <summary>
-        /// Gets the count of days since the epoch.
+        /// Gets the count of days since the epoch of the calendar to which belongs the current
+        /// instance.
         /// </summary>
         int DaysSinceEpoch { get; }
     }

@@ -12,7 +12,7 @@ namespace Zorglub.Time.Simple
     /// Represents a calendar day, that is a date within a calendar system.
     /// <para><see cref="CalendarDay"/> is an immutable struct.</para>
     /// </summary>
-    public readonly partial struct CalendarDay : ISimpleDate<CalendarDay>
+    public readonly partial struct CalendarDay : ISimpleDate<CalendarDay>, IDateableOrdinally
     {
         #region Bit settings
 
@@ -86,6 +86,9 @@ namespace Zorglub.Time.Simple
                 return chr.Epoch + DaysSinceEpoch;
             }
         }
+
+        /// <inheritdoc />
+        public int DaysSinceEpoch => unchecked(_bin >> DaysSinceEpochShift);
 
         /// <inheritdoc />
         public Ord CenturyOfEra => Ord.FromInt32(Century);
@@ -202,12 +205,6 @@ namespace Zorglub.Time.Simple
         public SimpleCalendar Calendar => SimpleCatalog.GetCalendarUnchecked(unchecked(_bin & CuidMask));
 
         /// <summary>
-        /// Gets the count of consecutive days since the epoch of the calendar to which belongs the
-        /// current instance.
-        /// </summary>
-        internal int DaysSinceEpoch => unchecked(_bin >> DaysSinceEpochShift);
-
-        /// <summary>
         /// Gets the ID of the calendar to which belongs the current instance.
         /// </summary>
         internal Cuid Cuid => unchecked((Cuid)(_bin & CuidMask));
@@ -317,11 +314,11 @@ namespace Zorglub.Time.Simple
         #region Conversions
 
         [Pure]
-        static CalendarDay IFixedDay<CalendarDay>.FromDayNumber(DayNumber dayNumber) =>
+        static CalendarDay IFixedDate<CalendarDay>.FromDayNumber(DayNumber dayNumber) =>
             new(dayNumber);
 
         [Pure]
-        DayNumber IFixedDay.ToDayNumber() => DayNumber;
+        DayNumber IFixedDate.ToDayNumber() => DayNumber;
 
         [Pure]
         CalendarDay ISimpleDate.ToCalendarDay() => this;

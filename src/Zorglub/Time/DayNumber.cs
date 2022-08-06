@@ -17,7 +17,7 @@ namespace Zorglub.Time
     /// <para><see cref="DayNumber"/> is an immutable struct.</para>
     /// </summary>
     public readonly partial struct DayNumber :
-        IFixedDay<DayNumber>,
+        IFixedDate<DayNumber>,
         IMinMaxValue<DayNumber>
     {
         // Since DaysSinceZero is public, we keep these two constants public too.
@@ -239,10 +239,10 @@ namespace Zorglub.Time
         [Pure]
         // We do actually test this method, but in Zorglub.Tests.CSharp.
         [ExcludeFromCodeCoverage]
-        static DayNumber IFixedDay<DayNumber>.FromDayNumber(DayNumber dayNumber) => dayNumber;
+        static DayNumber IFixedDate<DayNumber>.FromDayNumber(DayNumber dayNumber) => dayNumber;
 
         [Pure]
-        DayNumber IFixedDay.ToDayNumber() => this;
+        DayNumber IFixedDate.ToDayNumber() => this;
 
         #endregion
         #region Gregorian conversions

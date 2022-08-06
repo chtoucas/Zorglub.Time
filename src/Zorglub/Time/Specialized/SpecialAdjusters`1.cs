@@ -16,7 +16,7 @@ namespace Zorglub.Time.Specialized
     /// </summary>
     /// <typeparam name="TDate">The type of date object.</typeparam>
     public abstract class SpecialAdjusters<TDate> : IDateAdjusters<TDate>
-        where TDate : IFixedDateable
+        where TDate : IDateable, IDateableOrdinally
     {
         // "private protected" because the abstract method GetDate() does NOT
         // validate its parameter.
