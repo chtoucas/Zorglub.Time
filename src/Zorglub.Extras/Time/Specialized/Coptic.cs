@@ -15,7 +15,7 @@ namespace Zorglub.Time.Specialized
     /// <para>This class cannot be inherited.</para>
     /// </summary>
     public sealed class CopticCalendar :
-        MinMaxYearCalendar<CopticDate>,
+        SpecialCalendar<CopticDate>,
         IRegularFeaturette
     {
         /// <summary>
@@ -44,7 +44,7 @@ namespace Zorglub.Time.Specialized
     /// <summary>
     /// Provides common adjusters for <see cref="CopticDate"/>.
     /// </summary>
-    public sealed class CopticAdjusters : MinMaxYearDateAdjusters<CopticDate>
+    public sealed class CopticAdjusters : SpecialAdjusters<CopticDate>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="CopticAdjusters"/> class.
@@ -68,6 +68,7 @@ namespace Zorglub.Time.Specialized
     /// </summary>
     public readonly partial struct CopticDate :
         IDate<CopticDate, CopticCalendar>,
+        ISpecialDate,
         IEpagomenalDay
     {
         // NB: the order in which the static fields are written is important.
@@ -196,9 +197,7 @@ namespace Zorglub.Time.Specialized
         /// <inheritdoc />
         public static CopticCalendar Calendar => s_Calendar;
 
-        /// <summary>
-        /// Gets the day number.
-        /// </summary>
+        /// <inheritdoc />
         public DayNumber DayNumber => s_Epoch + _daysSinceEpoch;
 
         /// <inheritdoc />
@@ -268,6 +267,9 @@ namespace Zorglub.Time.Specialized
                 return s_Schema.IsSupplementaryDay(y, m, d);
             }
         }
+
+        /// <inheritdoc />
+        public int DaysSinceEpoch => _daysSinceEpoch;
 
         /// <summary>
         /// Returns a culture-independent string representation of the current instance.

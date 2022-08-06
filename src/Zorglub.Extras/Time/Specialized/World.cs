@@ -15,7 +15,7 @@ namespace Zorglub.Time.Specialized
     /// <para>This class cannot be inherited.</para>
     /// </summary>
     public sealed class WorldCalendar :
-        MinMaxYearCalendar<WorldDate>,
+        SpecialCalendar<WorldDate>,
         IRegularFeaturette
     {
         /// <summary>
@@ -56,7 +56,7 @@ namespace Zorglub.Time.Specialized
     /// <summary>
     /// Provides common adjusters for <see cref="WorldDate"/>.
     /// </summary>
-    public sealed class WorldAdjusters : MinMaxYearDateAdjusters<WorldDate>
+    public sealed class WorldAdjusters : SpecialAdjusters<WorldDate>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="WorldAdjusters"/> class.
@@ -80,6 +80,7 @@ namespace Zorglub.Time.Specialized
     /// </summary>
     public readonly partial struct WorldDate :
         IDate<WorldDate, WorldCalendar>,
+        ISpecialDate,
         IBlankDay
     {
         // NB: the order in which the static fields are written is important.
@@ -208,9 +209,7 @@ namespace Zorglub.Time.Specialized
         /// <inheritdoc />
         public static WorldCalendar Calendar => s_Calendar;
 
-        /// <summary>
-        /// Gets the day number.
-        /// </summary>
+        /// <inheritdoc />
         public DayNumber DayNumber => s_Epoch + _daysSinceEpoch;
 
         /// <inheritdoc />
@@ -280,6 +279,9 @@ namespace Zorglub.Time.Specialized
                 return s_Schema.IsSupplementaryDay(y, m, d);
             }
         }
+
+        /// <inheritdoc />
+        public int DaysSinceEpoch => _daysSinceEpoch;
 
         /// <inheritdoc />
         public bool IsBlank

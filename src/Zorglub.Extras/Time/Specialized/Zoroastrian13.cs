@@ -15,7 +15,7 @@ namespace Zorglub.Time.Specialized
     /// <para>This class cannot be inherited.</para>
     /// </summary>
     public sealed class Zoroastrian13Calendar :
-        MinMaxYearCalendar<Zoroastrian13Date>,
+        SpecialCalendar<Zoroastrian13Date>,
         IRegularFeaturette,
         IVirtualMonthFeaturette
     {
@@ -49,7 +49,7 @@ namespace Zorglub.Time.Specialized
     /// <summary>
     /// Provides common adjusters for <see cref="Zoroastrian13Date"/>.
     /// </summary>
-    public sealed class Zoroastrian13Adjusters : MinMaxYearDateAdjusters<Zoroastrian13Date>
+    public sealed class Zoroastrian13Adjusters : SpecialAdjusters<Zoroastrian13Date>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Zoroastrian13Adjusters"/> class.
@@ -73,6 +73,7 @@ namespace Zorglub.Time.Specialized
     /// </summary>
     public readonly partial struct Zoroastrian13Date :
         IDate<Zoroastrian13Date, Zoroastrian13Calendar>,
+        ISpecialDate,
         IEpagomenalDay
     {
         // NB: the order in which the static fields are written is important.
@@ -201,9 +202,7 @@ namespace Zorglub.Time.Specialized
         /// <inheritdoc />
         public static Zoroastrian13Calendar Calendar => s_Calendar;
 
-        /// <summary>
-        /// Gets the day number.
-        /// </summary>
+        /// <inheritdoc />
         public DayNumber DayNumber => s_Epoch + _daysSinceEpoch;
 
         /// <inheritdoc />
@@ -273,6 +272,9 @@ namespace Zorglub.Time.Specialized
                 return s_Schema.IsSupplementaryDay(y, m, d);
             }
         }
+
+        /// <inheritdoc />
+        public int DaysSinceEpoch => _daysSinceEpoch;
 
         /// <summary>
         /// Returns a culture-independent string representation of the current instance.

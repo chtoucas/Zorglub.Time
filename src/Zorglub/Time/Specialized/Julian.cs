@@ -27,15 +27,14 @@ namespace Zorglub.Time.Specialized
     // CountDaysSince(XXXDate other) checked context or not? do we test it?
     // Add method Adjust(Func<TDate, TDate>).
     //
-    // Other date types? yes but only for calendars currently in use or for
-    // proposed reforms. See CalendarZoo.
+    // Other date types? See CalendarZoo.
 
     /// <summary>
     /// Represents the Julian calendar.
     /// <para>This class cannot be inherited.</para>
     /// </summary>
     public sealed class JulianCalendar :
-        MinMaxYearCalendar<JulianDate>,
+        SpecialCalendar<JulianDate>,
         IRegularFeaturette
     {
         /// <summary>
@@ -126,7 +125,9 @@ namespace Zorglub.Time.Specialized
     /// Represents the Julian date.
     /// <para><see cref="JulianDate"/> is an immutable struct.</para>
     /// </summary>
-    public readonly partial struct JulianDate : IDate<JulianDate, JulianCalendar>
+    public readonly partial struct JulianDate :
+        IDate<JulianDate, JulianCalendar>,
+        ISpecialDate
     {
         // NB: the order in which the static fields are written is important.
 
@@ -254,9 +255,7 @@ namespace Zorglub.Time.Specialized
         /// <inheritdoc />
         public static JulianCalendar Calendar => s_Calendar;
 
-        /// <summary>
-        /// Gets the day number.
-        /// </summary>
+        /// <inheritdoc />
         public DayNumber DayNumber => s_Epoch + _daysSinceEpoch;
 
         /// <inheritdoc />
@@ -320,10 +319,8 @@ namespace Zorglub.Time.Specialized
         /// <inheritdoc />
         public bool IsSupplementary => false;
 
-        /// <summary>
-        /// Gets the count of days since the Julian epoch.
-        /// </summary>
-        internal int DaysSinceEpoch => _daysSinceEpoch;
+        /// <inheritdoc />
+        public int DaysSinceEpoch => _daysSinceEpoch;
 
         /// <summary>
         /// Returns a culture-independent string representation of the current instance.

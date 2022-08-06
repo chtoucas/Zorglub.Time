@@ -20,7 +20,7 @@ namespace Zorglub.Time.Specialized
     /// <para>This class cannot be inherited.</para>
     /// </summary>
     public sealed class CivilCalendar :
-        MinMaxYearCalendar<CivilDate>,
+        SpecialCalendar<CivilDate>,
         IRegularFeaturette
     {
         /// <summary>
@@ -111,7 +111,9 @@ namespace Zorglub.Time.Specialized
     /// Represents the Civil date.
     /// <para><see cref="CivilDate"/> is an immutable struct.</para>
     /// </summary>
-    public readonly partial struct CivilDate : IDate<CivilDate, CivilCalendar>
+    public readonly partial struct CivilDate :
+        IDate<CivilDate, CivilCalendar>,
+        ISpecialDate
     {
         /// <summary>
         /// Represents the schema.
@@ -225,9 +227,7 @@ namespace Zorglub.Time.Specialized
         /// <inheritdoc />
         public static CivilCalendar Calendar => s_Calendar;
 
-        /// <summary>
-        /// Gets the day number.
-        /// </summary>
+        /// <inheritdoc />
         public DayNumber DayNumber => new(_daysSinceZero);
 
         /// <inheritdoc />
@@ -290,6 +290,9 @@ namespace Zorglub.Time.Specialized
 
         /// <inheritdoc />
         public bool IsSupplementary => false;
+
+        /// <inheritdoc />
+        public int DaysSinceEpoch => _daysSinceZero;
 
         /// <summary>
         /// Gets the count of days since the Gregorian epoch.

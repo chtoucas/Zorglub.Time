@@ -15,7 +15,7 @@ namespace Zorglub.Time.Specialized
     /// <para>This class cannot be inherited.</para>
     /// </summary>
     public sealed class EthiopicCalendar :
-        MinMaxYearCalendar<EthiopicDate>,
+        SpecialCalendar<EthiopicDate>,
         IRegularFeaturette
     {
         /// <summary>
@@ -44,7 +44,7 @@ namespace Zorglub.Time.Specialized
     /// <summary>
     /// Provides common adjusters for <see cref="EthiopicDate"/>.
     /// </summary>
-    public sealed class EthiopicAdjusters : MinMaxYearDateAdjusters<EthiopicDate>
+    public sealed class EthiopicAdjusters : SpecialAdjusters<EthiopicDate>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="EthiopicAdjusters"/> class.
@@ -68,6 +68,7 @@ namespace Zorglub.Time.Specialized
     /// </summary>
     public readonly partial struct EthiopicDate :
         IDate<EthiopicDate, EthiopicCalendar>,
+        ISpecialDate,
         IEpagomenalDay
     {
         // NB: the order in which the static fields are written is important.
@@ -196,9 +197,7 @@ namespace Zorglub.Time.Specialized
         /// <inheritdoc />
         public static EthiopicCalendar Calendar => s_Calendar;
 
-        /// <summary>
-        /// Gets the day number.
-        /// </summary>
+        /// <inheritdoc />
         public DayNumber DayNumber => s_Epoch + _daysSinceEpoch;
 
         /// <inheritdoc />
@@ -268,6 +267,9 @@ namespace Zorglub.Time.Specialized
                 return s_Schema.IsSupplementaryDay(y, m, d);
             }
         }
+
+        /// <inheritdoc />
+        public int DaysSinceEpoch => _daysSinceEpoch;
 
         /// <summary>
         /// Returns a culture-independent string representation of the current instance.

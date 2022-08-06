@@ -18,7 +18,7 @@ namespace Zorglub.Time.Specialized
     /// <para>This class cannot be inherited.</para>
     /// </summary>
     public sealed class GregorianCalendar :
-        MinMaxYearCalendar<GregorianDate>,
+        SpecialCalendar<GregorianDate>,
         IRegularFeaturette
     {
         /// <summary>
@@ -110,7 +110,8 @@ namespace Zorglub.Time.Specialized
     /// <para><see cref="GregorianDate"/> is an immutable struct.</para>
     /// </summary>
     public readonly partial struct GregorianDate :
-        IDate<GregorianDate, GregorianCalendar>
+        IDate<GregorianDate, GregorianCalendar>,
+        ISpecialDate
     {
         // NB: the order in which the static fields are written is important.
 
@@ -232,9 +233,7 @@ namespace Zorglub.Time.Specialized
         /// <inheritdoc />
         public static GregorianCalendar Calendar => s_Calendar;
 
-        /// <summary>
-        /// Gets the day number.
-        /// </summary>
+        /// <inheritdoc />
         public DayNumber DayNumber => new(_daysSinceZero);
 
         /// <inheritdoc />
@@ -297,6 +296,9 @@ namespace Zorglub.Time.Specialized
 
         /// <inheritdoc />
         public bool IsSupplementary => false;
+
+        /// <inheritdoc />
+        public int DaysSinceEpoch => _daysSinceZero;
 
         /// <summary>
         /// Gets the count of days since the Gregorian epoch.
