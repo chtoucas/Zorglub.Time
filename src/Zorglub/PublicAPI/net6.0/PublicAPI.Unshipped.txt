@@ -1221,13 +1221,9 @@ Zorglub.Time.Hemerology.DateAdjusters<TDate>.GetEndOfYear(TDate date) -> TDate
 Zorglub.Time.Hemerology.DateAdjusters<TDate>.GetStartOfMonth(TDate date) -> TDate
 Zorglub.Time.Hemerology.DateAdjusters<TDate>.GetStartOfYear(TDate date) -> TDate
 Zorglub.Time.Hemerology.IAdjustableDate<TSelf>
-Zorglub.Time.Hemerology.IAdjustableDate<TSelf>.Adjust(System.Func<TSelf, TSelf>! adjuster) -> TSelf
 Zorglub.Time.Hemerology.IAdjustableDate<TSelf>.WithDay(int newDay) -> TSelf
 Zorglub.Time.Hemerology.IAdjustableDate<TSelf>.WithMonth(int newMonth) -> TSelf
 Zorglub.Time.Hemerology.IAdjustableDate<TSelf>.WithYear(int newYear) -> TSelf
-Zorglub.Time.Hemerology.IAdjustableOrdinal<TSelf>
-Zorglub.Time.Hemerology.IAdjustableOrdinal<TSelf>.WithDayOfYear(int newDayOfYear) -> TSelf
-Zorglub.Time.Hemerology.IAdjustableOrdinal<TSelf>.WithYear(int newYear) -> TSelf
 Zorglub.Time.Hemerology.IAffineDate
 Zorglub.Time.Hemerology.IAffineDate.CountDaysSinceEpoch() -> int
 Zorglub.Time.Hemerology.IAffineDate<TSelf>

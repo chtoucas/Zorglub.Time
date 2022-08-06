@@ -685,25 +685,10 @@ namespace Zorglub.Time
         #region Adjustments
 
         /// <summary>
-        /// Adjusts the current instance using the specified adjuster.
-        /// <para>If the adjuster throws, this method will propagate the exception.</para>
+        /// Adjusts the year field of the specified date to the specified value, yielding a new date.
         /// </summary>
-        /// <exception cref="ArgumentNullException"><paramref name="adjuster"/> is null.</exception>
-        [Pure]
-        public XCivilDate Adjust(Func<XCivilDate, XCivilDate> adjuster)
-        {
-            Requires.NotNull(adjuster);
-
-            return adjuster.Invoke(this);
-        }
-
-        /// <summary>
-        /// Adjusts the year field of the specified date to the specified value,
-        /// yielding a new date.
-        /// </summary>
-        /// <exception cref="AoorException">The method would create an invalid
-        /// Gregorian date within the Common Era on or before year 9999.
-        /// </exception>
+        /// <exception cref="AoorException">The method would create an invalid Gregorian date within
+        /// the Common Era on or before year 9999.</exception>
         [Pure]
         public XCivilDate WithYear(int newYear)
         {
@@ -722,19 +707,15 @@ namespace Zorglub.Time
         }
 
         /// <summary>
-        /// Adjusts the month field of the specified date to the specified value,
-        /// yielding a new date.
+        /// Adjusts the month field of the specified date to the specified value, yielding a new
+        /// date.
         /// </summary>
-        /// <exception cref="AoorException">The method would create an invalid
-        /// Gregorian date within the Common Era on or before year 9999.
-        /// </exception>
+        /// <exception cref="AoorException">The method would create an invalid Gregorian date within
+        /// the Common Era on or before year 9999.</exception>
         [Pure]
         public XCivilDate WithMonth(int newMonth)
         {
-            if (newMonth < 1 || newMonth > 12)
-            {
-                Throw.ArgumentOutOfRange(nameof(newMonth));
-            }
+            if (newMonth < 1 || newMonth > 12) Throw.ArgumentOutOfRange(nameof(newMonth));
 
             int y = Year;
             int d = Day;
@@ -748,19 +729,14 @@ namespace Zorglub.Time
         }
 
         /// <summary>
-        /// Adjusts the day field of the specified date to the specified value,
-        /// yielding a new date.
+        /// Adjusts the day field of the specified date to the specified value, yielding a new date.
         /// </summary>
-        /// <exception cref="AoorException">The method would create an invalid
-        /// Gregorian date within the Common Era on or before year 9999.
-        /// </exception>
+        /// <exception cref="AoorException">The method would create an invalid Gregorian date within
+        /// the Common Era on or before year 9999.</exception>
         [Pure]
         public XCivilDate WithDay(int newDay)
         {
-            if (newDay < 1)
-            {
-                Throw.ArgumentOutOfRange(nameof(newDay));
-            }
+            if (newDay < 1) Throw.ArgumentOutOfRange(nameof(newDay));
 
             int y = Year;
             int m = Month;
@@ -897,10 +873,7 @@ namespace Zorglub.Time
         public static IEnumerable<XCivilDate> GetDaysInYear(int year)
         {
             // Check arg eagerly.
-            if (year < MinYear || year > MaxYear)
-            {
-                Throw.ArgumentOutOfRange(nameof(year));
-            }
+            if (year < MinYear || year > MaxYear) Throw.ArgumentOutOfRange(nameof(year));
 
             return Iterator();
 
@@ -932,14 +905,8 @@ namespace Zorglub.Time
         public static IEnumerable<XCivilDate> GetDaysInMonth(int year, int month)
         {
             // Check args eagerly.
-            if (year < MinYear || year > MaxYear)
-            {
-                Throw.ArgumentOutOfRange(nameof(year));
-            }
-            if (month < 1 || month > 12)
-            {
-                Throw.ArgumentOutOfRange(nameof(month));
-            }
+            if (year < MinYear || year > MaxYear) Throw.ArgumentOutOfRange(nameof(year));
+            if (month < 1 || month > 12) Throw.ArgumentOutOfRange(nameof(month));
 
             return Iterator();
 

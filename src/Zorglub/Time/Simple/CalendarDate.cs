@@ -352,18 +352,18 @@ namespace Zorglub.Time.Simple
         #endregion
         #region Adjustments
 
-        /// <summary>
-        /// Adjusts the current instance using the specified adjuster.
-        /// <para>If the adjuster throws, this method will propagate the exception.</para>
-        /// </summary>
-        /// <exception cref="ArgumentNullException"><paramref name="adjuster"/> is null.</exception>
-        [Pure]
-        public CalendarDate Adjust(Func<CalendarDate, CalendarDate> adjuster)
-        {
-            Requires.NotNull(adjuster);
+        ///// <summary>
+        ///// Adjusts the current instance using the specified adjuster.
+        ///// <para>If the adjuster throws, this method will propagate the exception.</para>
+        ///// </summary>
+        ///// <exception cref="ArgumentNullException"><paramref name="adjuster"/> is null.</exception>
+        //[Pure]
+        //public CalendarDate Adjust(Func<CalendarDate, CalendarDate> adjuster)
+        //{
+        //    Requires.NotNull(adjuster);
 
-            return adjuster.Invoke(this);
-        }
+        //    return adjuster.Invoke(this);
+        //}
 
         /// <inheritdoc/>
         [Pure]
@@ -371,9 +371,10 @@ namespace Zorglub.Time.Simple
         {
             _bin.Deconstruct(out int _, out int m, out int d);
             ref readonly var chr = ref CalendarRef;
-            // Even when "newYear" is valid, we must re-check "m" & "d".
-            chr.Scope.ValidateYearMonthDay(newYear, m, d, nameof(newYear));
-            return new CalendarDate(newYear, m, d, Cuid);
+            // Even if we knew that "newYear" is valid, we must re-check "m" & "d".
+            //chr.Scope.ValidateYearMonthDay(newYear, m, d, nameof(newYear));
+            //return new CalendarDate(newYear, m, d, Cuid);
+            return chr.GetCalendarDate(newYear, m, d);
         }
 
         /// <inheritdoc/>
@@ -382,7 +383,7 @@ namespace Zorglub.Time.Simple
         {
             _bin.Deconstruct(out int y, out int _, out int d);
             ref readonly var chr = ref CalendarRef;
-            // We must check both "newMonth" & "d".
+            // We only need to check "newMonth" & "d".
             chr.PreValidator.ValidateMonthDay(y, newMonth, d, nameof(newMonth));
             return new CalendarDate(y, newMonth, d, Cuid);
         }
