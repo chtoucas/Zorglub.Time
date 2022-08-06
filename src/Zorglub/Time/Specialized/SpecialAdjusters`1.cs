@@ -106,7 +106,7 @@ namespace Zorglub.Time.Specialized
         }
 
         //
-        // Adjust indivual components
+        // Adjustments for a single part
         //
 
         /// <summary>

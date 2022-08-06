@@ -259,6 +259,9 @@ namespace Zorglub.Time.Specialized
         public DayNumber DayNumber => s_Epoch + _daysSinceEpoch;
 
         /// <inheritdoc />
+        public int DaysSinceEpoch => _daysSinceEpoch;
+
+        /// <inheritdoc />
         public Ord CenturyOfEra => Ord.FromInt32(Century);
 
         /// <inheritdoc />
@@ -318,9 +321,6 @@ namespace Zorglub.Time.Specialized
 
         /// <inheritdoc />
         public bool IsSupplementary => false;
-
-        /// <inheritdoc />
-        public int DaysSinceEpoch => _daysSinceEpoch;
 
         /// <summary>
         /// Returns a culture-independent string representation of the current instance.

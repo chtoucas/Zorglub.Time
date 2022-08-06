@@ -213,6 +213,9 @@ namespace Zorglub.Time.Specialized
         public DayNumber DayNumber => s_Epoch + _daysSinceEpoch;
 
         /// <inheritdoc />
+        public int DaysSinceEpoch => _daysSinceEpoch;
+
+        /// <inheritdoc />
         public Ord CenturyOfEra => Ord.FromInt32(Century);
 
         /// <inheritdoc />
@@ -279,9 +282,6 @@ namespace Zorglub.Time.Specialized
                 return s_Schema.IsSupplementaryDay(y, m, d);
             }
         }
-
-        /// <inheritdoc />
-        public int DaysSinceEpoch => _daysSinceEpoch;
 
         /// <inheritdoc />
         public bool IsBlank
