@@ -1,7 +1,8 @@
 ﻿// SPDX-License-Identifier: BSD-3-Clause
 // Copyright (c) 2020 Narvalo.Org. All rights reserved.
 
-#pragma warning disable CA1725 // Parameter names should match base declaration (Naming)
+#pragma warning disable CA1725 // Parameter names should match base declaration (Naming) ✓
+// The base interface is internal. Anyway, we prefer to use domain-specific parameter names.
 
 namespace Zorglub.Time.Core.Validation
 {

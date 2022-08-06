@@ -573,7 +573,7 @@ namespace Zorglub.Time
 
     public partial struct ZDate // Math ops
     {
-#pragma warning disable CA2225 // Operator overloads have named alternates (Usage)
+#pragma warning disable CA2225 // Operator overloads have named alternates (Usage) ✓
         // Friendly alternates do exist but use domain-specific names.
 
         /// <summary>
