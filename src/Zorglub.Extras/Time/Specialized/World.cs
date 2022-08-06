@@ -488,6 +488,7 @@ namespace Zorglub.Time.Specialized
     public partial struct WorldDate // Math ops
     {
 #pragma warning disable CA2225 // Operator overloads have named alternates (Usage)
+        // Friendly alternates do exist but use domain-specific names.
 
         /// <summary>
         /// Subtracts the two specified dates and returns the number of days between them.
