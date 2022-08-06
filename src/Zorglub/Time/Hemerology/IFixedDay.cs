@@ -165,8 +165,8 @@ namespace Zorglub.Time.Hemerology
     public interface IFixedDay<TSelf> :
         IFixedDay,
         // Comparison
-        IMinMaxFunctions<TSelf>,
         IComparisonOperators<TSelf, TSelf>,
+        IMinMaxFunctions<TSelf>,
         // Arithmetic
         IStandardArithmetic<TSelf>,
         IAdditionOperators<TSelf, int, TSelf>,
@@ -176,7 +176,7 @@ namespace Zorglub.Time.Hemerology
         IDecrementOperators<TSelf>
         where TSelf : IFixedDay<TSelf>
     {
-        // IMinMaxValue<TSelf>? no, because of types supporting multi-calendars,
+        // IMinMaxValue<TSelf>? no, because of types linked to multi-calendars,
         // but specialized date types should implement this interface.
         //
         // We don't add the UTC version UtcToday(). I don't think that we need

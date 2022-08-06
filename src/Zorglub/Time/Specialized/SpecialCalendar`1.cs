@@ -19,7 +19,9 @@ namespace Zorglub.Time.Specialized
     /// </summary>
     /// <typeparam name="TDate">The type of date object.</typeparam>
     public abstract class SpecialCalendar<TDate> : MinMaxYearCalendar, ICalendar<TDate>
-        where TDate : IFixedDay<TDate>
+        // ISpecialDate: not necessary, but it should largely prevent the use of
+        // this class with date types not based on daysSinceEpoch.
+        where TDate : IFixedDay<TDate>, ISpecialDate
     {
         // "private protected" because the abstract method GetDate() does NOT
         // validate its parameter.

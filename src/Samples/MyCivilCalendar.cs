@@ -12,6 +12,9 @@ using Zorglub.Time.Hemerology.Scopes;
 
 using static Zorglub.Time.Extensions.Unboxing;
 
+// NB: MinMaxYearCalendar<> is very generic, therefore methods like GetDaysInYear()
+// are not particularly efficient.
+
 public sealed class MyCivilCalendar : MinMaxYearCalendar<MyCivilDate>
 {
     public MyCivilCalendar() : this(GetCivilSchema()) { }
@@ -21,7 +24,4 @@ public sealed class MyCivilCalendar : MinMaxYearCalendar<MyCivilDate>
 
     [Pure]
     private static CivilSchema GetCivilSchema() => CivilSchema.GetInstance().Unbox();
-
-    [Pure]
-    protected sealed override MyCivilDate GetDate(int daysSinceEpoch) => new(daysSinceEpoch);
 }

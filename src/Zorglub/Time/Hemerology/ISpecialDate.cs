@@ -1,9 +1,10 @@
 ﻿// SPDX-License-Identifier: BSD-3-Clause
 // Copyright (c) 2020 Narvalo.Org. All rights reserved.
 
-namespace Zorglub.Time.Specialized
+namespace Zorglub.Time.Hemerology
 {
-    using Zorglub.Time.Hemerology;
+    // FIXME(api): name, purpose.
+    // CalendarDay should implement this interface.
 
     public interface ISpecialDate : IFixedDay
     {

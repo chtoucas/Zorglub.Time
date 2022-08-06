@@ -112,6 +112,7 @@
     <Compile Include="Tests\Simple\DateDayOfWeekTestSuite.fs" />
     <Compile Include="Tests\Simple\CalendarMonthTestSuite.fs" />
     <Compile Include="Tests\Simple\CalendarYearTestSuite.fs" />
+    <Compile Include="Tests\Specialized\SpecialAdjustersTests.fs" />
     <Compile Include="Tests\Specialized\ArmenianTests.fs" />
     <Compile Include="Tests\Specialized\CivilTests.fs" />
     <Compile Include="Tests\Specialized\CopticTests.fs" />
