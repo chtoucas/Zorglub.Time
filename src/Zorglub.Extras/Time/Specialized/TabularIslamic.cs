@@ -68,7 +68,7 @@ namespace Zorglub.Time.Specialized
     /// </summary>
     public readonly partial struct TabularIslamicDate :
         IDate<TabularIslamicDate, TabularIslamicCalendar>,
-        ISpecialDate
+        IFixedDateable
     {
         // NB: the order in which the static fields are written is important.
 

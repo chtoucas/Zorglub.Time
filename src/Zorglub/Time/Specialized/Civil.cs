@@ -113,7 +113,7 @@ namespace Zorglub.Time.Specialized
     /// </summary>
     public readonly partial struct CivilDate :
         IDate<CivilDate, CivilCalendar>,
-        ISpecialDate
+        IFixedDateable
     {
         /// <summary>
         /// Represents the schema.
@@ -291,8 +291,7 @@ namespace Zorglub.Time.Specialized
         /// <inheritdoc />
         public bool IsSupplementary => false;
 
-        /// <inheritdoc />
-        public int DaysSinceEpoch => _daysSinceZero;
+        int IFixedDateable.DaysSinceEpoch => _daysSinceZero;
 
         /// <summary>
         /// Gets the count of days since the Gregorian epoch.

@@ -6,7 +6,7 @@ namespace Zorglub.Time.Hemerology
     // FIXME(api): name, purpose.
     // CalendarDay should implement this interface.
 
-    public interface ISpecialDate : IFixedDay
+    public interface IFixedDateable : IDateable
     {
         /// <summary>
         /// Gets the day number.

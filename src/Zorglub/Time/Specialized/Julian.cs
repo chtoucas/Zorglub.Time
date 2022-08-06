@@ -127,7 +127,7 @@ namespace Zorglub.Time.Specialized
     /// </summary>
     public readonly partial struct JulianDate :
         IDate<JulianDate, JulianCalendar>,
-        ISpecialDate
+        IFixedDateable
     {
         // NB: the order in which the static fields are written is important.
 
