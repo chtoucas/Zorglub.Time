@@ -47,12 +47,12 @@ module Bundles =
         static member Calendar_Prop() = CivilDate.Calendar |> isnotnull
 
         [<Fact>]
-        static member Adjusters_Prop() = CivilDate.Adjusters |> isnotnull
+        static member Adjuster_Prop() = CivilDate.Adjuster |> isnotnull
 
     [<Sealed>]
     [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
-    type DateAdjustersFacts() =
-        inherit IDateAdjustersFacts<CivilDate, StandardGregorianDataSet>(new CivilAdjusters())
+    type DateAdjusterFacts() =
+        inherit IDateAdjusterFacts<CivilDate, StandardGregorianDataSet>(new CivilAdjuster())
 
         override __.GetDate(y, m, d) = new CivilDate(y, m, d)
 

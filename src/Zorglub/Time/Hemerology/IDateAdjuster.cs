@@ -20,7 +20,7 @@ namespace Zorglub.Time.Hemerology
     // on va aussi opter pour une méthode, même si utiliser une propriété
     // aurait été plus appropriée.
 
-    // IDateAdjusters<TDate> provides a different API for the part of
+    // IDateAdjuster<TDate> provides a different API for the part of
     // ICalendar<TDate> dealing with the creation of new (single) TDate instances.
     //
     // We don't include GetDayOfMonth(TDate, dayOfMonth) and other methods
@@ -33,16 +33,16 @@ namespace Zorglub.Time.Hemerology
     // This is also in sync with ICalendar<TDate> which does put any constraint
     // on the date type.
     //
-    // For a default implementation, see DateAdjusters.
+    // For a default implementation, see DateAdjuster.
     // A custom implementation SHOULD only be done when we can avoid to validate
-    // the result; see for instance MinMaxYearDateAdjusters where we know in
+    // the result; see for instance SpecialAdjuster where we know in
     // advance that the result is guaranteed to be within the calendar boundaries.
 
     /// <summary>
     /// Defines the common adjusters for <typeparamref name="TDate"/>.
     /// </summary>
     /// <typeparam name="TDate">The type of date object.</typeparam>
-    public interface IDateAdjusters<TDate>
+    public interface IDateAdjuster<TDate>
     {
         /// <summary>
         /// Obtains the first day of the year to which belongs the specified day.

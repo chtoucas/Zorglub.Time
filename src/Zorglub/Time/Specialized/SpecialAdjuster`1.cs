@@ -15,7 +15,7 @@ namespace Zorglub.Time.Specialized
     /// <para>This class can ONLY be inherited from within friend assemblies.</para>
     /// </summary>
     /// <typeparam name="TDate">The type of date object.</typeparam>
-    public abstract class SpecialAdjusters<TDate> : IDateAdjusters<TDate>
+    public abstract class SpecialAdjuster<TDate> : IDateAdjuster<TDate>
         where TDate : IDateable, IDateableOrdinally
     {
         // "private protected" because the abstract method GetDate() does NOT
@@ -29,12 +29,12 @@ namespace Zorglub.Time.Specialized
 
         /// <summary>
         /// Called from constructors in derived classes to initialize the
-        /// <see cref="DateAdjusters{TDate}"/> class.
+        /// <see cref="DateAdjuster{TDate}"/> class.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="calendar"/> is null.</exception>
         /// <exception cref="ArgumentException">The scope of <paramref name="calendar"/> is NOT
         /// complete.</exception>
-        private protected SpecialAdjusters(ICalendar<TDate> calendar)
+        private protected SpecialAdjuster(ICalendar<TDate> calendar)
         {
             Requires.NotNull(calendar);
 
@@ -66,8 +66,8 @@ namespace Zorglub.Time.Specialized
         // > TDate.FromDayNumber(_epoch + daysSinceEpoch);
         // but we force a derived class to provide its own version.
         // The idea is that it should not perform any validation; otherwise
-        // there is no reason at all to use MinMaxYearDateAdjusters instead of
-        // the default impl DateAdjusters.
+        // there is no reason at all to use SepcialAdjuster instead of the
+        // default impl DateAdjuster.
         [Pure]
         protected abstract TDate GetDate(int daysSinceEpoch);
 
@@ -106,15 +106,37 @@ namespace Zorglub.Time.Specialized
         }
 
         //
-        // Adjustments for a single part
+        // Adjusters for the core parts
         //
 
         /// <summary>
-        /// Adjusts the year field to the specified value, yielding a new date.
+        /// Obtains an adjuster for the year field of a date.
         /// </summary>
-        /// <exception cref="AoorException">The resulting date would be invalid.</exception>
         [Pure]
         public Func<TDate, TDate> WithYear(int newYear) => x => AdjustYear(x, newYear);
+
+        /// <summary>
+        /// Obtains an adjuster for the month field of a date.
+        /// </summary>
+        [Pure]
+        public Func<TDate, TDate> WithMonth(int newMonth) => x => AdjustMonth(x, newMonth);
+
+        /// <summary>
+        /// Obtains an adjuster for the day of the month field of a date.
+        /// </summary>
+        [Pure]
+        public Func<TDate, TDate> WithDay(int newDay) => x => AdjustDay(x, newDay);
+
+        /// <summary>
+        /// Obtains an adjuster for the day of the year field of a date.
+        /// </summary>
+        [Pure]
+        public Func<TDate, TDate> WithDayOfYear(int newDayOfYear) =>
+            x => AdjustDayOfYear(x, newDayOfYear);
+
+        //
+        // Adjustments for a single part
+        //
 
         /// <summary>
         /// Adjusts the year field to the specified value, yielding a new date.
@@ -136,13 +158,6 @@ namespace Zorglub.Time.Specialized
         /// </summary>
         /// <exception cref="AoorException">The resulting date would be invalid.</exception>
         [Pure]
-        public Func<TDate, TDate> WithMonth(int newMonth) => x => AdjustMonth(x, newMonth);
-
-        /// <summary>
-        /// Adjusts the month field to the specified value, yielding a new date.
-        /// </summary>
-        /// <exception cref="AoorException">The resulting date would be invalid.</exception>
-        [Pure]
         public TDate AdjustMonth(TDate date, int newMonth)
         {
             Schema.GetDateParts(date.DaysSinceEpoch, out int y, out _, out int d);
@@ -158,13 +173,6 @@ namespace Zorglub.Time.Specialized
         /// </summary>
         /// <exception cref="AoorException">The resulting date would be invalid.</exception>
         [Pure]
-        public Func<TDate, TDate> WithDay(int newDay) => x => AdjustDay(x, newDay);
-
-        /// <summary>
-        /// Adjusts the day of the month field to the specified value, yielding a new date.
-        /// </summary>
-        /// <exception cref="AoorException">The resulting date would be invalid.</exception>
-        [Pure]
         public TDate AdjustDay(TDate date, int newDay)
         {
             Schema.GetDateParts(date.DaysSinceEpoch, out int y, out int m, out _);
@@ -174,14 +182,6 @@ namespace Zorglub.Time.Specialized
             int daysSinceEpoch = Schema.CountDaysSinceEpoch(y, m, newDay);
             return GetDate(daysSinceEpoch);
         }
-
-        /// <summary>
-        /// Adjusts the day of the year field to the specified value, yielding a new date.
-        /// </summary>
-        /// <exception cref="AoorException">The resulting date would be invalid.</exception>
-        [Pure]
-        public Func<TDate, TDate> AdjustDayOfYear(int newDayOfYear) =>
-            x => AdjustDayOfYear(x, newDayOfYear);
 
         /// <summary>
         /// Adjusts the day of the year field to the specified value, yielding a new date.

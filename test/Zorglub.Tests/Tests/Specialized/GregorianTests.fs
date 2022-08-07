@@ -47,12 +47,12 @@ module Bundles =
         static member Calendar_Prop() = GregorianDate.Calendar |> isnotnull
 
         [<Fact>]
-        static member Adjusters_Prop() = GregorianDate.Adjusters |> isnotnull
+        static member Adjuster_Prop() = GregorianDate.Adjuster |> isnotnull
 
     [<Sealed>]
     [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
-    type DateAdjustersFacts() =
-        inherit IDateAdjustersFacts<GregorianDate, UnboundedGregorianDataSet>(new GregorianAdjusters())
+    type DateAdjusterFacts() =
+        inherit IDateAdjusterFacts<GregorianDate, UnboundedGregorianDataSet>(new GregorianAdjuster())
 
         override __.GetDate(y, m, d) = new GregorianDate(y, m, d)
 

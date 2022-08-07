@@ -63,7 +63,7 @@ namespace Zorglub.Time.Specialized
     /// Provides common adjusters for <see cref="JulianDate"/>.
     /// <para>This class cannot be inherited.</para>
     /// </summary>
-    public sealed class JulianAdjusters : IDateAdjusters<JulianDate>
+    public sealed class JulianAdjuster : IDateAdjuster<JulianDate>
     {
         /// <summary>
         /// Represents the Julian schema.
@@ -72,14 +72,14 @@ namespace Zorglub.Time.Specialized
         private readonly JulianSchema _schema;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="JulianAdjusters"/> class.
+        /// Initializes a new instance of the <see cref="JulianAdjuster"/> class.
         /// </summary>
-        public JulianAdjusters() : this(new JulianSchema()) { }
+        public JulianAdjuster() : this(new JulianSchema()) { }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="JulianAdjusters"/> class.
+        /// Initializes a new instance of the <see cref="JulianAdjuster"/> class.
         /// </summary>
-        internal JulianAdjusters(JulianSchema schema)
+        internal JulianAdjuster(JulianSchema schema)
         {
             Requires.NotNull(schema);
 
@@ -162,10 +162,10 @@ namespace Zorglub.Time.Specialized
         private static readonly Range<DayNumber> s_Domain = s_Calendar.Domain;
 
         /// <summary>
-        /// Represents the date adjusters.
+        /// Represents the date adjuster.
         /// <para>This field is read-only.</para>
         /// </summary>
-        private static readonly JulianAdjusters s_Adjusters = new(s_Schema);
+        private static readonly JulianAdjuster s_Adjuster = new(s_Schema);
 
         /// <summary>
         /// Represents the smallest possible value of a <see cref="JulianDate"/>.
@@ -247,10 +247,10 @@ namespace Zorglub.Time.Specialized
         public static JulianDate MaxValue => s_MaxValue;
 
         /// <summary>
-        /// Gets the date adjusters.
+        /// Gets the date adjuster.
         /// <para>This static property is thread-safe.</para>
         /// </summary>
-        public static JulianAdjusters Adjusters => s_Adjusters;
+        public static JulianAdjuster Adjuster => s_Adjuster;
 
         /// <inheritdoc />
         public static JulianCalendar Calendar => s_Calendar;

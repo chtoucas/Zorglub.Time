@@ -90,7 +90,7 @@
     <Compile Include="Tests\Hemerology\YearNumberingTests.fs" />
     <Compile Include="Tests\Hemerology\BasicCalendarTests.fs" />
     <Compile Include="Tests\Hemerology\MinMaxYearCalendarTests.fs" />
-    <Compile Include="Tests\Hemerology\DateAdjustersTests.fs" />
+    <Compile Include="Tests\Hemerology\DateAdjusterTests.fs" />
     <Compile Include="Tests\Simple\CuidTests.fs" />
     <Compile Include="Tests\Simple\SimpleCalendarTests.fs" />
     <Compile Include="Tests\Simple\SimpleRegistryTests.fs" />
@@ -112,7 +112,7 @@
     <Compile Include="Tests\Simple\DateDayOfWeekTestSuite.fs" />
     <Compile Include="Tests\Simple\CalendarMonthTestSuite.fs" />
     <Compile Include="Tests\Simple\CalendarYearTestSuite.fs" />
-    <Compile Include="Tests\Specialized\SpecialAdjustersTests.fs" />
+    <Compile Include="Tests\Specialized\SpecialAdjusterTests.fs" />
     <Compile Include="Tests\Specialized\ArmenianTests.fs" />
     <Compile Include="Tests\Specialized\CivilTests.fs" />
     <Compile Include="Tests\Specialized\CopticTests.fs" />

@@ -46,11 +46,11 @@ module Bundles =
         static member Calendar_Prop() = TabularIslamicDate.Calendar |> isnotnull
 
         [<Fact>]
-        static member Adjusters_Prop() = TabularIslamicDate.Adjusters |> isnotnull
+        static member Adjuster_Prop() = TabularIslamicDate.Adjuster |> isnotnull
 
     [<Sealed>]
     [<TestExtrasAssembly>]
-    type DateAdjustersFacts() =
-        inherit IDateAdjustersFacts<TabularIslamicDate, StandardTabularIslamicDataSet>(new TabularIslamicAdjusters())
+    type DateAdjusterFacts() =
+        inherit IDateAdjusterFacts<TabularIslamicDate, StandardTabularIslamicDataSet>(new TabularIslamicAdjuster())
 
         override __.GetDate(y, m, d) = new TabularIslamicDate(y, m, d)

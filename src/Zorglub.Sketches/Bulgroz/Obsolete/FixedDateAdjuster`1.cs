@@ -9,12 +9,12 @@ namespace Zorglub.Bulgroz.Obsolete
     using Zorglub.Time.Hemerology.Scopes;
 
     /// <summary>
-    /// Provides a default implementation for <see cref="IDateAdjusters{TDate}"/>.
+    /// Provides a default implementation for <see cref="IDateAdjuster{TDate}"/>.
     /// <para>This class works best when <typeparamref name="TDate"/> is based on the count of
     /// consecutive days since the epoch.</para>
     /// </summary>
     /// <typeparam name="TDate">The type of date object.</typeparam>
-    public class FixedDayAdjusters<TDate> : IDateAdjusters<TDate>
+    public class FixedDateAdjuster<TDate> : IDateAdjuster<TDate>
         where TDate : IFixedDate<TDate>
     {
         /// <summary>
@@ -30,10 +30,10 @@ namespace Zorglub.Bulgroz.Obsolete
         private readonly DayNumber _epoch;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="DateAdjusters{TDate}"/> class.
+        /// Initializes a new instance of the <see cref="DateAdjuster{TDate}"/> class.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="scope"/> is null.</exception>
-        public FixedDayAdjusters(CalendarScope scope)
+        public FixedDateAdjuster(CalendarScope scope)
         {
             Requires.NotNull(scope);
 

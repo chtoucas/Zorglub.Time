@@ -1,7 +1,7 @@
 ﻿// SPDX-License-Identifier: BSD-3-Clause
 // Copyright (c) 2020 Narvalo.Org. All rights reserved.
 
-module Zorglub.Tests.Hemerology.DateAdjustersTests
+module Zorglub.Tests.Hemerology.DateAdjusterTests
 
 open Zorglub.Testing
 open Zorglub.Testing.Data.Unbounded
@@ -14,16 +14,16 @@ open Xunit
 
 module Prelude =
     [<Fact>]
-    let ``Constructor for DateAdjusters throws when the calendar is null`` () =
-        nullExn "calendar" (fun () -> new DateAdjusters<ZDate>(null))
+    let ``Constructor for DateAdjuster throws when the calendar is null`` () =
+        nullExn "calendar" (fun () -> new DateAdjuster<ZDate>(null))
 
 module Bundles =
     let private chr = ZCalendar.Gregorian
-    let private adjusters = new DateAdjusters<ZDate>(chr)
+    let private adjusters = new DateAdjuster<ZDate>(chr)
 
     [<Sealed>]
-    type DateAdjustersFacts() =
-        inherit IDateAdjustersFacts<ZDate, UnboundedGregorianDataSet>(adjusters)
+    type DateAdjusterFacts() =
+        inherit IDateAdjusterFacts<ZDate, UnboundedGregorianDataSet>(adjusters)
 
         override __.GetDate(y, m, d) = new ZDate(y, m, d)
 

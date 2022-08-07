@@ -12,19 +12,19 @@ namespace Zorglub.Bulgroz.Obsolete
     // the dayNumber, but it also makes the code unefficient when the
     // calendar is complete (the validation is unnecessary).
     //
-    // Do NOT use, this class does nothing more than Hemerology.DateAdjusters.
+    // Do NOT use, this class does nothing more than Hemerology.DateAdjuster.
     // Maybe it's a bit more efficient when the calendar is not complete
     // (see the validation in BoundedBelowNakedCalendar).
     // Furthemore, for date types based on a y/m/d repr, there is a better way
-    // to implement IDateAdjusters; see for instance MyDate.
+    // to implement IDateAdjuster; see for instance MyDate.
 
-    public static class DateAdjusters
+    public static class DateAdjuster
     {
         /// <summary>
-        /// Creates a new instance of the <see cref="DateAdjusters{TDate}"/> class.
+        /// Creates a new instance of the <see cref="DateAdjuster{TDate}"/> class.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="calendar"/> is null.</exception>
-        public static DateAdjusters<TDate> Create<TDate>(ICalendar<TDate> calendar)
+        public static DateAdjuster<TDate> Create<TDate>(ICalendar<TDate> calendar)
             where TDate : IDate<TDate>
         {
             return new(calendar?.Scope!);
@@ -32,12 +32,12 @@ namespace Zorglub.Bulgroz.Obsolete
     }
 
     /// <summary>
-    /// Provides a default implementation for <see cref="IDateAdjusters{TDate}"/>.
+    /// Provides a default implementation for <see cref="IDateAdjuster{TDate}"/>.
     /// <para>This class works best when <typeparamref name="TDate"/> is based on the count of
     /// consecutive days since the epoch.</para>
     /// </summary>
     /// <typeparam name="TDate">The type of date object.</typeparam>
-    public class DateAdjusters<TDate> : IDateAdjusters<TDate>
+    public class DateAdjuster<TDate> : IDateAdjuster<TDate>
         where TDate : IDate<TDate>
     {
         /// <summary>
@@ -53,10 +53,10 @@ namespace Zorglub.Bulgroz.Obsolete
         private readonly DayNumber _epoch;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="DateAdjusters{TDate}"/> class.
+        /// Initializes a new instance of the <see cref="DateAdjuster{TDate}"/> class.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="scope"/> is null.</exception>
-        public DateAdjusters(CalendarScope scope)
+        public DateAdjuster(CalendarScope scope)
         {
             Requires.NotNull(scope);
 

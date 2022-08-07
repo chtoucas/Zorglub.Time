@@ -1,7 +1,7 @@
 ﻿// SPDX-License-Identifier: BSD-3-Clause
 // Copyright (c) 2020 Narvalo.Org. All rights reserved.
 
-module Zorglub.Tests.Specialized.SpecialAdjustersTests
+module Zorglub.Tests.Specialized.SpecialAdjusterTests
 
 open Zorglub.Testing
 
@@ -16,7 +16,7 @@ open Xunit
 module Prelude =
     [<Fact>]
     let ``Constructor throws when the calendar is null`` () =
-        nullExn "calendar" (fun () -> new FauxSpecialAdjusters<ArmenianDate>(null))
+        nullExn "calendar" (fun () -> new FauxSpecialAdjuster<ArmenianDate>(null))
 
     [<Fact>]
     let ``Constructor throws when the calendar scope is not complete`` () =
@@ -24,5 +24,5 @@ module Prelude =
         let scope = BoundedBelowScope.Create(new Egyptian12Schema(), CalendarEpoch.Armenian, min, 2)
         let chr = new FauxCalendar<ArmenianDate>("Name", scope)
 
-        argExn "calendar" (fun () -> new FauxSpecialAdjusters<ArmenianDate>(chr))
+        argExn "calendar" (fun () -> new FauxSpecialAdjuster<ArmenianDate>(chr))
 

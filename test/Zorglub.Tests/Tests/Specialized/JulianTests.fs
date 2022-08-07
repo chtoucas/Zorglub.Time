@@ -47,11 +47,11 @@ module Bundles =
         static member Calendar_Prop() = JulianDate.Calendar |> isnotnull
 
         [<Fact>]
-        static member Adjusters_Prop() = JulianDate.Adjusters |> isnotnull
+        static member Adjuster_Prop() = JulianDate.Adjuster |> isnotnull
 
     [<Sealed>]
     [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
-    type DateAdjustersFacts() =
-        inherit IDateAdjustersFacts<JulianDate, UnboundedJulianDataSet>(new JulianAdjusters())
+    type DateAdjusterFacts() =
+        inherit IDateAdjusterFacts<JulianDate, UnboundedJulianDataSet>(new JulianAdjuster())
 
         override __.GetDate(y, m, d) = new JulianDate(y, m, d)

@@ -49,18 +49,18 @@ namespace Zorglub.Time.Specialized
     /// <summary>
     /// Provides common adjusters for <see cref="Coptic13Date"/>.
     /// </summary>
-    public sealed class Coptic13Adjusters : SpecialAdjusters<Coptic13Date>
+    public sealed class Coptic13Adjuster : SpecialAdjuster<Coptic13Date>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="Coptic13Adjusters"/> class.
+        /// Initializes a new instance of the <see cref="Coptic13Adjuster"/> class.
         /// </summary>
-        public Coptic13Adjusters() : this(Coptic13Date.Calendar) { }
+        public Coptic13Adjuster() : this(Coptic13Date.Calendar) { }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Coptic13Adjusters"/> class.
+        /// Initializes a new instance of the <see cref="Coptic13Adjuster"/> class.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="calendar"/> is null.</exception>
-        internal Coptic13Adjusters(Coptic13Calendar calendar) : base(calendar) { }
+        internal Coptic13Adjuster(Coptic13Calendar calendar) : base(calendar) { }
 
         /// <inheritdoc/>
         [Pure]
@@ -109,10 +109,10 @@ namespace Zorglub.Time.Specialized
         private static readonly Range<DayNumber> s_Domain = s_Calendar.Domain;
 
         /// <summary>
-        /// Represents the date adjusters.
+        /// Represents the date adjuster.
         /// <para>This field is read-only.</para>
         /// </summary>
-        private static readonly Coptic13Adjusters s_Adjusters = new(s_Calendar);
+        private static readonly Coptic13Adjuster s_Adjuster = new(s_Calendar);
 
         /// <summary>
         /// Represents the smallest possible value of a <see cref="Coptic13Date"/>.
@@ -194,10 +194,10 @@ namespace Zorglub.Time.Specialized
         public static Coptic13Date MaxValue => s_MaxValue;
 
         /// <summary>
-        /// Gets the date adjusters.
+        /// Gets the date adjuster.
         /// <para>This static property is thread-safe.</para>
         /// </summary>
-        public static Coptic13Adjusters Adjusters => s_Adjusters;
+        public static Coptic13Adjuster Adjuster => s_Adjuster;
 
         /// <inheritdoc />
         public static Coptic13Calendar Calendar => s_Calendar;

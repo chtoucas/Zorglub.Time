@@ -654,7 +654,7 @@ static Zorglub.Time.Simple.SimpleCatalog.SystemCalendars.get -> System.Collectio
 static Zorglub.Time.Simple.SimpleCatalog.TakeSnapshot() -> System.Collections.Generic.IReadOnlyDictionary<string!, Zorglub.Time.Simple.SimpleCalendar!>!
 static Zorglub.Time.Simple.SimpleCatalog.TryAdd(string! key, Zorglub.Time.Core.SystemSchema! schema, Zorglub.Time.DayNumber epoch, bool proleptic, out Zorglub.Time.Simple.SimpleCalendar? calendar) -> bool
 static Zorglub.Time.Simple.SimpleCatalog.TryGetCalendar(string! key, out Zorglub.Time.Simple.SimpleCalendar? calendar) -> bool
-static Zorglub.Time.Specialized.CivilDate.Adjusters.get -> Zorglub.Time.Specialized.CivilAdjusters!
+static Zorglub.Time.Specialized.CivilDate.Adjuster.get -> Zorglub.Time.Specialized.CivilAdjuster!
 static Zorglub.Time.Specialized.CivilDate.Calendar.get -> Zorglub.Time.Specialized.CivilCalendar!
 static Zorglub.Time.Specialized.CivilDate.Max(Zorglub.Time.Specialized.CivilDate x, Zorglub.Time.Specialized.CivilDate y) -> Zorglub.Time.Specialized.CivilDate
 static Zorglub.Time.Specialized.CivilDate.MaxValue.get -> Zorglub.Time.Specialized.CivilDate
@@ -672,7 +672,7 @@ static Zorglub.Time.Specialized.CivilDate.operator ==(Zorglub.Time.Specialized.C
 static Zorglub.Time.Specialized.CivilDate.operator >(Zorglub.Time.Specialized.CivilDate left, Zorglub.Time.Specialized.CivilDate right) -> bool
 static Zorglub.Time.Specialized.CivilDate.operator >=(Zorglub.Time.Specialized.CivilDate left, Zorglub.Time.Specialized.CivilDate right) -> bool
 static Zorglub.Time.Specialized.CivilDate.Today() -> Zorglub.Time.Specialized.CivilDate
-static Zorglub.Time.Specialized.GregorianDate.Adjusters.get -> Zorglub.Time.Specialized.GregorianAdjusters!
+static Zorglub.Time.Specialized.GregorianDate.Adjuster.get -> Zorglub.Time.Specialized.GregorianAdjuster!
 static Zorglub.Time.Specialized.GregorianDate.Calendar.get -> Zorglub.Time.Specialized.GregorianCalendar!
 static Zorglub.Time.Specialized.GregorianDate.Max(Zorglub.Time.Specialized.GregorianDate x, Zorglub.Time.Specialized.GregorianDate y) -> Zorglub.Time.Specialized.GregorianDate
 static Zorglub.Time.Specialized.GregorianDate.MaxValue.get -> Zorglub.Time.Specialized.GregorianDate
@@ -690,7 +690,7 @@ static Zorglub.Time.Specialized.GregorianDate.operator ==(Zorglub.Time.Specializ
 static Zorglub.Time.Specialized.GregorianDate.operator >(Zorglub.Time.Specialized.GregorianDate left, Zorglub.Time.Specialized.GregorianDate right) -> bool
 static Zorglub.Time.Specialized.GregorianDate.operator >=(Zorglub.Time.Specialized.GregorianDate left, Zorglub.Time.Specialized.GregorianDate right) -> bool
 static Zorglub.Time.Specialized.GregorianDate.Today() -> Zorglub.Time.Specialized.GregorianDate
-static Zorglub.Time.Specialized.JulianDate.Adjusters.get -> Zorglub.Time.Specialized.JulianAdjusters!
+static Zorglub.Time.Specialized.JulianDate.Adjuster.get -> Zorglub.Time.Specialized.JulianAdjuster!
 static Zorglub.Time.Specialized.JulianDate.Calendar.get -> Zorglub.Time.Specialized.JulianCalendar!
 static Zorglub.Time.Specialized.JulianDate.Max(Zorglub.Time.Specialized.JulianDate x, Zorglub.Time.Specialized.JulianDate y) -> Zorglub.Time.Specialized.JulianDate
 static Zorglub.Time.Specialized.JulianDate.MaxValue.get -> Zorglub.Time.Specialized.JulianDate
@@ -1214,12 +1214,12 @@ Zorglub.Time.Hemerology.BasicCalendar.Schema.get -> Zorglub.Time.Core.ICalendric
 Zorglub.Time.Hemerology.BasicCalendar.Scope.get -> Zorglub.Time.Hemerology.Scopes.CalendarScope!
 Zorglub.Time.Hemerology.BasicCalendar.SupportedYears.get -> Zorglub.Time.Core.Validation.YearsValidator!
 Zorglub.Time.Hemerology.CalendarEpoch
-Zorglub.Time.Hemerology.DateAdjusters<TDate>
-Zorglub.Time.Hemerology.DateAdjusters<TDate>.DateAdjusters(Zorglub.Time.Hemerology.ICalendar<TDate>! calendar) -> void
-Zorglub.Time.Hemerology.DateAdjusters<TDate>.GetEndOfMonth(TDate date) -> TDate
-Zorglub.Time.Hemerology.DateAdjusters<TDate>.GetEndOfYear(TDate date) -> TDate
-Zorglub.Time.Hemerology.DateAdjusters<TDate>.GetStartOfMonth(TDate date) -> TDate
-Zorglub.Time.Hemerology.DateAdjusters<TDate>.GetStartOfYear(TDate date) -> TDate
+Zorglub.Time.Hemerology.DateAdjuster<TDate>
+Zorglub.Time.Hemerology.DateAdjuster<TDate>.DateAdjuster(Zorglub.Time.Hemerology.ICalendar<TDate>! calendar) -> void
+Zorglub.Time.Hemerology.DateAdjuster<TDate>.GetEndOfMonth(TDate date) -> TDate
+Zorglub.Time.Hemerology.DateAdjuster<TDate>.GetEndOfYear(TDate date) -> TDate
+Zorglub.Time.Hemerology.DateAdjuster<TDate>.GetStartOfMonth(TDate date) -> TDate
+Zorglub.Time.Hemerology.DateAdjuster<TDate>.GetStartOfYear(TDate date) -> TDate
 Zorglub.Time.Hemerology.IAdjustableDate<TSelf>
 Zorglub.Time.Hemerology.IAdjustableDate<TSelf>.WithDay(int newDay) -> TSelf
 Zorglub.Time.Hemerology.IAdjustableDate<TSelf>.WithMonth(int newMonth) -> TSelf
@@ -1268,11 +1268,11 @@ Zorglub.Time.Hemerology.IDateable.YearOfEra.get -> Zorglub.Time.Ord
 Zorglub.Time.Hemerology.IDateableOrdinally
 Zorglub.Time.Hemerology.IDateableOrdinally.DayNumber.get -> Zorglub.Time.DayNumber
 Zorglub.Time.Hemerology.IDateableOrdinally.DaysSinceEpoch.get -> int
-Zorglub.Time.Hemerology.IDateAdjusters<TDate>
-Zorglub.Time.Hemerology.IDateAdjusters<TDate>.GetEndOfMonth(TDate date) -> TDate
-Zorglub.Time.Hemerology.IDateAdjusters<TDate>.GetEndOfYear(TDate date) -> TDate
-Zorglub.Time.Hemerology.IDateAdjusters<TDate>.GetStartOfMonth(TDate date) -> TDate
-Zorglub.Time.Hemerology.IDateAdjusters<TDate>.GetStartOfYear(TDate date) -> TDate
+Zorglub.Time.Hemerology.IDateAdjuster<TDate>
+Zorglub.Time.Hemerology.IDateAdjuster<TDate>.GetEndOfMonth(TDate date) -> TDate
+Zorglub.Time.Hemerology.IDateAdjuster<TDate>.GetEndOfYear(TDate date) -> TDate
+Zorglub.Time.Hemerology.IDateAdjuster<TDate>.GetStartOfMonth(TDate date) -> TDate
+Zorglub.Time.Hemerology.IDateAdjuster<TDate>.GetStartOfYear(TDate date) -> TDate
 Zorglub.Time.Hemerology.IEpagomenalDay
 Zorglub.Time.Hemerology.IEpagomenalDay.IsEpagomenal(out int epagomenalNumber) -> bool
 Zorglub.Time.Hemerology.IFixedDate
@@ -1363,7 +1363,6 @@ Zorglub.Time.OrdinalParts.Year.get -> int
 Zorglub.Time.OrdinalParts.Year.init -> void
 Zorglub.Time.Simple.BoxExtensions
 Zorglub.Time.Simple.CalendarDate
-Zorglub.Time.Simple.CalendarDate.Adjust(System.Func<Zorglub.Time.Simple.CalendarDate, Zorglub.Time.Simple.CalendarDate>! adjuster) -> Zorglub.Time.Simple.CalendarDate
 Zorglub.Time.Simple.CalendarDate.Calendar.get -> Zorglub.Time.Simple.SimpleCalendar!
 Zorglub.Time.Simple.CalendarDate.CalendarDate() -> void
 Zorglub.Time.Simple.CalendarDate.CalendarDate(int year, int month, int day) -> void
@@ -1548,7 +1547,6 @@ Zorglub.Time.Simple.ISimpleDate.ToOrdinalDate() -> Zorglub.Time.Simple.OrdinalDa
 Zorglub.Time.Simple.ISimpleDate<TSelf>
 Zorglub.Time.Simple.ISimpleDate<TSelf>.WithCalendar(Zorglub.Time.Simple.SimpleCalendar! newCalendar) -> TSelf
 Zorglub.Time.Simple.OrdinalDate
-Zorglub.Time.Simple.OrdinalDate.Adjust(System.Func<Zorglub.Time.Simple.OrdinalDate, Zorglub.Time.Simple.OrdinalDate>! adjuster) -> Zorglub.Time.Simple.OrdinalDate
 Zorglub.Time.Simple.OrdinalDate.Calendar.get -> Zorglub.Time.Simple.SimpleCalendar!
 Zorglub.Time.Simple.OrdinalDate.CalendarMonth.get -> Zorglub.Time.Simple.CalendarMonth
 Zorglub.Time.Simple.OrdinalDate.CalendarYear.get -> Zorglub.Time.Simple.CalendarYear
@@ -1629,12 +1627,12 @@ Zorglub.Time.Simple.SimpleCalendar.PeriodicAdjustments.get -> Zorglub.Time.Calen
 Zorglub.Time.Simple.SimpleCalendar.PermanentId.get -> Zorglub.Time.CalendarId
 Zorglub.Time.Simple.SimpleCalendar.Scope.get -> Zorglub.Time.Hemerology.Scopes.CalendarScope!
 Zorglub.Time.Simple.SimpleCatalog
-Zorglub.Time.Specialized.CivilAdjusters
-Zorglub.Time.Specialized.CivilAdjusters.CivilAdjusters() -> void
-Zorglub.Time.Specialized.CivilAdjusters.GetEndOfMonth(Zorglub.Time.Specialized.CivilDate date) -> Zorglub.Time.Specialized.CivilDate
-Zorglub.Time.Specialized.CivilAdjusters.GetEndOfYear(Zorglub.Time.Specialized.CivilDate date) -> Zorglub.Time.Specialized.CivilDate
-Zorglub.Time.Specialized.CivilAdjusters.GetStartOfMonth(Zorglub.Time.Specialized.CivilDate date) -> Zorglub.Time.Specialized.CivilDate
-Zorglub.Time.Specialized.CivilAdjusters.GetStartOfYear(Zorglub.Time.Specialized.CivilDate date) -> Zorglub.Time.Specialized.CivilDate
+Zorglub.Time.Specialized.CivilAdjuster
+Zorglub.Time.Specialized.CivilAdjuster.CivilAdjuster() -> void
+Zorglub.Time.Specialized.CivilAdjuster.GetEndOfMonth(Zorglub.Time.Specialized.CivilDate date) -> Zorglub.Time.Specialized.CivilDate
+Zorglub.Time.Specialized.CivilAdjuster.GetEndOfYear(Zorglub.Time.Specialized.CivilDate date) -> Zorglub.Time.Specialized.CivilDate
+Zorglub.Time.Specialized.CivilAdjuster.GetStartOfMonth(Zorglub.Time.Specialized.CivilDate date) -> Zorglub.Time.Specialized.CivilDate
+Zorglub.Time.Specialized.CivilAdjuster.GetStartOfYear(Zorglub.Time.Specialized.CivilDate date) -> Zorglub.Time.Specialized.CivilDate
 Zorglub.Time.Specialized.CivilCalendar
 Zorglub.Time.Specialized.CivilCalendar.CivilCalendar() -> void
 Zorglub.Time.Specialized.CivilCalendar.MonthsInYear.get -> int
@@ -1673,12 +1671,12 @@ Zorglub.Time.Specialized.CivilDate.PreviousOrSame(System.DayOfWeek dayOfWeek) ->
 Zorglub.Time.Specialized.CivilDate.Year.get -> int
 Zorglub.Time.Specialized.CivilDate.YearOfCentury.get -> int
 Zorglub.Time.Specialized.CivilDate.YearOfEra.get -> Zorglub.Time.Ord
-Zorglub.Time.Specialized.GregorianAdjusters
-Zorglub.Time.Specialized.GregorianAdjusters.GetEndOfMonth(Zorglub.Time.Specialized.GregorianDate date) -> Zorglub.Time.Specialized.GregorianDate
-Zorglub.Time.Specialized.GregorianAdjusters.GetEndOfYear(Zorglub.Time.Specialized.GregorianDate date) -> Zorglub.Time.Specialized.GregorianDate
-Zorglub.Time.Specialized.GregorianAdjusters.GetStartOfMonth(Zorglub.Time.Specialized.GregorianDate date) -> Zorglub.Time.Specialized.GregorianDate
-Zorglub.Time.Specialized.GregorianAdjusters.GetStartOfYear(Zorglub.Time.Specialized.GregorianDate date) -> Zorglub.Time.Specialized.GregorianDate
-Zorglub.Time.Specialized.GregorianAdjusters.GregorianAdjusters() -> void
+Zorglub.Time.Specialized.GregorianAdjuster
+Zorglub.Time.Specialized.GregorianAdjuster.GetEndOfMonth(Zorglub.Time.Specialized.GregorianDate date) -> Zorglub.Time.Specialized.GregorianDate
+Zorglub.Time.Specialized.GregorianAdjuster.GetEndOfYear(Zorglub.Time.Specialized.GregorianDate date) -> Zorglub.Time.Specialized.GregorianDate
+Zorglub.Time.Specialized.GregorianAdjuster.GetStartOfMonth(Zorglub.Time.Specialized.GregorianDate date) -> Zorglub.Time.Specialized.GregorianDate
+Zorglub.Time.Specialized.GregorianAdjuster.GetStartOfYear(Zorglub.Time.Specialized.GregorianDate date) -> Zorglub.Time.Specialized.GregorianDate
+Zorglub.Time.Specialized.GregorianAdjuster.GregorianAdjuster() -> void
 Zorglub.Time.Specialized.GregorianCalendar
 Zorglub.Time.Specialized.GregorianCalendar.GregorianCalendar() -> void
 Zorglub.Time.Specialized.GregorianCalendar.MonthsInYear.get -> int
@@ -1717,12 +1715,12 @@ Zorglub.Time.Specialized.GregorianDate.PreviousOrSame(System.DayOfWeek dayOfWeek
 Zorglub.Time.Specialized.GregorianDate.Year.get -> int
 Zorglub.Time.Specialized.GregorianDate.YearOfCentury.get -> int
 Zorglub.Time.Specialized.GregorianDate.YearOfEra.get -> Zorglub.Time.Ord
-Zorglub.Time.Specialized.JulianAdjusters
-Zorglub.Time.Specialized.JulianAdjusters.GetEndOfMonth(Zorglub.Time.Specialized.JulianDate date) -> Zorglub.Time.Specialized.JulianDate
-Zorglub.Time.Specialized.JulianAdjusters.GetEndOfYear(Zorglub.Time.Specialized.JulianDate date) -> Zorglub.Time.Specialized.JulianDate
-Zorglub.Time.Specialized.JulianAdjusters.GetStartOfMonth(Zorglub.Time.Specialized.JulianDate date) -> Zorglub.Time.Specialized.JulianDate
-Zorglub.Time.Specialized.JulianAdjusters.GetStartOfYear(Zorglub.Time.Specialized.JulianDate date) -> Zorglub.Time.Specialized.JulianDate
-Zorglub.Time.Specialized.JulianAdjusters.JulianAdjusters() -> void
+Zorglub.Time.Specialized.JulianAdjuster
+Zorglub.Time.Specialized.JulianAdjuster.GetEndOfMonth(Zorglub.Time.Specialized.JulianDate date) -> Zorglub.Time.Specialized.JulianDate
+Zorglub.Time.Specialized.JulianAdjuster.GetEndOfYear(Zorglub.Time.Specialized.JulianDate date) -> Zorglub.Time.Specialized.JulianDate
+Zorglub.Time.Specialized.JulianAdjuster.GetStartOfMonth(Zorglub.Time.Specialized.JulianDate date) -> Zorglub.Time.Specialized.JulianDate
+Zorglub.Time.Specialized.JulianAdjuster.GetStartOfYear(Zorglub.Time.Specialized.JulianDate date) -> Zorglub.Time.Specialized.JulianDate
+Zorglub.Time.Specialized.JulianAdjuster.JulianAdjuster() -> void
 Zorglub.Time.Specialized.JulianCalendar
 Zorglub.Time.Specialized.JulianCalendar.JulianCalendar() -> void
 Zorglub.Time.Specialized.JulianCalendar.MonthsInYear.get -> int
@@ -1762,15 +1760,19 @@ Zorglub.Time.Specialized.JulianDate.PreviousOrSame(System.DayOfWeek dayOfWeek) -
 Zorglub.Time.Specialized.JulianDate.Year.get -> int
 Zorglub.Time.Specialized.JulianDate.YearOfCentury.get -> int
 Zorglub.Time.Specialized.JulianDate.YearOfEra.get -> Zorglub.Time.Ord
-Zorglub.Time.Specialized.SpecialAdjusters<TDate>
-Zorglub.Time.Specialized.SpecialAdjusters<TDate>.AdjustDay(TDate date, int newDay) -> TDate
-Zorglub.Time.Specialized.SpecialAdjusters<TDate>.AdjustDayOfYear(TDate date, int newDayOfYear) -> TDate
-Zorglub.Time.Specialized.SpecialAdjusters<TDate>.AdjustMonth(TDate date, int newMonth) -> TDate
-Zorglub.Time.Specialized.SpecialAdjusters<TDate>.AdjustYear(TDate date, int newYear) -> TDate
-Zorglub.Time.Specialized.SpecialAdjusters<TDate>.GetEndOfMonth(TDate date) -> TDate
-Zorglub.Time.Specialized.SpecialAdjusters<TDate>.GetEndOfYear(TDate date) -> TDate
-Zorglub.Time.Specialized.SpecialAdjusters<TDate>.GetStartOfMonth(TDate date) -> TDate
-Zorglub.Time.Specialized.SpecialAdjusters<TDate>.GetStartOfYear(TDate date) -> TDate
+Zorglub.Time.Specialized.SpecialAdjuster<TDate>
+Zorglub.Time.Specialized.SpecialAdjuster<TDate>.AdjustDay(TDate date, int newDay) -> TDate
+Zorglub.Time.Specialized.SpecialAdjuster<TDate>.AdjustDayOfYear(TDate date, int newDayOfYear) -> TDate
+Zorglub.Time.Specialized.SpecialAdjuster<TDate>.AdjustMonth(TDate date, int newMonth) -> TDate
+Zorglub.Time.Specialized.SpecialAdjuster<TDate>.AdjustYear(TDate date, int newYear) -> TDate
+Zorglub.Time.Specialized.SpecialAdjuster<TDate>.GetEndOfMonth(TDate date) -> TDate
+Zorglub.Time.Specialized.SpecialAdjuster<TDate>.GetEndOfYear(TDate date) -> TDate
+Zorglub.Time.Specialized.SpecialAdjuster<TDate>.GetStartOfMonth(TDate date) -> TDate
+Zorglub.Time.Specialized.SpecialAdjuster<TDate>.GetStartOfYear(TDate date) -> TDate
+Zorglub.Time.Specialized.SpecialAdjuster<TDate>.WithDay(int newDay) -> System.Func<TDate, TDate>!
+Zorglub.Time.Specialized.SpecialAdjuster<TDate>.WithDayOfYear(int newDayOfYear) -> System.Func<TDate, TDate>!
+Zorglub.Time.Specialized.SpecialAdjuster<TDate>.WithMonth(int newMonth) -> System.Func<TDate, TDate>!
+Zorglub.Time.Specialized.SpecialAdjuster<TDate>.WithYear(int newYear) -> System.Func<TDate, TDate>!
 Zorglub.Time.Specialized.SpecialCalendar<TDate>
 Zorglub.Time.Specialized.SpecialCalendar<TDate>.GetDaysInMonth(int year, int month) -> System.Collections.Generic.IEnumerable<TDate>!
 Zorglub.Time.Specialized.SpecialCalendar<TDate>.GetDaysInYear(int year) -> System.Collections.Generic.IEnumerable<TDate>!

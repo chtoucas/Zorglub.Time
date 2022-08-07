@@ -44,18 +44,18 @@ namespace Zorglub.Time.Specialized
     /// <summary>
     /// Provides common adjusters for <see cref="CopticDate"/>.
     /// </summary>
-    public sealed class CopticAdjusters : SpecialAdjusters<CopticDate>
+    public sealed class CopticAdjuster : SpecialAdjuster<CopticDate>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="CopticAdjusters"/> class.
+        /// Initializes a new instance of the <see cref="CopticAdjuster"/> class.
         /// </summary>
-        public CopticAdjusters() : this(CopticDate.Calendar) { }
+        public CopticAdjuster() : this(CopticDate.Calendar) { }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="CopticAdjusters"/> class.
+        /// Initializes a new instance of the <see cref="CopticAdjuster"/> class.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="calendar"/> is null.</exception>
-        internal CopticAdjusters(CopticCalendar calendar) : base(calendar) { }
+        internal CopticAdjuster(CopticCalendar calendar) : base(calendar) { }
 
         /// <inheritdoc/>
         [Pure]
@@ -104,10 +104,10 @@ namespace Zorglub.Time.Specialized
         private static readonly Range<DayNumber> s_Domain = s_Calendar.Domain;
 
         /// <summary>
-        /// Represents the date adjusters.
+        /// Represents the date adjuster.
         /// <para>This field is read-only.</para>
         /// </summary>
-        private static readonly CopticAdjusters s_Adjusters = new(s_Calendar);
+        private static readonly CopticAdjuster s_Adjuster = new(s_Calendar);
 
         /// <summary>
         /// Represents the smallest possible value of a <see cref="CopticDate"/>.
@@ -189,10 +189,10 @@ namespace Zorglub.Time.Specialized
         public static CopticDate MaxValue => s_MaxValue;
 
         /// <summary>
-        /// Gets the date adjusters.
+        /// Gets the date adjuster.
         /// <para>This static property is thread-safe.</para>
         /// </summary>
-        public static CopticAdjusters Adjusters => s_Adjusters;
+        public static CopticAdjuster Adjuster => s_Adjuster;
 
         /// <inheritdoc />
         public static CopticCalendar Calendar => s_Calendar;

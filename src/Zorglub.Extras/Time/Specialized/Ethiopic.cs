@@ -44,18 +44,18 @@ namespace Zorglub.Time.Specialized
     /// <summary>
     /// Provides common adjusters for <see cref="EthiopicDate"/>.
     /// </summary>
-    public sealed class EthiopicAdjusters : SpecialAdjusters<EthiopicDate>
+    public sealed class EthiopicAdjuster : SpecialAdjuster<EthiopicDate>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="EthiopicAdjusters"/> class.
+        /// Initializes a new instance of the <see cref="EthiopicAdjuster"/> class.
         /// </summary>
-        public EthiopicAdjusters() : this(EthiopicDate.Calendar) { }
+        public EthiopicAdjuster() : this(EthiopicDate.Calendar) { }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="EthiopicAdjusters"/> class.
+        /// Initializes a new instance of the <see cref="EthiopicAdjuster"/> class.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="calendar"/> is null.</exception>
-        internal EthiopicAdjusters(EthiopicCalendar calendar) : base(calendar) { }
+        internal EthiopicAdjuster(EthiopicCalendar calendar) : base(calendar) { }
 
         /// <inheritdoc/>
         [Pure]
@@ -104,10 +104,10 @@ namespace Zorglub.Time.Specialized
         private static readonly Range<DayNumber> s_Domain = s_Calendar.Domain;
 
         /// <summary>
-        /// Represents the date adjusters.
+        /// Represents the date adjuster.
         /// <para>This field is read-only.</para>
         /// </summary>
-        private static readonly EthiopicAdjusters s_Adjusters = new(s_Calendar);
+        private static readonly EthiopicAdjuster s_Adjuster = new(s_Calendar);
 
         /// <summary>
         /// Represents the smallest possible value of a <see cref="EthiopicDate"/>.
@@ -189,10 +189,10 @@ namespace Zorglub.Time.Specialized
         public static EthiopicDate MaxValue => s_MaxValue;
 
         /// <summary>
-        /// Gets the date adjusters.
+        /// Gets the date adjuster.
         /// <para>This static property is thread-safe.</para>
         /// </summary>
-        public static EthiopicAdjusters Adjusters => s_Adjusters;
+        public static EthiopicAdjuster Adjuster => s_Adjuster;
 
         /// <inheritdoc />
         public static EthiopicCalendar Calendar => s_Calendar;

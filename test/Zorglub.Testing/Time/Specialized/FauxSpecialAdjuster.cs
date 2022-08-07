@@ -5,10 +5,10 @@ namespace Zorglub.Time.Specialized;
 
 using Zorglub.Time.Hemerology;
 
-public sealed class FauxSpecialAdjusters<TDate> : SpecialAdjusters<TDate>
+public sealed class FauxSpecialAdjuster<TDate> : SpecialAdjuster<TDate>
     where TDate : IDate<TDate>, IDateableOrdinally
 {
-    public FauxSpecialAdjusters(ICalendar<TDate> calendar) : base(calendar) { }
+    public FauxSpecialAdjuster(ICalendar<TDate> calendar) : base(calendar) { }
 
     protected override TDate GetDate(int daysSinceEpoch) =>
         TDate.FromDayNumber(Scope.Epoch + daysSinceEpoch);

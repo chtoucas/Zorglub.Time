@@ -21,9 +21,9 @@ namespace Zorglub.Time.Hemerology
     // REVIEW(api): "covariant return type" ne marche pas pour une propriété
     // provenant d'une interface ou ayant un "setter". Si c'était possible
     // j'aurais bien aimé rajouter la propriété suivante:
-    // > static abstract IDateAdjusters<TDate> Adjuters { get; }
+    // > static abstract IDateAdjuster<TDate> Adjuters { get; }
     // Dans l'état actuel des choses, il faudrait donc rajouter encore un
-    // paramètre générique (TAdjusters : IDateAdjusters<TDate>), ce qui ne me
+    // paramètre générique (TAdjuster : IDateAdjuster<TDate>), ce qui ne me
     // plaît guère. Bien entendu, tout ceci n'est pas nécessaire si un "adjuster"
     // ne fournit pas plus de fonctionnalités que l'interface, ce qui est le cas
     // pour le moment, mais cela devrait changer et puis même je ne souhaite pas

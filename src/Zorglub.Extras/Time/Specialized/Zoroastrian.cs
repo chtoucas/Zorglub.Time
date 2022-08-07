@@ -44,18 +44,18 @@ namespace Zorglub.Time.Specialized
     /// <summary>
     /// Provides common adjusters for <see cref="ZoroastrianDate"/>.
     /// </summary>
-    public sealed class ZoroastrianAdjusters : SpecialAdjusters<ZoroastrianDate>
+    public sealed class ZoroastrianAdjuster : SpecialAdjuster<ZoroastrianDate>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="ZoroastrianAdjusters"/> class.
+        /// Initializes a new instance of the <see cref="ZoroastrianAdjuster"/> class.
         /// </summary>
-        public ZoroastrianAdjusters() : this(ZoroastrianDate.Calendar) { }
+        public ZoroastrianAdjuster() : this(ZoroastrianDate.Calendar) { }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ZoroastrianAdjusters"/> class.
+        /// Initializes a new instance of the <see cref="ZoroastrianAdjuster"/> class.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="calendar"/> is null.</exception>
-        internal ZoroastrianAdjusters(ZoroastrianCalendar calendar) : base(calendar) { }
+        internal ZoroastrianAdjuster(ZoroastrianCalendar calendar) : base(calendar) { }
 
         /// <inheritdoc/>
         [Pure]
@@ -104,10 +104,10 @@ namespace Zorglub.Time.Specialized
         private static readonly Range<DayNumber> s_Domain = s_Calendar.Domain;
 
         /// <summary>
-        /// Represents the date adjusters.
+        /// Represents the date adjuster.
         /// <para>This field is read-only.</para>
         /// </summary>
-        private static readonly ZoroastrianAdjusters s_Adjusters = new(s_Calendar);
+        private static readonly ZoroastrianAdjuster s_Adjuster = new(s_Calendar);
 
         /// <summary>
         /// Represents the smallest possible value of a <see cref="ZoroastrianDate"/>.
@@ -189,10 +189,10 @@ namespace Zorglub.Time.Specialized
         public static ZoroastrianDate MaxValue => s_MaxValue;
 
         /// <summary>
-        /// Gets the date adjusters.
+        /// Gets the date adjuster.
         /// <para>This static property is thread-safe.</para>
         /// </summary>
-        public static ZoroastrianAdjusters Adjusters => s_Adjusters;
+        public static ZoroastrianAdjuster Adjuster => s_Adjuster;
 
         /// <inheritdoc />
         public static ZoroastrianCalendar Calendar => s_Calendar;

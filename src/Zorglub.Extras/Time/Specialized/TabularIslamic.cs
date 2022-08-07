@@ -44,18 +44,18 @@ namespace Zorglub.Time.Specialized
     /// <summary>
     /// Provides common adjusters for <see cref="TabularIslamicDate"/>.
     /// </summary>
-    public sealed class TabularIslamicAdjusters : SpecialAdjusters<TabularIslamicDate>
+    public sealed class TabularIslamicAdjuster : SpecialAdjuster<TabularIslamicDate>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="TabularIslamicAdjusters"/> class.
+        /// Initializes a new instance of the <see cref="TabularIslamicAdjuster"/> class.
         /// </summary>
-        public TabularIslamicAdjusters() : this(TabularIslamicDate.Calendar) { }
+        public TabularIslamicAdjuster() : this(TabularIslamicDate.Calendar) { }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="TabularIslamicAdjusters"/> class.
+        /// Initializes a new instance of the <see cref="TabularIslamicAdjuster"/> class.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="calendar"/> is null.</exception>
-        internal TabularIslamicAdjusters(TabularIslamicCalendar calendar) : base(calendar) { }
+        internal TabularIslamicAdjuster(TabularIslamicCalendar calendar) : base(calendar) { }
 
         /// <inheritdoc/>
         [Pure]
@@ -103,10 +103,10 @@ namespace Zorglub.Time.Specialized
         private static readonly Range<DayNumber> s_Domain = s_Calendar.Domain;
 
         /// <summary>
-        /// Represents the date adjusters.
+        /// Represents the date adjuster.
         /// <para>This field is read-only.</para>
         /// </summary>
-        private static readonly TabularIslamicAdjusters s_Adjusters = new(s_Calendar);
+        private static readonly TabularIslamicAdjuster s_Adjuster = new(s_Calendar);
 
         /// <summary>
         /// Represents the smallest possible value of a <see cref="TabularIslamicDate"/>.
@@ -188,10 +188,10 @@ namespace Zorglub.Time.Specialized
         public static TabularIslamicDate MaxValue => s_MaxValue;
 
         /// <summary>
-        /// Gets the date adjusters.
+        /// Gets the date adjuster.
         /// <para>This static property is thread-safe.</para>
         /// </summary>
-        public static TabularIslamicAdjusters Adjusters => s_Adjusters;
+        public static TabularIslamicAdjuster Adjuster => s_Adjuster;
 
         /// <inheritdoc />
         public static TabularIslamicCalendar Calendar => s_Calendar;

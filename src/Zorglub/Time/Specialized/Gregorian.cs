@@ -47,7 +47,7 @@ namespace Zorglub.Time.Specialized
     /// Provides common adjusters for <see cref="GregorianDate"/>.
     /// <para>This class cannot be inherited.</para>
     /// </summary>
-    public sealed class GregorianAdjusters : IDateAdjusters<GregorianDate>
+    public sealed class GregorianAdjuster : IDateAdjuster<GregorianDate>
     {
         /// <summary>
         /// Represents the Gregorian schema.
@@ -56,14 +56,14 @@ namespace Zorglub.Time.Specialized
         private readonly GregorianSchema _schema;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="GregorianAdjusters"/> class.
+        /// Initializes a new instance of the <see cref="GregorianAdjuster"/> class.
         /// </summary>
-        public GregorianAdjusters() : this(new GregorianSchema()) { }
+        public GregorianAdjuster() : this(new GregorianSchema()) { }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="GregorianAdjusters"/> class.
+        /// Initializes a new instance of the <see cref="GregorianAdjuster"/> class.
         /// </summary>
-        internal GregorianAdjusters(GregorianSchema schema)
+        internal GregorianAdjuster(GregorianSchema schema)
         {
             Requires.NotNull(schema);
 
@@ -140,10 +140,10 @@ namespace Zorglub.Time.Specialized
         private static readonly Range<DayNumber> s_Domain = s_Calendar.Domain;
 
         /// <summary>
-        /// Represents the date adjusters.
+        /// Represents the date adjuster.
         /// <para>This field is read-only.</para>
         /// </summary>
-        private static readonly GregorianAdjusters s_Adjusters = new(s_Schema);
+        private static readonly GregorianAdjuster s_Adjuster = new(s_Schema);
 
         /// <summary>
         /// Represents the smallest possible value of a <see cref="GregorianDate"/>.
@@ -225,10 +225,10 @@ namespace Zorglub.Time.Specialized
         public static GregorianDate MaxValue => s_MaxValue;
 
         /// <summary>
-        /// Gets the date adjusters.
+        /// Gets the date adjuster.
         /// <para>This static property is thread-safe.</para>
         /// </summary>
-        public static GregorianAdjusters Adjusters => s_Adjusters;
+        public static GregorianAdjuster Adjuster => s_Adjuster;
 
         /// <inheritdoc />
         public static GregorianCalendar Calendar => s_Calendar;

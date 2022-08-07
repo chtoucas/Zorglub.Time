@@ -72,12 +72,12 @@ module Bundles =
         static member Calendar_Prop() = WorldDate.Calendar |> isnotnull
 
         [<Fact>]
-        static member Adjusters_Prop() = WorldDate.Adjusters |> isnotnull
+        static member Adjuster_Prop() = WorldDate.Adjuster |> isnotnull
 
     [<Sealed>]
     [<TestExtrasAssembly>]
-    type DateAdjustersFacts() =
-        inherit IDateAdjustersFacts<WorldDate, StandardWorldDataSet>(new WorldAdjusters())
+    type DateAdjusterFacts() =
+        inherit IDateAdjusterFacts<WorldDate, StandardWorldDataSet>(new WorldAdjuster())
 
         override __.GetDate(y, m, d) = new WorldDate(y, m, d)
 

@@ -46,12 +46,12 @@ module Bundles =
         static member Calendar_Prop() = ZoroastrianDate.Calendar |> isnotnull
 
         [<Fact>]
-        static member Adjusters_Prop() = ZoroastrianDate.Adjusters |> isnotnull
+        static member Adjuster_Prop() = ZoroastrianDate.Adjuster |> isnotnull
 
     [<Sealed>]
     [<TestExtrasAssembly>]
-    type DateAdjustersFacts() =
-        inherit IDateAdjustersFacts<ZoroastrianDate, StandardZoroastrian12DataSet>(new ZoroastrianAdjusters())
+    type DateAdjusterFacts() =
+        inherit IDateAdjusterFacts<ZoroastrianDate, StandardZoroastrian12DataSet>(new ZoroastrianAdjuster())
 
         override __.GetDate(y, m, d) = new ZoroastrianDate(y, m, d)
 
@@ -98,12 +98,12 @@ module Bundles13 =
         static member Calendar_Prop() = Zoroastrian13Date.Calendar |> isnotnull
 
         [<Fact>]
-        static member Adjusters_Prop() = Zoroastrian13Date.Adjusters |> isnotnull
+        static member Adjuster_Prop() = Zoroastrian13Date.Adjuster |> isnotnull
 
     [<Sealed>]
     [<TestExtrasAssembly>]
-    type DateAdjustersFacts() =
-        inherit IDateAdjustersFacts<Zoroastrian13Date, StandardZoroastrian13DataSet>(new Zoroastrian13Adjusters())
+    type DateAdjusterFacts() =
+        inherit IDateAdjusterFacts<Zoroastrian13Date, StandardZoroastrian13DataSet>(new Zoroastrian13Adjuster())
 
         override __.GetDate(y, m, d) = new Zoroastrian13Date(y, m, d)
 

@@ -49,18 +49,18 @@ namespace Zorglub.Time.Specialized
     /// <summary>
     /// Provides common adjusters for <see cref="Armenian13Date"/>.
     /// </summary>
-    public sealed class Armenian13Adjusters : SpecialAdjusters<Armenian13Date>
+    public sealed class Armenian13Adjuster : SpecialAdjuster<Armenian13Date>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="Armenian13Adjusters"/> class.
+        /// Initializes a new instance of the <see cref="Armenian13Adjuster"/> class.
         /// </summary>
-        public Armenian13Adjusters() : this(Armenian13Date.Calendar) { }
+        public Armenian13Adjuster() : this(Armenian13Date.Calendar) { }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Armenian13Adjusters"/> class.
+        /// Initializes a new instance of the <see cref="Armenian13Adjuster"/> class.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="calendar"/> is null.</exception>
-        internal Armenian13Adjusters(Armenian13Calendar calendar) : base(calendar) { }
+        internal Armenian13Adjuster(Armenian13Calendar calendar) : base(calendar) { }
 
         /// <inheritdoc/>
         [Pure]
@@ -109,10 +109,10 @@ namespace Zorglub.Time.Specialized
         private static readonly Range<DayNumber> s_Domain = s_Calendar.Domain;
 
         /// <summary>
-        /// Represents the date adjusters.
+        /// Represents the date adjuster.
         /// <para>This field is read-only.</para>
         /// </summary>
-        private static readonly Armenian13Adjusters s_Adjusters = new(s_Calendar);
+        private static readonly Armenian13Adjuster s_Adjuster = new(s_Calendar);
 
         /// <summary>
         /// Represents the smallest possible value of a <see cref="Armenian13Date"/>.
@@ -194,10 +194,10 @@ namespace Zorglub.Time.Specialized
         public static Armenian13Date MaxValue => s_MaxValue;
 
         /// <summary>
-        /// Gets the date adjusters.
+        /// Gets the date adjuster.
         /// <para>This static property is thread-safe.</para>
         /// </summary>
-        public static Armenian13Adjusters Adjusters => s_Adjusters;
+        public static Armenian13Adjuster Adjuster => s_Adjuster;
 
         /// <inheritdoc />
         public static Armenian13Calendar Calendar => s_Calendar;
