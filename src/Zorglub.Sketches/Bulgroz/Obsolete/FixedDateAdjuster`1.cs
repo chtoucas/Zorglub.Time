@@ -80,5 +80,41 @@ namespace Zorglub.Bulgroz.Obsolete
             int daysSinceEpoch = _schema.GetEndOfMonth(y, m);
             return TDate.FromDayNumber(_epoch + daysSinceEpoch);
         }
+
+        [Pure]
+        public TDate AdjustYear(TDate date, int newYear)
+        {
+            var dayNumber = date.ToDayNumber();
+            _schema.GetDateParts(dayNumber - _epoch, out int y, out int m, out int d);
+            var daysSinceEpoch = _schema.CountDaysSinceEpoch(newYear, m, d);
+            return TDate.FromDayNumber(_epoch + daysSinceEpoch);
+        }
+
+        [Pure]
+        public TDate AdjustMonth(TDate date, int newMonth)
+        {
+            var dayNumber = date.ToDayNumber();
+            _schema.GetDateParts(dayNumber - _epoch, out int y, out int m, out int d);
+            var daysSinceEpoch = _schema.CountDaysSinceEpoch(y, newMonth, d);
+            return TDate.FromDayNumber(_epoch + daysSinceEpoch);
+        }
+
+        [Pure]
+        public TDate AdjustDay(TDate date, int newDay)
+        {
+            var dayNumber = date.ToDayNumber();
+            _schema.GetDateParts(dayNumber - _epoch, out int y, out int m, out int d);
+            var daysSinceEpoch = _schema.CountDaysSinceEpoch(y, m, newDay);
+            return TDate.FromDayNumber(_epoch + daysSinceEpoch);
+        }
+
+        [Pure]
+        public TDate AdjustDayOfYear(TDate date, int newDayOfYear)
+        {
+            var dayNumber = date.ToDayNumber();
+            int y = _schema.GetYear(dayNumber - _epoch, out _);
+            var daysSinceEpoch = _schema.CountDaysSinceEpoch(y, newDayOfYear);
+            return TDate.FromDayNumber(_epoch + daysSinceEpoch);
+        }
     }
 }

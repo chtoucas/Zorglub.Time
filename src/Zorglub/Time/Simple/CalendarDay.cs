@@ -389,6 +389,19 @@ namespace Zorglub.Time.Simple
         #region Adjustments
 
         /// <summary>
+        /// Adjusts the current instance using the specified adjuster.
+        /// <para>If the adjuster throws, this method will propagate the exception.</para>
+        /// </summary>
+        /// <exception cref="ArgumentNullException"><paramref name="adjuster"/> is null.</exception>
+        [Pure]
+        public CalendarDay Adjust(Func<CalendarDay, CalendarDay> adjuster)
+        {
+            Requires.NotNull(adjuster);
+
+            return adjuster.Invoke(this);
+        }
+
+        /// <summary>
         /// Adjusts the day number field to the specified values, yielding a new calendar day.
         /// </summary>
         /// <exception cref="AoorException"><paramref name="newDayNumber"/> is outside the range of

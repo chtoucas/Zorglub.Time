@@ -53,5 +53,21 @@ namespace Zorglub.Time.Simple
             int daysSinceEpoch = chr.Schema.GetEndOfMonth(y, m);
             return new CalendarDay(daysSinceEpoch, date.Cuid);
         }
+
+        [Pure]
+        public static Func<CalendarDay, CalendarDay> YearAdjuster(int newYear) =>
+            x => x.ToCalendarDate().WithYear(newYear).ToCalendarDay();
+
+        [Pure]
+        public static Func<CalendarDay, CalendarDay> MonthAdjuster(int newMonth) =>
+            x => x.ToCalendarDate().WithMonth(newMonth).ToCalendarDay();
+
+        [Pure]
+        public static Func<CalendarDay, CalendarDay> DayAdjuster(int newDay) =>
+            x => x.ToCalendarDate().WithDay(newDay).ToCalendarDay();
+
+        [Pure]
+        public static Func<CalendarDay, CalendarDay> DayOfYearAdjuster(int newDayOfYear) =>
+            x => x.ToOrdinalDate().WithDayOfYear(newDayOfYear).ToCalendarDay();
     }
 }

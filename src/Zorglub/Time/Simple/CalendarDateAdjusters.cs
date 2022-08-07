@@ -44,5 +44,21 @@ namespace Zorglub.Time.Simple
             var ymd = chr.Schema.GetDatePartsAtEndOfMonth(y, m);
             return new CalendarDate(ymd, date.Cuid);
         }
+
+        [Pure]
+        public static Func<CalendarDate, CalendarDate> YearAdjuster(int newYear) =>
+            x => x.WithYear(newYear);
+
+        [Pure]
+        public static Func<CalendarDate, CalendarDate> MonthAdjuster(int newMonth) =>
+            x => x.WithMonth(newMonth);
+
+        [Pure]
+        public static Func<CalendarDate, CalendarDate> DayAdjuster(int newDay) =>
+            x => x.WithDay(newDay);
+
+        [Pure]
+        public static Func<CalendarDate, CalendarDate> DayOfYearAdjuster(int newDayOfYear) =>
+            x => x.ToOrdinalDate().WithDayOfYear(newDayOfYear).ToCalendarDate();
     }
 }

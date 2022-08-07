@@ -7,7 +7,8 @@ namespace Zorglub.Time.Hemerology
     /// Provides a default implementation for <see cref="IDateAdjuster{TDate}"/>.
     /// </summary>
     /// <typeparam name="TDate">The type of date object.</typeparam>
-    public class DateAdjuster<TDate> : IDateAdjuster<TDate> where TDate : IDateable
+    public class DateAdjuster<TDate> : IDateAdjuster<TDate>
+        where TDate : IDate<TDate>
     {
         /// <summary>
         /// Represents the calendar.
@@ -46,6 +47,38 @@ namespace Zorglub.Time.Hemerology
         {
             var (y, m, _) = date;
             return _calendar.GetEndOfMonth(y, m);
+        }
+
+        [Pure]
+        public TDate AdjustYear(TDate date, int newYear)
+        {
+            var (_, m, d) = date;
+            var dayNumber = _calendar.GetDayNumber(newYear, m, d);
+            return TDate.FromDayNumber(dayNumber);
+        }
+
+        [Pure]
+        public TDate AdjustMonth(TDate date, int newMonth)
+        {
+            var (y, _, d) = date;
+            var dayNumber = _calendar.GetDayNumber(y, newMonth, d);
+            return TDate.FromDayNumber(dayNumber);
+        }
+
+        [Pure]
+        public TDate AdjustDay(TDate date, int newDay)
+        {
+            var (y, m, _) = date;
+            var dayNumber = _calendar.GetDayNumber(y, m, newDay);
+            return TDate.FromDayNumber(dayNumber);
+        }
+
+        [Pure]
+        public TDate AdjustDayOfYear(TDate date, int newDayOfYear)
+        {
+            var y = date.Year;
+            var dayNumber = _calendar.GetDayNumber(y, newDayOfYear);
+            return TDate.FromDayNumber(dayNumber);
         }
     }
 }

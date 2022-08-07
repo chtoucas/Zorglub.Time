@@ -330,18 +330,18 @@ namespace Zorglub.Time.Simple
         #endregion
         #region Adjustments
 
-        ///// <summary>
-        ///// Adjusts the current instance using the specified adjuster.
-        ///// <para>If the adjuster throws, this method will propagate the exception.</para>
-        ///// </summary>
-        ///// <exception cref="ArgumentNullException"><paramref name="adjuster"/> is null.</exception>
-        //[Pure]
-        //public OrdinalDate Adjust(Func<OrdinalDate, OrdinalDate> adjuster)
-        //{
-        //    Requires.NotNull(adjuster);
+        /// <summary>
+        /// Adjusts the current instance using the specified adjuster.
+        /// <para>If the adjuster throws, this method will propagate the exception.</para>
+        /// </summary>
+        /// <exception cref="ArgumentNullException"><paramref name="adjuster"/> is null.</exception>
+        [Pure]
+        public OrdinalDate Adjust(Func<OrdinalDate, OrdinalDate> adjuster)
+        {
+            Requires.NotNull(adjuster);
 
-        //    return adjuster.Invoke(this);
-        //}
+            return adjuster.Invoke(this);
+        }
 
         /// <summary>
         /// Adjusts the year field to the specified value, yielding a new date.

@@ -38,6 +38,8 @@ namespace Zorglub.Bulgroz.Obsolete
     /// </summary>
     /// <typeparam name="TDate">The type of date object.</typeparam>
     public class DateAdjuster<TDate> : IDateAdjuster<TDate>
+        // NB: we could relax the constraint on TDate and use IFixedDate<>
+        // but then we would have to obtain manually the date parts (y, m, d, doy).
         where TDate : IDate<TDate>
     {
         /// <summary>
@@ -95,6 +97,38 @@ namespace Zorglub.Bulgroz.Obsolete
         {
             var (y, m, _) = date;
             int daysSinceEpoch = _schema.GetEndOfMonth(y, m);
+            return TDate.FromDayNumber(_epoch + daysSinceEpoch);
+        }
+
+        [Pure]
+        public TDate AdjustYear(TDate date, int newYear)
+        {
+            var (_, m, d) = date;
+            var daysSinceEpoch = _schema.CountDaysSinceEpoch(newYear, m, d);
+            return TDate.FromDayNumber(_epoch + daysSinceEpoch);
+        }
+
+        [Pure]
+        public TDate AdjustMonth(TDate date, int newMonth)
+        {
+            var (y, _, d) = date;
+            var daysSinceEpoch = _schema.CountDaysSinceEpoch(y, newMonth, d);
+            return TDate.FromDayNumber(_epoch + daysSinceEpoch);
+        }
+
+        [Pure]
+        public TDate AdjustDay(TDate date, int newDay)
+        {
+            var (y, m, _) = date;
+            var daysSinceEpoch = _schema.CountDaysSinceEpoch(y, m, newDay);
+            return TDate.FromDayNumber(_epoch + daysSinceEpoch);
+        }
+
+        [Pure]
+        public TDate AdjustDayOfYear(TDate date, int newDayOfYear)
+        {
+            int y = date.Year;
+            var daysSinceEpoch = _schema.CountDaysSinceEpoch(y, newDayOfYear);
             return TDate.FromDayNumber(_epoch + daysSinceEpoch);
         }
     }
