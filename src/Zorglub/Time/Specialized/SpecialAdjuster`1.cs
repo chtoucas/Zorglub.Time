@@ -135,7 +135,7 @@ namespace Zorglub.Time.Specialized
             x => AdjustDayOfYear(x, newDayOfYear);
 
         //
-        // Adjustments for a single part
+        // Adjust a core part
         //
 
         /// <summary>

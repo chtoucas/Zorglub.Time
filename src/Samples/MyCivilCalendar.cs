@@ -12,7 +12,7 @@ using Zorglub.Time.Hemerology.Scopes;
 
 using static Zorglub.Time.Extensions.Unboxing;
 
-// NB: MinMaxYearCalendar<> is very generic, therefore methods like GetDaysInYear()
+// NB: MinMaxYearCalendar<> is not optimised, indeed methods like GetDaysInYear()
 // are not particularly efficient.
 
 public sealed class MyCivilCalendar : MinMaxYearCalendar<MyCivilDate>
