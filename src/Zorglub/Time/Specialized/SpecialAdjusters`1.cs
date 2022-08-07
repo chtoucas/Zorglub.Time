@@ -114,6 +114,13 @@ namespace Zorglub.Time.Specialized
         /// </summary>
         /// <exception cref="AoorException">The resulting date would be invalid.</exception>
         [Pure]
+        public Func<TDate, TDate> WithYear(int newYear) => x => AdjustYear(x, newYear);
+
+        /// <summary>
+        /// Adjusts the year field to the specified value, yielding a new date.
+        /// </summary>
+        /// <exception cref="AoorException">The resulting date would be invalid.</exception>
+        [Pure]
         public TDate AdjustYear(TDate date, int newYear)
         {
             Schema.GetDateParts(date.DaysSinceEpoch, out _, out int m, out int d);
@@ -123,6 +130,13 @@ namespace Zorglub.Time.Specialized
             int daysSinceEpoch = Schema.CountDaysSinceEpoch(newYear, m, d);
             return GetDate(daysSinceEpoch);
         }
+
+        /// <summary>
+        /// Adjusts the month field to the specified value, yielding a new date.
+        /// </summary>
+        /// <exception cref="AoorException">The resulting date would be invalid.</exception>
+        [Pure]
+        public Func<TDate, TDate> WithMonth(int newMonth) => x => AdjustMonth(x, newMonth);
 
         /// <summary>
         /// Adjusts the month field to the specified value, yielding a new date.
@@ -144,6 +158,13 @@ namespace Zorglub.Time.Specialized
         /// </summary>
         /// <exception cref="AoorException">The resulting date would be invalid.</exception>
         [Pure]
+        public Func<TDate, TDate> WithDay(int newDay) => x => AdjustDay(x, newDay);
+
+        /// <summary>
+        /// Adjusts the day of the month field to the specified value, yielding a new date.
+        /// </summary>
+        /// <exception cref="AoorException">The resulting date would be invalid.</exception>
+        [Pure]
         public TDate AdjustDay(TDate date, int newDay)
         {
             Schema.GetDateParts(date.DaysSinceEpoch, out int y, out int m, out _);
@@ -153,6 +174,14 @@ namespace Zorglub.Time.Specialized
             int daysSinceEpoch = Schema.CountDaysSinceEpoch(y, m, newDay);
             return GetDate(daysSinceEpoch);
         }
+
+        /// <summary>
+        /// Adjusts the day of the year field to the specified value, yielding a new date.
+        /// </summary>
+        /// <exception cref="AoorException">The resulting date would be invalid.</exception>
+        [Pure]
+        public Func<TDate, TDate> AdjustDayOfYear(int newDayOfYear) =>
+            x => AdjustDayOfYear(x, newDayOfYear);
 
         /// <summary>
         /// Adjusts the day of the year field to the specified value, yielding a new date.
