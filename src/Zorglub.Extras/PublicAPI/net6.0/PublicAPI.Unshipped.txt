@@ -420,6 +420,7 @@ Zorglub.Time.Specialized.Armenian13Calendar.Armenian13Calendar() -> void
 Zorglub.Time.Specialized.Armenian13Calendar.MonthsInYear.get -> int
 Zorglub.Time.Specialized.Armenian13Calendar.VirtualMonth.get -> int
 Zorglub.Time.Specialized.Armenian13Date
+Zorglub.Time.Specialized.Armenian13Date.Adjust(System.Func<Zorglub.Time.Specialized.Armenian13Date, Zorglub.Time.Specialized.Armenian13Date>! adjuster) -> Zorglub.Time.Specialized.Armenian13Date
 Zorglub.Time.Specialized.Armenian13Date.Armenian13Date() -> void
 Zorglub.Time.Specialized.Armenian13Date.Armenian13Date(int year, int dayOfYear) -> void
 Zorglub.Time.Specialized.Armenian13Date.Armenian13Date(int year, int month, int day) -> void
@@ -462,6 +463,7 @@ Zorglub.Time.Specialized.ArmenianCalendar
 Zorglub.Time.Specialized.ArmenianCalendar.ArmenianCalendar() -> void
 Zorglub.Time.Specialized.ArmenianCalendar.MonthsInYear.get -> int
 Zorglub.Time.Specialized.ArmenianDate
+Zorglub.Time.Specialized.ArmenianDate.Adjust(System.Func<Zorglub.Time.Specialized.ArmenianDate, Zorglub.Time.Specialized.ArmenianDate>! adjuster) -> Zorglub.Time.Specialized.ArmenianDate
 Zorglub.Time.Specialized.ArmenianDate.ArmenianDate() -> void
 Zorglub.Time.Specialized.ArmenianDate.ArmenianDate(int year, int dayOfYear) -> void
 Zorglub.Time.Specialized.ArmenianDate.ArmenianDate(int year, int month, int day) -> void
@@ -505,6 +507,7 @@ Zorglub.Time.Specialized.Coptic13Calendar.Coptic13Calendar() -> void
 Zorglub.Time.Specialized.Coptic13Calendar.MonthsInYear.get -> int
 Zorglub.Time.Specialized.Coptic13Calendar.VirtualMonth.get -> int
 Zorglub.Time.Specialized.Coptic13Date
+Zorglub.Time.Specialized.Coptic13Date.Adjust(System.Func<Zorglub.Time.Specialized.Coptic13Date, Zorglub.Time.Specialized.Coptic13Date>! adjuster) -> Zorglub.Time.Specialized.Coptic13Date
 Zorglub.Time.Specialized.Coptic13Date.Century.get -> int
 Zorglub.Time.Specialized.Coptic13Date.CenturyOfEra.get -> Zorglub.Time.Ord
 Zorglub.Time.Specialized.Coptic13Date.CompareTo(object? obj) -> int
@@ -547,6 +550,7 @@ Zorglub.Time.Specialized.CopticCalendar
 Zorglub.Time.Specialized.CopticCalendar.CopticCalendar() -> void
 Zorglub.Time.Specialized.CopticCalendar.MonthsInYear.get -> int
 Zorglub.Time.Specialized.CopticDate
+Zorglub.Time.Specialized.CopticDate.Adjust(System.Func<Zorglub.Time.Specialized.CopticDate, Zorglub.Time.Specialized.CopticDate>! adjuster) -> Zorglub.Time.Specialized.CopticDate
 Zorglub.Time.Specialized.CopticDate.Century.get -> int
 Zorglub.Time.Specialized.CopticDate.CenturyOfEra.get -> Zorglub.Time.Ord
 Zorglub.Time.Specialized.CopticDate.CompareTo(object? obj) -> int
@@ -590,6 +594,7 @@ Zorglub.Time.Specialized.Ethiopic13Calendar.Ethiopic13Calendar() -> void
 Zorglub.Time.Specialized.Ethiopic13Calendar.MonthsInYear.get -> int
 Zorglub.Time.Specialized.Ethiopic13Calendar.VirtualMonth.get -> int
 Zorglub.Time.Specialized.Ethiopic13Date
+Zorglub.Time.Specialized.Ethiopic13Date.Adjust(System.Func<Zorglub.Time.Specialized.Ethiopic13Date, Zorglub.Time.Specialized.Ethiopic13Date>! adjuster) -> Zorglub.Time.Specialized.Ethiopic13Date
 Zorglub.Time.Specialized.Ethiopic13Date.Century.get -> int
 Zorglub.Time.Specialized.Ethiopic13Date.CenturyOfEra.get -> Zorglub.Time.Ord
 Zorglub.Time.Specialized.Ethiopic13Date.CompareTo(object? obj) -> int
@@ -632,6 +637,7 @@ Zorglub.Time.Specialized.EthiopicCalendar
 Zorglub.Time.Specialized.EthiopicCalendar.EthiopicCalendar() -> void
 Zorglub.Time.Specialized.EthiopicCalendar.MonthsInYear.get -> int
 Zorglub.Time.Specialized.EthiopicDate
+Zorglub.Time.Specialized.EthiopicDate.Adjust(System.Func<Zorglub.Time.Specialized.EthiopicDate, Zorglub.Time.Specialized.EthiopicDate>! adjuster) -> Zorglub.Time.Specialized.EthiopicDate
 Zorglub.Time.Specialized.EthiopicDate.Century.get -> int
 Zorglub.Time.Specialized.EthiopicDate.CenturyOfEra.get -> Zorglub.Time.Ord
 Zorglub.Time.Specialized.EthiopicDate.CompareTo(object? obj) -> int
@@ -674,6 +680,7 @@ Zorglub.Time.Specialized.TabularIslamicCalendar
 Zorglub.Time.Specialized.TabularIslamicCalendar.MonthsInYear.get -> int
 Zorglub.Time.Specialized.TabularIslamicCalendar.TabularIslamicCalendar() -> void
 Zorglub.Time.Specialized.TabularIslamicDate
+Zorglub.Time.Specialized.TabularIslamicDate.Adjust(System.Func<Zorglub.Time.Specialized.TabularIslamicDate, Zorglub.Time.Specialized.TabularIslamicDate>! adjuster) -> Zorglub.Time.Specialized.TabularIslamicDate
 Zorglub.Time.Specialized.TabularIslamicDate.Century.get -> int
 Zorglub.Time.Specialized.TabularIslamicDate.CenturyOfEra.get -> Zorglub.Time.Ord
 Zorglub.Time.Specialized.TabularIslamicDate.CompareTo(object? obj) -> int
@@ -716,6 +723,7 @@ Zorglub.Time.Specialized.WorldCalendar.CountDaysInWorldMonth(int year, int month
 Zorglub.Time.Specialized.WorldCalendar.MonthsInYear.get -> int
 Zorglub.Time.Specialized.WorldCalendar.WorldCalendar() -> void
 Zorglub.Time.Specialized.WorldDate
+Zorglub.Time.Specialized.WorldDate.Adjust(System.Func<Zorglub.Time.Specialized.WorldDate, Zorglub.Time.Specialized.WorldDate>! adjuster) -> Zorglub.Time.Specialized.WorldDate
 Zorglub.Time.Specialized.WorldDate.Century.get -> int
 Zorglub.Time.Specialized.WorldDate.CenturyOfEra.get -> Zorglub.Time.Ord
 Zorglub.Time.Specialized.WorldDate.CompareTo(object? obj) -> int
@@ -759,6 +767,7 @@ Zorglub.Time.Specialized.Zoroastrian13Calendar.MonthsInYear.get -> int
 Zorglub.Time.Specialized.Zoroastrian13Calendar.VirtualMonth.get -> int
 Zorglub.Time.Specialized.Zoroastrian13Calendar.Zoroastrian13Calendar() -> void
 Zorglub.Time.Specialized.Zoroastrian13Date
+Zorglub.Time.Specialized.Zoroastrian13Date.Adjust(System.Func<Zorglub.Time.Specialized.Zoroastrian13Date, Zorglub.Time.Specialized.Zoroastrian13Date>! adjuster) -> Zorglub.Time.Specialized.Zoroastrian13Date
 Zorglub.Time.Specialized.Zoroastrian13Date.Century.get -> int
 Zorglub.Time.Specialized.Zoroastrian13Date.CenturyOfEra.get -> Zorglub.Time.Ord
 Zorglub.Time.Specialized.Zoroastrian13Date.CompareTo(object? obj) -> int
@@ -801,6 +810,7 @@ Zorglub.Time.Specialized.ZoroastrianCalendar
 Zorglub.Time.Specialized.ZoroastrianCalendar.MonthsInYear.get -> int
 Zorglub.Time.Specialized.ZoroastrianCalendar.ZoroastrianCalendar() -> void
 Zorglub.Time.Specialized.ZoroastrianDate
+Zorglub.Time.Specialized.ZoroastrianDate.Adjust(System.Func<Zorglub.Time.Specialized.ZoroastrianDate, Zorglub.Time.Specialized.ZoroastrianDate>! adjuster) -> Zorglub.Time.Specialized.ZoroastrianDate
 Zorglub.Time.Specialized.ZoroastrianDate.Century.get -> int
 Zorglub.Time.Specialized.ZoroastrianDate.CenturyOfEra.get -> Zorglub.Time.Ord
 Zorglub.Time.Specialized.ZoroastrianDate.CompareTo(object? obj) -> int

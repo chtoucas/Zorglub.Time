@@ -29,7 +29,7 @@ namespace Zorglub.Time.Specialized
 
         /// <summary>
         /// Called from constructors in derived classes to initialize the
-        /// <see cref="DateAdjuster{TDate}"/> class.
+        /// <see cref="SpecialAdjuster{TDate}"/> class.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="calendar"/> is null.</exception>
         /// <exception cref="ArgumentException">The scope of <paramref name="calendar"/> is NOT

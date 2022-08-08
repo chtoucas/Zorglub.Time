@@ -15,11 +15,11 @@ open Xunit
 module Prelude =
     [<Fact>]
     let ``Constructor for DateAdjuster throws when the calendar is null`` () =
-        nullExn "calendar" (fun () -> new DateAdjuster<ZDate>(null))
+        nullExn "calendar" (fun () -> new DateAdjusterV0<ZDate>(null))
 
 module Bundles =
     let private chr = ZCalendar.Gregorian
-    let private adjusters = new DateAdjuster<ZDate>(chr)
+    let private adjusters = new DateAdjusterV0<ZDate>(chr)
 
     [<Sealed>]
     type DateAdjusterFacts() =

@@ -7,7 +7,7 @@ namespace Zorglub.Time.Hemerology
     /// Provides a default implementation for <see cref="IDateAdjuster{TDate}"/>.
     /// </summary>
     /// <typeparam name="TDate">The type of date object.</typeparam>
-    public class DateAdjuster<TDate> : IDateAdjuster<TDate>
+    public class DateAdjusterV0<TDate> : IDateAdjuster<TDate>
         where TDate : IDate<TDate>
     {
         /// <summary>
@@ -20,7 +20,7 @@ namespace Zorglub.Time.Hemerology
         /// Initializes a new instance of the <see cref="DateAdjuster{TDate}"/> class.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="calendar"/> is null.</exception>
-        public DateAdjuster(ICalendar<TDate> calendar)
+        public DateAdjusterV0(ICalendar<TDate> calendar)
         {
             _calendar = calendar ?? throw new ArgumentNullException(nameof(calendar));
         }
