@@ -401,20 +401,6 @@ namespace Zorglub.Time.Simple
             return adjuster.Invoke(this);
         }
 
-        /// <summary>
-        /// Adjusts the day number field to the specified values, yielding a new calendar day.
-        /// </summary>
-        /// <exception cref="AoorException"><paramref name="newDayNumber"/> is outside the range of
-        /// supported values.</exception>
-        [Obsolete("To be removed")]
-        [Pure]
-        public CalendarDay WithDayNumber(DayNumber newDayNumber)
-        {
-            ref readonly var chr = ref CalendarRef;
-            chr.Domain.Validate(newDayNumber);
-            return new CalendarDay(newDayNumber - chr.Epoch, Cuid);
-        }
-
         //
         // Adjust the day of the week
         //

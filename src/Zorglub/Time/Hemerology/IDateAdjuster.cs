@@ -6,7 +6,6 @@ namespace Zorglub.Time.Hemerology
     using System;
 
     // TODO(api): adjusters. Adjust()
-    // Remove IAdjustableOrdinal.
     // Merge IAdjustableDate w/ IDate? Hum no because we have also IAffineDate.
     // Le seul avantage à avoir ces méthodes sur un objet date est qu'on peut ne
     // pas pas avoir à revalider les paramètres.
@@ -51,7 +50,7 @@ namespace Zorglub.Time.Hemerology
     public interface IDateAdjuster<TDate>
     {
         /// <summary>
-        /// Obtains the first day of the year to which belongs the specified day.
+        /// Obtains the first day of the year to which belongs the specified date.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="date"/> is null.</exception>
         /// <exception cref="AoorException">The result would overflow the range of supported dates.
@@ -60,7 +59,7 @@ namespace Zorglub.Time.Hemerology
         [Pure] TDate GetStartOfYear(TDate date);
 
         /// <summary>
-        /// Obtains the last day of the year to which belongs the specified day.
+        /// Obtains the last day of the year to which belongs the specified date.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="date"/> is null.</exception>
         /// <exception cref="AoorException">The result would overflow the range of supported dates.
@@ -69,7 +68,7 @@ namespace Zorglub.Time.Hemerology
         [Pure] TDate GetEndOfYear(TDate date);
 
         /// <summary>
-        /// Obtains the first day of the month to which belongs the specified day.
+        /// Obtains the first day of the month to which belongs the specified date.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="date"/> is null.</exception>
         /// <exception cref="AoorException">The result would overflow the range of supported dates.
@@ -78,7 +77,7 @@ namespace Zorglub.Time.Hemerology
         [Pure] TDate GetStartOfMonth(TDate date);
 
         /// <summary>
-        /// Obtains the last day of the month to which belongs the specified day.
+        /// Obtains the last day of the month to which belongs the specified date.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="date"/> is null.</exception>
         /// <exception cref="AoorException">The result would overflow the range of supported dates.

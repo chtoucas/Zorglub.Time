@@ -11,7 +11,7 @@ namespace Zorglub.Time.Specialized
     using Zorglub.Time.Hemerology.Scopes;
 
     // TODO(api): non-standard math. Providers. Idem with the other date types.
-    // Use JulianFormulae?
+    // Use (enhance) JulianFormulae?
     //
     // Custom methods on calendars:
     // - IRegularFeaturette       -> idem, optimization using MonthsPerYear

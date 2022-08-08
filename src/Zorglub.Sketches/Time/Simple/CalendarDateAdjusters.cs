@@ -45,6 +45,8 @@ namespace Zorglub.Time.Simple
             return new CalendarDate(ymd, date.Cuid);
         }
 
+        // TODO(code): optimize, idem with the other adjusters.
+
         [Pure]
         public static Func<CalendarDate, CalendarDate> WithYear(int newYear) =>
             x => x.WithYear(newYear);
