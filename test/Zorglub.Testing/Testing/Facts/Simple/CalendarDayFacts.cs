@@ -170,34 +170,35 @@ public partial class CalendarDayFacts<TDataSet> // Conversions
     }
 }
 
+// TODO(fact): clean up.
 public partial class CalendarDayFacts<TDataSet> // Adjustments
 {
-    [Fact]
-    public void WithDayNumber_InvalidDayNumber()
-    {
-        var date = CalendarUT.GetCalendarDay(CalendarUT.Epoch);
-        // Act & Assert
-        DomainTester.TestInvalidDayNumber(date.WithDayNumber);
-    }
+    //[Fact]
+    //public void WithDayNumber_InvalidDayNumber()
+    //{
+    //    var date = CalendarUT.GetCalendarDay(CalendarUT.Epoch);
+    //    // Act & Assert
+    //    DomainTester.TestInvalidDayNumber(date.WithDayNumber);
+    //}
 
-    [Theory, MemberData(nameof(DayNumberInfoData))]
-    public void WithDayNumber_Invariance(DayNumberInfo info)
-    {
-        var dayNumber = info.DayNumber;
-        var date = CalendarUT.GetCalendarDay(dayNumber);
-        // Act & Assert
-        Assert.Equal(date, date.WithDayNumber(dayNumber));
-    }
+    //[Theory, MemberData(nameof(DayNumberInfoData))]
+    //public void WithDayNumber_Invariance(DayNumberInfo info)
+    //{
+    //    var dayNumber = info.DayNumber;
+    //    var date = CalendarUT.GetCalendarDay(dayNumber);
+    //    // Act & Assert
+    //    Assert.Equal(date, date.WithDayNumber(dayNumber));
+    //}
 
-    [Theory, MemberData(nameof(DayNumberInfoData))]
-    public void WithDayNumber(DayNumberInfo info)
-    {
-        var dayNumber = info.DayNumber;
-        var date = CalendarUT.GetCalendarDay(CalendarUT.Epoch);
-        var exp = CalendarUT.GetCalendarDay(dayNumber);
-        // Act & Assert
-        Assert.Equal(exp, date.WithDayNumber(dayNumber));
-    }
+    //[Theory, MemberData(nameof(DayNumberInfoData))]
+    //public void WithDayNumber(DayNumberInfo info)
+    //{
+    //    var dayNumber = info.DayNumber;
+    //    var date = CalendarUT.GetCalendarDay(CalendarUT.Epoch);
+    //    var exp = CalendarUT.GetCalendarDay(dayNumber);
+    //    // Act & Assert
+    //    Assert.Equal(exp, date.WithDayNumber(dayNumber));
+    //}
 }
 
 //

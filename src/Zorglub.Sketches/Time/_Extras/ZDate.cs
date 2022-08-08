@@ -363,26 +363,31 @@ namespace Zorglub.Time
         #region Adjustments
 
         /// <summary>
+        /// Adjusts the current instance using the specified adjuster.
+        /// <para>If the adjuster throws, this method will propagate the exception.</para>
+        /// </summary>
+        /// <exception cref="ArgumentNullException"><paramref name="adjuster"/> is null.</exception>
+        [Pure]
+        public ZDate Adjust(Func<ZDate, ZDate> adjuster)
+        {
+            Requires.NotNull(adjuster);
+
+            return adjuster.Invoke(this);
+        }
+
+        /// <summary>
         /// Adjusts the day number field to the specified values, yielding a new calendar day.
         /// </summary>
         /// <exception cref="AoorException"><paramref name="newDayNumber"/> is outside the range of
         /// supported values.</exception>
         [Pure]
+        [Obsolete("To be removed.")]
         public ZDate WithDayNumber(DayNumber newDayNumber)
         {
             ref readonly var chr = ref CalendarRef;
             chr.Domain.Validate(newDayNumber);
             return new ZDate(newDayNumber - chr.Epoch, _cuid);
         }
-
-        ///// <inheritdoc/>
-        //[Pure]
-        //public ZDate Adjust(Func<ZDate, ZDate> adjuster)
-        //{
-        //    Requires.NotNull(adjuster);
-
-        //    return adjuster.Invoke(this);
-        //}
 
         ///// <inheritdoc/>
         //[Pure]

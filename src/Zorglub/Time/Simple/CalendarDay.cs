@@ -406,6 +406,7 @@ namespace Zorglub.Time.Simple
         /// </summary>
         /// <exception cref="AoorException"><paramref name="newDayNumber"/> is outside the range of
         /// supported values.</exception>
+        [Obsolete("To be removed")]
         [Pure]
         public CalendarDay WithDayNumber(DayNumber newDayNumber)
         {
