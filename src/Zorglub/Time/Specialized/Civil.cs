@@ -52,24 +52,31 @@ namespace Zorglub.Time.Specialized
     public sealed class CivilAdjuster : IDateAdjuster<CivilDate>
     {
         /// <summary>
-        /// Represents the Civil schema.
+        /// Represents the scope.
         /// <para>This field is read-only.</para>
         /// </summary>
-        private readonly CivilSchema _schema;
+        private readonly CalendarScope _scope;
+
+        /// <summary>
+        /// Represents the schema.
+        /// <para>This field is read-only.</para>
+        /// </summary>
+        private readonly ICalendricalSchema _schema;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CivilAdjuster"/> class.
         /// </summary>
-        public CivilAdjuster() : this(new CivilSchema()) { }
+        public CivilAdjuster() : this(CivilDate.Calendar) { }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CivilAdjuster"/> class.
         /// </summary>
-        internal CivilAdjuster(CivilSchema schema)
+        internal CivilAdjuster(CivilCalendar calendar)
         {
-            Requires.NotNull(schema);
+            Requires.NotNull(calendar);
 
-            _schema = schema;
+            _scope = calendar.Scope;
+            _schema = calendar.Schema;
         }
 
         /// <inheritdoc />
@@ -105,6 +112,64 @@ namespace Zorglub.Time.Specialized
             int daysSinceZero = _schema.GetEndOfMonth(y, m);
             return new CivilDate(daysSinceZero);
         }
+
+        //
+        // Adjustments for the core parts
+        //
+
+        /// <inheritdoc />
+        [Pure]
+        public CivilDate AdjustYear(CivilDate date, int newYear)
+        {
+            CivilFormulae.GetDateParts(date.DaysSinceZero, out _, out int m, out int d);
+            _scope.ValidateYearMonthDay(newYear, m, d, nameof(newYear));
+
+            int daysSinceZero = CivilFormulae.CountDaysSinceEpoch(newYear, m, d);
+            return new CivilDate(daysSinceZero);
+        }
+
+        /// <inheritdoc />
+        [Pure]
+        public CivilDate AdjustMonth(CivilDate date, int newMonth)
+        {
+            CivilFormulae.GetDateParts(date.DaysSinceZero, out int y, out _, out int d);
+            _schema.PreValidator.ValidateMonthDay(y, newMonth, d, nameof(newMonth));
+
+            int daysSinceZero = CivilFormulae.CountDaysSinceEpoch(y, newMonth, d);
+            return new CivilDate(daysSinceZero);
+        }
+
+        /// <inheritdoc />
+        [Pure]
+        public CivilDate AdjustDay(CivilDate date, int newDay)
+        {
+            CivilFormulae.GetDateParts(date.DaysSinceZero, out int y, out int m, out _);
+            ValidateDayOfMonth(y, m, newDay, nameof(newDay));
+
+            int daysSinceZero = CivilFormulae.CountDaysSinceEpoch(y, m, newDay);
+            return new CivilDate(daysSinceZero);
+        }
+
+        /// <inheritdoc />
+        [Pure]
+        public CivilDate AdjustDayOfYear(CivilDate date, int newDayOfYear)
+        {
+            int y = CivilFormulae.GetYear(date.DaysSinceZero, out _);
+            _schema.PreValidator.ValidateDayOfYear(y, newDayOfYear, nameof(newDayOfYear));
+
+            int daysSinceZero = _schema.CountDaysSinceEpoch(y, newDayOfYear);
+            return new CivilDate(daysSinceZero);
+        }
+
+        private void ValidateDayOfMonth(int y, int m, int dayOfMonth, string? paramName = null)
+        {
+            if (dayOfMonth < 1
+                || (dayOfMonth > _schema.MinDaysInMonth
+                    && dayOfMonth > _schema.CountDaysInMonth(y, m)))
+            {
+                Throw.ArgumentOutOfRange(paramName ?? nameof(dayOfMonth));
+            }
+        }
     }
 
     /// <summary>
@@ -137,7 +202,7 @@ namespace Zorglub.Time.Specialized
         /// Represents the date adjuster.
         /// <para>This field is read-only.</para>
         /// </summary>
-        private static readonly CivilAdjuster s_Adjuster = new(s_Schema);
+        private static readonly CivilAdjuster s_Adjuster = new(s_Calendar);
 
         /// <summary>
         /// Represents the smallest possible value of a <see cref="CivilDate"/>.

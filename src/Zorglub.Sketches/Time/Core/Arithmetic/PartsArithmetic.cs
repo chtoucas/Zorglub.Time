@@ -116,7 +116,7 @@ namespace Zorglub.Time.Core.Arithmetic
         /// Counts the number of days between the two specified dates.
         /// </summary>
         [Pure]
-        [SuppressMessage("Naming", "CA1716:Identifiers should not match keywords.", MessageId = "end", Justification = "F# & VB.NET End statement.")]
+        [SuppressMessage("Naming", "CA1716:Identifiers should not match keywords.", Justification = "F# & VB.NET End statement.")]
         public int CountDaysBetween(DateParts start, DateParts end)
         {
             if (end.MonthParts == start.MonthParts) { return end.Day - start.Day; }
@@ -156,7 +156,7 @@ namespace Zorglub.Time.Core.Arithmetic
         /// Counts the number of days between the two specified ordinal dates.
         /// </summary>
         [Pure]
-        [SuppressMessage("Naming", "CA1716:Identifiers should not match keywords.", MessageId = "end", Justification = "F# & VB.NET End statement.")]
+        [SuppressMessage("Naming", "CA1716:Identifiers should not match keywords.", Justification = "F# & VB.NET End statement.")]
         public int CountDaysBetween(OrdinalParts start, OrdinalParts end)
         {
             if (end.Year == start.Year) { return end.DayOfYear - start.DayOfYear; }

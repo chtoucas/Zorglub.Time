@@ -11,6 +11,7 @@ using Zorglub.Time.Hemerology;
 
 // In addition, one should test WithYear() with valid and invalid results.
 
+[Obsolete("IAdjustableDate is obsolete.")]
 public abstract partial class IAdjustableDateFacts<TDate, TDataSet> :
     CalendarDataConsumer<TDataSet>
     where TDate : IAdjustableDate<TDate>

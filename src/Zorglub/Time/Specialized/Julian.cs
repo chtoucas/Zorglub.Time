@@ -66,24 +66,31 @@ namespace Zorglub.Time.Specialized
     public sealed class JulianAdjuster : IDateAdjuster<JulianDate>
     {
         /// <summary>
-        /// Represents the Julian schema.
+        /// Represents the scope.
         /// <para>This field is read-only.</para>
         /// </summary>
-        private readonly JulianSchema _schema;
+        private readonly CalendarScope _scope;
+
+        /// <summary>
+        /// Represents the schema.
+        /// <para>This field is read-only.</para>
+        /// </summary>
+        private readonly ICalendricalSchema _schema;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="JulianAdjuster"/> class.
         /// </summary>
-        public JulianAdjuster() : this(new JulianSchema()) { }
+        public JulianAdjuster() : this(JulianDate.Calendar) { }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="JulianAdjuster"/> class.
         /// </summary>
-        internal JulianAdjuster(JulianSchema schema)
+        internal JulianAdjuster(JulianCalendar calendar)
         {
-            Requires.NotNull(schema);
+            Requires.NotNull(calendar);
 
-            _schema = schema;
+            _scope = calendar.Scope;
+            _schema = calendar.Schema;
         }
 
         /// <inheritdoc />
@@ -118,6 +125,64 @@ namespace Zorglub.Time.Specialized
             _schema.GetDateParts(date.DaysSinceEpoch, out int y, out int m, out _);
             int daysSinceEpoch = _schema.GetEndOfMonth(y, m);
             return new JulianDate(daysSinceEpoch);
+        }
+
+        //
+        // Adjustments for the core parts
+        //
+
+        /// <inheritdoc />
+        [Pure]
+        public JulianDate AdjustYear(JulianDate date, int newYear)
+        {
+            JulianFormulae.GetDateParts(date.DaysSinceEpoch, out _, out int m, out int d);
+            _scope.ValidateYearMonthDay(newYear, m, d, nameof(newYear));
+
+            int daysSinceEpoch = _schema.CountDaysSinceEpoch(newYear, m, d);
+            return new JulianDate(daysSinceEpoch);
+        }
+
+        /// <inheritdoc />
+        [Pure]
+        public JulianDate AdjustMonth(JulianDate date, int newMonth)
+        {
+            _schema.GetDateParts(date.DaysSinceEpoch, out int y, out _, out int d);
+            _schema.PreValidator.ValidateMonthDay(y, newMonth, d, nameof(newMonth));
+
+            int daysSinceEpoch = _schema.CountDaysSinceEpoch(y, newMonth, d);
+            return new JulianDate(daysSinceEpoch);
+        }
+
+        /// <inheritdoc />
+        [Pure]
+        public JulianDate AdjustDay(JulianDate date, int newDay)
+        {
+            _schema.GetDateParts(date.DaysSinceEpoch, out int y, out int m, out _);
+            ValidateDayOfMonth(y, m, newDay, nameof(newDay));
+
+            int daysSinceEpoch = _schema.CountDaysSinceEpoch(y, m, newDay);
+            return new JulianDate(daysSinceEpoch);
+        }
+
+        /// <inheritdoc />
+        [Pure]
+        public JulianDate AdjustDayOfYear(JulianDate date, int newDayOfYear)
+        {
+            int y = _schema.GetYear(date.DaysSinceEpoch, out _);
+            _schema.PreValidator.ValidateDayOfYear(y, newDayOfYear, nameof(newDayOfYear));
+
+            int daysSinceEpoch = _schema.CountDaysSinceEpoch(y, newDayOfYear);
+            return new JulianDate(daysSinceEpoch);
+        }
+
+        private void ValidateDayOfMonth(int y, int m, int dayOfMonth, string? paramName = null)
+        {
+            if (dayOfMonth < 1
+                || (dayOfMonth > _schema.MinDaysInMonth
+                    && dayOfMonth > _schema.CountDaysInMonth(y, m)))
+            {
+                Throw.ArgumentOutOfRange(paramName ?? nameof(dayOfMonth));
+            }
         }
     }
 
@@ -165,7 +230,7 @@ namespace Zorglub.Time.Specialized
         /// Represents the date adjuster.
         /// <para>This field is read-only.</para>
         /// </summary>
-        private static readonly JulianAdjuster s_Adjuster = new(s_Schema);
+        private static readonly JulianAdjuster s_Adjuster = new(s_Calendar);
 
         /// <summary>
         /// Represents the smallest possible value of a <see cref="JulianDate"/>.

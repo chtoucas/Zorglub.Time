@@ -49,7 +49,6 @@ namespace Zorglub.Time
     [DebuggerDisplay("{" + nameof(DebuggerDisplay) + ",nq}")]
     public readonly partial struct XCivilDate :
         IDate<XCivilDate>,
-        IAdjustableDate<XCivilDate>,
         IMinMaxValue<XCivilDate>
     {
         /// <summary>

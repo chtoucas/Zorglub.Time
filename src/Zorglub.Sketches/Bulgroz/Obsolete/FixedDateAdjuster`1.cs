@@ -81,6 +81,11 @@ namespace Zorglub.Bulgroz.Obsolete
             return TDate.FromDayNumber(_epoch + daysSinceEpoch);
         }
 
+        //
+        // Adjustments for the core parts
+        //
+
+        /// <inheritdoc />
         [Pure]
         public TDate AdjustYear(TDate date, int newYear)
         {
@@ -90,6 +95,7 @@ namespace Zorglub.Bulgroz.Obsolete
             return TDate.FromDayNumber(_epoch + daysSinceEpoch);
         }
 
+        /// <inheritdoc />
         [Pure]
         public TDate AdjustMonth(TDate date, int newMonth)
         {
@@ -99,6 +105,7 @@ namespace Zorglub.Bulgroz.Obsolete
             return TDate.FromDayNumber(_epoch + daysSinceEpoch);
         }
 
+        /// <inheritdoc />
         [Pure]
         public TDate AdjustDay(TDate date, int newDay)
         {
@@ -108,6 +115,7 @@ namespace Zorglub.Bulgroz.Obsolete
             return TDate.FromDayNumber(_epoch + daysSinceEpoch);
         }
 
+        /// <inheritdoc />
         [Pure]
         public TDate AdjustDayOfYear(TDate date, int newDayOfYear)
         {

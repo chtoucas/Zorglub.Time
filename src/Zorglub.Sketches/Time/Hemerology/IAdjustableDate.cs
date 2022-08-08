@@ -3,22 +3,11 @@
 
 namespace Zorglub.Time.Hemerology
 {
-    // REVIEW(api): Adjust() <- clean up CalendarDate, OrdinalDate
-    // and IAdjustableXXXFacts.
-
-    // Namespace Simple. We have three date types: ordinal, normal, day count.
-    // Only CalendarDate implements IAdjustableDate. The two others have their
-    // own adjustment methods. For instance, OrdinalDate has WithYear() and
-    // WithDayOfYear(), and to change the month, first we convert the ordinal
-    // date to a CalendarDate, then call WithMonth() on the result.
-    //
-    // For a date type available in a single form, we should implement this
-    // interface plus the other adjuster(s) if there is any.
-
     /// <summary>
     /// Defines an adjustable date type.
     /// </summary>
     /// <typeparam name="TSelf">The type that implements this interface.</typeparam>
+    [Obsolete("To be removed.")]
     public interface IAdjustableDate<TSelf> : IDateable
         where TSelf : IAdjustableDate<TSelf>
     {

@@ -30,12 +30,13 @@ module Bundles =
 
         override __.GetDate(y, m, d) = new XCivilDate(y, m, d)
 
-    [<Sealed>]
-    [<TestExcludeFrom(TestExcludeFrom.Regular)>]
-    type AdjustableDateTests() =
-        inherit IAdjustableDateFacts<XCivilDate, StandardGregorianDataSet>(supportedYears)
+    // TODO(test): clean up.
+    //[<Sealed>]
+    //[<TestExcludeFrom(TestExcludeFrom.Regular)>]
+    //type AdjustableDateTests() =
+    //    inherit IAdjustableDateFacts<XCivilDate, StandardGregorianDataSet>(supportedYears)
 
-        override __.GetDate(y, m, d) = new XCivilDate(y, m, d)
+    //    override __.GetDate(y, m, d) = new XCivilDate(y, m, d)
 
     [<Sealed>]
     [<TestExcludeFrom(TestExcludeFrom.Regular)>]

@@ -211,7 +211,7 @@ namespace Zorglub.Time.Simple
         /// <exception cref="OverflowException">The calculation would overflow the range of
         /// supported dates.</exception>
         [Pure]
-        [SuppressMessage("Naming", "CA1716:Identifiers should not match keywords.", MessageId = "date", Justification = "VB.NET Date.")]
+        [SuppressMessage("Naming", "CA1716:Identifiers should not match keywords.", Justification = "VB.NET Date.")]
         protected internal abstract CalendarDate AddYearsCore(CalendarDate date, int years);
 
         /// <summary>
@@ -221,7 +221,7 @@ namespace Zorglub.Time.Simple
         /// <exception cref="OverflowException">The calculation would overflow the range of
         /// supported dates.</exception>
         [Pure]
-        [SuppressMessage("Naming", "CA1716:Identifiers should not match keywords.", MessageId = "date", Justification = "VB.NET Date.")]
+        [SuppressMessage("Naming", "CA1716:Identifiers should not match keywords.", Justification = "VB.NET Date.")]
         protected internal abstract CalendarDate AddMonthsCore(CalendarDate date, int months);
 
         /// <summary>
@@ -329,7 +329,7 @@ namespace Zorglub.Time.Simple
         /// <exception cref="OverflowException">The calculation would overflow the range of
         /// supported dates.</exception>
         [Pure]
-        [SuppressMessage("Naming", "CA1716:Identifiers should not match keywords.", MessageId = "date", Justification = "VB.NET Date.")]
+        [SuppressMessage("Naming", "CA1716:Identifiers should not match keywords.", Justification = "VB.NET Date.")]
         protected internal abstract OrdinalDate AddYearsCore(OrdinalDate date, int years);
 
         /// <summary>

@@ -36,7 +36,7 @@ public interface IDateRange<T, TDate> : IEquatable<T>, IEnumerable<TDate>
     /// </summary>
     /// <exception cref="ArgumentException"><paramref name="date"/> does not belong to the
     /// calendar of the current instance.</exception>
-    [SuppressMessage("Naming", "CA1716:Identifiers should not match keywords.", MessageId = "date", Justification = "VB.NET Date.")]
+    [SuppressMessage("Naming", "CA1716:Identifiers should not match keywords.", Justification = "VB.NET Date.")]
     [Pure] bool Contains(TDate date);
 
     /// <summary>

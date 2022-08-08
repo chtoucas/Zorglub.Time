@@ -1,25 +1,27 @@
 ﻿// SPDX-License-Identifier: BSD-3-Clause
 // Copyright (c) 2020 Narvalo.Org. All rights reserved.
 
-namespace Zorglub.Testing.Facts.Simple;
+// FIXME(fact): remove.
 
-using Zorglub.Testing.Data;
-using Zorglub.Testing.Facts.Hemerology;
-using Zorglub.Time.Simple;
+//namespace Zorglub.Testing.Facts.Simple;
 
-public abstract partial class CalendarDateAdjustmentFacts<TDataSet> :
-    IAdjustableDateFacts<CalendarDate, TDataSet>
-    where TDataSet : ICalendarDataSet, ISingleton<TDataSet>
-{
-    protected CalendarDateAdjustmentFacts(SimpleCalendar calendar)
-        : base(calendar?.YearsValidator.Range ?? throw new ArgumentNullException(nameof(calendar)))
-    {
-        Debug.Assert(calendar != null);
+//using Zorglub.Testing.Data;
+//using Zorglub.Testing.Facts.Hemerology;
+//using Zorglub.Time.Simple;
 
-        CalendarUT = calendar;
-    }
+//public abstract partial class CalendarDateAdjustmentFacts<TDataSet> :
+//    IAdjustableDateFacts<CalendarDate, TDataSet>
+//    where TDataSet : ICalendarDataSet, ISingleton<TDataSet>
+//{
+//    protected CalendarDateAdjustmentFacts(SimpleCalendar calendar)
+//        : base(calendar?.YearsValidator.Range ?? throw new ArgumentNullException(nameof(calendar)))
+//    {
+//        Debug.Assert(calendar != null);
 
-    protected SimpleCalendar CalendarUT { get; }
+//        CalendarUT = calendar;
+//    }
 
-    protected override CalendarDate GetDate(int y, int m, int d) => CalendarUT.GetCalendarDate(y, m, d);
-}
+//    protected SimpleCalendar CalendarUT { get; }
+
+//    protected override CalendarDate GetDate(int y, int m, int d) => CalendarUT.GetCalendarDate(y, m, d);
+//}

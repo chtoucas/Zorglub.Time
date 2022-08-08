@@ -49,6 +49,11 @@ namespace Zorglub.Time.Hemerology
             return _calendar.GetEndOfMonth(y, m);
         }
 
+        //
+        // Adjustments for the core parts
+        //
+
+        /// <inheritdoc />
         [Pure]
         public TDate AdjustYear(TDate date, int newYear)
         {
@@ -57,6 +62,7 @@ namespace Zorglub.Time.Hemerology
             return TDate.FromDayNumber(dayNumber);
         }
 
+        /// <inheritdoc />
         [Pure]
         public TDate AdjustMonth(TDate date, int newMonth)
         {
@@ -65,6 +71,7 @@ namespace Zorglub.Time.Hemerology
             return TDate.FromDayNumber(dayNumber);
         }
 
+        /// <inheritdoc />
         [Pure]
         public TDate AdjustDay(TDate date, int newDay)
         {
@@ -73,6 +80,7 @@ namespace Zorglub.Time.Hemerology
             return TDate.FromDayNumber(dayNumber);
         }
 
+        /// <inheritdoc />
         [Pure]
         public TDate AdjustDayOfYear(TDate date, int newDayOfYear)
         {

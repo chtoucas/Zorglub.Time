@@ -55,19 +55,19 @@ namespace Zorglub.Time.Simple
         }
 
         [Pure]
-        public static Func<CalendarDay, CalendarDay> YearAdjuster(int newYear) =>
+        public static Func<CalendarDay, CalendarDay> WithYear(int newYear) =>
             x => x.ToCalendarDate().WithYear(newYear).ToCalendarDay();
 
         [Pure]
-        public static Func<CalendarDay, CalendarDay> MonthAdjuster(int newMonth) =>
+        public static Func<CalendarDay, CalendarDay> WithMonth(int newMonth) =>
             x => x.ToCalendarDate().WithMonth(newMonth).ToCalendarDay();
 
         [Pure]
-        public static Func<CalendarDay, CalendarDay> DayAdjuster(int newDay) =>
+        public static Func<CalendarDay, CalendarDay> WithDay(int newDay) =>
             x => x.ToCalendarDate().WithDay(newDay).ToCalendarDay();
 
         [Pure]
-        public static Func<CalendarDay, CalendarDay> DayOfYearAdjuster(int newDayOfYear) =>
+        public static Func<CalendarDay, CalendarDay> WithDayOfYear(int newDayOfYear) =>
             x => x.ToOrdinalDate().WithDayOfYear(newDayOfYear).ToCalendarDay();
     }
 }

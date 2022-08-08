@@ -26,11 +26,11 @@ public abstract partial class IDateRangeFacts<TDate, TRange, TDataSet> :
     protected abstract TDate GetDate(int y, int m, int d);
     protected abstract TDate GetDate(int y, int doy);
 
-    [SuppressMessage("Naming", "CA1716:Identifiers should not match keywords.", MessageId = "end", Justification = "F# & VB.NET End statement.")]
+    [SuppressMessage("Naming", "CA1716:Identifiers should not match keywords.", Justification = "F# & VB.NET End statement.")]
     protected abstract TRange CreateRange(TDate start, TDate end);
     protected abstract TRange CreateRange(TDate start, int length);
 
-    [SuppressMessage("Naming", "CA1716:Identifiers should not match keywords.", MessageId = "date", Justification = "VB.NET Date.")]
+    [SuppressMessage("Naming", "CA1716:Identifiers should not match keywords.", Justification = "VB.NET Date.")]
     protected abstract TDate PlusDays(TDate date, int days);
 
     protected abstract bool CheckCalendar(TRange range);

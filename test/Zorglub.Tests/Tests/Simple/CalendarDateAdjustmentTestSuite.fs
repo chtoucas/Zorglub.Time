@@ -12,6 +12,8 @@ open Zorglub.Time.Simple
 // Since the Gregorian calendar has the richest dataset, we use it as a default
 // model for testing.
 
+#if false
+
 [<Sealed>]
 [<RedundantTestBundle>]
 type ArmenianTests() =
@@ -69,3 +71,5 @@ type UserLunisolarTests() =
 [<RedundantTestBundle>]
 type UserPositivistTests() =
     inherit CalendarDateAdjustmentFacts<StandardPositivistDataSet>(UserCalendars.Positivist)
+
+#endif

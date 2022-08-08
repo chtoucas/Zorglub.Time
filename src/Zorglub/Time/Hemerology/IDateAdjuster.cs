@@ -5,7 +5,7 @@ namespace Zorglub.Time.Hemerology
 {
     using System;
 
-    // TODO(api): adjusters.
+    // TODO(api): adjusters. Adjust()
     // Remove IAdjustableOrdinal.
     // Merge IAdjustableDate w/ IDate? Hum no because we have also IAffineDate.
     // Le seul avantage à avoir ces méthodes sur un objet date est qu'on peut ne
@@ -19,6 +19,12 @@ namespace Zorglub.Time.Hemerology
     // élémentaire. Quant à GetStartOfYear(), pour des questions de symétrie
     // on va aussi opter pour une méthode, même si utiliser une propriété
     // aurait été plus appropriée.
+    //
+    // Namespace Simple. We have three date types: ordinal, normal, day count.
+    // Only CalendarDate implements IAdjustableDate. The two others have their
+    // own adjustment methods. For instance, OrdinalDate has WithYear() and
+    // WithDayOfYear(), and to change the month, first we convert the ordinal
+    // date to a CalendarDate, then call WithMonth() on the result.
 
     // IDateAdjuster<TDate> provides a different API for the part of
     // ICalendar<TDate> dealing with the creation of new (single) TDate instances.
@@ -50,7 +56,7 @@ namespace Zorglub.Time.Hemerology
         /// <exception cref="ArgumentNullException"><paramref name="date"/> is null.</exception>
         /// <exception cref="AoorException">The result would overflow the range of supported dates.
         /// </exception>
-        [SuppressMessage("Naming", "CA1716:Identifiers should not match keywords.", MessageId = "end", Justification = "F# & VB.NET End statement.")]
+        [SuppressMessage("Naming", "CA1716:Identifiers should not match keywords.", Justification = "VB.NET Date.")]
         [Pure] TDate GetStartOfYear(TDate date);
 
         /// <summary>
@@ -59,7 +65,7 @@ namespace Zorglub.Time.Hemerology
         /// <exception cref="ArgumentNullException"><paramref name="date"/> is null.</exception>
         /// <exception cref="AoorException">The result would overflow the range of supported dates.
         /// </exception>
-        [SuppressMessage("Naming", "CA1716:Identifiers should not match keywords.", MessageId = "end", Justification = "F# & VB.NET End statement.")]
+        [SuppressMessage("Naming", "CA1716:Identifiers should not match keywords.", Justification = "VB.NET Date.")]
         [Pure] TDate GetEndOfYear(TDate date);
 
         /// <summary>
@@ -68,7 +74,7 @@ namespace Zorglub.Time.Hemerology
         /// <exception cref="ArgumentNullException"><paramref name="date"/> is null.</exception>
         /// <exception cref="AoorException">The result would overflow the range of supported dates.
         /// </exception>
-        [SuppressMessage("Naming", "CA1716:Identifiers should not match keywords.", MessageId = "end", Justification = "F# & VB.NET End statement.")]
+        [SuppressMessage("Naming", "CA1716:Identifiers should not match keywords.", Justification = "VB.NET Date.")]
         [Pure] TDate GetStartOfMonth(TDate date);
 
         /// <summary>
@@ -77,7 +83,39 @@ namespace Zorglub.Time.Hemerology
         /// <exception cref="ArgumentNullException"><paramref name="date"/> is null.</exception>
         /// <exception cref="AoorException">The result would overflow the range of supported dates.
         /// </exception>
-        [SuppressMessage("Naming", "CA1716:Identifiers should not match keywords.", MessageId = "end", Justification = "F# & VB.NET End statement.")]
+        [SuppressMessage("Naming", "CA1716:Identifiers should not match keywords.", Justification = "VB.NET Date.")]
         [Pure] TDate GetEndOfMonth(TDate date);
+
+        //
+        // Adjustments for the core parts
+        //
+
+        /// <summary>
+        /// Adjusts the year field to the specified value, yielding a new date.
+        /// </summary>
+        /// <exception cref="AoorException">The resulting date would be invalid.</exception>
+        [SuppressMessage("Naming", "CA1716:Identifiers should not match keywords.", Justification = "VB.NET Date.")]
+        [Pure] TDate AdjustYear(TDate date, int newYear);
+
+        /// <summary>
+        /// Adjusts the month field to the specified value, yielding a new date.
+        /// </summary>
+        /// <exception cref="AoorException">The resulting date would be invalid.</exception>
+        [SuppressMessage("Naming", "CA1716:Identifiers should not match keywords.", Justification = "VB.NET Date.")]
+        [Pure] TDate AdjustMonth(TDate date, int newMonth);
+
+        /// <summary>
+        /// Adjusts the day of the month field to the specified value, yielding a new date.
+        /// </summary>
+        /// <exception cref="AoorException">The resulting date would be invalid.</exception>
+        [SuppressMessage("Naming", "CA1716:Identifiers should not match keywords.", Justification = "VB.NET Date.")]
+        [Pure] TDate AdjustDay(TDate date, int newDay);
+
+        /// <summary>
+        /// Adjusts the day of the year field to the specified value, yielding a new date.
+        /// </summary>
+        /// <exception cref="AoorException">The resulting date would be invalid.</exception>
+        [SuppressMessage("Naming", "CA1716:Identifiers should not match keywords.", Justification = "VB.NET Date.")]
+        [Pure] TDate AdjustDayOfYear(TDate date, int newDayOfYear);
     }
 }

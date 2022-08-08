@@ -1,15 +1,13 @@
 ﻿// SPDX-License-Identifier: BSD-3-Clause
 // Copyright (c) 2020 Narvalo.Org. All rights reserved.
 
-namespace Zorglub.Bulgroz.Obsolete
+namespace Zorglub.Time.Hemerology
 {
-    using Zorglub.Time.Hemerology;
-
     /// <summary>
     /// Defines an adjustable date type.
     /// </summary>
     /// <typeparam name="TSelf">The type that implements this interface.</typeparam>
-    [Obsolete("Use IAdjustableDate instead.")]
+    [Obsolete("To be removed.")]
     public interface IAdjustableOrdinal<TSelf> : IDateable
         where TSelf : IAdjustableOrdinal<TSelf>
     {

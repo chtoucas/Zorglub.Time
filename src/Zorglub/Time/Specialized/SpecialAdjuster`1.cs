@@ -135,13 +135,10 @@ namespace Zorglub.Time.Specialized
             x => AdjustDayOfYear(x, newDayOfYear);
 
         //
-        // Adjust a core part
+        // Adjustments for the core parts
         //
 
-        /// <summary>
-        /// Adjusts the year field to the specified value, yielding a new date.
-        /// </summary>
-        /// <exception cref="AoorException">The resulting date would be invalid.</exception>
+        /// <inheritdoc />
         [Pure]
         public TDate AdjustYear(TDate date, int newYear)
         {
@@ -153,10 +150,7 @@ namespace Zorglub.Time.Specialized
             return GetDate(daysSinceEpoch);
         }
 
-        /// <summary>
-        /// Adjusts the month field to the specified value, yielding a new date.
-        /// </summary>
-        /// <exception cref="AoorException">The resulting date would be invalid.</exception>
+        /// <inheritdoc />
         [Pure]
         public TDate AdjustMonth(TDate date, int newMonth)
         {
@@ -168,10 +162,7 @@ namespace Zorglub.Time.Specialized
             return GetDate(daysSinceEpoch);
         }
 
-        /// <summary>
-        /// Adjusts the day of the month field to the specified value, yielding a new date.
-        /// </summary>
-        /// <exception cref="AoorException">The resulting date would be invalid.</exception>
+        /// <inheritdoc />
         [Pure]
         public TDate AdjustDay(TDate date, int newDay)
         {
@@ -183,10 +174,7 @@ namespace Zorglub.Time.Specialized
             return GetDate(daysSinceEpoch);
         }
 
-        /// <summary>
-        /// Adjusts the day of the year field to the specified value, yielding a new date.
-        /// </summary>
-        /// <exception cref="AoorException">The resulting date would be invalid.</exception>
+        /// <inheritdoc />
         [Pure]
         public TDate AdjustDayOfYear(TDate date, int newDayOfYear)
         {

@@ -50,24 +50,31 @@ namespace Zorglub.Time.Specialized
     public sealed class GregorianAdjuster : IDateAdjuster<GregorianDate>
     {
         /// <summary>
-        /// Represents the Gregorian schema.
+        /// Represents the scope.
         /// <para>This field is read-only.</para>
         /// </summary>
-        private readonly GregorianSchema _schema;
+        private readonly CalendarScope _scope;
+
+        /// <summary>
+        /// Represents the schema.
+        /// <para>This field is read-only.</para>
+        /// </summary>
+        private readonly ICalendricalSchema _schema;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GregorianAdjuster"/> class.
         /// </summary>
-        public GregorianAdjuster() : this(new GregorianSchema()) { }
+        public GregorianAdjuster() : this(GregorianDate.Calendar) { }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GregorianAdjuster"/> class.
         /// </summary>
-        internal GregorianAdjuster(GregorianSchema schema)
+        internal GregorianAdjuster(GregorianCalendar calendar)
         {
-            Requires.NotNull(schema);
+            Requires.NotNull(calendar);
 
-            _schema = schema;
+            _scope = calendar.Scope;
+            _schema = calendar.Schema;
         }
 
         /// <inheritdoc />
@@ -102,6 +109,64 @@ namespace Zorglub.Time.Specialized
             GregorianFormulae.GetDateParts(date.DaysSinceZero, out int y, out int m, out _);
             int daysSinceZero = _schema.GetEndOfMonth(y, m);
             return new GregorianDate(daysSinceZero);
+        }
+
+        //
+        // Adjustments for the core parts
+        //
+
+        /// <inheritdoc />
+        [Pure]
+        public GregorianDate AdjustYear(GregorianDate date, int newYear)
+        {
+            GregorianFormulae.GetDateParts(date.DaysSinceZero, out _, out int m, out int d);
+            _scope.ValidateYearMonthDay(newYear, m, d, nameof(newYear));
+
+            int daysSinceZero = GregorianFormulae.CountDaysSinceEpoch(newYear, m, d);
+            return new GregorianDate(daysSinceZero);
+        }
+
+        /// <inheritdoc />
+        [Pure]
+        public GregorianDate AdjustMonth(GregorianDate date, int newMonth)
+        {
+            GregorianFormulae.GetDateParts(date.DaysSinceZero, out int y, out _, out int d);
+            _schema.PreValidator.ValidateMonthDay(y, newMonth, d, nameof(newMonth));
+
+            int daysSinceZero = GregorianFormulae.CountDaysSinceEpoch(y, newMonth, d);
+            return new GregorianDate(daysSinceZero);
+        }
+
+        /// <inheritdoc />
+        [Pure]
+        public GregorianDate AdjustDay(GregorianDate date, int newDay)
+        {
+            GregorianFormulae.GetDateParts(date.DaysSinceZero, out int y, out int m, out _);
+            ValidateDayOfMonth(y, m, newDay, nameof(newDay));
+
+            int daysSinceZero = GregorianFormulae.CountDaysSinceEpoch(y, m, newDay);
+            return new GregorianDate(daysSinceZero);
+        }
+
+        /// <inheritdoc />
+        [Pure]
+        public GregorianDate AdjustDayOfYear(GregorianDate date, int newDayOfYear)
+        {
+            int y = GregorianFormulae.GetYear(date.DaysSinceZero, out _);
+            _schema.PreValidator.ValidateDayOfYear(y, newDayOfYear, nameof(newDayOfYear));
+
+            int daysSinceZero = _schema.CountDaysSinceEpoch(y, newDayOfYear);
+            return new GregorianDate(daysSinceZero);
+        }
+
+        private void ValidateDayOfMonth(int y, int m, int dayOfMonth, string? paramName = null)
+        {
+            if (dayOfMonth < 1
+                || (dayOfMonth > _schema.MinDaysInMonth
+                    && dayOfMonth > _schema.CountDaysInMonth(y, m)))
+            {
+                Throw.ArgumentOutOfRange(paramName ?? nameof(dayOfMonth));
+            }
         }
     }
 
@@ -143,7 +208,7 @@ namespace Zorglub.Time.Specialized
         /// Represents the date adjuster.
         /// <para>This field is read-only.</para>
         /// </summary>
-        private static readonly GregorianAdjuster s_Adjuster = new(s_Schema);
+        private static readonly GregorianAdjuster s_Adjuster = new(s_Calendar);
 
         /// <summary>
         /// Represents the smallest possible value of a <see cref="GregorianDate"/>.

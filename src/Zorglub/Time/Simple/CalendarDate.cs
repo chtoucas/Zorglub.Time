@@ -32,9 +32,7 @@ namespace Zorglub.Time.Simple
     /// Represents a calendar date.
     /// <para><see cref="CalendarDate"/> is an immutable struct.</para>
     /// </summary>
-    public readonly partial struct CalendarDate :
-        ISimpleDate<CalendarDate>,
-        IAdjustableDate<CalendarDate>
+    public readonly partial struct CalendarDate : ISimpleDate<CalendarDate>
     {
         /// <summary>
         /// Represents the internal binary representation.
@@ -365,7 +363,10 @@ namespace Zorglub.Time.Simple
             return adjuster.Invoke(this);
         }
 
-        /// <inheritdoc/>
+        /// <summary>
+        /// Adjusts the year field to the specified value, yielding a new date.
+        /// </summary>
+        /// <exception cref="AoorException">The resulting date would be invalid.</exception>
         [Pure]
         public CalendarDate WithYear(int newYear)
         {
@@ -377,7 +378,10 @@ namespace Zorglub.Time.Simple
             return chr.GetCalendarDate(newYear, m, d);
         }
 
-        /// <inheritdoc/>
+        /// <summary>
+        /// Adjusts the month field to the specified value, yielding a new date.
+        /// </summary>
+        /// <exception cref="AoorException">The resulting date would be invalid.</exception>
         [Pure]
         public CalendarDate WithMonth(int newMonth)
         {
@@ -388,7 +392,10 @@ namespace Zorglub.Time.Simple
             return new CalendarDate(y, newMonth, d, Cuid);
         }
 
-        /// <inheritdoc/>
+        /// <summary>
+        /// Adjusts the day of the month field to the specified value, yielding a new date.
+        /// </summary>
+        /// <exception cref="AoorException">The resulting date would be invalid.</exception>
         [Pure]
         public CalendarDate WithDay(int newDay)
         {
