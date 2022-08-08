@@ -5,6 +5,8 @@ namespace Zorglub.Time.Hemerology
 {
     using System;
 
+    using Zorglub.Time.Hemerology.Scopes;
+
     // TODO(api): adjusters. Adjust()
     // Merge IAdjustableDate w/ IDate? Hum no because we have also IAffineDate.
     // Le seul avantage à avoir ces méthodes sur un objet date est qu'on peut ne
@@ -49,6 +51,11 @@ namespace Zorglub.Time.Hemerology
     /// <typeparam name="TDate">The type of date object.</typeparam>
     public interface IDateAdjuster<TDate>
     {
+        /// <summary>
+        /// Gets the calendar scope.
+        /// </summary>
+        CalendarScope Scope { get; }
+
         /// <summary>
         /// Obtains the first day of the year to which belongs the specified date.
         /// </summary>

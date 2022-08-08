@@ -1255,6 +1255,7 @@ Zorglub.Time.Hemerology.IDateAdjuster<TDate>.GetEndOfMonth(TDate date) -> TDate
 Zorglub.Time.Hemerology.IDateAdjuster<TDate>.GetEndOfYear(TDate date) -> TDate
 Zorglub.Time.Hemerology.IDateAdjuster<TDate>.GetStartOfMonth(TDate date) -> TDate
 Zorglub.Time.Hemerology.IDateAdjuster<TDate>.GetStartOfYear(TDate date) -> TDate
+Zorglub.Time.Hemerology.IDateAdjuster<TDate>.Scope.get -> Zorglub.Time.Hemerology.Scopes.CalendarScope!
 Zorglub.Time.Hemerology.IEpagomenalDay
 Zorglub.Time.Hemerology.IEpagomenalDay.IsEpagomenal(out int epagomenalNumber) -> bool
 Zorglub.Time.Hemerology.IFixedDate
@@ -1618,6 +1619,7 @@ Zorglub.Time.Specialized.CivilAdjuster.GetEndOfMonth(Zorglub.Time.Specialized.Ci
 Zorglub.Time.Specialized.CivilAdjuster.GetEndOfYear(Zorglub.Time.Specialized.CivilDate date) -> Zorglub.Time.Specialized.CivilDate
 Zorglub.Time.Specialized.CivilAdjuster.GetStartOfMonth(Zorglub.Time.Specialized.CivilDate date) -> Zorglub.Time.Specialized.CivilDate
 Zorglub.Time.Specialized.CivilAdjuster.GetStartOfYear(Zorglub.Time.Specialized.CivilDate date) -> Zorglub.Time.Specialized.CivilDate
+Zorglub.Time.Specialized.CivilAdjuster.Scope.get -> Zorglub.Time.Hemerology.Scopes.CalendarScope!
 Zorglub.Time.Specialized.CivilCalendar
 Zorglub.Time.Specialized.CivilCalendar.CivilCalendar() -> void
 Zorglub.Time.Specialized.CivilCalendar.MonthsInYear.get -> int
@@ -1667,6 +1669,7 @@ Zorglub.Time.Specialized.GregorianAdjuster.GetEndOfYear(Zorglub.Time.Specialized
 Zorglub.Time.Specialized.GregorianAdjuster.GetStartOfMonth(Zorglub.Time.Specialized.GregorianDate date) -> Zorglub.Time.Specialized.GregorianDate
 Zorglub.Time.Specialized.GregorianAdjuster.GetStartOfYear(Zorglub.Time.Specialized.GregorianDate date) -> Zorglub.Time.Specialized.GregorianDate
 Zorglub.Time.Specialized.GregorianAdjuster.GregorianAdjuster() -> void
+Zorglub.Time.Specialized.GregorianAdjuster.Scope.get -> Zorglub.Time.Hemerology.Scopes.CalendarScope!
 Zorglub.Time.Specialized.GregorianCalendar
 Zorglub.Time.Specialized.GregorianCalendar.GregorianCalendar() -> void
 Zorglub.Time.Specialized.GregorianCalendar.MonthsInYear.get -> int
@@ -1716,6 +1719,7 @@ Zorglub.Time.Specialized.JulianAdjuster.GetEndOfYear(Zorglub.Time.Specialized.Ju
 Zorglub.Time.Specialized.JulianAdjuster.GetStartOfMonth(Zorglub.Time.Specialized.JulianDate date) -> Zorglub.Time.Specialized.JulianDate
 Zorglub.Time.Specialized.JulianAdjuster.GetStartOfYear(Zorglub.Time.Specialized.JulianDate date) -> Zorglub.Time.Specialized.JulianDate
 Zorglub.Time.Specialized.JulianAdjuster.JulianAdjuster() -> void
+Zorglub.Time.Specialized.JulianAdjuster.Scope.get -> Zorglub.Time.Hemerology.Scopes.CalendarScope!
 Zorglub.Time.Specialized.JulianCalendar
 Zorglub.Time.Specialized.JulianCalendar.JulianCalendar() -> void
 Zorglub.Time.Specialized.JulianCalendar.MonthsInYear.get -> int
@@ -1765,6 +1769,7 @@ Zorglub.Time.Specialized.SpecialAdjuster<TDate>.GetEndOfMonth(TDate date) -> TDa
 Zorglub.Time.Specialized.SpecialAdjuster<TDate>.GetEndOfYear(TDate date) -> TDate
 Zorglub.Time.Specialized.SpecialAdjuster<TDate>.GetStartOfMonth(TDate date) -> TDate
 Zorglub.Time.Specialized.SpecialAdjuster<TDate>.GetStartOfYear(TDate date) -> TDate
+Zorglub.Time.Specialized.SpecialAdjuster<TDate>.Scope.get -> Zorglub.Time.Hemerology.Scopes.CalendarScope!
 Zorglub.Time.Specialized.SpecialAdjuster<TDate>.WithDay(int newDay) -> System.Func<TDate, TDate>!
 Zorglub.Time.Specialized.SpecialAdjuster<TDate>.WithDayOfYear(int newDayOfYear) -> System.Func<TDate, TDate>!
 Zorglub.Time.Specialized.SpecialAdjuster<TDate>.WithMonth(int newMonth) -> System.Func<TDate, TDate>!

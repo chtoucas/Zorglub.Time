@@ -62,9 +62,14 @@ namespace Zorglub.Bulgroz.Obsolete
         {
             Requires.NotNull(scope);
 
+            Scope = scope;
+
             _epoch = scope.Epoch;
             _schema = scope.Schema;
         }
+
+        /// <inheritdoc />
+        public CalendarScope Scope { get; }
 
         /// <inheritdoc />
         [Pure]

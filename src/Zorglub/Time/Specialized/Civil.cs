@@ -52,12 +52,6 @@ namespace Zorglub.Time.Specialized
     public sealed class CivilAdjuster : IDateAdjuster<CivilDate>
     {
         /// <summary>
-        /// Represents the scope.
-        /// <para>This field is read-only.</para>
-        /// </summary>
-        private readonly CalendarScope _scope;
-
-        /// <summary>
         /// Represents the schema.
         /// <para>This field is read-only.</para>
         /// </summary>
@@ -75,9 +69,12 @@ namespace Zorglub.Time.Specialized
         {
             Requires.NotNull(calendar);
 
-            _scope = calendar.Scope;
+            Scope = calendar.Scope;
             _schema = calendar.Schema;
         }
+
+        /// <inheritdoc />
+        public CalendarScope Scope { get; }
 
         /// <inheritdoc />
         [Pure]
@@ -122,7 +119,7 @@ namespace Zorglub.Time.Specialized
         public CivilDate AdjustYear(CivilDate date, int newYear)
         {
             CivilFormulae.GetDateParts(date.DaysSinceZero, out _, out int m, out int d);
-            _scope.ValidateYearMonthDay(newYear, m, d, nameof(newYear));
+            Scope.ValidateYearMonthDay(newYear, m, d, nameof(newYear));
 
             int daysSinceZero = CivilFormulae.CountDaysSinceEpoch(newYear, m, d);
             return new CivilDate(daysSinceZero);

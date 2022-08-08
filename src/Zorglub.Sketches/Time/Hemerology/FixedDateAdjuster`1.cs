@@ -29,16 +29,21 @@ namespace Zorglub.Time.Hemerology
         private readonly DayNumber _epoch;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="DateAdjuster{TDate}"/> class.
+        /// Initializes a new instance of the <see cref="FixedDateAdjuster{TDate}"/> class.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="scope"/> is null.</exception>
         public FixedDateAdjuster(CalendarScope scope)
         {
             Requires.NotNull(scope);
 
+            Scope = scope;
+
             _epoch = scope.Epoch;
             _schema = scope.Schema;
         }
+
+        /// <inheritdoc/>
+        public CalendarScope Scope { get; }
 
         /// <inheritdoc />
         [Pure]

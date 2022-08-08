@@ -4,6 +4,7 @@
 namespace Zorglub.Time.Specialized
 {
     using Zorglub.Time.Core;
+    using Zorglub.Time.Core.Intervals;
     using Zorglub.Time.Hemerology;
     using Zorglub.Time.Hemerology.Scopes;
 
@@ -47,15 +48,15 @@ namespace Zorglub.Time.Specialized
             Scope = scope;
         }
 
-        /// <summary>
-        /// Gets the scope.
-        /// </summary>
-        protected CalendarScope Scope { get; }
+        /// <inheritdoc/>
+        public CalendarScope Scope { get; }
 
         /// <summary>
         /// Gets the schema.
         /// </summary>
         protected ICalendricalSchema Schema => Scope.Schema;
+
+        internal Range<int> SupportedYears => Scope.Segment.SupportedYears;
 
         /// <summary>
         /// Creates a new instance of <typeparamref name="TDate"/> from the specified count of

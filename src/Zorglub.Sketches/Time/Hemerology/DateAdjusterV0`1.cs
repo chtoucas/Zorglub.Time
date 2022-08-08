@@ -3,6 +3,8 @@
 
 namespace Zorglub.Time.Hemerology
 {
+    using Zorglub.Time.Hemerology.Scopes;
+
     /// <summary>
     /// Provides a default implementation for <see cref="IDateAdjuster{TDate}"/>.
     /// </summary>
@@ -17,13 +19,16 @@ namespace Zorglub.Time.Hemerology
         private readonly ICalendar<TDate> _calendar;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="DateAdjuster{TDate}"/> class.
+        /// Initializes a new instance of the <see cref="DateAdjusterV0{TDate}"/> class.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="calendar"/> is null.</exception>
         public DateAdjusterV0(ICalendar<TDate> calendar)
         {
             _calendar = calendar ?? throw new ArgumentNullException(nameof(calendar));
         }
+
+        /// <inheritdoc />
+        public CalendarScope Scope => _calendar.Scope;
 
         /// <inheritdoc />
         [Pure]

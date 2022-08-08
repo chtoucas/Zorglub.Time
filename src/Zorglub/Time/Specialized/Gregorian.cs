@@ -50,12 +50,6 @@ namespace Zorglub.Time.Specialized
     public sealed class GregorianAdjuster : IDateAdjuster<GregorianDate>
     {
         /// <summary>
-        /// Represents the scope.
-        /// <para>This field is read-only.</para>
-        /// </summary>
-        private readonly CalendarScope _scope;
-
-        /// <summary>
         /// Represents the schema.
         /// <para>This field is read-only.</para>
         /// </summary>
@@ -73,9 +67,12 @@ namespace Zorglub.Time.Specialized
         {
             Requires.NotNull(calendar);
 
-            _scope = calendar.Scope;
+            Scope = calendar.Scope;
             _schema = calendar.Schema;
         }
+
+        /// <inheritdoc />
+        public CalendarScope Scope { get; }
 
         /// <inheritdoc />
         [Pure]
@@ -120,7 +117,7 @@ namespace Zorglub.Time.Specialized
         public GregorianDate AdjustYear(GregorianDate date, int newYear)
         {
             GregorianFormulae.GetDateParts(date.DaysSinceZero, out _, out int m, out int d);
-            _scope.ValidateYearMonthDay(newYear, m, d, nameof(newYear));
+            Scope.ValidateYearMonthDay(newYear, m, d, nameof(newYear));
 
             int daysSinceZero = GregorianFormulae.CountDaysSinceEpoch(newYear, m, d);
             return new GregorianDate(daysSinceZero);

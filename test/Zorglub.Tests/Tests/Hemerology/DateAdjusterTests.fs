@@ -17,13 +17,13 @@ module Prelude =
     let ``Constructor for DateAdjuster throws when the calendar is null`` () =
         nullExn "calendar" (fun () -> new DateAdjusterV0<ZDate>(null))
 
-module Bundles =
-    let private chr = ZCalendar.Gregorian
-    let private adjusters = new DateAdjusterV0<ZDate>(chr)
+//module Bundles =
+//    let private chr = ZCalendar.Gregorian
+//    let private adjusters = new DateAdjusterV0<ZDate>(chr)
 
-    [<Sealed>]
-    type DateAdjusterFacts() =
-        inherit IDateAdjusterFacts<ZDate, UnboundedGregorianDataSet>(adjusters)
+//    [<Sealed>]
+//    type DateAdjusterFacts() =
+//        inherit IDateAdjusterFacts<ZDate, UnboundedGregorianDataSet>(adjusters)
 
-        override __.GetDate(y, m, d) = new ZDate(y, m, d)
+//        override __.GetDate(y, m, d) = new ZDate(y, m, d)
 
