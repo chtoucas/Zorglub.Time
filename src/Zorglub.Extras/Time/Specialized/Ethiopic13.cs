@@ -344,7 +344,24 @@ namespace Zorglub.Time.Specialized
         public int CountRemainingDaysInMonth() => s_Schema.CountDaysInMonthAfter(_daysSinceEpoch);
 
         #endregion
-        #region Adjust the day of the week
+        #region Adjustments
+
+        /// <summary>
+        /// Adjusts the current instance using the specified adjuster.
+        /// <para>If the adjuster throws, this method will propagate the exception.</para>
+        /// </summary>
+        /// <exception cref="ArgumentNullException"><paramref name="adjuster"/> is null.</exception>
+        [Pure]
+        public Ethiopic13Date Adjust(Func<Ethiopic13Date, Ethiopic13Date> adjuster)
+        {
+            Requires.NotNull(adjuster);
+
+            return adjuster.Invoke(this);
+        }
+
+        //
+        // Adjust the day of the week
+        //
 
         /// <inheritdoc />
         [Pure]
