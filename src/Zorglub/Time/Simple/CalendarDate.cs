@@ -372,10 +372,12 @@ namespace Zorglub.Time.Simple
         {
             _bin.Deconstruct(out int _, out int m, out int d);
             ref readonly var chr = ref CalendarRef;
-            // Even if we knew that "newYear" is valid, we must re-check "m" & "d".
-            //chr.Scope.ValidateYearMonthDay(newYear, m, d, nameof(newYear));
-            //return new CalendarDate(newYear, m, d, Cuid);
-            return chr.GetCalendarDate(newYear, m, d);
+            // Even if we knew that "newYear" is valid, we must re-check "m" &
+            // "d", nevertheless we don't write
+            // > return chr.GetCalendarDate(newYear, m, d);
+            // because we want to throw an AoorException for "newYear".
+            chr.Scope.ValidateYearMonthDay(newYear, m, d, nameof(newYear));
+            return new CalendarDate(newYear, m, d, Cuid);
         }
 
         /// <summary>
