@@ -1,11 +1,10 @@
 ﻿// SPDX-License-Identifier: BSD-3-Clause
 // Copyright (c) 2020 Narvalo.Org. All rights reserved.
 
-namespace Zorglub.Bulgroz.Obsolete
+namespace Zorglub.Time.Hemerology
 {
     using Zorglub.Time;
     using Zorglub.Time.Core;
-    using Zorglub.Time.Hemerology;
     using Zorglub.Time.Hemerology.Scopes;
 
     // The code works because we use TDate.FromDayNumber() which validates
@@ -114,6 +113,7 @@ namespace Zorglub.Bulgroz.Obsolete
         public TDate AdjustYear(TDate date, int newYear)
         {
             var (_, m, d) = date;
+            Scope.ValidateYearMonthDay(newYear, m, d, nameof(newYear));
             var daysSinceEpoch = _schema.CountDaysSinceEpoch(newYear, m, d);
             return TDate.FromDayNumber(_epoch + daysSinceEpoch);
         }
@@ -123,6 +123,7 @@ namespace Zorglub.Bulgroz.Obsolete
         public TDate AdjustMonth(TDate date, int newMonth)
         {
             var (y, _, d) = date;
+            _schema.PreValidator.ValidateMonthDay(y, newMonth, d, nameof(newMonth));
             var daysSinceEpoch = _schema.CountDaysSinceEpoch(y, newMonth, d);
             return TDate.FromDayNumber(_epoch + daysSinceEpoch);
         }
@@ -132,6 +133,7 @@ namespace Zorglub.Bulgroz.Obsolete
         public TDate AdjustDay(TDate date, int newDay)
         {
             var (y, m, _) = date;
+            ValidateDayOfMonth(y, m, newDay, nameof(newDay));
             var daysSinceEpoch = _schema.CountDaysSinceEpoch(y, m, newDay);
             return TDate.FromDayNumber(_epoch + daysSinceEpoch);
         }
@@ -141,8 +143,19 @@ namespace Zorglub.Bulgroz.Obsolete
         public TDate AdjustDayOfYear(TDate date, int newDayOfYear)
         {
             int y = date.Year;
+            _schema.PreValidator.ValidateDayOfYear(y, newDayOfYear, nameof(newDayOfYear));
             var daysSinceEpoch = _schema.CountDaysSinceEpoch(y, newDayOfYear);
             return TDate.FromDayNumber(_epoch + daysSinceEpoch);
+        }
+
+        private void ValidateDayOfMonth(int y, int m, int dayOfMonth, string? paramName = null)
+        {
+            if (dayOfMonth < 1
+                || (dayOfMonth > _schema.MinDaysInMonth
+                    && dayOfMonth > _schema.CountDaysInMonth(y, m)))
+            {
+                Throw.ArgumentOutOfRange(paramName ?? nameof(dayOfMonth));
+            }
         }
     }
 }

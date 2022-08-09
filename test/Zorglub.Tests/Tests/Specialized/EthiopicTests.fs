@@ -54,6 +54,7 @@ module Bundles =
         inherit IDateAdjusterFacts<EthiopicDate, StandardEthiopic12DataSet>(new EthiopicAdjuster())
 
         override __.GetDate(y, m, d) = new EthiopicDate(y, m, d)
+        override __.GetDate(y, doy) = new EthiopicDate(y, doy)
 
     [<Sealed>]
     [<TestExtrasAssembly>]
@@ -106,6 +107,7 @@ module Bundles13 =
         inherit IDateAdjusterFacts<Ethiopic13Date, StandardEthiopic13DataSet>(new Ethiopic13Adjuster())
 
         override __.GetDate(y, m, d) = new Ethiopic13Date(y, m, d)
+        override __.GetDate(y, doy) = new Ethiopic13Date(y, doy)
 
     [<Sealed>]
     [<TestExtrasAssembly>]

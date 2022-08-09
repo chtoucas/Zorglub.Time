@@ -54,6 +54,7 @@ module Bundles =
         inherit IDateAdjusterFacts<ArmenianDate, StandardArmenian12DataSet>(new ArmenianAdjuster())
 
         override __.GetDate(y, m, d) = new ArmenianDate(y, m, d)
+        override __.GetDate(y, doy) = new ArmenianDate(y, doy)
 
     [<Sealed>]
     [<TestExtrasAssembly>]
@@ -107,6 +108,7 @@ module Bundles13 =
         inherit IDateAdjusterFacts<Armenian13Date, StandardArmenian13DataSet>(new Armenian13Adjuster())
 
         override __.GetDate(y, m, d) = new Armenian13Date(y, m, d)
+        override __.GetDate(y, doy) = new Armenian13Date(y, doy)
 
     [<Sealed>]
     [<TestExtrasAssembly>]

@@ -25,9 +25,10 @@ public abstract partial class IDateAdjusterFacts<TDate, TDataSet> :
     protected SupportedYearsTester SupportedYearsTester { get; }
 
     protected abstract TDate GetDate(int y, int m, int d);
+    protected abstract TDate GetDate(int y, int doy);
 }
 
-public partial class IDateAdjusterFacts<TDate, TDataSet>
+public partial class IDateAdjusterFacts<TDate, TDataSet> // Special dates
 {
     [Theory, MemberData(nameof(DateInfoData))]
     public void GetStartOfYear(DateInfo info)
@@ -175,5 +176,35 @@ public partial class IDateAdjusterFacts<TDate, TDataSet> // AdjustDay()
         var exp = GetDate(y, m, d);
         // Act & Assert
         Assert.Equal(exp, AdjusterUT.AdjustDay(date, d));
+    }
+}
+
+public partial class IDateAdjusterFacts<TDate, TDataSet> // AdjustDayOfYear()
+{
+    [Theory, MemberData(nameof(InvalidDayOfYearFieldData))]
+    public void AdjustDayOfYear_InvalidDayOfYear(int y, int newDayOfYear)
+    {
+        var date = GetDate(y, 1);
+        // Act & Assert
+        Assert.ThrowsAoorexn("newDayOfYear", () => AdjusterUT.AdjustDayOfYear(date, newDayOfYear));
+    }
+
+    [Theory, MemberData(nameof(DateInfoData))]
+    public void AdjustDayOfYear_Invariance(DateInfo info)
+    {
+        var (y, doy) = info.Yedoy;
+        var date = GetDate(y, doy);
+        // Act & Assert
+        Assert.Equal(date, AdjusterUT.AdjustDayOfYear(date, doy));
+    }
+
+    [Theory, MemberData(nameof(DateInfoData))]
+    public void AdjustDayOfYear(DateInfo info)
+    {
+        var (y, doy) = info.Yedoy;
+        var date = GetDate(y, 1);
+        var exp = GetDate(y, doy);
+        // Act & Assert
+        Assert.Equal(exp, AdjusterUT.AdjustDayOfYear(date, doy));
     }
 }

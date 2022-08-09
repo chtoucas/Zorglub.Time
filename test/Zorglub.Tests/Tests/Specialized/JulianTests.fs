@@ -55,3 +55,4 @@ module Bundles =
         inherit IDateAdjusterFacts<JulianDate, UnboundedJulianDataSet>(new JulianAdjuster())
 
         override __.GetDate(y, m, d) = new JulianDate(y, m, d)
+        override __.GetDate(y, doy) = new JulianDate(y, doy)

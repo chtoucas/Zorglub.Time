@@ -55,6 +55,7 @@ module Bundles =
         inherit IDateAdjusterFacts<GregorianDate, UnboundedGregorianDataSet>(new GregorianAdjuster())
 
         override __.GetDate(y, m, d) = new GregorianDate(y, m, d)
+        override __.GetDate(y, doy) = new GregorianDate(y, doy)
 
     [<Sealed>]
     [<TestExcludeFrom(TestExcludeFrom.Smoke)>]

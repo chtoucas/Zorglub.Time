@@ -440,7 +440,7 @@ namespace Zorglub.Time.Simple
 
         /// <inheritdoc />
         [Pure]
-        [SuppressMessage("Design", "CA1033:Interface methods should be callable by child types", Justification = "See DateType.IsIntercalary.")]
+        [SuppressMessage("Design", "CA1033:Interface methods should be callable by child types", Justification = "See {Date}.IsIntercalary.")]
         bool ICalendricalKernel.IsIntercalaryDay(int year, int month, int day)
         {
             Scope.ValidateYearMonthDay(year, month, day);
@@ -449,7 +449,7 @@ namespace Zorglub.Time.Simple
 
         /// <inheritdoc />
         [Pure]
-        [SuppressMessage("Design", "CA1033:Interface methods should be callable by child types", Justification = "See DateType.IsSupplementaryDay.")]
+        [SuppressMessage("Design", "CA1033:Interface methods should be callable by child types", Justification = "See {Date}.IsSupplementaryDay.")]
         bool ICalendricalKernel.IsSupplementaryDay(int year, int month, int day)
         {
             Scope.ValidateYearMonthDay(year, month, day);

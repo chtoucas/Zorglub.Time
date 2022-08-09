@@ -36,14 +36,22 @@ namespace Zorglub.Time.Specialized
         /// <exception cref="ArgumentException">The scope of <paramref name="calendar"/> is NOT
         /// complete.</exception>
         private protected SpecialAdjuster(ICalendar<TDate> calendar)
-        {
-            Requires.NotNull(calendar);
+            : this(Guard.NotNull(calendar).Scope) { }
 
-            var scope = calendar.Scope;
+        /// <summary>
+        /// Called from constructors in derived classes to initialize the
+        /// <see cref="SpecialAdjuster{TDate}"/> class.
+        /// </summary>
+        /// <exception cref="ArgumentNullException"><paramref name="scope"/> is null.</exception>
+        /// <exception cref="ArgumentException">paramref name="scope"/> is NOT complete.</exception>
+        private protected SpecialAdjuster(CalendarScope scope)
+        {
+            Requires.NotNull(scope);
+
             // To avoid an unnecessary validation, a derived class is expected
             // to override GetDate(), but this can only be justified when the
             // scope is complete.
-            if (scope.IsComplete == false) Throw.Argument(nameof(calendar));
+            if (scope.IsComplete == false) Throw.Argument(nameof(scope));
 
             Scope = scope;
         }
@@ -55,8 +63,6 @@ namespace Zorglub.Time.Specialized
         /// Gets the schema.
         /// </summary>
         protected ICalendricalSchema Schema => Scope.Schema;
-
-        internal Range<int> SupportedYears => Scope.Segment.SupportedYears;
 
         /// <summary>
         /// Creates a new instance of <typeparamref name="TDate"/> from the specified count of

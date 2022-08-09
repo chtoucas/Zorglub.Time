@@ -54,6 +54,7 @@ module Bundles =
         inherit IDateAdjusterFacts<CopticDate, StandardCoptic12DataSet>(new CopticAdjuster())
 
         override __.GetDate(y, m, d) = new CopticDate(y, m, d)
+        override __.GetDate(y, doy) = new CopticDate(y, doy)
 
     [<Sealed>]
     [<TestExtrasAssembly>]
@@ -106,6 +107,7 @@ module Bundles13 =
         inherit IDateAdjusterFacts<Coptic13Date, StandardCoptic13DataSet>(new Coptic13Adjuster())
 
         override __.GetDate(y, m, d) = new Coptic13Date(y, m, d)
+        override __.GetDate(y, doy) = new Coptic13Date(y, doy)
 
     [<Sealed>]
     [<TestExtrasAssembly>]

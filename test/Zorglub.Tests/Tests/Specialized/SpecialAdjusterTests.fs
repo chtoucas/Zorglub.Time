@@ -16,13 +16,22 @@ open Xunit
 module Prelude =
     [<Fact>]
     let ``Constructor throws when the calendar is null`` () =
-        nullExn "calendar" (fun () -> new FauxSpecialAdjuster<ArmenianDate>(null))
+        let chr: ICalendar<ArmenianDate> = null
+
+        nullExn "calendar" (fun () -> new FauxSpecialAdjuster<ArmenianDate>(chr))
 
     [<Fact>]
-    let ``Constructor throws when the calendar scope is not complete`` () =
+    let ``Constructor throws when the scope is null`` () =
+        let scope: CalendarScope = null
+
+        nullExn "scope" (fun () -> new FauxSpecialAdjuster<ArmenianDate>(scope))
+
+    [<Fact>]
+    let ``Constructor throws when the scope is not complete`` () =
         let min = new DateParts(1, 1, 2)
         let scope = BoundedBelowScope.Create(new Egyptian12Schema(), CalendarEpoch.Armenian, min, 2)
         let chr = new FauxCalendar<ArmenianDate>("Name", scope)
 
-        argExn "calendar" (fun () -> new FauxSpecialAdjuster<ArmenianDate>(chr))
+        argExn "scope" (fun () -> new FauxSpecialAdjuster<ArmenianDate>(scope))
+        argExn "scope" (fun () -> new FauxSpecialAdjuster<ArmenianDate>(chr))
 

@@ -54,6 +54,7 @@ module Bundles =
         inherit IDateAdjusterFacts<ZoroastrianDate, StandardZoroastrian12DataSet>(new ZoroastrianAdjuster())
 
         override __.GetDate(y, m, d) = new ZoroastrianDate(y, m, d)
+        override __.GetDate(y, doy) = new ZoroastrianDate(y, doy)
 
     [<Sealed>]
     [<TestExtrasAssembly>]
@@ -106,6 +107,7 @@ module Bundles13 =
         inherit IDateAdjusterFacts<Zoroastrian13Date, StandardZoroastrian13DataSet>(new Zoroastrian13Adjuster())
 
         override __.GetDate(y, m, d) = new Zoroastrian13Date(y, m, d)
+        override __.GetDate(y, doy) = new Zoroastrian13Date(y, doy)
 
     [<Sealed>]
     [<TestExtrasAssembly>]

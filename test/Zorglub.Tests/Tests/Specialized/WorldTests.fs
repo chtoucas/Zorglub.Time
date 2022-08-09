@@ -80,4 +80,5 @@ module Bundles =
         inherit IDateAdjusterFacts<WorldDate, StandardWorldDataSet>(new WorldAdjuster())
 
         override __.GetDate(y, m, d) = new WorldDate(y, m, d)
+        override __.GetDate(y, doy) = new WorldDate(y, doy)
 
