@@ -71,7 +71,7 @@ namespace Zorglub.Time.Specialized
 
         /// <inheritdoc/>
         [Pure]
-        private protected sealed override WorldDate GetDate(int daysSinceEpoch) => new(daysSinceEpoch);
+        protected sealed override WorldDate GetDate(int daysSinceEpoch) => new(daysSinceEpoch);
     }
 
     /// <summary>

@@ -19,12 +19,6 @@ namespace Zorglub.Time.Specialized
     {
         // "private protected" because the abstract method GetDate() does NOT
         // validate its parameter.
-        //
-        // For this class to work, an ICalendar is all we need but it seems more
-        // natural to use an ICalendar<TDate>, this way we emphasize that the
-        // class works for a specific type of date. In fact, we only need a
-        // complete scope but it would only make sense to have a ctor with just
-        // a scope if we added the ctor with an ICalendar.
 
         /// <summary>
         /// Called from constructors in derived classes to initialize the
@@ -40,102 +34,6 @@ namespace Zorglub.Time.Specialized
             // to override GetDate(), but this can only be justified when the
             // scope is complete.
             if (scope.IsComplete == false) Throw.Argument(nameof(scope));
-        }
-
-        /// <summary>
-        /// Creates a new instance of <typeparamref name="TDate"/> from the specified count of
-        /// consecutive days since the epoch.
-        /// <para>This method does NOT validate its parameter.</para>
-        /// </summary>
-        // A default implementation is straightforward:
-        // > TDate.FromDayNumber(_epoch + daysSinceEpoch);
-        // but we force a derived class to provide its own version.
-        // The idea is that it should not perform any validation; otherwise
-        // there is no reason at all to use SepcialAdjuster instead of the
-        // default impl DateAdjuster.
-        [Pure]
-        private protected abstract TDate GetDate(int daysSinceEpoch);
-
-        /// <inheritdoc />
-        [Pure]
-        public sealed override TDate GetStartOfYear(TDate date)
-        {
-            int daysSinceEpoch = Schema.GetStartOfYear(date.Year);
-            return GetDate(daysSinceEpoch);
-        }
-
-        /// <inheritdoc />
-        [Pure]
-        public sealed override TDate GetEndOfYear(TDate date)
-        {
-            int daysSinceEpoch = Schema.GetEndOfYear(date.Year);
-            return GetDate(daysSinceEpoch);
-        }
-
-        /// <inheritdoc />
-        [Pure]
-        public sealed override TDate GetStartOfMonth(TDate date)
-        {
-            Schema.GetDateParts(date.DaysSinceEpoch, out int y, out int m, out _);
-            int daysSinceEpoch = Schema.GetStartOfMonth(y, m);
-            return GetDate(daysSinceEpoch);
-        }
-
-        /// <inheritdoc />
-        [Pure]
-        public sealed override TDate GetEndOfMonth(TDate date)
-        {
-            Schema.GetDateParts(date.DaysSinceEpoch, out int y, out int m, out _);
-            int daysSinceEpoch = Schema.GetEndOfMonth(y, m);
-            return GetDate(daysSinceEpoch);
-        }
-
-        //
-        // Adjustments for the core parts
-        //
-
-        /// <inheritdoc />
-        [Pure]
-        public sealed override TDate AdjustYear(TDate date, int newYear)
-        {
-            Schema.GetDateParts(date.DaysSinceEpoch, out _, out int m, out int d);
-            AdjustYearValidate(newYear, m, d);
-
-            int daysSinceEpoch = Schema.CountDaysSinceEpoch(newYear, m, d);
-            return GetDate(daysSinceEpoch);
-        }
-
-        /// <inheritdoc />
-        [Pure]
-        public sealed override TDate AdjustMonth(TDate date, int newMonth)
-        {
-            Schema.GetDateParts(date.DaysSinceEpoch, out int y, out _, out int d);
-            AdjustMonthValidate(y, newMonth, d);
-
-            int daysSinceEpoch = Schema.CountDaysSinceEpoch(y, newMonth, d);
-            return GetDate(daysSinceEpoch);
-        }
-
-        /// <inheritdoc />
-        [Pure]
-        public sealed override TDate AdjustDay(TDate date, int newDay)
-        {
-            Schema.GetDateParts(date.DaysSinceEpoch, out int y, out int m, out _);
-            AdjustDayValidate(y, m, newDay);
-
-            int daysSinceEpoch = Schema.CountDaysSinceEpoch(y, m, newDay);
-            return GetDate(daysSinceEpoch);
-        }
-
-        /// <inheritdoc />
-        [Pure]
-        public sealed override TDate AdjustDayOfYear(TDate date, int newDayOfYear)
-        {
-            int y = Schema.GetYear(date.DaysSinceEpoch, out _);
-            AdjustDayOfYearValidate(y, newDayOfYear);
-
-            int daysSinceEpoch = Schema.CountDaysSinceEpoch(y, newDayOfYear);
-            return GetDate(daysSinceEpoch);
         }
     }
 }

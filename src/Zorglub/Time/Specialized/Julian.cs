@@ -78,7 +78,7 @@ namespace Zorglub.Time.Specialized
 
         /// <inheritdoc/>
         [Pure]
-        private protected sealed override JulianDate GetDate(int daysSinceEpoch) => new(daysSinceEpoch);
+        protected sealed override JulianDate GetDate(int daysSinceEpoch) => new(daysSinceEpoch);
     }
 
     /// <summary>

@@ -19,7 +19,7 @@ module Prelude =
 
 module Bundles =
     let private chr = ZCalendar.Gregorian
-    let private adjuster = PlainDateAdjuster.Create(chr)
+    let private adjuster = new PlainDateAdjuster<ZDate>(chr.Scope)
 
     [<Sealed>]
     type DateAdjusterFacts() =
