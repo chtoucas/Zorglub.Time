@@ -12,6 +12,6 @@ public sealed class FauxSpecialAdjuster<TDate> : SpecialAdjuster<TDate>
     public FauxSpecialAdjuster(ICalendar<TDate> calendar) : base(calendar) { }
     public FauxSpecialAdjuster(CalendarScope scope) : base(scope) { }
 
-    protected override TDate GetDate(int daysSinceEpoch) =>
+    private protected override TDate GetDate(int daysSinceEpoch) =>
         TDate.FromDayNumber(Scope.Epoch + daysSinceEpoch);
 }

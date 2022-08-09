@@ -56,43 +56,28 @@ namespace Zorglub.Time.Specialized
 
         /// <inheritdoc/>
         [Pure]
-        protected sealed override JulianDate GetDate(int daysSinceEpoch) => new(daysSinceEpoch);
+        private protected sealed override JulianDate GetDate(int daysSinceEpoch) => new(daysSinceEpoch);
     }
 
     /// <summary>
     /// Provides common adjusters for <see cref="JulianDate"/>.
     /// <para>This class cannot be inherited.</para>
     /// </summary>
-    public sealed class JulianAdjuster : IDateAdjuster<JulianDate>
+    public sealed class JulianAdjuster : DateAdjuster<JulianDate>
     {
         /// <summary>
-        /// Represents the schema.
-        /// <para>This field is read-only.</para>
+        /// Initializes a new instance of the <see cref="JulianAdjuster"/> class.
         /// </summary>
-        private readonly ICalendricalSchema _schema;
+        public JulianAdjuster() : this(JulianDate.Calendar.Scope) { }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="JulianAdjuster"/> class.
         /// </summary>
-        public JulianAdjuster() : this(JulianDate.Calendar) { }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="JulianAdjuster"/> class.
-        /// </summary>
-        internal JulianAdjuster(JulianCalendar calendar)
-        {
-            Requires.NotNull(calendar);
-
-            Scope = calendar.Scope;
-            _schema = calendar.Schema;
-        }
-
-        /// <inheritdoc />
-        public CalendarScope Scope { get; }
+        internal JulianAdjuster(CalendarScope scope) : base(scope) { }
 
         /// <inheritdoc />
         [Pure]
-        public JulianDate GetStartOfYear(JulianDate date)
+        public sealed override JulianDate GetStartOfYear(JulianDate date)
         {
             int daysSinceEpoch = JulianFormulae.GetStartOfYear(date.Year);
             return new JulianDate(daysSinceEpoch);
@@ -100,27 +85,27 @@ namespace Zorglub.Time.Specialized
 
         /// <inheritdoc />
         [Pure]
-        public JulianDate GetEndOfYear(JulianDate date)
+        public sealed override JulianDate GetEndOfYear(JulianDate date)
         {
-            int daysSinceEpoch = _schema.GetEndOfYear(date.Year);
+            int daysSinceEpoch = Schema.GetEndOfYear(date.Year);
             return new JulianDate(daysSinceEpoch);
         }
 
         /// <inheritdoc />
         [Pure]
-        public JulianDate GetStartOfMonth(JulianDate date)
+        public sealed override JulianDate GetStartOfMonth(JulianDate date)
         {
-            _schema.GetDateParts(date.DaysSinceEpoch, out int y, out int m, out _);
-            int daysSinceEpoch = _schema.GetStartOfMonth(y, m);
+            Schema.GetDateParts(date.DaysSinceEpoch, out int y, out int m, out _);
+            int daysSinceEpoch = Schema.GetStartOfMonth(y, m);
             return new JulianDate(daysSinceEpoch);
         }
 
         /// <inheritdoc />
         [Pure]
-        public JulianDate GetEndOfMonth(JulianDate date)
+        public sealed override JulianDate GetEndOfMonth(JulianDate date)
         {
-            _schema.GetDateParts(date.DaysSinceEpoch, out int y, out int m, out _);
-            int daysSinceEpoch = _schema.GetEndOfMonth(y, m);
+            Schema.GetDateParts(date.DaysSinceEpoch, out int y, out int m, out _);
+            int daysSinceEpoch = Schema.GetEndOfMonth(y, m);
             return new JulianDate(daysSinceEpoch);
         }
 
@@ -130,56 +115,46 @@ namespace Zorglub.Time.Specialized
 
         /// <inheritdoc />
         [Pure]
-        public JulianDate AdjustYear(JulianDate date, int newYear)
+        public sealed override JulianDate AdjustYear(JulianDate date, int newYear)
         {
             JulianFormulae.GetDateParts(date.DaysSinceEpoch, out _, out int m, out int d);
-            Scope.ValidateYearMonthDay(newYear, m, d, nameof(newYear));
+            AdjustYearValidate(newYear, m, d);
 
-            int daysSinceEpoch = _schema.CountDaysSinceEpoch(newYear, m, d);
+            int daysSinceEpoch = Schema.CountDaysSinceEpoch(newYear, m, d);
             return new JulianDate(daysSinceEpoch);
         }
 
         /// <inheritdoc />
         [Pure]
-        public JulianDate AdjustMonth(JulianDate date, int newMonth)
+        public sealed override JulianDate AdjustMonth(JulianDate date, int newMonth)
         {
-            _schema.GetDateParts(date.DaysSinceEpoch, out int y, out _, out int d);
-            _schema.PreValidator.ValidateMonthDay(y, newMonth, d, nameof(newMonth));
+            Schema.GetDateParts(date.DaysSinceEpoch, out int y, out _, out int d);
+            AdjustMonthValidate(y, newMonth, d);
 
-            int daysSinceEpoch = _schema.CountDaysSinceEpoch(y, newMonth, d);
+            int daysSinceEpoch = Schema.CountDaysSinceEpoch(y, newMonth, d);
             return new JulianDate(daysSinceEpoch);
         }
 
         /// <inheritdoc />
         [Pure]
-        public JulianDate AdjustDay(JulianDate date, int newDay)
+        public sealed override JulianDate AdjustDay(JulianDate date, int newDay)
         {
-            _schema.GetDateParts(date.DaysSinceEpoch, out int y, out int m, out _);
-            ValidateDayOfMonth(y, m, newDay, nameof(newDay));
+            Schema.GetDateParts(date.DaysSinceEpoch, out int y, out int m, out _);
+            AdjustDayValidate(y, m, newDay);
 
-            int daysSinceEpoch = _schema.CountDaysSinceEpoch(y, m, newDay);
+            int daysSinceEpoch = Schema.CountDaysSinceEpoch(y, m, newDay);
             return new JulianDate(daysSinceEpoch);
         }
 
         /// <inheritdoc />
         [Pure]
-        public JulianDate AdjustDayOfYear(JulianDate date, int newDayOfYear)
+        public sealed override JulianDate AdjustDayOfYear(JulianDate date, int newDayOfYear)
         {
-            int y = _schema.GetYear(date.DaysSinceEpoch, out _);
-            _schema.PreValidator.ValidateDayOfYear(y, newDayOfYear, nameof(newDayOfYear));
+            int y = Schema.GetYear(date.DaysSinceEpoch, out _);
+            AdjustDayOfYearValidate(y, newDayOfYear);
 
-            int daysSinceEpoch = _schema.CountDaysSinceEpoch(y, newDayOfYear);
+            int daysSinceEpoch = Schema.CountDaysSinceEpoch(y, newDayOfYear);
             return new JulianDate(daysSinceEpoch);
-        }
-
-        private void ValidateDayOfMonth(int y, int m, int dayOfMonth, string paramName)
-        {
-            if (dayOfMonth < 1
-                || (dayOfMonth > _schema.MinDaysInMonth
-                    && dayOfMonth > _schema.CountDaysInMonth(y, m)))
-            {
-                Throw.ArgumentOutOfRange(paramName);
-            }
         }
     }
 
@@ -227,7 +202,7 @@ namespace Zorglub.Time.Specialized
         /// Represents the date adjuster.
         /// <para>This field is read-only.</para>
         /// </summary>
-        private static readonly JulianAdjuster s_Adjuster = new(s_Calendar);
+        private static readonly JulianAdjuster s_Adjuster = new(s_Scope);
 
         /// <summary>
         /// Represents the smallest possible value of a <see cref="JulianDate"/>.

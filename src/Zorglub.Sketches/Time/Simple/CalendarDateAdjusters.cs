@@ -3,6 +3,9 @@
 
 namespace Zorglub.Time.Simple
 {
+    // REVIEW(code): optimize WithYear() & co, idem with the other adjusters.
+    // Available as extension methods?
+
     /// <summary>
     /// Provides common adjusters for <see cref="CalendarDate"/>.
     /// </summary>
@@ -44,8 +47,6 @@ namespace Zorglub.Time.Simple
             var ymd = chr.Schema.GetDatePartsAtEndOfMonth(y, m);
             return new CalendarDate(ymd, date.Cuid);
         }
-
-        // TODO(code): optimize, idem with the other adjusters.
 
         [Pure]
         public static Func<CalendarDate, CalendarDate> WithYear(int newYear) =>

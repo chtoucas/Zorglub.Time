@@ -43,7 +43,7 @@ namespace Zorglub.Time.Specialized
 
         /// <inheritdoc/>
         [Pure]
-        protected sealed override Coptic13Date GetDate(int daysSinceEpoch) => new(daysSinceEpoch);
+        private protected sealed override Coptic13Date GetDate(int daysSinceEpoch) => new(daysSinceEpoch);
     }
 
     /// <summary>
@@ -64,7 +64,7 @@ namespace Zorglub.Time.Specialized
 
         /// <inheritdoc/>
         [Pure]
-        protected sealed override Coptic13Date GetDate(int daysSinceEpoch) => new(daysSinceEpoch);
+        private protected sealed override Coptic13Date GetDate(int daysSinceEpoch) => new(daysSinceEpoch);
     }
 
     /// <summary>

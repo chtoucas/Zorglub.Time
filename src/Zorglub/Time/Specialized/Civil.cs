@@ -42,43 +42,28 @@ namespace Zorglub.Time.Specialized
 
         /// <inheritdoc/>
         [Pure]
-        protected sealed override CivilDate GetDate(int daysSinceEpoch) => new(daysSinceEpoch);
+        private protected sealed override CivilDate GetDate(int daysSinceEpoch) => new(daysSinceEpoch);
     }
 
     /// <summary>
     /// Provides common adjusters for <see cref="CivilDate"/>.
     /// <para>This class cannot be inherited.</para>
     /// </summary>
-    public sealed class CivilAdjuster : IDateAdjuster<CivilDate>
+    public sealed class CivilAdjuster : DateAdjuster<CivilDate>
     {
         /// <summary>
-        /// Represents the schema.
-        /// <para>This field is read-only.</para>
+        /// Initializes a new instance of the <see cref="CivilAdjuster"/> class.
         /// </summary>
-        private readonly ICalendricalSchema _schema;
+        public CivilAdjuster() : this(CivilDate.Calendar.Scope) { }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CivilAdjuster"/> class.
         /// </summary>
-        public CivilAdjuster() : this(CivilDate.Calendar) { }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="CivilAdjuster"/> class.
-        /// </summary>
-        internal CivilAdjuster(CivilCalendar calendar)
-        {
-            Requires.NotNull(calendar);
-
-            Scope = calendar.Scope;
-            _schema = calendar.Schema;
-        }
-
-        /// <inheritdoc />
-        public CalendarScope Scope { get; }
+        internal CivilAdjuster(CalendarScope scope) : base(scope) { }
 
         /// <inheritdoc />
         [Pure]
-        public CivilDate GetStartOfYear(CivilDate date)
+        public sealed override CivilDate GetStartOfYear(CivilDate date)
         {
             int daysSinceZero = CivilFormulae.GetStartOfYear(date.Year);
             return new CivilDate(daysSinceZero);
@@ -86,27 +71,27 @@ namespace Zorglub.Time.Specialized
 
         /// <inheritdoc />
         [Pure]
-        public CivilDate GetEndOfYear(CivilDate date)
+        public sealed override CivilDate GetEndOfYear(CivilDate date)
         {
-            int daysSinceZero = _schema.GetEndOfYear(date.Year);
+            int daysSinceZero = Schema.GetEndOfYear(date.Year);
             return new CivilDate(daysSinceZero);
         }
 
         /// <inheritdoc />
         [Pure]
-        public CivilDate GetStartOfMonth(CivilDate date)
+        public sealed override CivilDate GetStartOfMonth(CivilDate date)
         {
             CivilFormulae.GetDateParts(date.DaysSinceZero, out int y, out int m, out _);
-            int daysSinceZero = _schema.GetStartOfMonth(y, m);
+            int daysSinceZero = Schema.GetStartOfMonth(y, m);
             return new CivilDate(daysSinceZero);
         }
 
         /// <inheritdoc />
         [Pure]
-        public CivilDate GetEndOfMonth(CivilDate date)
+        public sealed override CivilDate GetEndOfMonth(CivilDate date)
         {
             CivilFormulae.GetDateParts(date.DaysSinceZero, out int y, out int m, out _);
-            int daysSinceZero = _schema.GetEndOfMonth(y, m);
+            int daysSinceZero = Schema.GetEndOfMonth(y, m);
             return new CivilDate(daysSinceZero);
         }
 
@@ -116,10 +101,10 @@ namespace Zorglub.Time.Specialized
 
         /// <inheritdoc />
         [Pure]
-        public CivilDate AdjustYear(CivilDate date, int newYear)
+        public sealed override CivilDate AdjustYear(CivilDate date, int newYear)
         {
             CivilFormulae.GetDateParts(date.DaysSinceZero, out _, out int m, out int d);
-            Scope.ValidateYearMonthDay(newYear, m, d, nameof(newYear));
+            AdjustYearValidate(newYear, m, d);
 
             int daysSinceZero = CivilFormulae.CountDaysSinceEpoch(newYear, m, d);
             return new CivilDate(daysSinceZero);
@@ -127,10 +112,10 @@ namespace Zorglub.Time.Specialized
 
         /// <inheritdoc />
         [Pure]
-        public CivilDate AdjustMonth(CivilDate date, int newMonth)
+        public sealed override CivilDate AdjustMonth(CivilDate date, int newMonth)
         {
             CivilFormulae.GetDateParts(date.DaysSinceZero, out int y, out _, out int d);
-            _schema.PreValidator.ValidateMonthDay(y, newMonth, d, nameof(newMonth));
+            AdjustMonthValidate(y, newMonth, d);
 
             int daysSinceZero = CivilFormulae.CountDaysSinceEpoch(y, newMonth, d);
             return new CivilDate(daysSinceZero);
@@ -138,10 +123,10 @@ namespace Zorglub.Time.Specialized
 
         /// <inheritdoc />
         [Pure]
-        public CivilDate AdjustDay(CivilDate date, int newDay)
+        public sealed override CivilDate AdjustDay(CivilDate date, int newDay)
         {
             CivilFormulae.GetDateParts(date.DaysSinceZero, out int y, out int m, out _);
-            ValidateDayOfMonth(y, m, newDay, nameof(newDay));
+            AdjustDayValidate(y, m, newDay);
 
             int daysSinceZero = CivilFormulae.CountDaysSinceEpoch(y, m, newDay);
             return new CivilDate(daysSinceZero);
@@ -149,23 +134,13 @@ namespace Zorglub.Time.Specialized
 
         /// <inheritdoc />
         [Pure]
-        public CivilDate AdjustDayOfYear(CivilDate date, int newDayOfYear)
+        public sealed override CivilDate AdjustDayOfYear(CivilDate date, int newDayOfYear)
         {
             int y = CivilFormulae.GetYear(date.DaysSinceZero, out _);
-            _schema.PreValidator.ValidateDayOfYear(y, newDayOfYear, nameof(newDayOfYear));
+            AdjustDayOfYearValidate(y, newDayOfYear);
 
-            int daysSinceZero = _schema.CountDaysSinceEpoch(y, newDayOfYear);
+            int daysSinceZero = Schema.CountDaysSinceEpoch(y, newDayOfYear);
             return new CivilDate(daysSinceZero);
-        }
-
-        private void ValidateDayOfMonth(int y, int m, int dayOfMonth, string paramName)
-        {
-            if (dayOfMonth < 1
-                || (dayOfMonth > _schema.MinDaysInMonth
-                    && dayOfMonth > _schema.CountDaysInMonth(y, m)))
-            {
-                Throw.ArgumentOutOfRange(paramName);
-            }
         }
     }
 
@@ -190,6 +165,12 @@ namespace Zorglub.Time.Specialized
         private static readonly CivilCalendar s_Calendar = new(s_Schema);
 
         /// <summary>
+        /// Represents the scope.
+        /// <para>This field is read-only.</para>
+        /// </summary>
+        private static readonly CalendarScope s_Scope = s_Calendar.Scope;
+
+        /// <summary>
         /// Represents the domain, the interval of supported <see cref="DayNumber"/>.
         /// <para>This field is read-only.</para>
         /// </summary>
@@ -199,7 +180,7 @@ namespace Zorglub.Time.Specialized
         /// Represents the date adjuster.
         /// <para>This field is read-only.</para>
         /// </summary>
-        private static readonly CivilAdjuster s_Adjuster = new(s_Calendar);
+        private static readonly CivilAdjuster s_Adjuster = new(s_Scope);
 
         /// <summary>
         /// Represents the smallest possible value of a <see cref="CivilDate"/>.

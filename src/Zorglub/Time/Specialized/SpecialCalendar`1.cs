@@ -49,7 +49,7 @@ namespace Zorglub.Time.Specialized
         /// <para>This method does NOT validate its parameter.</para>
         /// </summary>
         [Pure]
-        protected abstract TDate GetDate(int daysSinceEpoch);
+        private protected abstract TDate GetDate(int daysSinceEpoch);
 
         /// <inheritdoc/>
         [Pure]

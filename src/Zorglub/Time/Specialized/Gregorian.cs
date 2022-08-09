@@ -40,43 +40,28 @@ namespace Zorglub.Time.Specialized
 
         /// <inheritdoc/>
         [Pure]
-        protected sealed override GregorianDate GetDate(int daysSinceEpoch) => new(daysSinceEpoch);
+        private protected sealed override GregorianDate GetDate(int daysSinceEpoch) => new(daysSinceEpoch);
     }
 
     /// <summary>
     /// Provides common adjusters for <see cref="GregorianDate"/>.
     /// <para>This class cannot be inherited.</para>
     /// </summary>
-    public sealed class GregorianAdjuster : IDateAdjuster<GregorianDate>
+    public sealed class GregorianAdjuster : DateAdjuster<GregorianDate>
     {
         /// <summary>
-        /// Represents the schema.
-        /// <para>This field is read-only.</para>
+        /// Initializes a new instance of the <see cref="GregorianAdjuster"/> class.
         /// </summary>
-        private readonly ICalendricalSchema _schema;
+        public GregorianAdjuster() : this(GregorianDate.Calendar.Scope) { }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GregorianAdjuster"/> class.
         /// </summary>
-        public GregorianAdjuster() : this(GregorianDate.Calendar) { }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="GregorianAdjuster"/> class.
-        /// </summary>
-        internal GregorianAdjuster(GregorianCalendar calendar)
-        {
-            Requires.NotNull(calendar);
-
-            Scope = calendar.Scope;
-            _schema = calendar.Schema;
-        }
-
-        /// <inheritdoc />
-        public CalendarScope Scope { get; }
+        internal GregorianAdjuster(CalendarScope scope) : base(scope) { }
 
         /// <inheritdoc />
         [Pure]
-        public GregorianDate GetStartOfYear(GregorianDate date)
+        public sealed override GregorianDate GetStartOfYear(GregorianDate date)
         {
             int daysSinceZero = GregorianFormulae.GetStartOfYear(date.Year);
             return new GregorianDate(daysSinceZero);
@@ -84,7 +69,7 @@ namespace Zorglub.Time.Specialized
 
         /// <inheritdoc />
         [Pure]
-        public GregorianDate GetEndOfYear(GregorianDate date)
+        public sealed override GregorianDate GetEndOfYear(GregorianDate date)
         {
             int daysSinceZero = GregorianFormulae.GetEndOfYear(date.Year);
             return new GregorianDate(daysSinceZero);
@@ -92,19 +77,19 @@ namespace Zorglub.Time.Specialized
 
         /// <inheritdoc />
         [Pure]
-        public GregorianDate GetStartOfMonth(GregorianDate date)
+        public sealed override GregorianDate GetStartOfMonth(GregorianDate date)
         {
             GregorianFormulae.GetDateParts(date.DaysSinceZero, out int y, out int m, out _);
-            int daysSinceZero = _schema.GetStartOfMonth(y, m);
+            int daysSinceZero = Schema.GetStartOfMonth(y, m);
             return new GregorianDate(daysSinceZero);
         }
 
         /// <inheritdoc />
         [Pure]
-        public GregorianDate GetEndOfMonth(GregorianDate date)
+        public sealed override GregorianDate GetEndOfMonth(GregorianDate date)
         {
             GregorianFormulae.GetDateParts(date.DaysSinceZero, out int y, out int m, out _);
-            int daysSinceZero = _schema.GetEndOfMonth(y, m);
+            int daysSinceZero = Schema.GetEndOfMonth(y, m);
             return new GregorianDate(daysSinceZero);
         }
 
@@ -114,10 +99,10 @@ namespace Zorglub.Time.Specialized
 
         /// <inheritdoc />
         [Pure]
-        public GregorianDate AdjustYear(GregorianDate date, int newYear)
+        public sealed override GregorianDate AdjustYear(GregorianDate date, int newYear)
         {
             GregorianFormulae.GetDateParts(date.DaysSinceZero, out _, out int m, out int d);
-            Scope.ValidateYearMonthDay(newYear, m, d, nameof(newYear));
+            AdjustYearValidate(newYear, m, d);
 
             int daysSinceZero = GregorianFormulae.CountDaysSinceEpoch(newYear, m, d);
             return new GregorianDate(daysSinceZero);
@@ -125,10 +110,10 @@ namespace Zorglub.Time.Specialized
 
         /// <inheritdoc />
         [Pure]
-        public GregorianDate AdjustMonth(GregorianDate date, int newMonth)
+        public sealed override GregorianDate AdjustMonth(GregorianDate date, int newMonth)
         {
             GregorianFormulae.GetDateParts(date.DaysSinceZero, out int y, out _, out int d);
-            _schema.PreValidator.ValidateMonthDay(y, newMonth, d, nameof(newMonth));
+            AdjustMonthValidate(y, newMonth, d);
 
             int daysSinceZero = GregorianFormulae.CountDaysSinceEpoch(y, newMonth, d);
             return new GregorianDate(daysSinceZero);
@@ -136,10 +121,10 @@ namespace Zorglub.Time.Specialized
 
         /// <inheritdoc />
         [Pure]
-        public GregorianDate AdjustDay(GregorianDate date, int newDay)
+        public sealed override GregorianDate AdjustDay(GregorianDate date, int newDay)
         {
             GregorianFormulae.GetDateParts(date.DaysSinceZero, out int y, out int m, out _);
-            ValidateDayOfMonth(y, m, newDay, nameof(newDay));
+            AdjustDayValidate(y, m, newDay);
 
             int daysSinceZero = GregorianFormulae.CountDaysSinceEpoch(y, m, newDay);
             return new GregorianDate(daysSinceZero);
@@ -147,23 +132,13 @@ namespace Zorglub.Time.Specialized
 
         /// <inheritdoc />
         [Pure]
-        public GregorianDate AdjustDayOfYear(GregorianDate date, int newDayOfYear)
+        public sealed override GregorianDate AdjustDayOfYear(GregorianDate date, int newDayOfYear)
         {
             int y = GregorianFormulae.GetYear(date.DaysSinceZero, out _);
-            _schema.PreValidator.ValidateDayOfYear(y, newDayOfYear, nameof(newDayOfYear));
+            AdjustDayOfYearValidate(y, newDayOfYear);
 
-            int daysSinceZero = _schema.CountDaysSinceEpoch(y, newDayOfYear);
+            int daysSinceZero = Schema.CountDaysSinceEpoch(y, newDayOfYear);
             return new GregorianDate(daysSinceZero);
-        }
-
-        private void ValidateDayOfMonth(int y, int m, int dayOfMonth, string paramName)
-        {
-            if (dayOfMonth < 1
-                || (dayOfMonth > _schema.MinDaysInMonth
-                    && dayOfMonth > _schema.CountDaysInMonth(y, m)))
-            {
-                Throw.ArgumentOutOfRange(paramName);
-            }
         }
     }
 
@@ -205,7 +180,7 @@ namespace Zorglub.Time.Specialized
         /// Represents the date adjuster.
         /// <para>This field is read-only.</para>
         /// </summary>
-        private static readonly GregorianAdjuster s_Adjuster = new(s_Calendar);
+        private static readonly GregorianAdjuster s_Adjuster = new(s_Scope);
 
         /// <summary>
         /// Represents the smallest possible value of a <see cref="GregorianDate"/>.
