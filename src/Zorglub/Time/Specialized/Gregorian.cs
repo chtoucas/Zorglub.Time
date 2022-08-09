@@ -156,13 +156,13 @@ namespace Zorglub.Time.Specialized
             return new GregorianDate(daysSinceZero);
         }
 
-        private void ValidateDayOfMonth(int y, int m, int dayOfMonth, string? paramName = null)
+        private void ValidateDayOfMonth(int y, int m, int dayOfMonth, string paramName)
         {
             if (dayOfMonth < 1
                 || (dayOfMonth > _schema.MinDaysInMonth
                     && dayOfMonth > _schema.CountDaysInMonth(y, m)))
             {
-                Throw.ArgumentOutOfRange(paramName ?? nameof(dayOfMonth));
+                Throw.ArgumentOutOfRange(paramName);
             }
         }
     }

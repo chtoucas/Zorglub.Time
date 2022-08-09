@@ -201,13 +201,13 @@ namespace Zorglub.Time.Specialized
         /// <exception cref="OverflowException">The operation would overflow the capacity of
         /// <see cref="Int32"/>.</exception>
         /// <exception cref="AoorException">The validation failed.</exception>
-        private void ValidateDayOfMonth(int y, int m, int dayOfMonth, string? paramName = null)
+        private void ValidateDayOfMonth(int y, int m, int dayOfMonth, string paramName)
         {
             if (dayOfMonth < 1
                 || (dayOfMonth > Schema.MinDaysInMonth
                     && dayOfMonth > Schema.CountDaysInMonth(y, m)))
             {
-                Throw.ArgumentOutOfRange(paramName ?? nameof(dayOfMonth));
+                Throw.ArgumentOutOfRange(paramName);
             }
         }
     }
