@@ -3,6 +3,7 @@
 
 namespace Zorglub.Time.Hemerology
 {
+    using Zorglub.Time.Core;
     using Zorglub.Time.Hemerology.Scopes;
 
     /// <summary>
@@ -11,18 +12,34 @@ namespace Zorglub.Time.Hemerology
     /// consecutive days since the epoch.</para>
     /// </summary>
     /// <typeparam name="TDate">The type of date object.</typeparam>
-    public class FixedDateAdjuster<TDate> : DateAdjuster<TDate>
+    public class FixedDateAdjuster<TDate> : IDateAdjuster<TDate>
         where TDate : IFixedDate<TDate>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="FixedDateAdjuster{TDate}"/> class.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="scope"/> is null.</exception>
-        public FixedDateAdjuster(CalendarScope scope) : base(scope) { }
+        public FixedDateAdjuster(CalendarScope scope)
+        {
+            Scope = scope ?? throw new ArgumentNullException(nameof(scope));
+        }
+
+        /// <inheritdoc/>
+        public CalendarScope Scope { get; }
+
+        /// <summary>
+        /// Gets the epoch.
+        /// </summary>
+        protected DayNumber Epoch => Scope.Epoch;
+
+        /// <summary>
+        /// Gets the schema.
+        /// </summary>
+        protected ICalendricalSchema Schema => Scope.Schema;
 
         /// <inheritdoc />
         [Pure]
-        public sealed override TDate GetStartOfYear(TDate date)
+        public TDate GetStartOfYear(TDate date)
         {
             var dayNumber = date.ToDayNumber();
             int y = Schema.GetYear(dayNumber - Epoch, out _);
@@ -32,7 +49,7 @@ namespace Zorglub.Time.Hemerology
 
         /// <inheritdoc />
         [Pure]
-        public sealed override TDate GetEndOfYear(TDate date)
+        public TDate GetEndOfYear(TDate date)
         {
             var dayNumber = date.ToDayNumber();
             int y = Schema.GetYear(dayNumber - Epoch, out _);
@@ -42,7 +59,7 @@ namespace Zorglub.Time.Hemerology
 
         /// <inheritdoc />
         [Pure]
-        public sealed override TDate GetStartOfMonth(TDate date)
+        public TDate GetStartOfMonth(TDate date)
         {
             var dayNumber = date.ToDayNumber();
             Schema.GetDateParts(dayNumber - Epoch, out int y, out int m, out _);
@@ -52,7 +69,7 @@ namespace Zorglub.Time.Hemerology
 
         /// <inheritdoc />
         [Pure]
-        public sealed override TDate GetEndOfMonth(TDate date)
+        public TDate GetEndOfMonth(TDate date)
         {
             var dayNumber = date.ToDayNumber();
             Schema.GetDateParts(dayNumber - Epoch, out int y, out int m, out _);
@@ -66,7 +83,7 @@ namespace Zorglub.Time.Hemerology
 
         /// <inheritdoc />
         [Pure]
-        public sealed override TDate AdjustYear(TDate date, int newYear)
+        public TDate AdjustYear(TDate date, int newYear)
         {
             var dayNumber = date.ToDayNumber();
             Schema.GetDateParts(dayNumber - Epoch, out _, out int m, out int d);
@@ -78,7 +95,7 @@ namespace Zorglub.Time.Hemerology
 
         /// <inheritdoc />
         [Pure]
-        public sealed override TDate AdjustMonth(TDate date, int newMonth)
+        public TDate AdjustMonth(TDate date, int newMonth)
         {
             var dayNumber = date.ToDayNumber();
             Schema.GetDateParts(dayNumber - Epoch, out int y, out _, out int d);
@@ -90,7 +107,7 @@ namespace Zorglub.Time.Hemerology
 
         /// <inheritdoc />
         [Pure]
-        public sealed override TDate AdjustDay(TDate date, int newDay)
+        public TDate AdjustDay(TDate date, int newDay)
         {
             var dayNumber = date.ToDayNumber();
             Schema.GetDateParts(dayNumber - Epoch, out int y, out int m, out _);
@@ -102,7 +119,7 @@ namespace Zorglub.Time.Hemerology
 
         /// <inheritdoc />
         [Pure]
-        public sealed override TDate AdjustDayOfYear(TDate date, int newDayOfYear)
+        public TDate AdjustDayOfYear(TDate date, int newDayOfYear)
         {
             var dayNumber = date.ToDayNumber();
             int y = Schema.GetYear(dayNumber - Epoch, out _);
@@ -111,5 +128,40 @@ namespace Zorglub.Time.Hemerology
             var daysSinceEpoch = Schema.CountDaysSinceEpoch(y, newDayOfYear);
             return TDate.FromDayNumber(Epoch + daysSinceEpoch);
         }
+
+        //
+        // Validation helpers
+        //
+
+        protected void AdjustYearValidate(int newYear, int m, int d) =>
+            // We MUST re-validate the entire date.
+            Scope.ValidateYearMonthDay(newYear, m, d, nameof(newYear));
+
+        protected void AdjustMonthValidate(int y, int newMonth, int d) =>
+            // We only need to validate "newMonth" and "d".
+            Schema.PreValidator.ValidateMonthDay(y, newMonth, d, nameof(newMonth));
+
+        /// <summary>
+        /// Validates the specified day of the month.
+        /// <para>This method does NOT validate <paramref name="y"/>.</para>
+        /// <para>This method does NOT validate <paramref name="m"/>.</para>
+        /// </summary>
+        /// <exception cref="OverflowException">The operation would overflow the capacity of
+        /// <see cref="Int32"/>.</exception>
+        /// <exception cref="AoorException">The validation failed.</exception>
+        protected void AdjustDayValidate(int y, int m, int dayOfMonth)
+        {
+            // We only need to validate "newDay".
+            if (dayOfMonth < 1
+                || (dayOfMonth > Schema.MinDaysInMonth
+                    && dayOfMonth > Schema.CountDaysInMonth(y, m)))
+            {
+                Throw.ArgumentOutOfRange(nameof(dayOfMonth));
+            }
+        }
+
+        protected void AdjustDayOfYearValidate(int y, int newDayOfYear) =>
+            // We only need to validate "newDayOfYear".
+            Schema.PreValidator.ValidateDayOfYear(y, newDayOfYear, nameof(newDayOfYear));
     }
 }

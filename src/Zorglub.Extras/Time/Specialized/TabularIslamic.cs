@@ -49,13 +49,13 @@ namespace Zorglub.Time.Specialized
         /// <summary>
         /// Initializes a new instance of the <see cref="TabularIslamicAdjuster"/> class.
         /// </summary>
-        public TabularIslamicAdjuster() : this(TabularIslamicDate.Calendar) { }
+        public TabularIslamicAdjuster() : base(TabularIslamicDate.Calendar.Scope) { }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TabularIslamicAdjuster"/> class.
         /// </summary>
-        /// <exception cref="ArgumentNullException"><paramref name="calendar"/> is null.</exception>
-        internal TabularIslamicAdjuster(TabularIslamicCalendar calendar) : base(calendar) { }
+        /// <exception cref="ArgumentNullException"><paramref name="scope"/> is null.</exception>
+        internal TabularIslamicAdjuster(CalendarScope scope) : base(scope) { }
 
         /// <inheritdoc/>
         [Pure]
@@ -106,7 +106,7 @@ namespace Zorglub.Time.Specialized
         /// Represents the date adjuster.
         /// <para>This field is read-only.</para>
         /// </summary>
-        private static readonly TabularIslamicAdjuster s_Adjuster = new(s_Calendar);
+        private static readonly TabularIslamicAdjuster s_Adjuster = new(s_Scope);
 
         /// <summary>
         /// Represents the smallest possible value of a <see cref="TabularIslamicDate"/>.

@@ -13,6 +13,7 @@ namespace Zorglub.Time.Hemerology
     /// </summary>
     /// <typeparam name="TDate">The type of date object.</typeparam>
     public abstract class DateAdjuster<TDate> : IDateAdjuster<TDate>
+        where TDate : IDateable
     {
         /// <summary>
         /// Called from constructors in derived classes to initialize the

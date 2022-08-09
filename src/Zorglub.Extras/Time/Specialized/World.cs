@@ -61,13 +61,13 @@ namespace Zorglub.Time.Specialized
         /// <summary>
         /// Initializes a new instance of the <see cref="WorldAdjuster"/> class.
         /// </summary>
-        public WorldAdjuster() : this(WorldDate.Calendar) { }
+        public WorldAdjuster() : base(WorldDate.Calendar.Scope) { }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="WorldAdjuster"/> class.
         /// </summary>
-        /// <exception cref="ArgumentNullException"><paramref name="calendar"/> is null.</exception>
-        internal WorldAdjuster(WorldCalendar calendar) : base(calendar) { }
+        /// <exception cref="ArgumentNullException"><paramref name="scope"/> is null.</exception>
+        internal WorldAdjuster(CalendarScope scope) : base(scope) { }
 
         /// <inheritdoc/>
         [Pure]
@@ -119,7 +119,7 @@ namespace Zorglub.Time.Specialized
         /// Represents the date adjuster.
         /// <para>This field is read-only.</para>
         /// </summary>
-        private static readonly WorldAdjuster s_Adjuster = new(s_Calendar);
+        private static readonly WorldAdjuster s_Adjuster = new(s_Scope);
 
         /// <summary>
         /// Represents the smallest possible value of a <see cref="WorldDate"/>.

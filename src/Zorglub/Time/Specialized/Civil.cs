@@ -49,99 +49,22 @@ namespace Zorglub.Time.Specialized
     /// Provides common adjusters for <see cref="CivilDate"/>.
     /// <para>This class cannot be inherited.</para>
     /// </summary>
-    public sealed class CivilAdjuster : DateAdjuster<CivilDate>
+    public sealed class CivilAdjuster : SpecialAdjuster<CivilDate>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="CivilAdjuster"/> class.
         /// </summary>
-        public CivilAdjuster() : this(CivilDate.Calendar.Scope) { }
+        public CivilAdjuster() : base(CivilDate.Calendar.Scope) { }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CivilAdjuster"/> class.
         /// </summary>
+        /// <exception cref="ArgumentNullException"><paramref name="scope"/> is null.</exception>
         internal CivilAdjuster(CalendarScope scope) : base(scope) { }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         [Pure]
-        public sealed override CivilDate GetStartOfYear(CivilDate date)
-        {
-            int daysSinceZero = CivilFormulae.GetStartOfYear(date.Year);
-            return new CivilDate(daysSinceZero);
-        }
-
-        /// <inheritdoc />
-        [Pure]
-        public sealed override CivilDate GetEndOfYear(CivilDate date)
-        {
-            int daysSinceZero = Schema.GetEndOfYear(date.Year);
-            return new CivilDate(daysSinceZero);
-        }
-
-        /// <inheritdoc />
-        [Pure]
-        public sealed override CivilDate GetStartOfMonth(CivilDate date)
-        {
-            CivilFormulae.GetDateParts(date.DaysSinceZero, out int y, out int m, out _);
-            int daysSinceZero = Schema.GetStartOfMonth(y, m);
-            return new CivilDate(daysSinceZero);
-        }
-
-        /// <inheritdoc />
-        [Pure]
-        public sealed override CivilDate GetEndOfMonth(CivilDate date)
-        {
-            CivilFormulae.GetDateParts(date.DaysSinceZero, out int y, out int m, out _);
-            int daysSinceZero = Schema.GetEndOfMonth(y, m);
-            return new CivilDate(daysSinceZero);
-        }
-
-        //
-        // Adjustments for the core parts
-        //
-
-        /// <inheritdoc />
-        [Pure]
-        public sealed override CivilDate AdjustYear(CivilDate date, int newYear)
-        {
-            CivilFormulae.GetDateParts(date.DaysSinceZero, out _, out int m, out int d);
-            AdjustYearValidate(newYear, m, d);
-
-            int daysSinceZero = CivilFormulae.CountDaysSinceEpoch(newYear, m, d);
-            return new CivilDate(daysSinceZero);
-        }
-
-        /// <inheritdoc />
-        [Pure]
-        public sealed override CivilDate AdjustMonth(CivilDate date, int newMonth)
-        {
-            CivilFormulae.GetDateParts(date.DaysSinceZero, out int y, out _, out int d);
-            AdjustMonthValidate(y, newMonth, d);
-
-            int daysSinceZero = CivilFormulae.CountDaysSinceEpoch(y, newMonth, d);
-            return new CivilDate(daysSinceZero);
-        }
-
-        /// <inheritdoc />
-        [Pure]
-        public sealed override CivilDate AdjustDay(CivilDate date, int newDay)
-        {
-            CivilFormulae.GetDateParts(date.DaysSinceZero, out int y, out int m, out _);
-            AdjustDayValidate(y, m, newDay);
-
-            int daysSinceZero = CivilFormulae.CountDaysSinceEpoch(y, m, newDay);
-            return new CivilDate(daysSinceZero);
-        }
-
-        /// <inheritdoc />
-        [Pure]
-        public sealed override CivilDate AdjustDayOfYear(CivilDate date, int newDayOfYear)
-        {
-            int y = CivilFormulae.GetYear(date.DaysSinceZero, out _);
-            AdjustDayOfYearValidate(y, newDayOfYear);
-
-            int daysSinceZero = Schema.CountDaysSinceEpoch(y, newDayOfYear);
-            return new CivilDate(daysSinceZero);
-        }
+        private protected sealed override CivilDate GetDate(int daysSinceEpoch) => new(daysSinceEpoch);
     }
 
     /// <summary>

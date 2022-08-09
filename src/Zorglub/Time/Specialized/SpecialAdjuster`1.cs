@@ -30,16 +30,6 @@ namespace Zorglub.Time.Specialized
         /// Called from constructors in derived classes to initialize the
         /// <see cref="SpecialAdjuster{TDate}"/> class.
         /// </summary>
-        /// <exception cref="ArgumentNullException"><paramref name="calendar"/> is null.</exception>
-        /// <exception cref="ArgumentException">The scope of <paramref name="calendar"/> is NOT
-        /// complete.</exception>
-        private protected SpecialAdjuster(ICalendar<TDate> calendar)
-            : this(Guard.NotNull(calendar).Scope) { }
-
-        /// <summary>
-        /// Called from constructors in derived classes to initialize the
-        /// <see cref="SpecialAdjuster{TDate}"/> class.
-        /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="scope"/> is null.</exception>
         /// <exception cref="ArgumentException">paramref name="scope"/> is NOT complete.</exception>
         private protected SpecialAdjuster(CalendarScope scope) : base(scope)

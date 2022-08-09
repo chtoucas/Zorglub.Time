@@ -47,99 +47,22 @@ namespace Zorglub.Time.Specialized
     /// Provides common adjusters for <see cref="GregorianDate"/>.
     /// <para>This class cannot be inherited.</para>
     /// </summary>
-    public sealed class GregorianAdjuster : DateAdjuster<GregorianDate>
+    public sealed class GregorianAdjuster : SpecialAdjuster<GregorianDate>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="GregorianAdjuster"/> class.
         /// </summary>
-        public GregorianAdjuster() : this(GregorianDate.Calendar.Scope) { }
+        public GregorianAdjuster() : base(GregorianDate.Calendar.Scope) { }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GregorianAdjuster"/> class.
         /// </summary>
+        /// <exception cref="ArgumentNullException"><paramref name="scope"/> is null.</exception>
         internal GregorianAdjuster(CalendarScope scope) : base(scope) { }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         [Pure]
-        public sealed override GregorianDate GetStartOfYear(GregorianDate date)
-        {
-            int daysSinceZero = GregorianFormulae.GetStartOfYear(date.Year);
-            return new GregorianDate(daysSinceZero);
-        }
-
-        /// <inheritdoc />
-        [Pure]
-        public sealed override GregorianDate GetEndOfYear(GregorianDate date)
-        {
-            int daysSinceZero = GregorianFormulae.GetEndOfYear(date.Year);
-            return new GregorianDate(daysSinceZero);
-        }
-
-        /// <inheritdoc />
-        [Pure]
-        public sealed override GregorianDate GetStartOfMonth(GregorianDate date)
-        {
-            GregorianFormulae.GetDateParts(date.DaysSinceZero, out int y, out int m, out _);
-            int daysSinceZero = Schema.GetStartOfMonth(y, m);
-            return new GregorianDate(daysSinceZero);
-        }
-
-        /// <inheritdoc />
-        [Pure]
-        public sealed override GregorianDate GetEndOfMonth(GregorianDate date)
-        {
-            GregorianFormulae.GetDateParts(date.DaysSinceZero, out int y, out int m, out _);
-            int daysSinceZero = Schema.GetEndOfMonth(y, m);
-            return new GregorianDate(daysSinceZero);
-        }
-
-        //
-        // Adjustments for the core parts
-        //
-
-        /// <inheritdoc />
-        [Pure]
-        public sealed override GregorianDate AdjustYear(GregorianDate date, int newYear)
-        {
-            GregorianFormulae.GetDateParts(date.DaysSinceZero, out _, out int m, out int d);
-            AdjustYearValidate(newYear, m, d);
-
-            int daysSinceZero = GregorianFormulae.CountDaysSinceEpoch(newYear, m, d);
-            return new GregorianDate(daysSinceZero);
-        }
-
-        /// <inheritdoc />
-        [Pure]
-        public sealed override GregorianDate AdjustMonth(GregorianDate date, int newMonth)
-        {
-            GregorianFormulae.GetDateParts(date.DaysSinceZero, out int y, out _, out int d);
-            AdjustMonthValidate(y, newMonth, d);
-
-            int daysSinceZero = GregorianFormulae.CountDaysSinceEpoch(y, newMonth, d);
-            return new GregorianDate(daysSinceZero);
-        }
-
-        /// <inheritdoc />
-        [Pure]
-        public sealed override GregorianDate AdjustDay(GregorianDate date, int newDay)
-        {
-            GregorianFormulae.GetDateParts(date.DaysSinceZero, out int y, out int m, out _);
-            AdjustDayValidate(y, m, newDay);
-
-            int daysSinceZero = GregorianFormulae.CountDaysSinceEpoch(y, m, newDay);
-            return new GregorianDate(daysSinceZero);
-        }
-
-        /// <inheritdoc />
-        [Pure]
-        public sealed override GregorianDate AdjustDayOfYear(GregorianDate date, int newDayOfYear)
-        {
-            int y = GregorianFormulae.GetYear(date.DaysSinceZero, out _);
-            AdjustDayOfYearValidate(y, newDayOfYear);
-
-            int daysSinceZero = Schema.CountDaysSinceEpoch(y, newDayOfYear);
-            return new GregorianDate(daysSinceZero);
-        }
+        private protected sealed override GregorianDate GetDate(int daysSinceEpoch) => new(daysSinceEpoch);
     }
 
     /// <summary>

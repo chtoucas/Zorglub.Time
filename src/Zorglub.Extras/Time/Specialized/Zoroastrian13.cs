@@ -54,13 +54,13 @@ namespace Zorglub.Time.Specialized
         /// <summary>
         /// Initializes a new instance of the <see cref="Zoroastrian13Adjuster"/> class.
         /// </summary>
-        public Zoroastrian13Adjuster() : this(Zoroastrian13Date.Calendar) { }
+        public Zoroastrian13Adjuster() : base(Zoroastrian13Date.Calendar.Scope) { }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Zoroastrian13Adjuster"/> class.
         /// </summary>
-        /// <exception cref="ArgumentNullException"><paramref name="calendar"/> is null.</exception>
-        internal Zoroastrian13Adjuster(Zoroastrian13Calendar calendar) : base(calendar) { }
+        /// <exception cref="ArgumentNullException"><paramref name="scope"/> is null.</exception>
+        internal Zoroastrian13Adjuster(CalendarScope scope) : base(scope) { }
 
         /// <inheritdoc/>
         [Pure]
@@ -112,7 +112,7 @@ namespace Zorglub.Time.Specialized
         /// Represents the date adjuster.
         /// <para>This field is read-only.</para>
         /// </summary>
-        private static readonly Zoroastrian13Adjuster s_Adjuster = new(s_Calendar);
+        private static readonly Zoroastrian13Adjuster s_Adjuster = new(s_Scope);
 
         /// <summary>
         /// Represents the smallest possible value of a <see cref="Zoroastrian13Date"/>.

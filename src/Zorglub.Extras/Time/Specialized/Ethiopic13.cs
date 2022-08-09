@@ -54,13 +54,13 @@ namespace Zorglub.Time.Specialized
         /// <summary>
         /// Initializes a new instance of the <see cref="Ethiopic13Adjuster"/> class.
         /// </summary>
-        public Ethiopic13Adjuster() : this(Ethiopic13Date.Calendar) { }
+        public Ethiopic13Adjuster() : base(Ethiopic13Date.Calendar.Scope) { }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Ethiopic13Adjuster"/> class.
         /// </summary>
-        /// <exception cref="ArgumentNullException"><paramref name="calendar"/> is null.</exception>
-        internal Ethiopic13Adjuster(Ethiopic13Calendar calendar) : base(calendar) { }
+        /// <exception cref="ArgumentNullException"><paramref name="scope"/> is null.</exception>
+        internal Ethiopic13Adjuster(CalendarScope scope) : base(scope) { }
 
         /// <inheritdoc/>
         [Pure]
@@ -112,7 +112,7 @@ namespace Zorglub.Time.Specialized
         /// Represents the date adjuster.
         /// <para>This field is read-only.</para>
         /// </summary>
-        private static readonly Ethiopic13Adjuster s_Adjuster = new(s_Calendar);
+        private static readonly Ethiopic13Adjuster s_Adjuster = new(s_Scope);
 
         /// <summary>
         /// Represents the smallest possible value of a <see cref="Ethiopic13Date"/>.

@@ -54,13 +54,13 @@ namespace Zorglub.Time.Specialized
         /// <summary>
         /// Initializes a new instance of the <see cref="Coptic13Adjuster"/> class.
         /// </summary>
-        public Coptic13Adjuster() : this(Coptic13Date.Calendar) { }
+        public Coptic13Adjuster() : base(Coptic13Date.Calendar.Scope) { }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Coptic13Adjuster"/> class.
         /// </summary>
-        /// <exception cref="ArgumentNullException"><paramref name="calendar"/> is null.</exception>
-        internal Coptic13Adjuster(Coptic13Calendar calendar) : base(calendar) { }
+        /// <exception cref="ArgumentNullException"><paramref name="scope"/> is null.</exception>
+        internal Coptic13Adjuster(CalendarScope scope) : base(scope) { }
 
         /// <inheritdoc/>
         [Pure]
@@ -112,7 +112,7 @@ namespace Zorglub.Time.Specialized
         /// Represents the date adjuster.
         /// <para>This field is read-only.</para>
         /// </summary>
-        private static readonly Coptic13Adjuster s_Adjuster = new(s_Calendar);
+        private static readonly Coptic13Adjuster s_Adjuster = new(s_Scope);
 
         /// <summary>
         /// Represents the smallest possible value of a <see cref="Coptic13Date"/>.

@@ -49,13 +49,13 @@ namespace Zorglub.Time.Specialized
         /// <summary>
         /// Initializes a new instance of the <see cref="ArmenianAdjuster"/> class.
         /// </summary>
-        public ArmenianAdjuster() : this(ArmenianDate.Calendar) { }
+        public ArmenianAdjuster() : base(ArmenianDate.Calendar.Scope) { }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ArmenianAdjuster"/> class.
         /// </summary>
-        /// <exception cref="ArgumentNullException"><paramref name="calendar"/> is null.</exception>
-        internal ArmenianAdjuster(ArmenianCalendar calendar) : base(calendar) { }
+        /// <exception cref="ArgumentNullException"><paramref name="scope"/> is null.</exception>
+        internal ArmenianAdjuster(CalendarScope scope) : base(scope) { }
 
         /// <inheritdoc/>
         [Pure]
@@ -107,7 +107,7 @@ namespace Zorglub.Time.Specialized
         /// Represents the date adjuster.
         /// <para>This field is read-only.</para>
         /// </summary>
-        private static readonly ArmenianAdjuster s_Adjuster = new(s_Calendar);
+        private static readonly ArmenianAdjuster s_Adjuster = new(s_Scope);
 
         /// <summary>
         /// Represents the smallest possible value of a <see cref="ArmenianDate"/>.
