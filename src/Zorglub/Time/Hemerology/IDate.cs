@@ -49,7 +49,7 @@ namespace Zorglub.Time.Hemerology
         where TSelf : IDate<TSelf, TCalendar>
     {
         /// <summary>
-        /// Gets the calendar to which belongs the current instance.
+        /// Gets the (mono-)calendar to which belongs the current instance.
         /// <para>This static property is thread-safe.</para>
         /// </summary>
         static abstract TCalendar Calendar { get; }

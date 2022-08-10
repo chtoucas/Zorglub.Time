@@ -78,15 +78,6 @@ public partial class IDateFacts<TDate, TDataSet> // Factories
 
 public partial class IDateFacts<TDate, TDataSet> // Conversions
 {
-    [Theory(Skip = "This cannot work with poly-calendars."), MemberData(nameof(DayNumberInfoData))]
-    public void FromDayNumber(DayNumberInfo info)
-    {
-        var (dayNumber, y, m, d) = info;
-        var date = GetDate(y, m, d);
-        // Act & Assert
-        Assert.Equal(date, TDate.FromDayNumber(dayNumber));
-    }
-
     // Normally, this also tests the prop DayNumber if there is one.
     [Theory, MemberData(nameof(DayNumberInfoData))]
     public void ToDayNumber(DayNumberInfo info)
