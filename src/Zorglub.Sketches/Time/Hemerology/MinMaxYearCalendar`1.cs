@@ -37,7 +37,7 @@ namespace Zorglub.Time.Hemerology
         [Pure]
         public IEnumerable<TDate> GetDaysInYear(int year)
         {
-            SupportedYears.Validate(year);
+            YearsValidator.Validate(year);
 
             int startOfYear = Schema.GetStartOfYear(year);
             int daysInYear = Schema.CountDaysInYear(year);
@@ -65,7 +65,7 @@ namespace Zorglub.Time.Hemerology
         [Pure]
         public TDate GetStartOfYear(int year)
         {
-            SupportedYears.Validate(year);
+            YearsValidator.Validate(year);
             int daysSinceEpoch = Schema.GetStartOfYear(year);
             return TDate.FromDayNumber(Epoch + daysSinceEpoch);
         }
@@ -74,7 +74,7 @@ namespace Zorglub.Time.Hemerology
         [Pure]
         public TDate GetEndOfYear(int year)
         {
-            SupportedYears.Validate(year);
+            YearsValidator.Validate(year);
             int daysSinceEpoch = Schema.GetEndOfYear(year);
             return TDate.FromDayNumber(Epoch + daysSinceEpoch);
         }
