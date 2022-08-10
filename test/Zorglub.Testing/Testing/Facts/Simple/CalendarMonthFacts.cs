@@ -362,7 +362,7 @@ public partial class CalendarMonthFacts<TDataSet> // Adjustments
             var adjuster = (CalendarMonth month) =>
             {
                 var (y, m) = month;
-                return new CalendarMonth(invalidYear, m);
+                return CalendarUT.GetCalendarMonth(invalidYear, m);
             };
             // Act & Assert
             Assert.ThrowsAoorexn("year", () => month.Adjust(adjuster));
@@ -377,7 +377,7 @@ public partial class CalendarMonthFacts<TDataSet> // Adjustments
         var adjuster = (CalendarMonth month) =>
         {
             var (y, m) = month;
-            return new CalendarMonth(y, newMonth);
+            return CalendarUT.GetCalendarMonth(y, newMonth);
         };
         Assert.ThrowsAoorexn("month", () => month.Adjust(adjuster));
     }
@@ -397,7 +397,7 @@ public partial class CalendarMonthFacts<TDataSet> // Adjustments
         var (y, m) = info.Yemo;
         var month = CalendarUT.GetCalendarMonth(1, 1);
         var exp = CalendarUT.GetCalendarMonth(y, m);
-        var adjuster = (CalendarMonth _) => new CalendarMonth(y, m);
+        var adjuster = (CalendarMonth _) => CalendarUT.GetCalendarMonth(y, m);
         // Act & Assert
         Assert.Equal(exp, month.Adjust(adjuster));
     }

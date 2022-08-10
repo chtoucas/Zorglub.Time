@@ -78,7 +78,7 @@ public partial class IDateFacts<TDate, TDataSet> // Factories
 
 public partial class IDateFacts<TDate, TDataSet> // Conversions
 {
-    [Theory, MemberData(nameof(DayNumberInfoData))]
+    [Theory(Skip = "This cannot work with poly-calendars."), MemberData(nameof(DayNumberInfoData))]
     public void FromDayNumber(DayNumberInfo info)
     {
         var (dayNumber, y, m, d) = info;
