@@ -72,7 +72,7 @@ namespace Zorglub.Time.Hemerology
         [Pure]
         public sealed override int CountMonthsInYear(int year)
         {
-            SupportedYears.Validate(year);
+            YearsValidator.Validate(year);
             return year == MinYear
                 ? CountMonthsInFirstYear()
                 : Schema.CountMonthsInYear(year);
@@ -82,7 +82,7 @@ namespace Zorglub.Time.Hemerology
         [Pure]
         public sealed override int CountDaysInYear(int year)
         {
-            SupportedYears.Validate(year);
+            YearsValidator.Validate(year);
             return year == MinYear
                 ? CountDaysInFirstYear()
                 : Schema.CountDaysInYear(year);
@@ -143,7 +143,7 @@ namespace Zorglub.Time.Hemerology
         [Pure]
         public sealed override DateParts GetStartOfYear(int year)
         {
-            SupportedYears.Validate(year);
+            YearsValidator.Validate(year);
             return year == MinYear
                 ? Throw.ArgumentOutOfRange<DateParts>(nameof(year))
                 : DateParts.AtStartOfYear(year);
@@ -153,7 +153,7 @@ namespace Zorglub.Time.Hemerology
         [Pure]
         public sealed override DateParts GetEndOfYear(int year)
         {
-            SupportedYears.Validate(year);
+            YearsValidator.Validate(year);
             return PartsAdapter.GetDatePartsAtEndOfYear(year);
         }
 

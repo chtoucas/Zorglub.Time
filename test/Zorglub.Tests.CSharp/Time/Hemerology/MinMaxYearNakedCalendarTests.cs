@@ -27,7 +27,7 @@ public static class MinMaxYearNakedCalendarTests
         Assert.Equal(name, chr.Name);
         Assert.Equal(epoch, chr.Epoch);
         Assert.Equal(s_Schema, chr.Schema);
-        Assert.Equal(range, chr.SupportedYears.Range);
+        Assert.Equal(range, chr.YearsValidator.Range);
     }
 
     //[Fact]
@@ -117,7 +117,7 @@ public sealed class GregorianMinMaxYearNakedCalendarTests :
     public void SupportedYears_Prop()
     {
         // Act
-        var supportedYears = CalendarUT.SupportedYears;
+        var supportedYears = CalendarUT.YearsValidator;
         // Assert
         Assert.Equal(FirstYear, supportedYears.MinYear);
         Assert.Equal(LastYear, supportedYears.MaxYear);

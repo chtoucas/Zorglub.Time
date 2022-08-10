@@ -1201,7 +1201,7 @@ Zorglub.Time.Hemerology.BasicCalendar.Name.get -> string!
 Zorglub.Time.Hemerology.BasicCalendar.PeriodicAdjustments.get -> Zorglub.Time.CalendricalAdjustments
 Zorglub.Time.Hemerology.BasicCalendar.Schema.get -> Zorglub.Time.Core.ICalendricalSchema!
 Zorglub.Time.Hemerology.BasicCalendar.Scope.get -> Zorglub.Time.Hemerology.Scopes.CalendarScope!
-Zorglub.Time.Hemerology.BasicCalendar.SupportedYears.get -> Zorglub.Time.Core.Validation.YearsValidator!
+Zorglub.Time.Hemerology.BasicCalendar.YearsValidator.get -> Zorglub.Time.Core.Validation.YearsValidator!
 Zorglub.Time.Hemerology.CalendarEpoch
 Zorglub.Time.Hemerology.DateAdjuster<TDate>
 Zorglub.Time.Hemerology.DateAdjuster<TDate>.AdjustDay(TDate date, int newDay) -> TDate
@@ -1295,15 +1295,6 @@ Zorglub.Time.Hemerology.IStandardArithmetic<TSelf>.PreviousDay() -> TSelf
 Zorglub.Time.Hemerology.MinMaxYearCalendar
 Zorglub.Time.Hemerology.MinMaxYearCalendar.MinMaxYearCalendar(string! name, Zorglub.Time.Hemerology.Scopes.CalendarScope! scope) -> void
 Zorglub.Time.Hemerology.MinMaxYearCalendar.MinMaxYearCalendar(string! name, Zorglub.Time.Hemerology.Scopes.MinMaxYearScope! scope) -> void
-Zorglub.Time.Hemerology.MinMaxYearCalendar<TDate>
-Zorglub.Time.Hemerology.MinMaxYearCalendar<TDate>.GetDaysInMonth(int year, int month) -> System.Collections.Generic.IEnumerable<TDate>!
-Zorglub.Time.Hemerology.MinMaxYearCalendar<TDate>.GetDaysInYear(int year) -> System.Collections.Generic.IEnumerable<TDate>!
-Zorglub.Time.Hemerology.MinMaxYearCalendar<TDate>.GetEndOfMonth(int year, int month) -> TDate
-Zorglub.Time.Hemerology.MinMaxYearCalendar<TDate>.GetEndOfYear(int year) -> TDate
-Zorglub.Time.Hemerology.MinMaxYearCalendar<TDate>.GetStartOfMonth(int year, int month) -> TDate
-Zorglub.Time.Hemerology.MinMaxYearCalendar<TDate>.GetStartOfYear(int year) -> TDate
-Zorglub.Time.Hemerology.MinMaxYearCalendar<TDate>.MinMaxYearCalendar(string! name, Zorglub.Time.Hemerology.Scopes.CalendarScope! scope) -> void
-Zorglub.Time.Hemerology.MinMaxYearCalendar<TDate>.MinMaxYearCalendar(string! name, Zorglub.Time.Hemerology.Scopes.MinMaxYearScope! scope) -> void
 Zorglub.Time.Hemerology.Scopes.CalendarScope
 Zorglub.Time.Hemerology.Scopes.CalendarScope.CalendarScope(Zorglub.Time.DayNumber epoch, Zorglub.Time.Core.CalendricalSegment! segment) -> void
 Zorglub.Time.Hemerology.Scopes.CalendarScope.DaysValidator.get -> Zorglub.Time.Core.Validation.DaysValidator!

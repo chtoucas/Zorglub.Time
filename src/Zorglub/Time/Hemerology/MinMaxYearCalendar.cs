@@ -36,7 +36,7 @@ namespace Zorglub.Time.Hemerology
         [Pure]
         public sealed override int CountMonthsInYear(int year)
         {
-            SupportedYears.Validate(year);
+            YearsValidator.Validate(year);
             return Schema.CountMonthsInYear(year);
         }
 
@@ -44,7 +44,7 @@ namespace Zorglub.Time.Hemerology
         [Pure]
         public sealed override int CountDaysInYear(int year)
         {
-            SupportedYears.Validate(year);
+            YearsValidator.Validate(year);
             return Schema.CountDaysInYear(year);
         }
 

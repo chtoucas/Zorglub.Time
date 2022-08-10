@@ -209,7 +209,7 @@ namespace Zorglub.Time
         [Pure]
         public IEnumerable<ZDate> GetDaysInYear(int year)
         {
-            SupportedYears.Validate(year);
+            YearsValidator.Validate(year);
 
             int startOfYear = Schema.GetStartOfYear(year);
             int daysInYear = Schema.CountDaysInYear(year);
@@ -237,7 +237,7 @@ namespace Zorglub.Time
         [Pure]
         public ZDate GetStartOfYear(int year)
         {
-            SupportedYears.Validate(year);
+            YearsValidator.Validate(year);
             int daysSinceEpoch = Schema.GetStartOfYear(year);
             return new ZDate(daysSinceEpoch, Id);
         }
@@ -246,7 +246,7 @@ namespace Zorglub.Time
         [Pure]
         public ZDate GetEndOfYear(int year)
         {
-            SupportedYears.Validate(year);
+            YearsValidator.Validate(year);
             int daysSinceEpoch = Schema.GetEndOfYear(year);
             return new ZDate(daysSinceEpoch, Id);
         }

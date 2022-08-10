@@ -25,7 +25,7 @@ namespace Zorglub.Time.Hemerology
             Scope = scope ?? throw new ArgumentNullException(nameof(scope));
 
             Schema = scope.Schema;
-            SupportedYears = scope.YearsValidator;
+            YearsValidator = scope.YearsValidator;
         }
 
         /// <summary>
@@ -52,9 +52,9 @@ namespace Zorglub.Time.Hemerology
         public CalendarScope Scope { get; }
 
         /// <summary>
-        /// Gets the range of supported years.
+        /// Gets a validator for the range of supported years.
         /// </summary>
-        protected internal YearsValidator SupportedYears { get; }
+        protected internal YearsValidator YearsValidator { get; }
 
         /// <summary>
         /// Gets the underlying schema.
@@ -83,7 +83,7 @@ namespace Zorglub.Time.Hemerology
         [Pure]
         public bool IsLeapYear(int year)
         {
-            SupportedYears.Validate(year);
+            YearsValidator.Validate(year);
             return Schema.IsLeapYear(year);
         }
 

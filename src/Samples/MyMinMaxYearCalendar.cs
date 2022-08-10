@@ -26,14 +26,14 @@ public class MyMinMaxYearCalendar : NakedCalendar
     [Pure]
     public sealed override int CountMonthsInYear(int year)
     {
-        SupportedYears.Validate(year);
+        YearsValidator.Validate(year);
         return Schema.CountMonthsInYear(year);
     }
 
     [Pure]
     public sealed override int CountDaysInYear(int year)
     {
-        SupportedYears.Validate(year);
+        YearsValidator.Validate(year);
         return Schema.CountDaysInYear(year);
     }
 
@@ -52,7 +52,7 @@ public class MyMinMaxYearCalendar : NakedCalendar
     public sealed override IEnumerable<DateParts> GetDaysInYear(int year)
     {
         // Check arg eagerly.
-        SupportedYears.Validate(year);
+        YearsValidator.Validate(year);
 
         return Iterator();
 
@@ -94,14 +94,14 @@ public class MyMinMaxYearCalendar : NakedCalendar
     [Pure]
     public sealed override DateParts GetStartOfYear(int year)
     {
-        SupportedYears.Validate(year);
+        YearsValidator.Validate(year);
         return DateParts.AtStartOfYear(year);
     }
 
     [Pure]
     public sealed override DateParts GetEndOfYear(int year)
     {
-        SupportedYears.Validate(year);
+        YearsValidator.Validate(year);
         return PartsAdapter.GetDatePartsAtEndOfYear(year);
     }
 
