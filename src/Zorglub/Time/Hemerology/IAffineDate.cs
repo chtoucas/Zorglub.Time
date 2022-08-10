@@ -2,7 +2,6 @@
 // Copyright (c) 2020 Narvalo.Org. All rights reserved.
 
 #pragma warning disable CA1000 // Do not declare static members on generic types (Design) 👈 PreviewFeatures
-#pragma warning disable CA2225 // Operator overloads have named alternates (Usage) 👈 PreviewFeatures
 
 namespace Zorglub.Time.Hemerology
 {
@@ -21,8 +20,8 @@ namespace Zorglub.Time.Hemerology
 
     /// <summary>
     /// Defines an affine date type.
-    /// <para>An affine date is a date type within a calendar system for which the epoch is not
-    /// fixed, therefore the dates can not be linked to a timeline.</para>
+    /// <para>An affine date is a date type within a calendar system for which the epoch has not
+    /// been fixed, therefore the dates can not be linked to a timeline.</para>
     /// </summary>
     /// <remarks>
     /// <para>No epoch means no interconversion with other calendars and no day of the week. The
@@ -33,8 +32,8 @@ namespace Zorglub.Time.Hemerology
     public interface IAffineDate<TSelf> :
         IAffineDate,
         // Comparison
-        IMinMaxFunctions<TSelf>,
         IComparisonOperators<TSelf, TSelf>,
+        IMinMaxFunctions<TSelf>,
         // Arithmetic
         IStandardArithmetic<TSelf>,
         IAdditionOperators<TSelf, int, TSelf>,
@@ -52,10 +51,5 @@ namespace Zorglub.Time.Hemerology
         /// <exception cref="AoorException"><paramref name="daysSinceEpoch"/> is outside the range
         /// of values supported by the default calendar.</exception>
         [Pure] static abstract TSelf FromDaysSinceEpoch(int daysSinceEpoch);
-
-        /// <summary>
-        /// Subtracts a number of days to the specified date, yielding a new date.
-        /// </summary>
-        static abstract TSelf operator -(TSelf left, int right);
     }
 }
