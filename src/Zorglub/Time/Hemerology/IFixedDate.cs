@@ -185,14 +185,14 @@ namespace Zorglub.Time.Hemerology
         // Anyway, this is not the right way to do it; see NodaTime.
 
         /// <summary>
-        /// Obtains the current day in the default calendar on this machine, expressed in local time,
-        /// not UTC.
+        /// Obtains the current day in the <i>default calendar</i> on this machine, expressed in
+        /// local time, not UTC.
         /// </summary>
         [Pure] static abstract TSelf Today();
 
         /// <summary>
-        /// Creates a new <typeparamref name="TSelf"/> instance in the default calendar from the
-        /// specified day number.
+        /// Creates a new <typeparamref name="TSelf"/> instance in the <i>default calendar</i> from
+        /// the specified day number.
         /// </summary>
         [Pure] static abstract TSelf FromDayNumber(DayNumber dayNumber);
 

@@ -25,7 +25,7 @@ namespace Zorglub.Time
     /// Represents a date within a calendar system of type <see cref="ZCalendar"/>.
     /// <para><see cref="ZDate"/> is an immutable struct.</para>
     /// </summary>
-    public readonly partial struct ZDate : IDate<ZDate>
+    public readonly partial struct ZDate : IDate<ZDate>, IInterconvertible<ZDate, ZCalendar>
     {
         /// <summary>
         /// Represents the count of consecutive days since the epoch of the calendar to which belongs
@@ -188,9 +188,7 @@ namespace Zorglub.Time
             }
         }
 
-        /// <summary>
-        /// Gets the calendar to which belongs the current instance.
-        /// </summary>
+        /// <inheritdoc />
         /// <remarks>
         /// <para>Performance tip: cache this property locally if used repeatedly within a code
         /// block.</para>

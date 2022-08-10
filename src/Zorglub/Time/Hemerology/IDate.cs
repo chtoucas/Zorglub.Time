@@ -32,8 +32,8 @@ namespace Zorglub.Time.Hemerology
 
     // L'interface suivante est prévue pour les dates ne fonctionnant qu'avec un
     // seul calendrier, d'où le fait d'avoir choisi une propriété __statique__.
-    // Voir ISimpleCalendar pour un type date fonctionnant avec un calendrier
-    // "pluriel".
+    // Pour des dates fonctionnant avec un calendrier "pluriel", voir
+    // plutôt IInterconvertible.
 
     /// <summary>
     /// Defines a date type with a companion calendar.
@@ -49,7 +49,7 @@ namespace Zorglub.Time.Hemerology
         where TSelf : IDate<TSelf, TCalendar>
     {
         /// <summary>
-        /// Gets the (mono-)calendar to which belongs the current instance.
+        /// Gets the calendar to which belongs the current instance.
         /// <para>This static property is thread-safe.</para>
         /// </summary>
         static abstract TCalendar Calendar { get; }

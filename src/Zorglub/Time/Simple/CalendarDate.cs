@@ -139,6 +139,10 @@ namespace Zorglub.Time.Simple
         }
 
         /// <inheritdoc />
+        /// <remarks>
+        /// <para>Performance tip: cache this property locally if used repeatedly within a code
+        /// block.</para>
+        /// </remarks>
         public SimpleCalendar Calendar => SimpleCatalog.GetCalendarUnchecked(_bin.Extra);
 
         /// <inheritdoc />

@@ -36,7 +36,7 @@ using static Zorglub.Time.Extensions.Unboxing;
 /// <para>Suppoted years = [1, 9999]</para>
 /// </summary>
 public readonly partial struct MyCivilDate :
-    IDate<MyCivilDate>,
+    IDate<MyCivilDate, MyCivilCalendar>,
     IMinMaxValue<MyCivilDate>
 {
     // NB: the order in which the static fields are written is important.
