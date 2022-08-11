@@ -29,6 +29,9 @@ public abstract partial class IDateFacts<TDate, TCalendar, TDataSet> :
     }
 
     // NB: this test only works for date types linked to a single calendar.
+    // Also, we usually do not test static methods/props in a fact class, but
+    // here the situation is a bit different since this is a static method on a
+    // __type__.
     [Theory, MemberData(nameof(DayNumberInfoData))]
     public void FromDayNumber(DayNumberInfo info)
     {

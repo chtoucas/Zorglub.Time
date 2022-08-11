@@ -5,29 +5,28 @@ namespace Zorglub.Time.Hemerology
 {
     using Zorglub.Time.Hemerology.Scopes;
 
-    // FIXME(code): this code only works with date types linked to a mono-calendar
-    // system; see TDate.FromDayNumber().
-    // This adjuster is "problematic" as it does not throw the expected arg exn.
+    // FIXME(code): this adjuster is "problematic" as it does not throw the
+    // expected arg name.
 
     /// <summary>
     /// Provides a default implementation for <see cref="IDateAdjuster{TDate}"/>.
     /// </summary>
     /// <typeparam name="TDate">The type of date object.</typeparam>
-    [Obsolete("Broken as it.")]
-    public class DateAdjusterV0<TDate> : IDateAdjuster<TDate>
-        where TDate : IDate<TDate>
+    public class DateAdjusterV0<TDate, TCalendar> : IDateAdjuster<TDate>
+        where TDate : IDateable
+        where TCalendar : ICalendar<TDate>, IDateFactory<TDate>
     {
         /// <summary>
         /// Represents the calendar.
         /// <para>This field is read-only.</para>
         /// </summary>
-        private readonly ICalendar<TDate> _calendar;
+        private readonly TCalendar _calendar;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DateAdjusterV0{TDate}"/> class.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="calendar"/> is null.</exception>
-        public DateAdjusterV0(ICalendar<TDate> calendar)
+        public DateAdjusterV0(TCalendar calendar)
         {
             _calendar = calendar ?? throw new ArgumentNullException(nameof(calendar));
         }
@@ -68,8 +67,7 @@ namespace Zorglub.Time.Hemerology
         public TDate AdjustYear(TDate date, int newYear)
         {
             var (_, m, d) = date;
-            var dayNumber = _calendar.GetDayNumber(newYear, m, d);
-            return TDate.FromDayNumber(dayNumber);
+            return _calendar.GetDate(newYear, m, d);
         }
 
         /// <inheritdoc />
@@ -77,8 +75,7 @@ namespace Zorglub.Time.Hemerology
         public TDate AdjustMonth(TDate date, int newMonth)
         {
             var (y, _, d) = date;
-            var dayNumber = _calendar.GetDayNumber(y, newMonth, d);
-            return TDate.FromDayNumber(dayNumber);
+            return _calendar.GetDate(y, newMonth, d);
         }
 
         /// <inheritdoc />
@@ -86,17 +83,12 @@ namespace Zorglub.Time.Hemerology
         public TDate AdjustDay(TDate date, int newDay)
         {
             var (y, m, _) = date;
-            var dayNumber = _calendar.GetDayNumber(y, m, newDay);
-            return TDate.FromDayNumber(dayNumber);
+            return _calendar.GetDate(y, m, newDay);
         }
 
         /// <inheritdoc />
         [Pure]
-        public TDate AdjustDayOfYear(TDate date, int newDayOfYear)
-        {
-            var y = date.Year;
-            var dayNumber = _calendar.GetDayNumber(y, newDayOfYear);
-            return TDate.FromDayNumber(dayNumber);
-        }
+        public TDate AdjustDayOfYear(TDate date, int newDayOfYear) =>
+            _calendar.GetDate(date.Year, newDayOfYear);
     }
 }

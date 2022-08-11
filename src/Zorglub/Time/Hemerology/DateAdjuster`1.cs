@@ -67,6 +67,7 @@ namespace Zorglub.Time.Hemerology
         [Pure]
         public  TDate GetStartOfYear(TDate date)
         {
+            // NB: we don't know if the start of the year is within the scope.
             int daysSinceEpoch = Schema.GetStartOfYear(date.Year);
             return GetDate(daysSinceEpoch);
         }
@@ -75,6 +76,7 @@ namespace Zorglub.Time.Hemerology
         [Pure]
         public  TDate GetEndOfYear(TDate date)
         {
+            // NB: we don't know if the end of the year is within the scope.
             int daysSinceEpoch = Schema.GetEndOfYear(date.Year);
             return GetDate(daysSinceEpoch);
         }
@@ -83,6 +85,7 @@ namespace Zorglub.Time.Hemerology
         [Pure]
         public  TDate GetStartOfMonth(TDate date)
         {
+            // NB: we don't know if the start of the month is within the scope.
             var (y, m, _) = date;
             int daysSinceEpoch = Schema.GetStartOfMonth(y, m);
             return GetDate(daysSinceEpoch);
@@ -92,6 +95,7 @@ namespace Zorglub.Time.Hemerology
         [Pure]
         public  TDate GetEndOfMonth(TDate date)
         {
+            // NB: we don't know if the end of the month is within the scope.
             var (y, m, _) = date;
             int daysSinceEpoch = Schema.GetEndOfMonth(y, m);
             return GetDate(daysSinceEpoch);

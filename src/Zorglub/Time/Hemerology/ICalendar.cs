@@ -130,7 +130,7 @@ namespace Zorglub.Time.Hemerology
     //     - prop MinMaxValue <- IMinMaxValue<TSelf>
     //     - static prop Calendar
     //   - static prop Adjuster
-    //   - Today()
+    //   - Today() <- ITodayProvider
     // * Supporting types:
     //   - date adjuster
     //
@@ -146,9 +146,10 @@ namespace Zorglub.Time.Hemerology
     // * Calendar:
     //   - impl ICalendar<ZDate>, ie date providers
     //   - prop MinMaxDate
-    //   - GetDate(dayNumber)
-    //   - GetDate(y, m, d)
-    //   - GetDate(y, doy)
+    //   - impl IDateFactory<ZDate>
+    //      - GetDate(dayNumber)
+    //      - GetDate(y, m, d)
+    //      - GetDate(y, doy)
     //   - Today()
     // * Date:
     //   - impl IDate<TSelf>

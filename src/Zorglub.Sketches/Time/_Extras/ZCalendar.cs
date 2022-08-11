@@ -49,7 +49,10 @@ namespace Zorglub.Time
     /// Represents a calendar.
     /// <para>This class can ONLY be inherited from within friend assemblies.</para>
     /// </summary>
-    public partial class ZCalendar : MinMaxYearCalendar, ICalendar<ZDate>
+    public partial class ZCalendar :
+        MinMaxYearCalendar,
+        ICalendar<ZDate>,
+        IDateFactory<ZDate>
     {
         /// <summary>
         /// Initializes a new instance of <see cref="ZCalendar"/> class.
@@ -152,11 +155,7 @@ namespace Zorglub.Time
 
     public partial class ZCalendar // Factories, conversions
     {
-        /// <summary>
-        /// Creates a new instance of the <see cref="ZDate"/> struct.
-        /// </summary>
-        /// <exception cref="AoorException"><paramref name="dayNumber"/> is outside the range of
-        /// values supported by this calendar.</exception>
+        /// <inheritdoc/>
         [Pure]
         public ZDate GetDate(DayNumber dayNumber)
         {
@@ -164,11 +163,7 @@ namespace Zorglub.Time
             return new ZDate(dayNumber - Epoch, Id);
         }
 
-        /// <summary>
-        /// Creates a new instance of the <see cref="ZDate"/> struct.
-        /// </summary>
-        /// <exception cref="AoorException">The date is either invalid or outside the range of
-        /// supported dates.</exception>
+        /// <inheritdoc/>
         [Pure]
         public ZDate GetDate(int year, int month, int day)
         {
@@ -177,11 +172,7 @@ namespace Zorglub.Time
             return new ZDate(daysSinceEpoch, Id);
         }
 
-        /// <summary>
-        /// Converts the specified ordinal date to a date object.
-        /// </summary>
-        /// <exception cref="AoorException">The ordinal date is either invalid or outside the range
-        /// of supported dates.</exception>
+        /// <inheritdoc/>
         [Pure]
         public ZDate GetDate(int year, int dayOfYear)
         {
@@ -190,10 +181,7 @@ namespace Zorglub.Time
             return new ZDate(daysSinceEpoch, Id);
         }
 
-        /// <summary>
-        /// Obtains the current date on this machine.
-        /// </summary>
-        /// <exception cref="AoorException">Today is not within the calendar boundaries.</exception>
+        /// <inheritdoc/>
         [Pure]
         public ZDate Today()
         {
