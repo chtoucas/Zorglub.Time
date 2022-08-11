@@ -5,6 +5,9 @@ namespace Zorglub.Time.Hemerology
 {
     using Zorglub.Time.Hemerology.Scopes;
 
+    // FIXME(code): this code only works with date types linked to a mono-calendar
+    // system; see TDate.FromDayNumber().
+
     // The code works because we use TDate.FromDayNumber() which validates
     // the dayNumber, but it also makes the code unefficient when the
     // calendar is complete (the validation is unnecessary).
@@ -17,6 +20,7 @@ namespace Zorglub.Time.Hemerology
     /// consecutive days since the epoch.</para>
     /// </summary>
     /// <typeparam name="TDate">The type of date object.</typeparam>
+    [Obsolete("Broken as it.")]
     public class PlainDateAdjuster<TDate> : DateAdjuster<TDate>
         where TDate : IDate<TDate>
     {

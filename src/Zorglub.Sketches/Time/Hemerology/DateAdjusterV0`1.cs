@@ -5,13 +5,15 @@ namespace Zorglub.Time.Hemerology
 {
     using Zorglub.Time.Hemerology.Scopes;
 
+    // FIXME(code): this code only works with date types linked to a mono-calendar
+    // system; see TDate.FromDayNumber().
     // This adjuster is "problematic" as it does not throw the expected arg exn.
 
     /// <summary>
     /// Provides a default implementation for <see cref="IDateAdjuster{TDate}"/>.
     /// </summary>
     /// <typeparam name="TDate">The type of date object.</typeparam>
-    [Obsolete("Use DateAdjuster instead.")]
+    [Obsolete("Broken as it.")]
     public class DateAdjusterV0<TDate> : IDateAdjuster<TDate>
         where TDate : IDate<TDate>
     {

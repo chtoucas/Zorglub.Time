@@ -116,28 +116,73 @@ namespace Zorglub.Time.Hemerology
     // API
     // ---
     //
-    // Missing methods/props:
-    // - factories, today, conversions
-    // - adjusters
+    // Missing methods/props?
+    // - factories, today, conversions, interconversion
+    // - adjusters, providers
     // - min/max values
     //
-    // Mono-calendar without a companion date type, e.g. NakedCalendar.
-    // All methods/props are on the calendar.
+    // ## Mono-calendar system with a single companion date type.
+    // Ex. CivilCalendar+CivilDate
+    // * Calendar:
+    //   - impl ICalendar<CivilDate>, ie date providers
+    // * Date:
+    //   - impl IDate<TSelf, TCalendar>
+    //     - prop MinMaxValue <- IMinMaxValue<TSelf>
+    //     - static prop Calendar
+    //   - static prop Adjuster
+    //   - Today()
+    // * Supporting types:
+    //   - date adjuster
     //
-    // Mono-calendar with a companion date type, e.g. MinMaxYearCalendar<TDate>.
-    // All methods/props are on the date.
-    // The date type should implement IMinMaxValue<TDate> and provide a property
-    // Calendar.
-    //
-    // Special case of a mono-calendar with TDate = DayNumber.
+    // Special case of a mono-calendar system with TDate = DayNumber.
+    // - min/max values are provided by Calendar.Domain
     // - today is the only method missing
     // - factories are provided by BasicCalendar
     // - conversions, none
-    // - min/max values are provided by Calendar.Domain
+    // - adjusters, none
     //
-    // Poly-calendar with a companion date type, e.g. ZCalendar or SimpleCalendar.
-    // All methods/props are on the calendar.
-    // The date type should provide a property Calendar.
+    // ## Poly-calendar system with a single companion date type
+    // Ex. ZCalendar+ZDate
+    // * Calendar:
+    //   - impl ICalendar<ZDate>, ie date providers
+    //   - prop MinMaxDate
+    //   - GetDate(dayNumber)
+    //   - GetDate(y, m, d)
+    //   - GetDate(y, doy)
+    //   - Today()
+    // * Date:
+    //   - impl IDate<TSelf>
+    //   - inst prop Calendar
+    //   - WithCalendar(newCalendar) <- interconversion
+    //   - Today() is using the __default calendar__
+    //   - FromDayNumber() is using the __default calendar__
+    // * Supporting types:
+    //   - date adjuster
+    //
+    // ## Poly-calendar system with more than one companion date type
+    // Ex. SimpleCalendar+CalendarDate/CalendarDay/OrdinalDate.
+    // * Calendar:
+    //   - impl ICalendar
+    //   - prop MinMaxXXX
+    //   - GetXXXDate(dayNumber)
+    //   - GetXXXDate(y, m, d)
+    //   - GetXXXDate(y, doy)
+    //   - GetCurrentXXX()
+    // * Date:
+    //   - impl IDate<TSelf>
+    //   - inst prop Calendar
+    //   - WithCalendar(newCalendar) <- interconversion
+    //   - Today() is using the __default calendar__
+    //   - FromDayNumber() is using the __default calendar__
+    // * Supporting types:
+    //   - date provider
+    //   - date adjuster
+    //
+    // ## The date type is the calendar type too
+    // Ex. XCivilDate or MyDate.
+    //
+    // ## Mono-calendar system without a companion date type.
+    // Ex. NakedCalendar, MinMaxYearCalendar<TDate>?
 
     #endregion
 

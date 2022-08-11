@@ -18,7 +18,7 @@ namespace Zorglub.Time.Hemerology
     /// </summary>
     /// <typeparam name="TDate">The type of date object.</typeparam>
     public abstract class DateAdjuster<TDate> : IDateAdjuster<TDate>
-        // NB: we could rmove the constraint on TDate but then we would have to
+        // NB: we could remove the constraint on TDate but then we would have to
         // obtain the date parts (y, m, d, doy) manually using the underlying
         // schema.
         where TDate : IDateable
@@ -58,6 +58,8 @@ namespace Zorglub.Time.Hemerology
         // - When the scope is complete, GetDate() does not need to perform any
         //   further validation.
         // - When the scope is not complete, GetDate() MUST be validating.
+        // BUT the real reason is that it DOES NOT WORK when TDate is linked to
+        // a poly-calendar system.
         [Pure]
         protected abstract TDate GetDate(int daysSinceEpoch);
 

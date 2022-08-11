@@ -3,7 +3,7 @@
 
 namespace Zorglub.Time.Hemerology
 {
-    // REVIEW(name): ICanInterconvert
+    // REVIEW(api): ICalendarContext? or remove...
 
     public interface IInterconvertible<out TCalendar>
     {

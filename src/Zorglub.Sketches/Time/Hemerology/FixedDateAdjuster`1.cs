@@ -6,12 +6,16 @@ namespace Zorglub.Time.Hemerology
     using Zorglub.Time.Core;
     using Zorglub.Time.Hemerology.Scopes;
 
+    // FIXME(code): this code only works with date types linked to a mono-calendar
+    // system; see TDate.FromDayNumber().
+
     /// <summary>
     /// Provides a default implementation for <see cref="IDateAdjuster{TDate}"/>.
     /// <para>This class works best when <typeparamref name="TDate"/> is based on the count of
     /// consecutive days since the epoch.</para>
     /// </summary>
     /// <typeparam name="TDate">The type of date object.</typeparam>
+    [Obsolete("Broken as it.")]
     public class FixedDateAdjuster<TDate> : IDateAdjuster<TDate>
         where TDate : IFixedDate<TDate>
     {

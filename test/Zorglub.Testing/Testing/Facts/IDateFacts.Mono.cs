@@ -28,7 +28,7 @@ public abstract partial class IDateFacts<TDate, TCalendar, TDataSet> :
         Assert.Equal(str, date.ToString());
     }
 
-    // NB: this test only works for date types based on a mono-calendar system.
+    // NB: this test only works for date types linked to a single calendar.
     [Theory, MemberData(nameof(DayNumberInfoData))]
     public void FromDayNumber(DayNumberInfo info)
     {

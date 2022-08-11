@@ -288,8 +288,8 @@ namespace Zorglub.Time.Specialized
         #region Factories
 
         /// <summary>
-        /// Obtains the current date in the Gregorian calendar on this machine,
-        /// expressed in local time, not UTC.
+        /// Obtains the current date in the Gregorian calendar on this machine, expressed in local
+        /// time, not UTC.
         /// </summary>
         [Pure]
         public static GregorianDate Today() => new(DayNumber.Today().DaysSinceZero);
