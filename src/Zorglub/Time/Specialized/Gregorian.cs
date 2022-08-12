@@ -196,6 +196,13 @@ namespace Zorglub.Time.Specialized
         /// <inheritdoc />
         public DayNumber DayNumber => new(_daysSinceZero);
 
+        int IDateableOrdinally.DaysSinceEpoch => _daysSinceZero;
+
+        /// <summary>
+        /// Gets the count of days since the Gregorian epoch.
+        /// </summary>
+        public int DaysSinceZero => _daysSinceZero;
+
         /// <inheritdoc />
         public Ord CenturyOfEra => Ord.FromInt32(Century);
 
@@ -256,13 +263,6 @@ namespace Zorglub.Time.Specialized
 
         /// <inheritdoc />
         public bool IsSupplementary => false;
-
-        int IDateableOrdinally.DaysSinceEpoch => _daysSinceZero;
-
-        /// <summary>
-        /// Gets the count of days since the Gregorian epoch.
-        /// </summary>
-        internal int DaysSinceZero => _daysSinceZero;
 
         /// <summary>
         /// Returns a culture-independent string representation of the current instance.
