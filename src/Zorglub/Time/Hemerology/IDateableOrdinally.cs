@@ -3,6 +3,9 @@
 
 namespace Zorglub.Time.Hemerology
 {
+    // This interface SHOULD be implemented by date types based on the count of
+    // consecutive days since the epoch.
+
     public interface IDateableOrdinally
     {
         /// <summary>
