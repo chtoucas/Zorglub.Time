@@ -7,19 +7,16 @@ namespace Zorglub.Time.Specialized
     using Zorglub.Time.Hemerology.Scopes;
 
     /// <summary>
-    /// Provides common adjusters for <typeparamref name="TDate"/> and provides a base for derived
+    /// Defines common adjusters for <typeparamref name="TDate"/> and provides a base for derived
     /// classes.
-    /// <para>This class works best when <typeparamref name="TDate"/> is based on the count of
-    /// consecutive days since the epoch.</para>
     /// <para>This class can ONLY be inherited from within friend assemblies.</para>
     /// </summary>
     /// <typeparam name="TDate">The type of date object.</typeparam>
-    public abstract class SpecialAdjuster<TDate> : DateAdjuster<TDate>
+    public abstract class SpecialAdjuster<TDate> : DateableAdjuster<TDate>
+        // IDateableOrdinally: not necessary, but it should largely prevent the
+        // use of this class with date types not based on daysSinceEpoch.
         where TDate : IDateable, IDateableOrdinally
     {
-        // "private protected" because the abstract method GetDate() does NOT
-        // validate its parameter.
-
         /// <summary>
         /// Called from constructors in derived classes to initialize the
         /// <see cref="SpecialAdjuster{TDate}"/> class.

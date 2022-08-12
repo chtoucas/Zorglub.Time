@@ -15,11 +15,11 @@ open Xunit
 module Prelude =
     [<Fact>]
     let ``Constructor for DateAdjuster throws when the scope is null`` () =
-        nullExn "scope" (fun () -> new PlainDateAdjuster<ZDate>(null))
+        nullExn "scope" (fun () -> new PlainDateableAdjuster<ZDate>(null))
 
 module Bundles =
     let private chr = ZCalendar.Gregorian
-    let private adjuster = new PlainDateAdjuster<ZDate>(chr.Scope)
+    let private adjuster = new PlainDateableAdjuster<ZDate>(chr.Scope)
 
     [<Sealed>]
     type DateAdjusterFacts() =

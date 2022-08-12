@@ -9,11 +9,11 @@ namespace Zorglub.Time.Hemerology
     using Zorglub.Time.Hemerology.Scopes;
 
     // Moyennant quelques changements, cette classe pourrait fonctionner avec
-    // un type date implémentant IFixedDate c-à-d un IDate puisqu'on demande
-    // aussi IDateable), mais à la seule condition que celui-ci ne soit pas lié
-    // à un système de calendriers pluriel. En effet, on serait amener à utiliser
-    // TDate.FromDayNumber() qui ne peut créer des nouvelles dates que dans le
-    // calendrier par défaut du système.
+    // n'importe quel type date implémentant IFixedDate (c-à-d un IDate puisqu'on
+    // demande aussi IDateable), mais à la seule condition que celui-ci ne soit
+    // pas lié à un système de calendriers pluriel. En effet, on serait amener à
+    // utiliser TDate.FromDayNumber() qui ne peut créer des nouvelles dates que
+    // dans le calendrier par défaut du système.
 
     /// <summary>
     /// Provides an adjuster for <see cref="DayNumber"/>.

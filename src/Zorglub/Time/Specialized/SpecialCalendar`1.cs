@@ -23,9 +23,6 @@ namespace Zorglub.Time.Specialized
         // use of this class with date types not based on daysSinceEpoch.
         where TDate : IDateableOrdinally
     {
-        // "private protected" because the abstract method GetDate() does NOT
-        // validate its parameter.
-
         /// <summary>
         /// Called from constructors in derived classes to initialize the
         /// <see cref="SpecialCalendar{TDate}"/> class.
