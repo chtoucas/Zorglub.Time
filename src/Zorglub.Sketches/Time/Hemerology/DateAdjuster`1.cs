@@ -5,12 +5,13 @@ namespace Zorglub.Time.Hemerology
 {
     using Zorglub.Time.Hemerology.Scopes;
 
-    // REVIEW(code): this adjuster does not throw the expected arg name.
+    // TODO(code): this adjuster does not throw the expected arg name.
 
     /// <summary>
     /// Provides a plain implementation for <see cref="IDateAdjuster{TDate}"/>.
     /// </summary>
     /// <typeparam name="TDate">The type of date object.</typeparam>
+    /// <typeparam name="TCalendar">The type of calendar.</typeparam>
     public class DateAdjuster<TDate, TCalendar> : IDateAdjuster<TDate>
         where TDate : IDateable
         where TCalendar : ICalendar<TDate>, IDateFactory<TDate>
@@ -22,7 +23,7 @@ namespace Zorglub.Time.Hemerology
         private readonly TCalendar _calendar;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="DateAdjusterV0{TDate}"/> class.
+        /// Initializes a new instance of the <see cref="DateAdjuster{TDate, TCalendar}"/> class.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="calendar"/> is null.</exception>
         public DateAdjuster(TCalendar calendar)

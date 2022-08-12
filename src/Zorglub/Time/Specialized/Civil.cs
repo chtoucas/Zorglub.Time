@@ -64,7 +64,7 @@ namespace Zorglub.Time.Specialized
 
         /// <inheritdoc/>
         [Pure]
-        protected sealed override CivilDate GetDate(int daysSinceEpoch) => new(daysSinceEpoch);
+        private protected sealed override CivilDate GetDate(int daysSinceEpoch) => new(daysSinceEpoch);
     }
 
     /// <summary>

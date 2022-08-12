@@ -6,6 +6,15 @@ namespace Zorglub.Time.Hemerology
     using Zorglub.Time.Core;
     using Zorglub.Time.Hemerology.Scopes;
 
+    // FIXME'code): this code does NOT work with date types linked to a
+    // poly-calendar system; see TDate.FromDayNumber().
+    // Another problem: validation of input. We assume that the "date" is valid.
+    //
+    // This class is only interesting when the scope is not complete.
+    // The code works because TDate.FromDayNumber() is validating, but it also
+    // makes it unefficient when the calendar is complete --- in that case, the
+    // validation is simply unnecessary.
+    //
     // For date types based on a y/m/d repr, there is a better way to
     // implement IDateAdjuster; see for instance MyDate in Samples.
 
@@ -14,19 +23,20 @@ namespace Zorglub.Time.Hemerology
     /// classes.
     /// </summary>
     /// <typeparam name="TDate">The type of date object.</typeparam>
-    public abstract class DateableAdjuster<TDate> : IDateAdjuster<TDate>
-        // We could remove the constraint on TDate but it would make things a
-        // bit harder than necessary. Indeed, without IDateable, we would have
-        // to obtain the date parts (y, m, d, doy) by other means, e.g. using
-        // the underlying schema.
-        where TDate : IDateable
+    [Obsolete("Broken.")]
+    public class FixedDateAdjuster<TDate> : IDateAdjuster<TDate>
+        // We could remove the IDateable constraint on TDate but it would make
+        // things a bit harder than necessary. Indeed, without IDateable, we
+        // would have to obtain the date parts (y, m, d, doy) by other means,
+        // e.g. using the underlying schema.
+        where TDate : IDate<TDate>
     {
         /// <summary>
         /// Called from constructors in derived classes to initialize the
-        /// <see cref="DateableAdjuster{TDate}"/> class.
+        /// <see cref="FixedDateAdjuster{TDate}"/> class.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="scope"/> is null.</exception>
-        protected DateableAdjuster(CalendarScope scope)
+        public FixedDateAdjuster(CalendarScope scope)
         {
             Scope = scope ?? throw new ArgumentNullException(nameof(scope));
         }
@@ -60,7 +70,8 @@ namespace Zorglub.Time.Hemerology
         // Anyway, the real reason is that it DOES NOT WORK when TDate is linked
         // to a poly-calendar system, and there is no constraint to prevent that.
         [Pure]
-        protected abstract TDate GetDate(int daysSinceEpoch);
+        protected virtual TDate GetDate(int daysSinceEpoch) =>
+            TDate.FromDayNumber(Epoch + daysSinceEpoch);
 
         /// <inheritdoc />
         [Pure]
@@ -156,34 +167,5 @@ namespace Zorglub.Time.Hemerology
             int daysSinceEpoch = Schema.CountDaysSinceEpoch(y, newDayOfYear);
             return GetDate(daysSinceEpoch);
         }
-
-        //
-        // Adjusters for the core parts
-        //
-
-        /// <summary>
-        /// Obtains an adjuster for the year field of a date.
-        /// </summary>
-        [Pure]
-        public Func<TDate, TDate> WithYear(int newYear) => x => AdjustYear(x, newYear);
-
-        /// <summary>
-        /// Obtains an adjuster for the month field of a date.
-        /// </summary>
-        [Pure]
-        public Func<TDate, TDate> WithMonth(int newMonth) => x => AdjustMonth(x, newMonth);
-
-        /// <summary>
-        /// Obtains an adjuster for the day of the month field of a date.
-        /// </summary>
-        [Pure]
-        public Func<TDate, TDate> WithDay(int newDay) => x => AdjustDay(x, newDay);
-
-        /// <summary>
-        /// Obtains an adjuster for the day of the year field of a date.
-        /// </summary>
-        [Pure]
-        public Func<TDate, TDate> WithDayOfYear(int newDayOfYear) =>
-            x => AdjustDayOfYear(x, newDayOfYear);
     }
 }

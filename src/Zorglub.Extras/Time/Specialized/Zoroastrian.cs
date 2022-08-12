@@ -59,7 +59,7 @@ namespace Zorglub.Time.Specialized
 
         /// <inheritdoc/>
         [Pure]
-        protected sealed override ZoroastrianDate GetDate(int daysSinceEpoch) => new(daysSinceEpoch);
+        private protected sealed override ZoroastrianDate GetDate(int daysSinceEpoch) => new(daysSinceEpoch);
     }
 
     /// <summary>

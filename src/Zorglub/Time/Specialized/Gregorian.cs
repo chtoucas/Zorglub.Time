@@ -62,7 +62,7 @@ namespace Zorglub.Time.Specialized
 
         /// <inheritdoc/>
         [Pure]
-        protected sealed override GregorianDate GetDate(int daysSinceEpoch) => new(daysSinceEpoch);
+        private protected sealed override GregorianDate GetDate(int daysSinceEpoch) => new(daysSinceEpoch);
     }
 
     /// <summary>
