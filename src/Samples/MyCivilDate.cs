@@ -37,6 +37,7 @@ using static Zorglub.Time.Extensions.Unboxing;
 /// </summary>
 public readonly partial struct MyCivilDate :
     IDate<MyCivilDate, MyCivilCalendar>,
+    IDateableOrdinally,
     IMinMaxValue<MyCivilDate>
 {
     // NB: the order in which the static fields are written is important.
@@ -84,6 +85,7 @@ public readonly partial struct MyCivilDate :
     public static MyCivilCalendar Calendar => s_Calendar;
 
     public DayNumber DayNumber => s_Epoch + _daysSinceEpoch;
+    public int DaysSinceEpoch => _daysSinceEpoch;
 
     public Ord CenturyOfEra => Ord.FromInt32(Century);
     public int Century => YearNumbering.GetCentury(Year);

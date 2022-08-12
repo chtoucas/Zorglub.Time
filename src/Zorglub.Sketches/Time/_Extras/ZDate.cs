@@ -25,7 +25,10 @@ namespace Zorglub.Time
     /// Represents a date within a calendar system of type <see cref="ZCalendar"/>.
     /// <para><see cref="ZDate"/> is an immutable struct.</para>
     /// </summary>
-    public readonly partial struct ZDate : IDate<ZDate>, IInterconvertible<ZDate, ZCalendar>
+    public readonly partial struct ZDate :
+        IDate<ZDate>,
+        IDateableOrdinally,
+        IInterconvertible<ZDate, ZCalendar>
     {
         /// <summary>
         /// Represents the count of consecutive days since the epoch of the calendar to which belongs
@@ -94,9 +97,7 @@ namespace Zorglub.Time
             _cuid = cuid;
         }
 
-        /// <summary>
-        /// Gets the day number.
-        /// </summary>
+        /// <inheritdoc />
         public DayNumber DayNumber
         {
             get
@@ -105,6 +106,9 @@ namespace Zorglub.Time
                 return chr.Epoch + _daysSinceEpoch;
             }
         }
+
+        /// <inheritdoc />
+        public int DaysSinceEpoch => _daysSinceEpoch;
 
         /// <inheritdoc />
         public Ord CenturyOfEra => Ord.FromInt32(Century);
@@ -194,12 +198,6 @@ namespace Zorglub.Time
         /// block.</para>
         /// </remarks>
         public ZCalendar Calendar => ZCatalog.GetCalendarUnchecked(_cuid);
-
-        /// <summary>
-        /// Gets the count of consecutive days since the epoch of the calendar to which belongs the
-        /// current instance.
-        /// </summary>
-        internal int DaysSinceEpoch => _daysSinceEpoch;
 
         /// <summary>
         /// Gets the ID of the calendar to which belongs the current instance.
