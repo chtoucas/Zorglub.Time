@@ -27,8 +27,7 @@ namespace Zorglub.Time
     /// </summary>
     public readonly partial struct ZDate :
         IDate<ZDate>,
-        IDateableOrdinally,
-        IInterconvertible<ZDate, ZCalendar>
+        IDateableOrdinally
     {
         /// <summary>
         /// Represents the count of consecutive days since the epoch of the calendar to which belongs
@@ -192,7 +191,9 @@ namespace Zorglub.Time
             }
         }
 
-        /// <inheritdoc />
+        /// <summary>
+        /// Gets the calendar to which belongs the current instance.
+        /// </summary>
         /// <remarks>
         /// <para>Performance tip: cache this property locally if used repeatedly within a code
         /// block.</para>
@@ -298,9 +299,9 @@ namespace Zorglub.Time
         /// Interconverts the current instance to a date within a different calendar.
         /// </summary>
         /// <remarks>
-        /// This method always performs the conversion whether it's necessary or not. To avoid an
-        /// expensive operation, it's better to check before that <paramref name="newCalendar"/> is
-        /// actually different from the calendar of the current instance.
+        /// <para>This method always performs the conversion whether it's necessary or not. To avoid
+        /// an expensive operation, it's better to check before that <paramref name="newCalendar"/>
+        /// is actually different from the calendar of the current instance.</para>
         /// </remarks>
         /// <exception cref="ArgumentNullException"><paramref name="newCalendar"/> is null.
         /// </exception>

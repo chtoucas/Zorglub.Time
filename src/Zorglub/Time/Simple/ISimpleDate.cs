@@ -3,6 +3,8 @@
 
 namespace Zorglub.Time.Simple
 {
+    using System.Globalization;
+
     using Zorglub.Time.Core;
     using Zorglub.Time.Hemerology;
 
@@ -22,9 +24,17 @@ namespace Zorglub.Time.Simple
     /// </summary>
     public interface ISimpleDate :
         IDate,
-        IInterconvertible<SimpleCalendar>,
         ISerializable<int>
     {
+        /// <summary>
+        /// Gets the calendar to which belongs the current instance.
+        /// </summary>
+        /// <remarks>
+        /// <para>Performance tip: cache this property locally if used repeatedly within a code
+        /// block.</para>
+        /// </remarks>
+        SimpleCalendar Calendar { get; }
+
         /// <summary>
         /// Gets the calendar year to which belongs the current instance.
         /// </summary>
@@ -67,8 +77,21 @@ namespace Zorglub.Time.Simple
     public interface ISimpleDate<TSelf> :
         ISimpleDate,
         IDate<TSelf>,
-        IInterconvertible<TSelf, SimpleCalendar>,
         ISerializable<TSelf, int>
         where TSelf : ISimpleDate<TSelf>
-    { }
+    {
+        /// <summary>
+        /// Interconverts the current instance to a date within a different calendar.
+        /// </summary>
+        /// <remarks>
+        /// <para>This method always performs the conversion whether it's necessary or not. To avoid
+        /// an expensive operation, it's better to check before that <paramref name="newCalendar"/>
+        /// is actually different from the calendar of the current instance.</para>
+        /// </remarks>
+        /// <exception cref="ArgumentNullException"><paramref name="newCalendar"/> is null.
+        /// </exception>
+        /// <exception cref="AoorException">The specified date cannot be converted into the new
+        /// calendar, the resulting date would be outside its range of years.</exception>
+        [Pure] TSelf WithCalendar(SimpleCalendar newCalendar);
+    }
 }

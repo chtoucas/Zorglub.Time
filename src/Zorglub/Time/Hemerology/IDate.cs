@@ -32,8 +32,10 @@ namespace Zorglub.Time.Hemerology
 
     // L'interface suivante est prévue pour les dates ne fonctionnant qu'avec un
     // seul calendrier, d'où le fait d'avoir choisi une propriété __statique__.
-    // Pour des dates fonctionnant avec un calendrier "pluriel", voir
-    // plutôt IInterconvertible.
+    // Pour des dates fonctionnant avec un calendrier "pluriel", on utilisera
+    // plutôt une propriété statique et on ajoutera une méthode pour
+    // WithCalendar(newCalendar) pour l'interconversion; voir p.ex. ZDate et
+    // ISimpleDate.
 
     /// <summary>
     /// Defines a date type with a companion calendar.
