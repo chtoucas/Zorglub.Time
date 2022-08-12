@@ -1,44 +1,50 @@
 ﻿// SPDX-License-Identifier: BSD-3-Clause
 // Copyright (c) 2020 Narvalo.Org. All rights reserved.
 
-namespace Zorglub.Time.Hemerology
+namespace Zorglub.Time.Hemerology.Naked
 {
-    using System.Collections.Generic;
-    using System.Diagnostics.Contracts;
     using System.Linq;
 
+    using Zorglub.Time;
+    using Zorglub.Time.Core.Validation;
     using Zorglub.Time.Hemerology.Scopes;
-
-    // WARNINGS: we use TDate.FromDayNumber()
-    // - Does NOT work with dates linked to a poly-calendar system.
-    // - Not very efficient, TDate.FromDayNumber() will validate its input even
-    //   if we know here that it's unnecessary.
 
     /// <summary>
     /// Represents a calendar with dates within a range of years.
     /// </summary>
-    /// <typeparam name="TDate">The type of date object.</typeparam>
-    public class MinMaxYearCalendar<TDate> : MinMaxYearCalendar, ICalendar<TDate>
-        where TDate : IFixedDate<TDate>
+    public sealed class MinMaxYearDayCalendar : MinMaxYearCalendar, ICalendar<DayNumber>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="MinMaxYearCalendar{TDate}"/> class.
+        /// Initializes a new instance of the <see cref="MinMaxYearDayCalendar"/> class.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="name"/> is null.</exception>
         /// <exception cref="ArgumentNullException"><paramref name="scope"/> is null.</exception>
-        public MinMaxYearCalendar(string name, MinMaxYearScope scope) : base(name, scope) { }
+        public MinMaxYearDayCalendar(string name, MinMaxYearScope scope) : base(name, scope) { }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="MinMaxYearCalendar{TDate}"/> class.
+        /// Initializes a new instance of the <see cref="MinMaxYearDayCalendar"/> class.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="name"/> is null.</exception>
         /// <exception cref="ArgumentNullException"><paramref name="scope"/> is null.</exception>
         /// <exception cref="ArgumentException"><paramref name="scope"/> is not complete.</exception>
-        public MinMaxYearCalendar(string name, CalendarScope scope) : base(name, scope) { }
+        public MinMaxYearDayCalendar(string name, CalendarScope scope) : base(name, scope) { }
+
+        /// <summary>
+        /// Obtains the current day number on this machine.
+        /// </summary>
+        /// <exception cref="AoorException">Today is not within the calendar boundaries.</exception>
+        [Pure]
+        public DayNumber Today()
+        {
+            // We do not know in advance if today is valid.
+            var today = DayNumber.Today();
+            Domain.Validate(today);
+            return today;
+        }
 
         /// <inheritdoc/>
         [Pure]
-        public IEnumerable<TDate> GetDaysInYear(int year)
+        public IEnumerable<DayNumber> GetDaysInYear(int year)
         {
             YearsValidator.Validate(year);
 
@@ -47,12 +53,12 @@ namespace Zorglub.Time.Hemerology
 
             return from daysSinceEpoch
                    in Enumerable.Range(startOfYear, daysInYear)
-                   select TDate.FromDayNumber(Epoch + daysSinceEpoch);
+                   select Epoch + daysSinceEpoch;
         }
 
         /// <inheritdoc/>
         [Pure]
-        public IEnumerable<TDate> GetDaysInMonth(int year, int month)
+        public IEnumerable<DayNumber> GetDaysInMonth(int year, int month)
         {
             Scope.ValidateYearMonth(year, month);
 
@@ -61,43 +67,43 @@ namespace Zorglub.Time.Hemerology
 
             return from daysSinceEpoch
                    in Enumerable.Range(startOfMonth, daysInMonth)
-                   select TDate.FromDayNumber(Epoch + daysSinceEpoch);
+                   select Epoch + daysSinceEpoch;
         }
 
         /// <inheritdoc/>
         [Pure]
-        public TDate GetStartOfYear(int year)
+        public DayNumber GetStartOfYear(int year)
         {
             YearsValidator.Validate(year);
             int daysSinceEpoch = Schema.GetStartOfYear(year);
-            return TDate.FromDayNumber(Epoch + daysSinceEpoch);
+            return Epoch + daysSinceEpoch;
         }
 
         /// <inheritdoc/>
         [Pure]
-        public TDate GetEndOfYear(int year)
+        public DayNumber GetEndOfYear(int year)
         {
             YearsValidator.Validate(year);
             int daysSinceEpoch = Schema.GetEndOfYear(year);
-            return TDate.FromDayNumber(Epoch + daysSinceEpoch);
+            return Epoch + daysSinceEpoch;
         }
 
         /// <inheritdoc/>
         [Pure]
-        public TDate GetStartOfMonth(int year, int month)
+        public DayNumber GetStartOfMonth(int year, int month)
         {
             Scope.ValidateYearMonth(year, month);
             int daysSinceEpoch = Schema.GetStartOfMonth(year, month);
-            return TDate.FromDayNumber(Epoch + daysSinceEpoch);
+            return Epoch + daysSinceEpoch;
         }
 
         /// <inheritdoc/>
         [Pure]
-        public TDate GetEndOfMonth(int year, int month)
+        public DayNumber GetEndOfMonth(int year, int month)
         {
             Scope.ValidateYearMonth(year, month);
             int daysSinceEpoch = Schema.GetEndOfMonth(year, month);
-            return TDate.FromDayNumber(Epoch + daysSinceEpoch);
+            return Epoch + daysSinceEpoch;
         }
     }
 }

@@ -40,7 +40,6 @@ module Prelude =
         argExn "scope" (fun () -> new MinMaxYearCalendar("Name", scope))
         argExn "scope" (fun () -> new MinMaxYearCalendar<GregorianDate>("Name", scope))
 
-
 module Bundles =
     let private scope = new StandardScope(new Coptic12Schema(), CalendarEpoch.Coptic)
     let private chr = new MinMaxYearCalendar<CopticDate>("Coptic", scope)
@@ -57,4 +56,3 @@ module Bundles =
         override __.GetDate(y, m, d) = new CopticDate(y, m, d);
         override __.GetDate(y, doy) = new CopticDate(y, doy);
         override __.GetDate(dayNumber) = new CopticDate(dayNumber);
-

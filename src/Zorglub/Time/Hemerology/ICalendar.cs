@@ -22,16 +22,16 @@ namespace Zorglub.Time.Hemerology
     //       BoundedBelowCalendar<TDate>        TDate
     //         BoundedBelowDayCalendar          DayNumber
     //     MinMaxYearCalendar
-    //       MinMaxYearCalendar<TDate>          TDate
-    //         MinMaxYearDayCalendar            DayNumber
-    //         ZCalendar                        ZDate
-    //           GregorianZCalendar & co
+    //       MinMaxYearDayCalendar            DayNumber
+    //       (MyCivilCalendar)                MyCivilDate
+    //       SpecialCalendar
     //         # Specialized calendars
     //         CivilCalendar                    CivilDate
     //         GregorianCalendar                GregorianDate
     //         JulianCalendar                   JulianDate
     //         etc.
-    //         (MyCivilCalendar)                MyCivilDate
+    //       ZCalendar                        ZDate
+    //         GregorianZCalendar & co
     // A   NakedCalendar
     //       BoundedBelowNakedCalendar
     //       MinMaxYearNakedCalendar

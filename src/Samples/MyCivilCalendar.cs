@@ -3,7 +3,9 @@
 
 namespace Samples;
 
+using System.Collections.Generic;
 using System.Diagnostics.Contracts;
+using System.Linq;
 
 using Zorglub.Time;
 using Zorglub.Time.Core.Schemas;
@@ -12,10 +14,7 @@ using Zorglub.Time.Hemerology.Scopes;
 
 using static Zorglub.Time.Extensions.Unboxing;
 
-// NB: MinMaxYearCalendar<> is not optimised, indeed methods like GetDaysInYear()
-// are not particularly efficient.
-
-public sealed class MyCivilCalendar : MinMaxYearCalendar<MyCivilDate>
+public sealed class MyCivilCalendar : MinMaxYearCalendar, ICalendar<MyCivilDate>
 {
     public MyCivilCalendar() : this(GetCivilSchema()) { }
 
@@ -24,4 +23,68 @@ public sealed class MyCivilCalendar : MinMaxYearCalendar<MyCivilDate>
 
     [Pure]
     private static CivilSchema GetCivilSchema() => CivilSchema.GetInstance().Unbox();
+
+    /// <inheritdoc/>
+    [Pure]
+    public IEnumerable<MyCivilDate> GetDaysInYear(int year)
+    {
+        YearsValidator.Validate(year);
+
+        int startOfYear = Schema.GetStartOfYear(year);
+        int daysInYear = Schema.CountDaysInYear(year);
+
+        return from daysSinceEpoch
+               in Enumerable.Range(startOfYear, daysInYear)
+               select new MyCivilDate(daysSinceEpoch);
+    }
+
+    /// <inheritdoc/>
+    [Pure]
+    public IEnumerable<MyCivilDate> GetDaysInMonth(int year, int month)
+    {
+        Scope.ValidateYearMonth(year, month);
+
+        int startOfMonth = Schema.GetStartOfMonth(year, month);
+        int daysInMonth = Schema.CountDaysInMonth(year, month);
+
+        return from daysSinceEpoch
+               in Enumerable.Range(startOfMonth, daysInMonth)
+               select new MyCivilDate(daysSinceEpoch);
+    }
+
+    /// <inheritdoc/>
+    [Pure]
+    public MyCivilDate GetStartOfYear(int year)
+    {
+        YearsValidator.Validate(year);
+        int daysSinceEpoch = Schema.GetStartOfYear(year);
+        return new MyCivilDate(daysSinceEpoch);
+    }
+
+    /// <inheritdoc/>
+    [Pure]
+    public MyCivilDate GetEndOfYear(int year)
+    {
+        YearsValidator.Validate(year);
+        int daysSinceEpoch = Schema.GetEndOfYear(year);
+        return new MyCivilDate(daysSinceEpoch);
+    }
+
+    /// <inheritdoc/>
+    [Pure]
+    public MyCivilDate GetStartOfMonth(int year, int month)
+    {
+        Scope.ValidateYearMonth(year, month);
+        int daysSinceEpoch = Schema.GetStartOfMonth(year, month);
+        return new MyCivilDate(daysSinceEpoch);
+    }
+
+    /// <inheritdoc/>
+    [Pure]
+    public MyCivilDate GetEndOfMonth(int year, int month)
+    {
+        Scope.ValidateYearMonth(year, month);
+        int daysSinceEpoch = Schema.GetEndOfMonth(year, month);
+        return new MyCivilDate(daysSinceEpoch);
+    }
 }

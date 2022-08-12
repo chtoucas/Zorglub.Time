@@ -15,9 +15,6 @@ namespace Zorglub.Time
 
     #region Developer Notes
 
-    // ZCalendar does not derive from MinMaxYearCalendar<> because we can use
-    // the non-validating ctors in GetDaysInYear() & co.
-    //
     // We use a CalendarScope, not a MinMaxYearScope to be able to use
     // ProlepticScope and StandardScope.
     //
