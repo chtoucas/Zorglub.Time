@@ -1203,7 +1203,7 @@ Zorglub.Time.Hemerology.BasicCalendar.Scope.get -> Zorglub.Time.Hemerology.Scope
 Zorglub.Time.Hemerology.BasicCalendar.YearsValidator.get -> Zorglub.Time.Core.Validation.YearsValidator!
 Zorglub.Time.Hemerology.CalendarEpoch
 Zorglub.Time.Hemerology.IAffineDate
-Zorglub.Time.Hemerology.IAffineDate.CountDaysSinceEpoch() -> int
+Zorglub.Time.Hemerology.IAffineDate.DaysSinceEpoch.get -> int
 Zorglub.Time.Hemerology.IAffineDate<TSelf>
 Zorglub.Time.Hemerology.IAffineDate<TSelf>.FromDaysSinceEpoch(int daysSinceEpoch) -> TSelf
 Zorglub.Time.Hemerology.IBlankDay

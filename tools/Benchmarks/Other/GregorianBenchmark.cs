@@ -225,7 +225,7 @@ public class GregorianBenchmark : BenchmarkBase
     {
         CivilParts start = new(Year, Month, Day);
         CivilParts end = start.NextDay().PlusDays(D7).PlusDays(D30).PlusDays(D401);
-        var dayNumber = DayZero.NewStyle + end.CountDaysSinceEpoch();
+        var dayNumber = DayZero.NewStyle + end.DaysSinceEpoch;
 
         var (y, m, d) = end;
         DayOfWeek dayOfWeek = dayNumber.DayOfWeek;
@@ -243,7 +243,7 @@ public class GregorianBenchmark : BenchmarkBase
     {
         CivilTriple start = new(Year, Month, Day);
         CivilTriple end = start.NextDay().PlusDays(D7).PlusDays(D30).PlusDays(D401);
-        var dayNumber = DayZero.NewStyle + end.CountDaysSinceEpoch();
+        var dayNumber = DayZero.NewStyle + end.DaysSinceEpoch;
 
         var (y, m, d) = end;
         DayOfWeek dayOfWeek = dayNumber.DayOfWeek;

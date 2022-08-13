@@ -65,6 +65,8 @@ public readonly partial record struct CivilParts :
     public static CivilParts MinValue => s_MinValue;
     public static CivilParts MaxValue => s_MaxValue;
 
+    public int DaysSinceEpoch => s_Schema.CountDaysSinceEpoch(Year, Month, Day);
+
     public Ord CenturyOfEra => Ord.FromInt32(Century);
     public int Century => YearNumbering.GetCentury(Year);
     public Ord YearOfEra => Ord.FromInt32(Year);
@@ -103,9 +105,6 @@ public partial record struct CivilParts // Conversions, adjustments...
         var parts = s_PartsAdapter.GetDateParts(daysSinceEpoch);
         return new CivilParts(parts);
     }
-
-    [Pure]
-    public int CountDaysSinceEpoch() => s_Schema.CountDaysSinceEpoch(Year, Month, Day);
 
     #region Counting
 

@@ -62,6 +62,15 @@ public readonly partial struct CivilTriple :
     public static CivilTriple MinValue => s_MinValue;
     public static CivilTriple MaxValue => s_MaxValue;
 
+    public int DaysSinceEpoch
+    {
+        get
+        {
+            var (y, m, d) = _bin;
+            return s_Schema.CountDaysSinceEpoch(y, m, d);
+        }
+    }
+
     public Ord CenturyOfEra => Ord.FromInt32(Century);
     public int Century => YearNumbering.GetCentury(Year);
     public Ord YearOfEra => Ord.FromInt32(Year);
@@ -123,13 +132,6 @@ public partial struct CivilTriple // Conversions, adjustments...
         s_DaysValidator.Validate(daysSinceEpoch);
         var ymd = s_Schema.GetDateParts(daysSinceEpoch);
         return new CivilTriple(ymd);
-    }
-
-    [Pure]
-    public int CountDaysSinceEpoch()
-    {
-        var (y, m, d) = _bin;
-        return s_Schema.CountDaysSinceEpoch(y, m, d);
     }
 
     #region Counting

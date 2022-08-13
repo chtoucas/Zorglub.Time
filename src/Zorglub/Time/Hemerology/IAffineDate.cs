@@ -16,9 +16,9 @@ namespace Zorglub.Time.Hemerology
     public interface IAffineDate : IDateable
     {
         /// <summary>
-        /// Counts the number of consecutive days from the epoch to the current instance.
+        /// Gets the number of consecutive days from the epoch to the current instance.
         /// </summary>
-        [Pure] int CountDaysSinceEpoch();
+        int DaysSinceEpoch { get; }
     }
 
     /// <summary>
