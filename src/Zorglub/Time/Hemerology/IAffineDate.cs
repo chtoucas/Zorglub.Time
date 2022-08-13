@@ -7,6 +7,9 @@ namespace Zorglub.Time.Hemerology
 {
     using Zorglub.Time.Core;
 
+    // NB: an affine date can only be linked to a single calendar system,
+    // therefore we can provide unambigiously a factory method FromDaysSinceEpoch().
+
     /// <summary>
     /// Defines an affine date.
     /// </summary>
@@ -43,10 +46,9 @@ namespace Zorglub.Time.Hemerology
         IDecrementOperators<TSelf>
         where TSelf : IAffineDate<TSelf>
     {
-
         /// <summary>
-        /// Creates a new <typeparamref name="TSelf"/> instance in the default calendar from the
-        /// specified number of consecutive days since the epoch.
+        /// Creates a new <typeparamref name="TSelf"/> instance from the specified number of
+        /// consecutive days since the epoch.
         /// </summary>
         /// <exception cref="AoorException"><paramref name="daysSinceEpoch"/> is outside the range
         /// of values supported by the default calendar.</exception>

@@ -1224,6 +1224,7 @@ Zorglub.Time.Hemerology.ICalendar<TDate>.GetStartOfYear(int year) -> TDate
 Zorglub.Time.Hemerology.IDate
 Zorglub.Time.Hemerology.IDate<TSelf, TCalendar>
 Zorglub.Time.Hemerology.IDate<TSelf, TCalendar>.Calendar.get -> TCalendar
+Zorglub.Time.Hemerology.IDate<TSelf, TCalendar>.Today() -> TSelf
 Zorglub.Time.Hemerology.IDate<TSelf>
 Zorglub.Time.Hemerology.IDateable
 Zorglub.Time.Hemerology.IDateable.Century.get -> int
@@ -1242,9 +1243,6 @@ Zorglub.Time.Hemerology.IDateable.Month.get -> int
 Zorglub.Time.Hemerology.IDateable.Year.get -> int
 Zorglub.Time.Hemerology.IDateable.YearOfCentury.get -> int
 Zorglub.Time.Hemerology.IDateable.YearOfEra.get -> Zorglub.Time.Ord
-Zorglub.Time.Hemerology.IDateableOrdinally
-Zorglub.Time.Hemerology.IDateableOrdinally.DayNumber.get -> Zorglub.Time.DayNumber
-Zorglub.Time.Hemerology.IDateableOrdinally.DaysSinceEpoch.get -> int
 Zorglub.Time.Hemerology.IDateAdjuster<TDate>
 Zorglub.Time.Hemerology.IDateAdjuster<TDate>.AdjustDay(TDate date, int newDay) -> TDate
 Zorglub.Time.Hemerology.IDateAdjuster<TDate>.AdjustDayOfYear(TDate date, int newDayOfYear) -> TDate
@@ -1257,17 +1255,15 @@ Zorglub.Time.Hemerology.IDateAdjuster<TDate>.GetStartOfYear(TDate date) -> TDate
 Zorglub.Time.Hemerology.IDateAdjuster<TDate>.Scope.get -> Zorglub.Time.Hemerology.Scopes.CalendarScope!
 Zorglub.Time.Hemerology.IEpagomenalDay
 Zorglub.Time.Hemerology.IEpagomenalDay.IsEpagomenal(out int epagomenalNumber) -> bool
-Zorglub.Time.Hemerology.IFixedDate
-Zorglub.Time.Hemerology.IFixedDate.DayOfWeek.get -> System.DayOfWeek
-Zorglub.Time.Hemerology.IFixedDate.ToDayNumber() -> Zorglub.Time.DayNumber
-Zorglub.Time.Hemerology.IFixedDate<TSelf>
-Zorglub.Time.Hemerology.IFixedDate<TSelf>.FromDayNumber(Zorglub.Time.DayNumber dayNumber) -> TSelf
-Zorglub.Time.Hemerology.IFixedDate<TSelf>.Nearest(System.DayOfWeek dayOfWeek) -> TSelf
-Zorglub.Time.Hemerology.IFixedDate<TSelf>.Next(System.DayOfWeek dayOfWeek) -> TSelf
-Zorglub.Time.Hemerology.IFixedDate<TSelf>.NextOrSame(System.DayOfWeek dayOfWeek) -> TSelf
-Zorglub.Time.Hemerology.IFixedDate<TSelf>.Previous(System.DayOfWeek dayOfWeek) -> TSelf
-Zorglub.Time.Hemerology.IFixedDate<TSelf>.PreviousOrSame(System.DayOfWeek dayOfWeek) -> TSelf
-Zorglub.Time.Hemerology.IFixedDate<TSelf>.Today() -> TSelf
+Zorglub.Time.Hemerology.IFixedDay
+Zorglub.Time.Hemerology.IFixedDay.DayOfWeek.get -> System.DayOfWeek
+Zorglub.Time.Hemerology.IFixedDay.ToDayNumber() -> Zorglub.Time.DayNumber
+Zorglub.Time.Hemerology.IFixedDay<TSelf>
+Zorglub.Time.Hemerology.IFixedDay<TSelf>.Nearest(System.DayOfWeek dayOfWeek) -> TSelf
+Zorglub.Time.Hemerology.IFixedDay<TSelf>.Next(System.DayOfWeek dayOfWeek) -> TSelf
+Zorglub.Time.Hemerology.IFixedDay<TSelf>.NextOrSame(System.DayOfWeek dayOfWeek) -> TSelf
+Zorglub.Time.Hemerology.IFixedDay<TSelf>.Previous(System.DayOfWeek dayOfWeek) -> TSelf
+Zorglub.Time.Hemerology.IFixedDay<TSelf>.PreviousOrSame(System.DayOfWeek dayOfWeek) -> TSelf
 Zorglub.Time.Hemerology.IStandardArithmetic<TSelf>
 Zorglub.Time.Hemerology.IStandardArithmetic<TSelf>.CountDaysSince(TSelf other) -> int
 Zorglub.Time.Hemerology.IStandardArithmetic<TSelf>.NextDay() -> TSelf
