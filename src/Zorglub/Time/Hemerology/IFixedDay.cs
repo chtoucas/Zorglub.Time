@@ -3,8 +3,6 @@
 
 namespace Zorglub.Time.Hemerology
 {
-    using Zorglub.Time.Core;
-
     #region Developer Notes
 
     // TL;DR: Despite its flaws we'll use the CRTP.

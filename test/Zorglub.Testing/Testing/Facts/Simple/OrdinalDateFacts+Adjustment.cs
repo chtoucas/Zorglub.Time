@@ -4,7 +4,6 @@
 namespace Zorglub.Testing.Facts.Simple;
 
 using Zorglub.Testing.Data;
-using Zorglub.Testing.Facts.Hemerology;
 using Zorglub.Time.Simple;
 
 public abstract partial class OrdinalDateAdjustmentFacts<TDataSet> :

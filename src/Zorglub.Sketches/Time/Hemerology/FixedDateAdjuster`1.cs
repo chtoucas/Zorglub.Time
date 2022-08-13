@@ -71,7 +71,6 @@ namespace Zorglub.Time.Hemerology
         // to a poly-calendar system, and there is no constraint to prevent that.
         [Pure]
         protected abstract TDate GetDate(int daysSinceEpoch);
-            //=> TDate.FromDayNumber(Epoch + daysSinceEpoch);
 
         /// <inheritdoc />
         [Pure]

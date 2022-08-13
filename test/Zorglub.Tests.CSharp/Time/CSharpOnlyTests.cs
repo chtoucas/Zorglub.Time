@@ -2,9 +2,6 @@
 // Copyright (c) 2020 Narvalo.Org. All rights reserved.
 
 namespace Zorglub.Time;
-
-using Zorglub.Time.Hemerology;
-
 public static partial class CSharpOnlyTests { }
 
 public partial class CSharpOnlyTests // DayNumber

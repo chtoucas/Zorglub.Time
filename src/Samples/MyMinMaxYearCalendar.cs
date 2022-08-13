@@ -8,8 +8,6 @@ using System.Diagnostics.Contracts;
 
 using Zorglub.Time;
 using Zorglub.Time.Core;
-using Zorglub.Time.Core.Intervals;
-using Zorglub.Time.Hemerology;
 using Zorglub.Time.Hemerology.Naked;
 using Zorglub.Time.Hemerology.Scopes;
 

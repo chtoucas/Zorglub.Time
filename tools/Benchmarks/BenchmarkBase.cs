@@ -6,10 +6,10 @@ namespace Benchmarks;
 using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
 
+using NodaTime;
+
 using Zorglub.Time;
 using Zorglub.Time.Core;
-
-using NodaTime;
 
 public abstract class BenchmarkBase
 {

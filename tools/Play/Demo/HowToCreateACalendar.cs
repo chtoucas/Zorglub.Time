@@ -7,7 +7,6 @@ using Zorglub.Time;
 using Zorglub.Time.Core.Intervals;
 using Zorglub.Time.Core.Schemas;
 using Zorglub.Time.Core.Utilities;
-using Zorglub.Time.Hemerology;
 using Zorglub.Time.Hemerology.Naked;
 using Zorglub.Time.Hemerology.Scopes;
 using Zorglub.Time.Simple;
