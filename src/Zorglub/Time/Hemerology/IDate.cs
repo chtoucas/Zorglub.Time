@@ -5,6 +5,16 @@
 
 namespace Zorglub.Time.Hemerology
 {
+    using Zorglub.Time.Core;
+
+    // TODO(api): remove FromDayNumber() from IDate<TSelf, out TCalendar>?
+    // Almost done, we still have to decide whether to keep it or not in simple
+    // date types.
+    // I'm not sure yet. We can achieve the same thing using one of the factory
+    // methods on SimpleCalendar. Two reasons to keep it: constructors are also
+    // specialized and optimised for the Gregorian case.
+    // We will definitely keep it for date types not linked to a calendar type.
+
     #region Developer Notes
 
     // A date type is expected to provide the following constructors or factories:
@@ -23,7 +33,19 @@ namespace Zorglub.Time.Hemerology
     /// Defines a date type.
     /// </summary>
     /// <typeparam name="TSelf">The type that implements this interface.</typeparam>
-    public interface IDate<TSelf> : IDate, IFixedDate<TSelf>
+    public interface IDate<TSelf> :
+        IDate,
+        IFixedDate<TSelf>,
+        // Comparison
+        IComparisonOperators<TSelf, TSelf>,
+        IMinMaxFunctions<TSelf>,
+        // Arithmetic
+        IStandardArithmetic<TSelf>,
+        IAdditionOperators<TSelf, int, TSelf>,
+        ISubtractionOperators<TSelf, int, TSelf>,
+        IDifferenceOperators<TSelf, int>,
+        IIncrementOperators<TSelf>,
+        IDecrementOperators<TSelf>
         where TSelf : IDate<TSelf>
     { }
 
@@ -66,7 +88,7 @@ namespace Zorglub.Time.Hemerology
         /// </summary>
         static abstract TCalendar Calendar { get; }
 
-        // FIXME(api): this is not the right way to do it -> use ITodayProvider;
+        // FIXME(api): this is not the right way of doing it -> use ITodayProvider;
         // see also NodaTime.
         // We don't add the UTC version UtcToday(). I don't think that we need
         // such a level of precision, furthermore one can still do it manually

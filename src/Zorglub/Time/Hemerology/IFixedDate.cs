@@ -6,12 +6,6 @@ namespace Zorglub.Time.Hemerology
     using Zorglub.Time.Core;
 
     // TODO(api): remove this interface?
-    // Remove FromDayNumber() from IDate<TSelf, out TCalendar>? Almost done, we
-    // still have to decide whether to keep it or not in simple date types.
-    // I'm not sure yet. We can achieve the same thing using one of the factory
-    // methods on SimpleCalendar. Two reasons to keep it: constructors are also
-    // specialized and optimised for the Gregorian case.
-    // We will definitely keep it for date types not linked to a calendar type.
 
     #region Developer Notes
 
@@ -168,23 +162,9 @@ namespace Zorglub.Time.Hemerology
     /// Defines a fixed date type.
     /// </summary>
     /// <typeparam name="TSelf">The type that implements this interface.</typeparam>
-    public interface IFixedDate<TSelf> :
-        IFixedDate,
-        // Comparison
-        IComparisonOperators<TSelf, TSelf>,
-        IMinMaxFunctions<TSelf>,
-        // Arithmetic
-        IStandardArithmetic<TSelf>,
-        IAdditionOperators<TSelf, int, TSelf>,
-        ISubtractionOperators<TSelf, int, TSelf>,
-        IDifferenceOperators<TSelf, int>,
-        IIncrementOperators<TSelf>,
-        IDecrementOperators<TSelf>
+    public interface IFixedDate<TSelf> : IFixedDate
         where TSelf : IFixedDate<TSelf>
     {
-        // IMinMaxValue<TSelf>? no, because of types linked to a poly-calendar
-        // system, but see IDate<TSelf, TCalendar>.
-
         //
         // Adjust the day of the week
         //
@@ -235,7 +215,7 @@ namespace Zorglub.Time.Hemerology
         [Pure] TSelf NextOrSame(DayOfWeek dayOfWeek);
 
         /// <summary>
-        /// Obtains the date strictly after the current instance  that falls on the specified day of
+        /// Obtains the date strictly after the current instance that falls on the specified day of
         /// the week.
         /// </summary>
         /// <exception cref="AoorException"><paramref name="dayOfWeek"/> is not a valid day of the

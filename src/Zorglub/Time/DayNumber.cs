@@ -18,7 +18,17 @@ namespace Zorglub.Time
     /// </summary>
     public readonly partial struct DayNumber :
         IFixedDate<DayNumber>,
-        IMinMaxValue<DayNumber>
+        // Comparison
+        IComparisonOperators<DayNumber, DayNumber>,
+        IMinMaxValue<DayNumber>,
+        IMinMaxFunctions<DayNumber>,
+        // Arithmetic
+        IStandardArithmetic<DayNumber>,
+        IAdditionOperators<DayNumber, int, DayNumber>,
+        ISubtractionOperators<DayNumber, int, DayNumber>,
+        IDifferenceOperators<DayNumber, int>,
+        IIncrementOperators<DayNumber>,
+        IDecrementOperators<DayNumber>
     {
         // Since DaysSinceZero is public, we keep these two constants public too.
         // Another reason: constructing a day number requires a "daysSinceEpoch"
@@ -191,7 +201,7 @@ namespace Zorglub.Time
         public Ord Ordinal => Ord.First + _daysSinceZero;
 
         /// <summary>
-        /// Gets the day of the week from this instance.
+        /// Gets the day of the week.
         /// </summary>
         public DayOfWeek DayOfWeek =>
             // Zero is a Monday.
@@ -524,7 +534,7 @@ namespace Zorglub.Time
         }
 
         /// <summary>
-        /// Obtains the day number after the current instance  that falls on the specified day of
+        /// Obtains the day number after the current instance that falls on the specified day of
         /// the week.
         /// </summary>
         /// <exception cref="AoorException"><paramref name="dayOfWeek"/> is not a valid day of the

@@ -18,7 +18,17 @@ namespace Zorglub.Time
     /// </summary>
     public readonly partial struct DayNumber64 :
         IFixedDate<DayNumber64>,
-        IMinMaxValue<DayNumber64>
+        // Comparison
+        IComparisonOperators<DayNumber64, DayNumber64>,
+        IMinMaxValue<DayNumber64>,
+        IMinMaxFunctions<DayNumber64>,
+        // Arithmetic
+        IStandardArithmetic<DayNumber64>,
+        IAdditionOperators<DayNumber64, int, DayNumber64>,
+        ISubtractionOperators<DayNumber64, int, DayNumber64>,
+        IDifferenceOperators<DayNumber64, int>,
+        IIncrementOperators<DayNumber64>,
+        IDecrementOperators<DayNumber64>
     {
         public const long MinDaysSinceZero = Int64.MinValue + 1;
         public const long MaxDaysSinceZero = Int64.MaxValue - 1;
