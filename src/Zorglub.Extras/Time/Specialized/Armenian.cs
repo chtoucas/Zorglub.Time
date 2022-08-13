@@ -313,7 +313,7 @@ namespace Zorglub.Time.Specialized
         #region Conversions
 
         [Pure]
-        static ArmenianDate IFixedDate<ArmenianDate>.FromDayNumber(DayNumber dayNumber) =>
+        static ArmenianDate IDate<ArmenianDate, ArmenianCalendar>.FromDayNumber(DayNumber dayNumber) =>
             new(dayNumber);
 
         [Pure]

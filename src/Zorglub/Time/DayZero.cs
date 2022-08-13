@@ -10,19 +10,17 @@ namespace Zorglub.Time
     public static class DayZero
     {
         /// <summary>
-        /// Gets the Monday 1st of January, 1 CE within the Gregorian calendar,
-        /// ie the epoch of the Gregorian calendar.
-        /// <para>Matches the epoch of the Common Era, Current Era or Vulgar Era.
-        /// </para>
+        /// Gets the Monday 1st of January, 1 CE within the Gregorian calendar, i.e. the epoch of the
+        /// Gregorian calendar.
+        /// <para>Matches the epoch of the Common Era, Current Era or Vulgar Era.</para>
         /// <para>This static property is thread-safe.</para>
         /// </summary>
         public static DayNumber NewStyle { get; } = DayNumber.Zero;
 
         /// <summary>
-        /// Gets the Saturday 1st of January, 1 CE within the Julian calendar,
-        /// ie the epoch of the Julian calendar.
-        /// <para>Two days before <see cref="NewStyle"/>, the Gregorian epoch.
-        /// </para>
+        /// Gets the Saturday 1st of January, 1 CE within the Julian calendar, i.e. the epoch of the
+        /// Julian calendar.
+        /// <para>Two days before <see cref="NewStyle"/>, the Gregorian epoch.</para>
         /// <para>This static property is thread-safe.</para>
         /// </summary>
         public static DayNumber OldStyle { get; } = DayNumber.Zero - 2;

@@ -31,9 +31,10 @@ namespace Zorglub.Time.Hemerology
     // https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/proposals/csharp-9.0/covariant-returns
 
     // L'interface suivante est prévue pour les dates ne fonctionnant qu'avec un
-    // seul calendrier, d'où le fait d'avoir choisi une propriété __statique__.
+    // seul calendrier, d'où le fait d'avoir choisi des propriétés et méthodes
+    // __statiques__.
     // Pour des dates fonctionnant avec un calendrier "pluriel", on utilisera
-    // plutôt une propriété statique et on ajoutera une méthode pour
+    // plutôt une propriété non-statique Calendar et on ajoutera une méthode pour
     // WithCalendar(newCalendar) pour l'interconversion; voir p.ex. ZDate et
     // ISimpleDate.
 
@@ -55,5 +56,20 @@ namespace Zorglub.Time.Hemerology
         /// <para>This static property is thread-safe.</para>
         /// </summary>
         static abstract TCalendar Calendar { get; }
+
+        // We don't add the UTC version UtcToday(). I don't think that we need
+        // such a level of precision, furthermore one can still do it manually
+        // using the static factory FromDayNumber(DayNumber.UtcToday()).
+        // Anyway, this is not the right way to do it; see NodaTime.
+
+        /// <summary>
+        /// Obtains the current day on this machine, expressed in local time, not UTC.
+        /// </summary>
+        [Pure] static abstract TSelf Today();
+
+        /// <summary>
+        /// Creates a new <typeparamref name="TSelf"/> instance from the specified day number.
+        /// </summary>
+        [Pure] static abstract TSelf FromDayNumber(DayNumber dayNumber);
     }
 }

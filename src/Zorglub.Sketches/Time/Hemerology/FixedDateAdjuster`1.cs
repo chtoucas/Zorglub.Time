@@ -24,7 +24,7 @@ namespace Zorglub.Time.Hemerology
     /// </summary>
     /// <typeparam name="TDate">The type of date object.</typeparam>
     [Obsolete("Broken.")]
-    public class FixedDateAdjuster<TDate> : IDateAdjuster<TDate>
+    public abstract class FixedDateAdjuster<TDate> : IDateAdjuster<TDate>
         // We could remove the IDateable constraint on TDate but it would make
         // things a bit harder than necessary. Indeed, without IDateable, we
         // would have to obtain the date parts (y, m, d, doy) by other means,
@@ -36,7 +36,7 @@ namespace Zorglub.Time.Hemerology
         /// <see cref="FixedDateAdjuster{TDate}"/> class.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="scope"/> is null.</exception>
-        public FixedDateAdjuster(CalendarScope scope)
+        protected FixedDateAdjuster(CalendarScope scope)
         {
             Scope = scope ?? throw new ArgumentNullException(nameof(scope));
         }
@@ -70,8 +70,8 @@ namespace Zorglub.Time.Hemerology
         // Anyway, the real reason is that it DOES NOT WORK when TDate is linked
         // to a poly-calendar system, and there is no constraint to prevent that.
         [Pure]
-        protected virtual TDate GetDate(int daysSinceEpoch) =>
-            TDate.FromDayNumber(Epoch + daysSinceEpoch);
+        protected abstract TDate GetDate(int daysSinceEpoch);
+            //=> TDate.FromDayNumber(Epoch + daysSinceEpoch);
 
         /// <inheritdoc />
         [Pure]

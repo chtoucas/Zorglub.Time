@@ -19,8 +19,11 @@ public abstract partial class ICalendarTFacts<TDate, TCalendar, TDataSet> :
 {
     protected ICalendarTFacts(TCalendar calendar) : base(calendar) { }
 
+    /// <summary>Creates a new instance of <typeparamref name="TDate"/> from the specified components.</summary>
     protected abstract TDate GetDate(int y, int m, int d);
+    /// <summary>Creates a new instance of <typeparamref name="TDate"/> from the specified ordinal components.</summary>
     protected abstract TDate GetDate(int y, int doy);
+    /// <summary>Creates a new instance of <typeparamref name="TDate"/> from the specified <see cref="DayNumber"/>.</summary>
     protected abstract TDate GetDate(DayNumber dayNumber);
 }
 

@@ -1,11 +1,11 @@
 ﻿// SPDX-License-Identifier: BSD-3-Clause
 // Copyright (c) 2020 Narvalo.Org. All rights reserved.
 
-#pragma warning disable CA1000 // Do not declare static members on generic types (Design) 👈 PreviewFeatures
-
 namespace Zorglub.Time.Hemerology
 {
     using Zorglub.Time.Core;
+
+    // TODO(api): remove this interface? Remove FromDayNumber() from IDate<TSelf, out TCalendar>?
 
     #region Developer Notes
 
@@ -176,25 +176,8 @@ namespace Zorglub.Time.Hemerology
         IDecrementOperators<TSelf>
         where TSelf : IFixedDate<TSelf>
     {
-        // IMinMaxValue<TSelf>? no, because of types linked to multi-calendars,
-        // but specialized date types should implement this interface.
-        //
-        // We don't add the UTC version UtcToday(). I don't think that we need
-        // such a level of precision, furthermore one can still do it manually
-        // using the factory FromDayNumber(DayNumber.UtcToday()).
-        // Anyway, this is not the right way to do it; see NodaTime.
-
-        /// <summary>
-        /// Obtains the current day in the <i>default calendar</i> on this machine, expressed in
-        /// local time, not UTC.
-        /// </summary>
-        [Pure] static abstract TSelf Today();
-
-        /// <summary>
-        /// Creates a new <typeparamref name="TSelf"/> instance in the <i>default calendar</i> from
-        /// the specified day number.
-        /// </summary>
-        [Pure] static abstract TSelf FromDayNumber(DayNumber dayNumber);
+        // IMinMaxValue<TSelf>? no, because of types linked to a poly-calendar
+        // system, but see IDate<TSelf, TCalendar>.
 
         //
         // Adjust the day of the week

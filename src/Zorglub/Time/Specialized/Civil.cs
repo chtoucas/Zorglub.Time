@@ -298,7 +298,8 @@ namespace Zorglub.Time.Specialized
         #region Conversions
 
         [Pure]
-        static CivilDate IFixedDate<CivilDate>.FromDayNumber(DayNumber dayNumber) => new(dayNumber);
+        static CivilDate IDate<CivilDate, CivilCalendar>.FromDayNumber(DayNumber dayNumber) =>
+            new(dayNumber);
 
         [Pure]
         DayNumber IFixedDate.ToDayNumber() => DayNumber;

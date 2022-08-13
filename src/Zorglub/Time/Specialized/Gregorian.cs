@@ -298,7 +298,7 @@ namespace Zorglub.Time.Specialized
         #region Conversions
 
         [Pure]
-        static GregorianDate IFixedDate<GregorianDate>.FromDayNumber(DayNumber dayNumber) =>
+        static GregorianDate IDate<GregorianDate, GregorianCalendar>.FromDayNumber(DayNumber dayNumber) =>
             new(dayNumber);
 
         [Pure]

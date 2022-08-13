@@ -225,8 +225,8 @@ namespace Zorglub.Time.Simple
         }
 
         /// <summary>
-        /// Obtains a new <see cref="CalendarMonth"/> in the Gregorian calendar from the specified
-        /// day number.
+        /// Obtains a new <see cref="CalendarMonth"/> in the <i>Gregorian</i> calendar from the
+        /// specified day number.
         /// <para>To create an instance in another calendar, see
         /// <see cref="SimpleCalendar.GetCalendarMonth(DayNumber)"/>.</para>
         /// </summary>

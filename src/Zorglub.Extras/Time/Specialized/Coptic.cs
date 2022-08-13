@@ -313,7 +313,7 @@ namespace Zorglub.Time.Specialized
         #region Conversions
 
         [Pure]
-        static CopticDate IFixedDate<CopticDate>.FromDayNumber(DayNumber dayNumber) =>
+        static CopticDate IDate<CopticDate, CopticCalendar>.FromDayNumber(DayNumber dayNumber) =>
             new(dayNumber);
 
         [Pure]

@@ -9,16 +9,16 @@ public static partial class CSharpOnlyTests { }
 
 public partial class CSharpOnlyTests // DayNumber
 {
-    [Fact]
-    public static void DayNumber_FromDayNumber()
-    {
-        Test<DayNumber>(DayNumber.MinValue);
-        Test<DayNumber>(DayNumber.Zero);
-        Test<DayNumber>(DayNumber.MaxValue);
+    //[Fact]
+    //public static void DayNumber_FromDayNumber()
+    //{
+    //    Test<DayNumber>(DayNumber.MinValue);
+    //    Test<DayNumber>(DayNumber.Zero);
+    //    Test<DayNumber>(DayNumber.MaxValue);
 
-        static void Test<T>(DayNumber x) where T : IFixedDate<DayNumber> =>
-            Assert.Equal(x, T.FromDayNumber(x));
-    }
+    //    static void Test<T>(DayNumber x) where T : IFixedDate<DayNumber> =>
+    //        Assert.Equal(x, T.FromDayNumber(x));
+    //}
 
     //
     // Math operators

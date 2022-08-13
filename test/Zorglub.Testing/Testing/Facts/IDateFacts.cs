@@ -65,17 +65,6 @@ public partial class IDateFacts<TDate, TDataSet> // Prelude
     //}
 }
 
-public partial class IDateFacts<TDate, TDataSet> // Factories
-{
-    [Fact]
-    public void Today()
-    {
-        var today = DayNumber.Today();
-        // Act & Assert
-        Assert.Equal(today, TDate.Today().ToDayNumber());
-    }
-}
-
 public partial class IDateFacts<TDate, TDataSet> // Conversions
 {
     // Normally, this also tests the prop DayNumber if there is one.

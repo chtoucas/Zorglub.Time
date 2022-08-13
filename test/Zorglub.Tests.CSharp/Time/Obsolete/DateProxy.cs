@@ -81,9 +81,6 @@ public partial class DateProxy<T> // IFixedDate
 {
     public DayOfWeek DayOfWeek => _subject.DayOfWeek;
 
-    static T IFixedDate<T>.FromDayNumber(DayNumber dayNumber) => throw new NotImplementedException();
-    static T IFixedDate<T>.Today() => throw new NotImplementedException();
-
     [Pure] public DayNumber ToDayNumber() => _subject.ToDayNumber();
 
     [Pure] public T Previous(DayOfWeek dayOfWeek) => _subject.Previous(dayOfWeek);

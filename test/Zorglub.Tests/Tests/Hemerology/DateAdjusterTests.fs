@@ -15,16 +15,16 @@ open Xunit
 module Prelude =
     [<Fact>]
     let ``Constructor for DateAdjuster throws when the scope is null`` () =
-        nullExn "scope" (fun () -> new DateAdjuster<ZDate, ZCalendar>(null))
+        nullExn "calendar" (fun () -> new DateAdjuster<ZDate, ZCalendar>(null))
 
-module Bundles =
-    let private chr = ZCalendar.Gregorian
-    let private adjuster = new DateAdjuster<ZDate, ZCalendar>(chr)
+//module Bundles =
+//    let private chr = ZCalendar.Gregorian
+//    let private adjuster = new DateAdjuster<ZDate, ZCalendar>(chr)
 
-    [<Sealed>]
-    type DateAdjusterFacts() =
-        inherit IDateAdjusterFacts<ZDate, UnboundedGregorianDataSet>(adjuster)
+//    [<Sealed>]
+//    type DateAdjusterFacts() =
+//        inherit IDateAdjusterFacts<ZDate, UnboundedGregorianDataSet>(adjuster)
 
-        override __.GetDate(y, m, d) = chr.GetDate(y, m, d)
-        override __.GetDate(y, doy) = chr.GetDate(y, doy)
+//        override __.GetDate(y, m, d) = chr.GetDate(y, m, d)
+//        override __.GetDate(y, doy) = chr.GetDate(y, doy)
 

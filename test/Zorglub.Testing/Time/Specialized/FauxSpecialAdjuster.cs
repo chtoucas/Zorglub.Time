@@ -12,5 +12,5 @@ public sealed class FauxSpecialAdjuster<TDate> : SpecialAdjuster<TDate>
     public FauxSpecialAdjuster(CalendarScope scope) : base(scope) { }
 
     private protected override TDate GetDate(int daysSinceEpoch) =>
-        TDate.FromDayNumber(Scope.Epoch + daysSinceEpoch);
+        throw new NotSupportedException();
 }

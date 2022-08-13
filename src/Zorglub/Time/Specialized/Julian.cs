@@ -316,7 +316,7 @@ namespace Zorglub.Time.Specialized
         #region Conversions
 
         [Pure]
-        static JulianDate IFixedDate<JulianDate>.FromDayNumber(DayNumber dayNumber) =>
+        static JulianDate IDate<JulianDate, JulianCalendar>.FromDayNumber(DayNumber dayNumber) =>
             new(dayNumber);
 
         [Pure]

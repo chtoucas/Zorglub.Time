@@ -28,10 +28,20 @@ public abstract partial class IDateFacts<TDate, TCalendar, TDataSet> :
         Assert.Equal(str, date.ToString());
     }
 
-    // NB: this test only works for date types linked to a single calendar.
-    // Also, we usually do not test static methods/props in a fact class, but
-    // here the situation is a bit different since this is a static method on a
+    // Althought, we do not usually test static methods/props in a fact class,
+    // the situation is a bit different here since this is a static method on a
     // __type__.
+
+    [Fact]
+    public void Today()
+    {
+        // This test may fail if there is a change of day between the two calls
+        // to Today().
+        var today = DayNumber.Today();
+        // Act & Assert
+        Assert.Equal(today, TDate.Today().ToDayNumber());
+    }
+
     [Theory, MemberData(nameof(DayNumberInfoData))]
     public void FromDayNumber(DayNumberInfo info)
     {

@@ -237,11 +237,6 @@ namespace Zorglub.Time
         #region Conversions
 
         [Pure]
-        // We do actually test this method, but in Zorglub.Tests.CSharp.
-        [ExcludeFromCodeCoverage]
-        static DayNumber IFixedDate<DayNumber>.FromDayNumber(DayNumber dayNumber) => dayNumber;
-
-        [Pure]
         DayNumber IFixedDate.ToDayNumber() => this;
 
         #endregion

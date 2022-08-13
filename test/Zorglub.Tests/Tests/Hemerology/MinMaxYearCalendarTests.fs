@@ -21,14 +21,14 @@ module Prelude =
         let scope = new StandardScope(new GregorianSchema(), DayZero.NewStyle)
 
         nullExn "name" (fun () -> new MinMaxYearCalendar(null, scope))
-        nullExn "name" (fun () -> new MinMaxYearCalendar<GregorianDate>(null, scope))
+        nullExn "name" (fun () -> new GregorianMinMaxYearCalendar(null, scope))
 
     [<Fact>]
     let ``Constructor throws when "scope" is null`` () =
         nullExn "scope" (fun () -> new MinMaxYearCalendar("Name", (null: CalendarScope)))
         nullExn "scope" (fun () -> new MinMaxYearCalendar("Name", (null: MinMaxYearScope)))
-        nullExn "scope" (fun () -> new MinMaxYearCalendar<GregorianDate>("Name", (null: CalendarScope)))
-        nullExn "scope" (fun () -> new MinMaxYearCalendar<GregorianDate>("Name", (null: MinMaxYearScope)))
+        nullExn "scope" (fun () -> new GregorianMinMaxYearCalendar("Name", (null: CalendarScope)))
+        nullExn "scope" (fun () -> new GregorianMinMaxYearCalendar("Name", (null: MinMaxYearScope)))
 
     [<Fact>]
     let ``Constructor throws when "scope" is not complete`` () =
@@ -38,21 +38,22 @@ module Prelude =
         scope.IsComplete |> nok
 
         argExn "scope" (fun () -> new MinMaxYearCalendar("Name", scope))
-        argExn "scope" (fun () -> new MinMaxYearCalendar<GregorianDate>("Name", scope))
+        argExn "scope" (fun () -> new GregorianMinMaxYearCalendar("Name", scope))
 
 module Bundles =
-    let private scope = new StandardScope(new Coptic12Schema(), CalendarEpoch.Coptic)
-    let private chr = new MinMaxYearCalendar<CopticDate>("Coptic", scope)
+    // WARNING: we MUST use the same scope as the one defined in GregorianCalendar.
+    let private scope = MinMaxYearScope.CreateMaximal(new GregorianSchema(), DayZero.NewStyle)
+    let private chr = new GregorianMinMaxYearCalendar("Gregorian", scope)
 
     // This bundle is necessary in order to test the base method GetDate(int daysSinceEpoch).
     [<Sealed>]
     type CalendaTests() =
-        inherit ICalendarTFacts<CopticDate, MinMaxYearCalendar<CopticDate>, StandardCoptic12DataSet>(chr)
+        inherit ICalendarTFacts<GregorianDate, MinMaxYearCalendar<GregorianDate>, StandardGregorianDataSet>(chr)
 
         override x.Algorithm_Prop() = x.CalendarUT.Algorithm === CalendricalAlgorithm.Arithmetical
         override x.Family_Prop() = x.CalendarUT.Family === CalendricalFamily.Solar
         override x.PeriodicAdjustments_Prop() = x.CalendarUT.PeriodicAdjustments === CalendricalAdjustments.Days
 
-        override __.GetDate(y, m, d) = new CopticDate(y, m, d);
-        override __.GetDate(y, doy) = new CopticDate(y, doy);
-        override __.GetDate(dayNumber) = new CopticDate(dayNumber);
+        override __.GetDate(y, m, d) = new GregorianDate(y, m, d);
+        override __.GetDate(y, doy) = new GregorianDate(y, doy);
+        override __.GetDate(dayNumber) = new GregorianDate(dayNumber);

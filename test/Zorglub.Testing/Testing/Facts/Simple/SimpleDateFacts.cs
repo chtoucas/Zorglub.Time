@@ -95,13 +95,13 @@ public partial class SimpleDateFacts<TDate, TDataSet> // Serialization
         Assert.Equal(date, TDate.FromBinary(date.ToBinary()));
     }
 
-    [Theory, MemberData(nameof(DayNumberInfoData))]
-    public void Serialization_Roundtrip2(DayNumberInfo info)
-    {
-        var date = TDate.FromDayNumber(info.DayNumber);
-        // Act & Assert
-        Assert.Equal(date, TDate.FromBinary(date.ToBinary()));
-    }
+    //[Theory, MemberData(nameof(DayNumberInfoData))]
+    //public void Serialization_Roundtrip2(DayNumberInfo info)
+    //{
+    //    var date = TDate.FromDayNumber(info.DayNumber);
+    //    // Act & Assert
+    //    Assert.Equal(date, TDate.FromBinary(date.ToBinary()));
+    //}
 }
 
 public partial class SimpleDateFacts<TDate, TDataSet> // Math

@@ -313,7 +313,7 @@ namespace Zorglub.Time.Specialized
         #region Conversions
 
         [Pure]
-        static EthiopicDate IFixedDate<EthiopicDate>.FromDayNumber(DayNumber dayNumber) =>
+        static EthiopicDate IDate<EthiopicDate, EthiopicCalendar>.FromDayNumber(DayNumber dayNumber) =>
             new(dayNumber);
 
         [Pure]

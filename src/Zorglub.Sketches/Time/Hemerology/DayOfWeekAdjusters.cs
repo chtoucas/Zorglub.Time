@@ -27,16 +27,16 @@ namespace Zorglub.Time.Hemerology
             return δ == 0 ? self : self + (δ > 0 ? δ - 7 : δ);
         }
 
-        [Pure]
-        public static T Nearest<T>(T self, DayOfWeek dayOfWeek)
-            where T : IFixedDate<T>
-        {
-            Requires.NotNull(self);
-            Requires.Defined(dayOfWeek);
+        //[Pure]
+        //public static T Nearest<T>(T self, DayOfWeek dayOfWeek)
+        //    where T : IFixedDate<T>
+        //{
+        //    Requires.NotNull(self);
+        //    Requires.Defined(dayOfWeek);
 
-            DayNumber nearest = self.ToDayNumber().Nearest(dayOfWeek);
-            return T.FromDayNumber(nearest);
-        }
+        //    DayNumber nearest = self.ToDayNumber().Nearest(dayOfWeek);
+        //    return T.FromDayNumber(nearest);
+        //}
 
         [Pure]
         public static T NextOrSame<T>(T self, DayOfWeek dayOfWeek)

@@ -327,7 +327,7 @@ namespace Zorglub.Time.Specialized
         #region Conversions
 
         [Pure]
-        static WorldDate IFixedDate<WorldDate>.FromDayNumber(DayNumber dayNumber) =>
+        static WorldDate IDate<WorldDate, WorldCalendar>.FromDayNumber(DayNumber dayNumber) =>
             new(dayNumber);
 
         [Pure]

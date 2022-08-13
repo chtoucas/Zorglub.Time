@@ -576,8 +576,7 @@ namespace Zorglub.Time
     public partial struct XCivilDate // Conversions, adjustments...
     {
         /// <summary>
-        /// Creates a new instance of <see cref="XCivilDate"/> from the
-        /// specified day number.
+        /// Creates a new instance of <see cref="XCivilDate"/> from the specified day number.
         /// </summary>
         /// <exception cref="AoorException"><paramref name="dayNumber"/> is outside the range of
         /// supported values.</exception>

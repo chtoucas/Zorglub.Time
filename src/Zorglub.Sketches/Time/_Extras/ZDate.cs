@@ -278,18 +278,14 @@ namespace Zorglub.Time
         #region Factories
 
         /// <summary>
-        /// Obtains the current date in the Gregorian calendar on this machine, expressed in local
-        /// time, not UTC.
+        /// Obtains the current date in the <i>Gregorian</i> calendar on this machine, expressed in
+        /// local time, not UTC.
         /// </summary>
         [Pure]
         public static ZDate Today() => new(DayNumber.Today().DaysSinceZero, (int)CalendarId.Gregorian);
 
         #endregion
         #region Conversions
-
-        /// <inheritdoc />
-        [Pure]
-        static ZDate IFixedDate<ZDate>.FromDayNumber(DayNumber dayNumber) => new(dayNumber);
 
         /// <inheritdoc />
         [Pure]

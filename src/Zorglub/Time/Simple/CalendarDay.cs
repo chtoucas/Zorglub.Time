@@ -302,8 +302,8 @@ namespace Zorglub.Time.Simple
         #region Factories
 
         /// <summary>
-        /// Obtains the current date in the Gregorian calendar on this machine, expressed in local
-        /// time, not UTC.
+        /// Obtains the current date in the <i>Gregorian</i> calendar on this machine, expressed in
+        /// local time, not UTC.
         /// <para>To obtain the current date in another calendar, see
         /// <see cref="SimpleCalendar.GetCurrentDay()"/>.</para>
         /// </summary>
@@ -312,10 +312,6 @@ namespace Zorglub.Time.Simple
 
         #endregion
         #region Conversions
-
-        [Pure]
-        static CalendarDay IFixedDate<CalendarDay>.FromDayNumber(DayNumber dayNumber) =>
-            new(dayNumber);
 
         [Pure]
         DayNumber IFixedDate.ToDayNumber() => DayNumber;

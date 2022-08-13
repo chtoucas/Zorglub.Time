@@ -217,8 +217,8 @@ namespace Zorglub.Time.Simple
         #region Factories
 
         /// <summary>
-        /// Obtains the current date in the Gregorian calendar on this machine, expressed in local
-        /// time, not UTC.
+        /// Obtains the current date in the <i>Gregorian</i> calendar on this machine, expressed in
+        /// local time, not UTC.
         /// <para>To obtain the current date in another calendar, see
         /// <see cref="SimpleCalendar.GetCurrentOrdinal()"/>.</para>
         /// </summary>
@@ -233,8 +233,8 @@ namespace Zorglub.Time.Simple
         #region Conversions
 
         /// <summary>
-        /// Obtains a new <see cref="OrdinalDate"/> in the Gregorian calendar from the specified day
-        /// number.
+        /// Obtains a new <see cref="OrdinalDate"/> in the <i>Gregorian</i> calendar from the
+        /// specified day number.
         /// </summary>
         /// <remarks>
         /// <para>To create from a day number an instance in another calendar, see

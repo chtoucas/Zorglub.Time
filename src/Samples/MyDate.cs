@@ -1,7 +1,7 @@
 ﻿// SPDX-License-Identifier: BSD-3-Clause
 // Copyright (c) 2020 Narvalo.Org. All rights reserved.
 
-#define USE_ADJUSTER
+#define USE_ADJUSTERS
 
 namespace Samples;
 
@@ -145,7 +145,7 @@ public readonly partial struct MyDate :
         return r >= 0 ? r : (r + n);
     }
 
-#if !USE_ADJUSTER
+#if !USE_ADJUSTERS
     private static bool IsInvalid(DayOfWeek @this) =>
         @this < DayOfWeek.Sunday || @this > DayOfWeek.Saturday;
 #endif
@@ -233,7 +233,7 @@ public partial struct MyDate // Conversions, adjustments...
     [Pure]
     public MyDate Previous(DayOfWeek dayOfWeek)
     {
-#if USE_ADJUSTER
+#if USE_ADJUSTERS
         return DayOfWeekAdjusters.Previous(this, dayOfWeek);
 #else
         if (IsInvalid(dayOfWeek)) Throw.ArgumentOutOfRange(nameof(dayOfWeek));
@@ -246,7 +246,7 @@ public partial struct MyDate // Conversions, adjustments...
     [Pure]
     public MyDate PreviousOrSame(DayOfWeek dayOfWeek)
     {
-#if USE_ADJUSTER
+#if USE_ADJUSTERS
         return DayOfWeekAdjusters.PreviousOrSame(this, dayOfWeek);
 #else
         if (IsInvalid(dayOfWeek)) Throw.ArgumentOutOfRange(nameof(dayOfWeek));
@@ -259,18 +259,14 @@ public partial struct MyDate // Conversions, adjustments...
     [Pure]
     public MyDate Nearest(DayOfWeek dayOfWeek)
     {
-#if USE_ADJUSTER
-        return DayOfWeekAdjusters.Nearest(this, dayOfWeek);
-#else
         DayNumber nearest = ToDayNumber().Nearest(dayOfWeek);
         return FromDayNumber(nearest);
-#endif
     }
 
     [Pure]
     public MyDate NextOrSame(DayOfWeek dayOfWeek)
     {
-#if USE_ADJUSTER
+#if USE_ADJUSTERS
         return DayOfWeekAdjusters.NextOrSame(this, dayOfWeek);
 #else
         if (IsInvalid(dayOfWeek)) Throw.ArgumentOutOfRange(nameof(dayOfWeek));
@@ -283,7 +279,7 @@ public partial struct MyDate // Conversions, adjustments...
     [Pure]
     public MyDate Next(DayOfWeek dayOfWeek)
     {
-#if USE_ADJUSTER
+#if USE_ADJUSTERS
         return DayOfWeekAdjusters.Next(this, dayOfWeek);
 #else
         if (IsInvalid(dayOfWeek)) Throw.ArgumentOutOfRange(nameof(dayOfWeek));

@@ -318,7 +318,7 @@ namespace Zorglub.Time.Specialized
         #region Conversions
 
         [Pure]
-        static Zoroastrian13Date IFixedDate<Zoroastrian13Date>.FromDayNumber(DayNumber dayNumber) =>
+        static Zoroastrian13Date IDate<Zoroastrian13Date, Zoroastrian13Calendar>.FromDayNumber(DayNumber dayNumber) =>
             new(dayNumber);
 
         [Pure]
