@@ -5,6 +5,15 @@
 
 namespace Zorglub.Time.Hemerology
 {
+    #region Developer Notes
+
+    // A date type is expected to provide the following constructors or factories:
+    // - new(y, m, d)
+    // - new(y, doy)
+    // - new(dayNumber)
+
+    #endregion
+
     /// <summary>
     /// Defines a date.
     /// </summary>
@@ -57,19 +66,16 @@ namespace Zorglub.Time.Hemerology
         /// </summary>
         static abstract TCalendar Calendar { get; }
 
+        // FIXME(api): this is not the right way to do it -> use ITodayProvider;
+        // see also NodaTime.
         // We don't add the UTC version UtcToday(). I don't think that we need
         // such a level of precision, furthermore one can still do it manually
-        // using the static factory FromDayNumber(DayNumber.UtcToday()).
-        // Anyway, this is not the right way to do it; see NodaTime.
+        // using a constructor new(DayNumber.UtcToday()) --- or a static factory
+        // for dates linked to a poly-calendar system.
 
         /// <summary>
         /// Obtains the current day on this machine, expressed in local time, not UTC.
         /// </summary>
         [Pure] static abstract TSelf Today();
-
-        /// <summary>
-        /// Creates a new <typeparamref name="TSelf"/> instance from the specified day number.
-        /// </summary>
-        [Pure] static abstract TSelf FromDayNumber(DayNumber dayNumber);
     }
 }

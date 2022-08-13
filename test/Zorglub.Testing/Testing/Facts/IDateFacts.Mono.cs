@@ -42,12 +42,12 @@ public abstract partial class IDateFacts<TDate, TCalendar, TDataSet> :
         Assert.Equal(today, TDate.Today().ToDayNumber());
     }
 
-    [Theory, MemberData(nameof(DayNumberInfoData))]
-    public void FromDayNumber(DayNumberInfo info)
-    {
-        var (dayNumber, y, m, d) = info;
-        var date = GetDate(y, m, d);
-        // Act & Assert
-        Assert.Equal(date, TDate.FromDayNumber(dayNumber));
-    }
+    //[Theory, MemberData(nameof(DayNumberInfoData))]
+    //public void FromDayNumber(DayNumberInfo info)
+    //{
+    //    var (dayNumber, y, m, d) = info;
+    //    var date = GetDate(y, m, d);
+    //    // Act & Assert
+    //    Assert.Equal(date, TDate.FromDayNumber(dayNumber));
+    //}
 }

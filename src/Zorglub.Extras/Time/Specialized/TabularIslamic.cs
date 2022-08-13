@@ -304,10 +304,6 @@ namespace Zorglub.Time.Specialized
         #region Conversions
 
         [Pure]
-        static TabularIslamicDate IDate<TabularIslamicDate, TabularIslamicCalendar>.FromDayNumber(DayNumber dayNumber) =>
-            new(dayNumber);
-
-        [Pure]
         DayNumber IFixedDate.ToDayNumber() => DayNumber;
 
         #endregion

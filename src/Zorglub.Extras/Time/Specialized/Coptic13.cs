@@ -318,10 +318,6 @@ namespace Zorglub.Time.Specialized
         #region Conversions
 
         [Pure]
-        static Coptic13Date IDate<Coptic13Date, Coptic13Calendar>.FromDayNumber(DayNumber dayNumber) =>
-            new(dayNumber);
-
-        [Pure]
         DayNumber IFixedDate.ToDayNumber() => DayNumber;
 
         #endregion

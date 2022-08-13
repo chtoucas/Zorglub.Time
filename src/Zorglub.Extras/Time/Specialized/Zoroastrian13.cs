@@ -318,10 +318,6 @@ namespace Zorglub.Time.Specialized
         #region Conversions
 
         [Pure]
-        static Zoroastrian13Date IDate<Zoroastrian13Date, Zoroastrian13Calendar>.FromDayNumber(DayNumber dayNumber) =>
-            new(dayNumber);
-
-        [Pure]
         DayNumber IFixedDate.ToDayNumber() => DayNumber;
 
         #endregion

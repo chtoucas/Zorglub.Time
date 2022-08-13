@@ -298,10 +298,6 @@ namespace Zorglub.Time.Specialized
         #region Conversions
 
         [Pure]
-        static GregorianDate IDate<GregorianDate, GregorianCalendar>.FromDayNumber(DayNumber dayNumber) =>
-            new(dayNumber);
-
-        [Pure]
         DayNumber IFixedDate.ToDayNumber() => DayNumber;
 
         #endregion

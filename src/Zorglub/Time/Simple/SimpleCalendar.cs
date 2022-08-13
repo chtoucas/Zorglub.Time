@@ -691,6 +691,8 @@ namespace Zorglub.Time.Simple
             return new OrdinalDate(ydoy, Id);
         }
 
+        // GetCalendarDay(DayNumber dayNumber) -> see the factory method above.
+
         [Pure]
         [SuppressMessage("Design", "CA1033:Interface methods should be callable by child types", Justification = "Use GetCalendarDate() then ToDayNumber() or better ToCalendarDay().")]
         DayNumber ICalendar.GetDayNumber(int year, int month, int day)

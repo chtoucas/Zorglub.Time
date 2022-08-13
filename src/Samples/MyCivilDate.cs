@@ -165,10 +165,6 @@ public partial struct MyCivilDate // Conversions, adjustments...
     #region Conversions
 
     [Pure]
-    static MyCivilDate IDate<MyCivilDate, MyCivilCalendar>.FromDayNumber(DayNumber dayNumber) =>
-        new(dayNumber);
-
-    [Pure]
     DayNumber IFixedDate.ToDayNumber() => DayNumber;
 
     #endregion

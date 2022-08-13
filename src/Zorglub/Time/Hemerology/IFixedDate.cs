@@ -5,7 +5,13 @@ namespace Zorglub.Time.Hemerology
 {
     using Zorglub.Time.Core;
 
-    // TODO(api): remove this interface? Remove FromDayNumber() from IDate<TSelf, out TCalendar>?
+    // TODO(api): remove this interface?
+    // Remove FromDayNumber() from IDate<TSelf, out TCalendar>? Almost done, we
+    // still have to decide whether to keep it or not in simple date types.
+    // I'm not sure yet. We can achieve the same thing using one of the factory
+    // methods on SimpleCalendar. Two reasons to keep it: constructors are also
+    // specialized and optimised for the Gregorian case.
+    // We will definitely keep it for date types not linked to a calendar type.
 
     #region Developer Notes
 

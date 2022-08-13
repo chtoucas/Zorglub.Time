@@ -318,10 +318,6 @@ namespace Zorglub.Time.Specialized
         #region Conversions
 
         [Pure]
-        static Armenian13Date IDate<Armenian13Date, Armenian13Calendar>.FromDayNumber(DayNumber dayNumber) =>
-            new(dayNumber);
-
-        [Pure]
         DayNumber IFixedDate.ToDayNumber() => DayNumber;
 
         #endregion

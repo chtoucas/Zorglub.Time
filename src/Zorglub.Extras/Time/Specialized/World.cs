@@ -327,10 +327,6 @@ namespace Zorglub.Time.Specialized
         #region Conversions
 
         [Pure]
-        static WorldDate IDate<WorldDate, WorldCalendar>.FromDayNumber(DayNumber dayNumber) =>
-            new(dayNumber);
-
-        [Pure]
         DayNumber IFixedDate.ToDayNumber() => DayNumber;
 
         #endregion
