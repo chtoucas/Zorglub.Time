@@ -1256,8 +1256,8 @@ Zorglub.Time.Hemerology.IDateAdjuster<TDate>.Scope.get -> Zorglub.Time.Hemerolog
 Zorglub.Time.Hemerology.IEpagomenalDay
 Zorglub.Time.Hemerology.IEpagomenalDay.IsEpagomenal(out int epagomenalNumber) -> bool
 Zorglub.Time.Hemerology.IFixedDay
+Zorglub.Time.Hemerology.IFixedDay.DayNumber.get -> Zorglub.Time.DayNumber
 Zorglub.Time.Hemerology.IFixedDay.DayOfWeek.get -> System.DayOfWeek
-Zorglub.Time.Hemerology.IFixedDay.ToDayNumber() -> Zorglub.Time.DayNumber
 Zorglub.Time.Hemerology.IFixedDay<TSelf>
 Zorglub.Time.Hemerology.IFixedDay<TSelf>.Nearest(System.DayOfWeek dayOfWeek) -> TSelf
 Zorglub.Time.Hemerology.IFixedDay<TSelf>.Next(System.DayOfWeek dayOfWeek) -> TSelf
@@ -1350,6 +1350,7 @@ Zorglub.Time.Simple.CalendarDate.CountRemainingDaysInMonth() -> int
 Zorglub.Time.Simple.CalendarDate.CountRemainingDaysInYear() -> int
 Zorglub.Time.Simple.CalendarDate.CountYearsSince(Zorglub.Time.Simple.CalendarDate other) -> int
 Zorglub.Time.Simple.CalendarDate.Day.get -> int
+Zorglub.Time.Simple.CalendarDate.DayNumber.get -> Zorglub.Time.DayNumber
 Zorglub.Time.Simple.CalendarDate.DayOfWeek.get -> System.DayOfWeek
 Zorglub.Time.Simple.CalendarDate.DayOfYear.get -> int
 Zorglub.Time.Simple.CalendarDate.Deconstruct(out int year, out int dayOfYear) -> void
@@ -1370,7 +1371,6 @@ Zorglub.Time.Simple.CalendarDate.PreviousDay() -> Zorglub.Time.Simple.CalendarDa
 Zorglub.Time.Simple.CalendarDate.PreviousOrSame(System.DayOfWeek dayOfWeek) -> Zorglub.Time.Simple.CalendarDate
 Zorglub.Time.Simple.CalendarDate.ToBinary() -> int
 Zorglub.Time.Simple.CalendarDate.ToCalendarDay() -> Zorglub.Time.Simple.CalendarDay
-Zorglub.Time.Simple.CalendarDate.ToDayNumber() -> Zorglub.Time.DayNumber
 Zorglub.Time.Simple.CalendarDate.ToOrdinalDate() -> Zorglub.Time.Simple.OrdinalDate
 Zorglub.Time.Simple.CalendarDate.WithCalendar(Zorglub.Time.Simple.SimpleCalendar! newCalendar) -> Zorglub.Time.Simple.CalendarDate
 Zorglub.Time.Simple.CalendarDate.WithDay(int newDay) -> Zorglub.Time.Simple.CalendarDate
@@ -1530,6 +1530,7 @@ Zorglub.Time.Simple.OrdinalDate.CountRemainingDaysInMonth() -> int
 Zorglub.Time.Simple.OrdinalDate.CountRemainingDaysInYear() -> int
 Zorglub.Time.Simple.OrdinalDate.CountYearsSince(Zorglub.Time.Simple.OrdinalDate other) -> int
 Zorglub.Time.Simple.OrdinalDate.Day.get -> int
+Zorglub.Time.Simple.OrdinalDate.DayNumber.get -> Zorglub.Time.DayNumber
 Zorglub.Time.Simple.OrdinalDate.DayOfWeek.get -> System.DayOfWeek
 Zorglub.Time.Simple.OrdinalDate.DayOfYear.get -> int
 Zorglub.Time.Simple.OrdinalDate.Deconstruct(out int year, out int dayOfYear) -> void
@@ -1552,7 +1553,6 @@ Zorglub.Time.Simple.OrdinalDate.PreviousOrSame(System.DayOfWeek dayOfWeek) -> Zo
 Zorglub.Time.Simple.OrdinalDate.ToBinary() -> int
 Zorglub.Time.Simple.OrdinalDate.ToCalendarDate() -> Zorglub.Time.Simple.CalendarDate
 Zorglub.Time.Simple.OrdinalDate.ToCalendarDay() -> Zorglub.Time.Simple.CalendarDay
-Zorglub.Time.Simple.OrdinalDate.ToDayNumber() -> Zorglub.Time.DayNumber
 Zorglub.Time.Simple.OrdinalDate.WithCalendar(Zorglub.Time.Simple.SimpleCalendar! newCalendar) -> Zorglub.Time.Simple.OrdinalDate
 Zorglub.Time.Simple.OrdinalDate.WithDayOfYear(int newDayOfYear) -> Zorglub.Time.Simple.OrdinalDate
 Zorglub.Time.Simple.OrdinalDate.WithYear(int newYear) -> Zorglub.Time.Simple.OrdinalDate

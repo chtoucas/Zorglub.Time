@@ -37,7 +37,7 @@ let private toDayNumber (x: Yemoda) =
     // instance using the internal ctor which does not perform any validation,
     // something we cannot do with CivilDate.
     let v = new CalendarDate(x, Cuid.Gregorian)
-    v.ToDayNumber()
+    v.DayNumber
 
 /// Convert two (Gregorian) Yemoda's to a 2-uple of DayNumber's.
 /// This function does NOT verify that x and y represent valid Gregorian triples.
@@ -161,20 +161,20 @@ module Factories =
 
     [<Fact>]
     let ``Today()`` () =
-        let today = XCivilDate.Today().ToDayNumber()
+        let today = XCivilDate.Today().DayNumber
 
         DayNumber.Today() === today
 
     [<Fact>]
     let ``UtcToday()`` () =
-        let today = XCivilDate.UtcToday().ToDayNumber()
+        let today = XCivilDate.UtcToday().DayNumber
 
         DayNumber.UtcToday() === today
 
 module Conversions =
     [<Property>]
-    let ``ToDayNumber()`` (x: DayNumber) =
-        (x :> IFixedDay).ToDayNumber() = x
+    let ``Property DayNumber`` (x: DayNumber) =
+        (x :> IFixedDay).DayNumber = x
 
 module GregorianConversion =
     let private dataSet = GregorianDataSet.Instance

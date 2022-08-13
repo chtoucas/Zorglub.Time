@@ -82,6 +82,9 @@ namespace Zorglub.Time
         public static DayNumber64 MinValue { get; } = new(MinDaysSinceZero);
         public static DayNumber64 MaxValue { get; } = new(MaxDaysSinceZero);
 
+        // Explicit impl., conversion is not guaranteed.
+        DayNumber IFixedDay.DayNumber => ToDayNumber();
+
         public long DaysSinceZero => _daysSinceZero;
 
         public Ord64 Ordinal => Ord64.First + _daysSinceZero;

@@ -161,12 +161,6 @@ public partial struct MyCivilDate // Conversions, adjustments...
     public static MyCivilDate Today() => new(DayNumber.Today());
 
     #endregion
-    #region Conversions
-
-    [Pure]
-    DayNumber IFixedDay.ToDayNumber() => DayNumber;
-
-    #endregion
     #region Counting
 
     [Pure]

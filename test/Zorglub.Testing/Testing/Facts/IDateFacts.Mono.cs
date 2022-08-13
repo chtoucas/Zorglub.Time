@@ -39,7 +39,7 @@ public abstract partial class IDateFacts<TDate, TCalendar, TDataSet> :
         // to Today().
         var today = DayNumber.Today();
         // Act & Assert
-        Assert.Equal(today, TDate.Today().ToDayNumber());
+        Assert.Equal(today, TDate.Today().DayNumber);
     }
 
     //[Theory, MemberData(nameof(DayNumberInfoData))]

@@ -69,12 +69,12 @@ public partial class IDateFacts<TDate, TDataSet> // Conversions
 {
     // Normally, this also tests the prop DayNumber if there is one.
     [Theory, MemberData(nameof(DayNumberInfoData))]
-    public void ToDayNumber(DayNumberInfo info)
+    public void DayNumber_Prop(DayNumberInfo info)
     {
         var (dayNumber, y, m, d) = info;
         var date = GetDate(y, m, d);
         // Act & Assert
-        Assert.Equal(dayNumber, date.ToDayNumber());
+        Assert.Equal(dayNumber, date.DayNumber);
     }
 }
 
@@ -218,7 +218,7 @@ public partial class IDateFacts<TDate, TDataSet> // Math
         // We do not use the epoch 1/1/1, most of the time it's like testing
         // MinValue which we already do in PlusDays_WithLimitValues_AtMinValue().
         var date = GetDate(4, 3, 2);
-        var dayNumber = date.ToDayNumber();
+        var dayNumber = date.DayNumber;
         int minDays = minDayNumber - dayNumber;
         int maxDays = maxDayNumber - dayNumber;
         // Act & Assert

@@ -35,7 +35,7 @@ namespace Zorglub.Time.Simple
         {
             LastJulianDate = lastJulianDate;
             FirstGregorianDate = firstGregorianDate;
-            Switchover = switchover ?? FirstGregorianDate.ToDayNumber();
+            Switchover = switchover ?? FirstGregorianDate.DayNumber;
             SecularShift = InitSecularShift();
         }
 
@@ -65,7 +65,7 @@ namespace Zorglub.Time.Simple
             var lastJulianDate = SimpleCalendar.Julian.GetCalendarDate(year, month, day);
             if (lastJulianDate < Official.LastJulianDate) Throw.YearOutOfRange(year);
 
-            var switchover = lastJulianDate.ToDayNumber() + 1;
+            var switchover = lastJulianDate.DayNumber + 1;
             var firstGregorianDate = CalendarDate.FromDayNumber(switchover);
 
             return new GregorianReform(lastJulianDate, firstGregorianDate, switchover);
@@ -77,7 +77,7 @@ namespace Zorglub.Time.Simple
             var firstGregorianDate = new CalendarDate(year, month, day);
             if (firstGregorianDate < Official.FirstGregorianDate) Throw.YearOutOfRange(year);
 
-            var switchover = firstGregorianDate.ToDayNumber();
+            var switchover = firstGregorianDate.DayNumber;
             var lastJulianDate = SimpleCalendar.Julian.GetCalendarDate(switchover - 1);
 
             return new GregorianReform(lastJulianDate, firstGregorianDate, switchover);

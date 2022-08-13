@@ -94,9 +94,7 @@ namespace Zorglub.Time
             _cuid = cuid;
         }
 
-        /// <summary>
-        /// Gets the day number.
-        /// </summary>
+        /// <inheritdoc />
         public DayNumber DayNumber
         {
             get
@@ -289,10 +287,6 @@ namespace Zorglub.Time
 
         #endregion
         #region Conversions
-
-        /// <inheritdoc />
-        [Pure]
-        DayNumber IFixedDay.ToDayNumber() => DayNumber;
 
         /// <summary>
         /// Interconverts the current instance to a date within a different calendar.

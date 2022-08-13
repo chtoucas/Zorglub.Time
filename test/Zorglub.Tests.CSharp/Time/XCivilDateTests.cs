@@ -144,13 +144,13 @@ public partial class XCivilDateTests // Properties
     [Fact]
     public static void MinValue()
     {
-        Assert.Equal(XCivilDate.Domain.Min, XCivilDate.MinValue.ToDayNumber());
-        Assert.Equal(DayZero.NewStyle, XCivilDate.MinValue.ToDayNumber());
+        Assert.Equal(XCivilDate.Domain.Min, XCivilDate.MinValue.DayNumber);
+        Assert.Equal(DayZero.NewStyle, XCivilDate.MinValue.DayNumber);
     }
 
     [Fact]
     public static void MaxValue() =>
-        Assert.Equal(XCivilDate.Domain.Max, XCivilDate.MaxValue.ToDayNumber());
+        Assert.Equal(XCivilDate.Domain.Max, XCivilDate.MaxValue.DayNumber);
 
     [Fact]
     public static void Today()

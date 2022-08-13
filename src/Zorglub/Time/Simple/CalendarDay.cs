@@ -75,9 +75,7 @@ namespace Zorglub.Time.Simple
             _bin = Pack(daysSinceEpoch, (byte)cuid);
         }
 
-        /// <summary>
-        /// Gets the day number.
-        /// </summary>
+        /// <inheritdoc />
         public DayNumber DayNumber
         {
             get
@@ -315,9 +313,6 @@ namespace Zorglub.Time.Simple
 
         #endregion
         #region Conversions
-
-        [Pure]
-        DayNumber IFixedDay.ToDayNumber() => DayNumber;
 
         [Pure]
         CalendarDay ISimpleDate.ToCalendarDay() => this;

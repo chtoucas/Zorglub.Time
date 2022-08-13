@@ -191,9 +191,7 @@ namespace Zorglub.Time.Specialized
         /// <inheritdoc />
         public static GregorianCalendar Calendar => s_Calendar;
 
-        /// <summary>
-        /// Gets the day number.
-        /// </summary>
+        /// <inheritdoc />
         public DayNumber DayNumber => new(_daysSinceZero);
 
         /// <summary>
@@ -291,12 +289,6 @@ namespace Zorglub.Time.Specialized
         /// </summary>
         [Pure]
         public static GregorianDate Today() => new(DayNumber.Today().DaysSinceZero);
-
-        #endregion
-        #region Conversions
-
-        [Pure]
-        DayNumber IFixedDay.ToDayNumber() => DayNumber;
 
         #endregion
         #region Counting

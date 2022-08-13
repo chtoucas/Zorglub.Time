@@ -81,7 +81,7 @@ module Postlude =
             && date.DayOfYear = time.DayOfYear
 
         if passed then
-            if date.ToDayNumber() = maxDayNumber then
+            if date.DayNumber = maxDayNumber then
                 (true, "OK")
             else
                 compareToBcl (date.NextDay()) (time.AddDays(1.0))
@@ -95,14 +95,14 @@ module Postlude =
         // NB: both start on Monday January 1, 1 (CE).
         compareToBcl XCivilDate.MinValue DateTime.MinValue |> Assert.True
 
-    /// Check the methods FromDayNumber(), ToDayNumber(), FromOrdinalDate() and Next(),
+    /// Check the methods FromDayNumber(), DayNumber, FromOrdinalDate() and Next(),
     /// and the property DayOfWeek.
     let rec private selfCheck dayNumber dayOfWeek (date: XCivilDate)  =
         let fromDaysSinceEpoch = XCivilDate.FromDayNumber(dayNumber)
         let fromOrdinalDate = XCivilDate.FromOrdinalDate(date.Year, date.DayOfYear)
 
         let passed =
-            date.ToDayNumber() = dayNumber
+            date.DayNumber = dayNumber
             && date.DayOfWeek = dayOfWeek
             && fromDaysSinceEpoch = date
             && fromOrdinalDate = date

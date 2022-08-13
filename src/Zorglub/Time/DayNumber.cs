@@ -188,6 +188,8 @@ namespace Zorglub.Time
         // overflow, e.g. DayNumber.MaxValue.Ordinal = Ord.MaxValue.
         public static DayNumber MaxValue { get; } = new(MaxDaysSinceZero);
 
+        DayNumber IFixedDay.DayNumber => this;
+
         /// <summary>
         /// Gets the count of consecutive days since <see cref="Zero"/>.
         /// <para>The result is in the range from <see cref="MinDaysSinceZero"/> to
@@ -242,12 +244,6 @@ namespace Zorglub.Time
             int daysSinceZero = (int)TemporalArithmetic.DivideByTicksPerDay(DateTime.UtcNow.Ticks);
             return new DayNumber(daysSinceZero);
         }
-
-        #endregion
-        #region Conversions
-
-        [Pure]
-        DayNumber IFixedDay.ToDayNumber() => this;
 
         #endregion
         #region Gregorian conversions

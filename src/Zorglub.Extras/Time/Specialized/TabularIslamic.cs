@@ -195,9 +195,7 @@ namespace Zorglub.Time.Specialized
         /// <inheritdoc />
         public static TabularIslamicCalendar Calendar => s_Calendar;
 
-        /// <summary>
-        /// Gets the day number.
-        /// </summary>
+        /// <inheritdoc />
         public DayNumber DayNumber => s_Epoch + _daysSinceEpoch;
 
         /// <summary>
@@ -303,12 +301,6 @@ namespace Zorglub.Time.Specialized
         /// </summary>
         [Pure]
         public static TabularIslamicDate Today() => new(DayNumber.Today() - s_Epoch);
-
-        #endregion
-        #region Conversions
-
-        [Pure]
-        DayNumber IFixedDay.ToDayNumber() => DayNumber;
 
         #endregion
         #region Counting

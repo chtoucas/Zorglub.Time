@@ -56,6 +56,16 @@ namespace Zorglub.Time.Simple
         }
 
         /// <inheritdoc />
+        public DayNumber DayNumber
+        {
+            get
+            {
+                ref readonly var chr = ref CalendarRef;
+                return chr.GetDayNumber(this);
+            }
+        }
+
+        /// <inheritdoc />
         public Ord CenturyOfEra => Ord.FromInt32(Century);
 
         /// <inheritdoc />
@@ -254,14 +264,6 @@ namespace Zorglub.Time.Simple
 
         /// <inheritdoc />
         [Pure]
-        public DayNumber ToDayNumber()
-        {
-            ref readonly var chr = ref CalendarRef;
-            return chr.GetDayNumber(this);
-        }
-
-        /// <inheritdoc />
-        [Pure]
         public CalendarDay ToCalendarDay()
         {
             _bin.Unpack(out int y, out int doy);
@@ -290,7 +292,7 @@ namespace Zorglub.Time.Simple
         {
             Requires.NotNull(newCalendar);
 
-            return newCalendar.GetOrdinalDate(ToDayNumber());
+            return newCalendar.GetOrdinalDate(DayNumber);
         }
 
         #endregion

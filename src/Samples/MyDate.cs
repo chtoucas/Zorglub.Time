@@ -69,6 +69,15 @@ public readonly partial struct MyDate :
     public static MyDate MinValue => s_MinValue;
     public static MyDate MaxValue => s_MaxValue;
 
+    public DayNumber DayNumber
+    {
+        get
+        {
+            var (y, m, d) = _bin;
+            return s_Epoch + s_Schema.CountDaysSinceEpoch(y, m, d);
+        }
+    }
+
     public Ord CenturyOfEra => Ord.FromInt32(Century);
     public int Century => YearNumbering.GetCentury(Year);
     public Ord YearOfEra => Ord.FromInt32(Year);
@@ -169,13 +178,6 @@ public partial struct MyDate // Conversions, adjustments...
         return new MyDate(ymd);
     }
 
-    [Pure]
-    public DayNumber ToDayNumber()
-    {
-        var (y, m, d) = _bin;
-        return s_Epoch + s_Schema.CountDaysSinceEpoch(y, m, d);
-    }
-
     #endregion
     #region Counting
 
@@ -259,7 +261,7 @@ public partial struct MyDate // Conversions, adjustments...
     [Pure]
     public MyDate Nearest(DayOfWeek dayOfWeek)
     {
-        DayNumber nearest = ToDayNumber().Nearest(dayOfWeek);
+        DayNumber nearest = DayNumber.Nearest(dayOfWeek);
         return FromDayNumber(nearest);
     }
 

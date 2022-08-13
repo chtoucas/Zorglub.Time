@@ -141,19 +141,19 @@ namespace Zorglub.Time.Hemerology
     /// <summary>
     /// Defines a fixed day.
     /// <para>A day is said to be <i>fixed</i> if it's attached to a timeline. In this project, it
-    /// means that it's convertible to a <see cref="DayNumber"/>.</para>
+    /// means that it has a day number.</para>
     /// </summary>
     public interface IFixedDay
     {
         /// <summary>
+        /// Gets the day number.
+        /// </summary>
+        DayNumber DayNumber { get; }
+
+        /// <summary>
         /// Gets the day of the week.
         /// </summary>
         DayOfWeek DayOfWeek { get; }
-
-        /// <summary>
-        /// Converts the current instance to a <see cref="DayNumber"/> value.
-        /// </summary>
-        [Pure] DayNumber ToDayNumber();
     }
 
     /// <summary>

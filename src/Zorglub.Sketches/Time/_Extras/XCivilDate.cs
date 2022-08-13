@@ -175,6 +175,9 @@ namespace Zorglub.Time
         public static XCivilDate MaxValue => s_MaxValue;
 
         /// <inheritdoc />
+        public DayNumber DayNumber => s_Epoch + DaysSinceEpoch;
+
+        /// <inheritdoc />
         public Ord CenturyOfEra => Ord.FromInt32(Century);
 
         /// <inheritdoc />
@@ -586,10 +589,6 @@ namespace Zorglub.Time
             s_Domain.Validate(dayNumber);
             return FromDaysSinceEpoch(dayNumber - s_Epoch);
         }
-
-        /// <inheritdoc />
-        [Pure]
-        public DayNumber ToDayNumber() => s_Epoch + DaysSinceEpoch;
 
         /// <summary>
         /// Creates a new instance of <see cref="XCivilDate"/> from the
