@@ -22,7 +22,7 @@ namespace Zorglub.Time.Specialized
         // IDateableOrdinally:
         //   Not necessary, but it should largely prevent the use of this class
         //   with date types not based on daysSinceEpoch.
-        where TDate : IDateable, IDateableOrdinally
+        where TDate : IDateable
     {
         /// <summary>
         /// Called from constructors in derived classes to initialize the

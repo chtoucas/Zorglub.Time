@@ -85,9 +85,7 @@ namespace Zorglub.Time.Specialized
     /// Represents the Julian date.
     /// <para><see cref="JulianDate"/> is an immutable struct.</para>
     /// </summary>
-    public readonly partial struct JulianDate :
-        IDate<JulianDate, JulianCalendar>,
-        IDateableOrdinally
+    public readonly partial struct JulianDate : IDate<JulianDate, JulianCalendar>
     {
         // NB: the order in which the static fields are written is important.
 
@@ -215,10 +213,15 @@ namespace Zorglub.Time.Specialized
         /// <inheritdoc />
         public static JulianCalendar Calendar => s_Calendar;
 
-        /// <inheritdoc />
+        /// <summary>
+        /// Gets the day number.
+        /// </summary>
         public DayNumber DayNumber => s_Epoch + _daysSinceEpoch;
 
-        /// <inheritdoc />
+        /// <summary>
+        /// Gets the count of days since the epoch of the calendar to which belongs the current
+        /// instance.
+        /// </summary>
         public int DaysSinceEpoch => _daysSinceEpoch;
 
         /// <inheritdoc />

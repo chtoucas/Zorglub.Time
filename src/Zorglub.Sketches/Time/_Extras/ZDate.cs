@@ -25,9 +25,7 @@ namespace Zorglub.Time
     /// Represents a date within a calendar system of type <see cref="ZCalendar"/>.
     /// <para><see cref="ZDate"/> is an immutable struct.</para>
     /// </summary>
-    public readonly partial struct ZDate :
-        IDate<ZDate>,
-        IDateableOrdinally
+    public readonly partial struct ZDate : IDate<ZDate>
     {
         /// <summary>
         /// Represents the count of consecutive days since the epoch of the calendar to which belongs
@@ -96,7 +94,9 @@ namespace Zorglub.Time
             _cuid = cuid;
         }
 
-        /// <inheritdoc />
+        /// <summary>
+        /// Gets the day number.
+        /// </summary>
         public DayNumber DayNumber
         {
             get
@@ -106,7 +106,10 @@ namespace Zorglub.Time
             }
         }
 
-        /// <inheritdoc />
+        /// <summary>
+        /// Gets the count of days since the epoch of the calendar to which belongs the current
+        /// instance.
+        /// </summary>
         public int DaysSinceEpoch => _daysSinceEpoch;
 
         /// <inheritdoc />

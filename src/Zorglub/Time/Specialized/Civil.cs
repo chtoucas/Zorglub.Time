@@ -71,9 +71,7 @@ namespace Zorglub.Time.Specialized
     /// Represents the Civil date.
     /// <para><see cref="CivilDate"/> is an immutable struct.</para>
     /// </summary>
-    public readonly partial struct CivilDate :
-        IDate<CivilDate, CivilCalendar>,
-        IDateableOrdinally
+    public readonly partial struct CivilDate : IDate<CivilDate, CivilCalendar>
     {
         /// <summary>
         /// Represents the schema.
@@ -193,10 +191,10 @@ namespace Zorglub.Time.Specialized
         /// <inheritdoc />
         public static CivilCalendar Calendar => s_Calendar;
 
-        /// <inheritdoc />
+        /// <summary>
+        /// Gets the day number.
+        /// </summary>
         public DayNumber DayNumber => new(_daysSinceZero);
-
-        int IDateableOrdinally.DaysSinceEpoch => _daysSinceZero;
 
         /// <summary>
         /// Gets the count of days since the Gregorian epoch.

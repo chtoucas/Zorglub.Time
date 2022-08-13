@@ -37,7 +37,6 @@ using static Zorglub.Time.Extensions.Unboxing;
 /// </summary>
 public readonly partial struct MyCivilDate :
     IDate<MyCivilDate, MyCivilCalendar>,
-    IDateableOrdinally,
     IMinMaxValue<MyCivilDate>
 {
     // NB: the order in which the static fields are written is important.

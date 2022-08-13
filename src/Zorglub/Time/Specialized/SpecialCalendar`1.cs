@@ -19,9 +19,6 @@ namespace Zorglub.Time.Specialized
     /// </summary>
     /// <typeparam name="TDate">The type of date object.</typeparam>
     public abstract class SpecialCalendar<TDate> : MinMaxYearCalendar, ICalendar<TDate>
-        // IDateableOrdinally: not necessary, but it should largely prevent the
-        // use of this class with date types not based on daysSinceEpoch.
-        where TDate : IDateableOrdinally
     {
         /// <summary>
         /// Called from constructors in derived classes to initialize the

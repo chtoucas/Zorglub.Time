@@ -5,8 +5,6 @@ namespace Zorglub.Time.Hemerology
 {
     using Zorglub.Time.Core;
 
-    // TODO(api): remove this interface?
-
     #region Developer Notes
 
     // TL;DR: Despite its flaws we'll use the CRTP.

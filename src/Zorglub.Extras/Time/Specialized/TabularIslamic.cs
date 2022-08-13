@@ -67,8 +67,7 @@ namespace Zorglub.Time.Specialized
     /// <para><see cref="TabularIslamicDate"/> is an immutable struct.</para>
     /// </summary>
     public readonly partial struct TabularIslamicDate :
-        IDate<TabularIslamicDate, TabularIslamicCalendar>,
-        IDateableOrdinally
+        IDate<TabularIslamicDate, TabularIslamicCalendar>
     {
         // NB: the order in which the static fields are written is important.
 
@@ -196,10 +195,15 @@ namespace Zorglub.Time.Specialized
         /// <inheritdoc />
         public static TabularIslamicCalendar Calendar => s_Calendar;
 
-        /// <inheritdoc />
+        /// <summary>
+        /// Gets the day number.
+        /// </summary>
         public DayNumber DayNumber => s_Epoch + _daysSinceEpoch;
 
-        /// <inheritdoc />
+        /// <summary>
+        /// Gets the count of days since the epoch of the calendar to which belongs the current
+        /// instance.
+        /// </summary>
         public int DaysSinceEpoch => _daysSinceEpoch;
 
         /// <inheritdoc />

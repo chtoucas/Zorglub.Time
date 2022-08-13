@@ -69,9 +69,7 @@ namespace Zorglub.Time.Specialized
     /// Represents the Gregorian date.
     /// <para><see cref="GregorianDate"/> is an immutable struct.</para>
     /// </summary>
-    public readonly partial struct GregorianDate :
-        IDate<GregorianDate, GregorianCalendar>,
-        IDateableOrdinally
+    public readonly partial struct GregorianDate : IDate<GregorianDate, GregorianCalendar>
     {
         // NB: the order in which the static fields are written is important.
 
@@ -193,10 +191,10 @@ namespace Zorglub.Time.Specialized
         /// <inheritdoc />
         public static GregorianCalendar Calendar => s_Calendar;
 
-        /// <inheritdoc />
+        /// <summary>
+        /// Gets the day number.
+        /// </summary>
         public DayNumber DayNumber => new(_daysSinceZero);
-
-        int IDateableOrdinally.DaysSinceEpoch => _daysSinceZero;
 
         /// <summary>
         /// Gets the count of days since the Gregorian epoch.

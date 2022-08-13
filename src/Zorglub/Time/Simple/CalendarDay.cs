@@ -12,7 +12,7 @@ namespace Zorglub.Time.Simple
     /// Represents a calendar day, that is a date within a calendar system.
     /// <para><see cref="CalendarDay"/> is an immutable struct.</para>
     /// </summary>
-    public readonly partial struct CalendarDay : ISimpleDate<CalendarDay>, IDateableOrdinally
+    public readonly partial struct CalendarDay : ISimpleDate<CalendarDay>
     {
         #region Bit settings
 
@@ -87,7 +87,10 @@ namespace Zorglub.Time.Simple
             }
         }
 
-        /// <inheritdoc />
+        /// <summary>
+        /// Gets the count of days since the epoch of the calendar to which belongs the current
+        /// instance.
+        /// </summary>
         public int DaysSinceEpoch => unchecked(_bin >> DaysSinceEpochShift);
 
         /// <inheritdoc />

@@ -7,7 +7,7 @@ using Zorglub.Time.Hemerology;
 using Zorglub.Time.Hemerology.Scopes;
 
 public sealed class FauxSpecialAdjuster<TDate> : SpecialAdjuster<TDate>
-    where TDate : IDate<TDate>, IDateableOrdinally
+    where TDate : IDateable
 {
     public FauxSpecialAdjuster(CalendarScope scope) : base(scope) { }
 

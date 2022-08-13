@@ -80,7 +80,6 @@ namespace Zorglub.Time.Specialized
     /// </summary>
     public readonly partial struct WorldDate :
         IDate<WorldDate, WorldCalendar>,
-        IDateableOrdinally,
         IBlankDay
     {
         // NB: the order in which the static fields are written is important.
@@ -209,10 +208,15 @@ namespace Zorglub.Time.Specialized
         /// <inheritdoc />
         public static WorldCalendar Calendar => s_Calendar;
 
-        /// <inheritdoc />
+        /// <summary>
+        /// Gets the day number.
+        /// </summary>
         public DayNumber DayNumber => s_Epoch + _daysSinceEpoch;
 
-        /// <inheritdoc />
+        /// <summary>
+        /// Gets the count of days since the epoch of the calendar to which belongs the current
+        /// instance.
+        /// </summary>
         public int DaysSinceEpoch => _daysSinceEpoch;
 
         /// <inheritdoc />
