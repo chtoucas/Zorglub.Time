@@ -413,6 +413,10 @@ Zorglub.Time.Core.Schemas.TropicalistaSchema.MonthsInYear.get -> int
 Zorglub.Time.Core.Schemas.WorldSchema
 Zorglub.Time.Core.Schemas.WorldSchema.IsBlankDay(int y, int m, int d) -> bool
 Zorglub.Time.Core.Schemas.WorldSchema.MonthsInYear.get -> int
+Zorglub.Time.Hemerology.IAffineDate
+Zorglub.Time.Hemerology.IAffineDate.DaysSinceEpoch.get -> int
+Zorglub.Time.Hemerology.IAffineDate<TSelf>
+Zorglub.Time.Hemerology.IAffineDate<TSelf>.FromDaysSinceEpoch(int daysSinceEpoch) -> TSelf
 Zorglub.Time.Specialized.Armenian13Adjuster
 Zorglub.Time.Specialized.Armenian13Adjuster.Armenian13Adjuster() -> void
 Zorglub.Time.Specialized.Armenian13Calendar
