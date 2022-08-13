@@ -77,7 +77,7 @@ public sealed partial class DateProxy<T> : IDate<T>
     }
 }
 
-public partial class DateProxy<T> // IFixedDate
+public partial class DateProxy<T> // IFixedDay
 {
     public DayOfWeek DayOfWeek => _subject.DayOfWeek;
 

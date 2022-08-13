@@ -17,7 +17,7 @@ namespace Zorglub.Time
     /// <para><see cref="DayNumber"/> is an immutable struct.</para>
     /// </summary>
     public readonly partial struct DayNumber :
-        IFixedDate<DayNumber>,
+        IFixedDay<DayNumber>,
         // Comparison
         IComparisonOperators<DayNumber, DayNumber>,
         IMinMaxValue<DayNumber>,
@@ -247,7 +247,7 @@ namespace Zorglub.Time
         #region Conversions
 
         [Pure]
-        DayNumber IFixedDate.ToDayNumber() => this;
+        DayNumber IFixedDay.ToDayNumber() => this;
 
         #endregion
         #region Gregorian conversions

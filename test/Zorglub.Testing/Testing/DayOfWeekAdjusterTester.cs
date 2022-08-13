@@ -10,16 +10,16 @@ public static class DayOfWeekAdjusterTester
 {
     [Pure]
     public static DayOfWeekAdjusterTester<T> NearMinValue<T>(T min)
-        where T : IFixedDate<T>, IAdditionOperators<T, int, T> =>
+        where T : IFixedDay<T>, IAdditionOperators<T, int, T> =>
         new(min, testNext: false, (x, n) => x + n);
 
     [Pure]
     public static DayOfWeekAdjusterTester<T> NearMaxValue<T>(T max)
-        where T : IFixedDate<T>, IAdditionOperators<T, int, T> =>
+        where T : IFixedDay<T>, IAdditionOperators<T, int, T> =>
         new(max, testNext: true, (x, n) => x + n);
 }
 
-public sealed partial class DayOfWeekAdjusterTester<T> where T : IFixedDate<T>
+public sealed partial class DayOfWeekAdjusterTester<T> where T : IFixedDay<T>
 {
     private readonly bool _testNext;
 

@@ -16,7 +16,7 @@ public partial class CSharpOnlyTests // DayNumber
     //    Test<DayNumber>(DayNumber.Zero);
     //    Test<DayNumber>(DayNumber.MaxValue);
 
-    //    static void Test<T>(DayNumber x) where T : IFixedDate<DayNumber> =>
+    //    static void Test<T>(DayNumber x) where T : IFixedDay<DayNumber> =>
     //        Assert.Equal(x, T.FromDayNumber(x));
     //}
 

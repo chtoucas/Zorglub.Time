@@ -139,11 +139,11 @@ namespace Zorglub.Time.Hemerology
     #endregion
 
     /// <summary>
-    /// Defines a fixed date.
-    /// <para>A date is said to be <i>fixed</i> if it's attached to a timeline. In this project, it
+    /// Defines a fixed day.
+    /// <para>A day is said to be <i>fixed</i> if it's attached to a timeline. In this project, it
     /// means that it's convertible to a <see cref="DayNumber"/>.</para>
     /// </summary>
-    public interface IFixedDate
+    public interface IFixedDay
     {
         /// <summary>
         /// Gets the day of the week.
@@ -157,69 +157,69 @@ namespace Zorglub.Time.Hemerology
     }
 
     /// <summary>
-    /// Defines a fixed date type.
+    /// Defines a fixed day type.
     /// </summary>
     /// <typeparam name="TSelf">The type that implements this interface.</typeparam>
-    public interface IFixedDate<TSelf> : IFixedDate
-        where TSelf : IFixedDate<TSelf>
+    public interface IFixedDay<TSelf> : IFixedDay
+        where TSelf : IFixedDay<TSelf>
     {
         //
         // Adjust the day of the week
         //
 
         /// <summary>
-        /// Obtains the date strictly before the current instance that falls on the specified day of
+        /// Obtains the day strictly before the current instance that falls on the specified day of
         /// the week.
         /// </summary>
         /// <exception cref="AoorException"><paramref name="dayOfWeek"/> is not a valid day of the
         /// week.</exception>
         /// <exception cref="OverflowException">The operation would overflow the range of supported
-        /// dates.</exception>
+        /// days.</exception>
         [Pure] TSelf Previous(DayOfWeek dayOfWeek);
 
         /// <summary>
-        /// Obtains the date on or before the current instance that falls on the specified day of
+        /// Obtains the day on or before the current instance that falls on the specified day of
         /// the week.
-        /// <para>If the date already falls on the given day of the week, returns the current
+        /// <para>If the day already falls on the given day of the week, returns the current
         /// instance.</para>
         /// </summary>
         /// <exception cref="AoorException"><paramref name="dayOfWeek"/> is not a valid day of the
         /// week.</exception>
         /// <exception cref="OverflowException">The operation would overflow the range of supported
-        /// dates.</exception>
+        /// days.</exception>
         [Pure] TSelf PreviousOrSame(DayOfWeek dayOfWeek);
 
         /// <summary>
-        /// Obtains the nearest date that falls on the specified day of the week.
-        /// <para>If the date already falls on the given day of the week, returns the current
+        /// Obtains the nearest day that falls on the specified day of the week.
+        /// <para>If the day already falls on the given day of the week, returns the current
         /// instance.</para>
         /// </summary>
         /// <exception cref="AoorException"><paramref name="dayOfWeek"/> is not a valid day of the
         /// week.</exception>
         /// <exception cref="OverflowException">The operation would overflow the range of supported
-        /// dates.</exception>
+        /// days.</exception>
         [Pure] TSelf Nearest(DayOfWeek dayOfWeek);
 
         /// <summary>
-        /// Obtains the date on or after the current instance that falls on the specified day of the
+        /// Obtains the day on or after the current instance that falls on the specified day of the
         /// week.
-        /// <para>If the date already falls on the given day of the week, returns the current
+        /// <para>If the day already falls on the given day of the week, returns the current
         /// instance.</para>
         /// </summary>
         /// <exception cref="AoorException"><paramref name="dayOfWeek"/> is not a valid day of the
         /// week.</exception>
         /// <exception cref="OverflowException">The operation would overflow the range of supported
-        /// dates.</exception>
+        /// days.</exception>
         [Pure] TSelf NextOrSame(DayOfWeek dayOfWeek);
 
         /// <summary>
-        /// Obtains the date strictly after the current instance that falls on the specified day of
+        /// Obtains the day strictly after the current instance that falls on the specified day of
         /// the week.
         /// </summary>
         /// <exception cref="AoorException"><paramref name="dayOfWeek"/> is not a valid day of the
         /// week.</exception>
         /// <exception cref="OverflowException">The operation would overflow the range of supported
-        /// dates.</exception>
+        /// days.</exception>
         [SuppressMessage("Naming", "CA1716:Identifiers should not match keywords", Justification = "VB.NET Next statement.")]
         [Pure] TSelf Next(DayOfWeek dayOfWeek);
     }

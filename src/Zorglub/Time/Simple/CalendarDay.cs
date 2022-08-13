@@ -317,7 +317,7 @@ namespace Zorglub.Time.Simple
         #region Conversions
 
         [Pure]
-        DayNumber IFixedDate.ToDayNumber() => DayNumber;
+        DayNumber IFixedDay.ToDayNumber() => DayNumber;
 
         [Pure]
         CalendarDay ISimpleDate.ToCalendarDay() => this;

@@ -27,7 +27,7 @@ namespace Zorglub.Time.Hemerology
     /// <summary>
     /// Defines a date.
     /// </summary>
-    public interface IDate : IFixedDate, IDateable { }
+    public interface IDate : IFixedDay, IDateable { }
 
     /// <summary>
     /// Defines a date type.
@@ -35,7 +35,7 @@ namespace Zorglub.Time.Hemerology
     /// <typeparam name="TSelf">The type that implements this interface.</typeparam>
     public interface IDate<TSelf> :
         IDate,
-        IFixedDate<TSelf>,
+        IFixedDay<TSelf>,
         // Comparison
         IComparisonOperators<TSelf, TSelf>,
         IMinMaxFunctions<TSelf>,

@@ -317,7 +317,7 @@ namespace Zorglub.Time.Specialized
         #region Conversions
 
         [Pure]
-        DayNumber IFixedDate.ToDayNumber() => DayNumber;
+        DayNumber IFixedDay.ToDayNumber() => DayNumber;
 
         #endregion
         #region Counting

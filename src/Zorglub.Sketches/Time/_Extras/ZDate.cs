@@ -292,7 +292,7 @@ namespace Zorglub.Time
 
         /// <inheritdoc />
         [Pure]
-        DayNumber IFixedDate.ToDayNumber() => DayNumber;
+        DayNumber IFixedDay.ToDayNumber() => DayNumber;
 
         /// <summary>
         /// Interconverts the current instance to a date within a different calendar.

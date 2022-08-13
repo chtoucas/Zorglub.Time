@@ -164,7 +164,7 @@ public partial struct MyCivilDate // Conversions, adjustments...
     #region Conversions
 
     [Pure]
-    DayNumber IFixedDate.ToDayNumber() => DayNumber;
+    DayNumber IFixedDay.ToDayNumber() => DayNumber;
 
     #endregion
     #region Counting
