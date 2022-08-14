@@ -58,11 +58,6 @@ namespace Zorglub.Time.Specialized
         public CalendarScope Scope { get; }
 
         /// <summary>
-        /// Gets the epoch.
-        /// </summary>
-        protected DayNumber Epoch => Scope.Epoch;
-
-        /// <summary>
         /// Gets the schema.
         /// </summary>
         protected ICalendricalSchema Schema => Scope.Schema;

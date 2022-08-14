@@ -21,6 +21,12 @@ module Prelude =
         nullExn "scope" (fun () -> new FauxSpecialAdjuster<ArmenianDate>(scope))
 
     [<Fact>]
+    let ``Constructor throws when the scope (MinMaxYearScope) is null`` () =
+        let scope: MinMaxYearScope = null
+
+        nullExn "scope" (fun () -> new FauxSpecialAdjuster<ArmenianDate>(scope))
+
+    [<Fact>]
     let ``Constructor throws when the scope is not complete`` () =
         let min = new DateParts(1, 1, 2)
         let scope = BoundedBelowScope.Create(new Egyptian12Schema(), CalendarEpoch.Armenian, min, 2)

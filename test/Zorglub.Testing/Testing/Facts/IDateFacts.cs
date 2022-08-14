@@ -67,7 +67,6 @@ public partial class IDateFacts<TDate, TDataSet> // Prelude
 
 public partial class IDateFacts<TDate, TDataSet> // Conversions
 {
-    // Normally, this also tests the prop DayNumber if there is one.
     [Theory, MemberData(nameof(DayNumberInfoData))]
     public void DayNumber_Prop(DayNumberInfo info)
     {
@@ -75,6 +74,15 @@ public partial class IDateFacts<TDate, TDataSet> // Conversions
         var date = GetDate(y, m, d);
         // Act & Assert
         Assert.Equal(dayNumber, date.DayNumber);
+    }
+
+    [Theory, MemberData(nameof(DaysSinceEpochInfoData))]
+    public void DaysSinceEpoch_Prop(DaysSinceEpochInfo info)
+    {
+        var (dayNumber, y, m, d) = info;
+        var date = GetDate(y, m, d);
+        // Act & Assert
+        Assert.Equal(dayNumber, date.DaysSinceEpoch);
     }
 }
 

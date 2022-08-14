@@ -9,6 +9,7 @@ using Zorglub.Time.Hemerology.Scopes;
 public sealed class FauxSpecialAdjuster<TDate> : SpecialAdjuster<TDate>
     where TDate : IDateable
 {
+    public FauxSpecialAdjuster(MinMaxYearScope scope) : base(scope) { }
     public FauxSpecialAdjuster(CalendarScope scope) : base(scope) { }
 
     private protected override TDate GetDate(int daysSinceEpoch) =>
