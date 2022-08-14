@@ -73,6 +73,7 @@ namespace Zorglub.Time.Specialized
     /// </summary>
     public readonly partial struct Coptic13Date :
         IDate<Coptic13Date, Coptic13Calendar>,
+        IAdjustable<Coptic13Date>,
         IEpagomenalDay
     {
         // NB: the order in which the static fields are written is important.

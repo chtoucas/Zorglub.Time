@@ -7,6 +7,7 @@ open Zorglub.Testing
 open Zorglub.Testing.Data.Bounded
 open Zorglub.Testing.Facts
 open Zorglub.Testing.Facts.Hemerology
+open Zorglub.Testing.Facts.Specialized
 
 open Zorglub.Time
 open Zorglub.Time.Specialized
@@ -51,7 +52,7 @@ module Bundles =
     [<Sealed>]
     [<TestExtrasAssembly>]
     type DateAdjusterFacts() =
-        inherit IDateAdjusterFacts<CopticDate, StandardCoptic12DataSet>(new CopticAdjuster())
+        inherit SpecialAdjusterFacts<CopticDate, StandardCoptic12DataSet>(new CopticAdjuster())
 
         override __.GetDate(y, m, d) = new CopticDate(y, m, d)
         override __.GetDate(y, doy) = new CopticDate(y, doy)
@@ -104,7 +105,7 @@ module Bundles13 =
     [<Sealed>]
     [<TestExtrasAssembly>]
     type DateAdjusterFacts() =
-        inherit IDateAdjusterFacts<Coptic13Date, StandardCoptic13DataSet>(new Coptic13Adjuster())
+        inherit SpecialAdjusterFacts<Coptic13Date, StandardCoptic13DataSet>(new Coptic13Adjuster())
 
         override __.GetDate(y, m, d) = new Coptic13Date(y, m, d)
         override __.GetDate(y, doy) = new Coptic13Date(y, doy)

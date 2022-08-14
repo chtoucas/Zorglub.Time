@@ -16,6 +16,22 @@ namespace Zorglub.Time.Simple
         [Pure]
         public IEnumerable<CalendarDate> GetDaysInYear(CalendarYear year)
         {
+            var cuid = year.Cuid;
+            var sch = year.Calendar.Schema;
+            int y = year.Year;
+
+            int monthsInYear = sch.CountMonthsInYear(y);
+
+            for (int m = 1; m <= monthsInYear; m++)
+            {
+                int daysInMonth = sch.CountDaysInMonth(y, m);
+
+                for (int d = 1; d <= daysInMonth; d++)
+                {
+                    yield return new CalendarDate(new Yemoda(y, m, d), cuid);
+                }
+            }
+
             throw new NotImplementedException();
         }
 

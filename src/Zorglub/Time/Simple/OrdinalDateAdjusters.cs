@@ -63,6 +63,7 @@ namespace Zorglub.Time.Simple
         public static OrdinalDate WithMonth(this OrdinalDate date, int newMonth) =>
             date.ToCalendarDate().WithMonth(newMonth).ToOrdinalDate();
 
+        /// <summary>
         /// Adjusts the day of the month field to the specified value, yielding a new date.
         /// </summary>
         /// <exception cref="AoorException">The resulting date would be invalid.</exception>

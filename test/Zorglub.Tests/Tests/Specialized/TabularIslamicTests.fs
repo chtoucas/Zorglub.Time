@@ -7,6 +7,7 @@ open Zorglub.Testing
 open Zorglub.Testing.Data.Bounded
 open Zorglub.Testing.Facts
 open Zorglub.Testing.Facts.Hemerology
+open Zorglub.Testing.Facts.Specialized
 
 open Zorglub.Time
 open Zorglub.Time.Specialized
@@ -51,7 +52,7 @@ module Bundles =
     [<Sealed>]
     [<TestExtrasAssembly>]
     type DateAdjusterFacts() =
-        inherit IDateAdjusterFacts<TabularIslamicDate, StandardTabularIslamicDataSet>(new TabularIslamicAdjuster())
+        inherit SpecialAdjusterFacts<TabularIslamicDate, StandardTabularIslamicDataSet>(new TabularIslamicAdjuster())
 
         override __.GetDate(y, m, d) = new TabularIslamicDate(y, m, d)
         override __.GetDate(y, doy) = new TabularIslamicDate(y, doy)

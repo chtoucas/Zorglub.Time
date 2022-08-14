@@ -341,68 +341,6 @@ public partial class CalendarMonthFacts<TDataSet> // Days
 
 public partial class CalendarMonthFacts<TDataSet> // Adjustments
 {
-    #region Adjust()
-
-    [Fact]
-    public void Adjust_InvalidAdjuster()
-    {
-        var month = CalendarUT.GetCalendarMonth(1, 1);
-        // Act & Assert
-        Assert.ThrowsAnexn("adjuster", () => month.Adjust(null!));
-    }
-
-    [Theory, MemberData(nameof(MonthInfoData))]
-    public void Adjust_InvalidYears(MonthInfo info)
-    {
-        var (y, m) = info.Yemo;
-        var month = CalendarUT.GetCalendarMonth(y, m);
-        // Act & Assert
-        foreach (var invalidYear in SupportedYearsTester.InvalidYears)
-        {
-            var adjuster = (CalendarMonth month) =>
-            {
-                var (y, m) = month;
-                return CalendarUT.GetCalendarMonth(invalidYear, m);
-            };
-            // Act & Assert
-            Assert.ThrowsAoorexn("year", () => month.Adjust(adjuster));
-        }
-    }
-
-    [Theory, MemberData(nameof(InvalidMonthFieldData))]
-    public void Adjust_InvalidMonth(int y, int newMonth)
-    {
-        var month = CalendarUT.GetCalendarMonth(y, 1);
-        // Act & Assert
-        var adjuster = (CalendarMonth month) =>
-        {
-            var (y, m) = month;
-            return CalendarUT.GetCalendarMonth(y, newMonth);
-        };
-        Assert.ThrowsAoorexn("month", () => month.Adjust(adjuster));
-    }
-
-    [Theory, MemberData(nameof(MonthInfoData))]
-    public void Adjust_Invariance(MonthInfo info)
-    {
-        var (y, m) = info.Yemo;
-        var month = CalendarUT.GetCalendarMonth(y, m);
-        // Act & Assert
-        Assert.Equal(month, month.Adjust(x => x));
-    }
-
-    [Theory, MemberData(nameof(MonthInfoData))]
-    public void Adjust(MonthInfo info)
-    {
-        var (y, m) = info.Yemo;
-        var month = CalendarUT.GetCalendarMonth(1, 1);
-        var exp = CalendarUT.GetCalendarMonth(y, m);
-        var adjuster = (CalendarMonth _) => CalendarUT.GetCalendarMonth(y, m);
-        // Act & Assert
-        Assert.Equal(exp, month.Adjust(adjuster));
-    }
-
-    #endregion
     #region Year adjustment
 
     [Theory, MemberData(nameof(MonthInfoData))]

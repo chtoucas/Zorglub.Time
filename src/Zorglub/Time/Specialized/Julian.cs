@@ -85,7 +85,9 @@ namespace Zorglub.Time.Specialized
     /// Represents the Julian date.
     /// <para><see cref="JulianDate"/> is an immutable struct.</para>
     /// </summary>
-    public readonly partial struct JulianDate : IDate<JulianDate, JulianCalendar>
+    public readonly partial struct JulianDate :
+        IDate<JulianDate, JulianCalendar>,
+        IAdjustable<JulianDate>
     {
         // NB: the order in which the static fields are written is important.
 
@@ -335,11 +337,7 @@ namespace Zorglub.Time.Specialized
         #endregion
         #region Adjustments
 
-        /// <summary>
-        /// Adjusts the current instance using the specified adjuster.
-        /// <para>If the adjuster throws, this method will propagate the exception.</para>
-        /// </summary>
-        /// <exception cref="ArgumentNullException"><paramref name="adjuster"/> is null.</exception>
+        /// <inheritdoc />
         [Pure]
         public JulianDate Adjust(Func<JulianDate, JulianDate> adjuster)
         {

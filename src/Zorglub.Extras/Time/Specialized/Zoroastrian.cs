@@ -68,6 +68,7 @@ namespace Zorglub.Time.Specialized
     /// </summary>
     public readonly partial struct ZoroastrianDate :
         IDate<ZoroastrianDate, ZoroastrianCalendar>,
+        IAdjustable<ZoroastrianDate>,
         IEpagomenalDay
     {
         // NB: the order in which the static fields are written is important.

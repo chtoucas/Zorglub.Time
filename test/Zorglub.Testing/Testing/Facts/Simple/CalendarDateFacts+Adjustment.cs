@@ -27,53 +27,6 @@ public abstract partial class CalendarDateAdjustmentFacts<TDataSet> :
     protected CalendarDate GetDate(int y, int m, int d) => CalendarUT.GetCalendarDate(y, m, d);
 }
 
-public partial class CalendarDateAdjustmentFacts<TDataSet> // Adjust()
-{
-    //[Fact]
-    //public void Adjust_InvalidAdjuster()
-    //{
-    //    var date = GetDate(1, 1, 1);
-    //    // Act & Assert
-    //    Assert.ThrowsAnexn("adjuster", () => date.Adjust(null!));
-    //}
-
-    //[Theory, MemberData(nameof(DateInfoData))]
-    //public void Adjust_InnerException(DateInfo info)
-    //{
-    //    var (y, m, d) = info.Yemoda;
-    //    var date = GetDate(y, m, d);
-    //    foreach (var invalidYear in SupportedYearsTester.InvalidYears)
-    //    {
-    //        var adjuster = (CalendarDate parts) =>
-    //        {
-    //            var (y, m, d) = parts;
-    //            return GetDate(invalidYear, m, d);
-    //        };
-    //        // Act & Assert
-    //        Assert.ThrowsAoorexn("year", () => date.Adjust(adjuster));
-    //    }
-    //}
-
-    //[Theory, MemberData(nameof(DateInfoData))]
-    //public void Adjust_Invariance(DateInfo info)
-    //{
-    //    var (y, m, d) = info.Yemoda;
-    //    var date = GetDate(y, m, d);
-    //    // Act & Assert
-    //    Assert.Equal(date, date.Adjust(x => x));
-    //}
-
-    //[Theory, MemberData(nameof(DateInfoData))]
-    //public void Adjust(DateInfo info)
-    //{
-    //    var (y, m, d) = info.Yemoda;
-    //    var startOfMonth = CalendarUT.GetCalendarDate(y, m, 1);
-    //    var date = GetDate(y, m, d);
-    //    // Act & Assert
-    //    Assert.Equal(startOfMonth, date.Adjust(CalendarDateAdjusters.GetStartOfMonth));
-    //}
-}
-
 public partial class CalendarDateAdjustmentFacts<TDataSet> // WithYear()
 {
     [Theory, MemberData(nameof(DateInfoData))]

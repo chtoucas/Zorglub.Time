@@ -7,6 +7,16 @@ namespace Zorglub.Time.Specialized
     using Zorglub.Time.Hemerology;
     using Zorglub.Time.Hemerology.Scopes;
 
+    // Reasons to keep the constructor internal:
+    // - we don't validate the input. Only for TDate developed whitin this
+    //   project do we know that it's not possible to create an invalid date.
+    // - this class works best for date types based on the count of days since
+    //   the epoch. For types using a y/m/d/doy repr. there is a better way of
+    //   implementing IDateAdjuster<TDate>.
+    // We could remove the constraint on TDate but it would make things a
+    // bit harder than necessary. Without IDateable, we would have to obtain the
+    // date parts (y, m, d, doy) by other means, e.g. using the underlying schema.
+
     /// <summary>
     /// Defines common adjusters for <typeparamref name="TDate"/> and provides a base for derived
     /// classes.
@@ -14,14 +24,6 @@ namespace Zorglub.Time.Specialized
     /// </summary>
     /// <typeparam name="TDate">The type of date object.</typeparam>
     public abstract class SpecialAdjuster<TDate> : IDateAdjuster<TDate>
-        // We could remove the constraint on TDate but it would make things a
-        // bit harder than necessary.
-        // IDateable:
-        //   Without it, we would have to obtain the date parts (y, m, d, doy)
-        //   by other means, e.g. using the underlying schema.
-        // IDateableOrdinally:
-        //   Not necessary, but it should largely prevent the use of this class
-        //   with date types not based on daysSinceEpoch.
         where TDate : IDateable
     {
         /// <summary>
@@ -77,7 +79,6 @@ namespace Zorglub.Time.Specialized
         [Pure]
         public TDate GetStartOfYear(TDate date)
         {
-            // NB: we don't know if the start of the year is within the scope.
             int daysSinceEpoch = Schema.GetStartOfYear(date.Year);
             return GetDate(daysSinceEpoch);
         }
@@ -86,7 +87,6 @@ namespace Zorglub.Time.Specialized
         [Pure]
         public TDate GetEndOfYear(TDate date)
         {
-            // NB: we don't know if the end of the year is within the scope.
             int daysSinceEpoch = Schema.GetEndOfYear(date.Year);
             return GetDate(daysSinceEpoch);
         }
@@ -95,7 +95,6 @@ namespace Zorglub.Time.Specialized
         [Pure]
         public TDate GetStartOfMonth(TDate date)
         {
-            // NB: we don't know if the start of the month is within the scope.
             var (y, m, _) = date;
             int daysSinceEpoch = Schema.GetStartOfMonth(y, m);
             return GetDate(daysSinceEpoch);
@@ -105,7 +104,6 @@ namespace Zorglub.Time.Specialized
         [Pure]
         public TDate GetEndOfMonth(TDate date)
         {
-            // NB: we don't know if the end of the month is within the scope.
             var (y, m, _) = date;
             int daysSinceEpoch = Schema.GetEndOfMonth(y, m);
             return GetDate(daysSinceEpoch);

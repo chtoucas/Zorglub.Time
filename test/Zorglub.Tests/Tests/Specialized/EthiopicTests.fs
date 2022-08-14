@@ -7,6 +7,7 @@ open Zorglub.Testing
 open Zorglub.Testing.Data.Bounded
 open Zorglub.Testing.Facts
 open Zorglub.Testing.Facts.Hemerology
+open Zorglub.Testing.Facts.Specialized
 
 open Zorglub.Time
 open Zorglub.Time.Specialized
@@ -51,7 +52,7 @@ module Bundles =
     [<Sealed>]
     [<TestExtrasAssembly>]
     type DateAdjusterFacts() =
-        inherit IDateAdjusterFacts<EthiopicDate, StandardEthiopic12DataSet>(new EthiopicAdjuster())
+        inherit SpecialAdjusterFacts<EthiopicDate, StandardEthiopic12DataSet>(new EthiopicAdjuster())
 
         override __.GetDate(y, m, d) = new EthiopicDate(y, m, d)
         override __.GetDate(y, doy) = new EthiopicDate(y, doy)
@@ -104,7 +105,7 @@ module Bundles13 =
     [<Sealed>]
     [<TestExtrasAssembly>]
     type DateAdjusterFacts() =
-        inherit IDateAdjusterFacts<Ethiopic13Date, StandardEthiopic13DataSet>(new Ethiopic13Adjuster())
+        inherit SpecialAdjusterFacts<Ethiopic13Date, StandardEthiopic13DataSet>(new Ethiopic13Adjuster())
 
         override __.GetDate(y, m, d) = new Ethiopic13Date(y, m, d)
         override __.GetDate(y, doy) = new Ethiopic13Date(y, doy)

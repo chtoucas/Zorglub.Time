@@ -7,6 +7,7 @@ open Zorglub.Testing
 open Zorglub.Testing.Data.Bounded
 open Zorglub.Testing.Facts
 open Zorglub.Testing.Facts.Hemerology
+open Zorglub.Testing.Facts.Specialized
 
 open Zorglub.Time
 open Zorglub.Time.Specialized
@@ -51,7 +52,7 @@ module Bundles =
     [<Sealed>]
     [<TestExtrasAssembly>]
     type DateAdjusterFacts() =
-        inherit IDateAdjusterFacts<ZoroastrianDate, StandardZoroastrian12DataSet>(new ZoroastrianAdjuster())
+        inherit SpecialAdjusterFacts<ZoroastrianDate, StandardZoroastrian12DataSet>(new ZoroastrianAdjuster())
 
         override __.GetDate(y, m, d) = new ZoroastrianDate(y, m, d)
         override __.GetDate(y, doy) = new ZoroastrianDate(y, doy)
@@ -104,7 +105,7 @@ module Bundles13 =
     [<Sealed>]
     [<TestExtrasAssembly>]
     type DateAdjusterFacts() =
-        inherit IDateAdjusterFacts<Zoroastrian13Date, StandardZoroastrian13DataSet>(new Zoroastrian13Adjuster())
+        inherit SpecialAdjusterFacts<Zoroastrian13Date, StandardZoroastrian13DataSet>(new Zoroastrian13Adjuster())
 
         override __.GetDate(y, m, d) = new Zoroastrian13Date(y, m, d)
         override __.GetDate(y, doy) = new Zoroastrian13Date(y, doy)

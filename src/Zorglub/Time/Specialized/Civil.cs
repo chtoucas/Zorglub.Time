@@ -3,6 +3,8 @@
 
 namespace Zorglub.Time.Specialized
 {
+    using System.Diagnostics;
+
     using Zorglub.Time.Core;
     using Zorglub.Time.Core.Intervals;
     using Zorglub.Time.Core.Schemas;
@@ -71,7 +73,9 @@ namespace Zorglub.Time.Specialized
     /// Represents the Civil date.
     /// <para><see cref="CivilDate"/> is an immutable struct.</para>
     /// </summary>
-    public readonly partial struct CivilDate : IDate<CivilDate, CivilCalendar>
+    public readonly partial struct CivilDate :
+        IDate<CivilDate, CivilCalendar>,
+        IAdjustable<CivilDate>
     {
         /// <summary>
         /// Represents the schema.
@@ -312,11 +316,7 @@ namespace Zorglub.Time.Specialized
         #endregion
         #region Adjustments
 
-        /// <summary>
-        /// Adjusts the current instance using the specified adjuster.
-        /// <para>If the adjuster throws, this method will propagate the exception.</para>
-        /// </summary>
-        /// <exception cref="ArgumentNullException"><paramref name="adjuster"/> is null.</exception>
+        /// <inheritdoc />
         [Pure]
         public CivilDate Adjust(Func<CivilDate, CivilDate> adjuster)
         {

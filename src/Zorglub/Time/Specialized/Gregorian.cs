@@ -69,7 +69,9 @@ namespace Zorglub.Time.Specialized
     /// Represents the Gregorian date.
     /// <para><see cref="GregorianDate"/> is an immutable struct.</para>
     /// </summary>
-    public readonly partial struct GregorianDate : IDate<GregorianDate, GregorianCalendar>
+    public readonly partial struct GregorianDate :
+        IDate<GregorianDate, GregorianCalendar>,
+        IAdjustable<GregorianDate>
     {
         // NB: the order in which the static fields are written is important.
 
@@ -312,11 +314,7 @@ namespace Zorglub.Time.Specialized
         #endregion
         #region Adjustments
 
-        /// <summary>
-        /// Adjusts the current instance using the specified adjuster.
-        /// <para>If the adjuster throws, this method will propagate the exception.</para>
-        /// </summary>
-        /// <exception cref="ArgumentNullException"><paramref name="adjuster"/> is null.</exception>
+        /// <inheritdoc />
         [Pure]
         public GregorianDate Adjust(Func<GregorianDate, GregorianDate> adjuster)
         {
