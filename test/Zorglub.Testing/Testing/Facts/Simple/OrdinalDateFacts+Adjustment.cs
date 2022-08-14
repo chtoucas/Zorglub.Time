@@ -4,7 +4,30 @@
 namespace Zorglub.Testing.Facts.Simple;
 
 using Zorglub.Testing.Data;
+using Zorglub.Testing.Facts.Hemerology;
 using Zorglub.Time.Simple;
+
+#if true
+
+public abstract class OrdinalDateAdjustmentFacts<TDataSet> :
+    IDateAdjusterFacts<OrdinalDate, TDataSet>
+    where TDataSet : ICalendarDataSet, ISingleton<TDataSet>
+{
+    protected OrdinalDateAdjustmentFacts(SimpleCalendar calendar)
+        : base(new OrdinalDateAdjuster(calendar))
+    {
+        Debug.Assert(calendar != null);
+
+        Calendar = calendar;
+    }
+
+    protected SimpleCalendar Calendar { get; }
+
+    protected sealed override OrdinalDate GetDate(int y, int m, int d) => Calendar.GetCalendarDate(y, m, d).ToOrdinalDate();
+    protected sealed override OrdinalDate GetDate(int y, int doy) => Calendar.GetOrdinalDate(y, doy);
+}
+
+#else
 
 public abstract partial class OrdinalDateAdjustmentFacts<TDataSet> :
     CalendarDataConsumer<TDataSet>
@@ -100,3 +123,5 @@ public partial class OrdinalDateAdjustmentFacts<TDataSet> // WithDayOfYear()
         Assert.Equal(exp, date.WithDayOfYear(doy));
     }
 }
+
+#endif
