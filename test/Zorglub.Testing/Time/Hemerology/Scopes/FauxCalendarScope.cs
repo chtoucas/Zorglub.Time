@@ -1,10 +1,9 @@
 ﻿// SPDX-License-Identifier: BSD-3-Clause
 // Copyright (c) 2020 Narvalo.Org. All rights reserved.
 
-namespace Zorglub.Time.Hemerology;
+namespace Zorglub.Time.Hemerology.Scopes;
 
 using Zorglub.Time.Core.Intervals;
-using Zorglub.Time.Hemerology.Scopes;
 
 public sealed class FauxCalendarScope : CalendarScope
 {

@@ -9,7 +9,7 @@ open Zorglub.Time
 open Zorglub.Time.Core
 open Zorglub.Time.Core.Intervals
 open Zorglub.Time.Core.Schemas
-open Zorglub.Time.Hemerology
+open Zorglub.Time.Hemerology.Scopes
 
 open Xunit
 
