@@ -398,6 +398,9 @@ namespace Zorglub.Time.Simple
         //
         // Adjust the day of the week
         //
+        // We don't use the methods from DayNumber to avoid to check twice that
+        // the result does not overflow, one in DayNumber and the other here
+        // using the domain of the calendar.
 
         /// <inheritdoc />
         [Pure]
@@ -405,10 +408,6 @@ namespace Zorglub.Time.Simple
         {
             Requires.Defined(dayOfWeek);
 
-            // We don't use the methods from DayNumber to avoid the double
-            // validation, one from DayNumber and the other using the scope of
-            // the calendar,
-            // > return new(dayNumber.Previous(dayOfWeek) - chr.Epoch, Cuid);
             int δ = dayOfWeek - DayOfWeek;
             return PlusDays(δ >= 0 ? δ - CalendricalConstants.DaysInWeek : δ);
         }

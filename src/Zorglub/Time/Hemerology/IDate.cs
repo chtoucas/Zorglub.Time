@@ -88,7 +88,7 @@ namespace Zorglub.Time.Hemerology
         /// </summary>
         static abstract TCalendar Calendar { get; }
 
-        // FIXME(api): this is not the right way of doing it -> use ITodayProvider;
+        // FIXME(api): this is not the right way of doing it -> use a provider;
         // see also NodaTime.
         // We don't add the UTC version UtcToday(). I don't think that we need
         // such a level of precision, furthermore one can still do it manually
