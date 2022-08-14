@@ -9,39 +9,39 @@ namespace Zorglub.Time.Geometry.Schemas
     {
         [Pure]
         public static IGeometricSchema Rebase(
-            this IGeometricSchema @this, int daysToTargetEpoch)
+            this IGeometricSchema schema, int daysToTargetEpoch)
         {
             // FIXME: Ne devrait être possible que si la numérotation des années
             // est déjà dans sa forme finale (après un éventuel Transpose()).
             // Autrement dit, tout dépend de MonthForm.
-            return daysToTargetEpoch == 0 ? @this
-                : new RebasedSchema(@this, daysToTargetEpoch);
+            return daysToTargetEpoch == 0 ? schema
+                : new RebasedSchema(schema, daysToTargetEpoch);
         }
 
         [Pure]
         public static SecondOrderSchema Rebase(
-            this SecondOrderSchema @this, int daysToTargetEpoch)
+            this SecondOrderSchema schema, int daysToTargetEpoch)
         {
-            Requires.NotNull(@this);
+            Requires.NotNull(schema);
 
             // FIXME: Ne devrait être possible que si la numérotation des années
             // est déjà dans sa forme finale (après un éventuel Transpose()).
             // Autrement dit, tout dépend de MonthForm: ExceptionalMonth = MonthsInYear?
             // On devrait pouvoir faire la même chose avec ThirdOrderSchema, etc.
-            return daysToTargetEpoch == 0 ? @this
-                : new SecondOrderSchema(@this.YearForm.PatchValue(daysToTargetEpoch), @this.MonthForm);
+            return daysToTargetEpoch == 0 ? schema
+                : new SecondOrderSchema(schema.YearForm.PatchValue(daysToTargetEpoch), schema.MonthForm);
         }
 
         // REVIEW: we should add MonthsInYear and ExceptionalMonth to MonthForm.
         [Pure]
         public static IGeometricSchema Transpose(
-            this GeometricSchema @this,
+            this GeometricSchema schema,
             int monthsInYear,
             int exceptionalMonth)
         {
-            Requires.NotNull(@this);
+            Requires.NotNull(schema);
 
-            var monthForm = @this.MonthForm;
+            var monthForm = schema.MonthForm;
 
             // Cas trivial.
             // Par ex., pour le calendrier islamique, le changement de
@@ -51,9 +51,9 @@ namespace Zorglub.Time.Geometry.Schemas
             {
                 return monthForm.Numbering switch
                 {
-                    MonthFormNumbering.Algebraic => new TransposedSchema(@this, new TrivialRegularizer_()),
+                    MonthFormNumbering.Algebraic => new TransposedSchema(schema, new TrivialRegularizer_()),
                     // Rien à faire : la forme des mois est déjà dans sa bonne version.
-                    MonthFormNumbering.Ordinal => @this,
+                    MonthFormNumbering.Ordinal => schema,
                     _ => Throw.NotSupported<IGeometricSchema>()
                 };
             }
@@ -61,7 +61,7 @@ namespace Zorglub.Time.Geometry.Schemas
             MonthRegularizer regularizer =
                 MonthRegularizerFactory.CreateRegularizer(monthForm, monthsInYear, exceptionalMonth);
 
-            return new TransposedSchema(@this, regularizer);
+            return new TransposedSchema(schema, regularizer);
         }
 
         // Passage de la numérotation algébrique à la numérotation ordinale.

@@ -54,16 +54,16 @@ namespace Zorglub.Time.Extensions
         /// ]]></code>
         /// </example>
         /// </remarks>
-        /// <exception cref="ArgumentNullException"><paramref name="this"/> is null.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="box"/> is null.</exception>
         /// <exception cref="ArgumentNullException"><paramref name="predicate"/> is null.</exception>
         [Pure]
-        public static Box<T> Where<T>(this Box<T> @this, Func<T, bool> predicate)
+        public static Box<T> Where<T>(this Box<T> box, Func<T, bool> predicate)
             where T : class
         {
-            Requires.NotNull(@this);
+            Requires.NotNull(box);
             Requires.NotNull(predicate);
 
-            return !@this.IsEmpty && predicate(@this.Content) ? @this : Box<T>.Empty;
+            return !box.IsEmpty && predicate(box.Content) ? box : Box<T>.Empty;
         }
 
         /// <summary>
@@ -79,28 +79,28 @@ namespace Zorglub.Time.Extensions
         /// </example>
         /// <para><c>SelectMany</c> generalizes both <c>ZipWith</c> and <c>Bind</c>.</para>
         /// </remarks>
-        /// <exception cref="ArgumentNullException"><paramref name="this"/> is null.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="box"/> is null.</exception>
         /// <exception cref="ArgumentNullException"><paramref name="binder"/> is null.</exception>
         /// <exception cref="ArgumentNullException"><paramref name="zipper"/> is null.</exception>
         [Pure]
         public static Box<TResult> SelectMany<TSource, TMiddle, TResult>(
-            this Box<TSource> @this,
+            this Box<TSource> box,
             Func<TSource, Box<TMiddle>> binder,
             Func<TSource, TMiddle, TResult?> zipper)
             where TSource : class
             where TMiddle : class
             where TResult : class
         {
-            Requires.NotNull(@this);
+            Requires.NotNull(box);
             Requires.NotNull(binder);
             Requires.NotNull(zipper);
 
-            if (@this.IsEmpty) { return Box<TResult>.Empty; }
+            if (box.IsEmpty) { return Box<TResult>.Empty; }
 
-            Box<TMiddle> middle = binder(@this.Content);
+            Box<TMiddle> middle = binder(box.Content);
             if (middle.IsEmpty) { return Box<TResult>.Empty; }
 
-            return Box.Create(zipper(@this.Content, middle.Content));
+            return Box.Create(zipper(box.Content, middle.Content));
         }
 
         /// <remarks>
@@ -225,19 +225,19 @@ namespace Zorglub.Time.Extensions
         /// Beware, this query does NOT actually use <c>ZipWith</c>, it's a <c>SelectMany</c> in
         /// disguise.</para>
         /// </remarks>
-        /// <exception cref="ArgumentNullException"><paramref name="this"/> is null.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="box"/> is null.</exception>
         /// <exception cref="ArgumentNullException"><paramref name="binder"/> is null.</exception>
         [Pure]
         public static Box<TResult> Bind<TSource, TResult>(
-            this Box<TSource> @this,
+            this Box<TSource> box,
             Func<TSource, Box<TResult>> binder)
             where TSource : class
             where TResult : class
         {
-            Requires.NotNull(@this);
+            Requires.NotNull(box);
             Requires.NotNull(binder);
 
-            return @this.IsEmpty ? Box<TResult>.Empty : binder(@this.Content);
+            return box.IsEmpty ? Box<TResult>.Empty : binder(box.Content);
         }
 
         /// <summary>
@@ -247,15 +247,15 @@ namespace Zorglub.Time.Extensions
         /// ]]></code>
         /// </summary>
         /// <returns>The current box if it isn't empty; otherwise the other box.</returns>
-        /// <exception cref="ArgumentNullException"><paramref name="this"/> is null.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="box"/> is null.</exception>
         [Pure]
         [return: NotNullIfNotNull("other")]
-        public static Box<T>? Otherwise<T>(this Box<T> @this, Box<T>? other)
+        public static Box<T>? Otherwise<T>(this Box<T> box, Box<T>? other)
             where T : class
         {
-            Requires.NotNull(@this);
+            Requires.NotNull(box);
 
-            return @this.IsEmpty ? other : @this;
+            return box.IsEmpty ? other : box;
         }
 
         /// <summary>
@@ -293,24 +293,24 @@ namespace Zorglub.Time.Extensions
         /// <typeparamref name="TOther"/>.
         /// </para>
         /// </remarks>
-        /// <exception cref="ArgumentNullException"><paramref name="this"/> is null.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="box"/> is null.</exception>
         /// <exception cref="ArgumentNullException"><paramref name="other"/> is null.</exception>
         /// <exception cref="ArgumentNullException"><paramref name="zipper"/> is null.</exception>
         [Pure]
         public static Box<TResult> ZipWith<TSource, TOther, TResult>(
-            this Box<TSource> @this,
+            this Box<TSource> box,
             Box<TOther> other,
             Func<TSource, TOther, TResult?> zipper)
             where TSource : class
             where TOther : class
             where TResult : class
         {
-            Requires.NotNull(@this);
+            Requires.NotNull(box);
             Requires.NotNull(other);
             Requires.NotNull(zipper);
 
-            return @this.IsEmpty || other.IsEmpty ? Box<TResult>.Empty
-                : Box.Create(zipper(@this.Content, other.Content));
+            return box.IsEmpty || other.IsEmpty ? Box<TResult>.Empty
+                : Box.Create(zipper(box.Content, other.Content));
         }
     }
 }

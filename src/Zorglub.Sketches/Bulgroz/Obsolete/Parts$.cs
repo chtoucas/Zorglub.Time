@@ -26,11 +26,11 @@ namespace Zorglub.Bulgroz.Obsolete
         /// <exception cref="AoorException">The current instance is not valid according to the
         /// specified scope.</exception>
         [Pure]
-        public static Yemoda ToYemoda(this DateFields @this, ICalendricalValidator validator)
+        public static Yemoda ToYemoda(this DateFields fields, ICalendricalValidator validator)
         {
             Requires.NotNull(validator);
 
-            var (y, m, d) = @this;
+            var (y, m, d) = fields;
             validator.ValidateYearMonthDay(y, m, d);
             return new Yemoda(y, m, d);
         }
@@ -43,11 +43,11 @@ namespace Zorglub.Bulgroz.Obsolete
         /// <exception cref="AoorException">The current instance is not valid according to the
         /// specified scope.</exception>
         [Pure]
-        public static Yedoy ToYedoy(this OrdinalFields @this, ICalendricalValidator validator)
+        public static Yedoy ToYedoy(this OrdinalFields fields, ICalendricalValidator validator)
         {
             Requires.NotNull(validator);
 
-            var (y, doy) = @this;
+            var (y, doy) = fields;
             validator.ValidateOrdinal(y, doy);
             return new Yedoy(y, doy);
         }
@@ -60,11 +60,11 @@ namespace Zorglub.Bulgroz.Obsolete
         /// <exception cref="AoorException">The current instance is not valid according to the
         /// specified scope.</exception>
         [Pure]
-        public static Yemo ToYemo(this MonthFields @this, ICalendricalValidator validator)
+        public static Yemo ToYemo(this MonthFields fields, ICalendricalValidator validator)
         {
             Requires.NotNull(validator);
 
-            var (y, m) = @this;
+            var (y, m) = fields;
             validator.ValidateYearMonth(y, m);
             return new Yemo(y, m);
         }
@@ -84,11 +84,11 @@ namespace Zorglub.Bulgroz.Obsolete
         /// <exception cref="AoorException">The current instance is not valid according to the
         /// specified scope.</exception>
         [Pure]
-        public static Yemoda ToYemoda(this DateParts @this, ICalendricalValidator validator)
+        public static Yemoda ToYemoda(this DateParts parts, ICalendricalValidator validator)
         {
             Requires.NotNull(validator);
 
-            var (y, m, d) = @this;
+            var (y, m, d) = parts;
             validator.ValidateYearMonthDay(y, m, d);
             return new Yemoda(y, m, d);
         }
@@ -101,11 +101,11 @@ namespace Zorglub.Bulgroz.Obsolete
         /// <exception cref="AoorException">The current instance is not valid according to the
         /// specified scope.</exception>
         [Pure]
-        public static Yedoy ToYedoy(this OrdinalParts @this, ICalendricalValidator validator)
+        public static Yedoy ToYedoy(this OrdinalParts parts, ICalendricalValidator validator)
         {
             Requires.NotNull(validator);
 
-            var (y, doy) = @this;
+            var (y, doy) = parts;
             validator.ValidateOrdinal(y, doy);
             return new Yedoy(y, doy);
         }
@@ -118,11 +118,11 @@ namespace Zorglub.Bulgroz.Obsolete
         /// <exception cref="AoorException">The current instance is not valid according to the
         /// specified scope.</exception>
         [Pure]
-        public static Yemo ToYemo(this MonthParts @this, ICalendricalValidator validator)
+        public static Yemo ToYemo(this MonthParts parts, ICalendricalValidator validator)
         {
             Requires.NotNull(validator);
 
-            var (y, m) = @this;
+            var (y, m) = parts;
             validator.ValidateYearMonth(y, m);
             return new Yemo(y, m);
         }

@@ -33,22 +33,22 @@ namespace Zorglub.Time.Simple
         /// Obtains the calendar to which belongs the specified range.
         /// </summary>
         [Pure]
-        public static SimpleCalendar GetCalendar(this Range<CalendarDate> @this) => @this.Min.Calendar;
+        public static SimpleCalendar GetCalendar(this Range<CalendarDate> range) => range.Min.Calendar;
 
         /// <summary>
         /// Obtains the number of days in the specified range.
         /// </summary>
         [Pure]
-        public static int Count(this Range<CalendarDate> @this) => @this.Max - @this.Min + 1;
+        public static int Count(this Range<CalendarDate> range) => range.Max - range.Min + 1;
 
         /// <summary>
         /// Obtains an <see cref="IEnumerable{T}"/> view of the specified range.
         /// </summary>
         [Pure]
-        public static IEnumerable<CalendarDate> ToEnumerable(this Range<CalendarDate> @this)
+        public static IEnumerable<CalendarDate> ToEnumerable(this Range<CalendarDate> range)
         {
-            var min = @this.Min;
-            var max = @this.Max;
+            var min = range.Min;
+            var max = range.Max;
 
             for (var date = min; date <= max; date++)
             {
@@ -62,13 +62,13 @@ namespace Zorglub.Time.Simple
         ///// <exception cref="ArgumentException"><paramref name="month"/> does not belong to the
         ///// calendar of the specified range.</exception>
         //[Pure]
-        //public static bool ContainsFast(this Range<CalendarDate> @this, CalendarMonth month)
+        //public static bool ContainsFast(this Range<CalendarDate> range, CalendarMonth month)
         //{
-        //    var cuid = @this.GetCalendar().Id;
+        //    var cuid = range.GetCalendar().Id;
         //    if (month.Cuid != cuid) Throw.BadCuid(nameof(month), cuid, month.Cuid);
 
-        //    return @this.Min.CompareFast(month.FirstDay) <= 0
-        //        && month.LastDay.CompareFast(@this.Max) <= 0;
+        //    return range.Min.CompareFast(month.FirstDay) <= 0
+        //        && month.LastDay.CompareFast(range.Max) <= 0;
         //}
 
         /// <summary>
@@ -77,13 +77,13 @@ namespace Zorglub.Time.Simple
         /// <exception cref="ArgumentNullException"><paramref name="newCalendar"/> is null.
         /// </exception>
         [Pure]
-        public static Range<CalendarDate> WithCalendar(this Range<CalendarDate> @this, SimpleCalendar newCalendar)
+        public static Range<CalendarDate> WithCalendar(this Range<CalendarDate> range, SimpleCalendar newCalendar)
         {
             Requires.NotNull(newCalendar);
 
             // TODO(code): check that both dates use the same calendar; idem with
             // the other WithCalendar().
-            var (min, max) = @this.Endpoints;
+            var (min, max) = range.Endpoints;
 
             var start = min.WithCalendar(newCalendar);
             var end = max.WithCalendar(newCalendar);
@@ -106,22 +106,22 @@ namespace Zorglub.Time.Simple
         /// Obtains the calendar to which belongs the specified range.
         /// </summary>
         [Pure]
-        public static SimpleCalendar GetCalendar(this Range<CalendarDay> @this) => @this.Min.Calendar;
+        public static SimpleCalendar GetCalendar(this Range<CalendarDay> range) => range.Min.Calendar;
 
         /// <summary>
         /// Obtains the number of days in the specified range.
         /// </summary>
         [Pure]
-        public static int Count(this Range<CalendarDay> @this) => @this.Max - @this.Min + 1;
+        public static int Count(this Range<CalendarDay> range) => range.Max - range.Min + 1;
 
         /// <summary>
         /// Obtains an <see cref="IEnumerable{T}"/> view of the specified range.
         /// </summary>
         [Pure]
-        public static IEnumerable<CalendarDay> ToEnumerable(this Range<CalendarDay> @this)
+        public static IEnumerable<CalendarDay> ToEnumerable(this Range<CalendarDay> range)
         {
-            var min = @this.Min;
-            var max = @this.Max;
+            var min = range.Min;
+            var max = range.Max;
 
             for (var date = min; date <= max; date++)
             {
@@ -135,11 +135,11 @@ namespace Zorglub.Time.Simple
         /// <exception cref="ArgumentNullException"><paramref name="newCalendar"/> is null.
         /// </exception>
         [Pure]
-        public static Range<CalendarDay> WithCalendar(this Range<CalendarDay> @this, SimpleCalendar newCalendar)
+        public static Range<CalendarDay> WithCalendar(this Range<CalendarDay> range, SimpleCalendar newCalendar)
         {
             Requires.NotNull(newCalendar);
 
-            var (min, max) = @this.Endpoints;
+            var (min, max) = range.Endpoints;
 
             var start = min.WithCalendar(newCalendar);
             var end = max.WithCalendar(newCalendar);
@@ -162,22 +162,22 @@ namespace Zorglub.Time.Simple
         /// Obtains the calendar to which belongs the specified range.
         /// </summary>
         [Pure]
-        public static SimpleCalendar GetCalendar(this Range<OrdinalDate> @this) => @this.Min.Calendar;
+        public static SimpleCalendar GetCalendar(this Range<OrdinalDate> range) => range.Min.Calendar;
 
         /// <summary>
         /// Obtains the number of days in the specified range.
         /// </summary>
         [Pure]
-        public static int Count(this Range<OrdinalDate> @this) => @this.Max - @this.Min + 1;
+        public static int Count(this Range<OrdinalDate> range) => range.Max - range.Min + 1;
 
         /// <summary>
         /// Obtains an <see cref="IEnumerable{T}"/> view of the specified range.
         /// </summary>
         [Pure]
-        public static IEnumerable<OrdinalDate> ToEnumerable(this Range<OrdinalDate> @this)
+        public static IEnumerable<OrdinalDate> ToEnumerable(this Range<OrdinalDate> range)
         {
-            var min = @this.Min;
-            var max = @this.Max;
+            var min = range.Min;
+            var max = range.Max;
 
             for (var date = min; date <= max; date++)
             {
@@ -191,11 +191,11 @@ namespace Zorglub.Time.Simple
         /// <exception cref="ArgumentNullException"><paramref name="newCalendar"/> is null.
         /// </exception>
         [Pure]
-        public static Range<OrdinalDate> WithCalendar(this Range<OrdinalDate> @this, SimpleCalendar newCalendar)
+        public static Range<OrdinalDate> WithCalendar(this Range<OrdinalDate> range, SimpleCalendar newCalendar)
         {
             Requires.NotNull(newCalendar);
 
-            var (min, max) = @this.Endpoints;
+            var (min, max) = range.Endpoints;
 
             var start = min.WithCalendar(newCalendar);
             var end = max.WithCalendar(newCalendar);

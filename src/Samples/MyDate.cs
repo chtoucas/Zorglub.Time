@@ -155,8 +155,8 @@ public readonly partial struct MyDate :
     }
 
 #if !USE_ADJUSTERS
-    private static bool IsInvalid(DayOfWeek @this) =>
-        @this < DayOfWeek.Sunday || @this > DayOfWeek.Saturday;
+    private static bool IsInvalid(DayOfWeek dayOfWeek) =>
+        dayOfWeek < DayOfWeek.Sunday || dayOfWeek > DayOfWeek.Saturday;
 #endif
 }
 
@@ -238,7 +238,7 @@ public partial struct MyDate // Conversions, adjustments...
 #if USE_ADJUSTERS
         return DayOfWeekAdjusters.Previous(this, dayOfWeek);
 #else
-        if (IsInvalid(dayOfWeek)) Throw.ArgumentOutOfRange(nameof(dayOfWeek));
+        if (IsInvalid(dayOfWeek)) throw new ArgumentOutOfRangeException(nameof(dayOfWeek));
 
         int δ = dayOfWeek - DayOfWeek;
         return PlusDays(δ >= 0 ? δ - 7 : δ);
@@ -251,7 +251,7 @@ public partial struct MyDate // Conversions, adjustments...
 #if USE_ADJUSTERS
         return DayOfWeekAdjusters.PreviousOrSame(this, dayOfWeek);
 #else
-        if (IsInvalid(dayOfWeek)) Throw.ArgumentOutOfRange(nameof(dayOfWeek));
+        if (IsInvalid(dayOfWeek)) throw new ArgumentOutOfRangeException(nameof(dayOfWeek));
 
         int δ = dayOfWeek - DayOfWeek;
         return δ == 0 ? this : PlusDays(δ > 0 ? δ - 7 : δ);
@@ -271,7 +271,7 @@ public partial struct MyDate // Conversions, adjustments...
 #if USE_ADJUSTERS
         return DayOfWeekAdjusters.NextOrSame(this, dayOfWeek);
 #else
-        if (IsInvalid(dayOfWeek)) Throw.ArgumentOutOfRange(nameof(dayOfWeek));
+        if (IsInvalid(dayOfWeek)) throw new ArgumentOutOfRangeException(nameof(dayOfWeek));
 
         int δ = dayOfWeek - DayOfWeek;
         return δ == 0 ? this : PlusDays(δ < 0 ? δ + 7 : δ);
@@ -284,7 +284,7 @@ public partial struct MyDate // Conversions, adjustments...
 #if USE_ADJUSTERS
         return DayOfWeekAdjusters.Next(this, dayOfWeek);
 #else
-        if (IsInvalid(dayOfWeek)) Throw.ArgumentOutOfRange(nameof(dayOfWeek));
+        if (IsInvalid(dayOfWeek)) throw new ArgumentOutOfRangeException(nameof(dayOfWeek));
 
         int δ = dayOfWeek - DayOfWeek;
         return PlusDays(δ <= 0 ? δ + 7 : δ);

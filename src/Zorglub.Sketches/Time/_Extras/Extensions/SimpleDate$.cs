@@ -19,11 +19,11 @@ namespace Zorglub.Time.Extensions
         /// Determines whether the specified date is an epagomenal day or not.
         /// </summary>
         [Pure]
-        public static bool IsEpagomenal(this CalendarDate @this, out int epagomenalNumber)
+        public static bool IsEpagomenal(this CalendarDate date, out int epagomenalNumber)
         {
-            if (@this.Calendar.Schema is IEpagomenalDayFeaturette sch)
+            if (date.Calendar.Schema is IEpagomenalDayFeaturette sch)
             {
-                @this.Parts.Unpack(out int y, out int m, out int d);
+                date.Parts.Unpack(out int y, out int m, out int d);
                 return sch.IsEpagomenalDay(y, m, d, out epagomenalNumber);
             }
             else
@@ -37,15 +37,15 @@ namespace Zorglub.Time.Extensions
         /// Determines whether the specified date is an epagomenal day or not.
         /// </summary>
         [Pure]
-        public static bool IsEpagomenal(this CalendarDay @this, out int epagomenalNumber) =>
-            IsEpagomenal(@this.ToCalendarDate(), out epagomenalNumber);
+        public static bool IsEpagomenal(this CalendarDay date, out int epagomenalNumber) =>
+            IsEpagomenal(date.ToCalendarDate(), out epagomenalNumber);
 
         /// <summary>
         /// Determines whether the specified date is an epagomenal day or not.
         /// </summary>
         [Pure]
-        public static bool IsEpagomenal(this OrdinalDate @this, out int epagomenalNumber) =>
-            IsEpagomenal(@this.ToCalendarDate(), out epagomenalNumber);
+        public static bool IsEpagomenal(this OrdinalDate date, out int epagomenalNumber) =>
+            IsEpagomenal(date.ToCalendarDate(), out epagomenalNumber);
     }
 
     public partial class SimpleDateExtensions // IBlankDayFeaturette
@@ -54,11 +54,11 @@ namespace Zorglub.Time.Extensions
         /// Determines whether the specified date is a blank day or not.
         /// </summary>
         [Pure]
-        public static bool IsBlank(this CalendarDate @this)
+        public static bool IsBlank(this CalendarDate date)
         {
-            if (@this.Calendar.Schema is IBlankDayFeaturette sch)
+            if (date.Calendar.Schema is IBlankDayFeaturette sch)
             {
-                @this.Parts.Unpack(out int y, out int m, out int d);
+                date.Parts.Unpack(out int y, out int m, out int d);
                 return sch.IsBlankDay(y, m, d);
             }
             else
@@ -71,12 +71,12 @@ namespace Zorglub.Time.Extensions
         /// Determines whether the specified date is a blank day or not.
         /// </summary>
         [Pure]
-        public static bool IsBlank(this CalendarDay @this) => IsBlank(@this.ToCalendarDate());
+        public static bool IsBlank(this CalendarDay date) => IsBlank(date.ToCalendarDate());
 
         /// <summary>
         /// Determines whether the specified date is a blank day or not.
         /// </summary>
         [Pure]
-        public static bool IsBlank(this OrdinalDate @this) => IsBlank(@this.ToCalendarDate());
+        public static bool IsBlank(this OrdinalDate date) => IsBlank(date.ToCalendarDate());
     }
 }

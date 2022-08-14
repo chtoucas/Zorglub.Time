@@ -32,22 +32,22 @@ namespace Zorglub.Time.Simple
         /// Obtains the calendar to which belongs the specified range.
         /// </summary>
         [Pure]
-        public static SimpleCalendar GetCalendar(this Range<CalendarMonth> @this) => @this.Min.Calendar;
+        public static SimpleCalendar GetCalendar(this Range<CalendarMonth> range) => range.Min.Calendar;
 
         /// <summary>
         /// Obtains the number of months in the specified range.
         /// </summary>
         [Pure]
-        public static int Count(this Range<CalendarMonth> @this) => @this.Max - @this.Min + 1;
+        public static int Count(this Range<CalendarMonth> range) => range.Max - range.Min + 1;
 
         /// <summary>
         /// Obtains an <see cref="IEnumerable{T}"/> view of the specified range.
         /// </summary>
         [Pure]
-        public static IEnumerable<CalendarMonth> ToEnumerable(this Range<CalendarMonth> @this)
+        public static IEnumerable<CalendarMonth> ToEnumerable(this Range<CalendarMonth> range)
         {
-            var min = @this.Min;
-            var max = @this.Max;
+            var min = range.Min;
+            var max = range.Max;
 
             for (var month = min; month <= max; month++)
             {

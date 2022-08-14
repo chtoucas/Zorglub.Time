@@ -125,13 +125,13 @@ namespace Zorglub.Time.Core.Intervals
         /// <exception cref="OverflowException">The operation would overflow the capacity of
         /// <see cref="Int32"/>.</exception>
         [Pure]
-        public static int Count(this Range<int> @this) => checked(@this.Max - @this.Min + 1);
+        public static int Count(this Range<int> range) => checked(range.Max - range.Min + 1);
 
         /// <summary>
         /// Obtains the number of elements in the specified range.
         /// </summary>
         [Pure]
-        public static long LongCount(this Range<int> @this) => ((long)@this.Max) - @this.Min + 1;
+        public static long LongCount(this Range<int> range) => ((long)range.Max) - range.Min + 1;
 
         /// <summary>
         /// Obtains an <see cref="IEnumerable{T}"/> view of the specified range.
@@ -139,10 +139,10 @@ namespace Zorglub.Time.Core.Intervals
         /// <exception cref="OverflowException">The operation would overflow the capacity of
         /// <see cref="Int32"/>.</exception>
         [Pure]
-        public static IEnumerable<int> ToEnumerable(this Range<int> @this) =>
+        public static IEnumerable<int> ToEnumerable(this Range<int> range) =>
             // TODO(code): overflow... don't bother? This differs from the
             // behaviour of Range<DayNumber>.ToEnumerable()
-            Enumerable.Range(@this.Min, @this.Count());
+            Enumerable.Range(range.Min, range.Count());
     }
 
     public partial class Range // Range<DayNumber>
@@ -155,23 +155,23 @@ namespace Zorglub.Time.Core.Intervals
         /// <exception cref="OverflowException">The operation would overflow the capacity of
         /// <see cref="Int32"/>.</exception>
         [Pure]
-        public static int Count(this Range<DayNumber> @this) => @this.Max - @this.Min + 1;
+        public static int Count(this Range<DayNumber> range) => range.Max - range.Min + 1;
 
         /// <summary>
         /// Obtains the number of elements in the specified range.
         /// </summary>
         [Pure]
-        public static long LongCount(this Range<DayNumber> @this) =>
-            ((long)@this.Max.DaysSinceZero) - @this.Min.DaysSinceZero + 1;
+        public static long LongCount(this Range<DayNumber> range) =>
+            ((long)range.Max.DaysSinceZero) - range.Min.DaysSinceZero + 1;
 
         /// <summary>
         /// Obtains an <see cref="IEnumerable{T}"/> view of the specified range.
         /// </summary>
         [Pure]
-        public static IEnumerable<DayNumber> ToEnumerable(this Range<DayNumber> @this)
+        public static IEnumerable<DayNumber> ToEnumerable(this Range<DayNumber> range)
         {
-            var min = @this.Min;
-            var max = @this.Max;
+            var min = range.Min;
+            var max = range.Max;
 
             for (var i = min; i <= max; i++)
             {

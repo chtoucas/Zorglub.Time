@@ -22,7 +22,7 @@ namespace Zorglub.Time.Simple
         /// <para>If a calendar with the same key already exists, this method returns it.</para>
         /// </summary>
         /// <exception cref="ArgumentNullException">One of the parameters is null.</exception>
-        /// <exception cref="ArgumentException"><paramref name="this"/> is empty but see also
+        /// <exception cref="ArgumentException"><paramref name="schema"/> is empty but see also
         /// <see cref="SimpleCatalog.GetOrAdd(string, SystemSchema, DayNumber, bool)"/>.
         /// </exception>
         /// <exception cref="OverflowException">For details, see
@@ -30,21 +30,21 @@ namespace Zorglub.Time.Simple
         /// </exception>
         [Pure]
         public static SimpleCalendar GetOrCreateCalendar<TSchema>(
-            this Box<TSchema> @this, string key, DayNumber epoch, bool proleptic = false)
+            this Box<TSchema> schema, string key, DayNumber epoch, bool proleptic = false)
             where TSchema : SystemSchema
         {
-            Requires.NotNull(@this);
+            Requires.NotNull(schema);
 
-            var q = from schema in @this
-                    select SimpleCatalog.GetOrAdd(key, schema, epoch, proleptic);
-            return q.TryUnbox(out var chr) ? chr : Throw.BadBox<SimpleCalendar>(nameof(@this));
+            var q = from sch in schema
+                    select SimpleCatalog.GetOrAdd(key, sch, epoch, proleptic);
+            return q.TryUnbox(out var chr) ? chr : Throw.BadBox<SimpleCalendar>(nameof(schema));
         }
 
         /// <summary>
         /// Creates a calendar from the specified (boxed) schema, (unique) key and reference epoch.
         /// </summary>
         /// <exception cref="ArgumentNullException">One of the parameters is null.</exception>
-        /// <exception cref="ArgumentException"><paramref name="this"/> is empty but see also
+        /// <exception cref="ArgumentException"><paramref name="schema"/> is empty but see also
         /// <see cref="SimpleCatalog.Add(string, SystemSchema, DayNumber, bool)"/>.
         /// </exception>
         /// <exception cref="OverflowException">For details, see
@@ -52,14 +52,14 @@ namespace Zorglub.Time.Simple
         /// </exception>
         [Pure]
         public static SimpleCalendar CreateCalendar<TSchema>(
-            this Box<TSchema> @this, string key, DayNumber epoch, bool proleptic = false)
+            this Box<TSchema> schema, string key, DayNumber epoch, bool proleptic = false)
             where TSchema : SystemSchema
         {
-            Requires.NotNull(@this);
+            Requires.NotNull(schema);
 
-            var q = from schema in @this
-                    select SimpleCatalog.Add(key, schema, epoch, proleptic);
-            return q.TryUnbox(out var chr) ? chr : Throw.BadBox<SimpleCalendar>(nameof(@this));
+            var q = from sch in schema
+                    select SimpleCatalog.Add(key, sch, epoch, proleptic);
+            return q.TryUnbox(out var chr) ? chr : Throw.BadBox<SimpleCalendar>(nameof(schema));
         }
 
         /// <summary>
@@ -69,16 +69,16 @@ namespace Zorglub.Time.Simple
         /// <exception cref="ArgumentNullException">One of the parameters is null.</exception>
         [Pure]
         public static bool TryCreateCalendar<TSchema>(
-            this Box<TSchema> @this,
+            this Box<TSchema> schema,
             string key,
             DayNumber epoch,
             [NotNullWhen(true)] out SimpleCalendar? calendar,
             bool proleptic = false)
             where TSchema : SystemSchema
         {
-            Requires.NotNull(@this);
+            Requires.NotNull(schema);
 
-            if (@this.TryUnbox(out var sch))
+            if (schema.TryUnbox(out var sch))
             {
                 return SimpleCatalog.TryAdd(key, sch, epoch, proleptic, out calendar);
             }

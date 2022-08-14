@@ -19,57 +19,57 @@ namespace Zorglub.Time
         //
 
         [Pure]
-        public static bool IsUnluckyFriday(this CivilDate @this) =>
+        public static bool IsUnluckyFriday(this CivilDate date) =>
             // On vérifie d'abord le jour de la semaine (propriété la plus rapide à obtenir).
-            @this.DayOfWeek == DayOfWeek.Friday
-            && @this.Day == 13;
+            date.DayOfWeek == DayOfWeek.Friday
+            && date.Day == 13;
 
         [Pure]
-        public static bool IsUnluckyFriday(this GregorianDate @this) =>
+        public static bool IsUnluckyFriday(this GregorianDate date) =>
             // On vérifie d'abord le jour de la semaine (propriété la plus rapide à obtenir).
-            @this.DayOfWeek == DayOfWeek.Friday
-            && @this.Day == 13;
+            date.DayOfWeek == DayOfWeek.Friday
+            && date.Day == 13;
 
         [Pure]
-        public static bool IsUnluckyFriday(this XCivilDate @this) =>
+        public static bool IsUnluckyFriday(this XCivilDate date) =>
             // On vérifie d'abord le jour de la semaine (propriété la plus rapide à obtenir).
-            @this.DayOfWeek == DayOfWeek.Friday
-            && @this.Day == 13;
+            date.DayOfWeek == DayOfWeek.Friday
+            && date.Day == 13;
 
         //
         // Simple date types
         //
 
         [Pure]
-        public static bool IsUnluckyFriday(this CalendarDate @this)
+        public static bool IsUnluckyFriday(this CalendarDate date)
         {
-            var chr = @this.Calendar;
+            var chr = date.Calendar;
             return !chr.IsUserDefined
                 && chr.PermanentId == CalendarId.Gregorian
                 // On vérifie d'abord le jour du mois (propriété la plus rapide à obtenir).
-                && @this.Day == 13
-                && @this.DayOfWeek == DayOfWeek.Friday;
+                && date.Day == 13
+                && date.DayOfWeek == DayOfWeek.Friday;
         }
 
         [Pure]
-        public static bool IsUnluckyFriday(this CalendarDay @this)
+        public static bool IsUnluckyFriday(this CalendarDay date)
         {
-            var chr = @this.Calendar;
+            var chr = date.Calendar;
             return !chr.IsUserDefined
                 && chr.PermanentId == CalendarId.Gregorian
                 // On vérifie d'abord le jour de la semaine (propriété la plus rapide à obtenir).
-                && @this.DayOfWeek == DayOfWeek.Friday
-                && @this.Day == 13;
+                && date.DayOfWeek == DayOfWeek.Friday
+                && date.Day == 13;
         }
 
         [Pure]
-        public static bool IsUnluckyFriday(this OrdinalDate @this)
+        public static bool IsUnluckyFriday(this OrdinalDate date)
         {
-            var chr = @this.Calendar;
+            var chr = date.Calendar;
             return !chr.IsUserDefined
                 && chr.PermanentId == CalendarId.Gregorian
-                && @this.Day == 13
-                && @this.DayOfWeek == DayOfWeek.Friday;
+                && date.Day == 13
+                && date.DayOfWeek == DayOfWeek.Friday;
         }
 
         //
@@ -79,9 +79,9 @@ namespace Zorglub.Time
         // it's useful because we have to check the Cuid.
 
         [Pure]
-        public static IEnumerable<CalendarDate> FindUnluckyFridays(this CalendarYear @this)
+        public static IEnumerable<CalendarDate> FindUnluckyFridays(this CalendarYear year)
         {
-            var chr = @this.Calendar;
+            var chr = year.Calendar;
             if (chr.IsUserDefined == false || chr.PermanentId != CalendarId.Gregorian)
             {
                 return Enumerable.Empty<CalendarDate>();
@@ -91,7 +91,7 @@ namespace Zorglub.Time
 
             IEnumerable<CalendarDate> Iterator()
             {
-                foreach (var month in @this.GetAllMonths())
+                foreach (var month in year.GetAllMonths())
                 {
                     // On utilise CalendarDate, mais ça aurait aussi bien marché
                     // avec OrdinalDate ou CalendarDay.
@@ -105,9 +105,9 @@ namespace Zorglub.Time
         }
 
         [Pure]
-        public static IEnumerable<CalendarDate> FindUnluckyFridays(this Range<CalendarDate> @this)
+        public static IEnumerable<CalendarDate> FindUnluckyFridays(this Range<CalendarDate> range)
         {
-            var chr = @this.GetCalendar();
+            var chr = range.GetCalendar();
             if (chr.IsUserDefined == false || chr.PermanentId != CalendarId.Gregorian)
             {
                 return Enumerable.Empty<CalendarDate>();
@@ -117,7 +117,7 @@ namespace Zorglub.Time
 
             IEnumerable<CalendarDate> Iterator()
             {
-                foreach (var date in @this.ToEnumerable())
+                foreach (var date in range.ToEnumerable())
                 {
                     if (date.Day == 13 && date.DayOfWeek == DayOfWeek.Friday)
                     {

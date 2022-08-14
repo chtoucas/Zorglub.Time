@@ -22,35 +22,35 @@ namespace Zorglub.Time.Extensions
         /// <summary>
         /// Obtains the enclosed object.
         /// </summary>
-        /// <exception cref="ArgumentNullException"><paramref name="this"/> is null.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="box"/> is null.</exception>
         /// <exception cref="InvalidOperationException">This box is empty.</exception>
         [Pure]
-        public static T Unbox<T>(this Box<T> @this)
+        public static T Unbox<T>(this Box<T> box)
             where T : class
         {
-            Requires.NotNull(@this);
+            Requires.NotNull(box);
 
-            return @this.IsEmpty ? Throw.EmptyBox<T>() : @this.Content;
+            return box.IsEmpty ? Throw.EmptyBox<T>() : box.Content;
         }
 
         /// <summary>
         /// Attempts to obtain the enclosed object.
         /// </summary>
-        /// <exception cref="ArgumentNullException"><paramref name="this"/> is null.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="box"/> is null.</exception>
         [Pure]
-        public static bool TryUnbox<T>(this Box<T> @this, [NotNullWhen(true)] out T? obj)
+        public static bool TryUnbox<T>(this Box<T> box, [NotNullWhen(true)] out T? obj)
             where T : class
         {
-            Requires.NotNull(@this);
+            Requires.NotNull(box);
 
-            if (@this.IsEmpty)
+            if (box.IsEmpty)
             {
                 obj = null;
                 return false;
             }
             else
             {
-                obj = @this.Content;
+                obj = box.Content;
                 return true;
             }
         }

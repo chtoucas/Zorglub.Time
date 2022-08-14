@@ -17,7 +17,7 @@ let invalidIsoWeekdayData  = EnumDataSet.InvalidIsoWeekdayData
 
 [<Theory; MemberData(nameof(invalidIsoWeekdayData))>]
 let ``ToDayOfWeek() throws when the value of IsoWeekday is out of range`` (weekday: IsoWeekday) =
-     outOfRangeExn "@this" (fun () -> weekday.ToDayOfWeek())
+     outOfRangeExn "isoWeekday" (fun () -> weekday.ToDayOfWeek())
 
 [<Theory>]
 [<InlineData(IsoWeekday.Monday,    DayOfWeek.Monday)>]
@@ -32,7 +32,7 @@ let ``ToDayOfWeek()`` (weekday: IsoWeekday) dayOfWeek =
 
 [<Theory; MemberData(nameof(invalidDayOfWeekData))>]
 let ``ToIsoWeekday() throws when the value of DayOfWeek is out of range`` (dayOfWeek: DayOfWeek) =
-     outOfRangeExn "@this" (fun () -> dayOfWeek.ToIsoWeekday())
+     outOfRangeExn "dayOfWeek" (fun () -> dayOfWeek.ToIsoWeekday())
 
 [<Theory>]
 [<InlineData(DayOfWeek.Monday,    IsoWeekday.Monday)>]

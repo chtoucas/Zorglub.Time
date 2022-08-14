@@ -15,9 +15,9 @@ namespace Zorglub.Time.Core.Validation
         /// Validates the specified <see cref="DayNumber"/> value.
         /// </summary>
         /// <exception cref="AoorException">The validation failed.</exception>
-        public static void Validate(this Range<DayNumber> @this, DayNumber dayNumber, string? paramName = null)
+        public static void Validate(this Range<DayNumber> domain, DayNumber dayNumber, string? paramName = null)
         {
-            if (dayNumber < @this.Min || dayNumber > @this.Max)
+            if (dayNumber < domain.Min || dayNumber > domain.Max)
             {
                 Throw.ArgumentOutOfRange(paramName ?? nameof(dayNumber));
             }
@@ -29,9 +29,9 @@ namespace Zorglub.Time.Core.Validation
         /// </summary>
         /// <exception cref="OverflowException"><paramref name="dayNumber"/> would overflow the
         /// range of supported values.</exception>
-        public static void CheckOverflow(this Range<DayNumber> @this, DayNumber dayNumber)
+        public static void CheckOverflow(this Range<DayNumber> domain, DayNumber dayNumber)
         {
-            if (dayNumber < @this.Min || dayNumber > @this.Max) Throw.DateOverflow();
+            if (dayNumber < domain.Min || dayNumber > domain.Max) Throw.DateOverflow();
         }
 
         /// <summary>
@@ -40,9 +40,9 @@ namespace Zorglub.Time.Core.Validation
         /// </summary>
         /// <exception cref="OverflowException">The value is greater than the upper bound of the
         /// range of supported values.</exception>
-        public static void CheckUpperBound(this Range<DayNumber> @this, DayNumber dayNumber)
+        public static void CheckUpperBound(this Range<DayNumber> domain, DayNumber dayNumber)
         {
-            if (dayNumber > @this.Max) Throw.DateOverflow();
+            if (dayNumber > domain.Max) Throw.DateOverflow();
         }
 
         /// <summary>
@@ -51,9 +51,9 @@ namespace Zorglub.Time.Core.Validation
         /// </summary>
         /// <exception cref="OverflowException">The value is less than the lower bound of the range
         /// of supported values.</exception>
-        public static void CheckLowerBound(this Range<DayNumber> @this, DayNumber dayNumber)
+        public static void CheckLowerBound(this Range<DayNumber> domain, DayNumber dayNumber)
         {
-            if (dayNumber < @this.Min) Throw.DateOverflow();
+            if (dayNumber < domain.Min) Throw.DateOverflow();
         }
     }
 }

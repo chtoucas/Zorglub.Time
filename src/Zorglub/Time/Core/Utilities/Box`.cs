@@ -82,12 +82,12 @@ namespace Zorglub.Time.Core.Utilities
         /// <summary>
         /// Removes one level of boxes, projecting the content into the outer box.
         /// </summary>
-        /// <exception cref="ArgumentNullException"><paramref name="this"/> is null.</exception>
-        public static Box<T> Flatten<T>(this Box<Box<T>> @this) where T : class
+        /// <exception cref="ArgumentNullException"><paramref name="square"/> is null.</exception>
+        public static Box<T> Flatten<T>(this Box<Box<T>> square) where T : class
         {
-            Requires.NotNull(@this);
+            Requires.NotNull(square);
 
-            return @this.IsEmpty ? Box<T>.Empty : @this.Content;
+            return square.IsEmpty ? Box<T>.Empty : square.Content;
         }
     }
 

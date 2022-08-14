@@ -32,9 +32,9 @@ namespace Zorglub.Time.Core.Intervals
         /// <exception cref="InvalidOperationException">The ray represents the whole
         /// <see cref="Int32"/> range.</exception>
         [Pure]
-        public static LowerRay<int> Complement(this UpperRay<int> @this)
+        public static LowerRay<int> Complement(this UpperRay<int> ray)
         {
-            int min = @this.Min;
+            int min = ray.Min;
             return min == Int32.MinValue ? throw new InvalidOperationException() : new(min - 1);
         }
     }
@@ -47,9 +47,9 @@ namespace Zorglub.Time.Core.Intervals
         /// <exception cref="InvalidOperationException">The ray represents the whole
         /// <see cref="DayNumber"/> range.</exception>
         [Pure]
-        public static LowerRay<DayNumber> Complement(this UpperRay<DayNumber> @this)
+        public static LowerRay<DayNumber> Complement(this UpperRay<DayNumber> ray)
         {
-            DayNumber min = @this.Min;
+            DayNumber min = ray.Min;
             return min == DayNumber.MinValue ? throw new InvalidOperationException() : new(min - 1);
         }
     }

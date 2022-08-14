@@ -6,12 +6,12 @@ namespace Zorglub.Time.Core.Utilities
     internal static class TrySelectorExtensions
     {
         [Pure]
-        public static Func<TIn, TOut?> ToSelector<TIn, TOut>(this TryFunc<TIn, TOut> @this)
+        public static Func<TIn, TOut?> ToSelector<TIn, TOut>(this TryFunc<TIn, TOut> tryFun)
             where TOut : notnull
         {
-            Requires.NotNull(@this);
+            Requires.NotNull(tryFun);
 
-            return x => @this.Invoke(x, out TOut? result) ? result : default;
+            return x => tryFun.Invoke(x, out TOut? result) ? result : default;
         }
     }
 }

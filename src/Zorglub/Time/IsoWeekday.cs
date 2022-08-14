@@ -71,11 +71,11 @@ namespace Zorglub.Time
         /// <see cref="IsoWeekday"/>.
         /// </summary>
         [Pure]
-        public static IsoWeekday ToIsoWeekday(this DayOfWeek @this)
+        public static IsoWeekday ToIsoWeekday(this DayOfWeek dayOfWeek)
         {
-            Requires.Defined(@this);
+            Requires.Defined(dayOfWeek);
 
-            return @this == DayOfWeek.Sunday ? IsoWeekday.Sunday : (IsoWeekday)@this;
+            return dayOfWeek == DayOfWeek.Sunday ? IsoWeekday.Sunday : (IsoWeekday)dayOfWeek;
         }
 
         /// <summary>
@@ -83,11 +83,11 @@ namespace Zorglub.Time
         /// <see cref="DayOfWeek"/> value.
         /// </summary>
         [Pure]
-        public static DayOfWeek ToDayOfWeek(this IsoWeekday @this)
+        public static DayOfWeek ToDayOfWeek(this IsoWeekday isoWeekday)
         {
-            Requires.Defined(@this);
+            Requires.Defined(isoWeekday);
 
-            return (DayOfWeek)((int)@this % 7);
+            return (DayOfWeek)((int)isoWeekday % 7);
         }
     }
 }

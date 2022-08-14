@@ -14,12 +14,12 @@ namespace Zorglub.Time.Core.Utilities
         /// <exception cref="ArgumentNullException"><paramref name="selector"/> is null.</exception>
         [Pure]
         public static ValueTuple<TResult, TResult> Select<T, TResult>(
-            this ValueTuple<T, T> @this,
+            this ValueTuple<T, T> tuple,
             Func<T, TResult> selector)
         {
             Requires.NotNull(selector);
 
-            return (selector(@this.Item1), selector(@this.Item2));
+            return (selector(tuple.Item1), selector(tuple.Item2));
         }
 
         /// <summary>
@@ -33,14 +33,14 @@ namespace Zorglub.Time.Core.Utilities
         /// null.</exception>
         [Pure]
         public static ValueTuple<TResult1, TResult2> Select<T1, T2, TResult1, TResult2>(
-            this ValueTuple<T1, T2> @this,
+            this ValueTuple<T1, T2> tuple,
             Func<T1, TResult1> firstSelector,
             Func<T2, TResult2> secondSelector)
         {
             Requires.NotNull(firstSelector);
             Requires.NotNull(secondSelector);
 
-            return (firstSelector(@this.Item1), secondSelector(@this.Item2));
+            return (firstSelector(tuple.Item1), secondSelector(tuple.Item2));
         }
     }
 

@@ -17,7 +17,7 @@ namespace Zorglub.Time.Extensions
         /// <para>Returns zero if the day belongs to the last week of the previous ISO year.</para>
         /// </summary>
         [Pure]
-        public static int GetIsoWeekOfYear(this XCivilDate @this)
+        public static int GetIsoWeekOfYear(this XCivilDate date)
         {
             // TODO: dates near the end of the year. Which number to return
             // when we are near the boundary of a year and the week does not
@@ -27,8 +27,8 @@ namespace Zorglub.Time.Extensions
             // When done, make it a property then make the method
             // GetIsoWeekdayAtStartOfYear() private.
 
-            uint dow = XCivilDate.GetIsoWeekdayAtStartOfYear(@this.Year);
-            uint weekOfYear = ((uint)@this.DayOfYear + 5 + dow) / 7;
+            uint dow = XCivilDate.GetIsoWeekdayAtStartOfYear(date.Year);
+            uint weekOfYear = ((uint)date.DayOfYear + 5 + dow) / 7;
             // The first week must have at least 4 days.
             return (int)(dow > 4 ? weekOfYear - 1 : weekOfYear);
         }
@@ -42,7 +42,7 @@ namespace Zorglub.Time.Extensions
         /// <exception cref="AoorException"><paramref name="dayOfWeek"/> is not a valid day of the
         /// week.</exception>
         [Pure]
-        public static XCivilDate NearestSafe(this XCivilDate @this, DayOfWeek dayOfWeek)
+        public static XCivilDate NearestSafe(this XCivilDate date, DayOfWeek dayOfWeek)
         {
             // Quand on aura décidé quoi faire de cette méthode, repasser en
             // "private" les éléments  suivants : DaysSinceEpoch,
@@ -52,7 +52,7 @@ namespace Zorglub.Time.Extensions
             Requires.Defined(dayOfWeek);
 
             // REVIEW: voir si les tests correspondent à ce que j'avance...
-            int daysSinceEpoch = @this.DaysSinceEpoch + 3;
+            int daysSinceEpoch = date.DaysSinceEpoch + 3;
             daysSinceEpoch -= MathZ.Modulo(daysSinceEpoch + (DayOfWeek.Monday - dayOfWeek), 7);
             if (daysSinceEpoch > XCivilDate.MaxDaysSinceEpoch)
             {
@@ -73,9 +73,9 @@ namespace Zorglub.Time.Extensions
         [Pure]
         [ExcludeFromCodeCoverage]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public static string FormatBinary(this XCivilDate @this)
+        public static string FormatBinary(this XCivilDate date)
         {
-            int bin = @this.ToBinary();
+            int bin = date.ToBinary();
             char[] c = Convert.ToString(bin, 2).ToCharArray();
             return new StringBuilder("0...")
                 .Append(c[0..^9]).Append('|')

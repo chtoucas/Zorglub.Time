@@ -38,7 +38,7 @@ module NoWrite =
         let key = "key"
         let sch = Box<JulianSchema>.Empty
 
-        argExn "this" (fun () -> sch.GetOrCreateCalendar(key, DayZero.OldStyle, false))
+        argExn "schema" (fun () -> sch.GetOrCreateCalendar(key, DayZero.OldStyle, false))
         onKeyNotSet key
 
     [<Fact>]
@@ -71,7 +71,7 @@ module NoWrite =
         let key = "key"
         let sch = Box<JulianSchema>.Empty
 
-        argExn "this" (fun () -> sch.CreateCalendar(key, DayZero.OldStyle, false))
+        argExn "schema" (fun () -> sch.CreateCalendar(key, DayZero.OldStyle, false))
         onKeyNotSet key
 
     [<Fact>]

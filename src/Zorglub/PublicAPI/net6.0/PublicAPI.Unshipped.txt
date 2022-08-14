@@ -341,23 +341,23 @@ static Zorglub.Time.Core.Intervals.Interval.Span<T>(Zorglub.Time.Core.Intervals.
 static Zorglub.Time.Core.Intervals.Interval.Span<T>(Zorglub.Time.Core.Intervals.Range<T> x, Zorglub.Time.Core.Intervals.UpperRay<T> y) -> Zorglub.Time.Core.Intervals.UpperRay<T>
 static Zorglub.Time.Core.Intervals.Interval.Union<T>(Zorglub.Time.Core.Intervals.LowerRay<T> x, Zorglub.Time.Core.Intervals.LowerRay<T> y) -> Zorglub.Time.Core.Intervals.LowerRay<T>
 static Zorglub.Time.Core.Intervals.Interval.Union<T>(Zorglub.Time.Core.Intervals.UpperRay<T> x, Zorglub.Time.Core.Intervals.UpperRay<T> y) -> Zorglub.Time.Core.Intervals.UpperRay<T>
-static Zorglub.Time.Core.Intervals.LowerRay.Complement(this Zorglub.Time.Core.Intervals.LowerRay<int> this) -> Zorglub.Time.Core.Intervals.UpperRay<int>
-static Zorglub.Time.Core.Intervals.LowerRay.Complement(this Zorglub.Time.Core.Intervals.LowerRay<Zorglub.Time.DayNumber> this) -> Zorglub.Time.Core.Intervals.UpperRay<Zorglub.Time.DayNumber>
+static Zorglub.Time.Core.Intervals.LowerRay.Complement(this Zorglub.Time.Core.Intervals.LowerRay<int> ray) -> Zorglub.Time.Core.Intervals.UpperRay<int>
+static Zorglub.Time.Core.Intervals.LowerRay.Complement(this Zorglub.Time.Core.Intervals.LowerRay<Zorglub.Time.DayNumber> ray) -> Zorglub.Time.Core.Intervals.UpperRay<Zorglub.Time.DayNumber>
 static Zorglub.Time.Core.Intervals.LowerRay.EndingAt<T>(T max) -> Zorglub.Time.Core.Intervals.LowerRay<T>
 static Zorglub.Time.Core.Intervals.LowerRay<T>.operator !=(Zorglub.Time.Core.Intervals.LowerRay<T> left, Zorglub.Time.Core.Intervals.LowerRay<T> right) -> bool
 static Zorglub.Time.Core.Intervals.LowerRay<T>.operator ==(Zorglub.Time.Core.Intervals.LowerRay<T> left, Zorglub.Time.Core.Intervals.LowerRay<T> right) -> bool
-static Zorglub.Time.Core.Intervals.Range.Count(this Zorglub.Time.Core.Intervals.Range<int> this) -> int
-static Zorglub.Time.Core.Intervals.Range.Count(this Zorglub.Time.Core.Intervals.Range<Zorglub.Time.DayNumber> this) -> int
+static Zorglub.Time.Core.Intervals.Range.Count(this Zorglub.Time.Core.Intervals.Range<int> range) -> int
+static Zorglub.Time.Core.Intervals.Range.Count(this Zorglub.Time.Core.Intervals.Range<Zorglub.Time.DayNumber> range) -> int
 static Zorglub.Time.Core.Intervals.Range.Create<T>(T min, T max) -> Zorglub.Time.Core.Intervals.Range<T>
 static Zorglub.Time.Core.Intervals.Range.EndingAt<T>(T max) -> Zorglub.Time.Core.Intervals.Range<T>
 static Zorglub.Time.Core.Intervals.Range.FromEndpoints<T>(Zorglub.Time.Core.Utilities.OrderedPair<T> endpoints) -> Zorglub.Time.Core.Intervals.Range<T>
-static Zorglub.Time.Core.Intervals.Range.LongCount(this Zorglub.Time.Core.Intervals.Range<int> this) -> long
-static Zorglub.Time.Core.Intervals.Range.LongCount(this Zorglub.Time.Core.Intervals.Range<Zorglub.Time.DayNumber> this) -> long
+static Zorglub.Time.Core.Intervals.Range.LongCount(this Zorglub.Time.Core.Intervals.Range<int> range) -> long
+static Zorglub.Time.Core.Intervals.Range.LongCount(this Zorglub.Time.Core.Intervals.Range<Zorglub.Time.DayNumber> range) -> long
 static Zorglub.Time.Core.Intervals.Range.Maximal<T>() -> Zorglub.Time.Core.Intervals.Range<T>
 static Zorglub.Time.Core.Intervals.Range.Singleton<T>(T value) -> Zorglub.Time.Core.Intervals.Range<T>
 static Zorglub.Time.Core.Intervals.Range.StartingAt<T>(T min) -> Zorglub.Time.Core.Intervals.Range<T>
-static Zorglub.Time.Core.Intervals.Range.ToEnumerable(this Zorglub.Time.Core.Intervals.Range<int> this) -> System.Collections.Generic.IEnumerable<int>!
-static Zorglub.Time.Core.Intervals.Range.ToEnumerable(this Zorglub.Time.Core.Intervals.Range<Zorglub.Time.DayNumber> this) -> System.Collections.Generic.IEnumerable<Zorglub.Time.DayNumber>!
+static Zorglub.Time.Core.Intervals.Range.ToEnumerable(this Zorglub.Time.Core.Intervals.Range<int> range) -> System.Collections.Generic.IEnumerable<int>!
+static Zorglub.Time.Core.Intervals.Range.ToEnumerable(this Zorglub.Time.Core.Intervals.Range<Zorglub.Time.DayNumber> range) -> System.Collections.Generic.IEnumerable<Zorglub.Time.DayNumber>!
 static Zorglub.Time.Core.Intervals.Range<T>.operator !=(Zorglub.Time.Core.Intervals.Range<T> left, Zorglub.Time.Core.Intervals.Range<T> right) -> bool
 static Zorglub.Time.Core.Intervals.Range<T>.operator ==(Zorglub.Time.Core.Intervals.Range<T> left, Zorglub.Time.Core.Intervals.Range<T> right) -> bool
 static Zorglub.Time.Core.Intervals.RangeSet.Create<T>(T min, T max) -> Zorglub.Time.Core.Intervals.RangeSet<T>
@@ -365,8 +365,8 @@ static Zorglub.Time.Core.Intervals.RangeSet.Empty<T>() -> Zorglub.Time.Core.Inte
 static Zorglub.Time.Core.Intervals.RangeSet.FromEndpoints<T>(Zorglub.Time.Core.Utilities.OrderedPair<T> endpoints) -> Zorglub.Time.Core.Intervals.RangeSet<T>
 static Zorglub.Time.Core.Intervals.RangeSet<T>.operator !=(Zorglub.Time.Core.Intervals.RangeSet<T> left, Zorglub.Time.Core.Intervals.RangeSet<T> right) -> bool
 static Zorglub.Time.Core.Intervals.RangeSet<T>.operator ==(Zorglub.Time.Core.Intervals.RangeSet<T> left, Zorglub.Time.Core.Intervals.RangeSet<T> right) -> bool
-static Zorglub.Time.Core.Intervals.UpperRay.Complement(this Zorglub.Time.Core.Intervals.UpperRay<int> this) -> Zorglub.Time.Core.Intervals.LowerRay<int>
-static Zorglub.Time.Core.Intervals.UpperRay.Complement(this Zorglub.Time.Core.Intervals.UpperRay<Zorglub.Time.DayNumber> this) -> Zorglub.Time.Core.Intervals.LowerRay<Zorglub.Time.DayNumber>
+static Zorglub.Time.Core.Intervals.UpperRay.Complement(this Zorglub.Time.Core.Intervals.UpperRay<int> ray) -> Zorglub.Time.Core.Intervals.LowerRay<int>
+static Zorglub.Time.Core.Intervals.UpperRay.Complement(this Zorglub.Time.Core.Intervals.UpperRay<Zorglub.Time.DayNumber> ray) -> Zorglub.Time.Core.Intervals.LowerRay<Zorglub.Time.DayNumber>
 static Zorglub.Time.Core.Intervals.UpperRay.StartingAt<T>(T min) -> Zorglub.Time.Core.Intervals.UpperRay<T>
 static Zorglub.Time.Core.Intervals.UpperRay<T>.operator !=(Zorglub.Time.Core.Intervals.UpperRay<T> left, Zorglub.Time.Core.Intervals.UpperRay<T> right) -> bool
 static Zorglub.Time.Core.Intervals.UpperRay<T>.operator ==(Zorglub.Time.Core.Intervals.UpperRay<T> left, Zorglub.Time.Core.Intervals.UpperRay<T> right) -> bool
@@ -383,14 +383,14 @@ static Zorglub.Time.Core.SystemSegment.Create(Zorglub.Time.Core.SystemSchema! sc
 static Zorglub.Time.Core.SystemSegment.FromCalendricalSegment(Zorglub.Time.Core.CalendricalSegment! segment) -> Zorglub.Time.Core.SystemSegment!
 static Zorglub.Time.Core.Utilities.Box.Create<T>(T? obj) -> Zorglub.Time.Core.Utilities.Box<T!>!
 static Zorglub.Time.Core.Utilities.Box.Empty<T>() -> Zorglub.Time.Core.Utilities.Box<T!>!
-static Zorglub.Time.Core.Utilities.Box.Flatten<T>(this Zorglub.Time.Core.Utilities.Box<Zorglub.Time.Core.Utilities.Box<T!>!>! this) -> Zorglub.Time.Core.Utilities.Box<T!>!
+static Zorglub.Time.Core.Utilities.Box.Flatten<T>(this Zorglub.Time.Core.Utilities.Box<Zorglub.Time.Core.Utilities.Box<T!>!>! square) -> Zorglub.Time.Core.Utilities.Box<T!>!
 static Zorglub.Time.Core.Utilities.OrderedPair.Create<T>(T x, T y) -> Zorglub.Time.Core.Utilities.OrderedPair<T>
 static Zorglub.Time.Core.Utilities.OrderedPair<T>.operator !=(Zorglub.Time.Core.Utilities.OrderedPair<T> left, Zorglub.Time.Core.Utilities.OrderedPair<T> right) -> bool
 static Zorglub.Time.Core.Utilities.OrderedPair<T>.operator ==(Zorglub.Time.Core.Utilities.OrderedPair<T> left, Zorglub.Time.Core.Utilities.OrderedPair<T> right) -> bool
-static Zorglub.Time.Core.Validation.DomainExtensions.CheckLowerBound(this Zorglub.Time.Core.Intervals.Range<Zorglub.Time.DayNumber> this, Zorglub.Time.DayNumber dayNumber) -> void
-static Zorglub.Time.Core.Validation.DomainExtensions.CheckOverflow(this Zorglub.Time.Core.Intervals.Range<Zorglub.Time.DayNumber> this, Zorglub.Time.DayNumber dayNumber) -> void
-static Zorglub.Time.Core.Validation.DomainExtensions.CheckUpperBound(this Zorglub.Time.Core.Intervals.Range<Zorglub.Time.DayNumber> this, Zorglub.Time.DayNumber dayNumber) -> void
-static Zorglub.Time.Core.Validation.DomainExtensions.Validate(this Zorglub.Time.Core.Intervals.Range<Zorglub.Time.DayNumber> this, Zorglub.Time.DayNumber dayNumber, string? paramName = null) -> void
+static Zorglub.Time.Core.Validation.DomainExtensions.CheckLowerBound(this Zorglub.Time.Core.Intervals.Range<Zorglub.Time.DayNumber> domain, Zorglub.Time.DayNumber dayNumber) -> void
+static Zorglub.Time.Core.Validation.DomainExtensions.CheckOverflow(this Zorglub.Time.Core.Intervals.Range<Zorglub.Time.DayNumber> domain, Zorglub.Time.DayNumber dayNumber) -> void
+static Zorglub.Time.Core.Validation.DomainExtensions.CheckUpperBound(this Zorglub.Time.Core.Intervals.Range<Zorglub.Time.DayNumber> domain, Zorglub.Time.DayNumber dayNumber) -> void
+static Zorglub.Time.Core.Validation.DomainExtensions.Validate(this Zorglub.Time.Core.Intervals.Range<Zorglub.Time.DayNumber> domain, Zorglub.Time.DayNumber dayNumber, string? paramName = null) -> void
 static Zorglub.Time.Core.Yedoy.Create(int year, int dayOfYear) -> Zorglub.Time.Core.Yedoy
 static Zorglub.Time.Core.Yedoy.FromBinary(int data) -> Zorglub.Time.Core.Yedoy
 static Zorglub.Time.Core.Yedoy.MaxValue.get -> Zorglub.Time.Core.Yedoy
@@ -473,8 +473,8 @@ static Zorglub.Time.DayNumber.Zero.get -> Zorglub.Time.DayNumber
 static Zorglub.Time.DayZero.NewStyle.get -> Zorglub.Time.DayNumber
 static Zorglub.Time.DayZero.OldStyle.get -> Zorglub.Time.DayNumber
 static Zorglub.Time.DayZero.RataDie.get -> Zorglub.Time.DayNumber
-static Zorglub.Time.Extensions.Unboxing.TryUnbox<T>(this Zorglub.Time.Core.Utilities.Box<T!>! this, out T? obj) -> bool
-static Zorglub.Time.Extensions.Unboxing.Unbox<T>(this Zorglub.Time.Core.Utilities.Box<T!>! this) -> T!
+static Zorglub.Time.Extensions.Unboxing.TryUnbox<T>(this Zorglub.Time.Core.Utilities.Box<T!>! box, out T? obj) -> bool
+static Zorglub.Time.Extensions.Unboxing.Unbox<T>(this Zorglub.Time.Core.Utilities.Box<T!>! box) -> T!
 static Zorglub.Time.Hemerology.CalendarEpoch.Armenian.get -> Zorglub.Time.DayNumber
 static Zorglub.Time.Hemerology.CalendarEpoch.Coptic.get -> Zorglub.Time.DayNumber
 static Zorglub.Time.Hemerology.CalendarEpoch.Egyptian.get -> Zorglub.Time.DayNumber
@@ -506,8 +506,8 @@ static Zorglub.Time.Hemerology.YearNumbering.GetYearFromIsoDecade(int decade, in
 static Zorglub.Time.Hemerology.YearNumbering.GetYearFromIsoMillennium(int millennium, int yearOfMillennium) -> int
 static Zorglub.Time.Hemerology.YearNumbering.GetYearFromMillennium(int millennium, int yearOfMillennium) -> int
 static Zorglub.Time.Hemerology.YearNumbering.GetYearOfCentury(int year) -> int
-static Zorglub.Time.IsoWeekdayExtensions.ToDayOfWeek(this Zorglub.Time.IsoWeekday this) -> System.DayOfWeek
-static Zorglub.Time.IsoWeekdayExtensions.ToIsoWeekday(this System.DayOfWeek this) -> Zorglub.Time.IsoWeekday
+static Zorglub.Time.IsoWeekdayExtensions.ToDayOfWeek(this Zorglub.Time.IsoWeekday isoWeekday) -> System.DayOfWeek
+static Zorglub.Time.IsoWeekdayExtensions.ToIsoWeekday(this System.DayOfWeek dayOfWeek) -> Zorglub.Time.IsoWeekday
 static Zorglub.Time.MonthParts.AtStartOfYear(int y) -> Zorglub.Time.MonthParts
 static Zorglub.Time.MonthParts.operator <(Zorglub.Time.MonthParts left, Zorglub.Time.MonthParts right) -> bool
 static Zorglub.Time.MonthParts.operator <=(Zorglub.Time.MonthParts left, Zorglub.Time.MonthParts right) -> bool
@@ -539,9 +539,9 @@ static Zorglub.Time.OrdinalParts.operator <(Zorglub.Time.OrdinalParts left, Zorg
 static Zorglub.Time.OrdinalParts.operator <=(Zorglub.Time.OrdinalParts left, Zorglub.Time.OrdinalParts right) -> bool
 static Zorglub.Time.OrdinalParts.operator >(Zorglub.Time.OrdinalParts left, Zorglub.Time.OrdinalParts right) -> bool
 static Zorglub.Time.OrdinalParts.operator >=(Zorglub.Time.OrdinalParts left, Zorglub.Time.OrdinalParts right) -> bool
-static Zorglub.Time.Simple.BoxExtensions.CreateCalendar<TSchema>(this Zorglub.Time.Core.Utilities.Box<TSchema!>! this, string! key, Zorglub.Time.DayNumber epoch, bool proleptic = false) -> Zorglub.Time.Simple.SimpleCalendar!
-static Zorglub.Time.Simple.BoxExtensions.GetOrCreateCalendar<TSchema>(this Zorglub.Time.Core.Utilities.Box<TSchema!>! this, string! key, Zorglub.Time.DayNumber epoch, bool proleptic = false) -> Zorglub.Time.Simple.SimpleCalendar!
-static Zorglub.Time.Simple.BoxExtensions.TryCreateCalendar<TSchema>(this Zorglub.Time.Core.Utilities.Box<TSchema!>! this, string! key, Zorglub.Time.DayNumber epoch, out Zorglub.Time.Simple.SimpleCalendar? calendar, bool proleptic = false) -> bool
+static Zorglub.Time.Simple.BoxExtensions.CreateCalendar<TSchema>(this Zorglub.Time.Core.Utilities.Box<TSchema!>! schema, string! key, Zorglub.Time.DayNumber epoch, bool proleptic = false) -> Zorglub.Time.Simple.SimpleCalendar!
+static Zorglub.Time.Simple.BoxExtensions.GetOrCreateCalendar<TSchema>(this Zorglub.Time.Core.Utilities.Box<TSchema!>! schema, string! key, Zorglub.Time.DayNumber epoch, bool proleptic = false) -> Zorglub.Time.Simple.SimpleCalendar!
+static Zorglub.Time.Simple.BoxExtensions.TryCreateCalendar<TSchema>(this Zorglub.Time.Core.Utilities.Box<TSchema!>! schema, string! key, Zorglub.Time.DayNumber epoch, out Zorglub.Time.Simple.SimpleCalendar? calendar, bool proleptic = false) -> bool
 static Zorglub.Time.Simple.CalendarDate.FromBinary(int data) -> Zorglub.Time.Simple.CalendarDate
 static Zorglub.Time.Simple.CalendarDate.FromDayNumber(Zorglub.Time.DayNumber dayNumber) -> Zorglub.Time.Simple.CalendarDate
 static Zorglub.Time.Simple.CalendarDate.Max(Zorglub.Time.Simple.CalendarDate x, Zorglub.Time.Simple.CalendarDate y) -> Zorglub.Time.Simple.CalendarDate

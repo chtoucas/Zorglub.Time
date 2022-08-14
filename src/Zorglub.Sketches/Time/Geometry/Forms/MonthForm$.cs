@@ -9,16 +9,16 @@ namespace Zorglub.Time.Geometry.Forms
     public static class MonthFormExtensions
     {
         [Pure]
-        public static MonthForm WithAlgebraicNumbering(this MonthForm @this)
+        public static MonthForm WithAlgebraicNumbering(this MonthForm form)
         {
-            Requires.NotNull(@this);
+            Requires.NotNull(form);
 
-            return @this switch
+            return form switch
             {
-                MonthForm { Numbering: MonthFormNumbering.Algebraic } => @this,
+                MonthForm { Numbering: MonthFormNumbering.Algebraic } => form,
 
                 MonthForm { Numbering: MonthFormNumbering.Ordinal } =>
-                    AdjustNumbering(@this, MonthFormNumbering.Algebraic, -1),
+                    AdjustNumbering(form, MonthFormNumbering.Algebraic, -1),
 
                 TroeschMonthForm t =>
                     AdjustNumbering(t, MonthFormNumbering.Algebraic, -t.ExceptionalMonth - 1),
@@ -28,16 +28,16 @@ namespace Zorglub.Time.Geometry.Forms
         }
 
         [Pure]
-        public static MonthForm WithOrdinalNumbering(this MonthForm @this)
+        public static MonthForm WithOrdinalNumbering(this MonthForm form)
         {
-            Requires.NotNull(@this);
+            Requires.NotNull(form);
 
-            return @this switch
+            return form switch
             {
                 MonthForm { Numbering: MonthFormNumbering.Algebraic } =>
-                    AdjustNumbering(@this, MonthFormNumbering.Ordinal, 1),
+                    AdjustNumbering(form, MonthFormNumbering.Ordinal, 1),
 
-                MonthForm { Numbering: MonthFormNumbering.Ordinal } => @this,
+                MonthForm { Numbering: MonthFormNumbering.Ordinal } => form,
 
                 TroeschMonthForm t =>
                     AdjustNumbering(t, MonthFormNumbering.Ordinal, -t.ExceptionalMonth),
@@ -48,17 +48,17 @@ namespace Zorglub.Time.Geometry.Forms
 
         [Pure]
         public static TroeschMonthForm WithTroeschNumbering(
-            this MonthForm @this, int exceptionalMonth)
+            this MonthForm form, int exceptionalMonth)
         {
-            Requires.NotNull(@this);
+            Requires.NotNull(form);
 
-            return @this switch
+            return form switch
             {
                 MonthForm { Numbering: MonthFormNumbering.Algebraic } =>
-                    WithTroeschNumbering(@this, exceptionalMonth + 1, exceptionalMonth),
+                    WithTroeschNumbering(form, exceptionalMonth + 1, exceptionalMonth),
 
                 MonthForm { Numbering: MonthFormNumbering.Ordinal } =>
-                    WithTroeschNumbering(@this, exceptionalMonth, exceptionalMonth),
+                    WithTroeschNumbering(form, exceptionalMonth, exceptionalMonth),
 
                 TroeschMonthForm t => t,
 

@@ -197,11 +197,11 @@ namespace Zorglub.Time
     public partial class ZCatalog // ZCalendar <-> Calendar
     {
         [Pure]
-        public static SimpleCalendar ToCalendar(this ZCalendar @this)
+        public static SimpleCalendar ToCalendar(this ZCalendar calendar)
         {
-            Requires.NotNull(@this);
-            int cuid = @this.Id;
-            if (cuid > SimpleCatalog.MaxId) Throw.Argument(nameof(@this));
+            Requires.NotNull(calendar);
+            int cuid = calendar.Id;
+            if (cuid > SimpleCatalog.MaxId) Throw.Argument(nameof(calendar));
 
             // NB: un ZCalendar ayant un ID <= SimpleCatalog.MaxId
             // provient obligatoirement d'un Calendar.
@@ -212,12 +212,12 @@ namespace Zorglub.Time
 
         // Converts a Calendar to a ZCalendar.
         [Pure]
-        public static ZCalendar ToZCalendar(this SimpleCalendar @this)
+        public static ZCalendar ToZCalendar(this SimpleCalendar calendar)
         {
-            Requires.NotNull(@this);
+            Requires.NotNull(calendar);
 
-            return @this.IsUserDefined ? GetOrAddUserCalendar(@this)
-                : GetSystemCalendar(@this.PermanentId);
+            return calendar.IsUserDefined ? GetOrAddUserCalendar(calendar)
+                : GetSystemCalendar(calendar.PermanentId);
 
             // TODO(code): use GetOrAdd().
             [Pure]
