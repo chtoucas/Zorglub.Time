@@ -27,49 +27,49 @@ public abstract partial class OrdinalDateAdjustmentFacts<TDataSet> :
 
 public partial class OrdinalDateAdjustmentFacts<TDataSet> // Adjust()
 {
-    [Fact]
-    public void Adjust_InvalidAdjuster()
-    {
-        var date = GetDate(1, 1);
-        // Act & Assert
-        Assert.ThrowsAnexn("adjuster", () => date.Adjust(null!));
-    }
+    //[Fact]
+    //public void Adjust_InvalidAdjuster()
+    //{
+    //    var date = GetDate(1, 1);
+    //    // Act & Assert
+    //    Assert.ThrowsAnexn("adjuster", () => date.Adjust(null!));
+    //}
 
-    [Theory, MemberData(nameof(DateInfoData))]
-    public void Adjust_InnerException(DateInfo info)
-    {
-        var (y, doy) = info.Yedoy;
-        var date = GetDate(y, doy);
-        foreach (var invalidYear in SupportedYearsTester.InvalidYears)
-        {
-            var adjuster = (OrdinalDate parts) =>
-            {
-                var (y, doy) = parts;
-                return GetDate(invalidYear, doy);
-            };
-            // Act & Assert
-            Assert.ThrowsAoorexn("year", () => date.Adjust(adjuster));
-        }
-    }
+    //[Theory, MemberData(nameof(DateInfoData))]
+    //public void Adjust_InnerException(DateInfo info)
+    //{
+    //    var (y, doy) = info.Yedoy;
+    //    var date = GetDate(y, doy);
+    //    foreach (var invalidYear in SupportedYearsTester.InvalidYears)
+    //    {
+    //        var adjuster = (OrdinalDate parts) =>
+    //        {
+    //            var (y, doy) = parts;
+    //            return GetDate(invalidYear, doy);
+    //        };
+    //        // Act & Assert
+    //        Assert.ThrowsAoorexn("year", () => date.Adjust(adjuster));
+    //    }
+    //}
 
-    [Theory, MemberData(nameof(DateInfoData))]
-    public void Adjust_Invariance(DateInfo info)
-    {
-        var (y, doy) = info.Yedoy;
-        var date = GetDate(y, doy);
-        // Act & Assert
-        Assert.Equal(date, date.Adjust(x => x));
-    }
+    //[Theory, MemberData(nameof(DateInfoData))]
+    //public void Adjust_Invariance(DateInfo info)
+    //{
+    //    var (y, doy) = info.Yedoy;
+    //    var date = GetDate(y, doy);
+    //    // Act & Assert
+    //    Assert.Equal(date, date.Adjust(x => x));
+    //}
 
-    [Theory, MemberData(nameof(DateInfoData))]
-    public void Adjust(DateInfo info)
-    {
-        var (y, m, _, doy) = info;
-        var date = CalendarUT.GetOrdinalDate(y, doy);
-        var startOfMonth = CalendarUT.GetCalendarDate(y, m, 1).ToOrdinalDate();
-        // Act & Assert
-        Assert.Equal(startOfMonth, date.Adjust(OrdinalDateAdjusters.GetStartOfMonth));
-    }
+    //[Theory, MemberData(nameof(DateInfoData))]
+    //public void Adjust(DateInfo info)
+    //{
+    //    var (y, m, _, doy) = info;
+    //    var date = CalendarUT.GetOrdinalDate(y, doy);
+    //    var startOfMonth = CalendarUT.GetCalendarDate(y, m, 1).ToOrdinalDate();
+    //    // Act & Assert
+    //    Assert.Equal(startOfMonth, date.Adjust(OrdinalDateAdjusters.GetStartOfMonth));
+    //}
 }
 
 public partial class OrdinalDateAdjustmentFacts<TDataSet> // WithYear()

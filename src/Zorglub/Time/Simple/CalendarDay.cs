@@ -382,19 +382,6 @@ namespace Zorglub.Time.Simple
         #endregion
         #region Adjustments
 
-        /// <summary>
-        /// Adjusts the current instance using the specified adjuster.
-        /// <para>If the adjuster throws, this method will propagate the exception.</para>
-        /// </summary>
-        /// <exception cref="ArgumentNullException"><paramref name="adjuster"/> is null.</exception>
-        [Pure]
-        public CalendarDay Adjust(Func<CalendarDay, CalendarDay> adjuster)
-        {
-            Requires.NotNull(adjuster);
-
-            return adjuster.Invoke(this);
-        }
-
         //
         // Adjust the day of the week
         //

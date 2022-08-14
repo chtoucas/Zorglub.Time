@@ -5,6 +5,7 @@ namespace Zorglub.Time.Simple
 {
     /// <summary>
     /// Provides common adjusters for <see cref="CalendarDay"/>.
+    /// <para>This class cannot be inherited.</para>
     /// </summary>
     public static class CalendarDayAdjusters
     {
@@ -12,7 +13,7 @@ namespace Zorglub.Time.Simple
         /// Obtains the start of the year to which belongs the specified date.
         /// </summary>
         [Pure]
-        public static CalendarDay GetStartOfYear(CalendarDay date)
+        public static CalendarDay GetStartOfYear(this CalendarDay date)
         {
             ref readonly var chr = ref date.CalendarRef;
             int daysSinceEpoch = chr.Schema.GetStartOfYear(date.Year);
@@ -23,7 +24,7 @@ namespace Zorglub.Time.Simple
         /// Obtains the end of the year to which belongs the specified date.
         /// </summary>
         [Pure]
-        public static CalendarDay GetEndOfYear(CalendarDay date)
+        public static CalendarDay GetEndOfYear(this CalendarDay date)
         {
             ref readonly var chr = ref date.CalendarRef;
             int daysSinceEpoch = chr.Schema.GetEndOfYear(date.Year);
@@ -34,7 +35,7 @@ namespace Zorglub.Time.Simple
         /// Obtains the start of the month to which belongs the specified date.
         /// </summary>
         [Pure]
-        public static CalendarDay GetStartOfMonth(CalendarDay date)
+        public static CalendarDay GetStartOfMonth(this CalendarDay date)
         {
             ref readonly var chr = ref date.CalendarRef;
             date.Unpack(chr, out int y, out int m, out _);
@@ -46,7 +47,7 @@ namespace Zorglub.Time.Simple
         /// Obtains the end of the month to which belongs the specified date.
         /// </summary>
         [Pure]
-        public static CalendarDay GetEndOfMonth(CalendarDay date)
+        public static CalendarDay GetEndOfMonth(this CalendarDay date)
         {
             ref readonly var chr = ref date.CalendarRef;
             date.Unpack(chr, out int y, out int m, out _);
@@ -54,20 +55,36 @@ namespace Zorglub.Time.Simple
             return new CalendarDay(daysSinceEpoch, date.Cuid);
         }
 
+        /// <summary>
+        /// Adjusts the year field to the specified value, yielding a new date.
+        /// </summary>
+        /// <exception cref="AoorException">The resulting date would be invalid.</exception>
         [Pure]
-        public static Func<CalendarDay, CalendarDay> WithYear(int newYear) =>
-            x => x.ToCalendarDate().WithYear(newYear).ToCalendarDay();
+        public static CalendarDay WithYear(this CalendarDay date, int newYear) =>
+            date.ToCalendarDate().WithYear(newYear).ToCalendarDay();
 
+        /// <summary>
+        /// Adjusts the month field to the specified value, yielding a new date.
+        /// </summary>
+        /// <exception cref="AoorException">The resulting date would be invalid.</exception>
         [Pure]
-        public static Func<CalendarDay, CalendarDay> WithMonth(int newMonth) =>
-            x => x.ToCalendarDate().WithMonth(newMonth).ToCalendarDay();
+        public static CalendarDay WithMonth(this CalendarDay date, int newMonth) =>
+            date.ToCalendarDate().WithMonth(newMonth).ToCalendarDay();
 
+        /// <summary>
+        /// Adjusts the day of the month field to the specified value, yielding a new date.
+        /// </summary>
+        /// <exception cref="AoorException">The resulting date would be invalid.</exception>
         [Pure]
-        public static Func<CalendarDay, CalendarDay> WithDay(int newDay) =>
-            x => x.ToCalendarDate().WithDay(newDay).ToCalendarDay();
+        public static CalendarDay WithDay(this CalendarDay date, int newDay) =>
+            date.ToCalendarDate().WithDay(newDay).ToCalendarDay();
 
+        /// <summary>
+        /// Adjusts the day of the year field to the specified value, yielding a new date.
+        /// </summary>
+        /// <exception cref="AoorException">The resulting date would be invalid.</exception>
         [Pure]
-        public static Func<CalendarDay, CalendarDay> WithDayOfYear(int newDayOfYear) =>
-            x => x.ToOrdinalDate().WithDayOfYear(newDayOfYear).ToCalendarDay();
+        public static CalendarDay WithDayOfYear(this CalendarDay date, int newDayOfYear) =>
+            date.ToOrdinalDate().WithDayOfYear(newDayOfYear).ToCalendarDay();
     }
 }
