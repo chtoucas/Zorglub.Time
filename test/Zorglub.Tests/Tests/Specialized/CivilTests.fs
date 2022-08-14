@@ -4,9 +4,9 @@
 module Zorglub.Tests.Specialized.CivilTests
 
 open Zorglub.Testing
+open Zorglub.Testing.Data
 open Zorglub.Testing.Data.Bounded
 open Zorglub.Testing.Facts
-open Zorglub.Testing.Facts.Hemerology
 open Zorglub.Testing.Facts.Specialized
 
 open Zorglub.Time
@@ -14,9 +14,21 @@ open Zorglub.Time.Specialized
 
 open Xunit
 
-module Bundles =
-    // NB: notice the use of StandardGregorianDataSet.
+// NB: notice the use of StandardGregorianDataSet.
 
+module Prelude =
+    let private calendarDataSet = StandardGregorianDataSet.Instance
+
+    let daysSinceEpochInfoData = calendarDataSet.DaysSinceEpochInfoData
+
+    [<Theory; MemberData(nameof(daysSinceEpochInfoData))>]
+    let ``Property DaysSinceZero`` (info: DaysSinceEpochInfo) =
+        let (daysSinceEpoch, y, m, d) = info.Deconstruct()
+        let date = new CivilDate(y, m, d)
+
+        date.DaysSinceZero === daysSinceEpoch
+
+module Bundles =
     let private chr = new CivilCalendar()
 
     [<Sealed>]

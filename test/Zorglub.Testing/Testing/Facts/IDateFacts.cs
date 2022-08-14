@@ -79,10 +79,10 @@ public partial class IDateFacts<TDate, TDataSet> // Conversions
     [Theory, MemberData(nameof(DaysSinceEpochInfoData))]
     public void DaysSinceEpoch_Prop(DaysSinceEpochInfo info)
     {
-        var (dayNumber, y, m, d) = info;
+        var (daysSinceEpoch, y, m, d) = info;
         var date = GetDate(y, m, d);
         // Act & Assert
-        Assert.Equal(dayNumber, date.DaysSinceEpoch);
+        Assert.Equal(daysSinceEpoch, date.DaysSinceEpoch);
     }
 }
 

@@ -4,9 +4,9 @@
 module Zorglub.Tests.Specialized.GregorianTests
 
 open Zorglub.Testing
+open Zorglub.Testing.Data
 open Zorglub.Testing.Data.Unbounded
 open Zorglub.Testing.Facts
-open Zorglub.Testing.Facts.Hemerology
 open Zorglub.Testing.Facts.Specialized
 
 open Zorglub.Time
@@ -14,9 +14,21 @@ open Zorglub.Time.Specialized
 
 open Xunit
 
-module Bundles =
-    // NB: notice the use of ProlepticGregorianDataSet.
+// NB: notice the use of UnboundedGregorianDataSet.
 
+module Prelude =
+    let private calendarDataSet = UnboundedGregorianDataSet.Instance
+
+    let daysSinceEpochInfoData = calendarDataSet.DaysSinceEpochInfoData
+
+    [<Theory; MemberData(nameof(daysSinceEpochInfoData))>]
+    let ``Property DaysSinceZero`` (info: DaysSinceEpochInfo) =
+        let (daysSinceEpoch, y, m, d) = info.Deconstruct()
+        let date = new GregorianDate(y, m, d)
+
+        date.DaysSinceZero === daysSinceEpoch
+
+module Bundles =
     let private chr = new GregorianCalendar()
 
     [<Sealed>]

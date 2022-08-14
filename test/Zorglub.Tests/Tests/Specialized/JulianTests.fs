@@ -15,7 +15,7 @@ open Zorglub.Time.Specialized
 open Xunit
 
 module Bundles =
-    // NB: notice the use of ProlepticJulianDataSet.
+    // NB: notice the use of UnboundedJulianDataSet.
 
     let private chr = new JulianCalendar()
 

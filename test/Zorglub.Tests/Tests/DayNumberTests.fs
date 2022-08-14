@@ -115,6 +115,12 @@ module Prelude =
         dayNumber.DaysSinceZero = i.Value
 
     [<Property>]
+    let ``Property DaysSinceEpoch`` (i: DaysSinceZero) =
+        let dayNumber = DayNumber.Zero + i.Value :> IFixedDay
+
+        dayNumber.DaysSinceEpoch = i.Value
+
+    [<Property>]
     let ``Property Ordinal`` (i: DaysSinceZero) =
         let dayNumber = DayNumber.Zero + i.Value
 

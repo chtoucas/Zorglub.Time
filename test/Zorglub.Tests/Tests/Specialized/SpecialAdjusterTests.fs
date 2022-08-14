@@ -6,6 +6,7 @@ module Zorglub.Tests.Specialized.SpecialAdjusterTests
 open Zorglub.Testing
 
 open Zorglub.Time
+open Zorglub.Time.Core.Intervals
 open Zorglub.Time.Core.Schemas
 open Zorglub.Time.Hemerology
 open Zorglub.Time.Hemerology.Scopes
@@ -32,4 +33,20 @@ module Prelude =
         let scope = BoundedBelowScope.Create(new Egyptian12Schema(), CalendarEpoch.Armenian, min, 2)
 
         argExn "scope" (fun () -> new FauxSpecialAdjuster<ArmenianDate>(scope))
+
+    [<Fact>]
+    let ``Property scope`` () =
+        let range = Range.Create(1, 2)
+        let scope = MinMaxYearScope.Create(new Egyptian12Schema(), CalendarEpoch.Armenian, range)
+        let adjuster = new FauxSpecialAdjuster<ArmenianDate>(scope :> CalendarScope)
+
+        adjuster.Scope ==& scope
+
+    [<Fact>]
+    let ``Property scope (MinMaxYearScope)`` () =
+        let range = Range.Create(1, 2)
+        let scope = MinMaxYearScope.Create(new Egyptian12Schema(), CalendarEpoch.Armenian, range)
+        let adjuster = new FauxSpecialAdjuster<ArmenianDate>(scope)
+
+        adjuster.Scope ==& scope
 
