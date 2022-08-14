@@ -104,10 +104,7 @@ namespace Zorglub.Time
             }
         }
 
-        /// <summary>
-        /// Gets the count of days since the epoch of the calendar to which belongs the current
-        /// instance.
-        /// </summary>
+        /// <inheritdoc />
         public int DaysSinceEpoch => _daysSinceEpoch;
 
         /// <inheritdoc />

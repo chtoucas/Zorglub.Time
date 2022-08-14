@@ -212,10 +212,7 @@ namespace Zorglub.Time.Specialized
         /// <inheritdoc />
         public DayNumber DayNumber => s_Epoch + _daysSinceEpoch;
 
-        /// <summary>
-        /// Gets the count of days since the epoch of the calendar to which belongs the current
-        /// instance.
-        /// </summary>
+        /// <inheritdoc />
         public int DaysSinceEpoch => _daysSinceEpoch;
 
         /// <inheritdoc />

@@ -82,6 +82,7 @@ public partial class DateProxy<T> // IFixedDay
     public DayOfWeek DayOfWeek => _subject.DayOfWeek;
 
     [Pure] public DayNumber DayNumber => _subject.DayNumber;
+    [Pure] public int DaysSinceEpoch => _subject.DaysSinceEpoch;
 
     [Pure] public T Previous(DayOfWeek dayOfWeek) => _subject.Previous(dayOfWeek);
     [Pure] public T PreviousOrSame(DayOfWeek dayOfWeek) => _subject.PreviousOrSame(dayOfWeek);

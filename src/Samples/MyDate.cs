@@ -69,12 +69,14 @@ public readonly partial struct MyDate :
     public static MyDate MinValue => s_MinValue;
     public static MyDate MaxValue => s_MaxValue;
 
-    public DayNumber DayNumber
+    public DayNumber DayNumber => s_Epoch + DaysSinceEpoch;
+
+    public int DaysSinceEpoch
     {
         get
         {
             var (y, m, d) = _bin;
-            return s_Epoch + s_Schema.CountDaysSinceEpoch(y, m, d);
+            return s_Schema.CountDaysSinceEpoch(y, m, d);
         }
     }
 
@@ -96,17 +98,10 @@ public readonly partial struct MyDate :
 
     public int Day => _bin.Day;
 
-    public DayOfWeek DayOfWeek
-    {
-        get
-        {
-            var (y, m, d) = _bin;
-            int daysSinceEpoch = s_Schema.CountDaysSinceEpoch(y, m, d);
-            return (DayOfWeek)Modulo(
-                checked(EpochDayOfWeek + daysSinceEpoch),
-                CalendricalConstants.DaysInWeek);
-        }
-    }
+    public DayOfWeek DayOfWeek =>
+        (DayOfWeek)Modulo(
+            checked(EpochDayOfWeek + DaysSinceEpoch),
+            CalendricalConstants.DaysInWeek);
 
     public bool IsIntercalary
     {

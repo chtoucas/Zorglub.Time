@@ -87,6 +87,9 @@ namespace Zorglub.Time
 
         public long DaysSinceZero => _daysSinceZero;
 
+        // May overflow.
+        int IFixedDay.DaysSinceEpoch => (int)_daysSinceZero;
+
         public Ord64 Ordinal => Ord64.First + _daysSinceZero;
 
         public DayOfWeek DayOfWeek =>

@@ -177,6 +177,20 @@ namespace Zorglub.Time
         /// <inheritdoc />
         public DayNumber DayNumber => s_Epoch + DaysSinceEpoch;
 
+        /// <summary>
+        /// Gets the number of consecutive days since the epoch of the Gregorian calendar.
+        /// <para>The result is in the range from <see cref="MinDaysSinceEpoch"/> to
+        /// <see cref="MaxDaysSinceEpoch"/>.</para>
+        /// </summary>
+        public int DaysSinceEpoch
+        {
+            get
+            {
+                Unpack(out int y, out int m, out int d);
+                return CivilFormulae.CountDaysSinceEpoch(y, m, d);
+            }
+        }
+
         /// <inheritdoc />
         public Ord CenturyOfEra => Ord.FromInt32(Century);
 
@@ -280,20 +294,6 @@ namespace Zorglub.Time
 
         /// <inheritdoc />
         public bool IsSupplementary => false;
-
-        /// <summary>
-        /// Gets the number of consecutive days since the epoch of the Gregorian calendar.
-        /// <para>The result is in the range from <see cref="MinDaysSinceEpoch"/> to
-        /// <see cref="MaxDaysSinceEpoch"/>.</para>
-        /// </summary>
-        internal int DaysSinceEpoch
-        {
-            get
-            {
-                Unpack(out int y, out int m, out int d);
-                return CivilFormulae.CountDaysSinceEpoch(y, m, d);
-            }
-        }
 
         /// <summary>
         /// Gets the year-month part of the binary data.

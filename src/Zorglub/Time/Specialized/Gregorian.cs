@@ -201,6 +201,8 @@ namespace Zorglub.Time.Specialized
         /// </summary>
         public int DaysSinceZero => _daysSinceZero;
 
+        int IFixedDay.DaysSinceEpoch => _daysSinceZero;
+
         /// <inheritdoc />
         public Ord CenturyOfEra => Ord.FromInt32(Century);
 

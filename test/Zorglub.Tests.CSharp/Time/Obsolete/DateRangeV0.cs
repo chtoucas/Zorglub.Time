@@ -265,8 +265,8 @@ public partial class DateRangeV0 // Other set ops, conversions
     {
         Requires.NotNull(newCalendar);
 
-        var start = Calendar.GetDayNumber(Start);
-        var end = Calendar.GetDayNumber(End);
+        var start = Start.DayNumber;
+        var end = End.DayNumber;
 
         return CreateCore(
             newCalendar.GetCalendarDate(start),

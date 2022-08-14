@@ -149,6 +149,12 @@ namespace Zorglub.Time.Hemerology
         DayNumber DayNumber { get; }
 
         /// <summary>
+        /// Gets the count of days since the epoch of the calendar to which belongs the current
+        /// instance.
+        /// </summary>
+        int DaysSinceEpoch { get; }
+
+        /// <summary>
         /// Gets the day of the week.
         /// </summary>
         DayOfWeek DayOfWeek { get; }

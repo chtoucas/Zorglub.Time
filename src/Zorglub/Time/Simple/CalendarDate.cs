@@ -79,8 +79,20 @@ namespace Zorglub.Time.Simple
         {
             get
             {
+                _bin.Deconstruct(out int y, out int m, out int d);
                 ref readonly var chr = ref CalendarRef;
-                return chr.GetDayNumber(this);
+                return chr.Epoch + chr.Schema.CountDaysSinceEpoch(y, m, d);
+            }
+        }
+
+        /// <inheritdoc />
+        public int DaysSinceEpoch
+        {
+            get
+            {
+                _bin.Deconstruct(out int y, out int m, out int d);
+                ref readonly var chr = ref CalendarRef;
+                return chr.Schema.CountDaysSinceEpoch(y, m, d);
             }
         }
 
@@ -285,13 +297,7 @@ namespace Zorglub.Time.Simple
 
         /// <inheritdoc />
         [Pure]
-        public CalendarDay ToCalendarDay()
-        {
-            _bin.Deconstruct(out int y, out int m, out int d);
-            ref readonly var chr = ref CalendarRef;
-            int daysSinceEpoch = chr.Schema.CountDaysSinceEpoch(y, m, d);
-            return new CalendarDay(daysSinceEpoch, Cuid);
-        }
+        public CalendarDay ToCalendarDay() => new(DaysSinceEpoch, Cuid);
 
         [Pure]
         CalendarDate ISimpleDate.ToCalendarDate() => this;
@@ -434,7 +440,9 @@ namespace Zorglub.Time.Simple
         public CalendarDate Nearest(DayOfWeek dayOfWeek)
         {
             ref readonly var chr = ref CalendarRef;
-            var nearest = chr.GetDayNumber(this).Nearest(dayOfWeek);
+            _bin.Deconstruct(out int y, out int m, out int d);
+            var dayNumber = chr.Epoch + chr.Schema.CountDaysSinceEpoch(y, m, d);
+            var nearest = dayNumber.Nearest(dayOfWeek);
             chr.Domain.CheckOverflow(nearest);
             var ymd = chr.Schema.GetDateParts(nearest - chr.Epoch);
             return new CalendarDate(ymd, Cuid);

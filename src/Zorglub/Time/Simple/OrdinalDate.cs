@@ -60,8 +60,20 @@ namespace Zorglub.Time.Simple
         {
             get
             {
+                _bin.Deconstruct(out int y, out int doy);
                 ref readonly var chr = ref CalendarRef;
-                return chr.GetDayNumber(this);
+                return chr.Epoch + chr.Schema.CountDaysSinceEpoch(y, doy);
+            }
+        }
+
+        /// <inheritdoc />
+        public int DaysSinceEpoch
+        {
+            get
+            {
+                _bin.Deconstruct(out int y, out int doy);
+                ref readonly var chr = ref CalendarRef;
+                return chr.Schema.CountDaysSinceEpoch(y, doy);
             }
         }
 
@@ -264,13 +276,7 @@ namespace Zorglub.Time.Simple
 
         /// <inheritdoc />
         [Pure]
-        public CalendarDay ToCalendarDay()
-        {
-            _bin.Unpack(out int y, out int doy);
-            ref readonly var chr = ref CalendarRef;
-            int daysSinceEpoch = chr.Schema.CountDaysSinceEpoch(y, doy);
-            return new CalendarDay(daysSinceEpoch, Cuid);
-        }
+        public CalendarDay ToCalendarDay() => new(DaysSinceEpoch, Cuid);
 
         /// <inheritdoc />
         [Pure]
@@ -392,7 +398,9 @@ namespace Zorglub.Time.Simple
         public OrdinalDate Nearest(DayOfWeek dayOfWeek)
         {
             ref readonly var chr = ref CalendarRef;
-            var nearest = chr.GetDayNumber(this).Nearest(dayOfWeek);
+            _bin.Deconstruct(out int y, out int doy);
+            var dayNumber = chr.Epoch + chr.Schema.CountDaysSinceEpoch(y, doy);
+            var nearest = dayNumber.Nearest(dayOfWeek);
             chr.Domain.CheckOverflow(nearest);
             var ydoy = chr.Schema.GetOrdinalParts(nearest - chr.Epoch);
             return new OrdinalDate(ydoy, Cuid);

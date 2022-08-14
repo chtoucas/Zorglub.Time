@@ -719,9 +719,7 @@ namespace Zorglub.Time.Simple
     public partial class SimpleCalendar // Internal helpers
     {
         // Internal helpers for use by the calendrical objects.
-        // - GetDayNumber(...) tiny optimization to avoid having to look up the
-        //   calendar multiple times. No longer useful? It was mainly used by
-        //   DateRange which has been obsoleted.
+        // - ValidateDayOfMonth(...)
         // - GetDayOfWeek(...) because of _epochDayOfWeek.
 
         /// <summary>
@@ -740,30 +738,6 @@ namespace Zorglub.Time.Simple
             {
                 Throw.ArgumentOutOfRange(paramName ?? nameof(dayOfMonth));
             }
-        }
-
-        /// <summary>
-        /// Converts a date to a day number.
-        /// </summary>
-        [Pure]
-        internal DayNumber GetDayNumber(CalendarDate date)
-        {
-            Debug.Assert(date.Cuid == Id);
-
-            date.Parts.Unpack(out int y, out int m, out int d);
-            return Epoch + Schema.CountDaysSinceEpoch(y, m, d);
-        }
-
-        /// <summary>
-        /// Converts an ordinal date to a day number.
-        /// </summary>
-        [Pure]
-        internal DayNumber GetDayNumber(OrdinalDate date)
-        {
-            Debug.Assert(date.Cuid == Id);
-
-            date.Parts.Unpack(out int y, out int doy);
-            return Epoch + Schema.CountDaysSinceEpoch(y, doy);
         }
 
         /// <summary>

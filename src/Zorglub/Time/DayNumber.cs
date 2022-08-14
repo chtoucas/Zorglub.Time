@@ -198,6 +198,13 @@ namespace Zorglub.Time
         public int DaysSinceZero => _daysSinceZero;
 
         /// <summary>
+        /// Gets the count of consecutive days since <see cref="Zero"/>.
+        /// <para>The result is in the range from <see cref="MinDaysSinceZero"/> to
+        /// <see cref="MaxDaysSinceZero"/>.</para>
+        /// </summary>
+        int IFixedDay.DaysSinceEpoch => _daysSinceZero;
+
+        /// <summary>
         /// Gets the ordinal numeral from this instance.
         /// </summary>
         public Ord Ordinal => Ord.First + _daysSinceZero;
