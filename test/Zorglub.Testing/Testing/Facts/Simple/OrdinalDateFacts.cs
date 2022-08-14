@@ -193,51 +193,6 @@ public partial class OrdinalDateFacts<TDataSet> // Comparison
 // Tests for related classes
 //
 
-public partial class OrdinalDateFacts<TDataSet> // OrdinalDateAdjusters
-{
-    //[Theory, MemberData(nameof(DateInfoData))]
-    //public void DateAdjusters_GetStartOfYear(DateInfo info)
-    //{
-    //    var (y, doy) = info.Yedoy;
-    //    var date = CalendarUT.GetOrdinalDate(y, doy);
-    //    var startOfYear = CalendarUT.GetOrdinalDate(y, 1);
-    //    // Act & Assert
-    //    Assert.Equal(startOfYear, OrdinalDateAdjusters.GetStartOfYear(date));
-    //}
-
-    //[Theory, MemberData(nameof(YearInfoData))]
-    //public void DateAdjusters_GetEndOfYear(YearInfo info)
-    //{
-    //    int y = info.Year;
-    //    var date = CalendarUT.GetOrdinalDate(y, 1);
-    //    // Act
-    //    var endOfYear = OrdinalDateAdjusters.GetEndOfYear(date);
-    //    // Assert
-    //    Assert.Equal(y, endOfYear.Year);
-    //    Assert.Equal(info.DaysInYear, endOfYear.DayOfYear);
-    //}
-
-    //[Theory, MemberData(nameof(DateInfoData))]
-    //public void DateAdjusters_GetStartOfMonth(DateInfo info)
-    //{
-    //    var (y, m, _, doy) = info;
-    //    var date = CalendarUT.GetOrdinalDate(y, doy);
-    //    var startOfMonth = CalendarUT.GetCalendarDate(y, m, 1).ToOrdinalDate();
-    //    // Act & Assert
-    //    Assert.Equal(startOfMonth, OrdinalDateAdjusters.GetStartOfMonth(date));
-    //}
-
-    //[Theory, MemberData(nameof(MonthInfoData))]
-    //public void DateAdjusters_GetEndOfMonth(MonthInfo info)
-    //{
-    //    var (y, m) = info.Yemo;
-    //    var date = CalendarUT.GetCalendarDate(y, m, 1).ToOrdinalDate();
-    //    var endOfMonth = CalendarUT.GetCalendarDate(y, m, info.DaysInMonth).ToOrdinalDate();
-    //    // Act & Assert
-    //    Assert.Equal(endOfMonth, OrdinalDateAdjusters.GetEndOfMonth(date));
-    //}
-}
-
 public partial class OrdinalDateFacts<TDataSet> // OrdinalDateProvider
 {
     private static readonly IDateProvider<OrdinalDate> s_Provider = new OrdinalDateProvider();
