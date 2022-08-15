@@ -1,16 +1,16 @@
 ﻿Summary
-  Generated on: 14/08/2022 - 18:24:12
+  Generated on: 15/08/2022 - 11:07:29
   Parser: OpenCover
   Assemblies: 2
-  Classes: 167
-  Files: 133
+  Classes: 170
+  Files: 136
   Line coverage: 97.2%
-  Covered lines: 8103
+  Covered lines: 8240
   Uncovered lines: 231
-  Coverable lines: 8334
-  Total lines: 31702
+  Coverable lines: 8471
+  Total lines: 32027
 
-Zorglub.Time                                               96.4%
+Zorglub.Time                                               96.5%
   Zorglub.Time.AdditionRuleset                            100.0%
   Zorglub.Time.CalendarIdExtensions                       100.0%
   Zorglub.Time.Core.Arithmetic.GregorianSystemArithmetic  100.0%
@@ -104,8 +104,10 @@ Zorglub.Time                                               96.4%
   Zorglub.Time.Simple.BoxExtensions                       100.0%
   Zorglub.Time.Simple.CalendarDate                        100.0%
   Zorglub.Time.Simple.CalendarDateAdjusters               100.0%
+  Zorglub.Time.Simple.CalendarDateProviders               100.0%
   Zorglub.Time.Simple.CalendarDay                         100.0%
   Zorglub.Time.Simple.CalendarDayAdjusters                100.0%
+  Zorglub.Time.Simple.CalendarDayProviders                100.0%
   Zorglub.Time.Simple.CalendarMath                        100.0%
   Zorglub.Time.Simple.CalendarMonth                       100.0%
   Zorglub.Time.Simple.CalendarYear                        100.0%
@@ -116,6 +118,7 @@ Zorglub.Time                                               96.4%
   Zorglub.Time.Simple.JulianSimpleCalendar                100.0%
   Zorglub.Time.Simple.OrdinalDate                         100.0%
   Zorglub.Time.Simple.OrdinalDateAdjusters                100.0%
+  Zorglub.Time.Simple.OrdinalDateProviders                100.0%
   Zorglub.Time.Simple.PlainMath                           100.0%
   Zorglub.Time.Simple.PowerMath                            54.0%
   Zorglub.Time.Simple.RegularMath                         100.0%

@@ -1,26 +1,26 @@
 ﻿# Summary
 |||
 |:---|:---|
-| Generated on: | 14/08/2022 - 18:24:12 |
+| Generated on: | 15/08/2022 - 11:07:29 |
 | Parser: | OpenCover |
 | Assemblies: | 2 |
-| Classes: | 167 |
-| Files: | 133 |
-| Covered lines: | 8103 |
+| Classes: | 170 |
+| Files: | 136 |
+| Covered lines: | 8240 |
 | Uncovered lines: | 231 |
-| Coverable lines: | 8334 |
-| Total lines: | 31702 |
-| Line coverage: | 97.2% (8103 of 8334) |
-| Covered branches: | 2181 |
-| Total branches: | 2249 |
-| Branch coverage: | 96.9% (2181 of 2249) |
-| Covered methods: | 2745 |
-| Total methods: | 2769 |
-| Method coverage: | 99.1% (2745 of 2769) |
+| Coverable lines: | 8471 |
+| Total lines: | 32027 |
+| Line coverage: | 97.2% (8240 of 8471) |
+| Covered branches: | 2187 |
+| Total branches: | 2255 |
+| Branch coverage: | 96.9% (2187 of 2255) |
+| Covered methods: | 2775 |
+| Total methods: | 2799 |
+| Method coverage: | 99.1% (2775 of 2799) |
 
 |**Name**|**Covered**|**Uncovered**|**Coverable**|**Total**|**Line coverage**|**Covered**|**Total**|**Branch coverage**|**Covered**|**Total**|**Method coverage**|
 |:---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
-|**Zorglub.Time**|**6296**|**231**|**6527**|**29527**|**96.4%**|**1789**|**1857**|**96.3%**|**1889**|**1913**|**98.7%**|
+|**Zorglub.Time**|**6433**|**231**|**6664**|**29852**|**96.5%**|**1795**|**1863**|**96.3%**|**1919**|**1943**|**98.7%**|
 |Zorglub.Time.AdditionRuleset|14|0|14|121|100%|12|12|100%|4|4|100%|
 |Zorglub.Time.CalendarIdExtensions|12|0|12|86|100%|10|10|100%|2|2|100%|
 |Zorglub.Time.Core.Arithmetic.GregorianSystemArithmetic|166|0|166|336|100%|62|64|96.8%|16|16|100%|
@@ -114,11 +114,13 @@
 |Zorglub.Time.Simple.BoxExtensions|21|0|21|92|100%|6|6|100%|3|3|100%|
 |Zorglub.Time.Simple.CalendarDate|229|0|229|726|100%|32|32|100%|72|72|100%|
 |Zorglub.Time.Simple.CalendarDateAdjusters|14|0|14|59|100%|0|0||5|5|100%|
+|Zorglub.Time.Simple.CalendarDateProviders|38|0|38|100|100%|4|4|100%|10|10|100%|
 |Zorglub.Time.Simple.CalendarDay|186|0|186|629|100%|28|28|100%|63|63|100%|
 |Zorglub.Time.Simple.CalendarDayAdjusters|26|0|26|90|100%|0|0||8|8|100%|
+|Zorglub.Time.Simple.CalendarDayProviders|62|0|62|127|100%|0|0||10|10|100%|
 |Zorglub.Time.Simple.CalendarMath|147|0|147|443|100%|32|32|100%|22|22|100%|
-|Zorglub.Time.Simple.CalendarMonth|159|0|159|664|100%|20|20|100%|57|57|100%|
-|Zorglub.Time.Simple.CalendarYear|138|0|138|759|100%|20|20|100%|52|52|100%|
+|Zorglub.Time.Simple.CalendarMonth|159|0|159|665|100%|20|20|100%|57|57|100%|
+|Zorglub.Time.Simple.CalendarYear|140|0|140|762|100%|20|20|100%|52|52|100%|
 |Zorglub.Time.Simple.CopticSimpleCalendar|8|0|8|242|100%|0|0||3|3|100%|
 |Zorglub.Time.Simple.CuidExtensions|1|0|1|108|100%|0|0||1|1|100%|
 |Zorglub.Time.Simple.EthiopicSimpleCalendar|8|0|8|242|100%|0|0||3|3|100%|
@@ -126,6 +128,7 @@
 |Zorglub.Time.Simple.JulianSimpleCalendar|19|0|19|242|100%|0|0||4|4|100%|
 |Zorglub.Time.Simple.OrdinalDate|223|0|223|658|100%|30|30|100%|69|69|100%|
 |Zorglub.Time.Simple.OrdinalDateAdjusters|24|0|24|74|100%|0|0||6|6|100%|
+|Zorglub.Time.Simple.OrdinalDateProviders|35|0|35|93|100%|2|2|100%|10|10|100%|
 |Zorglub.Time.Simple.PlainMath|33|0|33|86|100%|0|0||5|5|100%|
 |Zorglub.Time.Simple.PowerMath|33|28|61|135|54%|6|23|26%|6|8|75%|
 |Zorglub.Time.Simple.RegularMath|41|0|41|96|100%|2|2|100%|5|5|100%|
@@ -143,7 +146,7 @@
 |Zorglub.Time.Specialized.JulianAdjuster|3|0|3|551|100%|0|0||3|3|100%|
 |Zorglub.Time.Specialized.JulianCalendar|7|0|7|551|100%|0|0||4|4|100%|
 |Zorglub.Time.Specialized.JulianDate|120|0|120|551|100%|24|24|100%|58|58|100%|
-|Zorglub.Time.Specialized.SpecialAdjuster`1|62|0|62|193|100%|10|10|100%|16|16|100%|
+|Zorglub.Time.Specialized.SpecialAdjuster`1|62|0|62|194|100%|10|10|100%|16|16|100%|
 |Zorglub.Time.Specialized.SpecialCalendar`1|38|0|38|112|100%|0|0||8|8|100%|
 |**Zorglub.Time.Extras**|**1807**|**0**|**1807**|**18416**|**100%**|**392**|**392**|**100%**|**856**|**856**|**100%**|
 |Zorglub.Time.Core.Schemas.Coptic13Schema|20|0|20|112|100%|2|2|100%|15|15|100%|

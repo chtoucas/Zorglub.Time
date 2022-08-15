@@ -3,6 +3,8 @@
 
 namespace Zorglub.Testing.Facts.Simple;
 
+using System.Linq;
+
 using Zorglub.Testing.Data;
 using Zorglub.Time.Simple;
 
@@ -24,6 +26,19 @@ public abstract partial class IDateProvidersFacts<TProvider, TDate, TDataSet> :
 
 public partial class IDateProvidersFacts<TProvider, TDate, TDataSet> // CalendarYear
 {
+    [Theory, MemberData(nameof(YearInfoData))]
+    public void GetDaysInYear(YearInfo info)
+    {
+        int y = info.Year;
+        var year = Calendar.GetCalendarYear(y);
+        var exp = from doy in Enumerable.Range(1, info.DaysInYear)
+                  select GetDate(y, doy);
+        // Act
+        var actual = TProvider.GetDaysInYear(year);
+        // Assert
+        Assert.Equal(exp, actual);
+    }
+
     [Theory, MemberData(nameof(YearInfoData))]
     public void GetStartOfYear﹍CalendarYear(YearInfo info)
     {
@@ -57,6 +72,19 @@ public partial class IDateProvidersFacts<TProvider, TDate, TDataSet> // Calendar
 
 public partial class IDateProvidersFacts<TProvider, TDate, TDataSet> // CalendarMonth
 {
+    [Theory, MemberData(nameof(MonthInfoData))]
+    public void GetDaysInMonth(MonthInfo info)
+    {
+        var (y, m) = info.Yemo;
+        var month = Calendar.GetCalendarMonth(y, m);
+        var exp = from d in Enumerable.Range(1, info.DaysInMonth)
+                  select GetDate(y, m, d);
+        // Act
+        var actual = TProvider.GetDaysInMonth(month);
+        // Assert
+        Assert.Equal(exp, actual);
+    }
+
     [Theory, MemberData(nameof(MonthInfoData))]
     public void GetStartOfYear﹍CalendarMonth(MonthInfo info)
     {
