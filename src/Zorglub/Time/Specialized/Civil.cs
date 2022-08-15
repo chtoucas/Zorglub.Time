@@ -3,8 +3,6 @@
 
 namespace Zorglub.Time.Specialized
 {
-    using System.Diagnostics;
-
     using Zorglub.Time.Core;
     using Zorglub.Time.Core.Intervals;
     using Zorglub.Time.Core.Schemas;

@@ -13,7 +13,6 @@ global using Xunit;
 global using Zorglub.Testing;
 global using Zorglub.Testing.Data;
 global using Zorglub.Testing.Data.Schemas;
-global using Zorglub.Testing.Facts;
 global using Zorglub.Testing.Facts.Core;
 global using Zorglub.Testing.Facts.Geometry;
 global using Zorglub.Testing.Facts.Hemerology;
