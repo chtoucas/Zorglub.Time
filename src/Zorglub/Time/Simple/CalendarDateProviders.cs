@@ -11,6 +11,7 @@ namespace Zorglub.Time.Simple
     /// </summary>
     public sealed partial class CalendarDateProviders : IDateProviders<CalendarDate>
     {
+        [ExcludeFromCodeCoverage(Justification = "Pseudo-static class implementing a static-only interface.")]
         private CalendarDateProviders() { }
     }
 

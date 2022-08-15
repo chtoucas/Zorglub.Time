@@ -148,7 +148,7 @@ namespace Zorglub.Time.Core
         /// <summary>
         /// Gets the string to display in the debugger watch window.
         /// </summary>
-        [ExcludeFromCodeCoverage]
+        [ExcludeFromCodeCoverage(Justification = "DebuggerDisplay")]
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         private string DebuggerDisplay => Convert.ToString(_bin, 2);

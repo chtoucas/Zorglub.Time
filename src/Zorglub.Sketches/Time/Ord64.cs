@@ -90,7 +90,7 @@ namespace Zorglub.Time
         /// <summary>
         /// Gets the string to display in the debugger watch window for this value.
         /// </summary>
-        [ExcludeFromCodeCoverage]
+        [ExcludeFromCodeCoverage(Justification = "DebuggerDisplay")]
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         private string DebuggerDisplay => _value.ToString(CultureInfo.InvariantCulture);
