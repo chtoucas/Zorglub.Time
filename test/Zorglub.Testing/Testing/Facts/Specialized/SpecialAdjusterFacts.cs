@@ -10,19 +10,11 @@ using Zorglub.Time.Hemerology;
 using Zorglub.Time.Specialized;
 
 public abstract partial class SpecialAdjusterFacts<TDate, TDataSet> :
-    IDateAdjusterFacts<TDate, TDataSet>
+    IDateAdjusterFacts<SpecialAdjuster<TDate>, TDate, TDataSet>
     where TDate : IAdjustable<TDate>, IDateable
     where TDataSet : ICalendarDataSet, ISingleton<TDataSet>
 {
-    protected SpecialAdjusterFacts(SpecialAdjuster<TDate> adjuster) : base(adjuster)
-    {
-        Debug.Assert(adjuster != null);
-
-        SpecialAdjusterUT = adjuster;
-    }
-
-    // TODO(fact): use a generic TAdjuster in IDateAdjusterFacts?
-    protected SpecialAdjuster<TDate> SpecialAdjusterUT { get; }
+    protected SpecialAdjusterFacts(SpecialAdjuster<TDate> adjuster) : base(adjuster) { }
 }
 
 public partial class SpecialAdjusterFacts<TDate, TDataSet> // Adjust()
@@ -42,7 +34,7 @@ public partial class SpecialAdjusterFacts<TDate, TDataSet> // Adjust()
         var date = GetDate(y, m, d);
         foreach (var invalidYear in SupportedYearsTester.InvalidYears)
         {
-            var adjuster = SpecialAdjusterUT.WithYear(invalidYear);
+            var adjuster = AdjusterUT.WithYear(invalidYear);
             // Act & Assert
             Assert.ThrowsAoorexn("newYear", () => date.Adjust(adjuster));
         }
@@ -52,7 +44,7 @@ public partial class SpecialAdjusterFacts<TDate, TDataSet> // Adjust()
     public void Adjust_InvalidMonth(int y, int newMonth)
     {
         var date = GetDate(y, 1, 1);
-        var adjuster = SpecialAdjusterUT.WithMonth(newMonth);
+        var adjuster = AdjusterUT.WithMonth(newMonth);
         // Act & Assert
         Assert.ThrowsAoorexn("newMonth", () => date.Adjust(adjuster));
     }
@@ -61,7 +53,7 @@ public partial class SpecialAdjusterFacts<TDate, TDataSet> // Adjust()
     public void Adjust_InvalidDay(int y, int m, int newDay)
     {
         var date = GetDate(y, m, 1);
-        var adjuster = SpecialAdjusterUT.WithDay(newDay);
+        var adjuster = AdjusterUT.WithDay(newDay);
         // Act & Assert
         Assert.ThrowsAoorexn("newDay", () => date.Adjust(adjuster));
     }
@@ -70,7 +62,7 @@ public partial class SpecialAdjusterFacts<TDate, TDataSet> // Adjust()
     public void Adjust_InvalidDayOfYear(int y, int newDayOfYear)
     {
         var date = GetDate(y, 1);
-        var adjuster = SpecialAdjusterUT.WithDayOfYear(newDayOfYear);
+        var adjuster = AdjusterUT.WithDayOfYear(newDayOfYear);
         // Act & Assert
         Assert.ThrowsAoorexn("newDayOfYear", () => date.Adjust(adjuster));
     }
@@ -89,7 +81,7 @@ public partial class SpecialAdjusterFacts<TDate, TDataSet> // Adjust()
     {
         var (y, m) = info.Yemo;
         var date = GetDate(y, 1, 1);
-        var adjuster = SpecialAdjusterUT.WithMonth(m);
+        var adjuster = AdjusterUT.WithMonth(m);
         var exp = GetDate(y, m, 1);
         // Act & Assert
         Assert.Equal(exp, date.Adjust(adjuster));
@@ -101,7 +93,7 @@ public partial class SpecialAdjusterFacts<TDate, TDataSet> // Adjust()
         var (y, m, d) = info.Yemoda;
         var date = GetDate(y, m, 1);
         var exp = GetDate(y, m, d);
-        var adjuster = SpecialAdjusterUT.WithDay(d);
+        var adjuster = AdjusterUT.WithDay(d);
         // Act & Assert
         Assert.Equal(exp, date.Adjust(adjuster));
     }
@@ -112,7 +104,7 @@ public partial class SpecialAdjusterFacts<TDate, TDataSet> // Adjust()
         var (y, doy) = info.Yedoy;
         var date = GetDate(y, 1);
         var exp = GetDate(y, doy);
-        var adjuster = SpecialAdjusterUT.WithDayOfYear(doy);
+        var adjuster = AdjusterUT.WithDayOfYear(doy);
         // Act & Assert
         Assert.Equal(exp, date.Adjust(adjuster));
     }

@@ -6,21 +6,24 @@ namespace Zorglub.Testing.Facts.Hemerology;
 using Zorglub.Testing.Data;
 using Zorglub.Time.Hemerology;
 
-public abstract partial class IDateAdjusterFacts<TDate, TDataSet> :
+// In addition, one should test WithYear() with valid and invalid results.
+
+public abstract partial class IDateAdjusterFacts<TAdjuster, TDate, TDataSet> :
     CalendarDataConsumer<TDataSet>
+    where TAdjuster : IDateAdjuster<TDate>
     where TDate : IDateable
     where TDataSet : ICalendarDataSet, ISingleton<TDataSet>
 {
-    protected IDateAdjusterFacts(IDateAdjuster<TDate> adjuster)
+    protected IDateAdjusterFacts(TAdjuster adjuster)
     {
         AdjusterUT = adjuster ?? throw new ArgumentNullException(nameof(adjuster));
         SupportedYearsTester = new SupportedYearsTester(adjuster.Scope.Segment.SupportedYears);
     }
 
     /// <summary>
-    /// Gets the calendar under test.
+    /// Gets the adjuster under test.
     /// </summary>
-    protected IDateAdjuster<TDate> AdjusterUT { get; }
+    protected TAdjuster AdjusterUT { get; }
 
     protected SupportedYearsTester SupportedYearsTester { get; }
 
@@ -28,7 +31,7 @@ public abstract partial class IDateAdjusterFacts<TDate, TDataSet> :
     protected abstract TDate GetDate(int y, int doy);
 }
 
-public partial class IDateAdjusterFacts<TDate, TDataSet> // Special dates
+public partial class IDateAdjusterFacts<TAdjuster, TDate, TDataSet> // Special dates
 {
     [Theory, MemberData(nameof(DateInfoData))]
     public void GetStartOfYear(DateInfo info)
@@ -73,7 +76,7 @@ public partial class IDateAdjusterFacts<TDate, TDataSet> // Special dates
     }
 }
 
-public partial class IDateAdjusterFacts<TDate, TDataSet> // AdjustYear()
+public partial class IDateAdjusterFacts<TAdjuster, TDate, TDataSet> // AdjustYear()
 {
     [Theory, MemberData(nameof(DateInfoData))]
     public void AdjustYear_InvalidYears(DateInfo info)
@@ -119,7 +122,7 @@ public partial class IDateAdjusterFacts<TDate, TDataSet> // AdjustYear()
     //}
 }
 
-public partial class IDateAdjusterFacts<TDate, TDataSet> // AdjustMonth()
+public partial class IDateAdjusterFacts<TAdjuster, TDate, TDataSet> // AdjustMonth()
 {
     [Theory, MemberData(nameof(InvalidMonthFieldData))]
     public void AdjustMonth_InvalidMonth(int y, int newMonth)
@@ -149,7 +152,7 @@ public partial class IDateAdjusterFacts<TDate, TDataSet> // AdjustMonth()
     }
 }
 
-public partial class IDateAdjusterFacts<TDate, TDataSet> // AdjustDay()
+public partial class IDateAdjusterFacts<TAdjuster, TDate, TDataSet> // AdjustDay()
 {
     [Theory, MemberData(nameof(InvalidDayFieldData))]
     public void AdjustDay_InvalidDay(int y, int m, int newDay)
@@ -179,7 +182,7 @@ public partial class IDateAdjusterFacts<TDate, TDataSet> // AdjustDay()
     }
 }
 
-public partial class IDateAdjusterFacts<TDate, TDataSet> // AdjustDayOfYear()
+public partial class IDateAdjusterFacts<TAdjuster, TDate, TDataSet> // AdjustDayOfYear()
 {
     [Theory, MemberData(nameof(InvalidDayOfYearFieldData))]
     public void AdjustDayOfYear_InvalidDayOfYear(int y, int newDayOfYear)

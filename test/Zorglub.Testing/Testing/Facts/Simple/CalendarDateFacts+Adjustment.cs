@@ -7,10 +7,8 @@ using Zorglub.Testing.Data;
 using Zorglub.Testing.Facts.Hemerology;
 using Zorglub.Time.Simple;
 
-// In addition, one should test WithYear() with valid and invalid results.
-
 public abstract class CalendarDateAdjustmentFacts<TDataSet> :
-    IDateAdjusterFacts<CalendarDate, TDataSet>
+    IDateAdjusterFacts<CalendarDateAdjuster, CalendarDate, TDataSet>
     where TDataSet : ICalendarDataSet, ISingleton<TDataSet>
 {
     protected CalendarDateAdjustmentFacts(SimpleCalendar calendar)
