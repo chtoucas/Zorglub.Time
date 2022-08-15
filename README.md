@@ -42,8 +42,12 @@ Arithmetisation of astronomical schemas:
 - French Republican (12 or 12+1 months)
 - Persian
 
-Reforms:
+Other arithmetical schemas (proposed reforms):
 - Tropicália (three versions)
+- Perennial blank-day schemas:
+  * International Fixed
+  * Positivist aka Georgian
+  * World aka Universal
 
 For one reason or another, most proposed reforms are considered defective and
 therefore have seen limited adoption, if any.
@@ -53,13 +57,9 @@ therefore have seen limited adoption, if any.
 For the sole purpose of validating the API, we would like to
 have at least one schema in each category.
 - Embolismic schemas:
-  * Hebrew (*)
-- Perennial blank-day schemas:
-  * International Fixed (*)
-  * Positivist aka Georgian (*)
-  * World aka Universal (*)
+  * Hebrew
 - Perennial leap-week schemas:
-  * Pax (*)
+  * Pax
   * ISO
 - Astronomical schemas:
   * Persian (Solar Hijri)
@@ -68,11 +68,9 @@ have at least one schema in each category.
   * Chinese
   * Vietnamese
 - Other types of schemas:
-  * Julian-Gregorian, an hybrid schema (*)
+  * Julian-Gregorian, an hybrid schema
   * Pataphysical, an imaginary schema
   * Tolkian
   * Masonic, almost identical to the Gregorian calendar: a year starts the 1st
     of March and it uses the Anno Lucis.
 - etc.
-
-(*) A prototype can be found in `Zorglub.Sketches`.
