@@ -19,8 +19,7 @@ namespace Zorglub.Time.Hemerology
     // implement IDateAdjuster; see for instance MyDate in Samples.
 
     /// <summary>
-    /// Defines common adjusters for <typeparamref name="TDate"/> and provides a base for derived
-    /// classes.
+    /// Defines an adjuster for <typeparamref name="TDate"/> and provides a base for derived classes.
     /// </summary>
     /// <typeparam name="TDate">The type of date object.</typeparam>
     [Obsolete("Broken.")]

@@ -6,10 +6,10 @@ namespace Zorglub.Time.Simple;
 using Zorglub.Time.Hemerology;
 using Zorglub.Time.Hemerology.Scopes;
 
-// Adjuster created to be able to re-use IDateAdjusterFacts.
-public sealed class OrdinalDateAdjuster : IDateAdjuster<OrdinalDate>
+// Adapter created to be able to re-use IDateAdjusterFacts.
+public sealed class OrdinalDateAdjustersAdapter : IDateAdjuster<OrdinalDate>
 {
-    public OrdinalDateAdjuster(SimpleCalendar calendar)
+    public OrdinalDateAdjustersAdapter(SimpleCalendar calendar)
     {
         Calendar = calendar ?? throw new ArgumentNullException(nameof(calendar));
     }
@@ -31,13 +31,13 @@ public sealed class OrdinalDateAdjuster : IDateAdjuster<OrdinalDate>
     public OrdinalDate AdjustMonth(OrdinalDate date, int newMonth)
     {
         ValidateCuid(date.Cuid);
-        return OrdinalDateAdjusters.WithMonth(date, newMonth);
+        return date.WithMonth(newMonth);
     }
 
     public OrdinalDate AdjustDay(OrdinalDate date, int newDay)
     {
         ValidateCuid(date.Cuid);
-        return OrdinalDateAdjusters.WithDay(date, newDay);
+        return date.WithDay(newDay);
     }
 
     public OrdinalDate AdjustDayOfYear(OrdinalDate date, int newDayOfYear)
@@ -49,24 +49,24 @@ public sealed class OrdinalDateAdjuster : IDateAdjuster<OrdinalDate>
     public OrdinalDate GetStartOfYear(OrdinalDate date)
     {
         ValidateCuid(date.Cuid);
-        return OrdinalDateAdjusters.GetStartOfYear(date);
+        return date.GetStartOfYear();
     }
 
     public OrdinalDate GetEndOfYear(OrdinalDate date)
     {
         ValidateCuid(date.Cuid);
-        return OrdinalDateAdjusters.GetEndOfYear(date);
+        return date.GetEndOfYear();
     }
 
     public OrdinalDate GetStartOfMonth(OrdinalDate date)
     {
         ValidateCuid(date.Cuid);
-        return OrdinalDateAdjusters.GetStartOfMonth(date);
+        return date.GetStartOfMonth();
     }
 
     public OrdinalDate GetEndOfMonth(OrdinalDate date)
     {
         ValidateCuid(date.Cuid);
-        return OrdinalDateAdjusters.GetEndOfMonth(date);
+        return date.GetEndOfMonth();
     }
 }

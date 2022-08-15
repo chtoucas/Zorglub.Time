@@ -16,7 +16,7 @@ namespace Zorglub.Time.Hemerology.Naked
     // dans le calendrier par défaut du système.
 
     /// <summary>
-    /// Provides an adjuster for <see cref="DayNumber"/>.
+    /// Defines an adjuster for <see cref="DayNumber"/>.
     /// </summary>
     public class DayNumberAdjuster : IDateAdjuster<DayNumber>
     {

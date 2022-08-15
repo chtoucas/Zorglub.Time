@@ -338,36 +338,6 @@ namespace Zorglub.Time.Simple
         #endregion
         #region Adjustments
 
-        /// <summary>
-        /// Adjusts the year field to the specified value, yielding a new date.
-        /// </summary>
-        /// <exception cref="AoorException">The resulting date would be invalid.</exception>
-        [Pure]
-        public OrdinalDate WithYear(int newYear)
-        {
-            int doy = DayOfYear;
-            ref readonly var chr = ref CalendarRef;
-            chr.Scope.ValidateOrdinal(newYear, doy, nameof(newYear));
-            return new OrdinalDate(newYear, doy, Cuid);
-        }
-
-        /// <summary>
-        /// Adjusts the day of the year field to the specified value, yielding a new date.
-        /// </summary>
-        /// <exception cref="AoorException">The resulting date would be invalid.</exception>
-        [Pure]
-        public OrdinalDate WithDayOfYear(int newDayOfYear)
-        {
-            int y = Year;
-            ref readonly var chr = ref CalendarRef;
-            chr.PreValidator.ValidateDayOfYear(y, newDayOfYear, nameof(newDayOfYear));
-            return new OrdinalDate(y, newDayOfYear, Cuid);
-        }
-
-        //
-        // Adjust the day of the week
-        //
-
         /// <inheritdoc />
         [Pure]
         public OrdinalDate Previous(DayOfWeek dayOfWeek)

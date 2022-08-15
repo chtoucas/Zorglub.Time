@@ -382,9 +382,6 @@ namespace Zorglub.Time.Simple
         #endregion
         #region Adjustments
 
-        //
-        // Adjust the day of the week
-        //
         // We don't use the methods from DayNumber to avoid to check twice that
         // the result does not overflow, one in DayNumber and the other here
         // using the domain of the calendar.

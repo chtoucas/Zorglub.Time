@@ -4,7 +4,7 @@
 namespace Zorglub.Time.Simple
 {
     /// <summary>
-    /// Provides common adjusters for <see cref="OrdinalDate"/>.
+    /// Provides a set of common adjusters for <see cref="OrdinalDate"/>.
     /// <para>This class cannot be inherited.</para>
     /// </summary>
     public static class OrdinalDateAdjusters
@@ -56,6 +56,19 @@ namespace Zorglub.Time.Simple
         }
 
         /// <summary>
+        /// Adjusts the year field to the specified value, yielding a new date.
+        /// </summary>
+        /// <exception cref="AoorException">The resulting date would be invalid.</exception>
+        [Pure]
+        public static OrdinalDate WithYear(this OrdinalDate date, int newYear)
+        {
+            int doy = date.DayOfYear;
+            ref readonly var chr = ref date.CalendarRef;
+            chr.Scope.ValidateOrdinal(newYear, doy, nameof(newYear));
+            return new OrdinalDate(newYear, doy, date.Cuid);
+        }
+
+        /// <summary>
         /// Adjusts the month field to the specified value, yielding a new date.
         /// </summary>
         /// <exception cref="AoorException">The resulting date would be invalid.</exception>
@@ -70,5 +83,18 @@ namespace Zorglub.Time.Simple
         [Pure]
         public static OrdinalDate WithDay(this OrdinalDate date, int newDay) =>
             date.ToCalendarDate().WithDay(newDay).ToOrdinalDate();
+
+        /// <summary>
+        /// Adjusts the day of the year field to the specified value, yielding a new date.
+        /// </summary>
+        /// <exception cref="AoorException">The resulting date would be invalid.</exception>
+        [Pure]
+        public static OrdinalDate WithDayOfYear(this OrdinalDate date, int newDayOfYear)
+        {
+            int y = date.Year;
+            ref readonly var chr = ref date.CalendarRef;
+            chr.PreValidator.ValidateDayOfYear(y, newDayOfYear, nameof(newDayOfYear));
+            return new OrdinalDate(y, newDayOfYear, date.Cuid);
+        }
     }
 }

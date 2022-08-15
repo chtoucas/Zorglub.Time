@@ -6,10 +6,10 @@ namespace Zorglub.Time.Simple;
 using Zorglub.Time.Hemerology;
 using Zorglub.Time.Hemerology.Scopes;
 
-// Adjuster created to be able to re-use IDateAdjusterFacts.
-public sealed class CalendarDateAdjuster : IDateAdjuster<CalendarDate>
+// Adapter created to be able to re-use IDateAdjusterFacts.
+public sealed class CalendarDateAdjustersAdapter : IDateAdjuster<CalendarDate>
 {
-    public CalendarDateAdjuster(SimpleCalendar calendar)
+    public CalendarDateAdjustersAdapter(SimpleCalendar calendar)
     {
         Calendar = calendar ?? throw new ArgumentNullException(nameof(calendar));
     }
@@ -43,30 +43,30 @@ public sealed class CalendarDateAdjuster : IDateAdjuster<CalendarDate>
     public CalendarDate AdjustDayOfYear(CalendarDate date, int newDayOfYear)
     {
         ValidateCuid(date.Cuid);
-        return CalendarDateAdjusters.WithDayOfYear(date, newDayOfYear);
+        return date.WithDayOfYear(newDayOfYear);
     }
 
     public CalendarDate GetStartOfYear(CalendarDate date)
     {
         ValidateCuid(date.Cuid);
-        return CalendarDateAdjusters.GetStartOfYear(date);
+        return date.GetStartOfYear();
     }
 
     public CalendarDate GetEndOfYear(CalendarDate date)
     {
         ValidateCuid(date.Cuid);
-        return CalendarDateAdjusters.GetEndOfYear(date);
+        return date.GetEndOfYear();
     }
 
     public CalendarDate GetStartOfMonth(CalendarDate date)
     {
         ValidateCuid(date.Cuid);
-        return CalendarDateAdjusters.GetStartOfMonth(date);
+        return date.GetStartOfMonth();
     }
 
     public CalendarDate GetEndOfMonth(CalendarDate date)
     {
         ValidateCuid(date.Cuid);
-        return CalendarDateAdjusters.GetEndOfMonth(date);
+        return date.GetEndOfMonth();
     }
 }

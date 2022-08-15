@@ -8,11 +8,11 @@ using Zorglub.Testing.Facts.Hemerology;
 using Zorglub.Time.Simple;
 
 public abstract class CalendarDayAdjusterFacts<TDataSet> :
-    IDateAdjusterFacts<CalendarDayAdjuster, CalendarDay, TDataSet>
+    IDateAdjusterFacts<CalendarDayAdjustersAdapter, CalendarDay, TDataSet>
     where TDataSet : ICalendarDataSet, ISingleton<TDataSet>
 {
     protected CalendarDayAdjusterFacts(SimpleCalendar calendar)
-        : base(new CalendarDayAdjuster(calendar))
+        : base(new CalendarDayAdjustersAdapter(calendar))
     {
         Debug.Assert(calendar != null);
 

@@ -19,8 +19,7 @@ namespace Zorglub.Time.Specialized
     // date parts (y, m, d, doy) by other means, e.g. using the underlying schema.
 
     /// <summary>
-    /// Defines common adjusters for <typeparamref name="TDate"/> and provides a base for derived
-    /// classes.
+    /// Defines an adjuster for <typeparamref name="TDate"/> and provides a base for derived classes.
     /// <para>This class can ONLY be inherited from within friend assemblies.</para>
     /// </summary>
     /// <typeparam name="TDate">The type of date object.</typeparam>

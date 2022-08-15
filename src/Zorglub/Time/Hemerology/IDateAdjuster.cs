@@ -46,7 +46,7 @@ namespace Zorglub.Time.Hemerology
     // advance that the result is guaranteed to be within the calendar boundaries.
 
     /// <summary>
-    /// Defines the common adjusters for <typeparamref name="TDate"/>.
+    /// Defines an adjuster for <typeparamref name="TDate"/>.
     /// </summary>
     /// <typeparam name="TDate">The type of date object.</typeparam>
     public interface IDateAdjuster<TDate>

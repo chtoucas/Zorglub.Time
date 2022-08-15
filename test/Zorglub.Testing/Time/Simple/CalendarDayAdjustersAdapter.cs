@@ -6,10 +6,10 @@ namespace Zorglub.Time.Simple;
 using Zorglub.Time.Hemerology;
 using Zorglub.Time.Hemerology.Scopes;
 
-// Adjuster created to be able to re-use IDateAdjusterFacts.
-public sealed class CalendarDayAdjuster : IDateAdjuster<CalendarDay>
+// Adapter created to be able to re-use IDateAdjusterFacts.
+public sealed class CalendarDayAdjustersAdapter : IDateAdjuster<CalendarDay>
 {
-    public CalendarDayAdjuster(SimpleCalendar calendar)
+    public CalendarDayAdjustersAdapter(SimpleCalendar calendar)
     {
         Calendar = calendar ?? throw new ArgumentNullException(nameof(calendar));
     }
@@ -25,48 +25,48 @@ public sealed class CalendarDayAdjuster : IDateAdjuster<CalendarDay>
     public CalendarDay AdjustYear(CalendarDay date, int newYear)
     {
         ValidateCuid(date.Cuid);
-        return CalendarDayAdjusters.WithYear(date, newYear);
+        return date.WithYear(newYear);
     }
 
     public CalendarDay AdjustMonth(CalendarDay date, int newMonth)
     {
         ValidateCuid(date.Cuid);
-        return CalendarDayAdjusters.WithMonth(date, newMonth);
+        return date.WithMonth(newMonth);
     }
 
     public CalendarDay AdjustDay(CalendarDay date, int newDay)
     {
         ValidateCuid(date.Cuid);
-        return CalendarDayAdjusters.WithDay(date, newDay);
+        return date.WithDay(newDay);
     }
 
     public CalendarDay AdjustDayOfYear(CalendarDay date, int newDayOfYear)
     {
         ValidateCuid(date.Cuid);
-        return CalendarDayAdjusters.WithDayOfYear(date, newDayOfYear);
+        return date.WithDayOfYear(newDayOfYear);
     }
 
     public CalendarDay GetStartOfYear(CalendarDay date)
     {
         ValidateCuid(date.Cuid);
-        return CalendarDayAdjusters.GetStartOfYear(date);
+        return date.GetStartOfYear();
     }
 
     public CalendarDay GetEndOfYear(CalendarDay date)
     {
         ValidateCuid(date.Cuid);
-        return CalendarDayAdjusters.GetEndOfYear(date);
+        return date.GetEndOfYear();
     }
 
     public CalendarDay GetStartOfMonth(CalendarDay date)
     {
         ValidateCuid(date.Cuid);
-        return CalendarDayAdjusters.GetStartOfMonth(date);
+        return date.GetStartOfMonth();
     }
 
     public CalendarDay GetEndOfMonth(CalendarDay date)
     {
         ValidateCuid(date.Cuid);
-        return CalendarDayAdjusters.GetEndOfMonth(date);
+        return date.GetEndOfMonth();
     }
 }

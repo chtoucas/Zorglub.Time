@@ -358,56 +358,6 @@ namespace Zorglub.Time.Simple
         #endregion
         #region Adjustments
 
-        /// <summary>
-        /// Adjusts the year field to the specified value, yielding a new date.
-        /// </summary>
-        /// <exception cref="AoorException">The resulting date would be invalid.</exception>
-        [Pure]
-        public CalendarDate WithYear(int newYear)
-        {
-            _bin.Deconstruct(out int _, out int m, out int d);
-            ref readonly var chr = ref CalendarRef;
-            // Even if we knew that "newYear" is valid, we must re-check "m" &
-            // "d", nevertheless we don't write
-            // > return chr.GetCalendarDate(newYear, m, d);
-            // because we want to throw an AoorException for "newYear".
-            chr.Scope.ValidateYearMonthDay(newYear, m, d, nameof(newYear));
-            return new CalendarDate(newYear, m, d, Cuid);
-        }
-
-        /// <summary>
-        /// Adjusts the month field to the specified value, yielding a new date.
-        /// </summary>
-        /// <exception cref="AoorException">The resulting date would be invalid.</exception>
-        [Pure]
-        public CalendarDate WithMonth(int newMonth)
-        {
-            _bin.Deconstruct(out int y, out int _, out int d);
-            ref readonly var chr = ref CalendarRef;
-            // We only need to check "newMonth" & "d".
-            chr.PreValidator.ValidateMonthDay(y, newMonth, d, nameof(newMonth));
-            return new CalendarDate(y, newMonth, d, Cuid);
-        }
-
-        /// <summary>
-        /// Adjusts the day of the month field to the specified value, yielding a new date.
-        /// </summary>
-        /// <exception cref="AoorException">The resulting date would be invalid.</exception>
-        [Pure]
-        public CalendarDate WithDay(int newDay)
-        {
-            _bin.Unpack(out int y, out int m);
-            ref readonly var chr = ref CalendarRef;
-            // We already know that "y" & "m" are valid, we only need to check
-            // "newDay".
-            chr.ValidateDayOfMonth(y, m, newDay, nameof(newDay));
-            return new CalendarDate(y, m, newDay, Cuid);
-        }
-
-        //
-        // Adjust the day of the week
-        //
-
         /// <inheritdoc />
         [Pure]
         public CalendarDate Previous(DayOfWeek dayOfWeek)

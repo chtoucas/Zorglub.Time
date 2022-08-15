@@ -4,7 +4,7 @@
 namespace Zorglub.Time.Simple
 {
     /// <summary>
-    /// Provides common adjusters for <see cref="CalendarDay"/>.
+    /// Provides a set of common adjusters for <see cref="CalendarDay"/>.
     /// <para>This class cannot be inherited.</para>
     /// </summary>
     public static class CalendarDayAdjusters
