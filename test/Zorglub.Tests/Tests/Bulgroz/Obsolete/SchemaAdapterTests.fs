@@ -7,7 +7,7 @@ open System
 
 open Zorglub.Testing
 open Zorglub.Testing.Data.Schemas
-open Zorglub.Testing.Facts
+open Zorglub.Testing.Facts.Bulgroz
 
 open Zorglub.Bulgroz.Obsolete
 open Zorglub.Time.Core

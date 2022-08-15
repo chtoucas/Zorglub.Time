@@ -7,7 +7,7 @@ open System
 
 open Zorglub.Testing
 open Zorglub.Testing.Data.Schemas
-open Zorglub.Testing.Facts
+open Zorglub.Testing.Facts.Core
 
 open Zorglub.Time.Core.Schemas
 open Zorglub.Time.Core.Validation

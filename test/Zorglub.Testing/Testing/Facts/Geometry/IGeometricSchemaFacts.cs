@@ -1,27 +1,27 @@
 ﻿// SPDX-License-Identifier: BSD-3-Clause
 // Copyright (c) 2020 Narvalo.Org. All rights reserved.
 
-namespace Zorglub.Testing.Facts;
+namespace Zorglub.Testing.Facts.Geometry;
 
-using Zorglub.Bulgroz.Formulae;
 using Zorglub.Testing.Data;
+using Zorglub.Time.Geometry.Schemas;
 
 /// <summary>
-/// Provides facts about <see cref="ICalendricalFormulae"/>.
+/// Provides facts about <see cref="IGeometricSchema"/>.
 /// </summary>
-public abstract class ICalendricalFormulaeFacts<TDataSet> :
+public abstract class IGeometricSchemaFacts<TDataSet> :
     CalendricalDataConsumer<TDataSet>
     where TDataSet : ICalendricalDataSet, ISingleton<TDataSet>
 {
-    protected ICalendricalFormulaeFacts(ICalendricalFormulae formulae)
+    protected IGeometricSchemaFacts(IGeometricSchema schema)
     {
-        FormulaeUT = formulae ?? throw new ArgumentNullException(nameof(formulae));
+        SchemaUT = schema ?? throw new ArgumentNullException(nameof(schema));
     }
 
     /// <summary>
     /// Gets the schema under test.
     /// </summary>
-    protected ICalendricalFormulae FormulaeUT { get; }
+    protected IGeometricSchema SchemaUT { get; }
 
     [Theory, MemberData(nameof(DaysSinceEpochInfoData))]
     public void CountDaysSinceEpoch(DaysSinceEpochInfo info)
@@ -29,7 +29,7 @@ public abstract class ICalendricalFormulaeFacts<TDataSet> :
         var (daysSinceEpoch, y, m, d) = info;
 
         // Act
-        int actual = FormulaeUT.CountDaysSinceEpoch(y, m, d);
+        int actual = SchemaUT.CountDaysSinceEpoch(y, m, d);
         // Assert
         Assert.Equal(daysSinceEpoch, actual);
     }
@@ -40,7 +40,7 @@ public abstract class ICalendricalFormulaeFacts<TDataSet> :
         var (daysSinceEpoch, y, m, d) = info;
 
         // Act
-        FormulaeUT.GetDateParts(daysSinceEpoch, out int year, out int month, out int day);
+        SchemaUT.GetDateParts(daysSinceEpoch, out int year, out int month, out int day);
         // Assert
         Assert.Equal(y, year);
         Assert.Equal(m, month);

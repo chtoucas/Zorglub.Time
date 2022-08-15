@@ -6,7 +6,7 @@ module Zorglub.Tests.Specialized.GregorianTests
 open Zorglub.Testing
 open Zorglub.Testing.Data
 open Zorglub.Testing.Data.Unbounded
-open Zorglub.Testing.Facts
+open Zorglub.Testing.Facts.Hemerology
 open Zorglub.Testing.Facts.Specialized
 
 open Zorglub.Time

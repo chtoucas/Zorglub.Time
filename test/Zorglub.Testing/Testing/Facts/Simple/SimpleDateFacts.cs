@@ -4,6 +4,7 @@
 namespace Zorglub.Testing.Facts.Simple;
 
 using Zorglub.Testing.Data;
+using Zorglub.Testing.Facts.Hemerology;
 using Zorglub.Time.Simple;
 
 // TODO(fact): move math tests to IDateFacts. Prerequesite: ordinal factory.

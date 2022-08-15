@@ -3,6 +3,8 @@
 
 namespace Zorglub.Bulgroz.Formulae;
 
+using Zorglub.Testing.Facts.Bulgroz;
+
 public sealed class GregorianTroeschFormulaeTests : ICalendricalFormulaeFacts<GregorianDataSet>
 {
     private static readonly GregorianTroeschFormulae s_Formulae = new();

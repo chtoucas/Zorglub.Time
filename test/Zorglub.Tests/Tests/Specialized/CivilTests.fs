@@ -6,7 +6,7 @@ module Zorglub.Tests.Specialized.CivilTests
 open Zorglub.Testing
 open Zorglub.Testing.Data
 open Zorglub.Testing.Data.Bounded
-open Zorglub.Testing.Facts
+open Zorglub.Testing.Facts.Hemerology
 open Zorglub.Testing.Facts.Specialized
 
 open Zorglub.Time

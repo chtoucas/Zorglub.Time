@@ -3,6 +3,8 @@
 
 namespace Zorglub.Bulgroz.Formulae;
 
+using Zorglub.Testing.Facts.Bulgroz;
+
 public sealed class GregorianHinnantFormulaeTests : ICalendricalFormulaeFacts<GregorianDataSet>
 {
     private static readonly GregorianHinnantFormulae s_Formulae = new();

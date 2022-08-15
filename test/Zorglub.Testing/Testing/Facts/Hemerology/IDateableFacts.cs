@@ -1,7 +1,7 @@
 ﻿// SPDX-License-Identifier: BSD-3-Clause
 // Copyright (c) 2020 Narvalo.Org. All rights reserved.
 
-namespace Zorglub.Testing.Facts;
+namespace Zorglub.Testing.Facts.Hemerology;
 
 // Hypothesis: first year is valid and complete.
 

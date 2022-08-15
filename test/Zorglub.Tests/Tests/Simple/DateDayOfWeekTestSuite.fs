@@ -5,7 +5,7 @@ module Zorglub.Tests.Simple.DateDayOfWeekTestSuite
 
 open Zorglub.Testing
 open Zorglub.Testing.Data.Bounded
-open Zorglub.Testing.Facts
+open Zorglub.Testing.Facts.Hemerology
 
 open Zorglub.Time.Simple
 

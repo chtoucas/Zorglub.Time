@@ -11,7 +11,7 @@ using Zorglub.Time.Simple;
 /// <summary>
 /// Provides facts about <see cref="DateRangeV0"/>.
 /// </summary>
-[Obsolete("DateRange is obsolete.")]
+[Obsolete("DateRangeV0 is obsolete.")]
 public abstract partial class DateRangeFacts<TDataSet> :
     IDateRangeFacts<CalendarDate, DateRangeV0, TDataSet>
     where TDataSet : ICalendarDataSet, ISingleton<TDataSet>

@@ -3,6 +3,8 @@
 
 namespace Zorglub.Bulgroz.Formulae;
 
+using Zorglub.Testing.Facts.Bulgroz;
+
 public sealed class JulianHinnantFormulaeTests : ICalendricalFormulaeFacts<JulianDataSet>
 {
     public JulianHinnantFormulaeTests() : base(new JulianHinnantFormulae()) { }

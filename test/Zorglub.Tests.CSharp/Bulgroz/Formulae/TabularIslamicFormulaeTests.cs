@@ -3,6 +3,8 @@
 
 namespace Zorglub.Bulgroz.Formulae;
 
+using Zorglub.Testing.Facts.Bulgroz;
+
 public sealed class TabularIslamicFormulaeTests : ICalendricalFormulaeFacts<TabularIslamicDataSet>
 {
     public TabularIslamicFormulaeTests() : base(new TabularIslamicFormulae()) { }
