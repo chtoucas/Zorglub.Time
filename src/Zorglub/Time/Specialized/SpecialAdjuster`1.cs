@@ -11,8 +11,9 @@ namespace Zorglub.Time.Specialized
     // - we don't validate the input. Only for TDate developed whitin this
     //   project do we know that it's not possible to create an invalid date.
     // - this class works best for date types based on the count of days since
-    //   the epoch. For types using a y/m/d/doy repr. there is a better way of
-    //   implementing IDateAdjuster<TDate>.
+    //   the epoch which is the case for all date types in Specialized. For types
+    //   using a y/m/d/doy repr. there is a better way of implementing
+    //   IDateAdjuster<TDate>; see e.g. MyDate in Samples.
     // We could remove the constraint on TDate but it would make things a
     // bit harder than necessary. Without IDateable, we would have to obtain the
     // date parts (y, m, d, doy) by other means, e.g. using the underlying schema.

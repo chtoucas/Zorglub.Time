@@ -5,10 +5,10 @@ namespace Zorglub.Time.Simple
 {
     using System.Collections.Generic;
 
-    // Do NOT replace CalendarYear or CalendarMonth by int, it's a bad idea.
+    // Do NOT replace CalendarYear or CalendarMonth by int's, it's a bad idea.
     // With an int, we can only produce dates in a single calendar, the
     // default one. With CalendarYear, this is no longer a problem.
-    // Furthermore, there is already IDayProvider in Zorglub.Time.Hemerology.
+    // See also ICalendar<TDate> and IDateAdjuster<TDate>.
 
     /// <summary>
     /// Provides methods to obtain dates in a year or a month.

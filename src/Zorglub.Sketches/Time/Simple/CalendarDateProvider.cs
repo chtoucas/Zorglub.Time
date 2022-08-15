@@ -31,8 +31,6 @@ namespace Zorglub.Time.Simple
                     yield return new CalendarDate(new Yemoda(y, m, d), cuid);
                 }
             }
-
-            throw new NotImplementedException();
         }
 
         /// <inheritdoc/>

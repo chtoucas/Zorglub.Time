@@ -19,14 +19,14 @@ namespace Zorglub.Time.Simple
     /// </summary>
     public readonly partial struct CalendarMonth :
         ISerializable<CalendarMonth, int>,
+        // Comparison
+        IComparisonOperators<CalendarMonth, CalendarMonth>,
         // Arithmetic
         IAdditionOperators<CalendarMonth, int, CalendarMonth>,
         ISubtractionOperators<CalendarMonth, int, CalendarMonth>,
         IDifferenceOperators<CalendarMonth, int>,
         IIncrementOperators<CalendarMonth>,
-        IDecrementOperators<CalendarMonth>,
-        // Comparison
-        IComparisonOperators<CalendarMonth, CalendarMonth>
+        IDecrementOperators<CalendarMonth>
     {
         /// <summary>
         /// Represents the internal binary representation.
@@ -116,7 +116,8 @@ namespace Zorglub.Time.Simple
         /// Gets the calendar to which belongs the current instance.
         /// </summary>
         /// <remarks>
-        /// <para>Performance: cache this property locally if necessary.</para>
+        /// <para>Performance tip: cache this property locally if used repeatedly within a code
+        /// block.</para>
         /// </remarks>
         public SimpleCalendar Calendar => SimpleCatalog.GetCalendarUnchecked(_bin.Extra);
 
@@ -145,7 +146,7 @@ namespace Zorglub.Time.Simple
         }
 
         /// <summary>
-        /// Gets the month parts of current instance.
+        /// Gets the month parts.
         /// </summary>
         internal Yemo Parts => _bin.Yemo;
 
@@ -213,7 +214,7 @@ namespace Zorglub.Time.Simple
         #region Factories
 
         /// <summary>
-        /// Obtains the current month in the Gregorian calendar on this machine.
+        /// Obtains the current month in the <i>Gregorian</i> calendar on this machine.
         /// <para>To obtain the current year in another calendar, see
         /// <see cref="SimpleCalendar.GetCurrentMonth()"/>.</para>
         /// </summary>

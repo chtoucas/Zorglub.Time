@@ -38,14 +38,14 @@ namespace Zorglub.Time.Simple
 #endif
     public readonly partial struct CalendarYear :
         ISerializable<CalendarYear, int>,
+        // Comparison
+        IComparisonOperators<CalendarYear, CalendarYear>,
         // Arithmetic
         IAdditionOperators<CalendarYear, int, CalendarYear>,
         ISubtractionOperators<CalendarYear, int, CalendarYear>,
         IDifferenceOperators<CalendarYear, int>,
         IIncrementOperators<CalendarYear>,
-        IDecrementOperators<CalendarYear>,
-        // Comparison
-        IComparisonOperators<CalendarYear, CalendarYear>
+        IDecrementOperators<CalendarYear>
     {
 #if CALENDARYEAR_EXPLICIT_LAYOUT
 
@@ -212,6 +212,19 @@ namespace Zorglub.Time.Simple
         }
 
         /// <summary>
+        /// Gets the calendar to which belongs the current instance.
+        /// </summary>
+        /// <remarks>
+        /// <para>Performance tip: cache this property locally if used repeatedly within a code
+        /// block.</para>
+        /// </remarks>
+#if CALENDARYEAR_EXPLICIT_LAYOUT
+        public Calendar Calendar => SimpleCatalog.GetCalendarUnchecked((int)_cuid);
+#else
+        public SimpleCalendar Calendar => SimpleCatalog.GetCalendarUnchecked(unchecked(_bin & CuidMask));
+#endif
+
+        /// <summary>
         /// Gets the first month of this year instance.
         /// </summary>
         public CalendarMonth FirstMonth => new(Year, 1, Cuid);
@@ -245,18 +258,6 @@ namespace Zorglub.Time.Simple
                 return new OrdinalDate(ydoy, Cuid);
             }
         }
-
-        /// <summary>
-        /// Gets the calendar to which belongs the current instance.
-        /// </summary>
-        /// <remarks>
-        /// <para>Performance: cache this property locally if necessary.</para>
-        /// </remarks>
-#if CALENDARYEAR_EXPLICIT_LAYOUT
-        public Calendar Calendar => SimpleCatalog.GetCalendarUnchecked((int)_cuid);
-#else
-        public SimpleCalendar Calendar => SimpleCatalog.GetCalendarUnchecked(unchecked(_bin & CuidMask));
-#endif
 
         /// <summary>
         /// Gets the ID of the calendar to which belongs the current instance.
@@ -351,7 +352,7 @@ namespace Zorglub.Time.Simple
         #region Factories
 
         /// <summary>
-        /// Obtains the current year in the Gregorian calendar on this machine.
+        /// Obtains the current year in the <i>Gregorian</i> calendar on this machine.
         /// <para>To obtain the current year in another calendar, see
         /// <see cref="SimpleCalendar.GetCurrentYear()"/>.</para>
         /// </summary>
@@ -434,8 +435,9 @@ namespace Zorglub.Time.Simple
         {
             // We already know that "y" is valid, we only need to check "month".
             ref readonly var chr = ref CalendarRef;
-            chr.PreValidator.ValidateMonth(Year, month);
-            return new CalendarMonth(Year, month, Cuid);
+            int y = Year;
+            chr.PreValidator.ValidateMonth(y, month);
+            return new CalendarMonth(y, month, Cuid);
         }
 
         /// <summary>
@@ -462,8 +464,9 @@ namespace Zorglub.Time.Simple
         public OrdinalDate GetDayOfYear(int dayOfYear)
         {
             ref readonly var chr = ref CalendarRef;
-            chr.PreValidator.ValidateDayOfYear(Year, dayOfYear);
-            return new OrdinalDate(Year, dayOfYear, Cuid);
+            int y = Year;
+            chr.PreValidator.ValidateDayOfYear(y, dayOfYear);
+            return new OrdinalDate(y, dayOfYear, Cuid);
         }
 
         /// <summary>
