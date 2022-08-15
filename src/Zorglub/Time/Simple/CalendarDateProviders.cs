@@ -6,15 +6,19 @@ namespace Zorglub.Time.Simple
     using Zorglub.Time.Core;
 
     /// <summary>
-    /// Provides methods to obtain new <see cref="CalendarDate"/> instances for a given year or month.
+    /// Provides methods to obtain new <see cref="CalendarDate"/> instances in a given year or month.
+    /// <para>This class cannot be inherited.</para>
     /// </summary>
-    public sealed partial class CalendarDateProvider : IDateProvider<CalendarDate> { }
+    public sealed partial class CalendarDateProviders : IDateProviders<CalendarDate>
+    {
+        private CalendarDateProviders() { }
+    }
 
-    public partial class CalendarDateProvider // CalendarYear
+    public partial class CalendarDateProviders // CalendarYear
     {
         /// <inheritdoc/>
         [Pure]
-        public IEnumerable<CalendarDate> GetDaysInYear(CalendarYear year)
+        public static IEnumerable<CalendarDate> GetDaysInYear(CalendarYear year)
         {
             var cuid = year.Cuid;
             var sch = year.Calendar.Schema;
@@ -35,7 +39,7 @@ namespace Zorglub.Time.Simple
 
         /// <inheritdoc/>
         [Pure]
-        public CalendarDate GetStartOfYear(CalendarYear year)
+        public static CalendarDate GetStartOfYear(CalendarYear year)
         {
             var ymd = Yemoda.AtStartOfYear(year.Year);
             return new(ymd, year.Cuid);
@@ -43,7 +47,7 @@ namespace Zorglub.Time.Simple
 
         /// <inheritdoc/>
         [Pure]
-        public CalendarDate GetDayOfYear(CalendarYear year, int dayOfYear)
+        public static CalendarDate GetDayOfYear(CalendarYear year, int dayOfYear)
         {
             ref readonly var chr = ref year.CalendarRef;
             chr.PreValidator.ValidateDayOfYear(year.Year, dayOfYear);
@@ -53,7 +57,7 @@ namespace Zorglub.Time.Simple
 
         /// <inheritdoc/>
         [Pure]
-        public CalendarDate GetEndOfYear(CalendarYear year)
+        public static CalendarDate GetEndOfYear(CalendarYear year)
         {
             ref readonly var chr = ref year.CalendarRef;
             var ymd = chr.Schema.GetDatePartsAtEndOfYear(year.Year);
@@ -61,35 +65,35 @@ namespace Zorglub.Time.Simple
         }
     }
 
-    public partial class CalendarDateProvider // CalendarMonth
+    public partial class CalendarDateProviders // CalendarMonth
     {
         /// <inheritdoc/>
         [Pure]
-        public CalendarDate GetStartOfYear(CalendarMonth month) =>
+        public static CalendarDate GetStartOfYear(CalendarMonth month) =>
             new(month.Parts.StartOfYear, month.Cuid);
 
         /// <inheritdoc/>
         [Pure]
-        public CalendarDate GetEndOfYear(CalendarMonth month)
+        public static CalendarDate GetEndOfYear(CalendarMonth month)
         {
             var ymd = month.Calendar.Schema.GetDatePartsAtEndOfYear(month.Year);
             return new CalendarDate(ymd, month.Cuid);
         }
 
         [Pure]
-        IEnumerable<CalendarDate> IDateProvider<CalendarDate>.GetDaysInMonth(CalendarMonth month) =>
+        static IEnumerable<CalendarDate> IDateProviders<CalendarDate>.GetDaysInMonth(CalendarMonth month) =>
             month.GetAllDays();
 
         [Pure]
-        CalendarDate IDateProvider<CalendarDate>.GetStartOfMonth(CalendarMonth month) =>
+        static CalendarDate IDateProviders<CalendarDate>.GetStartOfMonth(CalendarMonth month) =>
             month.FirstDay;
 
         [Pure]
-        CalendarDate IDateProvider<CalendarDate>.GetDayOfMonth(CalendarMonth month, int dayOfMonth) =>
+        static CalendarDate IDateProviders<CalendarDate>.GetDayOfMonth(CalendarMonth month, int dayOfMonth) =>
             month.GetDayOfMonth(dayOfMonth);
 
         [Pure]
-        CalendarDate IDateProvider<CalendarDate>.GetEndOfMonth(CalendarMonth month) =>
+        static CalendarDate IDateProviders<CalendarDate>.GetEndOfMonth(CalendarMonth month) =>
             month.LastDay;
     }
 }

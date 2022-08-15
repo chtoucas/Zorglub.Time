@@ -7,11 +7,11 @@ using Zorglub.Testing.Data;
 using Zorglub.Testing.Facts.Hemerology;
 using Zorglub.Time.Simple;
 
-public abstract class CalendarDateAdjustmentFacts<TDataSet> :
+public abstract class CalendarDateAdjusterFacts<TDataSet> :
     IDateAdjusterFacts<CalendarDateAdjuster, CalendarDate, TDataSet>
     where TDataSet : ICalendarDataSet, ISingleton<TDataSet>
 {
-    protected CalendarDateAdjustmentFacts(SimpleCalendar calendar)
+    protected CalendarDateAdjusterFacts(SimpleCalendar calendar)
         : base(new CalendarDateAdjuster(calendar))
     {
         Debug.Assert(calendar != null);
@@ -20,6 +20,16 @@ public abstract class CalendarDateAdjustmentFacts<TDataSet> :
     }
 
     protected SimpleCalendar Calendar { get; }
+
+    protected sealed override CalendarDate GetDate(int y, int m, int d) => Calendar.GetCalendarDate(y, m, d);
+    protected sealed override CalendarDate GetDate(int y, int doy) => Calendar.GetOrdinalDate(y, doy).ToCalendarDate();
+}
+
+public abstract class CalendarDateProvidersFacts<TDataSet> :
+    IDateProvidersFacts<CalendarDateProviders, CalendarDate, TDataSet>
+    where TDataSet : ICalendarDataSet, ISingleton<TDataSet>
+{
+    protected CalendarDateProvidersFacts(SimpleCalendar calendar) : base(calendar) { }
 
     protected sealed override CalendarDate GetDate(int y, int m, int d) => Calendar.GetCalendarDate(y, m, d);
     protected sealed override CalendarDate GetDate(int y, int doy) => Calendar.GetOrdinalDate(y, doy).ToCalendarDate();

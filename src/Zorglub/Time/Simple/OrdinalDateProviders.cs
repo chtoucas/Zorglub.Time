@@ -6,42 +6,46 @@ namespace Zorglub.Time.Simple
     using Zorglub.Time.Core;
 
     /// <summary>
-    /// Provides methods to obtain new <see cref="OrdinalDate"/> instances for a given year or month.
+    /// Provides methods to obtain new <see cref="OrdinalDate"/> instances in a given year or month.
+    /// <para>This class cannot be inherited.</para>
     /// </summary>
-    public sealed partial class OrdinalDateProvider : IDateProvider<OrdinalDate> { }
+    public sealed partial class OrdinalDateProviders : IDateProviders<OrdinalDate>
+    {
+        private OrdinalDateProviders() { }
+    }
 
-    public partial class OrdinalDateProvider // CalendarYear
+    public partial class OrdinalDateProviders // CalendarYear
     {
         [Pure]
-        IEnumerable<OrdinalDate> IDateProvider<OrdinalDate>.GetDaysInYear(CalendarYear year) =>
+        static IEnumerable<OrdinalDate> IDateProviders<OrdinalDate>.GetDaysInYear(CalendarYear year) =>
             year.GetAllDays();
 
         [Pure]
-        OrdinalDate IDateProvider<OrdinalDate>.GetStartOfYear(CalendarYear year) =>
+        static OrdinalDate IDateProviders<OrdinalDate>.GetStartOfYear(CalendarYear year) =>
             year.FirstDay;
 
         [Pure]
-        OrdinalDate IDateProvider<OrdinalDate>.GetDayOfYear(CalendarYear year, int dayOfYear) =>
+        static OrdinalDate IDateProviders<OrdinalDate>.GetDayOfYear(CalendarYear year, int dayOfYear) =>
             year.GetDayOfYear(dayOfYear);
 
         [Pure]
-        OrdinalDate IDateProvider<OrdinalDate>.GetEndOfYear(CalendarYear year) =>
+        static OrdinalDate IDateProviders<OrdinalDate>.GetEndOfYear(CalendarYear year) =>
             year.LastDay;
     }
 
-    public partial class OrdinalDateProvider // CalendarMonth
+    public partial class OrdinalDateProviders // CalendarMonth
     {
         [Pure]
-        OrdinalDate IDateProvider<OrdinalDate>.GetStartOfYear(CalendarMonth month) =>
+        static OrdinalDate IDateProviders<OrdinalDate>.GetStartOfYear(CalendarMonth month) =>
             month.CalendarYear.FirstDay;
 
         [Pure]
-        OrdinalDate IDateProvider<OrdinalDate>.GetEndOfYear(CalendarMonth month) =>
+        static OrdinalDate IDateProviders<OrdinalDate>.GetEndOfYear(CalendarMonth month) =>
             month.CalendarYear.LastDay;
 
         /// <inheritdoc/>
         [Pure]
-        public IEnumerable<OrdinalDate> GetDaysInMonth(CalendarMonth month)
+        public static IEnumerable<OrdinalDate> GetDaysInMonth(CalendarMonth month)
         {
             var sch = month.Calendar.Schema;
             month.Parts.Unpack(out int y, out int m);
@@ -56,7 +60,7 @@ namespace Zorglub.Time.Simple
 
         /// <inheritdoc/>
         [Pure]
-        public OrdinalDate GetStartOfMonth(CalendarMonth month)
+        public static OrdinalDate GetStartOfMonth(CalendarMonth month)
         {
             month.Parts.Unpack(out int y, out int m);
             ref readonly var chr = ref month.CalendarRef;
@@ -66,7 +70,7 @@ namespace Zorglub.Time.Simple
 
         /// <inheritdoc/>
         [Pure]
-        public OrdinalDate GetDayOfMonth(CalendarMonth month, int dayOfMonth)
+        public static OrdinalDate GetDayOfMonth(CalendarMonth month, int dayOfMonth)
         {
             month.Parts.Unpack(out int y, out int m);
             ref readonly var chr = ref month.CalendarRef;
@@ -77,7 +81,7 @@ namespace Zorglub.Time.Simple
 
         /// <inheritdoc/>
         [Pure]
-        public OrdinalDate GetEndOfMonth(CalendarMonth month)
+        public static OrdinalDate GetEndOfMonth(CalendarMonth month)
         {
             month.Parts.Unpack(out int y, out int m);
             ref readonly var chr = ref month.CalendarRef;

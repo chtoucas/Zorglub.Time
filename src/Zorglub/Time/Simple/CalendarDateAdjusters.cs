@@ -3,7 +3,7 @@
 
 namespace Zorglub.Time.Simple
 {
-    // REVIEW(code): optimize WithXXX(), idem with the other adjusters.
+    // REVIEW(perf): optimize WithXXX(), idem with the other adjusters.
 
     /// <summary>
     /// Provides common adjusters for <see cref="CalendarDate"/>.

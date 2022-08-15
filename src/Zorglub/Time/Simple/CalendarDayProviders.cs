@@ -7,14 +7,18 @@ namespace Zorglub.Time.Simple
 
     /// <summary>
     /// Provides methods to obtain new <see cref="CalendarDay"/> instances for a given year or month.
+    /// <para>This class cannot be inherited.</para>
     /// </summary>
-    public sealed partial class CalendarDayProvider : IDateProvider<CalendarDay> { }
+    public sealed partial class CalendarDayProviders : IDateProviders<CalendarDay>
+    {
+        private CalendarDayProviders() { }
+    }
 
-    public partial class CalendarDayProvider // CalendarYear
+    public partial class CalendarDayProviders // CalendarYear
     {
         /// <inheritdoc/>
         [Pure]
-        public IEnumerable<CalendarDay> GetDaysInYear(CalendarYear year)
+        public static IEnumerable<CalendarDay> GetDaysInYear(CalendarYear year)
         {
             var cuid = year.Cuid;
             var sch = year.Calendar.Schema;
@@ -28,7 +32,7 @@ namespace Zorglub.Time.Simple
 
         /// <inheritdoc/>
         [Pure]
-        public CalendarDay GetStartOfYear(CalendarYear year)
+        public static CalendarDay GetStartOfYear(CalendarYear year)
         {
             ref readonly var chr = ref year.CalendarRef;
             int daysSinceEpoch = chr.Schema.GetStartOfYear(year.Year);
@@ -37,7 +41,7 @@ namespace Zorglub.Time.Simple
 
         /// <inheritdoc/>
         [Pure]
-        public CalendarDay GetDayOfYear(CalendarYear year, int dayOfYear)
+        public static CalendarDay GetDayOfYear(CalendarYear year, int dayOfYear)
         {
             ref readonly var chr = ref year.CalendarRef;
             chr.PreValidator.ValidateDayOfYear(year.Year, dayOfYear);
@@ -47,7 +51,7 @@ namespace Zorglub.Time.Simple
 
         /// <inheritdoc/>
         [Pure]
-        public CalendarDay GetEndOfYear(CalendarYear year)
+        public static CalendarDay GetEndOfYear(CalendarYear year)
         {
             ref readonly var chr = ref year.CalendarRef;
             int daysSinceEpoch = chr.Schema.GetEndOfYear(year.Year);
@@ -55,11 +59,11 @@ namespace Zorglub.Time.Simple
         }
     }
 
-    public partial class CalendarDayProvider // CalendarMonth
+    public partial class CalendarDayProviders // CalendarMonth
     {
         /// <inheritdoc/>
         [Pure]
-        public CalendarDay GetStartOfYear(CalendarMonth month)
+        public static CalendarDay GetStartOfYear(CalendarMonth month)
         {
             int daysSinceEpoch = month.Calendar.Schema.GetStartOfYear(month.Year);
             return new CalendarDay(daysSinceEpoch, month.Cuid);
@@ -67,7 +71,7 @@ namespace Zorglub.Time.Simple
 
         /// <inheritdoc/>
         [Pure]
-        public CalendarDay GetEndOfYear(CalendarMonth month)
+        public static CalendarDay GetEndOfYear(CalendarMonth month)
         {
             int daysSinceEpoch = month.Calendar.Schema.GetEndOfYear(month.Year);
             return new CalendarDay(daysSinceEpoch, month.Cuid);
@@ -75,7 +79,7 @@ namespace Zorglub.Time.Simple
 
         /// <inheritdoc/>
         [Pure]
-        public IEnumerable<CalendarDay> GetDaysInMonth(CalendarMonth month)
+        public static IEnumerable<CalendarDay> GetDaysInMonth(CalendarMonth month)
         {
             var cuid = month.Cuid;
             var sch = month.Calendar.Schema;
@@ -90,7 +94,7 @@ namespace Zorglub.Time.Simple
 
         /// <inheritdoc/>
         [Pure]
-        public CalendarDay GetStartOfMonth(CalendarMonth month)
+        public static CalendarDay GetStartOfMonth(CalendarMonth month)
         {
             month.Parts.Unpack(out int y, out int m);
             ref readonly var chr = ref month.CalendarRef;
@@ -100,7 +104,7 @@ namespace Zorglub.Time.Simple
 
         /// <inheritdoc/>
         [Pure]
-        public CalendarDay GetDayOfMonth(CalendarMonth month, int dayOfMonth)
+        public static CalendarDay GetDayOfMonth(CalendarMonth month, int dayOfMonth)
         {
             month.Parts.Unpack(out int y, out int m);
             ref readonly var chr = ref month.CalendarRef;
@@ -111,7 +115,7 @@ namespace Zorglub.Time.Simple
 
         /// <inheritdoc/>
         [Pure]
-        public CalendarDay GetEndOfMonth(CalendarMonth month)
+        public static CalendarDay GetEndOfMonth(CalendarMonth month)
         {
             month.Parts.Unpack(out int y, out int m);
             ref readonly var chr = ref month.CalendarRef;

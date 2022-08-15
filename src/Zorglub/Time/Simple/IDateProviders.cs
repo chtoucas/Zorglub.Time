@@ -1,6 +1,8 @@
 ﻿// SPDX-License-Identifier: BSD-3-Clause
 // Copyright (c) 2020 Narvalo.Org. All rights reserved.
 
+#pragma warning disable CA1000 // Do not declare static members on generic types (Design) 👈 PreviewFeatures
+
 namespace Zorglub.Time.Simple
 {
     using System.Collections.Generic;
@@ -14,7 +16,7 @@ namespace Zorglub.Time.Simple
     /// Provides methods to obtain dates in a year or a month.
     /// </summary>
     /// <typeparam name="TDate">The type of date object to return.</typeparam>
-    public interface IDateProvider<out TDate>
+    public interface IDateProviders<out TDate>
     {
         //
         // CalendarYear
@@ -23,24 +25,24 @@ namespace Zorglub.Time.Simple
         /// <summary>
         /// Obtains the sequence of days in the specified year.
         /// </summary>
-        [Pure] IEnumerable<TDate> GetDaysInYear(CalendarYear year);
+        [Pure] static abstract IEnumerable<TDate> GetDaysInYear(CalendarYear year);
 
         /// <summary>
         /// Obtains the first day of the specified year.
         /// </summary>
-        [Pure] TDate GetStartOfYear(CalendarYear year);
+        [Pure] static abstract TDate GetStartOfYear(CalendarYear year);
 
         /// <summary>
         /// Obtains the date corresponding to the specified day of the specified year.
         /// </summary>
         /// <exception cref="AoorException"><paramref name="dayOfYear"/> is outside the range of
         /// valid values.</exception>
-        [Pure] TDate GetDayOfYear(CalendarYear year, int dayOfYear);
+        [Pure] static abstract TDate GetDayOfYear(CalendarYear year, int dayOfYear);
 
         /// <summary>
         /// Obtains the last day of the specified year.
         /// </summary>
-        [Pure] TDate GetEndOfYear(CalendarYear year);
+        [Pure] static abstract TDate GetEndOfYear(CalendarYear year);
 
         //
         // CalendarMonth
@@ -49,34 +51,34 @@ namespace Zorglub.Time.Simple
         /// <summary>
         /// Obtains the first day of the year to which belongs the specified month.
         /// </summary>
-        [Pure] TDate GetStartOfYear(CalendarMonth month);
+        [Pure] static abstract TDate GetStartOfYear(CalendarMonth month);
 
         /// <summary>
         /// Obtains the last day of the year to which belongs the specified month.
         /// </summary>
-        [Pure] TDate GetEndOfYear(CalendarMonth month);
+        [Pure] static abstract TDate GetEndOfYear(CalendarMonth month);
 
         /// <summary>
         /// Obtains the sequence of days in the specified month.
         /// </summary>
-        [Pure] IEnumerable<TDate> GetDaysInMonth(CalendarMonth month);
+        [Pure] static abstract IEnumerable<TDate> GetDaysInMonth(CalendarMonth month);
 
         /// <summary>
         /// Obtains the first day of the specified month.
         /// </summary>
-        [Pure] TDate GetStartOfMonth(CalendarMonth month);
+        [Pure] static abstract TDate GetStartOfMonth(CalendarMonth month);
 
         /// <summary>
         /// Obtains the date corresponding to the specified day of the specified month.
         /// </summary>
         /// <exception cref="AoorException"><paramref name="dayOfMonth"/> is outside the range of
         /// valid values.</exception>
-        [Pure] TDate GetDayOfMonth(CalendarMonth month, int dayOfMonth);
+        [Pure] static abstract TDate GetDayOfMonth(CalendarMonth month, int dayOfMonth);
 
         /// <summary>
         /// Obtains the last day of the specified month.
         /// </summary>
-        [Pure] TDate GetEndOfMonth(CalendarMonth month);
+        [Pure] static abstract TDate GetEndOfMonth(CalendarMonth month);
 
     }
 }

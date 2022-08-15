@@ -3,6 +3,8 @@
 
 namespace Zorglub.Testing.Facts.Simple;
 
+using System;
+
 using Zorglub.Testing.Data;
 using Zorglub.Time.Simple;
 
@@ -186,49 +188,5 @@ public partial class OrdinalDateFacts<TDataSet> // Comparison
         var right = CalendarUT.GetOrdinalDate(y, doy);
         // Act & Assert
         Assert.True(left.CompareFast(right) < 0);
-    }
-}
-
-//
-// Tests for related classes
-//
-
-public partial class OrdinalDateFacts<TDataSet> // OrdinalDateProvider
-{
-    private static readonly IDateProvider<OrdinalDate> s_Provider = new OrdinalDateProvider();
-
-    //
-    // CalendarMonth
-    //
-
-    [Theory, MemberData(nameof(MonthInfoData))]
-    public void OrdinalDateProvider_GetStartOfMonth(MonthInfo info)
-    {
-        var (y, m) = info.Yemo;
-        var month = CalendarUT.GetCalendarMonth(y, m);
-        var startOfMonth = CalendarUT.GetCalendarDate(y, m, 1).ToOrdinalDate();
-        // Act & Assert
-        Assert.Equal(startOfMonth, s_Provider.GetStartOfMonth(month));
-    }
-
-    [Theory, MemberData(nameof(DateInfoData))]
-    public void OrdinalDateProvider_GetDayOfMonth(DateInfo info)
-    {
-        var (y, m, d, doy) = info;
-        var month = CalendarUT.GetCalendarMonth(y, m);
-        var date = CalendarUT.GetOrdinalDate(y, doy);
-        // Act & Assert
-        Assert.Equal(date, s_Provider.GetDayOfMonth(month, d));
-    }
-
-    [Theory, MemberData(nameof(MonthInfoData))]
-    public void OrdinalDateProvider_GetEndOfMonth(MonthInfo info)
-    {
-        var (y, m) = info.Yemo;
-        var daysInMonth = info.DaysInMonth;
-        var month = CalendarUT.GetCalendarMonth(y, m);
-        var endOfMonth = CalendarUT.GetCalendarDate(y, m, daysInMonth).ToOrdinalDate();
-        // Act & Assert
-        Assert.Equal(endOfMonth, s_Provider.GetEndOfMonth(month));
     }
 }
