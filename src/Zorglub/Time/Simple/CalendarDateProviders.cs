@@ -4,6 +4,7 @@
 namespace Zorglub.Time.Simple
 {
     using Zorglub.Time.Core;
+    using Zorglub.Time.Core.Intervals;
 
     /// <summary>
     /// Provides methods to obtain new <see cref="CalendarDate"/> instances in a given year or month.
@@ -17,6 +18,11 @@ namespace Zorglub.Time.Simple
 
     public partial class CalendarDateProviders // CalendarYear
     {
+        /// <inheritdoc/>
+        [Pure]
+        public static Range<CalendarDate> ConvertToRange(CalendarYear year) =>
+            Range.Create(GetStartOfYear(year), GetEndOfYear(year));
+
         /// <inheritdoc/>
         [Pure]
         public static IEnumerable<CalendarDate> GetDaysInYear(CalendarYear year)
@@ -80,6 +86,10 @@ namespace Zorglub.Time.Simple
             var ymd = month.Calendar.Schema.GetDatePartsAtEndOfYear(month.Year);
             return new CalendarDate(ymd, month.Cuid);
         }
+
+        [Pure]
+        static Range<CalendarDate> IDateProviders<CalendarDate>.ConvertToRange(CalendarMonth month) =>
+            month.ToRange();
 
         [Pure]
         static IEnumerable<CalendarDate> IDateProviders<CalendarDate>.GetDaysInMonth(CalendarMonth month) =>

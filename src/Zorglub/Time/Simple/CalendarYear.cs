@@ -389,6 +389,12 @@ namespace Zorglub.Time.Simple
         public Range<OrdinalDate> ToRange() => Range.Create(FirstDay, LastDay);
 
         /// <summary>
+        /// Converts the current instance to a range of months.
+        /// </summary>
+        [Pure]
+        public Range<CalendarMonth> ToMonthRange() => Range.Create(FirstMonth, LastMonth);
+
+        /// <summary>
         /// Interconverts the current instance to a range of days within a different calendar.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="newCalendar"/> is null.

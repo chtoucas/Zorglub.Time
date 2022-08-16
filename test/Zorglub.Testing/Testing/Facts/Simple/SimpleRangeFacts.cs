@@ -84,7 +84,7 @@ public abstract partial class SimpleRangeFacts<TDataSet> // Month
     {
         int y = info.Year;
         var year = CalendarUT.GetCalendarYear(y);
-        var range = MonthRange.Create(year);
+        var range = year.ToMonthRange();
         var exp = from m in Enumerable.Range(1, info.MonthsInYear)
                   select CalendarUT.GetCalendarMonth(y, m);
         // Act

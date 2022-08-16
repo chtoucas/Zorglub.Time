@@ -49,6 +49,20 @@ namespace Zorglub.Time.Core.Intervals
             return new(OrderedPair.FromOrderedValues(min, max));
         }
 
+        // TODO(api): name?
+
+        /// <summary>
+        /// Creates a new instance of the <see cref="Range{T}"/> struct from the specified minimum
+        /// and length.
+        /// </summary>
+        /// <exception cref="AoorException"><paramref name="length"/> is less than 1.</exception>
+        [Pure]
+        public static Range<T> CreateWithLength<T>(T min, int length)
+            where T : struct, IEquatable<T>, IComparable<T>, IAdditionOperators<T, int, T>
+        {
+            return new(min, min + (length - 1));
+        }
+
         /// <summary>
         /// Creates a new instance of the <see cref="Range{T}"/> struct representing the
         /// degenerate range [<paramref name="value"/>].

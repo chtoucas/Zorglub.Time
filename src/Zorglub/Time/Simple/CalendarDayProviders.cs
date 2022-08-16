@@ -5,6 +5,8 @@ namespace Zorglub.Time.Simple
 {
     using System.Linq;
 
+    using Zorglub.Time.Core.Intervals;
+
     /// <summary>
     /// Provides methods to obtain new <see cref="CalendarDay"/> instances for a given year or month.
     /// <para>This class cannot be inherited.</para>
@@ -17,6 +19,11 @@ namespace Zorglub.Time.Simple
 
     public partial class CalendarDayProviders // CalendarYear
     {
+        /// <inheritdoc/>
+        [Pure]
+        public static Range<CalendarDay> ConvertToRange(CalendarYear year) =>
+            Range.Create(GetStartOfYear(year), GetEndOfYear(year));
+
         /// <inheritdoc/>
         [Pure]
         public static IEnumerable<CalendarDay> GetDaysInYear(CalendarYear year)
@@ -77,6 +84,11 @@ namespace Zorglub.Time.Simple
             int daysSinceEpoch = month.Calendar.Schema.GetEndOfYear(month.Year);
             return new CalendarDay(daysSinceEpoch, month.Cuid);
         }
+
+        /// <inheritdoc/>
+        [Pure]
+        public static Range<CalendarDay> ConvertToRange(CalendarMonth month) =>
+            Range.Create(GetStartOfMonth(month), GetEndOfMonth(month));
 
         /// <inheritdoc/>
         [Pure]

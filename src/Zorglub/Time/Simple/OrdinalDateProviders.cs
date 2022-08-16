@@ -4,6 +4,7 @@
 namespace Zorglub.Time.Simple
 {
     using Zorglub.Time.Core;
+    using Zorglub.Time.Core.Intervals;
 
     /// <summary>
     /// Provides methods to obtain new <see cref="OrdinalDate"/> instances in a given year or month.
@@ -17,6 +18,10 @@ namespace Zorglub.Time.Simple
 
     public partial class OrdinalDateProviders // CalendarYear
     {
+        [Pure]
+        static Range<OrdinalDate> IDateProviders<OrdinalDate>.ConvertToRange(CalendarYear year) =>
+            year.ToRange();
+
         [Pure]
         static IEnumerable<OrdinalDate> IDateProviders<OrdinalDate>.GetDaysInYear(CalendarYear year) =>
             year.GetAllDays();
@@ -43,6 +48,11 @@ namespace Zorglub.Time.Simple
         [Pure]
         static OrdinalDate IDateProviders<OrdinalDate>.GetEndOfYear(CalendarMonth month) =>
             month.CalendarYear.LastDay;
+
+        /// <inheritdoc/>
+        [Pure]
+        public static Range<OrdinalDate> ConvertToRange(CalendarMonth month) =>
+            Range.Create(GetStartOfMonth(month), GetEndOfMonth(month));
 
         /// <inheritdoc/>
         [Pure]

@@ -7,6 +7,10 @@ namespace Zorglub.Time.Simple
 {
     using System.Collections.Generic;
 
+    using Zorglub.Time.Core.Intervals;
+
+    // REVIEW(api): no longer use explicit interface impl?
+
     // Do NOT replace CalendarYear or CalendarMonth by int's, it's a bad idea.
     // With an int, we can only produce dates in a single calendar, the
     // default one. With CalendarYear, this is no longer a problem.
@@ -16,11 +20,17 @@ namespace Zorglub.Time.Simple
     /// Provides methods to obtain dates in a year or a month.
     /// </summary>
     /// <typeparam name="TDate">The type of date object to return.</typeparam>
-    public interface IDateProviders<out TDate>
+    public interface IDateProviders<TDate>
+        where TDate : struct, ISimpleDate<TDate>
     {
         //
         // CalendarYear
         //
+
+        /// <summary>
+        /// Converts the specified year to a range of days.
+        /// </summary>
+        [Pure] static abstract Range<TDate> ConvertToRange(CalendarYear year);
 
         /// <summary>
         /// Obtains the sequence of days in the specified year.
@@ -57,6 +67,11 @@ namespace Zorglub.Time.Simple
         /// Obtains the last day of the year to which belongs the specified month.
         /// </summary>
         [Pure] static abstract TDate GetEndOfYear(CalendarMonth month);
+
+        /// <summary>
+        /// Converts the specified month to a range of days.
+        /// </summary>
+        [Pure] static abstract Range<TDate> ConvertToRange(CalendarMonth month);
 
         /// <summary>
         /// Obtains the sequence of days in the specified month.

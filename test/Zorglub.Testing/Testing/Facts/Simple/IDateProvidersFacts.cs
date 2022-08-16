@@ -11,6 +11,7 @@ using Zorglub.Time.Simple;
 public abstract partial class IDateProvidersFacts<TProvider, TDate, TDataSet> :
     CalendricalDataConsumer<TDataSet>
     where TProvider : IDateProviders<TDate>
+    where TDate : struct, ISimpleDate<TDate>
     where TDataSet : ICalendarDataSet, ISingleton<TDataSet>
 {
     protected IDateProvidersFacts(SimpleCalendar calendar)
