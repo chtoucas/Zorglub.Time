@@ -77,6 +77,8 @@ public static class MinMaxYearNakedCalendarTests
     //}
 }
 
+#if false
+
 public class GregorianMinMaxYearCalendarDataSet :
     MinMaxYearCalendarDataSet<UnboundedGregorianDataSet>,
     ISingleton<GregorianMinMaxYearCalendarDataSet>
@@ -123,3 +125,5 @@ public sealed class GregorianMinMaxYearNakedCalendarTests :
         Assert.Equal(LastYear, supportedYears.MaxYear);
     }
 }
+
+#endif

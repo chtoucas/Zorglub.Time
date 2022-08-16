@@ -57,6 +57,8 @@ public static class BoundedBelowNakedCalendarTests
     }
 }
 
+#if false
+
 public sealed class GregorianBoundedBelowNakedCalendarTests
     : NakedCalendarFacts<BoundedBelowNakedCalendar, UnboundedGregorianDataSet>
 {
@@ -174,3 +176,5 @@ public sealed class GregorianBoundedBelowNakedCalendarTests
         Assert.Equal(daysInFirstMonth, CalendarUT.CountDaysInFirstMonth());
     }
 }
+
+#endif

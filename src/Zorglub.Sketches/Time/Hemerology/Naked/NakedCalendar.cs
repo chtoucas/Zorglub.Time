@@ -48,8 +48,6 @@ namespace Zorglub.Time.Hemerology.Naked
         /// <exception cref="ArgumentNullException"><paramref name="scope"/> is null.</exception>
         protected NakedCalendar(string name, CalendarScope scope) : base(name, scope)
         {
-            Debug.Assert(scope != null);
-
             PartsAdapter = new PartsAdapter(Schema);
         }
 
@@ -59,7 +57,7 @@ namespace Zorglub.Time.Hemerology.Naked
         protected PartsAdapter PartsAdapter { get; }
     }
 
-    public partial class NakedCalendar // Factories
+    public partial class NakedCalendar // Factories, conversions
     {
         /// <summary>
         /// Obtains the current date on this machine.
@@ -67,10 +65,7 @@ namespace Zorglub.Time.Hemerology.Naked
         /// <exception cref="AoorException">Today is not within the calendar boundaries.</exception>
         [Pure]
         public DateParts Today() => GetDateParts(DayNumber.Today());
-    }
 
-    public partial class NakedCalendar // Conversions
-    {
         /// <summary>
         /// Obtains the date parts for the specified day number.
         /// </summary>

@@ -4,12 +4,13 @@
 namespace Zorglub.Time.Hemerology.Naked
 {
     using Zorglub.Time.Core;
+    using Zorglub.Time.Core.Validation;
     using Zorglub.Time.Hemerology.Scopes;
 
     /// <summary>
     /// Represents a calendar with dates within a range of years.
     /// </summary>
-    public partial class MinMaxYearNakedCalendar : NakedCalendar
+    public partial class MinMaxYearNakedCalendar : MinMaxYearCalendar, INakedCalendar
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="MinMaxYearCalendar"/> class.
@@ -18,7 +19,7 @@ namespace Zorglub.Time.Hemerology.Naked
         /// <exception cref="ArgumentNullException"><paramref name="scope"/> is null.</exception>
         public MinMaxYearNakedCalendar(string name, MinMaxYearScope scope) : base(name, scope)
         {
-            DayCalendar = new MinMaxYearDayCalendar(name, scope);
+            PartsAdapter = new PartsAdapter(Schema);
         }
 
         /// <summary>
@@ -29,39 +30,51 @@ namespace Zorglub.Time.Hemerology.Naked
         /// <exception cref="ArgumentException"><paramref name="scope"/> is not complete.</exception>
         public MinMaxYearNakedCalendar(string name, CalendarScope scope) : base(name, scope)
         {
-            DayCalendar = new MinMaxYearDayCalendar(name, scope);
+            PartsAdapter = new PartsAdapter(Schema);
         }
 
         /// <summary>
-        /// Gets a provider for day numbers in a year or a month.
+        /// Gets the adapter for calendrical parts.
         /// </summary>
-        public MinMaxYearDayCalendar DayCalendar { get; }
+        protected PartsAdapter PartsAdapter { get; }
     }
 
-    public partial class MinMaxYearNakedCalendar // Year, month, day infos
+    public partial class MinMaxYearNakedCalendar // Factories, conversions
     {
         /// <inheritdoc />
         [Pure]
-        public sealed override int CountMonthsInYear(int year)
+        public DateParts Today() => GetDateParts(DayNumber.Today());
+
+        /// <inheritdoc />
+        [Pure]
+        public DateParts GetDateParts(DayNumber dayNumber)
         {
-            YearsValidator.Validate(year);
-            return Schema.CountMonthsInYear(year);
+            Domain.Validate(dayNumber);
+            return PartsAdapter.GetDateParts(dayNumber - Epoch);
         }
 
         /// <inheritdoc />
         [Pure]
-        public sealed override int CountDaysInYear(int year)
+        public DateParts GetDateParts(int year, int dayOfYear)
         {
-            YearsValidator.Validate(year);
-            return Schema.CountDaysInYear(year);
+            Scope.ValidateOrdinal(year, dayOfYear);
+            return PartsAdapter.GetDateParts(year, dayOfYear);
         }
 
         /// <inheritdoc />
         [Pure]
-        public sealed override int CountDaysInMonth(int year, int month)
+        public OrdinalParts GetOrdinalParts(DayNumber dayNumber)
         {
-            Scope.ValidateYearMonth(year, month);
-            return Schema.CountDaysInMonth(year, month);
+            Domain.Validate(dayNumber);
+            return PartsAdapter.GetOrdinalParts(dayNumber - Epoch);
+        }
+
+        /// <inheritdoc />
+        [Pure]
+        public OrdinalParts GetOrdinalParts(int year, int month, int day)
+        {
+            Scope.ValidateYearMonthDay(year, month, day);
+            return PartsAdapter.GetOrdinalParts(year, month, day);
         }
     }
 
@@ -69,7 +82,7 @@ namespace Zorglub.Time.Hemerology.Naked
     {
         /// <inheritdoc />
         [Pure]
-        public sealed override IEnumerable<DateParts> GetDaysInYear(int year)
+        public IEnumerable<DateParts> GetDaysInYear(int year)
         {
             // Check arg eagerly.
             YearsValidator.Validate(year);
@@ -94,7 +107,7 @@ namespace Zorglub.Time.Hemerology.Naked
 
         /// <inheritdoc />
         [Pure]
-        public sealed override IEnumerable<DateParts> GetDaysInMonth(int year, int month)
+        public IEnumerable<DateParts> GetDaysInMonth(int year, int month)
         {
             // Check arg eagerly.
             Scope.ValidateYearMonth(year, month);
@@ -114,7 +127,7 @@ namespace Zorglub.Time.Hemerology.Naked
 
         /// <inheritdoc />
         [Pure]
-        public sealed override DateParts GetStartOfYear(int year)
+        public DateParts GetStartOfYear(int year)
         {
             YearsValidator.Validate(year);
             return DateParts.AtStartOfYear(year);
@@ -122,7 +135,7 @@ namespace Zorglub.Time.Hemerology.Naked
 
         /// <inheritdoc />
         [Pure]
-        public sealed override DateParts GetEndOfYear(int year)
+        public DateParts GetEndOfYear(int year)
         {
             YearsValidator.Validate(year);
             return PartsAdapter.GetDatePartsAtEndOfYear(year);
@@ -130,7 +143,7 @@ namespace Zorglub.Time.Hemerology.Naked
 
         /// <inheritdoc />
         [Pure]
-        public sealed override DateParts GetStartOfMonth(int year, int month)
+        public DateParts GetStartOfMonth(int year, int month)
         {
             Scope.ValidateYearMonth(year, month);
             return DateParts.AtStartOfMonth(year, month);
@@ -138,7 +151,7 @@ namespace Zorglub.Time.Hemerology.Naked
 
         /// <inheritdoc />
         [Pure]
-        public sealed override DateParts GetEndOfMonth(int year, int month)
+        public DateParts GetEndOfMonth(int year, int month)
         {
             Scope.ValidateYearMonth(year, month);
             return PartsAdapter.GetDatePartsAtEndOfMonth(year, month);

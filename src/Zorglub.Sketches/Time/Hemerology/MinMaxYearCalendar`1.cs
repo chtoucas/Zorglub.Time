@@ -3,23 +3,15 @@
 
 namespace Zorglub.Time.Hemerology
 {
-    using System.Collections.Generic;
-    using System.Diagnostics.Contracts;
     using System.Linq;
 
     using Zorglub.Time.Hemerology.Scopes;
-
-    // WARNINGS: we use TDate.FromDayNumber()
-    // - Does NOT work with dates linked to a poly-calendar system.
-    // - Not very efficient, TDate.FromDayNumber() will validate its input even
-    //   if we know here that it's unnecessary.
 
     /// <summary>
     /// Represents a calendar with dates within a range of years.
     /// </summary>
     /// <typeparam name="TDate">The type of date object.</typeparam>
     public abstract class MinMaxYearCalendar<TDate> : MinMaxYearCalendar, ICalendar<TDate>
-        where TDate : IFixedDay<TDate>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="MinMaxYearCalendar{TDate}"/> class.
