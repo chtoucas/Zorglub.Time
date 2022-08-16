@@ -1,7 +1,7 @@
 ﻿// SPDX-License-Identifier: BSD-3-Clause
 // Copyright (c) 2020 Narvalo.Org. All rights reserved.
 
-namespace Zorglub.Time.Hemerology.Naked
+namespace Zorglub.Time.Hemerology
 {
     using Zorglub.Time.Core;
     using Zorglub.Time.Core.Validation;
@@ -36,7 +36,8 @@ namespace Zorglub.Time.Hemerology.Naked
     #endregion
 
     /// <summary>
-    /// Represents a calendar without a companion date type and provides a base for derived classes.
+    /// Represents a calendar without a dedicated companion date type and provides a base for
+    /// derived classes.
     /// </summary>
     public abstract partial class NakedCalendar : BasicCalendar, ICalendar<DateParts>
     {

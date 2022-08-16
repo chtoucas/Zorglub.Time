@@ -5,7 +5,7 @@ module Zorglub.Bulgroz.Demo
 
 open Zorglub.Time
 open Zorglub.Time.Core.Schemas
-open Zorglub.Time.Hemerology.Naked
+open Zorglub.Time.Hemerology
 open Zorglub.Time.Hemerology.Scopes
 open Zorglub.Time.Simple
 open Zorglub.Time.Specialized

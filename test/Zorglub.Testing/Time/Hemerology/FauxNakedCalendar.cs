@@ -3,7 +3,6 @@
 
 namespace Zorglub.Time.Hemerology;
 
-using Zorglub.Time.Hemerology.Naked;
 using Zorglub.Time.Hemerology.Scopes;
 
 public sealed class FauxNakedCalendar : NakedCalendar
