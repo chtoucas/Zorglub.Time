@@ -349,67 +349,6 @@ namespace Zorglub.Time
         #endregion
         #region Adjustments
 
-        /// <summary>
-        /// Adjusts the current instance using the specified adjuster.
-        /// <para>If the adjuster throws, this method will propagate the exception.</para>
-        /// </summary>
-        /// <exception cref="ArgumentNullException"><paramref name="adjuster"/> is null.</exception>
-        [Pure]
-        public ZDate Adjust(Func<ZDate, ZDate> adjuster)
-        {
-            Requires.NotNull(adjuster);
-
-            return adjuster.Invoke(this);
-        }
-
-        /// <summary>
-        /// Adjusts the day number field to the specified values, yielding a new calendar day.
-        /// </summary>
-        /// <exception cref="AoorException"><paramref name="newDayNumber"/> is outside the range of
-        /// supported values.</exception>
-        [Pure]
-        [Obsolete("To be removed.")]
-        public ZDate WithDayNumber(DayNumber newDayNumber)
-        {
-            ref readonly var chr = ref CalendarRef;
-            chr.Domain.Validate(newDayNumber);
-            return new ZDate(newDayNumber - chr.Epoch, _cuid);
-        }
-
-        ///// <inheritdoc/>
-        //[Pure]
-        //public ZDate WithYear(int newYear)
-        //{
-        //    _bin.Unpack(out _, out int m, out int d);
-        //    var chr = Calendar;
-        //    chr.Scope.ValidateYearMonthDay(newYear, m, d, nameof(newYear));
-        //    return new ZDate(newYear, m, d, _cuid);
-        //}
-
-        ///// <inheritdoc/>
-        //[Pure]
-        //public ZDate WithMonth(int newMonth)
-        //{
-        //    _bin.Unpack(out int y, out _, out int d);
-        //    var chr = Calendar;
-        //    chr.PreValidator.ValidateMonthDay(y, newMonth, d, nameof(newMonth));
-        //    return new ZDate(y, newMonth, d, _cuid);
-        //}
-
-        ///// <inheritdoc/>
-        //[Pure]
-        //public ZDate WithDay(int newDay)
-        //{
-        //    _bin.Unpack(out int y, out int m);
-        //    var chr = Calendar;
-        //    chr.ValidateDayOfMonth(y, m, newDay, nameof(newDay));
-        //    return new ZDate(y, m, newDay, _cuid);
-        //}
-
-        //
-        // Adjust the day of the week
-        //
-
         /// <inheritdoc />
         [Pure]
         public ZDate Previous(DayOfWeek dayOfWeek)

@@ -5,17 +5,16 @@ namespace Zorglub.Time;
 
 using System.Diagnostics.Contracts;
 
+using Zorglub.Time.Core.Schemas;
+
 // There is only one advantage to have these methods: data is already validated.
 // Notice that it's true because years are complete which means, for instance,
 // that GetStartOfYear() is always valid.
 
 public static class ZDateAdjusters
 {
-    /// <summary>
-    /// Obtains the start of the year to which belongs the specified date.
-    /// </summary>
     [Pure]
-    public static ZDate GetStartOfYear(ZDate date)
+    public static ZDate GetStartOfYear(this ZDate date)
     {
         ref readonly var chr = ref date.CalendarRef;
         var sch = chr.Schema;
@@ -24,11 +23,8 @@ public static class ZDateAdjusters
         return new ZDate(startOfYear, date.Cuid);
     }
 
-    /// <summary>
-    /// Obtains the end of the year to which belongs the specified date.
-    /// </summary>
     [Pure]
-    public static ZDate GetEndOfYear(ZDate date)
+    public static ZDate GetEndOfYear(this ZDate date)
     {
         ref readonly var chr = ref date.CalendarRef;
         var sch = chr.Schema;
@@ -37,11 +33,8 @@ public static class ZDateAdjusters
         return new ZDate(endOfYear, date.Cuid);
     }
 
-    /// <summary>
-    /// Obtains the start of the month to which belongs the specified date.
-    /// </summary>
     [Pure]
-    public static ZDate GetStartOfMonth(ZDate date)
+    public static ZDate GetStartOfMonth(this ZDate date)
     {
         ref readonly var chr = ref date.CalendarRef;
         var sch = chr.Schema;
@@ -50,11 +43,8 @@ public static class ZDateAdjusters
         return new ZDate(startOfMonth, date.Cuid);
     }
 
-    /// <summary>
-    /// Obtains the end of the month to which belongs the specified date.
-    /// </summary>
     [Pure]
-    public static ZDate GetEndOfMonth(ZDate date)
+    public static ZDate GetEndOfMonth(this ZDate date)
     {
         ref readonly var chr = ref date.CalendarRef;
         var sch = chr.Schema;
@@ -63,4 +53,52 @@ public static class ZDateAdjusters
         return new ZDate(endOfMonth, date.Cuid);
     }
 
+    [Pure]
+    public static ZDate WithYear(this ZDate date, int newYear)
+    {
+        ref readonly var chr = ref date.CalendarRef;
+        var sch = chr.Schema;
+        sch.GetDateParts(date.DaysSinceEpoch, out _, out int m, out int d);
+        chr.Scope.ValidateYearMonthDay(newYear, m, d, nameof(newYear));
+        int daysSinceEpoch = sch.CountDaysSinceEpoch(newYear, m, d);
+        return new ZDate(daysSinceEpoch, date.Cuid);
+    }
+
+    [Pure]
+    public static ZDate WithMonth(this ZDate date, int newMonth)
+    {
+        ref readonly var chr = ref date.CalendarRef;
+        var sch = chr.Schema;
+        sch.GetDateParts(date.DaysSinceEpoch, out int y, out int m, out int d);
+        sch.PreValidator.ValidateMonthDay(y, newMonth, d, nameof(newMonth));
+        int daysSinceEpoch = sch.CountDaysSinceEpoch(y, newMonth, d);
+        return new ZDate(daysSinceEpoch, date.Cuid);
+    }
+
+    [Pure]
+    public static ZDate WithDay(this ZDate date, int newDay)
+    {
+        ref readonly var chr = ref date.CalendarRef;
+        var sch = chr.Schema;
+        sch.GetDateParts(date.DaysSinceEpoch, out int y, out int m, out _);
+        if (newDay < 1
+            || (newDay > sch.MinDaysInMonth
+                && newDay > sch.CountDaysInMonth(y, m)))
+        {
+            Throw.ArgumentOutOfRange(nameof(newDay));
+        }
+        int daysSinceEpoch = sch.CountDaysSinceEpoch(y, m, newDay);
+        return new ZDate(daysSinceEpoch, date.Cuid);
+    }
+
+    [Pure]
+    public static ZDate WithDayOfYear(this ZDate date, int newDayOfYear)
+    {
+        ref readonly var chr = ref date.CalendarRef;
+        var sch = chr.Schema;
+        int y = sch.GetYear(date.DaysSinceEpoch, out _);
+        sch.PreValidator.ValidateDayOfYear(y, newDayOfYear, nameof(newDayOfYear));
+        int daysSinceEpoch = sch.CountDaysSinceEpoch(y, newDayOfYear);
+        return new ZDate(daysSinceEpoch, date.Cuid);
+    }
 }
