@@ -144,10 +144,10 @@ namespace Zorglub.Time
         internal int Id { get; }
 
         /// <summary>
-        /// Returns a string representation of the current instance.
+        /// Returns a culture-independent string representation of the current instance.
         /// </summary>
         [Pure]
-        public override string ToString() => Key;
+        public sealed override string ToString() => Key;
     }
 
     public partial class ZCalendar // Factories, conversions

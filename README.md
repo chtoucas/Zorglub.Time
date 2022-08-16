@@ -25,6 +25,11 @@ We restrict ourselves to calendars supposedly in use today:
 NB: most computer implementations of calendars with epagomenal days add a
 thirteen month to hold them, we don't, but see below if you don't agree.
 
+Features:
+- Ability to create your own calendars.
+- Custom types to represent a year, a month and a range of years, months or days.
+- Custom arithmetic.
+
 ### Supported Calendars
 
 Arithmetical calendars:
@@ -70,6 +75,9 @@ Arithmetical calendars:
   - ISO
 - Hybrid calendars:
   - Julian-Gregorian
+- Religious calendars:
+  - Orthodox
+  - Roman
 - Imaginary calendars:
   - Pataphysical
   - Tolkian

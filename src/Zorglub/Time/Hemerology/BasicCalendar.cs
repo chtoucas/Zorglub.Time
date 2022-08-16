@@ -75,7 +75,7 @@ namespace Zorglub.Time.Hemerology
     public partial class BasicCalendar // Year, month, day infos
     {
 #pragma warning disable CA1725 // Parameter names should match base declaration (Naming) ✓
-        // For calendars, we prefer long parameter names to short ones.
+        // For calendars, we prefer long parameter names to short names.
 
         /// <inheritdoc />
         /// <exception cref="AoorException"><paramref name="year"/> is outside the range of

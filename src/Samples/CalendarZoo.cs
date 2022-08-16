@@ -301,7 +301,7 @@ public partial class CalendarZoo
     }
 }
 
-// Offseted calendars of type ZCalendar.
+// Offsetted calendars of type ZCalendar.
 // - Holocene
 // - Minguo
 // - ThaiSolar

@@ -317,6 +317,7 @@ namespace Zorglub.Time.Specialized
         #region Adjustments
 
         /// <inheritdoc />
+        /// <remarks>See also <seealso cref="Adjuster"/>.</remarks>
         [Pure]
         public GregorianDate Adjust(Func<GregorianDate, GregorianDate> adjuster)
         {

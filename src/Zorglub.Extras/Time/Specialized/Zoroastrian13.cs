@@ -336,11 +336,8 @@ namespace Zorglub.Time.Specialized
         #endregion
         #region Adjustments
 
-        /// <summary>
-        /// Adjusts the current instance using the specified adjuster.
-        /// <para>If the adjuster throws, this method will propagate the exception.</para>
-        /// </summary>
-        /// <exception cref="ArgumentNullException"><paramref name="adjuster"/> is null.</exception>
+        /// <inheritdoc />
+        /// <remarks>See also <seealso cref="Adjuster"/>.</remarks>
         [Pure]
         public Zoroastrian13Date Adjust(Func<Zoroastrian13Date, Zoroastrian13Date> adjuster)
         {

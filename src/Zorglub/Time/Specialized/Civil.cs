@@ -317,6 +317,7 @@ namespace Zorglub.Time.Specialized
         #region Adjustments
 
         /// <inheritdoc />
+        /// <remarks>See also <seealso cref="Adjuster"/>.</remarks>
         [Pure]
         public CivilDate Adjust(Func<CivilDate, CivilDate> adjuster)
         {
@@ -463,7 +464,7 @@ namespace Zorglub.Time.Specialized
 
     public partial struct CivilDate // Math ops
     {
-#pragma warning disable CA2225 // Operator overloads have named alternates (Usage)
+#pragma warning disable CA2225 // Operator overloads have named alternates (Usage) ✓
         // Friendly alternates do exist but use domain-specific names.
 
         /// <summary>
