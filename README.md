@@ -39,6 +39,7 @@ Arithmetical calendars:
 - Egyptian (*)
 - Ethiopic (*)
 - Gregorian
+- Holocene
 - Julian
 - Zoroastrian (*)
 - _Arithmetisation of astronomical calendars:_
@@ -50,8 +51,6 @@ Arithmetical calendars:
   - International Fixed
   - Positivist aka Georgian
   - World aka Universal, and Revised World
-- _Offsetted calendars:_
-  - Holocene
 - _Miscellaneous calendars:_
   - Tropicália (three versions)
   - Universal
