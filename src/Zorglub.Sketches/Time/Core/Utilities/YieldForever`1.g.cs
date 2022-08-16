@@ -4,7 +4,6 @@
 namespace Zorglub.Time.Core.Utilities
 {
     using System.Collections;
-    using System.Collections.Generic;
 
     [DebuggerNonUserCode, DebuggerDisplay("Count = ∞")]
     internal sealed class YieldForever<T> : IEnumerable<T>, IEnumerator<T>

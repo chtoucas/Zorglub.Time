@@ -3,12 +3,12 @@
 
 namespace Zorglub.Time.Specialized
 {
-    using System.Collections.Generic;
-    using System.Diagnostics.Contracts;
     using System.Linq;
 
     using Zorglub.Time.Hemerology;
     using Zorglub.Time.Hemerology.Scopes;
+
+    // See comments in SpecialAdjuster<>.
 
     /// <summary>
     /// Represents a calendar with dates within a range of years and provides a base for derived

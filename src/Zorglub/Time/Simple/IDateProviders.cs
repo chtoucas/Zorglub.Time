@@ -5,8 +5,6 @@
 
 namespace Zorglub.Time.Simple
 {
-    using System.Collections.Generic;
-
     using Zorglub.Time.Core.Intervals;
 
     // REVIEW(api): no longer use explicit interface impl?

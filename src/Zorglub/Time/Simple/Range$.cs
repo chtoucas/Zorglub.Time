@@ -3,8 +3,6 @@
 
 namespace Zorglub.Time.Simple
 {
-    using System.Collections.Generic;
-
     using Zorglub.Time.Core.Intervals;
 
     // TODO(code): optimize enumeration; see DateRange.

@@ -3,8 +3,6 @@
 
 namespace Zorglub.Time;
 
-using System.Diagnostics.Contracts;
-
 using Zorglub.Time.Core.Schemas;
 
 // There is only one advantage to have these methods: data is already validated.

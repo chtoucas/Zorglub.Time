@@ -3,8 +3,6 @@
 
 namespace Zorglub.Bulgroz.Obsolete
 {
-    using System;
-
     using Zorglub.Time;
     using Zorglub.Time.Core;
 

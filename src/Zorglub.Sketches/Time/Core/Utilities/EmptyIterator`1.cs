@@ -4,7 +4,6 @@
 namespace Zorglub.Time.Core.Utilities
 {
     using System.Collections;
-    using System.Collections.Generic;
 
     /// <summary>
     /// Represents the empty iterator.

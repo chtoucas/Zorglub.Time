@@ -10,6 +10,11 @@ namespace Zorglub.Time.Specialized
     // Reasons to keep the constructor internal:
     // - we don't validate the input. Only for TDate developed whitin this
     //   project do we know that it's not possible to create an invalid date.
+    //   In this project, we don't have an example based on IDateable but on
+    //   IFixedDay. Indeed, a DayNumber exists beyond the scope of a calendar
+    //   and therefore could be used as a type argument.
+    // - This impl is only intersting if GetDate() is non-validating, otherwise
+    //   we should simply use the methods provided by a calendar.
     // - this class works best for date types based on the count of days since
     //   the epoch which is the case for all date types in Specialized. For types
     //   using a y/m/d/doy repr. there is a better way of implementing

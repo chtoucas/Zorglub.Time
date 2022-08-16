@@ -3,8 +3,6 @@
 
 namespace Zorglub.Time.Hemerology
 {
-    using System;
-
     using Zorglub.Time.Hemerology.Scopes;
 
     // TODO(api): adjusters. Adjust()

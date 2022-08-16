@@ -3,8 +3,6 @@
 
 namespace Zorglub.Time.Hemerology
 {
-    using System.Diagnostics.Contracts;
-
     using Zorglub.Time.Hemerology.Scopes;
 
     /// <summary>
