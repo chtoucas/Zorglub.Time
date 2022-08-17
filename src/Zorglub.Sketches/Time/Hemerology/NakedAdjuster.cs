@@ -8,6 +8,8 @@ namespace Zorglub.Time.Hemerology
     using Zorglub.Time.Core.Validation;
     using Zorglub.Time.Hemerology.Scopes;
 
+    // Not convinced that this class is useful at all.
+
     // Moyennant quelques changements, cette classe pourrait fonctionner avec
     // n'importe quel type date implémentant IFixedDay (c-à-d un IDate puisqu'on
     // demande aussi IDateable), mais à la seule condition que celui-ci ne soit
@@ -18,13 +20,13 @@ namespace Zorglub.Time.Hemerology
     /// <summary>
     /// Defines an adjuster for <see cref="DayNumber"/>.
     /// </summary>
-    public class DayNumberAdjuster : IDateAdjuster<DayNumber>
+    public class NakedAdjuster : IDateAdjuster<DayNumber>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="DayNumberAdjuster"/> class.
+        /// Initializes a new instance of the <see cref="NakedAdjuster"/> class.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="scope"/> is null.</exception>
-        public DayNumberAdjuster(CalendarScope scope)
+        public NakedAdjuster(CalendarScope scope)
         {
             Scope = scope ?? throw new ArgumentNullException(nameof(scope));
         }

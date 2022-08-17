@@ -10,7 +10,7 @@ using Zorglub.Time.Core.Intervals;
 using Zorglub.Time.Core.Schemas;
 using Zorglub.Time.Hemerology.Scopes;
 
-public static class MinMaxYearNakedCalendarTests
+public static class MinMaxYearCalendarTests
 {
     private static readonly ICalendricalSchema s_Schema = new GregorianSchema();
 
@@ -29,52 +29,6 @@ public static class MinMaxYearNakedCalendarTests
         Assert.Equal(s_Schema, chr.Schema);
         Assert.Equal(range, chr.YearsValidator.Range);
     }
-
-    //[Fact]
-    //public static void WithMinYear_NullSchema()
-    //{
-    //    Assert.ThrowsAnexn("schema",
-    //        () => MinMaxYearNakedCalendar.WithMinYear("Gregorian", null!, DayZero.NewStyle, 1));
-    //}
-
-    //[Fact]
-    //public static void WithMinYear()
-    //{
-    //    string name = "name";
-    //    var epoch = DayZero.NewStyle + 123456789;
-    //    int minYear = 3;
-    //    // Act
-    //    var chr = MinMaxYearNakedCalendar.WithMinYear(name, s_Schema, epoch, minYear);
-    //    // Assert
-    //    Assert.Equal(name, chr.Name);
-    //    Assert.Equal(epoch, chr.Epoch);
-    //    Assert.Equal(s_Schema, chr.Schema);
-    //    Assert.Equal(minYear, chr.SupportedYears.MinYear);
-    //    Assert.Equal(s_Schema.SupportedYears.Max, chr.SupportedYears.MaxYear);
-    //}
-
-    //[Fact]
-    //public static void WithMaxYear_NullSchema()
-    //{
-    //    Assert.ThrowsAnexn("schema",
-    //        () => MinMaxYearNakedCalendar.WithMaxYear("Gregorian", null!, DayZero.NewStyle, 9999));
-    //}
-
-    //[Fact]
-    //public static void WithMaxYear()
-    //{
-    //    string name = "name";
-    //    var epoch = DayZero.NewStyle + 123456789;
-    //    int maxYear = 5;
-    //    // Act
-    //    var chr = MinMaxYearNakedCalendar.WithMaxYear(name, s_Schema, epoch, maxYear);
-    //    // Assert
-    //    Assert.Equal(name, chr.Name);
-    //    Assert.Equal(epoch, chr.Epoch);
-    //    Assert.Equal(s_Schema, chr.Schema);
-    //    Assert.Equal(s_Schema.SupportedYears.Min, chr.SupportedYears.MinYear);
-    //    Assert.Equal(maxYear, chr.SupportedYears.MaxYear);
-    //}
 }
 
 public class GregorianMinMaxYearCalendarDataSet :
@@ -84,8 +38,8 @@ public class GregorianMinMaxYearCalendarDataSet :
     public GregorianMinMaxYearCalendarDataSet()
         : base(
             UnboundedGregorianDataSet.Instance,
-            GregorianMinMaxYearNakedCalendarTests.FirstYear,
-            GregorianMinMaxYearNakedCalendarTests.LastYear)
+            GregorianMinMaxYearCalendarTests.FirstYear,
+            GregorianMinMaxYearCalendarTests.LastYear)
     { }
 
     public static GregorianMinMaxYearCalendarDataSet Instance => Singleton.Instance;
@@ -98,7 +52,7 @@ public class GregorianMinMaxYearCalendarDataSet :
 }
 
 // TODO(code): à améliorer.
-public sealed class GregorianMinMaxYearNakedCalendarTests :
+public sealed class GregorianMinMaxYearCalendarTests :
     INakedCalendarFacts<MinMaxYearCalendar, GregorianMinMaxYearCalendarDataSet>
 {
     // On triche un peu, les années de début et de fin ont été choisies de
@@ -106,7 +60,7 @@ public sealed class GregorianMinMaxYearNakedCalendarTests :
     public const int FirstYear = 1;
     public const int LastYear = 123_456;
 
-    public GregorianMinMaxYearNakedCalendarTests() : base(MakeCalendar()) { }
+    public GregorianMinMaxYearCalendarTests() : base(MakeCalendar()) { }
 
     private static MinMaxYearCalendar MakeCalendar() =>
         new(
