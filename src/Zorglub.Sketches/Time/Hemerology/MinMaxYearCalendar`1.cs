@@ -11,7 +11,7 @@ namespace Zorglub.Time.Hemerology
     /// Represents a calendar with dates within a range of years.
     /// </summary>
     /// <typeparam name="TDate">The type of date object.</typeparam>
-    public abstract class MinMaxYearCalendar<TDate> : MinMaxYearCalendar, ICalendar<TDate>
+    public abstract class MinMaxYearCalendar<TDate> : MinMaxYearBasicCalendar, ICalendar<TDate>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="MinMaxYearCalendar{TDate}"/> class.

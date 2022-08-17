@@ -114,7 +114,7 @@ public partial class ICalendarTFacts<TDate, TCalendar, TDataSet> // Factories
     #endregion
 }
 
-public partial class ICalendarTFacts<TDate, TCalendar, TDataSet> // IDayProvider
+public partial class ICalendarTFacts<TDate, TCalendar, TDataSet> // IDateProvider<TDate>
 {
     #region GetDaysInYear(y)
 

@@ -3,19 +3,19 @@
 
 namespace Zorglub.Time.Hemerology
 {
+    using System.Linq;
+
+    using Zorglub.Time;
+    using Zorglub.Time.Core;
     using Zorglub.Time.Core.Validation;
     using Zorglub.Time.Hemerology.Scopes;
 
-    // FIXME(code): we no longer require that minDate != startOfYear and
-    // maxDate != endOfYear when building a scope.
-    // Without that the behaviour of BoundedBelowNakedCalendar.GetStartOfYear()
-    // is broken.
-
     /// <summary>
-    /// Represents a calendar with dates on or after a given date.
+    /// Represents a calendar without a dedicated companion date type and with dates on or after a
+    /// given date.
     /// <para>The aforementioned date can NOT be the start of a year.</para>
     /// </summary>
-    public class BoundedBelowCalendar : BasicCalendar
+    public partial class BoundedBelowCalendar : BoundedBelowBasicCalendar, INakedCalendar
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="BoundedBelowCalendar"/> class.
@@ -24,94 +24,203 @@ namespace Zorglub.Time.Hemerology
         /// <exception cref="ArgumentNullException"><paramref name="scope"/> is null.</exception>
         public BoundedBelowCalendar(string name, BoundedBelowScope scope) : base(name, scope)
         {
-            Debug.Assert(scope != null);
-
-            MinYear = scope.MinYear;
-            MinDateParts = scope.MinDateParts;
-            MinOrdinalParts = scope.MinOrdinalParts;
-            MinMonthParts = scope.MinMonthParts;
+            PartsAdapter = new PartsAdapter(Schema);
+            DatePartsProvider = new DatePartsProvider_(this);
         }
 
-        /// <summary>
-        /// Gets the earliest supported year.
-        /// </summary>
-        public int MinYear { get; }
+        /// <inheritdoc />
+        public IDateProvider<DateParts> DatePartsProvider { get; }
 
         /// <summary>
-        /// Gets the earliest supported month parts.
+        /// Gets the adapter for calendrical parts.
         /// </summary>
-        public MonthParts MinMonthParts { get; }
+        protected PartsAdapter PartsAdapter { get; }
+    }
 
-        /// <summary>
-        /// Gets the earliest supported date parts.
-        /// </summary>
-        public DateParts MinDateParts { get; }
-
-        /// <summary>
-        /// Gets the earliest supported ordinal date parts.
-        /// </summary>
-        public OrdinalParts MinOrdinalParts { get; }
-
-        // NB : pour optimiser les choses on pourrait traiter d'abord le cas
-        // limite (première année ou premier mois) puis le cas général.
-        // Attention, il ne faudrait alors pas écrire
-        // > if (new Yemo(year, month) == MinYemoda.Yemo) { ... }
-        // mais plutôt
-        // > if (year == MinYear && month == MinYemoda.Month) { ... }
-        // car on n'a justement pas validé les paramètres.
+    public partial class BoundedBelowCalendar // Conversions
+    {
+        /// <inheritdoc />
+        [Pure]
+        public DateParts GetDateParts(DayNumber dayNumber)
+        {
+            Domain.Validate(dayNumber);
+            return PartsAdapter.GetDateParts(dayNumber - Epoch);
+        }
 
         /// <inheritdoc />
         [Pure]
-        public sealed override int CountMonthsInYear(int year)
+        public DateParts GetDateParts(int year, int dayOfYear)
+        {
+            Scope.ValidateOrdinal(year, dayOfYear);
+            return PartsAdapter.GetDateParts(year, dayOfYear);
+        }
+
+        /// <inheritdoc />
+        [Pure]
+        public OrdinalParts GetOrdinalParts(DayNumber dayNumber)
+        {
+            Domain.Validate(dayNumber);
+            return PartsAdapter.GetOrdinalParts(dayNumber - Epoch);
+        }
+
+        /// <inheritdoc />
+        [Pure]
+        public OrdinalParts GetOrdinalParts(int year, int month, int day)
+        {
+            Scope.ValidateYearMonthDay(year, month, day);
+            return PartsAdapter.GetOrdinalParts(year, month, day);
+        }
+    }
+
+    public partial class BoundedBelowCalendar // IDateProvider<DayNumber>
+    {
+        /// <inheritdoc />
+        [Pure]
+        public IEnumerable<DayNumber> GetDaysInYear(int year)
+        {
+            YearsValidator.Validate(year);
+            int startOfYear, daysInYear;
+            if (year == MinYear)
+            {
+                startOfYear = Domain.Min - Epoch;
+                daysInYear = CountDaysInFirstYear();
+            }
+            else
+            {
+                startOfYear = Schema.GetStartOfYear(year);
+                daysInYear = Schema.CountDaysInYear(year);
+            }
+
+            return Iterator();
+
+            IEnumerable<DayNumber> Iterator()
+            {
+                return from daysSinceEpoch
+                       in Enumerable.Range(startOfYear, daysInYear)
+                       select Epoch + daysSinceEpoch;
+            }
+        }
+
+        /// <inheritdoc />
+        [Pure]
+        public IEnumerable<DayNumber> GetDaysInMonth(int year, int month)
+        {
+            Scope.ValidateYearMonth(year, month);
+            int startOfMonth, daysInMonth;
+            if (new MonthParts(year, month) == MinMonthParts)
+            {
+                startOfMonth = Domain.Min - Epoch;
+                daysInMonth = CountDaysInFirstMonth();
+            }
+            else
+            {
+                startOfMonth = Schema.GetStartOfMonth(year, month);
+                daysInMonth = Schema.CountDaysInMonth(year, month);
+            }
+
+            return Iterator();
+
+            IEnumerable<DayNumber> Iterator()
+            {
+                return from daysSinceEpoch
+                       in Enumerable.Range(startOfMonth, daysInMonth)
+                       select Epoch + daysSinceEpoch;
+            }
+        }
+
+        /// <inheritdoc />
+        [Pure]
+        public DayNumber GetStartOfYear(int year)
         {
             YearsValidator.Validate(year);
             return year == MinYear
-                ? CountMonthsInFirstYear()
-                : Schema.CountMonthsInYear(year);
+                ? Throw.ArgumentOutOfRange<DayNumber>(nameof(year))
+                : Epoch + Schema.GetStartOfYear(year);
         }
 
         /// <inheritdoc />
         [Pure]
-        public sealed override int CountDaysInYear(int year)
+        public DayNumber GetEndOfYear(int year)
         {
             YearsValidator.Validate(year);
-            return year == MinYear
-                ? CountDaysInFirstYear()
-                : Schema.CountDaysInYear(year);
+            return Epoch + Schema.GetEndOfYear(year);
         }
 
         /// <inheritdoc />
         [Pure]
-        public sealed override int CountDaysInMonth(int year, int month)
+        public DayNumber GetStartOfMonth(int year, int month)
         {
             Scope.ValidateYearMonth(year, month);
             return new MonthParts(year, month) == MinMonthParts
-                ? CountDaysInFirstMonth()
-                : Schema.CountDaysInMonth(year, month);
+                ? Throw.ArgumentOutOfRange<DayNumber>(nameof(month))
+                : Epoch + Schema.GetStartOfMonth(year, month);
         }
 
-        /// <summary>
-        /// Obtains the number of months in the first supported year.
-        /// </summary>
+        /// <inheritdoc />
         [Pure]
-        public int CountMonthsInFirstYear() =>
-            Schema.CountMonthsInYear(MinYear) - MinDateParts.Month + 1;
-
-        /// <summary>
-        /// Obtains the number of days in the first supported year.
-        /// </summary>
-        [Pure]
-        public int CountDaysInFirstYear() =>
-            Schema.CountDaysInYear(MinYear) - MinOrdinalParts.DayOfYear + 1;
-
-        /// <summary>
-        /// Obtains the number of days in the first supported month.
-        /// </summary>
-        [Pure]
-        public int CountDaysInFirstMonth()
+        public DayNumber GetEndOfMonth(int year, int month)
         {
-            var (y, m, d) = MinDateParts;
-            return Schema.CountDaysInMonth(y, m) - d + 1;
+            Scope.ValidateYearMonth(year, month);
+            return Epoch + Schema.GetEndOfMonth(year, month);
+        }
+    }
+
+    public partial class BoundedBelowCalendar // Parts providers
+    {
+        private sealed class DatePartsProvider_ : IDateProvider<DateParts>
+        {
+            private readonly BoundedBelowCalendar _this;
+
+            public DatePartsProvider_(BoundedBelowCalendar @this)
+            {
+                Debug.Assert(@this != null);
+
+                _this = @this;
+            }
+
+            [Pure]
+            public IEnumerable<DateParts> GetDaysInYear(int year)
+            {
+                throw new NotImplementedException();
+            }
+
+            [Pure]
+            public IEnumerable<DateParts> GetDaysInMonth(int year, int month)
+            {
+                throw new NotImplementedException();
+            }
+
+            [Pure]
+            public DateParts GetStartOfYear(int year)
+            {
+                _this.YearsValidator.Validate(year);
+                return year == _this.MinYear
+                    ? Throw.ArgumentOutOfRange<DateParts>(nameof(year))
+                    : DateParts.AtStartOfYear(year);
+            }
+
+            [Pure]
+            public DateParts GetEndOfYear(int year)
+            {
+                _this.YearsValidator.Validate(year);
+                return _this.PartsAdapter.GetDatePartsAtEndOfYear(year);
+            }
+
+            [Pure]
+            public DateParts GetStartOfMonth(int year, int month)
+            {
+                _this.Scope.ValidateYearMonth(year, month);
+                return new MonthParts(year, month) == _this.MinMonthParts
+                    ? Throw.ArgumentOutOfRange<DateParts>(nameof(month))
+                    : DateParts.AtStartOfMonth(year, month);
+            }
+
+            [Pure]
+            public DateParts GetEndOfMonth(int year, int month)
+            {
+                _this.Scope.ValidateYearMonth(year, month);
+                return _this.PartsAdapter.GetDatePartsAtEndOfMonth(year, month);
+            }
         }
     }
 }

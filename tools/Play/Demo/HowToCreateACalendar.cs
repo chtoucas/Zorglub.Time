@@ -67,10 +67,10 @@ public static class HowToCreateACalendar
 
     // Ways to construct the same calendar.
 
-    public static MinMaxYearNakedCalendar Select_QEP() =>
+    public static MinMaxYearCalendar Select_QEP() =>
         (from x in GregorianSchema.GetInstance()
          let y = MinMaxYearScope.Create(x, DayZero.NewStyle, Range.Create(1, 9999))
-         select new MinMaxYearNakedCalendar("Select_QEP", y)
+         select new MinMaxYearCalendar("Select_QEP", y)
          ).Unbox();
 
     // Versions below are here to demonstrate ZipWith() and SelectMany(),
@@ -78,26 +78,26 @@ public static class HowToCreateACalendar
     // Box<MinMaxYearScope> is unnecessary.
     // Prerequisite: BoxExtensions from Zorglub.Sketches.
 
-    public static MinMaxYearNakedCalendar ZipWith()
+    public static MinMaxYearCalendar ZipWith()
     {
         Box<GregorianSchema> schema = GregorianSchema.GetInstance();
         Box<MinMaxYearScope> scope = GetScope(schema);
 
-        return schema.ZipWith(scope, (x, y) => new MinMaxYearNakedCalendar("ZipWith", y)).Unbox();
+        return schema.ZipWith(scope, (x, y) => new MinMaxYearCalendar("ZipWith", y)).Unbox();
     }
 
-    public static MinMaxYearNakedCalendar SelectMany_QEP()
+    public static MinMaxYearCalendar SelectMany_QEP()
     {
         Box<GregorianSchema> schema = GregorianSchema.GetInstance();
         Box<MinMaxYearScope> scope = GetScope(schema);
 
         return (from x in scope
-                select new MinMaxYearNakedCalendar("SelectMany_QEP", x)
+                select new MinMaxYearCalendar("SelectMany_QEP", x)
                 ).Unbox();
     }
 
     // Abscons.
-    public static MinMaxYearNakedCalendar SelectMany()
+    public static MinMaxYearCalendar SelectMany()
     {
         Box<GregorianSchema> schema = GregorianSchema.GetInstance();
         Box<MinMaxYearScope> scope = GetScope(schema);
@@ -105,7 +105,7 @@ public static class HowToCreateACalendar
         return schema
             .SelectMany(
                 _ => scope,
-                (x, y) => new MinMaxYearNakedCalendar("SelectMany", y))
+                (x, y) => new MinMaxYearCalendar("SelectMany", y))
             .Unbox();
     }
 }

@@ -22,7 +22,7 @@ public static class MinMaxYearNakedCalendarTests
         var range = Range.Create(3, 5);
         var scope = MinMaxYearScope.Create(s_Schema, epoch, range);
         // Act
-        var chr = new MinMaxYearNakedCalendar(name, scope);
+        var chr = new MinMaxYearCalendar(name, scope);
         // Assert
         Assert.Equal(name, chr.Name);
         Assert.Equal(epoch, chr.Epoch);
@@ -77,8 +77,6 @@ public static class MinMaxYearNakedCalendarTests
     //}
 }
 
-#if false
-
 public class GregorianMinMaxYearCalendarDataSet :
     MinMaxYearCalendarDataSet<UnboundedGregorianDataSet>,
     ISingleton<GregorianMinMaxYearCalendarDataSet>
@@ -101,7 +99,7 @@ public class GregorianMinMaxYearCalendarDataSet :
 
 // TODO(code): à améliorer.
 public sealed class GregorianMinMaxYearNakedCalendarTests :
-    NakedCalendarFacts<MinMaxYearNakedCalendar, GregorianMinMaxYearCalendarDataSet>
+    INakedCalendarFacts<MinMaxYearCalendar, GregorianMinMaxYearCalendarDataSet>
 {
     // On triche un peu, les années de début et de fin ont été choisies de
     // telle sorte que les tests marchent... (cf. GregorianData).
@@ -110,7 +108,7 @@ public sealed class GregorianMinMaxYearNakedCalendarTests :
 
     public GregorianMinMaxYearNakedCalendarTests() : base(MakeCalendar()) { }
 
-    private static MinMaxYearNakedCalendar MakeCalendar() =>
+    private static MinMaxYearCalendar MakeCalendar() =>
         new(
             "Gregorian",
             MinMaxYearScope.Create(new GregorianSchema(), DayZero.NewStyle, Range.Create(FirstYear, LastYear)));
@@ -125,5 +123,3 @@ public sealed class GregorianMinMaxYearNakedCalendarTests :
         Assert.Equal(LastYear, supportedYears.MaxYear);
     }
 }
-
-#endif

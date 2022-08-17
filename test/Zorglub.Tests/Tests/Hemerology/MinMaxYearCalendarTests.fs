@@ -20,13 +20,13 @@ module Prelude =
     let ``Constructor throws when "name" is null`` () =
         let scope = new StandardScope(new GregorianSchema(), DayZero.NewStyle)
 
-        nullExn "name" (fun () -> new MinMaxYearCalendar(null, scope))
+        nullExn "name" (fun () -> new MinMaxYearBasicCalendar(null, scope))
         nullExn "name" (fun () -> new GregorianMinMaxYearCalendar(null, scope))
 
     [<Fact>]
     let ``Constructor throws when "scope" is null`` () =
-        nullExn "scope" (fun () -> new MinMaxYearCalendar("Name", (null: CalendarScope)))
-        nullExn "scope" (fun () -> new MinMaxYearCalendar("Name", (null: MinMaxYearScope)))
+        nullExn "scope" (fun () -> new MinMaxYearBasicCalendar("Name", (null: CalendarScope)))
+        nullExn "scope" (fun () -> new MinMaxYearBasicCalendar("Name", (null: MinMaxYearScope)))
         nullExn "scope" (fun () -> new GregorianMinMaxYearCalendar("Name", (null: CalendarScope)))
         nullExn "scope" (fun () -> new GregorianMinMaxYearCalendar("Name", (null: MinMaxYearScope)))
 
@@ -37,7 +37,7 @@ module Prelude =
 
         scope.IsComplete |> nok
 
-        argExn "scope" (fun () -> new MinMaxYearCalendar("Name", scope))
+        argExn "scope" (fun () -> new MinMaxYearBasicCalendar("Name", scope))
         argExn "scope" (fun () -> new GregorianMinMaxYearCalendar("Name", scope))
 
 module Bundles =

@@ -18,7 +18,7 @@ namespace Zorglub.Time.Specialized
     /// <para>This class can ONLY be inherited from within friend assemblies.</para>
     /// </summary>
     /// <typeparam name="TDate">The type of date object.</typeparam>
-    public abstract class SpecialCalendar<TDate> : MinMaxYearCalendar, ICalendar<TDate>
+    public abstract class SpecialCalendar<TDate> : MinMaxYearBasicCalendar, ICalendar<TDate>
     {
         /// <summary>
         /// Called from constructors in derived classes to initialize the

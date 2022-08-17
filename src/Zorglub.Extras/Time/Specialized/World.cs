@@ -43,7 +43,7 @@ namespace Zorglub.Time.Specialized
         /// <summary>
         /// Obtains the genuine number of days in a month (excluding the blank days that are
         /// formally outside any month).
-        /// <para>See also <seealso cref="MinMaxYearCalendar.CountDaysInMonth(int, int)"/>.</para>
+        /// <para>See also <seealso cref="MinMaxYearBasicCalendar.CountDaysInMonth(int, int)"/>.</para>
         /// </summary>
         [Pure]
         public int CountDaysInWorldMonth(int year, int month)

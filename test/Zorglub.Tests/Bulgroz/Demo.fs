@@ -22,7 +22,7 @@ let ``Gregorian date`` () =
     printfn "  DayOfYear        = %i" today.DayOfYear
     printfn "  Century          = %i" today.Century
     printfn "  YearOfCentury    = %i" today.YearOfCentury
-    printfn "  DayNumber        = %O" <| today.DayNumber
+    printfn "  DayNumber        = %O" today.DayNumber
 
 let ``Gregorian calendar`` () =
     let day = CalendarDate.Today()
@@ -35,16 +35,16 @@ let ``Gregorian calendar`` () =
     printfn "           year    = %O" year
     printfn "  Ordinal date     = %O" <| day.ToOrdinalDate()
 
-    printfn "  End of month     = %O" <| month.LastDay
-    printfn "         year      = %O" <| year.LastDay
+    printfn "  End of month     = %O" month.LastDay
+    printfn "         year      = %O" year.LastDay
 
 let ``Gregorian calendar w/ dates after 15/10/1582`` () =
     let sch = GregorianSchema.GetInstance()
     let q = sch.Select(fun x ->
         BoundedBelowScope.StartingAt(x, DayZero.NewStyle, new DateParts(1582, 10, 15))).Select(fun x ->
-        new BoundedBelowNakedCalendar("Genuine Gregorian", x))
-
+        new BoundedBelowCalendar("Genuine Gregorian", x))
     let chr = q.Unbox()
+
     let parts = chr.GetDateParts(DayNumber.Today())
     let y, m, d = parts.Deconstruct()
 
@@ -55,8 +55,7 @@ let ``Gregorian calendar w/ dates after 1/1/1`` () =
     let sch = GregorianSchema.GetInstance()
     let q = sch.Select(fun x ->
         MinMaxYearScope.StartingAt(x, DayZero.NewStyle, 1)).Select(fun x ->
-        new MinMaxYearNakedCalendar("Gregorian", x))
-
+        new MinMaxYearCalendar("Gregorian", x))
     let chr = q.Unbox()
 
     let parts = chr.GetDateParts(DayNumber.Today())
@@ -81,5 +80,5 @@ let ``Armenian calendar`` () =
     printfn "  Epagomenal day?  = %b" <| day.IsEpagomenal(&epanum)
     printfn "             num   = %i" epanum
 
-    printfn "  End of month     = %O" <| month.LastDay
-    printfn "         year      = %O" <| year.LastDay
+    printfn "  End of month     = %O" month.LastDay
+    printfn "         year      = %O" year.LastDay

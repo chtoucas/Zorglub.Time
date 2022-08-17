@@ -14,7 +14,7 @@ using Zorglub.Time.Hemerology.Scopes;
 
 using static Zorglub.Time.Extensions.Unboxing;
 
-public sealed class MyCivilCalendar : MinMaxYearCalendar, ICalendar<MyCivilDate>
+public sealed class MyCivilCalendar : MinMaxYearBasicCalendar, ICalendar<MyCivilDate>
 {
     public MyCivilCalendar() : this(GetCivilSchema()) { }
 

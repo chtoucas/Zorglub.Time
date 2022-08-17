@@ -47,7 +47,7 @@ namespace Zorglub.Time
     /// <para>This class can ONLY be inherited from within friend assemblies.</para>
     /// </summary>
     public partial class ZCalendar :
-        MinMaxYearCalendar,
+        MinMaxYearBasicCalendar,
         ICalendar<ZDate>,
         IDateFactory<ZDate>
     {
@@ -188,7 +188,7 @@ namespace Zorglub.Time
         }
     }
 
-    public partial class ZCalendar // Dates in a given year or month
+    public partial class ZCalendar // IDateProvider<ZDate>
     {
         /// <inheritdoc/>
         [Pure]

@@ -3,9 +3,7 @@
 
 namespace Zorglub.Time.Hemerology;
 
-#if false
 using System.Linq;
-#endif
 
 using global::Samples;
 
@@ -57,10 +55,8 @@ public static class BoundedBelowNakedCalendarTests
     }
 }
 
-#if false
-
-public sealed class GregorianBoundedBelowNakedCalendarTests
-    : NakedCalendarFacts<BoundedBelowNakedCalendar, UnboundedGregorianDataSet>
+public sealed class GregorianBoundedBelowNakedCalendarTests :
+    INakedCalendarFacts<BoundedBelowCalendar, UnboundedGregorianDataSet>
 {
     private const int FirstYear = -123_456;
     private const int FirstMonth = 4;
@@ -71,7 +67,7 @@ public sealed class GregorianBoundedBelowNakedCalendarTests
 
     // On triche un peu, la date de début a été choisie de telle sorte que
     // les tests marchent... (cf. GregorianData).
-    private static BoundedBelowNakedCalendar MakeCalendar() =>
+    private static BoundedBelowCalendar MakeCalendar() =>
         new(
             "Gregorian",
             BoundedBelowScope.StartingAt(
@@ -88,18 +84,17 @@ public sealed class GregorianBoundedBelowNakedCalendarTests
         Assert.Equal(parts, seg.MinMaxDateParts.LowerValue);
     }
 
-#if false
     [Fact]
     public void GetDaysInYear_FirstYear()
     {
-        DayNumber startOfYear = CalendarUT.MinDayNumber;
-        DayNumber endOfYear = DayCalendarUT.GetEndOfYear(FirstYear);
+        DayNumber startOfYear = CalendarUT.Domain.Min;
+        DayNumber endOfYear = CalendarUT.GetEndOfYear(FirstYear);
         int daysInFirstYear = CalendarUT.CountDaysInFirstYear();
         IEnumerable<DayNumber> list =
             from i in Enumerable.Range(0, daysInFirstYear)
             select startOfYear + i;
         // Act
-        IEnumerable<DayNumber> actual = DayCalendarUT.GetDaysInYear(FirstYear);
+        IEnumerable<DayNumber> actual = CalendarUT.GetDaysInYear(FirstYear);
         // Assert
         Assert.Equal(list, actual);
         Assert.Equal(daysInFirstYear, actual.Count());
@@ -110,21 +105,20 @@ public sealed class GregorianBoundedBelowNakedCalendarTests
     [Fact]
     public void GetDaysInMonth_FirstMonth()
     {
-        DayNumber startofMonth = CalendarUT.MinDayNumber;
-        DayNumber endOfMonth = DayCalendarUT.GetEndOfMonth(FirstYear, FirstMonth);
+        DayNumber startofMonth = CalendarUT.Domain.Min;
+        DayNumber endOfMonth = CalendarUT.GetEndOfMonth(FirstYear, FirstMonth);
         int daysInFirstMonth = CalendarUT.CountDaysInFirstMonth();
         IEnumerable<DayNumber> list =
             from i in Enumerable.Range(0, daysInFirstMonth)
             select startofMonth + i;
         // Act
-        IEnumerable<DayNumber> actual = DayCalendarUT.GetDaysInMonth(FirstYear, FirstMonth);
+        IEnumerable<DayNumber> actual = CalendarUT.GetDaysInMonth(FirstYear, FirstMonth);
         // Assert
         Assert.Equal(list, actual);
         Assert.Equal(daysInFirstMonth, actual.Count());
         Assert.Equal(startofMonth, actual.First());
         Assert.Equal(endOfMonth, actual.Last());
     }
-#endif
 
     [Fact]
     public void GetStartOfYear_InvalidFirstYear() =>
@@ -176,5 +170,3 @@ public sealed class GregorianBoundedBelowNakedCalendarTests
         Assert.Equal(daysInFirstMonth, CalendarUT.CountDaysInFirstMonth());
     }
 }
-
-#endif

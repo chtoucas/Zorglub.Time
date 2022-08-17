@@ -14,9 +14,14 @@ using Zorglub.Time.Hemerology.Scopes;
 // Verification that one can create a calendar type without having access to
 // the internals of the assembly Zorglub.
 
-public class MyMinMaxYearCalendar : NakedCalendar
+public class MyMinMaxYearCalendar : BasicCalendar, ICalendar<DateParts>
 {
-    public MyMinMaxYearCalendar(string name, MinMaxYearScope scope) : base(name, scope) { }
+    public MyMinMaxYearCalendar(string name, MinMaxYearScope scope) : base(name, scope)
+    {
+        PartsAdapter = new PartsAdapter(Schema);
+    }
+
+    protected PartsAdapter PartsAdapter { get; }
 
     //
     // Year, month, day infos
@@ -44,11 +49,11 @@ public class MyMinMaxYearCalendar : NakedCalendar
     }
 
     //
-    // Dates in a given year or month
+    // IDateProvider<DateParts>
     //
 
     [Pure]
-    public sealed override IEnumerable<DateParts> GetDaysInYear(int year)
+    public IEnumerable<DateParts> GetDaysInYear(int year)
     {
         // Check arg eagerly.
         YearsValidator.Validate(year);
@@ -72,7 +77,7 @@ public class MyMinMaxYearCalendar : NakedCalendar
     }
 
     [Pure]
-    public sealed override IEnumerable<DateParts> GetDaysInMonth(int year, int month)
+    public IEnumerable<DateParts> GetDaysInMonth(int year, int month)
     {
         // Check arg eagerly.
         Scope.ValidateYearMonth(year, month);
@@ -91,28 +96,28 @@ public class MyMinMaxYearCalendar : NakedCalendar
     }
 
     [Pure]
-    public sealed override DateParts GetStartOfYear(int year)
+    public DateParts GetStartOfYear(int year)
     {
         YearsValidator.Validate(year);
         return DateParts.AtStartOfYear(year);
     }
 
     [Pure]
-    public sealed override DateParts GetEndOfYear(int year)
+    public DateParts GetEndOfYear(int year)
     {
         YearsValidator.Validate(year);
         return PartsAdapter.GetDatePartsAtEndOfYear(year);
     }
 
     [Pure]
-    public sealed override DateParts GetStartOfMonth(int year, int month)
+    public DateParts GetStartOfMonth(int year, int month)
     {
         Scope.ValidateYearMonth(year, month);
         return DateParts.AtStartOfMonth(year, month);
     }
 
     [Pure]
-    public sealed override DateParts GetEndOfMonth(int year, int month)
+    public DateParts GetEndOfMonth(int year, int month)
     {
         Scope.ValidateYearMonth(year, month);
         return PartsAdapter.GetDatePartsAtEndOfMonth(year, month);

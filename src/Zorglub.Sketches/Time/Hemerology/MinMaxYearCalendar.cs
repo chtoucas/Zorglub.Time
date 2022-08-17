@@ -11,33 +11,44 @@ namespace Zorglub.Time.Hemerology
     using Zorglub.Time.Hemerology.Scopes;
 
     /// <summary>
-    /// Represents a calendar with dates on or after a given date.
-    /// <para>The aforementioned date can NOT be the start of a year.</para>
+    /// Represents a calendar without a dedicated companion date type and with dates within a range
+    /// of years.
     /// </summary>
-    public partial class BoundedBelowNakedCalendar :
-        BoundedBelowCalendar,
-        INakedCalendar
+    public partial class MinMaxYearCalendar : MinMaxYearBasicCalendar, INakedCalendar
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="BoundedBelowNakedCalendar"/> class.
+        /// Initializes a new instance of the <see cref="MinMaxYearCalendar"/> class.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="name"/> is null.</exception>
         /// <exception cref="ArgumentNullException"><paramref name="scope"/> is null.</exception>
-        public BoundedBelowNakedCalendar(string name, BoundedBelowScope scope) : base(name, scope)
+        public MinMaxYearCalendar(string name, MinMaxYearScope scope) : base(name, scope)
         {
             PartsAdapter = new PartsAdapter(Schema);
             DatePartsProvider = new DatePartsProvider_(this);
         }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="MinMaxYearCalendar"/> class.
+        /// </summary>
+        /// <exception cref="ArgumentNullException"><paramref name="name"/> is null.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="scope"/> is null.</exception>
+        /// <exception cref="ArgumentException"><paramref name="scope"/> is not complete.</exception>
+        public MinMaxYearCalendar(string name, CalendarScope scope) : base(name, scope)
+        {
+            PartsAdapter = new PartsAdapter(Schema);
+            DatePartsProvider = new DatePartsProvider_(this);
+        }
+
+        /// <inheritdoc />
+        public IDateProvider<DateParts> DatePartsProvider { get; }
+
+        /// <summary>
         /// Gets the adapter for calendrical parts.
         /// </summary>
         protected PartsAdapter PartsAdapter { get; }
-
-        public IDateProvider<DateParts> DatePartsProvider { get; }
     }
 
-    public partial class BoundedBelowNakedCalendar // Conversions
+    public partial class MinMaxYearCalendar // Conversions
     {
         /// <inheritdoc />
         [Pure]
@@ -72,106 +83,80 @@ namespace Zorglub.Time.Hemerology
         }
     }
 
-    public partial class BoundedBelowNakedCalendar // Dates in a given year or month
+    public partial class MinMaxYearCalendar // IDateProvider<DayNumber>
     {
-        /// <inheritdoc />
+        /// <inheritdoc/>
         [Pure]
         public IEnumerable<DayNumber> GetDaysInYear(int year)
         {
             YearsValidator.Validate(year);
-            int startOfYear, daysInYear;
-            if (year == MinYear)
-            {
-                startOfYear = Domain.Min - Epoch;
-                daysInYear = CountDaysInFirstYear();
-            }
-            else
-            {
-                startOfYear = Schema.GetStartOfYear(year);
-                daysInYear = Schema.CountDaysInYear(year);
-            }
 
-            return Iterator();
+            int startOfYear = Schema.GetStartOfYear(year);
+            int daysInYear = Schema.CountDaysInYear(year);
 
-            IEnumerable<DayNumber> Iterator()
-            {
-                return from daysSinceEpoch
-                       in Enumerable.Range(startOfYear, daysInYear)
-                       select Epoch + daysSinceEpoch;
-            }
+            return from daysSinceEpoch
+                   in Enumerable.Range(startOfYear, daysInYear)
+                   select Epoch + daysSinceEpoch;
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         [Pure]
         public IEnumerable<DayNumber> GetDaysInMonth(int year, int month)
         {
             Scope.ValidateYearMonth(year, month);
-            int startOfMonth, daysInMonth;
-            if (new MonthParts(year, month) == MinMonthParts)
-            {
-                startOfMonth = Domain.Min - Epoch;
-                daysInMonth = CountDaysInFirstMonth();
-            }
-            else
-            {
-                startOfMonth = Schema.GetStartOfMonth(year, month);
-                daysInMonth = Schema.CountDaysInMonth(year, month);
-            }
 
-            return Iterator();
+            int startOfMonth = Schema.GetStartOfMonth(year, month);
+            int daysInMonth = Schema.CountDaysInMonth(year, month);
 
-            IEnumerable<DayNumber> Iterator()
-            {
-                return from daysSinceEpoch
-                       in Enumerable.Range(startOfMonth, daysInMonth)
-                       select Epoch + daysSinceEpoch;
-            }
+            return from daysSinceEpoch
+                   in Enumerable.Range(startOfMonth, daysInMonth)
+                   select Epoch + daysSinceEpoch;
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         [Pure]
         public DayNumber GetStartOfYear(int year)
         {
             YearsValidator.Validate(year);
-            return year == MinYear
-                ? Throw.ArgumentOutOfRange<DayNumber>(nameof(year))
-                : Epoch + Schema.GetStartOfYear(year);
+            int daysSinceEpoch = Schema.GetStartOfYear(year);
+            return Epoch + daysSinceEpoch;
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         [Pure]
         public DayNumber GetEndOfYear(int year)
         {
             YearsValidator.Validate(year);
-            return Epoch + Schema.GetEndOfYear(year);
+            int daysSinceEpoch = Schema.GetEndOfYear(year);
+            return Epoch + daysSinceEpoch;
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         [Pure]
         public DayNumber GetStartOfMonth(int year, int month)
         {
             Scope.ValidateYearMonth(year, month);
-            return new MonthParts(year, month) == MinMonthParts
-                ? Throw.ArgumentOutOfRange<DayNumber>(nameof(month))
-                : Epoch + Schema.GetStartOfMonth(year, month);
+            int daysSinceEpoch = Schema.GetStartOfMonth(year, month);
+            return Epoch + daysSinceEpoch;
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         [Pure]
         public DayNumber GetEndOfMonth(int year, int month)
         {
             Scope.ValidateYearMonth(year, month);
-            return Epoch + Schema.GetEndOfMonth(year, month);
+            int daysSinceEpoch = Schema.GetEndOfMonth(year, month);
+            return Epoch + daysSinceEpoch;
         }
     }
 
-    public partial class BoundedBelowNakedCalendar // Date provider
+    public partial class MinMaxYearCalendar // Parts providers
     {
         private sealed class DatePartsProvider_ : IDateProvider<DateParts>
         {
-            private readonly BoundedBelowNakedCalendar _this;
+            private readonly MinMaxYearCalendar _this;
 
-            public DatePartsProvider_(BoundedBelowNakedCalendar @this)
+            public DatePartsProvider_(MinMaxYearCalendar @this)
             {
                 Debug.Assert(@this != null);
 
@@ -181,22 +166,51 @@ namespace Zorglub.Time.Hemerology
             [Pure]
             public IEnumerable<DateParts> GetDaysInYear(int year)
             {
-                throw new NotImplementedException();
+                // Check arg eagerly.
+                _this.YearsValidator.Validate(year);
+
+                return Iterator();
+
+                IEnumerable<DateParts> Iterator()
+                {
+                    int monthsInYear = _this.Schema.CountMonthsInYear(year);
+
+                    for (int m = 1; m <= monthsInYear; m++)
+                    {
+                        int daysInMonth = _this.Schema.CountDaysInMonth(year, m);
+
+                        for (int d = 1; d <= daysInMonth; d++)
+                        {
+                            yield return new DateParts(year, m, d);
+                        }
+                    }
+                }
             }
 
             [Pure]
             public IEnumerable<DateParts> GetDaysInMonth(int year, int month)
             {
-                throw new NotImplementedException();
+                // Check arg eagerly.
+                _this.Scope.ValidateYearMonth(year, month);
+
+                return Iterator();
+
+                IEnumerable<DateParts> Iterator()
+                {
+                    int daysInMonth = _this.Schema.CountDaysInMonth(year, month);
+
+                    for (int d = 1; d <= daysInMonth; d++)
+                    {
+                        yield return new DateParts(year, month, d);
+                    }
+                }
             }
 
             [Pure]
             public DateParts GetStartOfYear(int year)
             {
                 _this.YearsValidator.Validate(year);
-                return year == _this.MinYear
-                    ? Throw.ArgumentOutOfRange<DateParts>(nameof(year))
-                    : DateParts.AtStartOfYear(year);
+                return DateParts.AtStartOfYear(year);
             }
 
             [Pure]
@@ -210,9 +224,7 @@ namespace Zorglub.Time.Hemerology
             public DateParts GetStartOfMonth(int year, int month)
             {
                 _this.Scope.ValidateYearMonth(year, month);
-                return new MonthParts(year, month) == _this.MinMonthParts
-                    ? Throw.ArgumentOutOfRange<DateParts>(nameof(month))
-                    : DateParts.AtStartOfMonth(year, month);
+                return DateParts.AtStartOfMonth(year, month);
             }
 
             [Pure]
