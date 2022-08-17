@@ -8,8 +8,8 @@ namespace Zorglub.Time.Hemerology.Scopes
     using Zorglub.Time.Core.Validation;
 
     /// <summary>
-    /// Represents a scope for a calendar supporting <i>all</i> dates on or after a given date, but
-    /// not the first day of a year.
+    /// Represents a scope for a calendar supporting <i>all</i> dates on or after a given date,
+    /// <i>but not the first day of a year</i>.
     /// <para>This class cannot be inherited.</para>
     /// </summary>
     public sealed class BoundedBelowScope : CalendarScope
@@ -18,10 +18,15 @@ namespace Zorglub.Time.Hemerology.Scopes
         /// Initializes a new instance of the <see cref="BoundedBelowScope"/> class.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="segment"/> is null.</exception>
+        /// <exception cref="ArgumentException">The start of <paramref name="segment"/> is the first
+        /// day of a year.</exception>
         private BoundedBelowScope(DayNumber epoch, CalendricalSegment segment)
             : base(epoch, segment)
         {
             var seg = Segment;
+            var min = seg.MinMaxOrdinalParts.LowerValue;
+            if (min == OrdinalParts.AtStartOfYear(min.Year)) Throw.Argument(nameof(segment));
+
             MinYear = seg.SupportedYears.Min;
             MinDateParts = seg.MinMaxDateParts.LowerValue;
             MinOrdinalParts = seg.MinMaxOrdinalParts.LowerValue;
@@ -32,15 +37,17 @@ namespace Zorglub.Time.Hemerology.Scopes
         /// Creates a new instance of the <see cref="BoundedBelowScope"/> class.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
-        /// <exception cref="AoorException"><paramref name="parts"/> is invalid or outside the range
-        /// of dates supported by <paramref name="schema"/>.</exception>
+        /// <exception cref="AoorException"><paramref name="minDateParts"/> is invalid or outside
+        /// the range of dates supported by <paramref name="schema"/>.</exception>
         /// <exception cref="AoorException"><paramref name="maxYear"/> is outside the range of years
         /// supported by <paramref name="schema"/>.</exception>
+        /// <exception cref="ArgumentException"><paramref name="minDateParts"/> is the first day of
+        /// a year.</exception>
         [Pure]
         public static BoundedBelowScope Create(
-            ICalendricalSchema schema, DayNumber epoch, DateParts parts, int maxYear)
+            ICalendricalSchema schema, DayNumber epoch, DateParts minDateParts, int maxYear)
         {
-            var builder = new CalendricalSegmentBuilder(schema) { MinDateParts = parts };
+            var builder = new CalendricalSegmentBuilder(schema) { MinDateParts = minDateParts };
             builder.SetMaxToEndOfYear(maxYear);
             var seg = builder.BuildSegment();
 
@@ -53,6 +60,8 @@ namespace Zorglub.Time.Hemerology.Scopes
         /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
         /// <exception cref="AoorException"><paramref name="parts"/> is invalid or outside the range
         /// of dates supported by <paramref name="schema"/>.</exception>
+        /// <exception cref="ArgumentException"><paramref name="parts"/> is the first day of a year.
+        /// </exception>
         [Pure]
         public static BoundedBelowScope StartingAt(
             ICalendricalSchema schema, DayNumber epoch, DateParts parts)

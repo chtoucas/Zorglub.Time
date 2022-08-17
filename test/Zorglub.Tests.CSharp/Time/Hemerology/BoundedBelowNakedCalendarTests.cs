@@ -124,17 +124,9 @@ public sealed class GregorianBoundedBelowNakedCalendarTests :
     public void GetStartOfYear_InvalidFirstYear() =>
         Assert.ThrowsAoorexn("year", () => CalendarUT.GetStartOfYear(FirstYear));
 
-    //[Fact]
-    //public void GetStartOfYearFields_InvalidFirstYear() =>
-    //    Assert.ThrowsAoorexn("year", () => CalendarUT.GetStartOfYear(FirstYear));
-
     [Fact]
     public void GetStartOfMonth_InvalidFirstMonth() =>
         Assert.ThrowsAoorexn("month", () => CalendarUT.GetStartOfMonth(FirstYear, FirstMonth));
-
-    //[Fact]
-    //public void GetStartOfMonthFields_InvalidFirstMonth() =>
-    //    Assert.ThrowsAoorexn("month", () => CalendarUT.GetStartOfMonth(FirstYear, FirstMonth));
 
     [Fact]
     public void CountMonthsInFirstYear()

@@ -6,7 +6,7 @@ namespace Zorglub.Time.Hemerology
     using Zorglub.Time.Core;
     using Zorglub.Time.Hemerology.Scopes;
 
-    // FIXME'code): this code does NOT work with date types linked to a
+    // FIXME(code): this code does NOT work with date types linked to a
     // poly-calendar system; see TDate.FromDayNumber().
     // Another problem: validation of input. We assume that the "date" is valid.
     //

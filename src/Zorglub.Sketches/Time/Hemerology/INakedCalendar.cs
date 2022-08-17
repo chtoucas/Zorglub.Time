@@ -9,10 +9,11 @@ namespace Zorglub.Time.Hemerology
     // REVIEW(code): l'absence d'un objet date dédié fait qu'on doit revalider
     // les données à chaque fois.
     // - move Today() to IDateProvider<>?
+    // - add provider for ordinal parts
     // Add
-    // - GetFirstMonth() -> MonthParts.
-    // - GetMonthsInYear() -> MonthParts.
-    // - GetLastMonth() -> MonthParts.
+    // - GetFirstMonth() -> MonthParts
+    // - GetMonthsInYear() -> MonthParts
+    // - GetLastMonth() -> MonthParts
 
     #region Developer Notes
 
@@ -89,7 +90,9 @@ namespace Zorglub.Time.Hemerology
 
     public partial interface INakedCalendar // Arithmetic
     {
-        // REVIEW(api): supprimer AddDays().
+        // REVIEW(api): supprimer AddDays(). On travaille principalement avec
+        // des DayNumber's et en toute fin on convertit le résultat en DateParts
+        // ou OrdinalParts.
 
         /// <summary>
         /// Adds a number of days to the specified day number.

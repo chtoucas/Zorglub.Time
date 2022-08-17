@@ -6,11 +6,6 @@ namespace Zorglub.Time.Hemerology
     using Zorglub.Time.Core.Validation;
     using Zorglub.Time.Hemerology.Scopes;
 
-    // FIXME(code): we no longer require that minDate != startOfYear and
-    // maxDate != endOfYear when building a scope.
-    // Without that the behaviour of BoundedBelowNakedCalendar.GetStartOfYear()
-    // is broken.
-
     /// <summary>
     /// Represents a basic calendar with dates on or after a given date.
     /// <para>The aforementioned date can NOT be the start of a year.</para>
