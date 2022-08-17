@@ -45,7 +45,7 @@ public sealed partial class BoundedBelowScopeTests : CalendricalDataConsumer<Gre
         Assert.Throws<ArgumentOutOfRangeException>(
             () => BoundedBelowScope.Create(s_Schema, DayZero.NewStyle, new(y, m, d), 9999));
 
-    [Theory, MemberData(nameof(DateInfoData))]
+    [Theory(Skip = "MinDateParts cannot be the start of a year."), MemberData(nameof(DateInfoData))]
     public void Create(DateInfo info)
     {
         var (y, m, d, doy) = info;

@@ -46,18 +46,11 @@ module Factories =
         seg.SupportedYears.Max === maxYear
 
     [<Fact>]
-    let ``Create() when the min date is the start of a year`` () =
+    let ``Create() throws when the min date is the start of a year`` () =
         let parts = new DateParts(5, 1, 1)
         let maxYear = 15
-        let scope = BoundedBelowScope.Create(new GregorianSchema(), DayZero.NewStyle, parts, maxYear)
-        let seg = scope.Segment
 
-        scope.IsComplete |> ok
-        seg.IsComplete |> ok
-
-        seg.MinMaxDateParts.LowerValue === parts
-        seg.MinMaxDateParts.UpperValue === new DateParts(maxYear, 12, 31)
-        seg.SupportedYears.Max === maxYear
+        argExn "segment" (fun () -> BoundedBelowScope.Create(new GregorianSchema(), DayZero.NewStyle, parts, maxYear))
 
     [<Fact>]
     let ``StartingAt()`` () =

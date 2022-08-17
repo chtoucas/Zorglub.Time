@@ -38,6 +38,7 @@ module Factories =
         let sch = new FauxSystemSchema(Range.Create(-9, 10))
         let scope = MinMaxYearScope.Create(sch, DayZero.NewStyle, range)
 
+        scope.IsComplete |> ok
         scope.Segment.SupportedYears === range
 
     [<Fact>]
@@ -50,6 +51,7 @@ module Factories =
         let sch = new FauxSystemSchema(range)
         let scope = MinMaxYearScope.CreateMaximal(sch, DayZero.NewStyle)
 
+        scope.IsComplete |> ok
         scope.Segment.SupportedYears === range
 
     [<Fact>]
@@ -69,6 +71,7 @@ module Factories =
         let sch = new FauxSystemSchema(range)
         let scope = MinMaxYearScope.CreateMaximalOnOrAfterYear1(sch, DayZero.NewStyle)
 
+        scope.IsComplete |> ok
         scope.Segment.SupportedYears === Range.Create(1, 10)
 
     [<Fact>]
@@ -88,6 +91,7 @@ module Factories =
         let sch = new FauxSystemSchema(range)
         let scope = MinMaxYearScope.StartingAt(sch, DayZero.NewStyle, 3)
 
+        scope.IsComplete |> ok
         scope.Segment.SupportedYears === Range.Create(3, 10)
 
     [<Fact>]
@@ -107,4 +111,5 @@ module Factories =
         let sch = new FauxSystemSchema(range)
         let scope = MinMaxYearScope.EndingAt(sch, DayZero.NewStyle, 5)
 
+        scope.IsComplete |> ok
         scope.Segment.SupportedYears === Range.Create(2, 5)
