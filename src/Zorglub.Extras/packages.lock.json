@@ -37,7 +37,7 @@
       "Zorglub.Time": {
         "type": "Project",
         "dependencies": {
-          "System.Runtime.Experimental": "6.0.2"
+          "System.Runtime.Experimental": "[6.0.2, )"
         }
       }
     }

@@ -31,14 +31,14 @@
       "Zorglub.Time": {
         "type": "Project",
         "dependencies": {
-          "System.Runtime.Experimental": "6.0.2"
+          "System.Runtime.Experimental": "[6.0.2, )"
         }
       },
       "Zorglub.Time.Extras": {
         "type": "Project",
         "dependencies": {
-          "System.Runtime.Experimental": "6.0.2",
-          "Zorglub.Time": "0.0.0-DUMMY"
+          "System.Runtime.Experimental": "[6.0.2, )",
+          "Zorglub.Time": "[0.0.0-DUMMY, )"
         }
       }
     }

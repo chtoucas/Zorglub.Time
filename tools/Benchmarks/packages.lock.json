@@ -27,9 +27,9 @@
       },
       "NodaTime": {
         "type": "Direct",
-        "requested": "[3.1.0, )",
-        "resolved": "3.1.0",
-        "contentHash": "x5IqJNff9ITRaw83P8IbdudB1tpMDbTqdeVlppBx346ywmLj2ZhE+kf7GJfkCks1piJazxDr2+0EYKc7l1K2WA==",
+        "requested": "[3.1.2, )",
+        "resolved": "3.1.2",
+        "contentHash": "KAlnzQ2EtrrRhFoVePf2kMc24CXX3mAslfp+LmVQnk6HSZ8whgsHNpfUfO+jWCdMgGKQQKMjNCDgmTopjTPFFA==",
         "dependencies": {
           "System.Runtime.CompilerServices.Unsafe": "4.7.1"
         }
@@ -1088,22 +1088,22 @@
       "zorglub.sketches": {
         "type": "Project",
         "dependencies": {
-          "System.Runtime.Experimental": "6.0.2",
-          "Zorglub.Time": "0.0.0-DUMMY",
-          "Zorglub.Time.Extras": "0.0.0-DUMMY"
+          "System.Runtime.Experimental": "[6.0.2, )",
+          "Zorglub.Time": "[0.0.0-DUMMY, )",
+          "Zorglub.Time.Extras": "[0.0.0-DUMMY, )"
         }
       },
       "Zorglub.Time": {
         "type": "Project",
         "dependencies": {
-          "System.Runtime.Experimental": "6.0.2"
+          "System.Runtime.Experimental": "[6.0.2, )"
         }
       },
       "Zorglub.Time.Extras": {
         "type": "Project",
         "dependencies": {
-          "System.Runtime.Experimental": "6.0.2",
-          "Zorglub.Time": "0.0.0-DUMMY"
+          "System.Runtime.Experimental": "[6.0.2, )",
+          "Zorglub.Time": "[0.0.0-DUMMY, )"
         }
       }
     }
