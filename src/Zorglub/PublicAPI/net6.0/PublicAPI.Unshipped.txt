@@ -216,9 +216,9 @@ override sealed Zorglub.Time.Core.SystemSegment.ToString() -> string!
 override sealed Zorglub.Time.Core.Validation.DaysValidator.ToString() -> string!
 override sealed Zorglub.Time.Core.Validation.MonthsValidator.ToString() -> string!
 override sealed Zorglub.Time.Core.Validation.YearsValidator.ToString() -> string!
-override sealed Zorglub.Time.Hemerology.MinMaxYearCalendar.CountDaysInMonth(int year, int month) -> int
-override sealed Zorglub.Time.Hemerology.MinMaxYearCalendar.CountDaysInYear(int year) -> int
-override sealed Zorglub.Time.Hemerology.MinMaxYearCalendar.CountMonthsInYear(int year) -> int
+override sealed Zorglub.Time.Hemerology.MinMaxYearBasicCalendar.CountDaysInMonth(int year, int month) -> int
+override sealed Zorglub.Time.Hemerology.MinMaxYearBasicCalendar.CountDaysInYear(int year) -> int
+override sealed Zorglub.Time.Hemerology.MinMaxYearBasicCalendar.CountMonthsInYear(int year) -> int
 override sealed Zorglub.Time.Hemerology.Scopes.MinMaxYearScope.ValidateOrdinal(int year, int dayOfYear, string? paramName = null) -> void
 override sealed Zorglub.Time.Hemerology.Scopes.MinMaxYearScope.ValidateYearMonth(int year, int month, string? paramName = null) -> void
 override sealed Zorglub.Time.Hemerology.Scopes.MinMaxYearScope.ValidateYearMonthDay(int year, int month, int day, string? paramName = null) -> void
@@ -1336,9 +1336,9 @@ Zorglub.Time.Hemerology.IStandardArithmetic<TSelf>.CountDaysSince(TSelf other) -
 Zorglub.Time.Hemerology.IStandardArithmetic<TSelf>.NextDay() -> TSelf
 Zorglub.Time.Hemerology.IStandardArithmetic<TSelf>.PlusDays(int days) -> TSelf
 Zorglub.Time.Hemerology.IStandardArithmetic<TSelf>.PreviousDay() -> TSelf
-Zorglub.Time.Hemerology.MinMaxYearCalendar
-Zorglub.Time.Hemerology.MinMaxYearCalendar.MinMaxYearCalendar(string! name, Zorglub.Time.Hemerology.Scopes.CalendarScope! scope) -> void
-Zorglub.Time.Hemerology.MinMaxYearCalendar.MinMaxYearCalendar(string! name, Zorglub.Time.Hemerology.Scopes.MinMaxYearScope! scope) -> void
+Zorglub.Time.Hemerology.MinMaxYearBasicCalendar
+Zorglub.Time.Hemerology.MinMaxYearBasicCalendar.MinMaxYearBasicCalendar(string! name, Zorglub.Time.Hemerology.Scopes.CalendarScope! scope) -> void
+Zorglub.Time.Hemerology.MinMaxYearBasicCalendar.MinMaxYearBasicCalendar(string! name, Zorglub.Time.Hemerology.Scopes.MinMaxYearScope! scope) -> void
 Zorglub.Time.Hemerology.Scopes.CalendarScope
 Zorglub.Time.Hemerology.Scopes.CalendarScope.CalendarScope(Zorglub.Time.DayNumber epoch, Zorglub.Time.Core.CalendricalSegment! segment) -> void
 Zorglub.Time.Hemerology.Scopes.CalendarScope.DaysValidator.get -> Zorglub.Time.Core.Validation.DaysValidator!
