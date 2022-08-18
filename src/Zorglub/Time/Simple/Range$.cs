@@ -6,9 +6,9 @@ namespace Zorglub.Time.Simple
     using Zorglub.Time.Core.Intervals;
 
     // TODO(code): optimize enumeration.
-    // Add Contains().
-    // Add tests to certify that it's not possible to create a range with
-    // endpoints in different calendars.
+    // - Add Contains().
+    // - Add tests to certify that it's not possible to create a range with
+    //   endpoints in different calendars.
 
     // A range of a simple type is finite and enumerable:
     // - Count(); no need to provide a method LongCount(), Count() never
@@ -17,6 +17,9 @@ namespace Zorglub.Time.Simple
     // Other extensions:
     // - GetCalendar()
     // - WithCalendar()
+    //   In general, it's not possible to interconvert a range of years or
+    //   months. For that, one must first convert the range to a range of days
+    //   via e.g CalendarDateProviders.ConvertToRange().
 
     /// <summary>
     /// Provides extension methods for <see cref="Range{T}"/>.

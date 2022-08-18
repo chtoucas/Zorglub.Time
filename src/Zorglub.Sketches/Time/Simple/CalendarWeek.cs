@@ -145,7 +145,7 @@ namespace Zorglub.Time.Simple
 
     public partial struct CalendarWeek
     {
-        // TODO(api): use Range<CalendarWeekdate>.
+        // TODO(api): use Range<CalendarWeek>.
 
         ///// <summary>
         ///// Converts the current instance to an interval of days.
@@ -168,7 +168,7 @@ namespace Zorglub.Time.Simple
         /// <exception cref="AoorException">The resulting week would be invalid.
         /// </exception>
         [Pure]
-        public CalendarWeek AdjustYear(int newYear)
+        public CalendarWeek WithYear(int newYear)
         {
             throw new NotImplementedException();
         }
@@ -180,7 +180,7 @@ namespace Zorglub.Time.Simple
         /// <exception cref="AoorException">The resulting week would be invalid.
         /// </exception>
         [Pure]
-        public CalendarWeek AdjustWeekOfYear(int newWeek)
+        public CalendarWeek WithWeekOfYear(int newWeek)
         {
             //int y = Year;
             //Schema.ValidateWeekOfYear(y, newWeek, nameof(newWeek));

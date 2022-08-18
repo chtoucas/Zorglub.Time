@@ -50,13 +50,9 @@ namespace Zorglub.Time.Specialized
         /// <exception cref="ArgumentException">paramref name="scope"/> is NOT complete.</exception>
         private protected SpecialAdjuster(CalendarScope scope)
         {
-            Requires.NotNull(scope);
-            // To avoid an unnecessary validation, a derived class is expected
-            // to override GetDate(), but this can only be justified when the
-            // scope is complete.
-            if (scope.IsComplete == false) Throw.Argument(nameof(scope));
-
-            Scope = scope;
+            // TODO(api): remove this ctor. To do that, we must change SpecialCalendar:
+            // calendar.Scope is a CalendarScope.
+            Scope = MinMaxYearScope.FromCalendarScope(scope);
         }
 
         /// <inheritdoc/>
