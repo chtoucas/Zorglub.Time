@@ -19,7 +19,11 @@ namespace Zorglub.Time.Hemerology.Scopes
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="segment"/> is null.</exception>
         private MinMaxYearScope(DayNumber epoch, CalendricalSegment segment)
-            : base(epoch, segment) { }
+            : base(epoch, segment)
+        {
+            Debug.Assert(segment != null);
+            Debug.Assert(segment.IsComplete);
+        }
 
         #region Factories
 
