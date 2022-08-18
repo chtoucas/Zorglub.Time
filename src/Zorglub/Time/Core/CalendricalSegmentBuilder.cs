@@ -122,9 +122,11 @@ namespace Zorglub.Time.Core
             var min = FixEndpoint(Min);
             var max = FixEndpoint(Max);
 
-            bool complete = IsStartOfYear(min) && IsEndOfYear(max);
-
-            return new CalendricalSegment(_schema, min, max, complete);
+            return new CalendricalSegment(_schema, min, max)
+            {
+                MinIsStartOfYear = IsStartOfYear(min),
+                MaxIsEndOfYear = IsEndOfYear(max)
+            };
 
             [Pure]
             bool IsStartOfYear(Endpoint ep) =>

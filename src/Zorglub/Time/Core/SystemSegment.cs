@@ -192,7 +192,11 @@ namespace Zorglub.Time.Core
                 OrdinalParts = ordinalParts.UpperValue,
             };
 
-            return new CalendricalSegment(Schema, min, max, complete: true);
+            return new CalendricalSegment(Schema, min, max)
+            {
+                MinIsStartOfYear = true,
+                MaxIsEndOfYear = true
+            };
         }
 
         private sealed class Endpoint

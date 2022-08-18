@@ -38,8 +38,9 @@ module Factories =
         let scope = BoundedBelowScope.Create(new GregorianSchema(), DayZero.NewStyle, parts, maxYear)
         let seg = scope.Segment
 
-        scope.IsComplete |> nok
-        seg.IsComplete |> nok
+        seg.MinIsStartOfYear |> nok
+        seg.MaxIsEndOfYear   |> ok
+        seg.IsComplete       |> nok
 
         seg.MinMaxDateParts.LowerValue === parts
         seg.MinMaxDateParts.UpperValue === new DateParts(maxYear, 12, 31)
@@ -57,7 +58,8 @@ module Factories =
         let scope = BoundedBelowScope.StartingAt(new GregorianSchema(), DayZero.NewStyle, new DateParts(1, 12, 1))
         let seg = scope.Segment
 
-        scope.IsComplete |> nok
-        seg.IsComplete |> nok
+        seg.MinIsStartOfYear |> nok
+        seg.MaxIsEndOfYear   |> ok
+        seg.IsComplete       |> nok
 
         seg.SupportedYears.Max === GregorianSchema.MaxYear

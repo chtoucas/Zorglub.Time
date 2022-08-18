@@ -21,11 +21,9 @@ namespace Zorglub.Time.Core
         /// Initializes a new instance of the <see cref="CalendricalSegment"/> class.
         /// <para>This constructor does NOT validate its parameters.</para>
         /// </summary>
-        internal CalendricalSegment(ICalendricalSchema schema, Endpoint min, Endpoint max, bool complete)
+        internal CalendricalSegment(ICalendricalSchema schema, Endpoint min, Endpoint max)
         {
             _schema = schema;
-
-            IsComplete = complete;
 
             SupportedDays = Range.Create(min.DaysSinceEpoch, max.DaysSinceEpoch);
             SupportedMonths = Range.Create(min.MonthsSinceEpoch, max.MonthsSinceEpoch);
@@ -37,11 +35,21 @@ namespace Zorglub.Time.Core
         }
 
         /// <summary>
+        /// Returns true if the minimum is the start of the minimal year; otherwise returns false.
+        /// </summary>
+        public bool MinIsStartOfYear { get; internal init; }
+
+        /// <summary>
+        /// Returns true if the maximum is the start of the maximal year; otherwise returns false.
+        /// </summary>
+        public bool MaxIsEndOfYear { get; internal init; }
+
+        /// <summary>
         /// Returns true if this segment is complete; otherwise returns false.
         /// <para>A segment is said to be <i>complete</i> if it spans all days of a range of years.
         /// </para>
         /// </summary>
-        public bool IsComplete { get; }
+        public bool IsComplete => MinIsStartOfYear && MaxIsEndOfYear;
 
         /// <summary>
         /// Gets the range of supported days, that is the range of supported numbers of consecutive
