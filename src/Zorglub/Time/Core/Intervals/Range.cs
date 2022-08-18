@@ -76,7 +76,7 @@ namespace Zorglub.Time.Core.Intervals
 
         /// <summary>
         /// Creates a new instance of the <see cref="Range{T}"/> struct representing the range
-        /// [<see name="IMinMaxValue{T}.MinValue"/>..<see cref="IMinMaxValue{T}.MaxValue"/>].
+        /// [<see cref="IMinMaxValue{T}.MinValue"/>..<see cref="IMinMaxValue{T}.MaxValue"/>].
         /// </summary>
         [Pure]
         public static Range<T> Maximal<T>()

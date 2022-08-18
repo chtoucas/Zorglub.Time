@@ -5,8 +5,8 @@ namespace Zorglub.Time.Simple
 {
     using Zorglub.Time.Core.Intervals;
 
-    // TODO(code): optimize enumeration; see DateRange.
-    // Add Contains.
+    // TODO(code): optimize enumeration.
+    // Add Contains().
     // Add tests to certify that it's not possible to create a range with
     // endpoints in different calendars.
 
