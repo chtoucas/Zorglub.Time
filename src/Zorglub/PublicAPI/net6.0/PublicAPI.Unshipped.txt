@@ -349,14 +349,15 @@ static Zorglub.Time.Core.Intervals.LowerRay<T>.operator ==(Zorglub.Time.Core.Int
 static Zorglub.Time.Core.Intervals.Range.Count(this Zorglub.Time.Core.Intervals.Range<int> range) -> int
 static Zorglub.Time.Core.Intervals.Range.Count(this Zorglub.Time.Core.Intervals.Range<Zorglub.Time.DayNumber> range) -> int
 static Zorglub.Time.Core.Intervals.Range.Create<T>(T min, T max) -> Zorglub.Time.Core.Intervals.Range<T>
-static Zorglub.Time.Core.Intervals.Range.CreateWithLength<T>(T min, int length) -> Zorglub.Time.Core.Intervals.Range<T>
 static Zorglub.Time.Core.Intervals.Range.EndingAt<T>(T max) -> Zorglub.Time.Core.Intervals.Range<T>
+static Zorglub.Time.Core.Intervals.Range.EndingAt<T>(T max, int length) -> Zorglub.Time.Core.Intervals.Range<T>
 static Zorglub.Time.Core.Intervals.Range.FromEndpoints<T>(Zorglub.Time.Core.Utilities.OrderedPair<T> endpoints) -> Zorglub.Time.Core.Intervals.Range<T>
 static Zorglub.Time.Core.Intervals.Range.LongCount(this Zorglub.Time.Core.Intervals.Range<int> range) -> long
 static Zorglub.Time.Core.Intervals.Range.LongCount(this Zorglub.Time.Core.Intervals.Range<Zorglub.Time.DayNumber> range) -> long
 static Zorglub.Time.Core.Intervals.Range.Maximal<T>() -> Zorglub.Time.Core.Intervals.Range<T>
 static Zorglub.Time.Core.Intervals.Range.Singleton<T>(T value) -> Zorglub.Time.Core.Intervals.Range<T>
 static Zorglub.Time.Core.Intervals.Range.StartingAt<T>(T min) -> Zorglub.Time.Core.Intervals.Range<T>
+static Zorglub.Time.Core.Intervals.Range.StartingAt<T>(T min, int length) -> Zorglub.Time.Core.Intervals.Range<T>
 static Zorglub.Time.Core.Intervals.Range.ToEnumerable(this Zorglub.Time.Core.Intervals.Range<int> range) -> System.Collections.Generic.IEnumerable<int>!
 static Zorglub.Time.Core.Intervals.Range.ToEnumerable(this Zorglub.Time.Core.Intervals.Range<Zorglub.Time.DayNumber> range) -> System.Collections.Generic.IEnumerable<Zorglub.Time.DayNumber>!
 static Zorglub.Time.Core.Intervals.Range<T>.operator !=(Zorglub.Time.Core.Intervals.Range<T> left, Zorglub.Time.Core.Intervals.Range<T> right) -> bool

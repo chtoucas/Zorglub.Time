@@ -49,20 +49,6 @@ namespace Zorglub.Time.Core.Intervals
             return new(OrderedPair.FromOrderedValues(min, max));
         }
 
-        // TODO(api): name?
-
-        /// <summary>
-        /// Creates a new instance of the <see cref="Range{T}"/> struct from the specified minimum
-        /// and length.
-        /// </summary>
-        /// <exception cref="AoorException"><paramref name="length"/> is less than 1.</exception>
-        [Pure]
-        public static Range<T> CreateWithLength<T>(T min, int length)
-            where T : struct, IEquatable<T>, IComparable<T>, IAdditionOperators<T, int, T>
-        {
-            return new(min, min + (length - 1));
-        }
-
         /// <summary>
         /// Creates a new instance of the <see cref="Range{T}"/> struct representing the
         /// degenerate range [<paramref name="value"/>].
@@ -97,6 +83,18 @@ namespace Zorglub.Time.Core.Intervals
         }
 
         /// <summary>
+        /// Creates a new instance of the <see cref="Range{T}"/> struct from the specified minimum
+        /// and length.
+        /// </summary>
+        /// <exception cref="AoorException"><paramref name="length"/> is less than 1.</exception>
+        [Pure]
+        public static Range<T> StartingAt<T>(T min, int length)
+            where T : struct, IEquatable<T>, IComparable<T>, IAdditionOperators<T, int, T>
+        {
+            return new(min, min + (length - 1));
+        }
+
+        /// <summary>
         /// Creates a new instance of the <see cref="Range{T}"/> struct representing the range
         /// [<see cref="IMinMaxValue{T}.MinValue"/>..<paramref name="max"/>].
         /// </summary>
@@ -105,6 +103,17 @@ namespace Zorglub.Time.Core.Intervals
             where T : struct, IEquatable<T>, IComparable<T>, IMinMaxValue<T>
         {
             return CreateLeniently(T.MinValue, max);
+        }
+
+        /// <summary>
+        /// Creates a new instance of the <see cref="Range{T}"/> struct from the specified maximum
+        /// and length.
+        /// </summary>
+        [Pure]
+        public static Range<T> EndingAt<T>(T max, int length)
+            where T : struct, IEquatable<T>, IComparable<T>, ISubtractionOperators<T, int, T>
+        {
+            return new(max - (length - 1), max);
         }
     }
 
