@@ -97,6 +97,32 @@ namespace Zorglub.Time.Hemerology.Scopes
             return new MinMaxYearScope(epoch, segment);
         }
 
+        [Pure]
+        public static MinMaxYearScope Create(CalendarScope scope)
+        {
+            Requires.NotNull(scope);
+
+            if (scope.Segment.IsComplete == false) Throw.Argument(nameof(scope));
+
+            return new MinMaxYearScope(scope.Epoch, scope.Segment);
+        }
+
+        [Pure]
+        public static MinMaxYearScope Create(StandardScope scope)
+        {
+            Requires.NotNull(scope);
+
+            return new MinMaxYearScope(scope.Epoch, scope.Segment);
+        }
+
+        [Pure]
+        public static MinMaxYearScope Create(ProlepticScope scope)
+        {
+            Requires.NotNull(scope);
+
+            return new MinMaxYearScope(scope.Epoch, scope.Segment);
+        }
+
         #endregion
 
         /// <inheritdoc />

@@ -52,7 +52,7 @@ namespace Zorglub.Time.Specialized
         {
             // TODO(api): remove this ctor. To do that, we must change SpecialCalendar:
             // calendar.Scope is a CalendarScope.
-            Scope = MinMaxYearScope.FromCalendarScope(scope);
+            Scope = MinMaxYearScope.Create(scope);
         }
 
         /// <inheritdoc/>

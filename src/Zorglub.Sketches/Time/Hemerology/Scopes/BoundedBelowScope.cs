@@ -24,8 +24,7 @@ namespace Zorglub.Time.Hemerology.Scopes
             : base(epoch, segment)
         {
             var seg = Segment;
-            var min = seg.MinMaxOrdinalParts.LowerValue;
-            if (min == OrdinalParts.AtStartOfYear(min.Year)) Throw.Argument(nameof(segment));
+            if (seg.MinIsStartOfYear == false) Throw.Argument(nameof(segment));
 
             MinYear = seg.SupportedYears.Min;
             MinDateParts = seg.MinMaxDateParts.LowerValue;
@@ -71,6 +70,17 @@ namespace Zorglub.Time.Hemerology.Scopes
             var seg = builder.BuildSegment();
 
             return new BoundedBelowScope(epoch, seg);
+        }
+
+        [Pure]
+        public static BoundedBelowScope Create(CalendarScope scope)
+        {
+            Requires.NotNull(scope);
+
+            var seg = scope.Segment;
+            if (seg.MinIsStartOfYear || seg.MaxIsEndOfYear == false) Throw.Argument(nameof(scope));
+
+            return new BoundedBelowScope(scope.Epoch, scope.Segment);
         }
 
         /// <summary>

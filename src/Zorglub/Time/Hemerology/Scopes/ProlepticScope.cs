@@ -52,6 +52,9 @@ namespace Zorglub.Time.Hemerology.Scopes
         /// </summary>
         internal static IRangeValidator<int> YearsValidatorImpl { get; } = new YearsValidator_();
 
+        public static implicit operator MinMaxYearScope(ProlepticScope scope) =>
+            MinMaxYearScope.Create(scope);
+
         /// <inheritdoc />
         public sealed override void ValidateYearMonth(int year, int month, string? paramName = null)
         {
