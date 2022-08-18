@@ -97,6 +97,11 @@ namespace Zorglub.Time.Hemerology.Scopes
             return new MinMaxYearScope(epoch, segment);
         }
 
+        /// <summary>
+        /// Creates a new instance of the <see cref="MinMaxYearScope"/> class.
+        /// </summary>
+        /// <exception cref="ArgumentNullException"><paramref name="scope"/> is null.</exception>
+        /// <exception cref="ArgumentException"><paramref name="scope"/> is NOT complete.</exception>
         [Pure]
         public static MinMaxYearScope Create(CalendarScope scope)
         {
@@ -107,6 +112,10 @@ namespace Zorglub.Time.Hemerology.Scopes
             return new MinMaxYearScope(scope.Epoch, scope.Segment);
         }
 
+        /// <summary>
+        /// Creates a new instance of the <see cref="MinMaxYearScope"/> class.
+        /// </summary>
+        /// <exception cref="ArgumentNullException"><paramref name="scope"/> is null.</exception>
         [Pure]
         public static MinMaxYearScope Create(StandardScope scope)
         {
@@ -115,6 +124,10 @@ namespace Zorglub.Time.Hemerology.Scopes
             return new MinMaxYearScope(scope.Epoch, scope.Segment);
         }
 
+        /// <summary>
+        /// Creates a new instance of the <see cref="MinMaxYearScope"/> class.
+        /// </summary>
+        /// <exception cref="ArgumentNullException"><paramref name="scope"/> is null.</exception>
         [Pure]
         public static MinMaxYearScope Create(ProlepticScope scope)
         {

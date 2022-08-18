@@ -52,6 +52,11 @@ namespace Zorglub.Time.Hemerology.Scopes
         /// </summary>
         internal static IRangeValidator<int> YearsValidatorImpl { get; } = new YearsValidator_();
 
+        /// <summary>
+        /// Converts the specified scope to <see cref="MinMaxYearScope"/>.
+        /// </summary>
+        /// <exception cref="ArgumentNullException"><paramref name="scope"/> is null.</exception>
+        [SuppressMessage("Usage", "CA2225:Operator overloads have named alternates", Justification = "See MinMaxYearScope.Create().")]
         public static implicit operator MinMaxYearScope(ProlepticScope scope) =>
             MinMaxYearScope.Create(scope);
 

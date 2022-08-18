@@ -72,6 +72,13 @@ namespace Zorglub.Time.Hemerology.Scopes
             return new BoundedBelowScope(epoch, seg);
         }
 
+        /// <summary>
+        /// Creates a new instance of the <see cref="BoundedBelowScope"/> class.
+        /// </summary>
+        /// <exception cref="ArgumentNullException"><paramref name="scope"/> is null.</exception>
+        /// <exception cref="ArgumentException">The minimum date of <paramref name="scope"/> is the
+        /// start of the minimal year -or- the maximum date of <paramref name="scope"/> is not the
+        /// end of the maximal year.</exception>
         [Pure]
         public static BoundedBelowScope Create(CalendarScope scope)
         {
