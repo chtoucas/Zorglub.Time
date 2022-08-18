@@ -19,12 +19,13 @@ namespace Zorglub.Time.Hemerology.Scopes
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="segment"/> is null.</exception>
         /// <exception cref="ArgumentException">The start of <paramref name="segment"/> is the first
-        /// day of a year.</exception>
+        /// day of a year -or- the end of <paramref name="segment"/> is not the end of a year.
+        /// </exception>
         private BoundedBelowScope(DayNumber epoch, CalendricalSegment segment)
             : base(epoch, segment)
         {
             var seg = Segment;
-            if (seg.MinIsStartOfYear == false) Throw.Argument(nameof(segment));
+            if (seg.MinIsStartOfYear || seg.MaxIsEndOfYear == false) Throw.Argument(nameof(segment));
 
             MinYear = seg.SupportedYears.Min;
             MinDateParts = seg.MinMaxDateParts.LowerValue;
@@ -83,9 +84,6 @@ namespace Zorglub.Time.Hemerology.Scopes
         public static BoundedBelowScope Create(CalendarScope scope)
         {
             Requires.NotNull(scope);
-
-            var seg = scope.Segment;
-            if (seg.MinIsStartOfYear || seg.MaxIsEndOfYear == false) Throw.Argument(nameof(scope));
 
             return new BoundedBelowScope(scope.Epoch, scope.Segment);
         }

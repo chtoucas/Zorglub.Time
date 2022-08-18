@@ -8,7 +8,7 @@ namespace Zorglub.Time.Hemerology
     /// <summary>
     /// Represents a basic calendar with dates within a range of years.
     /// </summary>
-    public class MinMaxYearBasicCalendar : BasicCalendar
+    public class MinMaxYearBasicCalendar : BasicCalendar<MinMaxYearScope>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="MinMaxYearBasicCalendar"/> class.

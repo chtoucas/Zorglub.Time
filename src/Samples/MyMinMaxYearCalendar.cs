@@ -14,7 +14,7 @@ using Zorglub.Time.Hemerology.Scopes;
 // Verification that one can create a calendar type without having access to
 // the internals of the assembly Zorglub.
 
-public class MyMinMaxYearCalendar : BasicCalendar, ICalendar<DateParts>
+public class MyMinMaxYearCalendar : BasicCalendar<MinMaxYearScope>, ICalendar<DateParts>
 {
     public MyMinMaxYearCalendar(string name, MinMaxYearScope scope) : base(name, scope)
     {

@@ -36,23 +36,9 @@ namespace Zorglub.Time.Specialized
         /// <see cref="SpecialAdjuster{TDate}"/> class.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="scope"/> is null.</exception>
-        /// <exception cref="ArgumentException">paramref name="scope"/> is NOT complete.</exception>
         private protected SpecialAdjuster(MinMaxYearScope scope)
         {
             Scope = scope ?? throw new ArgumentNullException(nameof(scope));
-        }
-
-        /// <summary>
-        /// Called from constructors in derived classes to initialize the
-        /// <see cref="SpecialAdjuster{TDate}"/> class.
-        /// </summary>
-        /// <exception cref="ArgumentNullException"><paramref name="scope"/> is null.</exception>
-        /// <exception cref="ArgumentException">paramref name="scope"/> is NOT complete.</exception>
-        private protected SpecialAdjuster(CalendarScope scope)
-        {
-            // TODO(api): remove this ctor. To do that, we must change SpecialCalendar:
-            // calendar.Scope is a CalendarScope.
-            Scope = MinMaxYearScope.Create(scope);
         }
 
         /// <inheritdoc/>

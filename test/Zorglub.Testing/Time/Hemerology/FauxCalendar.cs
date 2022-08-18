@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 using Zorglub.Time.Hemerology.Scopes;
 
-public sealed class FauxCalendar<TDate> : BasicCalendar, ICalendar<TDate>
+public sealed class FauxCalendar<TDate> : BasicCalendar<CalendarScope>, ICalendar<TDate>
 {
     public FauxCalendar(string name, CalendarScope scope) : base(name, scope) { }
 

@@ -58,7 +58,7 @@ namespace Zorglub.Time.Specialized
         /// Initializes a new instance of the <see cref="GregorianAdjuster"/> class.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="scope"/> is null.</exception>
-        internal GregorianAdjuster(CalendarScope scope) : base(scope) { }
+        internal GregorianAdjuster(MinMaxYearScope scope) : base(scope) { }
 
         /// <inheritdoc/>
         [Pure]
@@ -91,7 +91,7 @@ namespace Zorglub.Time.Specialized
         /// Represents the scope.
         /// <para>This field is read-only.</para>
         /// </summary>
-        private static readonly CalendarScope s_Scope = s_Calendar.Scope;
+        private static readonly MinMaxYearScope s_Scope = s_Calendar.Scope;
 
         /// <summary>
         /// Represents the domain, the interval of supported <see cref="DayNumber"/>.

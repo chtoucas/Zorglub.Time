@@ -10,7 +10,7 @@ namespace Zorglub.Time.Hemerology
     /// Represents a basic calendar with dates on or after a given date.
     /// <para>The aforementioned date can NOT be the start of a year.</para>
     /// </summary>
-    public class BoundedBelowBasicCalendar : BasicCalendar
+    public class BoundedBelowBasicCalendar : BasicCalendar<BoundedBelowScope>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="BoundedBelowBasicCalendar"/> class.

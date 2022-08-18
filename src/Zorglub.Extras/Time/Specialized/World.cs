@@ -67,7 +67,7 @@ namespace Zorglub.Time.Specialized
         /// Initializes a new instance of the <see cref="WorldAdjuster"/> class.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="scope"/> is null.</exception>
-        internal WorldAdjuster(CalendarScope scope) : base(scope) { }
+        internal WorldAdjuster(MinMaxYearScope scope) : base(scope) { }
 
         /// <inheritdoc/>
         [Pure]
@@ -101,7 +101,7 @@ namespace Zorglub.Time.Specialized
         /// Represents the scope.
         /// <para>This field is read-only.</para>
         /// </summary>
-        private static readonly CalendarScope s_Scope = s_Calendar.Scope;
+        private static readonly MinMaxYearScope s_Scope = s_Calendar.Scope;
 
         /// <summary>
         /// Represents the epoch.

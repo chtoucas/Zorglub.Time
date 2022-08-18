@@ -60,7 +60,7 @@ namespace Zorglub.Time.Specialized
         /// Initializes a new instance of the <see cref="Armenian13Adjuster"/> class.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="scope"/> is null.</exception>
-        internal Armenian13Adjuster(CalendarScope scope) : base(scope) { }
+        internal Armenian13Adjuster(MinMaxYearScope scope) : base(scope) { }
 
         /// <inheritdoc/>
         [Pure]
@@ -94,7 +94,7 @@ namespace Zorglub.Time.Specialized
         /// Represents the scope.
         /// <para>This field is read-only.</para>
         /// </summary>
-        private static readonly CalendarScope s_Scope = s_Calendar.Scope;
+        private static readonly MinMaxYearScope s_Scope = s_Calendar.Scope;
 
         /// <summary>
         /// Represents the epoch.

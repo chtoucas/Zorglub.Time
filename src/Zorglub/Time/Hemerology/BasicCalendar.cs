@@ -11,15 +11,17 @@ namespace Zorglub.Time.Hemerology
     /// <summary>
     /// Represents a basic calendar and provides a base for derived classes.
     /// </summary>
-    public abstract partial class BasicCalendar : ICalendar
+    /// <typeparam name="TScope">The type of the underlying scope.</typeparam>
+    public abstract partial class BasicCalendar<TScope> : ICalendar
+        where TScope : CalendarScope
     {
         /// <summary>
-        /// Called from constructors in derived classes to initialize the <see cref="BasicCalendar"/>
-        /// class.
+        /// Called from constructors in derived classes to initialize the
+        /// <see cref="BasicCalendar{TScope}"/> class.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="name"/> is null.</exception>
         /// <exception cref="ArgumentNullException"><paramref name="scope"/> is null.</exception>
-        protected BasicCalendar(string name, CalendarScope scope)
+        protected BasicCalendar(string name, TScope scope)
         {
             Name = name ?? throw new ArgumentNullException(nameof(name));
             Scope = scope ?? throw new ArgumentNullException(nameof(scope));
@@ -49,7 +51,9 @@ namespace Zorglub.Time.Hemerology
         public Range<DayNumber> Domain => Scope.Domain;
 
         /// <inheritdoc />
-        public CalendarScope Scope { get; }
+        public TScope Scope { get; }
+
+        CalendarScope ICalendar.Scope => Scope;
 
         /// <summary>
         /// Gets a validator for the range of supported years.
@@ -72,7 +76,7 @@ namespace Zorglub.Time.Hemerology
         public bool IsRegular(out int monthsInYear) => Schema.IsRegular(out monthsInYear);
     }
 
-    public partial class BasicCalendar // Year, month, day infos
+    public partial class BasicCalendar<TScope> // Year, month, day infos
     {
 #pragma warning disable CA1725 // Parameter names should match base declaration (Naming) ✓
         // For calendars, we prefer long parameter names to short names.
@@ -135,7 +139,7 @@ namespace Zorglub.Time.Hemerology
 #pragma warning restore CA1725
     }
 
-    public partial class BasicCalendar // Conversions
+    public partial class BasicCalendar<TScope> // Conversions
     {
         /// <inheritdoc />
         [Pure]

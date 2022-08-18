@@ -5,7 +5,7 @@ namespace Zorglub.Time.Hemerology;
 
 using Zorglub.Time.Hemerology.Scopes;
 
-public sealed class FauxBasicCalendar : BasicCalendar
+public sealed class FauxBasicCalendar : BasicCalendar<CalendarScope>
 {
     public FauxBasicCalendar(string name, CalendarScope scope) : base(name, scope) { }
 
