@@ -10,12 +10,12 @@ using Zorglub.Time.Hemerology;
 
 // TODO(fact): should derive from ICalendarTFacts, no?
 
-// Ça passe parce qu'on triche, voir GregorianBoundedBelowNakedCalendarTests et
-// GregorianBoundedBelowNakedCalendarTests. En toute rigueur, il faudrait créer
+// Ça passe parce qu'on triche, voir GregorianBoundedBelowCalendarTests et
+// GregorianBoundedBelowCalendarTests. En toute rigueur, il faudrait créer
 // (et utiliser) des méthodes SkipMonth() et SkipDate().
 
 /// <summary>
-/// Provides facts about <see cref="NakedCalendar"/>.
+/// Provides facts about <see cref="INakedCalendar"/>.
 /// </summary>
 public abstract partial class INakedCalendarFacts<TCalendar, TDataSet> :
     ICalendarFacts<TCalendar, TDataSet>

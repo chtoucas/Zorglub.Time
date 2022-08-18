@@ -7,6 +7,9 @@ namespace Zorglub.Time.Extensions
 
     using static Zorglub.Time.Core.Validation.DomainExtensions;
 
+    // Pour les test, voir ceux qui ont été commentés dans
+    // Zorglub.Testing.Facts.Hemerology.INakedCalendarFacts.
+
     public static class DomainExtensions
     {
         /// <summary>
