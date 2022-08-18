@@ -38,6 +38,9 @@ Usage: cover.ps1 [arguments]
      -Badges         create badges?
   -h|-Help           print this help then exit
 
+Be sure to restore the NuGet tools before running this script:
+> dotnet tool restore
+
 Examples.
 > cover.ps1             # Run Coverlet then build an HTML report
 > cover.ps1 -NoReport   # Run Coverlet, do NOT build an HTML report
