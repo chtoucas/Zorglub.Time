@@ -131,7 +131,7 @@
     <Compile Include="Tests\Extras\XCivilDateTests.fs" />
     <Compile Include="Tests\Extras\RomanKalendarTests.fs" />
     <Compile Include="Tests\Extras\GregorianReformTests.fs" />
-    <Compile Include="Tests\IsoWeekayTests.fs" />
+    <Compile Include="Tests\IsoWeekdayTests.fs" />
     <Compile Include="Tests\PartsTests.fs" />
     <Compile Include="Tests\CalendarIdTests.fs" />
     <Compile Include="Tests\OrdTests.fs" />

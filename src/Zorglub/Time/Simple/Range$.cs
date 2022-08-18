@@ -10,6 +10,14 @@ namespace Zorglub.Time.Simple
     // Add tests to certify that it's not possible to create a range with
     // endpoints in different calendars.
 
+    // A range of a simple type is finite and enumerable:
+    // - Count(); no need to provide a method LongCount(), Count() never
+    //   overflows the capacity of Int32.
+    // - ToEnumerable()
+    // Other extensions:
+    // - GetCalendar()
+    // - WithCalendar()
+
     /// <summary>
     /// Provides extension methods for <see cref="Range{T}"/>.
     /// <para>This class cannot be inherited.</para>
