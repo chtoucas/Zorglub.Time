@@ -87,24 +87,29 @@ namespace Zorglub.Time.Simple
             return new CalendarDate(ymd, month.Cuid);
         }
 
+        /// <inheritdoc/>
         [Pure]
-        static Range<CalendarDate> IDateProviders<CalendarDate>.ConvertToRange(CalendarMonth month) =>
+        public static Range<CalendarDate> ConvertToRange(CalendarMonth month) =>
             month.ToRange();
 
+        /// <inheritdoc/>
         [Pure]
-        static IEnumerable<CalendarDate> IDateProviders<CalendarDate>.GetDaysInMonth(CalendarMonth month) =>
+        public static IEnumerable<CalendarDate> GetDaysInMonth(CalendarMonth month) =>
             month.GetAllDays();
 
+        /// <inheritdoc/>
         [Pure]
-        static CalendarDate IDateProviders<CalendarDate>.GetStartOfMonth(CalendarMonth month) =>
+        public static CalendarDate GetStartOfMonth(CalendarMonth month) =>
             month.FirstDay;
 
+        /// <inheritdoc/>
         [Pure]
-        static CalendarDate IDateProviders<CalendarDate>.GetDayOfMonth(CalendarMonth month, int dayOfMonth) =>
+        public static CalendarDate GetDayOfMonth(CalendarMonth month, int dayOfMonth) =>
             month.GetDayOfMonth(dayOfMonth);
 
+        /// <inheritdoc/>
         [Pure]
-        static CalendarDate IDateProviders<CalendarDate>.GetEndOfMonth(CalendarMonth month) =>
+        public static CalendarDate GetEndOfMonth(CalendarMonth month) =>
             month.LastDay;
     }
 }
