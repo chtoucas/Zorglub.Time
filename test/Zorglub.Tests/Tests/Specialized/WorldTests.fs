@@ -24,7 +24,7 @@ module Methods =
 
     [<TestExtrasAssembly>]
     [<Theory; MemberData(nameof(dateInfoData))>]
-    let IsBlank_Prop (info: DateInfo) =
+    let ``Property IsBlank`` (info: DateInfo) =
         let (y, m, d) = info.Yemoda.Deconstruct()
         let date = new WorldDate(y, m, d)
 
@@ -32,7 +32,7 @@ module Methods =
 
     [<TestExtrasAssembly>]
     [<Theory; MemberData(nameof(moreMonthInfoData))>]
-    let CountDaysInWorldMonth (info: YemoAnd<int>) =
+    let ``CountDaysInWorldMonth()`` (info: YemoAnd<int>) =
         let (y, m, daysInMonth) = info.Deconstruct()
 
         chr.CountDaysInWorldMonth(y, m) === daysInMonth
