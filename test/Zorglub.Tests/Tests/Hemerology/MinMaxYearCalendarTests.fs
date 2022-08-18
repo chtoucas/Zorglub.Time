@@ -22,17 +22,5 @@ module Prelude =
 
     [<Fact>]
     let ``Constructor throws when "scope" is null`` () =
-        nullExn "scope" (fun () -> new MinMaxYearBasicCalendar("Name", (null: CalendarScope)))
         nullExn "scope" (fun () -> new MinMaxYearBasicCalendar("Name", (null: MinMaxYearScope)))
-        nullExn "scope" (fun () -> new MinMaxYearCalendar("Name", (null: CalendarScope)))
         nullExn "scope" (fun () -> new MinMaxYearCalendar("Name", (null: MinMaxYearScope)))
-
-    [<Fact>]
-    let ``Constructor throws when "scope" is not complete`` () =
-        let min = new DateParts(1, 1, 2)
-        let scope = BoundedBelowScope.StartingAt(new GregorianSchema(), DayZero.NewStyle, min)
-
-        scope.IsComplete |> nok
-
-        argExn "scope" (fun () -> new MinMaxYearBasicCalendar("Name", scope))
-        argExn "scope" (fun () -> new MinMaxYearCalendar("Name", scope))

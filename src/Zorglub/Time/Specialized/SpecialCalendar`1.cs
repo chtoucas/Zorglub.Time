@@ -29,15 +29,6 @@ namespace Zorglub.Time.Specialized
         private protected SpecialCalendar(string name, MinMaxYearScope scope) : base(name, scope) { }
 
         /// <summary>
-        /// Called from constructors in derived classes to initialize the
-        /// <see cref="SpecialCalendar{TDate}"/> class.
-        /// </summary>
-        /// <exception cref="ArgumentNullException"><paramref name="name"/> is null.</exception>
-        /// <exception cref="ArgumentNullException"><paramref name="scope"/> is null.</exception>
-        /// <exception cref="ArgumentException"><paramref name="scope"/> is not complete.</exception>
-        private protected SpecialCalendar(string name, CalendarScope scope) : base(name, scope) { }
-
-        /// <summary>
         /// Creates a new instance of <typeparamref name="TDate"/> from the specified count of
         /// consecutive days since the epoch.
         /// <para>This method does NOT validate its parameter.</para>

@@ -17,19 +17,6 @@ namespace Zorglub.Time.Hemerology
         /// <exception cref="ArgumentNullException"><paramref name="scope"/> is null.</exception>
         public MinMaxYearBasicCalendar(string name, MinMaxYearScope scope) : base(name, scope) { }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="MinMaxYearBasicCalendar"/> class.
-        /// </summary>
-        /// <exception cref="ArgumentNullException"><paramref name="name"/> is null.</exception>
-        /// <exception cref="ArgumentNullException"><paramref name="scope"/> is null.</exception>
-        /// <exception cref="ArgumentException"><paramref name="scope"/> is not complete.</exception>
-        public MinMaxYearBasicCalendar(string name, CalendarScope scope) : base(name, scope)
-        {
-            Debug.Assert(scope != null);
-
-            if (scope.IsComplete == false) Throw.Argument(nameof(scope));
-        }
-
         /// <inheritdoc/>
         [Pure]
         public sealed override int CountMonthsInYear(int year)

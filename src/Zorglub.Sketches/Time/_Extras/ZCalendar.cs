@@ -51,6 +51,8 @@ namespace Zorglub.Time
         ICalendar<ZDate>,
         IDateFactory<ZDate>
     {
+        // FIXME(api): require a MinMaxYearScope.
+        //
         /// <summary>
         /// Initializes a new instance of <see cref="ZCalendar"/> class.
         /// </summary>
@@ -58,7 +60,7 @@ namespace Zorglub.Time
         /// <exception cref="ArgumentNullException"><paramref name="scope"/> is null.</exception>
         /// <exception cref="ArgumentException"><paramref name="scope"/> is NOT complete.</exception>
         internal ZCalendar(int id, string key, CalendarScope scope, bool userDefined)
-            : base(key, scope)
+            : base(key, MinMaxYearScope.Create(scope))
         {
             Debug.Assert(key != null);
             Debug.Assert(scope != null);
@@ -66,7 +68,7 @@ namespace Zorglub.Time
             // The scope MUST be complete, otherwise we have a problem with
             // methods here (infos, IDayProvider, ValidateGregorianParts()) but
             // also with counting methods in ZDate, and with  ZDateAdjusters.
-            if (scope.IsComplete == false) Throw.Argument(nameof(scope));
+            if (scope.Segment.IsComplete == false) Throw.Argument(nameof(scope));
 
             Key = key;
             Id = id;
