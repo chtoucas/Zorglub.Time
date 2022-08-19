@@ -89,6 +89,12 @@ namespace Zorglub.Time.Hemerology
         public static ZCalendar Julian => JulianZCalendar.Instance;
 
         /// <summary>
+        /// Gets the Civil calendar.
+        /// <para>This static property is thread-safe.</para>
+        /// </summary>
+        public static ZCalendar Civil => CivilZCalendar.Instance;
+
+        /// <summary>
         /// Gets the Armenian calendar.
         /// <para>This static property is thread-safe.</para>
         /// </summary>

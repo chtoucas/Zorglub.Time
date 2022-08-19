@@ -57,8 +57,10 @@ namespace Zorglub.Time
         // - CalendarIdExtensions
         // - Cuid
         // - add XXXSimpleCalendar in SimpleCalendar.A..Z.cs
+        // - add SimpleCalendar.XXX
         // - SimpleCatalog.InitializeSystemCalendars()
         // - add XXXZCalendar in ZCalendar.A..Z.cs
+        // - add ZCalendar.XXX
         // - ZCatalog.InitCalendarsByKey()
         // - Zorglub.Testing.Data.EnumDataSet.CalendarIdData
         // - Zorglub.Testing.Data.EnumDataSet.FixedCuidData
