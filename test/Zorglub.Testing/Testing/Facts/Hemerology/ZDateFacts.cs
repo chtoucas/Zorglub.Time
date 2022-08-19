@@ -5,6 +5,7 @@ namespace Zorglub.Testing.Facts.Hemerology;
 
 using Zorglub.Testing.Data;
 using Zorglub.Time;
+using Zorglub.Time.Hemerology;
 
 /// <summary>
 /// Provides facts about <see cref="ZDate"/>.

@@ -2,9 +2,9 @@
 // Copyright (c) 2020 Narvalo.Org. All rights reserved.
 
 // REVIEW(code): size of the Z-catalog.
-#define ZCATALOG_BIGGER
+#define BIGGER_ZCATALOG
 
-namespace Zorglub.Time
+namespace Zorglub.Time.Hemerology
 {
     using System.Collections.Concurrent;
     using System.Collections.ObjectModel;
@@ -31,7 +31,7 @@ namespace Zorglub.Time
     /// </summary>
     public static partial class ZCatalog
     {
-#if ZCATALOG_BIGGER
+#if BIGGER_ZCATALOG
         /// <summary>
         /// Represents the maximum value for the ident of a calendar.
         /// <para>This field is a constant equal to 508.</para>
@@ -55,7 +55,7 @@ namespace Zorglub.Time
         // réservant aussi les IDs 64 à 127; voir ToZCalendar() et ToCalendar().
         private static readonly int MinUserId = SimpleCatalog.MaxId + 1;
 
-#if ZCATALOG_BIGGER
+#if BIGGER_ZCATALOG
         /// <summary>
         /// Represents the absolute maximum number of user-defined calendars without counting those
         /// created from a <see cref="SimpleCalendar"/>.
@@ -141,7 +141,7 @@ namespace Zorglub.Time
         [Pure]
         private static ConcurrentDictionary<string, Lazy<ZCalendar>> InitCalendarsByKey()
         {
-#if ZCATALOG_BIGGER
+#if BIGGER_ZCATALOG
             // First prime number >= MaxId + 1 = 509.
             const int Capacity = 509;
 #else

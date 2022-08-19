@@ -1,7 +1,7 @@
 ﻿// SPDX-License-Identifier: BSD-3-Clause
 // Copyright (c) 2020 Narvalo.Org. All rights reserved.
 
-namespace Zorglub.Time
+namespace Zorglub.Time.Hemerology
 {
     using System.Collections.Concurrent;
     using System.Linq;

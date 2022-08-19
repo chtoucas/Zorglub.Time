@@ -8,6 +8,7 @@ using NodaTime;
 using Samples;
 
 using Zorglub.Time;
+using Zorglub.Time.Hemerology;
 using Zorglub.Time.Simple;
 using Zorglub.Time.Specialized;
 
