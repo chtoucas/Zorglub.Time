@@ -28,6 +28,11 @@ module PlainMathCase =
         inherit CalendarMathFacts<StandardCoptic13DataSet>(new PlainMath(UserCalendars.Coptic13))
 
     [<Sealed>]
+    [<RedundantTestBundle>]
+    type CivilTests() =
+        inherit CalendarMathFacts<StandardGregorianDataSet>(new PlainMath(SimpleCalendar.Civil))
+
+    [<Sealed>]
     type GregorianTests() =
         inherit CalendarMathFacts<ProlepticGregorianDataSet>(new PlainMath(SimpleCalendar.Gregorian))
 
@@ -51,6 +56,11 @@ module RegularMathCase =
     [<RedundantTestBundle>]
     type Coptic13Tests() =
         inherit CalendarMathFacts<StandardCoptic13DataSet>(new RegularMath(UserCalendars.Coptic13))
+
+    [<Sealed>]
+    [<RedundantTestBundle>]
+    type CivilTests() =
+        inherit CalendarMathFacts<StandardGregorianDataSet>(new RegularMath(SimpleCalendar.Civil))
 
     [<Sealed>]
     [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
@@ -96,6 +106,12 @@ module PowerMathCase =
             new PowerMath(UserCalendars.Coptic13, ruleset))
 
     [<Sealed>]
+    [<RedundantTestBundle>]
+    type CivilTests() =
+        inherit CalendarMathFacts<StandardGregorianDataSet>(
+            new PowerMath(SimpleCalendar.Civil, ruleset))
+
+    [<Sealed>]
     [<TestExcludeFrom(TestExcludeFrom.Smoke)>]
     type GregorianTests() =
         inherit CalendarMathFacts<ProlepticGregorianDataSet>(
@@ -121,6 +137,11 @@ module PowerMathCase =
 [<RedundantTestBundle>]
 type ArmenianTests() =
     inherit CalendarMathFacts<StandardArmenian12DataSet>(SimpleCalendar.Armenian)
+
+[<Sealed>]
+[<RedundantTestBundle>]
+type CivilTests() =
+    inherit CalendarMathFacts<StandardGregorianDataSet>(SimpleCalendar.Civil)
 
 [<Sealed>]
 [<RedundantTestBundle>]

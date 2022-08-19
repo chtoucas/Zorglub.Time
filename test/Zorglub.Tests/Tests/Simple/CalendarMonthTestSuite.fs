@@ -21,6 +21,11 @@ type ArmenianTests() =
 
 [<Sealed>]
 [<RedundantTestBundle>]
+type CivilTests() =
+    inherit CalendarMonthFacts<StandardGregorianDataSet>(SimpleCalendar.Civil, other)
+
+[<Sealed>]
+[<RedundantTestBundle>]
 type CopticTests() =
     inherit CalendarMonthFacts<StandardCoptic12DataSet>(SimpleCalendar.Coptic, other)
 

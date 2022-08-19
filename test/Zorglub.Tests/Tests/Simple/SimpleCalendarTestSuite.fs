@@ -24,6 +24,15 @@ type ArmenianTests() =
     override x.Scope() = x.CalendarUT.Scope |> is<StandardScope>
 
 [<Sealed>]
+type CivilTests() =
+    inherit SimpleCalendarFacts<StandardGregorianDataSet>(SimpleCalendar.Civil)
+
+    override __.GetSingleton() = SimpleCalendar.Civil
+    override x.Id() = x.CalendarUT.Id === Cuid.Civil
+    override x.Math() = x.CalendarUT.Math |> is<RegularMath>
+    override x.Scope() = x.CalendarUT.Scope |> is<StandardScope>
+
+[<Sealed>]
 [<RedundantTestBundle>]
 type CopticTests() =
     inherit SimpleCalendarFacts<StandardCoptic12DataSet>(SimpleCalendar.Coptic)

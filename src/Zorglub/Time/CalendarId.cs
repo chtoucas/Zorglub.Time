@@ -63,7 +63,7 @@ namespace Zorglub.Time
         // - Zorglub.Testing.Data.EnumDataSet.CalendarIdData
         // - Zorglub.Testing.Data.EnumDataSet.FixedCuidData
         // - Zorglub.Tests.CalendarIdTests.IdToStringData
-        // - Tests for SimpleCalendar and ZCalendar
+        // - tests for SimpleCalendar and ZCalendar
     }
 
     /// <summary>
