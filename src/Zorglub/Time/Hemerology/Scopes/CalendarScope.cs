@@ -39,12 +39,14 @@ namespace Zorglub.Time.Hemerology.Scopes
 
             Epoch = epoch;
 
-            DaysValidator = new DaysValidator(segment.SupportedDays);
-            MonthsValidator = new MonthsValidator(segment.SupportedMonths);
             YearsValidator = new YearsValidator(segment.SupportedYears);
+            MonthsValidator = new MonthsValidator(segment.SupportedMonths);
+            DaysValidator = new DaysValidator(segment.SupportedDays);
 
             Domain = Range.FromEndpoints(
                 segment.SupportedDays.Endpoints.Select(x => epoch + x));
+
+            (MinYear, MaxYear) = segment.SupportedYears.Endpoints;
         }
 
         /// <summary>
@@ -63,19 +65,29 @@ namespace Zorglub.Time.Hemerology.Scopes
         public CalendricalSegment Segment { get; }
 
         /// <summary>
-        /// Gets the validator for the range of supported days.
+        /// Gets the earliest supported year.
         /// </summary>
-        public IRangeValidator<int> DaysValidator { get; }
+        public int MinYear { get; }
 
         /// <summary>
-        /// Gets the validator for the range of supported months.
+        /// Gets the latest supported year.
         /// </summary>
-        public IRangeValidator<int> MonthsValidator { get; }
+        public int MaxYear { get; }
 
         /// <summary>
         /// Gets the validator for the range of supported years.
         /// </summary>
-        public IRangeValidator<int> YearsValidator { get; internal init; }
+        public IYearsValidator YearsValidator { get; internal init; }
+
+        /// <summary>
+        /// Gets the validator for the range of supported months.
+        /// </summary>
+        public MonthsValidator MonthsValidator { get; }
+
+        /// <summary>
+        /// Gets the validator for the range of supported days.
+        /// </summary>
+        public DaysValidator DaysValidator { get; }
 
         /// <summary>
         /// Gets the pre-validator.

@@ -27,11 +27,27 @@ namespace Zorglub.Time.Hemerology.Scopes
             var seg = Segment;
             if (seg.MinIsStartOfYear || seg.MaxIsEndOfYear == false) Throw.Argument(nameof(segment));
 
-            (MinYear, MaxYear) = seg.SupportedYears.Endpoints;
             MinDateParts = seg.MinMaxDateParts.LowerValue;
             MinOrdinalParts = seg.MinMaxOrdinalParts.LowerValue;
             MinMonthParts = MinDateParts.MonthParts;
         }
+
+        /// <summary>
+        /// Gets the earliest supported month parts.
+        /// </summary>
+        public MonthParts MinMonthParts { get; }
+
+        /// <summary>
+        /// Gets the earliest supported date parts.
+        /// </summary>
+        public DateParts MinDateParts { get; }
+
+        /// <summary>
+        /// Gets the earliest supported ordinal date parts.
+        /// </summary>
+        public OrdinalParts MinOrdinalParts { get; }
+
+        #region Factories
 
         /// <summary>
         /// Creates a new instance of the <see cref="BoundedBelowScope"/> class.
@@ -89,30 +105,7 @@ namespace Zorglub.Time.Hemerology.Scopes
                 : new BoundedBelowScope(scope.Epoch, scope.Segment);
         }
 
-        /// <summary>
-        /// Gets the earliest supported year.
-        /// </summary>
-        public int MinYear { get; }
-
-        /// <summary>
-        /// Gets the latest supported year.
-        /// </summary>
-        public int MaxYear { get; }
-
-        /// <summary>
-        /// Gets the earliest supported month parts.
-        /// </summary>
-        public MonthParts MinMonthParts { get; }
-
-        /// <summary>
-        /// Gets the earliest supported date parts.
-        /// </summary>
-        public DateParts MinDateParts { get; }
-
-        /// <summary>
-        /// Gets the earliest supported ordinal date parts.
-        /// </summary>
-        public OrdinalParts MinOrdinalParts { get; }
+        #endregion
 
         /// <inheritdoc />
         public sealed override void ValidateYearMonth(int year, int month, string? paramName = null)

@@ -381,12 +381,12 @@ namespace Zorglub.Time.Simple
         /// <summary>
         /// Gets the validator for the range of supported years.
         /// </summary>
-        internal IRangeValidator<int> YearsValidator => Scope.YearsValidator;
+        internal IYearsValidator YearsValidator => Scope.YearsValidator;
 
         /// <summary>
         /// Gets the validator for the range of supported days.
         /// </summary>
-        internal IRangeValidator<int> DaysValidator => Scope.DaysValidator;
+        internal DaysValidator DaysValidator => Scope.DaysValidator;
 
         /// <summary>
         /// Returns a culture-independent string representation of this calendar.

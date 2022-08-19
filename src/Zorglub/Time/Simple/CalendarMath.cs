@@ -94,7 +94,7 @@ namespace Zorglub.Time.Simple
         /// <summary>
         /// Gets the validator for the range of supported years.
         /// </summary>
-        private protected IRangeValidator<int> YearsValidator => Calendar.YearsValidator;
+        private protected IYearsValidator YearsValidator => Calendar.YearsValidator;
 
         /// <summary>
         /// Gets the calendrical schema.

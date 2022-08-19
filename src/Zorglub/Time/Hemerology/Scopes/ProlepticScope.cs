@@ -53,11 +53,13 @@ namespace Zorglub.Time.Hemerology.Scopes
         /// Gets the validator for the range of supported years.
         /// <para>This static property is thread-safe.</para>
         /// </summary>
-        internal static IRangeValidator<int> YearsValidatorImpl { get; } = new YearsValidator_();
+        internal static IYearsValidator YearsValidatorImpl { get; } = new YearsValidator_();
 
-        private sealed class YearsValidator_ : IRangeValidator<int>
+        private sealed class YearsValidator_ : IYearsValidator
         {
             public Range<int> Range => s_SupportedYears;
+            public int MinYear => MinSupportedYear;
+            public int MaxYear => MaxSupportedYear;
 
             public void Validate(int year, string? paramName = null)
             {

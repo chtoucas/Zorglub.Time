@@ -6,10 +6,10 @@ namespace Zorglub.Time.Core.Validation
     using Zorglub.Time.Core.Intervals;
 
     /// <summary>
-    /// Defines a validator for a range of values.
+    /// Defines a validator for a range of (algebraic) values.
     /// </summary>
     /// <typeparam name="T">The type of the range elements.</typeparam>
-    public interface IRangeValidator<in T>
+    internal interface IRangeValidator<in T>
         where T : struct, IEquatable<T>, IComparable<T>
     {
         /// <summary>

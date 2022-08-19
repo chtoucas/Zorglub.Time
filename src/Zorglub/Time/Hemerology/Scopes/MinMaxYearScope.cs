@@ -22,19 +22,7 @@ namespace Zorglub.Time.Hemerology.Scopes
         {
             Debug.Assert(segment != null);
             Debug.Assert(segment.IsComplete);
-
-            (MinYear, MaxYear) = segment.SupportedYears.Endpoints;
         }
-
-        /// <summary>
-        /// Gets the earliest supported year.
-        /// </summary>
-        public int MinYear { get; }
-
-        /// <summary>
-        /// Gets the latest supported year.
-        /// </summary>
-        public int MaxYear { get; }
 
         #region Factories
 

@@ -60,7 +60,7 @@ namespace Zorglub.Time.Hemerology.Scopes
         /// Gets the validator for the range of supported years.
         /// <para>This static property is thread-safe.</para>
         /// </summary>
-        public static IRangeValidator<int> YearsValidator => StandardScope.YearsValidatorImpl;
+        public static IYearsValidator YearsValidator => StandardScope.YearsValidatorImpl;
 
         /// <summary>
         /// Validates the specified month.
