@@ -24,13 +24,20 @@ namespace Zorglub.Time.Hemerology
         public MinMaxYearCalendar(string name, MinMaxYearScope scope) : base(name, scope)
         {
             PartsAdapter = new PartsAdapter(Schema);
+
             DatePartsProvider = new DatePartsProvider_(this);
+            OrdinalPartsProvider = new OrdinalPartsProvider_(this);
         }
 
         /// <summary>
         /// Gets the provider for date parts.
         /// </summary>
         public IDateProvider<DateParts> DatePartsProvider { get; }
+
+        /// <summary>
+        /// Gets the provider for ordinal parts.
+        /// </summary>
+        public IDateProvider<OrdinalParts> OrdinalPartsProvider { get; }
 
         /// <summary>
         /// Gets the adapter for calendrical parts.
@@ -222,6 +229,85 @@ namespace Zorglub.Time.Hemerology
             {
                 _this.Scope.ValidateYearMonth(year, month);
                 return _this.PartsAdapter.GetDatePartsAtEndOfMonth(year, month);
+            }
+        }
+
+        private sealed class OrdinalPartsProvider_ : IDateProvider<OrdinalParts>
+        {
+            private readonly MinMaxYearCalendar _this;
+
+            public OrdinalPartsProvider_(MinMaxYearCalendar @this)
+            {
+                Debug.Assert(@this != null);
+
+                _this = @this;
+            }
+
+            [Pure]
+            public IEnumerable<OrdinalParts> GetDaysInYear(int year)
+            {
+                // Check arg eagerly.
+                _this.YearsValidator.Validate(year);
+
+                return Iterator();
+
+                IEnumerable<OrdinalParts> Iterator()
+                {
+                    int daysInYear = _this.Schema.CountDaysInYear(year);
+
+                    for (int doy = 1; doy <= daysInYear; doy++)
+                    {
+                        yield return new OrdinalParts(year, doy);
+                    }
+                }
+            }
+
+            [Pure]
+            public IEnumerable<OrdinalParts> GetDaysInMonth(int year, int month)
+            {
+                // Check arg eagerly.
+                _this.Scope.ValidateYearMonth(year, month);
+
+                return Iterator();
+
+                IEnumerable<OrdinalParts> Iterator()
+                {
+                    int startOfMonth = _this.Schema.CountDaysInYearBeforeMonth(year, month);
+                    int daysInMonth = _this.Schema.CountDaysInMonth(year, month);
+
+                    for (int d = 1; d <= daysInMonth; d++)
+                    {
+                        yield return new OrdinalParts(year, startOfMonth + d);
+                    }
+                }
+            }
+
+            [Pure]
+            public OrdinalParts GetStartOfYear(int year)
+            {
+                _this.YearsValidator.Validate(year);
+                return OrdinalParts.AtStartOfYear(year);
+            }
+
+            [Pure]
+            public OrdinalParts GetEndOfYear(int year)
+            {
+                _this.YearsValidator.Validate(year);
+                return _this.PartsAdapter.GetOrdinalPartsAtEndOfYear(year);
+            }
+
+            [Pure]
+            public OrdinalParts GetStartOfMonth(int year, int month)
+            {
+                _this.Scope.ValidateYearMonth(year, month);
+                return _this.PartsAdapter.GetOrdinalPartsAtStartOfMonth(year, month);
+            }
+
+            [Pure]
+            public OrdinalParts GetEndOfMonth(int year, int month)
+            {
+                _this.Scope.ValidateYearMonth(year, month);
+                return _this.PartsAdapter.GetOrdinalPartsAtEndOfMonth(year, month);
             }
         }
     }
