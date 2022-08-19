@@ -88,28 +88,43 @@ namespace Zorglub.Time.Simple
         }
 
         /// <inheritdoc/>
+        /// <remarks>
+        /// See also <see cref="CalendarMonth.ToRange()"/>.
+        /// </remarks>
         [Pure]
-        public static Range<CalendarDate> ConvertToRange(CalendarMonth month) =>
+        static Range<CalendarDate> IDateProviders<CalendarDate>.ConvertToRange(CalendarMonth month) =>
             month.ToRange();
 
         /// <inheritdoc/>
+        /// <remarks>
+        /// See also <see cref="CalendarMonth.GetAllDays()"/>.
+        /// </remarks>
         [Pure]
-        public static IEnumerable<CalendarDate> GetDaysInMonth(CalendarMonth month) =>
+        static IEnumerable<CalendarDate> IDateProviders<CalendarDate>.GetDaysInMonth(CalendarMonth month) =>
             month.GetAllDays();
 
         /// <inheritdoc/>
+        /// <remarks>
+        /// See also <see cref="CalendarMonth.FirstDay"/>.
+        /// </remarks>
         [Pure]
-        public static CalendarDate GetStartOfMonth(CalendarMonth month) =>
+        static CalendarDate IDateProviders<CalendarDate>.GetStartOfMonth(CalendarMonth month) =>
             month.FirstDay;
 
         /// <inheritdoc/>
+        /// <remarks>
+        /// See also <see cref="CalendarMonth.GetDayOfMonth(int)"/>.
+        /// </remarks>
         [Pure]
-        public static CalendarDate GetDayOfMonth(CalendarMonth month, int dayOfMonth) =>
+        static CalendarDate IDateProviders<CalendarDate>.GetDayOfMonth(CalendarMonth month, int dayOfMonth) =>
             month.GetDayOfMonth(dayOfMonth);
 
         /// <inheritdoc/>
+        /// <remarks>
+        /// See also <see cref="CalendarMonth.LastDay"/>.
+        /// </remarks>
         [Pure]
-        public static CalendarDate GetEndOfMonth(CalendarMonth month) =>
+        static CalendarDate IDateProviders<CalendarDate>.GetEndOfMonth(CalendarMonth month) =>
             month.LastDay;
     }
 }

@@ -19,28 +19,43 @@ namespace Zorglub.Time.Simple
     public partial class OrdinalDateProviders // CalendarYear
     {
         /// <inheritdoc/>
+        /// <remarks>
+        /// See also <seealso cref="CalendarYear.ToRange()"/>.
+        /// </remarks>
         [Pure]
-        public static Range<OrdinalDate> ConvertToRange(CalendarYear year) =>
+        static Range<OrdinalDate> IDateProviders<OrdinalDate>.ConvertToRange(CalendarYear year) =>
             year.ToRange();
 
         /// <inheritdoc/>
+        /// <remarks>
+        /// See also <seealso cref="CalendarYear.GetAllDays()"/>.
+        /// </remarks>
         [Pure]
-        public static IEnumerable<OrdinalDate> GetDaysInYear(CalendarYear year) =>
+        static IEnumerable<OrdinalDate> IDateProviders<OrdinalDate>.GetDaysInYear(CalendarYear year) =>
             year.GetAllDays();
 
         /// <inheritdoc/>
+        /// <remarks>
+        /// See also <seealso cref="CalendarYear.FirstDay"/>.
+        /// </remarks>
         [Pure]
-        public static OrdinalDate GetStartOfYear(CalendarYear year) =>
+        static OrdinalDate IDateProviders<OrdinalDate>.GetStartOfYear(CalendarYear year) =>
             year.FirstDay;
 
         /// <inheritdoc/>
+        /// <remarks>
+        /// See also <seealso cref="CalendarYear.GetDayOfYear(int)"/>.
+        /// </remarks>
         [Pure]
-        public static OrdinalDate GetDayOfYear(CalendarYear year, int dayOfYear) =>
+        static OrdinalDate IDateProviders<OrdinalDate>.GetDayOfYear(CalendarYear year, int dayOfYear) =>
             year.GetDayOfYear(dayOfYear);
 
         /// <inheritdoc/>
+        /// <remarks>
+        /// See also <seealso cref="CalendarYear.LastDay"/>.
+        /// </remarks>
         [Pure]
-        public static OrdinalDate GetEndOfYear(CalendarYear year) =>
+        static OrdinalDate IDateProviders<OrdinalDate>.GetEndOfYear(CalendarYear year) =>
             year.LastDay;
     }
 

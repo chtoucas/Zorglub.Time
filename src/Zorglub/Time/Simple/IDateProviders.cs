@@ -15,7 +15,7 @@ namespace Zorglub.Time.Simple
     // See also ICalendar<TDate> and IDateAdjuster<TDate>.
 
     /// <summary>
-    /// Provides methods to obtain dates in a year or a month.
+    /// Provides methods to obtain dates in a given year or month.
     /// </summary>
     /// <typeparam name="TDate">The type of date object to return.</typeparam>
     public interface IDateProviders<TDate>
