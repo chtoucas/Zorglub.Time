@@ -151,6 +151,7 @@ namespace Zorglub.Time.Specialized
         //
         // Adjusters for the core parts
         //
+        // These adjusters are meant to be used by IAdjustable.Adjust().
 
         /// <summary>
         /// Obtains an adjuster for the year field of a date.
