@@ -9,6 +9,7 @@ open System.Runtime.InteropServices
 open Zorglub.Testing
 open Zorglub.Testing.Data
 
+open Zorglub.Bulgroz
 open Zorglub.Bulgroz.Obsolete
 open Zorglub.Time
 open Zorglub.Time.Core
@@ -142,9 +143,6 @@ module RuntimeSizes =
         Marshal.SizeOf(typedefof<DateFields>) === 12
         Marshal.SizeOf(typedefof<MonthFields>) === 8
         Marshal.SizeOf(typedefof<OrdinalFields>) === 8
-
-    [<Fact>]
-    let ``Types in (don't kwnow yet)`` () =
         Marshal.SizeOf(typedefof<XCivilDate>) === 4
 
     // TODO(code): add tests for the data types defined within THIS project.
@@ -426,10 +424,6 @@ module DefaultValues =
         let y, doy = fields.Deconstruct()
 
         (y, doy) === (0, 1)
-
-    //
-    // Date types found in ???
-    //
 
     [<Fact>]
     let ``Default value of XCivilDate is 01/01/0001 (Gregorian-only)`` () =

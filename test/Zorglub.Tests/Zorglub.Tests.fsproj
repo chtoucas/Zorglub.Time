@@ -38,6 +38,7 @@
     <Compile Include="Tests\Bulgroz\Obsolete\SchemaAdapterTests.fs" />
     <Compile Include="Tests\Bulgroz\MiscTests.fs" />
     <Compile Include="Tests\Bulgroz\BitTwiddlingTests.fs" />
+    <Compile Include="Tests\Bulgroz\XCivilDateTests.fs" />
     <Compile Include="Tests\Core\Utilities\ThrowHelpersTests.fs" />
     <Compile Include="Tests\Core\Utilities\RequiresTests.fs" />
     <Compile Include="Tests\Core\Utilities\MathNTests.fs" />
@@ -128,7 +129,6 @@
     <Compile Include="Tests\Specialized\ZoroastrianTests.fs" />
     <Compile Include="Tests\Extensions\UnboxingTests.fs" />
     <Compile Include="Tests\Extras\ZDateTests.fs" />
-    <Compile Include="Tests\Extras\XCivilDateTests.fs" />
     <Compile Include="Tests\Extras\RomanKalendarTests.fs" />
     <Compile Include="Tests\Extras\GregorianReformTests.fs" />
     <Compile Include="Tests\IsoWeekdayTests.fs" />

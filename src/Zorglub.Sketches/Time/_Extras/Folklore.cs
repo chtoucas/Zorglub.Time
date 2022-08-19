@@ -27,12 +27,6 @@ namespace Zorglub.Time
             date.DayOfWeek == DayOfWeek.Friday
             && date.Day == 13;
 
-        [Pure]
-        public static bool IsUnluckyFriday(this XCivilDate date) =>
-            // On vérifie d'abord le jour de la semaine (propriété la plus rapide à obtenir).
-            date.DayOfWeek == DayOfWeek.Friday
-            && date.Day == 13;
-
         //
         // Simple date types
         //

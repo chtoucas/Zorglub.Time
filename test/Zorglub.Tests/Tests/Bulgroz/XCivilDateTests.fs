@@ -7,9 +7,9 @@ open System
 
 open Zorglub.Testing
 open Zorglub.Testing.Data.Bounded
-open Zorglub.Testing.Facts
 open Zorglub.Testing.Facts.Hemerology
 
+open Zorglub.Bulgroz
 open Zorglub.Time
 open Zorglub.Time.Core.Intervals
 

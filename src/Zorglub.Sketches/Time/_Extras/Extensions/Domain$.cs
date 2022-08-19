@@ -6,7 +6,7 @@ namespace Zorglub.Time.Extensions
     using Zorglub.Time.Core.Intervals;
     using Zorglub.Time.Core.Validation;
 
-    // Pour les test, voir ceux qui ont été commentés dans
+    // Pour les tests, voir ceux qui ont été commentés dans
     // Zorglub.Testing.Facts.Hemerology.INakedCalendarFacts.
 
     /// <summary>

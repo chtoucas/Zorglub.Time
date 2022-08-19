@@ -1,17 +1,16 @@
 ﻿// SPDX-License-Identifier: BSD-3-Clause
 // Copyright (c) 2020 Narvalo.Org. All rights reserved.
 
-namespace Zorglub.Time;
+namespace Zorglub.Bulgroz;
 
 using System.Diagnostics.Contracts;
 using System.Linq;
 
 using Zorglub.Testing.Data;
 using Zorglub.Testing.Data.Bounded;
+using Zorglub.Time;
 using Zorglub.Time.Core;
 using Zorglub.Time.Core.Intervals;
-
-using static Zorglub.Time.Extensions.XCivilDateExtensions;
 
 // NB: we use StandardGregorianDataSet which has the same limits as XCivilDate.
 

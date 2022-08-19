@@ -11,6 +11,7 @@ open Zorglub.Testing.Data
 open Zorglub.Testing.Data.Schemas
 open Zorglub.Testing.Data.Unbounded
 
+open Zorglub.Bulgroz
 open Zorglub.Time
 open Zorglub.Time.Core
 open Zorglub.Time.Core.Schemas
