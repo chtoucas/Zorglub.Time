@@ -25,11 +25,7 @@ namespace Zorglub.Time.Hemerology
         public BoundedBelowCalendar(string name, BoundedBelowScope scope) : base(name, scope)
         {
             PartsAdapter = new PartsAdapter(Schema);
-            DatePartsProvider = new DatePartsProvider_(this);
         }
-
-        /// <inheritdoc />
-        public IDateProvider<DateParts> DatePartsProvider { get; }
 
         /// <summary>
         /// Gets the adapter for calendrical parts.
@@ -162,65 +158,6 @@ namespace Zorglub.Time.Hemerology
         {
             Scope.ValidateYearMonth(year, month);
             return Epoch + Schema.GetEndOfMonth(year, month);
-        }
-    }
-
-    public partial class BoundedBelowCalendar // Parts providers
-    {
-        private sealed class DatePartsProvider_ : IDateProvider<DateParts>
-        {
-            private readonly BoundedBelowCalendar _this;
-
-            public DatePartsProvider_(BoundedBelowCalendar @this)
-            {
-                Debug.Assert(@this != null);
-
-                _this = @this;
-            }
-
-            [Pure]
-            public IEnumerable<DateParts> GetDaysInYear(int year)
-            {
-                throw new NotImplementedException();
-            }
-
-            [Pure]
-            public IEnumerable<DateParts> GetDaysInMonth(int year, int month)
-            {
-                throw new NotImplementedException();
-            }
-
-            [Pure]
-            public DateParts GetStartOfYear(int year)
-            {
-                _this.YearsValidator.Validate(year);
-                return year == _this.MinYear
-                    ? Throw.ArgumentOutOfRange<DateParts>(nameof(year))
-                    : DateParts.AtStartOfYear(year);
-            }
-
-            [Pure]
-            public DateParts GetEndOfYear(int year)
-            {
-                _this.YearsValidator.Validate(year);
-                return _this.PartsAdapter.GetDatePartsAtEndOfYear(year);
-            }
-
-            [Pure]
-            public DateParts GetStartOfMonth(int year, int month)
-            {
-                _this.Scope.ValidateYearMonth(year, month);
-                return new MonthParts(year, month) == _this.MinMonthParts
-                    ? Throw.ArgumentOutOfRange<DateParts>(nameof(month))
-                    : DateParts.AtStartOfMonth(year, month);
-            }
-
-            [Pure]
-            public DateParts GetEndOfMonth(int year, int month)
-            {
-                _this.Scope.ValidateYearMonth(year, month);
-                return _this.PartsAdapter.GetDatePartsAtEndOfMonth(year, month);
-            }
         }
     }
 }

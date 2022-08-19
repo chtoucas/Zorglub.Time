@@ -229,7 +229,7 @@ namespace Zorglub.Time.Hemerology
         [Pure] DayNumber GetDayNumber(int year, int dayOfYear);
     }
 
-    // TODO(api): add Today(), UtcToday().
+    // TODO(api): add Today(), UtcToday(). See also IDateFactory.
 
     /// <summary>
     /// Defines a calendar with a companion date type.

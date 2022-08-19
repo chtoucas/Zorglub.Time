@@ -26,7 +26,7 @@ namespace Zorglub.Time.Core
     /// </summary>
     /// <typeparam name="TSelf">The type that implements this interface.</typeparam>
     /// <typeparam name="TResult">The type that contains the difference of two values.</typeparam>
-    public interface IDifferenceOperators<TSelf, TResult>
+    public interface IDifferenceOperators<TSelf, out TResult>
         where TSelf : IDifferenceOperators<TSelf, TResult>
     {
         /// <summary>

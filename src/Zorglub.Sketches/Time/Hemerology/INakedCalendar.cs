@@ -5,8 +5,8 @@ namespace Zorglub.Time.Hemerology
 {
     // REVIEW(code): l'absence d'un objet date dédié fait qu'on doit revalider
     // les données à chaque fois.
-    // - move Today() to IDateProvider<>?
-    // - add provider for ordinal parts
+    // - Today()? see also IDateFactory.
+    // - add providers for parts and ordinal parts?
     // Add
     // - GetFirstMonth() -> MonthParts
     // - GetMonthsInYear() -> MonthParts
@@ -38,10 +38,10 @@ namespace Zorglub.Time.Hemerology
     /// </summary>
     public partial interface INakedCalendar : ICalendar<DayNumber>
     {
-        /// <summary>
-        /// Gets the provider for date parts.
-        /// </summary>
-        IDateProvider<DateParts> DatePartsProvider { get; }
+        ///// <summary>
+        ///// Gets the provider for date parts.
+        ///// </summary>
+        //IDateProvider<DateParts> DatePartsProvider { get; }
     }
 
     public partial interface INakedCalendar // Factories

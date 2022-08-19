@@ -4,12 +4,15 @@
 namespace Zorglub.Time.Extensions
 {
     using Zorglub.Time.Core.Intervals;
-
-    using static Zorglub.Time.Core.Validation.DomainExtensions;
+    using Zorglub.Time.Core.Validation;
 
     // Pour les test, voir ceux qui ont été commentés dans
     // Zorglub.Testing.Facts.Hemerology.INakedCalendarFacts.
 
+    /// <summary>
+    /// Provides extension methods for <see cref="Range{DayNumber}"/>.
+    /// <para>This class cannot be inherited.</para>
+    /// </summary>
     public static class DomainExtensions
     {
         /// <summary>

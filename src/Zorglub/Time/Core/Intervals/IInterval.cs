@@ -12,7 +12,7 @@ namespace Zorglub.Time.Core.Intervals
     /// while intervals of time-like types are not.</para>
     /// </summary>
     /// <typeparam name="T">The type of the interval elements.</typeparam>
-    public interface IInterval<T> : ISetMembership<T>
+    public interface IInterval<in T> : ISetMembership<T>
         where T : struct, IEquatable<T>, IComparable<T>
     {
         /// <summary>

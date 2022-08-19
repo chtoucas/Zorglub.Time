@@ -27,7 +27,9 @@ namespace Zorglub.Time.Hemerology
             DatePartsProvider = new DatePartsProvider_(this);
         }
 
-        /// <inheritdoc />
+        /// <summary>
+        /// Gets the provider for date parts.
+        /// </summary>
         public IDateProvider<DateParts> DatePartsProvider { get; }
 
         /// <summary>

@@ -24,7 +24,7 @@ public abstract partial class INakedCalendarFacts<TCalendar, TDataSet> :
 {
     protected INakedCalendarFacts(TCalendar calendar) : base(calendar) { }
 
-    protected IDateProvider<DateParts> DatePartsProvider => CalendarUT.DatePartsProvider;
+    //protected IDateProvider<DateParts> DatePartsProvider => CalendarUT.DatePartsProvider;
 }
 
 public partial class INakedCalendarFacts<TCalendar, TDataSet> // Properties
@@ -280,6 +280,8 @@ public partial class INakedCalendarFacts<TCalendar, TDataSet> // IDateProvider<D
 
 public partial class INakedCalendarFacts<TCalendar, TDataSet> // DatePartsProvider
 {
+#if false
+
     #region DatePartsProvider.GetStartOfYear(y)
 
     [Fact]
@@ -353,13 +355,15 @@ public partial class INakedCalendarFacts<TCalendar, TDataSet> // DatePartsProvid
     }
 
     #endregion
-}
 
-#if false // TODO(fact): move this to DomainExtensionsFacts.
+#endif
+}
 
 public partial class INakedCalendarFacts<TCalendar, TDataSet> // Arithmetic
 {
-#region AddDays(dayNumber, days)
+#if false // TODO(fact): move this to DomainExtensionsFacts.
+
+    #region AddDays(dayNumber, days)
 
     [Fact]
     public void AddDays_InvalidDayNumber() =>
@@ -431,7 +435,7 @@ public partial class INakedCalendarFacts<TCalendar, TDataSet> // Arithmetic
         Assert.Equal(result, CalendarUT.AddDays(dayNumber, 435 - 345));
     }
 
-#endregion
-}
+    #endregion
 
 #endif
+}
