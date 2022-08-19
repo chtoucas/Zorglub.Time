@@ -163,6 +163,12 @@ namespace Zorglub.Time.Simple
         public static SimpleCalendar Julian => JulianSimpleCalendar.Instance;
 
         /// <summary>
+        /// Gets the Civil calendar.
+        /// <para>This static property is thread-safe.</para>
+        /// </summary>
+        public static SimpleCalendar Civil => CivilSimpleCalendar.Instance;
+
+        /// <summary>
         /// Gets the Armenian calendar.
         /// <para>This static property is thread-safe.</para>
         /// </summary>

@@ -158,6 +158,7 @@ namespace Zorglub.Time.Hemerology
                 // Ensures that all system keys are taken.
                 [Gregorian.Key] = new(Gregorian),
                 [JulianZCalendar.Key] = new(() => JulianZCalendar.Instance),
+                [CivilZCalendar.Key] = new(() => CivilZCalendar.Instance),
                 [ArmenianZCalendar.Key] = new(() => ArmenianZCalendar.Instance),
                 [CopticZCalendar.Key] = new(() => CopticZCalendar.Instance),
                 [EthiopicZCalendar.Key] = new(() => EthiopicZCalendar.Instance),

@@ -15,6 +15,14 @@ namespace Zorglub.Time.Hemerology
             ZCatalog.InitSystemCalendar(SimpleCalendar.Julian);
     }
 
+    internal static class CivilZCalendar
+    {
+        public static string Key => SimpleCalendar.Civil.Key;
+
+        public static readonly ZCalendar Instance =
+            ZCatalog.InitSystemCalendar(SimpleCalendar.Civil);
+    }
+
     internal static class ArmenianZCalendar
     {
         public static string Key => SimpleCalendar.Armenian.Key;

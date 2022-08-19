@@ -23,18 +23,22 @@ namespace Zorglub.Time.Simple
     /// Specifies the unique identifier of a calendar.
     /// <para>An identifier may be transient.</para>
     /// </summary>
-    [SuppressMessage("Design", "CA1028:Enum storage should be Int32", Justification = "Compact bin. repr. for calendrical objects; see CalendarYear for instance.")]
     internal enum Cuid : byte
     {
         /// <summary>
-        /// The identifier of the Gregorian calendar.
+        /// The identifier of the proleptic Gregorian calendar.
         /// </summary>
         Gregorian = CalendarId.Gregorian,
 
         /// <summary>
-        /// The identifier of the Julian calendar.
+        /// The identifier of the proleptic Julian calendar.
         /// </summary>
         Julian = CalendarId.Julian,
+
+        /// <summary>
+        /// The identifier of the Civil calendar.
+        /// </summary>
+        Civil = CalendarId.Civil,
 
         /// <summary>
         /// The identifier of the Armenian calendar.

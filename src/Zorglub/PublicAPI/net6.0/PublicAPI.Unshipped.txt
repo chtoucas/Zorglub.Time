@@ -697,6 +697,7 @@ static Zorglub.Time.Simple.RangeExtensions.WithCalendar(this Zorglub.Time.Core.I
 static Zorglub.Time.Simple.RangeExtensions.WithCalendar(this Zorglub.Time.Core.Intervals.Range<Zorglub.Time.Simple.CalendarDay> range, Zorglub.Time.Simple.SimpleCalendar! newCalendar) -> Zorglub.Time.Core.Intervals.Range<Zorglub.Time.Simple.CalendarDay>
 static Zorglub.Time.Simple.RangeExtensions.WithCalendar(this Zorglub.Time.Core.Intervals.Range<Zorglub.Time.Simple.OrdinalDate> range, Zorglub.Time.Simple.SimpleCalendar! newCalendar) -> Zorglub.Time.Core.Intervals.Range<Zorglub.Time.Simple.OrdinalDate>
 static Zorglub.Time.Simple.SimpleCalendar.Armenian.get -> Zorglub.Time.Simple.SimpleCalendar!
+static Zorglub.Time.Simple.SimpleCalendar.Civil.get -> Zorglub.Time.Simple.SimpleCalendar!
 static Zorglub.Time.Simple.SimpleCalendar.Coptic.get -> Zorglub.Time.Simple.SimpleCalendar!
 static Zorglub.Time.Simple.SimpleCalendar.Ethiopic.get -> Zorglub.Time.Simple.SimpleCalendar!
 static Zorglub.Time.Simple.SimpleCalendar.Gregorian.get -> Zorglub.Time.Simple.SimpleCalendar!
@@ -785,13 +786,14 @@ Zorglub.Time.AdditionRuleset.DateRule.get -> Zorglub.Time.AdditionRule
 Zorglub.Time.AdditionRuleset.MonthRule.get -> Zorglub.Time.AdditionRule
 Zorglub.Time.AdditionRuleset.OrdinalRule.get -> Zorglub.Time.AdditionRule
 Zorglub.Time.CalendarId
-Zorglub.Time.CalendarId.Armenian = 2 -> Zorglub.Time.CalendarId
-Zorglub.Time.CalendarId.Coptic = 3 -> Zorglub.Time.CalendarId
-Zorglub.Time.CalendarId.Ethiopic = 4 -> Zorglub.Time.CalendarId
+Zorglub.Time.CalendarId.Armenian = 3 -> Zorglub.Time.CalendarId
+Zorglub.Time.CalendarId.Civil = 2 -> Zorglub.Time.CalendarId
+Zorglub.Time.CalendarId.Coptic = 4 -> Zorglub.Time.CalendarId
+Zorglub.Time.CalendarId.Ethiopic = 5 -> Zorglub.Time.CalendarId
 Zorglub.Time.CalendarId.Gregorian = 0 -> Zorglub.Time.CalendarId
 Zorglub.Time.CalendarId.Julian = 1 -> Zorglub.Time.CalendarId
-Zorglub.Time.CalendarId.TabularIslamic = 5 -> Zorglub.Time.CalendarId
-Zorglub.Time.CalendarId.Zoroastrian = 6 -> Zorglub.Time.CalendarId
+Zorglub.Time.CalendarId.TabularIslamic = 6 -> Zorglub.Time.CalendarId
+Zorglub.Time.CalendarId.Zoroastrian = 7 -> Zorglub.Time.CalendarId
 Zorglub.Time.CalendricalAdjustments
 Zorglub.Time.CalendricalAdjustments.Days = 1 -> Zorglub.Time.CalendricalAdjustments
 Zorglub.Time.CalendricalAdjustments.DaysAndMonths = Zorglub.Time.CalendricalAdjustments.Days | Zorglub.Time.CalendricalAdjustments.Months -> Zorglub.Time.CalendricalAdjustments

@@ -107,6 +107,7 @@ public static class EnumDataSet
     public static TheoryData<CalendarId> CalendarIdData { get; } = new()
     {
         CalendarId.Armenian,
+        CalendarId.Civil,
         CalendarId.Coptic,
         CalendarId.Ethiopic,
         CalendarId.Gregorian,
@@ -130,6 +131,7 @@ public static class EnumDataSet
     internal static TheoryData<Cuid> FixedCuidData { get; } = new()
     {
         Cuid.Armenian,
+        Cuid.Civil,
         Cuid.Coptic,
         Cuid.Ethiopic,
         Cuid.Gregorian,

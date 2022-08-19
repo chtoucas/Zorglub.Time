@@ -151,7 +151,7 @@ module Prelude =
         let calendars = [|
             SimpleCalendar.Gregorian;
             SimpleCalendar.Julian;
-            SimpleCalendar.Armenian
+            SimpleCalendar.Civil
         |]
         let reg = new SimpleRegistry(calendars)
 

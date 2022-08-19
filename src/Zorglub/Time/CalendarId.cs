@@ -24,6 +24,11 @@ namespace Zorglub.Time
         Julian,
 
         /// <summary>
+        /// The permanent identifier of the Civil calendar.
+        /// </summary>
+        Civil,
+
+        /// <summary>
         /// The permanent identifier of the Armenian calendar.
         /// </summary>
         Armenian,
@@ -48,8 +53,17 @@ namespace Zorglub.Time
         /// </summary>
         Zoroastrian,
 
-        // WARNING: whenever we add an entry, we MUST update CalendarIdExtensions
-        // and Cuid.
+        // WARNING: whenever we add an entry, we MUST update
+        // - CalendarIdExtensions
+        // - Cuid
+        // - add XXXSimpleCalendar in SimpleCalendar.A..Z.cs
+        // - SimpleCatalog.InitializeSystemCalendars()
+        // - add XXXZCalendar in ZCalendar.A..Z.cs
+        // - ZCatalog.InitCalendarsByKey()
+        // - Zorglub.Testing.Data.EnumDataSet.CalendarIdData
+        // - Zorglub.Testing.Data.EnumDataSet.FixedCuidData
+        // - Zorglub.Tests.CalendarIdTests.IdToStringData
+        // - Tests for SimpleCalendar and ZCalendar
     }
 
     /// <summary>
@@ -75,6 +89,7 @@ namespace Zorglub.Time
             {
                 CalendarId.Gregorian => "Gregorian",
                 CalendarId.Julian => "Julian",
+                CalendarId.Civil => "Civil",
                 CalendarId.Armenian => "Armenian",
                 CalendarId.Coptic => "Coptic",
                 CalendarId.Ethiopic => "Ethiopic",

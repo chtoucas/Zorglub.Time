@@ -18,6 +18,7 @@ type IdToStringData() as self =
     inherit TheoryData<CalendarId, string>()
     do
         self.Add(CalendarId.Armenian, "Armenian")
+        self.Add(CalendarId.Civil, "Civil")
         self.Add(CalendarId.Coptic, "Coptic")
         self.Add(CalendarId.Ethiopic, "Ethiopic")
         self.Add(CalendarId.Gregorian, "Gregorian")

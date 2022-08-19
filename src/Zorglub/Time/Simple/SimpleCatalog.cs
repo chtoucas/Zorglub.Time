@@ -142,6 +142,7 @@ namespace Zorglub.Time.Simple
 
             Add(GregorianSimpleCalendar.Instance);
             Add(JulianSimpleCalendar.Instance);
+            Add(CivilSimpleCalendar.Instance);
             Add(ArmenianSimpleCalendar.Instance);
             Add(CopticSimpleCalendar.Instance);
             Add(EthiopicSimpleCalendar.Instance);

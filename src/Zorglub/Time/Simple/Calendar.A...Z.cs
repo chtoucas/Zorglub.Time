@@ -35,6 +35,57 @@ namespace Zorglub.Time.Simple
     }
 
     /// <summary>
+    /// Represents the Civil calendar.
+    /// <para>This class cannot be inherited.</para>
+    /// </summary>
+    internal sealed class CivilSimpleCalendar : SimpleCalendar
+    {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CivilSimpleCalendar"/>
+        /// class.
+        /// </summary>
+        private CivilSimpleCalendar()
+            : base(
+                  CalendarId.Civil,
+                  new CivilSchema(),
+                  DayZero.NewStyle,
+                  proleptic: false)
+        { }
+
+        /// <summary>
+        /// Gets a singleton instance of the Civil calendar.
+        /// <para>This static property is thread-safe.</para>
+        /// </summary>
+        public static CivilSimpleCalendar Instance { get; } = new CivilSimpleCalendar();
+
+        /// <inheritdoc />
+        [Pure]
+        internal override DayOfWeek GetDayOfWeek(CalendarDate date)
+        {
+            // Faster than the base method which relies on CountDaysSinceEpoch().
+            // Furthermore, it only works with non-proleptic calendars.
+            Debug.Assert(date.Cuid == Id);
+
+            date.Parts.Unpack(out int y, out int m, out int d);
+            int doomsday = DoomsdayRule.GetGregorianDoomsday(y, m);
+            return (DayOfWeek)MathZ.Modulo(doomsday + d, CalendricalConstants.DaysInWeek);
+        }
+
+        /// <inheritdoc />
+        [Pure]
+        internal override DayOfWeek GetDayOfWeek(OrdinalDate date)
+        {
+            // The base method only works with non-proleptic calendars.
+            Debug.Assert(date.Cuid == Id);
+
+            date.Parts.Unpack(out int y, out int doy);
+            // The Gregorian epoch is a Monday.
+            int days = (int)DayOfWeek.Monday + Schema.CountDaysSinceEpoch(y, doy);
+            return (DayOfWeek)MathZ.Modulo(days, CalendricalConstants.DaysInWeek);
+        }
+    }
+
+    /// <summary>
     /// Represents the Coptic calendar.
     /// <para>This class cannot be inherited.</para>
     /// </summary>
