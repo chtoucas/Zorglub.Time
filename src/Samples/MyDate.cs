@@ -1,8 +1,6 @@
 ﻿// SPDX-License-Identifier: BSD-3-Clause
 // Copyright (c) 2020 Narvalo.Org. All rights reserved.
 
-#define USE_ADJUSTERS
-
 namespace Samples;
 
 using System;
@@ -148,11 +146,6 @@ public readonly partial struct MyDate :
         int r = m % n;
         return r >= 0 ? r : (r + n);
     }
-
-#if !USE_ADJUSTERS
-    private static bool IsInvalid(DayOfWeek dayOfWeek) =>
-        dayOfWeek < DayOfWeek.Sunday || dayOfWeek > DayOfWeek.Saturday;
-#endif
 }
 
 public partial struct MyDate // Conversions, adjustments...
@@ -228,30 +221,12 @@ public partial struct MyDate // Conversions, adjustments...
     #region Adjust the day of the week
 
     [Pure]
-    public MyDate Previous(DayOfWeek dayOfWeek)
-    {
-#if USE_ADJUSTERS
-        return DayOfWeekAdjusters.Previous(this, dayOfWeek);
-#else
-        if (IsInvalid(dayOfWeek)) throw new ArgumentOutOfRangeException(nameof(dayOfWeek));
-
-        int δ = dayOfWeek - DayOfWeek;
-        return PlusDays(δ >= 0 ? δ - 7 : δ);
-#endif
-    }
+    public MyDate Previous(DayOfWeek dayOfWeek) =>
+        DayOfWeekAdjusters.Previous(this, dayOfWeek);
 
     [Pure]
-    public MyDate PreviousOrSame(DayOfWeek dayOfWeek)
-    {
-#if USE_ADJUSTERS
-        return DayOfWeekAdjusters.PreviousOrSame(this, dayOfWeek);
-#else
-        if (IsInvalid(dayOfWeek)) throw new ArgumentOutOfRangeException(nameof(dayOfWeek));
-
-        int δ = dayOfWeek - DayOfWeek;
-        return δ == 0 ? this : PlusDays(δ > 0 ? δ - 7 : δ);
-#endif
-    }
+    public MyDate PreviousOrSame(DayOfWeek dayOfWeek) =>
+        DayOfWeekAdjusters.PreviousOrSame(this, dayOfWeek);
 
     [Pure]
     public MyDate Nearest(DayOfWeek dayOfWeek)
@@ -261,30 +236,12 @@ public partial struct MyDate // Conversions, adjustments...
     }
 
     [Pure]
-    public MyDate NextOrSame(DayOfWeek dayOfWeek)
-    {
-#if USE_ADJUSTERS
-        return DayOfWeekAdjusters.NextOrSame(this, dayOfWeek);
-#else
-        if (IsInvalid(dayOfWeek)) throw new ArgumentOutOfRangeException(nameof(dayOfWeek));
-
-        int δ = dayOfWeek - DayOfWeek;
-        return δ == 0 ? this : PlusDays(δ < 0 ? δ + 7 : δ);
-#endif
-    }
+    public MyDate NextOrSame(DayOfWeek dayOfWeek) =>
+        DayOfWeekAdjusters.NextOrSame(this, dayOfWeek);
 
     [Pure]
-    public MyDate Next(DayOfWeek dayOfWeek)
-    {
-#if USE_ADJUSTERS
-        return DayOfWeekAdjusters.Next(this, dayOfWeek);
-#else
-        if (IsInvalid(dayOfWeek)) throw new ArgumentOutOfRangeException(nameof(dayOfWeek));
-
-        int δ = dayOfWeek - DayOfWeek;
-        return PlusDays(δ <= 0 ? δ + 7 : δ);
-#endif
-    }
+    public MyDate Next(DayOfWeek dayOfWeek) =>
+        DayOfWeekAdjusters.Next(this, dayOfWeek);
 
     #endregion
 }

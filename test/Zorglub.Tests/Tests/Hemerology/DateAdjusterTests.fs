@@ -3,6 +3,8 @@
 
 module Zorglub.Tests.Hemerology.DateAdjusterTests
 
+#if true
+
 open Zorglub.Testing
 open Zorglub.Testing.Data.Unbounded
 open Zorglub.Testing.Facts.Hemerology
@@ -28,3 +30,4 @@ module Prelude =
 //        override __.GetDate(y, m, d) = chr.GetDate(y, m, d)
 //        override __.GetDate(y, doy) = chr.GetDate(y, doy)
 
+#endif

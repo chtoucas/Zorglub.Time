@@ -29,12 +29,12 @@ namespace Zorglub.Time.Hemerology
 
         //[Pure]
         //public static T Nearest<T>(T self, DayOfWeek dayOfWeek)
-        //    where T : IFixedDay<T>, IAdditionOperators<T, int, T>
+        //    where T : IFixedDay, IAdditionOperators<T, int, T>
         //{
         //    Requires.NotNull(self);
         //    Requires.Defined(dayOfWeek);
 
-        //    DayNumber nearest = self.ToDayNumber().Nearest(dayOfWeek);
+        //    DayNumber nearest = self.DayNumber.Nearest(dayOfWeek);
         //    return T.FromDayNumber(nearest);
         //}
 

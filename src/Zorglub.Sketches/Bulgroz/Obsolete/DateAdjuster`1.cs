@@ -1,11 +1,14 @@
 ﻿// SPDX-License-Identifier: BSD-3-Clause
 // Copyright (c) 2020 Narvalo.Org. All rights reserved.
 
-namespace Zorglub.Time.Hemerology
+namespace Zorglub.Bulgroz.Obsolete
 {
+    using Zorglub.Time.Hemerology;
     using Zorglub.Time.Hemerology.Scopes;
 
-    // TODO(code): this adjuster does not throw the expected arg name.
+    // This adjuster does not throw the expected arg name.
+    // As it, because of the constraint IDateFactory<>, it only works with
+    // poly-calendar systems.
 
     /// <summary>
     /// Provides a plain implementation for <see cref="IDateAdjuster{TDate}"/>.

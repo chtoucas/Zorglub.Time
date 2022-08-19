@@ -115,8 +115,7 @@ namespace Zorglub.Time.Hemerology
         public DayNumber GetStartOfYear(int year)
         {
             YearsValidator.Validate(year);
-            int daysSinceEpoch = Schema.GetStartOfYear(year);
-            return Epoch + daysSinceEpoch;
+            return Epoch + Schema.GetStartOfYear(year);
         }
 
         /// <inheritdoc/>
@@ -124,8 +123,7 @@ namespace Zorglub.Time.Hemerology
         public DayNumber GetEndOfYear(int year)
         {
             YearsValidator.Validate(year);
-            int daysSinceEpoch = Schema.GetEndOfYear(year);
-            return Epoch + daysSinceEpoch;
+            return Epoch + Schema.GetEndOfYear(year);
         }
 
         /// <inheritdoc/>
@@ -133,8 +131,7 @@ namespace Zorglub.Time.Hemerology
         public DayNumber GetStartOfMonth(int year, int month)
         {
             Scope.ValidateYearMonth(year, month);
-            int daysSinceEpoch = Schema.GetStartOfMonth(year, month);
-            return Epoch + daysSinceEpoch;
+            return Epoch + Schema.GetStartOfMonth(year, month);
         }
 
         /// <inheritdoc/>
@@ -142,8 +139,7 @@ namespace Zorglub.Time.Hemerology
         public DayNumber GetEndOfMonth(int year, int month)
         {
             Scope.ValidateYearMonth(year, month);
-            int daysSinceEpoch = Schema.GetEndOfMonth(year, month);
-            return Epoch + daysSinceEpoch;
+            return Epoch + Schema.GetEndOfMonth(year, month);
         }
     }
 
