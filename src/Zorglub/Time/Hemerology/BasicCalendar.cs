@@ -58,7 +58,7 @@ namespace Zorglub.Time.Hemerology
         /// <summary>
         /// Gets a validator for the range of supported years.
         /// </summary>
-        protected internal YearsValidator YearsValidator { get; }
+        protected internal IRangeValidator<int> YearsValidator { get; }
 
         /// <summary>
         /// Gets the underlying schema.

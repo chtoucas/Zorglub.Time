@@ -137,16 +137,8 @@ namespace Zorglub.Time.Simple
             IsProleptic = proleptic;
             IsUserDefined = userDefined;
 
-            if (proleptic)
-            {
-                Scope = new ProlepticScope(schema, epoch);
-                YearsValidator = ProlepticScope.YearsValidatorImpl;
-            }
-            else
-            {
-                Scope = new StandardScope(schema, epoch);
-                YearsValidator = StandardScope.YearsValidatorImpl;
-            }
+            Scope = proleptic ? new ProlepticScope(schema, epoch)
+                : new StandardScope(schema, epoch);
 
             SystemSegment = SystemSegment.Create(schema, YearsValidator.Range);
             Arithmetic = SystemArithmetic.CreateDefault(SystemSegment);
@@ -336,8 +328,12 @@ namespace Zorglub.Time.Simple
 
         #endregion
 
-        /// <inheritdoc />
-        public CalendarScope Scope { get; }
+        /// <summary>
+        /// Gets the calendar scope.
+        /// </summary>
+        public MinMaxYearScope Scope { get; }
+
+        CalendarScope ICalendar.Scope => Scope;
 
         /// <summary>
         /// Gets or sets the mathematical rules followed by the current instance.
@@ -385,12 +381,12 @@ namespace Zorglub.Time.Simple
         /// <summary>
         /// Gets the validator for the range of supported years.
         /// </summary>
-        internal IRangeValidator<int> YearsValidator { get; }
+        internal IRangeValidator<int> YearsValidator => Scope.YearsValidator;
 
         /// <summary>
         /// Gets the validator for the range of supported days.
         /// </summary>
-        internal DaysValidator DaysValidator => Scope.DaysValidator;
+        internal IRangeValidator<int> DaysValidator => Scope.DaysValidator;
 
         /// <summary>
         /// Returns a culture-independent string representation of this calendar.

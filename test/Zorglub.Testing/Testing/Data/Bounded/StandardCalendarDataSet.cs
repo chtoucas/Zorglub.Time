@@ -15,7 +15,7 @@ public class StandardCalendarDataSet<TDataSet> : MinMaxYearCalendarDataSet<TData
     where TDataSet : UnboundedCalendarDataSet
 {
     public StandardCalendarDataSet(TDataSet inner)
-        : base(inner, StandardScope.MinYear, StandardScope.MaxYear) { }
+        : base(inner, StandardScope.MinSupportedYear, StandardScope.MaxSupportedYear) { }
 }
 
 /// <summary>

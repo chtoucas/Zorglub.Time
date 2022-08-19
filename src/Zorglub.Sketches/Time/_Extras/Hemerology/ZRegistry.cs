@@ -85,7 +85,7 @@ namespace Zorglub.Time.Hemerology
         public int CountUserCalendars() => Math.Min(_lastId, MaxId) - MinUserId + 1;
 
         [Pure]
-        public ZCalendar GetOrAdd(string key, CalendarScope scope)
+        public ZCalendar GetOrAdd(string key, MinMaxYearScope scope)
         {
             if (_lastId >= MaxId && _calendarsByKey.ContainsKey(key) == false)
             {
@@ -112,7 +112,7 @@ namespace Zorglub.Time.Hemerology
         }
 
         [Pure]
-        public ZCalendar Add(string key, CalendarScope scope)
+        public ZCalendar Add(string key, MinMaxYearScope scope)
         {
             if (_lastId >= MaxId) Throw.CatalogOverflow();
 
@@ -138,7 +138,7 @@ namespace Zorglub.Time.Hemerology
 
         [Pure]
         public bool TryAdd(
-            string key, CalendarScope scope,
+            string key, MinMaxYearScope scope,
             [NotNullWhen(true)] out ZCalendar? calendar)
         {
             if (_lastId >= MaxId) { goto FAILED; }
@@ -195,7 +195,7 @@ namespace Zorglub.Time.Hemerology
 
         internal sealed class TmpCalendar : ZCalendar
         {
-            public TmpCalendar(string key, CalendarScope scope)
+            public TmpCalendar(string key, MinMaxYearScope scope)
                 : base(InvalidId, key, scope, userDefined: true) { }
 
             [SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "Hides inherited member.")]

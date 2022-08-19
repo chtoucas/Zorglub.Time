@@ -340,16 +340,16 @@ namespace Zorglub.Time.Hemerology
     public partial class ZCatalog // Add
     {
         [Pure]
-        public static ZCalendar GetOrAdd(string key, CalendarScope scope) =>
+        public static ZCalendar GetOrAdd(string key, MinMaxYearScope scope) =>
             s_Registry.GetOrAdd(key, scope);
 
         [Pure]
-        public static ZCalendar Add(string key, CalendarScope scope) =>
+        public static ZCalendar Add(string key, MinMaxYearScope scope) =>
             s_Registry.Add(key, scope);
 
         [Pure]
         public static bool TryAdd(
-            string key, CalendarScope scope,
+            string key, MinMaxYearScope scope,
             [NotNullWhen(true)] out ZCalendar? calendar) =>
             s_Registry.TryAdd(key, scope, out calendar);
     }

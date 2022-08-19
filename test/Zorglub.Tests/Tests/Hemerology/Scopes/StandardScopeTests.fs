@@ -25,14 +25,14 @@ module Prelude =
 
     [<Fact>]
     let ``Constructor throws when schema.MinYear > 1`` () =
-        let range = Range.Create(StandardScope.MinYear + 1, StandardScope.MaxYear)
+        let range = Range.Create(StandardScope.MinSupportedYear + 1, StandardScope.MaxSupportedYear)
         let sch = new FauxCalendricalSchema(range)
 
         argExn "supportedYears" (fun () -> new StandardScope(sch, DayZero.OldStyle))
 
     [<Fact>]
     let ``Constructor throws when schema.MaxYear < 9999`` () =
-        let range = Range.Create(1, StandardScope.MaxYear - 1)
+        let range = Range.Create(1, StandardScope.MaxSupportedYear - 1)
         let sch = new FauxCalendricalSchema(range)
 
         argExn "supportedYears" (fun () -> new StandardScope(sch, DayZero.OldStyle))
@@ -49,8 +49,8 @@ module Prelude =
         let epoch = DayZero.NewStyle + 123_456_789
         let sch = new GregorianSchema()
         let scope = new StandardScope(sch, epoch)
-        let minDayNumber = epoch + sch.GetStartOfYear(StandardScope.MinYear)
-        let maxDayNumber = epoch + sch.GetEndOfYear(StandardScope.MaxYear)
+        let minDayNumber = epoch + sch.GetStartOfYear(StandardScope.MinSupportedYear)
+        let maxDayNumber = epoch + sch.GetEndOfYear(StandardScope.MaxSupportedYear)
         let range = Range.Create(minDayNumber, maxDayNumber)
 
         scope.Domain === range
@@ -58,7 +58,7 @@ module Prelude =
     [<Fact>]
     let ``Property SupportedYears`` () =
         let scope = new StandardScope(new FauxCalendricalSchema(), DayZero.OldStyle)
-        let range = Range.Create(StandardScope.MinYear, StandardScope.MaxYear)
+        let range = Range.Create(StandardScope.MinSupportedYear, StandardScope.MaxSupportedYear)
 
         scope.Segment.SupportedYears === range
 
@@ -70,7 +70,7 @@ module YearsValidatorImpl =
 
     [<Fact>]
     let ``Property Range`` () =
-        validator.Range === Range.Create(StandardScope.MinYear, StandardScope.MaxYear)
+        validator.Range === Range.Create(StandardScope.MinSupportedYear, StandardScope.MaxSupportedYear)
 
     [<Theory; MemberData(nameof(invalidYearData))>]
     let ``Validate() throws when "year" is out of range`` y =
@@ -93,26 +93,26 @@ module YearsValidatorImpl =
     [<Fact>]
     let ``CheckLowerBound() overflows when "year" is out of range`` () =
         (fun () -> validator.CheckLowerBound(Int32.MinValue)) |> overflows
-        (fun () -> validator.CheckLowerBound(StandardScope.MinYear - 1)) |> overflows
+        (fun () -> validator.CheckLowerBound(StandardScope.MinSupportedYear - 1)) |> overflows
 
     [<Fact>]
     let ``CheckLowerBound() does not overflow for valid years`` () =
-        validator.CheckLowerBound(StandardScope.MinYear)
-        validator.CheckLowerBound(StandardScope.MaxYear)
-        validator.CheckLowerBound(StandardScope.MaxYear + 1)
+        validator.CheckLowerBound(StandardScope.MinSupportedYear)
+        validator.CheckLowerBound(StandardScope.MaxSupportedYear)
+        validator.CheckLowerBound(StandardScope.MaxSupportedYear + 1)
         validator.CheckLowerBound(Int32.MaxValue)
 
     [<Fact>]
     let ``CheckUpperBound() overflows when "year" is out of range`` () =
-        (fun () -> validator.CheckUpperBound(StandardScope.MaxYear + 1)) |> overflows
+        (fun () -> validator.CheckUpperBound(StandardScope.MaxSupportedYear + 1)) |> overflows
         (fun () -> validator.CheckUpperBound(Int32.MaxValue)) |> overflows
 
     [<Fact>]
     let ``CheckUpperBound() does not overflow for valid years`` () =
         validator.CheckUpperBound(Int32.MinValue)
-        validator.CheckUpperBound(StandardScope.MinYear - 1)
-        validator.CheckUpperBound(StandardScope.MinYear)
-        validator.CheckUpperBound(StandardScope.MaxYear)
+        validator.CheckUpperBound(StandardScope.MinSupportedYear - 1)
+        validator.CheckUpperBound(StandardScope.MinSupportedYear)
+        validator.CheckUpperBound(StandardScope.MaxSupportedYear)
 
 module GregorianCase =
     let private dataSet = GregorianDataSet.Instance

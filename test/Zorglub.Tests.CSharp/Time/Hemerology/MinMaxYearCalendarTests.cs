@@ -71,7 +71,7 @@ public sealed class GregorianMinMaxYearCalendarTests :
     public void SupportedYears_Prop()
     {
         // Act
-        var supportedYears = CalendarUT.YearsValidator;
+        var supportedYears = CalendarUT.Scope;
         // Assert
         Assert.Equal(FirstYear, supportedYears.MinYear);
         Assert.Equal(LastYear, supportedYears.MaxYear);

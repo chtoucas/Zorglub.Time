@@ -11,20 +11,20 @@ public static class ProlepticScopeFacts
     public static readonly TheoryData<int> InvalidYearData = new()
     {
         Int32.MinValue,
-        ProlepticScope.MinYear - 1,
-        ProlepticScope.MaxYear + 1,
+        ProlepticScope.MinSupportedYear - 1,
+        ProlepticScope.MaxSupportedYear + 1,
         Int32.MaxValue,
     };
 
     public static readonly TheoryData<int> ValidYearData = new()
     {
-        ProlepticScope.MinYear,
-        ProlepticScope.MinYear + 1,
+        ProlepticScope.MinSupportedYear,
+        ProlepticScope.MinSupportedYear + 1,
         -1,
         0,
         1,
-        ProlepticScope.MaxYear - 1,
-        ProlepticScope.MaxYear
+        ProlepticScope.MaxSupportedYear - 1,
+        ProlepticScope.MaxSupportedYear
     };
 }
 

@@ -65,17 +65,17 @@ namespace Zorglub.Time.Hemerology.Scopes
         /// <summary>
         /// Gets the validator for the range of supported days.
         /// </summary>
-        public DaysValidator DaysValidator { get; }
+        public IRangeValidator<int> DaysValidator { get; }
 
         /// <summary>
         /// Gets the validator for the range of supported months.
         /// </summary>
-        public MonthsValidator MonthsValidator { get; }
+        public IRangeValidator<int> MonthsValidator { get; }
 
         /// <summary>
         /// Gets the validator for the range of supported years.
         /// </summary>
-        public YearsValidator YearsValidator { get; }
+        public IRangeValidator<int> YearsValidator { get; internal init; }
 
         /// <summary>
         /// Gets the pre-validator.

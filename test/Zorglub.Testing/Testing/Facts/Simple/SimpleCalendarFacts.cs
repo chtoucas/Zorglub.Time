@@ -265,8 +265,8 @@ public partial class SimpleCalendarFacts<TDataSet> // Internal helpers
 
     [Theory]
     [InlineData(Int32.MinValue)]
-    [InlineData(ProlepticScope.MinYear - 1)]
-    [InlineData(ProlepticScope.MaxYear + 1)]
+    [InlineData(ProlepticScope.MinSupportedYear - 1)]
+    [InlineData(ProlepticScope.MaxSupportedYear + 1)]
     [InlineData(Int32.MaxValue)]
     public void ValidateDayOfMonth_IgnoresYear(int y)
     {

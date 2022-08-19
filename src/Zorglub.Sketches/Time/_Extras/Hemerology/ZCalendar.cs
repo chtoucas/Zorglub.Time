@@ -15,9 +15,6 @@ namespace Zorglub.Time.Hemerology
 
     #region Developer Notes
 
-    // We use a CalendarScope, not a MinMaxYearScope to be able to use
-    // ProlepticScope and StandardScope.
-    //
     // Comparison between SimpleCalendar and ZCalendar.
     //
     // SimpleCalendar pros:
@@ -52,15 +49,14 @@ namespace Zorglub.Time.Hemerology
         IDateFactory<ZDate>
     {
         // FIXME(api): require a MinMaxYearScope.
-        //
         /// <summary>
         /// Initializes a new instance of <see cref="ZCalendar"/> class.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="key"/> is null.</exception>
         /// <exception cref="ArgumentNullException"><paramref name="scope"/> is null.</exception>
         /// <exception cref="ArgumentException"><paramref name="scope"/> is NOT complete.</exception>
-        internal ZCalendar(int id, string key, CalendarScope scope, bool userDefined)
-            : base(key, MinMaxYearScope.Create(scope))
+        internal ZCalendar(int id, string key, MinMaxYearScope scope, bool userDefined)
+            : base(key, scope)
         {
             Debug.Assert(key != null);
             Debug.Assert(scope != null);

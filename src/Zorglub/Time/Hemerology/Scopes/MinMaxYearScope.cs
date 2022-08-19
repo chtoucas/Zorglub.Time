@@ -6,24 +6,35 @@ namespace Zorglub.Time.Hemerology.Scopes
     using Zorglub.Time;
     using Zorglub.Time.Core;
     using Zorglub.Time.Core.Intervals;
-    using Zorglub.Time.Core.Validation;
 
     /// <summary>
     /// Represents a scope for a calendar supporting <i>all</i> dates within a range of years.
     /// <para>This class cannot be inherited.</para>
     /// </summary>
-    public sealed class MinMaxYearScope : CalendarScope
+    public class MinMaxYearScope : CalendarScope
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="MinMaxYearScope"/> class.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="segment"/> is null.</exception>
-        private MinMaxYearScope(DayNumber epoch, CalendricalSegment segment)
+        public MinMaxYearScope(DayNumber epoch, CalendricalSegment segment)
             : base(epoch, segment)
         {
             Debug.Assert(segment != null);
             Debug.Assert(segment.IsComplete);
+
+            (MinYear, MaxYear) = segment.SupportedYears.Endpoints;
         }
+
+        /// <summary>
+        /// Gets the earliest supported year.
+        /// </summary>
+        public int MinYear { get; }
+
+        /// <summary>
+        /// Gets the latest supported year.
+        /// </summary>
+        public int MaxYear { get; }
 
         #region Factories
 
@@ -111,33 +122,9 @@ namespace Zorglub.Time.Hemerology.Scopes
         {
             Requires.NotNull(scope);
 
-            if (scope.Segment.IsComplete == false) Throw.Argument(nameof(scope));
-
-            return new MinMaxYearScope(scope.Epoch, scope.Segment);
-        }
-
-        /// <summary>
-        /// Creates a new instance of the <see cref="MinMaxYearScope"/> class.
-        /// </summary>
-        /// <exception cref="ArgumentNullException"><paramref name="scope"/> is null.</exception>
-        [Pure]
-        public static MinMaxYearScope Create(StandardScope scope)
-        {
-            Requires.NotNull(scope);
-
-            return new MinMaxYearScope(scope.Epoch, scope.Segment);
-        }
-
-        /// <summary>
-        /// Creates a new instance of the <see cref="MinMaxYearScope"/> class.
-        /// </summary>
-        /// <exception cref="ArgumentNullException"><paramref name="scope"/> is null.</exception>
-        [Pure]
-        public static MinMaxYearScope Create(ProlepticScope scope)
-        {
-            Requires.NotNull(scope);
-
-            return new MinMaxYearScope(scope.Epoch, scope.Segment);
+            return scope is MinMaxYearScope scope_ ? scope_
+                : scope.Segment.IsComplete == false ? Throw.Argument<MinMaxYearScope>(nameof(scope))
+                : new MinMaxYearScope(scope.Epoch, scope.Segment);
         }
 
         #endregion

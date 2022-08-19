@@ -19,13 +19,13 @@ namespace Zorglub.Time.Hemerology.Scopes
         /// Represents the earliest supported year.
         /// <para>This field is a constant equal to -9998.</para>
         /// </summary>
-        public const int MinYear = StandardScope.MinYear;
+        public const int MinYear = StandardScope.MinSupportedYear;
 
         /// <summary>
         /// Represents the latest supported year.
         /// <para>This field is a constant equal to 9999.</para>
         /// </summary>
-        public const int MaxYear = StandardScope.MaxYear;
+        public const int MaxYear = StandardScope.MaxSupportedYear;
 
         /// <summary>
         /// Represents the minimum possible value for the number of consecutive days from the epoch.

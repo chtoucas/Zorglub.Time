@@ -27,7 +27,7 @@ namespace Zorglub.Time.Hemerology.Scopes
             var seg = Segment;
             if (seg.MinIsStartOfYear || seg.MaxIsEndOfYear == false) Throw.Argument(nameof(segment));
 
-            MinYear = seg.SupportedYears.Min;
+            (MinYear, MaxYear) = seg.SupportedYears.Endpoints;
             MinDateParts = seg.MinMaxDateParts.LowerValue;
             MinOrdinalParts = seg.MinMaxOrdinalParts.LowerValue;
             MinMonthParts = MinDateParts.MonthParts;
@@ -85,13 +85,19 @@ namespace Zorglub.Time.Hemerology.Scopes
         {
             Requires.NotNull(scope);
 
-            return new BoundedBelowScope(scope.Epoch, scope.Segment);
+            return scope is BoundedBelowScope scope_ ? scope_
+                : new BoundedBelowScope(scope.Epoch, scope.Segment);
         }
 
         /// <summary>
         /// Gets the earliest supported year.
         /// </summary>
         public int MinYear { get; }
+
+        /// <summary>
+        /// Gets the latest supported year.
+        /// </summary>
+        public int MaxYear { get; }
 
         /// <summary>
         /// Gets the earliest supported month parts.
