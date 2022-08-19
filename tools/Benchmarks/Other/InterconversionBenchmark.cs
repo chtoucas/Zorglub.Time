@@ -9,9 +9,24 @@ using Zorglub.Time;
 using Zorglub.Time.Hemerology;
 using Zorglub.Time.Simple;
 
-// REVIEW: CalendarDay should be faster than CalendarDate, no?
-
 /*
+BenchmarkDotNet=v0.13.1, OS=Windows 10.0.19044.1889 (21H2)
+Intel Core i7-4500U CPU 1.80GHz (Haswell), 1 CPU, 4 logical and 2 physical cores
+.NET SDK=6.0.400
+  [Host]     : .NET 6.0.8 (6.0.822.36306), X64 RyuJIT
+  DefaultJob : .NET 6.0.8 (6.0.822.36306), X64 RyuJIT
+
+|                 Method |     Mean |    Error |   StdDev | Ratio | Rank |
+|----------------------- |---------:|---------:|---------:|------:|-----:|
+|     'Naked Civil     ' | 37.26 ns | 0.172 ns | 0.161 ns |  1.00 |    I |
+| 'Naked Gregorian     ' | 37.30 ns | 0.168 ns | 0.157 ns |  1.00 |    I |
+|        'DateTime *   ' | 38.61 ns | 0.124 ns | 0.116 ns |  1.04 |   II |
+|     'CalendarDay     ' | 44.47 ns | 0.186 ns | 0.174 ns |  1.19 |  III |
+|    'CalendarDate  (Y)' | 44.63 ns | 0.187 ns | 0.175 ns |  1.20 |  III |
+|     'OrdinalDate  (O)' | 56.66 ns | 0.208 ns | 0.195 ns |  1.52 |   IV |
+|       'LocalDate *(Y)' | 56.67 ns | 0.370 ns | 0.346 ns |  1.52 |   IV |
+|           'ZDate  (Y)' | 68.24 ns | 0.335 ns | 0.314 ns |  1.83 |    V |
+
 BenchmarkDotNet=v0.13.1, OS=Windows 10.0.19042.1348 (20H2/October2020Update)
 Intel Core2 Duo CPU E8500 3.16GHz, 1 CPU, 2 logical and 2 physical cores
 .NET SDK=6.0.100
@@ -41,7 +56,7 @@ public class InterconversionBenchmark : BenchmarkBase
         return (y, m, d);
     }
 
-    [Benchmark(Description = "CalendarDay     ", Baseline = true)]
+    [Benchmark(Description = "CalendarDay     ")]
     public (int, int, int) WithCalendarDay()
     {
         CalendarDay start = SimpleCalendar.Julian.GetCalendarDate(Year, Month, Day).ToCalendarDay();
@@ -57,9 +72,19 @@ public class InterconversionBenchmark : BenchmarkBase
         return (y, m, d);
     }
 
-    [Benchmark(Description = "Naked     ")]
-    public (int, int, int) WithDayNumber()
+    [Benchmark(Description = "Naked Civil     ", Baseline = true)]
+    public (int, int, int) WithNakedCivil()
     {
+        // This is the closest comparable to DateTime.
+        DayNumber start = My.NakedJulian.GetDayNumber(Year, Month, Day);
+        var (y, m, d) = My.NakedCivil.GetDateParts(start);
+        return (y, m, d);
+    }
+
+    [Benchmark(Description = "Naked Gregorian     ")]
+    public (int, int, int) WithNakedGregorian()
+    {
+        // This is the closest comparable to DateTime.
         DayNumber start = My.NakedJulian.GetDayNumber(Year, Month, Day);
         var (y, m, d) = My.NakedCivil.GetDateParts(start);
         return (y, m, d);
@@ -68,8 +93,8 @@ public class InterconversionBenchmark : BenchmarkBase
     [Benchmark(Description = "ZDate  (Y)")]
     public (int, int, int) WithZDate()
     {
-        ZDate start = ZCalendar.Gregorian.GetDate(Year, Month, Day);
-        var (y, m, d) = start.WithCalendar(ZCalendar.Julian);
+        ZDate start = ZCalendar.Julian.GetDate(Year, Month, Day);
+        var (y, m, d) = start.WithCalendar(ZCalendar.Gregorian);
         return (y, m, d);
     }
 

@@ -11,22 +11,22 @@ using Zorglub.Time.Simple;
 using Zorglub.Time.Specialized;
 
 /*
-BenchmarkDotNet=v0.13.1, OS=Windows 10.0.19044.1826 (21H2)
+BenchmarkDotNet=v0.13.1, OS=Windows 10.0.19044.1889 (21H2)
 Intel Core i7-4500U CPU 1.80GHz (Haswell), 1 CPU, 4 logical and 2 physical cores
-.NET SDK=6.0.302
-  [Host]     : .NET 6.0.7 (6.0.722.32202), X64 RyuJIT
-  DefaultJob : .NET 6.0.7 (6.0.722.32202), X64 RyuJIT
+.NET SDK=6.0.400
+  [Host]     : .NET 6.0.8 (6.0.822.36306), X64 RyuJIT
+  DefaultJob : .NET 6.0.8 (6.0.822.36306), X64 RyuJIT
 
 |              Method |      Mean |    Error |   StdDev | Ratio | RatioSD | Rank |
 |-------------------- |----------:|---------:|---------:|------:|--------:|-----:|
-|    'DayNumber     ' |  38.63 ns | 0.176 ns | 0.165 ns |  1.00 |    0.00 |    I |
-|   'JulianDate     ' |  44.03 ns | 0.199 ns | 0.187 ns |  1.14 |    0.01 |   II |
-|  'CalendarDay     ' |  65.71 ns | 0.327 ns | 0.306 ns |  1.70 |    0.01 |  III |
-|        'ZDate  (Y)' |  74.76 ns | 0.304 ns | 0.285 ns |  1.94 |    0.01 |   IV |
-|  'OrdinalDate  (O)' |  80.93 ns | 0.295 ns | 0.276 ns |  2.10 |    0.01 |    V |
-|     'DateTime *   ' |  80.93 ns | 0.233 ns | 0.182 ns |  2.10 |    0.01 |    V |
-| 'CalendarDate  (Y)' |  98.10 ns | 0.285 ns | 0.267 ns |  2.54 |    0.01 |   VI |
-|    'LocalDate *(Y)' | 134.39 ns | 0.515 ns | 0.430 ns |  3.48 |    0.02 |  VII |
+|    'DayNumber     ' |  38.72 ns | 0.219 ns | 0.205 ns |  1.00 |    0.00 |    I |
+|   'JulianDate     ' |  44.40 ns | 0.238 ns | 0.211 ns |  1.15 |    0.01 |   II |
+|  'CalendarDay     ' |  62.98 ns | 0.294 ns | 0.275 ns |  1.63 |    0.01 |  III |
+|        'ZDate  (Y)' |  73.47 ns | 0.330 ns | 0.309 ns |  1.90 |    0.01 |   IV |
+|     'DateTime *   ' |  81.26 ns | 0.403 ns | 0.358 ns |  2.10 |    0.01 |    V |
+|  'OrdinalDate  (O)' |  86.19 ns | 0.342 ns | 0.320 ns |  2.23 |    0.01 |   VI |
+| 'CalendarDate  (Y)' |  99.47 ns | 0.272 ns | 0.241 ns |  2.57 |    0.01 |  VII |
+|    'LocalDate *(Y)' | 133.49 ns | 0.957 ns | 0.895 ns |  3.45 |    0.03 | VIII |
 
 BenchmarkDotNet=v0.13.1, OS=Windows 10.0.19042.1586 (20H2/October2020Update)
 Intel Core2 Duo CPU E8500 3.16GHz, 1 CPU, 2 logical and 2 physical cores

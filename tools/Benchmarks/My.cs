@@ -28,6 +28,11 @@ internal static class My
 
     public static readonly MinMaxYearCalendar NakedCivil =
         (from x in CivilSchema.GetInstance()
+         select new MinMaxYearCalendar("Civil", MinMaxYearScope.StartingAt(x, DayZero.NewStyle, 1))
+         ).Unbox();
+
+    public static readonly MinMaxYearCalendar NakedGregorian =
+        (from x in GregorianSchema.GetInstance()
          select new MinMaxYearCalendar("Gregorian", MinMaxYearScope.StartingAt(x, DayZero.NewStyle, 1))
          ).Unbox();
 
