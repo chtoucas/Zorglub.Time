@@ -14,12 +14,19 @@ Intel Core i7-4500U CPU 1.80GHz (Haswell), 1 CPU, 4 logical and 2 physical cores
   [Host]     : .NET 6.0.8 (6.0.822.36306), X64 RyuJIT
   DefaultJob : .NET 6.0.8 (6.0.822.36306), X64 RyuJIT
 
-|             Method |     Mean |    Error |   StdDev | Ratio | Rank |
-|------------------- |---------:|---------:|---------:|------:|-----:|
-|          Gregorian | 58.96 ns | 0.354 ns | 0.314 ns |  1.00 |    I |
-| 'Tropicália 31-30' | 66.29 ns | 0.336 ns | 0.280 ns |  1.13 |   II |
-| 'Tropicália 30-31' | 66.53 ns | 0.195 ns | 0.173 ns |  1.13 |   II |
-|         Tropicália | 71.03 ns | 0.300 ns | 0.281 ns |  1.20 |  III |
+|                   Method |     Mean |    Error |   StdDev | Ratio | Rank |
+|------------------------- |---------:|---------:|---------:|------:|-----:|
+|    'Armenian (Egyptian)' | 44.20 ns | 0.205 ns | 0.192 ns |  0.79 |    I |
+| 'Zoroastrian (Egyptian)' | 46.26 ns | 0.144 ns | 0.135 ns |  0.82 |   II |
+|                   Julian | 50.54 ns | 0.234 ns | 0.207 ns |  0.90 |  III |
+|                   Coptic | 52.97 ns | 0.465 ns | 0.412 ns |  0.94 |   IV |
+|      'Ethiopic (Coptic)' | 53.64 ns | 0.304 ns | 0.285 ns |  0.96 |   IV |
+|       'Tropicália 31-30' | 53.89 ns | 0.159 ns | 0.141 ns |  0.96 |   IV |
+|       'Tropicália 30-31' | 53.96 ns | 0.268 ns | 0.238 ns |  0.96 |   IV |
+|                    Civil | 55.81 ns | 0.156 ns | 0.131 ns |  1.00 |    V |
+|                Gregorian | 56.13 ns | 0.275 ns | 0.257 ns |  1.00 |    V |
+|           TabularIslamic | 60.68 ns | 0.388 ns | 0.362 ns |  1.08 |   VI |
+|               Tropicália | 62.29 ns | 0.314 ns | 0.294 ns |  1.11 |  VII |
 
 BenchmarkDotNet=v0.13.1, OS=Windows 10.0.19044.1889 (21H2)
 Intel Core2 Duo CPU E8500 3.16GHz, 1 CPU, 2 logical and 2 physical cores
