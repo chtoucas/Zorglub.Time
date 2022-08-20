@@ -41,11 +41,11 @@ Intel Core2 Duo CPU E8500 3.16GHz, 1 CPU, 2 logical and 2 physical cores
 [DisassemblyDiagnoser]
 public class CalendarScopeBenchmark : GJBenchmarkBase
 {
-    private static readonly ProlepticScope s_ProlepticScope =
-        new(new GregorianSchema(), DayZero.NewStyle);
+    private static readonly MinMaxYearScope s_ProlepticScope =
+        ProlepticScope.Create(new GregorianSchema(), DayZero.NewStyle);
 
-    private static readonly StandardScope s_StandardScope =
-        new(new GregorianSchema(), DayZero.NewStyle);
+    private static readonly MinMaxYearScope s_StandardScope =
+        StandardScope.Create(new GregorianSchema(), DayZero.NewStyle);
 
     private static readonly MinMaxYearScope s_MinMaxYearScope =
         MinMaxYearScope.CreateMaximal(new GregorianSchema(), DayZero.NewStyle);
