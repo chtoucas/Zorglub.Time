@@ -45,7 +45,8 @@ module Prelude =
         let scope = new FauxCalendarScope(seg)
 
         scope.Segment ==& seg
-        scope.Segment.IsComplete === seg.IsComplete
+        scope.MinYear === 1
+        scope.MaxYear === 4
         // It's enough to check the property Range.
         scope.DaysValidator.Range === seg.SupportedDays
         scope.MonthsValidator.Range === seg.SupportedMonths

@@ -174,6 +174,32 @@ module Factories =
         v === other
 
     [<Property>]
+    let ``Range.StartingAt(length)`` (i: int) =
+        let len = 10
+        let v = Range.StartingAt(i, len)
+        let j = i + len - 1
+        let endpoints = OrderedPair.Create(i, j)
+
+        v.Endpoints === endpoints
+        v.Min === i
+        v.Max === j
+        v.IsLeftOpen        |> nok
+        v.IsRightOpen       |> nok
+        v.IsLeftBounded     |> ok
+        v.IsRightBounded    |> ok
+        v.IsSingleton       |> nok
+        v.ToString() === sprintf "[%i..%i]" i j
+
+        // ISegment
+        let segment = v :> ISegment<int>
+        segment.LowerEnd === i
+        segment.UpperEnd === j
+
+        // Constructor
+        let other = new Range<int>(i, j)
+        v === other
+
+    [<Property>]
     let ``Range.EndingAt()`` (i: int) =
         let v = Range.EndingAt(i)
         let endpoints = OrderedPair.Create(Int32.MinValue, i)
@@ -195,6 +221,32 @@ module Factories =
 
         // Constructor
         let other = new Range<int>(Int32.MinValue, i)
+        v === other
+
+    [<Property>]
+    let ``Range.EndingAt(length)`` (i: int) =
+        let len = 10
+        let v = Range.EndingAt(i, len)
+        let j = i - (len - 1)
+        let endpoints = OrderedPair.Create(j, i)
+
+        v.Endpoints === endpoints
+        v.Min === j
+        v.Max === i
+        v.IsLeftOpen        |> nok
+        v.IsRightOpen       |> nok
+        v.IsLeftBounded     |> ok
+        v.IsRightBounded    |> ok
+        v.IsSingleton       |> nok
+        v.ToString() === sprintf "[%i..%i]" j i
+
+        // ISegment
+        let segment = v :> ISegment<int>
+        segment.LowerEnd === j
+        segment.UpperEnd === i
+
+        // Constructor
+        let other = new Range<int>(j, i)
         v === other
 
     [<Property>]

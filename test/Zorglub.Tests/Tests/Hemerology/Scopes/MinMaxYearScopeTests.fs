@@ -8,6 +8,7 @@ open Zorglub.Testing
 open Zorglub.Time
 open Zorglub.Time.Core
 open Zorglub.Time.Core.Intervals
+open Zorglub.Time.Core.Schemas
 open Zorglub.Time.Hemerology.Scopes
 
 open Xunit
@@ -113,3 +114,31 @@ module Factories =
 
         scope.Segment.IsComplete |> ok
         scope.Segment.SupportedYears === Range.Create(2, 5)
+
+    [<Fact>]
+    let ``Create(scope) throws when "schema" is null`` () =
+        nullExn "scope" (fun () -> MinMaxYearScope.Create(null))
+
+    [<Fact>]
+    let ``Create(scope) returns scope when it's a MinMaxYearScope`` () =
+        let range = Range.Create(-10, 0)
+        let sch = new FauxSystemSchema(range)
+        let scope = MinMaxYearScope.CreateMaximal(sch, DayZero.NewStyle)
+
+        MinMaxYearScope.Create(scope) ==& scope
+
+    [<Fact>]
+    let ``Create(scope) throws when the scope is not complete`` () =
+        let scope = BoundedBelowScope.StartingAt(new GregorianSchema(), DayZero.NewStyle, new DateParts(1, 12, 1))
+
+        argExn "scope" (fun () -> MinMaxYearScope.Create(scope))
+
+    [<Fact>]
+    let ``Create(scope)`` () =
+        let epoch = DayZero.NewStyle + 123_456_789
+        let sch = new GregorianSchema()
+        let seg = CalendricalSegment.Create(sch, Range.Create(1, 4))
+        let scope = MinMaxYearScope.Create(new FauxCalendarScope(epoch, seg))
+
+        scope.Epoch === epoch
+        scope.Segment ==& seg
