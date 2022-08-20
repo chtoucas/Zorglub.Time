@@ -19,7 +19,7 @@ public sealed class MyCivilCalendar : MinMaxYearBasicCalendar, ICalendar<MyCivil
     public MyCivilCalendar() : this(GetCivilSchema()) { }
 
     public MyCivilCalendar(CivilSchema schema)
-        : base("Gregorian", new StandardScope(schema, DayZero.NewStyle)) { }
+        : base("Gregorian", StandardScope.Create(schema, DayZero.NewStyle)) { }
 
     [Pure]
     private static CivilSchema GetCivilSchema() => CivilSchema.GetInstance().Unbox();

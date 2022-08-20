@@ -8,7 +8,7 @@ namespace Zorglub.Time.Hemerology.Scopes
     using Zorglub.Time.Core.Validation;
 
     /// <summary>
-    /// Represents a scope for a calendar supporting <i>all</i> dates within the range [-9998..9999]
+    /// Defines a scope for a calendar supporting <i>all</i> dates within the range [-9998..9999]
     /// of years.
     /// <para>This class cannot be inherited.</para>
     /// </summary>
@@ -16,7 +16,7 @@ namespace Zorglub.Time.Hemerology.Scopes
     /// <para>This is the scope used by <see cref="Simple.SimpleCalendar"/> in the Gregorian and Julian
     /// cases.</para>
     /// </remarks>
-    public sealed class ProlepticScope : MinMaxYearScope
+    public static class ProlepticScope
     {
         /// <summary>
         /// Represents the earliest supported year.
@@ -37,17 +37,17 @@ namespace Zorglub.Time.Hemerology.Scopes
         private static readonly Range<int> s_SupportedYears = Range.Create(MinSupportedYear, MaxSupportedYear);
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ProlepticScope"/> class with the
+        /// Creates a new instance of the <see cref="MinMaxYearScope"/> class with the
         /// specified schema and epoch.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
         /// <exception cref="AoorException">The range of supported years by
         /// <paramref name="schema"/> does not contain the interval [-9998..9999].</exception>
-        public ProlepticScope(ICalendricalSchema schema, DayNumber epoch)
-            : base(epoch, CalendricalSegment.Create(schema, s_SupportedYears))
-        {
-            YearsValidator = YearsValidatorImpl;
-        }
+        public static MinMaxYearScope Create(ICalendricalSchema schema, DayNumber epoch) =>
+            new(epoch, CalendricalSegment.Create(schema, s_SupportedYears))
+            {
+                YearsValidator = YearsValidatorImpl
+            };
 
         /// <summary>
         /// Gets the validator for the range of supported years.

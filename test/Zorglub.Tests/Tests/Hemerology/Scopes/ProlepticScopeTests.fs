@@ -20,33 +20,33 @@ open Xunit
 
 module Prelude =
     [<Fact>]
-    let ``Constructor throws when "schema" is null`` () =
-        nullExn "schema" (fun () -> new ProlepticScope(null, DayZero.OldStyle))
+    let ``Create() throws when "schema" is null`` () =
+        nullExn "schema" (fun () -> ProlepticScope.Create(null, DayZero.OldStyle))
 
     [<Fact>]
-    let ``Constructor throws when schema.MinYear > -9997`` () =
+    let ``Create() throws when schema.MinYear > -9997`` () =
         let range = Range.Create(ProlepticScope.MinSupportedYear + 1, ProlepticScope.MaxSupportedYear)
         let sch = new FauxCalendricalSchema(range)
 
-        argExn "supportedYears" (fun () -> new ProlepticScope(sch, DayZero.OldStyle))
+        argExn "supportedYears" (fun () -> ProlepticScope.Create(sch, DayZero.OldStyle))
 
     [<Fact>]
-    let ``Constructor throws when schema.MaxYear < 9999`` () =
+    let ``Create() throws when schema.MaxYear < 9999`` () =
         let range = Range.Create(1, ProlepticScope.MaxSupportedYear - 1)
         let sch = new FauxCalendricalSchema(range)
 
-        argExn "supportedYears" (fun () -> new ProlepticScope(sch, DayZero.OldStyle))
+        argExn "supportedYears" (fun () -> ProlepticScope.Create(sch, DayZero.OldStyle))
 
     [<Fact>]
-    let ``Constructor throws for PaxSchema`` () =
+    let ``Create() throws for PaxSchema`` () =
         let sch = SchemaActivator.CreateInstance<PaxSchema>()
 
-        argExn "supportedYears" (fun () -> new ProlepticScope(sch, DayZero.OldStyle)) // PaxSchema.MinYear = 1 > -9999.
+        argExn "supportedYears" (fun () -> ProlepticScope.Create(sch, DayZero.OldStyle)) // PaxSchema.MinYear = 1 > -9999.
 
     [<Fact>]
     let ``Property Epoch`` () =
         let epoch = DayZero.NewStyle + 123_456_789
-        let scope = new ProlepticScope(new FauxCalendricalSchema(), epoch)
+        let scope = ProlepticScope.Create(new FauxCalendricalSchema(), epoch)
 
         scope.Epoch === epoch
 
@@ -54,7 +54,7 @@ module Prelude =
     let ``Property Domain`` () =
         let epoch = DayZero.NewStyle + 123_456_789
         let sch = new GregorianSchema()
-        let scope = new ProlepticScope(sch, epoch)
+        let scope = ProlepticScope.Create(sch, epoch)
         let minDayNumber = epoch + sch.GetStartOfYear(ProlepticScope.MinSupportedYear)
         let maxDayNumber = epoch + sch.GetEndOfYear(ProlepticScope.MaxSupportedYear)
         let range = Range.Create(minDayNumber, maxDayNumber)
@@ -63,7 +63,7 @@ module Prelude =
 
     [<Fact>]
     let ``Property SupportedYears`` () =
-        let scope = new ProlepticScope(new FauxCalendricalSchema(), DayZero.OldStyle)
+        let scope = ProlepticScope.Create(new FauxCalendricalSchema(), DayZero.OldStyle)
         let range = Range.Create(ProlepticScope.MinSupportedYear, ProlepticScope.MaxSupportedYear)
 
         scope.Segment.SupportedYears === range
@@ -134,7 +134,7 @@ module GregorianCase =
 
     [<Fact>]
     let ``Static properties`` () =
-        let scope = new ProlepticScope(new GregorianSchema(), DayZero.NewStyle)
+        let scope = ProlepticScope.Create(new GregorianSchema(), DayZero.NewStyle)
 
         GregorianProlepticScope.DefaultDomain === scope.Domain
         GregorianProlepticScope.YearsValidator ==& ProlepticScope.YearsValidatorImpl

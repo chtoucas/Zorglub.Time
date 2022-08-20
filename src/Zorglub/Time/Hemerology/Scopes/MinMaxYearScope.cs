@@ -11,7 +11,7 @@ namespace Zorglub.Time.Hemerology.Scopes
     /// Represents a scope for a calendar supporting <i>all</i> dates within a range of years.
     /// <para>This class cannot be inherited.</para>
     /// </summary>
-    public class MinMaxYearScope : CalendarScope
+    public sealed class MinMaxYearScope : CalendarScope
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="MinMaxYearScope"/> class.

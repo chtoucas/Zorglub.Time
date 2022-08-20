@@ -137,8 +137,8 @@ namespace Zorglub.Time.Simple
             IsProleptic = proleptic;
             IsUserDefined = userDefined;
 
-            Scope = proleptic ? new ProlepticScope(schema, epoch)
-                : new StandardScope(schema, epoch);
+            Scope = proleptic ? ProlepticScope.Create(schema, epoch)
+                : StandardScope.Create(schema, epoch);
 
             SystemSegment = SystemSegment.Create(schema, YearsValidator.Range);
             Arithmetic = SystemArithmetic.CreateDefault(SystemSegment);

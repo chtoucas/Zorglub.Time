@@ -32,7 +32,7 @@ namespace Zorglub.Time.Specialized
         /// Initializes a new instance of the <see cref="CivilCalendar"/> class.
         /// </summary>
         internal CivilCalendar(CivilSchema schema)
-            : base("Gregorian", new StandardScope(schema, DayZero.NewStyle))
+            : base("Gregorian", StandardScope.Create(schema, DayZero.NewStyle))
         {
             MonthsInYear = schema.MonthsInYear;
         }

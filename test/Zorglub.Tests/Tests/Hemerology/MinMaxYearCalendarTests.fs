@@ -15,7 +15,7 @@ open Xunit
 module Prelude =
     [<Fact>]
     let ``Constructor throws when "name" is null`` () =
-        let scope = new StandardScope(new GregorianSchema(), DayZero.NewStyle)
+        let scope = StandardScope.Create(new GregorianSchema(), DayZero.NewStyle)
 
         nullExn "name" (fun () -> new MinMaxYearBasicCalendar(null, scope))
         nullExn "name" (fun () -> new MinMaxYearCalendar(null, scope))

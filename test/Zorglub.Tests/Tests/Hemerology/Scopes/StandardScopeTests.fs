@@ -21,26 +21,26 @@ open Xunit
 module Prelude =
     [<Fact>]
     let ``Constructor throws when "schema" is null`` () =
-        nullExn "schema" (fun () -> new StandardScope(null, DayZero.OldStyle))
+        nullExn "schema" (fun () -> StandardScope.Create(null, DayZero.OldStyle))
 
     [<Fact>]
     let ``Constructor throws when schema.MinYear > 1`` () =
         let range = Range.Create(StandardScope.MinSupportedYear + 1, StandardScope.MaxSupportedYear)
         let sch = new FauxCalendricalSchema(range)
 
-        argExn "supportedYears" (fun () -> new StandardScope(sch, DayZero.OldStyle))
+        argExn "supportedYears" (fun () -> StandardScope.Create(sch, DayZero.OldStyle))
 
     [<Fact>]
     let ``Constructor throws when schema.MaxYear < 9999`` () =
         let range = Range.Create(1, StandardScope.MaxSupportedYear - 1)
         let sch = new FauxCalendricalSchema(range)
 
-        argExn "supportedYears" (fun () -> new StandardScope(sch, DayZero.OldStyle))
+        argExn "supportedYears" (fun () -> StandardScope.Create(sch, DayZero.OldStyle))
 
     [<Fact>]
     let ``Property Epoch`` () =
         let epoch = DayZero.NewStyle + 123_456_789
-        let scope = new StandardScope(new FauxCalendricalSchema(), epoch)
+        let scope = StandardScope.Create(new FauxCalendricalSchema(), epoch)
 
         scope.Epoch === epoch
 
@@ -48,7 +48,7 @@ module Prelude =
     let ``Property Domain`` () =
         let epoch = DayZero.NewStyle + 123_456_789
         let sch = new GregorianSchema()
-        let scope = new StandardScope(sch, epoch)
+        let scope = StandardScope.Create(sch, epoch)
         let minDayNumber = epoch + sch.GetStartOfYear(StandardScope.MinSupportedYear)
         let maxDayNumber = epoch + sch.GetEndOfYear(StandardScope.MaxSupportedYear)
         let range = Range.Create(minDayNumber, maxDayNumber)
@@ -57,7 +57,7 @@ module Prelude =
 
     [<Fact>]
     let ``Property SupportedYears`` () =
-        let scope = new StandardScope(new FauxCalendricalSchema(), DayZero.OldStyle)
+        let scope = StandardScope.Create(new FauxCalendricalSchema(), DayZero.OldStyle)
         let range = Range.Create(StandardScope.MinSupportedYear, StandardScope.MaxSupportedYear)
 
         scope.Segment.SupportedYears === range
@@ -128,7 +128,7 @@ module GregorianCase =
 
     [<Fact>]
     let ``Static properties`` () =
-        let scope = new StandardScope(new GregorianSchema(), DayZero.NewStyle)
+        let scope = StandardScope.Create(new GregorianSchema(), DayZero.NewStyle)
 
         GregorianStandardScope.DefaultDomain === scope.Domain
         GregorianStandardScope.YearsValidator ==& StandardScope.YearsValidatorImpl

@@ -32,40 +32,37 @@ public static class ProlepticScopeFacts
 /// Provides data-driven tests for <see cref="ProlepticScope"/>.
 /// </summary>
 internal abstract class ProlepticScopeFacts<TDataSet> :
-    CalendarScopeFacts<ProlepticScope, TDataSet>
+    CalendarScopeFacts<MinMaxYearScope, TDataSet>
     where TDataSet : ICalendricalDataSet, ISingleton<TDataSet>
 {
-    protected ProlepticScopeFacts(ProlepticScope scope) : base(scope)
+    protected ProlepticScopeFacts(MinMaxYearScope scope) : base(scope)
     {
-        ProlepticScopeView = scope;
+        Debug.Assert(scope != null);
+        Debug.Assert(scope.MinYear == ProlepticScope.MinSupportedYear);
+        Debug.Assert(scope.MaxYear == ProlepticScope.MaxSupportedYear);
     }
 
     public static TheoryData<int> InvalidYearData => ProlepticScopeFacts.InvalidYearData;
     public static TheoryData<int> ValidYearData => ProlepticScopeFacts.ValidYearData;
 
-    /// <summary>
-    /// Gets a <see cref="ProlepticScope"/> view of the scope under test.
-    /// </summary>
-    protected ProlepticScope ProlepticScopeView { get; }
-
     [Theory, MemberData(nameof(InvalidYearData))]
     public sealed override void ValidateYearMonth_InvalidYear(int y)
     {
-        Assert.ThrowsAoorexn("year", () => ProlepticScopeView.ValidateYearMonth(y, 1));
-        Assert.ThrowsAoorexn("y", () => ProlepticScopeView.ValidateYearMonth(y, 1, nameof(y)));
+        Assert.ThrowsAoorexn("year", () => ScopeUT.ValidateYearMonth(y, 1));
+        Assert.ThrowsAoorexn("y", () => ScopeUT.ValidateYearMonth(y, 1, nameof(y)));
     }
 
     [Theory, MemberData(nameof(InvalidYearData))]
     public sealed override void ValidateYearMonthDay_InvalidYear(int y)
     {
-        Assert.ThrowsAoorexn("year", () => ProlepticScopeView.ValidateYearMonthDay(y, 1, 1));
-        Assert.ThrowsAoorexn("y", () => ProlepticScopeView.ValidateYearMonthDay(y, 1, 1, nameof(y)));
+        Assert.ThrowsAoorexn("year", () => ScopeUT.ValidateYearMonthDay(y, 1, 1));
+        Assert.ThrowsAoorexn("y", () => ScopeUT.ValidateYearMonthDay(y, 1, 1, nameof(y)));
     }
 
     [Theory, MemberData(nameof(InvalidYearData))]
     public sealed override void ValidateOrdinal_InvalidYear(int y)
     {
-        Assert.ThrowsAoorexn("year", () => ProlepticScopeView.ValidateOrdinal(y, 1));
-        Assert.ThrowsAoorexn("y", () => ProlepticScopeView.ValidateOrdinal(y, 1, nameof(y)));
+        Assert.ThrowsAoorexn("year", () => ScopeUT.ValidateOrdinal(y, 1));
+        Assert.ThrowsAoorexn("y", () => ScopeUT.ValidateOrdinal(y, 1, nameof(y)));
     }
 }

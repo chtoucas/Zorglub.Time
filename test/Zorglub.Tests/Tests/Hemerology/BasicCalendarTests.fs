@@ -16,7 +16,7 @@ module Prelude =
     [<Fact>]
     let ``Constructor throws when "name" is null`` () =
         let name: string = null
-        let scope = new StandardScope(new GregorianSchema(), DayZero.NewStyle)
+        let scope = StandardScope.Create(new GregorianSchema(), DayZero.NewStyle)
 
         nullExn "name" (fun () -> new FauxBasicCalendar(name, scope))
 
@@ -29,7 +29,7 @@ module Prelude =
     [<Fact>]
     let ``Properties from constructor`` () =
         let name = "My Name"
-        let scope = new StandardScope(new GregorianSchema(), DayZero.NewStyle)
+        let scope = StandardScope.Create(new GregorianSchema(), DayZero.NewStyle)
         let chr = new FauxBasicCalendar(name, scope)
 
         chr.Name  === name
@@ -38,7 +38,7 @@ module Prelude =
     [<Fact>]
     let ``IsRegular() when the calendar is regular`` () =
         let name = "My Name"
-        let scope = new StandardScope(new GregorianSchema(), DayZero.NewStyle)
+        let scope = StandardScope.Create(new GregorianSchema(), DayZero.NewStyle)
         let chr = new FauxBasicCalendar(name, scope)
 
         let (regular, monthsInYear) = chr.IsRegular()
@@ -49,7 +49,7 @@ module Prelude =
     [<Fact>]
     let ``IsRegular() when the calendar is not regular`` () =
         let name = "My Name"
-        let scope = new StandardScope(new LunisolarSchema(), DayZero.NewStyle)
+        let scope = StandardScope.Create(new LunisolarSchema(), DayZero.NewStyle)
         let chr = new FauxBasicCalendar(name, scope)
 
         let (regular, monthsInYear) = chr.IsRegular()

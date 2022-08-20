@@ -28,7 +28,7 @@ namespace Zorglub.Time.Specialized
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
         internal EthiopicCalendar(Coptic12Schema schema)
-            : base("Ethiopic", new StandardScope(schema, CalendarEpoch.Ethiopic))
+            : base("Ethiopic", StandardScope.Create(schema, CalendarEpoch.Ethiopic))
         {
             MonthsInYear = schema.MonthsInYear;
         }

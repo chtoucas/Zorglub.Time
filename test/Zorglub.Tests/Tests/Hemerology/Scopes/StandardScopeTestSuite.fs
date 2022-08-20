@@ -17,7 +17,7 @@ open Zorglub.Time.Hemerology.Scopes
 // Returns a StandardScope.
 let private scopeOf<'a when 'a :> CalendricalSchema and 'a :> IBoxable<'a>> () =
     let sch = SchemaActivator.CreateInstance<'a>()
-    new StandardScope(sch, DayZero.OldStyle)
+    StandardScope.Create(sch, DayZero.OldStyle)
 
 [<Sealed>]
 type Coptic12Tests() =

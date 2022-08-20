@@ -28,7 +28,7 @@ namespace Zorglub.Time.Specialized
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
         internal ZoroastrianCalendar(Egyptian12Schema schema)
-            : base("Zoroastrian", new StandardScope(schema, CalendarEpoch.Zoroastrian))
+            : base("Zoroastrian", StandardScope.Create(schema, CalendarEpoch.Zoroastrian))
         {
             MonthsInYear = schema.MonthsInYear;
         }

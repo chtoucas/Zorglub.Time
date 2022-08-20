@@ -17,7 +17,7 @@ open Zorglub.Time.Hemerology.Scopes
 // Returns a ProlepticScope.
 let private scopeOf<'a when 'a :> CalendricalSchema and 'a :> IBoxable<'a>> () =
     let sch = SchemaActivator.CreateInstance<'a>()
-    new ProlepticScope(sch, DayZero.OldStyle)
+    ProlepticScope.Create(sch, DayZero.OldStyle)
 
 [<Sealed>]
 type Coptic12Tests() =

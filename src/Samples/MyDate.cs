@@ -38,7 +38,7 @@ public readonly partial struct MyDate :
     // Being based on Yemoda, the schema should derived from SystemSchema.
 
     private static readonly SystemSchema s_Schema = CivilSchema.GetInstance().Unbox();
-    private static readonly CalendarScope s_Scope = new StandardScope(s_Schema, DayZero.NewStyle);
+    private static readonly CalendarScope s_Scope = StandardScope.Create(s_Schema, DayZero.NewStyle);
 
     private static readonly DayNumber s_Epoch = s_Scope.Epoch;
     private static readonly Range<DayNumber> s_Domain = s_Scope.Domain;

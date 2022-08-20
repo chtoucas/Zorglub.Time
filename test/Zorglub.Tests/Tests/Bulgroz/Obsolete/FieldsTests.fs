@@ -174,7 +174,7 @@ module DateFields =
         let invalidMonthFieldData = dataSet.InvalidMonthFieldData
         let invalidDayFieldData = dataSet.InvalidDayFieldData
 
-        let scope = new ProlepticScope(new GregorianSchema(), calendarDataSet.Epoch)
+        let scope = ProlepticScope.Create(new GregorianSchema(), calendarDataSet.Epoch)
 
         [<Property>]
         let ``ToYemoda()`` (ymd: Yemoda) =
@@ -359,7 +359,7 @@ module MonthFields =
         let monthInfoData = dataSet.MonthInfoData
         let invalidMonthFieldData = dataSet.InvalidMonthFieldData
 
-        let scope = new ProlepticScope(new GregorianSchema(), calendarDataSet.Epoch)
+        let scope = ProlepticScope.Create(new GregorianSchema(), calendarDataSet.Epoch)
 
         [<Property>]
         let ``ToYemo()`` (ym: Yemo) =
@@ -531,7 +531,7 @@ module OrdinalFields =
         let dateInfoData = dataSet.DateInfoData
         let invalidDayOfYearFieldData = dataSet.InvalidDayOfYearFieldData
 
-        let scope = new ProlepticScope(new GregorianSchema(), calendarDataSet.Epoch)
+        let scope = ProlepticScope.Create(new GregorianSchema(), calendarDataSet.Epoch)
 
         [<Property>]
         let ``ToYedoy()`` (ydoy: Yedoy) =
