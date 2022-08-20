@@ -17,7 +17,7 @@ public abstract class GJBenchmarkBase : BenchmarkBase
 
     protected BenchmarkOption Option { get; init; }
 
-    /// <summary>Gets the Gregorian year.</summary>
+    /// <summary>Gets the Gregorian/Julian year.</summary>
     protected int Year
     {
         get =>
@@ -31,7 +31,7 @@ public abstract class GJBenchmarkBase : BenchmarkBase
             };
     }
 
-    /// <summary>Gets the Gregorian month.</summary>
+    /// <summary>Gets the Gregorian/Julian month.</summary>
     protected int Month
     {
         get =>
@@ -45,7 +45,7 @@ public abstract class GJBenchmarkBase : BenchmarkBase
             };
     }
 
-    /// <summary>Gets the Gregorian day.</summary>
+    /// <summary>Gets the Gregorian/Julian day.</summary>
     protected int Day
     {
         get =>

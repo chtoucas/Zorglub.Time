@@ -37,11 +37,11 @@ public static class Program
         //BenchmarkRunner.Run<Micro.CalendarScopeBenchmark>(config);
 
         //BenchmarkRunner.Run<Other.GregorianBenchmark>(config);
-        BenchmarkRunner.Run<Other.CalendarDayBenchmark>(config);
+        //BenchmarkRunner.Run<Other.CalendarDayBenchmark>(config);
+        BenchmarkRunner.Run<Other.InterconversionBenchmark>(config);
         //BenchmarkRunner.Run<Other.JulianBenchmark>(config);
         //BenchmarkRunner.Run<Other.QuickBenchmark>(config);
         //BenchmarkRunner.Run<Other.TodayBenchmark>(config);
-        //BenchmarkRunner.Run<Other.TropicaliaBenchmark>(config);
     }
 #endif
 

@@ -5,6 +5,8 @@ namespace Benchmarks.Other;
 
 using Zorglub.Time.Simple;
 
+// REVIEW(perf): why is Tropicália slower? Civil vs Gregorian?
+
 /*
 BenchmarkDotNet=v0.13.1, OS=Windows 10.0.19044.1889 (21H2)
 Intel Core i7-4500U CPU 1.80GHz (Haswell), 1 CPU, 4 logical and 2 physical cores
@@ -19,18 +21,25 @@ Intel Core i7-4500U CPU 1.80GHz (Haswell), 1 CPU, 4 logical and 2 physical cores
 | 'Tropicália 30-31' | 66.53 ns | 0.195 ns | 0.173 ns |  1.13 |   II |
 |         Tropicália | 71.03 ns | 0.300 ns | 0.281 ns |  1.20 |  III |
 
-BenchmarkDotNet=v0.13.1, OS=Windows 10.0.19042.1586 (20H2/October2020Update)
+BenchmarkDotNet=v0.13.1, OS=Windows 10.0.19044.1889 (21H2)
 Intel Core2 Duo CPU E8500 3.16GHz, 1 CPU, 2 logical and 2 physical cores
-.NET SDK=6.0.201
-  [Host]     : .NET 6.0.3 (6.0.322.12309), X64 RyuJIT
-  DefaultJob : .NET 6.0.3 (6.0.322.12309), X64 RyuJIT
+.NET SDK=6.0.400
+  [Host]     : .NET 6.0.8 (6.0.822.36306), X64 RyuJIT
+  DefaultJob : .NET 6.0.8 (6.0.822.36306), X64 RyuJIT
 
-|             Method |     Mean |   Error |  StdDev | Ratio | Rank |
-|------------------- |---------:|--------:|--------:|------:|-----:|
-| 'Tropicália 30-31' | 113.7 ns | 0.13 ns | 0.11 ns |  0.97 |    I |
-| 'Tropicália 31-30' | 114.1 ns | 0.12 ns | 0.11 ns |  0.98 |    I |
-|          Gregorian | 116.9 ns | 0.14 ns | 0.13 ns |  1.00 |   II |
-|         Tropicália | 128.9 ns | 0.12 ns | 0.10 ns |  1.10 |  III |
+|                   Method |     Mean |    Error |   StdDev | Ratio | Rank |
+|------------------------- |---------:|---------:|---------:|------:|-----:|
+| 'Zoroastrian (Egyptian)' | 58.44 ns | 0.036 ns | 0.034 ns |  0.74 |    I |
+|    'Armenian (Egyptian)' | 60.68 ns | 0.153 ns | 0.144 ns |  0.77 |   II |
+|                   Coptic | 67.60 ns | 0.242 ns | 0.226 ns |  0.86 |  III |
+|      'Ethiopic (Coptic)' | 68.70 ns | 0.239 ns | 0.223 ns |  0.87 |   IV |
+|       'Tropicália 30-31' | 69.82 ns | 0.118 ns | 0.110 ns |  0.89 |    V |
+|                   Julian | 70.35 ns | 0.076 ns | 0.071 ns |  0.89 |    V |
+|       'Tropicália 31-30' | 71.00 ns | 0.065 ns | 0.060 ns |  0.90 |    V |
+|                Gregorian | 78.83 ns | 0.119 ns | 0.111 ns |  1.00 |   VI |
+|                    Civil | 79.19 ns | 0.050 ns | 0.042 ns |  1.00 |   VI |
+|           TabularIslamic | 79.54 ns | 0.114 ns | 0.107 ns |  1.01 |   VI |
+|               Tropicália | 82.67 ns | 0.119 ns | 0.112 ns |  1.05 |  VII |
  */
 
 public class CalendarDayBenchmark : BenchmarkBase
@@ -47,7 +56,7 @@ public class CalendarDayBenchmark : BenchmarkBase
     [Benchmark(Baseline = true)]
     public void Gregorian()
     {
-        CalendarDay start = new CalendarDate(Year, Month, Day).ToCalendarDay();
+        CalendarDay start = SimpleCalendar.Gregorian.GetCalendarDate(Year, Month, Day).ToCalendarDay();
         CalendarDay end = start.NextDay().PlusDays(D7).PlusDays(D30).PlusDays(D401);
 
         var (y, m, d) = end;
@@ -61,7 +70,7 @@ public class CalendarDayBenchmark : BenchmarkBase
         Consume(in dayOfYear);
     }
 
-    [Benchmark]
+    [Benchmark(Description = "Armenian (Egyptian)")]
     public void Armenian()
     {
         CalendarDay start = SimpleCalendar.Armenian.GetCalendarDate(Year, Month, Day).ToCalendarDay();
@@ -112,7 +121,7 @@ public class CalendarDayBenchmark : BenchmarkBase
         Consume(in dayOfYear);
     }
 
-    [Benchmark]
+    [Benchmark(Description = "Ethiopic (Coptic)")]
     public void Ethiopic()
     {
         CalendarDay start = SimpleCalendar.Ethiopic.GetCalendarDate(Year, Month, Day).ToCalendarDay();
@@ -150,6 +159,23 @@ public class CalendarDayBenchmark : BenchmarkBase
     public void TabularIslamic()
     {
         CalendarDay start = SimpleCalendar.TabularIslamic.GetCalendarDate(Year, Month, Day).ToCalendarDay();
+        CalendarDay end = start.NextDay().PlusDays(D7).PlusDays(D30).PlusDays(D401);
+
+        var (y, m, d) = end;
+        DayOfWeek dayOfWeek = end.DayOfWeek;
+        int dayOfYear = end.DayOfYear;
+
+        Consume(in y);
+        Consume(in m);
+        Consume(in d);
+        Consume(in dayOfWeek);
+        Consume(in dayOfYear);
+    }
+
+    [Benchmark(Description = "Zoroastrian (Egyptian)")]
+    public void Zoroastrian()
+    {
+        CalendarDay start = SimpleCalendar.Zoroastrian.GetCalendarDate(Year, Month, Day).ToCalendarDay();
         CalendarDay end = start.NextDay().PlusDays(D7).PlusDays(D30).PlusDays(D401);
 
         var (y, m, d) = end;
