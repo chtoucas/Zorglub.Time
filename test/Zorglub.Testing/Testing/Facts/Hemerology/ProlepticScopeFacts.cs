@@ -11,20 +11,20 @@ public static class ProlepticScopeFacts
     public static readonly TheoryData<int> InvalidYearData = new()
     {
         Int32.MinValue,
-        ProlepticScope.MinSupportedYear - 1,
-        ProlepticScope.MaxSupportedYear + 1,
+        ProlepticScope.MinYear - 1,
+        ProlepticScope.MaxYear + 1,
         Int32.MaxValue,
     };
 
     public static readonly TheoryData<int> ValidYearData = new()
     {
-        ProlepticScope.MinSupportedYear,
-        ProlepticScope.MinSupportedYear + 1,
+        ProlepticScope.MinYear,
+        ProlepticScope.MinYear + 1,
         -1,
         0,
         1,
-        ProlepticScope.MaxSupportedYear - 1,
-        ProlepticScope.MaxSupportedYear
+        ProlepticScope.MaxYear - 1,
+        ProlepticScope.MaxYear
     };
 }
 
@@ -38,8 +38,8 @@ internal abstract class ProlepticScopeFacts<TDataSet> :
     protected ProlepticScopeFacts(MinMaxYearScope scope) : base(scope)
     {
         Debug.Assert(scope != null);
-        Debug.Assert(scope.MinYear == ProlepticScope.MinSupportedYear);
-        Debug.Assert(scope.MaxYear == ProlepticScope.MaxSupportedYear);
+        Debug.Assert(scope.MinYear == ProlepticScope.MinYear);
+        Debug.Assert(scope.MaxYear == ProlepticScope.MaxYear);
     }
 
     public static TheoryData<int> InvalidYearData => ProlepticScopeFacts.InvalidYearData;

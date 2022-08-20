@@ -15,17 +15,17 @@ public static class StandardScopeFacts
     public static readonly TheoryData<int> InvalidYearData = new()
     {
         Int32.MinValue,
-        StandardScope.MinSupportedYear - 1,
-        StandardScope.MaxSupportedYear + 1,
+        StandardScope.MinYear - 1,
+        StandardScope.MaxYear + 1,
         Int32.MaxValue,
     };
 
     public static readonly TheoryData<int> ValidYearData = new()
     {
-        StandardScope.MinSupportedYear,
-        StandardScope.MinSupportedYear + 1,
-        StandardScope.MaxSupportedYear - 1,
-        StandardScope.MaxSupportedYear
+        StandardScope.MinYear,
+        StandardScope.MinYear + 1,
+        StandardScope.MaxYear - 1,
+        StandardScope.MaxYear
     };
 }
 
@@ -39,8 +39,8 @@ internal abstract class StandardScopeFacts<TDataSet> :
     protected StandardScopeFacts(MinMaxYearScope scope) : base(scope)
     {
         Debug.Assert(scope != null);
-        Debug.Assert(scope.MinYear == StandardScope.MinSupportedYear);
-        Debug.Assert(scope.MaxYear == StandardScope.MaxSupportedYear);
+        Debug.Assert(scope.MinYear == StandardScope.MinYear);
+        Debug.Assert(scope.MaxYear == StandardScope.MaxYear);
     }
 
     public static TheoryData<int> InvalidYearData => StandardScopeFacts.InvalidYearData;

@@ -13,8 +13,8 @@ namespace Zorglub.Time.Hemerology.Scopes
     /// <para>This class cannot be inherited.</para>
     /// </summary>
     /// <remarks>
-    /// <para>This is the scope used by <see cref="Simple.SimpleCalendar"/> in the Gregorian and Julian
-    /// cases.</para>
+    /// <para>This is the scope used by <see cref="Simple.SimpleCalendar"/> in the Gregorian and
+    /// Julian cases.</para>
     /// </remarks>
     public static class ProlepticScope
     {
@@ -22,19 +22,19 @@ namespace Zorglub.Time.Hemerology.Scopes
         /// Represents the earliest supported year.
         /// <para>This field is a constant equal to -9998.</para>
         /// </summary>
-        public const int MinSupportedYear = -9998;
+        public const int MinYear = -9998;
 
         /// <summary>
         /// Represents the latest supported year.
         /// <para>This field is a constant equal to 9999.</para>
         /// </summary>
-        public const int MaxSupportedYear = 9999;
+        public const int MaxYear = 9999;
 
         /// <summary>
         /// Represents the range of supported years.
         /// <para>This field is read-only.</para>
         /// </summary>
-        private static readonly Range<int> s_SupportedYears = Range.Create(MinSupportedYear, MaxSupportedYear);
+        private static readonly Range<int> s_SupportedYears = Range.Create(MinYear, MaxYear);
 
         /// <summary>
         /// Creates a new instance of the <see cref="MinMaxYearScope"/> class with the
@@ -61,22 +61,22 @@ namespace Zorglub.Time.Hemerology.Scopes
 
             public void Validate(int year, string? paramName = null)
             {
-                if (year < MinSupportedYear || year > MaxSupportedYear) Throw.YearOutOfRange(year, paramName);
+                if (year < MinYear || year > MaxYear) Throw.YearOutOfRange(year, paramName);
             }
 
             public void CheckOverflow(int year)
             {
-                if (year < MinSupportedYear || year > MaxSupportedYear) Throw.DateOverflow();
+                if (year < MinYear || year > MaxYear) Throw.DateOverflow();
             }
 
             public void CheckUpperBound(int year)
             {
-                if (year > MaxSupportedYear) Throw.DateOverflow();
+                if (year > MaxYear) Throw.DateOverflow();
             }
 
             public void CheckLowerBound(int year)
             {
-                if (year < MinSupportedYear) Throw.DateOverflow();
+                if (year < MinYear) Throw.DateOverflow();
             }
         }
     }

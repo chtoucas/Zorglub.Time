@@ -338,7 +338,7 @@ public partial class IDateRangeFacts<TDate, TRange, TDataSet> // IEquatable
         var (y, m, d) = info.Yemoda;
         // Autrement, on ne pourrait pas créer range1/2.
         // WRONG: ShortScope est lié à DateRange, pas à IDateRange.
-        if (y >= StandardScope.MaxSupportedYear) { return; }
+        if (y >= StandardScope.MaxYear) { return; }
 
         var start = GetDate(y, m, d);
         var range = CreateRange(start, 29);
@@ -351,7 +351,7 @@ public partial class IDateRangeFacts<TDate, TRange, TDataSet> // IEquatable
     {
         var (y, m, d) = info.Yemoda;
         // Autrement, on ne pourrait pas créer range1/2.
-        if (y >= StandardScope.MaxSupportedYear) { return; }
+        if (y >= StandardScope.MaxYear) { return; }
 
         var start = GetDate(y, m, d);
         // Act
@@ -365,7 +365,7 @@ public partial class IDateRangeFacts<TDate, TRange, TDataSet> // IEquatable
     {
         var (y, m, d) = info.Yemoda;
         // Autrement, on ne pourrait pas créer range1/2.
-        if (y >= StandardScope.MaxSupportedYear) { return; }
+        if (y >= StandardScope.MaxYear) { return; }
 
         var start = GetDate(y, m, d);
         // Act
@@ -380,7 +380,7 @@ public partial class IDateRangeFacts<TDate, TRange, TDataSet> // IEquatable
     {
         var (y, m, d) = info.Yemoda;
         // Autrement, on ne pourrait pas créer range1/2.
-        if (y >= StandardScope.MaxSupportedYear) { return; }
+        if (y >= StandardScope.MaxYear) { return; }
 
         var start = GetDate(y, m, d);
         // Act
@@ -395,7 +395,7 @@ public partial class IDateRangeFacts<TDate, TRange, TDataSet> // IEquatable
     {
         var (y, m, d) = info.Yemoda;
         // Autrement, on ne pourrait pas créer range1/2.
-        if (y >= StandardScope.MaxSupportedYear) { return; }
+        if (y >= StandardScope.MaxYear) { return; }
 
         var start = GetDate(y, m, d);
         TDate other = PlusDays(start, -1);

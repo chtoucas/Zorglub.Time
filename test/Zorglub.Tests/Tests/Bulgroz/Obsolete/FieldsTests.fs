@@ -37,8 +37,8 @@ module TestCommon =
         inherit TheoryData<int>()
         do
             self.Add(Int32.MinValue)
-            self.Add(ProlepticScope.MinSupportedYear - 1)
-            self.Add(ProlepticScope.MaxSupportedYear + 1)
+            self.Add(ProlepticScope.MinYear - 1)
+            self.Add(ProlepticScope.MaxYear + 1)
             self.Add(Int32.MaxValue)
 
     //

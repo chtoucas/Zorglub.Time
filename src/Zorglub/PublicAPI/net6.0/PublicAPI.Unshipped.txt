@@ -120,10 +120,10 @@ const Zorglub.Time.DayNumber.MaxDaysSinceZero = 2147483646 -> int
 const Zorglub.Time.DayNumber.MaxSupportedYear = 5000000 -> int
 const Zorglub.Time.DayNumber.MinDaysSinceZero = -2147483647 -> int
 const Zorglub.Time.DayNumber.MinSupportedYear = -4999999 -> int
-const Zorglub.Time.Hemerology.Scopes.ProlepticScope.MaxSupportedYear = 9999 -> int
-const Zorglub.Time.Hemerology.Scopes.ProlepticScope.MinSupportedYear = -9998 -> int
-const Zorglub.Time.Hemerology.Scopes.StandardScope.MaxSupportedYear = 9999 -> int
-const Zorglub.Time.Hemerology.Scopes.StandardScope.MinSupportedYear = 1 -> int
+const Zorglub.Time.Hemerology.Scopes.ProlepticScope.MaxYear = 9999 -> int
+const Zorglub.Time.Hemerology.Scopes.ProlepticScope.MinYear = -9998 -> int
+const Zorglub.Time.Hemerology.Scopes.StandardScope.MaxYear = 9999 -> int
+const Zorglub.Time.Hemerology.Scopes.StandardScope.MinYear = 1 -> int
 const Zorglub.Time.Ord.MaxAlgebraicValue = 2147483647 -> int
 const Zorglub.Time.Ord.MinAlgebraicValue = -2147483646 -> int
 override sealed Zorglub.Time.Core.CalendricalSegment.ToString() -> string!
@@ -496,6 +496,8 @@ static Zorglub.Time.Hemerology.Scopes.MinMaxYearScope.CreateMaximal(Zorglub.Time
 static Zorglub.Time.Hemerology.Scopes.MinMaxYearScope.CreateMaximalOnOrAfterYear1(Zorglub.Time.Core.ICalendricalSchema! schema, Zorglub.Time.DayNumber epoch) -> Zorglub.Time.Hemerology.Scopes.MinMaxYearScope!
 static Zorglub.Time.Hemerology.Scopes.MinMaxYearScope.EndingAt(Zorglub.Time.Core.ICalendricalSchema! schema, Zorglub.Time.DayNumber epoch, int year) -> Zorglub.Time.Hemerology.Scopes.MinMaxYearScope!
 static Zorglub.Time.Hemerology.Scopes.MinMaxYearScope.StartingAt(Zorglub.Time.Core.ICalendricalSchema! schema, Zorglub.Time.DayNumber epoch, int year) -> Zorglub.Time.Hemerology.Scopes.MinMaxYearScope!
+static Zorglub.Time.Hemerology.Scopes.ProlepticScope.Create(Zorglub.Time.Core.ICalendricalSchema! schema, Zorglub.Time.DayNumber epoch) -> Zorglub.Time.Hemerology.Scopes.MinMaxYearScope!
+static Zorglub.Time.Hemerology.Scopes.StandardScope.Create(Zorglub.Time.Core.ICalendricalSchema! schema, Zorglub.Time.DayNumber epoch) -> Zorglub.Time.Hemerology.Scopes.MinMaxYearScope!
 static Zorglub.Time.Hemerology.YearNumbering.GetCentury(int year) -> int
 static Zorglub.Time.Hemerology.YearNumbering.GetCentury(int year, out int yearOfCentury) -> int
 static Zorglub.Time.Hemerology.YearNumbering.GetDecade(int year, out int yearOfDecade) -> int
@@ -1378,9 +1380,7 @@ Zorglub.Time.Hemerology.Scopes.CalendarScope.YearsValidator.get -> Zorglub.Time.
 Zorglub.Time.Hemerology.Scopes.MinMaxYearScope
 Zorglub.Time.Hemerology.Scopes.MinMaxYearScope.MinMaxYearScope(Zorglub.Time.DayNumber epoch, Zorglub.Time.Core.CalendricalSegment! segment) -> void
 Zorglub.Time.Hemerology.Scopes.ProlepticScope
-Zorglub.Time.Hemerology.Scopes.ProlepticScope.ProlepticScope(Zorglub.Time.Core.ICalendricalSchema! schema, Zorglub.Time.DayNumber epoch) -> void
 Zorglub.Time.Hemerology.Scopes.StandardScope
-Zorglub.Time.Hemerology.Scopes.StandardScope.StandardScope(Zorglub.Time.Core.ICalendricalSchema! schema, Zorglub.Time.DayNumber epoch) -> void
 Zorglub.Time.Hemerology.YearNumbering
 Zorglub.Time.IsoWeekday
 Zorglub.Time.IsoWeekday.Friday = 5 -> Zorglub.Time.IsoWeekday

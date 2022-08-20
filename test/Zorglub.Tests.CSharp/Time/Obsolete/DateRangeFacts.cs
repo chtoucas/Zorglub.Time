@@ -495,7 +495,7 @@ public partial class DateRangeFacts<TDataSet> // IEquatable
         // Autrement, on ne pourrait pas créer range1/2.
         // En réalité, seules les dates telles que date + 29 provoque un
         // dépassement arithmétique devraient être ignorées.
-        if (y >= StandardScope.MaxSupportedYear) { return; }
+        if (y >= StandardScope.MaxYear) { return; }
 
         var start = CalendarUT.GetDate(y, m, d);
         // Act

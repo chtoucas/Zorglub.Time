@@ -25,14 +25,14 @@ module Prelude =
 
     [<Fact>]
     let ``Create() throws when schema.MinYear > -9997`` () =
-        let range = Range.Create(ProlepticScope.MinSupportedYear + 1, ProlepticScope.MaxSupportedYear)
+        let range = Range.Create(ProlepticScope.MinYear + 1, ProlepticScope.MaxYear)
         let sch = new FauxCalendricalSchema(range)
 
         argExn "supportedYears" (fun () -> ProlepticScope.Create(sch, DayZero.OldStyle))
 
     [<Fact>]
     let ``Create() throws when schema.MaxYear < 9999`` () =
-        let range = Range.Create(1, ProlepticScope.MaxSupportedYear - 1)
+        let range = Range.Create(1, ProlepticScope.MaxYear - 1)
         let sch = new FauxCalendricalSchema(range)
 
         argExn "supportedYears" (fun () -> ProlepticScope.Create(sch, DayZero.OldStyle))
@@ -55,8 +55,8 @@ module Prelude =
         let epoch = DayZero.NewStyle + 123_456_789
         let sch = new GregorianSchema()
         let scope = ProlepticScope.Create(sch, epoch)
-        let minDayNumber = epoch + sch.GetStartOfYear(ProlepticScope.MinSupportedYear)
-        let maxDayNumber = epoch + sch.GetEndOfYear(ProlepticScope.MaxSupportedYear)
+        let minDayNumber = epoch + sch.GetStartOfYear(ProlepticScope.MinYear)
+        let maxDayNumber = epoch + sch.GetEndOfYear(ProlepticScope.MaxYear)
         let range = Range.Create(minDayNumber, maxDayNumber)
 
         scope.Domain === range
@@ -64,7 +64,7 @@ module Prelude =
     [<Fact>]
     let ``Property SupportedYears`` () =
         let scope = ProlepticScope.Create(new FauxCalendricalSchema(), DayZero.OldStyle)
-        let range = Range.Create(ProlepticScope.MinSupportedYear, ProlepticScope.MaxSupportedYear)
+        let range = Range.Create(ProlepticScope.MinYear, ProlepticScope.MaxYear)
 
         scope.Segment.SupportedYears === range
 
@@ -76,7 +76,7 @@ module YearsValidatorImpl =
 
     [<Fact>]
     let ``Property Range`` () =
-        validator.Range === Range.Create(ProlepticScope.MinSupportedYear, ProlepticScope.MaxSupportedYear)
+        validator.Range === Range.Create(ProlepticScope.MinYear, ProlepticScope.MaxYear)
 
     [<Theory; MemberData(nameof(invalidYearData))>]
     let ``Validate() throws when "year" is out of range`` y =
@@ -99,26 +99,26 @@ module YearsValidatorImpl =
     [<Fact>]
     let ``CheckLowerBound() overflows when "year" is out of range`` () =
         (fun () -> validator.CheckLowerBound(Int32.MinValue)) |> overflows
-        (fun () -> validator.CheckLowerBound(ProlepticScope.MinSupportedYear - 1)) |> overflows
+        (fun () -> validator.CheckLowerBound(ProlepticScope.MinYear - 1)) |> overflows
 
     [<Fact>]
     let ``CheckLowerBound() does not overflow for valid years`` () =
-        validator.CheckLowerBound(ProlepticScope.MinSupportedYear)
-        validator.CheckLowerBound(ProlepticScope.MaxSupportedYear)
-        validator.CheckLowerBound(ProlepticScope.MaxSupportedYear + 1)
+        validator.CheckLowerBound(ProlepticScope.MinYear)
+        validator.CheckLowerBound(ProlepticScope.MaxYear)
+        validator.CheckLowerBound(ProlepticScope.MaxYear + 1)
         validator.CheckLowerBound(Int32.MaxValue)
 
     [<Fact>]
     let ``CheckUpperBound() overflows when "year" is out of range`` () =
-        (fun () -> validator.CheckUpperBound(ProlepticScope.MaxSupportedYear + 1)) |> overflows
+        (fun () -> validator.CheckUpperBound(ProlepticScope.MaxYear + 1)) |> overflows
         (fun () -> validator.CheckUpperBound(Int32.MaxValue)) |> overflows
 
     [<Fact>]
     let ``CheckUpperBound() does not overflow for valid years`` () =
         validator.CheckUpperBound(Int32.MinValue)
-        validator.CheckUpperBound(ProlepticScope.MinSupportedYear - 1)
-        validator.CheckUpperBound(ProlepticScope.MinSupportedYear)
-        validator.CheckUpperBound(ProlepticScope.MaxSupportedYear)
+        validator.CheckUpperBound(ProlepticScope.MinYear - 1)
+        validator.CheckUpperBound(ProlepticScope.MinYear)
+        validator.CheckUpperBound(ProlepticScope.MaxYear)
 
 module GregorianCase =
     let private dataSet = GregorianDataSet.Instance
