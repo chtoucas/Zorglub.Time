@@ -1146,8 +1146,6 @@ Zorglub.Time.Core.Validation.IYearsValidator
 Zorglub.Time.Core.Validation.IYearsValidator.CheckLowerBound(int year) -> void
 Zorglub.Time.Core.Validation.IYearsValidator.CheckOverflow(int year) -> void
 Zorglub.Time.Core.Validation.IYearsValidator.CheckUpperBound(int year) -> void
-Zorglub.Time.Core.Validation.IYearsValidator.MaxYear.get -> int
-Zorglub.Time.Core.Validation.IYearsValidator.MinYear.get -> int
 Zorglub.Time.Core.Validation.IYearsValidator.Range.get -> Zorglub.Time.Core.Intervals.Range<int>
 Zorglub.Time.Core.Validation.IYearsValidator.Validate(int year, string? paramName = null) -> void
 Zorglub.Time.Core.Validation.MonthsValidator
