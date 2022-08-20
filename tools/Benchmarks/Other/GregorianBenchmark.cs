@@ -85,7 +85,7 @@ Intel Core2 Duo CPU E8500 3.16GHz, 1 CPU, 2 logical and 2 physical cores
 // - With DayNumber and DayNumber64, we only validate the result twice (at
 //   the start and at the end) to mimic the behaviour of other date types.
 
-public class GregorianBenchmark : BenchmarkBase
+public class GregorianBenchmark : GJBenchmarkBase
 {
     private const int D7 = 7;        // No change of month.
     private const int D30 = 30;      // Change of month.

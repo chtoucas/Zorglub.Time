@@ -39,7 +39,7 @@ Intel Core2 Duo CPU E8500 3.16GHz, 1 CPU, 2 logical and 2 physical cores
  */
 
 [DisassemblyDiagnoser]
-public class CalendarScopeBenchmark : BenchmarkBase
+public class CalendarScopeBenchmark : GJBenchmarkBase
 {
     private static readonly ProlepticScope s_ProlepticScope =
         new(new GregorianSchema(), DayZero.NewStyle);

@@ -45,29 +45,29 @@ Intel Core2 Duo CPU E8500 3.16GHz, 1 CPU, 2 logical and 2 physical cores
 //
 // * = external, Y = Y/M/D repr., O = ord. repr.
 
-public class InterconversionBenchmark : BenchmarkBase
+public class InterconversionBenchmark : GJBenchmarkBase
 {
     [Benchmark(Description = "CalendarDate  (Y)")]
     public (int, int, int) WithCalendarDate()
     {
-        CalendarDate start = SimpleCalendar.Julian.GetCalendarDate(Year, Month, Day);
-        var (y, m, d) = start.WithCalendar(SimpleCalendar.Civil);
+        CalendarDate start = SimpleCalendar.Civil.GetCalendarDate(Year, Month, Day);
+        var (y, m, d) = start.WithCalendar(SimpleCalendar.Julian);
         return (y, m, d);
     }
 
     [Benchmark(Description = "CalendarDay     ")]
     public (int, int, int) WithCalendarDay()
     {
-        CalendarDay start = SimpleCalendar.Julian.GetCalendarDate(Year, Month, Day).ToCalendarDay();
-        var (y, m, d) = start.WithCalendar(SimpleCalendar.Civil);
+        CalendarDay start = SimpleCalendar.Civil.GetCalendarDate(Year, Month, Day).ToCalendarDay();
+        var (y, m, d) = start.WithCalendar(SimpleCalendar.Julian);
         return (y, m, d);
     }
 
     [Benchmark(Description = "OrdinalDate  (O)")]
     public (int, int, int) WithOrdinalDate()
     {
-        OrdinalDate start = SimpleCalendar.Julian.GetCalendarDate(Year, Month, Day).ToOrdinalDate();
-        (int y, int m, int d) = start.WithCalendar(SimpleCalendar.Civil);
+        OrdinalDate start = SimpleCalendar.Civil.GetCalendarDate(Year, Month, Day).ToOrdinalDate();
+        (int y, int m, int d) = start.WithCalendar(SimpleCalendar.Julian);
         return (y, m, d);
     }
 
@@ -75,24 +75,24 @@ public class InterconversionBenchmark : BenchmarkBase
     public (int, int, int) WithNakedCivil()
     {
         // This is the closest comparable to DateTime.
-        DayNumber start = My.NakedJulian.GetDayNumber(Year, Month, Day);
-        var (y, m, d) = My.NakedCivil.GetDateParts(start);
+        DayNumber start = My.NakedCivil.GetDayNumber(Year, Month, Day);
+        var (y, m, d) = My.NakedJulian.GetDateParts(start);
         return (y, m, d);
     }
 
     [Benchmark(Description = "ZDate  (Y)")]
     public (int, int, int) WithZDate()
     {
-        ZDate start = ZCalendar.Julian.GetDate(Year, Month, Day);
-        var (y, m, d) = start.WithCalendar(ZCalendar.Civil);
+        ZDate start = ZCalendar.Civil.GetDate(Year, Month, Day);
+        var (y, m, d) = start.WithCalendar(ZCalendar.Julian);
         return (y, m, d);
     }
 
     [Benchmark(Description = "LocalDate *(Y)")]
     public (int, int, int) WithLocalDate()
     {
-        LocalDate start = new(Year, Month, Day, CalendarSystem.Julian);
-        var (y, m, d) = start.WithCalendar(CalendarSystem.Gregorian);
+        LocalDate start = new(Year, Month, Day, CalendarSystem.Gregorian);
+        var (y, m, d) = start.WithCalendar(CalendarSystem.Julian);
         return (y, m, d);
     }
 

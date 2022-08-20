@@ -20,7 +20,7 @@ Intel Core i7-4500U CPU 1.80GHz (Haswell), 1 CPU, 4 logical and 2 physical cores
 | 'GregorianDate   (g) ' | 46.68 ns | 0.183 ns | 0.162 ns |  1.25 |   II |
 |   'MyCivilDate      +' | 47.89 ns | 0.216 ns | 0.202 ns |  1.28 |  III |
  */
-public class QuickBenchmark : BenchmarkBase
+public class QuickBenchmark : GJBenchmarkBase
 {
     private const int D7 = 7;        // No change of month.
     private const int D30 = 30;      // Change of month.

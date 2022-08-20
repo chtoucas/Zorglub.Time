@@ -47,12 +47,15 @@ Intel Core2 Duo CPU E8500 3.16GHz, 1 CPU, 2 logical and 2 physical cores
 //
 // * = external, Y = Y/M/D repr., O = ord. repr.
 
-public class JulianBenchmark : BenchmarkBase
+public class JulianBenchmark : GJBenchmarkBase
 {
     private const int D7 = 7;        // No change of month.
     private const int D30 = 30;      // Change of month.
     private const int D401 = 401;    // "Slow-track".
 
+    // Do NOT change Option. The values for Year/Month/Day are Gregorian but
+    // they are compatible with the Julian calendar as long as we don't use
+    // DaysSinceEpoch.
     public JulianBenchmark() { Option = BenchmarkOption.Fixed; }
 
     [Benchmark(Description = "CalendarDate  (Y)")]

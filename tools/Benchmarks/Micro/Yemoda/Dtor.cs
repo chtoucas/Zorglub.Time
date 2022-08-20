@@ -3,7 +3,7 @@
 
 namespace Benchmarks.Micro;
 
-public class Yemoda_Dtor : BenchmarkBase
+public class Yemoda_Dtor : GJBenchmarkBase
 {
     [Benchmark(Baseline = true)]
     public void Unpack()

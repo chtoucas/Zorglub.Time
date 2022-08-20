@@ -5,7 +5,7 @@ namespace Benchmarks.Micro;
 
 using Zorglub.Time.Core;
 
-public class YemoBenchmark : BenchmarkBase
+public class YemoBenchmark : GJBenchmarkBase
 {
     [Benchmark]
     public Yemo Ctor()

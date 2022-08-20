@@ -5,7 +5,7 @@ namespace Benchmarks.Micro;
 
 using Zorglub.Time.Core;
 
-public class Yemoda_StartOfYear : BenchmarkBase
+public class Yemoda_StartOfYear : GJBenchmarkBase
 {
     [Benchmark(Baseline = true)]
     public void AtStartOfYear()

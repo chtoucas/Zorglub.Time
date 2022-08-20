@@ -6,7 +6,7 @@ namespace Benchmarks.Micro;
 using Zorglub.Bulgroz.Formulae;
 using Zorglub.Time.Core.Schemas;
 
-public abstract class GregorianSchemaBenchmark : BenchmarkBase
+public abstract class GregorianSchemaBenchmark : GJBenchmarkBase
 {
     protected static GregorianSchema CurrentSchema { get; } = new();
 

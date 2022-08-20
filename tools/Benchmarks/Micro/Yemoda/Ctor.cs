@@ -5,7 +5,7 @@ namespace Benchmarks.Micro;
 
 using Zorglub.Time.Core;
 
-public class Yemoda_Ctor : BenchmarkBase
+public class Yemoda_Ctor : GJBenchmarkBase
 {
     [Benchmark(Baseline = true)]
     public void Ctor()

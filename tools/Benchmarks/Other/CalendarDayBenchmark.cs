@@ -33,15 +33,18 @@ Intel Core2 Duo CPU E8500 3.16GHz, 1 CPU, 2 logical and 2 physical cores
 |         Tropicália | 128.9 ns | 0.12 ns | 0.10 ns |  1.10 |  III |
  */
 
-public class TropicaliaBenchmark : BenchmarkBase
+public class CalendarDayBenchmark : BenchmarkBase
 {
+    // The values should be compatible with all calendars.
+    private const int Year = 5;
+    private const int Month = 6;
+    private const int Day = 7;
+
     private const int D7 = 7;        // No change of month.
     private const int D30 = 30;      // Change of month.
     private const int D401 = 401;    // "Slow-track".
 
-    public TropicaliaBenchmark() { Option = BenchmarkOption.Fixed; }
-
-    [Benchmark(Description = "Gregorian", Baseline = true)]
+    [Benchmark(Baseline = true)]
     public void Gregorian()
     {
         CalendarDay start = new CalendarDate(Year, Month, Day).ToCalendarDay();
@@ -57,6 +60,112 @@ public class TropicaliaBenchmark : BenchmarkBase
         Consume(in dayOfWeek);
         Consume(in dayOfYear);
     }
+
+    [Benchmark]
+    public void Armenian()
+    {
+        CalendarDay start = SimpleCalendar.Armenian.GetCalendarDate(Year, Month, Day).ToCalendarDay();
+        CalendarDay end = start.NextDay().PlusDays(D7).PlusDays(D30).PlusDays(D401);
+
+        var (y, m, d) = end;
+        DayOfWeek dayOfWeek = end.DayOfWeek;
+        int dayOfYear = end.DayOfYear;
+
+        Consume(in y);
+        Consume(in m);
+        Consume(in d);
+        Consume(in dayOfWeek);
+        Consume(in dayOfYear);
+    }
+
+    [Benchmark]
+    public void Civil()
+    {
+        CalendarDay start = SimpleCalendar.Civil.GetCalendarDate(Year, Month, Day).ToCalendarDay();
+        CalendarDay end = start.NextDay().PlusDays(D7).PlusDays(D30).PlusDays(D401);
+
+        var (y, m, d) = end;
+        DayOfWeek dayOfWeek = end.DayOfWeek;
+        int dayOfYear = end.DayOfYear;
+
+        Consume(in y);
+        Consume(in m);
+        Consume(in d);
+        Consume(in dayOfWeek);
+        Consume(in dayOfYear);
+    }
+
+    [Benchmark]
+    public void Coptic()
+    {
+        CalendarDay start = SimpleCalendar.Coptic.GetCalendarDate(Year, Month, Day).ToCalendarDay();
+        CalendarDay end = start.NextDay().PlusDays(D7).PlusDays(D30).PlusDays(D401);
+
+        var (y, m, d) = end;
+        DayOfWeek dayOfWeek = end.DayOfWeek;
+        int dayOfYear = end.DayOfYear;
+
+        Consume(in y);
+        Consume(in m);
+        Consume(in d);
+        Consume(in dayOfWeek);
+        Consume(in dayOfYear);
+    }
+
+    [Benchmark]
+    public void Ethiopic()
+    {
+        CalendarDay start = SimpleCalendar.Ethiopic.GetCalendarDate(Year, Month, Day).ToCalendarDay();
+        CalendarDay end = start.NextDay().PlusDays(D7).PlusDays(D30).PlusDays(D401);
+
+        var (y, m, d) = end;
+        DayOfWeek dayOfWeek = end.DayOfWeek;
+        int dayOfYear = end.DayOfYear;
+
+        Consume(in y);
+        Consume(in m);
+        Consume(in d);
+        Consume(in dayOfWeek);
+        Consume(in dayOfYear);
+    }
+
+    [Benchmark]
+    public void Julian()
+    {
+        CalendarDay start = SimpleCalendar.Julian.GetCalendarDate(Year, Month, Day).ToCalendarDay();
+        CalendarDay end = start.NextDay().PlusDays(D7).PlusDays(D30).PlusDays(D401);
+
+        var (y, m, d) = end;
+        DayOfWeek dayOfWeek = end.DayOfWeek;
+        int dayOfYear = end.DayOfYear;
+
+        Consume(in y);
+        Consume(in m);
+        Consume(in d);
+        Consume(in dayOfWeek);
+        Consume(in dayOfYear);
+    }
+
+    [Benchmark]
+    public void TabularIslamic()
+    {
+        CalendarDay start = SimpleCalendar.TabularIslamic.GetCalendarDate(Year, Month, Day).ToCalendarDay();
+        CalendarDay end = start.NextDay().PlusDays(D7).PlusDays(D30).PlusDays(D401);
+
+        var (y, m, d) = end;
+        DayOfWeek dayOfWeek = end.DayOfWeek;
+        int dayOfYear = end.DayOfYear;
+
+        Consume(in y);
+        Consume(in m);
+        Consume(in d);
+        Consume(in dayOfWeek);
+        Consume(in dayOfYear);
+    }
+
+    //
+    // User-defined calendars
+    //
 
     [Benchmark(Description = "Tropicália")]
     public void Tropicalia()
