@@ -24,7 +24,7 @@ Intel Core i7-4500U CPU 1.80GHz (Haswell), 1 CPU, 4 logical and 2 physical cores
 | 'CalendarDate  (Y)' | 45.25 ns | 0.420 ns | 0.393 ns |  1.21 |   IV |
 |    'LocalDate *(Y)' | 57.30 ns | 0.266 ns | 0.249 ns |  1.54 |    V |
 |  'OrdinalDate  (O)' | 58.59 ns | 0.293 ns | 0.274 ns |  1.57 |   VI |
-|        'ZDate  (Y)' | 66.87 ns | 0.228 ns | 0.190 ns |  1.79 |  VII |
+|        'ZDate     ' | 66.87 ns | 0.228 ns | 0.190 ns |  1.79 |  VII |
 
 BenchmarkDotNet=v0.13.1, OS=Windows 10.0.19044.1889 (21H2)
 Intel Core2 Duo CPU E8500 3.16GHz, 1 CPU, 2 logical and 2 physical cores
@@ -40,7 +40,7 @@ Intel Core2 Duo CPU E8500 3.16GHz, 1 CPU, 2 logical and 2 physical cores
 |    'LocalDate *(Y)' | 64.92 ns | 0.032 ns | 0.027 ns |  1.13 |   IV |
 |     'DateTime *   ' | 68.27 ns | 0.200 ns | 0.177 ns |  1.19 |    V |
 |  'OrdinalDate  (O)' | 72.11 ns | 0.247 ns | 0.231 ns |  1.26 |   VI |
-|        'ZDate  (Y)' | 74.76 ns | 0.062 ns | 0.058 ns |  1.31 |  VII |
+|        'ZDate     ' | 74.76 ns | 0.062 ns | 0.058 ns |  1.31 |  VII |
  */
 //
 // * = external, Y = Y/M/D repr., O = ord. repr.
@@ -50,7 +50,7 @@ public class InterconversionBenchmark : GJBenchmarkBase
     [Benchmark(Description = "CalendarDate  (Y)")]
     public (int, int, int) WithCalendarDate()
     {
-        CalendarDate start = SimpleCalendar.Civil.GetCalendarDate(Year, Month, Day);
+        CalendarDate start = SimpleCalendar.Civil.GetDate(Year, Month, Day);
         var (y, m, d) = start.WithCalendar(SimpleCalendar.Julian);
         return (y, m, d);
     }
@@ -58,7 +58,7 @@ public class InterconversionBenchmark : GJBenchmarkBase
     [Benchmark(Description = "CalendarDay     ")]
     public (int, int, int) WithCalendarDay()
     {
-        CalendarDay start = SimpleCalendar.Civil.GetCalendarDate(Year, Month, Day).ToCalendarDay();
+        CalendarDay start = SimpleCalendar.Civil.GetDate(Year, Month, Day).ToCalendarDay();
         var (y, m, d) = start.WithCalendar(SimpleCalendar.Julian);
         return (y, m, d);
     }
@@ -66,13 +66,13 @@ public class InterconversionBenchmark : GJBenchmarkBase
     [Benchmark(Description = "OrdinalDate  (O)")]
     public (int, int, int) WithOrdinalDate()
     {
-        OrdinalDate start = SimpleCalendar.Civil.GetCalendarDate(Year, Month, Day).ToOrdinalDate();
+        OrdinalDate start = SimpleCalendar.Civil.GetDate(Year, Month, Day).ToOrdinalDate();
         (int y, int m, int d) = start.WithCalendar(SimpleCalendar.Julian);
         return (y, m, d);
     }
 
     [Benchmark(Description = "Naked     ", Baseline = true)]
-    public (int, int, int) WithNakedCivil()
+    public (int, int, int) WithNaked()
     {
         // This is the closest comparable to DateTime.
         DayNumber start = My.NakedCivil.GetDayNumber(Year, Month, Day);
@@ -80,7 +80,7 @@ public class InterconversionBenchmark : GJBenchmarkBase
         return (y, m, d);
     }
 
-    [Benchmark(Description = "ZDate  (Y)")]
+    [Benchmark(Description = "ZDate     ")]
     public (int, int, int) WithZDate()
     {
         ZDate start = ZCalendar.Civil.GetDate(Year, Month, Day);

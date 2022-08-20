@@ -154,7 +154,7 @@ public partial class CalendarYearFacts<TDataSet> // Prelude
     {
         int y = info.Year;
         var year = CalendarUT.GetCalendarYear(y);
-        var startOfYear = CalendarUT.GetOrdinalDate(y, 1);
+        var startOfYear = CalendarUT.GetDate(y, 1);
         // Act & Assert
         Assert.Equal(startOfYear, year.FirstDay);
     }
@@ -164,7 +164,7 @@ public partial class CalendarYearFacts<TDataSet> // Prelude
     {
         int y = info.Year;
         var year = CalendarUT.GetCalendarYear(y);
-        var endOfYear = CalendarUT.GetOrdinalDate(y, info.DaysInYear);
+        var endOfYear = CalendarUT.GetDate(y, info.DaysInYear);
         // Act & Assert
         Assert.Equal(endOfYear, year.LastDay);
     }
@@ -228,8 +228,8 @@ public partial class CalendarYearFacts<TDataSet> // Conversions
     {
         int y = info.Year;
         var year = CalendarUT.GetCalendarYear(y);
-        var min = CalendarUT.GetOrdinalDate(y, 1);
-        var max = CalendarUT.GetOrdinalDate(y, info.DaysInYear);
+        var min = CalendarUT.GetDate(y, 1);
+        var max = CalendarUT.GetDate(y, info.DaysInYear);
         // Act
         var range = year.ToRange();
         // Assert
@@ -327,7 +327,7 @@ public partial class CalendarYearFacts<TDataSet> // Months and days
     {
         var (y, doy) = info.Yedoy;
         var year = CalendarUT.GetCalendarYear(y);
-        var date = CalendarUT.GetOrdinalDate(y, doy);
+        var date = CalendarUT.GetDate(y, doy);
         // Act & Assert
         Assert.Equal(date, year.GetDayOfYear(doy));
     }
@@ -338,7 +338,7 @@ public partial class CalendarYearFacts<TDataSet> // Months and days
         int y = info.Year;
         var year = CalendarUT.GetCalendarYear(y);
         var exp = from doy in Enumerable.Range(1, info.DaysInYear)
-                  select CalendarUT.GetOrdinalDate(y, doy);
+                  select CalendarUT.GetDate(y, doy);
         // Act
         var actual = year.GetAllDays();
         // Assert

@@ -269,8 +269,8 @@ public partial class DateRangeV0 // Other set ops, conversions
         var end = End.DayNumber;
 
         return CreateCore(
-            newCalendar.GetCalendarDate(start),
-            newCalendar.GetCalendarDate(end),
+            newCalendar.GetDate(start).ToCalendarDate(),
+            newCalendar.GetDate(end).ToCalendarDate(),
             Length);
     }
 }

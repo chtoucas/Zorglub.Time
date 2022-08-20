@@ -526,7 +526,7 @@ namespace Zorglub.Time.Simple
         /// <paramref name="year"/> is outside the range of years supported by the current instance.
         /// </exception>
         [Pure]
-        public CalendarDate GetCalendarDate(int year, int month, int day)
+        public CalendarDate GetDate(int year, int month, int day)
         {
             Scope.ValidateYearMonthDay(year, month, day);
             return new CalendarDate(year, month, day, Id);
@@ -539,7 +539,7 @@ namespace Zorglub.Time.Simple
         /// date or <paramref name="year"/> is outside the range of years supported by the current
         /// instance.</exception>
         [Pure]
-        public OrdinalDate GetOrdinalDate(int year, int dayOfYear)
+        public OrdinalDate GetDate(int year, int dayOfYear)
         {
             Scope.ValidateOrdinal(year, dayOfYear);
             return new OrdinalDate(year, dayOfYear, Id);
@@ -551,7 +551,7 @@ namespace Zorglub.Time.Simple
         /// <exception cref="AoorException"><paramref name="dayNumber"/> is outside the range of
         /// values supported by this calendar.</exception>
         [Pure]
-        public CalendarDay GetCalendarDay(DayNumber dayNumber)
+        public CalendarDay GetDate(DayNumber dayNumber)
         {
             Domain.Validate(dayNumber);
             return new CalendarDay(dayNumber - Epoch, Id);
@@ -641,60 +641,6 @@ namespace Zorglub.Time.Simple
 
     public partial class SimpleCalendar // Conversions
     {
-        /// <summary>
-        /// Obtains the calendar year on the specified day number.
-        /// </summary>
-        /// <exception cref="AoorException"><paramref name="dayNumber"/> is outside the range of
-        /// values supported by this calendar.</exception>
-        [Pure]
-        public CalendarYear GetCalendarYear(DayNumber dayNumber)
-        {
-            Domain.Validate(dayNumber);
-            int y = Schema.GetYear(dayNumber - Epoch);
-            return new CalendarYear(y, Id);
-        }
-
-        /// <summary>
-        /// Obtains the calendar month on the specified day number.
-        /// </summary>
-        /// <exception cref="AoorException"><paramref name="dayNumber"/> is outside the range of
-        /// values supported by this calendar.</exception>
-        [Pure]
-        public CalendarMonth GetCalendarMonth(DayNumber dayNumber)
-        {
-            Domain.Validate(dayNumber);
-            var ymd = Schema.GetDateParts(dayNumber - Epoch);
-            return new CalendarMonth(ymd.Yemo, Id);
-        }
-
-        /// <summary>
-        /// Obtains the calendar date on the specified day number.
-        /// </summary>
-        /// <exception cref="AoorException"><paramref name="dayNumber"/> is outside the range of
-        /// values supported by this calendar.</exception>
-        [Pure]
-        public CalendarDate GetCalendarDate(DayNumber dayNumber)
-        {
-            Domain.Validate(dayNumber);
-            var ymd = Schema.GetDateParts(dayNumber - Epoch);
-            return new CalendarDate(ymd, Id);
-        }
-
-        /// <summary>
-        /// Obtains the ordinal date on the specified day number.
-        /// </summary>
-        /// <exception cref="AoorException"><paramref name="dayNumber"/> is outside the range of
-        /// values supported by this calendar.</exception>
-        [Pure]
-        public OrdinalDate GetOrdinalDate(DayNumber dayNumber)
-        {
-            Domain.Validate(dayNumber);
-            var ydoy = Schema.GetOrdinalParts(dayNumber - Epoch);
-            return new OrdinalDate(ydoy, Id);
-        }
-
-        // GetCalendarDay(DayNumber dayNumber) -> see the factory method above.
-
         [Pure]
         [SuppressMessage("Design", "CA1033:Interface methods should be callable by child types", Justification = "Use GetCalendarDate() then ToDayNumber() or better ToCalendarDay().")]
         DayNumber ICalendar.GetDayNumber(int year, int month, int day)

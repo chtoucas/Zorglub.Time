@@ -225,22 +225,6 @@ namespace Zorglub.Time.Simple
             return new CalendarMonth(ymd.Yemo, Cuid.Gregorian);
         }
 
-        /// <summary>
-        /// Obtains a new <see cref="CalendarMonth"/> in the <i>Gregorian</i> calendar from the
-        /// specified day number.
-        /// <para>To create an instance in another calendar, see
-        /// <see cref="SimpleCalendar.GetCalendarMonth(DayNumber)"/>.</para>
-        /// </summary>
-        /// <exception cref="AoorException"><paramref name="dayNumber"/> is outside the range of
-        /// values supported by the Gregorian calendar.</exception>
-        [Pure]
-        public static CalendarMonth FromDayNumber(DayNumber dayNumber)
-        {
-            GregorianProlepticScope.DefaultDomain.Validate(dayNumber);
-            var ymd = GregorianFormulae.GetDateParts(dayNumber - DayZero.NewStyle);
-            return new CalendarMonth(ymd.Yemo, Cuid.Gregorian);
-        }
-
         #endregion
         #region Conversions
 

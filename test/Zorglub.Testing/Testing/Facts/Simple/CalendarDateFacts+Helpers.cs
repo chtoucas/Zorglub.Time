@@ -21,8 +21,8 @@ public abstract class CalendarDateAdjusterFacts<TDataSet> :
 
     protected SimpleCalendar Calendar { get; }
 
-    protected sealed override CalendarDate GetDate(int y, int m, int d) => Calendar.GetCalendarDate(y, m, d);
-    protected sealed override CalendarDate GetDate(int y, int doy) => Calendar.GetOrdinalDate(y, doy).ToCalendarDate();
+    protected sealed override CalendarDate GetDate(int y, int m, int d) => Calendar.GetDate(y, m, d);
+    protected sealed override CalendarDate GetDate(int y, int doy) => Calendar.GetDate(y, doy).ToCalendarDate();
 }
 
 public abstract class CalendarDateProvidersFacts<TDataSet> :
@@ -31,6 +31,6 @@ public abstract class CalendarDateProvidersFacts<TDataSet> :
 {
     protected CalendarDateProvidersFacts(SimpleCalendar calendar) : base(calendar) { }
 
-    protected sealed override CalendarDate GetDate(int y, int m, int d) => Calendar.GetCalendarDate(y, m, d);
-    protected sealed override CalendarDate GetDate(int y, int doy) => Calendar.GetOrdinalDate(y, doy).ToCalendarDate();
+    protected sealed override CalendarDate GetDate(int y, int m, int d) => Calendar.GetDate(y, m, d);
+    protected sealed override CalendarDate GetDate(int y, int doy) => Calendar.GetDate(y, doy).ToCalendarDate();
 }

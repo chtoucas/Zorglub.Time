@@ -21,7 +21,7 @@ module UserCase =
 
     [<Fact>]
     let ``ToBinary() throws`` () =
-        let date = UserCalendars.Gregorian.GetCalendarDay(DayZero.NewStyle)
+        let date = UserCalendars.Gregorian.GetDate(DayZero.NewStyle)
 
         throws<NotSupportedException> (fun () -> date.ToBinary())
 
@@ -57,7 +57,7 @@ module GregorianCase =
     [<InlineData(2019, 1, 3, "03/01/2019 (Gregorian)")>]
     [<InlineData(9999, 12, 31, "31/12/9999 (Gregorian)")>]
     let ``ToString()`` y m d str =
-        let date = chr.GetCalendarDate(y, m, d).ToCalendarDay()
+        let date = chr.GetDate(y, m, d).ToCalendarDay()
 
         date.ToString() === str
 
@@ -82,7 +82,7 @@ module JulianCase =
 
     [<Theory; MemberData(nameof(dayNumberInfoData))>]
     let ``Roundtrip serialization`` (info: DayNumberInfo) =
-        let date = chr.GetCalendarDay(info.DayNumber)
+        let date = chr.GetDate(info.DayNumber)
 
         CalendarDay.FromBinary(date.ToBinary()) === date
 
@@ -92,15 +92,15 @@ module Conversions =
     let ``WithCalendar() throws when the result is out of range`` () =
         let chr = SimpleCalendar.Julian
         // Julian.MinDayNumber < Gregorian.MinDayNumber.
-        let date = chr.GetCalendarDay(chr.Domain.Min)
+        let date = chr.GetDate(chr.Domain.Min)
 
         outOfRangeExn "dayNumber" (fun () -> date.WithCalendar(SimpleCalendar.Gregorian))
 
     [<Theory; MemberData(nameof(data))>]
     let ``WithCalendar() Gregorian <-> Julian`` (pair: YemodaPair) =
         let (g, j) = pair.Deconstruct()
-        let gdate = SimpleCalendar.Gregorian.GetCalendarDate(g.Year, g.Month, g.Day).ToCalendarDay()
-        let jdate = SimpleCalendar.Julian.GetCalendarDate(j.Year, j.Month, j.Day).ToCalendarDay()
+        let gdate = SimpleCalendar.Gregorian.GetDate(g.Year, g.Month, g.Day).ToCalendarDay()
+        let jdate = SimpleCalendar.Julian.GetDate(j.Year, j.Month, j.Day).ToCalendarDay()
 
         gdate.WithCalendar(SimpleCalendar.Julian)    === jdate
         jdate.WithCalendar(SimpleCalendar.Gregorian) === gdate

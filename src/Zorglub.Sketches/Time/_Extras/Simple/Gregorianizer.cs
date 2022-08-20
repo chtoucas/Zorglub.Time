@@ -26,8 +26,8 @@ namespace Zorglub.Time.Simple
 
         public CalendarDate Gregorianize(DayNumber dayNumber) =>
             dayNumber < Reform.Switchover
-            ? SimpleCalendar.Julian.GetCalendarDate(dayNumber)
-            : SimpleCalendar.Gregorian.GetCalendarDate(dayNumber);
+            ? SimpleCalendar.Julian.GetDate(dayNumber).ToCalendarDate()
+            : SimpleCalendar.Gregorian.GetDate(dayNumber).ToCalendarDate();
 
         public CalendarDay Gregorianize(CalendarDay date) =>
             date.Cuid switch

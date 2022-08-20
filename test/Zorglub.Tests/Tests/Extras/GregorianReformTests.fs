@@ -44,7 +44,7 @@ module Simple =
         let official = GregorianReform.Official
 
         official.FirstGregorianDate === new CalendarDate(1582, 10, 15)
-        official.LastJulianDate     === SimpleCalendar.Julian.GetCalendarDate(1582, 10, 4)
+        official.LastJulianDate     === SimpleCalendar.Julian.GetDate(1582, 10, 4)
         official.SecularShift       === 10
 
     [<Fact>]

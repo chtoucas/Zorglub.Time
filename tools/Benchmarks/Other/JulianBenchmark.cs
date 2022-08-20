@@ -61,7 +61,7 @@ public class JulianBenchmark : GJBenchmarkBase
     [Benchmark(Description = "CalendarDate  (Y)")]
     public void WithCalendarDate()
     {
-        CalendarDate start = SimpleCalendar.Julian.GetCalendarDate(Year, Month, Day);
+        CalendarDate start = SimpleCalendar.Julian.GetDate(Year, Month, Day);
         CalendarDate end = start.NextDay().PlusDays(D7).PlusDays(D30).PlusDays(D401);
 
         var (y, m, d) = end;
@@ -78,7 +78,7 @@ public class JulianBenchmark : GJBenchmarkBase
     [Benchmark(Description = "CalendarDay     ")]
     public void WithCalendarDay()
     {
-        CalendarDay start = SimpleCalendar.Julian.GetCalendarDate(Year, Month, Day).ToCalendarDay();
+        CalendarDay start = SimpleCalendar.Julian.GetDate(Year, Month, Day).ToCalendarDay();
         CalendarDay end = start.NextDay().PlusDays(D7).PlusDays(D30).PlusDays(D401);
 
         var (y, m, d) = end;
@@ -95,7 +95,7 @@ public class JulianBenchmark : GJBenchmarkBase
     [Benchmark(Description = "OrdinalDate  (O)")]
     public void WithOrdinalDate()
     {
-        OrdinalDate start = SimpleCalendar.Julian.GetCalendarDate(Year, Month, Day).ToOrdinalDate();
+        OrdinalDate start = SimpleCalendar.Julian.GetDate(Year, Month, Day).ToOrdinalDate();
         OrdinalDate end = start.NextDay().PlusDays(D7).PlusDays(D30).PlusDays(D401);
 
         var (y, m, d) = end;

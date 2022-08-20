@@ -363,22 +363,6 @@ namespace Zorglub.Time.Simple
             return new CalendarYear(y, Cuid.Gregorian);
         }
 
-        /// <summary>
-        /// Obtains a new <see cref="CalendarYear"/> in the <i>Gregorian</i> calendar from the
-        /// specified day number.
-        /// <para>To create an instance in another calendar, see
-        /// <see cref="SimpleCalendar.GetCalendarYear(DayNumber)"/>.</para>
-        /// </summary>
-        /// <exception cref="AoorException"><paramref name="dayNumber"/> is outside the range of
-        /// values supported by the Gregorian calendar.</exception>
-        [Pure]
-        public static CalendarYear FromDayNumber(DayNumber dayNumber)
-        {
-            GregorianProlepticScope.DefaultDomain.Validate(dayNumber);
-            int y = GregorianFormulae.GetYear(dayNumber - DayZero.NewStyle);
-            return new CalendarYear(y, Cuid.Gregorian);
-        }
-
         #endregion
         #region Conversions
 

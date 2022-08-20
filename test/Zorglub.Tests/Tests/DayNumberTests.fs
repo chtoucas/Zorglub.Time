@@ -137,7 +137,7 @@ module Prelude =
 
     [<Fact>]
     let ``Static property DayZero.NewStyle`` () =
-        let date = SimpleCalendar.Gregorian.GetCalendarDate(DayZero.NewStyle)
+        let date = SimpleCalendar.Gregorian.GetDate(DayZero.NewStyle)
         let y, m, d = date.Deconstruct()
 
         DayZero.NewStyle === DayNumber.Zero
@@ -148,7 +148,7 @@ module Prelude =
 
     [<Fact>]
     let ``Static property DayZero.OldStyle`` () =
-        let date = SimpleCalendar.Julian.GetCalendarDate(DayZero.OldStyle)
+        let date = SimpleCalendar.Julian.GetDate(DayZero.OldStyle)
         let y, m, d = date.Deconstruct()
 
         DayZero.OldStyle === DayNumber.Zero - 2

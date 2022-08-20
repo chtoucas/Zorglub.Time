@@ -55,7 +55,7 @@ namespace Zorglub.Time.Simple
         /// Initializes a new instance of the <see cref="CalendarDay"/> struct to the specified day
         /// number in the Gregorian calendar.
         /// <para>To create an instance for another calendar, see
-        /// <see cref="SimpleCalendar.GetCalendarDay(DayNumber)"/>.</para>
+        /// <see cref="SimpleCalendar.GetDate(DayNumber)"/>.</para>
         /// </summary>
         /// <exception cref="AoorException"><paramref name="dayNumber"/> is outside the range of
         /// values supported by the Gregorian calendar.</exception>
@@ -286,7 +286,7 @@ namespace Zorglub.Time.Simple
                 int daysSinceEpoch = data >> DaysSinceEpochShift;
                 var ident = (CalendarId)(data & CuidMask);
                 var chr = SimpleCatalog.GetSystemCalendar(ident);
-                return chr.GetCalendarDay(chr.Epoch + daysSinceEpoch);
+                return chr.GetDate(chr.Epoch + daysSinceEpoch);
             }
         }
 
@@ -341,7 +341,7 @@ namespace Zorglub.Time.Simple
         {
             Requires.NotNull(newCalendar);
 
-            return newCalendar.GetCalendarDay(DayNumber);
+            return newCalendar.GetDate(DayNumber);
         }
 
         #endregion

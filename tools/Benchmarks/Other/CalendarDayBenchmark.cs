@@ -56,7 +56,7 @@ public class CalendarDayBenchmark : BenchmarkBase
     [Benchmark(Baseline = true)]
     public void Gregorian()
     {
-        CalendarDay start = SimpleCalendar.Gregorian.GetCalendarDate(Year, Month, Day).ToCalendarDay();
+        CalendarDay start = SimpleCalendar.Gregorian.GetDate(Year, Month, Day).ToCalendarDay();
         CalendarDay end = start.NextDay().PlusDays(D7).PlusDays(D30).PlusDays(D401);
 
         var (y, m, d) = end;
@@ -73,7 +73,7 @@ public class CalendarDayBenchmark : BenchmarkBase
     [Benchmark(Description = "Armenian (Egyptian)")]
     public void Armenian()
     {
-        CalendarDay start = SimpleCalendar.Armenian.GetCalendarDate(Year, Month, Day).ToCalendarDay();
+        CalendarDay start = SimpleCalendar.Armenian.GetDate(Year, Month, Day).ToCalendarDay();
         CalendarDay end = start.NextDay().PlusDays(D7).PlusDays(D30).PlusDays(D401);
 
         var (y, m, d) = end;
@@ -90,7 +90,7 @@ public class CalendarDayBenchmark : BenchmarkBase
     [Benchmark]
     public void Civil()
     {
-        CalendarDay start = SimpleCalendar.Civil.GetCalendarDate(Year, Month, Day).ToCalendarDay();
+        CalendarDay start = SimpleCalendar.Civil.GetDate(Year, Month, Day).ToCalendarDay();
         CalendarDay end = start.NextDay().PlusDays(D7).PlusDays(D30).PlusDays(D401);
 
         var (y, m, d) = end;
@@ -107,7 +107,7 @@ public class CalendarDayBenchmark : BenchmarkBase
     [Benchmark]
     public void Coptic()
     {
-        CalendarDay start = SimpleCalendar.Coptic.GetCalendarDate(Year, Month, Day).ToCalendarDay();
+        CalendarDay start = SimpleCalendar.Coptic.GetDate(Year, Month, Day).ToCalendarDay();
         CalendarDay end = start.NextDay().PlusDays(D7).PlusDays(D30).PlusDays(D401);
 
         var (y, m, d) = end;
@@ -124,7 +124,7 @@ public class CalendarDayBenchmark : BenchmarkBase
     [Benchmark(Description = "Ethiopic (Coptic)")]
     public void Ethiopic()
     {
-        CalendarDay start = SimpleCalendar.Ethiopic.GetCalendarDate(Year, Month, Day).ToCalendarDay();
+        CalendarDay start = SimpleCalendar.Ethiopic.GetDate(Year, Month, Day).ToCalendarDay();
         CalendarDay end = start.NextDay().PlusDays(D7).PlusDays(D30).PlusDays(D401);
 
         var (y, m, d) = end;
@@ -141,7 +141,7 @@ public class CalendarDayBenchmark : BenchmarkBase
     [Benchmark]
     public void Julian()
     {
-        CalendarDay start = SimpleCalendar.Julian.GetCalendarDate(Year, Month, Day).ToCalendarDay();
+        CalendarDay start = SimpleCalendar.Julian.GetDate(Year, Month, Day).ToCalendarDay();
         CalendarDay end = start.NextDay().PlusDays(D7).PlusDays(D30).PlusDays(D401);
 
         var (y, m, d) = end;
@@ -158,7 +158,7 @@ public class CalendarDayBenchmark : BenchmarkBase
     [Benchmark]
     public void TabularIslamic()
     {
-        CalendarDay start = SimpleCalendar.TabularIslamic.GetCalendarDate(Year, Month, Day).ToCalendarDay();
+        CalendarDay start = SimpleCalendar.TabularIslamic.GetDate(Year, Month, Day).ToCalendarDay();
         CalendarDay end = start.NextDay().PlusDays(D7).PlusDays(D30).PlusDays(D401);
 
         var (y, m, d) = end;
@@ -175,7 +175,7 @@ public class CalendarDayBenchmark : BenchmarkBase
     [Benchmark(Description = "Zoroastrian (Egyptian)")]
     public void Zoroastrian()
     {
-        CalendarDay start = SimpleCalendar.Zoroastrian.GetCalendarDate(Year, Month, Day).ToCalendarDay();
+        CalendarDay start = SimpleCalendar.Zoroastrian.GetDate(Year, Month, Day).ToCalendarDay();
         CalendarDay end = start.NextDay().PlusDays(D7).PlusDays(D30).PlusDays(D401);
 
         var (y, m, d) = end;
@@ -196,7 +196,7 @@ public class CalendarDayBenchmark : BenchmarkBase
     [Benchmark(Description = "Tropicália")]
     public void Tropicalia()
     {
-        CalendarDay start = My.Tropicalia.GetCalendarDate(Year, Month, Day).ToCalendarDay();
+        CalendarDay start = My.Tropicalia.GetDate(Year, Month, Day).ToCalendarDay();
         CalendarDay end = start.NextDay().PlusDays(D7).PlusDays(D30).PlusDays(D401);
 
         var (y, m, d) = end;
@@ -213,7 +213,7 @@ public class CalendarDayBenchmark : BenchmarkBase
     [Benchmark(Description = "Tropicália 30-31")]
     public void Tropicalia3031()
     {
-        CalendarDay start = My.Tropicalia3031.GetCalendarDate(Year, Month, Day).ToCalendarDay();
+        CalendarDay start = My.Tropicalia3031.GetDate(Year, Month, Day).ToCalendarDay();
         CalendarDay end = start.NextDay().PlusDays(D7).PlusDays(D30).PlusDays(D401);
 
         var (y, m, d) = end;
@@ -230,7 +230,7 @@ public class CalendarDayBenchmark : BenchmarkBase
     [Benchmark(Description = "Tropicália 31-30")]
     public void Tropicalia3130()
     {
-        CalendarDay start = My.Tropicalia3130.GetCalendarDate(Year, Month, Day).ToCalendarDay();
+        CalendarDay start = My.Tropicalia3130.GetDate(Year, Month, Day).ToCalendarDay();
         CalendarDay end = start.NextDay().PlusDays(D7).PlusDays(D30).PlusDays(D401);
 
         var (y, m, d) = end;

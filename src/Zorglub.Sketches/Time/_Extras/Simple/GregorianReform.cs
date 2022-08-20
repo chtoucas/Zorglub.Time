@@ -23,7 +23,7 @@ namespace Zorglub.Time.Simple
         // 5 octobre 1582 (julien).
         private GregorianReform()
             : this(
-                SimpleCalendar.Julian.GetCalendarDate(1582, 10, 4),
+                SimpleCalendar.Julian.GetDate(1582, 10, 4),
                 new CalendarDate(1582, 10, 15),
                 null)
         { }
@@ -62,11 +62,11 @@ namespace Zorglub.Time.Simple
         [Pure]
         public static GregorianReform FromLastJulianDate(int year, int month, int day)
         {
-            var lastJulianDate = SimpleCalendar.Julian.GetCalendarDate(year, month, day);
+            var lastJulianDate = SimpleCalendar.Julian.GetDate(year, month, day);
             if (lastJulianDate < Official.LastJulianDate) Throw.YearOutOfRange(year);
 
             var switchover = lastJulianDate.DayNumber + 1;
-            var firstGregorianDate = CalendarDate.FromDayNumber(switchover);
+            var firstGregorianDate = new CalendarDay(switchover).ToCalendarDate();
 
             return new GregorianReform(lastJulianDate, firstGregorianDate, switchover);
         }
@@ -78,7 +78,7 @@ namespace Zorglub.Time.Simple
             if (firstGregorianDate < Official.FirstGregorianDate) Throw.YearOutOfRange(year);
 
             var switchover = firstGregorianDate.DayNumber;
-            var lastJulianDate = SimpleCalendar.Julian.GetCalendarDate(switchover - 1);
+            var lastJulianDate = SimpleCalendar.Julian.GetDate(switchover - 1).ToCalendarDate();
 
             return new GregorianReform(lastJulianDate, firstGregorianDate, switchover);
         }

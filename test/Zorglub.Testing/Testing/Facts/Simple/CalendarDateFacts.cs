@@ -25,10 +25,10 @@ public abstract partial class CalendarDateFacts<TDataSet> :
     protected sealed override CalendarDate MaxDate { get; }
 
     protected sealed override CalendarDate GetDate(int y, int m, int d) =>
-        CalendarUT.GetCalendarDate(y, m, d);
+        CalendarUT.GetDate(y, m, d);
 
     protected sealed override CalendarDate GetDate(int y, int doy) =>
-        CalendarUT.GetOrdinalDate(y, doy).ToCalendarDate();
+        CalendarUT.GetDate(y, doy).ToCalendarDate();
 }
 
 public partial class CalendarDateFacts<TDataSet> // Prelude
@@ -36,7 +36,7 @@ public partial class CalendarDateFacts<TDataSet> // Prelude
     [Fact]
     public void Cuid_Prop()
     {
-        var date = CalendarUT.GetCalendarDate(1, 1, 1);
+        var date = CalendarUT.GetDate(1, 1, 1);
         // Act & Assert
         Assert.Equal(CalendarUT.Id, date.Cuid);
     }
@@ -47,8 +47,8 @@ public partial class CalendarDateFacts<TDataSet> // Calendar mismatch
     [Fact]
     public void Equality_OtherCalendar()
     {
-        var date = CalendarUT.GetCalendarDate(1, 1, 1);
-        var other = OtherCalendar.GetCalendarDate(1, 1, 1);
+        var date = CalendarUT.GetDate(1, 1, 1);
+        var other = OtherCalendar.GetDate(1, 1, 1);
         // Act & Assert
         Assert.False(date == other);
         Assert.True(date != other);
@@ -60,8 +60,8 @@ public partial class CalendarDateFacts<TDataSet> // Calendar mismatch
     [Fact]
     public void Comparison_OtherCalendar()
     {
-        var date = CalendarUT.GetCalendarDate(1, 1, 1);
-        var other = OtherCalendar.GetCalendarDate(1, 1, 1);
+        var date = CalendarUT.GetDate(1, 1, 1);
+        var other = OtherCalendar.GetDate(1, 1, 1);
         // Act & Assert
         Assert.Throws<ArgumentException>("other", () => date > other);
         Assert.Throws<ArgumentException>("other", () => date >= other);
@@ -74,8 +74,8 @@ public partial class CalendarDateFacts<TDataSet> // Calendar mismatch
     [Fact]
     public void CountDaysSince_OtherCalendar()
     {
-        var date = CalendarUT.GetCalendarDate(1, 1, 1);
-        var other = OtherCalendar.GetCalendarDate(1, 1, 1);
+        var date = CalendarUT.GetDate(1, 1, 1);
+        var other = OtherCalendar.GetDate(1, 1, 1);
         // Act & Assert
         Assert.Throws<ArgumentException>("other", () => date.CountDaysSince(other));
         Assert.Throws<ArgumentException>("other", () => date - other);
@@ -84,8 +84,8 @@ public partial class CalendarDateFacts<TDataSet> // Calendar mismatch
     [Fact]
     public void CountMonthsSince_OtherCalendar()
     {
-        var date = CalendarUT.GetCalendarDate(1, 1, 1);
-        var other = OtherCalendar.GetCalendarDate(1, 1, 1);
+        var date = CalendarUT.GetDate(1, 1, 1);
+        var other = OtherCalendar.GetDate(1, 1, 1);
         // Act & Assert
         Assert.Throws<ArgumentException>("other", () => date.CountMonthsSince(other));
     }
@@ -93,8 +93,8 @@ public partial class CalendarDateFacts<TDataSet> // Calendar mismatch
     [Fact]
     public void CountYearsSince_OtherCalendar()
     {
-        var date = CalendarUT.GetCalendarDate(1, 1, 1);
-        var other = OtherCalendar.GetCalendarDate(1, 1, 1);
+        var date = CalendarUT.GetDate(1, 1, 1);
+        var other = OtherCalendar.GetDate(1, 1, 1);
         // Act & Assert
         Assert.Throws<ArgumentException>("other", () => date.CountYearsSince(other));
     }
@@ -106,8 +106,8 @@ public partial class CalendarDateFacts<TDataSet> // Conversions
     public void ToCalendarDay(DayNumberInfo info)
     {
         var (dayNumber, y, m, d) = info;
-        var date = CalendarUT.GetCalendarDate(y, m, d);
-        var exp = CalendarUT.GetCalendarDay(dayNumber);
+        var date = CalendarUT.GetDate(y, m, d);
+        var exp = CalendarUT.GetDate(dayNumber);
         // Act & Assert
         Assert.Equal(exp, date.ToCalendarDay());
     }
@@ -116,7 +116,7 @@ public partial class CalendarDateFacts<TDataSet> // Conversions
     public void ToCalendarDate(DateInfo info)
     {
         var (y, m, d) = info.Yemoda;
-        var date = CalendarUT.GetCalendarDate(y, m, d);
+        var date = CalendarUT.GetDate(y, m, d);
         // Act & Assert
         Assert.Equal(date, ((ISimpleDate)date).ToCalendarDate());
     }
@@ -125,8 +125,8 @@ public partial class CalendarDateFacts<TDataSet> // Conversions
     public void ToOrdinalDate(DateInfo info)
     {
         var (y, m, d, doy) = info;
-        var date = CalendarUT.GetCalendarDate(y, m, d);
-        var exp = CalendarUT.GetOrdinalDate(y, doy);
+        var date = CalendarUT.GetDate(y, m, d);
+        var exp = CalendarUT.GetDate(y, doy);
         // Act & Assert
         Assert.Equal(exp, date.ToOrdinalDate());
     }
@@ -134,7 +134,7 @@ public partial class CalendarDateFacts<TDataSet> // Conversions
     [Fact]
     public void WithCalendar_NullCalendar()
     {
-        var date = CalendarUT.GetCalendarDate(1, 1, 1);
+        var date = CalendarUT.GetDate(1, 1, 1);
         // Act & Assert
         Assert.ThrowsAnexn("newCalendar", () => date.WithCalendar(null!));
     }
@@ -143,7 +143,7 @@ public partial class CalendarDateFacts<TDataSet> // Conversions
     public void WithCalendar_Invariance(DayNumberInfo info)
     {
         var dayNumber = info.DayNumber;
-        var date = CalendarUT.GetCalendarDate(dayNumber);
+        var date = CalendarUT.GetDate(dayNumber).ToCalendarDate();
         // Act & Assert
         Assert.Equal(date, date.WithCalendar(CalendarUT));
     }
@@ -153,8 +153,8 @@ public partial class CalendarDateFacts<TDataSet> // Conversions
     {
         var dayNumber = info.DayNumber;
         if (OtherCalendar.Domain.Contains(dayNumber) == false) { return; }
-        var date = CalendarUT.GetCalendarDate(dayNumber);
-        var other = OtherCalendar.GetCalendarDate(dayNumber);
+        var date = CalendarUT.GetDate(dayNumber).ToCalendarDate();
+        var other = OtherCalendar.GetDate(dayNumber).ToCalendarDate();
         // Act & Assert
         Assert.Equal(other, date.WithCalendar(OtherCalendar));
         Assert.Equal(date, other.WithCalendar(CalendarUT));
@@ -167,8 +167,8 @@ public partial class CalendarDateFacts<TDataSet> // Comparison
     public void CompareFast_WhenEqual(DateInfo info)
     {
         var (y, m, d) = info.Yemoda;
-        var left = CalendarUT.GetCalendarDate(y, m, d);
-        var right = CalendarUT.GetCalendarDate(y, m, d);
+        var left = CalendarUT.GetDate(y, m, d);
+        var right = CalendarUT.GetDate(y, m, d);
         // Act & Assert
         Assert.Equal(0, left.CompareFast(right));
     }
@@ -179,8 +179,8 @@ public partial class CalendarDateFacts<TDataSet> // Comparison
     [InlineData(1, 1, 2)]
     public void CompareFast_WhenNotEqual(int y, int m, int d)
     {
-        var left = CalendarUT.GetCalendarDate(1, 1, 1);
-        var right = CalendarUT.GetCalendarDate(y, m, d);
+        var left = CalendarUT.GetDate(1, 1, 1);
+        var right = CalendarUT.GetDate(y, m, d);
         // Act & Assert
         Assert.True(left.CompareFast(right) < 0);
     }

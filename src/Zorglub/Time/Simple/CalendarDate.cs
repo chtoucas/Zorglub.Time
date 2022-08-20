@@ -44,7 +44,7 @@ namespace Zorglub.Time.Simple
         /// Initializes a new instance of the <see cref="CalendarDate"/> struct to the specified
         /// date parts in the Gregorian calendar.
         /// <para>To create an instance for another calendar, see
-        /// <see cref="SimpleCalendar.GetCalendarDate(int, int, int)"/>.</para>
+        /// <see cref="SimpleCalendar.GetDate(int, int, int)"/>.</para>
         /// </summary>
         /// <exception cref="AoorException">The specified components do not form a valid date or
         /// <paramref name="year"/> is outside the range of years supported by the Gregorian
@@ -244,7 +244,7 @@ namespace Zorglub.Time.Simple
             var bin = new Yemodax(data);
             bin.Deconstruct(out int y, out int m, out int d);
             var ident = (CalendarId)bin.Extra;
-            return SimpleCatalog.GetSystemCalendar(ident).GetCalendarDate(y, m, d);
+            return SimpleCatalog.GetSystemCalendar(ident).GetDate(y, m, d);
         }
 
         /// <summary>
@@ -275,26 +275,6 @@ namespace Zorglub.Time.Simple
         #endregion
         #region Conversions
 
-        /// <summary>
-        /// Obtains a new <see cref="CalendarDate"/> instance in the <i>Gregorian</i> calendar from
-        /// the specified day number.
-        /// </summary>
-        /// <remarks>
-        /// <para>To create from a day number an instance in another calendar, see
-        /// <see cref="SimpleCalendar.GetCalendarDate(DayNumber)"/>. A less direct way is first to
-        /// create a <see cref="CalendarDay"/> and then to convert the result to a
-        /// <see cref="CalendarDate"/>.</para>
-        /// </remarks>
-        /// <exception cref="AoorException"><paramref name="dayNumber"/> is outside the range of
-        /// values supported by the Gregorian calendar.</exception>
-        [Pure]
-        public static CalendarDate FromDayNumber(DayNumber dayNumber)
-        {
-            GregorianProlepticScope.DefaultDomain.Validate(dayNumber);
-            var ymd = GregorianFormulae.GetDateParts(dayNumber - DayZero.NewStyle);
-            return new CalendarDate(ymd, Cuid.Gregorian);
-        }
-
         /// <inheritdoc />
         [Pure]
         public CalendarDay ToCalendarDay() => new(DaysSinceEpoch, Cuid);
@@ -318,7 +298,7 @@ namespace Zorglub.Time.Simple
         {
             Requires.NotNull(newCalendar);
 
-            return newCalendar.GetCalendarDate(DayNumber);
+            return newCalendar.GetDate(DayNumber).ToCalendarDate();
         }
 
         #endregion

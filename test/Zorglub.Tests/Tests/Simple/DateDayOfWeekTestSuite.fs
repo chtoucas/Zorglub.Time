@@ -14,7 +14,7 @@ module CalendarDateCase =
     type GregorianTests() =
         inherit IDateDayOfWeekFacts<CalendarDate, ProlepticGregorianDataSet>()
 
-        override __.GetDate(y, m, d) = SimpleCalendar.Gregorian.GetCalendarDate(y, m, d)
+        override __.GetDate(y, m, d) = SimpleCalendar.Gregorian.GetDate(y, m, d)
 
 module OrdinalDateCase =
     [<Sealed>]
@@ -22,7 +22,7 @@ module OrdinalDateCase =
     type GregorianTests() =
         inherit IDateDayOfWeekFacts<OrdinalDate, ProlepticGregorianDataSet>()
 
-        override __.GetDate(y, m, d) = SimpleCalendar.Gregorian.GetCalendarDate(y, m, d).ToOrdinalDate()
+        override __.GetDate(y, m, d) = SimpleCalendar.Gregorian.GetDate(y, m, d).ToOrdinalDate()
 
 module CalendarDayCase =
     [<Sealed>]
@@ -30,5 +30,5 @@ module CalendarDayCase =
     type GregorianTests() =
         inherit IDateDayOfWeekFacts<CalendarDay, ProlepticGregorianDataSet>()
 
-        override __.GetDate(y, m, d) = SimpleCalendar.Gregorian.GetCalendarDate(y, m, d).ToCalendarDay()
+        override __.GetDate(y, m, d) = SimpleCalendar.Gregorian.GetDate(y, m, d).ToCalendarDay()
 

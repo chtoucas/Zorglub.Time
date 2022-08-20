@@ -47,13 +47,13 @@ public abstract partial class CalendarMathAdvancedFacts<TDataSet>
     protected CalendarDate GetDate(Yemoda ymd)
     {
         var (y, m, d) = ymd;
-        return Calendar.GetCalendarDate(y, m, d);
+        return Calendar.GetDate(y, m, d);
     }
 
     protected OrdinalDate GetDate(Yedoy ydoy)
     {
         var (y, doy) = ydoy;
-        return Calendar.GetOrdinalDate(y, doy);
+        return Calendar.GetDate(y, doy);
     }
 
     protected CalendarMonth GetMonth(Yemoda ymd)

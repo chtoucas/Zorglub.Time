@@ -326,28 +326,28 @@ module CivilCase =
     [<Theory; MemberData(nameof(dayOfWeekData))>]
     let ``GetDayOfWeek(CalendarDate)`` (info: YemodaAnd<DayOfWeek>) =
         let (y, m, d, dayOfWeek) = info.Deconstruct()
-        let date = chr.GetCalendarDate(y, m, d)
+        let date = chr.GetDate(y, m, d)
 
         chr.GetDayOfWeek(date) === dayOfWeek
 
     [<Theory; MemberData(nameof(dayOfWeekData))>]
     let ``GetDayOfWeek(OrdinalDate)`` (info: YemodaAnd<DayOfWeek>) =
         let (y, m, d, dayOfWeek) = info.Deconstruct()
-        let date = chr.GetCalendarDate(y, m, d).ToOrdinalDate()
+        let date = chr.GetDate(y, m, d).ToOrdinalDate()
 
         chr.GetDayOfWeek(date) === dayOfWeek
 
     [<RedundantTest>]
     [<Theory; MemberData(nameof(dayNumberToDayOfWeekData))>]
     let ``GetDayOfWeek(CalendarDate) via DayNumber`` (dayNumber: DayNumber) (dayOfWeek: DayOfWeek) =
-        let date = chr.GetCalendarDate(dayNumber)
+        let date = chr.GetDate(dayNumber).ToCalendarDate()
 
         chr.GetDayOfWeek(date) === dayOfWeek
 
     [<RedundantTest>]
     [<Theory; MemberData(nameof(dayNumberToDayOfWeekData))>]
     let ``GetDayOfWeek(OrdinalDate) via DayNumber`` (dayNumber: DayNumber) (dayOfWeek: DayOfWeek) =
-        let date = chr.GetOrdinalDate(dayNumber)
+        let date = chr.GetDate(dayNumber).ToOrdinalDate()
 
         chr.GetDayOfWeek(date) === dayOfWeek
 
@@ -439,28 +439,28 @@ module GregorianCase =
     [<Theory; MemberData(nameof(dayOfWeekData))>]
     let ``GetDayOfWeek(CalendarDate)`` (info: YemodaAnd<DayOfWeek>) =
         let (y, m, d, dayOfWeek) = info.Deconstruct()
-        let date = chr.GetCalendarDate(y, m, d)
+        let date = chr.GetDate(y, m, d)
 
         chr.GetDayOfWeek(date) === dayOfWeek
 
     [<Theory; MemberData(nameof(dayOfWeekData))>]
     let ``GetDayOfWeek(OrdinalDate)`` (info: YemodaAnd<DayOfWeek>) =
         let (y, m, d, dayOfWeek) = info.Deconstruct()
-        let date = chr.GetCalendarDate(y, m, d).ToOrdinalDate()
+        let date = chr.GetDate(y, m, d).ToOrdinalDate()
 
         chr.GetDayOfWeek(date) === dayOfWeek
 
     [<RedundantTest>]
     [<Theory; MemberData(nameof(dayNumberToDayOfWeekData))>]
     let ``GetDayOfWeek(CalendarDate) via DayNumber`` (dayNumber: DayNumber) (dayOfWeek: DayOfWeek) =
-        let date = chr.GetCalendarDate(dayNumber)
+        let date = chr.GetDate(dayNumber).ToCalendarDate()
 
         chr.GetDayOfWeek(date) === dayOfWeek
 
     [<RedundantTest>]
     [<Theory; MemberData(nameof(dayNumberToDayOfWeekData))>]
     let ``GetDayOfWeek(OrdinalDate) via DayNumber`` (dayNumber: DayNumber) (dayOfWeek: DayOfWeek) =
-        let date = chr.GetOrdinalDate(dayNumber)
+        let date = chr.GetDate(dayNumber).ToOrdinalDate()
 
         chr.GetDayOfWeek(date) === dayOfWeek
 
@@ -472,13 +472,13 @@ module JulianCase =
 
     [<Theory; MemberData(nameof(dayNumberToDayOfWeekData))>]
     let ``GetDayOfWeek(CalendarDate) via DayNumber`` (dayNumber: DayNumber) (dayOfWeek: DayOfWeek) =
-        let date = chr.GetCalendarDate(dayNumber)
+        let date = chr.GetDate(dayNumber).ToCalendarDate()
 
         chr.GetDayOfWeek(date) === dayOfWeek
 
     [<Theory; MemberData(nameof(dayNumberToDayOfWeekData))>]
     let ``GetDayOfWeek(OrdinalDate) via DayNumber`` (dayNumber: DayNumber) (dayOfWeek: DayOfWeek) =
-        let date = chr.GetOrdinalDate(dayNumber)
+        let date = chr.GetDate(dayNumber).ToOrdinalDate()
 
         chr.GetDayOfWeek(date) === dayOfWeek
 
@@ -493,12 +493,12 @@ module UserJulianCase =
 
     [<Theory; MemberData(nameof(dayNumberToDayOfWeekData))>]
     let ``GetDayOfWeek(CalendarDate) via DayNumber`` (dayNumber: DayNumber) (dayOfWeek: DayOfWeek) =
-        let date = chr.GetCalendarDate(dayNumber)
+        let date = chr.GetDate(dayNumber).ToCalendarDate()
 
         chr.GetDayOfWeek(date) === dayOfWeek
 
     [<Theory; MemberData(nameof(dayNumberToDayOfWeekData))>]
     let ``GetDayOfWeek(OrdinalDate) via DayNumber`` (dayNumber: DayNumber) (dayOfWeek: DayOfWeek) =
-        let date = chr.GetOrdinalDate(dayNumber)
+        let date = chr.GetDate(dayNumber).ToOrdinalDate()
 
         chr.GetDayOfWeek(date) === dayOfWeek

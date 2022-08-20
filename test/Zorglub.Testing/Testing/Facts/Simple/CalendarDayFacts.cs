@@ -28,10 +28,10 @@ public abstract partial class CalendarDayFacts<TDataSet> :
     protected DomainTester DomainTester { get; }
 
     protected sealed override CalendarDay GetDate(int y, int m, int d) =>
-        CalendarUT.GetCalendarDate(y, m, d).ToCalendarDay();
+        CalendarUT.GetDate(y, m, d).ToCalendarDay();
 
     protected sealed override CalendarDay GetDate(int y, int doy) =>
-        CalendarUT.GetOrdinalDate(y, doy).ToCalendarDay();
+        CalendarUT.GetDate(y, doy).ToCalendarDay();
 }
 
 public partial class CalendarDayFacts<TDataSet> // Prelude
@@ -64,7 +64,7 @@ public partial class CalendarDayFacts<TDataSet> // Prelude
     [Fact]
     public void Cuid_Prop()
     {
-        var date = CalendarUT.GetCalendarDay(CalendarUT.Epoch);
+        var date = CalendarUT.GetDate(CalendarUT.Epoch);
         // Act & Assert
         Assert.Equal(CalendarUT.Id, date.Cuid);
     }
@@ -75,8 +75,8 @@ public partial class CalendarDayFacts<TDataSet> // Calendar mismatch
     [Fact]
     public void Equality_OtherCalendar()
     {
-        var date = CalendarUT.GetCalendarDay(CalendarUT.Epoch);
-        var other = OtherCalendar.GetCalendarDay(CalendarUT.Epoch);
+        var date = CalendarUT.GetDate(CalendarUT.Epoch);
+        var other = OtherCalendar.GetDate(CalendarUT.Epoch);
         // Act & Assert
         Assert.False(date == other);
         Assert.True(date != other);
@@ -88,8 +88,8 @@ public partial class CalendarDayFacts<TDataSet> // Calendar mismatch
     [Fact]
     public void Comparison_OtherCalendar()
     {
-        var date = CalendarUT.GetCalendarDay(CalendarUT.Epoch);
-        var other = OtherCalendar.GetCalendarDay(CalendarUT.Epoch);
+        var date = CalendarUT.GetDate(CalendarUT.Epoch);
+        var other = OtherCalendar.GetDate(CalendarUT.Epoch);
         // Act & Assert
         Assert.Throws<ArgumentException>("other", () => date > other);
         Assert.Throws<ArgumentException>("other", () => date >= other);
@@ -102,8 +102,8 @@ public partial class CalendarDayFacts<TDataSet> // Calendar mismatch
     [Fact]
     public void CountDaysSince_OtherCalendar()
     {
-        var date = CalendarUT.GetCalendarDay(CalendarUT.Epoch);
-        var other = OtherCalendar.GetCalendarDay(CalendarUT.Epoch);
+        var date = CalendarUT.GetDate(CalendarUT.Epoch);
+        var other = OtherCalendar.GetDate(CalendarUT.Epoch);
         // Act & Assert
         Assert.Throws<ArgumentException>("other", () => date.CountDaysSince(other));
         Assert.Throws<ArgumentException>("other", () => date - other);
@@ -115,7 +115,7 @@ public partial class CalendarDayFacts<TDataSet> // Conversions
     [Theory, MemberData(nameof(DayNumberInfoData))]
     public void ToCalendarDay(DayNumberInfo info)
     {
-        var date = CalendarUT.GetCalendarDay(info.DayNumber);
+        var date = CalendarUT.GetDate(info.DayNumber);
         // Act & Assert
         Assert.Equal(date, ((ISimpleDate)date).ToCalendarDay());
     }
@@ -124,8 +124,8 @@ public partial class CalendarDayFacts<TDataSet> // Conversions
     public void ToCalendarDate(DayNumberInfo info)
     {
         var (dayNumber, y, m, d) = info;
-        var date = CalendarUT.GetCalendarDay(dayNumber);
-        var exp = CalendarUT.GetCalendarDate(y, m, d);
+        var date = CalendarUT.GetDate(dayNumber);
+        var exp = CalendarUT.GetDate(y, m, d);
         // Act & Assert
         Assert.Equal(exp, date.ToCalendarDate());
     }
@@ -134,8 +134,8 @@ public partial class CalendarDayFacts<TDataSet> // Conversions
     public void ToOrdinalDate(DayNumberInfo info)
     {
         var (dayNumber, y, m, d) = info;
-        var date = CalendarUT.GetCalendarDay(dayNumber);
-        var exp = CalendarUT.GetCalendarDate(y, m, d).ToOrdinalDate();
+        var date = CalendarUT.GetDate(dayNumber);
+        var exp = CalendarUT.GetDate(y, m, d).ToOrdinalDate();
         // Act & Assert
         Assert.Equal(exp, date.ToOrdinalDate());
     }
@@ -143,7 +143,7 @@ public partial class CalendarDayFacts<TDataSet> // Conversions
     [Fact]
     public void WithCalendar_NullCalendar()
     {
-        var date = CalendarUT.GetCalendarDay(CalendarUT.Epoch);
+        var date = CalendarUT.GetDate(CalendarUT.Epoch);
         // Act & Assert
         Assert.ThrowsAnexn("newCalendar", () => date.WithCalendar(null!));
     }
@@ -152,7 +152,7 @@ public partial class CalendarDayFacts<TDataSet> // Conversions
     public void WithCalendar_Invariance(DayNumberInfo info)
     {
         var dayNumber = info.DayNumber;
-        var date = CalendarUT.GetCalendarDay(dayNumber);
+        var date = CalendarUT.GetDate(dayNumber);
         // Act & Assert
         Assert.Equal(date, date.WithCalendar(CalendarUT));
     }
@@ -162,8 +162,8 @@ public partial class CalendarDayFacts<TDataSet> // Conversions
     {
         var dayNumber = info.DayNumber;
         if (OtherCalendar.Domain.Contains(dayNumber) == false) { return; }
-        var date = CalendarUT.GetCalendarDay(dayNumber);
-        var other = OtherCalendar.GetCalendarDay(dayNumber);
+        var date = CalendarUT.GetDate(dayNumber);
+        var other = OtherCalendar.GetDate(dayNumber);
         // Act & Assert
         Assert.Equal(other, date.WithCalendar(OtherCalendar));
         Assert.Equal(date, other.WithCalendar(CalendarUT));

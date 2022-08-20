@@ -83,15 +83,3 @@ module GregorianCase =
 
         month.Year  === now.Year
         month.Month === now.Month
-
-    [<Fact>]
-    let ``FromDayNumber() invalid dayNumber`` () =
-        domainTester.TestInvalidDayNumber(CalendarMonth.FromDayNumber)
-
-    [<Theory; MemberData(nameof(dayNumberInfoData))>]
-    let ``FromDayNumber()`` (info: DayNumberInfo) =
-        let (dayNumber, y, m, _) = info.Deconstruct()
-        let date = CalendarMonth.FromDayNumber(dayNumber)
-
-        date.Year  === y
-        date.Month === m

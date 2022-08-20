@@ -154,7 +154,7 @@ public partial class CalendarMonthFacts<TDataSet> // Prelude
     {
         var (y, m) = info.Yemo;
         var month = CalendarUT.GetCalendarMonth(y, m);
-        var startOfMonth = CalendarUT.GetCalendarDate(y, m, 1);
+        var startOfMonth = CalendarUT.GetDate(y, m, 1);
         // Act & Assert
         Assert.Equal(startOfMonth, month.FirstDay);
     }
@@ -165,7 +165,7 @@ public partial class CalendarMonthFacts<TDataSet> // Prelude
         var (y, m) = info.Yemo;
         var daysInMonth = info.DaysInMonth;
         var month = CalendarUT.GetCalendarMonth(y, m);
-        var endOfMonth = CalendarUT.GetCalendarDate(y, m, daysInMonth);
+        var endOfMonth = CalendarUT.GetDate(y, m, daysInMonth);
         // Act & Assert
         Assert.Equal(endOfMonth, month.LastDay);
     }
@@ -239,8 +239,8 @@ public partial class CalendarMonthFacts<TDataSet> // Conversions
     {
         var (y, m) = info.Yemo;
         var month = CalendarUT.GetCalendarMonth(y, m);
-        var min = CalendarUT.GetCalendarDate(y, m, 1);
-        var max = CalendarUT.GetCalendarDate(y, m, info.DaysInMonth);
+        var min = CalendarUT.GetDate(y, m, 1);
+        var max = CalendarUT.GetDate(y, m, info.DaysInMonth);
         // Act
         var range = month.ToRange();
         // Assert
@@ -320,7 +320,7 @@ public partial class CalendarMonthFacts<TDataSet> // Days
     {
         var (y, m, d) = info.Yemoda;
         var month = CalendarUT.GetCalendarMonth(y, m);
-        var date = CalendarUT.GetCalendarDate(y, m, d);
+        var date = CalendarUT.GetDate(y, m, d);
         // Act & Assert
         Assert.Equal(date, month.GetDayOfMonth(d));
     }
@@ -331,7 +331,7 @@ public partial class CalendarMonthFacts<TDataSet> // Days
         var (y, m) = info.Yemo;
         var month = CalendarUT.GetCalendarMonth(y, m);
         var exp = from d in Enumerable.Range(1, info.DaysInMonth)
-                  select CalendarUT.GetCalendarDate(y, m, d);
+                  select CalendarUT.GetDate(y, m, d);
         // Act
         var actual = month.GetAllDays();
         // Assert

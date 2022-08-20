@@ -25,14 +25,13 @@ module UserCase =
 
     [<Fact>]
     let ``ToBinary() throws`` () =
-        let date = UserCalendars.Gregorian.GetCalendarDate(1, 1, 1)
+        let date = UserCalendars.Gregorian.GetDate(1, 1, 1)
 
         throws<NotSupportedException> (fun () -> date.ToBinary())
 
 module GregorianCase =
     let private chr = SimpleCalendar.Gregorian
     let private dataSet = ProlepticGregorianDataSet.Instance
-    let private domainTester = new DomainTester(chr.Domain)
 
     let dayNumberInfoData = dataSet.DayNumberInfoData
     let dateInfoData = dataSet.DateInfoData
@@ -92,23 +91,6 @@ module GregorianCase =
         today.Day   === now.Day
 
     //
-    // Conversions
-    //
-
-    [<Fact>]
-    let ``FromDayNumber() invalid dayNumber`` () =
-        domainTester.TestInvalidDayNumber(CalendarDate.FromDayNumber)
-
-    [<Theory; MemberData(nameof(dayNumberInfoData))>]
-    let ``FromDayNumber()`` (info: DayNumberInfo) =
-        let (dayNumber, y, m, d) = info.Deconstruct()
-        let date = CalendarDate.FromDayNumber(dayNumber)
-
-        date.Year  === y
-        date.Month === m
-        date.Day   === d
-
-    //
     // Adjustments
     //
 
@@ -137,7 +119,7 @@ module JulianCase =
     [<Theory; MemberData(nameof(dateInfoData))>]
     let ``Roundtrip serialization`` (info: DateInfo) =
         let y, m, d = info.Yemoda.Deconstruct()
-        let date = chr.GetCalendarDate(y, m, d)
+        let date = chr.GetDate(y, m, d)
 
         CalendarDate.FromBinary(date.ToBinary()) === date
 
@@ -148,15 +130,15 @@ module Conversions =
     let ``WithCalendar() throws when the result is out of range`` () =
         let chr = SimpleCalendar.Julian
         // Julian.MinDayNumber < Gregorian.MinDayNumber.
-        let date = chr.GetCalendarDate(chr.Domain.Min)
+        let date = chr.GetDate(chr.Domain.Min).ToCalendarDate()
 
         outOfRangeExn "dayNumber" (fun () -> date.WithCalendar(SimpleCalendar.Gregorian))
 
     [<Theory; MemberData(nameof(data))>]
     let ``WithCalendar() Gregorian <-> Julian`` (pair: YemodaPair) =
         let (g, j) = pair.Deconstruct()
-        let gdate = SimpleCalendar.Gregorian.GetCalendarDate(g.Year, g.Month, g.Day)
-        let jdate = SimpleCalendar.Julian.GetCalendarDate(j.Year, j.Month, j.Day)
+        let gdate = SimpleCalendar.Gregorian.GetDate(g.Year, g.Month, g.Day)
+        let jdate = SimpleCalendar.Julian.GetDate(j.Year, j.Month, j.Day)
 
         gdate.WithCalendar(SimpleCalendar.Julian)    === jdate
         jdate.WithCalendar(SimpleCalendar.Gregorian) === gdate

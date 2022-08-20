@@ -117,22 +117,22 @@ public partial class SimpleCalendarFacts<TDataSet> // Factories
 
     [Fact]
     public void GetCalendarDate_InvalidYear() =>
-        SupportedYearsTester.TestInvalidYear(y => CalendarUT.GetCalendarDate(y, 1, 1));
+        SupportedYearsTester.TestInvalidYear(y => CalendarUT.GetDate(y, 1, 1));
 
     [Theory, MemberData(nameof(InvalidMonthFieldData))]
     public void GetCalendarDate_InvalidMonth(int y, int m) =>
-        Assert.ThrowsAoorexn("month", () => CalendarUT.GetCalendarDate(y, m, 1));
+        Assert.ThrowsAoorexn("month", () => CalendarUT.GetDate(y, m, 1));
 
     [Theory, MemberData(nameof(InvalidDayFieldData))]
     public void GetCalendarDate_InvalidDay(int y, int m, int d) =>
-        Assert.ThrowsAoorexn("day", () => CalendarUT.GetCalendarDate(y, m, d));
+        Assert.ThrowsAoorexn("day", () => CalendarUT.GetDate(y, m, d));
 
     [Theory, MemberData(nameof(DateInfoData))]
     public void GetCalendarDate(DateInfo info)
     {
         var (y, m, d) = info.Yemoda;
         // Act
-        var date = CalendarUT.GetCalendarDate(y, m, d);
+        var date = CalendarUT.GetDate(y, m, d);
         // Assert
         Assert.Equal(y, date.Year);
         Assert.Equal(m, date.Month);
@@ -144,18 +144,18 @@ public partial class SimpleCalendarFacts<TDataSet> // Factories
 
     [Fact]
     public void GetOrdinalDate_InvalidYear() =>
-        SupportedYearsTester.TestInvalidYear(y => CalendarUT.GetOrdinalDate(y, 1));
+        SupportedYearsTester.TestInvalidYear(y => CalendarUT.GetDate(y, 1));
 
     [Theory, MemberData(nameof(InvalidDayOfYearFieldData))]
     public void GetOrdinalDate_InvalidMonth(int y, int doy) =>
-        Assert.ThrowsAoorexn("dayOfYear", () => CalendarUT.GetOrdinalDate(y, doy));
+        Assert.ThrowsAoorexn("dayOfYear", () => CalendarUT.GetDate(y, doy));
 
     [Theory, MemberData(nameof(DateInfoData))]
     public void GetOrdinalDate(DateInfo info)
     {
         var (y, doy) = info.Yedoy;
         // Act
-        var ordate = CalendarUT.GetOrdinalDate(y, doy);
+        var ordate = CalendarUT.GetDate(y, doy);
         // Assert
         Assert.Equal(y, ordate.Year);
         Assert.Equal(doy, ordate.DayOfYear);
@@ -167,14 +167,14 @@ public partial class SimpleCalendarFacts<TDataSet> // Factories
 
     [Fact]
     public void GetCalendarDay_InvalidDayNumber() =>
-        DomainTester.TestInvalidDayNumber(CalendarUT.GetCalendarDay);
+        DomainTester.TestInvalidDayNumber(CalendarUT.GetDate);
 
     [Theory, MemberData(nameof(DayNumberInfoData))]
     public void GetCalendarDay(DayNumberInfo info)
     {
         var dayNumber = info.DayNumber;
         // Act
-        var day = CalendarUT.GetCalendarDay(info.DayNumber);
+        var day = CalendarUT.GetDate(info.DayNumber);
         // Assert
         Assert.Equal(dayNumber, day.DayNumber);
     }
@@ -184,6 +184,7 @@ public partial class SimpleCalendarFacts<TDataSet> // Factories
 
 public partial class SimpleCalendarFacts<TDataSet> // Conversions
 {
+#if false
     #region GetCalendarYear()
 
     [Fact]
@@ -230,7 +231,7 @@ public partial class SimpleCalendarFacts<TDataSet> // Conversions
     {
         var (y, m, d) = info.Yemoda;
         var dayNumber = ((ICalendar)CalendarUT).GetDayNumber(y, m, d);
-        var exp = CalendarUT.GetCalendarDate(y, m, d);
+        var exp = CalendarUT.GetDate(y, m, d);
         // Act
         var date = CalendarUT.GetCalendarDate(dayNumber);
         // Assert
@@ -249,7 +250,7 @@ public partial class SimpleCalendarFacts<TDataSet> // Conversions
     {
         var (y, m, d, doy) = info;
         var dayNumber = ((ICalendar)CalendarUT).GetDayNumber(y, m, d);
-        var exp = CalendarUT.GetOrdinalDate(y, doy);
+        var exp = CalendarUT.GetDate(y, doy);
         // Act
         var ordate = CalendarUT.GetOrdinalDate(dayNumber);
         // Assert
@@ -257,6 +258,7 @@ public partial class SimpleCalendarFacts<TDataSet> // Conversions
     }
 
     #endregion
+#endif
 }
 
 public partial class SimpleCalendarFacts<TDataSet> // Internal helpers

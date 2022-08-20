@@ -39,9 +39,9 @@ public abstract partial class DateRangeFacts<TDataSet> :
     protected SimpleCalendar OtherCalendar { get; }
 
     protected sealed override CalendarDate GetDate(int y, int m, int d) =>
-        CalendarUT.GetCalendarDate(y, m, d);
+        CalendarUT.GetDate(y, m, d);
     protected sealed override CalendarDate GetDate(int y, int doy) =>
-        CalendarUT.GetOrdinalDate(y, doy).ToCalendarDate();
+        CalendarUT.GetDate(y, doy).ToCalendarDate();
 
     protected sealed override DateRangeV0 CreateRange(CalendarDate start, CalendarDate end) =>
         DateRangeV0.Create(start, end);
@@ -64,8 +64,8 @@ public partial class DateRangeFacts<TDataSet>
     [Fact]
     public void Create_InvalidCalendar()
     {
-        var start = CalendarUT.GetCalendarDate(3, 4, 5);
-        var end = OtherCalendar.GetCalendarDate(3, 4, 6);
+        var start = CalendarUT.GetDate(3, 4, 5);
+        var end = OtherCalendar.GetDate(3, 4, 6);
         // Act & Assert
         Assert.Throws<ArgumentException>("other", () => DateRangeV0.Create(start, end));
     }
@@ -73,7 +73,7 @@ public partial class DateRangeFacts<TDataSet>
     [Fact]
     public void Deconstructor()
     {
-        var start = CalendarUT.GetCalendarDate(3, 4, 5);
+        var start = CalendarUT.GetDate(3, 4, 5);
         var end = start + 9;
         var range = DateRangeV0.Create(start, end);
         // Act
@@ -88,7 +88,7 @@ public partial class DateRangeFacts<TDataSet>
     [Fact]
     public void Deconstructor_Length()
     {
-        var start = CalendarUT.GetCalendarDate(3, 4, 5);
+        var start = CalendarUT.GetDate(3, 4, 5);
         var end = start + 9;
         var range = DateRangeV0.Create(start, end);
         // Act
@@ -103,7 +103,7 @@ public partial class DateRangeFacts<TDataSet>
     [Fact]
     public void ToString_DoesSomething()
     {
-        var start = CalendarUT.GetCalendarDate(3, 4, 5);
+        var start = CalendarUT.GetDate(3, 4, 5);
         var range = DateRangeV0.Create(start, 2);
         // Act
         string str = range.ToString();
@@ -116,9 +116,9 @@ public partial class DateRangeFacts<TDataSet>
     [Fact]
     public void Contains_InvalidDate()
     {
-        var start = CalendarUT.GetCalendarDate(3, 4, 5);
+        var start = CalendarUT.GetDate(3, 4, 5);
         var range = DateRangeV0.Create(start, 25);
-        var date = OtherCalendar.GetCalendarDate(3, 4, 5);
+        var date = OtherCalendar.GetDate(3, 4, 5);
         // Act & Assert
         Assert.Throws<ArgumentException>("date", () => range.Contains(date));
     }
@@ -126,9 +126,9 @@ public partial class DateRangeFacts<TDataSet>
     [Fact]
     public void IsSupersetOf_InvalidRange()
     {
-        var start1 = CalendarUT.GetCalendarDate(3, 4, 5);
+        var start1 = CalendarUT.GetDate(3, 4, 5);
         var range1 = DateRangeV0.Create(start1, 25);
-        var start2 = OtherCalendar.GetCalendarDate(3, 4, 5);
+        var start2 = OtherCalendar.GetDate(3, 4, 5);
         var range2 = DateRangeV0.Create(start2, 25);
         // Act & Assert
         Assert.Throws<ArgumentException>("range", () => range1.IsSupersetOf(range2));
@@ -137,7 +137,7 @@ public partial class DateRangeFacts<TDataSet>
     [Fact]
     public void Contains_InvalidMonth()
     {
-        var start = CalendarUT.GetCalendarDate(3, 4, 5);
+        var start = CalendarUT.GetDate(3, 4, 5);
         var range = DateRangeV0.Create(start, 25);
         var month = OtherCalendar.GetCalendarMonth(3, 4);
         // Act & Assert
@@ -147,7 +147,7 @@ public partial class DateRangeFacts<TDataSet>
     [Fact]
     public void Contains_InvalidYear()
     {
-        var start = CalendarUT.GetCalendarDate(3, 4, 5);
+        var start = CalendarUT.GetDate(3, 4, 5);
         var range = DateRangeV0.Create(start, 25);
         var cyear = OtherCalendar.GetCalendarYear(3);
         // Act & Assert
@@ -161,7 +161,7 @@ public partial class DateRangeFacts<TDataSet>
     [Fact]
     public void Contains_Month_EndsBeforeMonth()
     {
-        var start = CalendarUT.GetCalendarDate(3, 3, 1);
+        var start = CalendarUT.GetDate(3, 3, 1);
         var range = DateRangeV0.Create(start, 2);
         var month = CalendarUT.GetCalendarMonth(3, 4);
 
@@ -174,7 +174,7 @@ public partial class DateRangeFacts<TDataSet>
     [Fact]
     public void Contains_Month_OverlapsStartOfMonth()
     {
-        var start = CalendarUT.GetCalendarDate(3, 3, 31);
+        var start = CalendarUT.GetDate(3, 3, 31);
         var range = DateRangeV0.Create(start, 10);
         var month = CalendarUT.GetCalendarMonth(3, 4);
 
@@ -189,7 +189,7 @@ public partial class DateRangeFacts<TDataSet>
     [Fact]
     public void Contains_Month_SameStartEndsBeforeMonth()
     {
-        var start = CalendarUT.GetCalendarDate(3, 4, 1);
+        var start = CalendarUT.GetDate(3, 4, 1);
         var range = DateRangeV0.Create(start, 2);
         var month = CalendarUT.GetCalendarMonth(3, 4);
 
@@ -203,7 +203,7 @@ public partial class DateRangeFacts<TDataSet>
     [Fact]
     public void Contains_Month_StrictlyInMonth()
     {
-        var start = CalendarUT.GetCalendarDate(3, 4, 5);
+        var start = CalendarUT.GetDate(3, 4, 5);
         var range = DateRangeV0.Create(start, 2);
         var month = CalendarUT.GetCalendarMonth(3, 4);
 
@@ -217,7 +217,7 @@ public partial class DateRangeFacts<TDataSet>
     [Fact]
     public void Contains_Month_StartsAfterStartOfMonthSameEnd()
     {
-        var start = CalendarUT.GetCalendarDate(3, 4, 5);
+        var start = CalendarUT.GetDate(3, 4, 5);
         var range = DateRangeV0.Create(start, 26);
         var month = CalendarUT.GetCalendarMonth(3, 4);
 
@@ -231,7 +231,7 @@ public partial class DateRangeFacts<TDataSet>
     [Fact]
     public void Contains_Month_OverlapsEndOfMonth()
     {
-        var start = CalendarUT.GetCalendarDate(3, 4, 5);
+        var start = CalendarUT.GetDate(3, 4, 5);
         var range = DateRangeV0.Create(start, 100);
         var month = CalendarUT.GetCalendarMonth(3, 4);
 
@@ -246,7 +246,7 @@ public partial class DateRangeFacts<TDataSet>
     [Fact]
     public void Contains_Month_StartsAfterMonth()
     {
-        var start = CalendarUT.GetCalendarDate(3, 5, 1);
+        var start = CalendarUT.GetDate(3, 5, 1);
         var range = DateRangeV0.Create(start, 2);
         var month = CalendarUT.GetCalendarMonth(3, 4);
 
@@ -259,7 +259,7 @@ public partial class DateRangeFacts<TDataSet>
     [Fact]
     public void Contains_Month()
     {
-        var start = CalendarUT.GetCalendarDate(3, 4, 1);
+        var start = CalendarUT.GetDate(3, 4, 1);
         var range = DateRangeV0.Create(start, 100);
         var month = CalendarUT.GetCalendarMonth(3, 5);
 
@@ -273,7 +273,7 @@ public partial class DateRangeFacts<TDataSet>
     [Fact]
     public void Contains_Month_SameStart()
     {
-        var start = CalendarUT.GetCalendarDate(3, 5, 1);
+        var start = CalendarUT.GetDate(3, 5, 1);
         var range = DateRangeV0.Create(start, 100);
         var month = CalendarUT.GetCalendarMonth(3, 5);
 
@@ -287,7 +287,7 @@ public partial class DateRangeFacts<TDataSet>
     [Fact]
     public void Contains_Month_SameEnd()
     {
-        var start = CalendarUT.GetCalendarDate(3, 4, 30);
+        var start = CalendarUT.GetDate(3, 4, 30);
         var range = DateRangeV0.Create(start, 32);
         var month = CalendarUT.GetCalendarMonth(3, 5);
 
@@ -301,7 +301,7 @@ public partial class DateRangeFacts<TDataSet>
     [Fact]
     public void Contains_Month_SameStartEnd()
     {
-        var start = CalendarUT.GetCalendarDate(3, 4, 1);
+        var start = CalendarUT.GetDate(3, 4, 1);
         var range = DateRangeV0.Create(start, 30);
         var month = CalendarUT.GetCalendarMonth(3, 4);
 
@@ -319,7 +319,7 @@ public partial class DateRangeFacts<TDataSet>
     [Fact]
     public void Contains_Year_EndsBeforeYear()
     {
-        var start = CalendarUT.GetCalendarDate(3, 4, 5);
+        var start = CalendarUT.GetDate(3, 4, 5);
         var range = DateRangeV0.Create(start, 2);
         var cyear = CalendarUT.GetCalendarYear(4);
 
@@ -332,7 +332,7 @@ public partial class DateRangeFacts<TDataSet>
     [Fact]
     public void Contains_Year_OverlapsStartOfYear()
     {
-        var start = CalendarUT.GetCalendarDate(3, 12, 1);
+        var start = CalendarUT.GetDate(3, 12, 1);
         var range = DateRangeV0.Create(start, 100);
         var cyear = CalendarUT.GetCalendarYear(4);
 
@@ -347,7 +347,7 @@ public partial class DateRangeFacts<TDataSet>
     [Fact]
     public void Contains_Year_SameStartEndsBeforeYear()
     {
-        var start = CalendarUT.GetCalendarDate(4, 1, 1);
+        var start = CalendarUT.GetDate(4, 1, 1);
         var range = DateRangeV0.Create(start, 100);
         var cyear = CalendarUT.GetCalendarYear(4);
 
@@ -361,7 +361,7 @@ public partial class DateRangeFacts<TDataSet>
     [Fact]
     public void Contains_Year_StrictlyInYear()
     {
-        var start = CalendarUT.GetCalendarDate(4, 2, 1);
+        var start = CalendarUT.GetDate(4, 2, 1);
         var range = DateRangeV0.Create(start, 100);
         var cyear = CalendarUT.GetCalendarYear(4);
 
@@ -375,7 +375,7 @@ public partial class DateRangeFacts<TDataSet>
     [Fact]
     public void Contains_Year_StartsAfterStartOfYearSameEnd()
     {
-        var start = CalendarUT.GetCalendarDate(4, 1, 2);
+        var start = CalendarUT.GetDate(4, 1, 2);
         var range = DateRangeV0.Create(start, 365);
         var cyear = CalendarUT.GetCalendarYear(4);
 
@@ -389,7 +389,7 @@ public partial class DateRangeFacts<TDataSet>
     [Fact]
     public void Contains_Year_OverlapsEndOfYear()
     {
-        var start = CalendarUT.GetCalendarDate(4, 1, 2);
+        var start = CalendarUT.GetDate(4, 1, 2);
         var range = DateRangeV0.Create(start, 400);
         var cyear = CalendarUT.GetCalendarYear(4);
 
@@ -404,7 +404,7 @@ public partial class DateRangeFacts<TDataSet>
     [Fact]
     public void Contains_Year_StartsAfterYear()
     {
-        var start = CalendarUT.GetCalendarDate(5, 1, 1);
+        var start = CalendarUT.GetDate(5, 1, 1);
         var range = DateRangeV0.Create(start, 2);
         var cyear = CalendarUT.GetCalendarYear(4);
 
@@ -417,7 +417,7 @@ public partial class DateRangeFacts<TDataSet>
     [Fact]
     public void Contains_Year()
     {
-        var start = CalendarUT.GetCalendarDate(3, 3, 1);
+        var start = CalendarUT.GetDate(3, 3, 1);
         var range = DateRangeV0.Create(start, 1000);
         var cyear = CalendarUT.GetCalendarYear(4);
 
@@ -431,7 +431,7 @@ public partial class DateRangeFacts<TDataSet>
     [Fact]
     public void Contains_Year_SameStart()
     {
-        var start = CalendarUT.GetCalendarDate(3, 1, 1);
+        var start = CalendarUT.GetDate(3, 1, 1);
         var range = DateRangeV0.Create(start, 1000);
         var cyear = CalendarUT.GetCalendarYear(3);
 
@@ -445,7 +445,7 @@ public partial class DateRangeFacts<TDataSet>
     [Fact]
     public void Contains_Year_SameEnd()
     {
-        var start = CalendarUT.GetCalendarDate(2, 12, 31);
+        var start = CalendarUT.GetDate(2, 12, 31);
         var range = DateRangeV0.Create(start, 366);
         var cyear = CalendarUT.GetCalendarYear(3);
 
@@ -459,7 +459,7 @@ public partial class DateRangeFacts<TDataSet>
     [Fact]
     public void Contains_Year_SameStartEnd()
     {
-        var start = CalendarUT.GetCalendarDate(3, 1, 1);
+        var start = CalendarUT.GetDate(3, 1, 1);
         var range = DateRangeV0.Create(start, 365);
         var cyear = CalendarUT.GetCalendarYear(3);
 
@@ -477,7 +477,7 @@ public partial class DateRangeFacts<TDataSet>
     [Fact]
     public void WithCalendar_InvalidCalendar()
     {
-        var date = CalendarUT.GetCalendarDate(3, 4, 5);
+        var date = CalendarUT.GetDate(3, 4, 5);
         var range = DateRangeV0.Create(date, 6);
         // Act & Assert
         Assert.ThrowsAnexn("newCalendar", () => range.WithCalendar(null!));
@@ -497,7 +497,7 @@ public partial class DateRangeFacts<TDataSet> // IEquatable
         // dépassement arithmétique devraient être ignorées.
         if (y >= StandardScope.MaxSupportedYear) { return; }
 
-        var start = CalendarUT.GetCalendarDate(y, m, d);
+        var start = CalendarUT.GetDate(y, m, d);
         // Act
         var range1 = DateRangeV0.Create(start, 29);
         var range2 = DateRangeV0.Create(start, 29);
@@ -512,7 +512,7 @@ public partial class DateRangeFacts<TDataSet> // IEquatable
     public void Equality_Null()
     {
 #nullable disable
-        var start = CalendarUT.GetCalendarDate(3, 4, 5);
+        var start = CalendarUT.GetDate(3, 4, 5);
         var range = DateRangeV0.Create(start, 29);
         var nullRange = (DateRangeV0)null!;
         var nullRange1 = (DateRangeV0)null!;

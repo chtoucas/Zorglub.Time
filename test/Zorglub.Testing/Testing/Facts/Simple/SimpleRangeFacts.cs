@@ -42,7 +42,7 @@ public abstract partial class SimpleRangeFacts<TDataSet> // CalendarDate
         var (y, m) = info.Yemo;
         var month = CalendarUT.GetCalendarMonth(y, m);
         var exp = from d in Enumerable.Range(1, info.DaysInMonth)
-                  select CalendarUT.GetCalendarDate(y, m, d);
+                  select CalendarUT.GetDate(y, m, d);
         // Act
         var actual = month.GetAllDays();
         // Assert
@@ -58,7 +58,7 @@ public abstract partial class SimpleRangeFacts<TDataSet> // OrdinalDate
         int y = info.Year;
         var range = CalendarUT.GetCalendarYear(y).ToRange();
         var exp = from doy in Enumerable.Range(1, info.DaysInYear)
-                  select CalendarUT.GetOrdinalDate(y, doy);
+                  select CalendarUT.GetDate(y, doy);
         // Act
         var actual = range.ToEnumerable();
         // Assert

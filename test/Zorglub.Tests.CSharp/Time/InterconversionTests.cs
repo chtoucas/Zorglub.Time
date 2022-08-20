@@ -17,7 +17,7 @@ public static class InterconversionTests
     {
         foreach (var chr in SimpleCatalog.SystemCalendars)
         {
-            var date = chr.GetCalendarDate(chr.Epoch);
+            var date = chr.GetDate(chr.Epoch);
             try
             {
                 _ = date.WithCalendar(SimpleCalendar.Gregorian);
