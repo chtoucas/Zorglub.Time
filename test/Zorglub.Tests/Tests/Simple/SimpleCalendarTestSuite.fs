@@ -7,7 +7,7 @@ open Zorglub.Testing
 open Zorglub.Testing.Data.Bounded
 open Zorglub.Testing.Facts.Simple
 
-open Zorglub.Time.Hemerology.Scopes
+open Zorglub.Time.Core.Intervals
 open Zorglub.Time.Simple
 
 // Since the Gregorian calendar has the richest dataset, we use it as a default
@@ -21,7 +21,7 @@ type ArmenianTests() =
     override __.GetSingleton() = SimpleCalendar.Armenian
     override x.Id() = x.CalendarUT.Id === Cuid.Armenian
     override x.Math() = x.CalendarUT.Math |> is<RegularMath>
-    override x.Scope() = x.CalendarUT.Scope |> is<StandardScope>
+    override x.Scope() = x.CalendarUT.Scope.Segment.SupportedYears === Range.Create(1, 9999)
 
 [<Sealed>]
 type CivilTests() =
@@ -30,7 +30,7 @@ type CivilTests() =
     override __.GetSingleton() = SimpleCalendar.Civil
     override x.Id() = x.CalendarUT.Id === Cuid.Civil
     override x.Math() = x.CalendarUT.Math |> is<RegularMath>
-    override x.Scope() = x.CalendarUT.Scope |> is<StandardScope>
+    override x.Scope() = x.CalendarUT.Scope.Segment.SupportedYears === Range.Create(1, 9999)
 
 [<Sealed>]
 [<RedundantTestBundle>]
@@ -40,7 +40,7 @@ type CopticTests() =
     override __.GetSingleton() = SimpleCalendar.Coptic
     override x.Id() = x.CalendarUT.Id === Cuid.Coptic
     override x.Math() = x.CalendarUT.Math |> is<RegularMath>
-    override x.Scope() = x.CalendarUT.Scope |> is<StandardScope>
+    override x.Scope() = x.CalendarUT.Scope.Segment.SupportedYears === Range.Create(1, 9999)
 
 [<Sealed>]
 [<RedundantTestBundle>]
@@ -50,7 +50,7 @@ type EthiopicTests() =
     override __.GetSingleton() = SimpleCalendar.Ethiopic
     override x.Id() = x.CalendarUT.Id === Cuid.Ethiopic
     override x.Math() = x.CalendarUT.Math |> is<RegularMath>
-    override x.Scope() = x.CalendarUT.Scope |> is<StandardScope>
+    override x.Scope() = x.CalendarUT.Scope.Segment.SupportedYears === Range.Create(1, 9999)
 
 [<Sealed>]
 type GregorianTests() =
@@ -59,7 +59,7 @@ type GregorianTests() =
     override __.GetSingleton() = SimpleCalendar.Gregorian
     override x.Id() = x.CalendarUT.Id === Cuid.Gregorian
     override x.Math() = x.CalendarUT.Math |> is<RegularMath>
-    override x.Scope() = x.CalendarUT.Scope |> is<ProlepticScope>
+    override x.Scope() = x.CalendarUT.Scope.Segment.SupportedYears === Range.Create(-9998, 9999)
 
 [<Sealed>]
 [<RedundantTestBundle>]
@@ -69,7 +69,7 @@ type JulianTests() =
     override __.GetSingleton() = SimpleCalendar.Julian
     override x.Id() = x.CalendarUT.Id === Cuid.Julian
     override x.Math() = x.CalendarUT.Math |> is<RegularMath>
-    override x.Scope() = x.CalendarUT.Scope |> is<ProlepticScope>
+    override x.Scope() = x.CalendarUT.Scope.Segment.SupportedYears === Range.Create(-9998, 9999)
 
 [<Sealed>]
 [<RedundantTestBundle>]
@@ -79,7 +79,7 @@ type TabularIslamicTests() =
     override __.GetSingleton() = SimpleCalendar.TabularIslamic
     override x.Id() = x.CalendarUT.Id === Cuid.TabularIslamic
     override x.Math() = x.CalendarUT.Math |> is<RegularMath>
-    override x.Scope() = x.CalendarUT.Scope |> is<StandardScope>
+    override x.Scope() = x.CalendarUT.Scope.Segment.SupportedYears === Range.Create(1, 9999)
 
 [<Sealed>]
 [<RedundantTestBundle>]
@@ -89,7 +89,7 @@ type ZoroastrianTests() =
     override __.GetSingleton() = SimpleCalendar.Zoroastrian
     override x.Id() = x.CalendarUT.Id === Cuid.Zoroastrian
     override x.Math() = x.CalendarUT.Math |> is<RegularMath>
-    override x.Scope() = x.CalendarUT.Scope |> is<StandardScope>
+    override x.Scope() = x.CalendarUT.Scope.Segment.SupportedYears === Range.Create(1, 9999)
 
 //
 // User-defined calendars
@@ -103,7 +103,7 @@ type UserGregorianTests() =
     override __.GetSingleton() = UserCalendars.Gregorian
     override x.Id() = x.CalendarUT.Id === UserCalendars.Gregorian.Id
     override x.Math() = x.CalendarUT.Math |> is<RegularMath>
-    override x.Scope() = x.CalendarUT.Scope |> is<StandardScope>
+    override x.Scope() = x.CalendarUT.Scope.Segment.SupportedYears === Range.Create(1, 9999)
 
 [<Sealed>]
 [<RedundantTestBundle>]
@@ -113,7 +113,7 @@ type UserJulianTests() =
     override __.GetSingleton() = UserCalendars.Julian
     override x.Id() = x.CalendarUT.Id === UserCalendars.Julian.Id
     override x.Math() = x.CalendarUT.Math |> is<RegularMath>
-    override x.Scope() = x.CalendarUT.Scope |> is<ProlepticScope>
+    override x.Scope() = x.CalendarUT.Scope.Segment.SupportedYears === Range.Create(-9998, 9999)
 
 [<Sealed>]
 [<RedundantTestBundle>]
@@ -123,7 +123,7 @@ type UserLunisolarTests() =
     override __.GetSingleton() = UserCalendars.Lunisolar
     override x.Id() = x.CalendarUT.Id === UserCalendars.Lunisolar.Id
     override x.Math() = x.CalendarUT.Math |> is<PlainMath>
-    override x.Scope() = x.CalendarUT.Scope |> is<StandardScope>
+    override x.Scope() = x.CalendarUT.Scope.Segment.SupportedYears === Range.Create(1, 9999)
 
 [<Sealed>]
 [<RedundantTestBundle>]
@@ -133,4 +133,4 @@ type UserPositivistTests() =
     override __.GetSingleton() = UserCalendars.Positivist
     override x.Id() = x.CalendarUT.Id === UserCalendars.Positivist.Id
     override x.Math() = x.CalendarUT.Math |> is<RegularMath>
-    override x.Scope() = x.CalendarUT.Scope |> is<StandardScope>
+    override x.Scope() = x.CalendarUT.Scope.Segment.SupportedYears === Range.Create(1, 9999)
