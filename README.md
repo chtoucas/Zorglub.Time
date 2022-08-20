@@ -15,6 +15,7 @@ Features
 
 We restrict ourselves to calendars supposedly in use today:
 - Armenian
+- Civil
 - Coptic
 - Ethiopic
 - Gregorian
