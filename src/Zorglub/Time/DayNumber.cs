@@ -231,7 +231,7 @@ namespace Zorglub.Time
         #region Factories
 
         /// <summary>
-        /// Obtains the current day number on this computer, expressed in local time, not UTC.
+        /// Obtains the current day number on this computer, expressed in the local time.
         /// </summary>
         [Pure]
         public static DayNumber Today()
@@ -242,7 +242,7 @@ namespace Zorglub.Time
         }
 
         /// <summary>
-        /// Obtains the current day number on this computer, expressed as UTC.
+        /// Obtains the current day number on this computer, expressed in the UTC.
         /// </summary>
         [Pure]
         public static DayNumber UtcToday()

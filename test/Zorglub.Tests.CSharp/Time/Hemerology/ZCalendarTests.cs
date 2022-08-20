@@ -45,7 +45,7 @@ public partial class ZCalendarTests // Properties
     {
         var exp = DateTime.Now;
         // Act
-        var today = CalendarUT.Today();
+        var today = CalendarUT.Today(LocalTodayProvider.Instance);
         // Assert
         Assert.Equal(exp.Year, today.Year);
         Assert.Equal(exp.Month, today.Month);

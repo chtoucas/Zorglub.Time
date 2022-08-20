@@ -25,7 +25,7 @@ public static class Showcase
 
     public static void Run()
     {
-        var today = DayNumber.Today();
+        var today = LocalTodayProvider.Instance.Today();
 
         WriteLine($"Day number: {today}\n");
 

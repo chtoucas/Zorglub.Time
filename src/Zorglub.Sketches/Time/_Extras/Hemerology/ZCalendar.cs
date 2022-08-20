@@ -184,9 +184,11 @@ namespace Zorglub.Time.Hemerology
 
         /// <inheritdoc/>
         [Pure]
-        public ZDate Today()
+        public ZDate Today(ITodayProvider provider)
         {
-            var today = DayNumber.Today();
+            Requires.NotNull(provider);
+
+            var today = provider.Today();
             if (IsUserDefined) { Domain.Validate(today); }
             return new(today - Epoch, Id);
         }

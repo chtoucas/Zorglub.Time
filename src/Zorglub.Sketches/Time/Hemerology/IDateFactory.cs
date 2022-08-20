@@ -37,9 +37,10 @@ namespace Zorglub.Time.Hemerology
         [Pure] TDate GetDate(int year, int dayOfYear);
 
         /// <summary>
-        /// Obtains the current date on this machine.
+        /// Obtains the current date using the specified provider.
         /// </summary>
+        /// <exception cref="ArgumentNullException"><paramref name="provider"/> is null.</exception>
         /// <exception cref="AoorException">Today is outside the range of supported dates.</exception>
-        [Pure] TDate Today();
+        [Pure] TDate Today(ITodayProvider provider);
     }
 }
