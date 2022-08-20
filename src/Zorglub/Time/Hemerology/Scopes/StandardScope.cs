@@ -59,8 +59,6 @@ namespace Zorglub.Time.Hemerology.Scopes
         private sealed class YearsValidator_ : IYearsValidator
         {
             public Range<int> Range => s_SupportedYears;
-            public int MinYear => MinSupportedYear;
-            public int MaxYear => MaxSupportedYear;
 
             public void Validate(int year, string? paramName = null)
             {

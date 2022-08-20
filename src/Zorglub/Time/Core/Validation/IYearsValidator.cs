@@ -20,16 +20,6 @@ namespace Zorglub.Time.Core.Validation
         Range<int> Range { get; }
 
         /// <summary>
-        /// Gets the ealiest supported year.
-        /// </summary>
-        int MinYear { get; }
-
-        /// <summary>
-        /// Gets the latest supported year.
-        /// </summary>
-        int MaxYear { get; }
-
-        /// <summary>
         /// Validates the specified year.
         /// </summary>
         /// <exception cref="AoorException">The validation failed.</exception>
