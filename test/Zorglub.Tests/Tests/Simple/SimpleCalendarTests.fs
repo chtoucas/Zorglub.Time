@@ -311,6 +311,46 @@ module Misc =
         argExn paramName (fun () -> chr.ValidateCuidDisclosed(Cuid.Gregorian, paramName))
         argExn paramName (fun () -> chr.ValidateCuidDisclosed(Cuid.MinUser, paramName))
 
+module CivilCase =
+    let private chr = SimpleCalendar.Civil
+    let private domain = chr.Domain
+
+    let private calendarDataSet = StandardGregorianDataSet.Instance
+
+    let dayOfWeekData = calendarDataSet.DayOfWeekData
+    let dayNumberToDayOfWeekData = CalCalDataSet.GetDayNumberToDayOfWeekData(domain)
+    //
+    // GetDayOfWeek()
+    //
+
+    [<Theory; MemberData(nameof(dayOfWeekData))>]
+    let ``GetDayOfWeek(CalendarDate)`` (info: YemodaAnd<DayOfWeek>) =
+        let (y, m, d, dayOfWeek) = info.Deconstruct()
+        let date = chr.GetCalendarDate(y, m, d)
+
+        chr.GetDayOfWeek(date) === dayOfWeek
+
+    [<Theory; MemberData(nameof(dayOfWeekData))>]
+    let ``GetDayOfWeek(OrdinalDate)`` (info: YemodaAnd<DayOfWeek>) =
+        let (y, m, d, dayOfWeek) = info.Deconstruct()
+        let date = chr.GetCalendarDate(y, m, d).ToOrdinalDate()
+
+        chr.GetDayOfWeek(date) === dayOfWeek
+
+    [<RedundantTest>]
+    [<Theory; MemberData(nameof(dayNumberToDayOfWeekData))>]
+    let ``GetDayOfWeek(CalendarDate) via DayNumber`` (dayNumber: DayNumber) (dayOfWeek: DayOfWeek) =
+        let date = chr.GetCalendarDate(dayNumber)
+
+        chr.GetDayOfWeek(date) === dayOfWeek
+
+    [<RedundantTest>]
+    [<Theory; MemberData(nameof(dayNumberToDayOfWeekData))>]
+    let ``GetDayOfWeek(OrdinalDate) via DayNumber`` (dayNumber: DayNumber) (dayOfWeek: DayOfWeek) =
+        let date = chr.GetOrdinalDate(dayNumber)
+
+        chr.GetDayOfWeek(date) === dayOfWeek
+
 module GregorianCase =
     let private chr = SimpleCalendar.Gregorian
     let private domain = chr.Domain

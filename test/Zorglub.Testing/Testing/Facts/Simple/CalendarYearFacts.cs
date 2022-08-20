@@ -237,6 +237,20 @@ public partial class CalendarYearFacts<TDataSet> // Conversions
         Assert.Equal(max, range.Max);
     }
 
+    [Theory, MemberData(nameof(YearInfoData))]
+    public void ToMonthRange(YearInfo info)
+    {
+        int y = info.Year;
+        var year = CalendarUT.GetCalendarYear(y);
+        var min = CalendarUT.GetCalendarMonth(y, 1);
+        var max = CalendarUT.GetCalendarMonth(y, info.MonthsInYear);
+        // Act
+        var range = year.ToMonthRange();
+        // Assert
+        Assert.Equal(min, range.Min);
+        Assert.Equal(max, range.Max);
+    }
+
     [Fact]
     public void WithCalendar_InvalidCalendar()
     {

@@ -6,6 +6,7 @@ namespace Zorglub.Testing.Facts.Simple;
 using System.Linq;
 
 using Zorglub.Testing.Data;
+using Zorglub.Time.Core.Intervals;
 using Zorglub.Time.Simple;
 
 public abstract partial class IDateProvidersFacts<TProvider, TDate, TDataSet> :
@@ -27,6 +28,20 @@ public abstract partial class IDateProvidersFacts<TProvider, TDate, TDataSet> :
 
 public partial class IDateProvidersFacts<TProvider, TDate, TDataSet> // CalendarYear
 {
+    [Theory, MemberData(nameof(YearInfoData))]
+    public void ConvertToRange﹍CalendarYear(YearInfo info)
+    {
+        int y = info.Year;
+        var year = Calendar.GetCalendarYear(y);
+        var min = GetDate(y, 1);
+        var max = GetDate(y, info.DaysInYear);
+        var exp = Range.Create(min, max);
+        // Act
+        var actual = TProvider.ConvertToRange(year);
+        // Assert
+        Assert.Equal(exp, actual);
+    }
+
     [Theory, MemberData(nameof(YearInfoData))]
     public void GetDaysInYear(YearInfo info)
     {
@@ -73,6 +88,20 @@ public partial class IDateProvidersFacts<TProvider, TDate, TDataSet> // Calendar
 
 public partial class IDateProvidersFacts<TProvider, TDate, TDataSet> // CalendarMonth
 {
+    [Theory, MemberData(nameof(MonthInfoData))]
+    public void ConvertToRange﹍CalendarMonth(MonthInfo info)
+    {
+        var (y, m) = info.Yemo;
+        var month = Calendar.GetCalendarMonth(y, m);
+        var min = GetDate(y, m, 1);
+        var max = GetDate(y, m, info.DaysInMonth);
+        var exp = Range.Create(min, max);
+        // Act
+        var actual = TProvider.ConvertToRange(month);
+        // Assert
+        Assert.Equal(exp, actual);
+    }
+
     [Theory, MemberData(nameof(MonthInfoData))]
     public void GetDaysInMonth(MonthInfo info)
     {
