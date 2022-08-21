@@ -83,8 +83,8 @@ public class InterconversionBenchmark : GJBenchmarkBase
     [Benchmark(Description = "ZDate     ")]
     public (int, int, int) WithZDate()
     {
-        ZDate start = ZCalendar.Civil.GetDate(Year, Month, Day);
-        var (y, m, d) = start.WithCalendar(ZCalendar.Julian);
+        ZDate date = ZCalendar.Civil.GetDate(Year, Month, Day);
+        var (y, m, d) = ZCalendar.Julian.GetDate(date.DayNumber);
         return (y, m, d);
     }
 

@@ -3,6 +3,8 @@
 
 namespace Zorglub.Time.Hemerology;
 
+using static Zorglub.Time.Extensions.ZDateExtensions;
+
 public static class ZDateTests
 {
     [Theory]

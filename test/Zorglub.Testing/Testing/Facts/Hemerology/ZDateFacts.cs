@@ -7,6 +7,8 @@ using Zorglub.Testing.Data;
 using Zorglub.Time;
 using Zorglub.Time.Hemerology;
 
+using static Zorglub.Time.Extensions.ZDateExtensions;
+
 /// <summary>
 /// Provides facts about <see cref="ZDate"/>.
 /// </summary>
