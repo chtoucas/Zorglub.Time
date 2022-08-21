@@ -16,10 +16,6 @@ namespace Zorglub.Time.Simple
     // - ToEnumerable()
     // Other extensions:
     // - GetCalendar()
-    // - WithCalendar()
-    //   In general, it's not possible to interconvert a range of years or
-    //   months. For that, one must first convert the range to a range of days
-    //   via e.g CalendarDateProviders.ConvertToRange().
 
     /// <summary>
     /// Provides extension methods for <see cref="Range{T}"/>.
@@ -115,24 +111,6 @@ namespace Zorglub.Time.Simple
         /// </summary>
         [Pure]
         public static SimpleCalendar GetCalendar(this Range<CalendarDate> range) => range.Min.Calendar;
-
-        /// <summary>
-        /// Interconverts the specified range of days to a range within a different calendar.
-        /// </summary>
-        /// <exception cref="ArgumentNullException"><paramref name="newCalendar"/> is null.
-        /// </exception>
-        [Pure]
-        public static Range<CalendarDate> WithCalendar(this Range<CalendarDate> range, SimpleCalendar newCalendar)
-        {
-            Requires.NotNull(newCalendar);
-
-            var (min, max) = range.Endpoints;
-
-            var start = newCalendar.GetDate(min.DayNumber).ToCalendarDate();
-            var end = newCalendar.GetDate(max.DayNumber).ToCalendarDate();
-
-            return Range.Create(start, end);
-        }
     }
 
     public partial class RangeExtensions // Range<CalendarDay>
@@ -163,24 +141,6 @@ namespace Zorglub.Time.Simple
         /// </summary>
         [Pure]
         public static SimpleCalendar GetCalendar(this Range<CalendarDay> range) => range.Min.Calendar;
-
-        /// <summary>
-        /// Interconverts the specified range of days to a range within a different calendar.
-        /// </summary>
-        /// <exception cref="ArgumentNullException"><paramref name="newCalendar"/> is null.
-        /// </exception>
-        [Pure]
-        public static Range<CalendarDay> WithCalendar(this Range<CalendarDay> range, SimpleCalendar newCalendar)
-        {
-            Requires.NotNull(newCalendar);
-
-            var (min, max) = range.Endpoints;
-
-            var start = newCalendar.GetDate(min.DayNumber);
-            var end = newCalendar.GetDate(max.DayNumber);
-
-            return Range.Create(start, end);
-        }
     }
 
     public partial class RangeExtensions // Range<OrdinalDate>
@@ -211,23 +171,5 @@ namespace Zorglub.Time.Simple
         /// </summary>
         [Pure]
         public static SimpleCalendar GetCalendar(this Range<OrdinalDate> range) => range.Min.Calendar;
-
-        /// <summary>
-        /// Interconverts the specified range of days to a range within a different calendar.
-        /// </summary>
-        /// <exception cref="ArgumentNullException"><paramref name="newCalendar"/> is null.
-        /// </exception>
-        [Pure]
-        public static Range<OrdinalDate> WithCalendar(this Range<OrdinalDate> range, SimpleCalendar newCalendar)
-        {
-            Requires.NotNull(newCalendar);
-
-            var (min, max) = range.Endpoints;
-
-            var start = newCalendar.GetDate(min.DayNumber).ToOrdinalDate();
-            var end = newCalendar.GetDate(max.DayNumber).ToOrdinalDate();
-
-            return Range.Create(start, end);
-        }
     }
 }

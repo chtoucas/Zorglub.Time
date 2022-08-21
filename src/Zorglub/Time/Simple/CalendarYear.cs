@@ -25,7 +25,6 @@ namespace Zorglub.Time.Simple
     using Zorglub.Time.Core;
     using Zorglub.Time.Core.Intervals;
     using Zorglub.Time.Core.Schemas;
-    using Zorglub.Time.Core.Validation;
     using Zorglub.Time.Hemerology;
     using Zorglub.Time.Hemerology.Scopes;
 
@@ -377,22 +376,6 @@ namespace Zorglub.Time.Simple
         /// </summary>
         [Pure]
         public Range<CalendarMonth> ToMonthRange() => Range.Create(FirstMonth, LastMonth);
-
-        /// <summary>
-        /// Interconverts the current instance to a range of days within a different calendar.
-        /// </summary>
-        /// <exception cref="ArgumentNullException"><paramref name="newCalendar"/> is null.
-        /// </exception>
-        [Pure]
-        public Range<OrdinalDate> WithCalendar(SimpleCalendar newCalendar)
-        {
-            Requires.NotNull(newCalendar);
-
-            var min = newCalendar.GetDate(FirstDay.DayNumber).ToOrdinalDate();
-            var max = newCalendar.GetDate(LastDay.DayNumber).ToOrdinalDate();
-
-            return Range.Create(min, max);
-        }
 
         #endregion
         #region Counting

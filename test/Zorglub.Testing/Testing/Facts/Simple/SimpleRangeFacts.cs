@@ -9,6 +9,8 @@ using Zorglub.Testing.Data;
 using Zorglub.Time.Core.Intervals;
 using Zorglub.Time.Simple;
 
+using static Zorglub.Time.Extensions.SimpleRangeExtensions;
+
 // TODO(fact): tests with ranges that are not a complete year or month...
 
 public abstract partial class SimpleRangeFacts<TDataSet> :

@@ -8,6 +8,8 @@ using System.Linq;
 using Zorglub.Testing.Data;
 using Zorglub.Time.Simple;
 
+using static Zorglub.Time.Extensions.SimpleRangeExtensions;
+
 // NB: we know that all years within the range [1..9999] are valid.
 
 /// <summary>
@@ -261,7 +263,7 @@ public partial class CalendarMonthFacts<TDataSet> // Conversions
     {
         var (y, m) = info.Yemo;
         var month = CalendarUT.GetCalendarMonth(y, m);
-        var range = month.ToRange();
+        var range = month.ToRange().ToCalendarDayRange();
         // Act & Assert
         Assert.Equal(range, month.WithCalendar(CalendarUT));
     }

@@ -9,6 +9,8 @@ using Zorglub.Testing.Data;
 using Zorglub.Time.Core.Intervals;
 using Zorglub.Time.Simple;
 
+using static Zorglub.Time.Extensions.SimpleRangeExtensions;
+
 // NB: we know that all years within the range [1..9999] are valid.
 
 /// <summary>
@@ -263,7 +265,7 @@ public partial class CalendarYearFacts<TDataSet> // Conversions
     public void WithCalendar_Invariance(YearInfo info)
     {
         var year = CalendarUT.GetCalendarYear(info.Year);
-        var range = year.ToRange();
+        var range = year.ToRange().ToCalendarDayRange();
         // Act & Assert
         Assert.Equal(range, year.WithCalendar(CalendarUT));
     }
