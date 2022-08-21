@@ -28,11 +28,11 @@ namespace Zorglub.Time.Extensions
         /// <exception cref="AoorException">The specified date cannot be converted into the new
         /// calendar, the resulting date would be outside its range of years.</exception>
         [Pure]
-        public static CalendarDate WithCalendar(this CalendarDate date, SimpleCalendar newCalendar)
+        public static CalendarDay WithCalendar(this CalendarDate date, SimpleCalendar newCalendar)
         {
             Requires.NotNull(newCalendar);
 
-            return newCalendar.GetDate(date.DayNumber).ToCalendarDate();
+            return newCalendar.GetDate(date.DayNumber);
         }
 
         /// <summary>
@@ -68,11 +68,11 @@ namespace Zorglub.Time.Extensions
         /// <exception cref="AoorException">The specified date cannot be converted into the new
         /// calendar, the resulting date would be outside its range of years.</exception>
         [Pure]
-        public static OrdinalDate WithCalendar(this OrdinalDate date, SimpleCalendar newCalendar)
+        public static CalendarDay WithCalendar(this OrdinalDate date, SimpleCalendar newCalendar)
         {
             Requires.NotNull(newCalendar);
 
-            return newCalendar.GetDate(date.DayNumber).ToOrdinalDate();
+            return newCalendar.GetDate(date.DayNumber);
         }
     }
 

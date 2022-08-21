@@ -18,8 +18,7 @@ namespace Zorglub.Time.Extensions
     public partial class SimpleRangeExtensions // Interconversion
     {
         // In general, it's not possible to interconvert a range of years or
-        // months. For that, one must first convert the range to a range of days
-        // via e.g CalendarDateProviders.ConvertToRange().
+        // months. For that, one must first convert the range to a range of days.
 
         /// <summary>
         /// Interconverts the specified year to a range of days within a different calendar.
@@ -173,20 +172,20 @@ namespace Zorglub.Time.Extensions
 
     public partial class SimpleRangeExtensions
     {
-        ///// <summary>
-        ///// Determines whether the specified range contains the specified month or not.
-        ///// </summary>
-        ///// <exception cref="ArgumentException"><paramref name="month"/> does not belong to the
-        ///// calendar of the specified range.</exception>
-        //[Pure]
-        //public static bool Contains(this Range<CalendarDate> range, CalendarMonth month)
-        //{
-        //    var cuid = range.GetCalendar().Id;
-        //    if (month.Cuid != cuid) Throw.BadCuid(nameof(month), cuid, month.Cuid);
+        /// <summary>
+        /// Determines whether the specified range contains the specified month or not.
+        /// </summary>
+        /// <exception cref="ArgumentException"><paramref name="month"/> does not belong to the
+        /// calendar of the specified range.</exception>
+        [Pure]
+        public static bool Contains(this Range<CalendarDate> range, CalendarMonth month)
+        {
+            var cuid = range.GetCalendar().Id;
+            if (month.Cuid != cuid) Throw.BadCuid(nameof(month), cuid, month.Cuid);
 
-        //    return range.Min.CompareFast(month.FirstDay) <= 0
-        //        && month.LastDay.CompareFast(range.Max) <= 0;
-        //}
+            return range.Min.CompareFast(month.FirstDay) <= 0
+                && month.LastDay.CompareFast(range.Max) <= 0;
+        }
     }
 
     public partial class SimpleRangeExtensions

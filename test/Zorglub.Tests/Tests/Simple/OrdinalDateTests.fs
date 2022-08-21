@@ -131,8 +131,8 @@ module Conversions =
     [<Theory; MemberData(nameof(data))>]
     let ``WithCalendar() Gregorian <-> Julian`` (pair: YemodaPair) =
         let (g, j) = pair.Deconstruct()
-        let gdate = SimpleCalendar.Gregorian.GetDate(g.Year, g.Month, g.Day).ToOrdinalDate()
-        let jdate = SimpleCalendar.Julian.GetDate(j.Year, j.Month, j.Day).ToOrdinalDate()
+        let gdate = SimpleCalendar.Gregorian.GetDate(g.Year, g.Month, g.Day).ToCalendarDay()
+        let jdate = SimpleCalendar.Julian.GetDate(j.Year, j.Month, j.Day).ToCalendarDay()
 
         gdate.WithCalendar(SimpleCalendar.Julian)    === jdate
         jdate.WithCalendar(SimpleCalendar.Gregorian) === gdate

@@ -50,11 +50,11 @@ namespace Zorglub.Time.Simple
             {
                 Cuid.Gregorian =>
                     date >= Reform.FirstGregorianDate ? date
-                        : date.WithCalendar(SimpleCalendar.Julian),
+                        : date.WithCalendar(SimpleCalendar.Julian).ToCalendarDate(),
 
                 Cuid.Julian =>
                     date <= Reform.LastJulianDate ? date
-                        : date.WithCalendar(SimpleCalendar.Gregorian),
+                        : date.WithCalendar(SimpleCalendar.Gregorian).ToCalendarDate(),
 
                 _ => Throw.Argument<CalendarDate>(nameof(date)),
             };
@@ -64,11 +64,11 @@ namespace Zorglub.Time.Simple
             {
                 Cuid.Gregorian =>
                     date >= _firstGregorianOrdinal ? date
-                        : date.WithCalendar(SimpleCalendar.Julian),
+                        : date.WithCalendar(SimpleCalendar.Julian).ToOrdinalDate(),
 
                 Cuid.Julian =>
                     date <= _lastJulianOrdinal ? date
-                        : date.WithCalendar(SimpleCalendar.Gregorian),
+                        : date.WithCalendar(SimpleCalendar.Gregorian).ToOrdinalDate(),
 
                 _ => Throw.Argument<OrdinalDate>(nameof(date)),
             };
