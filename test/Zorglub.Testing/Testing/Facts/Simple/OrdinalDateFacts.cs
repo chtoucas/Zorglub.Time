@@ -3,10 +3,10 @@
 
 namespace Zorglub.Testing.Facts.Simple;
 
-using System;
-
 using Zorglub.Testing.Data;
 using Zorglub.Time.Simple;
+
+using static Zorglub.Time.Extensions.SimpleDateExtensions;
 
 /// <summary>
 /// Provides facts about <see cref="OrdinalDate"/>.

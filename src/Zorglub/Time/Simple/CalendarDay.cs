@@ -335,15 +335,6 @@ namespace Zorglub.Time.Simple
             return new OrdinalDate(ydoy, Cuid);
         }
 
-        /// <inheritdoc />
-        [Pure]
-        public CalendarDay WithCalendar(SimpleCalendar newCalendar)
-        {
-            Requires.NotNull(newCalendar);
-
-            return newCalendar.GetDate(DayNumber);
-        }
-
         #endregion
         #region Counting
 

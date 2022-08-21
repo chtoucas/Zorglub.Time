@@ -3,6 +3,8 @@
 
 namespace Zorglub.Time.Simple
 {
+    using static Zorglub.Time.Extensions.SimpleDateExtensions;
+
     // Version minimaliste de la chronologie julienne réformée.
     public sealed class Gregorianizer
     {

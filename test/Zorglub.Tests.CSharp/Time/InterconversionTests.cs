@@ -20,7 +20,7 @@ public static class InterconversionTests
             var date = chr.GetDate(chr.Epoch);
             try
             {
-                _ = date.WithCalendar(SimpleCalendar.Gregorian);
+                _ = SimpleCalendar.Gregorian.GetDate(date.DayNumber);
             }
             catch (ArgumentOutOfRangeException)
             {
@@ -41,7 +41,7 @@ public static class InterconversionTests
             if (chr.Epoch > DayZero.NewStyle) { continue; }
             try
             {
-                _ = date.WithCalendar(chr);
+                _ = chr.GetDate(date.DayNumber);
             }
             catch (ArgumentOutOfRangeException)
             {
@@ -62,8 +62,8 @@ public static class InterconversionTests
         {
             try
             {
-                _ = start.WithCalendar(chr);
-                _ = end.WithCalendar(chr);
+                _ = chr.GetDate(start.DayNumber);
+                _ = chr.GetDate(end.DayNumber);
             }
             catch (ArgumentOutOfRangeException)
             {
@@ -88,7 +88,7 @@ public static class InterconversionTests
             {
                 try
                 {
-                    _ = date.WithCalendar(other);
+                    _ = other.GetDate(date.DayNumber);
                 }
                 catch (ArgumentOutOfRangeException)
                 {

@@ -50,24 +50,24 @@ public class InterconversionBenchmark : GJBenchmarkBase
     [Benchmark(Description = "CalendarDate  (Y)")]
     public (int, int, int) WithCalendarDate()
     {
-        CalendarDate start = SimpleCalendar.Civil.GetDate(Year, Month, Day);
-        var (y, m, d) = start.WithCalendar(SimpleCalendar.Julian);
+        CalendarDate date = SimpleCalendar.Civil.GetDate(Year, Month, Day);
+        var (y, m, d) = SimpleCalendar.Julian.GetDate(date.DayNumber);
         return (y, m, d);
     }
 
     [Benchmark(Description = "CalendarDay     ")]
     public (int, int, int) WithCalendarDay()
     {
-        CalendarDay start = SimpleCalendar.Civil.GetDate(Year, Month, Day).ToCalendarDay();
-        var (y, m, d) = start.WithCalendar(SimpleCalendar.Julian);
+        CalendarDay date = SimpleCalendar.Civil.GetDate(Year, Month, Day).ToCalendarDay();
+        var (y, m, d) = SimpleCalendar.Julian.GetDate(date.DayNumber);
         return (y, m, d);
     }
 
     [Benchmark(Description = "OrdinalDate  (O)")]
     public (int, int, int) WithOrdinalDate()
     {
-        OrdinalDate start = SimpleCalendar.Civil.GetDate(Year, Month, Day).ToOrdinalDate();
-        (int y, int m, int d) = start.WithCalendar(SimpleCalendar.Julian);
+        OrdinalDate date = SimpleCalendar.Civil.GetDate(Year, Month, Day).ToOrdinalDate();
+        var (y, m, d) = SimpleCalendar.Julian.GetDate(date.DayNumber);
         return (y, m, d);
     }
 

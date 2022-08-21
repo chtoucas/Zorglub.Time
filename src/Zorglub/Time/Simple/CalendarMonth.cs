@@ -242,8 +242,14 @@ namespace Zorglub.Time.Simple
         [Pure]
         public Range<CalendarDate> WithCalendar(SimpleCalendar newCalendar)
         {
-            var min = FirstDay.WithCalendar(newCalendar);
-            var max = LastDay.WithCalendar(newCalendar);
+            // TODO(api): remove WithCalendar()? idem with CalendarYear.
+            // Better solution: SimpleRangeExtensions.
+
+            Requires.NotNull(newCalendar);
+
+            var min = newCalendar.GetDate(FirstDay.DayNumber).ToCalendarDate();
+            var max = newCalendar.GetDate(LastDay.DayNumber).ToCalendarDate();
+
             return Range.Create(min, max);
         }
 

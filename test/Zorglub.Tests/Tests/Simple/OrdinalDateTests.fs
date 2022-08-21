@@ -14,6 +14,8 @@ open Zorglub.Time.Simple
 
 open Xunit
 
+open type Zorglub.Time.Extensions.SimpleDateExtensions;
+
 module UserCase =
     [<Fact>]
     let ``FromBinary()`` () =

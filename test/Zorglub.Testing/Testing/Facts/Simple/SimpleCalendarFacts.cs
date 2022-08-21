@@ -184,7 +184,6 @@ public partial class SimpleCalendarFacts<TDataSet> // Factories
 
 public partial class SimpleCalendarFacts<TDataSet> // Conversions
 {
-#if false
     #region GetCalendarYear()
 
     [Fact]
@@ -258,7 +257,6 @@ public partial class SimpleCalendarFacts<TDataSet> // Conversions
     }
 
     #endregion
-#endif
 }
 
 public partial class SimpleCalendarFacts<TDataSet> // Internal helpers

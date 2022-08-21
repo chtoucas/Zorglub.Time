@@ -386,8 +386,11 @@ namespace Zorglub.Time.Simple
         [Pure]
         public Range<OrdinalDate> WithCalendar(SimpleCalendar newCalendar)
         {
-            var min = FirstDay.WithCalendar(newCalendar);
-            var max = LastDay.WithCalendar(newCalendar);
+            Requires.NotNull(newCalendar);
+
+            var min = newCalendar.GetDate(FirstDay.DayNumber).ToOrdinalDate();
+            var max = newCalendar.GetDate(LastDay.DayNumber).ToOrdinalDate();
+
             return Range.Create(min, max);
         }
 

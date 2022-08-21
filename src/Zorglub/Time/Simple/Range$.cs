@@ -124,10 +124,12 @@ namespace Zorglub.Time.Simple
         [Pure]
         public static Range<CalendarDate> WithCalendar(this Range<CalendarDate> range, SimpleCalendar newCalendar)
         {
+            Requires.NotNull(newCalendar);
+
             var (min, max) = range.Endpoints;
 
-            var start = min.WithCalendar(newCalendar);
-            var end = max.WithCalendar(newCalendar);
+            var start = newCalendar.GetDate(min.DayNumber).ToCalendarDate();
+            var end = newCalendar.GetDate(max.DayNumber).ToCalendarDate();
 
             return Range.Create(start, end);
         }
@@ -170,10 +172,12 @@ namespace Zorglub.Time.Simple
         [Pure]
         public static Range<CalendarDay> WithCalendar(this Range<CalendarDay> range, SimpleCalendar newCalendar)
         {
+            Requires.NotNull(newCalendar);
+
             var (min, max) = range.Endpoints;
 
-            var start = min.WithCalendar(newCalendar);
-            var end = max.WithCalendar(newCalendar);
+            var start = newCalendar.GetDate(min.DayNumber);
+            var end = newCalendar.GetDate(max.DayNumber);
 
             return Range.Create(start, end);
         }
@@ -216,10 +220,12 @@ namespace Zorglub.Time.Simple
         [Pure]
         public static Range<OrdinalDate> WithCalendar(this Range<OrdinalDate> range, SimpleCalendar newCalendar)
         {
+            Requires.NotNull(newCalendar);
+
             var (min, max) = range.Endpoints;
 
-            var start = min.WithCalendar(newCalendar);
-            var end = max.WithCalendar(newCalendar);
+            var start = newCalendar.GetDate(min.DayNumber).ToOrdinalDate();
+            var end = newCalendar.GetDate(max.DayNumber).ToOrdinalDate();
 
             return Range.Create(start, end);
         }
