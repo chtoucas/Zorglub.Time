@@ -691,9 +691,6 @@ static Zorglub.Time.Simple.RangeExtensions.ToEnumerable(this Zorglub.Time.Core.I
 static Zorglub.Time.Simple.RangeExtensions.ToEnumerable(this Zorglub.Time.Core.Intervals.Range<Zorglub.Time.Simple.CalendarMonth> range) -> System.Collections.Generic.IEnumerable<Zorglub.Time.Simple.CalendarMonth>!
 static Zorglub.Time.Simple.RangeExtensions.ToEnumerable(this Zorglub.Time.Core.Intervals.Range<Zorglub.Time.Simple.CalendarYear> range) -> System.Collections.Generic.IEnumerable<Zorglub.Time.Simple.CalendarYear>!
 static Zorglub.Time.Simple.RangeExtensions.ToEnumerable(this Zorglub.Time.Core.Intervals.Range<Zorglub.Time.Simple.OrdinalDate> range) -> System.Collections.Generic.IEnumerable<Zorglub.Time.Simple.OrdinalDate>!
-static Zorglub.Time.Simple.RangeExtensions.WithCalendar(this Zorglub.Time.Core.Intervals.Range<Zorglub.Time.Simple.CalendarDate> range, Zorglub.Time.Simple.SimpleCalendar! newCalendar) -> Zorglub.Time.Core.Intervals.Range<Zorglub.Time.Simple.CalendarDate>
-static Zorglub.Time.Simple.RangeExtensions.WithCalendar(this Zorglub.Time.Core.Intervals.Range<Zorglub.Time.Simple.CalendarDay> range, Zorglub.Time.Simple.SimpleCalendar! newCalendar) -> Zorglub.Time.Core.Intervals.Range<Zorglub.Time.Simple.CalendarDay>
-static Zorglub.Time.Simple.RangeExtensions.WithCalendar(this Zorglub.Time.Core.Intervals.Range<Zorglub.Time.Simple.OrdinalDate> range, Zorglub.Time.Simple.SimpleCalendar! newCalendar) -> Zorglub.Time.Core.Intervals.Range<Zorglub.Time.Simple.OrdinalDate>
 static Zorglub.Time.Simple.SimpleCalendar.Armenian.get -> Zorglub.Time.Simple.SimpleCalendar!
 static Zorglub.Time.Simple.SimpleCalendar.Civil.get -> Zorglub.Time.Simple.SimpleCalendar!
 static Zorglub.Time.Simple.SimpleCalendar.Coptic.get -> Zorglub.Time.Simple.SimpleCalendar!
@@ -1465,7 +1462,6 @@ Zorglub.Time.Simple.CalendarDate.PreviousOrSame(System.DayOfWeek dayOfWeek) -> Z
 Zorglub.Time.Simple.CalendarDate.ToBinary() -> int
 Zorglub.Time.Simple.CalendarDate.ToCalendarDay() -> Zorglub.Time.Simple.CalendarDay
 Zorglub.Time.Simple.CalendarDate.ToOrdinalDate() -> Zorglub.Time.Simple.OrdinalDate
-Zorglub.Time.Simple.CalendarDate.WithCalendar(Zorglub.Time.Simple.SimpleCalendar! newCalendar) -> Zorglub.Time.Simple.CalendarDate
 Zorglub.Time.Simple.CalendarDate.Year.get -> int
 Zorglub.Time.Simple.CalendarDate.YearOfCentury.get -> int
 Zorglub.Time.Simple.CalendarDate.YearOfEra.get -> Zorglub.Time.Ord
@@ -1508,7 +1504,6 @@ Zorglub.Time.Simple.CalendarDay.PreviousOrSame(System.DayOfWeek dayOfWeek) -> Zo
 Zorglub.Time.Simple.CalendarDay.ToBinary() -> int
 Zorglub.Time.Simple.CalendarDay.ToCalendarDate() -> Zorglub.Time.Simple.CalendarDate
 Zorglub.Time.Simple.CalendarDay.ToOrdinalDate() -> Zorglub.Time.Simple.OrdinalDate
-Zorglub.Time.Simple.CalendarDay.WithCalendar(Zorglub.Time.Simple.SimpleCalendar! newCalendar) -> Zorglub.Time.Simple.CalendarDay
 Zorglub.Time.Simple.CalendarDay.Year.get -> int
 Zorglub.Time.Simple.CalendarDay.YearOfCentury.get -> int
 Zorglub.Time.Simple.CalendarDay.YearOfEra.get -> Zorglub.Time.Ord
@@ -1560,7 +1555,6 @@ Zorglub.Time.Simple.CalendarMonth.PlusYears(int years) -> Zorglub.Time.Simple.Ca
 Zorglub.Time.Simple.CalendarMonth.PreviousMonth() -> Zorglub.Time.Simple.CalendarMonth
 Zorglub.Time.Simple.CalendarMonth.ToBinary() -> int
 Zorglub.Time.Simple.CalendarMonth.ToRange() -> Zorglub.Time.Core.Intervals.Range<Zorglub.Time.Simple.CalendarDate>
-Zorglub.Time.Simple.CalendarMonth.WithCalendar(Zorglub.Time.Simple.SimpleCalendar! newCalendar) -> Zorglub.Time.Core.Intervals.Range<Zorglub.Time.Simple.CalendarDate>
 Zorglub.Time.Simple.CalendarMonth.WithMonth(int newMonth) -> Zorglub.Time.Simple.CalendarMonth
 Zorglub.Time.Simple.CalendarMonth.WithYear(int newYear) -> Zorglub.Time.Simple.CalendarMonth
 Zorglub.Time.Simple.CalendarMonth.Year.get -> int
@@ -1593,7 +1587,6 @@ Zorglub.Time.Simple.CalendarYear.PreviousYear() -> Zorglub.Time.Simple.CalendarY
 Zorglub.Time.Simple.CalendarYear.ToBinary() -> int
 Zorglub.Time.Simple.CalendarYear.ToMonthRange() -> Zorglub.Time.Core.Intervals.Range<Zorglub.Time.Simple.CalendarMonth>
 Zorglub.Time.Simple.CalendarYear.ToRange() -> Zorglub.Time.Core.Intervals.Range<Zorglub.Time.Simple.OrdinalDate>
-Zorglub.Time.Simple.CalendarYear.WithCalendar(Zorglub.Time.Simple.SimpleCalendar! newCalendar) -> Zorglub.Time.Core.Intervals.Range<Zorglub.Time.Simple.OrdinalDate>
 Zorglub.Time.Simple.CalendarYear.WithYear(int newYear) -> Zorglub.Time.Simple.CalendarYear
 Zorglub.Time.Simple.CalendarYear.Year.get -> int
 Zorglub.Time.Simple.CalendarYear.YearOfCentury.get -> int
@@ -1619,7 +1612,6 @@ Zorglub.Time.Simple.ISimpleDate.ToCalendarDate() -> Zorglub.Time.Simple.Calendar
 Zorglub.Time.Simple.ISimpleDate.ToCalendarDay() -> Zorglub.Time.Simple.CalendarDay
 Zorglub.Time.Simple.ISimpleDate.ToOrdinalDate() -> Zorglub.Time.Simple.OrdinalDate
 Zorglub.Time.Simple.ISimpleDate<TSelf>
-Zorglub.Time.Simple.ISimpleDate<TSelf>.WithCalendar(Zorglub.Time.Simple.SimpleCalendar! newCalendar) -> TSelf
 Zorglub.Time.Simple.OrdinalDate
 Zorglub.Time.Simple.OrdinalDate.Calendar.get -> Zorglub.Time.Simple.SimpleCalendar!
 Zorglub.Time.Simple.OrdinalDate.CalendarMonth.get -> Zorglub.Time.Simple.CalendarMonth
@@ -1659,7 +1651,6 @@ Zorglub.Time.Simple.OrdinalDate.PreviousOrSame(System.DayOfWeek dayOfWeek) -> Zo
 Zorglub.Time.Simple.OrdinalDate.ToBinary() -> int
 Zorglub.Time.Simple.OrdinalDate.ToCalendarDate() -> Zorglub.Time.Simple.CalendarDate
 Zorglub.Time.Simple.OrdinalDate.ToCalendarDay() -> Zorglub.Time.Simple.CalendarDay
-Zorglub.Time.Simple.OrdinalDate.WithCalendar(Zorglub.Time.Simple.SimpleCalendar! newCalendar) -> Zorglub.Time.Simple.OrdinalDate
 Zorglub.Time.Simple.OrdinalDate.Year.get -> int
 Zorglub.Time.Simple.OrdinalDate.YearOfCentury.get -> int
 Zorglub.Time.Simple.OrdinalDate.YearOfEra.get -> Zorglub.Time.Ord
@@ -1673,8 +1664,11 @@ Zorglub.Time.Simple.SimpleCalendar.Algorithm.get -> Zorglub.Time.CalendricalAlgo
 Zorglub.Time.Simple.SimpleCalendar.Domain.get -> Zorglub.Time.Core.Intervals.Range<Zorglub.Time.DayNumber>
 Zorglub.Time.Simple.SimpleCalendar.Epoch.get -> Zorglub.Time.DayNumber
 Zorglub.Time.Simple.SimpleCalendar.Family.get -> Zorglub.Time.CalendricalFamily
+Zorglub.Time.Simple.SimpleCalendar.GetCalendarDate(Zorglub.Time.DayNumber dayNumber) -> Zorglub.Time.Simple.CalendarDate
 Zorglub.Time.Simple.SimpleCalendar.GetCalendarMonth(int year, int month) -> Zorglub.Time.Simple.CalendarMonth
+Zorglub.Time.Simple.SimpleCalendar.GetCalendarMonth(Zorglub.Time.DayNumber dayNumber) -> Zorglub.Time.Simple.CalendarMonth
 Zorglub.Time.Simple.SimpleCalendar.GetCalendarYear(int year) -> Zorglub.Time.Simple.CalendarYear
+Zorglub.Time.Simple.SimpleCalendar.GetCalendarYear(Zorglub.Time.DayNumber dayNumber) -> Zorglub.Time.Simple.CalendarYear
 Zorglub.Time.Simple.SimpleCalendar.GetCurrentDate() -> Zorglub.Time.Simple.CalendarDate
 Zorglub.Time.Simple.SimpleCalendar.GetCurrentDay() -> Zorglub.Time.Simple.CalendarDay
 Zorglub.Time.Simple.SimpleCalendar.GetCurrentMonth() -> Zorglub.Time.Simple.CalendarMonth
@@ -1683,6 +1677,7 @@ Zorglub.Time.Simple.SimpleCalendar.GetCurrentYear() -> Zorglub.Time.Simple.Calen
 Zorglub.Time.Simple.SimpleCalendar.GetDate(int year, int dayOfYear) -> Zorglub.Time.Simple.OrdinalDate
 Zorglub.Time.Simple.SimpleCalendar.GetDate(int year, int month, int day) -> Zorglub.Time.Simple.CalendarDate
 Zorglub.Time.Simple.SimpleCalendar.GetDate(Zorglub.Time.DayNumber dayNumber) -> Zorglub.Time.Simple.CalendarDay
+Zorglub.Time.Simple.SimpleCalendar.GetOrdinalDate(Zorglub.Time.DayNumber dayNumber) -> Zorglub.Time.Simple.OrdinalDate
 Zorglub.Time.Simple.SimpleCalendar.IsProleptic.get -> bool
 Zorglub.Time.Simple.SimpleCalendar.IsRegular(out int monthsInYear) -> bool
 Zorglub.Time.Simple.SimpleCalendar.IsUserDefined.get -> bool
