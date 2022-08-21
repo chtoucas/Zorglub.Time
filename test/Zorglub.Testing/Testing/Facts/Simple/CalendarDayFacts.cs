@@ -6,7 +6,7 @@ namespace Zorglub.Testing.Facts.Simple;
 using Zorglub.Testing.Data;
 using Zorglub.Time.Simple;
 
-using static Zorglub.Time.Extensions.SimpleDateExtensions;
+using static Zorglub.Time.Extensions.SimpleInterconversions;
 
 /// <summary>
 /// Provides facts about <see cref="CalendarDay"/>.

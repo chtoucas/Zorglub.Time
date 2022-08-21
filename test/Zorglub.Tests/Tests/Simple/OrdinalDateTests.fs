@@ -14,7 +14,7 @@ open Zorglub.Time.Simple
 
 open Xunit
 
-open type Zorglub.Time.Extensions.SimpleDateExtensions;
+open type Zorglub.Time.Extensions.SimpleInterconversions;
 
 module UserCase =
     [<Fact>]

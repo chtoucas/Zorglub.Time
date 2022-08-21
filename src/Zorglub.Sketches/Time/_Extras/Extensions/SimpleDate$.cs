@@ -7,74 +7,12 @@ namespace Zorglub.Time.Extensions
     using Zorglub.Time.Simple;
 
     /// <summary>
-    /// Provides extension methods for <see cref="CalendarDate"/>, <see cref="CalendarDay"/> and
+    /// Provides extension methods for <see cref="CalendarDate"/>, <see cref="CalendarDay"/> or
     /// <see cref="OrdinalDate"/>.
+    /// <para>See also <see cref="SimpleInterconversions"/>.</para>
     /// <para>This class cannot be inherited.</para>
     /// </summary>
     public static partial class SimpleDateExtensions { }
-
-    public partial class SimpleDateExtensions // Interconversion
-    {
-        /// <summary>
-        /// Interconverts the specified date to a date within a different calendar.
-        /// </summary>
-        /// <remarks>
-        /// <para>This method always performs the conversion whether it's necessary or not. To avoid
-        /// an expensive operation, it's better to check before that <paramref name="newCalendar"/>
-        /// is actually different from the calendar of the current instance.</para>
-        /// </remarks>
-        /// <exception cref="ArgumentNullException"><paramref name="newCalendar"/> is null.
-        /// </exception>
-        /// <exception cref="AoorException">The specified date cannot be converted into the new
-        /// calendar, the resulting date would be outside its range of years.</exception>
-        [Pure]
-        public static CalendarDay WithCalendar(this CalendarDate date, SimpleCalendar newCalendar)
-        {
-            Requires.NotNull(newCalendar);
-
-            return newCalendar.GetDate(date.DayNumber);
-        }
-
-        /// <summary>
-        /// Interconverts the specified date to a date within a different calendar.
-        /// </summary>
-        /// <remarks>
-        /// <para>This method always performs the conversion whether it's necessary or not. To avoid
-        /// an expensive operation, it's better to check before that <paramref name="newCalendar"/>
-        /// is actually different from the calendar of the current instance.</para>
-        /// </remarks>
-        /// <exception cref="ArgumentNullException"><paramref name="newCalendar"/> is null.
-        /// </exception>
-        /// <exception cref="AoorException">The specified date cannot be converted into the new
-        /// calendar, the resulting date would be outside its range of years.</exception>
-        [Pure]
-        public static CalendarDay WithCalendar(this CalendarDay date, SimpleCalendar newCalendar)
-        {
-            Requires.NotNull(newCalendar);
-
-            return newCalendar.GetDate(date.DayNumber);
-        }
-
-        /// <summary>
-        /// Interconverts the specified date to a date within a different calendar.
-        /// </summary>
-        /// <remarks>
-        /// <para>This method always performs the conversion whether it's necessary or not. To avoid
-        /// an expensive operation, it's better to check before that <paramref name="newCalendar"/>
-        /// is actually different from the calendar of the current instance.</para>
-        /// </remarks>
-        /// <exception cref="ArgumentNullException"><paramref name="newCalendar"/> is null.
-        /// </exception>
-        /// <exception cref="AoorException">The specified date cannot be converted into the new
-        /// calendar, the resulting date would be outside its range of years.</exception>
-        [Pure]
-        public static CalendarDay WithCalendar(this OrdinalDate date, SimpleCalendar newCalendar)
-        {
-            Requires.NotNull(newCalendar);
-
-            return newCalendar.GetDate(date.DayNumber);
-        }
-    }
 
     public partial class SimpleDateExtensions // IEpagomenalFeaturette
     {

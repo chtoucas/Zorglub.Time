@@ -9,6 +9,7 @@ using Zorglub.Testing.Data;
 using Zorglub.Time.Core.Intervals;
 using Zorglub.Time.Simple;
 
+using static Zorglub.Time.Extensions.SimpleInterconversions;
 using static Zorglub.Time.Extensions.SimpleRangeExtensions;
 
 // NB: we know that all years within the range [1..9999] are valid.

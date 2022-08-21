@@ -9,7 +9,7 @@ using Zorglub.Testing.Data;
 using Zorglub.Time.Core.Intervals;
 using Zorglub.Time.Simple;
 
-using static Zorglub.Time.Extensions.SimpleRangeExtensions;
+using static Zorglub.Time.Extensions.SimpleInterconversions;
 
 // TODO(fact): tests with ranges that are not a complete year or month...
 
