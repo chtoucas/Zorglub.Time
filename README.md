@@ -8,6 +8,17 @@ extensibility and performance.
 
 _This project is heavily inspired by NodaTime and JodaTime._
 
+Compared to NodaTime and the BCL, Zorglub.Time is missing many important features
+(parsing, formatting, time-related classes, no package, etc.), therefore there
+is very little reason to use this library instead of them; it's really just a
+hobby project.
+
+Current status:
+- Alpha: unstable API
+- Well tested
+- Results regarding performance are rather promising
+- Targets the future .NET 7
+
 Features
 --------
 

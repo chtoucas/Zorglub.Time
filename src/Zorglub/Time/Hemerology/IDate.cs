@@ -15,14 +15,11 @@ namespace Zorglub.Time.Hemerology
     // specialized and optimised for the Gregorian case.
     // We will definitely keep it for date types not linked to a calendar type.
 
-    #region Developer Notes
-
-    // A date type is expected to provide the following constructors or factories:
-    // - new(y, m, d)
-    // - new(y, doy)
-    // - new(dayNumber)
-
-    #endregion
+    // A date type is expected to provide a constructor or factory for the
+    // following parameters:
+    // - (y, m, d)
+    // - (y, doy)
+    // - (dayNumber)
 
     /// <summary>
     /// Defines a date.
@@ -88,15 +85,17 @@ namespace Zorglub.Time.Hemerology
         /// </summary>
         static abstract TCalendar Calendar { get; }
 
-        // FIXME(api): this is not the right way of doing it -> use a provider;
-        // see also NodaTime.
         // We don't add the UTC version UtcToday(). I don't think that we need
-        // such a level of precision, furthermore one can still do it manually
+        // such a level of precision, and one can still achieve the same thing
         // using a constructor new(DayNumber.UtcToday()) --- or a static factory
         // for dates linked to a poly-calendar system.
+        // Anyway, this is not the right way to do it. A much better API would
+        // provide a way to obtain the current date using a pluggable clock
+        // (see NodaTime). Nevertheless, we keep the naive Today() because it
+        // covers the most common case (expecially for beginners).
 
         /// <summary>
-        /// Obtains the current day on this machine, expressed in local time, not UTC.
+        /// Obtains the current day on this computer, expressed in the local time.
         /// </summary>
         [Pure] static abstract TSelf Today();
     }
