@@ -14,8 +14,8 @@ namespace Zorglub.Time.Core
     //
     // ICalendricalKernel
     // └─ ICalendricalSchema
-    //    ├─ CalendricalSchemaOffsetted                 DRAFT
-    //    ├─ CalendricalSchemaValidated                 DRAFT
+    //    ├─ OffsettedSchema                            DRAFT
+    //    ├─ StrictSchema                               DRAFT
     //    └─ ICalendricalSchemaPlus
     //       └─ CalendricalSchema [A]
     //          └─ SystemSchema [A]

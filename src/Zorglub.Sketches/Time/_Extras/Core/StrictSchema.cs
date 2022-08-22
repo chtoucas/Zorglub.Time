@@ -6,19 +6,17 @@ namespace Zorglub.Time.Core
     using Zorglub.Time.Core.Intervals;
     using Zorglub.Time.Core.Validation;
 
-    // FIXME(code): que faire de la propriété Arithmetic?
-
-    public abstract partial class CalendricalSchemaValidated : ICalendricalSchema
+    public abstract partial class StrictSchema : ICalendricalSchema
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="CalendricalSchemaValidated"/> class.
+        /// Initializes a new instance of the <see cref="StrictSchema"/> class.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
-        protected CalendricalSchemaValidated(ICalendricalSchema schema)
+        protected StrictSchema(ICalendricalSchema schema)
         {
             Requires.NotNull(schema);
 
-            Schema = schema is CalendricalSchemaValidated sch ? sch.Schema : schema;
+            Schema = schema is StrictSchema sch ? sch.Schema : schema;
         }
 
         /// <inheritdoc />
@@ -64,13 +62,13 @@ namespace Zorglub.Time.Core
         protected abstract void ValidateDaysSinceEpoch(int daysSinceEpoch);
 
         /// <summary>
-        /// Creates a new instance of the <see cref="CalendricalSchemaValidated"/> class.
+        /// Creates a new instance of the <see cref="StrictSchema"/> class.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
-        public static CalendricalSchemaValidated Create(ICalendricalSchema schema, bool strict) =>
+        public static StrictSchema Create(ICalendricalSchema schema, bool strict) =>
             strict ? new StrictlyValidated(schema) : new PreValidated(schema);
 
-        private sealed class PreValidated : CalendricalSchemaValidated
+        private sealed class PreValidated : StrictSchema
         {
             public PreValidated(ICalendricalSchema schema) : base(schema) { }
 
@@ -90,7 +88,7 @@ namespace Zorglub.Time.Core
             protected override void ValidateDaysSinceEpoch(int daysSinceEpoch) { }
         }
 
-        private sealed class StrictlyValidated : CalendricalSchemaValidated
+        private sealed class StrictlyValidated : StrictSchema
         {
             private readonly MinMaxYearValidator _validator;
 
@@ -121,7 +119,7 @@ namespace Zorglub.Time.Core
         }
     }
 
-    public partial class CalendricalSchemaValidated // Year, month or day infos
+    public partial class StrictSchema // Year, month or day infos
     {
         [Pure]
         public bool IsLeapYear(int y)
@@ -152,7 +150,7 @@ namespace Zorglub.Time.Core
         }
     }
 
-    public partial class CalendricalSchemaValidated // Counting months and days within a year or a month
+    public partial class StrictSchema // Counting months and days within a year or a month
     {
         [Pure]
         public int CountMonthsInYear(int y)
@@ -250,7 +248,7 @@ namespace Zorglub.Time.Core
 #endif
     }
 
-    public partial class CalendricalSchemaValidated // Conversions
+    public partial class StrictSchema // Conversions
     {
         [Pure]
         public int CountMonthsSinceEpoch(int y, int m)
@@ -307,7 +305,7 @@ namespace Zorglub.Time.Core
         }
     }
 
-    public partial class CalendricalSchemaValidated //
+    public partial class StrictSchema //
     {
         [Pure]
         public int GetStartOfYearInMonths(int y)

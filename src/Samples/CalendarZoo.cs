@@ -377,10 +377,10 @@ public partial class CalendarZoo
         return s_ThaiSolar;
     }
 
-    private static CalendricalSchemaOffsetted CreateOffsettedCivilSchema(int offset)
+    private static OffsettedSchema CreateOffsettedCivilSchema(int offset)
     {
         var sch = CivilSchema.GetInstance().Unbox();
-        return new CalendricalSchemaOffsetted(sch, offset);
+        return new OffsettedSchema(sch, offset);
     }
 }
 

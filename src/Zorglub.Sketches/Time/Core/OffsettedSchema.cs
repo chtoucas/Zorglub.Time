@@ -10,7 +10,7 @@ namespace Zorglub.Time.Core
     // ne sont plus les mêmes, il faudrait tenir compte de Offset, mais ces
     // propriétés sont "fermées".
 
-    public sealed class CalendricalSchemaOffsetted : ICalendricalSchema
+    public sealed class OffsettedSchema : ICalendricalSchema
     {
         /// <summary>
         /// Represents the genuine schema.
@@ -19,11 +19,11 @@ namespace Zorglub.Time.Core
         private readonly ICalendricalSchema _schema;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="CalendricalSchemaOffsetted"/> class.
+        /// Initializes a new instance of the <see cref="OffsettedSchema"/> class.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
         // REVIEW(api): Internal ctor?
-        public CalendricalSchemaOffsetted(ICalendricalSchema schema, int offset)
+        public OffsettedSchema(ICalendricalSchema schema, int offset)
         {
             _schema = schema ?? throw new ArgumentNullException(nameof(schema));
 
