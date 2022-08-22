@@ -232,6 +232,7 @@ namespace Zorglub.Time
 
         /// <summary>
         /// Obtains the current day number on this computer, expressed in the local time.
+        /// <para>See also <seealso cref="Zorglub.Time.Horology.SystemClock.Default"/>.</para>
         /// </summary>
         [Pure]
         public static DayNumber Today()
@@ -243,6 +244,7 @@ namespace Zorglub.Time
 
         /// <summary>
         /// Obtains the current day number on this computer, expressed in the UTC.
+        /// <para>See also <seealso cref="Zorglub.Time.Horology.SystemClock.Utc"/>.</para>
         /// </summary>
         [Pure]
         public static DayNumber UtcToday()

@@ -78,6 +78,8 @@ Plan?
 - Regnal calendars or (better?) dates
 - Hybrid calendars or better?) dates, Gregorianizer
 - Fictional calendars based on IAffineDate
+- Time zones
+  https://codeblog.jonskeet.uk/2019/03/27/storing-utc-is-not-a-silver-bullet/
 
 https://fr.wikipedia.org/wiki/Calendrier_solaire_de_364_jours
 https://en.wikipedia.org/wiki/Anthropocene
