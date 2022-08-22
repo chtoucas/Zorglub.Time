@@ -6,26 +6,26 @@ namespace Zorglub.Time.Horology
     using Zorglub.Time.Core;
 
     /// <summary>
-    /// Represents the system clock.
+    /// Represents the system timepiece using the UTC timezone.
     /// <para>This class cannot be inherited.</para>
     /// </summary>
-    public sealed class SystemUtcTimepiece : ITimepiece
+    public sealed class SystemUtcClock : ITimepiece
     {
-        private SystemUtcTimepiece() { }
+        private SystemUtcClock() { }
 
         /// <summary>
-        /// Gets a singleton instance of the <see cref="SystemUtcTimepiece"/> class.
+        /// Gets a singleton instance of the <see cref="SystemUtcClock"/> class.
         /// <para>This static property is thread-safe.</para>
         /// </summary>
-        public static SystemUtcTimepiece Instance { get; } = new();
+        public static SystemUtcClock Instance { get; } = new();
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public long Now() =>
             // Correspond réellement au nombre de tics sans compter les secondes
             // intercalaires, donc dans l'échelle atomique internationale.
             100 * DateTime.UtcNow.Ticks;
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public DayNumber Today()
         {
             // NB: the cast should always succeed.

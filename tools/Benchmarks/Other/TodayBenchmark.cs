@@ -66,7 +66,7 @@ public class TodayBenchmark
     [Benchmark(Description = "CalendarDate  (Y)")]
     public (int, int, int, DayOfWeek) WithCalendarDate()
     {
-        CalendarDate today = CalendarDate.Today();
+        CalendarDate today = SimpleCalendar.Gregorian.DefaultClock.GetCurrentDate();
         var (y, m, d) = today;
 
         return (y, m, d, today.DayOfWeek);
@@ -75,7 +75,7 @@ public class TodayBenchmark
     [Benchmark(Description = "CalendarDay     ", Baseline = true)]
     public (int, int, int, DayOfWeek) WithCalendarDay()
     {
-        CalendarDay today = CalendarDay.Today();
+        CalendarDay today = SimpleCalendar.Gregorian.DefaultClock.GetCurrentDay();
         var (y, m, d) = today;
 
         return (y, m, d, today.DayOfWeek);
@@ -84,7 +84,7 @@ public class TodayBenchmark
     [Benchmark(Description = "OrdinalDate  (O)")]
     public (int, int, int, DayOfWeek) WithOrdinalDate()
     {
-        OrdinalDate today = OrdinalDate.Today();
+        OrdinalDate today = SimpleCalendar.Gregorian.DefaultClock.GetCurrentOrdinal();
         (int y, int m, int d) = today;
 
         return (y, m, d, today.DayOfWeek);
@@ -102,7 +102,7 @@ public class TodayBenchmark
     [Benchmark(Description = "ZDate     ")]
     public (int, int, int, DayOfWeek) WithZDate()
     {
-        ZDate today = ZDate.Today();
+        ZDate today = ZCalendar.Gregorian.DefaultClock.GetCurrentDate();
         var (y, m, d) = today;
 
         return (y, m, d, today.DayOfWeek);

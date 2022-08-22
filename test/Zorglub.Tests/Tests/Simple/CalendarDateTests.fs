@@ -86,7 +86,7 @@ module GregorianCase =
     [<Fact>]
     let ``Today()`` () =
         let now = DateTime.Now
-        let today = CalendarDate.Today()
+        let today = chr.DefaultClock.GetCurrentDate()
 
         today.Year  === now.Year
         today.Month === now.Month

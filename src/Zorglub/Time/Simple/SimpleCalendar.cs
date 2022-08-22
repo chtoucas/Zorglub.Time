@@ -8,6 +8,7 @@ namespace Zorglub.Time.Simple
     using Zorglub.Time.Core.Validation;
     using Zorglub.Time.Hemerology;
     using Zorglub.Time.Hemerology.Scopes;
+    using Zorglub.Time.Horology;
 
     #region Developer Notes
 
@@ -146,6 +147,9 @@ namespace Zorglub.Time.Simple
             // Keep this at the end of the constructor: before using "this",
             // all props should be initialized.
             _math = CalendarMath.CreateDefault(this);
+
+            DefaultClock = SimpleClock.CreateCore(this, SystemDefaultClock.Instance);
+            UtcClock = SimpleClock.CreateCore(this, SystemUtcClock.Instance);
         }
 
         #region System calendars
@@ -412,6 +416,30 @@ namespace Zorglub.Time.Simple
         {
             if (cuid != Id) Throw.BadCuid(paramName, Id, cuid);
         }
+    }
+
+    public partial class SimpleCalendar // Clocks
+    {
+        /// <summary>
+        /// Gets the clock for the current instance and the system timepiece clock using the default
+        /// timezone.
+        /// </summary>
+        [Pure]
+        public SimpleClock DefaultClock { get; }
+
+        /// <summary>
+        /// Gets the clock for the current instance and the system timepiece clock using the UTC
+        /// timezone.
+        /// </summary>
+        [Pure]
+        public SimpleClock UtcClock { get; }
+
+        /// <summary>
+        /// Obtains a clock for the current instance using the specified timepiece.
+        /// </summary>
+        /// <exception cref="ArgumentNullException"><paramref name="clock"/> is null.</exception>
+        [Pure]
+        public SimpleClock GetClock(ITimepiece clock) => SimpleClock.CreateCore(this, clock);
     }
 
     public partial class SimpleCalendar // Year or month infos

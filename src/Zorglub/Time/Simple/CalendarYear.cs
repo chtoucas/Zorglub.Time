@@ -348,21 +348,6 @@ namespace Zorglub.Time.Simple
         public int ToBinary() => Cuid.IsFixed() ? _bin : Throw.NotSupported<int>();
 
         #endregion
-        #region Factories
-
-        /// <summary>
-        /// Obtains the current year in the <i>Gregorian</i> calendar on this machine.
-        /// <para>To obtain the current year in another calendar, see
-        /// <see cref="SimpleCalendar.GetCurrentYear()"/>.</para>
-        /// </summary>
-        [Pure]
-        public static CalendarYear GetCurrentYear()
-        {
-            int y = GregorianFormulae.GetYear(DayNumber.Today().DaysSinceZero);
-            return new CalendarYear(y, Cuid.Gregorian);
-        }
-
-        #endregion
         #region Conversions
 
         /// <summary>

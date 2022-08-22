@@ -6,7 +6,6 @@ namespace Zorglub.Time.Hemerology
     using Zorglub.Time.Core;
     using Zorglub.Time.Core.Schemas;
     using Zorglub.Time.Core.Validation;
-    using Zorglub.Time.Hemerology;
     using Zorglub.Time.Hemerology.Scopes;
 
     // TODO(code): ordinal ctor, serialization, adjustments, non-standard arithmetic.
@@ -271,16 +270,6 @@ namespace Zorglub.Time.Hemerology
         //public long ToBinary() =>
         //    _cuid > (int)CalendarId.Zoroastrian ? Throw.NotSupported<long>()
         //        : _bin.ToBinary((uint)_cuid);
-
-        #endregion
-        #region Factories
-
-        /// <summary>
-        /// Obtains the current date in the <i>Gregorian</i> calendar on this machine, expressed in
-        /// local time, not UTC.
-        /// </summary>
-        [Pure]
-        public static ZDate Today() => new(DayNumber.Today().DaysSinceZero, (int)CalendarId.Gregorian);
 
         #endregion
         #region Counting

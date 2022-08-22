@@ -5,8 +5,6 @@ namespace Zorglub.Time.Hemerology
 {
     using Zorglub.Time.Horology;
 
-    // TODO(api): UtcToday(), time provider.
-
     // Implemented by poly-calendar systems with a single companion date type.
     // Could be implemented when the system supports more than one companion
     // date type but then we would have to pick up a default date type.
@@ -37,12 +35,5 @@ namespace Zorglub.Time.Hemerology
         /// <exception cref="AoorException">The ordinal date is either invalid or outside the range
         /// of supported dates.</exception>
         [Pure] TDate GetDate(int year, int dayOfYear);
-
-        /// <summary>
-        /// Obtains the current date using the specified clock.
-        /// </summary>
-        /// <exception cref="ArgumentNullException"><paramref name="clock"/> is null.</exception>
-        /// <exception cref="AoorException">Today is outside the range of supported dates.</exception>
-        [Pure] TDate Today(ITimepiece clock);
     }
 }

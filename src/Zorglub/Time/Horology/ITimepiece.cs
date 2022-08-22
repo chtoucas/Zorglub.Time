@@ -3,7 +3,7 @@
 
 namespace Zorglub.Time.Horology
 {
-    // TODO: retourner un type temps UtcTime ou AtomicTime ? ou Y-M-D H-M-S.sss
+    // TODO(api): retourner un type temps UtcTime ou AtomicTime ? ou Y-M-D H-M-S.sss
     // Réalisation complémentaire : NTP.
 
     /// <summary>

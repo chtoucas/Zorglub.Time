@@ -85,6 +85,8 @@ namespace Zorglub.Time.Hemerology
         /// </summary>
         static abstract TCalendar Calendar { get; }
 
+        // FIXME(api): UtcToday() and Today(ITimepiece).
+
         // We don't add the UTC version UtcToday(). I don't think that we need
         // such a level of precision, and one can still achieve the same thing
         // using a constructor new(DayNumber.UtcToday()) --- or a static factory

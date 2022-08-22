@@ -10,6 +10,7 @@ open Zorglub.Time.Hemerology.Scopes
 open Zorglub.Time.Simple
 open Zorglub.Time.Specialized
 
+open type Zorglub.Time.Extensions.SimpleCalendarExtensions
 open type Zorglub.Time.Extensions.SimpleDateExtensions
 open type Zorglub.Time.Extensions.Unboxing
 
@@ -25,7 +26,7 @@ let ``Gregorian date`` () =
     printfn "  DayNumber        = %O" today.DayNumber
 
 let ``Gregorian calendar`` () =
-    let day = CalendarDate.Today()
+    let day = SimpleCalendar.Gregorian.Today()
     let month = day.CalendarMonth
     let year = day.CalendarYear
 
@@ -65,7 +66,7 @@ let ``Gregorian calendar w/ dates after 1/1/1`` () =
     printfn "  Today            = %i/%i/%i (%O)" d m y chr
 
 let ``Armenian calendar`` () =
-    let day = SimpleCalendar.Armenian.GetLocalClock().GetCurrentDate()
+    let day = SimpleCalendar.Armenian.Today()
     let month = day.CalendarMonth
     let year = day.CalendarYear
 

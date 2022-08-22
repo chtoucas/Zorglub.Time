@@ -210,21 +210,6 @@ namespace Zorglub.Time.Simple
         public int ToBinary() => Cuid.IsFixed() ? _bin.ToBinary() : Throw.NotSupported<int>();
 
         #endregion
-        #region Factories
-
-        /// <summary>
-        /// Obtains the current month in the <i>Gregorian</i> calendar on this machine.
-        /// <para>To obtain the current year in another calendar, see
-        /// <see cref="SimpleCalendar.GetCurrentMonth()"/>.</para>
-        /// </summary>
-        [Pure]
-        public static CalendarMonth GetCurrentMonth()
-        {
-            var ymd = GregorianFormulae.GetDateParts(DayNumber.Today().DaysSinceZero);
-            return new CalendarMonth(ymd.Yemo, Cuid.Gregorian);
-        }
-
-        #endregion
         #region Conversions
 
         /// <summary>

@@ -236,22 +236,6 @@ namespace Zorglub.Time.Simple
         public int ToBinary() => Cuid.IsFixed() ? _bin.ToBinary() : Throw.NotSupported<int>();
 
         #endregion
-        #region Factories
-
-        /// <summary>
-        /// Obtains the current date in the <i>Gregorian</i> calendar on this machine, expressed in
-        /// local time, not UTC.
-        /// <para>To obtain the current date in another calendar, see
-        /// <see cref="SimpleCalendar.GetCurrentOrdinal()"/>.</para>
-        /// </summary>
-        [Pure]
-        public static OrdinalDate Today()
-        {
-            var ydoy = GregorianFormulae.GetOrdinalParts(DayNumber.Today().DaysSinceZero);
-            return new OrdinalDate(ydoy, Cuid.Gregorian);
-        }
-
-        #endregion
         #region Conversions
 
         /// <inheritdoc />

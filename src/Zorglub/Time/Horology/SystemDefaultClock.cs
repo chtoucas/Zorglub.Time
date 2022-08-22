@@ -6,24 +6,24 @@ namespace Zorglub.Time.Horology
     using Zorglub.Time.Core;
 
     /// <summary>
+    /// Represents the system timepiece using the default timezone.
     /// Represents the system clock.
     /// <para>This class cannot be inherited.</para>
     /// </summary>
-    public sealed class SystemLocalTimepiece : ITimepiece
+    public sealed class SystemDefaultClock : ITimepiece
     {
-        private SystemLocalTimepiece() { }
+        private SystemDefaultClock() { }
 
         /// <summary>
-        /// Gets a singleton instance of the <see cref="SystemLocalTimepiece"/> class.
+        /// Gets a singleton instance of the <see cref="SystemDefaultClock"/> class.
         /// <para>This static property is thread-safe.</para>
         /// </summary>
-        public static SystemLocalTimepiece Instance { get; } = new();
+        public static SystemDefaultClock Instance { get; } = new();
 
-        /// <inheritdoc />
-        public long Now() =>
-            100 * DateTime.Now.Ticks;
+        /// <inheritdoc/>
+        public long Now() => 100 * DateTime.Now.Ticks;
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public DayNumber Today()
         {
             // NB: the cast should always succeed.

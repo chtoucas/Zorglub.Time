@@ -361,8 +361,8 @@ module GregorianCase =
         new SimpleCalendar(
             FauxUserCalendar.DefaultCuid, FauxUserCalendar.DefaultKey, new GregorianSchema(), startOfYear3000, false)
 
-    let private clock = chr.GetLocalClock();
-    let private fauxClock = fauxCalendar.GetLocalClock();
+    let private clock = chr.DefaultClock;
+    let private fauxClock = fauxCalendar.DefaultClock;
 
     let private calendarDataSet = ProlepticGregorianDataSet.Instance
 

@@ -8,6 +8,7 @@ using Samples;
 using Zorglub.Time;
 using Zorglub.Time.Core.Schemas;
 using Zorglub.Time.Hemerology;
+using Zorglub.Time.Horology;
 using Zorglub.Time.Simple;
 
 using static System.Console;
@@ -25,7 +26,7 @@ public static class Showcase
 
     public static void Run()
     {
-        var today = DayNumber.Today();
+        var today = SystemDefaultClock.Instance.Today();
 
         WriteLine($"Day number: {today}\n");
 

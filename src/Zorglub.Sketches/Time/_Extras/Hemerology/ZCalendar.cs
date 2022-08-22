@@ -13,6 +13,7 @@ namespace Zorglub.Time.Hemerology
     // FIXME(api): prop Name (get and init) with default value = Key with the
     // ability to set it afterward.
     // Constructor throws "name" vs "key".
+    // Remove ToString().
 
     #region Developer Notes
 
@@ -49,7 +50,6 @@ namespace Zorglub.Time.Hemerology
         ICalendar<ZDate>,
         IDateFactory<ZDate>
     {
-        // FIXME(api): require a MinMaxYearScope.
         /// <summary>
         /// Initializes a new instance of <see cref="ZCalendar"/> class.
         /// </summary>
@@ -64,7 +64,7 @@ namespace Zorglub.Time.Hemerology
 
             // The scope MUST be complete, otherwise we have a problem with
             // methods here (infos, IDayProvider, ValidateGregorianParts()) but
-            // also with counting methods in ZDate, and with  ZDateAdjusters.
+            // also with counting methods in ZDate, and with ZDateAdjusters.
             if (scope.Segment.IsComplete == false) Throw.Argument(nameof(scope));
 
             Key = key;
@@ -73,6 +73,9 @@ namespace Zorglub.Time.Hemerology
 
             MinMaxDate = from dayNumber in scope.Domain.Endpoints
                          select new ZDate(dayNumber - Epoch, id);
+
+            DefaultClock = ZClock.CreateCore(this, SystemDefaultClock.Instance);
+            UtcClock = ZClock.CreateCore(this, SystemUtcClock.Instance);
         }
 
         #region System calendars
@@ -155,7 +158,31 @@ namespace Zorglub.Time.Hemerology
         public sealed override string ToString() => Key;
     }
 
-    public partial class ZCalendar // Factories, conversions
+    public partial class ZCalendar // Clocks
+    {
+        /// <summary>
+        /// Gets the clock for the current instance and the system timepiece clock using the default
+        /// timezone.
+        /// </summary>
+        [Pure]
+        public ZClock DefaultClock { get; }
+
+        /// <summary>
+        /// Gets the clock for the current instance and the system timepiece clock using the UTC
+        /// timezone.
+        /// </summary>
+        [Pure]
+        public ZClock UtcClock { get; }
+
+        /// <summary>
+        /// Obtains a clock for the current instance using the specified clock.
+        /// </summary>
+        /// <exception cref="ArgumentNullException"><paramref name="clock"/> is null.</exception>
+        [Pure]
+        public ZClock GetClock(ITimepiece clock) => ZClock.CreateCore(this, clock);
+    }
+
+    public partial class ZCalendar // Factories
     {
         /// <inheritdoc/>
         [Pure]
@@ -181,17 +208,6 @@ namespace Zorglub.Time.Hemerology
             Scope.ValidateOrdinal(year, dayOfYear);
             int daysSinceEpoch = Schema.CountDaysSinceEpoch(year, dayOfYear);
             return new ZDate(daysSinceEpoch, Id);
-        }
-
-        /// <inheritdoc/>
-        [Pure]
-        public ZDate Today(ITimepiece clock)
-        {
-            Requires.NotNull(clock);
-
-            var today = clock.Today();
-            if (IsUserDefined) { Domain.Validate(today); }
-            return new(today - Epoch, Id);
         }
     }
 
