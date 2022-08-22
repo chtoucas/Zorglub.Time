@@ -18,21 +18,22 @@ namespace Zorglub.Time.Simple
         private readonly SimpleCalendar _calendar;
 
         /// <summary>
-        /// Represents the clock.
+        /// Represents the timepiece.
         /// <para>This field is read-only.</para>
         /// </summary>
-        private readonly ITimepiece _clock;
+        private readonly ITimepiece _timepiece;
 
         /// <summary>
         /// Called from constructors in derived classes to initialize the <see cref="SimpleClock"/>
         /// class.
         /// </summary>
-        /// <exception cref="ArgumentNullException"><paramref name="calendar"/> is null.</exception>
-        /// <exception cref="ArgumentNullException"><paramref name="clock"/> is null.</exception>
-        protected SimpleClock(SimpleCalendar calendar, ITimepiece clock)
+        /// <exception cref="ArgumentNullException"><paramref name="timepiece"/> is null.</exception>
+        private SimpleClock(SimpleCalendar calendar, ITimepiece timepiece)
         {
-            _calendar = calendar ?? throw new ArgumentNullException(nameof(clock));
-            _clock = clock ?? throw new ArgumentNullException(nameof(clock));
+            Debug.Assert(calendar != null);
+
+            _calendar = calendar;
+            _timepiece = timepiece ?? throw new ArgumentNullException(nameof(timepiece));
         }
 
         /// <summary>
@@ -60,23 +61,32 @@ namespace Zorglub.Time.Simple
         /// </summary>
         private Range<DayNumber> Domain => _calendar.Domain;
 
+        /// <summary>
+        /// Creates a new instance of the <see cref="SimpleClock"/> class.
+        /// </summary>
+        /// <exception cref="ArgumentNullException"><paramref name="calendar"/> is null.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="timepiece"/> is null.</exception>
         [Pure]
-        public static SimpleClock Create(SimpleCalendar calendar, ITimepiece clock)
+        public static SimpleClock Create(SimpleCalendar calendar, ITimepiece timepiece)
         {
             Requires.NotNull(calendar);
 
-            return CreateCore(calendar, clock);
+            return CreateCore(calendar, timepiece);
         }
 
+        /// <summary>
+        /// Creates a new instance of the <see cref="SimpleClock"/> class.
+        /// </summary>
+        /// <exception cref="ArgumentNullException"><paramref name="timepiece"/> is null.</exception>
         [Pure]
-        internal static SimpleClock CreateCore(SimpleCalendar calendar, ITimepiece clock)
+        internal static SimpleClock CreateCore(SimpleCalendar calendar, ITimepiece timepiece)
         {
             Debug.Assert(calendar != null);
 
             return
-                calendar.Id == Cuid.Gregorian ? new Gregorian(calendar, clock)
-                : calendar.IsUserDefined ? new UserDefined(calendar, clock)
-                : new System(calendar, clock);
+                calendar.Id == Cuid.Gregorian ? new Gregorian(calendar, timepiece)
+                : calendar.IsUserDefined ? new UserDefined(calendar, timepiece)
+                : new System(calendar, timepiece);
         }
 
         // Identical to the conversion methods found in SimpleCalendar but
@@ -126,46 +136,47 @@ namespace Zorglub.Time.Simple
 
         private sealed class Gregorian : SimpleClock
         {
-            public Gregorian(SimpleCalendar calendar, ITimepiece clock) : base(calendar, clock)
+            public Gregorian(SimpleCalendar calendar, ITimepiece timepiece)
+                : base(calendar, timepiece)
             {
                 Debug.Assert(calendar.Id == Cuid.Gregorian);
             }
 
             [Pure]
-            public sealed override CalendarYear GetCurrentYear()
+            public override CalendarYear GetCurrentYear()
             {
-                var today = _clock.Today();
+                var today = _timepiece.Today();
                 int y = GregorianFormulae.GetYear(today.DaysSinceZero);
                 return new CalendarYear(y, Cuid.Gregorian);
             }
 
             [Pure]
-            public sealed override CalendarMonth GetCurrentMonth()
+            public override CalendarMonth GetCurrentMonth()
             {
-                var today = _clock.Today();
+                var today = _timepiece.Today();
                 var ymd = GregorianFormulae.GetDateParts(today.DaysSinceZero);
                 return new CalendarMonth(ymd.Yemo, Cuid.Gregorian);
             }
 
             [Pure]
-            public sealed override CalendarDate GetCurrentDate()
+            public override CalendarDate GetCurrentDate()
             {
-                var today = _clock.Today();
+                var today = _timepiece.Today();
                 var ymd = GregorianFormulae.GetDateParts(today.DaysSinceZero);
                 return new CalendarDate(ymd, Cuid.Gregorian);
             }
 
             [Pure]
-            public sealed override CalendarDay GetCurrentDay()
+            public override CalendarDay GetCurrentDay()
             {
-                var today = _clock.Today();
+                var today = _timepiece.Today();
                 return new(today.DaysSinceZero, Cuid.Gregorian);
             }
 
             [Pure]
-            public sealed override OrdinalDate GetCurrentOrdinal()
+            public override OrdinalDate GetCurrentOrdinal()
             {
-                var today = _clock.Today();
+                var today = _timepiece.Today();
                 var ydoy = GregorianFormulae.GetOrdinalParts(today.DaysSinceZero);
                 return new OrdinalDate(ydoy, Cuid.Gregorian);
             }
@@ -173,46 +184,46 @@ namespace Zorglub.Time.Simple
 
         private sealed class System : SimpleClock
         {
-            public System(SimpleCalendar calendar, ITimepiece clock) : base(calendar, clock)
+            public System(SimpleCalendar calendar, ITimepiece timepiece) : base(calendar, timepiece)
             {
                 Debug.Assert(calendar.IsUserDefined == false);
             }
 
             [Pure]
-            public sealed override CalendarYear GetCurrentYear()
+            public override CalendarYear GetCurrentYear()
             {
-                var today = _clock.Today();
+                var today = _timepiece.Today();
                 int y = Schema.GetYear(today - Epoch);
                 return new CalendarYear(y, Id);
             }
 
             [Pure]
-            public sealed override CalendarMonth GetCurrentMonth()
+            public override CalendarMonth GetCurrentMonth()
             {
-                var today = _clock.Today();
+                var today = _timepiece.Today();
                 var ymd = Schema.GetDateParts(today - Epoch);
                 return new CalendarMonth(ymd.Yemo, Id);
             }
 
             [Pure]
-            public sealed override CalendarDate GetCurrentDate()
+            public override CalendarDate GetCurrentDate()
             {
-                var today = _clock.Today();
+                var today = _timepiece.Today();
                 var ymd = Schema.GetDateParts(today - Epoch);
                 return new CalendarDate(ymd, Id);
             }
 
             [Pure]
-            public sealed override CalendarDay GetCurrentDay()
+            public override CalendarDay GetCurrentDay()
             {
-                var today = _clock.Today();
+                var today = _timepiece.Today();
                 return new(today - Epoch, Id);
             }
 
             [Pure]
-            public sealed override OrdinalDate GetCurrentOrdinal()
+            public override OrdinalDate GetCurrentOrdinal()
             {
-                var today = _clock.Today();
+                var today = _timepiece.Today();
                 var ydoy = Schema.GetOrdinalParts(today - Epoch);
                 return new OrdinalDate(ydoy, Id);
             }
@@ -220,50 +231,51 @@ namespace Zorglub.Time.Simple
 
         private sealed class UserDefined : SimpleClock
         {
-            public UserDefined(SimpleCalendar calendar, ITimepiece clock) : base(calendar, clock)
+            public UserDefined(SimpleCalendar calendar, ITimepiece timepiece)
+                : base(calendar, timepiece)
             {
                 Debug.Assert(calendar.IsUserDefined);
             }
 
             [Pure]
-            public sealed override CalendarYear GetCurrentYear()
+            public override CalendarYear GetCurrentYear()
             {
-                var today = _clock.Today();
+                var today = _timepiece.Today();
                 if (IsUserDefined) { Domain.Validate(today); }
                 int y = Schema.GetYear(today - Epoch);
                 return new CalendarYear(y, Id);
             }
 
             [Pure]
-            public sealed override CalendarMonth GetCurrentMonth()
+            public override CalendarMonth GetCurrentMonth()
             {
-                var today = _clock.Today();
+                var today = _timepiece.Today();
                 if (IsUserDefined) { Domain.Validate(today); }
                 var ymd = Schema.GetDateParts(today - Epoch);
                 return new CalendarMonth(ymd.Yemo, Id);
             }
 
             [Pure]
-            public sealed override CalendarDate GetCurrentDate()
+            public override CalendarDate GetCurrentDate()
             {
-                var today = _clock.Today();
+                var today = _timepiece.Today();
                 if (IsUserDefined) { Domain.Validate(today); }
                 var ymd = Schema.GetDateParts(today - Epoch);
                 return new CalendarDate(ymd, Id);
             }
 
             [Pure]
-            public sealed override CalendarDay GetCurrentDay()
+            public override CalendarDay GetCurrentDay()
             {
-                var today = _clock.Today();
+                var today = _timepiece.Today();
                 if (IsUserDefined) { Domain.Validate(today); }
                 return new(today - Epoch, Id);
             }
 
             [Pure]
-            public sealed override OrdinalDate GetCurrentOrdinal()
+            public override OrdinalDate GetCurrentOrdinal()
             {
-                var today = _clock.Today();
+                var today = _timepiece.Today();
                 if (IsUserDefined) { Domain.Validate(today); }
                 var ydoy = Schema.GetOrdinalParts(today - Epoch);
                 return new OrdinalDate(ydoy, Id);

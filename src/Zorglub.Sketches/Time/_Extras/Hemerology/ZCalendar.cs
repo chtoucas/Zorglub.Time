@@ -74,8 +74,8 @@ namespace Zorglub.Time.Hemerology
             MinMaxDate = from dayNumber in scope.Domain.Endpoints
                          select new ZDate(dayNumber - Epoch, id);
 
-            DefaultClock = ZClock.CreateCore(this, SystemDefaultClock.Instance);
-            UtcClock = ZClock.CreateCore(this, SystemUtcClock.Instance);
+            DefaultClock = ZClock.CreateCore(this, SystemClock.Default);
+            UtcClock = ZClock.CreateCore(this, SystemClock.Utc);
         }
 
         #region System calendars
@@ -161,25 +161,25 @@ namespace Zorglub.Time.Hemerology
     public partial class ZCalendar // Clocks
     {
         /// <summary>
-        /// Gets the clock for the current instance and the system timepiece clock using the default
-        /// timezone.
+        /// Gets an instance of the <see cref="ZClock"/> class for the system clock using the
+        /// default timezone.
         /// </summary>
         [Pure]
         public ZClock DefaultClock { get; }
 
         /// <summary>
-        /// Gets the clock for the current instance and the system timepiece clock using the UTC
+        /// Gets an instance of the <see cref="ZClock"/> class for the system clock using the UTC
         /// timezone.
         /// </summary>
         [Pure]
         public ZClock UtcClock { get; }
 
         /// <summary>
-        /// Obtains a clock for the current instance using the specified clock.
+        /// Obtains an instance of the <see cref="ZClock"/> class for the specified timepiece.
         /// </summary>
-        /// <exception cref="ArgumentNullException"><paramref name="clock"/> is null.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="timepiece"/> is null.</exception>
         [Pure]
-        public ZClock GetClock(ITimepiece clock) => ZClock.CreateCore(this, clock);
+        public ZClock GetClock(ITimepiece timepiece) => ZClock.CreateCore(this, timepiece);
     }
 
     public partial class ZCalendar // Factories

@@ -148,8 +148,8 @@ namespace Zorglub.Time.Simple
             // all props should be initialized.
             _math = CalendarMath.CreateDefault(this);
 
-            DefaultClock = SimpleClock.CreateCore(this, SystemDefaultClock.Instance);
-            UtcClock = SimpleClock.CreateCore(this, SystemUtcClock.Instance);
+            DefaultClock = SimpleClock.CreateCore(this, SystemClock.Default);
+            UtcClock = SimpleClock.CreateCore(this, SystemClock.Utc);
         }
 
         #region System calendars
@@ -421,25 +421,25 @@ namespace Zorglub.Time.Simple
     public partial class SimpleCalendar // Clocks
     {
         /// <summary>
-        /// Gets the clock for the current instance and the system timepiece clock using the default
-        /// timezone.
+        /// Gets an instance of the <see cref="SimpleClock"/> class for the system clock using the
+        /// default timezone.
         /// </summary>
         [Pure]
         public SimpleClock DefaultClock { get; }
 
         /// <summary>
-        /// Gets the clock for the current instance and the system timepiece clock using the UTC
-        /// timezone.
+        /// Gets an instance of the <see cref="SimpleClock"/> class for the system clock using the
+        /// UTC timezone.
         /// </summary>
         [Pure]
         public SimpleClock UtcClock { get; }
 
         /// <summary>
-        /// Obtains a clock for the current instance using the specified timepiece.
+        /// Obtains an instance of the <see cref="SimpleClock"/> class for the specified timepiece.
         /// </summary>
-        /// <exception cref="ArgumentNullException"><paramref name="clock"/> is null.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="timepiece"/> is null.</exception>
         [Pure]
-        public SimpleClock GetClock(ITimepiece clock) => SimpleClock.CreateCore(this, clock);
+        public SimpleClock GetClock(ITimepiece timepiece) => SimpleClock.CreateCore(this, timepiece);
     }
 
     public partial class SimpleCalendar // Year or month infos

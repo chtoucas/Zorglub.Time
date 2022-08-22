@@ -24,12 +24,13 @@ namespace Zorglub.Time.Hemerology
         /// <summary>
         /// Called from constructors in derived classes to initialize the <see cref="ZClock"/> class.
         /// </summary>
-        /// <exception cref="ArgumentNullException"><paramref name="calendar"/> is null.</exception>
-        /// <exception cref="ArgumentNullException"><paramref name="clock"/> is null.</exception>
-        protected ZClock(ZCalendar calendar, ITimepiece clock)
+        /// <exception cref="ArgumentNullException"><paramref name="timepiece"/> is null.</exception>
+        private ZClock(ZCalendar calendar, ITimepiece timepiece)
         {
-            _calendar = calendar ?? throw new ArgumentNullException(nameof(clock));
-            _clock = clock ?? throw new ArgumentNullException(nameof(clock));
+            Debug.Assert(calendar != null);
+
+            _calendar = calendar;
+            _clock = timepiece ?? throw new ArgumentNullException(nameof(timepiece));
         }
 
         /// <summary>
@@ -52,27 +53,36 @@ namespace Zorglub.Time.Hemerology
         /// </summary>
         protected Range<DayNumber> Domain => _calendar.Domain;
 
+        /// <summary>
+        /// Creates a new instance of the <see cref="ZClock"/> class.
+        /// </summary>
+        /// <exception cref="ArgumentNullException"><paramref name="calendar"/> is null.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="timepiece"/> is null.</exception>
         [Pure]
-        public static ZClock Create(ZCalendar calendar, ITimepiece clock)
+        public static ZClock Create(ZCalendar calendar, ITimepiece timepiece)
         {
             Requires.NotNull(calendar);
 
-            return CreateCore(calendar, clock);
+            return CreateCore(calendar, timepiece);
         }
 
+        /// <summary>
+        /// Creates a new instance of the <see cref="ZClock"/> class.
+        /// </summary>
+        /// <exception cref="ArgumentNullException"><paramref name="timepiece"/> is null.</exception>
         [Pure]
-        internal static ZClock CreateCore(ZCalendar calendar, ITimepiece clock)
+        internal static ZClock CreateCore(ZCalendar calendar, ITimepiece timepiece)
         {
             Debug.Assert(calendar != null);
 
             return
                 calendar.Epoch == DayZero.NewStyle
                 ? calendar.IsUserDefined
-                    ? new UserDefinedGregorian(calendar, clock)
-                    : new SystemGregorian(calendar, clock)
+                    ? new UserDefinedGregorian(calendar, timepiece)
+                    : new SystemGregorian(calendar, timepiece)
                 : calendar.IsUserDefined
-                    ? new UserDefined(calendar, clock)
-                    : new System(calendar, clock);
+                    ? new UserDefined(calendar, timepiece)
+                    : new System(calendar, timepiece);
         }
 
         /// <summary>
@@ -86,13 +96,13 @@ namespace Zorglub.Time.Hemerology
 
         private sealed class System : ZClock
         {
-            public System(ZCalendar calendar, ITimepiece clock) : base(calendar, clock)
+            public System(ZCalendar calendar, ITimepiece timepiece) : base(calendar, timepiece)
             {
                 Debug.Assert(calendar.IsUserDefined == false);
             }
 
             [Pure]
-            public sealed override ZDate GetCurrentDate()
+            public override ZDate GetCurrentDate()
             {
                 var today = _clock.Today();
                 return new ZDate(today - Epoch, Id);
@@ -101,14 +111,15 @@ namespace Zorglub.Time.Hemerology
 
         private sealed class SystemGregorian : ZClock
         {
-            public SystemGregorian(ZCalendar calendar, ITimepiece clock) : base(calendar, clock)
+            public SystemGregorian(ZCalendar calendar, ITimepiece timepiece)
+                : base(calendar, timepiece)
             {
                 Debug.Assert(calendar.IsUserDefined == false);
                 Debug.Assert(calendar.Epoch == DayZero.NewStyle);
             }
 
             [Pure]
-            public sealed override ZDate GetCurrentDate()
+            public override ZDate GetCurrentDate()
             {
                 var today = _clock.Today();
                 return new ZDate(today.DaysSinceZero, Id);
@@ -117,13 +128,13 @@ namespace Zorglub.Time.Hemerology
 
         private sealed class UserDefined : ZClock
         {
-            public UserDefined(ZCalendar calendar, ITimepiece clock) : base(calendar, clock)
+            public UserDefined(ZCalendar calendar, ITimepiece timepiece) : base(calendar, timepiece)
             {
                 Debug.Assert(calendar.IsUserDefined);
             }
 
             [Pure]
-            public sealed override ZDate GetCurrentDate()
+            public override ZDate GetCurrentDate()
             {
                 var today = _clock.Today();
                 if (IsUserDefined) { Domain.Validate(today); }
@@ -133,14 +144,15 @@ namespace Zorglub.Time.Hemerology
 
         private sealed class UserDefinedGregorian : ZClock
         {
-            public UserDefinedGregorian(ZCalendar calendar, ITimepiece clock) : base(calendar, clock)
+            public UserDefinedGregorian(ZCalendar calendar, ITimepiece timepiece)
+                : base(calendar, timepiece)
             {
                 Debug.Assert(calendar.IsUserDefined);
                 Debug.Assert(calendar.Epoch == DayZero.NewStyle);
             }
 
             [Pure]
-            public sealed override ZDate GetCurrentDate()
+            public override ZDate GetCurrentDate()
             {
                 var today = _clock.Today();
                 if (IsUserDefined) { Domain.Validate(today); }

@@ -26,7 +26,7 @@ public static class Showcase
 
     public static void Run()
     {
-        var today = SystemDefaultClock.Instance.Today();
+        var today = SystemClock.Default.Today();
 
         WriteLine($"Day number: {today}\n");
 
