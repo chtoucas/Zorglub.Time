@@ -9,6 +9,7 @@ namespace Zorglub.Time.Specialized
     using Zorglub.Time.Core.Validation;
     using Zorglub.Time.Hemerology;
     using Zorglub.Time.Hemerology.Scopes;
+    using Zorglub.Time.Horology;
 
     // We use daysSinceZero instead of daysSinceEpoch because s_Calendar.Epoch
     // is equal to DayNumber.Zero.
@@ -63,6 +64,53 @@ namespace Zorglub.Time.Specialized
         /// <inheritdoc/>
         [Pure]
         private protected sealed override GregorianDate GetDate(int daysSinceEpoch) => new(daysSinceEpoch);
+    }
+
+    /// <summary>
+    /// Represents a clock for the Gregorian calendar.
+    /// <para>This class cannot be inherited.</para>
+    /// </summary>
+    public sealed class GregorianClock
+    {
+        /// <summary>
+        /// Represents the timepiece.
+        /// <para>This field is read-only.</para>
+        /// </summary>
+        private readonly ITimepiece _timepiece;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="GregorianClock"/> class.
+        /// </summary>
+        /// <exception cref="ArgumentNullException"><paramref name="timepiece"/> is null.</exception>
+        public GregorianClock(ITimepiece timepiece)
+        {
+            _timepiece = timepiece ?? throw new ArgumentNullException(nameof(timepiece));
+        }
+
+        /// <summary>
+        /// Gets an instance of the <see cref="GregorianClock"/> class for the system clock using the
+        /// default timezone.
+        /// </summary>
+        public static GregorianClock Default { get; } = new(SystemClock.Default);
+
+        /// <summary>
+        /// Gets an instance of the <see cref="GregorianClock"/> class for the system clock using the UTC
+        /// timezone.
+        /// </summary>
+        public static GregorianClock Utc { get; } = new(SystemClock.Utc);
+
+        /// <summary>
+        /// Obtains an instance of the <see cref="GregorianClock"/> class for the specified timepiece.
+        /// </summary>
+        /// <exception cref="ArgumentNullException"><paramref name="timepiece"/> is null.</exception>
+        [Pure]
+        public static GregorianClock GetClock(ITimepiece timepiece) => new(timepiece);
+
+        /// <summary>
+        /// Obtains a <see cref="GregorianDate"/> value representing the current date.
+        /// </summary>
+        [Pure]
+        public GregorianDate GetCurrentDate() => new(_timepiece.Today().DaysSinceZero);
     }
 
     /// <summary>
@@ -287,10 +335,7 @@ namespace Zorglub.Time.Specialized
     {
         #region Factories
 
-        /// <summary>
-        /// Obtains the current date in the Gregorian calendar on this machine, expressed in local
-        /// time, not UTC.
-        /// </summary>
+        /// <inheritdoc />
         [Pure]
         public static GregorianDate Today() => new(DayNumber.Today().DaysSinceZero);
 

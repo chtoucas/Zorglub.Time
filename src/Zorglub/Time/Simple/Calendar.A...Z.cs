@@ -6,6 +6,7 @@ namespace Zorglub.Time.Simple
     using Zorglub.Time.Core;
     using Zorglub.Time.Core.Schemas;
     using Zorglub.Time.Hemerology;
+    using Zorglub.Time.Horology;
 
     /// <summary>
     /// Represents the Armenian calendar.
@@ -32,6 +33,11 @@ namespace Zorglub.Time.Simple
         /// <para>This static property is thread-safe.</para>
         /// </summary>
         public static ArmenianSimpleCalendar Instance { get; } = new ArmenianSimpleCalendar();
+
+        /// <inheritdoc/>
+        [Pure]
+        public override SimpleClock GetClock(ITimepiece timepiece) =>
+            SimpleClock.CreateSystem(this, timepiece);
     }
 
     /// <summary>
@@ -57,6 +63,11 @@ namespace Zorglub.Time.Simple
         /// <para>This static property is thread-safe.</para>
         /// </summary>
         public static CivilSimpleCalendar Instance { get; } = new CivilSimpleCalendar();
+
+        /// <inheritdoc/>
+        [Pure]
+        public override SimpleClock GetClock(ITimepiece timepiece) =>
+            SimpleClock.CreateSystem(this, timepiece);
 
         /// <inheritdoc />
         [Pure]
@@ -109,6 +120,11 @@ namespace Zorglub.Time.Simple
         /// <para>This static property is thread-safe.</para>
         /// </summary>
         public static CopticSimpleCalendar Instance { get; } = new CopticSimpleCalendar();
+
+        /// <inheritdoc/>
+        [Pure]
+        public override SimpleClock GetClock(ITimepiece timepiece) =>
+            SimpleClock.CreateSystem(this, timepiece);
     }
 
     /// <summary>
@@ -136,6 +152,11 @@ namespace Zorglub.Time.Simple
         /// <para>This static property is thread-safe.</para>
         /// </summary>
         public static EthiopicSimpleCalendar Instance { get; } = new EthiopicSimpleCalendar();
+
+        /// <inheritdoc/>
+        [Pure]
+        public override SimpleClock GetClock(ITimepiece timepiece) =>
+            SimpleClock.CreateSystem(this, timepiece);
     }
 
     /// <summary>
@@ -161,6 +182,11 @@ namespace Zorglub.Time.Simple
         /// <para>This static property is thread-safe.</para>
         /// </summary>
         public static GregorianSimpleCalendar Instance { get; } = new GregorianSimpleCalendar();
+
+        /// <inheritdoc/>
+        [Pure]
+        public override SimpleClock GetClock(ITimepiece timepiece) =>
+            SimpleClock.CreateSystem(this, timepiece);
 
         /// <inheritdoc />
         [Pure]
@@ -212,6 +238,11 @@ namespace Zorglub.Time.Simple
         /// </summary>
         public static JulianSimpleCalendar Instance { get; } = new JulianSimpleCalendar();
 
+        /// <inheritdoc/>
+        [Pure]
+        public override SimpleClock GetClock(ITimepiece timepiece) =>
+            SimpleClock.CreateSystem(this, timepiece);
+
         /// <inheritdoc />
         [Pure]
         internal override DayOfWeek GetDayOfWeek(CalendarDate date)
@@ -262,6 +293,11 @@ namespace Zorglub.Time.Simple
         /// <para>This static property is thread-safe.</para>
         /// </summary>
         public static TabularIslamicSimpleCalendar Instance { get; } = new TabularIslamicSimpleCalendar();
+
+        /// <inheritdoc/>
+        [Pure]
+        public override SimpleClock GetClock(ITimepiece timepiece) =>
+            SimpleClock.CreateSystem(this, timepiece);
     }
 
     /// <summary>
@@ -289,5 +325,10 @@ namespace Zorglub.Time.Simple
         /// <para>This static property is thread-safe.</para>
         /// </summary>
         public static ZoroastrianSimpleCalendar Instance { get; } = new ZoroastrianSimpleCalendar();
+
+        /// <inheritdoc/>
+        [Pure]
+        public override SimpleClock GetClock(ITimepiece timepiece) =>
+            SimpleClock.CreateSystem(this, timepiece);
     }
 }

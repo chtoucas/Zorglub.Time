@@ -16,11 +16,11 @@ namespace Zorglub.Time.Horology
         /// Obtains the current time expressed as a number of nanoseconds since the january 1st,
         /// 1 CE (gregorian) at midnight (0h).
         /// </summary>
-        public long Now();
+        [Pure] long Now();
 
         /// <summary>
         /// Obtains a <see cref="DayNumber"/> value representing the current date.
         /// </summary>
-        public DayNumber Today();
+        [Pure] DayNumber Today();
     }
 }

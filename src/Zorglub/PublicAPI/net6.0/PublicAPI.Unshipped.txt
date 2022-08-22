@@ -715,6 +715,9 @@ static Zorglub.Time.Simple.SimpleCatalog.TakeSnapshot() -> System.Collections.Ge
 static Zorglub.Time.Simple.SimpleCatalog.TryAdd(string! key, Zorglub.Time.Core.SystemSchema! schema, Zorglub.Time.DayNumber epoch, bool proleptic, out Zorglub.Time.Simple.SimpleCalendar? calendar) -> bool
 static Zorglub.Time.Simple.SimpleCatalog.TryGetCalendar(string! key, out Zorglub.Time.Simple.SimpleCalendar? calendar) -> bool
 static Zorglub.Time.Simple.SimpleClock.Create(Zorglub.Time.Simple.SimpleCalendar! calendar, Zorglub.Time.Horology.ITimepiece! timepiece) -> Zorglub.Time.Simple.SimpleClock!
+static Zorglub.Time.Specialized.CivilClock.Default.get -> Zorglub.Time.Specialized.CivilClock!
+static Zorglub.Time.Specialized.CivilClock.GetClock(Zorglub.Time.Horology.ITimepiece! timepiece) -> Zorglub.Time.Specialized.CivilClock!
+static Zorglub.Time.Specialized.CivilClock.Utc.get -> Zorglub.Time.Specialized.CivilClock!
 static Zorglub.Time.Specialized.CivilDate.Adjuster.get -> Zorglub.Time.Specialized.CivilAdjuster!
 static Zorglub.Time.Specialized.CivilDate.Calendar.get -> Zorglub.Time.Specialized.CivilCalendar!
 static Zorglub.Time.Specialized.CivilDate.Max(Zorglub.Time.Specialized.CivilDate x, Zorglub.Time.Specialized.CivilDate y) -> Zorglub.Time.Specialized.CivilDate
@@ -733,6 +736,9 @@ static Zorglub.Time.Specialized.CivilDate.operator ==(Zorglub.Time.Specialized.C
 static Zorglub.Time.Specialized.CivilDate.operator >(Zorglub.Time.Specialized.CivilDate left, Zorglub.Time.Specialized.CivilDate right) -> bool
 static Zorglub.Time.Specialized.CivilDate.operator >=(Zorglub.Time.Specialized.CivilDate left, Zorglub.Time.Specialized.CivilDate right) -> bool
 static Zorglub.Time.Specialized.CivilDate.Today() -> Zorglub.Time.Specialized.CivilDate
+static Zorglub.Time.Specialized.GregorianClock.Default.get -> Zorglub.Time.Specialized.GregorianClock!
+static Zorglub.Time.Specialized.GregorianClock.GetClock(Zorglub.Time.Horology.ITimepiece! timepiece) -> Zorglub.Time.Specialized.GregorianClock!
+static Zorglub.Time.Specialized.GregorianClock.Utc.get -> Zorglub.Time.Specialized.GregorianClock!
 static Zorglub.Time.Specialized.GregorianDate.Adjuster.get -> Zorglub.Time.Specialized.GregorianAdjuster!
 static Zorglub.Time.Specialized.GregorianDate.Calendar.get -> Zorglub.Time.Specialized.GregorianCalendar!
 static Zorglub.Time.Specialized.GregorianDate.Max(Zorglub.Time.Specialized.GregorianDate x, Zorglub.Time.Specialized.GregorianDate y) -> Zorglub.Time.Specialized.GregorianDate
@@ -751,6 +757,9 @@ static Zorglub.Time.Specialized.GregorianDate.operator ==(Zorglub.Time.Specializ
 static Zorglub.Time.Specialized.GregorianDate.operator >(Zorglub.Time.Specialized.GregorianDate left, Zorglub.Time.Specialized.GregorianDate right) -> bool
 static Zorglub.Time.Specialized.GregorianDate.operator >=(Zorglub.Time.Specialized.GregorianDate left, Zorglub.Time.Specialized.GregorianDate right) -> bool
 static Zorglub.Time.Specialized.GregorianDate.Today() -> Zorglub.Time.Specialized.GregorianDate
+static Zorglub.Time.Specialized.JulianClock.Default.get -> Zorglub.Time.Specialized.JulianClock!
+static Zorglub.Time.Specialized.JulianClock.GetClock(Zorglub.Time.Horology.ITimepiece! timepiece) -> Zorglub.Time.Specialized.JulianClock!
+static Zorglub.Time.Specialized.JulianClock.Utc.get -> Zorglub.Time.Specialized.JulianClock!
 static Zorglub.Time.Specialized.JulianDate.Adjuster.get -> Zorglub.Time.Specialized.JulianAdjuster!
 static Zorglub.Time.Specialized.JulianDate.Calendar.get -> Zorglub.Time.Specialized.JulianCalendar!
 static Zorglub.Time.Specialized.JulianDate.Max(Zorglub.Time.Specialized.JulianDate x, Zorglub.Time.Specialized.JulianDate y) -> Zorglub.Time.Specialized.JulianDate
@@ -772,6 +781,7 @@ static Zorglub.Time.Specialized.JulianDate.Today() -> Zorglub.Time.Specialized.J
 virtual Zorglub.Time.Core.CalendricalSchema.CountDaysSinceEpoch(int y, int m, int d) -> int
 virtual Zorglub.Time.Core.CalendricalSchema.GetDateParts(int daysSinceEpoch, out int y, out int m, out int d) -> void
 virtual Zorglub.Time.Core.CalendricalSchema.GetYear(int daysSinceEpoch, out int doy) -> int
+virtual Zorglub.Time.Simple.SimpleCalendar.GetClock(Zorglub.Time.Horology.ITimepiece! timepiece) -> Zorglub.Time.Simple.SimpleClock!
 Zorglub.Time.AdditionRule
 Zorglub.Time.AdditionRule.Exact = 2 -> Zorglub.Time.AdditionRule
 Zorglub.Time.AdditionRule.Overspill = 1 -> Zorglub.Time.AdditionRule
@@ -1677,7 +1687,6 @@ Zorglub.Time.Simple.SimpleCalendar.GetCalendarMonth(int year, int month) -> Zorg
 Zorglub.Time.Simple.SimpleCalendar.GetCalendarMonth(Zorglub.Time.DayNumber dayNumber) -> Zorglub.Time.Simple.CalendarMonth
 Zorglub.Time.Simple.SimpleCalendar.GetCalendarYear(int year) -> Zorglub.Time.Simple.CalendarYear
 Zorglub.Time.Simple.SimpleCalendar.GetCalendarYear(Zorglub.Time.DayNumber dayNumber) -> Zorglub.Time.Simple.CalendarYear
-Zorglub.Time.Simple.SimpleCalendar.GetClock(Zorglub.Time.Horology.ITimepiece! timepiece) -> Zorglub.Time.Simple.SimpleClock!
 Zorglub.Time.Simple.SimpleCalendar.GetDate(int year, int dayOfYear) -> Zorglub.Time.Simple.OrdinalDate
 Zorglub.Time.Simple.SimpleCalendar.GetDate(int year, int month, int day) -> Zorglub.Time.Simple.CalendarDate
 Zorglub.Time.Simple.SimpleCalendar.GetDate(Zorglub.Time.DayNumber dayNumber) -> Zorglub.Time.Simple.CalendarDay
@@ -1704,6 +1713,9 @@ Zorglub.Time.Specialized.CivilAdjuster.CivilAdjuster() -> void
 Zorglub.Time.Specialized.CivilCalendar
 Zorglub.Time.Specialized.CivilCalendar.CivilCalendar() -> void
 Zorglub.Time.Specialized.CivilCalendar.MonthsInYear.get -> int
+Zorglub.Time.Specialized.CivilClock
+Zorglub.Time.Specialized.CivilClock.CivilClock(Zorglub.Time.Horology.ITimepiece! timepiece) -> void
+Zorglub.Time.Specialized.CivilClock.GetCurrentDate() -> Zorglub.Time.Specialized.CivilDate
 Zorglub.Time.Specialized.CivilDate
 Zorglub.Time.Specialized.CivilDate.Adjust(System.Func<Zorglub.Time.Specialized.CivilDate, Zorglub.Time.Specialized.CivilDate>! adjuster) -> Zorglub.Time.Specialized.CivilDate
 Zorglub.Time.Specialized.CivilDate.Century.get -> int
@@ -1746,6 +1758,9 @@ Zorglub.Time.Specialized.GregorianAdjuster.GregorianAdjuster() -> void
 Zorglub.Time.Specialized.GregorianCalendar
 Zorglub.Time.Specialized.GregorianCalendar.GregorianCalendar() -> void
 Zorglub.Time.Specialized.GregorianCalendar.MonthsInYear.get -> int
+Zorglub.Time.Specialized.GregorianClock
+Zorglub.Time.Specialized.GregorianClock.GetCurrentDate() -> Zorglub.Time.Specialized.GregorianDate
+Zorglub.Time.Specialized.GregorianClock.GregorianClock(Zorglub.Time.Horology.ITimepiece! timepiece) -> void
 Zorglub.Time.Specialized.GregorianDate
 Zorglub.Time.Specialized.GregorianDate.Adjust(System.Func<Zorglub.Time.Specialized.GregorianDate, Zorglub.Time.Specialized.GregorianDate>! adjuster) -> Zorglub.Time.Specialized.GregorianDate
 Zorglub.Time.Specialized.GregorianDate.Century.get -> int
@@ -1788,6 +1803,9 @@ Zorglub.Time.Specialized.JulianAdjuster.JulianAdjuster() -> void
 Zorglub.Time.Specialized.JulianCalendar
 Zorglub.Time.Specialized.JulianCalendar.JulianCalendar() -> void
 Zorglub.Time.Specialized.JulianCalendar.MonthsInYear.get -> int
+Zorglub.Time.Specialized.JulianClock
+Zorglub.Time.Specialized.JulianClock.GetCurrentDate() -> Zorglub.Time.Specialized.JulianDate
+Zorglub.Time.Specialized.JulianClock.JulianClock(Zorglub.Time.Horology.ITimepiece! timepiece) -> void
 Zorglub.Time.Specialized.JulianDate
 Zorglub.Time.Specialized.JulianDate.Adjust(System.Func<Zorglub.Time.Specialized.JulianDate, Zorglub.Time.Specialized.JulianDate>! adjuster) -> Zorglub.Time.Specialized.JulianDate
 Zorglub.Time.Specialized.JulianDate.Century.get -> int

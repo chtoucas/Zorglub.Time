@@ -148,8 +148,8 @@ namespace Zorglub.Time.Simple
             // all props should be initialized.
             _math = CalendarMath.CreateDefault(this);
 
-            DefaultClock = SimpleClock.CreateCore(this, SystemClock.Default);
-            UtcClock = SimpleClock.CreateCore(this, SystemClock.Utc);
+            DefaultClock = SimpleClock.CreateDefault(this, SystemClock.Default);
+            UtcClock = SimpleClock.CreateDefault(this, SystemClock.Utc);
         }
 
         #region System calendars
@@ -424,14 +424,12 @@ namespace Zorglub.Time.Simple
         /// Gets an instance of the <see cref="SimpleClock"/> class for the system clock using the
         /// default timezone.
         /// </summary>
-        [Pure]
         public SimpleClock DefaultClock { get; }
 
         /// <summary>
         /// Gets an instance of the <see cref="SimpleClock"/> class for the system clock using the
         /// UTC timezone.
         /// </summary>
-        [Pure]
         public SimpleClock UtcClock { get; }
 
         /// <summary>
@@ -439,7 +437,7 @@ namespace Zorglub.Time.Simple
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="timepiece"/> is null.</exception>
         [Pure]
-        public SimpleClock GetClock(ITimepiece timepiece) => SimpleClock.CreateCore(this, timepiece);
+        public virtual SimpleClock GetClock(ITimepiece timepiece) => SimpleClock.CreateDefault(this, timepiece);
     }
 
     public partial class SimpleCalendar // Year or month infos

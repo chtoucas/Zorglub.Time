@@ -5,26 +5,34 @@ namespace Zorglub.Time.Horology
 {
     using Zorglub.Time.Core;
 
+    /// <summary>
+    /// Provides system clocks.
+    /// </summary>
     public static class SystemClock
     {
         /// <summary>
-        /// Gets a singleton instance of the system clock using the default timezone.
+        /// Gets an instance of the system clock using the default timezone.
         /// <para>This static property is thread-safe.</para>
         /// </summary>
         public static ITimepiece Default { get; } = new DefaultClock();
 
         /// <summary>
-        /// Gets a singleton instance of the system clock using the UTC timezone.
+        /// Gets an instance of the system clock using the UTC timezone.
         /// <para>This static property is thread-safe.</para>
         /// </summary>
         public static ITimepiece Utc { get; } = new UtcClock();
 
+        /// <summary>
+        /// Represents the system clock using the default timezone.
+        /// </summary>
         private sealed class DefaultClock : ITimepiece
         {
             public DefaultClock() { }
 
+            [Pure]
             public long Now() => 100 * DateTime.Now.Ticks;
 
+            [Pure]
             public DayNumber Today()
             {
                 // NB: the cast should always succeed.
@@ -33,6 +41,9 @@ namespace Zorglub.Time.Horology
             }
         }
 
+        /// <summary>
+        /// Represents the system clock using the UTC timezone.
+        /// </summary>
         private sealed class UtcClock : ITimepiece
         {
             public UtcClock() { }
@@ -41,8 +52,10 @@ namespace Zorglub.Time.Horology
             // compter les secondes intercalaires, donc dans l'échelle atomique
             // internationale.
 
+            [Pure]
             public long Now() => 100 * DateTime.UtcNow.Ticks;
 
+            [Pure]
             public DayNumber Today()
             {
                 // NB: the cast should always succeed.

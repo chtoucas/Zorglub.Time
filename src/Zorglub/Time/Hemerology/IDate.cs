@@ -86,6 +86,7 @@ namespace Zorglub.Time.Hemerology
         static abstract TCalendar Calendar { get; }
 
         // FIXME(api): UtcToday() and Today(ITimepiece).
+        // XXXClock in Specialized. Debug.Assert(daysSinceEpoch).
 
         // We don't add the UTC version UtcToday(). I don't think that we need
         // such a level of precision, and one can still achieve the same thing
@@ -98,7 +99,7 @@ namespace Zorglub.Time.Hemerology
         // beginners.
 
         /// <summary>
-        /// Obtains the current day on this computer, expressed in the local time.
+        /// Obtains the current date on this machine, expressed in the local time.
         /// </summary>
         [Pure] static abstract TSelf Today();
     }

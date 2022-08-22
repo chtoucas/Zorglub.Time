@@ -16,10 +16,10 @@ namespace Zorglub.Time.Hemerology
         private readonly ZCalendar _calendar;
 
         /// <summary>
-        /// Represents the clock.
+        /// Represents the timepiece.
         /// <para>This field is read-only.</para>
         /// </summary>
-        private readonly ITimepiece _clock;
+        private readonly ITimepiece _timepiece;
 
         /// <summary>
         /// Called from constructors in derived classes to initialize the <see cref="ZClock"/> class.
@@ -30,7 +30,7 @@ namespace Zorglub.Time.Hemerology
             Debug.Assert(calendar != null);
 
             _calendar = calendar;
-            _clock = timepiece ?? throw new ArgumentNullException(nameof(timepiece));
+            _timepiece = timepiece ?? throw new ArgumentNullException(nameof(timepiece));
         }
 
         /// <summary>
@@ -104,7 +104,7 @@ namespace Zorglub.Time.Hemerology
             [Pure]
             public override ZDate GetCurrentDate()
             {
-                var today = _clock.Today();
+                var today = _timepiece.Today();
                 return new ZDate(today - Epoch, Id);
             }
         }
@@ -121,7 +121,7 @@ namespace Zorglub.Time.Hemerology
             [Pure]
             public override ZDate GetCurrentDate()
             {
-                var today = _clock.Today();
+                var today = _timepiece.Today();
                 return new ZDate(today.DaysSinceZero, Id);
             }
         }
@@ -136,7 +136,7 @@ namespace Zorglub.Time.Hemerology
             [Pure]
             public override ZDate GetCurrentDate()
             {
-                var today = _clock.Today();
+                var today = _timepiece.Today();
                 if (IsUserDefined) { Domain.Validate(today); }
                 return new ZDate(today - Epoch, Id);
             }
@@ -154,7 +154,7 @@ namespace Zorglub.Time.Hemerology
             [Pure]
             public override ZDate GetCurrentDate()
             {
-                var today = _clock.Today();
+                var today = _timepiece.Today();
                 if (IsUserDefined) { Domain.Validate(today); }
                 return new ZDate(today.DaysSinceZero, Id);
             }

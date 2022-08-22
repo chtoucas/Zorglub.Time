@@ -164,14 +164,12 @@ namespace Zorglub.Time.Hemerology
         /// Gets an instance of the <see cref="ZClock"/> class for the system clock using the
         /// default timezone.
         /// </summary>
-        [Pure]
         public ZClock DefaultClock { get; }
 
         /// <summary>
         /// Gets an instance of the <see cref="ZClock"/> class for the system clock using the UTC
         /// timezone.
         /// </summary>
-        [Pure]
         public ZClock UtcClock { get; }
 
         /// <summary>

@@ -10,27 +10,28 @@ using Zorglub.Time.Hemerology;
 using Zorglub.Time.Simple;
 using Zorglub.Time.Specialized;
 
+using ZorglubSystemClock = Zorglub.Time.Horology.SystemClock;
+
 using static NodaTime.Extensions.ClockExtensions;
 
-// REVIEW(perf): what makes LocalDate faster? why is DateTime slower?
-
 /*
-BenchmarkDotNet=v0.13.1, OS=Windows 10.0.19044.1826 (21H2)
+BenchmarkDotNet=v0.13.1, OS=Windows 10.0.19044.1889 (21H2)
 Intel Core i7-4500U CPU 1.80GHz (Haswell), 1 CPU, 4 logical and 2 physical cores
-.NET SDK=6.0.302
-  [Host]     : .NET 6.0.7 (6.0.722.32202), X64 RyuJIT
-  DefaultJob : .NET 6.0.7 (6.0.722.32202), X64 RyuJIT
+.NET SDK=6.0.400
+  [Host]     : .NET 6.0.8 (6.0.822.36306), X64 RyuJIT
+  DefaultJob : .NET 6.0.8 (6.0.822.36306), X64 RyuJIT
 
 |              Method |     Mean |   Error |  StdDev | Ratio | Rank |
 |-------------------- |---------:|--------:|--------:|------:|-----:|
-|    'CivilDate     ' | 163.1 ns | 2.36 ns | 2.32 ns |  0.95 |    I |
-|  'CalendarDay     ' | 170.9 ns | 0.86 ns | 0.81 ns |  1.00 |   II |
-|    'DayNumber     ' | 172.6 ns | 0.81 ns | 0.76 ns |  1.01 |   II |
-|    'LocalDate *(Y)' | 175.1 ns | 0.77 ns | 0.68 ns |  1.02 |  III |
-| 'CalendarDate  (Y)' | 176.3 ns | 0.80 ns | 0.75 ns |  1.03 |  III |
-|     'DateTime *   ' | 179.8 ns | 0.62 ns | 0.55 ns |  1.05 |   IV |
-|        'ZDate     ' | 181.0 ns | 0.53 ns | 0.50 ns |  1.06 |   IV |
-|  'OrdinalDate  (O)' | 185.0 ns | 0.52 ns | 0.46 ns |  1.08 |    V |
+|    'CivilDate     ' | 164.6 ns | 0.67 ns | 0.63 ns |  0.96 |    I |
+|    'DayNumber     ' | 170.9 ns | 1.11 ns | 1.04 ns |  1.00 |   II |
+|  'SystemClock     ' | 171.2 ns | 0.56 ns | 0.50 ns |  1.00 |   II |
+|  'CalendarDay     ' | 171.6 ns | 0.65 ns | 0.57 ns |  1.00 |   II |
+|    'LocalDate *(Y)' | 177.8 ns | 0.59 ns | 0.55 ns |  1.04 |  III |
+|     'DateTime *   ' | 181.3 ns | 0.83 ns | 0.78 ns |  1.06 |   IV |
+| 'CalendarDate  (Y)' | 181.7 ns | 0.52 ns | 0.46 ns |  1.06 |   IV |
+|        'ZDate     ' | 182.9 ns | 1.33 ns | 1.11 ns |  1.07 |   IV |
+|  'OrdinalDate  (O)' | 189.4 ns | 0.74 ns | 0.69 ns |  1.11 |    V |
 
 BenchmarkDotNet=v0.13.1, OS=Windows 10.0.19044.1826 (21H2)
 Intel Core2 Duo CPU E8500 3.16GHz, 1 CPU, 2 logical and 2 physical cores
@@ -54,38 +55,12 @@ Intel Core2 Duo CPU E8500 3.16GHz, 1 CPU, 2 logical and 2 physical cores
 
 public class TodayBenchmark
 {
-    [Benchmark(Description = "CivilDate     ")]
-    public (int, int, int, DayOfWeek) WithCivilDate()
+    [Benchmark(Description = "SystemClock     ", Baseline = true)]
+    public (int, int, int, DayOfWeek) WithSystemClock()
     {
-        CivilDate today = CivilDate.Today();
-        var (y, m, d) = today;
-
-        return (y, m, d, today.DayOfWeek);
-    }
-
-    [Benchmark(Description = "CalendarDate  (Y)")]
-    public (int, int, int, DayOfWeek) WithCalendarDate()
-    {
-        CalendarDate today = SimpleCalendar.Gregorian.DefaultClock.GetCurrentDate();
-        var (y, m, d) = today;
-
-        return (y, m, d, today.DayOfWeek);
-    }
-
-    [Benchmark(Description = "CalendarDay     ", Baseline = true)]
-    public (int, int, int, DayOfWeek) WithCalendarDay()
-    {
-        CalendarDay today = SimpleCalendar.Gregorian.DefaultClock.GetCurrentDay();
-        var (y, m, d) = today;
-
-        return (y, m, d, today.DayOfWeek);
-    }
-
-    [Benchmark(Description = "OrdinalDate  (O)")]
-    public (int, int, int, DayOfWeek) WithOrdinalDate()
-    {
-        OrdinalDate today = SimpleCalendar.Gregorian.DefaultClock.GetCurrentOrdinal();
-        (int y, int m, int d) = today;
+        var clock = ZorglubSystemClock.Default;
+        DayNumber today = clock.Today();
+        var (y, m, d) = today.GetGregorianParts();
 
         return (y, m, d, today.DayOfWeek);
     }
@@ -99,10 +74,51 @@ public class TodayBenchmark
         return (y, m, d, today.DayOfWeek);
     }
 
+    [Benchmark(Description = "CivilDate     ")]
+    public (int, int, int, DayOfWeek) WithCivilDate()
+    {
+        var clock = CivilClock.Default;
+        CivilDate today = clock.GetCurrentDate();
+        var (y, m, d) = today;
+
+        return (y, m, d, today.DayOfWeek);
+    }
+
+    [Benchmark(Description = "CalendarDate  (Y)")]
+    public (int, int, int, DayOfWeek) WithCalendarDate()
+    {
+        var clock = SimpleCalendar.Civil.DefaultClock;
+        CalendarDate today = clock.GetCurrentDate();
+        var (y, m, d) = today;
+
+        return (y, m, d, today.DayOfWeek);
+    }
+
+    [Benchmark(Description = "CalendarDay     ")]
+    public (int, int, int, DayOfWeek) WithCalendarDay()
+    {
+        var clock = SimpleCalendar.Civil.DefaultClock;
+        CalendarDay today = clock.GetCurrentDay();
+        var (y, m, d) = today;
+
+        return (y, m, d, today.DayOfWeek);
+    }
+
+    [Benchmark(Description = "OrdinalDate  (O)")]
+    public (int, int, int, DayOfWeek) WithOrdinalDate()
+    {
+        var clock = SimpleCalendar.Civil.DefaultClock;
+        OrdinalDate today = clock.GetCurrentOrdinal();
+        (int y, int m, int d) = today;
+
+        return (y, m, d, today.DayOfWeek);
+    }
+
     [Benchmark(Description = "ZDate     ")]
     public (int, int, int, DayOfWeek) WithZDate()
     {
-        ZDate today = ZCalendar.Gregorian.DefaultClock.GetCurrentDate();
+        var clock = ZCalendar.Civil.DefaultClock;
+        ZDate today = clock.GetCurrentDate();
         var (y, m, d) = today;
 
         return (y, m, d, today.DayOfWeek);
@@ -111,9 +127,8 @@ public class TodayBenchmark
     [Benchmark(Description = "LocalDate *(Y)")]
     public (int, int, int, IsoDayOfWeek) WithLocalDate()
     {
-        var zonedClock = SystemClock.Instance.InBclSystemDefaultZone();
-
-        LocalDate now = zonedClock.GetCurrentDate();
+        var clock = SystemClock.Instance.InBclSystemDefaultZone();
+        LocalDate now = clock.GetCurrentDate();
         var (y, m, d) = now;
 
         return (y, m, d, now.DayOfWeek);

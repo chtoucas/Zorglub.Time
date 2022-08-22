@@ -9,6 +9,9 @@ namespace Zorglub.Time.Simple
     using Zorglub.Time.Core.Validation;
     using Zorglub.Time.Horology;
 
+    /// <summary>
+    /// Represents a clock for a simple calendar.
+    /// </summary>
     public abstract class SimpleClock
     {
         /// <summary>
@@ -47,11 +50,6 @@ namespace Zorglub.Time.Simple
         private SystemSchema Schema => _calendar.Schema;
 
         /// <summary>
-        /// Returns true if the current instance is user-defined; otherwise returns false.
-        /// </summary>
-        private bool IsUserDefined => _calendar.IsUserDefined;
-
-        /// <summary>
         /// Gets the epoch.
         /// </summary>
         private DayNumber Epoch => _calendar.Epoch;
@@ -71,7 +69,8 @@ namespace Zorglub.Time.Simple
         {
             Requires.NotNull(calendar);
 
-            return CreateCore(calendar, timepiece);
+            return calendar.IsUserDefined ? CreateDefault(calendar, timepiece)
+                : CreateSystem(calendar, timepiece);
         }
 
         /// <summary>
@@ -79,13 +78,24 @@ namespace Zorglub.Time.Simple
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="timepiece"/> is null.</exception>
         [Pure]
-        internal static SimpleClock CreateCore(SimpleCalendar calendar, ITimepiece timepiece)
+        internal static SimpleClock CreateDefault(SimpleCalendar calendar, ITimepiece timepiece)
         {
             Debug.Assert(calendar != null);
 
-            return
-                calendar.Id == Cuid.Gregorian ? new Gregorian(calendar, timepiece)
-                : calendar.IsUserDefined ? new UserDefined(calendar, timepiece)
+            return new Default(calendar, timepiece);
+        }
+
+        /// <summary>
+        /// Creates a new instance of the <see cref="SimpleClock"/> class.
+        /// </summary>
+        /// <exception cref="ArgumentNullException"><paramref name="timepiece"/> is null.</exception>
+        [Pure]
+        internal static SimpleClock CreateSystem(SimpleCalendar calendar, ITimepiece timepiece)
+        {
+            Debug.Assert(calendar != null);
+            Debug.Assert(calendar.IsUserDefined == false);
+
+            return calendar.Id == Cuid.Gregorian ? new Gregorian(calendar, timepiece)
                 : new System(calendar, timepiece);
         }
 
@@ -229,19 +239,16 @@ namespace Zorglub.Time.Simple
             }
         }
 
-        private sealed class UserDefined : SimpleClock
+        private sealed class Default : SimpleClock
         {
-            public UserDefined(SimpleCalendar calendar, ITimepiece timepiece)
-                : base(calendar, timepiece)
-            {
-                Debug.Assert(calendar.IsUserDefined);
-            }
+            public Default(SimpleCalendar calendar, ITimepiece timepiece)
+                : base(calendar, timepiece) { }
 
             [Pure]
             public override CalendarYear GetCurrentYear()
             {
                 var today = _timepiece.Today();
-                if (IsUserDefined) { Domain.Validate(today); }
+                Domain.Validate(today);
                 int y = Schema.GetYear(today - Epoch);
                 return new CalendarYear(y, Id);
             }
@@ -250,7 +257,7 @@ namespace Zorglub.Time.Simple
             public override CalendarMonth GetCurrentMonth()
             {
                 var today = _timepiece.Today();
-                if (IsUserDefined) { Domain.Validate(today); }
+                Domain.Validate(today);
                 var ymd = Schema.GetDateParts(today - Epoch);
                 return new CalendarMonth(ymd.Yemo, Id);
             }
@@ -259,7 +266,7 @@ namespace Zorglub.Time.Simple
             public override CalendarDate GetCurrentDate()
             {
                 var today = _timepiece.Today();
-                if (IsUserDefined) { Domain.Validate(today); }
+                Domain.Validate(today);
                 var ymd = Schema.GetDateParts(today - Epoch);
                 return new CalendarDate(ymd, Id);
             }
@@ -268,15 +275,15 @@ namespace Zorglub.Time.Simple
             public override CalendarDay GetCurrentDay()
             {
                 var today = _timepiece.Today();
-                if (IsUserDefined) { Domain.Validate(today); }
-                return new(today - Epoch, Id);
+                Domain.Validate(today);
+                return new CalendarDay(today - Epoch, Id);
             }
 
             [Pure]
             public override OrdinalDate GetCurrentOrdinal()
             {
                 var today = _timepiece.Today();
-                if (IsUserDefined) { Domain.Validate(today); }
+                Domain.Validate(today);
                 var ydoy = Schema.GetOrdinalParts(today - Epoch);
                 return new OrdinalDate(ydoy, Id);
             }
