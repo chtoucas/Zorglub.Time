@@ -92,7 +92,8 @@ namespace Zorglub.Time.Hemerology
         // Anyway, this is not the right way to do it. A much better API would
         // provide a way to obtain the current date using a pluggable clock
         // (see NodaTime). Nevertheless, we keep the naive Today() because it
-        // covers the most common case (expecially for beginners).
+        // covers the most common case and not having it would be disturbing for
+        // beginners.
 
         /// <summary>
         /// Obtains the current day on this computer, expressed in the local time.

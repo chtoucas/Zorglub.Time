@@ -361,6 +361,9 @@ module GregorianCase =
         new SimpleCalendar(
             FauxUserCalendar.DefaultCuid, FauxUserCalendar.DefaultKey, new GregorianSchema(), startOfYear3000, false)
 
+    let private clock = chr.GetLocalClock();
+    let private fauxClock = fauxCalendar.GetLocalClock();
+
     let private calendarDataSet = ProlepticGregorianDataSet.Instance
 
     let dayOfWeekData = calendarDataSet.DayOfWeekData
@@ -373,30 +376,30 @@ module GregorianCase =
     [<Fact>]
     let ``GetCurrentYear()`` () =
         let now = DateTime.Now
-        let year = chr.GetCurrentYear()
+        let year = clock.GetCurrentYear()
 
         year.Year  === now.Year
 
     [<Fact>]
     let ``GetCurrentYear() is out of range`` () =
-        outOfRangeExn "dayNumber" (fun () -> fauxCalendar.GetCurrentYear())
+        outOfRangeExn "dayNumber" (fun () -> fauxClock.GetCurrentYear())
 
     [<Fact>]
     let ``GetCurrentMonth()`` () =
         let now = DateTime.Now
-        let month = chr.GetCurrentMonth()
+        let month = clock.GetCurrentMonth()
 
         month.Year  === now.Year
         month.Month === now.Month
 
     [<Fact>]
     let ``GetCurrentMonth() is out of range`` () =
-        outOfRangeExn "dayNumber" (fun () -> fauxCalendar.GetCurrentMonth())
+        outOfRangeExn "dayNumber" (fun () -> fauxClock.GetCurrentMonth())
 
     [<Fact>]
     let ``GetCurrentDate()`` () =
         let now = DateTime.Now
-        let date = chr.GetCurrentDate()
+        let date = clock.GetCurrentDate()
 
         date.Year  === now.Year
         date.Month === now.Month
@@ -404,12 +407,12 @@ module GregorianCase =
 
     [<Fact>]
     let ``GetCurrentDate() is out of range`` () =
-        outOfRangeExn "dayNumber" (fun () -> fauxCalendar.GetCurrentDate())
+        outOfRangeExn "dayNumber" (fun () -> fauxClock.GetCurrentDate())
 
     [<Fact>]
     let ``GetCurrentDay()`` () =
         let now = DateTime.Now
-        let date = chr.GetCurrentDay()
+        let date = clock.GetCurrentDay()
 
         date.Year  === now.Year
         date.Month === now.Month
@@ -417,12 +420,12 @@ module GregorianCase =
 
     [<Fact>]
     let ``GetCurrentDay() is out of range`` () =
-        outOfRangeExn "dayNumber" (fun () -> fauxCalendar.GetCurrentDay())
+        outOfRangeExn "dayNumber" (fun () -> fauxClock.GetCurrentDay())
 
     [<Fact>]
     let ``GetCurrentOrdinal()`` () =
         let now = DateTime.Now
-        let date = chr.GetCurrentOrdinal()
+        let date = clock.GetCurrentOrdinal()
 
         date.Year  === now.Year
         date.Month === now.Month
@@ -430,7 +433,7 @@ module GregorianCase =
 
     [<Fact>]
     let ``GetCurrentOrdinal() is out of range`` () =
-        outOfRangeExn "dayNumber" (fun () -> fauxCalendar.GetCurrentOrdinal())
+        outOfRangeExn "dayNumber" (fun () -> fauxClock.GetCurrentOrdinal())
 
     //
     // GetDayOfWeek()

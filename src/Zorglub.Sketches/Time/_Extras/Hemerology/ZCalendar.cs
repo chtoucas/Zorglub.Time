@@ -8,6 +8,7 @@ namespace Zorglub.Time.Hemerology
     using Zorglub.Time.Core.Validation;
     using Zorglub.Time.Hemerology;
     using Zorglub.Time.Hemerology.Scopes;
+    using Zorglub.Time.Horology;
 
     // FIXME(api): prop Name (get and init) with default value = Key with the
     // ability to set it afterward.
@@ -184,11 +185,11 @@ namespace Zorglub.Time.Hemerology
 
         /// <inheritdoc/>
         [Pure]
-        public ZDate Today(ITodayProvider provider)
+        public ZDate Today(ITimepiece clock)
         {
-            Requires.NotNull(provider);
+            Requires.NotNull(clock);
 
-            var today = provider.Today();
+            var today = clock.Today();
             if (IsUserDefined) { Domain.Validate(today); }
             return new(today - Epoch, Id);
         }

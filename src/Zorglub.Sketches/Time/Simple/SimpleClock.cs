@@ -6,17 +6,26 @@ namespace Zorglub.Time.Simple
     using Zorglub.Time.Core;
     using Zorglub.Time.Core.Intervals;
     using Zorglub.Time.Core.Validation;
-    using Zorglub.Time.Hemerology;
+    using Zorglub.Time.Horology;
 
-    public sealed class TodayProvider
+    public static class SimpleCalendarExtensions
+    {
+        public static SimpleClock GetLocalClock(this SimpleCalendar calendar) =>
+            new(calendar, SystemLocalTimepiece.Instance);
+
+        public static SimpleClock GetUtcClock(this SimpleCalendar calendar) =>
+            new(calendar, SystemUtcTimepiece.Instance);
+    }
+
+    public sealed class SimpleClock
     {
         private readonly SimpleCalendar _calendar;
-        private readonly ITodayProvider _provider;
+        private readonly ITimepiece _clock;
 
-        public TodayProvider(SimpleCalendar calendar, ITodayProvider provider)
+        public SimpleClock(SimpleCalendar calendar, ITimepiece clock)
         {
-            _calendar = calendar ?? throw new ArgumentNullException(nameof(provider));
-            _provider = provider ?? throw new ArgumentNullException(nameof(provider));
+            _calendar = calendar ?? throw new ArgumentNullException(nameof(clock));
+            _clock = clock ?? throw new ArgumentNullException(nameof(clock));
         }
 
         /// <summary>
@@ -42,74 +51,69 @@ namespace Zorglub.Time.Simple
         // that today is always admissible.
 
         /// <summary>
-        /// Obtains the current <see cref="CalendarYear"/> on this machine,
-        /// expressed in local time, not UTC.
+        /// Obtains a <see cref="CalendarYear"/> value representing the current year.
         /// </summary>
-        /// <exception cref="AoorException">Today is outside the range of values supported by this
-        /// calendar.</exception>
+        /// <exception cref="AoorException">Today is outside the range of values supported by the
+        /// underlying calendar.</exception>
         [Pure]
         public CalendarYear GetCurrentYear()
         {
-            var today = _provider.Today();
+            var today = _clock.Today();
             if (IsUserDefined) { Domain.Validate(today); }
             int y = Schema.GetYear(today - Epoch);
             return new CalendarYear(y, Id);
         }
 
         /// <summary>
-        /// Obtains the current <see cref="CalendarMonth"/> on this machine,
-        /// expressed in local time, not UTC.
+        /// Obtains a <see cref="CalendarMonth"/> value representing the current month.
         /// </summary>
-        /// <exception cref="AoorException">Today is outside the range of values supported by this
-        /// calendar.</exception>
+        /// <exception cref="AoorException">Today is outside the range of values supported by the
+        /// underlying calendar.</exception>
         [Pure]
         public CalendarMonth GetCurrentMonth()
         {
-            var today = _provider.Today();
+            var today = _clock.Today();
             if (IsUserDefined) { Domain.Validate(today); }
             var ymd = Schema.GetDateParts(today - Epoch);
             return new CalendarMonth(ymd.Yemo, Id);
         }
 
         /// <summary>
-        /// Obtains the current <see cref="CalendarDate"/> on this machine,
-        /// expressed in local time, not UTC.
+        /// Obtains a <see cref="CalendarDate"/> value representing the current date.
         /// </summary>
-        /// <exception cref="AoorException">Today is outside the range of values supported by this
-        /// calendar.</exception>
+        /// <exception cref="AoorException">Today is outside the range of values supported by the
+        /// underlying calendar.</exception>
         [Pure]
         public CalendarDate GetCurrentDate()
         {
-            var today = _provider.Today();
+            var today = _clock.Today();
             if (IsUserDefined) { Domain.Validate(today); }
             var ymd = Schema.GetDateParts(today - Epoch);
             return new CalendarDate(ymd, Id);
         }
 
         /// <summary>
-        /// Obtains the current <see cref="CalendarDay"/> on this machine,
-        /// expressed in local time, not UTC.
+        /// Obtains a <see cref="CalendarDay"/> value representing the current date.
         /// </summary>
-        /// <exception cref="AoorException">Today is outside the range of values supported by this
-        /// calendar.</exception>
+        /// <exception cref="AoorException">Today is outside the range of values supported by the
+        /// underlying calendar.</exception>
         [Pure]
         public CalendarDay GetCurrentDay()
         {
-            var today = _provider.Today();
+            var today = _clock.Today();
             if (IsUserDefined) { Domain.Validate(today); }
             return new(today - Epoch, Id);
         }
 
         /// <summary>
-        /// Obtains the current <see cref="OrdinalDate"/> on this machine,
-        /// expressed in local time, not UTC.
+        /// Obtains a <see cref="OrdinalDate"/> value representing the current date.
         /// </summary>
-        /// <exception cref="AoorException">Today is outside the range of values supported by this
-        /// calendar.</exception>
+        /// <exception cref="AoorException">Today is outside the range of values supported by the
+        /// underlying calendar.</exception>
         [Pure]
         public OrdinalDate GetCurrentOrdinal()
         {
-            var today = _provider.Today();
+            var today = _clock.Today();
             if (IsUserDefined) { Domain.Validate(today); }
             var ydoy = Schema.GetOrdinalParts(today - Epoch);
             return new OrdinalDate(ydoy, Id);

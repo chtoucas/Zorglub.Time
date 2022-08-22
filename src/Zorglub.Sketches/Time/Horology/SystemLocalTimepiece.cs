@@ -1,26 +1,29 @@
 ﻿// SPDX-License-Identifier: BSD-3-Clause
 // Copyright (c) 2020 Narvalo.Org. All rights reserved.
 
-namespace Zorglub.Time.Hemerology
+namespace Zorglub.Time.Horology
 {
     using Zorglub.Time.Core;
 
     /// <summary>
-    /// Provides a method to obtain the current date on this machine, expressed in the local time.
+    /// Represents the system clock.
     /// <para>This class cannot be inherited.</para>
     /// </summary>
-    public sealed class LocalTodayProvider : ITodayProvider
+    public sealed class SystemLocalTimepiece : ITimepiece
     {
-        private LocalTodayProvider() { }
+        private SystemLocalTimepiece() { }
 
         /// <summary>
-        /// Gets a singleton instance of the <see cref="LocalTodayProvider"/> class.
+        /// Gets a singleton instance of the <see cref="SystemLocalTimepiece"/> class.
         /// <para>This static property is thread-safe.</para>
         /// </summary>
-        public static LocalTodayProvider Instance { get; } = new();
+        public static SystemLocalTimepiece Instance { get; } = new();
 
-        /// <inheritdoc/>
-        [Pure]
+        /// <inheritdoc />
+        public long Now() =>
+            100 * DateTime.Now.Ticks;
+
+        /// <inheritdoc />
         public DayNumber Today()
         {
             // NB: the cast should always succeed.

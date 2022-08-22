@@ -65,8 +65,7 @@ let ``Gregorian calendar w/ dates after 1/1/1`` () =
     printfn "  Today            = %i/%i/%i (%O)" d m y chr
 
 let ``Armenian calendar`` () =
-    let chr = SimpleCalendar.Armenian
-    let day = chr.GetCurrentDate()
+    let day = SimpleCalendar.Armenian.GetLocalClock().GetCurrentDate()
     let month = day.CalendarMonth
     let year = day.CalendarYear
 

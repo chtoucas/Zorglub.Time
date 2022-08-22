@@ -4,6 +4,7 @@
 namespace Zorglub.Time.Hemerology;
 
 using Zorglub.Testing.Data.Unbounded;
+using Zorglub.Time.Horology;
 using Zorglub.Time.Simple;
 
 public sealed partial class ZCalendarTests :
@@ -45,7 +46,7 @@ public partial class ZCalendarTests // Properties
     {
         var exp = DateTime.Now;
         // Act
-        var today = CalendarUT.Today(LocalTodayProvider.Instance);
+        var today = CalendarUT.Today(SystemLocalTimepiece.Instance);
         // Assert
         Assert.Equal(exp.Year, today.Year);
         Assert.Equal(exp.Month, today.Month);
