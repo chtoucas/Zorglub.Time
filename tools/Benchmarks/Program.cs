@@ -41,7 +41,8 @@ public static class Program
         //BenchmarkRunner.Run<Other.InterconversionBenchmark>(config);
         //BenchmarkRunner.Run<Other.JulianBenchmark>(config);
         //BenchmarkRunner.Run<Other.QuickBenchmark>(config);
-        BenchmarkRunner.Run<Other.TodayBenchmark>(config);
+        //BenchmarkRunner.Run<Other.TodayBenchmark>(config);
+        BenchmarkRunner.Run<Other.UtcTodayBenchmark>(config);
     }
 #endif
 
