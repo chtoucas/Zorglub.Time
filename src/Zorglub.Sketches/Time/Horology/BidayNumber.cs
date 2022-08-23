@@ -40,26 +40,11 @@ namespace Zorglub.Time.Horology
         IComparisonOperators<BidayNumber, BidayNumber>,
         IMinMaxValue<BidayNumber>
     {
-        /// <summary>
-        /// Represents the smallest possible value of <see cref="NychthemeronsAtMidnight"/>.
-        /// </summary>
         public const int MinNychthemeronsAtMidnight = Int32.MinValue >> 1;
-
-        /// <summary>
-        /// Represents the largest possible value of <see cref="NychthemeronsAtMidnight"/>.
-        /// </summary>
         public const int MaxNychthemeronsAtMidnight = Int32.MaxValue >> 1;
 
-        /// <summary>
-        /// Represents the count of half-days since <see cref="Zero"/>.
-        /// <para>This field is read-only.</para>
-        /// </summary>
         private readonly int _halfDaysSinceZero;
 
-        /// <summary>
-        /// Constructs a new instance of <see cref="BidayNumber"/> from the number of consecutive days
-        /// since the epoch of the root dayscale, at midnight or noon.
-        /// </summary>
         public BidayNumber(int nychthemeronsAtMidnight, bool startAtMidnight)
         {
             if (nychthemeronsAtMidnight < MinNychthemeronsAtMidnight
@@ -72,46 +57,20 @@ namespace Zorglub.Time.Horology
         }
 
         public static BidayNumber Zero { get; }
-
-        /// <summary>
-        /// Gets the smallest possible value of a <see cref="BidayNumber"/>.
-        /// <para>This static property is thread-safe.</para>
-        /// </summary>
         public static BidayNumber MinValue { get; } = new BidayNumber(MinNychthemeronsAtMidnight, true);
-
-        /// <summary>
-        /// Gets the largest possible value of a <see cref="BidayNumber"/>.
-        /// <para>This static property is thread-safe.</para>
-        /// </summary>
         public static BidayNumber MaxValue { get; } = new BidayNumber(MaxNychthemeronsAtMidnight, false);
 
-        /// <summary>
-        /// Gets the count of consecutive days aka nychthemerons since <see cref="Zero"/>.
-        /// </summary>
         public int NychthemeronsSinceZero =>
             // Ça marche car la division entière arrondit "towards zero".
             _halfDaysSinceZero / 2;
 
-        /// <summary>
-        /// Gets the count of consecutive days aka nychthemerons from this instance at midnight (Oh)
-        /// to <see cref="Zero"/>.
-        /// </summary>
         internal int NychthemeronsAtMidnight =>
             StartAtMidnight ? _halfDaysSinceZero >> 1 : (_halfDaysSinceZero - 1) >> 1;
 
-        /// <summary>
-        /// Returns true if this instance starts at midnight; otherwise returns false.
-        /// </summary>
         public bool StartAtMidnight => (_halfDaysSinceZero & 1) == 0;
 
-        /// <summary>
-        /// Gets the number of fractional days since <see cref="Zero"/>.
-        /// </summary>
         public decimal DaysSinceZero => ((decimal)_halfDaysSinceZero) / 2;
 
-        /// <summary>
-        /// Gets the fractional part of <see cref="DaysSinceZero"/> from this instance.
-        /// </summary>
         public decimal FractionOfDay => StartAtMidnight ? 0m : .5m;
 
         ///// <summary>
@@ -120,16 +79,10 @@ namespace Zorglub.Time.Horology
         //public DayOfWeek DayOfWeek
         //    => DayOfWeekEx.GetDayOfWeek(DayOfWeek.Monday, NychthemeronsAtMidnight);
 
-        /// <summary>
-        /// Returns a culture-independent string representation of this instance.
-        /// </summary>
         public override string ToString() =>
             StartAtMidnight ? FormattableString.Invariant($"{NychthemeronsAtMidnight} (0h)")
             : FormattableString.Invariant($"{NychthemeronsAtMidnight} (12h)");
 
-        /// <summary>
-        /// Deconstructs this instance into its components.
-        /// </summary>
         public void Deconstruct(
             out int nychthemeronsAtMidnight, out bool startAtMidnight)
         {
@@ -137,24 +90,15 @@ namespace Zorglub.Time.Horology
                 = (NychthemeronsAtMidnight, StartAtMidnight);
         }
 
-        /// <summary>
-        /// Obtains the day number in the root dayscale from this instance.
-        /// </summary>
         [Pure]
         public DayNumber ToDayNumber() => new(checked(1 + NychthemeronsAtMidnight));
     }
 
     public partial struct BidayNumber
     {
-        /// <summary>
-        /// Determines whether two specified instances of <see cref="BidayNumber"/> are equal.
-        /// </summary>
         public static bool operator ==(BidayNumber left, BidayNumber right) =>
             left._halfDaysSinceZero == right._halfDaysSinceZero;
 
-        /// <summary>
-        /// Determines whether two specified instances of <see cref="BidayNumber"/> are not equal.
-        /// </summary>
         public static bool operator !=(BidayNumber left, BidayNumber right) =>
             left._halfDaysSinceZero != right._halfDaysSinceZero;
 
@@ -171,37 +115,18 @@ namespace Zorglub.Time.Horology
 
     public partial struct BidayNumber
     {
-        /// <summary>
-        /// Compares the two specified epochs to see if the left one is strictly earlier than the
-        /// right one.
-        /// </summary>
         public static bool operator <(BidayNumber left, BidayNumber right) =>
             left._halfDaysSinceZero < right._halfDaysSinceZero;
 
-        /// <summary>
-        /// Compares the two specified epochs to see if the left one is earlier than or equal to the
-        /// right one.
-        /// </summary>
         public static bool operator <=(BidayNumber left, BidayNumber right) =>
             left._halfDaysSinceZero <= right._halfDaysSinceZero;
 
-        /// <summary>
-        /// Compares the two specified epochs to see if the left one is strictly later than the
-        /// right one.
-        /// </summary>
         public static bool operator >(BidayNumber left, BidayNumber right) =>
             left._halfDaysSinceZero > right._halfDaysSinceZero;
 
-        /// <summary>
-        /// Compares the two specified epochs to see if the left one is later than or equal to the
-        /// right one.
-        /// </summary>
         public static bool operator >=(BidayNumber left, BidayNumber right) =>
             left._halfDaysSinceZero >= right._halfDaysSinceZero;
 
-        /// <summary>
-        /// Indicates whether this epoch instance is earlier, later or the same as the specified one.
-        /// </summary>
         public int CompareTo(BidayNumber other) =>
             _halfDaysSinceZero.CompareTo(other._halfDaysSinceZero);
 
@@ -214,17 +139,10 @@ namespace Zorglub.Time.Horology
 
     public partial struct BidayNumber
     {
-        /// <summary>
-        /// Subtracts the two specified epochs and returns the number of <i>half-days</i> between
-        /// them.
-        /// </summary>
         [Pure]
         public static int operator -(BidayNumber left, BidayNumber right) =>
             checked(left._halfDaysSinceZero - right._halfDaysSinceZero);
 
-        /// <summary>
-        /// Counts the number of fractional days between the two specified epochs.
-        /// </summary>
         [Pure]
         public static decimal CountDaysBetween(BidayNumber start, BidayNumber end)
         {
@@ -240,25 +158,14 @@ namespace Zorglub.Time.Horology
                 : MathEx.SubtractHalfOne(days); // days - .5m;
         }
 
-        /// <summary>
-        /// Counts the number of consecutive days between the two specified epochs.
-        /// </summary>
         [Pure]
         public static int CountNychthemeronsBetween(BidayNumber start, BidayNumber end) =>
             // rounds towards zero.
             (end - start) / 2;
 
-        /// <summary>
-        /// Subtracts the two specified epochs and returns the number of <i>half-days</i> between
-        /// them.
-        /// </summary>
         [Pure]
         public static int Subtract(BidayNumber left, BidayNumber right) => left - right;
 
-        /// <summary>
-        /// Subtracts the two specified epochs and returns the number of <i>half-days</i> between
-        /// them.
-        /// </summary>
         [Pure]
         public int Minus(BidayNumber other) => this - other;
     }
