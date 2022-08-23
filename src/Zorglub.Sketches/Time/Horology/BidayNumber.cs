@@ -36,14 +36,9 @@ namespace Zorglub.Time.Horology
                 : new decimal(-10 * num + 5, 0x00000000, 0x00000000, true, 0x0001);
     }
 
-    /// <summary>
-    /// Represents the epoch of a dayscale.
-    /// <para>An epoch is a moment at midnight or noon in the root dayscale.</para>
-    /// <para><see cref="Epoch"/> is an immutable struct.</para>
-    /// </summary>
-    public readonly partial struct Epoch :
-        IComparisonOperators<Epoch, Epoch>,
-        IMinMaxValue<Epoch>
+    public readonly partial struct BidayNumber :
+        IComparisonOperators<BidayNumber, BidayNumber>,
+        IMinMaxValue<BidayNumber>
     {
         /// <summary>
         /// Represents the smallest possible value of <see cref="NychthemeronsAtMidnight"/>.
@@ -56,63 +51,66 @@ namespace Zorglub.Time.Horology
         public const int MaxNychthemeronsAtMidnight = Int32.MaxValue >> 1;
 
         /// <summary>
-        /// Represents the number of half-days from this instance to the epoch of the root dayscale.
+        /// Represents the count of half-days since <see cref="Zero"/>.
+        /// <para>This field is read-only.</para>
         /// </summary>
-        private readonly int _halfDays;
+        private readonly int _halfDaysSinceZero;
 
         /// <summary>
-        /// Constructs a new instance of <see cref="Epoch"/> from the number of
-        /// integral days since the epoch of the root dayscale, at midnight or
-        /// noon.
+        /// Constructs a new instance of <see cref="BidayNumber"/> from the number of consecutive days
+        /// since the epoch of the root dayscale, at midnight or noon.
         /// </summary>
-        public Epoch(int nychthemeronsAtMidnight, bool startAtMidnight)
+        public BidayNumber(int nychthemeronsAtMidnight, bool startAtMidnight)
         {
             if (nychthemeronsAtMidnight < MinNychthemeronsAtMidnight
                 || nychthemeronsAtMidnight > MaxNychthemeronsAtMidnight)
             {
-                throw new ArgumentOutOfRangeException(nameof(nychthemeronsAtMidnight));
+                Throw.ArgumentOutOfRange(nameof(nychthemeronsAtMidnight));
             }
 
-            _halfDays = checked((nychthemeronsAtMidnight << 1) + (startAtMidnight ? 0 : 1));
+            _halfDaysSinceZero = checked((nychthemeronsAtMidnight << 1) + (startAtMidnight ? 0 : 1));
         }
 
-        /// <summary>
-        /// Gets the smallest possible value of an <see cref="Epoch"/>.
-        /// </summary>
-        public static Epoch MinValue { get; } = new Epoch(MinNychthemeronsAtMidnight, true);
+        public static BidayNumber Zero { get; }
 
         /// <summary>
-        /// Gets the largest possible value of an <see cref="Epoch"/>.
+        /// Gets the smallest possible value of a <see cref="BidayNumber"/>.
+        /// <para>This static property is thread-safe.</para>
         /// </summary>
-        public static Epoch MaxValue { get; } = new Epoch(MaxNychthemeronsAtMidnight, false);
+        public static BidayNumber MinValue { get; } = new BidayNumber(MinNychthemeronsAtMidnight, true);
 
         /// <summary>
-        /// Gets the number of integral days aka nychthemerons from this instance to the epoch of
-        /// the root dayscale.
+        /// Gets the largest possible value of a <see cref="BidayNumber"/>.
+        /// <para>This static property is thread-safe.</para>
         /// </summary>
-        public int Nychthemerons =>
+        public static BidayNumber MaxValue { get; } = new BidayNumber(MaxNychthemeronsAtMidnight, false);
+
+        /// <summary>
+        /// Gets the count of consecutive days aka nychthemerons since <see cref="Zero"/>.
+        /// </summary>
+        public int NychthemeronsSinceZero =>
             // Ça marche car la division entière arrondit "towards zero".
-            _halfDays / 2;
+            _halfDaysSinceZero / 2;
 
         /// <summary>
-        /// Gets the number of integral days aka nychthemerons from this instance at midnight (Oh)
-        /// to the epoch of the root dayscale.
+        /// Gets the count of consecutive days aka nychthemerons from this instance at midnight (Oh)
+        /// to <see cref="Zero"/>.
         /// </summary>
         internal int NychthemeronsAtMidnight =>
-            (_halfDays & 1) == 0 ? _halfDays >> 1 : (_halfDays - 1) >> 1;
+            StartAtMidnight ? _halfDaysSinceZero >> 1 : (_halfDaysSinceZero - 1) >> 1;
 
         /// <summary>
         /// Returns true if this instance starts at midnight; otherwise returns false.
         /// </summary>
-        public bool StartAtMidnight => (_halfDays & 1) == 0;
+        public bool StartAtMidnight => (_halfDaysSinceZero & 1) == 0;
 
         /// <summary>
-        /// Gets the number of fractional days from this instance to the epoch of the root dayscale.
+        /// Gets the number of fractional days since <see cref="Zero"/>.
         /// </summary>
-        public decimal Days => ((decimal)_halfDays) / 2;
+        public decimal DaysSinceZero => ((decimal)_halfDaysSinceZero) / 2;
 
         /// <summary>
-        /// Gets the fractional part of <see cref="Days"/> from this instance.
+        /// Gets the fractional part of <see cref="DaysSinceZero"/> from this instance.
         /// </summary>
         public decimal FractionOfDay => StartAtMidnight ? 0m : .5m;
 
@@ -146,79 +144,89 @@ namespace Zorglub.Time.Horology
         public DayNumber ToDayNumber() => new(checked(1 + NychthemeronsAtMidnight));
     }
 
-    public partial struct Epoch
+    public partial struct BidayNumber
     {
         /// <summary>
-        /// Determines whether two specified instances of <see cref="Epoch"/> are equal.
+        /// Determines whether two specified instances of <see cref="BidayNumber"/> are equal.
         /// </summary>
-        public static bool operator ==(Epoch left, Epoch right) => left._halfDays == right._halfDays;
+        public static bool operator ==(BidayNumber left, BidayNumber right) =>
+            left._halfDaysSinceZero == right._halfDaysSinceZero;
 
         /// <summary>
-        /// Determines whether two specified instances of <see cref="Epoch"/> are not equal.
+        /// Determines whether two specified instances of <see cref="BidayNumber"/> are not equal.
         /// </summary>
-        public static bool operator !=(Epoch left, Epoch right) => left._halfDays != right._halfDays;
+        public static bool operator !=(BidayNumber left, BidayNumber right) =>
+            left._halfDaysSinceZero != right._halfDaysSinceZero;
 
-        /// <summary>
-        /// Determines whether this instance is equal to the value of the specified
-        /// <see cref="Epoch"/>.
-        /// </summary>
-        public bool Equals(Epoch other) => _halfDays == other._halfDays;
+        /// <inheritdoc />
+        public bool Equals(BidayNumber other) => _halfDaysSinceZero == other._halfDaysSinceZero;
 
-        /// <summary>
-        /// Determines whether this instance is equal to a specified object.
-        /// </summary>
-        public override bool Equals(object? obj) => obj is Epoch epoch && this == epoch;
+        /// <inheritdoc />
+        public override bool Equals([NotNullWhen(true)] object? obj) =>
+            obj is BidayNumber epoch && Equals(epoch);
 
-        /// <summary>
-        /// Obtains the hash code for this instance.
-        /// </summary>
-        public override int GetHashCode() => _halfDays.GetHashCode();
+        /// <inheritdoc />
+        public override int GetHashCode() => _halfDaysSinceZero;
     }
 
-    public partial struct Epoch
+    public partial struct BidayNumber
     {
         /// <summary>
         /// Compares the two specified epochs to see if the left one is strictly earlier than the
         /// right one.
         /// </summary>
-        public static bool operator <(Epoch left, Epoch right) => left._halfDays < right._halfDays;
+        public static bool operator <(BidayNumber left, BidayNumber right) =>
+            left._halfDaysSinceZero < right._halfDaysSinceZero;
 
         /// <summary>
         /// Compares the two specified epochs to see if the left one is earlier than or equal to the
         /// right one.
         /// </summary>
-        public static bool operator <=(Epoch left, Epoch right) => left._halfDays <= right._halfDays;
+        public static bool operator <=(BidayNumber left, BidayNumber right) =>
+            left._halfDaysSinceZero <= right._halfDaysSinceZero;
 
         /// <summary>
         /// Compares the two specified epochs to see if the left one is strictly later than the
         /// right one.
         /// </summary>
-        public static bool operator >(Epoch left, Epoch right) => left._halfDays > right._halfDays;
+        public static bool operator >(BidayNumber left, BidayNumber right) =>
+            left._halfDaysSinceZero > right._halfDaysSinceZero;
 
         /// <summary>
         /// Compares the two specified epochs to see if the left one is later than or equal to the
         /// right one.
         /// </summary>
-        public static bool operator >=(Epoch left, Epoch right) => left._halfDays >= right._halfDays;
+        public static bool operator >=(BidayNumber left, BidayNumber right) =>
+            left._halfDaysSinceZero >= right._halfDaysSinceZero;
 
         /// <summary>
         /// Indicates whether this epoch instance is earlier, later or the same as the specified one.
         /// </summary>
-        public int CompareTo(Epoch other) => _halfDays.CompareTo(other._halfDays);
+        public int CompareTo(BidayNumber other) =>
+            _halfDaysSinceZero.CompareTo(other._halfDaysSinceZero);
 
-        int IComparable.CompareTo(object? obj) =>
+        /// <inheritdoc />
+        public int CompareTo(object? obj) =>
             obj is null ? 1
-            : obj is Epoch epoch ? CompareTo(epoch)
-            : Throw.NonComparable(typeof(Epoch), obj);
+            : obj is BidayNumber epoch ? CompareTo(epoch)
+            : Throw.NonComparable(typeof(BidayNumber), obj);
     }
 
-    public partial struct Epoch
+    public partial struct BidayNumber
     {
+        /// <summary>
+        /// Subtracts the two specified epochs and returns the number of <i>half-days</i> between
+        /// them.
+        /// </summary>
+        [Pure]
+        public static int operator -(BidayNumber left, BidayNumber right) =>
+            checked(left._halfDaysSinceZero - right._halfDaysSinceZero);
+
         /// <summary>
         /// Counts the number of fractional days between the two specified epochs.
         /// </summary>
         [Pure]
-        public static decimal CountDaysBetween(Epoch start, Epoch end)
+        public static decimal CountDaysBetween(BidayNumber start, BidayNumber end)
         {
             // Normalement, on écrirait
             // > decimal days = (decimal)(end - start) / 2;
@@ -233,30 +241,25 @@ namespace Zorglub.Time.Horology
         }
 
         /// <summary>
-        /// Counts the number of integral days between the two specified epochs.
+        /// Counts the number of consecutive days between the two specified epochs.
         /// </summary>
         [Pure]
-        public static int CountNychthemeronsBetween(Epoch start, Epoch end) =>
+        public static int CountNychthemeronsBetween(BidayNumber start, BidayNumber end) =>
             // rounds towards zero.
             (end - start) / 2;
 
         /// <summary>
-        /// Subtracts the two specified epochs and returns the number of HALF-DAYS between them.
+        /// Subtracts the two specified epochs and returns the number of <i>half-days</i> between
+        /// them.
         /// </summary>
         [Pure]
-        public static int operator -(Epoch left, Epoch right) =>
-            checked(left._halfDays - right._halfDays);
+        public static int Subtract(BidayNumber left, BidayNumber right) => left - right;
 
         /// <summary>
-        /// Subtracts the two specified epochs and returns the number of HALF-DAYS between them.
+        /// Subtracts the two specified epochs and returns the number of <i>half-days</i> between
+        /// them.
         /// </summary>
         [Pure]
-        public static int Subtract(Epoch left, Epoch right) => left - right;
-
-        /// <summary>
-        /// Subtracts the two specified epochs and returns the number of HALF-DAYS between them.
-        /// </summary>
-        [Pure]
-        public int Minus(Epoch other) => this - other;
+        public int Minus(BidayNumber other) => this - other;
     }
 }
