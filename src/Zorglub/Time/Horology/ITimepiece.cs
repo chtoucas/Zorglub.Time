@@ -6,6 +6,7 @@ namespace Zorglub.Time.Horology
     // TODO(api): retourner un type temps UtcTime ou AtomicTime ? ou Y-M-D H-M-S.sss
     // Réalisation complémentaire: NtpTimepiece.
     // Remplace long par ??? dans Now().
+    // Prop Timescale.
 
     /// <summary>
     /// Represents an instrument for measuring time.
