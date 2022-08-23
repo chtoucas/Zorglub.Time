@@ -60,7 +60,8 @@ namespace Zorglub.Time.Simple
         private Range<DayNumber> Domain => _calendar.Domain;
 
         /// <summary>
-        /// Creates a new instance of the <see cref="SimpleClock"/> class.
+        /// Creates a new instance of the <see cref="SimpleClock"/> class for the specified calendar
+        /// and timepiece.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="calendar"/> is null.</exception>
         /// <exception cref="ArgumentNullException"><paramref name="timepiece"/> is null.</exception>
@@ -74,7 +75,7 @@ namespace Zorglub.Time.Simple
         }
 
         /// <summary>
-        /// Creates a new instance of the <see cref="SimpleClock"/> class.
+        /// Obtains the default clock for the specified calendar and timepiece.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="timepiece"/> is null.</exception>
         [Pure]
@@ -82,11 +83,11 @@ namespace Zorglub.Time.Simple
         {
             Debug.Assert(calendar != null);
 
-            return new Default(calendar, timepiece);
+            return new DefaultClock(calendar, timepiece);
         }
 
         /// <summary>
-        /// Creates a new instance of the <see cref="SimpleClock"/> class.
+        /// Obtains the default clock for the specified system calendar and timepiece.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="timepiece"/> is null.</exception>
         [Pure]
@@ -95,8 +96,9 @@ namespace Zorglub.Time.Simple
             Debug.Assert(calendar != null);
             Debug.Assert(calendar.IsUserDefined == false);
 
-            return calendar.Id == Cuid.Gregorian ? new Gregorian(calendar, timepiece)
-                : new System(calendar, timepiece);
+            return calendar.Id == Cuid.Civil || calendar.Id == Cuid.Gregorian
+                ? new GregorianClock(calendar, timepiece)
+                : new SystemClock(calendar, timepiece);
         }
 
         // Identical to the conversion methods found in SimpleCalendar but
@@ -144,12 +146,16 @@ namespace Zorglub.Time.Simple
 
 #pragma warning restore CA1024
 
-        private sealed class Gregorian : SimpleClock
+        // Requirements:
+        // - System calendar (no validation)
+        // - Gregorian schema and epoch
+        private sealed class GregorianClock : SimpleClock
         {
-            public Gregorian(SimpleCalendar calendar, ITimepiece timepiece)
+            public GregorianClock(SimpleCalendar calendar, ITimepiece timepiece)
                 : base(calendar, timepiece)
             {
-                Debug.Assert(calendar.Id == Cuid.Gregorian);
+                Debug.Assert(calendar.Id == Cuid.Gregorian || calendar.Id == Cuid.Civil);
+                Debug.Assert(calendar.Epoch == DayZero.NewStyle);
             }
 
             [Pure]
@@ -157,7 +163,7 @@ namespace Zorglub.Time.Simple
             {
                 var today = _timepiece.Today();
                 int y = GregorianFormulae.GetYear(today.DaysSinceZero);
-                return new CalendarYear(y, Cuid.Gregorian);
+                return new CalendarYear(y, Id);
             }
 
             [Pure]
@@ -165,7 +171,7 @@ namespace Zorglub.Time.Simple
             {
                 var today = _timepiece.Today();
                 var ymd = GregorianFormulae.GetDateParts(today.DaysSinceZero);
-                return new CalendarMonth(ymd.Yemo, Cuid.Gregorian);
+                return new CalendarMonth(ymd.Yemo, Id);
             }
 
             [Pure]
@@ -173,14 +179,14 @@ namespace Zorglub.Time.Simple
             {
                 var today = _timepiece.Today();
                 var ymd = GregorianFormulae.GetDateParts(today.DaysSinceZero);
-                return new CalendarDate(ymd, Cuid.Gregorian);
+                return new CalendarDate(ymd, Id);
             }
 
             [Pure]
             public override CalendarDay GetCurrentDay()
             {
                 var today = _timepiece.Today();
-                return new(today.DaysSinceZero, Cuid.Gregorian);
+                return new(today.DaysSinceZero, Id);
             }
 
             [Pure]
@@ -188,13 +194,14 @@ namespace Zorglub.Time.Simple
             {
                 var today = _timepiece.Today();
                 var ydoy = GregorianFormulae.GetOrdinalParts(today.DaysSinceZero);
-                return new OrdinalDate(ydoy, Cuid.Gregorian);
+                return new OrdinalDate(ydoy, Id);
             }
         }
 
-        private sealed class System : SimpleClock
+        // Requirement: system calendar (no validation).
+        private sealed class SystemClock : SimpleClock
         {
-            public System(SimpleCalendar calendar, ITimepiece timepiece) : base(calendar, timepiece)
+            public SystemClock(SimpleCalendar calendar, ITimepiece timepiece) : base(calendar, timepiece)
             {
                 Debug.Assert(calendar.IsUserDefined == false);
             }
@@ -239,9 +246,9 @@ namespace Zorglub.Time.Simple
             }
         }
 
-        private sealed class Default : SimpleClock
+        private sealed class DefaultClock : SimpleClock
         {
-            public Default(SimpleCalendar calendar, ITimepiece timepiece)
+            public DefaultClock(SimpleCalendar calendar, ITimepiece timepiece)
                 : base(calendar, timepiece) { }
 
             [Pure]

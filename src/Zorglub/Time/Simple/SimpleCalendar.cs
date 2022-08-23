@@ -437,7 +437,8 @@ namespace Zorglub.Time.Simple
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="timepiece"/> is null.</exception>
         [Pure]
-        public virtual SimpleClock GetClock(ITimepiece timepiece) => SimpleClock.CreateDefault(this, timepiece);
+        public virtual SimpleClock GetClock(ITimepiece timepiece) =>
+            SimpleClock.CreateDefault(this, timepiece);
     }
 
     public partial class SimpleCalendar // Year or month infos

@@ -76,13 +76,9 @@ namespace Zorglub.Time.Hemerology
             Debug.Assert(calendar != null);
 
             return
-                calendar.Epoch == DayZero.NewStyle
-                ? calendar.IsUserDefined
-                    ? new UserDefinedGregorian(calendar, timepiece)
-                    : new SystemGregorian(calendar, timepiece)
-                : calendar.IsUserDefined
-                    ? new UserDefined(calendar, timepiece)
-                    : new System(calendar, timepiece);
+                calendar.IsUserDefined ? new DefaultClock(calendar, timepiece)
+                : calendar.Epoch == DayZero.NewStyle ? new GregorianClock(calendar, timepiece)
+                : new SystemClock(calendar, timepiece);
         }
 
         /// <summary>
@@ -94,9 +90,10 @@ namespace Zorglub.Time.Hemerology
         [SuppressMessage("Design", "CA1024:Use properties where appropriate", Justification = "<Pending>")]
         public abstract ZDate GetCurrentDate();
 
-        private sealed class System : ZClock
+        // Requirement: system calendar (no validation).
+        private sealed class SystemClock : ZClock
         {
-            public System(ZCalendar calendar, ITimepiece timepiece) : base(calendar, timepiece)
+            public SystemClock(ZCalendar calendar, ITimepiece timepiece) : base(calendar, timepiece)
             {
                 Debug.Assert(calendar.IsUserDefined == false);
             }
@@ -109,9 +106,12 @@ namespace Zorglub.Time.Hemerology
             }
         }
 
-        private sealed class SystemGregorian : ZClock
+        // Requirements:
+        // - System calendar (no validation)
+        // - Gregorian epoch
+        private sealed class GregorianClock : ZClock
         {
-            public SystemGregorian(ZCalendar calendar, ITimepiece timepiece)
+            public GregorianClock(ZCalendar calendar, ITimepiece timepiece)
                 : base(calendar, timepiece)
             {
                 Debug.Assert(calendar.IsUserDefined == false);
@@ -126,37 +126,17 @@ namespace Zorglub.Time.Hemerology
             }
         }
 
-        private sealed class UserDefined : ZClock
+        private sealed class DefaultClock : ZClock
         {
-            public UserDefined(ZCalendar calendar, ITimepiece timepiece) : base(calendar, timepiece)
-            {
-                Debug.Assert(calendar.IsUserDefined);
-            }
+            public DefaultClock(ZCalendar calendar, ITimepiece timepiece)
+                : base(calendar, timepiece) { }
 
             [Pure]
             public override ZDate GetCurrentDate()
             {
                 var today = _timepiece.Today();
-                if (IsUserDefined) { Domain.Validate(today); }
+                Domain.Validate(today);
                 return new ZDate(today - Epoch, Id);
-            }
-        }
-
-        private sealed class UserDefinedGregorian : ZClock
-        {
-            public UserDefinedGregorian(ZCalendar calendar, ITimepiece timepiece)
-                : base(calendar, timepiece)
-            {
-                Debug.Assert(calendar.IsUserDefined);
-                Debug.Assert(calendar.Epoch == DayZero.NewStyle);
-            }
-
-            [Pure]
-            public override ZDate GetCurrentDate()
-            {
-                var today = _timepiece.Today();
-                if (IsUserDefined) { Domain.Validate(today); }
-                return new ZDate(today.DaysSinceZero, Id);
             }
         }
     }
