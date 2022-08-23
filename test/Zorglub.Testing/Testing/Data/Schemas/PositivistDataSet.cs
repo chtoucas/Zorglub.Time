@@ -30,7 +30,7 @@ public partial class PositivistDataSet // Infos
         GenMonthsSinceEpochInfoData(13);
 
     public override DataGroup<DaysSinceEpochInfo> DaysSinceEpochInfoData { get; } =
-        DataGroup.CreateDaysSinceEpochInfoData(DaysSinceZeroInfos, CalendarEpoch.Positivist);
+        DataGroup.CreateDaysSinceEpochInfoData(DaysSinceZeroInfos, DayZero.Positivist);
 
     public override DataGroup<DateInfo> DateInfoData { get; } = new()
     {

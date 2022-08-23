@@ -14,7 +14,7 @@ public sealed class UnboundedFrenchRepublican12DataSet :
     UnboundedCalendarDataSet<FrenchRepublican12DataSet>, IEpagomenalDataSet, ISingleton<UnboundedFrenchRepublican12DataSet>
 {
     private UnboundedFrenchRepublican12DataSet()
-        : base(FrenchRepublican12DataSet.Instance, CalendarEpoch.FrenchRepublican) { }
+        : base(FrenchRepublican12DataSet.Instance, DayZero.FrenchRepublican) { }
 
     public static UnboundedFrenchRepublican12DataSet Instance => Singleton.Instance;
 
@@ -38,7 +38,7 @@ public sealed class UnboundedFrenchRepublican13DataSet :
     UnboundedCalendarDataSet<FrenchRepublican13DataSet>, IEpagomenalDataSet, ISingleton<UnboundedFrenchRepublican13DataSet>
 {
     private UnboundedFrenchRepublican13DataSet()
-        : base(FrenchRepublican13DataSet.Instance, CalendarEpoch.FrenchRepublican) { }
+        : base(FrenchRepublican13DataSet.Instance, DayZero.FrenchRepublican) { }
 
     public static UnboundedFrenchRepublican13DataSet Instance => Singleton.Instance;
 

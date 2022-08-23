@@ -1,7 +1,7 @@
 ﻿// SPDX-License-Identifier: BSD-3-Clause
 // Copyright (c) 2020 Narvalo.Org. All rights reserved.
 
-namespace Zorglub.Time.Hemerology
+namespace Zorglub.Time
 {
     using Zorglub.Time.Core.Schemas;
 
@@ -9,7 +9,7 @@ namespace Zorglub.Time.Hemerology
     /// Provides static methods to obtain common calendar epochs.
     /// <para>This class cannot be inherited.</para>
     /// </summary>
-    public static class CalendarEpoch2
+    public static class DayZero2
     {
         #region "Disabled"
         // Props désactivées pour éviter tout risque de confusion.

@@ -13,7 +13,7 @@ using Zorglub.Time.Hemerology;
 public sealed class UnboundedArmenian12DataSet :
     UnboundedCalendarDataSet<Egyptian12DataSet>, IEpagomenalDataSet, ISingleton<UnboundedArmenian12DataSet>
 {
-    private static readonly DayNumber s_Epoch = CalendarEpoch.Armenian;
+    private static readonly DayNumber s_Epoch = DayZero.Armenian;
 
     private UnboundedArmenian12DataSet() : base(Egyptian12DataSet.Instance, s_Epoch) { }
 
@@ -26,7 +26,7 @@ public sealed class UnboundedArmenian12DataSet :
     }
 
     public override DataGroup<DayNumberInfo> DayNumberInfoData { get; } =
-        DataGroup.CreateDayNumberInfoData(Egyptian12DataSet.DaysSinceRataDieInfos, CalendarEpoch.Egyptian, s_Epoch);
+        DataGroup.CreateDayNumberInfoData(Egyptian12DataSet.DaysSinceRataDieInfos, DayZero.Egyptian, s_Epoch);
 
     // IEpagomenalDataSet
     public DataGroup<YemodaAnd<int>> EpagomenalDayInfoData => SchemaDataSet.EpagomenalDayInfoData;
@@ -38,7 +38,7 @@ public sealed class UnboundedArmenian12DataSet :
 public sealed class UnboundedArmenian13DataSet :
     UnboundedCalendarDataSet<Egyptian13DataSet>, IEpagomenalDataSet, ISingleton<UnboundedArmenian13DataSet>
 {
-    private static readonly DayNumber s_Epoch = CalendarEpoch.Armenian;
+    private static readonly DayNumber s_Epoch = DayZero.Armenian;
 
     private UnboundedArmenian13DataSet() : base(Egyptian13DataSet.Instance, s_Epoch) { }
 
@@ -51,7 +51,7 @@ public sealed class UnboundedArmenian13DataSet :
     }
 
     public override DataGroup<DayNumberInfo> DayNumberInfoData { get; } =
-        DataGroup.CreateDayNumberInfoData(Egyptian13DataSet.DaysSinceRataDieInfos, CalendarEpoch.Egyptian, s_Epoch);
+        DataGroup.CreateDayNumberInfoData(Egyptian13DataSet.DaysSinceRataDieInfos, DayZero.Egyptian, s_Epoch);
 
     // IEpagomenalDataSet
     public DataGroup<YemodaAnd<int>> EpagomenalDayInfoData => SchemaDataSet.EpagomenalDayInfoData;

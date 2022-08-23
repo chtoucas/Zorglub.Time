@@ -30,7 +30,7 @@ public partial class TabularIslamicDataSet // Infos
         GenMonthsSinceEpochInfoData(12);
 
     public override DataGroup<DaysSinceEpochInfo> DaysSinceEpochInfoData { get; } =
-        DataGroup.CreateDaysSinceEpochInfoData(DaysSinceRataDieInfos, CalendarEpoch.TabularIslamic);
+        DataGroup.CreateDaysSinceEpochInfoData(DaysSinceRataDieInfos, DayZero.TabularIslamic);
 
     public override DataGroup<DateInfo> DateInfoData { get; } = new()
     {

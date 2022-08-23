@@ -13,7 +13,7 @@ using Zorglub.Time.Hemerology;
 public sealed class UnboundedWorldDataSet :
     UnboundedCalendarDataSet<WorldDataSet>, ISingleton<UnboundedWorldDataSet>
 {
-    private static readonly DayNumber s_Epoch = CalendarEpoch.SundayBeforeGregorian;
+    private static readonly DayNumber s_Epoch = DayZero.SundayBeforeGregorian;
 
     private UnboundedWorldDataSet() : base(WorldDataSet.Instance, s_Epoch) { }
 

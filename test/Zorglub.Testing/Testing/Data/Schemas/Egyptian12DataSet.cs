@@ -30,7 +30,7 @@ public partial class Egyptian12DataSet // Infos
         GenMonthsSinceEpochInfoData(12);
 
     public override DataGroup<DaysSinceEpochInfo> DaysSinceEpochInfoData { get; } =
-        DataGroup.CreateDaysSinceEpochInfoData(DaysSinceRataDieInfos, CalendarEpoch.Egyptian);
+        DataGroup.CreateDaysSinceEpochInfoData(DaysSinceRataDieInfos, DayZero.Egyptian);
 
     public override DataGroup<DateInfo> DateInfoData { get; } = new()
     {

@@ -477,21 +477,21 @@ static Zorglub.Time.DayNumber.operator >=(Zorglub.Time.DayNumber left, Zorglub.T
 static Zorglub.Time.DayNumber.Today() -> Zorglub.Time.DayNumber
 static Zorglub.Time.DayNumber.UtcToday() -> Zorglub.Time.DayNumber
 static Zorglub.Time.DayNumber.Zero.get -> Zorglub.Time.DayNumber
+static Zorglub.Time.DayZero.Armenian.get -> Zorglub.Time.DayNumber
+static Zorglub.Time.DayZero.Coptic.get -> Zorglub.Time.DayNumber
+static Zorglub.Time.DayZero.Egyptian.get -> Zorglub.Time.DayNumber
+static Zorglub.Time.DayZero.Ethiopic.get -> Zorglub.Time.DayNumber
+static Zorglub.Time.DayZero.FrenchRepublican.get -> Zorglub.Time.DayNumber
 static Zorglub.Time.DayZero.NewStyle.get -> Zorglub.Time.DayNumber
 static Zorglub.Time.DayZero.OldStyle.get -> Zorglub.Time.DayNumber
+static Zorglub.Time.DayZero.Persian.get -> Zorglub.Time.DayNumber
+static Zorglub.Time.DayZero.Positivist.get -> Zorglub.Time.DayNumber
 static Zorglub.Time.DayZero.RataDie.get -> Zorglub.Time.DayNumber
+static Zorglub.Time.DayZero.SundayBeforeGregorian.get -> Zorglub.Time.DayNumber
+static Zorglub.Time.DayZero.TabularIslamic.get -> Zorglub.Time.DayNumber
+static Zorglub.Time.DayZero.Zoroastrian.get -> Zorglub.Time.DayNumber
 static Zorglub.Time.Extensions.Unboxing.TryUnbox<T>(this Zorglub.Time.Core.Utilities.Box<T!>! box, out T? obj) -> bool
 static Zorglub.Time.Extensions.Unboxing.Unbox<T>(this Zorglub.Time.Core.Utilities.Box<T!>! box) -> T!
-static Zorglub.Time.Hemerology.CalendarEpoch.Armenian.get -> Zorglub.Time.DayNumber
-static Zorglub.Time.Hemerology.CalendarEpoch.Coptic.get -> Zorglub.Time.DayNumber
-static Zorglub.Time.Hemerology.CalendarEpoch.Egyptian.get -> Zorglub.Time.DayNumber
-static Zorglub.Time.Hemerology.CalendarEpoch.Ethiopic.get -> Zorglub.Time.DayNumber
-static Zorglub.Time.Hemerology.CalendarEpoch.FrenchRepublican.get -> Zorglub.Time.DayNumber
-static Zorglub.Time.Hemerology.CalendarEpoch.Persian.get -> Zorglub.Time.DayNumber
-static Zorglub.Time.Hemerology.CalendarEpoch.Positivist.get -> Zorglub.Time.DayNumber
-static Zorglub.Time.Hemerology.CalendarEpoch.SundayBeforeGregorian.get -> Zorglub.Time.DayNumber
-static Zorglub.Time.Hemerology.CalendarEpoch.TabularIslamic.get -> Zorglub.Time.DayNumber
-static Zorglub.Time.Hemerology.CalendarEpoch.Zoroastrian.get -> Zorglub.Time.DayNumber
 static Zorglub.Time.Hemerology.Scopes.BoundedBelowScope.Create(Zorglub.Time.Core.ICalendricalSchema! schema, Zorglub.Time.DayNumber epoch, Zorglub.Time.DateParts minDateParts, int maxYear) -> Zorglub.Time.Hemerology.Scopes.BoundedBelowScope!
 static Zorglub.Time.Hemerology.Scopes.BoundedBelowScope.Create(Zorglub.Time.Hemerology.Scopes.CalendarScope! scope) -> Zorglub.Time.Hemerology.Scopes.BoundedBelowScope!
 static Zorglub.Time.Hemerology.Scopes.BoundedBelowScope.StartingAt(Zorglub.Time.Core.ICalendricalSchema! schema, Zorglub.Time.DayNumber epoch, Zorglub.Time.DateParts parts) -> Zorglub.Time.Hemerology.Scopes.BoundedBelowScope!
@@ -1303,7 +1303,6 @@ Zorglub.Time.Hemerology.BoundedBelowBasicCalendar.MinDateParts.get -> Zorglub.Ti
 Zorglub.Time.Hemerology.BoundedBelowBasicCalendar.MinMonthParts.get -> Zorglub.Time.MonthParts
 Zorglub.Time.Hemerology.BoundedBelowBasicCalendar.MinOrdinalParts.get -> Zorglub.Time.OrdinalParts
 Zorglub.Time.Hemerology.BoundedBelowBasicCalendar.MinYear.get -> int
-Zorglub.Time.Hemerology.CalendarEpoch
 Zorglub.Time.Hemerology.IBlankDay
 Zorglub.Time.Hemerology.IBlankDay.IsBlank.get -> bool
 Zorglub.Time.Hemerology.ICalendar

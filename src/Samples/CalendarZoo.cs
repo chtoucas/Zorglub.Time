@@ -90,7 +90,7 @@ public partial class CalendarZoo
             (from x in Coptic12Schema.GetInstance()
              select new MinMaxYearCalendar(
                 "French Revolutionary",
-                MinMaxYearScope.Create(x, CalendarEpoch.FrenchRepublican, Range.Create(1, 14)))
+                MinMaxYearScope.Create(x, DayZero.FrenchRepublican, Range.Create(1, 14)))
              ).Unbox();
 }
 
@@ -255,13 +255,13 @@ public partial class CalendarZoo
         internal static readonly SimpleCalendar Egyptian =
             Egyptian12Schema.GetInstance().CreateCalendar(
                 "Egyptian",
-                CalendarEpoch.Egyptian,
+                DayZero.Egyptian,
                 proleptic: false);
 
         internal static SimpleCalendar FrenchRepublican =
             FrenchRepublican12Schema.GetInstance().CreateCalendar(
                 "French Republican",
-                CalendarEpoch.FrenchRepublican,
+                DayZero.FrenchRepublican,
                 proleptic: false);
 
         internal static SimpleCalendar InternationalFixed =
@@ -274,13 +274,13 @@ public partial class CalendarZoo
         internal static SimpleCalendar Persian2820 =
             Persian2820Schema.GetInstance().CreateCalendar(
                 "Tabular Persian",
-                CalendarEpoch.Persian,
+                DayZero.Persian,
                 proleptic: false);
 
         internal static SimpleCalendar Positivist =
             PositivistSchema.GetInstance().CreateCalendar(
                 "Positivist",
-                CalendarEpoch.Positivist,
+                DayZero.Positivist,
                 proleptic: false);
 
         internal static SimpleCalendar RevisedWorld =
@@ -293,7 +293,7 @@ public partial class CalendarZoo
         internal static SimpleCalendar World =
             WorldSchema.GetInstance().CreateCalendar(
                 "World",
-                CalendarEpoch.SundayBeforeGregorian,
+                DayZero.SundayBeforeGregorian,
                 proleptic: false);
     }
 }
@@ -398,7 +398,7 @@ public partial class CalendarZoo
         s_Pax ??= ZCatalog.Add(
             "Pax",
             new PaxSchema(),
-            CalendarEpoch.SundayBeforeGregorian,
+            DayZero.SundayBeforeGregorian,
             widest: false);
 #endif
 }

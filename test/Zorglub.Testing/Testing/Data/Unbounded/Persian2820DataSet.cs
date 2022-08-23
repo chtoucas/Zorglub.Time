@@ -13,7 +13,7 @@ using Zorglub.Time.Hemerology;
 public sealed class UnboundedPersian2820DataSet :
     UnboundedCalendarDataSet<Persian2820DataSet>, ISingleton<UnboundedPersian2820DataSet>
 {
-    private UnboundedPersian2820DataSet() : base(Persian2820DataSet.Instance, CalendarEpoch.Persian) { }
+    private UnboundedPersian2820DataSet() : base(Persian2820DataSet.Instance, DayZero.Persian) { }
 
     public static UnboundedPersian2820DataSet Instance => Singleton.Instance;
 

@@ -32,14 +32,14 @@ public static class UserCalendars
     /// <para>This static property is thread-safe.</para>
     /// </summary>
     public static SimpleCalendar Positivist { get; } =
-        SimpleCatalog.Add("User Positivist", new PositivistSchema(), CalendarEpoch.Positivist, proleptic: false);
+        SimpleCatalog.Add("User Positivist", new PositivistSchema(), DayZero.Positivist, proleptic: false);
 
     /// <summary>
     /// Gets the <i>non-proleptic</i> user-defined Coptic13 calendar.
     /// <para>This static property is thread-safe.</para>
     /// </summary>
     public static SimpleCalendar Coptic13 { get; } =
-        SimpleCatalog.Add("User Coptic13", new Coptic13Schema(), CalendarEpoch.Coptic, proleptic: false);
+        SimpleCatalog.Add("User Coptic13", new Coptic13Schema(), DayZero.Coptic, proleptic: false);
 
     public static readonly DayNumber LunisolarEpoch = DayZero.NewStyle;
 

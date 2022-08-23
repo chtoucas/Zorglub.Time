@@ -13,7 +13,7 @@ using Zorglub.Time.Hemerology;
 public sealed class UnboundedPositivistDataSet :
     UnboundedCalendarDataSet<PositivistDataSet>, ISingleton<UnboundedPositivistDataSet>
 {
-    private UnboundedPositivistDataSet() : base(PositivistDataSet.Instance, CalendarEpoch.Positivist) { }
+    private UnboundedPositivistDataSet() : base(PositivistDataSet.Instance, DayZero.Positivist) { }
 
     public static UnboundedPositivistDataSet Instance => Singleton.Instance;
 

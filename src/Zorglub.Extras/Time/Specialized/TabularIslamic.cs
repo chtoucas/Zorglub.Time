@@ -28,7 +28,7 @@ namespace Zorglub.Time.Specialized
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
         internal TabularIslamicCalendar(TabularIslamicSchema schema)
-            : base("Tabular Islamic", StandardScope.Create(schema, CalendarEpoch.TabularIslamic))
+            : base("Tabular Islamic", StandardScope.Create(schema, DayZero.TabularIslamic))
         {
             MonthsInYear = schema.MonthsInYear;
         }

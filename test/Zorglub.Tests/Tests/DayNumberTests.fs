@@ -131,37 +131,6 @@ module Prelude =
     let ``Property DayOfWeek`` (dayNumber: DayNumber) dayOfWeek =
         dayNumber.DayOfWeek === dayOfWeek
 
-    //
-    // Properties of DayZero
-    //
-
-    [<Fact>]
-    let ``Static property DayZero.NewStyle`` () =
-        let date = SimpleCalendar.Gregorian.GetDate(DayZero.NewStyle)
-        let y, m, d = date.Deconstruct()
-
-        DayZero.NewStyle === DayNumber.Zero
-        DayZero.NewStyle.Ordinal === Ord.First
-        DayZero.NewStyle.DayOfWeek === DayOfWeek.Monday
-        (y, m, d) === (1, 1, 1)
-        date.YearOfEra === Ord.First
-
-    [<Fact>]
-    let ``Static property DayZero.OldStyle`` () =
-        let date = SimpleCalendar.Julian.GetDate(DayZero.OldStyle)
-        let y, m, d = date.Deconstruct()
-
-        DayZero.OldStyle === DayNumber.Zero - 2
-        DayZero.OldStyle.Ordinal === Ord.First - 2
-        DayZero.OldStyle.DayOfWeek === DayOfWeek.Saturday
-        (y, m, d) === (1, 1, 1)
-        date.YearOfEra === Ord.First
-
-    [<Fact>]
-    let ``Static property DayZero.RataDie`` () =
-        DayZero.RataDie === DayNumber.Zero - 1
-        DayZero.RataDie.Ordinal === Ord.First - 1
-
 module Factories =
     // REVIEW(test): we should test these props without using XCivilDate.
     // Idem with DayNumber64.

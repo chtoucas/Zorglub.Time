@@ -33,7 +33,7 @@ public partial class FrenchRepublican13DataSet // Infos
         GenMonthsSinceEpochInfoData(13);
 
     public override DataGroup<DaysSinceEpochInfo> DaysSinceEpochInfoData { get; } =
-        DataGroup.CreateDaysSinceEpochInfoData(DaysSinceRataDieInfos, CalendarEpoch.FrenchRepublican);
+        DataGroup.CreateDaysSinceEpochInfoData(DaysSinceRataDieInfos, DayZero.FrenchRepublican);
 
     public override DataGroup<DateInfo> DateInfoData { get; } = new()
     {

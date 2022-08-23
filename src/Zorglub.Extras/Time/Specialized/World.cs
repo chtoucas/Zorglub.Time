@@ -28,7 +28,7 @@ namespace Zorglub.Time.Specialized
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
         internal WorldCalendar(WorldSchema schema)
-            : base("World", StandardScope.Create(schema, CalendarEpoch.SundayBeforeGregorian))
+            : base("World", StandardScope.Create(schema, DayZero.SundayBeforeGregorian))
         {
             MonthsInYear = schema.MonthsInYear;
         }

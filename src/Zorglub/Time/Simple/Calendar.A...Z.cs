@@ -24,7 +24,7 @@ namespace Zorglub.Time.Simple
             : base(
                   CalendarId.Armenian,
                   schema,
-                  CalendarEpoch.Armenian,
+                  DayZero.Armenian,
                   proleptic: false)
         { }
 
@@ -111,7 +111,7 @@ namespace Zorglub.Time.Simple
             : base(
                   CalendarId.Coptic,
                   schema,
-                  CalendarEpoch.Coptic,
+                  DayZero.Coptic,
                   proleptic: false)
         { }
 
@@ -143,7 +143,7 @@ namespace Zorglub.Time.Simple
             : base(
                   CalendarId.Ethiopic,
                   schema,
-                  CalendarEpoch.Ethiopic,
+                  DayZero.Ethiopic,
                   proleptic: false)
         { }
 
@@ -284,7 +284,7 @@ namespace Zorglub.Time.Simple
             : base(
                   CalendarId.TabularIslamic,
                   new TabularIslamicSchema(),
-                  CalendarEpoch.TabularIslamic,
+                  DayZero.TabularIslamic,
                   proleptic: false)
         { }
 
@@ -316,7 +316,7 @@ namespace Zorglub.Time.Simple
             : base(
                   CalendarId.Zoroastrian,
                   schema,
-                  CalendarEpoch.Zoroastrian,
+                  DayZero.Zoroastrian,
                   proleptic: false)
         { }
 

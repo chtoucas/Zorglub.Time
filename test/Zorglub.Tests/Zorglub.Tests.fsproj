@@ -87,7 +87,6 @@
     <Compile Include="Tests\Hemerology\Scopes\ProlepticScopeTestSuite.fs" />
     <Compile Include="Tests\Hemerology\Scopes\MinMaxYearScopeTests.fs" />
     <Compile Include="Tests\Hemerology\Scopes\BoundedBelowScopeTests.fs" />
-    <Compile Include="Tests\Hemerology\CalendarEpochTests.fs" />
     <Compile Include="Tests\Hemerology\YearNumberingTests.fs" />
     <Compile Include="Tests\Hemerology\BasicCalendarTests.fs" />
     <Compile Include="Tests\Hemerology\MinMaxYearCalendarTests.fs" />
@@ -137,6 +136,7 @@
     <Compile Include="Tests\OrdTests.fs" />
     <Compile Include="Tests\DayNumberTests.fs" />
     <Compile Include="Tests\DayNumber64Tests.fs" />
+    <Compile Include="Tests\DayZeroTests.fs" />
     <Compile Include="Tests\AdditionRulesetTests.fs" />
     <Compile Include="Tests\ValueTypeTests.fs" />
     <Compile Include="Program.fs" />

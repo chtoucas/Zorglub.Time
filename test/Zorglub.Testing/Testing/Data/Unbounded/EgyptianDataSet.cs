@@ -13,7 +13,7 @@ using Zorglub.Time.Hemerology;
 public sealed class UnboundedEgyptian12DataSet :
     UnboundedCalendarDataSet<Egyptian12DataSet>, IEpagomenalDataSet, ISingleton<UnboundedEgyptian12DataSet>
 {
-    private UnboundedEgyptian12DataSet() : base(Egyptian12DataSet.Instance, CalendarEpoch.Egyptian) { }
+    private UnboundedEgyptian12DataSet() : base(Egyptian12DataSet.Instance, DayZero.Egyptian) { }
 
     public static UnboundedEgyptian12DataSet Instance => Singleton.Instance;
 
@@ -36,7 +36,7 @@ public sealed class UnboundedEgyptian12DataSet :
 public sealed class UnboundedEgyptian13DataSet :
     UnboundedCalendarDataSet<Egyptian13DataSet>, IEpagomenalDataSet, ISingleton<UnboundedEgyptian13DataSet>
 {
-    private UnboundedEgyptian13DataSet() : base(Egyptian13DataSet.Instance, CalendarEpoch.Egyptian) { }
+    private UnboundedEgyptian13DataSet() : base(Egyptian13DataSet.Instance, DayZero.Egyptian) { }
 
     public static UnboundedEgyptian13DataSet Instance => Singleton.Instance;
 

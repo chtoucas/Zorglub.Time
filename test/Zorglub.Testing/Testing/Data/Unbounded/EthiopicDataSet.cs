@@ -13,7 +13,7 @@ using Zorglub.Time.Hemerology;
 public sealed class UnboundedEthiopic13DataSet :
     UnboundedCalendarDataSet<Coptic13DataSet>, IEpagomenalDataSet, ISingleton<UnboundedEthiopic13DataSet>
 {
-    private static readonly DayNumber s_Epoch = CalendarEpoch.Ethiopic;
+    private static readonly DayNumber s_Epoch = DayZero.Ethiopic;
 
     private UnboundedEthiopic13DataSet() : base(Coptic13DataSet.Instance, s_Epoch) { }
 
@@ -26,7 +26,7 @@ public sealed class UnboundedEthiopic13DataSet :
     }
 
     public override DataGroup<DayNumberInfo> DayNumberInfoData { get; } =
-        DataGroup.CreateDayNumberInfoData(Coptic13DataSet.DaysSinceRataDieInfos, CalendarEpoch.Coptic, s_Epoch);
+        DataGroup.CreateDayNumberInfoData(Coptic13DataSet.DaysSinceRataDieInfos, DayZero.Coptic, s_Epoch);
 
     // IEpagomenalDataSet
     public DataGroup<YemodaAnd<int>> EpagomenalDayInfoData => SchemaDataSet.EpagomenalDayInfoData;
@@ -38,7 +38,7 @@ public sealed class UnboundedEthiopic13DataSet :
 public sealed class UnboundedEthiopic12DataSet :
     UnboundedCalendarDataSet<Coptic12DataSet>, IEpagomenalDataSet, ISingleton<UnboundedEthiopic12DataSet>
 {
-    private static readonly DayNumber s_Epoch = CalendarEpoch.Ethiopic;
+    private static readonly DayNumber s_Epoch = DayZero.Ethiopic;
 
     private UnboundedEthiopic12DataSet() : base(Coptic12DataSet.Instance, s_Epoch) { }
 
@@ -51,7 +51,7 @@ public sealed class UnboundedEthiopic12DataSet :
     }
 
     public override DataGroup<DayNumberInfo> DayNumberInfoData { get; } =
-        DataGroup.CreateDayNumberInfoData(Coptic12DataSet.DaysSinceRataDieInfos, CalendarEpoch.Coptic, s_Epoch);
+        DataGroup.CreateDayNumberInfoData(Coptic12DataSet.DaysSinceRataDieInfos, DayZero.Coptic, s_Epoch);
 
     // IEpagomenalDataSet
     public DataGroup<YemodaAnd<int>> EpagomenalDayInfoData => SchemaDataSet.EpagomenalDayInfoData;

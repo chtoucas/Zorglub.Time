@@ -31,7 +31,7 @@ public partial class Coptic12DataSet // Infos
         GenMonthsSinceEpochInfoData(12);
 
     public override DataGroup<DaysSinceEpochInfo> DaysSinceEpochInfoData { get; } =
-        DataGroup.CreateDaysSinceEpochInfoData(DaysSinceRataDieInfos, CalendarEpoch.Coptic);
+        DataGroup.CreateDaysSinceEpochInfoData(DaysSinceRataDieInfos, DayZero.Coptic);
 
     public override DataGroup<DateInfo> DateInfoData { get; } = new()
     {

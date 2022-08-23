@@ -29,7 +29,7 @@ namespace Zorglub.Time.Specialized
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="schema"/> is null.</exception>
         internal Zoroastrian13Calendar(Egyptian13Schema schema)
-            : base("Zoroastrian", StandardScope.Create(schema, CalendarEpoch.Zoroastrian))
+            : base("Zoroastrian", StandardScope.Create(schema, DayZero.Zoroastrian))
         {
             MonthsInYear = schema.MonthsInYear;
             VirtualMonth = schema.VirtualMonth;

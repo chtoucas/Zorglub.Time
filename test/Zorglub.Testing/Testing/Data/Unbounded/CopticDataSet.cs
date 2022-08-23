@@ -13,7 +13,7 @@ using Zorglub.Time.Hemerology;
 public sealed class UnboundedCoptic12DataSet :
     UnboundedCalendarDataSet<Coptic12DataSet>, IEpagomenalDataSet, ISingleton<UnboundedCoptic12DataSet>
 {
-    private UnboundedCoptic12DataSet() : base(Coptic12DataSet.Instance, CalendarEpoch.Coptic) { }
+    private UnboundedCoptic12DataSet() : base(Coptic12DataSet.Instance, DayZero.Coptic) { }
 
     public static UnboundedCoptic12DataSet Instance => Singleton.Instance;
 
@@ -36,7 +36,7 @@ public sealed class UnboundedCoptic12DataSet :
 public sealed class UnboundedCoptic13DataSet :
     UnboundedCalendarDataSet<Coptic13DataSet>, IEpagomenalDataSet, ISingleton<UnboundedCoptic13DataSet>
 {
-    private UnboundedCoptic13DataSet() : base(Coptic13DataSet.Instance, CalendarEpoch.Coptic) { }
+    private UnboundedCoptic13DataSet() : base(Coptic13DataSet.Instance, DayZero.Coptic) { }
 
     public static UnboundedCoptic13DataSet Instance => Singleton.Instance;
 

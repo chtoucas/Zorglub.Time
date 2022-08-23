@@ -22,7 +22,7 @@ public static class Showcase
         Tropicalia3130Schema.GetInstance().CreateCalendar("Tropicália 31-30", DayZero.NewStyle);
 
     private static readonly SimpleCalendar s_Tropicalia3130TE =
-        Tropicalia3130Schema.GetInstance().CreateCalendar("Tropicália 31-30 TE", CalendarEpoch2.Tropicalia);
+        Tropicalia3130Schema.GetInstance().CreateCalendar("Tropicália 31-30 TE", DayZero2.Tropicalia);
 
     public static void Run()
     {

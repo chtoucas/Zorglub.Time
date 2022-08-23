@@ -13,7 +13,7 @@ using Zorglub.Time.Hemerology;
 public sealed class UnboundedZoroastrian13DataSet :
     UnboundedCalendarDataSet<Egyptian13DataSet>, IEpagomenalDataSet, ISingleton<UnboundedZoroastrian13DataSet>
 {
-    private static readonly DayNumber s_Epoch = CalendarEpoch.Zoroastrian;
+    private static readonly DayNumber s_Epoch = DayZero.Zoroastrian;
 
     private UnboundedZoroastrian13DataSet() : base(Egyptian13DataSet.Instance, s_Epoch) { }
 
@@ -26,7 +26,7 @@ public sealed class UnboundedZoroastrian13DataSet :
     }
 
     public sealed override DataGroup<DayNumberInfo> DayNumberInfoData =>
-        DataGroup.CreateDayNumberInfoData(Egyptian13DataSet.DaysSinceRataDieInfos, CalendarEpoch.Egyptian, s_Epoch);
+        DataGroup.CreateDayNumberInfoData(Egyptian13DataSet.DaysSinceRataDieInfos, DayZero.Egyptian, s_Epoch);
 
     // IEpagomenalDataSet
     public DataGroup<YemodaAnd<int>> EpagomenalDayInfoData => SchemaDataSet.EpagomenalDayInfoData;
@@ -38,7 +38,7 @@ public sealed class UnboundedZoroastrian13DataSet :
 public sealed class UnboundedZoroastrian12DataSet :
     UnboundedCalendarDataSet<Egyptian12DataSet>, IEpagomenalDataSet, ISingleton<UnboundedZoroastrian12DataSet>
 {
-    private static readonly DayNumber s_Epoch = CalendarEpoch.Zoroastrian;
+    private static readonly DayNumber s_Epoch = DayZero.Zoroastrian;
 
     private UnboundedZoroastrian12DataSet() : base(Egyptian12DataSet.Instance, s_Epoch) { }
 
@@ -51,7 +51,7 @@ public sealed class UnboundedZoroastrian12DataSet :
     }
 
     public sealed override DataGroup<DayNumberInfo> DayNumberInfoData =>
-        DataGroup.CreateDayNumberInfoData(Egyptian12DataSet.DaysSinceRataDieInfos, CalendarEpoch.Egyptian, s_Epoch);
+        DataGroup.CreateDayNumberInfoData(Egyptian12DataSet.DaysSinceRataDieInfos, DayZero.Egyptian, s_Epoch);
 
     // IEpagomenalDataSet
     public DataGroup<YemodaAnd<int>> EpagomenalDayInfoData => SchemaDataSet.EpagomenalDayInfoData;

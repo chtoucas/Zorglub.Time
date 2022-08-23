@@ -13,7 +13,7 @@ using Zorglub.Time.Hemerology;
 public sealed class UnboundedTabularIslamicDataSet :
     UnboundedCalendarDataSet<TabularIslamicDataSet>, ISingleton<UnboundedTabularIslamicDataSet>
 {
-    private UnboundedTabularIslamicDataSet() : base(TabularIslamicDataSet.Instance, CalendarEpoch.TabularIslamic) { }
+    private UnboundedTabularIslamicDataSet() : base(TabularIslamicDataSet.Instance, DayZero.TabularIslamic) { }
 
     public static UnboundedTabularIslamicDataSet Instance => Singleton.Instance;
 
