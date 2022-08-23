@@ -95,12 +95,25 @@ namespace Zorglub.Time.Specialized
         private readonly ITimepiece _timepiece;
 
         /// <summary>
+        /// Represents the epoch.
+        /// <para>This field is read-only.</para>
+        /// </summary>
+        private readonly DayNumber _epoch;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="JulianClock"/> class.
         /// </summary>
         /// <exception cref="ArgumentNullException"><paramref name="timepiece"/> is null.</exception>
-        public JulianClock(ITimepiece timepiece)
+        public JulianClock(ITimepiece timepiece) : this(JulianDate.Calendar.Epoch, timepiece) { }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="JulianClock"/> class.
+        /// </summary>
+        /// <exception cref="ArgumentNullException"><paramref name="timepiece"/> is null.</exception>
+        private JulianClock(DayNumber epoch, ITimepiece timepiece)
         {
             _timepiece = timepiece ?? throw new ArgumentNullException(nameof(timepiece));
+            _epoch = epoch;
         }
 
         /// <summary>
@@ -126,7 +139,7 @@ namespace Zorglub.Time.Specialized
         /// Obtains a <see cref="JulianDate"/> value representing the current date.
         /// </summary>
         [Pure]
-        public JulianDate GetCurrentDate() => new(_timepiece.Today().DaysSinceZero);
+        public JulianDate GetCurrentDate() => new(_timepiece.Today() - _epoch);
     }
 
     /// <summary>
@@ -358,7 +371,7 @@ namespace Zorglub.Time.Specialized
 
         /// <inheritdoc />
         [Pure]
-        public static JulianDate Today() => new(DayNumber.Today().DaysSinceZero);
+        public static JulianDate Today() => new(DayNumber.Today() - s_Epoch);
 
         #endregion
         #region Counting
