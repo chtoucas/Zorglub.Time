@@ -482,6 +482,10 @@ static Zorglub.Time.DayZero.Coptic.get -> Zorglub.Time.DayNumber
 static Zorglub.Time.DayZero.Egyptian.get -> Zorglub.Time.DayNumber
 static Zorglub.Time.DayZero.Ethiopic.get -> Zorglub.Time.DayNumber
 static Zorglub.Time.DayZero.FrenchRepublican.get -> Zorglub.Time.DayNumber
+static Zorglub.Time.DayZero.Gregorian.get -> Zorglub.Time.DayNumber
+static Zorglub.Time.DayZero.Holocene.get -> Zorglub.Time.DayNumber
+static Zorglub.Time.DayZero.Julian.get -> Zorglub.Time.DayNumber
+static Zorglub.Time.DayZero.Minguo.get -> Zorglub.Time.DayNumber
 static Zorglub.Time.DayZero.NewStyle.get -> Zorglub.Time.DayNumber
 static Zorglub.Time.DayZero.OldStyle.get -> Zorglub.Time.DayNumber
 static Zorglub.Time.DayZero.Persian.get -> Zorglub.Time.DayNumber
@@ -489,6 +493,7 @@ static Zorglub.Time.DayZero.Positivist.get -> Zorglub.Time.DayNumber
 static Zorglub.Time.DayZero.RataDie.get -> Zorglub.Time.DayNumber
 static Zorglub.Time.DayZero.SundayBeforeGregorian.get -> Zorglub.Time.DayNumber
 static Zorglub.Time.DayZero.TabularIslamic.get -> Zorglub.Time.DayNumber
+static Zorglub.Time.DayZero.Tropicalia.get -> Zorglub.Time.DayNumber
 static Zorglub.Time.DayZero.Zoroastrian.get -> Zorglub.Time.DayNumber
 static Zorglub.Time.Extensions.Unboxing.TryUnbox<T>(this Zorglub.Time.Core.Utilities.Box<T!>! box, out T? obj) -> bool
 static Zorglub.Time.Extensions.Unboxing.Unbox<T>(this Zorglub.Time.Core.Utilities.Box<T!>! box) -> T!

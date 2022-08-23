@@ -14,6 +14,25 @@ namespace Zorglub.Time
     public static partial class DayZero
     {
         /// <summary>
+        /// Creates an epoch number from the specified (signed) year of the era, month and day
+        /// within the Gregorian calendar.
+        /// </summary>
+        [Pure]
+        private static DayNumber FromGregorian(Ord yearOfEra, int m, int d) =>
+            NewStyle + GregorianFormulae.CountDaysSinceEpoch((int)yearOfEra, m, d);
+
+        /// <summary>
+        /// Creates an epoch number from the specified (signed) year of the era, month and day
+        /// within the Julian calendar.
+        /// </summary>
+        [Pure]
+        private static DayNumber FromJulian(Ord yearOfEra, int m, int d) =>
+            OldStyle + (int)JulianFormulae.CountDaysSinceEpoch((int)yearOfEra, m, d);
+    }
+
+    public partial class DayZero //
+    {
+        /// <summary>
         /// Gets the Monday 1st of January, 1 CE within the Gregorian calendar, i.e. the epoch of the
         /// Gregorian calendar.
         /// <para>Matches the epoch of the Common Era, Current Era or Vulgar Era.</para>
@@ -36,8 +55,39 @@ namespace Zorglub.Time
         public static DayNumber RataDie { get; } = DayNumber.Zero - 1;
     }
 
-    public partial class DayZero
+    public partial class DayZero // Aliases
     {
+        /// <summary>
+        /// Gets the epoch of the Julian calendar.
+        /// <para>The 1st of January, 1 CE within the Julian calendar.</para>
+        /// <para>This property is an alias for <see cref="OldStyle"/>.</para>
+        /// <para>This static property is thread-safe.</para>
+        /// </summary>
+        public static DayNumber Julian { get; } = OldStyle;
+
+        /// <summary>
+        /// Gets the epoch of the Gregorian calendar.
+        /// <para>Monday 1st of January, 1 CE within the Gregorian calendar.</para>
+        /// <para>This property is an alias for <see cref="NewStyle"/>.</para>
+        /// <para>This property matches also the epoch of the Common Era, aka Current Era or Vulgar
+        /// Era.</para>
+        /// <para>This static property is thread-safe.</para>
+        /// </summary>
+        public static DayNumber Gregorian { get; } = NewStyle;
+    }
+
+    public partial class DayZero //
+    {
+        /// <summary>
+        /// Gets the epoch of the Holocene calendar.
+        /// <para>The 1st of January, 10,000 BC within the Gregorian calendar.</para>
+        /// <para>This property matches also the epoch of the Holocene Era (HE)
+        /// and the one of the Jōmon Era (JE).</para>
+        /// <para>This static property is thread-safe.</para>
+        /// </summary>
+        // This is NOT the start of the Holocene geological era.
+        public static DayNumber Holocene => FromGregorian(Ord.First - 10_000, 1, 1);
+
         /// <summary>
         /// Gets the epoch of the Egyptian calendar.
         /// <para>The 26th of February, 747 BC within the Julian calendar.</para>
@@ -130,19 +180,20 @@ namespace Zorglub.Time
         public static DayNumber FrenchRepublican => FromGregorian(Ord.Zeroth + 1792, 9, 22);
 
         /// <summary>
-        /// Creates an epoch number from the specified (signed) year of the era, month and day
-        /// within the Gregorian calendar.
+        /// Gets the epoch of the Minguo calendar, aka the Republic of China calendar.
+        /// <para>The 1st of January, 1912 CE within the Gregorian calendar.</para>
+        /// <para>This static property is thread-safe.</para>
         /// </summary>
-        [Pure]
-        private static DayNumber FromGregorian(Ord yearOfEra, int m, int d) =>
-            NewStyle + GregorianFormulae.CountDaysSinceEpoch((int)yearOfEra, m, d);
+        public static DayNumber Minguo => FromGregorian(Ord.Zeroth + 1912, 1, 1);
 
         /// <summary>
-        /// Creates an epoch number from the specified (signed) year of the era, month and day
-        /// within the Julian calendar.
+        /// Gets the epoch of the "Tropicália" calendar.
+        /// <para>The 1st of January, 1968 CE within the Gregorian calendar.</para>
+        /// <para>Let's call this the start of the Tropicalismo Era (TE)</para>
+        /// <para>This static property is thread-safe.</para>
         /// </summary>
-        [Pure]
-        private static DayNumber FromJulian(Ord yearOfEra, int m, int d) =>
-            OldStyle + (int)JulianFormulae.CountDaysSinceEpoch((int)yearOfEra, m, d);
+        // 1968 = release year of "Tropicália ou Panis et Circencis" :-)
+        // 1/1/1968 is a Monday for both Gregorian and Tropicália calendars.
+        public static DayNumber Tropicalia => FromGregorian(Ord.Zeroth + 1968, 1, 1);
     }
 }

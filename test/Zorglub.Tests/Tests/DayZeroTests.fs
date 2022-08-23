@@ -40,6 +40,14 @@ let ``Static property RataDie`` () =
     DayZero.RataDie === DayNumber.Zero - 1
     DayZero.RataDie.Ordinal === Ord.First - 1
 
+[<Fact>]
+let ``Static property Gregorian`` () =
+    DayZero.Gregorian === DayZero.NewStyle
+
+[<Fact>]
+let ``Static property Julian`` () =
+    DayZero.Julian === DayZero.OldStyle
+
 // See D.&R., p.15.
 
 [<Fact>]
@@ -63,9 +71,8 @@ let ``Static property FrenchRepublican`` () =
     DayZero.FrenchRepublican === DayZero.NewStyle + 654_414
 
 [<Fact>]
-let ``Static property SundayBeforeGregorian`` () =
-    DayZero.SundayBeforeGregorian === DayZero.NewStyle - 1
-    DayZero.SundayBeforeGregorian.DayOfWeek = DayOfWeek.Sunday
+let ``Static property Holocene`` () =
+    DayZero.Holocene === DayZero.NewStyle - 3_652_425
 
 [<Fact>]
 let ``Static property Persian`` () =
@@ -76,32 +83,24 @@ let ``Static property Positivist`` () =
     DayZero.Positivist === DayZero.NewStyle + 653_054
 
 [<Fact>]
+let ``Static property SundayBeforeGregorian`` () =
+    DayZero.SundayBeforeGregorian === DayZero.NewStyle - 1
+    DayZero.SundayBeforeGregorian.DayOfWeek = DayOfWeek.Sunday
+
+[<Fact>]
 let ``Static property TabularIslamic`` () =
     DayZero.TabularIslamic === DayZero.NewStyle + 227_014
 
 [<Fact>]
+let ``Static property Tropicalia`` () =
+    let epoch = DayZero.Tropicalia
+    let date = new CivilDate(epoch)
+    let chr = new CivilCalendar()
+    let startOfYear = chr.GetStartOfYear(date.Year)
+
+    date === startOfYear
+    epoch.DayOfWeek === date.DayOfWeek
+
+[<Fact>]
 let ``Static property Zoroastrian`` () =
     DayZero.Zoroastrian === DayZero.NewStyle + 230_637
-
-module More =
-    [<Fact>]
-    let ``Static property Gregorian`` () =
-        DayZero2.Gregorian === DayZero.NewStyle
-
-    [<Fact>]
-    let ``Static property Holocene`` () =
-        DayZero2.Holocene === DayZero.NewStyle - 3_652_425
-
-    [<Fact>]
-    let ``Static property Julian`` () =
-        DayZero2.Julian === DayZero.OldStyle
-
-    [<Fact>]
-    let ``Static property Tropicalia`` () =
-        let epoch = DayZero2.Tropicalia
-        let date = new CivilDate(epoch)
-        let chr = new CivilCalendar()
-        let startOfYear = chr.GetStartOfYear(date.Year)
-
-        date === startOfYear
-        epoch.DayOfWeek === date.DayOfWeek
