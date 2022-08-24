@@ -120,13 +120,13 @@ namespace Zorglub.Time.Specialized
         /// Gets an instance of the <see cref="JulianClock"/> class for the system clock using the
         /// current time zone setting on this machine.
         /// </summary>
-        public static JulianClock Local { get; } = new(SystemClock.Local);
+        public static JulianClock Local { get; } = new(SystemClocks.Local);
 
         /// <summary>
         /// Gets an instance of the <see cref="JulianClock"/> class for the system clock using the UTC
         /// time zone.
         /// </summary>
-        public static JulianClock Utc { get; } = new(SystemClock.Utc);
+        public static JulianClock Utc { get; } = new(SystemClocks.Utc);
 
         /// <summary>
         /// Obtains an instance of the <see cref="JulianClock"/> class for the specified timepiece.

@@ -8,7 +8,7 @@ namespace Zorglub.Time.Horology
     /// <summary>
     /// Provides system clocks.
     /// </summary>
-    public static class SystemClock
+    public static class SystemClocks
     {
         /// <summary>
         /// Gets an instance of the system clock using the current time zone setting on this machine.

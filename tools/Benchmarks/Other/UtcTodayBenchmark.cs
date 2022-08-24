@@ -7,10 +7,9 @@ using NodaTime;
 
 using Zorglub.Time;
 using Zorglub.Time.Hemerology;
+using Zorglub.Time.Horology;
 using Zorglub.Time.Simple;
 using Zorglub.Time.Specialized;
-
-using ZorglubSystemClock = Zorglub.Time.Horology.SystemClock;
 
 using static NodaTime.Extensions.ClockExtensions;
 
@@ -55,7 +54,7 @@ public class UtcTodayBenchmark
     [Benchmark(Description = "SystemClock     ", Baseline = true)]
     public (int, int, int, DayOfWeek) WithSystemClock()
     {
-        var clock = ZorglubSystemClock.Utc;
+        var clock = SystemClocks.Utc;
         DayNumber today = clock.Today();
         var (y, m, d) = today.GetGregorianParts();
 

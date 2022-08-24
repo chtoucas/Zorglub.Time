@@ -15,12 +15,11 @@ namespace Zorglub.Time.Horology
     // attributable to leap seconds".
     // https://docs.microsoft.com/en-us/dotnet/api/system.datetime.ticks?view=net-6.0
     //
-    // DateTime.UtcNow correspond réellement au nombre de tics sans
-    // compter les secondes intercalaires, donc dans une échelle qui
-    // ressemblerait au TAI tout en ignorant le delta initial de 10 secondes.
-    // TAI = UTC + 10 secondes + 27 secondes intercalaires
-    // UTC est basé sur le TAI et les secondes intercalaires permettent de garder
-    // le décalage avec UT1 à moins de 0,9 secondes SI.
+    // UTC est basé sur le TAI, les secondes intercalaires permettent de garder
+    // le décalage avec UT1 en dessous de 0,9 secondes SI. En ce moment,
+    // TAI = UTC + 10 secondes initiales + 27 secondes intercalaires.
+    // En .NET, DateTime.UtcNow correspond réellement au nombre de tics (dans
+    // l'échelle) sans compter les secondes intercalaires et (je crois) initiales.
     //
     // https://stackoverflow.com/questions/30984599/how-does-the-oracle-java-jvm-know-a-leap-second-is-occurring
     // https://support.ntp.org/bin/view/Support/TimeScales
@@ -33,6 +32,10 @@ namespace Zorglub.Time.Horology
     // UTC-SLS, UTC with Smoothed Leap Seconds
     // https://www.cl.cam.ac.uk/~mgk25/time/utc-sls/
     // https://metacpan.org/pod/Time::UTC_SLS
+    // "Workarounds for leap second problems" in https://en.wikipedia.org/wiki/Leap_second
+    // PHK
+    // http://phk.freebsd.dk/time/
+    // http://phk.freebsd.dk/time/20151122/
 
     /// <summary>
     /// Represents an instrument for measuring time.

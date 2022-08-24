@@ -48,7 +48,7 @@ let ``Gregorian calendar w/ dates after 15/10/1582`` () =
         new BoundedBelowCalendar("Genuine Gregorian", x))
     let chr = q.Unbox()
 
-    let clock = SystemClock.Local
+    let clock = SystemClocks.Local
     let today = clock.Today()
     let parts = chr.GetDateParts(today)
     let y, m, d = parts.Deconstruct()
@@ -63,7 +63,7 @@ let ``Gregorian calendar w/ dates after 1/1/1`` () =
         new MinMaxYearCalendar("Gregorian", x))
     let chr = q.Unbox()
 
-    let clock = SystemClock.Local
+    let clock = SystemClocks.Local
     let today = clock.Today()
     let parts = chr.GetDateParts(today)
     let y, m, d = parts.Deconstruct()

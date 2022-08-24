@@ -148,8 +148,8 @@ namespace Zorglub.Time.Simple
             // all props should be initialized.
             _math = CalendarMath.CreateDefault(this);
 
-            LocalClock = SimpleClock.CreateDefault(this, SystemClock.Local);
-            UtcClock = SimpleClock.CreateDefault(this, SystemClock.Utc);
+            LocalClock = SimpleClock.CreateDefault(this, SystemClocks.Local);
+            UtcClock = SimpleClock.CreateDefault(this, SystemClocks.Utc);
         }
 
         #region System calendars

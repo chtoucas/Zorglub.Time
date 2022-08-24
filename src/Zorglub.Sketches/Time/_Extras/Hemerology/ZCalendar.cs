@@ -74,8 +74,8 @@ namespace Zorglub.Time.Hemerology
             MinMaxDate = from dayNumber in scope.Domain.Endpoints
                          select new ZDate(dayNumber - Epoch, id);
 
-            LocalClock = ZClock.CreateCore(this, SystemClock.Local);
-            UtcClock = ZClock.CreateCore(this, SystemClock.Utc);
+            LocalClock = ZClock.CreateCore(this, SystemClocks.Local);
+            UtcClock = ZClock.CreateCore(this, SystemClocks.Utc);
         }
 
         #region System calendars

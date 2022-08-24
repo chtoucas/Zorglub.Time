@@ -91,13 +91,13 @@ namespace Zorglub.Time.Specialized
         /// Gets an instance of the <see cref="GregorianClock"/> class for the system clock using the
         /// current time zone setting on this machine.
         /// </summary>
-        public static GregorianClock Local { get; } = new(SystemClock.Local);
+        public static GregorianClock Local { get; } = new(SystemClocks.Local);
 
         /// <summary>
         /// Gets an instance of the <see cref="GregorianClock"/> class for the system clock using the UTC
         /// time zone.
         /// </summary>
-        public static GregorianClock Utc { get; } = new(SystemClock.Utc);
+        public static GregorianClock Utc { get; } = new(SystemClocks.Utc);
 
         /// <summary>
         /// Obtains an instance of the <see cref="GregorianClock"/> class for the specified timepiece.
