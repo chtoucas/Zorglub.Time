@@ -124,25 +124,11 @@ namespace Zorglub.Time.Simple
         [Pure] public abstract CalendarMonth GetCurrentMonth();
 
         /// <summary>
-        /// Obtains a <see cref="CalendarDate"/> value representing the current date.
-        /// </summary>
-        /// <exception cref="AoorException">Today is outside the range of values supported by the
-        /// underlying calendar.</exception>
-        [Pure] public abstract CalendarDate GetCurrentDate();
-
-        /// <summary>
-        /// Obtains a <see cref="CalendarDay"/> value representing the current date.
+        /// Obtains a <see cref="CalendarDay"/> value representing the current day.
         /// </summary>
         /// <exception cref="AoorException">Today is outside the range of values supported by the
         /// underlying calendar.</exception>
         [Pure] public abstract CalendarDay GetCurrentDay();
-
-        /// <summary>
-        /// Obtains a <see cref="OrdinalDate"/> value representing the current date.
-        /// </summary>
-        /// <exception cref="AoorException">Today is outside the range of values supported by the
-        /// underlying calendar.</exception>
-        [Pure] public abstract OrdinalDate GetCurrentOrdinal();
 
 #pragma warning restore CA1024
 
@@ -175,26 +161,10 @@ namespace Zorglub.Time.Simple
             }
 
             [Pure]
-            public override CalendarDate GetCurrentDate()
-            {
-                var today = _timepiece.Today();
-                var ymd = GregorianFormulae.GetDateParts(today.DaysSinceZero);
-                return new CalendarDate(ymd, Id);
-            }
-
-            [Pure]
             public override CalendarDay GetCurrentDay()
             {
                 var today = _timepiece.Today();
                 return new(today.DaysSinceZero, Id);
-            }
-
-            [Pure]
-            public override OrdinalDate GetCurrentOrdinal()
-            {
-                var today = _timepiece.Today();
-                var ydoy = GregorianFormulae.GetOrdinalParts(today.DaysSinceZero);
-                return new OrdinalDate(ydoy, Id);
             }
         }
 
@@ -223,26 +193,10 @@ namespace Zorglub.Time.Simple
             }
 
             [Pure]
-            public override CalendarDate GetCurrentDate()
-            {
-                var today = _timepiece.Today();
-                var ymd = Schema.GetDateParts(today - Epoch);
-                return new CalendarDate(ymd, Id);
-            }
-
-            [Pure]
             public override CalendarDay GetCurrentDay()
             {
                 var today = _timepiece.Today();
                 return new(today - Epoch, Id);
-            }
-
-            [Pure]
-            public override OrdinalDate GetCurrentOrdinal()
-            {
-                var today = _timepiece.Today();
-                var ydoy = Schema.GetOrdinalParts(today - Epoch);
-                return new OrdinalDate(ydoy, Id);
             }
         }
 
@@ -270,29 +224,11 @@ namespace Zorglub.Time.Simple
             }
 
             [Pure]
-            public override CalendarDate GetCurrentDate()
-            {
-                var today = _timepiece.Today();
-                Domain.Validate(today);
-                var ymd = Schema.GetDateParts(today - Epoch);
-                return new CalendarDate(ymd, Id);
-            }
-
-            [Pure]
             public override CalendarDay GetCurrentDay()
             {
                 var today = _timepiece.Today();
                 Domain.Validate(today);
                 return new CalendarDay(today - Epoch, Id);
-            }
-
-            [Pure]
-            public override OrdinalDate GetCurrentOrdinal()
-            {
-                var today = _timepiece.Today();
-                Domain.Validate(today);
-                var ydoy = Schema.GetOrdinalParts(today - Epoch);
-                return new OrdinalDate(ydoy, Id);
             }
         }
     }

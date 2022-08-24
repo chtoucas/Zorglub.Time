@@ -66,6 +66,6 @@ module GregorianCase =
     [<Fact>]
     let ``GetCurrentYear()`` () =
         let now = DateTime.Now
-        let year = chr.DefaultClock.GetCurrentYear()
+        let year = chr.LocalClock.GetCurrentYear()
 
         year.Year  === now.Year

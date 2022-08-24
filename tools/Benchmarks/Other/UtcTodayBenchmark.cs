@@ -29,8 +29,6 @@ Intel Core i7-4500U CPU 1.80GHz (Haswell), 1 CPU, 4 logical and 2 physical cores
 |  'SystemClock     ' |  57.02 ns | 0.136 ns | 0.128 ns |  1.00 |  III |
 |        'ZDate     ' |  59.54 ns | 0.241 ns | 0.226 ns |  1.04 |   IV |
 |     'DateTime *   ' |  61.25 ns | 0.296 ns | 0.277 ns |  1.07 |    V |
-|  'OrdinalDate  (O)' |  66.17 ns | 0.405 ns | 0.379 ns |  1.16 |   VI |
-| 'CalendarDate  (Y)' |  66.33 ns | 0.474 ns | 0.443 ns |  1.16 |   VI |
 |    'LocalDate *(Y)' | 118.81 ns | 0.579 ns | 0.542 ns |  2.08 |  VII |
 
 BenchmarkDotNet=v0.13.1, OS=Windows 10.0.19044.1889 (21H2)
@@ -47,8 +45,6 @@ Intel Core2 Duo CPU E8500 3.16GHz, 1 CPU, 2 logical and 2 physical cores
 |  'CalendarDay     ' | 1.138 μs | 0.0123 μs | 0.0115 μs |  1.01 |    I |
 |    'DayNumber     ' | 1.154 μs | 0.0037 μs | 0.0034 μs |  1.02 |    I |
 |     'DateTime *   ' | 1.158 μs | 0.0015 μs | 0.0013 μs |  1.03 |    I |
-|  'OrdinalDate  (O)' | 1.160 μs | 0.0011 μs | 0.0009 μs |  1.03 |    I |
-| 'CalendarDate  (Y)' | 1.187 μs | 0.0167 μs | 0.0140 μs |  1.05 |   II |
 |    'LocalDate *(Y)' | 1.441 μs | 0.0012 μs | 0.0011 μs |  1.28 |  III |
  */
 //
@@ -85,32 +81,12 @@ public class UtcTodayBenchmark
         return (y, m, d, today.DayOfWeek);
     }
 
-    [Benchmark(Description = "CalendarDate  (Y)")]
-    public (int, int, int, DayOfWeek) WithCalendarDate()
-    {
-        var clock = SimpleCalendar.Civil.UtcClock;
-        CalendarDate today = clock.GetCurrentDate();
-        var (y, m, d) = today;
-
-        return (y, m, d, today.DayOfWeek);
-    }
-
     [Benchmark(Description = "CalendarDay     ")]
     public (int, int, int, DayOfWeek) WithCalendarDay()
     {
         var clock = SimpleCalendar.Civil.UtcClock;
         CalendarDay today = clock.GetCurrentDay();
         var (y, m, d) = today;
-
-        return (y, m, d, today.DayOfWeek);
-    }
-
-    [Benchmark(Description = "OrdinalDate  (O)")]
-    public (int, int, int, DayOfWeek) WithOrdinalDate()
-    {
-        var clock = SimpleCalendar.Civil.UtcClock;
-        OrdinalDate today = clock.GetCurrentOrdinal();
-        (int y, int m, int d) = today;
 
         return (y, m, d, today.DayOfWeek);
     }

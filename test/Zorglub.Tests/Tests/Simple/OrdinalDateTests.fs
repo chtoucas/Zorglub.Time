@@ -74,19 +74,6 @@ module GregorianCase =
         date.ToString() === str
 
     //
-    // Factories
-    //
-
-    [<Fact>]
-    let ``Today()`` () =
-        let now = DateTime.Now
-        let today = chr.DefaultClock.GetCurrentOrdinal()
-
-        today.Year  === now.Year
-        today.Month === now.Month
-        today.Day   === now.Day
-
-    //
     // Adjustments
     //
 
