@@ -137,8 +137,7 @@ namespace Zorglub.Time.Horology.Astronomy
             ToClockTime(int decimalPlaces)
         {
             var ymd = _splitJD.ToYemoda(out double fod);
-            var (hh, mm, ss, fos)
-                = ClockTime.GetTimeOfDay(fod, decimalPlaces, isUtc: false);
+            var (hh, mm, ss, fos) = ClockTime.GetTimeOfDay(fod, decimalPlaces, isUtc: false);
             return (ymd, hh, mm, ss, fos);
         }
 

@@ -202,8 +202,7 @@ namespace Zorglub.Time.Horology.Astronomy
             }
 
             // REVIEW: même après correction, on a fod >= 0, non ?
-            var (hh, mm, ss, fos)
-                = ClockTime.GetTimeOfDay(Math.Abs(fod), decimalPlaces, true);
+            var (hh, mm, ss, fos) = ClockTime.GetTimeOfDay(Math.Abs(fod), decimalPlaces, true);
 
             if (hh <= 23)
             {
