@@ -5,6 +5,7 @@
 
 namespace Zorglub.Testing;
 
+using System.Diagnostics.CodeAnalysis;
 using System.Diagnostics.Contracts;
 
 using Zorglub.Time;
@@ -126,7 +127,7 @@ public partial class DateProxy<T> // IEquatable
     [Pure] public bool Equals(T other) => _subject.Equals(other);
 
     [Pure]
-    public override bool Equals(object? obj) =>
+    public override bool Equals([NotNullWhen(true)] object? obj) =>
         (obj is DateProxy<T> x && Equals(x.Date)) || (obj is T y && Equals(y));
 
     [Pure] public override int GetHashCode() => _subject.GetHashCode();

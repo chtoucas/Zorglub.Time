@@ -3,8 +3,8 @@
 
 namespace Zorglub.Time.Horology
 {
-    // TODO(api): remplacer long par Instant dans Now().
-    // Un Instant devra dépendre d'une échelle de temps.
+    // TODO(api): remplacer long par CivilTime dans Now().
+    // Un CivilTime devra dépendre d'une échelle de temps.
     //
     // Réalisation complémentaire: NtpTimepiece.
     // https://github.com/mattjohnsonpint/NodaTime.NetworkClock
@@ -16,9 +16,14 @@ namespace Zorglub.Time.Horology
     //
     // DateTime.UtcNow correspond réellement au nombre de tics sans
     // compter les secondes intercalaires, donc dans l'échelle atomique
-    // internationale.
+    // internationale à condition d'ignore le delta initial de 10 secondes.
+    // TAI = UTC + 10 secondes + 27 secondes intercalaires
+    // UTC est basé sur le TAI et les secondes intercalaire permettent de garder
+    // le décalage avec UT1 à moins de 0,9 secondes SI.
     //
+    // https://support.ntp.org/bin/view/Support/TimeScales
     // https://stackoverflow.com/questions/55964042/with-the-win-10-oct-2018-update-windows-is-leap-second-aware-is-nets-datetim
+    //   -> https://github.com/dotnet/dotnet-api-docs/issues/966#issuecomment-434440807
     // https://docs.microsoft.com/en-us/dotnet/api/system.datetime.utcnow?view=net-6.0
 
     /// <summary>

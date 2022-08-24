@@ -16,8 +16,8 @@ namespace Zorglub.Time.Horology.Astronomy
     /// Represents a Modified Julian Date.
     /// </summary>
     [StructLayout(LayoutKind.Explicit, Pack = 1)]
-    public readonly partial struct ModifiedJulianDate
-        : IEquatable<ModifiedJulianDate>, IComparable<ModifiedJulianDate>, IComparable
+    public readonly partial struct ModifiedJulianDate :
+        IComparisonOperators<ModifiedJulianDate, ModifiedJulianDate>
     {
         /// <summary>
         /// Represents the numerical value of this instance.
@@ -103,8 +103,8 @@ namespace Zorglub.Time.Horology.Astronomy
         /// <para>This transformation may incur a loss of precision.</para>
         /// </summary>
         [Pure]
-        public JulianDate ToJulianDate()
-            => new JulianDate(_value + JulianDateEpoch.Modified, _timescale);
+        public AstronomicalJulianDate ToJulianDate()
+            => new AstronomicalJulianDate(_value + JulianDateEpoch.Modified, _timescale);
 
         /// <summary>
         /// Obtains the Modified Julian date from the specified gregorian
@@ -167,7 +167,7 @@ namespace Zorglub.Time.Horology.Astronomy
         /// <summary>
         /// Determines whether this instance is equal to a specified object.
         /// </summary>
-        public override bool Equals(object? obj)
+        public override bool Equals([NotNullWhen(true)] object? obj)
             => obj is ModifiedJulianDate mjd && this == mjd;
 
         /// <summary>
@@ -180,11 +180,9 @@ namespace Zorglub.Time.Horology.Astronomy
         /// Obtains the hash code for this instance using the specified comparer
         /// for doubles.
         /// </summary>
-        public int GetHashCode(IEqualityComparer<double> comparer)
-            => comparer is null ? HashCode.Combine(_timescale, _value)
-                : HashCode.Combine(
-                    _timescale.GetHashCode(),
-                    comparer.GetHashCode(_value));
+        public int GetHashCode(IEqualityComparer<double> comparer) =>
+            comparer is null ? HashCode.Combine(_timescale, _value)
+            : HashCode.Combine(_timescale, comparer.GetHashCode(_value));
     }
 
     // Interfaces IComparable<> et IComparable.
@@ -225,18 +223,15 @@ namespace Zorglub.Time.Horology.Astronomy
         public int CompareTo(ModifiedJulianDate other)
         {
             if (_timescale != other._timescale)
-            {
-                throw EF2.Timescales.UnexpectedTimescale(
-                    nameof(other), _timescale, other._timescale);
-            }
+                ThrowHelpers2.BadTimescale(nameof(other), _timescale, other._timescale);
 
             return _value.CompareTo(other._value);
         }
 
         /// <inheritdoc />
-        int IComparable.CompareTo(object? obj)
-        => obj is null ? 1
+        public int CompareTo(object? obj) =>
+            obj is null ? 1
             : obj is ModifiedJulianDate mjd ? CompareTo(mjd)
-            : throw EF.InvalidType(nameof(obj), typeof(ModifiedJulianDate), obj);
+            : Throw.NonComparable(typeof(ModifiedJulianDate), obj);
     }
 }

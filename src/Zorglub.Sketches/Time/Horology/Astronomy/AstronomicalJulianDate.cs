@@ -43,7 +43,7 @@ namespace Zorglub.Time.Horology.Astronomy
     // instants of the occurrences of astronomical phenomena,
     //
     // b. that for those cases where it is convenient to employ a day beginning
-    // at midnight, the Modified Julian Date(equivalent to the Julian Date minus
+    // at midnight, the Modified Julian Date (equivalent to the Julian Date minus
     // 2 400 000.5) be used, and
     //
     // c. that where there is any possibility of doubt regarding the usage of
@@ -82,11 +82,11 @@ namespace Zorglub.Time.Horology.Astronomy
     // UTC, may need to be corrected for changes in time scales (e.g. leap seconds).
     //
     // An instant in time known in UTC can be converted to Terrestrial Time if
-    // such precision is required.Values of TT-UT are available using tables in
+    // such precision is required. Values of TT-UT are available using tables in
     // McCarthy and Babcock (1986) and Stephenson and Morrison (1984, 1995).
     // Table 1 provides the difference between TAI and UTC from 1961 through
     // 1 January 1996. The difference between TT and UTC can be calculated
-    // knowing that TT = TAI + 32.184s.The Annual Reports of the International
+    // knowing that TT = TAI + 32.184s. The Annual Reports of the International
     // Earth Rotation Service should be consulted for dates after 1996.
     //
     // The data of Table 1 are also available electronically at
@@ -143,8 +143,8 @@ namespace Zorglub.Time.Horology.Astronomy
     /// Represents an Astronomical Julian Date or simply Julian Date.
     /// </summary>
     [StructLayout(LayoutKind.Explicit, Pack = 1)]
-    public readonly partial struct JulianDate
-        : IEquatable<JulianDate>, IComparable<JulianDate>, IComparable
+    public readonly partial struct AstronomicalJulianDate :
+        IComparisonOperators<AstronomicalJulianDate, AstronomicalJulianDate>
     {
         /// <summary>
         /// Represents the numerical value of this Julian Date instance.
@@ -157,19 +157,19 @@ namespace Zorglub.Time.Horology.Astronomy
         [FieldOffset(8)] private readonly Timescale _timescale;
 
         /// <summary>
-        /// Constructs a new instance of <see cref="JulianDate"/> from the
+        /// Constructs a new instance of <see cref="AstronomicalJulianDate"/> from the
         /// specified numerical value, within the TT timescale.
         /// <para>This is the right constructor to use when <paramref name="value"/>
         /// is the "Julian Date" of the astrophysicists.</para>
         /// </summary>
-        public JulianDate(double value)
+        public AstronomicalJulianDate(double value)
             : this(value, Timescale.Terrestrial) { }
 
         /// <summary>
-        /// Constructs a new instance of <see cref="JulianDate"/> from the
+        /// Constructs a new instance of <see cref="AstronomicalJulianDate"/> from the
         /// specified timescale and numerical value.
         /// </summary>
-        public JulianDate(double value, Timescale timescale)
+        public AstronomicalJulianDate(double value, Timescale timescale)
         {
             _value = value;
             _timescale = timescale;
@@ -218,14 +218,14 @@ namespace Zorglub.Time.Horology.Astronomy
         /// Returns a culture-independent string representation of this Julian
         /// Date instance.
         /// </summary>
-        public override string ToString()
-            => FormattableString.Invariant($"JD({Timescale.GetAbbrName()}) {Value}");
+        public override string ToString() =>
+            FormattableString.Invariant($"JD({Timescale.GetAbbrName()}) {Value}");
 
         /// <summary>
         /// Deconstructs this Julian Date instance into its components.
         /// </summary>
-        public void Deconstruct(out Timescale timescale, out double value)
-            => (timescale, value) = (_timescale, _value);
+        public void Deconstruct(out Timescale timescale, out double value) =>
+            (timescale, value) = (_timescale, _value);
 
         /// <summary>
         /// Converts this Julian Date instance to a Modified Julian Date.
@@ -241,119 +241,112 @@ namespace Zorglub.Time.Horology.Astronomy
         /// <para>This method does NOT validate its parameters.</para>
         /// </summary>
         [Pure]
-        internal static double FromGregorianTime(Yemoda ymd, double fractionOfDay)
+        internal static double FromGregorianTime(Yemoda ymd, double fractionOfDay) =>
             // Pour rappel, la date julienne démarre à 12h.
-            => Jdn.FromYemoda(ymd) + (fractionOfDay - .5);
+            Jdn.FromYemoda(ymd) + (fractionOfDay - .5);
     }
 
     // Interface IEquatable<>.
-    public partial struct JulianDate
+    public partial struct AstronomicalJulianDate
     {
         /// <summary>
-        /// Determines whether two specified instances of <see cref="JulianDate"/>
+        /// Determines whether two specified instances of <see cref="AstronomicalJulianDate"/>
         /// are equal.
         /// </summary>
-        public static bool operator ==(JulianDate left, JulianDate right)
-            => left._timescale == right._timescale
+        public static bool operator ==(AstronomicalJulianDate left, AstronomicalJulianDate right) =>
+            left._timescale == right._timescale
                 && MathOperations.AreApproximatelyEqual(left._value, right._value);
 
         /// <summary>
-        /// Determines whether two specified instances of <see cref="JulianDate"/>
+        /// Determines whether two specified instances of <see cref="AstronomicalJulianDate"/>
         /// are not equal.
         /// </summary>
-        public static bool operator !=(JulianDate left, JulianDate right)
-            => !(left == right);
+        public static bool operator !=(AstronomicalJulianDate left, AstronomicalJulianDate right) => !(left == right);
 
         /// <summary>
         /// Determines whether this instance is equal to the value of the
-        /// specified <see cref="JulianDate"/>.
+        /// specified <see cref="AstronomicalJulianDate"/>.
         /// </summary>
-        public bool Equals(JulianDate other)
-            => this == other;
+        public bool Equals(AstronomicalJulianDate other) => this == other;
 
         /// <summary>
         /// Determines whether this instance is equal to the value of the
-        /// specified <see cref="JulianDate"/> using the specified comparer for
+        /// specified <see cref="AstronomicalJulianDate"/> using the specified comparer for
         /// doubles.
         /// </summary>
-        public bool Equals(JulianDate other, IEqualityComparer<double> comparer)
-            => comparer is null ? this == other
-                : _timescale == other._timescale
-                    && comparer.Equals(_value, other._value);
+        public bool Equals(AstronomicalJulianDate other, IEqualityComparer<double> comparer) =>
+            comparer is null ? this == other
+            : _timescale == other._timescale
+                && comparer.Equals(_value, other._value);
 
         /// <summary>
         /// Determines whether this instance is equal to a specified object.
         /// </summary>
-        public override bool Equals(object? obj)
-            => obj is JulianDate jd && this == jd;
+        public override bool Equals([NotNullWhen(true)] object? obj) =>
+            obj is AstronomicalJulianDate jd && this == jd;
 
         /// <summary>
         /// Obtains the hash code for this instance.
         /// </summary>
-        public override int GetHashCode()
-            => HashCode.Combine(_timescale, _value);
+        public override int GetHashCode() =>
+            HashCode.Combine(_timescale, _value);
 
         /// <summary>
         /// Obtains the hash code for this instance using the specified comparer
         /// for doubles.
         /// </summary>
-        public int GetHashCode(IEqualityComparer<double> comparer)
-            => comparer is null ? HashCode.Combine(_timescale, _value)
-                : HashCode.Combine(
-                    _timescale.GetHashCode(),
-                    comparer.GetHashCode(_value));
+        public int GetHashCode(IEqualityComparer<double> comparer) =>
+            comparer is null ? HashCode.Combine(_timescale, _value)
+            : HashCode.Combine(_timescale, comparer.GetHashCode(_value));
     }
 
     // Interfaces IComparable<> et IComparable.
-    public partial struct JulianDate
+    public partial struct AstronomicalJulianDate
     {
         /// <summary>
         /// Compares the two specified Julian Dates to see if the left one is
         /// strictly earlier than the right one.
         /// </summary>
-        public static bool operator <(JulianDate left, JulianDate right)
+        public static bool operator <(AstronomicalJulianDate left, AstronomicalJulianDate right)
             => left.CompareTo(right) < 0;
 
         /// <summary>
         /// Compares the two specified Julian Dates to see if the left one is
         /// earlier than or equal to the right one.
         /// </summary>
-        public static bool operator <=(JulianDate left, JulianDate right)
+        public static bool operator <=(AstronomicalJulianDate left, AstronomicalJulianDate right)
             => left.CompareTo(right) <= 0;
 
         /// <summary>
         /// Compares the two specified Julian Dates to see if the left one is
         /// strictly later than the right one.
         /// </summary>
-        public static bool operator >(JulianDate left, JulianDate right)
+        public static bool operator >(AstronomicalJulianDate left, AstronomicalJulianDate right)
             => left.CompareTo(right) > 0;
 
         /// <summary>
         /// Compares the two specified Julian Dates to see if the left one is
         /// later than or equal to the right one.
         /// </summary>
-        public static bool operator >=(JulianDate left, JulianDate right)
+        public static bool operator >=(AstronomicalJulianDate left, AstronomicalJulianDate right)
             => left.CompareTo(right) >= 0;
 
         /// <summary>
         /// Indicates whether this Julian Date instance is earlier, later or the
         /// same as the specified one.
         /// </summary>
-        public int CompareTo(JulianDate other)
+        public int CompareTo(AstronomicalJulianDate other)
         {
             if (_timescale != other._timescale)
-            {
-                throw EF2.Timescales.UnexpectedTimescale(
-                    nameof(other), _timescale, other._timescale);
-            }
+                ThrowHelpers2.BadTimescale(nameof(other), _timescale, other._timescale);
 
             return _value.CompareTo(other._value);
         }
 
         /// <inheritdoc />
-        int IComparable.CompareTo(object? obj)
-        => obj is null ? 1
-            : obj is JulianDate jd ? CompareTo(jd)
-            : throw EF.InvalidType(nameof(obj), typeof(JulianDate), obj);
+        public int CompareTo(object? obj) =>
+            obj is null ? 1
+            : obj is AstronomicalJulianDate jd ? CompareTo(jd)
+            : Throw.NonComparable(typeof(AstronomicalJulianDate), obj);
     }
 }

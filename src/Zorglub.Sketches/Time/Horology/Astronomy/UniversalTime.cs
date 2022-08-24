@@ -37,8 +37,8 @@ namespace Zorglub.Time.Horology.Astronomy
     /// instances may ultimately represent the same point in time but be
     /// regarded as different by .NET.</para>
     /// </remarks>
-    public readonly partial struct UniversalTime
-        : IEquatable<UniversalTime>, IComparable<UniversalTime>, IComparable
+    public readonly partial struct UniversalTime :
+        IComparisonOperators<UniversalTime, UniversalTime>
     {
         /// <summary>
         /// Represents the two-part Julian date of this time instance.
@@ -59,13 +59,10 @@ namespace Zorglub.Time.Horology.Astronomy
         /// Creates a new instance of <see cref="UniversalTime"/> from the
         /// specified Julian Date.
         /// </summary>
-        public static UniversalTime FromJulianDate(JulianDate jd)
+        public static UniversalTime FromJulianDate(AstronomicalJulianDate jd)
         {
             if (jd.Timescale != Timescale.Universal)
-            {
-                throw EF2.Timescales.UnexpectedTimescale(
-                    nameof(jd), Timescale.Universal, jd.Timescale);
-            }
+                ThrowHelpers2.BadTimescale(nameof(jd), Timescale.Universal, jd.Timescale);
 
             var splitJD = SplitJD.FromJulianDate(jd.Value);
             return new UniversalTime(splitJD);
@@ -78,10 +75,7 @@ namespace Zorglub.Time.Horology.Astronomy
         public static UniversalTime FromModifiedJulianDate(ModifiedJulianDate mjd)
         {
             if (mjd.Timescale != Timescale.Universal)
-            {
-                throw EF2.Timescales.UnexpectedTimescale(
-                    nameof(mjd), Timescale.Universal, mjd.Timescale);
-            }
+                ThrowHelpers2.BadTimescale(nameof(mjd), Timescale.Universal, mjd.Timescale);
 
             var splitJD = SplitJD.FromModifiedJulianDate(mjd.Value);
             return new UniversalTime(splitJD);
@@ -115,15 +109,13 @@ namespace Zorglub.Time.Horology.Astronomy
         }
 
         /// <summary>
-        /// Converts this instance to an Astronomical Julian Date within the UT1
-        /// timescale.
+        /// Converts this instance to an Astronomical Julian Date within the UT1 timescale.
         /// </summary>
         [Pure]
-        public JulianDate ToJulianDate() => new(_splitJD.JulianDate, Timescale.Universal);
+        public AstronomicalJulianDate ToJulianDate() => new(_splitJD.JulianDate, Timescale.Universal);
 
         /// <summary>
-        /// Converts this instance to a Modified Julian Date within the UT1
-        /// timescale.
+        /// Converts this instance to a Modified Julian Date within the UT1 timescale.
         /// </summary>
         [Pure]
         public ModifiedJulianDate ToModifiedJulianDate() => new(_splitJD.ModifiedJulianDate, Timescale.Universal);
@@ -192,14 +184,13 @@ namespace Zorglub.Time.Horology.Astronomy
         /// <summary>
         /// Determines whether this instance is equal to a specified object.
         /// </summary>
-        public override bool Equals(object? obj)
+        public override bool Equals([NotNullWhen(true)] object? obj)
             => obj is UniversalTime time && this == time;
 
         /// <summary>
         /// Obtains the hash code for this instance.
         /// </summary>
-        public override int GetHashCode()
-            => _splitJD.GetHashCode();
+        public override int GetHashCode() => _splitJD.GetHashCode();
     }
 
     // Interfaces IComparable<> et IComparable.
@@ -241,9 +232,9 @@ namespace Zorglub.Time.Horology.Astronomy
             => _splitJD.CompareTo(other._splitJD);
 
         /// <inheritdoc />
-        int IComparable.CompareTo(object? obj)
-            => obj is null ? 1
-                : obj is UniversalTime time ? CompareTo(time)
-                : throw EF.InvalidType(nameof(obj), typeof(UniversalTime), obj);
+        public int CompareTo(object? obj) =>
+            obj is null ? 1
+            : obj is UniversalTime time ? CompareTo(time)
+            : Throw.NonComparable(typeof(UniversalTime), obj);
     }
 }

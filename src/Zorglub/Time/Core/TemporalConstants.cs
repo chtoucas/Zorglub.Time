@@ -11,15 +11,13 @@ namespace Zorglub.Time.Core
     public partial class TemporalConstants // Astronomical
     {
         /// <summary>
-        /// Represents the fixed difference between TT and TAI, ΔTAT = TT-TAI
-        /// in seconds.
+        /// Represents the fixed difference between TT and TAI, ΔTAT = TT-TAI in seconds.
         /// <para>This field is a constant equal to 32.184.</para>
         /// </summary>
         private const double ΔTAT = 32.184;
 
         /// <summary>
-        /// Represents the fixed difference between TT and TAI, ΔTAT = TT-TAI
-        /// in days.
+        /// Represents the fixed difference between TT and TAI, ΔTAT = TT-TAI in days.
         /// <para>This field is a constant equal to 0.00037249999999999995.</para>
         /// </summary>
         internal const double DeltaTAT = ΔTAT / SecondsPerDay;

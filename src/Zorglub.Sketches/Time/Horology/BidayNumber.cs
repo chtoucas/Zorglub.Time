@@ -1,7 +1,7 @@
 ﻿// SPDX-License-Identifier: BSD-3-Clause
 // Copyright (c) 2020 Narvalo.Org. All rights reserved.
 
-namespace Zorglub.Time.Horology.Astronomy
+namespace Zorglub.Time.Horology
 {
     // TODO: calculer plus précisément les Min et Max ?
 

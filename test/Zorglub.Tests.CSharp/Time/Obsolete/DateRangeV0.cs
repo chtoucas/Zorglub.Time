@@ -301,7 +301,7 @@ public partial class DateRangeV0 // IEquatable
     }
 
     /// <inheritdoc />
-    [Pure] public override bool Equals(object? obj) => Equals(obj as DateRangeV0);
+    [Pure] public override bool Equals([NotNullWhen(true)] object? obj) => Equals(obj as DateRangeV0);
 
     /// <inheritdoc />
     [Pure] public override int GetHashCode() => HashCode.Combine(Start, End);

@@ -27,8 +27,8 @@ namespace Zorglub.Time.Horology.Astronomy
     /// instances may ultimately represent the same point in time but be
     /// regarded as different by .NET.</para>
     /// </remarks>
-    public readonly partial struct UtcTime
-        : IEquatable<UtcTime>, IComparable<UtcTime>, IComparable
+    public readonly partial struct UtcTime :
+        IComparisonOperators<UtcTime, UtcTime>
     {
         /// <summary>
         /// Represents the quasi Julian date of this time instance.
@@ -50,13 +50,10 @@ namespace Zorglub.Time.Horology.Astronomy
         /// Julian Date.
         /// </summary>
         [Pure]
-        public static UtcTime FromJulianDate(JulianDate jd)
+        public static UtcTime FromJulianDate(AstronomicalJulianDate jd)
         {
             if (jd.Timescale != Timescale.Utc)
-            {
-                throw EF2.Timescales.UnexpectedTimescale(
-                    nameof(jd), Timescale.Utc, jd.Timescale);
-            }
+                ThrowHelpers2.BadTimescale(nameof(jd), Timescale.Utc, jd.Timescale);
 
             var quasiJD = QuasiJD.FromJulianDate(jd.Value);
             return new UtcTime(quasiJD);
@@ -70,10 +67,7 @@ namespace Zorglub.Time.Horology.Astronomy
         public static UtcTime FromModifiedJulianDate(ModifiedJulianDate mjd)
         {
             if (mjd.Timescale != Timescale.Utc)
-            {
-                throw EF2.Timescales.UnexpectedTimescale(
-                    nameof(mjd), Timescale.Utc, mjd.Timescale);
-            }
+                ThrowHelpers2.BadTimescale(nameof(mjd), Timescale.Utc, mjd.Timescale);
 
             var quasiJD = QuasiJD.FromModifiedJulianDate(mjd.Value);
             return new UtcTime(quasiJD);
@@ -109,8 +103,8 @@ namespace Zorglub.Time.Horology.Astronomy
         /// timescale.
         /// </summary>
         [Pure]
-        public JulianDate ToJulianDate()
-            => new JulianDate(_quasiJD.JulianDate, Timescale.Utc);
+        public AstronomicalJulianDate ToJulianDate()
+            => new AstronomicalJulianDate(_quasiJD.JulianDate, Timescale.Utc);
 
         /// <summary>
         /// Converts this instance to a Modified Julian Date within the UTC
@@ -182,14 +176,13 @@ namespace Zorglub.Time.Horology.Astronomy
         /// <summary>
         /// Determines whether this instance is equal to a specified object.
         /// </summary>
-        public override bool Equals(object? obj)
+        public override bool Equals([NotNullWhen(true)] object? obj)
             => obj is UtcTime time && this == time;
 
         /// <summary>
         /// Obtains the hash code for this instance.
         /// </summary>
-        public override int GetHashCode()
-            => _quasiJD.GetHashCode();
+        public override int GetHashCode() => _quasiJD.GetHashCode();
     }
 
     // Interfaces IComparable<> et IComparable.
@@ -231,9 +224,9 @@ namespace Zorglub.Time.Horology.Astronomy
             => _quasiJD.CompareTo(other._quasiJD);
 
         /// <inheritdoc />
-        int IComparable.CompareTo(object? obj)
-            => obj is null ? 1
-                : obj is UtcTime time ? CompareTo(time)
-                : throw EF.InvalidType(nameof(obj), typeof(UtcTime), obj);
+        public int CompareTo(object? obj) =>
+            obj is null ? 1
+            : obj is UtcTime time ? CompareTo(time)
+            : Throw.NonComparable(typeof(UtcTime), obj);
     }
 }

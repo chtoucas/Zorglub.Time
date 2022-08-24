@@ -68,15 +68,14 @@ namespace Zorglub.Time.Horology.Astronomy
         /// <summary>
         /// Gets the modified Julian date from this instance.
         /// </summary>
-        public double ModifiedJulianDate
-            => _high == JulianDateEpoch.Modified ? _low
-                : JulianDate - JulianDateEpoch.Modified;
+        public double ModifiedJulianDate =>
+            _high == JulianDateEpoch.Modified ? _low
+            : JulianDate - JulianDateEpoch.Modified;
 
         /// <summary>
         /// Deconstructs this instance into its high-order and low-order parts.
         /// </summary>
-        public void Deconstruct(out double high, out double low)
-            => (high, low) = (_high, _low);
+        public void Deconstruct(out double high, out double low) => (high, low) = (_high, _low);
 
         // fractionOfDay = almost always mean the fraction of the day from this
         // instance, which must be computed separately.
@@ -243,47 +242,44 @@ namespace Zorglub.Time.Horology.Astronomy
         /// Determines whether two specified instances of <see cref="QuasiJD"/>
         /// are not equal.
         /// </summary>
-        public static bool operator !=(QuasiJD left, QuasiJD right)
-            => !(left == right);
+        public static bool operator !=(QuasiJD left, QuasiJD right) => !(left == right);
 
         /// <summary>
         /// Determines whether this instance is equal to the value of the
         /// specified <see cref="QuasiJD"/>.
         /// </summary>
-        public bool Equals(QuasiJD other)
-            => this == other;
+        public bool Equals(QuasiJD other) => this == other;
 
         /// <summary>
         /// Determines whether this instance is equal to the value of the
         /// specified <see cref="QuasiJD"/> using the specified comparer for
         /// doubles.
         /// </summary>
-        public bool Equals(QuasiJD other, IEqualityComparer<double> comparer)
-            => comparer is null ? this == other
-                : comparer.Equals(_high, other._high)
-                    && comparer.Equals(_low, other._low);
+        public bool Equals(QuasiJD other, IEqualityComparer<double> comparer) =>
+            comparer is null ? this == other
+            : comparer.Equals(_high, other._high)
+                && comparer.Equals(_low, other._low);
 
         /// <summary>
         /// Determines whether this instance is equal to a specified object.
         /// </summary>
-        public override bool Equals(object? obj)
-            => obj is QuasiJD quasiJD && this == quasiJD;
+        public override bool Equals([NotNullWhen(true)] object? obj) =>
+            obj is QuasiJD quasiJD && this == quasiJD;
 
         /// <summary>
         /// Obtains the hash code for this instance.
         /// </summary>
-        public override int GetHashCode()
-            => HashCode.Combine(_high, _low);
+        public override int GetHashCode() => HashCode.Combine(_high, _low);
 
         /// <summary>
         /// Obtains the hash code for this instance using the specified comparer
         /// for doubles.
         /// </summary>
-        public int GetHashCode(IEqualityComparer<double> comparer)
-            => comparer is null ? HashCode.Combine(_high, _low)
-                : HashCode.Combine(
-                    comparer.GetHashCode(_high),
-                    comparer.GetHashCode(_low));
+        public int GetHashCode(IEqualityComparer<double> comparer) =>
+            comparer is null ? HashCode.Combine(_high, _low)
+            : HashCode.Combine(
+                comparer.GetHashCode(_high),
+                comparer.GetHashCode(_low));
     }
 
     // Interface IComparable<>.
@@ -295,35 +291,34 @@ namespace Zorglub.Time.Horology.Astronomy
         /// Compares the two specified quasi JDs to see if the left one is
         /// strictly earlier than the right one.
         /// </summary>
-        public static bool operator <(QuasiJD left, QuasiJD right)
-            => left.JulianDate < right.JulianDate;
+        public static bool operator <(QuasiJD left, QuasiJD right) =>
+            left.JulianDate < right.JulianDate;
 
         /// <summary>
         /// Compares the two specified quasi JDs to see if the left one is
         /// earlier than or equal to the right one.
         /// </summary>
-        public static bool operator <=(QuasiJD left, QuasiJD right)
-            => left.JulianDate <= right.JulianDate;
+        public static bool operator <=(QuasiJD left, QuasiJD right) =>
+            left.JulianDate <= right.JulianDate;
 
         /// <summary>
         /// Compares the two specified quasi JDs to see if the left one is
         /// strictly later than the right one.
         /// </summary>
-        public static bool operator >(QuasiJD left, QuasiJD right)
-            => left.JulianDate > right.JulianDate;
+        public static bool operator >(QuasiJD left, QuasiJD right) =>
+            left.JulianDate > right.JulianDate;
 
         /// <summary>
         /// Compares the two specified quasi JDs to see if the left one is
         /// later than or equal to the right one.
         /// </summary>
-        public static bool operator >=(QuasiJD left, QuasiJD right)
-            => left.JulianDate >= right.JulianDate;
+        public static bool operator >=(QuasiJD left, QuasiJD right) =>
+            left.JulianDate >= right.JulianDate;
 
         /// <summary>
         /// Indicates whether this quasi JD instance is earlier, later or the
         /// same as the specified one.
         /// </summary>
-        public int CompareTo(QuasiJD other)
-            => JulianDate.CompareTo(other.JulianDate);
+        public int CompareTo(QuasiJD other) => JulianDate.CompareTo(other.JulianDate);
     }
 }

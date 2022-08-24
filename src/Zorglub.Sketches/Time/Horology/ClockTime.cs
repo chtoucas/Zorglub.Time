@@ -1,7 +1,7 @@
 ﻿// SPDX-License-Identifier: BSD-3-Clause
 // Copyright (c) 2020 Narvalo.Org. All rights reserved.
 
-namespace Zorglub.Time.Horology.Astronomy
+namespace Zorglub.Time.Horology
 {
     using Zorglub.Time.Core;
     using Zorglub.Time.Core.Schemas;
@@ -126,8 +126,10 @@ namespace Zorglub.Time.Horology.Astronomy
         public void Deconstruct(
             out Yemoda ymd,
             out int hour, out int minute, out double fractionalSeconds)
-            => (ymd, hour, minute, fractionalSeconds)
+        {
+            (ymd, hour, minute, fractionalSeconds)
                 = (Yemoda, Hour, Minute, FractionalSeconds);
+        }
 
         /// <summary>
         /// Creates a new instance of <see cref="ClockTime"/> from the specified
@@ -169,15 +171,15 @@ namespace Zorglub.Time.Horology.Astronomy
         [Pure]
         internal static double GetFractionOfDay(int hour, int minute, double fractionalSeconds)
         {
-            if (hour < TimeOfDay.MinHour || hour > TimeOfDay.MaxHour)
+            if (hour < 0 || hour >= HoursPerDay)
             {
                 throw new ArgumentOutOfRangeException(nameof(hour));
             }
-            if (minute < TimeOfDay.MinMinute || minute > TimeOfDay.MaxMinute)
+            if (minute < 0 || minute >= MinutesPerHour)
             {
                 throw new ArgumentOutOfRangeException(nameof(minute));
             }
-            if (fractionalSeconds < TimeOfDay.MinSecond || fractionalSeconds > SecondsPerMinute)
+            if (fractionalSeconds < 0 || fractionalSeconds > SecondsPerMinute)
             {
                 throw new ArgumentOutOfRangeException(nameof(fractionalSeconds));
             }

@@ -29,8 +29,8 @@ namespace Zorglub.Time.Horology.Astronomy
     /// instances may ultimately represent the same point in time but be
     /// regarded as different by .NET.</para>
     /// </remarks>
-    public readonly partial struct AtomicTime
-        : IEquatable<AtomicTime>, IComparable<AtomicTime>, IComparable
+    public readonly partial struct AtomicTime :
+        IComparisonOperators<AtomicTime, AtomicTime>
     {
         /// <summary>
         /// Represents the two-part Julian date of this time instance.
@@ -51,13 +51,10 @@ namespace Zorglub.Time.Horology.Astronomy
         /// Creates a new instance of <see cref="AtomicTime"/> from the
         /// specified Julian Date.
         /// </summary>
-        public static AtomicTime FromJulianDate(JulianDate jd)
+        public static AtomicTime FromJulianDate(AstronomicalJulianDate jd)
         {
             if (jd.Timescale != Timescale.Atomic)
-            {
-                throw EF2.Timescales.UnexpectedTimescale(
-                    nameof(jd), Timescale.Atomic, jd.Timescale);
-            }
+                ThrowHelpers2.BadTimescale(nameof(jd), Timescale.Atomic, jd.Timescale);
 
             var splitJD = SplitJD.FromJulianDate(jd.Value);
             return new AtomicTime(splitJD);
@@ -70,10 +67,7 @@ namespace Zorglub.Time.Horology.Astronomy
         public static AtomicTime FromModifiedJulianDate(ModifiedJulianDate mjd)
         {
             if (mjd.Timescale != Timescale.Atomic)
-            {
-                throw EF2.Timescales.UnexpectedTimescale(
-                    nameof(mjd), Timescale.Atomic, mjd.Timescale);
-            }
+                ThrowHelpers2.BadTimescale(nameof(mjd), Timescale.Atomic, mjd.Timescale);
 
             var splitJD = SplitJD.FromModifiedJulianDate(mjd.Value);
             return new AtomicTime(splitJD);
@@ -114,7 +108,7 @@ namespace Zorglub.Time.Horology.Astronomy
         [Pure]
         public DayNumber ToDayNumber(out double fractionOfDay)
         {
-            int jdn = _splitJD.ToJulianDayNumber(out fractionOfDay);
+            //int jdn = _splitJD.ToJulianDayNumber(out fractionOfDay);
             //return new DayNumber(1 + jdn, DayscaleId.AstronomicalJulian);
             throw new NotImplementedException();
         }
@@ -124,7 +118,7 @@ namespace Zorglub.Time.Horology.Astronomy
         /// timescale.
         /// </summary>
         [Pure]
-        public JulianDate ToJulianDate() => new(_splitJD.JulianDate, Timescale.Atomic);
+        public AstronomicalJulianDate ToJulianDate() => new(_splitJD.JulianDate, Timescale.Atomic);
 
         /// <summary>
         /// Converts this instance to a Modified Julian Date within the TAI
@@ -173,34 +167,32 @@ namespace Zorglub.Time.Horology.Astronomy
         /// Determines whether two specified instances of <see cref="AtomicTime"/>
         /// are equal.
         /// </summary>
-        public static bool operator ==(AtomicTime left, AtomicTime right)
-            => left._splitJD == right._splitJD;
+        public static bool operator ==(AtomicTime left, AtomicTime right) =>
+            left._splitJD == right._splitJD;
 
         /// <summary>
         /// Determines whether two specified instances of <see cref="AtomicTime"/>
         /// are not equal.
         /// </summary>
-        public static bool operator !=(AtomicTime left, AtomicTime right)
-            => left._splitJD != right._splitJD;
+        public static bool operator !=(AtomicTime left, AtomicTime right) =>
+            left._splitJD != right._splitJD;
 
         /// <summary>
         /// Determines whether this instance is equal to the value of the
         /// specified <see cref="AtomicTime"/>.
         /// </summary>
-        public bool Equals(AtomicTime other)
-            => _splitJD == other._splitJD;
+        public bool Equals(AtomicTime other) => _splitJD == other._splitJD;
 
         /// <summary>
         /// Determines whether this instance is equal to a specified object.
         /// </summary>
-        public override bool Equals(object? obj)
-            => obj is AtomicTime time && this == time;
+        public override bool Equals([NotNullWhen(true)] object? obj) =>
+            obj is AtomicTime time && Equals(time);
 
         /// <summary>
         /// Obtains the hash code for this instance.
         /// </summary>
-        public override int GetHashCode()
-            => _splitJD.GetHashCode();
+        public override int GetHashCode() => _splitJD.GetHashCode();
     }
 
     // Interfaces IComparable<> et IComparable.
@@ -210,41 +202,40 @@ namespace Zorglub.Time.Horology.Astronomy
         /// Compares the two specified times to see if the left one is strictly
         /// earlier than the right one.
         /// </summary>
-        public static bool operator <(AtomicTime left, AtomicTime right)
-            => left._splitJD < right._splitJD;
+        public static bool operator <(AtomicTime left, AtomicTime right) =>
+            left._splitJD < right._splitJD;
 
         /// <summary>
         /// Compares the two specified times to see if the left one is earlier
         /// than or equal to the right one.
         /// </summary>
-        public static bool operator <=(AtomicTime left, AtomicTime right)
-            => left._splitJD <= right._splitJD;
+        public static bool operator <=(AtomicTime left, AtomicTime right) =>
+            left._splitJD <= right._splitJD;
 
         /// <summary>
         /// Compares the two specified times to see if the left one is strictly
         /// later than the right one.
         /// </summary>
-        public static bool operator >(AtomicTime left, AtomicTime right)
-            => left._splitJD > right._splitJD;
+        public static bool operator >(AtomicTime left, AtomicTime right) =>
+            left._splitJD > right._splitJD;
 
         /// <summary>
         /// Compares the two specified times to see if the left one is later
         /// than or equal to the right one.
         /// </summary>
-        public static bool operator >=(AtomicTime left, AtomicTime right)
-            => left._splitJD >= right._splitJD;
+        public static bool operator >=(AtomicTime left, AtomicTime right) =>
+            left._splitJD >= right._splitJD;
 
         /// <summary>
         /// Indicates whether this time instance is earlier, later or the same
         /// as the specified one.
         /// </summary>
-        public int CompareTo(AtomicTime other)
-            => _splitJD.CompareTo(other._splitJD);
+        public int CompareTo(AtomicTime other) => _splitJD.CompareTo(other._splitJD);
 
         /// <inheritdoc />
-        int IComparable.CompareTo(object? obj)
-            => obj is null ? 1
-                : obj is AtomicTime time ? CompareTo(time)
-                : throw EF.InvalidType(nameof(obj), typeof(AtomicTime), obj);
+        public int CompareTo(object? obj) =>
+            obj is null ? 1
+            : obj is AtomicTime time ? CompareTo(time)
+            : Throw.NonComparable(typeof(AtomicTime), obj);
     }
 }

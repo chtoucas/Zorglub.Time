@@ -16,7 +16,8 @@ namespace Zorglub.Time.Horology.Astronomy
     /// Represents a modified Julian Date.
     /// </summary>
     [StructLayout(LayoutKind.Explicit, Pack = 1)]
-    public readonly partial struct OtherJulianDate : IEquatable<OtherJulianDate>
+    public readonly partial struct OtherJulianDate :
+        IEqualityOperators<OtherJulianDate, OtherJulianDate>
     {
         /// <summary>
         /// Represents the numerical value of this instance.
@@ -104,7 +105,7 @@ namespace Zorglub.Time.Horology.Astronomy
         /// <para>This transformation may incur a loss of precision.</para>
         /// </summary>
         [Pure]
-        public JulianDate ToJulianDate()
+        public AstronomicalJulianDate ToJulianDate()
         {
             double value = _version switch
             {
@@ -115,9 +116,9 @@ namespace Zorglub.Time.Horology.Astronomy
                 JulianDateVersion.Dublin => _value + JulianDateEpoch.Dublin,
                 JulianDateVersion.Reduced => _value + JulianDateEpoch.Reduced,
                 JulianDateVersion.Truncated => _value + JulianDateEpoch.Truncated,
-                _ => throw EF.ControlFlow,
+                _ => Throw.Unreachable<double>(),
             };
-            return new JulianDate(value, _timescale);
+            return new AstronomicalJulianDate(value, _timescale);
         }
 
         ///// <summary>
@@ -149,39 +150,33 @@ namespace Zorglub.Time.Horology.Astronomy
         /// Determines whether two specified instances of <see cref="OtherJulianDate"/>
         /// are equal.
         /// </summary>
-        public static bool operator ==(OtherJulianDate left, OtherJulianDate right)
-            => left._timescale == right._timescale
-                && left._value == right._value
-                && left._version == right._version;
+        public static bool operator ==(OtherJulianDate left, OtherJulianDate right) =>
+            left._timescale == right._timescale
+            && left._value == right._value
+            && left._version == right._version;
 
         /// <summary>
         /// Determines whether two specified instances of <see cref="OtherJulianDate"/>
         /// are not equal.
         /// </summary>
-        public static bool operator !=(OtherJulianDate left, OtherJulianDate right)
-            => !(left == right);
+        public static bool operator !=(OtherJulianDate left, OtherJulianDate right) => !(left == right);
 
         /// <summary>
         /// Determines whether this instance is equal to the value of the
         /// specified <see cref="OtherJulianDate"/>.
         /// </summary>
-        public bool Equals(OtherJulianDate other)
-            => this == other;
+        public bool Equals(OtherJulianDate other) => this == other;
 
         /// <summary>
         /// Determines whether this instance is equal to a specified object.
         /// </summary>
-        public override bool Equals(object? obj)
-            => obj is OtherJulianDate jd && this == jd;
+        public override bool Equals([NotNullWhen(true)] object? obj) =>
+            obj is OtherJulianDate jd && this == jd;
 
         /// <summary>
         /// Obtains the hash code for this instance.
         /// </summary>
-        public override int GetHashCode()
-            => HashCode.Combine(
-                _timescale.GetHashCode(),
-                _value.GetHashCode(),
-                _version.GetHashCode());
+        public override int GetHashCode() => HashCode.Combine(_timescale, _value, _version);
     }
 
 }

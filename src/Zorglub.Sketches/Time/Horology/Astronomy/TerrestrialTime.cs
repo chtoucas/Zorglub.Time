@@ -38,8 +38,8 @@ namespace Zorglub.Time.Horology.Astronomy
     /// instances may ultimately represent the same point in time but be
     /// regarded as different by .NET.</para>
     /// </remarks>
-    public readonly partial struct TerrestrialTime
-        : IEquatable<TerrestrialTime>, IComparable<TerrestrialTime>, IComparable
+    public readonly partial struct TerrestrialTime :
+        IComparisonOperators<TerrestrialTime, TerrestrialTime>
     {
         /// <summary>
         /// Represents the two-part Julian date of this time instance.
@@ -60,13 +60,10 @@ namespace Zorglub.Time.Horology.Astronomy
         /// Creates a new instance of <see cref="TerrestrialTime"/> from the
         /// specified Julian Date.
         /// </summary>
-        public static TerrestrialTime FromJulianDate(JulianDate jd)
+        public static TerrestrialTime FromJulianDate(AstronomicalJulianDate jd)
         {
             if (jd.Timescale != Timescale.Terrestrial)
-            {
-                throw EF2.Timescales.UnexpectedTimescale(
-                    nameof(jd), Timescale.Terrestrial, jd.Timescale);
-            }
+                ThrowHelpers2.BadTimescale(nameof(jd), Timescale.Terrestrial, jd.Timescale);
 
             var splitJD = SplitJD.FromJulianDate(jd.Value);
             return new TerrestrialTime(splitJD);
@@ -79,10 +76,7 @@ namespace Zorglub.Time.Horology.Astronomy
         public static TerrestrialTime FromModifiedJulianDate(ModifiedJulianDate mjd)
         {
             if (mjd.Timescale != Timescale.Terrestrial)
-            {
-                throw EF2.Timescales.UnexpectedTimescale(
-                    nameof(mjd), Timescale.Terrestrial, mjd.Timescale);
-            }
+                ThrowHelpers2.BadTimescale(nameof(mjd), Timescale.Terrestrial, mjd.Timescale);
 
             var splitJD = SplitJD.FromModifiedJulianDate(mjd.Value);
             return new TerrestrialTime(splitJD);
@@ -110,7 +104,7 @@ namespace Zorglub.Time.Horology.Astronomy
         /// timescale.
         /// </summary>
         [Pure]
-        public JulianDate ToJulianDate() => new(_splitJD.JulianDate);
+        public AstronomicalJulianDate ToJulianDate() => new(_splitJD.JulianDate);
 
         /// <summary>
         /// Converts this instance to a Modified Julian Date within the TT
@@ -163,14 +157,13 @@ namespace Zorglub.Time.Horology.Astronomy
         /// <summary>
         /// Determines whether this instance is equal to a specified object.
         /// </summary>
-        public override bool Equals(object? obj)
+        public override bool Equals([NotNullWhen(true)] object? obj)
             => obj is TerrestrialTime time && this == time;
 
         /// <summary>
         /// Obtains the hash code for this instance.
         /// </summary>
-        public override int GetHashCode()
-            => _splitJD.GetHashCode();
+        public override int GetHashCode() => _splitJD.GetHashCode();
     }
 
     // Interfaces IComparable<> et IComparable.
@@ -212,9 +205,9 @@ namespace Zorglub.Time.Horology.Astronomy
             => _splitJD.CompareTo(other._splitJD);
 
         /// <inheritdoc />
-        int IComparable.CompareTo(object? obj)
-            => obj is null ? 1
-                : obj is TerrestrialTime time ? CompareTo(time)
-                : throw EF.InvalidType(nameof(obj), typeof(TerrestrialTime), obj);
+        public int CompareTo(object? obj) =>
+            obj is null ? 1
+            : obj is TerrestrialTime time ? CompareTo(time)
+            : Throw.NonComparable(typeof(TerrestrialTime), obj);
     }
 }

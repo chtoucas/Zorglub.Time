@@ -163,7 +163,7 @@ namespace Zorglub.Time.Horology.Astronomy
                 JulianDateVersion.Dublin => new SplitJD(JulianDateEpoch.Dublin, value),
                 JulianDateVersion.Reduced => new SplitJD(JulianDateEpoch.Reduced, value),
                 JulianDateVersion.Truncated => new SplitJD(JulianDateEpoch.Truncated, value),
-                _ => throw EF.ControlFlow,
+                _ => Throw.Unreachable<SplitJD>(),
             };
     }
 
@@ -228,7 +228,7 @@ namespace Zorglub.Time.Horology.Astronomy
         /// <summary>
         /// Determines whether this instance is equal to a specified object.
         /// </summary>
-        public override bool Equals(object? obj)
+        public override bool Equals([NotNullWhen(true)] object? obj)
             => obj is SplitJD splitJD && this == splitJD;
 
         /// <summary>
