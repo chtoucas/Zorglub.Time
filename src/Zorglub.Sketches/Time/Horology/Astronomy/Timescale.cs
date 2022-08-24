@@ -1,7 +1,7 @@
 ﻿// SPDX-License-Identifier: BSD-3-Clause
 // Copyright (c) 2020 Narvalo.Org. All rights reserved.
 
-namespace Zorglub.Time.Horology
+namespace Zorglub.Time.Horology.Astronomy
 {
     // Les échelles de temps modernes (d'après François Vermotte, augmenté de
     // commentaires personnels).

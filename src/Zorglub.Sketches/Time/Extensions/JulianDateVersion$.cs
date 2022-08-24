@@ -3,7 +3,7 @@
 
 namespace Zorglub.Time.Extensions
 {
-    using Zorglub.Time.Horology;
+    using Zorglub.Time.Horology.Astronomy;
 
     /// <summary>
     /// Provides extension methods for <see cref="JulianDateVersion"/>.

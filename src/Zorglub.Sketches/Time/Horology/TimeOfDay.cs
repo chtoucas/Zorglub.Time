@@ -79,6 +79,42 @@ namespace Zorglub.Time.Horology
         #endregion
 
         /// <summary>
+        /// Represents the smallest possible value of a parameter "hh".
+        /// <para>This field is constant.</para>
+        /// </summary>
+        public const int MinHour = 0;
+
+        /// <summary>
+        /// Represents the largest possible value of a parameter "hh".
+        /// <para>This field is constant.</para>
+        /// </summary>
+        public const int MaxHour = HoursPerDay - 1;
+
+        /// <summary>
+        /// Represents the smallest possible value of a parameter "mm".
+        /// <para>This field is constant.</para>
+        /// </summary>
+        public const int MinMinute = 0;
+
+        /// <summary>
+        /// Represents the largest possible value of a parameter "mm".
+        /// <para>This field is constant.</para>
+        /// </summary>
+        public const int MaxMinute = MinutesPerHour - 1;
+
+        /// <summary>
+        /// Represents the smallest possible value of a parameter "ss".
+        /// <para>This field is constant.</para>
+        /// </summary>
+        public const int MinSecond = 0;
+
+        /// <summary>
+        /// Represents the largest possible value of a parameter "ss".
+        /// <para>This field is constant.</para>
+        /// </summary>
+        public const int MaxSecond = SecondsPerMinute - 1;
+
+        /// <summary>
         /// Represents the binary data stored in this instance.
         /// </summary>
         /// <remarks>
