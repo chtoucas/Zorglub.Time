@@ -5,7 +5,7 @@ namespace Zorglub.Time.Core
 {
     using static TemporalConstants;
 
-    // REVIEW(code): do we need to use checked ops?
+    // REVIEW(code): do we need to use checked ops? Use ulong args
 
     // I observe very tiny performance gains only with:
     // - DivideByNanosecondsPerHour
@@ -21,8 +21,8 @@ namespace Zorglub.Time.Core
     // NanosecondsPerMillisecond:           1_000_000 = 2^6  x 5^6
     //
     // For the multiplication, we have the choice of shift then multiply or
-    // multiply then shift, but perf is all the same. Nevertheless, I opt for
-    // mumtiply then shift to avoid a cast.
+    // multiply then shift, but perf results are similar. Nevertheless, I opt
+    // for multiply then shift to avoid a cast.
     //
     // We don't bother with NanosecondsPerDay which is only multiplied or
     // divided with a double or decimal.

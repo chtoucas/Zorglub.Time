@@ -145,7 +145,8 @@ readable.
 Recurring Tasks
 ---------------
 
-- Check #pragma and SuppressMessage
+- Review `#pragma` and `SuppressMessage`
+- Review obsoleted code
 
 
 Tests
