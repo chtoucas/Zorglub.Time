@@ -333,13 +333,6 @@ namespace Zorglub.Time.Specialized
 
     public partial struct GregorianDate // Conversions, adjustments...
     {
-        #region Factories
-
-        /// <inheritdoc />
-        [Pure]
-        public static GregorianDate Today() => new(DayNumber.Today().DaysSinceZero);
-
-        #endregion
         #region Counting
 
         /// <inheritdoc />

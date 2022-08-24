@@ -300,16 +300,6 @@ namespace Zorglub.Time.Specialized
 
     public partial struct ZoroastrianDate // Conversions, adjustments...
     {
-        #region Factories
-
-        /// <summary>
-        /// Obtains the current date in the Zoroastrian calendar on this machine,
-        /// expressed in local time, not UTC.
-        /// </summary>
-        [Pure]
-        public static ZoroastrianDate Today() => new(DayNumber.Today() - s_Epoch);
-
-        #endregion
         #region Counting
 
         /// <inheritdoc />

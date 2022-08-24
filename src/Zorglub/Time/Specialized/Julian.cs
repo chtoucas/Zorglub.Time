@@ -367,13 +367,6 @@ namespace Zorglub.Time.Specialized
 
     public partial struct JulianDate // Conversions, adjustments...
     {
-        #region Factories
-
-        /// <inheritdoc />
-        [Pure]
-        public static JulianDate Today() => new(DayNumber.Today() - s_Epoch);
-
-        #endregion
         #region Counting
 
         /// <inheritdoc />

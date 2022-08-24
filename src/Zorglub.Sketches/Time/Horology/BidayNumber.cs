@@ -5,37 +5,6 @@ namespace Zorglub.Time.Horology
 {
     // TODO: calculer plus précisément les Min et Max ?
 
-    internal static class MathEx
-    {
-        private const int HalfOneMin = Int32.MinValue / 10;
-        private const int HalfOneMax = Int32.MaxValue / 10;
-
-        // REVIEW: AddHalfOne/SubtractHalfOne en passer par un long quand on
-        // sort des limites HalfOneMin/Max.
-        // On pourrait aussi traiter le cas général (1 <= b <= 9),
-        //public static decimal Add(int num, byte b) =>
-        //    num >= 0 ? new decimal(checked(10 * num + b), 0x00000000, 0x00000000, false, 0x0001)
-        //    : new decimal(checked(-10 * num - b), 0x00000000, 0x00000000, true, 0x0001);
-
-        [Pure]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static decimal AddHalfOne(int num) =>
-            num < HalfOneMin || num > HalfOneMax
-            ? num + .5m
-            : num >= 0
-                ? new decimal(10 * num + 5, 0x00000000, 0x00000000, false, 0x0001)
-                : new decimal(-10 * num - 5, 0x00000000, 0x00000000, true, 0x0001);
-
-        [Pure]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static decimal SubtractHalfOne(int num) =>
-            num < HalfOneMin || num > HalfOneMax
-            ? num - .5m
-            : num > 0
-                ? new decimal(10 * num - 5, 0x00000000, 0x00000000, false, 0x0001)
-                : new decimal(-10 * num + 5, 0x00000000, 0x00000000, true, 0x0001);
-    }
-
     public readonly partial struct BidayNumber :
         IComparisonOperators<BidayNumber, BidayNumber>,
         IMinMaxValue<BidayNumber>
@@ -154,8 +123,8 @@ namespace Zorglub.Time.Horology
 
             return (halfDays & 1) == 0 ? days
                 // Nombre impair de demi-journées.
-                : halfDays > 0 ? MathEx.AddHalfOne(days) // days + .5m
-                : MathEx.SubtractHalfOne(days); // days - .5m;
+                : halfDays > 0 ? MathOperations.AddHalfOne(days) // days + .5m
+                : MathOperations.SubtractHalfOne(days); // days - .5m;
         }
 
         [Pure]

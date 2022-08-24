@@ -154,7 +154,7 @@ namespace Zorglub.Time.Core.Utilities
 
         [Pure]
         public static decimal AddHalfOne(int num) =>
-        num < HalfOneMin || num > HalfOneMax
+            num < HalfOneMin || num > HalfOneMax
             ? num + .5m
             : num >= 0
                 ? new decimal(10 * num + 5, 0x00000000, 0x00000000, false, 0x0001)
@@ -163,10 +163,10 @@ namespace Zorglub.Time.Core.Utilities
         [Pure]
         public static decimal SubtractHalfOne(int num) =>
             num < HalfOneMin || num > HalfOneMax
-                ? num - .5m
-                : num > 0
-                    ? new decimal(10 * num - 5, 0x00000000, 0x00000000, false, 0x0001)
-                    : new decimal(-10 * num + 5, 0x00000000, 0x00000000, true, 0x0001);
+            ? num - .5m
+            : num > 0
+                ? new decimal(10 * num - 5, 0x00000000, 0x00000000, false, 0x0001)
+                : new decimal(-10 * num + 5, 0x00000000, 0x00000000, true, 0x0001);
     }
 
     internal partial class MathOperations // Logarithme décimal

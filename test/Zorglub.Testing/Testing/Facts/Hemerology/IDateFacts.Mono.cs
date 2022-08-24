@@ -32,15 +32,15 @@ public abstract partial class IDateFacts<TDate, TCalendar, TDataSet> :
     // the situation is a bit different here since this is a static method on a
     // __type__.
 
-    [Fact]
-    public void Today()
-    {
-        // This test may fail if there is a change of day between the two calls
-        // to Today().
-        var today = DayNumber.Today();
-        // Act & Assert
-        Assert.Equal(today, TDate.Today().DayNumber);
-    }
+    //[Fact]
+    //public void Today()
+    //{
+    //    // This test may fail if there is a change of day between the two calls
+    //    // to Today().
+    //    var today = DayNumber.Today();
+    //    // Act & Assert
+    //    Assert.Equal(today, TDate.Today().DayNumber);
+    //}
 
     //[Theory, MemberData(nameof(DayNumberInfoData))]
     //public void FromDayNumber(DayNumberInfo info)

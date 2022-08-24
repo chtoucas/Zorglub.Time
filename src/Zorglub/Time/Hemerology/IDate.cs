@@ -54,6 +54,11 @@ namespace Zorglub.Time.Hemerology
     // WithCalendar(newCalendar) pour l'interconversion; voir p.ex. ZDate et
     // ISimpleDate.
 
+    // FIXME(api): remove IDate`2...
+    // UtcToday() and Today(ITimepiece).
+    // XXXClock in Specialized.
+    // Debug.Assert(daysSinceEpoch).
+
     /// <summary>
     /// Defines a date type with a companion calendar.
     /// <para>This interface SHOULD NOT be implemented by date types participating in a
@@ -72,23 +77,5 @@ namespace Zorglub.Time.Hemerology
         /// <para>This static property is thread-safe.</para>
         /// </summary>
         static abstract TCalendar Calendar { get; }
-
-        // FIXME(api): UtcToday() and Today(ITimepiece).
-        // XXXClock in Specialized. Debug.Assert(daysSinceEpoch).
-
-        // We don't add the UTC version UtcToday(). I don't think that we need
-        // such a level of precision, and one can still achieve the same thing
-        // using a constructor new(DayNumber.UtcToday()) --- or a static factory
-        // for dates linked to a poly-calendar system.
-        // Anyway, this is not the right way to do it. A much better API would
-        // provide a way to obtain the current date using a pluggable clock
-        // (see NodaTime). Nevertheless, we keep the naive Today() because it
-        // covers the most common case and not having it would be disturbing for
-        // beginners.
-
-        /// <summary>
-        /// Obtains the current date on this machine, expressed in the local time.
-        /// </summary>
-        [Pure] static abstract TSelf Today();
     }
 }

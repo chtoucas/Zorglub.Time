@@ -740,7 +740,6 @@ static Zorglub.Time.Specialized.CivilDate.operator <=(Zorglub.Time.Specialized.C
 static Zorglub.Time.Specialized.CivilDate.operator ==(Zorglub.Time.Specialized.CivilDate left, Zorglub.Time.Specialized.CivilDate right) -> bool
 static Zorglub.Time.Specialized.CivilDate.operator >(Zorglub.Time.Specialized.CivilDate left, Zorglub.Time.Specialized.CivilDate right) -> bool
 static Zorglub.Time.Specialized.CivilDate.operator >=(Zorglub.Time.Specialized.CivilDate left, Zorglub.Time.Specialized.CivilDate right) -> bool
-static Zorglub.Time.Specialized.CivilDate.Today() -> Zorglub.Time.Specialized.CivilDate
 static Zorglub.Time.Specialized.GregorianClock.Default.get -> Zorglub.Time.Specialized.GregorianClock!
 static Zorglub.Time.Specialized.GregorianClock.GetClock(Zorglub.Time.Horology.ITimepiece! timepiece) -> Zorglub.Time.Specialized.GregorianClock!
 static Zorglub.Time.Specialized.GregorianClock.Utc.get -> Zorglub.Time.Specialized.GregorianClock!
@@ -761,7 +760,6 @@ static Zorglub.Time.Specialized.GregorianDate.operator <=(Zorglub.Time.Specializ
 static Zorglub.Time.Specialized.GregorianDate.operator ==(Zorglub.Time.Specialized.GregorianDate left, Zorglub.Time.Specialized.GregorianDate right) -> bool
 static Zorglub.Time.Specialized.GregorianDate.operator >(Zorglub.Time.Specialized.GregorianDate left, Zorglub.Time.Specialized.GregorianDate right) -> bool
 static Zorglub.Time.Specialized.GregorianDate.operator >=(Zorglub.Time.Specialized.GregorianDate left, Zorglub.Time.Specialized.GregorianDate right) -> bool
-static Zorglub.Time.Specialized.GregorianDate.Today() -> Zorglub.Time.Specialized.GregorianDate
 static Zorglub.Time.Specialized.JulianClock.Default.get -> Zorglub.Time.Specialized.JulianClock!
 static Zorglub.Time.Specialized.JulianClock.GetClock(Zorglub.Time.Horology.ITimepiece! timepiece) -> Zorglub.Time.Specialized.JulianClock!
 static Zorglub.Time.Specialized.JulianClock.Utc.get -> Zorglub.Time.Specialized.JulianClock!
@@ -782,7 +780,6 @@ static Zorglub.Time.Specialized.JulianDate.operator <=(Zorglub.Time.Specialized.
 static Zorglub.Time.Specialized.JulianDate.operator ==(Zorglub.Time.Specialized.JulianDate left, Zorglub.Time.Specialized.JulianDate right) -> bool
 static Zorglub.Time.Specialized.JulianDate.operator >(Zorglub.Time.Specialized.JulianDate left, Zorglub.Time.Specialized.JulianDate right) -> bool
 static Zorglub.Time.Specialized.JulianDate.operator >=(Zorglub.Time.Specialized.JulianDate left, Zorglub.Time.Specialized.JulianDate right) -> bool
-static Zorglub.Time.Specialized.JulianDate.Today() -> Zorglub.Time.Specialized.JulianDate
 virtual Zorglub.Time.Core.CalendricalSchema.CountDaysSinceEpoch(int y, int m, int d) -> int
 virtual Zorglub.Time.Core.CalendricalSchema.GetDateParts(int daysSinceEpoch, out int y, out int m, out int d) -> void
 virtual Zorglub.Time.Core.CalendricalSchema.GetYear(int daysSinceEpoch, out int doy) -> int
@@ -1320,7 +1317,6 @@ Zorglub.Time.Hemerology.ICalendar<TDate>
 Zorglub.Time.Hemerology.IDate
 Zorglub.Time.Hemerology.IDate<TSelf, TCalendar>
 Zorglub.Time.Hemerology.IDate<TSelf, TCalendar>.Calendar.get -> TCalendar
-Zorglub.Time.Hemerology.IDate<TSelf, TCalendar>.Today() -> TSelf
 Zorglub.Time.Hemerology.IDate<TSelf>
 Zorglub.Time.Hemerology.IDateable
 Zorglub.Time.Hemerology.IDateable.Century.get -> int

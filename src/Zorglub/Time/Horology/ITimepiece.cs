@@ -7,6 +7,7 @@ namespace Zorglub.Time.Horology
     // Réalisation complémentaire: NtpTimepiece.
     // Remplace long par ??? dans Now().
     // Prop Timescale.
+    // https://github.com/mattjohnsonpint/NodaTime.NetworkClock
 
     /// <summary>
     /// Represents an instrument for measuring time.

@@ -291,16 +291,6 @@ namespace Zorglub.Time.Specialized
 
     public partial struct TabularIslamicDate // Conversions, adjustments...
     {
-        #region Factories
-
-        /// <summary>
-        /// Obtains the current date in the Tabular Islamic calendar on this machine,
-        /// expressed in local time, not UTC.
-        /// </summary>
-        [Pure]
-        public static TabularIslamicDate Today() => new(DayNumber.Today() - s_Epoch);
-
-        #endregion
         #region Counting
 
         /// <inheritdoc />

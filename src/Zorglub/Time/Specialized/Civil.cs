@@ -333,13 +333,6 @@ namespace Zorglub.Time.Specialized
 
     public partial struct CivilDate // Conversions, adjustments...
     {
-        #region Factories
-
-        /// <inheritdoc />
-        [Pure]
-        public static CivilDate Today() => new(DayNumber.Today().DaysSinceZero);
-
-        #endregion
         #region Counting
 
         /// <inheritdoc />
