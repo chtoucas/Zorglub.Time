@@ -222,7 +222,6 @@ static Zorglub.Time.Specialized.Armenian13Date.operator <=(Zorglub.Time.Speciali
 static Zorglub.Time.Specialized.Armenian13Date.operator ==(Zorglub.Time.Specialized.Armenian13Date left, Zorglub.Time.Specialized.Armenian13Date right) -> bool
 static Zorglub.Time.Specialized.Armenian13Date.operator >(Zorglub.Time.Specialized.Armenian13Date left, Zorglub.Time.Specialized.Armenian13Date right) -> bool
 static Zorglub.Time.Specialized.Armenian13Date.operator >=(Zorglub.Time.Specialized.Armenian13Date left, Zorglub.Time.Specialized.Armenian13Date right) -> bool
-static Zorglub.Time.Specialized.Armenian13Date.Today() -> Zorglub.Time.Specialized.Armenian13Date
 static Zorglub.Time.Specialized.ArmenianDate.Adjuster.get -> Zorglub.Time.Specialized.ArmenianAdjuster!
 static Zorglub.Time.Specialized.ArmenianDate.Calendar.get -> Zorglub.Time.Specialized.ArmenianCalendar!
 static Zorglub.Time.Specialized.ArmenianDate.Max(Zorglub.Time.Specialized.ArmenianDate x, Zorglub.Time.Specialized.ArmenianDate y) -> Zorglub.Time.Specialized.ArmenianDate
@@ -240,7 +239,6 @@ static Zorglub.Time.Specialized.ArmenianDate.operator <=(Zorglub.Time.Specialize
 static Zorglub.Time.Specialized.ArmenianDate.operator ==(Zorglub.Time.Specialized.ArmenianDate left, Zorglub.Time.Specialized.ArmenianDate right) -> bool
 static Zorglub.Time.Specialized.ArmenianDate.operator >(Zorglub.Time.Specialized.ArmenianDate left, Zorglub.Time.Specialized.ArmenianDate right) -> bool
 static Zorglub.Time.Specialized.ArmenianDate.operator >=(Zorglub.Time.Specialized.ArmenianDate left, Zorglub.Time.Specialized.ArmenianDate right) -> bool
-static Zorglub.Time.Specialized.ArmenianDate.Today() -> Zorglub.Time.Specialized.ArmenianDate
 static Zorglub.Time.Specialized.Coptic13Date.Adjuster.get -> Zorglub.Time.Specialized.Coptic13Adjuster!
 static Zorglub.Time.Specialized.Coptic13Date.Calendar.get -> Zorglub.Time.Specialized.Coptic13Calendar!
 static Zorglub.Time.Specialized.Coptic13Date.Max(Zorglub.Time.Specialized.Coptic13Date x, Zorglub.Time.Specialized.Coptic13Date y) -> Zorglub.Time.Specialized.Coptic13Date
@@ -258,7 +256,6 @@ static Zorglub.Time.Specialized.Coptic13Date.operator <=(Zorglub.Time.Specialize
 static Zorglub.Time.Specialized.Coptic13Date.operator ==(Zorglub.Time.Specialized.Coptic13Date left, Zorglub.Time.Specialized.Coptic13Date right) -> bool
 static Zorglub.Time.Specialized.Coptic13Date.operator >(Zorglub.Time.Specialized.Coptic13Date left, Zorglub.Time.Specialized.Coptic13Date right) -> bool
 static Zorglub.Time.Specialized.Coptic13Date.operator >=(Zorglub.Time.Specialized.Coptic13Date left, Zorglub.Time.Specialized.Coptic13Date right) -> bool
-static Zorglub.Time.Specialized.Coptic13Date.Today() -> Zorglub.Time.Specialized.Coptic13Date
 static Zorglub.Time.Specialized.CopticDate.Adjuster.get -> Zorglub.Time.Specialized.CopticAdjuster!
 static Zorglub.Time.Specialized.CopticDate.Calendar.get -> Zorglub.Time.Specialized.CopticCalendar!
 static Zorglub.Time.Specialized.CopticDate.Max(Zorglub.Time.Specialized.CopticDate x, Zorglub.Time.Specialized.CopticDate y) -> Zorglub.Time.Specialized.CopticDate
@@ -276,7 +273,6 @@ static Zorglub.Time.Specialized.CopticDate.operator <=(Zorglub.Time.Specialized.
 static Zorglub.Time.Specialized.CopticDate.operator ==(Zorglub.Time.Specialized.CopticDate left, Zorglub.Time.Specialized.CopticDate right) -> bool
 static Zorglub.Time.Specialized.CopticDate.operator >(Zorglub.Time.Specialized.CopticDate left, Zorglub.Time.Specialized.CopticDate right) -> bool
 static Zorglub.Time.Specialized.CopticDate.operator >=(Zorglub.Time.Specialized.CopticDate left, Zorglub.Time.Specialized.CopticDate right) -> bool
-static Zorglub.Time.Specialized.CopticDate.Today() -> Zorglub.Time.Specialized.CopticDate
 static Zorglub.Time.Specialized.Ethiopic13Date.Adjuster.get -> Zorglub.Time.Specialized.Ethiopic13Adjuster!
 static Zorglub.Time.Specialized.Ethiopic13Date.Calendar.get -> Zorglub.Time.Specialized.Ethiopic13Calendar!
 static Zorglub.Time.Specialized.Ethiopic13Date.Max(Zorglub.Time.Specialized.Ethiopic13Date x, Zorglub.Time.Specialized.Ethiopic13Date y) -> Zorglub.Time.Specialized.Ethiopic13Date
@@ -294,7 +290,6 @@ static Zorglub.Time.Specialized.Ethiopic13Date.operator <=(Zorglub.Time.Speciali
 static Zorglub.Time.Specialized.Ethiopic13Date.operator ==(Zorglub.Time.Specialized.Ethiopic13Date left, Zorglub.Time.Specialized.Ethiopic13Date right) -> bool
 static Zorglub.Time.Specialized.Ethiopic13Date.operator >(Zorglub.Time.Specialized.Ethiopic13Date left, Zorglub.Time.Specialized.Ethiopic13Date right) -> bool
 static Zorglub.Time.Specialized.Ethiopic13Date.operator >=(Zorglub.Time.Specialized.Ethiopic13Date left, Zorglub.Time.Specialized.Ethiopic13Date right) -> bool
-static Zorglub.Time.Specialized.Ethiopic13Date.Today() -> Zorglub.Time.Specialized.Ethiopic13Date
 static Zorglub.Time.Specialized.EthiopicDate.Adjuster.get -> Zorglub.Time.Specialized.EthiopicAdjuster!
 static Zorglub.Time.Specialized.EthiopicDate.Calendar.get -> Zorglub.Time.Specialized.EthiopicCalendar!
 static Zorglub.Time.Specialized.EthiopicDate.Max(Zorglub.Time.Specialized.EthiopicDate x, Zorglub.Time.Specialized.EthiopicDate y) -> Zorglub.Time.Specialized.EthiopicDate
@@ -312,7 +307,6 @@ static Zorglub.Time.Specialized.EthiopicDate.operator <=(Zorglub.Time.Specialize
 static Zorglub.Time.Specialized.EthiopicDate.operator ==(Zorglub.Time.Specialized.EthiopicDate left, Zorglub.Time.Specialized.EthiopicDate right) -> bool
 static Zorglub.Time.Specialized.EthiopicDate.operator >(Zorglub.Time.Specialized.EthiopicDate left, Zorglub.Time.Specialized.EthiopicDate right) -> bool
 static Zorglub.Time.Specialized.EthiopicDate.operator >=(Zorglub.Time.Specialized.EthiopicDate left, Zorglub.Time.Specialized.EthiopicDate right) -> bool
-static Zorglub.Time.Specialized.EthiopicDate.Today() -> Zorglub.Time.Specialized.EthiopicDate
 static Zorglub.Time.Specialized.TabularIslamicDate.Adjuster.get -> Zorglub.Time.Specialized.TabularIslamicAdjuster!
 static Zorglub.Time.Specialized.TabularIslamicDate.Calendar.get -> Zorglub.Time.Specialized.TabularIslamicCalendar!
 static Zorglub.Time.Specialized.TabularIslamicDate.Max(Zorglub.Time.Specialized.TabularIslamicDate x, Zorglub.Time.Specialized.TabularIslamicDate y) -> Zorglub.Time.Specialized.TabularIslamicDate
@@ -330,7 +324,6 @@ static Zorglub.Time.Specialized.TabularIslamicDate.operator <=(Zorglub.Time.Spec
 static Zorglub.Time.Specialized.TabularIslamicDate.operator ==(Zorglub.Time.Specialized.TabularIslamicDate left, Zorglub.Time.Specialized.TabularIslamicDate right) -> bool
 static Zorglub.Time.Specialized.TabularIslamicDate.operator >(Zorglub.Time.Specialized.TabularIslamicDate left, Zorglub.Time.Specialized.TabularIslamicDate right) -> bool
 static Zorglub.Time.Specialized.TabularIslamicDate.operator >=(Zorglub.Time.Specialized.TabularIslamicDate left, Zorglub.Time.Specialized.TabularIslamicDate right) -> bool
-static Zorglub.Time.Specialized.TabularIslamicDate.Today() -> Zorglub.Time.Specialized.TabularIslamicDate
 static Zorglub.Time.Specialized.WorldDate.Adjuster.get -> Zorglub.Time.Specialized.WorldAdjuster!
 static Zorglub.Time.Specialized.WorldDate.Calendar.get -> Zorglub.Time.Specialized.WorldCalendar!
 static Zorglub.Time.Specialized.WorldDate.Max(Zorglub.Time.Specialized.WorldDate x, Zorglub.Time.Specialized.WorldDate y) -> Zorglub.Time.Specialized.WorldDate
@@ -348,7 +341,6 @@ static Zorglub.Time.Specialized.WorldDate.operator <=(Zorglub.Time.Specialized.W
 static Zorglub.Time.Specialized.WorldDate.operator ==(Zorglub.Time.Specialized.WorldDate left, Zorglub.Time.Specialized.WorldDate right) -> bool
 static Zorglub.Time.Specialized.WorldDate.operator >(Zorglub.Time.Specialized.WorldDate left, Zorglub.Time.Specialized.WorldDate right) -> bool
 static Zorglub.Time.Specialized.WorldDate.operator >=(Zorglub.Time.Specialized.WorldDate left, Zorglub.Time.Specialized.WorldDate right) -> bool
-static Zorglub.Time.Specialized.WorldDate.Today() -> Zorglub.Time.Specialized.WorldDate
 static Zorglub.Time.Specialized.Zoroastrian13Date.Adjuster.get -> Zorglub.Time.Specialized.Zoroastrian13Adjuster!
 static Zorglub.Time.Specialized.Zoroastrian13Date.Calendar.get -> Zorglub.Time.Specialized.Zoroastrian13Calendar!
 static Zorglub.Time.Specialized.Zoroastrian13Date.Max(Zorglub.Time.Specialized.Zoroastrian13Date x, Zorglub.Time.Specialized.Zoroastrian13Date y) -> Zorglub.Time.Specialized.Zoroastrian13Date
@@ -366,7 +358,6 @@ static Zorglub.Time.Specialized.Zoroastrian13Date.operator <=(Zorglub.Time.Speci
 static Zorglub.Time.Specialized.Zoroastrian13Date.operator ==(Zorglub.Time.Specialized.Zoroastrian13Date left, Zorglub.Time.Specialized.Zoroastrian13Date right) -> bool
 static Zorglub.Time.Specialized.Zoroastrian13Date.operator >(Zorglub.Time.Specialized.Zoroastrian13Date left, Zorglub.Time.Specialized.Zoroastrian13Date right) -> bool
 static Zorglub.Time.Specialized.Zoroastrian13Date.operator >=(Zorglub.Time.Specialized.Zoroastrian13Date left, Zorglub.Time.Specialized.Zoroastrian13Date right) -> bool
-static Zorglub.Time.Specialized.Zoroastrian13Date.Today() -> Zorglub.Time.Specialized.Zoroastrian13Date
 static Zorglub.Time.Specialized.ZoroastrianDate.Adjuster.get -> Zorglub.Time.Specialized.ZoroastrianAdjuster!
 static Zorglub.Time.Specialized.ZoroastrianDate.Calendar.get -> Zorglub.Time.Specialized.ZoroastrianCalendar!
 static Zorglub.Time.Specialized.ZoroastrianDate.Max(Zorglub.Time.Specialized.ZoroastrianDate x, Zorglub.Time.Specialized.ZoroastrianDate y) -> Zorglub.Time.Specialized.ZoroastrianDate
@@ -384,7 +375,6 @@ static Zorglub.Time.Specialized.ZoroastrianDate.operator <=(Zorglub.Time.Special
 static Zorglub.Time.Specialized.ZoroastrianDate.operator ==(Zorglub.Time.Specialized.ZoroastrianDate left, Zorglub.Time.Specialized.ZoroastrianDate right) -> bool
 static Zorglub.Time.Specialized.ZoroastrianDate.operator >(Zorglub.Time.Specialized.ZoroastrianDate left, Zorglub.Time.Specialized.ZoroastrianDate right) -> bool
 static Zorglub.Time.Specialized.ZoroastrianDate.operator >=(Zorglub.Time.Specialized.ZoroastrianDate left, Zorglub.Time.Specialized.ZoroastrianDate right) -> bool
-static Zorglub.Time.Specialized.ZoroastrianDate.Today() -> Zorglub.Time.Specialized.ZoroastrianDate
 Zorglub.Time.Core.Schemas.Coptic13Schema
 Zorglub.Time.Core.Schemas.Coptic13Schema.IsEpagomenalDay(int y, int m, int d, out int epagomenalNumber) -> bool
 Zorglub.Time.Core.Schemas.Coptic13Schema.VirtualMonth.get -> int

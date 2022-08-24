@@ -3,10 +3,10 @@
 
 namespace Zorglub.Time.Horology
 {
-    // TODO(api): retourner un type temps UtcTime ou AtomicTime ? ou Y-M-D H-M-S.sss
+    // TODO(api): remplacer long par Instant dans Now().
+    // Un Instant devra dépendre d'une échelle de temps.
+    //
     // Réalisation complémentaire: NtpTimepiece.
-    // Remplace long par ??? dans Now() with UTC Offset(?).
-    // Prop Timescale.
     // https://github.com/mattjohnsonpint/NodaTime.NetworkClock
     //
     // Leap Seconds.
