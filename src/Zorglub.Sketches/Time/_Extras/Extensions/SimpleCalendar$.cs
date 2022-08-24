@@ -14,7 +14,7 @@ namespace Zorglub.Time.Extensions
         public static CalendarDay Today(this SimpleCalendar calendar)
         {
             Requires.NotNull(calendar);
-            return calendar.DefaultClock.GetCurrentDay();
+            return calendar.LocalClock.GetCurrentDay();
         }
 
         [Pure]

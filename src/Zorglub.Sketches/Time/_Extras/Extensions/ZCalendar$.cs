@@ -13,7 +13,7 @@ namespace Zorglub.Time.Extensions
         public static ZDate Today(this ZCalendar calendar)
         {
             Requires.NotNull(calendar);
-            return calendar.DefaultClock.GetCurrentDate();
+            return calendar.LocalClock.GetCurrentDate();
         }
 
         [Pure]

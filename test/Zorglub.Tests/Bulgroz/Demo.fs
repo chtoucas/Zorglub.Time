@@ -15,7 +15,7 @@ open type Zorglub.Time.Extensions.SimpleDateExtensions
 open type Zorglub.Time.Extensions.Unboxing
 
 let ``Gregorian date`` () =
-    let clock = CivilClock.Default
+    let clock = CivilClock.Local
     let today = clock.GetCurrentDate()
 
     printfn "CivilDate today"
@@ -27,7 +27,7 @@ let ``Gregorian date`` () =
     printfn "  DayNumber        = %O" today.DayNumber
 
 let ``Gregorian calendar`` () =
-    let clock = SimpleCalendar.Gregorian.DefaultClock
+    let clock = SimpleCalendar.Gregorian.LocalClock
     let day = clock.GetCurrentDay()
     let month = day.CalendarMonth
     let year = day.CalendarYear
@@ -48,7 +48,7 @@ let ``Gregorian calendar w/ dates after 15/10/1582`` () =
         new BoundedBelowCalendar("Genuine Gregorian", x))
     let chr = q.Unbox()
 
-    let clock = SystemClock.Default
+    let clock = SystemClock.Local
     let today = clock.Today()
     let parts = chr.GetDateParts(today)
     let y, m, d = parts.Deconstruct()
@@ -63,7 +63,7 @@ let ``Gregorian calendar w/ dates after 1/1/1`` () =
         new MinMaxYearCalendar("Gregorian", x))
     let chr = q.Unbox()
 
-    let clock = SystemClock.Default
+    let clock = SystemClock.Local
     let today = clock.Today()
     let parts = chr.GetDateParts(today)
     let y, m, d = parts.Deconstruct()
@@ -72,7 +72,7 @@ let ``Gregorian calendar w/ dates after 1/1/1`` () =
     printfn "  Today            = %i/%i/%i (%O)" d m y chr
 
 let ``Armenian calendar`` () =
-    let clock = SimpleCalendar.Armenian.DefaultClock
+    let clock = SimpleCalendar.Armenian.LocalClock
     let day = clock.GetCurrentDay()
     let month = day.CalendarMonth
     let year = day.CalendarYear

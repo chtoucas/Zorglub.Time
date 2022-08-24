@@ -45,7 +45,7 @@ public partial class ZCalendarTests // Properties
     public void Today()
     {
         var exp = DateTime.Now;
-        var clock = CalendarUT.DefaultClock;
+        var clock = CalendarUT.LocalClock;
         // Act
         var today = clock.GetCurrentDate();
         // Assert

@@ -148,7 +148,7 @@ namespace Zorglub.Time.Simple
             // all props should be initialized.
             _math = CalendarMath.CreateDefault(this);
 
-            DefaultClock = SimpleClock.CreateDefault(this, SystemClock.Default);
+            LocalClock = SimpleClock.CreateDefault(this, SystemClock.Local);
             UtcClock = SimpleClock.CreateDefault(this, SystemClock.Utc);
         }
 
@@ -422,9 +422,9 @@ namespace Zorglub.Time.Simple
     {
         /// <summary>
         /// Gets an instance of the <see cref="SimpleClock"/> class for the system clock using the
-        /// default time zone.
+        /// current time zone setting on this machine.
         /// </summary>
-        public SimpleClock DefaultClock { get; }
+        public SimpleClock LocalClock { get; }
 
         /// <summary>
         /// Gets an instance of the <see cref="SimpleClock"/> class for the system clock using the

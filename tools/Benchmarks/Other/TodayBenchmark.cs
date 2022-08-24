@@ -59,7 +59,7 @@ public class TodayBenchmark
     [Benchmark(Description = "SystemClock     ", Baseline = true)]
     public (int, int, int, DayOfWeek) WithSystemClock()
     {
-        var clock = ZorglubSystemClock.Default;
+        var clock = ZorglubSystemClock.Local;
         DayNumber today = clock.Today();
         var (y, m, d) = today.GetGregorianParts();
 
@@ -78,7 +78,7 @@ public class TodayBenchmark
     [Benchmark(Description = "CivilDate     ")]
     public (int, int, int, DayOfWeek) WithCivilDate()
     {
-        var clock = CivilClock.Default;
+        var clock = CivilClock.Local;
         CivilDate today = clock.GetCurrentDate();
         var (y, m, d) = today;
 
@@ -88,7 +88,7 @@ public class TodayBenchmark
     [Benchmark(Description = "CalendarDate  (Y)")]
     public (int, int, int, DayOfWeek) WithCalendarDate()
     {
-        var clock = SimpleCalendar.Civil.DefaultClock;
+        var clock = SimpleCalendar.Civil.LocalClock;
         CalendarDate today = clock.GetCurrentDate();
         var (y, m, d) = today;
 
@@ -98,7 +98,7 @@ public class TodayBenchmark
     [Benchmark(Description = "CalendarDay     ")]
     public (int, int, int, DayOfWeek) WithCalendarDay()
     {
-        var clock = SimpleCalendar.Civil.DefaultClock;
+        var clock = SimpleCalendar.Civil.LocalClock;
         CalendarDay today = clock.GetCurrentDay();
         var (y, m, d) = today;
 
@@ -108,7 +108,7 @@ public class TodayBenchmark
     [Benchmark(Description = "OrdinalDate  (O)")]
     public (int, int, int, DayOfWeek) WithOrdinalDate()
     {
-        var clock = SimpleCalendar.Civil.DefaultClock;
+        var clock = SimpleCalendar.Civil.LocalClock;
         OrdinalDate today = clock.GetCurrentOrdinal();
         (int y, int m, int d) = today;
 
@@ -118,7 +118,7 @@ public class TodayBenchmark
     [Benchmark(Description = "ZDate     ")]
     public (int, int, int, DayOfWeek) WithZDate()
     {
-        var clock = ZCalendar.Civil.DefaultClock;
+        var clock = ZCalendar.Civil.LocalClock;
         ZDate today = clock.GetCurrentDate();
         var (y, m, d) = today;
 

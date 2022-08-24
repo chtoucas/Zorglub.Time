@@ -11,10 +11,10 @@ namespace Zorglub.Time.Horology
     public static class SystemClock
     {
         /// <summary>
-        /// Gets an instance of the system clock using the default time zone.
+        /// Gets an instance of the system clock using the current time zone setting on this machine.
         /// <para>This static property is thread-safe.</para>
         /// </summary>
-        public static ITimepiece Default { get; } = new DefaultClock();
+        public static ITimepiece Local { get; } = new LocalClock();
 
         /// <summary>
         /// Gets an instance of the system clock using the UTC time zone.
@@ -23,11 +23,11 @@ namespace Zorglub.Time.Horology
         public static ITimepiece Utc { get; } = new UtcClock();
 
         /// <summary>
-        /// Represents the system clock using the default time zone.
+        /// Represents the system clock using the current time zone setting on this machine.
         /// </summary>
-        private sealed class DefaultClock : ITimepiece
+        private sealed class LocalClock : ITimepiece
         {
-            public DefaultClock() { }
+            public LocalClock() { }
 
             [Pure]
             public long Now() => 100 * DateTime.Now.Ticks;

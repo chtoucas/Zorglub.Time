@@ -91,13 +91,13 @@ namespace Zorglub.Time.Specialized
 
         /// <summary>
         /// Gets an instance of the <see cref="CivilClock"/> class for the system clock using the
-        /// default time zone.
+        /// current time zone setting on this machine.
         /// </summary>
-        public static CivilClock Default { get; } = new(SystemClock.Default);
+        public static CivilClock Local { get; } = new(SystemClock.Local);
 
         /// <summary>
-        /// Gets an instance of the <see cref="CivilClock"/> class for the system clock using the UTC
-        /// time zone.
+        /// Gets an instance of the <see cref="CivilClock"/> class for the system clock using the
+        /// UTC time zone.
         /// </summary>
         public static CivilClock Utc { get; } = new(SystemClock.Utc);
 

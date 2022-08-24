@@ -74,7 +74,7 @@ namespace Zorglub.Time.Hemerology
             MinMaxDate = from dayNumber in scope.Domain.Endpoints
                          select new ZDate(dayNumber - Epoch, id);
 
-            DefaultClock = ZClock.CreateCore(this, SystemClock.Default);
+            LocalClock = ZClock.CreateCore(this, SystemClock.Local);
             UtcClock = ZClock.CreateCore(this, SystemClock.Utc);
         }
 
@@ -162,9 +162,9 @@ namespace Zorglub.Time.Hemerology
     {
         /// <summary>
         /// Gets an instance of the <see cref="ZClock"/> class for the system clock using the
-        /// default time zone.
+        /// current time zone setting on this machine.
         /// </summary>
-        public ZClock DefaultClock { get; }
+        public ZClock LocalClock { get; }
 
         /// <summary>
         /// Gets an instance of the <see cref="ZClock"/> class for the system clock using the UTC
