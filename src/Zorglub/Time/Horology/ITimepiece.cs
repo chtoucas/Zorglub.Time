@@ -8,6 +8,18 @@ namespace Zorglub.Time.Horology
     // Remplace long par ??? dans Now().
     // Prop Timescale.
     // https://github.com/mattjohnsonpint/NodaTime.NetworkClock
+    //
+    // Leap Seconds.
+    // The property Ticks "does not include the number of ticks that are
+    // attributable to leap seconds".
+    // https://docs.microsoft.com/en-us/dotnet/api/system.datetime.ticks?view=net-6.0
+    //
+    // DateTime.UtcNow correspond réellement au nombre de tics sans
+    // compter les secondes intercalaires, donc dans l'échelle atomique
+    // internationale.
+    //
+    // https://stackoverflow.com/questions/55964042/with-the-win-10-oct-2018-update-windows-is-leap-second-aware-is-nets-datetim
+    // https://docs.microsoft.com/en-us/dotnet/api/system.datetime.utcnow?view=net-6.0
 
     /// <summary>
     /// Represents an instrument for measuring time.

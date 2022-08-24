@@ -162,13 +162,13 @@ namespace Zorglub.Time.Hemerology
     {
         /// <summary>
         /// Gets an instance of the <see cref="ZClock"/> class for the system clock using the
-        /// default timezone.
+        /// default time zone.
         /// </summary>
         public ZClock DefaultClock { get; }
 
         /// <summary>
         /// Gets an instance of the <see cref="ZClock"/> class for the system clock using the UTC
-        /// timezone.
+        /// time zone.
         /// </summary>
         public ZClock UtcClock { get; }
 

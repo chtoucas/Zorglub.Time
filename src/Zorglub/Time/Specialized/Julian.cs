@@ -118,13 +118,13 @@ namespace Zorglub.Time.Specialized
 
         /// <summary>
         /// Gets an instance of the <see cref="JulianClock"/> class for the system clock using the
-        /// default timezone.
+        /// default time zone.
         /// </summary>
         public static JulianClock Default { get; } = new(SystemClock.Default);
 
         /// <summary>
         /// Gets an instance of the <see cref="JulianClock"/> class for the system clock using the UTC
-        /// timezone.
+        /// time zone.
         /// </summary>
         public static JulianClock Utc { get; } = new(SystemClock.Utc);
 

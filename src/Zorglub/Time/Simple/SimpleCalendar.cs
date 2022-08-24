@@ -422,13 +422,13 @@ namespace Zorglub.Time.Simple
     {
         /// <summary>
         /// Gets an instance of the <see cref="SimpleClock"/> class for the system clock using the
-        /// default timezone.
+        /// default time zone.
         /// </summary>
         public SimpleClock DefaultClock { get; }
 
         /// <summary>
         /// Gets an instance of the <see cref="SimpleClock"/> class for the system clock using the
-        /// UTC timezone.
+        /// UTC time zone.
         /// </summary>
         public SimpleClock UtcClock { get; }
 
