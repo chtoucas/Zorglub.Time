@@ -10,7 +10,7 @@ namespace Zorglub.Time.Horology
     /// <para>See <see cref="SystemClocks.Utc"/>.</para>
     /// <para>This class cannot be inherited.</para>
     /// </summary>
-    public sealed class UtcSystemClock : ITimepiece
+    public sealed class UtcSystemClock : IClock
     {
         /// <summary>
         /// Represents a singleton instance of the <see cref="UtcSystemClock"/> class.

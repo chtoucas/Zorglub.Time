@@ -173,11 +173,11 @@ namespace Zorglub.Time.Hemerology
         public ZClock UtcClock { get; }
 
         /// <summary>
-        /// Obtains an instance of the <see cref="ZClock"/> class for the specified timepiece.
+        /// Obtains an instance of the <see cref="ZClock"/> class for the specified clock.
         /// </summary>
-        /// <exception cref="ArgumentNullException"><paramref name="timepiece"/> is null.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="clock"/> is null.</exception>
         [Pure]
-        public ZClock GetClock(ITimepiece timepiece) => ZClock.CreateCore(this, timepiece);
+        public ZClock GetClock(IClock clock) => ZClock.CreateCore(this, clock);
     }
 
     public partial class ZCalendar // Factories

@@ -36,8 +36,7 @@ namespace Zorglub.Time.Simple
 
         /// <inheritdoc/>
         [Pure]
-        public override SimpleClock GetClock(ITimepiece timepiece) =>
-            SimpleClock.CreateSystem(this, timepiece);
+        public override SimpleClock GetClock(IClock clock) => SimpleClock.CreateSystem(this, clock);
     }
 
     /// <summary>
@@ -66,8 +65,7 @@ namespace Zorglub.Time.Simple
 
         /// <inheritdoc/>
         [Pure]
-        public override SimpleClock GetClock(ITimepiece timepiece) =>
-            SimpleClock.CreateSystem(this, timepiece);
+        public override SimpleClock GetClock(IClock clock) => SimpleClock.CreateSystem(this, clock);
 
         /// <inheritdoc />
         [Pure]
@@ -123,8 +121,7 @@ namespace Zorglub.Time.Simple
 
         /// <inheritdoc/>
         [Pure]
-        public override SimpleClock GetClock(ITimepiece timepiece) =>
-            SimpleClock.CreateSystem(this, timepiece);
+        public override SimpleClock GetClock(IClock clock) => SimpleClock.CreateSystem(this, clock);
     }
 
     /// <summary>
@@ -155,8 +152,7 @@ namespace Zorglub.Time.Simple
 
         /// <inheritdoc/>
         [Pure]
-        public override SimpleClock GetClock(ITimepiece timepiece) =>
-            SimpleClock.CreateSystem(this, timepiece);
+        public override SimpleClock GetClock(IClock clock) => SimpleClock.CreateSystem(this, clock);
     }
 
     /// <summary>
@@ -185,8 +181,7 @@ namespace Zorglub.Time.Simple
 
         /// <inheritdoc/>
         [Pure]
-        public override SimpleClock GetClock(ITimepiece timepiece) =>
-            SimpleClock.CreateSystem(this, timepiece);
+        public override SimpleClock GetClock(IClock clock) => SimpleClock.CreateSystem(this, clock);
 
         /// <inheritdoc />
         [Pure]
@@ -240,8 +235,7 @@ namespace Zorglub.Time.Simple
 
         /// <inheritdoc/>
         [Pure]
-        public override SimpleClock GetClock(ITimepiece timepiece) =>
-            SimpleClock.CreateSystem(this, timepiece);
+        public override SimpleClock GetClock(IClock clock) => SimpleClock.CreateSystem(this, clock);
 
         /// <inheritdoc />
         [Pure]
@@ -296,8 +290,7 @@ namespace Zorglub.Time.Simple
 
         /// <inheritdoc/>
         [Pure]
-        public override SimpleClock GetClock(ITimepiece timepiece) =>
-            SimpleClock.CreateSystem(this, timepiece);
+        public override SimpleClock GetClock(IClock clock) => SimpleClock.CreateSystem(this, clock);
     }
 
     /// <summary>
@@ -328,7 +321,6 @@ namespace Zorglub.Time.Simple
 
         /// <inheritdoc/>
         [Pure]
-        public override SimpleClock GetClock(ITimepiece timepiece) =>
-            SimpleClock.CreateSystem(this, timepiece);
+        public override SimpleClock GetClock(IClock clock) => SimpleClock.CreateSystem(this, clock);
     }
 }

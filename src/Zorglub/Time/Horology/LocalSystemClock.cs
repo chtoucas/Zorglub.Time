@@ -10,7 +10,7 @@ namespace Zorglub.Time.Horology
     /// <para>See <see cref="SystemClocks.Local"/>.</para>
     /// <para>This class cannot be inherited.</para>
     /// </summary>
-    public sealed class LocalSystemClock : ITimepiece
+    public sealed class LocalSystemClock : IClock
     {
         /// <summary>
         /// Represents a singleton instance of the <see cref="LocalSystemClock"/> class.

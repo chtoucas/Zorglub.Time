@@ -1,7 +1,7 @@
 ﻿// SPDX-License-Identifier: BSD-3-Clause
 // Copyright (c) 2020 Narvalo.Org. All rights reserved.
 
-namespace Zorglub.Time.Horology
+namespace Zorglub.Time.Horology.Astronomy
 {
     // TODO(api): remplacer long par CivilTime dans Now().
     // Un CivilTime devra dépendre d'une échelle de temps.

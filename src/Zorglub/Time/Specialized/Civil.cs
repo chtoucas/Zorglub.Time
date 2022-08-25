@@ -75,18 +75,18 @@ namespace Zorglub.Time.Specialized
     public sealed class CivilClock
     {
         /// <summary>
-        /// Represents the timepiece.
+        /// Represents the clock.
         /// <para>This field is read-only.</para>
         /// </summary>
-        private readonly ITimepiece _timepiece;
+        private readonly IClock _clock;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CivilClock"/> class.
         /// </summary>
-        /// <exception cref="ArgumentNullException"><paramref name="timepiece"/> is null.</exception>
-        public CivilClock(ITimepiece timepiece)
+        /// <exception cref="ArgumentNullException"><paramref name="clock"/> is null.</exception>
+        public CivilClock(IClock clock)
         {
-            _timepiece = timepiece ?? throw new ArgumentNullException(nameof(timepiece));
+            _clock = clock ?? throw new ArgumentNullException(nameof(clock));
         }
 
         /// <summary>
@@ -102,17 +102,17 @@ namespace Zorglub.Time.Specialized
         public static CivilClock Utc { get; } = new(SystemClocks.Utc);
 
         /// <summary>
-        /// Obtains an instance of the <see cref="CivilClock"/> class for the specified timepiece.
+        /// Obtains an instance of the <see cref="CivilClock"/> class for the specified clock.
         /// </summary>
-        /// <exception cref="ArgumentNullException"><paramref name="timepiece"/> is null.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="clock"/> is null.</exception>
         [Pure]
-        public static CivilClock GetClock(ITimepiece timepiece) => new(timepiece);
+        public static CivilClock GetClock(IClock clock) => new(clock);
 
         /// <summary>
         /// Obtains a <see cref="CivilDate"/> value representing the current date.
         /// </summary>
         [Pure]
-        public CivilDate GetCurrentDate() => new(_timepiece.Today().DaysSinceZero);
+        public CivilDate GetCurrentDate() => new(_clock.Today().DaysSinceZero);
     }
 
     /// <summary>

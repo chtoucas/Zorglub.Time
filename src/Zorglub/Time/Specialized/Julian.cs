@@ -89,10 +89,10 @@ namespace Zorglub.Time.Specialized
     public sealed class JulianClock
     {
         /// <summary>
-        /// Represents the timepiece.
+        /// Represents the clock.
         /// <para>This field is read-only.</para>
         /// </summary>
-        private readonly ITimepiece _timepiece;
+        private readonly IClock _clock;
 
         /// <summary>
         /// Represents the epoch.
@@ -103,16 +103,16 @@ namespace Zorglub.Time.Specialized
         /// <summary>
         /// Initializes a new instance of the <see cref="JulianClock"/> class.
         /// </summary>
-        /// <exception cref="ArgumentNullException"><paramref name="timepiece"/> is null.</exception>
-        public JulianClock(ITimepiece timepiece) : this(JulianDate.Calendar.Epoch, timepiece) { }
+        /// <exception cref="ArgumentNullException"><paramref name="clock"/> is null.</exception>
+        public JulianClock(IClock clock) : this(JulianDate.Calendar.Epoch, clock) { }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="JulianClock"/> class.
         /// </summary>
-        /// <exception cref="ArgumentNullException"><paramref name="timepiece"/> is null.</exception>
-        private JulianClock(DayNumber epoch, ITimepiece timepiece)
+        /// <exception cref="ArgumentNullException"><paramref name="clock"/> is null.</exception>
+        private JulianClock(DayNumber epoch, IClock clock)
         {
-            _timepiece = timepiece ?? throw new ArgumentNullException(nameof(timepiece));
+            _clock = clock ?? throw new ArgumentNullException(nameof(clock));
             _epoch = epoch;
         }
 
@@ -129,17 +129,17 @@ namespace Zorglub.Time.Specialized
         public static JulianClock Utc { get; } = new(SystemClocks.Utc);
 
         /// <summary>
-        /// Obtains an instance of the <see cref="JulianClock"/> class for the specified timepiece.
+        /// Obtains an instance of the <see cref="JulianClock"/> class for the specified clock.
         /// </summary>
-        /// <exception cref="ArgumentNullException"><paramref name="timepiece"/> is null.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="clock"/> is null.</exception>
         [Pure]
-        public static JulianClock GetClock(ITimepiece timepiece) => new(timepiece);
+        public static JulianClock GetClock(IClock clock) => new(clock);
 
         /// <summary>
         /// Obtains a <see cref="JulianDate"/> value representing the current date.
         /// </summary>
         [Pure]
-        public JulianDate GetCurrentDate() => new(_timepiece.Today() - _epoch);
+        public JulianDate GetCurrentDate() => new(_clock.Today() - _epoch);
     }
 
     /// <summary>

@@ -433,12 +433,11 @@ namespace Zorglub.Time.Simple
         public SimpleClock UtcClock { get; }
 
         /// <summary>
-        /// Obtains an instance of the <see cref="SimpleClock"/> class for the specified timepiece.
+        /// Obtains an instance of the <see cref="SimpleClock"/> class for the specified clock.
         /// </summary>
-        /// <exception cref="ArgumentNullException"><paramref name="timepiece"/> is null.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="clock"/> is null.</exception>
         [Pure]
-        public virtual SimpleClock GetClock(ITimepiece timepiece) =>
-            SimpleClock.CreateDefault(this, timepiece);
+        public virtual SimpleClock GetClock(IClock clock) => SimpleClock.CreateDefault(this, clock);
     }
 
     public partial class SimpleCalendar // Year or month infos

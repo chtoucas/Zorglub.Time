@@ -73,18 +73,18 @@ namespace Zorglub.Time.Specialized
     public sealed class GregorianClock
     {
         /// <summary>
-        /// Represents the timepiece.
+        /// Represents the clock.
         /// <para>This field is read-only.</para>
         /// </summary>
-        private readonly ITimepiece _timepiece;
+        private readonly IClock _clock;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GregorianClock"/> class.
         /// </summary>
-        /// <exception cref="ArgumentNullException"><paramref name="timepiece"/> is null.</exception>
-        public GregorianClock(ITimepiece timepiece)
+        /// <exception cref="ArgumentNullException"><paramref name="clock"/> is null.</exception>
+        public GregorianClock(IClock clock)
         {
-            _timepiece = timepiece ?? throw new ArgumentNullException(nameof(timepiece));
+            _clock = clock ?? throw new ArgumentNullException(nameof(clock));
         }
 
         /// <summary>
@@ -100,17 +100,17 @@ namespace Zorglub.Time.Specialized
         public static GregorianClock Utc { get; } = new(SystemClocks.Utc);
 
         /// <summary>
-        /// Obtains an instance of the <see cref="GregorianClock"/> class for the specified timepiece.
+        /// Obtains an instance of the <see cref="GregorianClock"/> class for the specified clock.
         /// </summary>
-        /// <exception cref="ArgumentNullException"><paramref name="timepiece"/> is null.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="clock"/> is null.</exception>
         [Pure]
-        public static GregorianClock GetClock(ITimepiece timepiece) => new(timepiece);
+        public static GregorianClock GetClock(IClock clock) => new(clock);
 
         /// <summary>
         /// Obtains a <see cref="GregorianDate"/> value representing the current date.
         /// </summary>
         [Pure]
-        public GregorianDate GetCurrentDate() => new(_timepiece.Today().DaysSinceZero);
+        public GregorianDate GetCurrentDate() => new(_clock.Today().DaysSinceZero);
     }
 
     /// <summary>
