@@ -11,6 +11,9 @@ namespace Zorglub.Time
     using Zorglub.Time.Core.Validation;
     using Zorglub.Time.Hemerology;
 
+    // TODO(api): .NET 7.0 unchecked ops.
+    // Explain why DayNumber does not keep track of the underlying timescale.
+
     /// <summary>
     /// Represents a day number which counts the number of consecutive days since the Monday 1st of
     /// January, 1 CE within the Gregorian calendar.

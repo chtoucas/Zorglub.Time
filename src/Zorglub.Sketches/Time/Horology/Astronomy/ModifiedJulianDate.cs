@@ -9,11 +9,12 @@ namespace Zorglub.Time.Horology.Astronomy
 
     using static Zorglub.Time.Extensions.TimescaleExtensions;
 
-    // TODO: ajoute calcul du (modified) Julian day number et de la fraction du
-    // jour. Constructeurs alternatifs. Idem avec JulianDate.
+    // TODO: ajouter le calcul du (modified) Julian day number et de la fraction
+    // du jour. Constructeurs alternatifs. Idem avec JulianDate.
 
     /// <summary>
     /// Represents a Modified Julian Date.
+    /// <para><see cref="ModifiedJulianDate"/> is an immutable struct.</para>
     /// </summary>
     [StructLayout(LayoutKind.Explicit, Pack = 1)]
     public readonly partial struct ModifiedJulianDate :
@@ -21,26 +22,27 @@ namespace Zorglub.Time.Horology.Astronomy
     {
         /// <summary>
         /// Represents the numerical value of this instance.
+        /// <para>This field is read-only.</para>
         /// </summary>
         [FieldOffset(0)] private readonly double _value;
 
         /// <summary>
         /// Represents the timescale of this instance.
+        /// <para>This field is read-only.</para>
         /// </summary>
         [FieldOffset(8)] private readonly Timescale _timescale;
 
         /// <summary>
-        /// Constructs a new instance of <see cref="ModifiedJulianDate"/> from
-        /// the specified numerical value, within the TT timescale.
-        /// <para>This is the right constructor to use when <paramref name="value"/>
-        /// is the "Modified Julian Date" of the astrophysicists.</para>
+        /// Constructs a new instance of <see cref="ModifiedJulianDate"/> from the specified
+        /// numerical value, within the TT timescale.
+        /// <para>This is the right constructor to use when <paramref name="value"/> is the
+        /// "Modified Julian Date" of the astrophysicists.</para>
         /// </summary>
-        public ModifiedJulianDate(double value)
-            : this(value, Timescale.Terrestrial) { }
+        public ModifiedJulianDate(double value) : this(value, Timescale.Terrestrial) { }
 
         /// <summary>
-        /// Constructs a new instance of <see cref="ModifiedJulianDate"/> from
-        /// the specified timescale and numerical value.
+        /// Constructs a new instance of <see cref="ModifiedJulianDate"/> from the specified
+        /// numerical value and timescale.
         /// </summary>
         public ModifiedJulianDate(double value, Timescale timescale)
         {
@@ -59,11 +61,9 @@ namespace Zorglub.Time.Horology.Astronomy
         public Timescale Timescale => _timescale;
 
         /// <summary>
-        /// Gets the modified "Julian day number" from this Modified Julian Date
-        /// instance.
-        /// <para>It is the number of integral days between this instant and
-        /// november 17th, 1858 CE (gregorian) at midnight (0h).</para>
-        /// <seealso cref="DaysSinceEpochAtMidnight"/>
+        /// Gets the modified "Julian day number" from this Modified Julian Date instance.
+        /// <para>It is the number of consecutive days between this instant and
+        /// November 17th, 1858 CE (Gregorian) at midnight (0h).</para>
         /// </summary>
         public double JulianDayNumber => Math.Truncate(_value);
 
@@ -81,34 +81,33 @@ namespace Zorglub.Time.Horology.Astronomy
 
         /// <summary>
         /// Gets the number of fractional days between this instant and
-        /// november 17th, 1858 CE (gregorian) at midnight (0h).
+        /// November 17th, 1858 CE (Gregorian) at midnight (0h).
         /// </summary>
         public double DaysSinceEpochAtMidnight => _value;
 
         /// <summary>
-        /// Returns a culture-independent string representation of this
-        /// Modified Julian Date instance.
+        /// Returns a culture-independent string representation of this instance.
         /// </summary>
-        public override string ToString()
-            => FormattableString.Invariant($"MJD({Timescale.GetAbbrName()}) {Value}");
+        public override string ToString() =>
+            FormattableString.Invariant($"MJD({Timescale.GetAbbrName()}) {Value}");
 
         /// <summary>
-        /// Deconstructs this Modified Julian Date instance into its components.
+        /// Deconstructs this instance into its components.
         /// </summary>
-        public void Deconstruct(out Timescale timescale, out double value)
-            => (timescale, value) = (_timescale, _value);
+        public void Deconstruct(out Timescale timescale, out double value) =>
+            (timescale, value) = (_timescale, _value);
 
         /// <summary>
         /// Converts this Modified Julian Date instance to a Julian Date.
         /// <para>This transformation may incur a loss of precision.</para>
         /// </summary>
         [Pure]
-        public AstronomicalJulianDate ToJulianDate()
-            => new AstronomicalJulianDate(_value + JulianDateEpoch.Modified, _timescale);
+        public AstronomicalJulianDate ToJulianDate() =>
+            new(_value + JulianDateEpoch.Modified, _timescale);
 
         /// <summary>
-        /// Obtains the Modified Julian date from the specified gregorian
-        /// date and fraction of the day.
+        /// Obtains the Modified Julian date from the specified Gregorian date and fraction of the
+        /// day.
         /// <para>This method does NOT validate its parameters.</para>
         /// </summary>
         [Pure]
@@ -129,96 +128,84 @@ namespace Zorglub.Time.Horology.Astronomy
         }
     }
 
-    // Interface IEquatable<>.
-    public partial struct ModifiedJulianDate
+    public partial struct ModifiedJulianDate // IEquatable
     {
         /// <summary>
-        /// Determines whether two specified instances of <see cref="ModifiedJulianDate"/>
-        /// are equal.
+        /// Determines whether two specified instances of <see cref="ModifiedJulianDate"/> are equal.
         /// </summary>
-        public static bool operator ==(ModifiedJulianDate left, ModifiedJulianDate right)
-            => left._timescale == right._timescale
-                && MathOperations.AreApproximatelyEqual(left._value, right._value);
+        public static bool operator ==(ModifiedJulianDate left, ModifiedJulianDate right) =>
+            left._timescale == right._timescale
+            && MathOperations.AreApproximatelyEqual(left._value, right._value);
 
         /// <summary>
-        /// Determines whether two specified instances of <see cref="ModifiedJulianDate"/>
-        /// are not equal.
+        /// Determines whether two specified instances of <see cref="ModifiedJulianDate"/> are not
+        /// equal.
         /// </summary>
-        public static bool operator !=(ModifiedJulianDate left, ModifiedJulianDate right)
-            => !(left == right);
+        public static bool operator !=(ModifiedJulianDate left, ModifiedJulianDate right) =>
+            !(left == right);
 
         /// <summary>
-        /// Determines whether this instance is equal to the value of the
-        /// specified <see cref="ModifiedJulianDate"/>.
+        /// Determines whether this instance is equal to the value of the specified
+        /// <see cref="ModifiedJulianDate"/>.
         /// </summary>
-        public bool Equals(ModifiedJulianDate other)
-            => this == other;
+        public bool Equals(ModifiedJulianDate other) => this == other;
 
         /// <summary>
-        /// Determines whether this instance is equal to the value of the
-        /// specified <see cref="ModifiedJulianDate"/> using the specified
-        /// comparer for doubles.
+        /// Determines whether this instance is equal to the value of the specified
+        /// <see cref="ModifiedJulianDate"/> using the specified comparer for doubles.
         /// </summary>
-        public bool Equals(ModifiedJulianDate other, IEqualityComparer<double> comparer)
-            => comparer is null ? this == other
-                : _timescale == other._timescale
-                    && comparer.Equals(_value, other._value);
+        public bool Equals(ModifiedJulianDate other, IEqualityComparer<double> comparer) =>
+            comparer is null ? this == other
+            : _timescale == other._timescale && comparer.Equals(_value, other._value);
+
+        /// <inheritdoc />
+        public override bool Equals([NotNullWhen(true)] object? obj) =>
+            obj is ModifiedJulianDate mjd && this == mjd;
+
+        /// <inheritdoc />
+        public override int GetHashCode() => HashCode.Combine(_timescale, _value);
 
         /// <summary>
-        /// Determines whether this instance is equal to a specified object.
-        /// </summary>
-        public override bool Equals([NotNullWhen(true)] object? obj)
-            => obj is ModifiedJulianDate mjd && this == mjd;
-
-        /// <summary>
-        /// Obtains the hash code for this instance.
-        /// </summary>
-        public override int GetHashCode()
-            => HashCode.Combine(_timescale, _value);
-
-        /// <summary>
-        /// Obtains the hash code for this instance using the specified comparer
-        /// for doubles.
+        /// Obtains the hash code for this instance using the specified comparer for doubles.
         /// </summary>
         public int GetHashCode(IEqualityComparer<double> comparer) =>
             comparer is null ? HashCode.Combine(_timescale, _value)
             : HashCode.Combine(_timescale, comparer.GetHashCode(_value));
     }
 
-    // Interfaces IComparable<> et IComparable.
-    public partial struct ModifiedJulianDate
+    public partial struct ModifiedJulianDate // IComparable
     {
         /// <summary>
-        /// Compares the two specified Modified Julian Dates to see if the left
-        /// one is strictly earlier than the right one.
+        /// Compares the two specified Modified Julian Dates to see if the left one is strictly
+        /// earlier than the right one.
         /// </summary>
-        public static bool operator <(ModifiedJulianDate left, ModifiedJulianDate right)
-            => left.CompareTo(right) < 0;
+        public static bool operator <(ModifiedJulianDate left, ModifiedJulianDate right) =>
+            left.CompareTo(right) < 0;
 
         /// <summary>
-        /// Compares the two specified Modified Julian Dates to see if the left
-        /// one is earlier than or equal to the right one.
+        /// Compares the two specified Modified Julian Dates to see if the left one is earlier than
+        /// or equal to the right one.
         /// </summary>
-        public static bool operator <=(ModifiedJulianDate left, ModifiedJulianDate right)
-            => left.CompareTo(right) <= 0;
+        public static bool operator <=(ModifiedJulianDate left, ModifiedJulianDate right) =>
+            left.CompareTo(right) <= 0;
 
         /// <summary>
-        /// Compares the two specified Modified Julian Dates to see if the left
-        /// one is strictly later than the right one.
+        /// Compares the two specified Modified Julian Dates to see if the left one is strictly
+        /// later than the right one.
         /// </summary>
-        public static bool operator >(ModifiedJulianDate left, ModifiedJulianDate right)
-            => left.CompareTo(right) > 0;
+        public static bool operator >(ModifiedJulianDate left, ModifiedJulianDate right) =>
+            left.CompareTo(right) > 0;
 
         /// <summary>
-        /// Compares the two specified Modified Julian Dates to see if the left
-        /// one is later than or equal to the right one.
+        /// Compares the two specified Modified Julian Dates to see if the left one is later than or
+        /// equal to the right one.
         /// </summary>
-        public static bool operator >=(ModifiedJulianDate left, ModifiedJulianDate right)
-            => left.CompareTo(right) >= 0;
+        public static bool operator >=(ModifiedJulianDate left, ModifiedJulianDate right) =>
+            left.CompareTo(right) >= 0;
 
         /// <summary>
-        /// Indicates whether this Modified Julian Date instance is earlier,
-        /// later or the same as the specified one.
+        /// Indicates whether this Modified Julian Date instance is earlier, later or the same as
+        /// the specified one.
         /// </summary>
         public int CompareTo(ModifiedJulianDate other)
         {

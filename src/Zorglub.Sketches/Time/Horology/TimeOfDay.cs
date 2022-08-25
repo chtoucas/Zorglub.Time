@@ -26,13 +26,13 @@ namespace Zorglub.Time.Horology
     // https://docs.microsoft.com/en-us/dotnet/standard/base-types/standard-date-and-time-format-strings#how-standard-format-strings-work
 
     /// <summary>
-    /// Represents a time of the day (hour:minute:second) with millisecond
-    /// precision.
+    /// Represents a time of the day (hour:minute:second) with millisecond precision.
     /// <para><see cref="TimeOfDay"/> is an immutable struct.</para>
     /// </summary>
     public readonly partial struct TimeOfDay :
         ITimeOfDay,
-        IComparisonOperators<TimeOfDay, TimeOfDay>
+        IComparisonOperators<TimeOfDay, TimeOfDay>,
+        IMinMaxValue<TimeOfDay>
     {
         #region Bit settings
 
@@ -95,24 +95,11 @@ namespace Zorglub.Time.Horology
         private readonly int _bin;
 
         /// <summary>
-        /// Represents the smallest possible value of a <see cref="TimeOfDay"/>; equivalent to
-        /// <see cref="Midnight"/>.
-        /// <para>This field is read-only.</para>
-        /// </summary>
-        public static readonly TimeOfDay MinValue;
-
-        /// <summary>
-        /// Represents the largest possible value of a <see cref="TimeOfDay"/>; one millisecond
-        /// before midnight.
-        /// <para>This field is read-only.</para>
-        /// </summary>
-        public static readonly TimeOfDay MaxValue = new(23, 59, 59, 999);
-
-        /// <summary>
         /// Initializes a new instance of <see cref="TimeOfDay"/> from the specified hour-of-day and
         /// minute-of-hour.
         /// </summary>
         /// <exception cref="AoorException">One of the parameters is out of range.</exception>
+        [Obsolete("Use FromHourMinute() instead.")]
         public TimeOfDay(int hour, int minute)
         {
             if (hour < 0 || hour >= HoursPerDay) Throw.ArgumentOutOfRange(nameof(hour));
@@ -126,6 +113,7 @@ namespace Zorglub.Time.Horology
         /// minute-of-hour and second-of-minute.
         /// </summary>
         /// <exception cref="AoorException">One of the parameters is out of range.</exception>
+        [Obsolete("Use FromHourMinuteSecond() instead.")]
         public TimeOfDay(int hour, int minute, int second)
         {
             if (hour < 0 || hour >= HoursPerDay) Throw.ArgumentOutOfRange(nameof(hour));
@@ -140,6 +128,7 @@ namespace Zorglub.Time.Horology
         /// minute-of-hour, second-of-minute and millisecond-of-second.
         /// </summary>
         /// <exception cref="AoorException">One of the parameters is out of range.</exception>
+        [Obsolete("Use FromHourMinuteSecondMillisecond() instead.")]
         public TimeOfDay(int hour, int minute, int second, int millisecond)
         {
             if (hour < 0 || hour >= HoursPerDay) Throw.ArgumentOutOfRange(nameof(hour));
@@ -164,6 +153,20 @@ namespace Zorglub.Time.Horology
         }
 
         /// <summary>
+        /// Represents the smallest possible value of a <see cref="TimeOfDay"/>; equivalent to
+        /// <see cref="Midnight"/>.
+        /// <para>This static property is thread-safe.</para>
+        /// </summary>
+        public static TimeOfDay MinValue { get; }
+
+        /// <summary>
+        /// Represents the largest possible value of a <see cref="TimeOfDay"/>; one millisecond
+        /// before midnight.
+        /// <para>This static property is thread-safe.</para>
+        /// </summary>
+        public static TimeOfDay MaxValue { get; } = FromHourMinuteSecondMilliSecond(23, 59, 59, 999);
+
+        /// <summary>
         /// Gets the value of a <see cref="TimeOfDay"/> at 00:00.
         /// <para>This static property is thread-safe.</para>
         /// </summary>
@@ -173,7 +176,7 @@ namespace Zorglub.Time.Horology
         /// Gets the value of a <see cref="TimeOfDay"/> at 12:00.
         /// <para>This static property is thread-safe.</para>
         /// </summary>
-        public static TimeOfDay Noon { get; } = new(12, 0);
+        public static TimeOfDay Noon { get; } = FromHourMinute(12, 0);
 
         /// <inheritdoc />
         public int Hour => unchecked(_bin >> HourShift);
@@ -343,7 +346,60 @@ namespace Zorglub.Time.Horology
 
     public partial struct TimeOfDay // Factories, conversions...
     {
-        #region Factories
+        #region Factories using (hh, mm, ss, subunit-of-second)
+
+        /// <summary>
+        /// Creates a new instance of <see cref="TimeOfDay"/> from the specified hour-of-day and
+        /// minute-of-hour.
+        /// </summary>
+        /// <exception cref="AoorException">One of the parameters is out of range.</exception>
+        [Pure]
+        public static TimeOfDay FromHourMinute(int hour, int minute)
+        {
+            if (hour < 0 || hour >= HoursPerDay) Throw.ArgumentOutOfRange(nameof(hour));
+            if (minute < 0 || minute >= MinutesPerHour) Throw.ArgumentOutOfRange(nameof(minute));
+
+            int bin = Pack(hour, minute, 0);
+            return new TimeOfDay(bin);
+        }
+
+        /// <summary>
+        /// Creates a new instance of <see cref="TimeOfDay"/> from the specified hour-of-day,
+        /// minute-of-hour and second-of-minute.
+        /// </summary>
+        /// <exception cref="AoorException">One of the parameters is out of range.</exception>
+        [Pure]
+        public static TimeOfDay FromHourMinuteSecond(int hour, int minute, int second)
+        {
+            if (hour < 0 || hour >= HoursPerDay) Throw.ArgumentOutOfRange(nameof(hour));
+            if (minute < 0 || minute >= MinutesPerHour) Throw.ArgumentOutOfRange(nameof(minute));
+            if (second < 0 || second >= SecondsPerMinute) Throw.ArgumentOutOfRange(nameof(second));
+
+            int bin = Pack(hour, minute, second);
+            return new TimeOfDay(bin);
+        }
+
+        /// <summary>
+        /// Creates a new instance of <see cref="TimeOfDay"/> from the specified hour-of-day,
+        /// minute-of-hour, second-of-minute and millisecond-of-second.
+        /// </summary>
+        /// <exception cref="AoorException">One of the parameters is out of range.</exception>
+        [Pure]
+        public static TimeOfDay FromHourMinuteSecondMilliSecond(
+            int hour, int minute, int second, int millisecond)
+        {
+            if (hour < 0 || hour >= HoursPerDay) Throw.ArgumentOutOfRange(nameof(hour));
+            if (minute < 0 || minute >= MinutesPerHour) Throw.ArgumentOutOfRange(nameof(minute));
+            if (second < 0 || second >= SecondsPerMinute) Throw.ArgumentOutOfRange(nameof(second));
+            if (millisecond < 0 || millisecond >= MillisecondsPerSecond)
+                Throw.ArgumentOutOfRange(nameof(second));
+
+            int bin = Pack(hour, minute, second, millisecond);
+            return new TimeOfDay(bin);
+        }
+
+        #endregion
+        #region Factories using a subunit-of-day
 
         /// <summary>
         /// Creates a new instance of <see cref="TimeOfDay64"/> from the specified elapsed hours
