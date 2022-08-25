@@ -60,10 +60,5 @@ namespace Zorglub.Time.Horology
         /// Deconstructs the current instance into its components.
         /// </summary>
         void Deconstruct(out int hour, out int minute, out int second);
-
-        /// <summary>
-        /// Deconstructs the current instance into its components.
-        /// </summary>
-        void Deconstruct(out int hour, out int minute, out int second, out int millisecond);
     }
 }

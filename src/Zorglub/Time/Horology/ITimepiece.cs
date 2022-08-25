@@ -5,7 +5,8 @@ namespace Zorglub.Time.Horology
 {
     // TODO(api): remplacer long par CivilTime dans Now().
     // Un CivilTime devra dépendre d'une échelle de temps.
-    // Generic?
+    // Ou interface générique?
+    // Props Precision/Resolution?
     //
     // Réalisation complémentaire: NtpTimepiece.
     // https://github.com/mattjohnsonpint/NodaTime.NetworkClock

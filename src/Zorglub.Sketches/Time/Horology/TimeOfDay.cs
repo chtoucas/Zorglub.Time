@@ -95,52 +95,6 @@ namespace Zorglub.Time.Horology
         private readonly int _bin;
 
         /// <summary>
-        /// Initializes a new instance of <see cref="TimeOfDay"/> from the specified hour-of-day and
-        /// minute-of-hour.
-        /// </summary>
-        /// <exception cref="AoorException">One of the parameters is out of range.</exception>
-        [Obsolete("Use FromHourMinute() instead.")]
-        public TimeOfDay(int hour, int minute)
-        {
-            if (hour < 0 || hour >= HoursPerDay) Throw.ArgumentOutOfRange(nameof(hour));
-            if (minute < 0 || minute >= MinutesPerHour) Throw.ArgumentOutOfRange(nameof(minute));
-
-            _bin = Pack(hour, minute, 0);
-        }
-
-        /// <summary>
-        /// Initializes a new instance of <see cref="TimeOfDay"/> from the specified hour-of-day,
-        /// minute-of-hour and second-of-minute.
-        /// </summary>
-        /// <exception cref="AoorException">One of the parameters is out of range.</exception>
-        [Obsolete("Use FromHourMinuteSecond() instead.")]
-        public TimeOfDay(int hour, int minute, int second)
-        {
-            if (hour < 0 || hour >= HoursPerDay) Throw.ArgumentOutOfRange(nameof(hour));
-            if (minute < 0 || minute >= MinutesPerHour) Throw.ArgumentOutOfRange(nameof(minute));
-            if (second < 0 || second >= SecondsPerMinute) Throw.ArgumentOutOfRange(nameof(second));
-
-            _bin = Pack(hour, minute, second);
-        }
-
-        /// <summary>
-        /// Initializes a new instance of <see cref="TimeOfDay"/> from the specified hour-of-day,
-        /// minute-of-hour, second-of-minute and millisecond-of-second.
-        /// </summary>
-        /// <exception cref="AoorException">One of the parameters is out of range.</exception>
-        [Obsolete("Use FromHourMinuteSecondMillisecond() instead.")]
-        public TimeOfDay(int hour, int minute, int second, int millisecond)
-        {
-            if (hour < 0 || hour >= HoursPerDay) Throw.ArgumentOutOfRange(nameof(hour));
-            if (minute < 0 || minute >= MinutesPerHour) Throw.ArgumentOutOfRange(nameof(minute));
-            if (second < 0 || second >= SecondsPerMinute) Throw.ArgumentOutOfRange(nameof(second));
-            if (millisecond < 0 || millisecond >= MillisecondsPerSecond)
-                Throw.ArgumentOutOfRange(nameof(second));
-
-            _bin = Pack(hour, minute, second, millisecond);
-        }
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="TimeOfDay"/> struct directly from the
         /// specified binary data.
         /// <para>This constructor does NOT validate its parameter.</para>
@@ -241,7 +195,9 @@ namespace Zorglub.Time.Horology
         public void Deconstruct(out int hour, out int minute, out int second) =>
             Unpack(out hour, out minute, out second);
 
-        /// <inheritdoc />
+        /// <summary>
+        /// Deconstructs the current instance into its components.
+        /// </summary>
         public void Deconstruct(out int hour, out int minute, out int second, out int millisecond)
         {
             Unpack(out hour, out minute, out second);
@@ -419,7 +375,8 @@ namespace Zorglub.Time.Horology
         /// Creates a new instance of <see cref="TimeOfDay64"/> from the specified elapsed minutes
         /// since midnight.
         /// </summary>
-        /// <exception cref="AoorException"><paramref name="minuteOfDay"/> is out of range.</exception>
+        /// <exception cref="AoorException"><paramref name="minuteOfDay"/> is out of range.
+        /// </exception>
         [Pure]
         public static TimeOfDay FromMinutesSinceMidnight(int minuteOfDay)
         {
@@ -436,7 +393,8 @@ namespace Zorglub.Time.Horology
         /// Creates a new instance of <see cref="TimeOfDay"/> from the specified elapsed seconds
         /// since midnight.
         /// </summary>
-        /// <exception cref="AoorException"><paramref name="secondOfDay"/> is out of range.</exception>
+        /// <exception cref="AoorException"><paramref name="secondOfDay"/> is out of range.
+        /// </exception>
         [Pure]
         public static TimeOfDay FromSecondsSinceMidnight(int secondOfDay)
         {
@@ -454,7 +412,8 @@ namespace Zorglub.Time.Horology
         /// Creates a new instance of <see cref="TimeOfDay"/> from the specified elapsed milliseconds
         /// since midnight.
         /// </summary>
-        /// <exception cref="AoorException"><paramref name="millisecondOfDay"/> is out of range.</exception>
+        /// <exception cref="AoorException"><paramref name="millisecondOfDay"/> is out of range.
+        /// </exception>
         [Pure]
         public static TimeOfDay FromMillisecondsSinceMidnight(int millisecondOfDay)
         {
@@ -483,7 +442,8 @@ namespace Zorglub.Time.Horology
         /// <summary>
         /// Creates a new instance of <see cref="TimeOfDay"/> from the specified fraction of the day.
         /// </summary>
-        /// <exception cref="AoorException"><paramref name="fractionOfDay"/> is out of range.</exception>
+        /// <exception cref="AoorException"><paramref name="fractionOfDay"/> is out of range.
+        /// </exception>
         [Pure]
         public static TimeOfDay FromFractionOfDay(double fractionOfDay)
         {
@@ -499,7 +459,8 @@ namespace Zorglub.Time.Horology
         /// Creates a new instance of <see cref="TimeOfDay64"/> from the specified fraction of the
         /// day.
         /// </summary>
-        /// <exception cref="AoorException"><paramref name="fractionOfDay"/> is out of range.</exception>
+        /// <exception cref="AoorException"><paramref name="fractionOfDay"/> is out of range.
+        /// </exception>
         [Pure]
         internal static TimeOfDay FromFractionOfDay(decimal fractionOfDay)
         {
@@ -554,7 +515,7 @@ namespace Zorglub.Time.Horology
         /// <inheritdoc />
         [Pure]
         public override bool Equals([NotNullWhen(true)] object? obj) =>
-            obj is TimeOfDay hmss && this == hmss;
+            obj is TimeOfDay timeOfDay && Equals(timeOfDay);
 
         /// <inheritdoc />
         [Pure]

@@ -6,9 +6,8 @@ namespace Zorglub.Time.Horology
     using static Zorglub.Time.Core.TemporalArithmetic;
     using static Zorglub.Time.Core.TemporalConstants;
 
-    // TimeOfDay et TimeOfDay64 sont interchangeables.
-    // Ainsi, même si TimeOfDay64 offre une plus grande précision, en surface
-    // on privilégie la milliseconde à la nanoseconde (ctor, ToString(), etc.).
+    // TimeOfDay et TimeOfDay64 sont interchangeables mais TimeOfDay64 offre une
+    // plus grande précision.
 
     /// <summary>
     /// Represents a time of the day (hour:minute:second) with nanosecond precision.
@@ -21,58 +20,6 @@ namespace Zorglub.Time.Horology
         IComparisonOperators<TimeOfDay64, TimeOfDay64>,
         IMinMaxValue<TimeOfDay64>
     {
-        /// <summary>
-        /// Initializes a new instance of <see cref="TimeOfDay64"/> from the specified hour-of-day
-        /// and minute-of-hour.
-        /// </summary>
-        /// <exception cref="AoorException">One of the parameters is out of range.</exception>
-        [Obsolete("Use FromHourMinute() instead.")]
-        public TimeOfDay64(int hour, int minute)
-        {
-            if (hour < 0 || hour >= HoursPerDay) Throw.ArgumentOutOfRange(nameof(hour));
-            if (minute < 0 || minute >= MinutesPerHour) Throw.ArgumentOutOfRange(nameof(minute));
-
-            NanosecondOfDay = MultiplyByNanosecondsPerHour(hour)
-                + NanosecondsPerMinute * minute;
-        }
-
-        /// <summary>
-        /// Initializes a new instance of <see cref="TimeOfDay64"/> from the specified hour-of-day,
-        /// minute-of-hour and second-of-minute.
-        /// </summary>
-        /// <exception cref="AoorException">One of the parameters is out of range.</exception>
-        [Obsolete("Use FromHourMinuteSecond() instead.")]
-        public TimeOfDay64(int hour, int minute, int second)
-        {
-            if (hour < 0 || hour >= HoursPerDay) Throw.ArgumentOutOfRange(nameof(hour));
-            if (minute < 0 || minute >= MinutesPerHour) Throw.ArgumentOutOfRange(nameof(minute));
-            if (second < 0 || second >= SecondsPerMinute) Throw.ArgumentOutOfRange(nameof(second));
-
-            NanosecondOfDay = MultiplyByNanosecondsPerHour(hour)
-                + NanosecondsPerMinute * minute
-                + (long)NanosecondsPerSecond * second;
-        }
-
-        /// <summary>
-        /// Initializes a new instance of <see cref="TimeOfDay64"/> from the specified hour-of-day,
-        /// minute-of-hour, second-of-minute and millisecond-of-second.
-        /// </summary>
-        /// <exception cref="AoorException">One of the parameters is out of range.</exception>
-        [Obsolete("Use FromHourMinuteSecondMillisecond() instead.")]
-        public TimeOfDay64(int hour, int minute, int second, int millisecond)
-        {
-            if (hour < 0 || hour >= HoursPerDay) Throw.ArgumentOutOfRange(nameof(hour));
-            if (minute < 0 || minute >= MinutesPerHour) Throw.ArgumentOutOfRange(nameof(minute));
-            if (second < 0 || second >= SecondsPerMinute) Throw.ArgumentOutOfRange(nameof(second));
-            if (millisecond < 0 || millisecond >= MillisecondsPerSecond)
-                Throw.ArgumentOutOfRange(nameof(second));
-
-            NanosecondOfDay = MultiplyByNanosecondsPerHour(hour)
-                + NanosecondsPerMinute * minute
-                + (long)NanosecondsPerSecond * second
-                + (long)NanosecondsPerMillisecond * millisecond;
-        }
-
         /// <summary>
         /// Initializes a new instance of <see cref="TimeOfDay64"/> from the specified number of
         /// elapsed nanoseconds since midnight.
@@ -182,15 +129,17 @@ namespace Zorglub.Time.Horology
         /// Returns a culture-independent string representation of this instance.
         /// </summary>
         public override string ToString() =>
-            FormattableString.Invariant($"{Hour:D2}:{Minute:D2}:{Second:D2}.{Millisecond:D3}");
+            FormattableString.Invariant($"{Hour:D2}:{Minute:D2}:{Second:D2}.{Nanosecond:D9}");
 
         /// <inheritdoc />
         public void Deconstruct(out int hour, out int minute, out int second) =>
             (hour, minute, second) = (Hour, Minute, Second);
 
-        /// <inheritdoc />
-        public void Deconstruct(out int hour, out int minute, out int second, out int millisecond) =>
-            (hour, minute, second, millisecond) = (Hour, Minute, Second, Millisecond);
+        /// <summary>
+        /// Deconstructs the current instance into its components.
+        /// </summary>
+        public void Deconstruct(out int hour, out int minute, out int second, out int nanosecond) =>
+            (hour, minute, second, nanosecond) = (Hour, Minute, Second, Nanosecond);
     }
 
     public partial struct TimeOfDay64 // Factories, conversions...
@@ -511,7 +460,7 @@ namespace Zorglub.Time.Horology
         /// <inheritdoc />
         [Pure]
         public override bool Equals([NotNullWhen(true)] object? obj) =>
-            obj is TimeOfDay64 fractionOfDay && this == fractionOfDay;
+            obj is TimeOfDay64 timeOfDay && Equals(timeOfDay);
 
         /// <inheritdoc />
         [Pure]
