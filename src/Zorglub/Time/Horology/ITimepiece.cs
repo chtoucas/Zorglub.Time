@@ -17,8 +17,8 @@ namespace Zorglub.Time.Horology
     // https://docs.microsoft.com/en-us/dotnet/api/system.datetime.ticks?view=net-6.0
     //
     // UTC est basé sur le TAI, les secondes intercalaires permettent de garder
-    // le décalage avec UT1 en dessous de 0,9 secondes SI. En ce moment,
-    // TAI = UTC + 10 secondes initiales + 27 secondes intercalaires.
+    // le décalage avec UT1 en dessous de 0,9 secondes SI. Au moment où j'écris
+    // ces lignes, TAI = UTC + 10 secondes initiales + 27 secondes intercalaires.
     // En .NET, DateTime.UtcNow correspond réellement au nombre de tics (dans
     // l'échelle) sans compter les secondes intercalaires et (je crois) initiales.
     //
