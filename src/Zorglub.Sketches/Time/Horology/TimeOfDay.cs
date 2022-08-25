@@ -118,7 +118,7 @@ namespace Zorglub.Time.Horology
         /// before midnight.
         /// <para>This static property is thread-safe.</para>
         /// </summary>
-        public static TimeOfDay MaxValue { get; } = FromHourMinuteSecondMilliSecond(23, 59, 59, 999);
+        public static TimeOfDay MaxValue { get; } = FromHourMinuteSecondMillisecond(23, 59, 59, 999);
 
         /// <summary>
         /// Gets the value of a <see cref="TimeOfDay"/> at 00:00.
@@ -341,7 +341,7 @@ namespace Zorglub.Time.Horology
         /// </summary>
         /// <exception cref="AoorException">One of the parameters is out of range.</exception>
         [Pure]
-        public static TimeOfDay FromHourMinuteSecondMilliSecond(
+        public static TimeOfDay FromHourMinuteSecondMillisecond(
             int hour, int minute, int second, int millisecond)
         {
             if (hour < 0 || hour >= HoursPerDay) Throw.ArgumentOutOfRange(nameof(hour));

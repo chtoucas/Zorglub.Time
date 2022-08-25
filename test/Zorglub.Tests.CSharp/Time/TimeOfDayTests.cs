@@ -42,10 +42,10 @@ public static partial class TimeOfDayTests
 public partial class TimeOfDayTests
 {
     [Theory, MemberData(nameof(RationalData))]
-    public static void Constructor(int h, int m, int s, int _4, decimal _5)
+    public static void FromHourMinuteSecond(int h, int m, int s, int _4, decimal _5)
     {
         // Act
-        var time = new TimeOfDay(h, m, s);
+        var time = TimeOfDay.FromHourMinuteSecond(h, m, s);
         // Assert
         Assert.Equal(h, time.Hour);
         Assert.Equal(m, time.Minute);
@@ -53,10 +53,10 @@ public partial class TimeOfDayTests
     }
 
     [Theory, MemberData(nameof(RationalData))]
-    public static void Constructor64(int h, int m, int s, int _4, decimal _5)
+    public static void FromHourMinuteSecond64(int h, int m, int s, int _4, decimal _5)
     {
         // Act
-        var time = new TimeOfDay64(h, m, s);
+        var time = TimeOfDay64.FromHourMinuteSecond(h, m, s);
         // Assert
         Assert.Equal(h, time.Hour);
         Assert.Equal(m, time.Minute);
@@ -64,10 +64,10 @@ public partial class TimeOfDayTests
     }
 
     [Theory, MemberData(nameof(RationalData))]
-    public static void Constructor﹍Millisecond(int h, int m, int s, int _4, decimal _5)
+    public static void FromHourMinuteSecondMillisecond(int h, int m, int s, int _4, decimal _5)
     {
         // Act
-        var time = new TimeOfDay(h, m, s, 345);
+        var time = TimeOfDay.FromHourMinuteSecondMillisecond(h, m, s, 345);
         // Assert
         Assert.Equal(h, time.Hour);
         Assert.Equal(m, time.Minute);
@@ -76,10 +76,10 @@ public partial class TimeOfDayTests
     }
 
     [Theory, MemberData(nameof(RationalData))]
-    public static void Constructor64﹍Millisecond(int h, int m, int s, int _4, decimal _5)
+    public static void FromHourMinuteSecondMillisecond64(int h, int m, int s, int _4, decimal _5)
     {
         // Act
-        var time = new TimeOfDay64(h, m, s, 345);
+        var time = TimeOfDay64.FromHourMinuteSecondMillisecond(h, m, s, 345);
         // Assert
         Assert.Equal(h, time.Hour);
         Assert.Equal(m, time.Minute);
@@ -91,7 +91,7 @@ public partial class TimeOfDayTests
     public static void Deconstructor(int h, int m, int s, int _4, decimal _5)
     {
         // Act
-        var (hA, mA, sA) = new TimeOfDay(h, m, s);
+        var (hA, mA, sA) = TimeOfDay.FromHourMinuteSecond(h, m, s);
         // Assert
         Assert.Equal(h, hA);
         Assert.Equal(m, mA);
@@ -102,7 +102,7 @@ public partial class TimeOfDayTests
     public static void Deconstructor64(int h, int m, int s, int _4, decimal _5)
     {
         // Act
-        var (hA, mA, sA) = new TimeOfDay64(h, m, s);
+        var (hA, mA, sA) = TimeOfDay64.FromHourMinuteSecond(h, m, s);
         // Assert
         Assert.Equal(h, hA);
         Assert.Equal(m, mA);
@@ -113,7 +113,7 @@ public partial class TimeOfDayTests
     public static void Deconstructor﹍Millisecond(int h, int m, int s, int _4, decimal _5)
     {
         // Act
-        var (hA, mA, sA, msA) = new TimeOfDay(h, m, s, 345);
+        var (hA, mA, sA, msA) = TimeOfDay.FromHourMinuteSecondMillisecond(h, m, s, 345);
         // Assert
         Assert.Equal(h, hA);
         Assert.Equal(m, mA);
@@ -122,15 +122,15 @@ public partial class TimeOfDayTests
     }
 
     [Theory, MemberData(nameof(RationalData))]
-    public static void Deconstructor64﹍Millisecond(int h, int m, int s, int _4, decimal _5)
+    public static void Deconstructor64﹍Nanosecond(int h, int m, int s, int _4, decimal _5)
     {
         // Act
-        var (hA, mA, sA, msA) = new TimeOfDay64(h, m, s, 345);
+        var (hA, mA, sA, nsA) = TimeOfDay64.FromHourMinuteSecondNanosecond(h, m, s, 345);
         // Assert
         Assert.Equal(h, hA);
         Assert.Equal(m, mA);
         Assert.Equal(s, sA);
-        Assert.Equal(345, msA);
+        Assert.Equal(345, nsA);
     }
 
     [Theory, MemberData(nameof(RationalData))]
@@ -184,7 +184,7 @@ public partial class TimeOfDayTests
     [Theory, MemberData(nameof(RationalData))]
     public static void SecondOfDay(int h, int m, int s, int secondOfDay, decimal _5)
     {
-        var time = new TimeOfDay(h, m, s);
+        var time = TimeOfDay.FromHourMinuteSecond(h, m, s);
         // Assert
         Assert.Equal(secondOfDay, time.SecondOfDay);
     }
@@ -192,7 +192,7 @@ public partial class TimeOfDayTests
     [Theory, MemberData(nameof(RationalData))]
     public static void SecondOfDay64(int h, int m, int s, int secondOfDay, decimal _5)
     {
-        var time = new TimeOfDay64(h, m, s);
+        var time = TimeOfDay64.FromHourMinuteSecond(h, m, s);
         // Assert
         Assert.Equal(secondOfDay, time.SecondOfDay);
     }
@@ -200,7 +200,7 @@ public partial class TimeOfDayTests
     [Theory, MemberData(nameof(RationalData))]
     public static void ToDecimal(int h, int m, int s, int _4, decimal fractionOfDay)
     {
-        var time = new TimeOfDay(h, m, s);
+        var time = TimeOfDay.FromHourMinuteSecond(h, m, s);
         // Assert
         Assert.Equal(fractionOfDay, time.ToDecimal());
     }
@@ -208,7 +208,7 @@ public partial class TimeOfDayTests
     [Theory, MemberData(nameof(RationalData))]
     public static void ToDecimal64(int h, int m, int s, int _4, decimal fractionOfDay)
     {
-        var time = new TimeOfDay64(h, m, s);
+        var time = TimeOfDay64.FromHourMinuteSecond(h, m, s);
         // Assert
         Assert.Equal(fractionOfDay, time.ToDecimal());
     }
@@ -220,9 +220,9 @@ public partial class TimeOfDayTests
     [Theory, MemberData(nameof(RationalData))]
     public static void Equality(int h, int m, int s, int _4, decimal _5)
     {
-        var time = new TimeOfDay(h, m, s);
-        var same = new TimeOfDay(h, m, s);
-        var notSame = new TimeOfDay(h, m, s == 1 ? 2 : 1);
+        var time = TimeOfDay.FromHourMinuteSecond(h, m, s);
+        var same = TimeOfDay.FromHourMinuteSecond(h, m, s);
+        var notSame = TimeOfDay.FromHourMinuteSecond(h, m, s == 1 ? 2 : 1);
 
         // Assert.
         Assert.True(time == same);
@@ -241,7 +241,7 @@ public partial class TimeOfDayTests
     [Theory, MemberData(nameof(RationalData))]
     public static void GetHashCode_Repeated(int h, int m, int s, int _4, decimal _5)
     {
-        var hms = new TimeOfDay(h, m, s);
+        var hms = TimeOfDay.FromHourMinuteSecond(h, m, s);
         // Act & Assert
         Assert.Equal(hms.GetHashCode(), hms.GetHashCode());
     }
