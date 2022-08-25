@@ -130,7 +130,7 @@ namespace Zorglub.Time.Horology.Astronomy
         /// </summary>
         /// <remarks>Adapted from SOFA::iauDtf2d.</remarks>
         [Pure]
-        public static QuasiJD FromClockTime(ClockTime clockTime)
+        public static QuasiJD FromClockTime(ClockTime0 clockTime)
         {
             // TODO: param validation.
             var (ymd, hh, mm, secs) = clockTime;
@@ -202,7 +202,7 @@ namespace Zorglub.Time.Horology.Astronomy
             }
 
             // REVIEW: même après correction, on a fod >= 0, non ?
-            var (hh, mm, ss, fos) = ClockTime.GetTimeOfDay(Math.Abs(fod), decimalPlaces, true);
+            var (hh, mm, ss, fos) = ClockTime0.GetTimeOfDay(Math.Abs(fod), decimalPlaces, true);
 
             if (hh <= 23)
             {

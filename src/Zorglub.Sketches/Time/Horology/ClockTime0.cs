@@ -13,7 +13,7 @@ namespace Zorglub.Time.Horology
     /// <summary>
     /// Represents a time retrieved from a clock.
     /// </summary>
-    public partial class ClockTime
+    public partial class ClockTime0
     {
         /// <summary>
         /// Represents the smallest possible value of a year.
@@ -45,10 +45,10 @@ namespace Zorglub.Time.Horology
         private readonly Yemoda _ymd;
 
         /// <summary>
-        /// Constructs a new instance of <see cref="ClockTime"/> from the
+        /// Constructs a new instance of <see cref="ClockTime0"/> from the
         /// specified gregorian date.
         /// </summary>
-        private ClockTime(Yemoda ymd)
+        private ClockTime0(Yemoda ymd)
         {
             _ymd = ymd;
         }
@@ -132,18 +132,18 @@ namespace Zorglub.Time.Horology
         }
 
         /// <summary>
-        /// Creates a new instance of <see cref="ClockTime"/> from the specified
+        /// Creates a new instance of <see cref="ClockTime0"/> from the specified
         /// gregorian date.
         /// </summary>
         [Pure]
-        public static ClockTime Create(int year, int month, int day)
+        public static ClockTime0 Create(int year, int month, int day)
         {
             ValidateGregorian(year, month, day);
-            return new ClockTime(new Yemoda(year, month, day));
+            return new ClockTime0(new Yemoda(year, month, day));
         }
     }
 
-    public partial class ClockTime
+    public partial class ClockTime0
     {
         /// <summary>
         /// Checks wether a gregorian date is well-formed and is in the supported

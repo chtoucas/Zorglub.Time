@@ -78,7 +78,7 @@ namespace Zorglub.Time.Horology.Astronomy
         /// clock time.
         /// </summary>
         [Pure]
-        public static AtomicTime FromClockTime(ClockTime clockTime)
+        public static AtomicTime FromClockTime(ClockTime0 clockTime)
         {
             if (clockTime is null)
             {
@@ -137,7 +137,7 @@ namespace Zorglub.Time.Horology.Astronomy
             ToClockTime(int decimalPlaces)
         {
             var ymd = _splitJD.ToYemoda(out double fod);
-            var (hh, mm, ss, fos) = ClockTime.GetTimeOfDay(fod, decimalPlaces, isUtc: false);
+            var (hh, mm, ss, fos) = ClockTime0.GetTimeOfDay(fod, decimalPlaces, isUtc: false);
             return (ymd, hh, mm, ss, fos);
         }
 

@@ -115,7 +115,7 @@ namespace Zorglub.Time.Horology.Astronomy
                 // mise à jour des secondes intercalaires.
                 throw new ArgumentOutOfRangeException(nameof(ymd));
             }
-            ClockTime.ValidateGregorian(year, month, day);
+            ClockTime0.ValidateGregorian(year, month, day);
             if (fractionOfDay < 0 || fractionOfDay >= 1)
             {
                 throw new ArgumentOutOfRangeException(nameof(fractionOfDay));

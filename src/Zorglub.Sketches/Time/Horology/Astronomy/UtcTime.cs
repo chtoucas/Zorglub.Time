@@ -78,7 +78,7 @@ namespace Zorglub.Time.Horology.Astronomy
         /// clock time.
         /// </summary>
         [Pure]
-        public static UtcTime FromClockTime(ClockTime clockTime)
+        public static UtcTime FromClockTime(ClockTime0 clockTime)
             => new UtcTime(QuasiJD.FromClockTime(clockTime));
     }
 
