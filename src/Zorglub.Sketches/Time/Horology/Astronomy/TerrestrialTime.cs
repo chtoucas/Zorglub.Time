@@ -47,7 +47,7 @@ namespace Zorglub.Time.Horology.Astronomy
         private readonly SplitJD _splitJD;
 
         /// <summary>
-        /// Constructs a new instance of <see cref="TerrestrialTime"/> from the
+        /// Initializes a new instance of the <see cref="TerrestrialTime"/> struct from the
         /// specified two-part Julian date.
         /// </summary>
         internal TerrestrialTime(SplitJD splitJD) => _splitJD = splitJD;

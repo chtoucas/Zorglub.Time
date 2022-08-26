@@ -38,7 +38,7 @@ namespace Zorglub.Time.Horology.Astronomy
         private readonly SplitJD _splitJD;
 
         /// <summary>
-        /// Constructs a new instance of <see cref="AtomicTime"/> from the
+        /// Initializes a new instance of the <see cref="AtomicTime"/> struct from the
         /// specified two-part Julian date.
         /// </summary>
         internal AtomicTime(SplitJD splitJD) => _splitJD = splitJD;

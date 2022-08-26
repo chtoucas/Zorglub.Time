@@ -45,7 +45,7 @@ namespace Zorglub.Time.Horology
         private readonly Yemoda _ymd;
 
         /// <summary>
-        /// Constructs a new instance of <see cref="ClockTime0"/> from the
+        /// Initializes a new instance of <see cref="ClockTime0"/> from the
         /// specified gregorian date.
         /// </summary>
         private ClockTime0(Yemoda ymd)

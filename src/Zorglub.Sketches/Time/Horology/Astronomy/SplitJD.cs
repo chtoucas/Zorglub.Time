@@ -69,7 +69,7 @@ namespace Zorglub.Time.Horology.Astronomy
         private readonly double _low;
 
         /// <summary>
-        /// Constructs a new instance of <see cref="SplitJD"/>.
+        /// Initializes a new instance of the <see cref="SplitJD"/> struct.
         /// <para>This constructor does NOT validate its parameters.</para>
         /// </summary>
         private SplitJD(double high, double low)

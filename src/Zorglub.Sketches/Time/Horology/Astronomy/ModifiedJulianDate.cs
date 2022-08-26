@@ -33,16 +33,16 @@ namespace Zorglub.Time.Horology.Astronomy
         [FieldOffset(8)] private readonly Timescale _timescale;
 
         /// <summary>
-        /// Constructs a new instance of <see cref="ModifiedJulianDate"/> from the specified
-        /// numerical value, within the TT timescale.
+        /// Initializes a new instance of the <see cref="ModifiedJulianDate"/> struct from the
+        /// specified numerical value, within the TT timescale.
         /// <para>This is the right constructor to use when <paramref name="value"/> is the
         /// "Modified Julian Date" of the astrophysicists.</para>
         /// </summary>
         public ModifiedJulianDate(double value) : this(value, Timescale.Terrestrial) { }
 
         /// <summary>
-        /// Constructs a new instance of <see cref="ModifiedJulianDate"/> from the specified
-        /// numerical value and timescale.
+        /// Initializes a new instance of the <see cref="ModifiedJulianDate"/> struct from the
+        /// specified numerical value and timescale.
         /// </summary>
         public ModifiedJulianDate(double value, Timescale timescale)
         {

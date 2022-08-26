@@ -51,7 +51,7 @@ namespace Zorglub.Time.Horology.Astronomy
         private readonly double _low;
 
         /// <summary>
-        /// Constructs a new instance of <see cref="QuasiJD"/>.
+        /// Initializes a new instance of the <see cref="QuasiJD"/> struct.
         /// <para>This constructor does NOT validate its parameters.</para>
         /// </summary>
         private QuasiJD(double high, double low)

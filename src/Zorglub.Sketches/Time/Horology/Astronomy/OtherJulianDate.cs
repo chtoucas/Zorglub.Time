@@ -35,7 +35,7 @@ namespace Zorglub.Time.Horology.Astronomy
         [FieldOffset(9)] private readonly JulianDateVersion _version;
 
         /// <summary>
-        /// Constructs a new instance of <see cref="OtherJulianDate"/> from
+        /// Initializes a new instance of the <see cref="OtherJulianDate"/> struct from
         /// the specified numerical value, within the TT timescale and with the
         /// default version.
         /// <para>This is the right constructor to use when <paramref name="value"/>
@@ -45,7 +45,7 @@ namespace Zorglub.Time.Horology.Astronomy
             : this(value, Timescale.Terrestrial, JulianDateVersion.Modified) { }
 
         /// <summary>
-        /// Constructs a new instance of <see cref="OtherJulianDate"/> from
+        /// Initializes a new instance of the <see cref="OtherJulianDate"/> struct from
         /// the specified timescale and numerical value, with the default
         /// version.
         /// </summary>
@@ -53,14 +53,14 @@ namespace Zorglub.Time.Horology.Astronomy
             : this(value, timescale, JulianDateVersion.Modified) { }
 
         /// <summary>
-        /// Constructs a new instance of <see cref="OtherJulianDate"/> from
+        /// Initializes a new instance of the <see cref="OtherJulianDate"/> struct from
         /// the specified numerical value and version, within the TT timescale.
         /// </summary>
         public OtherJulianDate(double value, JulianDateVersion version)
             : this(value, Timescale.Terrestrial, version) { }
 
         /// <summary>
-        /// Constructs a new instance of <see cref="OtherJulianDate"/> from
+        /// Initializes a new instance of the <see cref="OtherJulianDate"/> struct from
         /// the specified timescale, numerical value and version.
         /// </summary>
         public OtherJulianDate(

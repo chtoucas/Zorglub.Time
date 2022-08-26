@@ -36,7 +36,7 @@ namespace Zorglub.Time.Horology.Astronomy
         private readonly QuasiJD _quasiJD;
 
         /// <summary>
-        /// Constructs a new instance of <see cref="UtcTime"/> from the
+        /// Initializes a new instance of the <see cref="UtcTime"/> struct from the
         /// specified quasi Julian date.
         /// </summary>
         internal UtcTime(QuasiJD quasiJD) => _quasiJD = quasiJD;
