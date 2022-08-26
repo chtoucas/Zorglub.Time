@@ -8,6 +8,16 @@
 
     <!-- IDE0004  Remove unnecessary cast -->
     <WarningsAsErrors>$(WarningsAsErrors);IDE0004</WarningsAsErrors>
+
+    <IsPackable>true</IsPackable>
+    <Title></Title>
+    <Description></Description>
+    <!--
+    <PackageDescription><![CDATA[
+
+    ]]></PackageDescription>
+    -->
+    <PackageTags>Calendar;Date</PackageTags>
   </PropertyGroup>
 
   <!-- Public API -->

@@ -6,6 +6,7 @@ New-Variable RootDir (Get-Item $PSScriptRoot).Parent.FullName -Scope Script -Opt
 New-Variable SrcDir       (Join-Path $RootDir 'src')  -Scope Script -Option Constant
 New-Variable TestDir      (Join-Path $RootDir 'test') -Scope Script -Option Constant
 New-Variable ArtifactsDir (Join-Path $RootDir '__')   -Scope Script -Option Constant
+New-Variable PackagesDir  (Join-Path $ArtifactsDir 'packages')   -Scope Script -Option Constant
 
 New-Variable TestProject (Join-Path $TestDir "Zorglub.Tests") -Scope Script -Option Constant
 
