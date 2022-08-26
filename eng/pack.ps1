@@ -37,28 +37,29 @@ try {
         "/p:HideInternals=true",
         "/p:PrintSettings=true"
 
-    $mainProject   = Join-Path $SrcDir 'Zorglub' -Resolve
-    $extrasProject = Join-Path $SrcDir 'Zorglub.Extras' -Resolve
+    $ZorglubTime       = Join-Path $SrcDir 'Zorglub' -Resolve
+    $ZorglubTimeExtras = Join-Path $SrcDir 'Zorglub.Extras' -Resolve
 
     say 'Cleaning solution...' -Foreground Magenta
     & dotnet clean -c Release -v minimal
 
     say "`nBuilding project Zorglub.Extras..." -Foreground Magenta
     # Safety measures:
-    # - Always build Zorglub.Extras (HideInternals=true is "unsafe")
+    # - Always build Zorglub.Extras, not just Zorglub
+    #   This is to ensure that HideInternals=true does not break Zorglub.Extras
     # - Delete project.assets.json (--force)
-    & dotnet build $extrasProject $args --force
+    & dotnet build $ZorglubTimeExtras $args --force
 
     say "`nPackaging Zorglub.Time..." -Foreground Magenta
     # Pack Zorglub.Time
-    & dotnet pack $mainProject $args --no-build --output $PackagesDir `
-        || die "Failed to pack '$mainProject'."
+    & dotnet pack $ZorglubTime $args --no-build --output $PackagesDir `
+        || die "Failed to pack '$ZorglubTime'."
 
     say "`nPackaging Zorglub.Time.Extras..." -Foreground Magenta
     # Pack Zorglub.Time.Extras
     if (-not $NoExtras) {
-        & dotnet pack $extrasProject $args --no-build --output $PackagesDir `
-            || die "Failed to pack '$extrasProject'."
+        & dotnet pack $ZorglubTimeExtras $args --no-build --output $PackagesDir `
+            || die "Failed to pack '$ZorglubTimeExtras'."
     }
 
     say "`nPackaging completed successfully" -Foreground Green
