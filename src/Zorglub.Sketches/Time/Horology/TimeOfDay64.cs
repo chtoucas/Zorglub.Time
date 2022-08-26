@@ -37,7 +37,7 @@ namespace Zorglub.Time.Horology
         /// <see cref="Midnight"/>.
         /// <para>This static property is thread-safe.</para>
         /// </summary>
-        public static TimeOfDay64 MinValue { get; }
+        public static TimeOfDay64 MinValue => Midnight;
 
         /// <summary>
         /// Represents the largest possible value of a <see cref="TimeOfDay"/>; one nanosecond
@@ -50,7 +50,7 @@ namespace Zorglub.Time.Horology
         /// Gets the value of a <see cref="TimeOfDay64"/> at 00:00.
         /// <para>This static property is thread-safe.</para>
         /// </summary>
-        public static TimeOfDay64 Midnight => MinValue;
+        public static TimeOfDay64 Midnight { get; }
 
         /// <summary>
         /// Gets the value of a <see cref="TimeOfDay64"/> at 12:00.
