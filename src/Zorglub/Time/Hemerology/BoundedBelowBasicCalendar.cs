@@ -3,7 +3,6 @@
 
 namespace Zorglub.Time.Hemerology
 {
-    using Zorglub.Time.Core.Validation;
     using Zorglub.Time.Hemerology.Scopes;
 
     /// <summary>

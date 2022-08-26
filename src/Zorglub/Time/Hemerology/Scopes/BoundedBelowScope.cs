@@ -5,7 +5,6 @@ namespace Zorglub.Time.Hemerology.Scopes
 {
     using Zorglub.Time;
     using Zorglub.Time.Core;
-    using Zorglub.Time.Core.Validation;
 
     /// <summary>
     /// Represents a scope for a calendar supporting <i>all</i> dates on or after a given date,

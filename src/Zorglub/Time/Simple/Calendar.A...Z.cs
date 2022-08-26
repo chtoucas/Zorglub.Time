@@ -5,7 +5,6 @@ namespace Zorglub.Time.Simple
 {
     using Zorglub.Time.Core;
     using Zorglub.Time.Core.Schemas;
-    using Zorglub.Time.Hemerology;
     using Zorglub.Time.Horology;
 
     /// <summary>

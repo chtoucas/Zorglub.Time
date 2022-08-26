@@ -3,10 +3,6 @@
 
 namespace Zorglub.Time.Hemerology
 {
-    using Zorglub.Time.Core;
-    using Zorglub.Time.Core.Intervals;
-    using Zorglub.Time.Hemerology.Scopes;
-
     /// <summary>
     /// Defines a provider for dates.
     /// </summary>
