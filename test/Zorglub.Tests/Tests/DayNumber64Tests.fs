@@ -11,7 +11,6 @@ open Zorglub.Testing.Data
 open Zorglub.Testing.Data.Schemas
 open Zorglub.Testing.Data.Unbounded
 
-open Zorglub.Bulgroz
 open Zorglub.Time
 open Zorglub.Time.Core.Schemas
 open Zorglub.Time.Specialized
@@ -102,21 +101,6 @@ module Prelude =
     // Properties of DayZero64
     //
     // See Postlude.
-
-module Factories =
-    [<Fact>]
-    let ``Today()`` () =
-        let today32 = XCivilDate.Today().DayNumber
-        let today = DayNumber64.FromDayNumber(today32)
-
-        DayNumber64.Today() === today
-
-    [<Fact>]
-    let ``UtcToday()`` () =
-        let today32 = XCivilDate.UtcToday().DayNumber
-        let today = DayNumber64.FromDayNumber(today32)
-
-        DayNumber64.UtcToday() === today
 
 module GregorianConversion =
     let private dataSet = GregorianDataSet.Instance

@@ -23,7 +23,6 @@ Intel Core i7-4500U CPU 1.80GHz (Haswell), 1 CPU, 4 logical and 2 physical cores
 |              Method |     Mean |   Error |  StdDev | Ratio | Rank |
 |-------------------- |---------:|--------:|--------:|------:|-----:|
 |    'CivilDate     ' | 164.6 ns | 0.67 ns | 0.63 ns |  0.96 |    I |
-|    'DayNumber     ' | 170.9 ns | 1.11 ns | 1.04 ns |  1.00 |   II |
 |  'SystemClock     ' | 171.2 ns | 0.56 ns | 0.50 ns |  1.00 |   II |
 |  'CalendarDay     ' | 171.6 ns | 0.65 ns | 0.57 ns |  1.00 |   II |
 |    'LocalDate *(Y)' | 177.8 ns | 0.59 ns | 0.55 ns |  1.04 |  III |
@@ -40,7 +39,6 @@ Intel Core2 Duo CPU E8500 3.16GHz, 1 CPU, 2 logical and 2 physical cores
 |-------------------- |---------:|----------:|----------:|------:|-----:|
 |    'LocalDate *(Y)' | 1.500 μs | 0.0008 μs | 0.0006 μs |  0.97 |    I |
 |    'CivilDate     ' | 1.544 μs | 0.0012 μs | 0.0010 μs |  1.00 |   II |
-|    'DayNumber     ' | 1.547 μs | 0.0012 μs | 0.0011 μs |  1.00 |   II |
 |  'SystemClock     ' | 1.550 μs | 0.0018 μs | 0.0014 μs |  1.00 |   II |
 |  'CalendarDay     ' | 1.552 μs | 0.0017 μs | 0.0016 μs |  1.00 |   II |
 |        'ZDate     ' | 1.561 μs | 0.0023 μs | 0.0020 μs |  1.01 |   II |
@@ -56,15 +54,6 @@ public class TodayBenchmark
     {
         var clock = SystemClocks.Local;
         DayNumber today = clock.Today();
-        var (y, m, d) = today.GetGregorianParts();
-
-        return (y, m, d, today.DayOfWeek);
-    }
-
-    [Benchmark(Description = "DayNumber     ")]
-    public (int, int, int, DayOfWeek) WithDayNumber()
-    {
-        DayNumber today = DayNumber.Today();
         var (y, m, d) = today.GetGregorianParts();
 
         return (y, m, d, today.DayOfWeek);

@@ -150,12 +150,6 @@ public readonly partial struct MyDate :
 
 public partial struct MyDate // Conversions, adjustments...
 {
-    #region Factories
-
-    [Pure]
-    public static MyDate Today() => FromDayNumber(DayNumber.Today());
-
-    #endregion
     #region Conversions
 
     [Pure]

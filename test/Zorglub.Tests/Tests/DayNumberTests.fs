@@ -11,7 +11,6 @@ open Zorglub.Testing.Data
 open Zorglub.Testing.Data.Schemas
 open Zorglub.Testing.Data.Unbounded
 
-open Zorglub.Bulgroz
 open Zorglub.Time
 open Zorglub.Time.Core
 open Zorglub.Time.Core.Schemas
@@ -130,22 +129,6 @@ module Prelude =
     [<Theory; MemberData(nameof(dayNumberToDayOfWeekData))>]
     let ``Property DayOfWeek`` (dayNumber: DayNumber) dayOfWeek =
         dayNumber.DayOfWeek === dayOfWeek
-
-module Factories =
-    // REVIEW(test): we should test these props without using XCivilDate.
-    // Idem with DayNumber64.
-
-    [<Fact>]
-    let ``Today()`` () =
-        let today = XCivilDate.Today().DayNumber
-
-        DayNumber.Today() === today
-
-    [<Fact>]
-    let ``UtcToday()`` () =
-        let today = XCivilDate.UtcToday().DayNumber
-
-        DayNumber.UtcToday() === today
 
 module Conversions =
     [<Property>]

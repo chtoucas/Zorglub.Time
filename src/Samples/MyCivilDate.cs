@@ -155,12 +155,6 @@ public readonly partial struct MyCivilDate :
 
 public partial struct MyCivilDate // Conversions, adjustments...
 {
-    #region Factories
-
-    [Pure]
-    public static MyCivilDate Today() => new(DayNumber.Today());
-
-    #endregion
     #region Counting
 
     [Pure]

@@ -108,23 +108,6 @@ namespace Zorglub.Time
 
     public partial struct DayNumber64
     {
-        #region Factories
-
-        [Pure]
-        public static DayNumber64 Today()
-        {
-            long daysSinceZero = TemporalArithmetic.DivideByTicksPerDay(DateTime.Now.Ticks);
-            return new DayNumber64(daysSinceZero);
-        }
-
-        [Pure]
-        public static DayNumber64 UtcToday()
-        {
-            long daysSinceZero = TemporalArithmetic.DivideByTicksPerDay(DateTime.UtcNow.Ticks);
-            return new DayNumber64(daysSinceZero);
-        }
-
-        #endregion
         #region Conversions
 
         public static explicit operator DayNumber(DayNumber64 dayNumber) =>

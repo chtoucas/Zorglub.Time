@@ -231,33 +231,6 @@ namespace Zorglub.Time
 
     public partial struct DayNumber
     {
-        #region Factories
-
-        /// <summary>
-        /// Obtains the current day number on this computer, expressed in the local time.
-        /// <para>See also <seealso cref="Zorglub.Time.Horology.SystemClocks.Local"/>.</para>
-        /// </summary>
-        [Pure]
-        public static DayNumber Today()
-        {
-            // NB: the cast should always succeed.
-            int daysSinceZero = (int)TemporalArithmetic.DivideByTicksPerDay(DateTime.Now.Ticks);
-            return new DayNumber(daysSinceZero);
-        }
-
-        /// <summary>
-        /// Obtains the current day number on this computer, expressed in the UTC.
-        /// <para>See also <seealso cref="Zorglub.Time.Horology.SystemClocks.Utc"/>.</para>
-        /// </summary>
-        [Pure]
-        public static DayNumber UtcToday()
-        {
-            // NB: the cast should always succeed.
-            int daysSinceZero = (int)TemporalArithmetic.DivideByTicksPerDay(DateTime.UtcNow.Ticks);
-            return new DayNumber(daysSinceZero);
-        }
-
-        #endregion
         #region Gregorian conversions
 
         /// <summary>

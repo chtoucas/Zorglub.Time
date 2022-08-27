@@ -472,8 +472,6 @@ static Zorglub.Time.DayNumber.operator <=(Zorglub.Time.DayNumber left, Zorglub.T
 static Zorglub.Time.DayNumber.operator ==(Zorglub.Time.DayNumber left, Zorglub.Time.DayNumber right) -> bool
 static Zorglub.Time.DayNumber.operator >(Zorglub.Time.DayNumber left, Zorglub.Time.DayNumber right) -> bool
 static Zorglub.Time.DayNumber.operator >=(Zorglub.Time.DayNumber left, Zorglub.Time.DayNumber right) -> bool
-static Zorglub.Time.DayNumber.Today() -> Zorglub.Time.DayNumber
-static Zorglub.Time.DayNumber.UtcToday() -> Zorglub.Time.DayNumber
 static Zorglub.Time.DayNumber.Zero.get -> Zorglub.Time.DayNumber
 static Zorglub.Time.DayZero.Armenian.get -> Zorglub.Time.DayNumber
 static Zorglub.Time.DayZero.Coptic.get -> Zorglub.Time.DayNumber
