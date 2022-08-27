@@ -55,10 +55,5 @@ namespace Zorglub.Time.Horology
         /// <para>The result is in the range from 0 to 86_399_999.</para>
         /// </summary>
         int MillisecondOfDay { get; }
-
-        /// <summary>
-        /// Deconstructs the current instance into its components.
-        /// </summary>
-        void Deconstruct(out int hour, out int minute, out int second);
     }
 }

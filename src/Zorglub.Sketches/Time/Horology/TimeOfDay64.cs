@@ -131,7 +131,9 @@ namespace Zorglub.Time.Horology
         public override string ToString() =>
             FormattableString.Invariant($"{Hour:D2}:{Minute:D2}:{Second:D2}.{Nanosecond:D9}");
 
-        /// <inheritdoc />
+        /// <summary>
+        /// Deconstructs the current instance into its components.
+        /// </summary>
         public void Deconstruct(out int hour, out int minute, out int second) =>
             (hour, minute, second) = (Hour, Minute, Second);
 

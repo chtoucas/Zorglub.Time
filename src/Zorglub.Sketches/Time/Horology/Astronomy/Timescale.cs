@@ -41,6 +41,10 @@ namespace Zorglub.Time.Horology.Astronomy
     // Le temps local (ou temps civil) est l'UTC dans une zone géographique
     // donnée (fuseau horaire) éventuellement corrigé en fonction de la saison
     // (heure d'hiver, heure d'été).
+    //
+    // Liste très complète d'échelles de temps.
+    // https://www.ucolick.org/~sla/leapsecs/timescales.html
+    // https://www.ucolick.org/~sla/leapsecs/
 
     /// <summary>
     /// Specifies the timescale.

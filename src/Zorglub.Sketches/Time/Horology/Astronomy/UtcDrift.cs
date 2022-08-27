@@ -48,7 +48,7 @@ namespace Zorglub.Time.Horology.Astronomy
         // The list below is taken from the SOFA source code.
         // A more readable source is provided by the IETF
         // https://www.ietf.org/timezones/data/leap-seconds.list
-        // Another reference for historical data can be found at :
+        // Another reference for historical data can be found at:
         // https://www.iers.org/IERS/EN/Science/Recommendations/resolutionB1.html
         // (see a verbatim in JulianDate.cs)
         private static readonly (int year, int month, double leap)[] s_LeapSeconds
@@ -100,8 +100,8 @@ namespace Zorglub.Time.Horology.Astronomy
         };
 
         /// <summary>
-        /// Obtains the difference between TAI and UTC, ΔAT = TAI-UTC in seconds,
-        /// available from IERS Bulletins.
+        /// Obtains the difference between TAI and UTC, ΔAT = TAI-UTC in seconds, available from
+        /// IERS Bulletins.
         /// <para>ΔAT is simply the total count of leap seconds in UTC.</para>
         /// </summary>
         /// <remarks>Adapted from SOFA::iauDat.</remarks>
@@ -113,12 +113,12 @@ namespace Zorglub.Time.Horology.Astronomy
             {
                 // Précède l'introduction de l'UTC ou 5 années après la dernière
                 // mise à jour des secondes intercalaires.
-                throw new ArgumentOutOfRangeException(nameof(ymd));
+                Throw.ArgumentOutOfRange(nameof(ymd));
             }
             ClockTime0.ValidateGregorian(year, month, day);
             if (fractionOfDay < 0 || fractionOfDay >= 1)
             {
-                throw new ArgumentOutOfRangeException(nameof(fractionOfDay));
+                Throw.ArgumentOutOfRange(nameof(fractionOfDay));
             }
 
             int ym = 12 * year + month;

@@ -191,7 +191,9 @@ namespace Zorglub.Time.Horology
             return FormattableString.Invariant($"{h:D2}:{m:D2}:{s:D2}.{Millisecond:D3}");
         }
 
-        /// <inheritdoc />
+        /// <summary>
+        /// Deconstructs the current instance into its components.
+        /// </summary>
         public void Deconstruct(out int hour, out int minute, out int second) =>
             Unpack(out hour, out minute, out second);
 
