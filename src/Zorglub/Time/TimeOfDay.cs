@@ -1,7 +1,7 @@
 ﻿// SPDX-License-Identifier: BSD-3-Clause
 // Copyright (c) 2020 Narvalo.Org. All rights reserved.
 
-namespace Zorglub.Time.Horology
+namespace Zorglub.Time
 {
     using static Zorglub.Time.Core.TemporalConstants;
 
@@ -30,7 +30,6 @@ namespace Zorglub.Time.Horology
     /// <para><see cref="TimeOfDay"/> is an immutable struct.</para>
     /// </summary>
     public readonly partial struct TimeOfDay :
-        ITimeOfDay,
         IComparisonOperators<TimeOfDay, TimeOfDay>,
         IMinMaxValue<TimeOfDay>
     {
@@ -132,10 +131,16 @@ namespace Zorglub.Time.Horology
         /// </summary>
         public static TimeOfDay Noon { get; } = FromHourMinute(12, 0);
 
-        /// <inheritdoc />
+        /// <summary>
+        /// Gets the hour of the day.
+        /// <para>The result is in the range from 0 to 23.</para>
+        /// </summary>
         public int Hour => unchecked(_bin >> HourShift);
 
-        /// <inheritdoc />
+        /// <summary>
+        /// Gets the hour using a 12-hour clock.
+        /// <para>The result is in the range from 1 to 12.</para>
+        /// </summary>
         public int HourOfHalfDay
         {
             get
@@ -145,19 +150,34 @@ namespace Zorglub.Time.Horology
             }
         }
 
-        /// <inheritdoc />
+        /// <summary>
+        /// Returns true if the current instance is before midday; otherwise
+        /// returns false.
+        /// </summary>
         public bool IsAnteMeridiem => Hour < 12;
 
-        /// <inheritdoc />
+        /// <summary>
+        /// Gets the minute of the hour.
+        /// <para>The result is in the range from 0 to 59.</para>
+        /// </summary>
         public int Minute => unchecked((_bin >> MinuteShift) & MinuteMask);
 
-        /// <inheritdoc />
+        /// <summary>
+        /// Gets the second of the minute.
+        /// <para>The result is in the range from 0 to 59.</para>
+        /// </summary>
         public int Second => unchecked((_bin >> SecondShift) & SecondMask);
 
-        /// <inheritdoc />
+        /// <summary>
+        /// Gets the millisecond of the second.
+        /// <para>The result is in the range from 0 to 999.</para>
+        /// </summary>
         public int Millisecond => unchecked(_bin & MillisecondMask);
 
-        /// <inheritdoc />
+        /// <summary>
+        /// Gets the number of elapsed seconds since midnight.
+        /// <para>The result is in the range from 0 to 86_399.</para>
+        /// </summary>
         public int SecondOfDay
         {
             get
@@ -169,7 +189,10 @@ namespace Zorglub.Time.Horology
             }
         }
 
-        /// <inheritdoc />
+        /// <summary>
+        /// Gets the number of elapsed milliseconds since midnight.
+        /// <para>The result is in the range from 0 to 86_399_999.</para>
+        /// </summary>
         public int MillisecondOfDay
         {
             get
@@ -475,13 +498,15 @@ namespace Zorglub.Time.Horology
         }
 
         #endregion
-        #region Conversions
+#region Conversions
 
+#if false
         /// <summary>
         /// Converts the current instance to a <see cref="TimeOfDay64"/>.
         /// </summary>
         [Pure]
         public TimeOfDay64 ToTimeOfDay64() => new((long)NanosecondsPerMillisecond * MillisecondOfDay);
+#endif
 
         /// <summary>
         /// Converts this instance to a fraction of the day.
@@ -495,7 +520,7 @@ namespace Zorglub.Time.Horology
         [Pure]
         internal decimal ToDecimal() => (decimal)MillisecondOfDay / MillisecondsPerDay;
 
-        #endregion
+#endregion
     }
 
     public partial struct TimeOfDay // IEquatable

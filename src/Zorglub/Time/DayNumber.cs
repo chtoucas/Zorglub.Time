@@ -146,6 +146,9 @@ namespace Zorglub.Time
 
         #endregion
 
+        // REVIEW(perf): make _daysSinceZero internal to remove an extra get
+        // method call?
+
         /// <summary>
         /// Represents the count of consecutive days since <see cref="Zero"/>.
         /// <para>This field is in the range from <see cref="MinDaysSinceZero"/> to

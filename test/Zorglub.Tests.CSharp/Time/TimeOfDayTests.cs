@@ -3,8 +3,6 @@
 
 namespace Zorglub.Time;
 
-using Zorglub.Time.Horology;
-
 public static partial class TimeOfDayTests
 {
     /// <summary>Hour, Minute, Second, SecondOfDay, FractionOfDay</summary>

@@ -9,10 +9,9 @@ namespace Zorglub.Time.Horology
     public interface IClock
     {
         /// <summary>
-        /// Obtains the current time expressed as a number of nanoseconds since the january 1st,
-        /// 1 CE (gregorian) at midnight (0h).
+        /// Obtains a <see cref="Moment"/> value representing the current time.
         /// </summary>
-        [Pure] long Now();
+        [Pure] Moment Now();
 
         /// <summary>
         /// Obtains a <see cref="DayNumber"/> value representing the current date.

@@ -1,7 +1,7 @@
 ﻿// SPDX-License-Identifier: BSD-3-Clause
 // Copyright (c) 2020 Narvalo.Org. All rights reserved.
 
-namespace Zorglub.Time.Horology
+namespace Zorglub.Time
 {
     using static Zorglub.Time.Core.TemporalArithmetic;
     using static Zorglub.Time.Core.TemporalConstants;
@@ -16,7 +16,6 @@ namespace Zorglub.Time.Horology
     /// <para><see cref="TimeOfDay64"/> is an immutable struct.</para>
     /// </summary>
     public readonly partial struct TimeOfDay64 :
-        ITimeOfDay,
         IComparisonOperators<TimeOfDay64, TimeOfDay64>,
         IMinMaxValue<TimeOfDay64>
     {
@@ -58,10 +57,8 @@ namespace Zorglub.Time.Horology
         /// </summary>
         public static TimeOfDay64 Noon { get; } = new(NanosecondsPerDay / 2);
 
-        /// <inheritdoc />
         public int Hour => DivideByNanosecondsPerHour(NanosecondOfDay);
 
-        /// <inheritdoc />
         public int HourOfHalfDay
         {
             get
@@ -71,40 +68,34 @@ namespace Zorglub.Time.Horology
             }
         }
 
-        /// <inheritdoc />
         public bool IsAnteMeridiem => Hour < 12;
 
-        /// <inheritdoc />
         public int Minute => DivideByNanosecondsPerMinute(NanosecondOfDay) % MinutesPerHour;
 
-        /// <inheritdoc />
         public int Second => SecondOfDay % SecondsPerMinute;
 
-        /// <inheritdoc />
         public int Millisecond => MillisecondOfDay % MillisecondsPerSecond;
 
         /// <summary>
-        /// Gets the microsecond of second.
+        /// Gets the microsecond of the second.
         /// <para>The result is in the range from 0 to 999_999.</para>
         /// </summary>
         public int Microsecond => (int)(MicrosecondOfDay % MicrosecondsPerSecond);
 
         /// <summary>
-        /// Gets the tick of second.
+        /// Gets the tick of the second.
         /// <para>The result is in the range from 0 to 9_999_999.</para>
         /// </summary>
         public int Tick => (int)(TickOfDay % TicksPerSecond);
 
         /// <summary>
-        /// Gets the nanosecond of second.
+        /// Gets the nanosecond of the second.
         /// <para>The result is in the range from 0 to 999_999_999.</para>
         /// </summary>
         public int Nanosecond => (int)(NanosecondOfDay % NanosecondsPerSecond);
 
-        /// <inheritdoc />
         public int SecondOfDay => (int)(NanosecondOfDay / NanosecondsPerSecond);
 
-        /// <inheritdoc />
         public int MillisecondOfDay => (int)(NanosecondOfDay / NanosecondsPerMillisecond);
 
         /// <summary>

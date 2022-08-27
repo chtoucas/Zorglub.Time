@@ -201,6 +201,12 @@ namespace Zorglub.Time.Core
         //
 
         /// <summary>
+        /// Represents the number of ticks in one millisecond.
+        /// <para>This field is a constant equal to 10_000.</para>
+        /// </summary>
+        internal const int TicksPerMillisecond = TicksPerSecond / 1000;
+
+        /// <summary>
         /// Represents the number of nanoseconds in one millisecond.
         /// <para>This field is a constant equal to 1_000_000.</para>
         /// </summary>

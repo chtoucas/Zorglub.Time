@@ -5,6 +5,9 @@ namespace Zorglub.Time.Horology
 {
     using Zorglub.Time.Core;
 
+    // WARNING: this clock does not use the UTC time scale, it ignores leap
+    // seconds.
+
     /// <summary>
     /// Represents the system clock using the UTC time zone.
     /// <para>See <see cref="SystemClocks.Utc"/>.</para>
@@ -22,7 +25,7 @@ namespace Zorglub.Time.Horology
 
         /// <inheritdoc/>
         [Pure]
-        public long Now() => 100 * DateTime.UtcNow.Ticks;
+        public Moment Now() => throw new NotImplementedException();
 
         /// <inheritdoc/>
         [Pure]
