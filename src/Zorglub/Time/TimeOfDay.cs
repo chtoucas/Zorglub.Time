@@ -12,6 +12,7 @@ namespace Zorglub.Time
     // factories are wrong (second can be = 60 and secondOfDay can be = 86400).
     // Furthermore, a negative leap second can not be detected from the value of
     // second or secondOfDay, so we might have to add a param isLeapSecond?
+    // What about DST?
     //
     // Binary repr.
     //  millisecondOfMinute (0-59_999) 16 bits
@@ -507,12 +508,12 @@ namespace Zorglub.Time
         #endregion
         #region Conversions
 
-#if false // REVIEW(api): conversion to TimeOfDay64.
+#if false // REVIEW(api): conversion to InstantOfDay.
         /// <summary>
-        /// Converts the current instance to a <see cref="TimeOfDay64"/>.
+        /// Converts the current instance to a <see cref="InstantOfDay"/>.
         /// </summary>
         [Pure]
-        public TimeOfDay64 ToTimeOfDay64() => new((long)NanosecondsPerMillisecond * MillisecondOfDay);
+        public InstantOfDay ToInstantOfDay() => new((long)NanosecondsPerMillisecond * MillisecondOfDay);
 #endif
 
         /// <summary>

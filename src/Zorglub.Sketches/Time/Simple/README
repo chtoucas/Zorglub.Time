@@ -83,7 +83,7 @@
 
  Objets de type temps génériques.
   int (date) + int  (TimeOfDay)   =  8 bytes (milliseconde)
-  int (date) + long (TimeOfDay64) = 12 bytes (nanoseconde)
+  int (date) + long (InstantOfDay) = 12 bytes (nanoseconde)
   byte (Cuid) + long (ticksSinceEpoch) = 9 bytes (tick)
  Objet de type temps lié à un seul type de calendrier.
   long (ticksSinceEpoch) = 8 bytes (tick)

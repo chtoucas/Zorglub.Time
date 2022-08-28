@@ -10,10 +10,16 @@ namespace Zorglub.Time.Horology
     // Beware, we use DateTime.Ticks but
     // > "It does not include the number of ticks that are attributable to leap seconds."
     // See https://docs.microsoft.com/en-us/dotnet/api/system.datetime.ticks
+    // https://github.com/dotnet/dotnet-api-docs/issues/966
     //
-    // Consequences? Regarding DateTime,
+    // Consequences?
+    // The clock is NOT monotonic.
+    // Regarding DateTime,
     // - In case of a positive leap second, 23:59:59 is repeated.
     // - In case of a negative leap second, 23:59:59 is not valid.
+    // See also (monotic clock)
+    // https://github.com/dotnet/runtime/issues/15207
+    // https://github.com/dotnet/runtime/issues/5883
 
     /// <summary>
     /// Represents the system clock using the Coordinated Universal Time (UTC).
@@ -34,10 +40,10 @@ namespace Zorglub.Time.Horology
         [Pure]
         public Moment Now()
         {
-            // This method works because DateTime.Ticks does not account for
-            // leap seconds!
+            // This method works only because DateTime.Ticks does not account
+            // for leap seconds!
             var now = DateTime.UtcNow;
-            // We could get tickOfDay directly using now.TimeOfDay.Ticks but to
+            // We could get tickOfDay directly from now.TimeOfDay.Ticks but to
             // build TimeOfDay, DateTime does exactly what we do below.
             ulong ticksSinceZero = (ulong)now.Ticks;
             ulong daysSinceZero = TemporalArithmetic.DivideByTicksPerDay(ticksSinceZero, out ulong tickOfDay);

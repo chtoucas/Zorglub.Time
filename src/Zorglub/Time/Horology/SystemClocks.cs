@@ -3,9 +3,6 @@
 
 namespace Zorglub.Time.Horology
 {
-    // Timescale: internally the BCL uses the UTC time scale but it ignores leap
-    // seconds.
-
     /// <summary>
     /// Provides system clocks.
     /// <para>This class cannot be inherited.</para>

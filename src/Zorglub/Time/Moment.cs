@@ -87,7 +87,7 @@ namespace Zorglub.Time
         /// Returns a culture-independent string representation of this instance.
         /// </summary>
         public override string ToString() =>
-            FormattableString.Invariant($"{DayNumber}+{TimeOfDay}s");
+            FormattableString.Invariant($"{DayNumber}+{TimeOfDay}");
 
         /// <summary>
         /// Deconstructs this instance into its components.
