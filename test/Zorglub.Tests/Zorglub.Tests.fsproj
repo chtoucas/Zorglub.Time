@@ -91,6 +91,7 @@
     <Compile Include="Tests\Hemerology\BasicCalendarTests.fs" />
     <Compile Include="Tests\Hemerology\MinMaxYearCalendarTests.fs" />
     <Compile Include="Tests\Hemerology\DateAdjusterTests.fs" />
+    <Compile Include="Tests\Horology\GregorianInstantTests.fs" />
     <Compile Include="Tests\Simple\CuidTests.fs" />
     <Compile Include="Tests\Simple\SimpleCalendarTests.fs" />
     <Compile Include="Tests\Simple\SimpleRegistryTests.fs" />
@@ -138,7 +139,6 @@
     <Compile Include="Tests\DayNumber64Tests.fs" />
     <Compile Include="Tests\DayZeroTests.fs" />
     <Compile Include="Tests\MomentTests.fs" />
-    <Compile Include="Tests\Moment64Tests.fs" />
     <Compile Include="Tests\AdditionRulesetTests.fs" />
     <Compile Include="Tests\ValueTypeTests.fs" />
     <Compile Include="Program.fs" />

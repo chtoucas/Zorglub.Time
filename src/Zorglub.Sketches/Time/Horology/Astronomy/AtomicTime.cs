@@ -114,15 +114,13 @@ namespace Zorglub.Time.Horology.Astronomy
         }
 
         /// <summary>
-        /// Converts this instance to an Astronomical Julian Date within the TAI
-        /// timescale.
+        /// Converts this instance to an Astronomical Julian Date within the TAI time scale.
         /// </summary>
         [Pure]
         public AstronomicalJulianDate ToJulianDate() => new(_splitJD.JulianDate, Timescale.Atomic);
 
         /// <summary>
-        /// Converts this instance to a Modified Julian Date within the TAI
-        /// timescale.
+        /// Converts this instance to a Modified Julian Date within the TAI time scale.
         /// </summary>
         [Pure]
         public ModifiedJulianDate ToModifiedJulianDate() =>

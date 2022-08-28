@@ -18,7 +18,7 @@ namespace Zorglub.Time.Horology.Astronomy
     /// but is is not the Civil Time which is tied to a Time Zone and possibly
     /// accounts for Daylight Saving Time (DST) adjustments.</para>
     /// <para>The unit of UTC is the SI second.</para>
-    /// <para>The UTC timescale is not uniform, it occasionally adds a leap
+    /// <para>The UTC time scale is not uniform, it occasionally adds a leap
     /// second to keep the offset between UT1 and UTC below 0.9 seconds in
     /// absolute value.</para>
     /// <para>Two instances of <see cref="UtcTime"/> are considered equal
@@ -99,20 +99,17 @@ namespace Zorglub.Time.Horology.Astronomy
         }
 
         /// <summary>
-        /// Converts this instance to an Astronomical Julian Date within the UTC
-        /// timescale.
+        /// Converts this instance to an Astronomical Julian Date within the UTC time scale.
         /// </summary>
         [Pure]
-        public AstronomicalJulianDate ToJulianDate()
-            => new AstronomicalJulianDate(_quasiJD.JulianDate, Timescale.Utc);
+        public AstronomicalJulianDate ToJulianDate() => new(_quasiJD.JulianDate, Timescale.Utc);
 
         /// <summary>
         /// Converts this instance to a Modified Julian Date within the UTC
-        /// timescale.
+        /// time scale.
         /// </summary>
         [Pure]
-        public ModifiedJulianDate ToModifiedJulianDate()
-            => new ModifiedJulianDate(_quasiJD.ModifiedJulianDate, Timescale.Utc);
+        public ModifiedJulianDate ToModifiedJulianDate() => new(_quasiJD.ModifiedJulianDate, Timescale.Utc);
 
         /// <summary>
         /// Obtains the gregorian date and the time of the day for this time

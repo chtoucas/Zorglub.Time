@@ -47,7 +47,7 @@ namespace Zorglub.Time.Horology.Astronomy
     // https://www.ucolick.org/~sla/leapsecs/
 
     /// <summary>
-    /// Specifies the timescale.
+    /// Specifies the time scale.
     /// </summary>
     [SuppressMessage("Design", "CA1028:Enum Storage should be Int32")]
     public enum Timescale : byte

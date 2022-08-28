@@ -5,11 +5,18 @@ namespace Zorglub.Time.Horology
 {
     using Zorglub.Time.Core;
 
-    // WARNING: this clock does not use the UTC time scale, it ignores leap
-    // seconds.
+    using static Zorglub.Time.Core.TemporalConstants;
+
+    // Beware, we use DateTime.Ticks but
+    // > "It does not include the number of ticks that are attributable to leap seconds."
+    // See https://docs.microsoft.com/en-us/dotnet/api/system.datetime.ticks
+    //
+    // Consequences? Regarding DateTime,
+    // - In case of a positive leap second, 23:59:59 is repeated.
+    // - In case of a negative leap second, 23:59:59 is not valid.
 
     /// <summary>
-    /// Represents the system clock using the UTC time zone.
+    /// Represents the system clock using the Coordinated Universal Time (UTC).
     /// <para>See <see cref="SystemClocks.Utc"/>.</para>
     /// <para>This class cannot be inherited.</para>
     /// </summary>
@@ -25,7 +32,23 @@ namespace Zorglub.Time.Horology
 
         /// <inheritdoc/>
         [Pure]
-        public Moment Now() => throw new NotImplementedException();
+        public Moment Now()
+        {
+            // This method works because DateTime.Ticks does not account for
+            // leap seconds!
+            var now = DateTime.UtcNow;
+            // We could get tickOfDay directly using now.TimeOfDay.Ticks but to
+            // build TimeOfDay, DateTime does exactly what we do below.
+            ulong ticksSinceZero = (ulong)now.Ticks;
+            ulong daysSinceZero = TemporalArithmetic.DivideByTicksPerDay(ticksSinceZero, out ulong tickOfDay);
+            ulong millisecondOfDay = tickOfDay / TicksPerMillisecond;
+
+            // NB: the casts should always succeed.
+            var dayNumber = new DayNumber((int)daysSinceZero);
+            var timeOfDay = TimeOfDay.FromMillisecondOfDay((int)millisecondOfDay);
+
+            return new Moment(dayNumber, timeOfDay);
+        }
 
         /// <inheritdoc/>
         [Pure]

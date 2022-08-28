@@ -109,13 +109,13 @@ namespace Zorglub.Time.Horology.Astronomy
         }
 
         /// <summary>
-        /// Converts this instance to an Astronomical Julian Date within the UT1 timescale.
+        /// Converts this instance to an Astronomical Julian Date within the UT1 time scale.
         /// </summary>
         [Pure]
         public AstronomicalJulianDate ToJulianDate() => new(_splitJD.JulianDate, Timescale.Universal);
 
         /// <summary>
-        /// Converts this instance to a Modified Julian Date within the UT1 timescale.
+        /// Converts this instance to a Modified Julian Date within the UT1 time scale.
         /// </summary>
         [Pure]
         public ModifiedJulianDate ToModifiedJulianDate() => new(_splitJD.ModifiedJulianDate, Timescale.Universal);

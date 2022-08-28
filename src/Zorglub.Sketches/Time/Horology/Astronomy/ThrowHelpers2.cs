@@ -11,7 +11,7 @@ namespace Zorglub.Time.Horology.Astronomy
             string paramName, Timescale expected, Timescale actual)
         {
             throw new ArgumentException(
-                $"The object should be in the timescale \"{expected}\" but it is in \"{actual}\".",
+                $"The object should be in the time scale \"{expected}\" but it is in \"{actual}\".",
                 paramName);
         }
     }

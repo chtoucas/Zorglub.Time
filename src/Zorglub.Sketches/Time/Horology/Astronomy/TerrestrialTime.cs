@@ -28,7 +28,7 @@ namespace Zorglub.Time.Horology.Astronomy
     /// <para><see cref="TerrestrialTime"/> is an immutable struct.</para>
     /// </summary>
     /// <remarks>
-    /// <para>TT is a theoretical ideal timescale for clocks at sea level
+    /// <para>TT is a theoretical ideal time scale for clocks at sea level
     /// (earth's geoid). Formally, it is a coordinate time in a four-dimensional
     /// space-time reference system within General Relativity.</para>
     /// <para>The unit of TT is the SI second.</para>
@@ -100,15 +100,13 @@ namespace Zorglub.Time.Horology.Astronomy
         }
 
         /// <summary>
-        /// Converts this instance to an Astronomical Julian Date within the TT
-        /// timescale.
+        /// Converts this instance to an Astronomical Julian Date within the TT time scale.
         /// </summary>
         [Pure]
         public AstronomicalJulianDate ToJulianDate() => new(_splitJD.JulianDate);
 
         /// <summary>
-        /// Converts this instance to a Modified Julian Date within the TT
-        /// timescale.
+        /// Converts this instance to a Modified Julian Date within the TT time scale.
         /// </summary>
         [Pure]
         public ModifiedJulianDate ToModifiedJulianDate() => new(_splitJD.ModifiedJulianDate);

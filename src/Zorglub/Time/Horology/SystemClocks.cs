@@ -3,7 +3,7 @@
 
 namespace Zorglub.Time.Horology
 {
-    // Timescale: internally the BCL uses the UTC timescale but it ignores leap
+    // Timescale: internally the BCL uses the UTC time scale but it ignores leap
     // seconds.
 
     /// <summary>
@@ -19,7 +19,7 @@ namespace Zorglub.Time.Horology
         public static LocalSystemClock Local => LocalSystemClock.Instance;
 
         /// <summary>
-        /// Gets an instance of the system clock using the UTC time zone.
+        /// Gets an instance of the system clock using the Coordinated Universal Time (UTC).
         /// <para>This static property is thread-safe.</para>
         /// </summary>
         public static UtcSystemClock Utc => UtcSystemClock.Instance;

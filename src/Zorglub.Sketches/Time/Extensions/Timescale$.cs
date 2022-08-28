@@ -12,7 +12,7 @@ namespace Zorglub.Time.Extensions
     public static class TimescaleExtensions
     {
         /// <summary>
-        /// Returns the standard abbreviated name of the specified timescale.
+        /// Returns the standard abbreviated name of the specified time scale.
         /// </summary>
         public static string GetAbbrName(this Timescale scale) =>
             scale switch
@@ -26,7 +26,7 @@ namespace Zorglub.Time.Extensions
             };
 
         /// <summary>
-        /// Returns the english name of the specified timescale.
+        /// Returns the english name of the specified time scale.
         /// </summary>
         public static string GetEnglishName(this Timescale scale) =>
             scale switch

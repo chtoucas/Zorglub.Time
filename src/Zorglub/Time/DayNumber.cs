@@ -12,7 +12,7 @@ namespace Zorglub.Time
     using Zorglub.Time.Hemerology;
 
     // TODO(api): .NET 7.0 unchecked ops.
-    // Explain why DayNumber does not keep track of the underlying timescale.
+    // Explain why DayNumber does not keep track of the underlying time scale.
 
     /// <summary>
     /// Represents a day number which counts the number of consecutive days since the Monday 1st of
@@ -147,7 +147,8 @@ namespace Zorglub.Time
         #endregion
 
         // REVIEW(perf): make _daysSinceZero internal to remove an extra get
-        // method call?
+        // method call? but it should not be for arithmetic ops, they may
+        // overflow.
 
         /// <summary>
         /// Represents the count of consecutive days since <see cref="Zero"/>.

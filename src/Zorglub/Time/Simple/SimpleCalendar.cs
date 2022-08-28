@@ -428,7 +428,7 @@ namespace Zorglub.Time.Simple
 
         /// <summary>
         /// Gets an instance of the <see cref="SimpleClock"/> class for the system clock using the
-        /// UTC time zone.
+        /// Coordinated Universal Time (UTC).
         /// </summary>
         public SimpleClock UtcClock { get; }
 

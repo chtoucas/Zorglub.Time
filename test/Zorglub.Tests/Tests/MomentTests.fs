@@ -6,7 +6,6 @@ module Zorglub.Tests.MomentTests
 open Zorglub.Testing
 
 open Zorglub.Time
-open Zorglub.Time.Horology
 
 open Xunit
 

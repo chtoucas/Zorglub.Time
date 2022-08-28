@@ -152,13 +152,13 @@ namespace Zorglub.Time.Horology.Astronomy
         [FieldOffset(0)] private readonly double _value;
 
         /// <summary>
-        /// Represents the timescale of this Julian Date instance.
+        /// Represents the time scale of this Julian Date instance.
         /// </summary>
         [FieldOffset(8)] private readonly Timescale _timescale;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AstronomicalJulianDate"/> struct from the
-        /// specified numerical value, within the TT timescale.
+        /// specified numerical value, within the TT time scale.
         /// <para>This is the right constructor to use when <paramref name="value"/>
         /// is the "Julian Date" of the astrophysicists.</para>
         /// </summary>
@@ -167,7 +167,7 @@ namespace Zorglub.Time.Horology.Astronomy
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AstronomicalJulianDate"/> struct from the
-        /// specified timescale and numerical value.
+        /// specified time scale and numerical value.
         /// </summary>
         public AstronomicalJulianDate(double value, Timescale timescale)
         {
@@ -181,7 +181,7 @@ namespace Zorglub.Time.Horology.Astronomy
         public double Value => _value;
 
         /// <summary>
-        /// Gets the timescale from this Julian Date instance.
+        /// Gets the time scale from this Julian Date instance.
         /// </summary>
         public Timescale Timescale => _timescale;
 

@@ -78,13 +78,13 @@ module RuntimeSizes =
     let ``Types in Zorglub.Time`` () =
         Marshal.SizeOf(typedefof<Ord>) === 4
         Marshal.SizeOf(typedefof<DayNumber>) === 4
+        Marshal.SizeOf(typedefof<TimeOfDay>) === 4
+        Marshal.SizeOf(typedefof<Moment>) === 8
         Marshal.SizeOf(typedefof<DateParts>) === 12
         Marshal.SizeOf(typedefof<MonthParts>) === 8
         Marshal.SizeOf(typedefof<OrdinalParts>) === 8
         Marshal.SizeOf(typedefof<AdditionRuleset>) === 12
         // Zorglub.Sketches
-        Marshal.SizeOf(typedefof<Moment>) === 8
-        Marshal.SizeOf(typedefof<Moment64>) === 16
         Marshal.SizeOf(typedefof<Ord64>) === 8
         Marshal.SizeOf(typedefof<DayNumber64>) === 8
 
@@ -109,8 +109,8 @@ module RuntimeSizes =
     [<Fact>]
     let ``Types in Zorglub.Time.Horology`` () =
         // Zorglub.Sketches
-        Marshal.SizeOf(typedefof<TimeOfDay>) === 4
-        Marshal.SizeOf(typedefof<TimeOfDay64>) === 8
+        Marshal.SizeOf(typedefof<InstantOfDay>) === 8
+        Marshal.SizeOf(typedefof<GregorianInstant>) === 16
 
     [<Fact>]
     let ``Types in Zorglub.Time.Simple`` () =
@@ -207,6 +207,14 @@ module DefaultValues =
         let y, m, d = dayNumber64.GetGregorianParts()
 
         (y, m, d) === (1L, 1, 1)
+
+    [<Fact>]
+    let ``Default value of TimeOfDay is Midnight (00:00:00.000)`` () =
+        let time = Unchecked.defaultof<TimeOfDay>
+        let h, m, s, ms = time.Deconstruct()
+
+        time === TimeOfDay.Midnight
+        (h, m, s, ms) === (0, 0, 0, 0)
 
     [<Fact>]
     let ``Default value of DateParts is 00/00/0000`` () =
@@ -361,21 +369,13 @@ module DefaultValues =
     //
 
     [<Fact>]
-    let ``Default value of TimeOfDay is Midnight (00:00:00.000)`` () =
-        let time = Unchecked.defaultof<TimeOfDay>
-        let h, m, s, ms = time.Deconstruct()
+    let ``Default value of InstantOfDay is Midnight (00:00:00.000_000_000)`` () =
+        let instant = Unchecked.defaultof<InstantOfDay>
+        let h, m, s, ms = instant.Deconstruct()
 
-        time === TimeOfDay.Midnight
+        instant === InstantOfDay.Midnight
         (h, m, s, ms) === (0, 0, 0, 0)
-
-    [<Fact>]
-    let ``Default value of TimeOfDay64 is Midnight (00:00:00.000_000_000)`` () =
-        let time = Unchecked.defaultof<TimeOfDay64>
-        let h, m, s, ms = time.Deconstruct()
-
-        time === TimeOfDay64.Midnight
-        (h, m, s, ms) === (0, 0, 0, 0)
-        time.Nanosecond === 0
+        instant.Nanosecond === 0
 
     //
     // Date types found in Zorglub.Time.Specialized

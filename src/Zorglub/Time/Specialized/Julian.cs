@@ -123,8 +123,8 @@ namespace Zorglub.Time.Specialized
         public static JulianClock Local { get; } = new(SystemClocks.Local);
 
         /// <summary>
-        /// Gets an instance of the <see cref="JulianClock"/> class for the system clock using the UTC
-        /// time zone.
+        /// Gets an instance of the <see cref="JulianClock"/> class for the system clock using the
+        /// Coordinated Universal Time (UTC).
         /// </summary>
         public static JulianClock Utc { get; } = new(SystemClocks.Utc);
 

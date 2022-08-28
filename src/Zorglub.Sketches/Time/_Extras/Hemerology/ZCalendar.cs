@@ -167,8 +167,8 @@ namespace Zorglub.Time.Hemerology
         public ZClock LocalClock { get; }
 
         /// <summary>
-        /// Gets an instance of the <see cref="ZClock"/> class for the system clock using the UTC
-        /// time zone.
+        /// Gets an instance of the <see cref="ZClock"/> class for the system clock using the
+        /// Coordinated Universal Time (UTC).
         /// </summary>
         public ZClock UtcClock { get; }
 

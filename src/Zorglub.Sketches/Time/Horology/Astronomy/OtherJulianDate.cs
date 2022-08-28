@@ -25,7 +25,7 @@ namespace Zorglub.Time.Horology.Astronomy
         [FieldOffset(0)] private readonly double _value;
 
         /// <summary>
-        /// Represents the timescale of this instance.
+        /// Represents the time scale of this instance.
         /// </summary>
         [FieldOffset(8)] private readonly Timescale _timescale;
 
@@ -36,7 +36,7 @@ namespace Zorglub.Time.Horology.Astronomy
 
         /// <summary>
         /// Initializes a new instance of the <see cref="OtherJulianDate"/> struct from
-        /// the specified numerical value, within the TT timescale and with the
+        /// the specified numerical value, within the TT time scale and with the
         /// default version.
         /// <para>This is the right constructor to use when <paramref name="value"/>
         /// is the "Modified Julian Date" of the astrophysicists.</para>
@@ -46,7 +46,7 @@ namespace Zorglub.Time.Horology.Astronomy
 
         /// <summary>
         /// Initializes a new instance of the <see cref="OtherJulianDate"/> struct from
-        /// the specified timescale and numerical value, with the default
+        /// the specified time scale and numerical value, with the default
         /// version.
         /// </summary>
         public OtherJulianDate(double value, Timescale timescale)
@@ -54,14 +54,14 @@ namespace Zorglub.Time.Horology.Astronomy
 
         /// <summary>
         /// Initializes a new instance of the <see cref="OtherJulianDate"/> struct from
-        /// the specified numerical value and version, within the TT timescale.
+        /// the specified numerical value and version, within the TT time scale.
         /// </summary>
         public OtherJulianDate(double value, JulianDateVersion version)
             : this(value, Timescale.Terrestrial, version) { }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="OtherJulianDate"/> struct from
-        /// the specified timescale, numerical value and version.
+        /// the specified time scale, numerical value and version.
         /// </summary>
         public OtherJulianDate(
             double value, Timescale timescale, JulianDateVersion version)
@@ -77,7 +77,7 @@ namespace Zorglub.Time.Horology.Astronomy
         public double Value => _value;
 
         /// <summary>
-        /// Gets the timescale from this instance.
+        /// Gets the time scale from this instance.
         /// </summary>
         public Timescale Timescale => _timescale;
 

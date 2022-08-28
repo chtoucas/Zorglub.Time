@@ -28,8 +28,7 @@ namespace Zorglub.Time.Core
     // divided with a double or decimal.
 
     /// <summary>
-    /// Provides fast arithmetical operations related to
-    /// <see cref="TemporalConstants"/>.
+    /// Provides fast arithmetical operations related to <see cref="TemporalConstants"/>.
     /// </summary>
     internal static partial class TemporalArithmetic { }
 
@@ -57,6 +56,22 @@ namespace Zorglub.Time.Core
             Debug.Assert(ticksSinceZero >= 0);
 
             return (long)((ulong)(ticksSinceZero >> TicksPerDayTwoAdicOrder) / TicksPerDayOddPart);
+        }
+
+        /// <summary>
+        /// <para><c>tickOfDay     = ticksSinceZero % TicksPerDay</c></para>
+        /// <para><c>daysSinceZero = ticksSinceZero / TicksPerDay</c></para>
+        /// </summary>
+        [Pure]
+        // CIL code size = XXX bytes <= 32 bytes.
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ulong DivideByTicksPerDay(ulong ticksSinceZero, out ulong tickOfDay)
+        {
+            // daysSinceZero = ticksSinceZero / TicksPerDay
+            ulong daysSinceZero = (ticksSinceZero >> TicksPerDayTwoAdicOrder) / TicksPerDayOddPart;
+            // tickOfDay = ticksSinceZero - TicksPerDay * daysSinceZero
+            tickOfDay = ticksSinceZero - ((daysSinceZero * TicksPerDayOddPart) << TicksPerDayTwoAdicOrder);
+            return daysSinceZero;
         }
 
         /// <summary><c>ticksSinceZero = TicksPerDay * daysSinceZero</c></summary>
