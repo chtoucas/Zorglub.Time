@@ -3,18 +3,25 @@
 
 namespace Zorglub.Time
 {
+    using Zorglub.Time.Core;
+
     using static Zorglub.Time.Core.TemporalConstants;
 
+    // TODO(api): binary data or millisecondOfDay? math ops, adjustments, etc.
+    // Add a prop to indicate whether it's a leap second or not? but then most
+    // factories are wrong (second can be = 60 and secondOfDay can be = 86400).
+    // Furthermore, a negative leap second can not be detected from the value of
+    // second or secondOfDay, so we might have to add a param isLeapSecond?
+    //
+    // Binary repr.
     //  millisecondOfMinute (0-59_999) 16 bits
-    // ou
+    // or
     //  second              (0-59)      6 bits
     //  millisecondOfSecond (0-999)    10 bits
-    // 27 bits used, 5 remaining.
+    // Both use the same amount of space but we prefer the second because it
+    // gives direct access to the second.
     //
-    // - Now()
-    // - adjustments, other ctors
-    // - math ops, checked or not?
-    // - leap seconds
+    // Leap seconds
     //   https://github.com/golang/go/issues/12914
     //
     // https://en.wikipedia.org/wiki/12-hour_clock
@@ -31,7 +38,8 @@ namespace Zorglub.Time
     /// </summary>
     public readonly partial struct TimeOfDay :
         IComparisonOperators<TimeOfDay, TimeOfDay>,
-        IMinMaxValue<TimeOfDay>
+        IMinMaxValue<TimeOfDay>,
+        IMinMaxFunctions<TimeOfDay>
     {
         #region Bit settings
 
@@ -94,8 +102,8 @@ namespace Zorglub.Time
         private readonly int _bin;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="TimeOfDay"/> struct directly from the
-        /// specified binary data.
+        /// Initializes a new instance of the <see cref="TimeOfDay"/> struct from the specified
+        /// binary data.
         /// <para>This constructor does NOT validate its parameter.</para>
         /// </summary>
         private TimeOfDay(int bin)
@@ -106,8 +114,8 @@ namespace Zorglub.Time
         }
 
         /// <summary>
-        /// Represents the smallest possible value of a <see cref="TimeOfDay"/>; equivalent to
-        /// <see cref="Midnight"/>.
+        /// Represents the smallest possible value of a <see cref="TimeOfDay"/>; this property is
+        /// strictly equivalent to <see cref="Midnight"/>.
         /// <para>This static property is thread-safe.</para>
         /// </summary>
         public static TimeOfDay MinValue => Midnight;
@@ -151,8 +159,7 @@ namespace Zorglub.Time
         }
 
         /// <summary>
-        /// Returns true if the current instance is before midday; otherwise
-        /// returns false.
+        /// Returns true if the current instance is before midday; otherwise returns false.
         /// </summary>
         public bool IsAnteMeridiem => Hour < 12;
 
@@ -330,6 +337,18 @@ namespace Zorglub.Time
         #region Factories using (hh, mm, ss, subunit-of-second)
 
         /// <summary>
+        /// Creates a new instance of <see cref="TimeOfDay"/> from the specified hour-of-day.
+        /// </summary>
+        /// <exception cref="AoorException"><paramref name="hour"/> is out of range.</exception>
+        [Pure]
+        public static TimeOfDay FromHour(int hour)
+        {
+            if (hour < 0 || hour >= HoursPerDay) Throw.ArgumentOutOfRange(nameof(hour));
+
+            return new TimeOfDay(Pack(hour, 0, 0));
+        }
+
+        /// <summary>
         /// Creates a new instance of <see cref="TimeOfDay"/> from the specified hour-of-day and
         /// minute-of-hour.
         /// </summary>
@@ -382,28 +401,16 @@ namespace Zorglub.Time
         #endregion
         #region Factories using a subunit-of-day
 
-        /// <summary>
-        /// Creates a new instance of <see cref="TimeOfDay64"/> from the specified elapsed hours
-        /// since midnight.
-        /// </summary>
-        /// <exception cref="AoorException"><paramref name="hourOfDay"/> is out of range.</exception>
-        [Pure]
-        public static TimeOfDay FromHoursSinceMidnight(int hourOfDay)
-        {
-            if (hourOfDay < 0 || hourOfDay >= HoursPerDay)
-                Throw.ArgumentOutOfRange(nameof(hourOfDay));
-
-            return new TimeOfDay(Pack(hourOfDay, 0, 0));
-        }
+        // FromHourOfDay() is named FromHour().
 
         /// <summary>
-        /// Creates a new instance of <see cref="TimeOfDay64"/> from the specified elapsed minutes
+        /// Creates a new instance of <see cref="TimeOfDay"/> from the specified elapsed minutes
         /// since midnight.
         /// </summary>
         /// <exception cref="AoorException"><paramref name="minuteOfDay"/> is out of range.
         /// </exception>
         [Pure]
-        public static TimeOfDay FromMinutesSinceMidnight(int minuteOfDay)
+        public static TimeOfDay FromMinuteOfDay(int minuteOfDay)
         {
             if (minuteOfDay < 0 || minuteOfDay >= MinutesPerDay)
                 Throw.ArgumentOutOfRange(nameof(minuteOfDay));
@@ -421,7 +428,7 @@ namespace Zorglub.Time
         /// <exception cref="AoorException"><paramref name="secondOfDay"/> is out of range.
         /// </exception>
         [Pure]
-        public static TimeOfDay FromSecondsSinceMidnight(int secondOfDay)
+        public static TimeOfDay FromSecondOfDay(int secondOfDay)
         {
             if (secondOfDay < 0 || secondOfDay >= SecondsPerDay)
                 Throw.ArgumentOutOfRange(nameof(secondOfDay));
@@ -440,12 +447,12 @@ namespace Zorglub.Time
         /// <exception cref="AoorException"><paramref name="millisecondOfDay"/> is out of range.
         /// </exception>
         [Pure]
-        public static TimeOfDay FromMillisecondsSinceMidnight(int millisecondOfDay)
+        public static TimeOfDay FromMillisecondOfDay(int millisecondOfDay)
         {
             if (millisecondOfDay < 0 || millisecondOfDay >= MillisecondsPerDay)
                 Throw.ArgumentOutOfRange(nameof(millisecondOfDay));
 
-            return FromMillisecondsSinceMidnightCore(millisecondOfDay);
+            return FromMillisecondOfDayCore(millisecondOfDay);
         }
 
         /// <summary>
@@ -454,7 +461,7 @@ namespace Zorglub.Time
         /// <para>This method does NOT validate its parameter.</para>
         /// </summary>
         [Pure]
-        internal static TimeOfDay FromMillisecondsSinceMidnightCore(int millisecondOfDay)
+        internal static TimeOfDay FromMillisecondOfDayCore(int millisecondOfDay)
         {
             int h = millisecondOfDay / MillisecondsPerHour;
             int m = millisecondOfDay / MillisecondsPerMinute % MinutesPerHour;
@@ -477,11 +484,11 @@ namespace Zorglub.Time
 
             int millisecondOfDay = (int)(fractionOfDay * MillisecondsPerDay);
 
-            return FromMillisecondsSinceMidnightCore(millisecondOfDay);
+            return FromMillisecondOfDayCore(millisecondOfDay);
         }
 
         /// <summary>
-        /// Creates a new instance of <see cref="TimeOfDay64"/> from the specified fraction of the
+        /// Creates a new instance of <see cref="TimeOfDay"/> from the specified fraction of the
         /// day.
         /// </summary>
         /// <exception cref="AoorException"><paramref name="fractionOfDay"/> is out of range.
@@ -494,13 +501,13 @@ namespace Zorglub.Time
 
             int millisecondOfDay = (int)(fractionOfDay * MillisecondsPerDay);
 
-            return FromMillisecondsSinceMidnightCore(millisecondOfDay);
+            return FromMillisecondOfDayCore(millisecondOfDay);
         }
 
         #endregion
-#region Conversions
+        #region Conversions
 
-#if false
+#if false // REVIEW(api): conversion to TimeOfDay64.
         /// <summary>
         /// Converts the current instance to a <see cref="TimeOfDay64"/>.
         /// </summary>
@@ -520,7 +527,7 @@ namespace Zorglub.Time
         [Pure]
         internal decimal ToDecimal() => (decimal)MillisecondOfDay / MillisecondsPerDay;
 
-#endregion
+        #endregion
     }
 
     public partial struct TimeOfDay // IEquatable
@@ -579,13 +586,13 @@ namespace Zorglub.Time
         /// Obtains the earlier time of two specified times.
         /// </summary>
         [Pure]
-        public static TimeOfDay Min(TimeOfDay left, TimeOfDay right) => left < right ? left : right;
+        public static TimeOfDay Min(TimeOfDay x, TimeOfDay y) => x < y ? x : y;
 
         /// <summary>
         /// Obtains the later time of two specified times.
         /// </summary>
         [Pure]
-        public static TimeOfDay Max(TimeOfDay left, TimeOfDay right) => left > right ? left : right;
+        public static TimeOfDay Max(TimeOfDay x, TimeOfDay y) => x > y ? x : y;
 
         /// <summary>
         /// Indicates whether this instance is earlier, later or the same as the specified one.

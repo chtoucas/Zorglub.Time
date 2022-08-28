@@ -28,12 +28,13 @@ namespace Zorglub.Time.Horology
         {
             var now = DateTime.Now;
             long ticksSinceZero = now.Ticks;
+            // > daysSinceZero = ticksSinceZero / TicksPerDay
+            // > ticksOfDay    = ticksSinceZero % TicksPerDay
             int daysSinceZero = (int)TemporalArithmetic.DivideByTicksPerDay(ticksSinceZero);
+            long ticksOfDay = ticksSinceZero - TemporalArithmetic.MultiplyByTicksPerDay(daysSinceZero);
             //long ticksOfDay = now.TimeOfDay.Ticks;
-            //long ticksOfDay = ticksSinceZero - TicksPerDay * daysSinceZero;
-            long ticksOfDay = ticksSinceZero % TicksPerDay;
             int millisecondsOfDay = (int)(ticksOfDay / TicksPerMillisecond);
-            var timeOfDay = TimeOfDay.FromMillisecondsSinceMidnight(millisecondsOfDay);
+            var timeOfDay = TimeOfDay.FromMillisecondOfDay(millisecondsOfDay);
 
             //100 * DateTime.Now.Ticks;
             return new Moment(new DayNumber(daysSinceZero), timeOfDay);

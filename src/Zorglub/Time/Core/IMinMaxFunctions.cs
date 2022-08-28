@@ -6,7 +6,7 @@
 namespace Zorglub.Time.Core
 {
     /// <summary>
-    /// Defines the Min and Max functions.
+    /// Defines the functions Min and Max.
     /// </summary>
     /// <typeparam name="TSelf">The type that implements this interface.</typeparam>
     public interface IMinMaxFunctions<TSelf> : IComparable<TSelf>

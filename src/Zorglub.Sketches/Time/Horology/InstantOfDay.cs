@@ -1,64 +1,77 @@
 ﻿// SPDX-License-Identifier: BSD-3-Clause
 // Copyright (c) 2020 Narvalo.Org. All rights reserved.
 
-namespace Zorglub.Time
+namespace Zorglub.Time.Horology
 {
-    using static Zorglub.Time.Core.TemporalArithmetic;
+    using Zorglub.Time.Core;
+
     using static Zorglub.Time.Core.TemporalConstants;
 
-    // TimeOfDay et TimeOfDay64 sont interchangeables mais TimeOfDay64 offre une
-    // plus grande précision.
-
     /// <summary>
-    /// Represents a time of the day (hour:minute:second) with nanosecond precision.
+    /// Represents an instant of the day with nanosecond precision.
     /// <para>Nanosecond precision does not necessarily mean nanosecond resolution (clock
     /// frequency).</para>
-    /// <para><see cref="TimeOfDay64"/> is an immutable struct.</para>
+    /// <para><see cref="InstantOfDay"/> is an immutable struct.</para>
     /// </summary>
-    public readonly partial struct TimeOfDay64 :
-        IComparisonOperators<TimeOfDay64, TimeOfDay64>,
-        IMinMaxValue<TimeOfDay64>
+    public readonly partial struct InstantOfDay :
+        IComparisonOperators<InstantOfDay, InstantOfDay>,
+        IMinMaxValue<InstantOfDay>,
+        IMinMaxFunctions<InstantOfDay>
     {
         /// <summary>
-        /// Initializes a new instance of <see cref="TimeOfDay64"/> from the specified number of
+        /// Represents the number of elapsed nanoseconds since midnight.
+        /// <para>This field is read-only.</para>
+        /// </summary>
+        private readonly long _nanosecondOfDay;
+
+        /// <summary>
+        /// Initializes a new instance of <see cref="InstantOfDay"/> from the specified number of
         /// elapsed nanoseconds since midnight.
         /// <para>This constructor does NOT validate its parameter.</para>
         /// </summary>
-        internal TimeOfDay64(long nanosecondOfDay)
+        internal InstantOfDay(long nanosecondOfDay)
         {
             Debug.Assert(nanosecondOfDay >= 0);
 
-            NanosecondOfDay = nanosecondOfDay;
+            _nanosecondOfDay = nanosecondOfDay;
         }
 
         /// <summary>
-        /// Represents the smallest possible value of a <see cref="TimeOfDay64"/>; equivalent to
-        /// <see cref="Midnight"/>.
+        /// Represents the smallest possible value of a <see cref="InstantOfDay"/>; this property is
+        /// strictly equivalent to <see cref="Midnight"/>.
         /// <para>This static property is thread-safe.</para>
         /// </summary>
-        public static TimeOfDay64 MinValue => Midnight;
+        public static InstantOfDay MinValue => Midnight;
 
         /// <summary>
         /// Represents the largest possible value of a <see cref="TimeOfDay"/>; one nanosecond
         /// before midnight.
         /// <para>This static property is thread-safe.</para>
         /// </summary>
-        public static TimeOfDay64 MaxValue { get; } = new(NanosecondsPerDay - 1);
+        public static InstantOfDay MaxValue { get; } = new(NanosecondsPerDay - 1);
 
         /// <summary>
-        /// Gets the value of a <see cref="TimeOfDay64"/> at 00:00.
+        /// Gets the value of a <see cref="InstantOfDay"/> at 00:00.
         /// <para>This static property is thread-safe.</para>
         /// </summary>
-        public static TimeOfDay64 Midnight { get; }
+        public static InstantOfDay Midnight { get; }
 
         /// <summary>
-        /// Gets the value of a <see cref="TimeOfDay64"/> at 12:00.
+        /// Gets the value of a <see cref="InstantOfDay"/> at 12:00.
         /// <para>This static property is thread-safe.</para>
         /// </summary>
-        public static TimeOfDay64 Noon { get; } = new(NanosecondsPerDay / 2);
+        public static InstantOfDay Noon { get; } = new(NanosecondsPerDay / 2);
 
-        public int Hour => DivideByNanosecondsPerHour(NanosecondOfDay);
+        /// <summary>
+        /// Gets the hour of the day.
+        /// <para>The result is in the range from 0 to 23.</para>
+        /// </summary>
+        public int Hour => TemporalArithmetic.DivideByNanosecondsPerHour(_nanosecondOfDay);
 
+        /// <summary>
+        /// Gets the hour using a 12-hour clock.
+        /// <para>The result is in the range from 1 to 12.</para>
+        /// </summary>
         public int HourOfHalfDay
         {
             get
@@ -68,53 +81,77 @@ namespace Zorglub.Time
             }
         }
 
+        /// <summary>
+        /// Returns true if the current instance is before midday; otherwise returns false.
+        /// </summary>
         public bool IsAnteMeridiem => Hour < 12;
 
-        public int Minute => DivideByNanosecondsPerMinute(NanosecondOfDay) % MinutesPerHour;
+        /// <summary>
+        /// Gets the minute of the hour.
+        /// <para>The result is in the range from 0 to 59.</para>
+        /// </summary>
+        public int Minute =>
+            TemporalArithmetic.DivideByNanosecondsPerMinute(_nanosecondOfDay) % MinutesPerHour;
 
+        /// <summary>
+        /// Gets the second of the minute.
+        /// <para>The result is in the range from 0 to 59.</para>
+        /// </summary>
         public int Second => SecondOfDay % SecondsPerMinute;
 
+        /// <summary>
+        /// Gets the millisecond of the <i>second</i>.
+        /// <para>The result is in the range from 0 to 999.</para>
+        /// </summary>
         public int Millisecond => MillisecondOfDay % MillisecondsPerSecond;
 
         /// <summary>
-        /// Gets the microsecond of the second.
+        /// Gets the microsecond of the <i>second</i>.
         /// <para>The result is in the range from 0 to 999_999.</para>
         /// </summary>
         public int Microsecond => (int)(MicrosecondOfDay % MicrosecondsPerSecond);
 
         /// <summary>
-        /// Gets the tick of the second.
+        /// Gets the tick of the <i>second</i>.
         /// <para>The result is in the range from 0 to 9_999_999.</para>
         /// </summary>
         public int Tick => (int)(TickOfDay % TicksPerSecond);
 
         /// <summary>
-        /// Gets the nanosecond of the second.
+        /// Gets the nanosecond of the <i>second</i>.
         /// <para>The result is in the range from 0 to 999_999_999.</para>
         /// </summary>
-        public int Nanosecond => (int)(NanosecondOfDay % NanosecondsPerSecond);
+        public int Nanosecond => (int)(_nanosecondOfDay % NanosecondsPerSecond);
 
-        public int SecondOfDay => (int)(NanosecondOfDay / NanosecondsPerSecond);
+        /// <summary>
+        /// Gets the number of elapsed seconds since midnight.
+        /// <para>The result is in the range from 0 to 86_399.</para>
+        /// </summary>
+        public int SecondOfDay => (int)(_nanosecondOfDay / NanosecondsPerSecond);
 
-        public int MillisecondOfDay => (int)(NanosecondOfDay / NanosecondsPerMillisecond);
+        /// <summary>
+        /// Gets the number of elapsed milliseconds since midnight.
+        /// <para>The result is in the range from 0 to 86_399_999.</para>
+        /// </summary>
+        public int MillisecondOfDay => (int)(_nanosecondOfDay / NanosecondsPerMillisecond);
 
         /// <summary>
         /// Gets the number of elapsed microseconds since midnight.
         /// <para>The result is in the range from 0 to 86_399_999_999.</para>
         /// </summary>
-        public long MicrosecondOfDay => NanosecondOfDay / NanosecondsPerMicrosecond;
+        public long MicrosecondOfDay => _nanosecondOfDay / NanosecondsPerMicrosecond;
 
         /// <summary>
         /// Gets the number of elapsed ticks since midnight.
         /// <para>The result is in the range from 0 to 863_999_999_999.</para>
         /// </summary>
-        public long TickOfDay => NanosecondOfDay / NanosecondsPerTick;
+        public long TickOfDay => _nanosecondOfDay / NanosecondsPerTick;
 
         /// <summary>
         /// Gets the number of elapsed nanoseconds since midnight.
         /// <para>The result is in the range from 0 to 86_399_999_999_999.</para>
         /// </summary>
-        public long NanosecondOfDay { get; }
+        public long NanosecondOfDay => _nanosecondOfDay;
 
         /// <summary>
         /// Returns a culture-independent string representation of this instance.
@@ -135,52 +172,68 @@ namespace Zorglub.Time
             (hour, minute, second, nanosecond) = (Hour, Minute, Second, Nanosecond);
     }
 
-    public partial struct TimeOfDay64 // Factories, conversions...
+    public partial struct InstantOfDay // Factories, conversions...
     {
         #region Factories using (hh, mm, ss, subunit-of-second)
 
         /// <summary>
-        /// Creates a new instance of <see cref="TimeOfDay64"/> from the specified hour-of-day and
+        /// Creates a new instance of <see cref="InstantOfDay"/> from the specified elapsed
+        /// hour-of-day.
+        /// </summary>
+        /// <exception cref="AoorException"><paramref name="hour"/> is out of range.</exception>
+        [Pure]
+        public static InstantOfDay FromHour(int hour)
+        {
+            if (hour < 0 || hour >= HoursPerDay) Throw.ArgumentOutOfRange(nameof(hour));
+
+            return new InstantOfDay(TemporalArithmetic.MultiplyByNanosecondsPerHour(hour));
+        }
+
+        /// <summary>
+        /// Creates a new instance of <see cref="InstantOfDay"/> from the specified hour-of-day and
         /// minute-of-hour.
         /// </summary>
         /// <exception cref="AoorException">One of the parameters is out of range.</exception>
         [Pure]
-        public static TimeOfDay64 FromHourMinute(int hour, int minute)
+        public static InstantOfDay FromHourMinute(int hour, int minute)
         {
             if (hour < 0 || hour >= HoursPerDay) Throw.ArgumentOutOfRange(nameof(hour));
             if (minute < 0 || minute >= MinutesPerHour) Throw.ArgumentOutOfRange(nameof(minute));
 
-            long nanosecondOfDay = MultiplyByNanosecondsPerHour(hour) + NanosecondsPerMinute * minute;
+            long nanosecondOfDay =
+                TemporalArithmetic.MultiplyByNanosecondsPerHour(hour)
+                + NanosecondsPerMinute * minute;
 
-            return new TimeOfDay64(nanosecondOfDay);
+            return new InstantOfDay(nanosecondOfDay);
         }
 
         /// <summary>
-        /// Creates a new instance of <see cref="TimeOfDay64"/> from the specified hour-of-day,
+        /// Creates a new instance of <see cref="InstantOfDay"/> from the specified hour-of-day,
         /// minute-of-hour and second-of-minute.
         /// </summary>
         /// <exception cref="AoorException">One of the parameters is out of range.</exception>
         [Pure]
-        public static TimeOfDay64 FromHourMinuteSecond(int hour, int minute, int second)
+        public static InstantOfDay FromHourMinuteSecond(int hour, int minute, int second)
         {
             if (hour < 0 || hour >= HoursPerDay) Throw.ArgumentOutOfRange(nameof(hour));
             if (minute < 0 || minute >= MinutesPerHour) Throw.ArgumentOutOfRange(nameof(minute));
             if (second < 0 || second >= SecondsPerMinute) Throw.ArgumentOutOfRange(nameof(second));
 
-            long nanosecondOfDay = MultiplyByNanosecondsPerHour(hour)
+            long nanosecondOfDay =
+                TemporalArithmetic.MultiplyByNanosecondsPerHour(hour)
                 + NanosecondsPerMinute * minute
                 + (long)NanosecondsPerSecond * second;
 
-            return new TimeOfDay64(nanosecondOfDay);
+            return new InstantOfDay(nanosecondOfDay);
         }
 
         /// <summary>
-        /// Creates a new instance of <see cref="TimeOfDay64"/> from the specified hour-of-day,
+        /// Creates a new instance of <see cref="InstantOfDay"/> from the specified hour-of-day,
         /// minute-of-hour, second-of-minute and millisecond-of-second.
         /// </summary>
         /// <exception cref="AoorException">One of the parameters is out of range.</exception>
         [Pure]
-        public static TimeOfDay64 FromHourMinuteSecondMillisecond(
+        public static InstantOfDay FromHourMinuteSecondMillisecond(
             int hour, int minute, int second, int millisecond)
         {
             if (hour < 0 || hour >= HoursPerDay) Throw.ArgumentOutOfRange(nameof(hour));
@@ -189,20 +242,22 @@ namespace Zorglub.Time
             if (millisecond < 0 || millisecond >= MillisecondsPerSecond)
                 Throw.ArgumentOutOfRange(nameof(second));
 
-            long nanosecondOfDay = MultiplyByNanosecondsPerHour(hour)
+            long nanosecondOfDay =
+                TemporalArithmetic.MultiplyByNanosecondsPerHour(hour)
                 + NanosecondsPerMinute * minute
                 + (long)NanosecondsPerSecond * second
                 + (long)NanosecondsPerMillisecond * millisecond;
 
-            return new TimeOfDay64(nanosecondOfDay);
+            return new InstantOfDay(nanosecondOfDay);
         }
+
         /// <summary>
-        /// Creates a new instance of <see cref="TimeOfDay64"/> from the specified hour-of-day,
+        /// Creates a new instance of <see cref="InstantOfDay"/> from the specified hour-of-day,
         /// minute-of-hour, second-of-minute and microsecond-of-second.
         /// </summary>
         /// <exception cref="AoorException">One of the parameters is out of range.</exception>
         [Pure]
-        public static TimeOfDay64 FromHourMinuteSecondMicrosecond(
+        public static InstantOfDay FromHourMinuteSecondMicrosecond(
             int hour, int minute, int second, int microsecond)
         {
             if (hour < 0 || hour >= HoursPerDay) Throw.ArgumentOutOfRange(nameof(hour));
@@ -211,21 +266,22 @@ namespace Zorglub.Time
             if (microsecond < 0 || microsecond >= MicrosecondsPerSecond)
                 Throw.ArgumentOutOfRange(nameof(second));
 
-            long nanosecondOfDay = MultiplyByNanosecondsPerHour(hour)
+            long nanosecondOfDay =
+                TemporalArithmetic.MultiplyByNanosecondsPerHour(hour)
                 + NanosecondsPerMinute * minute
                 + (long)NanosecondsPerSecond * second
                 + (long)NanosecondsPerMicrosecond * microsecond;
 
-            return new TimeOfDay64(nanosecondOfDay);
+            return new InstantOfDay(nanosecondOfDay);
         }
 
         /// <summary>
-        /// Creates a new instance of <see cref="TimeOfDay64"/> from the specified hour-of-day,
+        /// Creates a new instance of <see cref="InstantOfDay"/> from the specified hour-of-day,
         /// minute-of-hour, second-of-minute and tick-of-second.
         /// </summary>
         /// <exception cref="AoorException">One of the parameters is out of range.</exception>
         [Pure]
-        public static TimeOfDay64 FromHourMinuteSecondTick(
+        public static InstantOfDay FromHourMinuteSecondTick(
             int hour, int minute, int second, int tick)
         {
             if (hour < 0 || hour >= HoursPerDay) Throw.ArgumentOutOfRange(nameof(hour));
@@ -233,21 +289,22 @@ namespace Zorglub.Time
             if (second < 0 || second >= SecondsPerMinute) Throw.ArgumentOutOfRange(nameof(second));
             if (tick < 0 || tick >= TicksPerSecond) Throw.ArgumentOutOfRange(nameof(second));
 
-            long nanosecondOfDay = MultiplyByNanosecondsPerHour(hour)
+            long nanosecondOfDay =
+                TemporalArithmetic.MultiplyByNanosecondsPerHour(hour)
                 + NanosecondsPerMinute * minute
                 + (long)NanosecondsPerSecond * second
                 + (long)NanosecondsPerTick * tick;
 
-            return new TimeOfDay64(nanosecondOfDay);
+            return new InstantOfDay(nanosecondOfDay);
         }
 
         /// <summary>
-        /// Creates a new instance of <see cref="TimeOfDay64"/> from the specified hour-of-day,
+        /// Creates a new instance of <see cref="InstantOfDay"/> from the specified hour-of-day,
         /// minute-of-hour, second-of-minute and nanosecond-of-second.
         /// </summary>
         /// <exception cref="AoorException">One of the parameters is out of range.</exception>
         [Pure]
-        public static TimeOfDay64 FromHourMinuteSecondNanosecond(
+        public static InstantOfDay FromHourMinuteSecondNanosecond(
             int hour, int minute, int second, int nanosecond)
         {
             if (hour < 0 || hour >= HoursPerDay) Throw.ArgumentOutOfRange(nameof(hour));
@@ -256,155 +313,141 @@ namespace Zorglub.Time
             if (nanosecond < 0 || nanosecond >= NanosecondsPerSecond)
                 Throw.ArgumentOutOfRange(nameof(second));
 
-            long nanosecondOfDay = MultiplyByNanosecondsPerHour(hour)
+            long nanosecondOfDay =
+                TemporalArithmetic.MultiplyByNanosecondsPerHour(hour)
                 + NanosecondsPerMinute * minute
                 + (long)NanosecondsPerSecond * second
                 + nanosecond;
 
-            return new TimeOfDay64(nanosecondOfDay);
+            return new InstantOfDay(nanosecondOfDay);
         }
 
         #endregion
         #region Factories using a subunit-of-day
 
-        /// <summary>
-        /// Creates a new instance of <see cref="TimeOfDay64"/> from the specified elapsed hours
-        /// since midnight.
-        /// </summary>
-        /// <exception cref="AoorException"><paramref name="hourOfDay"/> is out of range.</exception>
-        [Pure]
-        public static TimeOfDay64 FromHoursSinceMidnight(int hourOfDay)
-        {
-            if (hourOfDay < 0 || hourOfDay >= HoursPerDay)
-                Throw.ArgumentOutOfRange(nameof(hourOfDay));
-
-            return new TimeOfDay64(MultiplyByNanosecondsPerHour(hourOfDay));
-        }
+        // FromHourOfDay() is named FromHour().
 
         /// <summary>
-        /// Creates a new instance of <see cref="TimeOfDay64"/> from the specified elapsed minutes
+        /// Creates a new instance of <see cref="InstantOfDay"/> from the specified elapsed minutes
         /// since midnight.
         /// </summary>
         /// <exception cref="AoorException"><paramref name="minuteOfDay"/> is out of range.
         /// </exception>
         [Pure]
-        public static TimeOfDay64 FromMinutesSinceMidnight(int minuteOfDay)
+        public static InstantOfDay FromMinuteOfDay(int minuteOfDay)
         {
             if (minuteOfDay < 0 || minuteOfDay >= MinutesPerDay)
                 Throw.ArgumentOutOfRange(nameof(minuteOfDay));
 
-            return new TimeOfDay64(NanosecondsPerMinute * minuteOfDay);
+            return new InstantOfDay(NanosecondsPerMinute * minuteOfDay);
         }
 
         /// <summary>
-        /// Creates a new instance of <see cref="TimeOfDay64"/> from the specified elapsed seconds
+        /// Creates a new instance of <see cref="InstantOfDay"/> from the specified elapsed seconds
         /// since midnight.
         /// </summary>
         /// <exception cref="AoorException"><paramref name="secondOfDay"/> is out of range.
         /// </exception>
         [Pure]
-        public static TimeOfDay64 FromSecondsSinceMidnight(int secondOfDay)
+        public static InstantOfDay FromSecondOfDay(int secondOfDay)
         {
             if (secondOfDay < 0 || secondOfDay >= SecondsPerDay)
                 Throw.ArgumentOutOfRange(nameof(secondOfDay));
 
-            return new TimeOfDay64((long)NanosecondsPerSecond * secondOfDay);
+            return new InstantOfDay((long)NanosecondsPerSecond * secondOfDay);
         }
 
         /// <summary>
-        /// Creates a new instance of <see cref="TimeOfDay64"/> from the specified elapsed
+        /// Creates a new instance of <see cref="InstantOfDay"/> from the specified elapsed
         /// milliseconds since midnight.
         /// </summary>
         /// <exception cref="AoorException"><paramref name="millisecondOfDay"/> is out of range.
         /// </exception>
         [Pure]
-        public static TimeOfDay64 FromMillisecondsSinceMidnight(int millisecondOfDay)
+        public static InstantOfDay FromMillisecondOfDay(int millisecondOfDay)
         {
             if (millisecondOfDay < 0 || millisecondOfDay >= MillisecondsPerDay)
                 Throw.ArgumentOutOfRange(nameof(millisecondOfDay));
 
-            return new TimeOfDay64((long)NanosecondsPerMillisecond * millisecondOfDay);
+            return new InstantOfDay((long)NanosecondsPerMillisecond * millisecondOfDay);
         }
 
         /// <summary>
-        /// Creates a new instance of <see cref="TimeOfDay64"/> from the specified elapsed
+        /// Creates a new instance of <see cref="InstantOfDay"/> from the specified elapsed
         /// milliseconds since midnight.
         /// </summary>
         /// <exception cref="AoorException"><paramref name="microsecondOfDay"/> is out of range.
         /// </exception>
         [Pure]
-        public static TimeOfDay64 FromMicrosecondsSinceMidnight(long microsecondOfDay)
+        public static InstantOfDay FromMicrosecondOfDay(long microsecondOfDay)
         {
             if (microsecondOfDay < 0 || microsecondOfDay >= MicrosecondsPerDay)
                 Throw.ArgumentOutOfRange(nameof(microsecondOfDay));
 
-            return new TimeOfDay64(NanosecondsPerMicrosecond * microsecondOfDay);
+            return new InstantOfDay(NanosecondsPerMicrosecond * microsecondOfDay);
         }
 
         /// <summary>
-        /// Creates a new instance of <see cref="TimeOfDay64"/> from the specified elapsed ticks
+        /// Creates a new instance of <see cref="InstantOfDay"/> from the specified elapsed ticks
         /// since midnight.
         /// </summary>
         /// <exception cref="AoorException"><paramref name="tickOfDay"/> is out of range.</exception>
         [Pure]
-        public static TimeOfDay64 FromTicksSinceMidnight(long tickOfDay)
+        public static InstantOfDay FromTickOfDay(long tickOfDay)
         {
             if (tickOfDay < 0 || tickOfDay >= TicksPerDay)
                 Throw.ArgumentOutOfRange(nameof(tickOfDay));
 
-            return new TimeOfDay64(NanosecondsPerTick * tickOfDay);
+            return new InstantOfDay(NanosecondsPerTick * tickOfDay);
         }
 
         /// <summary>
-        /// Creates a new instance of <see cref="TimeOfDay64"/> from the specified elapsed ticks
-        /// since midnight.
+        /// Creates a new instance of <see cref="InstantOfDay"/> from the specified elapsed
+        /// nanoseconds since midnight.
         /// </summary>
         /// <exception cref="AoorException"><paramref name="nanosecondOfDay"/> is out of range.
         /// </exception>
         [Pure]
-        public static TimeOfDay64 FromNanosecondsSinceMidnight(long nanosecondOfDay)
+        public static InstantOfDay FromNanosecondOfDay(long nanosecondOfDay)
         {
             if (nanosecondOfDay < 0 || nanosecondOfDay >= NanosecondsPerDay)
                 Throw.ArgumentOutOfRange(nameof(nanosecondOfDay));
 
-            return new TimeOfDay64(nanosecondOfDay);
+            return new InstantOfDay(nanosecondOfDay);
         }
 
-        #endregion
-        #region Other factories
-
         /// <summary>
-        /// Creates a new instance of <see cref="TimeOfDay64"/> from the specified fraction of the
+        /// Creates a new instance of <see cref="InstantOfDay"/> from the specified fraction of the
         /// day.
         /// </summary>
         /// <exception cref="AoorException"><paramref name="fractionOfDay"/> is out of range.
         /// </exception>
         [Pure]
-        public static TimeOfDay64 FromFractionOfDay(double fractionOfDay)
+        public static InstantOfDay FromFractionOfDay(double fractionOfDay)
         {
             if (fractionOfDay < 0d || fractionOfDay >= 1d)
                 Throw.ArgumentOutOfRange(nameof(fractionOfDay));
 
             long nanosecondOfDay = (long)(fractionOfDay * NanosecondsPerDay);
 
-            return new TimeOfDay64(nanosecondOfDay);
+            return new InstantOfDay(nanosecondOfDay);
         }
 
         /// <summary>
-        /// Creates a new instance of <see cref="TimeOfDay64"/> from the specified fraction of the
+        /// Creates a new instance of <see cref="InstantOfDay"/> from the specified fraction of the
         /// day.
         /// </summary>
         /// <exception cref="AoorException"><paramref name="fractionOfDay"/> is out of range.
         /// </exception>
         [Pure]
-        internal static TimeOfDay64 FromFractionOfDay(decimal fractionOfDay)
+        internal static InstantOfDay FromFractionOfDay(decimal fractionOfDay)
         {
             if (fractionOfDay < 0m || fractionOfDay >= 1m)
                 Throw.ArgumentOutOfRange(nameof(fractionOfDay));
 
             long nanosecondOfDay = (long)(fractionOfDay * NanosecondsPerDay);
 
-            return new TimeOfDay64(nanosecondOfDay);
+            return new InstantOfDay(nanosecondOfDay);
         }
 
         #endregion
@@ -414,106 +457,103 @@ namespace Zorglub.Time
         /// Converts the current instance to a <see cref="TimeOfDay"/>.
         /// </summary>
         [Pure]
-        public TimeOfDay ToTimeOfDay() =>
-            TimeOfDay.FromMillisecondsSinceMidnightCore(MillisecondOfDay);
+        public TimeOfDay ToTimeOfDay() => TimeOfDay.FromMillisecondOfDayCore(MillisecondOfDay);
 
         /// <summary>
         /// Converts this instance to a fraction of the day.
         /// </summary>
         [Pure]
-        public double ToFractionOfDay() => (double)NanosecondOfDay / NanosecondsPerDay;
+        public double ToFractionOfDay() => (double)_nanosecondOfDay / NanosecondsPerDay;
 
         /// <summary>
         /// Converts this instance to a fraction of the day.
         /// </summary>
         [Pure]
-        internal decimal ToDecimal() => (decimal)NanosecondOfDay / NanosecondsPerDay;
+        internal decimal ToDecimal() => (decimal)_nanosecondOfDay / NanosecondsPerDay;
 
         #endregion
     }
 
-    public partial struct TimeOfDay64 // IEquatable
+    public partial struct InstantOfDay // IEquatable
     {
         /// <summary>
-        /// Determines whether two specified instances of <see cref="TimeOfDay64"/> are equal.
+        /// Determines whether two specified instances of <see cref="InstantOfDay"/> are equal.
         /// </summary>
-        public static bool operator ==(TimeOfDay64 left, TimeOfDay64 right) =>
-            left.NanosecondOfDay == right.NanosecondOfDay;
+        public static bool operator ==(InstantOfDay left, InstantOfDay right) =>
+            left._nanosecondOfDay == right._nanosecondOfDay;
 
         /// <summary>
-        /// Determines whether two specified instances of <see cref="TimeOfDay64"/> are not equal.
+        /// Determines whether two specified instances of <see cref="InstantOfDay"/> are not equal.
         /// </summary>
-        public static bool operator !=(TimeOfDay64 left, TimeOfDay64 right) =>
-            left.NanosecondOfDay != right.NanosecondOfDay;
+        public static bool operator !=(InstantOfDay left, InstantOfDay right) =>
+            left._nanosecondOfDay != right._nanosecondOfDay;
 
         /// <inheritdoc />
         [Pure]
-        public bool Equals(TimeOfDay64 other) => NanosecondOfDay == other.NanosecondOfDay;
+        public bool Equals(InstantOfDay other) => _nanosecondOfDay == other._nanosecondOfDay;
 
         /// <inheritdoc />
         [Pure]
         public override bool Equals([NotNullWhen(true)] object? obj) =>
-            obj is TimeOfDay64 timeOfDay && Equals(timeOfDay);
+            obj is InstantOfDay timeOfDay && Equals(timeOfDay);
 
         /// <inheritdoc />
         [Pure]
-        public override int GetHashCode() => NanosecondOfDay.GetHashCode();
+        public override int GetHashCode() => _nanosecondOfDay.GetHashCode();
     }
 
-    public partial struct TimeOfDay64 // IComparable
+    public partial struct InstantOfDay // IComparable
     {
         /// <summary>
-        /// Compares the two specified fractions of the day to see if the left one is strictly
-        /// earlier than the right one.
-        /// </summary>
-        public static bool operator <(TimeOfDay64 left, TimeOfDay64 right) =>
-            left.NanosecondOfDay < right.NanosecondOfDay;
-
-        /// <summary>
-        /// Compares the two specified fractions of the day to see if the left one is earlier than
-        /// or equal to the right one.
-        /// </summary>
-        public static bool operator <=(TimeOfDay64 left, TimeOfDay64 right) =>
-            left.NanosecondOfDay <= right.NanosecondOfDay;
-
-        /// <summary>
-        /// Compares the two specified fractions of the day to see if the left one is strictly later
+        /// Compares the two specified times of the day to see if the left one is strictly earlier
         /// than the right one.
         /// </summary>
-        public static bool operator >(TimeOfDay64 left, TimeOfDay64 right) =>
-            left.NanosecondOfDay > right.NanosecondOfDay;
+        public static bool operator <(InstantOfDay left, InstantOfDay right) =>
+            left._nanosecondOfDay < right._nanosecondOfDay;
 
         /// <summary>
-        /// Compares the two specified fractions of the day to see if the left one is later than or
+        /// Compares the two specified times of the day to see if the left one is earlier than or
         /// equal to the right one.
         /// </summary>
-        public static bool operator >=(TimeOfDay64 left, TimeOfDay64 right) =>
-            left.NanosecondOfDay >= right.NanosecondOfDay;
+        public static bool operator <=(InstantOfDay left, InstantOfDay right) =>
+            left._nanosecondOfDay <= right._nanosecondOfDay;
+
+        /// <summary>
+        /// Compares the two specified times of the day to see if the left one is strictly later
+        /// than the right one.
+        /// </summary>
+        public static bool operator >(InstantOfDay left, InstantOfDay right) =>
+            left._nanosecondOfDay > right._nanosecondOfDay;
+
+        /// <summary>
+        /// Compares the two specified times of the day to see if the left one is later than or
+        /// equal to the right one.
+        /// </summary>
+        public static bool operator >=(InstantOfDay left, InstantOfDay right) =>
+            left._nanosecondOfDay >= right._nanosecondOfDay;
 
         /// <summary>
         /// Obtains the earlier time of two specified times.
         /// </summary>
         [Pure]
-        public static TimeOfDay64 Min(TimeOfDay64 left, TimeOfDay64 right) =>
-            left < right ? left : right;
+        public static InstantOfDay Min(InstantOfDay x, InstantOfDay y) => x < y ? x : y;
 
         /// <summary>
         /// Obtains the later time of two specified times.
         /// </summary>
         [Pure]
-        public static TimeOfDay64 Max(TimeOfDay64 left, TimeOfDay64 right) =>
-            left > right ? left : right;
+        public static InstantOfDay Max(InstantOfDay x, InstantOfDay y) => x > y ? x : y;
 
         /// <summary>
         /// Indicates whether this instance is earlier, later or the same as the specified one.
         /// </summary>
         [Pure]
-        public int CompareTo(TimeOfDay64 other) => NanosecondOfDay.CompareTo(other.NanosecondOfDay);
+        public int CompareTo(InstantOfDay other) => _nanosecondOfDay.CompareTo(other._nanosecondOfDay);
 
         [Pure]
         public int CompareTo(object? obj) =>
             obj is null ? 1
-            : obj is TimeOfDay64 fractionOfDay ? CompareTo(fractionOfDay)
-            : Throw.NonComparable(typeof(TimeOfDay64), obj);
+            : obj is InstantOfDay timeOfDay ? CompareTo(timeOfDay)
+            : Throw.NonComparable(typeof(InstantOfDay), obj);
     }
 }

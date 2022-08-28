@@ -7,7 +7,8 @@ namespace Zorglub.Time
 
     using static Zorglub.Time.Core.TemporalConstants;
 
-    // REVIEW(code): size of Moment64. Change name (PreciseMoment?).
+    // REVIEW(code): size of Moment64. Change name (PreciseMoment, NanoMoment?).
+    // In fact, Instant should be used instead of Moment64.
 
     /// <summary>
     /// Represents a moment with nanosecond precision.
@@ -19,13 +20,13 @@ namespace Zorglub.Time
         IMinMaxValue<Moment64>
     {
         private readonly DayNumber _dayNumber;
-        private readonly TimeOfDay64 _timeOfDay;
+        private readonly InstantOfDay _timeOfDay;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Moment64"/> struct from the specified day
         /// number and time of the day.
         /// </summary>
-        public Moment64(DayNumber dayNumber, TimeOfDay64 timeOfDay)
+        public Moment64(DayNumber dayNumber, InstantOfDay timeOfDay)
         {
             _dayNumber = dayNumber;
             _timeOfDay = timeOfDay;
@@ -38,12 +39,12 @@ namespace Zorglub.Time
         /// </summary>
         public static Moment64 Zero { get; }
 
-        public static Moment64 MinValue { get; } = new(DayNumber.MinValue, TimeOfDay64.MinValue);
-        public static Moment64 MaxValue { get; } = new(DayNumber.MaxValue, TimeOfDay64.MaxValue);
+        public static Moment64 MinValue { get; } = new(DayNumber.MinValue, InstantOfDay.MinValue);
+        public static Moment64 MaxValue { get; } = new(DayNumber.MaxValue, InstantOfDay.MaxValue);
 
         public DayNumber DayNumber => _dayNumber;
 
-        public TimeOfDay64 TimeOfDay => _timeOfDay;
+        public InstantOfDay TimeOfDay => _timeOfDay;
 
         public long SecondsSinceZero =>
             _dayNumber.DaysSinceZero * (long)SecondsPerDay
@@ -69,7 +70,7 @@ namespace Zorglub.Time
         /// <summary>
         /// Deconstructs this instance into its components.
         /// </summary>
-        public void Deconstruct(out DayNumber dayNumber, out TimeOfDay64 timeOfDay) =>
+        public void Deconstruct(out DayNumber dayNumber, out InstantOfDay timeOfDay) =>
             (dayNumber, timeOfDay) = (DayNumber, TimeOfDay);
     }
 

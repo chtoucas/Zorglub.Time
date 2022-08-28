@@ -3,6 +3,8 @@
 
 namespace Zorglub.Time.Horology
 {
+    using Zorglub.Time.Core;
+
     using static Zorglub.Time.Core.TemporalConstants;
 
     // TODO(doc): describe the time scale in use here, it should match the BCL
@@ -22,7 +24,8 @@ namespace Zorglub.Time.Horology
     public readonly partial struct Instant :
         // Comparison
         IComparisonOperators<Instant, Instant>,
-        IMinMaxValue<Instant>
+        IMinMaxValue<Instant>,
+        IMinMaxFunctions<Instant>
     {
         /// <summary>
         /// Represents the number of elapsed nanoseconds since 1970-01-01T00:00:00Z (UTC).
@@ -103,6 +106,18 @@ namespace Zorglub.Time.Horology
         /// right one.
         /// </summary>
         public static bool operator >=(Instant left, Instant right) => left.CompareTo(right) >= 0;
+
+        /// <summary>
+        /// Obtains the earlier instant of two specified instants.
+        /// </summary>
+        [Pure]
+        public static Instant Min(Instant x, Instant y) => x < y ? x : y;
+
+        /// <summary>
+        /// Obtains the later instant of two specified instants.
+        /// </summary>
+        [Pure]
+        public static Instant Max(Instant x, Instant y) => x > y ? x : y;
 
         /// <summary>
         /// Indicates whether this instant instance is earlier, later or the same as the specified one.
