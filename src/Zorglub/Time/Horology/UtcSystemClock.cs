@@ -9,17 +9,22 @@ namespace Zorglub.Time.Horology
 
     // Beware, we use DateTime.Ticks but
     // > "It does not include the number of ticks that are attributable to leap seconds."
-    // See https://docs.microsoft.com/en-us/dotnet/api/system.datetime.ticks
-    // https://github.com/dotnet/dotnet-api-docs/issues/966
+    // See
+    // - https://docs.microsoft.com/en-us/dotnet/api/system.datetime.ticks
+    // - https://github.com/dotnet/dotnet-api-docs/issues/966
     //
     // Consequences?
-    // The clock is NOT monotonic.
     // Regarding DateTime,
     // - In case of a positive leap second, 23:59:59 is repeated.
-    // - In case of a negative leap second, 23:59:59 is not valid.
-    // See also (monotic clock)
-    // https://github.com/dotnet/runtime/issues/15207
-    // https://github.com/dotnet/runtime/issues/5883
+    // - In case of a negative leap second, 23:59:59 is not valid but I don't
+    //   know how DateTime actually handles this case. Notice that no negative
+    //   leap second has ever occured so far.
+    //
+    // Being based on the OS clock, this clock is NOT monotonic.
+    // In fact, it does not matter, one SHOULD NOT use this clock for timing.
+    // See also
+    // - https://github.com/dotnet/runtime/issues/15207
+    // - https://github.com/dotnet/runtime/issues/5883
 
     /// <summary>
     /// Represents the system clock using the Coordinated Universal Time (UTC).
