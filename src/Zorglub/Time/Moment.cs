@@ -3,8 +3,6 @@
 
 namespace Zorglub.Time
 {
-    using Zorglub.Time.Horology;
-
     using static Zorglub.Time.Core.TemporalConstants;
 
     // REVIEW(api): implement IFixedDay? Math ops? etc.
