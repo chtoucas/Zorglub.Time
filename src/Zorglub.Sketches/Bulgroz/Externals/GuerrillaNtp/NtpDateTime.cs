@@ -1,3 +1,5 @@
+#pragma warning disable IDE0073 // Require file header (Style)
+
 // Part of GuerrillaNtp: https://guerrillantp.machinezoo.com
 
 namespace Zorglub.Bulgroz.Externals.GuerrillaNtp

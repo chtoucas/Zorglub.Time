@@ -1,5 +1,7 @@
+#pragma warning disable IDE0073 // Require file header (Style)
+
 /*
- * The C# SNTP client used by Microsoft in .NET Micro Framework
+*The C# SNTP client used by Microsoft in .NET Micro Framework
  *
  * Copyright (C)2001-2019 Valer BOCAN, PhD <valer@bocan.ro>
  * Last modified: August 3rd, 2019
@@ -53,7 +55,6 @@
 
 namespace Zorglub.Bulgroz.Externals.BocanNtp
 {
-    using System;
     using System.Net;
     using System.Net.Sockets;
     using System.Text;
@@ -155,131 +156,99 @@ namespace Zorglub.Bulgroz.Externals.BocanNtp
     ///
     /// </summary>
 
-    public class SNTPClient
+    public sealed partial class SntpClient
     {
-        #region Private stuff
-        // SNTP Data Structure Length
-        private const byte SNTPDataLength = 48;
-
-        // SNTP Data Structure (as described in RFC 2030)
-        private readonly byte[] SNTPData = new byte[SNTPDataLength];
+        // Data Structure Length
+        private const int DataLength = 48;
 
         // Offset constants for timestamps in the data structure
-        private const byte offReferenceID = 12;
-        private const byte offReferenceTimestamp = 16;
-        private const byte offOriginateTimestamp = 24;
-        private const byte offReceiveTimestamp = 32;
-        private const byte offTransmitTimestamp = 40;
-        #endregion
+        private const int ReferenceIdOffset = 12;
+        private const int ReferenceOffset = 16;
+        private const int OriginateOffset = 24;
+        private const int ReceiveOffset = 32;
+        private const int TransmitOffset = 40;
 
-        #region Public accessors
+        // Data Structure (as described in RFC 2030)
+        private readonly byte[] _data = new byte[DataLength];
+
         /// <summary>
         /// Warns of an impending leap second to be inserted/deleted in the last
-        /// minute of the current day. (See the _LeapIndicator enum)
+        /// minute of the current day.
         /// </summary>
-        public LeapIndicator LeapIndicator
+        // Two most significant bits
+        public SntpLeapIndicator LeapIndicator
         {
             get
             {
-                // Isolate the two most significant bits
-                byte val = (byte)(SNTPData[0] >> 6);
-                switch (val)
+                int val = _data[0] >> 6;
+                return val switch
                 {
-                    case 0: return LeapIndicator.NoWarning;
-                    case 1: return LeapIndicator.LastMinute61;
-                    case 2: return LeapIndicator.LastMinute59;
-                    case 3: goto default;
-                    default:
-                        return LeapIndicator.Alarm;
-                }
+                    0 => SntpLeapIndicator.NoWarning,
+                    1 => SntpLeapIndicator.LastMinute61,
+                    2 => SntpLeapIndicator.LastMinute59,
+                    // 3
+                    _ => SntpLeapIndicator.Alarm,
+                };
             }
         }
 
         /// <summary>
         /// Version number of the protocol (3 or 4).
         /// </summary>
-        public byte VersionNumber
-        {
-            get
-            {
-                // Isolate bits 3 - 5
-                byte val = (byte)((SNTPData[0] & 0x38) >> 3);
-                return val;
-            }
-        }
+        // Bits 3 - 5
+        public int Version => (_data[0] & 0x38) >> 3;
 
         /// <summary>
         /// Returns mode. (See the _Mode enum)
         /// </summary>
-        public Mode Mode
+        // Bits 0 - 3
+        public SntpMode Mode
         {
             get
             {
-                // Isolate bits 0 - 3
-                byte val = (byte)(SNTPData[0] & 0x7);
-                switch (val)
+                int val = _data[0] & 0x7;
+                return val switch
                 {
-                    case 0: goto default;
-                    case 6: goto default;
-                    case 7: goto default;
-                    default:
-                        return Mode.Unknown;
-                    case 1:
-                        return Mode.SymmetricActive;
-                    case 2:
-                        return Mode.SymmetricPassive;
-                    case 3:
-                        return Mode.Client;
-                    case 4:
-                        return Mode.Server;
-                    case 5:
-                        return Mode.Broadcast;
-                }
+                    1 => SntpMode.SymmetricActive,
+                    2 => SntpMode.SymmetricPassive,
+                    3 => SntpMode.Client,
+                    4 => SntpMode.Server,
+                    5 => SntpMode.Broadcast,
+                    // 0, 6, 7
+                    _ => SntpMode.Unknown,
+                };
             }
         }
 
         /// <summary>
         /// Stratum of the clock. (See the _Stratum enum)
         /// </summary>
-        public Stratum Stratum
+        public SntpStratum Stratum
         {
             get
             {
-                byte val = SNTPData[1];
-                if (val == 0) return Stratum.Unspecified;
+                int val = _data[1];
+                if (val == 0) return SntpStratum.Unspecified;
                 else
-                    if (val == 1) return Stratum.PrimaryReference;
+                    if (val == 1) return SntpStratum.PrimaryReference;
                 else
-                        if (val <= 15) return Stratum.SecondaryReference;
+                        if (val <= 15) return SntpStratum.SecondaryReference;
                 else
-                    return Stratum.Reserved;
+                    return SntpStratum.Reserved;
             }
         }
 
         /// <summary>
         /// Maximum interval (seconds) between successive messages
         /// </summary>
-        [CLSCompliant(false)]
-        public uint PollInterval
-        {
-            get
-            {
-                // Thanks to Jim Hollenhorst <hollenho@attbi.com>
-                return (uint)Math.Pow(2, (sbyte)SNTPData[2]);
-            }
-        }
+        // Thanks to Jim Hollenhorst <hollenho@attbi.com>
+        public int PollInterval => (int)Math.Pow(2, _data[2]);
 
         /// <summary>
         /// Precision (in seconds) of the clock
         /// </summary>
-        public double Precision
-        {
-            get
-            {
-                // Thanks to Jim Hollenhorst <hollenho@attbi.com>
-                return Math.Pow(2, (sbyte)SNTPData[3]);
-            }
-        }
+        // Thanks to Jim Hollenhorst <hollenho@attbi.com>
+        public double Precision => Math.Pow(2, _data[3]);
 
         /// <summary>
         /// Round trip time (in milliseconds) to the primary reference source.
@@ -288,8 +257,8 @@ namespace Zorglub.Bulgroz.Externals.BocanNtp
         {
             get
             {
-                int temp = 256 * (256 * (256 * SNTPData[4] + SNTPData[5]) + SNTPData[6]) + SNTPData[7];
-                return 1000 * (((double)temp) / 0x10000);
+                int temp = 256 * (256 * (256 * _data[4] + _data[5]) + _data[6]) + _data[7];
+                return 1000 * ((double)temp / 0x10000);
             }
         }
 
@@ -300,49 +269,42 @@ namespace Zorglub.Bulgroz.Externals.BocanNtp
         {
             get
             {
-                int temp = 256 * (256 * (256 * SNTPData[8] + SNTPData[9]) + SNTPData[10]) + SNTPData[11];
-                return 1000 * (((double)temp) / 0x10000);
+                int temp = 256 * (256 * (256 * _data[8] + _data[9]) + _data[10]) + _data[11];
+                return 1000 * ((double)temp / 0x10000);
             }
         }
 
         /// <summary>
         /// Reference identifier (either a 4 character string or an IP address)
         /// </summary>
-        public string ReferenceID
+        public string ReferenceId
         {
             get
             {
                 string val = "";
                 switch (Stratum)
                 {
-                    case Stratum.Unspecified:
-                        goto case Stratum.PrimaryReference;
-                    case Stratum.PrimaryReference:
-                        val += (char)SNTPData[offReferenceID + 0];
-                        val += (char)SNTPData[offReferenceID + 1];
-                        val += (char)SNTPData[offReferenceID + 2];
-                        val += (char)SNTPData[offReferenceID + 3];
+                    case SntpStratum.Unspecified:
+                        goto case SntpStratum.PrimaryReference;
+                    case SntpStratum.PrimaryReference:
+                        val += (char)_data[ReferenceIdOffset + 0];
+                        val += (char)_data[ReferenceIdOffset + 1];
+                        val += (char)_data[ReferenceIdOffset + 2];
+                        val += (char)_data[ReferenceIdOffset + 3];
                         break;
-                    case Stratum.SecondaryReference:
-                        switch (VersionNumber)
+                    case SntpStratum.SecondaryReference:
+                        switch (Version)
                         {
                             case 3:	// Version 3, Reference ID is an IPv4 address
-                                string Address = SNTPData[offReferenceID + 0].ToString() + "." +
-                                                 SNTPData[offReferenceID + 1].ToString() + "." +
-                                                 SNTPData[offReferenceID + 2].ToString() + "." +
-                                                 SNTPData[offReferenceID + 3].ToString();
-                                //try
-                                //{
+                                string Address = _data[ReferenceIdOffset + 0].ToString() + "." +
+                                                 _data[ReferenceIdOffset + 1].ToString() + "." +
+                                                 _data[ReferenceIdOffset + 2].ToString() + "." +
+                                                 _data[ReferenceIdOffset + 3].ToString();
                                 IPHostEntry Host = Dns.GetHostEntry(Address);
                                 val = Host.HostName + " (" + Address + ")";
-                                //}
-                                //catch (Exception)
-                                //{
-                                //    val = "N/A";
-                                //}
                                 break;
                             case 4: // Version 4, Reference ID is the timestamp of last update
-                                DateTime time = ComputeDate(GetMilliSeconds(offReferenceID));
+                                DateTime time = ComputeDate(GetMilliSeconds(ReferenceIdOffset));
                                 // Take care of the time zone
                                 TimeSpan offspan = TimeZoneInfo.Local.GetUtcOffset(DateTime.UtcNow);
                                 val = (time + offspan).ToString();
@@ -361,11 +323,11 @@ namespace Zorglub.Bulgroz.Externals.BocanNtp
         /// <summary>
         /// The time at which the clock was last set or corrected
         /// </summary>
-        public DateTime ReferenceTimestamp
+        public DateTime ReferenceTime
         {
             get
             {
-                DateTime time = ComputeDate(GetMilliSeconds(offReferenceTimestamp));
+                DateTime time = ComputeDate(GetMilliSeconds(ReferenceOffset));
                 // Take care of the time zone
                 TimeSpan offspan = TimeZoneInfo.Local.GetUtcOffset(DateTime.UtcNow);
                 return time + offspan;
@@ -375,22 +337,16 @@ namespace Zorglub.Bulgroz.Externals.BocanNtp
         /// <summary>
         /// The time (T1) at which the request departed the client for the server
         /// </summary>
-        public DateTime OriginateTimestamp
-        {
-            get
-            {
-                return ComputeDate(GetMilliSeconds(offOriginateTimestamp));
-            }
-        }
+        public DateTime OriginateTime => ComputeDate(GetMilliSeconds(OriginateOffset));
 
         /// <summary>
         /// The time (T2) at which the request arrived at the server
         /// </summary>
-        public DateTime ReceiveTimestamp
+        public DateTime ReceiveTime
         {
             get
             {
-                DateTime time = ComputeDate(GetMilliSeconds(offReceiveTimestamp));
+                DateTime time = ComputeDate(GetMilliSeconds(ReceiveOffset));
                 // Take care of the time zone
                 TimeSpan offspan = TimeZoneInfo.Local.GetUtcOffset(DateTime.UtcNow);
                 return time + offspan;
@@ -400,25 +356,25 @@ namespace Zorglub.Bulgroz.Externals.BocanNtp
         /// <summary>
         /// The time (T3) at which the reply departed the server for client
         /// </summary>
-        public DateTime TransmitTimestamp
+        public DateTime TransmitTime
         {
             get
             {
-                DateTime time = ComputeDate(GetMilliSeconds(offTransmitTimestamp));
+                DateTime time = ComputeDate(GetMilliSeconds(TransmitOffset));
                 // Take care of the time zone
                 TimeSpan offspan = TimeZoneInfo.Local.GetUtcOffset(DateTime.UtcNow);
                 return time + offspan;
             }
             set
             {
-                SetDate(offTransmitTimestamp, value);
+                SetDate(TransmitOffset, value);
             }
         }
 
         /// <summary>
         /// Destination Timestamp (T4)
         /// </summary>
-        private DateTime DestinationTimestamp;
+        private DateTime DestinationTime;
 
         /// <summary>
         /// The time (in milliseconds) between the departure of request and arrival of reply
@@ -428,7 +384,7 @@ namespace Zorglub.Bulgroz.Externals.BocanNtp
             get
             {
                 // Thanks to DNH <dnharris@csrlink.net>
-                TimeSpan span = DestinationTimestamp - OriginateTimestamp - (ReceiveTimestamp - TransmitTimestamp);
+                TimeSpan span = DestinationTime - OriginateTime - (ReceiveTime - TransmitTime);
                 return span.TotalMilliseconds;
             }
         }
@@ -441,23 +397,85 @@ namespace Zorglub.Bulgroz.Externals.BocanNtp
             get
             {
                 // Thanks to DNH <dnharris@csrlink.net>
-                TimeSpan span = ReceiveTimestamp - OriginateTimestamp + (TransmitTimestamp - DestinationTimestamp);
+                TimeSpan span = ReceiveTime - OriginateTime + (TransmitTime - DestinationTime);
                 return span.TotalMilliseconds / 2;
             }
         }
-        #endregion
+    }
 
-        #region Helpers
+    public sealed partial class SntpClient
+    {
+        /// <summary>
+        /// Connects to the time server and populates the data structure.
+        ///	It can also update the system time.
+        /// </summary>
+        /// <param name="host">Address of the NTP server.</param>
+        /// <param name="timeOut">Time in milliseconds after which the method returns.</param>
+        public SntpResponse Query(string host, int timeOut)
+        {
+            var sock = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
+
+            try
+            {
+                sock.Bind(new IPEndPoint(IPAddress.Any, 123));
+
+                var hostEntry = Dns.GetHostEntry(host);
+                EndPoint endpoint = new IPEndPoint(hostEntry.AddressList[0], 123);
+
+                var data = InitializeData();
+
+                // Timeout code
+                bool received = false;
+                int elapsedTime = 0;
+
+                var transmitTime = DateTime.Now;
+
+                while (!received && elapsedTime < timeOut)
+                {
+                    sock.SendTo(data, data.Length, SocketFlags.None, endpoint);
+
+                    // Check if data has been received by the listening socket and is available to be read
+                    if (sock.Available > 0)
+                    {
+                        int len = sock.ReceiveFrom(data, ref endpoint);
+                        if (!IsResponseValid()) throw new SocketException();
+                        received = true;
+                        break;
+                    }
+
+                    // Wait a bit
+                    Thread.Sleep(500);
+                    elapsedTime += 500;
+                }
+
+                if (!received) throw new TimeoutException("Host did not respond.");
+
+                return SntpResponse.Create(data, transmitTime, DateTime.Now);
+            }
+            finally
+            {
+                sock.Close();
+            }
+
+            static byte[] InitializeData()
+            {
+                var data = new byte[DataLength];
+                // Set version number to 4 and Mode to 3 (client).
+                data[0] = 0x1b;
+                for (int i = 1; i < DataLength; i++) { data[i] = 0; }
+
+                return data;
+            }
+        }
+    }
+
+    public sealed partial class SntpClient
+    {
         /// <summary>
         /// Compute date, given the number of milliseconds since January 1, 1900
         /// </summary>
-        private static DateTime ComputeDate(ulong milliseconds)
-        {
-            var span = TimeSpan.FromMilliseconds(milliseconds);
-            var time = new DateTime(1900, 1, 1);
-            time += span;
-            return time;
-        }
+        private static DateTime ComputeDate(ulong milliseconds) =>
+            new DateTime(1900, 1, 1) + TimeSpan.FromMilliseconds(milliseconds);
 
         /// <summary>
         /// Compute the number of milliseconds, given the offset of a 8-byte array
@@ -468,11 +486,11 @@ namespace Zorglub.Bulgroz.Externals.BocanNtp
 
             for (int i = 0; i <= 3; i++)
             {
-                intpart = 256 * intpart + SNTPData[offset + i];
+                intpart = 256 * intpart + _data[offset + i];
             }
             for (int i = 4; i <= 7; i++)
             {
-                fractpart = 256 * fractpart + SNTPData[offset + i];
+                fractpart = 256 * fractpart + _data[offset + i];
             }
             ulong milliseconds = intpart * 1000 + fractpart * 1000 / 0x100000000L;
             return milliseconds;
@@ -494,14 +512,14 @@ namespace Zorglub.Bulgroz.Externals.BocanNtp
             ulong temp = intpart;
             for (int i = 3; i >= 0; i--)
             {
-                SNTPData[offset + i] = (byte)(temp % 256);
+                _data[offset + i] = (byte)(temp % 256);
                 temp /= 256;
             }
 
             temp = fractpart;
             for (int i = 7; i >= 4; i--)
             {
-                SNTPData[offset + i] = (byte)(temp % 256);
+                _data[offset + i] = (byte)(temp % 256);
                 temp /= 256;
             }
         }
@@ -511,7 +529,7 @@ namespace Zorglub.Bulgroz.Externals.BocanNtp
         /// </summary>
         private bool IsResponseValid()
         {
-            if (SNTPData.Length < SNTPDataLength || Mode != Mode.Server)
+            if (_data.Length < DataLength || Mode != SntpMode.Server)
             {
                 return false;
             }
@@ -520,167 +538,5 @@ namespace Zorglub.Bulgroz.Externals.BocanNtp
                 return true;
             }
         }
-
-        /// <summary>
-        /// Initialize the SNTP client data. Sets up data structure and prepares for connection.
-        /// </summary>
-        private void Initialize()
-        {
-            // Set version number to 4 and Mode to 3 (client)
-            SNTPData[0] = 0x1B;
-            // Initialize all other fields with 0
-            for (int i = 1; i < 48; i++)
-            {
-                SNTPData[i] = 0;
-            }
-            // Initialize the transmit timestamp
-            TransmitTimestamp = GetCurrentTime();
-        }
-
-        private static DateTime GetCurrentTime() => DateTime.Now;
-
-        #endregion
-
-        #region Public methods
-        /// <summary>
-        /// Connects to the time server and populates the data structure.
-        ///	It can also update the system time.
-        /// </summary>
-        /// <param name="Host">Address of the NTP server.</param>
-        /// <param name="TimeOut">Time in milliseconds after which the method returns.</param>
-        public void Connect(string Host, int TimeOut)
-        {
-            try
-            {
-                var listenEP = new IPEndPoint(IPAddress.Any, 123);
-                var sendSocket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
-                var hostEntry = Dns.GetHostEntry(Host);
-                var sendEP = new IPEndPoint(hostEntry.AddressList[0], 123);
-                EndPoint epSendEP = sendEP;
-
-                int messageLength = 0;
-                try
-                {
-                    sendSocket.Bind(listenEP);
-                    Initialize();
-
-                    bool messageReceived = false;
-                    int elapsedTime = 0;
-
-                    // Timeout code
-                    while (!messageReceived && (elapsedTime < TimeOut))
-                    {
-                        sendSocket.SendTo(SNTPData, SNTPData.Length, SocketFlags.None, sendEP);
-                        // Check if data has been received by the listening socket and is available to be read
-                        if (sendSocket.Available > 0)
-                        {
-                            messageLength = sendSocket.ReceiveFrom(SNTPData, ref epSendEP);
-                            if (!IsResponseValid())
-                            {
-                                throw new SocketException();
-                            }
-                            messageReceived = true;
-                            break;
-                        }
-                        // Wait a bit
-                        Thread.Sleep(500);
-                        elapsedTime += 500;
-                    }
-                    if (!messageReceived)
-                    {
-                        throw new TimeoutException($"Host did not respond.");
-                    }
-                }
-                catch (SocketException)
-                {
-                    throw;
-                }
-                finally
-                {
-                    sendSocket.Close();
-                }
-
-                DestinationTimestamp = GetCurrentTime();
-            }
-            catch (SocketException)
-            {
-                throw;
-            }
-        }
-
-        /// <summary>
-        /// Returns a string representation of the object
-        /// </summary>
-        public override string ToString()
-        {
-            var str = new StringBuilder();
-
-            str.Append("Leap indicator     : ");
-            switch (LeapIndicator)
-            {
-                case LeapIndicator.NoWarning:
-                    str.AppendLine("No warning");
-                    break;
-                case LeapIndicator.LastMinute61:
-                    str.AppendLine("Last minute has 61 seconds");
-                    break;
-                case LeapIndicator.LastMinute59:
-                    str.AppendLine("Last minute has 59 seconds");
-                    break;
-                case LeapIndicator.Alarm:
-                    str.AppendLine("Alarm Condition (clock not synchronized)");
-                    break;
-            }
-            str.AppendLine($"Version number     : {VersionNumber}");
-            str.Append("Mode               : ");
-            switch (Mode)
-            {
-                case Mode.Unknown:
-                    str.AppendLine("Unknown");
-                    break;
-                case Mode.SymmetricActive:
-                    str.AppendLine("Symmetric Active");
-                    break;
-                case Mode.SymmetricPassive:
-                    str.AppendLine("Symmetric Pasive");
-                    break;
-                case Mode.Client:
-                    str.AppendLine("Client");
-                    break;
-                case Mode.Server:
-                    str.AppendLine("Server");
-                    break;
-                case Mode.Broadcast:
-                    str.AppendLine("Broadcast");
-                    break;
-            }
-            str.Append("Stratum            : ");
-            switch (Stratum)
-            {
-                case Stratum.Unspecified:
-                case Stratum.Reserved:
-                    str.AppendLine("Unspecified");
-                    break;
-                case Stratum.PrimaryReference:
-                    str.AppendLine("Primary reference");
-                    break;
-                case Stratum.SecondaryReference:
-                    str.AppendLine("Secondary reference");
-                    break;
-            }
-
-            str.AppendLine($"Precision          : {Precision} s.");
-            str.AppendLine($"Poll interval      : {PollInterval} s.");
-            str.AppendLine($"Reference ID       : {ReferenceID}");
-            str.AppendLine($"Root delay         : {RootDelay} ms.");
-            str.AppendLine($"Root dispersion    : {RootDispersion} ms.");
-            str.AppendLine($"Round trip delay   : {RoundTripDelay} ms.");
-            str.AppendLine($"Local clock offset : {LocalClockOffset} ms.");
-            str.AppendLine($"Local time         : {GetCurrentTime().AddMilliseconds(LocalClockOffset)}");
-            str.AppendLine();
-
-            return str.ToString();
-        }
-        #endregion
     }
 }
