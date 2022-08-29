@@ -3,23 +3,20 @@
 
 #pragma warning disable CA1812 // Avoid uninstantiated internal classes (Performance)
 
-//using Play.Demo;
-
-//Showcase.Run();
-
 using System;
 
-using Zorglub.Time;
-using Zorglub.Time.Core;
+using GuerrillaNtp;
+
+using Play.Demo;
+
 using Zorglub.Time.Horology;
 
 using static Zorglub.Time.Core.TemporalConstants;
 
-//var now = SystemClocks.Local.Now();
-//var utcNow = SystemClocks.Utc.Now();
+//Showcase.Run();
 
-//Console.WriteLine($"Now = {now}");
-//Console.WriteLine($"UTC now = {utcNow}");
+Console.WriteLine($"Now = {SystemClocks.Local.Now()}");
+Console.WriteLine($"UTC now = {SystemClocks.Utc.Now()}");
 
 const int DaysTo1601 = 584388;
 const long FileTimeOffset = DaysTo1601 * TicksPerDay;
@@ -37,3 +34,5 @@ Console.WriteLine($"UTC");
 Console.WriteLine($"  Ticks           = {utcNow.Ticks}");
 Console.WriteLine($"  ToFileTime()    = {utcNow.ToFileTime() + FileTimeOffset}");
 Console.WriteLine($"  ToFileTimeUtc() = {utcNow.ToFileTimeUtc() + FileTimeOffset}");
+
+NtpHelpers.Query(NtpClient.Default);
