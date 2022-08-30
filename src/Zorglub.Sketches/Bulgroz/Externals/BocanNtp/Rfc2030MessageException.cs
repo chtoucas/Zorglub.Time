@@ -4,16 +4,14 @@ namespace Zorglub.Bulgroz.Externals.BocanNtp
 {
     using System;
 
-    /// <summary>
-    /// Represents errors that occur in SNTP packets or during SNTP operation.
-    /// </summary>
     public sealed class Rfc2030MessageException : Exception
     {
         public Rfc2030MessageException() { }
 
-        public Rfc2030MessageException(string message) : base(message) { }
+        public Rfc2030MessageException(string message)
+            : base(message) { }
 
-        public Rfc2030MessageException(string message, Exception innerException) : base(message, innerException)
-        { }
+        public Rfc2030MessageException(string message, Exception innerException)
+            : base(message, innerException) { }
     }
 }

@@ -168,9 +168,9 @@ namespace Zorglub.Bulgroz.Externals.GuerrillaNtp
         {
             if (VersionNumber < 1 || VersionNumber > 7)
                 throw new NtpException("Invalid SNTP protocol version.");
-            if (!Enum.IsDefined(LeapIndicator))
+            if (Enum.IsDefined(LeapIndicator) == false)
                 throw new NtpException("Invalid leap second indicator value.");
-            if (NtpMode.IsKnown(Mode))
+            if (NtpMode.IsValid(Mode) == false)
                 throw new NtpException("Invalid NTP protocol mode.");
             if ((byte)Stratum != Stratum)
                 throw new NtpException("Invalid stratum number.");

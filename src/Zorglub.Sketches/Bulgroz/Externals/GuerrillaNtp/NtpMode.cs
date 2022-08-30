@@ -20,6 +20,6 @@ namespace Zorglub.Bulgroz.Externals.GuerrillaNtp
         /// </summary>
         public const int Server = 4;
 
-        public static bool IsKnown(int value) => value == 3 || value == 4;
+        public static bool IsValid(int value) => value == 3 || value == 4;
     }
 }

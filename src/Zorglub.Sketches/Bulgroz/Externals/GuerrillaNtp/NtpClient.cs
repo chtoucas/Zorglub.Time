@@ -102,7 +102,8 @@ namespace Zorglub.Bulgroz.Externals.GuerrillaNtp
         /// <param name="ip">IP address of the SNTP server.</param>
         /// <param name="timeout">Query timeout. Null to use <see cref="DefaultTimeout"/>.</param>
         /// <param name="port">Server port. Null to use <see cref="DefaultPort"/>.</param>
-        public NtpClient(IPAddress ip, TimeSpan? timeout = null, int? port = null) : this(new IPEndPoint(ip, port ?? DefaultPort), timeout) { }
+        public NtpClient(IPAddress ip, TimeSpan? timeout = null, int? port = null)
+            : this(new IPEndPoint(ip, port ?? DefaultPort), timeout) { }
 
         /// <summary>
         /// Creates new client for SNTP server on given host.
@@ -110,7 +111,8 @@ namespace Zorglub.Bulgroz.Externals.GuerrillaNtp
         /// <param name="host">DNS name or IP address of the SNTP server.</param>
         /// <param name="timeout">Query timeout. Null to use <see cref="DefaultTimeout"/>.</param>
         /// <param name="port">Server port. Null to use <see cref="DefaultPort"/>.</param>
-        public NtpClient(string host, TimeSpan? timeout = null, int? port = null) : this(new DnsEndPoint(host, port ?? DefaultPort), timeout) { }
+        public NtpClient(string host, TimeSpan? timeout = null, int? port = null)
+            : this(new DnsEndPoint(host, port ?? DefaultPort), timeout) { }
 
         private volatile NtpClock? last;
 

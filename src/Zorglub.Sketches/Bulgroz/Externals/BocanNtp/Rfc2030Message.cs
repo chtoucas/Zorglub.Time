@@ -4,9 +4,11 @@ namespace Zorglub.Bulgroz.Externals.BocanNtp
 {
     using System.Net;
 
+    using Zorglub.Time.Horology.Ntp;
+
 #pragma warning disable CA1305 // Specify IFormatProvider
 
-    internal sealed partial class Rfc2030Message
+    public sealed partial class Rfc2030Message
     {
         //                      1                   2                   3
         //  0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
@@ -43,6 +45,7 @@ namespace Zorglub.Bulgroz.Externals.BocanNtp
         // |                                                               |
         // |                                                               |
         // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+
         internal const int DataLength = 48;
 
         private const int ReferenceIdOffset = 12;
@@ -51,34 +54,49 @@ namespace Zorglub.Bulgroz.Externals.BocanNtp
         private const int ReceiveOffset = 32;
         private const int TransmitOffset = 40;
 
-        private readonly byte[] _rawdata;
+        private readonly byte[] _bin;
 
-        public Rfc2030Message()
+        // This constructor does NOT validate its parameter.
+        private Rfc2030Message(byte[] bin)
         {
-            // Set version number to 4 and Mode to 3 (client).
-            var data = new byte[DataLength];
-            data[0] = 0x1b;
-            _rawdata = data;
+            Debug.Assert(bin != null);
+            Debug.Assert(bin.Length < DataLength);
+
+            _bin = bin;
         }
 
-        public Rfc2030Message(byte[] rawdata)
+        public static Rfc2030Message Request(DateTime transmitTime)
         {
-            Requires.NotNull(rawdata);
-            if (rawdata.Length < DataLength) throw new ArgumentException("", nameof(rawdata));
+            var bin = new byte[DataLength];
+            // Initialize the first byte to: LI = 0, VN = 3, Mode = 3.
+            bin[0] = 0x1b;
+            // Initialize TransmitTimestamp.
 
-            _rawdata = rawdata;
-
-            if (Mode != SntpMode.Server) throw new ArgumentException("", nameof(rawdata));
+            return new(bin);
         }
 
-        internal static Rfc2030Message Empty => new();
+        public static Rfc2030Message Response(byte[] bin)
+        {
+            var msg = new Rfc2030Message(bin);
+            if (msg.Mode != NtpMode.Server) Throw.Argument(nameof(bin));
+            return msg;
+        }
 
-        internal byte[] RawData => _rawdata;
+        public static Rfc2030Message FromBinary(byte[] bin)
+        {
+            Requires.NotNull(bin);
+            // The binary message may be >= DataLength (upward compatibility).
+            if (bin.Length < DataLength) Throw.Argument(nameof(bin));
+
+            return new(bin);
+        }
+
+        public byte[] ToBinary() => _bin;
     }
 
-    internal partial class Rfc2030Message // First line
+    public partial class Rfc2030Message // First line
     {
-        public SntpLeapIndicator LeapIndicator
+        public LeapIndicator LeapIndicator
         {
             // Leap Indicator (LI): This is a two-bit code warning of an impending
             // leap second to be inserted / deleted in the last minute of the current
@@ -90,20 +108,15 @@ namespace Zorglub.Bulgroz.Externals.BocanNtp
             //   01       1         last minute has 61 seconds
             //   10       2         last minute has 59 seconds)
             //   11       3         alarm condition (clock not synchronized)
-            get
+            get => (_bin[0] >> 6) switch
             {
-                int x = _rawdata[0] >> 6;
+                0 => LeapIndicator.NoWarning,
+                1 => LeapIndicator.PositiveLeapSecond,
+                2 => LeapIndicator.NegativeLeapSecond,
+                3 => LeapIndicator.Alarm,
 
-                return x switch
-                {
-                    0 => SntpLeapIndicator.NoWarning,
-                    1 => SntpLeapIndicator.PositiveLeapSecond,
-                    2 => SntpLeapIndicator.NegativeLeapSecond,
-                    3 => SntpLeapIndicator.Alarm,
-
-                    _ => Throw.Unreachable<SntpLeapIndicator>(),
-                };
-            }
+                _ => Throw.Unreachable<LeapIndicator>(),
+            };
         }
 
         public int Version
@@ -113,10 +126,10 @@ namespace Zorglub.Bulgroz.Externals.BocanNtp
             // only) and 4 for Version 4 (IPv4, IPv6 and OSI). If necessary to
             // distinguish between IPv4, IPv6 and OSI, the encapsulating context
             // must be inspected.
-            get => (_rawdata[0] & 0x38) >> 3;
+            get => (_bin[0] & 0x38) >> 3;
         }
 
-        public SntpMode Mode
+        public NtpMode Mode
         {
             // Mode: This is a three-bit integer indicating the mode, with values
             // defined as follows:
@@ -136,27 +149,22 @@ namespace Zorglub.Bulgroz.Externals.BocanNtp
             // (client) in the request and the server sets it to 4 (server) in the
             // reply. In multicast mode, the server sets this field to 5
             // (broadcast).
-            get
+            get => (_bin[0] & 0x07) switch
             {
-                int x = _rawdata[0] & 0x7;
+                0 => NtpMode.Unspecified,
+                1 => NtpMode.SymmetricActive,
+                2 => NtpMode.SymmetricPassive,
+                3 => NtpMode.Client,
+                4 => NtpMode.Server,
+                5 => NtpMode.Broadcast,
+                6 => NtpMode.NtpControlMessage,
+                7 => NtpMode.Special7,
 
-                return x switch
-                {
-                    0 => SntpMode.Special0,
-                    1 => SntpMode.SymmetricActive,
-                    2 => SntpMode.SymmetricPassive,
-                    3 => SntpMode.Client,
-                    4 => SntpMode.Server,
-                    5 => SntpMode.Broadcast,
-                    6 => SntpMode.Special6,
-                    7 => SntpMode.Special7,
-
-                    _ => Throw.Unreachable<SntpMode>(),
-                };
-            }
+                _ => Throw.Unreachable<NtpMode>(),
+            };
         }
 
-        public SntpStratum Stratum
+        public NtpStratum Stratum
         {
             // Stratum: This is a eight-bit unsigned integer indicating the stratum
             // level of the local clock, with values defined as follows:
@@ -167,18 +175,13 @@ namespace Zorglub.Bulgroz.Externals.BocanNtp
             //   1        primary reference (e.g., radio clock)
             //   2-15     secondary reference (via NTP or SNTP)
             //   16-255   reserved
-            get
+            get => _bin[1] switch
             {
-                byte x = _rawdata[1];
-
-                return x switch
-                {
-                    0 => SntpStratum.Unspecified,
-                    1 => SntpStratum.PrimaryReference,
-                    <= 15 => SntpStratum.SecondaryReference,
-                    _ => SntpStratum.Special
-                };
-            }
+                0 => NtpStratum.Unspecified,
+                1 => NtpStratum.PrimaryReference,
+                <= 15 => NtpStratum.SecondaryReference,
+                _ => NtpStratum.Special
+            };
         }
 
         public int PollInterval
@@ -188,21 +191,23 @@ namespace Zorglub.Bulgroz.Externals.BocanNtp
             // nearest power of two. The values that can appear in this field
             // presently range from 4 (16 s) to 14 (16284 s); however, most
             // applications use only the sub-range 6 (64 s) to 10 (1024 s).
-            get => (int)Math.Pow(2, _rawdata[2]);
+            //get => (int)Math.Pow(2, bin[2]);
+            get => _bin[2];
         }
 
-        public double Precision
+        public int Precision
         {
             // Precision: This is an eight-bit signed integer indicating the
             // precision of the local clock, in seconds to the nearest power of two.
             // The values that normally appear in this field range from -6 for
             // mains-frequency clocks to -20 for microsecond clocks found in some
             // workstations.
-            get => Math.Pow(2, _rawdata[3]);
+            //get => Math.Pow(2, bin[3]);
+            get => _bin[3];
         }
     }
 
-    internal partial class Rfc2030Message
+    public partial class Rfc2030Message
     {
         public double RootDelay
         {
@@ -215,7 +220,7 @@ namespace Zorglub.Bulgroz.Externals.BocanNtp
             // positive values of several hundred milliseconds.
             get
             {
-                int x = 256 * (256 * (256 * _rawdata[4] + _rawdata[5]) + _rawdata[6]) + _rawdata[7];
+                int x = 256 * (256 * (256 * _bin[4] + _bin[5]) + _bin[6]) + _bin[7];
                 return 1000 * ((double)x / 0x10000);
             }
         }
@@ -229,7 +234,7 @@ namespace Zorglub.Bulgroz.Externals.BocanNtp
             // hundred milliseconds.
             get
             {
-                int x = 256 * (256 * (256 * _rawdata[8] + _rawdata[9]) + _rawdata[10]) + _rawdata[11];
+                int x = 256 * (256 * (256 * _bin[8] + _bin[9]) + _bin[10]) + _bin[11];
                 return 1000 * ((double)x / 0x10000);
             }
         }
@@ -274,21 +279,21 @@ namespace Zorglub.Bulgroz.Externals.BocanNtp
                 string r = "";
                 switch (Stratum)
                 {
-                    case SntpStratum.Unspecified:
-                    case SntpStratum.PrimaryReference:
-                        r += (char)_rawdata[ReferenceIdOffset + 0];
-                        r += (char)_rawdata[ReferenceIdOffset + 1];
-                        r += (char)_rawdata[ReferenceIdOffset + 2];
-                        r += (char)_rawdata[ReferenceIdOffset + 3];
+                    case NtpStratum.Unspecified:
+                    case NtpStratum.PrimaryReference:
+                        r += (char)_bin[ReferenceIdOffset + 0];
+                        r += (char)_bin[ReferenceIdOffset + 1];
+                        r += (char)_bin[ReferenceIdOffset + 2];
+                        r += (char)_bin[ReferenceIdOffset + 3];
                         break;
-                    case SntpStratum.SecondaryReference:
+                    case NtpStratum.SecondaryReference:
                         switch (Version)
                         {
                             case 3:	// Version 3, Reference ID is an IPv4 address.
-                                string addr = _rawdata[ReferenceIdOffset + 0].ToString() + "." +
-                                                 _rawdata[ReferenceIdOffset + 1].ToString() + "." +
-                                                 _rawdata[ReferenceIdOffset + 2].ToString() + "." +
-                                                 _rawdata[ReferenceIdOffset + 3].ToString();
+                                string addr = _bin[ReferenceIdOffset + 0].ToString() + "." +
+                                                 _bin[ReferenceIdOffset + 1].ToString() + "." +
+                                                 _bin[ReferenceIdOffset + 2].ToString() + "." +
+                                                 _bin[ReferenceIdOffset + 3].ToString();
                                 IPHostEntry host = Dns.GetHostEntry(addr);
                                 r = host.HostName + " (" + addr + ")";
                                 break;
@@ -336,8 +341,42 @@ namespace Zorglub.Bulgroz.Externals.BocanNtp
         }
     }
 
-    internal partial class Rfc2030Message // NTP Timestamp Format
+    public partial class Rfc2030Message // NTP Timestamp Format
     {
+        /* RFC 1305
+        Since NTP timestamps are cherished data and, in fact, represent the main
+        product of the protocol, a special timestamp format has been
+        established. NTP timestamps are represented as a 64-bit unsigned fixed-
+        point number, in seconds relative to 0h on 1 January 1900. The integer
+        part is in the first 32 bits and the fraction part in the last 32 bits.
+        This format allows convenient multiple-precision arithmetic and
+        conversion to Time Protocol representation (seconds), but does
+        complicate the conversion to ICMP Timestamp message representation
+        (milliseconds). The precision of this representation is about 200
+        picoseconds, which should be adequate for even the most exotic
+        requirements.
+
+        Timestamps are determined by copying the current value of the local
+        clock to a timestamp when some significant event, such as the arrival of
+        a message, occurs. In order to maintain the highest accuracy, it is
+        important that this be done as close to the hardware or software driver
+        associated with the event as possible. In particular, departure
+        timestamps should be redetermined for each link-level retransmission. In
+        some cases a particular timestamp may not be available, such as when the
+        host is rebooted or the protocol first starts up. In these cases the 64-
+        bit field is set to zero, indicating the value is invalid or undefined.
+
+        Note that since some time in 1968 the most significant bit (bit 0 of the
+        integer part) has been set and that the 64-bit field will overflow some
+        time in 2036. Should NTP be in use in 2036, some external means will be
+        necessary to qualify time relative to 1900 and time relative to 2036
+        (and other multiples of 136 years). Timestamped data requiring such
+        qualification will be so precious that appropriate means should be
+        readily available. There will exist an 200-picosecond interval,
+        henceforth ignored, every 136 years when the 64-bit field will be zero
+        and thus considered invalid.
+         */
+
         private DateTime ReadUtcTime(byte offset)
         {
             ulong milliseconds = ReadTimestamp(offset);
@@ -351,13 +390,13 @@ namespace Zorglub.Bulgroz.Externals.BocanNtp
             ulong intPart = 0;
             for (int i = 0; i <= 3; i++)
             {
-                intPart = 256 * intPart + _rawdata[offset + i];
+                intPart = 256 * intPart + _bin[offset + i];
             }
 
             ulong fracPart = 0;
             for (int i = 4; i <= 7; i++)
             {
-                fracPart = 256 * fracPart + _rawdata[offset + i];
+                fracPart = 256 * fracPart + _bin[offset + i];
             }
 
             return 1000 * intPart + 1000 * fracPart / 0x100000000L;

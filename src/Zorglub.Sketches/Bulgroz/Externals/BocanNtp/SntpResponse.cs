@@ -4,12 +4,14 @@ namespace Zorglub.Bulgroz.Externals.BocanNtp
 {
     using System.Text;
 
+    using Zorglub.Time.Horology.Ntp;
+
     public sealed record SntpResponse
     {
-        public SntpLeapIndicator LeapIndicator { get; private init; }
+        public LeapIndicator LeapIndicator { get; private init; }
         public int Version { get; private init; }
-        public SntpMode Mode { get; private init; }
-        public SntpStratum Stratum { get; private init; }
+        public NtpMode Mode { get; private init; }
+        public NtpStratum Stratum { get; private init; }
         public int PollInterval { get; private init; }
         public double Precision { get; private init; }
 
@@ -48,28 +50,26 @@ namespace Zorglub.Bulgroz.Externals.BocanNtp
             }
         }
 
-        internal static SntpResponse Create(
-            Rfc2030Message rfc2030Message,
-            DateTime transmitTime,
-            DateTime destinationTime)
+        internal static SntpResponse Create(Rfc2030Message msg, DateTime destinationTime)
         {
             return new()
             {
-                LeapIndicator = rfc2030Message.LeapIndicator,
-                Version = rfc2030Message.Version,
-                Mode = rfc2030Message.Mode,
-                Stratum = rfc2030Message.Stratum,
-                PollInterval = rfc2030Message.PollInterval,
-                Precision = rfc2030Message.Precision,
+                LeapIndicator = msg.LeapIndicator,
+                Version = msg.Version,
+                Mode = msg.Mode,
+                Stratum = msg.Stratum,
+                PollInterval = msg.PollInterval,
+                Precision = msg.Precision,
 
-                RootDelay = rfc2030Message.RootDelay,
-                RootDispersion = rfc2030Message.RootDispersion,
-                ReferenceId = rfc2030Message.ReferenceId,
+                RootDelay = msg.RootDelay,
+                RootDispersion = msg.RootDispersion,
+                ReferenceId = msg.ReferenceId,
 
-                ReferenceTime = rfc2030Message.ReferenceTime,
-                OriginateTime = rfc2030Message.OriginateTime,
-                ReceiveTime = rfc2030Message.ReceiveTime,
-                TransmitTime = rfc2030Message.TransmitTime,
+                ReferenceTime = msg.ReferenceTime,
+                OriginateTime = msg.OriginateTime,
+                ReceiveTime = msg.ReceiveTime,
+                TransmitTime = msg.TransmitTime,
+
                 DestinationTime = destinationTime,
             };
         }

@@ -35,4 +35,5 @@ Console.WriteLine($"  Ticks           = {utcNow.Ticks}");
 Console.WriteLine($"  ToFileTime()    = {utcNow.ToFileTime() + FileTimeOffset}");
 Console.WriteLine($"  ToFileTimeUtc() = {utcNow.ToFileTimeUtc() + FileTimeOffset}");
 
-NtpHelpers.Query(NtpClient.Default);
+//NtpSimple.Guerrilla.Query();
+//NtpSimple.Bocan.Query();
