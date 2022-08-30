@@ -65,4 +65,4 @@ Liste très complète d'échelles de temps.
 
 - [How to Query an NTP Server using C\#?](https://stackoverflow.com/questions/1193955/how-to-query-an-ntp-server-using-c)
 - [C\# SNTP client in .NET Micro Framework](https://github.com/vbocan/sntp-client)
-- [GuerillaNtp](https://github.com/robertvazan/guerrillantp)
+- [GuerrillaNtp](https://github.com/robertvazan/guerrillantp)
