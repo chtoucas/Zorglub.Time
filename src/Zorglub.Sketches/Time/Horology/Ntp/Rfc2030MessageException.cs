@@ -1,9 +1,8 @@
-#pragma warning disable IDE0073 // Require file header (Style)
+// SPDX-License-Identifier: BSD-3-Clause
+// Copyright (c) 2020 Narvalo.Org. All rights reserved.
 
-namespace Zorglub.Bulgroz.Externals.BocanNtp
+namespace Zorglub.Time.Horology.Ntp
 {
-    using System;
-
     public sealed class Rfc2030MessageException : Exception
     {
         public Rfc2030MessageException() { }

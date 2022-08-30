@@ -6,8 +6,6 @@ namespace Zorglub.Time.Horology.Ntp
     using System.Net;
     using System.Net.Sockets;
 
-    using Zorglub.Bulgroz.Externals.BocanNtp;
-
     public sealed class SntpClient
     {
         public const string DefaultHost = "pool.ntp.org";
@@ -47,7 +45,7 @@ namespace Zorglub.Time.Horology.Ntp
             sock.Connect(_endpoint);
 
             var req = Rfc2030Message.Request(transmitTime: DateTime.UtcNow);
-            sock.Send(req.ToBinary());
+            sock.Send(req.ToArray());
 
             var bin = new byte[160];
             int len = sock.Receive(bin);

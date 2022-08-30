@@ -36,4 +36,4 @@ Console.WriteLine($"  ToFileTime()    = {utcNow.ToFileTime() + FileTimeOffset}")
 Console.WriteLine($"  ToFileTimeUtc() = {utcNow.ToFileTimeUtc() + FileTimeOffset}");
 
 //NtpSimple.Guerrilla.Query();
-//NtpSimple.Bocan.Query();
+NtpSimple.Bocan.Query();

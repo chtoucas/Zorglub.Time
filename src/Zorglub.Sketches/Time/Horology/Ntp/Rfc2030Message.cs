@@ -1,12 +1,10 @@
-﻿#pragma warning disable IDE0073 // Require file header (Style)
+﻿// SPDX-License-Identifier: BSD-3-Clause
+// Copyright (c) 2020 Narvalo.Org. All rights reserved.
 
-namespace Zorglub.Bulgroz.Externals.BocanNtp
+namespace Zorglub.Time.Horology.Ntp
 {
-    using System.Net;
-
-    using Zorglub.Time.Horology.Ntp;
-
-#pragma warning disable CA1305 // Specify IFormatProvider
+    using System.Globalization;
+    using System.Text;
 
     public sealed partial class Rfc2030Message
     {
@@ -22,76 +20,71 @@ namespace Zorglub.Bulgroz.Externals.BocanNtp
         // |                     Reference Identifier                      |
         // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
         // |                                                               |
-        // |                    Reference Timestamp(64)                    |
+        // |                   Reference Timestamp (64)                    |
         // |                                                               |
         // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
         // |                                                               |
-        // |                    Originate Timestamp(64)                    |
+        // |                   Originate Timestamp (64)                    |
         // |                                                               |
         // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
         // |                                                               |
-        // |                     Receive Timestamp(64)                     |
+        // |                    Receive Timestamp (64)                     |
         // |                                                               |
         // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
         // |                                                               |
-        // |                     Transmit Timestamp(64)                    |
+        // |                    Transmit Timestamp (64)                    |
         // |                                                               |
         // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-        // |                  Key Identifier(optional) (32)                |
+        // |                 Key Identifier (optional) (32)                |
         // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
         // |                                                               |
         // |                                                               |
-        // |                  Message Digest(optional) (128)               |
+        // |                 Message Digest (optional) (128)               |
         // |                                                               |
         // |                                                               |
         // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 
         internal const int DataLength = 48;
 
-        private const int ReferenceIdOffset = 12;
-        private const int ReferenceOffset = 16;
-        private const int OriginateOffset = 24;
-        private const int ReceiveOffset = 32;
-        private const int TransmitOffset = 40;
-
         private readonly byte[] _bin;
 
         // This constructor does NOT validate its parameter.
-        private Rfc2030Message(byte[] bin)
+        private Rfc2030Message(byte[] bytes)
         {
-            Debug.Assert(bin != null);
-            Debug.Assert(bin.Length < DataLength);
+            Debug.Assert(bytes != null);
+            //Debug.Assert(bytes.Length < DataLength);
 
-            _bin = bin;
+            _bin = bytes;
         }
 
         public static Rfc2030Message Request(DateTime transmitTime)
         {
             var bin = new byte[DataLength];
             // Initialize the first byte to: LI = 0, VN = 3, Mode = 3.
-            bin[0] = 0x1b;
-            // Initialize TransmitTimestamp.
+            bin[0] = 0x1B;
+            // TODO(code): Initialize TransmitTimestamp.
 
             return new(bin);
         }
 
-        public static Rfc2030Message Response(byte[] bin)
+        public static Rfc2030Message Response(byte[] data)
         {
-            var msg = new Rfc2030Message(bin);
-            if (msg.Mode != NtpMode.Server) Throw.Argument(nameof(bin));
+            var msg = new Rfc2030Message(data);
+            if (msg.Mode != NtpMode.Server) Throw.Argument(nameof(data));
             return msg;
         }
 
-        public static Rfc2030Message FromBinary(byte[] bin)
+        public static Rfc2030Message FromBytes(byte[] data)
         {
-            Requires.NotNull(bin);
+            Requires.NotNull(data);
             // The binary message may be >= DataLength (upward compatibility).
-            if (bin.Length < DataLength) Throw.Argument(nameof(bin));
+            if (data.Length < DataLength) Throw.Argument(nameof(data));
 
-            return new(bin);
+            return new(data);
         }
 
-        public byte[] ToBinary() => _bin;
+        // Converts the current instance to a byte array.
+        public byte[] ToArray() => _bin;
     }
 
     public partial class Rfc2030Message // First line
@@ -108,7 +101,7 @@ namespace Zorglub.Bulgroz.Externals.BocanNtp
             //   01       1         last minute has 61 seconds
             //   10       2         last minute has 59 seconds)
             //   11       3         alarm condition (clock not synchronized)
-            get => (_bin[0] >> 6) switch
+            get => ((_bin[0] >> 6) & 3) switch
             {
                 0 => LeapIndicator.NoWarning,
                 1 => LeapIndicator.PositiveLeapSecond,
@@ -126,7 +119,7 @@ namespace Zorglub.Bulgroz.Externals.BocanNtp
             // only) and 4 for Version 4 (IPv4, IPv6 and OSI). If necessary to
             // distinguish between IPv4, IPv6 and OSI, the encapsulating context
             // must be inspected.
-            get => (_bin[0] & 0x38) >> 3;
+            get => (_bin[0] >> 3) & 7;
         }
 
         public NtpMode Mode
@@ -149,7 +142,7 @@ namespace Zorglub.Bulgroz.Externals.BocanNtp
             // (client) in the request and the server sets it to 4 (server) in the
             // reply. In multicast mode, the server sets this field to 5
             // (broadcast).
-            get => (_bin[0] & 0x07) switch
+            get => (_bin[0] & 7) switch
             {
                 0 => NtpMode.Unspecified,
                 1 => NtpMode.SymmetricActive,
@@ -220,6 +213,7 @@ namespace Zorglub.Bulgroz.Externals.BocanNtp
             // positive values of several hundred milliseconds.
             get
             {
+                // Indexes 4..7.
                 int x = 256 * (256 * (256 * _bin[4] + _bin[5]) + _bin[6]) + _bin[7];
                 return 1000 * ((double)x / 0x10000);
             }
@@ -234,12 +228,13 @@ namespace Zorglub.Bulgroz.Externals.BocanNtp
             // hundred milliseconds.
             get
             {
+                // Indexes 8..11.
                 int x = 256 * (256 * (256 * _bin[8] + _bin[9]) + _bin[10]) + _bin[11];
                 return 1000 * ((double)x / 0x10000);
             }
         }
 
-        public string ReferenceId
+        public string Reference
         {
             // Reference Identifier: This is a 32-bit bitstring identifying the
             // particular reference source. In the case of NTP Version 3 or Version
@@ -276,38 +271,30 @@ namespace Zorglub.Bulgroz.Externals.BocanNtp
             //   GOES     Geostationary Orbit Environment Satellite
             get
             {
-                string r = "";
+                const string Invalid = "????";
+
+                // Indexes 12..15.
+                var bin = _bin[12..16];
+
                 switch (Stratum)
                 {
                     case NtpStratum.Unspecified:
                     case NtpStratum.PrimaryReference:
-                        r += (char)_bin[ReferenceIdOffset + 0];
-                        r += (char)_bin[ReferenceIdOffset + 1];
-                        r += (char)_bin[ReferenceIdOffset + 2];
-                        r += (char)_bin[ReferenceIdOffset + 3];
-                        break;
-                    case NtpStratum.SecondaryReference:
-                        switch (Version)
-                        {
-                            case 3:	// Version 3, Reference ID is an IPv4 address.
-                                string addr = _bin[ReferenceIdOffset + 0].ToString() + "." +
-                                                 _bin[ReferenceIdOffset + 1].ToString() + "." +
-                                                 _bin[ReferenceIdOffset + 2].ToString() + "." +
-                                                 _bin[ReferenceIdOffset + 3].ToString();
-                                IPHostEntry host = Dns.GetHostEntry(addr);
-                                r = host.HostName + " (" + addr + ")";
-                                break;
-                            case 4: // Version 4, Reference ID is the timestamp of last update.
-                                r = ReadUtcTime(ReferenceIdOffset).ToString();
-                                break;
-                            default:
-                                r = "N/A";
-                                break;
-                        }
-                        break;
-                }
+                        return Encoding.ASCII.GetString(bin);
 
-                return r;
+                    case NtpStratum.SecondaryReference:
+                        return Version switch
+                        {
+                            3 => FormattableString.Invariant($"{bin[0]}.{bin[1]}.{bin[2]}.{bin[3]}"),
+                            4 => ReadUtcTime(12).ToString(CultureInfo.CurrentCulture),
+
+                            _ => Invalid
+                        };
+
+                    case NtpStratum.Special:
+                    default:
+                        return Invalid;
+                };
             }
         }
 
@@ -315,7 +302,7 @@ namespace Zorglub.Bulgroz.Externals.BocanNtp
         {
             // Reference Timestamp: This is the time at which the local clock was
             // last set or corrected, in 64-bit timestamp format.
-            get => ReadUtcTime(ReferenceOffset);
+            get => ReadUtcTime(16); // Indexes 16..23
         }
 
         // REVIEW(code): UTC or not?
@@ -323,21 +310,21 @@ namespace Zorglub.Bulgroz.Externals.BocanNtp
         {
             // Originate Timestamp: This is the time at which the request departed
             // the client for the server, in 64-bit timestamp format.
-            get => ReadUtcTime(OriginateOffset);
+            get => ReadUtcTime(24); // Indexes 24..31
         }
 
         public DateTime ReceiveTime
         {
             // Receive Timestamp: This is the time at which the request arrived at
             // the server, in 64-bit timestamp format.
-            get => ReadUtcTime(ReceiveOffset);
+            get => ReadUtcTime(32); // Indexes 32..39
         }
 
         public DateTime TransmitTime
         {
             // Transmit Timestamp: This is the time at which the reply departed the
             // server for the client, in 64-bit timestamp format.
-            get => ReadUtcTime(TransmitOffset);
+            get => ReadUtcTime(40); // Indexes 40..47
         }
     }
 
@@ -377,29 +364,46 @@ namespace Zorglub.Bulgroz.Externals.BocanNtp
         and thus considered invalid.
          */
 
+        private static readonly DateTime s_Epoch = new(1900, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+
         private DateTime ReadUtcTime(byte offset)
         {
             ulong milliseconds = ReadTimestamp(offset);
 
-            return new DateTime(1900, 1, 1, 0, 0, 0, DateTimeKind.Utc)
-                + TimeSpan.FromMilliseconds(milliseconds);
+            return s_Epoch + TimeSpan.FromMilliseconds(milliseconds);
         }
 
-        private ulong ReadTimestamp(byte offset)
+        private ulong ReadTimestamp(byte startIndex)
         {
-            ulong intPart = 0;
-            for (int i = 0; i <= 3; i++)
-            {
-                intPart = 256 * intPart + _bin[offset + i];
-            }
+            ulong high = GetPart(startIndex);
+            ulong low = GetPart(startIndex + 4);
 
-            ulong fracPart = 0;
-            for (int i = 4; i <= 7; i++)
-            {
-                fracPart = 256 * fracPart + _bin[offset + i];
-            }
+            return 1000 * high + 1000 * low / 0x100000000L;
 
-            return 1000 * intPart + 1000 * fracPart / 0x100000000L;
+#if false
+            // https://stackoverflow.com/questions/1193955/how-to-query-an-ntp-server-using-c
+
+            ulong GetPart(int startIndex) =>
+                SwapEndianness(BitConverter.ToUInt32(_bin, startIndex));
+
+            // stackoverflow.com/a/3294698/162671
+            static uint SwapEndianness(ulong n)
+            {
+                return (uint)(((n & 0x000000ff) << 24) +
+                               ((n & 0x0000ff00) << 8) +
+                               ((n & 0x00ff0000) >> 8) +
+                               ((n & 0xff000000) >> 24));
+            }
+#else
+            ulong GetPart(int startIndex)
+            {
+                return
+                    (ulong)_bin[startIndex] << 24
+                    | (ulong)_bin[startIndex + 1] << 16
+                    | (ulong)_bin[startIndex + 2] << 8
+                    | _bin[startIndex + 3];
+            }
+#endif
         }
 
         //internal static void WriteTimestamp(byte[] rawdata, byte offset, DateTime date)

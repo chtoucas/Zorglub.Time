@@ -1,6 +1,7 @@
-﻿#pragma warning disable IDE0073 // Require file header (Style)
+﻿// SPDX-License-Identifier: BSD-3-Clause
+// Copyright (c) 2020 Narvalo.Org. All rights reserved.
 
-namespace Zorglub.Bulgroz.Externals.BocanNtp
+namespace Zorglub.Time.Horology.Ntp
 {
     using System.Text;
 
@@ -17,7 +18,7 @@ namespace Zorglub.Bulgroz.Externals.BocanNtp
 
         public double RootDelay { get; private init; }
         public double RootDispersion { get; private init; }
-        public string? ReferenceId { get; private init; }
+        public string? Reference { get; private init; }
 
         public DateTime ReferenceTime { get; private init; }
         // Time request sent by client (ID = T1).
@@ -63,7 +64,7 @@ namespace Zorglub.Bulgroz.Externals.BocanNtp
 
                 RootDelay = msg.RootDelay,
                 RootDispersion = msg.RootDispersion,
-                ReferenceId = msg.ReferenceId,
+                Reference = msg.Reference,
 
                 ReferenceTime = msg.ReferenceTime,
                 OriginateTime = msg.OriginateTime,
