@@ -8,8 +8,8 @@ namespace Zorglub.Time.Horology.Ntp
     // Adapted from
     // https://github.com/aosp-mirror/platform_frameworks_base/blob/master/core/java/android/net/sntp/Timestamp64.java
     // See
-    // https://www.eecis.udel.edu/~mills/time.html
-    // https://tickelton.gitlab.io/articles/ntp-timestamps/
+    // - https://www.eecis.udel.edu/~mills/time.html
+    // - https://tickelton.gitlab.io/articles/ntp-timestamps/
 
     public readonly partial struct NtpTimestamp :
         IEqualityOperators<NtpTimestamp, NtpTimestamp>
@@ -80,7 +80,7 @@ namespace Zorglub.Time.Horology.Ntp
             // nanosecond-of-second
             + (long)((NanosecondsPerSecond * _fractionalSecond) >> 32);
 
-        internal static class UFractionalSecond
+        internal static class FractionOfSecond
         {
             [Pure]
             public static uint FromMillisecondOfSecond(ulong millisecondOfSecond)
@@ -95,17 +95,6 @@ namespace Zorglub.Time.Horology.Ntp
                 if (nanosecondOfSecond > NanosecondsPerSecond) Throw.ArgumentOutOfRange(nameof(nanosecondOfSecond));
                 return (uint)((nanosecondOfSecond << 32) / NanosecondsPerSecond);
             }
-        }
-
-        [Pure]
-        internal static NtpTimestamp FromBytes(ReadOnlySpan<byte> buf)
-        {
-            Debug.Assert(buf.Length >= 8);
-
-            uint secondOfEra = Rfc4330.ReadUInt32(buf);
-            uint fractionalSecond = Rfc4330.ReadUInt32(buf[4..]);
-
-            return new NtpTimestamp(secondOfEra, fractionalSecond);
         }
 
         // FIXME(code): after 2036.

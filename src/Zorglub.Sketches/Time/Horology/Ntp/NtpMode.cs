@@ -10,7 +10,7 @@ namespace Zorglub.Time.Horology.Ntp
     /// <para>Only <see cref="Client"/>, <see cref="Server"/> and <see cref="Broadcast"/> are used
     /// by SNTP clients and servers.</para>
     /// </remarks>
-    [SuppressMessage("Naming", "CA1700:Do not name enum values 'Reserved'", Justification = "NTP wording")]
+    [SuppressMessage("Naming", "CA1700:Do not name enum values 'Reserved'", Justification = "RFC wording")]
     public enum NtpMode
     {
         /// <summary>Invalid.</summary>

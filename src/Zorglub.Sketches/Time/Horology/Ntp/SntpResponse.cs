@@ -6,13 +6,19 @@ namespace Zorglub.Time.Horology.Ntp
     public sealed record SntpResponse
     {
         public LeapIndicator LeapIndicator { get; init; }
+
         public int Version { get; init; }
+
         public NtpMode Mode { get; init; }
+
         public NtpStratum Stratum { get; init; }
+
         public int PollInterval { get; init; }
+
         public int Precision { get; init; }
 
         public double RootDelay { get; init; }
+
         public double RootDispersion { get; init; }
 
         public string? Reference { get; internal set; }
@@ -54,6 +60,22 @@ namespace Zorglub.Time.Horology.Ntp
                 TimeSpan span = ReceiveTime - OriginateTime + (TransmitTime - DestinationTime);
                 return span.TotalMilliseconds / 2;
             }
+        }
+
+        [Pure]
+        internal bool Check()
+        {
+            if (LeapIndicator == LeapIndicator.Invalid
+                || LeapIndicator == LeapIndicator.Alarm)
+                return false;
+
+            if (Mode != NtpMode.Server) return false;
+
+            if (Stratum != NtpStratum.PrimaryReference
+                && Stratum != NtpStratum.SecondaryReference)
+                return false;
+
+            return true;
         }
     }
 }
