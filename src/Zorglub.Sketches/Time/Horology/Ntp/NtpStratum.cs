@@ -3,16 +3,25 @@
 
 namespace Zorglub.Time.Horology.Ntp
 {
+    /// <summary>
+    /// Specifies the NTP stratum.
+    /// </summary>
+    [SuppressMessage("Naming", "CA1700:Do not name enum values 'Reserved'", Justification = "NTP wording")]
     public enum NtpStratum
     {
-        Unspecified = 0,
+        /// <summary>Invalid.</summary>
+        Invalid = 0,
 
+        /// <summary>Unspecified or unavailable (kiss-o'-death message).</summary>
+        Unavailable,
+
+        /// <summary>Primary reference (e.g., synchronized by radio clock).</summary>
         PrimaryReference,
 
+        /// <summary>Secondary reference (synchronized by NTP or SNTP).</summary>
         SecondaryReference,
 
-        // Reserved values
-
-        Special
+        /// <summary>Reserved.</summary>
+        Reserved
     }
 }

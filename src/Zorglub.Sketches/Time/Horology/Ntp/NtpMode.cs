@@ -3,19 +3,41 @@
 
 namespace Zorglub.Time.Horology.Ntp
 {
+    /// <summary>
+    /// Specifies the NTP mode.
+    /// </summary>
+    /// <remarks>
+    /// <para>Only <see cref="Client"/>, <see cref="Server"/> and <see cref="Broadcast"/> are used
+    /// by SNTP clients and servers.</para>
+    /// </remarks>
+    [SuppressMessage("Naming", "CA1700:Do not name enum values 'Reserved'", Justification = "NTP wording")]
     public enum NtpMode
     {
-        Unspecified = 0,
+        /// <summary>Invalid.</summary>
+        Invalid = 0,
 
+        /// <summary>Reserved.</summary>
+        Reserved,
+
+        /// <summary>Symmetric active.</summary>
         SymmetricActive,
+
+        /// <summary>Symmetric passive.</summary>
         SymmetricPassive,
+
+        /// <summary>Client.</summary>
         Client,
+
+        /// <summary>Server.</summary>
         Server,
+
+        /// <summary>Broadcast.</summary>
         Broadcast,
 
-        // Reserved values
+        /// <summary>Reserved for NTP control message.</summary>
+        ReservedForNtpControlMessage,
 
-        NtpControlMessage,
-        Special7
+        /// <summary>Reserved for private use.</summary>
+        ReservedForPrivateUse
     }
 }
