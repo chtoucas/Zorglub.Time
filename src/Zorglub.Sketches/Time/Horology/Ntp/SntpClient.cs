@@ -6,7 +6,7 @@ namespace Zorglub.Time.Horology.Ntp
     using System.Net;
     using System.Net.Sockets;
 
-    public sealed class SntpClient
+    public sealed partial class SntpClient
     {
         public const string DefaultHost = "pool.ntp.org";
 
@@ -35,6 +35,7 @@ namespace Zorglub.Time.Horology.Ntp
         // Receive timeout in milliseconds; see Socket.ReceiveTimeout.
         public int ReceiveTimeout { get; init; } = DefaultReceiveTimeout;
 
+        [Pure]
         public SntpResponse Query()
         {
             using var sock = new Socket(SocketType.Dgram, ProtocolType.Udp)
@@ -44,18 +45,19 @@ namespace Zorglub.Time.Horology.Ntp
 
             sock.Connect(_endpoint);
 
-            var req = Rfc2030Message.Request(transmitTime: DateTime.UtcNow);
-            sock.Send(req.ToArray());
+            var req = new byte[Rfc4330.DataLength];
+            // Initialize the first byte to: LI = 0, VN = 3, Mode = 3.
+            req[0] = 0x1B;
+            // TODO(code): Initialize TransmitTimestamp to DateTime.UtcNow.
+            sock.Send(req);
 
-            var bin = new byte[160];
-            int len = sock.Receive(bin);
+            var rsp = new byte[160];
+            int len = sock.Receive(rsp);
             var destinationTime = DateTime.UtcNow;
 
             sock.Close();
 
-            var rsp = Rfc2030Message.Response(bin);
-
-            return SntpResponse.Create(rsp, destinationTime);
+            return Rfc4330.ReadResponse(rsp.AsSpan(), destinationTime);
         }
     }
 }

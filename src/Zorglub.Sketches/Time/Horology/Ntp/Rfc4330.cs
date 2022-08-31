@@ -3,11 +3,14 @@
 
 namespace Zorglub.Time.Horology.Ntp
 {
+    using System.Buffers.Binary;
     using System.Globalization;
     using System.Text;
 
-    internal sealed class Rfc4330
+    internal static partial class Rfc4330
     {
+        public const int DataLength = 48;
+
         // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
         // |LI | VN  |Mode |    Stratum    |     Poll      |   Precision   |
         // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
@@ -21,43 +24,60 @@ namespace Zorglub.Time.Horology.Ntp
         // |                 Key Identifier (optional) (32)                |
         // |                 Message Digest (optional) (128)               |
 
-        public const int DataLength = 48;
-
-        public const int RootDelayOffset = 4;       // Indexes 4..7
-        public const int RootDispersionOffset = 8;  // Indexes 8..11
-        public const int ReferenceOffset = 12;      // Indexes 12..15
-        public const int ReferenceTimeOffset = 16;  // Indexes 16..23
-        public const int OriginateTimeOffset = 24;  // Indexes 24..31
-        public const int ReceiveTimeOffset = 32;    // Indexes 32..39
-        public const int TransmitTimeOffset = 40;   // Indexes 40..47
-
-        public static void ReadResponse(byte[] buffer)
+        [Pure]
+        public static SntpResponse ReadResponse(ReadOnlySpan<byte> buf, DateTime destinationTime)
         {
-            var buf = buffer.AsSpan();
-            // First byte.
-            var leapIndicator = ReadLeapIndicator((buf[0] >> 6) & 3);
-            int version = (buf[0] >> 3) & 7;
-            var mode = ReadMode(buf[0] & 7);
-            // Bytes 2 to 4.
-            var stratum = ReadStratum(buf[1]);
-            byte pollInterval = buf[2];
-            byte precision = buf[3];
-            // Bytes 5 to 8. RootDelay
-            var rootDelay = ReadDuration(buf[4..]);
-            // Bytes 9 to 12. RootDispersion
-            var rootDispersion = ReadDuration(buf[4..]);
-            // Bytes 13 to 16. Reference
-            var reference = ReadReference(buf[12..16], version, stratum);
-            // Bytes 17 to 24. ReferenceTime
-            var referenceTime = ReadTimestamp(buf[16..]);
-            // Bytes 25 to 32. OriginateTime
-            var originateTime = ReadTimestamp(buf[24..]);
-            // Bytes 33 to 40. ReceiveTime
-            var receiveTime = ReadTimestamp(buf[32..]);
-            // Bytes 41 to 48. TransmitTime
-            var transmitTime = ReadTimestamp(buf[40..]);
+            Debug.Assert(buf != null);
+            Debug.Assert(buf.Length >= DataLength);
+
+            var rsp = new SntpResponse
+            {
+                // First byte.
+                LeapIndicator = ReadLeapIndicator((buf[0] >> 6) & 3),
+                Version = (buf[0] >> 3) & 7,
+                Mode = ReadMode(buf[0] & 7),
+
+                Stratum = ReadStratum(buf[1]),
+                // (int)Math.Pow(2, bin[2]);
+                PollInterval = buf[2],
+                // Math.Pow(2, bin[3]);
+                Precision = buf[3],
+
+                //RootDelay = NtpDuration.FromBytes(buf[4..]),
+                //RootDispersion = NtpDuration.FromBytes(buf[8..]),
+
+                // Bytes 13 to 16; see Reference below.
+
+                ReferenceTimestamp = NtpTimestamp.FromBytes(buf[16..]),
+                OriginateTimestamp = NtpTimestamp.FromBytes(buf[24..]),
+                ReceiveTimestamp = NtpTimestamp.FromBytes(buf[32..]),
+                TransmitTimestamp = NtpTimestamp.FromBytes(buf[40..]),
+
+                //
+                DestinationTime = destinationTime
+            };
+
+            rsp.Reference = GetReference(rsp, buf[12..16]);
+
+            ValidateResponse(rsp);
+
+            return rsp;
         }
 
+        public static void ValidateResponse(SntpResponse rsp)
+        {
+            if (rsp.LeapIndicator == LeapIndicator.Invalid
+                || rsp.LeapIndicator == LeapIndicator.Alarm)
+                Throw.Argument(nameof(rsp));
+
+            if (rsp.Mode != NtpMode.Server) Throw.Argument(nameof(rsp));
+
+            if (rsp.Stratum != NtpStratum.PrimaryReference
+                && rsp.Stratum != NtpStratum.SecondaryReference)
+                Throw.Argument(nameof(rsp));
+        }
+
+        [Pure]
         public static LeapIndicator ReadLeapIndicator(int x) =>
             // 2-bit number.
             x switch
@@ -70,6 +90,7 @@ namespace Zorglub.Time.Horology.Ntp
                 _ => LeapIndicator.Invalid
             };
 
+        [Pure]
         public static NtpMode ReadMode(int x) =>
             // 3-bit number.
             x switch
@@ -86,6 +107,7 @@ namespace Zorglub.Time.Horology.Ntp
                 _ => NtpMode.Invalid
             };
 
+        [Pure]
         public static NtpStratum ReadStratum(byte x) =>
             // 8-bit unsigned integer, a byte.
             x switch
@@ -96,68 +118,32 @@ namespace Zorglub.Time.Horology.Ntp
                 _ => NtpStratum.Reserved
             };
 
-        private static string ReadReference(ReadOnlySpan<byte> buf, int version, NtpStratum stratum)
+        [Pure]
+        // CIL code size = XXX bytes <= 32 bytes.
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static uint ReadUInt32(ReadOnlySpan<byte> buf)
         {
-            const string Invalid = "????";
+            Debug.Assert(buf.Length >= 4);
 
-            Debug.Assert(buf.Length == 4);
-
-            switch (stratum)
-            {
-                case NtpStratum.Unavailable:
-                case NtpStratum.PrimaryReference:
-                    return Encoding.ASCII.GetString(buf);
-
-                case NtpStratum.SecondaryReference:
-                    return version switch
-                    {
-                        // IP address.
-                        3 => FormattableString.Invariant($"{buf[0]}.{buf[1]}.{buf[2]}.{buf[3]}"),
-                        // Timestamp.
-                        4 => throw new NotImplementedException(),
-
-                        _ => Invalid
-                    };
-
-                case NtpStratum.Reserved:
-                default:
-                    return Invalid;
-            };
-        }
-
-        private static Timestamp ReadTimestamp(ReadOnlySpan<byte> buf)
-        {
-            throw new NotImplementedException();
-        }
-
-        private static ulong ReadDuration(ReadOnlySpan<byte> buf)
-        {
-            throw new NotImplementedException();
-        }
-
-        private static ulong ReadTimestampCore(ReadOnlySpan<byte> buf)
-        {
-            ulong high = ReadUInt32(buf);
-            ulong low = ReadUInt32(buf[4..]);
-
-            return 1000 * high + 1000 * low / 0x100_000_000L;
-        }
-
-        private static uint ReadUInt32(ReadOnlySpan<byte> buf)
-        {
-            Debug.Assert(buf.Length == 4);
-
+#if true
+            return BinaryPrimitives.ReadUInt32BigEndian(buf);
+#else
             return
                 (uint)buf[0] << 24
                 | (uint)buf[1] << 16
                 | (uint)buf[2] << 8
                 | buf[3];
+#endif
         }
 
-        private static ulong ReadUInt64(ReadOnlySpan<byte> buf)
+        [Pure]
+        public static ulong ReadUInt64(ReadOnlySpan<byte> buf)
         {
-            Debug.Assert(buf.Length == 8);
+            Debug.Assert(buf.Length >= 8);
 
+#if true
+            return BinaryPrimitives.ReadUInt64BigEndian(buf);
+#else
             return
                 (ulong)buf[0] << 56
                 | (ulong)buf[1] << 48
@@ -167,6 +153,60 @@ namespace Zorglub.Time.Horology.Ntp
                 | (ulong)buf[5] << 16
                 | (ulong)buf[6] << 8
                 | buf[7];
+#endif
+        }
+
+#if false
+        // https://stackoverflow.com/questions/1193955/how-to-query-an-ntp-server-using-c
+
+        ulong GetPart(int startIndex) =>
+            SwapEndianness(BitConverter.ToUInt32(buf, startIndex));
+
+        // stackoverflow.com/a/3294698/162671
+        static uint SwapEndianness(ulong n)
+        {
+            return (uint)(((n & 0x000000ff) << 24) +
+                            ((n & 0x0000ff00) << 8) +
+                            ((n & 0x00ff0000) >> 8) +
+                            ((n & 0xff000000) >> 24));
+        }
+#endif
+    }
+
+    internal partial class Rfc4330
+    {
+        [Pure]
+        public static string GetReference(SntpResponse rsp, ReadOnlySpan<byte> buf)
+        {
+            Debug.Assert(rsp != null);
+            Debug.Assert(buf.Length == 4);
+
+            return rsp.Stratum switch
+            {
+                NtpStratum.Unavailable
+                or NtpStratum.PrimaryReference =>
+                    // Four-character ASCII string, left justified and zero
+                    // padded to 32 bits.
+                    Encoding.ASCII.GetString(buf),
+
+                NtpStratum.SecondaryReference =>
+                    rsp.Version switch
+                    {
+                        // 32-bit IPv4 address of the reference source.
+                        3 => FormattableString.Invariant($"{buf[0]}.{buf[1]}.{buf[2]}.{buf[3]}"),
+
+                        // Low order 32 bits of the latest transmit timestamp of
+                        // the reference source.
+                        4 => throw new NotImplementedException(),
+                        // TODO(code): low order 32 bits only!
+                        // NtpTimestamp.FromBytes(buf).ToDateTime().ToString(CultureInfo.CurrentCulture),
+
+                        _ => String.Empty
+                    },
+
+                _ => String.Empty,
+            };
+            ;
         }
     }
 }

@@ -19,8 +19,17 @@ using Zorglub.Bulgroz.Externals.GuerrillaNtp;
 
 using static System.Console;
 
+// Other option: "time.windows.com".
+
 public static class NtpSimple
 {
+    public static void Query()
+    {
+        var cli = new SntpClient();
+        var rsp = cli.Query();
+        WriteLine(rsp);
+    }
+
     [SuppressMessage("Design", "CA1034:Nested types should not be visible")]
     public static class Guerrilla
     {
@@ -60,18 +69,6 @@ public static class NtpSimple
             WriteLine("  Root dispersion:    {0}ms", rsp.RootDispersion.TotalMilliseconds);
             WriteLine("  Poll interval:      2^{0}s", rsp.PollInterval);
             WriteLine("  Precision:          2^{0}s", rsp.Precision);
-        }
-    }
-
-    [SuppressMessage("Design", "CA1034:Nested types should not be visible")]
-    public static class Bocan
-    {
-        // Other option: "time.windows.com".
-        public static void Query()
-        {
-            var cli = new SntpClient();
-            var rsp = cli.Query();
-            WriteLine(rsp);
         }
     }
 }

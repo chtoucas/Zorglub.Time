@@ -3,32 +3,37 @@
 
 namespace Zorglub.Time.Horology.Ntp
 {
-    using System.Text;
-
-    using Zorglub.Time.Horology.Ntp;
-
     public sealed record SntpResponse
     {
-        public LeapIndicator LeapIndicator { get; private init; }
-        public int Version { get; private init; }
-        public NtpMode Mode { get; private init; }
-        public NtpStratum Stratum { get; private init; }
-        public int PollInterval { get; private init; }
-        public double Precision { get; private init; }
+        public LeapIndicator LeapIndicator { get; init; }
+        public int Version { get; init; }
+        public NtpMode Mode { get; init; }
+        public NtpStratum Stratum { get; init; }
+        public int PollInterval { get; init; }
+        public int Precision { get; init; }
 
-        public double RootDelay { get; private init; }
-        public double RootDispersion { get; private init; }
-        public string? Reference { get; private init; }
+        public double RootDelay { get; init; }
+        public double RootDispersion { get; init; }
 
-        public DateTime ReferenceTime { get; private init; }
+        public string? Reference { get; internal set; }
+
+        public NtpTimestamp ReferenceTimestamp { get; init; }
+        public DateTime ReferenceTime => ReferenceTimestamp.ToDateTime();
+
         // Time request sent by client (ID = T1).
-        public DateTime OriginateTime { get; private init; }
+        public NtpTimestamp OriginateTimestamp { get; init; }
+        public DateTime OriginateTime => OriginateTimestamp.ToDateTime();
+
         // Time request received by server (ID = T2).
-        public DateTime ReceiveTime { get; private init; }
+        public NtpTimestamp ReceiveTimestamp { get; init; }
+        public DateTime ReceiveTime => ReceiveTimestamp.ToDateTime();
+
         // Time reply sent by server (ID = T3).
-        public DateTime TransmitTime { get; private init; }
+        public NtpTimestamp TransmitTimestamp { get; init; }
+        public DateTime TransmitTime => TransmitTimestamp.ToDateTime();
+
         // Time reply received by client (ID = T3).
-        public DateTime DestinationTime { get; private init; }
+        public DateTime DestinationTime { get; init; }
 
         public double RoundtripDelay
         {
@@ -49,30 +54,6 @@ namespace Zorglub.Time.Horology.Ntp
                 TimeSpan span = ReceiveTime - OriginateTime + (TransmitTime - DestinationTime);
                 return span.TotalMilliseconds / 2;
             }
-        }
-
-        internal static SntpResponse Create(Rfc2030Message msg, DateTime destinationTime)
-        {
-            return new()
-            {
-                LeapIndicator = msg.LeapIndicator,
-                Version = msg.Version,
-                Mode = msg.Mode,
-                Stratum = msg.Stratum,
-                PollInterval = msg.PollInterval,
-                Precision = msg.Precision,
-
-                RootDelay = msg.RootDelay,
-                RootDispersion = msg.RootDispersion,
-                Reference = msg.Reference,
-
-                ReferenceTime = msg.ReferenceTime,
-                OriginateTime = msg.OriginateTime,
-                ReceiveTime = msg.ReceiveTime,
-                TransmitTime = msg.TransmitTime,
-
-                DestinationTime = destinationTime,
-            };
         }
     }
 }
