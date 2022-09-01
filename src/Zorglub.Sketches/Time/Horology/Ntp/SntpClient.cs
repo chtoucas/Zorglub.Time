@@ -4,7 +4,6 @@
 namespace Zorglub.Time.Horology.Ntp
 {
     using System.Buffers.Binary;
-    using System.Globalization;
     using System.Net;
     using System.Net.Sockets;
     using System.Text;
@@ -12,6 +11,8 @@ namespace Zorglub.Time.Horology.Ntp
     public sealed partial class SntpClient
     {
         private const int DataLength = 48;
+
+        public const int DefaultVersion = 3;
 
         public const string DefaultHost = "pool.ntp.org";
 
@@ -37,12 +38,35 @@ namespace Zorglub.Time.Horology.Ntp
             _endpoint = endpoint ?? throw new ArgumentNullException(nameof(endpoint));
         }
 
+        private int _version = DefaultVersion;
+        /// <summary>
+        /// Gets or initializes the NTP version.
+        /// </summary>
+        public int Version
+        {
+            get => _version;
+            init
+            {
+                if (value != 3 && value != 4) Throw.ArgumentOutOfRange(nameof(value));
+                _version = value;
+            }
+        }
+
         // Receive timeout in milliseconds; see Socket.ReceiveTimeout.
         public int ReceiveTimeout { get; init; } = DefaultReceiveTimeout;
 
         [Pure]
         public SntpResponse Query()
         {
+            const int
+                CLIENT_MODE = 3
+                //, TRANSMIT_TIMESTAMP_OFFSET = 40
+                ;
+
+            var buf = new byte[DataLength].AsSpan();
+            // Initialize the first byte to: LI = 0, VN = 3 or 4, Mode = 3.
+            buf[0] = (byte)(CLIENT_MODE | (Version << 3));
+
             using var sock = new Socket(SocketType.Dgram, ProtocolType.Udp)
             {
                 ReceiveTimeout = ReceiveTimeout,
@@ -50,28 +74,20 @@ namespace Zorglub.Time.Horology.Ntp
 
             sock.Connect(_endpoint);
 
-            var req = InitRequest();
-            sock.Send(req);
+            // FIXME(code): Initialize TransmitTimestamp.
+            // Overflow, DateTime.UtcNow is not really UTC.
+            //BinaryPrimitives.WriteInt64BigEndian(data[TRANSMIT_TIMESTAMP_OFFSET..], ...);
 
-            var data = new byte[160];
-            int len = sock.Receive(data);
+            sock.Send(buf);
+            int len = sock.Receive(buf);
+
             var destinationTime = DateTime.UtcNow;
 
             sock.Close();
 
-            var rsp = ReadReply(data.AsSpan(), destinationTime);
+            var rsp = ReadReply(buf, destinationTime);
             if (rsp.Check() == false) throw new SocketException();
             return rsp;
-
-            static Span<byte> InitRequest()
-            {
-                var data = new byte[DataLength].AsSpan();
-                // Initialize the first byte to: LI = 0, VN = 3, Mode = 3.
-                data[0] = 3 | (3 << 3);
-                // FIXME(code): Initialize TransmitTimestamp. Overflow, real UTC.
-                //BinaryPrimitives.WriteInt64BigEndian(data[40..], ...);
-                return data;
-            }
         }
 
         [Pure]

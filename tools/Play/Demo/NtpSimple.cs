@@ -5,6 +5,7 @@ namespace Play.Demo;
 
 using System;
 using System.Diagnostics.CodeAnalysis;
+using System.Net;
 
 using Zorglub.Time.Horology.Ntp;
 
@@ -18,27 +19,48 @@ public static class NtpSimple
 {
     public static void Query()
     {
-        var cli = new SntpClient();
+        var cli = new SntpClient() { Version = 3 };
         var rsp = cli.Query();
 
+        string reference = GetReference(rsp);
+
         WriteLine($"NTP response");
+        WriteLine($"  Leap second:        {rsp.LeapIndicator}");
+        WriteLine($"  Stratum:            {rsp.Stratum}");
+        WriteLine($"  Reference:          {reference}");
         //WriteLine("  Synchronized:       {0}", clock.Synchronized ? "yes" : "no");
         //WriteLine("  Network time (UTC): {0:HH:mm:ss.fff}", rsp.UtcNow);
         //WriteLine("  Network time:       {0:HH:mm:ss.fff}", rsp.Now);
         //WriteLine("  Correction offset:  {0:s'.'FFFFFFF}", rsp.CorrectionOffset);
         //WriteLine("  Round-trip time:    {0:s'.'FFFFFFF}", rsp.RoundtripDelay);
+        WriteLine("  Reference time:     {0:HH:mm:ss.fff}", rsp.ReferenceTimestamp.ToDateTime());
         WriteLine("  Origin time:        {0:HH:mm:ss.fff}", rsp.OriginateTimestamp.ToDateTime());
         WriteLine("  Receive time:       {0:HH:mm:ss.fff}", rsp.ReceiveTimestamp.ToDateTime());
         WriteLine("  Transmit time:      {0:HH:mm:ss.fff}", rsp.TransmitTimestamp.ToDateTime());
         WriteLine("  Destination time:   {0:HH:mm:ss.fff}", rsp.DestinationTime);
-        WriteLine("  Leap second:        {0}", rsp.LeapIndicator);
-        WriteLine("  Stratum:            {0}", rsp.Stratum);
-        WriteLine("  Reference:          {0}", rsp.Reference);
-        WriteLine("  Reference time:     {0:HH:mm:ss.fff}", rsp.ReferenceTimestamp);
-        WriteLine("  Root delay:         {0}ms", rsp.RootDelay);
-        WriteLine("  Root dispersion:    {0}ms", rsp.RootDispersion);
-        WriteLine("  Poll interval:      2^{0}s", rsp.PollInterval);
-        WriteLine("  Precision:          2^{0}s", rsp.Precision);
+        WriteLine($"  Root delay:         {rsp.RootDelay}");
+        WriteLine($"  Root dispersion:    {rsp.RootDispersion}");
+        WriteLine($"  Poll interval:      {rsp.PollInterval}");
+        WriteLine($"  Precision:          {rsp.Precision}");
+
+        static string GetReference(SntpResponse rsp)
+        {
+            var reference = rsp.Reference;
+            if (reference is null)
+            {
+                return "NULL";
+            }
+            else if (rsp.Stratum == NtpStratum.SecondaryReference && rsp.Version == 3)
+            {
+                //var host = Dns.GetHostEntry(reference);
+                //return FormattableString.Invariant($"{host.HostName} ({reference})");
+                return reference;
+            }
+            else
+            {
+                return reference.Length == 0 ? "EMPTY" : reference;
+            }
+        }
     }
 
     [SuppressMessage("Design", "CA1034:Nested types should not be visible")]
