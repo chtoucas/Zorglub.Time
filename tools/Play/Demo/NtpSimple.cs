@@ -19,7 +19,7 @@ public static class NtpSimple
 {
     public static void Query()
     {
-        var cli = new SntpClient() { Version = 3 };
+        var cli = new SntpClient() { Version = 4 };
         var rsp = cli.Query();
 
         string reference = GetReference(rsp);
@@ -27,17 +27,17 @@ public static class NtpSimple
         WriteLine($"NTP response");
         WriteLine($"  Leap second:        {rsp.LeapIndicator}");
         WriteLine($"  Stratum:            {rsp.Stratum}");
-        WriteLine($"  Reference:          {reference}");
+        WriteLine($"  Reference source:   {reference}");
         //WriteLine("  Synchronized:       {0}", clock.Synchronized ? "yes" : "no");
         //WriteLine("  Network time (UTC): {0:HH:mm:ss.fff}", rsp.UtcNow);
         //WriteLine("  Network time:       {0:HH:mm:ss.fff}", rsp.Now);
-        //WriteLine("  Correction offset:  {0:s'.'FFFFFFF}", rsp.CorrectionOffset);
         //WriteLine("  Round-trip time:    {0:s'.'FFFFFFF}", rsp.RoundtripDelay);
         WriteLine("  Reference time:     {0:HH:mm:ss.fff}", rsp.ReferenceTimestamp.ToDateTime());
-        WriteLine("  Origin time:        {0:HH:mm:ss.fff}", rsp.OriginateTimestamp.ToDateTime());
-        WriteLine("  Receive time:       {0:HH:mm:ss.fff}", rsp.ReceiveTimestamp.ToDateTime());
-        WriteLine("  Transmit time:      {0:HH:mm:ss.fff}", rsp.TransmitTimestamp.ToDateTime());
-        WriteLine("  Destination time:   {0:HH:mm:ss.fff}", rsp.DestinationTime);
+        WriteLine("  Client transmit:    {0:HH:mm:ss.fff}", rsp.OriginateTimestamp.ToDateTime());
+        WriteLine("  Server receive:     {0:HH:mm:ss.fff}", rsp.ReceiveTimestamp.ToDateTime());
+        WriteLine("  Server transmit:    {0:HH:mm:ss.fff}", rsp.TransmitTimestamp.ToDateTime());
+        WriteLine("  Client receive:     {0:HH:mm:ss.fff}", rsp.DestinationTimestamp.ToDateTime());
+        WriteLine($"  Clock offset:       {rsp.LocalClockOffset / 1000}s");
         WriteLine($"  Root delay:         {rsp.RootDelay}");
         WriteLine($"  Root dispersion:    {rsp.RootDispersion}");
         WriteLine($"  Poll interval:      {rsp.PollInterval}");
@@ -58,7 +58,7 @@ public static class NtpSimple
             }
             else
             {
-                return reference.Length == 0 ? "EMPTY" : reference;
+                return reference.Length == 0 ? "(not processed)" : reference;
             }
         }
     }

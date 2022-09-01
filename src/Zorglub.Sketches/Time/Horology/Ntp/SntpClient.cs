@@ -4,6 +4,7 @@
 namespace Zorglub.Time.Horology.Ntp
 {
     using System.Buffers.Binary;
+    using System.IO.Pipes;
     using System.Net;
     using System.Net.Sockets;
     using System.Text;
@@ -47,7 +48,7 @@ namespace Zorglub.Time.Horology.Ntp
             get => _version;
             init
             {
-                if (value != 3 && value != 4) Throw.ArgumentOutOfRange(nameof(value));
+                if (value != 3 && value != 4) ThrowHelpers.ArgumentOutOfRange(nameof(value));
                 _version = value;
             }
         }
@@ -59,13 +60,12 @@ namespace Zorglub.Time.Horology.Ntp
         public SntpResponse Query()
         {
             const int
-                CLIENT_MODE = 3
-                //, TRANSMIT_TIMESTAMP_OFFSET = 40
-                ;
+                ClientMode = 3,
+                TransmitTimestampOffset = 40;
 
             var buf = new byte[DataLength].AsSpan();
             // Initialize the first byte to: LI = 0, VN = 3 or 4, Mode = 3.
-            buf[0] = (byte)(CLIENT_MODE | (Version << 3));
+            buf[0] = (byte)(ClientMode | (Version << 3));
 
             using var sock = new Socket(SocketType.Dgram, ProtocolType.Udp)
             {
@@ -74,24 +74,25 @@ namespace Zorglub.Time.Horology.Ntp
 
             sock.Connect(_endpoint);
 
-            // FIXME(code): Initialize TransmitTimestamp.
-            // Overflow, DateTime.UtcNow is not really UTC.
-            //BinaryPrimitives.WriteInt64BigEndian(data[TRANSMIT_TIMESTAMP_OFFSET..], ...);
+            // Initialize TransmitTimestamp.
+            var transmitTimestamp = Timestamp64.FromDateTime(DateTime.UtcNow);
+            var randomizedRequestTimestamp = transmitTimestamp;
+            WriteTimestamp(buf[TransmitTimestampOffset..], randomizedRequestTimestamp);
 
             sock.Send(buf);
             int len = sock.Receive(buf);
-
-            var destinationTime = DateTime.UtcNow;
+            var destinationTimestamp = Timestamp64.FromDateTime(DateTime.UtcNow);
 
             sock.Close();
 
-            var rsp = ReadReply(buf, destinationTime);
-            if (rsp.Check() == false) throw new SocketException();
+            var rsp = ReadReply(buf);
+            rsp.DestinationTimestamp = destinationTimestamp;
+            CheckReply(rsp, randomizedRequestTimestamp);
             return rsp;
         }
 
         [Pure]
-        private static SntpResponse ReadReply(ReadOnlySpan<byte> buf, DateTime destinationTime)
+        private static SntpResponse ReadReply(ReadOnlySpan<byte> buf)
         {
             Debug.Assert(buf != null);
             Debug.Assert(buf.Length >= DataLength);
@@ -124,13 +125,30 @@ namespace Zorglub.Time.Horology.Ntp
                 ReferenceTimestamp = ReadTimestamp(buf[16..]),
                 OriginateTimestamp = ReadTimestamp(buf[24..]),
                 ReceiveTimestamp = ReadTimestamp(buf[32..]),
-                TransmitTimestamp = ReadTimestamp(buf[40..]),
-                DestinationTime = destinationTime,
+                TransmitTimestamp = ReadTimestamp(buf[40..])
             };
 
             rsp.Reference = ReadReference(buf[12..16], rsp);
 
             return rsp;
+        }
+
+        // TODO(code): move this to ThrowHelpers.
+        private static void Throw(string message = "Bad reply from the NTP server") =>
+            throw new NtpException(message);
+
+        // TODO(code): Error checks in client-server model, see RFC 4330, section 5.
+        private void CheckReply(SntpResponse rsp, Timestamp64 randomizedRequestTimestamp)
+        {
+            if (rsp.LeapIndicator == LeapIndicator.Invalid) Throw();
+            if (rsp.Version != Version) Throw();
+            if (rsp.Mode != NtpMode.Server) Throw();
+            if (rsp.Stratum == NtpStratum.Reserved
+                || rsp.Stratum == NtpStratum.Unsynchronized
+                || rsp.Stratum == NtpStratum.Invalid) Throw();
+
+            if (rsp.OriginateTimestamp != randomizedRequestTimestamp) Throw();
+            if (rsp.TransmitTimestamp == Timestamp64.Zero) Throw();
         }
     }
 
@@ -144,7 +162,7 @@ namespace Zorglub.Time.Horology.Ntp
                 0 => LeapIndicator.NoWarning,
                 1 => LeapIndicator.PositiveLeapSecond,
                 2 => LeapIndicator.NegativeLeapSecond,
-                3 => LeapIndicator.Alarm,
+                3 => LeapIndicator.Unknown,
 
                 _ => LeapIndicator.Invalid
             };
@@ -160,7 +178,7 @@ namespace Zorglub.Time.Horology.Ntp
                 3 => NtpMode.Client,
                 4 => NtpMode.Server,
                 5 => NtpMode.Broadcast,
-                6 => NtpMode.ReservedForNtpControlMessage,
+                6 => NtpMode.NtpControlMessage,
                 7 => NtpMode.ReservedForPrivateUse,
 
                 _ => NtpMode.Invalid
@@ -174,6 +192,7 @@ namespace Zorglub.Time.Horology.Ntp
                 0 => NtpStratum.Unavailable,
                 1 => NtpStratum.PrimaryReference,
                 <= 15 => NtpStratum.SecondaryReference,
+                16 => NtpStratum.Unsynchronized,
                 _ => NtpStratum.Reserved
             };
 
@@ -186,6 +205,17 @@ namespace Zorglub.Time.Horology.Ntp
             uint fractionalSecond = BinaryPrimitives.ReadUInt32BigEndian(buf[4..]);
 
             return new Timestamp64(secondOfEra, fractionalSecond);
+        }
+
+        private static void WriteTimestamp(Span<byte> buf, Timestamp64 timestamp)
+        {
+            Debug.Assert(buf.Length >= 8);
+
+            uint secondOfEra = timestamp.SecondOfEraUnsigned;
+            uint fractionalSecond = timestamp.FractionalSecond;
+
+            BinaryPrimitives.WriteUInt32BigEndian(buf, secondOfEra);
+            BinaryPrimitives.WriteUInt32BigEndian(buf[4..], fractionalSecond);
         }
 
         [Pure]

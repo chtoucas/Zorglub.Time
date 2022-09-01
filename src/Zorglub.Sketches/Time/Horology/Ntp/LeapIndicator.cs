@@ -9,7 +9,7 @@ namespace Zorglub.Time.Horology.Ntp
     /// </summary>
     public enum LeapIndicator
     {
-        /// <summary>Invalid.</summary>
+        /// <summary>Default value is invalid.</summary>
         Invalid = 0,
 
         /// <summary>No warning.</summary>
@@ -22,6 +22,6 @@ namespace Zorglub.Time.Horology.Ntp
         NegativeLeapSecond,
 
         /// <summary>Alarm condition (clock not synchronized).</summary>
-        Alarm
+        Unknown
     }
 }

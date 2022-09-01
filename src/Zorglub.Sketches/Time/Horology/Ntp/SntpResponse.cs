@@ -31,12 +31,13 @@ namespace Zorglub.Time.Horology.Ntp
 
         public Timestamp64 TransmitTimestamp { get; init; }
 
-        public DateTime DestinationTime { get; init; }
+        public Timestamp64 DestinationTimestamp { get; internal set; }
 
         // FIXME(code): Temporary props.
         private DateTime OriginateTime => OriginateTimestamp.ToDateTime();
         private DateTime ReceiveTime => ReceiveTimestamp.ToDateTime();
         private DateTime TransmitTime => TransmitTimestamp.ToDateTime();
+        private DateTime DestinationTime => DestinationTimestamp.ToDateTime();
 
         // OriginateTimestamp (T1):     Time request sent by client
         // ReceiveTimestamp (T2):       Time request received by server
@@ -63,22 +64,6 @@ namespace Zorglub.Time.Horology.Ntp
                 TimeSpan span = ReceiveTime - OriginateTime + (TransmitTime - DestinationTime);
                 return span.TotalMilliseconds / 2;
             }
-        }
-
-        [Pure]
-        internal bool Check()
-        {
-            if (LeapIndicator == LeapIndicator.Invalid
-                || LeapIndicator == LeapIndicator.Alarm)
-                return false;
-
-            if (Mode != NtpMode.Server) return false;
-
-            if (Stratum != NtpStratum.PrimaryReference
-                && Stratum != NtpStratum.SecondaryReference)
-                return false;
-
-            return true;
         }
     }
 }

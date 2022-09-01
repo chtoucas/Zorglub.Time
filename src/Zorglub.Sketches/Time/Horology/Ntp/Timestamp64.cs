@@ -7,7 +7,7 @@ namespace Zorglub.Time.Horology.Ntp
 
     using static Zorglub.Time.Core.TemporalConstants;
 
-    // TODO(api): arithmetic (-), comparable, ToDateTime() & year 2036, randomization.
+    // TODO(api): overflows (uint, ulong, etc.) From/ToDateTime() & year 2036, randomization.
 
     // Adapted from
     // https://android.googlesource.com/platform/frameworks/base/+/master/core/java/android/net/sntp/Timestamp64.java
@@ -56,6 +56,8 @@ namespace Zorglub.Time.Horology.Ntp
 
         public static Timestamp64 Zero { get; } = new(0, 0);
 
+        internal uint SecondOfEraUnsigned => (uint)_secondOfEra;
+
         /// <summary>
         /// Gets the second of the NTP era, i.e. the number of elapsed seconds since <see cref="Zero"/>.
         /// </summary>
@@ -80,40 +82,56 @@ namespace Zorglub.Time.Horology.Ntp
         /// Counts the number of elapsed milliseconds since <see cref="Zero"/>.
         /// </summary>
         [Pure]
-        public long CountMillisecondsSinceZero() =>
-            MillisecondsPerSecond * (long)_secondOfEra
+        public long CountMillisecondsSinceZero() => (long)(
+            MillisecondsPerSecond * _secondOfEra
             // millisecond-of-second
-            + (long)((MillisecondsPerSecond * _fractionalSecond) >> 32);
+            + ((MillisecondsPerSecond * _fractionalSecond) >> 32));
 
         /// <summary>
         /// Counts the number of elapsed nanoseconds since <see cref="Zero"/>.
         /// </summary>
         [Pure]
-        public long CountNanosecondsSinceZero() =>
-            NanosecondsPerSecond * (long)_secondOfEra
+        public long CountNanosecondsSinceZero() => (long)(
+            NanosecondsPerSecond * _secondOfEra
             // nanosecond-of-second
-            + (long)((NanosecondsPerSecond * _fractionalSecond) >> 32);
+            + ((NanosecondsPerSecond * _fractionalSecond) >> 32));
+    }
 
-        internal static class FractionOfSecond
+    public partial struct Timestamp64 // Conversions
+    {
+        [Pure]
+        public static Timestamp64 FromDateTime(DateTime time)
         {
-            [Pure]
-            public static uint FromMillisecondOfSecond(ulong millisecondOfSecond)
-            {
-                if (millisecondOfSecond > MillisecondsPerSecond) Throw.ArgumentOutOfRange(nameof(millisecondOfSecond));
-                return (uint)((millisecondOfSecond << 32) / MillisecondsPerSecond);
-            }
+            var secondOfEra = (time - s_Epoch).TotalSeconds;
+            var fractionOfSecond = FractionOfSecond.FromMillisecondOfSecond(time.Millisecond);
 
-            [Pure]
-            public static uint FromNanosecondOfSecond(ulong nanosecondOfSecond)
-            {
-                if (nanosecondOfSecond > NanosecondsPerSecond) Throw.ArgumentOutOfRange(nameof(nanosecondOfSecond));
-                return (uint)((nanosecondOfSecond << 32) / NanosecondsPerSecond);
-            }
+            return new Timestamp64((uint)secondOfEra, fractionOfSecond);
         }
 
         [Pure]
         public DateTime ToDateTime() =>
             s_Epoch + TimeSpan.FromMilliseconds(CountMillisecondsSinceZero());
+
+        private static class FractionOfSecond
+        {
+            [Pure]
+            public static uint FromMillisecondOfSecond(int millisecondOfSecond)
+            {
+                Debug.Assert(millisecondOfSecond >= 0);
+                Debug.Assert(millisecondOfSecond < MillisecondsPerSecond);
+
+                return (uint)(((ulong)millisecondOfSecond << 32) / MillisecondsPerSecond);
+            }
+
+            [Pure]
+            public static uint FromNanosecondOfSecond(int nanosecondOfSecond)
+            {
+                Debug.Assert(nanosecondOfSecond >= 0);
+                Debug.Assert(nanosecondOfSecond < NanosecondsPerSecond);
+
+                return (uint)(((ulong)nanosecondOfSecond << 32) / NanosecondsPerSecond);
+            }
+        }
     }
 
     public partial struct Timestamp64 // IEquatable
