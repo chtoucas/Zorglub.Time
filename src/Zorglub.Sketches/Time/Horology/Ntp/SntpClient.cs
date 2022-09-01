@@ -4,6 +4,7 @@
 namespace Zorglub.Time.Horology.Ntp
 {
     using System.Buffers.Binary;
+    using System.Globalization;
     using System.Net;
     using System.Net.Sockets;
     using System.Text;
@@ -59,7 +60,7 @@ namespace Zorglub.Time.Horology.Ntp
             sock.Close();
 
             var rsp = ReadReply(data.AsSpan(), destinationTime);
-            if (rsp.Check() == false) throw new Exception();
+            if (rsp.Check() == false) throw new SocketException();
             return rsp;
 
             static Span<byte> InitRequest()
@@ -117,7 +118,7 @@ namespace Zorglub.Time.Horology.Ntp
         }
     }
 
-    public partial class SntpClient
+    public partial class SntpClient // Helpers
     {
         [Pure]
         private static LeapIndicator ReadLeapIndicator(int x) =>
@@ -161,56 +162,77 @@ namespace Zorglub.Time.Horology.Ntp
             };
 
         [Pure]
-        private static NtpTimestamp ReadTimestamp(ReadOnlySpan<byte> buf)
+        private static Timestamp64 ReadTimestamp(ReadOnlySpan<byte> buf)
         {
             Debug.Assert(buf.Length >= 8);
 
             uint secondOfEra = BinaryPrimitives.ReadUInt32BigEndian(buf);
             uint fractionalSecond = BinaryPrimitives.ReadUInt32BigEndian(buf[4..]);
 
-            return new NtpTimestamp(secondOfEra, fractionalSecond);
+            return new Timestamp64(secondOfEra, fractionalSecond);
         }
 
         [Pure]
-        private static double ReadDuration(ReadOnlySpan<byte> buf)
+        private static Duration64 ReadDuration(ReadOnlySpan<byte> buf)
         {
             Debug.Assert(buf.Length >= 4);
 
-            return (double)BinaryPrimitives.ReadInt32BigEndian(buf) / 0x10000;
+            int value = BinaryPrimitives.ReadInt32BigEndian(buf);
+
+            return new Duration64(value);
         }
 
         [Pure]
-        private static string ReadReference(ReadOnlySpan<byte> buf, SntpResponse rsp)
+        private static string? ReadReference(ReadOnlySpan<byte> buf, SntpResponse rsp)
         {
             Debug.Assert(rsp != null);
             Debug.Assert(buf.Length == 4);
 
-            return rsp.Stratum switch
+            // This is a 32-bit bitstring identifying the particular reference
+            // source.
+            switch (rsp.Stratum)
             {
-                NtpStratum.Unavailable
-                or NtpStratum.PrimaryReference =>
-                    // Four-character ASCII string, left justified and zero
-                    // padded to 32 bits.
-                    Encoding.ASCII.GetString(buf),
+                // Four-character ASCII string, left justified and zero padded
+                // to 32 bits.
+                case NtpStratum.Unavailable:
+                case NtpStratum.PrimaryReference:
+                    return Encoding.ASCII.GetString(buf);
 
-                NtpStratum.SecondaryReference =>
-                    rsp.Version switch
-                    {
-                        // 32-bit IPv4 address of the reference source.
-                        3 => FormattableString.Invariant($"{buf[0]}.{buf[1]}.{buf[2]}.{buf[3]}"),
+                // In NTP Version 4, it's complicated...
+                // RFC 2030
+                // > In NTP Version 3 secondary servers, this is the 32-bit IPv4
+                // > address of the reference source. In NTP Version 4 secondary
+                // > servers, this is the low order 32 bits of the latest
+                // > transmit timestamp of the reference source.
+                // RFC 4330
+                // > For IPv4 secondary servers, the value is the 32-bit
+                // > IPv4 address of the synchronization source.
+                // > For IPv6 and OSI secondary servers, the value is
+                // > the first 32 bits of the MD5 hash of the IPv6 or
+                // > NSAP address of the synchronization source.
+                // RFC 5905
+                // > Above stratum 1 (secondary servers and clients): this is the
+                // > reference identifier of the server and can be used to detect
+                // > timing loops. If using the IPv4 address family, the
+                // > identifier is the four-octet IPv4 address. If using the IPv6
+                // > address family, it is the first four octets of the MD5 hash
+                // > of the IPv6 address. Note that, when using the IPv6 address
+                // > family on an NTPv4 server with a NTPv3 client, the Reference
+                // > Identifier field appears to be a random value and a timing
+                // > loop might not be detected.
+                case NtpStratum.SecondaryReference:
+                    return rsp.Version == 3
+                        // Easy case: NTP Version 3 only supports IPv4.
+                        ? FormattableString.Invariant($"{buf[0]}.{buf[1]}.{buf[2]}.{buf[3]}")
+                        : String.Empty;
 
-                        // Low order 32 bits of the latest transmit timestamp of
-                        // the reference source.
-                        4 => throw new NotImplementedException(),
-                        // TODO(code): low order 32 bits only!
-                        // NtpTimestamp.FromBytes(buf).ToDateTime().ToString(CultureInfo.CurrentCulture),
+                case NtpStratum.Reserved:
+                    return String.Empty;
 
-                        _ => String.Empty
-                    },
-
-                _ => String.Empty,
-            };
-            ;
+                case NtpStratum.Invalid:
+                default:
+                    return null;
+            }
         }
     }
 }
