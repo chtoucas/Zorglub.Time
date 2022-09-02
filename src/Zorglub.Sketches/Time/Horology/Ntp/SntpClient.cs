@@ -6,10 +6,14 @@ namespace Zorglub.Time.Horology.Ntp
     using System.Net;
     using System.Net.Sockets;
     using System.Text;
+    using System.Threading.Tasks;
+    using System.Threading;
 
     public sealed partial class SntpClient
     {
         private const int DataLength = 48;
+
+        private const int TransmitTimestampOffset = 40;
 
         public const int DefaultVersion = 3;
 
@@ -21,22 +25,20 @@ namespace Zorglub.Time.Horology.Ntp
 
         private readonly IRandomProvider _randomProvider = new DefaultRandomProvider();
 
-        private readonly EndPoint _endpoint;
-
         public SntpClient()
         {
-            _endpoint = new DnsEndPoint(DefaultHost, DefaultPort);
+            Endpoint = new DnsEndPoint(DefaultHost, DefaultPort);
         }
 
         // Host name or IP address of the NTP server.
         public SntpClient(string host)
         {
-            _endpoint = new DnsEndPoint(host, DefaultPort);
+            Endpoint = new DnsEndPoint(host, DefaultPort);
         }
 
         public SntpClient(EndPoint endpoint)
         {
-            _endpoint = endpoint ?? throw new ArgumentNullException(nameof(endpoint));
+            Endpoint = endpoint ?? throw new ArgumentNullException(nameof(endpoint));
         }
 
         private int _version = DefaultVersion;
@@ -62,23 +64,33 @@ namespace Zorglub.Time.Horology.Ntp
             init => _randomProvider = value ?? throw new ArgumentNullException(nameof(value));
         }
 
+        private EndPoint Endpoint { get; }
+
+        private byte FirstByte
+        {
+            // CIL code size = XXX bytes <= 32 bytes.
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get
+            {
+                const int ClientMode = 3;
+
+                // Initialize the first byte to: LI = 0, VN = 3 or 4, Mode = 3.
+                return (byte)(ClientMode | (Version << 3));
+            }
+        }
+
         [Pure]
         public SntpResponse Query()
         {
-            const int
-                ClientMode = 3,
-                TransmitTimestampOffset = 40;
-
             var buf = new byte[DataLength].AsSpan();
-            // Initialize the first byte to: LI = 0, VN = 3 or 4, Mode = 3.
-            buf[0] = (byte)(ClientMode | (Version << 3));
+            buf[0] = FirstByte;
 
-            using var sock = new Socket(SocketType.Dgram, ProtocolType.Udp)
+            using var sock = new Socket(Endpoint.AddressFamily, SocketType.Dgram, ProtocolType.Udp)
             {
                 ReceiveTimeout = ReceiveTimeout,
             };
 
-            sock.Connect(_endpoint);
+            sock.Connect(Endpoint);
 
             // Initialize TransmitTimestamp.
             var clientTransmitTimestamp =
@@ -93,6 +105,39 @@ namespace Zorglub.Time.Horology.Ntp
             sock.Close();
 
             var rsp = ReadReply(buf);
+            rsp.DestinationTimestamp = Timestamp64.FromDateTime(destinationTime);
+            CheckReply(rsp, clientTransmitTimestamp);
+            return rsp;
+        }
+
+        [Pure]
+        public async Task<SntpResponse> QueryAsync(CancellationToken token = default)
+        {
+            var bytes = new byte[DataLength];
+            bytes[0] = FirstByte;
+
+            using var sock = new Socket(Endpoint.AddressFamily, SocketType.Dgram, ProtocolType.Udp)
+            {
+                ReceiveTimeout = ReceiveTimeout,
+            };
+
+            await sock.ConnectAsync(Endpoint).ConfigureAwait(false);
+
+            // Initialize TransmitTimestamp.
+            var clientTransmitTimestamp =
+                Timestamp64.FromDateTime(DateTime.UtcNow)
+                    .RandomizeSubMilliseconds(RandomProvider.NextInt32());
+            clientTransmitTimestamp.WriteTo(bytes, TransmitTimestampOffset);
+
+            var buf = new ArraySegment<byte>(bytes);
+            await sock.SendAsync(buf, SocketFlags.None, token).ConfigureAwait(false);
+            await sock.ReceiveAsync(buf, SocketFlags.None, token).ConfigureAwait(false);
+
+            var destinationTime = DateTime.UtcNow;
+
+            sock.Close();
+
+            var rsp = ReadReply(bytes);
             rsp.DestinationTimestamp = Timestamp64.FromDateTime(destinationTime);
             CheckReply(rsp, clientTransmitTimestamp);
             return rsp;
@@ -200,38 +245,37 @@ namespace Zorglub.Time.Horology.Ntp
             // source.
             switch (rsp.Stratum)
             {
-                // Four-character ASCII string, left justified and zero padded
-                // to 32 bits.
                 case NtpStratum.Unavailable:
                 case NtpStratum.PrimaryReference:
+                    // Four-character ASCII string, left justified and zero
+                    // padded to 32 bits.
                     return Encoding.ASCII.GetString(buf);
 
-                // In NTP Version 4, it's complicated...
-                // RFC 2030
-                // > In NTP Version 3 secondary servers, this is the 32-bit IPv4
-                // > address of the reference source. In NTP Version 4 secondary
-                // > servers, this is the low order 32 bits of the latest
-                // > transmit timestamp of the reference source.
-                // RFC 4330
-                // > For IPv4 secondary servers, the value is the 32-bit
-                // > IPv4 address of the synchronization source.
-                // > For IPv6 and OSI secondary servers, the value is
-                // > the first 32 bits of the MD5 hash of the IPv6 or
-                // > NSAP address of the synchronization source.
-                // RFC 5905
-                // > Above stratum 1 (secondary servers and clients): this is the
-                // > reference identifier of the server and can be used to detect
-                // > timing loops. If using the IPv4 address family, the
-                // > identifier is the four-octet IPv4 address. If using the IPv6
-                // > address family, it is the first four octets of the MD5 hash
-                // > of the IPv6 address. Note that, when using the IPv6 address
-                // > family on an NTPv4 server with a NTPv3 client, the Reference
-                // > Identifier field appears to be a random value and a timing
-                // > loop might not be detected.
                 case NtpStratum.SecondaryReference:
                     return rsp.Version == 3
-                        // Easy case: NTP Version 3 only supports IPv4.
+                        // NTP Version 3 only supports IPv4.
                         ? FormattableString.Invariant($"{buf[0]}.{buf[1]}.{buf[2]}.{buf[3]}")
+                        // It's complicated...
+                        // RFC 2030
+                        //   In NTP Version 4 secondary servers, this is the low
+                        //   order 32 bits of the latest transmit timestamp of
+                        //   the reference source.
+                        // RFC 4330
+                        //   For IPv4 secondary servers, the value is the 32-bit
+                        //   IPv4 address of the synchronization source.
+                        //   For IPv6 and OSI secondary servers, the value is
+                        //   the first 32 bits of the MD5 hash of the IPv6 or
+                        //   NSAP address of the synchronization source.
+                        // RFC 5905
+                        //   Above stratum 1 (secondary servers and clients): this is the
+                        //   reference identifier of the server and can be used to detect
+                        //   timing loops. If using the IPv4 address family, the
+                        //   identifier is the four-octet IPv4 address. If using the IPv6
+                        //   address family, it is the first four octets of the MD5 hash
+                        //   of the IPv6 address. Note that, when using the IPv6 address
+                        //   family on an NTPv4 server with a NTPv3 client, the Reference
+                        //   Identifier field appears to be a random value and a timing
+                        //   loop might not be detected.
                         : String.Empty;
 
                 case NtpStratum.Reserved:

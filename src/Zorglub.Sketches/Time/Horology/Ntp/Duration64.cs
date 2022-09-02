@@ -26,11 +26,23 @@ namespace Zorglub.Time.Horology.Ntp
 
         public static Duration64 Zero { get; }
 
+        /// <summary>
+        /// Gets the smallest possible value of a <see cref="Duration64"/>.
+        /// <para>This static property is thread-safe.</para>
+        /// </summary>
         public static Duration64 MinValue { get; } = new(Int64.MinValue);
+
+        /// <summary>
+        /// Gets the largest possible value of a <see cref="Duration64"/>.
+        /// <para>This static property is thread-safe.</para>
+        /// </summary>
         public static Duration64 MaxValue { get; } = new(Int64.MaxValue);
 
         public long Value => _value;
 
+        /// <summary>
+        /// Returns a culture-independent string representation of the current instance.
+        /// </summary>
         [Pure]
         public override string ToString() => FormattableString.Invariant($"{_value}");
 

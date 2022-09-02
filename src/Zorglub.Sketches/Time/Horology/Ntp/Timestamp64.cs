@@ -10,10 +10,7 @@ namespace Zorglub.Time.Horology.Ntp
 
     using static Zorglub.Time.Core.TemporalConstants;
 
-    // TODO(api): overflows (uint, ulong, etc.)
-    // From/ToDateTime() & year 2036.
-    // Randomization.
-    // https://docs.microsoft.com/en-us/dotnet/fundamentals/code-analysis/quality-rules/ca5394
+    // TODO(api): From/ToDateTime() & Y2036.
 
     // Adapted from
     // https://android.googlesource.com/platform/frameworks/base/+/master/core/java/android/net/sntp/Timestamp64.java
@@ -26,6 +23,10 @@ namespace Zorglub.Time.Horology.Ntp
     // - https://www.eecis.udel.edu/~mills/y2k.html
     // - https://tickelton.gitlab.io/articles/ntp-timestamps/
 
+    /// <summary>
+    /// Represents a 64-bit NTP timestamp.
+    /// <para><see cref="Timestamp64"/> is an immutable struct.</para>
+    /// </summary>
     public readonly partial struct Timestamp64 :
         // Comparison
         IComparisonOperators<Timestamp64, Timestamp64>,
@@ -58,7 +59,16 @@ namespace Zorglub.Time.Horology.Ntp
         /// </summary>
         public const long MaxFractionOfSecond = (1L << 32) - 1;
 
+        /// <summary>
+        /// Represents the second of the NTP era.
+        /// <para>This field is read-only.</para>
+        /// </summary>
         private readonly uint _secondOfEra;
+
+        /// <summary>
+        /// Represents the sub-second.
+        /// <para>This field is read-only.</para>
+        /// </summary>
         private readonly uint _fractionOfSecond;
 
         internal Timestamp64(uint secondOfEra, uint fractionOfSecond)
@@ -71,9 +81,23 @@ namespace Zorglub.Time.Horology.Ntp
             _fractionOfSecond = fractionOfSecond;
         }
 
+        /// <summary>
+        /// Gets the epoch of first NTP era.
+        /// <para>The Monday 1st of January, 1900 CE within the Gregorian calendar.</para>
+        /// <para>This static property is thread-safe.</para>
+        /// </summary>
         public static Timestamp64 Zero { get; }
 
+        /// <summary>
+        /// Gets the smallest possible value of a <see cref="Timestamp64"/>.
+        /// <para>This static property is thread-safe.</para>
+        /// </summary>
         public static Timestamp64 MinValue => Zero;
+
+        /// <summary>
+        /// Gets the largest possible value of a <see cref="Timestamp64"/>.
+        /// <para>This static property is thread-safe.</para>
+        /// </summary>
         public static Timestamp64 MaxValue { get; } = new(UInt32.MaxValue, UInt32.MaxValue);
 
         /// <summary>
@@ -81,10 +105,21 @@ namespace Zorglub.Time.Horology.Ntp
         /// </summary>
         public long SecondOfEra => _secondOfEra;
 
+        /// <summary>
+        /// Gets the fraction of the second.
+        /// </summary>
+        // 1 fraction of second = 1 / 2^32 second
+        // Relation to a subunit-of-second:
+        // > subunit-of-second = (SubunitsPerSecond * fraction-of-second) / 2^32
+        // > fraction-of-second = (2^32 * subunit-of-second) / SubunitsPerSecond
+        // Precision is about 232 picoseconds.
         public long FractionOfSecond => _fractionOfSecond;
 
         private ulong Value => ((ulong)_secondOfEra << 32) | _fractionOfSecond;
 
+        /// <summary>
+        /// Returns a culture-independent string representation of the current instance.
+        /// </summary>
         [Pure]
         public override string ToString() =>
             FormattableString.Invariant($"{_secondOfEra}.{_fractionOfSecond}");
@@ -106,33 +141,6 @@ namespace Zorglub.Time.Horology.Ntp
             NanosecondsPerSecond * (ulong)_secondOfEra
             // nanosecond-of-second
             + ((NanosecondsPerSecond * (ulong)_fractionOfSecond) >> 32));
-
-        private static class FractionalSecond
-        {
-            // 1 fraction of second = 1 / 2^32 second
-            // Relation to a subunit-of-second:
-            // > subunit-of-second = (SubunitsPerSecond * fraction-of-second) / 2^32
-            // > fraction-of-second = (2^32 * subunit-of-second) / SubunitsPerSecond
-            // Precision is about 232 picoseconds.
-
-            [Pure]
-            public static uint FromMillisecondOfSecond(int millisecondOfSecond)
-            {
-                Debug.Assert(millisecondOfSecond >= 0);
-                Debug.Assert(millisecondOfSecond < MillisecondsPerSecond);
-
-                return (uint)(((ulong)millisecondOfSecond << 32) / MillisecondsPerSecond);
-            }
-
-            [Pure]
-            public static uint FromNanosecondOfSecond(int nanosecondOfSecond)
-            {
-                Debug.Assert(nanosecondOfSecond >= 0);
-                Debug.Assert(nanosecondOfSecond < NanosecondsPerSecond);
-
-                return (uint)(((ulong)nanosecondOfSecond << 32) / NanosecondsPerSecond);
-            }
-        }
     }
 
     public partial struct Timestamp64 // Internal helpers
@@ -147,6 +155,20 @@ namespace Zorglub.Time.Horology.Ntp
 
             uint secondOfEra = BinaryPrimitives.ReadUInt32BigEndian(buf);
             uint fractionOfSecond = BinaryPrimitives.ReadUInt32BigEndian(buf[4..]);
+
+            return new Timestamp64(secondOfEra, fractionOfSecond);
+        }
+
+        /// <summary>
+        /// Reads a <see cref="Timestamp64"/> from the a read-only span of bytes.
+        /// </summary>
+        [Pure]
+        internal static Timestamp64 ReadFrom(ReadOnlySpan<byte> buf, int index)
+        {
+            Debug.Assert(buf.Length >= 8);
+
+            uint secondOfEra = BinaryPrimitives.ReadUInt32BigEndian(buf[index..]);
+            uint fractionOfSecond = BinaryPrimitives.ReadUInt32BigEndian(buf[(index + 4)..]);
 
             return new Timestamp64(secondOfEra, fractionOfSecond);
         }
@@ -189,7 +211,7 @@ namespace Zorglub.Time.Horology.Ntp
             if (time.Kind != DateTimeKind.Utc) Throw.Argument(nameof(time));
 
             var secondOfEra = (time - s_Epoch).TotalSeconds;
-            var fractionOfSecond = FractionalSecond.FromMillisecondOfSecond(time.Millisecond);
+            var fractionOfSecond = GetFractionOfSecondFromMillisecondOfSecond(time.Millisecond);
 
             return new Timestamp64((uint)secondOfEra, fractionOfSecond);
         }
@@ -197,6 +219,15 @@ namespace Zorglub.Time.Horology.Ntp
         [Pure]
         public DateTime ToDateTime() =>
             s_Epoch + TimeSpan.FromMilliseconds(CountMillisecondsSinceZero());
+
+        [Pure]
+        private static uint GetFractionOfSecondFromMillisecondOfSecond(int millisecondOfSecond)
+        {
+            Debug.Assert(millisecondOfSecond >= 0);
+            Debug.Assert(millisecondOfSecond < MillisecondsPerSecond);
+
+            return (uint)(((ulong)millisecondOfSecond << 32) / MillisecondsPerSecond);
+        }
     }
 
     public partial struct Timestamp64 // IEquatable
