@@ -19,8 +19,7 @@ namespace Zorglub.Time.Horology.Ntp
 
         public const int DefaultReceiveTimeout = 1000;
 
-        // To be improved...
-        private readonly Random _random = new();
+        private readonly IRandomProvider _randomProvider = new DefaultRandomProvider();
 
         private readonly EndPoint _endpoint;
 
@@ -57,6 +56,12 @@ namespace Zorglub.Time.Horology.Ntp
         // Receive timeout in milliseconds; see Socket.ReceiveTimeout.
         public int ReceiveTimeout { get; init; } = DefaultReceiveTimeout;
 
+        public IRandomProvider RandomProvider
+        {
+            get => _randomProvider;
+            init => _randomProvider = value ?? throw new ArgumentNullException(nameof(value));
+        }
+
         [Pure]
         public SntpResponse Query()
         {
@@ -77,10 +82,9 @@ namespace Zorglub.Time.Horology.Ntp
 
             // Initialize TransmitTimestamp.
             var clientTransmitTimestamp =
-                Timestamp64
-                    .FromDateTime(DateTime.UtcNow)
-                    .RandomizeSubmilliseconds(_random);
-            clientTransmitTimestamp.WriteTo(buf[TransmitTimestampOffset..]);
+                Timestamp64.FromDateTime(DateTime.UtcNow)
+                    .RandomizeSubMilliseconds(RandomProvider.NextInt32());
+            clientTransmitTimestamp.WriteTo(buf, TransmitTimestampOffset);
 
             sock.Send(buf);
             int len = sock.Receive(buf);
@@ -100,19 +104,6 @@ namespace Zorglub.Time.Horology.Ntp
             Debug.Assert(buf != null);
             Debug.Assert(buf.Length >= DataLength);
 
-            // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-            // |LI | VN  |Mode |    Stratum    |     Poll      |   Precision   |
-            // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-            // |                          Root Delay                           |
-            // |                       Root Dispersion                         |
-            // |                     Reference Identifier                      |
-            // |                   Reference Timestamp (64)                    |
-            // |                   Originate Timestamp (64)                    |
-            // |                    Receive Timestamp (64)                     |
-            // |                    Transmit Timestamp (64)                    |
-            // |                 Key Identifier (optional) (32)                |
-            // |                 Message Digest (optional) (128)               |
-            // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
             var rsp = new SntpResponse
             {
                 // First byte.

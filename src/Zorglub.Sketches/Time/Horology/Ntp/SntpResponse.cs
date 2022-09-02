@@ -31,25 +31,25 @@ namespace Zorglub.Time.Horology.Ntp
     {
         /// <summary>
         /// Gets the time at which the request departed the client for the server.
-        /// <para>"Originate timestamp".</para>
+        /// <para>"Originate timestamp" in NTP parlance.</para>
         /// </summary>
         public Timestamp64 ClientTransmitTimestamp { get; init; }
 
         /// <summary>
         /// Gets the time at which the request arrived at the server.
-        /// <para>"Receive timestamp".</para>
+        /// <para>"Receive timestamp" in NTP parlance.</para>
         /// </summary>
         public Timestamp64 ServerReceiveTimestamp { get; init; }
 
         /// <summary>
         /// Gets the time at which the reply departed the server.
-        /// <para>"Transmit timestamp".</para>
+        /// <para>"Transmit timestamp" in NTP parlance.</para>
         /// </summary>
         public Timestamp64 ServerTransmitTimestamp { get; init; }
 
         /// <summary>
         /// Gets the time of arrival of the reply according to the client clock.
-        /// <para>"Destination timestamp".</para>
+        /// <para>"Destination timestamp" in NTP parlance.</para>
         /// </summary>
         public Timestamp64 ClientReceiveTimestamp { get; internal set; }
 

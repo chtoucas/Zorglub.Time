@@ -154,41 +154,28 @@ namespace Zorglub.Time.Horology.Ntp
         /// <summary>
         /// Writes the current instance into a span of bytes.
         /// </summary>
-        internal void WriteTo(Span<byte> buf)
+        internal void WriteTo(Span<byte> buf, int index)
         {
             Debug.Assert(buf.Length >= 8);
 
-            BinaryPrimitives.WriteUInt32BigEndian(buf, _secondOfEra);
-            BinaryPrimitives.WriteUInt32BigEndian(buf[4..], _fractionOfSecond);
+            BinaryPrimitives.WriteUInt32BigEndian(buf[index..], _secondOfEra);
+            BinaryPrimitives.WriteUInt32BigEndian(buf[(index + 4)..], _fractionOfSecond);
         }
 
-        internal Timestamp64 RandomizeSubmilliseconds(Random random)
+        internal Timestamp64 RandomizeSubMilliseconds(int seed)
         {
             // We randomize the submilliseconds part of fraction-of-second.
             //   1 millisecond = 2^32 / 1000 > 4_294_967 fraction-of-second
             // Therefore 2^22 (= 4_194_304) fraction-of-second < 1 millisecond.
             const int LowerBitsToRandomize = 22;
+            const long
+                LowerBitMask = (1L << LowerBitsToRandomize) - 1L,
+                UpperBitMask = ~LowerBitMask;
 
-            Debug.Assert(random != null);
-
-            uint fractionOfSecond = RandomizeSubmilliseconds(
-                _fractionOfSecond,
-                LowerBitsToRandomize,
-                random);
+            uint fractionOfSecond = (uint)(
+                (_fractionOfSecond & UpperBitMask) | (seed & LowerBitMask));
 
             return new Timestamp64(_secondOfEra, fractionOfSecond);
-        }
-
-        private static uint RandomizeSubmilliseconds(uint fractionOfSecond, int index, Random random)
-        {
-            Debug.Assert(random != null);
-            Debug.Assert(0 < index && index < 32);
-
-            long lowerBitMask = (1L << index) - 1L;
-            long upperBitMask = ~lowerBitMask;
-            int randomValue = random.Next();
-
-            return (uint)((fractionOfSecond & upperBitMask) | (randomValue & lowerBitMask));
         }
     }
 
