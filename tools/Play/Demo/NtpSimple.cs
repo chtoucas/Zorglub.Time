@@ -19,7 +19,7 @@ public static class NtpSimple
 {
     public static void Query()
     {
-        var cli = new SntpClient() { Version = 4 };
+        var cli = new SntpClient() { Version = 3 };
         var rsp = cli.Query();
 
         string reference = GetReference(rsp);
@@ -28,16 +28,12 @@ public static class NtpSimple
         WriteLine($"  Leap second:        {rsp.LeapIndicator}");
         WriteLine($"  Stratum:            {rsp.Stratum}");
         WriteLine($"  Reference source:   {reference}");
-        //WriteLine("  Synchronized:       {0}", clock.Synchronized ? "yes" : "no");
-        //WriteLine("  Network time (UTC): {0:HH:mm:ss.fff}", rsp.UtcNow);
-        //WriteLine("  Network time:       {0:HH:mm:ss.fff}", rsp.Now);
-        //WriteLine("  Round-trip time:    {0:s'.'FFFFFFF}", rsp.RoundtripDelay);
         WriteLine("  Reference time:     {0:HH:mm:ss.fff}", rsp.ReferenceTimestamp.ToDateTime());
         WriteLine("  Client transmit:    {0:HH:mm:ss.fff}", rsp.OriginateTimestamp.ToDateTime());
         WriteLine("  Server receive:     {0:HH:mm:ss.fff}", rsp.ReceiveTimestamp.ToDateTime());
         WriteLine("  Server transmit:    {0:HH:mm:ss.fff}", rsp.TransmitTimestamp.ToDateTime());
         WriteLine("  Client receive:     {0:HH:mm:ss.fff}", rsp.DestinationTimestamp.ToDateTime());
-        WriteLine($"  Clock offset:       {rsp.LocalClockOffset / 1000}s");
+        WriteLine($"  Clock offset:       {rsp.LocalClockOffset}ms");
         WriteLine($"  Root delay:         {rsp.RootDelay}");
         WriteLine($"  Root dispersion:    {rsp.RootDispersion}");
         WriteLine($"  Poll interval:      {rsp.PollInterval}");

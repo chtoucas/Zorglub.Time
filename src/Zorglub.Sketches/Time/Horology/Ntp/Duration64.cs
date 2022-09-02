@@ -3,6 +3,8 @@
 
 namespace Zorglub.Time.Horology.Ntp
 {
+    using System.Buffers.Binary;
+
     using Zorglub.Time.Core;
 
     // Adapted from
@@ -12,6 +14,7 @@ namespace Zorglub.Time.Horology.Ntp
 
     public readonly partial struct Duration64 :
         IComparisonOperators<Duration64, Duration64>,
+        IMinMaxValue<Duration64>,
         IMinMaxFunctions<Duration64>
     {
         private readonly long _value;
@@ -21,7 +24,10 @@ namespace Zorglub.Time.Horology.Ntp
             _value = value;
         }
 
-        public static Duration64 Zero { get; } = new(0);
+        public static Duration64 Zero { get; }
+
+        public static Duration64 MinValue { get; } = new(Int64.MinValue);
+        public static Duration64 MaxValue { get; } = new(Int64.MaxValue);
 
         public long Value => _value;
 
@@ -35,6 +41,22 @@ namespace Zorglub.Time.Horology.Ntp
         public int CountSeconds() => (int)(_value >> 32);
 
         //return (double)_value / 0x10000;
+    }
+
+    public partial struct Duration64
+    {
+        /// <summary>
+        /// Reads a <see cref="Duration64"/> from the beginning of a read-only span of bytes.
+        /// </summary>
+        [Pure]
+        internal static Duration64 ReadFrom(ReadOnlySpan<byte> buf)
+        {
+            Debug.Assert(buf.Length >= 4);
+
+            int value = BinaryPrimitives.ReadInt32BigEndian(buf);
+
+            return new Duration64(value);
+        }
     }
 
     public partial struct Duration64

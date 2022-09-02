@@ -3,8 +3,6 @@
 
 namespace Zorglub.Time.Horology.Ntp
 {
-    using System.Buffers.Binary;
-    using System.IO.Pipes;
     using System.Net;
     using System.Net.Sockets;
     using System.Text;
@@ -20,6 +18,9 @@ namespace Zorglub.Time.Horology.Ntp
         public const int DefaultPort = 123;
 
         public const int DefaultReceiveTimeout = 1000;
+
+        // To be improved...
+        private readonly Random _random = new();
 
         private readonly EndPoint _endpoint;
 
@@ -75,19 +76,21 @@ namespace Zorglub.Time.Horology.Ntp
             sock.Connect(_endpoint);
 
             // Initialize TransmitTimestamp.
-            var transmitTimestamp = Timestamp64.FromDateTime(DateTime.UtcNow);
-            var randomizedRequestTimestamp = transmitTimestamp;
-            WriteTimestamp(buf[TransmitTimestampOffset..], randomizedRequestTimestamp);
+            var clientTransmitTimestamp =
+                Timestamp64
+                    .FromDateTime(DateTime.UtcNow)
+                    .RandomizeSubmilliseconds(_random);
+            clientTransmitTimestamp.WriteTo(buf[TransmitTimestampOffset..]);
 
             sock.Send(buf);
             int len = sock.Receive(buf);
-            var destinationTimestamp = Timestamp64.FromDateTime(DateTime.UtcNow);
+            var destinationTime = DateTime.UtcNow;
 
             sock.Close();
 
             var rsp = ReadReply(buf);
-            rsp.DestinationTimestamp = destinationTimestamp;
-            CheckReply(rsp, randomizedRequestTimestamp);
+            rsp.DestinationTimestamp = Timestamp64.FromDateTime(destinationTime);
+            CheckReply(rsp, clientTransmitTimestamp);
             return rsp;
         }
 
@@ -119,13 +122,13 @@ namespace Zorglub.Time.Horology.Ntp
                 Stratum = ReadStratum(buf[1]),
                 PollInterval = buf[2],
                 Precision = buf[3],
-                RootDelay = ReadDuration(buf[4..]),
-                RootDispersion = ReadDuration(buf[8..]),
+                RootDelay = Duration64.ReadFrom(buf[4..]),
+                RootDispersion = Duration64.ReadFrom(buf[8..]),
                 // Bytes 12 to 15; see Reference below.
-                ReferenceTimestamp = ReadTimestamp(buf[16..]),
-                OriginateTimestamp = ReadTimestamp(buf[24..]),
-                ReceiveTimestamp = ReadTimestamp(buf[32..]),
-                TransmitTimestamp = ReadTimestamp(buf[40..])
+                ReferenceTimestamp = Timestamp64.ReadFrom(buf[16..]),
+                OriginateTimestamp = Timestamp64.ReadFrom(buf[24..]),
+                ReceiveTimestamp = Timestamp64.ReadFrom(buf[32..]),
+                TransmitTimestamp = Timestamp64.ReadFrom(buf[40..])
             };
 
             rsp.Reference = ReadReference(buf[12..16], rsp);
@@ -138,7 +141,7 @@ namespace Zorglub.Time.Horology.Ntp
             throw new NtpException(message);
 
         // TODO(code): Error checks in client-server model, see RFC 4330, section 5.
-        private void CheckReply(SntpResponse rsp, Timestamp64 randomizedRequestTimestamp)
+        private void CheckReply(SntpResponse rsp, Timestamp64 clientTransmitTimestamp)
         {
             if (rsp.LeapIndicator == LeapIndicator.Invalid) Throw();
             if (rsp.Version != Version) Throw();
@@ -147,7 +150,7 @@ namespace Zorglub.Time.Horology.Ntp
                 || rsp.Stratum == NtpStratum.Unsynchronized
                 || rsp.Stratum == NtpStratum.Invalid) Throw();
 
-            if (rsp.OriginateTimestamp != randomizedRequestTimestamp) Throw();
+            if (rsp.OriginateTimestamp != clientTransmitTimestamp) Throw();
             if (rsp.TransmitTimestamp == Timestamp64.Zero) Throw();
         }
     }
@@ -195,38 +198,6 @@ namespace Zorglub.Time.Horology.Ntp
                 16 => NtpStratum.Unsynchronized,
                 _ => NtpStratum.Reserved
             };
-
-        [Pure]
-        private static Timestamp64 ReadTimestamp(ReadOnlySpan<byte> buf)
-        {
-            Debug.Assert(buf.Length >= 8);
-
-            uint secondOfEra = BinaryPrimitives.ReadUInt32BigEndian(buf);
-            uint fractionalSecond = BinaryPrimitives.ReadUInt32BigEndian(buf[4..]);
-
-            return new Timestamp64(secondOfEra, fractionalSecond);
-        }
-
-        private static void WriteTimestamp(Span<byte> buf, Timestamp64 timestamp)
-        {
-            Debug.Assert(buf.Length >= 8);
-
-            uint secondOfEra = timestamp.SecondOfEraUnsigned;
-            uint fractionalSecond = timestamp.FractionalSecond;
-
-            BinaryPrimitives.WriteUInt32BigEndian(buf, secondOfEra);
-            BinaryPrimitives.WriteUInt32BigEndian(buf[4..], fractionalSecond);
-        }
-
-        [Pure]
-        private static Duration64 ReadDuration(ReadOnlySpan<byte> buf)
-        {
-            Debug.Assert(buf.Length >= 4);
-
-            int value = BinaryPrimitives.ReadInt32BigEndian(buf);
-
-            return new Duration64(value);
-        }
 
         [Pure]
         private static string? ReadReference(ReadOnlySpan<byte> buf, SntpResponse rsp)
