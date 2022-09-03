@@ -39,25 +39,25 @@ namespace Zorglub.Time.Horology.Ntp
         /// Represents the minimum value of <see cref="SecondOfEra"/>.
         /// <para>This field is a constant equal to 0.</para>
         /// </summary>
-        public const long MinSecondOfEra = 0;
+        public const long MinSecondOfEra = 0; // (long)UInt32.MinValue
 
         /// <summary>
         /// Represents the maximum value of <see cref="SecondOfEra"/>.
         /// <para>This field is a constant equal to 4_294_967_295.</para>
         /// </summary>
-        public const long MaxSecondOfEra = (1L << 32) - 1;
+        public const long MaxSecondOfEra = (1L << 32) - 1; // (long)UInt32.MaxValue
 
         /// <summary>
         /// Represents the minimum value of <see cref="FractionOfSecond"/>.
         /// <para>This field is a constant equal to 0.</para>
         /// </summary>
-        public const long MinFractionOfSecond = 0;
+        public const long MinFractionOfSecond = 0; // (long)UInt32.MinValue
 
         /// <summary>
         /// Represents the maximum value of <see cref="FractionOfSecond"/>.
         /// <para>This field is a constant equal to 4_294_967_295.</para>
         /// </summary>
-        public const long MaxFractionOfSecond = (1L << 32) - 1;
+        public const long MaxFractionOfSecond = (1L << 32) - 1; // (long)UInt32.MaxValue
 
         /// <summary>
         /// Represents the second of the NTP era.
@@ -119,7 +119,7 @@ namespace Zorglub.Time.Horology.Ntp
         /// Gets the number of fractional seconds since Zero.
         /// </summary>
         private ulong FractionalSecondsSinceZero =>
-            FractionalSecondsUnit.FromSeconds(_secondOfEra) | _fractionOfSecond;
+            FractionalSeconds.FromSeconds(_secondOfEra) | _fractionOfSecond;
 
         /// <summary>
         /// Returns a culture-independent string representation of the current instance.
@@ -134,8 +134,7 @@ namespace Zorglub.Time.Horology.Ntp
         [Pure]
         public long CountMillisecondsSinceZero() => (long)(
             MillisecondsPerSecond * (ulong)_secondOfEra
-            // millisecond-of-second
-            + FractionalSecondsUnit.ToMilliseconds(_fractionOfSecond));
+            + FractionalSeconds.ToMillisecondOfSecond(_fractionOfSecond));
 
         /// <summary>
         /// Counts the number of elapsed nanoseconds since <see cref="Zero"/>.
@@ -143,8 +142,7 @@ namespace Zorglub.Time.Horology.Ntp
         [Pure]
         public long CountNanosecondsSinceZero() => (long)(
             NanosecondsPerSecond * (ulong)_secondOfEra
-            // nanosecond-of-second
-            + FractionalSecondsUnit.ToNanoseconds(_fractionOfSecond));
+            + FractionalSeconds.ToNanosecondOfSecond(_fractionOfSecond));
     }
 
     public partial struct Timestamp64 // Internal helpers
@@ -188,18 +186,20 @@ namespace Zorglub.Time.Horology.Ntp
             BinaryPrimitives.WriteUInt32BigEndian(buf[(index + 4)..], _fractionOfSecond);
         }
 
-        internal Timestamp64 RandomizeSubMilliseconds(int seed)
+        internal Timestamp64 RandomizeSubMilliseconds(int rnd)
         {
             // We randomize the submilliseconds part of fraction-of-second.
             //   1 millisecond = 2^32 / 1000 > 4_294_967 fraction-of-second
             // Therefore 2^22 (= 4_194_304) fraction-of-second < 1 millisecond.
-            const int LowerBitsToRandomize = 22;
+            const int
+                MillisecondResolution = 10,
+                LowerBitsToRandomize = 32 - MillisecondResolution;
             const long
                 LowerBitMask = (1L << LowerBitsToRandomize) - 1L,
                 UpperBitMask = ~LowerBitMask;
 
             uint fractionOfSecond = (uint)(
-                (_fractionOfSecond & UpperBitMask) | (seed & LowerBitMask));
+                (_fractionOfSecond & UpperBitMask) | (rnd & LowerBitMask));
 
             return new Timestamp64(_secondOfEra, fractionOfSecond);
         }
@@ -215,8 +215,7 @@ namespace Zorglub.Time.Horology.Ntp
             if (time.Kind != DateTimeKind.Utc) Throw.Argument(nameof(time));
 
             var secondOfEra = (time - s_Epoch).TotalSeconds;
-            var fractionOfSecond =
-                FractionalSecondsUnit.FromMilliseconds((uint)time.Millisecond);
+            var fractionOfSecond = FractionalSeconds.FromMillisecondOfSecond((uint)time.Millisecond);
 
             Debug.Assert(fractionOfSecond >= 0);
             Debug.Assert(fractionOfSecond <= MaxFractionOfSecond);

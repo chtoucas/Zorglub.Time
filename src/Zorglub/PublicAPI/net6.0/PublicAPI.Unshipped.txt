@@ -269,6 +269,9 @@ override Zorglub.Time.DayNumber.Equals(object? obj) -> bool
 override Zorglub.Time.DayNumber.GetHashCode() -> int
 override Zorglub.Time.DayNumber.ToString() -> string!
 override Zorglub.Time.Hemerology.BasicCalendar<TScope>.ToString() -> string!
+override Zorglub.Time.Moment.Equals(object? obj) -> bool
+override Zorglub.Time.Moment.GetHashCode() -> int
+override Zorglub.Time.Moment.ToString() -> string!
 override Zorglub.Time.Ord.Equals(object? obj) -> bool
 override Zorglub.Time.Ord.GetHashCode() -> int
 override Zorglub.Time.Ord.ToString() -> string!
@@ -296,6 +299,9 @@ override Zorglub.Time.Specialized.GregorianDate.ToString() -> string!
 override Zorglub.Time.Specialized.JulianDate.Equals(object? obj) -> bool
 override Zorglub.Time.Specialized.JulianDate.GetHashCode() -> int
 override Zorglub.Time.Specialized.JulianDate.ToString() -> string!
+override Zorglub.Time.TimeOfDay.Equals(object? obj) -> bool
+override Zorglub.Time.TimeOfDay.GetHashCode() -> int
+override Zorglub.Time.TimeOfDay.ToString() -> string!
 static Zorglub.Time.Core.CalendricalSegment.Create(Zorglub.Time.Core.ICalendricalSchema! schema, Zorglub.Time.Core.Intervals.Range<int> supportedYears) -> Zorglub.Time.Core.CalendricalSegment!
 static Zorglub.Time.Core.CalendricalSegment.CreateMaximal(Zorglub.Time.Core.ICalendricalSchema! schema) -> Zorglub.Time.Core.CalendricalSegment!
 static Zorglub.Time.Core.CalendricalSegment.CreateMaximalOnOrAfterYear1(Zorglub.Time.Core.ICalendricalSchema! schema) -> Zorglub.Time.Core.CalendricalSegment!
@@ -524,6 +530,15 @@ static Zorglub.Time.Horology.SystemClocks.Local.get -> Zorglub.Time.Horology.Loc
 static Zorglub.Time.Horology.SystemClocks.Utc.get -> Zorglub.Time.Horology.UtcSystemClock!
 static Zorglub.Time.IsoWeekdayExtensions.ToDayOfWeek(this Zorglub.Time.IsoWeekday isoWeekday) -> System.DayOfWeek
 static Zorglub.Time.IsoWeekdayExtensions.ToIsoWeekday(this System.DayOfWeek dayOfWeek) -> Zorglub.Time.IsoWeekday
+static Zorglub.Time.Moment.MaxValue.get -> Zorglub.Time.Moment
+static Zorglub.Time.Moment.MinValue.get -> Zorglub.Time.Moment
+static Zorglub.Time.Moment.operator !=(Zorglub.Time.Moment left, Zorglub.Time.Moment right) -> bool
+static Zorglub.Time.Moment.operator <(Zorglub.Time.Moment left, Zorglub.Time.Moment right) -> bool
+static Zorglub.Time.Moment.operator <=(Zorglub.Time.Moment left, Zorglub.Time.Moment right) -> bool
+static Zorglub.Time.Moment.operator ==(Zorglub.Time.Moment left, Zorglub.Time.Moment right) -> bool
+static Zorglub.Time.Moment.operator >(Zorglub.Time.Moment left, Zorglub.Time.Moment right) -> bool
+static Zorglub.Time.Moment.operator >=(Zorglub.Time.Moment left, Zorglub.Time.Moment right) -> bool
+static Zorglub.Time.Moment.Zero.get -> Zorglub.Time.Moment
 static Zorglub.Time.MonthParts.AtStartOfYear(int y) -> Zorglub.Time.MonthParts
 static Zorglub.Time.MonthParts.operator <(Zorglub.Time.MonthParts left, Zorglub.Time.MonthParts right) -> bool
 static Zorglub.Time.MonthParts.operator <=(Zorglub.Time.MonthParts left, Zorglub.Time.MonthParts right) -> bool
@@ -776,6 +791,27 @@ static Zorglub.Time.Specialized.JulianDate.operator <=(Zorglub.Time.Specialized.
 static Zorglub.Time.Specialized.JulianDate.operator ==(Zorglub.Time.Specialized.JulianDate left, Zorglub.Time.Specialized.JulianDate right) -> bool
 static Zorglub.Time.Specialized.JulianDate.operator >(Zorglub.Time.Specialized.JulianDate left, Zorglub.Time.Specialized.JulianDate right) -> bool
 static Zorglub.Time.Specialized.JulianDate.operator >=(Zorglub.Time.Specialized.JulianDate left, Zorglub.Time.Specialized.JulianDate right) -> bool
+static Zorglub.Time.TimeOfDay.FromBinary(int data) -> Zorglub.Time.TimeOfDay
+static Zorglub.Time.TimeOfDay.FromFractionOfDay(double fractionOfDay) -> Zorglub.Time.TimeOfDay
+static Zorglub.Time.TimeOfDay.FromHour(int hour) -> Zorglub.Time.TimeOfDay
+static Zorglub.Time.TimeOfDay.FromHourMinute(int hour, int minute) -> Zorglub.Time.TimeOfDay
+static Zorglub.Time.TimeOfDay.FromHourMinuteSecond(int hour, int minute, int second) -> Zorglub.Time.TimeOfDay
+static Zorglub.Time.TimeOfDay.FromHourMinuteSecondMillisecond(int hour, int minute, int second, int millisecond) -> Zorglub.Time.TimeOfDay
+static Zorglub.Time.TimeOfDay.FromMillisecondOfDay(int millisecondOfDay) -> Zorglub.Time.TimeOfDay
+static Zorglub.Time.TimeOfDay.FromMinuteOfDay(int minuteOfDay) -> Zorglub.Time.TimeOfDay
+static Zorglub.Time.TimeOfDay.FromSecondOfDay(int secondOfDay) -> Zorglub.Time.TimeOfDay
+static Zorglub.Time.TimeOfDay.Max(Zorglub.Time.TimeOfDay x, Zorglub.Time.TimeOfDay y) -> Zorglub.Time.TimeOfDay
+static Zorglub.Time.TimeOfDay.MaxValue.get -> Zorglub.Time.TimeOfDay
+static Zorglub.Time.TimeOfDay.Midnight.get -> Zorglub.Time.TimeOfDay
+static Zorglub.Time.TimeOfDay.Min(Zorglub.Time.TimeOfDay x, Zorglub.Time.TimeOfDay y) -> Zorglub.Time.TimeOfDay
+static Zorglub.Time.TimeOfDay.MinValue.get -> Zorglub.Time.TimeOfDay
+static Zorglub.Time.TimeOfDay.Noon.get -> Zorglub.Time.TimeOfDay
+static Zorglub.Time.TimeOfDay.operator !=(Zorglub.Time.TimeOfDay left, Zorglub.Time.TimeOfDay right) -> bool
+static Zorglub.Time.TimeOfDay.operator <(Zorglub.Time.TimeOfDay left, Zorglub.Time.TimeOfDay right) -> bool
+static Zorglub.Time.TimeOfDay.operator <=(Zorglub.Time.TimeOfDay left, Zorglub.Time.TimeOfDay right) -> bool
+static Zorglub.Time.TimeOfDay.operator ==(Zorglub.Time.TimeOfDay left, Zorglub.Time.TimeOfDay right) -> bool
+static Zorglub.Time.TimeOfDay.operator >(Zorglub.Time.TimeOfDay left, Zorglub.Time.TimeOfDay right) -> bool
+static Zorglub.Time.TimeOfDay.operator >=(Zorglub.Time.TimeOfDay left, Zorglub.Time.TimeOfDay right) -> bool
 virtual Zorglub.Time.Core.CalendricalSchema.CountDaysSinceEpoch(int y, int m, int d) -> int
 virtual Zorglub.Time.Core.CalendricalSchema.GetDateParts(int daysSinceEpoch, out int y, out int m, out int d) -> void
 virtual Zorglub.Time.Core.CalendricalSchema.GetYear(int daysSinceEpoch, out int doy) -> int
@@ -1389,14 +1425,14 @@ Zorglub.Time.Hemerology.Scopes.ProlepticScope
 Zorglub.Time.Hemerology.Scopes.StandardScope
 Zorglub.Time.Hemerology.YearNumbering
 Zorglub.Time.Horology.IClock
-Zorglub.Time.Horology.IClock.Now() -> long
+Zorglub.Time.Horology.IClock.Now() -> Zorglub.Time.Moment
 Zorglub.Time.Horology.IClock.Today() -> Zorglub.Time.DayNumber
 Zorglub.Time.Horology.LocalSystemClock
-Zorglub.Time.Horology.LocalSystemClock.Now() -> long
+Zorglub.Time.Horology.LocalSystemClock.Now() -> Zorglub.Time.Moment
 Zorglub.Time.Horology.LocalSystemClock.Today() -> Zorglub.Time.DayNumber
 Zorglub.Time.Horology.SystemClocks
 Zorglub.Time.Horology.UtcSystemClock
-Zorglub.Time.Horology.UtcSystemClock.Now() -> long
+Zorglub.Time.Horology.UtcSystemClock.Now() -> Zorglub.Time.Moment
 Zorglub.Time.Horology.UtcSystemClock.Today() -> Zorglub.Time.DayNumber
 Zorglub.Time.IsoWeekday
 Zorglub.Time.IsoWeekday.Friday = 5 -> Zorglub.Time.IsoWeekday
@@ -1408,6 +1444,17 @@ Zorglub.Time.IsoWeekday.Thursday = 4 -> Zorglub.Time.IsoWeekday
 Zorglub.Time.IsoWeekday.Tuesday = 2 -> Zorglub.Time.IsoWeekday
 Zorglub.Time.IsoWeekday.Wednesday = 3 -> Zorglub.Time.IsoWeekday
 Zorglub.Time.IsoWeekdayExtensions
+Zorglub.Time.Moment
+Zorglub.Time.Moment.CompareTo(object? obj) -> int
+Zorglub.Time.Moment.CompareTo(Zorglub.Time.Moment other) -> int
+Zorglub.Time.Moment.DayNumber.get -> Zorglub.Time.DayNumber
+Zorglub.Time.Moment.Deconstruct(out Zorglub.Time.DayNumber dayNumber, out Zorglub.Time.TimeOfDay timeOfDay) -> void
+Zorglub.Time.Moment.Equals(Zorglub.Time.Moment other) -> bool
+Zorglub.Time.Moment.MillisecondsSinceZero.get -> long
+Zorglub.Time.Moment.Moment() -> void
+Zorglub.Time.Moment.Moment(Zorglub.Time.DayNumber dayNumber, Zorglub.Time.TimeOfDay timeOfDay) -> void
+Zorglub.Time.Moment.SecondsSinceZero.get -> long
+Zorglub.Time.Moment.TimeOfDay.get -> Zorglub.Time.TimeOfDay
 Zorglub.Time.MonthParts
 Zorglub.Time.MonthParts.CompareTo(object? obj) -> int
 Zorglub.Time.MonthParts.CompareTo(Zorglub.Time.MonthParts other) -> int
@@ -1866,3 +1913,20 @@ Zorglub.Time.Specialized.SpecialCalendar<TDate>.GetEndOfMonth(int year, int mont
 Zorglub.Time.Specialized.SpecialCalendar<TDate>.GetEndOfYear(int year) -> TDate
 Zorglub.Time.Specialized.SpecialCalendar<TDate>.GetStartOfMonth(int year, int month) -> TDate
 Zorglub.Time.Specialized.SpecialCalendar<TDate>.GetStartOfYear(int year) -> TDate
+Zorglub.Time.TimeOfDay
+Zorglub.Time.TimeOfDay.CompareTo(object? obj) -> int
+Zorglub.Time.TimeOfDay.CompareTo(Zorglub.Time.TimeOfDay other) -> int
+Zorglub.Time.TimeOfDay.Deconstruct(out int hour, out int minute, out int second) -> void
+Zorglub.Time.TimeOfDay.Deconstruct(out int hour, out int minute, out int second, out int millisecond) -> void
+Zorglub.Time.TimeOfDay.Equals(Zorglub.Time.TimeOfDay other) -> bool
+Zorglub.Time.TimeOfDay.Hour.get -> int
+Zorglub.Time.TimeOfDay.HourOfHalfDay.get -> int
+Zorglub.Time.TimeOfDay.IsAnteMeridiem.get -> bool
+Zorglub.Time.TimeOfDay.Millisecond.get -> int
+Zorglub.Time.TimeOfDay.MillisecondOfDay.get -> int
+Zorglub.Time.TimeOfDay.Minute.get -> int
+Zorglub.Time.TimeOfDay.Second.get -> int
+Zorglub.Time.TimeOfDay.SecondOfDay.get -> int
+Zorglub.Time.TimeOfDay.TimeOfDay() -> void
+Zorglub.Time.TimeOfDay.ToBinary() -> int
+Zorglub.Time.TimeOfDay.ToFractionOfDay() -> double

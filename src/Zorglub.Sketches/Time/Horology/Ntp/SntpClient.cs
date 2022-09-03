@@ -99,22 +99,24 @@ namespace Zorglub.Time.Horology.Ntp
 
             // Start time on this side of the wire.
             var requestTime = DateTime.UtcNow;
-
             // Randomize the timestamp, then write it into the buffer.
             var requestTimestamp =
                 Timestamp64.FromDateTime(requestTime)
                     .RandomizeSubMilliseconds(RandomProvider.NextInt32());
             requestTimestamp.WriteTo(buf, TransmitTimestampOffset);
 
-            var stopWatch = Stopwatch.StartNew();
+            // TODO(doc): monotonic.
+            // We don't write
+            // > var responseTime = DateTime.UtcNow;
+            // because the system clock may have been synchronized meanwhile.
+            var stopwatch = Stopwatch.StartNew();
 
             sock.Send(buf);
             _ = sock.Receive(buf);
 
             // Elapsed ticks on this side of the wire.
-            //var responseTime = DateTime.UtcNow;
-            long elapsedTicks = stopWatch.ElapsedTicks;
-            stopWatch.Stop();
+            long elapsedTicks = stopwatch.ElapsedTicks;
+            stopwatch.Stop();
 
             sock.Close();
 
@@ -123,7 +125,6 @@ namespace Zorglub.Time.Horology.Ntp
 
             // End time on this side of the wire.
             var responseTime = requestTime.AddMilliseconds(elapsedTicks / TicksPerMillisecond);
-
             rsp.DestinationTimestamp = Timestamp64.FromDateTime(responseTime);
 
             return rsp;
@@ -143,23 +144,29 @@ namespace Zorglub.Time.Horology.Ntp
             await sock.ConnectAsync(Endpoint).ConfigureAwait(false);
 
             var requestTime = DateTime.UtcNow;
-
-            var clientTransmitTimestamp =
+            var requestTimestamp =
                 Timestamp64.FromDateTime(requestTime)
                     .RandomizeSubMilliseconds(RandomProvider.NextInt32());
-            clientTransmitTimestamp.WriteTo(bytes, TransmitTimestampOffset);
+            requestTimestamp.WriteTo(bytes, TransmitTimestampOffset);
 
             var buf = new ArraySegment<byte>(bytes);
+
+            var stopwatch = Stopwatch.StartNew();
+
             await sock.SendAsync(buf, SocketFlags.None, token).ConfigureAwait(false);
             await sock.ReceiveAsync(buf, SocketFlags.None, token).ConfigureAwait(false);
 
-            var responseTime = DateTime.UtcNow;
+            long elapsedTicks = stopwatch.ElapsedTicks;
+            stopwatch.Stop();
 
             sock.Close();
 
             var rsp = ReadReply(bytes);
+            CheckReply(rsp, requestTimestamp);
+
+            var responseTime = requestTime.AddMilliseconds(elapsedTicks / TicksPerMillisecond);
             rsp.DestinationTimestamp = Timestamp64.FromDateTime(responseTime);
-            CheckReply(rsp, clientTransmitTimestamp);
+
             return rsp;
         }
 
@@ -184,8 +191,8 @@ namespace Zorglub.Time.Horology.Ntp
                 // Clock resolution =
                 //   2^-p where p is the number of significant bits in the
                 //   fraction part, e.g. Timestamp64.RandomizeSubMilliseconds()
-                //   randomize the 20 lower bits, therefore the resolution is
-                //   equal to 12.
+                //   randomize the 22 lower bits, therefore the resolution is
+                //   equal to 10 (~ millisecond).
                 // Clock precision =
                 //   Running time to read the system clock, in seconds.
                 // Precision = Max(clock resolution, clock precision).
@@ -210,7 +217,7 @@ namespace Zorglub.Time.Horology.Ntp
             throw new NtpException(message);
 
         // TODO(code): Error checks in client-server model, see RFC 4330, section 5.
-        private void CheckReply(SntpResponse rsp, Timestamp64 clientTransmitTimestamp)
+        private void CheckReply(SntpResponse rsp, Timestamp64 requestTimestamp)
         {
             if (rsp.LeapIndicator == LeapIndicator.Invalid) Throw();
             if (rsp.Version != Version) Throw();
@@ -219,7 +226,7 @@ namespace Zorglub.Time.Horology.Ntp
                 || rsp.Stratum == NtpStratum.Unsynchronized
                 || rsp.Stratum == NtpStratum.Invalid) Throw();
 
-            if (rsp.OriginateTimestamp != clientTransmitTimestamp) Throw();
+            if (rsp.OriginateTimestamp != requestTimestamp) Throw();
             if (rsp.TransmitTimestamp == Timestamp64.Zero) Throw();
         }
     }

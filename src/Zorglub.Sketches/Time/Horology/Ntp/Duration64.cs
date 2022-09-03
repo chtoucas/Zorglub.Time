@@ -47,33 +47,33 @@ namespace Zorglub.Time.Horology.Ntp
         public static Duration64 MaxValue { get; } = new(Int64.MaxValue);
 
         /// <summary>
-        /// Gets the number of fractional seconds.
+        /// Gets the total number of fractional seconds.
         /// </summary>
-        public long FractionalSeconds => _fractionalSeconds;
+        public long TotalFractionalSeconds => _fractionalSeconds;
+
+        /// <summary>
+        /// Gets the total number of nanoseconds in this duration.
+        /// </summary>
+        [Pure]
+        public long TotalNanoseconds => FractionalSeconds.ToNanoseconds(_fractionalSeconds);
+
+        /// <summary>
+        /// Gets the total number of milliseconds in this duration.
+        /// </summary>
+        [Pure]
+        public long TotalMilliseconds => FractionalSeconds.ToMilliseconds(_fractionalSeconds);
+
+        /// <summary>
+        /// Gets the total number of seconds in this duration.
+        /// </summary>
+        [Pure]
+        public int TotalSeconds => (int)FractionalSeconds.ToSeconds(_fractionalSeconds);
 
         /// <summary>
         /// Returns a culture-independent string representation of the current instance.
         /// </summary>
         [Pure]
         public override string ToString() => FormattableString.Invariant($"{_fractionalSeconds}");
-
-        /// <summary>
-        /// Counts the number of seconds in this duration.
-        /// </summary>
-        [Pure]
-        public int CountSeconds() => (int)FractionalSecondsUnit.ToSeconds(_fractionalSeconds);
-
-        /// <summary>
-        /// Counts the number of milliseconds in this duration.
-        /// </summary>
-        [Pure]
-        public long CountMilliseconds() => FractionalSecondsUnit.ToMilliseconds(_fractionalSeconds);
-
-        /// <summary>
-        /// Counts the number of nanoseconds in this duration.
-        /// </summary>
-        [Pure]
-        public long CountNanoseconds() => FractionalSecondsUnit.ToNanoseconds(_fractionalSeconds);
     }
 
     public partial struct Duration64
