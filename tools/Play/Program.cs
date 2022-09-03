@@ -5,8 +5,6 @@
 
 using System;
 
-using GuerrillaNtp;
-
 using Play.Demo;
 
 using Zorglub.Time.Horology;
@@ -35,5 +33,4 @@ Console.WriteLine($"  Ticks           = {utcNow.Ticks}");
 Console.WriteLine($"  ToFileTime()    = {utcNow.ToFileTime() + FileTimeOffset}");
 Console.WriteLine($"  ToFileTimeUtc() = {utcNow.ToFileTimeUtc() + FileTimeOffset}");
 
-//NtpSimple.Guerrilla.Query();
 NtpSimple.Query();

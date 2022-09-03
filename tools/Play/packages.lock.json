@@ -2,12 +2,6 @@
   "version": 1,
   "dependencies": {
     "net6.0": {
-      "GuerrillaNtp": {
-        "type": "Direct",
-        "requested": "[3.0.0, )",
-        "resolved": "3.0.0",
-        "contentHash": "mHnCFAwNaQBuubSvV+IBPahIAx0w1jqykXWOD2Kv5PGCVp5Uzf19v1FIjPxMslbBKGiZH68mCe3sP4v33hl7ZQ=="
-      },
       "System.Runtime.Experimental": {
         "type": "Direct",
         "requested": "[6.0.2, )",

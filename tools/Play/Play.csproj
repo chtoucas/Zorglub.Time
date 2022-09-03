@@ -7,10 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="GuerrillaNtp" Version="3.0.0" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Update="Play.ini">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
