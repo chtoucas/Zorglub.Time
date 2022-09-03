@@ -33,12 +33,11 @@ public static class NtpSimple
         WriteLine("  Server receive:     {0:HH:mm:ss.fff}", rsp.ReceiveTimestamp.ToDateTime());
         WriteLine("  Server transmit:    {0:HH:mm:ss.fff}", rsp.TransmitTimestamp.ToDateTime());
         WriteLine("  Client receive:     {0:HH:mm:ss.fff}", rsp.DestinationTimestamp.ToDateTime());
-        WriteLine($"  Clock offset:       {rsp.LocalClockOffset}ms");
-        WriteLine($"  Root delay:         {rsp.RootDelay}");
-        WriteLine($"  Root delay:         {rsp.RootDelay.CountNanoseconds()}ns");
-        WriteLine($"  Root dispersion:    {rsp.RootDispersion}");
-        WriteLine($"  Root dispersion:    {rsp.RootDispersion.CountNanoseconds()}ns");
-        WriteLine($"  Poll interval:      {rsp.PollInterval}");
+        WriteLine($"  Clock offset:       {rsp.ClockOffset}ms");
+        WriteLine($"  Round-trip delay:   {rsp.RoundtripDelay} ({rsp.RoundtripDelay.CountMilliseconds()}ms)");
+        WriteLine($"  Root delay:         {rsp.RootDelay} ({rsp.RootDelay.CountNanoseconds()}ns)");
+        WriteLine($"  Root dispersion:    {rsp.RootDispersion} ({rsp.RootDispersion.CountNanoseconds()}ns)");
+        WriteLine($"  Poll interval:      2^{rsp.PollInterval}");
         WriteLine($"  Precision:          {rsp.Precision}");
 
         static string GetReference(SntpResponse rsp)

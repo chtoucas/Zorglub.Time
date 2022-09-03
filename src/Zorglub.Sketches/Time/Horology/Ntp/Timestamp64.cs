@@ -118,7 +118,8 @@ namespace Zorglub.Time.Horology.Ntp
         /// <summary>
         /// Gets the number of fractional seconds since Zero.
         /// </summary>
-        private ulong FractionalSecondsSinceZero => ((ulong)_secondOfEra << 32) | _fractionOfSecond;
+        private ulong FractionalSecondsSinceZero =>
+            FractionalSecondsUnit.FromSeconds(_secondOfEra) | _fractionOfSecond;
 
         /// <summary>
         /// Returns a culture-independent string representation of the current instance.
@@ -134,7 +135,7 @@ namespace Zorglub.Time.Horology.Ntp
         public long CountMillisecondsSinceZero() => (long)(
             MillisecondsPerSecond * (ulong)_secondOfEra
             // millisecond-of-second
-            + ((MillisecondsPerSecond * (ulong)_fractionOfSecond) >> 32));
+            + FractionalSecondsUnit.ToMilliseconds(_fractionOfSecond));
 
         /// <summary>
         /// Counts the number of elapsed nanoseconds since <see cref="Zero"/>.
@@ -143,7 +144,7 @@ namespace Zorglub.Time.Horology.Ntp
         public long CountNanosecondsSinceZero() => (long)(
             NanosecondsPerSecond * (ulong)_secondOfEra
             // nanosecond-of-second
-            + ((NanosecondsPerSecond * (ulong)_fractionOfSecond) >> 32));
+            + FractionalSecondsUnit.ToNanoseconds(_fractionOfSecond));
     }
 
     public partial struct Timestamp64 // Internal helpers
@@ -214,23 +215,18 @@ namespace Zorglub.Time.Horology.Ntp
             if (time.Kind != DateTimeKind.Utc) Throw.Argument(nameof(time));
 
             var secondOfEra = (time - s_Epoch).TotalSeconds;
-            var fractionOfSecond = GetFractionOfSecondFromMillisecondOfSecond(time.Millisecond);
+            var fractionOfSecond =
+                FractionalSecondsUnit.FromMilliseconds((uint)time.Millisecond);
 
-            return new Timestamp64((uint)secondOfEra, fractionOfSecond);
+            Debug.Assert(fractionOfSecond >= 0);
+            Debug.Assert(fractionOfSecond <= MaxFractionOfSecond);
+
+            return new Timestamp64((uint)secondOfEra, (uint)fractionOfSecond);
         }
 
         [Pure]
         public DateTime ToDateTime() =>
             s_Epoch + TimeSpan.FromMilliseconds(CountMillisecondsSinceZero());
-
-        [Pure]
-        private static uint GetFractionOfSecondFromMillisecondOfSecond(int millisecondOfSecond)
-        {
-            Debug.Assert(millisecondOfSecond >= 0);
-            Debug.Assert(millisecondOfSecond < MillisecondsPerSecond);
-
-            return (uint)(((ulong)millisecondOfSecond << 32) / MillisecondsPerSecond);
-        }
     }
 
     public partial struct Timestamp64 // IEquatable

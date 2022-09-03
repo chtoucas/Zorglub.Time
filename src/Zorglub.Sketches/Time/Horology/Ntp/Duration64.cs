@@ -26,7 +26,7 @@ namespace Zorglub.Time.Horology.Ntp
     {
         private readonly long _fractionalSeconds;
 
-        public Duration64(long fractionalSeconds)
+        internal Duration64(long fractionalSeconds)
         {
             _fractionalSeconds = fractionalSeconds;
         }
@@ -60,19 +60,19 @@ namespace Zorglub.Time.Horology.Ntp
         /// Counts the number of seconds in this duration.
         /// </summary>
         [Pure]
-        public int CountSeconds() => (int)(_fractionalSeconds >> 32);
+        public int CountSeconds() => (int)FractionalSecondsUnit.ToSeconds(_fractionalSeconds);
 
         /// <summary>
         /// Counts the number of milliseconds in this duration.
         /// </summary>
         [Pure]
-        public long CountMilliseconds() => (_fractionalSeconds * MillisecondsPerSecond) >> 32;
+        public long CountMilliseconds() => FractionalSecondsUnit.ToMilliseconds(_fractionalSeconds);
 
         /// <summary>
         /// Counts the number of nanoseconds in this duration.
         /// </summary>
         [Pure]
-        public long CountNanoseconds() => (_fractionalSeconds * NanosecondsPerSecond) >> 32;
+        public long CountNanoseconds() => FractionalSecondsUnit.ToNanoseconds(_fractionalSeconds);
     }
 
     public partial struct Duration64

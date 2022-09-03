@@ -53,25 +53,22 @@ namespace Zorglub.Time.Horology.Ntp
         /// </summary>
         public Timestamp64 ClientReceiveTimestamp { get; internal set; }
 
-        /// <summary>
-        /// Gets the offset for the client clock.
-        /// </summary>
-        public double ClientClockOffset { get; init; }
-
         // OriginateTimestamp (T1):     Time request sent by client
         // ReceiveTimestamp (T2):       Time request received by server
         // TransmitTimestamp (T3):      Time reply sent by server
         // DestinationTimestamp (T4):   Time reply received by client
         //
         // > RoundtripDelay = (T4 - T1) - (T2 - T3)
-        // > LocalClockOffset = ((T2 - T1) + (T3 - T4)) / 2
+        // > ClockOffset = ((T2 - T1) + (T3 - T4)) / 2
 
         public Duration64 RoundtripDelay =>
             ClientReceiveTimestamp - ClientTransmitTimestamp
             - (ServerReceiveTimestamp - ServerTransmitTimestamp);
 
-        // The offset of the local clock relative to the primary reference source.
-        public double LocalClockOffset
+        /// <summary>
+        /// Gets the offset for the client clock relative to the primary reference source.
+        /// </summary>
+        public double ClockOffset
         {
             get
             {
@@ -129,7 +126,7 @@ namespace Zorglub.Time.Horology.Ntp
             - (ReceiveTimestamp - TransmitTimestamp);
 
         // The offset of the local clock relative to the primary reference source.
-        public double LocalClockOffset
+        public double ClockOffset
         {
             get
             {
