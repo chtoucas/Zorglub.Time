@@ -145,7 +145,7 @@ namespace Zorglub.Time.Horology.Ntp
             + FractionalSeconds.ToNanosecondOfSecond(_fractionOfSecond));
     }
 
-    public partial struct Timestamp64 // Internal helpers
+    public partial struct Timestamp64 // Binary helpers
     {
         /// <summary>
         /// Reads a <see cref="Timestamp64"/> from the beginning of a read-only span of bytes.

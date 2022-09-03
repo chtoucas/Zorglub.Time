@@ -3,6 +3,7 @@
 
 namespace Zorglub.Time.Horology.Ntp
 {
+    using System;
     using System.Buffers.Binary;
 
     using Zorglub.Time.Core;
@@ -22,7 +23,8 @@ namespace Zorglub.Time.Horology.Ntp
         IMinMaxFunctions<Duration64>,
         // Arithmetic
         IAdditionOperators<Duration64, Duration64, Duration64>,
-        ISubtractionOperators<Duration64, Duration64, Duration64>
+        ISubtractionOperators<Duration64, Duration64, Duration64>,
+        IDivisionOperators<Duration64, int, Duration64>
     {
         private readonly long _fractionalSeconds;
 
@@ -76,7 +78,7 @@ namespace Zorglub.Time.Horology.Ntp
         public override string ToString() => FormattableString.Invariant($"{_fractionalSeconds}");
     }
 
-    public partial struct Duration64
+    public partial struct Duration64 // Binary helpers
     {
         /// <summary>
         /// Reads a <see cref="Duration64"/> from the beginning of a read-only span of bytes.
@@ -160,6 +162,13 @@ namespace Zorglub.Time.Horology.Ntp
         public static Duration64 operator -(Duration64 left, Duration64 right) =>
             new(checked(left._fractionalSeconds - right._fractionalSeconds));
 
+#pragma warning disable CA2225 // Operator overloads have named alternates (Usage)
+
+        public static Duration64 operator /(Duration64 left, int right) =>
+            new(checked(left._fractionalSeconds / right));
+
+#pragma warning restore CA2225 // Operator overloads have named alternates
+
         [Pure]
         public Duration64 Add(Duration64 other) =>
             new(checked(_fractionalSeconds + other._fractionalSeconds));
@@ -167,5 +176,9 @@ namespace Zorglub.Time.Horology.Ntp
         [Pure]
         public Duration64 Subtract(Duration64 other) =>
             new(checked(_fractionalSeconds - other._fractionalSeconds));
+
+        [Pure]
+        public Duration64 DivideBy(int value) =>
+            new(checked(_fractionalSeconds / value));
     }
 }

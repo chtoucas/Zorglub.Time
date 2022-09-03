@@ -69,13 +69,19 @@ namespace Zorglub.Time.Horology.Ntp
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong FromSeconds(uint secondOfEra) => (ulong)secondOfEra << 32;
 
+        // REVIEW(api): return doubles?
+        // > fractionalSeconds / (double)0x1_0000_0000
+        // > (MillisecondsPerSecond * fractionalSeconds) / (double)0x1_0000_0000
+        // > (NanosecondsPerSecond * fractionalSeconds) / (double)0x1_0000_0000
+
         /// <summary>
         /// Converts a number of fractional seconds to a number of seconds.
         /// </summary>
         [Pure]
         // CIL code size = XXX bytes <= 32 bytes.
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static long ToSeconds(long fractionalSeconds) => fractionalSeconds >> 32;
+        public static long ToSeconds(long fractionalSeconds) =>
+            fractionalSeconds >> 32;
 
         /// <summary>
         /// Converts a number of fractional seconds to a number of milliseconds.

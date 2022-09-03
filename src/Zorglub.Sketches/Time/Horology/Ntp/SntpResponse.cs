@@ -30,55 +30,41 @@ namespace Zorglub.Time.Horology.Ntp
     public sealed record SntpTimeInfo
     {
         /// <summary>
-        /// Gets the time at which the request departed the client for the server.
-        /// <para>"Originate timestamp" in NTP parlance.</para>
+        /// Gets the time at which the client transmitted the request, according to its local clock.
         /// </summary>
-        public Timestamp64 ClientTransmitTimestamp { get; init; }
+        public Timestamp64 OriginateTimestamp { get; init; }
 
         /// <summary>
-        /// Gets the time at which the request arrived at the server.
-        /// <para>"Receive timestamp" in NTP parlance.</para>
+        /// Gets the time at which the server received the request.
         /// </summary>
-        public Timestamp64 ServerReceiveTimestamp { get; init; }
+        public Timestamp64 ReceiveTimestamp { get; init; }
 
         /// <summary>
-        /// Gets the time at which the reply departed the server.
-        /// <para>"Transmit timestamp" in NTP parlance.</para>
+        /// Gets the time at which the server transmitted the response.
         /// </summary>
-        public Timestamp64 ServerTransmitTimestamp { get; init; }
+        public Timestamp64 TransmitTimestamp { get; init; }
 
         /// <summary>
-        /// Gets the time of arrival of the reply according to the client clock.
-        /// <para>"Destination timestamp" in NTP parlance.</para>
+        /// Gets the time at which the client received the response, according to its local clock.
         /// </summary>
-        public Timestamp64 ClientReceiveTimestamp { get; internal set; }
+        public Timestamp64 DestinationTimestamp { get; internal set; }
 
         // OriginateTimestamp (T1):     Time request sent by client
         // ReceiveTimestamp (T2):       Time request received by server
         // TransmitTimestamp (T3):      Time reply sent by server
         // DestinationTimestamp (T4):   Time reply received by client
         //
-        // > RoundtripDelay = (T4 - T1) - (T2 - T3)
+        // > RoundtripDelay = (T4 - T1) - (T3 - T2)
         // > ClockOffset = ((T2 - T1) + (T3 - T4)) / 2
 
-        public Duration64 RoundtripDelay =>
-            ClientReceiveTimestamp - ClientTransmitTimestamp
-            - (ServerReceiveTimestamp - ServerTransmitTimestamp);
+        public Duration64 RoundTripDelay =>
+            DestinationTimestamp - OriginateTimestamp - (TransmitTimestamp - ReceiveTimestamp);
 
         /// <summary>
         /// Gets the offset for the client clock relative to the primary reference source.
         /// </summary>
-        public double ClockOffset
-        {
-            get
-            {
-                var span =
-                    ServerReceiveTimestamp - ClientTransmitTimestamp
-                    + (ServerTransmitTimestamp - ClientReceiveTimestamp);
-
-                return span.TotalMilliseconds / 2;
-            }
-        }
+        public Duration64 ClockOffset =>
+            (ReceiveTimestamp - OriginateTimestamp + (TransmitTimestamp - DestinationTimestamp) ) / 2;
     }
 
     public sealed record SntpResponse
@@ -111,20 +97,10 @@ namespace Zorglub.Time.Horology.Ntp
 
         public Timestamp64 DestinationTimestamp { get; internal set; }
 
-        public Duration64 RoundtripDelay =>
-            DestinationTimestamp - OriginateTimestamp
-            - (ReceiveTimestamp - TransmitTimestamp);
+        public Duration64 RoundTripDelay =>
+            DestinationTimestamp - OriginateTimestamp - (TransmitTimestamp - ReceiveTimestamp);
 
-        public double ClockOffset
-        {
-            get
-            {
-                var span =
-                    ReceiveTimestamp - OriginateTimestamp
-                    + (TransmitTimestamp - DestinationTimestamp);
-
-                return span.TotalMilliseconds / 2;
-            }
-        }
+        public Duration64 ClockOffset =>
+            (ReceiveTimestamp - OriginateTimestamp + (TransmitTimestamp - DestinationTimestamp)) / 2;
     }
 }

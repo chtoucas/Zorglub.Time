@@ -77,4 +77,5 @@ Liste très complète d'échelles de temps.
 - [Python](https://github.com/cf-natali/ntplib)
 - [GuerrillaNtp](https://github.com/robertvazan/guerrillantp)
 - [C\# SNTP client in .NET Micro Framework](https://github.com/vbocan/sntp-client)
-
+- [Facebook time](https://github.com/facebook/time) and
+  [explanations](https://engineering.fb.com/2020/03/18/production-engineering/ntp-service/)

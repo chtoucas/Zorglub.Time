@@ -6,11 +6,10 @@ namespace Zorglub.Time.Horology.Ntp
     using System.Net;
     using System.Net.Sockets;
     using System.Text;
-    using System.Threading.Tasks;
     using System.Threading;
+    using System.Threading.Tasks;
 
     using static Zorglub.Time.Core.TemporalConstants;
-    using System.Buffers.Binary;
 
     public sealed partial class SntpClient
     {
@@ -80,7 +79,7 @@ namespace Zorglub.Time.Horology.Ntp
                 // Initialize the first byte to: LI = 0, VN = 3 or 4, Mode = 3.
                 // Version 3: 00 011 011 (0x1b)
                 // Version 4: 00 100 011 (0x23)
-                return (byte)(ClientMode | (Version << 3));
+                return (byte)((Version << 3) | ClientMode);
             }
         }
 
@@ -89,6 +88,13 @@ namespace Zorglub.Time.Horology.Ntp
         {
             var buf = new byte[DataLength].AsSpan();
             buf[0] = FirstByte;
+
+            // REVIEW(code): use UpdClient?
+
+            // A system clock is not monotonic. We don't write
+            // > var responseTime = DateTime.UtcNow;
+            // because the system clock may be synchronized in the mean time.
+            var stopwatch = Stopwatch.StartNew();
 
             using var sock = new Socket(SocketType.Dgram, ProtocolType.Udp)
             {
@@ -99,30 +105,29 @@ namespace Zorglub.Time.Horology.Ntp
 
             // Start time on this side of the wire.
             var requestTime = DateTime.UtcNow;
-            // Randomize the timestamp, then write it into the buffer.
+            long requestTicks = stopwatch.ElapsedTicks;
+
+            // Randomize the timestamp, then write the result into the buffer.
             var requestTimestamp =
                 Timestamp64.FromDateTime(requestTime)
                     .RandomizeSubMilliseconds(RandomProvider.NextInt32());
             requestTimestamp.WriteTo(buf, TransmitTimestampOffset);
 
-            // TODO(doc): monotonic.
-            // We don't write
-            // > var responseTime = DateTime.UtcNow;
-            // because the system clock may have been synchronized meanwhile.
-            var stopwatch = Stopwatch.StartNew();
-
             sock.Send(buf);
-            _ = sock.Receive(buf);
+            int len = sock.Receive(buf);
 
-            // Elapsed ticks on this side of the wire.
-            long elapsedTicks = stopwatch.ElapsedTicks;
-            stopwatch.Stop();
+            long responseTicks = stopwatch.ElapsedTicks;
 
-            sock.Close();
+            //sock.Close();
+
+            // Ensure that the response is complete.
+            if (len < DataLength) Throw();
 
             var rsp = ReadReply(buf);
             CheckReply(rsp, requestTimestamp);
 
+            // Elapsed ticks during the query on this side of the wire.
+            var elapsedTicks = responseTicks - requestTicks;
             // End time on this side of the wire.
             var responseTime = requestTime.AddMilliseconds(elapsedTicks / TicksPerMillisecond);
             rsp.DestinationTimestamp = Timestamp64.FromDateTime(responseTime);
@@ -136,6 +141,8 @@ namespace Zorglub.Time.Horology.Ntp
             var bytes = new byte[DataLength];
             bytes[0] = FirstByte;
 
+            var stopwatch = Stopwatch.StartNew();
+
             using var sock = new Socket(Endpoint.AddressFamily, SocketType.Dgram, ProtocolType.Udp)
             {
                 ReceiveTimeout = ReceiveTimeout,
@@ -144,26 +151,27 @@ namespace Zorglub.Time.Horology.Ntp
             await sock.ConnectAsync(Endpoint).ConfigureAwait(false);
 
             var requestTime = DateTime.UtcNow;
+            long requestTicks = stopwatch.ElapsedTicks;
+
             var requestTimestamp =
                 Timestamp64.FromDateTime(requestTime)
                     .RandomizeSubMilliseconds(RandomProvider.NextInt32());
             requestTimestamp.WriteTo(bytes, TransmitTimestampOffset);
 
             var buf = new ArraySegment<byte>(bytes);
-
-            var stopwatch = Stopwatch.StartNew();
-
             await sock.SendAsync(buf, SocketFlags.None, token).ConfigureAwait(false);
-            await sock.ReceiveAsync(buf, SocketFlags.None, token).ConfigureAwait(false);
+            int len = await sock.ReceiveAsync(buf, SocketFlags.None, token).ConfigureAwait(false);
 
-            long elapsedTicks = stopwatch.ElapsedTicks;
-            stopwatch.Stop();
+            long responseTicks = stopwatch.ElapsedTicks;
 
-            sock.Close();
+            //sock.Close();
+
+            if (len < DataLength) Throw();
 
             var rsp = ReadReply(bytes);
             CheckReply(rsp, requestTimestamp);
 
+            var elapsedTicks = responseTicks - requestTicks;
             var responseTime = requestTime.AddMilliseconds(elapsedTicks / TicksPerMillisecond);
             rsp.DestinationTimestamp = Timestamp64.FromDateTime(responseTime);
 
@@ -183,10 +191,9 @@ namespace Zorglub.Time.Horology.Ntp
                 Version = (buf[0] >> 3) & 7,
                 Mode = ReadMode(buf[0] & 7),
                 Stratum = ReadStratum(buf[1]),
-                // FIXME(code): PollInterval and Precision.
                 // Signed 8-bit integer = log_2(poll)
                 // Range = [4..17], 16 (2^4) seconds <= poll <= 131_072 (2^17) seconds.
-                PollInterval = buf[2],
+                PollInterval = ReadSByte(buf[2]),
                 // Signed 8-bit integer = log_2(precision)
                 // Clock resolution =
                 //   2^-p where p is the number of significant bits in the
@@ -197,7 +204,7 @@ namespace Zorglub.Time.Horology.Ntp
                 //   Running time to read the system clock, in seconds.
                 // Precision = Max(clock resolution, clock precision).
                 // Range = [-20..-6], 2^-20 seconds <= precision <= 2^-6 seconds.
-                Precision = buf[3],
+                Precision = ReadSByte(buf[3]),
                 RootDelay = Duration64.ReadFrom(buf[4..]),
                 RootDispersion = Duration64.ReadFrom(buf[8..]),
                 // Bytes 12 to 15; see Reference below.
@@ -210,6 +217,10 @@ namespace Zorglub.Time.Horology.Ntp
             rsp.Reference = ReadReference(buf[12..16], rsp);
 
             return rsp;
+
+            // REVIEW(code): PollInterval and Precision.
+            // https://en.wikipedia.org/wiki/Two%27s_complement
+            static int ReadSByte(byte v) => v > 127 ? v - 256 : v;
         }
 
         // TODO(code): move this to ThrowHelpers.

@@ -6,6 +6,7 @@ namespace Play.Demo;
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Net;
+using System.Net.Sockets;
 
 using Zorglub.Time.Horology.Ntp;
 
@@ -17,7 +18,7 @@ public static class NtpSimple
 {
     public static void Query()
     {
-        var cli = new SntpClient() { Version = 3 };
+        var cli = new SntpClient("fr.pool.ntp.org") { Version = 3 };
         var rsp = cli.Query();
 
         string reference = GetReference(rsp);
@@ -31,12 +32,12 @@ public static class NtpSimple
         WriteLine("  Server receive:     {0:HH:mm:ss.fff}", rsp.ReceiveTimestamp.ToDateTime());
         WriteLine("  Server transmit:    {0:HH:mm:ss.fff}", rsp.TransmitTimestamp.ToDateTime());
         WriteLine("  Client receive:     {0:HH:mm:ss.fff}", rsp.DestinationTimestamp.ToDateTime());
-        WriteLine($"  Clock offset:       {rsp.ClockOffset}ms");
-        WriteLine($"  Round-trip delay:   {rsp.RoundtripDelay} ({rsp.RoundtripDelay.TotalMilliseconds}ms)");
+        WriteLine($"  Clock offset:       {rsp.ClockOffset} {rsp.ClockOffset.TotalMilliseconds}ms");
+        WriteLine($"  Round-trip delay:   {rsp.RoundTripDelay} ({rsp.RoundTripDelay.TotalMilliseconds}ms)");
         WriteLine($"  Root delay:         {rsp.RootDelay} ({rsp.RootDelay.TotalNanoseconds}ns)");
         WriteLine($"  Root dispersion:    {rsp.RootDispersion} ({rsp.RootDispersion.TotalNanoseconds}ns)");
         WriteLine($"  Poll interval:      2^{rsp.PollInterval}");
-        WriteLine($"  Precision:          {rsp.Precision}");
+        WriteLine($"  Precision:          2^{rsp.Precision}");
 
         static string GetReference(SntpResponse rsp)
         {
@@ -47,9 +48,16 @@ public static class NtpSimple
             }
             else if (rsp.Stratum == NtpStratum.SecondaryReference && rsp.Version == 3)
             {
-                //var host = Dns.GetHostEntry(reference);
-                //return FormattableString.Invariant($"{host.HostName} ({reference})");
-                return reference;
+                try
+                {
+                    var host = Dns.GetHostEntry(reference);
+                    return FormattableString.Invariant($"{host.HostName} ({reference})");
+
+                }
+                catch (SocketException)
+                {
+                    return reference;
+                }
             }
             else
             {
