@@ -28,6 +28,7 @@ namespace Zorglub.Time.Horology.Ntp
 
         internal Duration64(long fractionalSeconds)
         {
+            // TODO(code): fix boundaries (63-bit signed integer).
             _fractionalSeconds = fractionalSeconds;
         }
 

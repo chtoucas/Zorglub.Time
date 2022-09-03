@@ -10,6 +10,7 @@ namespace Zorglub.Time.Horology.Ntp
     using System.Threading;
 
     using static Zorglub.Time.Core.TemporalConstants;
+    using System.Buffers.Binary;
 
     public sealed partial class SntpClient
     {
@@ -175,7 +176,20 @@ namespace Zorglub.Time.Horology.Ntp
                 Version = (buf[0] >> 3) & 7,
                 Mode = ReadMode(buf[0] & 7),
                 Stratum = ReadStratum(buf[1]),
+                // FIXME(code): PollInterval and Precision.
+                // Signed 8-bit integer = log_2(poll)
+                // Range = [4..17], 16 (2^4) seconds <= poll <= 131_072 (2^17) seconds.
                 PollInterval = buf[2],
+                // Signed 8-bit integer = log_2(precision)
+                // Clock resolution =
+                //   2^-p where p is the number of significant bits in the
+                //   fraction part, e.g. Timestamp64.RandomizeSubMilliseconds()
+                //   randomize the 20 lower bits, therefore the resolution is
+                //   equal to 12.
+                // Clock precision =
+                //   Running time to read the system clock, in seconds.
+                // Precision = Max(clock resolution, clock precision).
+                // Range = [-20..-6], 2^-20 seconds <= precision <= 2^-6 seconds.
                 Precision = buf[3],
                 RootDelay = Duration64.ReadFrom(buf[4..]),
                 RootDispersion = Duration64.ReadFrom(buf[8..]),
