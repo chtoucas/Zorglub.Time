@@ -35,7 +35,9 @@ public static class NtpSimple
         WriteLine("  Client receive:     {0:HH:mm:ss.fff}", rsp.DestinationTimestamp.ToDateTime());
         WriteLine($"  Clock offset:       {rsp.LocalClockOffset}ms");
         WriteLine($"  Root delay:         {rsp.RootDelay}");
+        WriteLine($"  Root delay:         {rsp.RootDelay.CountNanoseconds()}ns");
         WriteLine($"  Root dispersion:    {rsp.RootDispersion}");
+        WriteLine($"  Root dispersion:    {rsp.RootDispersion.CountNanoseconds()}ns");
         WriteLine($"  Poll interval:      {rsp.PollInterval}");
         WriteLine($"  Precision:          {rsp.Precision}");
 

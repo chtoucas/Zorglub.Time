@@ -7,21 +7,28 @@ namespace Zorglub.Time.Horology.Ntp
 
     using Zorglub.Time.Core;
 
+    using static Zorglub.Time.Core.TemporalConstants;
+
     // Adapted from
     // https://android.googlesource.com/platform/frameworks/base/+/master/core/java/android/net/sntp/Duration64.java
+    // GitHub mirror:
     // https://github.com/aosp-mirror/platform_frameworks_base/blob/master/core/java/android/net/sntp/Duration64.java
     // https://github.com/aosp-mirror/platform_frameworks_base/blob/master/core/tests/coretests/src/android/net/sntp/Duration64Test.java
 
     public readonly partial struct Duration64 :
+        // Comparison
         IComparisonOperators<Duration64, Duration64>,
         IMinMaxValue<Duration64>,
-        IMinMaxFunctions<Duration64>
+        IMinMaxFunctions<Duration64>,
+        // Arithmetic
+        IAdditionOperators<Duration64, Duration64, Duration64>,
+        ISubtractionOperators<Duration64, Duration64, Duration64>
     {
-        private readonly long _value;
+        private readonly long _fractionalSeconds;
 
-        public Duration64(long value)
+        public Duration64(long fractionalSeconds)
         {
-            _value = value;
+            _fractionalSeconds = fractionalSeconds;
         }
 
         public static Duration64 Zero { get; }
@@ -38,21 +45,34 @@ namespace Zorglub.Time.Horology.Ntp
         /// </summary>
         public static Duration64 MaxValue { get; } = new(Int64.MaxValue);
 
-        public long Value => _value;
+        /// <summary>
+        /// Gets the number of fractional seconds.
+        /// </summary>
+        public long FractionalSeconds => _fractionalSeconds;
 
         /// <summary>
         /// Returns a culture-independent string representation of the current instance.
         /// </summary>
         [Pure]
-        public override string ToString() => FormattableString.Invariant($"{_value}");
+        public override string ToString() => FormattableString.Invariant($"{_fractionalSeconds}");
 
         /// <summary>
         /// Counts the number of seconds in this duration.
         /// </summary>
         [Pure]
-        public int CountSeconds() => (int)(_value >> 32);
+        public int CountSeconds() => (int)(_fractionalSeconds >> 32);
 
-        //return (double)_value / 0x10000;
+        /// <summary>
+        /// Counts the number of milliseconds in this duration.
+        /// </summary>
+        [Pure]
+        public long CountMilliseconds() => (_fractionalSeconds * MillisecondsPerSecond) >> 32;
+
+        /// <summary>
+        /// Counts the number of nanoseconds in this duration.
+        /// </summary>
+        [Pure]
+        public long CountNanoseconds() => (_fractionalSeconds * NanosecondsPerSecond) >> 32;
     }
 
     public partial struct Duration64
@@ -77,17 +97,17 @@ namespace Zorglub.Time.Horology.Ntp
         /// Determines whether two specified instances of <see cref="Duration64"/> are equal.
         /// </summary>
         public static bool operator ==(Duration64 left, Duration64 right) =>
-            left._value == right._value;
+            left._fractionalSeconds == right._fractionalSeconds;
 
         /// <summary>
         /// Determines whether two specified instances of <see cref="Duration64"/> are not equal.
         /// </summary>
         public static bool operator !=(Duration64 left, Duration64 right) =>
-            left._value != right._value;
+            left._fractionalSeconds != right._fractionalSeconds;
 
         /// <inheritdoc />
         [Pure]
-        public bool Equals(Duration64 other) => _value == other._value;
+        public bool Equals(Duration64 other) => _fractionalSeconds == other._fractionalSeconds;
 
         /// <inheritdoc />
         [Pure]
@@ -96,22 +116,22 @@ namespace Zorglub.Time.Horology.Ntp
 
         /// <inheritdoc />
         [Pure]
-        public override int GetHashCode() => _value.GetHashCode();
+        public override int GetHashCode() => _fractionalSeconds.GetHashCode();
     }
 
     public partial struct Duration64 // IComparable
     {
         public static bool operator <(Duration64 left, Duration64 right) =>
-            left._value < right._value;
+            left._fractionalSeconds < right._fractionalSeconds;
 
         public static bool operator <=(Duration64 left, Duration64 right) =>
-            left._value <= right._value;
+            left._fractionalSeconds <= right._fractionalSeconds;
 
         public static bool operator >(Duration64 left, Duration64 right) =>
-            left._value > right._value;
+            left._fractionalSeconds > right._fractionalSeconds;
 
         public static bool operator >=(Duration64 left, Duration64 right) =>
-            left._value >= right._value;
+            left._fractionalSeconds >= right._fractionalSeconds;
 
         [Pure]
         public static Duration64 Min(Duration64 x, Duration64 y) => x < y ? x : y;
@@ -120,7 +140,8 @@ namespace Zorglub.Time.Horology.Ntp
         public static Duration64 Max(Duration64 x, Duration64 y) => x > y ? x : y;
 
         [Pure]
-        public int CompareTo(Duration64 other) => _value.CompareTo(other._value);
+        public int CompareTo(Duration64 other) =>
+            _fractionalSeconds.CompareTo(other._fractionalSeconds);
 
         /// <inheritdoc />
         [Pure]
@@ -130,4 +151,20 @@ namespace Zorglub.Time.Horology.Ntp
             : Throw.NonComparable(typeof(Duration64), obj);
     }
 
+    public partial struct Duration64 // Arithmetic
+    {
+        public static Duration64 operator +(Duration64 left, Duration64 right) =>
+            new(checked(left._fractionalSeconds + right._fractionalSeconds));
+
+        public static Duration64 operator -(Duration64 left, Duration64 right) =>
+            new(checked(left._fractionalSeconds - right._fractionalSeconds));
+
+        [Pure]
+        public Duration64 Add(Duration64 other) =>
+            new(checked(_fractionalSeconds + other._fractionalSeconds));
+
+        [Pure]
+        public Duration64 Subtract(Duration64 other) =>
+            new(checked(_fractionalSeconds - other._fractionalSeconds));
+    }
 }

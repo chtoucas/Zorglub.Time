@@ -108,14 +108,17 @@ namespace Zorglub.Time.Horology.Ntp
         /// <summary>
         /// Gets the fraction of the second.
         /// </summary>
-        // 1 fraction of second = 1 / 2^32 second
+        // Unit of 1 fraction of second = 1 / 2^32 second
         // Relation to a subunit-of-second:
         // > subunit-of-second = (SubunitsPerSecond * fraction-of-second) / 2^32
         // > fraction-of-second = (2^32 * subunit-of-second) / SubunitsPerSecond
         // Precision is about 232 picoseconds.
         public long FractionOfSecond => _fractionOfSecond;
 
-        private ulong Value => ((ulong)_secondOfEra << 32) | _fractionOfSecond;
+        /// <summary>
+        /// Gets the number of fractional seconds since Zero.
+        /// </summary>
+        private ulong FractionalSecondsSinceZero => ((ulong)_secondOfEra << 32) | _fractionOfSecond;
 
         /// <summary>
         /// Returns a culture-independent string representation of the current instance.
@@ -265,16 +268,16 @@ namespace Zorglub.Time.Horology.Ntp
     public partial struct Timestamp64 // IComparable
     {
         public static bool operator <(Timestamp64 left, Timestamp64 right) =>
-            left.Value < right.Value;
+            left.FractionalSecondsSinceZero < right.FractionalSecondsSinceZero;
 
         public static bool operator <=(Timestamp64 left, Timestamp64 right) =>
-            left.Value <= right.Value;
+            left.FractionalSecondsSinceZero <= right.FractionalSecondsSinceZero;
 
         public static bool operator >(Timestamp64 left, Timestamp64 right) =>
-            left.Value > right.Value;
+            left.FractionalSecondsSinceZero > right.FractionalSecondsSinceZero;
 
         public static bool operator >=(Timestamp64 left, Timestamp64 right) =>
-            left.Value >= right.Value;
+            left.FractionalSecondsSinceZero >= right.FractionalSecondsSinceZero;
 
         [Pure]
         public static Timestamp64 Min(Timestamp64 x, Timestamp64 y) => x < y ? x : y;
@@ -283,7 +286,8 @@ namespace Zorglub.Time.Horology.Ntp
         public static Timestamp64 Max(Timestamp64 x, Timestamp64 y) => x > y ? x : y;
 
         [Pure]
-        public int CompareTo(Timestamp64 other) => Value.CompareTo(other.Value);
+        public int CompareTo(Timestamp64 other) =>
+            FractionalSecondsSinceZero.CompareTo(other.FractionalSecondsSinceZero);
 
         /// <inheritdoc />
         [Pure]
@@ -303,8 +307,8 @@ namespace Zorglub.Time.Horology.Ntp
         [Pure]
         public Duration64 Subtract(Timestamp64 other)
         {
-            ulong start = other.Value;
-            ulong end = Value;
+            ulong start = other.FractionalSecondsSinceZero;
+            ulong end = FractionalSecondsSinceZero;
 
             return end > start ? new Duration64((long)(end - start))
                 : new Duration64((long)(start - end));

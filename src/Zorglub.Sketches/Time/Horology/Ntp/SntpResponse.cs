@@ -57,6 +57,31 @@ namespace Zorglub.Time.Horology.Ntp
         /// Gets the offset for the client clock.
         /// </summary>
         public double ClientClockOffset { get; init; }
+
+        // OriginateTimestamp (T1):     Time request sent by client
+        // ReceiveTimestamp (T2):       Time request received by server
+        // TransmitTimestamp (T3):      Time reply sent by server
+        // DestinationTimestamp (T4):   Time reply received by client
+        //
+        // > RoundtripDelay = (T4 - T1) - (T2 - T3)
+        // > LocalClockOffset = ((T2 - T1) + (T3 - T4)) / 2
+
+        public Duration64 RoundtripDelay =>
+            ClientReceiveTimestamp - ClientTransmitTimestamp
+            - (ServerReceiveTimestamp - ServerTransmitTimestamp);
+
+        // The offset of the local clock relative to the primary reference source.
+        public double LocalClockOffset
+        {
+            get
+            {
+                var span =
+                    ServerReceiveTimestamp - ClientTransmitTimestamp
+                    + (ServerTransmitTimestamp - ClientReceiveTimestamp);
+
+                return span.CountMilliseconds() / 2;
+            }
+        }
     }
 
     public sealed record SntpResponse
@@ -69,8 +94,10 @@ namespace Zorglub.Time.Horology.Ntp
 
         public NtpStratum Stratum { get; init; }
 
+        // 2^PollInterval
         public int PollInterval { get; init; }
 
+        // 2^(-Precision)
         public int Precision { get; init; }
 
         public Duration64 RootDelay { get; init; }
@@ -89,12 +116,6 @@ namespace Zorglub.Time.Horology.Ntp
 
         public Timestamp64 DestinationTimestamp { get; internal set; }
 
-        // FIXME(code): Temporary props.
-        private DateTime OriginateTime => OriginateTimestamp.ToDateTime();
-        private DateTime ReceiveTime => ReceiveTimestamp.ToDateTime();
-        private DateTime TransmitTime => TransmitTimestamp.ToDateTime();
-        private DateTime DestinationTime => DestinationTimestamp.ToDateTime();
-
         // OriginateTimestamp (T1):     Time request sent by client
         // ReceiveTimestamp (T2):       Time request received by server
         // TransmitTimestamp (T3):      Time reply sent by server
@@ -103,22 +124,20 @@ namespace Zorglub.Time.Horology.Ntp
         // > RoundtripDelay = (T4 - T1) - (T2 - T3)
         // > LocalClockOffset = ((T2 - T1) + (T3 - T4)) / 2
 
-        public double RoundtripDelay
-        {
-            get
-            {
-                TimeSpan span = DestinationTime - OriginateTime - (ReceiveTime - TransmitTime);
-                return span.TotalMilliseconds;
-            }
-        }
+        public Duration64 RoundtripDelay =>
+            DestinationTimestamp - OriginateTimestamp
+            - (ReceiveTimestamp - TransmitTimestamp);
 
         // The offset of the local clock relative to the primary reference source.
         public double LocalClockOffset
         {
             get
             {
-                TimeSpan span = ReceiveTime - OriginateTime + (TransmitTime - DestinationTime);
-                return span.TotalMilliseconds / 2;
+                var span =
+                    ReceiveTimestamp - OriginateTimestamp
+                    + (TransmitTimestamp - DestinationTimestamp);
+
+                return span.CountMilliseconds() / 2;
             }
         }
     }

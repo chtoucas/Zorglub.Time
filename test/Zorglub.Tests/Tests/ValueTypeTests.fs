@@ -17,6 +17,7 @@ open Zorglub.Time.Core.Intervals
 open Zorglub.Time.Core.Utilities
 open Zorglub.Time.Hemerology
 open Zorglub.Time.Horology
+open Zorglub.Time.Horology.Ntp
 open Zorglub.Time.Simple
 open Zorglub.Time.Specialized
 
@@ -109,6 +110,8 @@ module RuntimeSizes =
     [<Fact>]
     let ``Types in Zorglub.Time.Horology`` () =
         // Zorglub.Sketches
+        Marshal.SizeOf(typedefof<Timestamp64>) === 8
+        Marshal.SizeOf(typedefof<Duration64>) === 8
         Marshal.SizeOf(typedefof<InstantOfDay>) === 8
         Marshal.SizeOf(typedefof<GregorianInstant>) === 16
 

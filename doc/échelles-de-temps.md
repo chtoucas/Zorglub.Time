@@ -63,10 +63,18 @@ Liste très complète d'échelles de temps.
 
 ## Implémentations
 
-- [How to Query an NTP Server using C\#?](https://stackoverflow.com/questions/1193955/how-to-query-an-ntp-server-using-c)
-- [C\# SNTP client in .NET Micro Framework](https://github.com/vbocan/sntp-client)
-- [GuerrillaNtp](https://github.com/robertvazan/guerrillantp)
+[Implémentation de référence](https://github.com/ntp-project/ntp)
 
-  - [Java Android](https://github.com/aosp-mirror/platform_frameworks_base/blob/master/core/java/android/net/SntpClient.java)
+[ntpdig](https://docs.ntpsec.org/latest/ntpdig.html)
+
+[How to Query an NTP Server using C\#?](https://stackoverflow.com/questions/1193955/how-to-query-an-ntp-server-using-c)
+
+### SNTP clients
+- [Java Android](https://android.googlesource.com/platform/frameworks/base/+/master/core/java/android/net/SntpClient.java)
+- [Go](https://github.com/beevik/ntp/)
 - [Haskell](https://hackage.haskell.org/package/hsntp)
+- [Perl](https://metacpan.org/pod/Net::SNTP::Client)
+- [Python](https://github.com/cf-natali/ntplib)
+- [GuerrillaNtp](https://github.com/robertvazan/guerrillantp)
+- [C\# SNTP client in .NET Micro Framework](https://github.com/vbocan/sntp-client)
 

@@ -9,6 +9,8 @@ namespace Zorglub.Time.Horology.Ntp
     using System.Threading.Tasks;
     using System.Threading;
 
+    using static Zorglub.Time.Core.TemporalConstants;
+
     public sealed partial class SntpClient
     {
         private const int DataLength = 48;
@@ -75,6 +77,8 @@ namespace Zorglub.Time.Horology.Ntp
                 const int ClientMode = 3;
 
                 // Initialize the first byte to: LI = 0, VN = 3 or 4, Mode = 3.
+                // Version 3: 00 011 011 (0x1b)
+                // Version 4: 00 100 011 (0x23)
                 return (byte)(ClientMode | (Version << 3));
             }
         }
@@ -85,28 +89,42 @@ namespace Zorglub.Time.Horology.Ntp
             var buf = new byte[DataLength].AsSpan();
             buf[0] = FirstByte;
 
-            using var sock = new Socket(Endpoint.AddressFamily, SocketType.Dgram, ProtocolType.Udp)
+            using var sock = new Socket(SocketType.Dgram, ProtocolType.Udp)
             {
                 ReceiveTimeout = ReceiveTimeout,
             };
 
             sock.Connect(Endpoint);
 
-            // Initialize TransmitTimestamp.
-            var clientTransmitTimestamp =
-                Timestamp64.FromDateTime(DateTime.UtcNow)
+            // Start time on this side of the wire.
+            var requestTime = DateTime.UtcNow;
+
+            // Randomize the timestamp, then write it into the buffer.
+            var requestTimestamp =
+                Timestamp64.FromDateTime(requestTime)
                     .RandomizeSubMilliseconds(RandomProvider.NextInt32());
-            clientTransmitTimestamp.WriteTo(buf, TransmitTimestampOffset);
+            requestTimestamp.WriteTo(buf, TransmitTimestampOffset);
+
+            var stopWatch = Stopwatch.StartNew();
 
             sock.Send(buf);
-            int len = sock.Receive(buf);
-            var destinationTime = DateTime.UtcNow;
+            _ = sock.Receive(buf);
+
+            // Elapsed ticks on this side of the wire.
+            //var responseTime = DateTime.UtcNow;
+            long elapsedTicks = stopWatch.ElapsedTicks;
+            stopWatch.Stop();
 
             sock.Close();
 
             var rsp = ReadReply(buf);
-            rsp.DestinationTimestamp = Timestamp64.FromDateTime(destinationTime);
-            CheckReply(rsp, clientTransmitTimestamp);
+            CheckReply(rsp, requestTimestamp);
+
+            // End time on this side of the wire.
+            var responseTime = requestTime.AddMilliseconds(elapsedTicks / TicksPerMillisecond);
+
+            rsp.DestinationTimestamp = Timestamp64.FromDateTime(responseTime);
+
             return rsp;
         }
 
@@ -123,9 +141,10 @@ namespace Zorglub.Time.Horology.Ntp
 
             await sock.ConnectAsync(Endpoint).ConfigureAwait(false);
 
-            // Initialize TransmitTimestamp.
+            var requestTime = DateTime.UtcNow;
+
             var clientTransmitTimestamp =
-                Timestamp64.FromDateTime(DateTime.UtcNow)
+                Timestamp64.FromDateTime(requestTime)
                     .RandomizeSubMilliseconds(RandomProvider.NextInt32());
             clientTransmitTimestamp.WriteTo(bytes, TransmitTimestampOffset);
 
@@ -133,12 +152,12 @@ namespace Zorglub.Time.Horology.Ntp
             await sock.SendAsync(buf, SocketFlags.None, token).ConfigureAwait(false);
             await sock.ReceiveAsync(buf, SocketFlags.None, token).ConfigureAwait(false);
 
-            var destinationTime = DateTime.UtcNow;
+            var responseTime = DateTime.UtcNow;
 
             sock.Close();
 
             var rsp = ReadReply(bytes);
-            rsp.DestinationTimestamp = Timestamp64.FromDateTime(destinationTime);
+            rsp.DestinationTimestamp = Timestamp64.FromDateTime(responseTime);
             CheckReply(rsp, clientTransmitTimestamp);
             return rsp;
         }
