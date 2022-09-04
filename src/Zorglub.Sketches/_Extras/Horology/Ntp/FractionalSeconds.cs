@@ -10,11 +10,6 @@ namespace Zorglub.Time.Horology.Ntp
     // > subunit-of-second = (SubunitsPerSecond * fraction-of-second) / 2^32
     // > fraction-of-second = (2^32 * subunit-of-second) / SubunitsPerSecond
     // Precision is about 232 picoseconds.
-    //
-    // WARNING
-    // To divide an integer by 2^32, do NOT use the integer division from C#.
-    // It truncates toward minus infinity, which is not what we want for
-    // negative numbers.
 
     internal static partial class FractionalSeconds { }
 
@@ -82,32 +77,12 @@ namespace Zorglub.Time.Horology.Ntp
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong FromSeconds(uint secondOfEra) => (ulong)secondOfEra << 32;
 
-        /// <summary>
-        /// Converts a number of fractional seconds to a number of whole seconds.
-        /// <para>The result is in the range of <see cref="Int32"/>.</para>
-        /// </summary>
-        [Pure]
-        // CIL code size = XXX bytes <= 32 bytes.
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static long ToSeconds(long fractionalSeconds) => fractionalSeconds >> 32;
-
-        /// <summary>
-        /// Converts a number of fractional seconds to a number of whole milliseconds.
-        /// </summary>
-        [Pure]
-        // CIL code size = XXX bytes <= 32 bytes.
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static long ToMilliseconds(long fractionalSeconds) =>
-            (MillisecondsPerSecond * fractionalSeconds) >> 32;
-
-        /// <summary>
-        /// Converts a number of fractional seconds to a number of whole nanoseconds.
-        /// </summary>
-        [Pure]
-        // CIL code size = XXX bytes <= 32 bytes.
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static long ToNanoseconds(long fractionalSeconds) =>
-            (NanosecondsPerSecond * fractionalSeconds) >> 32;
+        // *** WARNING ***
+        // Do NOT use >> 32 to divide a signed integer by 2^32. Indeed, >> rounds
+        // towards minus infinity, e.g. (-2^32 - 1) >> 32 = -2 which is not what
+        // we want that is -1.
+        // The integer division gives the correct result since it rounds towards
+        // zero, (-2^32 - 1) / 2^32 = -1
 
         /// <summary>
         /// Converts a number of fractional seconds to a number of seconds.
@@ -115,7 +90,7 @@ namespace Zorglub.Time.Horology.Ntp
         [Pure]
         // CIL code size = XXX bytes <= 32 bytes.
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static double ToTotalSeconds(long fractionalSeconds) =>
+        public static double ToSeconds(long fractionalSeconds) =>
             fractionalSeconds / (double)0x1_0000_0000L;
 
         /// <summary>
@@ -124,8 +99,8 @@ namespace Zorglub.Time.Horology.Ntp
         [Pure]
         // CIL code size = XXX bytes <= 32 bytes.
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static double ToTotalMilliseconds(long fractionalSeconds) =>
-            (MillisecondsPerSecond * fractionalSeconds) / (double)0x1_0000_0000L;
+        public static double ToMilliseconds(long fractionalSeconds) =>
+            MillisecondsPerSecond * fractionalSeconds / (double)0x1_0000_0000L;
 
         /// <summary>
         /// Converts a number of fractional seconds to a number of nanoseconds.
@@ -133,7 +108,7 @@ namespace Zorglub.Time.Horology.Ntp
         [Pure]
         // CIL code size = XXX bytes <= 32 bytes.
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static double ToTotalNanoseconds(long fractionalSeconds) =>
-            (NanosecondsPerSecond * fractionalSeconds) / (double)0x1_0000_0000L;
+        public static double ToNanoseconds(long fractionalSeconds) =>
+            NanosecondsPerSecond * fractionalSeconds / (double)0x1_0000_0000L;
     }
 }

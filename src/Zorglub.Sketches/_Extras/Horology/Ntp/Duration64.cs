@@ -28,6 +28,9 @@ namespace Zorglub.Time.Horology.Ntp
     {
         private readonly long _fractionalSeconds;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Duration64"/> struct.
+        /// </summary>
         public Duration64(long fractionalSeconds)
         {
             _fractionalSeconds = fractionalSeconds;
@@ -37,6 +40,7 @@ namespace Zorglub.Time.Horology.Ntp
 
         /// <summary>
         /// Gets a duration representing exactly one fractional second.
+        /// <para>This is the smallest duration greater than <see cref="Zero"/>.</para>
         /// <para>This static property is thread-safe.</para>
         /// </summary>
         public static Duration64 Epsilon { get; } = new(1);
@@ -65,41 +69,22 @@ namespace Zorglub.Time.Horology.Ntp
         public long FractionalSeconds => _fractionalSeconds;
 
         /// <summary>
-        /// Gets the number of whole nanoseconds in this duration.
-        /// </summary>
-        [Pure]
-        public long Nanoseconds => Ntp.FractionalSeconds.ToNanoseconds(_fractionalSeconds);
-
-        /// <summary>
-        /// Gets the number of whole milliseconds in this duration.
-        /// </summary>
-        [Pure]
-        public long Milliseconds => Ntp.FractionalSeconds.ToMilliseconds(_fractionalSeconds);
-
-        /// <summary>
-        /// Gets the number of whole seconds in this duration.
-        /// <para>The result is in the range of <see cref="Int32"/>.</para>
-        /// </summary>
-        [Pure]
-        public long Seconds => Ntp.FractionalSeconds.ToSeconds(_fractionalSeconds);
-
-        /// <summary>
         /// Gets the total number of nanoseconds in this duration.
         /// </summary>
         [Pure]
-        public double TotalNanoseconds => Ntp.FractionalSeconds.ToTotalNanoseconds(_fractionalSeconds);
+        public double TotalNanoseconds => Ntp.FractionalSeconds.ToNanoseconds(_fractionalSeconds);
 
         /// <summary>
         /// Gets the total number of milliseconds in this duration.
         /// </summary>
         [Pure]
-        public double TotalMilliseconds => Ntp.FractionalSeconds.ToTotalMilliseconds(_fractionalSeconds);
+        public double TotalMilliseconds => Ntp.FractionalSeconds.ToMilliseconds(_fractionalSeconds);
 
         /// <summary>
         /// Gets the total number of seconds in this duration.
         /// </summary>
         [Pure]
-        public double TotalSeconds => Ntp.FractionalSeconds.ToTotalSeconds(_fractionalSeconds);
+        public double TotalSeconds => Ntp.FractionalSeconds.ToSeconds(_fractionalSeconds);
 
         /// <summary>
         /// Returns a culture-independent string representation of the current instance.

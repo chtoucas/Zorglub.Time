@@ -28,8 +28,8 @@ public static class NtpSimple
         WriteLine($"  Stratum:            {si.Stratum}");
         WriteLine($"  Reference source:   {reference}");
         WriteLine("  Reference time:     {0:HH:mm:ss.fff}", si.ReferenceTimestamp.ToDateTime());
-        WriteLine($"  Root delay:         {si.RootDelay} ({si.RootDelay.Nanoseconds}ns)");
-        WriteLine($"  Root dispersion:    {si.RootDispersion} ({si.RootDispersion.Nanoseconds}ns)");
+        WriteLine($"  Root delay:         {si.RootDelay} ({(int)si.RootDelay.TotalNanoseconds}ns)");
+        WriteLine($"  Root dispersion:    {si.RootDispersion} ({(int)si.RootDispersion.TotalNanoseconds}ns)");
         WriteLine($"  Poll interval:      {si.PollInterval}s");
         WriteLine($"  Precision:          2^{si.Precision}");
 
@@ -38,8 +38,8 @@ public static class NtpSimple
         WriteLine("  Server receive:     {0:HH:mm:ss.fff}", ti.ReceiveTimestamp.ToDateTime());
         WriteLine("  Server transmit:    {0:HH:mm:ss.fff}", ti.TransmitTimestamp.ToDateTime());
         WriteLine("  Client receive:     {0:HH:mm:ss.fff}", ti.DestinationTimestamp.ToDateTime());
-        WriteLine($"  Clock offset:       {ti.ClockOffset} ({ti.ClockOffset.TotalSeconds:F3}s)");
-        WriteLine($"  Round-trip delay:   {ti.RoundTripDelay} ({ti.RoundTripDelay.Milliseconds}ms)");
+        WriteLine($"  Clock offset:       {ti.ClockOffset} ({ti.ClockOffset.TotalSeconds:+#.###;0.000;-#.###}s)");
+        WriteLine($"  Round-trip delay:   {ti.RoundTripDelay} ({(int)ti.RoundTripDelay.TotalMilliseconds}ms)");
 
         static string ResolveReference(SntpServerInfo info)
         {

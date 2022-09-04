@@ -71,12 +71,11 @@ namespace Zorglub.Time.Horology.Ntp
         /// </summary>
         private readonly uint _fractionOfSecond;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Timestamp64"/> struct.
+        /// </summary>
         internal Timestamp64(uint secondOfEra, uint fractionOfSecond)
         {
-            // Useless, MaxSecondOfEra = UInt32.MaxValue.
-            //if (secondOfEra > MaxSecondOfEra)
-            //    Throw.ArgumentOutOfRange(nameof(secondOfEra));
-
             _secondOfEra = secondOfEra;
             _fractionOfSecond = fractionOfSecond;
         }
@@ -300,6 +299,7 @@ namespace Zorglub.Time.Horology.Ntp
             ulong start = other.FractionalSecondsSinceZero;
             ulong end = FractionalSecondsSinceZero;
 
+            // FIXME(code): overflow.
             return end > start ? new Duration64((long)(end - start))
                 : new Duration64((long)(start - end));
         }

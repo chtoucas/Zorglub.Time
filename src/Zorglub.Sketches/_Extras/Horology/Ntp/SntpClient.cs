@@ -261,7 +261,6 @@ namespace Zorglub.Time.Horology.Ntp
                     _ => NtpException.Throw<NtpStratum>()
                 };
 
-            // https://en.wikipedia.org/wiki/Two%27s_complement
             [Pure]
             static int ReadSByte(byte v) => v > 127 ? v - 256 : v;
 
