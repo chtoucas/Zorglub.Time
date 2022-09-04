@@ -15,7 +15,19 @@ namespace Zorglub.Bulgroz.Obsolete
         public int Version { get; init; }
         public NtpMode Mode { get; init; }
         public NtpStratum Stratum { get; init; }
+        // Signed 8-bit integer = log_2(poll)
+        // Range = [4..17], 16 (2^4) seconds <= poll <= 131_072 (2^17) seconds.
         public int PollInterval { get; init; }
+        // Signed 8-bit integer = log_2(precision)
+        // Clock resolution =
+        //   2^-p where p is the number of significant bits in the
+        //   fraction part, e.g. Timestamp64.RandomizeSubMilliseconds()
+        //   randomize the 22 lower bits, therefore the resolution is
+        //   equal to 10 (~ millisecond).
+        // Clock precision =
+        //   Running time to read the system clock, in seconds.
+        // Precision = Max(clock resolution, clock precision).
+        // Range = [-20..-6], 2^-20 seconds <= precision <= 2^-6 seconds.
         public int Precision { get; init; }
         public Duration64 RootDelay { get; init; }
         public Duration64 RootDispersion { get; init; }

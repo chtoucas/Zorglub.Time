@@ -96,7 +96,7 @@ namespace Zorglub.Time.Horology.Ntp
 
         private byte FirstByte
         {
-            // CIL code size = XXX bytes <= 32 bytes.
+            // CIL code size = 12 bytes <= 32 bytes.
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {

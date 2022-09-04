@@ -10,18 +10,21 @@ using System.Net.Sockets;
 using Zorglub.Time.Horology.Ntp;
 
 using static System.Console;
+using static Zorglub.Time.Core.TemporalConstants;
 
 public static class NtpSimple
 {
     public static void Query()
     {
-        // Other option: "time.windows.com".
-        var cli = new SntpClient("fr.pool.ntp.org") { Version = 3 };
+        // Other options: "time.windows.com", "fr.pool.ntp.org"
+        var cli = new SntpClient("pool.ntp.org") { Version = 3 };
         var rsp = cli.Query();
 
         var si = rsp.ServerInfo;
         string reference = ResolveReference(si);
         var ti = rsp.TimeInfo;
+
+        var precisionInMicroseconds = MicrosecondsPerSecond * Math.Pow(2, si.Precision);
 
         WriteLine($"NTP response (server info)");
         WriteLine($"  Leap second:        {si.LeapIndicator}");
@@ -31,7 +34,7 @@ public static class NtpSimple
         WriteLine($"  Root delay:         {si.RootDelay} ({(int)si.RootDelay.TotalNanoseconds}ns)");
         WriteLine($"  Root dispersion:    {si.RootDispersion} ({(int)si.RootDispersion.TotalNanoseconds}ns)");
         WriteLine($"  Poll interval:      {si.PollInterval}s");
-        WriteLine($"  Precision:          2^{si.Precision}");
+        WriteLine($"  Precision:          2^{si.Precision} ({precisionInMicroseconds:F3}µs)");
 
         WriteLine($"NTP response (time info)");
         WriteLine("  Client transmit:    {0:HH:mm:ss.fff}", ti.OriginateTimestamp.ToDateTime());

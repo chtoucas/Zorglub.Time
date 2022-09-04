@@ -21,7 +21,7 @@ namespace Zorglub.Time.Horology.Ntp
     // See
     // - https://www.eecis.udel.edu/~mills/time.html
     // - https://www.eecis.udel.edu/~mills/y2k.html
-    // - https://tickelton.gitlab.io/articles/ntp-timestamps/
+    // - https://www.eecis.udel.edu/~mills/leap.html
 
     /// <summary>
     /// Represents a 64-bit NTP timestamp.
@@ -66,7 +66,7 @@ namespace Zorglub.Time.Horology.Ntp
         private readonly uint _secondOfEra;
 
         /// <summary>
-        /// Represents the sub-second.
+        /// Represents the fraction of the second.
         /// <para>This field is read-only.</para>
         /// </summary>
         private readonly uint _fractionOfSecond;
@@ -293,13 +293,13 @@ namespace Zorglub.Time.Horology.Ntp
         /// </summary>
         public static Duration64 operator -(Timestamp64 left, Timestamp64 right) => left.Subtract(right);
 
+        // TODO(doc): overflow.
         [Pure]
         public Duration64 Subtract(Timestamp64 other)
         {
             ulong start = other.FractionalSecondsSinceZero;
             ulong end = FractionalSecondsSinceZero;
 
-            // FIXME(code): overflow.
             return end > start ? new Duration64((long)(end - start))
                 : new Duration64((long)(start - end));
         }
