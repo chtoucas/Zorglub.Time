@@ -56,8 +56,6 @@ namespace Zorglub.Time.Horology.Ntp
         /// </summary>
         public Duration64 RootDispersion { get; init; }
 
-        public string? ReferenceIdentifier { get; set; }
-
         public Timestamp64 ReferenceTimestamp { get; init; }
     }
 
@@ -81,7 +79,7 @@ namespace Zorglub.Time.Horology.Ntp
         /// <summary>
         /// Gets the time at which the client received the response, according to its local clock.
         /// </summary>
-        public Timestamp64 DestinationTimestamp { get; internal set; }
+        public Timestamp64 DestinationTimestamp { get; set; }
 
         // OriginateTimestamp (T1):     Time request sent by client
         // ReceiveTimestamp (T2):       Time request received by server

@@ -115,9 +115,10 @@ namespace Zorglub.Time.Horology.Ntp
             var buf = new byte[DataLength].AsSpan();
             buf[0] = FirstByte;
 
-            // A system clock is not monotonic. We don't write
+            // A system clock is not monotonic, it may be synchronized backward
+            // in time, therefore do NOT write
             // > var responseTime = DateTime.UtcNow;
-            // because the system clock may be synchronized in the mean time.
+            // otherwise we could end up with responseTime < requestTime!
             var stopwatch = Stopwatch.StartNew();
 
             using var sock = new Socket(SocketType.Dgram, ProtocolType.Udp)
@@ -142,7 +143,8 @@ namespace Zorglub.Time.Horology.Ntp
 
             long responseTicks = stopwatch.ElapsedTicks;
 
-            // Ensure that the response is complete.
+            // Ensure that the response has enough bytes before proceeding
+            // further.
             if (len < DataLength) NtpException.Throw();
 
             // Elapsed ticks during the query on this side of the network.
@@ -201,8 +203,8 @@ namespace Zorglub.Time.Horology.Ntp
             Timestamp64 requestTimestamp,
             Timestamp64 reponseTimestamp)
         {
-            // The only fields remaining to be validated are those that the
-            // server is supposed to copy from the request we sent.
+            // The only fields not yet validated are those that the server is
+            // expected to copy verbatim from the request.
 
             var si = ReadServerInfo(buf);
             if (si.Version != Version) NtpException.Throw();
@@ -220,10 +222,11 @@ namespace Zorglub.Time.Horology.Ntp
             Debug.Assert(buf != null);
             Debug.Assert(buf.Length >= DataLength);
 
+            // Mode = NtpMode.Server
             int mode = buf[0] & 7;
             if (mode != 4) NtpException.Throw();
 
-            var si = new SntpServerInfo
+            return new SntpServerInfo
             {
                 LeapIndicator = ReadLeapIndicator((buf[0] >> 6) & 3),
                 Version = (buf[0] >> 3) & 7,
@@ -232,15 +235,12 @@ namespace Zorglub.Time.Horology.Ntp
                 Precision = ReadSByte(buf[3]),
                 RootDelay = ReadDuration32(buf[4..]),
                 RootDispersion = ReadDuration32(buf[8..]),
-                // Bytes 12 to 15; see ReferenceIdentifier below.
                 ReferenceTimestamp = Timestamp64.ReadFrom(buf[16..]),
             };
 
-            si.ReferenceIdentifier = ReadReferenceIdentifier(buf[12..16], si);
-
-            return si;
-
-            // We pre-validate the data according to RFC 4330, section 5.
+            // We validate the data according to RFC 4330, section 5.
+            // Since we decided not to process the Reference Identifier we cannot
+            // validate it here.
 
             [Pure]
             static LeapIndicator ReadLeapIndicator(int x) =>
@@ -275,21 +275,6 @@ namespace Zorglub.Time.Horology.Ntp
 
                 return duration;
             }
-
-            [Pure]
-            static string? ReadReferenceIdentifier(ReadOnlySpan<byte> buf, SntpServerInfo si) =>
-                si.Stratum switch
-                {
-                    NtpStratum.PrimaryReference =>
-                        Encoding.ASCII.GetString(buf),
-
-                    NtpStratum.SecondaryReference =>
-                        si.Version == 3
-                        ? FormattableString.Invariant($"{buf[0]}.{buf[1]}.{buf[2]}.{buf[3]}")
-                        : String.Empty,
-
-                    _ => NtpException.Throw<string>()
-                };
         }
 
         [Pure]

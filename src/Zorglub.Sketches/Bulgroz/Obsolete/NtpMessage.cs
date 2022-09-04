@@ -77,6 +77,7 @@ namespace Zorglub.Bulgroz.Obsolete
         }
 
         // Check response in client-server mode.
+        // We should also check the IP address.
         public bool CheckAsSntpResponse(int version, Timestamp64 requestTimestamp)
         {
             // Legit binary values: 0, 1, 2.
@@ -94,11 +95,9 @@ namespace Zorglub.Bulgroz.Obsolete
                 return false;
 
             // NTP client-server model: RootDelay and RootDispersion >= 0 and < 1s
-            if (RootDelay < Duration64.Zero
-                || RootDelay >= Duration64.OneSecond)
+            if (RootDelay < Duration64.Zero || RootDelay >= Duration64.OneSecond)
                 return false;
-            if (RootDispersion < Duration64.Zero
-                || RootDispersion >= Duration64.OneSecond)
+            if (RootDispersion < Duration64.Zero || RootDispersion >= Duration64.OneSecond)
                 return false;
 
             if (OriginateTimestamp != requestTimestamp) return false;

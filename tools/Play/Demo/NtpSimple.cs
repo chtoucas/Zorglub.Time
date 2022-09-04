@@ -21,7 +21,6 @@ public static class NtpSimple
         var rsp = cli.Query();
 
         var si = rsp.ServerInfo;
-        string reference = ResolveReference(si);
         var ti = rsp.TimeInfo;
 
         var precisionInMicroseconds = MicrosecondsPerSecond * Math.Pow(2, si.Precision);
@@ -29,7 +28,6 @@ public static class NtpSimple
         WriteLine($"NTP response (server info)");
         WriteLine($"  Leap second:        {si.LeapIndicator}");
         WriteLine($"  Stratum:            {si.Stratum}");
-        WriteLine($"  Reference source:   {reference}");
         WriteLine("  Reference time:     {0:HH:mm:ss.fff}", si.ReferenceTimestamp.ToDateTime());
         WriteLine($"  Root delay:         {si.RootDelay} ({(int)si.RootDelay.TotalNanoseconds}ns)");
         WriteLine($"  Root dispersion:    {si.RootDispersion} ({(int)si.RootDispersion.TotalNanoseconds}ns)");
@@ -43,31 +41,6 @@ public static class NtpSimple
         WriteLine("  Client receive:     {0:HH:mm:ss.fff}", ti.DestinationTimestamp.ToDateTime());
         WriteLine($"  Clock offset:       {ti.ClockOffset} ({ti.ClockOffset.TotalSeconds:+#.###;0.000;-#.###}s)");
         WriteLine($"  Round-trip delay:   {ti.RoundTripDelay} ({(int)ti.RoundTripDelay.TotalMilliseconds}ms)");
-
-        static string ResolveReference(SntpServerInfo info)
-        {
-            var refid = info.ReferenceIdentifier;
-            if (refid is null)
-            {
-                return "NULL";
-            }
-            else if (info.Stratum == NtpStratum.SecondaryReference && info.Version == 3)
-            {
-                try
-                {
-                    var host = Dns.GetHostEntry(refid);
-                    return FormattableString.Invariant($"{host.HostName} ({refid})");
-                }
-                catch (SocketException)
-                {
-                    return refid;
-                }
-            }
-            else
-            {
-                return refid.Length == 0 ? "(not processed)" : refid;
-            }
-        }
     }
 
     //[SuppressMessage("Design", "CA1034:Nested types should not be visible")]
