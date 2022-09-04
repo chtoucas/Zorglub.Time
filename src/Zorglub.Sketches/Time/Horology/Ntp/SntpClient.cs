@@ -11,6 +11,10 @@ namespace Zorglub.Time.Horology.Ntp
 
     using static Zorglub.Time.Core.TemporalConstants;
 
+    // TODO(code): ThrowHelpers instead of throw new NtpException().
+    // Use UpdClient?
+    // Use CancellationToken? ConfigureAwait(...)
+
     // Adapted from
     // https://android.googlesource.com/platform/frameworks/base/+/master/core/java/android/net/SntpClient.java
     // See also
@@ -57,7 +61,7 @@ namespace Zorglub.Time.Horology.Ntp
             get => _version;
             init
             {
-                if (value != 3 && value != 4) ThrowHelpers.ArgumentOutOfRange(nameof(value));
+                if (value != 3 && value != 4) Throw.ArgumentOutOfRange(nameof(value));
                 _version = value;
             }
         }
@@ -94,8 +98,6 @@ namespace Zorglub.Time.Horology.Ntp
             var buf = new byte[DataLength].AsSpan();
             buf[0] = FirstByte;
 
-            // REVIEW(code): use UpdClient?
-
             // A system clock is not monotonic. We don't write
             // > var responseTime = DateTime.UtcNow;
             // because the system clock may be synchronized in the mean time.
@@ -123,32 +125,27 @@ namespace Zorglub.Time.Horology.Ntp
 
             long responseTicks = stopwatch.ElapsedTicks;
 
-            //sock.Close();
-
             // Ensure that the response is complete.
-            if (len < DataLength) Throw();
-
-            var rsp = ReadReply(buf);
-            CheckReply(rsp, requestTimestamp);
+            if (len < DataLength) throw new NtpException();
 
             // Elapsed ticks during the query on this side of the network.
             var elapsedTicks = responseTicks - requestTicks;
             // End time on this side of the network.
             var responseTime = requestTime.AddMilliseconds(elapsedTicks / TicksPerMillisecond);
-            rsp.DestinationTimestamp = Timestamp64.FromDateTime(responseTime);
+            var reponseTimestamp = Timestamp64.FromDateTime(responseTime);
 
-            return rsp;
+            return CreateResponse(buf, requestTimestamp, reponseTimestamp);
         }
 
         [Pure]
-        public async Task<SntpResponse> QueryAsync(CancellationToken token = default)
+        public async Task<SntpResponse> QueryAsync()
         {
             var bytes = new byte[DataLength];
             bytes[0] = FirstByte;
 
             var stopwatch = Stopwatch.StartNew();
 
-            using var sock = new Socket(Endpoint.AddressFamily, SocketType.Dgram, ProtocolType.Udp)
+            using var sock = new Socket(SocketType.Dgram, ProtocolType.Udp)
             {
                 ReceiveTimeout = ReceiveTimeout,
             };
@@ -164,32 +161,49 @@ namespace Zorglub.Time.Horology.Ntp
             requestTimestamp.WriteTo(bytes, TransmitTimestampOffset);
 
             var buf = new ArraySegment<byte>(bytes);
-            await sock.SendAsync(buf, SocketFlags.None, token).ConfigureAwait(false);
-            int len = await sock.ReceiveAsync(buf, SocketFlags.None, token).ConfigureAwait(false);
+            await sock.SendAsync(buf, SocketFlags.None).ConfigureAwait(false);
+            int len = await sock.ReceiveAsync(buf, SocketFlags.None).ConfigureAwait(false);
 
             long responseTicks = stopwatch.ElapsedTicks;
 
-            //sock.Close();
-
-            if (len < DataLength) Throw();
-
-            var rsp = ReadReply(bytes);
-            CheckReply(rsp, requestTimestamp);
+            if (len < DataLength) throw new NtpException();
 
             var elapsedTicks = responseTicks - requestTicks;
             var responseTime = requestTime.AddMilliseconds(elapsedTicks / TicksPerMillisecond);
-            rsp.DestinationTimestamp = Timestamp64.FromDateTime(responseTime);
+            var reponseTimestamp = Timestamp64.FromDateTime(responseTime);
 
-            return rsp;
+            return CreateResponse(buf, requestTimestamp, reponseTimestamp);
+        }
+    }
+
+    public partial class SntpClient // Helpers
+    {
+        [Pure]
+        private SntpResponse CreateResponse(
+            ReadOnlySpan<byte> buf,
+            Timestamp64 requestTimestamp,
+            Timestamp64 reponseTimestamp)
+        {
+            // The only fields remaining to be validated are those that the
+            // server is supposed to copy from the request we sent.
+
+            var si = ReadServerInfo(buf);
+            if (si.Version != Version) throw new NtpException();
+
+            var ti = ReadTimeInfo(buf);
+            ti.DestinationTimestamp = reponseTimestamp;
+            if (ti.OriginateTimestamp != requestTimestamp) throw new NtpException();
+
+            return new SntpResponse(si, ti);
         }
 
         [Pure]
-        private static SntpResponse ReadReply(ReadOnlySpan<byte> buf)
+        private static SntpServerInfo ReadServerInfo(ReadOnlySpan<byte> buf)
         {
             Debug.Assert(buf != null);
             Debug.Assert(buf.Length >= DataLength);
 
-            var rsp = new SntpResponse
+            var si = new SntpServerInfo
             {
                 LeapIndicator = ReadLeapIndicator((buf[0] >> 6) & 3),
                 Version = (buf[0] >> 3) & 7,
@@ -197,141 +211,95 @@ namespace Zorglub.Time.Horology.Ntp
                 Stratum = ReadStratum(buf[1]),
                 PollInterval = ReadSByte(buf[2]),
                 Precision = ReadSByte(buf[3]),
-                RootDelay = Duration64.ReadFourBytesFrom(buf[4..]),
-                RootDispersion = Duration64.ReadFourBytesFrom(buf[8..]),
-                // Bytes 12 to 15; see Reference below.
+                RootDelay = ReadDuration32(buf[4..]),
+                RootDispersion = ReadDuration32(buf[8..]),
+                // Bytes 12 to 15; see ReferenceIdentifier below.
                 ReferenceTimestamp = Timestamp64.ReadFrom(buf[16..]),
-                OriginateTimestamp = Timestamp64.ReadFrom(buf[24..]),
-                ReceiveTimestamp = Timestamp64.ReadFrom(buf[32..]),
-                TransmitTimestamp = Timestamp64.ReadFrom(buf[40..])
             };
 
-            rsp.ReferenceId = ReadReferenceId(buf[12..16], rsp);
+            si.ReferenceIdentifier = ReadReferenceIdentifier(buf[12..16], si);
 
-            return rsp;
+            return si;
+
+            // We pre-validate the data according to RFC 4330, section 5.
+
+            [Pure]
+            static LeapIndicator ReadLeapIndicator(int x) =>
+                x switch
+                {
+                    0 => LeapIndicator.NoWarning,
+                    1 => LeapIndicator.PositiveLeapSecond,
+                    2 => LeapIndicator.NegativeLeapSecond,
+                    _ => throw new NtpException()
+                };
+
+            [Pure]
+            static NtpMode ReadMode(int x) =>
+                x == 4 ? NtpMode.Server : throw new NtpException();
+
+            [Pure]
+            static NtpStratum ReadStratum(byte x) =>
+                x switch
+                {
+                    1 => NtpStratum.PrimaryReference,
+                    <= 15 => NtpStratum.SecondaryReference,
+                    _ => throw new NtpException()
+                };
 
             // https://en.wikipedia.org/wiki/Two%27s_complement
+            [Pure]
             static int ReadSByte(byte v) => v > 127 ? v - 256 : v;
-        }
 
-        // TODO(code): error checks in client-server model, see RFC 4330, section 5.
-        private void CheckReply(SntpResponse rsp, Timestamp64 requestTimestamp)
-        {
-            if (rsp.LeapIndicator == LeapIndicator.Unknown
-                || rsp.LeapIndicator == LeapIndicator.Invalid) Throw();
-            if (rsp.Version != Version) Throw();
-            if (rsp.Mode != NtpMode.Server) Throw();
-            if (rsp.Stratum == NtpStratum.Reserved
-                || rsp.Stratum == NtpStratum.Unavailable
-                || rsp.Stratum == NtpStratum.Unsynchronized
-                || rsp.Stratum == NtpStratum.Invalid) Throw();
-
-            // NTP client-server model: RootDelay and RootDispersion >= 0 and < 1s
-            if (rsp.RootDelay < Duration64.Zero || rsp.RootDelay >= Duration64.OneSecond) Throw();
-            if (rsp.RootDispersion < Duration64.Zero || rsp.RootDispersion >= Duration64.OneSecond) Throw();
-
-            if (rsp.OriginateTimestamp != requestTimestamp) Throw();
-            if (rsp.TransmitTimestamp == Timestamp64.Zero) Throw();
-        }
-
-        // TODO(code): move this to ThrowHelpers.
-        private static void Throw(string message = "Bad reply from the NTP server") =>
-            throw new NtpException(message);
-    }
-
-    public partial class SntpClient // Helpers
-    {
-        [Pure]
-        private static LeapIndicator ReadLeapIndicator(int x) =>
-            // 2-bit number.
-            x switch
+            [Pure]
+            static Duration64 ReadDuration32(ReadOnlySpan<byte> buf)
             {
-                0 => LeapIndicator.NoWarning,
-                1 => LeapIndicator.PositiveLeapSecond,
-                2 => LeapIndicator.NegativeLeapSecond,
-                3 => LeapIndicator.Unknown,
+                var duration = Duration64.ReadFourBytesFrom(buf);
 
-                _ => LeapIndicator.Invalid
-            };
+                // NTP client-server model: RootDelay and RootDispersion >= 0 and < 1s
+                if (duration < Duration64.Zero || duration >= Duration64.OneSecond)
+                    throw new NtpException();
 
-        [Pure]
-        private static NtpMode ReadMode(int x) =>
-            // 3-bit number.
-            x switch
-            {
-                0 => NtpMode.Reserved,
-                1 => NtpMode.SymmetricActive,
-                2 => NtpMode.SymmetricPassive,
-                3 => NtpMode.Client,
-                4 => NtpMode.Server,
-                5 => NtpMode.Broadcast,
-                6 => NtpMode.NtpControlMessage,
-                7 => NtpMode.ReservedForPrivateUse,
+                return duration;
+            }
 
-                _ => NtpMode.Invalid
-            };
+            [Pure]
+            static string? ReadReferenceIdentifier(ReadOnlySpan<byte> buf, SntpServerInfo si) =>
+                si.Stratum switch
+                {
+                    NtpStratum.PrimaryReference =>
+                        Encoding.ASCII.GetString(buf),
 
-        [Pure]
-        private static NtpStratum ReadStratum(byte x) =>
-            // 8-bit unsigned integer, a byte.
-            x switch
-            {
-                0 => NtpStratum.Unavailable,
-                1 => NtpStratum.PrimaryReference,
-                <= 15 => NtpStratum.SecondaryReference,
-                16 => NtpStratum.Unsynchronized,
-                _ => NtpStratum.Reserved
-            };
-
-        [Pure]
-        private static string? ReadReferenceId(ReadOnlySpan<byte> buf, SntpResponse rsp)
-        {
-            Debug.Assert(rsp != null);
-            Debug.Assert(buf.Length == 4);
-
-            // This is a 32-bit bitstring identifying the particular reference
-            // source.
-            switch (rsp.Stratum)
-            {
-                case NtpStratum.Unavailable:
-                case NtpStratum.PrimaryReference:
-                    // Four-character ASCII string, left justified and zero
-                    // padded to 32 bits.
-                    return Encoding.ASCII.GetString(buf);
-
-                case NtpStratum.SecondaryReference:
-                    return rsp.Version == 3
-                        // NTP Version 3 only supports IPv4.
+                    NtpStratum.SecondaryReference =>
+                        si.Version == 3
                         ? FormattableString.Invariant($"{buf[0]}.{buf[1]}.{buf[2]}.{buf[3]}")
-                        // It's complicated...
-                        // RFC 2030
-                        //   In NTP Version 4 secondary servers, this is the low
-                        //   order 32 bits of the latest transmit timestamp of
-                        //   the reference source.
-                        // RFC 4330
-                        //   For IPv4 secondary servers, the value is the 32-bit
-                        //   IPv4 address of the synchronization source.
-                        //   For IPv6 and OSI secondary servers, the value is
-                        //   the first 32 bits of the MD5 hash of the IPv6 or
-                        //   NSAP address of the synchronization source.
-                        // RFC 5905
-                        //   Above stratum 1 (secondary servers and clients): this is the
-                        //   reference identifier of the server and can be used to detect
-                        //   timing loops. If using the IPv4 address family, the
-                        //   identifier is the four-octet IPv4 address. If using the IPv6
-                        //   address family, it is the first four octets of the MD5 hash
-                        //   of the IPv6 address. Note that, when using the IPv6 address
-                        //   family on an NTPv4 server with a NTPv3 client, the Reference
-                        //   Identifier field appears to be a random value and a timing
-                        //   loop might not be detected.
-                        : String.Empty;
+                        : String.Empty,
 
-                case NtpStratum.Reserved:
-                    return String.Empty;
+                    _ => throw new NtpException(),
+                };
+        }
 
-                case NtpStratum.Invalid:
-                default:
-                    return null;
+        [Pure]
+        private static SntpTimeInfo ReadTimeInfo(ReadOnlySpan<byte> buf)
+        {
+            Debug.Assert(buf != null);
+            Debug.Assert(buf.Length >= DataLength);
+
+            return new SntpTimeInfo
+            {
+                OriginateTimestamp = Timestamp64.ReadFrom(buf[24..]),
+                ReceiveTimestamp = ReadTimestamp(buf[32..]),
+                TransmitTimestamp = ReadTimestamp(buf[40..])
+            };
+
+            [Pure]
+            static Timestamp64 ReadTimestamp(ReadOnlySpan<byte> buf)
+            {
+                Debug.Assert(buf.Length >= 8);
+
+                var timestamp = Timestamp64.ReadFrom(buf);
+                if (timestamp == Timestamp64.Zero) throw new NtpException();
+
+                return timestamp;
             }
         }
     }

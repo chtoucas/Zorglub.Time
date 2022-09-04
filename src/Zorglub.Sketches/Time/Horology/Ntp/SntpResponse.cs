@@ -3,7 +3,20 @@
 
 namespace Zorglub.Time.Horology.Ntp
 {
-    public sealed record SntpInfo
+    public sealed class SntpResponse
+    {
+        public SntpResponse(SntpServerInfo serverInfo, SntpTimeInfo timeInfo)
+        {
+            ServerInfo = serverInfo ?? throw new ArgumentNullException(nameof(serverInfo));
+            TimeInfo = timeInfo ?? throw new ArgumentNullException(nameof(timeInfo));
+        }
+
+        public SntpServerInfo ServerInfo { get; }
+
+        public SntpTimeInfo TimeInfo { get; }
+    }
+
+    public sealed record SntpServerInfo
     {
         public LeapIndicator LeapIndicator { get; init; }
 
@@ -33,12 +46,11 @@ namespace Zorglub.Time.Horology.Ntp
 
         public Duration64 RootDispersion { get; init; }
 
-        public string? ReferenceId { get; internal set; }
+        public string? ReferenceIdentifier { get; internal set; }
 
         public Timestamp64 ReferenceTimestamp { get; init; }
     }
 
-    // Time info in client-server mode.
     public sealed record SntpTimeInfo
     {
         /// <summary>
@@ -75,43 +87,6 @@ namespace Zorglub.Time.Horology.Ntp
         /// <summary>
         /// Gets the offset for the system clock relative to the primary synchonization source.
         /// </summary>
-        public Duration64 ClockOffset =>
-            (ReceiveTimestamp - OriginateTimestamp + (TransmitTimestamp - DestinationTimestamp) ) / 2;
-    }
-
-    public sealed record SntpResponse
-    {
-        public LeapIndicator LeapIndicator { get; init; }
-
-        public int Version { get; init; }
-
-        public NtpMode Mode { get; init; }
-
-        public NtpStratum Stratum { get; init; }
-
-        public int PollInterval { get; init; }
-
-        public int Precision { get; init; }
-
-        public Duration64 RootDelay { get; init; }
-
-        public Duration64 RootDispersion { get; init; }
-
-        public string? ReferenceId { get; internal set; }
-
-        public Timestamp64 ReferenceTimestamp { get; init; }
-
-        public Timestamp64 OriginateTimestamp { get; init; }
-
-        public Timestamp64 ReceiveTimestamp { get; init; }
-
-        public Timestamp64 TransmitTimestamp { get; init; }
-
-        public Timestamp64 DestinationTimestamp { get; internal set; }
-
-        public Duration64 RoundTripDelay =>
-            DestinationTimestamp - OriginateTimestamp - (TransmitTimestamp - ReceiveTimestamp);
-
         public Duration64 ClockOffset =>
             (ReceiveTimestamp - OriginateTimestamp + (TransmitTimestamp - DestinationTimestamp)) / 2;
     }

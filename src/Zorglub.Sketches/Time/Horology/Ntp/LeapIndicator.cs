@@ -22,6 +22,6 @@ namespace Zorglub.Time.Horology.Ntp
         NegativeLeapSecond,
 
         /// <summary>Alarm condition (clock not synchronized).</summary>
-        Unknown
+        Alarm
     }
 }
