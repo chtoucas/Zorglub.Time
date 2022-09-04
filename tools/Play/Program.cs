@@ -8,13 +8,15 @@ using System;
 using Play.Demo;
 
 using Zorglub.Time.Horology;
+using Zorglub.Time.Horology.Ntp;
 
+using static System.Console;
 using static Zorglub.Time.Core.TemporalConstants;
 
 //Showcase.Run();
 
-Console.WriteLine($"Now = {SystemClocks.Local.Now()}");
-Console.WriteLine($"UTC now = {SystemClocks.Utc.Now()}");
+WriteLine($"Now = {SystemClocks.Local.Now()}");
+WriteLine($"UTC now = {SystemClocks.Utc.Now()}");
 
 const int DaysTo1601 = 584388;
 const long FileTimeOffset = DaysTo1601 * TicksPerDay;
@@ -24,13 +26,13 @@ var utcNow = DateTime.UtcNow;
 // Ticks = number of ticks since 01/01/0001 (Gregorian) at 00:00.
 // ToFileTime() = number of ticks since 01/01/1601 (Gregorian) at 00:00 (UTC).
 
-Console.WriteLine($"Local");
-Console.WriteLine($"  Ticks           = {now.Ticks}");
-Console.WriteLine($"  ToFileTime()    = {now.ToFileTime() + FileTimeOffset}");
-Console.WriteLine($"  ToFileTimeUtc() = {now.ToFileTimeUtc() + FileTimeOffset}");
-Console.WriteLine($"UTC");
-Console.WriteLine($"  Ticks           = {utcNow.Ticks}");
-Console.WriteLine($"  ToFileTime()    = {utcNow.ToFileTime() + FileTimeOffset}");
-Console.WriteLine($"  ToFileTimeUtc() = {utcNow.ToFileTimeUtc() + FileTimeOffset}");
+WriteLine($"Local");
+WriteLine($"  Ticks           = {now.Ticks}");
+WriteLine($"  ToFileTime()    = {now.ToFileTime() + FileTimeOffset}");
+WriteLine($"  ToFileTimeUtc() = {now.ToFileTimeUtc() + FileTimeOffset}");
+WriteLine($"UTC");
+WriteLine($"  Ticks           = {utcNow.Ticks}");
+WriteLine($"  ToFileTime()    = {utcNow.ToFileTime() + FileTimeOffset}");
+WriteLine($"  ToFileTimeUtc() = {utcNow.ToFileTimeUtc() + FileTimeOffset}");
 
-NtpSimple.Query();
+//NtpSimple.Query();

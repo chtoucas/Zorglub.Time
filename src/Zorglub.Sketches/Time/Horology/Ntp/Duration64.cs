@@ -8,7 +8,7 @@ namespace Zorglub.Time.Horology.Ntp
 
     using Zorglub.Time.Core;
 
-    using static Zorglub.Time.Core.TemporalConstants;
+    // REVIEW(code): fix boundaries (63-bit signed integer).
 
     // Adapted from
     // https://android.googlesource.com/platform/frameworks/base/+/master/core/java/android/net/sntp/Duration64.java
@@ -28,13 +28,14 @@ namespace Zorglub.Time.Horology.Ntp
     {
         private readonly long _fractionalSeconds;
 
-        internal Duration64(long fractionalSeconds)
+        public Duration64(long fractionalSeconds)
         {
-            // TODO(code): fix boundaries (63-bit signed integer).
             _fractionalSeconds = fractionalSeconds;
         }
 
         public static Duration64 Zero { get; }
+
+        public static Duration64 Epsilon { get; } = new(1);
 
         /// <summary>
         /// Gets the smallest possible value of a <see cref="Duration64"/>.
@@ -49,27 +50,46 @@ namespace Zorglub.Time.Horology.Ntp
         public static Duration64 MaxValue { get; } = new(Int64.MaxValue);
 
         /// <summary>
-        /// Gets the total number of fractional seconds.
+        /// Gets the number of fractional seconds.
         /// </summary>
-        public long TotalFractionalSeconds => _fractionalSeconds;
+        public long FractionalSeconds => _fractionalSeconds;
+
+        /// <summary>
+        /// Gets the number of whole nanoseconds in this duration.
+        /// </summary>
+        [Pure]
+        public long Nanoseconds => Ntp.FractionalSeconds.ToNanoseconds(_fractionalSeconds);
+
+        /// <summary>
+        /// Gets the number of whole milliseconds in this duration.
+        /// </summary>
+        [Pure]
+        public long Milliseconds => Ntp.FractionalSeconds.ToMilliseconds(_fractionalSeconds);
+
+        /// <summary>
+        /// Gets the number of whole seconds in this duration.
+        /// <para>The result is in the range of <see cref="Int32"/>.</para>
+        /// </summary>
+        [Pure]
+        public long Seconds => Ntp.FractionalSeconds.ToSeconds(_fractionalSeconds);
 
         /// <summary>
         /// Gets the total number of nanoseconds in this duration.
         /// </summary>
         [Pure]
-        public long TotalNanoseconds => FractionalSeconds.ToNanoseconds(_fractionalSeconds);
+        public double TotalNanoseconds => Ntp.FractionalSeconds.ToTotalNanoseconds(_fractionalSeconds);
 
         /// <summary>
         /// Gets the total number of milliseconds in this duration.
         /// </summary>
         [Pure]
-        public long TotalMilliseconds => FractionalSeconds.ToMilliseconds(_fractionalSeconds);
+        public double TotalMilliseconds => Ntp.FractionalSeconds.ToTotalMilliseconds(_fractionalSeconds);
 
         /// <summary>
         /// Gets the total number of seconds in this duration.
         /// </summary>
         [Pure]
-        public int TotalSeconds => (int)FractionalSeconds.ToSeconds(_fractionalSeconds);
+        public double TotalSeconds => Ntp.FractionalSeconds.ToTotalSeconds(_fractionalSeconds);
 
         /// <summary>
         /// Returns a culture-independent string representation of the current instance.
@@ -84,7 +104,7 @@ namespace Zorglub.Time.Horology.Ntp
         /// Reads a <see cref="Duration64"/> from the beginning of a read-only span of bytes.
         /// </summary>
         [Pure]
-        internal static Duration64 ReadFrom(ReadOnlySpan<byte> buf)
+        internal static Duration64 ReadFourBytesFrom(ReadOnlySpan<byte> buf)
         {
             Debug.Assert(buf.Length >= 4);
 
@@ -176,9 +196,5 @@ namespace Zorglub.Time.Horology.Ntp
         [Pure]
         public Duration64 Subtract(Duration64 other) =>
             new(checked(_fractionalSeconds - other._fractionalSeconds));
-
-        [Pure]
-        public Duration64 DivideBy(int value) =>
-            new(checked(_fractionalSeconds / value));
     }
 }

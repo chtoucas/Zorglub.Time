@@ -108,11 +108,6 @@ namespace Zorglub.Time.Horology.Ntp
         /// <summary>
         /// Gets the fraction of the second.
         /// </summary>
-        // Unit of 1 fraction of second = 1 / 2^32 second
-        // Relation to a subunit-of-second:
-        // > subunit-of-second = (SubunitsPerSecond * fraction-of-second) / 2^32
-        // > fraction-of-second = (2^32 * subunit-of-second) / SubunitsPerSecond
-        // Precision is about 232 picoseconds.
         public long FractionOfSecond => _fractionOfSecond;
 
         /// <summary>
@@ -129,7 +124,7 @@ namespace Zorglub.Time.Horology.Ntp
             FormattableString.Invariant($"{_secondOfEra}.{_fractionOfSecond}");
 
         /// <summary>
-        /// Counts the number of elapsed milliseconds since <see cref="Zero"/>.
+        /// Counts the number of elapsed (whole) milliseconds since <see cref="Zero"/>.
         /// </summary>
         [Pure]
         public long CountMillisecondsSinceZero() => (long)(
@@ -137,7 +132,7 @@ namespace Zorglub.Time.Horology.Ntp
             + FractionalSeconds.ToMillisecondOfSecond(_fractionOfSecond));
 
         /// <summary>
-        /// Counts the number of elapsed nanoseconds since <see cref="Zero"/>.
+        /// Counts the number of elapsed (whole) nanoseconds since <see cref="Zero"/>.
         /// </summary>
         [Pure]
         public long CountNanosecondsSinceZero() => (long)(
@@ -162,7 +157,7 @@ namespace Zorglub.Time.Horology.Ntp
         }
 
         /// <summary>
-        /// Reads a <see cref="Timestamp64"/> from the a read-only span of bytes.
+        /// Reads a <see cref="Timestamp64"/> from the specified read-only span of bytes.
         /// </summary>
         [Pure]
         internal static Timestamp64 ReadFrom(ReadOnlySpan<byte> buf, int index)

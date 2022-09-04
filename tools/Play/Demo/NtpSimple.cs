@@ -12,12 +12,11 @@ using Zorglub.Time.Horology.Ntp;
 
 using static System.Console;
 
-// Other option: "time.windows.com".
-
 public static class NtpSimple
 {
     public static void Query()
     {
+        // Other option: "time.windows.com".
         var cli = new SntpClient("fr.pool.ntp.org") { Version = 3 };
         var rsp = cli.Query();
 
@@ -32,10 +31,10 @@ public static class NtpSimple
         WriteLine("  Server receive:     {0:HH:mm:ss.fff}", rsp.ReceiveTimestamp.ToDateTime());
         WriteLine("  Server transmit:    {0:HH:mm:ss.fff}", rsp.TransmitTimestamp.ToDateTime());
         WriteLine("  Client receive:     {0:HH:mm:ss.fff}", rsp.DestinationTimestamp.ToDateTime());
-        WriteLine($"  Clock offset:       {rsp.ClockOffset} {rsp.ClockOffset.TotalMilliseconds}ms");
-        WriteLine($"  Round-trip delay:   {rsp.RoundTripDelay} ({rsp.RoundTripDelay.TotalMilliseconds}ms)");
-        WriteLine($"  Root delay:         {rsp.RootDelay} ({rsp.RootDelay.TotalNanoseconds}ns)");
-        WriteLine($"  Root dispersion:    {rsp.RootDispersion} ({rsp.RootDispersion.TotalNanoseconds}ns)");
+        WriteLine($"  Clock offset:       {rsp.ClockOffset} ({rsp.ClockOffset.TotalSeconds:F3}s)");
+        WriteLine($"  Round-trip delay:   {rsp.RoundTripDelay} ({rsp.RoundTripDelay.Milliseconds}ms)");
+        WriteLine($"  Root delay:         {rsp.RootDelay} ({rsp.RootDelay.Nanoseconds}ns)");
+        WriteLine($"  Root dispersion:    {rsp.RootDispersion} ({rsp.RootDispersion.Nanoseconds}ns)");
         WriteLine($"  Poll interval:      2^{rsp.PollInterval}");
         WriteLine($"  Precision:          2^{rsp.Precision}");
 
@@ -52,7 +51,6 @@ public static class NtpSimple
                 {
                     var host = Dns.GetHostEntry(reference);
                     return FormattableString.Invariant($"{host.HostName} ({reference})");
-
                 }
                 catch (SocketException)
                 {

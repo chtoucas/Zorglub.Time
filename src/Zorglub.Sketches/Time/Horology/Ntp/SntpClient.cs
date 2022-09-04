@@ -186,27 +186,14 @@ namespace Zorglub.Time.Horology.Ntp
 
             var rsp = new SntpResponse
             {
-                // First byte.
                 LeapIndicator = ReadLeapIndicator((buf[0] >> 6) & 3),
                 Version = (buf[0] >> 3) & 7,
                 Mode = ReadMode(buf[0] & 7),
                 Stratum = ReadStratum(buf[1]),
-                // Signed 8-bit integer = log_2(poll)
-                // Range = [4..17], 16 (2^4) seconds <= poll <= 131_072 (2^17) seconds.
                 PollInterval = ReadSByte(buf[2]),
-                // Signed 8-bit integer = log_2(precision)
-                // Clock resolution =
-                //   2^-p where p is the number of significant bits in the
-                //   fraction part, e.g. Timestamp64.RandomizeSubMilliseconds()
-                //   randomize the 22 lower bits, therefore the resolution is
-                //   equal to 10 (~ millisecond).
-                // Clock precision =
-                //   Running time to read the system clock, in seconds.
-                // Precision = Max(clock resolution, clock precision).
-                // Range = [-20..-6], 2^-20 seconds <= precision <= 2^-6 seconds.
                 Precision = ReadSByte(buf[3]),
-                RootDelay = Duration64.ReadFrom(buf[4..]),
-                RootDispersion = Duration64.ReadFrom(buf[8..]),
+                RootDelay = Duration64.ReadFourBytesFrom(buf[4..]),
+                RootDispersion = Duration64.ReadFourBytesFrom(buf[8..]),
                 // Bytes 12 to 15; see Reference below.
                 ReferenceTimestamp = Timestamp64.ReadFrom(buf[16..]),
                 OriginateTimestamp = Timestamp64.ReadFrom(buf[24..]),
@@ -218,7 +205,6 @@ namespace Zorglub.Time.Horology.Ntp
 
             return rsp;
 
-            // REVIEW(code): PollInterval and Precision.
             // https://en.wikipedia.org/wiki/Two%27s_complement
             static int ReadSByte(byte v) => v > 127 ? v - 256 : v;
         }

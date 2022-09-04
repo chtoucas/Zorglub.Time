@@ -3,6 +3,17 @@
 
 namespace Zorglub.Time.Horology.Ntp
 {
+    // Unit of 1 fraction of second = 1 / 2^32 second
+    // Relation to a subunit-of-second:
+    // > subunit-of-second = (SubunitsPerSecond * fraction-of-second) / 2^32
+    // > fraction-of-second = (2^32 * subunit-of-second) / SubunitsPerSecond
+    // Precision is about 232 picoseconds.
+    //
+    // WARNING
+    // To divide an integer by 2^32, do NOT use the integer division from C#.
+    // It truncates toward minus infinity, which is not what we want for
+    // negative numbers.
+
     using static Zorglub.Time.Core.TemporalConstants;
 
     internal static partial class FractionalSeconds { }
@@ -25,6 +36,7 @@ namespace Zorglub.Time.Horology.Ntp
 
         /// <summary>
         /// Converts a fraction of the second to a millisecond of the second.
+        /// <para>The result is in the range from 0 (included) to 1000 (excluded).</para>
         /// </summary>
         [Pure]
         // CIL code size = XXX bytes <= 32 bytes.
@@ -44,6 +56,7 @@ namespace Zorglub.Time.Horology.Ntp
     {
         /// <summary>
         /// Converts a fraction of the second to a nanosecond of the second.
+        /// <para>The result is in the range from 0 (included) to 1_000_000_000 (excluded).</para>
         /// </summary>
         [Pure]
         // CIL code size = XXX bytes <= 32 bytes.
@@ -69,22 +82,17 @@ namespace Zorglub.Time.Horology.Ntp
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong FromSeconds(uint secondOfEra) => (ulong)secondOfEra << 32;
 
-        // REVIEW(api): return doubles?
-        // > fractionalSeconds / (double)0x1_0000_0000
-        // > (MillisecondsPerSecond * fractionalSeconds) / (double)0x1_0000_0000
-        // > (NanosecondsPerSecond * fractionalSeconds) / (double)0x1_0000_0000
-
         /// <summary>
-        /// Converts a number of fractional seconds to a number of seconds.
+        /// Converts a number of fractional seconds to a number of whole seconds.
+        /// <para>The result is in the range of <see cref="Int32"/>.</para>
         /// </summary>
         [Pure]
         // CIL code size = XXX bytes <= 32 bytes.
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static long ToSeconds(long fractionalSeconds) =>
-            fractionalSeconds >> 32;
+        public static long ToSeconds(long fractionalSeconds) => fractionalSeconds >> 32;
 
         /// <summary>
-        /// Converts a number of fractional seconds to a number of milliseconds.
+        /// Converts a number of fractional seconds to a number of whole milliseconds.
         /// </summary>
         [Pure]
         // CIL code size = XXX bytes <= 32 bytes.
@@ -93,12 +101,39 @@ namespace Zorglub.Time.Horology.Ntp
             (MillisecondsPerSecond * fractionalSeconds) >> 32;
 
         /// <summary>
-        /// Converts a number of fractional seconds to a number of nanoseconds.
+        /// Converts a number of fractional seconds to a number of whole nanoseconds.
         /// </summary>
         [Pure]
         // CIL code size = XXX bytes <= 32 bytes.
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static long ToNanoseconds(long fractionalSeconds) =>
             (NanosecondsPerSecond * fractionalSeconds) >> 32;
+
+        /// <summary>
+        /// Converts a number of fractional seconds to a number of seconds.
+        /// </summary>
+        [Pure]
+        // CIL code size = XXX bytes <= 32 bytes.
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double ToTotalSeconds(long fractionalSeconds) =>
+            fractionalSeconds / (double)0x1_0000_0000L;
+
+        /// <summary>
+        /// Converts a number of fractional seconds to a number of milliseconds.
+        /// </summary>
+        [Pure]
+        // CIL code size = XXX bytes <= 32 bytes.
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double ToTotalMilliseconds(long fractionalSeconds) =>
+            (MillisecondsPerSecond * fractionalSeconds) / (double)0x1_0000_0000L;
+
+        /// <summary>
+        /// Converts a number of fractional seconds to a number of nanoseconds.
+        /// </summary>
+        [Pure]
+        // CIL code size = XXX bytes <= 32 bytes.
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static double ToTotalNanoseconds(long fractionalSeconds) =>
+            (NanosecondsPerSecond * fractionalSeconds) / (double)0x1_0000_0000L;
     }
 }
