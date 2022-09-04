@@ -4,7 +4,6 @@
 namespace Play.Demo;
 
 using System;
-using System.Diagnostics.CodeAnalysis;
 using System.Net;
 using System.Net.Sockets;
 
@@ -40,8 +39,8 @@ public static class NtpSimple
 
         static string GetReference(SntpResponse rsp)
         {
-            var reference = rsp.Reference;
-            if (reference is null)
+            var refid = rsp.ReferenceId;
+            if (refid is null)
             {
                 return "NULL";
             }
@@ -49,17 +48,17 @@ public static class NtpSimple
             {
                 try
                 {
-                    var host = Dns.GetHostEntry(reference);
-                    return FormattableString.Invariant($"{host.HostName} ({reference})");
+                    var host = Dns.GetHostEntry(refid);
+                    return FormattableString.Invariant($"{host.HostName} ({refid})");
                 }
                 catch (SocketException)
                 {
-                    return reference;
+                    return refid;
                 }
             }
             else
             {
-                return reference.Length == 0 ? "(not processed)" : reference;
+                return refid.Length == 0 ? "(not processed)" : refid;
             }
         }
     }

@@ -3,6 +3,8 @@
 
 namespace Zorglub.Time.Horology.Ntp
 {
+    using static Zorglub.Time.Core.TemporalConstants;
+
     // Unit of 1 fraction of second = 1 / 2^32 second
     // Relation to a subunit-of-second:
     // > subunit-of-second = (SubunitsPerSecond * fraction-of-second) / 2^32
@@ -13,8 +15,6 @@ namespace Zorglub.Time.Horology.Ntp
     // To divide an integer by 2^32, do NOT use the integer division from C#.
     // It truncates toward minus infinity, which is not what we want for
     // negative numbers.
-
-    using static Zorglub.Time.Core.TemporalConstants;
 
     internal static partial class FractionalSeconds { }
 

@@ -35,7 +35,17 @@ namespace Zorglub.Time.Horology.Ntp
 
         public static Duration64 Zero { get; }
 
+        /// <summary>
+        /// Gets a duration representing exactly one fractional second.
+        /// <para>This static property is thread-safe.</para>
+        /// </summary>
         public static Duration64 Epsilon { get; } = new(1);
+
+        /// <summary>
+        /// Gets a duration representing exactly one second.
+        /// <para>This static property is thread-safe.</para>
+        /// </summary>
+        public static Duration64 OneSecond { get; } = new(1L << 32);
 
         /// <summary>
         /// Gets the smallest possible value of a <see cref="Duration64"/>.

@@ -33,7 +33,7 @@ namespace Zorglub.Time.Horology.Ntp
 
         public Duration64 RootDispersion { get; init; }
 
-        public string? Reference { get; internal set; }
+        public string? ReferenceId { get; internal set; }
 
         public Timestamp64 ReferenceTimestamp { get; init; }
     }
@@ -66,14 +66,14 @@ namespace Zorglub.Time.Horology.Ntp
         // TransmitTimestamp (T3):      Time reply sent by server
         // DestinationTimestamp (T4):   Time reply received by client
         //
-        // > RoundtripDelay = (T4 - T1) - (T3 - T2)
+        // > RoundTripDelay = (T4 - T1) - (T3 - T2)
         // > ClockOffset = ((T2 - T1) + (T3 - T4)) / 2
 
         public Duration64 RoundTripDelay =>
             DestinationTimestamp - OriginateTimestamp - (TransmitTimestamp - ReceiveTimestamp);
 
         /// <summary>
-        /// Gets the offset for the client clock relative to the primary reference source.
+        /// Gets the offset for the system clock relative to the primary synchonization source.
         /// </summary>
         public Duration64 ClockOffset =>
             (ReceiveTimestamp - OriginateTimestamp + (TransmitTimestamp - DestinationTimestamp) ) / 2;
@@ -97,7 +97,7 @@ namespace Zorglub.Time.Horology.Ntp
 
         public Duration64 RootDispersion { get; init; }
 
-        public string? Reference { get; internal set; }
+        public string? ReferenceId { get; internal set; }
 
         public Timestamp64 ReferenceTimestamp { get; init; }
 

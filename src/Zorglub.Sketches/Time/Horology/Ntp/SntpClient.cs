@@ -11,6 +11,11 @@ namespace Zorglub.Time.Horology.Ntp
 
     using static Zorglub.Time.Core.TemporalConstants;
 
+    // Adapted from
+    // https://android.googlesource.com/platform/frameworks/base/+/master/core/java/android/net/SntpClient.java
+    // See also
+    // https://android.googlesource.com/platform/frameworks/base/+/master/core/java/android/util/NtpTrustedTime.java
+
     public sealed partial class SntpClient
     {
         private const int DataLength = 48;
@@ -103,7 +108,7 @@ namespace Zorglub.Time.Horology.Ntp
 
             sock.Connect(Endpoint);
 
-            // Start time on this side of the wire.
+            // Start time on this side of the network.
             var requestTime = DateTime.UtcNow;
             long requestTicks = stopwatch.ElapsedTicks;
 
@@ -126,9 +131,9 @@ namespace Zorglub.Time.Horology.Ntp
             var rsp = ReadReply(buf);
             CheckReply(rsp, requestTimestamp);
 
-            // Elapsed ticks during the query on this side of the wire.
+            // Elapsed ticks during the query on this side of the network.
             var elapsedTicks = responseTicks - requestTicks;
-            // End time on this side of the wire.
+            // End time on this side of the network.
             var responseTime = requestTime.AddMilliseconds(elapsedTicks / TicksPerMillisecond);
             rsp.DestinationTimestamp = Timestamp64.FromDateTime(responseTime);
 
@@ -201,7 +206,7 @@ namespace Zorglub.Time.Horology.Ntp
                 TransmitTimestamp = Timestamp64.ReadFrom(buf[40..])
             };
 
-            rsp.Reference = ReadReference(buf[12..16], rsp);
+            rsp.ReferenceId = ReadReferenceId(buf[12..16], rsp);
 
             return rsp;
 
@@ -209,23 +214,29 @@ namespace Zorglub.Time.Horology.Ntp
             static int ReadSByte(byte v) => v > 127 ? v - 256 : v;
         }
 
-        // TODO(code): move this to ThrowHelpers.
-        private static void Throw(string message = "Bad reply from the NTP server") =>
-            throw new NtpException(message);
-
-        // TODO(code): Error checks in client-server model, see RFC 4330, section 5.
+        // TODO(code): error checks in client-server model, see RFC 4330, section 5.
         private void CheckReply(SntpResponse rsp, Timestamp64 requestTimestamp)
         {
-            if (rsp.LeapIndicator == LeapIndicator.Invalid) Throw();
+            if (rsp.LeapIndicator == LeapIndicator.Unknown
+                || rsp.LeapIndicator == LeapIndicator.Invalid) Throw();
             if (rsp.Version != Version) Throw();
             if (rsp.Mode != NtpMode.Server) Throw();
             if (rsp.Stratum == NtpStratum.Reserved
+                || rsp.Stratum == NtpStratum.Unavailable
                 || rsp.Stratum == NtpStratum.Unsynchronized
                 || rsp.Stratum == NtpStratum.Invalid) Throw();
+
+            // NTP client-server model: RootDelay and RootDispersion >= 0 and < 1s
+            if (rsp.RootDelay < Duration64.Zero || rsp.RootDelay >= Duration64.OneSecond) Throw();
+            if (rsp.RootDispersion < Duration64.Zero || rsp.RootDispersion >= Duration64.OneSecond) Throw();
 
             if (rsp.OriginateTimestamp != requestTimestamp) Throw();
             if (rsp.TransmitTimestamp == Timestamp64.Zero) Throw();
         }
+
+        // TODO(code): move this to ThrowHelpers.
+        private static void Throw(string message = "Bad reply from the NTP server") =>
+            throw new NtpException(message);
     }
 
     public partial class SntpClient // Helpers
@@ -273,7 +284,7 @@ namespace Zorglub.Time.Horology.Ntp
             };
 
         [Pure]
-        private static string? ReadReference(ReadOnlySpan<byte> buf, SntpResponse rsp)
+        private static string? ReadReferenceId(ReadOnlySpan<byte> buf, SntpResponse rsp)
         {
             Debug.Assert(rsp != null);
             Debug.Assert(buf.Length == 4);
