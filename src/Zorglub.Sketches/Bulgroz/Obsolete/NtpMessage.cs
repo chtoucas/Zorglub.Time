@@ -7,7 +7,7 @@ namespace Zorglub.Bulgroz.Obsolete
 
     using Zorglub.Time.Horology.Ntp;
 
-    public sealed record class SntpMessage
+    public sealed partial record class NtpMessage
     {
         private const int DataLength = 48;
 
@@ -34,18 +34,18 @@ namespace Zorglub.Bulgroz.Obsolete
             (ReceiveTimestamp - OriginateTimestamp + (TransmitTimestamp - DestinationTimestamp)) / 2;
 
         [Pure]
-        internal static SntpMessage ReadFrom(ReadOnlySpan<byte> buf)
+        internal static NtpMessage ReadFrom(ReadOnlySpan<byte> buf)
         {
             Debug.Assert(buf != null);
             Debug.Assert(buf.Length >= DataLength);
 
-            var rsp = new SntpMessage
+            var rsp = new NtpMessage
             {
                 LeapIndicator = ReadLeapIndicator((buf[0] >> 6) & 3),
                 Version = (buf[0] >> 3) & 7,
                 Mode = ReadMode(buf[0] & 7),
                 Stratum = ReadStratum(buf[1]),
-                PollInterval = ReadSByte(buf[2]),
+                PollInterval = 1 << ReadSByte(buf[2]),
                 Precision = ReadSByte(buf[3]),
                 RootDelay = Duration64.ReadFourBytesFrom(buf[4..]),
                 RootDispersion = Duration64.ReadFourBytesFrom(buf[8..]),
@@ -64,7 +64,8 @@ namespace Zorglub.Bulgroz.Obsolete
             static int ReadSByte(byte v) => v > 127 ? v - 256 : v;
         }
 
-        public bool Check(int version, Timestamp64 requestTimestamp)
+        // Check response in client-server mode.
+        public bool CheckAsSntpResponse(int version, Timestamp64 requestTimestamp)
         {
             // Legit binary values: 0, 1, 2.
             if (LeapIndicator != LeapIndicator.NoWarning
@@ -137,7 +138,7 @@ namespace Zorglub.Bulgroz.Obsolete
             };
 
         [Pure]
-        private static string? ReadReferenceIdentifier(ReadOnlySpan<byte> buf, SntpMessage msg)
+        private static string? ReadReferenceIdentifier(ReadOnlySpan<byte> buf, NtpMessage msg)
         {
             Debug.Assert(msg != null);
             Debug.Assert(buf.Length == 4);
@@ -187,5 +188,52 @@ namespace Zorglub.Bulgroz.Obsolete
                     return null;
             }
         }
+    }
+
+    public partial record class NtpMessage // Old stuff
+    {
+        [Pure]
+        internal static uint ReadUInt32(ReadOnlySpan<byte> buf)
+        {
+            Debug.Assert(buf.Length >= 4);
+
+            return
+                (uint)buf[0] << 24
+                | (uint)buf[1] << 16
+                | (uint)buf[2] << 8
+                | buf[3];
+        }
+
+        [Pure]
+        internal static ulong ReadUInt64(ReadOnlySpan<byte> buf)
+        {
+            Debug.Assert(buf.Length >= 8);
+
+            return
+                (ulong)buf[0] << 56
+                | (ulong)buf[1] << 48
+                | (ulong)buf[2] << 40
+                | (ulong)buf[3] << 32
+                | (ulong)buf[4] << 24
+                | (ulong)buf[5] << 16
+                | (ulong)buf[6] << 8
+                | buf[7];
+        }
+
+#if false
+        // https://stackoverflow.com/questions/1193955/how-to-query-an-ntp-server-using-c
+
+        ulong GetPart(int startIndex) =>
+            SwapEndianness(BitConverter.ToUInt32(buf, startIndex));
+
+        // stackoverflow.com/a/3294698/162671
+        static uint SwapEndianness(ulong n)
+        {
+            return (uint)(((n & 0x000000ff) << 24) +
+                            ((n & 0x0000ff00) << 8) +
+                            ((n & 0x00ff0000) >> 8) +
+                            ((n & 0xff000000) >> 24));
+        }
+#endif
     }
 }

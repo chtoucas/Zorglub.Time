@@ -30,7 +30,7 @@ public static class NtpSimple
         WriteLine("  Reference time:     {0:HH:mm:ss.fff}", si.ReferenceTimestamp.ToDateTime());
         WriteLine($"  Root delay:         {si.RootDelay} ({si.RootDelay.Nanoseconds}ns)");
         WriteLine($"  Root dispersion:    {si.RootDispersion} ({si.RootDispersion.Nanoseconds}ns)");
-        WriteLine($"  Poll interval:      2^{si.PollInterval}");
+        WriteLine($"  Poll interval:      {si.PollInterval}s");
         WriteLine($"  Precision:          2^{si.Precision}");
 
         WriteLine($"NTP response (time info)");

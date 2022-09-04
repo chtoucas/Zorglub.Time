@@ -6,14 +6,11 @@ namespace Zorglub.Time.Horology.Ntp
     using System.Net;
     using System.Net.Sockets;
     using System.Text;
-    using System.Threading;
     using System.Threading.Tasks;
 
     using static Zorglub.Time.Core.TemporalConstants;
 
-    // TODO(code): ThrowHelpers instead of throw new NtpException().
-    // Use UpdClient?
-    // Use CancellationToken? ConfigureAwait(...)
+    // REVIEW(code): UpdClient? CancellationToken? ConfigureAwait(...)
 
     // Adapted from
     // https://android.googlesource.com/platform/frameworks/base/+/master/core/java/android/net/SntpClient.java
@@ -26,27 +23,47 @@ namespace Zorglub.Time.Horology.Ntp
 
         private const int TransmitTimestampOffset = 40;
 
+        /// <summary>
+        /// Represents the default SNTP version.
+        /// <para>This field is a constant equal to 3.</para>
+        /// </summary>
         public const int DefaultVersion = 3;
 
+        /// <summary>
+        /// Represents the default SNTP host.
+        /// <para>This field is a constant equal to "pool.ntp.org".</para>
+        /// </summary>
         public const string DefaultHost = "pool.ntp.org";
 
+        /// <summary>
+        /// Represents the default SNTP port.
+        /// <para>This field is a constant equal to 13.</para>
+        /// </summary>
         public const int DefaultPort = 123;
 
         public const int DefaultReceiveTimeout = 1000;
 
         private readonly IRandomProvider _randomProvider = new DefaultRandomProvider();
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SntpClient"/> class.
+        /// </summary>
         public SntpClient()
         {
             Endpoint = new DnsEndPoint(DefaultHost, DefaultPort);
         }
 
-        // Host name or IP address of the NTP server.
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SntpClient"/> class.
+        /// </summary>
         public SntpClient(string host)
         {
             Endpoint = new DnsEndPoint(host, DefaultPort);
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SntpClient"/> class.
+        /// </summary>
         public SntpClient(EndPoint endpoint)
         {
             Endpoint = endpoint ?? throw new ArgumentNullException(nameof(endpoint));
@@ -126,7 +143,7 @@ namespace Zorglub.Time.Horology.Ntp
             long responseTicks = stopwatch.ElapsedTicks;
 
             // Ensure that the response is complete.
-            if (len < DataLength) throw new NtpException();
+            if (len < DataLength) NtpException.Throw();
 
             // Elapsed ticks during the query on this side of the network.
             var elapsedTicks = responseTicks - requestTicks;
@@ -166,7 +183,7 @@ namespace Zorglub.Time.Horology.Ntp
 
             long responseTicks = stopwatch.ElapsedTicks;
 
-            if (len < DataLength) throw new NtpException();
+            if (len < DataLength) NtpException.Throw();
 
             var elapsedTicks = responseTicks - requestTicks;
             var responseTime = requestTime.AddMilliseconds(elapsedTicks / TicksPerMillisecond);
@@ -188,11 +205,11 @@ namespace Zorglub.Time.Horology.Ntp
             // server is supposed to copy from the request we sent.
 
             var si = ReadServerInfo(buf);
-            if (si.Version != Version) throw new NtpException();
+            if (si.Version != Version) NtpException.Throw();
 
             var ti = ReadTimeInfo(buf);
             ti.DestinationTimestamp = reponseTimestamp;
-            if (ti.OriginateTimestamp != requestTimestamp) throw new NtpException();
+            if (ti.OriginateTimestamp != requestTimestamp) NtpException.Throw();
 
             return new SntpResponse(si, ti);
         }
@@ -203,13 +220,15 @@ namespace Zorglub.Time.Horology.Ntp
             Debug.Assert(buf != null);
             Debug.Assert(buf.Length >= DataLength);
 
+            int mode = buf[0] & 7;
+            if (mode != 4) NtpException.Throw();
+
             var si = new SntpServerInfo
             {
                 LeapIndicator = ReadLeapIndicator((buf[0] >> 6) & 3),
                 Version = (buf[0] >> 3) & 7,
-                Mode = ReadMode(buf[0] & 7),
                 Stratum = ReadStratum(buf[1]),
-                PollInterval = ReadSByte(buf[2]),
+                PollInterval = 1 << ReadSByte(buf[2]),
                 Precision = ReadSByte(buf[3]),
                 RootDelay = ReadDuration32(buf[4..]),
                 RootDispersion = ReadDuration32(buf[8..]),
@@ -230,12 +249,8 @@ namespace Zorglub.Time.Horology.Ntp
                     0 => LeapIndicator.NoWarning,
                     1 => LeapIndicator.PositiveLeapSecond,
                     2 => LeapIndicator.NegativeLeapSecond,
-                    _ => throw new NtpException()
+                    _ => NtpException.Throw<LeapIndicator>()
                 };
-
-            [Pure]
-            static NtpMode ReadMode(int x) =>
-                x == 4 ? NtpMode.Server : throw new NtpException();
 
             [Pure]
             static NtpStratum ReadStratum(byte x) =>
@@ -243,7 +258,7 @@ namespace Zorglub.Time.Horology.Ntp
                 {
                     1 => NtpStratum.PrimaryReference,
                     <= 15 => NtpStratum.SecondaryReference,
-                    _ => throw new NtpException()
+                    _ => NtpException.Throw<NtpStratum>()
                 };
 
             // https://en.wikipedia.org/wiki/Two%27s_complement
@@ -257,7 +272,7 @@ namespace Zorglub.Time.Horology.Ntp
 
                 // NTP client-server model: RootDelay and RootDispersion >= 0 and < 1s
                 if (duration < Duration64.Zero || duration >= Duration64.OneSecond)
-                    throw new NtpException();
+                    NtpException.Throw();
 
                 return duration;
             }
@@ -274,7 +289,7 @@ namespace Zorglub.Time.Horology.Ntp
                         ? FormattableString.Invariant($"{buf[0]}.{buf[1]}.{buf[2]}.{buf[3]}")
                         : String.Empty,
 
-                    _ => throw new NtpException(),
+                    _ => NtpException.Throw<string>()
                 };
         }
 
@@ -297,7 +312,7 @@ namespace Zorglub.Time.Horology.Ntp
                 Debug.Assert(buf.Length >= 8);
 
                 var timestamp = Timestamp64.ReadFrom(buf);
-                if (timestamp == Timestamp64.Zero) throw new NtpException();
+                if (timestamp == Timestamp64.Zero) NtpException.Throw();
 
                 return timestamp;
             }

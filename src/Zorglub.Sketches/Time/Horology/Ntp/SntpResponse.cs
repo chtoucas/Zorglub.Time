@@ -18,18 +18,32 @@ namespace Zorglub.Time.Horology.Ntp
 
     public sealed record SntpServerInfo
     {
+        /// <summary>
+        /// Gets the warning of an impending leap second to be inserted/deleted in the last minute
+        /// of the current day.
+        /// </summary>
         public LeapIndicator LeapIndicator { get; init; }
 
+        /// <summary>
+        /// Gets the NTP version.
+        /// </summary>
         public int Version { get; init; }
 
-        public NtpMode Mode { get; init; }
-
+        /// <summary>
+        /// Gets the NTP stratum.
+        /// </summary>
         public NtpStratum Stratum { get; init; }
 
+        /// <summary>
+        /// Gets the maximum interval between successive messages in seconds.
+        /// </summary>
         // Signed 8-bit integer = log_2(poll)
         // Range = [4..17], 16 (2^4) seconds <= poll <= 131_072 (2^17) seconds.
         public int PollInterval { get; init; }
 
+        /// <summary>
+        /// Gets the precision of the system clock of the server in seconds.
+        /// </summary>
         // Signed 8-bit integer = log_2(precision)
         // Clock resolution =
         //   2^-p where p is the number of significant bits in the
@@ -42,11 +56,19 @@ namespace Zorglub.Time.Horology.Ntp
         // Range = [-20..-6], 2^-20 seconds <= precision <= 2^-6 seconds.
         public int Precision { get; init; }
 
+        /// <summary>
+        /// Gets the number of seconds indicating the total roundtrip delay to the primary reference
+        /// source.
+        /// </summary>
         public Duration64 RootDelay { get; init; }
 
+        /// <summary>
+        /// Gets the number of seconds indicating the maximum error due to the clock frequency
+        /// tolerance
+        /// </summary>
         public Duration64 RootDispersion { get; init; }
 
-        public string? ReferenceIdentifier { get; internal set; }
+        public string? ReferenceIdentifier { get; set; }
 
         public Timestamp64 ReferenceTimestamp { get; init; }
     }
