@@ -5,7 +5,7 @@ namespace Zorglub.Time.Horology.Ntp
 {
     using System.Text;
 
-    public sealed partial record class NtpMessage
+    public partial record class NtpPacket
     {
         private const int DataLength = 48;
 
@@ -44,12 +44,12 @@ namespace Zorglub.Time.Horology.Ntp
             (ReceiveTimestamp - OriginateTimestamp + (TransmitTimestamp - DestinationTimestamp)) / 2;
 
         [Pure]
-        internal static NtpMessage ReadFrom(ReadOnlySpan<byte> buf)
+        internal static NtpPacket ReadFrom(ReadOnlySpan<byte> buf)
         {
             Debug.Assert(buf != null);
             Debug.Assert(buf.Length >= DataLength);
 
-            var rsp = new NtpMessage
+            var rsp = new NtpPacket
             {
                 LeapIndicator = ReadLeapIndicator((buf[0] >> 6) & 3),
                 Version = (buf[0] >> 3) & 7,
@@ -146,7 +146,7 @@ namespace Zorglub.Time.Horology.Ntp
             };
 
         [Pure]
-        private static string? ReadReferenceIdentifier(ReadOnlySpan<byte> buf, NtpMessage msg)
+        private static string? ReadReferenceIdentifier(ReadOnlySpan<byte> buf, NtpPacket msg)
         {
             Debug.Assert(msg != null);
             Debug.Assert(buf.Length == 4);
@@ -198,7 +198,7 @@ namespace Zorglub.Time.Horology.Ntp
         }
     }
 
-    public partial record class NtpMessage // Old stuff
+    public partial record class NtpPacket // Old stuff
     {
         [Pure]
         internal static uint ReadUInt32(ReadOnlySpan<byte> buf)

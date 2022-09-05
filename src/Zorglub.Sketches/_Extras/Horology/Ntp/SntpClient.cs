@@ -154,7 +154,7 @@ namespace Zorglub.Time.Horology.Ntp
             var responseTime = requestTime.AddMilliseconds(elapsedTicks / TicksPerMillisecond);
             var reponseTimestamp = Timestamp64.FromDateTime(responseTime);
 
-            return CreateResponse(buf, requestTimestamp, reponseTimestamp);
+            return CreateReply(buf, requestTimestamp, reponseTimestamp);
         }
 
         [Pure]
@@ -192,14 +192,14 @@ namespace Zorglub.Time.Horology.Ntp
             var responseTime = requestTime.AddMilliseconds(elapsedTicks / TicksPerMillisecond);
             var responseTimestamp = Timestamp64.FromDateTime(responseTime);
 
-            return CreateResponse(buf, requestTimestamp, responseTimestamp);
+            return CreateReply(buf, requestTimestamp, responseTimestamp);
         }
     }
 
     public partial class SntpClient // Helpers
     {
         [Pure]
-        private SntpResponse CreateResponse(
+        private SntpResponse CreateReply(
             ReadOnlySpan<byte> buf,
             Timestamp64 requestTimestamp,
             Timestamp64 responseTimestamp)
@@ -211,8 +211,8 @@ namespace Zorglub.Time.Horology.Ntp
             if (si.Version != Version) NtpException.Throw();
 
             var ti = ReadTimeInfo(buf);
-            ti.DestinationTimestamp = responseTimestamp;
-            if (ti.OriginateTimestamp != requestTimestamp) NtpException.Throw();
+            ti.ResponseTimestamp = responseTimestamp;
+            if (ti.RequestTimestamp != requestTimestamp) NtpException.Throw();
 
             return new SntpResponse(si, ti);
         }
@@ -237,10 +237,10 @@ namespace Zorglub.Time.Horology.Ntp
                 // RFC 4330 (SNTP) says that it's a 32-bit signed fixed-point
                 // number and that it can be negative.
                 // RFC 5905 (NTP) says that it's in NTP short format (unsigned).
-                RootDelay = Duration32.ReadFrom(buf[4..]),
-                RootDispersion = Duration32.ReadFrom(buf[8..]),
-                RootDelay64 = Duration64.ReadFourBytesFrom(buf[4..]),
-                RootDispersion64 = Duration64.ReadFourBytesFrom(buf[8..]),
+                // See also
+                // https://support.ntp.org/bin/view/Support/NTPRelatedDefinitions
+                Rtt = Duration32.ReadFrom(buf[4..]),
+                Dispersion = Duration32.ReadFrom(buf[8..]),
                 ReferenceTimestamp = Timestamp64.ReadFrom(buf[16..]),
             };
 
@@ -279,7 +279,7 @@ namespace Zorglub.Time.Horology.Ntp
 
             return new SntpTimeInfo
             {
-                OriginateTimestamp = Timestamp64.ReadFrom(buf[24..]),
+                RequestTimestamp = Timestamp64.ReadFrom(buf[24..]),
                 ReceiveTimestamp = ReadTimestamp(buf[32..]),
                 TransmitTimestamp = ReadTimestamp(buf[40..])
             };

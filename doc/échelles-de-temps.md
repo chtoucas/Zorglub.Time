@@ -67,6 +67,8 @@ Liste très complète d'échelles de temps.
 
 [ntpdig](https://docs.ntpsec.org/latest/ntpdig.html)
 
+[Ntimed](https://github.com/bsdphk/Ntimed)
+
 [How to Query an NTP Server using C\#?](https://stackoverflow.com/questions/1193955/how-to-query-an-ntp-server-using-c)
 
 ### SNTP clients

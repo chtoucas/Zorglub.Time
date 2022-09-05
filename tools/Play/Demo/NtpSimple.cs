@@ -26,23 +26,22 @@ public static class NtpSimple
         var precisionInMicroseconds = MicrosecondsPerSecond * Math.Pow(2, si.Precision);
 
         WriteLine($"NTP response (server info)");
+        WriteLine($"  Version:            {si.Version}");
         WriteLine($"  Leap second:        {si.LeapIndicator}");
         WriteLine($"  Stratum:            {si.Stratum}");
         WriteLine("  Reference time:     {0:HH:mm:ss.fff}", si.ReferenceTimestamp.ToDateTime());
-        WriteLine($"  Root delay:         {si.RootDelay} ({(int)si.RootDelay.TotalNanoseconds}ns)");
-        WriteLine($"  Root delay 64:      {si.RootDelay64} ({(int)si.RootDelay64.TotalNanoseconds}ns)");
-        WriteLine($"  Root dispersion:    {si.RootDispersion} ({(int)si.RootDispersion.TotalNanoseconds}ns)");
-        WriteLine($"  Root dispersion 64: {si.RootDispersion64} ({(int)si.RootDispersion64.TotalNanoseconds}ns)");
+        WriteLine($"  RTT:                {si.Rtt} ({(int)si.Rtt.TotalMilliseconds}ms)");
+        WriteLine($"  Dispersion:         {si.Dispersion} ({(int)si.Dispersion.TotalMilliseconds}ms)");
         WriteLine($"  Poll interval:      {si.PollInterval}s");
         WriteLine($"  Precision:          2^{si.Precision} ({precisionInMicroseconds:F3}µs)");
 
         WriteLine($"NTP response (time info)");
-        WriteLine("  Client transmit:    {0:HH:mm:ss.fff}", ti.OriginateTimestamp.ToDateTime());
-        WriteLine("  Server receive:     {0:HH:mm:ss.fff}", ti.ReceiveTimestamp.ToDateTime());
-        WriteLine("  Server transmit:    {0:HH:mm:ss.fff}", ti.TransmitTimestamp.ToDateTime());
-        WriteLine("  Client receive:     {0:HH:mm:ss.fff}", ti.DestinationTimestamp.ToDateTime());
+        WriteLine("  Client transmits:   {0:HH:mm:ss.fff}", ti.RequestTimestamp.ToDateTime());
+        WriteLine("  Server receives:    {0:HH:mm:ss.fff}", ti.ReceiveTimestamp.ToDateTime());
+        WriteLine("  Server transmits:   {0:HH:mm:ss.fff}", ti.TransmitTimestamp.ToDateTime());
+        WriteLine("  Client receives:    {0:HH:mm:ss.fff}", ti.ResponseTimestamp.ToDateTime());
         WriteLine($"  Clock offset:       {ti.ClockOffset} ({ti.ClockOffset.TotalSeconds:+#.###;0.000;-#.###}s)");
-        WriteLine($"  Round-trip delay:   {ti.RoundTripDelay} ({(int)ti.RoundTripDelay.TotalMilliseconds}ms)");
+        WriteLine($"  RTT:                {ti.Rtt} ({(int)ti.Rtt.TotalMilliseconds}ms)");
     }
 
     //[SuppressMessage("Design", "CA1034:Nested types should not be visible")]

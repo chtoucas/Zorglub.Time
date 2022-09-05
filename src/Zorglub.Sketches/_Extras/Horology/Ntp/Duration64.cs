@@ -8,6 +8,8 @@ namespace Zorglub.Time.Horology.Ntp
 
     using Zorglub.Time.Core;
 
+    using static Zorglub.Time.Core.TemporalConstants;
+
     // REVIEW(code): fix boundaries (63-bit signed integer).
 
     // Adapted from
@@ -70,23 +72,32 @@ namespace Zorglub.Time.Horology.Ntp
         /// </summary>
         public long FractionalSeconds => _fractionalSeconds;
 
+        // *** WARNING ***
+        // Do NOT use >> 32 to divide a signed integer by 2^32. Indeed, >> rounds
+        // towards minus infinity, e.g. (-2^32 - 1) >> 32 = -2 which is not what
+        // we want that is -1.
+        // The integer division gives the correct result since it rounds towards
+        // zero, (-2^32 - 1) / 2^32 = -1
+
         /// <summary>
         /// Gets the total number of nanoseconds in this duration.
         /// </summary>
         [Pure]
-        public double TotalNanoseconds => Ntp.FractionalSeconds.ToNanoseconds(_fractionalSeconds);
+        public double TotalNanoseconds =>
+            NanosecondsPerSecond * _fractionalSeconds / (double)0x1_0000_0000L;
 
         /// <summary>
         /// Gets the total number of milliseconds in this duration.
         /// </summary>
         [Pure]
-        public double TotalMilliseconds => Ntp.FractionalSeconds.ToMilliseconds(_fractionalSeconds);
+        public double TotalMilliseconds =>
+            MillisecondsPerSecond * _fractionalSeconds / (double)0x1_0000_0000L;
 
         /// <summary>
         /// Gets the total number of seconds in this duration.
         /// </summary>
         [Pure]
-        public double TotalSeconds => Ntp.FractionalSeconds.ToSeconds(_fractionalSeconds);
+        public double TotalSeconds => _fractionalSeconds / (double)0x1_0000_0000L;
 
         /// <summary>
         /// Returns a culture-independent string representation of the current instance.

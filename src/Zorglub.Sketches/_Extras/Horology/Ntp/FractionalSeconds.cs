@@ -67,7 +67,7 @@ namespace Zorglub.Time.Horology.Ntp
         }
     }
 
-    internal static partial class FractionalSeconds // FractionalSeconds
+    internal static partial class FractionalSeconds // SecondOfEra
     {
         /// <summary>
         /// Converts a second of the era to a number of fractional seconds.
@@ -76,39 +76,5 @@ namespace Zorglub.Time.Horology.Ntp
         // CIL code size = 6 bytes <= 32 bytes.
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong FromSeconds(uint secondOfEra) => (ulong)secondOfEra << 32;
-
-        // *** WARNING ***
-        // Do NOT use >> 32 to divide a signed integer by 2^32. Indeed, >> rounds
-        // towards minus infinity, e.g. (-2^32 - 1) >> 32 = -2 which is not what
-        // we want that is -1.
-        // The integer division gives the correct result since it rounds towards
-        // zero, (-2^32 - 1) / 2^32 = -1
-
-        /// <summary>
-        /// Converts a number of fractional seconds to a number of seconds.
-        /// </summary>
-        [Pure]
-        // CIL code size = 13 bytes <= 32 bytes.
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static double ToSeconds(long fractionalSeconds) =>
-            fractionalSeconds / (double)0x1_0000_0000L;
-
-        /// <summary>
-        /// Converts a number of fractional seconds to a number of milliseconds.
-        /// </summary>
-        [Pure]
-        // CIL code size = 20 bytes <= 32 bytes.
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static double ToMilliseconds(long fractionalSeconds) =>
-            MillisecondsPerSecond * fractionalSeconds / (double)0x1_0000_0000L;
-
-        /// <summary>
-        /// Converts a number of fractional seconds to a number of nanoseconds.
-        /// </summary>
-        [Pure]
-        // CIL code size = 20 bytes <= 32 bytes.
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static double ToNanoseconds(long fractionalSeconds) =>
-            NanosecondsPerSecond * fractionalSeconds / (double)0x1_0000_0000L;
     }
 }

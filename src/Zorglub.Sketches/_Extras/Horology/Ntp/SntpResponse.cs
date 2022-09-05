@@ -49,18 +49,14 @@ namespace Zorglub.Time.Horology.Ntp
         public int Precision { get; init; }
 
         /// <summary>
-        /// Gets the number of seconds indicating the total roundtrip delay to the primary reference
-        /// source.
+        /// Gets the round-trip time (RTT) to the primary reference source.
         /// </summary>
-        public Duration32 RootDelay { get; init; }
-        public Duration64 RootDelay64 { get; init; }
+        public Duration32 Rtt { get; init; }
 
         /// <summary>
-        /// Gets the number of seconds indicating the maximum error due to the clock frequency
-        /// tolerance
+        /// Gets the maximum error due to the clock frequency tolerance
         /// </summary>
-        public Duration32 RootDispersion { get; init; }
-        public Duration64 RootDispersion64 { get; init; }
+        public Duration32 Dispersion { get; init; }
 
         public Timestamp64 ReferenceTimestamp { get; init; }
     }
@@ -68,40 +64,40 @@ namespace Zorglub.Time.Horology.Ntp
     public sealed record SntpTimeInfo
     {
         /// <summary>
-        /// Gets the time at which the client transmitted the request, according to its local clock.
+        /// Gets the time at which the client transmitted the request, according to its clock.
         /// </summary>
-        public Timestamp64 OriginateTimestamp { get; init; }
+        public Timestamp64 RequestTimestamp { get; init; }
 
         /// <summary>
-        /// Gets the time at which the server received the request.
+        /// Gets the time at which the server received the request, according to its clock.
         /// </summary>
         public Timestamp64 ReceiveTimestamp { get; init; }
 
         /// <summary>
-        /// Gets the time at which the server transmitted the response.
+        /// Gets the time at which the server transmitted the response, according to its clock.
         /// </summary>
         public Timestamp64 TransmitTimestamp { get; init; }
 
         /// <summary>
-        /// Gets the time at which the client received the response, according to its local clock.
+        /// Gets the time at which the client received the response, according to its clock.
         /// </summary>
-        public Timestamp64 DestinationTimestamp { get; set; }
+        public Timestamp64 ResponseTimestamp { get; set; }
 
-        // OriginateTimestamp (T1):     Time request sent by client
-        // ReceiveTimestamp (T2):       Time request received by server
-        // TransmitTimestamp (T3):      Time reply sent by server
-        // DestinationTimestamp (T4):   Time reply received by client
+        // OriginateTimestamp (T1):     request sent by the client
+        // ReceiveTimestamp (T2):       request received by the server
+        // TransmitTimestamp (T3):      reply sent by the server
+        // DestinationTimestamp (T4):   reply received by the client
         //
-        // > RoundTripDelay = (T4 - T1) - (T3 - T2)
-        // > ClockOffset = ((T2 - T1) + (T3 - T4)) / 2
+        // Round-trip delay = (T4 - T1) - (T3 - T2)
+        // Clock offset = ((T2 - T1) + (T3 - T4)) / 2
 
-        public Duration64 RoundTripDelay =>
-            DestinationTimestamp - OriginateTimestamp - (TransmitTimestamp - ReceiveTimestamp);
+        public Duration64 Rtt =>
+            ResponseTimestamp - RequestTimestamp - (TransmitTimestamp - ReceiveTimestamp);
 
         /// <summary>
         /// Gets the offset for the system clock relative to the primary synchonization source.
         /// </summary>
         public Duration64 ClockOffset =>
-            (ReceiveTimestamp - OriginateTimestamp + (TransmitTimestamp - DestinationTimestamp)) / 2;
+            (ReceiveTimestamp - RequestTimestamp + (TransmitTimestamp - ResponseTimestamp)) / 2;
     }
 }
