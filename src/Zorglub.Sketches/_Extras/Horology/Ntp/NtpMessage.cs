@@ -1,11 +1,9 @@
 ﻿// SPDX-License-Identifier: BSD-3-Clause
 // Copyright (c) 2020 Narvalo.Org. All rights reserved.
 
-namespace Zorglub.Bulgroz.Obsolete
+namespace Zorglub.Time.Horology.Ntp
 {
     using System.Text;
-
-    using Zorglub.Time.Horology.Ntp;
 
     public sealed partial record class NtpMessage
     {
@@ -29,8 +27,8 @@ namespace Zorglub.Bulgroz.Obsolete
         // Precision = Max(clock resolution, clock precision).
         // Range = [-20..-6], 2^-20 seconds <= precision <= 2^-6 seconds.
         public int Precision { get; init; }
-        public Duration64 RootDelay { get; init; }
-        public Duration64 RootDispersion { get; init; }
+        public Duration32 RootDelay { get; init; }
+        public Duration32 RootDispersion { get; init; }
         public string? ReferenceIdentifier { get; internal set; }
         public Timestamp64 ReferenceTimestamp { get; init; }
 
@@ -59,8 +57,8 @@ namespace Zorglub.Bulgroz.Obsolete
                 Stratum = ReadStratum(buf[1]),
                 PollInterval = 1 << ReadSByte(buf[2]),
                 Precision = ReadSByte(buf[3]),
-                RootDelay = Duration64.ReadFourBytesFrom(buf[4..]),
-                RootDispersion = Duration64.ReadFourBytesFrom(buf[8..]),
+                RootDelay = Duration32.ReadFrom(buf[4..]),
+                RootDispersion = Duration32.ReadFrom(buf[8..]),
                 // Bytes 12 to 15; see ReferenceIdentifier below.
                 ReferenceTimestamp = Timestamp64.ReadFrom(buf[16..]),
                 OriginateTimestamp = Timestamp64.ReadFrom(buf[24..]),
@@ -72,6 +70,7 @@ namespace Zorglub.Bulgroz.Obsolete
 
             return rsp;
 
+            // Twos-complement representation of a signed byte.
             // https://en.wikipedia.org/wiki/Two%27s_complement
             static int ReadSByte(byte v) => v > 127 ? v - 256 : v;
         }
@@ -94,11 +93,9 @@ namespace Zorglub.Bulgroz.Obsolete
                 && Stratum != NtpStratum.SecondaryReference)
                 return false;
 
-            // NTP client-server model: RootDelay and RootDispersion >= 0 and < 1s
-            if (RootDelay < Duration64.Zero || RootDelay >= Duration64.OneSecond)
-                return false;
-            if (RootDispersion < Duration64.Zero || RootDispersion >= Duration64.OneSecond)
-                return false;
+            // NTP client-server model: RootDelay and RootDispersion >= 0 and < 1s.
+            if (RootDelay >= Duration32.OneSecond) return false;
+            if (RootDispersion >= Duration32.OneSecond) return false;
 
             if (OriginateTimestamp != requestTimestamp) return false;
             if (TransmitTimestamp == Timestamp64.Zero) return false;

@@ -110,6 +110,7 @@ module RuntimeSizes =
     [<Fact>]
     let ``Types in Zorglub.Time.Horology`` () =
         // Zorglub.Sketches
+        Marshal.SizeOf(typedefof<Duration32>) === 4
         Marshal.SizeOf(typedefof<Timestamp64>) === 8
         Marshal.SizeOf(typedefof<Duration64>) === 8
         Marshal.SizeOf(typedefof<InstantOfDay>) === 8

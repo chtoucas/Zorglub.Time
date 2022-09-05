@@ -12,9 +12,6 @@ namespace Zorglub.Time.Horology.Ntp
 
     // Adapted from
     // https://android.googlesource.com/platform/frameworks/base/+/master/core/java/android/net/sntp/Duration64.java
-    // GitHub mirror:
-    // https://github.com/aosp-mirror/platform_frameworks_base/blob/master/core/java/android/net/sntp/Duration64.java
-    // https://github.com/aosp-mirror/platform_frameworks_base/blob/master/core/tests/coretests/src/android/net/sntp/Duration64Test.java
 
     public readonly partial struct Duration64 :
         // Comparison
@@ -36,11 +33,16 @@ namespace Zorglub.Time.Horology.Ntp
             _fractionalSeconds = fractionalSeconds;
         }
 
+        /// <summary>
+        /// Gets a duration representing exactly zero fractional second.
+        /// <para>This is the shortest duration.</para>
+        /// <para>This static property is thread-safe.</para>
+        /// </summary>
         public static Duration64 Zero { get; }
 
         /// <summary>
         /// Gets a duration representing exactly one fractional second.
-        /// <para>This is the smallest duration greater than <see cref="Zero"/>.</para>
+        /// <para>This is the shortest duration greater than <see cref="Zero"/>.</para>
         /// <para>This static property is thread-safe.</para>
         /// </summary>
         public static Duration64 Epsilon { get; } = new(1);
@@ -49,7 +51,7 @@ namespace Zorglub.Time.Horology.Ntp
         /// Gets a duration representing exactly one second.
         /// <para>This static property is thread-safe.</para>
         /// </summary>
-        public static Duration64 OneSecond { get; } = new(1L << 32);
+        internal static Duration64 OneSecond { get; } = new(1L << 32);
 
         /// <summary>
         /// Gets the smallest possible value of a <see cref="Duration64"/>.

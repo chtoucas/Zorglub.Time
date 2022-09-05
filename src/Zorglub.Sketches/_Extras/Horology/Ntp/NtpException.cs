@@ -15,11 +15,11 @@ namespace Zorglub.Time.Horology.Ntp
         // TODO(code): move to ThrowHelpers.
 
         [DoesNotReturn]
-        public static void Throw(string message = "Bad server reply.") =>
+        internal static void Throw(string message = "Bad server reply.") =>
             throw new NtpException(message);
 
         [DoesNotReturn, Pure]
-        public static T Throw<T>(string message = "Bad server reply.") =>
+        internal static T Throw<T>(string message = "Bad server reply.") =>
             throw new NtpException(message);
     }
 }

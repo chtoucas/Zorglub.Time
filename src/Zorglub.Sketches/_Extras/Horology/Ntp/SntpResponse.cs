@@ -3,6 +3,10 @@
 
 namespace Zorglub.Time.Horology.Ntp
 {
+    // Fields removed from SntpServerInfo:
+    // - Mode (always = Server)
+    // - ReferenceIdentifier
+
     public sealed class SntpResponse
     {
         public SntpResponse(SntpServerInfo serverInfo, SntpTimeInfo timeInfo)
@@ -48,13 +52,15 @@ namespace Zorglub.Time.Horology.Ntp
         /// Gets the number of seconds indicating the total roundtrip delay to the primary reference
         /// source.
         /// </summary>
-        public Duration64 RootDelay { get; init; }
+        public Duration32 RootDelay { get; init; }
+        public Duration64 RootDelay64 { get; init; }
 
         /// <summary>
         /// Gets the number of seconds indicating the maximum error due to the clock frequency
         /// tolerance
         /// </summary>
-        public Duration64 RootDispersion { get; init; }
+        public Duration32 RootDispersion { get; init; }
+        public Duration64 RootDispersion64 { get; init; }
 
         public Timestamp64 ReferenceTimestamp { get; init; }
     }

@@ -16,6 +16,7 @@ namespace Zorglub.Time.Horology.Ntp
     // https://android.googlesource.com/platform/frameworks/base/+/master/core/java/android/net/SntpClient.java
     // See also
     // https://android.googlesource.com/platform/frameworks/base/+/master/core/java/android/util/NtpTrustedTime.java
+    // https://android.googlesource.com/platform/frameworks/base/+/master/core/tests/coretests/src/android/net/sntp/
 
     public sealed partial class SntpClient
     {
@@ -25,9 +26,9 @@ namespace Zorglub.Time.Horology.Ntp
 
         /// <summary>
         /// Represents the default SNTP version.
-        /// <para>This field is a constant equal to 3.</para>
+        /// <para>This field is a constant equal to 4.</para>
         /// </summary>
-        public const int DefaultVersion = 3;
+        public const int DefaultVersion = 4;
 
         /// <summary>
         /// Represents the default SNTP host.
@@ -189,9 +190,9 @@ namespace Zorglub.Time.Horology.Ntp
 
             var elapsedTicks = responseTicks - requestTicks;
             var responseTime = requestTime.AddMilliseconds(elapsedTicks / TicksPerMillisecond);
-            var reponseTimestamp = Timestamp64.FromDateTime(responseTime);
+            var responseTimestamp = Timestamp64.FromDateTime(responseTime);
 
-            return CreateResponse(buf, requestTimestamp, reponseTimestamp);
+            return CreateResponse(buf, requestTimestamp, responseTimestamp);
         }
     }
 
@@ -201,7 +202,7 @@ namespace Zorglub.Time.Horology.Ntp
         private SntpResponse CreateResponse(
             ReadOnlySpan<byte> buf,
             Timestamp64 requestTimestamp,
-            Timestamp64 reponseTimestamp)
+            Timestamp64 responseTimestamp)
         {
             // The only fields not yet validated are those that the server is
             // expected to copy verbatim from the request.
@@ -210,7 +211,7 @@ namespace Zorglub.Time.Horology.Ntp
             if (si.Version != Version) NtpException.Throw();
 
             var ti = ReadTimeInfo(buf);
-            ti.DestinationTimestamp = reponseTimestamp;
+            ti.DestinationTimestamp = responseTimestamp;
             if (ti.OriginateTimestamp != requestTimestamp) NtpException.Throw();
 
             return new SntpResponse(si, ti);
@@ -222,9 +223,8 @@ namespace Zorglub.Time.Horology.Ntp
             Debug.Assert(buf != null);
             Debug.Assert(buf.Length >= DataLength);
 
-            // Mode = NtpMode.Server
-            int mode = buf[0] & 7;
-            if (mode != 4) NtpException.Throw();
+            // mode = NtpMode.Server
+            if ((buf[0] & 7) != 4) NtpException.Throw();
 
             return new SntpServerInfo
             {
@@ -233,8 +233,14 @@ namespace Zorglub.Time.Horology.Ntp
                 Stratum = ReadStratum(buf[1]),
                 PollInterval = 1 << ReadSByte(buf[2]),
                 Precision = ReadSByte(buf[3]),
-                RootDelay = ReadDuration32(buf[4..]),
-                RootDispersion = ReadDuration32(buf[8..]),
+                // FIXME(code): delay and dispersion values.
+                // RFC 4330 (SNTP) says that it's a 32-bit signed fixed-point
+                // number and that it can be negative.
+                // RFC 5905 (NTP) says that it's in NTP short format (unsigned).
+                RootDelay = Duration32.ReadFrom(buf[4..]),
+                RootDispersion = Duration32.ReadFrom(buf[8..]),
+                RootDelay64 = Duration64.ReadFourBytesFrom(buf[4..]),
+                RootDispersion64 = Duration64.ReadFourBytesFrom(buf[8..]),
                 ReferenceTimestamp = Timestamp64.ReadFrom(buf[16..]),
             };
 
@@ -263,18 +269,6 @@ namespace Zorglub.Time.Horology.Ntp
 
             [Pure]
             static int ReadSByte(byte v) => v > 127 ? v - 256 : v;
-
-            [Pure]
-            static Duration64 ReadDuration32(ReadOnlySpan<byte> buf)
-            {
-                var duration = Duration64.ReadFourBytesFrom(buf);
-
-                // NTP client-server model: RootDelay and RootDispersion >= 0 and < 1s
-                if (duration < Duration64.Zero || duration >= Duration64.OneSecond)
-                    NtpException.Throw();
-
-                return duration;
-            }
         }
 
         [Pure]

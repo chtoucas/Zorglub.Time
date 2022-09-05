@@ -72,10 +72,13 @@ Liste très complète d'échelles de temps.
 ### SNTP clients
 - [Java Android](https://android.googlesource.com/platform/frameworks/base/+/master/core/java/android/net/SntpClient.java)
 - [Go](https://github.com/beevik/ntp/)
+
+Others:
 - [Haskell](https://hackage.haskell.org/package/hsntp)
 - [Perl](https://metacpan.org/pod/Net::SNTP::Client)
 - [Python](https://github.com/cf-natali/ntplib)
 - [GuerrillaNtp](https://github.com/robertvazan/guerrillantp)
 - [C\# SNTP client in .NET Micro Framework](https://github.com/vbocan/sntp-client)
+
 - [Facebook time](https://github.com/facebook/time) and
   [explanations](https://engineering.fb.com/2020/03/18/production-engineering/ntp-service/)

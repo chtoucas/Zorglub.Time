@@ -10,13 +10,17 @@ namespace Zorglub.Time.Horology.Ntp
 
     using static Zorglub.Time.Core.TemporalConstants;
 
-    // TODO(api): From/ToDateTime() & Y2036.
+    // TODO(api): From/ToDateTime(), From/ToMoment().
+    // Y2036 (era)
+    // > If bit 0 is set, the UTC time is in the range 1968-2036, and UTC time
+    // > is reckoned from 0h 0m 0s UTC on 1 January 1900.
+    // > If bit 0 is not set, the time is in the range 2036-2104 and UTC time is
+    // > reckoned from 6h 28m 16s UTC on 7 February 2036.
+    // > Note that when calculating the correspondence, 2000 is a leap year, and
+    // > leap seconds are not included in the reckoning.
 
     // Adapted from
     // https://android.googlesource.com/platform/frameworks/base/+/master/core/java/android/net/sntp/Timestamp64.java
-    // GitHub mirror:
-    // https://github.com/aosp-mirror/platform_frameworks_base/blob/master/core/java/android/net/sntp/Timestamp64.java
-    // https://github.com/aosp-mirror/platform_frameworks_base/blob/master/core/tests/coretests/src/android/net/sntp/Timestamp64Test.java
 
     // See
     // - https://www.eecis.udel.edu/~mills/time.html
@@ -24,7 +28,7 @@ namespace Zorglub.Time.Horology.Ntp
     // - https://www.eecis.udel.edu/~mills/leap.html
 
     /// <summary>
-    /// Represents a 64-bit NTP timestamp.
+    /// Represents a 64-bit NTP timestamp; see RFC 5905, section 6.
     /// <para><see cref="Timestamp64"/> is an immutable struct.</para>
     /// </summary>
     public readonly partial struct Timestamp64 :
@@ -74,7 +78,8 @@ namespace Zorglub.Time.Horology.Ntp
         /// <summary>
         /// Initializes a new instance of the <see cref="Timestamp64"/> struct.
         /// </summary>
-        internal Timestamp64(uint secondOfEra, uint fractionOfSecond)
+        [CLSCompliant(false)]
+        public Timestamp64(uint secondOfEra, uint fractionOfSecond)
         {
             _secondOfEra = secondOfEra;
             _fractionOfSecond = fractionOfSecond;
@@ -97,6 +102,7 @@ namespace Zorglub.Time.Horology.Ntp
         /// Gets the largest possible value of a <see cref="Timestamp64"/>.
         /// <para>This static property is thread-safe.</para>
         /// </summary>
+        // MaxValue for era 0 ~ 07/02/2036 06:28:15
         public static Timestamp64 MaxValue { get; } = new(UInt32.MaxValue, UInt32.MaxValue);
 
         /// <summary>
@@ -120,7 +126,7 @@ namespace Zorglub.Time.Horology.Ntp
         /// </summary>
         [Pure]
         public override string ToString() =>
-            FormattableString.Invariant($"{_secondOfEra}.{_fractionOfSecond}");
+            FormattableString.Invariant($"{_secondOfEra}s+{_fractionOfSecond}");
 
         /// <summary>
         /// Counts the number of elapsed (whole) milliseconds since <see cref="Zero"/>.

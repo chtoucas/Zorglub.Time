@@ -17,7 +17,7 @@ public static class NtpSimple
     public static void Query()
     {
         // Other options: "time.windows.com", "fr.pool.ntp.org"
-        var cli = new SntpClient("pool.ntp.org") { Version = 3 };
+        var cli = new SntpClient("pool.ntp.org") { Version = 4 };
         var rsp = cli.Query();
 
         var si = rsp.ServerInfo;
@@ -30,7 +30,9 @@ public static class NtpSimple
         WriteLine($"  Stratum:            {si.Stratum}");
         WriteLine("  Reference time:     {0:HH:mm:ss.fff}", si.ReferenceTimestamp.ToDateTime());
         WriteLine($"  Root delay:         {si.RootDelay} ({(int)si.RootDelay.TotalNanoseconds}ns)");
+        WriteLine($"  Root delay 64:      {si.RootDelay64} ({(int)si.RootDelay64.TotalNanoseconds}ns)");
         WriteLine($"  Root dispersion:    {si.RootDispersion} ({(int)si.RootDispersion.TotalNanoseconds}ns)");
+        WriteLine($"  Root dispersion 64: {si.RootDispersion64} ({(int)si.RootDispersion64.TotalNanoseconds}ns)");
         WriteLine($"  Poll interval:      {si.PollInterval}s");
         WriteLine($"  Precision:          2^{si.Precision} ({precisionInMicroseconds:F3}µs)");
 
