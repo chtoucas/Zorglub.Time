@@ -6,17 +6,18 @@ namespace Zorglub.Time.Horology.Ntp
     using System.Text;
 
     // See https://www.rfc-editor.org/rfc/rfc5905#section-7.2
+    [CLSCompliant(false)]
     public partial record class NtpPacket
     {
         private const int DataLength = 48;
 
-        public LeapIndicator LeapIndicator { get; private init; }
+        public int LeapIndicator { get; private init; }
         public int Version { get; private init; }
-        public NtpMode Mode { get; private init; }
-        public NtpStratum Stratum { get; private init; }
+        public int Mode { get; private init; }
+        public byte Stratum { get; private init; }
         // Signed 8-bit integer = log_2(poll)
         // Range = [4..17], 16 (2^4) seconds <= poll <= 131_072 (2^17) seconds.
-        public int PollInterval { get; private init; }
+        public byte PollInterval { get; private init; }
         // Signed 8-bit integer = log_2(precision)
         // Clock resolution =
         //   2^-p where p is the number of significant bits in the
@@ -27,7 +28,7 @@ namespace Zorglub.Time.Horology.Ntp
         //   Running time to read the system clock, in seconds.
         // Precision = Max(clock resolution, clock precision).
         // Range = [-20..-6], 2^-20 seconds <= precision <= 2^-6 seconds.
-        public int Precision { get; private init; }
+        public sbyte Precision { get; private init; }
         // FIXME(code): delay and dispersion values.
         // RFC 4330 (SNTP) says that it's a 32-bit signed fixed-point
         // number and that it can be negative.
@@ -36,7 +37,7 @@ namespace Zorglub.Time.Horology.Ntp
         // https://support.ntp.org/bin/view/Support/NTPRelatedDefinitions
         public Duration32 RootDelay { get; private init; }
         public Duration32 RootDispersion { get; private init; }
-        public string? ReferenceIdentifier { get; private set; }
+        //public string? ReferenceIdentifier { get; private set; }
         public Timestamp64 ReferenceTimestamp { get; private init; }
 
         public Timestamp64 OriginateTimestamp { get; private init; }
@@ -58,11 +59,11 @@ namespace Zorglub.Time.Horology.Ntp
 
             var rsp = new NtpPacket
             {
-                LeapIndicator = ReadLeapIndicator((buf[0] >> 6) & 3),
+                LeapIndicator = (buf[0] >> 6) & 3,
                 Version = (buf[0] >> 3) & 7,
-                Mode = ReadMode(buf[0] & 7),
-                Stratum = ReadStratum(buf[1]),
-                PollInterval = 1 << ReadSByte(buf[2]),
+                Mode = buf[0] & 7,
+                Stratum = buf[1],
+                PollInterval = buf[2],
                 Precision = ReadSByte(buf[3]),
                 RootDelay = Duration32.ReadFrom(buf[4..]),
                 RootDispersion = Duration32.ReadFrom(buf[8..]),
@@ -73,15 +74,16 @@ namespace Zorglub.Time.Horology.Ntp
                 TransmitTimestamp = Timestamp64.ReadFrom(buf[40..])
             };
 
-            rsp.ReferenceIdentifier = ReadReferenceIdentifier(buf[12..16], rsp);
+            //rsp.ReferenceIdentifier = ReadReferenceIdentifier(buf[12..16], rsp);
 
             return rsp;
 
             // Two's-complement representation of a signed byte.
             // https://en.wikipedia.org/wiki/Two%27s_complement
-            static int ReadSByte(byte v) => v > 127 ? v - 256 : v;
+            static sbyte ReadSByte(byte v) => (sbyte)(v > 127 ? v - 256 : v);
         }
 
+#if false
         // Check response in client-server mode.
         // We should also check the IP address.
         // Root distance.
@@ -208,6 +210,7 @@ namespace Zorglub.Time.Horology.Ntp
                     return null;
             }
         }
+#endif
     }
 
     public partial record class NtpPacket // Old stuff

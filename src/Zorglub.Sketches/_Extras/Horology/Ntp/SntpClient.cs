@@ -55,7 +55,7 @@ namespace Zorglub.Time.Horology.Ntp
         /// </summary>
         public const int DefaultReceiveTimeout = 100;
 
-        private readonly IRandomProvider _randomProvider = new DefaultRandomProvider();
+        private readonly IRandomGenerator _randomGenerator = new DefaultRandomGenerator();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SntpClient"/> class.
@@ -101,10 +101,10 @@ namespace Zorglub.Time.Horology.Ntp
         // Receive timeout in milliseconds; see Socket.ReceiveTimeout.
         public int ReceiveTimeout { get; init; } = DefaultReceiveTimeout;
 
-        public IRandomProvider RandomProvider
+        public IRandomGenerator RandomGenerator
         {
-            get => _randomProvider;
-            init => _randomProvider = value ?? throw new ArgumentNullException(nameof(value));
+            get => _randomGenerator;
+            init => _randomGenerator = value ?? throw new ArgumentNullException(nameof(value));
         }
 
         private EndPoint Endpoint { get; }
@@ -151,7 +151,7 @@ namespace Zorglub.Time.Horology.Ntp
             // Randomize the timestamp, then write the result into the buffer.
             var requestTimestamp =
                 Timestamp64.FromDateTime(requestTime)
-                    .RandomizeSubMilliseconds(RandomProvider.NextInt32());
+                    .RandomizeSubMilliseconds(RandomGenerator);
             requestTimestamp.WriteTo(buf, TransmitTimestampOffset);
 
             sock.Send(buf);
@@ -189,7 +189,7 @@ namespace Zorglub.Time.Horology.Ntp
 
             var requestTimestamp =
                 Timestamp64.FromDateTime(requestTime)
-                    .RandomizeSubMilliseconds(RandomProvider.NextInt32());
+                    .RandomizeSubMilliseconds(RandomGenerator);
             requestTimestamp.WriteTo(bytes, TransmitTimestampOffset);
 
             var buf = new ArraySegment<byte>(bytes);

@@ -186,17 +186,22 @@ namespace Zorglub.Time.Horology.Ntp
             BinaryPrimitives.WriteUInt32BigEndian(buf[(index + 4)..], _fractionOfSecond);
         }
 
-        internal Timestamp64 RandomizeSubMilliseconds(int rnd)
+        internal Timestamp64 RandomizeSubMilliseconds(IRandomGenerator randomGenerator)
         {
+            Debug.Assert(randomGenerator != null);
+
             // We randomize the submilliseconds part of fraction-of-second.
             //   1 millisecond = 2^32 / 1000 > 4_294_967 fraction-of-second
             // Therefore 2^22 (= 4_194_304) fraction-of-second < 1 millisecond.
             const int
                 MillisecondResolution = 10,
-                LowerBitsToRandomize = 32 - MillisecondResolution;
+                LowerBitsToRandomize = 32 - MillisecondResolution,
+                MaxRandomExclusive = 1 << LowerBitsToRandomize;
             const long
                 LowerBitMask = (1L << LowerBitsToRandomize) - 1L,
                 UpperBitMask = ~LowerBitMask;
+
+            int rnd = randomGenerator.GetInt32(MaxRandomExclusive);
 
             uint fractionOfSecond = (uint)(
                 (_fractionOfSecond & UpperBitMask) | (rnd & LowerBitMask));
