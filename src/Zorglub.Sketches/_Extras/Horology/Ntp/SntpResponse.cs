@@ -64,22 +64,26 @@ namespace Zorglub.Time.Horology.Ntp
     public sealed record SntpTimeInfo
     {
         /// <summary>
-        /// Gets the time at which the client transmitted the request, according to its clock.
+        /// Gets the time at which the <i>client</i> sent the request, according to the client's
+        /// clock.
         /// </summary>
         public Timestamp64 RequestTimestamp { get; init; }
 
         /// <summary>
-        /// Gets the time at which the server received the request, according to its clock.
+        /// Gets the time at which the <i>server</i> received the request, according to the server's
+        /// clock.
         /// </summary>
         public Timestamp64 ReceiveTimestamp { get; init; }
 
         /// <summary>
-        /// Gets the time at which the server transmitted the response, according to its clock.
+        /// Gets the time at which the <i>server</i> sent the response, according to the server's
+        /// clock.
         /// </summary>
         public Timestamp64 TransmitTimestamp { get; init; }
 
         /// <summary>
-        /// Gets the time at which the client received the response, according to its clock.
+        /// Gets the time at which the <i>client</i> received the response, according to the client's
+        /// clock.
         /// </summary>
         public Timestamp64 ResponseTimestamp { get; set; }
 

@@ -148,7 +148,7 @@ namespace Zorglub.Time.Horology.Ntp
     public partial struct Timestamp64 // Binary helpers
     {
         /// <summary>
-        /// Reads a <see cref="Timestamp64"/> from the beginning of a read-only span of bytes.
+        /// Reads a <see cref="Timestamp64"/> value from the beginning of a read-only span of bytes.
         /// </summary>
         [Pure]
         internal static Timestamp64 ReadFrom(ReadOnlySpan<byte> buf)
@@ -161,19 +161,19 @@ namespace Zorglub.Time.Horology.Ntp
             return new Timestamp64(secondOfEra, fractionOfSecond);
         }
 
-        /// <summary>
-        /// Reads a <see cref="Timestamp64"/> from the specified read-only span of bytes.
-        /// </summary>
-        [Pure]
-        internal static Timestamp64 ReadFrom(ReadOnlySpan<byte> buf, int index)
-        {
-            Debug.Assert(buf.Length >= 8);
+        ///// <summary>
+        ///// Reads a <see cref="Timestamp64"/> value from the specified read-only span of bytes.
+        ///// </summary>
+        //[Pure]
+        //internal static Timestamp64 ReadFrom(ReadOnlySpan<byte> buf, int index)
+        //{
+        //    Debug.Assert(buf.Length >= 8);
 
-            uint secondOfEra = BinaryPrimitives.ReadUInt32BigEndian(buf[index..]);
-            uint fractionOfSecond = BinaryPrimitives.ReadUInt32BigEndian(buf[(index + 4)..]);
+        //    uint secondOfEra = BinaryPrimitives.ReadUInt32BigEndian(buf[index..]);
+        //    uint fractionOfSecond = BinaryPrimitives.ReadUInt32BigEndian(buf[(index + 4)..]);
 
-            return new Timestamp64(secondOfEra, fractionOfSecond);
-        }
+        //    return new Timestamp64(secondOfEra, fractionOfSecond);
+        //}
 
         /// <summary>
         /// Writes the current instance into a span of bytes.

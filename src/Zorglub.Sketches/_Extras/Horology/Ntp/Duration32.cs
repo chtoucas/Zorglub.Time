@@ -48,12 +48,6 @@ namespace Zorglub.Time.Horology.Ntp
         public static Duration32 Epsilon { get; } = new(0, 1);
 
         /// <summary>
-        /// Gets a duration representing exactly one second.
-        /// <para>This static property is thread-safe.</para>
-        /// </summary>
-        internal static Duration32 OneSecond { get; } = new(1, 0);
-
-        /// <summary>
         /// Gets the smallest possible value of a <see cref="Duration32"/>.
         /// <para>This static property is thread-safe.</para>
         /// </summary>
@@ -65,8 +59,14 @@ namespace Zorglub.Time.Horology.Ntp
         /// </summary>
         public static Duration32 MaxValue { get; } = new(UInt16.MaxValue, UInt16.MaxValue);
 
+        /// <summary>
+        /// Gets the number of whole seconds in this duration.
+        /// </summary>
         public int Seconds => _seconds;
 
+        /// <summary>
+        /// Gets the number of fractional seconds in this duration.
+        /// </summary>
         public int FractionalSeconds => _fractionalSeconds;
 
         /// <summary>
@@ -108,7 +108,7 @@ namespace Zorglub.Time.Horology.Ntp
     public partial struct Duration32 // Binary helpers
     {
         /// <summary>
-        /// Reads a <see cref="Duration32"/> from the beginning of a read-only span of bytes.
+        /// Reads a <see cref="Duration32"/> value from the beginning of a read-only span of bytes.
         /// </summary>
         [Pure]
         internal static Duration32 ReadFrom(ReadOnlySpan<byte> buf)
@@ -122,7 +122,7 @@ namespace Zorglub.Time.Horology.Ntp
         }
     }
 
-    public partial struct Duration32
+    public partial struct Duration32 // IEquatable
     {
         /// <summary>
         /// Determines whether two specified instances of <see cref="Duration32"/> are equal.

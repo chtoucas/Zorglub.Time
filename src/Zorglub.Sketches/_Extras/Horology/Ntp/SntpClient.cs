@@ -21,7 +21,6 @@ namespace Zorglub.Time.Horology.Ntp
     public sealed partial class SntpClient
     {
         private const int DataLength = 48;
-
         private const int TransmitTimestampOffset = 40;
 
         /// <summary>
@@ -42,7 +41,19 @@ namespace Zorglub.Time.Horology.Ntp
         /// </summary>
         public const int DefaultPort = 123;
 
-        public const int DefaultReceiveTimeout = 1000;
+        /// <summary>
+        /// Represents the default amount of time in milliseconds after which a synchronous call
+        /// Send will time out.
+        /// <para>This field is a constant equal to 100 milliseconds.</para>
+        /// </summary>
+        public const int DefaultSendTimeout = 100;
+
+        /// <summary>
+        /// Represents the default amount of time in milliseconds after which a synchronous call
+        /// Receive will time out.
+        /// <para>This field is a constant equal to 100 milliseconds.</para>
+        /// </summary>
+        public const int DefaultReceiveTimeout = 100;
 
         private readonly IRandomProvider _randomProvider = new DefaultRandomProvider();
 
@@ -84,6 +95,9 @@ namespace Zorglub.Time.Horology.Ntp
             }
         }
 
+        // Send timeout in milliseconds; see Socket.SendTimeout.
+        public int SendTimeout { get; init; } = DefaultSendTimeout;
+
         // Receive timeout in milliseconds; see Socket.ReceiveTimeout.
         public int ReceiveTimeout { get; init; } = DefaultReceiveTimeout;
 
@@ -124,6 +138,7 @@ namespace Zorglub.Time.Horology.Ntp
 
             using var sock = new Socket(SocketType.Dgram, ProtocolType.Udp)
             {
+                SendTimeout = SendTimeout,
                 ReceiveTimeout = ReceiveTimeout,
             };
 
@@ -131,7 +146,7 @@ namespace Zorglub.Time.Horology.Ntp
 
             // Start time on this side of the network.
             var requestTime = DateTime.UtcNow;
-            long requestTicks = stopwatch.ElapsedTicks;
+            long startTicks = stopwatch.ElapsedTicks;
 
             // Randomize the timestamp, then write the result into the buffer.
             var requestTimestamp =
@@ -142,19 +157,19 @@ namespace Zorglub.Time.Horology.Ntp
             sock.Send(buf);
             int len = sock.Receive(buf);
 
-            long responseTicks = stopwatch.ElapsedTicks;
+            long endTicks = stopwatch.ElapsedTicks;
 
             // Ensure that the response has enough bytes before proceeding
             // further.
             if (len < DataLength) NtpException.Throw();
 
             // Elapsed ticks during the query on this side of the network.
-            var elapsedTicks = responseTicks - requestTicks;
+            long elapsedTicks = endTicks - startTicks;
             // End time on this side of the network.
             var responseTime = requestTime.AddMilliseconds(elapsedTicks / TicksPerMillisecond);
-            var reponseTimestamp = Timestamp64.FromDateTime(responseTime);
+            var responseTimestamp = Timestamp64.FromDateTime(responseTime);
 
-            return CreateReply(buf, requestTimestamp, reponseTimestamp);
+            return ReadResponse(buf, requestTimestamp, responseTimestamp);
         }
 
         [Pure]
@@ -165,15 +180,12 @@ namespace Zorglub.Time.Horology.Ntp
 
             var stopwatch = Stopwatch.StartNew();
 
-            using var sock = new Socket(SocketType.Dgram, ProtocolType.Udp)
-            {
-                ReceiveTimeout = ReceiveTimeout,
-            };
+            using var sock = new Socket(SocketType.Dgram, ProtocolType.Udp);
 
             await sock.ConnectAsync(Endpoint).ConfigureAwait(false);
 
             var requestTime = DateTime.UtcNow;
-            long requestTicks = stopwatch.ElapsedTicks;
+            long startTicks = stopwatch.ElapsedTicks;
 
             var requestTimestamp =
                 Timestamp64.FromDateTime(requestTime)
@@ -184,22 +196,22 @@ namespace Zorglub.Time.Horology.Ntp
             await sock.SendAsync(buf, SocketFlags.None).ConfigureAwait(false);
             int len = await sock.ReceiveAsync(buf, SocketFlags.None).ConfigureAwait(false);
 
-            long responseTicks = stopwatch.ElapsedTicks;
+            long endTicks = stopwatch.ElapsedTicks;
 
             if (len < DataLength) NtpException.Throw();
 
-            var elapsedTicks = responseTicks - requestTicks;
+            long elapsedTicks = endTicks - startTicks;
             var responseTime = requestTime.AddMilliseconds(elapsedTicks / TicksPerMillisecond);
             var responseTimestamp = Timestamp64.FromDateTime(responseTime);
 
-            return CreateReply(buf, requestTimestamp, responseTimestamp);
+            return ReadResponse(buf, requestTimestamp, responseTimestamp);
         }
     }
 
     public partial class SntpClient // Helpers
     {
         [Pure]
-        private SntpResponse CreateReply(
+        private SntpResponse ReadResponse(
             ReadOnlySpan<byte> buf,
             Timestamp64 requestTimestamp,
             Timestamp64 responseTimestamp)
@@ -223,26 +235,22 @@ namespace Zorglub.Time.Horology.Ntp
             Debug.Assert(buf != null);
             Debug.Assert(buf.Length >= DataLength);
 
-            // mode = NtpMode.Server
+            // mode = 4 (server).
             if ((buf[0] & 7) != 4) NtpException.Throw();
 
-            return new SntpServerInfo
+            var info = new SntpServerInfo
             {
                 LeapIndicator = ReadLeapIndicator((buf[0] >> 6) & 3),
                 Version = (buf[0] >> 3) & 7,
                 Stratum = ReadStratum(buf[1]),
                 PollInterval = 1 << ReadSByte(buf[2]),
                 Precision = ReadSByte(buf[3]),
-                // FIXME(code): delay and dispersion values.
-                // RFC 4330 (SNTP) says that it's a 32-bit signed fixed-point
-                // number and that it can be negative.
-                // RFC 5905 (NTP) says that it's in NTP short format (unsigned).
-                // See also
-                // https://support.ntp.org/bin/view/Support/NTPRelatedDefinitions
                 Rtt = Duration32.ReadFrom(buf[4..]),
                 Dispersion = Duration32.ReadFrom(buf[8..]),
                 ReferenceTimestamp = Timestamp64.ReadFrom(buf[16..]),
             };
+
+            return info;
 
             // We validate the data according to RFC 4330, section 5.
             // Since we decided not to process the Reference Identifier we cannot
@@ -255,16 +263,20 @@ namespace Zorglub.Time.Horology.Ntp
                     0 => LeapIndicator.NoWarning,
                     1 => LeapIndicator.PositiveLeapSecond,
                     2 => LeapIndicator.NegativeLeapSecond,
-                    _ => NtpException.Throw<LeapIndicator>()
+                    3 => NtpException.Throw<LeapIndicator>("The server clock is not synchronised."),
+                    // 0 <= "x" <= 3
+                    _ => Throw.Unreachable<LeapIndicator>()
                 };
 
             [Pure]
             static NtpStratum ReadStratum(byte x) =>
                 x switch
                 {
+                    0 => NtpException.Throw<NtpStratum>("The server is unavailable."),
                     1 => NtpStratum.PrimaryReference,
                     <= 15 => NtpStratum.SecondaryReference,
-                    _ => NtpException.Throw<NtpStratum>()
+                    16 => NtpException.Throw<NtpStratum>("The server clock is not synchronised."),
+                    _ => NtpException.Throw<NtpStratum>("Reserved.")
                 };
 
             [Pure]
@@ -277,23 +289,21 @@ namespace Zorglub.Time.Horology.Ntp
             Debug.Assert(buf != null);
             Debug.Assert(buf.Length >= DataLength);
 
+            var receiveTimestamp = Timestamp64.ReadFrom(buf[32..]);
+            var transmitTimestamp = Timestamp64.ReadFrom(buf[TransmitTimestampOffset..]);
+
+            // Sanity checks.
+            if (receiveTimestamp == Timestamp64.Zero) NtpException.Throw();
+            if (transmitTimestamp == Timestamp64.Zero) NtpException.Throw();
+            // The server clock should be monotonically increasing.
+            if (transmitTimestamp < receiveTimestamp) NtpException.Throw();
+
             return new SntpTimeInfo
             {
                 RequestTimestamp = Timestamp64.ReadFrom(buf[24..]),
-                ReceiveTimestamp = ReadTimestamp(buf[32..]),
-                TransmitTimestamp = ReadTimestamp(buf[40..])
+                ReceiveTimestamp = receiveTimestamp,
+                TransmitTimestamp = transmitTimestamp
             };
-
-            [Pure]
-            static Timestamp64 ReadTimestamp(ReadOnlySpan<byte> buf)
-            {
-                Debug.Assert(buf.Length >= 8);
-
-                var timestamp = Timestamp64.ReadFrom(buf);
-                if (timestamp == Timestamp64.Zero) NtpException.Throw();
-
-                return timestamp;
-            }
         }
     }
 }

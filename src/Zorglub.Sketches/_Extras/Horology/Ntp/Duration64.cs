@@ -50,12 +50,6 @@ namespace Zorglub.Time.Horology.Ntp
         public static Duration64 Epsilon { get; } = new(1);
 
         /// <summary>
-        /// Gets a duration representing exactly one second.
-        /// <para>This static property is thread-safe.</para>
-        /// </summary>
-        internal static Duration64 OneSecond { get; } = new(1L << 32);
-
-        /// <summary>
         /// Gets the smallest possible value of a <see cref="Duration64"/>.
         /// <para>This static property is thread-safe.</para>
         /// </summary>
@@ -75,9 +69,8 @@ namespace Zorglub.Time.Horology.Ntp
         // *** WARNING ***
         // Do NOT use >> 32 to divide a signed integer by 2^32. Indeed, >> rounds
         // towards minus infinity, e.g. (-2^32 - 1) >> 32 = -2 which is not what
-        // we want that is -1.
-        // The integer division gives the correct result since it rounds towards
-        // zero, (-2^32 - 1) / 2^32 = -1
+        // we want that is -1. The integer division gives the correct result
+        // since it rounds towards zero, (-2^32 - 1) / 2^32 = -1
 
         /// <summary>
         /// Gets the total number of nanoseconds in this duration.
@@ -109,9 +102,10 @@ namespace Zorglub.Time.Horology.Ntp
     public partial struct Duration64 // Binary helpers
     {
         /// <summary>
-        /// Reads a <see cref="Duration64"/> from the beginning of a read-only span of bytes.
+        /// Reads a <see cref="Duration64"/> value from the beginning of a read-only span of bytes.
         /// </summary>
         [Pure]
+        [Obsolete("Use Duration32.ReadFrom().")]
         internal static Duration64 ReadFourBytesFrom(ReadOnlySpan<byte> buf)
         {
             Debug.Assert(buf.Length >= 4);
@@ -122,7 +116,7 @@ namespace Zorglub.Time.Horology.Ntp
         }
     }
 
-    public partial struct Duration64
+    public partial struct Duration64 // IEquatable
     {
         /// <summary>
         /// Determines whether two specified instances of <see cref="Duration64"/> are equal.
