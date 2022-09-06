@@ -1,11 +1,8 @@
 // SPDX-License-Identifier: BSD-3-Clause
 // Copyright (c) 2020 Narvalo.Org. All rights reserved.
 
-#define NTP_PACKET
-
 namespace Zorglub.Time.Horology.Ntp
 {
-    using System.IO.Pipes;
     using System.Net;
     using System.Net.Sockets;
     using System.Threading.Tasks;
@@ -209,7 +206,7 @@ namespace Zorglub.Time.Horology.Ntp
 
     public partial class SntpClient // Helpers
     {
-#if NTP_PACKET
+        private static readonly Duration32 s_OneSecond = new(1, 0);
 
         [Pure]
         private SntpResponse ReadResponse(
@@ -236,7 +233,7 @@ namespace Zorglub.Time.Horology.Ntp
                 Rtt = pkt.RootDelay,
                 Dispersion = pkt.RootDispersion,
                 ReferenceIdentifier = pkt.ReferenceIdentifier,
-                Reference = pkt.Reference,
+                ReferenceCode = pkt.ReferenceCode,
                 ReferenceTimestamp = pkt.ReferenceTimestamp,
             };
 
@@ -251,8 +248,6 @@ namespace Zorglub.Time.Horology.Ntp
             return new SntpResponse(si, ti);
         }
 
-        private static readonly Duration32 s_OneSecond = new(1, 0);
-
         // Validation according to RFC 4330, section 5 (client-server mode).
         // We should also check the IP address.
         // Root distance.
@@ -261,7 +256,8 @@ namespace Zorglub.Time.Horology.Ntp
         //   See https://www.rfc-editor.org/rfc/rfc5905#appendix-A.5.1.1
         private static void ValidatePacket(in NtpPacket pkt)
         {
-            if (pkt.Mode != NtpMode.Server) NtpException.Throw("The NTP mode should be set to server.");
+            if (pkt.Mode != NtpMode.Server)
+                NtpException.Throw("The NTP mode should be set to server.");
 
             // Legit binary values: 0, 1, 2.
             if (pkt.LeapIndicator != LeapIndicator.NoWarning
@@ -285,105 +281,5 @@ namespace Zorglub.Time.Horology.Ntp
             if (pkt.TransmitTimestamp < pkt.ReceiveTimestamp)
                 NtpException.Throw("Transmit Timestamp < Receive Timestamp.");
         }
-
-#else
-
-        [Pure]
-        private SntpResponse ReadResponse(
-            ReadOnlySpan<byte> buf,
-            Timestamp64 requestTimestamp,
-            Timestamp64 responseTimestamp)
-        {
-            // The only fields not yet validated are those that the server is
-            // expected to copy verbatim from the request.
-
-            var si = ReadServerInfo(buf);
-            if (si.Version != Version) NtpException.Throw();
-
-            var ti = ReadTimeInfo(buf);
-            ti.ResponseTimestamp = responseTimestamp;
-            if (ti.RequestTimestamp != requestTimestamp) NtpException.Throw();
-
-            return new SntpResponse(si, ti);
-        }
-
-        [Pure]
-        private static SntpServerInfo ReadServerInfo(ReadOnlySpan<byte> buf)
-        {
-            Debug.Assert(buf != null);
-            Debug.Assert(buf.Length >= NtpPacket.DataLength);
-
-            // mode = 4 (server).
-            if ((buf[0] & 7) != 4) NtpException.Throw();
-
-            var info = new SntpServerInfo
-            {
-                LeapIndicator = ReadLeapIndicator((buf[0] >> 6) & 3),
-                Version = (buf[0] >> 3) & 7,
-                Stratum = ReadStratum(buf[1]),
-                PollInterval = 1 << ReadSByte(buf[2]),
-                Precision = ReadSByte(buf[3]),
-                Rtt = Duration32.ReadFrom(buf[4..]),
-                Dispersion = Duration32.ReadFrom(buf[8..]),
-                ReferenceTimestamp = Timestamp64.ReadFrom(buf[16..]),
-            };
-
-            return info;
-
-            // We validate the data according to RFC 4330, section 5.
-            // Since we decided not to process the Reference Identifier we cannot
-            // validate it here.
-
-            [Pure]
-            static LeapIndicator ReadLeapIndicator(int x) =>
-                x switch
-                {
-                    0 => LeapIndicator.NoWarning,
-                    1 => LeapIndicator.PositiveLeapSecond,
-                    2 => LeapIndicator.NegativeLeapSecond,
-                    3 => NtpException.Throw<LeapIndicator>("The server clock is not synchronised."),
-                    // 0 <= "x" <= 3
-                    _ => Throw.Unreachable<LeapIndicator>()
-                };
-
-            [Pure]
-            static NtpStratum ReadStratum(byte x) =>
-                x switch
-                {
-                    0 => NtpException.Throw<NtpStratum>("The server is unavailable."),
-                    1 => NtpStratum.PrimaryReference,
-                    <= 15 => NtpStratum.SecondaryReference,
-                    16 => NtpException.Throw<NtpStratum>("The server clock is not synchronised."),
-                    _ => NtpException.Throw<NtpStratum>("Reserved.")
-                };
-
-            [Pure]
-            static int ReadSByte(byte v) => v > 127 ? v - 256 : v;
-        }
-
-        [Pure]
-        private static SntpTimeInfo ReadTimeInfo(ReadOnlySpan<byte> buf)
-        {
-            Debug.Assert(buf != null);
-            Debug.Assert(buf.Length >= NtpPacket.DataLength);
-
-            var receiveTimestamp = Timestamp64.ReadFrom(buf[32..]);
-            var transmitTimestamp = Timestamp64.ReadFrom(buf[NtpPacket.TransmitTimestampOffset..]);
-
-            // Sanity checks.
-            if (receiveTimestamp == Timestamp64.Zero) NtpException.Throw();
-            if (transmitTimestamp == Timestamp64.Zero) NtpException.Throw();
-            // The server clock should be monotonically increasing.
-            if (transmitTimestamp < receiveTimestamp) NtpException.Throw();
-
-            return new SntpTimeInfo
-            {
-                RequestTimestamp = Timestamp64.ReadFrom(buf[24..]),
-                ReceiveTimestamp = receiveTimestamp,
-                TransmitTimestamp = transmitTimestamp
-            };
-        }
-
-#endif
     }
 }

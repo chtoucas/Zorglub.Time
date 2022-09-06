@@ -4,8 +4,6 @@
 namespace Play.Demo;
 
 using System;
-using System.Net;
-using System.Net.Sockets;
 
 using Zorglub.Time.Horology.Ntp;
 
@@ -17,21 +15,20 @@ public static class NtpSimple
     public static void Query()
     {
         // Other options: "time.windows.com", "fr.pool.ntp.org"
-        var cli = new SntpClient();
+        var cli = new SntpClient("fr.pool.ntp.org");
         var rsp = cli.Query();
 
         var si = rsp.ServerInfo;
         var ti = rsp.TimeInfo;
 
         string reference = GetReference(si);
-
-        var precisionInMicroseconds = MicrosecondsPerSecond * Math.Pow(2, si.Precision);
+        double precisionInMicroseconds = MicrosecondsPerSecond * Math.Pow(2, si.Precision);
 
         WriteLine($"NTP response (server info)");
         WriteLine($"  Version:            {si.Version}");
         WriteLine($"  Leap second:        {si.LeapIndicator}");
         WriteLine($"  Stratum:            {si.Stratum}");
-        WriteLine($"  Reference source:   {reference} (ID = {si.ReferenceIdentifier})");
+        WriteLine($"  Reference ID:       {reference}");
         WriteLine("  Reference time:     {0:HH:mm:ss.fff}", si.ReferenceTimestamp.ToDateTime());
         WriteLine($"  RTT:                {si.Rtt} ({si.Rtt.TotalMilliseconds:F3}ms)");
         WriteLine($"  Dispersion:         {si.Dispersion} ({si.Dispersion.TotalMilliseconds:F3}ms)");
@@ -49,35 +46,21 @@ public static class NtpSimple
 
     static string GetReference(SntpServerInfo si)
     {
-        var reference = si.Reference;
-        if (reference is null) return String.Empty;
-
         return si.Stratum switch
         {
-            NtpStratum.Unavailable => FormattableString.Invariant($"{reference} (Kiss Code)"),
-            NtpStratum.PrimaryReference => FormattableString.Invariant($"{reference} (ID)"),
-            NtpStratum.SecondaryReference => GetReference(reference, si.Version),
-            _ => reference,
+            NtpStratum.Unavailable =>
+                FormattableString.Invariant($"{si.ReferenceCode} (Kiss Code)"),
+            NtpStratum.PrimaryReference =>
+                FormattableString.Invariant($"{si.ReferenceCode} (Code)"),
+            NtpStratum.SecondaryReference => GetReference(),
+            _ => String.Empty,
         };
 
-        static string GetReference(string reference, int version)
+        string GetReference()
         {
-            if (version == 3)
-            {
-                try
-                {
-                    var host = Dns.GetHostEntry(reference);
-                    return FormattableString.Invariant($"{reference} (IPv4) {host.HostName}");
-                }
-                catch (SocketException)
-                {
-                    return FormattableString.Invariant($"{reference} (IPv4)");
-                }
-            }
-            else
-            {
-                return FormattableString.Invariant($"{reference} (fake IPv6)");
-            }
+            var r = BitConverter.GetBytes(si.ReferenceIdentifier);
+            return FormattableString.Invariant(
+                $"{r[0]:x2}{r[1]:x2}{r[2]:x2}{r[3]:x2} (IPv4?={r[0]}.{r[1]}.{r[2]}.{r[3]})");
         }
     }
 

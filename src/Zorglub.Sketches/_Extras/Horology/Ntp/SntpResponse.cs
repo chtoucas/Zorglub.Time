@@ -58,7 +58,7 @@ namespace Zorglub.Time.Horology.Ntp
         [CLSCompliant(false)]
         public uint ReferenceIdentifier { get; init; }
 
-        public string Reference { get; internal init; } = String.Empty;
+        public string ReferenceCode { get; internal init; } = String.Empty;
 
         public Timestamp64 ReferenceTimestamp { get; init; }
     }
