@@ -1,11 +1,13 @@
 // SPDX-License-Identifier: BSD-3-Clause
 // Copyright (c) 2020 Narvalo.Org. All rights reserved.
 
+#define NTP_PACKET
+
 namespace Zorglub.Time.Horology.Ntp
 {
+    using System.IO.Pipes;
     using System.Net;
     using System.Net.Sockets;
-    using System.Text;
     using System.Threading.Tasks;
 
     using static Zorglub.Time.Core.TemporalConstants;
@@ -20,9 +22,6 @@ namespace Zorglub.Time.Horology.Ntp
 
     public sealed partial class SntpClient
     {
-        private const int DataLength = 48;
-        private const int TransmitTimestampOffset = 40;
-
         /// <summary>
         /// Represents the default SNTP version.
         /// <para>This field is a constant equal to 4.</para>
@@ -44,16 +43,16 @@ namespace Zorglub.Time.Horology.Ntp
         /// <summary>
         /// Represents the default amount of time in milliseconds after which a synchronous call
         /// Send will time out.
-        /// <para>This field is a constant equal to 100 milliseconds.</para>
+        /// <para>This field is a constant equal to 500 milliseconds.</para>
         /// </summary>
-        public const int DefaultSendTimeout = 100;
+        public const int DefaultSendTimeout = 500;
 
         /// <summary>
         /// Represents the default amount of time in milliseconds after which a synchronous call
         /// Receive will time out.
-        /// <para>This field is a constant equal to 100 milliseconds.</para>
+        /// <para>This field is a constant equal to 500 milliseconds.</para>
         /// </summary>
-        public const int DefaultReceiveTimeout = 100;
+        public const int DefaultReceiveTimeout = 500;
 
         private readonly IRandomGenerator _randomGenerator = new DefaultRandomGenerator();
 
@@ -127,7 +126,7 @@ namespace Zorglub.Time.Horology.Ntp
         [Pure]
         public SntpResponse Query()
         {
-            var buf = new byte[DataLength].AsSpan();
+            var buf = new byte[NtpPacket.DataLength].AsSpan();
             buf[0] = FirstByte;
 
             // A system clock is not monotonic, it may be synchronized backward
@@ -152,7 +151,7 @@ namespace Zorglub.Time.Horology.Ntp
             var requestTimestamp =
                 Timestamp64.FromDateTime(requestTime)
                     .RandomizeSubMilliseconds(RandomGenerator);
-            requestTimestamp.WriteTo(buf, TransmitTimestampOffset);
+            requestTimestamp.WriteTo(buf, NtpPacket.TransmitTimestampOffset);
 
             sock.Send(buf);
             int len = sock.Receive(buf);
@@ -161,7 +160,7 @@ namespace Zorglub.Time.Horology.Ntp
 
             // Ensure that the response has enough bytes before proceeding
             // further.
-            if (len < DataLength) NtpException.Throw();
+            if (len < NtpPacket.DataLength) NtpException.Throw();
 
             // Elapsed ticks during the query on this side of the network.
             long elapsedTicks = endTicks - startTicks;
@@ -175,7 +174,7 @@ namespace Zorglub.Time.Horology.Ntp
         [Pure]
         public async Task<SntpResponse> QueryAsync()
         {
-            var bytes = new byte[DataLength];
+            var bytes = new byte[NtpPacket.DataLength];
             bytes[0] = FirstByte;
 
             var stopwatch = Stopwatch.StartNew();
@@ -190,7 +189,7 @@ namespace Zorglub.Time.Horology.Ntp
             var requestTimestamp =
                 Timestamp64.FromDateTime(requestTime)
                     .RandomizeSubMilliseconds(RandomGenerator);
-            requestTimestamp.WriteTo(bytes, TransmitTimestampOffset);
+            requestTimestamp.WriteTo(bytes, NtpPacket.TransmitTimestampOffset);
 
             var buf = new ArraySegment<byte>(bytes);
             await sock.SendAsync(buf, SocketFlags.None).ConfigureAwait(false);
@@ -198,7 +197,7 @@ namespace Zorglub.Time.Horology.Ntp
 
             long endTicks = stopwatch.ElapsedTicks;
 
-            if (len < DataLength) NtpException.Throw();
+            if (len < NtpPacket.DataLength) NtpException.Throw();
 
             long elapsedTicks = endTicks - startTicks;
             var responseTime = requestTime.AddMilliseconds(elapsedTicks / TicksPerMillisecond);
@@ -210,6 +209,64 @@ namespace Zorglub.Time.Horology.Ntp
 
     public partial class SntpClient // Helpers
     {
+#if NTP_PACKET
+
+        [Pure]
+        private SntpResponse ReadResponse(
+            ReadOnlySpan<byte> buf,
+            Timestamp64 requestTimestamp,
+            Timestamp64 responseTimestamp)
+        {
+            var pkt = NtpPacket.ReadFrom(buf);
+            ValidatePacket(pkt);
+            // The only fields not yet validated are those that the server is
+            // expected to copy verbatim from the request.
+            if (pkt.Version != Version) NtpException.Throw();
+            if (pkt.OriginateTimestamp != requestTimestamp) NtpException.Throw();
+
+            var si = new SntpServerInfo
+            {
+                LeapIndicator = pkt.LeapIndicator,
+                Version = pkt.Version,
+                Stratum = pkt.Stratum,
+                PollInterval = pkt.PollInterval,
+                Precision = pkt.Precision,
+                Rtt = pkt.RootDelay,
+                Dispersion = pkt.RootDispersion,
+                ReferenceTimestamp = pkt.ReferenceTimestamp,
+            };
+
+            var ti = new SntpTimeInfo
+            {
+                RequestTimestamp = requestTimestamp,
+                ReceiveTimestamp = pkt.ReceiveTimestamp,
+                TransmitTimestamp = pkt.TransmitTimestamp,
+                ResponseTimestamp = responseTimestamp
+            };
+
+            return new SntpResponse(si, ti);
+        }
+
+        // Validation according to RFC 4330, section 5.
+        private static void ValidatePacket(in NtpPacket pkt)
+        {
+            // Mode = 4 (server).
+            if (pkt.RawMode != 4) NtpException.Throw();
+            // LI = 3 (unsynchronised).
+            if (pkt.RawLeapIndicator == 3) NtpException.Throw("The server clock is not synchronised.");
+            // Stratum = 0 (unavailable), 16 (unsynchronised), > 16 (reserved).
+            if (pkt.RawStratum == 0 || pkt.RawStratum > 15)
+                NtpException.Throw("The server is unavailable, unsynchronised or the stratum is not valid.");
+
+            // Sanity checks.
+            if (pkt.ReceiveTimestamp == Timestamp64.Zero) NtpException.Throw();
+            if (pkt.TransmitTimestamp == Timestamp64.Zero) NtpException.Throw();
+            // The server clock should be monotonically increasing.
+            if (pkt.TransmitTimestamp < pkt.ReceiveTimestamp) NtpException.Throw();
+        }
+
+#else
+
         [Pure]
         private SntpResponse ReadResponse(
             ReadOnlySpan<byte> buf,
@@ -233,7 +290,7 @@ namespace Zorglub.Time.Horology.Ntp
         private static SntpServerInfo ReadServerInfo(ReadOnlySpan<byte> buf)
         {
             Debug.Assert(buf != null);
-            Debug.Assert(buf.Length >= DataLength);
+            Debug.Assert(buf.Length >= NtpPacket.DataLength);
 
             // mode = 4 (server).
             if ((buf[0] & 7) != 4) NtpException.Throw();
@@ -287,10 +344,10 @@ namespace Zorglub.Time.Horology.Ntp
         private static SntpTimeInfo ReadTimeInfo(ReadOnlySpan<byte> buf)
         {
             Debug.Assert(buf != null);
-            Debug.Assert(buf.Length >= DataLength);
+            Debug.Assert(buf.Length >= NtpPacket.DataLength);
 
             var receiveTimestamp = Timestamp64.ReadFrom(buf[32..]);
-            var transmitTimestamp = Timestamp64.ReadFrom(buf[TransmitTimestampOffset..]);
+            var transmitTimestamp = Timestamp64.ReadFrom(buf[NtpPacket.TransmitTimestampOffset..]);
 
             // Sanity checks.
             if (receiveTimestamp == Timestamp64.Zero) NtpException.Throw();
@@ -305,5 +362,7 @@ namespace Zorglub.Time.Horology.Ntp
                 TransmitTimestamp = transmitTimestamp
             };
         }
+
+#endif
     }
 }

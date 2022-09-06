@@ -30,9 +30,9 @@ public static class NtpSimple
         WriteLine($"  Leap second:        {si.LeapIndicator}");
         WriteLine($"  Stratum:            {si.Stratum}");
         WriteLine("  Reference time:     {0:HH:mm:ss.fff}", si.ReferenceTimestamp.ToDateTime());
-        WriteLine($"  RTT:                {si.Rtt} ({(int)si.Rtt.TotalMilliseconds}ms)");
-        WriteLine($"  Dispersion:         {si.Dispersion} ({(int)si.Dispersion.TotalMilliseconds}ms)");
-        WriteLine($"  Poll interval:      {si.PollInterval}s");
+        WriteLine($"  RTT:                {si.Rtt} ({si.Rtt.TotalMilliseconds:F3}ms)");
+        WriteLine($"  Dispersion:         {si.Dispersion} ({si.Dispersion.TotalMilliseconds:F3}ms)");
+        WriteLine($"  Poll interval:      {1 << si.PollInterval}s");
         WriteLine($"  Precision:          2^{si.Precision} ({precisionInMicroseconds:F3}µs)");
 
         WriteLine($"NTP response (time info)");
@@ -41,7 +41,7 @@ public static class NtpSimple
         WriteLine("  Server transmits:   {0:HH:mm:ss.fff}", ti.TransmitTimestamp.ToDateTime());
         WriteLine("  Client receives:    {0:HH:mm:ss.fff}", ti.ResponseTimestamp.ToDateTime());
         WriteLine($"  Clock offset:       {ti.ClockOffset} ({ti.ClockOffset.TotalSeconds:+#.###;0.000;-#.###}s)");
-        WriteLine($"  RTT:                {ti.Rtt} ({(int)ti.Rtt.TotalMilliseconds}ms)");
+        WriteLine($"  RTT:                {ti.Rtt} ({ti.Rtt.TotalMilliseconds:F3}ms)");
     }
 
     //[SuppressMessage("Design", "CA1034:Nested types should not be visible")]

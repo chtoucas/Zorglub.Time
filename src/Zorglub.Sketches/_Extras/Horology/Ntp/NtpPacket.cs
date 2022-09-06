@@ -3,21 +3,30 @@
 
 namespace Zorglub.Time.Horology.Ntp
 {
+    using System.Buffers.Binary;
     using System.Text;
 
     // See https://www.rfc-editor.org/rfc/rfc5905#section-7.2
-    [CLSCompliant(false)]
-    public partial record class NtpPacket
+    internal readonly partial struct NtpPacket
     {
-        private const int DataLength = 48;
+        public const int DataLength = 48;
+        public const int TransmitTimestampOffset = 40;
 
-        public int LeapIndicator { get; private init; }
-        public int Version { get; private init; }
-        public int Mode { get; private init; }
-        public byte Stratum { get; private init; }
+        /// <summary>The result is a 2-bit unsigned integer.</summary>
+        public byte RawLeapIndicator { get; private init; }
+
+        /// <summary>The result is a 3-bit unsigned integer.</summary>
+        public byte Version { get; private init; }
+
+        /// <summary>The result is a 3-bit unsigned integer.</summary>
+        public byte RawMode { get; private init; }
+
+        public byte RawStratum { get; private init; }
+
         // Signed 8-bit integer = log_2(poll)
         // Range = [4..17], 16 (2^4) seconds <= poll <= 131_072 (2^17) seconds.
         public byte PollInterval { get; private init; }
+
         // Signed 8-bit integer = log_2(precision)
         // Clock resolution =
         //   2^-p where p is the number of significant bits in the
@@ -29,6 +38,7 @@ namespace Zorglub.Time.Horology.Ntp
         // Precision = Max(clock resolution, clock precision).
         // Range = [-20..-6], 2^-20 seconds <= precision <= 2^-6 seconds.
         public sbyte Precision { get; private init; }
+
         // FIXME(code): delay and dispersion values.
         // RFC 4330 (SNTP) says that it's a 32-bit signed fixed-point
         // number and that it can be negative.
@@ -36,54 +46,83 @@ namespace Zorglub.Time.Horology.Ntp
         // See also
         // https://support.ntp.org/bin/view/Support/NTPRelatedDefinitions
         public Duration32 RootDelay { get; private init; }
+
         public Duration32 RootDispersion { get; private init; }
-        //public string? ReferenceIdentifier { get; private set; }
+
+        public uint ReferenceIdentifier { get; private init; }
+
         public Timestamp64 ReferenceTimestamp { get; private init; }
 
         public Timestamp64 OriginateTimestamp { get; private init; }
         public Timestamp64 ReceiveTimestamp { get; private init; }
         public Timestamp64 TransmitTimestamp { get; private init; }
-        public Timestamp64 DestinationTimestamp { get; private set; }
-
-        public Duration64 RoundTripDelay =>
-            DestinationTimestamp - OriginateTimestamp - (TransmitTimestamp - ReceiveTimestamp);
-
-        public Duration64 ClockOffset =>
-            (ReceiveTimestamp - OriginateTimestamp + (TransmitTimestamp - DestinationTimestamp)) / 2;
 
         [Pure]
-        internal static NtpPacket ReadFrom(ReadOnlySpan<byte> buf)
+        public static NtpPacket ReadFrom(ReadOnlySpan<byte> buf)
         {
             Debug.Assert(buf != null);
             Debug.Assert(buf.Length >= DataLength);
 
-            var rsp = new NtpPacket
+            return new NtpPacket
             {
-                LeapIndicator = (buf[0] >> 6) & 3,
-                Version = (buf[0] >> 3) & 7,
-                Mode = buf[0] & 7,
-                Stratum = buf[1],
+                RawLeapIndicator = (byte)((buf[0] >> 6) & 3),
+                Version = (byte)((buf[0] >> 3) & 7),
+                RawMode = (byte)(buf[0] & 7),
+                RawStratum = buf[1],
                 PollInterval = buf[2],
                 Precision = ReadSByte(buf[3]),
                 RootDelay = Duration32.ReadFrom(buf[4..]),
                 RootDispersion = Duration32.ReadFrom(buf[8..]),
-                // Bytes 12 to 15; see ReferenceIdentifier below.
+                ReferenceIdentifier = BinaryPrimitives.ReadUInt32BigEndian(buf[12..16]),
                 ReferenceTimestamp = Timestamp64.ReadFrom(buf[16..]),
                 OriginateTimestamp = Timestamp64.ReadFrom(buf[24..]),
                 ReceiveTimestamp = Timestamp64.ReadFrom(buf[32..]),
                 TransmitTimestamp = Timestamp64.ReadFrom(buf[40..])
             };
 
-            //rsp.ReferenceIdentifier = ReadReferenceIdentifier(buf[12..16], rsp);
-
-            return rsp;
-
             // Two's-complement representation of a signed byte.
             // https://en.wikipedia.org/wiki/Two%27s_complement
             static sbyte ReadSByte(byte v) => (sbyte)(v > 127 ? v - 256 : v);
         }
 
+        public LeapIndicator LeapIndicator =>
+            RawLeapIndicator switch
+            {
+                0 => LeapIndicator.NoWarning,
+                1 => LeapIndicator.PositiveLeapSecond,
+                2 => LeapIndicator.NegativeLeapSecond,
+                3 => LeapIndicator.Unsynchronized,
+
+                _ => Throw.Unreachable<LeapIndicator>()
+            };
+
+        public NtpMode Mode =>
+            RawMode switch
+            {
+                0 => NtpMode.Reserved,
+                1 => NtpMode.SymmetricActive,
+                2 => NtpMode.SymmetricPassive,
+                3 => NtpMode.Client,
+                4 => NtpMode.Server,
+                5 => NtpMode.Broadcast,
+                6 => NtpMode.NtpControlMessage,
+                7 => NtpMode.ReservedForPrivateUse,
+
+                _ => Throw.Unreachable<NtpMode>()
+            };
+
+        public NtpStratum Stratum =>
+            RawStratum switch
+            {
+                0 => NtpStratum.Unavailable,
+                1 => NtpStratum.PrimaryReference,
+                <= 15 => NtpStratum.SecondaryReference,
+                16 => NtpStratum.Unsynchronized,
+                _ => NtpStratum.Reserved
+            };
+
 #if false
+
         // Check response in client-server mode.
         // We should also check the IP address.
         // Root distance.
@@ -116,48 +155,6 @@ namespace Zorglub.Time.Horology.Ntp
 
             return true;
         }
-
-        [Pure]
-        private static LeapIndicator ReadLeapIndicator(int x) =>
-            // 2-bit number (0 <= "x" <= 3).
-            x switch
-            {
-                0 => LeapIndicator.NoWarning,
-                1 => LeapIndicator.PositiveLeapSecond,
-                2 => LeapIndicator.NegativeLeapSecond,
-                3 => LeapIndicator.Unsynchronized,
-
-                _ => Throw.Unreachable<LeapIndicator>()
-            };
-
-        [Pure]
-        private static NtpMode ReadMode(int x) =>
-            // 3-bit number (0 <= "x" <= 7).
-            x switch
-            {
-                0 => NtpMode.Reserved,
-                1 => NtpMode.SymmetricActive,
-                2 => NtpMode.SymmetricPassive,
-                3 => NtpMode.Client,
-                4 => NtpMode.Server,
-                5 => NtpMode.Broadcast,
-                6 => NtpMode.NtpControlMessage,
-                7 => NtpMode.ReservedForPrivateUse,
-
-                _ => Throw.Unreachable<NtpMode>()
-            };
-
-        [Pure]
-        private static NtpStratum ReadStratum(byte x) =>
-            // 8-bit unsigned integer.
-            x switch
-            {
-                0 => NtpStratum.Unavailable,
-                1 => NtpStratum.PrimaryReference,
-                <= 15 => NtpStratum.SecondaryReference,
-                16 => NtpStratum.Unsynchronized,
-                _ => NtpStratum.Reserved
-            };
 
         [Pure]
         private static string? ReadReferenceIdentifier(ReadOnlySpan<byte> buf, NtpPacket msg)
@@ -210,11 +207,7 @@ namespace Zorglub.Time.Horology.Ntp
                     return null;
             }
         }
-#endif
-    }
 
-    public partial record class NtpPacket // Old stuff
-    {
         [Pure]
         internal static uint ReadUInt32(ReadOnlySpan<byte> buf)
         {
@@ -243,7 +236,6 @@ namespace Zorglub.Time.Horology.Ntp
                 | buf[7];
         }
 
-#if false
         // https://stackoverflow.com/questions/1193955/how-to-query-an-ntp-server-using-c
 
         ulong GetPart(int startIndex) =>

@@ -39,7 +39,7 @@ namespace Zorglub.Time.Horology.Ntp
         public NtpStratum Stratum { get; init; }
 
         /// <summary>
-        /// Gets the maximum interval between successive messages in seconds.
+        /// Gets the log base 2 of the maximum interval between successive messages in seconds.
         /// </summary>
         public int PollInterval { get; init; }
 
