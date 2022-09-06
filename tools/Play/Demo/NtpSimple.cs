@@ -17,11 +17,13 @@ public static class NtpSimple
     public static void Query()
     {
         // Other options: "time.windows.com", "fr.pool.ntp.org"
-        var cli = new SntpClient("pool.ntp.org") { Version = 4 };
+        var cli = new SntpClient();
         var rsp = cli.Query();
 
         var si = rsp.ServerInfo;
         var ti = rsp.TimeInfo;
+
+        string reference = GetReference(si);
 
         var precisionInMicroseconds = MicrosecondsPerSecond * Math.Pow(2, si.Precision);
 
@@ -29,10 +31,11 @@ public static class NtpSimple
         WriteLine($"  Version:            {si.Version}");
         WriteLine($"  Leap second:        {si.LeapIndicator}");
         WriteLine($"  Stratum:            {si.Stratum}");
+        WriteLine($"  Reference source:   {reference} (ID = {si.ReferenceIdentifier})");
         WriteLine("  Reference time:     {0:HH:mm:ss.fff}", si.ReferenceTimestamp.ToDateTime());
         WriteLine($"  RTT:                {si.Rtt} ({si.Rtt.TotalMilliseconds:F3}ms)");
         WriteLine($"  Dispersion:         {si.Dispersion} ({si.Dispersion.TotalMilliseconds:F3}ms)");
-        WriteLine($"  Poll interval:      {1 << si.PollInterval}s");
+        WriteLine($"  Poll interval:      {si.PollInterval}s");
         WriteLine($"  Precision:          2^{si.Precision} ({precisionInMicroseconds:F3}µs)");
 
         WriteLine($"NTP response (time info)");
@@ -42,6 +45,40 @@ public static class NtpSimple
         WriteLine("  Client receives:    {0:HH:mm:ss.fff}", ti.ResponseTimestamp.ToDateTime());
         WriteLine($"  Clock offset:       {ti.ClockOffset} ({ti.ClockOffset.TotalSeconds:+#.###;0.000;-#.###}s)");
         WriteLine($"  RTT:                {ti.Rtt} ({ti.Rtt.TotalMilliseconds:F3}ms)");
+    }
+
+    static string GetReference(SntpServerInfo si)
+    {
+        var reference = si.Reference;
+        if (reference is null) return String.Empty;
+
+        return si.Stratum switch
+        {
+            NtpStratum.Unavailable => FormattableString.Invariant($"{reference} (Kiss Code)"),
+            NtpStratum.PrimaryReference => FormattableString.Invariant($"{reference} (ID)"),
+            NtpStratum.SecondaryReference => GetReference(reference, si.Version),
+            _ => reference,
+        };
+
+        static string GetReference(string reference, int version)
+        {
+            if (version == 3)
+            {
+                try
+                {
+                    var host = Dns.GetHostEntry(reference);
+                    return FormattableString.Invariant($"{reference} (IPv4) {host.HostName}");
+                }
+                catch (SocketException)
+                {
+                    return FormattableString.Invariant($"{reference} (IPv4)");
+                }
+            }
+            else
+            {
+                return FormattableString.Invariant($"{reference} (fake IPv6)");
+            }
+        }
     }
 
     //[SuppressMessage("Design", "CA1034:Nested types should not be visible")]

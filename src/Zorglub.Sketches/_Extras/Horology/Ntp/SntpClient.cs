@@ -218,21 +218,25 @@ namespace Zorglub.Time.Horology.Ntp
             Timestamp64 responseTimestamp)
         {
             var pkt = NtpPacket.ReadFrom(buf);
-            ValidatePacket(pkt);
+            ValidatePacket(in pkt);
             // The only fields not yet validated are those that the server is
             // expected to copy verbatim from the request.
-            if (pkt.Version != Version) NtpException.Throw();
-            if (pkt.OriginateTimestamp != requestTimestamp) NtpException.Throw();
+            if (pkt.Version != Version)
+                NtpException.Throw("Version missmatch.");
+            if (pkt.OriginateTimestamp != requestTimestamp)
+                NtpException.Throw("Invalid Originate Timestamp.");
 
             var si = new SntpServerInfo
             {
                 LeapIndicator = pkt.LeapIndicator,
                 Version = pkt.Version,
                 Stratum = pkt.Stratum,
-                PollInterval = pkt.PollInterval,
+                PollInterval = 1 << pkt.PollInterval,
                 Precision = pkt.Precision,
                 Rtt = pkt.RootDelay,
                 Dispersion = pkt.RootDispersion,
+                ReferenceIdentifier = pkt.ReferenceIdentifier,
+                Reference = pkt.Reference,
                 ReferenceTimestamp = pkt.ReferenceTimestamp,
             };
 
@@ -247,22 +251,39 @@ namespace Zorglub.Time.Horology.Ntp
             return new SntpResponse(si, ti);
         }
 
-        // Validation according to RFC 4330, section 5.
+        private static readonly Duration32 s_OneSecond = new(1, 0);
+
+        // Validation according to RFC 4330, section 5 (client-server mode).
+        // We should also check the IP address.
+        // Root distance.
+        //   RootDelay / 2 + RootDispersion < 16s
+        //   ReferenceTimestamp <= TransmitTimestamp
+        //   See https://www.rfc-editor.org/rfc/rfc5905#appendix-A.5.1.1
         private static void ValidatePacket(in NtpPacket pkt)
         {
-            // Mode = 4 (server).
-            if (pkt.RawMode != 4) NtpException.Throw();
-            // LI = 3 (unsynchronised).
-            if (pkt.RawLeapIndicator == 3) NtpException.Throw("The server clock is not synchronised.");
-            // Stratum = 0 (unavailable), 16 (unsynchronised), > 16 (reserved).
-            if (pkt.RawStratum == 0 || pkt.RawStratum > 15)
+            if (pkt.Mode != NtpMode.Server) NtpException.Throw("The NTP mode should be set to server.");
+
+            // Legit binary values: 0, 1, 2.
+            if (pkt.LeapIndicator != LeapIndicator.NoWarning
+                && pkt.LeapIndicator != LeapIndicator.PositiveLeapSecond
+                && pkt.LeapIndicator != LeapIndicator.NegativeLeapSecond)
+                NtpException.Throw("The server clock is not synchronised or the leap indicator is not valid.");
+
+            // Legit binary values: 1 to 15.
+            if (pkt.Stratum != NtpStratum.PrimaryReference
+                && pkt.Stratum != NtpStratum.SecondaryReference)
                 NtpException.Throw("The server is unavailable, unsynchronised or the stratum is not valid.");
 
+            // NTP client-server model: RootDelay and RootDispersion >= 0 and < 1s.
+            if (pkt.RootDelay >= s_OneSecond) NtpException.Throw("Root delay >= 1s");
+            if (pkt.RootDispersion >= s_OneSecond) NtpException.Throw("Root dispersion >= 1s.");
+
             // Sanity checks.
-            if (pkt.ReceiveTimestamp == Timestamp64.Zero) NtpException.Throw();
-            if (pkt.TransmitTimestamp == Timestamp64.Zero) NtpException.Throw();
+            if (pkt.ReceiveTimestamp == Timestamp64.Zero) NtpException.Throw("Receive Timestamp = 0.");
+            if (pkt.TransmitTimestamp == Timestamp64.Zero) NtpException.Throw("Transmit Timestamp = 0.");
             // The server clock should be monotonically increasing.
-            if (pkt.TransmitTimestamp < pkt.ReceiveTimestamp) NtpException.Throw();
+            if (pkt.TransmitTimestamp < pkt.ReceiveTimestamp)
+                NtpException.Throw("Transmit Timestamp < Receive Timestamp.");
         }
 
 #else

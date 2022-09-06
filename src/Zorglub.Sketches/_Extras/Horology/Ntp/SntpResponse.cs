@@ -3,9 +3,6 @@
 
 namespace Zorglub.Time.Horology.Ntp
 {
-    // Fields removed from SntpServerInfo:
-    // - Mode (always = Server)
-    // - ReferenceIdentifier
 
     public sealed class SntpResponse
     {
@@ -39,7 +36,7 @@ namespace Zorglub.Time.Horology.Ntp
         public NtpStratum Stratum { get; init; }
 
         /// <summary>
-        /// Gets the log base 2 of the maximum interval between successive messages in seconds.
+        /// Gets the maximum interval between successive messages in seconds.
         /// </summary>
         public int PollInterval { get; init; }
 
@@ -57,6 +54,11 @@ namespace Zorglub.Time.Horology.Ntp
         /// Gets the maximum error due to the clock frequency tolerance
         /// </summary>
         public Duration32 Dispersion { get; init; }
+
+        [CLSCompliant(false)]
+        public uint ReferenceIdentifier { get; init; }
+
+        public string Reference { get; internal init; } = String.Empty;
 
         public Timestamp64 ReferenceTimestamp { get; init; }
     }
