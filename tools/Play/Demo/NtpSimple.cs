@@ -16,7 +16,7 @@ public static class NtpSimple
     {
         var cli = new SntpClient();
         //var cli = new SntpClient("fr.pool.ntp.org");
-        //var cli = new SntpClient("time.windows.com") { StrictValidation = false };
+        //var cli = new SntpClient("time.windows.com") { DisableStrictValidation = true };
 
         var (si, ti) = cli.Query();
 
@@ -57,16 +57,28 @@ public static class NtpSimple
 
         string GetSecondaryReference()
         {
+            // NTPv4 is a mess... the various RFCs (2030, 4330, 5905) seem to be
+            // contradictory: IPv4 address, or the first four bytes of the MD5
+            // digest of the IPv6 address, or even the low order 32 bits of a
+            // timestamp.
+            //
+            //   Currently, ntpq has no way to know which type of Refid the
+            //   server is sending and always displays the Refid value in
+            //   dotted-quad format -- which means that any IPv6 Refids will be
+            //   listed as if they were IPv4 addresses, even though they are not.
+            //   See
+            //   https://support.ntp.org/bin/view/Support/RefidFormat
+            //
+            // See also
+            // https://support.ntp.org/bin/view/Dev/UpdatingTheRefidFormat
+            // https://github.com/ntp-project/ntp/blob/master-no-authorname/README.leapsmear
             var r = BitConverter.GetBytes(si.ReferenceIdentifier);
 
-            // See https://support.ntp.org/bin/view/Support/RefidFormat
-            // https://github.com/ntp-project/ntp/blob/master-no-authorname/README.leapsmear
             if (r[0] == 254)
             {
-                // TODO(code): compute the leap smearing value.
-                uint smear = BitConverter.ToUInt32(r, 1);
+                // The remaining 3 bytes encode the current smear value.
                 return FormattableString.Invariant(
-                    $"\"254.{r[1]:x2}.{r[2]:x2}.{r[3]:x2}\" (smearing = {smear}s)");
+                    $"\"254.{r[1]:x2}.{r[2]:x2}.{r[3]:x2}\" (Leap Smearing)");
             }
             else
             {

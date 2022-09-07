@@ -103,7 +103,7 @@ namespace Zorglub.Time.Horology.Ntp
             init => _randomGenerator = value ?? throw new ArgumentNullException(nameof(value));
         }
 
-        public bool StrictValidation { get; init; }
+        public bool DisableStrictValidation { get; init; }
 
         private EndPoint Endpoint { get; }
 
@@ -217,10 +217,11 @@ namespace Zorglub.Time.Horology.Ntp
             Timestamp64 responseTimestamp)
         {
             var pkt = NtpPacket.ReadFrom(buf);
-            ValidatePacket(in pkt);
+            ValidatePacket(in pkt, DisableStrictValidation);
             // The only fields not yet validated are those that the server is
             // expected to copy verbatim from the request.
-            if (StrictValidation && pkt.Version != Version)
+            if (DisableStrictValidation == false && pkt.Version != Version)
+                // An NTP server may always return 3, e.g. "time.windows.com".
                 NtpException.Throw(FormattableString.Invariant(
                     $"Invalid packet. Version missmatch: expected {Version}, received {pkt.Version}."));
             if (pkt.OriginateTimestamp != requestTimestamp)
@@ -253,29 +254,33 @@ namespace Zorglub.Time.Horology.Ntp
         }
 
         // Validation according to RFC 4330, section 5 (client operations).
-        // We should also check the IP address.
-        // Peer sync distance: RootDelay / 2 + RootDispersion < 16s
-        // ReferenceTimestamp <= TransmitTimestamp
-        // See https://www.rfc-editor.org/rfc/rfc5905#appendix-A.5.1.1
-        private static void ValidatePacket(in NtpPacket pkt)
+        // Other things we could check:
+        // - ReferenceCode
+        // - ReferenceTimestamp is too far in the past
+        // - RootDelay & co
+        // - Peer sync distance: RootDelay / 2 + RootDispersion < 16s
+        // - IP addresses
+        private static void ValidatePacket(in NtpPacket pkt, bool disableStrictValidation)
         {
-            if (pkt.Mode != NtpMode.Server)
-                NtpException.Throw(FormattableString.Invariant(
-                    $"Invalid packet. The NTP mode is not set to Server: {pkt.Mode}."));
-
             if (pkt.LeapIndicator != LeapIndicator.NoWarning
                 && pkt.LeapIndicator != LeapIndicator.PositiveLeapSecond
                 && pkt.LeapIndicator != LeapIndicator.NegativeLeapSecond)
                 NtpException.Throw(FormattableString.Invariant(
                     $"The server clock is not synchronised -or- the leap indicator is not valid: {pkt.LeapIndicator}."));
 
+            if (pkt.Mode != NtpMode.Server)
+                NtpException.Throw(FormattableString.Invariant(
+                    $"Invalid packet. The NTP mode is not set to Server: {pkt.Mode}."));
+
             if (pkt.Stratum != NtpStratum.PrimaryReference
                 && pkt.Stratum != NtpStratum.SecondaryReference)
                 NtpException.Throw(FormattableString.Invariant(
                     $"The server is unavailable, unsynchronised -or- the stratum is not valid: {pkt.Stratum}."));
 
-            // NTP client-server model: RootDelay and RootDispersion >= 0 and < 1s.
-            // Positivity is built in Duration32.
+            if (disableStrictValidation) return;
+
+            // RootDelay and RootDispersion >= 0 and < 1s.
+            // Notice that positivity is always guaranteed.
             if (pkt.RootDelay >= s_OneSecond)
                 NtpException.Throw(FormattableString.Invariant(
                     $"Root delay >= 1s: {pkt.RootDelay}."));
@@ -283,12 +288,18 @@ namespace Zorglub.Time.Horology.Ntp
                 NtpException.Throw(FormattableString.Invariant(
                     $"Root dispersion >= 1s: {pkt.RootDispersion}."));
 
-            // Sanity checks.
-            if (pkt.ReceiveTimestamp == Timestamp64.Zero) NtpException.Throw("Receive Timestamp = 0.");
-            if (pkt.TransmitTimestamp == Timestamp64.Zero) NtpException.Throw("Transmit Timestamp = 0.");
             // The server clock should be monotonically increasing.
+            if (pkt.ReceiveTimestamp < pkt.ReferenceTimestamp)
+                NtpException.Throw(FormattableString.Invariant(
+                    $"The server clock should be monotonically increasing: Receive Timestamp ({pkt.ReceiveTimestamp}) < Reference Timestamp ({pkt.ReferenceTimestamp})."));
             if (pkt.TransmitTimestamp < pkt.ReceiveTimestamp)
-                NtpException.Throw("Transmit Timestamp < Receive Timestamp.");
+                NtpException.Throw(FormattableString.Invariant(
+                    $"The server clock should be monotonically increasing: Transmit Timestamp ({pkt.TransmitTimestamp}) < Receive Timestamp ({pkt.ReceiveTimestamp})."));
+            // TransmitTimestamp >= ReceiveTimestamp >= ReferenceTimestamp
+            // therefore if ReferenceTimestamp != 0 which implies > 0, then the
+            // other are not too.
+            if (pkt.ReferenceTimestamp == Timestamp64.Zero)
+                NtpException.Throw("Reference Timestamp = 0.");
         }
     }
 }

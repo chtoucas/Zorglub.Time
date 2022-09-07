@@ -63,19 +63,16 @@ Liste très complète d'échelles de temps.
 
 ## Implémentations
 
-[Implémentation de référence](https://github.com/ntp-project/ntp)
-
-[ntpdig](https://docs.ntpsec.org/latest/ntpdig.html)
-
-[Ntimed](https://github.com/bsdphk/Ntimed)
-
-[How to Query an NTP Server using C\#?](https://stackoverflow.com/questions/1193955/how-to-query-an-ntp-server-using-c)
+- [Implémentation de référence](https://github.com/ntp-project/ntp)
+- [ntpdig](https://docs.ntpsec.org/latest/ntpdig.html)
+- [Ntimed](https://github.com/bsdphk/Ntimed)
 
 ### SNTP clients
 - [Java Android](https://android.googlesource.com/platform/frameworks/base/+/master/core/java/android/net/SntpClient.java)
 - [Go](https://github.com/beevik/ntp/)
 
 Others:
+- [How to Query an NTP Server using C\#?](https://stackoverflow.com/questions/1193955/how-to-query-an-ntp-server-using-c)
 - [Haskell](https://hackage.haskell.org/package/hsntp)
 - [Perl](https://metacpan.org/pod/Net::SNTP::Client)
 - [Python](https://github.com/cf-natali/ntplib)

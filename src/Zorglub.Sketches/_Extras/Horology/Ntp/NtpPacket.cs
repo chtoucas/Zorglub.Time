@@ -7,17 +7,19 @@ namespace Zorglub.Time.Horology.Ntp
 
     #region Developer Notes
 
-    // Poll Interval
-    // =============
+    // RFC 4330 (SNTP) says that root delay and dispersion are 32-bit signed
+    // fixed-point numbers and that they can be negative. RFC 5905 (NTP) says
+    // that they are in NTP short format (unsigned); see also
+    // https://www.rfc-editor.org/rfc/rfc5905#appendix-A.5.1.1
+    // We follow RFC 5905.
     //
-    // Signed 8-bit integer = log_2(poll)
-    // Range = [4..17], 16 (2^4) seconds <= poll <= 131_072 (2^17) seconds.
+    // Poll interval and precision are signed 8-bit integers, in log2 seconds.
+    // I believe that most implementations are wrong here: unchecked cast from a
+    // byte, or simply copying the byte.
+    // The consequence is that they get the precision wrong.
+    // For the poll interval, it does not really matter since its value is
+    // usually in the range from 0 to 127 which is shared by both byte and sbyte.
     //
-    //
-    // Precision
-    // =========
-    //
-    // Signed 8-bit integer = log_2(precision)
     // Clock resolution =
     //   2^-p where p is the number of significant bits in the
     //   fraction part, e.g. Timestamp64.RandomizeSubMilliseconds()
@@ -26,61 +28,10 @@ namespace Zorglub.Time.Horology.Ntp
     // Clock precision =
     //   Running time to read the system clock, in seconds.
     // Precision = Max(clock resolution, clock precision).
-    // Range = [-20..-6], 2^-20 seconds <= precision <= 2^-6 seconds.
     //
-    //
-    // Reference Identifier
-    // ====================
-    //
-    // Unavailable
-    // -----------
-    // Four-character ASCII string representing the Kiss Code.
-    //
-    // PrimaryReference
-    // ----------------
-    // Four-character ASCII string identifying of the reference source.
-    //
-    // SecondaryReference
-    // ------------------
-    // When Version = 4, it's a mess... the various RFCs seem to be
-    // contradictory.
-    //
-    // Depending on the ntpd version, we get an IPv4 or the first four
-    // bytes of the (binary) md5 digest of the IPv6 address.
-    //
-    //   Currently, ntpq has no way to know which type of Refid the
-    //   server is sending and always displays the Refid value in
-    //   dotted-quad format -- which means that any IPv6 Refids will be
-    //   listed as if they were IPv4 addresses, even though they are not.
-    //   See
-    //   https://support.ntp.org/bin/view/Support/RefidFormat
-    //   See also
-    //   https://support.ntp.org/bin/view/Dev/UpdatingTheRefidFormat
-    //
-    // RFC 2030
-    //   In NTP Version 4 secondary servers, this is the low
-    //   order 32 bits of the latest transmit timestamp of
-    //   the reference source.
-    // RFC 4330
-    //   For IPv4 secondary servers, the value is the 32-bit
-    //   IPv4 address of the synchronization source.
-    //   For IPv6 and OSI secondary servers, the value is
-    //   the first 32 bits of the MD5 hash of the IPv6 or
-    //   NSAP address of the synchronization source.
-    // RFC 5905
-    //   Above stratum 1 (secondary servers and clients): this is the
-    //   reference identifier of the server and can be used to detect
-    //   timing loops. If using the IPv4 address family, the
-    //   identifier is the four-octet IPv4 address. If using the IPv6
-    //   address family, it is the first four octets of the MD5 hash
-    //   of the IPv6 address. Note that, when using the IPv6 address
-    //   family on an NTPv4 server with a NTPv3 client, the Reference
-    //   Identifier field appears to be a random value and a timing
-    //   loop might not be detected.
+    // See also https://support.ntp.org/bin/view/Support/NTPRelatedDefinitions
 
     #endregion
-
-    // See https://www.rfc-editor.org/rfc/rfc5905#section-7.2
 
     /// <summary>
     /// Represents an NTP packet.
@@ -123,16 +74,10 @@ namespace Zorglub.Time.Horology.Ntp
             int vn = (buf[0] >> 3) & 7; // 0 <= vn < 8
             int mode = buf[0] & 7;      // 0 <= mode < 8
 
-            // TODO(code): delay, dispersion and refid values.
-            // RFC 4330 (SNTP) says that delay and dispersion are 32-bit signed
-            // fixed-point numbers and that they can be negative. RFC 5905 (NTP)
-            // says that they are in NTP short format (unsigned). In fact, it
-            // seems that ntpd ensures that delay stays positive; see
-            // https://www.rfc-editor.org/rfc/rfc5905#appendix-A.5.1.1
-            // Refid: 32-bit bitstring identifying the particular reference source.
-            // See https://support.ntp.org/bin/view/Support/NTPRelatedDefinitions
             return new NtpPacket
             {
+                // Be sure to read the comments in LeapIndicator and NtpMode to
+                // understand the + 1.
                 LeapIndicator = (LeapIndicator)(li + 1),
                 Version = (byte)vn,
                 Mode = (NtpMode)(mode + 1),
@@ -164,8 +109,7 @@ namespace Zorglub.Time.Horology.Ntp
                     _ => NtpStratum.Reserved
                 };
 
-            // Two's-complement representation of a signed byte.
-            // https://en.wikipedia.org/wiki/Two%27s_complement
+            // Two's complement representation of a signed byte.
             [Pure]
             static sbyte ReadSByte(byte v) => (sbyte)(v > 127 ? v - 256 : v);
         }

@@ -51,7 +51,7 @@ namespace Zorglub.Time.Horology.Ntp
         public int Precision { get; init; }
 
         /// <summary>
-        /// Gets the round-trip time (RTT) to the primary reference source.
+        /// Gets the round-trip time (RTT) to the primary reference clock.
         /// </summary>
         public Duration32 Rtt { get; init; }
 
@@ -68,8 +68,9 @@ namespace Zorglub.Time.Horology.Ntp
         public uint ReferenceIdentifier { get; init; }
 
         /// <summary>
-        /// Gets a readable code identifying the particular reference clock (primary reference)
+        /// Gets a human-friendly code identifying the particular reference clock (primary reference)
         /// -or- a Kiss-o'-Death Code (unspecified stratum).
+        /// <para>For other stratums, the returned value is meaningless and should be discarded.</para>
         /// </summary>
         public string ReferenceCode { get; init; } = String.Empty;
 
