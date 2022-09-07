@@ -3,7 +3,7 @@
 
 namespace Zorglub.Time.Horology.Ntp
 {
-    public sealed class SntpResponse
+    public sealed record SntpResponse
     {
         public SntpResponse(SntpServerInfo serverInfo, SntpTimeInfo timeInfo)
         {
@@ -14,6 +14,9 @@ namespace Zorglub.Time.Horology.Ntp
         public SntpServerInfo ServerInfo { get; }
 
         public SntpTimeInfo TimeInfo { get; }
+
+        public void Deconstruct(out SntpServerInfo si, out SntpTimeInfo ti) =>
+            (si, ti) = (ServerInfo, TimeInfo);
     }
 
     public sealed record SntpServerInfo

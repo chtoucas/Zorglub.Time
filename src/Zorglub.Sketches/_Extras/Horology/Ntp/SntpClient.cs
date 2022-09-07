@@ -103,6 +103,8 @@ namespace Zorglub.Time.Horology.Ntp
             init => _randomGenerator = value ?? throw new ArgumentNullException(nameof(value));
         }
 
+        public bool StrictValidation { get; init; }
+
         private EndPoint Endpoint { get; }
 
         private byte FirstByte
@@ -218,7 +220,7 @@ namespace Zorglub.Time.Horology.Ntp
             ValidatePacket(in pkt);
             // The only fields not yet validated are those that the server is
             // expected to copy verbatim from the request.
-            if (pkt.Version != Version)
+            if (StrictValidation && pkt.Version != Version)
                 NtpException.Throw(FormattableString.Invariant(
                     $"Invalid packet. Version missmatch: expected {Version}, received {pkt.Version}."));
             if (pkt.OriginateTimestamp != requestTimestamp)
@@ -250,7 +252,7 @@ namespace Zorglub.Time.Horology.Ntp
             return new SntpResponse(si, ti);
         }
 
-        // Validation according to RFC 4330, section 5 (client-server mode).
+        // Validation according to RFC 4330, section 5 (client operations).
         // We should also check the IP address.
         // Peer sync distance: RootDelay / 2 + RootDispersion < 16s
         // ReferenceTimestamp <= TransmitTimestamp
@@ -259,22 +261,21 @@ namespace Zorglub.Time.Horology.Ntp
         {
             if (pkt.Mode != NtpMode.Server)
                 NtpException.Throw(FormattableString.Invariant(
-                    $"Invalid packet. The NTP mode is not set to Server: {pkt.Mode}"));
+                    $"Invalid packet. The NTP mode is not set to Server: {pkt.Mode}."));
 
-            // Legit binary values: 0, 1, 2.
             if (pkt.LeapIndicator != LeapIndicator.NoWarning
                 && pkt.LeapIndicator != LeapIndicator.PositiveLeapSecond
                 && pkt.LeapIndicator != LeapIndicator.NegativeLeapSecond)
                 NtpException.Throw(FormattableString.Invariant(
-                    $"The server clock is not synchronised or the leap indicator is not valid: {pkt.LeapIndicator}."));
+                    $"The server clock is not synchronised -or- the leap indicator is not valid: {pkt.LeapIndicator}."));
 
-            // Legit binary values: 1 to 15.
             if (pkt.Stratum != NtpStratum.PrimaryReference
                 && pkt.Stratum != NtpStratum.SecondaryReference)
                 NtpException.Throw(FormattableString.Invariant(
-                    $"The server is unavailable, unsynchronised or the stratum is not valid: {pkt.Stratum}."));
+                    $"The server is unavailable, unsynchronised -or- the stratum is not valid: {pkt.Stratum}."));
 
             // NTP client-server model: RootDelay and RootDispersion >= 0 and < 1s.
+            // Positivity is built in Duration32.
             if (pkt.RootDelay >= s_OneSecond)
                 NtpException.Throw(FormattableString.Invariant(
                     $"Root delay >= 1s: {pkt.RootDelay}."));

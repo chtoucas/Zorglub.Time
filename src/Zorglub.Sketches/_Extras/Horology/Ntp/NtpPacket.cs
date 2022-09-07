@@ -126,7 +126,9 @@ namespace Zorglub.Time.Horology.Ntp
             // TODO(code): delay, dispersion and refid values.
             // RFC 4330 (SNTP) says that delay and dispersion are 32-bit signed
             // fixed-point numbers and that they can be negative. RFC 5905 (NTP)
-            // says that they are in NTP short format (unsigned). See also
+            // says that they are in NTP short format (unsigned). In fact, it
+            // seems that ntpd ensures that delay stays positive; see
+            // https://www.rfc-editor.org/rfc/rfc5905#appendix-A.5.1.1
             // Refid: 32-bit bitstring identifying the particular reference source.
             // See https://support.ntp.org/bin/view/Support/NTPRelatedDefinitions
             return new NtpPacket
