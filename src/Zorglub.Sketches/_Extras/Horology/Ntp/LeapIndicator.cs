@@ -3,6 +3,11 @@
 
 namespace Zorglub.Time.Horology.Ntp
 {
+    // LI is a 2-bit unsigned integer. The values are in the range from 0 to 3,
+    // they are fixed in the sense that there is no room left for new values.
+    // Ignoring O, all values in LeapIndicator are fixed manually to ensure that
+    // (int)LeapIndicator - 1 matches the binary value.
+
     /// <summary>
     /// Specifies the warning of an impending leap second to be inserted/deleted in the last minute
     /// of the current day.
@@ -13,15 +18,15 @@ namespace Zorglub.Time.Horology.Ntp
         Invalid = 0,
 
         /// <summary>No warning.</summary>
-        NoWarning,
+        NoWarning = 1,
 
         /// <summary>Last minute has 61 seconds.</summary>
-        PositiveLeapSecond,
+        PositiveLeapSecond = 2,
 
         /// <summary>Last minute has 59 seconds.</summary>
-        NegativeLeapSecond,
+        NegativeLeapSecond = 3,
 
         /// <summary>Alarm condition (clock not synchronized).</summary>
-        Unsynchronized
+        Unsynchronized = 4
     }
 }

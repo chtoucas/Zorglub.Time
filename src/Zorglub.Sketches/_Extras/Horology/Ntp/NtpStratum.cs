@@ -3,6 +3,10 @@
 
 namespace Zorglub.Time.Horology.Ntp
 {
+    // The binary value for a stratum is a 3-bit unsigned integer.
+    // Contrary to LeapIndicator and NtpMode, there is no one-to-one mapping
+    // between NtpStratum and the binary values.
+
     /// <summary>
     /// Specifies the NTP stratum.
     /// </summary>
@@ -13,7 +17,7 @@ namespace Zorglub.Time.Horology.Ntp
         Invalid = 0,
 
         /// <summary>Unspecified or unavailable (kiss-o'-death message).</summary>
-        Unavailable,
+        Unspecified,
 
         /// <summary>Primary reference (e.g., synchronized by radio clock).</summary>
         PrimaryReference,

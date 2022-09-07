@@ -123,11 +123,11 @@ namespace Zorglub.Time.Horology.Ntp
         [Pure]
         public SntpResponse Query()
         {
-            var buf = new byte[NtpPacket.DataLength].AsSpan();
+            var buf = new byte[NtpPacket.BinarySize].AsSpan();
             buf[0] = FirstByte;
 
-            // A system clock is not monotonic, it may be synchronized backward
-            // in time, therefore do NOT write
+            // A system clock is not monotonic (unattended synchronization).
+            // Do NOT write
             // > var responseTime = DateTime.UtcNow;
             // otherwise we could end up with responseTime < requestTime!
             var stopwatch = Stopwatch.StartNew();
@@ -157,7 +157,7 @@ namespace Zorglub.Time.Horology.Ntp
 
             // Ensure that the response has enough bytes before proceeding
             // further.
-            if (len < NtpPacket.DataLength) NtpException.Throw();
+            if (len < NtpPacket.BinarySize) NtpException.Throw();
 
             // Elapsed ticks during the query on this side of the network.
             long elapsedTicks = endTicks - startTicks;
@@ -171,7 +171,7 @@ namespace Zorglub.Time.Horology.Ntp
         [Pure]
         public async Task<SntpResponse> QueryAsync()
         {
-            var bytes = new byte[NtpPacket.DataLength];
+            var bytes = new byte[NtpPacket.BinarySize];
             bytes[0] = FirstByte;
 
             var stopwatch = Stopwatch.StartNew();
@@ -194,7 +194,7 @@ namespace Zorglub.Time.Horology.Ntp
 
             long endTicks = stopwatch.ElapsedTicks;
 
-            if (len < NtpPacket.DataLength) NtpException.Throw();
+            if (len < NtpPacket.BinarySize) NtpException.Throw();
 
             long elapsedTicks = endTicks - startTicks;
             var responseTime = requestTime.AddMilliseconds(elapsedTicks / TicksPerMillisecond);
@@ -219,16 +219,18 @@ namespace Zorglub.Time.Horology.Ntp
             // The only fields not yet validated are those that the server is
             // expected to copy verbatim from the request.
             if (pkt.Version != Version)
-                NtpException.Throw("Version missmatch.");
+                NtpException.Throw(FormattableString.Invariant(
+                    $"Invalid packet. Version missmatch: expected {Version}, received {pkt.Version}."));
             if (pkt.OriginateTimestamp != requestTimestamp)
-                NtpException.Throw("Invalid Originate Timestamp.");
+                NtpException.Throw(
+                    "Invalid packet. Originate Timestamp does not match the Request Timestamp.");
 
             var si = new SntpServerInfo
             {
                 LeapIndicator = pkt.LeapIndicator,
                 Version = pkt.Version,
                 Stratum = pkt.Stratum,
-                PollInterval = 1 << pkt.PollInterval,
+                PollInterval = pkt.PollInterval,
                 Precision = pkt.Precision,
                 Rtt = pkt.RootDelay,
                 Dispersion = pkt.RootDispersion,
@@ -250,29 +252,35 @@ namespace Zorglub.Time.Horology.Ntp
 
         // Validation according to RFC 4330, section 5 (client-server mode).
         // We should also check the IP address.
-        // Root distance.
-        //   RootDelay / 2 + RootDispersion < 16s
-        //   ReferenceTimestamp <= TransmitTimestamp
-        //   See https://www.rfc-editor.org/rfc/rfc5905#appendix-A.5.1.1
+        // Peer sync distance: RootDelay / 2 + RootDispersion < 16s
+        // ReferenceTimestamp <= TransmitTimestamp
+        // See https://www.rfc-editor.org/rfc/rfc5905#appendix-A.5.1.1
         private static void ValidatePacket(in NtpPacket pkt)
         {
             if (pkt.Mode != NtpMode.Server)
-                NtpException.Throw("The NTP mode should be set to server.");
+                NtpException.Throw(FormattableString.Invariant(
+                    $"Invalid packet. The NTP mode is not set to Server: {pkt.Mode}"));
 
             // Legit binary values: 0, 1, 2.
             if (pkt.LeapIndicator != LeapIndicator.NoWarning
                 && pkt.LeapIndicator != LeapIndicator.PositiveLeapSecond
                 && pkt.LeapIndicator != LeapIndicator.NegativeLeapSecond)
-                NtpException.Throw("The server clock is not synchronised or the leap indicator is not valid.");
+                NtpException.Throw(FormattableString.Invariant(
+                    $"The server clock is not synchronised or the leap indicator is not valid: {pkt.LeapIndicator}."));
 
             // Legit binary values: 1 to 15.
             if (pkt.Stratum != NtpStratum.PrimaryReference
                 && pkt.Stratum != NtpStratum.SecondaryReference)
-                NtpException.Throw("The server is unavailable, unsynchronised or the stratum is not valid.");
+                NtpException.Throw(FormattableString.Invariant(
+                    $"The server is unavailable, unsynchronised or the stratum is not valid: {pkt.Stratum}."));
 
             // NTP client-server model: RootDelay and RootDispersion >= 0 and < 1s.
-            if (pkt.RootDelay >= s_OneSecond) NtpException.Throw("Root delay >= 1s");
-            if (pkt.RootDispersion >= s_OneSecond) NtpException.Throw("Root dispersion >= 1s.");
+            if (pkt.RootDelay >= s_OneSecond)
+                NtpException.Throw(FormattableString.Invariant(
+                    $"Root delay >= 1s: {pkt.RootDelay}."));
+            if (pkt.RootDispersion >= s_OneSecond)
+                NtpException.Throw(FormattableString.Invariant(
+                    $"Root dispersion >= 1s: {pkt.RootDispersion}."));
 
             // Sanity checks.
             if (pkt.ReceiveTimestamp == Timestamp64.Zero) NtpException.Throw("Receive Timestamp = 0.");

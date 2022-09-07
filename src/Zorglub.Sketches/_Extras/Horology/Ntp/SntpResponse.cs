@@ -3,7 +3,6 @@
 
 namespace Zorglub.Time.Horology.Ntp
 {
-
     public sealed class SntpResponse
     {
         public SntpResponse(SntpServerInfo serverInfo, SntpTimeInfo timeInfo)
@@ -27,6 +26,7 @@ namespace Zorglub.Time.Horology.Ntp
 
         /// <summary>
         /// Gets the NTP version.
+        /// <para>The result is in the range from 0 to 7.</para>
         /// </summary>
         public int Version { get; init; }
 
@@ -36,12 +36,14 @@ namespace Zorglub.Time.Horology.Ntp
         public NtpStratum Stratum { get; init; }
 
         /// <summary>
-        /// Gets the maximum interval between successive messages in seconds.
+        /// Gets the log base 2 of the maximum interval between successive messages in seconds.
+        /// <para>The result is in the range from -128 to 127.</para>
         /// </summary>
         public int PollInterval { get; init; }
 
         /// <summary>
-        /// Gets the log base 2 of the precision of the system clock of the server in seconds.
+        /// Gets the log base 2 of the precision of the server clock in seconds.
+        /// <para>The result is in the range from -128 to 127.</para>
         /// </summary>
         public int Precision { get; init; }
 
@@ -51,14 +53,22 @@ namespace Zorglub.Time.Horology.Ntp
         public Duration32 Rtt { get; init; }
 
         /// <summary>
-        /// Gets the maximum error due to the clock frequency tolerance
+        /// Gets the maximum error due to the clock frequency tolerance.
         /// </summary>
         public Duration32 Dispersion { get; init; }
 
+        /// <summary>
+        /// Gets a code identifying the particular reference clock.
+        /// <para>See also <seealso cref="ReferenceCode"/>.</para>
+        /// </summary>
         [CLSCompliant(false)]
         public uint ReferenceIdentifier { get; init; }
 
-        public string ReferenceCode { get; internal init; } = String.Empty;
+        /// <summary>
+        /// Gets a readable code identifying the particular reference clock (primary reference)
+        /// -or- a Kiss-o'-Death Code (unspecified stratum).
+        /// </summary>
+        public string ReferenceCode { get; init; } = String.Empty;
 
         public Timestamp64 ReferenceTimestamp { get; init; }
     }
@@ -66,28 +76,27 @@ namespace Zorglub.Time.Horology.Ntp
     public sealed record SntpTimeInfo
     {
         /// <summary>
-        /// Gets the time at which the <i>client</i> sent the request, according to the client's
-        /// clock.
+        /// Gets the time at which the <i>client</i> sent the request, according to the client clock.
         /// </summary>
         public Timestamp64 RequestTimestamp { get; init; }
 
         /// <summary>
-        /// Gets the time at which the <i>server</i> received the request, according to the server's
+        /// Gets the time at which the <i>server</i> received the request, according to the server
         /// clock.
         /// </summary>
         public Timestamp64 ReceiveTimestamp { get; init; }
 
         /// <summary>
-        /// Gets the time at which the <i>server</i> sent the response, according to the server's
+        /// Gets the time at which the <i>server</i> sent the response, according to the server
         /// clock.
         /// </summary>
         public Timestamp64 TransmitTimestamp { get; init; }
 
         /// <summary>
-        /// Gets the time at which the <i>client</i> received the response, according to the client's
+        /// Gets the time at which the <i>client</i> received the response, according to the client
         /// clock.
         /// </summary>
-        public Timestamp64 ResponseTimestamp { get; set; }
+        public Timestamp64 ResponseTimestamp { get; init; }
 
         // OriginateTimestamp (T1):     request sent by the client
         // ReceiveTimestamp (T2):       request received by the server

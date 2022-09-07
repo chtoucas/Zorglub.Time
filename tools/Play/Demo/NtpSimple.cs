@@ -32,7 +32,7 @@ public static class NtpSimple
         WriteLine("  Reference time:     {0:HH:mm:ss.fff}", si.ReferenceTimestamp.ToDateTime());
         WriteLine($"  RTT:                {si.Rtt} ({si.Rtt.TotalMilliseconds:F3}ms)");
         WriteLine($"  Dispersion:         {si.Dispersion} ({si.Dispersion.TotalMilliseconds:F3}ms)");
-        WriteLine($"  Poll interval:      {si.PollInterval}s");
+        WriteLine($"  Poll interval:      {1 << si.PollInterval}s");
         WriteLine($"  Precision:          2^{si.Precision} ({precisionInMicroseconds:F3}µs)");
 
         WriteLine($"NTP response (time info)");
@@ -48,7 +48,7 @@ public static class NtpSimple
     {
         return si.Stratum switch
         {
-            NtpStratum.Unavailable =>
+            NtpStratum.Unspecified =>
                 FormattableString.Invariant($"{si.ReferenceCode} (Kiss Code)"),
             NtpStratum.PrimaryReference =>
                 FormattableString.Invariant($"{si.ReferenceCode} (Code)"),

@@ -3,6 +3,11 @@
 
 namespace Zorglub.Time.Horology.Ntp
 {
+    // Mode is a 3-bit unsigned integer. The values are in the range from 0 to 7,
+    // they are fixed in the sense that there is no room left for new values.
+    // Ignoring O, all values in NtpMode are fixed manually to ensure that
+    // (int)NtpMode - 1 matches the binary value.
+
     /// <summary>
     /// Specifies the NTP mode.
     /// </summary>
@@ -17,27 +22,27 @@ namespace Zorglub.Time.Horology.Ntp
         Invalid = 0,
 
         /// <summary>Reserved.</summary>
-        Reserved,
+        Reserved = 1,
 
         /// <summary>Symmetric active.</summary>
-        SymmetricActive,
+        SymmetricActive = 2,
 
         /// <summary>Symmetric passive.</summary>
-        SymmetricPassive,
+        SymmetricPassive = 3,
 
         /// <summary>Client.</summary>
-        Client,
+        Client = 4,
 
         /// <summary>Server.</summary>
-        Server,
+        Server = 5,
 
         /// <summary>Broadcast.</summary>
-        Broadcast,
+        Broadcast = 6,
 
         /// <summary>Reserved for NTP control message.</summary>
-        NtpControlMessage,
+        NtpControlMessage = 7,
 
         /// <summary>Reserved for private use.</summary>
-        ReservedForPrivateUse
+        ReservedForPrivateUse = 8
     }
 }

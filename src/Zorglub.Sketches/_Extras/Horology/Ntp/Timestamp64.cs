@@ -161,20 +161,6 @@ namespace Zorglub.Time.Horology.Ntp
             return new Timestamp64(secondOfEra, fractionOfSecond);
         }
 
-        ///// <summary>
-        ///// Reads a <see cref="Timestamp64"/> value from the specified read-only span of bytes.
-        ///// </summary>
-        //[Pure]
-        //internal static Timestamp64 ReadFrom(ReadOnlySpan<byte> buf, int index)
-        //{
-        //    Debug.Assert(buf.Length >= 8);
-
-        //    uint secondOfEra = BinaryPrimitives.ReadUInt32BigEndian(buf[index..]);
-        //    uint fractionOfSecond = BinaryPrimitives.ReadUInt32BigEndian(buf[(index + 4)..]);
-
-        //    return new Timestamp64(secondOfEra, fractionOfSecond);
-        //}
-
         /// <summary>
         /// Writes the current instance into a span of bytes.
         /// </summary>
