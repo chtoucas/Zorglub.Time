@@ -22,8 +22,8 @@ namespace Zorglub.Time.Horology.Ntp
     public sealed record SntpServerInfo
     {
         /// <summary>
-        /// Gets the warning of an impending leap second to be inserted/deleted in the last minute
-        /// of the current day.
+        /// Gets the leap indicator, warning of an impending leap second to be inserted/deleted in
+        /// the last minute of the current day.
         /// </summary>
         public LeapIndicator LeapIndicator { get; init; }
 

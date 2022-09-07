@@ -9,8 +9,6 @@ namespace Zorglub.Time.Horology.Ntp
 
     using static Zorglub.Time.Core.TemporalConstants;
 
-    // REVIEW(code): UpdClient? CancellationToken? ConfigureAwait(...)
-
     // Adapted from
     // https://android.googlesource.com/platform/frameworks/base/+/master/core/java/android/net/SntpClient.java
     // See also
@@ -103,7 +101,12 @@ namespace Zorglub.Time.Horology.Ntp
             init => _randomGenerator = value ?? throw new ArgumentNullException(nameof(value));
         }
 
-        public bool DisableStrictValidation { get; init; }
+        // Real ops are done elsewhere, like keeping state, polling, etc.
+        public bool EnableValidation { get; init; }
+
+        // An NTP server may always return 3, e.g. "time.windows.com"
+        // or "time.nist.gov".
+        public bool DisableVersionCheck { get; init; }
 
         private EndPoint Endpoint { get; }
 
@@ -123,7 +126,7 @@ namespace Zorglub.Time.Horology.Ntp
         }
 
         [Pure]
-        public SntpResponse Query()
+        public SntpResponse QueryTime()
         {
             var buf = new byte[NtpPacket.BinarySize].AsSpan();
             buf[0] = FirstByte;
@@ -171,7 +174,7 @@ namespace Zorglub.Time.Horology.Ntp
         }
 
         [Pure]
-        public async Task<SntpResponse> QueryAsync()
+        public async Task<SntpResponse> QueryTimeAsync()
         {
             var bytes = new byte[NtpPacket.BinarySize];
             bytes[0] = FirstByte;
@@ -217,11 +220,11 @@ namespace Zorglub.Time.Horology.Ntp
             Timestamp64 responseTimestamp)
         {
             var pkt = NtpPacket.ReadFrom(buf);
-            ValidatePacket(in pkt, DisableStrictValidation);
+            // Full validation or not?
+            if (EnableValidation) { ValidatePacket(in pkt); } else { CheckPacketRfc4330(in pkt); }
             // The only fields not yet validated are those that the server is
             // expected to copy verbatim from the request.
-            if (DisableStrictValidation == false && pkt.Version != Version)
-                // An NTP server may always return 3, e.g. "time.windows.com".
+            if (DisableVersionCheck == false && pkt.Version != Version)
                 NtpException.Throw(FormattableString.Invariant(
                     $"Invalid packet. Version missmatch: expected {Version}, received {pkt.Version}."));
             if (pkt.OriginateTimestamp != requestTimestamp)
@@ -253,14 +256,31 @@ namespace Zorglub.Time.Horology.Ntp
             return new SntpResponse(si, ti);
         }
 
-        // Validation according to RFC 4330, section 5 (client operations).
+        /// <summary>
+        /// Validation according to RFC 4330, section 5 (client operations).
+        /// </summary>
+        private static void CheckPacketRfc4330(in NtpPacket pkt)
+        {
+            if (pkt.Mode != NtpMode.Server)
+                NtpException.Throw(FormattableString.Invariant(
+                    $"Invalid NTP mode: received \"{pkt.Mode}\" but it should be \"Server\"."));
+
+            // Invalid is not supposed to be possible here.
+            Debug.Assert(pkt.Stratum != NtpStratum.Invalid);
+            if (pkt.Stratum == NtpStratum.Reserved)
+                NtpException.Throw("Invalid stratum: \"Reserved\".");
+
+            if (pkt.TransmitTimestamp == Timestamp64.Zero)
+                NtpException.Throw("Transmit Timestamp = 0.");
+        }
+
         // Other things we could check:
         // - ReferenceCode
-        // - ReferenceTimestamp is too far in the past
+        // - ReferenceTimestamp is not too far in the past
         // - RootDelay & co
         // - Peer sync distance: RootDelay / 2 + RootDispersion < 16s
         // - IP addresses
-        private static void ValidatePacket(in NtpPacket pkt, bool disableStrictValidation)
+        private static void ValidatePacket(in NtpPacket pkt)
         {
             if (pkt.LeapIndicator != LeapIndicator.NoWarning
                 && pkt.LeapIndicator != LeapIndicator.PositiveLeapSecond
@@ -270,14 +290,12 @@ namespace Zorglub.Time.Horology.Ntp
 
             if (pkt.Mode != NtpMode.Server)
                 NtpException.Throw(FormattableString.Invariant(
-                    $"Invalid packet. The NTP mode is not set to Server: {pkt.Mode}."));
+                    $"Invalid NTP mode: received \"{pkt.Mode}\" but it should be \"Server\"."));
 
             if (pkt.Stratum != NtpStratum.PrimaryReference
                 && pkt.Stratum != NtpStratum.SecondaryReference)
                 NtpException.Throw(FormattableString.Invariant(
                     $"The server is unavailable, unsynchronised -or- the stratum is not valid: {pkt.Stratum}."));
-
-            if (disableStrictValidation) return;
 
             // RootDelay and RootDispersion >= 0 and < 1s.
             // Notice that positivity is always guaranteed.
@@ -296,8 +314,8 @@ namespace Zorglub.Time.Horology.Ntp
                 NtpException.Throw(FormattableString.Invariant(
                     $"The server clock should be monotonically increasing: Transmit Timestamp ({pkt.TransmitTimestamp}) < Receive Timestamp ({pkt.ReceiveTimestamp})."));
             // TransmitTimestamp >= ReceiveTimestamp >= ReferenceTimestamp
-            // therefore if ReferenceTimestamp != 0 which implies > 0, then the
-            // other are not too.
+            // therefore if ReferenceTimestamp != 0 i.e. > 0, then the other
+            // timestamps are non-zero too.
             if (pkt.ReferenceTimestamp == Timestamp64.Zero)
                 NtpException.Throw("Reference Timestamp = 0.");
         }
