@@ -125,7 +125,7 @@ public sealed partial class SntpClient
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get
         {
-            const int ClientMode = 3;
+            const int ClientMode = (int)NtpMode.Client - 1; // 3
 
             // Initialize the first byte to: LI = 0, VN = 3 or 4, Mode = 3.
             // Version 3: 00 011 011 (0x1b)
@@ -168,12 +168,9 @@ public sealed partial class SntpClient
         requestTimestamp.WriteTo(buf, NtpPacket.TransmitTimestampOffset);
 
         sock.Send(buf);
-        int len = sock.Receive(buf);
+        sock.Receive(buf);
 
         long endTicks = stopwatch.ElapsedTicks;
-
-        // Ensure that the response has enough bytes before proceeding further.
-        if (len < NtpPacket.BinarySize) NtpException.Throw();
 
         // Elapsed ticks during the query on this side of the network.
         long elapsedTicks = endTicks - startTicks;
@@ -209,11 +206,9 @@ public sealed partial class SntpClient
 
         var buf = new ArraySegment<byte>(bytes);
         await sock.SendAsync(buf, SocketFlags.None).ConfigureAwait(false);
-        int len = await sock.ReceiveAsync(buf, SocketFlags.None).ConfigureAwait(false);
+        await sock.ReceiveAsync(buf, SocketFlags.None).ConfigureAwait(false);
 
         long endTicks = stopwatch.ElapsedTicks;
-
-        if (len < NtpPacket.BinarySize) NtpException.Throw();
 
         long elapsedTicks = endTicks - startTicks;
         var responseTime = requestTime.AddMilliseconds(elapsedTicks / TicksPerMillisecond);
