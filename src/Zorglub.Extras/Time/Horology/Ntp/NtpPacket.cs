@@ -40,7 +40,16 @@ using System.Text;
 /// </remarks>
 internal readonly struct NtpPacket
 {
+    /// <summary>
+    /// Represents the size of an NTP packet.
+    /// <para>This field is a constant equal to 48.</para>
+    /// </summary>
     public const int BinarySize = 48;
+
+    /// <summary>
+    /// Represents the offset of the Transmit Timestamp within an NTP packet.
+    /// <para>This field is a constant equal to 40.</para>
+    /// </summary>
     public const int TransmitTimestampOffset = 40;
 
     public LeapIndicator LeapIndicator { get; private init; }

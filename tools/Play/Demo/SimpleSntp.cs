@@ -16,7 +16,7 @@ public static class SimpleSntp
     {
         var cli = new SntpClient("pool.ntp.org");
         //var cli = new SntpClient("fr.pool.ntp.org");
-        //var cli = new SntpClient("time.nist.gov") { DisableVersionCheck = true };
+        //var cli = new SntpClient("time.nist.gov") { DisableVersionCheck = true, SendTimeout = 1000, ReceiveTimeout = 1000 };
         //var cli = new SntpClient("time.windows.com") { DisableVersionCheck = true };
 
         var (si, ti) = cli.QueryTime();
@@ -50,9 +50,12 @@ public static class SimpleSntp
         {
             NtpStratum.Unspecified =>
                 FormattableString.Invariant($"{si.ReferenceCode} (Kiss Code)"),
+
             NtpStratum.PrimaryReference =>
                 FormattableString.Invariant($".{si.ReferenceCode}. (Code)"),
+
             NtpStratum.SecondaryReference => GetSecondaryReference(),
+
             _ => String.Empty,
         };
 
@@ -73,6 +76,8 @@ public static class SimpleSntp
             // See also
             // https://support.ntp.org/bin/view/Dev/UpdatingTheRefidFormat
             // https://github.com/ntp-project/ntp/blob/master-no-authorname/README.leapsmear
+
+            // Get the bytes in network order.
             var r = BitConverter.GetBytes(si.ReferenceIdentifier);
 
             if (r[0] == 254)

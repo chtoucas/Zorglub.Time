@@ -62,6 +62,8 @@ public sealed record SntpServerInfo
 
     /// <summary>
     /// Gets a code identifying the particular reference clock.
+    /// <para>To recover the genuine binary identifier, four bytes in network order, use
+    /// <see cref="BitConverter.GetBytes(uint)"/>.</para>
     /// <para>See also <seealso cref="ReferenceCode"/>.</para>
     /// </summary>
     [CLSCompliant(false)]
