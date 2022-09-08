@@ -78,7 +78,7 @@ public static class SimpleSntp
             // https://github.com/ntp-project/ntp/blob/master-no-authorname/README.leapsmear
 
             // Get the bytes in network order.
-            var r = BitConverter.GetBytes(si.ReferenceIdentifier);
+            var r = si.ReferenceIdentifier;
 
             if (r[0] == 254)
             {

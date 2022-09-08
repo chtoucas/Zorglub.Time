@@ -64,10 +64,15 @@ public sealed record SntpServerInfo
     /// Gets a code identifying the particular reference clock.
     /// <para>To recover the genuine binary identifier, four bytes in network order, use
     /// <see cref="BitConverter.GetBytes(uint)"/>.</para>
+    /// </summary>
+    internal uint ReferenceIdentifierCore { get; init; }
+
+    /// <summary>
+    /// Gets the binary code, four bytes in network order, identifying the particular reference clock.
     /// <para>See also <seealso cref="ReferenceCode"/>.</para>
     /// </summary>
-    [CLSCompliant(false)]
-    public uint ReferenceIdentifier { get; init; }
+    public Span<byte> ReferenceIdentifier =>
+        BitConverter.GetBytes(ReferenceIdentifierCore).AsSpan();
 
     /// <summary>
     /// Gets a human-friendly code identifying the particular reference clock (primary reference)
