@@ -17,7 +17,7 @@
 
     ]]></PackageDescription>
     -->
-    <PackageTags>Calendar;Date</PackageTags>
+    <PackageTags>Calendar;Date;NTP</PackageTags>
   </PropertyGroup>
 
   <!-- Public API -->

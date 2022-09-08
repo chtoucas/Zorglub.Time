@@ -22,6 +22,14 @@ const Zorglub.Time.Core.Schemas.TropicalistaSchema.DaysPer4YearSubcycle = 1461 -
 const Zorglub.Time.Core.Schemas.WorldSchema.DaysInCommonYear = 365 -> int
 const Zorglub.Time.Core.Schemas.WorldSchema.DaysInLeapYear = 366 -> int
 const Zorglub.Time.Core.Schemas.WorldSchema.DaysPer400YearCycle = 146097 -> int
+const Zorglub.Time.Horology.Ntp.SntpClient.DefaultPort = 123 -> int
+const Zorglub.Time.Horology.Ntp.SntpClient.DefaultReceiveTimeout = 500 -> int
+const Zorglub.Time.Horology.Ntp.SntpClient.DefaultSendTimeout = 500 -> int
+const Zorglub.Time.Horology.Ntp.SntpClient.DefaultVersion = 4 -> int
+const Zorglub.Time.Horology.Ntp.Timestamp64.MaxFractionOfSecond = 4294967295 -> long
+const Zorglub.Time.Horology.Ntp.Timestamp64.MaxSecondOfEra = 4294967295 -> long
+const Zorglub.Time.Horology.Ntp.Timestamp64.MinFractionOfSecond = 0 -> long
+const Zorglub.Time.Horology.Ntp.Timestamp64.MinSecondOfEra = 0 -> long
 override sealed Zorglub.Time.Core.Schemas.Coptic13Schema.CountDaysInMonth(int y, int m) -> int
 override sealed Zorglub.Time.Core.Schemas.Coptic13Schema.CountMonthsInYear(int y) -> int
 override sealed Zorglub.Time.Core.Schemas.Coptic13Schema.CountMonthsSinceEpoch(int y, int m) -> int
@@ -164,6 +172,15 @@ override sealed Zorglub.Time.Core.Schemas.WorldSchema.IsIntercalaryMonth(int y, 
 override sealed Zorglub.Time.Core.Schemas.WorldSchema.IsLeapYear(int y) -> bool
 override sealed Zorglub.Time.Core.Schemas.WorldSchema.IsSupplementaryDay(int y, int m, int d) -> bool
 override sealed Zorglub.Time.Core.Schemas.WorldSchema.PeriodicAdjustments.get -> Zorglub.Time.CalendricalAdjustments
+override Zorglub.Time.Horology.Ntp.Duration32.Equals(object? obj) -> bool
+override Zorglub.Time.Horology.Ntp.Duration32.GetHashCode() -> int
+override Zorglub.Time.Horology.Ntp.Duration32.ToString() -> string!
+override Zorglub.Time.Horology.Ntp.Duration64.Equals(object? obj) -> bool
+override Zorglub.Time.Horology.Ntp.Duration64.GetHashCode() -> int
+override Zorglub.Time.Horology.Ntp.Duration64.ToString() -> string!
+override Zorglub.Time.Horology.Ntp.Timestamp64.Equals(object? obj) -> bool
+override Zorglub.Time.Horology.Ntp.Timestamp64.GetHashCode() -> int
+override Zorglub.Time.Horology.Ntp.Timestamp64.ToString() -> string!
 override Zorglub.Time.Specialized.Armenian13Date.Equals(object? obj) -> bool
 override Zorglub.Time.Specialized.Armenian13Date.GetHashCode() -> int
 override Zorglub.Time.Specialized.Armenian13Date.ToString() -> string!
@@ -205,6 +222,46 @@ static Zorglub.Time.Core.Schemas.Tropicalia3031Schema.GetInstance() -> Zorglub.T
 static Zorglub.Time.Core.Schemas.Tropicalia3130Schema.GetInstance() -> Zorglub.Time.Core.Utilities.Box<Zorglub.Time.Core.Schemas.Tropicalia3130Schema!>!
 static Zorglub.Time.Core.Schemas.TropicaliaSchema.GetInstance() -> Zorglub.Time.Core.Utilities.Box<Zorglub.Time.Core.Schemas.TropicaliaSchema!>!
 static Zorglub.Time.Core.Schemas.WorldSchema.GetInstance() -> Zorglub.Time.Core.Utilities.Box<Zorglub.Time.Core.Schemas.WorldSchema!>!
+static Zorglub.Time.Horology.Ntp.Duration32.Epsilon.get -> Zorglub.Time.Horology.Ntp.Duration32
+static Zorglub.Time.Horology.Ntp.Duration32.Max(Zorglub.Time.Horology.Ntp.Duration32 x, Zorglub.Time.Horology.Ntp.Duration32 y) -> Zorglub.Time.Horology.Ntp.Duration32
+static Zorglub.Time.Horology.Ntp.Duration32.MaxValue.get -> Zorglub.Time.Horology.Ntp.Duration32
+static Zorglub.Time.Horology.Ntp.Duration32.Min(Zorglub.Time.Horology.Ntp.Duration32 x, Zorglub.Time.Horology.Ntp.Duration32 y) -> Zorglub.Time.Horology.Ntp.Duration32
+static Zorglub.Time.Horology.Ntp.Duration32.MinValue.get -> Zorglub.Time.Horology.Ntp.Duration32
+static Zorglub.Time.Horology.Ntp.Duration32.operator !=(Zorglub.Time.Horology.Ntp.Duration32 left, Zorglub.Time.Horology.Ntp.Duration32 right) -> bool
+static Zorglub.Time.Horology.Ntp.Duration32.operator <(Zorglub.Time.Horology.Ntp.Duration32 left, Zorglub.Time.Horology.Ntp.Duration32 right) -> bool
+static Zorglub.Time.Horology.Ntp.Duration32.operator <=(Zorglub.Time.Horology.Ntp.Duration32 left, Zorglub.Time.Horology.Ntp.Duration32 right) -> bool
+static Zorglub.Time.Horology.Ntp.Duration32.operator ==(Zorglub.Time.Horology.Ntp.Duration32 left, Zorglub.Time.Horology.Ntp.Duration32 right) -> bool
+static Zorglub.Time.Horology.Ntp.Duration32.operator >(Zorglub.Time.Horology.Ntp.Duration32 left, Zorglub.Time.Horology.Ntp.Duration32 right) -> bool
+static Zorglub.Time.Horology.Ntp.Duration32.operator >=(Zorglub.Time.Horology.Ntp.Duration32 left, Zorglub.Time.Horology.Ntp.Duration32 right) -> bool
+static Zorglub.Time.Horology.Ntp.Duration32.Zero.get -> Zorglub.Time.Horology.Ntp.Duration32
+static Zorglub.Time.Horology.Ntp.Duration64.Epsilon.get -> Zorglub.Time.Horology.Ntp.Duration64
+static Zorglub.Time.Horology.Ntp.Duration64.Max(Zorglub.Time.Horology.Ntp.Duration64 x, Zorglub.Time.Horology.Ntp.Duration64 y) -> Zorglub.Time.Horology.Ntp.Duration64
+static Zorglub.Time.Horology.Ntp.Duration64.MaxValue.get -> Zorglub.Time.Horology.Ntp.Duration64
+static Zorglub.Time.Horology.Ntp.Duration64.Min(Zorglub.Time.Horology.Ntp.Duration64 x, Zorglub.Time.Horology.Ntp.Duration64 y) -> Zorglub.Time.Horology.Ntp.Duration64
+static Zorglub.Time.Horology.Ntp.Duration64.MinValue.get -> Zorglub.Time.Horology.Ntp.Duration64
+static Zorglub.Time.Horology.Ntp.Duration64.operator !=(Zorglub.Time.Horology.Ntp.Duration64 left, Zorglub.Time.Horology.Ntp.Duration64 right) -> bool
+static Zorglub.Time.Horology.Ntp.Duration64.operator +(Zorglub.Time.Horology.Ntp.Duration64 left, Zorglub.Time.Horology.Ntp.Duration64 right) -> Zorglub.Time.Horology.Ntp.Duration64
+static Zorglub.Time.Horology.Ntp.Duration64.operator -(Zorglub.Time.Horology.Ntp.Duration64 left, Zorglub.Time.Horology.Ntp.Duration64 right) -> Zorglub.Time.Horology.Ntp.Duration64
+static Zorglub.Time.Horology.Ntp.Duration64.operator /(Zorglub.Time.Horology.Ntp.Duration64 left, int right) -> Zorglub.Time.Horology.Ntp.Duration64
+static Zorglub.Time.Horology.Ntp.Duration64.operator <(Zorglub.Time.Horology.Ntp.Duration64 left, Zorglub.Time.Horology.Ntp.Duration64 right) -> bool
+static Zorglub.Time.Horology.Ntp.Duration64.operator <=(Zorglub.Time.Horology.Ntp.Duration64 left, Zorglub.Time.Horology.Ntp.Duration64 right) -> bool
+static Zorglub.Time.Horology.Ntp.Duration64.operator ==(Zorglub.Time.Horology.Ntp.Duration64 left, Zorglub.Time.Horology.Ntp.Duration64 right) -> bool
+static Zorglub.Time.Horology.Ntp.Duration64.operator >(Zorglub.Time.Horology.Ntp.Duration64 left, Zorglub.Time.Horology.Ntp.Duration64 right) -> bool
+static Zorglub.Time.Horology.Ntp.Duration64.operator >=(Zorglub.Time.Horology.Ntp.Duration64 left, Zorglub.Time.Horology.Ntp.Duration64 right) -> bool
+static Zorglub.Time.Horology.Ntp.Duration64.Zero.get -> Zorglub.Time.Horology.Ntp.Duration64
+static Zorglub.Time.Horology.Ntp.Timestamp64.FromDateTime(System.DateTime time) -> Zorglub.Time.Horology.Ntp.Timestamp64
+static Zorglub.Time.Horology.Ntp.Timestamp64.Max(Zorglub.Time.Horology.Ntp.Timestamp64 x, Zorglub.Time.Horology.Ntp.Timestamp64 y) -> Zorglub.Time.Horology.Ntp.Timestamp64
+static Zorglub.Time.Horology.Ntp.Timestamp64.MaxValue.get -> Zorglub.Time.Horology.Ntp.Timestamp64
+static Zorglub.Time.Horology.Ntp.Timestamp64.Min(Zorglub.Time.Horology.Ntp.Timestamp64 x, Zorglub.Time.Horology.Ntp.Timestamp64 y) -> Zorglub.Time.Horology.Ntp.Timestamp64
+static Zorglub.Time.Horology.Ntp.Timestamp64.MinValue.get -> Zorglub.Time.Horology.Ntp.Timestamp64
+static Zorglub.Time.Horology.Ntp.Timestamp64.operator !=(Zorglub.Time.Horology.Ntp.Timestamp64 left, Zorglub.Time.Horology.Ntp.Timestamp64 right) -> bool
+static Zorglub.Time.Horology.Ntp.Timestamp64.operator -(Zorglub.Time.Horology.Ntp.Timestamp64 left, Zorglub.Time.Horology.Ntp.Timestamp64 right) -> Zorglub.Time.Horology.Ntp.Duration64
+static Zorglub.Time.Horology.Ntp.Timestamp64.operator <(Zorglub.Time.Horology.Ntp.Timestamp64 left, Zorglub.Time.Horology.Ntp.Timestamp64 right) -> bool
+static Zorglub.Time.Horology.Ntp.Timestamp64.operator <=(Zorglub.Time.Horology.Ntp.Timestamp64 left, Zorglub.Time.Horology.Ntp.Timestamp64 right) -> bool
+static Zorglub.Time.Horology.Ntp.Timestamp64.operator ==(Zorglub.Time.Horology.Ntp.Timestamp64 left, Zorglub.Time.Horology.Ntp.Timestamp64 right) -> bool
+static Zorglub.Time.Horology.Ntp.Timestamp64.operator >(Zorglub.Time.Horology.Ntp.Timestamp64 left, Zorglub.Time.Horology.Ntp.Timestamp64 right) -> bool
+static Zorglub.Time.Horology.Ntp.Timestamp64.operator >=(Zorglub.Time.Horology.Ntp.Timestamp64 left, Zorglub.Time.Horology.Ntp.Timestamp64 right) -> bool
+static Zorglub.Time.Horology.Ntp.Timestamp64.Zero.get -> Zorglub.Time.Horology.Ntp.Timestamp64
 static Zorglub.Time.Specialized.Armenian13Date.Adjuster.get -> Zorglub.Time.Specialized.Armenian13Adjuster!
 static Zorglub.Time.Specialized.Armenian13Date.Calendar.get -> Zorglub.Time.Specialized.Armenian13Calendar!
 static Zorglub.Time.Specialized.Armenian13Date.Max(Zorglub.Time.Specialized.Armenian13Date x, Zorglub.Time.Specialized.Armenian13Date y) -> Zorglub.Time.Specialized.Armenian13Date
@@ -407,6 +464,125 @@ Zorglub.Time.Hemerology.IAffineDate
 Zorglub.Time.Hemerology.IAffineDate.DaysSinceEpoch.get -> int
 Zorglub.Time.Hemerology.IAffineDate<TSelf>
 Zorglub.Time.Hemerology.IAffineDate<TSelf>.FromDaysSinceEpoch(int daysSinceEpoch) -> TSelf
+Zorglub.Time.Horology.Ntp.Duration32
+Zorglub.Time.Horology.Ntp.Duration32.CompareTo(object? obj) -> int
+Zorglub.Time.Horology.Ntp.Duration32.CompareTo(Zorglub.Time.Horology.Ntp.Duration32 other) -> int
+Zorglub.Time.Horology.Ntp.Duration32.Duration32() -> void
+Zorglub.Time.Horology.Ntp.Duration32.Duration32(ushort seconds, ushort fractionalSeconds) -> void
+Zorglub.Time.Horology.Ntp.Duration32.Equals(Zorglub.Time.Horology.Ntp.Duration32 other) -> bool
+Zorglub.Time.Horology.Ntp.Duration32.FractionalSeconds.get -> int
+Zorglub.Time.Horology.Ntp.Duration32.Seconds.get -> int
+Zorglub.Time.Horology.Ntp.Duration32.TotalMilliseconds.get -> double
+Zorglub.Time.Horology.Ntp.Duration32.TotalNanoseconds.get -> double
+Zorglub.Time.Horology.Ntp.Duration32.TotalSeconds.get -> double
+Zorglub.Time.Horology.Ntp.Duration64
+Zorglub.Time.Horology.Ntp.Duration64.Add(Zorglub.Time.Horology.Ntp.Duration64 other) -> Zorglub.Time.Horology.Ntp.Duration64
+Zorglub.Time.Horology.Ntp.Duration64.CompareTo(object? obj) -> int
+Zorglub.Time.Horology.Ntp.Duration64.CompareTo(Zorglub.Time.Horology.Ntp.Duration64 other) -> int
+Zorglub.Time.Horology.Ntp.Duration64.Duration64() -> void
+Zorglub.Time.Horology.Ntp.Duration64.Duration64(long fractionalSeconds) -> void
+Zorglub.Time.Horology.Ntp.Duration64.Equals(Zorglub.Time.Horology.Ntp.Duration64 other) -> bool
+Zorglub.Time.Horology.Ntp.Duration64.FractionalSeconds.get -> long
+Zorglub.Time.Horology.Ntp.Duration64.Subtract(Zorglub.Time.Horology.Ntp.Duration64 other) -> Zorglub.Time.Horology.Ntp.Duration64
+Zorglub.Time.Horology.Ntp.Duration64.TotalMilliseconds.get -> double
+Zorglub.Time.Horology.Ntp.Duration64.TotalNanoseconds.get -> double
+Zorglub.Time.Horology.Ntp.Duration64.TotalSeconds.get -> double
+Zorglub.Time.Horology.Ntp.IRandomGenerator
+Zorglub.Time.Horology.Ntp.IRandomGenerator.GetInt32(int fromInclusive, int toExclusive) -> int
+Zorglub.Time.Horology.Ntp.IRandomGenerator.GetInt32(int toExclusive) -> int
+Zorglub.Time.Horology.Ntp.LeapIndicator
+Zorglub.Time.Horology.Ntp.LeapIndicator.Invalid = 0 -> Zorglub.Time.Horology.Ntp.LeapIndicator
+Zorglub.Time.Horology.Ntp.LeapIndicator.NegativeLeapSecond = 3 -> Zorglub.Time.Horology.Ntp.LeapIndicator
+Zorglub.Time.Horology.Ntp.LeapIndicator.NoWarning = 1 -> Zorglub.Time.Horology.Ntp.LeapIndicator
+Zorglub.Time.Horology.Ntp.LeapIndicator.PositiveLeapSecond = 2 -> Zorglub.Time.Horology.Ntp.LeapIndicator
+Zorglub.Time.Horology.Ntp.LeapIndicator.Unsynchronized = 4 -> Zorglub.Time.Horology.Ntp.LeapIndicator
+Zorglub.Time.Horology.Ntp.NtpException
+Zorglub.Time.Horology.Ntp.NtpException.NtpException() -> void
+Zorglub.Time.Horology.Ntp.NtpException.NtpException(string! message) -> void
+Zorglub.Time.Horology.Ntp.NtpException.NtpException(string! message, System.Exception! innerException) -> void
+Zorglub.Time.Horology.Ntp.NtpMode
+Zorglub.Time.Horology.Ntp.NtpMode.Broadcast = 6 -> Zorglub.Time.Horology.Ntp.NtpMode
+Zorglub.Time.Horology.Ntp.NtpMode.Client = 4 -> Zorglub.Time.Horology.Ntp.NtpMode
+Zorglub.Time.Horology.Ntp.NtpMode.Invalid = 0 -> Zorglub.Time.Horology.Ntp.NtpMode
+Zorglub.Time.Horology.Ntp.NtpMode.NtpControlMessage = 7 -> Zorglub.Time.Horology.Ntp.NtpMode
+Zorglub.Time.Horology.Ntp.NtpMode.Reserved = 1 -> Zorglub.Time.Horology.Ntp.NtpMode
+Zorglub.Time.Horology.Ntp.NtpMode.ReservedForPrivateUse = 8 -> Zorglub.Time.Horology.Ntp.NtpMode
+Zorglub.Time.Horology.Ntp.NtpMode.Server = 5 -> Zorglub.Time.Horology.Ntp.NtpMode
+Zorglub.Time.Horology.Ntp.NtpMode.SymmetricActive = 2 -> Zorglub.Time.Horology.Ntp.NtpMode
+Zorglub.Time.Horology.Ntp.NtpMode.SymmetricPassive = 3 -> Zorglub.Time.Horology.Ntp.NtpMode
+Zorglub.Time.Horology.Ntp.NtpStratum
+Zorglub.Time.Horology.Ntp.NtpStratum.Invalid = 0 -> Zorglub.Time.Horology.Ntp.NtpStratum
+Zorglub.Time.Horology.Ntp.NtpStratum.PrimaryReference = 2 -> Zorglub.Time.Horology.Ntp.NtpStratum
+Zorglub.Time.Horology.Ntp.NtpStratum.Reserved = 5 -> Zorglub.Time.Horology.Ntp.NtpStratum
+Zorglub.Time.Horology.Ntp.NtpStratum.SecondaryReference = 3 -> Zorglub.Time.Horology.Ntp.NtpStratum
+Zorglub.Time.Horology.Ntp.NtpStratum.Unspecified = 1 -> Zorglub.Time.Horology.Ntp.NtpStratum
+Zorglub.Time.Horology.Ntp.NtpStratum.Unsynchronized = 4 -> Zorglub.Time.Horology.Ntp.NtpStratum
+Zorglub.Time.Horology.Ntp.SntpClient
+Zorglub.Time.Horology.Ntp.SntpClient.DisableVersionCheck.get -> bool
+Zorglub.Time.Horology.Ntp.SntpClient.DisableVersionCheck.init -> void
+Zorglub.Time.Horology.Ntp.SntpClient.EnableValidation.get -> bool
+Zorglub.Time.Horology.Ntp.SntpClient.EnableValidation.init -> void
+Zorglub.Time.Horology.Ntp.SntpClient.QueryTime() -> Zorglub.Time.Horology.Ntp.SntpResponse!
+Zorglub.Time.Horology.Ntp.SntpClient.QueryTimeAsync() -> System.Threading.Tasks.Task<Zorglub.Time.Horology.Ntp.SntpResponse!>!
+Zorglub.Time.Horology.Ntp.SntpClient.RandomGenerator.get -> Zorglub.Time.Horology.Ntp.IRandomGenerator!
+Zorglub.Time.Horology.Ntp.SntpClient.RandomGenerator.init -> void
+Zorglub.Time.Horology.Ntp.SntpClient.ReceiveTimeout.get -> int
+Zorglub.Time.Horology.Ntp.SntpClient.ReceiveTimeout.set -> void
+Zorglub.Time.Horology.Ntp.SntpClient.SendTimeout.get -> int
+Zorglub.Time.Horology.Ntp.SntpClient.SendTimeout.set -> void
+Zorglub.Time.Horology.Ntp.SntpClient.SntpClient(string! host) -> void
+Zorglub.Time.Horology.Ntp.SntpClient.SntpClient(System.Net.EndPoint! endpoint) -> void
+Zorglub.Time.Horology.Ntp.SntpClient.Version.get -> int
+Zorglub.Time.Horology.Ntp.SntpClient.Version.init -> void
+Zorglub.Time.Horology.Ntp.SntpResponse
+Zorglub.Time.Horology.Ntp.SntpResponse.Deconstruct(out Zorglub.Time.Horology.Ntp.SntpServerInfo! si, out Zorglub.Time.Horology.Ntp.SntpTimeInfo! ti) -> void
+Zorglub.Time.Horology.Ntp.SntpResponse.ServerInfo.get -> Zorglub.Time.Horology.Ntp.SntpServerInfo!
+Zorglub.Time.Horology.Ntp.SntpResponse.SntpResponse(Zorglub.Time.Horology.Ntp.SntpServerInfo! serverInfo, Zorglub.Time.Horology.Ntp.SntpTimeInfo! timeInfo) -> void
+Zorglub.Time.Horology.Ntp.SntpResponse.TimeInfo.get -> Zorglub.Time.Horology.Ntp.SntpTimeInfo!
+Zorglub.Time.Horology.Ntp.SntpServerInfo
+Zorglub.Time.Horology.Ntp.SntpServerInfo.Dispersion.get -> Zorglub.Time.Horology.Ntp.Duration32
+Zorglub.Time.Horology.Ntp.SntpServerInfo.Dispersion.init -> void
+Zorglub.Time.Horology.Ntp.SntpServerInfo.LeapIndicator.get -> Zorglub.Time.Horology.Ntp.LeapIndicator
+Zorglub.Time.Horology.Ntp.SntpServerInfo.LeapIndicator.init -> void
+Zorglub.Time.Horology.Ntp.SntpServerInfo.PollInterval.get -> int
+Zorglub.Time.Horology.Ntp.SntpServerInfo.PollInterval.init -> void
+Zorglub.Time.Horology.Ntp.SntpServerInfo.Precision.get -> int
+Zorglub.Time.Horology.Ntp.SntpServerInfo.Precision.init -> void
+Zorglub.Time.Horology.Ntp.SntpServerInfo.ReferenceCode.get -> string!
+Zorglub.Time.Horology.Ntp.SntpServerInfo.ReferenceCode.init -> void
+Zorglub.Time.Horology.Ntp.SntpServerInfo.ReferenceIdentifier.get -> uint
+Zorglub.Time.Horology.Ntp.SntpServerInfo.ReferenceIdentifier.init -> void
+Zorglub.Time.Horology.Ntp.SntpServerInfo.ReferenceTimestamp.get -> Zorglub.Time.Horology.Ntp.Timestamp64
+Zorglub.Time.Horology.Ntp.SntpServerInfo.ReferenceTimestamp.init -> void
+Zorglub.Time.Horology.Ntp.SntpServerInfo.Rtt.get -> Zorglub.Time.Horology.Ntp.Duration32
+Zorglub.Time.Horology.Ntp.SntpServerInfo.Rtt.init -> void
+Zorglub.Time.Horology.Ntp.SntpServerInfo.Stratum.get -> Zorglub.Time.Horology.Ntp.NtpStratum
+Zorglub.Time.Horology.Ntp.SntpServerInfo.Stratum.init -> void
+Zorglub.Time.Horology.Ntp.SntpServerInfo.Version.get -> int
+Zorglub.Time.Horology.Ntp.SntpServerInfo.Version.init -> void
+Zorglub.Time.Horology.Ntp.SntpTimeInfo
+Zorglub.Time.Horology.Ntp.SntpTimeInfo.ClockOffset.get -> Zorglub.Time.Horology.Ntp.Duration64
+Zorglub.Time.Horology.Ntp.SntpTimeInfo.ReceiveTimestamp.get -> Zorglub.Time.Horology.Ntp.Timestamp64
+Zorglub.Time.Horology.Ntp.SntpTimeInfo.ReceiveTimestamp.init -> void
+Zorglub.Time.Horology.Ntp.SntpTimeInfo.RequestTimestamp.get -> Zorglub.Time.Horology.Ntp.Timestamp64
+Zorglub.Time.Horology.Ntp.SntpTimeInfo.RequestTimestamp.init -> void
+Zorglub.Time.Horology.Ntp.SntpTimeInfo.ResponseTimestamp.get -> Zorglub.Time.Horology.Ntp.Timestamp64
+Zorglub.Time.Horology.Ntp.SntpTimeInfo.ResponseTimestamp.init -> void
+Zorglub.Time.Horology.Ntp.SntpTimeInfo.Rtt.get -> Zorglub.Time.Horology.Ntp.Duration64
+Zorglub.Time.Horology.Ntp.SntpTimeInfo.TransmitTimestamp.get -> Zorglub.Time.Horology.Ntp.Timestamp64
+Zorglub.Time.Horology.Ntp.SntpTimeInfo.TransmitTimestamp.init -> void
+Zorglub.Time.Horology.Ntp.Timestamp64
+Zorglub.Time.Horology.Ntp.Timestamp64.CompareTo(object? obj) -> int
+Zorglub.Time.Horology.Ntp.Timestamp64.CompareTo(Zorglub.Time.Horology.Ntp.Timestamp64 other) -> int
+Zorglub.Time.Horology.Ntp.Timestamp64.CountMillisecondsSinceZero() -> long
+Zorglub.Time.Horology.Ntp.Timestamp64.CountNanosecondsSinceZero() -> long
+Zorglub.Time.Horology.Ntp.Timestamp64.Equals(Zorglub.Time.Horology.Ntp.Timestamp64 other) -> bool
+Zorglub.Time.Horology.Ntp.Timestamp64.FractionOfSecond.get -> long
+Zorglub.Time.Horology.Ntp.Timestamp64.SecondOfEra.get -> long
+Zorglub.Time.Horology.Ntp.Timestamp64.Subtract(Zorglub.Time.Horology.Ntp.Timestamp64 other) -> Zorglub.Time.Horology.Ntp.Duration64
+Zorglub.Time.Horology.Ntp.Timestamp64.Timestamp64() -> void
+Zorglub.Time.Horology.Ntp.Timestamp64.Timestamp64(uint secondOfEra, uint fractionOfSecond) -> void
+Zorglub.Time.Horology.Ntp.Timestamp64.ToDateTime() -> System.DateTime
 Zorglub.Time.Specialized.Armenian13Adjuster
 Zorglub.Time.Specialized.Armenian13Adjuster.Armenian13Adjuster() -> void
 Zorglub.Time.Specialized.Armenian13Calendar

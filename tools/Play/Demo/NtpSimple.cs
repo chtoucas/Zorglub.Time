@@ -14,9 +14,9 @@ public static class NtpSimple
 {
     public static void Query()
     {
-        var cli = new SntpClient();
-        //var cli = new SntpClient("time.nist.gov") { DisableVersionCheck = true };
+        var cli = new SntpClient("pool.ntp.org");
         //var cli = new SntpClient("fr.pool.ntp.org");
+        //var cli = new SntpClient("time.nist.gov") { DisableVersionCheck = true };
         //var cli = new SntpClient("time.windows.com") { DisableVersionCheck = true };
 
         var (si, ti) = cli.QueryTime();
