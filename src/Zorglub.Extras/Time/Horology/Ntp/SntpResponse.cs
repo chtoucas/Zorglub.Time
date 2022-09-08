@@ -61,16 +61,17 @@ public sealed record SntpServerInfo
     public Duration32 Dispersion { get; init; }
 
     /// <summary>
-    /// Gets the code identifying the particular reference clock.
+    /// Gets the identifier of the particular reference clock.
+    /// <para>See also <seealso cref="ReferenceCode"/>.</para>
     /// </summary>
-    public ReferenceIdentifier ReferenceIdentifier { get; init; }
-
-    public Timestamp64 ReferenceTimestamp { get; init; }
+    public ReferenceId ReferenceId { get; init; }
 
     /// <summary>
-    /// Gets a code identifying the particular reference clock.
+    /// Gets the code identifying the particular reference clock.
     /// </summary>
-    internal uint ReferenceIdentifierCore { get; init; }
+    public ReferenceCode ReferenceCode => ReferenceId.GetCode(Stratum);
+
+    public Timestamp64 ReferenceTimestamp { get; init; }
 }
 
 public sealed record SntpTimeInfo

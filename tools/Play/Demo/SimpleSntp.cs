@@ -21,14 +21,13 @@ public static class SimpleSntp
 
         var (si, ti) = cli.QueryTime();
 
-        var refcode = si.ReferenceIdentifier.GetCode(si.Stratum);
         double precisionInMicroseconds = MicrosecondsPerSecond * Math.Pow(2, si.Precision);
 
         WriteLine("NTP response (server info)");
         WriteLine($"  Version:            {si.Version}");
         WriteLine($"  Leap second:        {si.LeapIndicator}");
         WriteLine($"  Stratum:            {si.Stratum}");
-        WriteLine($"  Reference ID:       {refcode} (\"{si.ReferenceIdentifier}\")");
+        WriteLine($"  Reference ID:       {si.ReferenceCode} (\"{si.ReferenceId}\")");
         WriteLine("  Reference time:     {0:HH:mm:ss.fff}", si.ReferenceTimestamp.ToDateTime());
         WriteLine($"  RTT:                {si.Rtt.TotalMilliseconds:F3}ms\t({si.Rtt})");
         WriteLine($"  Dispersion:         {si.Dispersion.TotalMilliseconds:F3}ms\t({si.Dispersion})");
