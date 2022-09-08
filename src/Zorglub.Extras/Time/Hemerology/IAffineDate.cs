@@ -3,55 +3,54 @@
 
 #pragma warning disable CA1000 // Do not declare static members on generic types (Design) 👈 PreviewFeatures
 
-namespace Zorglub.Time.Hemerology
+namespace Zorglub.Time.Hemerology;
+
+using Zorglub.Time.Core;
+
+// NB: an affine date can only be linked to a single calendar system,
+// therefore we can provide unambigiously a factory method FromDaysSinceEpoch().
+
+/// <summary>
+/// Defines an affine date.
+/// </summary>
+public interface IAffineDate : IDateable
 {
-    using Zorglub.Time.Core;
-
-    // NB: an affine date can only be linked to a single calendar system,
-    // therefore we can provide unambigiously a factory method FromDaysSinceEpoch().
-
     /// <summary>
-    /// Defines an affine date.
+    /// Gets the number of consecutive days from the epoch to the current instance.
     /// </summary>
-    public interface IAffineDate : IDateable
-    {
-        /// <summary>
-        /// Gets the number of consecutive days from the epoch to the current instance.
-        /// </summary>
-        int DaysSinceEpoch { get; }
-    }
+    int DaysSinceEpoch { get; }
+}
 
+/// <summary>
+/// Defines an affine date type.
+/// <para>An affine date is a date type within a calendar system for which the epoch has not
+/// been fixed, therefore the dates can not be linked to a timeline.</para>
+/// </summary>
+/// <remarks>
+/// <para>No epoch means no interconversion with other calendars and no day of the week. The
+/// weaker DaysSinceEpoch (the number of consecutive days since the epoch) is still available
+/// which allows for arithmetical operations.</para>
+/// </remarks>
+/// <typeparam name="TSelf">The type that implements this interface.</typeparam>
+public interface IAffineDate<TSelf> :
+    IAffineDate,
+    // Comparison
+    IComparisonOperators<TSelf, TSelf>,
+    IMinMaxFunctions<TSelf>,
+    // Arithmetic
+    IStandardArithmetic<TSelf>,
+    IAdditionOperators<TSelf, int, TSelf>,
+    ISubtractionOperators<TSelf, int, TSelf>,
+    IDifferenceOperators<TSelf, int>,
+    IIncrementOperators<TSelf>,
+    IDecrementOperators<TSelf>
+    where TSelf : IAffineDate<TSelf>
+{
     /// <summary>
-    /// Defines an affine date type.
-    /// <para>An affine date is a date type within a calendar system for which the epoch has not
-    /// been fixed, therefore the dates can not be linked to a timeline.</para>
+    /// Creates a new <typeparamref name="TSelf"/> instance from the specified number of
+    /// consecutive days since the epoch.
     /// </summary>
-    /// <remarks>
-    /// <para>No epoch means no interconversion with other calendars and no day of the week. The
-    /// weaker DaysSinceEpoch (the number of consecutive days since the epoch) is still available
-    /// which allows for arithmetical operations.</para>
-    /// </remarks>
-    /// <typeparam name="TSelf">The type that implements this interface.</typeparam>
-    public interface IAffineDate<TSelf> :
-        IAffineDate,
-        // Comparison
-        IComparisonOperators<TSelf, TSelf>,
-        IMinMaxFunctions<TSelf>,
-        // Arithmetic
-        IStandardArithmetic<TSelf>,
-        IAdditionOperators<TSelf, int, TSelf>,
-        ISubtractionOperators<TSelf, int, TSelf>,
-        IDifferenceOperators<TSelf, int>,
-        IIncrementOperators<TSelf>,
-        IDecrementOperators<TSelf>
-        where TSelf : IAffineDate<TSelf>
-    {
-        /// <summary>
-        /// Creates a new <typeparamref name="TSelf"/> instance from the specified number of
-        /// consecutive days since the epoch.
-        /// </summary>
-        /// <exception cref="AoorException"><paramref name="daysSinceEpoch"/> is outside the range
-        /// of values supported by the default calendar.</exception>
-        [Pure] static abstract TSelf FromDaysSinceEpoch(int daysSinceEpoch);
-    }
+    /// <exception cref="AoorException"><paramref name="daysSinceEpoch"/> is outside the range
+    /// of values supported by the default calendar.</exception>
+    [Pure] static abstract TSelf FromDaysSinceEpoch(int daysSinceEpoch);
 }

@@ -10,9 +10,9 @@ using Zorglub.Time.Horology.Ntp;
 using static System.Console;
 using static Zorglub.Time.Core.TemporalConstants;
 
-public static class NtpSimple
+public static class SimpleSntp
 {
-    public static void Query()
+    public static void QueryTime()
     {
         var cli = new SntpClient("pool.ntp.org");
         //var cli = new SntpClient("fr.pool.ntp.org");

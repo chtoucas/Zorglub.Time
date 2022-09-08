@@ -225,8 +225,15 @@ public sealed partial class SntpClient
 
 public partial class SntpClient // Helpers
 {
+    /// <summary>
+    /// Represents a duration of exactly one second.
+    /// <para>This field is read-only.</para>
+    /// </summary>
     private static readonly Duration32 s_OneSecond = new(1, 0);
 
+    /// <summary>
+    /// Reads an <see cref="SntpResponse"/> value from the beginning of a read-only span of bytes.
+    /// </summary>
     [Pure]
     private SntpResponse ReadResponse(
         ReadOnlySpan<byte> buf,
