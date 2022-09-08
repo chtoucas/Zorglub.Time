@@ -256,8 +256,7 @@ public partial class SntpClient // Helpers
             Precision = pkt.Precision,
             Rtt = pkt.RootDelay,
             Dispersion = pkt.RootDispersion,
-            ReferenceIdentifierCore = pkt.ReferenceIdentifier,
-            ReferenceCode = pkt.ReferenceCode,
+            ReferenceIdentifier = pkt.ReferenceIdentifier,
             ReferenceTimestamp = pkt.ReferenceTimestamp,
         };
 

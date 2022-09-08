@@ -3,8 +3,6 @@
 
 namespace Zorglub.Time.Horology.Ntp;
 
-using System.Text;
-
 #region Developer Notes
 
 // RFC 4330 (SNTP) says that root delay and dispersion are 32-bit signed fixed-
@@ -62,8 +60,7 @@ internal readonly struct NtpPacket
     public Duration32 RootDelay { get; private init; }
     public Duration32 RootDispersion { get; private init; }
 
-    public uint ReferenceIdentifier { get; private init; }
-    public string ReferenceCode { get; private init; }
+    public ReferenceIdentifier ReferenceIdentifier { get; private init; }
     public Timestamp64 ReferenceTimestamp { get; private init; }
 
     public Timestamp64 OriginateTimestamp { get; private init; }
@@ -100,8 +97,7 @@ internal readonly struct NtpPacket
             RootDelay = Duration32.ReadFrom(buf[4..]),
             RootDispersion = Duration32.ReadFrom(buf[8..]),
 
-            ReferenceIdentifier = BitConverter.ToUInt32(buf[12..]),
-            ReferenceCode = Encoding.ASCII.GetString(buf[12..16]),
+            ReferenceIdentifier = ReferenceIdentifier.ReadFrom(buf[12..16]),
             ReferenceTimestamp = Timestamp64.ReadFrom(buf[16..]),
 
             OriginateTimestamp = Timestamp64.ReadFrom(buf[24..]),

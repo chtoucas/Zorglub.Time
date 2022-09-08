@@ -61,27 +61,16 @@ public sealed record SntpServerInfo
     public Duration32 Dispersion { get; init; }
 
     /// <summary>
-    /// Gets a code identifying the particular reference clock.
-    /// <para>To recover the genuine binary identifier, four bytes in network order, use
-    /// <see cref="BitConverter.GetBytes(uint)"/>.</para>
+    /// Gets the code identifying the particular reference clock.
     /// </summary>
-    internal uint ReferenceIdentifierCore { get; init; }
-
-    /// <summary>
-    /// Gets the binary code, four bytes in network order, identifying the particular reference clock.
-    /// <para>See also <seealso cref="ReferenceCode"/>.</para>
-    /// </summary>
-    public Span<byte> ReferenceIdentifier =>
-        BitConverter.GetBytes(ReferenceIdentifierCore).AsSpan();
-
-    /// <summary>
-    /// Gets a human-friendly code identifying the particular reference clock (primary reference)
-    /// -or- a Kiss-o'-Death Code (unspecified stratum).
-    /// <para>For other stratums, the returned value is meaningless and should be discarded.</para>
-    /// </summary>
-    public string ReferenceCode { get; init; } = String.Empty;
+    public ReferenceIdentifier ReferenceIdentifier { get; init; }
 
     public Timestamp64 ReferenceTimestamp { get; init; }
+
+    /// <summary>
+    /// Gets a code identifying the particular reference clock.
+    /// </summary>
+    internal uint ReferenceIdentifierCore { get; init; }
 }
 
 public sealed record SntpTimeInfo
