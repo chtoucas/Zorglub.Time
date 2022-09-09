@@ -5,6 +5,11 @@ namespace Zorglub.Time.Horology.Ntp;
 
 public sealed record SntpResponse
 {
+    /// <summary>
+    /// Initializes a new instance of the <see cref="SntpResponse"/> class.
+    /// </summary>
+    /// <exception cref="ArgumentNullException"><paramref name="serverInfo"/> is null.</exception>
+    /// <exception cref="ArgumentNullException"><paramref name="timeInfo"/> is null.</exception>
     public SntpResponse(SntpServerInfo serverInfo, SntpTimeInfo timeInfo)
     {
         ServerInfo = serverInfo ?? throw new ArgumentNullException(nameof(serverInfo));
@@ -61,15 +66,15 @@ public sealed record SntpServerInfo
     public Duration32 Dispersion { get; init; }
 
     /// <summary>
-    /// Gets the identifier of the particular reference clock.
+    /// Gets the NTP identifier of the particular reference clock.
     /// <para>See also <seealso cref="NtpCode"/>.</para>
     /// </summary>
     public ReferenceId ReferenceId { get; init; }
 
     /// <summary>
-    /// Gets the NTP code identifying the particular server or reference clock or a "kiss code".
+    /// Gets the NTP code identifying the particular server or reference clock, or a "kiss code".
     /// </summary>
-    public NtpCode NtpCode => ReferenceId.GetCode(Stratum);
+    public NtpCode NtpCode => ReferenceId.ToNtpCodeFor(Stratum);
 
     public Timestamp64 ReferenceTimestamp { get; init; }
 }

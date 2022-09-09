@@ -172,12 +172,16 @@ override sealed Zorglub.Time.Core.Schemas.WorldSchema.IsIntercalaryMonth(int y, 
 override sealed Zorglub.Time.Core.Schemas.WorldSchema.IsLeapYear(int y) -> bool
 override sealed Zorglub.Time.Core.Schemas.WorldSchema.IsSupplementaryDay(int y, int m, int d) -> bool
 override sealed Zorglub.Time.Core.Schemas.WorldSchema.PeriodicAdjustments.get -> Zorglub.Time.CalendricalAdjustments
+override sealed Zorglub.Time.Horology.Ntp.NtpCode.ToString() -> string!
 override Zorglub.Time.Horology.Ntp.Duration32.Equals(object? obj) -> bool
 override Zorglub.Time.Horology.Ntp.Duration32.GetHashCode() -> int
 override Zorglub.Time.Horology.Ntp.Duration32.ToString() -> string!
 override Zorglub.Time.Horology.Ntp.Duration64.Equals(object? obj) -> bool
 override Zorglub.Time.Horology.Ntp.Duration64.GetHashCode() -> int
 override Zorglub.Time.Horology.Ntp.Duration64.ToString() -> string!
+override Zorglub.Time.Horology.Ntp.ReferenceId.Equals(object? obj) -> bool
+override Zorglub.Time.Horology.Ntp.ReferenceId.GetHashCode() -> int
+override Zorglub.Time.Horology.Ntp.ReferenceId.ToString() -> string!
 override Zorglub.Time.Horology.Ntp.Timestamp64.Equals(object? obj) -> bool
 override Zorglub.Time.Horology.Ntp.Timestamp64.GetHashCode() -> int
 override Zorglub.Time.Horology.Ntp.Timestamp64.ToString() -> string!
@@ -249,6 +253,8 @@ static Zorglub.Time.Horology.Ntp.Duration64.operator ==(Zorglub.Time.Horology.Nt
 static Zorglub.Time.Horology.Ntp.Duration64.operator >(Zorglub.Time.Horology.Ntp.Duration64 left, Zorglub.Time.Horology.Ntp.Duration64 right) -> bool
 static Zorglub.Time.Horology.Ntp.Duration64.operator >=(Zorglub.Time.Horology.Ntp.Duration64 left, Zorglub.Time.Horology.Ntp.Duration64 right) -> bool
 static Zorglub.Time.Horology.Ntp.Duration64.Zero.get -> Zorglub.Time.Horology.Ntp.Duration64
+static Zorglub.Time.Horology.Ntp.ReferenceId.operator !=(Zorglub.Time.Horology.Ntp.ReferenceId left, Zorglub.Time.Horology.Ntp.ReferenceId right) -> bool
+static Zorglub.Time.Horology.Ntp.ReferenceId.operator ==(Zorglub.Time.Horology.Ntp.ReferenceId left, Zorglub.Time.Horology.Ntp.ReferenceId right) -> bool
 static Zorglub.Time.Horology.Ntp.Timestamp64.FromDateTime(System.DateTime time) -> Zorglub.Time.Horology.Ntp.Timestamp64
 static Zorglub.Time.Horology.Ntp.Timestamp64.Max(Zorglub.Time.Horology.Ntp.Timestamp64 x, Zorglub.Time.Horology.Ntp.Timestamp64 y) -> Zorglub.Time.Horology.Ntp.Timestamp64
 static Zorglub.Time.Horology.Ntp.Timestamp64.MaxValue.get -> Zorglub.Time.Horology.Ntp.Timestamp64
@@ -487,15 +493,30 @@ Zorglub.Time.Horology.Ntp.Duration64.Subtract(Zorglub.Time.Horology.Ntp.Duration
 Zorglub.Time.Horology.Ntp.Duration64.TotalMilliseconds.get -> double
 Zorglub.Time.Horology.Ntp.Duration64.TotalNanoseconds.get -> double
 Zorglub.Time.Horology.Ntp.Duration64.TotalSeconds.get -> double
-Zorglub.Time.Horology.Ntp.IRandomGenerator
-Zorglub.Time.Horology.Ntp.IRandomGenerator.GetInt32(int fromInclusive, int toExclusive) -> int
-Zorglub.Time.Horology.Ntp.IRandomGenerator.GetInt32(int toExclusive) -> int
+Zorglub.Time.Horology.Ntp.IRandomNumberGenerator
+Zorglub.Time.Horology.Ntp.IRandomNumberGenerator.GetInt32(int fromInclusive, int toExclusive) -> int
 Zorglub.Time.Horology.Ntp.LeapIndicator
 Zorglub.Time.Horology.Ntp.LeapIndicator.Invalid = 0 -> Zorglub.Time.Horology.Ntp.LeapIndicator
 Zorglub.Time.Horology.Ntp.LeapIndicator.NegativeLeapSecond = 3 -> Zorglub.Time.Horology.Ntp.LeapIndicator
 Zorglub.Time.Horology.Ntp.LeapIndicator.NoWarning = 1 -> Zorglub.Time.Horology.Ntp.LeapIndicator
 Zorglub.Time.Horology.Ntp.LeapIndicator.PositiveLeapSecond = 2 -> Zorglub.Time.Horology.Ntp.LeapIndicator
 Zorglub.Time.Horology.Ntp.LeapIndicator.Unsynchronized = 4 -> Zorglub.Time.Horology.Ntp.LeapIndicator
+Zorglub.Time.Horology.Ntp.NtpCode
+Zorglub.Time.Horology.Ntp.NtpCode.NtpCode(Zorglub.Time.Horology.Ntp.NtpCodeType Type, string! Value) -> void
+Zorglub.Time.Horology.Ntp.NtpCode.Type.get -> Zorglub.Time.Horology.Ntp.NtpCodeType
+Zorglub.Time.Horology.Ntp.NtpCode.Type.init -> void
+Zorglub.Time.Horology.Ntp.NtpCode.Value.get -> string!
+Zorglub.Time.Horology.Ntp.NtpCode.Value.init -> void
+Zorglub.Time.Horology.Ntp.NtpCodeType
+Zorglub.Time.Horology.Ntp.NtpCodeType.Identifier = 1 -> Zorglub.Time.Horology.Ntp.NtpCodeType
+Zorglub.Time.Horology.Ntp.NtpCodeType.IPAddressMaybe = 8 -> Zorglub.Time.Horology.Ntp.NtpCodeType
+Zorglub.Time.Horology.Ntp.NtpCodeType.KissCode = 4 -> Zorglub.Time.Horology.Ntp.NtpCodeType
+Zorglub.Time.Horology.Ntp.NtpCodeType.LeapSecondSmearing = 7 -> Zorglub.Time.Horology.Ntp.NtpCodeType
+Zorglub.Time.Horology.Ntp.NtpCodeType.PrivateIdentifier = 2 -> Zorglub.Time.Horology.Ntp.NtpCodeType
+Zorglub.Time.Horology.Ntp.NtpCodeType.PrivateKissCode = 5 -> Zorglub.Time.Horology.Ntp.NtpCodeType
+Zorglub.Time.Horology.Ntp.NtpCodeType.Unknown = 0 -> Zorglub.Time.Horology.Ntp.NtpCodeType
+Zorglub.Time.Horology.Ntp.NtpCodeType.UnknownIdentifier = 3 -> Zorglub.Time.Horology.Ntp.NtpCodeType
+Zorglub.Time.Horology.Ntp.NtpCodeType.UnknownKissCode = 6 -> Zorglub.Time.Horology.Ntp.NtpCodeType
 Zorglub.Time.Horology.Ntp.NtpException
 Zorglub.Time.Horology.Ntp.NtpException.NtpException() -> void
 Zorglub.Time.Horology.Ntp.NtpException.NtpException(string! message) -> void
@@ -517,6 +538,11 @@ Zorglub.Time.Horology.Ntp.NtpStratum.Reserved = 5 -> Zorglub.Time.Horology.Ntp.N
 Zorglub.Time.Horology.Ntp.NtpStratum.SecondaryReference = 3 -> Zorglub.Time.Horology.Ntp.NtpStratum
 Zorglub.Time.Horology.Ntp.NtpStratum.Unspecified = 1 -> Zorglub.Time.Horology.Ntp.NtpStratum
 Zorglub.Time.Horology.Ntp.NtpStratum.Unsynchronized = 4 -> Zorglub.Time.Horology.Ntp.NtpStratum
+Zorglub.Time.Horology.Ntp.ReferenceId
+Zorglub.Time.Horology.Ntp.ReferenceId.AsBytes() -> System.ReadOnlySpan<byte>
+Zorglub.Time.Horology.Ntp.ReferenceId.Equals(Zorglub.Time.Horology.Ntp.ReferenceId other) -> bool
+Zorglub.Time.Horology.Ntp.ReferenceId.ReferenceId() -> void
+Zorglub.Time.Horology.Ntp.ReferenceId.ToHexString() -> string!
 Zorglub.Time.Horology.Ntp.SntpClient
 Zorglub.Time.Horology.Ntp.SntpClient.DisableVersionCheck.get -> bool
 Zorglub.Time.Horology.Ntp.SntpClient.DisableVersionCheck.init -> void
@@ -524,8 +550,8 @@ Zorglub.Time.Horology.Ntp.SntpClient.EnableValidation.get -> bool
 Zorglub.Time.Horology.Ntp.SntpClient.EnableValidation.init -> void
 Zorglub.Time.Horology.Ntp.SntpClient.QueryTime() -> Zorglub.Time.Horology.Ntp.SntpResponse!
 Zorglub.Time.Horology.Ntp.SntpClient.QueryTimeAsync() -> System.Threading.Tasks.Task<Zorglub.Time.Horology.Ntp.SntpResponse!>!
-Zorglub.Time.Horology.Ntp.SntpClient.RandomGenerator.get -> Zorglub.Time.Horology.Ntp.IRandomGenerator!
-Zorglub.Time.Horology.Ntp.SntpClient.RandomGenerator.init -> void
+Zorglub.Time.Horology.Ntp.SntpClient.RandomNumberGenerator.get -> Zorglub.Time.Horology.Ntp.IRandomNumberGenerator!
+Zorglub.Time.Horology.Ntp.SntpClient.RandomNumberGenerator.init -> void
 Zorglub.Time.Horology.Ntp.SntpClient.ReceiveTimeout.get -> int
 Zorglub.Time.Horology.Ntp.SntpClient.ReceiveTimeout.set -> void
 Zorglub.Time.Horology.Ntp.SntpClient.SendTimeout.get -> int
@@ -544,14 +570,13 @@ Zorglub.Time.Horology.Ntp.SntpServerInfo.Dispersion.get -> Zorglub.Time.Horology
 Zorglub.Time.Horology.Ntp.SntpServerInfo.Dispersion.init -> void
 Zorglub.Time.Horology.Ntp.SntpServerInfo.LeapIndicator.get -> Zorglub.Time.Horology.Ntp.LeapIndicator
 Zorglub.Time.Horology.Ntp.SntpServerInfo.LeapIndicator.init -> void
+Zorglub.Time.Horology.Ntp.SntpServerInfo.NtpCode.get -> Zorglub.Time.Horology.Ntp.NtpCode!
 Zorglub.Time.Horology.Ntp.SntpServerInfo.PollInterval.get -> int
 Zorglub.Time.Horology.Ntp.SntpServerInfo.PollInterval.init -> void
 Zorglub.Time.Horology.Ntp.SntpServerInfo.Precision.get -> int
 Zorglub.Time.Horology.Ntp.SntpServerInfo.Precision.init -> void
-Zorglub.Time.Horology.Ntp.SntpServerInfo.ReferenceCode.get -> string!
-Zorglub.Time.Horology.Ntp.SntpServerInfo.ReferenceCode.init -> void
-Zorglub.Time.Horology.Ntp.SntpServerInfo.ReferenceIdentifier.get -> uint
-Zorglub.Time.Horology.Ntp.SntpServerInfo.ReferenceIdentifier.init -> void
+Zorglub.Time.Horology.Ntp.SntpServerInfo.ReferenceId.get -> Zorglub.Time.Horology.Ntp.ReferenceId
+Zorglub.Time.Horology.Ntp.SntpServerInfo.ReferenceId.init -> void
 Zorglub.Time.Horology.Ntp.SntpServerInfo.ReferenceTimestamp.get -> Zorglub.Time.Horology.Ntp.Timestamp64
 Zorglub.Time.Horology.Ntp.SntpServerInfo.ReferenceTimestamp.init -> void
 Zorglub.Time.Horology.Ntp.SntpServerInfo.Rtt.get -> Zorglub.Time.Horology.Ntp.Duration32

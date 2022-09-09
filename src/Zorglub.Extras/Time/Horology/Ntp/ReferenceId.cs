@@ -7,7 +7,7 @@ using System.Globalization;
 using System.Text;
 
 /// <summary>
-/// Represents the identifier of a server or a reference clock.
+/// Represents the NTP identifier of a server or a reference clock.
 /// <para><see cref="ReferenceId"/> is an immutable struct.</para>
 /// </summary>
 public readonly partial struct ReferenceId :
@@ -32,19 +32,33 @@ public readonly partial struct ReferenceId :
     public override string ToString()
     {
         var bytes = AsBytes();
-        return FormattableString.Invariant($"{bytes[0]:x2}{bytes[1]:x2}{bytes[2]:x2}{bytes[3]:x2}");
+        return Convert.ToHexString(bytes);
     }
 
     /// <summary>
-    /// Creates a new instance of the <see cref="ReferenceId"/> struct from the specified read-only
-    /// byte span.
+    /// Converts the current instance to its equivalent string representation that is encoded with
+    /// uppercase hex characters.
     /// </summary>
-    /// <exception cref="AoorException">The length of <paramref name="value"/> is less than 4.</exception>
-    public static ReferenceId Create(ReadOnlySpan<byte> value) => new(BitConverter.ToUInt32(value));
+    [Pure]
+    public string ToHexString()
+    {
+        var bytes = AsBytes();
+        return Convert.ToHexString(bytes);
+    }
+
+    /// <summary>
+    /// Reads a <see cref="ReferenceId"/> value from the beginning of a read-only span of bytes.
+    /// </summary>
+    /// <exception cref="AoorException"><paramref name="buf"/> is too small to contain a
+    /// <see cref="ReferenceId"/>.</exception>
+    [Pure]
+    internal static ReferenceId ReadFrom(ReadOnlySpan<byte> buf) =>
+        new(BitConverter.ToUInt32(buf));
 
     /// <summary>
     /// Obtains a binary view, four bytes in network order, of the current instance.
     /// </summary>
+    [Pure]
     public ReadOnlySpan<byte> AsBytes() => BitConverter.GetBytes(_value).AsSpan();
 }
 
@@ -56,7 +70,7 @@ public partial struct ReferenceId
 
     // Any string beginning with the ASCII character "X" is reserved for
     // unregistered experimentation and development.
-    private const char Reserved = 'X';
+    private const char PrivateCodeSentinel = 'X';
 
     private static readonly HashSet<string> s_Codes = new()
     {
@@ -107,9 +121,9 @@ public partial struct ReferenceId
     };
 
     /// <summary>
-    /// Obtains the NTP code identifying the particular server or reference clock or a "kiss code".
+    /// Converts the current instance to <see cref="NtpCode"/>.
     /// </summary>
-    internal NtpCode GetCode(NtpStratum stratum)
+    internal NtpCode ToNtpCodeFor(NtpStratum stratum)
     {
         var bytes = AsBytes();
 
@@ -118,66 +132,67 @@ public partial struct ReferenceId
             NtpStratum.Unspecified => ReadKissCode(bytes),
             NtpStratum.PrimaryReference => ReadCode(bytes),
             NtpStratum.SecondaryReference => ReadSecondaryReference(bytes),
-            _ => new NtpCode(NtpCodeType.Unknown, ToString()),
+            _ => new NtpCode(NtpCodeType.Unknown, ToHexString()),
         };
+    }
 
-        static NtpCode ReadKissCode(ReadOnlySpan<byte> bytes)
+    [Pure]
+    private static NtpCode ReadKissCode(ReadOnlySpan<byte> bytes)
+    {
+        var code = Encoding.ASCII.GetString(bytes);
+        var codeType =
+            s_KissCodes.Contains(code) ? NtpCodeType.KissCode
+            : code[0] == PrivateCodeSentinel ? NtpCodeType.PrivateKissCode
+            : NtpCodeType.UnknownKissCode;
+
+        return new NtpCode(codeType, code);
+    }
+
+    [Pure]
+    private static NtpCode ReadCode(ReadOnlySpan<byte> bytes)
+    {
+        var code = Encoding.ASCII.GetString(bytes);
+        var codeType =
+            s_Codes.Contains(code) ? NtpCodeType.Identifier
+            : code[0] == PrivateCodeSentinel ? NtpCodeType.PrivateIdentifier
+            : NtpCodeType.UnknownIdentifier;
+
+        return new NtpCode(codeType, FormattableString.Invariant($".{code}."));
+    }
+
+    [Pure]
+    private static NtpCode ReadSecondaryReference(ReadOnlySpan<byte> bytes)
+    {
+        // NTPv4 is a mess... the various RFCs (2030, 4330, 5905) seem to
+        // say different things: IPv4 address, or the first four bytes of
+        // the MD5 digest of the IPv6 address, or even the low order 32 bits
+        // of a timestamp.
+        //
+        //   Currently, ntpq has no way to know which type of Refid the
+        //   server is sending and always displays the Refid value in
+        //   dotted-quad format -- which means that any IPv6 Refids will be
+        //   listed as if they were IPv4 addresses, even though they are not.
+        //   See https://support.ntp.org/bin/view/Support/RefidFormat
+        //
+        // See also
+        // https://support.ntp.org/bin/view/Dev/UpdatingTheRefidFormat
+        // https://github.com/ntp-project/ntp/blob/master-no-authorname/README.leapsmear
+
+        if (bytes[0] == 254)
         {
-            var code = Encoding.ASCII.GetString(bytes);
-            var known = s_KissCodes.Contains(code);
+            // Only implemented by private servers.
+            // The remaining 3 bytes (big-endian) encode the smear value.
+            int smear = (bytes[1] << 16) | (bytes[2] << 8) | bytes[3];
 
             return new NtpCode(
-                code[0] == Reserved ? NtpCodeType.ReservedKissCode
-                : known ? NtpCodeType.KissCode
-                : NtpCodeType.UnknownKissCode,
-                code);
+                NtpCodeType.LeapSecondSmearing,
+                smear.ToString(CultureInfo.InvariantCulture));
         }
-
-        static NtpCode ReadCode(ReadOnlySpan<byte> bytes)
+        else
         {
-            var code = Encoding.ASCII.GetString(bytes);
-            var known = s_Codes.Contains(code);
-
             return new NtpCode(
-                code[0] == Reserved ? NtpCodeType.ReservedIdentifier
-                : known ? NtpCodeType.Identifier
-                : NtpCodeType.UnknownIdentifier,
-                FormattableString.Invariant($".{code}."));
-        }
-
-        static NtpCode ReadSecondaryReference(ReadOnlySpan<byte> bytes)
-        {
-            // NTPv4 is a mess... the various RFCs (2030, 4330, 5905) seem to be
-            // contradictory: IPv4 address, or the first four bytes of the MD5
-            // digest of the IPv6 address, or even the low order 32 bits of a
-            // timestamp.
-            //
-            //   Currently, ntpq has no way to know which type of Refid the
-            //   server is sending and always displays the Refid value in
-            //   dotted-quad format -- which means that any IPv6 Refids will be
-            //   listed as if they were IPv4 addresses, even though they are not.
-            //   See https://support.ntp.org/bin/view/Support/RefidFormat
-            //
-            // See also
-            // https://support.ntp.org/bin/view/Dev/UpdatingTheRefidFormat
-            // https://github.com/ntp-project/ntp/blob/master-no-authorname/README.leapsmear
-
-            if (bytes[0] == 254)
-            {
-                // Only implemented by private servers.
-                // The remaining 3 bytes (big-endian) encode the smear value.
-                int smear = (bytes[1] << 16) | (bytes[2] << 8) | bytes[3];
-
-                return new NtpCode(
-                    NtpCodeType.LeapSecondSmearing,
-                    smear.ToString(CultureInfo.InvariantCulture));
-            }
-            else
-            {
-                return new NtpCode(
-                    NtpCodeType.IPAddressMaybe,
-                    FormattableString.Invariant($"{bytes[0]}.{bytes[1]}.{bytes[2]}.{bytes[3]}"));
-            }
+                NtpCodeType.IPAddressMaybe,
+                FormattableString.Invariant($"{bytes[0]}.{bytes[1]}.{bytes[2]}.{bytes[3]}"));
         }
     }
 }

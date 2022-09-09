@@ -14,6 +14,10 @@ using static Zorglub.Time.Core.TemporalConstants;
 // Adapted from
 // https://android.googlesource.com/platform/frameworks/base/+/master/core/java/android/net/sntp/Duration64.java
 
+/// <summary>
+/// Represents a 64-bit duration.
+/// <para><see cref="Duration64"/> is an immutable struct.</para>
+/// </summary>
 public readonly partial struct Duration64 :
     // Comparison
     IComparisonOperators<Duration64, Duration64>,

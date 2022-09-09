@@ -97,7 +97,7 @@ internal readonly struct NtpPacket
             RootDelay = Duration32.ReadFrom(buf[4..]),
             RootDispersion = Duration32.ReadFrom(buf[8..]),
 
-            ReferenceId = ReferenceId.Create(buf[12..16]),
+            ReferenceId = ReferenceId.ReadFrom(buf[12..]),
             ReferenceTimestamp = Timestamp64.ReadFrom(buf[16..]),
 
             OriginateTimestamp = Timestamp64.ReadFrom(buf[24..]),

@@ -3,22 +3,35 @@
 
 namespace Zorglub.Time.Horology.Ntp;
 
+/// <summary>
+/// The exception that is thrown when an NTP error occurs.
+/// <para>This class cannot be inherited.</para>
+/// </summary>
 public sealed class NtpException : Exception
 {
+    /// <summary>
+    /// Initializes a new instance of the <see cref="NtpException"/> class.
+    /// </summary>
     public NtpException() { }
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="NtpException"/> class with the specified
+    /// message.
+    /// </summary>
     public NtpException(string message) : base(message) { }
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="NtpException"/> class with the specified
+    /// message and inner exception.
+    /// </summary>
     public NtpException(string message, Exception innerException)
         : base(message, innerException) { }
 
-    // TODO(code): move to ThrowHelpers.
-
     [DoesNotReturn]
-    internal static void Throw(string message = "Bad server reply.") =>
+    internal static void Throw(string message) =>
         throw new NtpException(message);
 
     [DoesNotReturn, Pure]
-    internal static T Throw<T>(string message = "Bad server reply.") =>
+    internal static T Throw<T>(string message) =>
         throw new NtpException(message);
 }

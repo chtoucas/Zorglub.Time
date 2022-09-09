@@ -10,7 +10,7 @@ namespace Zorglub.Time.Horology.Ntp;
 /// <summary>
 /// Specifies the NTP stratum.
 /// </summary>
-[SuppressMessage("Naming", "CA1700:Do not name enum values 'Reserved'", Justification = "RFC wording")]
+[SuppressMessage("Naming", "CA1700:Do not name enum values 'Reserved'", Justification = "NTP wording")]
 public enum NtpStratum
 {
     /// <summary>

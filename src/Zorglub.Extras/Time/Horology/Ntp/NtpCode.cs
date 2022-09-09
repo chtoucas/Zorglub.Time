@@ -4,41 +4,67 @@
 namespace Zorglub.Time.Horology.Ntp;
 
 /// <summary>
-/// Specifies the NTP code.
+/// Specifies the NTP code type.
 /// </summary>
-[SuppressMessage("Naming", "CA1700:Do not name enum values 'Reserved'", Justification = "<Pending>")]
 public enum NtpCodeType
 {
     /// <summary>
-    /// The NTP code is a unknown.
+    /// The NTP code type is unknown.
     /// </summary>
     Unknown = 0,
 
     /// <summary>
-    /// The NTP code is a four-character string assigned to the reference clock.
+    /// The NTP code is an identifier assigned to a reference clock by the IANA.
     /// </summary>
     Identifier,
 
-    ReservedIdentifier,
+    /// <summary>
+    /// The NTP code is a reserved identifier assigned to a reference clock for experimentation and
+    /// development.
+    /// </summary>
+    PrivateIdentifier,
 
+    /// <summary>
+    /// The NTP code is an unrecognised identifier for a reference clock.
+    /// </summary>
     UnknownIdentifier,
 
-    // Kiss-o'-Death Packet
+    /// <summary>
+    /// The NTP code is a Kiss-o'-Death code assigned by the IANA.
+    /// </summary>
     KissCode,
 
-    ReservedKissCode,
+    /// <summary>
+    /// The NTP code is a reserved Kiss-o'-Death code for experimentation and development.
+    /// </summary>
+    PrivateKissCode,
 
-    // Unknown Kiss-o'-Death Packet
+    /// <summary>
+    /// The NTP code is an unrecognised Kiss-o'-Death code.
+    /// </summary>
     UnknownKissCode,
 
+    /// <summary>
+    /// The NTP code is a leap smear value.
+    /// </summary>
     LeapSecondSmearing,
 
-    // IPv4 or MD5 digest of an IPv6 address.
+    /// <summary>
+    /// The NTP code is an IPv4 address or the first four bytes of the MD5 digest of an IPv6 address.
+    /// <para>In both cases, the code value is in dotted-quad format.</para>
+    /// </summary>
     IPAddressMaybe,
 }
 
+/// <summary>
+/// Represents an NTP code identifying a particular server or reference clock, or a "kiss code".
+/// <para>This class cannot be inherited.</para>
+/// </summary>
 public sealed record NtpCode(NtpCodeType Type, string Value)
 {
+    /// <summary>
+    /// Returns a culture-independent string representation of the current instance.
+    /// </summary>
     public sealed override string ToString() =>
         FormattableString.Invariant($"{Type}={Value}");
 }
