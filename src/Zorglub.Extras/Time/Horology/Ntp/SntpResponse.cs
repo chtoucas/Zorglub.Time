@@ -3,6 +3,9 @@
 
 namespace Zorglub.Time.Horology.Ntp;
 
+/// <summary>
+/// Represents a response from an NTP server.
+/// </summary>
 public sealed record SntpResponse
 {
     /// <summary>
@@ -16,10 +19,19 @@ public sealed record SntpResponse
         TimeInfo = timeInfo ?? throw new ArgumentNullException(nameof(timeInfo));
     }
 
+    /// <summary>
+    /// Gets the NTP server info.
+    /// </summary>
     public SntpServerInfo ServerInfo { get; }
 
+    /// <summary>
+    /// Gets the NTP time info.
+    /// </summary>
     public SntpTimeInfo TimeInfo { get; }
 
+    /// <summary>
+    /// Deconstructs this instance into its components.
+    /// </summary>
     public void Deconstruct(out SntpServerInfo si, out SntpTimeInfo ti) =>
         (si, ti) = (ServerInfo, TimeInfo);
 }
@@ -76,6 +88,9 @@ public sealed record SntpServerInfo
     /// </summary>
     public NtpCode NtpCode => ReferenceId.ToNtpCodeFor(Stratum);
 
+    /// <summary>
+    /// Gets the time the system clock was last set or corrected.
+    /// </summary>
     public Timestamp64 ReferenceTimestamp { get; init; }
 }
 
@@ -112,6 +127,9 @@ public sealed record SntpTimeInfo
     // Round-trip delay = (T4 - T1) - (T3 - T2)
     // Clock offset = ((T2 - T1) + (T3 - T4)) / 2
 
+    /// <summary>
+    /// Gets the round-trip time (RTT) to the NTP server.
+    /// </summary>
     public Duration64 Rtt =>
         ResponseTimestamp - RequestTimestamp - (TransmitTimestamp - ReceiveTimestamp);
 

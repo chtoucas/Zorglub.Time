@@ -29,11 +29,7 @@ public readonly partial struct ReferenceId :
     /// Returns a culture-independent string representation of the current instance.
     /// </summary>
     [Pure]
-    public override string ToString()
-    {
-        var bytes = AsBytes();
-        return Convert.ToHexString(bytes);
-    }
+    public override string ToString() => ToHexString();
 
     /// <summary>
     /// Converts the current instance to its equivalent string representation that is encoded with
@@ -94,6 +90,9 @@ public partial struct ReferenceId
         "ACTS", // NIST telephone modem
         "USNO", // USNO telephone modem
         "PTB\0",// European telephone modem
+
+        // Other codes.
+        //"GOOG",// Google leap-smearing NTP servers
     };
 
     private static readonly HashSet<string> s_KissCodes = new()

@@ -16,8 +16,10 @@ public static class SimpleSntp
     {
         var cli = new SntpClient("pool.ntp.org");
         //var cli = new SntpClient("fr.pool.ntp.org");
-        //var cli = new SntpClient("time.nist.gov") { DisableVersionCheck = true, SendTimeout = 1000, ReceiveTimeout = 1000 };
         //var cli = new SntpClient("time.windows.com") { DisableVersionCheck = true };
+        // Two primary servers (official and non-official).
+        //var cli = new SntpClient("time.nist.gov") { DisableVersionCheck = true, SendTimeout = 1000, ReceiveTimeout = 1000 };
+        //var cli = new SntpClient("time.google.com");
 
         var (si, ti) = cli.QueryTime();
 

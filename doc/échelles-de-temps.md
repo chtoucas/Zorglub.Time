@@ -59,6 +59,7 @@ Liste très complète d'échelles de temps.
 - http://leapsecond.com/
 - http://leapsecond.com/ntp/
 - https://github.com/google/unsmear
+- https://developers.google.com/time/
 - [Official U.S. Time](https://time.gov/)
 - [NTP.Org](https://www.ntp.org/)
 - [NTP Pool Project](https://www.ntppool.org/en/(
