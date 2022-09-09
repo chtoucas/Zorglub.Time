@@ -5,15 +5,16 @@ namespace Zorglub.Time.Horology.Ntp;
 
 /// <summary>
 /// Represents a response from an NTP server.
+/// <para>This class cannot be inherited.</para>
 /// </summary>
-public sealed record SntpResponse
+public sealed record NtpResponse
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="SntpResponse"/> class.
+    /// Initializes a new instance of the <see cref="NtpResponse"/> class.
     /// </summary>
     /// <exception cref="ArgumentNullException"><paramref name="serverInfo"/> is null.</exception>
     /// <exception cref="ArgumentNullException"><paramref name="timeInfo"/> is null.</exception>
-    public SntpResponse(SntpServerInfo serverInfo, SntpTimeInfo timeInfo)
+    public NtpResponse(NtpServerInfo serverInfo, NtpTimeInfo timeInfo)
     {
         ServerInfo = serverInfo ?? throw new ArgumentNullException(nameof(serverInfo));
         TimeInfo = timeInfo ?? throw new ArgumentNullException(nameof(timeInfo));
@@ -22,21 +23,25 @@ public sealed record SntpResponse
     /// <summary>
     /// Gets the NTP server info.
     /// </summary>
-    public SntpServerInfo ServerInfo { get; }
+    public NtpServerInfo ServerInfo { get; }
 
     /// <summary>
     /// Gets the NTP time info.
     /// </summary>
-    public SntpTimeInfo TimeInfo { get; }
+    public NtpTimeInfo TimeInfo { get; }
 
     /// <summary>
     /// Deconstructs this instance into its components.
     /// </summary>
-    public void Deconstruct(out SntpServerInfo si, out SntpTimeInfo ti) =>
+    public void Deconstruct(out NtpServerInfo si, out NtpTimeInfo ti) =>
         (si, ti) = (ServerInfo, TimeInfo);
 }
 
-public sealed record SntpServerInfo
+/// <summary>
+/// Represents the server info of a response from an NTP server.
+/// <para>This class cannot be inherited.</para>
+/// </summary>
+public sealed record NtpServerInfo
 {
     /// <summary>
     /// Gets the leap indicator, warning of an impending leap second to be inserted/deleted in
@@ -94,7 +99,11 @@ public sealed record SntpServerInfo
     public Timestamp64 ReferenceTimestamp { get; init; }
 }
 
-public sealed record SntpTimeInfo
+/// <summary>
+/// Represents the time info of a response from an NTP server.
+/// <para>This class cannot be inherited.</para>
+/// </summary>
+public sealed record NtpTimeInfo
 {
     /// <summary>
     /// Gets the time at which the <i>client</i> sent the request, according to the client clock.

@@ -138,7 +138,7 @@ public sealed partial class SntpClient
     /// Queries the SNTP server.
     /// </summary>
     [Pure]
-    public SntpResponse QueryTime()
+    public NtpResponse QueryTime()
     {
         var buf = new byte[NtpPacket.BinarySize].AsSpan();
         buf[0] = FirstByte;
@@ -185,7 +185,7 @@ public sealed partial class SntpClient
     /// Queries the SNTP server asynchronously.
     /// </summary>
     [Pure]
-    public async Task<SntpResponse> QueryTimeAsync()
+    public async Task<NtpResponse> QueryTimeAsync()
     {
         var bytes = new byte[NtpPacket.BinarySize];
         bytes[0] = FirstByte;
@@ -218,10 +218,10 @@ public sealed partial class SntpClient
     }
 
     /// <summary>
-    /// Reads an <see cref="SntpResponse"/> value from the beginning of a read-only span of bytes.
+    /// Reads an <see cref="NtpResponse"/> value from the beginning of a read-only span of bytes.
     /// </summary>
     [Pure]
-    private SntpResponse ReadResponse(
+    private NtpResponse ReadResponse(
         ReadOnlySpan<byte> buf,
         Timestamp64 requestTimestamp,
         Timestamp64 responseTimestamp)
@@ -237,7 +237,7 @@ public sealed partial class SntpClient
         if (pkt.OriginateTimestamp != requestTimestamp)
             NtpException.Throw("Originate Timestamp does not match the Request Timestamp.");
 
-        var si = new SntpServerInfo
+        var si = new NtpServerInfo
         {
             LeapIndicator = pkt.LeapIndicator,
             Version = pkt.Version,
@@ -250,7 +250,7 @@ public sealed partial class SntpClient
             ReferenceTimestamp = pkt.ReferenceTimestamp,
         };
 
-        var ti = new SntpTimeInfo
+        var ti = new NtpTimeInfo
         {
             RequestTimestamp = requestTimestamp,
             ReceiveTimestamp = pkt.ReceiveTimestamp,
@@ -258,7 +258,7 @@ public sealed partial class SntpClient
             ResponseTimestamp = responseTimestamp
         };
 
-        return new SntpResponse(si, ti);
+        return new NtpResponse(si, ti);
     }
 }
 
