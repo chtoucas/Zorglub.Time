@@ -20,7 +20,16 @@ public readonly partial struct Duration32 :
     IMinMaxValue<Duration32>,
     IMinMaxFunctions<Duration32>
 {
+    /// <summary>
+    /// Represents the number of whole seconds.
+    /// <para>This field is read-only.</para>
+    /// </summary>
     private readonly ushort _seconds;
+
+    /// <summary>
+    /// Represents the number of fractional seconds.
+    /// <para>This field is read-only.</para>
+    /// </summary>
     private readonly ushort _fractionalSeconds;
 
     /// <summary>
@@ -95,7 +104,7 @@ public readonly partial struct Duration32 :
     /// <summary>
     /// Gets the total number of fractional seconds in this duration.
     /// </summary>
-    private ulong TotalFractionalSeconds => (ulong)_seconds << 16 | _fractionalSeconds;
+    private ulong TotalFractionalSeconds => ((ulong)_seconds << 16) | _fractionalSeconds;
 
     /// <summary>
     /// Returns a culture-independent string representation of the current instance.

@@ -4,6 +4,7 @@
 namespace Zorglub.Time.Horology.Ntp;
 
 using System.Buffers.Binary;
+using System.Security.Cryptography;
 using System.Net;
 
 using Zorglub.Time.Core;
@@ -180,9 +181,9 @@ public partial struct Timestamp64 // Binary helpers
     /// Randomizes the sub-milliseconds part of the current instance, yielding a new
     /// <see cref="Timestamp64"/>.
     /// </summary>
-    internal Timestamp64 RandomizeSubMilliseconds(IRandomGenerator randomGenerator)
+    internal Timestamp64 RandomizeSubMilliseconds(IRandomNumberGenerator rng)
     {
-        Debug.Assert(randomGenerator != null);
+        Debug.Assert(rng != null);
 
         // We randomize the submilliseconds part of fraction-of-second.
         //   1 millisecond = 2^32 / 1000 > 4_294_967 fraction-of-second
@@ -195,7 +196,7 @@ public partial struct Timestamp64 // Binary helpers
             LowerBitMask = (1L << LowerBitsToRandomize) - 1L,
             UpperBitMask = ~LowerBitMask;
 
-        int rnd = randomGenerator.GetInt32(MaxRandomExclusive);
+        int rnd = rng.GetInt32(0, MaxRandomExclusive);
 
         uint fractionOfSecond = (uint)(
             (_fractionOfSecond & UpperBitMask) | (rnd & LowerBitMask));

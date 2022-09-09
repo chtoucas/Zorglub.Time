@@ -56,9 +56,11 @@ Liste très complète d'échelles de temps.
 - https://www.ucolick.org/~sla/leapsecs/timescales.html
 - https://www.ucolick.org/~sla/leapsecs/
 
+- http://leapsecond.com/
+- http://leapsecond.com/ntp/
 - [Official U.S. Time](https://time.gov/)
-- [NTP.Org][https://www.ntp.org/]
-- [NTP Pool Project][https://www.ntppool.org/en/]
+- [NTP.Org](https://www.ntp.org/)
+- [NTP Pool Project](https://www.ntppool.org/en/(
 
 
 ## Implémentations

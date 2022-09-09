@@ -62,14 +62,14 @@ public sealed record SntpServerInfo
 
     /// <summary>
     /// Gets the identifier of the particular reference clock.
-    /// <para>See also <seealso cref="ReferenceCode"/>.</para>
+    /// <para>See also <seealso cref="NtpCode"/>.</para>
     /// </summary>
     public ReferenceId ReferenceId { get; init; }
 
     /// <summary>
-    /// Gets the code identifying the particular reference clock.
+    /// Gets the NTP code identifying the particular server or reference clock or a "kiss code".
     /// </summary>
-    public ReferenceCode ReferenceCode => ReferenceId.GetCode(Stratum);
+    public NtpCode NtpCode => ReferenceId.GetCode(Stratum);
 
     public Timestamp64 ReferenceTimestamp { get; init; }
 }

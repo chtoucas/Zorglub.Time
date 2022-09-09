@@ -51,7 +51,7 @@ public sealed partial class SntpClient
     /// Represents the random number generator.
     /// <para>This field is read-only.</para>
     /// </summary>
-    private readonly IRandomGenerator _randomGenerator = new DefaultRandomGenerator();
+    private readonly IRandomNumberGenerator _rng = new DefaultRandomNumberGenerator();
 
     /// <summary>
     /// Initializes a new instance of the <see cref="SntpClient"/> class.
@@ -98,10 +98,10 @@ public sealed partial class SntpClient
     /// <summary>
     /// Gets or initializes the random number generator.
     /// </summary>
-    public IRandomGenerator RandomGenerator
+    public IRandomNumberGenerator RandomNumberGenerator
     {
-        get => _randomGenerator;
-        init => _randomGenerator = value ?? throw new ArgumentNullException(nameof(value));
+        get => _rng;
+        init => _rng = value ?? throw new ArgumentNullException(nameof(value));
     }
 
     // Real ops are done elsewhere, like keeping state, polling, etc.
@@ -164,7 +164,7 @@ public sealed partial class SntpClient
         // Randomize the timestamp, then write the result into the buffer.
         var requestTimestamp =
             Timestamp64.FromDateTime(requestTime)
-                .RandomizeSubMilliseconds(RandomGenerator);
+                .RandomizeSubMilliseconds(RandomNumberGenerator);
         requestTimestamp.WriteTo(buf, NtpPacket.TransmitTimestampOffset);
 
         sock.Send(buf);
@@ -201,7 +201,7 @@ public sealed partial class SntpClient
 
         var requestTimestamp =
             Timestamp64.FromDateTime(requestTime)
-                .RandomizeSubMilliseconds(RandomGenerator);
+                .RandomizeSubMilliseconds(RandomNumberGenerator);
         requestTimestamp.WriteTo(bytes, NtpPacket.TransmitTimestampOffset);
 
         var buf = new ArraySegment<byte>(bytes);
@@ -216,15 +216,6 @@ public sealed partial class SntpClient
 
         return ReadResponse(buf, requestTimestamp, responseTimestamp);
     }
-}
-
-public partial class SntpClient // Helpers
-{
-    /// <summary>
-    /// Represents a duration of exactly one second.
-    /// <para>This field is read-only.</para>
-    /// </summary>
-    private static readonly Duration32 s_OneSecond = new(1, 0);
 
     /// <summary>
     /// Reads an <see cref="SntpResponse"/> value from the beginning of a read-only span of bytes.
@@ -242,10 +233,9 @@ public partial class SntpClient // Helpers
         // expected to copy verbatim from the request.
         if (DisableVersionCheck == false && pkt.Version != Version)
             NtpException.Throw(FormattableString.Invariant(
-                $"Invalid packet. Version missmatch: expected {Version}, received {pkt.Version}."));
+                $"Version missmatch: expected {Version}, received {pkt.Version}."));
         if (pkt.OriginateTimestamp != requestTimestamp)
-            NtpException.Throw(
-                "Invalid packet. Originate Timestamp does not match the Request Timestamp.");
+            NtpException.Throw("Originate Timestamp does not match the Request Timestamp.");
 
         var si = new SntpServerInfo
         {
@@ -270,6 +260,15 @@ public partial class SntpClient // Helpers
 
         return new SntpResponse(si, ti);
     }
+}
+
+public partial class SntpClient // Validation
+{
+    /// <summary>
+    /// Represents a duration of exactly one second.
+    /// <para>This field is read-only.</para>
+    /// </summary>
+    private static readonly Duration32 s_OneSecond = new(1, 0);
 
     /// <summary>
     /// Validation according to RFC 4330, section 5 (client operations).

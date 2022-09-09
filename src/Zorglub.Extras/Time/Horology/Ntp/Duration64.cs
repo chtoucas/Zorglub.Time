@@ -24,6 +24,10 @@ public readonly partial struct Duration64 :
     ISubtractionOperators<Duration64, Duration64, Duration64>,
     IDivisionOperators<Duration64, int, Duration64>
 {
+    /// <summary>
+    /// Represents the number of fractional seconds.
+    /// <para>This field is read-only.</para>
+    /// </summary>
     private readonly long _fractionalSeconds;
 
     /// <summary>

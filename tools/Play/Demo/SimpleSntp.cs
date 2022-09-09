@@ -27,7 +27,7 @@ public static class SimpleSntp
         WriteLine($"  Version:            {si.Version}");
         WriteLine($"  Leap second:        {si.LeapIndicator}");
         WriteLine($"  Stratum:            {si.Stratum}");
-        WriteLine($"  Reference ID:       {si.ReferenceCode} (\"{si.ReferenceId}\")");
+        WriteLine($"  Reference ID:       {si.NtpCode} (\"{si.ReferenceId}\")");
         WriteLine("  Reference time:     {0:HH:mm:ss.fff}", si.ReferenceTimestamp.ToDateTime());
         WriteLine($"  RTT:                {si.Rtt.TotalMilliseconds:F3}ms\t({si.Rtt})");
         WriteLine($"  Dispersion:         {si.Dispersion.TotalMilliseconds:F3}ms\t({si.Dispersion})");

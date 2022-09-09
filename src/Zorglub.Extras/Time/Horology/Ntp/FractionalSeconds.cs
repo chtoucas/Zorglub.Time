@@ -11,10 +11,12 @@ using static Zorglub.Time.Core.TemporalConstants;
 // > fraction-of-second = (2^32 * subunit-of-second) / SubunitsPerSecond
 // Precision is about 232 picoseconds.
 
-internal static partial class FractionalSeconds { }
-
-internal static partial class FractionalSeconds // MillisecondOfSecond
+internal static class FractionalSeconds
 {
+    //
+    // MillisecondOfSecond
+    //
+
     /// <summary>
     /// Converts a millisecond of the second to a fraction of the second.
     /// </summary>
@@ -45,10 +47,11 @@ internal static partial class FractionalSeconds // MillisecondOfSecond
 
         return millisecondOfSecond;
     }
-}
 
-internal static partial class FractionalSeconds // NanosecondOfSecond
-{
+    //
+    // NanosecondOfSecond
+    //
+
     /// <summary>
     /// Converts a fraction of the second to a nanosecond of the second.
     /// <para>The result is in the range from 0 (included) to 1_000_000_000 (excluded).</para>
@@ -65,10 +68,11 @@ internal static partial class FractionalSeconds // NanosecondOfSecond
 
         return nanosecondOfSecond;
     }
-}
 
-internal static partial class FractionalSeconds // SecondOfEra
-{
+    //
+    // SecondOfEra
+    //
+
     /// <summary>
     /// Converts a second of the era to a number of fractional seconds.
     /// </summary>

@@ -118,6 +118,6 @@ internal readonly struct NtpPacket
 
         // Obtains a signed byte from its two's complement representation.
         [Pure]
-        static sbyte ReadSByte(byte v) => (sbyte)(v > 127 ? v - 256 : v);
+        static sbyte ReadSByte(byte b) => (sbyte)(b > 127 ? b - 256 : b);
     }
 }

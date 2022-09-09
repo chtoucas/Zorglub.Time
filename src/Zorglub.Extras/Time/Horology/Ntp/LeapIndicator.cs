@@ -14,18 +14,28 @@ namespace Zorglub.Time.Horology.Ntp;
 /// </summary>
 public enum LeapIndicator
 {
-    /// <summary>Default value is invalid.</summary>
+    /// <summary>
+    /// The leap indicator is invalid.
+    /// </summary>
     Invalid = 0,
 
-    /// <summary>No warning.</summary>
+    /// <summary>
+    /// No warning.
+    /// </summary>
     NoWarning = 1,
 
-    /// <summary>Last minute has 61 seconds.</summary>
+    /// <summary>
+    /// Last minute has 61 seconds.
+    /// </summary>
     PositiveLeapSecond = 2,
 
-    /// <summary>Last minute has 59 seconds.</summary>
+    /// <summary>
+    /// Last minute has 59 seconds.
+    /// </summary>
     NegativeLeapSecond = 3,
 
-    /// <summary>Alarm condition (clock not synchronized).</summary>
+    /// <summary>
+    /// Alarm condition (clock not synchronized).
+    /// </summary>
     Unsynchronized = 4
 }

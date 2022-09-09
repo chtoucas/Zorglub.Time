@@ -7,7 +7,7 @@ using System.Globalization;
 using System.Text;
 
 /// <summary>
-/// Represents the identifier of a reference clock.
+/// Represents the identifier of a server or a reference clock.
 /// <para><see cref="ReferenceId"/> is an immutable struct.</para>
 /// </summary>
 public readonly partial struct ReferenceId :
@@ -50,86 +50,102 @@ public readonly partial struct ReferenceId :
 
 public partial struct ReferenceId
 {
-    // See RFC 5905, p.21.
+    // RFC 5905 Section 7.3 p.21.
+    // "The authoritative list of Reference Identifiers is maintained by IANA."
+    // See https://www.iana.org/assignments/ntp-parameters/ntp-parameters.xhtml
+
+    // Any string beginning with the ASCII character "X" is reserved for
+    // unregistered experimentation and development.
+    private const char Reserved = 'X';
+
     private static readonly HashSet<string> s_Codes = new()
     {
-        "GOES",
-        "GPS\0",
-        "GAL\0",
-        "PPS\0",
-        "IRIG",
-        "WWVB",
-        "DCF\0",
-        "HBG\0",
-        "MSF\0",
-        "JJY\0",
-        "LORC",
-        "TDF\0",
-        "CHU\0",
-        "WWV\0",
-        "WWVH",
-        "ACTS",
-        "USNO",
-        "PTB\0",
+        // RFC 5905 Section 7.3, p.21.
+        "GOES", // Geosynchronous Orbit Environment Satellite
+        "GPS\0",// Global Position System
+        "GAL\0",// Galileo Positioning System
+        "PPS\0",// Generic pulse-per-second
+        "IRIG", // Inter-Range Instrumentation Group
+        "WWVB", // LF Radio WWVB Ft. Collins, CO 60 kHz
+        "DCF\0",// LF Radio DCF77 Mainflingen, DE 77.5 kHz
+        "HBG\0",// LF Radio HBG Prangins, HB 75 kHz
+        "MSF\0",// LF Radio MSF Anthorn, UK 60 kHz
+        "JJY\0",// LF Radio JJY Fukushima, JP 40 kHz, Saga, JP 60 kHz
+        "LORC", // MF Radio LORAN C station, 100 kHz
+        "TDF\0",// MF Radio Allouis, FR 162 kHz
+        "CHU\0",// HF Radio CHU Ottawa, Ontario
+        "WWV\0",// HF Radio WWV Ft. Collins, CO
+        "WWVH", // HF Radio WWVH Kauai, HI
+        "NIST", // NIST telephone modem
+        "ACTS", // NIST telephone modem
+        "USNO", // USNO telephone modem
+        "PTB\0",// European telephone modem
     };
 
-    // See RFC 5905, p.24.
     private static readonly HashSet<string> s_KissCodes = new()
     {
-        "ACST", // The association belongs to a unicast server.
-        "AUTH", // Server authentication failed.
-        "AUTO", // Autokey sequence failed.
-        "BCST", // The association belongs to a broadcast server.
-        "CRYP", // Cryptographic authentication or identification failed.
-        "DENY", // Access denied by remote server.
-        "DROP", // Lost peer in symmetric mode.
-        "RSTR", // Access denied due to local policy.
-        "INIT", // The association has not yet synchronized for the first time.
-        "MCST", // The association belongs to a dynamically discovered server.
-        "NKEY", // No key found. Either the key was never installed or is not trusted.
+        // RFC 5905 Section 7.4, p.24.
+        "ACST", // The association belongs to a unicast server
+        "AUTH", // Server authentication failed
+        "AUTO", // Autokey sequence failed
+        "BCST", // The association belongs to a broadcast server
+        "CRYP", // Cryptographic authentication or identification failed
+        "DENY", // Access denied by remote server
+        "DROP", // Lost peer in symmetric mode
+        "RSTR", // Access denied due to local policy
+        "INIT", // The association has not yet synchronized for the first time
+        "MCST", // The association belongs to a dynamically discovered server
+        "NKEY", // No key found. Either the key was never installed or is not trusted
         "RATE", // Rate exceeded. The server has temporarily denied access because
-                // the client exceeded the rate threshold.
-        "RMOT", // Alteration of association from a remote host running ntpdc.
+                // the client exceeded the rate threshold
+        "RMOT", // Alteration of association from a remote host running ntpdc
         "STEP", // A step change in system time has occurred, but the association
-                // has not yet resynchronized.
+                // has not yet resynchronized
+
+        // RFC 8915 Section 5.7
+        "NTSN", // Network Time Security (NTS) negative-acknowledgment (NAK)
     };
 
-    public ReferenceCode GetCode(NtpStratum stratum)
+    /// <summary>
+    /// Obtains the NTP code identifying the particular server or reference clock or a "kiss code".
+    /// </summary>
+    internal NtpCode GetCode(NtpStratum stratum)
     {
         var bytes = AsBytes();
 
         return stratum switch
         {
             NtpStratum.Unspecified => ReadKissCode(bytes),
-            NtpStratum.PrimaryReference => ReadReferenceCode(bytes),
+            NtpStratum.PrimaryReference => ReadCode(bytes),
             NtpStratum.SecondaryReference => ReadSecondaryReference(bytes),
-            _ => new ReferenceCode(ReferenceCodeType.Unknown, String.Empty),
+            _ => new NtpCode(NtpCodeType.Unknown, ToString()),
         };
 
-        // Kiss-o'-Death Code (unspecified stratum).
-        static ReferenceCode ReadKissCode(ReadOnlySpan<byte> bytes)
-        {
-            var kissCode = Encoding.ASCII.GetString(bytes);
-            var type = s_KissCodes.Contains(kissCode)
-                ? ReferenceCodeType.KissCode
-                : ReferenceCodeType.UnknownKissCode;
-
-            return new(type, kissCode);
-        }
-
-        // Gets a human-friendly code identifying the particular reference clock
-        // (primary reference).
-        static ReferenceCode ReadReferenceCode(ReadOnlySpan<byte> bytes)
+        static NtpCode ReadKissCode(ReadOnlySpan<byte> bytes)
         {
             var code = Encoding.ASCII.GetString(bytes);
-            var type = s_Codes.Contains(code)
-                ? ReferenceCodeType.Primary
-                : ReferenceCodeType.UnknownPrimary;
+            var known = s_KissCodes.Contains(code);
 
-            return new ReferenceCode(type, FormattableString.Invariant($".{code}."));
+            return new NtpCode(
+                code[0] == Reserved ? NtpCodeType.ReservedKissCode
+                : known ? NtpCodeType.KissCode
+                : NtpCodeType.UnknownKissCode,
+                code);
         }
 
-        static ReferenceCode ReadSecondaryReference(ReadOnlySpan<byte> bytes)
+        static NtpCode ReadCode(ReadOnlySpan<byte> bytes)
+        {
+            var code = Encoding.ASCII.GetString(bytes);
+            var known = s_Codes.Contains(code);
+
+            return new NtpCode(
+                code[0] == Reserved ? NtpCodeType.ReservedIdentifier
+                : known ? NtpCodeType.Identifier
+                : NtpCodeType.UnknownIdentifier,
+                FormattableString.Invariant($".{code}."));
+        }
+
+        static NtpCode ReadSecondaryReference(ReadOnlySpan<byte> bytes)
         {
             // NTPv4 is a mess... the various RFCs (2030, 4330, 5905) seem to be
             // contradictory: IPv4 address, or the first four bytes of the MD5
@@ -152,21 +168,21 @@ public partial struct ReferenceId
                 // The remaining 3 bytes (big-endian) encode the smear value.
                 int smear = (bytes[1] << 16) | (bytes[2] << 8) | bytes[3];
 
-                return new ReferenceCode(
-                    ReferenceCodeType.LeapSecondSmearing,
+                return new NtpCode(
+                    NtpCodeType.LeapSecondSmearing,
                     smear.ToString(CultureInfo.InvariantCulture));
             }
             else
             {
-                return new ReferenceCode(
-                    ReferenceCodeType.MaybeIPv4Address,
+                return new NtpCode(
+                    NtpCodeType.IPAddressMaybe,
                     FormattableString.Invariant($"{bytes[0]}.{bytes[1]}.{bytes[2]}.{bytes[3]}"));
             }
         }
     }
 }
 
-public partial struct ReferenceId
+public partial struct ReferenceId // IEquatable
 {
     /// <summary>
     /// Determines whether two specified instances of <see cref="ReferenceId"/> are
