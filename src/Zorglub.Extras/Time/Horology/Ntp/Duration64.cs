@@ -30,12 +30,14 @@ public readonly partial struct Duration64 :
 {
     /// <summary>
     /// Represents the number of fractional seconds.
+    /// <para>One second equals 2^32 fractional seconds.</para>
     /// <para>This field is read-only.</para>
     /// </summary>
     private readonly long _fractionalSeconds;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="Duration64"/> struct.
+    /// <para>One second equals 2^32 fractional seconds.</para>
     /// </summary>
     public Duration64(long fractionalSeconds)
     {
@@ -51,6 +53,7 @@ public readonly partial struct Duration64 :
 
     /// <summary>
     /// Gets a duration representing exactly one fractional second.
+    /// <para>One second equals 2^32 fractional seconds.</para>
     /// <para>This is the shortest duration greater than <see cref="Zero"/>.</para>
     /// <para>This static property is thread-safe.</para>
     /// </summary>
@@ -69,7 +72,8 @@ public readonly partial struct Duration64 :
     public static Duration64 MaxValue { get; } = new(Int64.MaxValue);
 
     /// <summary>
-    /// Gets the number of fractional seconds.
+    /// Gets the total number of fractional seconds in this duration.
+    /// <para>One second equals 2^32 fractional seconds.</para>
     /// </summary>
     public long FractionalSeconds => _fractionalSeconds;
 

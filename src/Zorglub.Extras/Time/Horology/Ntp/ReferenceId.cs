@@ -180,12 +180,12 @@ public partial struct ReferenceId
         if (bytes[0] == 254)
         {
             // Only implemented by private servers.
-            // The remaining 3 bytes (big-endian) encode the smear value.
-            int smear = (bytes[1] << 16) | (bytes[2] << 8) | bytes[3];
+            // The remaining 3 bytes encode the smear value.
+            // REVIEW(code): Duration24.
 
             return new NtpCode(
                 NtpCodeType.LeapSecondSmearing,
-                smear.ToString(CultureInfo.InvariantCulture));
+                FormattableString.Invariant($"254.{bytes[1]}.{bytes[2]}.{bytes[3]}"));
         }
         else
         {

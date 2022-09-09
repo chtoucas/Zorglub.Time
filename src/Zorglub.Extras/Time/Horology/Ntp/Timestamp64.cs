@@ -54,12 +54,14 @@ public readonly partial struct Timestamp64 :
 
     /// <summary>
     /// Represents the minimum value of <see cref="FractionOfSecond"/>.
+    /// <para>One second equals 2^32 fractional seconds.</para>
     /// <para>This field is a constant equal to 0.</para>
     /// </summary>
     public const long MinFractionOfSecond = 0; // (long)UInt32.MinValue
 
     /// <summary>
     /// Represents the maximum value of <see cref="FractionOfSecond"/>.
+    /// <para>One second equals 2^32 fractional seconds.</para>
     /// <para>This field is a constant equal to 4_294_967_295.</para>
     /// </summary>
     public const long MaxFractionOfSecond = (1L << 32) - 1; // (long)UInt32.MaxValue
@@ -113,11 +115,13 @@ public readonly partial struct Timestamp64 :
 
     /// <summary>
     /// Gets the fraction of the second.
+    /// <para>One second equals 2^32 fractional seconds.</para>
     /// </summary>
     public long FractionOfSecond => _fractionOfSecond;
 
     /// <summary>
     /// Gets the number of fractional seconds since Zero.
+    /// <para>One second equals 2^32 fractional seconds.</para>
     /// </summary>
     private ulong FractionalSecondsSinceZero =>
         FractionalSeconds.FromSeconds(_secondOfEra) | _fractionOfSecond;

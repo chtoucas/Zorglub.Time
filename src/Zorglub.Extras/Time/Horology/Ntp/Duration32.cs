@@ -28,12 +28,14 @@ public readonly partial struct Duration32 :
 
     /// <summary>
     /// Represents the number of fractional seconds.
+    /// <para>One second equals 2^16 fractional seconds.</para>
     /// <para>This field is read-only.</para>
     /// </summary>
     private readonly ushort _fractionalSeconds;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="Duration32"/> struct.
+    /// <para>One second equals 2^16 fractional seconds.</para>
     /// </summary>
     [CLSCompliant(false)]
     public Duration32(ushort seconds, ushort fractionalSeconds)
@@ -51,6 +53,7 @@ public readonly partial struct Duration32 :
 
     /// <summary>
     /// Gets a duration representing exactly one fractional second.
+    /// <para>One second equals 2^16 fractional seconds.</para>
     /// <para>This is the shortest duration longer than <see cref="Zero"/>.</para>
     /// <para>This static property is thread-safe.</para>
     /// </summary>
@@ -75,6 +78,7 @@ public readonly partial struct Duration32 :
 
     /// <summary>
     /// Gets the number of fractional seconds in this duration.
+    /// <para>One second equals 2^16 fractional seconds.</para>
     /// </summary>
     public int FractionalSeconds => _fractionalSeconds;
 
@@ -103,6 +107,7 @@ public readonly partial struct Duration32 :
 
     /// <summary>
     /// Gets the total number of fractional seconds in this duration.
+    /// <para>One second equals 2^16 fractional seconds.</para>
     /// </summary>
     private ulong TotalFractionalSeconds => ((ulong)_seconds << 16) | _fractionalSeconds;
 
