@@ -77,26 +77,26 @@ module RuntimeSizes =
 
     [<Fact>]
     let ``Types in Zorglub.Time`` () =
-        Marshal.SizeOf(typedefof<Ord>) === 4
-        Marshal.SizeOf(typedefof<DayNumber>) === 4
-        Marshal.SizeOf(typedefof<TimeOfDay>) === 4
-        Marshal.SizeOf(typedefof<Moment>) === 8
-        Marshal.SizeOf(typedefof<DateParts>) === 12
-        Marshal.SizeOf(typedefof<MonthParts>) === 8
-        Marshal.SizeOf(typedefof<OrdinalParts>) === 8
         Marshal.SizeOf(typedefof<AdditionRuleset>) === 12
+        Marshal.SizeOf(typedefof<DateParts>) === 12
+        Marshal.SizeOf(typedefof<DayNumber>) === 4
+        Marshal.SizeOf(typedefof<Moment>) === 8
+        Marshal.SizeOf(typedefof<MonthParts>) === 8
+        Marshal.SizeOf(typedefof<Ord>) === 4
+        Marshal.SizeOf(typedefof<OrdinalParts>) === 8
+        Marshal.SizeOf(typedefof<TimeOfDay>) === 4
         // Zorglub.Sketches
-        Marshal.SizeOf(typedefof<Ord64>) === 8
         Marshal.SizeOf(typedefof<DayNumber64>) === 8
+        Marshal.SizeOf(typedefof<Ord64>) === 8
 
     [<Fact>]
     let ``Types in Zorglub.Time.Core`` () =
-        Marshal.SizeOf(typedefof<Yemoda>) === 4
-        Marshal.SizeOf(typedefof<Yemodax>) === 4
-        Marshal.SizeOf(typedefof<Yemo>) === 4
-        Marshal.SizeOf(typedefof<Yemox>) === 4
         Marshal.SizeOf(typedefof<Yedoy>) === 4
         Marshal.SizeOf(typedefof<Yedoyx>) === 4
+        Marshal.SizeOf(typedefof<Yemo>) === 4
+        Marshal.SizeOf(typedefof<Yemoda>) === 4
+        Marshal.SizeOf(typedefof<Yemodax>) === 4
+        Marshal.SizeOf(typedefof<Yemox>) === 4
         // Zorglub.Sketches
         Marshal.SizeOf(typedefof<Unit>) === 1
         Marshal.SizeOf(typedefof<Yewe>) === 4
@@ -109,12 +109,15 @@ module RuntimeSizes =
 
     [<Fact>]
     let ``Types in Zorglub.Time.Horology`` () =
-        // Zorglub.Sketches
+        // Zorglub.Extras
         Marshal.SizeOf(typedefof<Duration32>) === 4
-        Marshal.SizeOf(typedefof<Timestamp64>) === 8
         Marshal.SizeOf(typedefof<Duration64>) === 8
-        Marshal.SizeOf(typedefof<InstantOfDay>) === 8
         Marshal.SizeOf(typedefof<GregorianInstant>) === 16
+        Marshal.SizeOf(typedefof<NtpPacket>) === 64 // HUGE struct
+        Marshal.SizeOf(typedefof<ReferenceId>) === 4
+        Marshal.SizeOf(typedefof<Timestamp64>) === 8
+        // Zorglub.Sketches
+        Marshal.SizeOf(typedefof<InstantOfDay>) === 8
 
     [<Fact>]
     let ``Types in Zorglub.Time.Simple`` () =
@@ -132,16 +135,16 @@ module RuntimeSizes =
         Marshal.SizeOf(typedefof<GregorianDate>) === 4
         Marshal.SizeOf(typedefof<JulianDate>) === 4
         // Zorglub.Extras
-        Marshal.SizeOf(typedefof<ArmenianDate>) === 4
         Marshal.SizeOf(typedefof<Armenian13Date>) === 4
-        Marshal.SizeOf(typedefof<CopticDate>) === 4
+        Marshal.SizeOf(typedefof<ArmenianDate>) === 4
         Marshal.SizeOf(typedefof<Coptic13Date>) === 4
-        Marshal.SizeOf(typedefof<EthiopicDate>) === 4
+        Marshal.SizeOf(typedefof<CopticDate>) === 4
         Marshal.SizeOf(typedefof<Ethiopic13Date>) === 4
+        Marshal.SizeOf(typedefof<EthiopicDate>) === 4
         Marshal.SizeOf(typedefof<TabularIslamicDate>) === 4
         Marshal.SizeOf(typedefof<WorldDate>) === 4
-        Marshal.SizeOf(typedefof<ZoroastrianDate>) === 4
         Marshal.SizeOf(typedefof<Zoroastrian13Date>) === 4
+        Marshal.SizeOf(typedefof<ZoroastrianDate>) === 4
 
     [<Fact>]
     let ``Types in Zorglub.Bulgroz`` () =

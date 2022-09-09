@@ -12,6 +12,7 @@ open Zorglub.Time
 open Zorglub.Time.Core
 open Zorglub.Time.Core.Intervals
 open Zorglub.Time.Core.Utilities
+open Zorglub.Time.Horology.Ntp
 
 open FsCheck
 open FsCheck.Xunit
@@ -286,5 +287,29 @@ type GlobalArbitraries =
             let! j = Arb.generate<int>
             return new OrderedPair<int>(i, j)
         }
+
+    //
+    // Zorglub.Time.Horology
+    //
+
+    /// Obtains an arbitrary for Duration32.
+    static member GetDuration32Abitrary() =
+        Arb.fromGen <| gen {
+            let! i = Arb.generate<uint16>
+            let! j = Arb.generate<uint16>
+            return new Duration32(i, j)
+        }
+
+    /// Obtains an arbitrary for Duration64.
+    static member GetDuration64Abitrary() =
+        Arb.generate<int64>
+        |> Gen.map (fun i -> new Duration64(i))
+        |> Arb.fromGen
+
+    /// Obtains an arbitrary for ReferenceId.
+    static member GetReferenceIdAbitrary() =
+        Arb.generate<uint>
+        |> Gen.map (fun i -> new ReferenceId(i))
+        |> Arb.fromGen
 
 [<assembly: Properties( Arbitrary = [| typeof<GlobalArbitraries> |] )>] do()
