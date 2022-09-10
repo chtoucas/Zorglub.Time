@@ -268,11 +268,11 @@ public partial class SntpClient // Validation
     private const byte MinStratumLevel = 1;
     private const byte MaxStratumLevel = 15;
 
-    /// <summary>
-    /// Represents a duration of exactly one second.
-    /// <para>This field is read-only.</para>
-    /// </summary>
-    private static readonly Duration32 s_OneSecond = new(1, 0);
+    ///// <summary>
+    ///// Represents a duration of exactly one second.
+    ///// <para>This field is read-only.</para>
+    ///// </summary>
+    //private static readonly Duration32 s_OneSecond = new(1, 0);
 
     /// <summary>
     /// Validation according to RFC 4330, section 5 (client operations).
@@ -313,14 +313,15 @@ public partial class SntpClient // Validation
             NtpException.Throw(FormattableString.Invariant(
                 $"The NTP server is either unavailable or unsynchronised: StratumLevel = {pkt.StratumLevel}."));
 
+        // TODO(code): we should move this elsewhere.
         // RootDelay and RootDispersion >= 0 and < 1s.
         // Notice that positivity is always guaranteed.
-        if (pkt.RootDelay >= s_OneSecond)
-            NtpException.Throw(FormattableString.Invariant(
-                $"Root delay >= 1s: {pkt.RootDelay}."));
-        if (pkt.RootDispersion >= s_OneSecond)
-            NtpException.Throw(FormattableString.Invariant(
-                $"Root dispersion >= 1s: {pkt.RootDispersion}."));
+        //if (pkt.RootDelay >= s_OneSecond)
+        //    NtpException.Throw(FormattableString.Invariant(
+        //        $"Root delay >= 1s: {pkt.RootDelay}."));
+        //if (pkt.RootDispersion >= s_OneSecond)
+        //    NtpException.Throw(FormattableString.Invariant(
+        //        $"Root dispersion >= 1s: {pkt.RootDispersion}."));
 
         // The server clock should be monotonically increasing.
         if (pkt.ReceiveTimestamp < pkt.ReferenceTimestamp)

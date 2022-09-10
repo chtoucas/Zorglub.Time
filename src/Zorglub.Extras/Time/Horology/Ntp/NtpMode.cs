@@ -15,8 +15,9 @@ namespace Zorglub.Time.Horology.Ntp;
 /// <para>Only <see cref="Client"/>, <see cref="Server"/> and <see cref="Broadcast"/> are used
 /// by SNTP clients and servers.</para>
 /// </remarks>
+[SuppressMessage("Design", "CA1028:Enum Storage should be Int32", Justification = "<Pending>")]
 [SuppressMessage("Naming", "CA1700:Do not name enum values 'Reserved'", Justification = "NTP wording")]
-public enum NtpMode
+public enum NtpMode : byte
 {
     /// <summary>
     /// The NTP mode is invalid.

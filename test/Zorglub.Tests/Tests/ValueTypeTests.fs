@@ -113,7 +113,7 @@ module RuntimeSizes =
         Marshal.SizeOf(typedefof<Duration32>) === 4
         Marshal.SizeOf(typedefof<Duration64>) === 8
         Marshal.SizeOf(typedefof<GregorianInstant>) === 16
-        Marshal.SizeOf(typedefof<NtpPacket>) === 64 // HUGE struct
+        Marshal.SizeOf(typedefof<NtpPacket>) === 52 // HUGE struct
         Marshal.SizeOf(typedefof<ReferenceId>) === 4
         Marshal.SizeOf(typedefof<Timestamp64>) === 8
         // Zorglub.Sketches

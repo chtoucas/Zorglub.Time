@@ -12,7 +12,8 @@ namespace Zorglub.Time.Horology.Ntp;
 /// Specifies the warning of an impending leap second to be inserted/deleted in the last minute
 /// of the current day.
 /// </summary>
-public enum LeapIndicator
+[SuppressMessage("Design", "CA1028:Enum Storage should be Int32", Justification = "<Pending>")]
+public enum LeapIndicator : byte
 {
     /// <summary>
     /// The leap indicator is invalid.
