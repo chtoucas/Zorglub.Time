@@ -16,7 +16,7 @@ using static Zorglub.Time.Core.TemporalConstants;
 // https://android.googlesource.com/platform/frameworks/base/+/master/core/tests/coretests/src/android/net/sntp/
 
 /// <summary>
-/// Provides a stateless client for the Simple Network Time Protocol (SNTP).
+/// Provides a stateless client for the Network Time Protocol (NTP).
 /// <para>This class cannot be inherited.</para>
 /// </summary>
 public sealed partial class SntpClient
@@ -241,7 +241,7 @@ public sealed partial class SntpClient
         {
             LeapIndicator = pkt.LeapIndicator,
             Version = pkt.Version,
-            Stratum = pkt.Stratum,
+            StratumLevel = pkt.StratumLevel,
             PollInterval = pkt.PollInterval,
             Precision = pkt.Precision,
             Rtt = pkt.RootDelay,
@@ -264,6 +264,10 @@ public sealed partial class SntpClient
 
 public partial class SntpClient // Validation
 {
+    // Legit stratums: primary or secondary reference.
+    private const byte MinStratumLevel = 1;
+    private const byte MaxStratumLevel = 15;
+
     /// <summary>
     /// Represents a duration of exactly one second.
     /// <para>This field is read-only.</para>
@@ -279,10 +283,9 @@ public partial class SntpClient // Validation
             NtpException.Throw(FormattableString.Invariant(
                 $"Invalid NTP mode: received \"{pkt.Mode}\" but it should be \"Server\"."));
 
-        // Invalid is not supposed to be possible here.
-        Debug.Assert(pkt.Stratum != NtpStratum.Invalid);
-        if (pkt.Stratum == NtpStratum.Reserved)
-            NtpException.Throw("Invalid stratum: \"Reserved\".");
+        if (pkt.StratumLevel > MaxStratumLevel)
+            NtpException.Throw(FormattableString.Invariant(
+                $"Invalid stratum: \"{pkt.StratumLevel}\" > {MaxStratumLevel}."));
 
         if (pkt.TransmitTimestamp == Timestamp64.Zero)
             NtpException.Throw("Transmit Timestamp = 0.");
@@ -296,20 +299,19 @@ public partial class SntpClient // Validation
     // - IP addresses
     private static void ValidatePacket(in NtpPacket pkt)
     {
-        if (pkt.LeapIndicator != LeapIndicator.NoWarning
-            && pkt.LeapIndicator != LeapIndicator.PositiveLeapSecond
-            && pkt.LeapIndicator != LeapIndicator.NegativeLeapSecond)
+        // It should not be possible to end up here with an invalid LI.
+        Debug.Assert(pkt.LeapIndicator != LeapIndicator.Invalid);
+        if (pkt.LeapIndicator == LeapIndicator.Unsynchronized)
             NtpException.Throw(FormattableString.Invariant(
-                $"The server clock is not synchronised -or- the leap indicator is not valid: {pkt.LeapIndicator}."));
+                $"The server clock is not synchronised."));
 
         if (pkt.Mode != NtpMode.Server)
             NtpException.Throw(FormattableString.Invariant(
                 $"Invalid NTP mode: received \"{pkt.Mode}\" but it should be \"Server\"."));
 
-        if (pkt.Stratum != NtpStratum.PrimaryReference
-            && pkt.Stratum != NtpStratum.SecondaryReference)
+        if (pkt.StratumLevel < MinStratumLevel || pkt.StratumLevel > MaxStratumLevel)
             NtpException.Throw(FormattableString.Invariant(
-                $"The server is unavailable, unsynchronised -or- the stratum is not valid: {pkt.Stratum}."));
+                $"The NTP server is either unavailable or unsynchronised: StratumLevel = {pkt.StratumLevel}."));
 
         // RootDelay and RootDispersion >= 0 and < 1s.
         // Notice that positivity is always guaranteed.

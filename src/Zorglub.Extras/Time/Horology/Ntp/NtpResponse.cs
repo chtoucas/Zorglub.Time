@@ -55,10 +55,32 @@ public sealed record NtpServerInfo
     /// </summary>
     public int Version { get; init; }
 
+    private readonly byte _stratumLevel;
     /// <summary>
-    /// Gets the NTP stratum.
+    /// Gets the NTP stratum level.
     /// </summary>
-    public NtpStratum Stratum { get; init; }
+    public byte StratumLevel
+    {
+        get => _stratumLevel;
+        init
+        {
+            _stratumLevel = value;
+
+            StratumFamily = value switch
+            {
+                0 => StratumFamily.Unspecified,
+                1 => StratumFamily.PrimaryReference,
+                <= 15 => StratumFamily.SecondaryReference,
+                16 => StratumFamily.Unsynchronized,
+                _ => StratumFamily.Reserved
+            };
+        }
+    }
+
+    /// <summary>
+    /// Gets the NTP stratum family.
+    /// </summary>
+    public StratumFamily StratumFamily { get; private init; }
 
     /// <summary>
     /// Gets the log base 2 of the maximum interval between successive messages in seconds.
@@ -89,9 +111,9 @@ public sealed record NtpServerInfo
     public ReferenceId ReferenceId { get; init; }
 
     /// <summary>
-    /// Gets the NTP code identifying the particular server or reference clock, or a "kiss code".
+    /// Gets the NTP code identifying the particular server or reference clock -or- a "kiss code".
     /// </summary>
-    public NtpCode NtpCode => ReferenceId.ToNtpCodeFor(Stratum);
+    public NtpCode NtpCode => ReferenceId.ToNtpCodeFor(StratumFamily);
 
     /// <summary>
     /// Gets the time the system clock was last set or corrected.

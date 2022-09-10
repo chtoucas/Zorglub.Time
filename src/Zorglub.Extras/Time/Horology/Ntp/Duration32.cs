@@ -12,6 +12,8 @@ using static Zorglub.Time.Core.TemporalConstants;
 
 /// <summary>
 /// Represents a 32-bit NTP short format; see RFC 5905, section 6.
+/// <para>This type uses its own unit for fractional seconds which differs from the one defined in
+/// <see cref="Timestamp64"/> by a factor of 2^16.</para>
 /// <para><see cref="Duration32"/> is an immutable struct.</para>
 /// </summary>
 public readonly partial struct Duration32 :
@@ -21,6 +23,12 @@ public readonly partial struct Duration32 :
     IMinMaxFunctions<Duration32>
 {
     /// <summary>
+    /// Represents the number of fractional seconds in one second.
+    /// <para>This field is a constant equal to 65_536.</para>
+    /// </summary>
+    public const int FractionalSecondsPerSecond = 1 << 16;
+
+    /// <summary>
     /// Represents the number of whole seconds.
     /// <para>This field is read-only.</para>
     /// </summary>
@@ -28,14 +36,12 @@ public readonly partial struct Duration32 :
 
     /// <summary>
     /// Represents the number of fractional seconds.
-    /// <para>One second equals 2^16 fractional seconds.</para>
     /// <para>This field is read-only.</para>
     /// </summary>
     private readonly ushort _fractionalSeconds;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="Duration32"/> struct.
-    /// <para>One second equals 2^16 fractional seconds.</para>
     /// </summary>
     [CLSCompliant(false)]
     public Duration32(ushort seconds, ushort fractionalSeconds)
@@ -53,7 +59,6 @@ public readonly partial struct Duration32 :
 
     /// <summary>
     /// Gets a duration representing exactly one fractional second.
-    /// <para>One second equals 2^16 fractional seconds.</para>
     /// <para>This is the shortest duration longer than <see cref="Zero"/>.</para>
     /// <para>This static property is thread-safe.</para>
     /// </summary>
@@ -78,7 +83,6 @@ public readonly partial struct Duration32 :
 
     /// <summary>
     /// Gets the number of fractional seconds in this duration.
-    /// <para>One second equals 2^16 fractional seconds.</para>
     /// </summary>
     public int FractionalSeconds => _fractionalSeconds;
 
@@ -87,7 +91,7 @@ public readonly partial struct Duration32 :
     /// </summary>
     [Pure]
     public double TotalSeconds =>
-        _seconds + _fractionalSeconds / (double)0x1_0000;
+        _seconds + _fractionalSeconds / (double)FractionalSecondsPerSecond;
 
     /// <summary>
     /// Gets the total number of milliseconds in this duration.
@@ -95,7 +99,7 @@ public readonly partial struct Duration32 :
     [Pure]
     public double TotalMilliseconds =>
          MillisecondsPerSecond * _seconds
-        + MillisecondsPerSecond * _fractionalSeconds / (double)0x1_0000;
+        + MillisecondsPerSecond * _fractionalSeconds / (double)FractionalSecondsPerSecond;
 
     /// <summary>
     /// Gets the total number of nanoseconds in this duration.
@@ -103,11 +107,10 @@ public readonly partial struct Duration32 :
     [Pure]
     public double TotalNanoseconds =>
          NanosecondsPerSecond * (ulong)_seconds
-        + NanosecondsPerSecond * (ulong)_fractionalSeconds / (double)0x1_0000;
+        + NanosecondsPerSecond * (ulong)_fractionalSeconds / (double)FractionalSecondsPerSecond;
 
     /// <summary>
     /// Gets the total number of fractional seconds in this duration.
-    /// <para>One second equals 2^16 fractional seconds.</para>
     /// </summary>
     private ulong TotalFractionalSeconds => ((ulong)_seconds << 16) | _fractionalSeconds;
 

@@ -122,15 +122,15 @@ public partial struct ReferenceId
     /// <summary>
     /// Converts the current instance to <see cref="NtpCode"/>.
     /// </summary>
-    internal NtpCode ToNtpCodeFor(NtpStratum stratum)
+    internal NtpCode ToNtpCodeFor(StratumFamily family)
     {
         var bytes = AsBytes();
 
-        return stratum switch
+        return family switch
         {
-            NtpStratum.Unspecified => ReadKissCode(bytes),
-            NtpStratum.PrimaryReference => ReadCode(bytes),
-            NtpStratum.SecondaryReference => ReadSecondaryReference(bytes),
+            StratumFamily.Unspecified => ReadKissCode(bytes),
+            StratumFamily.PrimaryReference => ReadCode(bytes),
+            StratumFamily.SecondaryReference => ReadSecondaryReference(bytes),
             _ => new NtpCode(NtpCodeType.Unknown, ToHexString()),
         };
     }
@@ -162,10 +162,9 @@ public partial struct ReferenceId
     [Pure]
     private static NtpCode ReadSecondaryReference(ReadOnlySpan<byte> bytes)
     {
-        // NTPv4 is a mess... the various RFCs (2030, 4330, 5905) seem to
-        // say different things: IPv4 address, or the first four bytes of
-        // the MD5 digest of the IPv6 address, or even the low order 32 bits
-        // of a timestamp.
+        // The Refid can be a lot of things (RFCs 2030, 4330, 5905): an IPv4
+        // address, the first four bytes of the MD5 digest of the IPv6 address,
+        // or even the low order 32 bits of a timestamp.
         //
         //   Currently, ntpq has no way to know which type of Refid the
         //   server is sending and always displays the Refid value in
@@ -173,26 +172,20 @@ public partial struct ReferenceId
         //   listed as if they were IPv4 addresses, even though they are not.
         //   See https://support.ntp.org/bin/view/Support/RefidFormat
         //
+        // And don't forget leap smearing...
+        // https://www.nwtime.org/ntps-refid/
+        // https://github.com/ntp-project/ntp/blob/master-no-authorname/README.leapsmear
+        //
         // See also
         // https://support.ntp.org/bin/view/Dev/UpdatingTheRefidFormat
-        // https://github.com/ntp-project/ntp/blob/master-no-authorname/README.leapsmear
 
-        if (bytes[0] == 254)
-        {
-            // Only implemented by private servers.
-            // The remaining 3 bytes encode the smear value.
-            // REVIEW(code): Duration24.
+        var codeType =
+            bytes[0] == 254 ? NtpCodeType.LeapSecondSmearing
+            : NtpCodeType.IPAddressMaybe;
 
-            return new NtpCode(
-                NtpCodeType.LeapSecondSmearing,
-                FormattableString.Invariant($"254.{bytes[1]}.{bytes[2]}.{bytes[3]}"));
-        }
-        else
-        {
-            return new NtpCode(
-                NtpCodeType.IPAddressMaybe,
-                FormattableString.Invariant($"{bytes[0]}.{bytes[1]}.{bytes[2]}.{bytes[3]}"));
-        }
+        return new NtpCode(
+            codeType,
+            FormattableString.Invariant($"{bytes[0]}.{bytes[1]}.{bytes[2]}.{bytes[3]}"));
     }
 }
 

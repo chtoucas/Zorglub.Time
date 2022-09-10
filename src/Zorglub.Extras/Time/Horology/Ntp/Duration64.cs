@@ -16,6 +16,7 @@ using static Zorglub.Time.Core.TemporalConstants;
 
 /// <summary>
 /// Represents a 64-bit duration.
+/// <para>This type uses the unit for fractional seconds defined in <see cref="Timestamp64"/>.</para>
 /// <para><see cref="Duration64"/> is an immutable struct.</para>
 /// </summary>
 public readonly partial struct Duration64 :
@@ -30,14 +31,12 @@ public readonly partial struct Duration64 :
 {
     /// <summary>
     /// Represents the number of fractional seconds.
-    /// <para>One second equals 2^32 fractional seconds.</para>
     /// <para>This field is read-only.</para>
     /// </summary>
     private readonly long _fractionalSeconds;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="Duration64"/> struct.
-    /// <para>One second equals 2^32 fractional seconds.</para>
     /// </summary>
     public Duration64(long fractionalSeconds)
     {
@@ -53,7 +52,6 @@ public readonly partial struct Duration64 :
 
     /// <summary>
     /// Gets a duration representing exactly one fractional second.
-    /// <para>One second equals 2^32 fractional seconds.</para>
     /// <para>This is the shortest duration greater than <see cref="Zero"/>.</para>
     /// <para>This static property is thread-safe.</para>
     /// </summary>
@@ -73,7 +71,6 @@ public readonly partial struct Duration64 :
 
     /// <summary>
     /// Gets the total number of fractional seconds in this duration.
-    /// <para>One second equals 2^32 fractional seconds.</para>
     /// </summary>
     public long FractionalSeconds => _fractionalSeconds;
 
@@ -88,20 +85,20 @@ public readonly partial struct Duration64 :
     /// </summary>
     [Pure]
     public double TotalNanoseconds =>
-        NanosecondsPerSecond * _fractionalSeconds / (double)0x1_0000_0000L;
+        NanosecondsPerSecond * _fractionalSeconds / (double)Timestamp64.FractionalSecondsPerSecond;
 
     /// <summary>
     /// Gets the total number of milliseconds in this duration.
     /// </summary>
     [Pure]
     public double TotalMilliseconds =>
-        MillisecondsPerSecond * _fractionalSeconds / (double)0x1_0000_0000L;
+        MillisecondsPerSecond * _fractionalSeconds / (double)Timestamp64.FractionalSecondsPerSecond;
 
     /// <summary>
     /// Gets the total number of seconds in this duration.
     /// </summary>
     [Pure]
-    public double TotalSeconds => _fractionalSeconds / (double)0x1_0000_0000L;
+    public double TotalSeconds => _fractionalSeconds / (double)Timestamp64.FractionalSecondsPerSecond;
 
     /// <summary>
     /// Returns a culture-independent string representation of the current instance.

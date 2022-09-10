@@ -8,10 +8,10 @@ namespace Zorglub.Time.Horology.Ntp;
 // between NtpStratum and the binary values.
 
 /// <summary>
-/// Specifies the NTP stratum.
+/// Specifies the NTP stratum family.
 /// </summary>
 [SuppressMessage("Naming", "CA1700:Do not name enum values 'Reserved'", Justification = "NTP wording")]
-public enum NtpStratum
+public enum StratumFamily
 {
     /// <summary>
     /// The NTP stratum is invalid.

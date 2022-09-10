@@ -41,30 +41,10 @@ public readonly partial struct Timestamp64 :
     ISubtractionOperators<Timestamp64, Timestamp64, Duration64>
 {
     /// <summary>
-    /// Represents the minimum value of <see cref="SecondOfEra"/>.
-    /// <para>This field is a constant equal to 0.</para>
+    /// Represents the number of fractional seconds in one second.
+    /// <para>This field is a constant equal to 4_294_967_296.</para>
     /// </summary>
-    public const long MinSecondOfEra = 0; // (long)UInt32.MinValue
-
-    /// <summary>
-    /// Represents the maximum value of <see cref="SecondOfEra"/>.
-    /// <para>This field is a constant equal to 4_294_967_295.</para>
-    /// </summary>
-    public const long MaxSecondOfEra = (1L << 32) - 1; // (long)UInt32.MaxValue
-
-    /// <summary>
-    /// Represents the minimum value of <see cref="FractionOfSecond"/>.
-    /// <para>One second equals 2^32 fractional seconds.</para>
-    /// <para>This field is a constant equal to 0.</para>
-    /// </summary>
-    public const long MinFractionOfSecond = 0; // (long)UInt32.MinValue
-
-    /// <summary>
-    /// Represents the maximum value of <see cref="FractionOfSecond"/>.
-    /// <para>One second equals 2^32 fractional seconds.</para>
-    /// <para>This field is a constant equal to 4_294_967_295.</para>
-    /// </summary>
-    public const long MaxFractionOfSecond = (1L << 32) - 1; // (long)UInt32.MaxValue
+    public const long FractionalSecondsPerSecond = 1L << 32;
 
     /// <summary>
     /// Represents the second of the NTP era.
@@ -115,16 +95,14 @@ public readonly partial struct Timestamp64 :
 
     /// <summary>
     /// Gets the fraction of the second.
-    /// <para>One second equals 2^32 fractional seconds.</para>
     /// </summary>
     public long FractionOfSecond => _fractionOfSecond;
 
     /// <summary>
     /// Gets the number of fractional seconds since Zero.
-    /// <para>One second equals 2^32 fractional seconds.</para>
     /// </summary>
     private ulong FractionalSecondsSinceZero =>
-        FractionalSeconds.FromSeconds(_secondOfEra) | _fractionOfSecond;
+        ConvertSecondOfEraToFractionalSeconds(_secondOfEra) | _fractionOfSecond;
 
     /// <summary>
     /// Returns a culture-independent string representation of the current instance.
@@ -139,7 +117,7 @@ public readonly partial struct Timestamp64 :
     [Pure]
     public long CountMillisecondsSinceZero() => (long)(
         MillisecondsPerSecond * (ulong)_secondOfEra
-        + FractionalSeconds.ToMillisecondOfSecond(_fractionOfSecond));
+        + ConvertFractionOfSecondToMillisecondOfSecond(_fractionOfSecond));
 
     /// <summary>
     /// Counts the number of elapsed (whole) nanoseconds since <see cref="Zero"/>.
@@ -147,7 +125,115 @@ public readonly partial struct Timestamp64 :
     [Pure]
     public long CountNanosecondsSinceZero() => (long)(
         NanosecondsPerSecond * (ulong)_secondOfEra
-        + FractionalSeconds.ToNanosecondOfSecond(_fractionOfSecond));
+        + ConvertFractionOfSecondToNanosecondOfSecond(_fractionOfSecond));
+
+    /// <summary>
+    /// Randomizes the sub-milliseconds part of the current instance, yielding a new
+    /// <see cref="Timestamp64"/>.
+    /// </summary>
+    [Pure]
+    internal Timestamp64 RandomizeSubMilliseconds(IRandomNumberGenerator rng)
+    {
+        Debug.Assert(rng != null);
+
+        // We randomize the submilliseconds part of fraction-of-second.
+        //   1 millisecond = 2^32 / 1000 > 4_294_967 fraction-of-second
+        // Therefore 2^22 (= 4_194_304) fraction-of-second < 1 millisecond.
+        const int
+            MillisecondResolution = 10,
+            LowerBitsToRandomize = 32 - MillisecondResolution,
+            MaxRandomExclusive = 1 << LowerBitsToRandomize;
+        const long
+            LowerBitMask = (1L << LowerBitsToRandomize) - 1L,
+            UpperBitMask = ~LowerBitMask;
+
+        int rnd = rng.GetInt32(0, MaxRandomExclusive);
+
+        uint fractionOfSecond = (uint)(
+            (_fractionOfSecond & UpperBitMask) | (rnd & LowerBitMask));
+
+        return new Timestamp64(_secondOfEra, fractionOfSecond);
+    }
+}
+
+public partial struct Timestamp64 // Time helpers
+{
+    // Unit of 1 fraction of second = 1 / 2^32 second
+    // Relation to a subunit-of-second:
+    // > subunit-of-second = (SubunitsPerSecond * fraction-of-second) / 2^32
+    // > fraction-of-second = (2^32 * subunit-of-second) / SubunitsPerSecond
+    // Precision is about 232 picoseconds.
+
+    //
+    // MillisecondOfSecond
+    //
+
+    /// <summary>
+    /// Converts a millisecond of the second to a fraction of the second.
+    /// </summary>
+    [Pure]
+    // CIL code size = 13 bytes <= 32 bytes.
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private static uint ConvertMillisecondOfSecondToFractionOfSecond(int millisecondOfSecond)
+    {
+        Debug.Assert(millisecondOfSecond >= 0);
+        Debug.Assert(millisecondOfSecond < MillisecondsPerSecond);
+
+        ulong fractionOfSecond = ((ulong)millisecondOfSecond << 32) / MillisecondsPerSecond;
+
+        Debug.Assert(fractionOfSecond <= UInt32.MaxValue);
+
+        return (uint)fractionOfSecond;
+    }
+
+    /// <summary>
+    /// Converts a fraction of the second to a millisecond of the second.
+    /// <para>The result is in the range from 0 (included) to 1000 (excluded).</para>
+    /// </summary>
+    [Pure]
+    // CIL code size = 13 bytes <= 32 bytes.
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private static ulong ConvertFractionOfSecondToMillisecondOfSecond(uint fractionOfSecond)
+    {
+        ulong millisecondOfSecond = (MillisecondsPerSecond * (ulong)fractionOfSecond) >> 32;
+
+        Debug.Assert(millisecondOfSecond < MillisecondsPerSecond);
+
+        return millisecondOfSecond;
+    }
+
+    //
+    // NanosecondOfSecond
+    //
+
+    /// <summary>
+    /// Converts a fraction of the second to a nanosecond of the second.
+    /// <para>The result is in the range from 0 (included) to 1_000_000_000 (excluded).</para>
+    /// </summary>
+    [Pure]
+    // CIL code size = 13 bytes <= 32 bytes.
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private static ulong ConvertFractionOfSecondToNanosecondOfSecond(uint fractionOfSecond)
+    {
+        ulong nanosecondOfSecond = (NanosecondsPerSecond * (ulong)fractionOfSecond) >> 32;
+
+        Debug.Assert(nanosecondOfSecond < NanosecondsPerSecond);
+
+        return nanosecondOfSecond;
+    }
+
+    //
+    // SecondOfEra
+    //
+
+    /// <summary>
+    /// Converts a second of the era to a number of fractional seconds.
+    /// </summary>
+    [Pure]
+    // CIL code size = 6 bytes <= 32 bytes.
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private static ulong ConvertSecondOfEraToFractionalSeconds(uint secondOfEra) =>
+        (ulong)secondOfEra << 32;
 }
 
 public partial struct Timestamp64 // Binary helpers
@@ -180,33 +266,6 @@ public partial struct Timestamp64 // Binary helpers
         BinaryPrimitives.WriteUInt32BigEndian(buf[index..], _secondOfEra);
         BinaryPrimitives.WriteUInt32BigEndian(buf[(index + 4)..], _fractionOfSecond);
     }
-
-    /// <summary>
-    /// Randomizes the sub-milliseconds part of the current instance, yielding a new
-    /// <see cref="Timestamp64"/>.
-    /// </summary>
-    internal Timestamp64 RandomizeSubMilliseconds(IRandomNumberGenerator rng)
-    {
-        Debug.Assert(rng != null);
-
-        // We randomize the submilliseconds part of fraction-of-second.
-        //   1 millisecond = 2^32 / 1000 > 4_294_967 fraction-of-second
-        // Therefore 2^22 (= 4_194_304) fraction-of-second < 1 millisecond.
-        const int
-            MillisecondResolution = 10,
-            LowerBitsToRandomize = 32 - MillisecondResolution,
-            MaxRandomExclusive = 1 << LowerBitsToRandomize;
-        const long
-            LowerBitMask = (1L << LowerBitsToRandomize) - 1L,
-            UpperBitMask = ~LowerBitMask;
-
-        int rnd = rng.GetInt32(0, MaxRandomExclusive);
-
-        uint fractionOfSecond = (uint)(
-            (_fractionOfSecond & UpperBitMask) | (rnd & LowerBitMask));
-
-        return new Timestamp64(_secondOfEra, fractionOfSecond);
-    }
 }
 
 public partial struct Timestamp64 // Conversions
@@ -225,13 +284,10 @@ public partial struct Timestamp64 // Conversions
     {
         if (time.Kind != DateTimeKind.Utc) Throw.Argument(nameof(time));
 
-        var secondOfEra = (time - s_Epoch).TotalSeconds;
-        var fractionOfSecond = FractionalSeconds.FromMillisecondOfSecond((uint)time.Millisecond);
+        double secondOfEra = (time - s_Epoch).TotalSeconds;
+        uint fractionOfSecond = ConvertMillisecondOfSecondToFractionOfSecond(time.Millisecond);
 
-        Debug.Assert(fractionOfSecond >= 0);
-        Debug.Assert(fractionOfSecond <= MaxFractionOfSecond);
-
-        return new Timestamp64((uint)secondOfEra, (uint)fractionOfSecond);
+        return new Timestamp64((uint)secondOfEra, fractionOfSecond);
     }
 
     /// <summary>

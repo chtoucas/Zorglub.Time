@@ -30,28 +30,30 @@ public enum NtpCodeType
     UnknownIdentifier,
 
     /// <summary>
-    /// The NTP code is a Kiss-o'-Death code assigned by the IANA.
+    /// The NTP code is a Kiss-of-Death code assigned by the IANA.
     /// </summary>
     KissCode,
 
     /// <summary>
-    /// The NTP code is a reserved Kiss-o'-Death code for experimentation and development.
+    /// The NTP code is a reserved Kiss-of-Death code for experimentation and development.
     /// </summary>
     PrivateKissCode,
 
     /// <summary>
-    /// The NTP code is an unrecognised Kiss-o'-Death code.
+    /// The NTP code is an unrecognised Kiss-of-Death code.
     /// </summary>
     UnknownKissCode,
 
     /// <summary>
     /// The NTP code is a leap smear value.
+    /// <para>"Leap Second Smearing" as done by Google and others implies that the NTP server
+    /// <i>does not return time in the UTC timescale</i>.</para>
     /// </summary>
     LeapSecondSmearing,
 
     /// <summary>
-    /// The NTP code is an IPv4 address or the first four bytes of the MD5 digest of an IPv6 address.
-    /// <para>In both cases, the code value is in dotted-quad format.</para>
+    /// The NTP code is an IPv4 address -or- the first four bytes of the MD5 digest of an IPv6
+    /// address.
     /// </summary>
     IPAddressMaybe,
 }

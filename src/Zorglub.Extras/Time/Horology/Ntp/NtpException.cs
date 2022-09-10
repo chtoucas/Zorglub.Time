@@ -28,10 +28,5 @@ public sealed class NtpException : Exception
         : base(message, innerException) { }
 
     [DoesNotReturn]
-    internal static void Throw(string message) =>
-        throw new NtpException(message);
-
-    [DoesNotReturn, Pure]
-    internal static T Throw<T>(string message) =>
-        throw new NtpException(message);
+    internal static void Throw(string message) => throw new NtpException(message);
 }

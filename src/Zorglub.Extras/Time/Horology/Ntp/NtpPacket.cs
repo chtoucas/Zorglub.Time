@@ -53,7 +53,7 @@ internal readonly struct NtpPacket
     public LeapIndicator LeapIndicator { get; private init; }
     public byte Version { get; private init; }
     public NtpMode Mode { get; private init; }
-    public NtpStratum Stratum { get; private init; }
+    public byte StratumLevel { get; private init; }
 
     public sbyte PollInterval { get; private init; }
     public sbyte Precision { get; private init; }
@@ -90,7 +90,7 @@ internal readonly struct NtpPacket
             Version = (byte)vn,
             Mode = (NtpMode)(mode + 1),
 
-            Stratum = ReadStratum(buf[1]),
+            StratumLevel = buf[1],
             PollInterval = ReadSByte(buf[2]),
             Precision = ReadSByte(buf[3]),
 
@@ -104,17 +104,6 @@ internal readonly struct NtpPacket
             ReceiveTimestamp = Timestamp64.ReadFrom(buf[32..]),
             TransmitTimestamp = Timestamp64.ReadFrom(buf[40..])
         };
-
-        [Pure]
-        static NtpStratum ReadStratum(byte b) =>
-            b switch
-            {
-                0 => NtpStratum.Unspecified,
-                1 => NtpStratum.PrimaryReference,
-                <= 15 => NtpStratum.SecondaryReference,
-                16 => NtpStratum.Unsynchronized,
-                _ => NtpStratum.Reserved
-            };
 
         // Obtains a signed byte from its two's complement representation.
         [Pure]
