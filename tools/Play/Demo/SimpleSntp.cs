@@ -10,9 +10,13 @@ using Zorglub.Time.Horology.Ntp;
 using static System.Console;
 using static Zorglub.Time.Core.TemporalConstants;
 
-public static class SimpleSntp
+public sealed class SimpleSntp
 {
-    public static void QueryTime()
+    // Remember that 1s = 65536 fractional seconds.
+    public Duration32 MaxRtt { get; init; } = new(0, 3500); // ~50 ms
+    public Duration32 MaxDispersion { get; init; } = new(0, 3500); // ~50 ms
+
+    public void QueryTime()
     {
         var cli = new SntpClient("pool.ntp.org");
         //var cli = new SntpClient("fr.pool.ntp.org");
@@ -23,6 +27,8 @@ public static class SimpleSntp
         //var cli = new SntpClient("time.google.com");
 
         var (si, ti) = cli.QueryTime();
+
+        CheckResponse(si);
 
         double precisionInMicroseconds = MicrosecondsPerSecond * Math.Pow(2, si.Precision);
 
@@ -44,5 +50,15 @@ public static class SimpleSntp
         WriteLine("  Client receives:    {0:HH:mm:ss.fff}", ti.ResponseTimestamp.ToDateTime());
         WriteLine($"  Clock offset:       {ti.ClockOffset.TotalSeconds:+#.###;0.000;-#.###}s\t({ti.ClockOffset})");
         WriteLine($"  RTT:                {ti.Rtt.TotalMilliseconds:F3}ms\t({ti.Rtt})");
+    }
+
+    private void CheckResponse(NtpServerInfo si)
+    {
+        // RFC 4330: RootDelay and RootDispersion >= 0 and < 1s.
+        // Notice that positivity is always guaranteed.
+        if (si.Rtt > MaxRtt)
+            throw new NtpException(FormattableString.Invariant($"Root delay >= 10ms: {si.Rtt}."));
+        if (si.Dispersion > MaxDispersion)
+            throw new NtpException(FormattableString.Invariant($"Root dispersion >= 10ms: {si.Dispersion}."));
     }
 }

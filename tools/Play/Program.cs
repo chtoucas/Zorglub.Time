@@ -35,4 +35,4 @@ WriteLine($"  Ticks           = {utcNow.Ticks}");
 WriteLine($"  ToFileTime()    = {utcNow.ToFileTime() + FileTimeOffset}");
 WriteLine($"  ToFileTimeUtc() = {utcNow.ToFileTimeUtc() + FileTimeOffset}");
 
-SimpleSntp.QueryTime();
+new SimpleSntp().QueryTime();

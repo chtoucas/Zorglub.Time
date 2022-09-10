@@ -19,7 +19,7 @@ using static Zorglub.Time.Core.TemporalConstants;
 /// Provides a stateless client for the Network Time Protocol (NTP).
 /// <para>This class cannot be inherited.</para>
 /// </summary>
-public sealed partial class SntpClient
+public sealed class SntpClient
 {
     /// <summary>
     /// Represents the default SNTP version.
@@ -104,9 +104,6 @@ public sealed partial class SntpClient
         init => _rng = value ?? throw new ArgumentNullException(nameof(value));
     }
 
-    // Real ops are done elsewhere, like keeping state, polling, etc.
-    public bool EnableValidation { get; init; }
-
     // An NTP server may always return 3, e.g. "time.windows.com"
     // or "time.nist.gov".
     public bool DisableVersionCheck { get; init; }
@@ -140,7 +137,7 @@ public sealed partial class SntpClient
     [Pure]
     public NtpResponse QueryTime()
     {
-        var buf = new byte[NtpPacket.BinarySize].AsSpan();
+        Span<byte> buf = stackalloc byte[NtpPacket.BinarySize];
         buf[0] = FirstByte;
 
         // A system clock is not monotonic (unattended synchronization).
@@ -160,7 +157,6 @@ public sealed partial class SntpClient
         // Start time on this side of the network.
         var requestTime = DateTime.UtcNow;
         long startTicks = stopwatch.ElapsedTicks;
-
         // Randomize the timestamp, then write the result into the buffer.
         var requestTimestamp =
             Timestamp64.FromDateTime(requestTime)
@@ -227,8 +223,7 @@ public sealed partial class SntpClient
         Timestamp64 responseTimestamp)
     {
         var pkt = NtpPacket.ReadFrom(buf);
-        // Full validation or not?
-        if (EnableValidation) { ValidatePacket(in pkt); } else { CheckPacketRfc4330(in pkt); }
+        ValidatePacket(in pkt);
         // The only fields not yet validated are those that the server is
         // expected to copy verbatim from the request.
         if (DisableVersionCheck == false && pkt.Version != Version)
@@ -260,37 +255,14 @@ public sealed partial class SntpClient
 
         return new NtpResponse(si, ti);
     }
-}
-
-public partial class SntpClient // Validation
-{
-    // Legit stratums: primary or secondary reference.
-    private const byte MinStratumLevel = 1;
-    private const byte MaxStratumLevel = 15;
-
-    ///// <summary>
-    ///// Represents a duration of exactly one second.
-    ///// <para>This field is read-only.</para>
-    ///// </summary>
-    //private static readonly Duration32 s_OneSecond = new(1, 0);
 
     /// <summary>
-    /// Validation according to RFC 4330, section 5 (client operations).
+    /// Validates the specified packet according to RFC 4330, section 5 (client operations).
     /// </summary>
-    private static void CheckPacketRfc4330(in NtpPacket pkt)
-    {
-        if (pkt.Mode != NtpMode.Server)
-            NtpException.Throw(FormattableString.Invariant(
-                $"Invalid NTP mode: received \"{pkt.Mode}\" but it should be \"Server\"."));
-
-        if (pkt.StratumLevel > MaxStratumLevel)
-            NtpException.Throw(FormattableString.Invariant(
-                $"Invalid stratum: \"{pkt.StratumLevel}\" > {MaxStratumLevel}."));
-
-        if (pkt.TransmitTimestamp == Timestamp64.Zero)
-            NtpException.Throw("Transmit Timestamp = 0.");
-    }
-
+    // Simple check:
+    // - Mode == NtpMode.Server
+    // - StratumLevel <= MaxStratumLevel
+    // - TransmitTimestamp != Timestamp64.Zero
     // Other things we could check:
     // - ReferenceCode
     // - ReferenceTimestamp is not too far in the past
@@ -299,6 +271,11 @@ public partial class SntpClient // Validation
     // - IP addresses
     private static void ValidatePacket(in NtpPacket pkt)
     {
+        // Legit stratums: primary or secondary reference.
+        const byte
+            MinStratumLevel = 1,
+            MaxStratumLevel = 15;
+
         // It should not be possible to end up here with an invalid LI.
         Debug.Assert(pkt.LeapIndicator != LeapIndicator.Invalid);
         if (pkt.LeapIndicator == LeapIndicator.Unsynchronized)
@@ -307,21 +284,11 @@ public partial class SntpClient // Validation
 
         if (pkt.Mode != NtpMode.Server)
             NtpException.Throw(FormattableString.Invariant(
-                $"Invalid NTP mode: received \"{pkt.Mode}\" but it should be \"Server\"."));
+                $"Invalid mode: received \"{pkt.Mode}\" but it should be \"Server\"."));
 
         if (pkt.StratumLevel < MinStratumLevel || pkt.StratumLevel > MaxStratumLevel)
             NtpException.Throw(FormattableString.Invariant(
-                $"The NTP server is either unavailable or unsynchronised: StratumLevel = {pkt.StratumLevel}."));
-
-        // TODO(code): we should move this elsewhere.
-        // RootDelay and RootDispersion >= 0 and < 1s.
-        // Notice that positivity is always guaranteed.
-        //if (pkt.RootDelay >= s_OneSecond)
-        //    NtpException.Throw(FormattableString.Invariant(
-        //        $"Root delay >= 1s: {pkt.RootDelay}."));
-        //if (pkt.RootDispersion >= s_OneSecond)
-        //    NtpException.Throw(FormattableString.Invariant(
-        //        $"Root dispersion >= 1s: {pkt.RootDispersion}."));
+                $"The server is either unavailable or unsynchronised: StratumLevel = {pkt.StratumLevel}."));
 
         // The server clock should be monotonically increasing.
         if (pkt.ReceiveTimestamp < pkt.ReferenceTimestamp)

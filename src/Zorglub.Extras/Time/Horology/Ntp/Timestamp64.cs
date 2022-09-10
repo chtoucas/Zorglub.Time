@@ -261,8 +261,6 @@ public partial struct Timestamp64 // Binary helpers
     /// <see cref="Timestamp64"/>.</exception>
     internal void WriteTo(Span<byte> buf, int index)
     {
-        Debug.Assert(buf.Length >= 8);
-
         BinaryPrimitives.WriteUInt32BigEndian(buf[index..], _secondOfEra);
         BinaryPrimitives.WriteUInt32BigEndian(buf[(index + 4)..], _fractionOfSecond);
     }
