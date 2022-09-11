@@ -10,7 +10,6 @@ using System.Threading.Tasks;
 using static Zorglub.Time.Core.TemporalConstants;
 
 // No default host like ntp.pool.org; see
-//
 // https://www.pool.ntp.org/vendors.html
 // https://en.wikipedia.org/wiki/NTP_server_misuse_and_abuse
 
@@ -228,9 +227,9 @@ public sealed class SntpClient
         Timestamp64 responseTimestamp)
     {
         var pkt = NtpPacket.ReadFrom(buf);
-        ValidatePacket(in pkt);
-        // The only fields not yet validated are those that the server is
-        // expected to copy verbatim from the request.
+        CheckPacket(in pkt);
+        // The only fields not yet checked are those that the server is expected
+        // to copy verbatim from the request.
         if (DisableVersionCheck == false && pkt.Version != Version)
             NtpException.Throw(FormattableString.Invariant(
                 $"Version missmatch: expected {Version}, received {pkt.Version}."));
@@ -262,19 +261,15 @@ public sealed class SntpClient
     }
 
     /// <summary>
-    /// Validates the specified packet according to RFC 4330, section 5 (client operations).
+    /// Checks the specified packet according to RFC 4330, section 5 (client operations).
     /// </summary>
     // Simple check (unicast mode):
     // - Mode == NtpMode.Server (4)
     // - StratumLevel <= MaxStratumLevel (15)
     // - TransmitTimestamp != Timestamp64.Zero
     // Other things we could check:
-    // - ReferenceCode
-    // - ReferenceTimestamp is not too far in the past
-    // - RootDelay & co
-    // - Peer sync distance: RootDelay / 2 + RootDispersion < 16s
     // - IP addresses
-    private static void ValidatePacket(in NtpPacket pkt)
+    private static void CheckPacket(in NtpPacket pkt)
     {
         // Legit stratums: primary or secondary reference.
         const byte

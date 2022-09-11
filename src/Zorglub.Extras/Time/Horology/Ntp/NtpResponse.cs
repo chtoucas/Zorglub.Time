@@ -163,7 +163,7 @@ public sealed record NtpTimeInfo
     //   T1 + offset + RTT/2 = T2
     //   T4 + offset - RTT/2 = T3
     //
-    // The smaller is RTT, the better is the offset precision.
+    // The smaller is RTT, the better is the precision of the clock offset.
 
     /// <summary>
     /// Gets the round-trip time (RTT) to the NTP server.

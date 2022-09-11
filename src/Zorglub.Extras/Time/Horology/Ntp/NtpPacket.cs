@@ -12,8 +12,9 @@ namespace Zorglub.Time.Horology.Ntp;
 // We follow RFC 5905.
 //
 // Poll interval and precision are signed 8-bit integers, in log2 seconds.
-// For the poll interval, it does not really matter since its value is usually
-// in the range from 0 to 127 which is shared by both byte and sbyte.
+// For the poll interval, it does not really matter if it's signed or not since
+// its value is usually in the range from 0 to 127 which is shared by both byte
+// and sbyte.
 //
 // Clock resolution =
 //   2^-p where p is the number of significant bits in the fraction part, e.g.

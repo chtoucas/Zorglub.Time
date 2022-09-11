@@ -9,8 +9,6 @@ using Zorglub.Time.Core;
 
 using static Zorglub.Time.Core.TemporalConstants;
 
-// REVIEW(code): fix boundaries (63-bit signed integer).
-
 // Adapted from
 // https://android.googlesource.com/platform/frameworks/base/+/master/core/java/android/net/sntp/Duration64.java
 

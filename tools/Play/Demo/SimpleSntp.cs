@@ -12,9 +12,11 @@ using static Zorglub.Time.Core.TemporalConstants;
 
 public sealed class SimpleSntp
 {
+    // RFC 4330: RootDelay and RootDispersion >= 0 and < 1s.
+    // Notice that positivity is always guaranteed.
     // Remember that 1s = 65536 fractional seconds.
-    public Duration32 MaxRtt { get; init; } = new(0, 3500); // ~50 ms
-    public Duration32 MaxDispersion { get; init; } = new(0, 3500); // ~50 ms
+    public Duration32 MaxRootDelay { get; init; } = new(0, 3500); // ~50 ms
+    public Duration32 MaxRootDispersion { get; init; } = new(0, 3500); // ~50 ms
 
     public void QueryTime()
     {
@@ -52,13 +54,23 @@ public sealed class SimpleSntp
         WriteLine($"  RTT:                {ti.RoundTripTime.TotalMilliseconds:F3}ms\t({ti.RoundTripTime})");
     }
 
+    // Other things we should check:
+    // - ReferenceCode (KissCode, LeapSmearing)
+    // - ReferenceTimestamp is not too far in the past
+    // - Peer sync distance: RootDelay / 2 + RootDispersion < 1s = distance threshold
+    // RFC 5905 p.63
+    // MINDISP .01s
+    // MAXDISP 16s
+    // MAXDIST 1s
+    // MINPOLL 6
+    // MAXPOLL 17
     private void CheckResponse(NtpServerInfo si)
     {
-        // RFC 4330: RootDelay and RootDispersion >= 0 and < 1s.
-        // Notice that positivity is always guaranteed.
-        if (si.RoundTripTime > MaxRtt)
-            throw new NtpException(FormattableString.Invariant($"Root delay >= 10ms: {si.RoundTripTime}."));
-        if (si.Dispersion > MaxDispersion)
-            throw new NtpException(FormattableString.Invariant($"Root dispersion >= 10ms: {si.Dispersion}."));
+        if (si.RoundTripTime > MaxRootDelay)
+            throw new NtpException(FormattableString.Invariant(
+                $"Root delay >= {MaxRootDelay.TotalMilliseconds}ms: {si.RoundTripTime}."));
+        if (si.Dispersion > MaxRootDispersion)
+            throw new NtpException(FormattableString.Invariant(
+                $"Root dispersion >= {MaxRootDispersion.TotalMilliseconds}ms: {si.Dispersion}."));
     }
 }

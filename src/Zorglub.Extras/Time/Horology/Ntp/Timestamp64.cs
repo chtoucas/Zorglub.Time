@@ -12,7 +12,7 @@ using Zorglub.Time.Core;
 using static Zorglub.Time.Core.TemporalConstants;
 
 // TODO(api): From/ToDateTime(), From/ToMoment().
-// Y2036 (era)
+// Y2036 (era) -> Zero becomes Epoch of the era.
 // > If bit 0 is set, the UTC time is in the range 1968-2036, and UTC time
 // > is reckoned from 0h 0m 0s UTC on 1 January 1900.
 // > If bit 0 is not set, the time is in the range 2036-2104 and UTC time is
