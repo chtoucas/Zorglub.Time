@@ -5,15 +5,13 @@ namespace Zorglub.Time.Horology.Ntp;
 
 #region Developer Notes
 
-// RFC 4330 (SNTP) says that root delay and dispersion are 32-bit signed fixed-
-// point numbers and that they can be negative. RFC 5905 (NTP) says that they
-// are in NTP short format (unsigned); see also
+// RFC 4330 (SNTP) says that root delay (resp. dispersion) is a 32-bit signed
+// (resp. unsigned) fixed-point numbers and that they can be negative.
+// RFC 5905 (NTP) says that both are in NTP short format (unsigned); see also
 // https://www.rfc-editor.org/rfc/rfc5905#appendix-A.5.1.1
 // We follow RFC 5905.
 //
 // Poll interval and precision are signed 8-bit integers, in log2 seconds.
-// I believe that most implementations are wrong here: unchecked cast from a
-// byte, or simply copying the byte.
 // For the poll interval, it does not really matter since its value is usually
 // in the range from 0 to 127 which is shared by both byte and sbyte.
 //

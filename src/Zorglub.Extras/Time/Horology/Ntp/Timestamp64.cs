@@ -19,6 +19,16 @@ using static Zorglub.Time.Core.TemporalConstants;
 // > reckoned from 6h 28m 16s UTC on 7 February 2036.
 // > Note that when calculating the correspondence, 2000 is a leap year, and
 // > leap seconds are not included in the reckoning.
+/* RFC 5905 p.14
+   The only arithmetic operation permitted on dates and timestamps is
+   twos-complement subtraction, yielding a 127-bit or 63-bit signed
+   result.  It is critical that the first-order differences between two
+   dates preserve the full 128-bit precision and the first-order
+   differences between two timestamps preserve the full 64-bit
+   precision.  However, the differences are ordinarily small compared to
+   the seconds span, so they can be converted to floating double format
+   for further processing and without compromising the precision.
+ */
 
 // Adapted from
 // https://android.googlesource.com/platform/frameworks/base/+/master/core/java/android/net/sntp/Timestamp64.java

@@ -83,6 +83,7 @@ Others:
 - [Perl](https://metacpan.org/pod/Net::SNTP::Client)
 - [Python](https://github.com/cf-natali/ntplib)
 - [GuerrillaNtp](https://github.com/robertvazan/guerrillantp)
+- [ios-ntp](https://github.com/jbenet/ios-ntp/)
 - [C\# SNTP client in .NET Micro Framework](https://github.com/vbocan/sntp-client)
 
 - [Facebook time](https://github.com/facebook/time) and
