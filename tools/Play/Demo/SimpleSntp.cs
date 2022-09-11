@@ -38,7 +38,7 @@ public sealed class SimpleSntp
         WriteLine($"  Stratum:            {si.StratumLevel} ({si.StratumFamily})");
         WriteLine($"  Reference ID:       {si.NtpCode} (\"{si.ReferenceId}\")");
         WriteLine("  Reference time:     {0:HH:mm:ss.fff}", si.ReferenceTimestamp.ToDateTime());
-        WriteLine($"  RTT:                {si.Rtt.TotalMilliseconds:F3}ms\t({si.Rtt})");
+        WriteLine($"  RTT:                {si.RoundTripTime.TotalMilliseconds:F3}ms\t({si.RoundTripTime})");
         WriteLine($"  Dispersion:         {si.Dispersion.TotalMilliseconds:F3}ms\t({si.Dispersion})");
         WriteLine($"  Poll interval:      {1 << si.PollInterval}s\t(2^{si.PollInterval})");
         WriteLine($"  Precision:          {precisionInMicroseconds:F3}µs\t(2^{si.Precision})");
@@ -49,15 +49,15 @@ public sealed class SimpleSntp
         WriteLine("  Server transmits:   {0:HH:mm:ss.fff}", ti.TransmitTimestamp.ToDateTime());
         WriteLine("  Client receives:    {0:HH:mm:ss.fff}", ti.ResponseTimestamp.ToDateTime());
         WriteLine($"  Clock offset:       {ti.ClockOffset.TotalSeconds:+#.###;0.000;-#.###}s\t({ti.ClockOffset})");
-        WriteLine($"  RTT:                {ti.Rtt.TotalMilliseconds:F3}ms\t({ti.Rtt})");
+        WriteLine($"  RTT:                {ti.RoundTripTime.TotalMilliseconds:F3}ms\t({ti.RoundTripTime})");
     }
 
     private void CheckResponse(NtpServerInfo si)
     {
         // RFC 4330: RootDelay and RootDispersion >= 0 and < 1s.
         // Notice that positivity is always guaranteed.
-        if (si.Rtt > MaxRtt)
-            throw new NtpException(FormattableString.Invariant($"Root delay >= 10ms: {si.Rtt}."));
+        if (si.RoundTripTime > MaxRtt)
+            throw new NtpException(FormattableString.Invariant($"Root delay >= 10ms: {si.RoundTripTime}."));
         if (si.Dispersion > MaxDispersion)
             throw new NtpException(FormattableString.Invariant($"Root dispersion >= 10ms: {si.Dispersion}."));
     }

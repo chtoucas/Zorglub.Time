@@ -9,6 +9,11 @@ using System.Threading.Tasks;
 
 using static Zorglub.Time.Core.TemporalConstants;
 
+// No default host like ntp.pool.org; see
+//
+// https://www.pool.ntp.org/vendors.html
+// https://en.wikipedia.org/wiki/NTP_server_misuse_and_abuse
+
 // Adapted from
 // https://android.googlesource.com/platform/frameworks/base/+/master/core/java/android/net/SntpClient.java
 // See also
@@ -239,7 +244,7 @@ public sealed class SntpClient
             StratumLevel = pkt.StratumLevel,
             PollInterval = pkt.PollInterval,
             Precision = pkt.Precision,
-            Rtt = pkt.RootDelay,
+            RoundTripTime = pkt.RootDelay,
             Dispersion = pkt.RootDispersion,
             ReferenceId = pkt.ReferenceId,
             ReferenceTimestamp = pkt.ReferenceTimestamp,
@@ -259,9 +264,9 @@ public sealed class SntpClient
     /// <summary>
     /// Validates the specified packet according to RFC 4330, section 5 (client operations).
     /// </summary>
-    // Simple check:
-    // - Mode == NtpMode.Server
-    // - StratumLevel <= MaxStratumLevel
+    // Simple check (unicast mode):
+    // - Mode == NtpMode.Server (4)
+    // - StratumLevel <= MaxStratumLevel (15)
     // - TransmitTimestamp != Timestamp64.Zero
     // Other things we could check:
     // - ReferenceCode

@@ -97,7 +97,7 @@ public sealed record NtpServerInfo
     /// <summary>
     /// Gets the round-trip time (RTT) to the primary reference clock.
     /// </summary>
-    public Duration32 Rtt { get; init; }
+    public Duration32 RoundTripTime { get; init; }
 
     /// <summary>
     /// Gets the maximum error due to the clock frequency tolerance.
@@ -156,12 +156,19 @@ public sealed record NtpTimeInfo
     // DestinationTimestamp (T4):   reply received by the client
     //
     // Round-trip delay = (T4 - T1) - (T3 - T2)
-    // Clock offset = ((T2 - T1) + (T3 - T4)) / 2
+    // Client clock offset = ((T2 - T1) + (T3 - T4)) / 2
+    //
+    // The RTT formula is trivial. To obtain the clock offset, assuming that the
+    // network is "symmetrical", we just need to resolve the equations:
+    //   T1 + offset + RTT/2 = T2
+    //   T4 + offset - RTT/2 = T3
+    //
+    // The smaller is RTT, the better is the offset precision.
 
     /// <summary>
     /// Gets the round-trip time (RTT) to the NTP server.
     /// </summary>
-    public Duration64 Rtt =>
+    public Duration64 RoundTripTime =>
         ResponseTimestamp - RequestTimestamp - (TransmitTimestamp - ReceiveTimestamp);
 
     /// <summary>
