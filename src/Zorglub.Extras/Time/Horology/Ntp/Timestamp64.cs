@@ -79,7 +79,7 @@ public readonly partial struct Timestamp64 :
     }
 
     /// <summary>
-    /// Gets the epoch of first NTP era.
+    /// Gets the epoch of first NTP era (numbered 0).
     /// <para>The Monday 1st of January, 1900 CE within the Gregorian calendar.</para>
     /// <para>This static property is thread-safe.</para>
     /// </summary>
@@ -97,6 +97,11 @@ public readonly partial struct Timestamp64 :
     /// </summary>
     // MaxValue for era 0 ~ 07/02/2036 06:28:15
     public static Timestamp64 MaxValue { get; } = new(UInt32.MaxValue, UInt32.MaxValue);
+
+    /// <summary>
+    /// Gets the NTP era.
+    /// </summary>
+    public int Era => (_secondOfEra & 0x80) == 1 ? 0 : 1;
 
     /// <summary>
     /// Gets the second of the NTP era, i.e. the number of elapsed seconds since <see cref="Zero"/>.
@@ -149,6 +154,7 @@ public readonly partial struct Timestamp64 :
         // We randomize the submilliseconds part of fraction-of-second.
         //   1 millisecond = 2^32 / 1000 > 4_294_967 fraction-of-second
         // Therefore 2^22 (= 4_194_304) fraction-of-second < 1 millisecond.
+        // See RFC 4303 Section 3, p.6.
         const int
             MillisecondResolution = 10,
             LowerBitsToRandomize = 32 - MillisecondResolution,

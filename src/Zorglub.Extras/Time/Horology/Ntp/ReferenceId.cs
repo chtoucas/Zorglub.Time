@@ -38,6 +38,9 @@ public readonly partial struct ReferenceId :
     [Pure]
     public string ToHexString()
     {
+        // NB: do not write
+        // > _value.ToString("X", CultureInfo.InvariantCulture);
+        // it does not use the correct endianness.
         var bytes = AsBytes();
         return Convert.ToHexString(bytes);
     }

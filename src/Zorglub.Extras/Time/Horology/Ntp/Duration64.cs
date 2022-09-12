@@ -28,17 +28,17 @@ public readonly partial struct Duration64 :
     IDivisionOperators<Duration64, int, Duration64>
 {
     /// <summary>
-    /// Represents the number of fractional seconds.
+    /// Represents the total number of fractional seconds in this duration.
     /// <para>This field is read-only.</para>
     /// </summary>
-    private readonly long _fractionalSeconds;
+    private readonly long _totalFractionalSeconds;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="Duration64"/> struct.
     /// </summary>
     public Duration64(long fractionalSeconds)
     {
-        _fractionalSeconds = fractionalSeconds;
+        _totalFractionalSeconds = fractionalSeconds;
     }
 
     /// <summary>
@@ -70,7 +70,7 @@ public readonly partial struct Duration64 :
     /// <summary>
     /// Gets the total number of fractional seconds in this duration.
     /// </summary>
-    public long FractionalSeconds => _fractionalSeconds;
+    public long TotalFractionalSeconds => _totalFractionalSeconds;
 
     // *** WARNING ***
     // Do NOT use >> 32 to divide a signed integer by 2^32. Indeed, >> rounds
@@ -83,26 +83,26 @@ public readonly partial struct Duration64 :
     /// </summary>
     [Pure]
     public double TotalNanoseconds =>
-        NanosecondsPerSecond * _fractionalSeconds / (double)Timestamp64.FractionalSecondsPerSecond;
+        NanosecondsPerSecond * _totalFractionalSeconds / (double)Timestamp64.FractionalSecondsPerSecond;
 
     /// <summary>
     /// Gets the total number of milliseconds in this duration.
     /// </summary>
     [Pure]
     public double TotalMilliseconds =>
-        MillisecondsPerSecond * _fractionalSeconds / (double)Timestamp64.FractionalSecondsPerSecond;
+        MillisecondsPerSecond * _totalFractionalSeconds / (double)Timestamp64.FractionalSecondsPerSecond;
 
     /// <summary>
     /// Gets the total number of seconds in this duration.
     /// </summary>
     [Pure]
-    public double TotalSeconds => _fractionalSeconds / (double)Timestamp64.FractionalSecondsPerSecond;
+    public double TotalSeconds => _totalFractionalSeconds / (double)Timestamp64.FractionalSecondsPerSecond;
 
     /// <summary>
     /// Returns a culture-independent string representation of the current instance.
     /// </summary>
     [Pure]
-    public override string ToString() => FormattableString.Invariant($"{_fractionalSeconds}");
+    public override string ToString() => FormattableString.Invariant($"{_totalFractionalSeconds}");
 }
 
 public partial struct Duration64 // IEquatable
@@ -111,17 +111,17 @@ public partial struct Duration64 // IEquatable
     /// Determines whether two specified instances of <see cref="Duration64"/> are equal.
     /// </summary>
     public static bool operator ==(Duration64 left, Duration64 right) =>
-        left._fractionalSeconds == right._fractionalSeconds;
+        left._totalFractionalSeconds == right._totalFractionalSeconds;
 
     /// <summary>
     /// Determines whether two specified instances of <see cref="Duration64"/> are not equal.
     /// </summary>
     public static bool operator !=(Duration64 left, Duration64 right) =>
-        left._fractionalSeconds != right._fractionalSeconds;
+        left._totalFractionalSeconds != right._totalFractionalSeconds;
 
     /// <inheritdoc />
     [Pure]
-    public bool Equals(Duration64 other) => _fractionalSeconds == other._fractionalSeconds;
+    public bool Equals(Duration64 other) => _totalFractionalSeconds == other._totalFractionalSeconds;
 
     /// <inheritdoc />
     [Pure]
@@ -130,26 +130,26 @@ public partial struct Duration64 // IEquatable
 
     /// <inheritdoc />
     [Pure]
-    public override int GetHashCode() => _fractionalSeconds.GetHashCode();
+    public override int GetHashCode() => _totalFractionalSeconds.GetHashCode();
 }
 
 public partial struct Duration64 // IComparable
 {
     /// <inheritdoc />
     public static bool operator <(Duration64 left, Duration64 right) =>
-        left._fractionalSeconds < right._fractionalSeconds;
+        left._totalFractionalSeconds < right._totalFractionalSeconds;
 
     /// <inheritdoc />
     public static bool operator <=(Duration64 left, Duration64 right) =>
-        left._fractionalSeconds <= right._fractionalSeconds;
+        left._totalFractionalSeconds <= right._totalFractionalSeconds;
 
     /// <inheritdoc />
     public static bool operator >(Duration64 left, Duration64 right) =>
-        left._fractionalSeconds > right._fractionalSeconds;
+        left._totalFractionalSeconds > right._totalFractionalSeconds;
 
     /// <inheritdoc />
     public static bool operator >=(Duration64 left, Duration64 right) =>
-        left._fractionalSeconds >= right._fractionalSeconds;
+        left._totalFractionalSeconds >= right._totalFractionalSeconds;
 
     /// <inheritdoc />
     [Pure]
@@ -162,7 +162,7 @@ public partial struct Duration64 // IComparable
     /// <inheritdoc />
     [Pure]
     public int CompareTo(Duration64 other) =>
-        _fractionalSeconds.CompareTo(other._fractionalSeconds);
+        _totalFractionalSeconds.CompareTo(other._totalFractionalSeconds);
 
     /// <inheritdoc />
     [Pure]
@@ -178,19 +178,19 @@ public partial struct Duration64 // Arithmetic
     /// <exception cref="OverflowException">The operation would overflow the range of
     /// <see cref="Int64"/>.</exception>
     public static Duration64 operator +(Duration64 left, Duration64 right) =>
-        new(checked(left._fractionalSeconds + right._fractionalSeconds));
+        new(checked(left._totalFractionalSeconds + right._totalFractionalSeconds));
 
     /// <inheritdoc />
     /// <exception cref="OverflowException">The operation would overflow the range of
     /// <see cref="Int64"/>.</exception>
     public static Duration64 operator -(Duration64 left, Duration64 right) =>
-        new(checked(left._fractionalSeconds - right._fractionalSeconds));
+        new(checked(left._totalFractionalSeconds - right._totalFractionalSeconds));
 
 #pragma warning disable CA2225 // Operator overloads have named alternates (Usage)
 
     /// <inheritdoc />
     public static Duration64 operator /(Duration64 left, int right) =>
-        new(left._fractionalSeconds / right);
+        new(left._totalFractionalSeconds / right);
 
 #pragma warning restore CA2225 // Operator overloads have named alternates
 
@@ -201,7 +201,7 @@ public partial struct Duration64 // Arithmetic
     /// <see cref="Int64"/>.</exception>
     [Pure]
     public Duration64 Add(Duration64 other) =>
-        new(checked(_fractionalSeconds + other._fractionalSeconds));
+        new(checked(_totalFractionalSeconds + other._totalFractionalSeconds));
 
     /// <summary>
     /// Subtracts a duration from the current, yielding a new duration.
@@ -210,5 +210,5 @@ public partial struct Duration64 // Arithmetic
     /// <see cref="Int64"/>.</exception>
     [Pure]
     public Duration64 Subtract(Duration64 other) =>
-        new(checked(_fractionalSeconds - other._fractionalSeconds));
+        new(checked(_totalFractionalSeconds - other._totalFractionalSeconds));
 }
