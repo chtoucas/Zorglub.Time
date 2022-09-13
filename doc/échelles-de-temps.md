@@ -49,6 +49,15 @@ donnée(fuseau horaire) éventuellement corrigé en fonction de la saison
 (heure d'hiver, heure d'été).
 
 
+Prog
+----
+
+https://docs.microsoft.com/en-us/dotnet/api/system.buffers.binary.binaryprimitives
+https://docs.microsoft.com/en-us/dotnet/api/system.net.ipaddress.hosttonetworkorder
+https://docs.microsoft.com/en-us/dotnet/api/system.bitconverter
+https://docs.microsoft.com/en-us/dotnet/api/system.numerics.bitoperations
+
+
 Références
 ----------
 

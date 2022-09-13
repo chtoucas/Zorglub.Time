@@ -58,8 +58,8 @@ internal readonly struct NtpPacket
     public NtpMode Mode { get; private init; }
     public byte StratumLevel { get; private init; }
 
-    public sbyte PollInterval { get; private init; }
-    public sbyte Precision { get; private init; }
+    public sbyte PollExponent { get; private init; }
+    public sbyte PrecisionExponent { get; private init; }
     public Duration32 RootDelay { get; private init; }
     public Duration32 RootDispersion { get; private init; }
 
@@ -94,8 +94,8 @@ internal readonly struct NtpPacket
             Mode = (NtpMode)(mode + 1),
 
             StratumLevel = buf[1],
-            PollInterval = ReadSByte(buf[2]),
-            Precision = ReadSByte(buf[3]),
+            PollExponent = unchecked((sbyte)buf[2]),
+            PrecisionExponent = unchecked((sbyte)buf[3]),
 
             RootDelay = Duration32.ReadFrom(buf[4..]),
             RootDispersion = Duration32.ReadFrom(buf[8..]),
@@ -107,9 +107,5 @@ internal readonly struct NtpPacket
             ReceiveTimestamp = Timestamp64.ReadFrom(buf[32..]),
             TransmitTimestamp = Timestamp64.ReadFrom(buf[40..])
         };
-
-        // Obtains a signed byte from its two's complement representation.
-        [Pure]
-        static sbyte ReadSByte(byte b) => (sbyte)(b > 127 ? b - 256 : b);
     }
 }

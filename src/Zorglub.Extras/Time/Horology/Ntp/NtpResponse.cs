@@ -86,13 +86,17 @@ public sealed record NtpServerInfo
     /// Gets the log base 2 of the maximum interval between successive messages in seconds.
     /// <para>The result is in the range from -128 to 127.</para>
     /// </summary>
-    public int PollInterval { get; init; }
+    public int PollExponent { get; init; }
+
+    public double PollInterval => Math.Pow(2, PollExponent);
 
     /// <summary>
     /// Gets the log base 2 of the precision of the server clock in seconds.
     /// <para>The result is in the range from -128 to 127.</para>
     /// </summary>
-    public int Precision { get; init; }
+    public int PrecisionExponent { get; init; }
+
+    public double Precision => Math.Pow(2, PrecisionExponent);
 
     /// <summary>
     /// Gets the round-trip time (RTT) to the primary reference clock.

@@ -21,10 +21,11 @@ public sealed class SimpleSntp
     public void QueryTime()
     {
         var cli = new SntpClient("pool.ntp.org");
-        //var cli = new SntpClient("fr.pool.ntp.org");
-        //var cli = new SntpClient("time.windows.com") { DisableVersionCheck = true };
+        //var cli = new SntpClient("fr.pool.ntp.org") { EnableVersionCheck = true };
+        //var cli = new SntpClient("time.windows.com");
+        // Primary servers. WARNING: bad practice when using SNTP.
         // One official primary server.
-        //var cli = new SntpClient("time.nist.gov") { DisableVersionCheck = true, SendTimeout = 1000, ReceiveTimeout = 1000 };
+        //var cli = new SntpClient("time.nist.gov") { SendTimeout = 1000, ReceiveTimeout = 1000 };
         // One non-official and leap-smearing primary server.
         //var cli = new SntpClient("time.google.com");
 
@@ -32,7 +33,7 @@ public sealed class SimpleSntp
 
         CheckResponse(si);
 
-        double precisionInMicroseconds = MicrosecondsPerSecond * Math.Pow(2, si.Precision);
+        double precisionInMicroseconds = MicrosecondsPerSecond * si.Precision;
 
         WriteLine("NTP response (server info)");
         WriteLine($"  Version:            {si.Version}");
@@ -42,8 +43,8 @@ public sealed class SimpleSntp
         WriteLine("  Reference time:     {0:HH:mm:ss.fff}", si.ReferenceTimestamp.ToDateTime());
         WriteLine($"  RTT:                {si.RoundTripTime.TotalMilliseconds:F3}ms\t({si.RoundTripTime})");
         WriteLine($"  Dispersion:         {si.Dispersion.TotalMilliseconds:F3}ms\t({si.Dispersion})");
-        WriteLine($"  Poll interval:      {1 << si.PollInterval}s\t(2^{si.PollInterval})");
-        WriteLine($"  Precision:          {precisionInMicroseconds:F3}µs\t(2^{si.Precision})");
+        WriteLine($"  Poll interval:      {si.PollInterval}s\t(2^{si.PollExponent})");
+        WriteLine($"  Precision:          {precisionInMicroseconds:F3}µs\t(2^{si.PrecisionExponent})");
 
         WriteLine("NTP response (time info)");
         WriteLine("  Client transmits:   {0:HH:mm:ss.fff}", ti.RequestTimestamp.ToDateTime());
@@ -54,7 +55,7 @@ public sealed class SimpleSntp
         WriteLine($"  RTT:                {ti.RoundTripTime.TotalMilliseconds:F3}ms\t({ti.RoundTripTime})");
     }
 
-    // Other things we should check:
+    // Other things we could/should check:
     // - ReferenceCode (KissCode, LeapSmearing)
     // - ReferenceTimestamp is not too far in the past
     // - Peer sync distance: RootDelay / 2 + RootDispersion < 1s = distance threshold

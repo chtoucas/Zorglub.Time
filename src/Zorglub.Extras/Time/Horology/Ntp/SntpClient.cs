@@ -7,6 +7,8 @@ using System.Net;
 using System.Net.Sockets;
 using System.Threading.Tasks;
 
+using Zorglub.Time.Core.Intervals;
+
 using static Zorglub.Time.Core.TemporalConstants;
 
 // No default host like ntp.pool.org; see
@@ -73,6 +75,8 @@ public sealed class SntpClient
         EndPoint = endpoint ?? throw new ArgumentNullException(nameof(endpoint));
     }
 
+    public static Range<int> SupportedVersions { get; } = Range.Create(3, 4);
+
     private int _version = DefaultVersion;
     /// <summary>
     /// Gets or sets the NTP version.
@@ -82,7 +86,8 @@ public sealed class SntpClient
         get => _version;
         init
         {
-            if (value != 3 && value != 4) Throw.ArgumentOutOfRange(nameof(value));
+            if (SupportedVersions.Contains(value) == false)
+                Throw.ArgumentOutOfRange(nameof(value));
             _version = value;
         }
     }
@@ -110,7 +115,7 @@ public sealed class SntpClient
 
     // An NTP server may always return 3, e.g. "time.windows.com"
     // or "time.nist.gov".
-    public bool DisableVersionCheck { get; init; }
+    public bool EnableVersionCheck { get; init; }
 
     /// <summary>
     /// Gets the network address for the SNTP server.
@@ -230,7 +235,7 @@ public sealed class SntpClient
         CheckPacket(in pkt);
         // The only fields not yet checked are those that the server is expected
         // to copy verbatim from the request.
-        if (DisableVersionCheck == false && pkt.Version != Version)
+        if (EnableVersionCheck && pkt.Version != Version)
             NtpException.Throw(FormattableString.Invariant(
                 $"Version missmatch: expected {Version}, received {pkt.Version}."));
         if (pkt.OriginateTimestamp != requestTimestamp)
@@ -241,8 +246,8 @@ public sealed class SntpClient
             LeapIndicator = pkt.LeapIndicator,
             Version = pkt.Version,
             StratumLevel = pkt.StratumLevel,
-            PollInterval = pkt.PollInterval,
-            Precision = pkt.Precision,
+            PollExponent = pkt.PollExponent,
+            PrecisionExponent = pkt.PrecisionExponent,
             RoundTripTime = pkt.RootDelay,
             Dispersion = pkt.RootDispersion,
             ReferenceId = pkt.ReferenceId,
