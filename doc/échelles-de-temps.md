@@ -74,7 +74,7 @@ Liste très complète d'échelles de temps.
 - [NTP Pool Project](https://www.ntppool.org/en/)
 
 https://kb.meinbergglobal.com/kb/time_sync/ntp/leap_second_smearing/ntp_leap_smearing_test_results
-
+https://www.nwtime.org/ntps-refid/
 
 ## Implémentations
 
