@@ -43,6 +43,7 @@ Intel Core2 Duo CPU E8500 3.16GHz, 1 CPU, 2 logical and 2 physical cores
 //   is virtual.
 // - I don't know why CountDaysSinceEpochImpl64() is so slow.
 
+[CLSCompliant(false)]
 [DisassemblyDiagnoser]
 public class GregorianSchema_CountDaysSinceEpoch : GregorianSchemaBenchmark
 {

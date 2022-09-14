@@ -14,6 +14,7 @@ using BenchmarkDotNet.Validators;
 
 // TODO: ArtifactsPath, filters
 
+[CLSCompliant(false)]
 [DisassemblyDiagnoser(maxDepth: 0)]
 //[MemoryDiagnoser(displayGenColumns: false)]
 public static class Program

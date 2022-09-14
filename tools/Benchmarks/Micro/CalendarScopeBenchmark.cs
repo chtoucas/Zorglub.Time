@@ -38,6 +38,7 @@ Intel Core2 Duo CPU E8500 3.16GHz, 1 CPU, 2 logical and 2 physical cores
 |           Standard | 16.47 ns | 0.012 ns | 0.011 ns |  1.27 |  III |     573 B |
  */
 
+[CLSCompliant(false)]
 [DisassemblyDiagnoser]
 public class CalendarScopeBenchmark : GJBenchmarkBase
 {

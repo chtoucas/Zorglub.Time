@@ -44,6 +44,7 @@ With PATCH_DIVREM disabled.
 |     'Div Mod' | 6.117 ns | 0.0125 ns | 0.0117 ns |  2.76 |   IV |      74 B |
  */
 
+[CLSCompliant(false)]
 [DisassemblyDiagnoser]
 public class DivideBenchmark : BenchmarkBase
 {

@@ -34,6 +34,7 @@ Intel Core2 Duo CPU E8500 3.16GHz, 1 CPU, 2 logical and 2 physical cores
 |          GetCalendar | 40.2644 ns | 0.0564 ns | 0.0528 ns | 63.32 |    0.30 |   IV |     151 B |
  */
 
+[CLSCompliant(false)]
 [DisassemblyDiagnoser]
 public class SimpleCatalogBenchmark : BenchmarkBase
 {
