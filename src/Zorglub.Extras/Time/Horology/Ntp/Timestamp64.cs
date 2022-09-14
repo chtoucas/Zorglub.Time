@@ -39,7 +39,7 @@ using static Zorglub.Time.Core.TemporalConstants;
 // - https://www.eecis.udel.edu/~mills/leap.html
 
 /// <summary>
-/// Represents a 64-bit NTP timestamp; see RFC 5905, section 6.
+/// Represents a 64-bit (unsigned) NTP timestamp; see RFC 5905, section 6.
 /// <para><see cref="Timestamp64"/> is an immutable struct.</para>
 /// </summary>
 public readonly partial struct Timestamp64 :
@@ -79,7 +79,7 @@ public readonly partial struct Timestamp64 :
     }
 
     /// <summary>
-    /// Gets the epoch of first NTP era (numbered 0).
+    /// Gets the prime epoch, that is the epoch of first NTP era (numbered 0).
     /// <para>The Monday 1st of January, 1900 CE within the Gregorian calendar.</para>
     /// <para>This static property is thread-safe.</para>
     /// </summary>
@@ -95,13 +95,12 @@ public readonly partial struct Timestamp64 :
     /// Gets the largest possible value of a <see cref="Timestamp64"/>.
     /// <para>This static property is thread-safe.</para>
     /// </summary>
-    // MaxValue for era 0 ~ 07/02/2036 06:28:15
     public static Timestamp64 MaxValue { get; } = new(UInt32.MaxValue, UInt32.MaxValue);
 
     /// <summary>
-    /// Gets the NTP era.
+    /// Gets the NTP pseudo-era.
     /// </summary>
-    public int Era => (_secondOfEra & 0x80) == 1 ? 0 : 1;
+    public int PseudoEra => 1 - (int)(_secondOfEra >> 31);
 
     /// <summary>
     /// Gets the second of the NTP era, i.e. the number of elapsed seconds since <see cref="Zero"/>.

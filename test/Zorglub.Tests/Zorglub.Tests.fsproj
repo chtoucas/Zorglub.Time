@@ -92,6 +92,7 @@
     <Compile Include="Tests\Hemerology\DateAdjusterTests.fs" />
     <Compile Include="Tests\Horology\Ntp\Duration32Tests.fs" />
     <Compile Include="Tests\Horology\Ntp\Duration64Tests.fs" />
+    <Compile Include="Tests\Horology\Ntp\Timestamp64Tests.fs" />
     <Compile Include="Tests\Horology\Ntp\ReferenceIdTests.fs" />
     <Compile Include="Tests\Horology\GregorianInstantTests.fs" />
     <Compile Include="Tests\Simple\CuidTests.fs" />
