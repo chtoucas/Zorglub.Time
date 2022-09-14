@@ -20,9 +20,9 @@ namespace Zorglub.Time.Horology.Ntp;
 public enum NtpMode : byte
 {
     /// <summary>
-    /// The NTP mode is invalid.
+    /// The NTP mode is not known (invalid).
     /// </summary>
-    Invalid = 0,
+    Unknown = 0,
 
     /// <summary>
     /// Reserved.

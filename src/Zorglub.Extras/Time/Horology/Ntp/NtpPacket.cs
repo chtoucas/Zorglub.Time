@@ -94,6 +94,7 @@ internal readonly struct NtpPacket
             Mode = (NtpMode)(mode + 1),
 
             StratumLevel = buf[1],
+            // Do NOT remove "unchecked".
             PollExponent = unchecked((sbyte)buf[2]),
             PrecisionExponent = unchecked((sbyte)buf[3]),
 

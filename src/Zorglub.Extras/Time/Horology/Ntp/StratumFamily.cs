@@ -5,7 +5,7 @@ namespace Zorglub.Time.Horology.Ntp;
 
 // The binary value for a stratum is a 3-bit unsigned integer.
 // Contrary to LeapIndicator and NtpMode, there is no one-to-one mapping
-// between NtpStratum and the binary values.
+// between NtpStratum and the binary values (StratumLevel).
 
 /// <summary>
 /// Specifies the NTP stratum family.
@@ -14,9 +14,9 @@ namespace Zorglub.Time.Horology.Ntp;
 public enum StratumFamily
 {
     /// <summary>
-    /// The NTP stratum is invalid.
+    /// The NTP stratum is not known (invalid).
     /// </summary>
-    Invalid = 0,
+    Unknown = 0,
 
     /// <summary>
     /// Unspecified or unavailable (Kiss-o'-Death message).

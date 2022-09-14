@@ -113,9 +113,15 @@ public sealed class SntpClient
         init => _rng = value ?? throw new ArgumentNullException(nameof(value));
     }
 
+    /// <summary>
+    /// Returns true if this instance checks that the version number found in the NTP response
+    /// matches <see cref="Version"/>; otherwise returns false.
+    /// <para>There are still old (or bogus?) NTP servers always returning 3, therefore the
+    /// default behaviour is to not check the version number.</para>
+    /// </summary>
     // An NTP server may always return 3, e.g. "time.windows.com"
     // or "time.nist.gov".
-    public bool EnableVersionCheck { get; init; }
+    public bool EnableVersionCheck { get; set; }
 
     /// <summary>
     /// Gets the network address for the SNTP server.
@@ -282,7 +288,7 @@ public sealed class SntpClient
             MaxStratumLevel = 15;
 
         // It should not be possible to end up here with an invalid LI.
-        Debug.Assert(pkt.LeapIndicator != LeapIndicator.Invalid);
+        Debug.Assert(pkt.LeapIndicator != LeapIndicator.Unknown);
         if (pkt.LeapIndicator == LeapIndicator.Unsynchronized)
             NtpException.Throw(FormattableString.Invariant(
                 $"The server clock is not synchronised."));

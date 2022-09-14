@@ -88,6 +88,9 @@ public sealed record NtpServerInfo
     /// </summary>
     public int PollExponent { get; init; }
 
+    /// <summary>
+    /// Gets the maximum interval between successive messages in seconds.
+    /// </summary>
     public double PollInterval => Math.Pow(2, PollExponent);
 
     /// <summary>
@@ -96,10 +99,13 @@ public sealed record NtpServerInfo
     /// </summary>
     public int PrecisionExponent { get; init; }
 
+    /// <summary>
+    /// Gets the precision of the server clock in seconds.
+    /// </summary>
     public double Precision => Math.Pow(2, PrecisionExponent);
 
     /// <summary>
-    /// Gets the round-trip time (RTT) to the primary reference clock.
+    /// Gets the round-trip delay (RTT) to the primary reference clock.
     /// </summary>
     public Duration32 RoundTripTime { get; init; }
 
@@ -170,7 +176,7 @@ public sealed record NtpTimeInfo
     // The smaller is RTT, the better is the precision of the clock offset.
 
     /// <summary>
-    /// Gets the round-trip time (RTT) to the NTP server.
+    /// Gets the round-trip delay (RTT) to the NTP server.
     /// </summary>
     public Duration64 RoundTripTime =>
         ResponseTimestamp - RequestTimestamp - (TransmitTimestamp - ReceiveTimestamp);

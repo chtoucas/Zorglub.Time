@@ -16,9 +16,9 @@ namespace Zorglub.Time.Horology.Ntp;
 public enum LeapIndicator : byte
 {
     /// <summary>
-    /// The leap indicator is invalid.
+    /// The leap indicator is not known (invalid).
     /// </summary>
-    Invalid = 0,
+    Unknown = 0,
 
     /// <summary>
     /// No warning.
