@@ -293,7 +293,7 @@ namespace Zorglub.Time.Core
     /// <typeparam name="TOther">The type that will be compared with <typeparamref name="TSelf" />.</typeparam>
     public interface IEqualityOperators<TSelf, TOther> :
         IEqualityOperators<TSelf, TOther, bool>,
-        IEquatable<TSelf>
+        IEquatable<TOther>
         where TSelf : IEqualityOperators<TSelf, TOther>?
     { }
 
@@ -303,7 +303,7 @@ namespace Zorglub.Time.Core
     public interface IComparisonOperators<TSelf, TOther> :
         IComparisonOperators<TSelf, TOther, bool>,
         IEqualityOperators<TSelf, TOther>,
-        IComparable<TSelf>,
+        IComparable<TOther>,
         IComparable
         where TSelf : IComparisonOperators<TSelf, TOther>?
     { }
