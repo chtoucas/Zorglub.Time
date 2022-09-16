@@ -69,7 +69,7 @@ try {
     }
 
     if ($VS) {
-        $vsDir = (Join-Path $RootDir '.vs' -Resolve)
+        $vsDir = Join-Path $RootDir '.vs'
         say "Deleting ""$vsDir""."
         if (Test-Path $vsDir) {
             # -Force because the folder is hidden.
