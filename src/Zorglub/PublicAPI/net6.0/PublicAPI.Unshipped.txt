@@ -44,6 +44,8 @@ abstract Zorglub.Time.Simple.CalendarMath.AddYearsCore(Zorglub.Time.Simple.Ordin
 abstract Zorglub.Time.Simple.SimpleClock.GetCurrentDay() -> Zorglub.Time.Simple.CalendarDay
 abstract Zorglub.Time.Simple.SimpleClock.GetCurrentMonth() -> Zorglub.Time.Simple.CalendarMonth
 abstract Zorglub.Time.Simple.SimpleClock.GetCurrentYear() -> Zorglub.Time.Simple.CalendarYear
+const System.Runtime.CompilerServices.CompilerFeatureRequiredAttribute.RefStructs = "RefStructs" -> string!
+const System.Runtime.CompilerServices.CompilerFeatureRequiredAttribute.RequiredMembers = "RequiredMembers" -> string!
 const Zorglub.Time.Core.CalendricalConstants.DaysInWanderingYear = 365 -> int
 const Zorglub.Time.Core.CalendricalConstants.DaysInWeek = 7 -> int
 const Zorglub.Time.Core.CalendricalConstants.DaysPer4JulianYearCycle = 1461 -> int
@@ -358,13 +360,16 @@ static Zorglub.Time.Core.Intervals.LowerRay<T>.operator ==(Zorglub.Time.Core.Int
 static Zorglub.Time.Core.Intervals.Range.Count(this Zorglub.Time.Core.Intervals.Range<int> range) -> int
 static Zorglub.Time.Core.Intervals.Range.Count(this Zorglub.Time.Core.Intervals.Range<Zorglub.Time.DayNumber> range) -> int
 static Zorglub.Time.Core.Intervals.Range.Create<T>(T min, T max) -> Zorglub.Time.Core.Intervals.Range<T>
+static Zorglub.Time.Core.Intervals.Range.EndingAt(int max) -> Zorglub.Time.Core.Intervals.Range<int>
 static Zorglub.Time.Core.Intervals.Range.EndingAt<T>(T max) -> Zorglub.Time.Core.Intervals.Range<T>
 static Zorglub.Time.Core.Intervals.Range.EndingAt<T>(T max, int length) -> Zorglub.Time.Core.Intervals.Range<T>
 static Zorglub.Time.Core.Intervals.Range.FromEndpoints<T>(Zorglub.Time.Core.Utilities.OrderedPair<T> endpoints) -> Zorglub.Time.Core.Intervals.Range<T>
 static Zorglub.Time.Core.Intervals.Range.LongCount(this Zorglub.Time.Core.Intervals.Range<int> range) -> long
 static Zorglub.Time.Core.Intervals.Range.LongCount(this Zorglub.Time.Core.Intervals.Range<Zorglub.Time.DayNumber> range) -> long
+static Zorglub.Time.Core.Intervals.Range.Maximal() -> Zorglub.Time.Core.Intervals.Range<int>
 static Zorglub.Time.Core.Intervals.Range.Maximal<T>() -> Zorglub.Time.Core.Intervals.Range<T>
 static Zorglub.Time.Core.Intervals.Range.Singleton<T>(T value) -> Zorglub.Time.Core.Intervals.Range<T>
+static Zorglub.Time.Core.Intervals.Range.StartingAt(int min) -> Zorglub.Time.Core.Intervals.Range<int>
 static Zorglub.Time.Core.Intervals.Range.StartingAt<T>(T min) -> Zorglub.Time.Core.Intervals.Range<T>
 static Zorglub.Time.Core.Intervals.Range.StartingAt<T>(T min, int length) -> Zorglub.Time.Core.Intervals.Range<T>
 static Zorglub.Time.Core.Intervals.Range.ToEnumerable(this Zorglub.Time.Core.Intervals.Range<int> range) -> System.Collections.Generic.IEnumerable<int>!
@@ -812,6 +817,38 @@ static Zorglub.Time.TimeOfDay.operator <=(Zorglub.Time.TimeOfDay left, Zorglub.T
 static Zorglub.Time.TimeOfDay.operator ==(Zorglub.Time.TimeOfDay left, Zorglub.Time.TimeOfDay right) -> bool
 static Zorglub.Time.TimeOfDay.operator >(Zorglub.Time.TimeOfDay left, Zorglub.Time.TimeOfDay right) -> bool
 static Zorglub.Time.TimeOfDay.operator >=(Zorglub.Time.TimeOfDay left, Zorglub.Time.TimeOfDay right) -> bool
+System.Diagnostics.CodeAnalysis.SetsRequiredMembersAttribute
+System.Diagnostics.CodeAnalysis.SetsRequiredMembersAttribute.SetsRequiredMembersAttribute() -> void
+System.Numerics.IAdditionOperators<TSelf, TOther, TResult>
+System.Numerics.IAdditionOperators<TSelf, TOther, TResult>.operator +(TSelf left, TOther right) -> TResult
+System.Numerics.IComparisonOperators<TSelf, TOther, TResult>
+System.Numerics.IComparisonOperators<TSelf, TOther, TResult>.operator <(TSelf left, TOther right) -> TResult
+System.Numerics.IComparisonOperators<TSelf, TOther, TResult>.operator <=(TSelf left, TOther right) -> TResult
+System.Numerics.IComparisonOperators<TSelf, TOther, TResult>.operator >(TSelf left, TOther right) -> TResult
+System.Numerics.IComparisonOperators<TSelf, TOther, TResult>.operator >=(TSelf left, TOther right) -> TResult
+System.Numerics.IDecrementOperators<TSelf>
+System.Numerics.IDecrementOperators<TSelf>.operator --(TSelf value) -> TSelf
+System.Numerics.IDivisionOperators<TSelf, TOther, TResult>
+System.Numerics.IDivisionOperators<TSelf, TOther, TResult>.operator /(TSelf left, TOther right) -> TResult
+System.Numerics.IEqualityOperators<TSelf, TOther, TResult>
+System.Numerics.IEqualityOperators<TSelf, TOther, TResult>.operator !=(TSelf? left, TOther? right) -> TResult
+System.Numerics.IEqualityOperators<TSelf, TOther, TResult>.operator ==(TSelf? left, TOther? right) -> TResult
+System.Numerics.IIncrementOperators<TSelf>
+System.Numerics.IIncrementOperators<TSelf>.operator ++(TSelf value) -> TSelf
+System.Numerics.IMinMaxValue<TSelf>
+System.Numerics.IMinMaxValue<TSelf>.MaxValue.get -> TSelf
+System.Numerics.IMinMaxValue<TSelf>.MinValue.get -> TSelf
+System.Numerics.ISubtractionOperators<TSelf, TOther, TResult>
+System.Numerics.ISubtractionOperators<TSelf, TOther, TResult>.operator -(TSelf left, TOther right) -> TResult
+System.Numerics.IUnaryNegationOperators<TSelf, TResult>
+System.Numerics.IUnaryNegationOperators<TSelf, TResult>.operator -(TSelf value) -> TResult
+System.Runtime.CompilerServices.CompilerFeatureRequiredAttribute
+System.Runtime.CompilerServices.CompilerFeatureRequiredAttribute.CompilerFeatureRequiredAttribute(string! featureName) -> void
+System.Runtime.CompilerServices.CompilerFeatureRequiredAttribute.FeatureName.get -> string!
+System.Runtime.CompilerServices.CompilerFeatureRequiredAttribute.IsOptional.get -> bool
+System.Runtime.CompilerServices.CompilerFeatureRequiredAttribute.IsOptional.init -> void
+System.Runtime.CompilerServices.RequiredMemberAttribute
+System.Runtime.CompilerServices.RequiredMemberAttribute.RequiredMemberAttribute() -> void
 virtual Zorglub.Time.Core.CalendricalSchema.CountDaysSinceEpoch(int y, int m, int d) -> int
 virtual Zorglub.Time.Core.CalendricalSchema.GetDateParts(int daysSinceEpoch, out int y, out int m, out int d) -> void
 virtual Zorglub.Time.Core.CalendricalSchema.GetYear(int daysSinceEpoch, out int doy) -> int
@@ -980,10 +1017,12 @@ Zorglub.Time.Core.ICalendricalValidator
 Zorglub.Time.Core.ICalendricalValidator.ValidateOrdinal(int year, int dayOfYear, string? paramName = null) -> void
 Zorglub.Time.Core.ICalendricalValidator.ValidateYearMonth(int year, int month, string? paramName = null) -> void
 Zorglub.Time.Core.ICalendricalValidator.ValidateYearMonthDay(int year, int month, int day, string? paramName = null) -> void
+Zorglub.Time.Core.IComparisonOperators<TSelf, TOther>
 Zorglub.Time.Core.IDifferenceOperators<TSelf, TResult>
 Zorglub.Time.Core.IDifferenceOperators<TSelf, TResult>.operator -(TSelf left, TSelf right) -> TResult
 Zorglub.Time.Core.IEpagomenalDayFeaturette
 Zorglub.Time.Core.IEpagomenalDayFeaturette.IsEpagomenalDay(int y, int m, int d, out int epagomenalNumber) -> bool
+Zorglub.Time.Core.IEqualityOperators<TSelf, TOther>
 Zorglub.Time.Core.IMinMaxFunctions<TSelf>
 Zorglub.Time.Core.IMinMaxFunctions<TSelf>.Max(TSelf x, TSelf y) -> TSelf
 Zorglub.Time.Core.IMinMaxFunctions<TSelf>.Min(TSelf x, TSelf y) -> TSelf
