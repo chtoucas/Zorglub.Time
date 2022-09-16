@@ -3,6 +3,8 @@
 
 namespace Zorglub.Time
 {
+    using Zorglub.Time.Core;
+
     /// <summary>
     /// Represents a pair of a year and a day of the year.
     /// <para>This type uses the lexicographic order on pairs (Year, DayOfYear).</para>

@@ -22,9 +22,9 @@
     <DefineConstants>$(DefineConstants);ENABLE_PREVIEW_FEATURES</DefineConstants>
     <!--<DefineConstants>$(DefineConstants);FEATURE_STATIC_ABSTRACT</DefineConstants>-->
   </PropertyGroup>
-  <ItemGroup Condition=" '$(Language)' == 'C#' ">
+  <!--<ItemGroup Condition=" '$(Language)' == 'C#' ">
     <PackageReference Include="System.Runtime.Experimental" Version="6.0.2" />
-  </ItemGroup>
+  </ItemGroup>-->
   <!--
     We do not want System.Runtime.Experimental to be used by the normal packages.lock.json.
     Does not work with a simple "Condition" but it's OK w/ "<When>" -and- $(Configuration) not

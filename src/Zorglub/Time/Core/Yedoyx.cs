@@ -13,6 +13,7 @@ namespace Zorglub.Time.Core
     [DebuggerDisplay("{" + nameof(DebuggerDisplay) + ",nq}")]
     public readonly partial struct Yedoyx :
         IEqualityOperators<Yedoyx, Yedoyx>,
+        // REVIEW(api): remove IMinMaxValue (not comparable), idem with the other Y...x.
         IMinMaxValue<Yedoyx>
     {
         #region Bit settings

@@ -7,6 +7,7 @@ namespace Zorglub.Testing;
 
 using System.Diagnostics.CodeAnalysis;
 using System.Diagnostics.Contracts;
+using System.Numerics;
 
 using Zorglub.Time;
 using Zorglub.Time.Core;
@@ -62,12 +63,12 @@ public sealed partial class DateProxy<T> : IDate<T>
     static int IDifferenceOperators<T, int>.operator -(T left, T right) => throw new NotImplementedException();
     static T IIncrementOperators<T>.operator ++(T value) => throw new NotImplementedException();
     static T IDecrementOperators<T>.operator --(T value) => throw new NotImplementedException();
-    static bool IEqualityOperators<T, T>.operator ==(T left, T right) => throw new NotImplementedException();
-    static bool IEqualityOperators<T, T>.operator !=(T left, T right) => throw new NotImplementedException();
-    static bool IComparisonOperators<T, T>.operator <(T left, T right) => throw new NotImplementedException();
-    static bool IComparisonOperators<T, T>.operator >(T left, T right) => throw new NotImplementedException();
-    static bool IComparisonOperators<T, T>.operator <=(T left, T right) => throw new NotImplementedException();
-    static bool IComparisonOperators<T, T>.operator >=(T left, T right) => throw new NotImplementedException();
+    static bool IEqualityOperators<T, T, bool>.operator ==(T left, T right) => throw new NotImplementedException();
+    static bool IEqualityOperators<T, T, bool>.operator !=(T left, T right) => throw new NotImplementedException();
+    static bool IComparisonOperators<T, T, bool>.operator <(T left, T right) => throw new NotImplementedException();
+    static bool IComparisonOperators<T, T, bool>.operator >(T left, T right) => throw new NotImplementedException();
+    static bool IComparisonOperators<T, T, bool>.operator <=(T left, T right) => throw new NotImplementedException();
+    static bool IComparisonOperators<T, T, bool>.operator >=(T left, T right) => throw new NotImplementedException();
     #endregion
 
     private sealed class DebugView

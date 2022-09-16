@@ -6,6 +6,8 @@ namespace Zorglub.Time
     using System.Globalization;
     using System.Text;
 
+    using Zorglub.Time.Core;
+
     // Main difference w/ Yemoda: y, m, d are open values, we don't even require
     // m and d to be >= 1.
 

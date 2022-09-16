@@ -115,6 +115,31 @@ namespace Zorglub.Time.Core.Intervals
         {
             return new(max - (length - 1), max);
         }
+
+#if !NET7_0_OR_GREATER
+
+        /// <summary>
+        /// Creates a new instance of the <see cref="Range{T}"/> struct representing the range
+        /// [<see cref="Int32.MinValue"/>..<see cref="Int32.MaxValue"/>].
+        /// </summary>
+        [Pure]
+        public static Range<int> Maximal() => CreateLeniently(Int32.MinValue, Int32.MaxValue);
+
+        /// <summary>
+        /// Creates a new instance of the <see cref="Range{T}"/> struct representing the range
+        /// [<paramref name="min"/>..<see cref="Int32.MaxValue"/>].
+        /// </summary>
+        [Pure]
+        public static Range<int> StartingAt(int min) => CreateLeniently(min, Int32.MaxValue);
+
+        /// <summary>
+        /// Creates a new instance of the <see cref="Range{T}"/> struct representing the range
+        /// [<see cref="Int32.MinValue"/>..<paramref name="max"/>].
+        /// </summary>
+        [Pure]
+        public static Range<int> EndingAt(int max) => CreateLeniently(Int32.MinValue, max);
+
+#endif
     }
 
     public partial class Range // Conversions, transformations

@@ -14,6 +14,9 @@ better than y/m/d, poly-calendar is not such a good idea (JulianDate/Calendar
 contains the name of the calendar, we can add specific methods). Proleptic is
 only a bit slower than Standard (> 0).
 
+- C# 11
+  - static virtual! checked ops.
+  - required
 - Math:
   * Optimize div in N / uint in enum comp / ulong?
   * Profile: OtherRegular, Other7 (MinDaysInMonth >= 7)?
@@ -29,10 +32,15 @@ only a bit slower than Standard (> 0).
 - Script freeze-api.ps1
 - Publication: GitHub & NuGet (for NuGet only when reach 1.0.0).
 - When .NET 7 is out:
-  D.B.targets: disable preview features.
+  D.B.props: LangVersion
+  D.B.targets: disable preview features (ENABLE_PREVIEW_FEATURES).
   Clean up unnecessary `#pragma warning disable`.
-  Generic math: `using System.Numerics`, checked ops.
+  NET7_0_OR_GREATER (Range + tests)
+  Future.cs, remove global using System.Numerics?
   Github action: test on Ubuntu and MacOS.
+  https://docs.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-11
+  https://devblogs.microsoft.com/dotnet/dotnet-7-generic-math/
+  https://docs.microsoft.com/en-us/dotnet/standard/generics/math
 - Clean up compiler symbols.
 - CLSCompliant
 - Exception messages: use ThrowHelpers everywhere.

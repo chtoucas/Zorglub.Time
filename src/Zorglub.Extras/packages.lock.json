@@ -18,12 +18,6 @@
           "Microsoft.SourceLink.Common": "1.1.1"
         }
       },
-      "System.Runtime.Experimental": {
-        "type": "Direct",
-        "requested": "[6.0.2, )",
-        "resolved": "6.0.2",
-        "contentHash": "YFw4XOgVaF9T8vT3V148ypGTm8PnEchW1eyq+7ssIh7fmr+6JY3oNFx5KivLSDC4ugNsAm7HqYPnQEpC0C/BXA=="
-      },
       "Microsoft.Build.Tasks.Git": {
         "type": "Transitive",
         "resolved": "1.1.1",
@@ -35,10 +29,7 @@
         "contentHash": "WMcGpWKrmJmzrNeuaEb23bEMnbtR/vLmvZtkAP5qWu7vQsY59GqfRJd65sFpBszbd2k/bQ8cs8eWawQKAabkVg=="
       },
       "Zorglub.Time": {
-        "type": "Project",
-        "dependencies": {
-          "System.Runtime.Experimental": "[6.0.2, )"
-        }
+        "type": "Project"
       }
     }
   }

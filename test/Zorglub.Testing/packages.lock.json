@@ -2,12 +2,6 @@
   "version": 1,
   "dependencies": {
     "net6.0": {
-      "System.Runtime.Experimental": {
-        "type": "Direct",
-        "requested": "[6.0.2, )",
-        "resolved": "6.0.2",
-        "contentHash": "YFw4XOgVaF9T8vT3V148ypGTm8PnEchW1eyq+7ssIh7fmr+6JY3oNFx5KivLSDC4ugNsAm7HqYPnQEpC0C/BXA=="
-      },
       "xunit.assert": {
         "type": "Direct",
         "requested": "[2.4.2, )",
@@ -933,21 +927,16 @@
       "zorglub.sketches": {
         "type": "Project",
         "dependencies": {
-          "System.Runtime.Experimental": "[6.0.2, )",
           "Zorglub.Time": "[0.0.0-DUMMY, )",
           "Zorglub.Time.Extras": "[0.0.0-DUMMY, )"
         }
       },
       "Zorglub.Time": {
-        "type": "Project",
-        "dependencies": {
-          "System.Runtime.Experimental": "[6.0.2, )"
-        }
+        "type": "Project"
       },
       "Zorglub.Time.Extras": {
         "type": "Project",
         "dependencies": {
-          "System.Runtime.Experimental": "[6.0.2, )",
           "Zorglub.Time": "[0.0.0-DUMMY, )"
         }
       }

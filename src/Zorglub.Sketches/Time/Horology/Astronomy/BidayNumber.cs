@@ -3,6 +3,8 @@
 
 namespace Zorglub.Time.Horology.Astronomy
 {
+    using Zorglub.Time.Core;
+
     // TODO: calculer plus précisément les Min et Max ?
 
     public readonly partial struct BidayNumber :

@@ -6,6 +6,8 @@ namespace Zorglub.Time.Horology.Ntp;
 using System.Globalization;
 using System.Text;
 
+using Zorglub.Time.Core;
+
 /// <summary>
 /// Represents the NTP identifier of a server or a reference clock.
 /// <para><see cref="ReferenceId"/> is an immutable struct.</para>

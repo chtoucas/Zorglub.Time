@@ -3,6 +3,8 @@
 
 namespace Zorglub.Time
 {
+    using Zorglub.Time.Core;
+
     /// <summary>
     /// Represents a pair of a year and a month.
     /// <para>This type uses the lexicographic order on pairs (Year, Month).</para>

@@ -3,6 +3,8 @@
 
 namespace Zorglub.Testing;
 
+using System.Numerics;
+
 using Zorglub.Time.Hemerology;
 
 // Test aux limites.

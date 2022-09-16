@@ -762,11 +762,6 @@
           "Microsoft.NETCore.Targets": "1.1.0"
         }
       },
-      "System.Runtime.Experimental": {
-        "type": "Transitive",
-        "resolved": "6.0.2",
-        "contentHash": "YFw4XOgVaF9T8vT3V148ypGTm8PnEchW1eyq+7ssIh7fmr+6JY3oNFx5KivLSDC4ugNsAm7HqYPnQEpC0C/BXA=="
-      },
       "System.Runtime.Extensions": {
         "type": "Transitive",
         "resolved": "4.3.0",
@@ -1135,7 +1130,6 @@
       "zorglub.sketches": {
         "type": "Project",
         "dependencies": {
-          "System.Runtime.Experimental": "[6.0.2, )",
           "Zorglub.Time": "[0.0.0-DUMMY, )",
           "Zorglub.Time.Extras": "[0.0.0-DUMMY, )"
         }
@@ -1143,7 +1137,6 @@
       "zorglub.testing": {
         "type": "Project",
         "dependencies": {
-          "System.Runtime.Experimental": "[6.0.2, )",
           "Zorglub.Sketches": "[0.0.0-DUMMY, )",
           "Zorglub.Time": "[0.0.0-DUMMY, )",
           "Zorglub.Time.Extras": "[0.0.0-DUMMY, )",
@@ -1152,15 +1145,11 @@
         }
       },
       "Zorglub.Time": {
-        "type": "Project",
-        "dependencies": {
-          "System.Runtime.Experimental": "[6.0.2, )"
-        }
+        "type": "Project"
       },
       "Zorglub.Time.Extras": {
         "type": "Project",
         "dependencies": {
-          "System.Runtime.Experimental": "[6.0.2, )",
           "Zorglub.Time": "[0.0.0-DUMMY, )"
         }
       }
