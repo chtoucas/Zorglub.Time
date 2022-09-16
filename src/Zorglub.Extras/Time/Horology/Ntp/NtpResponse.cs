@@ -7,7 +7,7 @@ namespace Zorglub.Time.Horology.Ntp;
 /// Represents a response from an NTP server.
 /// <para>This class cannot be inherited.</para>
 /// </summary>
-public sealed record NtpResponse
+public sealed class NtpResponse
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="NtpResponse"/> class.
@@ -47,19 +47,19 @@ public sealed record NtpServerInfo
     /// Gets the leap indicator, warning of an impending leap second to be inserted/deleted in
     /// the last minute of the current day.
     /// </summary>
-    public LeapIndicator LeapIndicator { get; init; }
+    public required LeapIndicator LeapIndicator { get; init; }
 
     /// <summary>
     /// Gets the NTP version.
     /// <para>The result is in the range from 0 to 7.</para>
     /// </summary>
-    public int Version { get; init; }
+    public required int Version { get; init; }
 
     private readonly byte _stratumLevel;
     /// <summary>
     /// Gets the NTP stratum level.
     /// </summary>
-    public byte StratumLevel
+    public required byte StratumLevel
     {
         get => _stratumLevel;
         init
@@ -86,7 +86,7 @@ public sealed record NtpServerInfo
     /// Gets the log base 2 of the maximum interval between successive messages in seconds.
     /// <para>The result is in the range from -128 to 127.</para>
     /// </summary>
-    public int PollExponent { get; init; }
+    public required int PollExponent { get; init; }
 
     /// <summary>
     /// Gets the maximum interval between successive messages in seconds.
@@ -97,7 +97,7 @@ public sealed record NtpServerInfo
     /// Gets the log base 2 of the precision of the server clock in seconds.
     /// <para>The result is in the range from -128 to 127.</para>
     /// </summary>
-    public int PrecisionExponent { get; init; }
+    public required int PrecisionExponent { get; init; }
 
     /// <summary>
     /// Gets the precision of the server clock in seconds.
@@ -107,18 +107,18 @@ public sealed record NtpServerInfo
     /// <summary>
     /// Gets the round-trip delay (RTT) to the primary reference clock.
     /// </summary>
-    public Duration32 RoundTripTime { get; init; }
+    public required Duration32 RoundTripTime { get; init; }
 
     /// <summary>
     /// Gets the maximum error due to the clock frequency tolerance.
     /// </summary>
-    public Duration32 Dispersion { get; init; }
+    public required Duration32 Dispersion { get; init; }
 
     /// <summary>
     /// Gets the NTP identifier of the particular reference clock.
     /// <para>See also <seealso cref="NtpCode"/>.</para>
     /// </summary>
-    public ReferenceId ReferenceId { get; init; }
+    public required ReferenceId ReferenceId { get; init; }
 
     /// <summary>
     /// Gets the NTP code identifying the particular server or reference clock -or- a "kiss code".
@@ -128,7 +128,7 @@ public sealed record NtpServerInfo
     /// <summary>
     /// Gets the time the system clock was last set or corrected.
     /// </summary>
-    public Timestamp64 ReferenceTimestamp { get; init; }
+    public required Timestamp64 ReferenceTimestamp { get; init; }
 }
 
 /// <summary>
@@ -140,25 +140,25 @@ public sealed record NtpTimeInfo
     /// <summary>
     /// Gets the time at which the <i>client</i> sent the request, according to the client clock.
     /// </summary>
-    public Timestamp64 RequestTimestamp { get; init; }
+    public required Timestamp64 RequestTimestamp { get; init; }
 
     /// <summary>
     /// Gets the time at which the <i>server</i> received the request, according to the server
     /// clock.
     /// </summary>
-    public Timestamp64 ReceiveTimestamp { get; init; }
+    public required Timestamp64 ReceiveTimestamp { get; init; }
 
     /// <summary>
     /// Gets the time at which the <i>server</i> sent the response, according to the server
     /// clock.
     /// </summary>
-    public Timestamp64 TransmitTimestamp { get; init; }
+    public required Timestamp64 TransmitTimestamp { get; init; }
 
     /// <summary>
     /// Gets the time at which the <i>client</i> received the response, according to the client
     /// clock.
     /// </summary>
-    public Timestamp64 ResponseTimestamp { get; init; }
+    public required Timestamp64 ResponseTimestamp { get; init; }
 
     // OriginateTimestamp (T1):     request sent by the client
     // ReceiveTimestamp (T2):       request received by the server

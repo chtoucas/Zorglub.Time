@@ -79,7 +79,7 @@ public sealed class SntpClient
 
     private int _version = DefaultVersion;
     /// <summary>
-    /// Gets or sets the NTP version.
+    /// Gets or initializes the NTP version.
     /// </summary>
     public int Version
     {
@@ -114,11 +114,12 @@ public sealed class SntpClient
     }
 
     /// <summary>
-    /// Returns true if this instance checks that the version number found in the NTP response
-    /// matches <see cref="Version"/>; otherwise returns false.
+    /// Enables or disables the version check.
     /// <para>There are still old (or bogus?) NTP servers always returning 3, therefore the
     /// default behaviour is to not check the version number.</para>
     /// </summary>
+    /// <value>true if this instance checks that the version number found in the NTP response
+    /// matches <see cref="Version"/>; otherwise returns false.</value>
     // An NTP server may always return 3, e.g. "time.windows.com"
     // or "time.nist.gov".
     public bool EnableVersionCheck { get; set; }

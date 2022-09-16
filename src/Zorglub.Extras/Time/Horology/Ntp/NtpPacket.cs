@@ -53,22 +53,22 @@ internal readonly struct NtpPacket
     /// </summary>
     public const int TransmitTimestampOffset = 40;
 
-    public LeapIndicator LeapIndicator { get; private init; }
-    public byte Version { get; private init; }
-    public NtpMode Mode { get; private init; }
-    public byte StratumLevel { get; private init; }
+    public required LeapIndicator LeapIndicator { get; init; }
+    public required byte Version { get; init; }
+    public required NtpMode Mode { get; init; }
+    public required byte StratumLevel { get; init; }
 
-    public sbyte PollExponent { get; private init; }
-    public sbyte PrecisionExponent { get; private init; }
-    public Duration32 RootDelay { get; private init; }
-    public Duration32 RootDispersion { get; private init; }
+    public required sbyte PollExponent { get; init; }
+    public required sbyte PrecisionExponent { get; init; }
+    public required Duration32 RootDelay { get; init; }
+    public required Duration32 RootDispersion { get; init; }
 
-    public ReferenceId ReferenceId { get; private init; }
-    public Timestamp64 ReferenceTimestamp { get; private init; }
+    public required ReferenceId ReferenceId { get; init; }
+    public required Timestamp64 ReferenceTimestamp { get; init; }
 
-    public Timestamp64 OriginateTimestamp { get; private init; }
-    public Timestamp64 ReceiveTimestamp { get; private init; }
-    public Timestamp64 TransmitTimestamp { get; private init; }
+    public required Timestamp64 OriginateTimestamp { get; init; }
+    public required Timestamp64 ReceiveTimestamp { get; init; }
+    public required Timestamp64 TransmitTimestamp { get; init; }
 
     /// <summary>
     /// Reads an <see cref="NtpPacket"/> value from the beginning of a read-only span of bytes.

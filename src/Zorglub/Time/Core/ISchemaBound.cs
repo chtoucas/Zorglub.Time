@@ -13,6 +13,6 @@ namespace Zorglub.Time.Core
         /// <summary>
         /// Gets the underlying schema.
         /// </summary>
-        public ICalendricalSchema Schema { get; }
+        ICalendricalSchema Schema { get; }
     }
 }

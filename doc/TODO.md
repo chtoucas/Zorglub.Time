@@ -15,8 +15,8 @@ contains the name of the calendar, we can add specific methods). Proleptic is
 only a bit slower than Standard (> 0).
 
 - C# 11
-  - static virtual! checked ops.
-  - required
+  - checked ops.
+  - required for props.
 - Math:
   * Optimize div in N / uint in enum comp / ulong?
   * Profile: OtherRegular, Other7 (MinDaysInMonth >= 7)?
