@@ -20,10 +20,14 @@
     <DebugSymbols>true</DebugSymbols>
     <TieredCompilation>false</TieredCompilation>
 
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+
     <!--
+      CA1303    Do not pass literals as localized parameters (Globalization)
+      CA1707    Identifiers should not contain underscores (Naming)
       CA1822    Mark members as static (Performance)
     -->
-    <NoWarn>$(NoWarn);CA1822</NoWarn>
+    <NoWarn>$(NoWarn);CA1303;CA1707;CA1822</NoWarn>
   </PropertyGroup>
 
   <!-- Using's -->
