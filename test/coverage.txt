@@ -1,16 +1,22 @@
 ﻿Summary
-  Generated on: 15/08/2022 - 11:07:29
+  Generated on: 16/09/2022 - 09:21:51
   Parser: OpenCover
   Assemblies: 2
-  Classes: 170
-  Files: 136
-  Line coverage: 97.2%
-  Covered lines: 8240
-  Uncovered lines: 231
-  Coverable lines: 8471
-  Total lines: 32027
+  Classes: 182
+  Files: 144
+  Line coverage: 93.4%
+  Covered lines: 8289
+  Uncovered lines: 582
+  Coverable lines: 8871
+  Total lines: 33556
+  Branch coverage: 91.7% (2181 of 2376)
+  Covered branches: 2181
+  Total branches: 2376
+  Method coverage: 95% (2801 of 2946)
+  Covered methods: 2801
+  Total methods: 2946
 
-Zorglub.Time                                               96.5%
+Zorglub.Time                                               91.7%
   Zorglub.Time.AdditionRuleset                            100.0%
   Zorglub.Time.CalendarIdExtensions                       100.0%
   Zorglub.Time.Core.Arithmetic.GregorianSystemArithmetic  100.0%
@@ -29,7 +35,7 @@ Zorglub.Time                                               96.5%
   Zorglub.Time.Core.Intervals.Interval                    100.0%
   Zorglub.Time.Core.Intervals.LowerRay                    100.0%
   Zorglub.Time.Core.Intervals.LowerRay<T>                 100.0%
-  Zorglub.Time.Core.Intervals.Range                       100.0%
+  Zorglub.Time.Core.Intervals.Range                        70.4%
   Zorglub.Time.Core.Intervals.Range<T>                    100.0%
   Zorglub.Time.Core.Intervals.RangeSet                    100.0%
   Zorglub.Time.Core.Intervals.RangeSet<T>                 100.0%
@@ -53,7 +59,7 @@ Zorglub.Time                                               96.5%
   Zorglub.Time.Core.SystemArithmetic                      100.0%
   Zorglub.Time.Core.SystemSchema                          100.0%
   Zorglub.Time.Core.SystemSegment                         100.0%
-  Zorglub.Time.Core.TemporalArithmetic                    100.0%
+  Zorglub.Time.Core.TemporalArithmetic                     83.3%
   Zorglub.Time.Core.Utilities.Box                         100.0%
   Zorglub.Time.Core.Utilities.Box<T>                      100.0%
   Zorglub.Time.Core.Utilities.MathN                       100.0%
@@ -84,11 +90,12 @@ Zorglub.Time                                               96.5%
   Zorglub.Time.Core.Yemox                                 100.0%
   Zorglub.Time.DateParts                                  100.0%
   Zorglub.Time.DayNumber                                  100.0%
-  Zorglub.Time.DayZero                                    100.0%
+  Zorglub.Time.DayZero                                     95.0%
   Zorglub.Time.Extensions.Unboxing                        100.0%
-  Zorglub.Time.Hemerology.BasicCalendar                   100.0%
-  Zorglub.Time.Hemerology.CalendarEpoch                   100.0%
-  Zorglub.Time.Hemerology.MinMaxYearCalendar              100.0%
+  Zorglub.Time.Hemerology.BasicCalendar<T>                100.0%
+  Zorglub.Time.Hemerology.BoundedBelowBasicCalendar         0.0%
+  Zorglub.Time.Hemerology.MinMaxYearBasicCalendar         100.0%
+  Zorglub.Time.Hemerology.Scopes.BoundedBelowScope         37.5%
   Zorglub.Time.Hemerology.Scopes.CalendarScope            100.0%
   Zorglub.Time.Hemerology.Scopes.GregorianProlepticScope  100.0%
   Zorglub.Time.Hemerology.Scopes.GregorianStandardScope   100.0%
@@ -96,11 +103,15 @@ Zorglub.Time                                               96.5%
   Zorglub.Time.Hemerology.Scopes.ProlepticScope           100.0%
   Zorglub.Time.Hemerology.Scopes.StandardScope            100.0%
   Zorglub.Time.Hemerology.YearNumbering                   100.0%
+  Zorglub.Time.Horology.LocalSystemClock                   40.0%
+  Zorglub.Time.Horology.SystemClocks                      100.0%
+  Zorglub.Time.Horology.UtcSystemClock                     13.3%
   Zorglub.Time.IsoWeekdayExtensions                       100.0%
+  Zorglub.Time.Moment                                      50.0%
   Zorglub.Time.MonthParts                                 100.0%
   Zorglub.Time.Ord                                        100.0%
   Zorglub.Time.OrdinalParts                               100.0%
-  Zorglub.Time.Simple.ArmenianSimpleCalendar              100.0%
+  Zorglub.Time.Simple.ArmenianSimpleCalendar               88.8%
   Zorglub.Time.Simple.BoxExtensions                       100.0%
   Zorglub.Time.Simple.CalendarDate                        100.0%
   Zorglub.Time.Simple.CalendarDateAdjusters               100.0%
@@ -111,33 +122,40 @@ Zorglub.Time                                               96.5%
   Zorglub.Time.Simple.CalendarMath                        100.0%
   Zorglub.Time.Simple.CalendarMonth                       100.0%
   Zorglub.Time.Simple.CalendarYear                        100.0%
-  Zorglub.Time.Simple.CopticSimpleCalendar                100.0%
+  Zorglub.Time.Simple.CivilSimpleCalendar                  95.0%
+  Zorglub.Time.Simple.CopticSimpleCalendar                 88.8%
   Zorglub.Time.Simple.CuidExtensions                      100.0%
-  Zorglub.Time.Simple.EthiopicSimpleCalendar              100.0%
-  Zorglub.Time.Simple.GregorianSimpleCalendar             100.0%
-  Zorglub.Time.Simple.JulianSimpleCalendar                100.0%
+  Zorglub.Time.Simple.EthiopicSimpleCalendar               88.8%
+  Zorglub.Time.Simple.GregorianSimpleCalendar              95.0%
+  Zorglub.Time.Simple.JulianSimpleCalendar                 95.0%
   Zorglub.Time.Simple.OrdinalDate                         100.0%
   Zorglub.Time.Simple.OrdinalDateAdjusters                100.0%
   Zorglub.Time.Simple.OrdinalDateProviders                100.0%
   Zorglub.Time.Simple.PlainMath                           100.0%
   Zorglub.Time.Simple.PowerMath                            54.0%
+  Zorglub.Time.Simple.RangeExtensions                       0.0%
   Zorglub.Time.Simple.RegularMath                         100.0%
-  Zorglub.Time.Simple.SimpleCalendar                      100.0%
-  Zorglub.Time.Simple.SimpleCatalog                        92.4%
+  Zorglub.Time.Simple.SimpleCalendar                       98.9%
+  Zorglub.Time.Simple.SimpleCatalog                        92.5%
+  Zorglub.Time.Simple.SimpleClock                          39.5%
   Zorglub.Time.Simple.SimpleRegistry                      100.0%
-  Zorglub.Time.Simple.TabularIslamicSimpleCalendar        100.0%
-  Zorglub.Time.Simple.ZoroastrianSimpleCalendar           100.0%
+  Zorglub.Time.Simple.TabularIslamicSimpleCalendar         87.5%
+  Zorglub.Time.Simple.ZoroastrianSimpleCalendar            88.8%
   Zorglub.Time.Specialized.CivilAdjuster                  100.0%
   Zorglub.Time.Specialized.CivilCalendar                  100.0%
+  Zorglub.Time.Specialized.CivilClock                       0.0%
   Zorglub.Time.Specialized.CivilDate                      100.0%
   Zorglub.Time.Specialized.GregorianAdjuster              100.0%
   Zorglub.Time.Specialized.GregorianCalendar              100.0%
+  Zorglub.Time.Specialized.GregorianClock                   0.0%
   Zorglub.Time.Specialized.GregorianDate                  100.0%
   Zorglub.Time.Specialized.JulianAdjuster                 100.0%
   Zorglub.Time.Specialized.JulianCalendar                 100.0%
+  Zorglub.Time.Specialized.JulianClock                      0.0%
   Zorglub.Time.Specialized.JulianDate                     100.0%
   Zorglub.Time.Specialized.SpecialAdjuster<T>             100.0%
   Zorglub.Time.Specialized.SpecialCalendar<T>             100.0%
+  Zorglub.Time.TimeOfDay                                   41.1%
 
 Zorglub.Time.Extras                                       100.0%
   Zorglub.Time.Core.Schemas.Coptic13Schema                100.0%
