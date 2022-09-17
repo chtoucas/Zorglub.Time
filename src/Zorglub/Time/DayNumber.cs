@@ -14,11 +14,9 @@ using Zorglub.Time.Hemerology;
 // TODO(api): .NET 7.0 unchecked ops.
 // Explain why DayNumber does not keep track of the underlying time scale.
 
-/// <summary>
-/// Represents a day number which counts the number of consecutive days since the Monday 1st of
-/// January, 1 CE within the Gregorian calendar.
-/// <para><see cref="DayNumber"/> is an immutable struct.</para>
-/// </summary>
+/// <summary>Represents a day number which counts the number of consecutive days since the Monday
+/// 1st of January, 1 CE within the Gregorian calendar.</summary>
+/// <remarks><see cref="DayNumber"/> is an immutable struct.</remarks>
 public readonly partial struct DayNumber :
     IFixedDay<DayNumber>,
     // Comparison
@@ -37,18 +35,14 @@ public readonly partial struct DayNumber :
     // Another reason: constructing a day number requires a "daysSinceEpoch"
     // and I like the fact that we can validate its value before.
 
-    /// <summary>
-    /// Represents the smallest possible value of the count of consecutive days since
-    /// <see cref="Zero"/>.
-    /// <para>This field is a constant equal to -2_147_483_647.</para>
-    /// </summary>
+    /// <summary>Represents the smallest possible value of the count of consecutive days since
+    /// <see cref="Zero"/>.</summary>
+    /// <remarks>This field is a constant equal to -2_147_483_647.</remarks>
     public const int MinDaysSinceZero = Int32.MinValue + 1;
 
-    /// <summary>
-    /// Represents the largest possible value of the count of consecutive days since
-    /// <see cref="Zero"/>.
-    /// <para>This field is a constant equal to 2_147_483_646.</para>
-    /// </summary>
+    /// <summary>Represents the largest possible value of the count of consecutive days since
+    /// <see cref="Zero"/>.</summary>
+    /// <remarks>This field is a constant equal to 2_147_483_646.</remarks>
     public const int MaxDaysSinceZero = Int32.MaxValue - 1;
 
     #region Gregorian/Julian
@@ -59,16 +53,12 @@ public readonly partial struct DayNumber :
     // To simplify we use the same values for the min and max years in both
     // Gregorian and Julian cases.
 
-    /// <summary>
-    /// Represents the earliest supported <i>Gregorian</i> or <i>Julian</i> year.
-    /// <para>This field is a constant equal to -4_999_999.</para>
-    /// </summary>
+    /// <summary>Represents the earliest supported <i>Gregorian</i> or <i>Julian</i> year.</summary>
+    /// <remarks>This field is a constant equal to -4_999_999.</remarks>
     public const int MinSupportedYear = -4_999_999;
 
-    /// <summary>
-    /// Represents the latest supported <i>Gregorian</i> or <i>Julian</i> year.
-    /// <para>This field is a constant equal to 5_000_000.</para>
-    /// </summary>
+    /// <summary>Represents the latest supported <i>Gregorian</i> or <i>Julian</i> year.</summary>
+    /// <remarks>This field is a constant equal to 5_000_000.</remarks>
     public const int MaxSupportedYear = 5_000_000;
 
     #endregion
@@ -81,17 +71,15 @@ public readonly partial struct DayNumber :
     /// <summary>
     /// Represents the smallest possible Gregorian value of the count of consecutive days since
     /// <see cref="Zero"/>.
-    /// <para>This field is a constant equal to -1_826_212_500.</para>
+    /// <remarks>This field is a constant equal to -1_826_212_500.</remarks>
     /// </summary>
     // To obtain MinGregorianDaysSinceZero, compute
     //   DayNumber.FromGregorianParts(DayNumber.MinSupportedYear, 1, 1);
     private const int MinGregorianDaysSinceZero = -1_826_212_500;
 
-    /// <summary>
-    /// Represents the largest possible value of the Gregorian count of consecutive days since
-    /// <see cref="Zero"/>.
-    /// <para>This field is a constant equal to 1_826_212_499.</para>
-    /// </summary>
+    /// <summary>Represents the largest possible value of the Gregorian count of consecutive days
+    /// since <see cref="Zero"/>.</summary>
+    /// <remarks>This field is a constant equal to 1_826_212_499.</remarks>
     // To obtain MaxGregorianDaysSinceZero, compute
     //   MaxGregorianDayNumber = DayNumber.FromGregorianParts(DayNumber.MaxSupportedYear, 12, 31);
     private const int MaxGregorianDaysSinceZero = 1_826_212_499;
@@ -110,37 +98,29 @@ public readonly partial struct DayNumber :
     private static readonly DayNumber s_MinGregorianValue = new(MinGregorianDaysSinceZero);
     private static readonly DayNumber s_MaxGregorianValue = new(MaxGregorianDaysSinceZero);
 
-    /// <summary>
-    /// Gets the range of supported Gregorian values for a <see cref="DayNumber"/>.
-    /// <para>This static property is thread-safe.</para>
-    /// </summary>
+    /// <summary>Gets the range of supported Gregorian values for a <see cref="DayNumber"/>.</summary>
+    /// <remarks>This static property is thread-safe.</remarks>
     public static Range<DayNumber> GregorianDomain =>
         Range.CreateLeniently(s_MinGregorianValue, s_MaxGregorianValue);
 
     #endregion
     #region Julian
 
-    /// <summary>
-    /// Represents the smallest possible Julian value of the count of consecutive days since
-    /// <see cref="Zero"/>.
-    /// <para>This field is a constant equal to -1_826_250_002.</para>
-    /// </summary>
+    /// <summary>Represents the smallest possible Julian value of the count of consecutive days
+    /// since <see cref="Zero"/>.</summary>
+    /// <remarks>This field is a constant equal to -1_826_250_002.</remarks>
     private const int MinJulianDaysSinceZero = -1_826_250_002;
 
-    /// <summary>
-    /// Represents the largest possible value of the Julian count of consecutive days since
-    /// <see cref="Zero"/>.
-    /// <para>This field is a constant equal to 1_826_249_997.</para>
-    /// </summary>
+    /// <summary>Represents the largest possible value of the Julian count of consecutive days since
+    /// <see cref="Zero"/>.</summary>
+    /// <remarks>This field is a constant equal to 1_826_249_997.</remarks>
     private const int MaxJulianDaysSinceZero = 1_826_249_997;
 
     private static readonly DayNumber s_MinJulianValue = new(MinJulianDaysSinceZero);
     private static readonly DayNumber s_MaxJulianValue = new(MaxJulianDaysSinceZero);
 
-    /// <summary>
-    /// Gets the range of supported Julian values for a <see cref="DayNumber"/>.
-    /// <para>This static property is thread-safe.</para>
-    /// </summary>
+    /// <summary>Gets the range of supported Julian values for a <see cref="DayNumber"/>.</summary>
+    /// <remarks>This static property is thread-safe.</remarks>
     public static Range<DayNumber> JulianDomain =>
         Range.CreateLeniently(s_MinJulianValue, s_MaxJulianValue);
 
@@ -150,19 +130,17 @@ public readonly partial struct DayNumber :
     // method call? but it should not be for arithmetic ops, they may
     // overflow.
 
-    /// <summary>
-    /// Represents the count of consecutive days since <see cref="Zero"/>.
+    /// <summary>Represents the count of consecutive days since <see cref="Zero"/>.</summary>
+    /// <remarks>
     /// <para>This field is in the range from <see cref="MinDaysSinceZero"/> to
     /// <see cref="MaxDaysSinceZero"/>.</para>
     /// <para>This field is read-only.</para>
-    /// </summary>
+    /// </remarks>
     private readonly int _daysSinceZero;
 
-    /// <summary>
-    /// Initializes a new instance of the <see cref="DayNumber"/> struct from the specified
-    /// count of consecutive days since <see cref="Zero"/>.
-    /// <para>This constructor does NOT validate its parameter.</para>
-    /// </summary>
+    /// <summary>Initializes a new instance of the <see cref="DayNumber"/> struct from the specified
+    /// count of consecutive days since <see cref="Zero"/>.</summary>
+    /// <remarks>This constructor does NOT validate its parameter.</remarks>
     internal DayNumber(int daysSinceZero)
     {
         Debug.Assert(daysSinceZero >= MinDaysSinceZero);
@@ -171,64 +149,50 @@ public readonly partial struct DayNumber :
         _daysSinceZero = daysSinceZero;
     }
 
-    /// <summary>
-    /// Gets the origin of the day numbering system.
+    /// <summary>Gets the origin of the day numbering system.</summary>
+    /// <remarks>
     /// <para>The Monday 1st of January, 1 CE within the Gregorian calendar.</para>
     /// <para>This static property is thread-safe.</para>
     /// <para>See also <seealso cref="DayZero.NewStyle"/>.</para>
-    /// </summary>
+    /// </remarks>
     public static DayNumber Zero { get; }
 
-    /// <summary>
-    /// Gets the smallest possible value of a <see cref="DayNumber"/>.
-    /// <para>This static property is thread-safe.</para>
-    /// </summary>
+    /// <summary>Gets the smallest possible value of a <see cref="DayNumber"/>.</summary>
+    /// <remarks>This static property is thread-safe.</remarks>
     // The minimum value has been chosen such that its properties do not
     // overflow, e.g. DayNumber.MinValue.Ordinal = Ord.MinValue.
     public static DayNumber MinValue { get; } = new(MinDaysSinceZero);
 
-    /// <summary>
-    /// Gets the largest possible value of a <see cref="DayNumber"/>.
-    /// <para>This static property is thread-safe.</para>
-    /// </summary>
+    /// <summary>Gets the largest possible value of a <see cref="DayNumber"/>.</summary>
+    /// <remarks>This static property is thread-safe.</remarks>
     // The maximum value has been chosen such that its properties do not
     // overflow, e.g. DayNumber.MaxValue.Ordinal = Ord.MaxValue.
     public static DayNumber MaxValue { get; } = new(MaxDaysSinceZero);
 
     DayNumber IFixedDay.DayNumber => this;
 
-    /// <summary>
-    /// Gets the count of consecutive days since <see cref="Zero"/>.
-    /// <para>The result is in the range from <see cref="MinDaysSinceZero"/> to
-    /// <see cref="MaxDaysSinceZero"/>.</para>
-    /// </summary>
+    /// <summary>Gets the count of consecutive days since <see cref="Zero"/>.</summary>
+    /// <remarks>The result is in the range from <see cref="MinDaysSinceZero"/> to
+    /// <see cref="MaxDaysSinceZero"/>.</remarks>
     public int DaysSinceZero => _daysSinceZero;
 
-    /// <summary>
-    /// Gets the count of consecutive days since <see cref="Zero"/>.
-    /// <para>The result is in the range from <see cref="MinDaysSinceZero"/> to
-    /// <see cref="MaxDaysSinceZero"/>.</para>
-    /// </summary>
+    /// <summary>Gets the count of consecutive days since <see cref="Zero"/>.</summary>
+    /// <remarks>The result is in the range from <see cref="MinDaysSinceZero"/> to
+    /// <see cref="MaxDaysSinceZero"/>.</remarks>
     int IFixedDay.DaysSinceEpoch => _daysSinceZero;
 
-    /// <summary>
-    /// Gets the ordinal numeral from this instance.
-    /// </summary>
+    /// <summary>Gets the ordinal numeral from this instance.</summary>
     public Ord Ordinal => Ord.First + _daysSinceZero;
 
-    /// <summary>
-    /// Gets the day of the week.
-    /// </summary>
+    /// <summary>Gets the day of the week.</summary>
     public DayOfWeek DayOfWeek =>
         // Zero is a Monday.
         (DayOfWeek)MathZ.Modulo(
             (int)DayOfWeek.Monday + _daysSinceZero,
             CalendricalConstants.DaysInWeek);
 
-    /// <summary>
-    /// Converts the current instance to its equivalent string representation using the
-    /// formatting conventions of the current culture.
-    /// </summary>
+    /// <summary>Converts the current instance to its equivalent string representation using the
+    /// formatting conventions of the current culture.</summary>
     [Pure]
     public override string ToString() => _daysSinceZero.ToString(CultureInfo.CurrentCulture);
 }
@@ -237,10 +201,8 @@ public partial struct DayNumber
 {
     #region Gregorian conversions
 
-    /// <summary>
-    /// Creates a new instance of <see cref="DayNumber"/> from the specified Gregorian date
-    /// parts.
-    /// </summary>
+    /// <summary>Creates a new instance of <see cref="DayNumber"/> from the specified Gregorian date
+    /// parts.</summary>
     /// <exception cref="AoorException">The given parts are outside the range of supported years
     /// or do not represent a valid Gregorian date.</exception>
     [Pure]
@@ -253,12 +215,10 @@ public partial struct DayNumber
         return new DayNumber(daysSinceZero);
     }
 
-    /// <summary>
-    /// Creates a new instance of <see cref="DayNumber"/> from the specified Gregorian ordinal
-    /// date parts.
-    /// </summary>
-    /// <exception cref="AoorException">The given parts are outside the range of supported
-    /// years or do not represent a valid Gregorian ordinal date.</exception>
+    /// <summary>Creates a new instance of <see cref="DayNumber"/> from the specified Gregorian
+    /// ordinal date parts.</summary>
+    /// <exception cref="AoorException">The given parts are outside the range of supported years or
+    /// do not represent a valid Gregorian ordinal date.</exception>
     [Pure]
     public static DayNumber FromGregorianOrdinalParts(int year, int dayOfYear)
     {
@@ -270,9 +230,7 @@ public partial struct DayNumber
         return new DayNumber(daysSinceZero);
     }
 
-    /// <summary>
-    /// Obtains the Gregorian date parts of the current instance.
-    /// </summary>
+    /// <summary>Obtains the Gregorian date parts of the current instance.</summary>
     /// <exception cref="OverflowException">The operation would overflow the range of supported
     /// dates.</exception>
     [Pure]
@@ -284,9 +242,7 @@ public partial struct DayNumber
         return new DateParts((int)y, m, d);
     }
 
-    /// <summary>
-    /// Obtains the Gregorian ordinal date parts of the current instance.
-    /// </summary>
+    /// <summary>Obtains the Gregorian ordinal date parts of the current instance.</summary>
     /// <exception cref="OverflowException">The operation would overflow the range of supported
     /// ordinal dates.</exception>
     [Pure]
@@ -304,9 +260,7 @@ public partial struct DayNumber
         return new OrdinalParts(y, doy);
     }
 
-    /// <summary>
-    /// Obtains the Gregorian year of the current instance.
-    /// </summary>
+    /// <summary>Obtains the Gregorian year of the current instance.</summary>
     /// <exception cref="OverflowException">The operation would overflow the range of supported
     /// years.</exception>
     [Pure]
@@ -323,9 +277,8 @@ public partial struct DayNumber
     // This is DayZero.OldStyle - DayNumber.NewStyle.
     private const int DaysFromJulianEpochToZero = 2;
 
-    /// <summary>
-    /// Creates a new instance of <see cref="DayNumber"/> from the specified Julian date parts.
-    /// </summary>
+    /// <summary>Creates a new instance of <see cref="DayNumber"/> from the specified Julian date
+    /// parts.</summary>
     /// <exception cref="AoorException">The given parts are outside the range of supported years
     /// or do not represent a valid Julian date.</exception>
     [Pure]
@@ -339,12 +292,10 @@ public partial struct DayNumber
         return new DayNumber(daysSinceZero);
     }
 
-    /// <summary>
-    /// Creates a new instance of <see cref="DayNumber"/> from the specified Julian ordinal
-    /// date parts.
-    /// </summary>
-    /// <exception cref="AoorException">The given parts are outside the range of supported
-    /// years or do not represent a valid Julian ordinal date.</exception>
+    /// <summary>Creates a new instance of <see cref="DayNumber"/> from the specified Julian ordinal
+    /// date parts.</summary>
+    /// <exception cref="AoorException">The given parts are outside the range of supported years or
+    /// do not represent a valid Julian ordinal date.</exception>
     [Pure]
     public static DayNumber FromJulianOrdinalParts(int year, int dayOfYear)
     {
@@ -356,9 +307,7 @@ public partial struct DayNumber
         return new DayNumber(daysSinceZero);
     }
 
-    /// <summary>
-    /// Obtains the Julian date parts of the current instance.
-    /// </summary>
+    /// <summary>Obtains the Julian date parts of the current instance.</summary>
     /// <exception cref="OverflowException">The operation would overflow the range of supported
     /// dates.</exception>
     [Pure]
@@ -371,9 +320,7 @@ public partial struct DayNumber
         return new DateParts((int)y, m, d);
     }
 
-    /// <summary>
-    /// Obtains the Julian ordinal date parts of the current instance.
-    /// </summary>
+    /// <summary>Obtains the Julian ordinal date parts of the current instance.</summary>
     /// <exception cref="OverflowException">The operation would overflow the range of supported
     /// ordinal dates.</exception>
     [Pure]
@@ -387,9 +334,7 @@ public partial struct DayNumber
         return new OrdinalParts(y, doy);
     }
 
-    /// <summary>
-    /// Obtains the Julian year of the current instance.
-    /// </summary>
+    /// <summary>Obtains the Julian year of the current instance.</summary>
     /// <exception cref="OverflowException">The operation would overflow the range of supported
     /// years.</exception>
     [Pure]
@@ -404,17 +349,14 @@ public partial struct DayNumber
     #endregion
     #region Gregorian/Julian validation helpers
 
-    /// <summary>
-    /// Validates the specified Gregorian or Julian year.
-    /// </summary>
+    /// <summary>Validates the specified Gregorian or Julian year.</summary>
     /// <exception cref="AoorException">The validation failed.</exception>
     private static void ValidateYear(int year)
     {
         if (year < MinSupportedYear || year > MaxSupportedYear) Throw.YearOutOfRange(year);
     }
 
-    /// <summary>
-    /// Checks that the operation does not overflow the range of supported Gregorian values.
+    /// <summary>Checks that the operation does not overflow the range of supported Gregorian values.
     /// </summary>
     /// <exception cref="OverflowException">The operation would overflow the range of supported
     /// Gregorian values.</exception>
@@ -427,8 +369,7 @@ public partial struct DayNumber
         }
     }
 
-    /// <summary>
-    /// Checks that the operation does not overflow the range of supported Julian values.
+    /// <summary>Checks that the operation does not overflow the range of supported Julian values.
     /// </summary>
     /// <exception cref="OverflowException">The operation would overflow the range of supported
     /// Julian values.</exception>
@@ -447,12 +388,10 @@ public partial struct DayNumber // Adjust the day of the week
 {
     private static readonly DayNumber s_ThreeDaysBeforeMaxValue = MaxValue - 3;
 
-    /// <summary>
-    /// Obtains the day number before the current instance that falls on the specified day of
-    /// the week.
-    /// </summary>
-    /// <exception cref="AoorException"><paramref name="dayOfWeek"/> is not a valid day of the
-    /// week.</exception>
+    /// <summary>Obtains the day number before the current instance that falls on the specified day
+    /// of the week.</summary>
+    /// <exception cref="AoorException"><paramref name="dayOfWeek"/> is not a valid day of the week.
+    /// </exception>
     /// <exception cref="OverflowException">The operation would overflow the capacity of
     /// <see cref="Int32"/>.</exception>
     [Pure]
@@ -464,14 +403,12 @@ public partial struct DayNumber // Adjust the day of the week
         return this + (δ >= 0 ? δ - CalendricalConstants.DaysInWeek : δ);
     }
 
-    /// <summary>
-    /// Obtains the day number on or before the current instance that falls on the specified day
-    /// of the week.
-    /// <para>If the day number already falls on the given day of the week, returns the current
-    /// instance.</para>
-    /// </summary>
-    /// <exception cref="AoorException"><paramref name="dayOfWeek"/> is not a valid day of the
-    /// week.</exception>
+    /// <summary>Obtains the day number on or before the current instance that falls on the
+    /// specified day of the week.</summary>
+    /// <remarks>If the day number already falls on the given day of the week, returns the current
+    /// instance.</remarks>
+    /// <exception cref="AoorException"><paramref name="dayOfWeek"/> is not a valid day of the week.
+    /// </exception>
     /// <exception cref="OverflowException">The operation would overflow the capacity of
     /// <see cref="Int32"/>.</exception>
     [Pure]
@@ -483,11 +420,10 @@ public partial struct DayNumber // Adjust the day of the week
         return δ == 0 ? this : this + (δ > 0 ? δ - CalendricalConstants.DaysInWeek : δ);
     }
 
-    /// <summary>
-    /// Obtains the nearest day number that falls on the specified day of the week.
+    /// <summary>Obtains the nearest day number that falls on the specified day of the week.
     /// </summary>
-    /// <exception cref="AoorException"><paramref name="dayOfWeek"/> is not a valid day of the
-    /// week.</exception>
+    /// <exception cref="AoorException"><paramref name="dayOfWeek"/> is not a valid day of the week.
+    /// </exception>
     /// <exception cref="OverflowException">The operation would overflow the range of supported
     /// values.</exception>
     [Pure]
@@ -499,14 +435,12 @@ public partial struct DayNumber // Adjust the day of the week
         ? NextOrSameCore(this, dayOfWeek, -3, 0)
         : PreviousOrSameCore(this, dayOfWeek, 3, 0);
 
-    /// <summary>
-    /// Obtains the day number on or after the current instance that falls on the specified day
-    /// of the week.
-    /// <para>If the day number already falls on the given day of the week, returns the current
-    /// instance.</para>
-    /// </summary>
-    /// <exception cref="AoorException"><paramref name="dayOfWeek"/> is not a valid day of the
-    /// week.</exception>
+    /// <summary>Obtains the day number on or after the current instance that falls on the specified
+    /// day of the week.</summary>
+    /// <remarks>If the day number already falls on the given day of the week, returns the current
+    /// instance.</remarks>
+    /// <exception cref="AoorException"><paramref name="dayOfWeek"/> is not a valid day of the week.
+    /// </exception>
     /// <exception cref="OverflowException">The operation would overflow the capacity of
     /// <see cref="Int32"/>.</exception>
     [Pure]
@@ -518,12 +452,10 @@ public partial struct DayNumber // Adjust the day of the week
         return δ == 0 ? this : this + (δ < 0 ? δ + CalendricalConstants.DaysInWeek : δ);
     }
 
-    /// <summary>
-    /// Obtains the day number after the current instance that falls on the specified day of
-    /// the week.
-    /// </summary>
-    /// <exception cref="AoorException"><paramref name="dayOfWeek"/> is not a valid day of the
-    /// week.</exception>
+    /// <summary>Obtains the day number after the current instance that falls on the specified day
+    /// of the week.</summary>
+    /// <exception cref="AoorException"><paramref name="dayOfWeek"/> is not a valid day of the week.
+    /// </exception>
     /// <exception cref="OverflowException">The operation would overflow the capacity of
     /// <see cref="Int32"/>.</exception>
     [Pure]
@@ -554,7 +486,9 @@ public partial struct DayNumber // Adjust the day of the week
         {
             daysSinceZero = dayNumber.DaysSinceZero + dayShift;
             // DayNumber.Zero is a Monday.
-            daysSinceZero -= MathZ.Modulo(daysSinceZero + (DayOfWeek.Monday - dayOfWeek), CalendricalConstants.DaysInWeek);
+            daysSinceZero -= MathZ.Modulo(
+                daysSinceZero + (DayOfWeek.Monday - dayOfWeek),
+                CalendricalConstants.DaysInWeek);
             daysSinceZero -= CalendricalConstants.DaysInWeek * weeks;
         }
 
@@ -576,7 +510,9 @@ public partial struct DayNumber // Adjust the day of the week
         {
             daysSinceZero = dayNumber.DaysSinceZero + dayShift;
             // DayNumber.Zero is a Monday.
-            daysSinceZero += MathZ.Modulo(-daysSinceZero - (DayOfWeek.Monday - dayOfWeek), CalendricalConstants.DaysInWeek);
+            daysSinceZero += MathZ.Modulo(
+                -daysSinceZero - (DayOfWeek.Monday - dayOfWeek),
+                CalendricalConstants.DaysInWeek);
             daysSinceZero += CalendricalConstants.DaysInWeek * weeks;
         }
 
@@ -586,15 +522,11 @@ public partial struct DayNumber // Adjust the day of the week
 
 public partial struct DayNumber // IEquatable
 {
-    /// <summary>
-    /// Determines whether two specified instances of <see cref="DayNumber"/> are equal.
-    /// </summary>
+    /// <inheritdoc />
     public static bool operator ==(DayNumber left, DayNumber right) =>
         left._daysSinceZero == right._daysSinceZero;
 
-    /// <summary>
-    /// Determines whether two specified instances of <see cref="DayNumber"/> are not equal.
-    /// </summary>
+    /// <inheritdoc />
     public static bool operator !=(DayNumber left, DayNumber right) =>
         left._daysSinceZero != right._daysSinceZero;
 
@@ -614,49 +546,31 @@ public partial struct DayNumber // IEquatable
 
 public partial struct DayNumber // IComparable
 {
-    /// <summary>
-    /// Compares the two specified day numbers to see if the left one is strictly earlier than
-    /// the right one.
-    /// </summary>
+    /// <inheritdoc />
     public static bool operator <(DayNumber left, DayNumber right) =>
         left._daysSinceZero < right._daysSinceZero;
 
-    /// <summary>
-    /// Compares the two specified day numbers to see if the left one is earlier than or equal
-    /// to the right one.
-    /// </summary>
+    /// <inheritdoc />
     public static bool operator <=(DayNumber left, DayNumber right) =>
         left._daysSinceZero <= right._daysSinceZero;
 
-    /// <summary>
-    /// Compares the two specified day numbers to see if the left one is strictly later than the
-    /// right one.
-    /// </summary>
+    /// <inheritdoc />
     public static bool operator >(DayNumber left, DayNumber right) =>
         left._daysSinceZero > right._daysSinceZero;
 
-    /// <summary>
-    /// Compares the two specified day numbers to see if the left one is later than or equal to
-    /// the right one.
-    /// </summary>
+    /// <inheritdoc />
     public static bool operator >=(DayNumber left, DayNumber right) =>
         left._daysSinceZero >= right._daysSinceZero;
 
-    /// <summary>
-    /// Obtains the earlier day of two specified day numbers.
-    /// </summary>
+    /// <summary>Obtains the earlier day of two specified day numbers.</summary>
     [Pure]
     public static DayNumber Min(DayNumber x, DayNumber y) => x < y ? x : y;
 
-    /// <summary>
-    /// Obtains the later day of two specified day numbers.
-    /// </summary>
+    /// <summary>Obtains the later day of two specified day numbers.</summary>
     [Pure]
     public static DayNumber Max(DayNumber x, DayNumber y) => x > y ? x : y;
 
-    /// <summary>
-    /// Indicates whether this day number is earlier, later or the same as the specified one.
-    /// </summary>
+    /// <inheritdoc />
     [Pure]
     public int CompareTo(DayNumber other) => _daysSinceZero.CompareTo(other._daysSinceZero);
 
@@ -673,19 +587,17 @@ public partial struct DayNumber // Math ops
 #pragma warning disable CA2225 // Operator overloads have named alternates (Usage) ✓
     // Friendly alternates do exist but use domain-specific names.
 
-    /// <summary>
-    /// Subtracts the two specified day numbers and returns the number of days between them.
+    /// <summary>Subtracts the two specified day numbers and returns the number of days between them.
     /// </summary>
     /// <exception cref="OverflowException">The operation would overflow the capacity of
     /// <see cref="Int32"/>.</exception>
     public static int operator -(DayNumber left, DayNumber right) =>
         checked(left._daysSinceZero - right._daysSinceZero);
 
-    /// <summary>
-    /// Adds a number of days to a specified day number, yielding a new day number.
+    /// <summary>Adds a number of days to a specified day number, yielding a new day number.
     /// </summary>
-    /// <exception cref="OverflowException">The operation would overflow the earliest or the
-    /// latest supported day numbers.</exception>
+    /// <exception cref="OverflowException">The operation would overflow the earliest or the latest
+    /// supported day numbers.</exception>
     public static DayNumber operator +(DayNumber value, int days)
     {
         int newDays = checked(value._daysSinceZero + days);
@@ -696,11 +608,10 @@ public partial struct DayNumber // Math ops
         return new DayNumber(newDays);
     }
 
-    /// <summary>
-    /// Subtracts a number of days to a specified day number, yielding a new day number.
+    /// <summary>Subtracts a number of days to a specified day number, yielding a new day number.
     /// </summary>
-    /// <exception cref="OverflowException">The operation would overflow the earliest or the
-    /// latest supported day numbers.</exception>
+    /// <exception cref="OverflowException">The operation would overflow the earliest or the latest
+    /// supported day numbers.</exception>
     public static DayNumber operator -(DayNumber value, int days)
     {
         int newDays = checked(value._daysSinceZero - days);
@@ -711,53 +622,41 @@ public partial struct DayNumber // Math ops
         return new DayNumber(newDays);
     }
 
-    /// <summary>
-    /// Adds one day to a specified day number, yielding a new day number.
-    /// </summary>
-    /// <exception cref="OverflowException">The operation would overflow the latest supported
-    /// day number.</exception>
+    /// <summary>Adds one day to a specified day number, yielding a new day number.</summary>
+    /// <exception cref="OverflowException">The operation would overflow the latest supported day
+    /// number.</exception>
     public static DayNumber operator ++(DayNumber value) => value.NextDay();
 
-    /// <summary>
-    /// Subtracts one day to a specified day number, yielding a new day number.
-    /// </summary>
-    /// <exception cref="OverflowException">The operation would overflow the earliest supported
-    /// day number.</exception>
+    /// <summary>Subtracts one day to a specified day number, yielding a new day number.</summary>
+    /// <exception cref="OverflowException">The operation would overflow the earliest supported day
+    /// number.</exception>
     public static DayNumber operator --(DayNumber value) => value.PreviousDay();
 
 #pragma warning restore CA2225
 
-    /// <summary>
-    /// Subtracts the specified day number from this instance and returns the number of days
-    /// between them.
-    /// </summary>
+    /// <summary>Subtracts the specified day number from this instance and returns the number of days
+    /// between them.</summary>
     /// <exception cref="OverflowException">The operation would overflow the capacity of
     /// <see cref="Int32"/>.</exception>
     [Pure]
     public int CountDaysSince(DayNumber other) => this - other;
 
-    /// <summary>
-    /// Adds a number of days to this instance, yielding a new day number.
-    /// </summary>
-    /// <exception cref="OverflowException">The operation would overflow the earliest or the
-    /// latest supported day numbers.</exception>
+    /// <summary>Adds a number of days to this instance, yielding a new day number.</summary>
+    /// <exception cref="OverflowException">The operation would overflow the earliest or the latest
+    /// supported day numbers.</exception>
     [Pure]
     public DayNumber PlusDays(int days) => this + days;
 
-    /// <summary>
-    /// Obtains the day number following this instance.
-    /// </summary>
-    /// <exception cref="OverflowException">The operation would overflow the latest supported
-    /// day number.</exception>
+    /// <summary>Obtains the day number following this instance.</summary>
+    /// <exception cref="OverflowException">The operation would overflow the latest supported day
+    /// number.</exception>
     [Pure]
     public DayNumber NextDay() =>
         this == MaxValue ? Throw.DayNumberOverflow<DayNumber>() : new DayNumber(_daysSinceZero + 1);
 
-    /// <summary>
-    /// Obtains the day number preceding this instance.
-    /// </summary>
-    /// <exception cref="OverflowException">The operation would overflow the earliest supported
-    /// day number.</exception>
+    /// <summary>Obtains the day number preceding this instance.</summary>
+    /// <exception cref="OverflowException">The operation would overflow the earliest supported day
+    /// number.</exception>
     [Pure]
     public DayNumber PreviousDay() =>
         this == MinValue ? Throw.DayNumberOverflow<DayNumber>() : new DayNumber(_daysSinceZero - 1);

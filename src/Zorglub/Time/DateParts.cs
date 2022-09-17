@@ -43,10 +43,6 @@ public readonly record struct DateParts(int Year, int Month, int Day) :
     [Pure]
     public static DateParts AtStartOfMonth(int y, int m) => new(y, m, 1);
 
-    //
-    // IComparable
-    //
-
     /// <inheritdoc />
     public static bool operator <(DateParts left, DateParts right) => left.CompareTo(right) < 0;
 

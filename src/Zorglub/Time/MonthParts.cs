@@ -22,25 +22,17 @@ public readonly record struct MonthParts(int Year, int Month) :
     [Pure]
     public static MonthParts AtStartOfYear(int y) => new(y, 1);
 
-    //
-    // IComparable
-    //
+    /// <inheritdoc />
+    public static bool operator <(MonthParts left, MonthParts right) => left.CompareTo(right) < 0;
 
     /// <inheritdoc />
-    public static bool operator <(MonthParts left, MonthParts right) =>
-        left.CompareTo(right) < 0;
+    public static bool operator <=(MonthParts left, MonthParts right) => left.CompareTo(right) <= 0;
 
     /// <inheritdoc />
-    public static bool operator <=(MonthParts left, MonthParts right) =>
-        left.CompareTo(right) <= 0;
+    public static bool operator >(MonthParts left, MonthParts right) => left.CompareTo(right) > 0;
 
     /// <inheritdoc />
-    public static bool operator >(MonthParts left, MonthParts right) =>
-        left.CompareTo(right) > 0;
-
-    /// <inheritdoc />
-    public static bool operator >=(MonthParts left, MonthParts right) =>
-        left.CompareTo(right) >= 0;
+    public static bool operator >=(MonthParts left, MonthParts right) => left.CompareTo(right) >= 0;
 
     /// <inheritdoc />
     [Pure]

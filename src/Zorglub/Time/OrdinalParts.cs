@@ -22,10 +22,6 @@ public readonly record struct OrdinalParts(int Year, int DayOfYear) :
     [Pure]
     public static OrdinalParts AtStartOfYear(int y) => new(y, 1);
 
-    //
-    // IComparable
-    //
-
     /// <inheritdoc />
     public static bool operator <(OrdinalParts left, OrdinalParts right) =>
         left.CompareTo(right) < 0;
