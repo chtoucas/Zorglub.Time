@@ -26,6 +26,6 @@ public enum CalendricalAdjustments
     Months = 1 << 2,
 
     /// <summary>The calendar may add one or more months or days.</summary>
-    // Exemple : calendrier bouddhiste.
+    // Example: buddhist calendar.
     DaysAndMonths = Days | Months,
 }

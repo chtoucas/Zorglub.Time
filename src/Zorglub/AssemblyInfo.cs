@@ -3,7 +3,7 @@
 
 [assembly: InternalsVisibleTo("Zorglub.Time.Extras" + Zorglub.Time.AssemblyInfo.PublicKeySuffix)]
 
-#if VISIBLE_INTERNALS // WARNING: when true we can no longer build the other projects.
+#if VISIBLE_INTERNALS // WARNING: when true we can no longer build these projects.
 [assembly: InternalsVisibleTo("Benchmarks" + Zorglub.Time.AssemblyInfo.PublicKeySuffix)]
 [assembly: InternalsVisibleTo("Zorglub.Sketches" + Zorglub.Time.AssemblyInfo.PublicKeySuffix)]
 [assembly: InternalsVisibleTo("Zorglub.Testing" + Zorglub.Time.AssemblyInfo.PublicKeySuffix)]
@@ -13,15 +13,11 @@
 
 namespace Zorglub.Time
 {
-    /// <summary>
-    /// Provides constants used in Assembly's attributes.
-    /// </summary>
+    /// <summary>Provides constants used in Assembly's attributes.</summary>
     internal static partial class AssemblyInfo
     {
-        /// <summary>
-        /// Gets the public key suffix suitable for use with
-        /// <see cref="InternalsVisibleToAttribute"/>.
-        /// </summary>
+        /// <summary>Gets the public key suffix suitable for use with
+        /// <see cref="InternalsVisibleToAttribute"/>.</summary>
         public const string PublicKeySuffix =
 #if SIGNED_ASSEMBLY
             ",PublicKey="

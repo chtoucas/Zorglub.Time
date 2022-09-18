@@ -45,7 +45,6 @@ public readonly partial struct DayNumber :
     /// <remarks>This field is a constant equal to 2_147_483_646.</remarks>
     public const int MaxDaysSinceZero = Int32.MaxValue - 1;
 
-    #region Gregorian/Julian
     // We can go a bit further than JulianSchema.SupportedYears.
     // The current estimation for the age of the universe is ~14 billion
     // Julian years. Unfortunately, the matching day number largely exceeds
@@ -61,9 +60,81 @@ public readonly partial struct DayNumber :
     /// <remarks>This field is a constant equal to 5_000_000.</remarks>
     public const int MaxSupportedYear = 5_000_000;
 
-    #endregion
+    // REVIEW(perf): make _daysSinceZero internal to remove an extra get
+    // method call? but it should not be for arithmetic ops, they may
+    // overflow.
+
+    /// <summary>Represents the count of consecutive days since <see cref="Zero"/>.</summary>
+    /// <remarks>
+    /// <para>This field is in the range from <see cref="MinDaysSinceZero"/> to
+    /// <see cref="MaxDaysSinceZero"/>.</para>
+    /// <para>This field is read-only.</para>
+    /// </remarks>
+    private readonly int _daysSinceZero;
+
+    /// <summary>Initializes a new instance of the <see cref="DayNumber"/> struct from the specified
+    /// count of consecutive days since <see cref="Zero"/>.</summary>
+    /// <remarks>This constructor does NOT validate its parameter.</remarks>
+    internal DayNumber(int daysSinceZero)
+    {
+        Debug.Assert(daysSinceZero >= MinDaysSinceZero);
+        Debug.Assert(daysSinceZero <= MaxDaysSinceZero);
+
+        _daysSinceZero = daysSinceZero;
+    }
+
+    /// <summary>Gets the origin of the day numbering system.</summary>
+    /// <remarks>
+    /// <para>The Monday 1st of January, 1 CE within the Gregorian calendar.</para>
+    /// <para>This static property is thread-safe.</para>
+    /// <para>See also <seealso cref="DayZero.NewStyle"/>.</para>
+    /// </remarks>
+    public static DayNumber Zero { get; }
+
+    /// <inheritdoc/>
+    /// <remarks>This static property is thread-safe.</remarks>
+    // The minimum value has been chosen such that its properties do not
+    // overflow, e.g. DayNumber.MinValue.Ordinal = Ord.MinValue.
+    public static DayNumber MinValue { get; } = new(MinDaysSinceZero);
+
+    /// <inheritdoc/>
+    /// <remarks>This static property is thread-safe.</remarks>
+    // The maximum value has been chosen such that its properties do not
+    // overflow, e.g. DayNumber.MaxValue.Ordinal = Ord.MaxValue.
+    public static DayNumber MaxValue { get; } = new(MaxDaysSinceZero);
+
+    DayNumber IFixedDay.DayNumber => this;
+
+    /// <summary>Gets the count of consecutive days since <see cref="Zero"/>.</summary>
+    /// <remarks>The result is in the range from <see cref="MinDaysSinceZero"/> to
+    /// <see cref="MaxDaysSinceZero"/>.</remarks>
+    public int DaysSinceZero => _daysSinceZero;
+
+    /// <summary>Gets the count of consecutive days since <see cref="Zero"/>.</summary>
+    /// <remarks>The result is in the range from <see cref="MinDaysSinceZero"/> to
+    /// <see cref="MaxDaysSinceZero"/>.</remarks>
+    int IFixedDay.DaysSinceEpoch => _daysSinceZero;
+
+    /// <summary>Gets the ordinal numeral from this instance.</summary>
+    public Ord Ordinal => Ord.First + _daysSinceZero;
+
+    /// <summary>Gets the day of the week.</summary>
+    public DayOfWeek DayOfWeek =>
+        // Zero is a Monday.
+        (DayOfWeek)MathZ.Modulo(
+            (int)DayOfWeek.Monday + _daysSinceZero,
+            CalendricalConstants.DaysInWeek);
+
+    /// <summary>Converts the current instance to its equivalent string representation using the
+    /// formatting conventions of the current culture.</summary>
+    [Pure]
+    public override string ToString() => _daysSinceZero.ToString(CultureInfo.CurrentCulture);
+}
+
+public partial struct DayNumber // Gregorian/Julian conversions
+{
     #region Gregorian
-    // This time, the two following constants are private. Rationale: we
+    // This time, the following two constants are private. Rationale: we
     // construct a day number from a "daysSinceEpoch" and only after do we
     // check that the result is within the Gregorian domain, using the prop
     // GregorianDomain.
@@ -102,104 +173,6 @@ public readonly partial struct DayNumber :
     /// <remarks>This static property is thread-safe.</remarks>
     public static Range<DayNumber> GregorianDomain =>
         Range.CreateLeniently(s_MinGregorianValue, s_MaxGregorianValue);
-
-    #endregion
-    #region Julian
-
-    /// <summary>Represents the smallest possible Julian value of the count of consecutive days
-    /// since <see cref="Zero"/>.</summary>
-    /// <remarks>This field is a constant equal to -1_826_250_002.</remarks>
-    private const int MinJulianDaysSinceZero = -1_826_250_002;
-
-    /// <summary>Represents the largest possible value of the Julian count of consecutive days since
-    /// <see cref="Zero"/>.</summary>
-    /// <remarks>This field is a constant equal to 1_826_249_997.</remarks>
-    private const int MaxJulianDaysSinceZero = 1_826_249_997;
-
-    private static readonly DayNumber s_MinJulianValue = new(MinJulianDaysSinceZero);
-    private static readonly DayNumber s_MaxJulianValue = new(MaxJulianDaysSinceZero);
-
-    /// <summary>Gets the range of supported Julian values for a <see cref="DayNumber"/>.</summary>
-    /// <remarks>This static property is thread-safe.</remarks>
-    public static Range<DayNumber> JulianDomain =>
-        Range.CreateLeniently(s_MinJulianValue, s_MaxJulianValue);
-
-    #endregion
-
-    // REVIEW(perf): make _daysSinceZero internal to remove an extra get
-    // method call? but it should not be for arithmetic ops, they may
-    // overflow.
-
-    /// <summary>Represents the count of consecutive days since <see cref="Zero"/>.</summary>
-    /// <remarks>
-    /// <para>This field is in the range from <see cref="MinDaysSinceZero"/> to
-    /// <see cref="MaxDaysSinceZero"/>.</para>
-    /// <para>This field is read-only.</para>
-    /// </remarks>
-    private readonly int _daysSinceZero;
-
-    /// <summary>Initializes a new instance of the <see cref="DayNumber"/> struct from the specified
-    /// count of consecutive days since <see cref="Zero"/>.</summary>
-    /// <remarks>This constructor does NOT validate its parameter.</remarks>
-    internal DayNumber(int daysSinceZero)
-    {
-        Debug.Assert(daysSinceZero >= MinDaysSinceZero);
-        Debug.Assert(daysSinceZero <= MaxDaysSinceZero);
-
-        _daysSinceZero = daysSinceZero;
-    }
-
-    /// <summary>Gets the origin of the day numbering system.</summary>
-    /// <remarks>
-    /// <para>The Monday 1st of January, 1 CE within the Gregorian calendar.</para>
-    /// <para>This static property is thread-safe.</para>
-    /// <para>See also <seealso cref="DayZero.NewStyle"/>.</para>
-    /// </remarks>
-    public static DayNumber Zero { get; }
-
-    /// <summary>Gets the smallest possible value of a <see cref="DayNumber"/>.</summary>
-    /// <remarks>This static property is thread-safe.</remarks>
-    // The minimum value has been chosen such that its properties do not
-    // overflow, e.g. DayNumber.MinValue.Ordinal = Ord.MinValue.
-    public static DayNumber MinValue { get; } = new(MinDaysSinceZero);
-
-    /// <summary>Gets the largest possible value of a <see cref="DayNumber"/>.</summary>
-    /// <remarks>This static property is thread-safe.</remarks>
-    // The maximum value has been chosen such that its properties do not
-    // overflow, e.g. DayNumber.MaxValue.Ordinal = Ord.MaxValue.
-    public static DayNumber MaxValue { get; } = new(MaxDaysSinceZero);
-
-    DayNumber IFixedDay.DayNumber => this;
-
-    /// <summary>Gets the count of consecutive days since <see cref="Zero"/>.</summary>
-    /// <remarks>The result is in the range from <see cref="MinDaysSinceZero"/> to
-    /// <see cref="MaxDaysSinceZero"/>.</remarks>
-    public int DaysSinceZero => _daysSinceZero;
-
-    /// <summary>Gets the count of consecutive days since <see cref="Zero"/>.</summary>
-    /// <remarks>The result is in the range from <see cref="MinDaysSinceZero"/> to
-    /// <see cref="MaxDaysSinceZero"/>.</remarks>
-    int IFixedDay.DaysSinceEpoch => _daysSinceZero;
-
-    /// <summary>Gets the ordinal numeral from this instance.</summary>
-    public Ord Ordinal => Ord.First + _daysSinceZero;
-
-    /// <summary>Gets the day of the week.</summary>
-    public DayOfWeek DayOfWeek =>
-        // Zero is a Monday.
-        (DayOfWeek)MathZ.Modulo(
-            (int)DayOfWeek.Monday + _daysSinceZero,
-            CalendricalConstants.DaysInWeek);
-
-    /// <summary>Converts the current instance to its equivalent string representation using the
-    /// formatting conventions of the current culture.</summary>
-    [Pure]
-    public override string ToString() => _daysSinceZero.ToString(CultureInfo.CurrentCulture);
-}
-
-public partial struct DayNumber
-{
-    #region Gregorian conversions
 
     /// <summary>Creates a new instance of <see cref="DayNumber"/> from the specified Gregorian date
     /// parts.</summary>
@@ -272,10 +245,28 @@ public partial struct DayNumber
     }
 
     #endregion
-    #region Julian conversions
+    #region Julian
 
     // This is DayZero.OldStyle - DayNumber.NewStyle.
     private const int DaysFromJulianEpochToZero = 2;
+
+    /// <summary>Represents the smallest possible Julian value of the count of consecutive days
+    /// since <see cref="Zero"/>.</summary>
+    /// <remarks>This field is a constant equal to -1_826_250_002.</remarks>
+    private const int MinJulianDaysSinceZero = -1_826_250_002;
+
+    /// <summary>Represents the largest possible value of the Julian count of consecutive days since
+    /// <see cref="Zero"/>.</summary>
+    /// <remarks>This field is a constant equal to 1_826_249_997.</remarks>
+    private const int MaxJulianDaysSinceZero = 1_826_249_997;
+
+    private static readonly DayNumber s_MinJulianValue = new(MinJulianDaysSinceZero);
+    private static readonly DayNumber s_MaxJulianValue = new(MaxJulianDaysSinceZero);
+
+    /// <summary>Gets the range of supported Julian values for a <see cref="DayNumber"/>.</summary>
+    /// <remarks>This static property is thread-safe.</remarks>
+    public static Range<DayNumber> JulianDomain =>
+        Range.CreateLeniently(s_MinJulianValue, s_MaxJulianValue);
 
     /// <summary>Creates a new instance of <see cref="DayNumber"/> from the specified Julian date
     /// parts.</summary>
@@ -347,7 +338,7 @@ public partial struct DayNumber
     }
 
     #endregion
-    #region Gregorian/Julian validation helpers
+    #region Validation helpers
 
     /// <summary>Validates the specified Gregorian or Julian year.</summary>
     /// <exception cref="AoorException">The validation failed.</exception>

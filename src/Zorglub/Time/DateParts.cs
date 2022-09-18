@@ -3,9 +3,6 @@
 
 namespace Zorglub.Time;
 
-using System.Globalization;
-using System.Text;
-
 using Zorglub.Time.Core;
 
 // Main difference w/ Yemoda: y, m, d are open values, we don't even require
@@ -26,12 +23,6 @@ public readonly record struct DateParts(int Year, int Month, int Day) :
 {
     /// <summary>Gets the month parts of the current instance.</summary>
     public MonthParts MonthParts => new(Year, Month);
-
-    private bool PrintMembers(StringBuilder builder)
-    {
-        builder.Append(CultureInfo.InvariantCulture, $"Year = {Year}, Month = {Month}, Day = {Day}");
-        return true;
-    }
 
     /// <summary>Creates a new instance of <see cref="DateParts"/> representing the first day of the
     /// specified year.</summary>
