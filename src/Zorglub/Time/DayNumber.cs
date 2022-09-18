@@ -14,6 +14,46 @@ using Zorglub.Time.Hemerology;
 // TODO(api): .NET 7.0 unchecked ops.
 // Explain why DayNumber does not keep track of the underlying time scale.
 
+#region Developer Notes
+
+// Since DaysSinceZero is public, Min/MaxDaysSinceZero are public too.
+// Another reason: constructing a day number requires a "daysSinceEpoch"
+// and I like the fact that we can validate its value before.
+//
+// Min/MaxGregorianDaysSinceZero
+// This time, the following two constants are private. Rationale: we
+// construct a day number from a "daysSinceEpoch" and only after do we
+// check that the result is within the Gregorian domain, using the prop
+// GregorianDomain.
+//
+// Min/MaxSupportedYear
+// We can go a bit further than JulianSchema.SupportedYears.
+// The current estimation for the age of the universe is ~14 billion
+// Julian years. Unfortunately, the matching day number largely exceeds
+// the capacity of Int32. To go that far back in time, see DayNumber64.
+// To simplify we use the same values for the min and max years in both
+// Gregorian and Julian cases.
+//
+// Min/MaxValue
+// The minimum value has been chosen such that its properties do not
+// overflow, e.g. DayNumber.MinValue.Ordinal = Ord.MinValue.
+// The maximum value has been chosen such that its properties do not
+// overflow, e.g. DayNumber.MaxValue.Ordinal = Ord.MaxValue.
+//
+// Notice that the type definition of GregorianDomain is recursive.
+// Even if it is perfectly legal, GregorianDomain cannot be part of the
+// type initialization of DayNumber (e.g. it cannot be a field);
+// otherwise the CoreCLR will throw a TypeLoadException. It seems to be
+// a known limitation in some CLR implementations.
+// NB: it would work fine if either Range<T> or DayNumber was not a
+// struct.
+// https://github.com/dotnet/runtime/issues/5479
+// https://github.com/dotnet/runtime/issues/11179
+// https://github.com/dotnet/roslyn/issues/10126#issuecomment-204471882
+// https://stackoverflow.com/questions/36222117/maybe-a-c-sharp-compiler-bug-in-visual-studio-2015/36337761#36337761
+
+#endregion
+
 /// <summary>Represents a day number which counts the number of consecutive days since the Monday
 /// 1st of January, 1 CE within the Gregorian calendar.</summary>
 /// <remarks><see cref="DayNumber"/> is an immutable struct.</remarks>
@@ -31,10 +71,6 @@ public readonly partial struct DayNumber :
     IIncrementOperators<DayNumber>,
     IDecrementOperators<DayNumber>
 {
-    // Since DaysSinceZero is public, we keep these two constants public too.
-    // Another reason: constructing a day number requires a "daysSinceEpoch"
-    // and I like the fact that we can validate its value before.
-
     /// <summary>Represents the smallest possible value of the count of consecutive days since
     /// <see cref="Zero"/>.</summary>
     /// <remarks>This field is a constant equal to -2_147_483_647.</remarks>
@@ -44,13 +80,6 @@ public readonly partial struct DayNumber :
     /// <see cref="Zero"/>.</summary>
     /// <remarks>This field is a constant equal to 2_147_483_646.</remarks>
     public const int MaxDaysSinceZero = Int32.MaxValue - 1;
-
-    // We can go a bit further than JulianSchema.SupportedYears.
-    // The current estimation for the age of the universe is ~14 billion
-    // Julian years. Unfortunately, the matching day number largely exceeds
-    // the capacity of Int32. To go that far back in time, see DayNumber64.
-    // To simplify we use the same values for the min and max years in both
-    // Gregorian and Julian cases.
 
     /// <summary>Represents the earliest supported <i>Gregorian</i> or <i>Julian</i> year.</summary>
     /// <remarks>This field is a constant equal to -4_999_999.</remarks>
@@ -93,14 +122,10 @@ public readonly partial struct DayNumber :
 
     /// <inheritdoc/>
     /// <remarks>This static property is thread-safe.</remarks>
-    // The minimum value has been chosen such that its properties do not
-    // overflow, e.g. DayNumber.MinValue.Ordinal = Ord.MinValue.
     public static DayNumber MinValue { get; } = new(MinDaysSinceZero);
 
     /// <inheritdoc/>
     /// <remarks>This static property is thread-safe.</remarks>
-    // The maximum value has been chosen such that its properties do not
-    // overflow, e.g. DayNumber.MaxValue.Ordinal = Ord.MaxValue.
     public static DayNumber MaxValue { get; } = new(MaxDaysSinceZero);
 
     DayNumber IFixedDay.DayNumber => this;
@@ -134,16 +159,10 @@ public readonly partial struct DayNumber :
 public partial struct DayNumber // Gregorian/Julian conversions
 {
     #region Gregorian
-    // This time, the following two constants are private. Rationale: we
-    // construct a day number from a "daysSinceEpoch" and only after do we
-    // check that the result is within the Gregorian domain, using the prop
-    // GregorianDomain.
 
-    /// <summary>
-    /// Represents the smallest possible Gregorian value of the count of consecutive days since
-    /// <see cref="Zero"/>.
+    /// <summary>Represents the smallest possible Gregorian value of the count of consecutive days
+    /// since <see cref="Zero"/>.</summary>
     /// <remarks>This field is a constant equal to -1_826_212_500.</remarks>
-    /// </summary>
     // To obtain MinGregorianDaysSinceZero, compute
     //   DayNumber.FromGregorianParts(DayNumber.MinSupportedYear, 1, 1);
     private const int MinGregorianDaysSinceZero = -1_826_212_500;
@@ -155,17 +174,6 @@ public partial struct DayNumber // Gregorian/Julian conversions
     //   MaxGregorianDayNumber = DayNumber.FromGregorianParts(DayNumber.MaxSupportedYear, 12, 31);
     private const int MaxGregorianDaysSinceZero = 1_826_212_499;
 
-    // Notice that the type definition of GregorianDomain is recursive.
-    // Even if it is perfectly legal, GregorianDomain cannot be part of the
-    // type initialization of DayNumber (e.g. it cannot be a field);
-    // otherwise the CoreCLR will throw a TypeLoadException. It seems to be
-    // a known limitation in some CLR implementations.
-    // NB: it would work fine if either Range<T> or DayNumber was not a
-    // struct.
-    // https://github.com/dotnet/runtime/issues/5479
-    // https://github.com/dotnet/runtime/issues/11179
-    // https://github.com/dotnet/roslyn/issues/10126#issuecomment-204471882
-    // https://stackoverflow.com/questions/36222117/maybe-a-c-sharp-compiler-bug-in-visual-studio-2015/36337761#36337761
     private static readonly DayNumber s_MinGregorianValue = new(MinGregorianDaysSinceZero);
     private static readonly DayNumber s_MaxGregorianValue = new(MaxGregorianDaysSinceZero);
 
@@ -228,7 +236,7 @@ public partial struct DayNumber // Gregorian/Julian conversions
         // > GregorianFormulae64.GetDateParts(_daysSinceZero, out year, out month, out day);
         // > doy = GregorianFormulae64.CountDaysInYearBeforeMonth(year, month) + day;
         // but, even without GetDateParts(), it seems to be a little bit slower.
-        // NB: Here we can use GregorianFormulae instead of GregorianFormulae64.
+        // NB: here we can use GregorianFormulae instead of GregorianFormulae64.
         int doy = 1 + _daysSinceZero - GregorianFormulae.GetStartOfYear(y);
         return new OrdinalParts(y, doy);
     }
@@ -353,11 +361,8 @@ public partial struct DayNumber // Gregorian/Julian conversions
     /// Gregorian values.</exception>
     private void CheckGregorianOverflow()
     {
-        if (_daysSinceZero < MinGregorianDaysSinceZero
-            || _daysSinceZero > MaxGregorianDaysSinceZero)
-        {
+        if (_daysSinceZero < MinGregorianDaysSinceZero || _daysSinceZero > MaxGregorianDaysSinceZero)
             Throw.DateOverflow();
-        }
     }
 
     /// <summary>Checks that the operation does not overflow the range of supported Julian values.
@@ -367,9 +372,7 @@ public partial struct DayNumber // Gregorian/Julian conversions
     private void CheckJulianOverflow()
     {
         if (_daysSinceZero < MinJulianDaysSinceZero || _daysSinceZero > MaxJulianDaysSinceZero)
-        {
             Throw.DateOverflow();
-        }
     }
 
     #endregion

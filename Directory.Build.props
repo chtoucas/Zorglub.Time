@@ -24,7 +24,7 @@
     <LangVersion>preview</LangVersion>
     <Nullable>enable</Nullable>
 
-    <AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)Narvalo.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)eng\Narvalo.snk</AssemblyOriginatorKeyFile>
 
     <Authors>chtoucas</Authors>
     <Company>Narvalo.Org</Company>
