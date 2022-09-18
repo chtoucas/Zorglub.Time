@@ -3,9 +3,8 @@
 
 namespace Zorglub.Time;
 
-// We have two calendar systems, one in Simple and the other in Extras.
 // Calendars with the same ID SHOULD be functionally equivalent, i.e. they
-// should use equivalent scopes.
+// should use equivalent schemas and scopes.
 
 /// <summary>Specifies the permanent unique identifier of a calendar.</summary>
 /// <remarks>This feature isonly available to system calendars.</remarks>

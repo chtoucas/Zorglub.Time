@@ -593,9 +593,7 @@ public partial struct DayNumber // Math ops
     {
         int newDays = checked(value._daysSinceZero + days);
         if (newDays == MinDaysSinceZero - 1 || newDays == MaxDaysSinceZero + 1)
-        {
             Throw.DayNumberOverflow();
-        }
         return new DayNumber(newDays);
     }
 
@@ -607,9 +605,7 @@ public partial struct DayNumber // Math ops
     {
         int newDays = checked(value._daysSinceZero - days);
         if (newDays == MinDaysSinceZero - 1 || newDays == MaxDaysSinceZero + 1)
-        {
             Throw.DayNumberOverflow();
-        }
         return new DayNumber(newDays);
     }
 
