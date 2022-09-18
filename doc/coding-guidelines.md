@@ -13,13 +13,14 @@ Design
 ------
 
 Our default is to seal the classes.
-Add the attr `[Pure]` to all methods returning something.
-Add the attr `[DoesNotReturn]` for methods that always throw.
-Static field vs static prop: for structs I prefer static readonly field.
-In a -public- sealed class use "override sealed" instead of "override" (this way
+Add the attribut `[Pure]` to all methods returning something.
+Add the attribut `[DoesNotReturn]` for methods that always throw.
+Static field vs static prop: for structs I prefer static readonly field, unless
+they are part of an interface.
+In a _public_ sealed class use `override sealed` instead of `override` (this way
 we can spot overridable methods in the file PublicAPI).
 
-https://github.com/dotnet/runtime/blob/main/docs/coding-guidelines/framework-design-guidelines-digest.md
+[Framework Design Guidelines](https://github.com/dotnet/runtime/blob/main/docs/coding-guidelines/framework-design-guidelines-digest.md)
 
 
 Naming
@@ -33,29 +34,36 @@ Adjustment of a field of a value type:
 - `With...()`
 Bool prop: prefix `Is`, sometines `Has`.
 
-Static class: if it ressembles an enum or a discriminated union, e.g. Dayzero or
-CalendarEpochs, use the singular; otherwise use the plural.
+Static class: if it ressembles an enum or a discriminated union, e.g. DayZero,
+use the singular; otherwise use the plural.
 
 
 Preview Features
 ----------------
 
-We define two compiler constants:
+Compiler constants:
+- `VISIBLE_INTERNALS`
+- `SIGNED_ASSEMBLY`
+- `ENABLE_PREVIEW_FEATURES`
 - `FEATURE_STATIC_ABSTRACT` to enable or disable section of codes depending
   on the "static abstract" feature.
 
-We don't use the attr 'RequiresPreviewFeatures'.
+We don't use the attribut `RequiresPreviewFeatures`.
 
 
 Style
 -----
 
 Rather than
+```
 > if (!Method(...)) { ... }
+```
 write
+```
 > if (Method(...) == false) { ... }
+```
 
-https://github.com/dotnet/runtime/blob/main/docs/coding-guidelines/coding-style.md
+[Coding Style](https://github.com/dotnet/runtime/blob/main/docs/coding-guidelines/coding-style.md)
 
 
 XML doc
@@ -63,7 +71,7 @@ XML doc
 
 Virtual methods (interfaces, abstract classes, etc.): no section <remarks>
 
-https://github.com/dotnet/dotnet-api-docs/wiki
+[.NET API docs](https://github.com/dotnet/dotnet-api-docs/wiki)
 
 
 Structs
