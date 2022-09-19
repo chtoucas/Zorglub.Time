@@ -59,7 +59,6 @@ try {
 
     Remove-BinAndObj (Join-Path $RootDir 'src' -Resolve)
     Remove-BinAndObj (Join-Path $RootDir 'test' -Resolve)
-    Remove-BinAndObj (Join-Path $RootDir 'tools' -Resolve)
 
     if ($Artifacts) {
         say "Deleting ""$ArtifactsDir""."
