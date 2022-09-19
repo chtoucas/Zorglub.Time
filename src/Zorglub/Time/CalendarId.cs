@@ -8,8 +8,8 @@ using System.Runtime.Serialization;
 // Calendars with the same ID SHOULD be functionally equivalent, i.e. they
 // should use equivalent schemas and scopes.
 
-/// <summary>Specifies the permanent unique identifier of a calendar.</summary>
-/// <remarks>This feature isonly available to system calendars.</remarks>
+/// <summary>Specifies the permanent unique identifier of a calendar.
+/// <para>This feature is only available to system calendars.</para></summary>
 public enum CalendarId
 {
     /// <summary>The permanent identifier of the proleptic Gregorian calendar.</summary>
@@ -52,8 +52,8 @@ public enum CalendarId
     // - tests for SimpleCalendar and ZCalendar
 }
 
-/// <summary>Provides extension methods for <see cref="CalendarId"/>.</summary>
-/// <remarks>This class cannot be inherited.</remarks>
+/// <summary>Provides extension methods for <see cref="CalendarId"/>.
+/// <para>This class cannot be inherited.</para></summary>
 internal static class CalendarIdExtensions
 {
     /// <summary>Returns true if the specified permanent ID is defined; otherwise returns false.

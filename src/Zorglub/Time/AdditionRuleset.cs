@@ -49,8 +49,8 @@ namespace Zorglub.Time;
 #endregion
 
 /// <summary>Defines the strategies employed to resolve ambiguities when adding a number of months
-/// or years to a calendrical object.</summary>
-/// <remarks><see cref="AdditionRuleset"/> is an immutable struct.</remarks>
+/// or years to a calendrical object.
+/// <para><see cref="AdditionRuleset"/> is an immutable struct.</para></summary>
 public readonly record struct AdditionRuleset
 {
     private readonly AdditionRule _dateRule;
@@ -97,13 +97,13 @@ public readonly record struct AdditionRuleset
 }
 
 /// <summary>Specifies the strategy to resolve ambiguities when adding a number of months or years
-/// to a date, or a number of years to a month.</summary>
-/// <remarks><see cref="Truncate"/> is the <i>default</i> strategy.</remarks>
+/// to a date, or a number of years to a month.
+/// <para><see cref="Truncate"/> is the <i>default</i> strategy.</para></summary>
 public enum AdditionRule
 {
     /// <summary>When the result is not a valid day (resp. month), return the end of the target
-    /// month (resp. year).</summary>
-    /// <remarks>This is the <i>default</i> strategy.</remarks>
+    /// month (resp. year).
+    /// <para>This is the <i>default</i> strategy.</para></summary>
     Truncate = 0,
 
     /// <summary>When the result is not a valid day (resp. month), return the start of the next

@@ -13,16 +13,16 @@ public enum CalendricalAdjustments
     /// not related to the lunar and solar cycles.</summary>
     None = 0,
 
-    /// <summary>The calendar may add one or more intercalary days.</summary>
-    /// <remarks>This is usually the case with solar calendars.</remarks>
+    /// <summary>The calendar may add one or more intercalary days.
+    /// <para>This is usually the case with solar calendars.</para></summary>
     Days = 1 << 0,
 
-    /// <summary>The calendar may add one or more weeks.</summary>
-    /// <remarks>This is usually the case with perennial calendars.</remarks>
+    /// <summary>The calendar may add one or more weeks.
+    /// <para>This is usually the case with perennial calendars.</para></summary>
     Weeks = 1 << 1,
 
-    /// <summary>The calendar may add one or more embolismic months.</summary>
-    /// <remarks>This is usually the case with lunisolar calendars.</remarks>
+    /// <summary>The calendar may add one or more embolismic months.
+    /// <para>This is usually the case with lunisolar calendars.</para></summary>
     Months = 1 << 2,
 
     /// <summary>The calendar may add one or more months or days.</summary>

@@ -10,17 +10,16 @@ public enum CalendricalAlgorithm
     Unknown = 0,
 
     /// <summary>The calendrical algorithm is made from perpetual rules, it is purely computational.
-    /// </summary>
-    /// <remarks>Perpetual calendars having a different meaning, we prefer to say arithmetical for
-    /// this type of calendars.</remarks>
+    /// <para>Perpetual calendars having a different meaning, we prefer to say arithmetical for
+    /// this type of calendars.</para></summary>
     Arithmetical,
 
     /// <summary>The calendrical algorithm is made from an astronomical model.</summary>
     Astronomical,
 
     /// <summary>The calendrical algorithm is based on observations of the sky or some other natural
-    /// phenomenon.</summary>
-    /// <remarks>This value has been added for completeness but, for obvious reasons, we won't
-    /// actually use it.</remarks>
+    /// phenomenon.
+    /// <para>This value has been added for completeness but, for obvious reasons, we won't
+    /// actually use it.</para></summary>
     Observational,
 }
