@@ -11,22 +11,20 @@ open Zorglub.Time
 open Xunit
 
 module Prelude =
-    let private defaultDateRule = Unchecked.defaultof<AdditionRule>
-
     let additionRuleData = EnumDataSet.AdditionRuleData
     let invalidAdditionRuleData = EnumDataSet.InvalidAdditionRuleData
 
     [<Theory; MemberData(nameof(invalidAdditionRuleData))>]
     let ``Constructor throws for an invalid rule for dates`` (rule: AdditionRule) =
-        outOfRangeExn "dateRule" (fun () -> new AdditionRuleset(rule, defaultDateRule, defaultDateRule))
+        outOfRangeExn "value" (fun () -> AdditionRuleset(DateRule = rule))
 
     [<Theory; MemberData(nameof(invalidAdditionRuleData))>]
     let ``Constructor throws for an invalid rule for ordinal dates`` (rule: AdditionRule) =
-        outOfRangeExn "ordinalRule" (fun () -> new AdditionRuleset(defaultDateRule, rule, defaultDateRule))
+        outOfRangeExn "value" (fun () -> AdditionRuleset(OrdinalRule = rule))
 
     [<Theory; MemberData(nameof(invalidAdditionRuleData))>]
     let ``Constructor throws for an invalid rule for months`` (rule: AdditionRule) =
-        outOfRangeExn "monthRule" (fun () -> new AdditionRuleset(defaultDateRule, defaultDateRule, rule))
+        outOfRangeExn "value" (fun () -> AdditionRuleset(MonthRule = rule))
 
     //
     // Properties
@@ -34,18 +32,18 @@ module Prelude =
 
     [<Theory; MemberData(nameof(additionRuleData))>]
     let ``Property DateRule`` (rule: AdditionRule) =
-        let rules = new AdditionRuleset(rule, defaultDateRule, defaultDateRule)
+        let rules = AdditionRuleset(DateRule = rule)
 
         rules.DateRule === rule
 
     [<Theory; MemberData(nameof(additionRuleData))>]
     let ``Property OrdinalRule`` (rule: AdditionRule) =
-        let rules = new AdditionRuleset(defaultDateRule, rule, defaultDateRule)
+        let rules = AdditionRuleset(OrdinalRule = rule)
 
         rules.OrdinalRule === rule
 
     [<Theory; MemberData(nameof(additionRuleData))>]
     let ``Property MonthRule`` (rule: AdditionRule) =
-        let rules = new AdditionRuleset(defaultDateRule, defaultDateRule, rule)
+        let rules = AdditionRuleset(MonthRule = rule)
 
         rules.MonthRule === rule

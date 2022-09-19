@@ -44,6 +44,7 @@ Preview Features
 Compiler constants:
 - `VISIBLE_INTERNALS`
 - `SIGNED_ASSEMBLY`
+- `PATCH_DIVREM`
 - `ENABLE_PREVIEW_FEATURES`
 - `FEATURE_STATIC_ABSTRACT` to enable or disable section of codes depending
   on the "static abstract" feature.

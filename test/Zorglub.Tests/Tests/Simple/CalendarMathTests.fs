@@ -29,7 +29,10 @@ module Prelude =
 
     [<Fact>]
     let ``Property AdditionRuleset`` () =
-        let ruleset = new AdditionRuleset(AdditionRule.Overspill, AdditionRule.Exact, AdditionRule.Throw)
+        let ruleset = AdditionRuleset(
+            DateRule    = AdditionRule.Overspill,
+            OrdinalRule = AdditionRule.Exact,
+            MonthRule   = AdditionRule.Throw)
         let math = new FauxCalendarMath(ruleset)
 
         math.AdditionRuleset === ruleset
@@ -90,7 +93,10 @@ module Factories =
     let ``Create()`` () =
         let sch = new FauxSystemSchema()
         let chr = new FauxSystemCalendar(sch)
-        let ruleset = new AdditionRuleset(AdditionRule.Overspill, AdditionRule.Exact, AdditionRule.Throw)
+        let ruleset = new AdditionRuleset(
+            DateRule    = AdditionRule.Overspill,
+            OrdinalRule = AdditionRule.Exact,
+            MonthRule   = AdditionRule.Throw)
         let math = CalendarMath.Create(chr, ruleset)
 
         math |> is<PowerMath>

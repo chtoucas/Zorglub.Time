@@ -45,12 +45,12 @@ let ``ToString() does not use any alias`` (cuid: CalendarId) str =
 //
 
 [<Theory; MemberData(nameof(invalidData))>]
-let ``IsInvalid() returns true when the CalendarId value is out of range`` (cuid: CalendarId) =
-     CalendarIdExtensions.IsInvalid(cuid) |> ok
+let ``IsDefined() returns false when the CalendarId value is out of range`` (cuid: CalendarId) =
+     CalendarIdExtensions.IsDefined(cuid) |> nok
 
 [<Theory; MemberData(nameof(validData))>]
-let ``IsInvalid() returns false when the CalendarId value is valid`` (cuid: CalendarId) =
-     CalendarIdExtensions.IsInvalid(cuid) |> nok
+let ``IsDefined() returns true when the CalendarId value is valid`` (cuid: CalendarId) =
+     CalendarIdExtensions.IsDefined(cuid) |> ok
 
 [<Theory; MemberData(nameof(invalidData))>]
 let ``ToCalendarKey() throws when the CalendarId value is out of range`` (cuid: CalendarId) =

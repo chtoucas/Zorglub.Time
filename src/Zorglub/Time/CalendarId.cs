@@ -3,6 +3,8 @@
 
 namespace Zorglub.Time;
 
+using System.Runtime.Serialization;
+
 // Calendars with the same ID SHOULD be functionally equivalent, i.e. they
 // should use equivalent schemas and scopes.
 
@@ -50,16 +52,14 @@ public enum CalendarId
     // - tests for SimpleCalendar and ZCalendar
 }
 
-/// <summary>
-/// Provides extension methods for <see cref="CalendarId"/>.
-/// <para>This class cannot be inherited.</para>
-/// </summary>
+/// <summary>Provides extension methods for <see cref="CalendarId"/>.</summary>
+/// <remarks>This class cannot be inherited.</remarks>
 internal static class CalendarIdExtensions
 {
-    /// <summary>Returns true if the specified permanent ID is invalid; otherwise returns false.
+    /// <summary>Returns true if the specified permanent ID is defined; otherwise returns false.
     /// </summary>
-    public static bool IsInvalid(this CalendarId @this) =>
-        @this < CalendarId.Gregorian || @this > CalendarId.Zoroastrian;
+    public static bool IsDefined(this CalendarId @this) =>
+        CalendarId.Gregorian <= @this && @this <= CalendarId.Zoroastrian;
 
     /// <summary>Converts the permanent ID to a calendar key.</summary>
     /// <exception cref="AoorException">The specified ID is not valid.</exception>

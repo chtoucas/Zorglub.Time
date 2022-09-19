@@ -82,7 +82,7 @@ namespace Zorglub.Time.Simple
                   proleptic,
                   userDefined: false)
         {
-            Debug.Assert(ident.IsInvalid() == false);
+            Debug.Assert(ident.IsDefined());
         }
 
         /// <summary>

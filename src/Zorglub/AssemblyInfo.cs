@@ -3,7 +3,7 @@
 
 [assembly: InternalsVisibleTo("Zorglub.Time.Extras" + Zorglub.Time.AssemblyInfo.PublicKeySuffix)]
 
-#if VISIBLE_INTERNALS // WARNING: when true we can no longer build these projects.
+#if VISIBLE_INTERNALS // WARNING: when false we can no longer build these projects.
 [assembly: InternalsVisibleTo("Benchmarks" + Zorglub.Time.AssemblyInfo.PublicKeySuffix)]
 [assembly: InternalsVisibleTo("Zorglub.Sketches" + Zorglub.Time.AssemblyInfo.PublicKeySuffix)]
 [assembly: InternalsVisibleTo("Zorglub.Testing" + Zorglub.Time.AssemblyInfo.PublicKeySuffix)]

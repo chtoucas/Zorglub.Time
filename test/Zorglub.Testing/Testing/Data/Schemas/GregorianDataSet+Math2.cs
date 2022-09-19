@@ -336,7 +336,12 @@ public class GregorianMathDataSetNext : IAdvancedMathDataSet, ISingleton<Gregori
     }
 
     public AdditionRuleset AdditionRuleset { get; } =
-        new(AdditionRule.Overspill, AdditionRule.Overspill, AdditionRule.Overspill);
+        new()
+        {
+            DateRule = AdditionRule.Overspill,
+            OrdinalRule = AdditionRule.Overspill,
+            MonthRule = AdditionRule.Overspill
+        };
 
     /// <inheritdoc/>
     /// <remarks>Intercalary day, expected result in a common year, years to be added.</remarks>

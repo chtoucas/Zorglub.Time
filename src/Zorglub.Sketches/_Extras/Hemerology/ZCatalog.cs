@@ -287,7 +287,7 @@ namespace Zorglub.Time.Hemerology
         [Pure]
         public static ZCalendar GetSystemCalendar(CalendarId ident)
         {
-            if (ident.IsInvalid()) Throw.ArgumentOutOfRange(nameof(ident));
+            if (ident.IsDefined() == false) Throw.ArgumentOutOfRange(nameof(ident));
 
             // Except in the Gregorian case, system calendars are only added to
             // s_CalendarsById on demand.

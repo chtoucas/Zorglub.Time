@@ -94,6 +94,11 @@ module ArgumentOutOfRangeExns =
         outOfRangeExn "weekday" (fun () -> ThrowHelpers.IsoWeekdayOutOfRange(IsoWeekday.Monday, null))
         outOfRangeExn paramName (fun () -> ThrowHelpers.IsoWeekdayOutOfRange(IsoWeekday.Monday, paramName))
 
+    [<Fact>]
+    let AdditionRuleOutOfRange () =
+        outOfRangeExn "rule" (fun () -> ThrowHelpers.AdditionRuleOutOfRange(AdditionRule.Truncate, null))
+        outOfRangeExn paramName (fun () -> ThrowHelpers.AdditionRuleOutOfRange(AdditionRule.Truncate, paramName))
+
 module ArgumentExns =
     [<Fact>]
     let BadBinaryInput () =
