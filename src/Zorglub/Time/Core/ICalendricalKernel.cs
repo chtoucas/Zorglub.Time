@@ -38,14 +38,10 @@ public interface ICalendricalKernel
     [Pure] bool IsIntercalaryDay(int y, int m, int d);
 
     /// <summary>Determines whether the specified date is a supplementary day or not.
-    /// <para>A supplementary day is a day kept outside the intermediary cycles, those shorter than
-    /// a year.</para>
-    /// <para>For technical reasons, we usually attach a supplementary day to the month before.
-    /// </para>
-    /// <para>A supplementary day may be intercalary too.</para>
-    /// <para>An example of such days is given by the epagomenal days which are kept outside any
-    /// regular month or decade.</para>
-    /// </summary>
+    /// <para>Supplementary days are days kept outside the intermediary cycles, those shorter than
+    /// a year. For technical reasons, we usually attach them to the month before. Notice that a
+    /// supplementary day may be intercalary too. An example of such days is given by the epagomenal
+    /// days which are kept outside any regular month or decade.</para></summary>
     // By attaching a supplementary day to the preceding month, we differ
     // from NodaTime & others which seem to prefer the creation of a virtual
     // month for holding the supplementary days. Advantages/disadvantages:

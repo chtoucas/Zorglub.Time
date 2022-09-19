@@ -97,8 +97,7 @@ public readonly record struct AdditionRuleset
 }
 
 /// <summary>Specifies the strategy to resolve ambiguities when adding a number of months or years
-/// to a date, or a number of years to a month.
-/// <para><see cref="Truncate"/> is the <i>default</i> strategy.</para></summary>
+/// to a date, or a number of years to a month.</summary>
 public enum AdditionRule
 {
     /// <summary>When the result is not a valid day (resp. month), return the end of the target

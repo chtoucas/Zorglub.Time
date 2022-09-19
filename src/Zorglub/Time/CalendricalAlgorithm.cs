@@ -19,7 +19,7 @@ public enum CalendricalAlgorithm
 
     /// <summary>The calendrical algorithm is based on observations of the sky or some other natural
     /// phenomenon.
-    /// <para>This value has been added for completeness but, for obvious reasons, we won't
-    /// actually use it.</para></summary>
+    /// <para>This value has been added for completeness but, for obvious reasons, we won't actually
+    /// use it.</para></summary>
     Observational,
 }
