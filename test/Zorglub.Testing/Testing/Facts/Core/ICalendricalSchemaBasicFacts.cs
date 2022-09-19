@@ -16,7 +16,8 @@ public abstract class ICalendricalSchemaBasicFacts<TSchema, TDataSet> :
     protected ICalendricalSchemaBasicFacts(TSchema schema) : base(schema) { }
 
     protected bool TestGetYearAnyway { get; init; }
-    protected bool TestGetMonthAnyway { get; init; }
+    // FIXME(fact): SystemSchemaTestSuite.fs/PaxTests, init TestGetMonthAnyway (net7.0).
+    protected bool TestGetMonthAnyway { get; set; }
 
     public override void Algorithm_Prop() { }
     public override void Family_Prop() { }

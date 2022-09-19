@@ -860,10 +860,12 @@ Zorglub.Time.AdditionRule.Throw = 3 -> Zorglub.Time.AdditionRule
 Zorglub.Time.AdditionRule.Truncate = 0 -> Zorglub.Time.AdditionRule
 Zorglub.Time.AdditionRuleset
 Zorglub.Time.AdditionRuleset.AdditionRuleset() -> void
-Zorglub.Time.AdditionRuleset.AdditionRuleset(Zorglub.Time.AdditionRule dateRule, Zorglub.Time.AdditionRule ordinalRule, Zorglub.Time.AdditionRule monthRule) -> void
 Zorglub.Time.AdditionRuleset.DateRule.get -> Zorglub.Time.AdditionRule
+Zorglub.Time.AdditionRuleset.DateRule.init -> void
 Zorglub.Time.AdditionRuleset.MonthRule.get -> Zorglub.Time.AdditionRule
+Zorglub.Time.AdditionRuleset.MonthRule.init -> void
 Zorglub.Time.AdditionRuleset.OrdinalRule.get -> Zorglub.Time.AdditionRule
+Zorglub.Time.AdditionRuleset.OrdinalRule.init -> void
 Zorglub.Time.CalendarId
 Zorglub.Time.CalendarId.Armenian = 3 -> Zorglub.Time.CalendarId
 Zorglub.Time.CalendarId.Civil = 2 -> Zorglub.Time.CalendarId
