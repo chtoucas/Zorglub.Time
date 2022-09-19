@@ -89,7 +89,7 @@ using Zorglub.Time.Core.Intervals;
 
 /// <summary>Defines a calendrical schema.</summary>
 /// <remarks>
-/// <para>A calendrical schema is a "pure" calendar:
+/// A calendrical schema is a "pure" calendar:
 /// <list type="bullet">
 /// <item>It has only one era. Dates are either in the main era or in the "era" before.</item>
 /// <item>The epoch, the origin of the main era, is the date labelled 1/1/1.</item>
@@ -101,7 +101,6 @@ using Zorglub.Time.Core.Intervals;
 /// calendrical point of view, nevertheless they MUST ensure that all returned values are valid
 /// when the previous condition is met.</item>
 /// </list>
-/// </para>
 /// </remarks>
 public partial interface ICalendricalSchema : ICalendricalKernel
 {

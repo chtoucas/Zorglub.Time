@@ -3,15 +3,11 @@
 
 namespace Zorglub.Time.Core;
 
-// La substantifique moelle d'un calendrier.
+// REVIEW(api): move IsRegular() to ICalendricalSchema? Change calendars too.
 
 /// <summary>Defines a calendrical schema.</summary>
 public interface ICalendricalKernel
 {
-    //
-    // Global characteristics
-    //
-
     /// <summary>Gets the calendrical algorithm: arithmetical, astronomical or observational.
     /// </summary>
     CalendricalAlgorithm Algorithm { get; }
@@ -24,16 +20,10 @@ public interface ICalendricalKernel
     /// cycles, lunar and solar.</summary>
     CalendricalAdjustments PeriodicAdjustments { get; }
 
-    // REVIEW(api): move this to ICalendricalSchema? Change calendars too.
-
     /// <summary>Returns true if this schema is regular; otherwise returns false.</summary>
     /// <remarks>The number of months is given in an output parameter; if this schema is not regular
     /// <paramref name="monthsInYear"/> is set to 0.</remarks>
     [Pure] bool IsRegular(out int monthsInYear);
-
-    //
-    // Characteristics
-    //
 
     /// <summary>Determines whether the specified year is leap or not.</summary>
     /// <remarks>A leap year is a year with at least one intercalary day, week or month.</remarks>
@@ -67,10 +57,6 @@ public interface ICalendricalKernel
     //   me that with Nodatime 30/12/1970 + 13 months = 05/13/1970, it seems
     //   to me more sensical to get 30/01/1971.
     [Pure] bool IsSupplementaryDay(int y, int m, int d);
-
-    //
-    // Counting
-    //
 
     /// <summary>Obtains the number of months in the specified year.</summary>
     [Pure] int CountMonthsInYear(int y);

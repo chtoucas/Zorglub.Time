@@ -7,8 +7,8 @@ using Zorglub.Time.Core.Schemas;
 
 // https://en.wikipedia.org/wiki/Calendar_era
 
-/// <summary>Defines the (origin of the) different styles of numbering days and common calendar
-/// epochs.</summary>
+/// <summary>Defines the (origin for) different styles of numbering days and common calendar epochs.
+/// </summary>
 /// <remarks>This class cannot be inherited.</remarks>
 public static partial class DayZero
 {
