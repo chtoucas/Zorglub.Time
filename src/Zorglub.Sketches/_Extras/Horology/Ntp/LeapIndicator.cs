@@ -8,35 +8,25 @@ namespace Zorglub.Time.Horology.Ntp;
 // Ignoring O, all values in LeapIndicator are fixed manually to ensure that
 // (int)LeapIndicator - 1 matches the binary value.
 
-/// <summary>
-/// Specifies the warning of an impending leap second to be inserted/deleted in the last minute
-/// of the current day.
-/// </summary>
+/// <summary>Specifies the warning of an impending leap second to be inserted/deleted in the last
+/// minute of the current day.</summary>
 [SuppressMessage("Design", "CA1028:Enum Storage should be Int32", Justification = "<Pending>")]
 public enum LeapIndicator : byte
 {
-    /// <summary>
-    /// The leap indicator is not known (invalid).
-    /// </summary>
+    /// <summary>The leap indicator is not known.</summary>
+    /// <remarks>This value is considered to be <i>invalid</i>. We never use it, and neither should
+    /// you.</remarks>
     Unknown = 0,
 
-    /// <summary>
-    /// No warning.
-    /// </summary>
+    /// <summary>No warning.</summary>
     NoWarning = 1,
 
-    /// <summary>
-    /// Last minute has 61 seconds.
-    /// </summary>
+    /// <summary>Last minute has 61 seconds.</summary>
     PositiveLeapSecond = 2,
 
-    /// <summary>
-    /// Last minute has 59 seconds.
-    /// </summary>
+    /// <summary>Last minute has 59 seconds.</summary>
     NegativeLeapSecond = 3,
 
-    /// <summary>
-    /// Alarm condition (clock not synchronized).
-    /// </summary>
+    /// <summary>Alarm condition (clock not synchronized).</summary>
     Unsynchronized = 4
 }

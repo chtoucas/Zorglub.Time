@@ -15,8 +15,6 @@ Design
 Our default is to seal the classes.
 Add the attribut `[Pure]` to all methods returning something.
 Add the attribut `[DoesNotReturn]` for methods that always throw.
-Static field vs static prop: for structs I prefer static readonly field, unless
-they are part of an interface.
 In a _public_ sealed class use `override sealed` instead of `override` (this way
 we can spot overridable methods in the file PublicAPI).
 

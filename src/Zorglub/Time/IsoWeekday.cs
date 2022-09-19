@@ -3,13 +3,13 @@
 
 namespace Zorglub.Time;
 
-// Avoir une valeur __par défaut__ invalide ne me plaît pas des masses. En
-// même temps, je ne vois pas comment faire autrement.
+// Avoir une valeur __par défaut__ invalide ne me plaît pas des masses. En même
+// temps, je ne vois pas comment faire autrement.
 // Dans ce projet, on utilise en priorité l'énumération DayOfWeek.
-// DayOfWeek ou Weekday ? Partout ailleurs, on utilise DayOfWeek, mais on
-// adopte la terminologie ISO qui semble préférer "weekday" à "day of the
-// week". On garde quand même le préfixe ISO pour être bien sûr qu'il n'y
-// ait pas de risque de confusion entre les deux énumérations.
+// DayOfWeek ou Weekday ? Partout ailleurs, on utilise DayOfWeek, mais on adopte
+// la terminologie ISO qui semble préférer "weekday" à "day of the week". On
+// garde quand même le préfixe ISO pour être bien sûr qu'il n'y ait pas de risque
+// de confusion entre les deux énumérations.
 
 /// <summary>Specifies the ISO weekday.</summary>
 /// <remarks>A legit value is in the range from 1 to 7, 1 being attributed to Monday.</remarks>

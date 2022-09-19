@@ -5,34 +5,23 @@ namespace Zorglub.Time.Core;
 
 // REVIEW(api): move IsRegular() to ICalendricalSchema? Change calendars too.
 
-// IsSupplementaryDay()
-// By attaching a supplementary day to the preceding month, we differ
-// from NodaTime & others which seem to prefer the creation of a virtual
-// month for holding the supplementary days. Advantages/disadvantages:
-// - CountMonthsInYear() returns the number of months as defined by the
-//   calendar.
-// - CountDaysInMonth() does not always return the actual number of days
-//   in a month.
-// - more importantly, arithmetical ops work without any modification.
-//   For instance, with the simple Egyptian calendar, it always bothered
-//   me that with Nodatime 30/12/1970 + 13 months = 05/13/1970, it seems
-//   to me more sensical to get 30/01/1971.
-
 /// <summary>Defines a calendrical schema.</summary>
 public interface ICalendricalKernel
 {
-    /// <summary>Gets the calendrical algorithm: arithmetical, astronomical or observational.</summary>
+    /// <summary>Gets the calendrical algorithm: arithmetical, astronomical or observational.
+    /// </summary>
     CalendricalAlgorithm Algorithm { get; }
 
-    /// <summary>Gets the calendrical family, determined by the astronomical cycle: solar, lunar, lunisolar...</summary>
+    /// <summary>Gets the calendrical family, determined by the astronomical cycle: solar, lunar,
+    /// lunisolar...</summary>
     CalendricalFamily Family { get; }
 
-    /// <summary>Gets the method employed at regular intervals in order to synchronise the two main cycles, lunar and
-    /// solar.</summary>
+    /// <summary>Gets the method employed at regular intervals in order to synchronise the two main
+    /// cycles, lunar and solar.</summary>
     CalendricalAdjustments PeriodicAdjustments { get; }
 
     /// <summary>Returns true if this schema is regular; otherwise returns false.</summary>
-    /// <remarks>The number of months is given in an output parameter; if this schema is not regular,
+    /// <remarks>The number of months is given in an output parameter; if this schema is not regular
     /// <paramref name="monthsInYear"/> is set to 0.</remarks>
     [Pure] bool IsRegular(out int monthsInYear);
 
@@ -48,12 +37,25 @@ public interface ICalendricalKernel
 
     /// <summary>Determines whether the specified date is a supplementary day or not.</summary>
     /// <remarks>
-    /// <para>A supplementary day is a day kept outside the intermediary cycles, those shorter than a year.</para>
-    /// <para>For technical reasons, we usually attach a supplementary day to the month before.</para>
-    /// <para>A supplementary day may be intercalary too.</para>
-    /// <para>An example of such days is given by the epagomenal days which are kept outside any regular month or decade.
+    /// <para>A supplementary day is a day kept outside the intermediary cycles, those shorter than
+    /// a year.</para>
+    /// <para>For technical reasons, we usually attach a supplementary day to the month before.
     /// </para>
+    /// <para>A supplementary day may be intercalary too.</para>
+    /// <para>An example of such days is given by the epagomenal days which are kept outside any
+    /// regular month or decade.</para>
     /// </remarks>
+    // By attaching a supplementary day to the preceding month, we differ
+    // from NodaTime & others which seem to prefer the creation of a virtual
+    // month for holding the supplementary days. Advantages/disadvantages:
+    // - CountMonthsInYear() returns the number of months as defined by the
+    //   calendar.
+    // - CountDaysInMonth() does not always return the actual number of days
+    //   in a month.
+    // - more importantly, arithmetical ops work without any modification.
+    //   For instance, with the simple Egyptian calendar, it always bothered
+    //   me that with Nodatime 30/12/1970 + 13 months = 05/13/1970, it seems
+    //   to me more sensical to get 30/01/1971.
     [Pure] bool IsSupplementaryDay(int y, int m, int d);
 
     /// <summary>Obtains the number of months in the specified year.</summary>

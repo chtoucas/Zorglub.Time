@@ -93,12 +93,13 @@ using Zorglub.Time.Core.Intervals;
 /// <list type="bullet">
 /// <item>It has only one era. Dates are either in the main era or in the "era" before.</item>
 /// <item>The epoch, the origin of the main era, is the date labelled 1/1/1.</item>
-/// <item>Concrete implementations MUST ensure that all methods won't overflow with years within the range defined
-/// hereby.</item>
-/// <item>A method does NOT check whether a parameter, like "year" or "daysSinceEpoch", is in the range defined hereby
-/// or not.</item>
-/// <item>A schema is <i>lenient</i>, its methods assume that their parameters are valid from a calendrical point of
-/// view, nevertheless they MUST ensure that all returned values are valid when the previous condition is met.</item>
+/// <item>Concrete implementations MUST ensure that all methods won't overflow with years within
+/// the range defined hereby.</item>
+/// <item>A method does NOT check whether a parameter, like "year" or "daysSinceEpoch", is in
+/// the range defined hereby or not.</item>
+/// <item>A schema is <i>lenient</i>, its methods assume that their parameters are valid from a
+/// calendrical point of view, nevertheless they MUST ensure that all returned values are valid
+/// when the previous condition is met.</item>
 /// </list>
 /// </remarks>
 public partial interface ICalendricalSchema : ICalendricalKernel
@@ -112,16 +113,16 @@ public partial interface ICalendricalSchema : ICalendricalKernel
     /// <summary>Gets the minimal total number of days there is at least in a month.</summary>
     int MinDaysInMonth { get; }
 
-    /// <summary>Gets the range of supported days, that is the range of supported numbers of consecutive days from the
-    /// epoch for which the methods are known not to overflow.</summary>
-    /// <returns>The range from the first day of the first supported year to the last day of the last supported year.
-    /// </returns>
+    /// <summary>Gets the range of supported days, that is the range of supported numbers of
+    /// consecutive days from the epoch for which the methods are known not to overflow.</summary>
+    /// <returns>The range from the first day of the first supported year to the last day of the
+    /// last supported year.</returns>
     Range<int> SupportedDays { get; }
 
-    /// <summary>Gets the range of supported months, that is the range of supported numbers of consecutive months from
-    /// the epoch for which the methods are known not to overflow.</summary>
-    /// <returns>The range from the first month of the first supported year to the last month of the last supported year.
-    /// </returns>
+    /// <summary>Gets the range of supported months, that is the range of supported numbers of
+    /// consecutive months from the epoch for which the methods are known not to overflow.</summary>
+    /// <returns>The range from the first month of the first supported year to the last month of the
+    /// last supported year.</returns>
     Range<int> SupportedMonths { get; }
 
     /// <summary>Gets the range of years for which the methods are known not to overflow.</summary>
@@ -133,32 +134,35 @@ public partial interface ICalendricalSchema : ICalendricalKernel
 
 public partial interface ICalendricalSchema // Counting months and days within a year or a month
 {
-    /// <summary>Obtains the number of whole days elapsed since the start of the year and before the specified month.
-    /// </summary>
+    /// <summary>Obtains the number of whole days elapsed since the start of the year and before the
+    /// specified month.</summary>
     [Pure] int CountDaysInYearBeforeMonth(int y, int m);
 }
 
 public partial interface ICalendricalSchema // Conversions
 {
-    /// <summary>Counts the number of consecutive months from the epoch to the specified month.</summary>
+    /// <summary>Counts the number of consecutive months from the epoch to the specified month.
+    /// </summary>
     /// <remarks>Conversion year/month -&gt; monthsSinceEpoch.</remarks>
     [Pure] int CountMonthsSinceEpoch(int y, int m);
 
-    /// <summary>Counts the number of consecutive days from the epoch to the specified date.</summary>
+    /// <summary>Counts the number of consecutive days from the epoch to the specified date.
+    /// </summary>
     /// <remarks>Conversion year/month/day -&gt; daysSinceEpoch.</remarks>
     [Pure] int CountDaysSinceEpoch(int y, int m, int d);
 
-    /// <summary>Counts the number of consecutive days from the epoch to the specified ordinal date.</summary>
+    /// <summary>Counts the number of consecutive days from the epoch to the specified ordinal date.
+    /// </summary>
     /// <remarks>Conversion year/dayOfYear -&gt; daysSinceEpoch.</remarks>
     [Pure] int CountDaysSinceEpoch(int y, int doy);
 
-    /// <summary>Obtains the month parts for the specified month count (the number of consecutive months from the epoch
-    /// to a month); the month parts are given in output parameters.</summary>
+    /// <summary>Obtains the month parts for the specified month count (the number of consecutive
+    /// months from the epoch to a month); the month parts are given in output parameters.</summary>
     /// <remarks>Conversion <paramref name="monthsSinceEpoch"/> -&gt; year/month.</remarks>
     void GetMonthParts(int monthsSinceEpoch, out int y, out int m);
 
-    /// <summary>Obtains the date parts for the specified day count (the number of consecutive days from the epoch to a
-    /// date); the date parts are given in output parameters.</summary>
+    /// <summary>Obtains the date parts for the specified day count (the number of consecutive days
+    /// from the epoch to a date); the date parts are given in output parameters.</summary>
     /// <remarks>Conversion <paramref name="daysSinceEpoch"/> -&gt; year/month/day.</remarks>
     void GetDateParts(int daysSinceEpoch, out int y, out int m, out int d);
 
@@ -167,13 +171,14 @@ public partial interface ICalendricalSchema // Conversions
     // but it made ICalendricalSchemaPlus not CLS compliant because of
     // > Yedoy GetOrdinalParts(int y, int m, int d);
 
-    /// <summary>Obtains the ordinal date parts for the specified day count (the number of consecutive days from the
-    /// epoch to a date); the day of the year is given in an output parameter.</summary>
+    /// <summary>Obtains the ordinal date parts for the specified day count (the number of
+    /// consecutive days from the epoch to a date); the day of the year is given in an output
+    /// parameter.</summary>
     /// <remarks>Conversion <paramref name="daysSinceEpoch"/> -&gt; year/dayOfYear.</remarks>
     [Pure] int GetYear(int daysSinceEpoch, out int doy);
 
-    /// <summary>Obtains the month and day of the month for the specified ordinal date; the day of the month is given in
-    /// an output parameter.</summary>
+    /// <summary>Obtains the month and day of the month for the specified ordinal date; the day of
+    /// the month is given in an output parameter.</summary>
     /// <remarks>Conversion year/dayOfYear -&gt; year/month/day.</remarks>
     [Pure] int GetMonth(int y, int doy, out int d);
 
@@ -186,23 +191,27 @@ public partial interface ICalendricalSchema // Counting months and days since th
 {
     // "Fast" versions of CountMonthsSinceEpoch() and CountDaysSinceEpoch().
 
-    /// <summary>Counts the number of consecutive months from the epoch to the first month of the specified year.
-    /// </summary>
+    /// <summary>Counts the number of consecutive months from the epoch to the first month of the
+    /// specified year.</summary>
     [Pure] int GetStartOfYearInMonths(int y);
 
-    /// <summary>Counts the number of consecutive months from the epoch to the last month of the specified year.
-    /// </summary>
+    /// <summary>Counts the number of consecutive months from the epoch to the last month of the
+    /// specified year.</summary>
     [Pure] int GetEndOfYearInMonths(int y);
 
-    /// <summary>Counts the number of consecutive days from the epoch to the first day of the specified year.</summary>
+    /// <summary>Counts the number of consecutive days from the epoch to the first day of the
+    /// specified year.</summary>
     [Pure] int GetStartOfYear(int y);
 
-    /// <summary>Counts the number of consecutive days from the epoch to the last day of the specified year.</summary>
+    /// <summary>Counts the number of consecutive days from the epoch to the last day of the
+    /// specified year.</summary>
     [Pure] int GetEndOfYear(int y);
 
-    /// <summary>Counts the number of consecutive days from the epoch to the first day of the specified month.</summary>
+    /// <summary>Counts the number of consecutive days from the epoch to the first day of the
+    /// specified month.</summary>
     [Pure] int GetStartOfMonth(int y, int m);
 
-    /// <summary>Counts the number of consecutive days from the epoch to the last day of the specified month.</summary>
+    /// <summary>Counts the number of consecutive days from the epoch to the last day of the
+    /// specified month.</summary>
     [Pure] int GetEndOfMonth(int y, int m);
 }

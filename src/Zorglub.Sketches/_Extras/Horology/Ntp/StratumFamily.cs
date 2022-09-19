@@ -7,39 +7,27 @@ namespace Zorglub.Time.Horology.Ntp;
 // Contrary to LeapIndicator and NtpMode, there is no one-to-one mapping
 // between NtpStratum and the binary values (StratumLevel).
 
-/// <summary>
-/// Specifies the NTP stratum family.
-/// </summary>
+/// <summary>Specifies the NTP stratum family.</summary>
 [SuppressMessage("Naming", "CA1700:Do not name enum values 'Reserved'", Justification = "NTP wording")]
 public enum StratumFamily
 {
-    /// <summary>
-    /// The NTP stratum is not known (invalid).
-    /// </summary>
+    /// <summary>The NTP stratum is not known.</summary>
+    /// <remarks>This value is considered to be <i>invalid</i>. We never use it, and neither should
+    /// you.</remarks>
     Unknown = 0,
 
-    /// <summary>
-    /// Unspecified or unavailable (Kiss-o'-Death message).
-    /// </summary>
+    /// <summary>Unspecified or unavailable (Kiss-o'-Death message).</summary>
     Unspecified,
 
-    /// <summary>
-    /// Primary reference (e.g., synchronized by radio clock).
-    /// </summary>
+    /// <summary>Primary reference (e.g., synchronized by radio clock).</summary>
     PrimaryReference,
 
-    /// <summary>
-    /// Secondary reference (synchronized by NTP or SNTP).
-    /// </summary>
+    /// <summary>Secondary reference (synchronized by NTP or SNTP).</summary>
     SecondaryReference,
 
-    /// <summary>
-    /// Unsynchronized.
-    /// </summary>
+    /// <summary>Unsynchronized.</summary>
     Unsynchronized,
 
-    /// <summary>
-    /// Reserved.
-    /// </summary>
+    /// <summary>Reserved.</summary>
     Reserved
 }
