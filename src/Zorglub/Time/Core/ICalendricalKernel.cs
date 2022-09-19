@@ -20,13 +20,15 @@ public interface ICalendricalKernel
     /// cycles, lunar and solar.</summary>
     CalendricalAdjustments PeriodicAdjustments { get; }
 
-    /// <summary>Returns true if this schema is regular; otherwise returns false.</summary>
-    /// <remarks>The number of months is given in an output parameter; if this schema is not regular
-    /// <paramref name="monthsInYear"/> is set to 0.</remarks>
+    /// <summary>Returns true if this schema is regular; otherwise returns false.
+    /// <para>The number of months is given in an output parameter; if this schema is not regular
+    /// <paramref name="monthsInYear"/> is set to 0.</para>
+    /// </summary>
     [Pure] bool IsRegular(out int monthsInYear);
 
-    /// <summary>Determines whether the specified year is leap or not.</summary>
-    /// <remarks>A leap year is a year with at least one intercalary day, week or month.</remarks>
+    /// <summary>Determines whether the specified year is leap or not.
+    /// <para>A leap year is a year with at least one intercalary day, week or month.</para>
+    /// </summary>
     [Pure] bool IsLeapYear(int y);
 
     /// <summary>Determines whether the specified month is intercalary or not.</summary>
@@ -35,8 +37,7 @@ public interface ICalendricalKernel
     /// <summary>Determines whether the specified date is an intercalary day or not.</summary>
     [Pure] bool IsIntercalaryDay(int y, int m, int d);
 
-    /// <summary>Determines whether the specified date is a supplementary day or not.</summary>
-    /// <remarks>
+    /// <summary>Determines whether the specified date is a supplementary day or not.
     /// <para>A supplementary day is a day kept outside the intermediary cycles, those shorter than
     /// a year.</para>
     /// <para>For technical reasons, we usually attach a supplementary day to the month before.
@@ -44,7 +45,7 @@ public interface ICalendricalKernel
     /// <para>A supplementary day may be intercalary too.</para>
     /// <para>An example of such days is given by the epagomenal days which are kept outside any
     /// regular month or decade.</para>
-    /// </remarks>
+    /// </summary>
     // By attaching a supplementary day to the preceding month, we differ
     // from NodaTime & others which seem to prefer the creation of a virtual
     // month for holding the supplementary days. Advantages/disadvantages:

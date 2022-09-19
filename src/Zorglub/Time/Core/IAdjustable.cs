@@ -8,8 +8,9 @@ namespace Zorglub.Time.Core;
 public interface IAdjustable<TSelf>
     where TSelf : IAdjustable<TSelf>
 {
-    /// <summary>Adjusts the current instance using the specified adjuster.</summary>
-    /// <remarks>If the adjuster throws, this method will propagate the exception.</remarks>
+    /// <summary>Adjusts the current instance using the specified adjuster.
+    /// <para>If the adjuster throws, this method will propagate the exception.</para>
+    /// </summary>
     /// <exception cref="ArgumentNullException"><paramref name="adjuster"/> is null.</exception>
     [Pure] TSelf Adjust(Func<TSelf, TSelf> adjuster);
 }
