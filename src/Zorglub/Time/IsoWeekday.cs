@@ -3,16 +3,15 @@
 
 namespace Zorglub.Time;
 
-// Avoir une valeur __par défaut__ invalide ne me plaît pas des masses. En même
-// temps, je ne vois pas comment faire autrement.
-// Dans ce projet, on utilise en priorité l'énumération DayOfWeek.
-// DayOfWeek ou Weekday ? Partout ailleurs, on utilise DayOfWeek, mais on adopte
-// la terminologie ISO qui semble préférer "weekday" à "day of the week". On
-// garde quand même le préfixe ISO pour être bien sûr qu'il n'y ait pas de
-// risque de confusion entre les deux énumérations.
+// Avoir une valeur _par défaut_ invalide ne me plaît guère. Ceci dit, je ne
+// vois pas comment faire autrement, et ce n'est pas important car on utilise
+// presque exclusivement l'énumération DayOfWeek qui n'a pas ce problème.
+// IsoDayOfWeek ou IsoWeekday ? On adopte la terminologie ISO qui semble
+// préférer "weekday" à "day of the week". On garde quand même le préfixe ISO
+// pour être bien sûr qu'il n'y ait pas de risque de confusion entre DayOfWeek
+// et IsoWeekday.
 
-/// <summary>Specifies the ISO weekday.
-/// <para>A legit value is in the range from 1 to 7, 1 being attributed to Monday.</para></summary>
+/// <summary>Specifies the ISO weekday.</summary>
 public enum IsoWeekday
 {
     /// <summary>Indicates an unknown ISO weekday.
@@ -46,7 +45,7 @@ public enum IsoWeekday
 /// <para>This class cannot be inherited.</para></summary>
 public static class IsoWeekdayExtensions
 {
-    /// <summary>Converts the value of the specified day of the week to the equivalent
+    /// <summary>Converts the specified <see cref="DayOfWeek"/> value to the equivalent
     /// <see cref="IsoWeekday"/>.</summary>
     [Pure]
     public static IsoWeekday ToIsoWeekday(this DayOfWeek dayOfWeek)
@@ -56,8 +55,8 @@ public static class IsoWeekdayExtensions
         return dayOfWeek == DayOfWeek.Sunday ? IsoWeekday.Sunday : (IsoWeekday)dayOfWeek;
     }
 
-    /// <summary>Converts the value of the specified <see cref="IsoWeekday"/> to the equivalent
-    /// <see cref="DayOfWeek"/> value.</summary>
+    /// <summary>Converts the specified <see cref="IsoWeekday"/> value to the equivalent
+    /// <see cref="DayOfWeek"/>.</summary>
     [Pure]
     public static DayOfWeek ToDayOfWeek(this IsoWeekday isoWeekday)
     {
