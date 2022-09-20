@@ -225,8 +225,8 @@ namespace Zorglub.Time
         /// </summary>
         public int CompareTo(Ord64 other) => _value.CompareTo(other._value);
 
-        /// <inheritdoc />
-        public int CompareTo(object? obj) =>
+        [Pure]
+        int IComparable.CompareTo(object? obj) =>
             obj is null ? 1
             : obj is Ord64 ord ? CompareTo(ord)
             : Throw.NonComparable(typeof(Ord64), obj);

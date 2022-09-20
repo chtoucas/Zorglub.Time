@@ -197,7 +197,7 @@ public partial struct CivilTriple // IComparable
     public int CompareTo(CivilTriple other) => _bin.CompareTo(other._bin);
 
     [Pure]
-    public int CompareTo(object? obj) =>
+    int IComparable.CompareTo(object? obj) =>
         obj is null ? 1
         : obj is CivilTriple date ? CompareTo(date)
         : throw new ArgumentException(

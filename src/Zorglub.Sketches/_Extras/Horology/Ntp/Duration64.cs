@@ -164,9 +164,8 @@ public partial struct Duration64 // IComparable
     public int CompareTo(Duration64 other) =>
         _totalFractionalSeconds.CompareTo(other._totalFractionalSeconds);
 
-    /// <inheritdoc />
     [Pure]
-    public int CompareTo(object? obj) =>
+    int IComparable.CompareTo(object? obj) =>
         obj is null ? 1
         : obj is Duration64 duration ? CompareTo(duration)
         : Throw.NonComparable(typeof(Duration64), obj);

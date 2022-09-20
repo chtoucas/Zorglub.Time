@@ -623,9 +623,8 @@ namespace Zorglub.Time.Simple
             return Year.CompareTo(other.Year);
         }
 
-        /// <inheritdoc />
         [Pure]
-        public int CompareTo(object? obj) =>
+        int IComparable.CompareTo(object? obj) =>
             obj is null ? 1
             : obj is CalendarYear year ? CompareTo(year)
             : Throw.NonComparable(typeof(CalendarYear), obj);

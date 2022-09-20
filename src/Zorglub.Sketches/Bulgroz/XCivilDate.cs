@@ -1000,8 +1000,8 @@ public partial struct XCivilDate // IComparable
     [Pure]
     public int CompareTo(XCivilDate other) => _bin.CompareTo(other._bin);
 
-    /// <inheritdoc />
-    public int CompareTo(object? obj) =>
+    [Pure]
+    int IComparable.CompareTo(object? obj) =>
         obj is null ? 1
         : obj is XCivilDate date ? _bin.CompareTo(date._bin)
         : Throw.NonComparable(typeof(XCivilDate), obj);

@@ -128,11 +128,12 @@ namespace Zorglub.Time.Horology
         /// <summary>
         /// Indicates whether this moment instance is earlier, later or the same as the specified one.
         /// </summary>
+        [Pure]
         public int CompareTo(GregorianInstant other) =>
             NanosecondsSinceZero.CompareTo(other.NanosecondsSinceZero);
 
-        /// <inheritdoc/>
-        public int CompareTo(object? obj) =>
+        [Pure]
+        int IComparable.CompareTo(object? obj) =>
             obj is null ? 1
             : obj is GregorianInstant moment ? CompareTo(moment)
             : Throw.NonComparable(typeof(GregorianInstant), obj);

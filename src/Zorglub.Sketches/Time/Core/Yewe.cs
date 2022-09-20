@@ -312,9 +312,8 @@ namespace Zorglub.Time.Core
         [Pure]
         public int CompareTo(Yewe other) => _bin.CompareTo(other._bin);
 
-        /// <inheritdoc />
         [Pure]
-        public int CompareTo(object? obj) =>
+        int IComparable.CompareTo(object? obj) =>
             obj is null ? 1
             : obj is Yewe yewe ? CompareTo(yewe)
             : Throw.NonComparable(typeof(Yewe), obj);

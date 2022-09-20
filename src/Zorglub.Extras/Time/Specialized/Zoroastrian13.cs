@@ -464,9 +464,8 @@ public partial struct Zoroastrian13Date // IComparable
     [Pure]
     public int CompareTo(Zoroastrian13Date other) => _daysSinceEpoch.CompareTo(other._daysSinceEpoch);
 
-    /// <inheritdoc />
     [Pure]
-    public int CompareTo(object? obj) =>
+    int IComparable.CompareTo(object? obj) =>
         obj is null ? 1
         : obj is Zoroastrian13Date date ? CompareTo(date)
         : Throw.NonComparable(typeof(Zoroastrian13Date), obj);

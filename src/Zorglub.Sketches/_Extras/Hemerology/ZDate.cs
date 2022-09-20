@@ -460,9 +460,8 @@ namespace Zorglub.Time.Hemerology
             return _daysSinceEpoch.CompareTo(other._daysSinceEpoch);
         }
 
-        /// <inheritdoc />
         [Pure]
-        public int CompareTo(object? obj) =>
+        int IComparable.CompareTo(object? obj) =>
             obj is null ? 1
             : obj is ZDate date ? CompareTo(date)
             : Throw.NonComparable(typeof(ZDate), obj);

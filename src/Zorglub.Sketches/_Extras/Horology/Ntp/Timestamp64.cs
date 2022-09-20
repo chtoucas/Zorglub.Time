@@ -374,9 +374,8 @@ public partial struct Timestamp64 // IComparable
     public int CompareTo(Timestamp64 other) =>
         FractionalSecondsSinceZero.CompareTo(other.FractionalSecondsSinceZero);
 
-    /// <inheritdoc />
     [Pure]
-    public int CompareTo(object? obj) =>
+    int IComparable.CompareTo(object? obj) =>
         obj is null ? 1
         : obj is Timestamp64 timestamp ? CompareTo(timestamp)
         : Throw.NonComparable(typeof(Timestamp64), obj);

@@ -217,11 +217,12 @@ namespace Zorglub.Time.Horology.Astronomy
         /// Indicates whether this time instance is earlier, later or the same
         /// as the specified one.
         /// </summary>
+        [Pure]
         public int CompareTo(UtcTime other)
             => _quasiJD.CompareTo(other._quasiJD);
 
-        /// <inheritdoc />
-        public int CompareTo(object? obj) =>
+        [Pure]
+        int IComparable.CompareTo(object? obj) =>
             obj is null ? 1
             : obj is UtcTime time ? CompareTo(time)
             : Throw.NonComparable(typeof(UtcTime), obj);

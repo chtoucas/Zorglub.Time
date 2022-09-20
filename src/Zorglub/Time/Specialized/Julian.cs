@@ -526,9 +526,8 @@ namespace Zorglub.Time.Specialized
         [Pure]
         public int CompareTo(JulianDate other) => _daysSinceEpoch.CompareTo(other._daysSinceEpoch);
 
-        /// <inheritdoc />
         [Pure]
-        public int CompareTo(object? obj) =>
+        int IComparable.CompareTo(object? obj) =>
             obj is null ? 1
             : obj is JulianDate date ? CompareTo(date)
             : Throw.NonComparable(typeof(JulianDate), obj);

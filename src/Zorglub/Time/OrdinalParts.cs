@@ -44,9 +44,8 @@ public readonly record struct OrdinalParts(int Year, int DayOfYear) :
         return c == 0 ? DayOfYear.CompareTo(other.DayOfYear) : c;
     }
 
-    /// <inheritdoc />
     [Pure]
-    public int CompareTo(object? obj) =>
+    int IComparable.CompareTo(object? obj) =>
         obj is null ? 1
         : obj is OrdinalParts parts ? CompareTo(parts)
         : Throw.NonComparable(typeof(OrdinalParts), obj);

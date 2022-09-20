@@ -98,11 +98,12 @@ namespace Zorglub.Time.Horology.Astronomy
         public static bool operator >=(BidayNumber left, BidayNumber right) =>
             left._halfDaysSinceZero >= right._halfDaysSinceZero;
 
+        [Pure]
         public int CompareTo(BidayNumber other) =>
             _halfDaysSinceZero.CompareTo(other._halfDaysSinceZero);
 
-        /// <inheritdoc />
-        public int CompareTo(object? obj) =>
+        [Pure]
+        int IComparable.CompareTo(object? obj) =>
             obj is null ? 1
             : obj is BidayNumber epoch ? CompareTo(epoch)
             : Throw.NonComparable(typeof(BidayNumber), obj);

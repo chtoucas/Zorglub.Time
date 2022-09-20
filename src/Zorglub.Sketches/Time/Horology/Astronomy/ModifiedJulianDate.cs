@@ -207,6 +207,7 @@ namespace Zorglub.Time.Horology.Astronomy
         /// Indicates whether this Modified Julian Date instance is earlier, later or the same as
         /// the specified one.
         /// </summary>
+        [Pure]
         public int CompareTo(ModifiedJulianDate other)
         {
             if (_timescale != other._timescale)
@@ -215,8 +216,8 @@ namespace Zorglub.Time.Horology.Astronomy
             return _value.CompareTo(other._value);
         }
 
-        /// <inheritdoc />
-        public int CompareTo(object? obj) =>
+        [Pure]
+        int IComparable.CompareTo(object? obj) =>
             obj is null ? 1
             : obj is ModifiedJulianDate mjd ? CompareTo(mjd)
             : Throw.NonComparable(typeof(ModifiedJulianDate), obj);

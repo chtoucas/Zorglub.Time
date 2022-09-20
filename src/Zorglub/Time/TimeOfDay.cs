@@ -480,9 +480,8 @@ public partial struct TimeOfDay // IComparable
     [Pure]
     public int CompareTo(TimeOfDay other) => _bin.CompareTo(other._bin);
 
-    /// <inheritdoc/>
     [Pure]
-    public int CompareTo(object? obj) =>
+    int IComparable.CompareTo(object? obj) =>
         obj is null ? 1
         : obj is TimeOfDay hmss ? CompareTo(hmss)
         : Throw.NonComparable(typeof(TimeOfDay), obj);

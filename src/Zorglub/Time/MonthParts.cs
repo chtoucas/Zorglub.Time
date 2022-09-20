@@ -40,9 +40,8 @@ public readonly record struct MonthParts(int Year, int Month) :
         return c == 0 ? Month.CompareTo(other.Month) : c;
     }
 
-    /// <inheritdoc />
     [Pure]
-    public int CompareTo(object? obj) =>
+    int IComparable.CompareTo(object? obj) =>
         obj is null ? 1
         : obj is MonthParts parts ? CompareTo(parts)
         : Throw.NonComparable(typeof(MonthParts), obj);

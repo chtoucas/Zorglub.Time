@@ -343,8 +343,8 @@ namespace Zorglub.Time.Horology.Astronomy
             return _value.CompareTo(other._value);
         }
 
-        /// <inheritdoc />
-        public int CompareTo(object? obj) =>
+        [Pure]
+        int IComparable.CompareTo(object? obj) =>
             obj is null ? 1
             : obj is AstronomicalJulianDate jd ? CompareTo(jd)
             : Throw.NonComparable(typeof(AstronomicalJulianDate), obj);

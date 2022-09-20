@@ -492,9 +492,8 @@ namespace Zorglub.Time.Specialized
         [Pure]
         public int CompareTo(GregorianDate other) => _daysSinceZero.CompareTo(other._daysSinceZero);
 
-        /// <inheritdoc />
         [Pure]
-        public int CompareTo(object? obj) =>
+        int IComparable.CompareTo(object? obj) =>
             obj is null ? 1
             : obj is GregorianDate date ? CompareTo(date)
             : Throw.NonComparable(typeof(GregorianDate), obj);

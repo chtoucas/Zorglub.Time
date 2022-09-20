@@ -513,9 +513,8 @@ namespace Zorglub.Time.Simple
             return DaysSinceEpoch.CompareTo(other.DaysSinceEpoch);
         }
 
-        /// <inheritdoc />
         [Pure]
-        public int CompareTo(object? obj) =>
+        int IComparable.CompareTo(object? obj) =>
             obj is null ? 1
             : obj is CalendarDay date ? CompareTo(date)
             : Throw.NonComparable(typeof(CalendarDay), obj);

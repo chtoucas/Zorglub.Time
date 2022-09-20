@@ -473,9 +473,8 @@ public partial struct WorldDate // IComparable
     [Pure]
     public int CompareTo(WorldDate other) => _daysSinceEpoch.CompareTo(other._daysSinceEpoch);
 
-    /// <inheritdoc />
     [Pure]
-    public int CompareTo(object? obj) =>
+    int IComparable.CompareTo(object? obj) =>
         obj is null ? 1
         : obj is WorldDate date ? CompareTo(date)
         : Throw.NonComparable(typeof(WorldDate), obj);

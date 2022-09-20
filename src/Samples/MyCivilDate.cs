@@ -255,7 +255,7 @@ public partial struct MyCivilDate // IComparable
     public int CompareTo(MyCivilDate other) => _daysSinceEpoch.CompareTo(other._daysSinceEpoch);
 
     [Pure]
-    public int CompareTo(object? obj) =>
+    int IComparable.CompareTo(object? obj) =>
         obj is null ? 1
         : obj is MyCivilDate date ? CompareTo(date)
         : throw new ArgumentException(

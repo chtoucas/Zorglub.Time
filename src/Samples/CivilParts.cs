@@ -141,7 +141,7 @@ public partial record struct CivilParts // IComparable
     public int CompareTo(CivilParts other) => DateParts.CompareTo(other.DateParts);
 
     [Pure]
-    public int CompareTo(object? obj) =>
+    int IComparable.CompareTo(object? obj) =>
         obj is null ? 1
         : obj is CivilParts date ? CompareTo(date)
         : throw new ArgumentException(

@@ -400,7 +400,8 @@ namespace Zorglub.Time
         [Pure]
         public int CompareTo(DayNumber64 other) => _daysSinceZero.CompareTo(other._daysSinceZero);
 
-        public int CompareTo(object? obj) =>
+        [Pure]
+        int IComparable.CompareTo(object? obj) =>
             obj is null ? 1
             : obj is DayNumber64 dayNumber ? _daysSinceZero.CompareTo(dayNumber._daysSinceZero)
             : Throw.NonComparable(typeof(DayNumber64), obj);

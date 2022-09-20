@@ -551,7 +551,7 @@ namespace Zorglub.Time.Horology
         public int CompareTo(InstantOfDay other) => _nanosecondOfDay.CompareTo(other._nanosecondOfDay);
 
         [Pure]
-        public int CompareTo(object? obj) =>
+        int IComparable.CompareTo(object? obj) =>
             obj is null ? 1
             : obj is InstantOfDay timeOfDay ? CompareTo(timeOfDay)
             : Throw.NonComparable(typeof(InstantOfDay), obj);

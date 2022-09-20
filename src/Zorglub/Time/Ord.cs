@@ -144,10 +144,12 @@ public partial struct Ord // IEquatable
     public bool Equals(Ord other) => _value == other._value;
 
     /// <inheritdoc />
+    [Pure]
     public override bool Equals([NotNullWhen(true)] object? obj) =>
         obj is Ord ord && Equals(ord);
 
     /// <inheritdoc />
+    [Pure]
     public override int GetHashCode() => _value;
 }
 
@@ -174,10 +176,11 @@ public partial struct Ord // IComparable
     public static Ord Max(Ord left, Ord right) => left > right ? left : right;
 
     /// <inheritdoc />
+    [Pure]
     public int CompareTo(Ord other) => _value.CompareTo(other._value);
 
-    /// <inheritdoc />
-    public int CompareTo(object? obj) =>
+    [Pure]
+    int IComparable.CompareTo(object? obj) =>
         obj is null ? 1
         : obj is Ord ord ? CompareTo(ord)
         : Throw.NonComparable(typeof(Ord), obj);

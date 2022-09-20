@@ -542,9 +542,8 @@ public partial struct DayNumber // IComparable
     [Pure]
     public int CompareTo(DayNumber other) => _daysSinceZero.CompareTo(other._daysSinceZero);
 
-    /// <inheritdoc />
     [Pure]
-    public int CompareTo(object? obj) =>
+    int IComparable.CompareTo(object? obj) =>
         obj is null ? 1
         : obj is DayNumber dayNumber ? CompareTo(dayNumber)
         : Throw.NonComparable(typeof(DayNumber), obj);

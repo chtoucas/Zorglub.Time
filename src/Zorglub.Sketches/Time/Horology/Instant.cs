@@ -125,8 +125,8 @@ namespace Zorglub.Time.Horology
         public int CompareTo(Instant other) =>
             _nanosecondsSinceEpoch.CompareTo(other._nanosecondsSinceEpoch);
 
-        /// <inheritdoc/>
-        public int CompareTo(object? obj) =>
+        [Pure]
+        int IComparable.CompareTo(object? obj) =>
             obj is null ? 1
             : obj is Instant instant ? CompareTo(instant)
             : Throw.NonComparable(typeof(Instant), obj);

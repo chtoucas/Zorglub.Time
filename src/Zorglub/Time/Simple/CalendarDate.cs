@@ -491,9 +491,8 @@ namespace Zorglub.Time.Simple
             return Parts.CompareTo(other.Parts);
         }
 
-        /// <inheritdoc />
         [Pure]
-        public int CompareTo(object? obj) =>
+        int IComparable.CompareTo(object? obj) =>
             obj is null ? 1
             : obj is CalendarDate date ? CompareTo(date)
             : Throw.NonComparable(typeof(CalendarDate), obj);

@@ -59,6 +59,7 @@ public readonly partial struct Moment :
         + _timeOfDay.MillisecondOfDay;
 
     /// <summary>Returns a culture-independent string representation of this instance.</summary>
+    [Pure]
     public override string ToString() =>
         FormattableString.Invariant($"{DayNumber}+{TimeOfDay}");
 
@@ -82,10 +83,12 @@ public partial struct Moment // IEquatable
         _dayNumber == other._dayNumber && _timeOfDay == other._timeOfDay;
 
     /// <inheritdoc />
+    [Pure]
     public override bool Equals([NotNullWhen(true)] object? obj) =>
         obj is Moment moment && Equals(moment);
 
     /// <inheritdoc />
+    [Pure]
     public override int GetHashCode() => HashCode.Combine(_dayNumber, _timeOfDay);
 }
 
@@ -104,11 +107,12 @@ public partial struct Moment // IComparable
     public static bool operator >=(Moment left, Moment right) => left.CompareTo(right) >= 0;
 
     /// <inheritdoc />
+    [Pure]
     public int CompareTo(Moment other) =>
         MillisecondsSinceZero.CompareTo(other.MillisecondsSinceZero);
 
-    /// <inheritdoc/>
-    public int CompareTo(object? obj) =>
+    [Pure]
+    int IComparable.CompareTo(object? obj) =>
         obj is null ? 1
         : obj is Moment moment ? CompareTo(moment)
         : Throw.NonComparable(typeof(Moment), obj);
