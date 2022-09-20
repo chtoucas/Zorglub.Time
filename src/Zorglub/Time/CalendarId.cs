@@ -62,7 +62,7 @@ internal static class CalendarIdExtensions
         CalendarId.Gregorian <= @this && @this <= CalendarId.Zoroastrian;
 
     /// <summary>Converts the permanent ID to a calendar key.</summary>
-    /// <exception cref="AoorException">The specified ID is not valid.</exception>
+    /// <exception cref="AoorException" />
     public static string ToCalendarKey(this CalendarId @this) =>
         @this switch
         {

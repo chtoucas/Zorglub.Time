@@ -9,19 +9,16 @@ using static Zorglub.Time.Core.TemporalConstants;
 
 // REVIEW(api): implement IFixedDay? Math ops? etc.
 
-/// <summary>Represents a moment with millisecond precision.</summary>
-/// <remarks><see cref="Moment"/> is an immutable struct.</remarks>
+/// <summary>Represents a moment with millisecond precision.
+/// <para><see cref="Moment"/> is an immutable struct.</para></summary>
 public readonly partial struct Moment :
     // Comparison
     IComparisonOperators<Moment, Moment>,
     IMinMaxValue<Moment>
 {
     /// <summary>Represents the day number.</summary>
-    /// <remarks>This field is read-only.</remarks>
     private readonly DayNumber _dayNumber;
-
     /// <summary>Represents the time of the day with millisecond precision.</summary>
-    /// <remarks>This field is read-only.</remarks>
     private readonly TimeOfDay _timeOfDay;
 
     /// <summary>Initializes a new instance of the <see cref="Moment"/> struct from the specified
@@ -32,19 +29,17 @@ public readonly partial struct Moment :
         _timeOfDay = timeOfDay;
     }
 
-    /// <summary>Gets the origin.</summary>
-    /// <remarks>
+    /// <summary>Gets the origin.
     /// <para>The Monday 1st of January, 1 CE within the Gregorian calendar at midnight (0h).</para>
-    /// <para>This static property is thread-safe.</para>
-    /// </remarks>
+    /// <para>This static property is thread-safe.</para></summary>
     public static Moment Zero { get; }
 
-    /// <summary>Gets the smallest possible value of a <see cref="Moment"/>.</summary>
-    /// <remarks>This static property is thread-safe.</remarks>
+    /// <summary>Gets the smallest possible value of a <see cref="Moment"/>.
+    /// <para>This static property is thread-safe.</para></summary>
     public static Moment MinValue { get; } = new(DayNumber.MinValue, TimeOfDay.MinValue);
 
-    /// <summary>Gets the largest possible value of a <see cref="Moment"/>.</summary>
-    /// <remarks>This static property is thread-safe.</remarks>
+    /// <summary>Gets the largest possible value of a <see cref="Moment"/>.
+    /// <para>This static property is thread-safe.</para></summary>
     public static Moment MaxValue { get; } = new(DayNumber.MaxValue, TimeOfDay.MaxValue);
 
     /// <summary>Gets the day number.</summary>

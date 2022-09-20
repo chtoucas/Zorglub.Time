@@ -17,6 +17,8 @@ using Zorglub.Time.Core;
 /// <remarks><see cref="Ord"/> is an immutable struct.</remarks>
 [DebuggerDisplay("{" + nameof(DebuggerDisplay) + ",nq}")]
 public readonly partial struct Ord :
+    // Comparison
+    IComparisonOperators<Ord, Ord>,
     IMinMaxValue<Ord>,
     // Arithmetic
     IAdditionOperators<Ord, int, Ord>,
@@ -24,9 +26,7 @@ public readonly partial struct Ord :
     IDifferenceOperators<Ord, int>,
     IIncrementOperators<Ord>,
     IDecrementOperators<Ord>,
-    IUnaryNegationOperators<Ord, Ord>,
-    // Comparison
-    IComparisonOperators<Ord, Ord>
+    IUnaryNegationOperators<Ord, Ord>
 {
     /// <summary>Represents the smallest possible algebraic value.</summary>
     /// <remarks>This field is a constant equal to -2_147_483_646.</remarks>
@@ -165,11 +165,11 @@ public partial struct Ord // IComparable
     /// <inheritdoc />
     public static bool operator >=(Ord left, Ord right) => left._value >= right._value;
 
-    /// <summary>Obtains the smaller of two specified ordinal numerals.</summary>
+    /// <inheritdoc />
     [Pure]
     public static Ord Min(Ord left, Ord right) => left < right ? left : right;
 
-    /// <summary>Obtains the larger of two specified ordinal numerals.</summary>
+    /// <inheritdoc />
     [Pure]
     public static Ord Max(Ord left, Ord right) => left > right ? left : right;
 

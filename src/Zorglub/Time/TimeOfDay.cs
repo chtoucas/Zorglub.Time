@@ -33,8 +33,8 @@ using static Zorglub.Time.Core.TemporalConstants;
 // https://docs.oracle.com/javase/tutorial/i18n/format/simpleDateFormat.html
 // https://docs.microsoft.com/en-us/dotnet/standard/base-types/standard-date-and-time-format-strings#how-standard-format-strings-work
 
-/// <summary>Represents a time of the day (hour:minute:second) with millisecond precision.</summary>
-/// <remarks><see cref="TimeOfDay"/> is an immutable struct.</remarks>
+/// <summary>Represents a time of the day (hour:minute:second) with millisecond precision.
+/// <para><see cref="TimeOfDay"/> is an immutable struct.</para></summary>
 public readonly partial struct TimeOfDay :
     IComparisonOperators<TimeOfDay, TimeOfDay>,
     IMinMaxValue<TimeOfDay>,
@@ -43,30 +43,20 @@ public readonly partial struct TimeOfDay :
     #region Bit settings
 
     /// <summary><see cref="Hour"/> is a 5-bit unsigned integer.</summary>
-    /// <remarks>This field is a constant equal to 5.</remarks>
     private const int HourBits = 5;
-
     /// <summary><see cref="Minute"/> is a 6-bit unsigned integer.</summary>
-    /// <remarks>This field is a constant equal to 6.</remarks>
     private const int MinuteBits = 6;
-
     /// <summary><see cref="Second"/> is a 6-bit unsigned integer.</summary>
-    /// <remarks>This field is a constant equal to 6.</remarks>
     private const int SecondBits = 6;
-
     /// <summary><see cref="Millisecond"/> is a 6-bit unsigned integer.</summary>
-    /// <remarks>This field is a constant equal to 10.</remarks>
     private const int MillisecondBits = 10;
 
     /// <summary>This field is a constant equal to 10.</summary>
     private const int SecondShift = MillisecondBits;
-
     /// <summary>This field is a constant equal to 16.</summary>
     private const int MinuteShift = SecondShift + SecondBits;
-
     /// <summary>This field is a constant equal to 22.</summary>
     private const int HourShift = MinuteShift + MinuteBits;
-
     /// <summary>This field is a constant equal to 27.</summary>
     internal const int HighestBit = HourShift + HourBits;
 
@@ -76,8 +66,7 @@ public readonly partial struct TimeOfDay :
 
     #endregion
 
-    /// <summary>Represents the binary data stored in this instance.</summary>
-    /// <remarks>
+    /// <summary>Represents the binary data stored in this instance.
     /// <para>The data is organised as follows:
     /// <code><![CDATA[
     ///   Hour         0000 0bbb bb
@@ -85,13 +74,12 @@ public readonly partial struct TimeOfDay :
     ///   Second                           bbbb bb
     ///   Millisecond                             bb bbbb bbbb
     /// ]]></code>
-    /// </para>
-    /// </remarks>
+    /// </para></summary>
     private readonly int _bin;
 
     /// <summary>Initializes a new instance of the <see cref="TimeOfDay"/> struct from the specified
-    /// binary data.</summary>
-    /// <remarks>This constructor does NOT validate its parameter.</remarks>
+    /// binary data.
+    /// <para>This constructor does NOT validate its parameter.</para></summary>
     private TimeOfDay(int bin)
     {
         DebugCheckBinaryData(bin);
@@ -100,29 +88,29 @@ public readonly partial struct TimeOfDay :
     }
 
     /// <summary>Represents the smallest possible value of a <see cref="TimeOfDay"/>; this property
-    /// is strictly equivalent to <see cref="Midnight"/>.</summary>
-    /// <remarks>This static property is thread-safe.</remarks>
+    /// is strictly equivalent to <see cref="Midnight"/>.
+    /// <para>This static property is thread-safe.</para></summary>
     public static TimeOfDay MinValue => Midnight;
 
     /// <summary>Represents the largest possible value of a <see cref="TimeOfDay"/>; one millisecond
-    /// before midnight.</summary>
-    /// <remarks>This static property is thread-safe.</remarks>
+    /// before midnight.
+    /// <para>This static property is thread-safe.</para></summary>
     public static TimeOfDay MaxValue { get; } = FromHourMinuteSecondMillisecond(23, 59, 59, 999);
 
-    /// <summary>Gets the value of a <see cref="TimeOfDay"/> at 00:00.</summary>
-    /// <remarks>This static property is thread-safe.</remarks>
+    /// <summary>Gets the value of a <see cref="TimeOfDay"/> at 00:00.
+    /// <para>This static property is thread-safe.</para></summary>
     public static TimeOfDay Midnight { get; }
 
-    /// <summary>Gets the value of a <see cref="TimeOfDay"/> at 12:00.</summary>
-    /// <remarks>This static property is thread-safe.</remarks>
+    /// <summary>Gets the value of a <see cref="TimeOfDay"/> at 12:00.
+    /// <para>This static property is thread-safe.</para></summary>
     public static TimeOfDay Noon { get; } = FromHourMinute(12, 0);
 
-    /// <summary>Gets the hour of the day.</summary>
-    /// <remarks>The result is in the range from 0 to 23.</remarks>
+    /// <summary>Gets the hour of the day.
+    /// <para>The result is in the range from 0 to 23.</para></summary>
     public int Hour => unchecked(_bin >> HourShift);
 
-    /// <summary>Gets the hour using a 12-hour clock.</summary>
-    /// <remarks>The result is in the range from 1 to 12.</remarks>
+    /// <summary>Gets the hour using a 12-hour clock.
+    /// <para>The result is in the range from 1 to 12.</para></summary>
     public int HourOfHalfDay
     {
         get
@@ -136,33 +124,31 @@ public readonly partial struct TimeOfDay :
     /// </summary>
     public bool IsAnteMeridiem => Hour < 12;
 
-    /// <summary>Gets the minute of the hour.</summary>
-    /// <remarks>The result is in the range from 0 to 59.</remarks>
+    /// <summary>Gets the minute of the hour.
+    /// <para>The result is in the range from 0 to 59.</para></summary>
     public int Minute => unchecked((_bin >> MinuteShift) & MinuteMask);
 
-    /// <summary>Gets the second of the minute.</summary>
-    /// <remarks>The result is in the range from 0 to 59.</remarks>
+    /// <summary>Gets the second of the minute.
+    /// <para>The result is in the range from 0 to 59.</para></summary>
     public int Second => unchecked((_bin >> SecondShift) & SecondMask);
 
-    /// <summary>Gets the millisecond of the second.</summary>
-    /// <remarks>The result is in the range from 0 to 999.</remarks>
+    /// <summary>Gets the millisecond of the second.
+    /// <para>The result is in the range from 0 to 999.</para></summary>
     public int Millisecond => unchecked(_bin & MillisecondMask);
 
-    /// <summary>Gets the number of elapsed seconds since midnight.</summary>
-    /// <remarks>The result is in the range from 0 to 86_399.</remarks>
+    /// <summary>Gets the number of elapsed seconds since midnight.
+    /// <para>The result is in the range from 0 to 86_399.</para></summary>
     public int SecondOfDay
     {
         get
         {
             Unpack(out int h, out int m, out int s);
-            return SecondsPerHour * h
-                + SecondsPerMinute * m
-                + s;
+            return SecondsPerHour * h + SecondsPerMinute * m + s;
         }
     }
 
-    /// <summary>Gets the number of elapsed milliseconds since midnight.</summary>
-    /// <remarks>The result is in the range from 0 to 86_399_999.</remarks>
+    /// <summary>Gets the number of elapsed milliseconds since midnight.
+    /// <para>The result is in the range from 0 to 86_399_999.</para></summary>
     public int MillisecondOfDay
     {
         get
@@ -385,8 +371,8 @@ public partial struct TimeOfDay // Factories, conversions...
     }
 
     /// <summary>Creates a new instance of <see cref="TimeOfDay"/> from the specified elapsed
-    /// milliseconds since midnight.</summary>
-    /// <remarks>This method does NOT validate its parameter.</remarks>
+    /// milliseconds since midnight.
+    /// <para>This method does NOT validate its parameter.</para></summary>
     [Pure]
     internal static TimeOfDay FromMillisecondOfDayCore(int millisecondOfDay)
     {
@@ -414,7 +400,7 @@ public partial struct TimeOfDay // Factories, conversions...
 
     /// <summary>Creates a new instance of <see cref="TimeOfDay"/> from the specified fraction of
     /// the day.</summary>
-    /// <exception cref="AoorException"><paramref name="fractionOfDay"/> is out of range.</exception>
+    /// <exception cref="AoorException" />
     [Pure]
     internal static TimeOfDay FromFractionOfDay(decimal fractionOfDay)
     {
@@ -482,11 +468,11 @@ public partial struct TimeOfDay // IComparable
     /// <inheritdoc />
     public static bool operator >=(TimeOfDay left, TimeOfDay right) => left._bin >= right._bin;
 
-    /// <summary>Obtains the earlier time of two specified times.</summary>
+    /// <inheritdoc />
     [Pure]
     public static TimeOfDay Min(TimeOfDay x, TimeOfDay y) => x < y ? x : y;
 
-    /// <summary>Obtains the later time of two specified times.</summary>
+    /// <inheritdoc />
     [Pure]
     public static TimeOfDay Max(TimeOfDay x, TimeOfDay y) => x > y ? x : y;
 

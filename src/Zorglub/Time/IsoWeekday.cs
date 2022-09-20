@@ -8,16 +8,16 @@ namespace Zorglub.Time;
 // Dans ce projet, on utilise en priorité l'énumération DayOfWeek.
 // DayOfWeek ou Weekday ? Partout ailleurs, on utilise DayOfWeek, mais on adopte
 // la terminologie ISO qui semble préférer "weekday" à "day of the week". On
-// garde quand même le préfixe ISO pour être bien sûr qu'il n'y ait pas de risque
-// de confusion entre les deux énumérations.
+// garde quand même le préfixe ISO pour être bien sûr qu'il n'y ait pas de
+// risque de confusion entre les deux énumérations.
 
-/// <summary>Specifies the ISO weekday.</summary>
-/// <remarks>A legit value is in the range from 1 to 7, 1 being attributed to Monday.</remarks>
+/// <summary>Specifies the ISO weekday.
+/// <para>A legit value is in the range from 1 to 7, 1 being attributed to Monday.</para></summary>
 public enum IsoWeekday
 {
-    /// <summary>Indicates an unknown ISO weekday.</summary>
-    /// <remarks>This value is considered to be <i>invalid</i>. We never use it, and neither should
-    /// you.</remarks>
+    /// <summary>Indicates an unknown ISO weekday.
+    /// <para>This value is considered to be <i>invalid</i>. We never use it, and neither should
+    /// you.</para></summary>
     None = 0,
 
     /// <summary>Indicates Monday.</summary>
@@ -43,8 +43,7 @@ public enum IsoWeekday
 }
 
 /// <summary>Provides extension methods for <see cref="IsoWeekday"/> and <see cref="DayOfWeek"/>.
-/// </summary>
-/// <remarks>This class cannot be inherited.</remarks>
+/// <para>This class cannot be inherited.</para></summary>
 public static class IsoWeekdayExtensions
 {
     /// <summary>Converts the value of the specified day of the week to the equivalent

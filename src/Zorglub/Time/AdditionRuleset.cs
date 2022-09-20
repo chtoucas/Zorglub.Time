@@ -5,7 +5,7 @@ namespace Zorglub.Time;
 
 #region Developer Notes
 
-// Truncate
+// AdditionRule.Truncate
 // Si le résultat d'une opération arithmétique n'est pas exact (roundoff > 0),
 // on retourne le "dernier jour du mois cible".
 // Par exemple, pour les calendriers grégorien et julien,
@@ -19,7 +19,7 @@ namespace Zorglub.Time;
 // * 31/5/2015 - 3 mois = 28/2/2015 (le 31/2/2016 n'existe pas)
 // * 30/5/2015 - 3 mois = 28/2/2015 (le 30/2/2016 n'existe pas)
 //
-// Overspill
+// AdditionRule.Overspill
 // Premier jour du mois suivant.
 // Par exemple, pour les calendriers grégorien et julien,
 // * 31/5/2016 + 1 mois = 1/7/2016
@@ -32,7 +32,7 @@ namespace Zorglub.Time;
 // * 31/5/2015 - 3 mois = 1/3/2015
 // * 30/5/2015 - 3 mois = 1/3/2015
 //
-// Exact
+// AdditionRule.Exact
 // On décale d'autant de jours que nécessaire pour supprimer l'arrondi.
 // Par exemple, pour les calendriers grégorien et julien, décalage = +1,
 // identique à TowardPast,
