@@ -285,7 +285,7 @@ namespace System.Runtime.CompilerServices // "required"
 
 #endif
 
-namespace Zorglub.Time.Core
+namespace Zorglub.Time.Core.Utilities
 {
     /// <summary>Defines a mechanism for comparing two values to determine equality.</summary>
     /// <typeparam name="TSelf">The type that implements this interface.</typeparam>
@@ -307,4 +307,3 @@ namespace Zorglub.Time.Core
         where TSelf : IComparisonOperators<TSelf, TOther>?
     { }
 }
-

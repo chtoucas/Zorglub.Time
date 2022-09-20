@@ -956,12 +956,8 @@ Zorglub.Time.Core.CalendricalSegmentBuilder.SetMaxToEndOfYear(int year) -> void
 Zorglub.Time.Core.CalendricalSegmentBuilder.SetMinToStartOfMinSupportedYear() -> void
 Zorglub.Time.Core.CalendricalSegmentBuilder.SetMinToStartOfYear(int year) -> void
 Zorglub.Time.Core.CalendricalSegmentBuilder.TrySetMinToStartOfMinSupportedYearOnOrAfterYear1() -> bool
-Zorglub.Time.Core.IAdjustable<TSelf>
-Zorglub.Time.Core.IAdjustable<TSelf>.Adjust(System.Func<TSelf, TSelf>! adjuster) -> TSelf
 Zorglub.Time.Core.IBlankDayFeaturette
 Zorglub.Time.Core.IBlankDayFeaturette.IsBlankDay(int y, int m, int d) -> bool
-Zorglub.Time.Core.IBoxable<TSelf>
-Zorglub.Time.Core.IBoxable<TSelf>.GetInstance() -> Zorglub.Time.Core.Utilities.Box<TSelf!>!
 Zorglub.Time.Core.ICalendricalKernel
 Zorglub.Time.Core.ICalendricalKernel.Algorithm.get -> Zorglub.Time.CalendricalAlgorithm
 Zorglub.Time.Core.ICalendricalKernel.CountDaysInMonth(int y, int m) -> int
@@ -1019,15 +1015,8 @@ Zorglub.Time.Core.ICalendricalValidator
 Zorglub.Time.Core.ICalendricalValidator.ValidateOrdinal(int year, int dayOfYear, string? paramName = null) -> void
 Zorglub.Time.Core.ICalendricalValidator.ValidateYearMonth(int year, int month, string? paramName = null) -> void
 Zorglub.Time.Core.ICalendricalValidator.ValidateYearMonthDay(int year, int month, int day, string? paramName = null) -> void
-Zorglub.Time.Core.IComparisonOperators<TSelf, TOther>
-Zorglub.Time.Core.IDifferenceOperators<TSelf, TResult>
-Zorglub.Time.Core.IDifferenceOperators<TSelf, TResult>.operator -(TSelf left, TSelf right) -> TResult
 Zorglub.Time.Core.IEpagomenalDayFeaturette
 Zorglub.Time.Core.IEpagomenalDayFeaturette.IsEpagomenalDay(int y, int m, int d, out int epagomenalNumber) -> bool
-Zorglub.Time.Core.IEqualityOperators<TSelf, TOther>
-Zorglub.Time.Core.IMinMaxFunctions<TSelf>
-Zorglub.Time.Core.IMinMaxFunctions<TSelf>.Max(TSelf x, TSelf y) -> TSelf
-Zorglub.Time.Core.IMinMaxFunctions<TSelf>.Min(TSelf x, TSelf y) -> TSelf
 Zorglub.Time.Core.Intervals.IInterval<T>
 Zorglub.Time.Core.Intervals.IInterval<T>.IsLeftBounded.get -> bool
 Zorglub.Time.Core.Intervals.IInterval<T>.IsLeftOpen.get -> bool
@@ -1104,20 +1093,6 @@ Zorglub.Time.Core.IRegularFeaturette
 Zorglub.Time.Core.IRegularFeaturette.MonthsInYear.get -> int
 Zorglub.Time.Core.ISchemaBound
 Zorglub.Time.Core.ISchemaBound.Schema.get -> Zorglub.Time.Core.ICalendricalSchema!
-Zorglub.Time.Core.ISerializable<TBinary>
-Zorglub.Time.Core.ISerializable<TBinary>.ToBinary() -> TBinary
-Zorglub.Time.Core.ISerializable<TSelf, TBinary>
-Zorglub.Time.Core.ISerializable<TSelf, TBinary>.FromBinary(TBinary data) -> TSelf
-Zorglub.Time.Core.ISetComparable<TOther>
-Zorglub.Time.Core.ISetComparable<TOther>.IsProperSubsetOf(TOther other) -> bool
-Zorglub.Time.Core.ISetComparable<TOther>.IsProperSupersetOf(TOther other) -> bool
-Zorglub.Time.Core.ISetEquatable<TOther>
-Zorglub.Time.Core.ISetEquatable<TOther>.SetEquals(TOther other) -> bool
-Zorglub.Time.Core.ISetIncludible<TOther>
-Zorglub.Time.Core.ISetIncludible<TOther>.IsSubsetOf(TOther other) -> bool
-Zorglub.Time.Core.ISetIncludible<TOther>.IsSupersetOf(TOther other) -> bool
-Zorglub.Time.Core.ISetMembership<T>
-Zorglub.Time.Core.ISetMembership<T>.Contains(T value) -> bool
 Zorglub.Time.Core.IVirtualMonthFeaturette
 Zorglub.Time.Core.IVirtualMonthFeaturette.VirtualMonth.get -> int
 Zorglub.Time.Core.PartsAdapter
@@ -1193,6 +1168,31 @@ Zorglub.Time.Core.TemporalConstants
 Zorglub.Time.Core.Utilities.Box
 Zorglub.Time.Core.Utilities.Box<T>
 Zorglub.Time.Core.Utilities.Box<T>.Select<TResult>(System.Func<T!, TResult?>! selector) -> Zorglub.Time.Core.Utilities.Box<TResult!>!
+Zorglub.Time.Core.Utilities.IAdjustable<TSelf>
+Zorglub.Time.Core.Utilities.IAdjustable<TSelf>.Adjust(System.Func<TSelf, TSelf>! adjuster) -> TSelf
+Zorglub.Time.Core.Utilities.IBoxable<TSelf>
+Zorglub.Time.Core.Utilities.IBoxable<TSelf>.GetInstance() -> Zorglub.Time.Core.Utilities.Box<TSelf!>!
+Zorglub.Time.Core.Utilities.IComparisonOperators<TSelf, TOther>
+Zorglub.Time.Core.Utilities.IDifferenceOperators<TSelf, TResult>
+Zorglub.Time.Core.Utilities.IDifferenceOperators<TSelf, TResult>.operator -(TSelf left, TSelf right) -> TResult
+Zorglub.Time.Core.Utilities.IEqualityOperators<TSelf, TOther>
+Zorglub.Time.Core.Utilities.IMinMaxFunctions<TSelf>
+Zorglub.Time.Core.Utilities.IMinMaxFunctions<TSelf>.Max(TSelf x, TSelf y) -> TSelf
+Zorglub.Time.Core.Utilities.IMinMaxFunctions<TSelf>.Min(TSelf x, TSelf y) -> TSelf
+Zorglub.Time.Core.Utilities.ISerializable<TBinary>
+Zorglub.Time.Core.Utilities.ISerializable<TBinary>.ToBinary() -> TBinary
+Zorglub.Time.Core.Utilities.ISerializable<TSelf, TBinary>
+Zorglub.Time.Core.Utilities.ISerializable<TSelf, TBinary>.FromBinary(TBinary data) -> TSelf
+Zorglub.Time.Core.Utilities.ISetComparable<TOther>
+Zorglub.Time.Core.Utilities.ISetComparable<TOther>.IsProperSubsetOf(TOther other) -> bool
+Zorglub.Time.Core.Utilities.ISetComparable<TOther>.IsProperSupersetOf(TOther other) -> bool
+Zorglub.Time.Core.Utilities.ISetEquatable<TOther>
+Zorglub.Time.Core.Utilities.ISetEquatable<TOther>.SetEquals(TOther other) -> bool
+Zorglub.Time.Core.Utilities.ISetIncludible<TOther>
+Zorglub.Time.Core.Utilities.ISetIncludible<TOther>.IsSubsetOf(TOther other) -> bool
+Zorglub.Time.Core.Utilities.ISetIncludible<TOther>.IsSupersetOf(TOther other) -> bool
+Zorglub.Time.Core.Utilities.ISetMembership<T>
+Zorglub.Time.Core.Utilities.ISetMembership<T>.Contains(T value) -> bool
 Zorglub.Time.Core.Utilities.OrderedPair
 Zorglub.Time.Core.Utilities.OrderedPair<T>
 Zorglub.Time.Core.Utilities.OrderedPair<T>.Deconstruct(out T lowerValue, out T upperValue) -> void
@@ -1250,7 +1250,6 @@ Zorglub.Time.Core.Validation.YearsValidator.Range.get -> Zorglub.Time.Core.Inter
 Zorglub.Time.Core.Validation.YearsValidator.Validate(int year, string? paramName = null) -> void
 Zorglub.Time.Core.Validation.YearsValidator.YearsValidator(Zorglub.Time.Core.Intervals.Range<int> range) -> void
 Zorglub.Time.Core.Yedoy
-Zorglub.Time.Core.Yedoy.CompareTo(object? obj) -> int
 Zorglub.Time.Core.Yedoy.CompareTo(Zorglub.Time.Core.Yedoy other) -> int
 Zorglub.Time.Core.Yedoy.DayOfYear.get -> int
 Zorglub.Time.Core.Yedoy.Deconstruct(out int year, out int dayOfYear) -> void
@@ -1269,7 +1268,6 @@ Zorglub.Time.Core.Yedoyx.Year.get -> int
 Zorglub.Time.Core.Yedoyx.Yedoy.get -> Zorglub.Time.Core.Yedoy
 Zorglub.Time.Core.Yedoyx.Yedoyx() -> void
 Zorglub.Time.Core.Yemo
-Zorglub.Time.Core.Yemo.CompareTo(object? obj) -> int
 Zorglub.Time.Core.Yemo.CompareTo(Zorglub.Time.Core.Yemo other) -> int
 Zorglub.Time.Core.Yemo.Deconstruct(out int year, out int month) -> void
 Zorglub.Time.Core.Yemo.Equals(Zorglub.Time.Core.Yemo other) -> bool
@@ -1281,7 +1279,6 @@ Zorglub.Time.Core.Yemo.ToBinary() -> int
 Zorglub.Time.Core.Yemo.Year.get -> int
 Zorglub.Time.Core.Yemo.Yemo() -> void
 Zorglub.Time.Core.Yemoda
-Zorglub.Time.Core.Yemoda.CompareTo(object? obj) -> int
 Zorglub.Time.Core.Yemoda.CompareTo(Zorglub.Time.Core.Yemoda other) -> int
 Zorglub.Time.Core.Yemoda.Day.get -> int
 Zorglub.Time.Core.Yemoda.Deconstruct(out int year, out int month, out int day) -> void
@@ -1315,7 +1312,6 @@ Zorglub.Time.Core.Yemox.Year.get -> int
 Zorglub.Time.Core.Yemox.Yemo.get -> Zorglub.Time.Core.Yemo
 Zorglub.Time.Core.Yemox.Yemox() -> void
 Zorglub.Time.DateParts
-Zorglub.Time.DateParts.CompareTo(object? obj) -> int
 Zorglub.Time.DateParts.CompareTo(Zorglub.Time.DateParts other) -> int
 Zorglub.Time.DateParts.DateParts() -> void
 Zorglub.Time.DateParts.DateParts(int Year, int Month, int Day) -> void
@@ -1327,7 +1323,6 @@ Zorglub.Time.DateParts.MonthParts.get -> Zorglub.Time.MonthParts
 Zorglub.Time.DateParts.Year.get -> int
 Zorglub.Time.DateParts.Year.init -> void
 Zorglub.Time.DayNumber
-Zorglub.Time.DayNumber.CompareTo(object? obj) -> int
 Zorglub.Time.DayNumber.CompareTo(Zorglub.Time.DayNumber other) -> int
 Zorglub.Time.DayNumber.CountDaysSince(Zorglub.Time.DayNumber other) -> int
 Zorglub.Time.DayNumber.DayNumber() -> void
@@ -1486,7 +1481,6 @@ Zorglub.Time.IsoWeekday.Tuesday = 2 -> Zorglub.Time.IsoWeekday
 Zorglub.Time.IsoWeekday.Wednesday = 3 -> Zorglub.Time.IsoWeekday
 Zorglub.Time.IsoWeekdayExtensions
 Zorglub.Time.Moment
-Zorglub.Time.Moment.CompareTo(object? obj) -> int
 Zorglub.Time.Moment.CompareTo(Zorglub.Time.Moment other) -> int
 Zorglub.Time.Moment.DayNumber.get -> Zorglub.Time.DayNumber
 Zorglub.Time.Moment.Deconstruct(out Zorglub.Time.DayNumber dayNumber, out Zorglub.Time.TimeOfDay timeOfDay) -> void
@@ -1497,7 +1491,6 @@ Zorglub.Time.Moment.Moment(Zorglub.Time.DayNumber dayNumber, Zorglub.Time.TimeOf
 Zorglub.Time.Moment.SecondsSinceZero.get -> long
 Zorglub.Time.Moment.TimeOfDay.get -> Zorglub.Time.TimeOfDay
 Zorglub.Time.MonthParts
-Zorglub.Time.MonthParts.CompareTo(object? obj) -> int
 Zorglub.Time.MonthParts.CompareTo(Zorglub.Time.MonthParts other) -> int
 Zorglub.Time.MonthParts.Month.get -> int
 Zorglub.Time.MonthParts.Month.init -> void
@@ -1507,7 +1500,6 @@ Zorglub.Time.MonthParts.Year.get -> int
 Zorglub.Time.MonthParts.Year.init -> void
 Zorglub.Time.Ord
 Zorglub.Time.Ord.Add(int num) -> Zorglub.Time.Ord
-Zorglub.Time.Ord.CompareTo(object? obj) -> int
 Zorglub.Time.Ord.CompareTo(Zorglub.Time.Ord other) -> int
 Zorglub.Time.Ord.Deconstruct(out int pos, out bool afterZeroth) -> void
 Zorglub.Time.Ord.Decrement() -> Zorglub.Time.Ord
@@ -1519,7 +1511,6 @@ Zorglub.Time.Ord.Rank.get -> int
 Zorglub.Time.Ord.Subtract(Zorglub.Time.Ord other) -> int
 Zorglub.Time.Ord.ToInt32() -> int
 Zorglub.Time.OrdinalParts
-Zorglub.Time.OrdinalParts.CompareTo(object? obj) -> int
 Zorglub.Time.OrdinalParts.CompareTo(Zorglub.Time.OrdinalParts other) -> int
 Zorglub.Time.OrdinalParts.DayOfYear.get -> int
 Zorglub.Time.OrdinalParts.DayOfYear.init -> void
@@ -1536,7 +1527,6 @@ Zorglub.Time.Simple.CalendarDate.CalendarMonth.get -> Zorglub.Time.Simple.Calend
 Zorglub.Time.Simple.CalendarDate.CalendarYear.get -> Zorglub.Time.Simple.CalendarYear
 Zorglub.Time.Simple.CalendarDate.Century.get -> int
 Zorglub.Time.Simple.CalendarDate.CenturyOfEra.get -> Zorglub.Time.Ord
-Zorglub.Time.Simple.CalendarDate.CompareTo(object? obj) -> int
 Zorglub.Time.Simple.CalendarDate.CompareTo(Zorglub.Time.Simple.CalendarDate other) -> int
 Zorglub.Time.Simple.CalendarDate.CountDaysSince(Zorglub.Time.Simple.CalendarDate other) -> int
 Zorglub.Time.Simple.CalendarDate.CountElapsedDaysInMonth() -> int
@@ -1582,7 +1572,6 @@ Zorglub.Time.Simple.CalendarDay.CalendarMonth.get -> Zorglub.Time.Simple.Calenda
 Zorglub.Time.Simple.CalendarDay.CalendarYear.get -> Zorglub.Time.Simple.CalendarYear
 Zorglub.Time.Simple.CalendarDay.Century.get -> int
 Zorglub.Time.Simple.CalendarDay.CenturyOfEra.get -> Zorglub.Time.Ord
-Zorglub.Time.Simple.CalendarDay.CompareTo(object? obj) -> int
 Zorglub.Time.Simple.CalendarDay.CompareTo(Zorglub.Time.Simple.CalendarDay other) -> int
 Zorglub.Time.Simple.CalendarDay.CountDaysSince(Zorglub.Time.Simple.CalendarDay other) -> int
 Zorglub.Time.Simple.CalendarDay.CountElapsedDaysInMonth() -> int
@@ -1641,7 +1630,6 @@ Zorglub.Time.Simple.CalendarMonth.CalendarMonth(int year, int month) -> void
 Zorglub.Time.Simple.CalendarMonth.CalendarYear.get -> Zorglub.Time.Simple.CalendarYear
 Zorglub.Time.Simple.CalendarMonth.Century.get -> int
 Zorglub.Time.Simple.CalendarMonth.CenturyOfEra.get -> Zorglub.Time.Ord
-Zorglub.Time.Simple.CalendarMonth.CompareTo(object? obj) -> int
 Zorglub.Time.Simple.CalendarMonth.CompareTo(Zorglub.Time.Simple.CalendarMonth other) -> int
 Zorglub.Time.Simple.CalendarMonth.CountDaysInMonth() -> int
 Zorglub.Time.Simple.CalendarMonth.CountElapsedDaysInYear() -> int
@@ -1673,7 +1661,6 @@ Zorglub.Time.Simple.CalendarYear.CalendarYear() -> void
 Zorglub.Time.Simple.CalendarYear.CalendarYear(int year) -> void
 Zorglub.Time.Simple.CalendarYear.Century.get -> int
 Zorglub.Time.Simple.CalendarYear.CenturyOfEra.get -> Zorglub.Time.Ord
-Zorglub.Time.Simple.CalendarYear.CompareTo(object? obj) -> int
 Zorglub.Time.Simple.CalendarYear.CompareTo(Zorglub.Time.Simple.CalendarYear other) -> int
 Zorglub.Time.Simple.CalendarYear.CountDaysInYear() -> int
 Zorglub.Time.Simple.CalendarYear.CountMonthsInYear() -> int
@@ -1725,7 +1712,6 @@ Zorglub.Time.Simple.OrdinalDate.CalendarMonth.get -> Zorglub.Time.Simple.Calenda
 Zorglub.Time.Simple.OrdinalDate.CalendarYear.get -> Zorglub.Time.Simple.CalendarYear
 Zorglub.Time.Simple.OrdinalDate.Century.get -> int
 Zorglub.Time.Simple.OrdinalDate.CenturyOfEra.get -> Zorglub.Time.Ord
-Zorglub.Time.Simple.OrdinalDate.CompareTo(object? obj) -> int
 Zorglub.Time.Simple.OrdinalDate.CompareTo(Zorglub.Time.Simple.OrdinalDate other) -> int
 Zorglub.Time.Simple.OrdinalDate.CountDaysSince(Zorglub.Time.Simple.OrdinalDate other) -> int
 Zorglub.Time.Simple.OrdinalDate.CountElapsedDaysInMonth() -> int
@@ -1814,7 +1800,6 @@ Zorglub.Time.Specialized.CivilDate.CivilDate() -> void
 Zorglub.Time.Specialized.CivilDate.CivilDate(int year, int dayOfYear) -> void
 Zorglub.Time.Specialized.CivilDate.CivilDate(int year, int month, int day) -> void
 Zorglub.Time.Specialized.CivilDate.CivilDate(Zorglub.Time.DayNumber dayNumber) -> void
-Zorglub.Time.Specialized.CivilDate.CompareTo(object? obj) -> int
 Zorglub.Time.Specialized.CivilDate.CompareTo(Zorglub.Time.Specialized.CivilDate other) -> int
 Zorglub.Time.Specialized.CivilDate.CountDaysSince(Zorglub.Time.Specialized.CivilDate other) -> int
 Zorglub.Time.Specialized.CivilDate.CountElapsedDaysInMonth() -> int
@@ -1855,7 +1840,6 @@ Zorglub.Time.Specialized.GregorianDate
 Zorglub.Time.Specialized.GregorianDate.Adjust(System.Func<Zorglub.Time.Specialized.GregorianDate, Zorglub.Time.Specialized.GregorianDate>! adjuster) -> Zorglub.Time.Specialized.GregorianDate
 Zorglub.Time.Specialized.GregorianDate.Century.get -> int
 Zorglub.Time.Specialized.GregorianDate.CenturyOfEra.get -> Zorglub.Time.Ord
-Zorglub.Time.Specialized.GregorianDate.CompareTo(object? obj) -> int
 Zorglub.Time.Specialized.GregorianDate.CompareTo(Zorglub.Time.Specialized.GregorianDate other) -> int
 Zorglub.Time.Specialized.GregorianDate.CountDaysSince(Zorglub.Time.Specialized.GregorianDate other) -> int
 Zorglub.Time.Specialized.GregorianDate.CountElapsedDaysInMonth() -> int
@@ -1900,7 +1884,6 @@ Zorglub.Time.Specialized.JulianDate
 Zorglub.Time.Specialized.JulianDate.Adjust(System.Func<Zorglub.Time.Specialized.JulianDate, Zorglub.Time.Specialized.JulianDate>! adjuster) -> Zorglub.Time.Specialized.JulianDate
 Zorglub.Time.Specialized.JulianDate.Century.get -> int
 Zorglub.Time.Specialized.JulianDate.CenturyOfEra.get -> Zorglub.Time.Ord
-Zorglub.Time.Specialized.JulianDate.CompareTo(object? obj) -> int
 Zorglub.Time.Specialized.JulianDate.CompareTo(Zorglub.Time.Specialized.JulianDate other) -> int
 Zorglub.Time.Specialized.JulianDate.CountDaysSince(Zorglub.Time.Specialized.JulianDate other) -> int
 Zorglub.Time.Specialized.JulianDate.CountElapsedDaysInMonth() -> int
@@ -1955,7 +1938,6 @@ Zorglub.Time.Specialized.SpecialCalendar<TDate>.GetEndOfYear(int year) -> TDate
 Zorglub.Time.Specialized.SpecialCalendar<TDate>.GetStartOfMonth(int year, int month) -> TDate
 Zorglub.Time.Specialized.SpecialCalendar<TDate>.GetStartOfYear(int year) -> TDate
 Zorglub.Time.TimeOfDay
-Zorglub.Time.TimeOfDay.CompareTo(object? obj) -> int
 Zorglub.Time.TimeOfDay.CompareTo(Zorglub.Time.TimeOfDay other) -> int
 Zorglub.Time.TimeOfDay.Deconstruct(out int hour, out int minute, out int second) -> void
 Zorglub.Time.TimeOfDay.Deconstruct(out int hour, out int minute, out int second, out int millisecond) -> void

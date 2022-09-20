@@ -10,6 +10,7 @@ open Zorglub.Testing.Facts.Hemerology
 open Zorglub.Time
 open Zorglub.Time.Core
 open Zorglub.Time.Core.Schemas
+open Zorglub.Time.Core.Utilities
 open Zorglub.Time.Hemerology.Scopes
 
 // TODO(code): Hebrew (unfinished, no data) and lunisolar (fake) schemas.

@@ -1,7 +1,7 @@
 ﻿// SPDX-License-Identifier: BSD-3-Clause
 // Copyright (c) 2020 Narvalo.Org. All rights reserved.
 
-namespace Zorglub.Time.Core;
+namespace Zorglub.Time.Core.Utilities;
 
 /// <summary>Defines an adjustable type.</summary>
 /// <typeparam name="TSelf">The type that implements this interface.</typeparam>

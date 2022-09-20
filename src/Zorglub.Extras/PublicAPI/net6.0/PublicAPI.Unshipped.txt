@@ -421,7 +421,6 @@ Zorglub.Time.Specialized.Armenian13Date.Armenian13Date(int year, int month, int 
 Zorglub.Time.Specialized.Armenian13Date.Armenian13Date(Zorglub.Time.DayNumber dayNumber) -> void
 Zorglub.Time.Specialized.Armenian13Date.Century.get -> int
 Zorglub.Time.Specialized.Armenian13Date.CenturyOfEra.get -> Zorglub.Time.Ord
-Zorglub.Time.Specialized.Armenian13Date.CompareTo(object? obj) -> int
 Zorglub.Time.Specialized.Armenian13Date.CompareTo(Zorglub.Time.Specialized.Armenian13Date other) -> int
 Zorglub.Time.Specialized.Armenian13Date.CountDaysSince(Zorglub.Time.Specialized.Armenian13Date other) -> int
 Zorglub.Time.Specialized.Armenian13Date.CountElapsedDaysInMonth() -> int
@@ -464,7 +463,6 @@ Zorglub.Time.Specialized.ArmenianDate.ArmenianDate(int year, int month, int day)
 Zorglub.Time.Specialized.ArmenianDate.ArmenianDate(Zorglub.Time.DayNumber dayNumber) -> void
 Zorglub.Time.Specialized.ArmenianDate.Century.get -> int
 Zorglub.Time.Specialized.ArmenianDate.CenturyOfEra.get -> Zorglub.Time.Ord
-Zorglub.Time.Specialized.ArmenianDate.CompareTo(object? obj) -> int
 Zorglub.Time.Specialized.ArmenianDate.CompareTo(Zorglub.Time.Specialized.ArmenianDate other) -> int
 Zorglub.Time.Specialized.ArmenianDate.CountDaysSince(Zorglub.Time.Specialized.ArmenianDate other) -> int
 Zorglub.Time.Specialized.ArmenianDate.CountElapsedDaysInMonth() -> int
@@ -504,7 +502,6 @@ Zorglub.Time.Specialized.Coptic13Date
 Zorglub.Time.Specialized.Coptic13Date.Adjust(System.Func<Zorglub.Time.Specialized.Coptic13Date, Zorglub.Time.Specialized.Coptic13Date>! adjuster) -> Zorglub.Time.Specialized.Coptic13Date
 Zorglub.Time.Specialized.Coptic13Date.Century.get -> int
 Zorglub.Time.Specialized.Coptic13Date.CenturyOfEra.get -> Zorglub.Time.Ord
-Zorglub.Time.Specialized.Coptic13Date.CompareTo(object? obj) -> int
 Zorglub.Time.Specialized.Coptic13Date.CompareTo(Zorglub.Time.Specialized.Coptic13Date other) -> int
 Zorglub.Time.Specialized.Coptic13Date.Coptic13Date() -> void
 Zorglub.Time.Specialized.Coptic13Date.Coptic13Date(int year, int dayOfYear) -> void
@@ -547,7 +544,6 @@ Zorglub.Time.Specialized.CopticDate
 Zorglub.Time.Specialized.CopticDate.Adjust(System.Func<Zorglub.Time.Specialized.CopticDate, Zorglub.Time.Specialized.CopticDate>! adjuster) -> Zorglub.Time.Specialized.CopticDate
 Zorglub.Time.Specialized.CopticDate.Century.get -> int
 Zorglub.Time.Specialized.CopticDate.CenturyOfEra.get -> Zorglub.Time.Ord
-Zorglub.Time.Specialized.CopticDate.CompareTo(object? obj) -> int
 Zorglub.Time.Specialized.CopticDate.CompareTo(Zorglub.Time.Specialized.CopticDate other) -> int
 Zorglub.Time.Specialized.CopticDate.CopticDate() -> void
 Zorglub.Time.Specialized.CopticDate.CopticDate(int year, int dayOfYear) -> void
@@ -591,7 +587,6 @@ Zorglub.Time.Specialized.Ethiopic13Date
 Zorglub.Time.Specialized.Ethiopic13Date.Adjust(System.Func<Zorglub.Time.Specialized.Ethiopic13Date, Zorglub.Time.Specialized.Ethiopic13Date>! adjuster) -> Zorglub.Time.Specialized.Ethiopic13Date
 Zorglub.Time.Specialized.Ethiopic13Date.Century.get -> int
 Zorglub.Time.Specialized.Ethiopic13Date.CenturyOfEra.get -> Zorglub.Time.Ord
-Zorglub.Time.Specialized.Ethiopic13Date.CompareTo(object? obj) -> int
 Zorglub.Time.Specialized.Ethiopic13Date.CompareTo(Zorglub.Time.Specialized.Ethiopic13Date other) -> int
 Zorglub.Time.Specialized.Ethiopic13Date.CountDaysSince(Zorglub.Time.Specialized.Ethiopic13Date other) -> int
 Zorglub.Time.Specialized.Ethiopic13Date.CountElapsedDaysInMonth() -> int
@@ -634,7 +629,6 @@ Zorglub.Time.Specialized.EthiopicDate
 Zorglub.Time.Specialized.EthiopicDate.Adjust(System.Func<Zorglub.Time.Specialized.EthiopicDate, Zorglub.Time.Specialized.EthiopicDate>! adjuster) -> Zorglub.Time.Specialized.EthiopicDate
 Zorglub.Time.Specialized.EthiopicDate.Century.get -> int
 Zorglub.Time.Specialized.EthiopicDate.CenturyOfEra.get -> Zorglub.Time.Ord
-Zorglub.Time.Specialized.EthiopicDate.CompareTo(object? obj) -> int
 Zorglub.Time.Specialized.EthiopicDate.CompareTo(Zorglub.Time.Specialized.EthiopicDate other) -> int
 Zorglub.Time.Specialized.EthiopicDate.CountDaysSince(Zorglub.Time.Specialized.EthiopicDate other) -> int
 Zorglub.Time.Specialized.EthiopicDate.CountElapsedDaysInMonth() -> int
@@ -677,7 +671,6 @@ Zorglub.Time.Specialized.TabularIslamicDate
 Zorglub.Time.Specialized.TabularIslamicDate.Adjust(System.Func<Zorglub.Time.Specialized.TabularIslamicDate, Zorglub.Time.Specialized.TabularIslamicDate>! adjuster) -> Zorglub.Time.Specialized.TabularIslamicDate
 Zorglub.Time.Specialized.TabularIslamicDate.Century.get -> int
 Zorglub.Time.Specialized.TabularIslamicDate.CenturyOfEra.get -> Zorglub.Time.Ord
-Zorglub.Time.Specialized.TabularIslamicDate.CompareTo(object? obj) -> int
 Zorglub.Time.Specialized.TabularIslamicDate.CompareTo(Zorglub.Time.Specialized.TabularIslamicDate other) -> int
 Zorglub.Time.Specialized.TabularIslamicDate.CountDaysSince(Zorglub.Time.Specialized.TabularIslamicDate other) -> int
 Zorglub.Time.Specialized.TabularIslamicDate.CountElapsedDaysInMonth() -> int
@@ -720,7 +713,6 @@ Zorglub.Time.Specialized.WorldDate
 Zorglub.Time.Specialized.WorldDate.Adjust(System.Func<Zorglub.Time.Specialized.WorldDate, Zorglub.Time.Specialized.WorldDate>! adjuster) -> Zorglub.Time.Specialized.WorldDate
 Zorglub.Time.Specialized.WorldDate.Century.get -> int
 Zorglub.Time.Specialized.WorldDate.CenturyOfEra.get -> Zorglub.Time.Ord
-Zorglub.Time.Specialized.WorldDate.CompareTo(object? obj) -> int
 Zorglub.Time.Specialized.WorldDate.CompareTo(Zorglub.Time.Specialized.WorldDate other) -> int
 Zorglub.Time.Specialized.WorldDate.CountDaysSince(Zorglub.Time.Specialized.WorldDate other) -> int
 Zorglub.Time.Specialized.WorldDate.CountElapsedDaysInMonth() -> int
@@ -764,7 +756,6 @@ Zorglub.Time.Specialized.Zoroastrian13Date
 Zorglub.Time.Specialized.Zoroastrian13Date.Adjust(System.Func<Zorglub.Time.Specialized.Zoroastrian13Date, Zorglub.Time.Specialized.Zoroastrian13Date>! adjuster) -> Zorglub.Time.Specialized.Zoroastrian13Date
 Zorglub.Time.Specialized.Zoroastrian13Date.Century.get -> int
 Zorglub.Time.Specialized.Zoroastrian13Date.CenturyOfEra.get -> Zorglub.Time.Ord
-Zorglub.Time.Specialized.Zoroastrian13Date.CompareTo(object? obj) -> int
 Zorglub.Time.Specialized.Zoroastrian13Date.CompareTo(Zorglub.Time.Specialized.Zoroastrian13Date other) -> int
 Zorglub.Time.Specialized.Zoroastrian13Date.CountDaysSince(Zorglub.Time.Specialized.Zoroastrian13Date other) -> int
 Zorglub.Time.Specialized.Zoroastrian13Date.CountElapsedDaysInMonth() -> int
@@ -807,7 +798,6 @@ Zorglub.Time.Specialized.ZoroastrianDate
 Zorglub.Time.Specialized.ZoroastrianDate.Adjust(System.Func<Zorglub.Time.Specialized.ZoroastrianDate, Zorglub.Time.Specialized.ZoroastrianDate>! adjuster) -> Zorglub.Time.Specialized.ZoroastrianDate
 Zorglub.Time.Specialized.ZoroastrianDate.Century.get -> int
 Zorglub.Time.Specialized.ZoroastrianDate.CenturyOfEra.get -> Zorglub.Time.Ord
-Zorglub.Time.Specialized.ZoroastrianDate.CompareTo(object? obj) -> int
 Zorglub.Time.Specialized.ZoroastrianDate.CompareTo(Zorglub.Time.Specialized.ZoroastrianDate other) -> int
 Zorglub.Time.Specialized.ZoroastrianDate.CountDaysSince(Zorglub.Time.Specialized.ZoroastrianDate other) -> int
 Zorglub.Time.Specialized.ZoroastrianDate.CountElapsedDaysInMonth() -> int

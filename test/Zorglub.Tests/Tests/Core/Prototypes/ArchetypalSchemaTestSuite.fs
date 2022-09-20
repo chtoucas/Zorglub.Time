@@ -10,6 +10,7 @@ open Zorglub.Testing.Facts.Core
 open Zorglub.Time.Core
 open Zorglub.Time.Core.Prototypes
 open Zorglub.Time.Core.Schemas
+open Zorglub.Time.Core.Utilities
 
 // TODO(code): Hebrew (unfinished, no data) and lunisolar (fake) schema.
 

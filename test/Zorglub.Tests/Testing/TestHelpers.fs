@@ -5,6 +5,7 @@
 module Zorglub.Testing.TestHelpers
 
 open Zorglub.Time.Core
+open Zorglub.Time.Core.Utilities
 
 /// Creates a new instance of the schema of type 'a.
 let schemaOf<'a when 'a :> ICalendricalSchema and 'a :> IBoxable<'a>> () =

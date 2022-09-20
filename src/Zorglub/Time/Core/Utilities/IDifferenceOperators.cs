@@ -3,7 +3,7 @@
 
 #pragma warning disable CA2225 // Operator overloads have named alternates (Usage) 👈 PreviewFeatures
 
-namespace Zorglub.Time.Core;
+namespace Zorglub.Time.Core.Utilities;
 
 // Arithmetic operators
 // 1) x - n = y and x - y = n

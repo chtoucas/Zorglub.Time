@@ -11,6 +11,7 @@ using System.Numerics;
 
 using Zorglub.Time;
 using Zorglub.Time.Core;
+using Zorglub.Time.Core.Utilities;
 using Zorglub.Time.Hemerology;
 
 // Equality should be structural: the object is a reference type but the

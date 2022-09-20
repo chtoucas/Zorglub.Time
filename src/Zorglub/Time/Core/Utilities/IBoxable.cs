@@ -3,7 +3,7 @@
 
 #pragma warning disable CA1000 // Do not declare static members on generic types (Design) 👈 PreviewFeatures
 
-namespace Zorglub.Time.Core;
+namespace Zorglub.Time.Core.Utilities;
 
 /// <summary>Defines a boxable type.</summary>
 /// <typeparam name="TSelf">The type that implements this interface.</typeparam>

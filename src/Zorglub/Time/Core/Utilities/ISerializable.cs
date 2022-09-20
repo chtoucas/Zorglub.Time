@@ -3,7 +3,7 @@
 
 #pragma warning disable CA1000 // Do not declare static members on generic types (Design) 👈 PreviewFeatures
 
-namespace Zorglub.Time.Core;
+namespace Zorglub.Time.Core.Utilities;
 
 /// <summary>Provides a method to serialize an object.</summary>
 /// <typeparam name="TBinary">The type of binary data.</typeparam>
